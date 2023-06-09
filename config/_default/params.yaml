@@ -6,8 +6,7 @@
 # Appearance
 
 appearance:
-  theme_day: minimal
-  theme_night: minimal
+  theme_day: pandar
   font: minimal
   font_size: L
 
@@ -15,17 +14,17 @@ appearance:
 
 marketing:
   seo:
-    site_type: Person
-    local_business_type: ''
-    org_name: ''
-    description: 'A highly-customizable Hugo academic resume theme powered by Wowchemy website builder.'
-    twitter: 'wowchemy'
-  analytics:
-    google_analytics: ''
-    baidu_tongji: ''
-  verification:
-    google: ''
-    baidu: ''
+#    site_type: Person
+#    local_business_type: ''
+#    org_name: ''
+#    description: 'A highly-customizable Hugo academic resume theme powered by Wowchemy website builder.'
+#    twitter: 'wowchemy'
+#  analytics:
+#    google_analytics: ''
+#    baidu_tongji: ''
+#  verification:
+#    google: ''
+#    baidu: ''
 
 # Site header
 
@@ -35,7 +34,7 @@ header:
     align: l
     show_logo: true
     show_language: false
-    show_day_night: true
+    show_day_night: false
     show_search: true
     highlight_active_link: true
 
@@ -43,26 +42,26 @@ header:
 
 footer:
   copyright:
-    notice: '© {year} Me. This work is licensed under {license}'
+    notice: ''
     license:
       enable: true
-      allow_derivatives: false
+      allow_derivatives: true
       share_alike: true
       allow_commercial: false
 
 # Localization
 
 locale:
-  date_format: 'Jan 2, 2006'
-  time_format: '3:04 PM'
-  address_format: en-us
+  date_format: '2. Jan. 2006'
+  time_format: '15:04'
+  address_format: de
 
 # Site features
 
 features:
   syntax_highlighter:
     theme_light: github-light
-    theme_dark: dracula
+    # theme_dark: dracula
   math:
     enable: false
   privacy_pack:
@@ -74,18 +73,18 @@ features:
   avatar:
     gravatar: false
     shape: circle
-  comment:
-    provider: ''
-    disqus:
-      shortname: ''
-      show_count: true
-    commento:
-      url: ''
-    giscus:
-      repo: ''
-      repo_id: ''
-      category: ''
-      category_id: ''
+#  comment:
+#    provider: ''
+#    disqus:
+#      shortname: ''
+#      show_count: true
+#    commento:
+#      url: ''
+#    giscus:
+#      repo: ''
+#      repo_id: ''
+#      category: ''
+#      category_id: ''
   search:
     provider: wowchemy
     algolia:

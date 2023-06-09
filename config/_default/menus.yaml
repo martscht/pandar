@@ -4,24 +4,22 @@
 #   The weight parameter defines the order that the links will appear in.
 
 main:
-  - name: Home
-    url: '#about'
+  - name: Lehre
+    pre: "<i class='fas fa-chalkboard-teacher'></i>&ensp;"
+    url: '/lehre'
     weight: 10
-  - name: Posts
-    url: '#posts'
+  - name: Projekte
+    pre: "<i class='fas fa-laptop'></i>&ensp;"
+    url: '/projekte'
     weight: 20
-  - name: Projects
-    url: '#projects'
+  - name: Extras
+    pre: "<i class='fas fa-book'></i>&ensp;"
+    url: '/extras'
     weight: 30
-  - name: Talks
-    url: '#talks'
+  - name: LIFOS
+    pre: "<i class='fas fa-book-open'></i>&ensp;"
+    url: '/lifos'
     weight: 40
-  - name: Publications
-    url: '#featured'
-    weight: 50
-  - name: Contact
-    url: '#contact'
-    weight: 60
 
 # Link to a PDF of your resume/CV from the menu.
 # To enable, copy your resume/CV to `static/uploads/resume.pdf` and uncomment the lines below.

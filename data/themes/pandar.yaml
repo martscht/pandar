@@ -1,0 +1,27 @@
+# Theme metadata
+name: "pandar"
+
+# Is theme light or dark?
+theme: [light]
+
+# Primary
+primary: "#00618F"
+
+# Menu
+menu_primary: "#ffffff"
+menu_text: "#00618f"
+menu_text_active: "#48a9da"
+menu_current: "#48a9da"
+menu_title: "#4d4b46"
+
+# Home sections
+home_section_odd: "#ffffff"
+home_section_even: "#f7f7f7"
+
+# Font
+font: "Meridien"
+
+# Links
+link: "#00618f"
+link_hover: "#48a9da"
+active_link: "#48a9da"

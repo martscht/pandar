@@ -1,6 +1,11 @@
 ---
 # Leave the homepage title empty to use the site title
-title:
+title: 'Material aus der Lehre'
+design:
+  image: "/header/teaching2.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/913893)"
+  text_color_light: true
+
 date: 2022-10-24
 type: landing
 
