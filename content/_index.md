@@ -16,13 +16,8 @@ sections:
       # Filter on criteria
       filters:
         folders:
-          - post
+          - lehre
         author: ""
-        category:
-          - Statistik I
-          - Statistik II
-          - Multivariate Methoden
-          - Klinische Methoden
         tag: ""
         exclude_featured: false
         featured_only: true

@@ -8,6 +8,11 @@ main:
     pre: "<i class='fas fa-chalkboard-teacher'></i>&ensp;"
     url: '/lehre'
     weight: 10
+  - name: Statistik I
+    pre: "<i class='fas fa-chart-pie'></i>&ensp;"
+    url: '/lehre/statistik-i'
+    parent: 'Lehre'
+    weight: 101
   - name: Projekte
     pre: "<i class='fas fa-laptop'></i>&ensp;"
     url: '/projekte'
