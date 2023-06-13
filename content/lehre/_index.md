@@ -7,7 +7,6 @@ show_date: false
 header:
 image:
   placement: 3
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
   focal_point: "Center"
   preview_only: false
   filename: /header/teaching2.jpg  # Uncomment to load an image from `assets/media/` instead.

@@ -1,34 +1,46 @@
 ---
 title: R Crash-Kurs
-date: '2023-03-03'
+date: '2023-06-13'
 slug: r-crash-kurs
-categories: ["Zusatz", Statistik I]
+categories: ["Zusatz", "Statistik-I"]
 tags: ["R Intro"]
 subtitle: ''
 summary: ''
 authors: [schultze]
+
+show_date: true
+profile: true
+pager: true
+reading_time: false
+
 featured: yes
+
 # Cover image
 # To use, place an image named `featured.jpg/png` in your page's folder.
 # Otherwise, specify the `filename` option to load an image from your `assets/media/` folder.
 # Placement options: 1 = Full column width, 2 = Out-set, 3 = Screen-width
 # Focal point options: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
 # Set `preview_only` to `true` to just use the image for thumbnails.
+
 image:
   placement: 3
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
   focal_point: "Center"
   preview_only: false
   filename: /header/crash_post.jpg  # Uncomment to load an image from `assets/media/` instead.
+
 type: book
 output: 
   html_document: 
     keep_md: true
-  
+    
+url_code: '/lehre/statistik-i/01-crash-kurs.R'
 ---
 
 
 
+
+Ziel dieses gesamten R-Praktikums ist es, dass Sie am Ende des Semester geübt im Umgang mit R sind, die Grundfunktionalität beherrschen und die Analyseverfahren durchführen können, die in der Vorlesung behandelt werden. Damit wir - oder genauer genommen, eigentlich Sie - dieses Ziel erreichen, legen wir hier mit einer "kurzen" Einführung in die Grundprinzipien von und den Umgang mit R los. Viele Dinge, die hier besprochen werden, sind auch in den [anderen Sitzungen zu dieser Veranstaltung](categories/Statistik-I) relevant und werden dort immer wieder vorkommen. Deswegen ist es das Beste, einfach nebenbei RStudio auf zu haben und die hier beschriebenen Schritte auch direkt selbst mit zu machen.
 
 `{{% detail_disclosure "Kernfragen dieses Beitrags" %}}`{=html}
 <!-- Die divs sind wichtig, damit die Liste funktioniert! Innerhalb dieses Shortcodes ist HTML erlaubt (safeHTML) -->
@@ -53,8 +65,6 @@ output:
 
 ## Warum R nutzen? {#R .anchorheader}
 
-Ziel dieses gesamten R-Praktikums ist es, dass Sie am Ende des Semester geübt im Umgang mit R sind, die Grundfunktionalität beherrschen und die Analyseverfahren durchführen können, die in der Vorlesung behandelt werden. Damit wir - oder genauer genommen, eigentlich Sie - dieses Ziel erreichen, legen wir hier mit einer "kurzen" Einführung in die Grundprinzipien von und den Umgang mit R los. Viele Dinge, die hier besprochen werden, sind auch in den [anderen Sitzungen zu dieser Veranstaltung](categories/bsc2) relevant und werden dort immer wieder vorkommen. Deswegen ist es das Beste, einfach nebenbei RStudio auf zu haben und die hier beschriebenen Schritte auch direkt selbst mit zu machen.
-
 Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe von Programmen ausgewählt, weil es ein paar hervorragende Eigenschaften hat:
 
 * R ist "free & free"
@@ -62,7 +72,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 476464 mal heruntergeladen
+* Allein in den letzten 30 Tagen 469916 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
@@ -1367,16 +1377,15 @@ Dieses Verhalten ist konsistent mit dem Verhalten von anderen Funktionen zum Dat
 
 ## Daten aus dem Fragebogen
 
-Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [`{{% download_image %}}`{=html} hier](/post/fb22.csv). Diese liegen im CSV Format vor und die Datei heißt **fb22.csv**. Beachten Sie, dass der Datensatz durch die Befragung anhand von **formr** eigentlich auch im R-Datenformat `.rda` vorliegt. Da Sie sich jedoch nicht sicher sein können, ob Sie in Zukunft immer eine Datei mit diesem Format verwenden werden, lernen wir auch das Einlesen von anderen Formaten kennen. Mit `read.table()` können wir den CSV Datensatz laden, müssen aber bestimmte Eigenheiten des Datensatzes bedenken. Wenn Sie den Datensatz mit einem Text-Editor öffnen sehen die ersten 5 Zeilen folgendermaßen aus:
+Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [{{< icon name="download" pack="fas" >}} hier](/post/fb22.csv). Diese liegen im CSV Format vor und die Datei heißt **fb22.csv**. Beachten Sie, dass der Datensatz durch die Befragung anhand von **formr** eigentlich auch im R-Datenformat `.rda` vorliegt. Da Sie sich jedoch nicht sicher sein können, ob Sie in Zukunft immer eine Datei mit diesem Format verwenden werden, lernen wir auch das Einlesen von anderen Formaten kennen. Mit `read.table()` können wir den CSV Datensatz laden, müssen aber bestimmte Eigenheiten des Datensatzes bedenken. Wenn Sie den Datensatz mit einem Text-Editor öffnen sehen die ersten 5 Zeilen folgendermaßen aus:
 
 
 ```
-## Warning in file(con, "r"): cannot open file 'fb22.csv': No such file or
-## directory
-```
-
-```
-## Error in file(con, "r"): cannot open the connection
+## "prok1","prok2","prok3","prok4","prok5","prok6","prok7","prok8","prok9","prok10","nr1","nr2","nr3","nr4","nr5","nr6","lz","extra","vertr","gewis","neuro","intel","nerd","grund","fach","ziel","lerntyp","geschl","job","ort","ort12","wohnen","uni1","uni2","uni3","uni4"
+## 1,3,4,2,3,4,3,3,1,3,1,3,5,4,4,3,5.4,2.75,3.75,4.25,4.25,4.75,2.66666666666667,"Interesse",5,2,1,1,1,1,1,2,0,1,0,0
+## 4,3,2,4,1,4,2,4,4,4,1,2,1,2,2,1,6,3.75,4.75,2.75,5,4,4,"Allgemeines Interesse schon seit der Kindheit",4,2,1,2,2,1,1,2,0,1,0,0
+## 3,3,2,4,2,4,2,3,4,3,4,5,5,5,5,5,3,4.25,4.5,3.75,4,5,4.33333333333333,"menschliche Kognition wichtig und rätselhaft; Interesse für Psychoanalyse; Schnittstelle zur Linguistik",1,3,1,2,1,1,1,3,0,0,0,1
+## 1,3,4,NA,4,3,4,4,2,2,2,4,4,4,4,3,6,4,4.75,4.25,2.25,4.75,3.16666666666667,"Psychoanalyse, Hilfsbereitschaft, Lebenserfahrung",4,2,1,2,1,2,1,4,0,1,0,0
 ```
 
 Die Art in der dieser Datensatz aufbereitet ist, muss R mitgeteilt werden, damit wir ihn ordentlich einlesen können. Es empfiehlt sich dafür mit `help(read.table)` die Hilfe zu öffnen. Was diese Hilfe verrät sind unter Anderem die Argumente, die die Funktion entgegennimmt:
@@ -1406,12 +1415,7 @@ fb22 <- read.table('fb22.csv')
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or
-## directory
-```
-
-```
-## Error in file(file, "rt"): cannot open the connection
+## Error in scan(file = file, what = what, sep = sep, quote = quote, dec = dec, : line 1 did not have 11 elements
 ```
 
 Das liegt in diesem Fall daran, dass `read.table()` als Voreinstellung annimmt, dass die erste Zeile der Datei nicht besonders ist (`header = FALSE`). In unserem Fall enthält diese Zeile aber die Namen der Variablen, sodass wir diese Einstellung ändern müssen:
@@ -1422,12 +1426,7 @@ fb22 <- read.table('fb22.csv', header = TRUE)
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or
-## directory
-```
-
-```
-## Error in file(file, "rt"): cannot open the connection
+## Error in read.table("fb22.csv", header = TRUE): more columns than column names
 ```
 
 Wieder ergibt sich ein Fehler, der lamentiert, dass es mehr Spalten als Variablennamen gibt. Das liegt daran, dass `read.table()` per Voreinstellung davon ausgeht, dass Variablen (bzw. Spalten des Datensatzes) durch Leerzeichen getrennt sind (`sep = ""`). In unserer Datei erfolgt das aber durch Kommata.
@@ -1435,15 +1434,6 @@ Wieder ergibt sich ein Fehler, der lamentiert, dass es mehr Spalten als Variable
 
 ```r
 fb22 <- read.table('fb22.csv', header = TRUE, sep = ",")
-```
-
-```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or
-## directory
-```
-
-```
-## Error in file(file, "rt"): cannot open the connection
 ```
 
 Im Environment erscheint jetzt das Objekt `fb22`. Mit `head()` können wir uns den Kopf des Datensatzes (die ersten 6 Zeilen) anzeigen lassen:
@@ -1454,7 +1444,34 @@ head(fb22)    # Kopfzeilen
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'fb22' not found
+##   prok1 prok2 prok3 prok4 prok5 prok6 prok7 prok8 prok9 prok10 nr1 nr2 nr3 nr4
+## 1     1     3     4     2     3     4     3     3     1      3   1   3   5   4
+## 2     4     3     2     4     1     4     2     4     4      4   1   2   1   2
+## 3     3     3     2     4     2     4     2     3     4      3   4   5   5   5
+## 4     1     3     4    NA     4     3     4     4     2      2   2   4   4   4
+## 5     2     1     4     3     2     1     2     4     1      1   1   5   1   2
+## 6     2     4     2     2     3     2     3     2     1      3   1   4   3   4
+##   nr5 nr6  lz extra vertr gewis neuro intel     nerd
+## 1   4   3 5.4  2.75  3.75  4.25  4.25  4.75 2.666667
+## 2   2   1 6.0  3.75  4.75  2.75  5.00  4.00 4.000000
+## 3   5   5 3.0  4.25  4.50  3.75  4.00  5.00 4.333333
+## 4   4   3 6.0  4.00  4.75  4.25  2.25  4.75 3.166667
+## 5   2   2 3.2  2.50  4.75  5.00  3.75  3.50 4.166667
+## 6   3   1 5.8  3.00  3.00  4.25  3.25  3.00 3.666667
+##                                                                                                     grund
+## 1                                                                                               Interesse
+## 2                                                           Allgemeines Interesse schon seit der Kindheit
+## 3 menschliche Kognition wichtig und rätselhaft; Interesse für Psychoanalyse; Schnittstelle zur Linguistik
+## 4                                                       Psychoanalyse, Hilfsbereitschaft, Lebenserfahrung
+## 5                                   Ich kann viel in Psychologie über mich und meine Mitmenschen lernen. 
+## 6                                           Interesse an dem Beruf des Therapeuten sowie an der Forschung
+##   fach ziel lerntyp geschl job ort ort12 wohnen uni1 uni2 uni3 uni4
+## 1    5    2       1      1   1   1     1      2    0    1    0    0
+## 2    4    2       1      2   2   1     1      2    0    1    0    0
+## 3    1    3       1      2   1   1     1      3    0    0    0    1
+## 4    4    2       1      2   1   2     1      4    0    1    0    0
+## 5    2    2       1      1   1   2     1      2    0    1    0    0
+## 6   NA   NA      NA     NA  NA  NA    NA     NA    0    0    0    0
 ```
 
 ```r
@@ -1462,7 +1479,43 @@ str(fb22)     # Struktur des Datensatzes
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'fb22' not found
+## 'data.frame':	159 obs. of  36 variables:
+##  $ prok1  : int  1 4 3 1 2 2 2 3 2 4 ...
+##  $ prok2  : int  3 3 3 3 1 4 2 1 3 3 ...
+##  $ prok3  : int  4 2 2 4 4 2 3 2 2 2 ...
+##  $ prok4  : int  2 4 4 NA 3 2 2 3 3 4 ...
+##  $ prok5  : int  3 1 2 4 2 3 3 3 4 2 ...
+##  $ prok6  : int  4 4 4 3 1 2 2 3 2 4 ...
+##  $ prok7  : int  3 2 2 4 2 3 3 3 3 3 ...
+##  $ prok8  : int  3 4 3 4 4 2 3 3 4 2 ...
+##  $ prok9  : int  1 4 4 2 1 1 2 2 3 4 ...
+##  $ prok10 : int  3 4 3 2 1 3 1 4 1 4 ...
+##  $ nr1    : int  1 1 4 2 1 1 1 5 2 1 ...
+##  $ nr2    : int  3 2 5 4 5 4 3 5 4 4 ...
+##  $ nr3    : int  5 1 5 4 1 3 3 5 5 4 ...
+##  $ nr4    : int  4 2 5 4 2 4 4 5 3 5 ...
+##  $ nr5    : int  4 2 5 4 2 3 4 5 4 4 ...
+##  $ nr6    : int  3 1 5 3 2 1 1 5 2 4 ...
+##  $ lz     : num  5.4 6 3 6 3.2 5.8 4.2 NA 5.4 4.6 ...
+##  $ extra  : num  2.75 3.75 4.25 4 2.5 3 2.75 3.5 4.75 5 ...
+##  $ vertr  : num  3.75 4.75 4.5 4.75 4.75 3 3.25 5 4.5 4.5 ...
+##  $ gewis  : num  4.25 2.75 3.75 4.25 5 4.25 4 4.75 4.5 3 ...
+##  $ neuro  : num  4.25 5 4 2.25 3.75 3.25 3 3.5 4 4.5 ...
+##  $ intel  : num  4.75 4 5 4.75 3.5 3 4 4 5 4.25 ...
+##  $ nerd   : num  2.67 4 4.33 3.17 4.17 ...
+##  $ grund  : chr  "Interesse" "Allgemeines Interesse schon seit der Kindheit" "menschliche Kognition wichtig und rätselhaft; Interesse für Psychoanalyse; Schnittstelle zur Linguistik" "Psychoanalyse, Hilfsbereitschaft, Lebenserfahrung" ...
+##  $ fach   : int  5 4 1 4 2 NA 1 4 3 4 ...
+##  $ ziel   : int  2 2 3 2 2 NA 1 2 2 2 ...
+##  $ lerntyp: int  1 1 1 1 1 NA 3 2 3 1 ...
+##  $ geschl : int  1 2 2 2 1 NA 2 1 1 1 ...
+##  $ job    : int  1 2 1 1 1 NA 2 1 1 1 ...
+##  $ ort    : int  1 1 1 2 2 NA 2 1 1 1 ...
+##  $ ort12  : int  1 1 1 1 1 NA 1 1 1 1 ...
+##  $ wohnen : int  2 2 3 4 2 NA 2 1 1 3 ...
+##  $ uni1   : int  0 0 0 0 0 0 0 1 1 1 ...
+##  $ uni2   : int  1 1 0 1 1 0 0 1 1 1 ...
+##  $ uni3   : int  0 0 0 0 0 0 0 1 1 1 ...
+##  $ uni4   : int  0 0 1 0 0 0 0 0 0 0 ...
 ```
 
 Wir können den Datensatz übrigens auch direkt von der Website in R laden. Der Dateiname nimmt auch direkt URLs entegegen:

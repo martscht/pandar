@@ -1,36 +1,49 @@
 ---
 title: R Crash-Kurs
-date: '2023-03-03'
+date: '2023-06-13'
 slug: r-crash-kurs
-categories: ["Zusatz", Statistik I]
+categories: ["Zusatz", "Statistik-I"]
 tags: ["R Intro"]
 subtitle: ''
 summary: ''
 authors: [schultze]
+
+show_date: true
+profile: true
+pager: true
+reading_time: false
+
 featured: yes
+
 # Cover image
 # To use, place an image named `featured.jpg/png` in your page's folder.
 # Otherwise, specify the `filename` option to load an image from your `assets/media/` folder.
 # Placement options: 1 = Full column width, 2 = Out-set, 3 = Screen-width
 # Focal point options: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
 # Set `preview_only` to `true` to just use the image for thumbnails.
+
 image:
   placement: 3
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
   focal_point: "Center"
   preview_only: false
   filename: /header/crash_post.jpg  # Uncomment to load an image from `assets/media/` instead.
+
 type: book
 output: 
   html_document: 
     keep_md: true
-  
+    
+url_code: '/lehre/statistik-i/01-crash-kurs.R'
 ---
 
 
-```{r setup, cache = FALSE, echo = FALSE}
+```{r setup, cache = FALSE, echo = FALSE, purl = FALSE}
 knitr::opts_chunk$set(error = TRUE)
+knitr::knit_hooks$set(purl = knitr::hook_purl)
 ```
+
+Ziel dieses gesamten R-Praktikums ist es, dass Sie am Ende des Semester geübt im Umgang mit R sind, die Grundfunktionalität beherrschen und die Analyseverfahren durchführen können, die in der Vorlesung behandelt werden. Damit wir - oder genauer genommen, eigentlich Sie - dieses Ziel erreichen, legen wir hier mit einer "kurzen" Einführung in die Grundprinzipien von und den Umgang mit R los. Viele Dinge, die hier besprochen werden, sind auch in den [anderen Sitzungen zu dieser Veranstaltung](categories/Statistik-I) relevant und werden dort immer wieder vorkommen. Deswegen ist es das Beste, einfach nebenbei RStudio auf zu haben und die hier beschriebenen Schritte auch direkt selbst mit zu machen.
 
 `r blogdown::shortcode_open("detail_disclosure", "Kernfragen dieses Beitrags")`
 <!-- Die divs sind wichtig, damit die Liste funktioniert! Innerhalb dieses Shortcodes ist HTML erlaubt (safeHTML) -->
@@ -54,8 +67,6 @@ knitr::opts_chunk$set(error = TRUE)
 ***
 
 ## Warum R nutzen? {#R .anchorheader}
-
-Ziel dieses gesamten R-Praktikums ist es, dass Sie am Ende des Semester geübt im Umgang mit R sind, die Grundfunktionalität beherrschen und die Analyseverfahren durchführen können, die in der Vorlesung behandelt werden. Damit wir - oder genauer genommen, eigentlich Sie - dieses Ziel erreichen, legen wir hier mit einer "kurzen" Einführung in die Grundprinzipien von und den Umgang mit R los. Viele Dinge, die hier besprochen werden, sind auch in den [anderen Sitzungen zu dieser Veranstaltung](categories/bsc2) relevant und werden dort immer wieder vorkommen. Deswegen ist es das Beste, einfach nebenbei RStudio auf zu haben und die hier beschriebenen Schritte auch direkt selbst mit zu machen.
 
 Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe von Programmen ausgewählt, weil es ein paar hervorragende Eigenschaften hat:
 
@@ -774,7 +785,7 @@ Dieses Verhalten ist konsistent mit dem Verhalten von anderen Funktionen zum Dat
 
 ## Daten aus dem Fragebogen
 
-Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [`r blogdown::shortcode("download_image")` hier](/post/fb22.csv). Diese liegen im CSV Format vor und die Datei heißt **fb22.csv**. Beachten Sie, dass der Datensatz durch die Befragung anhand von **formr** eigentlich auch im R-Datenformat `.rda` vorliegt. Da Sie sich jedoch nicht sicher sein können, ob Sie in Zukunft immer eine Datei mit diesem Format verwenden werden, lernen wir auch das Einlesen von anderen Formaten kennen. Mit `read.table()` können wir den CSV Datensatz laden, müssen aber bestimmte Eigenheiten des Datensatzes bedenken. Wenn Sie den Datensatz mit einem Text-Editor öffnen sehen die ersten 5 Zeilen folgendermaßen aus:
+Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [{{< icon name="download" pack="fas" >}} hier](/post/fb22.csv). Diese liegen im CSV Format vor und die Datei heißt **fb22.csv**. Beachten Sie, dass der Datensatz durch die Befragung anhand von **formr** eigentlich auch im R-Datenformat `.rda` vorliegt. Da Sie sich jedoch nicht sicher sein können, ob Sie in Zukunft immer eine Datei mit diesem Format verwenden werden, lernen wir auch das Einlesen von anderen Formaten kennen. Mit `read.table()` können wir den CSV Datensatz laden, müssen aber bestimmte Eigenheiten des Datensatzes bedenken. Wenn Sie den Datensatz mit einem Text-Editor öffnen sehen die ersten 5 Zeilen folgendermaßen aus:
 
 ```{r, echo = FALSE}
 cat(paste(readLines('fb22.csv')[1:5], collapse = '\n'))
