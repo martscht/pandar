@@ -5,14 +5,60 @@ date: 2022-10-24
 type: landing
 
 sections:
+  - block: markdown
+    id: welcome
+    content:
+      title: 'Willkommen bei pandaR!'
+      text: 'Auf dieser Seite stellen wir Material aus der R-bezogenen Lehre im Psychologie-Studium zur Verfügung! Außerdem haben wir einige Projekte erstellt, in denen du deine R-Kenntnisse auch ganz unabhängig von den Inhalten im Studium ausprobieren, vertiefen und erweitern kannst!'
+    design:
+      background:
+        color: '#00618f' 
+        text_color_light: true
+  - block: markdown
+    id: panda
+    content:
+      title: 
+      subtitle:
+      text: '<br><br><br><br><br><br><br><br>'
+    design:
+      background:
+        image:
+          filename: panda.jpg
   - block: collection
-    id: posts
+    id: lehre-features
     content:
       title: 'R in der Psychologie'
       subtitle: 'Der Einstieg zur Methodenlehre im Bachelor und Master'
-      text: 'Alle Lehrinhalte sind im Abschnitt [Lehre](/lehre) zu finden!'
+      text: 'Den Überblick über alle Lehrinhalte findest du [hier](/lehre/main)!'
       # Choose how many pages you would like to display (0 = all pages)
-      count: 3
+      count: 4
+      # Filter on criteria
+      filters:
+        folders:
+          - post
+        author: ""
+        tag: ""
+        exclude_featured: false
+        featured_only: true
+        exclude_future: false
+        exclude_past: false
+        publication_type: ""
+      # Choose how many pages you would like to offset by
+      offset: 0
+      # Page order: descending (desc) or ascending (asc) date.
+      order: desc
+    design:
+      # Choose a layout view
+      view: compact
+      columns: '2'
+  - block: collection
+    id: projekte-features
+    content:
+      title: 'Projekte'
+      subtitle: 'Eigenständige Projekte, um R-Fähigkeiten auszutesten und zu vertiefen - ganz unabhängig von der Lehre'
+      text: 'Den Überblick über Projekte, die wir so erstellt haben findest du [hier](/projekte/main)!'
+      # Choose how many pages you would like to display (0 = all pages)
+      count: 4
       # Filter on criteria
       filters:
         folders:
@@ -32,12 +78,23 @@ sections:
       # Choose a layout view
       view: compact
       columns: '2'
+  - block: markdown
+    id: team
+    content:
+      title: 'Unser Team'
+      text: 'An pandaR arbeitet ein Team aus Mitarbeitenden und Studierenden des Instituts für Psychologie an der Goethe Universität Frankfurt. Außerdem haben inzwischen über 20 Personen von verschiedenen Bildungseinrichtungen und aus unterschiedlichen Disziplinen Beiträge gestaltet und Inhalte verfasst.
+      <br><br>
+      {{< cta cta_alt_text="Das Team kennenlernen" cta_alt_link="/team" cta_alt_new_tab="false" >}}'
+    design:
+      background:
+        color: '#00618f' 
+        text_color_light: true
+      columns: 2
   - block: contact
     id: kontakt
     content:
       title: Kontakt
       subtitle: Nachfragen, Anmerkungen oder Wünsche?
-      text: ''
       # Contact (add or remove contact options as necessary)
       email: pandar@psych.uni-frankfurt.de
       # phone: 0049 69 798 35355

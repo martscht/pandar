@@ -4,24 +4,42 @@
 #   The weight parameter defines the order that the links will appear in.
 
 main:
-  - name: Lehre
+  - name: "Lehre"
     pre: "<i class='fas fa-chalkboard-teacher'></i>&ensp;"
-    url: '/lehre'
+    url: "/lehre"
     weight: 10
-  - name: Statistik I
+  - name: "Statistik I"
     pre: "<i class='fas fa-chart-pie'></i>&ensp;"
-    url: '/lehre/statistik-i'
+    url: "/lehre/statistik-i"
     parent: 'Lehre'
     weight: 101
-  - name: Projekte
+  - name: "Statistik II"
+    pre: "<i class='fas fa-chart-bar'></i>&ensp;"
+    url: "/lehre/statistik-ii"
+    parent: "Lehre"
+    weight: 102
+  - name: "Multivariat"
+    pre: "<i class='fas fa-bezier-curve'></i>&ensp;"
+    url: "/lehre/multivariat"
+    parent: "Lehre"
+    weight: 103
+  - name: "KliPPs Methoden"
+    pre: "<i class='fas fa-chart-line'></i>&ensp;"
+    url: "/lehre/klipps"
+    parent: "Lehre"
+    weight: 104
+
+  - name: "Projekte"
     pre: "<i class='fas fa-laptop'></i>&ensp;"
     url: '/projekte'
     weight: 20
-  - name: Extras
+
+  - name: "Extras"
     pre: "<i class='fas fa-book'></i>&ensp;"
     url: '/extras'
     weight: 30
-  - name: LIFOS
+
+  - name: "LIFOS"
     pre: "<i class='fas fa-book-open'></i>&ensp;"
     url: '/lifos'
     weight: 40

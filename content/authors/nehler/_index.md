@@ -1,34 +1,32 @@
 ---
 # Display name
-title: Martin Schultze
-
-# Full name (for SEO)
-first_name: Martin
-last_name: Schultze
+title: Kai J. Nehler
 
 # Username (this should match the folder name)
 authors:
- - schultze
+- nehler
+
+# Full name (for SEO)
+first_name: Kai
+last_name: Nehler
 
 # Is this the primary user of the site?
 superuser: false
 
 # Role/position
-role: Koordination
+role: Teammitglied
 
 # Organizations/Affiliations
 organizations:
-  - name: Goethe Universität - PsyMiA
-    url: "https://www.psychologie.uni-frankfurt.de/75520710"
+- name: Goethe Universität - PsyMiA
+  url: "https://www.psychologie.uni-frankfurt.de/75520710"
 
 # Short bio (displayed in user profile at end of posts)
 bio:
 interests:
-  - Automatisierte Skalenkonstruktion
-  - Strukturgleichungsmodellierung
-  - Evolutionäre Algorithmen
-  - Veränderungsmessung
-
+- Missing Values
+- Network analysis
+- Coding
 education:
 # Social/Academic Networking
 # For available icons, see: https://sourcethemes.com/academic/docs/widgets/#icons
@@ -44,15 +42,18 @@ social:
 # - icon: google-scholar
 #   icon_pack: ai
 #   link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
-  - icon: github
-    icon_pack: fab
-    link: https://github.com/martscht
+- icon: github
+  icon_pack: fab
+  link: https://github.com/kai-nehler
+# - icon: bitbucket
+#   icon_pack: fab
+#   link:
 # - icon: link
 #   icon_pack: fa
-#   link: http://www.psychologie.uni-frankfurt.de/78419488/Team
-  - icon: researchgate
-    icon_pack: fab
-    link: https://www.researchgate.net/profile/Martin_Schultze
+#   link: https://www.psychologie.uni-frankfurt.de/78419488/Team
+# - icon: researchgate
+#   icon_pack: fab
+#   link:
 # Link to a PDF of your resume/CV from the About widget.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.
 # - icon: cv
@@ -64,7 +65,7 @@ email: ""
 
 # Organizational groups that you belong to (for People widget)
 #   Set this to `[]` or comment out if you are not using People widget.
-user_groups: ["Team", "Teaching"]
+user_groups: ["Teaching", "Team"]
 ---
 
-Martin Schultze ist seit 2018 Professor an der Goethe Universität Frankfurt am Main für psychologische Methoden mit interdisziplinärer Ausrichtung. Von 2012 bis 2018 hat er an der Freien Universität Berlin Methodenberatung für Forschungsprojekte und Qualifikationsarbeiten angeboten und in diesem Zeitraum diverse Workshops und Seminare zu verschiedenen Analysen mit und Programmieren in R gegeben.
+Kai Jannik Nehler ist wissenschaftlicher Mitarbeiter der Abteilung _Psychologische Methoden mit interdisziplinärer Ausrichtung_ an der Goethe-Universität Frankfurt und schreibt derzeit an seiner Dissertation zum Thema fehlende Werte in Netzwerkanalysen. Davor hat er dort auch das Bachelor- und das Master-Studium der Psychologie (Major: Arbeits- und Organisationspsychologie, Minor: Klinische Psychologie) absolviert.

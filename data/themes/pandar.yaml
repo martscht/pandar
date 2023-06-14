@@ -12,7 +12,7 @@ menu_primary: "#ffffff"
 menu_text: "#00618f"
 menu_text_active: "#48a9da"
 menu_current: "#48a9da"
-menu_title: "#4d4b46"
+menu_title: "#ffffff"
 
 # Home sections
 home_section_odd: "#ffffff"
