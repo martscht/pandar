@@ -10,22 +10,22 @@ main:
     weight: 10
   - name: "Statistik I"
     pre: "<i class='fas fa-chart-pie'></i>&ensp;"
-    url: "/lehre/statistik-i"
+    url: "/lehre/main#statistik-i"
     parent: 'Lehre'
     weight: 101
   - name: "Statistik II"
     pre: "<i class='fas fa-chart-bar'></i>&ensp;"
-    url: "/lehre/statistik-ii"
+    url: "/lehre/main#statistik-ii"
     parent: "Lehre"
     weight: 102
   - name: "Multivariat"
     pre: "<i class='fas fa-bezier-curve'></i>&ensp;"
-    url: "/lehre/multivariat"
+    url: "/lehre/main#multivariat"
     parent: "Lehre"
     weight: 103
   - name: "KliPPs Methoden"
     pre: "<i class='fas fa-chart-line'></i>&ensp;"
-    url: "/lehre/klipps"
+    url: "/lehre/main#klipps"
     parent: "Lehre"
     weight: 104
 
@@ -35,7 +35,7 @@ main:
     weight: 20
 
   - name: "Extras"
-    pre: "<i class='fas fa-book'></i>&ensp;"
+    pre: "<i class='fas fa-wand-sparkles'></i>&ensp;"
     url: '/extras'
     weight: 30
 

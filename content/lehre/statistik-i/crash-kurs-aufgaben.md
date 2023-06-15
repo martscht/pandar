@@ -1,0 +1,78 @@
+---
+title: R Crash-Kurs - Aufgaben
+type: post
+date: '2020-10-01'
+slug: crash-kurs-aufgaben
+categories: ["Aufgaben"]
+tags: []
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2023-06-15'
+featured: no
+banner:
+  image: "/header/crash_post.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+projects: []
+
+share: false
+profile: false
+reading_time: false
+private: true
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/crash-kurs
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Lösungen
+    url: /lehre/statistik-i/crash-kurs-loesungen
+    
+    
+output:
+  html_document:
+    keep_md: true
+---
+
+## R als Taschenrechner
+
+1. Bestimmen Sie das Ergebnis von $3 + 7 \cdot 12$
+2. Prüfen Sie mit logischen Operatoren, ob das Ergebnis aus der letzten Aufgabe das Selbe ist, wie $3 \cdot 29$
+3. Bestimmen Sie $\sqrt{115}$ und legen Sie das (ganzzahlig) gerundete Ergebnis in einem Objekt namens `zahl` ab.
+4. Folgende Syntax verursacht einen Fehler: `6 * 1,56`. Wodurch kommt dieser Fehler zustande?
+
+***
+
+## Daten erstellen
+
+In folgender Tabelle sind die fünf schnellsten Zeiten im Finale des 100m Sprint der Frauen bei den Olympischen Spiele in Tokyo dargestellt:
+
+Sprinterin | Zeit (in s)
+------ | -----------
+Elaine Thompson-Herah | 10.61
+Shelly-Ann Fraser-Pryce | 10.74
+Shericka Jackson | 10.76
+Marie-Josee Ta Lou | 10.91
+Ajla del Ponte | 10.97
+
+5. Erstellen Sie jeweils einen Vektor `sprinterin` und einen Vektor `zeit`, die die jeweiligen Informationen aus der Tabelle enthalten. Prüfen Sie, welchen Typ diese beiden Vektoren haben.
+6. Führen Sie die beiden Vektoren in einem Datensatz zusammen. Stellen Sie sicher, dass die Variable `sprinterin` nicht in einen Faktor umgewandelt wird.
+7. Lassen Sie sich via Elementenauswahl die Zeit von Shericka Jackson ausgeben.
+8. Nehmen Sie die 6. schnellste Läuferin, Mujinha Kambundji, und ihre Zeit von  10.99 Sekunden in den Datensatz auf.
+9. Fügen Sie die Nationalität der Läuferinnen als Variable zum Datensatz hinzu.
+10. Bestimmen Sie die Summe der Zeiten!
+
+***
+
+## Datenmanagement
+
+Die folgenden Aufgaben beziehen sich auf den Datensatz **fb22**, den Sie [{{< icon name="download" pack="fas" >}} hier als CSV finden](/daten/fb22.csv). Sofern Sie es nicht bereits getan haben, setzen Sie das Working Directory auf den Ordner, in dem Sie den Datensatz gespeichert haben und laden Sie diesen Datensatz als Objekt `fb22`.
+
+11. Der [Variablenübersicht](/lehre/statistik-i/variablen.pdf) können Sie die Variablennamen, Variablenbedeutungen und die Kodierschemata entnehmen. Die Variable `ziel` kodiert die Arbeitsbranchen, in denen Sie und Ihre Kommilitoninnen und Kommilitonen nach dem Abschluss tätig sein wollen. Wandeln Sie diese Variable in einen Faktor um und vergeben Sie die entsprechenden Labels.
+12. Erstellen Sie eine Variable `uni`, die darlegt, wie viele der Uniangebote eine Teilnehmerin oder ein Teilnehmer bereits in Anspruch genommen hat (aus den Variablen `uni1` bis `uni4`).
+13. Nutzen Sie die `subset` Funktion um einen Datensatz zu erstellen, der nur die Personen enthält, die nach dem Abschluss in der Psychotherapie tätig sein wollen. Nennen Sie diesen `therapie`.
+  + Nutzen Sie die Hilfe um herauszufinden, wie `subset` funktioniert.
+  + Sie können im [auf der Seite zum Crash-Kurs](/lehre/statistik-i/crash-kurs) nachschlagen, wie logische Operationen in `R` durchgeführt werden!
+14. Speichern Sie den neuen Datensatz als **therapie.rds** im RDS Format ab.

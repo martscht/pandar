@@ -6,7 +6,7 @@ slug: crash-kurs
 categories: ["Statistik I", "Einführung"]
 tags: ["Einführung", "Datenmanagement", "Grundlagen", "Hilfe"]
 subtitle: ''
-summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem starten wir auch schon direkt mit ein bisschen Datenmanagement und dem Laden und Speichern von Datensätzen.'
+summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
 authors: [schultze]
 lastmod: '2023-06-14'
 featured: yes
@@ -18,6 +18,20 @@ projects: []
 reading_time: false
 share: false
 
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/crash-kurs
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /lehre/statistik-i/crash-kurs.R
+  - icon_pack: fas
+    icon: user-graduate
+    name: Aufgaben
+    url: /lehre/statistik-i/crash-kurs-aufgaben
+
 output:
   html_document:
     keep_md: true
@@ -26,26 +40,24 @@ output:
 
 
 
-<!-- `{{% detail_disclosure "Kernfragen dieses Beitrags" %}}`{=html} -->
-<!-- Die divs sind wichtig, damit die Liste funktioniert! Innerhalb dieses Shortcodes ist HTML erlaubt (safeHTML) --> 
-<!-- <div> -->
-<!-- * Was ist [**R**](#R) und was ist [**RStudio**](#RStudio)? -->
-<!-- * Was ist die [**Konsole**](#Konsole_Syntax) und was ist die [**Syntax**?](#Konsole_Syntax) -->
-<!-- * Wie kann ich [**Syntax ausführen**](#Eingabe)? -->
-<!-- * Wie sehen [**Ergebnisse**](#Ergebnisse) von Befehlen in R aus? -->
-<!-- * Wie kann ich R als [**Taschenrechner**](#Taschenrechner) und für [**logische Vergleiche**](#Logik) benutzen? -->
-<!-- * Was sind [**Funktionen**](#Funktionen) und wie sind sie aufgebaut? -->
-<!-- * Wie bekomme ich in R [**Hilfe**](#Hilfe)? -->
-<!-- * Was sind [**Objekte**](#Environment)? -->
-<!-- * Was ist das [**Environment**](#Environment)? -->
-<!-- * Was sind [**Vektoren**](#Vektoren) und welche unterschiedlichen Arten gibt es? -->
-<!-- * Welche [**mehrdimensionalen Datenstrukturen**](#Mehrdimensional) gibt es und worin unterscheiden sie sich? -->
-<!-- * Wie kann ich aus Datensätze einzelne Variablen oder Beobachtungen [**extrahieren**](#Extrahieren) und sie [**hinzufügen**](#Hinzu)? -->
-<!-- * Wie [**importiere**](#Speichern_Laden) und [**exportiere**](#Speichern_Laden) ich Daten? -->
-<!-- </div> -->
-<!-- `{{% /detail_disclosure %}}`{=html} -->
+{{< spoiler text="Kernfragen dieses Beitrags" >}}
 
-{{< toc >}}
+* Was ist [**R**](#R) und was ist [**RStudio**](#RStudio)?
+* Was ist die [**Konsole**](#Konsole_Syntax) und was ist die [**Syntax**?](#Konsole_Syntax)
+* Wie kann ich [**Syntax ausführen**](#Eingabe)?
+* Wie sehen [**Ergebnisse**](#Ergebnisse) von Befehlen in R aus?
+* Wie kann ich R als [**Taschenrechner**](#Taschenrechner) und für [**logische Vergleiche**](#Logik) benutzen?
+* Was sind [**Funktionen**](#Funktionen) und wie sind sie aufgebaut?
+* Wie bekomme ich in R [**Hilfe**](#Hilfe)?
+* Was sind [**Objekte**](#Environment)?
+* Was ist das [**Environment**](#Environment)?
+* Was sind [**Vektoren**](#Vektoren) und welche unterschiedlichen Arten gibt es?
+* Welche [**mehrdimensionalen Datenstrukturen**](#Mehrdimensional) gibt es und worin unterscheiden sie sich?
+* Wie kann ich aus Datensätze einzelne Variablen oder Beobachtungen [**extrahieren**](#Extrahieren) und sie [**hinzufügen**](#Hinzu)?
+* Wie [**importiere**](#Speichern_Laden) und [**exportiere**](#Speichern_Laden) ich Daten?
+
+{{< /spoiler >}}
+
 ***
 
 ## Warum R nutzen? {#R .anchorheader}
@@ -59,7 +71,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 474683 mal heruntergeladen
+* Allein in den letzten 30 Tagen 481069 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
@@ -75,11 +87,11 @@ Ein paar nützliche Links für R sind die [R Main Page](https://www.r-project.or
 Weil die traditionelle R Nutzeroberfläche extrem spartanisch ist, werden wir auf dieser Seite mit RStudio arbeiten. RStudio ist eine zusätzliche Nutzeroberfläche, die den Umgang durch diverse convenience features mit R ein wenig erleichtert. Es muss separat installiert werden, ist aber, genau wie R selbst, gratis erhältlich. Um RStudio herunterzuladen besuchen Sie am einfachsten [https://www.rstudio.com/](https://www.rstudio.com/).
 
 ![](rstudio.png)
-`{{% intext_anchor "Konsole_Syntax" %}}`{=html}
+{{< intext_anchor Konsole_Syntax >}}
 
-RStudio besteht aus vier Panels. Zunächst sind nur drei sichtbar - durch **Strg+Shift+n** (OS X: **Cmd+Shift+n**) oder über den `{{% inline_image "new_script" %}}`{=html} Button öffnen Sie eine neue Skriptdatei und das vierte Panel erscheint. `{{% intext_anchor "Eingabe" %}}`{=html}
-R ist syntaxbasiert - genau genommen ist R eigentlich eine Programmiersprache und kein Auswertungsprogramm - und im neu erschienenen Fenster können Sie diese Syntax schreiben. Das pure schreiben bewirkt zunächst nichts. `{{% intext_anchor "Ergebnisse" %}}`{=html}
-Damit etwas passiert, muss die Syntax mit **Strg+Return** (OS X: **cmd+Return**) oder mit dem `{{% inline_image "run" %}}`{=html} Button ausgeführt werden. Wenn Sie z.B. `3 + 4` in die Syntax schreiben und so ausführen, erscheint in der Konsole:
+RStudio besteht aus vier Panels. Zunächst sind nur drei sichtbar - durch **Strg+Shift+n** (OS X: **Cmd+Shift+n**) oder über den {{< inline_image "/lehre/statistik-i/new_script.png" >}} Button öffnen Sie eine neue Skriptdatei und das vierte Panel erscheint. {{< intext_anchor Eingabe>}}
+R ist syntaxbasiert - genau genommen ist R eigentlich eine Programmiersprache und kein Auswertungsprogramm - und im neu erschienenen Fenster können Sie diese Syntax schreiben. Das pure schreiben bewirkt zunächst nichts. {{< intext_anchor Ergebnisse >}}
+Damit etwas passiert, muss die Syntax mit **Strg+Return** (OS X: **cmd+Return**) oder mit dem {{< inline_image "/lehre/statistik-i/run.png" >}} Button ausgeführt werden. Wenn Sie z.B. `3 + 4` in die Syntax schreiben und so ausführen, erscheint in der Konsole:
 
 
 ```r
@@ -101,9 +113,9 @@ Die beiden verbleibenden Panels stellen jeweils als Tabs verschiedene Dinge dar.
 
 ## Erste Schritte
 
-Eine wichtige Funktionalität jeder Programmiersprache sind *Kommentare*, die dazu dienen sollen das Vorgehen in einer Syntax zu gliedern und leichter verständlich zu machen. In R werden sie durch (beliebig viele) `#` begonnen und enden bei einem Zeilenumbruch. Mit Kommentaren kann Syntax auch in verschiedene Abschnitte gegliedert werden. Empfehlenswert ist es, solche Abschnittüberschriften mit `####` zu beginnen und mit `----` zu beenden. RStudio erkennt solche Kommentare automatisch als Überschriften und stellt über den `{{% inline_image "outline" %}}`{=html} Button eine darauf basierende Gliederung zur Verfügung.
+Eine wichtige Funktionalität jeder Programmiersprache sind *Kommentare*, die dazu dienen sollen das Vorgehen in einer Syntax zu gliedern und leichter verständlich zu machen. In R werden sie durch (beliebig viele) `#` begonnen und enden bei einem Zeilenumbruch. Mit Kommentaren kann Syntax auch in verschiedene Abschnitte gegliedert werden. Empfehlenswert ist es, solche Abschnittüberschriften mit `####` zu beginnen und mit `----` zu beenden. RStudio erkennt solche Kommentare automatisch als Überschriften und stellt über den {{< inline_image "/lehre/statistik-i/outline.png" >}} Button eine darauf basierende Gliederung zur Verfügung.
 
-`{{% intext_anchor "Taschenrechner" %}}`{=html}
+{{< intext_anchor Taschenrechner >}}
 Wir können diese Funktionalität der Kommentare am Beispiel der Nutzung von R als Taschenrechner ausprobieren:
 
 
@@ -153,7 +165,7 @@ In der Gliederung sollte in RStudio jetzt die Überschrift "R als Taschenrechner
 
 In diesem Beispiel sind zwischen den Zahlen und Operatoren immer Leerzeichen. Leerzeichen spielen für R keine Rolle - sie werden bei der Ausführung ignoriert. Daher können Leerzeichen und Einschübe zu Beginn von Zeilen genutzt werden um der Syntax noch mehr Struktur zu geben. Generell wird empfohlen, R Syntax wie normale Sätze zu schreiben und Leerzeichen zu nutzen um die Lesbarkeit der Syntax zu gewährleisten. Einige weitere Empfehlungen zur Gestaltung von R Syntax finden Sie im [Online Buch von Hadley Wichkam](http://adv-r.had.co.nz/Style.html) und im [Styleguide, der von Google Programmier*innen genutzt wird](https://google.github.io/styleguide/Rguide.html).
 
-`{{% intext_anchor "Logik" %}}`{=html}
+{{< intext_anchor Logik >}}
 Neben einfachen Taschenrechner-Funktionen mit *numerischen Ergebnissen* kann R auch logische Abfragen und Vergleiche durchführen:
 
 
@@ -526,7 +538,7 @@ ls()
 ## [1] "my_root"
 ```
 
-Beachten Sie wieder, dass R ihnen keinerlei Warnung oder Nachfrage gibt, wenn Sie Objekte entfernen. Sollten Sie also Objekte haben, deren Erstellung lange dauert, gehen Sie vorsichtig mit `rm()` um. Um das Environment gänzlich zu leeren können Sie entweder in RStudio den `{{% inline_image "clear_environment" %}}`{=html} Button (im Tab *Environment*) nutzen oder direkt über die Syntax arbeiten:
+Beachten Sie wieder, dass R ihnen keinerlei Warnung oder Nachfrage gibt, wenn Sie Objekte entfernen. Sollten Sie also Objekte haben, deren Erstellung lange dauert, gehen Sie vorsichtig mit `rm()` um. Um das Environment gänzlich zu leeren können Sie entweder in RStudio den {{< inline_image "/lehre/statistik-i/clear_environment.png" >}} Button (im Tab *Environment*) nutzen oder direkt über die Syntax arbeiten:
 
 
 ```r
@@ -564,7 +576,7 @@ Um zu verstehen, wie Daten in R funktionieren, nutzen wir als Beispiel ein klass
 
 Der Stroop-Effekt ist der Unterschied zwischen der durchschnittlichen Zeit, die man benötigt um die Farbe zu nennen, in der ein Wort abgebildet ist - je nachdem ob die Farbe und das Wort gleich sind oder nicht. Wenn Sie über den Stroop Test mehr erfahren möchten, oder ihn selbst mal ausprobieren wollen, finden Sie bei [Psytoolkit](https://www.psytoolkit.org/lessons/stroop.html) Informationen und eine Online-Variante des Tests.
 
-`{{% intext_anchor "Vektoren" %}}`{=html}
+{{< intext_anchor Vektoren >}}
 Nehmen wir an, Sie hätten für dieses einfache Beispiel die acht Reaktionszeiten gemessen und diese wären (in Millisekunden): 510, 897, 647, 891, 925, 805, 443 und 778. Um diese Daten in R aufzunehmen können Sie folgendes machen:
 
 
@@ -1364,7 +1376,7 @@ Dieses Verhalten ist konsistent mit dem Verhalten von anderen Funktionen zum Dat
 
 ## Daten aus dem Fragebogen
 
-Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [`{{% download_image %}}`{=html} hier](/post/fb22.csv). Diese liegen im CSV Format vor und die Datei heißt **fb22.csv**. Beachten Sie, dass der Datensatz durch die Befragung anhand von **formr** eigentlich auch im R-Datenformat `.rda` vorliegt. Da Sie sich jedoch nicht sicher sein können, ob Sie in Zukunft immer eine Datei mit diesem Format verwenden werden, lernen wir auch das Einlesen von anderen Formaten kennen. Mit `read.table()` können wir den CSV Datensatz laden, müssen aber bestimmte Eigenheiten des Datensatzes bedenken. Wenn Sie den Datensatz mit einem Text-Editor öffnen sehen die ersten 5 Zeilen folgendermaßen aus:
+Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [{{< icon name="download" pack="fas" >}} hier](/daten/fb22.csv). Diese liegen im CSV Format vor und die Datei heißt **fb22.csv**. Beachten Sie, dass der Datensatz durch die Befragung anhand von **formr** eigentlich auch im R-Datenformat `.rda` vorliegt. Da Sie sich jedoch nicht sicher sein können, ob Sie in Zukunft immer eine Datei mit diesem Format verwenden werden, lernen wir auch das Einlesen von anderen Formaten kennen. Mit `read.table()` können wir den CSV Datensatz laden, müssen aber bestimmte Eigenheiten des Datensatzes bedenken. Wenn Sie den Datensatz mit einem Text-Editor öffnen sehen die ersten 5 Zeilen folgendermaßen aus:
 
 
 ```
@@ -1466,7 +1478,16 @@ Wir können den Datensatz übrigens auch direkt von der Website in R laden. Der 
 
 
 ```r
-fb22 <- read.table('https://pandar.netlify.app/post/fb22.csv', header = TRUE, sep = ",")
+fb22 <- read.table('https://pandar.netlify.app/daten/fb22.csv', header = TRUE, sep = ",")
+```
+
+```
+## Warning in file(file, "rt"): cannot open URL
+## 'https://pandar.netlify.app/daten/fb22.csv': HTTP status was '404 Not Found'
+```
+
+```
+## Error in file(file, "rt"): cannot open the connection to 'https://pandar.netlify.app/daten/fb22.csv'
 ```
 
 so kann umgangen werden, dass wir die gleiche Datei immer und überall lokal speichern müssen, obwohl wir eine zentrale, online verfügbare Datei nutzen.
@@ -1478,6 +1499,10 @@ Gegenspieler von `read.table()` ist `write.table()` mit dem Daten im Klartextfor
 write.table(fb22,     # zu speichernder Datensatz
   'fb22.txt'          # Dateiname
   )
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'fb22' not found
 ```
 
 Diese Datei entspricht den Voreinstellungen von `write.table()`. Daher sehen die ersten 5 Zeilen in einem Text-Editor jetzt so aus:
@@ -1492,6 +1517,3 @@ Diese Datei entspricht den Voreinstellungen von `write.table()`. Daher sehen die
 ```
 
 
-***
-
-*Bei dieser Seite handelt es sich um eine - mehr oder weniger direkte - Übersetzung eines Kapitels aus dem Online-Buch [Scientific Methods for Open Behavioral, Social and Cognitive Sciences](https://smobsc.readthedocs.io/en/latest/). [Das englischsprachige Original gibt es hier](https://smobsc.readthedocs.io/en/latest/chapter_ana/Introduction%20to%20Programming%20with%20R.html).*

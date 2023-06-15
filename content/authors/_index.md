@@ -5,6 +5,7 @@ cms_exclude: true
 title: Unsere Autor:innen
 
 view: 1
+sort_by: title
 
 # To publish author profile pages, remove all of the `_build` and `cascade` settings below.
 # _build:

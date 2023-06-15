@@ -29,34 +29,7 @@ sections:
     content:
       title: 'R in der Psychologie'
       subtitle: 'Der Einstieg zur Methodenlehre im Bachelor und Master'
-      text: 'Den Überblick über alle Lehrinhalte findest du [hier](/lehre/main)!'
-      # Choose how many pages you would like to display (0 = all pages)
-      count: 4
-      # Filter on criteria
-      filters:
-        folders:
-          - post
-        author: ""
-        tag: ""
-        exclude_featured: false
-        featured_only: true
-        exclude_future: false
-        exclude_past: false
-        publication_type: ""
-      # Choose how many pages you would like to offset by
-      offset: 0
-      # Page order: descending (desc) or ascending (asc) date.
-      order: desc
-    design:
-      # Choose a layout view
-      view: compact
-      columns: '2'
-  - block: collection
-    id: projekte-features
-    content:
-      title: 'Projekte'
-      subtitle: 'Eigenständige Projekte, um R-Fähigkeiten auszutesten und zu vertiefen - ganz unabhängig von der Lehre'
-      text: 'Den Überblick über Projekte, die wir so erstellt haben findest du [hier](/projekte/main)!'
+      text: 'Hier eine Auswahl der Beiträge für die Lehre in der Psychologie, die sich gut für einen Einstieg in verschiedene Themen eignen. Den Überblick über alle Lehrinhalte findest du [hier](/lehre/main)! <br><br>'
       # Choose how many pages you would like to display (0 = all pages)
       count: 4
       # Filter on criteria
@@ -77,6 +50,39 @@ sections:
     design:
       # Choose a layout view
       view: compact
+      columns: '2'
+  - block: portfolio
+    id: projekte-features
+    content:
+      title: 'Projekte'
+      subtitle: 'Eigenständige Projekte, um R-Fähigkeiten auszutesten und zu vertiefen - ganz unabhängig von der Lehre'
+      text: 'Hier ein kleiner Einblick, in die Projekte, die wir erstellt haben. Den gesamten Überblick findest du [hier](/projekte/main)!<br><br>'
+      # Choose how many pages you would like to display (0 = all pages)
+      count: 4
+      # Filter on criteria
+      filters:
+        folders:
+          - projekte
+        author: ""
+        tag: ""
+        exclude_featured: false
+        featured_only: true
+        exclude_future: false
+        exclude_past: false
+        publication_type: ""
+      sort_by: 'Date'
+      sort_ascending: false
+      default_button_index: 0
+      buttons:
+        - name: Datenmanagement
+          tag: Datenmanagement
+        - name: Funktionen
+          tag: Funktionen
+        - name: Text-Analyse
+          tag: Text-Analyse
+    design:
+      # Choose a layout view
+      view: showcase
       columns: '2'
   - block: markdown
     id: team
