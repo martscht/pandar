@@ -6,7 +6,7 @@
 main:
   - name: "Lehre"
     pre: "<i class='fas fa-chalkboard-teacher'></i>&ensp;"
-    url: "/lehre"
+    url: "/lehre/main"
     weight: 10
   - name: "Statistik I"
     pre: "<i class='fas fa-chart-pie'></i>&ensp;"

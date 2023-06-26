@@ -14,6 +14,7 @@ banner:
   image: "/header/crash_post.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
+weight: 10
 
 reading_time: false
 share: false
@@ -71,7 +72,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 481069 mal heruntergeladen
+* Allein in den letzten 30 Tagen 469327 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
