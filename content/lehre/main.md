@@ -4,7 +4,7 @@ title: "Material aus der Lehre"
 summary: "Hier findest du die vollständige Übersicht über alles, was wir auf dieser Seite an Lehrmaterial erstellt haben."
 
 weight: 10
-
+header.on_scroll: fixed
 show_date: false
 
 sections:
