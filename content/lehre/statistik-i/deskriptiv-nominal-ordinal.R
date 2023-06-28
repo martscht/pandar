@@ -52,17 +52,17 @@ tab / sum(tab)          # Relative Haeufigkeiten
 tab <- table(fb22$fach) # Absolute
 prop.table(tab)         # Relative
 
-## ----echo=F,warning=F, fig.align='center',cache=FALSE-------------------------
+## ----comic-barplot, echo=F,warning=F, fig.align='center',cache=FALSE----------
 library("RXKCD")
 invisible(getXKCD(373))
 
-## ---- eval=F------------------------------------------------------------------
+## ----  eval=F-----------------------------------------------------------------
 #  barplot(tab)
 
-## ---- echo = F, fig=T, fig.align='center'-------------------------------------
+## ---- basic-barplot, echo = F, fig=T, fig.align='center'----------------------
 barplot(tab)
 
-## ---- out.width="60%", fig.align="center"-------------------------------------
+## ---- basic-pie, out.width="60%", fig.align="center"--------------------------
 pie(tab)
 
 ## -----------------------------------------------------------------------------
@@ -71,7 +71,7 @@ colors()[1:20]
 ## -----------------------------------------------------------------------------
 rainbow(5)
 
-## -----------------------------------------------------------------------------
+## ---- colored-barplot---------------------------------------------------------
 barplot(tab,
         col = rainbow(5),                        # Farbe
         ylab = 'Anzahl Studierende',             # y-Achse Bezeichnung
@@ -134,13 +134,13 @@ quantile(fb22$prok4, .75, na.rm=T) - quantile(fb22$prok4, .25, na.rm=T)
 ## -----------------------------------------------------------------------------
 IQR(fb22$prok4, na.rm = TRUE)
 
-## -----------------------------------------------------------------------------
+## ---- basic-boxplot-one-------------------------------------------------------
 boxplot(fb22$prok4)
 
-## -----------------------------------------------------------------------------
+## ---- basic-boxplot-two-------------------------------------------------------
 boxplot(fb22$nr6)
 
-## -----------------------------------------------------------------------------
+## ---- colored-boxplot---------------------------------------------------------
 boxplot(fb22$nr6,
         horizontal = TRUE,                # Ausrichtung des Boxplots
         main = "WS 2022/2023: Item Nr6",  # Überschrift der Grafik
@@ -148,7 +148,4 @@ boxplot(fb22$nr6,
         las = 1,                          # Ausrichtung der Labels
         border = "red",                   # Farbe der Linien im Boxplot
         col = "pink1")                    # Farbe der Fläche innerhalb der Box
-
-## ----echo=F,warning=F, fig.align='center',cache=FALSE-------------------------
-invisible(getXKCD(539))
 
