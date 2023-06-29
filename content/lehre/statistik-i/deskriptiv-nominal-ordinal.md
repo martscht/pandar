@@ -4,7 +4,7 @@ type: post
 date: '2020-09-24'
 slug: deskriptiv-nominal-ordinal
 categories: ["Statistik I"]
-tags: ["Deskritpiv", "Plots", "Median", "Tabelle"]
+tags: ["Deskritpiv", "Plots", "Nominal und Ordinal", "Tabelle"]
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
 featured: no
 banner:
@@ -80,12 +80,10 @@ names(fb22)        # Namen der Variablen
 ```
 
 ```
-##  [1] "prok1"   "prok2"   "prok3"   "prok4"   "prok5"   "prok6"   "prok7"  
-##  [8] "prok8"   "prok9"   "prok10"  "nr1"     "nr2"     "nr3"     "nr4"    
-## [15] "nr5"     "nr6"     "lz"      "extra"   "vertr"   "gewis"   "neuro"  
-## [22] "intel"   "nerd"    "grund"   "fach"    "ziel"    "lerntyp" "geschl" 
-## [29] "job"     "ort"     "ort12"   "wohnen"  "uni1"    "uni2"    "uni3"   
-## [36] "uni4"
+##  [1] "prok1"   "prok2"   "prok3"   "prok4"   "prok5"   "prok6"   "prok7"   "prok8"   "prok9"  
+## [10] "prok10"  "nr1"     "nr2"     "nr3"     "nr4"     "nr5"     "nr6"     "lz"      "extra"  
+## [19] "vertr"   "gewis"   "neuro"   "intel"   "nerd"    "grund"   "fach"    "ziel"    "lerntyp"
+## [28] "geschl"  "job"     "ort"     "ort12"   "wohnen"  "uni1"    "uni2"    "uni3"    "uni4"
 ```
 
 ```r
@@ -126,13 +124,12 @@ fb22$geschl
 ```
 
 ```
-##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2  2  1  1  1  1  1  1  1  1  1  2  1 NA
-##  [26]  1  1  1  1  1  2  1  1  1  1  1  1  1  2  1  1  1  1  1  1  1  1  1  1  1
-##  [51]  1  1  1 NA  1  2  1  2  1  1  1  2  1 NA NA  1  3  1  1  1  1  1  1  1  1
-##  [76]  1  1  1  2  2  2  1  2  2  1  1  1  1  1  1  1  1  1  1 NA  1  1  1  1  1
-## [101]  1 NA  2  1  1  1  1 NA  1 NA  1  1  2  1  1  1  1  1  1  1  1  1  1  1  1
-## [126]  2  1  1 NA  2  1  2  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
-## [151]  1  1  1  1  1  1  2  1  1
+##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2  2  1  1  1  1  1  1  1  1  1  2  1 NA  1  1  1  1
+##  [30]  1  2  1  1  1  1  1  1  1  2  1  1  1  1  1  1  1  1  1  1  1  1  1  1 NA  1  2  1  2
+##  [59]  1  1  1  2  1 NA NA  1  3  1  1  1  1  1  1  1  1  1  1  1  2  2  2  1  2  2  1  1  1
+##  [88]  1  1  1  1  1  1  1 NA  1  1  1  1  1  1 NA  2  1  1  1  1 NA  1 NA  1  1  2  1  1  1
+## [117]  1  1  1  1  1  1  1  1  1  2  1  1 NA  2  1  2  1  1  1  1  1  1  1  1  1  1  1  1  1
+## [146]  1  1  1  1  1  1  1  1  1  1  1  2  1  1
 ```
 
 Die Variable `geschl` liegt numerisch vor, es treten die Werte 1, 2 und 3 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/post/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "weiblich". Diese *Label* werden nun im Faktor hinterlegt.
@@ -179,13 +176,12 @@ fb22$fach
 ```
 
 ```
-##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2  2  2  4  3  2  3  4  4  1  3  4  4 NA
-##  [26]  3 NA  2  3  4  4  1  3  2  1  3  1 NA  2  4  4  4  4  4  4  1  4  1  3  1
-##  [51]  1  3  4 NA  4  2  4  4  4  4  3  4  2 NA NA  4  4  3  4  3  4  3  3  1  3
-##  [76]  4  4  4  3  3  4  2  3  3  2  3  4  2  4  3  4  2  3  3 NA  4  2  4  2  2
-## [101]  4 NA  2  3  2  1  1  3  5 NA  4  5  1  1  4  4  3  2  2  2 NA  3  5  4  3
-## [126]  5  2  4 NA  1  4  3  3  5  4  1  4  4  2  3  3  4  3  2  4  4  4  4  4  5
-## [151]  2  1  3  1  2  3  4  4  4
+##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2  2  2  4  3  2  3  4  4  1  3  4  4 NA  3 NA  2  3
+##  [30]  4  4  1  3  2  1  3  1 NA  2  4  4  4  4  4  4  1  4  1  3  1  1  3  4 NA  4  2  4  4
+##  [59]  4  4  3  4  2 NA NA  4  4  3  4  3  4  3  3  1  3  4  4  4  3  3  4  2  3  3  2  3  4
+##  [88]  2  4  3  4  2  3  3 NA  4  2  4  2  2  4 NA  2  3  2  1  1  3  5 NA  4  5  1  1  4  4
+## [117]  3  2  2  2 NA  3  5  4  3  5  2  4 NA  1  4  3  3  5  4  1  4  4  2  3  3  4  3  2  4
+## [146]  4  4  4  4  5  2  1  3  1  2  3  4  4  4
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
@@ -329,7 +325,7 @@ Ungefähr 4.76% Ihres Jahrgangs geben als Lieblingsfach "Diagnostik/Methoden" an
 
 ## Grafiken in `R`
 
-<img src="/lehre/statistik-i/deskriptiv-nominal-ordinal_files/figure-html/comic-barplot-1.png" style="display: block; margin: auto;" />
+<img src="figure/comic-barplot-1.png" alt="plot of chunk comic-barplot" style="display: block; margin: auto;" />
 
 Die Darstellung als Tabelle wirkt häufig langweilig. Zu viele Tabellen in einem Bericht / einer Arbeit schrecken Leser:innen meist ab. Nachfolgend werden mögliche grafische Darstellungsformen für diskrete nominalskalierte Variablen gezeigt. Hierfür haben Sie in der Vorlesung die Optionen eines Balken- bzw. Säulendiagramms und eines Tortendiagramms kennengelernt.
 
@@ -345,9 +341,9 @@ barplot(tab)
 
 Die Grafik erscheint in der RStudio-Standardansicht "unten rechts" im Reiter "Plots":
 
-![](plots_window.PNG)
+![](/lehre/statistik-i/plots_window.PNG)
 
-<img src="deskriptiv-nominal-ordinal_files/figure-html/basic-barplot-1.png" style="display: block; margin: auto;" />
+<img src="figure/basic-barplot-1.png" alt="plot of chunk basic-barplot" style="display: block; margin: auto;" />
 
 **Tortendiagramm**
 
@@ -358,7 +354,7 @@ Die Erstellug eines Tortendiagramms ist ebenfalls leicht zu erreichen. Die Funkt
 pie(tab)
 ```
 
-<img src="deskriptiv-nominal-ordinal_files/figure-html/basic-pie-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="figure/basic-pie-1.png" alt="plot of chunk basic-pie" width="60%" style="display: block; margin: auto;" />
 
 In der Vorlesung haben Sie bereits gelernt, dass diese Form der Darstellung aber nicht zu empfehlen ist, weil Erkenntnisse daraus viel schwerer zu ziehen sind. Bei den Zusatzargumenten werden wir uns also nur mit der Funktion `barplot()` beschäftigen.
 
@@ -386,11 +382,10 @@ colors()[1:20]
 ```
 
 ```
-##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1"
-##  [5] "antiquewhite2" "antiquewhite3" "antiquewhite4" "aquamarine"   
-##  [9] "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"  
-## [13] "azure"         "azure1"        "azure2"        "azure3"       
-## [17] "azure4"        "beige"         "bisque"        "bisque1"
+##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1" "antiquewhite2"
+##  [6] "antiquewhite3" "antiquewhite4" "aquamarine"    "aquamarine1"   "aquamarine2"  
+## [11] "aquamarine3"   "aquamarine4"   "azure"         "azure1"        "azure2"       
+## [16] "azure3"        "azure4"        "beige"         "bisque"        "bisque1"
 ```
 
 Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
@@ -420,7 +415,7 @@ barplot(tab,
         cex.names = 0.8)                         # Schriftgröße der Labels
 ```
 
-![](deskriptiv-nominal-ordinal_files/figure-html/colored-barplot-1.png)<!-- -->
+![plot of chunk colored-barplot](figure/colored-barplot-1.png)
 
 Alle verwendeten Argumente (bis auf eines) sind bereits in der Tabelle oben beschrieben. Wir fügen einen Titel zur y-Achse mittels `ylab` hinzu. `main` ist verantwortlich für den Titel der Grafik, während `las` die Beschriftung der Säulen dreht. Das bisher nicht genannte Argument `cex.names` verändert die Schriftgröße für die Beschriftung der Balken. Wenn wir diese nicht anpassen würden, würde die Schrift den Rahmen der Standardeinstellungen für Grafen in `R` sprengen und damit teilweise außerhalb des Bildes stehen. 
 
@@ -434,15 +429,15 @@ Es gibt zwei Möglichkeiten, um in `R` erzeugte Grafiken als Bilddatei zu speich
 
 Klicken Sie auf die Schaltfläche "Export" und dann auf "Save as Image"...
 
-![](Screenshot-Export.PNG)
+![](/lehre/statistik-i/Screenshot-Export.PNG)
 
 ...und spezifizieren Sie dann Dateiname (ggf. Pfad) und Größe/Größenverhältnis.
 
-![](plot_export_2.PNG)
+![](/lehre/statistik-i/plot_export_2.PNG)
 
 Wenn kein Pfad spezifiziert wird, erscheint die Datei in Ihrem aktuellen Arbeitsverzeichnis.
 
-![](Screenshot-jpeg.PNG)
+![](/lehre/statistik-i/Screenshot-jpeg.PNG)
 
 
 *Möglichkeit 2: Speichern mit der Funktion `jpeg("Dateiname.jpg")`*
@@ -577,7 +572,7 @@ Zunächst aber eine Wiederholung: Wie Sie aus der Vorlesung wissen, können die 
 
 Nachfolgend soll mit Item 4 des Prokrastinationsfragebogens gearbeitet werden. Es wurde wie folgt erhoben:
 
-![](fb_prok1.PNG)
+![](/lehre/statistik-i/fb_prok1.PNG)
 
 Es treten die Werte 1 bis  4 empirisch auf, außerdem gibt es  2 fehlende Werte (dargestellt als `NA`):
 
@@ -587,13 +582,12 @@ fb22$prok4
 ```
 
 ```
-##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2  3  2  3 NA  2  4  2  2  2  3  3  2  3
-##  [26]  2  2  2  1  3  2  3  3  3  3  2  3  2  3  2  3  3  3  4  3  3  3  4  2  4
-##  [51]  3  2  3  4  3  3  2  1  4  2  2  2  2  2  2  2  2  2  3  2  2  2  3  2  3
-##  [76]  3  3  2  2  3  1  2  2  1  3  2  3  2  2  3  3  2  2  2  1  1  3  2  4  3
-## [101]  2  4  3  3  1  2  2  3  4  3  1  3  2  2  3  2  2  2  3  4  3  1  2  2  3
-## [126]  3  4  3  3  3  3  4  3  1  2  3  2  2  3  2  2  4  4  2  3  2  3  2  4  2
-## [151]  2  2  2  4  3  4  3  3  3
+##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2  3  2  3 NA  2  4  2  2  2  3  3  2  3  2  2  2  1
+##  [30]  3  2  3  3  3  3  2  3  2  3  2  3  3  3  4  3  3  3  4  2  4  3  2  3  4  3  3  2  1
+##  [59]  4  2  2  2  2  2  2  2  2  2  3  2  2  2  3  2  3  3  3  2  2  3  1  2  2  1  3  2  3
+##  [88]  2  2  3  3  2  2  2  1  1  3  2  4  3  2  4  3  3  1  2  2  3  4  3  1  3  2  2  3  2
+## [117]  2  2  3  4  3  1  2  2  3  3  4  3  3  3  3  4  3  1  2  3  2  2  3  2  2  4  4  2  3
+## [146]  2  3  2  4  2  2  2  2  4  3  4  3  3  3
 ```
 
 Wiederholung:
@@ -741,7 +735,7 @@ Eine geeignete grafische Darstellungsform für (mindestens) ordinalskalierte Dat
 boxplot(fb22$prok4)
 ```
 
-![](deskriptiv-nominal-ordinal_files/figure-html/basic-boxplot-one-1.png)<!-- -->
+![plot of chunk basic-boxplot-one](figure/basic-boxplot-one-1.png)
 
 Zur Erinnerung:
 
@@ -757,7 +751,7 @@ In diesem Beispiel betragen Median und Q3 jeweils 3, sodass sich die entsprechen
 boxplot(fb22$nr6)
 ```
 
-![](deskriptiv-nominal-ordinal_files/figure-html/basic-boxplot-two-1.png)<!-- -->
+![plot of chunk basic-boxplot-two](figure/basic-boxplot-two-1.png)
 
 Auch ein Boxplot kann grafisch angepasst werden. Nachfolgend sehen Sie ein Beispiel, in dem möglichst viel verändert wurde, um die verschiedenen Möglichkeiten aufzuzeigen. Nicht alle Veränderungen sind unbedingt sinnvoll in diesem Fall.
 
@@ -772,12 +766,12 @@ boxplot(fb22$nr6,
         col = "pink1")                    # Farbe der Fläche innerhalb der Box
 ```
 
-![](deskriptiv-nominal-ordinal_files/figure-html/colored-boxplot-1.png)<!-- -->
+![plot of chunk colored-boxplot](figure/colored-boxplot-1.png)
 
 
 
 
-<img src="deskriptiv-nominal-ordinal_files/figure-html/comic-boxplot-1.png" style="display: block; margin: auto;" />
+<img src="figure/comic-boxplot-1.png" alt="plot of chunk comic-boxplot" style="display: block; margin: auto;" />
 
 
 ***

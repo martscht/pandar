@@ -41,7 +41,7 @@ output:
 
 ```{r setup, cache = FALSE, echo = FALSE}
 knitr::opts_chunk$set(error = TRUE)
-knitr::knit_hooks$set(purl = knitr::hook_purl)
+# knitr::knit_hooks$set(purl = knitr::hook_purl)
 ```
 
 {{< spoiler text="Kernfragen dieses Beitrags" >}}

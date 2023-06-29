@@ -1,20 +1,18 @@
 ---
-title: R Crash-Kurs
+title: "Deskriptivstatistik für Nominal- und Ordinalskalen"
 type: post
-date: '2019-10-18'
-slug: crash-kurs
-categories: ["Statistik I", "Einführung"]
-tags: ["Einführung", "Datenmanagement", "Grundlagen", "Hilfe"]
-subtitle: ''
-summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
-authors: [schultze]
-lastmod: '2023-06-14'
-featured: yes
+date: '2020-09-24'
+slug: deskriptiv-nominal-ordinal
+categories: ["Statistik I"]
+tags: ["Deskritpiv", "Plots", "Nominal und Ordinal", "Tabelle"]
+summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
+featured: no
 banner:
-  image: "/header/crash_post.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
-projects: []
-weight: 10
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
+  image: /header/descriptive_post.jpg
+lastmod: '2023-06-26'
+authors: [nehler, buchholz]
+weight: 20
 
 reading_time: false
 share: false
@@ -23,15 +21,15 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/crash-kurs
+    url: /lehre/statistik-i/deskriptiv-nominal-ordinal
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/statistik-i/crash-kurs.R
+    url: /lehre/statistik-i/deskriptiv-nominal-ordinal.R
   - icon_pack: fas
     icon: user-graduate
     name: Aufgaben
-    url: /lehre/statistik-i/crash-kurs-aufgaben
+    url: /lehre/statistik-i/deskriptiv-nominal-ordinal-aufgaben
 
 output:
   html_document:
@@ -41,1480 +39,739 @@ output:
 
 
 
+
+
 {{< spoiler text="Kernfragen dieses Beitrags" >}}
 
-* Was ist [**R**](#R) und was ist [**RStudio**](#RStudio)?
-* Was ist die [**Konsole**](#Konsole_Syntax) und was ist die [**Syntax**?](#Konsole_Syntax)
-* Wie kann ich [**Syntax ausführen**](#Eingabe)?
-* Wie sehen [**Ergebnisse**](#Ergebnisse) von Befehlen in R aus?
-* Wie kann ich R als [**Taschenrechner**](#Taschenrechner) und für [**logische Vergleiche**](#Logik) benutzen?
-* Was sind [**Funktionen**](#Funktionen) und wie sind sie aufgebaut?
-* Wie bekomme ich in R [**Hilfe**](#Hilfe)?
-* Was sind [**Objekte**](#Environment)?
-* Was ist das [**Environment**](#Environment)?
-* Was sind [**Vektoren**](#Vektoren) und welche unterschiedlichen Arten gibt es?
-* Welche [**mehrdimensionalen Datenstrukturen**](#Mehrdimensional) gibt es und worin unterscheiden sie sich?
-* Wie kann ich aus Datensätze einzelne Variablen oder Beobachtungen [**extrahieren**](#Extrahieren) und sie [**hinzufügen**](#Hinzu)?
-* Wie [**importiere**](#Speichern_Laden) und [**exportiere**](#Speichern_Laden) ich Daten?
-
+* Wie werden **Häufigkeitstabellen** erstellt?  
+* Wie können aus absoluten Häufigkeitstabellen **relative Häufigkeitstabellen** gemacht werden?  
+* Wie können **Modus und Median** bestimmt werden?  
+* Auf welche Weise lässt sich der **relative Informationsgehalt** bestimmen, obwohl es dafür in R keine Funktion gibt?  
+* Welche Befehle können genutzt werden, um **Balken-, Kuchendiagramme und Histogramme** zu erzeugen?  
+* Welche Möglichkeiten gibt es, um **Grafiken anzupassen**?  
+* Wie können **Grafiken gespeichert** werden?
 {{< /spoiler >}}
 
 ***
 
-## Warum R nutzen? {#R .anchorheader}
-
-Ziel dieses gesamten R-Praktikums ist es, dass Sie am Ende des Semester geübt im Umgang mit R sind, die Grundfunktionalität beherrschen und die Analyseverfahren durchführen können, die in der Vorlesung behandelt werden. Damit wir - oder genauer genommen, eigentlich Sie - dieses Ziel erreichen, legen wir hier mit einer "kurzen" Einführung in die Grundprinzipien von und den Umgang mit R los. Viele Dinge, die hier besprochen werden, sind auch in den [anderen Sitzungen zu dieser Veranstaltung](categories/statistik-i) relevant und werden dort immer wieder vorkommen. Deswegen ist es das Beste, einfach nebenbei RStudio auf zu haben und die hier beschriebenen Schritte auch direkt selbst mit zu machen.
-
-Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe von Programmen ausgewählt, weil es ein paar hervorragende Eigenschaften hat:
-
-* R ist "free & free"
-  + "Free (as in beer)": gratis verfügbar, für jeden zugänglich
-  + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
-* Extrem weit verbreitet
-* Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 469327 mal heruntergeladen
-* Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
-* Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
-* Wiederherstellbarer Arbeitsablauf
-* Mit jedem teilbar
-* Auch außerhalb der Universität und Forschung eine gefragte Fähigkeit
-
-Ein paar nützliche Links für R sind die [R Main Page](https://www.r-project.org/), wo R runtergeladen werden kann und diverse technische Details zu finden sind. Für eine kurze, schnelle Einführung in verschiedene R-relevante Themen bietet sich [Quick R](https://www.statmethods.net/) und, spezifisch für die Psychologie, das [Personality Project](http://www.personality-project.org/r/) an. Eine Einführung in die R-Nutzung, an die auch dieses Skript angelehnt ist, findet sich im repository [Scientific Methods for Open Behavioral, Social and Cognitive Sciences](https://smobsc.readthedocs.io/en/latest/chapter_ana/Introduction%20to%20Programming%20with%20R.html).
-
-***
-
-## RStudio {#RStudio .anchorheader}
-
-Weil die traditionelle R Nutzeroberfläche extrem spartanisch ist, werden wir auf dieser Seite mit RStudio arbeiten. RStudio ist eine zusätzliche Nutzeroberfläche, die den Umgang durch diverse convenience features mit R ein wenig erleichtert. Es muss separat installiert werden, ist aber, genau wie R selbst, gratis erhältlich. Um RStudio herunterzuladen besuchen Sie am einfachsten [https://www.rstudio.com/](https://www.rstudio.com/).
-
-![](rstudio.png)
-{{< intext_anchor Konsole_Syntax >}}
-
-RStudio besteht aus vier Panels. Zunächst sind nur drei sichtbar - durch **Strg+Shift+n** (OS X: **Cmd+Shift+n**) oder über den {{< inline_image "/lehre/statistik-i/new_script.png" >}} Button öffnen Sie eine neue Skriptdatei und das vierte Panel erscheint. {{< intext_anchor Eingabe>}}
-R ist syntaxbasiert - genau genommen ist R eigentlich eine Programmiersprache und kein Auswertungsprogramm - und im neu erschienenen Fenster können Sie diese Syntax schreiben. Das pure schreiben bewirkt zunächst nichts. {{< intext_anchor Ergebnisse >}}
-Damit etwas passiert, muss die Syntax mit **Strg+Return** (OS X: **cmd+Return**) oder mit dem {{< inline_image "/lehre/statistik-i/run.png" >}} Button ausgeführt werden. Wenn Sie z.B. `3 + 4` in die Syntax schreiben und so ausführen, erscheint in der Konsole:
-
-
-```r
-3 + 4
-```
-
-```
-## [1] 7
-```
-
-Die beiden verbleibenden Panels stellen jeweils als Tabs verschiedene Dinge dar. Oben rechts wird per Voreinstellung das *Environment* angezeigt. Was genau das bedeutet sehen wir in Kürze. Unten rechts werden fünf Tabs dargestellt, die allesamt im Verlauf des Semesters von Relevanz sein werden:
-
-1. *Files*: erlaubt die Navigation in Ordnern um Dateien ausfindig zu machen.
-2. *Plots*: hier werden grafische Abbildungen dargestellt.
-3. *Packages*: gibt eine Übersicht über die installierten Erweiterungen für R.
-4. *Help*: das wahrscheinlich wichtigste Tab - hier wird die Hilfe zu R-Funktionen angezeigt.
-
-***
-
-## Erste Schritte
-
-Eine wichtige Funktionalität jeder Programmiersprache sind *Kommentare*, die dazu dienen sollen das Vorgehen in einer Syntax zu gliedern und leichter verständlich zu machen. In R werden sie durch (beliebig viele) `#` begonnen und enden bei einem Zeilenumbruch. Mit Kommentaren kann Syntax auch in verschiedene Abschnitte gegliedert werden. Empfehlenswert ist es, solche Abschnittüberschriften mit `####` zu beginnen und mit `----` zu beenden. RStudio erkennt solche Kommentare automatisch als Überschriften und stellt über den {{< inline_image "/lehre/statistik-i/outline.png" >}} Button eine darauf basierende Gliederung zur Verfügung.
-
-{{< intext_anchor Taschenrechner >}}
-Wir können diese Funktionalität der Kommentare am Beispiel der Nutzung von R als Taschenrechner ausprobieren:
-
-
-```r
-#### R als Taschenrechner ----
-
-3 + 4   # Addition
-```
-
-```
-## [1] 7
-```
-
-```r
-3 - 4   # Subtraktion
-```
-
-```
-## [1] -1
-```
-
-```r
-3 * 4   # Multiplikation
-```
-
-```
-## [1] 12
-```
-
-```r
-3 / 4   # Division
-```
-
-```
-## [1] 0.75
-```
-
-```r
-3 ^ 4   # Potenz
-```
-
-```
-## [1] 81
-```
-
-In der Gliederung sollte in RStudio jetzt die Überschrift "R als Taschenrechner" auftauchen.
-
-In diesem Beispiel sind zwischen den Zahlen und Operatoren immer Leerzeichen. Leerzeichen spielen für R keine Rolle - sie werden bei der Ausführung ignoriert. Daher können Leerzeichen und Einschübe zu Beginn von Zeilen genutzt werden um der Syntax noch mehr Struktur zu geben. Generell wird empfohlen, R Syntax wie normale Sätze zu schreiben und Leerzeichen zu nutzen um die Lesbarkeit der Syntax zu gewährleisten. Einige weitere Empfehlungen zur Gestaltung von R Syntax finden Sie im [Online Buch von Hadley Wichkam](http://adv-r.had.co.nz/Style.html) und im [Styleguide, der von Google Programmier*innen genutzt wird](https://google.github.io/styleguide/Rguide.html).
-
-{{< intext_anchor Logik >}}
-Neben einfachen Taschenrechner-Funktionen mit *numerischen Ergebnissen* kann R auch logische Abfragen und Vergleiche durchführen:
-
-
-```r
-#### Logische Abfragen ----
-
-3 == 4   # Ist gleich?
-```
-
-```
-## [1] FALSE
-```
-
-```r
-3 != 4   # Ist ungleich?
-```
-
-```
-## [1] TRUE
-```
-
-```r
-3 > 4    # Ist größer?
-```
-
-```
-## [1] FALSE
-```
-
-```r
-3 < 4    # Ist kleiner?
-```
-
-```
-## [1] TRUE
-```
-
-```r
-3 >= 4   # Ist größer/gleich?
-```
-
-```
-## [1] FALSE
-```
-
-```r
-3 <= 4   # Ist kleiner/gleich?
-```
-
-```
-## [1] TRUE
-```
-
-Die Ergebnisse dieser Abfragen sind *boolesch* - also immer entweder wahr (`TRUE`) oder falsch (`FALSE`). Wie in vielen anderen Programmiersprachen wird in R das `!` genutzt um eine Aussage zu negieren. Wir könnten also die "ist ungleich" Relation `!=` auch als "nicht (ist gleich)" umformulieren:
-
-
-```r
-!(3 == 4)
-```
-
-```
-## [1] TRUE
-```
-
-Wie in der Mathematik üblich, wird der Inhalt von Klammern als erstes evaluiert und ergibt hier `FALSE`. Dieses Ergebnis wird dann durch `!` negiert, sodass das finale Ergebnis `TRUE` ist.
-
-***
-
-## Funktionen und Argumente {#Funktionen .anchorheader}
-
-Das Nutzen von R als Taschenrechner ist - streng genommen - ein Sonderfall, der vom "üblichen Weg" abweicht, mit dem Dinge in R umgesetzt werden. Mithilfe der einfachen Addition können wir eine Summe bilden:
-
-
-```r
-3 + 4 + 1 + 2
-```
-
-```
-## [1] 10
-```
-
-Für R typischer wäre aber die Umsetzung mit
-
-
-```r
-sum(3, 4, 1, 2)
-```
-
-```
-## [1] 10
-```
-
-Hier wird die Funktion `sum()` genutzt um die Summe der Argumente (`3`, `4`, `1` und `2`) zu bilden. An diesem Beispiel lässt sich bereits die generelle Struktur von Funktionen in R erkennen:
-
-```
-funktion(argument1, argument2, argument3, ...)
-```
-
-In R werden Funktionen namentlich aufgerufen und alle Argumente, die diese Funktion entgegennehmen kann, folgen in Klammern. Die `sum()`-Funktion ist dabei sogar wieder ein Sonderfall, weil sie unendlich viele Argumente entgegennehmen kann. Eine eher typische Funktion ist z.B. der Logarithmus:
-
-
-```r
-log(100)
-```
-
-```
-## [1] 4.60517
-```
-
-Wie zu erkennen ist, wird mit `log()` der natürliche Logarithmus einer Zahl bestimmt. Es ist aber mit der gleichen Funktion auch möglich Logarithmen mit jeder anderen Basis zu bilden:
-
-
-```r
-log(100, 10)
-```
-
-```
-## [1] 2
-```
-
-Um zu verstehen, wie das in R funktioniert, können wir die grundlegende Struktur von Logarithmen betrachten. Diese bestehen aus drei Komponenten: $\log_{b}(x) = y$. Dabei bezeichnet $b$ die Basis (Englisch: *base*) des Logarithmus, $x$ das Argument und $y$ das Ergebnis. Die oben dargestellte Funktion `log` nimmt also als Erstes $x$ und als Zweites $b$ entgegen.
-
-Weil es bei der beinahe unendliche Mengen von Funktionen in R unmöglich ist, sich die korrekte Reihenfolge aller Argumente zu merken, können Argumente auch direkt benannt werden:
-
-
-```r
-log(x = 100, base = 10)
-```
-
-```
-## [1] 2
-```
-
-In diesem Fall muss man nicht mehr die Reihenfolge der Argumente, sondern lediglich deren Namen kennen. Wenn Argumente so benannt werden, können sie in einer beliebigen Reihenfolge in der Funktion genutzt werden:
-
-
-```r
-log(base = 10, x = 100)
-```
-
-```
-## [1] 2
-```
-
-Weil es nur geringfügig einfacher ist, sich alle Namen von Argumente statt deren Reihenfolge zu merken, bietet R diverse Möglichkeiten sich diesbezüglich helfen zu lassen. Um z.B. die Namen und Reihenfolge von Argumenten einer Funktion in Erfahrung zu bringen kann die Funktion `args()` auf jede R-Funktion angewendet werden:
-
-
-```r
-args(log)
-```
-
-```
-## function (x, base = exp(1)) 
-## NULL
-```
-
-Dieses Ergebnis bedeutet, dass `log()` zwei mögliche Argumente hat: `x` und `base`. Darüber hinaus besagt `base = exp(1)`, dass es für das zweite Argument eine Voreinstellung gibt, nämlich die Zahl `exp(1)`, also die Euler'sche Zahl $e$. Diese Zahl wird dabei als Ergebnis der Funktion `exp()` gewonnen:
-
-
-```r
-exp(1)
-```
-
-```
-## [1] 2.718282
-```
-
-Das Ergebnis dieser Funktion wird bestimmt und als Argument an die Funktion `log()` weitergegeben. Das zeigt bereits eine zentrale Eigenschaft von R: Funktionen können ineinander geschachtelt werden. Dabei werden Klammern wie in der Mathematik gehandhabt und von innen nach außen evaluiert.
-
-***
-
-## Hilfe {#Hilfe .anchorheader}
-
-R bietet ein sehr detailliertes und gutes integriertes Hilfesystem. Mit `args()` kann man sich zwar die Argumente einer Funktion ausgeben lassen, erhält aber keinerlei Zusatzinformationen. Wenn man mehr Informationen bezüglich einer spezifischen Funktion benötigt, kann man `help()` auf jede beliebige Funktion anwenden (bzw. `?` vor den Namen einer Funktion schreiben). Sie sollten - besonders zum Einstieg in R - häufig und gezielt diese Hilfe in Anspruch nehmen.
-
-
-```r
-help(log)
-```
-
-Die Hilfe zur Funktion wird im Panel unten rechts geöffnet und ist ein Dokument, das üblicherweise aus den folgenden Abschnitten besteht:
-
-* *Description*: eine kurze Beschreibung der Funktion.
-* *Usage*: die grundlegende Struktur der Funktion. Dieser Abschnitt enthält alle Argumente, die diese Funktion entgegennimmt. In manchen Fällen kann dieser Abschnitt auch mehrere Funktionen enthalten, die gemeinsam dokumentiert sind. Argumente, denen ein ` = etwas` folgt, haben eine Voreinstellung und müssen nicht bei jedem Aufruf der Funktion angesprochen werden (sondern nur, wenn man eine andere Einstellung als die Voreinstellung nutzen will). Argumente, denen kein `=` folgt, müssen hingegen bei jeder Anwendung definiert werden.
-* *Arguments*: Eine Liste der Argumente mit einer kurzen Beschreibung.
-* *Details*: Zusatzinformationen zur Funktion.
-* *Values*: Eine Liste der Ergebniselemente, die diese Funktion erzeugt. In R sind Ergebnisse häufig größer als das was in der Konsole gedruckt wird und dieser Abschnitt liefert eine Übersicht über diese Inhalte.
-* *See also*: Ähnliche Funktionen, die vielleicht eher dem entsprechen, was man sucht.
-* *Examples*: Der vielleicht wichtigste Abschnitt - hier wird die Funktion beispielhaft angewendet.
-
-Wenn man den genauen Namen einer Funktion nicht kennt, ist `help()` meistens nur wenig hilfreich. RStudio bietet an der oberen rechte Ecke des Hilfe-Fensters noch ein zusätzliches Suchfeld für die Hilfe, welches nicht nur die Funktionsnamen, sondern auch deren Beschreibungen durchsucht: 
-
-![](search.png)
-
-Dadurch öffnet sich im Hilfefenster eine Auflistung aller Befehle, die diesen Suchbegriff enthalten. Die Notation ist dabei immer `paket::funktion()` - also das Bündel von Funktionen, in dem wir diese spezifische Funktion gefunden haben und dann deren Name. Was genau Pakete sind, werden wir uns später noch einmal vertieft angucken. Sie können einfach links auf den Namen klicken um zur Hilfe der Funktion zu gelangen.
+## Wiederholung aus der Vorlesung: Skalenniveaus
+
+Skala | Aussage | Transformation | Zentrale Lage | Dispersion |
+--- | ------------ | -------- | ---------- | ----------------- |
+Nominal | Äquivalenz | eineindeutig | Modus | Relativer Informationsgehalt |
+Ordinal | Ordnung | monoton | Median | Interquartilsbereich |
+Intervall | Verhältnis von Differenzen | positiv linear | Mittelwert | Standardabweichung, Varianz |
+Verhältnis | Verhältnisse | Ähnlichkeit | ... | ... |
+Absolut | absoluter Wert | Identität | ... | ... |
 
 
 ***
 
-## Nachrichten, Warnungen und Fehler
+## Vorbereitende Schritte
 
-Im Umgang mit R ist es unvermeidlich: es werden Fehler passieren. Wichtig ist nur, dass man weiß, was die Rückmeldung bedeutet, die R produziert und wie man darauf reagieren sollte. Zusätzlich zu dem Fall, in dem das korrekte Ergebnis produziert wird, kann man in R drei Formen von Rückmeldungen unterscheiden: messages, warnings und errors.
+Nachdem wir in der letzten Sitzung die Arbeit mit dem CSV Format kennen gelernt haben, nutzen wir jetzt die Datei im RDA Format für das Einlesen des Datensatzes. Die Datei können Sie [hier <i class="fas fa-download"></i> herunterladen](/data/fb22.rda). Außerdem ist es prinzipiell ratsam, zu Beginn wieder das Arbeitsverzeichnis mit Hilfe von `setwd()` zu bestimmen. Dies stellt sicher, dass wenn Sie später Daten speichern (z.B. Datensätze oder Grafiken), diese auch am gewünschten Ort auf Ihrem Computer abgelegt werden. 
 
-Eine `Message` liefert Informationen und dient ausschließlich der Kommunikation. Hier werden z.B. Hinweise bezüglich des Zustands einer Funktion gegeben (etwa, wenn sie sich noch in der Beta-Phase befindet) oder Zusatzinformationen geliefert, die die Interpretation eines Ergebnisse vereinfachen sollen. Der Text, den R bei jedem Start produziert, ist ein Beispiel für eine `Message`.
-
-Eine `Warning` deutet darauf hin, dass höchstwahrscheinlich etwas nicht so gelaufen ist, wie geplant, aber dennoch ein Ergebnis produziert wurde. Für den Logarithmus erscheint beispielsweise eine Warnung:
+Eine alternative Variante ist, den Datensatz direkt mit dem folgenden Befehl aus dem Internet einzuladen. Dies ist immer dann möglich, wenn der Datensatz auch über eine URL aufrufbar ist. 
 
 
 ```r
-log(-1)
+load(url('https://pandar.netlify.app/post/fb22.rda'))   # Daten laden
+names(fb22)        # Namen der Variablen
 ```
 
 ```
-## Warning in log(-1): NaNs produced
+##  [1] "prok1"   "prok2"   "prok3"   "prok4"   "prok5"   "prok6"   "prok7"   "prok8"   "prok9"  
+## [10] "prok10"  "nr1"     "nr2"     "nr3"     "nr4"     "nr5"     "nr6"     "lz"      "extra"  
+## [19] "vertr"   "gewis"   "neuro"   "intel"   "nerd"    "grund"   "fach"    "ziel"    "lerntyp"
+## [28] "geschl"  "job"     "ort"     "ort12"   "wohnen"  "uni1"    "uni2"    "uni3"    "uni4"
 ```
-
-```
-## [1] NaN
-```
-
-Warnungen beginnen in R mit dem Wort `Warning`. In diesem Fall werden wir darauf hingewiesen, dass als Ergebnis der Funktion `NaNs` (Not a Number) erzeugt werden - also wahrscheinlich ein Ergebnis, das wir nicht haben wollten, als wir den Logarithmus aufgerufen haben.
-
-Die letzte Art sind `Error`, die immer damit einhergehen, dass kein Ergebnis produziert wird. Für den Logarithmus erhalten wir einen Fehler wenn
-
 
 ```r
-log(argument = 10)
+dim(fb22)          # Anzahl Zeile und Spalten
 ```
 
 ```
-## Error in eval(expr, envir, enclos): argument "x" is missing, with no default
+## [1] 159  36
 ```
 
-In diesem Fall werden wir darauf hingewiesen, dass wir keine Einstellung für das Argument `x` vorgenommen haben, obwohl dieses keine Voreinstellung hat. Daher ist die Funktion unfähig ein Ergebnis zu produzieren. Bei Fehlern sollten Sie bedenken, dass diese das Ausführen mehrerer Zeilen nicht unterbrechen. Wenn Sie also eine komplette Syntax auf einmal ausführen, können aus Fehlern Folgefehler entstehen, weil ein Ergebnis nicht entstanden ist, mit dem Sie anschließend weiter rechnen wollten.
+In der letzten Sitzung haben wir schon einige Befehle für das Screening eines Datensatzes kennen gelernt. Dabei zeigt `names()` alle Variablennamen an, während `dim()` uns Zeilen und Spalten ausgibt. Der Datensatz hat also 159 Beobachtungen auf 36 Variablen.
+
 
 ***
 
-## Objekte und das Environment {#Environment .anchorheader}
+## Nominalskalierte Variablen
 
-Einer der großen Vorteile von R gegenüber anderen Ansätzen zur statistischen Datenanalyse ist die Möglichkeit Ergebnisse in Objekten abzulegen und diese als Argumente in anderen Funktionen weiter zu verwenden. Dadurch ergibt sich in R die Möglichkeit sehr große Teile von Auswertungen und Ergebnisdarstellung mit generell gehaltenen Skripten zu automatisieren. Die Zuweisung eines Ergebnisses zu einem Objekt erfolgt über den sog. Zuweisungspfeil `<-`.
+Typische Beispiele für nominalskalierte Variablen in der Psychologie sind das Geschlecht (z.B. Variable "geschl" in `fb22`), die Experimentalbedingung (z.B. "Experimentalgruppe" und "Kontrollgruppe"). Nominalskalierte Variablen sollten in `R` als **Faktoren** hinterlegt werden. Faktoren in `R` sind Vektoren mit einer vorab definierten Menge an vorgegebenen möglichen Ausprägungsmöglichkeiten. Sowohl numerische als auch character-Variablen können als Faktor kodiert werden, was mit jeweiligen Vorteilen einhergeht:
 
+* für numerische Variablen: es können (aussagekräftige) Labels zugewiesen ("hinterlegt") werden. Diese werden dann für Tabellen und Grafiken übernommen    
+* Für character-Variablen: Faktoren können für Analysen verwendet werden (z.B. als Prädiktoren in einer Regression), was für character-Variablen nicht möglich gewesen wäre  
 
-```r
-my_num <- sum(3, 4, 1, 2)
-```
+Jeder numerischen Faktorstufe (level) kann ein Label zugewiesen werden. Faktorstufe und –label bestehen auch dann, wenn die entsprechende Ausprägung empirisch nicht auftritt.
 
-Anders als zuvor wird in diesem Fall in der Konsole kein Ergebnis ausgedruckt, sondern lediglich der Befehl gespiegelt. Das Ergebnis der Summen-Funktion ist im Objekt `my_num` abgelegt. Dieses Objekt sollte nun auch im Panel oben rechts - spezifischer im Tab *Environment* - aufgetaucht sein.
-
-Objekte können beliebige Namen tragen - ausgeschlossen ist lediglich, dass die Namen mit einer Zahl beginnen. Generell wird empfohlen, Objekte im sog. *snake case* zu bezeichnen - also in der Form: `name_des_objekts`. Die Benennung sollte dabei so kurz und prägnant wie möglich sein. Zwei Objekte können aber niemals den gleichen Namen tragen. Wenn Sie ein zweites Objekt erstellen, dass den gleichen Namen trägt, wird das erste Objekt - ohne Warnung - überschrieben. Um den Inhalt eines Objektes abzurufen, müssen Sie lediglich den Namen des Objektes ausführen:
+**Beispiel 1: Die (numerische) Variable `geschl` als Faktor aufbereiten**
 
 
 ```r
-my_num
+str(fb22$geschl)
 ```
 
 ```
-## [1] 10
-```
-
-Das ist die Kurzfassung von `print(my_num)`. Das eigentliche Ziel von Objektzuweisungen ist aber, den Inhalt von Objekten an weitere Funktionen weiterreichen zu können.
-
-
-```r
-sqrt(my_num)
-```
-
-```
-## [1] 3.162278
-```
-
-Der Inhalt des Objektes wird so als Argument in die Funktion `sqrt()` übergeben. Das ist letztlich das Gleiche wie
-
-
-```r
-sqrt(sum(3, 4, 1, 2))
-```
-
-```
-## [1] 3.162278
-```
-
-wo das Ergebnis nicht explizit in einem Objekt gespeichert wird, sondern direkt als Argument an eine Funktion weitergegeben wird. Dabei werden geschachtelte Funktionen von innen nach außen evaluiert. Die Aneinanderkettung von Objektzuweisungen und Schachtelungen ist unbegrenzt, sodass sehr komplexe Systeme entstehen können. Weil das aber sehr schnell anstrengend werden kann - und man dabei leicht den Überblick verliert, was eigentlich wann ausgeführt wird - gibt es noch eine weitere Variante, Funktionen aneinander zu reihen: die *Pipe*.
-
-Bei der Pipe `|>` wird ein links stehendes Objekt oder Ergebnis genommen und als *erstes Argument* der rechts stehenden Funktion eingesetzt. Für unser Wurzelbeispiel also:
-
-
-```r
-sum(3, 4, 1, 2) |> sqrt()
-```
-
-```
-## [1] 3.162278
-```
-
-Das hat den immensen Vorteil, dass wir dadurch unseren Code wieder in der, im westlichen Kulturkreis üblichen Variante wie Text von links nach rechts lesen können. Dabei ist das was als erstes passiert links, das Ergebnis wird nach rechts weitergereicht und irgendetwas passiert damit. Auch dieses System ist theoretisch unendlich fortsetzbar:
-
-
-```r
-sum(3, 4, 1, 2) |> sqrt() |> log()
-```
-
-```
-## [1] 1.151293
-```
-
-Wenn wir unser Ergebnis an ein *spezifisches* Argument weiterreichen wollen, können wir dafür den Platzhalter `_` nutzen:
-
-
-```r
-sum(3, 4, 1, 2) |> sqrt() |> log(x = _)
-```
-
-```
-## [1] 1.151293
-```
-
-
-Zusammengefasst gibt es also drei Möglichkeiten, um Ergebnisse von Berechnungen in weiteren Schritten weiter zu nutzen:
-
-Beschreibung | Code-Stil
- --- | --- 
-Funktionen schachteln | `funktion1(funktion2(argument))` 
-Objekt im Environment anlegen | `objekt <- funktion1(argument)` <br> `funktion2(objekt)`
-Ergebnis-Pipe | `funktion1(argument) |> funktion2()` 
-
-Wann benutzt man am besten welches dieser drei Systeme? Wie so häufig in R ist das eine Sache des persönlichen Schreibstils und dessen, womit man selbst gut zurecht kommt. Meine persönliche Empfehlung ist für dieses Dreiergespann:
-
-* Ergebnisse sollte man als Objekte ablegen, wenn man das Ergebnis im Verlauf des Skripts noch an mehreren Stellen brauchen wird.
-* Funktionen kann man dann schachteln, wenn mehrere verschiedene Argumente erst aus anderen Funktionen erzeugt werden müssen.
-* Die Pipe bietet sich wegen der Leserlichkeit in allen anderen Fällen an.
-
-Wenn wir das Ergebnis unseres zweiten Schritts (also wenn wir die Wurzel ziehen), direkt wieder einem Objekt zuweisen, passiert Folgendes:
-
-
-```r
-my_root <- sqrt(my_num)
-```
-
-Im Environment (oben rechts) sollten jetzt zwei Objekte zu erkennen sein. R-intern kann das Environment über den `ls()`-Befehl betrachtet werden:
-
-
-```r
-ls()
-```
-
-```
-## [1] "my_num"  "my_root"
-```
-
-Wenn das Environment sehr voll ist, kann die Ausgabe mit dem Argument `pattern = ` auf spezifische Objekte eingeschränkt werden:
-
-
-```r
-ls(pattern = 'num')
-```
-
-```
-## [1] "my_num"
-```
-
-Objekte können auch einfach aus dem Environment entfernt werden:
-
-
-```r
-rm(my_num)
-ls()
-```
-
-```
-## [1] "my_root"
-```
-
-Beachten Sie wieder, dass R ihnen keinerlei Warnung oder Nachfrage gibt, wenn Sie Objekte entfernen. Sollten Sie also Objekte haben, deren Erstellung lange dauert, gehen Sie vorsichtig mit `rm()` um. Um das Environment gänzlich zu leeren können Sie entweder in RStudio den {{< inline_image "/lehre/statistik-i/clear_environment.png" >}} Button (im Tab *Environment*) nutzen oder direkt über die Syntax arbeiten:
-
-
-```r
-rm(list = ls())
-```
-
-Es empfiehlt sich auch hier idealerweise alle Arbeitsschritte mittels Syntax durchzuführen, damit sie dokumentiert und nachvollziehbar sind.
-
-Natürlich können wir die Objekterstellung auch mit der Schachtelung von Befehlen und der Pipe nach Belieben kombinieren. Wenn wir z.B. in drei Schritten ein Ergebnis erzeugen wollen, was wir später noch brauchen könnten, können wir das Ergebnis durch eine Pipe erstellen und dann als Objekt ablegen:
-
-
-```r
-my_num <- sum(3, 4, 1, 2) |> sqrt() |> log()
-my_num
-```
-
-```
-## [1] 1.151293
-```
-
-Eine Frage, die R-Studio Ihnen häufig stellt ist, ob sie das Environment speicher wollen, wenn Sie R-Studio schließen. Generell würde ich Ihnen davon abraten. Das hat zwei einfache Gründe:
-
-1. Sie halten Ihren Arbeitsplatz (ihr `Environment`) aufgeräumt und es fällt ihnen leichter, den Überblick zu behalten, wenn Sie mit einer leeren Umgebung beginnen.
-2. Ihre Syntax bleibt für Andere anwendbar und Ihre Ergebnisse sind reproduzierbar, wenn alles was nötig ist im Skript passiert und Sie sich nicht darauf verlassen müssen, dass bestimmte Dinge schon im Environment liegen.
-
-Gerade 1. kann Ihnen dabei Helfen Fehler zu umgehen, die nur auftreten, weil Sie vor 4 Monaten mal ein Objekt mit einem spezifischen Namen erzeugt haben, was einfach immer noch im gespeicherten Environment rumliegt.
-
-***
-
-## Daten
-
-Um zu verstehen, wie Daten in R funktionieren, nutzen wir als Beispiel ein klassisches Experiment aus der Psychologie: den Stroop Test. Die Grundidee lässt sich am leichtesten in einem Bild darstellen:
-
-![](stroop.png)
-
-Der Stroop-Effekt ist der Unterschied zwischen der durchschnittlichen Zeit, die man benötigt um die Farbe zu nennen, in der ein Wort abgebildet ist - je nachdem ob die Farbe und das Wort gleich sind oder nicht. Wenn Sie über den Stroop Test mehr erfahren möchten, oder ihn selbst mal ausprobieren wollen, finden Sie bei [Psytoolkit](https://www.psytoolkit.org/lessons/stroop.html) Informationen und eine Online-Variante des Tests.
-
-{{< intext_anchor Vektoren >}}
-Nehmen wir an, Sie hätten für dieses einfache Beispiel die acht Reaktionszeiten gemessen und diese wären (in Millisekunden): 510, 897, 647, 891, 925, 805, 443 und 778. Um diese Daten in R aufzunehmen können Sie folgendes machen:
-
-
-```r
-react <- c(510, 897, 647, 891, 925, 805, 443, 778)
-```
-
-`c()` ist eine Funktion mit der alle Argumente (in diesem Fall acht Reaktionszeiten) in ein gemeinsames Objekt zusammengeführt werden. Dieses Objekt ist ein Vektor - eine eindimensionale Datenreihe. Daten können unterschiedliche Formate haben - welches Format vorliegt erfahren wir mit
-
-
-```r
-class(react)
-```
-
-```
-## [1] "numeric"
-```
-
-Wir erfahren also, dass es sich um ein numerisches Objekt handelt. Um ein wenig detailliertere Information zu erhalten können wir `str` nutzen:
-
-
-```r
-str(react)
-```
-
-```
-##  num [1:8] 510 897 647 891 925 805 443 778
-```
-
-Wir erhalten als Ergebnis die *Struktur* des Objektes. In diesem Fall handelt es sich um ein numerisches (`num`) Objekt mit Elementen 1 bis 8 (`[1:8]`) und dem angezeigten Inhalt. Bei großen Objekten werden nicht alle, sondern nur die ersten paar Elemente hier angezeigt.
-
-Im Kern werden in R drei Typen von Vektoren unterschieden:
-
-Typ | Kurzform | Inhalt
---- | -------- | ------
-`logical` | `logi` | wahr (`TRUE`) oder falsch (`FALSE`)
-`numeric` | `num` | Beliebige Zahlen
-`character` | `char` | Kombinationen aus Zahlen und Buchstaben
-
-Um die Reaktionszeiten in `react` interpretieren zu können, müssen sie mit der jeweiligen Farbe, in der Wort abgebildet ist, in Verbindung gebracht werden. Dafür bietet sich ein `character` Vektor an:
-
-
-```r
-color <- c('gruen', 'gelb', 'blau', 'gruen', 'gelb', 'blau', 'rot', 'rot')
-```
-
-Um zu prüfen, ob ein Objekt einen erwarteten Typ hat, können wir mit Funktionen vor den Typ-Namen `is.` schreiben und das als Funktion anwenden:
-
-
-```r
-is.character(color)
-```
-
-```
-## [1] TRUE
-```
-
-Das Präfix `as.` wandelt dann Vektoren von ihrem bisherigen Typ in den angegebenen Typ um:
-
-
-```r
-as.character(react)
-```
-
-```
-## [1] "510" "897" "647" "891" "925" "805" "443" "778"
+##  int [1:159] 1 2 2 2 1 NA 2 1 1 1 ...
 ```
 
 ```r
-as.numeric(color)
+fb22$geschl
 ```
 
 ```
-## Warning: NAs introduced by coercion
+##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2  2  1  1  1  1  1  1  1  1  1  2  1 NA  1  1  1  1
+##  [30]  1  2  1  1  1  1  1  1  1  2  1  1  1  1  1  1  1  1  1  1  1  1  1  1 NA  1  2  1  2
+##  [59]  1  1  1  2  1 NA NA  1  3  1  1  1  1  1  1  1  1  1  1  1  2  2  2  1  2  2  1  1  1
+##  [88]  1  1  1  1  1  1  1 NA  1  1  1  1  1  1 NA  2  1  1  1  1 NA  1 NA  1  1  2  1  1  1
+## [117]  1  1  1  1  1  1  1  1  1  2  1  1 NA  2  1  2  1  1  1  1  1  1  1  1  1  1  1  1  1
+## [146]  1  1  1  1  1  1  1  1  1  1  1  2  1  1
 ```
 
-```
-## [1] NA NA NA NA NA NA NA NA
-```
+Die Variable `geschl` liegt numerisch vor, es treten die Werte 1, 2 und 3 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/post/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "weiblich". Diese *Label* werden nun im Faktor hinterlegt.
 
-Wie man sieht funktionieren Umwandlungen aber nicht beliebig - in diesem Fall gibt es keine sinnvolle, numerische Repräsentation der Farben (mehr dazu erfahren Sie in der ersten Sitzung der Vorlesung).
+Vorgehensweise:   
 
-Als dritte Information benötigen wir in unserem Experiment den Text des Wortes:
-
-
-```r
-text <- c('gruen', 'blau', 'blau', 'rot', 'gelb', 'gruen', 'rot', 'gelb')
-```
-
-Die Kernaussage des Stroop-Effekts ist, dass Reaktionszeiten langsamer sind, wenn Farbe und Wort inkongruent sind (also wenn `color` und `text` ungleich sind) als wenn sie kongruent sind (wenn `color` und `text` gleich sind). Wie zuvor gesehen, können wir logische Operatoren nutzen um diesen Abgleich durchzuführen. Eine der großen Stärken von R ist, dass diese Abgleiche nicht nur funktionieren, wenn wir einzelne Elemente vergleichen, sondern auch, wenn wir ganze Vektoren vergleichen:
-
-
-```r
-cong <- color == text
-cong
-```
-
-```
-## [1]  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE
-```
-
-In `cong` ist das Ergebnis des elementenweisen Vergleichs von `color` und `text` enthalten. Wir sehen also, dass das erste Wort kongruent war (`gruen == gruen`), das zweite Wort inkongruent (`gelb != blau`) usw. Wir können einfach zeigen, dass es sich hier um einen logischen Vektor handelt:
+* Erstellung einer neuen Variable im Datensatz per Objektzuweisung: `datensatz$neueVariable <- factor(...)`  
+* Faktor erstellen mit der Funktion `factor(Ausgangsvariable, levels = Stufen, labels = Label)` 
+* Spezifikation der Faktorstufen im Argument `levels`, also der numerischen Ausprägungen auf der Ursprungsvariable (hier: 1, 2 und 3)  
+* Spezifikation des Arguments `labels`, also die Label für die in `levels` hinterlegten numerischen Stufen (hier: "weiblich", "männlich", "anderes"; unbedingt auf gleiche Reihenfolge achten!)
 
 
 ```r
-is.logical(cong)
+fb22$geschl_faktor <- factor(fb22$geschl,                                   # Ausgangsvariable
+                             levels = 1:3,                                  # Faktorstufen
+                             labels = c("weiblich", "männlich", "anderes")) # Label für Faktorstufen
+str(fb22$geschl_faktor)
 ```
 
 ```
-## [1] TRUE
-```
-
-Eine Sonderform eines Vektors in R ist der `factor`. Diese Form wird genutzt um nominal- und ordinalskalierte Variablen (mehr dazu in der Vorlesung!) sinnvoll zu speichern. Das wird dadurch erreicht, dass ein `factor` eigentlich numerisch ist, aber gleichzeitig für jede Zahl ein sog. "Label" vergibt. Den `color` Vektor, beispielsweise, können wir mit `as.factor` von einem `character` in einen `factor` umwandeln:
-
-
-```r
-color_fac <- as.factor(color)
-str(color_fac)
-```
-
-```
-##  Factor w/ 4 levels "blau","gelb",..: 3 2 1 3 2 1 4 4
-```
-
-In diesem Fall werden die ursprünglichen Farben in Zahlenwerte übertragen und es wird anhand des Labels (`"blau", "gelb", ...`) verdeutlicht welche Zahl welche Farbe repräsentiert. Um alle möglichen Ausprägungen (Engl. levels) der Variable zu sehen:
-
-
-```r
-levels(color_fac)
-```
-
-```
-## [1] "blau"  "gelb"  "gruen" "rot"
-```
-
-Wir sehen also, dass die Variable vier mögliche Ausprägungen hat. Die Zahlen werden entsprechend der Reihenfolge dieser `levels` vergeben. Bei der Umwandlung eines `character` Vektors in einen `factor` werden die `levels` dabei einfach alphabetisch sortiert. Um diese Abfolge zu ändern, können wir mit `relevel()` bestimmen, welche Ausprägung den Wert `1` erhalten soll:
-
-
-```r
-relevel(color_fac, 'gruen')
-```
-
-```
-## [1] gruen gelb  blau  gruen gelb  blau  rot   rot  
-## Levels: gruen blau gelb rot
-```
-
-Beachten Sie, dass hier - wie immer in R - durch das ausführen der Funktion keine Veränderung am Objekt vorgenommen wird! Wenn wir diese veränderte Variante speichern wollen, müssen wir dafür ein Objekt anlegen (entweder ein Neues oder das Alte überschreiben).
-
-Durch die duale Zuordnung von Zahlen und Labels zum Vektor können `factor` sehr einfach sowohl in numerische Vektoren, als auch `character` Vektoren umgewandelt werden:
-
-
-```r
-as.numeric(color_fac)
-```
-
-```
-## [1] 3 2 1 3 2 1 4 4
+##  Factor w/ 3 levels "weiblich","männlich",..: 1 2 2 2 1 NA 2 1 1 1 ...
 ```
 
 ```r
-as.character(color_fac)
+head(fb22$geschl_faktor)
 ```
 
 ```
-## [1] "gruen" "gelb"  "blau"  "gruen" "gelb"  "blau"  "rot"   "rot"
+## [1] weiblich männlich männlich männlich weiblich <NA>    
+## Levels: weiblich männlich anderes
 ```
 
-Wie wir im Verlauf des Semesters sehen werden, haben beide Umwandlungen Konsequenzen für die Berechnungen, die wir durchführen können.
 
-***
+**Beispiel 2: Lieblingsfach (numerisch) als Faktor aufbereiten**
 
-## Daten zusammenführen {#Mehrdimensional .anchorheader}
+Analog dazu wird nachfolgend die ebenfalls numerische Variable `fach` in einen Faktor umgewandelt. Sie wurde wie folgt erhoben:
 
-Im Environment liegen jetzt fünf Vektoren (und unsere Zahl, die wir vor einiger Zeit einzeln abgelegt hatten):
+![](/lehre/statistik-i/fb_nominal.png)
 
-
-```r
-ls()
-```
-
-```
-## [1] "color"     "color_fac" "cong"      "my_num"    "react"     "text"
-```
-
-Weil diese Vektoren zusammengehören, wäre es sinnvoll, sie zu einem Objekt zu kombinieren. Wie auch bei Vektoren, gibt es unterschiedliche Typen Daten zu kombinieren, allerdings sind ihre Relationen zueinander ein wenig komplizierter:
-
-Typ | Dimensionen | Inhalt
---- | --------------- | ------
-`matrix` | 2 | Vektoren des gleichen Typs
-`array` | $n$ | Vektoren des gleichen Typs
-`data.frame` | 2 | Vektoren der gleichen Länge
-`list` | 1 | Beliebige Objekte
-
-Die Datentypen werden nach oben restriktiver - sie schränken die Kombinationsmöglichkeiten von Daten ein, werden dabei aber effizienter in der Datenverarbeiten (bezogen auf Rechenkapazitäten). In der Psychologie ist der `data.frame` die häufigste Variante Daten zu speichern. Besonders bei sehr großen Datensätzen (wie sie z.B. in der modernen neurokognitiven Psychologie entstehen) bietet es sich allerdings an mit `matrix` zu arbeiten.
-
-Aus der Tabelle lässt sich leicht schließen, dass eine `matrix` ein Sonderfall eines `array` ist - Daten werden auf zwei Dimensionen restringiert. Vielleicht weniger eindeutig ist die Beziehung zwischen `data.frame` und `list`. Ein `data.frame` ist der Sonderfall einer `list` in dem alle Elemente die gleiche Länge haben.
-
-Wir können damit beginnen, eine `matrix` zu erstellen. Dafür können wir zwei Vektoren des gleichen Typs kombinieren. Im Stroop Beispiel sind `color` und `text` beide vom Typ `character`:
 
 
 ```r
-class(color)
+fb22$fach
 ```
 
 ```
-## [1] "character"
+##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2  2  2  4  3  2  3  4  4  1  3  4  4 NA  3 NA  2  3
+##  [30]  4  4  1  3  2  1  3  1 NA  2  4  4  4  4  4  4  1  4  1  3  1  1  3  4 NA  4  2  4  4
+##  [59]  4  4  3  4  2 NA NA  4  4  3  4  3  4  3  3  1  3  4  4  4  3  3  4  2  3  3  2  3  4
+##  [88]  2  4  3  4  2  3  3 NA  4  2  4  2  2  4 NA  2  3  2  1  1  3  5 NA  4  5  1  1  4  4
+## [117]  3  2  2  2 NA  3  5  4  3  5  2  4 NA  1  4  3  3  5  4  1  4  4  2  3  3  4  3  2  4
+## [146]  4  4  4  4  5  2  1  3  1  2  3  4  4  4
 ```
 
-```r
-class(text)
-```
-
-```
-## [1] "character"
-```
-
-```r
-class(color) == class(text)
-```
-
-```
-## [1] TRUE
-```
-
-Um die Matrix zu erstellen, können wir entweder direkt den `matrix`-Befehl nutzen oder eine der beiden `bind()`-Funktionen benutzen. Um Vektoren als Spalten (Engl. *columns*) zusammenzuführen, steht `cbind()` zur Verfügung. Um Vektoren hingegen als Zeilen (Engl. *rows*) zusammenzuführen, können wir `rbind()` nutzen. Typischerweise werden psychologische Daten so gehandhabt, dass verschiedene Beobachtungen (z.B. unterschiedliche Personen) in Zeilen und verschiedene Variablen in Spalten abgetragen werden. In unserem Fall haben wir acht Beobachtungen (jeder Vektor ist acht Einträge lang) und zwei Variablen (`color` und `text`). Daher sollten wir in diesem Fall mit `cbind()` arbeiten:
+Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
 
 
 ```r
-mat <- cbind(color, text)
-mat
+fb22$fach <- factor(fb22$fach,
+                    levels = 1:5,
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
+str(fb22$fach)
 ```
 
 ```
-##      color   text   
-## [1,] "gruen" "gruen"
-## [2,] "gelb"  "blau" 
-## [3,] "blau"  "blau" 
-## [4,] "gruen" "rot"  
-## [5,] "gelb"  "gelb" 
-## [6,] "blau"  "gruen"
-## [7,] "rot"   "rot"  
-## [8,] "rot"   "gelb"
+##  Factor w/ 5 levels "Allgemeine","Biologische",..: 5 4 1 4 2 NA 1 4 3 4 ...
 ```
 
-Das resultierende Objekt ist eine Matrix:
+Hinweis: In Beispiel 2 wurde die Ursprungsvariable mit dem Faktor überschrieben. Sie ist nun verschwunden, der Datensatz enthält nur noch den Faktor, nicht mehr die numerische Variable.
 
 
-```r
-class(mat)
-```
+**Beispiel 3: Einen character-Vektor als Faktor aufbereiten**
 
-```
-## [1] "matrix" "array"
-```
+Um einen character-Vektor in einen Faktor umzukodieren, kann die Funktion `as.factor()` verwendet werden (siehe Skript zur Lehreinheit 1). Die Ausprägungen werden dann automatisch als Labels übernommen. Die numerischen Stufen (`levels`) werden anhand der alphabetischen Reihenfolge der `labels` vergeben. 
 
-Weil Matrizen aber Sonderfälle von Arrays sind, ist dieses Objekt auch ein Array! Was es hingegen nicht ist, ist ein `data.frame` oder eine `list`.
+Nachfolgend wird zur Illustration die offene Freitextantwort zum Grund für das Psychologiestudium (Variable `grund`) in einen Faktor umgewandelt. 
 
 
 ```r
-is.array(mat)
+str(fb22$grund)                            # Ursprungsvariable: Character
 ```
 
 ```
-## [1] TRUE
-```
-
-```r
-is.data.frame(mat)
-```
-
-```
-## [1] FALSE
+##  chr [1:159] "Interesse" "Allgemeines Interesse schon seit der Kindheit" ...
 ```
 
 ```r
-is.list(mat)
+fb22$grund_faktor <- as.factor(fb22$grund) # Umwandlung in Faktor
+str(fb22$grund_faktor)                     # neue Variable: Faktor
 ```
 
 ```
-## [1] FALSE
+##  Factor w/ 135 levels " Ich habe schon lange ein großes Interesse an der Psychologie",..: 62 9 102 113 51 70 26 87 24 90 ...
 ```
 
-Weil in einer `matrix` nur Vektoren des gleichen Typs kombiniert werden können, führt `cbind()` dazu, dass Vektoren in den allgemeinsten, gemeinsamen Fall umgewandelt werden, bevor sie als Matrix zusammengeführt werden. Wie wir bereits gesehen haben, sind die "klassischen" Typen von Vektoren in R von spezifisch zu allgemein `logical` -> `numeric` -> `character`. In diesem Fall ist werden also alle Vektoren in `character` umgewandelt:
 
+Die neue Variable ist nun ein Faktor mit 135 Stufen. Das Vorgehen ist nur zur Anschauung gedacht und in diesem speziellen Fall nicht sinnvoll, da jede einzelne Freitextantwort vermutlich nur genau einmal vorkommt und später sowieso nicht (ohne zusätzliche Kodierung) in statistischen Analysen weiterverwendet werden kann.
 
-```r
-mat <- cbind(color, text, cong, react)
-mat
-```
+Wir haben nun also gelernt, dass Faktoren auf verschiedene Weisen erstellt werden können. Wir benutzen nun die Funktion `factor()`, wenn unsere Variable zunächst nur `numerisch` vorlag (Beispiele 1 und 2) und wir eine Bedeutung zuordnen wollen. Wenn die Variable als `character` (Beispiel 3 und Intro-Sitzung), nutzen wir die Funktion `as.factor()`.
 
-```
-##      color   text    cong    react
-## [1,] "gruen" "gruen" "TRUE"  "510"
-## [2,] "gelb"  "blau"  "FALSE" "897"
-## [3,] "blau"  "blau"  "TRUE"  "647"
-## [4,] "gruen" "rot"   "FALSE" "891"
-## [5,] "gelb"  "gelb"  "TRUE"  "925"
-## [6,] "blau"  "gruen" "FALSE" "805"
-## [7,] "rot"   "rot"   "TRUE"  "443"
-## [8,] "rot"   "gelb"  "FALSE" "778"
-```
+**Hinweise zu den Levels und Labels**
 
-Dadurch verlieren wir aber die Möglichkeit, `react` als numerische Variable zu nutzen. Das bedeutet, dass wir nach der Umwandlung keine mathematischen Berechnungen (und demzufolge auch nur noch limitierte statistische Analysen) mit der neuen Variable durchführen können. Um die Typen von Vektoren zu erhalten und so Unterschiede im Messniveau zwischen Variablen in den gespeicherten Daten zu berücksichtigen, wird meistens `data.frame()` genutzt:
+Die Reihenfolge von Levels und Labels ergibt sich während der Faktorerstellung:
+
+* bei numerischen Variablen: entspricht den Ausprägungen der numerischen Ursprungsvariable  
+* bei character-Variablen: entspricht der alphabetischen Reihenfolge der Ausprägungen auf der Ursprungsvariable  
+
+Die Labels eines Faktors können mit der Funktion `levels()` abgerufen werden. Die Reihenfolge kann mithilfe der `relevel()`-Funktion geändert werden. Dafür muss dasjenige Label angesprochen werden, das die erste Position einnehmen soll (hier: 'Diag./Meth.').
 
 
 ```r
-dat <- data.frame(color, text, cong, react)
-dat
+levels(fb22$fach)         # Abruf
 ```
 
 ```
-##   color  text  cong react
-## 1 gruen gruen  TRUE   510
-## 2  gelb  blau FALSE   897
-## 3  blau  blau  TRUE   647
-## 4 gruen   rot FALSE   891
-## 5  gelb  gelb  TRUE   925
-## 6  blau gruen FALSE   805
-## 7   rot   rot  TRUE   443
-## 8   rot  gelb FALSE   778
+## [1] "Allgemeine"  "Biologische" "Entwicklung" "Klinische"   "Diag./Meth."
 ```
 
 ```r
-str(dat)
-```
-
-```
-## 'data.frame':	8 obs. of  4 variables:
-##  $ color: chr  "gruen" "gelb" "blau" "gruen" ...
-##  $ text : chr  "gruen" "blau" "blau" "rot" ...
-##  $ cong : logi  TRUE FALSE TRUE FALSE TRUE FALSE ...
-##  $ react: num  510 897 647 891 925 805 443 778
-```
-
-Wie bereits geschildert, müssen alle Vektoren, die zu einem `data.frame` zusammengeführt werden die gleiche Länge haben. Wenn wir also einen Vektor erstellen, der nur 3 Einträge hat, können wir keinen gemeinsamen Datensatz erzeugen:
-
-
-```r
-three <- c(1, 2, 3)
-data.frame(color, text, cong, react, three)
-```
-
-```
-## Error in data.frame(color, text, cong, react, three): arguments imply differing number of rows: 8, 3
-```
-
-Dazu gibt es jedoch eine, sehr spezifische, Ausnahme. Es ist möglich, dass Vektoren unterschiedliche Längen haben, wenn die längere Länge ein Vielfaches der kürzeren Länge ist. Wenn wir also einen Vektor mit 4 Elementen erstellen:
-
-
-```r
-four <- c(three, 4)
-data.frame(color, text, cong, react, four)
-```
-
-```
-##   color  text  cong react four
-## 1 gruen gruen  TRUE   510    1
-## 2  gelb  blau FALSE   897    2
-## 3  blau  blau  TRUE   647    3
-## 4 gruen   rot FALSE   891    4
-## 5  gelb  gelb  TRUE   925    1
-## 6  blau gruen FALSE   805    2
-## 7   rot   rot  TRUE   443    3
-## 8   rot  gelb FALSE   778    4
-```
-
-In diesen Fällen wird der kurze Vektor solange wiederholt, bis er genauso lang ist, wie der lange Vektor.
-
-***
-
-## Datenextraktion {#Extrahieren .anchorheader}
-
-Bisher haben wir uns mit dem Zusammenführen von Daten befasst, wie es bei der Datensammlung üblich ist. Bei der Datenauswertung und -inspektion kann es aber genauso wichtig sein, Einzelteile von Datensätzen zu extrahieren.
-
-Der einfachste Fall in R ist die Extraktion eines Elements aus einem Vektor. Dazu können wir noch einmal die Struktur eines Vektors inspizieren:
-
-
-```r
-str(react)
-```
-
-```
-##  num [1:8] 510 897 647 891 925 805 443 778
-```
-
-Die `[1:8]` zeigt uns, wie viele Elemente im Vektor enthalten sind und die Klammern zeigen uns, wie diese Elemente angesprochen werden können:
-
-
-```r
-react[5]
-```
-
-```
-## [1] 925
-```
-
-So erhalten wir das fünfte Element aus dem Vektor. Mit einzelnen Zahlen in den eckigen Klammern können also direkt einzelne Elemente ausgewählt werden. Umgekehrt können auch einzelne Elemente ausgeschlossen werden:
-
-
-```r
-react[-5]
-```
-
-```
-## [1] 510 897 647 891 805 443 778
-```
-
-In den Klammern müssen aber nicht nur einzelne Elemente stehen. Wie beinahe Alles in R, lässt sich eine Funktionsweise einzelner Elemente auch auf ganze Vektoren übertragen. Wir können also einen Selektionsvektor nutzen, um mehrere Elemente auszuwählen:
-
-
-```r
-sel <- c(1, 3, 5)
-react[sel]
-```
-
-```
-## [1] 510 647 925
-```
-
-Wie bei allen Dingen, brauchen wir nicht zwingend das Objekt `sel` anlegen, sondern können Funktionen schachteln:
-
-
-```r
-react[c(1, 3, 5)]
-```
-
-```
-## [1] 510 647 925
-```
-
-Weil es bei großen Datensätzen oder über unterschiedliche Datensätze hinweg selten vorkommt, dass wir spezifische Positionen von relevanten Elementen kennen, können Vektoren auch logisch gefiltert werden. Das bedeutet, dass wir anhand eines logischen Vektors mit der gleichen Länge wie unser Zielvektor über `TRUE` und `FALSE` Elemente auswählen können. Einen solchen Vektor haben wir bereits erstellt, nämlich `cong` der kongruente Farbe-Wort Paare kennzeichnet. Um also alle kongruenten Reaktionszeiten auszuwählen:
-
-
-```r
-react[cong]
-```
-
-```
-## [1] 510 647 925 443
-```
-
-Oder auch das Gegenteil:
-
-
-```r
-react[!cong]
-```
-
-```
-## [1] 897 891 805 778
-```
-
-Weil Vektoren eindimensional sind, benötigen wir zur Auswahl von Elementen nur eine Information. Bei `matrix` und `data.frame` sieht das natürlich anders aus. Hier nochmal der zuvor erstellte `data.frame`:
-
-
-```r
-dat
-```
-
-```
-##   color  text  cong react
-## 1 gruen gruen  TRUE   510
-## 2  gelb  blau FALSE   897
-## 3  blau  blau  TRUE   647
-## 4 gruen   rot FALSE   891
-## 5  gelb  gelb  TRUE   925
-## 6  blau gruen FALSE   805
-## 7   rot   rot  TRUE   443
-## 8   rot  gelb FALSE   778
-```
-
-Er hat also 8 Zeilen und 4 Spalten. Um z.B. die 5. Reaktionszeit auszuwählen, müssen wir das Element in der 5. Zeile und 4. Spalte ansprechen. Bei mehrdimensionalen Objekten werden in R die Dimensionen in eckigen Klammern einfach durch Kommata getrennt:
-
-
-```r
-dat[5, 4]
-```
-
-```
-## [1] 925
-```
-
-In R-Termini nimmt die Auswahlfunktion (die eckigen Klammern) in diesem Fall zwei Argumente entgegen: Zeile und Spalte. Wenn ein Argument ausgelassen wird, ist die Voreinstellung, dass alle Elemente dieser Dimension ausgegeben werden:
-
-
-```r
-dat[1, ]   # 1. Zeile, alle Spalten
-```
-
-```
-##   color  text cong react
-## 1 gruen gruen TRUE   510
-```
-
-```r
-dat[, 1]   # Alle Zeilen, 1. Spalte
-```
-
-```
-## [1] "gruen" "gelb"  "blau"  "gruen" "gelb"  "blau"  "rot"   "rot"
-```
-
-Wie bei Vektoren, kann die Auswahl wieder über verschiedene Kombinationen aus Auswahlvektoren und einzelnen Elementen erfolgen:
-
-
-```r
-dat[c(2, 3), 3]   # 2. und 3. Zeile, 3. Spalte
-```
-
-```
-## [1] FALSE  TRUE
-```
-
-```r
-dat[cong, ]       # Alle kongruenten Zeilen, alle Spalten
-```
-
-```
-##   color  text cong react
-## 1 gruen gruen TRUE   510
-## 3  blau  blau TRUE   647
-## 5  gelb  gelb TRUE   925
-## 7   rot   rot TRUE   443
-```
-
-Um herauszufinden, wieivel Zeilen und Spalten ein Datensatz hat, gibt es die beiden Funktionen:
-
-
-```r
-nrow(dat)    # Anzahl der Zeilen
-```
-
-```
-## [1] 8
-```
-
-```r
-ncol(dat)    # Anzahl der Spalten
-```
-
-```
-## [1] 4
-```
-
-```r
-dim(dat)     # Alle Dimensionen
-```
-
-```
-## [1] 8 4
-```
-
-
-In `data.frame` sind die einzelnen Spalten üblicherweise benannt, weil es sinnvoll ist Variablen spezifische Namen zu geben. Um diese Namen abfragen zu können, gibt es die `names()` Funktion:
-
-
-```r
-names(dat)
-```
-
-```
-## [1] "color" "text"  "cong"  "react"
-```
-
-Wenn wir also spezifische Variablen aus einem Datensatz auswählen möchten, können wir diese auch über ihren Namen ansprechen:
-
-
-```r
-dat[, 'react']                # Einzelne Variable auswählen
-```
-
-```
-## [1] 510 897 647 891 925 805 443 778
-```
-
-```r
-dat[, c('react', 'cong')]     # Mehrere Variable auswählen
-```
-
-```
-##   react  cong
-## 1   510  TRUE
-## 2   897 FALSE
-## 3   647  TRUE
-## 4   891 FALSE
-## 5   925  TRUE
-## 6   805 FALSE
-## 7   443  TRUE
-## 8   778 FALSE
-```
-
-Beachten Sie hierbei, dass die Variablennamen in Anführungszeichen stehen müssen, da die Variable sonst als Filtervektor genutzt wird! Als Kurzform für die Auswahl einzelner Variable wird in R häufig das `$` genutzt:
-
-
-```r
-dat$react
-```
-
-```
-## [1] 510 897 647 891 925 805 443 778
+fb22$fach <- relevel(
+  fb22$fach,              # Bezugskategorie wechseln
+  'Diag./Meth.')          # Neue Bezugskategorie
 ```
 
 ***
 
-## Daten verändern und hinzufügen {#Hinzu .anchorheader}
+## Häufigkeitstabellen
 
-Der Zuweisungspfeil funktioniert auch für Elemente größerer Objekte. Nehmen wir an, wir hätten uns bei der Eingabe der 5. Reaktionszeit vertippt und diese sei eigentlich 725 ms gewesen. Um die vorhandenen Daten zu überschreiben, können wir neue Werte direkt zuweisen. Auch hier sollte beachtet werden, dass es dabei keinerlei Warnung und Absicherung gibt. Sobald die Zuweisung ausgeführt ist, sind die Daten überschrieben und die vorherigen Daten verloren.
+Eine deskriptivstatistische Möglichkeit zur Darstellung diskreter (zählbarer) nominalskalierter Variablen sind Häufigkeitstabellen. Diese können in `R` mit der Funktion `table()` angefordert werden.
 
 
-```r
-dat[5, 'react']           # Aktuellen Inhalt abfragen
-```
-
-```
-## [1] 925
-```
-
-```r
-dat[5, 'react'] <- 725    # Aktuellen Inhalt überschreiben
-dat[, 'react']            # Alle Reaktionszeiten abfragen
-```
-
-```
-## [1] 510 897 647 891 725 805 443 778
-```
-
-Mit eckigen Klammern und `$` können auch Zeilen und Spalten angesprochen werden, die noch nicht existieren. Dieser Ansatz kann z.B. genutzt werden um eine neue Variable zu erstellen. Wenn wir, beispielsweise auch Inkongruenz explizit als Variable im Datensatz aufnehmen wollen, können wir diese Variable direkt erzeugen.
+**Absolute Häufigkeiten**
 
 
 ```r
-dat$incong <- !dat$cong
-dat
+table(fb22$fach)
 ```
 
 ```
-##   color  text  cong react incong
-## 1 gruen gruen  TRUE   510  FALSE
-## 2  gelb  blau FALSE   897   TRUE
-## 3  blau  blau  TRUE   647  FALSE
-## 4 gruen   rot FALSE   891   TRUE
-## 5  gelb  gelb  TRUE   725  FALSE
-## 6  blau gruen FALSE   805   TRUE
-## 7   rot   rot  TRUE   443  FALSE
-## 8   rot  gelb FALSE   778   TRUE
+## 
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
+##           7          19          27          37          57
 ```
 
-Per Voreinstellung werden neue Variablen an die letzte Stelle des Datensatzes aufgenommen. Das Gleiche können wir auch mit neuen Zeilen machen. Hierfür müssen wir eine komplette Zeile mit den korrekten Variablen eingeben.
+Häufig sind relative Häufigkeiten informativer. Nachfolgend werden zwei Möglichkeiten zur Erstellung von relativen Häufigkeitstabellen in `R` gezeigt.
+
+
+**Relative Häufigkeiten (manuell)**
+
+Relative Häufigkeiten können aus absoluten Häufigkeiten abgeleitet werden: $h_j = \frac{n_j}{n}$.
+
+Diese einfache Rechenvorschrift (Kategorienhäufigkeit geteilt durch Gesamthäufigkeit) kann auf das gesamte Tabellenobjekt angewendet werden. So wird jede einzelne absolute Kategorienhäufigkeit am Gesamtwert relativiert, es resultiert eine Tabelle der relativen Häufigkeiten.
 
 
 ```r
-dat[9, ] <- c('gelb', 'gruen', FALSE, 824, TRUE)
-dat
+tab <- table(fb22$fach) # Absolute Haeufigkeiten
+sum(tab)                # Gesamtzahl
 ```
 
 ```
-##   color  text  cong react incong
-## 1 gruen gruen  TRUE   510  FALSE
-## 2  gelb  blau FALSE   897   TRUE
-## 3  blau  blau  TRUE   647  FALSE
-## 4 gruen   rot FALSE   891   TRUE
-## 5  gelb  gelb  TRUE   725  FALSE
-## 6  blau gruen FALSE   805   TRUE
-## 7   rot   rot  TRUE   443  FALSE
-## 8   rot  gelb FALSE   778   TRUE
-## 9  gelb gruen FALSE   824   TRUE
+## [1] 147
 ```
 
-Um Zeilen oder Spalten aus einem `data.frame` zu "entfernen" muss eine Kopie des `data.frame` angelegt werden, in dem dieser Inhalt nicht vorhanden ist. Diese Kopie kann auch genutzt werden um den ursprünglichen `data.frame` zu überschreiben und so Dinge zu entfernen:
+```r
+tab / sum(tab)          # Relative Haeufigkeiten
+```
+
+```
+## 
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
+##  0.04761905  0.12925170  0.18367347  0.25170068  0.38775510
+```
+
+**Relative Häufigkeiten (per Funktion)**
+
+Alternativ kann die Funktion `prop.table()` auf das Tabellenobjekt mit den absoluten Häufigkeiten angewendet werden.
 
 
 ```r
-dat <- dat[-9, ]    # Datensatz ohne die 9. Zeile
-dat
+tab <- table(fb22$fach) # Absolute
+prop.table(tab)         # Relative
 ```
 
 ```
-##   color  text  cong react incong
-## 1 gruen gruen  TRUE   510  FALSE
-## 2  gelb  blau FALSE   897   TRUE
-## 3  blau  blau  TRUE   647  FALSE
-## 4 gruen   rot FALSE   891   TRUE
-## 5  gelb  gelb  TRUE   725  FALSE
-## 6  blau gruen FALSE   805   TRUE
-## 7   rot   rot  TRUE   443  FALSE
-## 8   rot  gelb FALSE   778   TRUE
+## 
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
+##  0.04761905  0.12925170  0.18367347  0.25170068  0.38775510
+```
+
+Ungefähr 4.76% Ihres Jahrgangs geben als Lieblingsfach "Diagnostik/Methoden" an! Vielleicht können wir ja noch mehr von Ihnen mit dem nächsten Thema begeistern. :-)
+
+***
+
+## Grafiken in `R`
+
+<img src="/lehre/statistik-i//deskriptiv-nominal-ordinal_files/figure-html/comic-barplot-1.png" alt="plot of chunk comic-barplot" style="display: block; margin: auto;" />
+
+Die Darstellung als Tabelle wirkt häufig langweilig. Zu viele Tabellen in einem Bericht / einer Arbeit schrecken Leser:innen meist ab. Nachfolgend werden mögliche grafische Darstellungsformen für diskrete nominalskalierte Variablen gezeigt. Hierfür haben Sie in der Vorlesung die Optionen eines Balken- bzw. Säulendiagramms und eines Tortendiagramms kennengelernt.
+
+
+**Säulen- oder Balkendiagramm**
+
+Die Erstellung ist mit der Funktion `barplot()` möglich. Diese braucht zunächst nur ein Tabellenobjekt als Input, dass die absoluten Häufigkeiten für die verschiedenen Kategorien einer Variable enthält.
+
+
+```r
+barplot(tab)
+```
+
+Die Grafik erscheint in der RStudio-Standardansicht "unten rechts" im Reiter "Plots":
+
+![](/lehre/statistik-i/plots_window.PNG)
+
+<img src="/lehre/statistik-i//deskriptiv-nominal-ordinal_files/figure-html/basic-barplot-1.png" alt="plot of chunk basic-barplot" style="display: block; margin: auto;" />
+
+**Tortendiagramm**
+
+Die Erstellug eines Tortendiagramms ist ebenfalls leicht zu erreichen. Die Funktion heißt `pie()` und braucht denselben Input wie `barplot`. 
+
+
+```r
+pie(tab)
+```
+
+<img src="/lehre/statistik-i//deskriptiv-nominal-ordinal_files/figure-html/basic-pie-1.png" alt="plot of chunk basic-pie" width="60%" style="display: block; margin: auto;" />
+
+In der Vorlesung haben Sie bereits gelernt, dass diese Form der Darstellung aber nicht zu empfehlen ist, weil Erkenntnisse daraus viel schwerer zu ziehen sind. Bei den Zusatzargumenten werden wir uns also nur mit der Funktion `barplot()` beschäftigen.
+
+**Zusatzargumente für Plots**
+
+Die Funktionen zur Erstellung sehr simpler Grafiken sind also denkbar einfach - die Grafiken selbst aber zunächst nicht unbedingt hübsch. `R` bietet diverse Zusatzargumente zur Anpassung der Optik von Grafiken.
+
+Argument | Bedeutung
+--: | :--------
+main | Überschrift
+las | Schriftausrichtung (0, 1, 2, 3)
+col | Farbenvektor
+legend.text | Beschriftung in der Legende
+xlim, ylim | Beschränkung der Achsen
+xlab, ylab | Beschriftung der Achsen
+
+
+**Farben in `R`**
+
+`R` kennt eine ganze Reihe vordefinierter Farben ($N = $ 657) mit teilweise sehr poetischen Namen. Diese können mit der Funktion `colors()` (ohne Argument) abgerufen werden. Hier sind die ersten 20 Treffer:
+
+
+```r
+colors()[1:20]
+```
+
+```
+##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1" "antiquewhite2"
+##  [6] "antiquewhite3" "antiquewhite4" "aquamarine"    "aquamarine1"   "aquamarine2"  
+## [11] "aquamarine3"   "aquamarine4"   "azure"         "azure1"        "azure2"       
+## [16] "azure3"        "azure4"        "beige"         "bisque"        "bisque1"
+```
+
+Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
+
+Zusätzlich können Farbpaletten verwendet werden. Sie bestehen aus einem Farbverlauf, aus dem einzelne Farben "herausgezogen" werden, wodurch ein zusammengehöriges Farbthema in einer Abbildung entsteht. `R` liefert einige dieser Paletten: `rainbow(...)`, `heat.colors(...)`, `topo.colors(...)`, ... Die Farbpalette wird ebenfalls per `col`-Argugment spezifiziert. Technisch handelt es sich um eine Funktion, für die als Argument die Anzahl der Farben spezifiziert werden muss, die aus der Palette "gezogen" werden sollen. Es wäre also so, als würden wir diese 5 Farben per Hand eingeben, nur dass wir die Person entscheiden lassen, die eine Palette programmiert hat Beispielsweise werden mit `col = rainbow(5)` fünf Farben aus der rainbow-Palette gezogen. Der Output würde so aussehen.
+
+
+```r
+rainbow(5)
+```
+
+```
+## [1] "#FF0000" "#CCFF00" "#00FF66" "#0066FF" "#CC00FF"
+```
+
+Die Farben werden hier nicht direkt mit ihrem Namen, sondern mit dem Hex-Code ausgegeben. `#FF0000` steht dabei beispielsweise für ein rot.
+
+**Beispiel für angepasste Abbildung**
+
+
+```r
+barplot(tab,
+        col = rainbow(5),                        # Farbe
+        ylab = 'Anzahl Studierende',             # y-Achse Bezeichnung
+        main = 'Lieblingsfach im 1. Semester',   # Überschrift der Grafik
+        las = 2,                                 # Ausrichtung der Labels
+        cex.names = 0.8)                         # Schriftgröße der Labels
+```
+
+![plot of chunk colored-barplot](figure/colored-barplot-1.png)
+
+Alle verwendeten Argumente (bis auf eines) sind bereits in der Tabelle oben beschrieben. Wir fügen einen Titel zur y-Achse mittels `ylab` hinzu. `main` ist verantwortlich für den Titel der Grafik, während `las` die Beschriftung der Säulen dreht. Das bisher nicht genannte Argument `cex.names` verändert die Schriftgröße für die Beschriftung der Balken. Wenn wir diese nicht anpassen würden, würde die Schrift den Rahmen der Standardeinstellungen für Grafen in `R` sprengen und damit teilweise außerhalb des Bildes stehen. 
+
+Hinweis: Es gibt natürlich noch viele weitere Argumente, mit denen Sie Bestandteile des Diagramms anpassen können. Falls Sie sich beispielsweise fragen, wie sie aus dem Säulendiagramm ein Balkendiagramm machen können, könnten Sie das mit dem Argument `horiz` erreichen. Wenn Sie also die horizontale Ausrichtung der Grafik auf `TRUE` setzen, erhalten Sie horizontale Balken anstatt vertikale Säulen.
+
+**Grafiken speichern**
+
+Es gibt zwei Möglichkeiten, um in `R` erzeugte Grafiken als Bilddatei zu speichern: manuell und per Funktion.  
+
+*Möglichkeit 1: Manuelles Speichern*
+
+Klicken Sie auf die Schaltfläche "Export" und dann auf "Save as Image"...
+
+![](/lehre/statistik-i/Screenshot-Export.PNG)
+
+...und spezifizieren Sie dann Dateiname (ggf. Pfad) und Größe/Größenverhältnis.
+
+![](/lehre/statistik-i/plot_export_2.PNG)
+
+Wenn kein Pfad spezifiziert wird, erscheint die Datei in Ihrem aktuellen Arbeitsverzeichnis.
+
+![](/lehre/statistik-i/Screenshot-jpeg.PNG)
+
+
+*Möglichkeit 2: Speichern mit der Funktion `jpeg("Dateiname.jpg")`*
+
+Auch ohne die grafische Oberfläche von RStudio ist die Erstellung und das Speichern einer Grafik mittels `R` möglich. Zunächst wird das für Euch keinen großen Einfluss haben, da wir nicht nur in der Konsole arbeiten. Wenn jemand sich doch in die Richtung vertieft, ist die Interaktion mit Servern auf Grundlage einer Konsole selten zu vermeiden. Dann könnte auch die folgende Erstellung eine Rolle spielen. 
+
+Wir starten die Erstellung einer Grafik mittels Code mit der `jpeg()`-Funktion. Hierin machen wir sozusagen eine grafische Umgebung auf. In dieser legen wir bereits einige Paramter der Bilddatei fest (wie Höhe, Breite und auch Auflösung). Als nächstes kommt der Code für die Grafik. Diesen haben wir bereits gesehen. Der entstehende Plot wird jetzt in die zuvor erzeugte grafische Umgebung "abgelegt". Mit der Funktion `dev.off()` wird die Erstellung beendet. Die grafische Umgebung (und damit die Entwicklung unserer Bild-Datei) wird damit "geschlossen".  
+
+
+```r
+jpeg("Mein-Barplot.jpg", width=15, height=10, units="cm", res=150) # Eröffnung Bilderstellung
+barplot(tab,
+ col = rainbow(5),
+ ylab = 'Anzahl Studierende',
+ main = 'Lieblingsfach im 1. Semester',
+ las = 2,
+ cex.names = 0.8)
+dev.off()                                                         # Abschluss Bilderstellung
+```
+
+Auch hier gilt: Wenn kein Pfad spezifiziert wurde, liegt die Datei in Ihrem Arbeitsverzeichnis. In der Funktion `jpeg()` kann mit den Argumenten `units` angegeben werden, in welcher Einheit die anderen Argumente zu verstehen sind.
+
+
+***
+
+## Deskriptivstatistische Kennwerte auf Nominalskalenniveau
+
+**Modus**
+
+Der Modus (*Mo*) ist ein Maß der zentralen Tendenz, das die häufigste Ausprägung einer Variable anzeigt. Die Häufigkeiten sind ja schon in der Häufigkeitstabelle enthalten. Man könnte den Modus also einfach ablesen. Das gleiche lässt sich allerdings auch anhand von Funktionen tun:  
+
+
+```r
+tab            # Tabelle ausgeben
+```
+
+```
+## 
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
+##           7          19          27          37          57
+```
+
+```r
+max(tab)       # Größte Häufigkeit
+```
+
+```
+## [1] 57
+```
+
+```r
+which.max(tab) # Modus
+```
+
+```
+## Klinische 
+##         5
+```
+
+Der Modus der Variable `fach` lautet also Klinische, die Ausprägung trat 57 mal auf.
+
+
+**Relativer Informationsgehalt**
+
+Der relative Informationsgehalt ist ein Dispersionsmaß, das schon auf Nominalskalenniveau funktioniert. Dafür gibt es in `R` allerdings keine Funktion! Aus Lehreinheit 1 wissen Sie jedoch, dass `R` als Taschenrechner genutzt werden kann, folglich können beliebig komplexe Gleichungen in `R` umgesetzt werden. Die Formel zur Berechnung des relativen Informationsgehalts $H$ lautet:
+
+$$H = -\frac{1}{\ln(k)} \sum_{j=1}^k{h_j * \ln h_j} $$
+
+Wir benötigen also $h_j$, was die relativen Häufigkeiten der einzelnen Kategorien bezeichnet. Hier haben wir schon gelernt, dass wir diese durch anwenden der Funktion `prop.table` auf unser Objekt `tab` erhalten können. Anschließend muss noch mit der Funktion `log` gearbeitet werden, die den natürlichen Logarithmus als Standardeinstellung berechnet. $k$ ist in diesem Fall die maximale Nummer einer unserer Kategorien - also die Kategorienanzahl 5. Falls wir diese nicht selbst zählen möchten, kann `dim` uns die Anzahl an Spalten in `tab` verraten. Der Rest ist dann nur einfache Multiplikation, Addition und Division.
+
+
+```r
+hj <- prop.table(tab)       # hj erstellen
+ln_hj <- log(hj)            # Logarithmus bestimmen
+ln_hj                       # Ergebnisse für jede Kategorie
+```
+
+```
+## 
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
+##  -3.0445224  -2.0459936  -1.6945957  -1.3795147  -0.9473813
+```
+
+```r
+summand <- ln_hj * hj       # Berechnung für jede Kategorie
+summe <- sum(summand)       # Gesamtsumme
+k <- dim(tab)               # Anzahl Kategorien
+relinf <- -1/log(k) * summe # Relativer Informationsgehalt
+relinf
+```
+
+```
+## [1] 0.8917737
+```
+
+Eine kleine Abkürzung durch Einsparen der Schritte am Ende könnte hier folgendermaßen mittels Pipe erreicht werden:
+
+
+```r
+relinf <- (ln_hj * hj) |> sum() * (-1/log(k))  # Relativer Informationsgehalt
+relinf
+```
+
+```
+## [1] 0.8917737
+```
+
+
+Eine alternative Schreibweise, die ohne Zwischenschritte auskommt, dafür aber in Form von vielen Klammern stark verschachtelt ist, lautet:
+
+
+```r
+- 1/log(dim(table(fb22$fach))) * sum(prop.table(table(fb22$fach)) * log(prop.table(table(fb22$fach))))
+```
+
+```
+## [1] 0.8917737
+```
+
+Wie man hier sieht, stößt die Schachtelung ohne das Speichern von Zwischenergebnissen oder das nutzen der Pipe schnell an die Grenzen der Übersichtlichkeit. 
+
+In allen drei Varianten kommen wir aber zum gleichen Schluss: der relative Informationsgehalt der Variable `fach` beträgt 0.892. Da der mögliche Wertebereich zwischen 0 (für alle Personen selbe Kategorie) und 1 (für alle Kategorien gleich viele Personen) variiert, kann hier von einer starken Verteilung der Personen ausgegangen werden.
+
+
+***
+
+## Ordinalskalierte Variablen
+
+In diesem Abschnitt lernen Sie deskriptivstatistische Kennwerte für ordinalskalierte Variablen kennen. Aus der Vorlesung wissen Sie schon, dass Median und Interquartilsabstand (IQA) nur für die Klasse der geordneten Kategorien (auch "Rangklassen") sinnvoll sind, nicht für singuläre Daten ("Rangwerte").
+
+Zunächst aber eine Wiederholung: Wie Sie aus der Vorlesung wissen, können die in der Tabelle am Anfang dieses Dokuments aufgeführten statistischen Kennwerte (Zentrale Lage, Dispersion) auch für Skalenniveaus genutzt werden, die "weiter unten" in der Tabelle stehen. Für ordinalskalierte Variablen (Rangklassen) kann also auch der Modus berechnet werden.
+
+Nachfolgend soll mit Item 4 des Prokrastinationsfragebogens gearbeitet werden. Es wurde wie folgt erhoben:
+
+![](/lehre/statistik-i/fb_prok1.PNG)
+
+Es treten die Werte 1 bis  4 empirisch auf, außerdem gibt es  2 fehlende Werte (dargestellt als `NA`):
+
+
+```r
+fb22$prok4
+```
+
+```
+##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2  3  2  3 NA  2  4  2  2  2  3  3  2  3  2  2  2  1
+##  [30]  3  2  3  3  3  3  2  3  2  3  2  3  3  3  4  3  3  3  4  2  4  3  2  3  4  3  3  2  1
+##  [59]  4  2  2  2  2  2  2  2  2  2  3  2  2  2  3  2  3  3  3  2  2  3  1  2  2  1  3  2  3
+##  [88]  2  2  3  3  2  2  2  1  1  3  2  4  3  2  4  3  3  1  2  2  3  4  3  1  3  2  2  3  2
+## [117]  2  2  3  4  3  1  2  2  3  3  4  3  3  3  3  4  3  1  2  3  2  2  3  2  2  4  4  2  3
+## [146]  2  3  2  4  2  2  2  2  4  3  4  3  3  3
+```
+
+Wiederholung:
+
+
+```r
+table(fb22$prok4)               # Absolute Haeufigkeiten
+```
+
+```
+## 
+##  1  2  3  4 
+## 11 66 60 20
+```
+
+```r
+prop.table(table(fb22$prok4))   # Relative Haeufigkeiten
+```
+
+```
+## 
+##          1          2          3          4 
+## 0.07006369 0.42038217 0.38216561 0.12738854
+```
+
+```r
+which.max(table(fb22$prok4))    # Modus
+```
+
+```
+## 2 
+## 2
+```
+
+
+## Fehlende Werte {#Fehlend}
+
+Fehlende Werte (dargestellt als `NA`) in empirischen Untersuchungen können aus vielen Gründen auftreten:  
+
+  * Fragen überlesen / nicht gesehen  
+  * Antwort verweigert  
+  * Unzulässige Angaben gemacht (im Papierformat)  
+  * Unleserliche Schrift (im Papierformat)
+  * ...  
+
+Für statistische Analysen sind fehlende Werte ein Problem, weil sie außerhalb der zulässigen Antworten liegen.  
+
+
+**Fehlende Werte in `R`**
+
+Fehlende Werte werden im Datensatz als `NA` dargestellt. In `R` kann man solche Fälle auf zwei unterschiedlichen Ebenen berücksichtigen:
+
+* Global: `na.omit(datensatz)`  
+    * Entfernt *alle* Beobachtungen, die auf *irgendeiner* Variable einen fehlenden Wert haben  
+    * Häufig auch "listenweiser Fallausschluss" genannt  
+* Lokal: `na.rm = TRUE`  
+    * Das Argument `na.rm` ist in vielen Funktionen für univariate Statistiken enthalten  
+    * Per Voreinstellung wird `NA` als Ergebnis produziert, wenn fehlende Werte vorliegen  
+    * Fehlende Werte werden nur für diese eine Analyse ausgeschlossen, wenn sie auf der darin untersuchten Variable keinen Wert haben - Datensatz bleibt erhalten  
+
+Fehlende Werte sind ein ganz eigenes Forschungsgebiet der Methodik und man könnte eine ganze Veranstaltung nur zu diesem Thema halten. Hierfür haben wir leider keine Zeit, weshalb wir uns der sehr einfachen Methode bedienen, dass wir fehlende Werte von der Analyse ausschließen. Dies ist kein empfohlenes Vorgehen für empirische Arbeiten im fortgeschrittenen Verlauf des Studium!
+
+***
+
+## Deskriptivstatistische Kennwerte ab Ordinalskalenniveau
+
+**Median**
+
+Wir können uns den Einfluss fehlender Werte auf die Arbeit mit `R` mit der Betrachtung der Funktion für den Median, die praktischerweise `median()` heißt, veranschaulichen, indem wir einmal ein extra Argument benennen.
+
+
+```r
+median(fb22$prok4)                 # Ohne Argument für NA: funktioniert nicht
+```
+
+```
+## [1] NA
+```
+
+```r
+median(fb22$prok4, na.rm = TRUE)   # Expliziter Ausschluss: funktioniert
+```
+
+```
+## [1] 3
+```
+
+Ohne Argument für die Behandlung der fehlenden Werte wird `NA` auch als Ergebnis ausgegeben. Mit passendem Argument erhalten wir ein numerisches Ergebnis: Der Median für die Variable `prok4` beträgt also 3.
+
+**Quantile, IQB und IQA**
+
+Für eine Beschreibung der Dispersion wird häufig der Interquartilsbereich (IQB) genutzt. IQB ist der Bereich zwischen dem 1. und dem 3. Quartil. 
+
+Um die Quartile oder jedes beliebige andere Quantil einer Verteilung zu erhalten, kann die Funktion `quantile()` verwendet werden. Beispielsweise können wir die Grenzen des IQB und den Median mit folgender Eingabe gleichzeitig abfragen.
+
+
+```r
+quantile(fb22$prok4,
+         c(.25, .5, .75),                   # Quartile anfordern
+         na.rm = T)
+```
+
+```
+## 25% 50% 75% 
+##   2   3   3
+```
+
+Der Interquartilsbereich liegt also zwischen 2 und 3.
+
+Den Interquartilsabstand (IQA) können wir nun bestimmen, indem wir das Ergebnis für das dritte und das erste Quartil subtrahieren. 
+
+$$IQA = Q_3 - Q_1$$
+
+Mit `quantile()` ist die Umsetzung in `R` etwas umständlich, da wir die Funktion zwei Mal aufrufen und die Differenz daraus bilden müssen.
+
+
+```r
+quantile(fb22$prok4, .75, na.rm=T) - quantile(fb22$prok4, .25, na.rm=T)
+```
+
+```
+## 75% 
+##   1
+```
+
+Dabei ist in der Ausgabe besonders die Überschrift verwirrend (75%), die hier nichts mit der Bedeutung des Wertes zu tun hat. Der IQA der Variable `prok4` beträgt 1. Für die Berechnung des IQA gibt es auch die direkte Funktion `IQR()`, die uns das ganze einfacher macht.
+
+
+```r
+IQR(fb22$prok4, na.rm = TRUE)
+```
+
+```
+## [1] 1
 ```
 
 ***
 
-## Daten Import/Export {#Speichern_Laden .anchorheader}
+## Boxplots
 
-Alle Objekte, die bisher erstellt wurden liegen im Environment - sobald wir R schließen wird dieser geleert und die Objekte gehen verloren. Wie oben bereits erwähnt, ist das in den meisten Fällen das explizit gewünschte Verhalten - durch die Syntax können wir die Objekte ja wiederherstellen - aber in manchen Fällen ist es Sinnvoll Objekte wie Datensätze abzuspeichern und in späteren Schritten die bereits bearbeiteten Daten zu laden.
-
-Um Daten zu laden und zu speichern muss R wissen an welchem Ort nach diesen Daten zu suchen ist. In den meisten Fällen macht es Sinn, für Projekte einen Ordner anzulegen in dem alle relevanten Dateien (z.B. Daten und Syntax) enthalten sind. Dieser Ordner kann R als *Working Directory* mitgeteilt werden. Das aktuelle Working Directory kann man einfach abrufen:
+Eine geeignete grafische Darstellungsform für (mindestens) ordinalskalierte Daten ist der Boxplot. Er kann über die Funktion `boxplot()` angefordert werden:
 
 
 ```r
-getwd()
+boxplot(fb22$prok4)
 ```
 
-Als Ergebnis sollte ein Ordnerpfad ausgeben werden. Unter Windows hat dieser wahrscheinlich das Format `C:/Users/Name/Documents`. Um manuell einen anderen Ordner zu nutzen, kann dieser mit `setwd()` festgelegt werden:
+![plot of chunk basic-boxplot-one](figure/basic-boxplot-one-1.png)
+
+Zur Erinnerung:
+
+* Box: Quartile 
+* Schwarzer Balken: Median
+* Whisker: der jeweils extremste empirische Wert im Bereich `Q3 + 1.5*IQA` für das Maximum bzw. `Q1 - 1.5*IQA` für das Minimum  
+* Noch extremere Werte werden als Punkte dargestellt  
+
+In diesem Beispiel betragen Median und Q3 jeweils 3, sodass sich die entsprechenden Linien überlagern. Ein  Beispiel für einen "schöneren" Boxplot (ohne Überlagerung) ist dieses:
 
 
 ```r
-setwd('Pfad/Zum/Ordner')
+boxplot(fb22$nr6)
 ```
 
-Windows nutzt `\` statt `/` um Ordner zu strukturieren. Wenn Sie also ihren Zielordner direkt aus der Adresszeile des Ordners kopieren müssen Sie diese Slashes austauschen. Unter OS X oder Linux besteht dieses Problem nicht.
+![plot of chunk basic-boxplot-two](figure/basic-boxplot-two-1.png)
 
-Um sich den Inhalt eines Ordners anzeigen zu lassen (z.B. um zu prüfen, welche Dateien bereits in dem Ordner vorhanden sind):
+Auch ein Boxplot kann grafisch angepasst werden. Nachfolgend sehen Sie ein Beispiel, in dem möglichst viel verändert wurde, um die verschiedenen Möglichkeiten aufzuzeigen. Nicht alle Veränderungen sind unbedingt sinnvoll in diesem Fall.
 
 
 ```r
-dir()
+boxplot(fb22$nr6,
+        horizontal = TRUE,                # Ausrichtung des Boxplots
+        main = "WS 2022/2023: Item Nr6",  # Überschrift der Grafik
+        xlab = "Ausprägung",              # x-Achse Bezeichnung 
+        las = 1,                          # Ausrichtung der Labels
+        border = "red",                   # Farbe der Linien im Boxplot
+        col = "pink1")                    # Farbe der Fläche innerhalb der Box
 ```
 
-R hat zwei eigene Datenformate mit denen Dateien abgespeichert werden können: RDA und RDS.
-
-Dateiformat | RDA | RDS
------------ | --- | ---
-Dateiendung | .rda, .RData | .rds
-Speichern | `save()` | `saveRDS()`
-Laden | `load()` | `readRDS()`
-Gespeicherte Objekte | Mehrere | Einzeln
-Ladeverhalten | Objekte werden im Environment wiederhergestellt | Geladene Daten einem neuen Objekt zuweisen
-
-Generell ist RDS dann zu präferieren, wenn einzelne Objekte (z.B. Datensätze) gespeichert werden und RDA dann, wenn man mehrere Objekte gemeinsam abspeichern möchte. Der Vorteil von RDS ist, dass geladenen Dateien beim Laden ein neuer, in dieser Sitzung nützlicher Name gegeben werden kann. Beim Laden eines RDA werden die Objekte mit den Namen geladen, die sie bei ihrer Erstellung hatten, was zu Konflikten mit bereits im Environment vorhandenen Objekten führen kann (diese werden ohne Vorwarnung überschrieben).
-
-Dieses Verhalten können wir uns im Folgenden anschauen. Zunächst speichern wir den Stroop Datensatz:
+![plot of chunk colored-boxplot](figure/colored-boxplot-1.png)
 
 
-```r
-save(dat, file = 'dat.rda')
-```
-
-Dann leeren wir das gesamte Environment:
 
 
-```r
-rm(list = ls())
-ls()
-```
+<img src="/lehre/statistik-i//deskriptiv-nominal-ordinal_files/figure-html/comic-boxplot-1.png" alt="plot of chunk comic-boxplot" style="display: block; margin: auto;" />
 
-```
-## character(0)
-```
-
-Wenn wir jetzt den Datensatz laden, wird er mit seiner Originalbenennung (`dat`) wiederhergestellt:
-
-
-```r
-load('dat.rda')
-ls()
-```
-
-```
-## [1] "dat"
-```
-
-Jetzt durchlaufen wir die gleichen Schritte mit dem RDS Format:
-
-
-```r
-saveRDS(dat, 'dat.rds')
-rm(list = ls())
-ls()
-```
-
-```
-## character(0)
-```
-
-Beim Laden des Datensatzes können wir diesen jetzt einem beliebigen Objekt zuweisen:
-
-
-```r
-stroop <- readRDS('dat.rds')
-stroop
-```
-
-```
-##   color  text  cong react incong
-## 1 gruen gruen  TRUE   510  FALSE
-## 2  gelb  blau FALSE   897   TRUE
-## 3  blau  blau  TRUE   647  FALSE
-## 4 gruen   rot FALSE   891   TRUE
-## 5  gelb  gelb  TRUE   725  FALSE
-## 6  blau gruen FALSE   805   TRUE
-## 7   rot   rot  TRUE   443  FALSE
-## 8   rot  gelb FALSE   778   TRUE
-```
-
-Dieses Verhalten ist konsistent mit dem Verhalten von anderen Funktionen zum Datenimport. R kann mithilfe verschiedener Funktionen eine Vielzahl unterschiedlicher Datenformate einlesen. Zwei sehr typische - Klartextformate (.txt oder .dat) und CSV (.csv) - können über die Funktionen `read.table()` und `read.csv()` eingelesen werden. Genaugenommen ist dabei `read.csv()` nur eine Abwandlung von `read.table()` mit anderen Voreinstellungen für die gleichen Argumente, sodass wir hier nur die `read.table()` Funktion betrachten werden.
 
 ***
-
-## Daten aus dem Fragebogen
-
-Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [{{< icon name="download" pack="fas" >}} hier](/daten/fb22.csv). Diese liegen im CSV Format vor und die Datei heißt **fb22.csv**. Beachten Sie, dass der Datensatz durch die Befragung anhand von **formr** eigentlich auch im R-Datenformat `.rda` vorliegt. Da Sie sich jedoch nicht sicher sein können, ob Sie in Zukunft immer eine Datei mit diesem Format verwenden werden, lernen wir auch das Einlesen von anderen Formaten kennen. Mit `read.table()` können wir den CSV Datensatz laden, müssen aber bestimmte Eigenheiten des Datensatzes bedenken. Wenn Sie den Datensatz mit einem Text-Editor öffnen sehen die ersten 5 Zeilen folgendermaßen aus:
-
-
-```
-## Warning in file(con, "r"): cannot open file 'fb22.csv': No such file or
-## directory
-```
-
-```
-## Error in file(con, "r"): cannot open the connection
-```
-
-Die Art in der dieser Datensatz aufbereitet ist, muss R mitgeteilt werden, damit wir ihn ordentlich einlesen können. Es empfiehlt sich dafür mit `help(read.table)` die Hilfe zu öffnen. Was diese Hilfe verrät sind unter Anderem die Argumente, die die Funktion entgegennimmt:
-
-
-```r
-args(read.table)
-```
-
-```
-## function (file, header = FALSE, sep = "", quote = "\"'", dec = ".", 
-##     numerals = c("allow.loss", "warn.loss", "no.loss"), row.names, 
-##     col.names, as.is = !stringsAsFactors, tryLogical = TRUE, 
-##     na.strings = "NA", colClasses = NA, nrows = -1, skip = 0, 
-##     check.names = TRUE, fill = !blank.lines.skip, strip.white = FALSE, 
-##     blank.lines.skip = TRUE, comment.char = "#", allowEscapes = FALSE, 
-##     flush = FALSE, stringsAsFactors = FALSE, fileEncoding = "", 
-##     encoding = "unknown", text, skipNul = FALSE) 
-## NULL
-```
-
-Das einzige Argument ohne Voreinstellung ist `file`, also der Dateiname. Wenn wir den Datensatz mit Voreinstellungen laden, erhalten wir folgenden Fehler:
-
-
-```r
-fb22 <- read.table('fb22.csv')
-```
-
-```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or
-## directory
-```
-
-```
-## Error in file(file, "rt"): cannot open the connection
-```
-
-Das liegt in diesem Fall daran, dass `read.table()` als Voreinstellung annimmt, dass die erste Zeile der Datei nicht besonders ist (`header = FALSE`). In unserem Fall enthält diese Zeile aber die Namen der Variablen, sodass wir diese Einstellung ändern müssen:
-
-
-```r
-fb22 <- read.table('fb22.csv', header = TRUE)
-```
-
-```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or
-## directory
-```
-
-```
-## Error in file(file, "rt"): cannot open the connection
-```
-
-Wieder ergibt sich ein Fehler, der lamentiert, dass es mehr Spalten als Variablennamen gibt. Das liegt daran, dass `read.table()` per Voreinstellung davon ausgeht, dass Variablen (bzw. Spalten des Datensatzes) durch Leerzeichen getrennt sind (`sep = ""`). In unserer Datei erfolgt das aber durch Kommata.
-
-
-```r
-fb22 <- read.table('fb22.csv', header = TRUE, sep = ",")
-```
-
-```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or
-## directory
-```
-
-```
-## Error in file(file, "rt"): cannot open the connection
-```
-
-Im Environment erscheint jetzt das Objekt `fb22`. Mit `head()` können wir uns den Kopf des Datensatzes (die ersten 6 Zeilen) anzeigen lassen:
-
-
-```r
-head(fb22)    # Kopfzeilen
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'fb22' not found
-```
-
-```r
-str(fb22)     # Struktur des Datensatzes
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'fb22' not found
-```
-
-Wir können den Datensatz übrigens auch direkt von der Website in R laden. Der Dateiname nimmt auch direkt URLs entegegen:
-
-
-```r
-fb22 <- read.table('https://pandar.netlify.app/daten/fb22.csv', header = TRUE, sep = ",")
-```
-
-```
-## Warning in file(file, "rt"): cannot open URL
-## 'https://pandar.netlify.app/daten/fb22.csv': HTTP status was '404 Not Found'
-```
-
-```
-## Error in file(file, "rt"): cannot open the connection to 'https://pandar.netlify.app/daten/fb22.csv'
-```
-
-so kann umgangen werden, dass wir die gleiche Datei immer und überall lokal speichern müssen, obwohl wir eine zentrale, online verfügbare Datei nutzen.
-
-Gegenspieler von `read.table()` ist `write.table()` mit dem Daten im Klartextformat gespeichert werden können. Um den Datensatz als .txt-Datei abzuspeichern können wir Folgendes nutzen:
-
-
-```r
-write.table(fb22,     # zu speichernder Datensatz
-  'fb22.txt'          # Dateiname
-  )
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'fb22' not found
-```
-
-Diese Datei entspricht den Voreinstellungen von `write.table()`. Daher sehen die ersten 5 Zeilen in einem Text-Editor jetzt so aus:
-
-
-```
-## "prok1" "prok2" "prok3" "prok4" "prok5" "prok6" "prok7" "prok8" "prok9" "prok10" "nr1" "nr2" "nr3" "nr4" "nr5" "nr6" "lz" "extra" "vertr" "gewis" "neuro" "intel" "nerd" "grund" "fach" "ziel" "lerntyp" "geschl" "job" "ort" "ort12" "wohnen" "uni1" "uni2" "uni3" "uni4"
-## "1" 1 3 4 2 3 4 3 3 1 3 1 3 5 4 4 3 5.4 2.75 3.75 4.25 4.25 4.75 2.66666666666667 "Interesse" 5 2 1 1 1 1 1 2 0 1 0 0
-## "2" 4 3 2 4 1 4 2 4 4 4 1 2 1 2 2 1 6 3.75 4.75 2.75 5 4 4 "Allgemeines Interesse schon seit der Kindheit" 4 2 1 2 2 1 1 2 0 1 0 0
-## "3" 3 3 2 4 2 4 2 3 4 3 4 5 5 5 5 5 3 4.25 4.5 3.75 4 5 4.33333333333333 "menschliche Kognition wichtig und rätselhaft; Interesse für Psychoanalyse; Schnittstelle zur Linguistik" 1 3 1 2 1 1 1 3 0 0 0 1
-## "4" 1 3 4 NA 4 3 4 4 2 2 2 4 4 4 4 3 6 4 4.75 4.25 2.25 4.75 3.16666666666667 "Psychoanalyse, Hilfsbereitschaft, Lebenserfahrung" 4 2 1 2 1 2 1 4 0 1 0 0
-```
-
-
