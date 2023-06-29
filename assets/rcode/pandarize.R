@@ -13,6 +13,4 @@ pandarize <- function(x) {
     sub(pattern = '![](', replacement = paste0('![](', .img_location), x = _, fixed = TRUE) |>
     sub(pattern = '<img src="figure/', replacement = paste0('<img src="', .img_location, '/', x , '_files/figure-html/')) |>
     writeLines(con = .md)
-  
-  file.remove(.html)
 }
