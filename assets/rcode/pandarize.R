@@ -8,7 +8,7 @@ pandarize <- function(x) {
   knitr::knit(.rmd, .md, envir = new.env())
   knitr::purl(.rmd, .R, documentation = 0)
   
-  readLines(md) |>
+  readLines(.md) |>
     sub(pattern = '![](', replacement = paste0('![](', .img_location), x = _, fixed = TRUE) |>
     sub(pattern = '<img src="figure/', replacement = paste0('<img src="', .img_location, '/', x , '_files/figure-html/')) |>
     writeLines(con = .md)
