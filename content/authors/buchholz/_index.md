@@ -24,9 +24,9 @@ organizations:
 # Short bio (displayed in user profile at end of posts)
 bio:
 interests:
-- Missing Values
-- Network analysis
-- Coding
+- Modellierung von Antwortprozessen in Large-Scale-Assessments
+- Mehrdimensionale Modelle der Item-Response-Theorie
+- Kompetenzdiagnostik und Kompetenzmodellierung
 education:
 # Social/Academic Networking
 # For available icons, see: https://sourcethemes.com/academic/docs/widgets/#icons
