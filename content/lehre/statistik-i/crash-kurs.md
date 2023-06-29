@@ -490,7 +490,7 @@ Beschreibung | Code-Stil
  --- | --- 
 Funktionen schachteln | `funktion1(funktion2(argument))` 
 Objekt im Environment anlegen | `objekt <- funktion1(argument)` <br> `funktion2(objekt)`
-Ergebnis-Pipe | `funktion1(argument) |> funktion2()` 
+Ergebnis-Pipe | `funktion1(argument) \|> funktion2()` 
 
 Wann benutzt man am besten welches dieser drei Systeme? Wie so häufig in R ist das eine Sache des persönlichen Schreibstils und dessen, womit man selbst gut zurecht kommt. Meine persönliche Empfehlung ist für dieses Dreiergespann:
 
@@ -1479,8 +1479,8 @@ fb22 <- read.table('https://pandar.netlify.app/daten/fb22.csv', header = TRUE, s
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open URL 'https://pandar.netlify.app/daten/fb22.csv':
-## HTTP status was '404 Not Found'
+## Warning in file(file, "rt"): cannot open URL 'https://pandar.netlify.app/daten/fb22.csv': HTTP
+## status was '404 Not Found'
 ```
 
 ```
