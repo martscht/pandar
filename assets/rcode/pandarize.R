@@ -3,9 +3,10 @@ pandarize <- function(x) {
   .location <- gsub(paste0(x, '.Rmd'), '', rmd)
   .img_location <- gsub('content', '', location)
   .md <- gsub('.Rmd', '.md', rmd)
+  .R <- gsub('.Rmd', '.R', rmd)
   
   knitr::knit(.rmd, .md, envir = new.env())
-  knitr::purl(.rmd, documentation = 0)
+  knitr::purl(.rmd, .R, documentation = 0)
   
   readLines(md) |>
     sub(pattern = '![](', replacement = paste0('![](', .img_location), x = _, fixed = TRUE) |>
