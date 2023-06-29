@@ -7,7 +7,7 @@ authors:
 - nehler
 
 # Full name (for SEO)
-first_name: Kai
+first_name: Kai Jannik
 last_name: Nehler
 
 # Is this the primary user of the site?
