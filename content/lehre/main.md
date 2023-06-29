@@ -20,60 +20,60 @@ sections:
           filename: teaching2.jpg
         text_color_light: true
       columns: 2
-  # - block: markdown
-  #   id: statistik-i
-  #   content:
-  #     title: Statistik I
-  #     subtitle: PsyBSc 2
-  #     text: |-
-  #       In Statistik I geht es um die erste Einführung in die Statistik im Psychologiestudium. Dafür betrachten wir die Grundstruktur von R, Datenimport, einfache Grafiken, Deskriptivstatistiken, Verteilungsfunktionen und einige Tests.
-  #       | Nr. | Thema | Inhalte | Aufgaben | Lösungen |
-  #       | --- | --- | --- | --- | --- |
-  #       | 1 | **R-Intro** | [Inhalte](/lehre/statistik-i/crash-kurs) | Aufgaben | Lösungen
-  #       | 2 | **Deskriptivstatistik für Nominal- und Ordinalskalen** | Inhalte | Aufgaben | Lösungen |
-  #       | 3 | **Deskriptivstatistik für Intervallskalen** | Inhalte | Aufgaben | Lösungen |
-  #       | 4 | **Verteilungen** | Inhalte | Aufgaben | Lösungen |
-  #       | 5 | **Tests und Konfidenzintervalle** | Inhalte | Aufgaben | Lösungen |
-  #       | 6 | **Tests für unabhängige Stichproben** | Inhalte | Aufgaben | Lösungen |
-  #       | 7 | **Tests für abhängige Stichproben** | Inhalte | Aufgaben | Lösungen |
-  #       | 8 | **Korrelation** | Inhalte | Aufgaben | Lösungen |
-  #       | 9 | **Regression** | Inhalte | Aufgaben | Lösungen |
-  #       | 10 | **Simulation und Poweranalyse** | Inhalte | Aufgaben | Lösungen |
-  #       | *Zusatz* | **Freiwillige Übungsaufgaben** (alle Abschnitte)| -- | Aufgaben | Lösungen |
-  #       | *Zusatz* | **Gruppenprojekt** | Inhalte | Ergebnisbericht | formr |
-  # 
-  #       Die Umfrage aus der ersten Woche gibt es [hier](https://psybsc2.formr.org/). Die Daten, die dabei in der ersten Sitzung entstanden sind, können Sie [{{< icon name="download" pack="fas" >}}   hier im RDA Format](/post/fb22.rda) und [{{< icon name="download" pack="fas" >}} hier im CSV Format](/post/fb22.csv) herunterladen. Was welche Variablen in diesem Datensatz bedeutet, wird in der [{{< icon name="download" pack="fas" >}} Variablenübersicht erläutert](/post/variablen.pdf).
-  # 
-  #   design:
-  #     columns: 2
-  - block: collection
+  - block: markdown
     id: statistik-i
     content:
       title: Statistik I
       subtitle: PsyBSc 2
-      text: 'In Statistik I geht es um die erste Einführung in die Statistik im Psychologiestudium. Dafür betrachten wir die Grundstruktur von R, Datenimport, einfache Grafiken, Deskriptivstatistiken, Verteilungsfunktionen und einige Tests.<br><br>'
-      # Choose how many pages you would like to display (0 = all pages)
-      count: 4
-      # Filter on criteria
-      filters:
-        folders:
-          - lehre
-        author: ""
-        tag: ""
-        category: 'Statistik I'
-        exclude_featured: false
-        featured_only: false
-        exclude_future: false
-        exclude_past: false
-        publication_type: ""
-      # Choose how many pages you would like to offset by
-      offset: 0
-      # Page order: descending (desc) or ascending (asc) date.
-      order: asc
+      text: |-
+        In Statistik I geht es um die erste Einführung in die Statistik im Psychologiestudium. Dafür betrachten wir die Grundstruktur von R, Datenimport, einfache Grafiken, Deskriptivstatistiken, Verteilungsfunktionen und einige Tests.
+        | Nr. | Thema | Inhalte | Aufgaben | Lösungen |
+        | --- | --- | --- | --- | --- |
+        | 1 | **R-Intro** | [Inhalte](/lehre/statistik-i/crash-kurs) | Aufgaben | Lösungen
+        | 2 | **Deskriptivstatistik für Nominal- und Ordinalskalen** | Inhalte | Aufgaben | Lösungen |
+        | 3 | **Deskriptivstatistik für Intervallskalen** | Inhalte | Aufgaben | Lösungen |
+        | 4 | **Verteilungen** | Inhalte | Aufgaben | Lösungen |
+        | 5 | **Tests und Konfidenzintervalle** | Inhalte | Aufgaben | Lösungen |
+        | 6 | **Tests für unabhängige Stichproben** | Inhalte | Aufgaben | Lösungen |
+        | 7 | **Tests für abhängige Stichproben** | Inhalte | Aufgaben | Lösungen |
+        | 8 | **Korrelation** | Inhalte | Aufgaben | Lösungen |
+        | 9 | **Regression** | Inhalte | Aufgaben | Lösungen |
+        | 10 | **Simulation und Poweranalyse** | Inhalte | Aufgaben | Lösungen |
+        | *Zusatz* | **Freiwillige Übungsaufgaben** (alle Abschnitte)| -- | Aufgaben | Lösungen |
+        | *Zusatz* | **Gruppenprojekt** | Inhalte | Ergebnisbericht | formr |
+
+        Die Umfrage aus der ersten Woche gibt es [hier](https://psybsc2.formr.org/). Die Daten, die dabei in der ersten Sitzung entstanden sind, können Sie [{{< icon name="download" pack="fas" >}}   hier im RDA Format](/post/fb22.rda) und [{{< icon name="download" pack="fas" >}} hier im CSV Format](/post/fb22.csv) herunterladen. Was welche Variablen in diesem Datensatz bedeutet, wird in der [{{< icon name="download" pack="fas" >}} Variablenübersicht erläutert](/post/variablen.pdf).
+
     design:
-      # Choose a layout view
-      view: compact
-      columns: '2'
+      columns: 2
+  # - block: collection
+  #   id: statistik-i
+  #   content:
+  #     title: Statistik I
+  #     subtitle: PsyBSc 2
+  #     text: 'In Statistik I geht es um die erste Einführung in die Statistik im Psychologiestudium. Dafür betrachten wir die Grundstruktur von R, Datenimport, einfache Grafiken, Deskriptivstatistiken, Verteilungsfunktionen und einige Tests.<br><br>'
+  #     # Choose how many pages you would like to display (0 = all pages)
+  #     count: 4
+  #     # Filter on criteria
+  #     filters:
+  #       folders:
+  #         - lehre
+  #       author: ""
+  #       tag: ""
+  #       category: 'Statistik I'
+  #       exclude_featured: false
+  #       featured_only: false
+  #       exclude_future: false
+  #       exclude_past: false
+  #       publication_type: ""
+  #     # Choose how many pages you would like to offset by
+  #     offset: 0
+  #     # Page order: descending (desc) or ascending (asc) date.
+  #     order: asc
+  #   design:
+  #     # Choose a layout view
+  #     view: compact
+  #     columns: '2'
   - block: markdown
     id: statistik-ii
     content:
