@@ -38,9 +38,9 @@ output:
 
 
 
-```{r setup, cache = FALSE, echo = FALSE, warning = FALSE, message = FALSE}
+```{r setup, cache = FALSE, echo = FALSE, warning = FALSE, message = FALSE, purl = FALSE}
 knitr::opts_chunk$set(error = TRUE)
-knitr::knit_hooks$set(purl = knitr::hook_purl)
+#knitr::knit_hooks$set(purl = knitr::hook_purl)
 library(knitr)
 ```
 
@@ -222,7 +222,7 @@ Ungefähr `r round(prop.table(tab)[1]*100,2)`% Ihres Jahrgangs geben als Lieblin
 
 ## Grafiken in `R`
 
-```{r comic-barplot, echo=F,warning=F, fig.align='center',cache=FALSE}
+```{r comic-barplot, echo=F,warning=F, fig.align='center',cache=FALSE, purl = FALSE}
 library("RXKCD")
 invisible(getXKCD(373))
 ```
@@ -234,7 +234,7 @@ Die Darstellung als Tabelle wirkt häufig langweilig. Zu viele Tabellen in einem
 
 Die Erstellung ist mit der Funktion `barplot()` möglich. Diese braucht zunächst nur ein Tabellenobjekt als Input, dass die absoluten Häufigkeiten für die verschiedenen Kategorien einer Variable enthält.
 
-```{r,  eval=F}
+```{r,  eval=F, purl = FALSE}
 barplot(tab)
 ```
 

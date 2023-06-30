@@ -80,18 +80,12 @@ names(fb22)        # Namen der Variablen
 ```
 
 ```
-##  [1] "prok1"   "prok2"   "prok3"  
-##  [4] "prok4"   "prok5"   "prok6"  
-##  [7] "prok7"   "prok8"   "prok9"  
-## [10] "prok10"  "nr1"     "nr2"    
-## [13] "nr3"     "nr4"     "nr5"    
-## [16] "nr6"     "lz"      "extra"  
-## [19] "vertr"   "gewis"   "neuro"  
-## [22] "intel"   "nerd"    "grund"  
-## [25] "fach"    "ziel"    "lerntyp"
-## [28] "geschl"  "job"     "ort"    
-## [31] "ort12"   "wohnen"  "uni1"   
-## [34] "uni2"    "uni3"    "uni4"
+##  [1] "prok1"   "prok2"   "prok3"   "prok4"   "prok5"   "prok6"   "prok7"  
+##  [8] "prok8"   "prok9"   "prok10"  "nr1"     "nr2"     "nr3"     "nr4"    
+## [15] "nr5"     "nr6"     "lz"      "extra"   "vertr"   "gewis"   "neuro"  
+## [22] "intel"   "nerd"    "grund"   "fach"    "ziel"    "lerntyp" "geschl" 
+## [29] "job"     "ort"     "ort12"   "wohnen"  "uni1"    "uni2"    "uni3"   
+## [36] "uni4"
 ```
 
 ```r
@@ -132,20 +126,13 @@ fb22$geschl
 ```
 
 ```
-##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2
-##  [13]  2  1  1  1  1  1  1  1  1  1  2  1
-##  [25] NA  1  1  1  1  1  2  1  1  1  1  1
-##  [37]  1  1  2  1  1  1  1  1  1  1  1  1
-##  [49]  1  1  1  1  1 NA  1  2  1  2  1  1
-##  [61]  1  2  1 NA NA  1  3  1  1  1  1  1
-##  [73]  1  1  1  1  1  1  2  2  2  1  2  2
-##  [85]  1  1  1  1  1  1  1  1  1  1 NA  1
-##  [97]  1  1  1  1  1 NA  2  1  1  1  1 NA
-## [109]  1 NA  1  1  2  1  1  1  1  1  1  1
-## [121]  1  1  1  1  1  2  1  1 NA  2  1  2
-## [133]  1  1  1  1  1  1  1  1  1  1  1  1
-## [145]  1  1  1  1  1  1  1  1  1  1  1  1
-## [157]  2  1  1
+##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2  2  1  1  1  1  1  1  1  1  1  2  1
+##  [25] NA  1  1  1  1  1  2  1  1  1  1  1  1  1  2  1  1  1  1  1  1  1  1  1
+##  [49]  1  1  1  1  1 NA  1  2  1  2  1  1  1  2  1 NA NA  1  3  1  1  1  1  1
+##  [73]  1  1  1  1  1  1  2  2  2  1  2  2  1  1  1  1  1  1  1  1  1  1 NA  1
+##  [97]  1  1  1  1  1 NA  2  1  1  1  1 NA  1 NA  1  1  2  1  1  1  1  1  1  1
+## [121]  1  1  1  1  1  2  1  1 NA  2  1  2  1  1  1  1  1  1  1  1  1  1  1  1
+## [145]  1  1  1  1  1  1  1  1  1  1  1  1  2  1  1
 ```
 
 Die Variable `geschl` liegt numerisch vor, es treten die Werte 1, 2 und 3 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/post/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "weiblich". Diese *Label* werden nun im Faktor hinterlegt.
@@ -174,8 +161,7 @@ head(fb22$geschl_faktor)
 ```
 
 ```
-## [1] weiblich männlich männlich männlich
-## [5] weiblich <NA>    
+## [1] weiblich männlich männlich männlich weiblich <NA>    
 ## Levels: weiblich männlich anderes
 ```
 
@@ -193,20 +179,13 @@ fb22$fach
 ```
 
 ```
-##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2
-##  [13]  2  2  4  3  2  3  4  4  1  3  4  4
-##  [25] NA  3 NA  2  3  4  4  1  3  2  1  3
-##  [37]  1 NA  2  4  4  4  4  4  4  1  4  1
-##  [49]  3  1  1  3  4 NA  4  2  4  4  4  4
-##  [61]  3  4  2 NA NA  4  4  3  4  3  4  3
-##  [73]  3  1  3  4  4  4  3  3  4  2  3  3
-##  [85]  2  3  4  2  4  3  4  2  3  3 NA  4
-##  [97]  2  4  2  2  4 NA  2  3  2  1  1  3
-## [109]  5 NA  4  5  1  1  4  4  3  2  2  2
-## [121] NA  3  5  4  3  5  2  4 NA  1  4  3
-## [133]  3  5  4  1  4  4  2  3  3  4  3  2
-## [145]  4  4  4  4  4  5  2  1  3  1  2  3
-## [157]  4  4  4
+##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2  2  2  4  3  2  3  4  4  1  3  4  4
+##  [25] NA  3 NA  2  3  4  4  1  3  2  1  3  1 NA  2  4  4  4  4  4  4  1  4  1
+##  [49]  3  1  1  3  4 NA  4  2  4  4  4  4  3  4  2 NA NA  4  4  3  4  3  4  3
+##  [73]  3  1  3  4  4  4  3  3  4  2  3  3  2  3  4  2  4  3  4  2  3  3 NA  4
+##  [97]  2  4  2  2  4 NA  2  3  2  1  1  3  5 NA  4  5  1  1  4  4  3  2  2  2
+## [121] NA  3  5  4  3  5  2  4 NA  1  4  3  3  5  4  1  4  4  2  3  3  4  3  2
+## [145]  4  4  4  4  4  5  2  1  3  1  2  3  4  4  4
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
@@ -238,7 +217,7 @@ str(fb22$grund)                            # Ursprungsvariable: Character
 ```
 
 ```
-##  chr [1:159] "Interesse" ...
+##  chr [1:159] "Interesse" "Allgemeines Interesse schon seit der Kindheit" ...
 ```
 
 ```r
@@ -270,9 +249,7 @@ levels(fb22$fach)         # Abruf
 ```
 
 ```
-## [1] "Allgemeine"  "Biologische"
-## [3] "Entwicklung" "Klinische"  
-## [5] "Diag./Meth."
+## [1] "Allgemeine"  "Biologische" "Entwicklung" "Klinische"   "Diag./Meth."
 ```
 
 ```r
@@ -297,10 +274,8 @@ table(fb22$fach)
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische 
-##           7          19          27 
-## Entwicklung   Klinische 
-##          37          57
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
+##           7          19          27          37          57
 ```
 
 Häufig sind relative Häufigkeiten informativer. Nachfolgend werden zwei Möglichkeiten zur Erstellung von relativen Häufigkeitstabellen in `R` gezeigt.
@@ -328,10 +303,8 @@ tab / sum(tab)          # Relative Haeufigkeiten
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische 
-##  0.04761905  0.12925170  0.18367347 
-## Entwicklung   Klinische 
-##  0.25170068  0.38775510
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
+##  0.04761905  0.12925170  0.18367347  0.25170068  0.38775510
 ```
 
 **Relative Häufigkeiten (per Funktion)**
@@ -346,10 +319,8 @@ prop.table(tab)         # Relative
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische 
-##  0.04761905  0.12925170  0.18367347 
-## Entwicklung   Klinische 
-##  0.25170068  0.38775510
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
+##  0.04761905  0.12925170  0.18367347  0.25170068  0.38775510
 ```
 
 Ungefähr 4.76% Ihres Jahrgangs geben als Lieblingsfach "Diagnostik/Methoden" an! Vielleicht können wir ja noch mehr von Ihnen mit dem nächsten Thema begeistern. :-)
@@ -415,16 +386,11 @@ colors()[1:20]
 ```
 
 ```
-##  [1] "white"         "aliceblue"    
-##  [3] "antiquewhite"  "antiquewhite1"
-##  [5] "antiquewhite2" "antiquewhite3"
-##  [7] "antiquewhite4" "aquamarine"   
-##  [9] "aquamarine1"   "aquamarine2"  
-## [11] "aquamarine3"   "aquamarine4"  
-## [13] "azure"         "azure1"       
-## [15] "azure2"        "azure3"       
-## [17] "azure4"        "beige"        
-## [19] "bisque"        "bisque1"
+##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1"
+##  [5] "antiquewhite2" "antiquewhite3" "antiquewhite4" "aquamarine"   
+##  [9] "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"  
+## [13] "azure"         "azure1"        "azure2"        "azure3"       
+## [17] "azure4"        "beige"         "bisque"        "bisque1"
 ```
 
 Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
@@ -437,8 +403,7 @@ rainbow(5)
 ```
 
 ```
-## [1] "#FF0000" "#CCFF00" "#00FF66"
-## [4] "#0066FF" "#CC00FF"
+## [1] "#FF0000" "#CCFF00" "#00FF66" "#0066FF" "#CC00FF"
 ```
 
 Die Farben werden hier nicht direkt mit ihrem Namen, sondern mit dem Hex-Code ausgegeben. `#FF0000` steht dabei beispielsweise für ein rot.
@@ -516,10 +481,8 @@ tab            # Tabelle ausgeben
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische 
-##           7          19          27 
-## Entwicklung   Klinische 
-##          37          57
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
+##           7          19          27          37          57
 ```
 
 ```r
@@ -559,10 +522,8 @@ ln_hj                       # Ergebnisse für jede Kategorie
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische 
-##  -3.0445224  -2.0459936  -1.6945957 
-## Entwicklung   Klinische 
-##  -1.3795147  -0.9473813
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
+##  -3.0445224  -2.0459936  -1.6945957  -1.3795147  -0.9473813
 ```
 
 ```r
@@ -626,20 +587,13 @@ fb22$prok4
 ```
 
 ```
-##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2
-##  [13]  3  2  3 NA  2  4  2  2  2  3  3  2
-##  [25]  3  2  2  2  1  3  2  3  3  3  3  2
-##  [37]  3  2  3  2  3  3  3  4  3  3  3  4
-##  [49]  2  4  3  2  3  4  3  3  2  1  4  2
-##  [61]  2  2  2  2  2  2  2  2  3  2  2  2
-##  [73]  3  2  3  3  3  2  2  3  1  2  2  1
-##  [85]  3  2  3  2  2  3  3  2  2  2  1  1
-##  [97]  3  2  4  3  2  4  3  3  1  2  2  3
-## [109]  4  3  1  3  2  2  3  2  2  2  3  4
-## [121]  3  1  2  2  3  3  4  3  3  3  3  4
-## [133]  3  1  2  3  2  2  3  2  2  4  4  2
-## [145]  3  2  3  2  4  2  2  2  2  4  3  4
-## [157]  3  3  3
+##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2  3  2  3 NA  2  4  2  2  2  3  3  2
+##  [25]  3  2  2  2  1  3  2  3  3  3  3  2  3  2  3  2  3  3  3  4  3  3  3  4
+##  [49]  2  4  3  2  3  4  3  3  2  1  4  2  2  2  2  2  2  2  2  2  3  2  2  2
+##  [73]  3  2  3  3  3  2  2  3  1  2  2  1  3  2  3  2  2  3  3  2  2  2  1  1
+##  [97]  3  2  4  3  2  4  3  3  1  2  2  3  4  3  1  3  2  2  3  2  2  2  3  4
+## [121]  3  1  2  2  3  3  4  3  3  3  3  4  3  1  2  3  2  2  3  2  2  4  4  2
+## [145]  3  2  3  2  4  2  2  2  2  4  3  4  3  3  3
 ```
 
 Wiederholung:
@@ -661,10 +615,8 @@ prop.table(table(fb22$prok4))   # Relative Haeufigkeiten
 
 ```
 ## 
-##          1          2          3 
-## 0.07006369 0.42038217 0.38216561 
-##          4 
-## 0.12738854
+##          1          2          3          4 
+## 0.07006369 0.42038217 0.38216561 0.12738854
 ```
 
 ```r
