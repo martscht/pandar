@@ -18,8 +18,8 @@ role: Autorin
 
 # Organizations/Affiliations
 organizations:
-- name: Programme for International Student Assessemt (PISA)
-  url: "https://www.oecd.org/pisa/contacts/whoswhoinpisa.htm"
+- name: Institut zur Qualitätsentwicklung im Bildungswesen (IQB)
+  url: "https://www.iqb.hu-berlin.de/"
 
 # Short bio (displayed in user profile at end of posts)
 bio:
@@ -69,7 +69,7 @@ user_groups: ["Teaching"]
 ---
 
 
-Janine Buchholz ist Mitarbeiterin des Programme for International Student Assessemt (PISA) der OECD.
+Janine Buchholz ist Mitarbeiterin des Instituts zur Qualitätsentwicklung im Bildungswesen (IQB) der HU Berlin.
 
 **Biografie**
 
@@ -78,4 +78,5 @@ Janine Buchholz ist Mitarbeiterin des Programme for International Student Assess
 - Promotion an der Goethe-Universität Frankfurt im Jahr 2016
 - Wissenschaftliche Mitarbeiterin im Projekt PISA 2015 (2015-2016)
 - Wissenschaftliche Leiterin im Projekt PISA (2018-2021)
-- Mitarbeiterin der OECD, Projekt PISA (2022)
+- Mitarbeiterin der OECD, Projekt PISA (2022-2023)
+- Mitarbeiterin des IQB (seit 2023)
