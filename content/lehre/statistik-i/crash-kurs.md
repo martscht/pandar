@@ -61,7 +61,7 @@ output:
 
 ***
 
-## Warum R nutzen? {#R .anchorheader}
+## Warum R nutzen? {#R}
 
 Ziel dieses gesamten R-Praktikums ist es, dass Sie am Ende des Semester geübt im Umgang mit R sind, die Grundfunktionalität beherrschen und die Analyseverfahren durchführen können, die in der Vorlesung behandelt werden. Damit wir - oder genauer genommen, eigentlich Sie - dieses Ziel erreichen, legen wir hier mit einer "kurzen" Einführung in die Grundprinzipien von und den Umgang mit R los. Viele Dinge, die hier besprochen werden, sind auch in den [anderen Sitzungen zu dieser Veranstaltung](categories/statistik-i) relevant und werden dort immer wieder vorkommen. Deswegen ist es das Beste, einfach nebenbei RStudio auf zu haben und die hier beschriebenen Schritte auch direkt selbst mit zu machen.
 
@@ -72,7 +72,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 479041 mal heruntergeladen
+* Allein in den letzten 30 Tagen 464210 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
@@ -83,7 +83,7 @@ Ein paar nützliche Links für R sind die [R Main Page](https://www.r-project.or
 
 ***
 
-## RStudio {#RStudio .anchorheader}
+## RStudio {#RStudio}
 
 Weil die traditionelle R Nutzeroberfläche extrem spartanisch ist, werden wir auf dieser Seite mit RStudio arbeiten. RStudio ist eine zusätzliche Nutzeroberfläche, die den Umgang durch diverse convenience features mit R ein wenig erleichtert. Es muss separat installiert werden, ist aber, genau wie R selbst, gratis erhältlich. Um RStudio herunterzuladen besuchen Sie am einfachsten [https://www.rstudio.com/](https://www.rstudio.com/).
 
@@ -235,7 +235,7 @@ Wie in der Mathematik üblich, wird der Inhalt von Klammern als erstes evaluiert
 
 ***
 
-## Funktionen und Argumente {#Funktionen .anchorheader}
+## Funktionen und Argumente {#Funktionen}
 
 Das Nutzen von R als Taschenrechner ist - streng genommen - ein Sonderfall, der vom "üblichen Weg" abweicht, mit dem Dinge in R umgesetzt werden. Mithilfe der einfachen Addition können wir eine Summe bilden:
 
@@ -338,7 +338,7 @@ Das Ergebnis dieser Funktion wird bestimmt und als Argument an die Funktion `log
 
 ***
 
-## Hilfe {#Hilfe .anchorheader}
+## Hilfe {#Hilfe}
 
 R bietet ein sehr detailliertes und gutes integriertes Hilfesystem. Mit `args()` kann man sich zwar die Argumente einer Funktion ausgeben lassen, erhält aber keinerlei Zusatzinformationen. Wenn man mehr Informationen bezüglich einer spezifischen Funktion benötigt, kann man `help()` auf jede beliebige Funktion anwenden (bzw. `?` vor den Namen einer Funktion schreiben). Sie sollten - besonders zum Einstieg in R - häufig und gezielt diese Hilfe in Anspruch nehmen.
 
@@ -404,7 +404,7 @@ In diesem Fall werden wir darauf hingewiesen, dass wir keine Einstellung für da
 
 ***
 
-## Objekte und das Environment {#Environment .anchorheader}
+## Objekte und das Environment {#Environment}
 
 Einer der großen Vorteile von R gegenüber anderen Ansätzen zur statistischen Datenanalyse ist die Möglichkeit Ergebnisse in Objekten abzulegen und diese als Argumente in anderen Funktionen weiter zu verwenden. Dadurch ergibt sich in R die Möglichkeit sehr große Teile von Auswertungen und Ergebnisdarstellung mit generell gehaltenen Skripten zu automatisieren. Die Zuweisung eines Ergebnisses zu einem Objekt erfolgt über den sog. Zuweisungspfeil `<-`.
 
@@ -750,7 +750,7 @@ Wie wir im Verlauf des Semesters sehen werden, haben beide Umwandlungen Konseque
 
 ***
 
-## Daten zusammenführen {#Mehrdimensional .anchorheader}
+## Daten zusammenführen {#Mehrdimensional}
 
 Im Environment liegen jetzt fünf Vektoren (und unsere Zahl, die wir vor einiger Zeit einzeln abgelegt hatten):
 
@@ -760,7 +760,8 @@ ls()
 ```
 
 ```
-## [1] "color"     "color_fac" "cong"      "my_num"    "react"     "text"
+## [1] "color"     "color_fac" "cong"      "my_num"    "react"    
+## [6] "text"
 ```
 
 Weil diese Vektoren zusammengehören, wäre es sinnvoll, sie zu einem Objekt zu kombinieren. Wie auch bei Vektoren, gibt es unterschiedliche Typen Daten zu kombinieren, allerdings sind ihre Relationen zueinander ein wenig komplizierter:
@@ -949,7 +950,7 @@ In diesen Fällen wird der kurze Vektor solange wiederholt, bis er genauso lang 
 
 ***
 
-## Datenextraktion {#Extrahieren .anchorheader}
+## Datenextraktion {#Extrahieren}
 
 Bisher haben wir uns mit dem Zusammenführen von Daten befasst, wie es bei der Datensammlung üblich ist. Bei der Datenauswertung und -inspektion kann es aber genauso wichtig sein, Einzelteile von Datensätzen zu extrahieren.
 
@@ -1183,7 +1184,7 @@ dat$react
 
 ***
 
-## Daten verändern und hinzufügen {#Hinzu .anchorheader}
+## Daten verändern und hinzufügen {#Hinzu}
 
 Der Zuweisungspfeil funktioniert auch für Elemente größerer Objekte. Nehmen wir an, wir hätten uns bei der Eingabe der 5. Reaktionszeit vertippt und diese sei eigentlich 725 ms gewesen. Um die vorhandenen Daten zu überschreiben, können wir neue Werte direkt zuweisen. Auch hier sollte beachtet werden, dass es dabei keinerlei Warnung und Absicherung gibt. Sobald die Zuweisung ausgeführt ist, sind die Daten überschrieben und die vorherigen Daten verloren.
 
@@ -1268,7 +1269,7 @@ dat
 
 ***
 
-## Daten Import/Export {#Speichern_Laden .anchorheader}
+## Daten Import/Export {#Speichern_Laden}
 
 Alle Objekte, die bisher erstellt wurden liegen im Environment - sobald wir R schließen wird dieser geleert und die Objekte gehen verloren. Wie oben bereits erwähnt, ist das in den meisten Fällen das explizit gewünschte Verhalten - durch die Syntax können wir die Objekte ja wiederherstellen - aber in manchen Fällen ist es Sinnvoll Objekte wie Datensätze abzuspeichern und in späteren Schritten die bereits bearbeiteten Daten zu laden.
 
@@ -1381,7 +1382,8 @@ Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [
 
 
 ```
-## Warning in file(con, "r"): cannot open file 'fb22.csv': No such file or directory
+## Warning in file(con, "r"): cannot open file 'fb22.csv': No such file or
+## directory
 ```
 
 ```
@@ -1415,7 +1417,8 @@ fb22 <- read.table('fb22.csv')
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or directory
+## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file
+## or directory
 ```
 
 ```
@@ -1430,7 +1433,8 @@ fb22 <- read.table('fb22.csv', header = TRUE)
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or directory
+## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file
+## or directory
 ```
 
 ```
@@ -1445,7 +1449,8 @@ fb22 <- read.table('fb22.csv', header = TRUE, sep = ",")
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or directory
+## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file
+## or directory
 ```
 
 ```
@@ -1479,8 +1484,9 @@ fb22 <- read.table('https://pandar.netlify.app/daten/fb22.csv', header = TRUE, s
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open URL 'https://pandar.netlify.app/daten/fb22.csv': HTTP
-## status was '404 Not Found'
+## Warning in file(file, "rt"): cannot open URL
+## 'https://pandar.netlify.app/daten/fb22.csv': HTTP status was '404 Not
+## Found'
 ```
 
 ```

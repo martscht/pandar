@@ -1,5 +1,4 @@
-knitr::opts_chunk$set(error = TRUE)
-# knitr::knit_hooks$set(purl = knitr::hook_purl)
+# Aktuell sollen die global options auf den default Einstellungen gelassen werden
 
 3 + 4
 
@@ -200,7 +199,7 @@ ls()
 stroop <- readRDS('dat.rds')
 stroop
 
-cat(paste(readLines('fb22.csv')[1:5], collapse = '\n'))
+
 
 args(read.table)
 
@@ -218,5 +217,3 @@ fb22 <- read.table('https://pandar.netlify.app/daten/fb22.csv', header = TRUE, s
 write.table(fb22,     # zu speichernder Datensatz
   'fb22.txt'          # Dateiname
   )
-
-cat(paste(readLines('fb22.txt')[1:5], collapse = '\n'))
