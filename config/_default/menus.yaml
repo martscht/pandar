@@ -6,7 +6,7 @@
 main:
   - name: "Lehre"
     pre: "<i class='fas fa-chalkboard-teacher'></i>&ensp;"
-    url: "/lehre"
+    url: "/lehre/main"
     weight: 10
   - name: "Statistik I"
     pre: "<i class='fas fa-chart-pie'></i>&ensp;"
@@ -38,6 +38,12 @@ main:
     pre: "<i class='fas fa-wand-sparkles'></i>&ensp;"
     url: '/extras'
     weight: 30
+  
+  - name: "stuart"
+    pre: "<i class='fa fa-bugs'></i>&ensp;"
+    url: '/extras/stuart/main'
+    parent: 'Extras'
+    weight: 39
 
   - name: "LIFOS"
     pre: "<i class='fas fa-book-open'></i>&ensp;"

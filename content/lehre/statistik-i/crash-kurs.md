@@ -14,6 +14,7 @@ banner:
   image: "/header/crash_post.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
+weight: 10
 
 reading_time: false
 share: false
@@ -71,7 +72,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 481069 mal heruntergeladen
+* Allein in den letzten 30 Tagen 479041 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
@@ -86,7 +87,7 @@ Ein paar nützliche Links für R sind die [R Main Page](https://www.r-project.or
 
 Weil die traditionelle R Nutzeroberfläche extrem spartanisch ist, werden wir auf dieser Seite mit RStudio arbeiten. RStudio ist eine zusätzliche Nutzeroberfläche, die den Umgang durch diverse convenience features mit R ein wenig erleichtert. Es muss separat installiert werden, ist aber, genau wie R selbst, gratis erhältlich. Um RStudio herunterzuladen besuchen Sie am einfachsten [https://www.rstudio.com/](https://www.rstudio.com/).
 
-![](rstudio.png)
+![](/lehre/statistik-i/rstudio.png)
 {{< intext_anchor Konsole_Syntax >}}
 
 RStudio besteht aus vier Panels. Zunächst sind nur drei sichtbar - durch **Strg+Shift+n** (OS X: **Cmd+Shift+n**) oder über den {{< inline_image "/lehre/statistik-i/new_script.png" >}} Button öffnen Sie eine neue Skriptdatei und das vierte Panel erscheint. {{< intext_anchor Eingabe>}}
@@ -358,7 +359,7 @@ Die Hilfe zur Funktion wird im Panel unten rechts geöffnet und ist ein Dokument
 
 Wenn man den genauen Namen einer Funktion nicht kennt, ist `help()` meistens nur wenig hilfreich. RStudio bietet an der oberen rechte Ecke des Hilfe-Fensters noch ein zusätzliches Suchfeld für die Hilfe, welches nicht nur die Funktionsnamen, sondern auch deren Beschreibungen durchsucht: 
 
-![](search.png)
+![](/lehre/statistik-i/search.png)
 
 Dadurch öffnet sich im Hilfefenster eine Auflistung aller Befehle, die diesen Suchbegriff enthalten. Die Notation ist dabei immer `paket::funktion()` - also das Bündel von Funktionen, in dem wir diese spezifische Funktion gefunden haben und dann deren Name. Was genau Pakete sind, werden wir uns später noch einmal vertieft angucken. Sie können einfach links auf den Namen klicken um zur Hilfe der Funktion zu gelangen.
 
@@ -489,7 +490,7 @@ Beschreibung | Code-Stil
  --- | --- 
 Funktionen schachteln | `funktion1(funktion2(argument))` 
 Objekt im Environment anlegen | `objekt <- funktion1(argument)` <br> `funktion2(objekt)`
-Ergebnis-Pipe | `funktion1(argument) |> funktion2()` 
+Ergebnis-Pipe | `funktion1(argument) \|> funktion2()` 
 
 Wann benutzt man am besten welches dieser drei Systeme? Wie so häufig in R ist das eine Sache des persönlichen Schreibstils und dessen, womit man selbst gut zurecht kommt. Meine persönliche Empfehlung ist für dieses Dreiergespann:
 
@@ -572,7 +573,7 @@ Gerade 1. kann Ihnen dabei Helfen Fehler zu umgehen, die nur auftreten, weil Sie
 
 Um zu verstehen, wie Daten in R funktionieren, nutzen wir als Beispiel ein klassisches Experiment aus der Psychologie: den Stroop Test. Die Grundidee lässt sich am leichtesten in einem Bild darstellen:
 
-![](stroop.png)
+![](/lehre/statistik-i/stroop.png)
 
 Der Stroop-Effekt ist der Unterschied zwischen der durchschnittlichen Zeit, die man benötigt um die Farbe zu nennen, in der ein Wort abgebildet ist - je nachdem ob die Farbe und das Wort gleich sind oder nicht. Wenn Sie über den Stroop Test mehr erfahren möchten, oder ihn selbst mal ausprobieren wollen, finden Sie bei [Psytoolkit](https://www.psytoolkit.org/lessons/stroop.html) Informationen und eine Online-Variante des Tests.
 
@@ -1380,8 +1381,7 @@ Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [
 
 
 ```
-## Warning in file(con, "r"): cannot open file 'fb22.csv': No such file or
-## directory
+## Warning in file(con, "r"): cannot open file 'fb22.csv': No such file or directory
 ```
 
 ```
@@ -1415,8 +1415,7 @@ fb22 <- read.table('fb22.csv')
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or
-## directory
+## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or directory
 ```
 
 ```
@@ -1431,8 +1430,7 @@ fb22 <- read.table('fb22.csv', header = TRUE)
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or
-## directory
+## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or directory
 ```
 
 ```
@@ -1447,8 +1445,7 @@ fb22 <- read.table('fb22.csv', header = TRUE, sep = ",")
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or
-## directory
+## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or directory
 ```
 
 ```
@@ -1482,8 +1479,8 @@ fb22 <- read.table('https://pandar.netlify.app/daten/fb22.csv', header = TRUE, s
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open URL
-## 'https://pandar.netlify.app/daten/fb22.csv': HTTP status was '404 Not Found'
+## Warning in file(file, "rt"): cannot open URL 'https://pandar.netlify.app/daten/fb22.csv': HTTP
+## status was '404 Not Found'
 ```
 
 ```

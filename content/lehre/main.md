@@ -4,7 +4,7 @@ title: "Material aus der Lehre"
 summary: "Hier findest du die vollständige Übersicht über alles, was wir auf dieser Seite an Lehrmaterial erstellt haben."
 
 weight: 10
-
+header.on_scroll: fixed
 show_date: false
 
 sections:
@@ -46,6 +46,34 @@ sections:
 
     design:
       columns: 2
+  # - block: collection
+  #   id: statistik-i
+  #   content:
+  #     title: Statistik I
+  #     subtitle: PsyBSc 2
+  #     text: 'In Statistik I geht es um die erste Einführung in die Statistik im Psychologiestudium. Dafür betrachten wir die Grundstruktur von R, Datenimport, einfache Grafiken, Deskriptivstatistiken, Verteilungsfunktionen und einige Tests.<br><br>'
+  #     # Choose how many pages you would like to display (0 = all pages)
+  #     count: 4
+  #     # Filter on criteria
+  #     filters:
+  #       folders:
+  #         - lehre
+  #       author: ""
+  #       tag: ""
+  #       category: 'Statistik I'
+  #       exclude_featured: false
+  #       featured_only: false
+  #       exclude_future: false
+  #       exclude_past: false
+  #       publication_type: ""
+  #     # Choose how many pages you would like to offset by
+  #     offset: 0
+  #     # Page order: descending (desc) or ascending (asc) date.
+  #     order: asc
+  #   design:
+  #     # Choose a layout view
+  #     view: compact
+  #     columns: '2'
   - block: markdown
     id: statistik-ii
     content:

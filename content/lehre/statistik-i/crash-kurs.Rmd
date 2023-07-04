@@ -14,6 +14,7 @@ banner:
   image: "/header/crash_post.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
+weight: 10
 
 reading_time: false
 share: false
@@ -40,7 +41,7 @@ output:
 
 ```{r setup, cache = FALSE, echo = FALSE}
 knitr::opts_chunk$set(error = TRUE)
-knitr::knit_hooks$set(purl = knitr::hook_purl)
+# knitr::knit_hooks$set(purl = knitr::hook_purl)
 ```
 
 {{< spoiler text="Kernfragen dieses Beitrags" >}}
@@ -322,7 +323,7 @@ Beschreibung | Code-Stil
  --- | --- 
 Funktionen schachteln | `funktion1(funktion2(argument))` 
 Objekt im Environment anlegen | `objekt <- funktion1(argument)` <br> `funktion2(objekt)`
-Ergebnis-Pipe | `funktion1(argument) |> funktion2()` 
+Ergebnis-Pipe | `funktion1(argument) \|> funktion2()` 
 
 Wann benutzt man am besten welches dieser drei Systeme? Wie so häufig in R ist das eine Sache des persönlichen Schreibstils und dessen, womit man selbst gut zurecht kommt. Meine persönliche Empfehlung ist für dieses Dreiergespann:
 
