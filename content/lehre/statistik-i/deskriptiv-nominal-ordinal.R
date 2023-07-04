@@ -94,9 +94,9 @@ median(fb22$prok4, na.rm = TRUE)   # Expliziter Ausschluss: funktioniert
 
 quantile(fb22$prok4,
          c(.25, .5, .75),                   # Quartile anfordern
-         na.rm = T)
+         na.rm = TRUE)
 
-quantile(fb22$prok4, .75, na.rm=T) - quantile(fb22$prok4, .25, na.rm=T)
+quantile(fb22$prok4, .75, na.rm=TRUE) - quantile(fb22$prok4, .25, na.rm=TRUE)
 
 IQR(fb22$prok4, na.rm = TRUE)
 

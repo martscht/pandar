@@ -75,21 +75,21 @@ Eine alternative Variante ist, den Datensatz direkt mit dem folgenden Befehl aus
 
 
 ```r
-load(url('https://pandar.netlify.app/post/fb22.rda'))   # Daten laden
-names(fb22)        # Namen der Variablen
+load(url("https://pandar.netlify.app/post/fb22.rda"))  # Daten laden
+names(fb22)  # Namen der Variablen
 ```
 
 ```
-##  [1] "prok1"   "prok2"   "prok3"   "prok4"   "prok5"   "prok6"   "prok7"  
-##  [8] "prok8"   "prok9"   "prok10"  "nr1"     "nr2"     "nr3"     "nr4"    
-## [15] "nr5"     "nr6"     "lz"      "extra"   "vertr"   "gewis"   "neuro"  
-## [22] "intel"   "nerd"    "grund"   "fach"    "ziel"    "lerntyp" "geschl" 
-## [29] "job"     "ort"     "ort12"   "wohnen"  "uni1"    "uni2"    "uni3"   
-## [36] "uni4"
+##  [1] "prok1"   "prok2"   "prok3"   "prok4"   "prok5"   "prok6"  
+##  [7] "prok7"   "prok8"   "prok9"   "prok10"  "nr1"     "nr2"    
+## [13] "nr3"     "nr4"     "nr5"     "nr6"     "lz"      "extra"  
+## [19] "vertr"   "gewis"   "neuro"   "intel"   "nerd"    "grund"  
+## [25] "fach"    "ziel"    "lerntyp" "geschl"  "job"     "ort"    
+## [31] "ort12"   "wohnen"  "uni1"    "uni2"    "uni3"    "uni4"
 ```
 
 ```r
-dim(fb22)          # Anzahl Zeile und Spalten
+dim(fb22)  # Anzahl Zeile und Spalten
 ```
 
 ```
@@ -126,13 +126,14 @@ fb22$geschl
 ```
 
 ```
-##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2  2  1  1  1  1  1  1  1  1  1  2  1
-##  [25] NA  1  1  1  1  1  2  1  1  1  1  1  1  1  2  1  1  1  1  1  1  1  1  1
-##  [49]  1  1  1  1  1 NA  1  2  1  2  1  1  1  2  1 NA NA  1  3  1  1  1  1  1
-##  [73]  1  1  1  1  1  1  2  2  2  1  2  2  1  1  1  1  1  1  1  1  1  1 NA  1
-##  [97]  1  1  1  1  1 NA  2  1  1  1  1 NA  1 NA  1  1  2  1  1  1  1  1  1  1
-## [121]  1  1  1  1  1  2  1  1 NA  2  1  2  1  1  1  1  1  1  1  1  1  1  1  1
-## [145]  1  1  1  1  1  1  1  1  1  1  1  1  2  1  1
+##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2  2  1  1  1  1  1  1  1  1
+##  [22]  1  2  1 NA  1  1  1  1  1  2  1  1  1  1  1  1  1  2  1  1  1
+##  [43]  1  1  1  1  1  1  1  1  1  1  1 NA  1  2  1  2  1  1  1  2  1
+##  [64] NA NA  1  3  1  1  1  1  1  1  1  1  1  1  1  2  2  2  1  2  2
+##  [85]  1  1  1  1  1  1  1  1  1  1 NA  1  1  1  1  1  1 NA  2  1  1
+## [106]  1  1 NA  1 NA  1  1  2  1  1  1  1  1  1  1  1  1  1  1  1  2
+## [127]  1  1 NA  2  1  2  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+## [148]  1  1  1  1  1  1  1  1  1  2  1  1
 ```
 
 Die Variable `geschl` liegt numerisch vor, es treten die Werte 1, 2 und 3 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/post/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "weiblich". Diese *Label* werden nun im Faktor hinterlegt.
@@ -179,22 +180,22 @@ fb22$fach
 ```
 
 ```
-##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2  2  2  4  3  2  3  4  4  1  3  4  4
-##  [25] NA  3 NA  2  3  4  4  1  3  2  1  3  1 NA  2  4  4  4  4  4  4  1  4  1
-##  [49]  3  1  1  3  4 NA  4  2  4  4  4  4  3  4  2 NA NA  4  4  3  4  3  4  3
-##  [73]  3  1  3  4  4  4  3  3  4  2  3  3  2  3  4  2  4  3  4  2  3  3 NA  4
-##  [97]  2  4  2  2  4 NA  2  3  2  1  1  3  5 NA  4  5  1  1  4  4  3  2  2  2
-## [121] NA  3  5  4  3  5  2  4 NA  1  4  3  3  5  4  1  4  4  2  3  3  4  3  2
-## [145]  4  4  4  4  4  5  2  1  3  1  2  3  4  4  4
+##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2  2  2  4  3  2  3  4  4  1
+##  [22]  3  4  4 NA  3 NA  2  3  4  4  1  3  2  1  3  1 NA  2  4  4  4
+##  [43]  4  4  4  1  4  1  3  1  1  3  4 NA  4  2  4  4  4  4  3  4  2
+##  [64] NA NA  4  4  3  4  3  4  3  3  1  3  4  4  4  3  3  4  2  3  3
+##  [85]  2  3  4  2  4  3  4  2  3  3 NA  4  2  4  2  2  4 NA  2  3  2
+## [106]  1  1  3  5 NA  4  5  1  1  4  4  3  2  2  2 NA  3  5  4  3  5
+## [127]  2  4 NA  1  4  3  3  5  4  1  4  4  2  3  3  4  3  2  4  4  4
+## [148]  4  4  5  2  1  3  1  2  3  4  4  4
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
 
 
 ```r
-fb22$fach <- factor(fb22$fach,
-                    levels = 1:5,
-                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
+fb22$fach <- factor(fb22$fach, levels = 1:5, labels = c("Allgemeine", "Biologische",
+    "Entwicklung", "Klinische", "Diag./Meth."))
 str(fb22$fach)
 ```
 
@@ -213,16 +214,16 @@ Nachfolgend wird zur Illustration die offene Freitextantwort zum Grund für das 
 
 
 ```r
-str(fb22$grund)                            # Ursprungsvariable: Character
+str(fb22$grund)  # Ursprungsvariable: Character
 ```
 
 ```
-##  chr [1:159] "Interesse" "Allgemeines Interesse schon seit der Kindheit" ...
+##  chr [1:159] "Interesse" ...
 ```
 
 ```r
-fb22$grund_faktor <- as.factor(fb22$grund) # Umwandlung in Faktor
-str(fb22$grund_faktor)                     # neue Variable: Faktor
+fb22$grund_faktor <- as.factor(fb22$grund)  # Umwandlung in Faktor
+str(fb22$grund_faktor)  # neue Variable: Faktor
 ```
 
 ```
@@ -249,7 +250,8 @@ levels(fb22$fach)         # Abruf
 ```
 
 ```
-## [1] "Allgemeine"  "Biologische" "Entwicklung" "Klinische"   "Diag./Meth."
+## [1] "Allgemeine"  "Biologische" "Entwicklung" "Klinische"  
+## [5] "Diag./Meth."
 ```
 
 ```r
@@ -289,8 +291,8 @@ Diese einfache Rechenvorschrift (Kategorienhäufigkeit geteilt durch Gesamthäuf
 
 
 ```r
-tab <- table(fb22$fach) # Absolute Haeufigkeiten
-sum(tab)                # Gesamtzahl
+tab <- table(fb22$fach)  # Absolute Haeufigkeiten
+sum(tab)  # Gesamtzahl
 ```
 
 ```
@@ -298,7 +300,7 @@ sum(tab)                # Gesamtzahl
 ```
 
 ```r
-tab / sum(tab)          # Relative Haeufigkeiten
+tab/sum(tab)  # Relative Haeufigkeiten
 ```
 
 ```
@@ -313,8 +315,8 @@ Alternativ kann die Funktion `prop.table()` auf das Tabellenobjekt mit den absol
 
 
 ```r
-tab <- table(fb22$fach) # Absolute
-prop.table(tab)         # Relative
+tab <- table(fb22$fach)  # Absolute
+prop.table(tab)  # Relative
 ```
 
 ```
@@ -453,14 +455,10 @@ Wir starten die Erstellung einer Grafik mittels Code mit der `jpeg()`-Funktion. 
 
 
 ```r
-jpeg("Mein-Barplot.jpg", width=15, height=10, units="cm", res=150) # Eröffnung Bilderstellung
-barplot(tab,
- col = rainbow(5),
- ylab = 'Anzahl Studierende',
- main = 'Lieblingsfach im 1. Semester',
- las = 2,
- cex.names = 0.8)
-dev.off()                                                         # Abschluss Bilderstellung
+jpeg("Mein-Barplot.jpg", width = 15, height = 10, units = "cm", res = 150)  # Eröffnung Bilderstellung
+barplot(tab, col = rainbow(5), ylab = "Anzahl Studierende", main = "Lieblingsfach im 1. Semester",
+    las = 2, cex.names = 0.8)
+dev.off()  # Abschluss Bilderstellung
 ```
 
 Auch hier gilt: Wenn kein Pfad spezifiziert wurde, liegt die Datei in Ihrem Arbeitsverzeichnis. In der Funktion `jpeg()` kann mit den Argumenten `units` angegeben werden, in welcher Einheit die anderen Argumente zu verstehen sind.
@@ -476,7 +474,7 @@ Der Modus (*Mo*) ist ein Maß der zentralen Tendenz, das die häufigste Auspräg
 
 
 ```r
-tab            # Tabelle ausgeben
+tab  # Tabelle ausgeben
 ```
 
 ```
@@ -486,7 +484,7 @@ tab            # Tabelle ausgeben
 ```
 
 ```r
-max(tab)       # Größte Häufigkeit
+max(tab)  # Größte Häufigkeit
 ```
 
 ```
@@ -494,7 +492,7 @@ max(tab)       # Größte Häufigkeit
 ```
 
 ```r
-which.max(tab) # Modus
+which.max(tab)  # Modus
 ```
 
 ```
@@ -515,9 +513,9 @@ Wir benötigen also $h_j$, was die relativen Häufigkeiten der einzelnen Kategor
 
 
 ```r
-hj <- prop.table(tab)       # hj erstellen
-ln_hj <- log(hj)            # Logarithmus bestimmen
-ln_hj                       # Ergebnisse für jede Kategorie
+hj <- prop.table(tab)  # hj erstellen
+ln_hj <- log(hj)  # Logarithmus bestimmen
+ln_hj  # Ergebnisse für jede Kategorie
 ```
 
 ```
@@ -527,10 +525,10 @@ ln_hj                       # Ergebnisse für jede Kategorie
 ```
 
 ```r
-summand <- ln_hj * hj       # Berechnung für jede Kategorie
-summe <- sum(summand)       # Gesamtsumme
-k <- dim(tab)               # Anzahl Kategorien
-relinf <- -1/log(k) * summe # Relativer Informationsgehalt
+summand <- ln_hj * hj  # Berechnung für jede Kategorie
+summe <- sum(summand)  # Gesamtsumme
+k <- dim(tab)  # Anzahl Kategorien
+relinf <- -1/log(k) * summe  # Relativer Informationsgehalt
 relinf
 ```
 
@@ -542,7 +540,8 @@ Eine kleine Abkürzung durch Einsparen der Schritte am Ende könnte hier folgend
 
 
 ```r
-relinf <- (ln_hj * hj) |> sum() * (-1/log(k))  # Relativer Informationsgehalt
+relinf <- (ln_hj * hj) |>
+    sum() * (-1/log(k))  # Relativer Informationsgehalt
 relinf
 ```
 
@@ -555,7 +554,7 @@ Eine alternative Schreibweise, die ohne Zwischenschritte auskommt, dafür aber i
 
 
 ```r
-- 1/log(dim(table(fb22$fach))) * sum(prop.table(table(fb22$fach)) * log(prop.table(table(fb22$fach))))
+-1/log(dim(table(fb22$fach))) * sum(prop.table(table(fb22$fach)) * log(prop.table(table(fb22$fach))))
 ```
 
 ```
@@ -587,20 +586,21 @@ fb22$prok4
 ```
 
 ```
-##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2  3  2  3 NA  2  4  2  2  2  3  3  2
-##  [25]  3  2  2  2  1  3  2  3  3  3  3  2  3  2  3  2  3  3  3  4  3  3  3  4
-##  [49]  2  4  3  2  3  4  3  3  2  1  4  2  2  2  2  2  2  2  2  2  3  2  2  2
-##  [73]  3  2  3  3  3  2  2  3  1  2  2  1  3  2  3  2  2  3  3  2  2  2  1  1
-##  [97]  3  2  4  3  2  4  3  3  1  2  2  3  4  3  1  3  2  2  3  2  2  2  3  4
-## [121]  3  1  2  2  3  3  4  3  3  3  3  4  3  1  2  3  2  2  3  2  2  4  4  2
-## [145]  3  2  3  2  4  2  2  2  2  4  3  4  3  3  3
+##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2  3  2  3 NA  2  4  2  2  2
+##  [22]  3  3  2  3  2  2  2  1  3  2  3  3  3  3  2  3  2  3  2  3  3
+##  [43]  3  4  3  3  3  4  2  4  3  2  3  4  3  3  2  1  4  2  2  2  2
+##  [64]  2  2  2  2  2  3  2  2  2  3  2  3  3  3  2  2  3  1  2  2  1
+##  [85]  3  2  3  2  2  3  3  2  2  2  1  1  3  2  4  3  2  4  3  3  1
+## [106]  2  2  3  4  3  1  3  2  2  3  2  2  2  3  4  3  1  2  2  3  3
+## [127]  4  3  3  3  3  4  3  1  2  3  2  2  3  2  2  4  4  2  3  2  3
+## [148]  2  4  2  2  2  2  4  3  4  3  3  3
 ```
 
 Wiederholung:
 
 
 ```r
-table(fb22$prok4)               # Absolute Haeufigkeiten
+table(fb22$prok4)  # Absolute Haeufigkeiten
 ```
 
 ```
@@ -610,7 +610,7 @@ table(fb22$prok4)               # Absolute Haeufigkeiten
 ```
 
 ```r
-prop.table(table(fb22$prok4))   # Relative Haeufigkeiten
+prop.table(table(fb22$prok4))  # Relative Haeufigkeiten
 ```
 
 ```
@@ -620,7 +620,7 @@ prop.table(table(fb22$prok4))   # Relative Haeufigkeiten
 ```
 
 ```r
-which.max(table(fb22$prok4))    # Modus
+which.max(table(fb22$prok4))  # Modus
 ```
 
 ```
@@ -666,7 +666,7 @@ Wir können uns den Einfluss fehlender Werte auf die Arbeit mit `R` mit der Betr
 
 
 ```r
-median(fb22$prok4)                 # Ohne Argument für NA: funktioniert nicht
+median(fb22$prok4)  # Ohne Argument für NA: funktioniert nicht
 ```
 
 ```
@@ -674,7 +674,7 @@ median(fb22$prok4)                 # Ohne Argument für NA: funktioniert nicht
 ```
 
 ```r
-median(fb22$prok4, na.rm = TRUE)   # Expliziter Ausschluss: funktioniert
+median(fb22$prok4, na.rm = TRUE)  # Expliziter Ausschluss: funktioniert
 ```
 
 ```
@@ -693,7 +693,7 @@ Um die Quartile oder jedes beliebige andere Quantil einer Verteilung zu erhalten
 ```r
 quantile(fb22$prok4,
          c(.25, .5, .75),                   # Quartile anfordern
-         na.rm = T)
+         na.rm = TRUE)
 ```
 
 ```
@@ -711,7 +711,7 @@ Mit `quantile()` ist die Umsetzung in `R` etwas umständlich, da wir die Funktio
 
 
 ```r
-quantile(fb22$prok4, .75, na.rm=T) - quantile(fb22$prok4, .25, na.rm=T)
+quantile(fb22$prok4, 0.75, na.rm = TRUE) - quantile(fb22$prok4, 0.25, na.rm = TRUE)
 ```
 
 ```

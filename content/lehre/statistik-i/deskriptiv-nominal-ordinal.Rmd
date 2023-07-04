@@ -39,7 +39,7 @@ output:
 
 
 ```{r setup, cache = FALSE, echo = FALSE, warning = FALSE, message = FALSE, purl = FALSE}
-knitr::opts_chunk$set(error = TRUE)
+knitr::opts_chunk$set(tidy = TRUE)
 #knitr::knit_hooks$set(purl = knitr::hook_purl)
 library(knitr)
 ```
@@ -222,7 +222,7 @@ Ungefähr `r round(prop.table(tab)[1]*100,2)`% Ihres Jahrgangs geben als Lieblin
 
 ## Grafiken in `R`
 
-```{r comic-barplot, echo=F,warning=F, fig.align='center',cache=FALSE, purl = FALSE}
+```{r comic-barplot, echo=FALSE,warning=FALSE, fig.align='center',cache=FALSE, purl = FALSE}
 library("RXKCD")
 invisible(getXKCD(373))
 ```
@@ -234,7 +234,7 @@ Die Darstellung als Tabelle wirkt häufig langweilig. Zu viele Tabellen in einem
 
 Die Erstellung ist mit der Funktion `barplot()` möglich. Diese braucht zunächst nur ein Tabellenobjekt als Input, dass die absoluten Häufigkeiten für die verschiedenen Kategorien einer Variable enthält.
 
-```{r,  eval=F, purl = FALSE}
+```{r,  eval=FALSE, purl = FALSE}
 barplot(tab)
 ```
 
@@ -242,7 +242,7 @@ Die Grafik erscheint in der RStudio-Standardansicht "unten rechts" im Reiter "Pl
 
 ![](plots_window.PNG)
 
-```{r, basic-barplot, echo = F, fig=T, fig.align='center'}
+```{r, basic-barplot, echo = FALSE, fig=TRUE, fig.align='center'}
 barplot(tab)
 ```
 
@@ -409,7 +409,7 @@ Nachfolgend soll mit Item 4 des Prokrastinationsfragebogens gearbeitet werden. E
 
 ![](fb_prok1.PNG)
 
-Es treten die Werte `r min(fb22$prok4,na.rm=T)` bis  `r max(fb22$prok4,na.rm=T)` empirisch auf, außerdem gibt es  `r sum(is.na(fb22$prok4))` fehlende Werte (dargestellt als `NA`):
+Es treten die Werte `r min(fb22$prok4,na.rm=TRUE)` bis  `r max(fb22$prok4,na.rm=TRUE)` empirisch auf, außerdem gibt es  `r sum(is.na(fb22$prok4))` fehlende Werte (dargestellt als `NA`):
 
 ```{r}
 fb22$prok4
@@ -475,10 +475,10 @@ Um die Quartile oder jedes beliebige andere Quantil einer Verteilung zu erhalten
 ```{r}
 quantile(fb22$prok4,
          c(.25, .5, .75),                   # Quartile anfordern
-         na.rm = T)
+         na.rm = TRUE)
 ```
 
-Der Interquartilsbereich liegt also zwischen `r quantile(fb22$prok4, .25, na.rm=T)` und `r quantile(fb22$prok4, .75, na.rm=T)`.
+Der Interquartilsbereich liegt also zwischen `r quantile(fb22$prok4, .25, na.rm=TRUE)` und `r quantile(fb22$prok4, .75, na.rm=TRUE)`.
 
 Den Interquartilsabstand (IQA) können wir nun bestimmen, indem wir das Ergebnis für das dritte und das erste Quartil subtrahieren. 
 
@@ -487,10 +487,10 @@ $$IQA = Q_3 - Q_1$$
 Mit `quantile()` ist die Umsetzung in `R` etwas umständlich, da wir die Funktion zwei Mal aufrufen und die Differenz daraus bilden müssen.
 
 ```{r}
-quantile(fb22$prok4, .75, na.rm=T) - quantile(fb22$prok4, .25, na.rm=T)
+quantile(fb22$prok4, .75, na.rm=TRUE) - quantile(fb22$prok4, .25, na.rm=TRUE)
 ```
 
-Dabei ist in der Ausgabe besonders die Überschrift verwirrend (75%), die hier nichts mit der Bedeutung des Wertes zu tun hat. Der IQA der Variable `prok4` beträgt `r quantile(fb22$prok4, .75, na.rm=T) - quantile(fb22$prok4, .25, na.rm=T)`. Für die Berechnung des IQA gibt es auch die direkte Funktion `IQR()`, die uns das ganze einfacher macht.
+Dabei ist in der Ausgabe besonders die Überschrift verwirrend (75%), die hier nichts mit der Bedeutung des Wertes zu tun hat. Der IQA der Variable `prok4` beträgt `r quantile(fb22$prok4, .75, na.rm=TRUE) - quantile(fb22$prok4, .25, na.rm=TRUE)`. Für die Berechnung des IQA gibt es auch die direkte Funktion `IQR()`, die uns das ganze einfacher macht.
 
 ```{r}
 IQR(fb22$prok4, na.rm = TRUE)
