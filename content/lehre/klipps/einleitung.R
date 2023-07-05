@@ -1,5 +1,3 @@
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-
 2 + 1
 
 #### Wiederholung in R ----
