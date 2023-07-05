@@ -6,11 +6,13 @@ pandarize <- function(x) {
   .R <- gsub('.Rmd', '.R', .rmd)
   .html <- gsub('.Rmd', '.html', .rmd)
   
-  knitr::knit(.rmd, .md, envir = new.env())
+  rmarkdown::render(.rmd, envir = new.env())
   knitr::purl(.rmd, .R, documentation = 0)
   
   readLines(.md) |>
     sub(pattern = '![](', replacement = paste0('![](', .img_location), x = _, fixed = TRUE) |>
-    sub(pattern = '<img src="figure/', replacement = paste0('<img src="', .img_location, '/', x , '_files/figure-html/')) |>
+    sub(pattern = '<img src="', replacement = paste0('<img src="', .img_location)) |>
     writeLines(con = .md)
+
+  file.remove(.html)  
 }
