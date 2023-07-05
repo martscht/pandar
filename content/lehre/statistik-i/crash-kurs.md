@@ -14,7 +14,6 @@ banner:
   image: "/header/crash_post.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
-weight: 10
 
 reading_time: false
 share: false
@@ -760,8 +759,7 @@ ls()
 ```
 
 ```
-## [1] "color"     "color_fac" "cong"      "my_num"    "react"    
-## [6] "text"
+## [1] "color"     "color_fac" "cong"      "my_num"    "react"     "text"
 ```
 
 Weil diese Vektoren zusammengehören, wäre es sinnvoll, sie zu einem Objekt zu kombinieren. Wie auch bei Vektoren, gibt es unterschiedliche Typen Daten zu kombinieren, allerdings sind ihre Relationen zueinander ein wenig komplizierter:
@@ -1382,8 +1380,7 @@ Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [
 
 
 ```
-## Warning in file(con, "r"): cannot open file 'fb22.csv': No such file or
-## directory
+## Warning in file(con, "r"): cannot open file 'fb22.csv': No such file or directory
 ```
 
 ```
@@ -1417,8 +1414,7 @@ fb22 <- read.table('fb22.csv')
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file
-## or directory
+## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or directory
 ```
 
 ```
@@ -1433,8 +1429,7 @@ fb22 <- read.table('fb22.csv', header = TRUE)
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file
-## or directory
+## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or directory
 ```
 
 ```
@@ -1449,8 +1444,7 @@ fb22 <- read.table('fb22.csv', header = TRUE, sep = ",")
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file
-## or directory
+## Warning in file(file, "rt"): cannot open file 'fb22.csv': No such file or directory
 ```
 
 ```
@@ -1484,9 +1478,8 @@ fb22 <- read.table('https://pandar.netlify.app/daten/fb22.csv', header = TRUE, s
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open URL
-## 'https://pandar.netlify.app/daten/fb22.csv': HTTP status was '404 Not
-## Found'
+## Warning in file(file, "rt"): cannot open URL 'https://pandar.netlify.app/daten/fb22.csv': HTTP
+## status was '404 Not Found'
 ```
 
 ```
