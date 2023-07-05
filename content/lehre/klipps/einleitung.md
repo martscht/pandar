@@ -3,13 +3,13 @@ title: Einleitung und Wiederholung KliPPs
 type: post
 date: '2021-10-06'
 slug: einleitung
-categories: ["MSc5a"]
+categories: ["KliPPs"]
 tags: ["R Intro", "Einführung", "t-Test", "Grundlagen der Inferenzstatistik", "Type I-Error",
 "Alpha Fehler", "Power", "Daten einlesen"]
 subtitle: ''
 summary: ''
 authors: [nehler, irmer, schultze]
-lastmod: '2021-10-05T16:40:21+02:00'
+lastmod: '2023-07-05'
 featured: no
 banner:
   image: "/header/FEI_Sitzung0_post.jpg"
@@ -19,15 +19,15 @@ projects: []
 reading_time: false
 share: false
 
-# links:
-#   - icon_pack: fas
-#     icon: book
-#     name: Inhalte
-#     url: /lehre/statistik-i/crash-kurs
-#   - icon_pack: fas
-#     icon: terminal
-#     name: Code
-#     url: /lehre/statistik-i/crash-kurs.R
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/klipps/einleitung
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /lehre/klipps/einleitung.R
 #   - icon_pack: fas
 #     icon: user-graduate
 #     name: Aufgaben
@@ -43,7 +43,7 @@ output:
 
 ## Einleitung
 Im Verlauf des Seminars _Vertiefung der Forschungsmethodik für Psychotherapeut:innen_ soll neben der Einführung in die Theorie und Hintergründe multivariater Verfahren auch eine Einführung in deren Umsetzung gegeben werden, sodass Sie in der Lage sind, diese Verfahren in Ihrem zukünftigen akademischen und beruflichen Werdegang zu benutzen. Für die Verwendung der Verfahren benötigen Sie natürlich Kenntnisse in einem Analysetool. `R` ist eine freie Software, die vor allem für (statistische) Datenanalysen verwendet wird. 
-Bevor Sie mit `R` arbeiten können, sollten Sie dafür natürlich die nötige Software (`R` als Programmiersprache und `R`-Studio als schöneres Interface) installiert haben. Hierzu eignet sich hervorragend der ebenfalls auf [{{< icon name="graduation-cap" pack="fas" >}} Pandar](https://pandar.netlify.com/) zu findende [{{< icon name="graduation-cap" pack="fas" >}}`R`-Crash Kurs](/post/r-crash-kurs), der im Bachelor unterrichtet. Dort gibt es die Intro und Installationsanweisung sowohl in deutscher als auch in englischer Sprache. _Wir werden zu Beginn noch einige Basics von `R` wiederholen, aber die Zeit für eine detaillierte Aufarbeitung liegt leider nicht vor. Falls Sie Probleme mit dem Verständnis haben, arbeiten Sie bitte das angegebene Intro durch._
+Bevor Sie mit `R` arbeiten können, sollten Sie dafür natürlich die nötige Software (`R` als Programmiersprache und `R`-Studio als schöneres Interface) installiert haben. Hierzu eignet sich hervorragend der ebenfalls auf [{{< icon name="graduation-cap" pack="fas" >}} Pandar](https://pandar.netlify.com/) zu findende [{{< icon name="graduation-cap" pack="fas" >}}`R`-Crash Kurs](/post/r-crash-kurs), der im Bachelor unterrichtet wird. Dort gibt es die Intro und Installationsanweisung sowohl in deutscher als auch in englischer Sprache. _Wir werden zu Beginn noch einige Basics von `R` wiederholen, aber die Zeit für eine detaillierte Aufarbeitung liegt leider nicht vor. Falls Sie Probleme mit dem Verständnis haben, arbeiten Sie bitte das angegebene Intro durch._
 
 
 ***
@@ -67,7 +67,7 @@ Zunächst betrachten wir das Fenster unten links - die Konsole. In dieser kann C
 ## [1] 3
 ```
 
-Auf diese Weise kann man zwar Aktionen ausführen, hat nach dem Schließen von RStudio aber keine Dokumentation, was man durchgeführt hat. Dafür ist das Script, also das eben neu geöffnete File, im linken oberen Fenster gedacht. Dort kann Code geschrieben und später auch gespeichert werden. Wenn wir unsere Addition nun dort notieren und anschließend **Enter** drücken passiert erstmal nichts. Damit etwas passiert, muss die Syntax mit Run Button {{< inline_image "/lehre/klipps/run.png" >}} oder mit  **Strg+Return** (OS X: **cmd+Return**) ausgeführt werden. Das Ergebnis wird aber nicht im Script selbst, sondern in der Konsole angezeigt.
+Auf diese Weise kann man zwar Aktionen ausführen, nach dem Schließen von RStudio hat man aber keine Dokumentation darüber, was man getan hat. Dafür ist das Script, also das eben neu geöffnete File, im linken oberen Fenster gedacht. Dort kann Code geschrieben und später auch gespeichert werden. Wenn wir unsere Addition nun dort notieren und anschließend **Enter** drücken passiert erstmal nichts. Damit etwas passiert, muss die Syntax mit dem Run Button {{< inline_image "/lehre/klipps/run.png" >}} oder mit  **Strg+Return** (OS X: **cmd+Return**) ausgeführt werden. Das Ergebnis wird aber nicht im Script selbst, sondern in der Konsole angezeigt.
 
 Oben rechts wird per Voreinstellung das *Environment* angezeigt, das wir gleich noch füllen werden. Unten rechts gibt es verschiedene Tabs wie beispielsweise die Hilfe und die Anzeige von Plots.
 
@@ -75,9 +75,9 @@ Oben rechts wird per Voreinstellung das *Environment* angezeigt, das wir gleich 
 
 ## Erste Schritte
 
-Wir haben bereits eine Addition in unser Script geschrieben. Auch wenn wir dieses in zwei Jahren nochmal öffnen, werden wir uns wohl daran erinnern, was dieser Befehl macht. Das ist aber nicht immer so klar. Damit wir auch später noch wissen, weshalb wir eine Operation durchführen brauchen wir also *Kommentare*. In `R` werden sie durch (beliebig viele) `#` begonnen und enden bei einem Zeilenumbruch. Mit Kommentaren kann Syntax auch in verschiedene Abschnitte gegliedert werden. Wir empfehlen, Abschnittüberschriften mit `####` zu beginnen und mit `----` zu beenden. RStudio erkennt solche Kommentare automatisch als Überschriften und stellt über den ![](/lehre/klipps//post/2019-10-18-r-crash-kurs_files/outline.png) Button eine darauf basierende Gliederung zur Verfügung.
+Wir haben bereits eine Addition in unser Script geschrieben. Auch wenn wir dieses in zwei Jahren nochmal öffnen, werden wir uns wohl daran erinnern, was dieser Befehl macht. Das ist aber nicht immer so klar. Damit wir auch später noch wissen, weshalb wir eine Operation durchführen, brauchen wir also *Kommentare*. In `R` werden sie durch (beliebig viele) `#` begonnen und enden bei einem Zeilenumbruch. Mit Kommentaren kann Syntax auch in verschiedene Abschnitte gegliedert werden. Wir empfehlen, Abschnittüberschriften mit `####` zu beginnen und mit `----` zu beenden. RStudio erkennt solche Kommentare automatisch als Überschriften und stellt über den ![](/lehre/klipps//post/2019-10-18-r-crash-kurs_files/outline.png) Button eine darauf basierende Gliederung zur Verfügung.
 
-Beispielsweise könnten wir also unser Skript nun folgendermaßen besser lesbar machen.
+Beispielsweise könnten wir unser Skript nun folgendermaßen besser lesbar machen.
 
 
 ```r
@@ -143,14 +143,14 @@ Wenn die Benennung von Argumenten nicht gegeben ist, werden diese in ihrer Reihe
 
 ## Hilfe
 
-Wenn man die Argumente (oder deren Reihenfolge) einer Funktion mal nicht kennt, bietet `R` ein sehr detailliertes und gut integriertes Hilfesystem.  Wenn man mehr Informationen bezüglich einer spezifischen Funktion benötigt, kann man `help` auf jede beliebige Funktion anwenden (bzw. `?` vor den Namen einer Funktion schreiben). Sie sollten - besonders zum Einstieg in `R` - häufig und gezielt diese Hilfe in Anspruch nehmen.
+Wenn man die Argumente einer Funktion (oder deren Reihenfolge) mal nicht kennt, bietet `R` ein sehr detailliertes und gut integriertes Hilfesystem.  Wenn man mehr Informationen bezüglich einer spezifischen Funktion benötigt, kann man `help` auf jede beliebige Funktion anwenden (bzw. `?` vor den Namen einer Funktion schreiben). Sie sollten - besonders zum Einstieg in `R` - häufig und gezielt diese Hilfe in Anspruch nehmen.
 
 
 ```r
 ?log
 ```
 
-Die Hilfe zur Funktion wird im Panel unten rechts geöffnet und ist ein Dokument, in dem viele Informationen zu finden sind. Es besteht unter anderem aus einer Beschreibung der Funktion, Aufschlüsselung der Argumente und der Ergebnisse.
+Die Hilfe zur Funktion wird im Panel unten rechts geöffnet und ist ein Dokument, in dem viele Informationen zu finden sind. Es besteht unter anderem aus einer Beschreibung der Funktion sowie einer Aufschlüsselung der Argumente und der Ergebnisse.
 
 ***
 
@@ -199,7 +199,7 @@ sqrt(sum(3, 4, 1, 2)) # Verschachtelte Funktionen
 ## [1] 3.162278
 ```
 
-wo das Ergebnis nicht explizit in einem Objekt gespeichert wird, sondern direkt als Argument an eine Funktion weitergegeben wird. Dabei werden geschachtelte Funktionen von innen nach außen evaluiert. Die Aneinanderkettung von Objektzuweisungen und Schachtelungen ist unbegrenzt, sodass sehr komplexe Systeme entstehen können. Weil das aber sehr schnell anstrengend werden kann - und man dabei leicht den Überblick verliert, was eigentlich wann ausgeführt wird - gibt es noch eine weitere Variante, Funktionen aneinander zu reihen: die *Pipe*.
+wo das Ergebnis nicht explizit in einem Objekt gespeichert wird, sondern direkt als Argument an eine Funktion weitergegeben wird. Dabei werden geschachtelte Funktionen von innen nach außen evaluiert. Die Aneinanderkettung von Objektzuweisungen und Schachtelungen ist unbegrenzt, sodass sehr komplexe Systeme entstehen können. Weil das aber sehr schnell anstrengend werden kann und man dabei leicht den Überblick verliert, was eigentlich wann ausgeführt wird, gibt es noch eine weitere Variante, Funktionen aneinander zu reihen: die *Pipe*.
 
 Bei der Pipe `|>` wird ein links stehendes Objekt oder Ergebnis genommen und als *erstes Argument* der rechts stehenden Funktion eingesetzt. Für unser Wurzelbeispiel also:
 
@@ -225,7 +225,7 @@ my_vec <- c(1, 2, 3, 4) # Erstellung Vektor
 
 ## Daten einlesen und verarbeiten
 
-Alle Objekte, die bisher erstellt wurden, liegen im Workspace - sobald wir `R` schließen, wird dieser Workspace geleert und die Objekte gehen verloren. In den meisten Fällen ist das explizit gewünschtes Verhalten - durch die Syntax können wir die Objekte ja wiederherstellen - aber in manchen Fällen ist es Sinnvoll, Objekte wie Datensätze abzuspeichern und in späteren Schritten die bereits bearbeiteten Daten zu laden.
+Alle Objekte, die bisher erstellt wurden, liegen im Workspace. Sobald wir `R` schließen, wird dieser Workspace geleert und die Objekte gehen verloren. In den meisten Fällen ist das explizit gewünschtes Verhalten - durch die Syntax können wir die Objekte ja wiederherstellen - aber in manchen Fällen ist es sinnvoll, Objekte wie Datensätze abzuspeichern und in späteren Schritten die bereits bearbeiteten Daten zu laden.
 
 Im Rahmen der Einführung und der Wiederholung einiger Themen nutzen wir zunächst einen fiktiven Datensatz. Im weiteren Verlauf des Seminars werden wir dann echte Datensätze auswerten. Hier soll es um Depression in Beziehung zu einigen anderen Variablen gehen. Sie können den [{{< icon name="download" pack="fas" >}} Datensatz "Depression.rda" hier herunterladen](/post/Depression.rda).
 
@@ -239,7 +239,7 @@ load("C:/Users/Musterfrau/Desktop/Depression.rda")
 
 Nun sollte in RStudio oben rechts in dem Fenster unter der Rubrik "Data" unser Datensatz mit dem Namen "_Depression_" erscheinen. 
 
-Bei Dateipfaden ist darauf zu achten, dass bei  Linux {{< icon name="linux" pack="fab" >}} oder Mac OS Rechnern {{< icon name="apple" pack="fab" >}} immer Front-Slashes ("/") zum Anzeigen von Hierarchien zwischen Ordnern verwendet werden, während auf Windows Rechnern {{< icon name="windows" pack="fab" >}} im System aber bei Dateipfaden mit Back-Slashes gearbeitet wird ("\\"). `R` nutzt auf Windows Rechnern {{< icon name="windows" pack="fab" >}} ebenfalls Front-Slashes ("/").  Das bedeutet, dass, wenn wir auf Windows Rechnern {{< icon name="windows" pack="fab" >}} den Dateipfad aus dem Explorer kopieren, wir die Slashes "umdrehen" müssen.
+Bei Dateipfaden ist darauf zu achten, dass bei  Linux {{< icon name="linux" pack="fab" >}} oder Mac OS Rechnern {{< icon name="apple" pack="fab" >}} immer Front-Slashes ("/") zum Anzeigen von Hierarchien zwischen Ordnern verwendet werden, während auf Windows Rechnern {{< icon name="windows" pack="fab" >}} bei Dateipfaden mit Back-Slashes gearbeitet wird ("\\"). `R` nutzt auf Windows Rechnern {{< icon name="windows" pack="fab" >}} ebenfalls Front-Slashes ("/").  Das bedeutet, dass, wenn wir auf Windows Rechnern {{< icon name="windows" pack="fab" >}} den Dateipfad aus dem Explorer kopieren, wir die Slashes "umdrehen" müssen.
 
 Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hierzu brauchen Sie nur die URL und müssen `R` sagen, dass es sich bei dieser um eine URL handelt, indem Sie die Funktion `url` auf den Link anwenden. Der funktionierende Befehl sieht so aus (wobei die URL in Anführungszeichen geschrieben werden muss):
 
@@ -279,8 +279,7 @@ names(Depression) # Namen der Variablen
 ```
 
 ```
-## [1] "Lebenszufriedenheit" "Episodenanzahl"      "Depressivitaet"      "Neurotizismus"      
-## [5] "Intervention"        "Geschlecht"
+## [1] "Lebenszufriedenheit" "Episodenanzahl"      "Depressivitaet"      "Neurotizismus"       "Intervention"        "Geschlecht"
 ```
 
 ```r
@@ -422,16 +421,12 @@ Depression[, 6]                    # Alle Geschlechter abfragen
 ```
 
 ```
-##  [1] maennlich weiblich  maennlich weiblich  maennlich weiblich  weiblich  maennlich weiblich 
-## [10] maennlich weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich
-## [19] weiblich  maennlich weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich 
-## [28] maennlich weiblich  weiblich  weiblich  maennlich weiblich  weiblich  weiblich  maennlich
-## [37] maennlich maennlich weiblich  maennlich maennlich maennlich maennlich maennlich maennlich
-## [46] maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich  maennlich
-## [55] maennlich maennlich weiblich  maennlich maennlich maennlich maennlich maennlich maennlich
-## [64] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
-## [73] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
-## [82] maennlich maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich 
+##  [1] maennlich weiblich  maennlich weiblich  maennlich weiblich  weiblich  maennlich weiblich  maennlich weiblich  weiblich  weiblich  weiblich  weiblich  weiblich 
+## [17] weiblich  maennlich weiblich  maennlich weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich weiblich  weiblich  weiblich  maennlich
+## [33] weiblich  weiblich  weiblich  maennlich maennlich maennlich weiblich  maennlich maennlich maennlich maennlich maennlich maennlich maennlich weiblich  maennlich
+## [49] maennlich weiblich  maennlich weiblich  weiblich  maennlich maennlich maennlich weiblich  maennlich maennlich maennlich maennlich maennlich maennlich maennlich
+## [65] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
+## [81] maennlich maennlich maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich 
 ## Levels: maennlich weiblich
 ```
 
@@ -575,8 +570,7 @@ names(model) #andere Inhalte der Liste
 ```
 
 ```
-##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values"
-##  [6] "assign"        "qr"            "df.residual"   "xlevels"       "call"         
+##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"        "qr"            "df.residual"   "xlevels"       "call"         
 ## [11] "terms"         "model"
 ```
 
@@ -666,8 +660,7 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ```
 
 ```
-##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value" 
-##  [7] "stderr"      "alternative" "method"      "data.name"
+##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value"  "stderr"      "alternative" "method"      "data.name"
 ```
 
 ```r

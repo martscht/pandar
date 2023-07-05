@@ -3,7 +3,7 @@ title: R Crash-Kurs
 type: post
 date: '2019-10-18'
 slug: crash-kurs
-categories: ["Statistik I", "Einführung"]
+categories: ["Statistik I"]
 tags: ["Einführung", "Datenmanagement", "Grundlagen", "Hilfe"]
 subtitle: ''
 summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
@@ -71,7 +71,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 464210 mal heruntergeladen
+* Allein in den letzten 30 Tagen 469843 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
@@ -1478,8 +1478,7 @@ fb22 <- read.table('https://pandar.netlify.app/daten/fb22.csv', header = TRUE, s
 ```
 
 ```
-## Warning in file(file, "rt"): cannot open URL 'https://pandar.netlify.app/daten/fb22.csv': HTTP
-## status was '404 Not Found'
+## Warning in file(file, "rt"): cannot open URL 'https://pandar.netlify.app/daten/fb22.csv': HTTP status was '404 Not Found'
 ```
 
 ```
