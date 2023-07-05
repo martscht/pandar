@@ -343,8 +343,8 @@ names(summary_model)      # weitere mögliche Argumente, die wir erhalten könne
 ```
 
 ```
-##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"         "df"            "r.squared"     "adj.r.squared" "fstatistic"   
-## [11] "cov.unscaled"
+##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"        
+##  [7] "df"            "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled"
 ```
 
 ```r
@@ -463,7 +463,7 @@ abline(v = 2*(2+1)/n, col = "red")  # Cut-off als große Stichprobe
 abline(v = 3*(2+1)/n, col = "blue")  # Cut-off als kleine Stichprobe
 ```
 
-<img src="/lehre/klipps//regression-ausreisser_files/figure-html/unnamed-chunk-19-1.png" alt="plot of chunk unnamed-chunk-19" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
 
 Hier eine kurze Beschreibung aller Argumente in der Grafik: Das Zusatzargument `breaks = 20` in `hist` gibt an, dass 20 Balken gezeichnet werden sollen. `abline` ist eine Funktion, die eine Gerade einem Plot hinzufügt. Dem Argument `v` wird hierbei der Punkt übergeben, an welchem eine **v**ertikale Linie eingezeichnet werden soll. `col = "red"` bzw. `col = "blue"` gibt an, dass diese Linie rot bzw. blau sein soll.
 
@@ -478,7 +478,7 @@ hist(CD, breaks  = 20)
 abline(v = 1, col = "red")  # Cut-off bei 1
 ```
 
-<img src="/lehre/klipps//regression-ausreisser_files/figure-html/unnamed-chunk-20-1.png" alt="plot of chunk unnamed-chunk-20" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
 In diesem Plot ist die vertikale Linie nicht enthalten, da der Plot schon zu früh entlang der x-Achse aufhört. Wir können die Grenzen mit `xlim = c(0,1)` explizit von 0 bis 1 vorgeben:
 
 
@@ -488,7 +488,7 @@ hist(CD, breaks  = 20, xlim = c(0, 1))
 abline(v = 1, col = "red")  # Cut-off bei 1
 ```
 
-<img src="/lehre/klipps//regression-ausreisser_files/figure-html/unnamed-chunk-21-1.png" alt="plot of chunk unnamed-chunk-21" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
 
 ### Blasendiagramm
@@ -503,7 +503,7 @@ Fälle, die nach einem der drei Kriterien als Ausreißer identifiziert werden, w
 InfPlot <- influencePlot(model)
 ```
 
-<img src="/lehre/klipps//regression-ausreisser_files/figure-html/unnamed-chunk-22-1.png" alt="plot of chunk unnamed-chunk-22" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
 
 ```r
 IDs <- as.numeric(row.names(InfPlot))
@@ -528,12 +528,18 @@ Depression[IDs,]
 ```
 
 ```
-##    Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus                Intervention Geschlecht
-## 41                   2              4              6             3                 VT Coaching  maennlich
-## 49                   5              4              2             8                 VT Coaching  maennlich
-## 64                  10              4              1            10 VT Coaching + Gruppenuebung  maennlich
-## 78                   7              9              8             6 VT Coaching + Gruppenuebung  maennlich
-## 85                  11              7              5            10 VT Coaching + Gruppenuebung  maennlich
+##    Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus                Intervention
+## 41                   2              4              6             3                 VT Coaching
+## 49                   5              4              2             8                 VT Coaching
+## 64                  10              4              1            10 VT Coaching + Gruppenuebung
+## 78                   7              9              8             6 VT Coaching + Gruppenuebung
+## 85                  11              7              5            10 VT Coaching + Gruppenuebung
+##    Geschlecht
+## 41  maennlich
+## 49  maennlich
+## 64  maennlich
+## 78  maennlich
+## 85  maennlich
 ```
 
 ```r
@@ -568,7 +574,7 @@ Die Entscheidung, ob Ausreißer oder auffällige Datenpunkte aus Analysen ausges
 ### Einfluss von Hebelwert und Cook's Distanz
 Was wäre nun gewesen, wenn die Hebelwerte oder Cook's Distanz extreme Werte angezeigt hätten? Um dieser Frage auf den Grund zu gehen, schauen wir uns für eine Kombination der beiden Koeffizienten den Effekt auf eine Regressionsgerade an. Die vier Grafiken zeigen jeweils die Regressionsgerade in schwarz ohne den jeweiligen Ausreißer, während die Gerade in blau die Regressionsanalyse (`Y ~ 1 + X`) inklusive des Ausreißers symbolisiert. Falls Sie die Grafik selbst bauen wollen, finden Sie sie in [Appendix B](AppendixB).
 
-<img src="/lehre/klipps//regression-ausreisser_files/figure-html/unnamed-chunk-24-1.png" alt="plot of chunk unnamed-chunk-24" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
 
 In `A)` ist die Regression ohne Ausreißer dargestellt. `B)` zeigt den Effekt, wenn nur der Hebelwert groß ist. Es ist kaum ein Einfluss auf die Regressionsgerade auszumachen. Der Mittelwert der Variable `X` wird stark nach rechts verschoben. Dies bedeutet, dass ein großer Hebelwert nur den Mittelwert dieser Variable in Richtung des Ausreißers "hebelt", nicht aber zwangsweise die Regressionsgerade! `C)` zeigt eine große Cook's Distanz bei gleichzeitig kleinem Hebelwert. die Gerade ist etwas nach oben verschoben und auch die Steigung hat sich leicht verändert. Insgesamt ist mit dem bloßen Auge allerdings noch kein extremer Effekt auf die Gerade auszumachen. Dieser Effekt wird nur in `D)` deutlich. Hier ist sowohl Cook's Distanz als auch der Hebelwert extrem. Dadurch verändert sich die Regressionsgerade stark. Hier könnten wir davon sprechen, dass die Gerade durch den Ausreißer nach unten "gehebelt" wird. Insgesamt zeigt diese Grafik, dass nicht ein Koeffizient alleine ausreicht, um einen Effekt auf eine Regressionsanalyse zu untersuchen und dass Werte besonders dann extreme Auswirkungen haben, wenn mehrere Koeffizienten groß sind!
 
@@ -761,7 +767,7 @@ ggplot(data = df_h, aes(x = h)) +
   labs(title = "Histogramm der Hebelwerte", x = "Hebelwerte") # Füge eigenen Titel und Achsenbeschriftung hinzu
 ```
 
-<img src="/lehre/klipps//regression-ausreisser_files/figure-html/unnamed-chunk-33-1.png" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" />
 
 #### Cooks-Distanz:
 
@@ -777,7 +783,7 @@ ggplot(data = df_CD, aes(x = CD)) +
   geom_vline(xintercept = 1, col = "red") # Cut-Off bei 1
 ```
 
-<img src="/lehre/klipps//regression-ausreisser_files/figure-html/unnamed-chunk-34-1.png" alt="plot of chunk unnamed-chunk-34" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-34-1.png" style="display: block; margin: auto;" />
 
 Hier finden Sie außerdem den Code zu den vier Grafiken, die den Einfluss von Hebelwerten und der Cooks's Distanz dargestellt haben.
 
@@ -839,7 +845,7 @@ points(X_[length(X)+1], y_[length(X)+1], pch = 15, cex = 2.8, col = "gold")
 points(X_[length(X)+1], y_[length(X)+1], pch = 16, cex = 2, col = "darkblue")
 ```
 
-<img src="/lehre/klipps//regression-ausreisser_files/figure-html/unnamed-chunk-35-1.png" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" />
 
 #### Ellipse
 
@@ -886,7 +892,7 @@ points(X[i],Y[i], cex = 2, pch = 16)
 points(mu1[1],mu1[2],pch=19,col="green", cex = 3)
 ```
 
-<img src="/lehre/klipps//regression-ausreisser_files/figure-html/unnamed-chunk-36-1.png" alt="plot of chunk unnamed-chunk-36" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-36-1.png" style="display: block; margin: auto;" />
 
 </details>
 
@@ -943,7 +949,7 @@ points(X[i],Y[i], cex = 2, pch = 16)
 points(mu1[1],mu1[2],pch=19,col="green", cex = 3)
 ```
 
-<img src="/lehre/klipps//regression-ausreisser_files/figure-html/unnamed-chunk-37-1.png" alt="plot of chunk unnamed-chunk-37" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" />
 
 Der Ellipsenplot zeigt zwei multivariat-normalverteilte Variablen. Die Normalverteilungsdichte können wir uns dort wie einen Hügel vorstellen, der aus dem Bildschirm wächst, wobei hellere Kurven für eine größere Höhe des Hügels sprechen.
 
@@ -995,13 +1001,13 @@ xWerte <- seq(from = min(MD), to = max(MD), by = 0.01)
 lines(x = xWerte, y = dchisq(x = xWerte, df = 2), lwd = 3)
 ```
 
-<img src="/lehre/klipps//regression-ausreisser_files/figure-html/unnamed-chunk-39-1.png" alt="plot of chunk unnamed-chunk-39" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-39-1.png" style="display: block; margin: auto;" />
 
 ```r
 qqPlot(x = MD,distribution =  "chisq", df = 2, pch = 16)
 ```
 
-<img src="/lehre/klipps//regression-ausreisser_files/figure-html/unnamed-chunk-39-2.png" alt="plot of chunk unnamed-chunk-39" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-39-2.png" style="display: block; margin: auto;" />
 
 ```
 ## [1] 85 41
@@ -1035,13 +1041,18 @@ MD
 ```
 
 ```
-##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173  1.29835776  0.89484803  5.31999173  0.07401952  1.85988286  0.96581665  2.87179069
-## [14]  1.29835776  3.08398338  6.11730810  0.96581665  0.33582974  1.93061376  3.99622396  0.96581665  1.85988286  1.93061376  3.57704668  0.07401952  0.96581665
-## [27]  1.68027868  0.88006651  1.85988286  1.85988286  0.96581665  0.19639932  0.07401952  2.79831527  0.19639932  1.64697702  2.42350418  0.89484803  0.96581665
-## [40]  0.19639932  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651  0.19639932  0.07401952  0.38036881  8.84194961  1.64697702  0.19639932  1.29835776
-## [53]  2.87179069  4.92199266  7.18339325  0.19639932  0.33582974  0.38036881  3.46236019  0.07401952  0.33582974  0.38036881  3.48368968  8.46422112  0.19639932
-## [66]  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570  0.38036881  0.07401952  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429  3.08398338
-## [79]  2.86848429  1.09506856  2.39394112  1.50981570  1.09506856  2.42350418 10.28690861  1.33295604  0.19639932  0.88006651  1.68027868  1.09506856
+##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173  1.29835776  0.89484803
+##  [9]  5.31999173  0.07401952  1.85988286  0.96581665  2.87179069  1.29835776  3.08398338  6.11730810
+## [17]  0.96581665  0.33582974  1.93061376  3.99622396  0.96581665  1.85988286  1.93061376  3.57704668
+## [25]  0.07401952  0.96581665  1.68027868  0.88006651  1.85988286  1.85988286  0.96581665  0.19639932
+## [33]  0.07401952  2.79831527  0.19639932  1.64697702  2.42350418  0.89484803  0.96581665  0.19639932
+## [41]  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651  0.19639932  0.07401952  0.38036881
+## [49]  8.84194961  1.64697702  0.19639932  1.29835776  2.87179069  4.92199266  7.18339325  0.19639932
+## [57]  0.33582974  0.38036881  3.46236019  0.07401952  0.33582974  0.38036881  3.48368968  8.46422112
+## [65]  0.19639932  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570  0.38036881  0.07401952
+## [73]  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429  3.08398338  2.86848429  1.09506856
+## [81]  2.39394112  1.50981570  1.09506856  2.42350418 10.28690861  1.33295604  0.19639932  0.88006651
+## [89]  1.68027868  1.09506856
 ```
 
 Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Probandennummer der möglichen Ausreißer.

@@ -72,7 +72,7 @@ Oben rechts wird per Voreinstellung das *Environment* angezeigt, das wir gleich 
 
 ## Erste Schritte
 
-Wir haben bereits eine Addition in unser Script geschrieben. Auch wenn wir dieses in zwei Jahren nochmal öffnen, werden wir uns wohl daran erinnern, was dieser Befehl macht. Das ist aber nicht immer so klar. Damit wir auch später noch wissen, weshalb wir eine Operation durchführen, brauchen wir also *Kommentare*. In `R` werden sie durch (beliebig viele) `#` begonnen und enden bei einem Zeilenumbruch. Mit Kommentaren kann Syntax auch in verschiedene Abschnitte gegliedert werden. Wir empfehlen, Abschnittüberschriften mit `####` zu beginnen und mit `----` zu beenden. RStudio erkennt solche Kommentare automatisch als Überschriften und stellt über den ![](/post/2019-10-18-r-crash-kurs_files/outline.png) Button eine darauf basierende Gliederung zur Verfügung.
+Wir haben bereits eine Addition in unser Script geschrieben. Auch wenn wir dieses in zwei Jahren nochmal öffnen, werden wir uns wohl daran erinnern, was dieser Befehl macht. Das ist aber nicht immer so klar. Damit wir auch später noch wissen, weshalb wir eine Operation durchführen, brauchen wir also *Kommentare*. In `R` werden sie durch (beliebig viele) `#` begonnen und enden bei einem Zeilenumbruch. Mit Kommentaren kann Syntax auch in verschiedene Abschnitte gegliedert werden. Wir empfehlen, Abschnittüberschriften mit `####` zu beginnen und mit `----` zu beenden. RStudio erkennt solche Kommentare automatisch als Überschriften und stellt über den {{< inline_image "/lehre/klipps/outline.png" >}} Button eine darauf basierende Gliederung zur Verfügung.
 
 Beispielsweise könnten wir unser Skript nun folgendermaßen besser lesbar machen.
 
