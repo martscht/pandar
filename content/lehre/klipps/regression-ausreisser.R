@@ -1,5 +1,3 @@
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-
 ## install.packages("car")            # Die Installation ist nur einmalig von Nöten!
 ## install.packages("lm.beta")        # Sie müssen nur zu Update-Zwecken erneut installiert werden.
 ## install.packages("MASS")

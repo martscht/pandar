@@ -38,10 +38,8 @@ output:
 
 
 
-```{r setup, cache = FALSE, echo = FALSE, warning = FALSE, message = FALSE, purl = FALSE}
-#knitr::opts_chunk$set(tidy = TRUE)
-#knitr::knit_hooks$set(purl = knitr::hook_purl)
-library(knitr)
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 
