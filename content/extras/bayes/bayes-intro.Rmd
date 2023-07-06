@@ -7,7 +7,7 @@ slug: bayes-intro
 categories: ["Bayes"]
 tags: ["Bayes", "Einführung", "Likelihood", "Verteilungen"]
 subtitle: 'An einem fiktiven klinischen Beispiel mit viel zu kleinem $n$'
-summary: '...'
+summary: 'Klassische inferenzstatistische Prüfung beginnt jedes Mal mit naiven Annahmen. Insbesondere für den kumulativen Wissenschaftsfortschritt ist das ein wenig überzeugendes System. In diesem Beitrag behandeln wir deshalb die Grundideen Bayesianischer Statistik und welche Möglichkeit es gibt, vorherige Erkenntnisse direkt in unsere Tests einfließen zu lassen.'
 authors: [schultze]
 featured: no
 banner: 

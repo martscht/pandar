@@ -39,9 +39,15 @@ main:
     url: '/extras'
     weight: 30
   
+  - name: "Bayes"
+    pre: "<i class='fa-solid fa-dice-d20'></i>&ensp;"
+    url: '/extras/main#bayes'
+    parent: 'Extras'
+    weight: 32
+
   - name: "stuart"
     pre: "<i class='fa fa-bugs'></i>&ensp;"
-    url: '/extras/stuart/main'
+    url: '/extras/main#stuart'
     parent: 'Extras'
     weight: 39
 
