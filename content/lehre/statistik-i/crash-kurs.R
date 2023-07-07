@@ -1,4 +1,4 @@
-# Aktuell sollen die global options auf den default Einstellungen gelassen werden
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 
 3 + 4
 
