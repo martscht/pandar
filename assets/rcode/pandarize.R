@@ -11,6 +11,7 @@ pandarize <- function(x) {
   
   readLines(.md) |>
     sub(pattern = '![](', replacement = paste0('![](', .img_location), x = _, fixed = TRUE) |>
+    sub(pattern = '](figure/', replacement = paste0('](', .img_location), x = _, fixed = TRUE) |>
     sub(pattern = '<img src="', replacement = paste0('<img src="', .img_location)) |>
     writeLines(con = .md)
 
