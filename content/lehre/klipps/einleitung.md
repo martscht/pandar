@@ -7,7 +7,7 @@ categories: ["KliPPs"]
 tags: ["R Intro", "Einführung", "t-Test", "Grundlagen der Inferenzstatistik", "Type I-Error",
 "Alpha Fehler", "Power", "Daten einlesen"]
 subtitle: ''
-summary: ''
+summary: 'Dieser Beitrag stellt eine Einführung in `R` dar. Neben grundlegenden Funktionen werden das Einlesen und die Verarbeitung von Daten behandelt, außerdem werden einfache Datenanalysen durchgeführt. Besonderes Augenmerk liegt dabei auf den Grundlagen zur linearen Regression, die als Vorbereitung für die Regressionssitzung dienen. Zudem gibt es eine kleine Wiederholung einiger wichtiger inferenzstatistischer Begriffe.'
 authors: [nehler, irmer, schultze]
 lastmod: '2023-07-05'
 featured: no
@@ -43,7 +43,7 @@ output:
 
 ## Einleitung
 Im Verlauf des Seminars _Vertiefung der Forschungsmethodik für Psychotherapeut:innen_ soll neben der Einführung in die Theorie und Hintergründe multivariater Verfahren auch eine Einführung in deren Umsetzung gegeben werden, sodass Sie in der Lage sind, diese Verfahren in Ihrem zukünftigen akademischen und beruflichen Werdegang zu benutzen. Für die Verwendung der Verfahren benötigen Sie natürlich Kenntnisse in einem Analysetool. `R` ist eine freie Software, die vor allem für (statistische) Datenanalysen verwendet wird. 
-Bevor Sie mit `R` arbeiten können, sollten Sie dafür natürlich die nötige Software (`R` als Programmiersprache und `R`-Studio als schöneres Interface) installiert haben. Hierzu eignet sich hervorragend der ebenfalls auf [{{< icon name="graduation-cap" pack="fas" >}} Pandar](https://pandar.netlify.com/) zu findende [{{< icon name="graduation-cap" pack="fas" >}}`R`-Crash Kurs](/post/r-crash-kurs), der im Bachelor unterrichtet wird. Dort gibt es die Intro und Installationsanweisung sowohl in deutscher als auch in englischer Sprache. _Wir werden zu Beginn noch einige Basics von `R` wiederholen, aber die Zeit für eine detaillierte Aufarbeitung liegt leider nicht vor. Falls Sie Probleme mit dem Verständnis haben, arbeiten Sie bitte das angegebene Intro durch._
+Bevor Sie mit `R` arbeiten können, sollten Sie dafür natürlich die nötige Software (`R` als Programmiersprache und `RStudio` als schöneres Interface) installiert haben. Hierzu eignet sich hervorragend der ebenfalls auf [{{< icon name="graduation-cap" pack="fas" >}} Pandar](https://pandar.netlify.com/) zu findende [{{< icon name="graduation-cap" pack="fas" >}}`R`-Crash Kurs](/post/r-crash-kurs), der im Bachelor unterrichtet wird. Dort gibt es die Intro und Installationsanweisung sowohl in deutscher als auch in englischer Sprache. _Wir werden zu Beginn noch einige Basics von `R` wiederholen, aber die Zeit für eine detaillierte Aufarbeitung liegt leider nicht vor. Falls Sie Probleme mit dem Verständnis haben, arbeiten Sie bitte das angegebene Intro durch._
 
 
 ***
@@ -54,7 +54,7 @@ Das traditionelle `R` ist im Rahmen seiner Nutzeroberfläche einer Konsole ähnl
 
 ![](/lehre/klipps/rstudio.png)
 
-RStudio besteht aus vier Panels. Wenn wir RStudio zum ersten Mal öffnen sind jedoch nur drei sichtbar. Das vierte wird durch das Öffnen eines neuen Files sichtbar (oder auch durch **Strg+Shift+n** bzw. in OS X: **Cmd+Shift+n**). 
+`RStudio` besteht aus vier Panels. Wenn wir `RStudio` zum ersten Mal öffnen sind jedoch nur drei sichtbar. Das vierte wird durch das Öffnen eines neuen Files sichtbar (oder auch durch **Strg+Shift+n** bzw. in OS X: **Cmd+Shift+n**). 
 
 Zunächst betrachten wir das Fenster unten links - die Konsole. In dieser kann Code ausgeführt werden. Beispielsweise können wir dort eine Addition eingeben und erhalten nach dem Drücken von **Enter** dann das Ergebnis der Operation.
 
@@ -67,7 +67,7 @@ Zunächst betrachten wir das Fenster unten links - die Konsole. In dieser kann C
 ## [1] 3
 ```
 
-Auf diese Weise kann man zwar Aktionen ausführen, nach dem Schließen von RStudio hat man aber keine Dokumentation darüber, was man getan hat. Dafür ist das Script, also das eben neu geöffnete File, im linken oberen Fenster gedacht. Dort kann Code geschrieben und später auch gespeichert werden. Wenn wir unsere Addition nun dort notieren und anschließend **Enter** drücken passiert erstmal nichts. Damit etwas passiert, muss die Syntax mit dem Run Button {{< inline_image "/lehre/klipps/run.png" >}} oder mit  **Strg+Return** (OS X: **cmd+Return**) ausgeführt werden. Das Ergebnis wird aber nicht im Script selbst, sondern in der Konsole angezeigt.
+Auf diese Weise kann man zwar Aktionen ausführen, nach dem Schließen von `RStudio` hat man aber keine Dokumentation darüber, was man getan hat. Dafür ist das Script, also das eben neu geöffnete File, im linken oberen Fenster gedacht. Dort kann Code geschrieben und später auch gespeichert werden. Wenn wir unsere Addition nun dort notieren und anschließend **Enter** drücken passiert erstmal nichts. Damit etwas passiert, muss die Syntax mit dem Run Button {{< inline_image "/lehre/klipps/run.png" >}} oder mit  **Strg+Return** (OS X: **cmd+Return**) ausgeführt werden. Das Ergebnis wird aber nicht im Script selbst, sondern in der Konsole angezeigt.
 
 Oben rechts wird per Voreinstellung das *Environment* angezeigt, das wir gleich noch füllen werden. Unten rechts gibt es verschiedene Tabs wie beispielsweise die Hilfe und die Anzeige von Plots.
 
@@ -90,7 +90,7 @@ Beispielsweise könnten wir unser Skript nun folgendermaßen besser lesbar mache
 ## [1] 3
 ```
 
-In der Gliederung sollte in RStudio jetzt die Überschrift "Wiederholung in R" auftauchen.
+In der Gliederung sollte in `RStudio` jetzt die Überschrift "Wiederholung in R" auftauchen.
 
 Neben einfachen Taschenrechner-Funktionen mit *numerischen Ergebnissen* kann R auch logische Abfragen und Vergleiche durchführen. Hier folgt ein Beispiel für das Prüfen auf Gleichheit:
 
@@ -237,18 +237,18 @@ Der Datensatz ist im `R`-internen ".rda" Format abgespeichert - einem datensatzs
 load("C:/Users/Musterfrau/Desktop/Depression.rda")
 ```
 
-Nun sollte in RStudio oben rechts in dem Fenster unter der Rubrik "Data" unser Datensatz mit dem Namen "_Depression_" erscheinen. 
+Nun sollte in `RStudio` oben rechts in dem Fenster unter der Rubrik "Data" unser Datensatz mit dem Namen "_Depression_" erscheinen. 
 
 Bei Dateipfaden ist darauf zu achten, dass bei  Linux {{< icon name="linux" pack="fab" >}} oder Mac OS Rechnern {{< icon name="apple" pack="fab" >}} immer Front-Slashes ("/") zum Anzeigen von Hierarchien zwischen Ordnern verwendet werden, während auf Windows Rechnern {{< icon name="windows" pack="fab" >}} bei Dateipfaden mit Back-Slashes gearbeitet wird ("\\"). `R` nutzt auf Windows Rechnern {{< icon name="windows" pack="fab" >}} ebenfalls Front-Slashes ("/").  Das bedeutet, dass, wenn wir auf Windows Rechnern {{< icon name="windows" pack="fab" >}} den Dateipfad aus dem Explorer kopieren, wir die Slashes "umdrehen" müssen.
 
-Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hierzu brauchen Sie nur die URL und müssen `R` sagen, dass es sich bei dieser um eine URL handelt, indem Sie die Funktion `url` auf den Link anwenden. Der funktionierende Befehl sieht so aus (wobei die URL in Anführungszeichen geschrieben werden muss):
+Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hierzu brauchen Sie nur die URL und müssen `R` sagen, dass es sich bei dieser um eine URL handelt, indem Sie die Funktion `url` auf den Link anwenden. Der funktionierende Befehl sieht so aus. (Es ist zu beachten, dass die URL in Anführungszeichen geschrieben werden muss):
 
 
 ```r
 load(url("https://pandar.netlify.app/post/Depression.rda"))
 ```
 
-An diesem Link erkennen wir, dass Websiten im Grunde auch nur schön dargestellte Ordnerstrukturen sind. So liegt auf der Pandar-Seite, die auf *netlify.app* gehostet wird, ein Ordner namens *post*, in welchem wiederum das `Depression.rda` liegt.
+An diesem Link erkennen wir, dass Websiten im Grunde auch nur schön dargestellte Ordnerstrukturen sind. So liegt auf der pandaR-Seite, die auf *netlify.app* gehostet wird, ein Ordner namens *post*, in welchem wiederum das `Depression.rda` liegt.
 
 Natürlich kann `R` auch andere Dateiformate einladen. Dafür gibt es jeweils spezifische Befehle, die sich meist sehr leicht per Internetrecherche finden lassen.
 
@@ -262,13 +262,20 @@ head(Depression) # ersten 6 Zeilen
 ```
 
 ```
-##   Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus   Intervention Geschlecht
-## 1                   7              4              7             5 Kontrollgruppe          0
-## 2                   5              5              8             3 Kontrollgruppe          1
-## 3                   8              7              6             6 Kontrollgruppe          0
-## 4                   6              4              5             5 Kontrollgruppe          1
-## 5                   6              9              8             5 Kontrollgruppe          1
-## 6                   8              7              8             6 Kontrollgruppe          1
+##   Lebenszufriedenheit Episodenanzahl Depressivitaet
+## 1                   7              4              7
+## 2                   5              5              8
+## 3                   8              7              6
+## 4                   6              4              5
+## 5                   6              9              8
+## 6                   8              7              8
+##   Neurotizismus   Intervention Geschlecht
+## 1             5 Kontrollgruppe          0
+## 2             3 Kontrollgruppe          1
+## 3             6 Kontrollgruppe          0
+## 4             5 Kontrollgruppe          1
+## 5             5 Kontrollgruppe          1
+## 6             6 Kontrollgruppe          1
 ```
 
 Wir erkennen die 6 Spalten mit den Variablen Lebenszufriedenheit, Depressivitaet usw. Da es sich bei unserem Datensatz um ein Objekt vom Typ `data.frame` handelt, können wir die Variablennamen des Datensatzes außerdem mit der `names` Funktion abfragen. Eine weitere interessante Funktion ist `dim`, die die Anzahl der Zeilen und Spalten ausgibt. Mit `str` kann die Struktur des Datensatzes angezeigt werden. 
@@ -279,7 +286,8 @@ names(Depression) # Namen der Variablen
 ```
 
 ```
-## [1] "Lebenszufriedenheit" "Episodenanzahl"      "Depressivitaet"      "Neurotizismus"      
+## [1] "Lebenszufriedenheit" "Episodenanzahl"     
+## [3] "Depressivitaet"      "Neurotizismus"      
 ## [5] "Intervention"        "Geschlecht"
 ```
 
@@ -328,9 +336,9 @@ is.factor(Depression$Geschlecht)
 ## [1] TRUE
 ```
 
-Das Präfix `as.` wandelt dann Vektoren von einem Typ in einen um (bspw. `as.numeric`). Das führen wir nun aber nicht aus, da die Typen insgesamt schon dem Wunsch entsprechen.
+Das Präfix `as.` wandelt dann Vektoren von einem Typ in einen anderen um (bspw. `as.numeric`). Das führen wir nun aber nicht aus, da die Typen insgesamt schon dem Wunsch entsprechen.
 
-_**Tipp:** In `R`-Studio können Sie sich Ihren Umgang mit der Software in vielen Dingen vereinfachen, indem Sie die automatische Vervollständigung der Software nutzen. Dies tun Sie, indem Sie bspw. `Depression$` tippen und dann den Tabulator [oder "Strg" + "Leertaste" auf Windows {{< icon name="windows" pack="fab" >}} oder Linux Rechner {{< icon name="linux" pack="fab" >}} oder "Control" + "Leertaste" auf Mac OS Rechnern {{< icon name="apple" pack="fab" >}}] auf Ihrer Tastatur drücken. Ihnen werden dann Vorschläge für mögliche Argumente aufgezeigt. Das Gleiche funktioniert auch in Funktionen. Hier müssen Sie zunächst den Funktionsnamen schreiben und die Klammern öffnen. Mit dem Tabulator erhalten Sie anschließend Vorschläge für mögliche Argumente, die Sie der Funktion übergeben können. Schauen Sie sich dies doch einmal an! Dies funktioniert übrigens auch für das Vervollständigen von Dateipfaden. Hierbei muss allerdings darauf geachtet werden, dass diese in Anführungsstrichen geschrieben werden und Sie müssen beachten, wo ihr aktuelles Working-Directory liegt. Sie können allerdings auch den vollständigen Pfad eingeben, indem Sie auf Windows PCs {{< icon name="windows" pack="fab" >}} mit "C:/Users/" und auf Mac OS-Rechnern {{< icon name="apple" pack="fab" >}} mit "/Users/" beginnen und dann den Tabulator drücken und den jeweilig richtigen Ordner auswählen, bis Sie an Ihrer Zieldatei angekommen sind!_
+_**Tipp:** In `RStudio` können Sie sich Ihren Umgang mit der Software in vielen Dingen vereinfachen, indem Sie die automatische Vervollständigung der Software nutzen. Dies tun Sie, indem Sie bspw. `Depression$` tippen und dann den Tabulator [oder "Strg" + "Leertaste" auf Windows {{< icon name="windows" pack="fab" >}} oder Linux Rechner {{< icon name="linux" pack="fab" >}} oder "Control" + "Leertaste" auf Mac OS Rechnern {{< icon name="apple" pack="fab" >}}] auf Ihrer Tastatur drücken. Ihnen werden dann Vorschläge für mögliche Variablennamen aufgezeigt. Das Gleiche funktioniert auch in Funktionen. Hier müssen Sie zunächst den Funktionsnamen schreiben und die Klammern öffnen. Mit dem Tabulator erhalten Sie anschließend Vorschläge für mögliche Argumente, die Sie der Funktion übergeben können. Schauen Sie sich dies doch einmal an! Das Ganze funktioniert übrigens auch für das Vervollständigen von Dateipfaden. Hierbei muss allerdings darauf geachtet werden, dass diese in Anführungsstrichen geschrieben werden und Sie müssen beachten, wo ihr aktuelles Working-Directory liegt. Sie können allerdings auch den vollständigen Pfad eingeben, indem Sie auf Windows PCs {{< icon name="windows" pack="fab" >}} mit "C:/Users/" und auf Mac OS-Rechnern {{< icon name="apple" pack="fab" >}} mit "/Users/" beginnen und dann den Tabulator drücken und den jeweilig richtigen Ordner auswählen, bis Sie an Ihrer Zieldatei angekommen sind!_
 
 Bei Faktoren können wir uns die verschiedenen Stufen mittels `levels` anzeigen lassen.
 
@@ -366,7 +374,7 @@ Depression$Depressivitaet[5] # Extrahieren
 ## [1] 8
 ```
 
-Dabei kann man natürlich auch mehr als einen Wert auswählen, indem man Faktoren verwendet. Der Doppelpunkt bedeutet in dem Falle alle ganzen Zahlen zwischen den angegeben Grenzen.
+Dabei kann man natürlich auch mehr als einen Wert auswählen, indem man Vektoren verwendet. Der Doppelpunkt bedeutet in dem Falle alle ganzen Zahlen zwischen den angegebenen Grenzen.
 
 
 ```r
@@ -398,8 +406,10 @@ Depression[1, ]   # 1. Zeile, alle Spalten
 ```
 
 ```
-##   Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus   Intervention Geschlecht
-## 1                   7              4              7             5 Kontrollgruppe  maennlich
+##   Lebenszufriedenheit Episodenanzahl Depressivitaet
+## 1                   7              4              7
+##   Neurotizismus   Intervention Geschlecht
+## 1             5 Kontrollgruppe  maennlich
 ```
 
 ### Daten verändern
@@ -422,16 +432,24 @@ Depression[, 6]                    # Alle Geschlechter abfragen
 ```
 
 ```
-##  [1] maennlich weiblich  maennlich weiblich  maennlich weiblich  weiblich  maennlich weiblich 
-## [10] maennlich weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich
-## [19] weiblich  maennlich weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich 
-## [28] maennlich weiblich  weiblich  weiblich  maennlich weiblich  weiblich  weiblich  maennlich
-## [37] maennlich maennlich weiblich  maennlich maennlich maennlich maennlich maennlich maennlich
-## [46] maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich  maennlich
-## [55] maennlich maennlich weiblich  maennlich maennlich maennlich maennlich maennlich maennlich
-## [64] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
-## [73] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
-## [82] maennlich maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich 
+##  [1] maennlich weiblich  maennlich weiblich  maennlich
+##  [6] weiblich  weiblich  maennlich weiblich  maennlich
+## [11] weiblich  weiblich  weiblich  weiblich  weiblich 
+## [16] weiblich  weiblich  maennlich weiblich  maennlich
+## [21] weiblich  weiblich  weiblich  weiblich  weiblich 
+## [26] weiblich  weiblich  maennlich weiblich  weiblich 
+## [31] weiblich  maennlich weiblich  weiblich  weiblich 
+## [36] maennlich maennlich maennlich weiblich  maennlich
+## [41] maennlich maennlich maennlich maennlich maennlich
+## [46] maennlich weiblich  maennlich maennlich weiblich 
+## [51] maennlich weiblich  weiblich  maennlich maennlich
+## [56] maennlich weiblich  maennlich maennlich maennlich
+## [61] maennlich maennlich maennlich maennlich maennlich
+## [66] maennlich maennlich maennlich maennlich maennlich
+## [71] maennlich maennlich maennlich maennlich maennlich
+## [76] maennlich maennlich maennlich maennlich maennlich
+## [81] maennlich maennlich maennlich weiblich  maennlich
+## [86] maennlich weiblich  maennlich weiblich  weiblich 
 ## Levels: maennlich weiblich
 ```
 
@@ -442,7 +460,7 @@ Depression[, 6]                    # Alle Geschlechter abfragen
 Natürlich wollen wir nicht nur mit den Daten spielen, sondern Auswertungen durchführen, die unsere empirischen Fragestellungen beantworten können. Für viele wichtige Analysearten der Psychologie gibt es dabei schon vorgeschriebene Funktionen, deren Argumente nur mit den korrekten Analysen gefüllt werden müssen.
 
 ### Einfache Deskriptivstatistiken
-Bevor wir mit den in der Vorlesung besprochenen Analysen anfangen, wollen wir uns noch schnell mit dem Bestimmen einfacher deskriptivstatistischer Größen vertraut machen. Mit der Funktion `mean` können wir den Mittelwert einer Variable bestimmen. Eine Schätzung für die Populationsvarianz erhalten wir mit `var`.  _Es handelt sich hierbei um Populations- und nicht um Stichprobenschätzungen, da in diesen Funktionen der Vorfaktor $\frac{1}{n-1}$ genutzt wird, um einen unverzerrten Schätzer für eben die Variation in der Population zu erhalten (für mehr Informationen siehe bspw. [Eid, Gollwitzer und Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 162-163 in Kapitel 6.4.4 und S. 246-247 in Kapitel 8.5.1 oder [Agresti, & Finlay, 2013](https://ubffm.hds.hebis.de/Record/HEB369761391), Kapitel 3.2 und folgend)._
+Bevor wir mit den in der Vorlesung besprochenen Analysen anfangen, wollen wir uns noch schnell mit dem Bestimmen einfacher deskriptivstatistischer Größen vertraut machen. Mit der Funktion `mean` können wir den Mittelwert einer Variable bestimmen. Eine Schätzung für die Populationsvarianz erhalten wir mit `var`.  _Bei der `var`-Funktion wird der Vorfaktor $\frac{1}{n-1}$ verwendet, um einen unvrezerrten Schätzer für die Variation in der Population zu erhalten. Demnach handelt es sich um eine Populations- und nicht um eine Stichprobenschätzung. (Für mehr Informationen siehe bspw. [Eid, Gollwitzer und Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 162-163 in Kapitel 6.4.4 und S. 246-247 in Kapitel 8.5.1 oder [Agresti, & Finlay, 2013](https://ubffm.hds.hebis.de/Record/HEB369761391), Kapitel 3.2 und folgend)._
 
 
 ```r
@@ -482,16 +500,16 @@ summary(Depression$Geschlecht) # Zusammenfassung factor
 ##        54        36
 ```
 
-Im numerischen Fall erhalten wir in der Ausgabe einige beschreibende Kennwerte wie das Minimum, Maximum oder auch den Mittelwert. Beim Faktor hingegen wird eine Übersicht über die Verteilung erstellt. Wir erkennen, dass `summary` je nach Typ, auf das es angewendet wird, verschiedene Outputs erzeugt. Dies kann häufig auch einfach die Zusammenfassung einer Analyse sein, was wir später nochmal sehen werden. 
+Im numerischen Fall erhalten wir in der Ausgabe einige beschreibende Kennwerte wie das Minimum, Maximum oder auch den Mittelwert. Beim Faktor hingegen wird eine Übersicht über die Verteilung erstellt. Wir erkennen, dass `summary` je nach Typ, auf den es angewendet wird, verschiedene Outputs erzeugt. Dies kann häufig auch einfach die Zusammenfassung einer Analyse sein, was wir später nochmal sehen werden. 
 
-Als letztes gucken wir uns noch den Befehl `colMeans` an, welcher Mittelwerte eines Datensatzes über die Spalten (also pro Variable über alle Personen) bestimmt. Somit lassen sich ganz einfach für alle Variablen eines Datensatzes auf einmal die Mittelwerte bestimmen (`rowMeans` bestimmt, wie Sie sich wahrscheinlich denken, die Mittelwerte pro Zeile, also die Mittelwerte über alle Variablen pro Person):
+Als letztes schauen wir uns noch den Befehl `colMeans` an, welcher Mittelwerte eines Datensatzes über die Spalten (also pro Variable über alle Personen) bestimmt. Somit lassen sich ganz einfach für alle Variablen eines Datensatzes auf einmal die Mittelwerte bestimmen (`rowMeans` bestimmt, wie Sie sich wahrscheinlich denken, die Mittelwerte pro Zeile, also die Mittelwerte über alle Variablen pro Person):
 
 
 ```r
 colMeans(Depression[1:4]) # Spaltenmittelwerte
 ```
 
-Wir wählen hier nur die ersten vier Spalten, weil der Mittelwert für Faktoren nicht sinnvoll ist und auch in `R` eine Fehlermeldung erzeugt.
+Wir wählen hier nur die ersten vier Spalten, weil der Mittelwert für Faktoren nicht sinnvoll ist und in `R` eine Fehlermeldung erzeugt.
 
 ### Zusammenhang und lineare Regression
 
@@ -499,21 +517,21 @@ Die lineare Regression ist eine sehr einfache Analye, um den Zusammenhang zwisch
 
 Natürlich ist die Analyse nicht ohne Voraussetzungen. Diese sind im folgenden der Vollständigkeit halber aufgeführt, werden aber nicht nochmal näher betrachtet.
 
-1. Linearität: Zusammenhang muss linear sein $\rightarrow$ Grafische Überprüfung (Scatterplot)  
-2. Varianzhomogenität (Homoskedastizität) der Fehler: der Fehler jedes Wertes der UV hat annährend die gleiche Varianz  
+1. Linearität: der Zusammenhang muss linear sein $\rightarrow$ Grafische Überprüfung (Scatterplot)  
+2. Varianzhomogenität (Homoskedastizität) der Fehler: der Fehler jedes Wertes der UV hat annähernd die gleiche Varianz  
 3. Normalverteilung der Fehlervariablen  
 4. Unabhängigkeit der Fehler 
 
-Eine simple Darstellung des Zusammenhangs kann man über die `plot`-Funktion abbilden. Schönere Grafiken erhält man mittels `ggplot`, zu dem Sie sich [hier](/post/grafiken-mit-ggplot2) nochmal genauer informieren können.
+Eine simple Darstellung des Zusammenhangs kann man über die `plot`-Funktion abbilden. Schönere Grafiken erhält man mittels des Befehls `ggplot`, zu dem Sie sich [hier](/post/grafiken-mit-ggplot2) nochmal genauer informieren können.
 
 
 ```r
 plot(Depression$Lebenszufriedenheit, Depression$Depressivitaet, xlab = "Lebenszufriedenheit", ylab = "Depressivitaet")
 ```
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-28-1.png" alt="plot of chunk unnamed-chunk-28" style="display: block; margin: auto;" />
 
-Die Umsetzung der Parameterschätzung anhand der kleinsten Quadrate ist mit der Funktion `lm` möglich. Beachten Sie hierbei, dass angegeben wird, welche Variable durch welche Variable vorhergesagt wird. Das bedeutet, dass wir hier zuerst Depressivitaet und dann Lebenszufriedenheit nennen müssen.
+Die Umsetzung der Parameterschätzung anhand der kleinsten Quadrate ist mit der Funktion `lm` möglich. Beachten Sie hierbei, dass angegeben wird, welche Variable durch welche Variable vorhergesagt wird. Das bedeutet, dass wir hier zuerst Depressivitaet und dann Lebenszufriedenheit nennen müssen, wenn wir Depressivitaet durch Lebenszufriedenheit vorhersagen wollen.
 
 
 ```r
@@ -554,20 +572,24 @@ summary(model)
 ## -4.4138 -0.9346  0.1278  1.0446  3.5862 
 ## 
 ## Coefficients:
-##                     Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)           9.1217     0.7092  12.862  < 2e-16 ***
-## Lebenszufriedenheit  -0.5416     0.1078  -5.026 2.61e-06 ***
+##                     Estimate Std. Error t value
+## (Intercept)           9.1217     0.7092  12.862
+## Lebenszufriedenheit  -0.5416     0.1078  -5.026
+##                     Pr(>|t|)    
+## (Intercept)          < 2e-16 ***
+## Lebenszufriedenheit 2.61e-06 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.568 on 88 degrees of freedom
 ## Multiple R-squared:  0.223,	Adjusted R-squared:  0.2142 
 ## F-statistic: 25.26 on 1 and 88 DF,  p-value: 2.614e-06
 ```
 
-Hier werden uns neben dem Steigungskoeffizienten und dem Achsenabschnitt auch noch beispielsweise deren Signifikanz und $R^2$ angezeigt. 
+Hier werden uns neben dem Steigungskoeffizienten und dem Achsenabschnitt beispielsweise auch noch deren Signifikanz und $R^2$ angezeigt. 
 
-Doch es gibt noch einige weitere Informationen, die von der Funktion `lm` abgelegt werden. Die Bezeichnung der Einträge in der Liste `model` kann über `names` abgefragt werden.
+Doch es gibt noch einige weitere Informationen, die von der Funktion `lm` abgelegt werden. Die Bezeichnungen aller Einträge in der Liste `model` können über `names` abgefragt werden.
 
 
 ```r
@@ -575,18 +597,22 @@ names(model) #andere Inhalte der Liste
 ```
 
 ```
-##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"       
-##  [7] "qr"            "df.residual"   "xlevels"       "call"          "terms"         "model"
+##  [1] "coefficients"  "residuals"     "effects"      
+##  [4] "rank"          "fitted.values" "assign"       
+##  [7] "qr"            "df.residual"   "xlevels"      
+## [10] "call"          "terms"         "model"
 ```
 
-Die weiteren Inhalte umfassen unter anderem die `residuals`, die für das Prüfen der Voraussetzungen wichtig wären, aber auch die vorhergesagten Werte. 
+Die weiteren Inhalte umfassen unter anderem die `residuals`, die für das Prüfen der Voraussetzungen wichtig wären, aber auch die vorhergesagten Werte.
+Auf eine interessierende Information können wir wieder mithilfe des `$` zugreifen (also bspw. `model$residuals`).
 
-Nachdem wir nun einer kurze Wiederholung zur Analyse zum Zusammenhang zwischen zwei Variablen betrachtet haben, geht es im folgenden Teil um den Unterschied zwischen Gruppen.
+
+Nachdem wir nun eine kurze Wiederholung zur Analyse des Zusammenhangs zwischen zwei Variablen betrachtet haben, geht es im folgenden Teil um den Unterschied zwischen Gruppen.
 
 ### Der $t$-Test
-Ein sehr einfacher statistischer Test auf Unterschied, ist der $t$-Test (für eine Wiederholung siehe bspw. [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 11.1 oder [Agresti, & Finlay, 2013,](https://ubffm.hds.hebis.de/Record/HEB369761391) Kapitel 6.2 und folgend). Mit Hilfe dieses Tests soll untersucht werden, ob die Mittelwerte in zwei Gruppen gleich sind. Dazu brauchen wir drei wichtige Annahmen: 
+Ein sehr einfacher statistischer Test auf Unterschied ist der $t$-Test (für eine Wiederholung siehe bspw. [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 11.1 oder [Agresti, & Finlay, 2013,](https://ubffm.hds.hebis.de/Record/HEB369761391) Kapitel 6.2 und folgend). Mit Hilfe dieses Tests soll untersucht werden, ob die Mittelwerte in zwei Gruppen gleich sind. Dazu brauchen wir drei wichtige Annahmen: 
 
-  1) die Beobachtungen stammen aus einer _independent and identically distributed_ (i.i.d., deutsch: unabhängig und identisch verteilt) Population (dies bedeutet, dass alle Beobachtungen unabhängig sind und den gleichen Verteilungs- und Modellannahmen unterliegen), 
+  1) Die Beobachtungen stammen aus einer _independent and identically distributed_ (i.i.d., deutsch: unabhängig und identisch verteilt) Population (dies bedeutet, dass alle Beobachtungen unabhängig sind und den gleichen Verteilungs- und Modellannahmen unterliegen), 
   2) die Daten in beiden Gruppen sind normalverteilt mit 
   3) gleicher Varianz (Varianzhomogenität). 
 
@@ -594,7 +620,7 @@ Die 1. Annahme ist sehr kritisch und lässt sich leider nicht prüfen. Sie läss
 
 In diesem Beispiel wollen wir uns damit beschäftigen, ob die Depressivitaetswerte in den Gruppen der Männer und Frauen gleich verteilt sind. Wir beschäftigen uns mit unabhängigen Stichproben. Für die Testung stellen wir die folgenden Null-Hypothese auf - die Gleichheit der Mittelwerte in den beiden Gruppen:
 $$H_0: \mu_1=\mu_2$$
-Diese Hypothese gilt nicht, wenn $\mu_1\neq\mu_2$. In diesem Fall gilt irgendeine Alternativhypothese ($H_1$) mit einer Mittelwertsdifferenz $d=\mu_1-\mu_2$, die nicht Null ist $(d\neq0)$. Das würde bedeuten, dass sich die Depressivitaets-Werte für Männer und Frauen unterscheiden. Wir sprechen hier von einer Alternativhypothese, da in der (frequentistischen) Statistik immer feste Werte für die Parameter in der Population angenommen werden müssen. Wenn die $H_0$ nicht gilt, so muss entsprechend auch ein fester Wert für die Differenz $d$ für die Mittelwerte angenommen werden. 
+Diese Hypothese gilt nicht, wenn $\mu_1\neq\mu_2$. In diesem Fall gilt irgendeine Alternativhypothese ($H_1$) mit einer Mittelwertsdifferenz $d=\mu_1-\mu_2$, die nicht Null ist $(d\neq0)$. Das würde bedeuten, dass sich die Depressivitaets-Werte für Männer und Frauen unterscheiden. Wir sprechen hier von einer Alternativhypothese, da in der (frequentistischen) Statistik immer feste Werte für die Parameter in der Population angenommen werden müssen. Wenn die $H_0$ nicht gilt, so muss entsprechend auch ein fester Wert für die Differenz der Mittelwerte $d$ angenommen werden. 
 
 
 
@@ -622,7 +648,7 @@ t.test(Depressivitaet ~ Geschlecht,  # abhängige Variable ~ unabhängige Variab
 ##                4.759259                7.000000
 ```
 
-Der Output enthält folgende Informationen:
+Schauen wir uns die Informationen, die der Output enthält, genauer an:
 
 
 ```
@@ -638,7 +664,7 @@ zeigt an, dass es sich um einen Zwei-Stichproben $t$-Test handelt.
 ```
 zeigt uns die Datengrundlage (`X` und `Y`), den $t$-Wert, die $df$ und den $p$-Wert. 
 
-$t$-Wert t(88)=-7.4955 und $p$-Wert $p\approx$ 0, somit ist dieser Mittelwertsvergleich auf dem 5% Niveau signifikant ($p$<.05). 
+$t$-Wert $t$(88) $=$ -7.4955 und $p$-Wert $p\approx$ 0, somit ist dieser Mittelwertsvergleich auf dem 5%-Niveau signifikant ($p$ $<$ .05). 
 
 
 ```
@@ -649,7 +675,7 @@ $t$-Wert t(88)=-7.4955 und $p$-Wert $p\approx$ 0, somit ist dieser Mittelwertsve
 ## mean in group maennlich  mean in group weiblich 
 ##                4.759259                7.000000
 ```
-zeigt uns die Alternativhypothese ($H_1:d \neq 0$), das Konfidenzintervall der Mittelwertsdifferenz sowie die Mittelwerte in den beiden Gruppen ($\bar{X}_m=$ 4.7592593, $\bar{X}_w=$ 7). Dadurch können wir auch erkennen, dass die empirische Mittelwertsdifferenz bei $d$= -2.2407 liegt.
+zeigt uns die Alternativhypothese ($H_1:d \neq 0$), das Konfidenzintervall der Mittelwertsdifferenz sowie die Mittelwerte in den beiden Gruppen ($\bar{X}_m=$ 4.7592593, $\bar{X}_w=$ 7). Dadurch können wir auch erkennen, dass die empirische Mittelwertsdifferenz bei $d =$ -2.2407 liegt.
 
 Wie bei der Regression können wir auch den Test als Objekt ablegen. Wenn wir `names` darauf anwenden, sehen wir wieder alle Namen, die wir hinter `$` schreiben können.
 
@@ -665,8 +691,10 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ```
 
 ```
-##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value"  "stderr"     
-##  [8] "alternative" "method"      "data.name"
+##  [1] "statistic"   "parameter"   "p.value"    
+##  [4] "conf.int"    "estimate"    "null.value" 
+##  [7] "stderr"      "alternative" "method"     
+## [10] "data.name"
 ```
 
 ```r
@@ -688,7 +716,7 @@ ttest$p.value   # zugehöriger p-Wert
 
 Da die Null-Hypothese verworfen wird, nehmen wir an, dass es in der Population einen Mittelwertsunterschied zwischen der Depressivitaet von Männern und Frauen gibt.
 
-Nun sind wir am Schluss des behandelten Codes in der Seminar-Sitzung angekommen. Die Grundlagen von `R` und einigen statistischen Verfahren sind nun aufgefrischt. Der nächste Teil beschäftigt sich nochmal inhaltlich mit den grundlegenden Begriffen der Inferenzstatistik und ihrem Zusammenhang.
+Nun sind wir am Schluss des behandelten Codes in der Seminar-Sitzung angekommen. Die Grundlagen von `R` und einigen statistischen Verfahren sind nun aufgefrischt. Der nächste Teil beschäftigt sich nochmal inhaltlich mit den grundlegenden Begriffen der Inferenzstatistik.
 
 ***
 
@@ -697,9 +725,9 @@ Nun sind wir am Schluss des behandelten Codes in der Seminar-Sitzung angekommen.
 `R` kann bei der Veranschaulichung der grundlegenden Begriffe der Inferenzstatistik sehr hilfreich sein, weil wir verschiedene Populationsannahmen selbst treffen können. Anschließend können wir Stichproben simulieren und die üblichen Kennwerte betrachten.
 
 ### Simulieren der Stichproben
-Wir können in `R` relativ simpel normalverteilte Variablen simulieren. Für weitere Informationen zur Simulation von Verteilungen siehe bspw. [{{< icon name="graduation-cap" pack="fas" >}} `R`-Verteilungen auf Wiki](https://en.wikibooks.org/wiki/R_Programming/Probability_Distributions) oder [hier auf Pandar](/post/verteilungen/). Den Code der hier durchgeführten Simulationen können Sie [Appendix A](#AppendixA) entnehmen (geht über den Inhalt des Seminars hinaus). Nehmen wir an, dass wir als Grundlage unserer Stichprobe die Standardnormalverteilung $\mathcal{N}(0,1)$ haben. Wir ziehen 1000 Personen aus dieser Population und lassen uns ein Histogramm sowie den Mittelwert und die geschätzte Populationsstandardabweichung ausgeben. 
+Wir können in `R` relativ simpel normalverteilte Variablen simulieren. Für weitere Informationen zur Simulation von Verteilungen siehe bspw. [{{< icon name="graduation-cap" pack="fas" >}} `R`-Verteilungen auf Wiki](https://en.wikibooks.org/wiki/R_Programming/Probability_Distributions) oder [hier auf pandaR](/post/verteilungen/). Den Code der hier durchgeführten Simulationen können Sie [Appendix A](#AppendixA) entnehmen (geht über den Inhalt des Seminars hinaus). Nehmen wir an, dass wir als Grundlage unserer Stichprobe die Standardnormalverteilung $\mathcal{N}(0,1)$ haben. Wir ziehen 1000 Personen aus dieser Population und lassen uns ein Histogramm sowie den Mittelwert und die geschätzte Populationsstandardabweichung ausgeben. 
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-39-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-39-1.png" alt="plot of chunk unnamed-chunk-39" style="display: block; margin: auto;" />
 
 ```
 ## [1] -0.002997332
@@ -728,12 +756,12 @@ Simulieren wir noch eine zweite Stichprobe standardnormalverteilter Zufallsvaria
 ## -0.002997332  0.061998736
 ```
 
-Der Output ist uns bereits bekannt. Da die Null-Hypothese nicht verworfen wird, bedeutet dies, dass wir weiterhin annehmen, dass die Mittelwertsdifferenz in der Population tatsächlich 0 ist (was wir auch so vorgegeben haben). Die in der Stichprobe ist offensichtlich nicht 0, aber sie liegt so nah an der 0, dass diese Abweichung wahrscheinlich durch Zufall passiert ist und sich nicht auf die Population verallgemeinern lässt (siehe als Wiederholung [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 11.1 für den $t$-Test und Kapitel 8 für Inferenzstatistikgrundlagen und Hypothesentests, bzw. [Agresti, & Finlay, 2013](https://ubffm.hds.hebis.de/Record/HEB369761391), Kapitel 6).
+Der Output ist uns bereits bekannt. Da die Null-Hypothese nicht verworfen wird, bedeutet dies, dass wir weiterhin annehmen, dass die Mittelwertsdifferenz in der Population tatsächlich 0 ist (was wir auch so vorgegeben haben). Die Mittelwertsdifferenz in der Stichprobe ist offensichtlich nicht 0, aber sie liegt so nah an der 0, dass diese Abweichung wahrscheinlich durch Zufall passiert ist und sich nicht auf die Population verallgemeinern lässt (siehe als Wiederholung [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 11.1 für den $t$-Test und Kapitel 8 für Inferenzstatistikgrundlagen und Hypothesentests, bzw. [Agresti, & Finlay, 2013](https://ubffm.hds.hebis.de/Record/HEB369761391), Kapitel 6).
 
 ### Verteilung unter $H_0$
 Wenn wir dieses Experiment nun ganz häufig wiederholen, sollte die Teststatistik $t=\frac{\bar{X}-\bar{Y}}{\sigma_p}$ (wobei $\bar{X}$ und $\bar{Y}$ die Mittelwerte von $X$ und $Y$ sind und $\sigma_p$ die gepoolte Standardabweichung beschreibt) der $t$-Verteilung folgen, welcher wir dann den $p$-Wert ablesen können. 
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-41-1.png" style="display: block; margin: auto;" /><img src="einleitung_files/figure-html/unnamed-chunk-41-2.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-41-1.png" alt="plot of chunk unnamed-chunk-41" style="display: block; margin: auto;" /><img src="figure/unnamed-chunk-41-2.png" alt="plot of chunk unnamed-chunk-41" style="display: block; margin: auto;" />
 
 Die beiden Histogramme zeigen die empirische Verteilung der $t$- und $p$-Werte unter der $H_0$-Hypothese nach 10000 (unabhängigen) Wiederholungen und die angenommene Verteilung (fette durchgezogene schwarze Linie).  Von den $p$-Werten wird erwartet, dass sie sich gleich (uniform) auf das Intervall zwischen 0 und 1 verteilen. Somit landen dann nur 5% der $p$-Werte mit zugehörig großen Teststatistiken (zufällig) im Bereich $p<0.05$.
 
@@ -741,26 +769,35 @@ Die beiden Histogramme zeigen die empirische Verteilung der $t$- und $p$-Werte u
 ### Verteilung unter $H_1$
 Angenommen die $H_0$-Hypothese gilt nicht und es liegt tatsächlich eine Mittelwertsdifferenz von bspw. $d=0.1$ ($H_1: \mu_1 - \mu_2 = 0.1$) vor, dann hat dies folgende Auswirkungen auf die Verteilung der Teststatistik und die zugehörigen $p$-Werte:
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-42-1.png" style="display: block; margin: auto;" /><img src="einleitung_files/figure-html/unnamed-chunk-42-2.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-42-1.png" alt="plot of chunk unnamed-chunk-42" style="display: block; margin: auto;" /><img src="figure/unnamed-chunk-42-2.png" alt="plot of chunk unnamed-chunk-42" style="display: block; margin: auto;" />
 
 Wir sehen sehr deutlich, dass die Teststatistik $t$ deutlich nach rechts verschoben ist und nicht mehr zur theoretischen Verteilung unter der $H_0$-Hypothese passt. Auch die $p$-Werte sind alles andere als gleichverteilt. Folglich sprechen extreme $t$-Werte gegen die Null-Hypothese, weswegen wir diese verwerfen, wenn wir einen extremen Wert beobachten. Hier liegen 60.99% der $p$-Werte unterhalb von $0.05$. Dies wird auch als **Power** (siehe im Kapitel 8 in [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158) Wiederholungen der Begriffe Power und $\alpha$-Fehler) bezeichnet. Somit hat der $t$-Test für eine Mittelwertsdifferenz von $d$=.1 und eine Stichprobengröße von insgesamt n = 2000 eine Power von rund 60.99%. Dies bedeutet, dass in diesem Fall die $H_0$ in 60.99% der Fälle richtigerweise verworfen wird. Schauen wir uns die Power der $t$-Tests einmal für verschiedene Stichprobengröße ($n$) und Mittelwertsdifferenzen ($d$) an:
 
+
+```
+## Learn more about the underlying theory at https://ggplot2-book.org/
+```
+
+```
+## Loading required package: tinylabels
+```
+
 <img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-43-1.png" style="display: block; margin: auto;" />
 
-Die horizontal gepunktete Linie zeigt eine Power von 5% (also das vorgegebene $\alpha$-Niveau) an und die horizontal gestrichelte Linie zeigt eine Power von 80% an. 
+Die horizontal gepunktete Linie zeigt eine Power von 5% an (also das vorgegebene $\alpha$-Niveau) und die horizontal gestrichelte Linie zeigt eine Power von 80% an. 
 
 Wir sehen sehr deutlich, dass für alle Stichprobengrößen (farblich kodiert) von $n=2$ bis $n=1000$ (pro Gruppe) die Power bei einer Mittelwertsdifferenz von 0 gerade bei ca. 5% liegt. Die Mittelwertsdifferenz von 0 beschreibt gerade die Null-Hypothese, dass es keinen Mittelwertsunterschied gibt. In diesem Fall beobachten wir den $\alpha$-Fehler dieses Tests, nämlich die Wahrscheinlichkeit, zufällig die Null-Hypothese zu verwerfen, obwohl diese gilt. Die Power von 5% war somit zu erwarten, da dies gerade das $\alpha$-Niveau dieses Tests ist (welches wir uns auch vorher so vorgegeben haben). In der Regel wird $\alpha = .05$ gewählt. 
 
-Was wir auch erkennen ist, dass für sehr große Stichproben die Power dieses Tests schon für sehr kleine Mittelwertsdifferenzen groß ist (idealerweise sprechen Methodiker von einem Test mit hinreichender Power, wenn diese größer als 80% ist). Dieses Beispiel zeigt sehr schön auf, dass damit die Power (also die Wahrscheinlichkeit einen Effekt zu finden, wenn dieser da ist) hoch ist, es einen Effekt geben muss (was sehr trivial klingt und es eigentlich auch ist) und zudem die Stichprobengröße hinreichend groß sein muss. Mit hinreichend groß hält sich der/die Statistiker/in die Hintertür offen zu sagen, dass: a) im Falle eines kleinen Effekts die Stichprobengröße eben sehr groß sein muss, um diesen zu erkennen und b) bei Vorliegen eines sehr großen Effekts schon eine kleine Stichprobengröße ausreicht, um den Effekt mit hinreichender Wahrscheinlichkeit auch als solchen zu identifizieren. Das ist auch der Grund, warum es **Poweranalysen** gibt, mit welchen bestimmt werden kann, wie groß die Stichprobengröße sein muss, um bei einem vorgegebenem erwarteten Effekt hinreichende Power zu haben, diesen auch zu entdecken.
+Was wir auch erkennen ist, dass für sehr große Stichproben die Power dieses Tests schon für sehr kleine Mittelwertsdifferenzen groß ist (idealerweise sprechen Methodiker von einem Test mit hinreichender Power, wenn diese größer als 80% ist). Dieses Beispiel veranschaulicht, dass eine hohe Power (also eine hohe Wahrscheinlichkeit einen Effekt zu finden, wenn dieser da ist) voraussetzt, dass ein Effekt vorhanden ist (was sehr trivial klingt und es eigentlich auch ist) und zudem die Stichprobengröße hinreichend groß sein muss. Mit hinreichend groß hält sich der/die Statistiker/in die Hintertür offen zu sagen, dass a) im Falle eines kleinen Effekts die Stichprobengröße eben sehr groß sein muss, um diesen zu erkennen und b) bei Vorliegen eines sehr großen Effekts schon eine kleine Stichprobengröße ausreicht, um den Effekt mit hinreichender Wahrscheinlichkeit auch als solchen zu identifizieren. Aus diesem Grund werden **Poweranalysen** durchgeführt, um festzustellen, welche Stichprobengröße erforderlich ist, um bei einem vorgegebenem erwarteten Effekt hinreichende Power zu haben, diesen auch zu entdecken.
 
 ### Verstöße gegen die Modellannahmen
 Liegen andere Verstöße gegen die Modellannahmen vor, dann kann es fälschlicherweise zu signifikanten Ergebnissen kommen, obwohl es in der Population gar keinen Effekt gibt. Dies ist oft bei kleinen Stichproben ein Problem. Nehmen wir beispielsweise an, dass die beiden Gruppen sehr gegenläufig schief verteilt sind.
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-44-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-44-1.png" alt="plot of chunk unnamed-chunk-44" style="display: block; margin: auto;" />
 
 Hier gilt zwar die Null-Hypothese, da beide Verteilungen einen theoretischen Mittelwert von 0 haben, aber die Varianzen unterscheiden sich (was im Histogramm  durch die extremeren Werte entlang der x-Achse zu erkennen ist) und die Variablen sind offensichtlich nicht normalverteilt. Schauen wir uns nun die Power des $t$-Tests für eine sehr kleine Stichprobe von 5 pro Gruppe an:
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-45-1.png" style="display: block; margin: auto;" /><img src="einleitung_files/figure-html/unnamed-chunk-45-2.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-45-1.png" alt="plot of chunk unnamed-chunk-45" style="display: block; margin: auto;" /><img src="figure/unnamed-chunk-45-2.png" alt="plot of chunk unnamed-chunk-45" style="display: block; margin: auto;" />
 
 Insgesamt sieht die Verteilung der $t$-Werte einigermaßen in Ordnung, wenn auch etwas schief, aus. Doch bei den $p$-Werten fällt auf, dass die Null-Hypothese zu häufig verworfen wird, nämlich insgesamt in 11.11% der Fälle (durch Zufall, da die Null-Hypothese eigentlich gilt!); also doppelt so häufig wie von uns vorgegeben! Glücklicherweise ist der $t$-Test relativ robust, was daran zu erkennen ist, dass, wenn die Stichprobengröße für dieses Beispiel bei 50 oder gar höher liegt (pro Gruppe), das $\alpha$-Niveau schon wieder einigermaßen eingehalten wird. Außerdem gibt es geeignetere Tests zum Untersuchen von Mittelwertsunterschieden zweier Stichproben als den $t$-Test - nämlich den Welch-Test. Dies ist eine Erweiterung des $t$-Tests für ungleiche Varianzen. Dieser ist auch der Default in `R`. Wir rechnen ihn, indem wir nicht länger `var.equal = T` in `t.test` spezifizieren. Der Output ändert sich bis auf die Namensänderung kaum - die Freiheitsgrade des Tests werden korrigiert, um auf die ungleichen Varianzen zu reagieren (dies bedeutet, immer wenn die Freiheitsgrade nicht einfach $n-2$ sind, dann wurde der Welch-Test gerechnet; insbesondere Kommazahlen als $df$ sind möglich). Jedoch bringt diese Erweiterung ebenfalls nur für größere Stichproben etwas. Die analoge Simulationsstudie können Sie [Appendix A](#AppendixA) entnehmen. Dort finden Sie wie bereits erwähnt auch den Code für viele der hier gezeigten Grafiken und Informationen zur Simulation von Stichproben an sich.
 
@@ -782,7 +819,7 @@ Hier ist der Code für einige Grafiken und Simulationen dargestellt. Dies geht n
 
 #### Simulation von Stichproben
 
-Wir müssen  diesem Befehl lediglich übergeben wie viele Replikationen wir wünschen und welchen Mittelwert und Standardabweichung die Zufallsvariablen haben sollen. Wir simulieren die Standardnormalverteilung $\mathcal{N}(0,1)$ und legen die generierte (realisierte) Zufallsvariable in einem Objekt mit dem Namen `group1` ab, um später gezeigte Informationen wie den Mittelwert oder die Standardabweichung abrufen zu können - dies machen wir mit dem "Zuordnungspfeil". Um zufällige Prozesse über verschiedene Zeitpunkte hinweg konstant zu halten (damit es replizierbar ist und Sie dasselbe Ergebnis bekommen), wird zunächst ein Startpunkt für den Zufallsprozess mittels `set.seed` gesetzt.
+Wir müssen  diesem Befehl lediglich übergeben, wie viele Replikationen wir wünschen und welchen Mittelwert und welche Standardabweichung die Zufallsvariablen haben sollen. Wir simulieren die Standardnormalverteilung $\mathcal{N}(0,1)$ und legen die generierte (realisierte) Zufallsvariable in einem Objekt mit dem Namen `group1` ab, um später gezeigte Informationen wie den Mittelwert oder die Standardabweichung abrufen zu können - dies machen wir mit dem "Zuordnungspfeil". Um zufällige Prozesse über verschiedene Zeitpunkte hinweg konstant zu halten (damit es replizierbar ist und Sie dasselbe Ergebnis bekommen), wird zunächst ein Startpunkt für den Zufallsprozess mittels `set.seed` gesetzt.
 
 
 ```r
@@ -791,7 +828,7 @@ group1 <- rnorm(n = 1000, mean = 0, sd = 1) # Standardnormalverteilung mit n = 1
 hist(group1)
 ```
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-46-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-46-1.png" alt="plot of chunk unnamed-chunk-46" style="display: block; margin: auto;" />
 
 ```r
 mean(group1)
@@ -850,14 +887,14 @@ hist(ts, main = "(empirische) t-Werte nach 10000 Replikationen unter H0", xlab =
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-48-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-48-1.png" alt="plot of chunk unnamed-chunk-48" style="display: block; margin: auto;" />
 
 ```r
 hist(ps, main = "p-Werte nach 10000 Replikationen unter H0", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-48-2.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-48-2.png" alt="plot of chunk unnamed-chunk-48" style="display: block; margin: auto;" />
 
 #### Verteilung unter $H_1$
 
@@ -876,14 +913,14 @@ hist(ts, main = "(empirische) t-Werte nach 10000 Replikationen unter H1", xlab =
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-49-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-49-1.png" alt="plot of chunk unnamed-chunk-49" style="display: block; margin: auto;" />
 
 ```r
 hist(ps, main = "p-Werte nach 10000 Replikationen unter H1", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-49-2.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-49-2.png" alt="plot of chunk unnamed-chunk-49" style="display: block; margin: auto;" />
 
 #### Stichprobenziehung mit Modellverstößen
 
@@ -899,7 +936,7 @@ group2 <- group2 - 1/2
 hist(group1); hist(group2)
 ```
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-50-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-50-1.png" alt="plot of chunk unnamed-chunk-50" style="display: block; margin: auto;" />
 
 #### Verteilung unter $H_0$ mit Modellverstößen
 
@@ -922,14 +959,14 @@ hist(ts, main = "t-Werte nach 10000 Replikationen unter Modellverstöße\n für 
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-51-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-51-1.png" alt="plot of chunk unnamed-chunk-51" style="display: block; margin: auto;" />
 
 ```r
 hist(ps, main = "p-Werte nach 10000 Replikationen unter Modellverstößen\n für kleine Stichproben", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-51-2.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-51-2.png" alt="plot of chunk unnamed-chunk-51" style="display: block; margin: auto;" />
 
 #### Verteilung unter $H_0$ mit Modellverstößen: Welch-Test
 
@@ -951,14 +988,14 @@ hist(ts, main = "t-Werte (des Welch t-Tests) nach 10000 Replikationen\n unter Mo
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-52-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-52-1.png" alt="plot of chunk unnamed-chunk-52" style="display: block; margin: auto;" />
 
 ```r
 hist(ps, main = "p-Werte (des Welch t-Tests) nach 10000 Replikationen\n unter Modellverstößen für kleine Stichproben", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-52-2.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-52-2.png" alt="plot of chunk unnamed-chunk-52" style="display: block; margin: auto;" />
 Insgesamt sieht die Verteilung der Teststatistik (also quasi der empirischen $t$-Werte) einigermaßen in Ordnung aus, wenn auch etwas schief, doch bei den $p$-Werten fällt auf, dass die Null-Hypothese zu häufig verworfen wird, nämlich insgesamt in 10% der Fälle (durch Zufall, da die Null-Hypothese eigentlich gilt!); also doppelt so häufig wie von uns vorgegeben! Hier gibt es kaum Unterschiede zum ursprünglichen $t$-Test mit gleichen Varianzen. Allerdings ist die Stichprobengröße hier mit 5 pro Gruppe recht klein!
 
 
@@ -982,14 +1019,14 @@ hist(ts, main = "t-Werte (des Welch t-Tests) nach 10000 Replikationen\n unter Mo
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-53-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-53-1.png" alt="plot of chunk unnamed-chunk-53" style="display: block; margin: auto;" />
 
 ```r
 hist(ps, main = "p-Werte (des Welch t-Tests) nach 10000 Replikationen\n unter Modellverstößen für größere Stichproben", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-<img src="/lehre/klipps/einleitung_files/figure-html/unnamed-chunk-53-2.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps//einleitung_files/figure-html/unnamed-chunk-53-2.png" alt="plot of chunk unnamed-chunk-53" style="display: block; margin: auto;" />
 
 Für jeweils 100 Erhebungen pro Gruppe ist der Verstoß gegen die Normalverteilungsannahme bei ungleichen Varianzen für den Welch-Test fast zu vernachlässigen.
 

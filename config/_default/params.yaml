@@ -61,7 +61,7 @@ locale:
 
 features:
   syntax_highlighter:
-    theme_light: github-light
+    theme_light: pandarcode
     # theme_dark: dracula
   math:
     enable: true

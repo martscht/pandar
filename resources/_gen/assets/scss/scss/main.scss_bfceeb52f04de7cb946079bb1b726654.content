@@ -9666,3 +9666,11 @@ div.chart {
   margin-right: auto;
   margin-bottom: 1rem;
   overflow-x: auto; }
+
+/* Eigene Klasse fuer CTA-Button (Shortcode cta) */
+.cta-btn {
+  background-color: blueviolet; }
+
+/* Pseudoklasse fürs mit der Maus drüberfahren */
+.cta-btn:hover {
+  background-color: red; }
