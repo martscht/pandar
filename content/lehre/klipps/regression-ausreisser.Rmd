@@ -28,7 +28,7 @@ links:
     name: Code
     url: /lehre/klipps/regression-ausreisser.R
   - icon_pack: fas
-    icon: database
+    icon: pen-to-square
     name: Quizdaten
     url: /lehre/klipps/regression-ausreisser-quizdaten
 

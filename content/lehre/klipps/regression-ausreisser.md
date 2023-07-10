@@ -28,7 +28,7 @@ links:
     name: Code
     url: /lehre/klipps/regression-ausreisser.R
   - icon_pack: fas
-    icon: database
+    icon: pen-to-square
     name: Quizdaten
     url: /lehre/klipps/regression-ausreisser-quizdaten
 
@@ -463,7 +463,7 @@ abline(v = 2*(2+1)/n, col = "red")  # Cut-off als große Stichprobe
 abline(v = 3*(2+1)/n, col = "blue")  # Cut-off als kleine Stichprobe
 ```
 
-![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19-1.png)
+![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
 Hier eine kurze Beschreibung aller Argumente in der Grafik: Das Zusatzargument `breaks = 20` in `hist` gibt an, dass 20 Balken gezeichnet werden sollen. `abline` ist eine Funktion, die eine Gerade einem Plot hinzufügt. Dem Argument `v` wird hierbei der Punkt übergeben, an welchem eine **v**ertikale Linie eingezeichnet werden soll. `col = "red"` bzw. `col = "blue"` gibt an, dass diese Linie rot bzw. blau sein soll.
 
@@ -478,7 +478,7 @@ hist(CD, breaks  = 20)
 abline(v = 1, col = "red")  # Cut-off bei 1
 ```
 
-![plot of chunk unnamed-chunk-20](figure/unnamed-chunk-20-1.png)
+![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 In diesem Plot ist die vertikale Linie nicht enthalten, da der Plot schon zu früh entlang der x-Achse aufhört. Wir können die Grenzen mit `xlim = c(0,1)` explizit von 0 bis 1 vorgeben:
 
 
@@ -488,7 +488,7 @@ hist(CD, breaks  = 20, xlim = c(0, 1))
 abline(v = 1, col = "red")  # Cut-off bei 1
 ```
 
-![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21-1.png)
+![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 
 ### Blasendiagramm
@@ -503,7 +503,7 @@ Fälle, die nach einem der drei Kriterien als Ausreißer identifiziert werden, w
 InfPlot <- influencePlot(model)
 ```
 
-![plot of chunk unnamed-chunk-22](figure/unnamed-chunk-22-1.png)
+![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 ```r
 IDs <- as.numeric(row.names(InfPlot))
@@ -568,7 +568,7 @@ Die Entscheidung, ob Ausreißer oder auffällige Datenpunkte aus Analysen ausges
 ### Einfluss von Hebelwert und Cook's Distanz
 Was wäre nun gewesen, wenn die Hebelwerte oder Cook's Distanz extreme Werte angezeigt hätten? Um dieser Frage auf den Grund zu gehen, schauen wir uns für eine Kombination der beiden Koeffizienten den Effekt auf eine Regressionsgerade an. Die vier Grafiken zeigen jeweils die Regressionsgerade in schwarz ohne den jeweiligen Ausreißer, während die Gerade in blau die Regressionsanalyse (`Y ~ 1 + X`) inklusive des Ausreißers symbolisiert. Falls Sie die Grafik selbst bauen wollen, finden Sie sie in [Appendix B](AppendixB).
 
-![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-24-1.png)
+![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
 
 In `A)` ist die Regression ohne Ausreißer dargestellt. `B)` zeigt den Effekt, wenn nur der Hebelwert groß ist. Es ist kaum ein Einfluss auf die Regressionsgerade auszumachen. Der Mittelwert der Variable `X` wird stark nach rechts verschoben. Dies bedeutet, dass ein großer Hebelwert nur den Mittelwert dieser Variable in Richtung des Ausreißers "hebelt", nicht aber zwangsweise die Regressionsgerade! `C)` zeigt eine große Cook's Distanz bei gleichzeitig kleinem Hebelwert. die Gerade ist etwas nach oben verschoben und auch die Steigung hat sich leicht verändert. Insgesamt ist mit dem bloßen Auge allerdings noch kein extremer Effekt auf die Gerade auszumachen. Dieser Effekt wird nur in `D)` deutlich. Hier ist sowohl Cook's Distanz als auch der Hebelwert extrem. Dadurch verändert sich die Regressionsgerade stark. Hier könnten wir davon sprechen, dass die Gerade durch den Ausreißer nach unten "gehebelt" wird. Insgesamt zeigt diese Grafik, dass nicht ein Koeffizient alleine ausreicht, um einen Effekt auf eine Regressionsanalyse zu untersuchen und dass Werte besonders dann extreme Auswirkungen haben, wenn mehrere Koeffizienten groß sind!
 
@@ -761,14 +761,7 @@ ggplot(data = df_h, aes(x = h)) +
   labs(title = "Histogramm der Hebelwerte", x = "Hebelwerte") # Füge eigenen Titel und Achsenbeschriftung hinzu
 ```
 
-```
-## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
-## ℹ Please use `after_stat(density)` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
-```
-
-![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-33-1.png)
+![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
 #### Cooks-Distanz:
 
@@ -784,7 +777,7 @@ ggplot(data = df_CD, aes(x = CD)) +
   geom_vline(xintercept = 1, col = "red") # Cut-Off bei 1
 ```
 
-![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-34-1.png)
+![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
 
 Hier finden Sie außerdem den Code zu den vier Grafiken, die den Einfluss von Hebelwerten und der Cooks's Distanz dargestellt haben.
 
@@ -846,7 +839,7 @@ points(X_[length(X)+1], y_[length(X)+1], pch = 15, cex = 2.8, col = "gold")
 points(X_[length(X)+1], y_[length(X)+1], pch = 16, cex = 2, col = "darkblue")
 ```
 
-![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-35-1.png)
+![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 #### Ellipse
 
@@ -893,7 +886,7 @@ points(X[i],Y[i], cex = 2, pch = 16)
 points(mu1[1],mu1[2],pch=19,col="green", cex = 3)
 ```
 
-![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-36-1.png)
+![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 
 </details>
 
@@ -950,7 +943,7 @@ points(X[i],Y[i], cex = 2, pch = 16)
 points(mu1[1],mu1[2],pch=19,col="green", cex = 3)
 ```
 
-![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-37-1.png)
+![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 Der Ellipsenplot zeigt zwei multivariat-normalverteilte Variablen. Die Normalverteilungsdichte können wir uns dort wie einen Hügel vorstellen, der aus dem Bildschirm wächst, wobei hellere Kurven für eine größere Höhe des Hügels sprechen.
 
@@ -1002,13 +995,13 @@ xWerte <- seq(from = min(MD), to = max(MD), by = 0.01)
 lines(x = xWerte, y = dchisq(x = xWerte, df = 2), lwd = 3)
 ```
 
-![plot of chunk unnamed-chunk-39](figure/unnamed-chunk-39-1.png)
+![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
 
 ```r
 qqPlot(x = MD,distribution =  "chisq", df = 2, pch = 16)
 ```
 
-![plot of chunk unnamed-chunk-39](figure/unnamed-chunk-39-2.png)
+![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-39-2.png)<!-- -->
 
 ```
 ## [1] 85 41
