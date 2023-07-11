@@ -1,5 +1,3 @@
-# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
-
 3 + 4
 
 #### R als Taschenrechner ----
