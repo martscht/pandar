@@ -261,7 +261,7 @@ Um das Ganze nicht nur für einzelne Werte, sondern ganze Bereiche der Verteilun
 pbeta(.75, 13, 9, lower.tail = FALSE) / pbeta(.75, 6, 6, lower.tail = FALSE)
 ```
 
-In diesem Bereich findet sich also eher wenig Evidenz. Wie genau diese Information gneutzt werden kann, um auch Aussagen bezüglich der Gültigkeit von Nullhypothesen zu machen, sehen wir in einem späteren Beitrag.
+In diesem Bereich findet sich also eher wenig Evidenz. Wie genau diese Information genutzt werden kann, um auch Aussagen bezüglich der Gültigkeit von Nullhypothesen zu machen, sehen wir in einem späteren Beitrag.
 
 ***
 
