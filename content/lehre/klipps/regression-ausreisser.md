@@ -8,7 +8,7 @@ tags: ["Regression", "Ausreißer", "ggplot", "linear"]
 subtitle: ''
 summary: ''
 authors: [nehler, irmer, hartig]
-lastmod: '2023-07-05'
+lastmod: '2023-07-17'
 featured: no
 banner:
   image: "/header/FEI_Sitzung1_post.jpg"
@@ -41,9 +41,9 @@ output:
 
 
 ## Einleitung
-In der [Einführungssitzung](/post/einleitung-klipps) hatten wir einfache Operationen in `R`, das Einlesen von Datensätzen, einfache Deskriptivstatistiken, die lineare Regression, den $t$-Test und einige Grundlagen der Inferenzstatistik wiederholt. Nun wollen wir mit etwas komplexeren, aber bereits bekannten, Methoden weitermachen und eine multiple Regression in `R` durchführen. Hierbei werden wir uns auch nochmal mit Ausreißern beschäftigen. 
+In der [Einführungssitzung](/lehre/klipps/einleitung-klipps) hatten wir einfache Operationen in `R`, das Einlesen von Datensätzen, einfache Deskriptivstatistiken, die lineare Regression, den $t$-Test und einige Grundlagen der Inferenzstatistik wiederholt. Nun wollen wir mit etwas komplexeren, aber bereits bekannten Methoden weitermachen und eine multiple Regression in `R` durchführen. Hierbei werden wir uns auch nochmal mit Ausreißern beschäftigen. 
 
-Bevor wir dazu die Daten einlesen, sollten wir als erstes die nötigen `R`-Pakete laden. `R` funktioniert wie eine Bibliothek, in der verschiedene Bücher (also Pakete) erst vorhanden (also installiert) sein müssen, bevor man sie dann für eine Zeit leihen (also aktivieren) kann. Die `R`-Pakete, die wir im Folgenden brauchen, sind: das `car`-Paket, das `MASS`-Paket sowie das Paket mit dem Namen `lm.beta`. Diese Pakete müssen zunächst installiert werden (also im Sinne der Bibliothek eingelagert). Dies können Sie via `install.packages` machen:
+Bevor wir dazu die Daten einlesen, sollten wir als erstes die nötigen `R`-Pakete laden. `R` funktioniert wie eine Bibliothek, in der verschiedene Bücher (also Pakete) erst vorhanden (also installiert) sein müssen, bevor man sie dann für eine Zeit leihen (also aktivieren) kann. Die `R`-Pakete, die wir im weiteren Verlauf benötigen, sind das `car`-Paket, das `MASS`-Paket sowie das Paket mit dem Namen `lm.beta`. Diese Pakete müssen zunächst "in die Bibliothek eingelagert" werden, das heißt, sie müssen installiert werden. Dies können Sie via `install.packages` machen:
 
 
 ```r
@@ -52,7 +52,7 @@ install.packages("lm.beta")        # Sie müssen nur zu Update-Zwecken erneut in
 install.packages("MASS")
 ```
 
-Anschließend werden Pakete mit der `library`-Funktion geladen (für eine Zeit - nämlich den Verlauf einer Sitzung - ausgeliehen):
+Anschließend werden Pakete mit der `library`-Funktion geladen (also für eine Zeit - nämlich den Verlauf einer Sitzung - ausgeliehen):
 
 
 ```r
@@ -63,7 +63,7 @@ library(MASS)     # Zusätzliche Funktion für Diagnostik von Datensätzen
 
 
 ### Daten einladen
-Der Datensatz ist der selbe wie in der [Einführungssitzung](/post/einleitung-klipps): Eine Stichprobe von 90 Personen wurde hinsichtlich der Lebenszufriedenheit, der Anzahl von depressiven Emotionen, der Depressivitaet und des Neurotizismus gemessen. Weiterhin gibt es eine Variable hinsichtlich der Intervention und des Geschlechts (0=m, 1=w). Sie können den [{{<icon name="download" pack="fas">}} Datensatz "Depression.rda" hier herunterladen](/post/Depression.rda).
+Der Datensatz ist derselbe wie in der [Einführungssitzung](/lehre/klipps/einleitung-klipps): Eine Stichprobe von 90 Personen wurde hinsichtlich der Lebenszufriedenheit, der Anzahl von depressiven Emotionen, der Depressivitaet und des Neurotizismus gemessen. Weiterhin gibt es eine Variable hinsichtlich der Intervention und des Geschlechts (0=m, 1=w). Sie können den [{{<icon name="download" pack="fas">}} Datensatz "Depression.rda" hier herunterladen](/post/Depression.rda).
 
 Nun müssen wir mit `load` die Daten laden. Liegt der Datensatz bspw. auf dem Desktop, so müssen wir den Dateipfad dorthin legen und können dann den Datensatz laden (wir gehen hier davon aus, dass Ihr PC "Musterfrau" heißt) _Tipp: Verwenden Sie unbedingt die automatische Vervollständigung von `R`-Studio, wie in der letzten Sitzung beschrieben_.
 
@@ -72,7 +72,7 @@ Nun müssen wir mit `load` die Daten laden. Liegt der Datensatz bspw. auf dem De
 load("C:/Users/Musterfrau/Desktop/Depression.rda")
 ```
 
-Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hierzu brauchen Sie nur die URL und müssen `R` sagen, dass es sich bei dieser um eine URL handelt, indem Sie die Funktion `url` auf den Link anwenden. Der funktionierende Befehl sieht so aus (wobei die URL in Anführungszeichen geschrieben werden muss):
+Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hierzu brauchen Sie nur die URL und müssen `R` sagen, dass es sich bei dieser um eine URL handelt, indem Sie die Funktion `url` auf den Link anwenden. Der funktionierende Befehl sieht so aus (beachte, dass die URL in Anführungszeichen geschrieben werden muss):
 
 
 ```r
@@ -90,13 +90,20 @@ head(Depression)
 ```
 
 ```
-##   Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus   Intervention Geschlecht
-## 1                   7              4              7             5 Kontrollgruppe          0
-## 2                   5              5              8             3 Kontrollgruppe          1
-## 3                   8              7              6             6 Kontrollgruppe          0
-## 4                   6              4              5             5 Kontrollgruppe          1
-## 5                   6              9              8             5 Kontrollgruppe          1
-## 6                   8              7              8             6 Kontrollgruppe          1
+##   Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus
+## 1                   7              4              7             5
+## 2                   5              5              8             3
+## 3                   8              7              6             6
+## 4                   6              4              5             5
+## 5                   6              9              8             5
+## 6                   8              7              8             6
+##     Intervention Geschlecht
+## 1 Kontrollgruppe          0
+## 2 Kontrollgruppe          1
+## 3 Kontrollgruppe          0
+## 4 Kontrollgruppe          1
+## 5 Kontrollgruppe          1
+## 6 Kontrollgruppe          1
 ```
 
 Wir erkennen die eben beschriebenen Spalten. Weiterhin sehen wir, dass die Änderungen aus der letzten Sitzung an der Variable Geschlecht natürlich nicht mehr enthalten sind, wenn der Datensatz neu geladen wird. Daher müssen wir die `levels` wieder anpassen und den falsch eingetragenen Wert für Person 5 korrigieren.
@@ -107,11 +114,11 @@ levels(Depression$Geschlecht) <- c("maennlich", "weiblich")
 Depression[5, 6] <- "maennlich"    
 ```
 
-Das Folgende fundiert zum Teil auf Sitzungen zur Korrelation und Regression aus [Veranstaltungen aus dem Bachelorstudium zur Statistik Vertiefung](/lehre/#bsc7).  
+Das Folgende fundiert zum Teil auf Sitzungen zur Korrelation und Regression aus [Veranstaltungen aus dem Bachelorstudium zur Statistik Vertiefung](/lehre/main/#statistik-ii).  
 
 
 ## (Multiple-) Lineare Regression
-Eine Wiederholung der Regressionsanalyse (und der Korrelation) finden Sie bspw. in [Eid, Gollwitzer und Schmitt  (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) Kapitel 16 bis 19 und [Pituch und Stevens (2016)](https://ubffm.hds.hebis.de/Record/HEB371183324) in Kapitel 3.
+Eine Wiederholung der Regressionsanalyse (und der Korrelation) finden Sie bspw. in [Eid, Gollwitzer und Schmitt  (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 16 bis 19 und [Pituch und Stevens (2016)](https://ubffm.hds.hebis.de/Record/HEB371183324) in Kapitel 3.
 
 Das Ziel einer Regression besteht darin, die Variation einer Variable durch eine oder mehrere andere Variablen vorherzusagen (Prognose und Erklärung). Die vorhergesagte Variable wird als Kriterium, Regressand oder auch abhängige Variable (AV) bezeichnet und üblicherweise mit $y$ symbolisiert. Die Variablen zur Vorhersage der abhängigen Variablen werden als Prädiktoren, Regressoren oder unabhängige Variablen (UV) bezeichnet und üblicherweise mit $x$ symbolisiert.
 Die häufigste Form der Regressionsanalyse ist die lineare Regression, bei der der Zusammenhang über eine Gerade bzw. eine (Hyper-)Ebene beschrieben wird. Demzufolge kann die lineare Beziehung zwischen den vorhergesagten Werten und den Werten der unabhängigen Variablen mathematisch folgendermaßen beschrieben werden:
@@ -129,9 +136,10 @@ $$y_i = b_0 +b_{1}x_{i1} + ... +b_{m}x_{im} + e_i$$
     + je größer die Fehlerwerte (betraglich), umso größer ist die Abweichung (betraglich) eines beobachteten vom vorhergesagten Wert
 
 
-`R` kann natürlich die Schätzung der Regressionskoeffizienten für Sie übernehmen. Für eine händische Berechnung würde die folgende Gleichung zur Kleinste-Quadrate-Schätzung verwendet, die wir aber nicht präziser besprechen werden:
-$$\hat{\mathbf{b}}=(X'X)^{-1}X'Y$$
-Falls Sie sich über die mathematischen Operationen hinter der Bestimmung von verschiedenen Kennwerten in der Regression (bspw. $R^2$) informieren wollen, können Sie im [Appendix A](/post/regression-und-ausreisserdiagnostik/#AppendixA) des PsyMSc Studiengags nachlesen.
+`R` kann natürlich die Schätzung der Regressionskoeffizienten für Sie übernehmen. Für eine händische Berechnung würde die folgende Gleichung zur Kleinste-Quadrate-Schätzung verwendet, die wir aber nicht präziser besprechen werden: 
+$$\hat{\mathbf{b}}=(X'X)^{-1}X'y$$
+(Die Matrix X umfasst die Werte in den Prädiktoren, der Vektor y umfasst die Werte in der abhängigen Variable.)
+Falls Sie sich über die mathematischen Operationen hinter der Bestimmung von verschiedenen Kennwerten in der Regression (bspw. $R^2$) informieren wollen, können Sie im [Appendix A des PsyMSc Studiengangs](/lehre/multivariat/regression-und-ausreisserdiagnostik/#AppendixA) nachlesen.
 
 
 ### Unser Modell und das Lesen von `R`-Outputs
@@ -153,11 +161,11 @@ lm(Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression)
 ##              7.2353               1.9117              -0.3663
 ```
 
-Hierbei zeigt die Tilde (`~`) auf, welche Variable die AV ist (sie steht links der Tilde), welche die UVs sind (sie stehen rechts der Tilde und werden durch `+` getrennt) und ob das Interzept mitgeschätzt werden soll (per Default wird dieses mitgeschätzt, was bedeutet, dass "`1 +`" redundant ist und daher hier weggelassen werden könnte - nicht mit einbezogen wird das Interzept via "`0 +`"). Diese Notation wird in sehr vielen Modell verwendet, in welchen es um die Beziehung zwischen unabhängigen und abhängigen Variablen geht! Im [Appendix A](#AppendixA) können Sie nachlesen, welche weiteren Befehle zum gleichen Ergebnis führen und wie bspw. explizit das Interzept in die Gleichung mit aufgenommen werden kann (oder darauf verzichtet wird!). 
+Hierbei zeigt die Tilde (`~`) auf, welche Variable die AV ist (sie steht links der Tilde), welche Variablen die UVs sind (sie stehen rechts der Tilde und werden durch `+` getrennt) und ob das Interzept mitgeschätzt werden soll. (Per Default wird dieses mitgeschätzt, weshalb "`1 +`" redundant ist und daher hier weggelassen werden könnte - nicht mit einbezogen wird das Interzept via "`0 +`".) Diese Notation wird in sehr vielen Modell verwendet, in welchen es um die Beziehung zwischen unabhängigen und abhängigen Variablen geht! Im [Appendix A](#AppendixA) können Sie nachlesen, welche weiteren Befehle zum gleichen Ergebnis führen und wie bspw. explizit das Interzept in die Gleichung mit aufgenommen werden kann (oder wie darauf verzichtet wird!). 
 
 Im Output sehen wir die Parameterschätzungen unseres Regressionsmodells, das folgendermaßen aussieht:
 $$\text{Depressivitaet}_i=b_0+b_1\text{Geschlecht}_i+b_2\text{Lebenszufriedenheit}_i+\varepsilon_i,$$ 
-für $i=1,\dots,100=:n$. Wir wollen uns die Ergebnisse unserer Regressionsanalyse noch detaillierter anschauen. Dazu können wir wieder die `summary`-Funktion anwenden. Wir weisen dafür den `lm`-Befehl einem  Objekt zu, welches wir weiterverwenden können, um darauf beispielsweise `summary` auszuführen. Zur Erinnerung: Wir speichern dieses Objekt ab, indem wir eine Zuordnung durchführen via `<-` und einen Namen  `model` vergeben.
+für $i=1,\dots,100=:n$. Wir wollen uns die Ergebnisse unserer Regressionsanalyse noch detaillierter anschauen. Dazu können wir wieder die `summary`-Funktion anwenden. Wir weisen dafür den `lm`-Befehl einem  Objekt zu, welches wir weiterverwenden können, um darauf beispielsweise `summary` auszuführen. Zur Erinnerung: Wir speichern dieses Objekt ab, indem wir eine Zuordnung durchführen via `<-` und einen Namen (hier: `model`) vergeben.
 
 
 ```r
@@ -189,7 +197,7 @@ summary(model)
 ```
 
 
-Um auch die standardisierten Ergebnisse zu erhalten, verwenden wir die Funktion `lm.beta` (*lm* steht hier für lineares Modell und *beta* für die standardisierten Koeffizienten. Achtung: Häufig werden allerdings auch unstandardisierten Regressionskoeffizienten als $\beta$s bezeichnet, sodass darauf stets zu achten ist). Diese muss nach dem Erstellen eines linearen Modells (in unserem Fall `model`) auf dieses angewendet werden. Anschließend wollen wir uns noch ein `summary` des Modells ausgeben lassen. So erhalten wir zusätzlich standardisierte Koeffizienten. Für die Kombination von Funktionen haben wir in der letzten Sitzung die Verwendung des Pipes `|>` kennen gelernt.
+Um auch die standardisierten Ergebnisse zu erhalten, verwenden wir die Funktion `lm.beta`. (*lm* steht hier für lineares Modell und *beta* für die standardisierten Koeffizienten. Achtung: Häufig werden allerdings auch unstandardisierten Regressionskoeffizienten als $\beta$s bezeichnet, sodass darauf stets zu achten ist.) Die Funktion muss nach dem Erstellen eines linearen Modells (in unserem Fall `model`) auf dieses angewendet werden. Anschließend wollen wir uns noch eine `summary` des Modells ausgeben lassen. So erhalten wir zusätzlich standardisierte Koeffizienten. Für die Kombination von Funktionen haben wir in der letzten Sitzung die Verwendung des Pipes `|>` kennen gelernt.
 
 
 ```r
@@ -220,7 +228,7 @@ lm.beta(model) |> summary()
 ```
 
 ```r
-model |> lm.beta() |> summary() # noch genauer
+model |> lm.beta() |> summary() # alternativ 
 ```
 
 ```
@@ -246,9 +254,9 @@ model |> lm.beta() |> summary() # noch genauer
 ## F-statistic: 40.68 on 2 and 87 DF,  p-value: 3.362e-13
 ```
 
-Nochmal zur Wiederholung: Der Pipe-Operator übergibt immer das resultiernde Objekt des vorherigen Befehls an die erste Stelle der folgenden Funktion. Somit können wir die Pipe wie folgt lesen: "Nehme `model` und wende darauf `lm.beta()` and, nehme anschließend das resultierende Objekt und wende darauf `summary()` an."
+Nochmal zur Wiederholung: Der Pipe-Operator übergibt immer das resultiernde Objekt des vorherigen Befehls an die erste Stelle der folgenden Funktion. Somit können wir die Pipe wie folgt lesen: "Nehme `model` und wende darauf `lm.beta()` an, nehme anschließend das resultierende Objekt und wende darauf `summary()` an."
 
-`summary` ist eine weiterverbreitete Funktion, die Objekte zusammenfasst und interessante Informationen für uns auf einmal bereitstellt. `R` Outputs sehen fast immer so aus, weswegen es von unabdingbarer Wichtigkeit ist, dass wir uns mit diesem Output vertraut machen. Im Grunde werden uns alle nötigen Informationen, was in dieser Zusammenfassung steht, durch die Überschrift und Spaltenüberschriften gegeben. Was können wir diesem nun Schritt für Schritt entnehmen?
+`summary` ist eine weit verbreitete Funktion, die Objekte zusammenfasst und interessante Informationen für uns auf einmal bereitstellt. `R`-Outputs sehen fast immer so aus, weswegen es von unabdingbarer Wichtigkeit ist, dass wir uns mit diesem Output vertraut machen. Im Grunde werden uns alle erforderlichen Informationen über den Inhalt dieser Zusammenfassung durch die Überschriften und Spaltenüberschriften vermittelt. Was können wir dem Output nun Schritt für Schritt entnehmen?
 
 
 ```
@@ -257,7 +265,7 @@ Nochmal zur Wiederholung: Der Pipe-Operator übergibt immer das resultiernde Obj
 ## lm(formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, 
 ##     data = Depression)
 ```
-Fasst noch einmal zusammen, welches Objekt "zusammengefasst" wird. Hier steht sozusagen das zuvor untersuchte `lm`-Objekt (`model`, bzw. `lm.beta(model)`).
+Fasst noch einmal zusammen, welches Objekt "zusammengefasst" wird. Hier steht das zuvor untersuchte `lm`-Objekt (`model`, bzw. `lm.beta(model)`).
 
 
 
@@ -268,7 +276,7 @@ Fasst noch einmal zusammen, welches Objekt "zusammengefasst" wird. Hier steht so
 ## -3.4037 -0.6711  0.0121  0.6952  3.3289
 ```
 
-Diese Deskriptivstatistiken (gerundet auf 3 Nachkommastellen) geben uns ein Gefühl für die Datengrundlage: die Überschrift sagt uns, dass es hierbei um die Residuen im Regressionsmodell geht. `Min` steht für das Minimum (-3.404), `1Q` beschreibt das erste Quartil (-0.671); also den Prozentrang von 25% - es liegen 25% darunter und 75% der Werte darüber; `Median` beschreibt den 50. Prozentrang (0.012), `3Q` beschreibt das 3. Quartil, also Prozentrang 75% (0.695) und `Max` ist der maximale Wert der Residuen (3.329). Der Mittelwert trägt hier keine Information, da die Residuen immer so bestimmt werden, dass sie im Mittel verschwinden, also ihr Mittelwert bei 0 liegt. Da der Median auch sehr nah an der 0 liegt, zeigt dies, dass die Residuen wahrscheinlich recht symmetrisch verteilt sind. Auch das 1. und 3. Quartil verteilen sich ähnlich (also entgegengesetzte Vorzeichen aber betraglich ähnliche Werte), was ebenfalls für die Symmetrie spricht. Wir können die Residuen unserem `model`-Objekt ganz leicht entlocken, indem wir den Befehl `resid` auf dieses Objekt anwenden oder `model$residuals` tippen. Bspw. ergibt sich der Mittelwert als:
+Diese Deskriptivstatistiken (gerundet auf 4 Nachkommastellen) geben uns ein Gefühl für die Datengrundlage: die Überschrift sagt uns, dass es hierbei um die Residuen im Regressionsmodell geht. `Min` steht für das Minimum (-3.4037), `1Q` beschreibt das erste Quartil (-0.6711); also den Prozentrang von 25% - es liegen 25% der Werte darunter und 75% darüber, `Median` beschreibt den Prozentrang von 50% (0.012), `3Q` beschreibt das 3. Quartil, also den Prozentrang von 75% (0.695) und `Max` ist der maximale Wert der Residuen (3.329). Der Mittelwert trägt hier keine Information, da die Residuen immer so bestimmt werden, dass sie im Mittel verschwinden, also ihr Mittelwert bei 0 liegt. Da der Median auch sehr nah an der 0 liegt, zeigt dies, dass die Residuen wahrscheinlich recht symmetrisch verteilt sind. Auch das 1. und 3. Quartil verteilen sich ähnlich (also entgegengesetzte Vorzeichen aber betraglich ähnliche Werte), was ebenfalls für die Symmetrie spricht. Wir können die Residuen unserem `model`-Objekt ganz leicht entlocken, indem wir den Befehl `resid` auf dieses Objekt anwenden. Bspw. ergibt sich der Mittelwert als:
 
 
 ```r
@@ -281,9 +289,9 @@ mean(x = resid(model)) # Mittelwert mit Referenzierung aus dem lm Objekt "model"
 
 Natürlich könnte man statt der Funktion `resid` auch das Element Residuals im Objekt ansprechen mittels `model$residuals`.
 
-Die Zahl, die beim Mittelwert ausgegeben wird, ist folgendermaßen zu lesen: `e-16` steht für $*10^{-17}=0.00000000000000001$ (die Dezimalstelle wird um 17 Stellen nach links verschoben), somit ist `6.002143e-17`$=6.002143*10^{-15}=0.000000000000006002143\approx 0$. Hier kommt in diesem Beispiel nicht exakt 0 heraus, da innerhalb der Berechnungen immer auf eine gewisse Genauigkeit gerundet wird. Diese hängt von der sogennanten Maschinengenauigkeit von `R` ab. Eine noch höhere Genauigkeit der Darstellung von Zahlen würde einfach zu viel Speicherplatz verbrauchen!
+Die Zahl, die beim Mittelwert ausgegeben wird, ist folgendermaßen zu lesen: `e-17` steht für $\*10^{-17}=0.00000000000000001$ (die Dezimalstelle wird um 17 Stellen nach links verschoben), somit ist `-6.002143e-17`$=-6.002143*10^{-17}=-0.00000000000000006002143\approx 0$. Hier kommt nicht exakt 0 heraus, da innerhalb der Berechnungen immer auf eine gewisse Genauigkeit gerundet wird. Diese hängt von der sogennanten Maschinengenauigkeit von `R` ab. Eine noch höhere Genauigkeit der Darstellung von Zahlen würde einfach zu viel Speicherplatz verbrauchen!
 
-Nun kommen wir zum eigentlich Spannenden, nämlich der Übersicht über die Parameterschätzung (`Coefficients`). Diese sieht in sehr vielen Analysen sehr ähnlich aus (z.B. logistische Regression oder Multi-Level-Analysen/hierarchische Regression aus diesem Kurs).
+Nun kommen wir zum eigentlich spannenden Teil, nämlich der Übersicht über die Parameterschätzung (`Coefficients`). Diese sieht in sehr vielen Analysen sehr ähnlich aus (z.B. logistische Regression oder Multi-Level-Analysen/hierarchische Regression aus diesem Kurs).
 
 
 
@@ -298,20 +306,19 @@ Nun kommen wir zum eigentlich Spannenden, nämlich der Übersicht über die Para
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-Insgesamt gibt es 6 Spalten, wobei die `Standardized`-Spalte extra durch das Paket `lm.beta` angefordert wurde (sie ist also nicht immer in der Summary enthalten). In der ersten Spalte stehen die Variablennamen, die selbsterklärend sein sollten. Die Spalte `Estimate` zeigt den unstandardisierten Parameter (hier Regressionsgewicht). Z.B. liegt das Interzept $b_0$ bei 7.2353. Das Partialregressionsgewicht vom Geschlecht $b_\text{Geschlecht}$ liegt bei 1.9117. Da Frauen mit `1` kodiert sind, bedeutet dies: Wenn Frauen im Vergleich zu Männern betrachtet werden, so steigt die Depressivitaet durchschnittlich um 1.9117 Punkte ("durchschnittlich" in der Interpretation ist enorm wichtig, da es ja noch den Vorhersagefehler für individuelle Vergleiche gibt). Folglich können wir das Interzept ebenfalls interpretieren: Ein Mann mit einem Lebenszufriedenheit von 0 (dieser Wert ist leider unrealistisch, da die Skala hier nicht zentriert wurde - die Effekte von Zentrierung schauen wir uns in der Sitzung zur [Hierarchischen Regression](/post/under-construction) genauer an!) hat eine durchschnittliche Leseleistung von 7.2353. 
+Insgesamt gibt es 6 Spalten, wobei die `Standardized`-Spalte extra durch das Paket `lm.beta` angefordert wurde (sie ist also nicht immer in der Summary enthalten). In der ersten Spalte stehen die Variablennamen, die selbsterklärend sein sollten. Die Spalte `Estimate` zeigt den unstandardisierten Parameter (hier Regressionsgewicht). Z.B. liegt das Interzept $b_0$ bei 7.2353. Das Partialregressionsgewicht vom Geschlecht $b_\text{Geschlecht}$ liegt bei 1.9117. Da Frauen mit `1` kodiert sind, bedeutet dies: Wenn Frauen im Vergleich zu Männern betrachtet werden, so steigt die Depressivitaet durchschnittlich um 1.9117 Punkte ("durchschnittlich" in der Interpretation ist enorm wichtig, da es ja noch den Vorhersagefehler für individuelle Vergleiche gibt). Ensprechend können wir auch das Interzept interpretieren: Ein Mann mit einer Lebenszufriedenheit von 0 hat einen durchschnittlichen Depressivitaetswert von 7.2353. (Anmerkung: Ein Wert von 0 in der Lebenszufriedenheit ist leider unrealistisch, da die Skala hier nicht zentriert wurde - die Effekte von Zentrierung schauen wir uns in der Sitzung zur [Hierarchischen Regression](/post/under-construction) genauer an!)
 
-In der Spalte `Standardized` stehen die standardisierten Regressionsgewichte. Hier werden die Daten so transformiert, dass sowohl die AV als auch die UVs jeweils Mittelwerte von 0 und Varianzen (bzw. Standardabweichungen) von 1 aufweisen. Das Interzept ist nun nicht länger interessant. Wenn $y$ einen Mittelwert von 0 hat und auch die unabhängigen Variablen zentriert sind (also Mittelwerte von 0 haben), dann ist das Interzept gerade jener vorhergesagte Wert für $y$, der anfällt, wenn alle Prädiktoren den Wert 0 -also ihren Mittelwert - annehmen. Bei der Regression ist es aber so, dass an der Stelle, an der die Prädiktoren ihren Mittelwert annehmen, auch der Mittelwert von $y$ liegt; hier also der Wert 0. Folglich ist das Interzept im standardisierten Fall **_immer_** 0. 
-Das standardisierte Regressionsgewicht der Lebenszufriedenheit $\beta_\text{Lebenszufriedenheit}$ liegt bei -0.3194, was bedeutet, dass bei einer Erhöhung der Lebenszufriedenheit um eine Standardabweichung die Depressivitaet im Mittel (im Durchschnitt) um -0.3194 Standardabweichungen fällt. 
+In der Spalte `Standardized` stehen die standardisierten Regressionsgewichte. Hier werden die Daten so transformiert, dass sowohl die AV als auch die UVs jeweils Mittelwerte von 0 und Varianzen (bzw. Standardabweichungen) von 1 aufweisen. Das Interzept ist nun nicht länger interessant. Denn das Interzept ist gerade jener vorhergesagte Wert für $y$, der anfällt, wenn alle Prädiktoren den Wert 0 annehmen. Durch die Zentrierung haben $y$ und auch die unabhängigen Variablen alle einen Mittelwert von 0. Demnach entspricht in diesem Fall das Interzept genau dem y-Wert, der auftritt, wenn alle Prädiktoren ihren Mittelwert annehmen. Bei der Regression ist es nun aber so, dass an der Stelle, an der alle Prädiktoren ihren Mittelwert annehmen, auch der Mittelwert von $y$ liegt; hier also 0. Folglich ist das Interzept im zentrierten bzw. standardisierten Fall **_immer_** 0. Das standardisierte Regressionsgewicht der Lebenszufriedenheit $\beta_\text{Lebenszufriedenheit}$ liegt bei -0.3194, was bedeutet, dass bei einer Erhöhung der Lebenszufriedenheit um eine Standardabweichung die Depressivitaet im Mittel um -0.3194 Standardabweichungen fällt. 
 
 Für die Interpretation des Geschlechts als Prädiktor bringt die Standardisierung eine Erschwerung mit sich. Die beiden Ausprägungen sind nun nicht mehr eine Einheit bzw. Standardabweichung voneinander entfernt. Daher kann man den Vergleich nicht mehr mit einbeziehen. Es lässt sich nur sagen: Steigt die Variable Geschlecht um eine Standardabweichung auf der Dimension zwischen Männern und Frauen, so steigt die Depressivitaet um durchschnittlich 0.5326 Standardabweichungen. 
 
-Die Spalte `Std.Error` enthält die Standardfehler. Diese werden in $t$-Werte umgerechnet via $\frac{Est}{SE}$: es wird also die Parameterschätzung durch seinen Standardfehler geteilt und in der nächsten Spalte `t value` dargestellt. In einigen Summaries wird auch anstelle des $t$-Wertes der $z$-Wert verwendet. Hierbei ändert sich nichts, nur wird zur Herleitung der $p$-Werte eben die $z$- anstatt der $t$-Verteilung verwendet. Wenn wir uns allerdings an Statistik aus dem Bachelor erinnern, so bemerken wir, dass für große Stichproben die $t$ und die $z$-Verteilung identisch (bzw. sehr nahe beieinander liegend) sind. Als groß gilt hierbei bereits eine Stichprobengröße von 50! 
+Die Spalte `Std.Error` enthält die Standardfehler. Diese werden in $t$-Werte umgerechnet via $\frac{Est}{SE}$: es wird also die Parameterschätzung durch ihren Standardfehler geteilt und in der nächsten Spalte `t value` dargestellt. In einigen Summaries werden auch anstelle der $t$-Werte die $z$-Werte verwendet. Hierbei ändert sich nichts, nur wird zur Herleitung der $p$-Werte eben die $z$- anstelle der $t$-Verteilung verwendet. Wenn wir uns allerdings an Statistik aus dem Bachelor erinnern, so bemerken wir, dass für große Stichproben die $t$ und die $z$-Verteilung identisch (bzw. sehr nahe beieinander liegend) sind. Als groß gilt hierbei bereits eine Stichprobengröße von 50! 
 
 In der Spalte `Pr(>|t|) ` stehen die zugehörigen $p$-Werte. "Pr" steht für die Wahrscheinlichkeit (**Pr**obability), dass die Teststatistik (hier der $t$-Wert) im Betrag ein extremeres Ergebnis aufzeigt, als das Beobachtete. Außerdem bekommen wir noch mit Sternchen angezeigt, auf welchem Signifikanzniveau die einzelnen Parameter statistisch bedeutsam sind. 
 
-Zusammenfassend entnehmen wir dem Output, dass das Interzept bedeutsam von 0 verschieden ist - auch die Effekte der Prädiktoren sind auf dem 5%-Niveau statistisch signifikant. Dies bedeutet bspw. für die Lebenszufriedenheit, dass _mit einer Irrtumswahrscheinlichkeit von 5% der Regressionsparameter der Lebenszufriedenheit in der Population nicht 0 ist und somit auch in der Population mit dieser Irrtumswahrscheinlichkeit von einem Effekt zu sprechen ist_. Hierbei ist es essentiell, dass sich die statistiche Interpretation immer auf die Population bezieht. Dass ein Koeffizient nicht 0 ist (in der Stichprobe), erkennen wir einfach daran, dass er von 0 abweicht, allerdings kann dieses Ergebnis eben durch Zufall aufgetreten sein. Häufig weichen Werte in unserer Stichprobe offensichtlich von 0 ab, allerdings nicht stark genug, als dass wir dies auch für die Population schlussfolgern (_auch:_ schließen/inferieren, desewegen auch **Inferenzstatistik**/schließende Statistik) würden (mit einer Irrtumswahrscheinlichkeit von 5%).
+Zusammenfassend entnehmen wir dem Output, dass das Interzept bedeutsam von 0 verschieden ist und auch die Effekte der Prädiktoren sind auf dem 5%-Niveau statistisch signifikant. Dies bedeutet bspw. für die Lebenszufriedenheit, dass _mit einer Irrtumswahrscheinlichkeit von 5% der Regressionsparameter der Lebenszufriedenheit in der Population nicht 0 ist. Somit ist auch mit derselben Irrtumswahrscheinlichkeit in der Population von einem Effekt zu sprechen_. Hierbei ist es essentiell, dass sich die statistische Interpretation immer auf die Population bezieht. Dass ein Koeffizient in der Stichprobe nicht 0 ist, erkennen wir einfach daran, dass er von 0 abweicht. Allerdings kann dieses Ergebnis eben durch Zufall aufgetreten sein. Häufig weichen Werte in unserer Stichprobe offensichtlich von 0 ab, allerdings nicht stark genug, als dass wir dies auch (mit einer Irrtumswahrscheinlichkeit von 5%) für die Population schlussfolgern (_auch:_ schließen/inferieren, desewegen auch **Inferenzstatistik**/schließende Statistik) würden.
 
-Regressionskoeffizienten können einzeln signifikant sein, ohne, dass signifikante Anteile der Variation der abhängigen Variable erklärt werden. 
+Regressionskoeffizienten können einzeln signifikant sein, ohne dass signifikante Anteile der Variation der abhängigen Variable erklärt werden. 
  
 
 ```
@@ -321,9 +328,9 @@ Regressionskoeffizienten können einzeln signifikant sein, ohne, dass signifikan
 ## Multiple R-squared:  0.4833,	Adjusted R-squared:  0.4714 
 ## F-statistic: 40.68 on 2 and 87 DF,  p-value: 3.362e-13
 ```
-Dazu entnehmen wir dem letzten Block den Standardfehler der Residuen (`Residual standard error`), der im Grunde die Fehlervariation von $y$ beschreibt, sowie das multiple $R^2$ (`Multiple R-squared`), welches anzeigt, dass ca. 35.5% der Variation der Depressivitaet auf die Prädiktoren Geschlecht und Lebenszufriedenheit zurückgeführt werden kann. Dieses Varianzinkrement ist statistisch signifikant, was wir am $F$-Test in der letzten Zeile ablesen können. Der $F$-Wert (`F-statistic`) liegt bei 26.75, wobei die Hypothesenfreiheitsgrade hier gerade 2 sind ($df_h$) und die Residualfreiheitsgrade bei 97 ($df_e$) liegen. Der zugehörige $p$-Wert ist deutlich kleiner als 5% und liegt bei $5.594*10^{-10}$. Dies bedeutet, dass mit einer Irrtumswahrscheinlichkeit von 5% auch in der Population eine Vorhersage der Leseleistung durch Geschlecht und Intelligenz gemeinsam angenommen werden kann ($R^2\neq0$). In einem Artikel (oder einer Abschlussarbeit) würden wir zur Untermauerung *F*(2,97)=26.75, p<.001 in den Fließtext schreiben.
+Dazu entnehmen wir dem letzten Block den Standardfehler der Residuen (`Residual standard error`), der im Grunde die Fehlervariation von $y$ beschreibt, sowie das multiple $R^2$ (`Multiple R-squared`), welches anzeigt, dass ca. 48.3% der Variation der Depressivitaet auf die Prädiktoren Geschlecht und Lebenszufriedenheit zurückgeführt werden kann. Dieses Varianzinkrement ist statistisch signifikant, was wir am $F$-Test in der letzten Zeile ablesen können. Der $F$-Wert (`F-statistic`) liegt bei 40.68, wobei die Hypothesenfreiheitsgrade hier gerade 2 sind ($df_h$) und die Residualfreiheitsgrade bei 87 ($df_e$) liegen. Der zugehörige $p$-Wert ist deutlich kleiner als 5% und liegt bei $3.362*10^{-13}$. Dies bedeutet, dass mit einer Irrtumswahrscheinlichkeit von 5% auch in der Population eine Vorhersage der Depressivitaet durch Geschlecht und Intelligenz gemeinsam angenommen werden kann ($R^2\neq0$). In einem Artikel (oder einer Abschlussarbeit) würden wir zur Untermauerung *F*(2, 87) $=$ 40.68, p<.001 in den Fließtext schreiben.
 
-Außerdem könnten wir natürlich auch das mit `summary` erstellte Objekt  unter einem Namen abspeichern und ihm dann weitere Informationen entlocken. Bspw. erhalten wir mit `$coefficients` die Tabelle der Koeffizienten. 
+Außerdem können wir natürlich auch das mit `summary` erstellte Objekt unter einem Namen abspeichern und ihm dann weitere Informationen entlocken. Bspw. erhalten wir mit `$coefficients` die Tabelle der Koeffizienten oder mit `$r.squared` das multiple $R^2$.
 
 
 ```r
@@ -332,19 +339,14 @@ summary_model$coefficients # Koeffiziententabelle
 ```
 
 ```
-##                       Estimate Standardized Std. Error   t value     Pr(>|t|)
-## (Intercept)          7.2352799           NA 0.64773072 11.170197 1.722491e-18
-## Geschlechtweiblich   1.9117353    0.5325749 0.28878522  6.619921 2.834596e-09
-## Lebenszufriedenheit -0.3663154   -0.3194030 0.09226649 -3.970189 1.474393e-04
-```
-
-```r
-names(summary_model)      # weitere mögliche Argumente, die wir erhalten können
-```
-
-```
-##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"         "df"           
-##  [8] "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled"
+##                       Estimate Standardized Std. Error   t value
+## (Intercept)          7.2352799           NA 0.64773072 11.170197
+## Geschlechtweiblich   1.9117353    0.5325749 0.28878522  6.619921
+## Lebenszufriedenheit -0.3663154   -0.3194030 0.09226649 -3.970189
+##                         Pr(>|t|)
+## (Intercept)         1.722491e-18
+## Geschlechtweiblich  2.834596e-09
+## Lebenszufriedenheit 1.474393e-04
 ```
 
 ```r
@@ -355,9 +357,19 @@ summary_model$r.squared  # R^2
 ## [1] 0.4832806
 ```
 
+```r
+names(summary_model) # weitere mögliche Argumente, die wir erhalten können
+```
+
+```
+##  [1] "call"          "terms"         "residuals"     "coefficients" 
+##  [5] "aliased"       "sigma"         "df"            "r.squared"    
+##  [9] "adj.r.squared" "fstatistic"    "cov.unscaled"
+```
+
 Gleiches können wir mit allen Summary-Objekten auch in späteren Sitzungen machen!
 
-Wenn wir diese Signifikanzentscheidungen nutzen wollen, um die Effekte in der Population auf diese Weise zu interpretieren, so müssen einige Voraussetzungen erfüllt sein, die zunächst noch geprüft werden müssten. Bspw. nehmen wir für ein Regressionsmodell an, dass die Regressoren lineare Beziehungen mit dem Kriterium aufweisen. Die Personen/Erhebungen sollten bspw. unabhängig und identisch verteilt sein (sie sollten aus einer i.i.d. Population stammen, also keinerlei Beziehung untereinander aufweisen und dem gleichen Populationsmodell folgen). Die Residuen innerhalb der Regression werden als normalverteilt und homoskedastisch (also mit gleicher Varianz über alle Ausprägungen der Prädiktoren) angenommen. Nur unter bestimmten Voraussetzungen lassen sich Signifikanzentscheidungen im Allgemeinen überhaupt interpretieren. Außerdem beeinflussen Ausreißer die Schätzungen der Regressionskoeffizienten drastisch.
+Wenn wir diese Signifikanzentscheidungen nutzen wollen, um die Effekte in der Population derart zu interpretieren, so müssen einige Voraussetzungen erfüllt sein, die zunächst noch geprüft werden müssten. Bspw. nehmen wir für ein Regressionsmodell an, dass die Regressoren lineare Beziehungen mit dem Kriterium aufweisen. Die Personen/Erhebungen sollten außerdem unabhängig und identisch verteilt sein (sie sollten aus einer i.i.d. (_independent and identically distributed_) Population stammen, also keinerlei Beziehung untereinander aufweisen und dem gleichen Populationsmodell folgen). Die Residuen innerhalb der Regression werden als normalverteilt und homoskedastisch (also mit gleicher Varianz über alle Ausprägungen der Prädiktoren) angenommen. Nur unter bestimmten Voraussetzungen lassen sich Signifikanzentscheidungen im Allgemeinen überhaupt interpretieren. Außerdem beeinflussen Ausreißer die Schätzungen der Regressionskoeffizienten drastisch.
 
 
 ## Prüfen der Voraussetzungen
@@ -528,12 +540,18 @@ Depression[IDs,]
 ```
 
 ```
-##    Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus                Intervention Geschlecht
-## 41                   2              4              6             3                 VT Coaching  maennlich
-## 49                   5              4              2             8                 VT Coaching  maennlich
-## 64                  10              4              1            10 VT Coaching + Gruppenuebung  maennlich
-## 78                   7              9              8             6 VT Coaching + Gruppenuebung  maennlich
-## 85                  11              7              5            10 VT Coaching + Gruppenuebung  maennlich
+##    Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus
+## 41                   2              4              6             3
+## 49                   5              4              2             8
+## 64                  10              4              1            10
+## 78                   7              9              8             6
+## 85                  11              7              5            10
+##                   Intervention Geschlecht
+## 41                 VT Coaching  maennlich
+## 49                 VT Coaching  maennlich
+## 64 VT Coaching + Gruppenuebung  maennlich
+## 78 VT Coaching + Gruppenuebung  maennlich
+## 85 VT Coaching + Gruppenuebung  maennlich
 ```
 
 ```r
@@ -708,8 +726,10 @@ lm(Depression$Depressivitaet ~ 1 + Depression$Geschlecht + Depression$Lebenszufr
 ##     Depression$Lebenszufriedenheit)
 ## 
 ## Coefficients:
-##                    (Intercept)   Depression$Geschlechtweiblich  Depression$Lebenszufriedenheit  
-##                         7.2353                          1.9117                         -0.3663
+##                    (Intercept)   Depression$Geschlechtweiblich  
+##                         7.2353                          1.9117  
+## Depression$Lebenszufriedenheit  
+##                        -0.3663
 ```
 
 Wir können auch neue Variablen definieren, um diese dann direkt anzusprechen (es ändern sich entsprechend die Namen der Koeffizienten):
@@ -759,13 +779,6 @@ ggplot(data = df_h, aes(x = h)) +
                     fill = "skyblue") +           # Wie sollen die Balken gefüllt sein?
   geom_vline(xintercept = 4/n, col = "red")+ # Cut-off bei 4/n
   labs(title = "Histogramm der Hebelwerte", x = "Hebelwerte") # Füge eigenen Titel und Achsenbeschriftung hinzu
-```
-
-```
-## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
-## ℹ Please use `after_stat(density)` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
 ```
 
 ![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
@@ -1042,16 +1055,24 @@ MD
 ```
 
 ```
-##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173  1.29835776  0.89484803  5.31999173
-## [10]  0.07401952  1.85988286  0.96581665  2.87179069  1.29835776  3.08398338  6.11730810  0.96581665  0.33582974
-## [19]  1.93061376  3.99622396  0.96581665  1.85988286  1.93061376  3.57704668  0.07401952  0.96581665  1.68027868
-## [28]  0.88006651  1.85988286  1.85988286  0.96581665  0.19639932  0.07401952  2.79831527  0.19639932  1.64697702
-## [37]  2.42350418  0.89484803  0.96581665  0.19639932  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651
-## [46]  0.19639932  0.07401952  0.38036881  8.84194961  1.64697702  0.19639932  1.29835776  2.87179069  4.92199266
-## [55]  7.18339325  0.19639932  0.33582974  0.38036881  3.46236019  0.07401952  0.33582974  0.38036881  3.48368968
-## [64]  8.46422112  0.19639932  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570  0.38036881  0.07401952
-## [73]  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429  3.08398338  2.86848429  1.09506856  2.39394112
-## [82]  1.50981570  1.09506856  2.42350418 10.28690861  1.33295604  0.19639932  0.88006651  1.68027868  1.09506856
+##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376
+##  [6]  5.31999173  1.29835776  0.89484803  5.31999173  0.07401952
+## [11]  1.85988286  0.96581665  2.87179069  1.29835776  3.08398338
+## [16]  6.11730810  0.96581665  0.33582974  1.93061376  3.99622396
+## [21]  0.96581665  1.85988286  1.93061376  3.57704668  0.07401952
+## [26]  0.96581665  1.68027868  0.88006651  1.85988286  1.85988286
+## [31]  0.96581665  0.19639932  0.07401952  2.79831527  0.19639932
+## [36]  1.64697702  2.42350418  0.89484803  0.96581665  0.19639932
+## [41]  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651
+## [46]  0.19639932  0.07401952  0.38036881  8.84194961  1.64697702
+## [51]  0.19639932  1.29835776  2.87179069  4.92199266  7.18339325
+## [56]  0.19639932  0.33582974  0.38036881  3.46236019  0.07401952
+## [61]  0.33582974  0.38036881  3.48368968  8.46422112  0.19639932
+## [66]  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570
+## [71]  0.38036881  0.07401952  1.64697702  0.33582974  1.09506856
+## [76]  0.88006651  2.86848429  3.08398338  2.86848429  1.09506856
+## [81]  2.39394112  1.50981570  1.09506856  2.42350418 10.28690861
+## [86]  1.33295604  0.19639932  0.88006651  1.68027868  1.09506856
 ```
 
 Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Probandennummer der möglichen Ausreißer.

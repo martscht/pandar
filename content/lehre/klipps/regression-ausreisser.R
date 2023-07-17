@@ -21,7 +21,7 @@ model <- lm(Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depres
 summary(model)
 
 lm.beta(model) |> summary()
-model |> lm.beta() |> summary() # noch genauer
+model |> lm.beta() |> summary() # alternativ 
 
 output <- capture.output(summary(lm.beta(model)))
 cat(paste(output[1:4], collapse = "\n"))
@@ -36,8 +36,8 @@ cat(paste(output[16:21], collapse = "\n"))
 
 summary_model <- summary(lm.beta(model))
 summary_model$coefficients # Koeffiziententabelle
-names(summary_model)      # weitere mögliche Argumente, die wir erhalten können
 summary_model$r.squared  # R^2
+names(summary_model) # weitere mögliche Argumente, die wir erhalten können
 
 # Korrelation der Prädiktoren
 cor(as.numeric(Depression$Geschlecht), Depression$Lebenszufriedenheit)
