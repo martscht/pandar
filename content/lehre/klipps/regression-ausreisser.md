@@ -761,6 +761,13 @@ ggplot(data = df_h, aes(x = h)) +
   labs(title = "Histogramm der Hebelwerte", x = "Hebelwerte") # Füge eigenen Titel und Achsenbeschriftung hinzu
 ```
 
+```
+## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+## ℹ Please use `after_stat(density)` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+```
+
 ![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
 #### Cooks-Distanz:

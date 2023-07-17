@@ -279,8 +279,8 @@ names(Depression) # Namen der Variablen
 ```
 
 ```
-## [1] "Lebenszufriedenheit" "Episodenanzahl"      "Depressivitaet"      "Neurotizismus"      
-## [5] "Intervention"        "Geschlecht"
+## [1] "Lebenszufriedenheit" "Episodenanzahl"      "Depressivitaet"      "Neurotizismus"       "Intervention"       
+## [6] "Geschlecht"
 ```
 
 ```r
@@ -422,15 +422,15 @@ Depression[, 6]                    # Alle Geschlechter abfragen
 ```
 
 ```
-##  [1] maennlich weiblich  maennlich weiblich  maennlich weiblich  weiblich  maennlich weiblich  maennlich
-## [11] weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich weiblich  maennlich
-## [21] weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich weiblich  weiblich 
-## [31] weiblich  maennlich weiblich  weiblich  weiblich  maennlich maennlich maennlich weiblich  maennlich
-## [41] maennlich maennlich maennlich maennlich maennlich maennlich weiblich  maennlich maennlich weiblich 
-## [51] maennlich weiblich  weiblich  maennlich maennlich maennlich weiblich  maennlich maennlich maennlich
-## [61] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
-## [71] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
-## [81] maennlich maennlich maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich 
+##  [1] maennlich weiblich  maennlich weiblich  maennlich weiblich  weiblich  maennlich weiblich  maennlich weiblich 
+## [12] weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich weiblich  maennlich weiblich  weiblich 
+## [23] weiblich  weiblich  weiblich  weiblich  weiblich  maennlich weiblich  weiblich  weiblich  maennlich weiblich 
+## [34] weiblich  weiblich  maennlich maennlich maennlich weiblich  maennlich maennlich maennlich maennlich maennlich
+## [45] maennlich maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich  maennlich maennlich
+## [56] maennlich weiblich  maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
+## [67] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
+## [78] maennlich maennlich maennlich maennlich maennlich maennlich weiblich  maennlich maennlich weiblich  maennlich
+## [89] weiblich  weiblich 
 ## Levels: maennlich weiblich
 ```
 
@@ -574,8 +574,8 @@ names(model) #andere Inhalte der Liste
 ```
 
 ```
-##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"       
-##  [7] "qr"            "df.residual"   "xlevels"       "call"          "terms"         "model"
+##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"        "qr"           
+##  [8] "df.residual"   "xlevels"       "call"          "terms"         "model"
 ```
 
 Die weiteren Inhalte umfassen unter anderem die `residuals`, die für das Prüfen der Voraussetzungen wichtig wären, aber auch die vorhergesagten Werte.
@@ -666,8 +666,8 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ```
 
 ```
-##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value"  "stderr"     
-##  [8] "alternative" "method"      "data.name"
+##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value"  "stderr"      "alternative"
+##  [9] "method"      "data.name"
 ```
 
 ```r
