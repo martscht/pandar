@@ -54,22 +54,22 @@ hist(h, breaks  = 20)
 abline(v = 2*(2+1)/n, col = "red")  # Cut-off als große Stichprobe
 abline(v = 3*(2+1)/n, col = "blue")  # Cut-off als kleine Stichprobe
 
-# Cooks Distanz
-CD <- cooks.distance(model) # Cooks Distanz
+# Cook's Distanz
+CD <- cooks.distance(model) # Cook's Distanz
 hist(CD, breaks  = 20)
 abline(v = 1, col = "red")  # Cut-off bei 1
 
-# Cooks Distanz nochmal
+# Cook's Distanz nochmal
 hist(CD, breaks  = 20, xlim = c(0, 1))
 abline(v = 1, col = "red")  # Cut-off bei 1
 
-# Blasendiagramm mit Hebelwerten, studentisierten Residuen und Cooks Distanz
-# In "IDs" werden die Zeilennummern der auffälligen Fälle gespeichert,
-# welche gleichzeitig als Zahlen im Blasendiagramm ausgegeben werden
+# Blasendiagramm mit Hebelwerten, studentisierten Residuen und Cook's Distanz
 InfPlot <- influencePlot(model)
-IDs <- as.numeric(row.names(InfPlot))
 # Werte der identifizierten Fälle
 InfPlot
+# In "IDs" werden die Zeilennummern der auffälligen Fälle gespeichert,
+# welche gleichzeitig als Zahlen im Blasendiagramm ausgegeben werden
+IDs <- as.numeric(row.names(InfPlot))
 
 # Rohdaten der auffälligen Fälle 
 Depression[IDs,]
@@ -137,9 +137,9 @@ lm(Depressivitaet ~ 0 + Geschlecht + Lebenszufriedenheit, data = Depression)
 
 lm(Depressivitaet ~ Geschlecht + Lebenszufriedenheit, data = Depression)
 
-lm(formula = 1 + Depressivitaet ~ Geschlecht + Lebenszufriedenheit, data = Depression) 
+lm(formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression) 
 
-lm(data = Depression, formula = 1 + Depressivitaet ~ Geschlecht + Lebenszufriedenheit) 
+lm(data = Depression, formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit) 
 
 lm("Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit", data = Depression) 
 
@@ -163,8 +163,8 @@ ggplot(data = df_h, aes(x = h)) +
   geom_vline(xintercept = 4/n, col = "red")+ # Cut-off bei 4/n
   labs(title = "Histogramm der Hebelwerte", x = "Hebelwerte") # Füge eigenen Titel und Achsenbeschriftung hinzu
 
-# Cooks Distanz
-CD <- cooks.distance(model) # Cooks Distanz
+# Cook's Distanz
+CD <- cooks.distance(model) # Cook's Distanz
 df_CD <- data.frame(CD) # als Data.Frame für ggplot
 ggplot(data = df_CD, aes(x = CD)) + 
      geom_histogram(aes(y =..density..),  bins = 15)+

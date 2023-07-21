@@ -6,7 +6,7 @@ slug: regression-ausreisser
 categories: ["KliPPs"]
 tags: ["Regression", "Ausreißer", "ggplot", "linear"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Beitrag wird eine multiple Regression in `R` exemplarisch durchgeführt. Dabei wird erläutert, wie ein Regressionsmodell in `R` erstellt und der entsprechende `R`-Output interpretiert werden kann. Außerdem werden die Voraussetzungen für die multiple Regression behandelt. Der Fokus liegt dabei auf der Prüfung der Multikollinearität sowie der Identifikation möglicher Ausreißern und einflussreicher Datenpunkte. '
 authors: [nehler, irmer, hartig]
 lastmod: '2023-07-17'
 featured: no
@@ -90,20 +90,20 @@ head(Depression)
 ```
 
 ```
-##   Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus
-## 1                   7              4              7             5
-## 2                   5              5              8             3
-## 3                   8              7              6             6
-## 4                   6              4              5             5
-## 5                   6              9              8             5
-## 6                   8              7              8             6
-##     Intervention Geschlecht
-## 1 Kontrollgruppe          0
-## 2 Kontrollgruppe          1
-## 3 Kontrollgruppe          0
-## 4 Kontrollgruppe          1
-## 5 Kontrollgruppe          1
-## 6 Kontrollgruppe          1
+##   Lebenszufriedenheit Episodenanzahl Depressivitaet
+## 1                   7              4              7
+## 2                   5              5              8
+## 3                   8              7              6
+## 4                   6              4              5
+## 5                   6              9              8
+## 6                   8              7              8
+##   Neurotizismus   Intervention Geschlecht
+## 1             5 Kontrollgruppe          0
+## 2             3 Kontrollgruppe          1
+## 3             6 Kontrollgruppe          0
+## 4             5 Kontrollgruppe          1
+## 5             5 Kontrollgruppe          1
+## 6             6 Kontrollgruppe          1
 ```
 
 Wir erkennen die eben beschriebenen Spalten. Weiterhin sehen wir, dass die Änderungen aus der letzten Sitzung an der Variable Geschlecht natürlich nicht mehr enthalten sind, wenn der Datensatz neu geladen wird. Daher müssen wir die `levels` wieder anpassen und den falsch eingetragenen Wert für Person 5 korrigieren.
@@ -157,8 +157,10 @@ lm(Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
-##              7.2353               1.9117              -0.3663
+##         (Intercept)   Geschlechtweiblich  
+##              7.2353               1.9117  
+## Lebenszufriedenheit  
+##             -0.3663
 ```
 
 Hierbei zeigt die Tilde (`~`) auf, welche Variable die AV ist (sie steht links der Tilde), welche Variablen die UVs sind (sie stehen rechts der Tilde und werden durch `+` getrennt) und ob das Interzept mitgeschätzt werden soll. (Per Default wird dieses mitgeschätzt, weshalb "`1 +`" redundant ist und daher hier weggelassen werden könnte - nicht mit einbezogen wird das Interzept via "`0 +`".) Diese Notation wird in sehr vielen Modell verwendet, in welchen es um die Beziehung zwischen unabhängigen und abhängigen Variablen geht! Im [Appendix A](#AppendixA) können Sie nachlesen, welche weiteren Befehle zum gleichen Ergebnis führen und wie bspw. explizit das Interzept in die Gleichung mit aufgenommen werden kann (oder wie darauf verzichtet wird!). 
@@ -184,12 +186,17 @@ summary(model)
 ## -3.4037 -0.6711  0.0121  0.6952  3.3289 
 ## 
 ## Coefficients:
-##                     Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)          7.23528    0.64773   11.17  < 2e-16 ***
-## Geschlechtweiblich   1.91174    0.28879    6.62 2.83e-09 ***
-## Lebenszufriedenheit -0.36632    0.09227   -3.97 0.000147 ***
+##                     Estimate Std. Error t value Pr(>|t|)
+## (Intercept)          7.23528    0.64773   11.17  < 2e-16
+## Geschlechtweiblich   1.91174    0.28879    6.62 2.83e-09
+## Lebenszufriedenheit -0.36632    0.09227   -3.97 0.000147
+##                        
+## (Intercept)         ***
+## Geschlechtweiblich  ***
+## Lebenszufriedenheit ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.286 on 87 degrees of freedom
 ## Multiple R-squared:  0.4833,	Adjusted R-squared:  0.4714 
@@ -215,12 +222,17 @@ lm.beta(model) |> summary()
 ## -3.4037 -0.6711  0.0121  0.6952  3.3289 
 ## 
 ## Coefficients:
-##                     Estimate Standardized Std. Error t value Pr(>|t|)    
-## (Intercept)          7.23528           NA    0.64773   11.17  < 2e-16 ***
-## Geschlechtweiblich   1.91174      0.53257    0.28879    6.62 2.83e-09 ***
-## Lebenszufriedenheit -0.36632     -0.31940    0.09227   -3.97 0.000147 ***
+##                     Estimate Standardized Std. Error
+## (Intercept)          7.23528           NA    0.64773
+## Geschlechtweiblich   1.91174      0.53257    0.28879
+## Lebenszufriedenheit -0.36632     -0.31940    0.09227
+##                     t value Pr(>|t|)    
+## (Intercept)           11.17  < 2e-16 ***
+## Geschlechtweiblich     6.62 2.83e-09 ***
+## Lebenszufriedenheit   -3.97 0.000147 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.286 on 87 degrees of freedom
 ## Multiple R-squared:  0.4833,	Adjusted R-squared:  0.4714 
@@ -242,12 +254,17 @@ model |> lm.beta() |> summary() # alternativ
 ## -3.4037 -0.6711  0.0121  0.6952  3.3289 
 ## 
 ## Coefficients:
-##                     Estimate Standardized Std. Error t value Pr(>|t|)    
-## (Intercept)          7.23528           NA    0.64773   11.17  < 2e-16 ***
-## Geschlechtweiblich   1.91174      0.53257    0.28879    6.62 2.83e-09 ***
-## Lebenszufriedenheit -0.36632     -0.31940    0.09227   -3.97 0.000147 ***
+##                     Estimate Standardized Std. Error
+## (Intercept)          7.23528           NA    0.64773
+## Geschlechtweiblich   1.91174      0.53257    0.28879
+## Lebenszufriedenheit -0.36632     -0.31940    0.09227
+##                     t value Pr(>|t|)    
+## (Intercept)           11.17  < 2e-16 ***
+## Geschlechtweiblich     6.62 2.83e-09 ***
+## Lebenszufriedenheit   -3.97 0.000147 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.286 on 87 degrees of freedom
 ## Multiple R-squared:  0.4833,	Adjusted R-squared:  0.4714 
@@ -298,12 +315,13 @@ Nun kommen wir zum eigentlich spannenden Teil, nämlich der Übersicht über die
 ```
 ## 
 ## Coefficients:
-##                     Estimate Standardized Std. Error t value Pr(>|t|)    
-## (Intercept)          7.23528           NA    0.64773   11.17  < 2e-16 ***
-## Geschlechtweiblich   1.91174      0.53257    0.28879    6.62 2.83e-09 ***
-## Lebenszufriedenheit -0.36632     -0.31940    0.09227   -3.97 0.000147 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+##                     Estimate Standardized Std. Error
+## (Intercept)          7.23528           NA    0.64773
+## Geschlechtweiblich   1.91174      0.53257    0.28879
+## Lebenszufriedenheit -0.36632     -0.31940    0.09227
+##                     t value Pr(>|t|)    
+## (Intercept)           11.17  < 2e-16 ***
+## Geschlechtweiblich     6.62 2.83e-09 ***
 ```
 
 Insgesamt gibt es 6 Spalten, wobei die `Standardized`-Spalte extra durch das Paket `lm.beta` angefordert wurde (sie ist also nicht immer in der Summary enthalten). In der ersten Spalte stehen die Variablennamen, die selbsterklärend sein sollten. Die Spalte `Estimate` zeigt den unstandardisierten Parameter (hier Regressionsgewicht). Z.B. liegt das Interzept $b_0$ bei 7.2353. Das Partialregressionsgewicht vom Geschlecht $b_\text{Geschlecht}$ liegt bei 1.9117. Da Frauen mit `1` kodiert sind, bedeutet dies: Wenn Frauen im Vergleich zu Männern betrachtet werden, so steigt die Depressivitaet durchschnittlich um 1.9117 Punkte ("durchschnittlich" in der Interpretation ist enorm wichtig, da es ja noch den Vorhersagefehler für individuelle Vergleiche gibt). Ensprechend können wir auch das Interzept interpretieren: Ein Mann mit einer Lebenszufriedenheit von 0 hat einen durchschnittlichen Depressivitaetswert von 7.2353. (Anmerkung: Ein Wert von 0 in der Lebenszufriedenheit ist leider unrealistisch, da die Skala hier nicht zentriert wurde - die Effekte von Zentrierung schauen wir uns in der Sitzung zur [Hierarchischen Regression](/post/under-construction) genauer an!)
@@ -322,11 +340,12 @@ Regressionskoeffizienten können einzeln signifikant sein, ohne dass signifikant
  
 
 ```
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 1.286 on 87 degrees of freedom
-## Multiple R-squared:  0.4833,	Adjusted R-squared:  0.4714 
-## F-statistic: 40.68 on 2 and 87 DF,  p-value: 3.362e-13
+## (Intercept)           11.17  < 2e-16 ***
+## Geschlechtweiblich     6.62 2.83e-09 ***
+## Lebenszufriedenheit   -3.97 0.000147 ***
+## ---
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 Dazu entnehmen wir dem letzten Block den Standardfehler der Residuen (`Residual standard error`), der im Grunde die Fehlervariation von $y$ beschreibt, sowie das multiple $R^2$ (`Multiple R-squared`), welches anzeigt, dass ca. 48.3% der Variation der Depressivitaet auf die Prädiktoren Geschlecht und Lebenszufriedenheit zurückgeführt werden kann. Dieses Varianzinkrement ist statistisch signifikant, was wir am $F$-Test in der letzten Zeile ablesen können. Der $F$-Wert (`F-statistic`) liegt bei 40.68, wobei die Hypothesenfreiheitsgrade hier gerade 2 sind ($df_h$) und die Residualfreiheitsgrade bei 87 ($df_e$) liegen. Der zugehörige $p$-Wert ist deutlich kleiner als 5% und liegt bei $3.362*10^{-13}$. Dies bedeutet, dass mit einer Irrtumswahrscheinlichkeit von 5% auch in der Population eine Vorhersage der Depressivitaet durch Geschlecht und Intelligenz gemeinsam angenommen werden kann ($R^2\neq0$). In einem Artikel (oder einer Abschlussarbeit) würden wir zur Untermauerung *F*(2, 87) $=$ 40.68, p<.001 in den Fließtext schreiben.
 
@@ -339,14 +358,14 @@ summary_model$coefficients # Koeffiziententabelle
 ```
 
 ```
-##                       Estimate Standardized Std. Error   t value
-## (Intercept)          7.2352799           NA 0.64773072 11.170197
-## Geschlechtweiblich   1.9117353    0.5325749 0.28878522  6.619921
-## Lebenszufriedenheit -0.3663154   -0.3194030 0.09226649 -3.970189
-##                         Pr(>|t|)
-## (Intercept)         1.722491e-18
-## Geschlechtweiblich  2.834596e-09
-## Lebenszufriedenheit 1.474393e-04
+##                       Estimate Standardized Std. Error
+## (Intercept)          7.2352799           NA 0.64773072
+## Geschlechtweiblich   1.9117353    0.5325749 0.28878522
+## Lebenszufriedenheit -0.3663154   -0.3194030 0.09226649
+##                       t value     Pr(>|t|)
+## (Intercept)         11.170197 1.722491e-18
+## Geschlechtweiblich   6.619921 2.834596e-09
+## Lebenszufriedenheit -3.970189 1.474393e-04
 ```
 
 ```r
@@ -362,24 +381,25 @@ names(summary_model) # weitere mögliche Argumente, die wir erhalten können
 ```
 
 ```
-##  [1] "call"          "terms"         "residuals"     "coefficients" 
-##  [5] "aliased"       "sigma"         "df"            "r.squared"    
-##  [9] "adj.r.squared" "fstatistic"    "cov.unscaled"
+##  [1] "call"          "terms"         "residuals"    
+##  [4] "coefficients"  "aliased"       "sigma"        
+##  [7] "df"            "r.squared"     "adj.r.squared"
+## [10] "fstatistic"    "cov.unscaled"
 ```
 
 Gleiches können wir mit allen Summary-Objekten auch in späteren Sitzungen machen!
 
-Wenn wir diese Signifikanzentscheidungen nutzen wollen, um die Effekte in der Population derart zu interpretieren, so müssen einige Voraussetzungen erfüllt sein, die zunächst noch geprüft werden müssten. Bspw. nehmen wir für ein Regressionsmodell an, dass die Regressoren lineare Beziehungen mit dem Kriterium aufweisen. Die Personen/Erhebungen sollten außerdem unabhängig und identisch verteilt sein (sie sollten aus einer i.i.d. (_independent and identically distributed_) Population stammen, also keinerlei Beziehung untereinander aufweisen und dem gleichen Populationsmodell folgen). Die Residuen innerhalb der Regression werden als normalverteilt und homoskedastisch (also mit gleicher Varianz über alle Ausprägungen der Prädiktoren) angenommen. Nur unter bestimmten Voraussetzungen lassen sich Signifikanzentscheidungen im Allgemeinen überhaupt interpretieren. Außerdem beeinflussen Ausreißer die Schätzungen der Regressionskoeffizienten drastisch.
+Wenn wir diese Signifikanzentscheidungen nutzen wollen, um die Effekte in der Population derart zu interpretieren, so müssen einige Voraussetzungen erfüllt sein, die zunächst noch geprüft werden müssten. So nehmen wir bspw. für ein Regressionsmodell an, dass die Regressoren lineare Beziehungen mit dem Kriterium aufweisen. Die Personen/Erhebungen sollten außerdem unabhängig und identisch verteilt sein (sie sollten aus einer i.i.d. (_independent and identically distributed_) Population stammen, also keinerlei Beziehung untereinander aufweisen und dem gleichen Populationsmodell folgen). Die Residuen innerhalb der Regression werden als normalverteilt und homoskedastisch (also mit gleicher Varianz über alle Ausprägungen der Prädiktoren) angenommen. Nur unter bestimmten Voraussetzungen lassen sich Signifikanzentscheidungen im Allgemeinen überhaupt interpretieren. Außerdem beeinflussen Ausreißer die Schätzungen der Regressionskoeffizienten drastisch.
 
 
 ## Prüfen der Voraussetzungen
-Dieser Abschnitt stellt nur in einem Auszug die Prüfung der Voraussetzungen bereit. Wenn Sie alle Prüfungen wiederholen wollen, können Sie in der  Bachelorsitzung zu [Regression III](/post/reg3) nachlesen. Die Voraussetzung der Unabhängigkeit und der Gleichverteiltheit ist und bleibt eine Annahme, die wir nicht prüfen können. Wir können jedoch durch das Studiendesign (Randomisierung, Repräsentativität) diese Annahme plausibilisieren. Die Linearitätsannahme und die Voraussetzungen der Residuen werden wir hier nicht genauer betrachten. Fokus legen wir auf die Multikollinearität und mögliche Ausreißer. Nochmal aufgezählt alle Voraussetzungen:
+Dieser Abschnitt stellt nur in einem Auszug die Prüfung der Voraussetzungen bereit. Wenn Sie alle Prüfungen wiederholen wollen, können Sie in der  Bachelorsitzung zu [Regression III](/lehre/statistik-ii/regression3) nachlesen. Die Voraussetzung der Unabhängigkeit und der Gleichverteiltheit ist und bleibt eine Annahme, die wir nicht prüfen können. Wir können jedoch durch das Studiendesign (Randomisierung, Repräsentativität) diese Annahme plausibilisieren. Die Linearitätsannahme und die Voraussetzungen der Residuen werden wir hier nicht genauer betrachten. Fokus legen wir auf die Multikollinearität und mögliche Ausreißer. Nochmal aufgezählt alle Voraussetzungen:
 
 * korrekte Spezifikation des Modells
 * Unabhängigkeit der Residuen
 * Messfehlerfreiheit der unabhängigen Variablen
 * Linearität bei Modellierung linearer Effekt
-* Homoskedastizität (unabhängigkeit der Residualvarianz)
+* Homoskedastizität (Unabhängigkeit der Residualvarianz)
 * Normalverteilung der Residuen bzw. multivariate Normalverteilung
 * Multikollinearität
 * Identifikation von Ausreißern und einflussreichen Datenpunkten
@@ -387,7 +407,7 @@ Dieser Abschnitt stellt nur in einem Auszug die Prüfung der Voraussetzungen ber
 
 Im Folgenden werden wir mit dem unstandardisierten Modell weiterarbeiten, welches wir im  Objekt `model` gespeichert hatten.
 
-Vertiefende Literatur zum folgenden Stoff finden wir bspw. in [Eid, et al. (2017)]((https://ubffm.hds.hebis.de/Record/HEB366849158)) in Kapitel 19.13 und [Pituch und Stevens (2016)](https://ubffm.hds.hebis.de/Record/HEB371183324) in Kapitel 3.10 - 3.14.
+Vertiefende Literatur zum folgenden Stoff finden wir bspw. in [Eid, et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) in Kapitel 19.13 und [Pituch und Stevens (2016)](https://ubffm.hds.hebis.de/Record/HEB371183324) in Kapitel 3.10 - 3.14.
 
 
 ## Multikollinearität
@@ -396,8 +416,8 @@ Multikollinearität ist ein potenzielles Problem der multiplen Regressionsanalys
 
 * schränkt die mögliche multiple Korrelation ein, da die Prädiktoren redundant sind und überlappende Varianzanteile in $y$ erklären.
 * erschwert die Identifikation von bedeutsamen Prädiktoren, da deren Effekte untereinander konfundiert sind (die Effekte können schwer voneinander getrennt werden).
-* bewirkt eine Erhöhung der Standardfehler der Regressionskoeffizienten *(der Standardfehler ist die Standardabweichung zu der Varianz der Regressionskoeffizienten bei wiederholter Stichprobenziehung und Schätzung)*. Dies bedeutet, dass die Schätzungen der Regressionsparameter instabil, und damit weniger verlässlich, werden. 
-Weitere Informationen zur Instabilität und zu Standardfehlern kann der/die interessierte Leser*in in [Appendix D des Tutorials](/post/regression-und-ausreisserdiagnostik/#AppendixD) im PsyMSc1 nachlesen. Beachten Sie dabei, dass hier mit Matrixnotationsweise gearbeitet wird.
+* bewirkt eine Erhöhung der Standardfehler der Regressionskoeffizienten *(der Standardfehler ist die Standardabweichung der Verteilung der Regressionskoeffizienten bei wiederholter Stichprobenziehung und Schätzung)*. Dies bedeutet, dass die Schätzungen der Regressionsparameter instabil, und damit weniger verlässlich werden. 
+Weitere Informationen zur Instabilität und zu Standardfehlern kann der/die interessierte Leser*in in [Appendix D](/lehre/multivariat/regression-und-ausreisserdiagnostik/#AppendixD) des Beitrags in PsyMSc1 nachlesen. Beachten Sie dabei, dass hier mit Matrixnotationsweise gearbeitet wird.
 
 Multikollinearität kann durch Inspektion der *bivariaten Zusammenhänge* (Korrelationsmatrix) der Prädiktoren $x_j$ untersucht werden. 
 
@@ -411,12 +431,12 @@ cor(as.numeric(Depression$Geschlecht), Depression$Lebenszufriedenheit)
 ## [1] -0.2869571
 ```
 
-Dieser Wert ist jedoch nur ein erstes Indiz für die Performance. Leider kann der Korrelationskoeffizient nicht alle Formen von Multikollinearität aufdecken. Darüber hinaus ist die Berechnung der sogenannten *Toleranz* (T) und des *Varianzinflationsfaktors* (VIF) für jeden Prädiktor möglich. Hierfür wird nacheinander für jeden Prädiktor $x_j$ der Varianzanteil $R_j^2$ berechnet, der durch Vorhersage von $x_j$ durch *alle anderen Prädiktoren* in der Regression erklärt wird. Toleranz und VIF sind wie folgt definiert:
+Dieser Wert ist jedoch nur ein erstes Indiz für die Performance. Leider kann der Korrelationskoeffizient nicht alle Formen von Multikollinearität aufdecken. Darüber hinaus ist die Berechnung der sogenannten *Toleranz* (T) und des *Varianzinflationsfaktors* (VIF) für jeden Prädiktor möglich. Hierfür wird nacheinander für jeden Prädiktor $x_j$ das entsprechende $R_j^2$ berechnet, also der durch diesen Prädiktor erklärte Varianzanteil, der gleichzeitig durch *alle anderen Prädiktoren* in der Regression erklärt wird. Toleranz und VIF sind wie folgt definiert:
 
 * $T_j = 1-R^2_j = \frac{1}{VIF_j}$
 * $VIF = \frac{1}{1-R^2_j} = \frac{1}{T_j}$
 
-Offensichtlich genügt eine der beiden Statistiken, da sie vollständig ineinander überführbar und damit redundant sind. Empfehlungen als Grenzwert für Kollinearitätsprobleme sind z. B. $VIF_j>10$ ($T_j<0.1$; siehe [Eid, et al., 2017, S. 712 und folgend](https://ubffm.hds.hebis.de/Record/HEB366849158)). Die Varianzinflationsfaktoren der Prädiktoren im Modell können mit der Funktion `vif` des `car`-Paktes bestimmt werden, der Toleranzwert als Kehrwert des VIFs.
+Offensichtlich genügt eine der beiden Statistiken, da sie vollständig ineinander überführbar und damit redundant sind. Empfehlungen als Grenzwert für Kollinearitätsprobleme sind z. B. $VIF_j>10$ ($T_j<0.1$; siehe [Eid, et al., 2017, S. 712 und folgend](https://ubffm.hds.hebis.de/Record/HEB366849158)). Die Varianzinflationsfaktoren der Prädiktoren im Modell können mit der Funktion `vif` des `car`-Pakets bestimmt werden, der Toleranzwert als Kehrwert des VIFs.
 
 
 
@@ -437,7 +457,7 @@ vif(model)        # VIF
 ##          Geschlecht Lebenszufriedenheit 
 ##           0.9176556           0.9176556
 ```
-In diesem Beispiel mit nur 2 Prädiktoren ist $R_j^2=cor(\text{Geschlecht},\text{Lebenszufriedenheit})^2$ und die Formeln sind daher sehr einfach auch mit Hand zu bestimmen:
+In diesem Beispiel mit nur 2 Prädiktoren ist $R_{Geschlecht}^2=R_{Lebenszufriedenheit}^2=cor(\text{Geschlecht},\text{Lebenszufriedenheit})^2$ und die Formeln sind daher sehr einfach auch mit Hand zu bestimmen:
 
 ```r
 1/(1-cor(as.numeric(Depression$Geschlecht), Depression$Lebenszufriedenheit)^2) # 1/(1-R^2) = VIF
@@ -463,7 +483,7 @@ Die Plausibilität unserer Daten ist enorm wichtig. Aus diesem Grund sollten Aus
 
 ### Hebelwerte
 
-*Hebelwerte* $h_j$ (engl.: leverage values) erlauben die Identifikation von Ausreißern aus der gemeinsamen Verteilung der unabhängigen Variablen, d.h. sie geben an, wie weit ein Wert vom Mittelwert einer Prädiktorvariable entfernt ist. Je höher der Hebelwert, desto weiter liegt der einzelne Fall vom Mittelwert der gemeinsamen Verteilung der unabhängigen Variablen entfernt und desto stärker kann somit der Einfluss auf die Regressionsgewichte sein. Diese werden mit der Funktion `hatvalues` ermittelt. In `R` werden die Hebelwerte nicht zentriert ausgegeben. Kriterien zur Beurteilung der nicht zentrierten Hebelwerte variieren, so werden von [Eid et al. (2017, S. 707)](https://ubffm.hds.hebis.de/Record/HEB366849158) in Kombination mit [Pituch et al. (2016, S. 108).](https://ubffm.hds.hebis.de/Record/HEB371183324) Grenzen von $2\cdot (k+1) / n$ für große und $3\cdot (k+1) / n$ für kleine Stichproben vorgeschlagen (mit $k$ als Anzahl der Variablen). Alternativ zu einem festen Cut-Off-Kriterium kann die Verteilung der Hebelwerte inspiziert werden, wobei diejenigen Werte als kritisch bewertet werden, die aus der Verteilung ausreißen. Eine eigene grafische Überprüfung wird empfohlen, da die Cut-Off-Werte sehr sensibel sind und viele verdächtige Werte anzeigen. Die Funktion `hatvalues` erzeugt die Hebelwerte aus einem Regression-Objekt. Wir wollen diese als Histogramm darstellen.
+*Hebelwerte* $h_j$ (engl.: leverage values) erlauben die Identifikation von Ausreißern aus der gemeinsamen Verteilung der unabhängigen Variablen, d.h. sie geben an, wie weit ein Wert vom Mittelwert einer Prädiktorvariable entfernt ist. Je höher der Hebelwert, desto weiter liegt der einzelne Fall vom Mittelwert der gemeinsamen Verteilung der unabhängigen Variablen entfernt und desto stärker kann somit der Einfluss auf die Regressionsgewichte sein. Hebelwerte werden mit der Funktion `hatvalues` ermittelt. In `R` werden die Hebelwerte nicht zentriert ausgegeben. Kriterien zur Beurteilung der nicht zentrierten Hebelwerte variieren, so werden von [Eid et al. (2017, S. 707)](https://ubffm.hds.hebis.de/Record/HEB366849158) in Kombination mit [Pituch et al. (2016, S. 108)](https://ubffm.hds.hebis.de/Record/HEB371183324) Grenzen von $2\cdot (k+1) / n$ für große und $3\cdot (k+1) / n$ für kleine Stichproben vorgeschlagen (mit $k$ als Anzahl der Variablen). Alternativ zu einem festen Cut-Off-Kriterium kann die Verteilung der Hebelwerte inspiziert werden, wobei diejenigen Werte als kritisch bewertet werden, die aus der Verteilung ausreißen. Eine eigene grafische Überprüfung wird empfohlen, da die Cut-Off-Werte sehr sensibel sind und viele verdächtige Werte anzeigen. Die Funktion `hatvalues` erzeugt die Hebelwerte aus einem Regression-Objekt. Wir wollen die Hebelwerte als Histogramm darstellen.
 
 
 
@@ -477,15 +497,15 @@ abline(v = 3*(2+1)/n, col = "blue")  # Cut-off als kleine Stichprobe
 
 ![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
-Hier eine kurze Beschreibung aller Argumente in der Grafik: Das Zusatzargument `breaks = 20` in `hist` gibt an, dass 20 Balken gezeichnet werden sollen. `abline` ist eine Funktion, die eine Gerade einem Plot hinzufügt. Dem Argument `v` wird hierbei der Punkt übergeben, an welchem eine **v**ertikale Linie eingezeichnet werden soll. `col = "red"` bzw. `col = "blue"` gibt an, dass diese Linie rot bzw. blau sein soll.
+Hier eine kurze Beschreibung aller Argumente in der Grafik: Das Zusatzargument `breaks = 20` in `hist` gibt an, dass 20 Balken gezeichnet werden sollen. `abline` ist eine Funktion, die einem Plot eine Gerade hinzufügt. Dem Argument `v` wird hierbei der Punkt übergeben, an welchem eine **v**ertikale Linie eingezeichnet werden soll. `col = "red"` bzw. `col = "blue"` gibt an, dass diese Linie rot bzw. blau sein soll.
 
 ### Cook's Distanz
-*Cook's Distanz* $CD_i$ bezieht sich auf Ausreißer auf der abhängigen Variablen und gibt eine Schätzung an, wie stark sich die Regressionsgewichte verändern, wenn eine Person $i$ aus dem Datensatz entfernt wird. Fälle, deren Elimination zu einer deutlichen Veränderung der Ergebnisse führen würden, sollten kritisch geprüft werden. Als einfache Daumenregel gilt, dass $CD_i>1$ auf einen einflussreichen Datenpunkt hinweist. Cook's Distanz kann mit der Funktion `cooks.distance` berechnet werden.
+*Cook's Distanz* $CD_i$ bezieht sich auf Ausreißer in der abhängigen Variable und gibt eine Schätzung an, wie stark sich die Regressionsgewichte verändern, wenn eine Person $i$ aus dem Datensatz entfernt wird. Fälle, deren Elimination zu einer deutlichen Veränderung der Ergebnisse führen würden, sollten kritisch geprüft werden. Als einfache Daumenregel gilt, dass $CD_i>1$ auf einen einflussreichen Datenpunkt hinweist. Cook's Distanz kann mit der Funktion `cooks.distance` berechnet werden.
 
 
 ```r
-# Cooks Distanz
-CD <- cooks.distance(model) # Cooks Distanz
+# Cook's Distanz
+CD <- cooks.distance(model) # Cook's Distanz
 hist(CD, breaks  = 20)
 abline(v = 1, col = "red")  # Cut-off bei 1
 ```
@@ -495,7 +515,7 @@ In diesem Plot ist die vertikale Linie nicht enthalten, da der Plot schon zu fr�
 
 
 ```r
-# Cooks Distanz nochmal
+# Cook's Distanz nochmal
 hist(CD, breaks  = 20, xlim = c(0, 1))
 abline(v = 1, col = "red")  # Cut-off bei 1
 ```
@@ -504,21 +524,18 @@ abline(v = 1, col = "red")  # Cut-off bei 1
 
 
 ### Blasendiagramm
-Die Funktion `influencePlot` des `car`-Paketes erzeugt ein "Blasendiagramm" zur simultanen grafischen Darstellung von Hebelwerten (auf der x-Achse), studentisierten Residuen (auf der y-Achse) und Cook's Distanz (als Größe der Blasen). Das Studentisieren der Residuen bezeichnet eine Art der Standardisierung, sodass anschließend der Mittelwert 0 und die Varianz 1 ist. Es ist also eine Normierung der normalen Werte des Resiuums. Somit lassen sich solche Plots immer gleich interpretieren und besser vergleichen. Vertikale Bezugslinien markieren das Doppelte und Dreifache des durchschnittlichen Hebelwertes, horizontale Bezugslinien die Werte -2, 0 und 2 auf der Skala der studentisierten Residuen. Vertikale Linien verdeutlichen die Grenzen, die für die Hebelwerte festgelegt werden (sind analog zu unseren rot und blau gezeichneten im Histogramm).   
-Fälle, die nach einem der drei Kriterien als Ausreißer identifiziert werden, werden im Streudiagramm durch ihre Zeilennummer gekennzeichnet. Diese Zeilennummern können verwendet werden, um sich die Daten der auffälligen Fälle anzeigen zu lassen. Sie werden durch `InfPlot` ausgegeben. Auf diese kann durch `as.numeric(row.names(InfPlot))` zugegriffen werden.
+Die Funktion `influencePlot` des `car`-Paketes erzeugt ein "Blasendiagramm" zur simultanen grafischen Darstellung von Hebelwerten (auf der x-Achse), studentisierten Residuen (auf der y-Achse) und Cook's Distanz (als Größe der Blasen). Das Studentisieren der Residuen bezeichnet eine Art der Standardisierung, sodass anschließend der Mittelwert 0 und die Varianz 1 ist. Es ist also eine Normierung der normalen Werte des Resiuums. Somit lassen sich solche Plots immer gleich interpretieren und besser vergleichen. Horizontale Bezugslinien markieren die Werte -2, 0 und 2 auf der Skala der studentisierten Residuen, vertikale Bezugslinien das Doppelte und Dreifache des durchschnittlichen Hebelwertes. Vertikale Linien verdeutlichen die Grenzen, die für die Hebelwerte festgelegt werden (sie sind also analog zu unseren rot und blau gezeichneten Linien im Histogramm). Falls es Fälle gibt, die nach einem der drei Kriterien als Ausreißer identifiziert werden, gibt die Funktion `inlfuencePlot` einen Dataframe aus, der die Hebelwerte, die studentisierten Residuen und die Cook's Distanzen dieser Ausreißer enthält. Außerdem werden solche Fälle im Streudiagramm durch ihre Zeilennummer gekennzeichent. 
+Wenn wir `influencePlot(model)` in einem Objekt (mit dem Objektnamen `InfPlot` ablegen), können wir durch `as.numeric(row.names(InfPlot))` auf die Zeilennummern der auffälligen Werte zugreifen.
 
 
 ```r
-# Blasendiagramm mit Hebelwerten, studentisierten Residuen und Cooks Distanz
-# In "IDs" werden die Zeilennummern der auffälligen Fälle gespeichert,
-# welche gleichzeitig als Zahlen im Blasendiagramm ausgegeben werden
+# Blasendiagramm mit Hebelwerten, studentisierten Residuen und Cook's Distanz
 InfPlot <- influencePlot(model)
 ```
 
 ![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 ```r
-IDs <- as.numeric(row.names(InfPlot))
 # Werte der identifizierten Fälle
 InfPlot
 ```
@@ -532,6 +549,12 @@ InfPlot
 ## 85  1.490516 0.11113495 0.091308435
 ```
 
+```r
+# In "IDs" werden die Zeilennummern der auffälligen Fälle gespeichert,
+# welche gleichzeitig als Zahlen im Blasendiagramm ausgegeben werden
+IDs <- as.numeric(row.names(InfPlot))
+```
+
 Schauen wir uns die möglichen Ausreißer an und standardisieren die Ergebnisse für eine bessere Interpretierbarkeit.
 
 ```r
@@ -540,18 +563,18 @@ Depression[IDs,]
 ```
 
 ```
-##    Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus
-## 41                   2              4              6             3
-## 49                   5              4              2             8
-## 64                  10              4              1            10
-## 78                   7              9              8             6
-## 85                  11              7              5            10
-##                   Intervention Geschlecht
-## 41                 VT Coaching  maennlich
-## 49                 VT Coaching  maennlich
-## 64 VT Coaching + Gruppenuebung  maennlich
-## 78 VT Coaching + Gruppenuebung  maennlich
-## 85 VT Coaching + Gruppenuebung  maennlich
+##    Lebenszufriedenheit Episodenanzahl Depressivitaet
+## 41                   2              4              6
+## 49                   5              4              2
+## 64                  10              4              1
+## 78                   7              9              8
+## 85                  11              7              5
+##    Neurotizismus                Intervention Geschlecht
+## 41             3                 VT Coaching  maennlich
+## 49             8                 VT Coaching  maennlich
+## 64            10 VT Coaching + Gruppenuebung  maennlich
+## 78             6 VT Coaching + Gruppenuebung  maennlich
+## 85            10 VT Coaching + Gruppenuebung  maennlich
 ```
 
 ```r
@@ -560,12 +583,18 @@ scale(Depression[,1:4])[IDs,]
 ```
 
 ```
-##      Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus
-## [1,]          -2.8535787     -1.5202002      0.1947782    -2.0315461
-## [2,]          -0.9079568     -1.5202002     -2.0671617     0.8799053
-## [3,]           2.3347462     -1.5202002     -2.6326467     2.0444859
-## [4,]           0.3891244      2.1775841      1.3257481    -0.2846752
-## [5,]           2.9832868      0.6984704     -0.3707068     2.0444859
+##      Lebenszufriedenheit Episodenanzahl Depressivitaet
+## [1,]          -2.8535787     -1.5202002      0.1947782
+## [2,]          -0.9079568     -1.5202002     -2.0671617
+## [3,]           2.3347462     -1.5202002     -2.6326467
+## [4,]           0.3891244      2.1775841      1.3257481
+## [5,]           2.9832868      0.6984704     -0.3707068
+##      Neurotizismus
+## [1,]    -2.0315461
+## [2,]     0.8799053
+## [3,]     2.0444859
+## [4,]    -0.2846752
+## [5,]     2.0444859
 ```
 
 Die Funktion `scale` z-standardisiert den Datensatz. Dies macht natürlich inhaltlich hauptsächlich für die intervallskalierten Skalen Sinn (also die ersten vier Spalten im Datensatz). Mit Hilfe von `[IDs,]`, werden die entsprechenden Zeilen der Ausreißer aus dem Datensatz ausgegeben und anschließend auf 2 Nachkommastellen gerundet. Hierbei ist es extrem wichtig, dass wir `scale(Depression[,1:4])[IDs,]` und nicht `scale(Depression[IDs,1:4])` schreiben, da bei der zweiten Schreibweise die Daten reskaliert (z-standardisiert) werden, allerdings auf Basis der ausgewählten Fälle (n=5) und nicht auf Basis der gesamten Stichprobe (n = 90). Mit Hilfe der z-standardisierten Ergebnisse lassen sich Ausreißer hinsichtlich ihrer Ausprägungen einordnen:
@@ -581,16 +610,16 @@ Was ist an den fünf identifizierten Fällen konkret auffällig? Zur Beantwortun
 * *Fall 78*: Überdurchschnittlicher Depressivitaetswert bei durchschnittlicher Lebenszufriedenheit als Mann 
 * *Fall 85*: Leicht unterdurchschnittlicher Depressivitaetswert bei sehr hoher Lebenszufriedenheit als Mann
 
-Die Entscheidung, ob Ausreißer oder auffällige Datenpunkte aus Analysen ausgeschlossen werden, ist schwierig und kann nicht pauschal beantwortet werden. Im vorliegenden Fall wäre z.B. zu überlegen, ob Fälle 41 und 85, den Fragebogen zur Lebenszufriedenheit ernsthaft ausgefüllt haben, da sie mit ihren Werten sehr weit außerhalb der Verteilung liegen. Allerdings liegen keine weiteren Informationen über die erhobene Gruppe vor (und es existiert eine reele Chance auf diese Daten), weshalb ein Ausschluss nicht sinnvoll zu Begründen wäre.
+Die Entscheidung, ob Ausreißer oder auffällige Datenpunkte aus Analysen ausgeschlossen werden, ist schwierig und kann nicht pauschal beantwortet werden. Im vorliegenden Fall wäre z.B. zu überlegen, ob Fälle 41 und 85, den Fragebogen zur Lebenszufriedenheit ernsthaft ausgefüllt haben, da sie mit ihren Werten sehr weit außerhalb der Verteilung liegen. Allerdings liegen keine weiteren Informationen über die erhobene Gruppe vor (und es existiert eine reele Chance auf diese Daten), weshalb ein Ausschluss nicht sinnvoll zu begründen wäre.
 
 ### Einfluss von Hebelwert und Cook's Distanz
-Was wäre nun gewesen, wenn die Hebelwerte oder Cook's Distanz extreme Werte angezeigt hätten? Um dieser Frage auf den Grund zu gehen, schauen wir uns für eine Kombination der beiden Koeffizienten den Effekt auf eine Regressionsgerade an. Die vier Grafiken zeigen jeweils die Regressionsgerade in schwarz ohne den jeweiligen Ausreißer, während die Gerade in blau die Regressionsanalyse (`Y ~ 1 + X`) inklusive des Ausreißers symbolisiert. Falls Sie die Grafik selbst bauen wollen, finden Sie sie in [Appendix B](AppendixB).
+Was wäre nun gewesen, wenn die Hebelwerte oder Cook's Distanz extreme Werte angezeigt hätten? Um dieser Frage auf den Grund zu gehen, schauen wir uns für eine Kombination der beiden Koeffizienten den Effekt auf eine Regressionsgerade an. Die vier Grafiken zeigen jeweils die Regressionsgerade in schwarz ohne den jeweiligen Ausreißer, während die Gerade in blau die Regressionsanalyse (`Y ~ 1 + X`) inklusive des Ausreißers symbolisiert. Falls Sie die Grafik selbst bauen wollen, finden Sie sie in [Appendix B](#AppendixB).
 
 ![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
 
-In `A)` ist die Regression ohne Ausreißer dargestellt. `B)` zeigt den Effekt, wenn nur der Hebelwert groß ist. Es ist kaum ein Einfluss auf die Regressionsgerade auszumachen. Der Mittelwert der Variable `X` wird stark nach rechts verschoben. Dies bedeutet, dass ein großer Hebelwert nur den Mittelwert dieser Variable in Richtung des Ausreißers "hebelt", nicht aber zwangsweise die Regressionsgerade! `C)` zeigt eine große Cook's Distanz bei gleichzeitig kleinem Hebelwert. die Gerade ist etwas nach oben verschoben und auch die Steigung hat sich leicht verändert. Insgesamt ist mit dem bloßen Auge allerdings noch kein extremer Effekt auf die Gerade auszumachen. Dieser Effekt wird nur in `D)` deutlich. Hier ist sowohl Cook's Distanz als auch der Hebelwert extrem. Dadurch verändert sich die Regressionsgerade stark. Hier könnten wir davon sprechen, dass die Gerade durch den Ausreißer nach unten "gehebelt" wird. Insgesamt zeigt diese Grafik, dass nicht ein Koeffizient alleine ausreicht, um einen Effekt auf eine Regressionsanalyse zu untersuchen und dass Werte besonders dann extreme Auswirkungen haben, wenn mehrere Koeffizienten groß sind!
+In `A)` ist die Regression ohne Ausreißer dargestellt. `B)` zeigt den Effekt, wenn nur der Hebelwert groß ist. Es ist kaum ein Einfluss auf die Regressionsgerade auszumachen. Der Mittelwert der Variable `X` wird stark nach rechts verschoben. Dies bedeutet, dass ein großer Hebelwert nur den Mittelwert dieser Variable in Richtung des Ausreißers "hebelt", nicht aber zwangsweise die Regressionsgerade! `C)` zeigt eine große Cook's Distanz bei gleichzeitig kleinem Hebelwert. Die Gerade ist etwas nach oben verschoben und auch die Steigung hat sich leicht verändert. Insgesamt ist mit dem bloßen Auge allerdings noch kein extremer Effekt auf die Gerade auszumachen. Dieser Effekt wird nur in `D)` deutlich. Hier ist sowohl Cook's Distanz als auch der Hebelwert extrem. Dadurch verändert sich die Regressionsgerade stark. Hier könnten wir davon sprechen, dass die Gerade durch den Ausreißer nach unten "gehebelt" wird. Insgesamt zeigt diese Grafik, dass ein Koeffizient alleine nicht ausreicht, um einen Effekt auf eine Regressionsanalyse zu bewirken und dass Werte besonders dann extreme Auswirkungen haben, wenn mehrere Koeffizienten groß sind!
 
-Interessierte Lesende können im [Appendix C](#AppendixC) ein weiteres Tool zur Identifikation kennenlerenen: Die Mahalanobis-Distanz. Diese bringt der Vorteil mit, dass sie die Testung auf multivariate Normalverteilung auf eine Dimension runter brechen kann. 
+Interessierte Lesende können im [Appendix C](#AppendixC) ein weiteres Tool zur Identifikation kennenlerenen: Die Mahalanobis-Distanz. Diese bringt den Vorteil mit sich, dass sie die Testung auf multivariate Normalverteilung auf eine Dimension runterbrechen kann. 
 
 Diese Sitzung war eine Wiederholung der multiplen Regression und einiger Konzepte in der Testung der Voraussetzungen. Es wurden nun komplexere Analysen mit `R` durchgeführt. In den nächsten Wochen wird die Arbeit im Linearen Modell vertieft. 
 
@@ -623,11 +652,13 @@ lm(Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
-##              7.2353               1.9117              -0.3663
+##         (Intercept)   Geschlechtweiblich  
+##              7.2353               1.9117  
+## Lebenszufriedenheit  
+##             -0.3663
 ```
 
-Das Interzept kann explizit mit angegeben werden (falls Sie `0 +` schreiben, setzen Sie das Interzept auf 0, was sich entsprechend auf die Parameterschätzungen auswirken wird, falls das Interzept von 0 verschieden ist!):
+Das Interzept kann explizit mitangegeben werden (falls Sie `0 +` schreiben, setzen Sie das Interzept auf 0, was sich entsprechend auf die Parameterschätzungen auswirken wird, falls das Interzept eigentlich von 0 verschieden ist!):
 
 ```r
 lm(Depressivitaet ~ 0 + Geschlecht + Lebenszufriedenheit, data = Depression)
@@ -640,8 +671,10 @@ lm(Depressivitaet ~ 0 + Geschlecht + Lebenszufriedenheit, data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-## Geschlechtmaennlich   Geschlechtweiblich  Lebenszufriedenheit  
-##              7.2353               9.1470              -0.3663
+## Geschlechtmaennlich   Geschlechtweiblich  
+##              7.2353               9.1470  
+## Lebenszufriedenheit  
+##             -0.3663
 ```
 Dem Output ist zu entnehmen, dass die Parameterschätzungen sich drastisch geändert haben!
 
@@ -659,41 +692,47 @@ lm(Depressivitaet ~ Geschlecht + Lebenszufriedenheit, data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
-##              7.2353               1.9117              -0.3663
+##         (Intercept)   Geschlechtweiblich  
+##              7.2353               1.9117  
+## Lebenszufriedenheit  
+##             -0.3663
 ```
 
-Mit `formula` benutzen wir nicht die Position in der Funktion, sondern das Argument für die Formel: 
+Der Argumentname für das Regressionsmodell lautet `formula`.
 
 ```r
-lm(formula = 1 + Depressivitaet ~ Geschlecht + Lebenszufriedenheit, data = Depression) 
+lm(formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression) 
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = 1 + Depressivitaet ~ Geschlecht + Lebenszufriedenheit, 
+## lm(formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, 
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
-##              8.2353               1.9117              -0.3663
+##         (Intercept)   Geschlechtweiblich  
+##              7.2353               1.9117  
+## Lebenszufriedenheit  
+##             -0.3663
 ```
 Wir können also auch einfach die Reihenfolge umdrehen, solange wir Argumente benutzen: 
 
 ```r
-lm(data = Depression, formula = 1 + Depressivitaet ~ Geschlecht + Lebenszufriedenheit) 
+lm(data = Depression, formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit) 
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = 1 + Depressivitaet ~ Geschlecht + Lebenszufriedenheit, 
+## lm(formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, 
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
-##              8.2353               1.9117              -0.3663
+##         (Intercept)   Geschlechtweiblich  
+##              7.2353               1.9117  
+## Lebenszufriedenheit  
+##             -0.3663
 ```
 
 Die Formel kann auch in Anführungszeichen geschrieben werden:
@@ -709,8 +748,10 @@ lm("Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit", data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
-##              7.2353               1.9117              -0.3663
+##         (Intercept)   Geschlechtweiblich  
+##              7.2353               1.9117  
+## Lebenszufriedenheit  
+##             -0.3663
 ```
 
 Wir können auf die Datensatzspezifizierung verzichten, indem wir die Variablen direkt ansprechen (es ändern sich entsprechend die Namen der Koeffizienten im Output):
@@ -726,8 +767,10 @@ lm(Depression$Depressivitaet ~ 1 + Depression$Geschlecht + Depression$Lebenszufr
 ##     Depression$Lebenszufriedenheit)
 ## 
 ## Coefficients:
-##                    (Intercept)   Depression$Geschlechtweiblich  
-##                         7.2353                          1.9117  
+##                    (Intercept)  
+##                         7.2353  
+##  Depression$Geschlechtweiblich  
+##                         1.9117  
 ## Depression$Lebenszufriedenheit  
 ##                        -0.3663
 ```
@@ -783,14 +826,14 @@ ggplot(data = df_h, aes(x = h)) +
 
 ![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
-#### Cooks-Distanz:
+#### Cook's-Distanz:
 
-Hier nochmal der Code für das Histogramm der Cooks-Distanz ohne die Styling-Elemente.
+Hier nochmal der Code für das Histogramm der Cook's-Distanz ohne die Styling-Elemente.
 
 
 ```r
-# Cooks Distanz
-CD <- cooks.distance(model) # Cooks Distanz
+# Cook's Distanz
+CD <- cooks.distance(model) # Cook's Distanz
 df_CD <- data.frame(CD) # als Data.Frame für ggplot
 ggplot(data = df_CD, aes(x = CD)) + 
      geom_histogram(aes(y =..density..),  bins = 15)+
@@ -799,7 +842,7 @@ ggplot(data = df_CD, aes(x = CD)) +
 
 ![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
 
-Hier finden Sie außerdem den Code zu den vier Grafiken, die den Einfluss von Hebelwerten und der Cooks's Distanz dargestellt haben.
+Hier finden Sie außerdem den Code zu den vier Grafiken, die den Einfluss von Hebelwerten und der Cook's Distanz dargestellt haben.
 
 
 ```r
@@ -1055,24 +1098,29 @@ MD
 ```
 
 ```
-##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376
-##  [6]  5.31999173  1.29835776  0.89484803  5.31999173  0.07401952
-## [11]  1.85988286  0.96581665  2.87179069  1.29835776  3.08398338
-## [16]  6.11730810  0.96581665  0.33582974  1.93061376  3.99622396
-## [21]  0.96581665  1.85988286  1.93061376  3.57704668  0.07401952
-## [26]  0.96581665  1.68027868  0.88006651  1.85988286  1.85988286
-## [31]  0.96581665  0.19639932  0.07401952  2.79831527  0.19639932
-## [36]  1.64697702  2.42350418  0.89484803  0.96581665  0.19639932
-## [41]  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651
-## [46]  0.19639932  0.07401952  0.38036881  8.84194961  1.64697702
-## [51]  0.19639932  1.29835776  2.87179069  4.92199266  7.18339325
-## [56]  0.19639932  0.33582974  0.38036881  3.46236019  0.07401952
-## [61]  0.33582974  0.38036881  3.48368968  8.46422112  0.19639932
-## [66]  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570
-## [71]  0.38036881  0.07401952  1.64697702  0.33582974  1.09506856
-## [76]  0.88006651  2.86848429  3.08398338  2.86848429  1.09506856
-## [81]  2.39394112  1.50981570  1.09506856  2.42350418 10.28690861
-## [86]  1.33295604  0.19639932  0.88006651  1.68027868  1.09506856
+##  [1]  1.29835776  1.85988286  1.68027868  0.38036881
+##  [5]  1.93061376  5.31999173  1.29835776  0.89484803
+##  [9]  5.31999173  0.07401952  1.85988286  0.96581665
+## [13]  2.87179069  1.29835776  3.08398338  6.11730810
+## [17]  0.96581665  0.33582974  1.93061376  3.99622396
+## [21]  0.96581665  1.85988286  1.93061376  3.57704668
+## [25]  0.07401952  0.96581665  1.68027868  0.88006651
+## [29]  1.85988286  1.85988286  0.96581665  0.19639932
+## [33]  0.07401952  2.79831527  0.19639932  1.64697702
+## [37]  2.42350418  0.89484803  0.96581665  0.19639932
+## [41]  9.85316591  0.89484803  6.01723026  4.27802381
+## [45]  0.88006651  0.19639932  0.07401952  0.38036881
+## [49]  8.84194961  1.64697702  0.19639932  1.29835776
+## [53]  2.87179069  4.92199266  7.18339325  0.19639932
+## [57]  0.33582974  0.38036881  3.46236019  0.07401952
+## [61]  0.33582974  0.38036881  3.48368968  8.46422112
+## [65]  0.19639932  0.88006651  0.07401952  0.88006651
+## [69]  1.09506856  1.50981570  0.38036881  0.07401952
+## [73]  1.64697702  0.33582974  1.09506856  0.88006651
+## [77]  2.86848429  3.08398338  2.86848429  1.09506856
+## [81]  2.39394112  1.50981570  1.09506856  2.42350418
+## [85] 10.28690861  1.33295604  0.19639932  0.88006651
+## [89]  1.68027868  1.09506856
 ```
 
 Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Probandennummer der möglichen Ausreißer.
