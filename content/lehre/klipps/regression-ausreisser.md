@@ -90,20 +90,20 @@ head(Depression)
 ```
 
 ```
-##   Lebenszufriedenheit Episodenanzahl Depressivitaet
-## 1                   7              4              7
-## 2                   5              5              8
-## 3                   8              7              6
-## 4                   6              4              5
-## 5                   6              9              8
-## 6                   8              7              8
-##   Neurotizismus   Intervention Geschlecht
-## 1             5 Kontrollgruppe          0
-## 2             3 Kontrollgruppe          1
-## 3             6 Kontrollgruppe          0
-## 4             5 Kontrollgruppe          1
-## 5             5 Kontrollgruppe          1
-## 6             6 Kontrollgruppe          1
+##   Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus   Intervention
+## 1                   7              4              7             5 Kontrollgruppe
+## 2                   5              5              8             3 Kontrollgruppe
+## 3                   8              7              6             6 Kontrollgruppe
+## 4                   6              4              5             5 Kontrollgruppe
+## 5                   6              9              8             5 Kontrollgruppe
+## 6                   8              7              8             6 Kontrollgruppe
+##   Geschlecht
+## 1          0
+## 2          1
+## 3          0
+## 4          1
+## 5          1
+## 6          1
 ```
 
 Wir erkennen die eben beschriebenen Spalten. Weiterhin sehen wir, dass die Änderungen aus der letzten Sitzung an der Variable Geschlecht natürlich nicht mehr enthalten sind, wenn der Datensatz neu geladen wird. Daher müssen wir die `levels` wieder anpassen und den falsch eingetragenen Wert für Person 5 korrigieren.
@@ -157,10 +157,8 @@ lm(Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  
-##              7.2353               1.9117  
-## Lebenszufriedenheit  
-##             -0.3663
+##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
+##              7.2353               1.9117              -0.3663
 ```
 
 Hierbei zeigt die Tilde (`~`) auf, welche Variable die AV ist (sie steht links der Tilde), welche Variablen die UVs sind (sie stehen rechts der Tilde und werden durch `+` getrennt) und ob das Interzept mitgeschätzt werden soll. (Per Default wird dieses mitgeschätzt, weshalb "`1 +`" redundant ist und daher hier weggelassen werden könnte - nicht mit einbezogen wird das Interzept via "`0 +`".) Diese Notation wird in sehr vielen Modell verwendet, in welchen es um die Beziehung zwischen unabhängigen und abhängigen Variablen geht! Im [Appendix A](#AppendixA) können Sie nachlesen, welche weiteren Befehle zum gleichen Ergebnis führen und wie bspw. explizit das Interzept in die Gleichung mit aufgenommen werden kann (oder wie darauf verzichtet wird!). 
@@ -186,17 +184,12 @@ summary(model)
 ## -3.4037 -0.6711  0.0121  0.6952  3.3289 
 ## 
 ## Coefficients:
-##                     Estimate Std. Error t value Pr(>|t|)
-## (Intercept)          7.23528    0.64773   11.17  < 2e-16
-## Geschlechtweiblich   1.91174    0.28879    6.62 2.83e-09
-## Lebenszufriedenheit -0.36632    0.09227   -3.97 0.000147
-##                        
-## (Intercept)         ***
-## Geschlechtweiblich  ***
-## Lebenszufriedenheit ***
+##                     Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)          7.23528    0.64773   11.17  < 2e-16 ***
+## Geschlechtweiblich   1.91174    0.28879    6.62 2.83e-09 ***
+## Lebenszufriedenheit -0.36632    0.09227   -3.97 0.000147 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.286 on 87 degrees of freedom
 ## Multiple R-squared:  0.4833,	Adjusted R-squared:  0.4714 
@@ -222,17 +215,12 @@ lm.beta(model) |> summary()
 ## -3.4037 -0.6711  0.0121  0.6952  3.3289 
 ## 
 ## Coefficients:
-##                     Estimate Standardized Std. Error
-## (Intercept)          7.23528           NA    0.64773
-## Geschlechtweiblich   1.91174      0.53257    0.28879
-## Lebenszufriedenheit -0.36632     -0.31940    0.09227
-##                     t value Pr(>|t|)    
-## (Intercept)           11.17  < 2e-16 ***
-## Geschlechtweiblich     6.62 2.83e-09 ***
-## Lebenszufriedenheit   -3.97 0.000147 ***
+##                     Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)          7.23528           NA    0.64773   11.17  < 2e-16 ***
+## Geschlechtweiblich   1.91174      0.53257    0.28879    6.62 2.83e-09 ***
+## Lebenszufriedenheit -0.36632     -0.31940    0.09227   -3.97 0.000147 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.286 on 87 degrees of freedom
 ## Multiple R-squared:  0.4833,	Adjusted R-squared:  0.4714 
@@ -254,17 +242,12 @@ model |> lm.beta() |> summary() # alternativ
 ## -3.4037 -0.6711  0.0121  0.6952  3.3289 
 ## 
 ## Coefficients:
-##                     Estimate Standardized Std. Error
-## (Intercept)          7.23528           NA    0.64773
-## Geschlechtweiblich   1.91174      0.53257    0.28879
-## Lebenszufriedenheit -0.36632     -0.31940    0.09227
-##                     t value Pr(>|t|)    
-## (Intercept)           11.17  < 2e-16 ***
-## Geschlechtweiblich     6.62 2.83e-09 ***
-## Lebenszufriedenheit   -3.97 0.000147 ***
+##                     Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)          7.23528           NA    0.64773   11.17  < 2e-16 ***
+## Geschlechtweiblich   1.91174      0.53257    0.28879    6.62 2.83e-09 ***
+## Lebenszufriedenheit -0.36632     -0.31940    0.09227   -3.97 0.000147 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.286 on 87 degrees of freedom
 ## Multiple R-squared:  0.4833,	Adjusted R-squared:  0.4714 
@@ -315,13 +298,12 @@ Nun kommen wir zum eigentlich spannenden Teil, nämlich der Übersicht über die
 ```
 ## 
 ## Coefficients:
-##                     Estimate Standardized Std. Error
-## (Intercept)          7.23528           NA    0.64773
-## Geschlechtweiblich   1.91174      0.53257    0.28879
-## Lebenszufriedenheit -0.36632     -0.31940    0.09227
-##                     t value Pr(>|t|)    
-## (Intercept)           11.17  < 2e-16 ***
-## Geschlechtweiblich     6.62 2.83e-09 ***
+##                     Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)          7.23528           NA    0.64773   11.17  < 2e-16 ***
+## Geschlechtweiblich   1.91174      0.53257    0.28879    6.62 2.83e-09 ***
+## Lebenszufriedenheit -0.36632     -0.31940    0.09227   -3.97 0.000147 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Insgesamt gibt es 6 Spalten, wobei die `Standardized`-Spalte extra durch das Paket `lm.beta` angefordert wurde (sie ist also nicht immer in der Summary enthalten). In der ersten Spalte stehen die Variablennamen, die selbsterklärend sein sollten. Die Spalte `Estimate` zeigt den unstandardisierten Parameter (hier Regressionsgewicht). Z.B. liegt das Interzept $b_0$ bei 7.2353. Das Partialregressionsgewicht vom Geschlecht $b_\text{Geschlecht}$ liegt bei 1.9117. Da Frauen mit `1` kodiert sind, bedeutet dies: Wenn Frauen im Vergleich zu Männern betrachtet werden, so steigt die Depressivitaet durchschnittlich um 1.9117 Punkte ("durchschnittlich" in der Interpretation ist enorm wichtig, da es ja noch den Vorhersagefehler für individuelle Vergleiche gibt). Ensprechend können wir auch das Interzept interpretieren: Ein Mann mit einer Lebenszufriedenheit von 0 hat einen durchschnittlichen Depressivitaetswert von 7.2353. (Anmerkung: Ein Wert von 0 in der Lebenszufriedenheit ist leider unrealistisch, da die Skala hier nicht zentriert wurde - die Effekte von Zentrierung schauen wir uns in der Sitzung zur [Hierarchischen Regression](/post/under-construction) genauer an!)
@@ -340,12 +322,11 @@ Regressionskoeffizienten können einzeln signifikant sein, ohne dass signifikant
  
 
 ```
-## (Intercept)           11.17  < 2e-16 ***
-## Geschlechtweiblich     6.62 2.83e-09 ***
-## Lebenszufriedenheit   -3.97 0.000147 ***
-## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.286 on 87 degrees of freedom
+## Multiple R-squared:  0.4833,	Adjusted R-squared:  0.4714 
+## F-statistic: 40.68 on 2 and 87 DF,  p-value: 3.362e-13
 ```
 Dazu entnehmen wir dem letzten Block den Standardfehler der Residuen (`Residual standard error`), der im Grunde die Fehlervariation von $y$ beschreibt, sowie das multiple $R^2$ (`Multiple R-squared`), welches anzeigt, dass ca. 48.3% der Variation der Depressivitaet auf die Prädiktoren Geschlecht und Lebenszufriedenheit zurückgeführt werden kann. Dieses Varianzinkrement ist statistisch signifikant, was wir am $F$-Test in der letzten Zeile ablesen können. Der $F$-Wert (`F-statistic`) liegt bei 40.68, wobei die Hypothesenfreiheitsgrade hier gerade 2 sind ($df_h$) und die Residualfreiheitsgrade bei 87 ($df_e$) liegen. Der zugehörige $p$-Wert ist deutlich kleiner als 5% und liegt bei $3.362*10^{-13}$. Dies bedeutet, dass mit einer Irrtumswahrscheinlichkeit von 5% auch in der Population eine Vorhersage der Depressivitaet durch Geschlecht und Intelligenz gemeinsam angenommen werden kann ($R^2\neq0$). In einem Artikel (oder einer Abschlussarbeit) würden wir zur Untermauerung *F*(2, 87) $=$ 40.68, p<.001 in den Fließtext schreiben.
 
@@ -358,14 +339,10 @@ summary_model$coefficients # Koeffiziententabelle
 ```
 
 ```
-##                       Estimate Standardized Std. Error
-## (Intercept)          7.2352799           NA 0.64773072
-## Geschlechtweiblich   1.9117353    0.5325749 0.28878522
-## Lebenszufriedenheit -0.3663154   -0.3194030 0.09226649
-##                       t value     Pr(>|t|)
-## (Intercept)         11.170197 1.722491e-18
-## Geschlechtweiblich   6.619921 2.834596e-09
-## Lebenszufriedenheit -3.970189 1.474393e-04
+##                       Estimate Standardized Std. Error   t value     Pr(>|t|)
+## (Intercept)          7.2352799           NA 0.64773072 11.170197 1.722491e-18
+## Geschlechtweiblich   1.9117353    0.5325749 0.28878522  6.619921 2.834596e-09
+## Lebenszufriedenheit -0.3663154   -0.3194030 0.09226649 -3.970189 1.474393e-04
 ```
 
 ```r
@@ -381,10 +358,9 @@ names(summary_model) # weitere mögliche Argumente, die wir erhalten können
 ```
 
 ```
-##  [1] "call"          "terms"         "residuals"    
-##  [4] "coefficients"  "aliased"       "sigma"        
-##  [7] "df"            "r.squared"     "adj.r.squared"
-## [10] "fstatistic"    "cov.unscaled"
+##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"      
+##  [6] "sigma"         "df"            "r.squared"     "adj.r.squared" "fstatistic"   
+## [11] "cov.unscaled"
 ```
 
 Gleiches können wir mit allen Summary-Objekten auch in späteren Sitzungen machen!
@@ -563,18 +539,18 @@ Depression[IDs,]
 ```
 
 ```
-##    Lebenszufriedenheit Episodenanzahl Depressivitaet
-## 41                   2              4              6
-## 49                   5              4              2
-## 64                  10              4              1
-## 78                   7              9              8
-## 85                  11              7              5
-##    Neurotizismus                Intervention Geschlecht
-## 41             3                 VT Coaching  maennlich
-## 49             8                 VT Coaching  maennlich
-## 64            10 VT Coaching + Gruppenuebung  maennlich
-## 78             6 VT Coaching + Gruppenuebung  maennlich
-## 85            10 VT Coaching + Gruppenuebung  maennlich
+##    Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus
+## 41                   2              4              6             3
+## 49                   5              4              2             8
+## 64                  10              4              1            10
+## 78                   7              9              8             6
+## 85                  11              7              5            10
+##                   Intervention Geschlecht
+## 41                 VT Coaching  maennlich
+## 49                 VT Coaching  maennlich
+## 64 VT Coaching + Gruppenuebung  maennlich
+## 78 VT Coaching + Gruppenuebung  maennlich
+## 85 VT Coaching + Gruppenuebung  maennlich
 ```
 
 ```r
@@ -583,18 +559,12 @@ scale(Depression[,1:4])[IDs,]
 ```
 
 ```
-##      Lebenszufriedenheit Episodenanzahl Depressivitaet
-## [1,]          -2.8535787     -1.5202002      0.1947782
-## [2,]          -0.9079568     -1.5202002     -2.0671617
-## [3,]           2.3347462     -1.5202002     -2.6326467
-## [4,]           0.3891244      2.1775841      1.3257481
-## [5,]           2.9832868      0.6984704     -0.3707068
-##      Neurotizismus
-## [1,]    -2.0315461
-## [2,]     0.8799053
-## [3,]     2.0444859
-## [4,]    -0.2846752
-## [5,]     2.0444859
+##      Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus
+## [1,]          -2.8535787     -1.5202002      0.1947782    -2.0315461
+## [2,]          -0.9079568     -1.5202002     -2.0671617     0.8799053
+## [3,]           2.3347462     -1.5202002     -2.6326467     2.0444859
+## [4,]           0.3891244      2.1775841      1.3257481    -0.2846752
+## [5,]           2.9832868      0.6984704     -0.3707068     2.0444859
 ```
 
 Die Funktion `scale` z-standardisiert den Datensatz. Dies macht natürlich inhaltlich hauptsächlich für die intervallskalierten Skalen Sinn (also die ersten vier Spalten im Datensatz). Mit Hilfe von `[IDs,]`, werden die entsprechenden Zeilen der Ausreißer aus dem Datensatz ausgegeben und anschließend auf 2 Nachkommastellen gerundet. Hierbei ist es extrem wichtig, dass wir `scale(Depression[,1:4])[IDs,]` und nicht `scale(Depression[IDs,1:4])` schreiben, da bei der zweiten Schreibweise die Daten reskaliert (z-standardisiert) werden, allerdings auf Basis der ausgewählten Fälle (n=5) und nicht auf Basis der gesamten Stichprobe (n = 90). Mit Hilfe der z-standardisierten Ergebnisse lassen sich Ausreißer hinsichtlich ihrer Ausprägungen einordnen:
@@ -652,10 +622,8 @@ lm(Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  
-##              7.2353               1.9117  
-## Lebenszufriedenheit  
-##             -0.3663
+##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
+##              7.2353               1.9117              -0.3663
 ```
 
 Das Interzept kann explizit mitangegeben werden (falls Sie `0 +` schreiben, setzen Sie das Interzept auf 0, was sich entsprechend auf die Parameterschätzungen auswirken wird, falls das Interzept eigentlich von 0 verschieden ist!):
@@ -671,10 +639,8 @@ lm(Depressivitaet ~ 0 + Geschlecht + Lebenszufriedenheit, data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-## Geschlechtmaennlich   Geschlechtweiblich  
-##              7.2353               9.1470  
-## Lebenszufriedenheit  
-##             -0.3663
+## Geschlechtmaennlich   Geschlechtweiblich  Lebenszufriedenheit  
+##              7.2353               9.1470              -0.3663
 ```
 Dem Output ist zu entnehmen, dass die Parameterschätzungen sich drastisch geändert haben!
 
@@ -692,10 +658,8 @@ lm(Depressivitaet ~ Geschlecht + Lebenszufriedenheit, data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  
-##              7.2353               1.9117  
-## Lebenszufriedenheit  
-##             -0.3663
+##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
+##              7.2353               1.9117              -0.3663
 ```
 
 Der Argumentname für das Regressionsmodell lautet `formula`.
@@ -711,10 +675,8 @@ lm(formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depre
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  
-##              7.2353               1.9117  
-## Lebenszufriedenheit  
-##             -0.3663
+##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
+##              7.2353               1.9117              -0.3663
 ```
 Wir können also auch einfach die Reihenfolge umdrehen, solange wir Argumente benutzen: 
 
@@ -729,10 +691,8 @@ lm(data = Depression, formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriede
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  
-##              7.2353               1.9117  
-## Lebenszufriedenheit  
-##             -0.3663
+##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
+##              7.2353               1.9117              -0.3663
 ```
 
 Die Formel kann auch in Anführungszeichen geschrieben werden:
@@ -748,10 +708,8 @@ lm("Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit", data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  
-##              7.2353               1.9117  
-## Lebenszufriedenheit  
-##             -0.3663
+##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
+##              7.2353               1.9117              -0.3663
 ```
 
 Wir können auf die Datensatzspezifizierung verzichten, indem wir die Variablen direkt ansprechen (es ändern sich entsprechend die Namen der Koeffizienten im Output):
@@ -767,10 +725,8 @@ lm(Depression$Depressivitaet ~ 1 + Depression$Geschlecht + Depression$Lebenszufr
 ##     Depression$Lebenszufriedenheit)
 ## 
 ## Coefficients:
-##                    (Intercept)  
-##                         7.2353  
-##  Depression$Geschlechtweiblich  
-##                         1.9117  
+##                    (Intercept)   Depression$Geschlechtweiblich  
+##                         7.2353                          1.9117  
 ## Depression$Lebenszufriedenheit  
 ##                        -0.3663
 ```
@@ -904,9 +860,19 @@ points(X_[length(X)+1], y_[length(X)+1], pch = 16, cex = 2, col = "darkblue")
 
 ![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
-#### Ellipse
+</details>
 
-Auch der Code für die Grafik, die zur Veranschaulichung der Mahalanobisdistanz verwendet wurde, ist hier nochmal einsehbar:
+
+### Appendix C {#AppendixC}
+
+<details><summary>**Mahalanobisdistanz**</summary>
+
+Die Mahalanobisdistanz (siehe z.B. [Eid et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) ab Seite 707) ist ein Werkzeug, das zur Testung multivariater Normalverteilungen und zur Identifikation von multidimensionalen Ausreißern verwendet werden kann. Mit Hilfe der Mahalanobisdistanz wird die Entfernung vom zentralen Zentroiden bestimmt und mit Hilfe der Kovarianzmatrix gewichtet. Im Grunde kann man sagen, dass die Entfernung vom gemeinsamen Mittelwert über alle Variablen an der Variation in den Daten relativiert wird. Im **eindimensionalen Fall** ist die Mahalanobisdistanz nichts anderes als der quadrierte $z$-Wert, denn wir bestimmen dann die Mahalanobisdistanz einer Person $i$ via
+$$MD_i=\frac{(X_i-\bar{X})^2}{\sigma_X^2}=\left(\frac{X_i-\bar{X}}{\sigma_X}\right)^2=z^2.$$
+Wir erkennen, dass wir hier den Personenwert relativ zur Streuung in den Daten betrachten. Nutzen wir nun mehrere Variablen und wollen multivariate Ausreißer interpretieren, so ist die Mahalanobisdistanz folgendermaßen definiert:
+$$MD_i=(\mathbf{X}_i-\bar{\mathbf{X}})'\Sigma^{-1}(\mathbf{X}_i-\bar{\mathbf{X}}).$$
+Der Vektor der Mittelwertsdifferenz $\mathbf{X}_i-\bar{\mathbf{X}}$ wird durch die Kovarianzmatrix  der Daten $\Sigma$ gewichtet. Sind zwei Variablen $X_1$ und $X_2$ positiv korreliert, so treten große (und auch kleine) Werte auf beiden Variablen gemeinsam häufig auf. Allerdings ist es unwahrscheinlich, dass große $X_1$ und kleine $X_2$-Werte (oder umgekehrt) gleichzeitig auftreten. Dies lässt sich anhand der Mahalanobisdistanz untersuchen. *Wann ist nun ein Mahalanobisdistanzwert extrem?* Dies können wir uns an einem zweidimensionalen Beispiel klarer machen. Dazu tragen wir in ein Diagramm die Ellipsen (Kurven) mit gleicher Mahalanobisdistanz ein, also jene Linien, welche in Bezug auf ihre Mahalanobisdistanz gleich weit vom Zentroiden entfernt liegen. Je dunkler die Kurven, desto weiter entfernt liegen diese Punkte vom Zentroiden (hier $(0,0)$) und desto unwahrscheinlicher sind diese Punkte in den Daten zu beobachten. In diesem Beispiel nehmen wir an, dass die Variablen positiv korreliert sind. Der Erstellungs-Code für die Grafik wird hier auch direkt eingeblendet (wenn es Ihnen mehr um den Inhalt geht, können Sie diesen auch überspringen).
+
 
 
 ```r
@@ -951,70 +917,13 @@ points(mu1[1],mu1[2],pch=19,col="green", cex = 3)
 
 ![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 
-</details>
-
-***
-### Appendix C {#AppendixC}
-
-<details><summary>**Mahalanobisdistanz**</summary>
-
-Die Mahalanobisdistanz (siehe z.B. [Eid et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) ab Seite 707) ist ein Werkzeug, welches zur Testung multivariater Normalverteilung und zur Identifikation von multidimensionalen Ausreißern verwendet werden kann. Mit Hilfe der Mahalanobisdistanz wird die Entfernung vom zentralen Zentroiden bestimmt und mit Hilfe der Kovarianzmatrix gewichtet. Im Grunde kann man sagen, dass die Entfernung vom gemeinsamen Mittelwert über alle Variablen an der Variation in den Daten relativiert wird. Im **eindimensionalen Fall** ist die Mahalanobisdistanz nichts anderes als der quadrierte $z$-Wert, denn wir bestimmen dann die Mahalanobisdistanz einer Person $i$ via
-$$MD_i=\frac{(X_i-\bar{X})^2}{\sigma_X^2}=\left(\frac{X_i-\bar{X}}{\sigma_X}\right)^2=z^2.$$
-Wir erkennen, dass wir hier den Personenwert relativ zur Streuung in den Daten betrachten. Nutzen wir nun mehrere Variablen und wollen multivariate Ausreißer interpretieren, so ist die Mahalanobisdistanz folgendermaßen definiert:
-$$MD_i=(\mathbf{X}_i-\bar{\mathbf{X}})'\Sigma^{-1}(\mathbf{X}_i-\bar{\mathbf{X}}).$$
-Der Vektor der Mittelwertsdifferenzen $\mathbf{X}_i-\bar{\mathbf{X}}$ wird durch die Kovarianzmatrix  der Daten $\Sigma$ gewichtet. Sind zwei Variablen $X_1$ und $X_2$ positiv korreliert, so treten große Werte (und auch kleine Werte) auf beiden Variablen gemeinsam häufig auf, allerdings sind große $X_1$ und kleine $X_2$-Werte (gleichzeitig und auch umgekehrt) unwahrscheinlich. Dies lässt sich anhand der Mahalanobisdistanz untersuchen. *Wann ist nun ein Mahalanobisdistanzwert extrem?* Dies können wir uns an einem zweidimensionalen Beispiel klarer machen. Dazu tragen wir in ein Diagramm die Ellipsen (Kurven) gleicher Mahalanobisdistanz ein, also jene Linien, welche laut Mahalanobisdistanz gleich weit vom Zentroiden entfernt liegen. Je dunkler die Kurven, desto weiter entfernt liegen diese Punkte vom Zentroiden (hier $(0,0)$) und desto unwahrscheinlicher sind diese Punkte in den Daten zu beobachten. In diesem Beispiel nehmen wir an, dass die Variablen positiv korreliert sind. Der Erstellungs-Code für die Grafik wird hier auch direkt eingeblendet (wenn es Ihnen mehr um den Inhalt geht, können Sie diesen auch überspringen).
-
-
-
-```r
-library(ellipse)
-mu1 <- c(0,0)
-mu2 <- c(1,0)
-S1 <- matrix(c(1,1,1,4),2,2)
-#S2 <- matrix(c(4,0,0,1),2,2)
-plot(0, col = "white", xlim = c(-3,3.5),ylim = c(-6,6), xlab = expression(X[1]), ylab = expression(X[2]), 
-     main = "Kurven gleicher Wahrscheinlichkeit/\n Kurven gleicher Mahalanobisdistanz")
-
-points(mu1[1],mu1[2],pch=19,col="green", cex = 3)
-#points(mu2[1],mu2[2],pch=19, col = "blue", cex = 3)
-# plotte einzelne Kovarianzmatrizen
-color <- c("yellow","gold3", "gold3", "red")
-i <- 1
-for (q in c(0.5, 0.8,0.95,.99))
-{
-  lines(ellipse(S1,level=q)[,1]+mu1[1],ellipse(S1,level=q)[,2]+mu1[2], col = color[i], lwd = 4) 
-  #lines(ellipse(S2,level=q)[,1]+mu2[1],ellipse(S2,level=q)[,2]+mu2[2],col= color [i], lwd = 4)
-  i <- i +1 
-}
-
-X <- ellipse(S1,level=0.8)[,1]+mu1[1]
-Y <- ellipse(S1,level=0.8)[,2]+mu1[2]
-
-i <- 25
-lines(c(X[i], 0), c(Y[i], 0), lwd = 3, col = "blue")
-points(X[i],Y[i], cex = 2, pch = 16)
-
-l <- sqrt(X[i]^2 + Y[i]^2)
-
-i <- 1
-l2 <-  sqrt(X[i]^2 + Y[i]^2)
-lines(c(0, X[i]), c(0, Y[i]), lwd = 3)
-
-arrows(x0=0,x1= X[i]*l/l2, y0=0,y1= Y[i]*l/l2, lwd = 3, col = "blue", code = 3, angle = 90, length = 0.1)
-
-points(X[i],Y[i], cex = 2, pch = 16)
-points(mu1[1],mu1[2],pch=19,col="green", cex = 3)
-```
-
-![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
-
 Der Ellipsenplot zeigt zwei multivariat-normalverteilte Variablen. Die Normalverteilungsdichte können wir uns dort wie einen Hügel vorstellen, der aus dem Bildschirm wächst, wobei hellere Kurven für eine größere Höhe des Hügels sprechen.
 
-Der Zentroid ist hier in Hellgrün dargestellt. Außerdem sind zwei Punkte (in schwarz) eingezeichnet, die die gleiche Mahalanobisdistanz haben. Allerdings sehen wir, repräsentiert durch die blaue Linie, ebenfalls die euklidische Distanz. Die euklidische Distanz ist jene, welche wir nutzen, wenn wir ein Maßband anlegen würden (um bspw. ein Zimmer zu vermessen oder eben die Distanz auf dem Bildschirm der beiden Punkte vom hellgrünen Zentroiden). Dies bedeutet, dass wenn wir in dieser Grafik (und damit in den Daten) die Kovariation der Variablen ignorieren würden, so würden wir den linken schwarzen Punkt und die blaue Linie als äquidistant (also gleich weit entfernt) annehmen. Berücksichtigen wir allerdings die positive Korrelation der Variablen, dann erkennen wir, dass die beiden schwarzen Punkte gleich wahrscheinlich sind und damit im Schnitt gleich häufig auftreten. Dies lässt sich folgendermaßen erklären: wenn zwei Variablen positiv korreliert sind, sind extreme positive und extreme negative Werte auf beiden Variablen gleichzeitig recht wahrscheinlich, während es sehr unwahrscheinlich ist, dass die eine Variable eine hohe und die andere gleichzeitig eine niedrige Ausprägung aufweist (und umgekehrt). Entsprechend haben Wertekonstellationen, die sehr unwahrscheinlich sind (gegeben der Struktur in den Daten) eine große Mahalanobisdistanz - in der Grafik wächst also die Mahalanobisdistanz je dunkler die Kurve.
+Der Zentroid ist hier in Hellgrün dargestellt. Außerdem sind zwei Punkte (in schwarz) eingezeichnet, die die gleiche Mahalanobisdistanz haben. Allerdings sehen wir, repräsentiert durch die blaue Linie, ebenfalls die euklidische Distanz. Die euklidische Distanz entspricht der Distanz, die wir nutzen, wenn wir ein Maßband anlegen würden (um bspw. ein Zimmer oder eben die Distanz der beiden Punkte vom hellgrünen Zentroiden auf dem Bildschirm zu vermessen). Das bedeutet, dass wenn wir in dieser Grafik (und damit in den Daten) die Kovariation der Variablen ignorieren würden, so würden wir den linken schwarzen Punkt und die blaue Linie als äquidistant (also gleich weit entfernt) annehmen. Berücksichtigen wir allerdings die positive Korrelation der Variablen, dann erkennen wir, dass die beiden schwarzen Punkte gleich wahrscheinlich sind und damit im Schnitt gleich häufig auftreten. Dies lässt sich folgendermaßen erklären: Wenn zwei Variablen positiv korreliert sind, sind extreme positive und extreme negative Werte auf beiden Variablen gleichzeitig recht wahrscheinlich, während es sehr unwahrscheinlich ist, dass die eine Variable eine hohe und die andere gleichzeitig eine niedrige Ausprägung aufweist (und umgekehrt). Entsprechend haben Wertekonstellationen, die sehr unwahrscheinlich sind (gegeben der Struktur in den Daten) eine große Mahalanobisdistanz - in der Grafik wächst also die Mahalanobisdistanz je dunkler die Kurve.
 
-Außerdem gilt, dass bei multivariater Normalverteilung der Daten die Mahalanobisdistanz $\chi^2(df=p)$ verteilt ist, wobei $p$ die Anzahl an Variablen ist. Der Vorteil hiervon ist, dass wir eine eindimensionale Verteilung untersuchen können, um ein Gefühl für multivariate Daten zu erhalten. Bspw. kann dann ein Histogramm oder ein Q-Q-Plot verwendet werden, um die Daten auf Normalverteilung zu untersuchen, bzw. es kann bspw. der Kolmogorov-Smirnov Test durchgeführt werden, um zu prüfen, ob die Mahalanobisdistanz $\chi^2(df=p)$ verteilt ist. 
+Außerdem gilt, dass bei multivariater Normalverteilung der Daten die Mahalanobisdistanz $\chi^2 (df=p)$-verteilt ist, wobei $p$ die Anzahl an Variablen ist. Der Vorteil hiervon ist, dass wir eine eindimensionale Verteilung untersuchen können, um ein Gefühl für multivariate Daten zu erhalten. Bspw. kann dann ein Histogramm oder ein Q-Q-Plot verwendet werden, um die Daten auf Normalverteilung zu untersuchen, bzw. es kann bspw. der Kolmogorov-Smirnov Test durchgeführt werden, um zu prüfen, ob die Mahalanobisdistanz $\chi^2(df=p)$-verteilt ist. 
 
-Der Befehl in `R` für die Mahalanobisdistanz ist `mahalanobis`. Hierfür sollten alle Prädiktoren aus einem Modell als Variablen in einen gemeinsamen Datensatz aufgenommen werden. Als Beispiel nehmen an dieser Stelle einfach die Depressivitaet und die Lebenszufriedenheit via `Depression$...` als unsere zwei Variablen auf und fassen diese zusammen zu einer Datenmatrix `X` mit `cbind` (column-bind), welches die übergebenen Variablen als Spaltenvektoren zusammenfasst.  `mahalanobis` braucht 3 Argumente: `x = X` die Daten, den gemeinsamen Mittelwert der Daten, den wir hier mit `colMeans` bestimmen (es wird jeweils der Mittelwert für die Spalten gebildet) sowie die Kovarianzmatrix der Daten mit `cov(X)` (`cor` gibt die Korrelationsmatrix aus; hier wird allerdings die Kovarianzmatrix gebraucht- anhand der Korrelationsmatrix lässt sich jedoch die Beziehung der Variablen besser einordnen), an welcher die Struktur relativiert werden soll:
+Der Befehl in `R` für die Mahalanobisdistanz ist `mahalanobis`. Hierfür sollten alle Prädiktoren aus einem Modell als Variablen in einen gemeinsamen Datensatz aufgenommen werden. Als Beispiel nehmen wir an dieser Stelle einfach die Depressivitaet und die Lebenszufriedenheit via `Depression$...` als unsere zwei Variablen auf und fassen diese zusammen zu einer Datenmatrix `X` mit dem Befehl `cbind` (column-bind), der die übergebenen Variablen als Spaltenvektoren zusammenfasst.  `mahalanobis` braucht 3 Argumente: die Daten `X`, den gemeinsamen Mittelwert der Daten, den wir hier mit `colMeans` bestimmen (es wird jeweils der Mittelwert für die Spalten gebildet) sowie die Kovarianzmatrix der Daten `cov(X)`, an welcher die Struktur relativiert werden soll (`cor` gibt die Korrelationsmatrix aus; hier wird allerdings die Kovarianzmatrix gebraucht - anhand der Korrelationsmatrix lässt sich jedoch die Beziehung der Variablen besser einordnen):
 
 ```r
 X <- cbind(Depression$Depressivitaet, Depression$Lebenszufriedenheit) # Datenmatrix mit Depressivitaet in Spalte 1 und Lebenszufriedenheit in Spalte 2
@@ -1058,20 +967,20 @@ xWerte <- seq(from = min(MD), to = max(MD), by = 0.01)
 lines(x = xWerte, y = dchisq(x = xWerte, df = 2), lwd = 3)
 ```
 
-![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
+![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
 
 ```r
 qqPlot(x = MD,distribution =  "chisq", df = 2, pch = 16)
 ```
 
-![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-39-2.png)<!-- -->
+![](/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-38-2.png)<!-- -->
 
 ```
 ## [1] 85 41
 ```
 Gleiches gilt auch für den Q-Q-Plot, der hier ebenfalls gegen die $\chi^2(df=2)$-Verteilung abgetragen wurde. Der Q-Q-Plot hat außerdem als Output die Fallnummer (Pbn-Nr) der extremeren Werte - hier Nummer 41 und 85. Insgesamt ist also zu sagen, dass die Mahalanobisdistanz nicht der multivariaten Normalverteilungsannahme widerspricht.
 
-Da die Annahme der multivariaten Normalverteilung nicht verworfen wird, können wir jetzt einzelne extreme Werte auf Signifikanz testen. Zum Bestimmen der kritischen Distanz nehmen wir die $\chi^2$ Verteilung heran. Wir bestimmen mit `qchisq` den kritischen Wert, wobei als $p$-Wert hier meist ein $\alpha$-Niveau von .01 oder .001 herangezogen wird, damit wir nicht fälschlicherweise zu viele Werte aussortieren. Hierbei übergeben wir dem Argument `p` das $\alpha$-Niveau, `lower.tail = F` besagt, dass wir damit die obere Grenze meinen (also mit `p` gerade die Wahrscheinlichkeit meinen, einen extremeren Wert zu finden), `df = 2` stellt die Freiheitsgrade ein (hier = 2, da 2 Variablen): 
+Da die Annahme der multivariaten Normalverteilung nicht verworfen wird, können wir jetzt einzelne extreme Werte auf Signifikanz testen. Zum Bestimmen der kritischen Distanz nehmen wir die $\chi^2$-Verteilung heran. Wir bestimmen mit `qchisq` den kritischen Wert, wobei als $p$-Wert hier meist ein $\alpha$-Niveau von .01 oder .001 herangezogen wird, damit wir nicht fälschlicherweise zu viele Werte aussortieren. Hierbei übergeben wir dem Argument `p` das $\alpha$-Niveau, `lower.tail = F` besagt, dass wir damit die obere Grenze meinen (also mit `p` gerade die Wahrscheinlichkeit meinen, einen extremeren Wert zu finden), `df = 2` stellt die Freiheitsgrade ein (hier = 2, da 2 Variablen): 
 
 
 ```r
@@ -1098,32 +1007,24 @@ MD
 ```
 
 ```
-##  [1]  1.29835776  1.85988286  1.68027868  0.38036881
-##  [5]  1.93061376  5.31999173  1.29835776  0.89484803
-##  [9]  5.31999173  0.07401952  1.85988286  0.96581665
-## [13]  2.87179069  1.29835776  3.08398338  6.11730810
-## [17]  0.96581665  0.33582974  1.93061376  3.99622396
-## [21]  0.96581665  1.85988286  1.93061376  3.57704668
-## [25]  0.07401952  0.96581665  1.68027868  0.88006651
-## [29]  1.85988286  1.85988286  0.96581665  0.19639932
-## [33]  0.07401952  2.79831527  0.19639932  1.64697702
-## [37]  2.42350418  0.89484803  0.96581665  0.19639932
-## [41]  9.85316591  0.89484803  6.01723026  4.27802381
-## [45]  0.88006651  0.19639932  0.07401952  0.38036881
-## [49]  8.84194961  1.64697702  0.19639932  1.29835776
-## [53]  2.87179069  4.92199266  7.18339325  0.19639932
-## [57]  0.33582974  0.38036881  3.46236019  0.07401952
-## [61]  0.33582974  0.38036881  3.48368968  8.46422112
-## [65]  0.19639932  0.88006651  0.07401952  0.88006651
-## [69]  1.09506856  1.50981570  0.38036881  0.07401952
-## [73]  1.64697702  0.33582974  1.09506856  0.88006651
-## [77]  2.86848429  3.08398338  2.86848429  1.09506856
-## [81]  2.39394112  1.50981570  1.09506856  2.42350418
-## [85] 10.28690861  1.33295604  0.19639932  0.88006651
-## [89]  1.68027868  1.09506856
+##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173
+##  [7]  1.29835776  0.89484803  5.31999173  0.07401952  1.85988286  0.96581665
+## [13]  2.87179069  1.29835776  3.08398338  6.11730810  0.96581665  0.33582974
+## [19]  1.93061376  3.99622396  0.96581665  1.85988286  1.93061376  3.57704668
+## [25]  0.07401952  0.96581665  1.68027868  0.88006651  1.85988286  1.85988286
+## [31]  0.96581665  0.19639932  0.07401952  2.79831527  0.19639932  1.64697702
+## [37]  2.42350418  0.89484803  0.96581665  0.19639932  9.85316591  0.89484803
+## [43]  6.01723026  4.27802381  0.88006651  0.19639932  0.07401952  0.38036881
+## [49]  8.84194961  1.64697702  0.19639932  1.29835776  2.87179069  4.92199266
+## [55]  7.18339325  0.19639932  0.33582974  0.38036881  3.46236019  0.07401952
+## [61]  0.33582974  0.38036881  3.48368968  8.46422112  0.19639932  0.88006651
+## [67]  0.07401952  0.88006651  1.09506856  1.50981570  0.38036881  0.07401952
+## [73]  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429  3.08398338
+## [79]  2.86848429  1.09506856  2.39394112  1.50981570  1.09506856  2.42350418
+## [85] 10.28690861  1.33295604  0.19639932  0.88006651  1.68027868  1.09506856
 ```
 
-Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Probandennummer der möglichen Ausreißer.
+Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Fallnummer (Pbn-Nr) der möglichen Ausreißer.
 
 
 ```r
@@ -1153,6 +1054,7 @@ which(MD > qchisq(p = .001, lower.tail = F, df = 2))   # Pbn-Nr. 0.1%
 Auf dem $\alpha$-Niveau von 1% gäbe es 2 Ausreißer (Pbn-Nr = 41, 85), auf dem von 0.1% keinen. 
 
 </details>
+
 ***
 
 ## Literatur

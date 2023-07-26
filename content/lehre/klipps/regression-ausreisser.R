@@ -263,44 +263,6 @@ arrows(x0=0,x1= X[i]*l/l2, y0=0,y1= Y[i]*l/l2, lwd = 3, col = "blue", code = 3, 
 points(X[i],Y[i], cex = 2, pch = 16)
 points(mu1[1],mu1[2],pch=19,col="green", cex = 3)
 
-library(ellipse)
-mu1 <- c(0,0)
-mu2 <- c(1,0)
-S1 <- matrix(c(1,1,1,4),2,2)
-#S2 <- matrix(c(4,0,0,1),2,2)
-plot(0, col = "white", xlim = c(-3,3.5),ylim = c(-6,6), xlab = expression(X[1]), ylab = expression(X[2]), 
-     main = "Kurven gleicher Wahrscheinlichkeit/\n Kurven gleicher Mahalanobisdistanz")
-
-points(mu1[1],mu1[2],pch=19,col="green", cex = 3)
-#points(mu2[1],mu2[2],pch=19, col = "blue", cex = 3)
-# plotte einzelne Kovarianzmatrizen
-color <- c("yellow","gold3", "gold3", "red")
-i <- 1
-for (q in c(0.5, 0.8,0.95,.99))
-{
-  lines(ellipse(S1,level=q)[,1]+mu1[1],ellipse(S1,level=q)[,2]+mu1[2], col = color[i], lwd = 4) 
-  #lines(ellipse(S2,level=q)[,1]+mu2[1],ellipse(S2,level=q)[,2]+mu2[2],col= color [i], lwd = 4)
-  i <- i +1 
-}
-
-X <- ellipse(S1,level=0.8)[,1]+mu1[1]
-Y <- ellipse(S1,level=0.8)[,2]+mu1[2]
-
-i <- 25
-lines(c(X[i], 0), c(Y[i], 0), lwd = 3, col = "blue")
-points(X[i],Y[i], cex = 2, pch = 16)
-
-l <- sqrt(X[i]^2 + Y[i]^2)
-
-i <- 1
-l2 <-  sqrt(X[i]^2 + Y[i]^2)
-lines(c(0, X[i]), c(0, Y[i]), lwd = 3)
-
-arrows(x0=0,x1= X[i]*l/l2, y0=0,y1= Y[i]*l/l2, lwd = 3, col = "blue", code = 3, angle = 90, length = 0.1)
-
-points(X[i],Y[i], cex = 2, pch = 16)
-points(mu1[1],mu1[2],pch=19,col="green", cex = 3)
-
 X <- cbind(Depression$Depressivitaet, Depression$Lebenszufriedenheit) # Datenmatrix mit Depressivitaet in Spalte 1 und Lebenszufriedenheit in Spalte 2
 colMeans(X)  # Spaltenmittelwerte (1. Zahl = Mittelwert der Depressivitaet, 2. Zahl = Mittelwert der Lebenszufriedenheit)
 cov(X) # Kovarianzmatrix von Depressivitaet und Lebenszufriedenheit

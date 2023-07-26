@@ -567,62 +567,18 @@ points(X_[length(X)+1], y_[length(X)+1], pch = 15, cex = 2.8, col = "gold")
 points(X_[length(X)+1], y_[length(X)+1], pch = 16, cex = 2, col = "darkblue")
 ```
 
-#### Ellipse
-
-Auch der Code für die Grafik, die zur Veranschaulichung der Mahalanobisdistanz verwendet wurde, ist hier nochmal einsehbar:
-
-```{r, message = F}
-library(ellipse)
-mu1 <- c(0,0)
-mu2 <- c(1,0)
-S1 <- matrix(c(1,1,1,4),2,2)
-#S2 <- matrix(c(4,0,0,1),2,2)
-plot(0, col = "white", xlim = c(-3,3.5),ylim = c(-6,6), xlab = expression(X[1]), ylab = expression(X[2]), 
-     main = "Kurven gleicher Wahrscheinlichkeit/\n Kurven gleicher Mahalanobisdistanz")
-
-points(mu1[1],mu1[2],pch=19,col="green", cex = 3)
-#points(mu2[1],mu2[2],pch=19, col = "blue", cex = 3)
-# plotte einzelne Kovarianzmatrizen
-color <- c("yellow","gold3", "gold3", "red")
-i <- 1
-for (q in c(0.5, 0.8,0.95,.99))
-{
-  lines(ellipse(S1,level=q)[,1]+mu1[1],ellipse(S1,level=q)[,2]+mu1[2], col = color[i], lwd = 4) 
-  #lines(ellipse(S2,level=q)[,1]+mu2[1],ellipse(S2,level=q)[,2]+mu2[2],col= color [i], lwd = 4)
-  i <- i +1 
-}
-
-X <- ellipse(S1,level=0.8)[,1]+mu1[1]
-Y <- ellipse(S1,level=0.8)[,2]+mu1[2]
-
-i <- 25
-lines(c(X[i], 0), c(Y[i], 0), lwd = 3, col = "blue")
-points(X[i],Y[i], cex = 2, pch = 16)
-
-l <- sqrt(X[i]^2 + Y[i]^2)
-
-i <- 1
-l2 <-  sqrt(X[i]^2 + Y[i]^2)
-lines(c(0, X[i]), c(0, Y[i]), lwd = 3)
-
-arrows(x0=0,x1= X[i]*l/l2, y0=0,y1= Y[i]*l/l2, lwd = 3, col = "blue", code = 3, angle = 90, length = 0.1)
-
-points(X[i],Y[i], cex = 2, pch = 16)
-points(mu1[1],mu1[2],pch=19,col="green", cex = 3)
-```
-
 </details>
 
-***
+
 ### Appendix C {#AppendixC}
 
 <details><summary>**Mahalanobisdistanz**</summary>
 
-Die Mahalanobisdistanz (siehe z.B. [Eid et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) ab Seite 707) ist ein Werkzeug, welches zur Testung multivariater Normalverteilung und zur Identifikation von multidimensionalen Ausreißern verwendet werden kann. Mit Hilfe der Mahalanobisdistanz wird die Entfernung vom zentralen Zentroiden bestimmt und mit Hilfe der Kovarianzmatrix gewichtet. Im Grunde kann man sagen, dass die Entfernung vom gemeinsamen Mittelwert über alle Variablen an der Variation in den Daten relativiert wird. Im **eindimensionalen Fall** ist die Mahalanobisdistanz nichts anderes als der quadrierte $z$-Wert, denn wir bestimmen dann die Mahalanobisdistanz einer Person $i$ via
+Die Mahalanobisdistanz (siehe z.B. [Eid et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) ab Seite 707) ist ein Werkzeug, das zur Testung multivariater Normalverteilungen und zur Identifikation von multidimensionalen Ausreißern verwendet werden kann. Mit Hilfe der Mahalanobisdistanz wird die Entfernung vom zentralen Zentroiden bestimmt und mit Hilfe der Kovarianzmatrix gewichtet. Im Grunde kann man sagen, dass die Entfernung vom gemeinsamen Mittelwert über alle Variablen an der Variation in den Daten relativiert wird. Im **eindimensionalen Fall** ist die Mahalanobisdistanz nichts anderes als der quadrierte $z$-Wert, denn wir bestimmen dann die Mahalanobisdistanz einer Person $i$ via
 $$MD_i=\frac{(X_i-\bar{X})^2}{\sigma_X^2}=\left(\frac{X_i-\bar{X}}{\sigma_X}\right)^2=z^2.$$
 Wir erkennen, dass wir hier den Personenwert relativ zur Streuung in den Daten betrachten. Nutzen wir nun mehrere Variablen und wollen multivariate Ausreißer interpretieren, so ist die Mahalanobisdistanz folgendermaßen definiert:
 $$MD_i=(\mathbf{X}_i-\bar{\mathbf{X}})'\Sigma^{-1}(\mathbf{X}_i-\bar{\mathbf{X}}).$$
-Der Vektor der Mittelwertsdifferenzen $\mathbf{X}_i-\bar{\mathbf{X}}$ wird durch die Kovarianzmatrix  der Daten $\Sigma$ gewichtet. Sind zwei Variablen $X_1$ und $X_2$ positiv korreliert, so treten große Werte (und auch kleine Werte) auf beiden Variablen gemeinsam häufig auf, allerdings sind große $X_1$ und kleine $X_2$-Werte (gleichzeitig und auch umgekehrt) unwahrscheinlich. Dies lässt sich anhand der Mahalanobisdistanz untersuchen. *Wann ist nun ein Mahalanobisdistanzwert extrem?* Dies können wir uns an einem zweidimensionalen Beispiel klarer machen. Dazu tragen wir in ein Diagramm die Ellipsen (Kurven) gleicher Mahalanobisdistanz ein, also jene Linien, welche laut Mahalanobisdistanz gleich weit vom Zentroiden entfernt liegen. Je dunkler die Kurven, desto weiter entfernt liegen diese Punkte vom Zentroiden (hier $(0,0)$) und desto unwahrscheinlicher sind diese Punkte in den Daten zu beobachten. In diesem Beispiel nehmen wir an, dass die Variablen positiv korreliert sind. Der Erstellungs-Code für die Grafik wird hier auch direkt eingeblendet (wenn es Ihnen mehr um den Inhalt geht, können Sie diesen auch überspringen).
+Der Vektor der Mittelwertsdifferenz $\mathbf{X}_i-\bar{\mathbf{X}}$ wird durch die Kovarianzmatrix  der Daten $\Sigma$ gewichtet. Sind zwei Variablen $X_1$ und $X_2$ positiv korreliert, so treten große (und auch kleine) Werte auf beiden Variablen gemeinsam häufig auf. Allerdings ist es unwahrscheinlich, dass große $X_1$ und kleine $X_2$-Werte (oder umgekehrt) gleichzeitig auftreten. Dies lässt sich anhand der Mahalanobisdistanz untersuchen. *Wann ist nun ein Mahalanobisdistanzwert extrem?* Dies können wir uns an einem zweidimensionalen Beispiel klarer machen. Dazu tragen wir in ein Diagramm die Ellipsen (Kurven) mit gleicher Mahalanobisdistanz ein, also jene Linien, welche in Bezug auf ihre Mahalanobisdistanz gleich weit vom Zentroiden entfernt liegen. Je dunkler die Kurven, desto weiter entfernt liegen diese Punkte vom Zentroiden (hier $(0,0)$) und desto unwahrscheinlicher sind diese Punkte in den Daten zu beobachten. In diesem Beispiel nehmen wir an, dass die Variablen positiv korreliert sind. Der Erstellungs-Code für die Grafik wird hier auch direkt eingeblendet (wenn es Ihnen mehr um den Inhalt geht, können Sie diesen auch überspringen).
 
 
 ```{r, message = F, warning=F}
@@ -667,11 +623,11 @@ points(mu1[1],mu1[2],pch=19,col="green", cex = 3)
 
 Der Ellipsenplot zeigt zwei multivariat-normalverteilte Variablen. Die Normalverteilungsdichte können wir uns dort wie einen Hügel vorstellen, der aus dem Bildschirm wächst, wobei hellere Kurven für eine größere Höhe des Hügels sprechen.
 
-Der Zentroid ist hier in Hellgrün dargestellt. Außerdem sind zwei Punkte (in schwarz) eingezeichnet, die die gleiche Mahalanobisdistanz haben. Allerdings sehen wir, repräsentiert durch die blaue Linie, ebenfalls die euklidische Distanz. Die euklidische Distanz ist jene, welche wir nutzen, wenn wir ein Maßband anlegen würden (um bspw. ein Zimmer zu vermessen oder eben die Distanz auf dem Bildschirm der beiden Punkte vom hellgrünen Zentroiden). Dies bedeutet, dass wenn wir in dieser Grafik (und damit in den Daten) die Kovariation der Variablen ignorieren würden, so würden wir den linken schwarzen Punkt und die blaue Linie als äquidistant (also gleich weit entfernt) annehmen. Berücksichtigen wir allerdings die positive Korrelation der Variablen, dann erkennen wir, dass die beiden schwarzen Punkte gleich wahrscheinlich sind und damit im Schnitt gleich häufig auftreten. Dies lässt sich folgendermaßen erklären: wenn zwei Variablen positiv korreliert sind, sind extreme positive und extreme negative Werte auf beiden Variablen gleichzeitig recht wahrscheinlich, während es sehr unwahrscheinlich ist, dass die eine Variable eine hohe und die andere gleichzeitig eine niedrige Ausprägung aufweist (und umgekehrt). Entsprechend haben Wertekonstellationen, die sehr unwahrscheinlich sind (gegeben der Struktur in den Daten) eine große Mahalanobisdistanz - in der Grafik wächst also die Mahalanobisdistanz je dunkler die Kurve.
+Der Zentroid ist hier in Hellgrün dargestellt. Außerdem sind zwei Punkte (in schwarz) eingezeichnet, die die gleiche Mahalanobisdistanz haben. Allerdings sehen wir, repräsentiert durch die blaue Linie, ebenfalls die euklidische Distanz. Die euklidische Distanz entspricht der Distanz, die wir nutzen, wenn wir ein Maßband anlegen würden (um bspw. ein Zimmer oder eben die Distanz der beiden Punkte vom hellgrünen Zentroiden auf dem Bildschirm zu vermessen). Das bedeutet, dass wenn wir in dieser Grafik (und damit in den Daten) die Kovariation der Variablen ignorieren würden, so würden wir den linken schwarzen Punkt und die blaue Linie als äquidistant (also gleich weit entfernt) annehmen. Berücksichtigen wir allerdings die positive Korrelation der Variablen, dann erkennen wir, dass die beiden schwarzen Punkte gleich wahrscheinlich sind und damit im Schnitt gleich häufig auftreten. Dies lässt sich folgendermaßen erklären: Wenn zwei Variablen positiv korreliert sind, sind extreme positive und extreme negative Werte auf beiden Variablen gleichzeitig recht wahrscheinlich, während es sehr unwahrscheinlich ist, dass die eine Variable eine hohe und die andere gleichzeitig eine niedrige Ausprägung aufweist (und umgekehrt). Entsprechend haben Wertekonstellationen, die sehr unwahrscheinlich sind (gegeben der Struktur in den Daten) eine große Mahalanobisdistanz - in der Grafik wächst also die Mahalanobisdistanz je dunkler die Kurve.
 
-Außerdem gilt, dass bei multivariater Normalverteilung der Daten die Mahalanobisdistanz $\chi^2(df=p)$ verteilt ist, wobei $p$ die Anzahl an Variablen ist. Der Vorteil hiervon ist, dass wir eine eindimensionale Verteilung untersuchen können, um ein Gefühl für multivariate Daten zu erhalten. Bspw. kann dann ein Histogramm oder ein Q-Q-Plot verwendet werden, um die Daten auf Normalverteilung zu untersuchen, bzw. es kann bspw. der Kolmogorov-Smirnov Test durchgeführt werden, um zu prüfen, ob die Mahalanobisdistanz $\chi^2(df=p)$ verteilt ist. 
+Außerdem gilt, dass bei multivariater Normalverteilung der Daten die Mahalanobisdistanz $\chi^2 (df=p)$-verteilt ist, wobei $p$ die Anzahl an Variablen ist. Der Vorteil hiervon ist, dass wir eine eindimensionale Verteilung untersuchen können, um ein Gefühl für multivariate Daten zu erhalten. Bspw. kann dann ein Histogramm oder ein Q-Q-Plot verwendet werden, um die Daten auf Normalverteilung zu untersuchen, bzw. es kann bspw. der Kolmogorov-Smirnov Test durchgeführt werden, um zu prüfen, ob die Mahalanobisdistanz $\chi^2(df=p)$-verteilt ist. 
 
-Der Befehl in `R` für die Mahalanobisdistanz ist `mahalanobis`. Hierfür sollten alle Prädiktoren aus einem Modell als Variablen in einen gemeinsamen Datensatz aufgenommen werden. Als Beispiel nehmen an dieser Stelle einfach die Depressivitaet und die Lebenszufriedenheit via `Depression$...` als unsere zwei Variablen auf und fassen diese zusammen zu einer Datenmatrix `X` mit `cbind` (column-bind), welches die übergebenen Variablen als Spaltenvektoren zusammenfasst.  `mahalanobis` braucht 3 Argumente: `x = X` die Daten, den gemeinsamen Mittelwert der Daten, den wir hier mit `colMeans` bestimmen (es wird jeweils der Mittelwert für die Spalten gebildet) sowie die Kovarianzmatrix der Daten mit `cov(X)` (`cor` gibt die Korrelationsmatrix aus; hier wird allerdings die Kovarianzmatrix gebraucht- anhand der Korrelationsmatrix lässt sich jedoch die Beziehung der Variablen besser einordnen), an welcher die Struktur relativiert werden soll:
+Der Befehl in `R` für die Mahalanobisdistanz ist `mahalanobis`. Hierfür sollten alle Prädiktoren aus einem Modell als Variablen in einen gemeinsamen Datensatz aufgenommen werden. Als Beispiel nehmen wir an dieser Stelle einfach die Depressivitaet und die Lebenszufriedenheit via `Depression$...` als unsere zwei Variablen auf und fassen diese zusammen zu einer Datenmatrix `X` mit dem Befehl `cbind` (column-bind), der die übergebenen Variablen als Spaltenvektoren zusammenfasst.  `mahalanobis` braucht 3 Argumente: die Daten `X`, den gemeinsamen Mittelwert der Daten, den wir hier mit `colMeans` bestimmen (es wird jeweils der Mittelwert für die Spalten gebildet) sowie die Kovarianzmatrix der Daten `cov(X)`, an welcher die Struktur relativiert werden soll (`cor` gibt die Korrelationsmatrix aus; hier wird allerdings die Kovarianzmatrix gebraucht - anhand der Korrelationsmatrix lässt sich jedoch die Beziehung der Variablen besser einordnen):
 ```{r}
 X <- cbind(Depression$Depressivitaet, Depression$Lebenszufriedenheit) # Datenmatrix mit Depressivitaet in Spalte 1 und Lebenszufriedenheit in Spalte 2
 colMeans(X)  # Spaltenmittelwerte (1. Zahl = Mittelwert der Depressivitaet, 2. Zahl = Mittelwert der Lebenszufriedenheit)
@@ -690,7 +646,7 @@ qqPlot(x = MD,distribution =  "chisq", df = 2, pch = 16)
 ```
 Gleiches gilt auch für den Q-Q-Plot, der hier ebenfalls gegen die $\chi^2(df=2)$-Verteilung abgetragen wurde. Der Q-Q-Plot hat außerdem als Output die Fallnummer (Pbn-Nr) der extremeren Werte - hier Nummer 41 und 85. Insgesamt ist also zu sagen, dass die Mahalanobisdistanz nicht der multivariaten Normalverteilungsannahme widerspricht.
 
-Da die Annahme der multivariaten Normalverteilung nicht verworfen wird, können wir jetzt einzelne extreme Werte auf Signifikanz testen. Zum Bestimmen der kritischen Distanz nehmen wir die $\chi^2$ Verteilung heran. Wir bestimmen mit `qchisq` den kritischen Wert, wobei als $p$-Wert hier meist ein $\alpha$-Niveau von .01 oder .001 herangezogen wird, damit wir nicht fälschlicherweise zu viele Werte aussortieren. Hierbei übergeben wir dem Argument `p` das $\alpha$-Niveau, `lower.tail = F` besagt, dass wir damit die obere Grenze meinen (also mit `p` gerade die Wahrscheinlichkeit meinen, einen extremeren Wert zu finden), `df = 2` stellt die Freiheitsgrade ein (hier = 2, da 2 Variablen): 
+Da die Annahme der multivariaten Normalverteilung nicht verworfen wird, können wir jetzt einzelne extreme Werte auf Signifikanz testen. Zum Bestimmen der kritischen Distanz nehmen wir die $\chi^2$-Verteilung heran. Wir bestimmen mit `qchisq` den kritischen Wert, wobei als $p$-Wert hier meist ein $\alpha$-Niveau von .01 oder .001 herangezogen wird, damit wir nicht fälschlicherweise zu viele Werte aussortieren. Hierbei übergeben wir dem Argument `p` das $\alpha$-Niveau, `lower.tail = F` besagt, dass wir damit die obere Grenze meinen (also mit `p` gerade die Wahrscheinlichkeit meinen, einen extremeren Wert zu finden), `df = 2` stellt die Freiheitsgrade ein (hier = 2, da 2 Variablen): 
 
 ```{r}
 qchisq(p = .01, lower.tail = F, df = 2)    # alpha = 1%
@@ -703,7 +659,7 @@ Nun können wir die Mahalanobisdistanz untersuchen:
 MD
 ```
 
-Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Probandennummer der möglichen Ausreißer.
+Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Fallnummer (Pbn-Nr) der möglichen Ausreißer.
 
 ```{r}
 MD[MD > qchisq(p = .01, lower.tail = F, df = 2)]      # Mahalanobiswerte > krit. Wert
@@ -714,6 +670,7 @@ which(MD > qchisq(p = .001, lower.tail = F, df = 2))   # Pbn-Nr. 0.1%
 Auf dem $\alpha$-Niveau von 1% gäbe es 2 Ausreißer (Pbn-Nr = `r which(MD > qchisq(p = .01, lower.tail = F, df = 2))`), auf dem von 0.1% keinen. 
 
 </details>
+
 ***
 
 ## Literatur
