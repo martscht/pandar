@@ -262,20 +262,13 @@ head(Depression) # ersten 6 Zeilen
 ```
 
 ```
-##   Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus
-## 1                   7              4              7             5
-## 2                   5              5              8             3
-## 3                   8              7              6             6
-## 4                   6              4              5             5
-## 5                   6              9              8             5
-## 6                   8              7              8             6
-##     Intervention Geschlecht
-## 1 Kontrollgruppe          0
-## 2 Kontrollgruppe          1
-## 3 Kontrollgruppe          0
-## 4 Kontrollgruppe          1
-## 5 Kontrollgruppe          1
-## 6 Kontrollgruppe          1
+##   Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus   Intervention Geschlecht
+## 1                   7              4              7             5 Kontrollgruppe          0
+## 2                   5              5              8             3 Kontrollgruppe          1
+## 3                   8              7              6             6 Kontrollgruppe          0
+## 4                   6              4              5             5 Kontrollgruppe          1
+## 5                   6              9              8             5 Kontrollgruppe          1
+## 6                   8              7              8             6 Kontrollgruppe          1
 ```
 
 Wir erkennen die 6 Spalten mit den Variablen Lebenszufriedenheit, Depressivitaet usw. Da es sich bei unserem Datensatz um ein Objekt vom Typ `data.frame` handelt, können wir die Variablennamen des Datensatzes außerdem mit der `names` Funktion abfragen. Eine weitere interessante Funktion ist `dim`, die die Anzahl der Zeilen und Spalten ausgibt. Mit `str` kann die Struktur des Datensatzes angezeigt werden. 
@@ -286,8 +279,8 @@ names(Depression) # Namen der Variablen
 ```
 
 ```
-## [1] "Lebenszufriedenheit" "Episodenanzahl"      "Depressivitaet"     
-## [4] "Neurotizismus"       "Intervention"        "Geschlecht"
+## [1] "Lebenszufriedenheit" "Episodenanzahl"      "Depressivitaet"      "Neurotizismus"      
+## [5] "Intervention"        "Geschlecht"
 ```
 
 ```r
@@ -405,10 +398,8 @@ Depression[1, ]   # 1. Zeile, alle Spalten
 ```
 
 ```
-##   Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus
-## 1                   7              4              7             5
-##     Intervention Geschlecht
-## 1 Kontrollgruppe  maennlich
+##   Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus   Intervention Geschlecht
+## 1                   7              4              7             5 Kontrollgruppe  maennlich
 ```
 
 ### Daten verändern
@@ -431,19 +422,15 @@ Depression[, 6]                    # Alle Geschlechter abfragen
 ```
 
 ```
-##  [1] maennlich weiblich  maennlich weiblich  maennlich weiblich  weiblich 
-##  [8] maennlich weiblich  maennlich weiblich  weiblich  weiblich  weiblich 
-## [15] weiblich  weiblich  weiblich  maennlich weiblich  maennlich weiblich 
-## [22] weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich
-## [29] weiblich  weiblich  weiblich  maennlich weiblich  weiblich  weiblich 
-## [36] maennlich maennlich maennlich weiblich  maennlich maennlich maennlich
-## [43] maennlich maennlich maennlich maennlich weiblich  maennlich maennlich
-## [50] weiblich  maennlich weiblich  weiblich  maennlich maennlich maennlich
-## [57] weiblich  maennlich maennlich maennlich maennlich maennlich maennlich
-## [64] maennlich maennlich maennlich maennlich maennlich maennlich maennlich
-## [71] maennlich maennlich maennlich maennlich maennlich maennlich maennlich
-## [78] maennlich maennlich maennlich maennlich maennlich maennlich weiblich 
-## [85] maennlich maennlich weiblich  maennlich weiblich  weiblich 
+##  [1] maennlich weiblich  maennlich weiblich  maennlich weiblich  weiblich  maennlich weiblich  maennlich
+## [11] weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich weiblich  maennlich
+## [21] weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich weiblich  weiblich 
+## [31] weiblich  maennlich weiblich  weiblich  weiblich  maennlich maennlich maennlich weiblich  maennlich
+## [41] maennlich maennlich maennlich maennlich maennlich maennlich weiblich  maennlich maennlich weiblich 
+## [51] maennlich weiblich  weiblich  maennlich maennlich maennlich weiblich  maennlich maennlich maennlich
+## [61] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
+## [71] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
+## [81] maennlich maennlich maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich 
 ## Levels: maennlich weiblich
 ```
 
@@ -587,9 +574,8 @@ names(model) #andere Inhalte der Liste
 ```
 
 ```
-##  [1] "coefficients"  "residuals"     "effects"       "rank"         
-##  [5] "fitted.values" "assign"        "qr"            "df.residual"  
-##  [9] "xlevels"       "call"          "terms"         "model"
+##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"       
+##  [7] "qr"            "df.residual"   "xlevels"       "call"          "terms"         "model"
 ```
 
 Die weiteren Inhalte umfassen unter anderem die `residuals`, die für das Prüfen der Voraussetzungen wichtig wären, aber auch die vorhergesagten Werte.
@@ -680,8 +666,8 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ```
 
 ```
-##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"   
-##  [6] "null.value"  "stderr"      "alternative" "method"      "data.name"
+##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value"  "stderr"     
+##  [8] "alternative" "method"      "data.name"
 ```
 
 ```r
