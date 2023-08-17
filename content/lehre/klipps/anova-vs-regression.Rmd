@@ -68,7 +68,7 @@ Der Befehl `na.omit` führt den listenweisen Fallausschluss für uns durch. *Ach
 
 
 ## Regression: Modellvergleiche
-In der vorherigen Sitzung haben wir noch einmal die Regressionsanalyse wiederholt. Wenn wir beispielsweise wissen möchten, ob nach dem Treatment die Symptomschwere mit der Lebenszufriedenheit oder der Ausprägung einer möglichen Panikstörung mit Agoraphobie zusammenhängt, wissen wir nun, wie wir dies untersuchen können:
+In der vorherigen Sitzung haben wir noch einmal die Regressionsanalyse wiederholt. Wenn wir beispielsweise wissen möchten, ob nach dem Treatment die Symptomschwere mit der Lebenszufriedenheit oder der Ausprägung einer möglichen Panikstörung mit oder ohne Agoraphobie zusammenhängt, wissen wir nun, wie wir dies untersuchen können:
 
 ```{r}
 reg <- lm(bsi_post ~ 1 + swls_post + pas_post, data = osf)

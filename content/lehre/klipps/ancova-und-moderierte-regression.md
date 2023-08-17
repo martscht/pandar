@@ -37,10 +37,10 @@ output:
 
 ## Einleitung
 In dieser Sitzung schauen wir uns die Kovarianzanalyse, auch **AN**alysis **O**f **COVA**riance (ANCOVA), als Erweiterung der ANOVA an und nutzen diese als Überleitung zur moderierten Regressionsanalyse.
-Diese Sitzung basiert auf Literatur aus [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) Kapitel  19 (insbesondere 19.9-19.12).
+Diese Sitzung basiert auf Literatur aus [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel  19 (insbesondere 19.9-19.12).
 
 ### Daten laden
-Wir verwenden wieder den Datensatz von [Schaeuffele et al. (2020)](https://psyarxiv.com/528tw/), die den Effekt des Unified Protocol (UP) als Internetintervention für bestimmte psychische Störungen durchgeführt haben. Wir laden den Datensatz ein und kürzen diesen (für mehr Informationen zum Datensatz sowie zum Einladen und Kürzen erhalten Sie in der vorherigen Sitzung zu [ANOVA vs. Regression](/post/anova-vs-regression)):
+Wir verwenden wieder den Datensatz von [Schaeuffele et al. (2020)](https://psyarxiv.com/528tw/), die das Unified Protocol (UP) als Internetintervention für bestimmte psychische Störungen durchgeführt haben. Wir laden den Datensatz ein und kürzen diesen (mehr Informationen zum Datensatz sowie zum Einladen und Kürzen erhalten Sie in der vorherigen Sitzung zu [ANOVA vs. Regression](/lehre/klipps/anova-vs-regression)):
 
 
 ```r
@@ -86,19 +86,19 @@ osf$pas_post <- scale(osf$pas_post, center = T, scale = F)
 
 Die Werte von zentrierten Variablen sind etwas anders zu interpretieren als jene in der ursprünglichen Skala. Ein Wert von 0 steht hier für den durchschnittlichen Wert auf dieser Variable.
 
-Hätten wir auch noch `scale = T` gewählt, so hätten wir nicht nur zentriert, sondern ebenfalls standardisiert --- also auch noch die Varianz auf 1 gesetzt, indem wir die Variablen durch die Standardabweichung geteilt hätten ($X_z:=\frac{X-\bar{X}}{SD(X)}$, $X_z$ ist die standardisierte Version von $X$). Wir haben hier "nur" zentriert, da die Zentrierung schon ausreicht, um mögliche Multikollinearität zu vermeiden (dazu später etwas mehr). Die Standardisierung ist sozusagen nur "nice to have" und vereinfacht die Interpretation. Da wir nicht den Eindruck erwecken wollten, dass dies zwangsläufig nötig ist, haben wir nur zentriert und nicht standardisiert.
+Hätten wir auch noch `scale = T` gewählt, so hätten wir nicht nur zentriert, sondern ebenfalls standardisiert --- also auch noch die Varianz auf 1 gesetzt, indem wir die Variablen durch die Standardabweichung geteilt hätten ($X_{z,i}:=\frac{X_i-\bar{X}}{SD(X)}$, $X_{z,i}$ ist die standardisierte Version von $X_i$ für Beobachtung i). Die Zentrierung reicht schon aus, um mögliche Multikollinearität zu vermeiden (dazu später etwas mehr). Die Standardisierung ist sozusagen nur "nice to have" und vereinfacht die Interpretation. Da wir nicht den Eindruck erwecken wollten, dass dies zwangsläufig nötig ist, haben wir hier "nur" zentriert und nicht standardisiert.
 
 ## Kovarianzanalyse: ANCOVA
-In der letzten Sitzung hatten wir bemerkt, dass ANOVA und Regressionsanalysen (auch in `R`) so gut wie identisch sind und dass nur die Art und Weise, wie Hypothesen aufgestellt werden sollen, im Endeffekt entscheiden, wie genau die Analysen ausfallen. Diese Hypothesen hatten sich in der Wahl der Quadratsummen geäußert. 
+In der letzten Sitzung hatten wir bemerkt, dass ANOVA und Regressionsanalysen (auch in `R`) so gut wie identisch sind und dass nur die Art und Weise, wie Hypothesen aufgestellt werden sollen, im Endeffekt entscheiden, wie die Analysen genau ausfallen. Die unterschiedlichen Hypothesen hatten sich in der Wahl der Quadratsummen geäußert. 
 
-Die Kovarianzanalyse kann nun sowohl in ANOVA- als auch im Regressionssetting betrachtet werden. Entscheidend ist, für welchen Effekt wir uns interessieren. Im ANOVA-Setting wird eine (oder mehrere) kontinuierliche Kovariate hinzugefügt, um deren Einfluss der Mittelwertsvergleich "bereinigt" werden soll. Damit sollen Varianzeinflüsse der Kovariate herausgerechnet werden, was die Power erhöht, einen Mittelwertsunterschied zu finden. Im Regressionssetting soll eine Kombination aus Prädiktoren unterschiedlicher Skalenniveaus untersucht werden. Hier könnte bspw. neben einem kontinuierlichem Prädiktor auch eine nominalskalierte Gruppierungsvariable aufgenommen werden. Wenn wir uns eine einfache Regression vorstellen, so hätte dies zur Folge, dass wir für jede Gruppe ein Interzept einführen würden!
+Die Kovarianzanalyse kann nun sowohl im ANOVA- als auch im Regressionssetting betrachtet werden. Entscheidend ist, für welchen Effekt wir uns interessieren. Im ANOVA-Setting wird eine (oder mehrere) kontinuierliche Kovariate hinzugefügt, um deren Einfluss der Mittelwertsvergleich "bereinigt" werden soll. Damit sollen Varianzeinflüsse der Kovariate herausgerechnet werden, was die Power erhöht, einen Mittelwertsunterschied zu finden. Im Regressionssetting soll eine Kombination aus Prädiktoren unterschiedlicher Skalenniveaus untersucht werden. Hier könnte bspw. neben einem kontinuierlichem Prädiktor auch eine nominalskalierte Gruppierungsvariable aufgenommen werden. Wenn wir uns eine einfache Regression vorstellen, so hätte dies zur Folge, dass wir für jede Gruppe ein Interzept einführen würden!
 
 ### Einfache ANCOVA
 Wir betrachten die ANCOVA im Regressionssetting. Wir verwenden also wieder die `lm`-Funktion, um das Modell aufzustellen und wenden auf das resultierende Objekt wieder die `Anova`-Funktion aus dem `car`-Paket an. Wir verwenden hier nicht `ezANOVA`, da wir die Gleichungsnotation der Regression verwenden wollen und weil `ezANOVA` für ANCOVAs erstmal nur eine *Betaversion* enthält.
 
-An dieser Stelle sei gesagt, dass wir im Grunde eine ANCOVA schon in der Sitzung zur [Regression](/post/regression-aussreisser-klipps) durchgeführt haben, ohne dies genau zu erläutern. Dort hatten wir die Depressivität durch das Geschlecht sowie die Lebenszufriedenheit vorhergesagt. Das Geschlecht war hier dichotom und die Lebenszufriedenheit wurde als kontinuierlich angesehen.
+An dieser Stelle sei gesagt, dass wir im Grunde eine ANCOVA schon in der Sitzung zur [Regression](/lehre/klipps/regression-ausreisser) durchgeführt haben, ohne dies genau zu erläutern. Dort hatten wir die Depressivität durch das Geschlecht sowie die Lebenszufriedenheit vorhergesagt. Das Geschlecht war hier dichotom und die Lebenszufriedenheit wurde als kontinuierlich angesehen.
 
-Wir möchten nun für unseren Datensatz `osf` wissen, ob sich die Symptomschwere durch die Lebenszufriedenheit vorhersagen lässt. Dazu hatten wir am Anfang der vergangenen Sitzung bereits eine Untersuchung vorgenommen. Allerdings hatten wir auch die Ausprägung der Panikstörung und Agoraphobie mit in das Modell aufgenommen. Beide Prädiktoren hatten signifikante Varianzanteile an der Symptomschwere erklärt. Wir beschränken uns jetzt allerdings auf die Lebenszufriedenheit:
+Wir möchten nun für unseren Datensatz `osf` wissen, ob sich die Symptomschwere durch die Lebenszufriedenheit vorhersagen lässt. Dazu hatten wir am Anfang der vergangenen Sitzung bereits eine Untersuchung vorgenommen. Allerdings hatten wir neben der Lebenszufriedenheit auch die Ausprägung der Panikstörung mit oder ohne Agoraphobie mit in das Modell aufgenommen. Beide Prädiktoren hatten signifikante Varianzanteile an der Symptomschwere erklärt. Wir beschränken uns jetzt allerdings auf die Lebenszufriedenheit:
 
 
 ```r
@@ -132,12 +132,12 @@ Der Zusammenhang zwischen Lebenszufriedenheit und Symptomschwere ist negativ und
 
 Die Zentrierung der Lebenszufriedenheit ist leicht zu erkennen. Die Werte streuen um die Null. Außerdem ist so das Interzept gut zu interpretieren. Es entspricht der durchschnittlichen Ausprägung der Symptomschwere!
 
-Nun ist es aber so, dass einige der Proband:innen das Onlinetreatment erhalten haben. Wenn wir nun die Gruppierungsvariable mit in das Modell aufnehmen, so sehen wir mit bloßem Auge, dass sich die beiden Gruppen leicht im Mittel unterscheiden. 
+Nun ist es aber so, dass einige der Proband:innen das Onlinetreatment erhalten haben und andere noch auf der Warteliste stehen. Wenn wir nun die Gruppierungsvariable mit in das Modell aufnehmen, so sehen wir mit bloßem Auge, dass sich die beiden Gruppen leicht im Mittel unterscheiden. 
 
 <img src="/lehre/klipps/ancova-und-moderierte-regression_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
 
-Dass sich das Treatment positiv auf die Symptomschwere auswirkt, hatten wir in der Sitzung zur [ANOVA vs. Regression](/post/anova-vs-regression) bereits festgestellt. Wir färben die Gruppen unterschiedlich ein und fügen so die Gruppierung in die Regression von zuvor ein:
+Dass sich das Treatment positiv auf die Symptomschwere auswirkt, hatten wir in der Sitzung zur [ANOVA vs. Regression](/lehre/klipps/anova-vs-regression) bereits festgestellt. Wir färben die Gruppen unterschiedlich ein und fügen so die Gruppierung in die Regression von zuvor ein:
 
 <img src="/lehre/klipps/ancova-und-moderierte-regression_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 Die Frage ist nun, ob dieser Unterschied auch statistisch bedeutsam ist. Dazu nehmen wir jetzt die Gruppierungsvariable in das Regressionsmodell auf. Was wir damit erreichen ist, dass wir durchschnittliche Unterschiede zwischen den beiden Gruppen mit in das Modell aufnehmen --- und zwar für eine gegebene (feste) Ausprägung. Wenn wir also die Gruppierungsvariable aufnehmen, dann fügen wir ein gruppenspezifisches Interzept hinzu. So können wir die Gruppenunterschiede bereinigt um die Kovariate Lebenszufriedenheit interpretieren und genauso können wir den Zusammenhang zwischen Lebenszufriedenheit und Symptomschwere bereinigt um Unterschiede durch die Behandlung interpretieren. 
@@ -145,7 +145,11 @@ Die Frage ist nun, ob dieser Unterschied auch statistisch bedeutsam ist. Dazu ne
 Wir nennen die Dummyvariable der Gruppierungsvariable $Z$ und die Lebenszufriedenheit $X$. Die Symptomschwere nennen wir $Y$. Somit ergibt sich folgendes Regressionsmodell (das Residuum heißt $e$) für Proband:innen $i=1,\dots,n$:
 
 $$Y_i = \beta_0 + \beta_ZZ_i + \beta_XX_i+e_i$$
-Es gelten nun zwei Regressionsgleichungen in den beiden Gruppen. Für $Z=0$ (Wartekontrollgruppe) gilt $Y_i = \beta_0 +  \beta_XX_i+e_i$ und für $Z=1$ (Treatmentgruppe) gilt $Y_i = (\beta_0 + \beta_Z) + \beta_XX_i+e_i$. Somit ist ersichtlich, dass wir durch Hinzunahme der Gruppierungsvariable gruppenspezifische Interzepts einführen. Das Interzept ist eine Funktion von $Z$. Diese könnten wir bspw. $g_I$ nennen. Dann ist $g_I(Z):=\beta_0+\beta_ZZ$ das Interzept (insbesondere gilt: $Y_i = g_I(Z_i) + \beta_XX_i+e_i$). Das Modell in `R` sieht ganz einfach so aus (wir fügen einfach alle Prädiktoren mit `+` getrennt in die Regressionsgleichung ein und schleifen der Vollständigkeit halber wieder das Interzept `1` mit, welches per Default immer in der Gleichung ist):
+Es gelten nun zwei Regressionsgleichungen in den beiden Gruppen. Für $Z=0$ (Wartekontrollgruppe) gilt $Y_i = \beta_0 +  \beta_XX_i+e_i$ und für $Z=1$ (Treatmentgruppe) gilt $Y_i = (\beta_0 + \beta_Z) + \beta_XX_i+e_i$. Somit ist ersichtlich, dass wir durch Hinzunahme der Gruppierungsvariable gruppenspezifische Interzepts einführen. Das Interzept ist eine Funktion von $Z$. Diese könnten wir bspw. $g_I$ nennen. Dann ist $g_I(Z):=\beta_0+\beta_ZZ$ das Interzept (insbesondere gilt: $Y_i = g_I(Z_i) + \beta_XX_i+e_i$). 
+
+Das Modell in `R` sieht ganz einfach so aus: 
+
+(Wir fügen einfach alle Prädiktoren mit `+` getrennt in die Regressionsgleichung ein und schleifen der Vollständigkeit halber wieder das Interzept `1` mit, welches per Default immer in der Gleichung ist.)
 
 
 ```r
@@ -176,7 +180,7 @@ summary(reg_ancova)
 ```
 Wir erkennen also, dass kein Extrapaket o.ä. benötigt wird, um eine ANCOVA zu schätzen, sondern die richtige Formatierung der Variablen, die in das Modell aufgenommen werden, entscheidet, welches Modell genau geschätzt wird.
 
-Der Effekt der Lebenszufriedenheit ($\beta_X$) ist statistisch bedeutsam. Auch der Effekt der Gruppierungsvariable ist bedeutsam ($\beta_Z$) [jeweils mit einer Irrtumswahrscheinlichkeit von $5\%$]. Hätten wir mehrere Ausprägungen pro Gruppe, könnten wir leicht gesammelte Signifikanzentscheidungen pro Variable anfordern, indem wir den `Anova`-Befehl aus dem `car`-Paket verwenden:
+Der Effekt der Lebenszufriedenheit ($\beta_X$) ist statistisch bedeutsam. Auch der Effekt der Gruppierungsvariable ist bedeutsam ($\beta_Z$) (jeweils mit einer Irrtumswahrscheinlichkeit von $5\%$). Hätten wir mehrere Ausprägungen pro Gruppe, könnten wir leicht gesammelte Signifikanzentscheidungen pro Variable anfordern, indem wir den `Anova`-Befehl aus dem `car`-Paket verwenden:
 
 
 ```r
@@ -196,13 +200,13 @@ Anova(reg_ancova)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-Was wir sofort sehen ist, dass die $p$-Werte in der `summary` und im `Anova`-Output identisch sind. Das liegt an der Verwandtschaft zwischen Regression und ANOVA (ANCOVA), welche wir in der vorangegangenen Sitzung diskutiert hatten und daran, dass wir hier nur eine Gruppierungsvariable mit zwei Gruppen verwendet haben (siehe [ANOVA vs. Regression](/post/anova-vs-regression)).
+Was wir sofort sehen ist, dass die $p$-Werte in der `summary` und im `Anova`-Output identisch sind. Das liegt an der Verwandtschaft zwischen Regression und ANOVA (ANCOVA), welche wir in der vorangegangenen Sitzung diskutiert hatten und daran, dass wir hier nur eine Gruppierungsvariable mit zwei Gruppen verwendet haben (siehe [ANOVA vs. Regression](/lehre/klipps/anova-vs-regression)).
 
-Grafisch sieht das so aus
+Grafisch sieht das so aus:
 
 <img src="/lehre/klipps/ancova-und-moderierte-regression_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
-Pro Gruppe gibt es ein eigenes Interzept. Außerdem sehen wir deutlich, welche wichtige Annahme implizit in dieser Modellierungsmethode steckt: der lineare Zusammenhang zwischen Lebenszufriedenheit und Symptomschwere ist in beiden Gruppen gleich! 
+Pro Gruppe gibt es ein eigenes Interzept. Außerdem sehen wir deutlich, welche wichtige Annahme implizit in dieser Modellierungsmethode steckt: Der lineare Zusammenhang zwischen Lebenszufriedenheit und Symptomschwere ist in beiden Gruppen gleich! 
 
 ### Generalisierte ANCOVA
 Weichen wir die Annahme gleicher linearer Zusammenhänge pro Gruppe auf, landen wir bei der "generalisierten" ANCOVA. Was wir dazu tun müssen, ist für jede Gruppe eine eigene Steigung für die Lebenszufriedenheit einzuführen. Umsetzbar ist dies durch eine Interaktion zwischen der Lebenszufriedenheit und der Gruppierungsvariable. Die Interaktion ist hier etwas anders zu interpretieren als für eine zweifaktorielle ANOVA. Es sind nicht länger die Mittelwerte in den Gruppen, die von der spezifischen Kombination der Gruppenzugehörigkeiten abhängen, sondern die lineare Beziehung zwischen dem kontinuierlichen Prädiktor und dem Kriterium ist für jede Gruppe unterschiedlich! Natürlich können zusätzlich noch die Mittelwerte unterschiedlich sein. Das wird dann durch das Interzept mit abgebildet. Die Modellgleichung sieht so aus:
@@ -211,13 +215,13 @@ $$Y_i = \beta_0 + \beta_ZZ_i + \beta_XX_i + \beta_{ZX}Z_iX_i+e_i.$$
 Wenn wir diese Gleichung nach der Variable $X$ umstellen, erhalten wir 
 
 $$Y_i = \beta_0 + \beta_ZZ_i + (\beta_X + \beta_{ZX}Z_i)X_i+e_i.$$
-An dieser Schreibweise ist ersichtlich, dass wir durch Hinzunahme der Interaktion eigentlich einen eigenen Steigungskoeffizienten pro Gruppe in das Modell hinzufügen. Es gelten wieder zwei Regressionsgleichungen in den beiden Gruppen. Für $Z=0$ (Wartekontrollgruppe) gilt $Y_i = \beta_0 +  \beta_XX_i+e_i$ und für $Z=1$ (Treatmentgruppe) gilt $Y_i = (\beta_0 + \beta_Z) + (\beta_X+\beta_{ZX})X_i+e_i$. Somit ist ersichtlich, dass durch Hinzunahme der Gruppierungsvariable inklusive Interaktion gruppenspezifische Interzepts und Slopes (Steigungskoeffizienten) eingeführt werden. Sowohl das Interzept als auch die Slope sind eine Funktion von $Z$. Diese könnten wir bspw. $g_I$ und $g_S$ nennen --- beide sind Funktionen von $Z$. Dann ist $g_I(Z):=\beta_0+\beta_ZZ$ das Interzept und $g_S(Z):=\beta_X + \beta_{ZX}Z$ die Slope (insbesondere gilt: $Y_i = g_I(Z_i) + g_S(Z_i)X_i+e_i$). 
+An dieser Schreibweise ist ersichtlich, dass wir durch Hinzunahme der Interaktion eigentlich einen eigenen Steigungskoeffizienten pro Gruppe in das Modell hinzufügen. Es gelten wieder zwei Regressionsgleichungen in den beiden Gruppen. Für $Z=0$ (Wartekontrollgruppe) gilt $Y_i = \beta_0 +  \beta_XX_i+e_i$ und für $Z=1$ (Treatmentgruppe) gilt $Y_i = (\beta_0 + \beta_Z) + (\beta_X+\beta_{ZX})X_i+e_i$. Somit ist ersichtlich, dass durch Hinzunahme der Gruppierungsvariable inklusive Interaktion gruppenspezifische Interzepts und Slopes (Steigungskoeffizienten) eingeführt werden. Sowohl das Interzept als auch die Slope sind eine Funktion von $Z$. Diese könnten wir bspw. $g_I$ und $g_S$ nennen --- beides sind Funktionen von $Z$. Dann ist $g_I(Z):=\beta_0+\beta_ZZ$ das Interzept und $g_S(Z):=\beta_X + \beta_{ZX}Z$ die Slope (insbesondere gilt: $Y_i = g_I(Z_i) + g_S(Z_i)X_i+e_i$). 
 
 Damit die Interaktion sinnvoll interpretierbar ist, müssen wir annehmen, dass  sich der kontinuierliche Prädiktor (die kontinuierliche Kovariate) im Mittel nicht über die Gruppen unterscheidet. Unterschiedliche Beziehungen mit dem Kriterium hatten wir bereits zugelassen. Diese Annahme entfällt also. Um keine artifizielle lineare Beziehung zwischen Gruppierungsvariable und kontinuierlichem Prädiktor zu erzeugen, war die Zentrierung des Prädiktors mit dem `scale`-Befehl von Nöten (siehe [oben](#Vorbereitung)).
 
 
 
-Das Modell in `R` sieht im Grunde so aus, wie eine zweifaktorielle ANOVA, nur das Skalenniveau von `swls_post` ist eben das Intervallskalenniveau (kontinuierlicher Prädiktor):
+Das Modell in `R` sieht im Grunde so aus, wie eine zweifaktorielle ANOVA, nur dass das Skalenniveau von `swls_post` eben das Intervallskalenniveau (kontinuierlicher Prädiktor) ist:
 
 
 ```r
@@ -249,7 +253,7 @@ summary(reg_gen_ancova)
 ## Multiple R-squared:  0.3783,	Adjusted R-squared:  0.3576 
 ## F-statistic: 18.26 on 3 and 90 DF,  p-value: 2.449e-09
 ```
-Wir erkennen, dass bis auf die Interaktion ($\beta_{ZX}$) alle Effekte signfikant sind. Gleiches Ergebnis liefert uns auch die `Anova`
+Wir erkennen, dass bis auf die Interaktion ($\beta_{ZX}$) alle Effekte signfikant sind. Gleiches Ergebnis liefert uns auch die `Anova`:
 
 
 ```r
@@ -298,9 +302,9 @@ Die Diagnose scheint keinen Einfluss auf die Symptomschwere zu haben. Weder die 
 
 <img src="/lehre/klipps/ancova-und-moderierte-regression_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
 
-Hier erkennen wir zwar unterschiedliche Steigungen und Interzepts, allerdings sind keine der Unterschied statistisch bedeutsam.
+Hier erkennen wir zwar unterschiedliche Steigungen und Interzepts, allerdings ist keiner der Unterschiede statistisch bedeutsam.
 
-Genauso wären auch noch komplizierte Modelle möglich. Bspw. könnten wir für jede Kombination aus Gruppierung und Diagnose ein eigenes Regressionsmodell einführen. Grafisch sieht das so aus  (für mehr dazu siehe [Appendix B](#AppendixB)):
+Genauso wären auch noch kompliziertere Modelle möglich. Bspw. könnten wir für jede Kombination aus Gruppierung und Diagnose ein eigenes Regressionsmodell einführen. Grafisch sieht das so aus  (für mehr dazu siehe [Appendix B](#AppendixB)):
 
 <img src="/lehre/klipps/ancova-und-moderierte-regression_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
 
@@ -442,12 +446,6 @@ Hier ist nun ersichtlich, dass die Interaktion nicht statistisch bedeutsam ist. 
 
 ## Fazit
 Wir haben mit der "generalisierten" ANCOVA und der moderierten Regressionsanalyse zwei Modelle kennengelernt, welche durch Interkationen aus linearen Modellen hervorgehen. Damit lassen sich lineare Beziehung in Abhängigkeit weiterer Variablen ausdrücken: entweder in Abhängigkeit von Gruppierungsvariablen (dann landen wir im generalisierten ANCOVA-Setting) oder in Abhängigkeit von kontinuierlichen Prädiktoren (Kovariaten; das ist dann die moderierte Regression).
-
-
-***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [`<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg>`{=html} hier herunterladen](/post/KliPPs_MSc5a_R_Files/4_ancova-und-moderierte-regression_RCode.R).
 
 ***
 

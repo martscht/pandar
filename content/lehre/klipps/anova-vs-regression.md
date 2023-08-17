@@ -152,7 +152,7 @@ Der Befehl `na.omit` führt den listenweisen Fallausschluss für uns durch. *Ach
 
 
 ## Regression: Modellvergleiche
-In der vorherigen Sitzung haben wir noch einmal die Regressionsanalyse wiederholt. Wenn wir beispielsweise wissen möchten, ob nach dem Treatment die Symptomschwere mit der Lebenszufriedenheit oder der Ausprägung einer möglichen Panikstörung mit Agoraphobie zusammenhängt, wissen wir nun, wie wir dies untersuchen können:
+In der vorherigen Sitzung haben wir noch einmal die Regressionsanalyse wiederholt. Wenn wir beispielsweise wissen möchten, ob nach dem Treatment die Symptomschwere mit der Lebenszufriedenheit oder der Ausprägung einer möglichen Panikstörung mit oder ohne Agoraphobie zusammenhängt, wissen wir nun, wie wir dies untersuchen können:
 
 
 ```r
@@ -376,8 +376,7 @@ ezANOVA(data = osf, wid = ID, dv = bsi_post, between = group)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -408,8 +407,7 @@ ezANOVA(data = osf, wid = ID, dv = bsi_post, between = group, detailed = T)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -436,8 +434,7 @@ ezANOVA1 <- ezANOVA(data = osf, wid = ID, dv = bsi_post, between = group, detail
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -588,13 +585,11 @@ ezANOVA1 <- ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid 
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to ezANOVA().
 ```
 
 ```
-## Warning: Using "type==1" is highly questionable when data are unbalanced and
-## there is more than one variable. Hopefully you are doing this for
+## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable. Hopefully you are doing this for
 ## demonstration purposes only!
 ```
 
@@ -628,8 +623,7 @@ ezPlot(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID, x = str
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -637,8 +631,7 @@ ezPlot(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID, x = str
 ```
 
 ```
-## Warning in ezStats(data = data, dv = dv, wid = wid, within = within,
-## within_full = within_full, : Unbalanced groups. Mean N will be used in
+## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, : Unbalanced groups. Mean N will be used in
 ## computation of FLSD
 ```
 
@@ -655,13 +648,11 @@ ezANOVA(data = osf, dv = bsi_post, between = c(stratum, group), wid = ID,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to ezANOVA().
 ```
 
 ```
-## Warning: Using "type==1" is highly questionable when data are unbalanced and
-## there is more than one variable. Hopefully you are doing this for
+## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable. Hopefully you are doing this for
 ## demonstration purposes only!
 ```
 
@@ -745,8 +736,7 @@ ezANOVA2 <- ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid 
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -775,8 +765,7 @@ ezANOVA(data = osf, dv = bsi_post, between = c(stratum, group), wid = ID,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -881,8 +870,7 @@ ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to ezANOVA().
 ```
 
 ```
