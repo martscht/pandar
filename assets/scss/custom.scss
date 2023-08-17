@@ -18,7 +18,7 @@
 
 /* Alternierende Reihenfarbe */
 .kategorie tr:nth-child(even) {
-    background-color: #f7f7f7;
+    background-color: #fbfbfb;
 }
 
 /* Farbe der Reihe beim drüberfahren */
@@ -38,4 +38,13 @@
     padding: 0.2rem !important;
     margin: 0px;
     line-height: 1.2;
+}
+
+
+
+/* MATHEMAGIE */
+.big-maths {
+    max-width: 720px;
+    overflow-x: auto;
+    overflow-y: hidden; 
 }

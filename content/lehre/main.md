@@ -25,7 +25,7 @@ sections:
     content:
       title: Statistik I
       subtitle: PsyBSc 2
-      text: |-
+      text: 
         In Statistik I geht es um die erste Einführung in die Statistik im Psychologiestudium. Dafür betrachten wir die Grundstruktur von R, Datenimport, einfache Grafiken, Deskriptivstatistiken, Verteilungsfunktionen und einige Tests.
         {{< category_list "statistik-i" 10 "I,II">}}
 
@@ -38,72 +38,22 @@ sections:
     content:
       title: Statistik II
       subtitle: PsyBSc 7
-      text: |-
+      text: 
         In Statistik II werden naheliegenderweise die Inhalte aus Statistik I vertieft. Behandelt werden u.a. Matrixalgebra, multiple Regression und Varianzanalysen. Außerdem gucken wir uns ein paar R-spezifische Dinge wie `ggplot2` oder das Schreiben eigener Funktionen an.
-        {{< category_list "statistik-i" 10 "">}}
+        {{< category_list "statistik-ii" 11 "">}}
     design:
       columns: 2
- #  - block: collection
- #    id: statistik-iii
- #    content:
- #      title: Statistik I
- #      subtitle: PsyBSc 2
- #      text: 'In Statistik I geht es um die erste Einführung in die Statistik im Psychologiestudium. Dafür betrachten wir die Grundstruktur von R, Datenimport, einfache Grafiken, Deskriptivstatistiken, Verteilungsfunktionen und einige Tests.<br><br>'
-       # Choose how many pages you would like to display (0 = all pages)
- #      count: 4
- #      # Filter on criteria
- #      filters:
- #        folders:
- #          - lehre
- #        author: ""
- #        tag: ""
- #        category: 'Statistik I'
- #        exclude_featured: false
- #        featured_only: false
- #        exclude_future: false
- #        exclude_past: false
- #        publication_type: ""
- #      # Choose how many pages you would like to offset by
- #      offset: 0
- #      # Page order: descending (desc) or ascending (asc) date.
- #      order: asc
- #    design:
- #      # Choose a layout view
- #      view: compact
- #      columns: '2'
-       
-  - block: collection
-    id: statistik-iii
+
+  - block: markdown
+    id: klipps
     content:
-      title: Statistik I
-      subtitle: 'PsyBSc 2'
-      text: 'In Statistik I geht es um die erste Einführung in die Statistik im Psychologiestudium. Dafür betrachten wir die Grundstruktur von R, Datenimport, einfache Grafiken, Deskriptivstatistiken, Verteilungsfunktionen und einige Tests.<br><br>'
-      # Choose how many pages you would like to display (0 = all pages)
-      count: 5
-      # Filter on criteria
-      filters:
-        # The folders to display content from
-        folders:
-          - lehre
-        author: ""
-        category: "Statistik I"
-        tag: ""
-        publication_type: ""
-        featured_only: false
-        exclude_featured: false
-        exclude_future: false
-        exclude_past: false
-      # Choose how many pages you would like to offset by
-      # Useful if you wish to show the first item in the Featured widget
-      offset: 0
-      # Field to sort by, such as Date or Title
-      sort_by: 'Date'
-      sort_ascending: true
+      title: Vertiefung der Forschungs- methodik für Psychotherapeut*innen
+      subtitle: KliPPsMSc5a
+      text: 
+        Klipps.
+        {{< category_list "klipps" 10 "">}}
     design:
-      # Choose a listing view
-      view: 1 # Klassische List-View
-      # Choose single or dual column layout
-      columns: '2'
+      columns: 2
 ---
 
 

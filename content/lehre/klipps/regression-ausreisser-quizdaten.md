@@ -3,7 +3,7 @@ title: Daten für die Quiz
 type: post
 date: '2021-10-15'
 slug: regression-ausreisser-quizdaten
-categories: ["KliPPs"]
+categories: [""]
 tags: ["Daten", "Multi-Level Analyse", "Hierarchische Regression", "Logistische Regression"]
 subtitle: ''
 summary: ''
@@ -135,6 +135,32 @@ Im `R`-Teil des Quizzes führen Sie Analysen am Datensatz der [2. PandaR-Sitzung
 
 ```r
 library(metafor)
+```
+
+```
+## Warning: Paket 'metafor' wurde unter R Version 4.3.1 erstellt
+```
+
+```
+## Lade nötiges Paket: Matrix
+```
+
+```
+## Lade nötiges Paket: metadat
+```
+
+```
+## Warning: Paket 'metadat' wurde unter R Version 4.3.1 erstellt
+```
+
+```
+## Lade nötiges Paket: numDeriv
+```
+
+```
+## 
+## Loading the 'metafor' package (version 4.2-0). For an
+## introduction to the package please type: help(metafor)
 ```
 
 Hier ist außerdem die Literaturangabe zum zugehörigen Paper:

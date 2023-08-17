@@ -74,7 +74,7 @@ In der vorherigen Sitzung haben wir noch einmal die Regressionsanalyse wiederhol
 reg <- lm(bsi_post ~ 1 + swls_post + pas_post, data = osf)
 summary(reg)
 ```
-Offensichtlich tragen beide Prädiktoren signifikant zur Varianzerklärung des Kriteriums bei. Damit können wir für die Population (mit einer Irrtumswahrscheinlichkeit von $5\%$) konkludieren, dass höhere Symptomschwere mit geringerer Lebenszufriedenheit und höherer Panik- und Agoraphobiesymptomatik assoziiert ist. Dies haben wir an den Parametertests und den zugehörigen $t$-Tests abgelesen. Allerdings können wir auch Sets von Prädiktoren auf signifikante Vorhersagekraft testen. Bspw. können wir untersuchen, ob die beiden Prädiktoren gemeinsam Varianz an der Symptomschwere erklären. Dazu müssen wir quasi ein leeres Regressionsmodell aufstellen, welches nur ein Interzept enthält. Nennen wir dieses mal `reg0`. Anschließend können wir die beiden Modelle mit dem `anova`-Befehl vergleichen. Dieser führt dann den sogenannten $F$-Test durch:
+Offensichtlich tragen beide Prädiktoren signifikant zur Varianzerklärung des Kriteriums bei. Damit können wir für die Population (mit einer Irrtumswahrscheinlichkeit von {{< math >}}$5\%${{< /math >}}) konkludieren, dass höhere Symptomschwere mit geringerer Lebenszufriedenheit und höherer Panik- und Agoraphobiesymptomatik assoziiert ist. Dies haben wir an den Parametertests und den zugehörigen $t$-Tests abgelesen. Allerdings können wir auch Sets von Prädiktoren auf signifikante Vorhersagekraft testen. Bspw. können wir untersuchen, ob die beiden Prädiktoren gemeinsam Varianz an der Symptomschwere erklären. Dazu müssen wir quasi ein leeres Regressionsmodell aufstellen, welches nur ein Interzept enthält. Nennen wir dieses mal `reg0`. Anschließend können wir die beiden Modelle mit dem `anova`-Befehl vergleichen. Dieser führt dann den sogenannten $F$-Test durch:
 
 ```{r}
 reg0 <-  lm(bsi_post ~ 1, data = osf)
@@ -133,7 +133,7 @@ Wenn wir nun wieder einen Modellvergleich vornehmen, können wir den Effekt des 
 anova(reg0, reg_dummy1)
 ```
 
-Das Treatment scheint die Symptomschwere signifikant zu verringern (mit einer Irrtumswahrscheinlichkeit von $5\%$). Wir können auch nachsehen, wie viel Variation durch die Zuteilung zur Treatment- oder Wartekontrollgruppe an der Symptomschwere erklärt wird:
+Das Treatment scheint die Symptomschwere signifikant zu verringern (mit einer Irrtumswahrscheinlichkeit von {{< math >}}$5\%${{< /math >}}). Wir können auch nachsehen, wie viel Variation durch die Zuteilung zur Treatment- oder Wartekontrollgruppe an der Symptomschwere erklärt wird:
 
 ```{r}
 summary(reg_dummy1)$r.squared
@@ -204,7 +204,14 @@ wobei $SS_\text{within}$ der Quadratsumme innerhalb der Gruppen entspricht. Dies
 $$F_{emp} = \frac{MS_\text{between}}{MS_\text{within}}=\frac{SS_\text{between}/df_\text{between}}{SS_\text{within}/df_\text{within}}.$$ 
 Wir erkennen, dass hier einfach die Variation zwischen den Gruppen (Variation der Mittelwerte) relativ zur (zufälligen) Variation innerhalb der Gruppen betrachtet wird. Ist die Variation zwischen den Gruppen relativ zur zufälligen Variation groß, so gehen wir davon aus, dass dies ein nicht-zufälliger Unterschied ist: Die Mittelwerte müssen sich also bei einem großen $F$-Wert unterscheiden. Das Verhältnis der Quadratsummen folgt mit $df_\text{between} = K - 1$ und $df_\text{within} = N - K$ einer $F$-Verteilung. Daher wird der $F_{emp}$ mit dem $F_{krit}$ mit $df_1 = K - 1$ (Zählerfreiheitsgraden) und $df_2 = N - K$ (Nennerfreiheitsgraden) verglichen. Die Gleichheit kann nachvollzogen werden, indem wir den $F$-Bruch mit der totalen Quadratsumme erweitern und feststellen, dass $\eta^2=R^2=\frac{SS_\text{between}}{SS_{tot}}$ und $1-\eta^2=1-R^2=\frac{SS_\text{within}}{SS_{tot}}$ in diesem Beispiel gilt und damit:
 
-$$F_{emp} = \frac{SS_\text{between}/df_\text{between}}{SS_\text{within}/df_\text{within}}\frac{SS_{tot}}{SS_{tot}}=\frac{\frac{SS_\text{between}}{SS_{tot}}/df_\text{between}}{\frac{SS_\text{within}}{SS_{tot}}/df_\text{within}}=\frac{\eta^2/df_\text{between}}{(1-\eta^2)/df_\text{within}}.$$
+{{< math >}}
+<div class="big-maths">
+\begin{equation}
+\small
+F_{emp} = \frac{SS_\text{between}/df_\text{between}}{SS_\text{within}/df_\text{within}}\frac{SS_{tot}}{SS_{tot}}=\frac{\frac{SS_\text{between}}{SS_{tot}}/df_\text{between}}{\frac{SS_\text{within}}{SS_{tot}}/df_\text{within}}=\frac{\eta^2/df_\text{between}}{(1-\eta^2)/df_\text{within}}.
+\end{equation}
+</div>
+{{< /math >}}
 
 Auch der $t$-Test kommt zum selben Ergebnis. Hier müssen wir der zugehörigen Funktion `t.test` allerdings noch sagen, dass wir Student's $t$-Test (der $t$-Test, den Sie vermutlich im 1. Semester kennengelernt haben) wünschen, da nur dieser die Äquivalenz aufweist. Die Defaultvariante in `R` ist die robuste Variante nach Welch (Welch's $t$-Test). Für den "Heimgebrauch" sollten sie auch immer Welch's Variante verwenden, da diese der anderen in den meisten Fällen überlegen ist und zu weniger falsch-positiven Ergebnissen führt, wenn Voraussetzungen nicht erfüllt sind. (Interessierte finden [hier](https://www.rips-irsp.com/articles/10.5334/irsp.82/) eine über diesen Kurs hinausgehende Quelle die dies untersucht und diskutiert.) Wir verwenden Student's $t$-Test hier rein aus Demonstrationszwecken. Das machen wir mit der Zusatzeinstellung `var.equal = T` in der Funktion `t.test`.
 
@@ -250,7 +257,7 @@ cat('## Warning: Using \"type==1\" is highly questionable when data are unbalanc
 ## there is more than one variable. Hopefully you are doing this for demonstration
 ## purposes only!')
 ```
-Hier wird uns mitgeteilt, dass die Verwendung der Quadratsumme vom Typ I keine so gute Idee ist. Zum Glück machen wir das hier tatsächlich nur zu Demonstrationszwecken! Eines der Hauptprobleme ist nämlich, dass die Reihenfolge der Prädiktoren die Signifikanzentscheidung beeinflusst. Der Effekt `group` entspricht dem Haupteffekt der Treatmentzuweisung, `stratum` entspricht dem Haupteffekt der Diagnose und `group:stratum` entspricht dem Interaktionseffekt. Dem Output ist zu entnehmen, dass nur die Treatmentzuweisung einen signifikanten Einfluss auf die Symptomschwere hat. Somit hätte das Treatment einen Effekt, welcher sich unabhängig von der Diagnose auf die Symptomschwere auswirkt (mit einer Irrtumswahrscheinlichkeit von $5\%$). Das Ergebnis lässt sich auch super leicht grafisch darstellen, indem wir die `ezPlot`-Funktion aus dem `ez`-Paket verwenden. Diese nimmt dieselben Argumente wie `ezANOVA` entgegen. Es fehlt lediglich die Aufteilung der Effekte. `x = stratum` lässt die Diagnose auf der $x$-Achse erscheinen. `split = group` lässt unterschiedliche Linien für Treatment und Wartekontrollgruppe erscheinen:
+Hier wird uns mitgeteilt, dass die Verwendung der Quadratsumme vom Typ I keine so gute Idee ist. Zum Glück machen wir das hier tatsächlich nur zu Demonstrationszwecken! Eines der Hauptprobleme ist nämlich, dass die Reihenfolge der Prädiktoren die Signifikanzentscheidung beeinflusst. Der Effekt `group` entspricht dem Haupteffekt der Treatmentzuweisung, `stratum` entspricht dem Haupteffekt der Diagnose und `group:stratum` entspricht dem Interaktionseffekt. Dem Output ist zu entnehmen, dass nur die Treatmentzuweisung einen signifikanten Einfluss auf die Symptomschwere hat. Somit hätte das Treatment einen Effekt, welcher sich unabhängig von der Diagnose auf die Symptomschwere auswirkt (mit einer Irrtumswahrscheinlichkeit von {{< math >}}$5\%${{< /math >}}). Das Ergebnis lässt sich auch super leicht grafisch darstellen, indem wir die `ezPlot`-Funktion aus dem `ez`-Paket verwenden. Diese nimmt dieselben Argumente wie `ezANOVA` entgegen. Es fehlt lediglich die Aufteilung der Effekte. `x = stratum` lässt die Diagnose auf der $x$-Achse erscheinen. `split = group` lässt unterschiedliche Linien für Treatment und Wartekontrollgruppe erscheinen:
 
 ```{r}
 ezPlot(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID, x = stratum, split = group)
@@ -352,7 +359,7 @@ Bei Quadratsummen vom Typ III werden die Haupteffekte nicht nur gegeben der ande
 
 ## Fazit aus allen Analysen
 
-Insgesamt kamen alle Analysen zum selben Ergebnis: Die Intervention zeigt einen Effekt auf die Symptomschwere unabhängig von der vorliegenden Diagnose (mit einer Irrtumswahrscheinlichkeit von $5\%$). Wir haben in dieser Sitzung gesehen, dass Regression und ANOVA zum selben Ergebnis kommen, wenn dieselben Hypothesen geprüft werden. Die Wahl der Quadratsumme hängt von der Art der Hypothese, die geprüft werden soll, ab!
+Insgesamt kamen alle Analysen zum selben Ergebnis: Die Intervention zeigt einen Effekt auf die Symptomschwere unabhängig von der vorliegenden Diagnose (mit einer Irrtumswahrscheinlichkeit von {{< math >}}$5\%${{< /math >}}). Wir haben in dieser Sitzung gesehen, dass Regression und ANOVA zum selben Ergebnis kommen, wenn dieselben Hypothesen geprüft werden. Die Wahl der Quadratsumme hängt von der Art der Hypothese, die geprüft werden soll, ab!
 
 
 ***

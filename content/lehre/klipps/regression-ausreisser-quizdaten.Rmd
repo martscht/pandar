@@ -3,7 +3,7 @@ title: Daten für die Quiz
 type: post
 date: '2021-10-15'
 slug: regression-ausreisser-quizdaten
-categories: ["KliPPs"]
+categories: [""]
 tags: ["Daten", "Multi-Level Analyse", "Hierarchische Regression", "Logistische Regression"]
 subtitle: ''
 summary: ''

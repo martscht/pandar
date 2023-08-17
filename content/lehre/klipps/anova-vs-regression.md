@@ -51,45 +51,65 @@ names(osf)
 ```
 
 ```
-##   [1] "X"                                 "ID"                                "group"                            
-##   [4] "stratum"                           "bsi_pre"                           "bsi_mid"                          
-##   [7] "bsi_post"                          "bsi_fu"                            "bsi_fu2"                          
-##  [10] "panas_pa_pre"                      "panas_pa_mid"                      "panas_pa_post"                    
-##  [13] "panas_pa_fu"                       "panas_pa_fu2"                      "panas_na_pre"                     
-##  [16] "panas_na_mid"                      "panas_na_post"                     "panas_na_fu"                      
-##  [19] "panas_na_fu2"                      "swls_pre"                          "swls_mid"                         
-##  [22] "swls_post"                         "swls_fu"                           "swls_fu2"                         
-##  [25] "phq9_pre"                          "phq9_post"                         "gad7_pre"                         
-##  [28] "gad7_post"                         "lsas_pre"                          "lsas_post"                        
-##  [31] "lsas_anx_pre"                      "lsas_anx_post"                     "lsas_avo_pre"                     
-##  [34] "lsas_avo_post"                     "pas_pre"                           "pas_post"                         
-##  [37] "shai_anx_pre"                      "shai_anx_post"                     "shai_neg_pre"                     
-##  [40] "shai_neg_post"                     "phq15_pre"                         "phq15_post"                       
-##  [43] "NEQ_1_A"                           "NEQ_1_B"                           "NEQ_1_C"                          
-##  [46] "NEQ_2_A"                           "NEQ_2_B"                           "NEQ_2_C"                          
-##  [49] "NEQ_3_A"                           "NEQ_3_B"                           "NEQ_3_C"                          
-##  [52] "NEQ_4_A"                           "NEQ_4_B"                           "NEQ_4_C"                          
-##  [55] "NEQ_5_A"                           "NEQ_5_B"                           "NEQ_5_C"                          
-##  [58] "NEQ_6_A"                           "NEQ_6_B"                           "NEQ_6_C"                          
-##  [61] "NEQ_7_A"                           "NEQ_7_B"                           "NEQ_7_C"                          
-##  [64] "NEQ_8_A"                           "NEQ_8_B"                           "NEQ_8_C"                          
-##  [67] "NEQ_9_A"                           "NEQ_9_B"                           "NEQ_9_C"                          
-##  [70] "NEQ_10_A"                          "NEQ_10_B"                          "NEQ_10_C"                         
-##  [73] "NEQ_11_A"                          "NEQ_11_B"                          "NEQ_11_C"                         
-##  [76] "NEQ_12_A"                          "NEQ_12_B"                          "NEQ_12_C"                         
-##  [79] "NEQ_13_A"                          "NEQ_13_B"                          "NEQ_13_C"                         
-##  [82] "NEQ_14_A"                          "NEQ_14_B"                          "NEQ_14_C"                         
-##  [85] "NEQ_15_A"                          "NEQ_15_B"                          "NEQ_15_C"                         
-##  [88] "NEQ_16_A"                          "NEQ_16_B"                          "NEQ_16_C"                         
-##  [91] "NEQ_17_A"                          "NEQ_17_B"                          "NEQ_17_C"                         
-##  [94] "NEQ_18_A"                          "NEQ_18_B"                          "NEQ_18_C"                         
-##  [97] "NEQ_19_A"                          "NEQ_19_B"                          "NEQ_19_C"                         
-## [100] "NEQ_20_A"                          "NEQ_20_B"                          "NEQ_20_C"                         
-## [103] "csq8_1"                            "csq8_2"                            "csq8_3"                           
-## [106] "csq8_4"                            "csq8_5"                            "csq8_6"                           
-## [109] "csq8_7"                            "csq_8"                             "completed_modules"                
-## [112] "logins_after_allocation"           "sent_messages"                     "received_messages"                
-## [115] "exercises_total"                   "time_spent_after_allocation_hours" "exercises_per_login"
+##   [1] "X"                                 "ID"                               
+##   [3] "group"                             "stratum"                          
+##   [5] "bsi_pre"                           "bsi_mid"                          
+##   [7] "bsi_post"                          "bsi_fu"                           
+##   [9] "bsi_fu2"                           "panas_pa_pre"                     
+##  [11] "panas_pa_mid"                      "panas_pa_post"                    
+##  [13] "panas_pa_fu"                       "panas_pa_fu2"                     
+##  [15] "panas_na_pre"                      "panas_na_mid"                     
+##  [17] "panas_na_post"                     "panas_na_fu"                      
+##  [19] "panas_na_fu2"                      "swls_pre"                         
+##  [21] "swls_mid"                          "swls_post"                        
+##  [23] "swls_fu"                           "swls_fu2"                         
+##  [25] "phq9_pre"                          "phq9_post"                        
+##  [27] "gad7_pre"                          "gad7_post"                        
+##  [29] "lsas_pre"                          "lsas_post"                        
+##  [31] "lsas_anx_pre"                      "lsas_anx_post"                    
+##  [33] "lsas_avo_pre"                      "lsas_avo_post"                    
+##  [35] "pas_pre"                           "pas_post"                         
+##  [37] "shai_anx_pre"                      "shai_anx_post"                    
+##  [39] "shai_neg_pre"                      "shai_neg_post"                    
+##  [41] "phq15_pre"                         "phq15_post"                       
+##  [43] "NEQ_1_A"                           "NEQ_1_B"                          
+##  [45] "NEQ_1_C"                           "NEQ_2_A"                          
+##  [47] "NEQ_2_B"                           "NEQ_2_C"                          
+##  [49] "NEQ_3_A"                           "NEQ_3_B"                          
+##  [51] "NEQ_3_C"                           "NEQ_4_A"                          
+##  [53] "NEQ_4_B"                           "NEQ_4_C"                          
+##  [55] "NEQ_5_A"                           "NEQ_5_B"                          
+##  [57] "NEQ_5_C"                           "NEQ_6_A"                          
+##  [59] "NEQ_6_B"                           "NEQ_6_C"                          
+##  [61] "NEQ_7_A"                           "NEQ_7_B"                          
+##  [63] "NEQ_7_C"                           "NEQ_8_A"                          
+##  [65] "NEQ_8_B"                           "NEQ_8_C"                          
+##  [67] "NEQ_9_A"                           "NEQ_9_B"                          
+##  [69] "NEQ_9_C"                           "NEQ_10_A"                         
+##  [71] "NEQ_10_B"                          "NEQ_10_C"                         
+##  [73] "NEQ_11_A"                          "NEQ_11_B"                         
+##  [75] "NEQ_11_C"                          "NEQ_12_A"                         
+##  [77] "NEQ_12_B"                          "NEQ_12_C"                         
+##  [79] "NEQ_13_A"                          "NEQ_13_B"                         
+##  [81] "NEQ_13_C"                          "NEQ_14_A"                         
+##  [83] "NEQ_14_B"                          "NEQ_14_C"                         
+##  [85] "NEQ_15_A"                          "NEQ_15_B"                         
+##  [87] "NEQ_15_C"                          "NEQ_16_A"                         
+##  [89] "NEQ_16_B"                          "NEQ_16_C"                         
+##  [91] "NEQ_17_A"                          "NEQ_17_B"                         
+##  [93] "NEQ_17_C"                          "NEQ_18_A"                         
+##  [95] "NEQ_18_B"                          "NEQ_18_C"                         
+##  [97] "NEQ_19_A"                          "NEQ_19_B"                         
+##  [99] "NEQ_19_C"                          "NEQ_20_A"                         
+## [101] "NEQ_20_B"                          "NEQ_20_C"                         
+## [103] "csq8_1"                            "csq8_2"                           
+## [105] "csq8_3"                            "csq8_4"                           
+## [107] "csq8_5"                            "csq8_6"                           
+## [109] "csq8_7"                            "csq_8"                            
+## [111] "completed_modules"                 "logins_after_allocation"          
+## [113] "sent_messages"                     "received_messages"                
+## [115] "exercises_total"                   "time_spent_after_allocation_hours"
+## [117] "exercises_per_login"
 ```
 Das sind sehr viele Variablen. Wir beschränken uns in dieser und in der folgenden Sitzung auf einige wenige Variablen, die nach dem Durchführen des Treatments erhoben wurden: `ID` (Teilnehmendennummer), `group` (Gruppenzugehörigkeit: Wartelistenkontrollgruppe vs. Treatmentgruppe), `stratum` (Krankheitsbild: Angststörung [**ANX**iety], Depression [**DEP**ression] oder somatische Belastungsstörung [**SOM**atic symptom disorder]), `bsi_post` (Symptomschwere), `swls_post` (Lebenszufriedenheit [*S*atisfaction *W*ith *L*ife *S*creening]) und `pas_post` (Panikstörung und Agoraphobie [*P*anic and *A*goraphobia *S*creening]). Wir kürzen entsprechend den Datensatz und schauen ihn uns mit `head` an:
 
@@ -161,7 +181,7 @@ summary(reg)
 ## Multiple R-squared:  0.5272,	Adjusted R-squared:  0.5168 
 ## F-statistic: 50.73 on 2 and 91 DF,  p-value: 1.584e-15
 ```
-Offensichtlich tragen beide Prädiktoren signifikant zur Varianzerklärung des Kriteriums bei. Damit können wir für die Population (mit einer Irrtumswahrscheinlichkeit von $5\%$) konkludieren, dass höhere Symptomschwere mit geringerer Lebenszufriedenheit und höherer Panik- und Agoraphobiesymptomatik assoziiert ist. Dies haben wir an den Parametertests und den zugehörigen $t$-Tests abgelesen. Allerdings können wir auch Sets von Prädiktoren auf signifikante Vorhersagekraft testen. Bspw. können wir untersuchen, ob die beiden Prädiktoren gemeinsam Varianz an der Symptomschwere erklären. Dazu müssen wir quasi ein leeres Regressionsmodell aufstellen, welches nur ein Interzept enthält. Nennen wir dieses mal `reg0`. Anschließend können wir die beiden Modelle mit dem `anova`-Befehl vergleichen. Dieser führt dann den sogenannten $F$-Test durch:
+Offensichtlich tragen beide Prädiktoren signifikant zur Varianzerklärung des Kriteriums bei. Damit können wir für die Population (mit einer Irrtumswahrscheinlichkeit von {{< math >}}$5\%${{< /math >}}) konkludieren, dass höhere Symptomschwere mit geringerer Lebenszufriedenheit und höherer Panik- und Agoraphobiesymptomatik assoziiert ist. Dies haben wir an den Parametertests und den zugehörigen $t$-Tests abgelesen. Allerdings können wir auch Sets von Prädiktoren auf signifikante Vorhersagekraft testen. Bspw. können wir untersuchen, ob die beiden Prädiktoren gemeinsam Varianz an der Symptomschwere erklären. Dazu müssen wir quasi ein leeres Regressionsmodell aufstellen, welches nur ein Interzept enthält. Nennen wir dieses mal `reg0`. Anschließend können wir die beiden Modelle mit dem `anova`-Befehl vergleichen. Dieser führt dann den sogenannten $F$-Test durch:
 
 
 ```r
@@ -311,7 +331,7 @@ anova(reg0, reg_dummy1)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-Das Treatment scheint die Symptomschwere signifikant zu verringern (mit einer Irrtumswahrscheinlichkeit von $5\%$). Wir können auch nachsehen, wie viel Variation durch die Zuteilung zur Treatment- oder Wartekontrollgruppe an der Symptomschwere erklärt wird:
+Das Treatment scheint die Symptomschwere signifikant zu verringern (mit einer Irrtumswahrscheinlichkeit von {{< math >}}$5\%${{< /math >}}). Wir können auch nachsehen, wie viel Variation durch die Zuteilung zur Treatment- oder Wartekontrollgruppe an der Symptomschwere erklärt wird:
 
 
 ```r
@@ -356,8 +376,8 @@ ezANOVA(data = osf, wid = ID, dv = bsi_post, between = group)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -388,8 +408,8 @@ ezANOVA(data = osf, wid = ID, dv = bsi_post, between = group, detailed = T)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -416,8 +436,8 @@ ezANOVA1 <- ezANOVA(data = osf, wid = ID, dv = bsi_post, between = group, detail
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -465,7 +485,14 @@ wobei $SS_\text{within}$ der Quadratsumme innerhalb der Gruppen entspricht. Dies
 $$F_{emp} = \frac{MS_\text{between}}{MS_\text{within}}=\frac{SS_\text{between}/df_\text{between}}{SS_\text{within}/df_\text{within}}.$$ 
 Wir erkennen, dass hier einfach die Variation zwischen den Gruppen (Variation der Mittelwerte) relativ zur (zufälligen) Variation innerhalb der Gruppen betrachtet wird. Ist die Variation zwischen den Gruppen relativ zur zufälligen Variation groß, so gehen wir davon aus, dass dies ein nicht-zufälliger Unterschied ist: Die Mittelwerte müssen sich also bei einem großen $F$-Wert unterscheiden. Das Verhältnis der Quadratsummen folgt mit $df_\text{between} = K - 1$ und $df_\text{within} = N - K$ einer $F$-Verteilung. Daher wird der $F_{emp}$ mit dem $F_{krit}$ mit $df_1 = K - 1$ (Zählerfreiheitsgraden) und $df_2 = N - K$ (Nennerfreiheitsgraden) verglichen. Die Gleichheit kann nachvollzogen werden, indem wir den $F$-Bruch mit der totalen Quadratsumme erweitern und feststellen, dass $\eta^2=R^2=\frac{SS_\text{between}}{SS_{tot}}$ und $1-\eta^2=1-R^2=\frac{SS_\text{within}}{SS_{tot}}$ in diesem Beispiel gilt und damit:
 
-$$F_{emp} = \frac{SS_\text{between}/df_\text{between}}{SS_\text{within}/df_\text{within}}\frac{SS_{tot}}{SS_{tot}}=\frac{\frac{SS_\text{between}}{SS_{tot}}/df_\text{between}}{\frac{SS_\text{within}}{SS_{tot}}/df_\text{within}}=\frac{\eta^2/df_\text{between}}{(1-\eta^2)/df_\text{within}}.$$
+{{< math >}}
+<div class="big-maths">
+\begin{equation}
+\small
+F_{emp} = \frac{SS_\text{between}/df_\text{between}}{SS_\text{within}/df_\text{within}}\frac{SS_{tot}}{SS_{tot}}=\frac{\frac{SS_\text{between}}{SS_{tot}}/df_\text{between}}{\frac{SS_\text{within}}{SS_{tot}}/df_\text{within}}=\frac{\eta^2/df_\text{between}}{(1-\eta^2)/df_\text{within}}.
+\end{equation}
+</div>
+{{< /math >}}
 
 Auch der $t$-Test kommt zum selben Ergebnis. Hier müssen wir der zugehörigen Funktion `t.test` allerdings noch sagen, dass wir Student's $t$-Test (der $t$-Test, den Sie vermutlich im 1. Semester kennengelernt haben) wünschen, da nur dieser die Äquivalenz aufweist. Die Defaultvariante in `R` ist die robuste Variante nach Welch (Welch's $t$-Test). Für den "Heimgebrauch" sollten sie auch immer Welch's Variante verwenden, da diese der anderen in den meisten Fällen überlegen ist und zu weniger falsch-positiven Ergebnissen führt, wenn Voraussetzungen nicht erfüllt sind. (Interessierte finden [hier](https://www.rips-irsp.com/articles/10.5334/irsp.82/) eine über diesen Kurs hinausgehende Quelle die dies untersucht und diskutiert.) Wir verwenden Student's $t$-Test hier rein aus Demonstrationszwecken. Das machen wir mit der Zusatzeinstellung `var.equal = T` in der Funktion `t.test`.
 
@@ -561,13 +588,14 @@ ezANOVA1 <- ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid 
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
-## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable. Hopefully you are
-## doing this for demonstration purposes only!
+## Warning: Using "type==1" is highly questionable when data are unbalanced and
+## there is more than one variable. Hopefully you are doing this for
+## demonstration purposes only!
 ```
 
 ```r
@@ -576,10 +604,14 @@ ezANOVA1
 
 ```
 ## $ANOVA
-##          Effect DFn DFd        SSn      SSd           F            p p<.05         ges
-## 1         group   1  88 2123.85124 7662.031 24.39286833 3.706554e-06     * 0.217032172
-## 2       stratum   2  88  201.48236 7662.031  1.15703320 3.191539e-01       0.025622436
-## 3 group:stratum   2  88   13.79514 7662.031  0.07921999 9.239025e-01       0.001797218
+##          Effect DFn DFd        SSn      SSd           F            p p<.05
+## 1         group   1  88 2123.85124 7662.031 24.39286833 3.706554e-06     *
+## 2       stratum   2  88  201.48236 7662.031  1.15703320 3.191539e-01      
+## 3 group:stratum   2  88   13.79514 7662.031  0.07921999 9.239025e-01      
+##           ges
+## 1 0.217032172
+## 2 0.025622436
+## 3 0.001797218
 ```
 Wir erhalten direkt zwei Warnungen. Einmal wird uns mitgeteilt, dass das Design nicht balanciert ist und somit nicht gleich viele Beobachtungen pro Gruppe vorliegen. Die zweite Meldung bezieht sich auf die Quadratsumme vom Typ I:
 
@@ -588,7 +620,7 @@ Wir erhalten direkt zwei Warnungen. Einmal wird uns mitgeteilt, dass das Design 
 ## ## there is more than one variable. Hopefully you are doing this for demonstration
 ## ## purposes only!
 ```
-Hier wird uns mitgeteilt, dass die Verwendung der Quadratsumme vom Typ I keine so gute Idee ist. Zum Glück machen wir das hier tatsächlich nur zu Demonstrationszwecken! Eines der Hauptprobleme ist nämlich, dass die Reihenfolge der Prädiktoren die Signifikanzentscheidung beeinflusst. Der Effekt `group` entspricht dem Haupteffekt der Treatmentzuweisung, `stratum` entspricht dem Haupteffekt der Diagnose und `group:stratum` entspricht dem Interaktionseffekt. Dem Output ist zu entnehmen, dass nur die Treatmentzuweisung einen signifikanten Einfluss auf die Symptomschwere hat. Somit hätte das Treatment einen Effekt, welcher sich unabhängig von der Diagnose auf die Symptomschwere auswirkt (mit einer Irrtumswahrscheinlichkeit von $5\%$). Das Ergebnis lässt sich auch super leicht grafisch darstellen, indem wir die `ezPlot`-Funktion aus dem `ez`-Paket verwenden. Diese nimmt dieselben Argumente wie `ezANOVA` entgegen. Es fehlt lediglich die Aufteilung der Effekte. `x = stratum` lässt die Diagnose auf der $x$-Achse erscheinen. `split = group` lässt unterschiedliche Linien für Treatment und Wartekontrollgruppe erscheinen:
+Hier wird uns mitgeteilt, dass die Verwendung der Quadratsumme vom Typ I keine so gute Idee ist. Zum Glück machen wir das hier tatsächlich nur zu Demonstrationszwecken! Eines der Hauptprobleme ist nämlich, dass die Reihenfolge der Prädiktoren die Signifikanzentscheidung beeinflusst. Der Effekt `group` entspricht dem Haupteffekt der Treatmentzuweisung, `stratum` entspricht dem Haupteffekt der Diagnose und `group:stratum` entspricht dem Interaktionseffekt. Dem Output ist zu entnehmen, dass nur die Treatmentzuweisung einen signifikanten Einfluss auf die Symptomschwere hat. Somit hätte das Treatment einen Effekt, welcher sich unabhängig von der Diagnose auf die Symptomschwere auswirkt (mit einer Irrtumswahrscheinlichkeit von {{< math >}}$5\%${{< /math >}}). Das Ergebnis lässt sich auch super leicht grafisch darstellen, indem wir die `ezPlot`-Funktion aus dem `ez`-Paket verwenden. Diese nimmt dieselben Argumente wie `ezANOVA` entgegen. Es fehlt lediglich die Aufteilung der Effekte. `x = stratum` lässt die Diagnose auf der $x$-Achse erscheinen. `split = group` lässt unterschiedliche Linien für Treatment und Wartekontrollgruppe erscheinen:
 
 
 ```r
@@ -596,8 +628,8 @@ ezPlot(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID, x = str
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -605,8 +637,9 @@ ezPlot(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID, x = str
 ```
 
 ```
-## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, : Unbalanced groups. Mean N will
-## be used in computation of FLSD
+## Warning in ezStats(data = data, dv = dv, wid = wid, within = within,
+## within_full = within_full, : Unbalanced groups. Mean N will be used in
+## computation of FLSD
 ```
 
 <img src="/lehre/klipps/anova-vs-regression_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
@@ -622,21 +655,26 @@ ezANOVA(data = osf, dv = bsi_post, between = c(stratum, group), wid = ID,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
-## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable. Hopefully you are
-## doing this for demonstration purposes only!
+## Warning: Using "type==1" is highly questionable when data are unbalanced and
+## there is more than one variable. Hopefully you are doing this for
+## demonstration purposes only!
 ```
 
 ```
 ## $ANOVA
-##          Effect DFn DFd        SSn      SSd           F            p p<.05         ges
-## 1       stratum   2  88  244.18457 7662.031  1.40225503 2.514844e-01       0.030885141
-## 2         group   1  88 2081.14903 7662.031 23.90242466 4.525815e-06     * 0.213600597
-## 3 stratum:group   2  88   13.79514 7662.031  0.07921999 9.239025e-01       0.001797218
+##          Effect DFn DFd        SSn      SSd           F            p p<.05
+## 1       stratum   2  88  244.18457 7662.031  1.40225503 2.514844e-01      
+## 2         group   1  88 2081.14903 7662.031 23.90242466 4.525815e-06     *
+## 3 stratum:group   2  88   13.79514 7662.031  0.07921999 9.239025e-01      
+##           ges
+## 1 0.030885141
+## 2 0.213600597
+## 3 0.001797218
 ```
 Das spielt natürlich eine immer größere Rolle, je mehr Gruppierungsvariablen wir haben und je überlappender die Effekte sind. In diesem spezifischen Beispiel sind die Unterschiede gar nicht so groß und auch die Signifikanzentscheidung ist am Ende des Tages dieselbe. Allerdings erkennen wir, dass der `F`-Wert der beiden Haupteffekte leicht unterschiedlich ist. Der `F`-Wert und die Signifikanzentscheidung der Interaktion ist in beiden Fällen gleich.
 
@@ -707,8 +745,8 @@ ezANOVA2 <- ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid 
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -737,8 +775,8 @@ ezANOVA(data = osf, dv = bsi_post, between = c(stratum, group), wid = ID,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -843,8 +881,8 @@ ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -906,7 +944,7 @@ Bei Quadratsummen vom Typ III werden die Haupteffekte nicht nur gegeben der ande
 
 ## Fazit aus allen Analysen
 
-Insgesamt kamen alle Analysen zum selben Ergebnis: Die Intervention zeigt einen Effekt auf die Symptomschwere unabhängig von der vorliegenden Diagnose (mit einer Irrtumswahrscheinlichkeit von $5\%$). Wir haben in dieser Sitzung gesehen, dass Regression und ANOVA zum selben Ergebnis kommen, wenn dieselben Hypothesen geprüft werden. Die Wahl der Quadratsumme hängt von der Art der Hypothese, die geprüft werden soll, ab!
+Insgesamt kamen alle Analysen zum selben Ergebnis: Die Intervention zeigt einen Effekt auf die Symptomschwere unabhängig von der vorliegenden Diagnose (mit einer Irrtumswahrscheinlichkeit von {{< math >}}$5\%${{< /math >}}). Wir haben in dieser Sitzung gesehen, dass Regression und ANOVA zum selben Ergebnis kommen, wenn dieselben Hypothesen geprüft werden. Die Wahl der Quadratsumme hängt von der Art der Hypothese, die geprüft werden soll, ab!
 
 
 ***
