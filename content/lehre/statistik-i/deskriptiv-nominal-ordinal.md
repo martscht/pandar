@@ -5,14 +5,16 @@ date: '2020-09-24'
 slug: deskriptiv-nominal-ordinal
 categories: ["Statistik I"]
 tags: ["Deskritpiv", "Plots", "Nominal und Ordinal", "Tabelle"]
+subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
+authors: [nehler, buchholz]
+weight: 2
+lastmod: '2023-08-17'
 featured: no
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
   image: /header/descriptive_post.jpg
-lastmod: '2023-06-26'
-authors: [nehler, buchholz]
-weight: 20
+projects: []
 
 reading_time: false
 share: false
@@ -126,13 +128,13 @@ fb22$geschl
 ```
 
 ```
-##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2  2  1  1  1  1  1  1  1  1  1  2  1 NA
-##  [26]  1  1  1  1  1  2  1  1  1  1  1  1  1  2  1  1  1  1  1  1  1  1  1  1  1
-##  [51]  1  1  1 NA  1  2  1  2  1  1  1  2  1 NA NA  1  3  1  1  1  1  1  1  1  1
-##  [76]  1  1  1  2  2  2  1  2  2  1  1  1  1  1  1  1  1  1  1 NA  1  1  1  1  1
-## [101]  1 NA  2  1  1  1  1 NA  1 NA  1  1  2  1  1  1  1  1  1  1  1  1  1  1  1
-## [126]  2  1  1 NA  2  1  2  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
-## [151]  1  1  1  1  1  1  2  1  1
+##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2  2  1  1  1  1  1  1  1  1  1  2  1
+##  [25] NA  1  1  1  1  1  2  1  1  1  1  1  1  1  2  1  1  1  1  1  1  1  1  1
+##  [49]  1  1  1  1  1 NA  1  2  1  2  1  1  1  2  1 NA NA  1  3  1  1  1  1  1
+##  [73]  1  1  1  1  1  1  2  2  2  1  2  2  1  1  1  1  1  1  1  1  1  1 NA  1
+##  [97]  1  1  1  1  1 NA  2  1  1  1  1 NA  1 NA  1  1  2  1  1  1  1  1  1  1
+## [121]  1  1  1  1  1  2  1  1 NA  2  1  2  1  1  1  1  1  1  1  1  1  1  1  1
+## [145]  1  1  1  1  1  1  1  1  1  1  1  1  2  1  1
 ```
 
 Die Variable `geschl` liegt numerisch vor, es treten die Werte 1, 2 und 3 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/post/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "weiblich". Diese *Label* werden nun im Faktor hinterlegt.
@@ -179,13 +181,13 @@ fb22$fach
 ```
 
 ```
-##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2  2  2  4  3  2  3  4  4  1  3  4  4 NA
-##  [26]  3 NA  2  3  4  4  1  3  2  1  3  1 NA  2  4  4  4  4  4  4  1  4  1  3  1
-##  [51]  1  3  4 NA  4  2  4  4  4  4  3  4  2 NA NA  4  4  3  4  3  4  3  3  1  3
-##  [76]  4  4  4  3  3  4  2  3  3  2  3  4  2  4  3  4  2  3  3 NA  4  2  4  2  2
-## [101]  4 NA  2  3  2  1  1  3  5 NA  4  5  1  1  4  4  3  2  2  2 NA  3  5  4  3
-## [126]  5  2  4 NA  1  4  3  3  5  4  1  4  4  2  3  3  4  3  2  4  4  4  4  4  5
-## [151]  2  1  3  1  2  3  4  4  4
+##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2  2  2  4  3  2  3  4  4  1  3  4  4
+##  [25] NA  3 NA  2  3  4  4  1  3  2  1  3  1 NA  2  4  4  4  4  4  4  1  4  1
+##  [49]  3  1  1  3  4 NA  4  2  4  4  4  4  3  4  2 NA NA  4  4  3  4  3  4  3
+##  [73]  3  1  3  4  4  4  3  3  4  2  3  3  2  3  4  2  4  3  4  2  3  3 NA  4
+##  [97]  2  4  2  2  4 NA  2  3  2  1  1  3  5 NA  4  5  1  1  4  4  3  2  2  2
+## [121] NA  3  5  4  3  5  2  4 NA  1  4  3  3  5  4  1  4  4  2  3  3  4  3  2
+## [145]  4  4  4  4  4  5  2  1  3  1  2  3  4  4  4
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
@@ -226,7 +228,7 @@ str(fb22$grund_faktor)                     # neue Variable: Faktor
 ```
 
 ```
-##  Factor w/ 135 levels " Ich habe schon lange ein großes Interesse an der Psychologie",..: 62 9 102 113 51 70 26 87 24 90 ...
+##  Factor w/ 135 levels "- Aus Interesse ",..: 62 9 102 113 51 70 26 87 24 90 ...
 ```
 
 
@@ -587,13 +589,13 @@ fb22$prok4
 ```
 
 ```
-##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2  3  2  3 NA  2  4  2  2  2  3  3  2  3
-##  [26]  2  2  2  1  3  2  3  3  3  3  2  3  2  3  2  3  3  3  4  3  3  3  4  2  4
-##  [51]  3  2  3  4  3  3  2  1  4  2  2  2  2  2  2  2  2  2  3  2  2  2  3  2  3
-##  [76]  3  3  2  2  3  1  2  2  1  3  2  3  2  2  3  3  2  2  2  1  1  3  2  4  3
-## [101]  2  4  3  3  1  2  2  3  4  3  1  3  2  2  3  2  2  2  3  4  3  1  2  2  3
-## [126]  3  4  3  3  3  3  4  3  1  2  3  2  2  3  2  2  4  4  2  3  2  3  2  4  2
-## [151]  2  2  2  4  3  4  3  3  3
+##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2  3  2  3 NA  2  4  2  2  2  3  3  2
+##  [25]  3  2  2  2  1  3  2  3  3  3  3  2  3  2  3  2  3  3  3  4  3  3  3  4
+##  [49]  2  4  3  2  3  4  3  3  2  1  4  2  2  2  2  2  2  2  2  2  3  2  2  2
+##  [73]  3  2  3  3  3  2  2  3  1  2  2  1  3  2  3  2  2  3  3  2  2  2  1  1
+##  [97]  3  2  4  3  2  4  3  3  1  2  2  3  4  3  1  3  2  2  3  2  2  2  3  4
+## [121]  3  1  2  2  3  3  4  3  3  3  3  4  3  1  2  3  2  2  3  2  2  4  4  2
+## [145]  3  2  3  2  4  2  2  2  2  4  3  4  3  3  3
 ```
 
 Wiederholung:

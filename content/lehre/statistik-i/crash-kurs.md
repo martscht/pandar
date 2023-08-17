@@ -8,7 +8,8 @@ tags: ["Einführung", "Datenmanagement", "Grundlagen", "Hilfe"]
 subtitle: ''
 summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
 authors: [schultze]
-lastmod: '2023-06-14'
+weight: 1
+lastmod: '2023-08-17'
 featured: yes
 banner:
   image: "/header/crash_post.jpg"
@@ -71,7 +72,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 463437 mal heruntergeladen
+* Allein in den letzten 30 Tagen 412444 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
@@ -921,7 +922,7 @@ data.frame(color, text, cong, react, three)
 ```
 
 ```
-## Error in data.frame(color, text, cong, react, three): arguments imply differing number of rows: 8, 3
+## Error in data.frame(color, text, cong, react, three): Argumente implizieren unterschiedliche Anzahl Zeilen: 8, 3
 ```
 
 Dazu gibt es jedoch eine, sehr spezifische, Ausnahme. Es ist möglich, dass Vektoren unterschiedliche Längen haben, wenn die längere Länge ein Vielfaches der kürzeren Länge ist. Wenn wir also einen Vektor mit 4 Elementen erstellen:
@@ -1426,7 +1427,7 @@ fb22 <- read.table('fb22.csv', header = TRUE)
 ```
 
 ```
-## Error in read.table("../../daten/fb22.csv", header = TRUE): more columns than column names
+## Error in read.table("../../daten/fb22.csv", header = TRUE): mehr Spalten als Spaltennamen
 ```
 
 Wieder ergibt sich ein Fehler, der lamentiert, dass es mehr Spalten als Variablennamen gibt. Das liegt daran, dass `read.table()` per Voreinstellung davon ausgeht, dass Variablen (bzw. Spalten des Datensatzes) durch Leerzeichen getrennt sind (`sep = ""`). In unserer Datei erfolgt das aber durch Kommata.
@@ -1445,27 +1446,34 @@ head(fb22)    # Kopfzeilen
 ```
 
 ```
-##   prok1 prok2 prok3 prok4 prok5 prok6 prok7 prok8 prok9 prok10 nr1 nr2 nr3 nr4 nr5 nr6  lz extra vertr gewis neuro intel
-## 1     1     3     4     2     3     4     3     3     1      3   1   3   5   4   4   3 5.4  2.75  3.75  4.25  4.25  4.75
-## 2     4     3     2     4     1     4     2     4     4      4   1   2   1   2   2   1 6.0  3.75  4.75  2.75  5.00  4.00
-## 3     3     3     2     4     2     4     2     3     4      3   4   5   5   5   5   5 3.0  4.25  4.50  3.75  4.00  5.00
-## 4     1     3     4    NA     4     3     4     4     2      2   2   4   4   4   4   3 6.0  4.00  4.75  4.25  2.25  4.75
-## 5     2     1     4     3     2     1     2     4     1      1   1   5   1   2   2   2 3.2  2.50  4.75  5.00  3.75  3.50
-## 6     2     4     2     2     3     2     3     2     1      3   1   4   3   4   3   1 5.8  3.00  3.00  4.25  3.25  3.00
-##       nerd                                                                                                   grund fach
-## 1 2.666667                                                                                               Interesse    5
-## 2 4.000000                                                           Allgemeines Interesse schon seit der Kindheit    4
-## 3 4.333333 menschliche Kognition wichtig und rätselhaft; Interesse für Psychoanalyse; Schnittstelle zur Linguistik    1
-## 4 3.166667                                                       Psychoanalyse, Hilfsbereitschaft, Lebenserfahrung    4
-## 5 4.166667                                   Ich kann viel in Psychologie über mich und meine Mitmenschen lernen.     2
-## 6 3.666667                                           Interesse an dem Beruf des Therapeuten sowie an der Forschung   NA
-##   ziel lerntyp geschl job ort ort12 wohnen uni1 uni2 uni3 uni4
-## 1    2       1      1   1   1     1      2    0    1    0    0
-## 2    2       1      2   2   1     1      2    0    1    0    0
-## 3    3       1      2   1   1     1      3    0    0    0    1
-## 4    2       1      2   1   2     1      4    0    1    0    0
-## 5    2       1      1   1   2     1      2    0    1    0    0
-## 6   NA      NA     NA  NA  NA    NA     NA    0    0    0    0
+##   prok1 prok2 prok3 prok4 prok5 prok6 prok7 prok8 prok9 prok10 nr1 nr2 nr3 nr4
+## 1     1     3     4     2     3     4     3     3     1      3   1   3   5   4
+## 2     4     3     2     4     1     4     2     4     4      4   1   2   1   2
+## 3     3     3     2     4     2     4     2     3     4      3   4   5   5   5
+## 4     1     3     4    NA     4     3     4     4     2      2   2   4   4   4
+## 5     2     1     4     3     2     1     2     4     1      1   1   5   1   2
+## 6     2     4     2     2     3     2     3     2     1      3   1   4   3   4
+##   nr5 nr6  lz extra vertr gewis neuro intel     nerd
+## 1   4   3 5.4  2.75  3.75  4.25  4.25  4.75 2.666667
+## 2   2   1 6.0  3.75  4.75  2.75  5.00  4.00 4.000000
+## 3   5   5 3.0  4.25  4.50  3.75  4.00  5.00 4.333333
+## 4   4   3 6.0  4.00  4.75  4.25  2.25  4.75 3.166667
+## 5   2   2 3.2  2.50  4.75  5.00  3.75  3.50 4.166667
+## 6   3   1 5.8  3.00  3.00  4.25  3.25  3.00 3.666667
+##                                                                                                     grund
+## 1                                                                                               Interesse
+## 2                                                           Allgemeines Interesse schon seit der Kindheit
+## 3 menschliche Kognition wichtig und rätselhaft; Interesse für Psychoanalyse; Schnittstelle zur Linguistik
+## 4                                                       Psychoanalyse, Hilfsbereitschaft, Lebenserfahrung
+## 5                                   Ich kann viel in Psychologie über mich und meine Mitmenschen lernen. 
+## 6                                           Interesse an dem Beruf des Therapeuten sowie an der Forschung
+##   fach ziel lerntyp geschl job ort ort12 wohnen uni1 uni2 uni3 uni4
+## 1    5    2       1      1   1   1     1      2    0    1    0    0
+## 2    4    2       1      2   2   1     1      2    0    1    0    0
+## 3    1    3       1      2   1   1     1      3    0    0    0    1
+## 4    4    2       1      2   1   2     1      4    0    1    0    0
+## 5    2    2       1      1   1   2     1      2    0    1    0    0
+## 6   NA   NA      NA     NA  NA  NA    NA     NA    0    0    0    0
 ```
 
 ```r

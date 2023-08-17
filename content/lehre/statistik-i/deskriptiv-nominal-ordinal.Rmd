@@ -5,14 +5,16 @@ date: '2020-09-24'
 slug: deskriptiv-nominal-ordinal
 categories: ["Statistik I"]
 tags: ["Deskritpiv", "Plots", "Nominal und Ordinal", "Tabelle"]
+subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
+authors: [nehler, buchholz]
+weight: 2
+lastmod: '`r Sys.Date()`'
 featured: no
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
   image: /header/descriptive_post.jpg
-lastmod: '2023-06-26'
-authors: [nehler, buchholz]
-weight: 20
+projects: []
 
 reading_time: false
 share: false
