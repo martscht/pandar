@@ -3,7 +3,7 @@
 <div class="universal-wrapper pt-3">
 
   <h1>{{ i18n "page_not_found" }}</h1>
-
+  
   {{/* Show search box if built-in search engine is enabled. */}}
   {{ if in (slice "wowchemy" "algolia") (lower site.Params.features.search.provider) }}
   <form class="d-flex align-items-center mb-3">
@@ -15,6 +15,8 @@
 
   {{/* Suggest recently published pages to the user. */}}
 
+  <p>Die von Ihnen aufgerufene Seite konnte nicht gefunden werden. Dies könnte an einer fehlerhaften URL liegen, oder auch daran, dass die Seite noch nicht fertiggestellt wurde.</p>  
+  
   <p>{{ i18n "404_recommendations" }}</p>
 
   {{ $query := where (where (where (where site.Pages.ByDate.Reverse "Title" "!=" "") "Kind" "in" (slice "page" "section")) "Params.private" "!=" true) "Permalink" "!=" "" }}

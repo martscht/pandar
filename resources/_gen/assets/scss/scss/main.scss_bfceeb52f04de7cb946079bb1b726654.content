@@ -9667,10 +9667,36 @@ div.chart {
   margin-bottom: 1rem;
   overflow-x: auto; }
 
-/* Eigene Klasse fuer CTA-Button (Shortcode cta) */
+/* CALL TO ACTION BUTTON */
+/* Eigene Klasse fuer CTA-Button (Shortcode cta) - Farbe bisher Platzhalter! */
 .cta-btn {
   background-color: blueviolet; }
 
-/* Pseudoklasse fürs mit der Maus drüberfahren */
+/* Pseudoklasse fürs mit der Maus drüberfahren - Farbe bisher Platzhalter! */
 .cta-btn:hover {
   background-color: red; }
+
+/* INDEXLISTEN */
+/* Abstände der Tabellen für Seitenlistings der Kategorien (Statistik I, ...) */
+.kategorie tr {
+  line-height: 0.85rem !important; }
+
+/* Alternierende Reihenfarbe */
+.kategorie tr:nth-child(even) {
+  background-color: #f7f7f7; }
+
+/* Farbe der Reihe beim drüberfahren */
+.kategorie tr:hover td {
+  background: #e6e6e6; }
+
+/* Padding und Anordnung der einzelnen Einträge */
+.kategorie td {
+  padding: 0.5rem;
+  vertical-align: middle; }
+
+/* Buttons der Seitenlistings der Kategorien (Statistik I, ...) */
+.btn-sm, .btn-group-sm > .btn {
+  font-size: 0.6rem !important;
+  padding: 0.2rem !important;
+  margin: 0px;
+  line-height: 1.2; }

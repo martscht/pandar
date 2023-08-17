@@ -12,7 +12,7 @@
     /* LineNumbers */ .chroma .ln { white-space: pre; -webkit-user-select: none; user-select: none; margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
     /* Line */ .chroma .line { display: flex; }
     /* Keyword */ .chroma .k { color: #007020; font-weight: bold }
-    /* KeywordConstant */ .chroma .kc { color: #007020; font-weight: bold }
+    /* KeywordConstant */ .chroma .kc { color: #3F88AB}
     /* KeywordDeclaration */ .chroma .kd { color: #007020; font-weight: bold }
     /* KeywordNamespace */ .chroma .kn { color: #007020; font-weight: bold }
     /* KeywordPseudo */ .chroma .kp { color: #007020 }
@@ -93,4 +93,7 @@
     -Strings: #3D7854
     -Generic & Functions: #14080E
     -Kommentare: #74A57F
+    - KeywordConstant (Booleans): #3F88AB
+
+    Eine Pandar-eigene Version (fokussiert um GU/Pandar-Blau) orientiert an den default-Farben von RStudio um es persönlich aber auch einsteigerfreundlich zu halten!
     */
