@@ -318,9 +318,9 @@ Y_i &= \beta_0 + \beta_ZZ_i + \beta_XX_i + \beta_{ZX}ZX_i+e_i,\\[1.5ex]
 
 Wir erkennen wieder ein Interzept und eine Slope, welche jeweils abhängig von der Ausprägung des Moderators $Z$ sind. Bis hierhin unterscheiden sich die Gleichungen der moderierten Regression und generalisierten ANCOVA nicht. Allerdings kann $Z$ in der moderierten Regression (theoretisch) jeden beliebigen Wert annehmen. Außerdem sei an dieser Stelle gesagt, dass die Bezeichnungen für Moderator und Prädiktor nicht von den Daten abgeleitet werden können. Sie sind rein konzeptioneller Natur. Das äußert sich darin, dass wir für die moderierte Regression im Gegensatz zur ANCOVA die Rolle der beiden Prädiktoren vertauschen können. Wir können also die Gleichung einfach anders aufstellen und schon haben wir ein Interzept und eine Slope von $Z$ auf $Y$, die jeweils abhängig sind von $X$.
 
-Um die Analyse besser interpretierbar zu machen und um möglicher Multikollinearität zwischen linearen und nichtlinearen Termen (Interaktion) vorzubeugen, sollte sowohl der Prädiktor als auch der Moderator zentriert sein. Das haben wir ganz am Anfang der Sitzung im Block [Vorbereitung](#Vorbereitung) bereits mit dem `scale`-Befehl gemacht, da dies bereits für die ANCOVA von Relevanz war!
+Um die Analyse besser interpretierbar zu machen und um möglicher Multikollinearität zwischen linearen und nichtlinearen Termen (Interaktion) vorzubeugen, sollten sowohl der Prädiktor als auch der Moderator zentriert sein. Das haben wir ganz am Anfang der Sitzung im Block [Vorbereitung](#Vorbereitung) schon mit dem `scale`-Befehl gemacht, da dies bereits für die ANCOVA von Relevanz war!
 
-Wenn Prädiktor und Moderator zentriert sind, lässt sich der Wert $Z=0$, also der Mittelwert von $Z$, sehr schön interpretieren. Dann ist nämlich $g_I(0)=\beta_0$ und $g_S(0)=\beta_X$. Wir erkennen also, dass $\beta_0$ und $\beta_X$ jeweils das Interzept und die Slope für ein durchschnittliches $Z$ beschreiben. Die Koeffizienten $\beta_Z$ und $\beta_{ZX}$ symbolisieren dann die Abweichungen vom mittleren Interzept oder der mittleren Slope in Abhängigkeit von $Z$. Die Berechnung in `R` laufen mit dem `lm`-Befehl ab. Wir fügen einfach eine Interaktion zwischen dem Prädiktor und dem Moderator ein.
+Wenn Prädiktor und Moderator zentriert sind, lässt sich der Wert $Z=0$, also der Mittelwert von $Z$, sehr schön interpretieren. Dann ist nämlich $g_I(0)=\beta_0$ und $g_S(0)=\beta_X$. Wir erkennen also, dass $\beta_0$ und $\beta_X$ jeweils das Interzept und die Slope für ein durchschnittliches $Z$ beschreiben. Die Koeffizienten $\beta_Z$ und $\beta_{ZX}$ symbolisieren dann die Abweichungen vom mittleren Interzept oder der mittleren Slope in Abhängigkeit von $Z$. Die Berechnungen in `R` laufen mit dem `lm`-Befehl ab. Wir fügen einfach eine Interaktion zwischen dem Prädiktor und dem Moderator ein.
 
 Inhaltlich wollen wir nun die Beziehung zwischen der Symptomschwere als abhängiger Variable und den Prädiktoren Lebenszufriedenheit und Panikstörungs- und Agoraphobiesymptomatik untersuchen. Hierbei soll die Panikstörungs- und Agoraphobiesymptomatik der Prädiktor sein, welcher durch die Lebenszufriedenheit moderiert wird. Wir wollen also untersuchen, ob für unterschiedliche Ausprägungen der Lebenszufriedenheit auch unterschiedliche (lineare) Beziehungen zwischen Panikstörungs- und Agoraphobiesymptomatik und Symptomschwere bestehen. Wir stellen zunächst das Modell auf und interpretieren die Parameter. Das Modellobjekt nennen wir `mod_reg`:
 
@@ -354,7 +354,7 @@ summary(mod_reg)
 ## F-statistic:  35.4 on 3 and 90 DF,  p-value: 3.342e-15
 ```
 
-Die Ergebnisse sind recht eindeutig. Die beiden linearen Effekte von `swls_post` und `pas_post` sind statistisch bedeutsam. Die Interaktion/Moderation allerdings nicht. Dies bedeutet, dass die Beziehung zwischen Panikstörungs- und Agoraphobiesymptomatik und Symptomschwere nicht durch die Ausprägung der Lebenszufriedenheit moderiert (beeinflusst) wird. Die linearen Effekte gehen ferner in die erwartete Richtung: die Symptomschwere steigt mit steigender Ausprägung der Panikstörungs- und Agoraphobiesymptomatik (unter Konstanthaltung der Lebenszufriedenheit). Außerdem sinkt die Symptomschwere mit steigender Lebenszufriedenheit (unter Konstanthaltung der Panikstörungs- und Agoraphobiesymptomatik). Bei all diesen Aussagen sollten Sie sich ein "mit einer Irrtumswahrscheinlichkeit von $5\%$" denken, wie das immer so ist in der Inferenzstatistik!
+Die Ergebnisse sind recht eindeutig. Die beiden linearen Effekte von `swls_post` und `pas_post` sind statistisch bedeutsam. Die Interaktion/Moderation allerdings nicht. Dies bedeutet, dass die Beziehung zwischen Panikstörungs- und Agoraphobiesymptomatik und Symptomschwere nicht durch die Ausprägung der Lebenszufriedenheit moderiert (beeinflusst) wird. Die linearen Effekte gehen ferner in die erwartete Richtung: Die Symptomschwere steigt mit steigender Ausprägung der Panikstörungs- und Agoraphobiesymptomatik (unter Konstanthaltung der Lebenszufriedenheit). Außerdem sinkt die Symptomschwere mit steigender Lebenszufriedenheit (unter Konstanthaltung der Panikstörungs- und Agoraphobiesymptomatik). Bei all diesen Aussagen sollten Sie sich ein "mit einer Irrtumswahrscheinlichkeit von $5\%$" denken, wie das immer so ist in der Inferenzstatistik!
 
 Wir können ein Gefühl für die Moderation bekommen, indem wir die Ergebnisse grafisch darstellen. Dazu nutzen wir sogenannte Simple-Slope Grafiken. Diese stellen für verschiedene Ausprägungen des Moderators die Beziehung zwischen Prädiktor und abhängiger Variable als Linie dar. Dazu können wir praktischerweise ein Paket benutzen. Dieses heißt `interactions` und muss nach Installation zunächst geladen werden. Aus diesem Paket nutzen wir die Funktion `interact_plot`. Dieser müssen wir 3 Argumente übergeben: `model` ist unser Regressionsmodell (`mod_reg`, welches wir zuvor geschätzt hatten), `pred` setzt den Prädiktor fest (hier: `pas_post`) und `modx` setzt den Moderator (hier: `swls_post`) fest:
 
@@ -372,10 +372,10 @@ Im Gegensatz zur ANCOVA, die wir weiter oben kennengelernt hatten, gibt es natü
 
 <img src="/lehre/klipps/ancova-und-moderierte-regression_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
 
-Hier ist die x-Achse ($-links\longleftrightarrow rechts+$) der Prädiktor Panikstörungs- und Agoraphobiesymptomatik (`pas_post`) und in die Tiefe wird der Moderator Lebenszufriedenheit (`swls_post`) dargestellt (oft z-Achse: ($-vorne\longleftrightarrow hinten+$)). Die y-Achse (im Plot heißt diese blöderweise z-Achse) ist die Symptomschwere dargestellt ($-unten\longleftrightarrow oben+$). Wir erkennen in dieser Ansicht ein wenig die Simple-Slopes von zuvor, denn die Achse der Leseleistung läuft ins negative "aus dem Bildschirm hinaus", während sie ins positive "in den Bildschirm hinein" verläuft. Der nähere Teil der "Hyperebene" weißt eine höhere Beziehung zwischen Panikstörungs- und Agoraphobiesymptomatik und Symptomschwere auf, während der Teil, der weiter entfernt liegt, eine kleinere Beziehung aufweist. Genau das haben wir auch in den Simple-Slopes zuvor gesehen. Dort war für hohe Lebenszufriedenheit die Beziehung zwischen Panikstörungs- und Agoraphobiesymptomatik und Symptomschwere auch schwächer. Wichtig ist, dass in diesem Plot die Beziehung zwischen Panikstörungs- und Agoraphobiesymptomatik und Symptomschwere für eine fest gewählte Ausprägung der Lebenszufriedenheit tatsächlich linear verläuft. Es ist also so, dass wir quasi ganz viele Linien aneinanderkleben, um diese gewölbte Ebene zu erhalten. Allerdings war die Interaktion nicht statistisch bedeutsam, sodass dies nicht auf die Population zu verallgemeinern ist.
+Hier ist die x-Achse ($-links\longleftrightarrow rechts+$) der Prädiktor Panikstörungs- und Agoraphobiesymptomatik (`pas_post`) und in die Tiefe wird der Moderator Lebenszufriedenheit (`swls_post`) dargestellt (oft z-Achse: ($-vorne\longleftrightarrow hinten+$)). Die y-Achse (im Plot heißt diese blöderweise z-Achse) ist die Symptomschwere dargestellt ($-unten\longleftrightarrow oben+$). Wir erkennen in dieser Ansicht ein wenig die Simple-Slopes von zuvor, denn die Achse der Lebenszufriedenheit läuft ins Negative "aus dem Bildschirm hinaus", während sie ins Positive "in den Bildschirm hinein" verläuft. Der nähere Teil der "Hyperebene" weist eine höhere Beziehung zwischen Panikstörungs- und Agoraphobiesymptomatik und Symptomschwere auf, während der Teil, der weiter entfernt liegt, eine kleinere Beziehung aufweist. Genau das haben wir auch in den Simple-Slopes zuvor gesehen. Dort war für hohe Lebenszufriedenheit die Beziehung zwischen Panikstörungs- und Agoraphobiesymptomatik und Symptomschwere auch schwächer. Wichtig ist, dass in diesem Plot die Beziehung zwischen Panikstörungs- und Agoraphobiesymptomatik und Symptomschwere für eine fest gewählte Ausprägung der Lebenszufriedenheit tatsächlich linear verläuft. Es ist also so, dass wir quasi ganz viele Linien aneinanderkleben, um diese gewölbte Ebene zu erhalten. Allerdings war die Interaktion nicht statistisch bedeutsam, sodass dies nicht auf die Population zu verallgemeinern ist.
 
 ### Absicherung gegen quadratische Effekte und Multikollinearität
-Unser Moderationseffekt war nicht signifikant. Wäre er es gewesen, müssten wir noch sicherstellen, ob nicht eigentlich ein quadratischer Effekt besteht. Denn es ist so, dass der Interaktionsterm mit quadratischen Termen korreliert sein kann, wenn die zugrundeliegenden Variablen korreliert sind. So kann es zu Multikollinearität im Modell kommen und wir könnten uns fälschlicherweise für einen Interaktionseffekt entscheiden, obwohl es tatsächlich einen quadratischen Effekt gibt. Quadratische Effekte können wir in ein Regressionsmodell aufnehmen, indem wir entweder eine neue Variable mit quadrierten (aber zentrierten!) Werten erstellen, oder indem wir innerhalb des `lm`-Befehls die `I()` sogenannte `as.is`-Funktion verwenden, mit welcher wir einfache Transformationen an bestehenden Daten in Modellen verwenden können, ohne explizit Daten dafür erstellen zu müssen:
+Unser Moderationseffekt war nicht signifikant. Wäre er es gewesen, müssten wir noch sicherstellen, ob nicht eigentlich ein quadratischer Effekt besteht. Denn es ist so, dass der Interaktionsterm mit quadratischen Termen korreliert sein kann, wenn die zugrundeliegenden Variablen korreliert sind. So kann es zu Multikollinearität im Modell kommen und wir könnten uns fälschlicherweise für einen Interaktionseffekt entscheiden, obwohl es tatsächlich einen quadratischen Effekt gibt. Quadratische Effekte können wir in ein Regressionsmodell aufnehmen, indem wir entweder eine neue Variable mit quadrierten (aber zentrierten!) Werten erstellen, oder indem wir innerhalb des `lm`-Befehls die sogenannte `as.is`-Funktion `I()` verwenden, mit welcher wir einfache Transformationen an bestehenden Daten in Modellen verwenden können, ohne explizit Daten dafür erstellen zu müssen:
 
 
 ```r
@@ -417,7 +417,7 @@ interact_plot(model = mod_quad_reg, pred = pas_post, modx = swls_post)
 
 <img src="/lehre/klipps/ancova-und-moderierte-regression_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
-Die Simple-Slopes sind keine einfachen Steigungen mehr, sondern gleichen "einfachen" Parabeln. Die Interpretation ist immer ähnlich zu den Simple-Slopes von zuvor. Die Beziehung zwischen Symptomschwere und Panikstörungs- und Agoraphobiesymptomatik fällt geringer aus für höhere Lebenszufriedenheit. Außerdem lässt sich ein Plateau vermuten für große Panikstörungs- und Agoraphobiesymptomatik-Werte. Der 3D-Plot zeigt uns, dass es diesmal nicht aneinander geklebte Linien, sondern Parabeln sind:
+Die Simple-Slopes sind keine einfachen Steigungen mehr, sondern gleichen "einfachen" Parabeln. Die Interpretation ist immer ähnlich zu den Simple-Slopes von zuvor. Die Beziehung zwischen Symptomschwere und Panikstörungs- und Agoraphobiesymptomatik fällt geringer aus für höhere Lebenszufriedenheit. Außerdem lässt sich ein Plateau vermuten für große Panikstörungs- und Agoraphobiesymptomatik-Werte. Der 3D-Plot (dessen Code wieder in [Appendix C](#AppendixC) zu finden ist) zeigt uns, dass es diesmal nicht aneinander geklebte Linien, sondern Parabeln sind:
 
 <img src="/lehre/klipps/ancova-und-moderierte-regression_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
 
@@ -445,7 +445,7 @@ anova(quad_reg, mod_quad_reg)
 Hier ist nun ersichtlich, dass die Interaktion nicht statistisch bedeutsam ist. Das hatten wir allerdings auch schon der `summary` von `mod_quad_reg` ablesen können.
 
 ## Fazit
-Wir haben mit der "generalisierten" ANCOVA und der moderierten Regressionsanalyse zwei Modelle kennengelernt, welche durch Interkationen aus linearen Modellen hervorgehen. Damit lassen sich lineare Beziehung in Abhängigkeit weiterer Variablen ausdrücken: entweder in Abhängigkeit von Gruppierungsvariablen (dann landen wir im generalisierten ANCOVA-Setting) oder in Abhängigkeit von kontinuierlichen Prädiktoren (Kovariaten; das ist dann die moderierte Regression).
+Wir haben mit der "generalisierten" ANCOVA und der moderierten Regressionsanalyse zwei Modelle kennengelernt, welche durch Interaktionen aus linearen Modellen hervorgehen. Damit lassen sich lineare Beziehungen in Abhängigkeit weiterer Variablen ausdrücken: entweder in Abhängigkeit von Gruppierungsvariablen (dann landen wir im generalisierten ANCOVA-Setting) oder in Abhängigkeit von kontinuierlichen Prädiktoren (Kovariaten; das ist dann die moderierte Regression).
 
 ***
 
@@ -454,7 +454,8 @@ Wir haben mit der "generalisierten" ANCOVA und der moderierten Regressionsanalys
 ### Appendix A {#AppendixA}
 
 <details><summary>**Code zu den Grafiken zur ANCOVA**</summary>
-Wir verwenden für diese Sitzung das `ggplot2`-Paket, welches nachdem es installiert wurde (`install.packages`) geladen werden muss. Für eine Einführung in `ggplot` können Sie gerne in den Unterlagen zu den Veranstaltungen im [Bachelor](/lehre/#bsc7) vorbeischauen. Für noch mehr Grafiken siehe [Unterlagen zu `ggplotting`](/extras/#ggplotting).
+
+Wir verwenden für diese Sitzung das `ggplot2`-Paket, welches nachdem es installiert wurde (`install.packages`) geladen werden muss. Für eine Einführung in `ggplot` können Sie gerne in den Unterlagen zu den Veranstaltungen im [Bachelor](/lehre/main/#statistik-ii) vorbeischauen. Für noch mehr Grafiken siehe [Unterlagen zu `ggplotting`](/lehre/extras/#ggplotting).
 
 ```r
 library(ggplot2) # ggplot2-Paket laden
@@ -478,7 +479,7 @@ ggplot(data = osf,  mapping = aes(x = group, y = bsi_post, col = group, group = 
 <img src="/lehre/klipps/ancova-und-moderierte-regression_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
 
 
-Wenn wir die Gruppierungsvariable als Farbkodierung verwenden (`col = group`) im Regressionsplot verwenden, erhalten wir: 
+Wenn wir die Gruppierungsvariable als Farbkodierung (`col = group`) im Regressionsplot verwenden, erhalten wir: 
 
 
 ```r
@@ -674,7 +675,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
 
 <details><summary> **Exkurs: Effekte der Zentrierung** </summary>
 
-In diesem Abschnitt schauen wir uns den Effekt der Zentrierung an einem vereinfachten Beispiel an. Dieser Abschnitt fundiert auf dem [Appendix A in der Sitzung zu moderierter Regression aus dem Bachelor](/post/quadratische-und-moderierte-regression#AppendixA). 
+In diesem Abschnitt schauen wir uns den Effekt der Zentrierung an einem vereinfachten Beispiel an. Dieser Abschnitt fundiert auf dem [Appendix A in der Sitzung zu moderierter Regression aus dem Bachelor](/lehre/statistik-ii/quadratische-und-moderierte-regression#AppendixA). 
 
 Um den Sachverhalt zu vereinfachen, erstellen wir einen Vektor (also eine Variable) $A$ der die Zahlen von 0 bis 10 enthält in 0.1 Schritten:
 
@@ -714,7 +715,7 @@ mean(A_c2)
 ## [1] 2.639528e-16
 ```
 
-Nun vergleichen wir die Korrelationen zwischen $A_c$ mit $A_c^2$ mit der Korrelation zwischen $A$ und $A^2$:
+Nun vergleichen wir die Korrelationen zwischen $A_c$ und $A_c^2$ mit der Korrelation zwischen $A$ und $A^2$:
 
 
 ```r
@@ -787,16 +788,16 @@ cor(X_c, X_c*Z_c)
 ##            [,1]
 ## [1,] 0.01993774
 ```
-Die Korrelation zwischen $X$ und $X*Z$ liegt bei 0.935, während sie bei den zentrierten Varianten $X_c$ und $X_c*Z_c$ bei 0.02 liegt. Damit resultiert die erste Variante in Multikollinearitätsproblemen in einem Regressionsmodell, während die zweite dies nicht tut.
+Die Korrelation zwischen $X$ und {{< math >}}$X*Z${{< /math >}} liegt bei 0.935, während sie bei den zentrierten Varianten $X_c$ und $X_c*Z_c$ bei 0.02 liegt. Damit resultiert die erste Variante in Multikollinearitätsproblemen in einem Regressionsmodell, während die zweite dies nicht tut.
 
 #### Mathematische Begründung
-Dieser Abschnitt ist für die "Warum ist das so?"-Fragenden bestimmt und ist als reinen Zusatz zu erkennen. Wir konzentrieren uns weider auf das Quadrat, da es einfacher zu untersuchen ist.
+Dieser Abschnitt ist für die "Warum ist das so?"-Fragenden bestimmt und ist als reiner Zusatz zu betrachten. Wir konzentrieren uns wieder auf das Quadrat, da es einfacher zu untersuchen ist.
 
 Wir wissen, dass die Korrelation der Bruch aus der Kovarianz zweier Variablen geteilt durch deren Standardabweichung ist. Aus diesem Grund reicht es, die Kovarianz zweier Variablen zu untersuchen, um zu schauen, wann die Korrelation 0 ist. Wir hatten oben die Variablen zentriert und bemerkt, dass dann die Korrelation zwischen $A_c$ und $A_c^2$ verschwindet. Warum ist das so? Dazu stellen wir $A$ in Abhängigkeit von seinem Mittelwert $\mu_A$ und $A_c$, der zentrierten Version von $A$, dar:
 
 $$A := \mu_A + A_c$$
 
-So kann jede Variable zerlegt werden: in seinen Mittelwert (hier: $\mu_A$) und die Abweichung vom Mittelwert (hier: $A_c$). Nun bestimmen wir die Kovarianz zwischen den Variablen $A$ und $A^2$ und setzen in diesem Prozess $\mu_A+A_c$ für $A$ ein und wenden die binomische Formel an $(a+b)^2=a^2+2ab+b^2$.
+So kann jede Variable zerlegt werden: in seinen Mittelwert (hier: $\mu_A$) und die Abweichung vom Mittelwert (hier: $A_c$). Nun bestimmen wir die Kovarianz zwischen den Variablen $A$ und $A^2$. In diesem Prozess setzen wir $\mu_A+A_c$ für $A$ ein und wenden die binomische Formel an $(a+b)^2=a^2+2ab+b^2$.
 
 \begin{align}
 \mathbb{C}ov[A, A^2] &= \mathbb{C}ov[\mu_A + A_c, (\mu_A + A_c)^2]\\
@@ -804,16 +805,16 @@ So kann jede Variable zerlegt werden: in seinen Mittelwert (hier: $\mu_A$) und d
 &=  \mathbb{C}ov[A_c, \mu_A^2] + \mathbb{C}ov[A_c, 2\mu_AA_c] + \mathbb{C}ov[A_c, A_c^2]
 \end{align}
 
-An dieser Stelle pausieren wir kurz und bemerken, dass wir diese beiden Ausdrücke schon kennen $\mathbb{C}ov[A_c, \mu_A^2]  = \mathbb{C}ov[A_c, A_c^2] = 0$. Ersteres ist die Kovarianz zwischen einer Konstanten und einer Variable, welche immer 0 ist und dass die Kovarianz zwischen $A_c$ und $A_c^2$ 0 ist, hatten wir oben schon bemerkt! Diese Aussage, dass die Korrelation/Kovarianz zwischen $A_c$ und $A_c^2$ 0 ist, gilt insbesondere für die transformierten Daten mittels `poly` (hier bezeichnet $A_c^2$ quasi den quadratischen Anteil, der erstellt wird, siehe dazu [Sitzung aus dem Bachelor](/post/quadratische-und-moderierte-regression) und auch für einige Verteilungen (z.B. symmetrische Verteilungen, wie die Normalverteilung) ist so, dass die linearen Anteile und die quadratischen Anteile unkorreliert sind. _Im Allgemeinen gilt dies leider nicht._
+An dieser Stelle pausieren wir kurz und bemerken, dass wir diese beiden Ausdrücke schon kennen $\mathbb{C}ov[A_c, \mu_A^2]  = \mathbb{C}ov[A_c, A_c^2] = 0$. Ersteres ist die Kovarianz zwischen einer Konstanten und einer Variable, welche immer 0 ist und dass die Kovarianz zwischen $A_c$ und $A_c^2$ gleich 0 ist, hatten wir oben schon bemerkt! Diese Aussage, dass die Korrelation/Kovarianz zwischen $A_c$ und $A_c^2$ gleich 0 ist, gilt insbesondere für die transformierten Daten mittels `poly` (hier bezeichnet $A_c^2$ quasi den quadratischen Anteil, der erstellt wird, siehe dazu [Sitzung aus dem Bachelor](/lehre/statistik-ii/quadratische-und-moderierte-regression)). Und auch für einige Verteilungen (z.B. symmetrische Verteilungen, wie die Normalverteilung) ist es so, dass die linearen Anteile und die quadratischen Anteile unkorreliert sind. _Im Allgemeinen gilt dies leider nicht._
 
-Folglich können wir sagen, dass für bspw. normalverteiltes A
+Folglich können wir sagen, dass für bspw. normalverteiltes A gilt:
 
 \begin{align}
 \mathbb{C}ov[A, A^2] &= \mathbb{C}ov[A_c, 2\mu_AA_c] \\
 &= 2\mu_A\mathbb{C}ov[A_c,A_c]=2\mu_A\mathbb{V}ar[A],
 \end{align}
 
-wobei wir hier benutzen, dass die Kovarianz mit sich selbst die Varianz ist und dass die zentrierte Variable $A_c$ die gleiche Varianz wie $A$ hat (im Allgemeinen, siehe weiter unten, bleibt auch noch die Kovarianz zwischen $A_c$ und $A_c^2$ erhalten). Dies können wir leicht prüfen:
+Hier machen wir uns zunutze, dass die Kovarianz mit sich selbst die Varianz ist und dass die zentrierte Variable $A_c$ die gleiche Varianz wie $A$ hat (im Allgemeinen, siehe weiter unten, bleibt auch noch die Kovarianz zwischen $A_c$ und $A_c^2$ erhalten). Dies können wir leicht prüfen:
 
 
 ```r
@@ -866,7 +867,7 @@ round(2*mean(A_c)*var(A_c), 14)
 ## [1] 0
 ```
 
-Der zentrierte Fall ist auf 14 Nachkommastellen identisch und weicht danach nur wegen der sogenannten Maschinengenauigkeit von einander ab. Somit ist klar, dass wenn der Mittelwert = 0 ist, dann ist auch die Korrelation zwischen einer Variable und seinem Quadrat 0, solange die Variable symmetrisch verteilt ist, andernfalls ist die Korrelation zumindest kleiner, als wenn nicht zentriert wurde, was ebenfalls der Multikollinearitätsproblematik entgegben wirkt! Analoge Überlegungen können genutzt werden, um das gleiche für die Interaktion von Variablen zu sagen.
+Der zentrierte Fall ist auf 14 Nachkommastellen identisch mit dem nicht-zentrierten Fall und weicht danach nur wegen der sogenannten Maschinengenauigkeit von diesem ab. Somit ist klar, dass wenn der Mittelwert = 0 ist, dann ist auch die Korrelation zwischen einer Variable und seinem Quadrat 0, solange die Variable symmetrisch verteilt ist, andernfalls ist die Korrelation zumindest kleiner, als wenn nicht zentriert wurde, was ebenfalls der Multikollinearitätsproblematik entgegen wirkt! Analoge Überlegungen können genutzt werden, um das gleiche für die Interaktion von Variablen zu sagen.
 
 **Im Allgemeinen:**
 
@@ -877,7 +878,7 @@ Im Allgemeinen ist es dennoch sinnvoll die Daten zu zentrieren, wenn quadratisch
 &=2\mu_A\mathbb{V}ar[A]+\mathbb{C}ov[A_c, A_c^2],
 \end{align}
 
-somit wird die Kovarianz zwischen $A$ und $A^2$ künstlich vergrößert, wenn die Daten nicht zentriert sind. Denn nutzen wir zentrierte Variablen ist nur noch $\mathbb{C}ov[A_c, A_c^2]$ relevant (da $\mu_A=0$). Hier ein beispiel mit stark schiefen Daten, nämlich exponentialverteilten Variablen:
+Somit wird die Kovarianz zwischen $A$ und $A^2$ künstlich vergrößert, wenn die Daten nicht zentriert sind. Denn nutzen wir zentrierte Variablen ist nur noch $\mathbb{C}ov[A_c, A_c^2]$ relevant (da $\mu_A=0$). Hier ein Beispiel mit stark schiefen Daten, nämlich exponentialverteilten Variablen:
 
 
 ```r
@@ -1007,7 +1008,7 @@ cov(A_c, A_c^2)  # zwischen A_c und A_c^2, jedoch etwas kleiner als nicht-zentri
 ## [1,] 1.610506
 ```
 
-Wir sehen deutlich, dass die Kovarianzen/Korrelationen im zentrierten Fall geringer ausfallen, als im nicht zentrierten Fall! Aus diesem Grund macht es immer Sinn, Prädiktoren zu zentrieren, wenn Interaktionen vorkommen. So wird die Multikolliniearität reduziert.
+Wir sehen deutlich, dass die Kovarianzen/Korrelationen im zentrierten Fall geringer ausfallen als im nicht-zentrierten Fall! Aus diesem Grund macht es immer Sinn, Prädiktoren zu zentrieren, wenn Interaktionen vorkommen. So wird die Multikollinearität reduziert.
 
 
 </details>
