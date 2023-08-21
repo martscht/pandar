@@ -5,7 +5,7 @@ slug: ancova-und-moderierte-regression
 categories: ["KliPPs"]
 tags: ["Regression", "ANCOVA", "Interaktionseffekte", "Moderation", "quadratische Effekte"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Beitrag werden die Kovarianzanalayse (ANCOVA) und die moderierte Regressionsanalyse behandelt. Zuerst wird die ANCOVA vorgeführt, bei der eine nominalskalierte Gruppierungsvariable in ein einfaches Regressionsmodell einbezogen wird, um Gruppenunterschiede zu berücksichtigen. Dann wird die moderierte Regression erläutert, bei der ein zusätzlicher kontinuierlicher Prädiktor, der Moderator genannt wird, in ein Regressionsmodell aufgenommen wird, um zu untersuchen, ob er die Beziehung zwischen Prädiktor und Kriterium beeinflusst. Zuletzt wird gezeigt, wie man sich gegen quadratische Effekte und Multikollinearität absichert.'
 authors: [irmer]
 lastmod: '2023-08-15'
 featured: no
