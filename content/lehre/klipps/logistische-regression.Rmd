@@ -328,11 +328,6 @@ Final können wir festhalten, dass sowohl der Depressionsscore als auch das Gesc
 
 ***
 
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [`r fontawesome::fa("download")` hier herunterladen](/post/KliPPs_MSc5a_R_Files/5_logistische-regression_RCode.R).
-
-***
-
 
 ## Appendix
 ### Appendix A {#AppendixA}
@@ -402,7 +397,7 @@ lines(x = xWerte, y = dnorm(x = xWerte, mean = mean(res), sd = sd(res)), lwd = 3
 
 Um die Normalverteilunskurve auch noch einzuzeichnen erstellen wir einen Vektor mit x Variablen vom Minimum bis zum Maximum der Residuen-Werte. Anschließend legen wir über `lines` und `dnorm` die Kurve auf unser Histogramm. `dnorm` bestimmt dabei die Werte, die die Normalverteilung an der Stelle x mit dem Mittelwert und der Standardabweichung der Residuen hätte.
 
-Die beschriebenen Plots sind mit einem Paket und einer Basis-Funktion von `R` erstellt. Für die Erstellung von individuellen Plots ist `ggplot2` das richtige Paket. Dieses wurde bereits häufiger im Appendix als Möglichkeit zum Erzeugen von Plots beschrieben. Weitere Informationen zu `ggplot2` erhalten Sie bspw. auf  [`r fontawesome::fa("graduation-cap")` Tidyverse](https://ggplot2.tidyverse.org). Außerdem können Sie sich auch eine [`r fontawesome::fa("graduation-cap")` Einführung in `ggplot2`](/post/grafiken-mit-ggplot2) auf dieser Website ansehen.
+Die beschriebenen Plots sind mit einem Paket und einer Basis-Funktion von `R` erstellt. Für die Erstellung von individuellen Plots ist `ggplot2` das richtige Paket. Dieses wurde bereits häufiger im Appendix als Möglichkeit zum Erzeugen von Plots beschrieben. Weitere Informationen zu `ggplot2` erhalten Sie bspw. auf  [{{< icon name="graduation-cap" pack="fas" >}} Tidyverse](https://ggplot2.tidyverse.org). Außerdem können Sie sich auch eine [{{< icon name="graduation-cap" pack="fas" >}} Einführung in `ggplot2`](/post/grafiken-mit-ggplot2) auf dieser Website ansehen.
 
 ```{r}
 library(ggplot2)
