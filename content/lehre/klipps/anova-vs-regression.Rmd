@@ -3,7 +3,7 @@ title: ANOVA vs. Regression
 date: '2021-10-14'
 slug: anova-vs-regression
 categories: ["KliPPs"]
-tags: ["Regression", "ANOVA", "einfaktorielle ANOVA", "zweifaktorielle ANOVA", "Haupteffekte", "Interaktionseffekte", "Quadratsummentypen"]
+tags: ["Regression", "ANOVA", "Interaktionseffekte", "Quadratsummentypen"]
 subtitle: ''
 summary: 'In diesem Beitrag geht es um den Zusammenhang von ANOVA und Regression. Zunächst wird gezeigt, wie man Regressionsmodelle miteinander vergleicht. Dann betrachten wir die einfaktorielle und die zweifaktorielle ANOVA genauer an. Dabei gehen wir auf die verschiedenen Typen von Quadratsummen ein, die bei der zweifaktoriellen ANOVA zur Überprüfung unterschiedlicher Hypothesen verwendet werden. Der Beitrag verdeutlicht, dass Regression und ANOVA zu denselben Ergebnis kommen, wenn dieselben Hypothesen geprüft werden.'
 authors: [irmer]

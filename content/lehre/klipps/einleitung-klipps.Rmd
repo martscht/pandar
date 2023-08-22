@@ -4,8 +4,7 @@ type: post
 date: '2021-10-06'
 slug: einleitung-klipps
 categories: ["KliPPs"]
-tags: ["R Intro", "Einführung", "t-Test", "Grundlagen der Inferenzstatistik", "Type I-Error",
-"Alpha Fehler", "Power", "Daten einlesen"]
+tags: ["Einführung", "t-Test", "Power", "Daten einlesen"]
 subtitle: ''
 summary: 'Dieser Beitrag stellt eine Einführung in `R` dar. Neben grundlegenden Funktionen werden das Einlesen und die Verarbeitung von Daten behandelt, außerdem werden einfache Datenanalysen durchgeführt. Besonderes Augenmerk liegt dabei auf den Grundlagen zur linearen Regression, die als Vorbereitung für die Regressionssitzung dienen. Zudem gibt es eine kleine Wiederholung einiger wichtiger inferenzstatistischer Begriffe.'
 authors: [nehler, irmer, schultze]

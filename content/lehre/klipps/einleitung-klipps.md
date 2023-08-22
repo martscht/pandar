@@ -4,8 +4,7 @@ type: post
 date: '2021-10-06'
 slug: einleitung-klipps
 categories: ["KliPPs"]
-tags: ["R Intro", "Einführung", "t-Test", "Grundlagen der Inferenzstatistik", "Type I-Error",
-"Alpha Fehler", "Power", "Daten einlesen"]
+tags: ["Einführung", "t-Test", "Power", "Daten einlesen"]
 subtitle: ''
 summary: 'Dieser Beitrag stellt eine Einführung in `R` dar. Neben grundlegenden Funktionen werden das Einlesen und die Verarbeitung von Daten behandelt, außerdem werden einfache Datenanalysen durchgeführt. Besonderes Augenmerk liegt dabei auf den Grundlagen zur linearen Regression, die als Vorbereitung für die Regressionssitzung dienen. Zudem gibt es eine kleine Wiederholung einiger wichtiger inferenzstatistischer Begriffe.'
 authors: [nehler, irmer, schultze]
@@ -279,8 +278,8 @@ names(Depression) # Namen der Variablen
 ```
 
 ```
-## [1] "Lebenszufriedenheit" "Episodenanzahl"      "Depressivitaet"      "Neurotizismus"      
-## [5] "Intervention"        "Geschlecht"
+## [1] "Lebenszufriedenheit" "Episodenanzahl"      "Depressivitaet"      "Neurotizismus"       "Intervention"       
+## [6] "Geschlecht"
 ```
 
 ```r
@@ -422,15 +421,14 @@ Depression[, 6]                    # Alle Geschlechter abfragen
 ```
 
 ```
-##  [1] maennlich weiblich  maennlich weiblich  maennlich weiblich  weiblich  maennlich weiblich  maennlich
-## [11] weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich weiblich  maennlich
-## [21] weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich weiblich  weiblich 
-## [31] weiblich  maennlich weiblich  weiblich  weiblich  maennlich maennlich maennlich weiblich  maennlich
-## [41] maennlich maennlich maennlich maennlich maennlich maennlich weiblich  maennlich maennlich weiblich 
-## [51] maennlich weiblich  weiblich  maennlich maennlich maennlich weiblich  maennlich maennlich maennlich
-## [61] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
-## [71] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
-## [81] maennlich maennlich maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich 
+##  [1] maennlich weiblich  maennlich weiblich  maennlich weiblich  weiblich  maennlich weiblich  maennlich weiblich  weiblich 
+## [13] weiblich  weiblich  weiblich  weiblich  weiblich  maennlich weiblich  maennlich weiblich  weiblich  weiblich  weiblich 
+## [25] weiblich  weiblich  weiblich  maennlich weiblich  weiblich  weiblich  maennlich weiblich  weiblich  weiblich  maennlich
+## [37] maennlich maennlich weiblich  maennlich maennlich maennlich maennlich maennlich maennlich maennlich weiblich  maennlich
+## [49] maennlich weiblich  maennlich weiblich  weiblich  maennlich maennlich maennlich weiblich  maennlich maennlich maennlich
+## [61] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
+## [73] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich weiblich 
+## [85] maennlich maennlich weiblich  maennlich weiblich  weiblich 
 ## Levels: maennlich weiblich
 ```
 
@@ -510,7 +508,7 @@ Eine simple Darstellung des Zusammenhangs kann man über die `plot`-Funktion abb
 plot(Depression$Lebenszufriedenheit, Depression$Depressivitaet, xlab = "Lebenszufriedenheit", ylab = "Depressivitaet")
 ```
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
 
 Die Umsetzung der Parameterschätzung anhand der kleinsten Quadrate ist mit der Funktion `lm` möglich. Beachten Sie hierbei, dass angegeben wird, welche Variable durch welche Variable vorhergesagt wird. Das bedeutet, dass wir hier zuerst Depressivitaet und dann Lebenszufriedenheit nennen müssen, wenn wir Depressivitaet durch Lebenszufriedenheit vorhersagen wollen.
 
@@ -574,8 +572,8 @@ names(model) #andere Inhalte der Liste
 ```
 
 ```
-##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"       
-##  [7] "qr"            "df.residual"   "xlevels"       "call"          "terms"         "model"
+##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"        "qr"           
+##  [8] "df.residual"   "xlevels"       "call"          "terms"         "model"
 ```
 
 Die weiteren Inhalte umfassen unter anderem die `residuals`, die für das Prüfen der Voraussetzungen wichtig wären, aber auch die vorhergesagten Werte.
@@ -666,8 +664,8 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ```
 
 ```
-##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value"  "stderr"     
-##  [8] "alternative" "method"      "data.name"
+##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value"  "stderr"      "alternative"
+##  [9] "method"      "data.name"
 ```
 
 ```r
@@ -700,7 +698,7 @@ Nun sind wir am Schluss des behandelten Codes in der Seminar-Sitzung angekommen.
 ### Simulieren der Stichproben
 Wir können in `R` relativ simpel normalverteilte Variablen simulieren. Für weitere Informationen zur Simulation von Verteilungen siehe bspw. [`R`-Verteilungen auf Wiki](https://en.wikibooks.org/wiki/R_Programming/Probability_Distributions) oder [hier auf pandaR](/lehre/statistik-i/verteilungen/). Den Code der hier durchgeführten Simulationen können Sie [Appendix A](#AppendixA) entnehmen (geht über den Inhalt des Seminars hinaus). Nehmen wir an, dass wir als Grundlage unserer Stichprobe die Standardnormalverteilung $\mathcal{N}(0,1)$ haben. Wir ziehen 1000 Personen aus dieser Population und lassen uns ein Histogramm sowie den Mittelwert und die geschätzte Populationsstandardabweichung ausgeben. 
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-39-1.png" style="display: block; margin: auto;" />
 
 ```
 ## [1] -0.002997332
@@ -734,7 +732,7 @@ Der Output ist uns bereits bekannt. Da die Null-Hypothese nicht verworfen wird, 
 ### Verteilung unter $H_0$
 Wenn wir dieses Experiment nun ganz häufig wiederholen, sollte die Teststatistik $t=\frac{\bar{X}-\bar{Y}}{\sigma_p}$ (wobei $\bar{X}$ und $\bar{Y}$ die Mittelwerte der Stichproben $X$ und $Y$ sind und $\sigma_p$ die gepoolte Standardabweichung beschreibt) der $t$-Verteilung folgen, welcher wir dann den $p$-Wert ablesen können. 
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-41-1.png)<!-- -->![](einleitung-klipps_files/figure-html/unnamed-chunk-41-2.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-41-1.png" style="display: block; margin: auto;" /><img src="einleitung-klipps_files/figure-html/unnamed-chunk-41-2.png" style="display: block; margin: auto;" />
 
 Die beiden Histogramme zeigen die empirische Verteilung der $t$- und $p$-Werte unter der $H_0$-Hypothese nach 10000 (unabhängigen) Wiederholungen sowie die angenommene Verteilung (fette durchgezogene schwarze Linie).  Von den $p$-Werten wird erwartet, dass sie sich gleich (uniform) auf das Intervall zwischen 0 und 1 verteilen. Somit landen dann nur 5% der $p$-Werte mit zugehörig großen Teststatistiken (zufällig) im Bereich $p<0.05$.
 
@@ -742,7 +740,7 @@ Die beiden Histogramme zeigen die empirische Verteilung der $t$- und $p$-Werte u
 ### Verteilung unter $H_1$
 Angenommen die $H_0$-Hypothese gilt nicht und es liegt tatsächlich eine Mittelwertsdifferenz von bspw. $d=0.1$ ($H_1: \mu_1 - \mu_2 = 0.1$) vor, dann hat dies folgende Auswirkungen auf die Verteilung der Teststatistik und die zugehörigen $p$-Werte:
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-42-1.png)<!-- -->![](einleitung-klipps_files/figure-html/unnamed-chunk-42-2.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-42-1.png" style="display: block; margin: auto;" /><img src="einleitung-klipps_files/figure-html/unnamed-chunk-42-2.png" style="display: block; margin: auto;" />
 
 Wir sehen sehr deutlich, dass die Teststatistik $t$ deutlich nach rechts verschoben ist und nicht mehr zur theoretischen Verteilung unter der $H_0$-Hypothese passt. Auch die $p$-Werte sind alles andere als gleichverteilt. Folglich sprechen extreme $t$-Werte gegen die Null-Hypothese, weswegen wir diese verwerfen, wenn wir einen extremen Wert beobachten. Hier liegen 60.99% der $p$-Werte unterhalb von $0.05$. Dies wird auch als **Power** (siehe im Kapitel 8 in [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158) Wiederholungen der Begriffe Power und $\alpha$-Fehler) bezeichnet. Somit hat der $t$-Test für eine Mittelwertsdifferenz von $d$=.1 und eine Stichprobengröße von insgesamt n = 2000 eine Power von rund 60.99%. Dies bedeutet, dass in diesem Fall die $H_0$ in 60.99% der Fälle richtigerweise verworfen wird. Schauen wir uns die Power der $t$-Tests einmal für verschiedene Stichprobengröße ($n$) und Mittelwertsdifferenzen ($d$) an:
 
@@ -758,11 +756,11 @@ Was wir auch erkennen ist, dass für sehr große Stichproben die Power dieses Te
 ### Verstöße gegen die Modellannahmen
 Liegen andere Verstöße gegen die Modellannahmen vor, dann kann es fälschlicherweise zu signifikanten Ergebnissen kommen, obwohl es in der Population gar keinen Effekt gibt. Dies ist oft bei kleinen Stichproben ein Problem. Nehmen wir beispielsweise an, dass die beiden Gruppen sehr gegenläufig schief verteilt sind.
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-44-1.png" style="display: block; margin: auto;" />
 
 Hier gilt zwar die Null-Hypothese, da beide Verteilungen einen theoretischen Mittelwert von 0 haben, aber die Varianzen unterscheiden sich (was im Histogramm  durch die extremeren Werte entlang der x-Achse zu erkennen ist) und die Variablen sind offensichtlich nicht normalverteilt. Schauen wir uns nun die Power des $t$-Tests für eine sehr kleine Stichprobe von 5 pro Gruppe an:
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-45-1.png)<!-- -->![](einleitung-klipps_files/figure-html/unnamed-chunk-45-2.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-45-1.png" style="display: block; margin: auto;" /><img src="einleitung-klipps_files/figure-html/unnamed-chunk-45-2.png" style="display: block; margin: auto;" />
 
 Insgesamt sieht die Verteilung der $t$-Werte einigermaßen in Ordnung, wenn auch etwas schief, aus. Doch bei den $p$-Werten fällt auf, dass die Null-Hypothese zu häufig verworfen wird, nämlich insgesamt in 11.11% der Fälle (durch Zufall, da die Null-Hypothese eigentlich gilt!); also doppelt so häufig wie von uns vorgegeben! Glücklicherweise ist der $t$-Test relativ robust, was daran zu erkennen ist, dass, wenn die Stichprobengröße für dieses Beispiel bei 50 oder gar höher liegt (pro Gruppe), das $\alpha$-Niveau schon wieder einigermaßen eingehalten wird. Außerdem gibt es geeignetere Tests zum Untersuchen von Mittelwertsunterschieden zweier Stichproben als den $t$-Test - nämlich den Welch-Test. Dies ist eine Erweiterung des $t$-Tests für ungleiche Varianzen. Dieser ist auch der Default in `R`. Wir rechnen ihn, indem wir nicht länger `var.equal = T` in `t.test` spezifizieren. Der Output ändert sich bis auf die Namensänderung kaum - die Freiheitsgrade des Tests werden korrigiert, um auf die ungleichen Varianzen zu reagieren (dies bedeutet, immer wenn die Freiheitsgrade nicht einfach $n-2$ sind, dann wurde der Welch-Test gerechnet; insbesondere sind Kommazahlen als $df$ möglich). Jedoch bringt diese Erweiterung ebenfalls nur für größere Stichproben etwas. Die analoge Simulationsstudie können Sie [Appendix A](#AppendixA) entnehmen. Dort finden Sie wie bereits erwähnt auch den Code für viele der hier gezeigten Grafiken und Informationen zur Simulation von Stichproben an sich.
 
@@ -789,7 +787,7 @@ group1 <- rnorm(n = 1000, mean = 0, sd = 1) # Standardnormalverteilung mit n = 1
 hist(group1)
 ```
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-46-1.png" style="display: block; margin: auto;" />
 
 ```r
 mean(group1)
@@ -848,14 +846,14 @@ hist(ts, main = "(empirische) t-Werte nach 10000 Replikationen unter H0", xlab =
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-48-1.png" style="display: block; margin: auto;" />
 
 ```r
 hist(ps, main = "p-Werte nach 10000 Replikationen unter H0", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-48-2.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-48-2.png" style="display: block; margin: auto;" />
 
 #### Verteilung unter $H_1$
 
@@ -874,14 +872,14 @@ hist(ts, main = "(empirische) t-Werte nach 10000 Replikationen unter H1", xlab =
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-49-1.png" style="display: block; margin: auto;" />
 
 ```r
 hist(ps, main = "p-Werte nach 10000 Replikationen unter H1", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-49-2.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-49-2.png" style="display: block; margin: auto;" />
 
 #### Stichprobenziehung mit Modellverstößen
 
@@ -897,7 +895,7 @@ group2 <- group2 - 1/2
 hist(group1); hist(group2)
 ```
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-50-1.png" style="display: block; margin: auto;" />
 
 #### Verteilung unter $H_0$ mit Modellverstößen
 
@@ -920,14 +918,14 @@ hist(ts, main = "t-Werte nach 10000 Replikationen unter Modellverstöße\n für 
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-51-1.png" style="display: block; margin: auto;" />
 
 ```r
 hist(ps, main = "p-Werte nach 10000 Replikationen unter Modellverstößen\n für kleine Stichproben", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-51-2.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-51-2.png" style="display: block; margin: auto;" />
 
 #### Verteilung unter $H_0$ mit Modellverstößen: Welch-Test
 
@@ -949,14 +947,14 @@ hist(ts, main = "t-Werte (des Welch t-Tests) nach 10000 Replikationen\n unter Mo
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-52-1.png" style="display: block; margin: auto;" />
 
 ```r
 hist(ps, main = "p-Werte (des Welch t-Tests) nach 10000 Replikationen\n unter Modellverstößen für kleine Stichproben", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-52-2.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-52-2.png" style="display: block; margin: auto;" />
 Insgesamt sieht die Verteilung der Teststatistik (also quasi der empirischen $t$-Werte) einigermaßen in Ordnung aus, wenn auch etwas schief, doch bei den $p$-Werten fällt auf, dass die Null-Hypothese zu häufig verworfen wird, nämlich insgesamt in 10% der Fälle (durch Zufall, da die Null-Hypothese eigentlich gilt!); also doppelt so häufig wie von uns vorgegeben! Hier gibt es kaum Unterschiede zum ursprünglichen $t$-Test mit gleichen Varianzen. Allerdings ist die Stichprobengröße hier mit 5 pro Gruppe recht klein!
 
 
@@ -980,14 +978,14 @@ hist(ts, main = "t-Werte (des Welch t-Tests) nach 10000 Replikationen\n unter Mo
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-53-1.png" style="display: block; margin: auto;" />
 
 ```r
 hist(ps, main = "p-Werte (des Welch t-Tests) nach 10000 Replikationen\n unter Modellverstößen für größere Stichproben", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-![](/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-53-2.png)<!-- -->
+<img src="/lehre/klipps/einleitung-klipps_files/figure-html/unnamed-chunk-53-2.png" style="display: block; margin: auto;" />
 
 Für jeweils 100 Erhebungen pro Gruppe ist der Verstoß gegen die Normalverteilungsannahme bei ungleichen Varianzen für den Welch-Test fast zu vernachlässigen.
 
