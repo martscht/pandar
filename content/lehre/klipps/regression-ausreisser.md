@@ -90,20 +90,13 @@ head(Depression)
 ```
 
 ```
-##   Lebenszufriedenheit Episodenanzahl Depressivitaet
-## 1                   7              4              7
-## 2                   5              5              8
-## 3                   8              7              6
-## 4                   6              4              5
-## 5                   6              9              8
-## 6                   8              7              8
-##   Neurotizismus   Intervention Geschlecht
-## 1             5 Kontrollgruppe          0
-## 2             3 Kontrollgruppe          1
-## 3             6 Kontrollgruppe          0
-## 4             5 Kontrollgruppe          1
-## 5             5 Kontrollgruppe          1
-## 6             6 Kontrollgruppe          1
+##   Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus   Intervention Geschlecht
+## 1                   7              4              7             5 Kontrollgruppe          0
+## 2                   5              5              8             3 Kontrollgruppe          1
+## 3                   8              7              6             6 Kontrollgruppe          0
+## 4                   6              4              5             5 Kontrollgruppe          1
+## 5                   6              9              8             5 Kontrollgruppe          1
+## 6                   8              7              8             6 Kontrollgruppe          1
 ```
 
 Wir erkennen die eben beschriebenen Spalten. Weiterhin sehen wir, dass die Änderungen aus der letzten Sitzung an der Variable Geschlecht natürlich nicht mehr enthalten sind, wenn der Datensatz neu geladen wird. Daher müssen wir die `levels` wieder anpassen und den falsch eingetragenen Wert für Person 5 korrigieren.
@@ -157,16 +150,21 @@ lm(Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  
-##              7.2353               1.9117  
-## Lebenszufriedenheit  
-##             -0.3663
+##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
+##              7.2353               1.9117              -0.3663
 ```
 
 Hierbei zeigt die Tilde (`~`) auf, welche Variable die AV ist (sie steht links der Tilde), welche Variablen die UVs sind (sie stehen rechts der Tilde und werden durch `+` getrennt) und ob das Interzept mitgeschätzt werden soll. (Per Default wird dieses mitgeschätzt, weshalb "`1 +`" redundant ist und daher hier weggelassen werden könnte - nicht mit einbezogen wird das Interzept via "`0 +`".) Diese Notation wird in sehr vielen Modell verwendet, in welchen es um die Beziehung zwischen unabhängigen und abhängigen Variablen geht! Im [Appendix A](#AppendixA) können Sie nachlesen, welche weiteren Befehle zum gleichen Ergebnis führen und wie bspw. explizit das Interzept in die Gleichung mit aufgenommen werden kann (oder wie darauf verzichtet wird!). 
 
 Im Output sehen wir die Parameterschätzungen unseres Regressionsmodells, das folgendermaßen aussieht:
-$$\text{Depressivitaet}_i=b_0+b_1\text{Geschlecht}_i+b_2\text{Lebenszufriedenheit}_i+\varepsilon_i,$$ 
+
+<div class="big-maths">
+\begin{equation}
+\small
+\text{Depressivitaet}_i=b_0+b_1\text{Geschlecht}_i+b_2\text{Lebenszufriedenheit}_i+\varepsilon_i, 
+\end{equation}
+</div>
+
 für $i=1,\dots,100=:n$. Wir wollen uns die Ergebnisse unserer Regressionsanalyse noch detaillierter anschauen. Dazu können wir wieder die `summary`-Funktion anwenden. Wir weisen dafür den `lm`-Befehl einem  Objekt zu, welches wir weiterverwenden können, um darauf beispielsweise `summary` auszuführen. Zur Erinnerung: Wir speichern dieses Objekt ab, indem wir eine Zuordnung durchführen via `<-` und einen Namen (hier: `model`) vergeben.
 
 
@@ -186,17 +184,12 @@ summary(model)
 ## -3.4037 -0.6711  0.0121  0.6952  3.3289 
 ## 
 ## Coefficients:
-##                     Estimate Std. Error t value Pr(>|t|)
-## (Intercept)          7.23528    0.64773   11.17  < 2e-16
-## Geschlechtweiblich   1.91174    0.28879    6.62 2.83e-09
-## Lebenszufriedenheit -0.36632    0.09227   -3.97 0.000147
-##                        
-## (Intercept)         ***
-## Geschlechtweiblich  ***
-## Lebenszufriedenheit ***
+##                     Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)          7.23528    0.64773   11.17  < 2e-16 ***
+## Geschlechtweiblich   1.91174    0.28879    6.62 2.83e-09 ***
+## Lebenszufriedenheit -0.36632    0.09227   -3.97 0.000147 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.286 on 87 degrees of freedom
 ## Multiple R-squared:  0.4833,	Adjusted R-squared:  0.4714 
@@ -222,17 +215,12 @@ lm.beta(model) |> summary()
 ## -3.4037 -0.6711  0.0121  0.6952  3.3289 
 ## 
 ## Coefficients:
-##                     Estimate Standardized Std. Error
-## (Intercept)          7.23528           NA    0.64773
-## Geschlechtweiblich   1.91174      0.53257    0.28879
-## Lebenszufriedenheit -0.36632     -0.31940    0.09227
-##                     t value Pr(>|t|)    
-## (Intercept)           11.17  < 2e-16 ***
-## Geschlechtweiblich     6.62 2.83e-09 ***
-## Lebenszufriedenheit   -3.97 0.000147 ***
+##                     Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)          7.23528           NA    0.64773   11.17  < 2e-16 ***
+## Geschlechtweiblich   1.91174      0.53257    0.28879    6.62 2.83e-09 ***
+## Lebenszufriedenheit -0.36632     -0.31940    0.09227   -3.97 0.000147 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.286 on 87 degrees of freedom
 ## Multiple R-squared:  0.4833,	Adjusted R-squared:  0.4714 
@@ -254,17 +242,12 @@ model |> lm.beta() |> summary() # alternativ
 ## -3.4037 -0.6711  0.0121  0.6952  3.3289 
 ## 
 ## Coefficients:
-##                     Estimate Standardized Std. Error
-## (Intercept)          7.23528           NA    0.64773
-## Geschlechtweiblich   1.91174      0.53257    0.28879
-## Lebenszufriedenheit -0.36632     -0.31940    0.09227
-##                     t value Pr(>|t|)    
-## (Intercept)           11.17  < 2e-16 ***
-## Geschlechtweiblich     6.62 2.83e-09 ***
-## Lebenszufriedenheit   -3.97 0.000147 ***
+##                     Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)          7.23528           NA    0.64773   11.17  < 2e-16 ***
+## Geschlechtweiblich   1.91174      0.53257    0.28879    6.62 2.83e-09 ***
+## Lebenszufriedenheit -0.36632     -0.31940    0.09227   -3.97 0.000147 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.286 on 87 degrees of freedom
 ## Multiple R-squared:  0.4833,	Adjusted R-squared:  0.4714 
@@ -315,13 +298,12 @@ Nun kommen wir zum eigentlich spannenden Teil, nämlich der Übersicht über die
 ```
 ## 
 ## Coefficients:
-##                     Estimate Standardized Std. Error
-## (Intercept)          7.23528           NA    0.64773
-## Geschlechtweiblich   1.91174      0.53257    0.28879
-## Lebenszufriedenheit -0.36632     -0.31940    0.09227
-##                     t value Pr(>|t|)    
-## (Intercept)           11.17  < 2e-16 ***
-## Geschlechtweiblich     6.62 2.83e-09 ***
+##                     Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)          7.23528           NA    0.64773   11.17  < 2e-16 ***
+## Geschlechtweiblich   1.91174      0.53257    0.28879    6.62 2.83e-09 ***
+## Lebenszufriedenheit -0.36632     -0.31940    0.09227   -3.97 0.000147 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Insgesamt gibt es 6 Spalten, wobei die `Standardized`-Spalte extra durch das Paket `lm.beta` angefordert wurde (sie ist also nicht immer in der Summary enthalten). In der ersten Spalte stehen die Variablennamen, die selbsterklärend sein sollten. Die Spalte `Estimate` zeigt den unstandardisierten Parameter (hier Regressionsgewicht). Z.B. liegt das Interzept $b_0$ bei 7.2353. Das Partialregressionsgewicht vom Geschlecht $b_\text{Geschlecht}$ liegt bei 1.9117. Da Frauen mit `1` kodiert sind, bedeutet dies: Wenn Frauen im Vergleich zu Männern betrachtet werden, so steigt die Depressivitaet durchschnittlich um 1.9117 Punkte ("durchschnittlich" in der Interpretation ist enorm wichtig, da es ja noch den Vorhersagefehler für individuelle Vergleiche gibt). Ensprechend können wir auch das Interzept interpretieren: Ein Mann mit einer Lebenszufriedenheit von 0 hat einen durchschnittlichen Depressivitaetswert von 7.2353. (Anmerkung: Ein Wert von 0 in der Lebenszufriedenheit ist leider unrealistisch, da die Skala hier nicht zentriert wurde - die Effekte von Zentrierung schauen wir uns in der Sitzung zur [Hierarchischen Regression](/lehre/klipps/hierarchische-regression) genauer an!)
@@ -340,12 +322,11 @@ Regressionskoeffizienten können einzeln signifikant sein, ohne dass signifikant
  
 
 ```
-## (Intercept)           11.17  < 2e-16 ***
-## Geschlechtweiblich     6.62 2.83e-09 ***
-## Lebenszufriedenheit   -3.97 0.000147 ***
-## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.286 on 87 degrees of freedom
+## Multiple R-squared:  0.4833,	Adjusted R-squared:  0.4714 
+## F-statistic: 40.68 on 2 and 87 DF,  p-value: 3.362e-13
 ```
 Dazu entnehmen wir dem letzten Block den Standardfehler der Residuen (`Residual standard error`), der im Grunde die Fehlervariation von $y$ beschreibt, sowie das multiple $R^2$ (`Multiple R-squared`), welches anzeigt, dass ca. 48.3% der Variation der Depressivitaet auf die Prädiktoren Geschlecht und Lebenszufriedenheit zurückgeführt werden kann. Dieses Varianzinkrement ist statistisch signifikant, was wir am $F$-Test in der letzten Zeile ablesen können. Der $F$-Wert (`F-statistic`) liegt bei 40.68, wobei die Hypothesenfreiheitsgrade hier gerade 2 sind ($df_h$) und die Residualfreiheitsgrade bei 87 ($df_e$) liegen. Der zugehörige $p$-Wert ist deutlich kleiner als 5% und liegt bei $3.362*10^{-13}$. Dies bedeutet, dass mit einer Irrtumswahrscheinlichkeit von 5% auch in der Population eine Vorhersage der Depressivitaet durch Geschlecht und Intelligenz gemeinsam angenommen werden kann ($R^2\neq0$). In einem Artikel (oder einer Abschlussarbeit) würden wir zur Untermauerung *F*(2, 87) $=$ 40.68, p<.001 in den Fließtext schreiben.
 
@@ -358,14 +339,10 @@ summary_model$coefficients # Koeffiziententabelle
 ```
 
 ```
-##                       Estimate Standardized Std. Error
-## (Intercept)          7.2352799           NA 0.64773072
-## Geschlechtweiblich   1.9117353    0.5325749 0.28878522
-## Lebenszufriedenheit -0.3663154   -0.3194030 0.09226649
-##                       t value     Pr(>|t|)
-## (Intercept)         11.170197 1.722491e-18
-## Geschlechtweiblich   6.619921 2.834596e-09
-## Lebenszufriedenheit -3.970189 1.474393e-04
+##                       Estimate Standardized Std. Error   t value     Pr(>|t|)
+## (Intercept)          7.2352799           NA 0.64773072 11.170197 1.722491e-18
+## Geschlechtweiblich   1.9117353    0.5325749 0.28878522  6.619921 2.834596e-09
+## Lebenszufriedenheit -0.3663154   -0.3194030 0.09226649 -3.970189 1.474393e-04
 ```
 
 ```r
@@ -381,10 +358,8 @@ names(summary_model) # weitere mögliche Argumente, die wir erhalten können
 ```
 
 ```
-##  [1] "call"          "terms"         "residuals"    
-##  [4] "coefficients"  "aliased"       "sigma"        
-##  [7] "df"            "r.squared"     "adj.r.squared"
-## [10] "fstatistic"    "cov.unscaled"
+##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"         "df"           
+##  [8] "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled"
 ```
 
 Gleiches können wir mit allen Summary-Objekten auch in späteren Sitzungen machen!
@@ -457,7 +432,7 @@ vif(model)        # VIF
 ##          Geschlecht Lebenszufriedenheit 
 ##           0.9176556           0.9176556
 ```
-In diesem Beispiel mit nur 2 Prädiktoren ist $R_{Geschlecht}^2=R_{Lebenszufriedenheit}^2=cor(\text{Geschlecht},\text{Lebenszufriedenheit})^2$ und die Formeln sind daher sehr einfach auch mit Hand zu bestimmen:
+In diesem Beispiel mit nur 2 Prädiktoren ist $\small R_{Geschlecht}^2=R_{Lebenszufriedenheit}^2=cor(\text{Geschlecht},\text{Lebenszufriedenheit})^2$ und die Formeln sind daher sehr einfach auch mit Hand zu bestimmen:
 
 ```r
 1/(1-cor(as.numeric(Depression$Geschlecht), Depression$Lebenszufriedenheit)^2) # 1/(1-R^2) = VIF
@@ -563,18 +538,12 @@ Depression[IDs,]
 ```
 
 ```
-##    Lebenszufriedenheit Episodenanzahl Depressivitaet
-## 41                   2              4              6
-## 49                   5              4              2
-## 64                  10              4              1
-## 78                   7              9              8
-## 85                  11              7              5
-##    Neurotizismus                Intervention Geschlecht
-## 41             3                 VT Coaching  maennlich
-## 49             8                 VT Coaching  maennlich
-## 64            10 VT Coaching + Gruppenuebung  maennlich
-## 78             6 VT Coaching + Gruppenuebung  maennlich
-## 85            10 VT Coaching + Gruppenuebung  maennlich
+##    Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus                Intervention Geschlecht
+## 41                   2              4              6             3                 VT Coaching  maennlich
+## 49                   5              4              2             8                 VT Coaching  maennlich
+## 64                  10              4              1            10 VT Coaching + Gruppenuebung  maennlich
+## 78                   7              9              8             6 VT Coaching + Gruppenuebung  maennlich
+## 85                  11              7              5            10 VT Coaching + Gruppenuebung  maennlich
 ```
 
 ```r
@@ -583,18 +552,12 @@ scale(Depression[,1:4])[IDs,]
 ```
 
 ```
-##      Lebenszufriedenheit Episodenanzahl Depressivitaet
-## [1,]          -2.8535787     -1.5202002      0.1947782
-## [2,]          -0.9079568     -1.5202002     -2.0671617
-## [3,]           2.3347462     -1.5202002     -2.6326467
-## [4,]           0.3891244      2.1775841      1.3257481
-## [5,]           2.9832868      0.6984704     -0.3707068
-##      Neurotizismus
-## [1,]    -2.0315461
-## [2,]     0.8799053
-## [3,]     2.0444859
-## [4,]    -0.2846752
-## [5,]     2.0444859
+##      Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus
+## [1,]          -2.8535787     -1.5202002      0.1947782    -2.0315461
+## [2,]          -0.9079568     -1.5202002     -2.0671617     0.8799053
+## [3,]           2.3347462     -1.5202002     -2.6326467     2.0444859
+## [4,]           0.3891244      2.1775841      1.3257481    -0.2846752
+## [5,]           2.9832868      0.6984704     -0.3707068     2.0444859
 ```
 
 Die Funktion `scale` z-standardisiert den Datensatz. Dies macht natürlich inhaltlich hauptsächlich für die intervallskalierten Skalen Sinn (also die ersten vier Spalten im Datensatz). Mit Hilfe von `[IDs,]`, werden die entsprechenden Zeilen der Ausreißer aus dem Datensatz ausgegeben und anschließend auf 2 Nachkommastellen gerundet. Hierbei ist es extrem wichtig, dass wir `scale(Depression[,1:4])[IDs,]` und nicht `scale(Depression[IDs,1:4])` schreiben, da bei der zweiten Schreibweise die Daten reskaliert (z-standardisiert) werden, allerdings auf Basis der ausgewählten Fälle (n=5) und nicht auf Basis der gesamten Stichprobe (n = 90). Mit Hilfe der z-standardisierten Ergebnisse lassen sich Ausreißer hinsichtlich ihrer Ausprägungen einordnen:
@@ -647,10 +610,8 @@ lm(Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  
-##              7.2353               1.9117  
-## Lebenszufriedenheit  
-##             -0.3663
+##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
+##              7.2353               1.9117              -0.3663
 ```
 
 Das Interzept kann explizit mitangegeben werden (falls Sie `0 +` schreiben, setzen Sie das Interzept auf 0, was sich entsprechend auf die Parameterschätzungen auswirken wird, falls das Interzept eigentlich von 0 verschieden ist!):
@@ -666,10 +627,8 @@ lm(Depressivitaet ~ 0 + Geschlecht + Lebenszufriedenheit, data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-## Geschlechtmaennlich   Geschlechtweiblich  
-##              7.2353               9.1470  
-## Lebenszufriedenheit  
-##             -0.3663
+## Geschlechtmaennlich   Geschlechtweiblich  Lebenszufriedenheit  
+##              7.2353               9.1470              -0.3663
 ```
 Dem Output ist zu entnehmen, dass die Parameterschätzungen sich drastisch geändert haben!
 
@@ -687,10 +646,8 @@ lm(Depressivitaet ~ Geschlecht + Lebenszufriedenheit, data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  
-##              7.2353               1.9117  
-## Lebenszufriedenheit  
-##             -0.3663
+##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
+##              7.2353               1.9117              -0.3663
 ```
 
 Der Argumentname für das Regressionsmodell lautet `formula`.
@@ -706,10 +663,8 @@ lm(formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depre
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  
-##              7.2353               1.9117  
-## Lebenszufriedenheit  
-##             -0.3663
+##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
+##              7.2353               1.9117              -0.3663
 ```
 Wir können also auch einfach die Reihenfolge umdrehen, solange wir Argumente benutzen: 
 
@@ -724,10 +679,8 @@ lm(data = Depression, formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriede
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  
-##              7.2353               1.9117  
-## Lebenszufriedenheit  
-##             -0.3663
+##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
+##              7.2353               1.9117              -0.3663
 ```
 
 Die Formel kann auch in Anführungszeichen geschrieben werden:
@@ -743,10 +696,8 @@ lm("Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit", data = Depression)
 ##     data = Depression)
 ## 
 ## Coefficients:
-##         (Intercept)   Geschlechtweiblich  
-##              7.2353               1.9117  
-## Lebenszufriedenheit  
-##             -0.3663
+##         (Intercept)   Geschlechtweiblich  Lebenszufriedenheit  
+##              7.2353               1.9117              -0.3663
 ```
 
 Wir können auf die Datensatzspezifizierung verzichten, indem wir die Variablen direkt ansprechen (es ändern sich entsprechend die Namen der Koeffizienten im Output):
@@ -762,12 +713,8 @@ lm(Depression$Depressivitaet ~ 1 + Depression$Geschlecht + Depression$Lebenszufr
 ##     Depression$Lebenszufriedenheit)
 ## 
 ## Coefficients:
-##                    (Intercept)  
-##                         7.2353  
-##  Depression$Geschlechtweiblich  
-##                         1.9117  
-## Depression$Lebenszufriedenheit  
-##                        -0.3663
+##                    (Intercept)   Depression$Geschlechtweiblich  Depression$Lebenszufriedenheit  
+##                         7.2353                          1.9117                         -0.3663
 ```
 
 Wir können auch neue Variablen definieren, um diese dann direkt anzusprechen (es ändern sich entsprechend die Namen der Koeffizienten):
@@ -817,15 +764,6 @@ ggplot(data = df_h, aes(x = h)) +
                     fill = "skyblue") +           # Wie sollen die Balken gefüllt sein?
   geom_vline(xintercept = 4/n, col = "red")+ # Cut-off bei 4/n
   labs(title = "Histogramm der Hebelwerte", x = "Hebelwerte") # Füge eigenen Titel und Achsenbeschriftung hinzu
-```
-
-```
-## Warning: The dot-dot notation (`..density..`) was deprecated in
-## ggplot2 3.4.0.
-## ℹ Please use `after_stat(density)` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where
-## this warning was generated.
 ```
 
 <img src="/lehre/klipps/regression-ausreisser_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" />
@@ -1055,29 +993,15 @@ MD
 ```
 
 ```
-##  [1]  1.29835776  1.85988286  1.68027868  0.38036881
-##  [5]  1.93061376  5.31999173  1.29835776  0.89484803
-##  [9]  5.31999173  0.07401952  1.85988286  0.96581665
-## [13]  2.87179069  1.29835776  3.08398338  6.11730810
-## [17]  0.96581665  0.33582974  1.93061376  3.99622396
-## [21]  0.96581665  1.85988286  1.93061376  3.57704668
-## [25]  0.07401952  0.96581665  1.68027868  0.88006651
-## [29]  1.85988286  1.85988286  0.96581665  0.19639932
-## [33]  0.07401952  2.79831527  0.19639932  1.64697702
-## [37]  2.42350418  0.89484803  0.96581665  0.19639932
-## [41]  9.85316591  0.89484803  6.01723026  4.27802381
-## [45]  0.88006651  0.19639932  0.07401952  0.38036881
-## [49]  8.84194961  1.64697702  0.19639932  1.29835776
-## [53]  2.87179069  4.92199266  7.18339325  0.19639932
-## [57]  0.33582974  0.38036881  3.46236019  0.07401952
-## [61]  0.33582974  0.38036881  3.48368968  8.46422112
-## [65]  0.19639932  0.88006651  0.07401952  0.88006651
-## [69]  1.09506856  1.50981570  0.38036881  0.07401952
-## [73]  1.64697702  0.33582974  1.09506856  0.88006651
-## [77]  2.86848429  3.08398338  2.86848429  1.09506856
-## [81]  2.39394112  1.50981570  1.09506856  2.42350418
-## [85] 10.28690861  1.33295604  0.19639932  0.88006651
-## [89]  1.68027868  1.09506856
+##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173  1.29835776  0.89484803  5.31999173  0.07401952
+## [11]  1.85988286  0.96581665  2.87179069  1.29835776  3.08398338  6.11730810  0.96581665  0.33582974  1.93061376  3.99622396
+## [21]  0.96581665  1.85988286  1.93061376  3.57704668  0.07401952  0.96581665  1.68027868  0.88006651  1.85988286  1.85988286
+## [31]  0.96581665  0.19639932  0.07401952  2.79831527  0.19639932  1.64697702  2.42350418  0.89484803  0.96581665  0.19639932
+## [41]  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651  0.19639932  0.07401952  0.38036881  8.84194961  1.64697702
+## [51]  0.19639932  1.29835776  2.87179069  4.92199266  7.18339325  0.19639932  0.33582974  0.38036881  3.46236019  0.07401952
+## [61]  0.33582974  0.38036881  3.48368968  8.46422112  0.19639932  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570
+## [71]  0.38036881  0.07401952  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429  3.08398338  2.86848429  1.09506856
+## [81]  2.39394112  1.50981570  1.09506856  2.42350418 10.28690861  1.33295604  0.19639932  0.88006651  1.68027868  1.09506856
 ```
 
 Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Fallnummer (Pbn-Nr) der möglichen Ausreißer.

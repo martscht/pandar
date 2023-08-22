@@ -131,7 +131,14 @@ lm(Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression)
 Hierbei zeigt die Tilde (`~`) auf, welche Variable die AV ist (sie steht links der Tilde), welche Variablen die UVs sind (sie stehen rechts der Tilde und werden durch `+` getrennt) und ob das Interzept mitgeschätzt werden soll. (Per Default wird dieses mitgeschätzt, weshalb "`1 +`" redundant ist und daher hier weggelassen werden könnte - nicht mit einbezogen wird das Interzept via "`0 +`".) Diese Notation wird in sehr vielen Modell verwendet, in welchen es um die Beziehung zwischen unabhängigen und abhängigen Variablen geht! Im [Appendix A](#AppendixA) können Sie nachlesen, welche weiteren Befehle zum gleichen Ergebnis führen und wie bspw. explizit das Interzept in die Gleichung mit aufgenommen werden kann (oder wie darauf verzichtet wird!). 
 
 Im Output sehen wir die Parameterschätzungen unseres Regressionsmodells, das folgendermaßen aussieht:
-$$\text{Depressivitaet}_i=b_0+b_1\text{Geschlecht}_i+b_2\text{Lebenszufriedenheit}_i+\varepsilon_i,$$ 
+
+<div class="big-maths">
+\begin{equation}
+\small
+\text{Depressivitaet}_i=b_0+b_1\text{Geschlecht}_i+b_2\text{Lebenszufriedenheit}_i+\varepsilon_i, 
+\end{equation}
+</div>
+
 für $i=1,\dots,100=:n$. Wir wollen uns die Ergebnisse unserer Regressionsanalyse noch detaillierter anschauen. Dazu können wir wieder die `summary`-Funktion anwenden. Wir weisen dafür den `lm`-Befehl einem  Objekt zu, welches wir weiterverwenden können, um darauf beispielsweise `summary` auszuführen. Zur Erinnerung: Wir speichern dieses Objekt ab, indem wir eine Zuordnung durchführen via `<-` und einen Namen (hier: `model`) vergeben.
 
 ```{r}
@@ -258,7 +265,7 @@ Offensichtlich genügt eine der beiden Statistiken, da sie vollständig ineinand
 vif(model)        # VIF
 1/vif(model)      # Toleranz
 ```
-In diesem Beispiel mit nur 2 Prädiktoren ist $R_{Geschlecht}^2=R_{Lebenszufriedenheit}^2=cor(\text{Geschlecht},\text{Lebenszufriedenheit})^2$ und die Formeln sind daher sehr einfach auch mit Hand zu bestimmen:
+In diesem Beispiel mit nur 2 Prädiktoren ist $\small R_{Geschlecht}^2=R_{Lebenszufriedenheit}^2=cor(\text{Geschlecht},\text{Lebenszufriedenheit})^2$ und die Formeln sind daher sehr einfach auch mit Hand zu bestimmen:
 ```{r}
 1/(1-cor(as.numeric(Depression$Geschlecht), Depression$Lebenszufriedenheit)^2) # 1/(1-R^2) = VIF
 1-cor(as.numeric(Depression$Geschlecht), Depression$Lebenszufriedenheit)^2 # 1-R^2 = Toleranz
