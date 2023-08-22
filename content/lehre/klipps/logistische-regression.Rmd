@@ -30,7 +30,7 @@ links:
   - icon_pack: fas
     icon: pen-to-square
     name: Quizdaten
-    url: /lehre/klipps/logistische-regression-quizdaten
+    url: /lehre/klipps/quizdaten#Block2
 
 output:
   html_document:

@@ -23,11 +23,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/klipps/einleitung
+    url: /lehre/klipps/einleitung-klipps
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/klipps/einleitung.R
+    url: /lehre/klipps/einleitung-klipps.R
 #   - icon_pack: fas
 #     icon: user-graduate
 #     name: Aufgaben
