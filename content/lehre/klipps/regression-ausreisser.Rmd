@@ -8,7 +8,8 @@ tags: ["Regression", "Ausreißer", "ggplot", "linear"]
 subtitle: ''
 summary: 'In diesem Beitrag wird eine multiple Regression in `R` exemplarisch durchgeführt. Dabei wird erläutert, wie ein Regressionsmodell in `R` erstellt und der entsprechende `R`-Output interpretiert werden kann. Außerdem werden die Voraussetzungen für die multiple Regression behandelt. Der Fokus liegt dabei auf der Prüfung der Multikollinearität sowie der Identifikation möglicher Ausreißern und einflussreicher Datenpunkte. '
 authors: [nehler, irmer, hartig]
-lastmod: '2023-07-17'
+weight: 2
+lastmod: '`r Sys.Date()`'
 featured: no
 banner:
   image: "/header/FEI_Sitzung1_post.jpg"

@@ -7,7 +7,8 @@ tags: ["Regression", "ANOVA", "Interaktionseffekte", "Quadratsummentypen"]
 subtitle: ''
 summary: 'In diesem Beitrag geht es um den Zusammenhang von ANOVA und Regression. Zunächst wird gezeigt, wie man Regressionsmodelle miteinander vergleicht. Dann betrachten wir die einfaktorielle und die zweifaktorielle ANOVA genauer an. Dabei gehen wir auf die verschiedenen Typen von Quadratsummen ein, die bei der zweifaktoriellen ANOVA zur Überprüfung unterschiedlicher Hypothesen verwendet werden. Der Beitrag verdeutlicht, dass Regression und ANOVA zu denselben Ergebnis kommen, wenn dieselben Hypothesen geprüft werden.'
 authors: [irmer]
-lastmod: '2023-07-31'
+weight: 3
+lastmod: '2023-08-22'
 featured: no
 banner:
   image: "/header/KliPsy_Sitzung_3.jpg"

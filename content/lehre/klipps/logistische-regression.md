@@ -7,7 +7,8 @@ tags: ["dichotom", "generalisiertes lineares Modell", "Regression", "Linkfunktio
 subtitle: 'Generalisiertes lineares Modell: dichotome abhängige Variablen'
 summary: ''
 authors: [nehler, irmer]
-lastmod: '2023-08-21'
+weight: 5
+lastmod: '2023-08-22'
 featured: no
 banner:
   image: "/header/KliPsy_Sitzung5.jpg"
