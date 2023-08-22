@@ -39,8 +39,6 @@ output:
 
 
 
-{{< list_of_tags >}}
-
 ## Einleitung
 In dieser Sitzung wollen wir dichotome abhängige Variablen mit der logistischen Regression  (vgl. bspw. [Eid, Gollwitzer & Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 22 und [Pituch und Stevens, 2016,](https://ubffm.hds.hebis.de/Record/HEB371183324) Kapitel 11) analysieren. Diese Daten sind dahingehend speziell, dass die abhängige Variable nur zwei Ausprägungen hat, welche in der Regel mit $0$ und $1$ kodiert werden. Dies führt zu verschiedenen Problemen in der linearen Regression, die wir gleich betrachten wollen. Wir wollen uns ein reales Datenbeispiel ansehen, in welchem die Wahrscheinlichkeit der Drogenabhängigkeit durch einen Depressionsscore und das Geschlecht vorhergesagt werden soll. Der Datensatz ist öffentlich zugänglich auf dem [Open-Science-Framework](https://osf.io/prc92/) zu finden. 
 
@@ -74,12 +72,13 @@ names(osf)  # Variablennamen im Datensatz
 ```
 
 ```
-##  [1] "CASEID"           "QUESTID"          "GENDER_R"         "WHITENH"          "BLACKNH"          "NATAMNH"          "PACISL"          
-##  [8] "ASIAN"            "MIXED"            "HISPANIC"         "TOTFAMINCOME"     "MJANDCOKE"        "MDELASTYR"        "MARJLTYR"        
-## [15] "COCCRKLY"         "FEMALE"           "COCINDEX"         "MRJINDEX"         "ANYINDEX"         "COCDUMMY"         "MRJDUMMY"        
-## [22] "ANYDUMMY"         "DEPRESSIONINDEX"  "DEPRESSIONINDEX2" "Sex"              "EverUse_MarCoc"   "LY_MDE"           "LY_Marijuana"    
-## [29] "LY_CocaineCrack"  "Deplvl_Cocaine"   "Deplvl_Marijuana" "Deplvl_Anydrug"   "CocaineDep"       "MarijuanaDep"     "AnydrugDeg"      
-## [36] "Depression_lvl1"  "Depression_lvl"   "AnydrugDep"
+##  [1] "CASEID"           "QUESTID"          "GENDER_R"         "WHITENH"          "BLACKNH"          "NATAMNH"         
+##  [7] "PACISL"           "ASIAN"            "MIXED"            "HISPANIC"         "TOTFAMINCOME"     "MJANDCOKE"       
+## [13] "MDELASTYR"        "MARJLTYR"         "COCCRKLY"         "FEMALE"           "COCINDEX"         "MRJINDEX"        
+## [19] "ANYINDEX"         "COCDUMMY"         "MRJDUMMY"         "ANYDUMMY"         "DEPRESSIONINDEX"  "DEPRESSIONINDEX2"
+## [25] "Sex"              "EverUse_MarCoc"   "LY_MDE"           "LY_Marijuana"     "LY_CocaineCrack"  "Deplvl_Cocaine"  
+## [31] "Deplvl_Marijuana" "Deplvl_Anydrug"   "CocaineDep"       "MarijuanaDep"     "AnydrugDeg"       "Depression_lvl1" 
+## [37] "Depression_lvl"   "AnydrugDep"
 ```
 
 ```r
