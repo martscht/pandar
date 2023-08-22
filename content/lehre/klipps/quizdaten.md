@@ -2,7 +2,7 @@
 title: Daten für die Quiz
 type: post
 date: '2021-10-15'
-slug: regression-ausreisser-quizdaten
+slug: quizdaten
 categories: [""]
 tags: ["Daten", "Multi-Level Analyse", "Hierarchische Regression", "Logistische Regression"]
 subtitle: ''
@@ -19,10 +19,10 @@ reading_time: false
 share: false
 
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/klipps/regression-ausreisser
+  # - icon_pack: fas
+  #   icon: book
+  #   name: Inhalte
+  #   url: /lehre/klipps/regression-ausreisser
   # - icon_pack: fas
   #   icon: terminal
   #   name: Code
@@ -38,9 +38,7 @@ output:
 ---
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-```
+
 
 
 
@@ -48,13 +46,15 @@ knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 
 Wie verwenden den Datensatz `Behandlungsform.rda`. Sie können den [{{<icon name = "download" pack = "fas">}} Datensatz "Behandlungsform.rda" hier herunterladen](/daten/Behandlungsform.rda). Liegt der Datensatz bspw. auf dem Desktop, so müssen wir den Dateipfad dorthin legen und können dann den Datensatz laden (wir gehen hier davon aus, dass Ihr PC "Musterfrau" heißt)
 
-```{r, eval = F}
+
+```r
 load("C:/Users/Musterfrau/Desktop/Behandlungsform.rda")
 ```
 
 Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hierzu brauchen Sie nur die URL und müssen `R` sagen, dass es sich bei dieser um eine URL handelt, indem Sie die Funktion `url` auf den Link anwenden. Der funktionierende Befehl sieht so aus (wobei die URL in Anführungszeichen geschrieben werden muss):
 
-```{r,eval = F}
+
+```r
 load(url("https://pandar.netlify.app/post/Behandlungsform.rda"))
 ```
 
@@ -65,7 +65,8 @@ In dem Datensatz sind die Ausprägungen von 100 Personen auf 6 Variablen abgetra
 
 Das Quiz zu diesem Block beruht auf einer echten Untersuchung, deren Datensatz [hier](https://osf.io/a9vun/) im Open Science Framework abgelegt ist. In dem Datensatz wurde bspw. erhoben, was für potenziell traumatischen Erlebnissen eine Person ausgesetzt war und mittels der Live Event Checklist (LEC) zu welchem Grad. Weiterhin wurden die Depressionswerte anhand des Becks-Depression-Inventar (BDI) und die Anxiety-Werte durch die Zung Self-Rating Anxiety Scale (SAS) erhoben. Für unsere Berechnung brauchen wir nur einen Ausschnitt der Vielzahl an Variablen. Diesen extrahieren wir aus dem originalen Datensatz und erstellen damit einen Neuen für unsere Aufgaben. Da das Processing in diesem Fall sehr komplex ist, haben wir das für Sie übernommen. Mit folgendem Befehl laden Sie sich die modifizierte Version des Datensatzes in ihr Working Directory ein.
 
-```{r,eval = F}
+
+```r
 source(url("https://pandar.netlify.app/post/Preprocessing/Data_Processing_Quiz1.R"))
 ```
 
@@ -81,7 +82,8 @@ Im `R`-Teil des Quiz arbeiten Sie mit denselben Daten, die auch in der [PandaR-E
 
 Rufen Sie zunächst die folgenden Pakete auf (und installieren Sie diese mit `install.packages` falls nötig).
 
-```{r, eval = F}
+
+```r
 library(dplyr)
 library(ICC)
 library(lme4)
@@ -90,7 +92,8 @@ library(interactions)
 
 Führen Sie die folgende Syntax zur Fallauswahl, Variablenauswahl und Standardisierung der Variablen durch. Durch dieses Einladen und Aufbereiten sind Sie auf dem Stand, den Sie zum Start des Quiz brauchen.
 
-```{r, eval = F}
+
+```r
 # Daten einlesen und vorbereiten 
 lockdown <- read.csv(url("https://osf.io/dc6me/download"))
 
@@ -129,8 +132,38 @@ Goldberg, S. B., Rousmaniere, T., Miller, S. D., Whipple, J., Nielsen, S. L., Ho
 
 Im `R`-Teil des Quizzes führen Sie Analysen am Datensatz der [2. PandaR-Sitzung zur Meta-Analyse](/lehre/klipps/metaanalysen-cor) durch.  Den Datensatz von Molloy et al. (2014) erhalten Sie mit dem Laden des `metafor`-Pakets:
 
-```{r}
+
+```r
 library(metafor)
+```
+
+```
+## Loading required package: Matrix
+```
+
+```
+## Loading required package: metadat
+```
+
+```
+## Loading required package: numDeriv
+```
+
+```
+## 
+## Loading the 'metafor' package (version 4.2-0). For an
+## introduction to the package please type: help(metafor)
+```
+
+```
+## 
+## Attaching package: 'metafor'
+```
+
+```
+## The following object is masked from 'package:car':
+## 
+##     vif
 ```
 
 Hier ist außerdem die Literaturangabe zum zugehörigen Paper:
@@ -141,22 +174,30 @@ Zunächst soll eine herkömmliche Meta-Analyse durchgeführt werden, wie Sie auc
 
 Im nächsten Schritt soll anstelle der herkömmlichen eine psychometrische Metaanalyse durchgeführt werden. Zur Berechnung der korrigierten Korrelationen muss der ursprüngliche Datensatz `dat.molloy2014` um die Reliabilitäten erweitert werden. Wir haben dazu schon eine Vorarbeit gemacht und einige Reliabilitäten in einem Datensatz zusammengefasst. Sie können diesen Datensatz mit folgendem Befehl herunterladen:
 
-```{r}
+
+```r
 load(url('https://pandar.netlify.app/post/preprocessing/reliabilites.molloy2014.rda'))
 ```
 
 Im nächsten Schritt soll der Datensatz mit den Reliabilitäten und der ursprüngliche Datensatz zusammengefasst werden. Dafür gibt es einige Möglichkeiten. Hier ist ein Beispiel aufgeführt: 
 
-```{r, results="hide"}
+
+```r
 data_combined <- dat.molloy2014
 data_combined$rel1 <- reliabilites.molloy2014$RelGewissenhaftigkeit
 data_combined$rel2 <- reliabilites.molloy2014$RelCondition
 head(data_combined)
 ```
 
-```{r, echo = F}
-knitr::kable(head(data_combined))
-```
+
+|authors             | year|  ni|    ri|controls |design          |a_measure   |c_measure | meanage| quality| rel1|  rel2|
+|:-------------------|----:|---:|-----:|:--------|:---------------|:-----------|:---------|-------:|-------:|----:|-----:|
+|Axelsson et al.     | 2009| 109| 0.187|none     |cross-sectional |self-report |other     |   22.00|       1|   NA|    NA|
+|Axelsson et al.     | 2011| 749| 0.162|none     |cross-sectional |self-report |NEO       |   53.59|       1| 0.79| 0.805|
+|Bruce et al.        | 2010|  55| 0.340|none     |prospective     |other       |NEO       |   43.36|       2| 0.86| 1.000|
+|Christensen et al.  | 1999| 107| 0.320|none     |cross-sectional |self-report |other     |   41.70|       1| 1.00| 1.000|
+|Christensen & Smith | 1995|  72| 0.270|none     |prospective     |other       |NEO       |   46.39|       2| 0.85| 1.000|
+|Cohen et al.        | 2004|  65| 0.000|none     |prospective     |other       |NEO       |   41.20|       2| 1.00| 1.000|
 
 Um noch ein besseres Gefühl für Metaanalysen zu bekommen und um eine Studie zu betrachten, die nicht auch bereits im `metafor`-Paket integriert ist, sollen Sie sich für den inhaltichen Part des Quiz mit dem folgenden Artikel auseinandersetzen:
 
@@ -171,20 +212,23 @@ Laden Sie sich dieses Paper zur Metaanalyse herunter, um die Fragen zu beantwort
 
 In diesem Quiz wird es um die besprochenen Formen der Netzwerkanalyse gehen. Dafür brauchen wir einen Datensatz für die querschnittliche und einen für die längsschnittliche Untersuchung. Weiterhin wird es auch Fragen zu einem Paper in der Anwendung geben. Stellen Sie zu Beginn sicher, dass Sie die beiden wichtigen Pakete geladen haben.
 
-```{r, eval = F}
+
+```r
 library(qgraph)
 library(bootnet)
 ```
 
 Für die querschnittliche Netzwerkanalyse wollen wir mit einem Datensatz arbeiten, der sich mit Parental Burnout befasst. Dieser kann ganz leicht über das OSF in das Environment eingeladen werden.
 
-```{r, eval = F}
+
+```r
 burnout <- read.csv(file = url("https://osf.io/qev5n/download"))
 ```
 
 Vor der Bestimmung von Netzwerkstrukturen ist es wichtig, noch die erste Variable aus dem Datensatz zu entfernen, da diese nur eine ID ist und keine Aussagekraft hat.
 
-```{r, eval = F}
+
+```r
 burnout <- burnout[2:8]
 ```
 
@@ -198,7 +242,8 @@ Fried, E. I., Papanikolaou, F., & Epskamp, S. (2021). Mental Health and Social C
 
 Sie können die Daten mit folgendem Befehl direkt in Ihr Environment einladen.
 
-```{r, eval = F}
+
+```r
 source(url("https://pandar.netlify.app/post/Preprocessing/Data_Processing_Quiz4b.R"))
 ```
 
