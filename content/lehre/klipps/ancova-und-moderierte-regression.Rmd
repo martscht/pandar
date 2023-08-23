@@ -224,10 +224,12 @@ ggplot(data = osf,  mapping = aes(x = swls_post, y = bsi_post,  col = stratum, l
 ## Moderierte Regression
 Wenn wir uns nun vorstellen, dass wir unendlich viele Gruppen hätten, dann wäre es theoretisch möglich, für jede Gruppe eine Ausprägung der Slope oder des Interzepts zu finden. So ähnlich funktioniert nun die moderierte Regression. Anstatt dass wir unendlich viele Gruppen haben, nehmen wir einen kontinuierlichen Prädiktor her. Diesen Prädiktor nennen wir Moderator. Wenn wir nun eine Interaktion zwischen unserem eigentlichen (kontinuierlichen) Prädiktor und dem Moderator in die Regressionsgleichung aufnehmen, dann erhalten wir ein Regressionsmodell, welches der generalisierten ANCOVA sehr ähnlich sieht. Wir nennen den Moderator wie oben $Z$, stellen die Gleichung nach $X$ (unserem Prädiktor) um und benennen das Interzept und die Slope in Abhängigkeit von $Z$:
 
+<div class = "big-maths">
 \begin{align}
 Y_i &= \beta_0 + \beta_ZZ_i + \beta_XX_i + \beta_{ZX}ZX_i+e_i,\\[1.5ex]
-&= \underbrace{\beta_0 + \beta_ZZ_i}_{g_I(Z_i)} + \underbrace{(\beta_X + \beta_{ZX}Z_i)}_{g_S(Z_i)}X_i+e_i.
+&= \underbrace{\beta_0 + \beta_ZZ_i}_{g_I(Z_i)} + \underbrace{(\beta_X + \beta_{ZX}Z_i)}_{g_S(Z_i)}X_i+e_i
 \end{align}
+</div>
 
 Wir erkennen wieder ein Interzept und eine Slope, welche jeweils abhängig von der Ausprägung des Moderators $Z$ sind. Bis hierhin unterscheiden sich die Gleichungen der moderierten Regression und generalisierten ANCOVA nicht. Allerdings kann $Z$ in der moderierten Regression (theoretisch) jeden beliebigen Wert annehmen. Außerdem sei an dieser Stelle gesagt, dass die Bezeichnungen für Moderator und Prädiktor nicht von den Daten abgeleitet werden können. Sie sind rein konzeptioneller Natur. Das äußert sich darin, dass wir für die moderierte Regression im Gegensatz zur ANCOVA die Rolle der beiden Prädiktoren vertauschen können. Wir können also die Gleichung einfach anders aufstellen und schon haben wir ein Interzept und eine Slope von $Z$ auf $Y$, die jeweils abhängig sind von $X$.
 
@@ -547,20 +549,24 @@ $$A := \mu_A + A_c$$
 
 So kann jede Variable zerlegt werden: in seinen Mittelwert (hier: $\mu_A$) und die Abweichung vom Mittelwert (hier: $A_c$). Nun bestimmen wir die Kovarianz zwischen den Variablen $A$ und $A^2$. In diesem Prozess setzen wir $\mu_A+A_c$ für $A$ ein und wenden die binomische Formel an $(a+b)^2=a^2+2ab+b^2$.
 
+<div class = "big-maths">
 \begin{align}
 \mathbb{C}ov[A, A^2] &= \mathbb{C}ov[\mu_A + A_c, (\mu_A + A_c)^2]\\
 &= \mathbb{C}ov[A_c, \mu_A^2 + 2\mu_AA_c + A_c^2]\\
 &=  \mathbb{C}ov[A_c, \mu_A^2] + \mathbb{C}ov[A_c, 2\mu_AA_c] + \mathbb{C}ov[A_c, A_c^2]
 \end{align}
+</div>
 
 An dieser Stelle pausieren wir kurz und bemerken, dass wir diese beiden Ausdrücke schon kennen $\mathbb{C}ov[A_c, \mu_A^2]  = \mathbb{C}ov[A_c, A_c^2] = 0$. Ersteres ist die Kovarianz zwischen einer Konstanten und einer Variable, welche immer 0 ist und dass die Kovarianz zwischen $A_c$ und $A_c^2$ gleich 0 ist, hatten wir oben schon bemerkt! Diese Aussage, dass die Korrelation/Kovarianz zwischen $A_c$ und $A_c^2$ gleich 0 ist, gilt insbesondere für die transformierten Daten mittels `poly` (hier bezeichnet $A_c^2$ quasi den quadratischen Anteil, der erstellt wird, siehe dazu [Sitzung aus dem Bachelor](/lehre/statistik-ii/quadratische-und-moderierte-regression)). Und auch für einige Verteilungen (z.B. symmetrische Verteilungen, wie die Normalverteilung) ist es so, dass die linearen Anteile und die quadratischen Anteile unkorreliert sind. _Im Allgemeinen gilt dies leider nicht._
 
 Folglich können wir sagen, dass für bspw. normalverteiltes A gilt:
 
+<div class = "big-maths">
 \begin{align}
 \mathbb{C}ov[A, A^2] &= \mathbb{C}ov[A_c, 2\mu_AA_c] \\
-&= 2\mu_A\mathbb{C}ov[A_c,A_c]=2\mu_A\mathbb{V}ar[A],
+&= 2\mu_A\mathbb{C}ov[A_c,A_c]=2\mu_A\mathbb{V}ar[A]
 \end{align}
+</div>
 
 Hier machen wir uns zunutze, dass die Kovarianz mit sich selbst die Varianz ist und dass die zentrierte Variable $A_c$ die gleiche Varianz wie $A$ hat (im Allgemeinen, siehe weiter unten, bleibt auch noch die Kovarianz zwischen $A_c$ und $A_c^2$ erhalten). Dies können wir leicht prüfen:
 
@@ -583,10 +589,12 @@ Der zentrierte Fall ist auf 14 Nachkommastellen identisch mit dem nicht-zentrier
 
 Im Allgemeinen ist es dennoch sinnvoll die Daten zu zentrieren, wenn quadratische Effekte (oder Interaktionseffekte) eingesetzt werden, da zumindest **immer** gilt:
 
+<div class = "big-maths">
 \begin{align}
 \mathbb{C}ov[A, A^2] &= \mathbb{C}ov[A_c, 2\mu_AA_c] + \mathbb{C}ov[A_c, A_c^2] \\
-&=2\mu_A\mathbb{V}ar[A]+\mathbb{C}ov[A_c, A_c^2],
+&=2\mu_A\mathbb{V}ar[A]+\mathbb{C}ov[A_c, A_c^2]
 \end{align}
+</div>
 
 Somit wird die Kovarianz zwischen $A$ und $A^2$ künstlich vergrößert, wenn die Daten nicht zentriert sind. Denn nutzen wir zentrierte Variablen ist nur noch $\mathbb{C}ov[A_c, A_c^2]$ relevant (da $\mu_A=0$). Hier ein Beispiel mit stark schiefen Daten, nämlich exponentialverteilten Variablen:
 

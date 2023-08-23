@@ -8,7 +8,7 @@ subtitle: 'Generalisiertes lineares Modell: dichotome abhängige Variablen'
 summary: ''
 authors: [nehler, irmer]
 weight: 5
-lastmod: '2023-08-22'
+lastmod: '2023-08-23'
 featured: no
 banner:
   image: "/header/KliPsy_Sitzung5.jpg"
@@ -44,7 +44,7 @@ output:
 In dieser Sitzung wollen wir dichotome abhängige Variablen mit der logistischen Regression  (vgl. bspw. [Eid, Gollwitzer & Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 22 und [Pituch und Stevens, 2016,](https://ubffm.hds.hebis.de/Record/HEB371183324) Kapitel 11) analysieren. Diese Daten sind dahingehend speziell, dass die abhängige Variable nur zwei Ausprägungen hat, welche in der Regel mit $0$ und $1$ kodiert werden. Dies führt zu verschiedenen Problemen in der linearen Regression, die wir gleich betrachten wollen. Wir wollen uns ein reales Datenbeispiel ansehen, in welchem die Wahrscheinlichkeit der Drogenabhängigkeit durch einen Depressionsscore und das Geschlecht vorhergesagt werden soll. Der Datensatz ist öffentlich zugänglich auf dem [Open-Science-Framework](https://osf.io/prc92/) zu finden. 
 
 ### Daten laden
-Wir laden zunächst die Daten. Dies können Sie lokal von Ihrem Rechner machen. Falls Sie den Datensatz lokal einladen wollen, müssen Sie ihn natürlich zunächst von der bereits angegebenen Seite herunterladen. Beachten Sie, dass es sich bei dem Datensatz um einen im Format von SPSS handelt. Um diesen in `R` einzulesen, kann das Paket `haven` installiert und die Funktion `read_sav` genutzt werden. Der Rest des verwendeten Codes entspricht dem Code, den wir auch bei `load` verwendet haben. Wir weisen den Datensatz aber direkt einem Objekt zu, da er sonst nur in der Konsole angezeigt werden würde. 
+Wir laden zunächst die Daten. Dies können Sie lokal von Ihrem Rechner machen. Falls Sie den Datensatz lokal einladen wollen, müssen Sie ihn natürlich zunächst von der bereits angegebenen Seite herunterladen. Beachten Sie, dass dieser Datensatz im Format von SPSS vorliegt. Um diesen in `R` einzulesen, kann das Paket `haven` installiert und die Funktion `read_sav` genutzt werden. Der Rest des verwendeten Codes entspricht dem Code, den wir auch bei `load` verwendet haben. Wir weisen den Datensatz aber direkt einem Objekt zu, da er sonst nur in der Konsole angezeigt werden würde. 
 
 
 ```r
@@ -61,8 +61,7 @@ library(haven)
 osf <- read_sav(file = url("https://osf.io/prc92/download"))
 ```
 
-Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik "Data" unser Datensatz mit dem Namen "_osf_" erscheinen.
-.
+Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik _Data_ unser Datensatz mit dem Namen _osf_ erscheinen.
 
 ### Übersicht über die Daten
 Wir wollen uns einen Überblick über die Daten verschaffen:
@@ -73,12 +72,15 @@ names(osf)  # Variablennamen im Datensatz
 ```
 
 ```
-##  [1] "CASEID"           "QUESTID"          "GENDER_R"         "WHITENH"          "BLACKNH"          "NATAMNH"         
-##  [7] "PACISL"           "ASIAN"            "MIXED"            "HISPANIC"         "TOTFAMINCOME"     "MJANDCOKE"       
-## [13] "MDELASTYR"        "MARJLTYR"         "COCCRKLY"         "FEMALE"           "COCINDEX"         "MRJINDEX"        
-## [19] "ANYINDEX"         "COCDUMMY"         "MRJDUMMY"         "ANYDUMMY"         "DEPRESSIONINDEX"  "DEPRESSIONINDEX2"
-## [25] "Sex"              "EverUse_MarCoc"   "LY_MDE"           "LY_Marijuana"     "LY_CocaineCrack"  "Deplvl_Cocaine"  
-## [31] "Deplvl_Marijuana" "Deplvl_Anydrug"   "CocaineDep"       "MarijuanaDep"     "AnydrugDeg"       "Depression_lvl1" 
+##  [1] "CASEID"           "QUESTID"          "GENDER_R"         "WHITENH"         
+##  [5] "BLACKNH"          "NATAMNH"          "PACISL"           "ASIAN"           
+##  [9] "MIXED"            "HISPANIC"         "TOTFAMINCOME"     "MJANDCOKE"       
+## [13] "MDELASTYR"        "MARJLTYR"         "COCCRKLY"         "FEMALE"          
+## [17] "COCINDEX"         "MRJINDEX"         "ANYINDEX"         "COCDUMMY"        
+## [21] "MRJDUMMY"         "ANYDUMMY"         "DEPRESSIONINDEX"  "DEPRESSIONINDEX2"
+## [25] "Sex"              "EverUse_MarCoc"   "LY_MDE"           "LY_Marijuana"    
+## [29] "LY_CocaineCrack"  "Deplvl_Cocaine"   "Deplvl_Marijuana" "Deplvl_Anydrug"  
+## [33] "CocaineDep"       "MarijuanaDep"     "AnydrugDeg"       "Depression_lvl1" 
 ## [37] "Depression_lvl"   "AnydrugDep"
 ```
 
@@ -90,9 +92,9 @@ dim(osf)    # Dimensionen des Datensatzes
 ## [1] 55602    38
 ```
 
-Es gibt insgesamt 38 Variablen. Viele Variablen sind hier auch doppelt in verschiedener Kodierung enthalten. Wir wollen uns auf 3 Variablen fokussieren. Die Variable `ANYDUMMY` gibt dabei an, ob eine Person irgendeine Drogenabhängigkeit hat. Diese Fälle sind mit 1 kodiert. Die Variable `Gender_R` enthält eine Dummykodierung für das Geschlecht (in diesem Fall dichotom aufgeführt), wobei `0` für weiblich und `1` für männlich steht. Die Variablen `Depression_lvl` enthält eine Likert-Skala, auf der zwischen 0 und 9 die Depressionswerte der Personen abgetragen sind. 
+Es gibt insgesamt 38 Variablen. Viele Variablen sind hier auch doppelt in verschiedener Kodierung enthalten. Wir wollen uns auf 3 Variablen fokussieren. Die Variable `ANYDUMMY` gibt dabei an, ob eine Person irgendeine Drogenabhängigkeit hat. Diese Fälle sind mit 1 kodiert. Die Variable `Gender_R` enthält eine Dummykodierung für das Geschlecht (in diesem Fall dichotom aufgeführt), wobei `0` für weiblich und `1` für männlich steht. Die Variable `Depression_lvl` enthält eine Likert-Skala, auf der zwischen 0 und 9 die Depressionswerte der Personen abgetragen sind. 
 
-Auch in diesem Datensatz gibt es natürlich fehlende Werte. Zur Illustration werden wir Personen entfernen, wenn sie auf einer der relevanten Variable einen fehlenden Wert haben. Beachten Sie, dass dieses Vorgehen in einer normalen Analyse weitreichende Probleme mit sich bringen würde und nur zur Vereinfachung für Lehrzwecke eingesetzt wird.
+Auch in diesem Datensatz gibt es natürlich fehlende Werte. Zur Illustration werden wir Personen entfernen, wenn sie auf einer der relevanten Variablen einen fehlenden Wert haben. Beachten Sie, dass dieses Vorgehen in einer normalen Analyse weitreichende Probleme mit sich bringen würde und nur zur Vereinfachung für Lehrzwecke eingesetzt wird.
 
 
 ```r
@@ -111,13 +113,13 @@ Durch die Kombination aus `which` und `is.na` werden alle Zeilennummern identifi
 
 ```r
 osf <- osf[-missings_id, ]
-dim(osf) # nach Fallauschluss
+dim(osf) # nach Fallausschluss
 ```
 
 ```
 ## [1] 36943    38
 ```
-Die Menge an Personen hat sich drastische reduziert. Dennoch können wir mit der vorhanden Stichprobe, die Funktionsweise der logistischen Regression gut erläutern. Für diese wollen wir auch noch das Geschlecht als Variable des Typs `factor` hinterlegen. Dabei steht `0` für weiblich und `1` für männlich. 
+Die Anzahl an Personen hat sich drastisch reduziert. Dennoch können wir mit der vorhanden Stichprobe die Funktionsweise der logistischen Regression gut erläutern. Dazu wollen wir auch noch das Geschlecht als Variable des Typs `factor` hinterlegen. Dabei steht `0` für weiblich und `1` für männlich. 
 
 
 ```r
@@ -130,7 +132,7 @@ levels(osf$GENDER_R) <- c("weiblich", "maennlich")
 Für unser Beispiel wollen wir die Drogenabhängigkeit als abhängige Variable benutzen. Dabei wollen wir untersuchen, ob der Depressionswert oder das Geschlecht eine Vorhersage leisten können.
 
 ### Warum keine lineare Regression?
-Um die Drogenabhängigkeit zu modellieren, könnten wir eine [Regressionsanalyse](/post/regression-aussreisser-klipps/) heranziehen und die Drogenabhängigkeit (`ANYDUMMY`) durch bspw. den Depressionswert  (`Depression_lvl`) vorhersagen. Wir nennen unser Modell zur Modellierung der Drogenabhängigkeit `reg_model`.
+Um die Drogenabhängigkeit zu modellieren, könnten wir eine [Regressionsanalyse](/lehre/klipps/regression-ausreisser/) heranziehen und die Drogenabhängigkeit (`ANYDUMMY`) durch bspw. den Depressionswert  (`Depression_lvl`) vorhersagen. Wir nennen unser Modell zur Modellierung der Drogenabhängigkeit `reg_model`.
 
 
 ```r
@@ -164,25 +166,29 @@ Laut der einfachen Regressionsanalyse scheint es, dass der Depressionsscore sehr
 Betrachten wir nun exemplarisch zwei Voraussetzungen der Regression. Der Code für die Grafiken ist in [Appendix B](#AppendixB) zu finden.
 
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /><img src="logistische-regression_files/figure-html/unnamed-chunk-8-2.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
 
 In dieser Analyse sind einige Annahmen der Regressionsanalyse verletzt: Normalverteilung der Residuen, Homoskedastizität und auch Unabhängigkeit der Residuen. Den Verteilungen der Residuen können wir deutlich entnehmen, dass diese systematisch ausfallen (mit steigender Depression steigen die Residuen linear an) und auch die Normalverteilungsannahme ist deutlich verletzt. Eine Regression erscheint nicht sinnvoll. Den Ergebnisse der Signifikanzentscheidungen kann nicht getraut werden. Zusätzlich würde eine Vorhersage der abhängigen Variable viele Werte außerhalb der beiden sinnvollen Ausprägungen `0` und `1` ergeben. Wir müssen uns also irgendwie anders mit den Daten auseinandersetzen! Aus diesem Grund wollen wir die logistische Regression heranziehen. 
 
 Im Grunde wird bei der logistischen Regression die Wahrscheinlichkeit des "Erfolgs" (was auch immer der Erfolg ist: erkrankt ja/nein, genesen ja/nein etc.) modelliert. Der Trick dabei ist, dass sich diese Wahrscheinlichkeit auf unterschiedlichen Ausprägungen der Prädiktoren unterschiedlich verhalten kann. Sie wird also durch die Prädiktoren _bedingt_. Die Funktion in `R` hierzu heißt `glm`, was für **G**eneralized **L**inear **M**odel steht. Um den Wertebereich der AV einzuhalten, wird die Erfolgswahrscheinlichkeit so transformiert, dass sie linear durch die UVs vorhergesagt werden kann, aber die Wahrscheinlichkeit trotzdem zwischen 0 und 1 liegt. Gehen wir bspw. von zwei Prädiktoren $X_1$ und $X_2$ aus:
 
+<div class = "big-maths">
 \begin{align*}
 p &= \mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2) = \frac{e^{\beta_0 + \beta_1x_1 + \beta_2x_2}}{1 + e^{\beta_0 + \beta_1x_1 + \beta_2x_2}}\\[2ex]
 odds(p) & = \frac{\mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)}{1-\mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)} = e^{\beta_0 + \beta_1x_1 + \beta_2x_2}\\[2ex]
 logit(p) &  = \ln\left(\frac{\mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)}{1-\mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)}\right) = \beta_0 + \beta_1x_1 + \beta_2x_2
 \end{align*}
+</div>
 
-Hier ist $\ln$ der natürliche Logarithmus zur Basis $e$ ($e$ ist die Eulersche Zahl $\approx 2.718282$). Der $logit$ stellt hierbei die Link-Funktion dar, die eine transformierte Version der interessanten Wahrscheinlichkeit, linear durch die Prädiktoren darstellen lässt. Die $odds$ und $p$ sind dann nur Retransformationen, die aus der Link-Funktion resultieren. Einige Wiederholungen zu Exponenten- oder Logarithmusregeln können Sie am Anfang der [Sitzung zu exponentiellem Wachstum aus dem Bachelor](/post/nichtlineare-regression) nachlesen.
+Hier ist $\ln$ der natürliche Logarithmus zur Basis $e$ ($e$ ist die Eulersche Zahl $\approx 2.718282$). Der $logit$ stellt hierbei die Link-Funktion dar, die eine transformierte Version der interessierenden Wahrscheinlichkeit, linear durch die Prädiktoren darstellen lässt. Die $odds$ und $p$ sind dann nur Retransformationen, die aus der Link-Funktion resultieren. Einige Wiederholungen zu Exponenten- oder Logarithmusregeln können Sie am Anfang der [Sitzung zu exponentiellem Wachstum aus dem Bachelor](/lehre/klipps/nichtlineare-regression) nachlesen.
 
 
 ### Generalisiertes Lineares Modell: Logistische Regressionsanalyse
 
 #### Fragestellung 1: Depression als Prädiktor
-Für die erste Hypothese müssen wir den Einfluss des Depressionsscores auf die Wahrscheinlichkeit der Drogenabhängigkeit bestimmen. Dafür wollen wir eine logistische Regressionsanlyse durchführen. In dieser werden die Residuen nicht länger als normalverteilt angenommen, sondern die AV wird als (bedingt) binomialverteilt modelliert. Wir nennen das Modell `glm_model`, da wir uns im Generalisierten Linearen Model bewegen. Die Funktion `glm` übernimmt für uns die richtige Transformation, nämlich den Logit als Link-Funktion, indem wir noch das Zusatzargument `family = "binomial"` festlegen. Die Binomialverteilung ist gerade jene Verteilung, die beschreibt, wie häufig bei $n$ Versuchen Erfolg eintritt (also genau die richtige Verteilung für unser Modell!).
+Für die erste Hypothese müssen wir den Einfluss des Depressionsscores auf die Wahrscheinlichkeit der Drogenabhängigkeit bestimmen. Dafür wollen wir eine logistische Regressionsanalyse durchführen. In dieser werden die Residuen nicht länger als normalverteilt angenommen, sondern die AV wird als (bedingt) binomialverteilt modelliert. Wir nennen das Modell `glm_model`, da wir uns im Generalisierten Linearen Model bewegen. Die Funktion `glm` übernimmt für uns die richtige Transformation, nämlich den Logit als Link-Funktion, indem wir noch das Zusatzargument `family = "binomial"` festlegen. Die Binomialverteilung ist gerade jene Verteilung, die beschreibt, wie häufig bei $n$ Versuchen Erfolg eintritt (also genau die richtige Verteilung für unser Modell!).
 
 
 ```r
@@ -212,7 +218,7 @@ summary(glm_model)
 ## Number of Fisher Scoring iterations: 6
 ```
 
-Der Output der Summary unterscheidet sich geringfügig von der der normalen Regressionsanalyse:
+Der Output der Summary unterscheidet sich geringfügig von dem der normalen Regressionsanalyse:
 
 
 ```
@@ -226,7 +232,7 @@ Der Output der Summary unterscheidet sich geringfügig von der der normalen Regr
 ## (Intercept)    -3.648086   0.035940 -101.50   <2e-16 ***
 ```
 
-Er zeigt uns, dass wir kein `lm`-Objekt sondern ein `glm`-Objekt vor uns haben. Außerdem werden uns dieses Mal `Deviance Residuals` angezeigt anstatt normale Residuen. Mit der Bedeutung dieser Residuen werden wir uns im Rahmen des Seminars nicht auseinandersetzen. Das Schätzverfahren ist ein anderes. Es wird nicht das Kleinste-Quadrate-Verfahren angewandt, sondern die Maximum-Likelihood-Schätzmethode (ML).
+Er zeigt uns, dass wir kein `lm`-Objekt, sondern ein `glm`-Objekt vor uns haben. Außerdem werden uns dieses Mal `Deviance Residuals` angezeigt anstatt normaler Residuen. Mit der Bedeutung dieser Residuen werden wir uns im Rahmen des Seminars nicht auseinandersetzen. Das Schätzverfahren ist ein anderes. Es wird nicht das Kleinste-Quadrate-Verfahren angewandt, sondern die Maximum-Likelihood-Schätzmethode (ML).
 
 
 ```
@@ -242,7 +248,7 @@ Er zeigt uns, dass wir kein `lm`-Objekt sondern ein `glm`-Objekt vor uns haben. 
 ```
 
 
-Der Überblick über die (ML-)Parameterschätzung unterscheidet sich kaum von der normalen Regression. Lediglich die $t$-Werte werden durch $z$-Werte ersetzt. Die Idee hinter der Signifikanzentscheidung ist aber komplett identisch (außerdem geht die $t$-Verteilung für große $n$ in die $z$-(Standardnormal-)Verteilung über). Hier scheint sich ein signifikanter Effekt des Depressionsscores zu zeigen.
+Der Überblick über die (ML-)Parameterschätzung unterscheidet sich kaum von der der normalen Regression. Lediglich die $t$-Werte werden durch $z$-Werte ersetzt. Die Idee hinter der Signifikanzentscheidung ist aber komplett identisch (außerdem geht die $t$-Verteilung für große $n$ in die $z$-(Standardnormal-)Verteilung über). Hier scheint sich ein signifikanter Effekt des Depressionsscores zu zeigen.
 
 
 ```
@@ -258,7 +264,7 @@ In diesem Abschnitt werden die Devianzen angezeigt. Die Gleichung haben wir im t
 
 $$D_{model} = -2[ln(l_{model}) - ln(l_{perfekt})]$$
 
-Die Devianz beschreibt die Log-Likelihooddifferenz eines beliebigen Modells zum saturierten Modell (einem Modell, das genau perfekt zu den Daten passt). Diese Logik werden wir bei mehreren Verfahren sehen, die mittels ML-Schätzung bestimmt werden. Bei der logistischen Regression kann ein saturiertes Modell die Daten perfekt vorhersagen, weshalb die likelihood ($l_{perfekt}$) 1 und dessen Logarithmus ($ln(l_{perfekt})$) dann 0 ist. De facto beschreibt die Devianz für ein spezifisches Modell also die Abweichung zu den wirklichen Daten. Die `Null deviance` beschreibt hier den Unterschied eines Modells ohne Prädiktoren zu den Daten. Dieses hat hier 36942 Freiheitsgrade. Unter `Residual deviance` wird nun die Devianz unseres angenommenen Modells verstanden. Da wir in unserem interessierenden Modell einen Prädiktor aufgenommen haben (Depressionsscore), geht ein Freiheitsgrad für diesen Parameter verloren, weswegen die Residualdevianz hier 36941 Freiheitsgrade hat (siehe bspw. [Eid, et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) Kapitel 22.8 und insbesondere Seiten 823-824). Der AIC (Akaike's Information Criterion) unseres Modells liegt bei 10675. Mit Hilfe dieses AICs können auch nicht geschachtelte Modelle sowie Modelle mit unterschiedlichen Annahmen verglichen werden. Eine Signifikanzentscheidung ist allerdings nicht möglich (siehe bspw. [Eid, et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) Seite 750). Die letzte Zeile gibt an, wie lange der Fisher-Scoring-Algorithmus gebraucht hat, um die Standardfehler zu bestimmen. Dies kann Auskunft über mögliche Konvergenzschwierigkeiten liefern , also Schwierigkeiten des Algorithmus damit, bei einer guten Lösung anzukommen. Hier ist ein Wert von 6 aber sehr niedrig!
+Die Devianz beschreibt die Log-Likelihooddifferenz eines beliebigen Modells zum saturierten Modell (einem Modell, das genau perfekt zu den Daten passt). Diese Logik werden wir bei mehreren Verfahren sehen, die mittels ML-Schätzung bestimmt werden. Bei der logistischen Regression kann ein saturiertes Modell die Daten perfekt vorhersagen, weshalb die likelihood ($l_{perfekt}$) 1 und ihr Logarithmus ($ln(l_{perfekt})$) dann 0 ist. De facto beschreibt die Devianz für ein spezifisches Modell also die Abweichung zu den wirklichen Daten. Die `Null deviance` beschreibt hier den Unterschied eines Modells ohne Prädiktoren zu den Daten. Dieses hat hier 36942 Freiheitsgrade. Unter `Residual deviance` wird nun die Devianz unseres angenommenen Modells verstanden. Da wir in unserem interessierenden Modell einen Prädiktor aufgenommen haben (Depressionsscore), geht ein Freiheitsgrad für diesen Parameter verloren, weswegen die Residualdevianz hier 36941 Freiheitsgrade hat (siehe bspw. [Eid, et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) Kapitel 22.8 und insbesondere Seiten 823-824). Der AIC (Akaike's Information Criterion) unseres Modells liegt bei 10675. Mit Hilfe dieses AICs können auch nicht-geschachtelte Modelle sowie Modelle mit unterschiedlichen Annahmen verglichen werden. Eine Signifikanzentscheidung ist allerdings nicht möglich (siehe bspw. [Eid, et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) Seite 750). Die letzte Zeile gibt an, wie lange der Fisher-Scoring-Algorithmus gebraucht hat, um die Standardfehler zu bestimmen. Dies kann Auskunft über mögliche Konvergenzschwierigkeiten liefern, also Schwierigkeiten des Algorithmus bei einer guten Lösung anzukommen. Hier ist ein Wert von 6 aber sehr niedrig!
 
 Wir haben bereits anhand des Tests des Steigungsparameters gesehen, dass ein signifikanter Einfluss des Depressionsscores auf die Wahrscheinlichkeit der Drogenabhängigkeit für die Population angenommen werden kann. Trotzdem wollen wir uns nochmal damit auseinandersetzen, wie ein gesamtes Modell (mit allen Prädiktoren) gegen das Nullmodell (also ohne jeglichen Prädiktor) getestet werden kann. Natürlich könnte man sich diese Funktion schnell selbst schreiben und den kritischen Wert raus suchen, aber es gibt ein Paket, welches diese Arbeit für uns übernhemen kann. Dafür müssen wir `lmtest` installieren. Bei der Installation sollte auch die Abhängigkeit `zoo` mit installiert werden. 
 
@@ -269,7 +275,7 @@ library(lmtest)
 
 
 
-Im theoretischen Teil haben wir gelernt, dass für den Modellvergleich der Likelihood-Ratio-Test verwendet wird, in dem die Likelihood des Modells mit Prädiktoren in Verhältnis zu der Likelihood des Modells ohne Prädiktoren gesetzt wird. Ist der Gewinn in der Likelihood durch die Prädiktoren groß genug, resultiert ein signifikantes Ergebnis. Die zugehörige Funktion in `R` heißt `lrtest`. Diese braucht als einziges Argument jenes mit Prädiktoren und kann dieses mit dem Modell ohne Prädiktoren vergleichen.
+Im theoretischen Teil haben wir gelernt, dass für den Modellvergleich der Likelihood-Ratio-Test verwendet wird, in dem die Likelihood des Modells mit Prädiktoren in Verhältnis zu der Likelihood des Modells ohne Prädiktoren gesetzt wird. Ist der Gewinn in der Likelihood durch die Prädiktoren groß genug, resultiert ein signifikantes Ergebnis. Die zugehörige Funktion in `R` heißt `lrtest`. Diese braucht als einziges Argument das Modell mit Prädiktoren und kann dieses mit dem Modell ohne Prädiktoren vergleichen.
 
 
 ```r
@@ -288,7 +294,7 @@ lrtest(glm_model)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-Der Output zeigt uns zunächst nochmal an, welche Modelle verglichen werden. In `Model 1` ist die Variable `Depression_lvl` als Prädiktor enthalten, während bei `Model 2` kein Prädiktor vorhanden ist. In der kleinen Tabelle sehen wir dann die Likelihoods der beiden Modelle, ihren Unterschied in Freiheitsgraden und den empirischen $\chi^2$-Wert. Dabei wird auch angezeigt, dass der Test signifikant ausfällt - das Modell leistet einen signifikanten Beitrag zur Vorhersage über das Null-Modell hinaus. Beachten Sie, dass die Funktion automatisch das leere Modell als zweites Modell in die Testung aufnimmt. Daraus resultiert, ein negativer Wert in der Spalte der Freiheitsgrade für den Test. Da dieser Wert nur von der Reihenfolge der Modelle in der Funktion abhängig ist, hat das auf unsere Interpretation keinen Einfluss. 
+Der Output zeigt uns zunächst nochmal an, welche Modelle verglichen werden. In `Model 1` ist die Variable `Depression_lvl` als Prädiktor enthalten, während bei `Model 2` kein Prädiktor vorhanden ist. In der kleinen Tabelle sehen wir dann die Likelihoods der beiden Modelle, ihren Unterschied in Freiheitsgraden und den empirischen $\chi^2$-Wert. Dabei wird auch angezeigt, dass der Test signifikant ausfällt - das Modell leistet einen signifikanten Beitrag zur Vorhersage über das Null-Modell hinaus. Beachten Sie, dass die Funktion automatisch das leere Modell als zweites Modell in die Testung aufnimmt. Daraus resultiert ein negativer Wert in der Spalte der Freiheitsgrade für den Test. Da dieser Wert nur von der Reihenfolge der Modelle in der Funktion abhängig ist, hat das auf unsere Interpretation keinen Einfluss. 
 
 #### Fazit der Analyse
 Der Effekt des Despressionsscores ist statistisch signifikant. Wir haben dieses Mal ein sinnvolleres Modell eingesetzt, was bedeutet, dass wir den Ergebnissen eher trauen können. Insgesamt stützen die Daten unsere erste Hypothese. Allerdings ist dieser Effekt sehr klein (dazu später mehr, wenn wir zur Ergebnisinterpretation und zur Einordnung der Koeffizienten kommen). Wenn wir den Wertebereich entlang der x-Achse sehr/unrealistisch groß wählen und den Depressionsscore von -20 bis 60 laufen lassen, so können wir uns die linearen und nichtlinearen Beziehungen zwischen Depressionsscore - Logit, Depressionsscore - Odds und Depressionsscore - Wahrscheinlichkeit ansehen, andernfalls ist der Effekt so klein, dass wir kaum etwas erkennen. `glm_model$coefficients[1] + glm_model$coefficients[2]*Depressionswerte` ist hierbei die Formel für den Logit, da die Parameterschätzungen einfach die $\beta$-Koeffizienten sind, welche linear verknüpft den Logit ergeben. 
@@ -300,7 +306,7 @@ logit <- glm_model$coefficients[1] + glm_model$coefficients[2]*Depressionswerte
 plot(x = Depressionswerte, y = logit, type = "l", col = "blue", lwd = 3)
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
 
 `type = "l"` fordert eine Linie anstatt von Punkten an, `lwd = 3` sagt, dass diese Linie dreimal so dick wie der Default sein soll und `col = "blue"` sagt, dass die Linie blau sein soll.
 
@@ -312,14 +318,14 @@ odds <- exp(logit)
 plot(x = Depressionswerte, y = odds, type = "l", col = "blue", lwd = 3)
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
 
 ```r
 p <- odds/(1 + odds)
 plot(x = Depressionswerte, y = p, type = "l", col = "blue", lwd = 3)
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-17-2.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-18-2.png" style="display: block; margin: auto;" />
 
 Wir erkennen in allen drei Plots die positive Beziehung zwischen Drogenabhängigkeit und Depressionsscore. Der Logit ist eine lineare Funktion (Wertebereich [$-\infty$,$\infty$]). Somit steigt (bzw. sinkt) der Logit um $\beta_1$, wenn der Prädiktor (hier Depressionsscore) um eine Einheit erhöht wird. Die Odds sind eine Exponentialfunktion (Wertebereich [0,$\infty$]) und bei der Wahrscheinlichkeit handelt es sich um eine sogenannte Ogive (Wertebereich [0,1]). Die Odds steigen (bzw. sinken) um den Faktor $e^{\beta_1}$ (auch Odds-Ratio genannt), wenn der Prädiktor (hier Depressionsscore) um eine Einheit erhöht wird - die Beziehung zwischen Odds und Prädiktor ist somit multiplikativ! Wir schauen uns die Parameterinterpretation der Odds im nächsten Abschnitt genauer an. Wie sich die Wahrscheinlichkeit verändert, ist nicht pauschal zu sagen. Diese Veränderung hängt von der Ausprägung des Prädiktors ab und lässt sich nicht durch eine einzige Zahl quantifizieren. Wir erkennen aber, dass die Ogive erst nach einem Depressionsscore von Null nach links laufend flacher gegen 0 geht. Im Intervall von 0 bis 9 (also möglichen Depressionsscores) ist die Wahrscheinlichkeit der Drogenabhängigkeit kleiner als 20% und steigend mit dem Depressionsscore. In [Appendix A](#AppendixA) haben Sie die Möglichkeit, spielerisch die Einflüsse der Parameter in der logistischen Regression kennen zu lernen.
 
@@ -338,7 +344,7 @@ table(osf$GENDER_R, osf$ANYDUMMY)
 ##   maennlich 17294   668
 ```
 
-In der Tabelle wird entlang der Spalten die Drogenabhängigkeit vs. das Geschlecht in den Zeilen abgetragen. Dieser Tabelle ist zu entnehmen, dass der relative Anteil an Männerr, die unter einer Abhängigkeit leiden, höher ist als der der Frauen: 668 vs. 17294 für die Männer und 600 vs. 18381 für die Frauen. Auch absolut gesehen leiden mehr Männer unter einer Abhängigkeit. Da die Unterschiede aber recht klein sind, ist ein Geschlechtereffekt erstmal fraglich. Diese 4-Feldertafel könnten wir auch heranziehen, um einen $\chi^2$-Unabhängigkeitstest durchzuführen. Wir wollen aber den Effekt des Geschlechts über den Depressionsscore hinaus auf die Wahrscheinlichkeit der Drogenabhängigkeit modellieren:
+In der Tabelle wird entlang der Spalten die Drogenabhängigkeit vs. das Geschlecht in den Zeilen abgetragen. Dieser Tabelle ist zu entnehmen, dass der relative Anteil an Männern, die unter einer Abhängigkeit leiden, höher ist als der der Frauen: 668 vs. 17294 für die Männer und 600 vs. 18381 für die Frauen. Auch absolut gesehen leiden mehr Männer unter einer Abhängigkeit. Da die Unterschiede aber recht klein sind, ist ein Geschlechtereffekt erstmal fraglich. Diese 4-Feldertafel könnten wir auch heranziehen, um einen $\chi^2$-Unabhängigkeitstest durchzuführen. Wir wollen aber den Effekt des Geschlechts über den Depressionsscore hinaus auf die Wahrscheinlichkeit der Drogenabhängigkeit modellieren:
 
 
 ```r
@@ -385,7 +391,7 @@ Das Besondere an diesem Output ist, dass bei der Variable Geschlecht noch `maenn
 ## AIC: 10636
 ```
 
-Dies gibt an, dass hier dummy-kodiert wurde und der Effekt von 1 (maennlich) im Vergleich zur Referenzgruppe (also 0, weiblich) dargestellt ist. Bei der Betrachtung der Signifikanztestung der einzelnen Prädiktoren erhalten wir für beide signifikante Ergebnisse.
+Dies gibt an, dass hier dummy-kodiert wurde und der Effekt von 1 (maennlich) im Vergleich zur Referenzgruppe (also 0, weiblich) dargestellt ist. Bei der Betrachtung der Signifikanztestungen der einzelnen Prädiktoren erhalten wir für beide signifikante Ergebnisse.
 
 #### Ergebnisinterpretation
 Die $\beta$-Gewichte zu interpretieren, hat wenig inhaltliche Aussagekraft. Wir könnten bspw. für das Geschlecht lediglich die Aussage treffen, dass (unter Konstanthaltung aller weiteren Prädiktoren im Modell), wenn Männer im Vergleich zu Frauen betrachtet werden, der Logit (der Wahrscheinlichkeit der Drogenabhängigkeit) um 0.379 steigt. Wenn wir allerdings anstatt des Logits die Odds heranziehen, so können wir mit Hilfe des Odds-Ratio doch eine Aussage über die Wahrscheinlichkeit der Drogenabhängigkeit treffen. Dazu müssen wir die $\beta$-Gewichte transformieren via $e^\beta$:
@@ -400,7 +406,7 @@ exp(glm_model2$coefficients) # Odds-Ratios
 ##        0.02102529        1.18939523        1.46053194
 ```
 
-Nun können wir die Ergebnisse (einigermaßen) sinnvoll interpretieren. Das Interzept wird an der Stelle interpretiert, wo alle Prädiktoren den Wert 0 annehmen. Für den Depressionsscore würde das natürlich eine Person ohne Punkte im Fragebogen darstellen. Außerdem ist noch die Variable `GENDER_R` im Modell. Dies ist eine Dummy-Variable, die den Wert 1 annimmt, wenn das Geschlecht den Wert 1 (im Vergleich zu 0; der Referenzkategorie) annimmt; also wenn wir einen Mann im Vergleich zu einer Frau betrachten. Folglich hat diese Dummy-Variable gerade den Wert 0, wenn eine Frau betrachtet wird. Wir interpretieren das Interzept bzgl. der Odds wie folgt: Eine weibliche Person mit einem Depressionsscore von 0 Person hat  Drogenabahängigkeits-Odds von 0.021. Dies bedeutet, dass es für sie 0.021-mal so wahrscheinlich eine Drogenabhängigkeit zu haben als sie nicht zu haben. 
+Nun können wir die Ergebnisse (einigermaßen) sinnvoll interpretieren. Das Interzept wird an der Stelle interpretiert, wo alle Prädiktoren den Wert 0 annehmen. Für den Depressionsscore würde das natürlich eine Person ohne Punkte im Fragebogen darstellen. Außerdem ist noch die Variable `GENDER_R` im Modell. Dies ist eine Dummy-Variable, die den Wert 1 annimmt, wenn das Geschlecht den Wert 1 (im Vergleich zu 0; der Referenzkategorie) annimmt; also wenn wir einen Mann im Vergleich zu einer Frau betrachten. Folglich hat diese Dummy-Variable gerade den Wert 0, wenn eine Frau betrachtet wird. Wir interpretieren das Interzept bzgl. der Odds wie folgt: Eine weibliche Person mit einem Depressionsscore von 0 hat einen  Drogenabahängigkeits-Odds von 0.021. Dies bedeutet, es ist für sie 0.021-mal so wahrscheinlich eine Drogenabhängigkeit zu haben als sie nicht zu haben. 
 
 Der Effekt der Depression lässt sich wie folgt interpretieren: Steigt der Depressionsscore um 1 an (unter Konstanthaltung aller weiteren Prädiktoren im Modell), so verändern sich die Odds zur Drogenabhängigkeit um den Faktor (multiplikativ) 1.189. Insgesamt steigen die Odds und damit die Wahrscheinlichkeit einer Drogenabhängigkeit mit dem Depressionsscore, denn das Odds-Ratio ist genau dann größer 1, wenn der $\beta$-Koeffizient des Logit größer als 0 ist und es sich somit um eine positive/steigende Beziehung handelt! 
 
@@ -413,15 +419,15 @@ Wir können uns dieses Modell auch grafisch ansehen und damit die oben aufgezeig
 
 
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
 
 In dem Plot sind die vorhergesagten Logits für alle Personen im Datensatz zu sehen. Dabei ist der Logit natürlich vom Depressionsscore abhängig und das Geschlecht wird als Gruppierungsvariable für zwei verschiedene Geraden verwendet. Die Logik lässt sich auch auf die Odds und die Wahrscheinlichkeit der Drogenabhängigkeit übertragen.
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
-
 <img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
 
-Der Verlauf der Odds und der Wahrscheinlichkeit sieht in diesem Beispiel recht ähnlich aus. Das liegt daran, dass wir nun den realistischen Bereich der Daten betrachten. Wenn wir den Bereich der x-Achse erweitern würden, würden die Odds gegen $\infty$ gehen, während die Wahrscheinlichkeit die ogive Form zeigen und sich damit der 1 annähern würde.
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+
+Die Verläufe der Odds und der Wahrscheinlichkeit sehen in diesem Beispiel recht ähnlich aus. Das liegt daran, dass wir nun den realistischen Bereich der Daten betrachten. Wenn wir den Bereich der x-Achse erweitern würden, würden die Odds gegen $\infty$ gehen, während die Wahrscheinlichkeit die ogive Form zeigen und sich damit der 1 annähern würde.
 
 Wie bereits in der ersten Analyse festgestellt, scheint ein höherer Depressionscore mit einer erhöhten Wahrscheinlichkeit des Drogenkonsums einherzugehen.  Auch das Geschlecht scheint einen Einfluss auf diese Wahrscheinlichkeit zu haben. 
 
@@ -519,7 +525,7 @@ Sie führen diese Funktion aus, indem Sie alles von `Logistic_functions <- funct
 Logistic_functions(beta0 = 1, beta1 = -.5)
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" />
 
 </details>
 
@@ -534,7 +540,7 @@ library(car) # nötiges Paket laden
 avPlots(model = reg_model, pch = 16)
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
 
 Für die Erstellung des zweiten Plots muss das Paket `MASS` aktiviert sein. Zunächst werden die studentisierten Residuen als Objekt abgelegt. Dafür kann die Funktion `studres` verwendet werden. Diese werden in einem Histogramm abgebildet.
 
@@ -547,7 +553,7 @@ xWerte <- seq(from = min(res), to = max(res), by = 0.01)
 lines(x = xWerte, y = dnorm(x = xWerte, mean = mean(res), sd = sd(res)), lwd = 3)
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" />
 
 Um die Normalverteilunskurve auch noch einzuzeichnen erstellen wir einen Vektor mit x Variablen vom Minimum bis zum Maximum der Residuen-Werte. Anschließend legen wir über `lines` und `dnorm` die Kurve auf unser Histogramm. `dnorm` bestimmt dabei die Werte, die die Normalverteilung an der Stelle x mit dem Mittelwert und der Standardabweichung der Residuen hätte.
 
@@ -586,7 +592,7 @@ ggplot(data = osf, mapping = aes(x =
   ylab("Logit")
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-34-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" />
 
 `ggplot` arbeitet etwas anders als die Basisfunktion `plot`. Zunächst übergeben wir ihr die Daten `data = osf`. Dem `mapping` übergeben wir sozusagen das Achsenkreuz und Gruppenzugehörigkeiten und Farbkodierungen innerhalb  von `aes(x = Depression_lvl, y = logit_glm2, col = GENDER_R)`. Hier wird gesagt, dass der Depressionsscore auf die x-Achse soll und wir den Logit entlang der y-Achse plotten wollen. Außerdem soll für das Geschlecht eine separate Linie eingezeichnet werden und diese soll farblich kodiert sein. Damit dies funktioniert, müssen natürlich die Variablen im richtigen Format vorliegen. Bspw. müssen Gruppierungen, wie etwa das Geschlecht, als Faktor vorliegen. Anschließend fügen wir mit `+` hinzu, was genau geplottet werden soll. In diesem Beispiel wollen wir Linien haben. Deshalb verwenden wir die Funktion `geom_line` mit dem Argument `lwd = 2` für zweifache Liniendicke. Würden wir hier bspw. `geom_point` verwenden, so würden Punkte gezeichnet werden. Wieder mit dem `+` fügen wir außerdem einen Titel hinzu mit der Funktion `ggtitle`. `xlab` und `ylab` lassen uns die Achsentitel modifizieren. Gleiches können wir auch für die Odds oder die Wahrscheinlichkeit  durchführen:
 
@@ -601,7 +607,7 @@ ggplot(data = osf, mapping = aes(x = Depression_lvl,
   ylab("Odds")
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-36-1.png" style="display: block; margin: auto;" />
 
 
 ```r
@@ -614,7 +620,7 @@ ggplot(data = osf, mapping = aes(x = Depression_lvl,
   ylab("Logit")
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-36-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" />
 
 </details>
 

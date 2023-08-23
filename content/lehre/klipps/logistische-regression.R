@@ -18,7 +18,7 @@ missings_id <- which(is.na(osf$ANYDUMMY) |
 length(missings_id)
 
 osf <- osf[-missings_id, ]
-dim(osf) # nach Fallauschluss
+dim(osf) # nach Fallausschluss
 
 osf$GENDER_R <- as.factor(osf$GENDER_R)
 levels(osf$GENDER_R) <- c("weiblich", "maennlich")

@@ -155,17 +155,6 @@ library(metafor)
 ## introduction to the package please type: help(metafor)
 ```
 
-```
-## 
-## Attaching package: 'metafor'
-```
-
-```
-## The following object is masked from 'package:car':
-## 
-##     vif
-```
-
 Hier ist außerdem die Literaturangabe zum zugehörigen Paper:
 
 [Molloy, G. J., O'Carroll, R. E., & Ferguson, E. (2014)](https://ubffm.hds.hebis.de/EBSCO/Record?id=RN347807174|edsbl). Conscientiousness and medication adherence: A meta-analysis. Annals of Behavioral Medicine, 47(1), 92–101. [https://doi.org/10.1007/s12160-013-9524-4](https://doi.org/10.1007/s12160-013-9524-4)
