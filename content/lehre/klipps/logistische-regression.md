@@ -486,7 +486,7 @@ Final können wir festhalten, dass sowohl der Depressionsscore als auch das Gesc
 
 <details><summary>**Parametereinflüsse**</summary>
 
-Die folgende Funktion stellt vier Grafiken dar: den Logit, die Odds, die Wahrscheinlichkeit und die Wahrscheinlichkeit vs. eine Zufallserhebung. Sie können $\beta_0$ und $\beta_1$ dieses Modells so einstellen, wie Sie wünschen und können sich den Effekt auf die verschiedenen Darstellungsformen der logistischen Regression ansehen. In hellblau wird jeweils die Funktion mit $\beta_0 = 0$ und $\beta_1 = 1$ als Referenz dargestellt. Die gestrichelten Linien stellen jeweils die x- und die y-Achse dar. In roten Punkten werden Realisierungen von $Y=0,1$ dargestellt, die mit der angezeigten Wahrscheinlichkeit gezogen wurden. Um die Ergebnisse vergleichbar zu machen, wird `set.seed(1234)` verwendet (vgl. [Simulation](/post/simulation)).
+Die folgende Funktion stellt vier Grafiken dar: den Logit, die Odds, die Wahrscheinlichkeit und die Wahrscheinlichkeit vs. eine Zufallserhebung. Sie können $\beta_0$ und $\beta_1$ dieses Modells so einstellen, wie Sie wünschen und sich den Effekt auf die verschiedenen Darstellungsformen der logistischen Regression ansehen. In hellblau wird jeweils die Funktion mit $\beta_0 = 0$ und $\beta_1 = 1$ als Referenz dargestellt. Die gestrichelten Linien stellen jeweils die x- und die y-Achse dar. In roten Punkten werden Realisierungen von $Y=0,1$ dargestellt, die mit der angezeigten Wahrscheinlichkeit gezogen wurden. Um die Ergebnisse vergleichbar zu machen, wird `set.seed(1234)` verwendet (vgl. [Simulation](/lehre/statistik-i/simulation)).
 
 ```r
 Logistic_functions <- function(beta0 = 0, beta1 = 1)
@@ -518,7 +518,7 @@ Logistic_functions <- function(beta0 = 0, beta1 = 1)
 }
 ```
 
-Sie führen diese Funktion aus, indem Sie alles von `Logistic_functions <- function(beta0 = 0, beta1 = 1){` bis `}` kopieren und in Ihrem `R`-Studio Fenster ausführen, sodass in der Rubrik oben rechts (dort wo auch immer `Data` erscheint) unter `Functions` `Logistic_functions` als Funktion aufgeführt wird. Sie können sich bspw. die Konstellation für $\beta_0 = 1$ und $\beta_1 = -0.5$ im Vergleich zu $\beta_0 = 0$ und $\beta_1 = 1$ ansehen:
+Sie führen diese Funktion aus, indem Sie alles von `Logistic_functions <- function(beta0 = 0, beta1 = 1){` bis `}` kopieren und in Ihrem `R`-Studio Fenster ausführen, sodass in der Rubrik oben rechts (dort wo auch immer _Data_ erscheint) unter _Functions_ `Logistic_functions` als Funktion aufgeführt wird. Sie können sich bspw. die Konstellation für $\beta_0 = 1$ und $\beta_1 = -0.5$ im Vergleich zu $\beta_0 = 0$ und $\beta_1 = 1$ ansehen:
 
 
 ```r
@@ -555,9 +555,9 @@ lines(x = xWerte, y = dnorm(x = xWerte, mean = mean(res), sd = sd(res)), lwd = 3
 
 <img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" />
 
-Um die Normalverteilunskurve auch noch einzuzeichnen erstellen wir einen Vektor mit x Variablen vom Minimum bis zum Maximum der Residuen-Werte. Anschließend legen wir über `lines` und `dnorm` die Kurve auf unser Histogramm. `dnorm` bestimmt dabei die Werte, die die Normalverteilung an der Stelle x mit dem Mittelwert und der Standardabweichung der Residuen hätte.
+Um die Normalverteilunskurve auch noch einzuzeichnen, erstellen wir einen Vektor mit x Variablen vom Minimum bis zum Maximum der Residuen-Werte. Anschließend legen wir über `lines` und `dnorm` die Kurve auf unser Histogramm. `dnorm` bestimmt dabei die Werte, die die Normalverteilung an der Stelle x mit dem Mittelwert und der Standardabweichung der Residuen hätte.
 
-Die beschriebenen Plots sind mit einem Paket und einer Basis-Funktion von `R` erstellt. Für die Erstellung von individuellen Plots ist `ggplot2` das richtige Paket. Dieses wurde bereits häufiger im Appendix als Möglichkeit zum Erzeugen von Plots beschrieben. Weitere Informationen zu `ggplot2` erhalten Sie bspw. auf  [{{< icon name="graduation-cap" pack="fas" >}} Tidyverse](https://ggplot2.tidyverse.org). Außerdem können Sie sich auch eine [{{< icon name="graduation-cap" pack="fas" >}} Einführung in `ggplot2`](/post/grafiken-mit-ggplot2) auf dieser Website ansehen.
+Die beschriebenen Plots sind mit einem Paket und einer Basis-Funktion von `R` erstellt. Für die Erstellung von individuellen Plots ist `ggplot2` das richtige Paket. Dieses wurde bereits häufiger im Appendix als Möglichkeit zum Erzeugen von Plots beschrieben. Weitere Informationen zu `ggplot2` erhalten Sie bspw. auf  [{{< icon name="graduation-cap" pack="fas" >}} Tidyverse](https://ggplot2.tidyverse.org). Außerdem können Sie sich auch eine [{{< icon name="graduation-cap" pack="fas" >}} Einführung in `ggplot2`](/lehre/statistik-ii/grafiken-mit-ggplot2) auf dieser Website ansehen.
 
 
 ```r
@@ -594,7 +594,7 @@ ggplot(data = osf, mapping = aes(x =
 
 <img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" />
 
-`ggplot` arbeitet etwas anders als die Basisfunktion `plot`. Zunächst übergeben wir ihr die Daten `data = osf`. Dem `mapping` übergeben wir sozusagen das Achsenkreuz und Gruppenzugehörigkeiten und Farbkodierungen innerhalb  von `aes(x = Depression_lvl, y = logit_glm2, col = GENDER_R)`. Hier wird gesagt, dass der Depressionsscore auf die x-Achse soll und wir den Logit entlang der y-Achse plotten wollen. Außerdem soll für das Geschlecht eine separate Linie eingezeichnet werden und diese soll farblich kodiert sein. Damit dies funktioniert, müssen natürlich die Variablen im richtigen Format vorliegen. Bspw. müssen Gruppierungen, wie etwa das Geschlecht, als Faktor vorliegen. Anschließend fügen wir mit `+` hinzu, was genau geplottet werden soll. In diesem Beispiel wollen wir Linien haben. Deshalb verwenden wir die Funktion `geom_line` mit dem Argument `lwd = 2` für zweifache Liniendicke. Würden wir hier bspw. `geom_point` verwenden, so würden Punkte gezeichnet werden. Wieder mit dem `+` fügen wir außerdem einen Titel hinzu mit der Funktion `ggtitle`. `xlab` und `ylab` lassen uns die Achsentitel modifizieren. Gleiches können wir auch für die Odds oder die Wahrscheinlichkeit  durchführen:
+`ggplot` arbeitet etwas anders als die Basisfunktion `plot`. Zunächst übergeben wir ihr die Daten `data = osf`. Dem `mapping` übergeben wir sozusagen das Achsenkreuz und Gruppenzugehörigkeiten und Farbkodierungen innerhalb  von `aes(x = Depression_lvl, y = logit_glm2, col = GENDER_R)`. Hier wird gesagt, dass der Depressionsscore auf die x-Achse soll und wir den Logit entlang der y-Achse plotten wollen. Außerdem soll für das Geschlecht eine separate Linie eingezeichnet werden und diese soll farblich kodiert sein. Damit dies funktioniert, müssen natürlich die Variablen im richtigen Format vorliegen. Bspw. müssen Gruppierungen, wie etwa das Geschlecht, als Faktor vorliegen. Anschließend fügen wir mit `+` hinzu, was genau geplottet werden soll. In diesem Beispiel wollen wir Linien haben. Deshalb verwenden wir die Funktion `geom_line` mit dem Argument `lwd = 2` für zweifache Liniendicke. Würden wir hier bspw. `geom_point` verwenden, so würden Punkte gezeichnet werden. Wieder mit dem `+` fügen wir außerdem mit der Funktion `ggtitle` einen Titel hinzu. `xlab` und `ylab` lassen uns die Achsentitel modifizieren. Gleiches können wir auch für die Odds oder die Wahrscheinlichkeit durchführen:
 
 
 ```r
