@@ -52,7 +52,7 @@ library(interactions) # Zur Veranschaulichung von Moderator-Effekten
 
 Daten in der klinisch-psychologischen Forschung haben häufig eine sogenannte *hierarchische Struktur* oder *Mehrebenen-Struktur*, in der Beobachtungen auf einer ersten Ebene in Beobachtungseinheiten auf einer übergeordneten Ebene gruppiert sind. Typische Strukturen sind Individuen in Gruppen (z. B. Patient*innen in Therapiepraxen oder in Kliniken) oder Messzeitpunkte in Personen (z. B. Befragungszeitpunkte im Verlauf einer Therapiestudie).
 
-Unser Datenbeispiel stammt aus einer [Studie zum psychischen Wohlbefinden von Individuen während des pandemie-bedingten Lockdowns in Frankreich](https://www.frontiersin.org/articles/10.3389/fpsyg.2020.590276/full). Es handelt sich um hierarchische Daten mit Messzeitpunkten auf Ebene 1 und Individuen auf Ebene 2. Zunächst laden wir diesen Datensatz aus dem OSF und nehmen ein paar Schritte zur Vorbereitung vor:
+Unser Datenbeispiel stammt aus einer [Studie zum psychischen Wohlbefinden von Individuen während des pandemie-bedingten Lockdowns in Frankreich](https://www.frontiersin.org/articles/10.3389/fpsyg.2020.590276/full) von Pellerin und Raufaste (2020). Es handelt sich um hierarchische Daten mit Messzeitpunkten auf Ebene 1 und Individuen auf Ebene 2. Zunächst laden wir diesen Datensatz aus dem OSF und nehmen ein paar Schritte zur Vorbereitung vor:
 
 ```{r message=FALSE, warning=TRUE}
 # Daten einlesen und vorbereiten 
@@ -373,3 +373,14 @@ Zur grafischen Veranschaulichung der Wechselwirkung kann wie bei der moderierten
 interact_plot(model = PWB.Age.Time, pred = Time, modx = Age)
 ```
 
+*** 
+
+## Literatur
+
+[Dambrun, M., Ricard, M., Desprès, G., Drelon, E., Gibelin, E., Gibelin, M., et al. (2012).](https://ubffm.hds.hebis.de/EdsRecord/edsdoj%252Cedsdoj.6cc9dc3227846428723fc8de2c3e74f) Measuring happiness: From fluctuating happiness to authentic–durable happiness. _Frontiers in psychology, 3,_ 16. [https://doi.org/10.3389/fpsyg.2012.00016](https://doi.org/10.3389/fpsyg.2012.00016)
+
+[Keyes, C. L. M. (2002).](https://ubffm.hds.hebis.de/EdsRecord/edsjsr%252Cedsjsr.3090197) The mental health continuum: From languishing to flourishing in life. _Journal of health and social behavior,_ 207-222. [https://doi.org/10.2307/3090197](https://doi.org/10.2307/3090197)
+
+[Pellerin, N., & Raufaste, E. (2020).](https://ubffm.hds.hebis.de/EdsRecord/edsdoj%252Cedsdoj.2b1caa1c47cd43f1b164caf49cbf1b2d) Psychological resources protect well-being during the COVID-19 pandemic: A longitudinal study during the French lockdown. _Frontiers in Psychology, 11,_ 590276. [https://doi.org/10.3389/fpsyg.2020.590276](https://doi.org/10.3389/fpsyg.2020.590276)
+
+* <small> *Blau hinterlegte Autor:innenangaben führen Sie direkt zur universitätsinternen Ressource.* </small>
