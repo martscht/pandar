@@ -3,7 +3,7 @@ title: Hierarchische Regression
 date: '2021-11-24'
 slug: hierarchische-regression
 categories: ["KliPPs"]
-tags: ["Regression", "Hierarchische Daten", "Zufallseffekte"]
+tags: ["Hierarchische Daten", "Intraklassenkorrelation", "Zufallseffekte", "feste Effekte"]
 subtitle: ''
 summary: 'Dieser Beitrag behandelt die hierarchische Regression als Verfahren für hierarchischen Strukturen. Zunächst wird die sogenannte Intraklassenkorrelation erläutert. Weiterhin wird die Einbindung von festen Effekten und Zufallseffekten in ein Regressionsmodell vorgeführt. Schließlich wird demonstriert, wie Ebene-1 und Ebene-2 Prädiktoren sowie deren Interaktion in ein Modell integriert werden können.'
 authors: [hartig, irmer]
