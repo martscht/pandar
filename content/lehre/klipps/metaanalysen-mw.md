@@ -42,11 +42,29 @@ output:
 ## Einführung
 Metaanalysen sind empirische Zusammenfassungen von Studien unter Verwendung mathematischer/statistischer Modelle. Auf diese Weise können Ergebnisse aus jahrelanger Forschung integriert und zusammengefasst werden, was oft Aufschluss darüber liefert, ob Effekte im Mittel vorhanden sind oder nicht. Somit können Metaanalysen lange Debatten beenden und Licht in das Dunkel von sich widersprechenden Studienergebnissen bringen.
 
-Mithilfe des `metafor`-Paketes (_**meta***-analysis ***fo***r ***r**_) von Viechtbauer (2010) lassen sich eindimensionale und mehrdiemensionale Metaanalysen (in welchen ein oder mehrere Koeffizient über mehrere Studien "gemittelt" werden soll) leicht berechnen. Zunächst müssen wir dazu das `R`-Paket installieren (`"install.packages("metafor")`). Nachdem dies geschehen ist, können wir es laden:
+Mithilfe des `metafor`-Paketes (_**meta**-analysis **fo**r **r**_) von Viechtbauer (2010) lassen sich eindimensionale und mehrdimensionale Metaanalysen (in welchen die "Mittlung" eines oder mehrerer Koeffizienten über mehrere Studien vorgenommen werden soll) leicht berechnen. Zunächst müssen wir dazu das `R`-Paket installieren (`install.packages("metafor")`). Nachdem dies geschehen ist, können wir es laden:
 
 
 ```r
 library(metafor)
+```
+
+```
+## Loading required package: Matrix
+```
+
+```
+## Loading required package: metadat
+```
+
+```
+## Loading required package: numDeriv
+```
+
+```
+## 
+## Loading the 'metafor' package (version 4.2-0). For an
+## introduction to the package please type: help(metafor)
 ```
 
 Wie auch beim Laden des Paketes schon erwähnt wird (`For an overview and introduction to the package please type: help(metafor)`), können wir uns mit der sehr nützlichen `R`-internen Hilfe-Funktion einen Überblick über das Paket verschaffen.
