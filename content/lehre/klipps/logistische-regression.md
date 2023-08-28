@@ -3,12 +3,12 @@ title: Logistische Regression
 date: '2021-10-18'
 slug: logistische-regression
 categories: ["KliPPs"]
-tags: ["dichotom", "generalisiertes lineares Modell", "Regression", "Linkfunktion", "Maximum Likelihood", "Likelihood Ratio Test"]
+tags: ["dichotom", "generalisiertes lineares Modell", "Linkfunktion", "Likelihood"]
 subtitle: 'Generalisiertes lineares Modell: dichotome abhängige Variablen'
-summary: ''
+summary: 'In diesem Beitrag wird die logistische Regression behandelt, die sich im Falle einer dichotomen abhängigen Variable eignet. Dabei werden der Logit (die Linkfunktion), die Erfolgswahrscheinlichkeit und die Odds erläutert. Es erfolgt ein Vergleich zwischen logistischer Regression und normaler Regressionsanalyse sowie eine Demonstration der logistischen Regressionsanalyse, bei der die Beiträge einzelner Prädiktoren zur Vorhersage untersucht werden.'
 authors: [nehler, irmer]
 weight: 5
-lastmod: '2023-08-23'
+lastmod: '2023-08-28'
 featured: no
 banner:
   image: "/header/KliPsy_Sitzung5.jpg"
@@ -166,9 +166,9 @@ Laut der einfachen Regressionsanalyse scheint es, dass der Depressionsscore sehr
 Betrachten wir nun exemplarisch zwei Voraussetzungen der Regression. Der Code für die Grafiken ist in [Appendix B](#AppendixB) zu finden.
 
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-42-1.png" style="display: block; margin: auto;" />
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-43-1.png" style="display: block; margin: auto;" />
 
 In dieser Analyse sind einige Annahmen der Regressionsanalyse verletzt: Normalverteilung der Residuen, Homoskedastizität und auch Unabhängigkeit der Residuen. Den Verteilungen der Residuen können wir deutlich entnehmen, dass diese systematisch ausfallen (mit steigender Depression steigen die Residuen linear an) und auch die Normalverteilungsannahme ist deutlich verletzt. Eine Regression erscheint nicht sinnvoll. Den Ergebnisse der Signifikanzentscheidungen kann nicht getraut werden. Zusätzlich würde eine Vorhersage der abhängigen Variable viele Werte außerhalb der beiden sinnvollen Ausprägungen `0` und `1` ergeben. Wir müssen uns also irgendwie anders mit den Daten auseinandersetzen! Aus diesem Grund wollen wir die logistische Regression heranziehen. 
 
@@ -306,7 +306,7 @@ logit <- glm_model$coefficients[1] + glm_model$coefficients[2]*Depressionswerte
 plot(x = Depressionswerte, y = logit, type = "l", col = "blue", lwd = 3)
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-51-1.png" style="display: block; margin: auto;" />
 
 `type = "l"` fordert eine Linie anstatt von Punkten an, `lwd = 3` sagt, dass diese Linie dreimal so dick wie der Default sein soll und `col = "blue"` sagt, dass die Linie blau sein soll.
 
@@ -318,14 +318,14 @@ odds <- exp(logit)
 plot(x = Depressionswerte, y = odds, type = "l", col = "blue", lwd = 3)
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-52-1.png" style="display: block; margin: auto;" />
 
 ```r
 p <- odds/(1 + odds)
 plot(x = Depressionswerte, y = p, type = "l", col = "blue", lwd = 3)
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-18-2.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-52-2.png" style="display: block; margin: auto;" />
 
 Wir erkennen in allen drei Plots die positive Beziehung zwischen Drogenabhängigkeit und Depressionsscore. Der Logit ist eine lineare Funktion (Wertebereich [$-\infty$,$\infty$]). Somit steigt (bzw. sinkt) der Logit um $\beta_1$, wenn der Prädiktor (hier Depressionsscore) um eine Einheit erhöht wird. Die Odds sind eine Exponentialfunktion (Wertebereich [0,$\infty$]) und bei der Wahrscheinlichkeit handelt es sich um eine sogenannte Ogive (Wertebereich [0,1]). Die Odds steigen (bzw. sinken) um den Faktor $e^{\beta_1}$ (auch Odds-Ratio genannt), wenn der Prädiktor (hier Depressionsscore) um eine Einheit erhöht wird - die Beziehung zwischen Odds und Prädiktor ist somit multiplikativ! Wir schauen uns die Parameterinterpretation der Odds im nächsten Abschnitt genauer an. Wie sich die Wahrscheinlichkeit verändert, ist nicht pauschal zu sagen. Diese Veränderung hängt von der Ausprägung des Prädiktors ab und lässt sich nicht durch eine einzige Zahl quantifizieren. Wir erkennen aber, dass die Ogive erst nach einem Depressionsscore von Null nach links laufend flacher gegen 0 geht. Im Intervall von 0 bis 9 (also möglichen Depressionsscores) ist die Wahrscheinlichkeit der Drogenabhängigkeit kleiner als 20% und steigend mit dem Depressionsscore. In [Appendix A](#AppendixA) haben Sie die Möglichkeit, spielerisch die Einflüsse der Parameter in der logistischen Regression kennen zu lernen.
 
@@ -419,13 +419,13 @@ Wir können uns dieses Modell auch grafisch ansehen und damit die oben aufgezeig
 
 
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-58-1.png" style="display: block; margin: auto;" />
 
 In dem Plot sind die vorhergesagten Logits für alle Personen im Datensatz zu sehen. Dabei ist der Logit natürlich vom Depressionsscore abhängig und das Geschlecht wird als Gruppierungsvariable für zwei verschiedene Geraden verwendet. Die Logik lässt sich auch auf die Odds und die Wahrscheinlichkeit der Drogenabhängigkeit übertragen.
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-59-1.png" style="display: block; margin: auto;" />
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-60-1.png" style="display: block; margin: auto;" />
 
 Die Verläufe der Odds und der Wahrscheinlichkeit sehen in diesem Beispiel recht ähnlich aus. Das liegt daran, dass wir nun den realistischen Bereich der Daten betrachten. Wenn wir den Bereich der x-Achse erweitern würden, würden die Odds gegen $\infty$ gehen, während die Wahrscheinlichkeit die ogive Form zeigen und sich damit der 1 annähern würde.
 
@@ -525,7 +525,7 @@ Sie führen diese Funktion aus, indem Sie alles von `Logistic_functions <- funct
 Logistic_functions(beta0 = 1, beta1 = -.5)
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-64-1.png" style="display: block; margin: auto;" />
 
 </details>
 
@@ -540,7 +540,7 @@ library(car) # nötiges Paket laden
 avPlots(model = reg_model, pch = 16)
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-65-1.png" style="display: block; margin: auto;" />
 
 Für die Erstellung des zweiten Plots muss das Paket `MASS` aktiviert sein. Zunächst werden die studentisierten Residuen als Objekt abgelegt. Dafür kann die Funktion `studres` verwendet werden. Diese werden in einem Histogramm abgebildet.
 
@@ -553,7 +553,7 @@ xWerte <- seq(from = min(res), to = max(res), by = 0.01)
 lines(x = xWerte, y = dnorm(x = xWerte, mean = mean(res), sd = sd(res)), lwd = 3)
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-66-1.png" style="display: block; margin: auto;" />
 
 Um die Normalverteilunskurve auch noch einzuzeichnen, erstellen wir einen Vektor mit x Variablen vom Minimum bis zum Maximum der Residuen-Werte. Anschließend legen wir über `lines` und `dnorm` die Kurve auf unser Histogramm. `dnorm` bestimmt dabei die Werte, die die Normalverteilung an der Stelle x mit dem Mittelwert und der Standardabweichung der Residuen hätte.
 
@@ -592,7 +592,7 @@ ggplot(data = osf, mapping = aes(x =
   ylab("Logit")
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-69-1.png" style="display: block; margin: auto;" />
 
 `ggplot` arbeitet etwas anders als die Basisfunktion `plot`. Zunächst übergeben wir ihr die Daten `data = osf`. Dem `mapping` übergeben wir sozusagen das Achsenkreuz und Gruppenzugehörigkeiten und Farbkodierungen innerhalb  von `aes(x = Depression_lvl, y = logit_glm2, col = GENDER_R)`. Hier wird gesagt, dass der Depressionsscore auf die x-Achse soll und wir den Logit entlang der y-Achse plotten wollen. Außerdem soll für das Geschlecht eine separate Linie eingezeichnet werden und diese soll farblich kodiert sein. Damit dies funktioniert, müssen natürlich die Variablen im richtigen Format vorliegen. Bspw. müssen Gruppierungen, wie etwa das Geschlecht, als Faktor vorliegen. Anschließend fügen wir mit `+` hinzu, was genau geplottet werden soll. In diesem Beispiel wollen wir Linien haben. Deshalb verwenden wir die Funktion `geom_line` mit dem Argument `lwd = 2` für zweifache Liniendicke. Würden wir hier bspw. `geom_point` verwenden, so würden Punkte gezeichnet werden. Wieder mit dem `+` fügen wir außerdem mit der Funktion `ggtitle` einen Titel hinzu. `xlab` und `ylab` lassen uns die Achsentitel modifizieren. Gleiches können wir auch für die Odds oder die Wahrscheinlichkeit durchführen:
 
@@ -607,7 +607,7 @@ ggplot(data = osf, mapping = aes(x = Depression_lvl,
   ylab("Odds")
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-36-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-70-1.png" style="display: block; margin: auto;" />
 
 
 ```r
@@ -620,7 +620,7 @@ ggplot(data = osf, mapping = aes(x = Depression_lvl,
   ylab("Logit")
 ```
 
-<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/logistische-regression_files/figure-html/unnamed-chunk-71-1.png" style="display: block; margin: auto;" />
 
 </details>
 
