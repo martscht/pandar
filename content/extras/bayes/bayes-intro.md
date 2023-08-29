@@ -193,7 +193,7 @@ Also sind wir auf einen non-parametrischen Test ausgewichen (den Binomialtest). 
 
 In unseren frequentistischen Berechnungen haben wir unsere Analysen stets mit der Betrachtung des $p$-Werts abgeschlossen und dabei den einfachen Nullhypothesentest zugrundegelegt. In beiden Fällen ist das Ergebnis (vermutlich wegen geringer Power) nicht statistisch bedeutsam. Die logische Frage, die sich an diesen - deprimierenden - Ausgang unserer Studie anschließt ist: "Was haben wir an Erkenntnis gewonnen?". 
 
-Im klassischen Neyman-Pearson Nullhypothesentest haben wir an dieser Stelle keine belastbare Erkenntnis generiert. Wir behalten unsere Nullhypothese bei, weil wir keinen echten Anlass haben, von dieser Abstand zu nehmen. In der nächsten Untersuchung (die vielleicht die nächste Praktikantin an der gleiche Klinik durchführen wird) werden wir wieder mit der Nullhypothese anfangen, dass Ihr Plan genauso gut ist, wie der Ihrer Kolleg:innen (es wird also wieder $H_0 : \pi = .5$ getestet werden) und die Ergebnisse der hier untersuchten 10 Patient:innen werden in Vergessenheit geraten. 
+Im klassischen Neyman-Pearson Nullhypothesentest haben wir an dieser Stelle keine belastbare Erkenntnis generiert. Wir behalten unsere Nullhypothese bei, weil wir keinen echten Anlass haben, von dieser Abstand zu nehmen. In der nächsten Untersuchung (die vielleicht die nächste Praktikantin an der gleichen Klinik durchführen wird) werden wir wieder mit der Nullhypothese anfangen, dass Ihr Plan genauso gut ist, wie der Ihrer Kolleg:innen (es wird also wieder $H_0 : \pi = .5$ getestet werden) und die Ergebnisse der hier untersuchten 10 Patient:innen werden in Vergessenheit geraten. 
 
 Um uns noch einmal kurz zu verdeutlichen, warum das ist, gucken wir uns noch einmal an, was ein $p$-Wert eigentlich ist. Hervorragende Einleitungen in die Grundidee des klassischen, frequentistischen Testens gibt es viele, sodass wir uns hier nur auf die, für uns in diesem spezifischen Fall relevanten Komponenten beschränken.
 
@@ -309,6 +309,12 @@ Wenn das Vorwissen, das wir über den Gegenstand unserer Untersuchung haben quas
 
 
 
+
+```
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+```
+
 ![](/extras/bayes/bayes-intro_files/figure-html/density1-1.png)<!-- -->
 
 Sie fragen Sich vielleicht, warum Sie nur zwei Linien sehen, wenn wir doch drei Komponenten (Prior, Likelihood und Posterior) haben. Das liegt daran, dass unser Prior keinerlei Information beinhält - jedes $\pi$ ist gleich wahrscheinlich. Also wird die Likelihood für jeden Ausprägung von $\pi$ mit dem gleichen Wert multipliziert, sodass dieser Teil in der Gleichung einfach irrelevant wird. So geht unser Posterior also ausschließlich auf unsere Daten zurück und entspricht genau der Likelihood-Verteilung.
@@ -334,7 +340,7 @@ Wie genau diese Posterior-Verteilungen zustandekommen werden wir uns im [nächst
 
 ## Inferenzstatistische Schlüsse mit Bayes
 
-Im letzten Abschnitt hat in allen drei Variante eins gefehlt: eine eindeutige Enstscheidung, ob Ihr Ausgangssystem jetzt besser ist, als das Ihrer Kolleg:innen. Was Ihnen in solchen Analysen eher sehr selten begegnen wird sind $p$-Werte. Diese haben die spezifische Bedeutung, die wir oben schon besprochen haben und sind deswegen in Bayesianischer Analyse eher fehl am Platz. Stattdessen wird in diesen Analysen vor allem mit zwei Mitteln gearbeitet: dem Credible Interval und dem Bayes Factor.
+Im letzten Abschnitt hat in allen drei Varianten eins gefehlt: eine eindeutige Enstscheidung, ob Ihr Ausgangssystem jetzt besser ist, als das Ihrer Kolleg:innen. Was Ihnen in solchen Analysen eher sehr selten begegnen wird sind $p$-Werte. Diese haben die spezifische Bedeutung, die wir oben schon besprochen haben und sind deswegen in Bayesianischer Analyse eher fehl am Platz. Stattdessen wird in diesen Analysen vor allem mit zwei Mitteln gearbeitet: dem Credible Interval und dem Bayes Factor.
 
 ### Credible Interval
 
@@ -378,9 +384,9 @@ Das 95%-Credible Interval ist in diesem Fall $[0.38; 0.78]$. Wie diese Werte gen
 
 Der Bayes-Factor ist eine Kennzahl, die uns einen etwas direkteren Einblick in das Verhältnis zweier konkurrierender Theorien bzw. Hypothesen gibt. Dabei ist sie - anders als klassische $p$-Werte - auch in der Lage, das Ausmaß darzustellen, in dem unsere Daten _für_ die Nullhypothese sprechen. Im Wesentlichen gibt es dabei zwei Wege, auf denen ein Bayes-Factor berechnet werden kann. 
 
-Der erste Weg ist es, zu vergleichen wie wahrscheinlich die Daten sind, wenn man zwei unterschiedliche Theorien annimmt. Letztlich nutzen wir also die Likelihood-Ratio: $\frac{P(D | H_1)}{P(D|H_0)} = \frac{L(H_1|D)}{L(H_0|D)}$, was zeigt wie eng dieses Konzept mit dem Likelihood-Ratio-Test verwandt ist, mit dem wir z.B. in der [Faktorenanalyse](/lehre/master/cfa/#modellvergleiche) konkurrierende Modelle vergleichen. Letztlich ist dieses Verhältnis die Aussage darüber, wie viel wahrscheinlicher unserer Daten aufgrund des einen Modells (hier $H_1$) als aufgrund eines anderen Modells (hier $H_0$) sind.
+Der erste Weg ist es, zu vergleichen wie wahrscheinlich die Daten sind, wenn man zwei unterschiedliche Theorien annimmt. Letztlich nutzen wir also die Likelihood-Ratio: $\frac{P(D | H_1)}{P(D|H_0)} = \frac{L(H_1|D)}{L(H_0|D)}$, was zeigt wie eng dieses Konzept mit dem Likelihood-Ratio-Test verwandt ist, mit dem wir z.B. in der [Faktorenanalyse](/lehre/master/cfa/#modellvergleiche) konkurrierende Modelle vergleichen. Letztlich ist dieses Verhältnis die Aussage darüber, wie viel wahrscheinlicher unsere Daten aufgrund des einen Modells (hier $H_1$) als aufgrund eines anderen Modells (hier $H_0$) sind.
 
-Der Zweite Weg ist der Vergleich der beiden anderen Terme unserer [generellen Gleichung](#basic-bayes). Dabei können wir die _Prior Odds_ $\frac{P(H_1)}{P(H_0)}$ bestimmen: das Wahrscheinlichkeitsverhältnis unserer beiden Modelle bevor sie mit Daten konfrontieren. Die andere Komponente $\frac{P(H_1|D)}{P(H_0|D)}$ wird als _Posterior Odds_ bezeichnet: das Wahrscheinlichkeitsverhältnis unserer beiden Modelle nachdem wir sie mit Daten konfrontiert haben. Das Verhältnis zwischen den beiden $\frac{\text{Posterior Odds}}{\text{Prior Odds}}$ zeigt dann an, um _welchen Faktor_ unser Modell $H_1$ im Verhätlnis zum Modell $H_0$ durch die Daten Wahrscheinlicher  geworden ist.
+Der zweite Weg ist der Vergleich der beiden anderen Terme unserer [generellen Gleichung](#basic-bayes). Dabei können wir die _Prior Odds_ $\frac{P(H_1)}{P(H_0)}$ bestimmen: das Wahrscheinlichkeitsverhältnis unserer beiden Modelle bevor sie mit Daten konfrontieren. Die andere Komponente $\frac{P(H_1|D)}{P(H_0|D)}$ wird als _Posterior Odds_ bezeichnet: das Wahrscheinlichkeitsverhältnis unserer beiden Modelle nachdem wir sie mit Daten konfrontiert haben. Das Verhältnis zwischen den beiden $\frac{\text{Posterior Odds}}{\text{Prior Odds}}$ zeigt dann an, um _welchen Faktor_ unser Modell $H_1$ im Verhätlnis zum Modell $H_0$ durch die Daten Wahrscheinlicher  geworden ist.
 
 Falls Sie sich wundern: beide Wege sind komplett identisch - der erste Weg bietet sich lediglich als einfachere Konzeptualisierung an, wenn wir ganze Modelle vergleichen, der zweite Weg dann, wenn wir spezifische Punkt- (ungerichtete) oder Flächenhypothesen (gerichtete) vergleichen.
 

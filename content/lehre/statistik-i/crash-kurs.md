@@ -1,5 +1,5 @@
 ---
-title: R Crash-Kurs
+title: "R Crash-Kurs"
 type: post
 date: '2019-10-18'
 slug: crash-kurs
@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
 authors: [schultze]
 weight: 1
-lastmod: '2023-08-17'
+lastmod: '2023-08-29'
 featured: no
 banner:
   image: "/header/crash_post.jpg"
@@ -72,7 +72,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 412444 mal heruntergeladen
+* Allein in den letzten 30 Tagen 436181 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
@@ -1398,12 +1398,12 @@ args(read.table)
 ```
 ## function (file, header = FALSE, sep = "", quote = "\"'", dec = ".", 
 ##     numerals = c("allow.loss", "warn.loss", "no.loss"), row.names, 
-##     col.names, as.is = !stringsAsFactors, tryLogical = TRUE, 
-##     na.strings = "NA", colClasses = NA, nrows = -1, skip = 0, 
-##     check.names = TRUE, fill = !blank.lines.skip, strip.white = FALSE, 
-##     blank.lines.skip = TRUE, comment.char = "#", allowEscapes = FALSE, 
-##     flush = FALSE, stringsAsFactors = FALSE, fileEncoding = "", 
-##     encoding = "unknown", text, skipNul = FALSE) 
+##     col.names, as.is = !stringsAsFactors, na.strings = "NA", 
+##     colClasses = NA, nrows = -1, skip = 0, check.names = TRUE, 
+##     fill = !blank.lines.skip, strip.white = FALSE, blank.lines.skip = TRUE, 
+##     comment.char = "#", allowEscapes = FALSE, flush = FALSE, 
+##     stringsAsFactors = FALSE, fileEncoding = "", encoding = "unknown", 
+##     text, skipNul = FALSE) 
 ## NULL
 ```
 
@@ -1446,20 +1446,20 @@ head(fb22)    # Kopfzeilen
 ```
 
 ```
-##   prok1 prok2 prok3 prok4 prok5 prok6 prok7 prok8 prok9 prok10 nr1 nr2 nr3 nr4
-## 1     1     3     4     2     3     4     3     3     1      3   1   3   5   4
-## 2     4     3     2     4     1     4     2     4     4      4   1   2   1   2
-## 3     3     3     2     4     2     4     2     3     4      3   4   5   5   5
-## 4     1     3     4    NA     4     3     4     4     2      2   2   4   4   4
-## 5     2     1     4     3     2     1     2     4     1      1   1   5   1   2
-## 6     2     4     2     2     3     2     3     2     1      3   1   4   3   4
-##   nr5 nr6  lz extra vertr gewis neuro intel     nerd
-## 1   4   3 5.4  2.75  3.75  4.25  4.25  4.75 2.666667
-## 2   2   1 6.0  3.75  4.75  2.75  5.00  4.00 4.000000
-## 3   5   5 3.0  4.25  4.50  3.75  4.00  5.00 4.333333
-## 4   4   3 6.0  4.00  4.75  4.25  2.25  4.75 3.166667
-## 5   2   2 3.2  2.50  4.75  5.00  3.75  3.50 4.166667
-## 6   3   1 5.8  3.00  3.00  4.25  3.25  3.00 3.666667
+##   prok1 prok2 prok3 prok4 prok5 prok6 prok7 prok8 prok9 prok10 nr1 nr2 nr3 nr4 nr5 nr6  lz extra
+## 1     1     3     4     2     3     4     3     3     1      3   1   3   5   4   4   3 5.4  2.75
+## 2     4     3     2     4     1     4     2     4     4      4   1   2   1   2   2   1 6.0  3.75
+## 3     3     3     2     4     2     4     2     3     4      3   4   5   5   5   5   5 3.0  4.25
+## 4     1     3     4    NA     4     3     4     4     2      2   2   4   4   4   4   3 6.0  4.00
+## 5     2     1     4     3     2     1     2     4     1      1   1   5   1   2   2   2 3.2  2.50
+## 6     2     4     2     2     3     2     3     2     1      3   1   4   3   4   3   1 5.8  3.00
+##   vertr gewis neuro intel     nerd
+## 1  3.75  4.25  4.25  4.75 2.666667
+## 2  4.75  2.75  5.00  4.00 4.000000
+## 3  4.50  3.75  4.00  5.00 4.333333
+## 4  4.75  4.25  2.25  4.75 3.166667
+## 5  4.75  5.00  3.75  3.50 4.166667
+## 6  3.00  4.25  3.25  3.00 3.666667
 ##                                                                                                     grund
 ## 1                                                                                               Interesse
 ## 2                                                           Allgemeines Interesse schon seit der Kindheit

@@ -1,5 +1,5 @@
 ---
-title: R Crash-Kurs
+title: "R Crash-Kurs"
 type: post
 date: '2019-10-18'
 slug: crash-kurs
