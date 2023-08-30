@@ -3,9 +3,9 @@ title: Metaanalysen in R
 date: '2021-12-22'
 slug: metaanalysen-mw
 categories: ["KliPPs"]
-tags: ["Metaanalyse", "Zusammenfassung", "Summary", "Mittelwerte", "Effektstärken", "Gruppenvergleiche"]
+tags: ["Metaanalyse", "Mittelwerte", "Effektstärken", "Gruppenvergleiche"]
 subtitle: 'Mittelwertsunterschiede'
-summary: ''
+summary: 'In diesem Beitrag geht es um die Durchführung einer Metaanalyse im Kontext von Mittelwertsunterschieden. Zunächst wird das Fixed-Effects-Modell erläutert, das besagt, dass Effektstärken zufällig um einen wahren Wert streuen. Anschließend wird das Random-Effects-Modell eingeführt, dass zusätzlich eine Variable einschließt, die die Heterogenität zwischen den Studien beschreibt. Darüber hinaus wird das Moderatormodell präsentiert, dass zur Anwendung kommt, wenn erhebliche Heterogenität in den Daten vorliegt. Zusätzlich werden einige Anaylse-Plots zur grafischen Veranschaulichung der Streuung der Effektstärken vorgestellt.'
 authors: [irmer]
 weight: 7
 lastmod: '`r Sys.Date()`'

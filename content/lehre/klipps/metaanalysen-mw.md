@@ -3,9 +3,9 @@ title: Metaanalysen in R
 date: '2021-12-22'
 slug: metaanalysen-mw
 categories: ["KliPPs"]
-tags: ["Metaanalyse", "Zusammenfassung", "Summary", "Mittelwerte", "Effektstärken", "Gruppenvergleiche"]
+tags: ["Metaanalyse", "Mittelwerte", "Effektstärken", "Gruppenvergleiche"]
 subtitle: 'Mittelwertsunterschiede'
-summary: ''
+summary: 'In diesem Beitrag geht es um die Durchführung einer Metaanalyse im Kontext von Mittelwertsunterschieden. Zunächst wird das Fixed-Effects-Modell erläutert, das besagt, dass Effektstärken zufällig um einen wahren Wert streuen. Anschließend wird das Random-Effects-Modell eingeführt, dass zusätzlich eine Variable einschließt, die die Heterogenität zwischen den Studien beschreibt. Darüber hinaus wird das Moderatormodell präsentiert, dass zur Anwendung kommt, wenn erhebliche Heterogenität in den Daten vorliegt. Zusätzlich werden einige Anaylse-Plots zur grafischen Veranschaulichung der Streuung der Effektstärken vorgestellt.'
 authors: [irmer]
 weight: 7
 lastmod: '2023-08-30'
@@ -563,12 +563,9 @@ summary(MEM1)
 ## 
 ## Model Results:
 ## 
-##            estimate      se      zval    pval    ci.lb 
-## intrcpt     -2.1560  0.1560  -13.8172  <.0001  -2.4618 
-## intensity   -0.0517  0.0398   -1.2978  0.1944  -0.1298 
-##              ci.ub      
-## intrcpt    -1.8501  *** 
-## intensity   0.0264      
+##            estimate      se      zval    pval    ci.lb    ci.ub      
+## intrcpt     -2.1560  0.1560  -13.8172  <.0001  -2.4618  -1.8501  *** 
+## intensity   -0.0517  0.0398   -1.2978  0.1944  -0.1298   0.0264      
 ## 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -648,20 +645,13 @@ summary(MEM2)
 ## 
 ## Model Results:
 ## 
-##            estimate      se      zval    pval    ci.lb 
-## intrcpt     -2.8435  0.2350  -12.0980  <.0001  -3.3042 
-## intensity   -0.0879  0.0352   -2.5002  0.0124  -0.1568 
-## psedyes      0.7806  0.2941    2.6543  0.0079   0.2042 
-## socyes       0.0341  0.3883    0.0878  0.9301  -0.7270 
-## bayes        0.8994  0.3016    2.9823  0.0029   0.3083 
-## homeyes     -0.5052  0.3124   -1.6173  0.1058  -1.1174 
-##              ci.ub      
-## intrcpt    -2.3829  *** 
-## intensity  -0.0190    * 
-## psedyes     1.3570   ** 
-## socyes      0.7952      
-## bayes       1.4905   ** 
-## homeyes     0.1070      
+##            estimate      se      zval    pval    ci.lb    ci.ub      
+## intrcpt     -2.8435  0.2350  -12.0980  <.0001  -3.3042  -2.3829  *** 
+## intensity   -0.0879  0.0352   -2.5002  0.0124  -0.1568  -0.0190    * 
+## psedyes      0.7806  0.2941    2.6543  0.0079   0.2042   1.3570   ** 
+## socyes       0.0341  0.3883    0.0878  0.9301  -0.7270   0.7952      
+## bayes        0.8994  0.3016    2.9823  0.0029   0.3083   1.4905   ** 
+## homeyes     -0.5052  0.3124   -1.6173  0.1058  -1.1174   0.1070      
 ## 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -680,12 +670,9 @@ anova(MEM1, MEM2, test = "LRT")
 
 ```
 ## 
-##         df      AIC      BIC     AICc   logLik     LRT   pval 
-## Full     7 193.5397 208.3158 195.6529 -89.7698                
-## Reduced  3 205.3574 211.6901 205.7785 -99.6787 19.8178 0.0005 
-##                 QE  tau^2      R^2 
-## Full     7042.6184 1.0327          
-## Reduced 10944.1843 1.4485 28.7015%
+##         df      AIC      BIC     AICc   logLik     LRT   pval         QE  tau^2      R^2 
+## Full     7 193.5397 208.3158 195.6529 -89.7698                 7042.6184 1.0327          
+## Reduced  3 205.3574 211.6901 205.7785 -99.6787 19.8178 0.0005 10944.1843 1.4485 28.7015%
 ```
 
 Der Modellvergleich ist statistisch bedeutsam ($\Delta\chi^2(df=4)=$ 19.82, $p=$ 0.0005). Somit passt das restriktivere Modell mit nur einem Prädiktor signifikant schlechter zu den Daten. Wir entscheiden uns für das Modell mit 5 Prädiktoren, welches insgesamt {{< math >}}$28.7015\%${{< /math >}} mehr Heterogenitätsvariation erklärt als das Modell mit nur der Intensität als Moderator. Die Heterogenitätsvarianz $\tau^2$ reduziert sich von $1.44$ auf $1.03$ durch Hinzunahme der vier Prädiktoren. 
