@@ -157,20 +157,20 @@ Der Output der Summary unterscheidet sich geringfügig von dem der normalen Regr
 ```{r, echo = F}
 output <- capture.output(summary(glm_model))
 
-cat(paste(output[1:8], collapse = "\n"))
+cat(paste(output[1:4], collapse = "\n"))
 ```
 
-Er zeigt uns, dass wir kein `lm`-Objekt, sondern ein `glm`-Objekt vor uns haben. Außerdem werden uns dieses Mal `Deviance Residuals` angezeigt anstatt normaler Residuen. Mit der Bedeutung dieser Residuen werden wir uns im Rahmen des Seminars nicht auseinandersetzen. Das Schätzverfahren ist ein anderes. Es wird nicht das Kleinste-Quadrate-Verfahren angewandt, sondern die Maximum-Likelihood-Schätzmethode (ML).
+Er zeigt uns, dass wir kein `lm`-Objekt, sondern ein `glm`-Objekt vor uns haben. Die Residuen werden an dieser Stelle nicht mehr automatisch mit ausgegeben. Es wird aber auch nicht das Kleinste-Quadrate-Verfahren angewandt, sondern die Maximum-Likelihood-Schätzmethode (ML).
 
 ```{r, echo = F}
-cat(paste(output[9:18], collapse = "\n"))
+cat(paste(output[6:13], collapse = "\n"))
 ```
 
 
 Der Überblick über die (ML-)Parameterschätzung unterscheidet sich kaum von der der normalen Regression. Lediglich die $t$-Werte werden durch $z$-Werte ersetzt. Die Idee hinter der Signifikanzentscheidung ist aber komplett identisch (außerdem geht die $t$-Verteilung für große $n$ in die $z$-(Standardnormal-)Verteilung über). Hier scheint sich ein signifikanter Effekt des Depressionsscores zu zeigen.
 
 ```{r, echo = F}
-cat(paste(output[19:24], collapse = "\n"))
+cat(paste(output[15:19], collapse = "\n"))
 ```
 
 In diesem Abschnitt werden die Devianzen angezeigt. Die Gleichung haben wir im theoretischen Teil schon kennen gelernt:
@@ -191,8 +191,13 @@ library(lmtest)
 
 Im theoretischen Teil haben wir gelernt, dass für den Modellvergleich der Likelihood-Ratio-Test verwendet wird, in dem die Likelihood des Modells mit Prädiktoren in Verhältnis zu der Likelihood des Modells ohne Prädiktoren gesetzt wird. Ist der Gewinn in der Likelihood durch die Prädiktoren groß genug, resultiert ein signifikantes Ergebnis. Die zugehörige Funktion in `R` heißt `lrtest`. Diese braucht als einziges Argument das Modell mit Prädiktoren und kann dieses mit dem Modell ohne Prädiktoren vergleichen.
 
-```{r}
+```{r, eval = F}
 lrtest(glm_model)
+```
+
+```{r, echo = F}
+glm_model0 <- glm(ANYDUMMY ~ 1, data = osf)
+lrtest(glm_model, glm_model0)
 ```
 
 Der Output zeigt uns zunächst nochmal an, welche Modelle verglichen werden. In `Model 1` ist die Variable `Depression_lvl` als Prädiktor enthalten, während bei `Model 2` kein Prädiktor vorhanden ist. In der kleinen Tabelle sehen wir dann die Likelihoods der beiden Modelle, ihren Unterschied in Freiheitsgraden und den empirischen $\chi^2$-Wert. Dabei wird auch angezeigt, dass der Test signifikant ausfällt - das Modell leistet einen signifikanten Beitrag zur Vorhersage über das Null-Modell hinaus. Beachten Sie, dass die Funktion automatisch das leere Modell als zweites Modell in die Testung aufnimmt. Daraus resultiert ein negativer Wert in der Spalte der Freiheitsgrade für den Test. Da dieser Wert nur von der Reihenfolge der Modelle in der Funktion abhängig ist, hat das auf unsere Interpretation keinen Einfluss. 
@@ -315,9 +320,15 @@ Zum Abschluss wollen wir uns jetzt mittels Modellvergleichen nochmal der Frage w
 
 Zunächst testen wir das neu erstellte Gesamtmodell gegen das Null-Modell, wie wir es bereits mit dem `glm_model` getan haben.
 
-```{r}
+```{r, eval = F}
 lrtest(glm_model2)
 ```
+
+```{r, echo = F}
+lrtest(glm_model2, glm_model0)
+```
+
+
 Wenig überraschend erzeugt auch dieser Test ein signifikantes Ergebnis. Spannender ist jetzt, ob die Hinzunahme des Geschlechts auch einen signifikanten Mehrwert bringt. Wie immer in `R` gibt es für den Vergleich zwischen zwei Modellen mehrere Wege, wir bleiben aber bei der verwendeten `lrtest` Funktion. Diese kann nämlich auch zwei Modelle als Argumente annehmen und vegleichen.
 
 ```{r}

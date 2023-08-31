@@ -40,18 +40,21 @@ summary(glm_model)
 
 output <- capture.output(summary(glm_model))
 
-cat(paste(output[1:8], collapse = "\n"))
+cat(paste(output[1:4], collapse = "\n"))
 
-cat(paste(output[9:18], collapse = "\n"))
+cat(paste(output[6:13], collapse = "\n"))
 
-cat(paste(output[19:24], collapse = "\n"))
+cat(paste(output[15:19], collapse = "\n"))
 
 ## install.packages("lmtest")
 ## library(lmtest)
 
 library(lmtest)
 
-lrtest(glm_model)
+## lrtest(glm_model)
+
+glm_model0 <- glm(ANYDUMMY ~ 1, data = osf)
+lrtest(glm_model, glm_model0)
 
 Depressionswerte <- seq(-20, 60, 0.1)
 logit <- glm_model$coefficients[1] + glm_model$coefficients[2]*Depressionswerte 
@@ -107,7 +110,9 @@ ggplot(data = osf, mapping = aes(x = Depression_lvl,
   xlab("Depressionsscore") + 
   ylab("P")
 
-lrtest(glm_model2)
+## lrtest(glm_model2)
+
+lrtest(glm_model2, glm_model0)
 
 lrtest(glm_model, glm_model2)
 
