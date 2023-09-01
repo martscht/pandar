@@ -1,4 +1,4 @@
-pandarize <- function(x) {
+pandarize <- function(x, purl = TRUE) {
   .rmd <- dir(getwd(), pattern = paste0(x, '.Rmd'), recursive = TRUE)
   .location <- gsub(paste0(x, '.Rmd'), '', .rmd)
   .img_location <- gsub('content', '', .location)
@@ -7,7 +7,8 @@ pandarize <- function(x) {
   .html <- gsub('.Rmd', '.html', .rmd)
   
   rmarkdown::render(.rmd, envir = new.env())
-  knitr::purl(.rmd, .R, documentation = 0)
+  
+  if (purl) knitr::purl(.rmd, .R, documentation = 0)
   
   readLines(.md) |>
     sub(pattern = '![](', replacement = paste0('![](', .img_location), x = _, fixed = TRUE) |>
