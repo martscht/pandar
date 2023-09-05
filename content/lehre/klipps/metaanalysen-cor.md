@@ -44,7 +44,7 @@ output:
 
 ## Einführung
 
-In der letzten Sitzung hatten wir uns angesehen, wie Mittelwerte, bzw. Differenzwerte, metaanalytisch zusammengefasst werden können. Falls Sie sich die [vergangene Sitzung](/post/metaanalysen-mw) noch nicht angesehen haben, dann wird dies dringend empfohlen, da sie das Fundament für die jetztige Sitzung liefert. Wir beginnen wieder mit dem Laden des `metafor`-Pakets.
+In der letzten Sitzung hatten wir uns angesehen, wie Mittelwerte bzw. Differenzwerte metaanalytisch zusammengefasst werden können. Falls Sie sich die [vergangene Sitzung](/lehre/klipps/metaanalysen-mw) noch nicht angesehen haben, dann wird dies dringend empfohlen, da sie das Fundament für die jetztige Sitzung liefert. Wir beginnen wieder mit dem Laden des `metafor`-Pakets.
 
 
 ```r
@@ -54,13 +54,14 @@ library(metafor)
 
 ## Daten
 
-In dieser Sitzung wollen wir einen Datensatz von Molloy et al. (2014), der mit dem `metafor`-Paket mitgeliefert wird, verwenden. Dieser heißt `dat.molloy2014`. Die Autor:innen haben den Zusammenhang zwischen der Persönlichkeitseigenschaft Gewissenhaftigkeit und dem Einnehmen von Medikamenten untersucht.
+In dieser Sitzung wollen wir einen Datensatz von Molloy et al. (2014) verwenden, der mit dem `metafor`-Paket mitgeliefert wird. Dieser heißt `dat.molloy2014`. Die Autor:innen haben den Zusammenhang zwischen der Persönlichkeitseigenschaft Gewissenhaftigkeit und dem Einnehmen von Medikamenten untersucht.
 
 
 ```r
 head(dat.molloy2014)
 ```
 
+<div class="big-maths">
 
 |authors             | year|  ni|    ri|controls |design          |a_measure   |c_measure | meanage| quality|
 |:-------------------|----:|---:|-----:|:--------|:---------------|:-----------|:---------|-------:|-------:|
@@ -70,15 +71,16 @@ head(dat.molloy2014)
 |Christensen et al.  | 1999| 107| 0.320|none     |cross-sectional |self-report |other     |   41.70|       1|
 |Christensen & Smith | 1995|  72| 0.270|none     |prospective     |other       |NEO       |   46.39|       2|
 |Cohen et al.        | 2004|  65| 0.000|none     |prospective     |other       |NEO       |   41.20|       2|
+</div>
 
 In `authors` steht die verwendete Studie, `year` zeigt das Jahr an, `ni` ist die Stichprobengröße, `ri` ist die Korrelation, `controls` gibt an, ob Kontrollvariablen in der Analyse verwendet wurden. `design` gibt an, welches Studiendesign verwendet wurde, `a_measure` gibt an, wie die Medikamenteneinnahme untersucht wurde. `c_measure` gibt an, wie die Gewissenhaftigkeit gemessen wurde (meistens Versionen des NEO), `meanage` ist das Durchschnittsalter der Stichprobe, `quality` ist ein Qualitätsindex der Studie (für mehr Informationen dazu siehe Molloy et al., 2014).  
  
 
 ### Fragestellungen
 
-Insgesamt wollen wir nun untersuchen, ob
+Insgesamt wollen wir nun untersuchen, 
 
-1)  es einen Zusammenhang zwischen Gewissenhaftigkeit und Medikamenteneinnahme gibt
+1) ob  es einen Zusammenhang zwischen Gewissenhaftigkeit und Medikamenteneinnahme gibt
 2) ob Heterogenität in der linearen Beziehung durch Moderatoren erklärt werden kann
  
 ### Überblick über die Daten
@@ -99,7 +101,7 @@ Die Korrelationskoeffizienten liegen also zwischen -0.09 und 0.37. Auch ein Mitt
 
 ### Grafische Veranschaulichung der Beziehung zwischen der Medikamenteneinnahme und der Gewissenhaftigkeit
 
-Wir wollen uns die Daten zunächst noch etwas genauer ansehen. Plotten wir zunächst die Korrelationskoeffizienten.
+Wir wollen uns die Daten zunächst noch etwas genauer ansehen. Plotten wir erst einmal die Korrelationskoeffizienten.
 
 
 
@@ -111,7 +113,7 @@ boxplot(dat.molloy2014$ri)
 
 
 
-Wir sehen, dass die meisten Korrelationen zwischen  -0.09 und 0.37 liegen. 50% der Korrelationen liegen allerdings zwischen 0.025 und 0.265, also im positiven Bereich; der Median liegt bei 0.1685. Bei Metaanalysen wird sehr häufig das sogenannte $80\%$-Credibility-Interval ($80\%$-CRI) angegeben. Es gibt Auskunft darüber, zwischen welchen Werten die mittleren $80\%$ der Daten liegen. Wir erhalten es, indem wir den Prozentrang 10 ($10\%$) und den Prozentrang 90 ($90\%$) über die `quantile`-Funktion anfordern:
+Wir sehen, dass die meisten Korrelationen zwischen  -0.09 und 0.37 liegen. 50% der Korrelationen liegen allerdings zwischen 0.025 und 0.265, also im positiven Bereich; der Median liegt bei 0.1685. Bei Metaanalysen wird sehr häufig das sogenannte {{< math >}}$80\%${{< /math >}}-Credibility-Interval ({{< math >}}$80\%${{< /math >}}-CRI) angegeben. Es gibt Auskunft darüber, zwischen welchen Werten die mittleren {{< math >}}$80\%${{< /math >}} der Daten liegen. Wir erhalten es, indem wir den Prozentrang 10 ({{< math >}}$10\%${{< /math >}}) und den Prozentrang 90 ({{< math >}}$90\%${{< /math >}}) über die `quantile`-Funktion anfordern:
 
 
 ```r
@@ -123,7 +125,7 @@ quantile(dat.molloy2014$ri, probs = c(0.1, 0.9))
 ## 0.00 0.33
 ```
 
-Das $80\%$-CRI erstreckt sich also von 0 bis 0.33.
+Das {{< math >}}$80\%${{< /math >}}-CRI erstreckt sich also von 0 bis 0.33.
 
 
 Wir wollen uns außerdem die Unterschiedlichkeit der Korrelationskoeffizienten als Darstellung der verschiedenen Einfach-Regressionen von Gewissenhaftigkeit und Medikamenteneinnahme ansehen. Hierzu plotten wir quasi eine standardisierte Regressionsgerade ($\beta_0=0$ und $\beta_1=r_i$, wobei $r_i:=$ Korrelationskoeffizient von Studie $i$) pro Studie. Um den zugrundeliegenden Code anzusehen, können Sie [Appendix A](#AppendixA) nachschlagen.
@@ -155,13 +157,20 @@ head(data_transformed)
 
 ```
 ## 
-##               authors year  ni    ri controls          design   a_measure c_measure meanage quality   z_ri   v_ri 
-## 1     Axelsson et al. 2009 109 0.187     none cross-sectional self-report     other   22.00       1 0.1892 0.0094 
-## 2     Axelsson et al. 2011 749 0.162     none cross-sectional self-report       NEO   53.59       1 0.1634 0.0013 
-## 3        Bruce et al. 2010  55 0.340     none     prospective       other       NEO   43.36       2 0.3541 0.0192 
-## 4  Christensen et al. 1999 107 0.320     none cross-sectional self-report     other   41.70       1 0.3316 0.0096 
-## 5 Christensen & Smith 1995  72 0.270     none     prospective       other       NEO   46.39       2 0.2769 0.0145 
-## 6        Cohen et al. 2004  65 0.000     none     prospective       other       NEO   41.20       2 0.0000 0.0161
+##               authors year  ni    ri controls          design   a_measure 
+## 1     Axelsson et al. 2009 109 0.187     none cross-sectional self-report 
+## 2     Axelsson et al. 2011 749 0.162     none cross-sectional self-report 
+## 3        Bruce et al. 2010  55 0.340     none     prospective       other 
+## 4  Christensen et al. 1999 107 0.320     none cross-sectional self-report 
+## 5 Christensen & Smith 1995  72 0.270     none     prospective       other 
+## 6        Cohen et al. 2004  65 0.000     none     prospective       other 
+##   c_measure meanage quality   z_ri   v_ri 
+## 1     other   22.00       1 0.1892 0.0094 
+## 2       NEO   53.59       1 0.1634 0.0013 
+## 3       NEO   43.36       2 0.3541 0.0192 
+## 4     other   41.70       1 0.3316 0.0096 
+## 5       NEO   46.39       2 0.2769 0.0145 
+## 6       NEO   41.20       2 0.0000 0.0161
 ```
 
 Wenn wir den Namen des Datensatzes nicht an die Funktion übergeben, und statt dessen nur die beobachteten Korrelationen und die Stichprobengrößen angeben, werden im erzeugten Datensatz nur die $z$-Werte und die Varianzen gespeichert; die Werte werden nicht an den bestehenden Datensatz angehängt (was für spätere Analysen weniger sinnvoll erscheint). 
@@ -280,13 +289,21 @@ names(REM)
 ```
 
 ```
-##  [1] "b"            "beta"         "se"           "zval"         "pval"         "ci.lb"        "ci.ub"        "vb"           "tau2"         "se.tau2"      "tau2.fix"    
-## [12] "tau2.f"       "I2"           "H2"           "R2"           "vt"           "QE"           "QEp"          "QM"           "QMdf"         "QMp"          "k"           
-## [23] "k.f"          "k.eff"        "k.all"        "p"            "p.eff"        "parms"        "int.only"     "int.incl"     "intercept"    "allvipos"     "coef.na"     
-## [34] "yi"           "vi"           "X"            "weights"      "yi.f"         "vi.f"         "X.f"          "weights.f"    "M"            "outdat.f"     "ni"          
-## [45] "ni.f"         "ids"          "not.na"       "subset"       "slab"         "slab.null"    "measure"      "method"       "model"        "weighted"     "test"        
-## [56] "dfs"          "ddf"          "s2w"          "btt"          "m"            "digits"       "level"        "control"      "verbose"      "add"          "to"          
-## [67] "drop00"       "fit.stats"    "data"         "formula.yi"   "formula.mods" "version"      "call"         "time"
+##  [1] "b"            "beta"         "se"           "zval"         "pval"        
+##  [6] "ci.lb"        "ci.ub"        "vb"           "tau2"         "se.tau2"     
+## [11] "tau2.fix"     "tau2.f"       "I2"           "H2"           "R2"          
+## [16] "vt"           "QE"           "QEp"          "QM"           "QMdf"        
+## [21] "QMp"          "k"            "k.f"          "k.eff"        "k.all"       
+## [26] "p"            "p.eff"        "parms"        "int.only"     "int.incl"    
+## [31] "intercept"    "allvipos"     "coef.na"      "yi"           "vi"          
+## [36] "X"            "weights"      "yi.f"         "vi.f"         "X.f"         
+## [41] "weights.f"    "M"            "outdat.f"     "ni"           "ni.f"        
+## [46] "ids"          "not.na"       "subset"       "slab"         "slab.null"   
+## [51] "measure"      "method"       "model"        "weighted"     "test"        
+## [56] "dfs"          "ddf"          "s2w"          "btt"          "m"           
+## [61] "digits"       "level"        "control"      "verbose"      "add"         
+## [66] "to"           "drop00"       "fit.stats"    "data"         "formula.yi"  
+## [71] "formula.mods" "version"      "call"         "time"
 ```
 
 Beispielsweise können wir dem Objekt so auch die mittlere Schätzung (`$b`) oder $\tau^2$ (`$tau2`) entlocken.
@@ -333,7 +350,9 @@ names(pred_REM)
 ```
 
 ```
-##  [1] "pred"      "se"        "ci.lb"     "ci.ub"     "pi.lb"     "pi.ub"     "cr.lb"     "cr.ub"     "slab"      "digits"    "method"    "transf"    "pred.type"
+##  [1] "pred"      "se"        "ci.lb"     "ci.ub"     "pi.lb"     "pi.ub"    
+##  [7] "cr.lb"     "cr.ub"     "slab"      "digits"    "method"    "transf"   
+## [13] "pred.type"
 ```
 
 ```r
