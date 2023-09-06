@@ -8,7 +8,7 @@ subtitle: 'Mittlere Korrelationen'
 summary: ''
 authors: [irmer]
 weight: 8
-lastmod: '2023-09-05'
+lastmod: '2023-09-06'
 featured: no
 banner:
   image: "/header/KliPsy_Meta-Analyse_Cor.jpg"
@@ -143,9 +143,9 @@ $$Z_i:=\frac{1}{2}\log\left(\frac{1+r_i}{1-r_i}\right)$$.
 Das Schöne an den transformierten Daten (den $z$-Werten) ist, dass wir nun die Varianzen (bzw. die Standardfehler) der Korrelationskoeffizienten kennen. Es gilt nämlich:
 
 $$\mathbb{V}ar[Z_i]:=\frac{1}{n_i-3},$$
-wobei $n_i$ die Stichprobengröße der Studie $i$ ist. Der Standardfehler wäre $\sqrt{\frac{1}{n_i-3}}=\frac{1}{\sqrt{n_i-3}}$. Wir sehen, dass die Variation der Korrelationskoeffizienten unabhängig von ihrer Höhe ist. Im Idealfall kennen wir die Stichprobengröße der Studie, sodass sich der SE nach Transformation leicht ermitteln lässt. Das macht es uns leicht, da wir nicht, wie bspw. beim Mittelwert, noch die Standardabweichung aus den Studien kennen müssen. Wir müssen diese Transformation selbstverständlich nicht per Hand durchführen, sondern können uns einfach der Funktion `escalc` aus dem `metafor`-Paket bedienen. Diese Funktion hatten wir bereits beim Bestimmen der standardisierten Mittelwertsdifferenz kennengelernt (siehe dazu [vergangene Sitzung](/post/metaanalysen-mw)).
+wobei $n_i$ die Stichprobengröße der Studie $i$ ist. Der Standardfehler (SE) wäre $\sqrt{\frac{1}{n_i-3}}=\frac{1}{\sqrt{n_i-3}}$. Wir sehen, dass die Variation der Korrelationskoeffizienten unabhängig von ihrer Höhe ist. Im Idealfall kennen wir die Stichprobengrößen der Studien, sodass sich die SE nach Transformation leicht ermitteln lassen. Das macht es uns leicht, da wir nicht, wie bspw. beim Mittelwert, noch die Standardabweichungen aus den Studien kennen müssen. Wir müssen diese Transformation selbstverständlich nicht per Hand durchführen, sondern können uns einfach der Funktion `escalc` aus dem `metafor`-Paket bedienen. Diese Funktion hatten wir bereits beim Bestimmen der standardisierten Mittelwertsdifferenz kennengelernt (siehe dazu [vergangene Sitzung](/lehre/klipps/metaanalysen-mw)).
 
-Um diese Funktion zu verwenden und somit die Daten zu $z$-transformieren, müssen wir folgende Argumente an die Funktion übergeben: `measure = "ZCOR"` bewirkt, dass auch tatsächlich die $r$-to-$z$-Transformation (Fisher's $z$-Transformation) durchgeführt wird. Das Argument `ri` nimmt die beobachteten Korrelationskoeffizienten entgegen (diese heißen hier auch `ri`), `ni` nimmt die Stichprobengröße pro Studie entgegen (diese heißen hier auch `ni`). Das Argument `data` nimmt, wie der Namen schon verrät, den Datensatz entgegen, in dem die Studien zusammengefasst sind (hier `dat.molloy2014`). Die Funktion erzeugt einen neuen Datensatz, welcher um die $z$-Werte sowie deren Varianz erweitert wurde. Diesen wollen wir unter einem neuen Namen abspeichern. Als Beweis meines Einfallsreichtums nennen wir diesen Datensatz einfach `data_transformed`. Auch die Namen, der neu zu erstellenden Variablen lassen sich in der Funktion festlegen. Dies ergibt insbesondere dann Sinn, wenn wir mehrere Analysen an einem Datensatz durchführen. Dies geht mit dem `var.names`-Argument, welchem wir einen Vektor mit zwei Einträgen übergeben müssen: dem Namen der $z$-Werte und dem Namen der Varianzen.  Wir wollen sie `z_ri` und `v_ri` nennen: `var.names = c("z_ri", "v_ri")`. Der fertige Code sieht folglich so aus (mit `head` schauen wir uns wieder die ersten 6 Zeilen an):
+Um diese Funktion zu verwenden und somit die Daten zu $z$-transformieren, müssen wir folgende Argumente an die Funktion übergeben: `measure = "ZCOR"` bewirkt, dass auch tatsächlich die $r$-to-$z$-Transformation (Fisher's $z$-Transformation) durchgeführt wird. Das Argument `ri` nimmt die beobachteten Korrelationskoeffizienten entgegen (diese heißen hier auch `ri`), `ni` nimmt die Stichprobengrößen der Studien entgegen (diese heißen hier auch `ni`). Das Argument `data` nimmt, wie der Namen schon verrät, den Datensatz entgegen, in dem die Studien zusammengefasst sind (hier `dat.molloy2014`). Die Funktion erzeugt einen neuen Datensatz, welcher um die $z$-Werte sowie deren Varianzen erweitert wurde. Diesen wollen wir unter einem neuen Namen abspeichern. Als Beweis meines Einfallsreichtums nennen wir diesen Datensatz einfach `data_transformed`. Auch die Namen, der neu zu erstellenden Variablen lassen sich in der Funktion festlegen. Dies ergibt insbesondere dann Sinn, wenn wir mehrere Analysen an einem Datensatz durchführen. Das geht mit dem `var.names`-Argument, welchem wir einen Vektor mit zwei Einträgen übergeben müssen: dem Namen der $z$-Werte und dem Namen der Varianzen.  Wir wollen sie `z_ri` und `v_ri` nennen: `var.names = c("z_ri", "v_ri")`. Der fertige Code sieht folglich so aus (mit `head` schauen wir uns wieder die ersten 6 Zeilen an):
 
 
 ```r
@@ -173,7 +173,7 @@ head(data_transformed)
 ## 6       NEO   41.20       2 0.0000 0.0161
 ```
 
-Wenn wir den Namen des Datensatzes nicht an die Funktion übergeben, und statt dessen nur die beobachteten Korrelationen und die Stichprobengrößen angeben, werden im erzeugten Datensatz nur die $z$-Werte und die Varianzen gespeichert; die Werte werden nicht an den bestehenden Datensatz angehängt (was für spätere Analysen weniger sinnvoll erscheint). 
+Wenn wir den Namen des Datensatzes nicht an die Funktion übergeben, und stattdessen nur die beobachteten Korrelationen und die Stichprobengrößen angeben, werden im erzeugten Datensatz nur die $z$-Werte und die Varianzen gespeichert; die Werte werden nicht an den bestehenden Datensatz angehängt (was für spätere Analysen weniger sinnvoll erscheint). 
 
 
 ```r
@@ -227,19 +227,19 @@ plot(x = data_transformed$ri, y = data_transformed$z_ri,
 <img src="/lehre/klipps/metaanalysen-cor_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 Der Grafik sollte zu entnehmen sein, dass nach Transformation Korrelationswerte nahe 1 stärker gewichtet werden (sie haben größere $z$-Ausprägungen). Dies war das Ziel, da es deutlich unwahrscheinlicher ist, in einer Studie einen Korrelationskoeffizient von .90 zu finden als einen von .20 und die Korrelation von .90 somit stärker ins Gewicht fallen sollte.
-Vor allem, wenn wir den mittleren Korrelationskoeffizienten gegen 0 testen wollen, sollte berücksichtigt werden, dass einige Korrelationskoeffizienten nahe 1 lagen. Sollten diese Werte aufgrund zufälliger Schwankungen gefunden worden sein, so sollte dies daran liegen, dass der Standardfehler groß - also die Stichprobengröße klein - ist, da Standardfehler der Korrelation antiproportional zur Stichprobengröße ist (da $=\left(\frac{1}{\sqrt{n_i-3}}\right)$). Somit können wir auch solche Stichproben weniger stark gewichten, die zwar einen hohen Korrelationskoeffizienten aufweisen, aber eine sehr kleine Stichprobe haben, da in solchen Fällen eine hohe Korrelation auch mal durch Zufall auftreten kann! Allerdings waren alle Korrelationen recht gering, sodass wir hier kaum Unterschiede in der Gewichtung erkennen können.
+Vor allem wenn wir den mittleren Korrelationskoeffizienten gegen 0 testen wollen, sollte berücksichtigt werden, dass einige Korrelationskoeffizienten nahe 1 lagen. Falls diese Werte aufgrund zufälliger Schwankungen gefunden worden sind, so sollte dies daran liegen, dass der Standardfehler groß, also die Stichprobengröße klein ist, da der Standardfehler der Korrelation antiproportional zur Stichprobengröße ist (da $=\left(\frac{1}{\sqrt{n_i-3}}\right)$). Somit können wir auch solche Stichproben weniger stark gewichten, die zwar einen hohen Korrelationskoeffizienten aufweisen, aber eine sehr kleine Stichprobe haben, da in solchen Fällen eine hohe Korrelation auch mal durch Zufall auftreten kann! Allerdings waren alle Korrelationen recht gering, sodass wir hier kaum Unterschiede in der Gewichtung erkennen können.
 
-Nach unseren Berechnungen können wir die Transformation natürlich auch wieder ganz leicht rückgängig machen (natürlich gibt es hier auch wieder eine Funktion die dies für uns übernimmt, welche wir uns anschauen, wenn es soweit ist):
+Nach unseren Berechnungen können wir die Transformation natürlich auch wieder ganz leicht rückgängig machen (auch hier gibt es wieder eine Funktion, die dies für uns übernimmt, welche wir uns anschauen, wenn es soweit ist):
 $$r_i = \frac{e^{2z_i}-1}{e^{2z_i}+1}$$
 
 
 ## Random Effects Modell
 
-Wir überspringen hier das Fixed Effect Model (siehe dazu [vergangene Sitzung](/post/metaanalysen-mw)). Wir beginnen also mit einem Random Effects Modell, da es sinnig ist, dass es Heterogenität zwischen den Studien gibt (allein schon deswegen, weil unterschiedliche Krankheiten untersucht wurden). Das Modell sah so aus:
+Wir überspringen hier das Fixed Effects Modell (siehe dazu [vergangene Sitzung](/lehre/klipps/metaanalysen-mw)). Wir beginnen also mit einem Random Effects Modell, da es sinnig ist, dass es Heterogenität zwischen den Studien gibt (allein schon deswegen, weil unterschiedliche Krankheiten untersucht wurden). Das Modell sah so aus:
 
 $$Y_i = \theta + \vartheta_i + \varepsilon_i,$$
 
-Für eine Wiederholung siehe [hier](/post/metaanalysen-mw). Das Modell schätzen wir so:
+Für eine Wiederholung siehe [hier](/lehre/klipps/metaanalysen-mw). Das Modell schätzen wir so:
 
 
 
@@ -276,12 +276,12 @@ Der Output ist vom Aufbau her komplett identisch zum Output bei Mittelwertsvergl
 
 Als Überschrift lesen wir `Random-Effects Model`, wobei `k` die Anzahl der Studien angibt (hier `k`=16). Außerdem wird uns das Schätzverfahren für die Heterogenitätsvarianz $\tau^2$ angegeben unter `tau^2 estimator:` (hier REML). 
 
-In den darunterliegenden Zeilen können wir die Heterogenitätsvarianz ablesen, welche bei 0.0081 liegt. Der Standardfehler (SE = 0.0055) gibt uns an, dass diese Heterogenitätsvarianz wahrscheinlich nicht signifikant von 0 verschieden ist. In der Zeile von `I^2` wird die $I^2$-Statistik ausgegeben, welche ein Maß für die Heterogenität in den Daten sein soll. Diese liegt hier bei 61.73% und deutet somit auf Heterogenität der Korrelationskoeffizienten hin.
+In den darunterliegenden Zeilen können wir die Heterogenitätsvarianz ablesen, welche bei 0.0081 liegt. Der Standardfehler (SE = 0.0055) gibt uns an, dass diese Heterogenitätsvarianz wahrscheinlich nicht signifikant von 0 verschieden ist. In der Zeile von `I^2` wird die $I^2$-Statistik ausgegeben, welche ein Maß für die Heterogenität in den Daten sein soll. Diese liegt hier bei {{< math >}}$61.73\%${{< /math >}} und deutet somit auf Heterogenität der Korrelationskoeffizienten hin.
 
-Auch wird die Heterogenitätsvarianz mit einem Signifikanztest auf Verschiedenheit von 0 geprüft. Die Ergebnisse hierzu entnehmen wir `Test for Heterogeneity`. Hier zeigt der p-Wert ein signifikantes ($p<0.05$) Ergebnis an: Die Heterogenitätsvarianz unterscheidet sich (mit einer Irrtumswahrscheinlichkeit von $5\%$) von 0, es liegt also Heterogenität/systematische Unterschiedlichkeit in den Korrelationen über die Studien hinweg vor.
+Auch wird die Heterogenitätsvarianz mit einem Signifikanztest auf Verschiedenheit von 0 geprüft. Die Ergebnisse hierzu entnehmen wir `Test for Heterogeneity`. Hier zeigt der p-Wert ein signifikantes ($p<0.05$) Ergebnis an: Die Heterogenitätsvarianz unterscheidet sich (mit einer Irrtumswahrscheinlichkeit von {{< math >}}$5\%${{< /math >}}) von 0, es liegt also Heterogenität/ systematische Unterschiedlichkeit in den Korrelationen über die Studien hinweg vor.
 
 
-Unter `Model Results` können wir nun (endlich) die Schätzergebnisse unseres REM ablesen. `estimate` steht hierbei für die gepoolte $z$-transformierte Korrelation, `se` ist der Standardfehler, `zval` der zugehörige z-Wert $\left(\frac{Est}{SE}\right)$, `pval` der p-Wert und `ci.lb` und `ci.ub` geben die untere und die obere Grenze eines 95%-igen Konfidenzintervall an. Hier ist zu erkennen, dass die mittlere Korrelation wohl von 0 verschieden ist, da der $z$-transformierte statistisch bedeutsam ist. Wir können aber schon sagen, dass "wir für die Population folglich die Nullhypothese, dass es im Mittel keine Beziehung zwischen Gewissenhaftigkeit und Medikamenteneinnahme gibt, verwerfen". Den exakten vorhergesagten Wert kennen wir allerdings noch nicht; hierzu müssen wir den $z$-Wert erst wieder in einen Korrelation retransformieren. Selbstverständlich können wir auf das Objekt `REM` mit `$` zugreifen und dadurch noch zahlreiche weitere Informationen erhalten. Welche dies genau sind erfahren wir wieder mit `names`:
+Unter `Model Results` können wir nun (endlich) die Schätzergebnisse unseres REM ablesen. `estimate` steht hierbei für die gepoolte $z$-transformierte Korrelation, `se` ist der Standardfehler, `zval` der zugehörige z-Wert $\left(\frac{Est}{SE}\right)$, `pval` der p-Wert und `ci.lb` und `ci.ub` geben die untere und die obere Grenze eines {{< math >}}$95\%${{< /math >}}-igen Konfidenzintervall an. Hier ist zu erkennen, dass die mittlere Korrelation wohl von 0 verschieden ist, da der $z$-transformierte Wert statistisch bedeutsam ist. Wir können nun schon sagen, dass "wir für die Population folglich die Nullhypothese, dass es im Mittel keine Beziehung zwischen Gewissenhaftigkeit und Medikamenteneinnahme gibt, verwerfen". Den exakten vorhergesagten Wert kennen wir allerdings noch nicht; hierzu müssen wir den $z$-Wert erst wieder in eine Korrelation retransformieren. Selbstverständlich können wir auf das Objekt `REM` mit `$` zugreifen und dadurch noch zahlreiche weitere Informationen erhalten. Welche dies genau sind, erfahren wir wieder mit `names`:
 
 
 ```r
@@ -339,9 +339,9 @@ predict(REM, transf=transf.ztor)
 ##  0.1488 0.0878 0.2087 -0.0371 0.3248
 ```
 
-Das Konfidenzintervall reicht von `ci.lb` (*confidence interval lower boundary*) bis `ci.ub` (*confidence interval upper boundary*). Die Aussage, die wir treffen können ist, dass wenn wir diese Metaanalyse an unabhängigen Stichproben unendlich häufig wiederholen könnten, dieses Intervall, welches sich in dieser Metaanalyse von 0.0878 bis  0.2087 erstreckt (und welches von Metaanalyse zu Metaanalyse von unabhängigen Ansammlungen von Stichproben unterscheiden würde), den wahren mittleren Populationsmittelwert ($\theta$) in 95% der Fälle enthalten würde. Auf Basis dieses Konfidenzintervalls würden wir die **Nullhypothese**, dass es **keine Beziehung** zwischen Gewissenhaftigkeit und Medikamenteneinnahme gibt, auf dem 95% Signifikanzniveau verwerfen. Des Weiteren wird uns das Predictive Interval (`pi.lb` = predictive interval lower bound, `pi.ub` = predictive interval upper bound) ausgegeben. Dieses Intervall ist wieder ein Konfidenzintervall, welches diesmal allerdings die Heterogenität zwischen Studien mit einbezieht. Im REM ist es ja so, dass der wahre mittlere Wert pro Studie $i$ gegeben ist durch $\theta_i = \theta + \vartheta_i$, wobei $\vartheta_i$ die systematische Abweichung der Studie (und damit Subpopulation) $i$ ausdrückt. Im Grunde berücksichtigt das Predictive Interval die Heterogenitätsvarianz $\tau^2$ zusätzlich zur Sampling-Variance $\sigma^2$. Schließt das PI die 0 mit ein, bedeutet dies, dass es (durch das Modell vorhergesagte) Studien gibt, in denen der wahre subpopulationsspezifische mittlere Wert gleich 0 (oder kleiner in diesem Beispiel) sein kann, der mittlere Wert über alle Subpopulationen hinweg ist allerdings $\neq 0$, was wir am CI abgelesen hatten. Wir erkennen, welchen den Effekt die Heterogenität in den Daten hat: sie vergrößert die Unsicherheit in der Vorhersage, wenn wir eine spezifische Vorhersage für einen bestimmte Studie machen wollen. So kann es Subpopulationen geben, für welche es keine Beziehung zwischen Gewissenhaftigkeit und Medikamenteneinnahme gibt. Werfen wir alle Subpopulationen in einen Pott und ignorieren die Heterogenität für einen Moment, dann schlussfolgern wir, dass es einen Effekt gibt zwischen Gewissenhaftigkeit und Medikamenteneinnahme.
+Das Konfidenzintervall (CI) reicht von `ci.lb` (*confidence interval lower boundary*) bis `ci.ub` (*confidence interval upper boundary*). Die Aussage, die wir treffen können ist, dass wenn wir diese Metaanalyse an unabhängigen Stichproben unendlich häufig wiederholen könnten, dieses Intervall, welches sich in dieser Metaanalyse von 0.0878 bis  0.2087 erstreckt (und welches von Metaanalyse zu Metaanalyse von unabhängigen Ansammlungen von Stichproben unterscheiden würde), den wahren mittleren Populationsmittelwert ($\theta$) in {{< math >}}$95\%${{< /math >}} der Fälle enthalten würde. Auf Basis dieses Konfidenzintervalls würden wir die **Nullhypothese**, dass es **keine Beziehung** zwischen Gewissenhaftigkeit und Medikamenteneinnahme gibt, auf dem {{< math >}}$5\%${{< /math >}}-igen Alpha-Fehler-Niveau verwerfen. Des Weiteren wird uns das Predictive Interval (PI; `pi.lb` = predictive interval lower bound, `pi.ub` = predictive interval upper bound) ausgegeben. Dieses Intervall ist wieder ein Konfidenzintervall, welches diesmal allerdings die Heterogenität zwischen Studien miteinbezieht. Im REM ist es ja so, dass der wahre mittlere Wert pro Studie $i$ gegeben ist durch $\theta_i = \theta + \vartheta_i$, wobei $\vartheta_i$ die systematische Abweichung der Studie (und damit Subpopulation) $i$ ausdrückt. Im Grunde berücksichtigt das Predictive Interval die Heterogenitätsvarianz $\tau^2$ zusätzlich zur Sampling-Variance $\sigma^2$. Schließt das PI die 0 mit ein, bedeutet dies, dass es (durch das Modell vorhergesagte) Studien gibt, in denen der wahre subpopulationsspezifische mittlere Wert gleich 0 (oder kleiner in diesem Beispiel) sein kann, der mittlere Wert über alle Subpopulationen hinweg ist allerdings $\neq 0$, was wir am CI abgelesen hatten. Wir erkennen, welchen Effekt die Heterogenität in den Daten hat: Sie vergrößert die Unsicherheit in der Vorhersage, wenn wir eine spezifische Vorhersage für eine bestimmte Studie machen wollen. So kann es Subpopulationen geben, für welche es keine Beziehung zwischen Gewissenhaftigkeit und Medikamenteneinnahme gibt. Werfen wir alle Subpopulationen in einen Pott und ignorieren die Heterogenität für einen Moment, dann schlussfolgern wir, dass es einen Effekt gibt zwischen Gewissenhaftigkeit und Medikamenteneinnahme.
 
-Auch dieser Befehl lässt sich erneut als Objekt abspeichern und wir können dann auf diese zugreifen:
+Auch der Output dieses Befehls lässt sich erneut als Objekt abspeichern und wir können dann auf dieses zugreifen:
 
 
 ```r
@@ -370,24 +370,24 @@ Schauen wir uns die Ergebnisse nun grafisch an:
 
 <img src="/lehre/klipps/metaanalysen-cor_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
 
-Es scheint wohl eine Beziehung zwischen Gewissenhaftigkeit und Medikamenteneinnahme zu geben. Allerdings ist diese Beziehung mit einer Korrelation von 0.1488 nicht sehr stark; lediglich 2.21% der Variation an der Medikamenteneinnahme können durch die Gewissenhaftigkeit erklärt werden. Das Credibility-Intervall zeigt an, in welchem Bereich ca. 80% der beobachteten Werte liegen.
+Es scheint wohl eine Beziehung zwischen Gewissenhaftigkeit und Medikamenteneinnahme zu geben. Allerdings ist diese Beziehung mit einer Korrelation von 0.1488 nicht sehr stark; lediglich {{< math >}}$2.21\%${{< /math >}} der Variation an der Medikamenteneinnahme können durch die Gewissenhaftigkeit erklärt werden. Das Credibility-Intervall zeigt an, in welchem Bereich ca. {{< math >}}$80\%${{< /math >}} der beobachteten Werte liegen.
 
 ### Analyse Plots
-Das `metafor` Paket bietet außerdem noch einige grafischen Veranschaulichungen der Daten. Beispielsweise lässt sich ganz leicht ein Funnel-Plot erstellen mit der `funnel`-Funktion, welche lediglich unser Metaanalyse-Objekt `REM` entgegennehmen muss. Diese Plots haben wir in der [vergangenen Sitzung](/post/metaanalysen-mw) bereits kennengelernt. Sie sind deshalb nur in [Appendix B](#Appendix B) aufgeführt.
+Das `metafor` Paket bietet außerdem noch einige grafische Veranschaulichungen der Daten. Beispielsweise lässt sich ganz leicht ein Funnel-Plot erstellen mit der `funnel`-Funktion, welche lediglich unser Metaanalyse-Objekt `REM` entgegennehmen muss. Diese Plots haben wir in der [vergangenen Sitzung](/lehre/klipps/metaanalysen-mw) bereits kennengelernt. Sie sind deshalb nur in [Appendix B](#AppendixB) aufgeführt.
 
-Insgesamt zeigen uns die Plots, dass von einem stabilen Effekt ausgegangen werden kann. Der Funnel-Plot ist viel regelmäßiger als der Funnel-Plot der [vergangenen Sitzung](/post/metaanalysen-mw).
+Insgesamt zeigen uns die Plots, dass von einem stabilen Effekt ausgegangen werden kann. Der Funnel-Plot ist viel regelmäßiger als der Funnel-Plot der [vergangenen Sitzung](/lehre/klipps/metaanalysen-mw).
 
 ## Mixed Effects Modelle
 
-Da die Heterogenitätsvarianz signifikant von 0 verschieden war, wäre es sinvoll zu versuchen, diese Variation in den Korrelationskoeffizienten zwischen den Studien mithilfe von Moderatoren zu erklären. Dies überlassen wir Ihnen als Übung (Tipp: interessante Moderatoren sind die Studienqualität und die Involvierung von Kontrollvariablen). 
+Da die Heterogenitätsvarianz signifikant von 0 verschieden war, wäre es sinnvoll zu versuchen, diese Variation in den Korrelationskoeffizienten zwischen den Studien mithilfe von Moderatoren zu erklären. Dies überlassen wir Ihnen als Übung (Tipp: interessante Moderatoren sind die Studienqualität und die Involvierung von Kontrollvariablen). 
 
 
 ## Weitere Moderatoren und Psychometrische Metaanalysen
 
-Das Ziel einer psychometrischen Metaanalyse nach Hunter und Schmidt (2004) ist es, so viele Varianzeinflüsse wie möglich zu kontrollieren/korrigeren. So ist es nach diesem Ansatz üblich, dass Korrelationen um deren Reliabilität korrigiert werden. Auch Range-Restrictions (also Einschränkungen im Wertebereich) können berücksichtigt werden. Da das Korrigieren der Korrelationen ein häufiges Vorgehen ist, schauen wir uns dieses noch genauer an. Die Korrektur wird mithilfe der Information über die Reliabilität der Skalen mittels der Minderungskorrektur durchgeführt:
+Das Ziel einer psychometrischen Metaanalyse nach Hunter und Schmidt (2004) ist es, so viele Varianzeinflüsse wie möglich zu kontrollieren/korrigieren. So ist es nach diesem Ansatz üblich, dass Korrelationen um deren Reliabilität korrigiert werden. Auch Range-Restrictions (also Einschränkungen im Wertebereich) können berücksichtigt werden. Da das Korrigieren der Korrelationen ein häufiges Vorgehen ist, schauen wir uns dieses noch genauer an. Die Korrektur wird mithilfe der Information über die Reliabilität der Skalen mittels der Minderungskorrektur durchgeführt:
 
 $$r_{xy\text{,corrected}} = \frac{r_{xy}}{\sqrt{r_{xx}r_{yy}}},$$
-wobei $r_{xy}$ die Korrelation der Variablen $X$ und $Y$ (hier ist $Y$ wieder einer Variable und kein Koeffizient, wie es bei Metaanalysen üblich ist), $r_{xx}$ und $r_{yy}$ sind jeweils die Reliablitäten der Skalen, die zur Messung von $X$ und $Y$ verwendet wurden. Je geringer die Reliabilität ausfällt, desto größer ist der Korrekturterm (da durch die Reliabilität geteilt wird). Um keine verzerrten Ergebnisse zu erhalten, ist es also konservativer, größere Reliabilitäten zu verwenden, wenn bspw. nur eine Range für eine Reliabilität in einem Artikel angegeben wird. Liegt keine Informationen für die Reliabilität vor oder ist eine Variable direkt beobachtbar, wird die Reliabilität als 1 angenommen. Angenommen wir haben einen Datensatz mit vier Studien und den folgenden Koeffizienten:
+wobei $r_{xy}$ die Korrelation der Variablen $X$ und $Y$ ist (hier ist $Y$ wieder eine Variable und kein Koeffizient, wie es bei Metaanalysen üblich ist), $r_{xx}$ und $r_{yy}$ sind jeweils die Reliablitäten der Skalen, die zur Messung von $X$ und $Y$ verwendet wurden. Je geringer die Reliabilität ausfällt, desto größer ist der Korrekturterm (da durch die Reliabilität geteilt wird). Um keine verzerrten Ergebnisse zu erhalten, ist es also konservativer, größere Reliabilitäten zu verwenden, wenn bspw. nur eine Range für eine Reliabilität in einem Artikel angegeben wird. Liegen keine Informationen für die Reliabilität vor oder ist eine Variable direkt beobachtbar, wird die Reliabilität als 1 angenommen. Angenommen wir haben einen Datensatz mit vier Studien und den folgenden Koeffizienten:
 
 
 ```r
@@ -406,7 +406,7 @@ head(df)
 ## 4 0.4  1.0  1.0 46
 ```
 
-dann reichen diese Informationen aus, um die Korrelationen um deren Reliabilität zu korrigieren. Hierbei hat die Variable $X$ zweimal eine Reliabilität von 1, was wie eben erwähnt daran liegen kann, dass keine Informationen vorlagen oder dass diese Merkmale direkt beobachtbar waren (bspw. das Gehalt oder Berufserfahrung in Jahre, etc. haben keine Unsicherheit). Nun führen wir die Minderungskorrektur durch und fügen die korrigierten Korrelationen direkt unserem Datensatz hinzu:
+Dann reichen diese Informationen aus, um die Korrelationen um deren Reliabilität zu korrigieren. Hierbei hat die Variable $X$ zweimal eine Reliabilität von 1, was wie eben erwähnt daran liegen kann, dass keine Informationen vorlagen oder dass diese Merkmale direkt beobachtbar waren (bspw. das Gehalt oder Berufserfahrung in Jahren, etc. haben keine Unsicherheit). Nun führen wir die Minderungskorrektur durch und fügen die korrigierten Korrelationen direkt unserem Datensatz hinzu:
 
 
 ```r
@@ -422,12 +422,12 @@ head(df)
 ## 4 0.4  1.0  1.0 46 0.4000000
 ```
 
-Wir sehen, dass in der ersten Studie die Korrelation am stärksten angestiegen ist. Das liegt daran, dass hier beide Relibilitäten am geringsten ausgefallen sind. In der zweiten Studie wurden beide Merkmale etwas reliabler erfasst, sodass hier die Korrektur wesentlich geringer ausgefallen ist. In der letzten Studie wurden nur direkt beobachtbare Variablen verwendet (manifeste Variablen) oder es lag nicht genug Informationen über die Reliablitäten vor, sodass hier keinerlei Korrektur vorgenommen wurde.
+Wir sehen, dass in der ersten Studie die Korrelation am stärksten angestiegen ist. Das liegt daran, dass hier beide Relibilitäten am geringsten ausgefallen sind. In der zweiten Studie wurden beide Merkmale etwas reliabler erfasst, sodass hier die Korrektur wesentlich geringer ausgefallen ist. In der letzten Studie wurden nur direkt beobachtbare Variablen verwendet (manifeste Variablen) oder es lagen nicht genug Informationen über die Reliablitäten vor, sodass hier keinerlei Korrektur vorgenommen wurde.
 
-Die psychometrische Metaanalyse von Irmer, Kern, Schermelleh-Engel, Semmer und Zapf (2019) wurde mit diesem `R`-Paket durchgeführt. Sie behandelt die Validierung des Instrument zur stressbezogenen Tätigkeitsanalyse (ISTA) von Semmer, Zapf und Dunckel (1995, 1999), indem die linearen Beziehungen der Skalen des Instrument untereinander sowie mit Kriteriumsvariablen untersucht wurden. Außerdem wurden die Mittelwerte und und Standardabweichungen (metaanalytisch) gemittelt. Alle Koeffizienten (Mittelwerte, Standardabweichungen und [reliabilitätskorrigierte] Korrelationen) wurden hinsichtlich systematischer Unterschiede über das Geschlecht (% Frauen), der Publikationsstatus (publiziert vs. nicht publiziert), die ISTA-Version sowie die Branche (des Arbeitsplatzes) untersucht. Das genaue metaanalytische Vorgehen ist dem Appendix des Artikels zu entnehmen.
+Die psychometrische Metaanalyse von Irmer, Kern, Schermelleh-Engel, Semmer und Zapf (2019) wurde mit diesem `R`-Paket durchgeführt. Sie behandelt die Validierung des Instrument zur stressbezogenen Tätigkeitsanalyse (ISTA) von Semmer, Zapf und Dunckel (1995, 1999), indem die linearen Beziehungen der Skalen des Instruments untereinander sowie mit Kriteriumsvariablen untersucht wurden. Außerdem wurden die Mittelwerte und die Standardabweichungen (metaanalytisch) gemittelt. Alle Koeffizienten (Mittelwerte, Standardabweichungen und [reliabilitätskorrigierte] Korrelationen) wurden hinsichtlich systematischer Unterschiede über das Geschlecht (% Frauen), den Publikationsstatus (publiziert vs. nicht publiziert), die ISTA-Version sowie die Branche (des Arbeitsplatzes) untersucht. Das genaue metaanalytische Vorgehen ist dem Appendix des Artikels zu entnehmen.
 
 
-## Appendix A
+## Appendix A {#AppendixA}
 <details><summary> **Codes** </summary>
 
 In diesem Appendix finden Sie die Codes, die zum Erstellen der Grafiken verwendet wurden.
@@ -466,14 +466,14 @@ legend(x = "bottomright", col = c("black", "blue", "gold3", "grey60"), pch = NA,
 
 </details>
 
-## Appendix B
+## Appendix B {#AppendixB}
 <details><summary> **Analyse Plots** </summary>
 
 In diesem Appendix finden Sie Analyse-Plots, die in der vergangenen Sitzung bereits besprochen wurden.
 
 #### Funnel Plot und Trim-and-Fill Methode
 
-Der Funnel-Plot wird verwendet, um auf das bekannte Problem des Publication-Bias zu untersuchen. Hier wird der gefundene Effekt (hier $z$-transformierte Korrelation zwischen Gewissenhaftigkeit und Medikamenteneinnahme) gegen den Standardfehler jeder Studie geplottet. Es wird die Annahme zugrunde gelegt, dass alle Studien in der Metaanalyse eine gewisse, zufällige Schwankung um den wahren Effekt haben, und dabei diese zufällige Schwankung größer ist, je größer der Standardfehler in einer Studie ist und je kleiner die Stichprobe war. Sofern eine Studie unabhängig von der Effektgröße sowie der Streuung (und damit auch der Signifikanz) publiziert wurde, sollte so das typische symmetrische Dreieck (Funnel = Trichter) entstehen.  
+Der Funnel-Plot wird verwendet, um das bekannte Problem des Publication-Bias zu untersuchen. Hier wird der gefundene Effekt (hier $z$-transformierte Korrelation zwischen Gewissenhaftigkeit und Medikamenteneinnahme) gegen den Standardfehler jeder Studie geplottet. Es wird die Annahme zugrunde gelegt, dass alle Studien in der Metaanalyse eine gewisse zufällige Schwankung um den wahren Effekt haben, und dabei diese zufällige Schwankung größer ist, je größer der Standardfehler in einer Studie ist und je kleiner die Stichprobe war. Sofern eine Studie unabhängig von der Effektgröße sowie der Streuung (und damit auch der Signifikanz) publiziert wurde, sollte so das typische symmetrische Dreieck (Funnel = Trichter) entstehen.  
 
 
 ```r
@@ -485,7 +485,7 @@ funnel(REM)
 
 Der Grafik ist zu entnehmen, dass sich die meisten Effektstärken im positiven Bereich tummeln. Je kleiner der Effekt (je näher an der Null), desto präziser die Schätzung (desto kleiner der SE - höher dargestellt im Funnel-Plot). Der Plot erscheint insgesamt recht symmetrisch und unverzerrt. Allein vom Funnel-Plot zu urteilen scheint es keinen Publication-Bias gegeben zu haben.
 
-Die Trim-and-Fill Methode wird verwendet, um zu bestimmen, wie viele Studien hinzugenommen (fill) oder entfernt werden (Trim) müssten, damit der Funnel-Plot symmetrisch ist. Die Methoden kann auch verwendet werden, um einen (um einen möglichen Publication-Bias) bereinigten Effekt zu schätzen.
+Die Trim-and-Fill Methode wird verwendet, um zu bestimmen, wie viele Studien hinzugenommen (fill) oder entfernt (trim) werden müssten, damit der Funnel-Plot symmetrisch ist. Die Methode kann auch zur Schätzung eines (um einen möglichen Publication-Bias) bereinigten Effekt verwendet werden.
 
 
 ```r
@@ -529,7 +529,7 @@ Wir gehen somit insgesamt davon aus, dass kein Publication Bias vorliegt und ver
 
 #### Forest-Plot
 
-Auch Forest-Plots funktionieren auf die gleiche Weise mit der `forest`-Funktion. Der Forest-Plot stellt die unterschiedlichen Studien hinsichtlich ihrer Parameterschätzung (Effektstärken) und die zugehörige Streuung grafisch dar. So können beispielsweise Studien identifiziert werden, welche besonders hohe oder niedrige Werte aufweisen oder solche, die eine besonders große oder kleine Streuung zeigen.
+Auch Forest-Plots funktionieren auf die gleiche Weise mit der `forest`-Funktion. Der Forest-Plot stellt die unterschiedlichen Studien hinsichtlich ihrer Parameterschätzungen (Effektstärken) und die zugehörige Streuung grafisch dar. So können beispielsweise Studien identifiziert werden, welche besonders hohe oder niedrige Werte aufweisen oder solche, die eine besonders große oder kleine Streuung zeigen.
 
 ```r
 # forest plot
@@ -548,7 +548,7 @@ forest(cumul.rma.uni(REM))
 
 <img src="/lehre/klipps/metaanalysen-cor_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
 
-Die Funktion `cumul.rma.uni` führt sukzessiv immer wieder eine Metaanalyse durch, wobei nach und nach eine Studie hinzugefügt wird. Anders als beim ersten Forest-Plot wird immer das Ergebnis der jeweiligen Metaanalyse dargestellt und nicht jede Studie einzeln. Wir sehen, dass sich sowohl die mittlere Effektstärke als auch Streuung von oben nach unten einpendeln. Das finale Ergebnis ist identisch mit unserer Metaanalyse. Die gestrichelte Linie der Forest-Plots symbolisiert die 0, da in den meisten Fällen gegen 0 getestet wird und es daher von Interesse ist, wie viele Studien sich von 0 unterscheiden und ob sich der mittlere Effekt von 0 unterscheidet. 
+Die Funktion `cumul.rma.uni` führt sukzessive immer wieder eine Metaanalyse durch, wobei nach und nach eine Studie hinzugefügt wird. Anders als beim ersten Forest-Plot wird immer das Ergebnis der jeweiligen Metaanalyse dargestellt und nicht jede Studie einzeln. Wir sehen, dass sich sowohl die mittlere Effektstärke als auch die Streuung von oben nach unten einpendeln. Das finale Ergebnis ist identisch mit unserer Metaanalyse. Die gestrichelte Linie der Forest-Plots symbolisiert die 0, da in den meisten Fällen gegen 0 getestet wird und es daher von Interesse ist, wie viele Studien sich von 0 unterscheiden und ob sich der mittlere Effekt von 0 unterscheidet. 
 
 </details>
 
