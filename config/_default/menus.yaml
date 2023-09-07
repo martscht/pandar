@@ -7,7 +7,7 @@ main:
   - name: "Lehre"
     pre: "<i class='fas fa-chalkboard-teacher'></i>&ensp;"
     url: "/lehre/main"
-    weight: 10
+    weight: 100
   - name: "Statistik I"
     pre: "<i class='fas fa-chart-pie'></i>&ensp;"
     url: "/lehre/main#statistik-i"
@@ -28,33 +28,39 @@ main:
     url: "/lehre/main#klipps"
     parent: "Lehre"
     weight: 104
+  - name: "Forschungsmod. F&E"
+    pre: "<i class='fas fa-laptop-code'></i>&ensp;"
+    url: "/lehre/main#MSc5_fe"
+    parent: "Lehre"
+    weight: 105
+
+  - name: "LIFOS"
+    pre: "<i class='fas fa-book-open'></i>&ensp;"
+    url: '/lifos/main'
+    weight: 200
 
   - name: "Projekte"
     pre: "<i class='fas fa-laptop'></i>&ensp;"
-    url: '/projekte'
-    weight: 20
+    url: '/projekte/main'
+    weight: 300
 
   - name: "Extras"
     pre: "<i class='fas fa-wand-sparkles'></i>&ensp;"
-    url: '/extras'
-    weight: 30
+    url: '/extras/main'
+    weight: 400
   
   - name: "Bayes"
     pre: "<i class='fa-solid fa-dice-d20'></i>&ensp;"
     url: '/extras/main#bayes'
     parent: 'Extras'
-    weight: 32
+    weight: 401
 
   - name: "stuart"
     pre: "<i class='fa fa-bugs'></i>&ensp;"
     url: '/extras/main#stuart'
     parent: 'Extras'
-    weight: 39
+    weight: 402
 
-  - name: "LIFOS"
-    pre: "<i class='fas fa-book-open'></i>&ensp;"
-    url: '/lifos'
-    weight: 40
 
 # Link to a PDF of your resume/CV from the menu.
 # To enable, copy your resume/CV to `static/uploads/resume.pdf` and uncomment the lines below.

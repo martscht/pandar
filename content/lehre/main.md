@@ -51,7 +51,7 @@ sections:
       subtitle: KliPPsMSc5a
       text: 
         Klipps.
-        {{< category_list "klipps" 10 "">}}
+        {{< category_list "klipps" 12 "I,I,II,II,II,III,IV,IV,Va,Va,Vb,Vb">}}
     design:
       columns: 2
 ---
