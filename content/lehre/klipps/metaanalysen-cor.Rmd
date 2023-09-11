@@ -3,9 +3,9 @@ title: Metaanalysen in R
 date: '2021-12-23'
 slug: metaanalysen-cor
 categories: ["KliPPs"]
-tags: ["Metaanalyse", "Zusammenfassung", "Summary", "Korrelationen", "Effektstärken"]
+tags: ["Metaanalyse", "Korrelationen", "Effektstärken", "Minderungskorrektur"]
 subtitle: 'Mittlere Korrelationen'
-summary: ''
+summary: 'In diesem Beitrag wird untersucht, wie Korrelationen metaanalytisch zusammengefasst werden können. Beispielhaft wird vorgeführt, wie untersucht werden kann, ob ein Zusammenhang zwischen zwei Variablen besteht. Zur Veranschaulichung der Unterschiedlichkeit der Korrelationskoeffizienten aus den verschiedenen Studien werden Regressionen betrachet. Um eine durchschnittliche Regressionsgerade zu bestimmen, werden alle Korrelationskoeffizienten in z-Werte transfomiert und unterschiedlich stark gewichtet. Dann wird das Random Effects Modell genauer betrachtet und darauf hingewiesen, dass der hier vorhergesagte z-Wert erst wieder in eine Korrelation retransformiert werden muss. Zuletzt wird gezeigt, wie Korrelationen mittels der Minderungskorrektur um deren Reliabilität korrigiert werden.'
 authors: [irmer]
 weight: 8
 lastmod: '`r Sys.Date()`'

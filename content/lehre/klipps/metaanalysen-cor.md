@@ -3,12 +3,12 @@ title: Metaanalysen in R
 date: '2021-12-23'
 slug: metaanalysen-cor
 categories: ["KliPPs"]
-tags: ["Metaanalyse", "Zusammenfassung", "Summary", "Korrelationen", "Effektstärken"]
+tags: ["Metaanalyse", "Korrelationen", "Effektstärken", "Minderungskorrektur"]
 subtitle: 'Mittlere Korrelationen'
-summary: ''
+summary: 'In diesem Beitrag wird untersucht, wie Korrelationen metaanalytisch zusammengefasst werden können. Beispielhaft wird vorgeführt, wie untersucht werden kann, ob ein Zusammenhang zwischen zwei Variablen besteht. Zur Veranschaulichung der Unterschiedlichkeit der Korrelationskoeffizienten aus den verschiedenen Studien werden Regressionen betrachet. Um eine durchschnittliche Regressionsgerade zu bestimmen, werden alle Korrelationskoeffizienten in z-Werte transfomiert und unterschiedlich stark gewichtet. Dann wird das Random Effects Modell genauer betrachtet und darauf hingewiesen, dass der hier vorhergesagte z-Wert erst wieder in eine Korrelation retransformiert werden muss. Zuletzt wird gezeigt, wie Korrelationen mittels der Minderungskorrektur um deren Reliabilität korrigiert werden.'
 authors: [irmer]
 weight: 8
-lastmod: '2023-09-06'
+lastmod: '2023-09-11'
 featured: no
 banner:
   image: "/header/KliPsy_Meta-Analyse_Cor.jpg"
@@ -157,20 +157,13 @@ head(data_transformed)
 
 ```
 ## 
-##               authors year  ni    ri controls          design   a_measure 
-## 1     Axelsson et al. 2009 109 0.187     none cross-sectional self-report 
-## 2     Axelsson et al. 2011 749 0.162     none cross-sectional self-report 
-## 3        Bruce et al. 2010  55 0.340     none     prospective       other 
-## 4  Christensen et al. 1999 107 0.320     none cross-sectional self-report 
-## 5 Christensen & Smith 1995  72 0.270     none     prospective       other 
-## 6        Cohen et al. 2004  65 0.000     none     prospective       other 
-##   c_measure meanage quality   z_ri   v_ri 
-## 1     other   22.00       1 0.1892 0.0094 
-## 2       NEO   53.59       1 0.1634 0.0013 
-## 3       NEO   43.36       2 0.3541 0.0192 
-## 4     other   41.70       1 0.3316 0.0096 
-## 5       NEO   46.39       2 0.2769 0.0145 
-## 6       NEO   41.20       2 0.0000 0.0161
+##               authors year  ni    ri controls          design   a_measure c_measure meanage quality   z_ri   v_ri 
+## 1     Axelsson et al. 2009 109 0.187     none cross-sectional self-report     other   22.00       1 0.1892 0.0094 
+## 2     Axelsson et al. 2011 749 0.162     none cross-sectional self-report       NEO   53.59       1 0.1634 0.0013 
+## 3        Bruce et al. 2010  55 0.340     none     prospective       other       NEO   43.36       2 0.3541 0.0192 
+## 4  Christensen et al. 1999 107 0.320     none cross-sectional self-report     other   41.70       1 0.3316 0.0096 
+## 5 Christensen & Smith 1995  72 0.270     none     prospective       other       NEO   46.39       2 0.2769 0.0145 
+## 6        Cohen et al. 2004  65 0.000     none     prospective       other       NEO   41.20       2 0.0000 0.0161
 ```
 
 Wenn wir den Namen des Datensatzes nicht an die Funktion übergeben, und stattdessen nur die beobachteten Korrelationen und die Stichprobengrößen angeben, werden im erzeugten Datensatz nur die $z$-Werte und die Varianzen gespeichert; die Werte werden nicht an den bestehenden Datensatz angehängt (was für spätere Analysen weniger sinnvoll erscheint). 
@@ -289,21 +282,13 @@ names(REM)
 ```
 
 ```
-##  [1] "b"            "beta"         "se"           "zval"         "pval"        
-##  [6] "ci.lb"        "ci.ub"        "vb"           "tau2"         "se.tau2"     
-## [11] "tau2.fix"     "tau2.f"       "I2"           "H2"           "R2"          
-## [16] "vt"           "QE"           "QEp"          "QM"           "QMdf"        
-## [21] "QMp"          "k"            "k.f"          "k.eff"        "k.all"       
-## [26] "p"            "p.eff"        "parms"        "int.only"     "int.incl"    
-## [31] "intercept"    "allvipos"     "coef.na"      "yi"           "vi"          
-## [36] "X"            "weights"      "yi.f"         "vi.f"         "X.f"         
-## [41] "weights.f"    "M"            "outdat.f"     "ni"           "ni.f"        
-## [46] "ids"          "not.na"       "subset"       "slab"         "slab.null"   
-## [51] "measure"      "method"       "model"        "weighted"     "test"        
-## [56] "dfs"          "ddf"          "s2w"          "btt"          "m"           
-## [61] "digits"       "level"        "control"      "verbose"      "add"         
-## [66] "to"           "drop00"       "fit.stats"    "data"         "formula.yi"  
-## [71] "formula.mods" "version"      "call"         "time"
+##  [1] "b"            "beta"         "se"           "zval"         "pval"         "ci.lb"        "ci.ub"        "vb"           "tau2"         "se.tau2"      "tau2.fix"    
+## [12] "tau2.f"       "I2"           "H2"           "R2"           "vt"           "QE"           "QEp"          "QM"           "QMdf"         "QMp"          "k"           
+## [23] "k.f"          "k.eff"        "k.all"        "p"            "p.eff"        "parms"        "int.only"     "int.incl"     "intercept"    "allvipos"     "coef.na"     
+## [34] "yi"           "vi"           "X"            "weights"      "yi.f"         "vi.f"         "X.f"          "weights.f"    "M"            "outdat.f"     "ni"          
+## [45] "ni.f"         "ids"          "not.na"       "subset"       "slab"         "slab.null"    "measure"      "method"       "model"        "weighted"     "test"        
+## [56] "dfs"          "ddf"          "s2w"          "btt"          "m"            "digits"       "level"        "control"      "verbose"      "add"          "to"          
+## [67] "drop00"       "fit.stats"    "data"         "formula.yi"   "formula.mods" "version"      "call"         "time"
 ```
 
 Beispielsweise können wir dem Objekt so auch die mittlere Schätzung (`$b`) oder $\tau^2$ (`$tau2`) entlocken.
@@ -350,9 +335,7 @@ names(pred_REM)
 ```
 
 ```
-##  [1] "pred"      "se"        "ci.lb"     "ci.ub"     "pi.lb"     "pi.ub"    
-##  [7] "cr.lb"     "cr.ub"     "slab"      "digits"    "method"    "transf"   
-## [13] "pred.type"
+##  [1] "pred"      "se"        "ci.lb"     "ci.ub"     "pi.lb"     "pi.ub"     "cr.lb"     "cr.ub"     "slab"      "digits"    "method"    "transf"    "pred.type"
 ```
 
 ```r
