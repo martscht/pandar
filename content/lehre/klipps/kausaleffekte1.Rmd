@@ -1,0 +1,318 @@
+---
+title: "Schätzung von Kausaleffekten 1"
+date: '2022-01-31'
+slug: kausaleffekte1
+categories: ["KliPPs"]
+tags: ["Kausalität", "ANCOVA"]
+subtitle: 'ANCOVA Modelle'
+summary: ''
+authors: [hartig, irmer]
+weight: 9
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+     image: "/header/KliPsy_Kausal_Head.jpg"
+     caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1109965)"
+projects: []
+
+reading_time: false 
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/klipps/kausaleffekte1
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /lehre/klipps/kausaleffekte1.R
+
+output:
+  html_document:
+    keep_md: true
+---
+
+### Inhalte
+
+* [Einleitung und Datenbeispiel](#Einleitung)
+* [Prima-Facie-Effekt](#PFE)
+* [Effektschätzung mittels ANCOVA](#ANCOVA)
+* [Effektschätzung mit EffectLiteR](#EffectLite)
+
+## Einleitung und Datenbeispiel{#Einleitung}
+ 
+In der psychologischen Forschung ist die Bestimmung kausaler Effekte oft eine Herausforderung, dies gilt auch für die klinisch-psychologische Forschung. Wenn ein Treatment nicht randomisiert zugeordnet werden kann, besteht die Gefahr, dass andere Einflussgrößen geschätzte Wirkungen des Treatments verzerren. Bevor wir mit dem (simulierten) Beispiel beginnen, laden wir zunächst die beiden Pakete, die wir in der Sitzung brauchen werden.
+
+### Pakete laden
+```{r message=FALSE}
+# Benötigte Pakete --> Installieren, falls nicht schon vorhanden
+library(psych)        # Für Deskriptivstatistiken
+library(EffectLiteR)  # Für die Schätzung adjustierter Effekte
+library(car)          # Quadratsummen in Anova-Output
+```
+
+### Simuliertes Beispiel
+
+In unserem fiktiven Datenbeispiel wurden Patient:innen, die an einer Depression oder einer Angststörung leiden, entweder mit einer kognitiven Verhaltenstherapie (CBT) behandelt oder in einer Wartekontrollgruppe belassen. Eine zufällige Zuordnung war nicht vollständig möglich, da die Zuordnung von überweisenden Hausarzt-Praxen der Patient:innen mit beeinflusst werden konnte (z.B. durch Geltendmachung einer besonderen Dringlichkeit der Therapie). Zunächst laden wir diesen Datensatz und verschaffen uns einen Überblick:
+
+```{r, results="hide"}
+load(url("https://pandar.netlify.app/post/CBTdata.rda"))
+head(CBTdata)
+```
+
+```{r, echo = F}
+knitr::kable(head(CBTdata))
+```
+
+Die Variablen heißen `Age` (Alter), `Gender` (Geschlecht), `Treatment` (Behandlungsgruppenzugehörigkeit: CBT oder Wartekontrolle), `Disorder` (psychische Störung: Angststörung [`ANX`] oder Depression [`DEP`]), `BDI_pre` (Depressionswert gemessen mit Beck Depressions-Inventar vor Therapie), `SWL_pre` (Lebenszufriedenheit gemessen mit Satisfaction With Life Screening vor Therapie), `BDI_post` (Depressionswert gemessen mit Beck Depressions-Inventar nach Therapie), `SWL_post` (Lebenszufriedenheit gemessen mit Satisfaction With Life Screening nach Therapie). Wir können uns die Verteilung in die Behandlungsgruppen wie folgt ansehen:
+
+```{r}
+table(CBTdata$Treatment) 
+```
+
+Der Datensatz enthält Daten also `r nrow(CBTdata)` Patient:innen, davon `r table(CBTdata$Treatment)[2]` in der Therapiegruppe (CBT) und `r table(CBTdata$Treatment)[1]` in der Wartelisten-Bedingung (WL). Vor und nach dem Treatment wurden die Schwere der depressiven Symptomatik mit dem Beck-Depressions-Inventar erfasst (`BDI_pre` und `BDI_post`) sowie die Lebenszufriedenheit mit dem Satisfaction With Life Screening (`SWL_pre` und `SWL_post`).
+
+Kritisch für die Evaluation von Therapieeffekten sind insbesondere vorab bestehende Gruppenunterschiede in den AVs und anderen Variablen. Diese schauen wir uns mit der Funktion `describeBy` deskriptiv an, wobei wir zunächst den gekürzten Datensatz übergeben und dem `group`-Argument die Gruppenvariable zuordnen. Mit `range=F` machen wir die Tabelle etwas übersichtlicher.
+
+```{r}
+# Deskriptivstatistiken der Gruppen für Alter und Prätest-Werte
+describeBy(CBTdata[, c("Age", "BDI_pre", "SWL_pre")], group = CBTdata$Treatment, range=F)
+```
+
+Uns werden einige Deskriptivstatistiken ausgegeben. Einfache Mittelwertsvergleiche und Effektstärkemaße können wir so betrachten (wir sparen uns an dieser Stelle den Output, sondern tragen die Größen nur in den Text ein, um ein besseres Gefühl dafür zu bekommen, ob Unterschiede vorliegen):
+
+```{r}
+t.age <- t.test(Age ~ Treatment, data = CBTdata)
+d.age <- cohen.d(Age ~ Treatment, data = CBTdata)
+t.bdi <- t.test(BDI_pre ~ Treatment, data = CBTdata)
+d.bdi <- cohen.d(BDI_pre ~ Treatment, data = CBTdata)
+t.swl <- t.test(SWL_pre ~ Treatment, data = CBTdata)
+d.swl <- cohen.d(SWL_pre ~ Treatment, data = CBTdata)
+```
+
+
+Hinsichtlich des Alters sind beide Gruppen sehr ähnlich ($t$=`r round(t.age$statistic, 3)`; $p$=`r round(t.age$p.value, 3)`, $d$=`r round(-d.age$cohen.d[2],2)`). Die Patient:innen in der Warteliste-Gruppe haben jedoch deutlich niedrigere BDI-Werte ($t$=`r round(t.bdi$statistic, 3)`; $p$=`r round(t.bdi$p.value, 3)`, $d$=`r round(-d.bdi$cohen.d[2],2)`) und höhere SWL-Werte ($t$=`r round(t.swl$statistic, 3)`; $p$=`r round(t.swl$p.value, 3)`, $d$=`r round(-d.swl$cohen.d[2],2)`), was zeigt, dass die Vergleichbarkeit der Gruppen nicht gewährleistet ist - die Gruppen unterscheiden sich bereits vor dem Treatment/vor der Behandlung. 
+
+Zusammenhänge von Alter und Art der Störung mit dem Treatment können wir deskriptiv mit Kreuztabellen darstellen und mit einem $\chi^2$-Test testen. Wir sehen, dass die Verteilung des Geschlechts auf die Gruppen nicht systematisch ist ($\chi^2(1)=$ `r round(chisq.test(table(CBTdata$Treatment, CBTdata$Gender))$statistic, 2)`,  $p=$ `r round(chisq.test(table(CBTdata$Treatment, CBTdata$Gender))$p.value, 4)`):
+
+```{r}
+# Tabelle erzeugen
+tab.gender <- table(CBTdata$Treatment, CBTdata$Gender)
+# Kreuztabelle mit Anteilen Zeilenweise, durch Multiplikation mit 100 als Zeilenprozent zu lesen
+round(prop.table(tab.gender, 2)*100)
+# Chi2-Test
+chisq.test(tab.gender)
+```
+
+Wir sehen allerdings, dass Patient:innen mit Angststörung in der Therapiegruppe überrepräsentiert sind ($\chi^2(1)=$ `r round(chisq.test(table(CBTdata$Treatment, CBTdata$Disorder))$statistic, 2)`,  $p<0.05$):
+
+```{r}
+tab.disorder <- table(CBTdata$Treatment, CBTdata$Disorder)
+round(prop.table(tab.disorder, 2)*100)
+chisq.test(tab.disorder)
+```
+
+Der `table`-Befehl erzeugt hierbei die jeweiligen Vierfeldertafeln. Mit `prop.table` werden die absoluten Häufigkeiten in relative Häufigkeiten umgerechnet. Die erstellten Tabellen können herangezogen werden, um den $\chi^2$-Unabhängigkeitstest durchzuführen. Wiederholungen zu nominalen Variablen können Sie in den Sitzungen vom Bachelor nachlesen: [Deskriptivstatistik für Nominal- und Ordinalskalen](/post/deskriptiv-nominal) und [Tests für unabhängige Stichproben](/post/gruppenvergleiche-unabhaengig). 
+
+## Prima-Facie-Effekt{#PFE}
+
+Ungeachtet der fraglichen Vergleichbarkeit schauen wir uns den augenscheinlichen Effekt der Therapie auf depressive Symptome an, grafisch als Boxplot und inferenzstatistisch mittels t-Test/Regressionsanalyse (das war ja beides das Gleiche! - siehe [ANOVA vs. Regression](/post/anova-vs-regression)).
+
+```{r}
+boxplot(CBTdata$BDI_post ~ CBTdata$Treatment)
+
+BDI.PFE <- lm(BDI_post ~ Treatment, data = CBTdata)
+summary(BDI.PFE)
+```
+
+Wir sehen bereits grafisch, dass sich beide Gruppen kaum voneinander unterscheiden. Der Unterschied von $\beta=$ `r round(coef(BDI.PFE)[2],2)` Punkten ist auch nicht signifikant ($p=$ `r  round(coef(summary(BDI.PFE))[2,4], 3)`). Diesem Ergebnis nach hat die Therapie keinen Effekt auf die Schwere der depressiven Symptomatik. Allerdings können wir diesen Effekt nicht kausal interpretieren, also das "Nichtvorliegen des Effekts" nicht auf ein nicht funktionierendes Treatment zurückführen, da wir bereits gesehen haben, dass sich die Gruppen auch vor der Therapie schon unterschieden haben, was die Effekte somit konfundiert haben könnte.
+
+
+## Adjustierter Effekt mittels ANCOVA{#ANCOVA}
+### Klassische ANCOVA
+In der Annahme, dass die Selektion ins Treatment durch die vorab gemessenen Eigenschaften der Patient:innen erklärt werden kann, schätzen wir den Effekt des Treatments zunächst mit einer klassischen ANCOVA, in der die Variablen, hinsichtlich derer sich die Gruppen unterscheiden (Prätest-Werte und Art der Störung), kontrolliert werden:
+
+```{r}
+# ANCOVA mit Treatment und Kovariaten
+BDI.adj <- lm(BDI_post ~ Treatment + Disorder + BDI_pre + SWL_pre, data = CBTdata)
+summary(BDI.adj)
+```
+
+Unter Einbezug der Kovariaten findet sich ein signifikanter Therapieeffekt von `r round(coef(BDI.adj)[2],2)` Punkten. Es wird auch sichtbar, dass alle Kovariaten einen Effekt auf die AV nach dem Treatment haben.
+
+### Generalisierte ANCOVA
+
+In einer generalisierten ANCOVA nehmen wir noch die Wechselwirkungen zwischen den Kovariaten und dem Treatment hinzu und schauen uns auch den `Anova`-Output des `car`-Pakets an:
+
+```{r}
+# Zentrierte Kovariaten bilden
+CBTdata$BDI_pre_c <- scale(CBTdata$BDI_pre, scale = F)
+CBTdata$SWL_pre_c <- scale(CBTdata$SWL_pre, scale = F)
+# Generalisierte ANCOVA mit allen Wechselwirkungen zwischen Kovariaten und Treatment
+BDI.adj2 <- lm(BDI_post ~ Treatment + Disorder + BDI_pre_c + SWL_pre_c +
+                Treatment:Disorder + Treatment:BDI_pre_c + Treatment:SWL_pre_c, data = CBTdata)
+summary(BDI.adj2)
+```
+
+Die Effekte ändern sich kaum. Die Interaktionseffekte scheinen nicht signifikant zu sein. Trotzdem schauen wir uns nochmals die Effekte innerhalb des ANOVA-Frameworks an, um Signifikanzentscheidungen für die Gruppen kombiniert zu sehen.
+
+```{r}
+Anova(BDI.adj2, type = 2)
+```
+
+Diesen Analysen zu Folge hat das Treatment einen Effekt. Außerdem unterscheidet sich die Depressivität je nachdem, welche Störung vorlag (wenig überraschend) und hängt von der Ausprägung der Depressivität und Lebenszufriedenheit vor Beginn der Therapie ab. Wechselwirkungen scheint es keine zu geben.
+
+Zu guter Letzt fügen wir auch noch die Interaktion zwischen `Disorder` und `Treatment` zu den beiden kontinuierlichen Kovariaten hinzu, da dies im nächsten Abschnitt ebenfalls gemacht wird. Wir erweitern also auf eine *Dreifachinteraktion*. Außerdem ändern wir die Reihenfolge der Prädiktoren, da die Reihenfolge bekanntlich einen Einfluss auf die Punktschätzer haben kann. Damit wir also mit unserer ausgefalleneren ANCOVA dem nächsten Abschnitt ensprechen, müssen wir auch die entsprechende Reihenfolge der Prädiktoren einhalten:
+
+```{r}
+BDI.adj3 <- lm(BDI_post ~ 1  +  BDI_pre_c + SWL_pre_c + Disorder +                  # Interzept
+                 Disorder:BDI_pre_c + Disorder:SWL_pre_c +                          # Interzept
+                 Treatment +                                                        # Slope
+                 Treatment:BDI_pre_c + Treatment:SWL_pre_c + Treatment:Disorder +   # Slope
+                 Treatment:Disorder:BDI_pre_c +  Treatment:Disorder:SWL_pre_c,      # Slope
+               data = CBTdata)                      
+summary(BDI.adj3)
+Anova(BDI.adj3)
+```
+
+Wir sehen, dass keine der hinzugefügten Interaktionen statistisch bedeutsam sind. 
+
+## Adjustierter Effekt mittels EffectLiteR{#EffectLite}
+
+```{r include=FALSE}
+BDI.EL <- effectLite(y="BDI_post", x="Treatment", z=c("BDI_pre_c", "SWL_pre_c"), k=c("Disorder"), data = CBTdata, method = "lm")
+```
+
+
+Den adjustierten Effekt können wir auch mit `EffectLiteR` schätzen, hierbei wird die Gewichtung nach Kovariaten berücksichtigt. Die Funktion, die wir dazu benutzen, heißt `effectLite`. Das Kriterium (AV) wird dem Argument `y` übergeben, `x` die Gruppierungsvariable (UV), `z` wird als Vektor die Kovariaten übergeben, `k` werden kategoriale Kovariaten übergeben, `data` schreiben wir die Daten zu und mit `method = "lm"` legen wir fest, dass alles auf Basis des linearen Modells geschätzt werden soll, was im Grunde einer Schätzung mittels ANCOVA entspricht. 
+
+```{r}
+# Schätzung des Effekts des Treatments auf BDI_post mit effectLite,
+# Prätest-Werte als kontinuierliche, Störung als kategoriale Kovariate
+# 'lm' als Methode für eine Schätzung per ANCOVA
+effectLite(y="BDI_post", x="Treatment", z=c("BDI_pre_c", "SWL_pre_c"), k=c("Disorder"), data = CBTdata, method = "lm")
+
+```
+
+Unter
+
+```{r, echo = F}
+cat('## --------------------- Variables  ---------------------')
+```
+
+finden wir eine Zusammenfassung der Variablen, die wir als Input verwendet haben. Bspw. werden die  kategorialen Variablen hinsichtlich ihrer Kodierung aufgedröselt. Bspw. bedeutet
+
+```{r, echo = F}
+cat('## Levels of Treatment Variable X 
+##    X   Treatment (original)   Indicator
+##    0                     WL       I_X=0
+##    1                    CBT       I_X=1')
+```
+
+dass die Gruppierungsvariable (of interest) mit X betitelt wird und aus den Ausprägung des Treatments besteht. Dabei ist `X=0` die Wartelistenkontrolle (WL) und `X=1` die Treatmentgruppe (CBT). Dahinter wird noch der Indikator `I_X` definiert, der entsprechend die Werte 0 und 1 annimmt. Unter `## Levels of Unfolded Categorical Covariate K` steht gleiches nochmals für die kategoriale Kovariate `Disorder`. Eine Übersicht über die Kombination der Gruppen steht in 
+
+```{r, echo = F}
+cat('## Cells 
+##     Treatment (original)   K   Cell
+## 1                     WL   0     00
+## 2                     WL   1     01
+## 3                    CBT   0     10
+## 4                    CBT   1     11')
+```
+
+Es handelt sich also um ein vollgekreuztes Design (alle Zellen sind vorhanden). Unter
+
+```{r, echo = F}
+cat('##  --------------------- Regression Model --------------------- ')
+```
+
+wird dann das Regressionsmodell definiert. Dabei wird das Modell mit Hilfe der bedingten Erwartungswert-Schreibweise dargestellt. 
+
+```{r, echo = F}
+cat('##  E(Y|X,K,Z) = g0(K,Z) + g1(K,Z)*I_X=1 ')
+```
+
+bedeutet dabei nichts anderes, als dass der Mittelwert von `Y` auf `X` (UV), `K` und `Z` (kategoriale und kontinuierliche Kovariaten) bedingt wird. Bedingter Mittelwert heißt wiederum nur, dass eine Art Regression durchgeführt wird. Dahinter sehen wir die Schreibweise, die wir auch aus den Folien kennen. `g0` ist hierbei die Interzeptfunktion, die von `K` und `Z` abhängt. `g1` ist hierbei die Slopefunktion, die von `K` und `Z` abhängt und den Effekt des `Treatment` darstellt.  
+
+```{r, echo = F}
+cat('##   g0(K,Z) = g000 + g001 * Z1 + g002 * Z2 + g010 * I_K=1 + g011 * I_K=1 * Z1 + 
+##             + g012 * I_K=1 * Z2
+##   g1(K,Z) = g100 + g101 * Z1 + g102 * Z2 + g110 * I_K=1 + g111 * I_K=1 * Z1 + 
+##             + g112 * I_K=1 * Z2')
+```
+
+beschreibt explizit die Regressionsdarstellung der Interzeptfunktion (Hautpeffekte im ANCOVA-Setting) und der Slopefunktion (Interaktionseffekte im ANCOVA-Setting) in der Reihenfolge, in der sie in die Analysen eingegangen sind. Genauso haben wir die Prädiktoren ebenfalls in die ANCOVA (`BDI.adj3`) aufgenommen. Die Koeffizienten werden dann in üblicher Manier dargestellt. Die Benennung ist etwas schwieriger nachzuvollziehen, aber wenn wir uns merken, in welcher Reihenfolge wir die Prädiktoren oben aufgenommen haben, erkennen wir, dass der Output im Grunde identisch ist, zum Output von `BDI.adj3`. Bspw. ist `g000` = `r round(BDI.EL@results@est[1], 3)` ist das Interzept, oder `g010` = `r round(BDI.EL@results@est[4], 3)` ist der Haupteffekt von `Disorder`, `g012` = `r round(BDI.EL@results@est[6], 3)` ist der Interaktionseffekt zwischen `Disorder` und `SWL_pre_c` (`SWL_pre_c:DisorderDEP` im ANCOVA-Output). Zu den `Treatment`-Effekten: `g100` = `r round(BDI.EL@results@est[7], 3)` ist der Haupteffekt des `Treatment`s im ANCOVA-Sinn. Der ATE wird als der Erwartungswert der Slopefunktion `g1(K,Z)` geschätzt (dazu gleich mehr!). `g112` = `r round(BDI.EL@results@est[12], 3)` ist die Dreifachinteraktion zwischen `Treatment`, `Disorder` und `SWL_pre_c` (`SWL_pre_c:Disorder:Treatment`). 
+
+Unter 
+
+```{r, echo = F}
+cat('## --------------------- Cell Counts  ---------------------')
+```
+
+finden wir eine Übersicht, über die Häufigkeitsverteilung innerhalb der verschiedenen Gruppen. Diese entspricht `tab.disorder` vom Anfang der Sitzung. 
+
+Unter 
+
+```{r, echo = F}
+cat('## --------------------- Main Hypotheses ---------------------')
+```
+
+finden wir endlich die Schätzung mit zugehöriger Signifikanzentscheidung unserer Haupthypothesen. 
+
+```{r, echo = F}
+cat('## H0: No average effects: E[g1(K,Z)] = 0
+## H0: No covariate effects in control group: g0(K,Z) = constant
+## H0: No treatment*covariate interaction: g1(K,Z) = constant
+## H0: No treatment effects: g1(K,Z) = 0')
+```
+
+beschreibt nochmals die Hypothesen, die getestet werden sollen. Die erste Hypothese bezieht sich auf den ATE (Average Treatment Effect). Wir erkennen die $H_0$ als `E[g1(K,Z)] = 0`. Der ATE ist also der Durchschnitt der Slopefunktion `g1(K,Z)`. Die zweite Hypothese behandelt, ob die Kovariaten Mittelwertsunterschiede bewirken. Die dritte Hypothese untersucht, ob die Kovariaten den Effekt des Treatments beeinflussen. Die letzte Hypothese testet alle Parameter innerhalb der Slopefunktion `g1(K,Z)` gemeinsam. Sie wird signifikant, wenn es einen Haupteffekt oder einen Interaktionseffekt (oder beides) mit dem `Treatment` gibt. Der Output ist ein normaler ANOVA/ANCOVA-Output. Uns werden $F$-Werte angezeigt. Hypothese 1,2, und 4 werden durch die Daten gestützt. Dass sich das `Treatment` je nach Ausprägung der Kovariaten unterschiedlich ausgewirkt hat, wird durch die Daten nicht gestützt. Unter 
+
+```{r, echo = F}
+cat('##  --------------------- Adjusted Means ---------------------')
+```
+
+finden wir die adjustierten Mittelwerte, mit welchen dann der ATE bestimmt wird. Dieser ist unter 
+
+```{r, echo = F}
+cat('##  --------------------- Average Effects ---------------------')
+```
+
+zu finden und beträgt `r round(BDI.EL@results@Egx[1],2)`. Der Wert liegt nicht sonderlich weit entfernt vom Haupteffekt im ANCOVA-Setting und ist auch hier signifikant. Es wird uns auch ein Effektstärkenmaß angeboten. Dieses liegt bei `r round(BDI.EL@results@Egx[[5]], 2)` und spricht für einen mittleren bis großen Effekt.
+
+
+In den folgenden Blöcken werden jeweils bedingte Effekte dargestellt. Begonnen wird mit dem ATT, dahinter folgenden ATEs bedingt auf die kategorialen Prädiktoren (`K`) sowie eine Kombination aus beiden.
+
+```{r, echo = F}
+cat('##  --------------------- Effects given a Treatment Condition ---------------------')
+```
+
+beschreibt die ATT (Average Treatment of the Treated) Effekte (also Effekte bedingt auf die `Treatment`-Bedingungen). `E[g1(K,Z)|X=0]` beschreibt den $ATT^0$ und `E[g1(K,Z)|X=1]` den $ATT^1$ Effekt (`r paste("ATT", 0:1, " = ", round(BDI.EL@results@Egxgx[,1], 2), collapse = " und ", sep = "")`). Beide sind statistisch bedeutsam. Auch hier werden Effektstärken angegeben. Die Effektstärke in der `Treatment`-Gruppe ist etwas höher, als die der Wartekontrollgruppe (`r paste(round(BDI.EL@results@Egxgx[,5], 2), collapse = " vs. ")`). 
+
+```{r, echo = F}
+cat('##  --------------------- Effects given K=k ---------------------')
+```
+
+beschreibt die bedingten Effekte bedingt auf `Disorder`. Hier wird also im Grunde der Haupteffekt der `Disorder` untersucht. `E[g1(K,Z)|K=0]` beschreibt hierbei den $ATE|$`ANX` und `E[g1(K,Z)|K=1]` den $ATE|$`DEP`. Patient:innen mit Angstsymptomatik zeigten also eine deskriptiv größere Verbesserung durch das `Treatment`.
+
+
+```{r, echo = F}
+cat('##  --------------------- Effects given X=x, K=k ---------------------')
+```
+
+Zeigt uns die $ATT$s in den unterschiedlichen Gruppen. `E[g1(K,Z)|X=0, K=0]` beschreibt also den $ATE|$`WL,ANX` = $ATT^0|$`ANX`, also gerade den $ATT$ von Personen mit Angstsymptomatik in der Wartekontrollgruppe. Genauso beschreibt `E[g1(K,Z)|X=1, K=1]` den  $ATE|$`CBT,DEP` = $ATT^1|$`DEP`, also den $ATT$ von Personen mit Depression in der CBT-Gruppe. Alle (bedingten) $ATT$s sind statistisch bedeutsam, jedoch sind die bei Angstsymptomatik etwas stärker ausgeprägt (`r paste("ATT", 0:1, "|ANX = ", round(BDI.EL@results@Egxgxk[1:2,1], 2), collapse = " und ", sep = "")`) als bei Depressionen (`r paste("ATT", 0:1, "|Dep = ", round(BDI.EL@results@Egxgxk[3:4,1], 2), collapse = " und ", sep = "")`). Auch sehen wir deskriptiv, dass in den `Treatment`-Bedingungen jeweils die Effekte etwas stärker ausgeprägt sind.
+
+Zum Schluss wird noch der bedingte ATE auf Signifikanz mittels ANOVA geprüft
+
+```{r, echo = F}
+cat('## --------------------- Hypotheses given K=k ---------------------')
+```
+
+Die Hypothesen, die geprüft werden, sind, dass der ATE jeweils 0 ist für Angstsymptomatik (`H0: No average effects given K=0: E[g1(K,Z)|K=0] = 0`) und für Depressionssymptomatik (`H0: No average effects given K=1: E[g1(K,Z)|K=1] = 0`). Beide Tests sind statistisch bedeutsam (was wir im Grunde schon in den Outputs zuvor gesehen hatten - es hätte jedoch sein können, dass der kategoriale Prädiktor mehr als zwei Ausprägungen hat).
+
+### Zusammenfassung
+
+Unter der Stable Unit Treatment Value Assumption (SUTVA) und der Strong Ignoribility Annahme bedeuten die Ergebnisse also, dass es einen Effekt der CBT gab (mit einer Irrtumswahrscheinlich von 5%) und dass dieser Effekt für unterschiedliche Symptomatiken unterschiedlich stark ausgeprägt war.
+
+***
