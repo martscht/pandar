@@ -54,16 +54,18 @@ library(car)          # Quadratsummen in Anova-Output
 
 ### Simuliertes Beispiel
 
-In unserem fiktiven Datenbeispiel wurden Patient:innen, die an einer Depression oder einer Angststörung leiden, entweder mit einer kognitiven Verhaltenstherapie (CBT) behandelt oder in einer Wartekontrollgruppe belassen. Eine zufällige Zuordnung war nicht vollständig möglich, da die Zuordnung von überweisenden Hausarzt-Praxen der Patient:innen mit beeinflusst werden konnte (z.B. durch Geltendmachung einer besonderen Dringlichkeit der Therapie). Zunächst laden wir diesen Datensatz und verschaffen uns einen Überblick:
+In unserem fiktiven Datenbeispiel wurden Patient:innen, die an einer Depression oder einer Angststörung leiden, entweder mit einer kognitiven Verhaltenstherapie (CBT) behandelt oder in einer Wartekontrollgruppe belassen. Eine zufällige Zuordnung war nicht vollständig möglich, da die Zuordnung der Patient:innen von den überweisenden Hausärzt:innen mit beeinflusst werden konnte (z.B. durch Geltendmachung einer besonderen Dringlichkeit der Therapie). Zunächst laden wir diesen Datensatz und verschaffen uns einen Überblick:
 
 ```{r, results="hide"}
 load(url("https://pandar.netlify.app/post/CBTdata.rda"))
 head(CBTdata)
 ```
 
+<div class = "big-maths">
 ```{r, echo = F}
 knitr::kable(head(CBTdata))
 ```
+</div>
 
 Die Variablen heißen `Age` (Alter), `Gender` (Geschlecht), `Treatment` (Behandlungsgruppenzugehörigkeit: CBT oder Wartekontrolle), `Disorder` (psychische Störung: Angststörung [`ANX`] oder Depression [`DEP`]), `BDI_pre` (Depressionswert gemessen mit Beck Depressions-Inventar vor Therapie), `SWL_pre` (Lebenszufriedenheit gemessen mit Satisfaction With Life Screening vor Therapie), `BDI_post` (Depressionswert gemessen mit Beck Depressions-Inventar nach Therapie), `SWL_post` (Lebenszufriedenheit gemessen mit Satisfaction With Life Screening nach Therapie). Wir können uns die Verteilung in die Behandlungsgruppen wie folgt ansehen:
 
@@ -71,7 +73,7 @@ Die Variablen heißen `Age` (Alter), `Gender` (Geschlecht), `Treatment` (Behandl
 table(CBTdata$Treatment) 
 ```
 
-Der Datensatz enthält Daten also `r nrow(CBTdata)` Patient:innen, davon `r table(CBTdata$Treatment)[2]` in der Therapiegruppe (CBT) und `r table(CBTdata$Treatment)[1]` in der Wartelisten-Bedingung (WL). Vor und nach dem Treatment wurden die Schwere der depressiven Symptomatik mit dem Beck-Depressions-Inventar erfasst (`BDI_pre` und `BDI_post`) sowie die Lebenszufriedenheit mit dem Satisfaction With Life Screening (`SWL_pre` und `SWL_post`).
+Der Datensatz enthält Daten also `r nrow(CBTdata)` Patient:innen, davon `r table(CBTdata$Treatment)[2]` in der Therapiegruppe (CBT) und `r table(CBTdata$Treatment)[1]` in der Wartelisten-Bedingung (WL). Vor und nach dem Treatment wurde die Schwere der depressiven Symptomatik mit dem Beck-Depressions-Inventar erfasst (`BDI_pre` und `BDI_post`) sowie die Lebenszufriedenheit mit dem Satisfaction With Life Screening (`SWL_pre` und `SWL_post`).
 
 Kritisch für die Evaluation von Therapieeffekten sind insbesondere vorab bestehende Gruppenunterschiede in den AVs und anderen Variablen. Diese schauen wir uns mit der Funktion `describeBy` deskriptiv an, wobei wir zunächst den gekürzten Datensatz übergeben und dem `group`-Argument die Gruppenvariable zuordnen. Mit `range=F` machen wir die Tabelle etwas übersichtlicher.
 
@@ -80,7 +82,7 @@ Kritisch für die Evaluation von Therapieeffekten sind insbesondere vorab besteh
 describeBy(CBTdata[, c("Age", "BDI_pre", "SWL_pre")], group = CBTdata$Treatment, range=F)
 ```
 
-Uns werden einige Deskriptivstatistiken ausgegeben. Einfache Mittelwertsvergleiche und Effektstärkemaße können wir so betrachten (wir sparen uns an dieser Stelle den Output, sondern tragen die Größen nur in den Text ein, um ein besseres Gefühl dafür zu bekommen, ob Unterschiede vorliegen):
+Uns werden einige Deskriptivstatistiken ausgegeben. Einfache Mittelwertsvergleiche und Effektstärkemaße können wir so betrachten (wir sparen uns an dieser Stelle den Output und tragen die Größen nur in den Text ein, um ein besseres Gefühl dafür zu bekommen, ob Unterschiede vorliegen):
 
 ```{r}
 t.age <- t.test(Age ~ Treatment, data = CBTdata)
@@ -92,9 +94,9 @@ d.swl <- cohen.d(SWL_pre ~ Treatment, data = CBTdata)
 ```
 
 
-Hinsichtlich des Alters sind beide Gruppen sehr ähnlich ($t$=`r round(t.age$statistic, 3)`; $p$=`r round(t.age$p.value, 3)`, $d$=`r round(-d.age$cohen.d[2],2)`). Die Patient:innen in der Warteliste-Gruppe haben jedoch deutlich niedrigere BDI-Werte ($t$=`r round(t.bdi$statistic, 3)`; $p$=`r round(t.bdi$p.value, 3)`, $d$=`r round(-d.bdi$cohen.d[2],2)`) und höhere SWL-Werte ($t$=`r round(t.swl$statistic, 3)`; $p$=`r round(t.swl$p.value, 3)`, $d$=`r round(-d.swl$cohen.d[2],2)`), was zeigt, dass die Vergleichbarkeit der Gruppen nicht gewährleistet ist - die Gruppen unterscheiden sich bereits vor dem Treatment/vor der Behandlung. 
+Hinsichtlich des Alters sind beide Gruppen sehr ähnlich ($t$=`r round(t.age$statistic, 3)`; $p$=`r round(t.age$p.value, 3)`, $d$=`r round(-d.age$cohen.d[2],2)`). Die Patient:innen in der Warteliste-Gruppe haben jedoch deutlich niedrigere BDI-Werte ($t$=`r round(t.bdi$statistic, 3)`; $p$=`r round(t.bdi$p.value, 3)`, $d$=`r round(-d.bdi$cohen.d[2],2)`) und höhere SWL-Werte ($t$=`r round(t.swl$statistic, 3)`; $p$=`r round(t.swl$p.value, 3)`, $d$=`r round(-d.swl$cohen.d[2],2)`). Das zeigt, dass die Vergleichbarkeit der Gruppen nicht gewährleistet ist - die Gruppen unterscheiden sich bereits vor dem Treatment/vor der Behandlung. 
 
-Zusammenhänge von Alter und Art der Störung mit dem Treatment können wir deskriptiv mit Kreuztabellen darstellen und mit einem $\chi^2$-Test testen. Wir sehen, dass die Verteilung des Geschlechts auf die Gruppen nicht systematisch ist ($\chi^2(1)=$ `r round(chisq.test(table(CBTdata$Treatment, CBTdata$Gender))$statistic, 2)`,  $p=$ `r round(chisq.test(table(CBTdata$Treatment, CBTdata$Gender))$p.value, 4)`):
+Zusammenhänge von Alter und Art der Störung mit dem Treatment können wir deskriptiv durch Kreuztabellen darstellen und mit einem $\chi^2$-Test testen. Wir sehen, dass die Verteilung des Geschlechts auf die Gruppen nicht systematisch ist ($\chi^2(1)=$ `r round(chisq.test(table(CBTdata$Treatment, CBTdata$Gender))$statistic, 2)`,  $p=$ `r round(chisq.test(table(CBTdata$Treatment, CBTdata$Gender))$p.value, 4)`):
 
 ```{r}
 # Tabelle erzeugen
@@ -113,11 +115,11 @@ round(prop.table(tab.disorder, 2)*100)
 chisq.test(tab.disorder)
 ```
 
-Der `table`-Befehl erzeugt hierbei die jeweiligen Vierfeldertafeln. Mit `prop.table` werden die absoluten Häufigkeiten in relative Häufigkeiten umgerechnet. Die erstellten Tabellen können herangezogen werden, um den $\chi^2$-Unabhängigkeitstest durchzuführen. Wiederholungen zu nominalen Variablen können Sie in den Sitzungen vom Bachelor nachlesen: [Deskriptivstatistik für Nominal- und Ordinalskalen](/post/deskriptiv-nominal) und [Tests für unabhängige Stichproben](/post/gruppenvergleiche-unabhaengig). 
+Der `table`-Befehl erzeugt hierbei die jeweiligen Vierfeldertafeln. Mit `prop.table` werden die absoluten Häufigkeiten in relative Häufigkeiten umgerechnet. Die erstellten Tabellen können herangezogen werden, um den $\chi^2$-Unabhängigkeitstest durchzuführen. Wiederholungen zu nominalen Variablen können Sie in den Sitzungen vom Bachelor nachlesen: [Deskriptivstatistik für Nominal- und Ordinalskalen](/lehre/statistik-i/deskriptiv-nominal-ordinal) und [Tests für unabhängige Stichproben](/lehre/statistik-i/gruppenvergleiche-unabhaengig). 
 
 ## Prima-Facie-Effekt{#PFE}
 
-Ungeachtet der fraglichen Vergleichbarkeit schauen wir uns den augenscheinlichen Effekt der Therapie auf depressive Symptome an, grafisch als Boxplot und inferenzstatistisch mittels t-Test/Regressionsanalyse (das war ja beides das Gleiche! - siehe [ANOVA vs. Regression](/post/anova-vs-regression)).
+Ungeachtet der fraglichen Vergleichbarkeit schauen wir uns den augenscheinlichen Effekt der Therapie auf depressive Symptome an, grafisch als Boxplot und inferenzstatistisch mittels t-Test/Regressionsanalyse (das war ja beides das Gleiche! - siehe [ANOVA vs. Regression](/lehre/klipps/anova-vs-regression)).
 
 ```{r}
 boxplot(CBTdata$BDI_post ~ CBTdata$Treatment)
@@ -126,12 +128,12 @@ BDI.PFE <- lm(BDI_post ~ Treatment, data = CBTdata)
 summary(BDI.PFE)
 ```
 
-Wir sehen bereits grafisch, dass sich beide Gruppen kaum voneinander unterscheiden. Der Unterschied von $\beta=$ `r round(coef(BDI.PFE)[2],2)` Punkten ist auch nicht signifikant ($p=$ `r  round(coef(summary(BDI.PFE))[2,4], 3)`). Diesem Ergebnis nach hat die Therapie keinen Effekt auf die Schwere der depressiven Symptomatik. Allerdings können wir diesen Effekt nicht kausal interpretieren, also das "Nichtvorliegen des Effekts" nicht auf ein nicht funktionierendes Treatment zurückführen, da wir bereits gesehen haben, dass sich die Gruppen auch vor der Therapie schon unterschieden haben, was die Effekte somit konfundiert haben könnte.
+Wir sehen bereits grafisch, dass sich beide Gruppen kaum voneinander unterscheiden. Der Unterschied von $\beta=$ `r round(coef(BDI.PFE)[2],2)` Punkten ist auch nicht signifikant ($p=$ `r  round(coef(summary(BDI.PFE))[2,4], 3)`). Diesem Ergebnis nach hat die Therapie keinen Effekt auf die Schwere der depressiven Symptomatik. Allerdings können wir diesen Effekt nicht kausal interpretieren, also das "Nichtvorliegen des Effekts" nicht auf ein nicht-funktionierendes Treatment zurückführen, da wir bereits gesehen haben, dass sich die Gruppen auch vor der Therapie schon unterschieden haben, was die Effekte somit konfundiert haben könnte.
 
 
 ## Adjustierter Effekt mittels ANCOVA{#ANCOVA}
 ### Klassische ANCOVA
-In der Annahme, dass die Selektion ins Treatment durch die vorab gemessenen Eigenschaften der Patient:innen erklärt werden kann, schätzen wir den Effekt des Treatments zunächst mit einer klassischen ANCOVA, in der die Variablen, hinsichtlich derer sich die Gruppen unterscheiden (Prätest-Werte und Art der Störung), kontrolliert werden:
+In der Annahme, dass die Selektion ins Treatment durch die vorab gemessenen Eigenschaften der Patient:innen erklärt werden kann, schätzen wir den Effekt des Treatments zunächst mit einer klassischen ANCOVA. Dabei werden die Variablen, hinsichtlich derer sich die Gruppen unterscheiden (Prätest-Werte und Art der Störung), kontrolliert:
 
 ```{r}
 # ANCOVA mit Treatment und Kovariaten
@@ -161,9 +163,9 @@ Die Effekte ändern sich kaum. Die Interaktionseffekte scheinen nicht signifikan
 Anova(BDI.adj2, type = 2)
 ```
 
-Diesen Analysen zu Folge hat das Treatment einen Effekt. Außerdem unterscheidet sich die Depressivität je nachdem, welche Störung vorlag (wenig überraschend) und hängt von der Ausprägung der Depressivität und Lebenszufriedenheit vor Beginn der Therapie ab. Wechselwirkungen scheint es keine zu geben.
+Diesen Analysen zufolge hat das Treatment einen Effekt. Außerdem unterscheidet sich die Depressivität je nachdem, welche Störung vorlag (wenig überraschend) und hängt von der Ausprägung der Depressivität und Lebenszufriedenheit vor Beginn der Therapie ab. Wechselwirkungen scheint es keine zu geben.
 
-Zu guter Letzt fügen wir auch noch die Interaktion zwischen `Disorder` und `Treatment` zu den beiden kontinuierlichen Kovariaten hinzu, da dies im nächsten Abschnitt ebenfalls gemacht wird. Wir erweitern also auf eine *Dreifachinteraktion*. Außerdem ändern wir die Reihenfolge der Prädiktoren, da die Reihenfolge bekanntlich einen Einfluss auf die Punktschätzer haben kann. Damit wir also mit unserer ausgefalleneren ANCOVA dem nächsten Abschnitt ensprechen, müssen wir auch die entsprechende Reihenfolge der Prädiktoren einhalten:
+Zu guter Letzt fügen wir auch noch die Interaktion zwischen `Disorder` und `Treatment` zu den beiden kontinuierlichen Kovariaten hinzu, da dies im nächsten Abschnitt ebenfalls gemacht wird. Wir erweitern also auf eine *Dreifachinteraktion*. Außerdem ändern wir die Reihenfolge der Prädiktoren, da die Reihenfolge bekanntlich einen Einfluss auf die Punktschätzer haben kann. Damit wir also mit unserer ausgefalleneren ANCOVA dem nächsten Abschnitt entsprechen, müssen wir auch die entsprechende Reihenfolge der Prädiktoren einhalten:
 
 ```{r}
 BDI.adj3 <- lm(BDI_post ~ 1  +  BDI_pre_c + SWL_pre_c + Disorder +                  # Interzept
@@ -176,7 +178,7 @@ summary(BDI.adj3)
 Anova(BDI.adj3)
 ```
 
-Wir sehen, dass keine der hinzugefügten Interaktionen statistisch bedeutsam sind. 
+Wir sehen, dass keine der hinzugefügten Interaktionen statistisch bedeutsam ist. 
 
 ## Adjustierter Effekt mittels EffectLiteR{#EffectLite}
 
