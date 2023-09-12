@@ -121,13 +121,20 @@ fb22$lz
 ```
 
 ```
-##   [1] 5.4 6.0 3.0 6.0 3.2 5.8 4.2  NA 5.4 4.6 4.8 5.4 5.0 4.8 6.6 6.0 5.0 6.0 3.6 5.0 5.8 4.6 4.8
-##  [24] 6.4 4.2 4.6  NA 5.8 6.4 4.0 4.2 5.8 4.2 5.0 5.2 6.2 5.2 5.4 4.2 5.2 4.8 2.8 3.4 5.6 3.4 4.2
-##  [47] 4.2 5.0 6.0 5.0 4.6 5.8 3.6 3.2 4.0 4.6 4.8 4.6 4.8 5.0 5.4 4.4 5.2 2.6 3.8 6.6 4.8 3.6 5.8
-##  [70] 5.8 4.6 6.2 5.2 5.4 5.0 1.4 4.6 4.8 5.4 2.8 3.2 2.4 5.4 2.2 4.8 6.0 5.2 4.8 5.8 5.6 4.6 4.4
-##  [93] 5.4 5.4 3.8 5.6 5.6 4.2 4.6 6.2 3.8 4.2 3.8 3.8 5.4 4.6 5.2 3.6 2.4 4.2 4.4 3.2 4.2 4.0 2.6
-## [116] 2.0 4.6 5.2 4.4 1.8 4.6 4.4 5.4 5.0 6.0 3.0 4.8 6.0 3.4 6.4 3.6 5.2 5.0 4.8 5.8 4.8 5.8 5.2
-## [139] 5.2 6.4 4.8 3.8 4.6 2.6 6.0 5.0 5.6 3.2 4.4 6.4 5.8 5.2 5.2 3.6 5.8 3.0 5.6 4.2 5.4
+##   [1] 5.4 6.0 3.0 6.0 3.2 5.8 4.2  NA 5.4 4.6 4.8 5.4
+##  [13] 5.0 4.8 6.6 6.0 5.0 6.0 3.6 5.0 5.8 4.6 4.8 6.4
+##  [25] 4.2 4.6  NA 5.8 6.4 4.0 4.2 5.8 4.2 5.0 5.2 6.2
+##  [37] 5.2 5.4 4.2 5.2 4.8 2.8 3.4 5.6 3.4 4.2 4.2 5.0
+##  [49] 6.0 5.0 4.6 5.8 3.6 3.2 4.0 4.6 4.8 4.6 4.8 5.0
+##  [61] 5.4 4.4 5.2 2.6 3.8 6.6 4.8 3.6 5.8 5.8 4.6 6.2
+##  [73] 5.2 5.4 5.0 1.4 4.6 4.8 5.4 2.8 3.2 2.4 5.4 2.2
+##  [85] 4.8 6.0 5.2 4.8 5.8 5.6 4.6 4.4 5.4 5.4 3.8 5.6
+##  [97] 5.6 4.2 4.6 6.2 3.8 4.2 3.8 3.8 5.4 4.6 5.2 3.6
+## [109] 2.4 4.2 4.4 3.2 4.2 4.0 2.6 2.0 4.6 5.2 4.4 1.8
+## [121] 4.6 4.4 5.4 5.0 6.0 3.0 4.8 6.0 3.4 6.4 3.6 5.2
+## [133] 5.0 4.8 5.8 4.8 5.8 5.2 5.2 6.4 4.8 3.8 4.6 2.6
+## [145] 6.0 5.0 5.6 3.2 4.4 6.4 5.8 5.2 5.2 3.6 5.8 3.0
+## [157] 5.6 4.2 5.4
 ```
 
 ## Deskriptivstatistik für mindestens intervallskalierte Variablen
@@ -304,7 +311,8 @@ var(fb22$lz, na.rm = TRUE)
 Warum erhalten wir hier einen abweichenden Wert im Vergleich zu unserer händischen Varianzberechnung?
 
 Die meisten Programme berechnen nicht die empirische Varianz, sondern einen Schätzer der Populationsvarianz:
-`{{% intext_anchor "Varianz" %}}`{=html}
+
+{{<intext_anchor Varianz>}}
 **Empirische Varianz**
 
 $s^2_{X} = \frac{\sum_{m=1}^n (x_m - \bar{x})^2}{n}$
@@ -412,7 +420,8 @@ head(lz_c)    # erste 6 zentrierte Werte
 ```
 
 ```
-## [1]  0.6904459  1.2904459 -1.7095541  1.2904459 -1.5095541  1.0904459
+## [1]  0.6904459  1.2904459 -1.7095541  1.2904459
+## [5] -1.5095541  1.0904459
 ```
 
 ```r
@@ -422,7 +431,8 @@ head(lz_z)    # erste 6 standardisierte Werte
 ```
 
 ```
-## [1]  0.6429922  1.2017548 -1.5920582  1.2017548 -1.4058040  1.0155006
+## [1]  0.6429922  1.2017548 -1.5920582  1.2017548
+## [5] -1.4058040  1.0155006
 ```
 
 ...oder mit Hilfe bereits existierender Funktionen:
@@ -506,7 +516,8 @@ head(fb22$prok3 == 1, 15) #Zeige die ersten 15 Antworten
 ```
 
 ```
-##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE
+##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [9] FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE
 ```
 
 Wir erhalten einen booleschen Vektor, der uns sagt, wo der Wert 1 auftaucht (`TRUE`) und wo nicht (`FALSE`).

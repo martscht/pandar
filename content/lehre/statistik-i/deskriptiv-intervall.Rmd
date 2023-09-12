@@ -237,7 +237,8 @@ var(fb22$lz, na.rm = TRUE)
 Warum erhalten wir hier einen abweichenden Wert im Vergleich zu unserer händischen Varianzberechnung?
 
 Die meisten Programme berechnen nicht die empirische Varianz, sondern einen Schätzer der Populationsvarianz:
-`r blogdown::shortcode("intext_anchor", "Varianz")`
+
+{{<intext_anchor Varianz>}}
 **Empirische Varianz**
 
 $s^2_{X} = \frac{\sum_{m=1}^n (x_m - \bar{x})^2}{n}$
