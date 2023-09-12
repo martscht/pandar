@@ -122,18 +122,6 @@ Anschließend müssen wir das Paket zur Verwendung natürlich noch aktivieren.
 library(bootnet)
 ```
 
-```
-## Loading required package: ggplot2
-```
-
-```
-## This is bootnet 1.5.5
-```
-
-```
-## For questions and issues, please see github.com/SachaEpskamp/bootnet.
-```
-
 Die Schätzung von Netzwerken funktioniert in dem Paket fast ausschließlich durch die Sammelfunktion `estimateNetwork`. In ihr können durch Argumente verschiedene Netzwerkanalysen durchgeführt werden, wie wir im weiteren Verlauf sehen werden.
 
 Starten wir zunächst mit der einfachsten Berechnung von Zusammenhängen, die wir für intervallskalierte Variablen kennengelernt haben - die Produkt-Moment-Korrelation. Wenn wir eine Netzwerkstruktur erstellen wollen, indem das Gewicht der Kanten der Korrelation zwischen den zugehörigen Knoten entspricht, muss das Argument `default` mit `"cor"` gefüllt werden. Weiterhin muss natürlich der Datensatz mit aufgeführt werden, für den die Schätzung durchgeführt werden soll. Wir weisen dieses Netzerk dem Objekt `cor_net` zu und betrachten die `summary`. 
