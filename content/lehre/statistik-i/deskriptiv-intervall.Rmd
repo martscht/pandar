@@ -71,7 +71,7 @@ Absolut | absoluter Wert | Identität | ... | ... |
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz haben wir bereits über diesen [`r blogdown::shortcode("download_image")` Link heruntergeladen](/daten/fb22.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb22.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 ```{r}
 #### Was bisher geschah: ----
@@ -367,10 +367,9 @@ head(fb22$prok2_r)   # erste 6 Werte mit Transformation
 * Vorteil: schnell und einfach umsetzbar   
 * Nachteil: nur für Invertierung sinnvoll, nicht allgemeiner anwendbar   
 
-`r blogdown::shortcode_open("detail_disclosure", "*Quizfrage*: Ist dies eine zulässige Transformation für ordinalskalierte Variablen (wie Items)?")`
+{{< spoiler text = "*Quizfrage*: Ist dies eine zulässige Transformation für ordinalskalierte Variablen (wie Items)?" >}}
 ***Antwort***: Ja, denn die Ordnungsrelation bleibt hierbei erhalten!  
-
-`r blogdown::shortcode_close("detail_disclosure")`
+{{< /spoiler >}} 
 
 
 
@@ -436,7 +435,7 @@ head(fb22$prok_ges)
 
 {{< spoiler text = "*Quizfrage*: Was bedeutet `NA` in `fb22$prok_ges`?" >}}
 ***Antwort***: `NA` bedeutet in diesem Fall, dass eine teilnehmende Person mindestens ein Item nicht beantwortet hat. Da `rowMeans()` im Hintergrund auch nur `mean()` auf jeder Zeile aufruft, gibt es bei fehlenden Werten die Ausgabe `NA`. Wenn man das vermeiden möchte, kann man wieder das Argument `na.rm = TRUE` hinzufügen. Dabei muss man sich aber im Klaren sein, dass der Mittelwert dann auch für Personen berechnet wird, die nicht alle Items ausgefüllt haben. Im schlimmsten Fall sogar nur ein einziges von 10. Daher sollte solche Entscheidungen immer mit Bedacht getroffen werden.
-{{ < /spoiler >}}
+{{ < /spoiler >}} 
 
 
 ## Nützliche Funktionen in diesem Zusammenhang:
