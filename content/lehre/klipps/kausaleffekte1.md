@@ -8,7 +8,7 @@ subtitle: 'ANCOVA Modelle'
 summary: ''
 authors: [hartig, irmer]
 weight: 9
-lastmod: '2023-09-11'
+lastmod: '2023-09-12'
 featured: no
 banner:
      image: "/header/KliPsy_Kausal_Head.jpg"
@@ -88,7 +88,7 @@ table(CBTdata$Treatment)
 ## 150 176
 ```
 
-Der Datensatz enthält Daten also 326 Patient:innen, davon 176 in der Therapiegruppe (CBT) und 150 in der Wartelisten-Bedingung (WL). Vor und nach dem Treatment wurde die Schwere der depressiven Symptomatik mit dem Beck-Depressions-Inventar erfasst (`BDI_pre` und `BDI_post`) sowie die Lebenszufriedenheit mit dem Satisfaction With Life Screening (`SWL_pre` und `SWL_post`).
+Der Datensatz enthält Daten also 326 Patient:innen, davon 176 in der Therapiegruppe (CBT) und 150 in der Wartelisten-Bedingung (WL). Vor und nach dem Treatment wurde die Schwere der depressiven Symptomatik mit dem Beck-Depressions-Inventar erfasst (`BDI_pre` und `BDI_post`), ebenso wurde vor und nach dem Treatment die Lebenszufriedenheit mit dem Satisfaction With Life Screening gemessen (`SWL_pre` und `SWL_post`).
 
 Kritisch für die Evaluation von Therapieeffekten sind insbesondere vorab bestehende Gruppenunterschiede in den AVs und anderen Variablen. Diese schauen wir uns mit der Funktion `describeBy` deskriptiv an, wobei wir zunächst den gekürzten Datensatz übergeben und dem `group`-Argument die Gruppenvariable zuordnen. Mit `range=F` machen wir die Tabelle etwas übersichtlicher.
 
@@ -106,7 +106,7 @@ describeBy(CBTdata[, c("Age", "BDI_pre", "SWL_pre")], group = CBTdata$Treatment,
 ## Age        1 150 48.15 15.41 -0.16    -1.27 1.26
 ## BDI_pre    2 150 19.95  4.10  0.08     0.04 0.33
 ## SWL_pre    3 150 18.13  4.04 -0.08     0.31 0.33
-## ------------------------------------------------------ 
+## -------------------------------------------------------------- 
 ## group: CBT
 ##         vars   n  mean    sd  skew kurtosis   se
 ## Age        1 176 45.47 15.94  0.02    -1.36 1.20
@@ -362,32 +362,19 @@ summary(BDI.adj3)
 ## -9.6825 -1.8013 -0.1473  1.8545  7.5690 
 ## 
 ## Coefficients:
-##                                    Estimate Std. Error t value Pr(>|t|)
-## (Intercept)                        20.03432    0.46219  43.347  < 2e-16
-## BDI_pre_c                           1.05500    0.12736   8.284 3.50e-15
-## SWL_pre_c                          -0.35096    0.13813  -2.541   0.0115
-## DisorderDEP                         1.08259    0.62800   1.724   0.0857
-## TreatmentCBT                       -4.50331    0.59100  -7.620 3.03e-13
-## BDI_pre_c:DisorderDEP              -0.16040    0.15292  -1.049   0.2950
-## SWL_pre_c:DisorderDEP              -0.07458    0.15818  -0.471   0.6376
-## BDI_pre_c:TreatmentCBT             -0.13981    0.14961  -0.935   0.3508
-## SWL_pre_c:TreatmentCBT             -0.05871    0.15548  -0.378   0.7060
-## DisorderDEP:TreatmentCBT            0.93328    0.83444   1.118   0.2642
-## BDI_pre_c:DisorderDEP:TreatmentCBT  0.08140    0.20237   0.402   0.6878
-## SWL_pre_c:DisorderDEP:TreatmentCBT  0.19973    0.20199   0.989   0.3235
-##                                       
-## (Intercept)                        ***
-## BDI_pre_c                          ***
-## SWL_pre_c                          *  
-## DisorderDEP                        .  
-## TreatmentCBT                       ***
-## BDI_pre_c:DisorderDEP                 
-## SWL_pre_c:DisorderDEP                 
-## BDI_pre_c:TreatmentCBT                
-## SWL_pre_c:TreatmentCBT                
-## DisorderDEP:TreatmentCBT              
-## BDI_pre_c:DisorderDEP:TreatmentCBT    
-## SWL_pre_c:DisorderDEP:TreatmentCBT    
+##                                    Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                        20.03432    0.46219  43.347  < 2e-16 ***
+## BDI_pre_c                           1.05500    0.12736   8.284 3.50e-15 ***
+## SWL_pre_c                          -0.35096    0.13813  -2.541   0.0115 *  
+## DisorderDEP                         1.08259    0.62800   1.724   0.0857 .  
+## TreatmentCBT                       -4.50331    0.59100  -7.620 3.03e-13 ***
+## BDI_pre_c:DisorderDEP              -0.16040    0.15292  -1.049   0.2950    
+## SWL_pre_c:DisorderDEP              -0.07458    0.15818  -0.471   0.6376    
+## BDI_pre_c:TreatmentCBT             -0.13981    0.14961  -0.935   0.3508    
+## SWL_pre_c:TreatmentCBT             -0.05871    0.15548  -0.378   0.7060    
+## DisorderDEP:TreatmentCBT            0.93328    0.83444   1.118   0.2642    
+## BDI_pre_c:DisorderDEP:TreatmentCBT  0.08140    0.20237   0.402   0.6878    
+## SWL_pre_c:DisorderDEP:TreatmentCBT  0.19973    0.20199   0.989   0.3235    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -428,8 +415,9 @@ Wir sehen, dass keine der hinzugefügten Interaktionen statistisch bedeutsam ist
 
 
 
-Den adjustierten Effekt können wir auch mit `EffectLiteR` schätzen, hierbei wird die Gewichtung nach Kovariaten berücksichtigt. Die Funktion, die wir dazu benutzen, heißt `effectLite`. Das Kriterium (AV) wird dem Argument `y` übergeben, `x` die Gruppierungsvariable (UV), `z` wird als Vektor die Kovariaten übergeben, `k` werden kategoriale Kovariaten übergeben, `data` schreiben wir die Daten zu und mit `method = "lm"` legen wir fest, dass alles auf Basis des linearen Modells geschätzt werden soll, was im Grunde einer Schätzung mittels ANCOVA entspricht. 
+Den adjustierten Effekt können wir auch mit `EffectLiteR` schätzen, hierbei wird die Gewichtung nach Kovariaten berücksichtigt. Die Funktion, die wir dazu benutzen, heißt `effectLite`. Das Kriterium (AV) wird dem Argument `y` übergeben, `x` wird die Gruppierungsvariable (UV) zugewiesen, `z` werden als Vektor die Kovariaten übergeben, `k` werden kategoriale Kovariaten übergeben, `data` schreiben wir die Daten zu und mit `method = "lm"` legen wir fest, dass alles auf Basis des linearen Modells geschätzt werden soll, was im Grunde einer Schätzung mittels ANCOVA entspricht. 
 
+<div class = "big-maths">
 
 ```r
 # Schätzung des Effekts des Treatments auf BDI_post mit effectLite,
@@ -553,16 +541,11 @@ effectLite(y="BDI_post", x="Treatment", z=c("BDI_pre_c", "SWL_pre_c"), k=c("Diso
 ## 
 ##  --------------------- Effects given X=x, K=k --------------------- 
 ## 
-##                       Estimate      SE   Est./SE    p-value
-## E[g1(K,Z)|X=0, K=0]      -4.56   0.584     -7.81   8.53e-14
-## E[g1(K,Z)|X=1, K=0]      -4.78   0.621     -7.70   1.84e-13
-## E[g1(K,Z)|X=0, K=1]      -3.03   0.656     -4.63   5.48e-06
-## E[g1(K,Z)|X=1, K=1]      -3.71   0.606     -6.12   2.78e-09
-##                       Effect Size
-## E[g1(K,Z)|X=0, K=0]        -0.853
-## E[g1(K,Z)|X=1, K=0]        -0.893
-## E[g1(K,Z)|X=0, K=1]        -0.567
-## E[g1(K,Z)|X=1, K=1]        -0.694
+##                       Estimate      SE   Est./SE    p-value   Effect Size
+## E[g1(K,Z)|X=0, K=0]      -4.56   0.584     -7.81   8.53e-14        -0.853
+## E[g1(K,Z)|X=1, K=0]      -4.78   0.621     -7.70   1.84e-13        -0.893
+## E[g1(K,Z)|X=0, K=1]      -3.03   0.656     -4.63   5.48e-06        -0.567
+## E[g1(K,Z)|X=1, K=1]      -3.71   0.606     -6.12   2.78e-09        -0.694
 ## 
 ## 
 ## --------------------- Hypotheses given K=k --------------------- 
@@ -574,6 +557,7 @@ effectLite(y="BDI_post", x="Treatment", z=c("BDI_pre_c", "SWL_pre_c"), k=c("Diso
 ## No average effects given K=0      64.8     1   314   1.75e-14
 ## No average effects given K=1      31.9     1   314   3.58e-08
 ```
+</div>
 
 Unter
 
@@ -582,7 +566,7 @@ Unter
 ## ## --------------------- Variables  ---------------------
 ```
 
-finden wir eine Zusammenfassung der Variablen, die wir als Input verwendet haben. Bspw. werden die  kategorialen Variablen hinsichtlich ihrer Kodierung aufgedröselt. Bspw. bedeutet
+finden wir eine Zusammenfassung der Variablen, die wir als Input verwendet haben. Hier werden die  kategorialen Variablen hinsichtlich ihrer Kodierung aufgedröselt. Bspw. bedeutet
 
 
 ```
@@ -592,7 +576,7 @@ finden wir eine Zusammenfassung der Variablen, die wir als Input verwendet haben
 ## ##    1                    CBT       I_X=1
 ```
 
-dass die Gruppierungsvariable (of interest) mit X betitelt wird und aus den Ausprägung des Treatments besteht. Dabei ist `X=0` die Wartelistenkontrolle (WL) und `X=1` die Treatmentgruppe (CBT). Dahinter wird noch der Indikator `I_X` definiert, der entsprechend die Werte 0 und 1 annimmt. Unter `## Levels of Unfolded Categorical Covariate K` steht gleiches nochmals für die kategoriale Kovariate `Disorder`. Eine Übersicht über die Kombination der Gruppen steht in 
+dass die Gruppierungsvariable (of interest) mit X betitelt wird und aus den Ausprägungen des Treatments besteht. Dabei ist `X=0` die Wartelistenkontrolle (WL) und `X=1` die Treatmentgruppe (CBT). Dahinter wird noch der Indikator `I_X` definiert, der entsprechend die Werte 0 und 1 annimmt. Unter `## Levels of Unfolded Categorical Covariate K` steht Gleiches nochmals für die kategoriale Kovariate `Disorder`. Eine Übersicht über die Kombination der Gruppen steht in 
 
 
 ```
@@ -618,7 +602,7 @@ wird dann das Regressionsmodell definiert. Dabei wird das Modell mit Hilfe der b
 ## ##  E(Y|X,K,Z) = g0(K,Z) + g1(K,Z)*I_X=1
 ```
 
-bedeutet dabei nichts anderes, als dass der Mittelwert von `Y` auf `X` (UV), `K` und `Z` (kategoriale und kontinuierliche Kovariaten) bedingt wird. Bedingter Mittelwert heißt wiederum nur, dass eine Art Regression durchgeführt wird. Dahinter sehen wir die Schreibweise, die wir auch aus den Folien kennen. `g0` ist hierbei die Interzeptfunktion, die von `K` und `Z` abhängt. `g1` ist hierbei die Slopefunktion, die von `K` und `Z` abhängt und den Effekt des `Treatment` darstellt.  
+bedeutet dabei nichts anderes, als dass der Mittelwert von `Y` auf `X` (UV), `K` und `Z` (kategoriale und kontinuierliche Kovariaten) bedingt wird. Bedingter Mittelwert heißt wiederum nur, dass eine Art Regression durchgeführt wird. Dahinter sehen wir die Schreibweise, die wir auch aus den Folien kennen. `g0` ist hierbei die Interzeptfunktion, die von `K` und `Z` abhängt. `g1` ist die Slopefunktion, die von `K` und `Z` abhängt und den Effekt des `Treatments` darstellt.  
 
 
 ```
@@ -628,7 +612,7 @@ bedeutet dabei nichts anderes, als dass der Mittelwert von `Y` auf `X` (UV), `K`
 ## ##             + g112 * I_K=1 * Z2
 ```
 
-beschreibt explizit die Regressionsdarstellung der Interzeptfunktion (Hautpeffekte im ANCOVA-Setting) und der Slopefunktion (Interaktionseffekte im ANCOVA-Setting) in der Reihenfolge, in der sie in die Analysen eingegangen sind. Genauso haben wir die Prädiktoren ebenfalls in die ANCOVA (`BDI.adj3`) aufgenommen. Die Koeffizienten werden dann in üblicher Manier dargestellt. Die Benennung ist etwas schwieriger nachzuvollziehen, aber wenn wir uns merken, in welcher Reihenfolge wir die Prädiktoren oben aufgenommen haben, erkennen wir, dass der Output im Grunde identisch ist, zum Output von `BDI.adj3`. Bspw. ist `g000` = 20.034 ist das Interzept, oder `g010` = 1.083 ist der Haupteffekt von `Disorder`, `g012` = -0.075 ist der Interaktionseffekt zwischen `Disorder` und `SWL_pre_c` (`SWL_pre_c:DisorderDEP` im ANCOVA-Output). Zu den `Treatment`-Effekten: `g100` = -4.503 ist der Haupteffekt des `Treatment`s im ANCOVA-Sinn. Der ATE wird als der Erwartungswert der Slopefunktion `g1(K,Z)` geschätzt (dazu gleich mehr!). `g112` = 0.2 ist die Dreifachinteraktion zwischen `Treatment`, `Disorder` und `SWL_pre_c` (`SWL_pre_c:Disorder:Treatment`). 
+beschreibt explizit die Regressionsdarstellung der Interzeptfunktion (Hautpeffekte im ANCOVA-Setting) und der Slopefunktion (Interaktionseffekte im ANCOVA-Setting) in der Reihenfolge, in der sie in die Analysen eingegangen sind. Genauso haben wir die Prädiktoren ebenfalls in die ANCOVA (`BDI.adj3`) aufgenommen. Die Koeffizienten werden dann in üblicher Manier dargestellt. Die Benennung ist etwas schwieriger nachzuvollziehen, aber wenn wir uns merken, in welcher Reihenfolge wir die Prädiktoren oben aufgenommen haben, erkennen wir, dass der Output im Grunde identisch ist zum Output von `BDI.adj3`. Bspw. ist `g000` = 20.034 das Interzept und `g010` = 1.083 ist der Haupteffekt von `Disorder`. `g012` = -0.075 ist der Interaktionseffekt zwischen `Disorder` und `SWL_pre_c` (`SWL_pre_c:DisorderDEP` im ANCOVA-Output). Kommen wir zu den `Treatment`-Effekten: `g100` = -4.503 ist der Haupteffekt des `Treatments` im ANCOVA-Sinn. Der ATE wird als der Erwartungswert der Slopefunktion `g1(K,Z)` geschätzt (dazu gleich mehr!). `g112` = 0.2 ist die Dreifachinteraktion zwischen `Treatment`, `Disorder` und `SWL_pre_c` (`SWL_pre_c:Disorder:Treatment`). 
 
 Unter 
 
@@ -637,7 +621,7 @@ Unter
 ## ## --------------------- Cell Counts  ---------------------
 ```
 
-finden wir eine Übersicht, über die Häufigkeitsverteilung innerhalb der verschiedenen Gruppen. Diese entspricht `tab.disorder` vom Anfang der Sitzung. 
+finden wir eine Übersicht über die Häufigkeitsverteilung innerhalb der verschiedenen Gruppen. Diese entspricht `tab.disorder` vom Anfang der Sitzung. 
 
 Unter 
 
@@ -656,7 +640,7 @@ finden wir endlich die Schätzung mit zugehöriger Signifikanzentscheidung unser
 ## ## H0: No treatment effects: g1(K,Z) = 0
 ```
 
-beschreibt nochmals die Hypothesen, die getestet werden sollen. Die erste Hypothese bezieht sich auf den ATE (Average Treatment Effect). Wir erkennen die $H_0$ als `E[g1(K,Z)] = 0`. Der ATE ist also der Durchschnitt der Slopefunktion `g1(K,Z)`. Die zweite Hypothese behandelt, ob die Kovariaten Mittelwertsunterschiede bewirken. Die dritte Hypothese untersucht, ob die Kovariaten den Effekt des Treatments beeinflussen. Die letzte Hypothese testet alle Parameter innerhalb der Slopefunktion `g1(K,Z)` gemeinsam. Sie wird signifikant, wenn es einen Haupteffekt oder einen Interaktionseffekt (oder beides) mit dem `Treatment` gibt. Der Output ist ein normaler ANOVA/ANCOVA-Output. Uns werden $F$-Werte angezeigt. Hypothese 1,2, und 4 werden durch die Daten gestützt. Dass sich das `Treatment` je nach Ausprägung der Kovariaten unterschiedlich ausgewirkt hat, wird durch die Daten nicht gestützt. Unter 
+beschreibt nochmals die Hypothesen, die getestet werden sollen. Die erste Hypothese bezieht sich auf den ATE (Average Treatment Effect). Wir erkennen die $H_0$ als `E[g1(K,Z)] = 0`. Der ATE ist also der Durchschnitt der Slopefunktion `g1(K,Z)`. Die zweite Hypothese behandelt, ob die Kovariaten Mittelwertsunterschiede bewirken. Die dritte Hypothese untersucht, ob die Kovariaten den Effekt des Treatments beeinflussen. Die letzte Hypothese testet alle Parameter innerhalb der Slopefunktion `g1(K,Z)` gemeinsam. Sie wird signifikant, wenn es einen Haupteffekt oder einen Interaktionseffekt (oder beides) mit dem `Treatment` gibt. Der Output ist ein normaler ANOVA/ANCOVA-Output. Uns werden $F$-Werte angezeigt. Hypothese 1,2, und 4 werden durch die Daten gestützt. Die Hypothese, dass sich das `Treatment` je nach Ausprägung der Kovariaten unterschiedlich ausgewirkt hat, wird durch die Daten nicht gestützt. Unter 
 
 
 ```
@@ -673,14 +657,14 @@ finden wir die adjustierten Mittelwerte, mit welchen dann der ATE bestimmt wird.
 zu finden und beträgt -3.99. Der Wert liegt nicht sonderlich weit entfernt vom Haupteffekt im ANCOVA-Setting und ist auch hier signifikant. Es wird uns auch ein Effektstärkenmaß angeboten. Dieses liegt bei -0.75 und spricht für einen mittleren bis großen Effekt.
 
 
-In den folgenden Blöcken werden jeweils bedingte Effekte dargestellt. Begonnen wird mit dem ATT, dahinter folgenden ATEs bedingt auf die kategorialen Prädiktoren (`K`) sowie eine Kombination aus beiden.
+In den folgenden Blöcken werden jeweils bedingte Effekte dargestellt. Es beginnt mit dem ATT, dahinter folgen ATEs bedingt auf die kategorialen Prädiktoren (`K`) sowie eine Kombination aus beiden.
 
 
 ```
 ## ##  --------------------- Effects given a Treatment Condition ---------------------
 ```
 
-beschreibt die ATT (Average Treatment of the Treated) Effekte (also Effekte bedingt auf die `Treatment`-Bedingungen). `E[g1(K,Z)|X=0]` beschreibt den $ATT^0$ und `E[g1(K,Z)|X=1]` den $ATT^1$ Effekt (ATT0 = -3.49 und ATT1 = -4.41). Beide sind statistisch bedeutsam. Auch hier werden Effektstärken angegeben. Die Effektstärke in der `Treatment`-Gruppe ist etwas höher, als die der Wartekontrollgruppe (-0.65 vs. -0.83). 
+beschreibt die ATT (Average Treatment of the Treated) Effekte (also Effekte bedingt auf die `Treatment`-Bedingungen). `E[g1(K,Z)|X=0]` beschreibt den $ATT^0$ und `E[g1(K,Z)|X=1]` den $ATT^1$ Effekt (ATT0 = -3.49 und ATT1 = -4.41). Beide sind statistisch bedeutsam. Auch hier werden Effektstärken angegeben. Die Effektstärke in der `Treatment`-Gruppe ist etwas höher als die der Wartekontrollgruppe (-0.65 vs. -0.83). 
 
 
 ```
@@ -695,7 +679,7 @@ beschreibt die bedingten Effekte bedingt auf `Disorder`. Hier wird also im Grund
 ## ##  --------------------- Effects given X=x, K=k ---------------------
 ```
 
-Zeigt uns die $ATT$s in den unterschiedlichen Gruppen. `E[g1(K,Z)|X=0, K=0]` beschreibt also den $ATE|$`WL,ANX` = $ATT^0|$`ANX`, also gerade den $ATT$ von Personen mit Angstsymptomatik in der Wartekontrollgruppe. Genauso beschreibt `E[g1(K,Z)|X=1, K=1]` den  $ATE|$`CBT,DEP` = $ATT^1|$`DEP`, also den $ATT$ von Personen mit Depression in der CBT-Gruppe. Alle (bedingten) $ATT$s sind statistisch bedeutsam, jedoch sind die bei Angstsymptomatik etwas stärker ausgeprägt (ATT0|ANX = -4.56 und ATT1|ANX = -4.78) als bei Depressionen (ATT0|Dep = -3.03 und ATT1|Dep = -3.71). Auch sehen wir deskriptiv, dass in den `Treatment`-Bedingungen jeweils die Effekte etwas stärker ausgeprägt sind.
+Zeigt uns die $ATT$s in den unterschiedlichen Gruppen. `E[g1(K,Z)|X=0, K=0]` beschreibt also den $ATE|$`WL,ANX` = $ATT^0|$`ANX`, also gerade den $ATT$ von Personen mit Angstsymptomatik in der Wartekontrollgruppe. Genauso beschreibt `E[g1(K,Z)|X=1, K=1]` den  $ATE|$`CBT,DEP` = $ATT^1|$`DEP`, also den $ATT$ von Personen mit Depression in der CBT-Gruppe. Alle (bedingten) $ATT$s sind statistisch bedeutsam, jedoch sind sie bei Angstsymptomatik etwas stärker ausgeprägt (ATT0|ANX = -4.56 und ATT1|ANX = -4.78) als bei Depressionen (ATT0|Dep = -3.03 und ATT1|Dep = -3.71). Auch sehen wir deskriptiv, dass in den `Treatment`-Bedingungen jeweils die Effekte etwas stärker ausgeprägt sind.
 
 Zum Schluss wird noch der bedingte ATE auf Signifikanz mittels ANOVA geprüft
 
@@ -708,6 +692,6 @@ Die Hypothesen, die geprüft werden, sind, dass der ATE jeweils 0 ist für Angst
 
 ### Zusammenfassung
 
-Unter der Stable Unit Treatment Value Assumption (SUTVA) und der Strong Ignoribility Annahme bedeuten die Ergebnisse also, dass es einen Effekt der CBT gab (mit einer Irrtumswahrscheinlich von 5%) und dass dieser Effekt für unterschiedliche Symptomatiken unterschiedlich stark ausgeprägt war.
+Unter der Stable Unit Treatment Value Assumption (SUTVA) und der Strong Ignoribility Annahme bedeuten die Ergebnisse also, dass es einen Effekt der CBT gab (mit einer Irrtumswahrscheinlich von {{< math >}}$5\%${{< /math>}}) und dass dieser Effekt für unterschiedliche Symptomatiken unterschiedlich stark ausgeprägt war.
 
 ***
