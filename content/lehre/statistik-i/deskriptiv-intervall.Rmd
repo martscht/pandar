@@ -8,7 +8,7 @@ tags: ["Deskriptivstatistik", "Intervallskalen", "Mittelwert", "Varianz"]
 subtitle: ''
 summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte Variablen vorgestellt. Dabei wird zunächst die Berechnung des Mittelwerts, der Varianz sowie Standardabweichung behandelt. Dann wird gezeigt, wie Variablen zentriert bzw. standardisiert werden können. Abschließend geht es außerdem um das Rekodieren von Items und das Bilden von Skalenwerten.' 
 authors: [nehler, beitner, buchholz] 
-weight: 1
+weight: 3
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
