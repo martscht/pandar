@@ -63,9 +63,11 @@ load(url("https://pandar.netlify.app/post/CBTdata.rda"))
 head(CBTdata)
 ```
 
+<div class = "big-maths">
 ```{r,echo=FALSE}
 knitr::kable(head(CBTdata))
 ```
+</div>
 
 ```{r include=FALSE}
 BDI.PFE <- lm(BDI_post ~ Treatment, data = CBTdata)
@@ -76,7 +78,7 @@ Wir wissen auch bereits, dass der Prima-Facie-Effekt (PFE) von `r round(coef(BDI
 
 ## Konstruktion des Propensity Scores{#Konstruktion}
 
-Zur Bildung des Propensity Scores verwenden wir eine logistische Regression mit den Variablen, von denen wir bereits wissen, dass sich die Gruppen darin Unterscheiden: Art der Störung, Prätest im BDI und Prätest im SWL:
+Zur Bildung des Propensity Scores verwenden wir eine logistische Regression mit den Variablen, von denen wir bereits wissen, dass sich die Gruppen darin unterscheiden: Art der Störung, Prätest im BDI und Prätest im SWL:
 
 ```{r}
 # Vorhersage des Treatments durch Kovariaten
@@ -99,7 +101,7 @@ mod_ps2 <- glm(Treatment ~ Disorder + BDI_pre_c + SWL_pre_c +
 summary(mod_ps2)
 ```
 
-Da keiner der Wechselwirkungs-Terme signifikant ist, verwenden wir im nächsten Schritt das einfachere Modell `mod_ps1`. Mit der `predict`-Funktion erhalten wir Vorhergesagte Werte in Logit-Einheiten, mit der `logistic`-Funktion des `psych`-Paktets können wir diese in Wahrscheinlichkeiten transformieren:
+Da keiner der Wechselwirkungs-Terme signifikant ist, verwenden wir im nächsten Schritt das einfachere Modell `mod_ps1`. Mit der `predict`-Funktion erhalten wir vorhergesagte Werte in Logit-Einheiten, mit der `logistic`-Funktion des `psych`-Pakets können wir diese in Wahrscheinlichkeiten transformieren:
 
 ```{r}
 CBTdata$PS_logit <- predict(mod_ps1)
@@ -109,7 +111,7 @@ plot(CBTdata$PS_logit, CBTdata$PS_P)
 
 ### Prüfung des Overlap
 
-Die Unterschiede im resultierenden Propensity Score in Logit-Einheiten können wir uns durch eine grafische Darstellung der Verteilungen in den Gruppen veranschaulichen. Die Treatment-Wahrscheinlichkeit ist in der Treatment-Gruppe deutlich höher, was z.B. durch eine Selektion nach Dringlichkeit der Fälle zustande gekommen sein kann. Durch ein Abtragen der Treatmentwahrscheinlichkeiten können wir zusätzlich veranschaulichen, wie groß die Überschneidungen der Gruppen (*common support*) sind. In dieser Grafik sind auch das Minimum der Wahrscheinlichkeit in der Treatment-Gruppe und das Maximum in der Kontrollgruppe eingetragen - diese definieren die Grenzen der Überschneidung zwischen den Gruppen.
+Die Unterschiede im resultierenden Propensity Score in Logit-Einheiten können wir uns durch eine grafische Darstellung der Verteilungen in den Gruppen veranschaulichen. Die Treatment-Wahrscheinlichkeit ist in der Treatment-Gruppe deutlich höher, was z.B. durch eine Selektion nach Dringlichkeit der Fälle zustande gekommen sein kann. Durch ein Abtragen der Treatment-Wahrscheinlichkeiten können wir zusätzlich veranschaulichen, wie groß die Überschneidungen der Gruppen (*common support*) sind. In dieser Grafik sind auch das Minimum der Wahrscheinlichkeit in der Treatment-Gruppe und das Maximum in der Kontrollgruppe eingetragen - diese definieren die Grenzen der Überschneidung zwischen den Gruppen.
 
 ```{r class.source = "fold-hide", message=FALSE, warning=FALSE}
 ## Overlap & Common Support ----
@@ -174,7 +176,7 @@ grid.arrange(p1, p2, nrow=1) # Beide Plots nebeneinander
 
 ## Verwendung des Propensity Score in der ANCOVA{#ANCOVA}
 
-Wir können den Treatment-Effekt schätzen, indem wir den Propensity Score anstelle der ursprünglichen Kovariaten als Kontrollvariable verwenden. Wir vergleichen hier die klassische ANCOVA mit allen Kovariaten mit einem Modell, in dem nur der Propensity Score kontrolliert wird (Achtung, aufgrund der Reduktion des Datensatzes entsprechen die Ergebnisse des 1. Modells nicht exakt [denen im ersten Teil dieses Blocks](https://pandar.netlify.app/post/kausal/#ANCOVA)! Wir sehen, dass die auf beiden Wegen geschätzen Effekte praktisch identisch sind.
+Wir können den Treatment-Effekt schätzen, indem wir den Propensity Score anstelle der ursprünglichen Kovariaten als Kontrollvariable verwenden. Wir vergleichen hier die klassische ANCOVA mit allen Kovariaten mit einem Modell, in dem nur der Propensity Score kontrolliert wird (Achtung: Aufgrund der Reduktion des Datensatzes entsprechen die Ergebnisse des 1. Modells nicht exakt [denen im ersten Teil dieses Blocks](/lehre/klipps/kausaleffekte1/#ANCOVA)!) Wir sehen, dass die auf beiden Wegen geschätzen Effekte praktisch identisch sind.
 
 ```{r}
 BDI.adj <- lm(BDI_post ~ Treatment + Disorder + BDI_pre + SWL_pre, data = CBTdata)

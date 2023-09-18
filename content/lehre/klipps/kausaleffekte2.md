@@ -8,7 +8,7 @@ subtitle: 'Propensity Scores'
 summary: ''
 authors: [hartig]
 weight: 10
-lastmod: '2023-09-12'
+lastmod: '2023-09-18'
 featured: no
 banner:
      image: "/header/Kausal2_Head.jpg"
@@ -65,6 +65,7 @@ load(url("https://pandar.netlify.app/post/CBTdata.rda"))
 head(CBTdata)
 ```
 
+<div class = "big-maths">
 
 | Age|Gender |Treatment |Disorder | BDI_pre| SWL_pre| BDI_post| SWL_post|
 |---:|:------|:---------|:--------|-------:|-------:|--------:|--------:|
@@ -74,6 +75,7 @@ head(CBTdata)
 |  70|female |CBT       |ANX      |      30|      15|       22|       19|
 |  64|female |CBT       |DEP      |      32|      12|       26|       20|
 |  50|female |CBT       |ANX      |      24|      15|       23|       22|
+</div>
 
 
 
@@ -81,7 +83,7 @@ Wir wissen auch bereits, dass der Prima-Facie-Effekt (PFE) von 0.39 Punkten nich
 
 ## Konstruktion des Propensity Scores{#Konstruktion}
 
-Zur Bildung des Propensity Scores verwenden wir eine logistische Regression mit den Variablen, von denen wir bereits wissen, dass sich die Gruppen darin Unterscheiden: Art der Störung, Prätest im BDI und Prätest im SWL:
+Zur Bildung des Propensity Scores verwenden wir eine logistische Regression mit den Variablen, von denen wir bereits wissen, dass sich die Gruppen darin unterscheiden: Art der Störung, Prätest im BDI und Prätest im SWL:
 
 
 ```r
@@ -96,10 +98,6 @@ summary(mod_ps1)
 ## Call:
 ## glm(formula = Treatment ~ Disorder + BDI_pre + SWL_pre, family = "binomial", 
 ##     data = CBTdata)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -2.3543  -0.8633   0.4130   0.8568   2.1566  
 ## 
 ## Coefficients:
 ##             Estimate Std. Error z value Pr(>|z|)    
@@ -141,10 +139,6 @@ summary(mod_ps2)
 ##     Disorder:BDI_pre_c + Disorder:SWL_pre_c + BDI_pre_c:SWL_pre_c + 
 ##     Disorder:BDI_pre_c:SWL_pre_c, family = "binomial", data = CBTdata)
 ## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -2.0858  -0.8247   0.5448   0.7892   2.2328  
-## 
 ## Coefficients:
 ##                                 Estimate Std. Error z value Pr(>|z|)    
 ## (Intercept)                      0.69555    0.20390   3.411 0.000647 ***
@@ -167,7 +161,7 @@ summary(mod_ps2)
 ## Number of Fisher Scoring iterations: 4
 ```
 
-Da keiner der Wechselwirkungs-Terme signifikant ist, verwenden wir im nächsten Schritt das einfachere Modell `mod_ps1`. Mit der `predict`-Funktion erhalten wir Vorhergesagte Werte in Logit-Einheiten, mit der `logistic`-Funktion des `psych`-Paktets können wir diese in Wahrscheinlichkeiten transformieren:
+Da keiner der Wechselwirkungs-Terme signifikant ist, verwenden wir im nächsten Schritt das einfachere Modell `mod_ps1`. Mit der `predict`-Funktion erhalten wir vorhergesagte Werte in Logit-Einheiten, mit der `logistic`-Funktion des `psych`-Pakets können wir diese in Wahrscheinlichkeiten transformieren:
 
 
 ```r
@@ -180,7 +174,7 @@ plot(CBTdata$PS_logit, CBTdata$PS_P)
 
 ### Prüfung des Overlap
 
-Die Unterschiede im resultierenden Propensity Score in Logit-Einheiten können wir uns durch eine grafische Darstellung der Verteilungen in den Gruppen veranschaulichen. Die Treatment-Wahrscheinlichkeit ist in der Treatment-Gruppe deutlich höher, was z.B. durch eine Selektion nach Dringlichkeit der Fälle zustande gekommen sein kann. Durch ein Abtragen der Treatmentwahrscheinlichkeiten können wir zusätzlich veranschaulichen, wie groß die Überschneidungen der Gruppen (*common support*) sind. In dieser Grafik sind auch das Minimum der Wahrscheinlichkeit in der Treatment-Gruppe und das Maximum in der Kontrollgruppe eingetragen - diese definieren die Grenzen der Überschneidung zwischen den Gruppen.
+Die Unterschiede im resultierenden Propensity Score in Logit-Einheiten können wir uns durch eine grafische Darstellung der Verteilungen in den Gruppen veranschaulichen. Die Treatment-Wahrscheinlichkeit ist in der Treatment-Gruppe deutlich höher, was z.B. durch eine Selektion nach Dringlichkeit der Fälle zustande gekommen sein kann. Durch ein Abtragen der Treatment-Wahrscheinlichkeiten können wir zusätzlich veranschaulichen, wie groß die Überschneidungen der Gruppen (*common support*) sind. In dieser Grafik sind auch das Minimum der Wahrscheinlichkeit in der Treatment-Gruppe und das Maximum in der Kontrollgruppe eingetragen - diese definieren die Grenzen der Überschneidung zwischen den Gruppen.
 
 
 ```{.r .fold-hide}
@@ -251,7 +245,7 @@ grid.arrange(p1, p2, nrow=1) # Beide Plots nebeneinander
 
 ## Verwendung des Propensity Score in der ANCOVA{#ANCOVA}
 
-Wir können den Treatment-Effekt schätzen, indem wir den Propensity Score anstelle der ursprünglichen Kovariaten als Kontrollvariable verwenden. Wir vergleichen hier die klassische ANCOVA mit allen Kovariaten mit einem Modell, in dem nur der Propensity Score kontrolliert wird (Achtung, aufgrund der Reduktion des Datensatzes entsprechen die Ergebnisse des 1. Modells nicht exakt [denen im ersten Teil dieses Blocks](https://pandar.netlify.app/post/kausal/#ANCOVA)! Wir sehen, dass die auf beiden Wegen geschätzen Effekte praktisch identisch sind.
+Wir können den Treatment-Effekt schätzen, indem wir den Propensity Score anstelle der ursprünglichen Kovariaten als Kontrollvariable verwenden. Wir vergleichen hier die klassische ANCOVA mit allen Kovariaten mit einem Modell, in dem nur der Propensity Score kontrolliert wird (Achtung: Aufgrund der Reduktion des Datensatzes entsprechen die Ergebnisse des 1. Modells nicht exakt [denen im ersten Teil dieses Blocks](/lehre/klipps/kausaleffekte1/#ANCOVA)!) Wir sehen, dass die auf beiden Wegen geschätzen Effekte praktisch identisch sind.
 
 
 ```r
