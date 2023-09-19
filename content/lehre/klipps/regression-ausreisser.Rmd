@@ -133,12 +133,12 @@ Hierbei zeigt die Tilde (`~`) auf, welche Variable die AV ist (sie steht links d
 
 Im Output sehen wir die Parameterschätzungen unseres Regressionsmodells, das folgendermaßen aussieht:
 
-<div class="big-maths">
-\begin{equation}
-\small
-\text{Depressivitaet}_i=b_0+b_1\text{Geschlecht}_i+b_2\text{Lebenszufriedenheit}_i+\varepsilon_i, 
-\end{equation}
-</div>
+{{< math >}}
+\begin{align}
+\text{Depressivitaet}_i=b_0+b_1\text{Geschlecht}_i \\ 
++b_2\text{Lebenszufriedenheit}_i+\varepsilon_i, 
+\end{align}
+{{< /math >}}
 
 für $i=1,\dots,100=:n$. Wir wollen uns die Ergebnisse unserer Regressionsanalyse noch detaillierter anschauen. Dazu können wir wieder die `summary`-Funktion anwenden. Wir weisen dafür den `lm`-Befehl einem  Objekt zu, welches wir weiterverwenden können, um darauf beispielsweise `summary` auszuführen. Zur Erinnerung: Wir speichern dieses Objekt ab, indem wir eine Zuordnung durchführen via `<-` und einen Namen (hier: `model`) vergeben.
 

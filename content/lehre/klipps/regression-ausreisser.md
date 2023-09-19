@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird eine multiple Regression in `R` exemplarisch durchgeführt. Dabei wird erläutert, wie ein Regressionsmodell in `R` erstellt und der entsprechende `R`-Output interpretiert werden kann. Außerdem werden die Voraussetzungen für die multiple Regression behandelt. Der Fokus liegt dabei auf der Prüfung der Multikollinearität sowie der Identifikation möglicher Ausreißern und einflussreicher Datenpunkte. '
 authors: [nehler, irmer, hartig]
 weight: 2
-lastmod: '2023-08-22'
+lastmod: '2023-09-19'
 featured: no
 banner:
   image: "/header/FEI_Sitzung1_post.jpg"
@@ -159,12 +159,12 @@ Hierbei zeigt die Tilde (`~`) auf, welche Variable die AV ist (sie steht links d
 
 Im Output sehen wir die Parameterschätzungen unseres Regressionsmodells, das folgendermaßen aussieht:
 
-<div class="big-maths">
-\begin{equation}
-\small
-\text{Depressivitaet}_i=b_0+b_1\text{Geschlecht}_i+b_2\text{Lebenszufriedenheit}_i+\varepsilon_i, 
-\end{equation}
-</div>
+{{< math >}}
+\begin{align}
+\text{Depressivitaet}_i=b_0+b_1\text{Geschlecht}_i \\ 
++b_2\text{Lebenszufriedenheit}_i+\varepsilon_i, 
+\end{align}
+{{< /math >}}
 
 für $i=1,\dots,100=:n$. Wir wollen uns die Ergebnisse unserer Regressionsanalyse noch detaillierter anschauen. Dazu können wir wieder die `summary`-Funktion anwenden. Wir weisen dafür den `lm`-Befehl einem  Objekt zu, welches wir weiterverwenden können, um darauf beispielsweise `summary` auszuführen. Zur Erinnerung: Wir speichern dieses Objekt ab, indem wir eine Zuordnung durchführen via `<-` und einen Namen (hier: `model`) vergeben.
 
@@ -359,8 +359,8 @@ names(summary_model) # weitere mögliche Argumente, die wir erhalten können
 ```
 
 ```
-##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"         "df"           
-##  [8] "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled"
+##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"        
+##  [7] "df"            "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled"
 ```
 
 Gleiches können wir mit allen Summary-Objekten auch in späteren Sitzungen machen!
@@ -994,15 +994,16 @@ MD
 ```
 
 ```
-##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173  1.29835776  0.89484803  5.31999173  0.07401952
-## [11]  1.85988286  0.96581665  2.87179069  1.29835776  3.08398338  6.11730810  0.96581665  0.33582974  1.93061376  3.99622396
-## [21]  0.96581665  1.85988286  1.93061376  3.57704668  0.07401952  0.96581665  1.68027868  0.88006651  1.85988286  1.85988286
-## [31]  0.96581665  0.19639932  0.07401952  2.79831527  0.19639932  1.64697702  2.42350418  0.89484803  0.96581665  0.19639932
-## [41]  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651  0.19639932  0.07401952  0.38036881  8.84194961  1.64697702
-## [51]  0.19639932  1.29835776  2.87179069  4.92199266  7.18339325  0.19639932  0.33582974  0.38036881  3.46236019  0.07401952
-## [61]  0.33582974  0.38036881  3.48368968  8.46422112  0.19639932  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570
-## [71]  0.38036881  0.07401952  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429  3.08398338  2.86848429  1.09506856
-## [81]  2.39394112  1.50981570  1.09506856  2.42350418 10.28690861  1.33295604  0.19639932  0.88006651  1.68027868  1.09506856
+##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173  1.29835776  0.89484803  5.31999173
+## [10]  0.07401952  1.85988286  0.96581665  2.87179069  1.29835776  3.08398338  6.11730810  0.96581665  0.33582974
+## [19]  1.93061376  3.99622396  0.96581665  1.85988286  1.93061376  3.57704668  0.07401952  0.96581665  1.68027868
+## [28]  0.88006651  1.85988286  1.85988286  0.96581665  0.19639932  0.07401952  2.79831527  0.19639932  1.64697702
+## [37]  2.42350418  0.89484803  0.96581665  0.19639932  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651
+## [46]  0.19639932  0.07401952  0.38036881  8.84194961  1.64697702  0.19639932  1.29835776  2.87179069  4.92199266
+## [55]  7.18339325  0.19639932  0.33582974  0.38036881  3.46236019  0.07401952  0.33582974  0.38036881  3.48368968
+## [64]  8.46422112  0.19639932  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570  0.38036881  0.07401952
+## [73]  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429  3.08398338  2.86848429  1.09506856  2.39394112
+## [82]  1.50981570  1.09506856  2.42350418 10.28690861  1.33295604  0.19639932  0.88006651  1.68027868  1.09506856
 ```
 
 Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Fallnummer (Pbn-Nr) der möglichen Ausreißer.
