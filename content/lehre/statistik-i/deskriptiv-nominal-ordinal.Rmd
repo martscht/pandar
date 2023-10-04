@@ -45,7 +45,6 @@ output:
 
 
 {{< spoiler text="Kernfragen dieser Lehreinheit" >}}
-
 * Wie werden **Häufigkeitstabellen** erstellt?  
 * Wie können aus absoluten Häufigkeitstabellen **relative Häufigkeitstabellen** gemacht werden?  
 * Wie können **Modus und Median** bestimmt werden?  
