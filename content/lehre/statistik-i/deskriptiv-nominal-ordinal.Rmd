@@ -45,7 +45,7 @@ output:
 ```
 
 
-{{< spoiler text="Kernfragen dieses Beitrags" >}}
+{{< spoiler text="Kernfragen dieser Lehreinheit" >}}
 
 * Wie werden **Häufigkeitstabellen** erstellt?  
 * Wie können aus absoluten Häufigkeitstabellen **relative Häufigkeitstabellen** gemacht werden?  

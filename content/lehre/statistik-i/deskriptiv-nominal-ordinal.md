@@ -9,7 +9,7 @@ subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
 authors: [nehler, buchholz]
 weight: 2
-lastmod: '2023-08-29'
+lastmod: '2023-10-04'
 featured: no
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
@@ -43,7 +43,7 @@ output:
 
 
 
-{{< spoiler text="Kernfragen dieses Beitrags" >}}
+{{< spoiler text="Kernfragen dieser Lehreinheit" >}}
 
 * Wie werden **Häufigkeitstabellen** erstellt?  
 * Wie können aus absoluten Häufigkeitstabellen **relative Häufigkeitstabellen** gemacht werden?  
@@ -82,8 +82,12 @@ names(fb22)        # Namen der Variablen
 ```
 
 ```
-##  [1] "prok1"   "prok2"   "prok3"   "prok4"   "prok5"   "prok6"   "prok7"   "prok8"   "prok9"   "prok10"  "nr1"     "nr2"     "nr3"     "nr4"     "nr5"     "nr6"     "lz"      "extra"   "vertr"   "gewis"  
-## [21] "neuro"   "intel"   "nerd"    "grund"   "fach"    "ziel"    "lerntyp" "geschl"  "job"     "ort"     "ort12"   "wohnen"  "uni1"    "uni2"    "uni3"    "uni4"
+##  [1] "prok1"   "prok2"   "prok3"   "prok4"   "prok5"   "prok6"  
+##  [7] "prok7"   "prok8"   "prok9"   "prok10"  "nr1"     "nr2"    
+## [13] "nr3"     "nr4"     "nr5"     "nr6"     "lz"      "extra"  
+## [19] "vertr"   "gewis"   "neuro"   "intel"   "nerd"    "grund"  
+## [25] "fach"    "ziel"    "lerntyp" "geschl"  "job"     "ort"    
+## [31] "ort12"   "wohnen"  "uni1"    "uni2"    "uni3"    "uni4"
 ```
 
 ```r
@@ -124,9 +128,14 @@ fb22$geschl
 ```
 
 ```
-##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2  2  1  1  1  1  1  1  1  1  1  2  1 NA  1  1  1  1  1  2  1  1  1  1  1  1  1  2  1  1  1  1  1  1  1  1  1  1  1  1  1  1 NA  1  2  1  2  1  1  1  2  1 NA NA  1  3
-##  [68]  1  1  1  1  1  1  1  1  1  1  1  2  2  2  1  2  2  1  1  1  1  1  1  1  1  1  1 NA  1  1  1  1  1  1 NA  2  1  1  1  1 NA  1 NA  1  1  2  1  1  1  1  1  1  1  1  1  1  1  1  2  1  1 NA  2  1  2  1  1
-## [135]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  2  1  1
+##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2  2  1  1  1  1  1  1  1  1
+##  [22]  1  2  1 NA  1  1  1  1  1  2  1  1  1  1  1  1  1  2  1  1  1
+##  [43]  1  1  1  1  1  1  1  1  1  1  1 NA  1  2  1  2  1  1  1  2  1
+##  [64] NA NA  1  3  1  1  1  1  1  1  1  1  1  1  1  2  2  2  1  2  2
+##  [85]  1  1  1  1  1  1  1  1  1  1 NA  1  1  1  1  1  1 NA  2  1  1
+## [106]  1  1 NA  1 NA  1  1  2  1  1  1  1  1  1  1  1  1  1  1  1  2
+## [127]  1  1 NA  2  1  2  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+## [148]  1  1  1  1  1  1  1  1  1  2  1  1
 ```
 
 Die Variable `geschl` liegt numerisch vor, es treten die Werte 1, 2 und 3 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/post/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "weiblich". Diese *Label* werden nun im Faktor hinterlegt.
@@ -173,9 +182,14 @@ fb22$fach
 ```
 
 ```
-##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2  2  2  4  3  2  3  4  4  1  3  4  4 NA  3 NA  2  3  4  4  1  3  2  1  3  1 NA  2  4  4  4  4  4  4  1  4  1  3  1  1  3  4 NA  4  2  4  4  4  4  3  4  2 NA NA  4  4
-##  [68]  3  4  3  4  3  3  1  3  4  4  4  3  3  4  2  3  3  2  3  4  2  4  3  4  2  3  3 NA  4  2  4  2  2  4 NA  2  3  2  1  1  3  5 NA  4  5  1  1  4  4  3  2  2  2 NA  3  5  4  3  5  2  4 NA  1  4  3  3  5
-## [135]  4  1  4  4  2  3  3  4  3  2  4  4  4  4  4  5  2  1  3  1  2  3  4  4  4
+##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2  2  2  4  3  2  3  4  4  1
+##  [22]  3  4  4 NA  3 NA  2  3  4  4  1  3  2  1  3  1 NA  2  4  4  4
+##  [43]  4  4  4  1  4  1  3  1  1  3  4 NA  4  2  4  4  4  4  3  4  2
+##  [64] NA NA  4  4  3  4  3  4  3  3  1  3  4  4  4  3  3  4  2  3  3
+##  [85]  2  3  4  2  4  3  4  2  3  3 NA  4  2  4  2  2  4 NA  2  3  2
+## [106]  1  1  3  5 NA  4  5  1  1  4  4  3  2  2  2 NA  3  5  4  3  5
+## [127]  2  4 NA  1  4  3  3  5  4  1  4  4  2  3  3  4  3  2  4  4  4
+## [148]  4  4  5  2  1  3  1  2  3  4  4  4
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
@@ -207,7 +221,7 @@ str(fb22$grund)                            # Ursprungsvariable: Character
 ```
 
 ```
-##  chr [1:159] "Interesse" "Allgemeines Interesse schon seit der Kindheit" "menschliche Kognition wichtig und rätselhaft; Interesse für Psychoanalyse; Schnittstelle zur Linguistik" ...
+##  chr [1:159] "Interesse" ...
 ```
 
 ```r
@@ -216,7 +230,7 @@ str(fb22$grund_faktor)                     # neue Variable: Faktor
 ```
 
 ```
-##  Factor w/ 135 levels "- Aus Interesse ",..: 62 9 102 113 51 70 26 87 24 90 ...
+##  Factor w/ 135 levels " Ich habe schon lange ein großes Interesse an der Psychologie",..: 62 9 102 113 51 70 26 87 24 90 ...
 ```
 
 
@@ -239,7 +253,8 @@ levels(fb22$fach)         # Abruf
 ```
 
 ```
-## [1] "Allgemeine"  "Biologische" "Entwicklung" "Klinische"   "Diag./Meth."
+## [1] "Allgemeine"  "Biologische" "Entwicklung" "Klinische"  
+## [5] "Diag./Meth."
 ```
 
 ```r
@@ -376,8 +391,11 @@ colors()[1:20]
 ```
 
 ```
-##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1" "antiquewhite2" "antiquewhite3" "antiquewhite4" "aquamarine"    "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"  
-## [13] "azure"         "azure1"        "azure2"        "azure3"        "azure4"        "beige"         "bisque"        "bisque1"
+##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1"
+##  [5] "antiquewhite2" "antiquewhite3" "antiquewhite4" "aquamarine"   
+##  [9] "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"  
+## [13] "azure"         "azure1"        "azure2"        "azure3"       
+## [17] "azure4"        "beige"         "bisque"        "bisque1"
 ```
 
 Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
@@ -574,9 +592,14 @@ fb22$prok4
 ```
 
 ```
-##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2  3  2  3 NA  2  4  2  2  2  3  3  2  3  2  2  2  1  3  2  3  3  3  3  2  3  2  3  2  3  3  3  4  3  3  3  4  2  4  3  2  3  4  3  3  2  1  4  2  2  2  2  2  2  2  2
-##  [68]  2  3  2  2  2  3  2  3  3  3  2  2  3  1  2  2  1  3  2  3  2  2  3  3  2  2  2  1  1  3  2  4  3  2  4  3  3  1  2  2  3  4  3  1  3  2  2  3  2  2  2  3  4  3  1  2  2  3  3  4  3  3  3  3  4  3  1
-## [135]  2  3  2  2  3  2  2  4  4  2  3  2  3  2  4  2  2  2  2  4  3  4  3  3  3
+##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2  3  2  3 NA  2  4  2  2  2
+##  [22]  3  3  2  3  2  2  2  1  3  2  3  3  3  3  2  3  2  3  2  3  3
+##  [43]  3  4  3  3  3  4  2  4  3  2  3  4  3  3  2  1  4  2  2  2  2
+##  [64]  2  2  2  2  2  3  2  2  2  3  2  3  3  3  2  2  3  1  2  2  1
+##  [85]  3  2  3  2  2  3  3  2  2  2  1  1  3  2  4  3  2  4  3  3  1
+## [106]  2  2  3  4  3  1  3  2  2  3  2  2  2  3  4  3  1  2  2  3  3
+## [127]  4  3  3  3  3  4  3  1  2  3  2  2  3  2  2  4  4  2  3  2  3
+## [148]  2  4  2  2  2  2  4  3  4  3  3  3
 ```
 
 Wiederholung:
