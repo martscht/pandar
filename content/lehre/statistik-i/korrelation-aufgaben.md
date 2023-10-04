@@ -4,7 +4,7 @@ type: post
 date: '2019-10-18' 
 slug: korrelation-aufgaben
 categories: [] 
-tags: ["Einführung", "Datenmanagement", "Grundlagen", "Hilfe"] 
+tags: ["Statistik I Aufgaben"] 
 subtitle: ''
 summary: '' 
 authors: [nehler, winkler, schroeder]
@@ -22,15 +22,15 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/crash-kurs
+    url: /lehre/statistik-i/korrelation
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/statistik-i/crash-kurs.R
+    url: /lehre/statistik-i/korrelation-aufgaben.R
   - icon_pack: fas
     icon: pen-to-square
     name: Aufgaben
-    url: /lehre/statistik-i/crash-kurs-aufgaben
+    url: /lehre/statistik-i/korrelation-aufgaben
 output:
   html_document:
     keep_md: true
@@ -41,7 +41,7 @@ output:
 
 
 
-Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/post/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/post/korrelation/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht.docx](/post/variablen.pdf) entnehmen.
+Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/post/korrelation/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht.docx](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
