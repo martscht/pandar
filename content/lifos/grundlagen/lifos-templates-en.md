@@ -3,29 +3,25 @@ title: "LIFOS Templates"
 type: post
 date: '2023-05-17' 
 slug: lifos-templates-en
-categories: [""] 
+categories: ["LIFOS"] 
 tags: ["Grundlagen", "Hilfe"] 
 subtitle: 'Here you can find the perfect template for your project'
 summary: '' 
 authors: [beitner,pommeranz] 
 weight: 2
-lastmod: '2023-09-19'
+lastmod: '2023-10-04'
 featured: no
 banner:
-  image: "/header/crash_post.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+  #image: "/header/crash_post.jpg"
+  #caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
 reading_time: false
 share: false
 
 links:
-  - icon_pack: fas
-    icon: globe
-    name: EN
+  - name: EN
     url: /lifos/grundlagen/lifos-templates-en
-  - icon_pack: fas
-    icon: globe
-    name: DE
+  - name: DE
     url: /lifos/grundlagen/lifos-templates
 
 output:
