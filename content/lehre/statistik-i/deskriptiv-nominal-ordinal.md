@@ -4,18 +4,17 @@ type: post
 date: '2020-09-24'
 slug: deskriptiv-nominal-ordinal
 categories: ["Statistik I"]
-tags: ["Deskritpiv", "Plots", "Nominal und Ordinal", "Tabelle"]
+tags: ["Deskriptiv", "Plots", "Nominal und Ordinal", "Tabelle"]
 subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
 authors: [nehler, buchholz]
 weight: 2
-lastmod: '2023-10-04'
+lastmod: '2023-10-05'
 featured: no
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
   image: /header/descriptive_post.jpg
 projects: []
-
 reading_time: false
 share: false
 
@@ -44,7 +43,6 @@ output:
 
 
 {{< spoiler text="Kernfragen dieser Lehreinheit" >}}
-
 * Wie werden **Häufigkeitstabellen** erstellt?  
 * Wie können aus absoluten Häufigkeitstabellen **relative Häufigkeitstabellen** gemacht werden?  
 * Wie können **Modus und Median** bestimmt werden?  
@@ -82,12 +80,14 @@ names(fb22)        # Namen der Variablen
 ```
 
 ```
-##  [1] "prok1"   "prok2"   "prok3"   "prok4"   "prok5"   "prok6"  
-##  [7] "prok7"   "prok8"   "prok9"   "prok10"  "nr1"     "nr2"    
-## [13] "nr3"     "nr4"     "nr5"     "nr6"     "lz"      "extra"  
-## [19] "vertr"   "gewis"   "neuro"   "intel"   "nerd"    "grund"  
-## [25] "fach"    "ziel"    "lerntyp" "geschl"  "job"     "ort"    
-## [31] "ort12"   "wohnen"  "uni1"    "uni2"    "uni3"    "uni4"
+##  [1] "prok1"   "prok2"   "prok3"   "prok4"   "prok5"  
+##  [6] "prok6"   "prok7"   "prok8"   "prok9"   "prok10" 
+## [11] "nr1"     "nr2"     "nr3"     "nr4"     "nr5"    
+## [16] "nr6"     "lz"      "extra"   "vertr"   "gewis"  
+## [21] "neuro"   "intel"   "nerd"    "grund"   "fach"   
+## [26] "ziel"    "lerntyp" "geschl"  "job"     "ort"    
+## [31] "ort12"   "wohnen"  "uni1"    "uni2"    "uni3"   
+## [36] "uni4"
 ```
 
 ```r
@@ -128,14 +128,16 @@ fb22$geschl
 ```
 
 ```
-##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2  2  1  1  1  1  1  1  1  1
-##  [22]  1  2  1 NA  1  1  1  1  1  2  1  1  1  1  1  1  1  2  1  1  1
-##  [43]  1  1  1  1  1  1  1  1  1  1  1 NA  1  2  1  2  1  1  1  2  1
-##  [64] NA NA  1  3  1  1  1  1  1  1  1  1  1  1  1  2  2  2  1  2  2
-##  [85]  1  1  1  1  1  1  1  1  1  1 NA  1  1  1  1  1  1 NA  2  1  1
-## [106]  1  1 NA  1 NA  1  1  2  1  1  1  1  1  1  1  1  1  1  1  1  2
-## [127]  1  1 NA  2  1  2  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
-## [148]  1  1  1  1  1  1  1  1  1  2  1  1
+##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2  2  1  1  1
+##  [17]  1  1  1  1  1  1  2  1 NA  1  1  1  1  1  2  1
+##  [33]  1  1  1  1  1  1  2  1  1  1  1  1  1  1  1  1
+##  [49]  1  1  1  1  1 NA  1  2  1  2  1  1  1  2  1 NA
+##  [65] NA  1  3  1  1  1  1  1  1  1  1  1  1  1  2  2
+##  [81]  2  1  2  2  1  1  1  1  1  1  1  1  1  1 NA  1
+##  [97]  1  1  1  1  1 NA  2  1  1  1  1 NA  1 NA  1  1
+## [113]  2  1  1  1  1  1  1  1  1  1  1  1  1  2  1  1
+## [129] NA  2  1  2  1  1  1  1  1  1  1  1  1  1  1  1
+## [145]  1  1  1  1  1  1  1  1  1  1  1  1  2  1  1
 ```
 
 Die Variable `geschl` liegt numerisch vor, es treten die Werte 1, 2 und 3 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/post/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "weiblich". Diese *Label* werden nun im Faktor hinterlegt.
@@ -164,7 +166,8 @@ head(fb22$geschl_faktor)
 ```
 
 ```
-## [1] weiblich männlich männlich männlich weiblich <NA>    
+## [1] weiblich männlich männlich männlich weiblich
+## [6] <NA>    
 ## Levels: weiblich männlich anderes
 ```
 
@@ -182,14 +185,16 @@ fb22$fach
 ```
 
 ```
-##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2  2  2  4  3  2  3  4  4  1
-##  [22]  3  4  4 NA  3 NA  2  3  4  4  1  3  2  1  3  1 NA  2  4  4  4
-##  [43]  4  4  4  1  4  1  3  1  1  3  4 NA  4  2  4  4  4  4  3  4  2
-##  [64] NA NA  4  4  3  4  3  4  3  3  1  3  4  4  4  3  3  4  2  3  3
-##  [85]  2  3  4  2  4  3  4  2  3  3 NA  4  2  4  2  2  4 NA  2  3  2
-## [106]  1  1  3  5 NA  4  5  1  1  4  4  3  2  2  2 NA  3  5  4  3  5
-## [127]  2  4 NA  1  4  3  3  5  4  1  4  4  2  3  3  4  3  2  4  4  4
-## [148]  4  4  5  2  1  3  1  2  3  4  4  4
+##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2  2  2  4  3
+##  [17]  2  3  4  4  1  3  4  4 NA  3 NA  2  3  4  4  1
+##  [33]  3  2  1  3  1 NA  2  4  4  4  4  4  4  1  4  1
+##  [49]  3  1  1  3  4 NA  4  2  4  4  4  4  3  4  2 NA
+##  [65] NA  4  4  3  4  3  4  3  3  1  3  4  4  4  3  3
+##  [81]  4  2  3  3  2  3  4  2  4  3  4  2  3  3 NA  4
+##  [97]  2  4  2  2  4 NA  2  3  2  1  1  3  5 NA  4  5
+## [113]  1  1  4  4  3  2  2  2 NA  3  5  4  3  5  2  4
+## [129] NA  1  4  3  3  5  4  1  4  4  2  3  3  4  3  2
+## [145]  4  4  4  4  4  5  2  1  3  1  2  3  4  4  4
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
@@ -253,8 +258,8 @@ levels(fb22$fach)         # Abruf
 ```
 
 ```
-## [1] "Allgemeine"  "Biologische" "Entwicklung" "Klinische"  
-## [5] "Diag./Meth."
+## [1] "Allgemeine"  "Biologische" "Entwicklung"
+## [4] "Klinische"   "Diag./Meth."
 ```
 
 ```r
@@ -279,8 +284,10 @@ table(fb22$fach)
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
-##           7          19          27          37          57
+## Diag./Meth.  Allgemeine Biologische Entwicklung 
+##           7          19          27          37 
+##   Klinische 
+##          57
 ```
 
 Häufig sind relative Häufigkeiten informativer. Nachfolgend werden zwei Möglichkeiten zur Erstellung von relativen Häufigkeitstabellen in `R` gezeigt.
@@ -308,8 +315,10 @@ tab / sum(tab)          # Relative Haeufigkeiten
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
-##  0.04761905  0.12925170  0.18367347  0.25170068  0.38775510
+## Diag./Meth.  Allgemeine Biologische Entwicklung 
+##  0.04761905  0.12925170  0.18367347  0.25170068 
+##   Klinische 
+##  0.38775510
 ```
 
 **Relative Häufigkeiten (per Funktion)**
@@ -324,8 +333,10 @@ prop.table(tab)         # Relative
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
-##  0.04761905  0.12925170  0.18367347  0.25170068  0.38775510
+## Diag./Meth.  Allgemeine Biologische Entwicklung 
+##  0.04761905  0.12925170  0.18367347  0.25170068 
+##   Klinische 
+##  0.38775510
 ```
 
 Ungefähr 4.76% Ihres Jahrgangs geben als Lieblingsfach "Diagnostik/Methoden" an! Vielleicht können wir ja noch mehr von Ihnen mit dem nächsten Thema begeistern. :-)
@@ -391,11 +402,13 @@ colors()[1:20]
 ```
 
 ```
-##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1"
-##  [5] "antiquewhite2" "antiquewhite3" "antiquewhite4" "aquamarine"   
-##  [9] "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"  
-## [13] "azure"         "azure1"        "azure2"        "azure3"       
-## [17] "azure4"        "beige"         "bisque"        "bisque1"
+##  [1] "white"         "aliceblue"     "antiquewhite" 
+##  [4] "antiquewhite1" "antiquewhite2" "antiquewhite3"
+##  [7] "antiquewhite4" "aquamarine"    "aquamarine1"  
+## [10] "aquamarine2"   "aquamarine3"   "aquamarine4"  
+## [13] "azure"         "azure1"        "azure2"       
+## [16] "azure3"        "azure4"        "beige"        
+## [19] "bisque"        "bisque1"
 ```
 
 Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
@@ -486,8 +499,10 @@ tab            # Tabelle ausgeben
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
-##           7          19          27          37          57
+## Diag./Meth.  Allgemeine Biologische Entwicklung 
+##           7          19          27          37 
+##   Klinische 
+##          57
 ```
 
 ```r
@@ -527,8 +542,10 @@ ln_hj                       # Ergebnisse für jede Kategorie
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
-##  -3.0445224  -2.0459936  -1.6945957  -1.3795147  -0.9473813
+## Diag./Meth.  Allgemeine Biologische Entwicklung 
+##  -3.0445224  -2.0459936  -1.6945957  -1.3795147 
+##   Klinische 
+##  -0.9473813
 ```
 
 ```r
@@ -592,14 +609,16 @@ fb22$prok4
 ```
 
 ```
-##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2  3  2  3 NA  2  4  2  2  2
-##  [22]  3  3  2  3  2  2  2  1  3  2  3  3  3  3  2  3  2  3  2  3  3
-##  [43]  3  4  3  3  3  4  2  4  3  2  3  4  3  3  2  1  4  2  2  2  2
-##  [64]  2  2  2  2  2  3  2  2  2  3  2  3  3  3  2  2  3  1  2  2  1
-##  [85]  3  2  3  2  2  3  3  2  2  2  1  1  3  2  4  3  2  4  3  3  1
-## [106]  2  2  3  4  3  1  3  2  2  3  2  2  2  3  4  3  1  2  2  3  3
-## [127]  4  3  3  3  3  4  3  1  2  3  2  2  3  2  2  4  4  2  3  2  3
-## [148]  2  4  2  2  2  2  4  3  4  3  3  3
+##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2  3  2  3 NA
+##  [17]  2  4  2  2  2  3  3  2  3  2  2  2  1  3  2  3
+##  [33]  3  3  3  2  3  2  3  2  3  3  3  4  3  3  3  4
+##  [49]  2  4  3  2  3  4  3  3  2  1  4  2  2  2  2  2
+##  [65]  2  2  2  2  3  2  2  2  3  2  3  3  3  2  2  3
+##  [81]  1  2  2  1  3  2  3  2  2  3  3  2  2  2  1  1
+##  [97]  3  2  4  3  2  4  3  3  1  2  2  3  4  3  1  3
+## [113]  2  2  3  2  2  2  3  4  3  1  2  2  3  3  4  3
+## [129]  3  3  3  4  3  1  2  3  2  2  3  2  2  4  4  2
+## [145]  3  2  3  2  4  2  2  2  2  4  3  4  3  3  3
 ```
 
 Wiederholung:
