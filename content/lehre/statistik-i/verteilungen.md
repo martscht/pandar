@@ -9,10 +9,10 @@ subtitle: ''
 summary: '' 
 authors: [nehler] 
 weight: 4
-lastmod: '2023-10-04'
+lastmod: '2023-10-05'
 featured: no
 banner:
-  image: "/header/crash_post.jpg"
+  image: "/header/PsyBSc2_verteilungen.png"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
 reading_time: false
@@ -173,7 +173,7 @@ sample(x = wuerfel, size = 1)
 ```
 
 ```
-## [1] 2
+## [1] 4
 ```
 
 Unter dem Argument `x` kann definiert werden, aus welcher Menge an Objekten zufällig gezogen wird - in diesem Fall die Ziffern zwischen 1 und 6, die im Objekt `wuerfel` hinterlegt sind. `size` definiert die Anzahl an Wiederholungen. Wenn wir nun also zwei Würfel werfen wollen, können wir die `size` einfach erhöhen. Dabei ist es außerdem wichtig, ob das Experiment mit oder ohne Zurücklegen durchgeführt wird. Dafür ist das Argument `replace` verantwortlich, das standardmäßig auf `FALSE` steht. Da die Würfel jedoch auch die selbe Zahl anzeigen können, agieren wir mit Zurücklegen und müssen das Argument auf `TRUE` setzen.
@@ -184,7 +184,7 @@ sample(x = wuerfel, size = 2, replace = TRUE)
 ```
 
 ```
-## [1] 6 6
+## [1] 3 1
 ```
 
 Für die Verteilung der Ergebnisse ist es vor allem wichtig, wie die Summe aus den beiden Ziffern aussieht. Die Funktionen kann man in einer Zeile kombinieren.
@@ -195,7 +195,7 @@ sample(x = wuerfel, size = 2, replace = TRUE) |> sum()
 ```
 
 ```
-## [1] 10
+## [1] 6
 ```
 
 Des Weiteren soll der Wurf nicht nur einmal mit den beiden Würfeln durchgeführt werden, sondern häufiger wiederholt werden. Hier hilft Ihnen  `replicate()`, wobei die Anzahl an wiederholten Durchführungen einer Funktion im Argument `n` festgelegt werden kann. Weiterhin muss im Argument `expr` die Funktion genannt werden, die wiederholt werden soll.
@@ -206,7 +206,7 @@ replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ```
 
 ```
-##  [1]  7  7  7  8  3  9  7  6 11  6
+##  [1]  9 11  2 10  8  9  7  4  5  7
 ```
 
 Beachten Sie jedoch, dass Sie bei zweimaliger Durchführung desselben Befehls nicht zwei Mal dasselbe Ergebnis bekommen werden, da `R` den Zufall jeweils neu simuliert. 
@@ -217,7 +217,7 @@ replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ```
 
 ```
-##  [1]  6  8  7 11  7  9 10  5  5  5
+##  [1] 6 3 2 7 6 7 8 9 7 9
 ```
 
 Zur Konstanthaltung der Ergebnisse eines Zufallsvorgangs kann `set.seed()` genutzt werden, durch das der `R` interne Zufallsgenerator stets an der selben Stelle gestartet wird. Dies ermöglicht die Reproduzierbarkeit des Ergebnisses (Anmerkung: bei verschiedenen Versionen von `R` könnte der Befehl auch andere Resultate produzieren).
@@ -567,7 +567,8 @@ rnorm(10,mean = 100,sd = 15)
 ```
 
 ```
-##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336  91.34905 110.82285 109.28648 100.31509 104.12275
+##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336  91.34905
+##  [7] 110.82285 109.28648 100.31509 104.12275
 ```
 
 ***

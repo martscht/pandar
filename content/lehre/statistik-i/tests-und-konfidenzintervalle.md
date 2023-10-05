@@ -116,7 +116,7 @@ fb22$neuro_std <- scale(fb22$neuro)
 ```
 ***
 
-# Let's start {#Unterschied .anchorheader}
+# Let's start {#Unterschied}
 
 Der durchschnittliche IQ der Population ist $\mu_0$ = 100 und die Standardabweichung ist 15. Eine Forschungsgruppe glaubt aber, dass dieser gestiegen sei und entscheidet, diese Vermutung an einer zufälligen Stichprobe von 75 Erwachsenen zu testen. Sie finden heraus, dass der durchschnittliche IQ der Stichprobe $\mu_1$ = 105 (*SD* = 17) ist.
 
@@ -139,7 +139,7 @@ Die Frage: Reicht dieses deskriptive Ergebnis (100 vs. 105) um daraus schlusszuf
 ABER: ob z- oder t-Test zum Einsatz kommt, hängt davon ab, ob neben dem Mittelwert auch die Standardabweichung (*SD*, $\sigma$) der Grundgesamtheit bekannt ist.  
 In diesem Fall ist die *SD* bekannt, demnach wäre ein z-Test an dieser Stelle anzuwenden.
 
-## z-Test {#z_Test .anchorheader}
+## z-Test {#z_Test}
 
 Der **z-Test** oder **Einstichproben-Gauss-Test** setzt voraus, dass das Merkmal in der Population, auf die sich die Nullhypothese ($H_0$) bezieht, normalverteilt ist und der Mittelwert sowie die Standardabweichung bekannt sind.  
 Des Weiteren verwendet der Gauss-Test grundsätzlich die Standardnormalverteilung als Stichprobenkennwerteverteilung (SKV), deswegen ist er nicht für kleine Stichproben geeignet.  
@@ -249,7 +249,7 @@ Wir erkennen, dass in beiden Fällen der Wert kleiner als .05 (5%) ist. Demnach 
 
 ***
 
-## Konfidenzintervalle {#KonfInt .anchorheader}
+## Konfidenzintervalle {#KonfInt}
 
 Wir können auch ein Konfidenzintervall um den wahren Populationsmittelwert $\mu$ bestimmen. Wenn wir z.B. ein 95%-Konfidenzintervall wählen und wir aus der selben Grundgesamtheit wiederholt die selbe Anzahl an Fällen ziehen (unsere Studie also sehr oft wiederholen), dann werden 95% aller Konfidenzintervalle den wahren Populationsmittelwert $\mu$ enthalten.
 
@@ -335,7 +335,7 @@ Da das Konfidenzintervall für den Stichprobenmittelwert die 100 **nicht** enth�
 
 ***
 
-## t-Test {#t_Test .anchorheader}
+## t-Test {#t_Test}
 
 Die Bekanntheit des Populationsmittelwertes und der Populationsvarianz ist jedoch ein seltener Fall in der Praxis. Zunächst machen wir eine Erweiterung auf den Fall, dass die Populationsvarianz nicht bekannt ist. Trotzdem soll weiterhin ein **Stichprobenmittelwert** mit einem **bekannten Populationsmittelwert** verglichen werden. Wir werden sehen, dass dies zwar ein paar Veränderungen im Vorgehen und den Gleichungen mit sich bringt, das Prinzip aber erhalten bleibt. Bezeichnet wird das Vorgehen nun als t-Test, den wir im Einstichproben-Fall hier durchführen möchten.
 
@@ -561,6 +561,17 @@ install.packages('psych')          # installieren
 library(psych)                     # laden
 ```
 
+```
+## 
+## Attaching package: 'psych'
+```
+
+```
+## The following objects are masked from 'package:ggplot2':
+## 
+##     %+%, alpha
+```
+
 Wir erhalten hier als *Warning Message* den Hinweis, unter welcher Version das Paket erstellt wurde.
 Eine kleine Suche nach Hilfe zu Pakete kann man mit `??` erhalten.
 
@@ -577,13 +588,15 @@ describe(fb22$neuro)
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad  min max range  skew kurtosis   se
-## X1    1 159 3.63 0.72   3.75    3.65 0.74 1.25   5  3.75 -0.43     0.09 0.06
+##    vars   n mean   sd median trimmed  mad  min max range  skew
+## X1    1 159 3.63 0.72   3.75    3.65 0.74 1.25   5  3.75 -0.43
+##    kurtosis   se
+## X1     0.09 0.06
 ```
 
 Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei 3.6257862. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
 
-### Hypothesengenerierung {#Hypothesen .anchorheader}
+### Hypothesengenerierung {#Hypothesen}
 
 **Variante 1**:
 
@@ -737,7 +750,7 @@ Die $H_0$ wird mit einer Irrtumswahrscheinlichkeit von 1% verworfen. Der Neuroti
 
 ***
 
-## Effektgröße {#Cohens_d .anchorheader}
+## Effektgröße {#Cohens_d}
 
 Als Effektgröße für Mittelwertsunterschiede kann **Cohen's d** (Cohen, 1988) verwendet werden. 
 
