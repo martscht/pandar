@@ -169,7 +169,7 @@ hist(fb22$lz,
 
 Für die eigene Bestimmung der Grenzen muss also anstatt einer ganzen Zahl dem Befehl ein Vektor `c()` mit allen Breakpoints übergeben werden.
 
-## Mittelwert {#Mittelwert .anchorheader}
+## Mittelwert {#Mittelwert}
 
 Betrachten wir nun, wie in `R` das Maß der zentralen Tendenz für mindestens intervallskalierte Daten per Funktion bestimmt werden kann. In der Vorlesung haben Sie die Formel zur Bestimmung kennen gelernt.
 
@@ -304,7 +304,7 @@ Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafü
 
 ***
 
-## Zentrierung und Standardisierung {#Zentrieren .anchorheader}
+## Zentrierung und Standardisierung {#Zentrieren}
 
 In der Vorlesung haben Sie gelernt, dass eine Variable zentriert oder standardisiert werden kann. Die Zentrierung sorgt für einen Mittelwert von 0, während die Standardisierung zusätzlich die Varianz auf 1 setzt. Die Variablenzentrierung und -standardisierung lässt sich in R per Hand berechnen.
 
@@ -330,7 +330,7 @@ lz_c <- scale(fb22$lz,
 
 ***
 
-## Items Rekodieren {#Rekodieren .anchorheader}
+## Items Rekodieren {#Rekodieren}
 
 ### Wiederholung: Konstruierte mindestens intervallskalierte Variablen
 
@@ -410,7 +410,7 @@ fb22$prok7_r <- -1 * (fb22$prok7 - 5)
 fb22$prok8_r <- -1 * (fb22$prok8 - 5)
 ```
 
-## Skalenwerte erstellen {#Skalenwerte .anchorheader}
+## Skalenwerte erstellen {#Skalenwerte}
 
 Skalenwerte werden zumeist als Summen oder Mittelwerte der Items erstellt. Dafür kann man sich beispielsweise alle Daten, die der Skala zugrunde liegen, in einem eigenen kleinen Datensatz ablegen. Dieser Datensatz kann genutzt werden, um den Skalenwert wieder im Original abzulegen. Jede Person repräsentiert eine Zeile - `rowMeans()` berechnet den Mittelwert der Zeilen. Somit erhält jede Person einen eigenen Mittelwert über die Einträge. Führen wir das ganze beispielsweise für den Skalenwert zur Prokrastinationstendenz durch, die mit den 10 Items erhoben wurde. Wichtig ist hier auch, dass wir die rekodierten Items nehmen, da diese ja die "korrekte Richtung" aufweisen.
 

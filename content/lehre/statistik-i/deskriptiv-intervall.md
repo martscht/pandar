@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte Variablen vorgestellt. Dabei wird zunächst die Berechnung des Mittelwerts, der Varianz sowie Standardabweichung behandelt. Dann wird gezeigt, wie Variablen zentriert bzw. standardisiert werden können. Abschließend geht es außerdem um das Rekodieren von Items und das Bilden von Skalenwerten.' 
 authors: [nehler, beitner, buchholz] 
 weight: 3
-lastmod: '2023-09-13'
+lastmod: '2023-10-06'
 featured: no
 banner:
   image: "/header/descriptive_post.jpg"
@@ -121,15 +121,12 @@ fb22$lz
 ```
 
 ```
-##   [1] 5.4 6.0 3.0 6.0 3.2 5.8 4.2  NA 5.4 4.6 4.8 5.4 5.0 4.8 6.6 6.0 5.0 6.0
-##  [19] 3.6 5.0 5.8 4.6 4.8 6.4 4.2 4.6  NA 5.8 6.4 4.0 4.2 5.8 4.2 5.0 5.2 6.2
-##  [37] 5.2 5.4 4.2 5.2 4.8 2.8 3.4 5.6 3.4 4.2 4.2 5.0 6.0 5.0 4.6 5.8 3.6 3.2
-##  [55] 4.0 4.6 4.8 4.6 4.8 5.0 5.4 4.4 5.2 2.6 3.8 6.6 4.8 3.6 5.8 5.8 4.6 6.2
-##  [73] 5.2 5.4 5.0 1.4 4.6 4.8 5.4 2.8 3.2 2.4 5.4 2.2 4.8 6.0 5.2 4.8 5.8 5.6
-##  [91] 4.6 4.4 5.4 5.4 3.8 5.6 5.6 4.2 4.6 6.2 3.8 4.2 3.8 3.8 5.4 4.6 5.2 3.6
-## [109] 2.4 4.2 4.4 3.2 4.2 4.0 2.6 2.0 4.6 5.2 4.4 1.8 4.6 4.4 5.4 5.0 6.0 3.0
-## [127] 4.8 6.0 3.4 6.4 3.6 5.2 5.0 4.8 5.8 4.8 5.8 5.2 5.2 6.4 4.8 3.8 4.6 2.6
-## [145] 6.0 5.0 5.6 3.2 4.4 6.4 5.8 5.2 5.2 3.6 5.8 3.0 5.6 4.2 5.4
+##   [1] 5.4 6.0 3.0 6.0 3.2 5.8 4.2  NA 5.4 4.6 4.8 5.4 5.0 4.8 6.6 6.0 5.0 6.0 3.6 5.0 5.8 4.6 4.8 6.4 4.2 4.6  NA 5.8 6.4
+##  [30] 4.0 4.2 5.8 4.2 5.0 5.2 6.2 5.2 5.4 4.2 5.2 4.8 2.8 3.4 5.6 3.4 4.2 4.2 5.0 6.0 5.0 4.6 5.8 3.6 3.2 4.0 4.6 4.8 4.6
+##  [59] 4.8 5.0 5.4 4.4 5.2 2.6 3.8 6.6 4.8 3.6 5.8 5.8 4.6 6.2 5.2 5.4 5.0 1.4 4.6 4.8 5.4 2.8 3.2 2.4 5.4 2.2 4.8 6.0 5.2
+##  [88] 4.8 5.8 5.6 4.6 4.4 5.4 5.4 3.8 5.6 5.6 4.2 4.6 6.2 3.8 4.2 3.8 3.8 5.4 4.6 5.2 3.6 2.4 4.2 4.4 3.2 4.2 4.0 2.6 2.0
+## [117] 4.6 5.2 4.4 1.8 4.6 4.4 5.4 5.0 6.0 3.0 4.8 6.0 3.4 6.4 3.6 5.2 5.0 4.8 5.8 4.8 5.8 5.2 5.2 6.4 4.8 3.8 4.6 2.6 6.0
+## [146] 5.0 5.6 3.2 4.4 6.4 5.8 5.2 5.2 3.6 5.8 3.0 5.6 4.2 5.4
 ```
 
 ## Deskriptivstatistik für mindestens intervallskalierte Variablen
@@ -204,7 +201,7 @@ hist(fb22$lz,
 
 Für die eigene Bestimmung der Grenzen muss also anstatt einer ganzen Zahl dem Befehl ein Vektor `c()` mit allen Breakpoints übergeben werden.
 
-## Mittelwert {#Mittelwert .anchorheader}
+## Mittelwert {#Mittelwert}
 
 Betrachten wir nun, wie in `R` das Maß der zentralen Tendenz für mindestens intervallskalierte Daten per Funktion bestimmt werden kann. In der Vorlesung haben Sie die Formel zur Bestimmung kennen gelernt.
 
@@ -403,7 +400,7 @@ Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafü
 
 ***
 
-## Zentrierung und Standardisierung {#Zentrieren .anchorheader}
+## Zentrierung und Standardisierung {#Zentrieren}
 
 In der Vorlesung haben Sie gelernt, dass eine Variable zentriert oder standardisiert werden kann. Die Zentrierung sorgt für einen Mittelwert von 0, während die Standardisierung zusätzlich die Varianz auf 1 setzt. Die Variablenzentrierung und -standardisierung lässt sich in R per Hand berechnen.
 
@@ -441,7 +438,7 @@ lz_c <- scale(fb22$lz,
 
 ***
 
-## Items Rekodieren {#Rekodieren .anchorheader}
+## Items Rekodieren {#Rekodieren}
 
 ### Wiederholung: Konstruierte mindestens intervallskalierte Variablen
 
@@ -509,8 +506,7 @@ head(fb22$prok3 == 1, 15) #Zeige die ersten 15 Antworten
 ```
 
 ```
-##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [13]  TRUE FALSE  TRUE
+##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE
 ```
 
 Wir erhalten einen booleschen Vektor, der uns sagt, wo der Wert 1 auftaucht (`TRUE`) und wo nicht (`FALSE`).
@@ -552,7 +548,7 @@ fb22$prok7_r <- -1 * (fb22$prok7 - 5)
 fb22$prok8_r <- -1 * (fb22$prok8 - 5)
 ```
 
-## Skalenwerte erstellen {#Skalenwerte .anchorheader}
+## Skalenwerte erstellen {#Skalenwerte}
 
 Skalenwerte werden zumeist als Summen oder Mittelwerte der Items erstellt. Dafür kann man sich beispielsweise alle Daten, die der Skala zugrunde liegen, in einem eigenen kleinen Datensatz ablegen. Dieser Datensatz kann genutzt werden, um den Skalenwert wieder im Original abzulegen. Jede Person repräsentiert eine Zeile - `rowMeans()` berechnet den Mittelwert der Zeilen. Somit erhält jede Person einen eigenen Mittelwert über die Einträge. Führen wir das ganze beispielsweise für den Skalenwert zur Prokrastinationstendenz durch, die mit den 10 Items erhoben wurde. Wichtig ist hier auch, dass wir die rekodierten Items nehmen, da diese ja die "korrekte Richtung" aufweisen.
 
