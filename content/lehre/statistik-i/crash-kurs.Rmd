@@ -43,8 +43,7 @@ output:
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
-{{< spoiler text="Kernfragen dieses Beitrags" >}}
-
+{{< spoiler text = "Kernfragen dieser Lehreinheit" >}}
 * Was ist [**R**](#R) und was ist [**RStudio**](#RStudio)?
 * Was ist die [**Konsole**](#Konsole_Syntax) und was ist die [**Syntax**?](#Konsole_Syntax)
 * Wie kann ich [**Syntax ausführen**](#Eingabe)?
@@ -58,7 +57,6 @@ output:
 * Welche [**mehrdimensionalen Datenstrukturen**](#Mehrdimensional) gibt es und worin unterscheiden sie sich?
 * Wie kann ich aus Datensätze einzelne Variablen oder Beobachtungen [**extrahieren**](#Extrahieren) und sie [**hinzufügen**](#Hinzu)?
 * Wie [**importiere**](#Speichern_Laden) und [**exportiere**](#Speichern_Laden) ich Daten?
-
 {{< /spoiler >}}
 
 ***
