@@ -3,11 +3,11 @@ title: R Crash-Kurs - Aufgaben
 type: post
 date: '2020-10-01'
 slug: crash-kurs-aufgaben
-categories: ["Aufgaben"]
-tags: []
+categories: []
+tags: ["Statistik I Aufgaben"]
 subtitle: ''
 summary: ''
-authors: []
+authors: [schultze]
 lastmod: '2023-06-15'
 featured: no
 banner:

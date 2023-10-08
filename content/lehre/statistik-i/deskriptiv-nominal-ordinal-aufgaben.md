@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [buchholz, nehler]
 weight: 
-lastmod: '2023-10-05'
+lastmod: '2023-10-08'
 featured: no
 banner:
   image: "/header/descriptive_post.jpg"
@@ -24,13 +24,9 @@ links:
     name: Inhalte
     url: /lehre/statistik-i/deskriptiv-nominal-ordinal
   - icon_pack: fas
-    icon: terminal
-    name: Code
-    url: /lehre/statistik-i/deskriptiv-nominal-ordinal.R
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/deskriptiv-nominal-ordinal-aufgaben
+    icon: star
+    name: Lösungen
+    url: /lehre/statistik-i/deskriptiv-nominal-ordinal-loesungen
 output:
   html_document:
     keep_md: true

@@ -24,13 +24,9 @@ links:
     name: Inhalte
     url: /lehre/statistik-i/verteilungen
   - icon_pack: fas
-    icon: terminal
-    name: Code
-    url: /lehre/statistik-i/verteilungen.R
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/verteilungen-aufgaben
+    icon: star
+    name: Lösungen
+    url: /lehre/statistik-i/verteilungen-loesungen
 output:
   html_document:
     keep_md: true

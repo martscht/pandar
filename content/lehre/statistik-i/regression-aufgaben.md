@@ -1,19 +1,19 @@
 ---
-title: "Korrelation - Aufgaben" 
+title: "Regression - Aufgaben" 
 type: post
 date: '2019-10-18' 
-slug: korrelation-aufgaben
+slug: regression-aufgaben 
 categories: [] 
 tags: ["Statistik I Aufgaben"] 
 subtitle: ''
 summary: '' 
-authors: [nehler, winkler, schroeder]
+authors: [winkler, neubauer]
 weight:
 lastmod: '2023-10-08'
 featured: no
 banner:
-  image: "/header/BSc2_Korrelation.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+  image: "/header/BSc2_Regression.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/411588)"
 projects: []
 reading_time: false
 share: false
@@ -22,22 +22,25 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/korrelation
+    url: /lehre/statistik-i/regression
   - icon_pack: fas
     icon: star
     name: Lösungen
-    url: /lehre/statistik-i/korrelation-loesungen
+    url: /lehre/statistik-i/regression-loesungen
 output:
   html_document:
     keep_md: true
 ---
 
 
+
+
+
 ## Vorbereitung
 
 
 
-> Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/post/korrelation/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/regression/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
@@ -114,43 +117,18 @@ str(fb22)
 Der Datensatz besteht aus 159 Zeilen (Beobachtungen) und 47 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 ***
-# Korrelation
-
 ## Aufgabe 1
+Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglichkeit (`vertr`), Gewissenhaftigkeit (`gewis`), Neurotizsimus (`neuro`) und Intellekt (`intel`) zeigt den höchsten linearen Zusammenhang mit der Lebenszufriedenheit (`lz`)?
 
-In der Befragung am Anfang des Semesters wurde gefragt, ob Sie neben der Uni einen Nebenjob (`job`) ausüben und in welcher Wohnsituation Sie sich befinden (`wohnen`). Erstellen Sie für diese beiden Variablen eine Kreuztabelle mit Randsummen.
-
-  * Stellen Sie zunächst sicher, dass die Variablen als Faktoren vorliegen und die Kategorien beider Variablen korrekt bezeichnet sind. 
-  * Wie viele Personen wohnen in einer WG und haben keinen Nebenjob? 
-  * Was ist der relative Anteil aller Teilnehmer:innen, die bei ihren Eltern wohnen?
-  * Welcher Anteil der Personen, die alleine wohnen, gehen einer Nebentätigkeit nach?
+  * Erstellen Sie für jeden Zusammenhang je ein Streudiagramm. 
+  * Schätzen Sie für jeden Zusammenhang je ein Modell. 
+  * Prüfen Sie die Voraussetzungen und interpretieren Sie den standardisierten Koeffizienten des linearen Zusammenhangs zwischen Intellekt und Lebenszufriedenheit. Wie verändert sich `lz`, wenn sich `intel` um eine Standardabweichung erhöht?
 
 ## Aufgabe 2
+Betrachten Sie nun den Zusammenhang von Neurotizismus und Lebenszufriedenheit etwas genauer:
 
-Erstellen Sie für diese Kombination an Variablen ein gruppiertes Balkendiagramm.
+  * Erstellen Sie ein Streu-Punkt-Diagramm  mit Regressionsgerade für den linearen Zusammenhang zwischen Neurotizismus und Lebenszufriedenheit.
+  * Wie viel Prozent der Varianz werden durch das Modell erklärt?
+  * Ein paar Studierende wurden nachträglich zum Studiengang Psychologie zugelassen und befinden sich daher nicht im Datensatz. Die neuen Studierenden wurden nachträglich befragt und weisen auf der Skala Neurotizismus folgende Werte auf: 1.25; 2.75; 3.5; 4.25; 3.75; 2.15. Machen Sie eine Vorhersage für die Lebenszufriedenheit für die neuen Studierenden.
 
-  * Achten Sie darauf, dass die Balken nebeneinander stehen.
-  * Nutzen Sie für die Personen mit und ohne Nebenjob unterschiedliche Farben und fügen Sie eine Legende hinzu, die das verdeutlicht.
 
-
-## Aufgabe 3
-
-Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglichkeit (`vertr`), Gewissenhaftigkeit (`gewis`), Neurotizismus (`neuro`) und Intellekt (`intel`) ist am stärksten mit der Lebenszufriedenheit korreliert (`lz`)?
-
-  * Überprüfen Sie die Voraussetzungen für die Pearson-Korrelation.
-  * Erstellen Sie für diese Frage eine Korrelationsmatrix, die alle Korrelationen enthält. Verwenden Sie die Funktion `round()` (unter Betrachtung der Hilfe), um die Werte auf zwei Nachkommastellen zu runden und die Tabelle dadurch übersichtlicher darzustellen.
-  * Wie würden Sie das Ausmaß dieser Korrelation nach den Richtlinien von Cohen (1988) einschätzen?
-  * Ist der Korrelationskoeffizient von Lebenszufriedenheit und Gewissenhaftigkeit statistisch signifikant?
-
-## Aufgabe 4
-Berechnen sie die Pearson-Korrelation, die Spearman-Korrelation, Kendall's Tau sowie $\hat{\gamma}$ für den Zusammenhang von `prok1` und `prok6`.
-
-## Aufgabe 5
-
-Das Paket `psych` enthält vielerlei Funktionen, die für die Analyse von Datensätzen aus psychologischer Forschung praktisch sind. Eine von ihnen (`describe()`) erlaubt es, gleichzeitig verschiedene Deskriptivstatistiken für Variablen zu erstellen.
-
-  * Installieren und laden Sie das Paket `psych`.
-  * Nutzen Sie den neugewonnen Befehl `describe()`, um sich gleichzeitig die verschiedenen Deskriptivstatistiken für Lebenszufriedenheit (`lz`) ausgeben zu lassen. 
-  * `describe()` kann auch genutzt werden, um gleichzeitig Deskriptivstatistiken für verschiedene Variablen zu berechnen. Nutzen Sie diese Funktionalität, um sich gleichzeitg die univariaten Deskriptivstatistiken für die fünf Persönlichkeitsdimensionen ausgeben zu lassen.
-    
-***

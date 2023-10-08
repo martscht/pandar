@@ -24,13 +24,9 @@ links:
     name: Inhalte
     url: /lehre/statistik-i/korrelation
   - icon_pack: fas
-    icon: terminal
-    name: Code
-    url: /lehre/statistik-i/korrelation-aufgaben.R
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/korrelation-aufgaben
+    icon: star
+    name: Lösungen
+    url: /lehre/statistik-i/korrelation-loesungen
 output:
   html_document:
     keep_md: true
@@ -82,7 +78,7 @@ fb22$neuro_std <- scale(fb22$neuro)
 
 ```
 
-Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/post/korrelation/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/post/korrelation/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 

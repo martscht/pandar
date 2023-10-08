@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es um vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [koehler, buchholz, irmer, nehler] 
 weight: 7
-lastmod: '2023-10-06'
+lastmod: '2023-10-08'
 featured: no
 banner:
   image: "/header/BSc2_test_abh_stpr.jpg"
@@ -54,7 +54,7 @@ Nachdem wir uns mit **unabhängige Stichproben** in der ([letzten Sitzung](/lehr
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz haben wir bereits unter diesem [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb22.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz haben wir bereits unter diesem [{{< icon name="download" pack="fas" >}}Link heruntergeladen](/daten/fb22.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 
 ```r
@@ -330,27 +330,22 @@ d_Wert
 library("effsize")
 ```
 
-```
-## Error in library("effsize"): there is no package called 'effsize'
-```
-
 
 ```r
 d2 <- cohen.d(fb22$neuro, fb22$extra, 
       paired = T,  #paired steht fuer 'abhaengig'
       within = F)   #wir brauchen nicht die Varianz innerhalb
-```
-
-```
-## Error in cohen.d(fb22$neuro, fb22$extra, paired = T, within = F): unused arguments (paired = T, within = F)
-```
-
-```r
 d2
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'd2' not found
+## 
+## Cohen's d
+## 
+## d estimate: 0.2574633 (small)
+## 95 percent confidence interval:
+##      lower      upper 
+## 0.09886578 0.41606085
 ```
 
 Mit dem Argument `within = T`, was der Default ist, wird für die Varianzberechnung die Varianz innerhalb der Gruppen herangezogen (vergleiche Formel Cohen's _d_ für unanghängige Stichproben).
