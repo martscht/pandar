@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-i/Ergebisbericht.R
   - icon_pack: fas
     icon: pen-to-square
-    name: formr
-    url: /lehre/statistik-i/formr
+    name: LIFOS
+    url: /lehre/statistik-i/quickguide-lifos
 output:
   html_document:
     keep_md: true

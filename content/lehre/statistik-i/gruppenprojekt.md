@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [schueller, schultze, winkler, beitner, nehler]
 weight: 12
-lastmod: '2023-10-06'
+lastmod: '2023-10-09'
 featured: no
 banner:
   image: "/header/group_post.jpg"
@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-i/Ergebisbericht.R
   - icon_pack: fas
     icon: pen-to-square
-    name: formr
-    url: /lehre/statistik-i/formr
+    name: LIFOS
+    url: /lehre/statistik-i/quickguide-lifos
 output:
   html_document:
     keep_md: true
@@ -308,7 +308,7 @@ Am Ende der Instruktion wird durch ein Item bestätigt, dass die Teilnehmenden d
 * Weiterführende Informationen zum Bericht finden Sie [hier](/lehre/statistik-i/hinweise-zum-ergebnisbericht).
 * Neben den primär interessierenden Merkmalen/Variablen sollen auch mögliche Störvariablen (z.B. Geschlecht, Alter) erhoben werden.
 * Bitte stimmen Sie die entwickelten Hypothesen mit dem/der Dozent:in Ihres Kurses ab.
-* Vor Beginn der Datenerhebung muss die Studie präregistriert werden (**Stichtag 19.12.2022**).
+* Vor Beginn der Datenerhebung muss die Studie präregistriert werden (**Stichtag XX.XX.2023**).
 * Der Stichprobenumfang sollte mind. 40 Proband:innen umfassen (bzw. 10 Personen pro Mitglied in Ihrer Gruppe).
 
 ### Literatur
