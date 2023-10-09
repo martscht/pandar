@@ -2,14 +2,14 @@
 title: "LIFOS Templates" 
 type: post
 date: '2023-05-17' 
-slug: lifos-templates 
+slug: template-auswahl
 categories: ["LIFOS Grundlagen", "LIFOS"] 
 tags: ["Grundlagen", "Hilfe"] 
 subtitle: 'Hier findet ihr die perfekte Vorlage für euer Projekt'
 summary: '' 
 authors: [beitner,pommeranz] 
 weight: 2
-lastmod: '`r Sys.Date()`'
+lastmod: '2023-10-09'
 featured: no
 banner:
   #image: "/header/crash_post.jpg"
@@ -20,9 +20,9 @@ share: false
 
 links:
   - name: DE
-    url: /lifos/grundlagen/lifos-templates
+    url: /lifos/grundlagen/template-auswahl
   - name: EN
-    url: /lifos/grundlagen/lifos-templates-en
+    url: /lifos/grundlagen/template-auswahl-en
 
 output:
   html_document:

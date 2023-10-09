@@ -2,14 +2,14 @@
 title: "Datenschutz" 
 type: post
 date: '2023-07-18' 
-slug: lifos-datenschutz
+slug: datenschutz
 categories: ["LIFOS Grundlagen", "LIFOS"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [beitner] 
 weight: 4
-lastmod: '`r Sys.Date()`'
+lastmod: '2023-10-09'
 featured: no
 banner:
   image: "/header/lifos-datenschutz-header.jpg"
@@ -21,7 +21,9 @@ publishDate: '2022-09-06'
 
 links:
   - name: DE
-    url: /lifos/grundlagen/lifos-datenschutz
+    url: /lifos/grundlagen/datenschutz
+  - name: EN
+    url: /lifos/grundlagen/datenschutz-en
 
 
 output:

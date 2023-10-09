@@ -2,14 +2,14 @@
 title: "What is LIFOS?" 
 type: post
 date: '2022-11-14' 
-slug: lifos-orientierung-en
+slug: orientierung-lifos-en
 categories: ["LIFOS"] 
 tags: ["Grundlagen", "Orientierung"] 
 subtitle: ''
 summary: '' 
 authors: [schloter, nehler] 
 weight: 2
-lastmod: '2023-10-04'
+lastmod: '2023-10-09'
 featured: no
 banner:
   image: "/header/orientierung_gitlab_header.jpg"
@@ -21,9 +21,9 @@ publishDate: '2023-03-13'
 
 links:
   - name: EN
-    url: /lifos/grundlagen/lifos-orientierung-en
+    url: /lifos/grundlagen/orientierung-lifos-en
   - name: DE
-    url: /lifos/grundlagen/lifos-orientierung
+    url: /lifos/grundlagen/orientierung-lifos
 
 output:
   html_document:
@@ -55,7 +55,7 @@ After logging in, you will arrive at this homepage:
 
 ![](/lifos/grundlagen/gitlaborientierung_projectsstartsite2.png)
 
-As you can see, there are three options to choose from. Firstly, **Create a project**, where you can create a project (surprise!). In the collapsible section below, we will show you how to create your own project without being part of a group and without using a template. However, you should **not** do this for your thesis, as your project belongs to the department under which you create it and there are already templates intended for your use. You can see how this works [here](https://pandar.netlify.app/lifos/grundlagen/lifos-eigenesprojekt-en/).
+As you can see, there are three options to choose from. Firstly, **Create a project**, where you can create a project (surprise!). In the collapsible section below, we will show you how to create your own project without being part of a group and without using a template. However, you should **not** do this for your thesis, as your project belongs to the department under which you create it and there are already templates intended for your use. You can see how this works [here](/lifos/grundlagen/eigenesprojekt-en/).
 
 
 <details><summary> **Create your own project** </summary>

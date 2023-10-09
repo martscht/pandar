@@ -2,14 +2,14 @@
 title: "SmartGit und LIFOS" 
 type: post
 date: '2023-02-23' 
-slug: lifos-smartgit
+slug: connect-lifos-smartgit
 categories: ["LIFOS Extras", "LIFOS"] 
 tags: ["Extras"] 
 subtitle: ''
 summary: '' 
 authors: [nehler, schloter, pommeranz] 
 weight: 4
-lastmod: '2023-10-04'
+lastmod: '2023-10-09'
 featured: no
 banner:
   image: "/header/smartgitlifos.jpg"
@@ -21,9 +21,9 @@ publishDate: '2023-03-02'
 
 links:
   - name: DE
-    url: /lifos/extras/lifos-smartgit
+    url: /lifos/extras/connect-lifos-smartgit
   - name: EN
-    url: /lifos/extras/lifos-smartgit-en
+    url: /lifos/extras/connect-lifos-smartgit-en
 
 output:
   html_document:

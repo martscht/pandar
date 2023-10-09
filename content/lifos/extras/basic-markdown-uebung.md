@@ -2,14 +2,14 @@
 title: "Markdown Übung" 
 type: post
 date: '2022-11-14' 
-slug: lifos-r-markdown-uebung
+slug: basic-markdown-uebung
 categories: ["LIFOS Extras", "LIFOS"] 
 tags: ["Extras"] 
 subtitle: ''
 summary: '' 
 authors: [schloter, nehler, pommeranz] 
 weight: 3
-lastmod: '`r Sys.Date()`'
+lastmod: '2023-10-09'
 featured: no
 banner:
   image: "/header/gitlab_markdown2.jpg"
@@ -21,9 +21,9 @@ publishDate: '2022-11-24'
 
 links:
   - name: DE
-    url: /lifos/extras/lifos-r-markdown-uebung
+    url: /lifos/extras/basic-markdown-uebung
   - name: EN
-    url: /lifos/extras/lifos-r-markdown-uebung-en
+    url: /lifos/extras/basic-markdown-uebung-en
 
 output:
   html_document:
@@ -32,35 +32,35 @@ output:
 
 # Einführung   
   
-Wie Ihr in den Grundlagen für LIFOS bereits gesehen habt, ist zumindest ein Bestandteil eures Projekts in Markdown Code geschrieben - das README. [Hier](/post/lifos-eigenesProjekt/#Markdown) haben wir bereits die wichtigsten Informationen über Markdown aufgeführt, damit Ihr euer eigenes README angemessen gestalten könnt. Wir wollen euch aber nochmal zusätzlich eine Übungsmöglichkeit für Markdown bieten, indem Ihr in einem Projekt auf LIFOS ein Dokument nachbauen sollt. Im Folgenden werden dafür alle wichtigen Schritte beschrieben, in denen Ihr ein eigenes Projekt erstellt um die Markdownübungen durchzuführen und wie Ihr dieses im Nachhinein löscht. 
+Wie Ihr in den Grundlagen für LIFOS bereits gesehen habt, ist zumindest ein Bestandteil eures Projekts in Markdown Code geschrieben - das README. [Hier](/post/eigenesprojekt/#Markdown) haben wir bereits die wichtigsten Informationen über Markdown aufgeführt, damit Ihr euer eigenes README angemessen gestalten könnt. Wir wollen euch aber nochmal zusätzlich eine Übungsmöglichkeit für Markdown bieten, indem Ihr in einem Projekt auf LIFOS ein Dokument nachbauen sollt. Im Folgenden werden dafür alle wichtigen Schritte beschrieben, in denen Ihr ein eigenes Projekt erstellt um die Markdownübungen durchzuführen und wie Ihr dieses im Nachhinein löscht. 
 
 ### Erstellen eines persönlichen Projects 
 
 Um unsere Markdown Übung auf LIFOS durchzuführen, müsst Ihr erstmal ein eigenes Project mit dem entsprechenden Template erstellen. Dafür geht Ihr auf der LIFOS-Startseite auf *New Project*. Hier ist es sehr wichtig, dass Ihr das nicht über die Abteilungsgruppe erstellt, sonst wird die Gruppe mit etlichen Markdown-Tutorials zugespamt.
 
-![](../grundlagen/gitlaborientierung_newproject.png)
+![](/lifos/extras/../grundlagen/gitlaborientierung_newproject.png)
 
 Ihr müsst hier nur auf den **New Project**-Button gehen und habt ein neues eigenes Projekt erstellt. 
 
 Anschließend öffnet sich eine Seite auf der Ihr 4 Möglichkeiten vorfindet: 
 
-![](../grundlagen/gitlaborientierung_newprojectoptions.png) 
+![](/lifos/extras/../grundlagen/gitlaborientierung_newprojectoptions.png) 
 
 Hier klickt Ihr auf *Create from template*, da ein eigenes Template für diese Markdown-Übung existiert. Das macht es euch ein bisschen einfacher. Um auf das Übungs-Template zuzugreifen, müsst Ihr in folgender Spalte auf "Instance". Die "Built-in" Templates sind globale Templates, die jedem:r <span style="color: darkred;">**GitLab**</span>-User:in zur Verfügung stehen. Diese könnt Ihr euch ein anderes Mal gerne anschauen oder mit einem Testprojekt erkunden. 
 
-![](../grundlagen/gitlaborientierung_newprojectinstance.png) 
+![](/lifos/extras/../grundlagen/gitlaborientierung_newprojectinstance.png) 
 
 Nachdem Ihr auf "Instance" geklickt habt, sucht Ihr das Template mit dem Namen **_Markdown_Übung_Template_**. 
  
-![](../grundlagen/gitlaborientierung_markdownInstanceTemplate.png) 
+![](/lifos/extras/../grundlagen/gitlaborientierung_markdownInstanceTemplate.png) 
 
-Das Visibility Level für dieses Projekt könnt Ihr auf *Private* stellen. Damit ist es nur für euch sichtbar, aber da es hier nur um die Übung geht, ist das kein Problem. Visibility Level haben wir [hier](https://pandar.netlify.app/lifos/grundlagen/lifos-eigenesprojekt#visibility-levels) schonmal erklärt.
+Das Visibility Level für dieses Projekt könnt Ihr auf *Private* stellen. Damit ist es nur für euch sichtbar, aber da es hier nur um die Übung geht, ist das kein Problem. Visibility Level haben wir [hier](/lifos/grundlagen/eigenesprojekt#visibility-levels) schonmal erklärt.
 
 ## Struktur des Templates
 
 In dem Template findet Ihr neben dem README noch drei weitere Dateien. 
 
-![](../grundlagen/gitlaborientierung_uebungtemplate.png) 
+![](/lifos/extras/../grundlagen/gitlaborientierung_uebungtemplate.png) 
 Die Datei, an der Ihr üben könnt, heißt "Übungsdokument.md". Wie genau Ihr diese verändern könnt, wird euch im nächsten Abschnitt gezeigt. Wenn Ihr auf die Datei mit dem Namen "OpenScience.pdf" klickt, seht Ihr wie das Enddokument aussehen soll. Die Datei "Lösung.md" enthält die Markdown-Lösung zu dem Dokumemt. Diese solltet Ihr natürlich nur anschauen, wenn Ihr euer fertiges Dokument abgleichen wollt oder wirklich nicht mehr weiter wisst. 
 
 <!-- Warum hast du die Lösung nicht auch in einem Markdown Dokument? hab ich versucht, allerdings "übersetzt" GitLab das direkt, wenn man es nur auf dem Server anschaut, was zu Verwirrungen kommen könnte, wenn man die Lösung in einem Klick anschauen will. (Ich wäre davon genervt, glaube ich) -->
@@ -69,33 +69,33 @@ Die Datei, an der Ihr üben könnt, heißt "Übungsdokument.md". Wie genau Ihr d
 
 Um das "Übungsdokument.md" zu bearbeiten, klickt Ihr auf dieses drauf. Anschließend geht Ihr auf *Open in Web IDE*. 
 
-![](../grundlagen/gitlaborientierung_openuebunginwebide.png) 
+![](/lifos/extras/../grundlagen/gitlaborientierung_openuebunginwebide.png) 
 
 Dort könnt Ihr unter *Edit* das Dokument mit eurem Markdown-Code füllen und unter *Preview Markdown* direkt schauen, wie es "übersetzt" aussehen wird. 
 
-![](../grundlagen/gitlaborientierung_webidetemplate.png)
+![](/lifos/extras/../grundlagen/gitlaborientierung_webidetemplate.png)
 
 Ihr könnt auch auf das Dokument selbst klicken, um es vorzuschauen.
 
-![](../grundlagen/gitlaborientierung_preview.png)
+![](/lifos/extras/../grundlagen/gitlaborientierung_preview.png)
 
 Per <> - Knopf könnt Ihr auch zur Code-Ansicht zurückwechseln.
 
-![](../grundlagen/gitlaborientierung_code.png)
+![](/lifos/extras/../grundlagen/gitlaborientierung_code.png)
 
 Falls Ihr nun Änderungen in eurem README getätigt habt, die Ihr behalten wollt, könnt Ihr das auf zwei unterschiedichen Wegen tun. 
 
 Der eine geht über die *Web IDE*, die wir gerade schon geöffnet haben. Wir vollziehen nun eine Änderung an unserem Dokument.
 
-![](../grundlagen/gitlabMarkdown_ÄnderungReadMe.png)
+![](/lifos/extras/../grundlagen/gitlabMarkdown_ÄnderungReadMe.png)
 
 Ihr könnt euch diese Veränderung, wie Ihr wisst auch im "übersetzten" Zustand anschauen, wenn Ihr auf *Preview Markdown* klickt. Wenn Ihr zufrieden mit der Änderung seid, geht Ihr link unten auf *Create commit...*.
 
-![](../grundlagen/gitlabMarkdown_CreateCommitWebIDE.png)
+![](/lifos/extras/../grundlagen/gitlabMarkdown_CreateCommitWebIDE.png)
 
 Ihr gebt eine *Commit Message* ein. Diese ist wichtig, um Änderungen später nachzuvollziehen. Das Markdown-Übungs-Projekt ist zwar nur für euch persönlich, aber auch man selbst sucht später nochmal nach den Gründen für einzelne Änderungen, die man im Laufe der Zeit gemacht hat.
 
-![](../grundlagen/gitlabMarkdown_CommitTest.png)
+![](/lifos/extras/../grundlagen/gitlabMarkdown_CommitTest.png)
 
 Wie Ihr sehen könnt, könnt Ihr bei einem Commit entweder den **main** Branch auswählen oder einen neuen Branch erstellen. Hier wählt Ihr standardmäßig den **main** Branch aus. Falls Ihr mehr über Branches wissen wollt, schaut euch dieses [Tutorial](https://pandar.netlify.app/post/branches/) an. Eure Änderungen sind jetzt im README enthalten. 
 
@@ -113,20 +113,20 @@ Wie beschrieben, ist das Löschen von Projekten, die einer Gruppe zugehörig sin
 
 Zuerst geht Ihr auf das Projekt, das Ihr löschen wollt (zum Beispiel das abgeschlossene Markdown Tutorial). Anschließend klickt Ihr in der Seitenleiste auf *Settings* und dort auf *General*: 
 
-![](../grundlagen/gitlabMarkdown_DeleteProject.png)
+![](/lifos/extras/../grundlagen/gitlabMarkdown_DeleteProject.png)
 
 Hier müsst Ihr dann runterscrollen, bis Ihr *Advanced* dort stehen seht.
 
-![](../grundlagen/gitlabMarkdown_AdvancedPrjectSet.png)
+![](/lifos/extras/../grundlagen/gitlabMarkdown_AdvancedPrjectSet.png)
 
 Nachdem Ihr das expandiert habt, scrollt Ihr wieder ganz ans Ende der Seite. Hier findet Ihr den Button mit dem Ihr euer Projekt löschen könnt. 
 
-![](../grundlagen/gitlabMarkdown_DeleteProjectButton.png)
+![](/lifos/extras/../grundlagen/gitlabMarkdown_DeleteProjectButton.png)
 Wie es auch schon unter dem Button geschrieben steht, müsst Ihr euch 100% sicher sein, ob Ihr das Projekt löschen wollt oder nicht. 
 
 Nachdem Ihr die Sicherheitsabfrage bearbeitet habt, könnt Ihr euer Projekt dann löschen. 
 
-![](../grundlagen/gitlabMarkdown_DeleteProjectCheck.png)
+![](/lifos/extras/../grundlagen/gitlabMarkdown_DeleteProjectCheck.png)
 
 Da es sich um ein persönliches Projekt handelt, wird es direkt gelöscht. Das unterscheidet den Vorgang vom Löschen von Projekten, die Gruppen zugehörig sind - also dem Prozess, den eure Betreuenden dort durchführen können.
 
@@ -148,11 +148,11 @@ Außerdem kann man Subgruppen für folgendes benutzen:
 
 Um eine Subgruppe zu erstellen, müsst Ihr unter *Menu* und *Groups* auf **Your Groups** gehen. 
 
-![](/post/gitlabMarkdown_createSubgroups.png)
+![](/lifos/extras//post/gitlabMarkdown_createSubgroups.png)
 
 Anschließend wählt Ihr die Gruppe aus in der Ihr für euer Projekt eine Subgruppe erstellen wollt. In der Gruppe geht Ihr oben rechts auf **New Subgroup**. 
 
-![](/post/gitlabMarkdown_createSubgroups2.png)
+![](/lifos/extras//post/gitlabMarkdown_createSubgroups2.png)
 
 Danach öffnet sich noch ein Fenster bei dem Ihr auf **Create Groups** klickt. Danach öffnet sich eine Seite in der Ihr alle möglichen Einstellungen für euer Projekt festlegen könnt. 
 
@@ -160,7 +160,7 @@ Zum einen könnt Ihr festlegen,  ob nur Ihr diese Gruppe benutzt oder ob Ihr auc
 
 Eure erstellte Subgruppe findet Ihr dann auf der Startseite der übergeordneten Gruppe.
 
-![](/post/gitlabMarkdown_seeSubgroups.png)
+![](/lifos/extras//post/gitlabMarkdown_seeSubgroups.png)
 
 ### Projekt in einer Subgruppe erstellen
 
@@ -168,7 +168,7 @@ Nachdem Ihr die Subgruppe erstellt habt, könnt Ihr hier ganz normal ein Projekt
 
 Nachdem Ihr dieses Projekt erstellt habt, könnt Ihr euch unter **Settings** und *General* die Visibility-Features anschauen. 
 
-![](/post/gitlabMarkdown_subgroupVisibility.png)
+![](/lifos/extras//post/gitlabMarkdown_subgroupVisibility.png)
 
 Wie Ihr unter **Repository** sehen könnt, sind nur Projektmitglieder dazu in der Lage Dateien in diesem Projekt anzuschauen oder zu bearbeiten. 
 

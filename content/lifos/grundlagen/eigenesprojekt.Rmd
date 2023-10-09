@@ -2,7 +2,7 @@
 title: "Eigenes Projekt erstellen und bearbeiten" 
 type: post
 date: '2022-11-14' 
-slug: lifos-eigenesprojekt
+slug: eigenesprojekt
 categories: ["LIFOS Grundlagen", "LIFOS"] 
 tags: ["Grundlagen", "Orientierung"] 
 subtitle: ''
@@ -21,9 +21,9 @@ publishDate: '2022-09-06'
 
 links:
   - name: DE
-    url: /lifos/grundlagen/lifos-eigenesprojekt
+    url: /lifos/grundlagen/eigenesprojekt
   - name: EN
-    url: /lifos/grundlagen/lifos-eigenesprojekt-en
+    url: /lifos/grundlagen/eigenesprojekt-en
 
 output:
   html_document:
@@ -32,7 +32,7 @@ output:
 
 # Einführung  
 
-Nachdem ihr sowohl schon die Basics über LIFOS und <span style="color: darkred;">**GitLab**</span> erfahren habt und auch euer richtiges Template ausgewählt habt, ist es jetzt an der Zeit, dass ihr euer erstes eigenes Projekt erstellt. **Es ist hierbei äußerst wichtig, dass, sofern Ihr eine Abschlussarbeit durchführen wollt, Ihr bereits in der entsprechenden [Gruppe](/lifos/grundlagen/lifos-orientierung/#gruppen) der Abteilung seid bevor ihr euer Projekt erstellt!** 
+Nachdem ihr sowohl schon die Basics über LIFOS und <span style="color: darkred;">**GitLab**</span> erfahren habt und auch euer richtiges Template ausgewählt habt, ist es jetzt an der Zeit, dass ihr euer erstes eigenes Projekt erstellt. **Es ist hierbei äußerst wichtig, dass, sofern Ihr eine Abschlussarbeit durchführen wollt, Ihr bereits in der entsprechenden [Gruppe](/lifos/grundlagen/orientierung-lifos/#gruppen) der Abteilung seid bevor ihr euer Projekt erstellt!** 
 
 #### Projekt erstellen
 
@@ -64,10 +64,8 @@ Jetzt müsst ihr unter dem Punkt *Project URL* bei *Pick a group or namespace* e
 
 ![](gitlaborientierung_pickgroup.png) 
 
-Dieser Schritt ist sehr wichtig, da das Projekt auf jeden Fall zur richtigen Abteilung zugeordnet werden sollte! Falls ihr noch nicht der Gruppe eurer Abteilung angehört, lest nochmal im [Tutorial zur Orientierung](/lifos/grundlagen/lifos-orientierung) nach.
+Dieser Schritt ist sehr wichtig, da das Projekt auf jeden Fall zur richtigen Abteilung zugeordnet werden sollte! Falls ihr noch nicht der Gruppe eurer Abteilung angehört, lest nochmal im [Tutorial zur Orientierung](/lifos/grundlagen/orientierung-lifos) nach.
 
-
-### Datenschutz
 
 ##### Visibility-Levels
 
@@ -120,7 +118,7 @@ Außerdem findet ihr verschiedene Ordner, die euch eine Orientierung geben solle
 
 ##### Dateien hochladen
 
-<span style="color:red">**Hinweis**</span>: Wenn ihr eure Daten hochladen wollt, lest euch zuerst unseren [Abschnitt zu Datenschutz](/lifos/grundlagen/lifos-datenschutz) durch, um sicherzustellen, dass eure Daten der nötigen Anonymität entsprechen! 
+<span style="color:red">**Hinweis**</span>: Wenn ihr eure Daten hochladen wollt, lest euch zuerst unseren [Abschnitt zu Datenschutz](/lifos/grundlagen/datenschutz) durch, um sicherzustellen, dass eure Daten der nötigen Anonymität entsprechen! 
 
 Starten wir zunächst einmal mit der Erklärung, wie man Dateien in das Repository hochlädt. Wir gehen also davon aus, dass ihr auf eurem Rechner eine Datei erstellt oder verändert habt, die nun eurem Projekt hinzugefügt werden soll. Zum Hochladen müsst ihr auf **LIFOS** die Startseite eures Projektes aufrufen und dann auf den Plus-Button klicken. 
 
@@ -145,7 +143,7 @@ Falls ihr eine Datei direkt in einem Ordner erstellen wollt, müsst ihr den gew�
 
 ![](gitlaborientierung_DateiHochladenOrdner.png) 
 
-Wir haben unsere Datei in keinen Ordner hochgeladen, sondern direkt auf die "Startseite" unseres Projektes. Uns fällt im Nachhinein auf, dass die Datei aber eigentlich doch besser in dem Ordner "Scripts" untergebracht hätte werden müssen. Normalerweise würde man die Datei jetzt verschieben, allerdings funktioniert das auf der Browser-Version von <span style="color: darkred;">**GitLab**</span> nicht. Der einzige Weg, die Datei in den Ordner zu bekommen, ist sie zuerst zu löschen und dann wieder hochzuladen. Eine angenehmere Möglichkeit bietet <span style="color: darkred;">**SmartGit**</span>. Mit <span style="color: darkred;">**SmartGit**</span> erleichtert ihr euch die Arbeit mit <span style="color: darkred;">**GitLab**</span> enorm. Nachdem ihr dieses Tutorial zuende gelesen habt (empfohlen!), könnt ihr euch [hier](#https://pandar.netlify.app/lifos/extras/lifos-smartgit) über <span style="color: darkred;">**SmartGit**</span> informieren. 
+Wir haben unsere Datei in keinen Ordner hochgeladen, sondern direkt auf die "Startseite" unseres Projektes. Uns fällt im Nachhinein auf, dass die Datei aber eigentlich doch besser in dem Ordner "Scripts" untergebracht hätte werden müssen. Normalerweise würde man die Datei jetzt verschieben, allerdings funktioniert das auf der Browser-Version von <span style="color: darkred;">**GitLab**</span> nicht. Der einzige Weg, die Datei in den Ordner zu bekommen, ist sie zuerst zu löschen und dann wieder hochzuladen. Eine angenehmere Möglichkeit bietet <span style="color: darkred;">**SmartGit**</span>. Mit <span style="color: darkred;">**SmartGit**</span> erleichtert ihr euch die Arbeit mit <span style="color: darkred;">**GitLab**</span> enorm. Nachdem ihr dieses Tutorial zuende gelesen habt (empfohlen!), könnt ihr euch [hier](/lifos/extras/connect-lifos-smartgit) über <span style="color: darkred;">**SmartGit**</span> informieren. 
 
 Falls ihr aus Versehen diesselbe Datei zweimal hochladet, wird euch eine Warnmeldung ausgegeben: 
 
@@ -162,7 +160,7 @@ Um das "README.md" zu bearbeiten klickt ihr auf die Datei. Anschließend öffnet
 
 ![](gitlaborientierung_readmeWebIDE.png)
 
-Jetzt öffnet sich die Web IDE und ihr habt die Möglichkeit das "README.md" zu bearbeiten. Aber wie ihr sehen könnt, ist es nicht einfach nur eine Textdatei. Das "README.md" ist in der Sprache Markdown geschrieben - deswegen auch ".md". Lasst euch davon nicht verunsichern! Eine Anleitung zu Markdown findet ihr in diesem Tutorial etwas weiter [unten](#basic-markdown-tutorial) und ihr könnt eure Markdown Fähigkeiten auch in einer [Übung](https://pandar.netlify.app/lifos/extras/lifos-r-markdown-uebung/) unter Beweis stellen.
+Jetzt öffnet sich die Web IDE und ihr habt die Möglichkeit das "README.md" zu bearbeiten. Aber wie ihr sehen könnt, ist es nicht einfach nur eine Textdatei. Das "README.md" ist in der Sprache Markdown geschrieben - deswegen auch ".md". Lasst euch davon nicht verunsichern! Eine Anleitung zu Markdown findet ihr in diesem Tutorial etwas weiter [unten](#basic-markdown-tutorial) und ihr könnt eure Markdown Fähigkeiten auch in einer [Übung](/lifos/extras/basic-markdown-uebung/) unter Beweis stellen.
 
 Die Web IDE kann allerdings nicht alle Dateiformate anzeigen. Sie funktioniert für .txt, .rmd, .R oder .md, aber versucht man eine Word-Datei oder OpenOffice Datei zu öffnen, klappt das nicht. 
 
@@ -226,7 +224,7 @@ Nachdem ihr die letzte Datei in eurem Ordner gelöscht habt (in diesem Fall ".gi
 
 Wie wir bereits im Intro zu LIFOS beschrieben haben, ist es für Studierende generell nicht möglich, ein Projekt, das einer Gruppe zugehörig ist, zu löschen. So soll Fehlern vorgebeugt werden. Ist das Löschen dennoch nötig, wendet euch bitte an eure betreuende Person oder auch an den [zentralen Support von LIFOS](mailto:lifos@uni-frankurt.de).
 
-Wie ihr eigene Projekte (also ohne Gruppenzugehörigkeit) löschen könnt ist in dem Tutorial zur vertiefenden Markdown-Übung beschrieben, diese findet ihr [hier](https://pandar.netlify.app/lifos/extras/lifos-r-markdown-uebung#löschen-eures-projektes). Eine kleine Einleitung in Markdown mit den Beschreibungen der wichtigsten Funktionalitäten folgt aber auch hier schon.
+Wie ihr eigene Projekte (also ohne Gruppenzugehörigkeit) löschen könnt ist in dem Tutorial zur vertiefenden Markdown-Übung beschrieben, diese findet ihr [hier](/extras/lifos/basic-markdown-uebung#löschen-eures-projektes). Eine kleine Einleitung in Markdown mit den Beschreibungen der wichtigsten Funktionalitäten folgt aber auch hier schon.
 
 ## Basic Markdown Funktionalitäten {#Markdown .anchorheader}
 
@@ -411,11 +409,11 @@ Falls ihr eine übersichtlichere oder komplexere Liste mit Einrückungen gestalt
 Das Ganze wird sonst schnell unübersichtlich. 
 
 
-Wenn ihr eine Übung zum Erstellen eines Dokumentes mit Markdown durchführen wollt, findet ihr [hier](https://pandar.netlify.app/lifos/extras/lifos-r-markdown-uebung/) dazu eine Anleitung.
+Wenn ihr eine Übung zum Erstellen eines Dokumentes mit Markdown durchführen wollt, findet ihr [hier](/lifos/extras/basic-markdown-uebung/) dazu eine Anleitung.
 
 
 
 ### Fazit   
 
-Dieses Tutorial hat euch erklärt wie ihr ein Projekt erstellen könnt, sowie Dateien und Ordner in diesem bearbeiten könnt. Ihr habt aber bestimmt selbst gemerkt, dass es noch viele andere verschiedenen Funktionen und Möglichkeiten gibt mit <span style="color: darkred;">**GitLab**</span> und dem LIFOS-Server zu arbeiten. Außerdem habt ihr die Basics von Markdown gelernt. Um euch die Arbeit mit <span style="color: darkred;">**GitLab**</span> einfacher zu machen, könnt ihr euch das <span style="color: darkred;">**SmartGit**</span> Tutorial anschauen. Dieses findet ihr [hier](https://pandar.netlify.app/lifos/extras/lifos-smartgit). Eine vertiefende Einführung zu <span style="color: darkred;">**GitLab**</span> findet ihr [hier](). 
+Dieses Tutorial hat euch erklärt wie ihr ein Projekt erstellen könnt, sowie Dateien und Ordner in diesem bearbeiten könnt. Ihr habt aber bestimmt selbst gemerkt, dass es noch viele andere verschiedenen Funktionen und Möglichkeiten gibt mit <span style="color: darkred;">**GitLab**</span> und dem LIFOS-Server zu arbeiten. Außerdem habt ihr die Basics von Markdown gelernt. Um euch die Arbeit mit <span style="color: darkred;">**GitLab**</span> einfacher zu machen, könnt ihr euch das <span style="color: darkred;">**SmartGit**</span> Tutorial anschauen. Dieses findet ihr [hier](/lifos/extras/connect-lifos-smartgit). Eine vertiefende Einführung zu <span style="color: darkred;">**GitLab**</span> ist aktuell noch im Bau. 
 

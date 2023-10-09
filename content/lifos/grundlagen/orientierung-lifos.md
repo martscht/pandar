@@ -2,14 +2,14 @@
 title: "Was ist LIFOS?" 
 type: post
 date: '2022-11-14' 
-slug: lifos-orientierung
+slug: orientierung-lifos
 categories: ["LIFOS Grundlagen", "LIFOS"] 
 tags: ["Grundlagen", "Orientierung"] 
 subtitle: ''
 summary: '' 
 authors: [schloter, nehler] 
 weight: 1
-lastmod: '2023-10-04'
+lastmod: '2023-10-09'
 featured: no
 banner:
   image: "/header/orientierung_gitlab_header.jpg"
@@ -21,9 +21,9 @@ publishDate: '2022-09-06'
 
 links:
   - name: DE
-    url: /lifos/grundlagen/lifos-orientierung
+    url: /lifos/grundlagen/orientierung-lifos
   - name: EN
-    url: /lifos/grundlagen/lifos-orientierung-en
+    url: /lifos/grundlagen/orientierung-lifos-en
 
 output:
   html_document:
@@ -54,7 +54,7 @@ Nachdem Ihr euch eingeloggt habt, kommt Ihr zu der Startseite:
 
 ![](/lifos/grundlagen/gitlaborientierung_projectsstartsite2.png)
 
-Wie Ihr hier seht, habt Ihr drei Sachen zur Auswahl. Zum einen **Create a project**, hier könnt Ihr (wer hätte es gedacht) ein Projekt erstellen. In dem unten anschließenden ausklappbaren Abschnitt, zeigen wir euch wie Ihr ein eigenes Projekt - ohne Gruppenzugehörgkeit und Template- erstellen könnt. Das solltet Ihr für eure Arbeit allerdings **nicht** machen, da euer Projekt der Abteilung zugehörig ist unter der Ihr das Projekt erstellt und es schon Vorlagen gibt, die Ihr benutzen sollt. Wie das funktioniert seht Ihr [hier](https://pandar.netlify.app/lifos/grundlagen/lifos-eigenesprojekt/). 
+Wie Ihr hier seht, habt Ihr drei Sachen zur Auswahl. Zum einen **Create a project**, hier könnt Ihr (wer hätte es gedacht) ein Projekt erstellen. In dem unten anschließenden ausklappbaren Abschnitt, zeigen wir euch wie Ihr ein eigenes Projekt - ohne Gruppenzugehörgkeit und Template- erstellen könnt. Das solltet Ihr für eure Arbeit allerdings **nicht** machen, da euer Projekt der Abteilung zugehörig ist unter der Ihr das Projekt erstellt und es schon Vorlagen gibt, die Ihr benutzen sollt. Wie das funktioniert seht Ihr [hier](/lifos/grundlagen/eigenesprojekt/). 
 
 <details><summary> **Eigenes Projekt erstellen** </summary>
 
