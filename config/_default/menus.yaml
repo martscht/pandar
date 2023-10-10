@@ -41,12 +41,12 @@ main:
 
   - name: "Projekte"
     pre: "<i class='fas fa-laptop'></i>&ensp;"
-    url: '/projekte/main'
+    url: '/under-construction'
     weight: 300
 
   - name: "Extras"
     pre: "<i class='fas fa-wand-sparkles'></i>&ensp;"
-    url: '/extras/main'
+    url: '/under-construction'
     weight: 400
   
   # - name: "Bayes"
