@@ -27,7 +27,9 @@ sections:
       subtitle: PsyBSc 2
       text: 
         In Statistik I geht es um die erste Einführung in die Statistik im Psychologiestudium. Dafür betrachten wir die Grundstruktur von R, Datenimport, einfache Grafiken, Deskriptivstatistiken, Verteilungsfunktionen und einige Tests.
-        {{< category_list "statistik-i" 10 "I,II,III, IV, V, VI, VII, VIII, IX, X, Zusatz, Zusatz">}}
+        
+        
+        {{< category_list "statistik-i" 10>}}
 
         Die Umfrage aus der ersten Woche gibt es [hier](https://psybsc2.formr.org/). Die Daten, die dabei in der ersten Sitzung entstanden sind, können Sie [{{< icon name="download" pack="fas" >}}   hier im RDA Format](/post/fb22.rda) und [{{< icon name="download" pack="fas" >}} hier im CSV Format](/post/fb22.csv) herunterladen. Was welche Variablen in diesem Datensatz bedeutet, wird in der [{{< icon name="download" pack="fas" >}} Variablenübersicht](/lehre/statistik-i/variablen.pdf) erläutert.
 
@@ -51,6 +53,8 @@ sections:
       subtitle: KliPPsMSc5a
       text: 
         Das Modul KliPPsMSc5 ist in zwei Teile untergliedert. Im ersten Semester besuchen Sie ein Seminar, im zweiten Semester eine Vorlesung. Die hier bereitgestellten Inhalte beziehen sich auf die Seminare im ersten Semester - also den Teil 5a des Moduls. Dabei geht es in allen Seminaren um multivariate Vorhersagemodelle, die als (multivariate) Erweiterung des Allgemeinen Linearen Modells angesehen werden können. Beispielsweise wird die Regressionsanalyse erweitert, um auch bestimmte Abhängigkeiten in den Daten modellieren zu können. Weiterhin werden in jedem Seminar zwei von drei Ergänzungsmodulen behandelt - diese werden von Dozierenden zu Beginn des Semesters vorgestellt. Die inhaltlichen Teile in den Seminaren werden durch die Umsetzung in R unterstützt, die hier jeweils in einem Tutorial vorgestellt wird.
+        
+        
         {{< category_list "klipps" 12 "I,I,II,II,II,III,IV,IV,Va,Va,Vb,Vb">}}
     design:
       columns: 2
