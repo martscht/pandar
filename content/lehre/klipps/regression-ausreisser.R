@@ -8,7 +8,7 @@ library(MASS)     # Zusätzliche Funktion für Diagnostik von Datensätzen
 
 ## load("C:/Users/Musterfrau/Desktop/Depression.rda")
 
-load(url("https://pandar.netlify.app/post/Depression.rda"))
+load(url("https://pandar.netlify.app/daten/Depression.rda"))
 
 head(Depression)
 

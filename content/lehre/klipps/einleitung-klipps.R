@@ -27,7 +27,7 @@ my_vec <- c(1, 2, 3, 4) # Erstellung Vektor
 
 ## load("C:/Users/Musterfrau/Desktop/Depression.rda")
 
-load(url("https://pandar.netlify.app/post/Depression.rda"))
+load(url("https://pandar.netlify.app/daten/Depression.rda"))
 
 head(Depression) # ersten 6 Zeilen
 

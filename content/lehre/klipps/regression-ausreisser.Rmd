@@ -75,7 +75,7 @@ load("C:/Users/Musterfrau/Desktop/Depression.rda")
 Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hierzu brauchen Sie nur die URL und müssen `R` sagen, dass es sich bei dieser um eine URL handelt, indem Sie die Funktion `url` auf den Link anwenden. Der funktionierende Befehl sieht so aus (beachte, dass die URL in Anführungszeichen geschrieben werden muss):
 
 ```{r}
-load(url("https://pandar.netlify.app/post/Depression.rda"))
+load(url("https://pandar.netlify.app/daten/Depression.rda"))
 ```
 
 Nun sollte in `R`-Studio oben rechts in dem Fenster _Environment_ unter der Rubrik "Data" unser Datensatz mit dem Namen "_Depression_" erscheinen. 
