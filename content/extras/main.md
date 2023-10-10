@@ -125,7 +125,7 @@ sections:
       title: Stuart
       subtitle:  Stuart
       text: Stuart!
-        {{< category_list "bayes" 4 >}}
+        {{< category_list "stuart" 4 >}}
 
     design:
       columns: 2

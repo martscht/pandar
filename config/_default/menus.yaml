@@ -49,17 +49,17 @@ main:
     url: '/extras/main'
     weight: 400
   
-  - name: "Bayes"
-    pre: "<i class='fa-solid fa-dice-d20'></i>&ensp;"
-    url: '/extras/main#bayes'
-    parent: 'Extras'
-    weight: 401
-
-  - name: "stuart"
-    pre: "<i class='fa fa-bugs'></i>&ensp;"
-    url: '/extras/main#stuart'
-    parent: 'Extras'
-    weight: 402
+  # - name: "Bayes"
+  #   pre: "<i class='fa-solid fa-dice-d20'></i>&ensp;"
+  #   url: '/extras/main#bayes'
+  #   parent: 'Extras'
+  #   weight: 401
+  # 
+  # - name: "stuart"
+  #   pre: "<i class='fa fa-bugs'></i>&ensp;"
+  #   url: '/extras/main#stuart'
+  #   parent: 'Extras'
+  #   weight: 402
 
 
 # Link to a PDF of your resume/CV from the menu.

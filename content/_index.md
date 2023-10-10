@@ -9,7 +9,10 @@ sections:
     id: welcome
     content:
       title: 'Willkommen bei pandaR!'
-      text: 'Auf dieser Seite stellen wir Material aus der R-bezogenen Lehre im Psychologie-Studium zur Verfügung! Außerdem haben wir einige Projekte erstellt, in denen du deine R-Kenntnisse auch ganz unabhängig von den Inhalten im Studium ausprobieren, vertiefen und erweitern kannst!'
+      text: 'Auf dieser Seite stellen wir Material aus der R-bezogenen Lehre im Psychologie-Studium zur Verfügung! Außerdem haben wir einige Projekte erstellt, in denen du deine R-Kenntnisse auch ganz unabhängig von den Inhalten im Studium ausprobieren, vertiefen und erweitern kannst!
+      
+      
+      Im Moment ziehen wir um, sodass noch nicht alle Abschnitte der Seite schon wieder aktiv sind. Alles was die aktuelle Lehre betrifft ist zugänglich - nur mit den Extras und den Projekten bitten wir noch um etwas Geduld!'
     design:
       background:
         color: '#00618f' 
@@ -46,44 +49,44 @@ sections:
       # Choose how many pages you would like to offset by
       offset: 0
       # Page order: descending (desc) or ascending (asc) date.
-      order: desc
+      order: asc
     design:
       # Choose a layout view
       view: compact
       columns: '2'
-  - block: portfolio
-    id: projekte-features
-    content:
-      title: 'Projekte'
-      subtitle: 'Eigenständige Projekte, um R-Fähigkeiten auszutesten und zu vertiefen - ganz unabhängig von der Lehre'
-      text: 'Hier ein kleiner Einblick, in die Projekte, die wir erstellt haben. Den gesamten Überblick findest du [hier](/projekte/main)!<br><br>'
-      # Choose how many pages you would like to display (0 = all pages)
-      count: 4
-      # Filter on criteria
-      filters:
-        folders:
-          - projekte
-        author: ""
-        tag: ""
-        exclude_featured: false
-        featured_only: true
-        exclude_future: false
-        exclude_past: false
-        publication_type: ""
-      sort_by: 'Date'
-      sort_ascending: false
-      default_button_index: 0
-      buttons:
-        - name: Datenmanagement
-          tag: Datenmanagement
-        - name: Funktionen
-          tag: Funktionen
-        - name: Text-Analyse
-          tag: Text-Analyse
-    design:
-      # Choose a layout view
-      view: showcase
-      columns: '2'
+  # - block: portfolio
+  #   id: projekte-features
+  #   content:
+  #     title: 'Projekte'
+  #     subtitle: 'Eigenständige Projekte, um R-Fähigkeiten auszutesten und zu vertiefen - ganz unabhängig von der Lehre'
+  #     text: 'Hier ein kleiner Einblick, in die Projekte, die wir erstellt haben. Den gesamten Überblick findest du [hier](/projekte/main)!<br><br>'
+  #     # Choose how many pages you would like to display (0 = all pages)
+  #     count: 4
+  #     # Filter on criteria
+  #     filters:
+  #       folders:
+  #         - projekte
+  #       author: ""
+  #       tag: ""
+  #       exclude_featured: false
+  #       featured_only: true
+  #       exclude_future: false
+  #       exclude_past: false
+  #       publication_type: ""
+  #     sort_by: 'Date'
+  #     sort_ascending: false
+  #     default_button_index: 0
+  #     buttons:
+  #       - name: Datenmanagement
+  #         tag: Datenmanagement
+  #       - name: Funktionen
+  #         tag: Funktionen
+  #       - name: Text-Analyse
+  #         tag: Text-Analyse
+  #   design:
+  #     # Choose a layout view
+  #     view: showcase
+  #     columns: '2'
   - block: markdown
     id: team
     content:
