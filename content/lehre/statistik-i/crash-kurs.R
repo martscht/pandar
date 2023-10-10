@@ -1,6 +1,3 @@
-knitr::opts_chunk$set(error = TRUE)
-# knitr::knit_hooks$set(purl = knitr::hook_purl)
-
 3 + 4
 
 #### R als Taschenrechner ----
@@ -200,23 +197,24 @@ ls()
 stroop <- readRDS('dat.rds')
 stroop
 
-cat(paste(readLines('fb22.csv')[1:5], collapse = '\n'))
+
 
 args(read.table)
 
-fb22 <- read.table('fb22.csv')
+## fb22 <- read.table('fb22.csv')
 
-fb22 <- read.table('fb22.csv', header = TRUE)
 
-fb22 <- read.table('fb22.csv', header = TRUE, sep = ",")
+## fb22 <- read.table('fb22.csv', header = TRUE)
+
+
+## fb22 <- read.table('fb22.csv', header = TRUE, sep = ",")
+
 
 head(fb22)    # Kopfzeilen
 str(fb22)     # Struktur des Datensatzes
 
-fb22 <- read.table('https://pandar.netlify.app/daten/fb22.csv', header = TRUE, sep = ",")
+## fb22 <- read.table('https://pandar.netlify.app/daten/fb22.csv', header = TRUE, sep = ",")
 
 write.table(fb22,     # zu speichernder Datensatz
   'fb22.txt'          # Dateiname
   )
-
-cat(paste(readLines('fb22.txt')[1:5], collapse = '\n'))

@@ -1,0 +1,135 @@
+{{/*<!-- Automatische tabellarische Listung von Beiträgen einer spezifizierten Kategorie-->*/}}
+
+{{ $counter := 0 }} {{/*<!-- Zähler der hochtickt formt Aufzählung der Liste -->*/}}
+{{ $counter_limit := (.Get 1) }} {{/*<!-- Limit für Anzahl der Vorlesungen / Haupteinträge -->*/}}
+
+{{ $var1 := (.Get 0) }} {{/*<!-- nimmt Kategorie entgegen (bspw. Statistik I) -->*/}}
+
+
+{{ $manual_string := (.Get 2) }} {{/*<!-- Manuelle Kategorielistung -->*/}}
+{{ $manual_array := split $manual_string ","}} {{/*<!-- Formatiert String zu Array um mit Delimiter "," -->*/}}
+
+
+<table class="kategorie"> {{/*<!-- Table mit eigener Klasse die in CSS umdefiniert wurde -->*/}}
+{{ range $key, $value := .Site.Taxonomies.categories }}
+{{ if eq $key $var1  }}
+   {{ range .Pages }}
+        <tr>
+            {{if $manual_string}}
+            <td>
+                <b>{{index $manual_array $counter}}</b> {{/*<!-- Printed den x-ten Eintrag des manuellen String -->*/}}
+            </td>
+            {{ end }}
+
+            {{ $counter = add $counter 1 }} {{/*<!-- Counter wird hier erhöht, da Tabelle mit 1 startet -->*/}}
+
+            <td>
+                {{ if (le $counter $counter_limit) }} {{/*<!-- Aufzälung von 1 bis Zusatz -->*/}}
+                    <b>{{ $counter }}</b>
+                {{ else }}
+                    <b>{{ "Zusatz" }}</b>
+                {{ end }}
+            </td>
+
+            <td>
+                <b>{{ .Title  | markdownify | emojify }}</b> {{/*<!-- Titel der Seite, fettgedruckt -->*/}}
+            </td> 
+            
+            <td>
+                {{ partial "page_list" (dict "page" . "is_list" 1) }}  {{/*<!-- Ich empfehle zum Verstehen den Partial dazu anzugucken, sowie page_links_div um eine Beispielhafte Implementation zu sehen -->*/}}
+            </td>
+        </tr>
+   {{ end }}
+{{ end }}
+{{ end }}
+</table>
+
+{{/* 
+    <!--
+    Exemplarisches Beispiel des Shortcodes: {{< category_list "statistik-i" 10 "I,II">}} 
+
+    Erstes Argument ist die Kategorie (kleingeschrieben und Leerstellen durch "-" ersetzt), 
+    Zweites die Anzahl der Nummerierten Beiträge (nachfolgende Beiträge werden mit "Zusatz" versehen), 
+    Drittes eine manuelle Spalte (angegeben durch einen String, Einträge durch "," getrennt)
+    -->
+*/}}
+
+{{/* 
+<!--
+    Alles Legacy der bis zur funktionellen Variante geführt hat
+
+{{ $counter := 0 }}
+<table class="kategorie"> 
+{{ range (where .Site.Taxonomies "categories" "test") }}
+   
+   {{ range .Pages }}
+    {{ $counter = add $counter 1 }}
+        <tr>
+            <td>{{ $counter }}</td>
+            <td><b>{{ .Title }}</b></td>
+            <td>{{ .Type }}</td>
+        </tr>
+   {{ end }}
+{{ end }}
+</table>
+
+{{ $counter := 0 }}
+<table class="kategorie"> 
+    {{ range .Site.Taxonomies.categories.test }}
+        {{ $counter = add $counter 1 }}
+        <tr>
+            <td>{{ $counter }}</td>
+            <td><b>{{ .Title }}</b></td>
+            <td>{{ .Type }}</td>
+        </tr>
+    {{ end }}
+</table>
+
+{{ $counter := 0 }}
+<table class="kategorie">
+{{ range (where .Site.Pages "Section" "lehre") }}
+   
+   {{ range .Pages }}
+    {{ $counter = add $counter 1 }}
+        <tr>
+            <td>{{ $counter }}</td>
+            <td><b>{{ .Title }}</b></td>
+            <td>{{ .Type }}</td>
+        </tr>
+   {{ end }}
+{{ end }}
+</table>
+
+Hier ist die maximale Version in der alles implementiert ist, was in eine Tabelle könnte! (Zähler, Titel, Inhalte als Verlinkung, Summary-Printing und Buttons)
+
+{{ $counter := 0 }}
+<table class="kategorie"> 
+{{ $var1 := (.Get 0)}}
+{{ range $key, $value := .Site.Taxonomies.categories }}
+{{ if eq $key $var1  }}
+   {{ range .Pages }}
+    {{ $counter = add $counter 1 }}
+        <tr>
+            <td>{{ $counter }}</td>
+            <td><b>{{ .Title  | markdownify | emojify }}</b></td>
+            <td>
+                <a href="{{ .Page.RelPermalink }}">Inhalte</a>
+            </td>
+            <td>
+                <details>
+                    <summary>
+                        Übersicht
+                    </summary>
+                    {{ .Param "summary"  | markdownify | emojify }}
+                </details>
+            </td>
+            <td>
+                {{ partial "page_links" (dict "page" . "is_list" 1) }}  
+            </td>
+        </tr>
+   {{ end }}
+{{ end }}
+{{ end }}
+</table>
+-->
+*/}}

@@ -1,0 +1,408 @@
+---
+title: Netzwerkanalyse im Querschnitt
+date: '2022-01-11'
+slug: cross-sectional-networks
+categories: ["KliPPs"]
+tags: ["Querschnitt", "Zusammenfassung", "Netzwerkanalyse"]
+subtitle: ''
+summary: ''
+authors: [nehler]
+weight: 11
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/klipps_network.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1575603)"
+projects: []
+
+reading_time: false 
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/klipps/cross-sectional-networks
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /lehre/klipps/cross-sectional-networks.R
+
+output:
+  html_document:
+    keep_md: true
+---
+
+
+
+```{r setup, include=FALSE}
+# Vorbereitungen
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```
+
+
+
+## Einführung
+
+Netzwerkanalyse kommt aus einem eher technischen Feld. Sie wurde dafür genutzt, Systeme darzustellen, bei denen verschiedene Einheiten miteinander verbunden sind. Beispielsweise wurden Computer als Knotenpunkte gesehen und dann über Kanten deren Verbindung (oder eben auch Nicht-Verbindung) dargestellt. Den vermutlich ersten Einzug in die Psychologie hatten Netzwerke in Gruppenanalysen. Dabei sind nun nicht mehr Computer die Knotenpunkte, sondern eben Menschen aus einer spezifischen Gruppe. Bestimmte Arten der Beziehung werden dabei durch eine Verbindung zwischen zwei Personen abgebildet.
+
+```{r, echo = F, figure = T}
+library(qgraph)
+people <- matrix(data =
+                   c(0,1,0,0,1,0,0,0,0,1,
+                     1,0,1,1,0,1,1,0,0,0,
+                     0,1,0,0,1,1,1,0,0,0,
+                     0,1,0,0,0,0,0,1,1,0,
+                     1,0,1,0,0,1,1,0,0,1,
+                     0,1,1,0,1,0,1,0,0,0,
+                     0,1,1,0,1,1,0,0,0,0,
+                     0,0,0,1,0,0,0,0,1,0,
+                     0,0,0,1,0,0,0,1,0,1,
+                     1,0,0,0,1,0,0,0,1,0), 
+            nrow = 10, ncol = 10)
+rownames(people)<- c("Anna", "Chris","Rosa","Jess","Lars","Uwe","Lina","Lucie","Stefan","Miriam")
+colnames(people)<- c("Anna", "Chris","Rosa","Jess","Lars","Uwe","Lina","Lucie","Stefan","Miriam")
+labs <- c("Anna", "Chris","Rosa","Jess","Lars","Uwe","Lina","Lucie","Stefan","Miriam")
+
+
+
+qgraph(people,layout = "spring",color = "yellow", label.cex = c(1,1,1,1,0.9,1,1,1,1,1.1), labels = labs, edge.color="black")
+```
+
+In der neueren Literatur werden Netzwerke aber auch zur Darstellung von Psychologischen Konstrukten genutzt. Beispielsweise können die einzelnen Symptome der Depression (wie in der nächsten Grafik abgebildet) die Knotenpunkte darstellen und die Kanten deren Zusammenhang. Dies hat gegenüber einem globalen Skalenwert, der die Erkankung nur als homogene Masse betrachtet, den Vorteil, dass die Dynamik zwischen verschiedenen Symptomen aufgezeigt werden kann. Vielfalt und Komplexität der psychischen Erkankungen werden deutlich. Die ursprüngliche Idee war, dass so auch zentrale Punkte identifiziert werden können, die bei einer Intervention angesteuert werden sollten. Hierüber gibt es aber aktuell eine Diskussion in der (methodischen) Literatur. Generell lässt sich aber festhalten, dass das Wissen über die Idee der Netzwerkanalyse in der modernen klinischen Forschung ein hilfreiches Tool ist. Zunächst befassen wir uns mit grundlegenden Begriffen und der Berechnung der Netzwerkstruktur.
+   
+```{r,  message = F,results = "hide", fig.keep='all', warning = F, echo  = F}
+raw_data <- readRDS(url("https://osf.io/awz3d/download"))
+names(raw_data) <- c("observe", "describe", "awaren.",
+                     "nonjudg.",
+                     "nonreact.", "interest", 
+                     "emotions",  "sleep",
+                     "tired",  "appetite", "selfimage",
+                     "concentration.", "speed")
+raw_data <- raw_data[,6:13]
+reg_net <- bootnet::estimateNetwork(raw_data, default = "EBICglasso", nlambda = 100, tuning = 0.5)
+plot(reg_net, labels = T, nodeNames = names(raw_data)) 
+```
+
+## Begriffsklärung und Netzwerktypen
+
+Betrachten wir an dieser Stelle nochmal zwei grundlegende Begriffe der Netzwerkanalyse. Wie bereits angedeutet wurde, bestehen diese aus **Knoten** und **Kanten**. **Knoten** - oder englisch **nodes** - repräsentieren unterschiedliche psychologische Variablen (z.B. Störungen, Symptome oder Items), die über Messungen aus verschiedenen Skalen oder Subskalen erhoben werden können. **Kanten** - oder englisch **edges** - repräsentieren statistische Beziehungen zwischen den Nodes (z.B. Korrelationen), die anhand der Daten geschätzt werden. Während Werte auf den Knoten also gemessen werden, muss deren Beziehung (also die Kanten) geschätzt werden. Dies steht auch im fundamentalen Gegensatz zu der ursprünglichen Anwendung der Netzwerke (bspw. im sozialen Bereich), bei der die Knoten Einheiten sind und deren Verbindung (oder das Fehlen der Verbindung) bekannt ist.
+
+Kanten können sowohl **gerichtet** als auch **ungerichtet** sein, wobei gerichtete Kanten durch einen Pfeil gekennzeichnet werden, der einen einseitigen Effekt andeutet (siehe nächste Grafik). Ungerichtete Kanten hingegen haben wir bereits bei dem sozialen und psychologischen Netzwerk gesehen. Sie werden durch eine einfache Linie zwischen zwei Knoten abgebildet. Ein Netzwerk, das nur gerichtete Kanten enthält, bezeichnet man als **gerichtetes Netzwerk**. Netzwerke aus ungerichteten Kanten nennt man hingegen **ungerichtetes Netzwerk**. Im Querschnitt sind keine zeitlichen Abfolgen bekannt, weshalb wir heute zunächst nur ungerichtete Netzwerke betrachten werden.
+
+```{r, echo = F}
+input <- matrix(c(
+  0,1,1,1,
+  0,0,1,0,
+  0,0,0,1,
+  0,0,0,0),4,4,byrow=TRUE)
+qgraph(input)
+```
+
+Eine weitere interessante Eigenschaft eines Netzwerkes besteht darin, ob die Kanten ein Gewicht inne haben. Die Unterscheidung besteht dabei zwischen **gewichteten** und **ungewichteten** Netzwerken. Für beide Arten haben wir in diesem Tutorial bereits Beispiele gesehen. Das soziale Netzwerk der 10 Personen zeigte nur an, ob zwischen diesen eine Beziehung besteht oder nicht. Der Beziehung wird kein Gewicht zugegeben, weshalb es sich um ein ungewichtetes Netzwerk handelt. Das präsentierte psychologische Netzwerk hingegen hat unterschiedliche Kantenformen. Diese sind unterschiedlich dick, wodurch die unterschiedliche Stärke des Zusammenhangs zwischen den Symptomen demonstriert wird. Dabei wird auch durch die Farbe dargestellt, ob eine positive oder negative Beziehung vorliegt. Ursprünglich wurde dies durch grüne und rote Kanten demonstriert, wobei jetzt eine Wahl von blau für positive Beziehung eine höhere Differenzierbarkeit garantiert. In unserem abgebildeten Beispiel für psychologische Netzwerke existieren keine Kanten mit einem negativen Gewicht. Da es sich insgesamt um ein Konstrukt handelt, ist es aber auch wünschenswert, dass alle Symptome positiv miteinander zusammenhängen.
+
+Nachdem nun die wichtigsten Basics über Netzwerke abgehandelt wurden, können wir uns mit den ersten kleinen Umsetzungen in `R` beschäftigen. Zunächst brauchen wir aber natürlich einen Datensatz.
+
+## Daten
+
+In dieser Sitzung wollen wir einen Datensatz von Rubin (2020). verwenden. Dieser steht auf [OSF zum Download](https://osf.io/awz3d/) zur Verfügung kann aber auch über den folgenden Befehl direkt ins Environment eingeladen werden. 
+
+```{r, results = "hide"}
+raw_data <- readRDS(url("https://osf.io/awz3d/download"))
+```
+
+Mit `head` können wir uns wie gewohnt die ersten 6 Zeilen des Datensatzes anschauen. 
+
+```{r}
+head(raw_data)
+```
+
+Dabei ist auffällig, dass der Datensatz bereits auf rein inhaltliche Items reduziert wurde. Allerdings ist die Benennung durch das Erhebungsinstrument und ein Kürzel bzw. die dazu gehörige Nummer für die Interpretation noch etwas unschön, weshalb wir die Bedeutung im folgenden Code als Spaltenname zuordnen. In Voraussicht auf spätere Zeichnungen kürzen wir manche längeren Namen etwas ab.
+
+```{r}
+names(raw_data) <- c("observe", "describe", "awaren.", "nonjudg.",
+                     "nonreact.", "interest",  "emotions",  "sleep",
+                     "tired",  "appetite", "selfim.",
+                     "concentr.", "speed")
+```
+
+Die Variablen *observe*, *describe*, *awareness*, *nonjudging* und *nonreactivity* bezeichnen die **fünf Facetten der Achtsamkeit** von Baer et al. (2006), über die mehr [in diesem Paper](https://pubmed.ncbi.nlm.nih.gov/16443717/) steht. Die 8 weiteren Variablen beschreiben eine dysfunktionale, meist negative Veränderung in dem bezeichneten Lebensaspekt im Zuge einer **Depression**; so steht *interest* beispielsweise für einen Interessensverlust, während *selfimage* ein negatives Selbstbild abbildet. Die angezeigten Werte weisen auf eine Inervallskalierung der Daten hin. Die weiterführende Berechnung ist auch deshalb ein wenig besonders, da nicht nur ein Konstrukt im Netzwerk enthalten ist, sondern zwei verschiedene interagierende Eigenschaften.
+
+## Netzwerkschätzung
+
+Es gibt in `R` einige Pakete, die sich mit der Netzwerkanalyse auseinandersetzen. Ein häufig verwendetes Paket ist `bootnet`, das einige vorher entwickelte Pakete vereint und daher für verschiedene Fragestellungen einsetzbar ist. Weiterhin werden wir auch inder Auswertung auf Funktionen dieses Pakets zurückgreifen, weshalb wir uns in diesem Tutorial für seine Nutzung entschieden haben. Vor der ersten Verwendung muss das Paket natürlich installiert werden - die vorher entwickelten Pakete werden als Dependencies automatisch mit installiert. 
+
+```{r, eval = FALSE}
+install.packages("bootnet")
+```
+
+Anschließend müssen wir das Paket zur Verwendung natürlich noch aktivieren.
+
+```{r}
+library(bootnet)
+```
+
+Die Schätzung von Netzwerken funktioniert in dem Paket fast ausschließlich durch die Sammelfunktion `estimateNetwork`. In ihr können durch Argumente verschiedene Netzwerkanalysen durchgeführt werden, wie wir im weiteren Verlauf sehen werden.
+
+Starten wir zunächst mit der einfachsten Berechnung von Zusammenhängen, die wir für intervallskalierte Variablen kennengelernt haben - die Produkt-Moment-Korrelation. Wenn wir eine Netzwerkstruktur erstellen wollen, indem das Gewicht der Kanten der Korrelation zwischen den zugehörigen Knoten entspricht, muss das Argument `default` mit `"cor"` gefüllt werden. Weiterhin muss natürlich der Datensatz mit aufgeführt werden, für den die Schätzung durchgeführt werden soll. Wir weisen dieses Netzerk dem Objekt `cor_net` zu und betrachten die `summary`. 
+
+```{r}
+cor_net <- estimateNetwork(raw_data, default = "cor")
+summary(cor_net)
+```
+Bei der Schätzung erhalten wir zunächst eine Warning Message, die wir aber nicht weiter betrachten müssen. In der `summary()` sind einige Informationen abgetraten. Über das Netzwerk wird dabei ausgesagt, dass es `r cor_net$nNode` Knoten gibt. Weiterhin wird angezeigt, dass alle Korrelationen (also die Gewichte der Kanten) nicht gleich 0 sind. Auch das durchschnittliche Gewicht der Kanten wird bestimmt. Wir erhalten zusätzliche einige Hinweise zum weiteren Vorgehen und der Zitation. Dabei konzentrieren wir uns jetzt zunächst erst einmal darauf, das Netzwerk zu zeichnen.
+
+```{r}
+plot(cor_net)
+```
+
+Das Paket zeichnet - wie wir es bereits gesehen haben - positive Beziehungen als blaue Striche. Je stärker das Gewicht einer Kante ist, desto dicker ist die zugehörige Linie . Die Erstellung der Struktur in der Grafik (also an welchem Ort welcher Knoten passiert wird), wird durch einen Algorithmus berechnet. Das Ziel dabei ist es, Knoten mit starken Verbindungen möglichst eng zu platzieren, welche mit schwächeren Verbindungen weiter entfernt. Die dahinter liegende Mathematik werden wir an dieser Stelle nicht besprechen. Neben Plots ist auch eine Darstellung als Matrix mit Zahlen möglich (in diesem Fall also die Korrelationsmatrix). Diese wird im Objekt abgelegt und kann daher sehr simpel ausgegeben werden.
+
+```{r}
+cor_net$graph
+```
+
+Die Koeffizienten liegen wie immer bei der Korrelation zwischen -1 und 1. Wir können uns exemplarisch noch die Beziehung der ersten beiden Variablen in der Matrix und im Plot anschauen. Das Gewicht wird als `r cor_net$graph[1,2]` ausgegeben. Im Plot findet man beide Items am Rand rechts. Sie sind durch einen dünnen (weil kleinerer Wert), blauen (weil positiver Wert) Strich verbunden.
+
+Aus einiger Arbeit mit Korrelationen in multivariaten Settings wissen wir, dass die Einzigartigkeit einer Beziehung durch einfache Korrelationen nicht abgebildet wird. Obwohl zwei Variablen in unserem Plot also verbunden sind, könnten sie eigentlich keinen eigenen Zusammenhang haben, sondern durch eine Drittvariable gesteuert sein. Deshalb betrachtet man für solche Darstellungen üblicherweise nicht Korrelationen. Stattdessen werden die Partialkorrelationen berechnet. Die Gewichte der Kanten sollen die Beziehungen zwischen den Knoten abbilden, nachdem auf alle anderen Informationen im Datensatz kontrolliert wurde. Im Bachelor haben wir Formeln für das Herauspartialisieren einer Variable aus der Beziehung für die Berechnung der Partialkorrelation kennen gelernt. Dies würde viel rechnerischen Aufwand bedeuten. Zum Glück können Partialkorrelationen auch aus der Inversen der Kovarianzmatrix berechnet werden. 
+
+$$ \Theta = \Sigma^{-1} $$
+$\Sigma$ bezeichnet die Kovarianzmatrix, während $\Theta$ die Inverse dieser symbolisiert. Die Berechnung der Partialkorrelation $\rho$ zweier Variablen $j$ und $p$ anhand der Einträge aus $\Theta$ folgt dann folgender Formel:
+
+$$ \rho(y_py_j) = -\frac{\Theta_{y_py_j}}{\sqrt{\Theta_{y_py_p}}\sqrt{\Theta_{y_jy_j}}}$$
+
+Für das Vorgehen in `R` hat diese Verwendung eines anderen Maßes erstmal keine großen Konsequenzen. In `default` muss jetzt `"pcor"` angegeben werden. Wir nennen das resultierende Objekt `pcor_net` und lassen uns wieder das `summary()` ausgeben.
+
+```{r}
+pcor_net <- estimateNetwork(raw_data, default = "pcor")
+summary(pcor_net)
+```
+Der Output verändert seine Struktur dabei nicht, nur die Werte werden für die neue Berechnung angepasst. Weiterhin sind jedoch keine Gewichte von Kanten 0, wozu wir gleich nochmal kommen werden. Zunächst wollen wir uns aber das Netzwerk nochmal zeichnen lassen.
+
+```{r}
+plot(pcor_net)
+```
+
+Zunächst sehen wir, dass sich die Struktur geändert hat. Da der Algorithmus nun andere Werte verwendet, platziert er auch die Knoten an anderen Orten.  Ein Problem der Analyse von ehobenen Daten ist es, dass durch die Fehlervarianz in den Messung eigentlich immer alle Knoten untereinander verbunden sind. Dies führt vor allem bei komplexen Netzwerken mit vielen Knoten dazu, dass die Visualisierung des Netzwerkes unübersichtlich wird und man sich mit Kanten beschäftigt, die keine relevante Beziehung zwischen zwei Knoten darstellen. Es gibt verschiedene Ansätze, um relevante Beziehungen für die Darstellung auszuwählen. Wir benutzen im weiteren Verlauf allerdings nur den Ansatz der **Regularisierung**, da wir nicht ausreichend Zeit für alle Möglichkeiten haben und die Regularisierung als noch unbekanntes Prinzip am lehrreichsten sein sollte.
+
+
+### Regularisierung und Netzwerkauswahl
+
+Ein regularisiertes Partialkorrelations-Netzwerk ist eine visualisierte gewichtete Netzwerkstruktur, das durch Regulations-Techniken aus dem Feld des Machine-Learnings geschätzt wird. Daraus resultiert eine sogenannte **sparse network structure** (also eine spärlich besetzte Netzwerkstruktur). Das bedeutet, dass viele der Parameter auf den Kanten exakt 0 sind. Die theoretische Reichweite der bestraften (siehe nächster Absatz) Partialkorrelationen liegt dabei weiterhin zwischen 0 und 1.  
+
+Das aktuelle Mittel der Wahl für regularisierte Netzwerke ist die *Lasso-Regulation*. Der Mechanismus ist so aufgestellt, dass **falsche** Kanten nicht auftreten sollen. Falsche Kanten bedeutet, dass diese in der Population nicht existieren, aber in der Stichprobe trotzdem keine Partialkorrelationen von 0 vorliegen würde. Die Lasso-Regularisierung hat gegenüber anderen Regularisierungs-Techniken den Vorteil, dass Werte genau 0 sein können. Man nennt das Vorgehen bei der Regularisierung auch eine *Bestrafung* des Parameters, da er in seiner Größe und Richtung (oder genau auf 0) reduziert wird.
+
+Lasso kommt ursprünglich aus der multiplen Regression und wurde zur Selektion von Prädiktoren genutzt. Friedman et al. (2008) haben eine Überleitung in die Analyse von Graphen (Netzwerke sind eigentlich auch nur Graphen) gespannt - daher kommt auch die Bezeichnung als *graphical lasso* (*glasso*). Obwohl es um Werte von 0 in der Partialkorrelationsmatrix geht, wird mathematisch die Bestrafung und Schätzung in der inversen Kovarianzmatrix $\Theta$ vorgenommen. Wenn dort ein Eintrag 0 ist, folgt daraus nach der bereits dargestellten  Form der Berechnung der Partialkorrelation aber auch, dass diese den Wert 0 annimmt. Dabei werden die einzelnen Einträge in $\Theta$ bestraft. Für die Schätzung der regularisierten inversen Kovarianzmatrix wird die folgende Gleichung maximiert.
+
+$$\log \det(\Theta) - trace(S\Theta) - \lambda \|\Theta\|_1$$
+Dabei steht $S$ für die empirisch gefundene Kovarianzmatrix. $\|\Theta\|_1$ bezeichnet die absolute Summe aller Einträge in $\Theta$. Da der Maximierungsprozess unter anderem duale Räumen verwendet, werden wir uns damit nicht näher befassen. Anhand der Gleichung sehen wir aber, dass hohe Werte in der inversen Matrix einen niedrigeren Gesamtwert ergeben, weshalb diese runter regularisiert werden. Weiterhin sehen wir, dass das Ergebnis der Maximierung abhängig von der Wahl eines $\lambda$-Wertes ist, den man auch als Bestrafungsparameter bezeichnet. Für eine gute Auwahl wird die Schätzung standardmäßig mit verschiedenen Bestrafungsparametern durchgeführt. Üblich sind dabei 100 $\lambda$-Werte. Als obere Grenze $\lambda_{max}$ wird der Wert gewählt, der alle Einträge auf 0 regularisieren würde. Bis zu einer gewählten unteren Grenze (meist $\lambda_{max} \cdot 0.01 $) werden die andere Werte in einer logarithmischen Verteilung festgelegt.
+
+Nachdem 100 verschiedene inverse Kovarianzmatrizen geschätzt wurden, muss noch eine Auswahl der besten Werte geschehen. Üblicherweise wird dabei die Minimierung des Informationskriteriums *EBIC* nach Foygel und Drton (2010) genutzt.
+
+$$ EBIC = -2LL + E \cdot \log(n) + 4 \cdot \gamma \cdot E \cdot \log(p) $$
+In die Berechnung gehen einige Größen ein, wobei wir die meisten auch schon gesehen haben. Ein Loglikelihood-Wert ($LL$) wird für das Modell bestimmt, während $n$ die Größe der Stichprobe ist. $p$ bezeichnet die Größe des Netzwerkes (Anzahl der Knoten) - also die Zeilen- und auch Spaltenanzahl der Matrix. $E$ hingegen ist Anzahl der Elemente der Matrix, die nicht Null sind. Nicht direkt aus der bestraften inversen Kovarianzmatrix $\Theta$ lässt sich $\gamma$ ablesen. Dies ist ein weiterer freier Parameter (auch Hyperparameter genannt), der gewählt werden muss. Üblicherweise wird hier ein Wert von 0.5 gewählt. Aus der Gleichung lässt sich ablesen, dass ein hoher Wert Netzwerke mit mehr Kanten mehr bestrafen würde, da der letzte Term größer und damit durch die Subtraktion der Gesamtwert kleiner wird. Für einen explorativen Ansatz wird deshalb auch ein $\gamma$-Wert von 0 empfohlen.
+
+Nachdem die beiden wichtigen Schritte (Regularisierung und Auswahl) nun theoretisch dargestellt wurden, können wir uns mit der praktischen Umsetzung befassen. `bootnet` bietet natürlich eine Möglichkeit, beide Schritte auf einmal durchzuführen. Die Kombination der Bestrafung anhand des grafischen Lasso mit der Auswahl des besten Netzwerkes durch EBIC führt zu der Benennung als `"EBICglasso` in dem Argument `default` in der bereits bekannten Funktion. Wir legen das Objekt unter `reg_net` als Netzwerk mit regularisierten Werten ab. Die Anzahl der geschätzten Werte, die anhand ihres EBICs anschließend bewertet werden, kann mit `nlambda` festgelegt werden. Weiterhin interessant ist das Argument `tuning`, in dem $\gamma$ als Hyperparameter zur Bestrafung für Netzwerke mit vielen Edges festgelegt werden kann. Die hier gewählten Werte sind dabei die Standardeinstellungen des Paketes, aber eine Variation ist (wie zum Teil auch beschrieben) durchaus situativ nötig.
+
+```{r}
+reg_net <- estimateNetwork(raw_data, default = "EBICglasso",
+                           nlambda = 100, tuning = 0.5)
+summary(reg_net)
+```
+
+Der Aufbau der `summary()` verändert sich auch im Fall der Regularisierung nicht. Wir sehen allerdings, dass nun nicht mehr alle Gewichte der Kanten ungleich null sind - nur 54 der ursrünglichen 78 haben noch ein solches. Anscheinend wurde ein Netzwerk ausgewählt, in dem manche Kanten als falsch angesehen werden. Im abgelegten Objekt `reg_net` kann man sich unter `results` diese auch noch genauer anschauen. Unter `optnet` sind die Gewichte der Kanten abgelegt, die später zum Aufzeichnen der Struktur verwendet werden.
+
+```{r}
+reg_net$results$optnet
+```
+
+Im Endeffekte ist das aber die selbe Information, die in `reg_net$graph` abgelegt wird. `results` ist als Unterpunkt besonders interessant, wenn man sich den Ablauf der Berechnung nochmal klar machen möchte. 
+
+Zunächst hat die Funktion 100 Bestrafungsparameter bestimmt. Diese sind unter `lambda` abgelegt.
+
+```{r}
+reg_net$results$lambda
+```
+
+Der größte Bestrafungsparameter ist der letzte Eintrag in der Matrix. Für diesen sollten alle Gewichte der Kanten auf 0 herunterregularisiert worden sein.
+
+Die Werte aller 100 bestraften inversen Kovarianzmatrizen sind unter `reg_net$results$results$wi`. Beispielsweise ist das komplett leere Netzwerke (also mit dem größten Bestrafungsparameter $\lambda$) als 100. Objekt abgelegt.
+
+```{r}
+reg_net$results$results$wi[,,100]
+```
+
+Für jede dieser Strukturen hat die Funktion dann automatisch den EBIC mitbestimmt. Diese sind unter `ebic` abgelegt.
+
+```{r}
+reg_net$results$ebic
+```
+
+Der niedrigste dieser Werte hat für die Funktion den Ausschlag gegeben, welche Matrix als Struktur für das optimale Netzwerk ausgewählt wurde. Das Paket nutzt also genau das Vorgehen, dass zu Beginn dieses Abschnitts theoretisch beschrieben wurde. 
+
+Zur Veranschaulichung des Einfluss von $\gamma$ ziehen wir hier nochmal einen Vergleich mit einem größeren Parameter in `tuning` von 2. 
+
+```{r}
+reg_net2 <- estimateNetwork(raw_data, default = "EBICglasso",
+                           nlambda = 100, tuning = 2)
+summary(reg_net2)
+```
+
+Das gewählte Netzwerk hätte jetzt noch 48 Kanten, die ein Gewicht ungleich 0 aufweisen würden. Natürlich ist `tuning = 2` ein unrealistisch hoher Wert, da dieser wie empfohlen stets zwischen 0 und 0.5 liegen sollte. Mathematisch macht dies jedoch keinen Unterschied und das Beispiel demonstriert seinen Zweck sehr gut: Ein größerer Hyperparameter $\gamma$ führt dazu, dass ein Netzwerk mit weniger Gewichten unterschiedlich von 0 ausgewählt wird. Bei anderen Netzwerkkonstellationen wird dort auch ein Unterschied zwischen der Wahl von 0 oder 0.5 vorliegen.
+
+Zum Abschluss dieses Abschnitts wollen wir natürlich das geschätzte Netzwerk auch nochmal zeichnen
+
+```{r}
+plot(reg_net)
+```
+
+Dabei wird nochmal deutlich, dass einige Kanten nun nicht mehr gezeichnet werden, da sie ein Gewicht von 0 haben. Trotzdem ist die Struktur der beiden Konstrukte noch gut zu erkennen. Die fünf Facetten der Achtsamkeit sind am oberen Rand mit großteils positiven Zusammenhängen, während die depressiven Symptome einen gemeinsamen Kern bilden. Die meisten Verbindungen zwischen den beiden Konstrukten sind dabei auch negativ, was darauf hindeutet, dass Menschen, die eine hohen Achtsamkeit zeigen, auch weniger depressive Symptome zeigen.
+
+## Zentralitätsindizes
+
+Nachdem durch die eben durchgeführte Analyse ein Netzwerk für die Präsentation ausgewählt und auch gezeichnet wurde, stellt sich die Frage, welche weiteren Aussagen durch die Netzwerkanalyse durchführbar sind. In den technischen und sozialen Netzwerken wurde dafür die Zentralität der Knoten untersucht. Darin wird durch verschiedene Facetten aufgezeigt, welcher Knoten im Netzwerk am meisten Einfluss hat. Die Aktivierung dieser Knoten sollte zu einer (De-)Aktivierung anderer, verbundener Knoten im Netzwerk führen. Die Herangehensweise wurde mit kleinen Anpassungen für die Psychologischen Netzwerke übernommen. Die Anwendung steht aktuell in der Kritik aufgrund von instabiler Schätzung und der Frage nach inhaltlicher Relevanz. Da diese Diskussion jedoch nicht abgeschlossen ist und die Indizes noch breitflächig zum Einsatz kommen, werden wir die wichtigen Werte auch an dieser Stelle besprechen und berechnen.
+
+Die Zentralität eines Knoten ist hoch, wenn er starke oder viele Verbindungen hat, alle anderen Knoten schnell erreichbar sind oder viele Verbindungen zwischen anderen Knoten gehen durch diesen Knoten gehen. Im Folgenden werden die **Zentralitätsindizes** beschrieben und berechnet, die diese Eigenschaften repräsentieren. Während `bootnet` später wieder zum Einsatz kommt, ist es für die einfache Berechnung der Indizes nicht geeignet, weshalb wir das Paket `qgraph` aktivieren müssen. Dieses ist bei der Installation von `bootnet` mitinstalliert worden. 
+
+```{r}
+library(qgraph)
+```
+
+Einige Zentralitätsindizes werden über die Funktion `centrality()` gemeinsam berechnet. Als `graph` Argument braucht man die Struktur des Graphen, die wie besprochen in `reg_net$graph` vorhanden ist.  Wir legen die Resultate erstmal in ein Objekt `centrality_indices` an und
+
+```{r}
+centrality_indices <- centrality(graph = reg_net$graph)
+```
+
+Die Anzahl von Verbindungen eines Knoten zu anderen Knoten im Netzwerk wird üblicherweise als **Grad der Zentralität** *(eng: degree)* bezeichnet. Dieser Wert ist besonders in ungewichteten Netzwerken von Interesse. Wenn Gewichte mit im Spiel sind, wird häufig die *Stärke* des Knoten *(eng: strength)* betrachtet. Diese wird durch die aufsummierten und gewichteten Werte aller Kanten eines Knoten zu allen anderen im Netzwerk vorhandenen Knoten dargestellt. Um die Stärke eines Knoten zu berechnen, müssen daher nur die Gewichte aller mit ihm verbundenen Kanten aufaddiert werden.
+
+$$s_{i} = \sum^{p}_{j = 1} w_{ij}$$
+Die Differenzierung zwischen strength und degree ist leider nicht immer komplett konsistent. Wir werden gleich sehen, dass in `R` die Ausfabe generell als degree bezeichnet wird, da diese Funktion für ungewichtete als auch gewichtete Netzwerke nutzbar ist. Daher müssen wir uns in dem erstellten Objekt auf den Unterpunkt `OutDegree` konzentrieren. 
+
+```{r}
+centrality_indices$OutDegree
+```
+
+Eine hohe Zahl im Output bedeutet also einen starken direkte Bindung zu anderen Knoten. Den höchsten Wert in unserem Netzwerk hat dabei die Müdigkeit. Noch eine kleine Anmerkung: Die Unterpunkte `InDegree` und `OutDegree` im Objekt `centrality_indices` sind gleich, da es sich um ein ungerichtetes Netzwerk handelt.
+
+Auch eine grafische Übersicht für die Zentralitätsindizes aller Knoten ist im Paket `graph` integriert. Diese kann mit der Funktion `centralityPlot` erstellt werden. Im Argument `include` kann angegeben werden, welche Zentralitätsindizes aufgezeichnet werden sollen. Wir nehmen alle drei besprochenen Werte. 
+
+```{r}
+centralityPlot(reg_net, include = c("Strength"))
+```
+
+Dabei wird standardmäßig statt der normalen Wert der z-Score ausgegeben. Ein negativer Wert bedeutet hier demnach nicht eine negative Stärke, sondern eine kleinere Stärke im Vergleich zu den anderen Knoten. Wenn man stattdessen die Rohwerte haben möchte, müsste man das Argument `scale` mit `"raw"` füllen.
+
+```{r}
+centralityPlot(reg_net, scale = "raw", include = c( "Strength"))
+```
+
+## Bootstrap
+
+Ein wichtiges Kriterium für aussagekräftige Parameter einer statistischen Methode ist eine Stabilität in der Schätzung Damit ist bspw. gemeint, dass moderate Änderungen in der Stichprobe zu keinen starken Änderungen in den Ergebnissen führen. Auch erhalten wir für die Gewichte der Kanten nur eine Punktschätzung und keine Sicherheit. In der bisher behandelten Statistik wurden diese Unsicherheiten meist durch die Standardfehler angegeben, die die Berechnung von Konfidenzintervallen ermöglichten. Diese können jedoch für die Netzwerkanalyse nicht so einfach bestimmt werden. Zum Beispiel folgen die Werte der Gewichte auf den Kanten nicht einer benötigten Normalverteilung. Die Zentralitätsindizes sind sogar mit einem Bias versehen. Epskamp et al. (2018a) schlagen als alternativen Weg *Bootstrapping* vor. Damit soll eine Aussage über die Genauigkeit und Stabilität der Zentralitätsindizes und der Gewichte getroffen werden können.
+
+Beim Bootstrapping wird ein Modell häufiger mit simulierten Daten (genannt *parametric*) oder einer Stichprobe (genannt *non-parametric*) der eigentlichen Werte bestimmt. Nochmal etwas detaillierter erklärt: Beim parametrischen Bootstrapping wird die neu geschätzte Struktur als Grundlage für die Simulation von Daten genutzt und mit diesem neuen Datensatz werden die Parameter (Gewichte, Zentralitätsindizies...) noch einmal neu geschätzt. Beim nicht-parametrischen Bootstrapping werden aus dem ursprünglichen Datensatz Beobachtungen (Personen) mit Zurücklegen gezogen und mit diesen wird die Analyse nochmal durchgeführt. Man erhält in beiden Fällen beispielsweise 100 Werte für das Gewicht der Kante zwischen dem  Knoten Observe und Interest. Für Netzwerkanalysen wird typischerweise das non-parameteric Bootstrapping genutzt, da die Simulation von Werten aufgrund der Bestrafung bei der Regularisierung weitere Probleme verursacht.
+
+Ein Konfidenzintervall kann danach recht simpel dadurch gebildet werden, dass ein bestimmtes Intervall in der Reihenfolge gesucht wird. Möchte man beispielsweise ein 90%-iges Intervall berichten, liegt dieses zwischen dem 5. und 95. Wert in einer geordneten Abfolge. Dies kann in der Netzwerkanalyse für die Gewichte der Kanten durchgeführt werden. Wichtig ist, dass auch das Konfidenzintervall nicht als Testung der Signifikanz angesehen werden sollte. Bereits die Schätzung des Gewichts als ungleich von 0 während der Regularisierung wird als Zeichen für die Verschiedenheit von 0 angesehen. Die Konfidenzintervalle sollen hingegen Hinweise auf die Stabilität eines Gewichts bieten und eventuell auch für den Vergleich zwischen verschiedenen Werten nützlich sein. Bei den Zentralitätsindizes schlägt dieser einfache Ansatz jedoch aufgrund des Bias fehl und es wurde noch keine passende Methode entwickelt.  Deshalb muss die Stabilität hier anders dargestellt werden. Die später auch im Paket verwendete Lösung orientiert sich an der Logik, dass stabile Schätzer auch ähnliche Werte haben sollen, wenn nur einige Beobachtungen aus dem eigentlichen Datensatz zur Verfügung stehen. Dafür werden die Werte der Stärke für alle Knoten einmal für das Netzwerk mit allen Werten und dann für das reduzierte Netzwerk berechnet. Anschließend kann zwischen diesen beiden Werten die Korrelation bestimmt werden, wobei eine hohe Korrelation für eine hohe Stabilität in der Reihenfolge der Stärke in den Daten spricht. Dieses Vorgehen wird auch als *case-dropping subset bootstrapping* bezeichnet. Dabei kann nun untersucht werden, wie weit der Datensatz reduziert werden kann, ohne unter einen bestimmten Wert in der Korrelation zu gelangen. Hierfür wird im Paket später 0.7 genutzt, da dieser bei Korrelationen als großer Effekt angesehen wird. Definiert wird als *correlation stability coefficient* ($CS$) die maximale Anzahl an Personen, die ausgeschlossen werden kann, ohne dass ein 95%iges Intervall der Korrelationen unter den Threshold von 0.7 fällt. Eine bisherige Simulation zeigt, dass der Koeffizient $CS$ nicht unter 0.25 sein sollte und am besten über 0.5 - also mindestens 25% sollten ausschließbar sein ohne unter den Threshold zu kommen. Die Entwicklung der Analyse ist in diesem Bereich aber noch nicht so weit, dass diese Werte schon als feste Orientierung dienen sollten. Sie sind erstmal nur eine Orientierung. 
+
+
+In `R` ist ein solches Vorgehen anhand eines Bootstraps in `bootnet` integriert (daher auch der Name - Bootstrap in Networks). Der Funktionsname entspricht an dieser Stelle auch dem Paketnamen. Es gibt verschiedene Möglichkeiten, den Input zu gestalten. Wir orientieren uns hier jetzt daran, dass wir die Struktur des Netzwerks bereits durch `estimateNetwork()` geschätzt und in `reg_net` abgelegt haben. Im Argument `nBoots` kann festgelegt werden, wie oft ein Bootstrap gezogen werden soll. Der hier eingegebene Wert von 100 ist sehr niedrig (Standardeinstellung ist bspw. 1000), aber wir wollen erstmal Zeit in der Berechnung sparen. Wenn die Funktion ausgeführt wird, erscheint einiges in der Konsole, was aber nicht spezifisch besprochen werden muss. Um zu zeigen, dass solch eine Aktivität normal ist, lassen wir es aber auch in diesem Tutorial erscheinen. Die Ergebnisse ordnen wir zunächst dem Objekt `boot1` zu und lassen uns dessen Inhalt dann grafisch ausgeben. Da es sich beim Bootstrapping auch um eine Zufallsziehung handelt, sollte zur Vergleichbarkeit ein Seed mittels `set.seed()` festgelegt werden. Die Funktion ist allerdings so geschrieben, dass sie auf verschiedene Kerne zur Berechnung zurückgreift, wodurch dennoch unterschiedliche Ergebnisse resultieren können, wenn man das Vorgehen nicht auf die Durchführung mit einem Kern setzt. Eine simple Lösung ist dabei das von der Funktion bereitgestellte Argument `nCores` - allerdings wird die Durchführung dadurch auch langsamer, weil die Arbeit nicht mehr aufgeteilt wird. Für dieses Tutorial bleiben wir aber bei dieser schnell umsetzbaren Lösung. 
+
+
+```{r}
+set.seed(2023)
+boot1 <- bootnet(reg_net, nBoots = 100, nCores = 1)
+plot(boot1, order = "sample", labels = F)
+```
+
+Die angegebenen Warnings betreffen eher den Code der Funktion bzw. des Paketes und können von uns nicht verändert werden. Abgebildet werden die Gewichte von allen Kanten zwischen zwei Knoten. Einmal wird die Punktschätzung angezeigt anhand der roten Linie. Weiterhin wird der Mittelwert für die berechneten Werten aus den Bootstrap durch die schwarze Linie gezeigt. Der graue Bereich gibt das Konfidenzintervall der Schätzungen an. Wir können hierbei sehen, dass die berechneten Werte gute Repräsentanten sind. 
+
+Neben der Berechnung der Konfidenzintervalle für die Gewichte der Kanten, kann auch die Stabilität der Zentrailitätsindizes über die Funktion `bootnet` betrachtet werden. Dafür müssen nur die Argumente angepasst werden. Für `nBoot` bleiben wir auch hier zunächst beim zu kleinen aber zeitsparenderem Wert von 300. In `statistics` können die Statistiken angegeben werden, für die die Untersuchung der Stabilität durchgeführt werden soll. Hier geben wir also `"Strength"` ein. Wir ordnen diese neue Operation dem Objekt `boot2` zu und lassen auch dieses uns wieder durch die `plot`-Funktion anzeigen. In `type` wird festgehalten, dass wir bei der Analyse im Subset Personen ausschließen wollen. Möglich wäre auch der Ausschluss von Knoten, dieser ist aber schwieriger zu interpretieren und wird daher nicht genauer betrachtet. In `caseMin` wird festgehalten, wie viele Personen minimal für die Analyse entfernt werden sollen - an diesem Ort beginnt sozusagen die Suche nach dem Unterschreiten des Thresholds. Bei `caseMax` ist folglich die maximale Anzahl festgelegt. `caseN` bestimmt die Anzahl an Zwischenschritten zwischen den beiden Extremen. Zu Zwecken der Anschaulichkeit wollen wir am liebsten Schritte in 5% und erreichen das durch die Anzahl von 15. Auch bei der Durchführung dieses Codes erscheinen wieder viele Sachen in der Konsole, die auf Pandar aber augeblendet werden, um die Länge der Seite zu kürzen. 
+
+```{r, message = F,results = "hide", fig.keep='all', warning = F}
+set.seed(2023)
+boot2 <- bootnet(reg_net,   nBoots = 300,
+                 statistics = c("strength"), 
+                 type = "case", caseMin = 0.05,
+                 caseMax = 0.75, caseN = 15,
+                 nCores = 1)
+plot(boot2, c("strength"))
+```
+
+Die Stabilität sieht zunächst sehr gut aus. Um nicht mit einem Lineal die Werte prüfen zu müssen, können mit der Funktion `corStability` die $CS$-Werte bestimmt werden. Dafür müssen wir diese auf den durchgeführten Bootstrap anwenden. Ein weiteres Argument ist die Korrelation zwischen ganzem Datensatz und Subset (`cor`), die wir aber auf der Standardeinstellung und Empfehlung von 0.7 belassen.
+
+```{r}
+corStability(boot2, cor = 0.7)
+```
+
+Anhand der ausgegebenen Tabelle sehen wir zunächst, dass die Boots zufällig auf die verschiedenen Größen verteilt werden. Es wird also nicht jede prozentuale Reduzierung 300 mal durchgeführt. Dies ist ein deutliches Zeichen, dass eine höhere Anzahl in `nBoots` auf jeden Fall nötig wäre, damit die Ergebnisse für jede einzelne prozentuale Reduzierung weniger abhängig vom Zufall wäre und auch gleichmäßigere Verteilung in der Anzahl an Bootstraps zwischen den Cases ermöglicht wird. Strength unterschreitet selbst bei der von uns maximal eingestellten Reduktion um 75% nicht den Threshold. Werte der Strength können demnach als sehr stabil betrachtet und interpretiert werden. Gleichzeitig gibt die Funktion auch nochmal eine Empfehlung, wie ein noch spezifischerer Wert gefunden werden könnte anhand der Anpassung von `caseMin` und `caseMax`. 
+
+## Fazit
+
+Die Netzwerkanalyse für psychologisch Konstrukte ist ein sich noch entwickelndes Gebiet. Sie wird kein Ersatz der typischen latenten Modelle sein können, für die Visualisierung und spezifischere Betrachtung der Dynamik zwischen Symptomen aber in jedem Fall hilfreich sein. Die genaue Vorgehensweise der Schätzung und Interpretation sind aktuell ein Thema der methodischen Forschung. Dabei ist auch in der Diskussion, welche Fragestellungen beantwortet werden können (vor allem im querschnittlichen Ansatz). Im Paket `bootnet` sind dabei stets aktuelle Ansätze auffindbar. Es ist dabei auch sehr verständlich geschrieben und dient einem nutzerfreundlichen Einstieg.
+
+***
+
+## Literatur
+
+[Epskamp, S., Borsboom, D., & Fried, E. I. (20181).](https://ubffm.hds.hebis.de/EBSCO/Record?id=edsarx.1604.08462|edsarx) Estimating psychological networks and their accuracy: A tutorial paper. _Behav Res, 50_, 195-212.  [https://doi.org/10.3758/s13428-017-0862-1](https://doi.org/10.3758/s13428-017-0862-1)
+
+[Epskamp, S., & Fried, E. I. (2018b).](https://ubffm.hds.hebis.de/EBSCO/Record?id=edsarx.1607.01367|edsarx) A tutorial on regularized partial correlation networks. _Psychological Methods, 23_(4), 617-634.  [https://doi.org/10.1037/met0000167](https://doi.org/10.1037/met0000167)
+
+[Foygel, R., & Drton, M.  (2010).](https://ubffm.hds.hebis.de/EBSCO/Record?id=edsarx.1011.6640|edsarx) Extended Bayesian information criteria for Gaussian graphical models. *Advances in Neural Information Processing Systems*, *23*, 604–612.
+
+[Friedman, J., Hastie, T., & Tibshirani, R. (2008).](https://ubffm.hds.hebis.de/EBSCO/Record?id=RN231666321|edsbl) Sparse inverse covariance estimation with the graphical lasso. _Biostatistics, 9_(3), 432-441.  [https://doi.org/10.1093/biostatistics/kxm045](https://doi.org/10.1093/biostatistics/kxm045)
+
+
+
+* <small> *Blau hinterlegte Autor:innenangaben führen Sie direkt zur universitätsinternen Ressource.* </small>
+
+details><summary>Appendix A: Weitere (veraltete) Zentralitätsindizes</summary>    
+
+Wie im Haupttext des Tutorials angesprochen, wurden auch andere Kennwerte für die Zentralität aus den technischen Netzwerken in die Psychologie übernommen. Es konnte allerdings gezeigt werden, dass die Stabilität von diesen sehr schlecht ist und auch ihre theoretische Fundierung wurde im Psychologischen Kontext in Frage gestellt. Wir wollen mit diesem Abschnitt nicht ihre Nutzung empfehlen, sondern über die Hintergründe aufklären (und auch nochmal die Instabilität aufzeigen).
+
+Die *Verbundenheit (eng: closeness)* von Knoten quantifiziert ihre Beziehungen im Netzwerk anhand ihrer indirekten Verbindungen mit anderen Knoten. Hohe Verbundenheit charakterisiert im Mittel eine kurze Distanz von einem Knoten zu allen anderen Knoten. Knoten mit hoher Verbundenheit sind leicht von Veränderungen in einem beliebigen Part des Netzwerks betroffen und beeinflussen im Gegenzug leicht andere Knoten.
+
+```{r}
+centrality_indices$Closeness
+```
+
+Insgesamt bitet sich ein sehr homogenes Bild in der Verbundenheit. Einige Knoten haben starke Verbindungen zu allen anderen Knoten. Das Maximum ist bei Selfimage zu finden.
+
+Die *Dazwischenheit (eng: betweenness)* eines Knoten gibt Informationen über die Wichtigkeit eines Knotens im Rahmen der kürzesten Verbindungen zwischen zwei anderen Knoten. Dafür wird für jede Kombination an zwei Knoten der kürzeste Weg zwischen ihnen berechnet (also die stärkste Verbindung). Anschließend bekommt jeder Knoten, der auf diesem kürzesten Weg ist (ausgenommen der beiden Punkte, um die es geht), "einen Punkt" in Dazwischenheit. Durch einen Knoten mit hoher Dazwischenheit gehen also viele kürzeste Wege zwischen zwei anderen Knoten.
+
+```{r}
+centrality_indices$Betweenness
+```
+
+In Dazwischenheit ist es üblich, dass die Werte stärker fluktuieren. In dem hier abgebildeten Netzwerk sind wieder die Knoten für Müdigkeit und Selfimage mit den höchsten Werten zu finden.
+
+
+Wie im Tutorial berichtet, kann mit der Funktion `centralityPlot()` eine Übersicht über die Parameter erstellt werden. Im Argument `include` können also auch mehrere Parameter aufgeführt werden.
+
+```{r}
+centralityPlot(reg_net, include = c("Closeness", "Betweenness"))
+```
+
+Auch der besprochene Parameter $CS$ kann nicht nur für Strength, sondern auch für die Zentralitätsindizes bestimmt werden. Dafür nutzen wir im Tutorial beschrieben erstmal die Funktion `bootnet()`, um in `statistics` jetzt die beiden interessierende Indizes einzutragen. Die anderen Einstellungen lassen wir gleich.
+
+
+```{r, message = F,results = "hide", fig.keep='all', warning = F}
+set.seed(2023)
+boot3 <- bootnet(reg_net,   nBoots = 300,
+                 statistics = c("betweenness", "closeness"), 
+                 type = "case", caseMin = 0.05,
+                 caseMax = 0.75, caseN = 15,
+                 nCores = 1)
+plot(boot3, c("betweenness","closeness"))
+```
+Aus der Grafik lässt sich bereits erschließen, dass Betweenness die Ansprüche an die Stabilität nicht erfüllt. Daher sollte man die Interpretation der Betweenness-Werte der Knoten nicht durchführen. Closeness ist hingegen ein wenig stabiler. Wir nutzen auch nochmal die Funktion `corStability()` auf unser neues Objekt `boot3`.
+
+```{r}
+corStability(boot3, cor = 0.7)
+```
+
+Bezüglich der $CS$-Werte wird deutlich, dass Betweenness direkt beim ersten Test mit einer Reduzierung von 5% unter die Ansprüche in der Korrelation kommt. Deshalb wird hier ein Wert von 0 ausgegeben. Für Closeness ist die Unterschreitung auch früher gegeben. Insgeamt sollten diese Werte also nicht interpretiert werden.
+
+
+</details>

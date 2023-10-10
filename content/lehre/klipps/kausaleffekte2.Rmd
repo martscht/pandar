@@ -1,0 +1,538 @@
+---
+title: "Schätzung von Kausaleffekten 2"
+date: '2022-02-07'
+slug: kausaleffekte2
+categories: ["KliPPs"]
+tags: ["Kausalität", "Propensity Scores", "ANCOVA", "Gewichtung", "Matching"]
+subtitle: 'Propensity Scores'
+summary: ''
+authors: [hartig]
+weight: 10
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+     image: "/header/Kausal2_Head.jpg"
+     caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/795494)"
+projects: []
+
+reading_time: false 
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/klipps/kausaleffekte2
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /lehre/klipps/kausaleffekte2.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Quizdaten
+    url: /lehre/klipps/quizdaten#Block5
+ 
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r include=FALSE}
+library(knitr)
+library(kableExtra)
+```
+
+#### Pakete laden
+```{r message=FALSE}
+# Benötigte Pakete --> Installieren, falls nicht schon vorhanden
+library(psych)        # Für logistische Transformationen
+library(ggplot2)      # Grafiken
+library(gridExtra)
+library(MatchIt)      # Für das Propensity Score Matching
+library(questionr)    # Für gewichtete Tabellen
+```
+
+## Datenbeispiel{#Einleitung}
+
+Wir verwenden wieder unserer fiktives Datenbeispiel, in dem Patient\*innen, die an einer Depression oder einer Angststörung leiden, entweder mit einer kognitiven Verhaltenstherapie (CBT) behandelt oder in einer Wartekontrollgruppe belassen wurden. Die Zuordnung konnte nicht randomisiert erfolgen, weshalb der Effekt der Behandlung nicht ohne weiteres berechenbar ist.
+
+```{r, results="hide"}
+load(url("https://pandar.netlify.app/post/CBTdata.rda"))
+head(CBTdata)
+```
+
+```{r,echo=FALSE}
+knitr::kable(head(CBTdata))
+```
+
+```{r include=FALSE}
+BDI.PFE <- lm(BDI_post ~ Treatment, data = CBTdata)
+BDI.adj <- lm(BDI_post ~ Treatment + Disorder + BDI_pre + SWL_pre, data = CBTdata)
+```
+
+Wir wissen auch bereits, dass der Prima-Facie-Effekt (PFE) von `r round(coef(BDI.PFE)[2],2)` Punkten nicht signifikant ist. Im Folgenden werden wir auf Basis von Kovariaten einen Propensity Score schätzen und auf verschiedene Weisen verwenden, um eine adjustierte Schätzung des Treatment-Effekts vorzunehmen.
+
+## Konstruktion des Propensity Scores{#Konstruktion}
+
+Zur Bildung des Propensity Scores verwenden wir eine logistische Regression mit den Variablen, von denen wir bereits wissen, dass sich die Gruppen darin Unterscheiden: Art der Störung, Prätest im BDI und Prätest im SWL:
+
+```{r}
+# Vorhersage des Treatments durch Kovariaten
+mod_ps1 <- glm(Treatment ~ Disorder + BDI_pre + SWL_pre,
+              family = "binomial", data = CBTdata)
+summary(mod_ps1)
+```
+
+Wir sehen, dass alle Kovariaten auch bei gemeinsamer Berücksichtigung einen signifikanten Effekt auf die Treatment-Zugehörigkeit haben. Sicherheitshalber untersuchen wir auch die Wechselwirkungen:
+
+```{r}
+# Einschluss von Wechselwirkungen, hierzu zunächst Zentrierung der Prädiktoren
+CBTdata$BDI_pre_c <- scale(CBTdata$BDI_pre, scale = F)
+CBTdata$SWL_pre_c <- scale(CBTdata$SWL_pre, scale = F)
+
+mod_ps2 <- glm(Treatment ~ Disorder + BDI_pre_c + SWL_pre_c +
+                Disorder:BDI_pre_c + Disorder:SWL_pre_c + BDI_pre_c:SWL_pre_c +
+                Disorder:BDI_pre_c:SWL_pre_c,
+              family = "binomial", data = CBTdata)
+summary(mod_ps2)
+```
+
+Da keiner der Wechselwirkungs-Terme signifikant ist, verwenden wir im nächsten Schritt das einfachere Modell `mod_ps1`. Mit der `predict`-Funktion erhalten wir Vorhergesagte Werte in Logit-Einheiten, mit der `logistic`-Funktion des `psych`-Paktets können wir diese in Wahrscheinlichkeiten transformieren:
+
+```{r}
+CBTdata$PS_logit <- predict(mod_ps1)
+CBTdata$PS_P <- logistic(CBTdata$PS_logit)
+plot(CBTdata$PS_logit, CBTdata$PS_P)
+```
+
+```{r include=FALSE}
+# Zentrierte Variablen wieder löschen
+CBTdata <- subset(CBTdata, select = -c(BDI_pre_c, SWL_pre_c))
+```
+
+Der Plot zeigt uns nun den Zusammenhang zwischen dem vorhergesagtem Propensity Score `PS_logit` in der Logit-Skala und dem zugehörigen Propensity Score in der in Wahrschienlichkeiten transformierten Skala `PS_P`. Wir erkennen wieder die Ogive (S-Form), die wir bereits in der Sitzung zur logistischen Regression kennengelernt haben [(Sitzung zur logistischen Regression)](/post/logistische-regression-klipps).
+
+### Prüfung des Overlap
+
+Die Unterschiede im resultierenden Propensity Score in Logit-Einheiten können wir uns durch eine grafische Darstellung der Verteilungen in den Gruppen veranschaulichen. Die Treatment-Wahrscheinlichkeit ist in der Treatment-Gruppe deutlich höher, was z.B. durch eine Selektion nach Dringlichkeit der Fälle zustande gekommen sein kann. Durch ein Abtragen der Treatmentwahrscheinlichkeiten können wir zusätzlich veranschaulichen, wie groß die Überschneidungen der Gruppen (*common support*) sind. In dieser Grafik sind auch das Minimum der Wahrscheinlichkeit in der Treatment-Gruppe und das Maximum in der Kontrollgruppe eingetragen - diese definieren die Grenzen der Überschneidung zwischen den Gruppen.
+
+```{r class.source = "fold-hide", message=FALSE, warning=FALSE}
+## Overlap & Common Support ----
+p1 <- ggplot(CBTdata, aes(x=PS_logit, fill = Treatment)) + 
+  theme_bw() + theme(legend.position="top") +
+  scale_fill_manual(values=c("#E69F00", "#56B4E9")) +
+  geom_density(alpha=0.5)
+
+p2 <- ggplot(CBTdata, aes(x=PS_P, fill = Treatment)) + 
+  theme_bw() +
+  labs(x="P(X=1)", y="") + xlim(c(0,1)) +
+  scale_y_continuous(breaks=c(-1.5,1.5),     # "manuelle" Achsenbeschriftungen, um die Gruppen einzutragen
+                     labels=c("CBT", "WL")) +
+  geom_histogram(data = CBTdata[CBTdata$Treatment=="WL",], aes(y=..density..),   # Histogramm WL
+                 alpha=0.5, fill="#E69F00") +
+  geom_histogram(data = CBTdata[CBTdata$Treatment=="CBT",], aes(y=-..density..), # Histogramm CBT
+                 alpha=0.5, fill="#56B4E9") +
+  # Minimum in CBT und maximum in WL einzeichnen
+  geom_vline(xintercept = c(min(CBTdata$PS_P[CBTdata$Treatment=="CBT"]),
+                            max(CBTdata$PS_P[CBTdata$Treatment=="WL"])),
+             linetype=2) +
+  coord_flip()
+grid.arrange(p1, p2, nrow=1) # Beide Plots nebeneinander
+```
+
+Wem die Grafiken etwas kompliziert erscheinen, kann in [Appendix A](#AppendixA) nachlesen, wie eine sehr kurze 2-Zeilen (aber nicht so schöne) Variante funktioniert.
+
+Für Fälle außerhalb der *common support region* können keine kausalen Effekte geschätzt werden. Für diese gibt es nämlich keine "vergleichbaren" Studienteilnehmenden. Die Fälle, um die es geht sind gerade Personen aus der CBT-Gruppe, die eine sehr hohe Wahrscheinlichkeit aufweisen, das Treatment bekommen zu haben (was sie auch haben, aber das ist hier nicht die Frage). Um genauer zu sein: Wir wollen diejenigen Fälle identifizieren aus der CBT-Gruppe, die eine höhere Treatmentwahrscheinlichkeit und damit einen höheren Propensity-Score in Wahrscheinlichkeits-Skala haben, als alle Personen aus der WL-Gruppe. Genauso wollen wir Personen aus der WL-Gruppe identifizieren, die einen niedrigeren Propensity-Score haben als alle Personen aus der CBT-Gruppe.
+
+Den kleinsten Wert in der CBT-Gruppe erhalten wir mit
+
+```{r}
+min(subset(CBTdata, Treatment=="CBT")$PS_P)
+```
+wobei mit `subset` ein Subdatensatz erstellt wird, für den gilt, dass `Treatment == "CBT"`. Auf diesen Subdatensatz greifen wir mit `$` zu und wählen den Propensity-Score aus. Mit `min` erhalten wir schließlich das Minimum.
+
+Nun sind die Personen, die in der WL-Gruppe sind und einen `PS_P`-Wert kleiner als dieser minimale Wert haben, die Folgenden: 
+
+```{r}
+CBTdata[(CBTdata$Treatment=="WL" &
+                           CBTdata$PS_P < min(subset(CBTdata, Treatment=="CBT")$PS_P)),]
+```
+Es ist leicht zu sehen, dass die gewählten Personen alle sehr kleine Propensity Scores haben.
+
+Analog erhalten wir die Personen aus der CBT-Gruppe, die größere Propensity-Score Werte haben als alle in der WL-Gruppe. Wir beginnen wieder mit dem Maximum:
+
+
+```{r}
+max(subset(CBTdata, Treatment=="WL")$PS_P)
+```
+
+Nun sind die Personen, die in der WL-Gruppe sind und einen `PS_P`-Wert kleiner als dieser minimale Wert haben, die Folgenden: 
+
+```{r}
+CBTdata[(CBTdata$Treatment=="CBT" &
+                           CBTdata$PS_P > max(subset(CBTdata, Treatment=="WL")$PS_P)),]
+```
+
+
+
+
+Wir schließen `r sum((CBTdata$Treatment=="WL" & CBTdata$PS_P < min(subset(CBTdata, Treatment=="CBT")$PS_P)) |
+(CBTdata$Treatment=="CBT" & CBTdata$PS_P > max(subset(CBTdata, Treatment=="WL")$PS_P)) )` Fälle aus, die außerhalb des Überschneidungsbereichs liegen (das `!` negiert die logsiche Aussage, mit Hilfe derer wir die Fälle überhaupt identifizieren konnten):
+
+```{r}
+### Fälle außerhalb der Überschneidung ausschließen ----
+# Fälle der Kontrollgruppe entfernen, deren Wahrscheinlichkeit kleiner ist als
+# die kleinste Wahrscheinlichkeit in der Treatment-Gruppe
+CBTdata.red <- CBTdata[!(CBTdata$Treatment=="WL" &
+                           CBTdata$PS_P < min(subset(CBTdata, Treatment=="CBT")$PS_P)),]
+# Fälle der Treatment-Gruppe entfernen, deren Wahrscheinlichkeit größer ist als
+# die größte Wahrscheinlichkeit in der Kontrollgruppe
+CBTdata.red <- CBTdata.red[!(CBTdata.red$Treatment=="CBT" &
+                               CBTdata.red$PS_P > max(subset(CBTdata, Treatment=="WL")$PS_P)),]
+```
+
+Nach dieser Korrektur überlappen sich die Propensity Scores beider Gruppen vollständig:
+
+```{r class.source = "fold-hide", message=FALSE, warning=FALSE}
+## Overlap & Common Support nach Fallausschluss ----
+p1 <- ggplot(CBTdata.red, aes(x=PS_logit, fill = Treatment)) + 
+  theme_bw() + theme(legend.position="top") +
+  scale_fill_manual(values=c("#E69F00", "#56B4E9")) +
+  geom_density(alpha=0.5)
+
+p2 <- ggplot(CBTdata.red, aes(x=PS_P, fill = Treatment)) + 
+  theme_bw() +
+  labs(x="P(X=1)", y="") + xlim(c(0,1)) +
+  scale_y_continuous(breaks=c(-1.5,1.5),     # "manuelle" Achsenbeschriftungen, um die Gruppen einzutragen
+                     labels=c("CBT", "WL")) +
+  geom_histogram(data = CBTdata.red[CBTdata.red$Treatment=="WL",], aes(y=..density..),   # Histogramm WL
+                 alpha=0.5, fill="#E69F00") +
+  geom_histogram(data = CBTdata.red[CBTdata.red$Treatment=="CBT",], aes(y=-..density..), # Histogramm CBT
+                 alpha=0.5, fill="#56B4E9") +
+  coord_flip()
+grid.arrange(p1, p2, nrow=1) # Beide Plots nebeneinander
+```
+
+## Verwendung des Propensity Score in der ANCOVA{#ANCOVA}
+
+Wir können den Treatment-Effekt schätzen, indem wir den Propensity Score anstelle der ursprünglichen Kovariaten als Kontrollvariable verwenden. Wir vergleichen hier die klassische ANCOVA mit allen Kovariaten mit einem Modell, in dem nur der Propensity Score kontrolliert wird (Achtung, aufgrund der Reduktion des Datensatzes entsprechen die Ergebnisse des 1. Modells nicht exakt [denen im ersten Teil dieses Blocks](https://pandar.netlify.app/post/kausal/#ANCOVA)!)
+
+Dazu stellen wir zwei ANCOVA-Modelle auf, einmal mittels Kovariatenadjustierung (`BDI.adj`) und einmal mittels Propensity-Score (`BDI.PS`) in der Logit-Skala. Zur besseren Vergleichbarkeit runden wir den Gruppenunterschiedsparameter (das ist der 2. in diesem Fall, der 1. ist das Interzept) auf 2 Nachkommastellen.
+
+```{r}
+BDI.adj <- lm(BDI_post ~ Treatment + Disorder + BDI_pre + SWL_pre, data = CBTdata.red)
+round(coef(BDI.adj)[2],2)
+BDI.PS <- lm(BDI_post ~ Treatment + PS_logit, data = CBTdata.red)
+round(coef(BDI.PS)[2],2)
+```
+
+ Wir sehen, dass die auf beiden Wegen geschätzen Effekte praktisch identisch sind.
+
+## Propensity Score Matching{#Matching}
+
+Im Folgenden führen wir ein Matching mit der Funktion `matchit` aus dem Paket `MatchIt` mit zwei verschiedenen Algorithmen durch. *Optimal Pair Matching* bildet "statistische Zwillinge", *Full Optimal Matching* bildet unterschiedlich große Subklassen mit Gewichtung.  
+ 
+```{r}
+# Optimal Pair Matching
+m.optimal <- matchit(Treatment ~ Disorder + BDI_pre + SWL_pre, method = "optimal",
+                     data = CBTdata, distance = "glm", link = "logit")
+# Full Optimal Matching
+m.full <- matchit(Treatment ~ Disorder + BDI_pre + SWL_pre, method = "full",
+                  data = CBTdata, distance = "glm", link = "logit")
+```
+
+Die `matchit`-Funktion nimmt als erstes Argument die Formel `Treatment ~ Disorder + BDI_pre + SWL_pre`, die wir auch zur Bildung des Propensity-Scores verwendet hatten, entgegen, um so die Gruppenzugehörigkeit zu untersuchen. Mit `method` wählen wir die Matching-Methode (`"optimal"` oder `"full"`), `data` ordnen wir unseren Datensatz zu. Wir nehmen hier wieder den ursprünglichen `CBTdata`-Datensatz, die Kürzung unseres Datensatzes aus dem Abschnitt zuvor ging also verloren. Mit den Optionen `distance = "glm"` und `link = "logit"`wird eingestellt, dass das Matching mit Propensity Scores erfolgt, die durch logistische Regression gebildet werden (das ist auch die Standardeinstellung, könnte man also weglassen).
+
+Für die Methode, die Zwillingspaare bildet, erhalten wir eine Warnung, da die Stichprobe weniger Kontrollpersonen als Treatmentpersonen enthält und dadurch Personen aus der Treatment-Gruppe ausgeschlossen werden. Diese Warnung ist hilfreich, da wir unseren Datensatz (und damit die Power) verringern. Das resultierende Objekt enthält noch nicht den gematchten Datensatz, sondern nur die Zuordnung der Paare und weitere Informationen.
+
+### Inspektion der Datensätze
+
+Für beide Methoden wird der durch das Matching gebildete Datensatz mit der Funktion `match.data` extrahiert. Diesen sortieren wir anschließend nach Subklasse und Treatment mittels `order` und wenden dies auf die Zeilen an (vor dem `,`, es könnten auch die Spalten sortiert werden). 
+
+```{r}
+# Datensätze speichern und nach Subklasse & Treatment sortieren
+df.optimal <- match.data(m.optimal) 
+df.optimal <- df.optimal[order(df.optimal$subclass, df.optimal$Treatment),]
+
+df.full <- match.data(m.full) 
+df.full <- df.full[order(df.full$subclass, df.full$Treatment),] 
+```
+
+Das Optimal Pair Matching resultiert in einem Datensatz, in dem Paare (Variable `subclass`) mit je einer Person aus der Treatment- und eine aus der Kontrollgruppe enthalten sind. Die Gewichtung (Variable `weights`) ist für alle Personen 1. Wir sehen zudem, dass die von `matchit` erzeugte Distanz (`distance`) unserem oben erzeugten Propensity Score (`PS_P`) entspricht. 
+
+```{r, results='hide'}
+head(df.optimal)
+```
+
+```{r echo=FALSE}
+kable_styling(kable(head(df.optimal)))
+```
+
+Das Full Optimal Matching resultiert in einem Datensatz, in dem in den Subklassen unterschiedlich viele Fälle enthalten sind. Die Personen der Treatmentgruppe (`CBT`) erhalten ein Gewicht von 1, die Personen aus der Kontrollgruppe werden so gewichtet, dass die Häufigkeit der Subklassen derjenigen der Treatment-Gruppe entspricht. Im Auszug sind in Subklasse 5 mehr Kontroll- als Treatment-Fälle enthalten, diese werden entsprechend geringer gewichtet. In Subklasse 6 sind mehr Treatment-Fälle, hier erhält der Kontroll-Fall ein höheres Gewicht (in die Gewichte geht zusätzlich noch die Verteilung der Treatment-Fälle auf die Subklassen ein; mehr Informationen stehen in  [Appendix B](#Gewichtung)).
+
+
+```{r, results='hide'}
+df.full[df.full$subclass %in% c(5,6),]
+```
+
+```{r echo=FALSE}
+kable_styling(kable(df.full[df.full$subclass %in% c(5,6),]))
+```
+
+#### Demonstration der Gewichtung
+
+Der Vergleich der Häufigkeiten der Subklassen in den Gruppen mit gewichteten Häufigkeiten zeigt den Effekt der Gewichtung. Die gewichteten relativen Häufigkeiten der Subklassen in der Kontrollgruppe entsprechen denjenigen der Treatment-Gruppe (die absoluten Werte sind etwas niedriger, da in der Kontrollgruppe weniger Fälle sind als in der Kontrollgruppe).
+
+```{r}
+# Auszug as dem Datensatz
+demo.df <- subset(df.full, as.numeric(subclass) < 10)
+demo.df$subclass <- droplevels(demo.df$subclass)
+# Ungewichtete Häufigkeiten
+table(demo.df$Treatment, demo.df$subclass)
+# Gewichtete Häufigkeiten
+round(wtd.table(y = demo.df$subclass, 
+                x = demo.df$Treatment, weights = demo.df$weights), 2)
+```
+
+*Hier eine kurz Erklärung zum Code:* Im ersten Schritt haben wir hier nur diejenigen Fälle ausgewählt, die in den Subklassen 1,..,9 sind. Anschließend werden mit `droplevels` diejenigen Levels (also kategorialen Ausprägungen) des `factors` `subclass` entfernt, die jetzt nicht mehr in den Daten enthalten sind. Mit Hilfe von `table` erhalten wir eine einfache 2x9-Häufigkeitstabelle. Die Zahlen entsprechen den absoluten Häufigkeiten der beiden Gruppen (in den Zeilen) in den jeweiligen Subklassen (in den Spalten). Mit Hilfe der `wtd.table` Funktion erhalten wir eine gewichtete Häufigkeitstabelle. Die funktioniert analog zu `table`, nur müssen wir dieses mal noch die Gewichtung dem Argument `weights` zuordnen. Damit das Ganze übersichtlicher wird, runden wir noch auf 2 Nachkommastellen.
+
+### Kontrolle der Balance
+
+Die mit beiden Methoden erzielte Balance der Kovariaten lassen wir uns mit `plot(summary())` anzeigen. In diesen Plots wird die absoluten ("ohne Vorzeichen") standardisierte Mittelwertsdifferenz (x-Achse) zwischen den beiden Gruppen auf den Kovariaten (y-Achse) für den vollen Datensatz ("All") und den gematchten Datensatz ("Matched") dargestellt. Je näher die Punkte an der Null liegen, desto besser. Die vertikalen Linien zeigen einen Bereich an, der als erstrebenswert gilt. Hier sind die Unterschiede zwischen den Gruppen nur minimal (i.d.R. nicht signifikant).
+
+
+```{r echo=FALSE, fig.width = 5, fig.height = 5, fig.show = "hold", out.width  =  "50%"}
+plot(summary(m.optimal), xlim=c(-0.1,1.5), main="Optimal Pair")
+plot(summary(m.full), xlim=c(-0.1,1.5), main = "Full Optimal")
+```
+
+
+Wir sehen, dass die bestehenden Unterschiede durch das Optimal Pair Matching nur geringfügig reduziert werden. Durch das ungünstige Verhältnis von Treatment- zu Kontrollfällen sind die Möglichkeiten der Zwillingsbildung für den Datensatz sehr begrenzt. Die Reduktion der Unterschiede kommt nur durch den Ausschluss der "unpassendsten" Treatment-Fälle (!) zustande. Im Unterschied hierzu erreicht das Full Optimal Matching eine sehr gute Balance.
+
+### Effektschätzung
+
+```{r include=FALSE}
+lm.PFE <- lm(BDI_post ~ Treatment, data = CBTdata)
+lm.optimal <- lm(BDI_post ~ Treatment, data = df.optimal)
+lm.full <- lm(BDI_post ~ Treatment, data = df.full, weights = weights)
+lm.adj <- lm(BDI_post ~ Treatment + Disorder + BDI_pre + SWL_pre, data = CBTdata)
+```
+
+
+Für das Optimal Pair Matching kann eine Effektschätzung einfach unter Verwendung des gematchten Datensatzes erfolgen. Wir stellen dazu das Regressionsmodell auf und vergleichen unser Ergebnis mit dem PFE:
+
+```{r}
+lm.PFE <- lm(BDI_post ~ Treatment, data = CBTdata)
+summary(lm.PFE)
+
+lm.optimal <- lm(BDI_post ~ Treatment, data = df.optimal)
+summary(lm.optimal)
+```
+
+Wir sehen, dass sich der Effekt von $\beta = `r round(coef(lm.optimal)["TreatmentCBT"],2)`$ gegenüber der Analyse mit dem Gesamtdatensatz ($\beta = `r round(coef(lm.PFE)["TreatmentCBT"],2)`$) nur geringfügig verändert hat und weiterhin nicht signifikant ist.
+
+Bei der Analyse der mit Full Optimal Matching gebildeten Daten muss die Gewichtung verwendet werden. Dies geschieht, indem wir in der `lm`-Funktion dem Argument `weights` die bestimmten Gewichte zuordnen. 
+
+```{r}
+lm.full <- lm(BDI_post ~ Treatment, data = df.full, weights = weights)
+summary(lm.full)
+```
+
+Hier finden wir einen starken signifikanten Effekt des Treatments ($\beta = `r round(coef(lm.full)["TreatmentCBT"],2)`$), der ähnlich ausfällt wie der im ersten Teil dieses Themenblocks, der unter Kontrolle der Kovariaten geschätzten Effekt (dieser betrug $\beta = `r round(coef(lm.adj)["TreatmentCBT"],2)`$).
+
+## Stratifizierung
+
+Stratifizierung ist als Methode `subclass` in der `matchit`-Funktion enthalten. Wir bilden fünf Strata und extrahieren den Datensatz, der die Zugehörigkeit zu den Strata enthält (Variable `subclass`).  Wir müssen lediglich das Argument `method = "subclass"` wählen. Anschließend matchen wir direkt den Datensatz und speichern diesen neu ab:
+
+```{r}
+m.strat <- matchit(Treatment ~ Disorder + BDI_pre + SWL_pre, data = CBTdata,
+                 distance = "logit", method = "subclass", subclass = 5)
+df.strat <- match.data(m.strat)
+```
+
+Um zu sehen, wie die Zuordnung zu den Strata geklappt haben, schauen wir uns wieder die `table` an:
+
+
+```{r}
+# Zugehörigkeit der Fälle zu Treatment und Stratum
+table(df.strat$Treatment, df.strat$subclass)
+```
+
+Die Kreuztabelle zeigt, dass die Strata so gebildet wurden, dass die Treatment-Gruppe gleichmäßig aufgeteilt wurde. Die Anzahl der jeweils "passenden" Kontrollgruppen-Fälle in den Strata unterscheidet sich stark.
+
+Die folgende Grafik veranschaulicht die gebildeten Strata, als Grenzen sind jeweils die Untergrenzen (Minima in den Gruppen) eingezeichnet:
+
+```{r class.source = "fold-hide", message=FALSE, warning=FALSE}
+ggplot(df.strat, aes(x=distance, fill = Treatment)) + 
+  theme_bw() + theme(text = element_text(size = 20)) +
+  labs(x="P(X=1)", y="") +
+  scale_y_continuous(breaks=c(-1.5,1.5),     # "manuelle" Achsenbeschriftungen, um die Gruppen einzutragen
+                     labels=c("CBT", "WL")) +
+  geom_histogram(data = df.strat[df.strat$Treatment=="WL",], aes(y=..density..),   # Histogramm WL
+                 alpha=0.5, fill="#E69F00") +
+  geom_histogram(data = df.strat[df.strat$Treatment=="CBT",], aes(y=-..density..), # Histogramm CBT
+                 alpha=0.5, fill="#56B4E9") +
+  coord_flip() +
+  geom_vline(xintercept = aggregate(df.strat$distance, by=list(df.strat$subclass), FUN=min)$x[2:5],
+             linetype=2) +
+  coord_flip()
+```
+
+Der Effekt der bei der Stratifizierung gebildeten Gewichte lässt sich veranschaulichen, indem dieselbe Grafik mit gewichteten Häufigkeiten erzeugt wird. Die Häufigkeiten in der Treatment-Gruppe bleiben unverändert, die in der Kontrollgruppe werden der Treatmentgruppe angeglichen:
+
+```{r class.source = "fold-hide", message=FALSE, warning=FALSE}
+ggplot(df.strat, aes(x=distance, fill = Treatment, weights=weights)) + 
+         theme_bw() + theme(text = element_text(size = 20)) +
+         labs(x="P(X=1)", y="") +
+         scale_y_continuous(breaks=c(-1.5,1.5),     # "manuelle" Achsenbeschriftungen, um die Gruppen einzutragen
+                            labels=c("CBT", "WL")) +
+         geom_histogram(data = df.strat[df.strat$Treatment=="WL",], aes(y=..density..),   # Histogramm WL
+                        alpha=0.5, fill="#E69F00") +
+         geom_histogram(data = df.strat[df.strat$Treatment=="CBT",], aes(y=-..density..), # Histogramm CBT
+                        alpha=0.5, fill="#56B4E9") +
+         coord_flip() +
+         geom_vline(xintercept = aggregate(df.strat$distance, by=list(df.strat$subclass), FUN=min)$x[2:5],
+                    linetype=2) +
+         coord_flip()
+```
+
+### Effektschätzung
+
+```{r include=FALSE}
+lm.strat <- lm(BDI_post ~ Treatment, data = df.strat, weights = weights)
+```
+
+Es gibt nun mehrere Möglichkeiten bei Stratifizierung den Treatmenteffekt zu bestimmen. Entweder können wir in jedem Stratum den Effekt schätzen, indem wir die Mittelwerte in der CBT und der WL Gruppe vergleichen (siehe hierzu [Appendix C](#AppendixC)), oder wir verwenden die Gewichte, die bei der Stratifizierung ebenfalls bestimmt werden und rechnen erneut eine gewichtete Regression. Da bei der ersten Variante das Bestimmen des Standardfehlers und die damit verbundene Signifikanzentscheidung recht schwierig ist, schauen wir uns jetzt, wie für das Full Optimal Matching, eine Schätzung mit dem linearen Modell unter Verwendung der Gewichte an. Der hier resultierende Effekt von $\beta = `r round(coef(lm.strat)["TreatmentCBT"],2)`$ ist ähnlich dem beim Full Optimal Matching. Beide Methoden sind sich konzeptuell ähnlich, bei der Stratifizierung werden mit einer einfacheren Methode weniger Subklassen gebildet.
+
+```{r}
+lm.strat <- lm(BDI_post ~ Treatment, data = df.strat, weights = weights)
+summary(lm.strat)
+```
+
+Die Gewichte waren im Datensatz `df.strat` unter dem Argument `weights` verfügbar und mussten so wie zuvor beim Full Optimal Matching im `lm`-Befehl nur entsprechend  zugeordnet werden.
+
+## Gewichtung mit dem Propensity Score
+
+Alternativ zur Bildung von Gewichten durch Matching können wir die Gewichte direkt auf Basis des Propensity Scores $\pi$ und der Treatmentgruppen-Zugehörigkeit $X \in \{0,1\}$ konstruieren. Die Formel hierfür ist
+
+$$\frac{X_i}{\pi_i}+\frac{1-X_i}{1-\pi_i}$$
+
+```{r}
+# mit (CBTdata$Treatment=="CBT")*1 wird Treatment numerisch mit 1, Kontrollgruppe mit 0 kodiert
+CBTdata$ps_w <- (CBTdata$Treatment=="CBT")*1/CBTdata$PS_P + (1 - (CBTdata$Treatment=="CBT")*1)/(1 - CBTdata$PS_P)
+```
+
+Diese Gewichte können in der `lm`-Funktion verwendet werden, um eine Schätzung mittels *weighted least squares* (WLS) vorzunehmen. Hierbei erhalten wir mit einem geschätzten Treatment-Effekt von `r round(coef(lm(BDI_post ~ Treatment, data = CBTdata, weights = ps_w))[2],2)` eine ähnliche Schätzung wie mit den anderen Methoden.
+
+```{r}
+BDI.weighted <- lm(BDI_post ~ Treatment, data = CBTdata, weights = ps_w)
+summary(BDI.weighted)
+```
+
+Wir sehen, dass alle Korrekturen zu ähnlichen Ergebnissen kommen. Der Treatmenteffekt ist signifikant. Nur in der Ausprägung kommt es von Methode zu Methode zu leichten Unterschieden. Diese Unterschiede kommen mitunter zu Stande, weil die Methoden unterschiedlich viele Informationen über die Daten nutzen. Bspw. hatten wir bei der Stratifizierung nur 5 Subklassen gebildet, während beim Full Matching deutlich mehr Subklassen extrahiert wurden (die Methode war aber auch etwas anders!). Wir können also, unter den (strengen) Annahmen der Methoden, vor allem *Strong Ignoribility*, schließen, dass es einen Treatmenteffekt gibt (mit einer Irrtumswahrscheinlichkeit von 5%).
+
+
+
+***
+
+## R-Skript
+Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [`r fontawesome::fa("download")` hier herunterladen](/post/KliPPs_MSc5a_R_Files/10_Kausalschätzer_2_RCode.R).
+
+***
+
+## Appendix A {#AppendixA} 
+
+
+<details><summary>**Kurze Grafiken**</summary>
+
+Mit `density` kann man die Dichte (also die Häufigkeitsverteilung) einer Variable bestimmen. Diese kann man recht leicht plotten:
+
+
+```{r}
+## Overlap & Common Support ----
+plot(density(CBTdata$PS_P[CBTdata$Treatment == "CBT"]), 
+     type = "l")
+lines(density(CBTdata$PS_P[CBTdata$Treatment == "WL"]))
+```
+
+Jetzt können wir leider die Linien nicht unterscheiden, weswegen wir die Farben aus den anderen Grafiken nun auch hier einfügen. Außerdem spendieren wir eine Legenende, änderen die Dicke der Linien und entfernen den seltsame Titel:
+
+```{r}
+## Overlap & Common Support ----
+plot(density(CBTdata$PS_P[CBTdata$Treatment == "CBT"]), 
+     col = "#56B4E9", lwd = 2, type = "l", main = "")
+lines(density(CBTdata$PS_P[CBTdata$Treatment == "WL"]), 
+      col = "#E69F00", lwd = 2)
+legend(legend = c("CBT", "WL"), lwd = 2, 
+       col = c("#56B4E9", "#E69F00"), x = "bottom")
+
+```
+
+</details>
+
+
+## Appendix B {#Gewichtung}
+
+<details><summary>**Bildung der Gewichte**</summary>
+
+
+Die Gewichte zur Schätzung des ATT, mit denen die relativen Häufigkeiten der Kovariaten-Subklassen der Treatment-Gruppe, an die Kontrollgruppe angeglichen werden, werden wie folgt gebildet:
+
+$$w_{Cs}=\frac{N_C}{n_{Cs}}*\frac{n_{Ts}}{N_T}$$
+Hierbei sind
+
+* $w_{Cs}$ das Gewicht für Kontrollpersonen in Subklasse $s$
+* $N_C$ die Größe der Kontrollgruppe
+* $N_T$ die Größe der Treatment-Gruppe
+* $n_{Cs}$ die Anzahl von Kontrollpersonen in Subklasse $s$
+* $n_{Ts}$ die Anzahl von Treatment-Personen in Subklasse $s$
+
+Die Gewichte werden also umso größer, je mehr Treatment-Personen in einer Subklasse $s$ sind, und um so kleiner, je mehr Kontrollpersonen in der Subklasse sind. Die Summe der Gewichte über alle Subklassen $S$ entspricht der urprünglichen Fallzahl $N_C$:
+
+$$\sum^S_{s=1}{w_{Cs}}=N_C$$
+</details>
+
+## Appendix C {#AppendixC}
+
+<details><summary>**Effektschätzung bei Stratifizierung per Hand**</summary>
+
+
+```{r include=FALSE}
+MWs <- tapply(df.strat$BDI_post, list(df.strat$subclass, df.strat$Treatment), mean)
+MWW <- data.frame(Y0 = MWs[, 1], Y1 = MWs[, 2], ATEq = MWs[, 2]-MWs[, 1])
+MWW$Wq <- tabulate(df.strat$subclass)/nrow(df.strat)
+ATT.strat <- sum(MWW$Wq*MWW$ATEq)
+```
+
+
+Den Treatment-Effekt können wir "per Hand" berechnen. Die Funktion `tapply` wird hierbei benutzt, um die Mittelwerte von Treatment- und Kontrollgruppe in den Strata zu berechnen. `tapply` wendet dabei eine Funktion (hier `mean`) auf eine Kombination aus Gruppierungen an. Diese Mittelwerte packen wir anschließend in einen `data.frame`, um sie uns besser anzusehen.
+
+Die Mittelwerte in der CBT und der WL Gruppen werden dann als Schätzer für $Y^0$ und $Y^1$ verwendet, aus ihrer Differenz ergibt sich der ATT innerhalb jedes Stratum. 
+Für jedes Stratum wird anhand des Anteils der Fälle an der Gesamtstichprobe ein Gewichtungsfaktor berechtet. 
+
+```{r}
+##ATEs in den Strata berechnen und als neuen Datensatz
+MWs <- tapply(df.strat$BDI_post, list(df.strat$subclass, df.strat$Treatment), mean)
+MWW <- data.frame(Y0 = MWs[, 1], Y1 = MWs[, 2], ATEq = MWs[, 2]-MWs[, 1])
+MWW
+```
+
+Der ATT ergibt sich dann als gewichtete Summe der Effekte innerhalb der Strata. Hierzu müssen wir zunächst kurz die Gewichte mittels `table` bestimmen und diese dann durch die Gesamtanzahl (`nrow(df.strat)`) teilen, und dann die gewichtete Summe berechnen.
+
+```{r}
+##Gesamt-ATE als gewichtetes Mittel über die Strata berechnen 
+MWW$Wq <- table(df.strat$subclass)/nrow(df.strat) # Anteil des Stratum an der Stichprobe
+# Gesamteffekt als gewichtete Summe:
+sum(MWW$Wq * MWW$ATEq)
+```
+
+Wir erhalten hier mit `r round(ATT.strat,2)` einen geringfügig geringeren Effekt als bei anderen Methoden.
+
+Eine Alternative zur Bildung für die Mittelwerte wäre `aggregate` gewesen:
+
+```{r}
+aggregate(BDI_post ~ subclass + Treatment, data = df.strat, FUN = mean)
+```
+
+</details>
+

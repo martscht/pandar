@@ -22,6 +22,10 @@ sections:
     content:
       username: nehler
   - block: about.biography
+    id: author_irmer
+    content:
+      username: irmer
+  - block: about.biography
     id: author_pommeranz
     content:
       username: pommeranz

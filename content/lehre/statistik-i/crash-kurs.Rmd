@@ -1,20 +1,20 @@
 ---
-title: R Crash-Kurs
+title: "R Crash-Kurs"
 type: post
 date: '2019-10-18'
 slug: crash-kurs
-categories: ["Statistik I", "Einführung"]
+categories: ["Statistik I"]
 tags: ["Einführung", "Datenmanagement", "Grundlagen", "Hilfe"]
 subtitle: ''
 summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
 authors: [schultze]
-lastmod: '2023-06-14'
+weight: 1
+lastmod: '`r Sys.Date()`'
 featured: yes
 banner:
   image: "/header/crash_post.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
-weight: 10
 
 reading_time: false
 share: false
@@ -29,7 +29,7 @@ links:
     name: Code
     url: /lehre/statistik-i/crash-kurs.R
   - icon_pack: fas
-    icon: user-graduate
+    icon: pen-to-square
     name: Aufgaben
     url: /lehre/statistik-i/crash-kurs-aufgaben
 
@@ -39,13 +39,11 @@ output:
 ---
 
 
-```{r setup, cache = FALSE, echo = FALSE}
-knitr::opts_chunk$set(error = TRUE)
-# knitr::knit_hooks$set(purl = knitr::hook_purl)
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
-{{< spoiler text="Kernfragen dieses Beitrags" >}}
-
+{{< spoiler text = "Kernfragen dieser Lehreinheit" >}}
 * Was ist [**R**](#R) und was ist [**RStudio**](#RStudio)?
 * Was ist die [**Konsole**](#Konsole_Syntax) und was ist die [**Syntax**?](#Konsole_Syntax)
 * Wie kann ich [**Syntax ausführen**](#Eingabe)?
@@ -59,12 +57,11 @@ knitr::opts_chunk$set(error = TRUE)
 * Welche [**mehrdimensionalen Datenstrukturen**](#Mehrdimensional) gibt es und worin unterscheiden sie sich?
 * Wie kann ich aus Datensätze einzelne Variablen oder Beobachtungen [**extrahieren**](#Extrahieren) und sie [**hinzufügen**](#Hinzu)?
 * Wie [**importiere**](#Speichern_Laden) und [**exportiere**](#Speichern_Laden) ich Daten?
-
 {{< /spoiler >}}
 
 ***
 
-## Warum R nutzen? {#R .anchorheader}
+## Warum R nutzen? {#R}
 
 Ziel dieses gesamten R-Praktikums ist es, dass Sie am Ende des Semester geübt im Umgang mit R sind, die Grundfunktionalität beherrschen und die Analyseverfahren durchführen können, die in der Vorlesung behandelt werden. Damit wir - oder genauer genommen, eigentlich Sie - dieses Ziel erreichen, legen wir hier mit einer "kurzen" Einführung in die Grundprinzipien von und den Umgang mit R los. Viele Dinge, die hier besprochen werden, sind auch in den [anderen Sitzungen zu dieser Veranstaltung](categories/statistik-i) relevant und werden dort immer wieder vorkommen. Deswegen ist es das Beste, einfach nebenbei RStudio auf zu haben und die hier beschriebenen Schritte auch direkt selbst mit zu machen.
 
@@ -86,7 +83,7 @@ Ein paar nützliche Links für R sind die [R Main Page](https://www.r-project.or
 
 ***
 
-## RStudio {#RStudio .anchorheader}
+## RStudio {#RStudio}
 
 Weil die traditionelle R Nutzeroberfläche extrem spartanisch ist, werden wir auf dieser Seite mit RStudio arbeiten. RStudio ist eine zusätzliche Nutzeroberfläche, die den Umgang durch diverse convenience features mit R ein wenig erleichtert. Es muss separat installiert werden, ist aber, genau wie R selbst, gratis erhältlich. Um RStudio herunterzuladen besuchen Sie am einfachsten [https://www.rstudio.com/](https://www.rstudio.com/).
 
@@ -155,7 +152,7 @@ Wie in der Mathematik üblich, wird der Inhalt von Klammern als erstes evaluiert
 
 ***
 
-## Funktionen und Argumente {#Funktionen .anchorheader}
+## Funktionen und Argumente {#Funktionen}
 
 Das Nutzen von R als Taschenrechner ist - streng genommen - ein Sonderfall, der vom "üblichen Weg" abweicht, mit dem Dinge in R umgesetzt werden. Mithilfe der einfachen Addition können wir eine Summe bilden:
 
@@ -217,7 +214,7 @@ Das Ergebnis dieser Funktion wird bestimmt und als Argument an die Funktion `log
 
 ***
 
-## Hilfe {#Hilfe .anchorheader}
+## Hilfe {#Hilfe}
 
 R bietet ein sehr detailliertes und gutes integriertes Hilfesystem. Mit `args()` kann man sich zwar die Argumente einer Funktion ausgeben lassen, erhält aber keinerlei Zusatzinformationen. Wenn man mehr Informationen bezüglich einer spezifischen Funktion benötigt, kann man `help()` auf jede beliebige Funktion anwenden (bzw. `?` vor den Namen einer Funktion schreiben). Sie sollten - besonders zum Einstieg in R - häufig und gezielt diese Hilfe in Anspruch nehmen.
 
@@ -260,7 +257,7 @@ Warnungen beginnen in R mit dem Wort `Warning`. In diesem Fall werden wir darauf
 
 Die letzte Art sind `Error`, die immer damit einhergehen, dass kein Ergebnis produziert wird. Für den Logarithmus erhalten wir einen Fehler wenn
 
-```{r}
+```{r, error = TRUE}
 log(argument = 10)
 ```
 
@@ -268,7 +265,7 @@ In diesem Fall werden wir darauf hingewiesen, dass wir keine Einstellung für da
 
 ***
 
-## Objekte und das Environment {#Environment .anchorheader}
+## Objekte und das Environment {#Environment}
 
 Einer der großen Vorteile von R gegenüber anderen Ansätzen zur statistischen Datenanalyse ist die Möglichkeit Ergebnisse in Objekten abzulegen und diese als Argumente in anderen Funktionen weiter zu verwenden. Dadurch ergibt sich in R die Möglichkeit sehr große Teile von Auswertungen und Ergebnisdarstellung mit generell gehaltenen Skripten zu automatisieren. Die Zuweisung eines Ergebnisses zu einem Objekt erfolgt über den sog. Zuweisungspfeil `<-`.
 
@@ -489,7 +486,7 @@ Wie wir im Verlauf des Semesters sehen werden, haben beide Umwandlungen Konseque
 
 ***
 
-## Daten zusammenführen {#Mehrdimensional .anchorheader}
+## Daten zusammenführen {#Mehrdimensional}
 
 Im Environment liegen jetzt fünf Vektoren (und unsere Zahl, die wir vor einiger Zeit einzeln abgelegt hatten):
 
@@ -556,7 +553,7 @@ str(dat)
 
 Wie bereits geschildert, müssen alle Vektoren, die zu einem `data.frame` zusammengeführt werden die gleiche Länge haben. Wenn wir also einen Vektor erstellen, der nur 3 Einträge hat, können wir keinen gemeinsamen Datensatz erzeugen:
 
-```{r}
+```{r, error = TRUE}
 three <- c(1, 2, 3)
 data.frame(color, text, cong, react, three)
 ```
@@ -572,7 +569,7 @@ In diesen Fällen wird der kurze Vektor solange wiederholt, bis er genauso lang 
 
 ***
 
-## Datenextraktion {#Extrahieren .anchorheader}
+## Datenextraktion {#Extrahieren}
 
 Bisher haben wir uns mit dem Zusammenführen von Daten befasst, wie es bei der Datensammlung üblich ist. Bei der Datenauswertung und -inspektion kann es aber genauso wichtig sein, Einzelteile von Datensätzen zu extrahieren.
 
@@ -675,7 +672,7 @@ dat$react
 
 ***
 
-## Daten verändern und hinzufügen {#Hinzu .anchorheader}
+## Daten verändern und hinzufügen {#Hinzu}
 
 Der Zuweisungspfeil funktioniert auch für Elemente größerer Objekte. Nehmen wir an, wir hätten uns bei der Eingabe der 5. Reaktionszeit vertippt und diese sei eigentlich 725 ms gewesen. Um die vorhandenen Daten zu überschreiben, können wir neue Werte direkt zuweisen. Auch hier sollte beachtet werden, dass es dabei keinerlei Warnung und Absicherung gibt. Sobald die Zuweisung ausgeführt ist, sind die Daten überschrieben und die vorherigen Daten verloren.
 
@@ -708,7 +705,7 @@ dat
 
 ***
 
-## Daten Import/Export {#Speichern_Laden .anchorheader}
+## Daten Import/Export {#Speichern_Laden}
 
 Alle Objekte, die bisher erstellt wurden liegen im Environment - sobald wir R schließen wird dieser geleert und die Objekte gehen verloren. Wie oben bereits erwähnt, ist das in den meisten Fällen das explizit gewünschte Verhalten - durch die Syntax können wir die Objekte ja wiederherstellen - aber in manchen Fällen ist es Sinnvoll Objekte wie Datensätze abzuspeichern und in späteren Schritten die bereits bearbeiteten Daten zu laden.
 
@@ -787,8 +784,8 @@ Dieses Verhalten ist konsistent mit dem Verhalten von anderen Funktionen zum Dat
 
 Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [{{< icon name="download" pack="fas" >}} hier](/daten/fb22.csv). Diese liegen im CSV Format vor und die Datei heißt **fb22.csv**. Beachten Sie, dass der Datensatz durch die Befragung anhand von **formr** eigentlich auch im R-Datenformat `.rda` vorliegt. Da Sie sich jedoch nicht sicher sein können, ob Sie in Zukunft immer eine Datei mit diesem Format verwenden werden, lernen wir auch das Einlesen von anderen Formaten kennen. Mit `read.table()` können wir den CSV Datensatz laden, müssen aber bestimmte Eigenheiten des Datensatzes bedenken. Wenn Sie den Datensatz mit einem Text-Editor öffnen sehen die ersten 5 Zeilen folgendermaßen aus:
 
-```{r, echo = FALSE}
-cat(paste(readLines('fb22.csv')[1:5], collapse = '\n'))
+```{r, echo = FALSE, purl = FALSE}
+cat(paste(readLines('../../daten/fb22.csv')[1:5], collapse = '\n'))
 ```
 
 Die Art in der dieser Datensatz aufbereitet ist, muss R mitgeteilt werden, damit wir ihn ordentlich einlesen können. Es empfiehlt sich dafür mit `help(read.table)` die Hilfe zu öffnen. Was diese Hilfe verrät sind unter Anderem die Argumente, die die Funktion entgegennimmt:
@@ -799,20 +796,30 @@ args(read.table)
 
 Das einzige Argument ohne Voreinstellung ist `file`, also der Dateiname. Wenn wir den Datensatz mit Voreinstellungen laden, erhalten wir folgenden Fehler:
 
-```{r}
+```{r, eval=FALSE}
 fb22 <- read.table('fb22.csv')
 ```
+```{r, echo=FALSE, error = TRUE, purl = FALSE}
+fb22 <- read.table('../../daten/fb22.csv')
+```
+
 
 Das liegt in diesem Fall daran, dass `read.table()` als Voreinstellung annimmt, dass die erste Zeile der Datei nicht besonders ist (`header = FALSE`). In unserem Fall enthält diese Zeile aber die Namen der Variablen, sodass wir diese Einstellung ändern müssen:
 
-```{r}
+```{r, eval = FALSE}
 fb22 <- read.table('fb22.csv', header = TRUE)
+```
+```{r, echo=FALSE, error = TRUE, purl = FALSE}
+fb22 <- read.table('../../daten/fb22.csv', header = TRUE)
 ```
 
 Wieder ergibt sich ein Fehler, der lamentiert, dass es mehr Spalten als Variablennamen gibt. Das liegt daran, dass `read.table()` per Voreinstellung davon ausgeht, dass Variablen (bzw. Spalten des Datensatzes) durch Leerzeichen getrennt sind (`sep = ""`). In unserer Datei erfolgt das aber durch Kommata.
 
-```{r}
+```{r, eval = FALSE}
 fb22 <- read.table('fb22.csv', header = TRUE, sep = ",")
+```
+```{r, echo=FALSE, purl = FALSE}
+fb22 <- read.table('../../daten/fb22.csv', header = TRUE, sep = ",")
 ```
 
 Im Environment erscheint jetzt das Objekt `fb22`. Mit `head()` können wir uns den Kopf des Datensatzes (die ersten 6 Zeilen) anzeigen lassen:
@@ -824,7 +831,7 @@ str(fb22)     # Struktur des Datensatzes
 
 Wir können den Datensatz übrigens auch direkt von der Website in R laden. Der Dateiname nimmt auch direkt URLs entegegen:
 
-```{r}
+```{r, eval = FALSE}
 fb22 <- read.table('https://pandar.netlify.app/daten/fb22.csv', header = TRUE, sep = ",")
 ```
 
@@ -840,7 +847,7 @@ write.table(fb22,     # zu speichernder Datensatz
 
 Diese Datei entspricht den Voreinstellungen von `write.table()`. Daher sehen die ersten 5 Zeilen in einem Text-Editor jetzt so aus:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl = FALSE}
 cat(paste(readLines('fb22.txt')[1:5], collapse = '\n'))
 ```
 
