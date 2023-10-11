@@ -9,11 +9,11 @@ subtitle: ''
 summary: '' 
 authors: [] 
 weight: 10
-lastmod: '2023-10-10'
+lastmod: '2023-10-11'
 featured: no
 banner:
-  image: "/header/BSc2_Sim_Power.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/674621)"
+  image: "/header/BSc2_Sim_Power_new.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1178076)"
 projects: []
 reading_time: false
 share: false
@@ -53,17 +53,22 @@ In den vergangenen Sitzungen haben wir verschiedene Tests für unterschiedliche 
 
 Dazu können wir ein $\alpha$-Fehlerniveau festlegen und die Nullhypothese verwerfen, wenn das Zustandekommen unserer Daten unter diesen Annahmen unwahrscheinlicher ist, als diese "akzeptable Irrturmswahrscheinlichkeit". Wenn dem nicht so ist, behalten wir die Nullhypothese bei. Etwas formaler:
 
-\begin{align}
-p &< \alpha\ (=5\%) \Longrightarrow \neg H_0 \implies H_1 \\
-p &\ge \alpha\ (=5\%) \Longrightarrow H_0
-\end{align}
+$$
+\begin{aligned}
+p &< \alpha\ (=5\\%) \Longrightarrow \neg H_0 \implies H_1 \\\\
+p &\ge \alpha\ (=5\\%) \Longrightarrow H_0
+\end{aligned}
+$$
+
 
 Äquivalent dazu können wir das Quantil der Verteilung bestimmen, ab dem Werte eine Wahrscheinlichkeit kleiner als $\alpha$ haben (den kritischen Wert) und unsere Teststatistik (den empirischen Wert) damit:
 
-\begin{align}
+$$
+\begin{aligned}
 |t_\text{emp.}| &> t_\text{krit.} \Longrightarrow \neg H_0 \implies H_1 \\
 |t_\text{emp.}| &\le t_\text{krit.} \Longrightarrow H_0
-\end{align}
+\end{aligned}
+$$
 
 Beide Ansätze kommen zum identischen Ergebnis, weil Quantil und $p$-Wert einfache Übersetzungen voneinander sind. In R können wir, wie [bereits gesehen](/post/verteilungen), mit `p*` und `q*` für verschiedene Verteilungen diese Übersetzung vornehmen.
 
@@ -203,8 +208,8 @@ replicate(n = 10, expr = {X_1 <- rnorm(N)
 ```
 
 ```
-##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306 0.43862992 0.96766599
-## [10] 0.68865560
+##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306
+##  [8] 0.43862992 0.96766599 0.68865560
 ```
 
 Uns werden insgesamt 10 $p$-Werte übergeben. Wenn wir genau hinsehen, dann erkennen wir den ersten $p$-Wert wieder. Dies ist der $p$-Wert unseres Experiments weiter oben. Wiederholen wir nun das Experiment nicht nur 10 Mal, sondern 10000 Mal, dann erhalten wir eine gute Übersicht über das Verhalten der $p$-Werte unter den Bedingungen, die wir vorgegeben haben: Gültigkeit der Nullhypothese und Standardnormalverteilung der beiden von einander unabhängigen Variablen. Damit uns die 10000 Werte nicht einfach in die Konsole gedruckt werden, legen wir sie im Objekt `pt_H0` ab (für $p$-Werte für den $t$-Test unter der $H_0$-Hypothese):
