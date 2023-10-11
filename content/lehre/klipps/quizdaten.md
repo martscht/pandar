@@ -137,27 +137,6 @@ Im `R`-Teil des Quizzes führen Sie Analysen am Datensatz der [2. PandaR-Sitzung
 library(metafor)
 ```
 
-```
-## Loading required package: Matrix
-```
-
-```
-## Loading required package: metadat
-```
-
-```
-## Loading required package: numDeriv
-```
-
-```
-## 
-## Loading the 'metafor' package (version 4.2-0). For an
-## introduction to the package please type: help(metafor)
-## 
-## An updated version of the package (version 4.4-0) is available!
-## To update to this version type: install.packages("metafor")
-```
-
 Hier ist außerdem die Literaturangabe zum zugehörigen Paper:
 
 [Molloy, G. J., O'Carroll, R. E., & Ferguson, E. (2014)](https://ubffm.hds.hebis.de/EBSCO/Record?id=RN347807174|edsbl). Conscientiousness and medication adherence: A meta-analysis. Annals of Behavioral Medicine, 47(1), 92–101. [https://doi.org/10.1007/s12160-013-9524-4](https://doi.org/10.1007/s12160-013-9524-4)
@@ -208,7 +187,7 @@ Laden Sie den Datensatz folgendermaßen ein:
 
 
 ```r
-load(url("https://pandar.netlify.app/post/Preprocessing/C19PRC.RData"))
+load(url("https://pandar.netlify.app/daten/C19PRC.RData"))
 ```
 
 

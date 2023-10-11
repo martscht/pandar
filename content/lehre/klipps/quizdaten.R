@@ -50,7 +50,7 @@ head(data_combined)
 
 knitr::kable(head(data_combined))
 
-## load(url("https://pandar.netlify.app/post/Preprocessing/C19PRC.RData"))
+## load(url("https://pandar.netlify.app/daten/C19PRC.RData"))
 
 ## library(qgraph)
 ## library(bootnet)
