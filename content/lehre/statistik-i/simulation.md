@@ -65,7 +65,7 @@ $$
 
 $$
 \begin{aligned}
-|t_\text{emp.}| &> t_\text{krit.} \Longrightarrow \neg H_0 \implies H_1 \\
+|t_\text{emp.}| &> t_\text{krit.} \Longrightarrow \neg H_0 \implies H_1 \\\\
 |t_\text{emp.}| &\le t_\text{krit.} \Longrightarrow H_0
 \end{aligned}
 $$

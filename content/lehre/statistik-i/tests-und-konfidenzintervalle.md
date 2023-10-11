@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Berechnung und Interpretation des z-Tests und des t-Tests. Außerdem soll ein Konfidenzintervall um den wahren Populationsmittelwert bestimmt sowie Hypethesengenerierung und das Effektstärkemaß Cohens d vorgestellt werden.' 
 authors: [scheppa-lahyani, nehler] 
 weight: 5
-lastmod: '2023-10-05'
+lastmod: '2023-10-11'
 featured: no
 banner:
   image: "/header/BSc2_Tests.jpg"
@@ -77,7 +77,7 @@ Der Datensatz wird in diesem Tutorial nicht direkt verwendet, wird aber für das
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb22.rda'))  
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb22$geschl_faktor <- factor(fb22$geschl,
@@ -527,7 +527,7 @@ Das 95%ige Konfidenzintervall wird uns ebenfalls ausgegeben. Beachten Sie, dass 
 
 Bevor wir in die inferenzstatistische Analyse einsteigen, ist es immer gut, sich einen Überblick über die deskriptiven Werte zu verschaffen. Wir können nun natürlich einfach die bereits gelernten Funktionen zu Mittelwert, Varianz, Minimum, etc. nutzen. Doch gibt es einen schnelleren Weg? Die Basisinstallation von `R` bietet uns keine Alternative. Jedoch gibt es zusätzliche *Pakete*, die den Pool an möglichen Funktionen erweitern. Die Logik wird im Folgenden erläutert.
 
-### Wie können andere Funktionen in R genutzt werden? - Library und Pakete
+### Wie können andere Funktionen in R genutzt werden? - Library und Pakete {#pakete}
 
 R ist in einer Pakete-Logik aufgebaut. Das liegt daran, dass es immer mehr Funktionen in R gibt, die aber nie jemand alle gleichzeitig brauchen wird. Zur Schonung der Kapazität sind diese Funktionalitäten also in Pakete aufgeteilt. In *Basispaketen*, die standardmäßig geladen werden (also vorinstalliert sind beim Öffnen von R), sind grundlegende Befehle und Analysen implementiert (Beispiele für solche Basispakete sind `base`, `stats`, `graphics`). Für spezifischere Analysen (also Funktionen) müssen *Zusatzpakete* teilweise erst installiert, zumindest aber immer per Hand geladen werden (Beispiele sind `psych`, `car`, `ggplot2`). Nur die Funktionen von erst installierten und dann geladenen Paketen können in einem Skript benutzt werden.
 
@@ -561,17 +561,6 @@ install.packages('psych')          # installieren
 library(psych)                     # laden
 ```
 
-```
-## 
-## Attaching package: 'psych'
-```
-
-```
-## The following objects are masked from 'package:ggplot2':
-## 
-##     %+%, alpha
-```
-
 Wir erhalten hier als *Warning Message* den Hinweis, unter welcher Version das Paket erstellt wurde.
 Eine kleine Suche nach Hilfe zu Pakete kann man mit `??` erhalten.
 
@@ -588,10 +577,8 @@ describe(fb22$neuro)
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad  min max range  skew
-## X1    1 159 3.63 0.72   3.75    3.65 0.74 1.25   5  3.75 -0.43
-##    kurtosis   se
-## X1     0.09 0.06
+##    vars   n mean   sd median trimmed  mad  min max range  skew kurtosis   se
+## X1    1 159 3.63 0.72   3.75    3.65 0.74 1.25   5  3.75 -0.43     0.09 0.06
 ```
 
 Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei 3.6257862. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
