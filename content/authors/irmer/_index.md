@@ -14,7 +14,7 @@ last_name: Irmer
 superuser: false
 
 # Role/position
-role: Autor
+role: Teammitglied
 
 # Organizations/Affiliations
 organizations:

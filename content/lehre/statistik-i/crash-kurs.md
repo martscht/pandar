@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
 authors: [schultze]
 weight: 1
-lastmod: '2023-10-10'
+lastmod: '2023-10-11'
 featured: yes
 banner:
   image: "/header/crash_post.jpg"
@@ -61,7 +61,7 @@ output:
 
 ## Warum R nutzen? {#R}
 
-Ziel dieses gesamten R-Praktikums ist es, dass Sie am Ende des Semester geübt im Umgang mit R sind, die Grundfunktionalität beherrschen und die Analyseverfahren durchführen können, die in der Vorlesung behandelt werden. Damit wir - oder genauer genommen, eigentlich Sie - dieses Ziel erreichen, legen wir hier mit einer "kurzen" Einführung in die Grundprinzipien von und den Umgang mit R los. Viele Dinge, die hier besprochen werden, sind auch in den [anderen Sitzungen zu dieser Veranstaltung](categories/statistik-i) relevant und werden dort immer wieder vorkommen. Deswegen ist es das Beste, einfach nebenbei RStudio auf zu haben und die hier beschriebenen Schritte auch direkt selbst mit zu machen.
+Ziel dieses gesamten R-Praktikums ist es, dass Sie am Ende des Semester geübt im Umgang mit R sind, die Grundfunktionalität beherrschen und die Analyseverfahren durchführen können, die in der Vorlesung behandelt werden. Damit wir - oder genauer genommen, eigentlich Sie - dieses Ziel erreichen, legen wir hier mit einer "kurzen" Einführung in die Grundprinzipien von und den Umgang mit R los. Viele Dinge, die hier besprochen werden, sind auch in den [anderen Sitzungen zu dieser Veranstaltung](/category/statistik-i) relevant und werden dort immer wieder vorkommen. Deswegen ist es das Beste, einfach nebenbei RStudio auf zu haben und die hier beschriebenen Schritte auch direkt selbst mit zu machen.
 
 Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe von Programmen ausgewählt, weil es ein paar hervorragende Eigenschaften hat:
 
@@ -70,20 +70,19 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 971671 mal heruntergeladen
+* Allein in den letzten 30 Tagen 973244 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
 * Mit jedem teilbar
 * Auch außerhalb der Universität und Forschung eine gefragte Fähigkeit
 
-Ein paar nützliche Links für R sind die [R Main Page](https://www.r-project.org/), wo R runtergeladen werden kann und diverse technische Details zu finden sind. Für eine kurze, schnelle Einführung in verschiedene R-relevante Themen bietet sich [Quick R](https://www.statmethods.net/) und, spezifisch für die Psychologie, das [Personality Project](http://www.personality-project.org/r/) an. Eine Einführung in die R-Nutzung, an die auch dieses Skript angelehnt ist, findet sich im repository [Scientific Methods for Open Behavioral, Social and Cognitive Sciences](https://smobsc.readthedocs.io/en/latest/chapter_ana/Introduction%20to%20Programming%20with%20R.html).
-
+Ein paar nützliche Links für R sind die [R Main Page](https://www.r-project.org/), wo R runtergeladen werden kann und diverse technische Details zu finden sind. Für eine kurze, schnelle Einführung in verschiedene R-relevante Themen bietet sich [Quick R](https://www.statmethods.net/) und, spezifisch für die Psychologie, das [Personality Project](http://www.personality-project.org/r/) an. 
 ***
 
 ## RStudio {#RStudio}
 
-Weil die traditionelle R Nutzeroberfläche extrem spartanisch ist, werden wir auf dieser Seite mit RStudio arbeiten. RStudio ist eine zusätzliche Nutzeroberfläche, die den Umgang durch diverse convenience features mit R ein wenig erleichtert. Es muss separat installiert werden, ist aber, genau wie R selbst, gratis erhältlich. Um RStudio herunterzuladen besuchen Sie am einfachsten [https://www.rstudio.com/](https://www.rstudio.com/).
+Weil die traditionelle R Nutzeroberfläche extrem spartanisch ist, werden wir auf dieser Seite mit RStudio arbeiten. RStudio ist eine zusätzliche Nutzeroberfläche, die den Umgang durch diverse convenience features mit R ein wenig erleichtert. Es muss separat installiert werden, ist aber, genau wie R selbst, gratis erhältlich. Um RStudio herunterzuladen besuchen Sie am einfachsten [https://posit.co/](https://posit.co/), wo Sie oben rechts direkt von einem großen "Download RStudio"-Button begrüßt werden sollten.
 
 ![](/lehre/statistik-i/rstudio.png)
 {{< intext_anchor Konsole_Syntax >}}
@@ -101,7 +100,7 @@ Damit etwas passiert, muss die Syntax mit **Strg+Return** (OS X: **cmd+Return**)
 ## [1] 7
 ```
 
-Die beiden verbleibenden Panels stellen jeweils als Tabs verschiedene Dinge dar. Oben rechts wird per Voreinstellung das *Environment* angezeigt. Was genau das bedeutet sehen wir in Kürze. Unten rechts werden fünf Tabs dargestellt, die allesamt im Verlauf des Semesters von Relevanz sein werden:
+Die beiden verbleibenden Panels stellen jeweils als Tabs verschiedene Dinge dar. Oben rechts wird per Voreinstellung das *Environment* angezeigt. Was genau das bedeutet sehen wir in Kürze. Unten rechts werden fünf Tabs dargestellt, von denen vier im Verlauf des Semesters von Relevanz sein werden:
 
 1. *Files*: erlaubt die Navigation in Ordnern um Dateien ausfindig zu machen.
 2. *Plots*: hier werden grafische Abbildungen dargestellt.
@@ -338,7 +337,11 @@ Das Ergebnis dieser Funktion wird bestimmt und als Argument an die Funktion `log
 
 ## Hilfe {#Hilfe}
 
-R bietet ein sehr detailliertes und gutes integriertes Hilfesystem. Mit `args()` kann man sich zwar die Argumente einer Funktion ausgeben lassen, erhält aber keinerlei Zusatzinformationen. Wenn man mehr Informationen bezüglich einer spezifischen Funktion benötigt, kann man `help()` auf jede beliebige Funktion anwenden (bzw. `?` vor den Namen einer Funktion schreiben). Sie sollten - besonders zum Einstieg in R - häufig und gezielt diese Hilfe in Anspruch nehmen.
+R bietet ein sehr detailliertes und gutes integriertes Hilfesystem. Wie Ihnen bestimmt schon aufgefallen ist, versucht RStudio sie mit Auto-Ergänzungen und Pop-Ups über die Argumente einer Funktion zu unterstützen. Für `log()` sieht das z.B. so aus:
+
+![](/lehre/statistik-i/Screenshot-AutoHelp.png)
+
+Auch R-intern gibt es diverse Unterstützungsmöglichkeiten. Wenn man mehr Informationen bezüglich einer spezifischen Funktion benötigt, kann man `help()` auf jede beliebige Funktion anwenden (bzw. `?` vor den Namen einer Funktion schreiben). Sie sollten - besonders zum Einstieg in R - häufig und gezielt diese Hilfe in Anspruch nehmen.
 
 
 ```r
@@ -355,18 +358,20 @@ Die Hilfe zur Funktion wird im Panel unten rechts geöffnet und ist ein Dokument
 * *See also*: Ähnliche Funktionen, die vielleicht eher dem entsprechen, was man sucht.
 * *Examples*: Der vielleicht wichtigste Abschnitt - hier wird die Funktion beispielhaft angewendet.
 
+Wie Sie hier sehen, ist die Information, die Ihnen RStudio im Pop-Up anbietet der Anfang dessen, was Sie hier in der Hilfe präsentiert bekommen.
+
 Wenn man den genauen Namen einer Funktion nicht kennt, ist `help()` meistens nur wenig hilfreich. RStudio bietet an der oberen rechte Ecke des Hilfe-Fensters noch ein zusätzliches Suchfeld für die Hilfe, welches nicht nur die Funktionsnamen, sondern auch deren Beschreibungen durchsucht: 
 
 ![](/lehre/statistik-i/search.png)
 
-Dadurch öffnet sich im Hilfefenster eine Auflistung aller Befehle, die diesen Suchbegriff enthalten. Die Notation ist dabei immer `paket::funktion()` - also das Bündel von Funktionen, in dem wir diese spezifische Funktion gefunden haben und dann deren Name. Was genau Pakete sind, werden wir uns später noch einmal vertieft angucken. Sie können einfach links auf den Namen klicken um zur Hilfe der Funktion zu gelangen.
+Dadurch öffnet sich im Hilfefenster eine Auflistung aller Befehle, die diesen Suchbegriff enthalten. Die Notation ist dabei immer `paket::funktion()` - also das Bündel von Funktionen, in dem wir diese spezifische Funktion gefunden haben und dann deren Name. Was genau Pakete sind, werden wir uns [später](../tests-und-konfidenzintervalle#pakete) noch einmal vertieft angucken. Sie können einfach links auf den Namen klicken um zur Hilfe der Funktion zu gelangen.
 
 
 ***
 
 ## Nachrichten, Warnungen und Fehler
 
-Im Umgang mit R ist es unvermeidlich: es werden Fehler passieren. Wichtig ist nur, dass man weiß, was die Rückmeldung bedeutet, die R produziert und wie man darauf reagieren sollte. Zusätzlich zu dem Fall, in dem das korrekte Ergebnis produziert wird, kann man in R drei Formen von Rückmeldungen unterscheiden: messages, warnings und errors.
+Im Umgang mit R ist es unvermeidlich: es werden Fehler passieren. Wichtig ist nur, dass man weiß, was die Rückmeldung bedeutet, die R produziert und wie man darauf reagieren sollte. Zusätzlich zum unwahrscheinlichen Fall, in dem das korrekte Ergebnis produziert wird, kann man in R drei Formen von Rückmeldungen unterscheiden: messages, warnings und errors.
 
 Eine `Message` liefert Informationen und dient ausschließlich der Kommunikation. Hier werden z.B. Hinweise bezüglich des Zustands einer Funktion gegeben (etwa, wenn sie sich noch in der Beta-Phase befindet) oder Zusatzinformationen geliefert, die die Interpretation eines Ergebnisse vereinfachen sollen. Der Text, den R bei jedem Start produziert, ist ein Beispiel für eine `Message`.
 
@@ -385,7 +390,7 @@ log(-1)
 ## [1] NaN
 ```
 
-Warnungen beginnen in R mit dem Wort `Warning`. In diesem Fall werden wir darauf hingewiesen, dass als Ergebnis der Funktion `NaNs` (Not a Number) erzeugt werden - also wahrscheinlich ein Ergebnis, das wir nicht haben wollten, als wir den Logarithmus aufgerufen haben.
+Warnungen beginnen in R mit dem Wort `Warning`. In diesem Fall werden wir darauf hingewiesen, dass als Ergebnis der Funktion `NaN` (Not a Number) erzeugt wurde - also wahrscheinlich ein Ergebnis, das wir nicht haben wollten, als wir den Logarithmus aufgerufen haben.
 
 Die letzte Art sind `Error`, die immer damit einhergehen, dass kein Ergebnis produziert wird. Für den Logarithmus erhalten wir einen Fehler wenn
 
@@ -615,14 +620,14 @@ Typ | Kurzform | Inhalt
 `numeric` | `num` | Beliebige Zahlen
 `character` | `char` | Kombinationen aus Zahlen und Buchstaben
 
-Um die Reaktionszeiten in `react` interpretieren zu können, müssen sie mit der jeweiligen Farbe, in der Wort abgebildet ist, in Verbindung gebracht werden. Dafür bietet sich ein `character` Vektor an:
+Um die Reaktionszeiten in `react` interpretieren zu können, müssen sie mit der jeweiligen Farbe, in der ein Wort abgebildet ist, in Verbindung gebracht werden. Dafür bietet sich ein `character` Vektor an:
 
 
 ```r
 color <- c('gruen', 'gelb', 'blau', 'gruen', 'gelb', 'blau', 'rot', 'rot')
 ```
 
-Um zu prüfen, ob ein Objekt einen erwarteten Typ hat, können wir mit Funktionen vor den Typ-Namen `is.` schreiben und das als Funktion anwenden:
+Um zu prüfen, ob ein Objekt einen erwarteten Typ hat, können wir vor den Typ-Namen `is.` schreiben und das als Funktion anwenden:
 
 
 ```r
@@ -656,7 +661,7 @@ as.numeric(color)
 ## [1] NA NA NA NA NA NA NA NA
 ```
 
-Wie man sieht funktionieren Umwandlungen aber nicht beliebig - in diesem Fall gibt es keine sinnvolle, numerische Repräsentation der Farben (mehr dazu erfahren Sie in der ersten Sitzung der Vorlesung).
+Wie man sieht funktionieren Umwandlungen aber nicht beliebig - in diesem Fall gibt es keine sinnvolle, numerische Repräsentation der Farben (mehr dazu erfahren Sie in der ersten Sitzung der Vorlesung). Wie gerade besprochen fällt R auf, dass hier etwas wahrscheinlich nicht so funktioniert hat, wie wir es wollten und gibt uns dafür ein `Warning`.
 
 Als dritte Information benötigen wir in unserem Experiment den Text des Wortes:
 
@@ -700,7 +705,7 @@ str(color_fac)
 ##  Factor w/ 4 levels "blau","gelb",..: 3 2 1 3 2 1 4 4
 ```
 
-In diesem Fall werden die ursprünglichen Farben in Zahlenwerte übertragen und es wird anhand des Labels (`"blau", "gelb", ...`) verdeutlicht welche Zahl welche Farbe repräsentiert. Um alle möglichen Ausprägungen (Engl. levels) der Variable zu sehen:
+In diesem Fall werden die ursprünglichen Farben in Zahlenwerte übertragen und es wird anhand des Labels (`"blau", "gelb", ...`) verdeutlicht welche Zahl welche Farbe repräsentiert. Um alle möglichen Ausprägungen (Engl. _levels_) der Variable zu sehen:
 
 
 ```r
@@ -1102,7 +1107,7 @@ dat[cong, ]       # Alle kongruenten Zeilen, alle Spalten
 ## 7   rot   rot TRUE   443
 ```
 
-Um herauszufinden, wieivel Zeilen und Spalten ein Datensatz hat, gibt es die beiden Funktionen:
+Um herauszufinden, wie viele Zeilen und Spalten ein Datensatz hat, gibt es die beiden Funktionen:
 
 
 ```r
@@ -1375,7 +1380,7 @@ Dieses Verhalten ist konsistent mit dem Verhalten von anderen Funktionen zum Dat
 
 ## Daten aus dem Fragebogen
 
-Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [{{< icon name="download" pack="fas" >}} hier](/daten/fb22.csv). Diese liegen im CSV Format vor und die Datei heißt **fb22.csv**. Beachten Sie, dass der Datensatz durch die Befragung anhand von **formr** eigentlich auch im R-Datenformat `.rda` vorliegt. Da Sie sich jedoch nicht sicher sein können, ob Sie in Zukunft immer eine Datei mit diesem Format verwenden werden, lernen wir auch das Einlesen von anderen Formaten kennen. Mit `read.table()` können wir den CSV Datensatz laden, müssen aber bestimmte Eigenheiten des Datensatzes bedenken. Wenn Sie den Datensatz mit einem Text-Editor öffnen sehen die ersten 5 Zeilen folgendermaßen aus:
+Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [{{< icon name="download" pack="fas" >}} hier](/daten/fb23.csv). Diese liegen im CSV Format vor und die Datei heißt **fb23.csv**. Beachten Sie, dass der Datensatz durch die Befragung anhand von **formr** eigentlich auch im R-Datenformat `.rda` vorliegt. Da Sie sich jedoch nicht sicher sein können, ob Sie in Zukunft immer eine Datei mit diesem Format verwenden werden, lernen wir auch das Einlesen von anderen Formaten kennen. Mit `read.table()` können wir den CSV Datensatz laden, müssen aber bestimmte Eigenheiten des Datensatzes bedenken. Wenn Sie den Datensatz mit einem Text-Editor öffnen sehen die ersten 5 Zeilen folgendermaßen aus:
 
 
 ```
@@ -1409,7 +1414,7 @@ Das einzige Argument ohne Voreinstellung ist `file`, also der Dateiname. Wenn wi
 
 
 ```r
-fb22 <- read.table('fb22.csv')
+fb23 <- read.table('fb23.csv')
 ```
 
 ```
@@ -1421,26 +1426,26 @@ Das liegt in diesem Fall daran, dass `read.table()` als Voreinstellung annimmt, 
 
 
 ```r
-fb22 <- read.table('fb22.csv', header = TRUE)
+fb23 <- read.table('fb23.csv', header = TRUE)
 ```
 
 ```
-## Error in read.table("../../daten/fb22.csv", header = TRUE): more columns than column names
+## Error in read.table("../../daten/fb23.csv", header = TRUE): more columns than column names
 ```
 
 Wieder ergibt sich ein Fehler, der lamentiert, dass es mehr Spalten als Variablennamen gibt. Das liegt daran, dass `read.table()` per Voreinstellung davon ausgeht, dass Variablen (bzw. Spalten des Datensatzes) durch Leerzeichen getrennt sind (`sep = ""`). In unserer Datei erfolgt das aber durch Kommata.
 
 
 ```r
-fb22 <- read.table('fb22.csv', header = TRUE, sep = ",")
+fb23 <- read.table('fb23.csv', header = TRUE, sep = ",")
 ```
 
 
-Im Environment erscheint jetzt das Objekt `fb22`. Mit `head()` können wir uns den Kopf des Datensatzes (die ersten 6 Zeilen) anzeigen lassen:
+Im Environment erscheint jetzt das Objekt `fb23`. Mit `head()` können wir uns den Kopf des Datensatzes (die ersten 6 Zeilen) anzeigen lassen:
 
 
 ```r
-head(fb22)    # Kopfzeilen
+head(fb23)    # Kopfzeilen
 ```
 
 ```
@@ -1475,7 +1480,7 @@ head(fb22)    # Kopfzeilen
 ```
 
 ```r
-str(fb22)     # Struktur des Datensatzes
+str(fb23)     # Struktur des Datensatzes
 ```
 
 ```
@@ -1522,7 +1527,7 @@ Wir können den Datensatz übrigens auch direkt von der Website in R laden. Der 
 
 
 ```r
-fb22 <- read.table('https://pandar.netlify.app/daten/fb22.csv', header = TRUE, sep = ",")
+fb23 <- read.table('https://pandar.netlify.app/daten/fb23.csv', header = TRUE, sep = ",")
 ```
 
 so kann umgangen werden, dass wir die gleiche Datei immer und überall lokal speichern müssen, obwohl wir eine zentrale, online verfügbare Datei nutzen.
@@ -1531,8 +1536,8 @@ Gegenspieler von `read.table()` ist `write.table()` mit dem Daten im Klartextfor
 
 
 ```r
-write.table(fb22,     # zu speichernder Datensatz
-  'fb22.txt'          # Dateiname
+write.table(fb23,     # zu speichernder Datensatz
+  'fb23.txt'          # Dateiname
   )
 ```
 

@@ -201,20 +201,20 @@ stroop
 
 args(read.table)
 
-## fb22 <- read.table('fb22.csv')
+## fb23 <- read.table('fb23.csv')
 
 
-## fb22 <- read.table('fb22.csv', header = TRUE)
+## fb23 <- read.table('fb23.csv', header = TRUE)
 
 
-## fb22 <- read.table('fb22.csv', header = TRUE, sep = ",")
+## fb23 <- read.table('fb23.csv', header = TRUE, sep = ",")
 
 
-head(fb22)    # Kopfzeilen
-str(fb22)     # Struktur des Datensatzes
+head(fb23)    # Kopfzeilen
+str(fb23)     # Struktur des Datensatzes
 
-## fb22 <- read.table('https://pandar.netlify.app/daten/fb22.csv', header = TRUE, sep = ",")
+## fb23 <- read.table('https://pandar.netlify.app/daten/fb23.csv', header = TRUE, sep = ",")
 
-write.table(fb22,     # zu speichernder Datensatz
-  'fb22.txt'          # Dateiname
+write.table(fb23,     # zu speichernder Datensatz
+  'fb23.txt'          # Dateiname
   )
