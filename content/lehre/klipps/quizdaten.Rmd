@@ -166,6 +166,19 @@ Laden Sie sich dieses Paper zur Metaanalyse herunter, um die Fragen zu beantwort
 
 
 
+## Block 5a: Kausaleffekte {#Block5a}
+
+In diesem Quiz widmen wir uns einem großen Datensatz zu den gesellschaftlichen und psychologischen Folgen der COVID-19-Pandemie. Die Datenerhebung zur „COVID-19 Psychological Research Consortium“-Studie (https://osf.io/v2zur/), kurz C19PRC, begann im März 2020 in mehreren Ländern primär in Großbritannien und wurde mittlerweile in insgesamt sechs Wellen fortgeführt. In diesem Quiz verwenden wir Daten zur Baseline aus den ersten beiden Erhebungswellen sowie aus der aktuellen Welle 6, welche im August und September 2021 in Großbritannien mittels Onlinebefragungen durchgeführt wurde. Der Datensatz hält eine Fülle von Variablen bereit, wobei wir uns für eine konkrete Frage interessieren: Welchen Einfluss hat eine (selbstberichtete) COVID-19 Infektion auf psychologische Variablen wie Depressionssymptome, Ängstlichkeit, posttraumatische Belastungssymptome oder allgemeines Wohlbefinden? Analog zu den vergangenen Sitzungen zu Kausaleffekten konnte auch hier die „Behandlung“, in diesem Fall eine Infektion mit COVID-19, nicht randomisiert zugeordnet werden, weswegen womöglich Drittvariablen den Einfluss der Infektion auf die psychologischen Variablen verzerren. Im
+von uns vorbereiteten Datensatz zählen Personen zur infizierten Gruppe, die zur Baseline noch nicht infiziert waren, aber zur Welle 6 schon. 
+
+Laden Sie den Datensatz folgendermaßen ein:
+
+```{r, eval = F}
+load(url("https://pandar.netlify.app/post/Preprocessing/C19PRC.RData"))
+```
+
+
+
 
 ## Block 5b: Netzwerkanalyse {#Block5b}
 
