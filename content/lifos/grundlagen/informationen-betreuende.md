@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [beitner] 
 weight: 5
-lastmod: '2023-10-09'
+lastmod: '2023-10-11'
 featured: no
 banner:
   image: "/header/LIFOS-informationen.jpg"
@@ -30,7 +30,6 @@ output:
   html_document:
     keep_md: true
 ---
-
 # Übersicht
 
 Willkommen bei LIFOS! 
@@ -63,27 +62,27 @@ Als Betreuungsperson tragen Sie darüber hinaus auch eine supervisierende Verant
 
 
 {{< spoiler text="Ich bin das erste Mal auf LIFOS -- was muss ich tun?" >}}
-**Antwort:** Nachdem Sie sich das erste Mal auf LIFOS mit Ihrem HRZ-Account angemeldet haben, wurde Ihnen zwar automatisch ein Benutzerkonto auf LIFOS erstellt, jedoch sind Sie noch keiner Arbeitsgruppe zugehörig. Eine Übersicht aller bereits existierenden Gruppen auf der Plattform finden Sie [hier](https://lifos.uni-frankfurt.de/explore/groups). Wenn Ihre Arbeitsgruppe bereits vorhanden ist, können Sie entweder eine Mitgliedsanfrage stellen oder einen Ihrer Kolleg:innen bitten, Sie hinzuzufügen. Sollte Ihre Arbeitsgruppe noch nicht vorhanden sein, können Sie diese entweder selbst durch Drücken des Buttons *New Group* erstellen oder uns darum bitten. Sollten Sie sich unsicher sein, unterstützen wir Sie gerne (siehe [4. Kontaktaufnahme](#Kontakt).
+**Antwort:** Nachdem Sie sich das erste Mal auf LIFOS mit Ihrem HRZ-Account angemeldet haben, wurde Ihnen zwar automatisch ein Benutzerkonto auf LIFOS erstellt, jedoch sind Sie noch keiner Arbeitsgruppe zugehörig. Eine Übersicht aller bereits existierenden Gruppen auf der Plattform finden Sie [hier](https://lifos.uni-frankfurt.de/explore/groups). Wenn Ihre Arbeitsgruppe bereits vorhanden ist, können Sie entweder eine Mitgliedsanfrage stellen oder einen Ihrer Kolleg:innen bitten, Sie hinzuzufügen. Sollte Ihre Arbeitsgruppe noch nicht vorhanden sein, können Sie diese entweder selbst über den Button *New Group* erstellen oder uns darum bitten. Sollten Sie sich unsicher sein, unterstützen wir Sie gerne (siehe [4. Kontaktaufnahme](#Kontakt).
 {{< /spoiler >}}
 
 {{< spoiler text="Wie füge ich Studierende zur Arbeitsgruppe hinzu?" >}}
-**Antwort:**
+**Antwort:** Begeben Sie sich hierfür zu Ihrer Gruppe. Diese können Sie zum Beispiel finden, in dem Sie links oben auf die drei horizontalen Striche klicken und im Drop-Down Menü *Groups* auswählen. Unter *View all groups* können Sie all Ihre zugehörigen Gruppen einsehen. Klicken Sie auf die Gruppe, zu der Sie jemanden hinzufügen möchten. Nun klicken Sie auf die Schaltfläche *Members added*. Oben rechts leuchtet nun in blau der Button *Invite members*. Hierüber können Sie nun Studierende (als *Developer*) als auch Kolleg:innen (als *Owner*) zur Gruppe hinzufügen. Wichtig: Eine Person kann nur hinzugefügt werden, sobald er/sie sich mindestens einmal auf LIFOS eingeloggt hat!
 {{< /spoiler >}}
 
 {{< spoiler text="Wie ändere ich den Titel oder die Beschreibung eines Projekts?" >}}
-**Antwort:**
+**Antwort:** Studierende haben keine Rechte, um zu den Einstellungen eines Projektes zu gelangen. Deshalb kann es passieren, dass Studierende Sie darum bitten, zum Beispiel den Titel des Projekts zu ändern. Hierfür begeben Sie sich auf LIFOS zu dem Projekt, von dem Sie etwas ändern möchten. In der linken Leiste ganz unten finden Sie den Punkt *Settings*. Dieser ist für Studierende nicht sichtbar. Klicken Sie auf Settings und hier können Sie nun Titel und Beschreibung ändern. Vergessen Sie nicht, auf *Save changes* zu klicken, wenn Sie fertig sind.
 {{< /spoiler >}}
 
 {{< spoiler text="Wie wird auf LIFOS der Datenschutz von hochgeladenen Daten gewährleistet?" >}}
-**Antwort:**
+**Antwort:** LIFOS ist nach außen hin geschlossen. Das bedeutet, Unbefugte haben keinerlei Einsicht noch Zugriff auf Gruppen, Projekte und hochgeladene Inhalte. Trotzdem muss sichergestellt werden, dass keine sensiblen Daten auf LIFOS hochgeladen werden! Einzig anonymisierte Daten, die keinerlei Rückschlüsse auf die Teilnehmenden zulassen, sind auf LIFOS erlaubt. Um dies zu gewährleisten, raten wir Betreuenden, zu überprüfen, was in ihren Abteilungsgruppen geteilt und hochgeladen wird. Darüber hinaus bieten wir [Informationen zu Datenschutz-konformen Daten auf LIFOS](https://pandar.netlify.app/lifos/grundlagen/datenschutz/) hier auf pandaR. 
 {{< /spoiler >}}
 
 {{< spoiler text="Wie wird auf LIFOS sichergestellt, dass Studierende nicht die Projekte anderer innerhalb einer Gruppe verändern?" >}}
-**Antwort:**
+**Antwort:** Dies kann nicht per se sichergestellt werden, denn innerhalb einer Gruppe auf LIFOS haben alle Studierenden die gleichen Rechte und könnten in der Theorie an anderen Projekten etwas ändern. Da LIFOS jedoch auf Git aufgebaut ist, wird jede Änderung mit Zeitstempel und Person in der Versionshistorie gespeichert. Somit lässt sich 1) zu jeder Zeit überprüfen, wer was verändert hat und 2) lassen sich Änderungen durch die Versionshistorie auch wieder rückgängig machen. 
 {{< /spoiler >}}
 
 {{< spoiler text="Was passiert mit den Projekten der Studierenden, nachdem diese ihren Abschluss erworben haben bzw. die Universität verlassen haben?" >}}
-**Antwort:**
+**Antwort:** Dadurch, dass die Projekte in den Abteilungsgruppen direkt angelegt werden, bleiben die Projekte in den Gruppen erhalten, auch nachdem Studierende die Universität verlassen haben und ihre HRZ-Studienkonten aufgelöst wurden. 
 {{< /spoiler >}}
 
 {{< spoiler text="Darf ich auf LIFOS auch Projekte für meine eigene Forschung anlegen?" >}}

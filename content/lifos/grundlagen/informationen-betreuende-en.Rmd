@@ -31,4 +31,66 @@ output:
     keep_md: true
 ---
 
-Wird noch gebaut
+# Overview
+
+Welcome to LIFOS! 
+
+On this page you will find all the necessary information you need as supervisors and lecturers who use LIFOS in teaching with students. 
+
+1. [What is LIFOS -- short and sweet](#WhatisLIFOS)
+2. [Supervisors' rights and obligations](#Rights)
+3. [FAQs](#FAQs)
+4. [Contact](#Contact)
+
+***
+
+### 1. What is LIFOS -- short and sweet {#WhatisLIFOS .anchorheader}
+
+LIFOS stands for Local Infrastructure for Open Science and was funded by [DigiTeLL](https://www.uni-frankfurt.de/106206707/Projekt_DigiTeLL) from 2022 to 2023. LIFOS is a GitLab-based platform that mimics the structures of the [Open Science Framework](https://osf.io/). What is special about LIFOS is that the platform is only accessible to staff and students of the Institute of Psychology at Goethe University. This semi-open space thus provides a protected setting for students to practice and try out Open Science practices based on their student research. The goal is to let students directly learn and practice Open Science practices in the research process. 
+
+***
+
+### 2. Supervisors' rights and obligations {#Rigths .anchorheader}
+
+As a supervisor or lecturer, you may ask yourself, what are my rights and obligations towards students and the platform? Since LIFOS is designed as an practice platform for students, it is mainly used by students. However, students have fewer rights on the platform than academic staff, so it can sometimes happen that students turn to you for certain requests. For example, academic staff can add and remove people from their working group on the platform. Also, unlike students, supervisors have access to the settings of the projects within the working group, and can thus make changes to the title, project description, visibility of the project and much more, and in the last instance even delete the project. As soon as students have a need here, they will contact you with their change requests. You can find more information about the concrete implementation on this page in the [FAQs](#FAQs).
+
+As a supervisor, you also have a supervising responsibility to the students you supervise, which includes keeping an eye on what is uploaded by students. It is particularly important here to ensure that data is only uploaded and made available in a correctly anonymized form. 
+
+
+***
+
+### 3. FAQs {#FAQs .anchorheader}
+
+{{< spoiler text="This is my first time on LIFOS -- what do I need to do?" >}}
+**Antwort:** After you have logged in to LIFOS for the first time with your HRZ account, a user account has been automatically created for you on LIFOS, but you are not yet a member of any working group. An overview of all existing groups on the platform can be found [here](https://lifos.uni-frankfurt.de/explore/groups). If your working group already exists, you can either submit a request to join or ask one of your colleagues to add you. If your working group does not yet exist, you can either create it yourself using the *New Group* button or ask us to do so. If you are unsure, we will be happy to support you (see [4. Contact](#Contact).
+{{< /spoiler >}}
+
+{{< spoiler text="How do I add students to the working group?" >}}
+**Antwort:** To do this, go to your group. You can find it, for example, by clicking on the three horizontal lines in the upper left corner and selecting *Groups* from the drop-down menu. Under *View all groups* you can see all your associated groups. Click on the group you want to add someone to. Now click on the *Members added* button. In the upper right corner the button *Invite members* will light up in blue. Here you can add students (as *Developer*) as well as colleagues (as *Owner*) to the group. Important: A person can only be added if they have logged in to LIFOS at least once!
+{{< /spoiler >}}
+
+{{< spoiler text="How do I change the title or description of a project?" >}}
+**Antwort:** Students do not have rights to access the settings of a project. Therefore it can happen that students ask you to change the title of the project, for example. To do this, go to the project you want to change something from on LIFOS. In the left bar at the very bottom you will find *Settings*. This is not visible for students. Click on Settings and here you can now change the title and description. Don't forget to click on *Save changes* when you are done.
+{{< /spoiler >}}
+
+{{< spoiler text="How is data protection ensured for uploaded data on LIFOS?" >}}
+**Antwort:** LIFOS is closed to the public. This means that unauthorized persons have no insight into or access to groups, projects and uploaded content. Nevertheless, it must be ensured that no sensitive data is uploaded to LIFOS! Only anonymized data that do not allow any conclusions about the participants is allowed on LIFOS. To ensure this, we advise supervisors to check what is shared and uploaded in their working groups. In addition, we provide [information on privacy-compliant data on LIFOS](https://pandar.netlify.app/lifos/grundlagen/datenschutz-en/) here on pandaR. 
+{{< /spoiler >}}
+
+{{< spoiler text="How is it ensured on LIFOS that students do not modify the projects of others within a group?" >}}
+**Antwort:** This cannot be ensured per se, because within a group on LIFOS all students have the same rights and could in theory change something on other projects. However, since LIFOS is built on Git, every change is stored with timestamp and person in the version history. Thus, 1) it is possible to check who changed what at any time and 2) changes can also be undone through the version history. 
+{{< /spoiler >}}
+
+{{< spoiler text="What happens to students' projects after they graduate or leave the university?" >}}
+**Antwort:** By creating projects directly in working groups, the projects remain in the groups even after students have left the university and their HRZ student accounts have been closed. 
+{{< /spoiler >}}
+
+{{< spoiler text="Can I also create projects on LIFOS for my own research?" >}}
+**Antwort:** Unfortunately no. LIFOS is intended as a pure practice platform for students and projects created on LIFOS cannot be shared outside the platform. For research projects by scientists or students that go beyond the scope of a course assignment, we suggest pre-registration and documentation on the [Open Science Framework](https://osf.io/). 
+{{< /spoiler >}}
+
+***
+
+### 4. Contact {#Contact .anchorheader}
+
+If you have any questions, uncertainties or requests for workshops, please feel free to contact us at **LIFOS**[at]**uni-frankfurt**[punkt]**de**.
