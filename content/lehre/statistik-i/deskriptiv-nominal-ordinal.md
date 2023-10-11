@@ -80,12 +80,10 @@ names(fb22)        # Namen der Variablen
 ```
 
 ```
-##  [1] "prok1"   "prok2"   "prok3"   "prok4"   "prok5"   "prok6"   "prok7"  
-##  [8] "prok8"   "prok9"   "prok10"  "nr1"     "nr2"     "nr3"     "nr4"    
-## [15] "nr5"     "nr6"     "lz"      "extra"   "vertr"   "gewis"   "neuro"  
-## [22] "intel"   "nerd"    "grund"   "fach"    "ziel"    "lerntyp" "geschl" 
-## [29] "job"     "ort"     "ort12"   "wohnen"  "uni1"    "uni2"    "uni3"   
-## [36] "uni4"
+##  [1] "prok1"   "prok2"   "prok3"   "prok4"   "prok5"   "prok6"   "prok7"   "prok8"   "prok9"   "prok10" 
+## [11] "nr1"     "nr2"     "nr3"     "nr4"     "nr5"     "nr6"     "lz"      "extra"   "vertr"   "gewis"  
+## [21] "neuro"   "intel"   "nerd"    "grund"   "fach"    "ziel"    "lerntyp" "geschl"  "job"     "ort"    
+## [31] "ort12"   "wohnen"  "uni1"    "uni2"    "uni3"    "uni4"
 ```
 
 ```r
@@ -126,16 +124,14 @@ fb22$geschl
 ```
 
 ```
-##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2  2  1  1  1  1  1  1  1  1  1  2  1 NA
-##  [26]  1  1  1  1  1  2  1  1  1  1  1  1  1  2  1  1  1  1  1  1  1  1  1  1  1
-##  [51]  1  1  1 NA  1  2  1  2  1  1  1  2  1 NA NA  1  3  1  1  1  1  1  1  1  1
-##  [76]  1  1  1  2  2  2  1  2  2  1  1  1  1  1  1  1  1  1  1 NA  1  1  1  1  1
-## [101]  1 NA  2  1  1  1  1 NA  1 NA  1  1  2  1  1  1  1  1  1  1  1  1  1  1  1
-## [126]  2  1  1 NA  2  1  2  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
-## [151]  1  1  1  1  1  1  2  1  1
+##   [1]  1  2  2  2  1 NA  2  1  1  1  1  2  2  1  1  1  1  1  1  1  1  1  2  1 NA  1  1  1  1  1  2  1  1  1
+##  [35]  1  1  1  1  2  1  1  1  1  1  1  1  1  1  1  1  1  1  1 NA  1  2  1  2  1  1  1  2  1 NA NA  1  3  1
+##  [69]  1  1  1  1  1  1  1  1  1  1  2  2  2  1  2  2  1  1  1  1  1  1  1  1  1  1 NA  1  1  1  1  1  1 NA
+## [103]  2  1  1  1  1 NA  1 NA  1  1  2  1  1  1  1  1  1  1  1  1  1  1  1  2  1  1 NA  2  1  2  1  1  1  1
+## [137]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  2  1  1
 ```
 
-Die Variable `geschl` liegt numerisch vor, es treten die Werte 1, 2 und 3 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/post/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "weiblich". Diese *Label* werden nun im Faktor hinterlegt.
+Die Variable `geschl` liegt numerisch vor, es treten die Werte 1, 2 und 3 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/lehre/statistik-i/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "weiblich". Diese *Label* werden nun im Faktor hinterlegt.
 
 Vorgehensweise:   
 
@@ -179,13 +175,11 @@ fb22$fach
 ```
 
 ```
-##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2  2  2  4  3  2  3  4  4  1  3  4  4 NA
-##  [26]  3 NA  2  3  4  4  1  3  2  1  3  1 NA  2  4  4  4  4  4  4  1  4  1  3  1
-##  [51]  1  3  4 NA  4  2  4  4  4  4  3  4  2 NA NA  4  4  3  4  3  4  3  3  1  3
-##  [76]  4  4  4  3  3  4  2  3  3  2  3  4  2  4  3  4  2  3  3 NA  4  2  4  2  2
-## [101]  4 NA  2  3  2  1  1  3  5 NA  4  5  1  1  4  4  3  2  2  2 NA  3  5  4  3
-## [126]  5  2  4 NA  1  4  3  3  5  4  1  4  4  2  3  3  4  3  2  4  4  4  4  4  5
-## [151]  2  1  3  1  2  3  4  4  4
+##   [1]  5  4  1  4  2 NA  1  4  3  4  3  2  2  2  4  3  2  3  4  4  1  3  4  4 NA  3 NA  2  3  4  4  1  3  2
+##  [35]  1  3  1 NA  2  4  4  4  4  4  4  1  4  1  3  1  1  3  4 NA  4  2  4  4  4  4  3  4  2 NA NA  4  4  3
+##  [69]  4  3  4  3  3  1  3  4  4  4  3  3  4  2  3  3  2  3  4  2  4  3  4  2  3  3 NA  4  2  4  2  2  4 NA
+## [103]  2  3  2  1  1  3  5 NA  4  5  1  1  4  4  3  2  2  2 NA  3  5  4  3  5  2  4 NA  1  4  3  3  5  4  1
+## [137]  4  4  2  3  3  4  3  2  4  4  4  4  4  5  2  1  3  1  2  3  4  4  4
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
@@ -386,11 +380,10 @@ colors()[1:20]
 ```
 
 ```
-##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1"
-##  [5] "antiquewhite2" "antiquewhite3" "antiquewhite4" "aquamarine"   
-##  [9] "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"  
-## [13] "azure"         "azure1"        "azure2"        "azure3"       
-## [17] "azure4"        "beige"         "bisque"        "bisque1"
+##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1" "antiquewhite2" "antiquewhite3"
+##  [7] "antiquewhite4" "aquamarine"    "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"  
+## [13] "azure"         "azure1"        "azure2"        "azure3"        "azure4"        "beige"        
+## [19] "bisque"        "bisque1"
 ```
 
 Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
@@ -587,13 +580,11 @@ fb22$prok4
 ```
 
 ```
-##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2  3  2  3 NA  2  4  2  2  2  3  3  2  3
-##  [26]  2  2  2  1  3  2  3  3  3  3  2  3  2  3  2  3  3  3  4  3  3  3  4  2  4
-##  [51]  3  2  3  4  3  3  2  1  4  2  2  2  2  2  2  2  2  2  3  2  2  2  3  2  3
-##  [76]  3  3  2  2  3  1  2  2  1  3  2  3  2  2  3  3  2  2  2  1  1  3  2  4  3
-## [101]  2  4  3  3  1  2  2  3  4  3  1  3  2  2  3  2  2  2  3  4  3  1  2  2  3
-## [126]  3  4  3  3  3  3  4  3  1  2  3  2  2  3  2  2  4  4  2  3  2  3  2  4  2
-## [151]  2  2  2  4  3  4  3  3  3
+##   [1]  2  4  4 NA  3  2  2  3  3  4  1  2  3  2  3 NA  2  4  2  2  2  3  3  2  3  2  2  2  1  3  2  3  3  3
+##  [35]  3  2  3  2  3  2  3  3  3  4  3  3  3  4  2  4  3  2  3  4  3  3  2  1  4  2  2  2  2  2  2  2  2  2
+##  [69]  3  2  2  2  3  2  3  3  3  2  2  3  1  2  2  1  3  2  3  2  2  3  3  2  2  2  1  1  3  2  4  3  2  4
+## [103]  3  3  1  2  2  3  4  3  1  3  2  2  3  2  2  2  3  4  3  1  2  2  3  3  4  3  3  3  3  4  3  1  2  3
+## [137]  2  2  3  2  2  4  4  2  3  2  3  2  4  2  2  2  2  4  3  4  3  3  3
 ```
 
 Wiederholung:
