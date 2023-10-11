@@ -158,17 +158,6 @@ library(metafor)
 ## To update to this version type: install.packages("metafor")
 ```
 
-```
-## 
-## Attaching package: 'metafor'
-```
-
-```
-## The following object is masked from 'package:car':
-## 
-##     vif
-```
-
 Hier ist außerdem die Literaturangabe zum zugehörigen Paper:
 
 [Molloy, G. J., O'Carroll, R. E., & Ferguson, E. (2014)](https://ubffm.hds.hebis.de/EBSCO/Record?id=RN347807174|edsbl). Conscientiousness and medication adherence: A meta-analysis. Annals of Behavioral Medicine, 47(1), 92–101. [https://doi.org/10.1007/s12160-013-9524-4](https://doi.org/10.1007/s12160-013-9524-4)
@@ -207,6 +196,20 @@ Um noch ein besseres Gefühl für Metaanalysen zu bekommen und um eine Studie zu
 [Vahedi, Z., & Zannella, L. (2021).](https://ubffm.hds.hebis.de/EBSCO/Record?id=edsbas.FE6E6149|edsbas) The association between self-reported depressive symptoms and the use of social networking sites (SNS): A meta-analysis. Current Psychology: A Journal for Diverse Perspectives on Diverse Psychological Issues, 40(5), 2174–2189. [https://doi.org/10.1007/s12144-019-0150-6](https://doi.org/10.1007/s12144-019-0150-6)
 
 Laden Sie sich dieses Paper zur Metaanalyse herunter, um die Fragen zu beantworten. Die sozialen Netzwerke wurden mit SNS abgekürzt, was für Social Networking Sites steht.
+
+
+
+## Block 5a: Kausaleffekte {#Block5a}
+
+In diesem Quiz widmen wir uns einem großen Datensatz zu den gesellschaftlichen und psychologischen Folgen der COVID-19-Pandemie. Die Datenerhebung zur „COVID-19 Psychological Research Consortium“-Studie (https://osf.io/v2zur/), kurz C19PRC, begann im März 2020 in mehreren Ländern primär in Großbritannien und wurde mittlerweile in insgesamt sechs Wellen fortgeführt. In diesem Quiz verwenden wir Daten zur Baseline aus den ersten beiden Erhebungswellen sowie aus der aktuellen Welle 6, welche im August und September 2021 in Großbritannien mittels Onlinebefragungen durchgeführt wurde. Der Datensatz hält eine Fülle von Variablen bereit, wobei wir uns für eine konkrete Frage interessieren: Welchen Einfluss hat eine (selbstberichtete) COVID-19 Infektion auf psychologische Variablen wie Depressionssymptome, Ängstlichkeit, posttraumatische Belastungssymptome oder allgemeines Wohlbefinden? Analog zu den vergangenen Sitzungen zu Kausaleffekten konnte auch hier die „Behandlung“, in diesem Fall eine Infektion mit COVID-19, nicht randomisiert zugeordnet werden, weswegen womöglich Drittvariablen den Einfluss der Infektion auf die psychologischen Variablen verzerren. Im
+von uns vorbereiteten Datensatz zählen Personen zur infizierten Gruppe, die zur Baseline noch nicht infiziert waren, aber zur Welle 6 schon. 
+
+Laden Sie den Datensatz folgendermaßen ein:
+
+
+```r
+load(url("https://pandar.netlify.app/post/Preprocessing/C19PRC.RData"))
+```
 
 
 
