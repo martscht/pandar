@@ -1,4 +1,4 @@
-load(url('https://pandar.netlify.app/post/fb22.rda'))   # Daten laden
+load(url('https://pandar.netlify.app/daten/fb22.rda'))   # Daten laden
 names(fb22)        # Namen der Variablen
 dim(fb22)          # Anzahl Zeile und Spalten
 
