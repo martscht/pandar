@@ -36,7 +36,7 @@ Laden Sie zunächst den Datensatz `fb22` von der pandar-Website herunter und dan
 load(url('https://pandar.netlify.app/daten/fb22.rda'))   # Daten laden
 ```
 
-Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [variablen.pdf](/lehre/statistik-i/variablen.pdf) entnehmen.
+Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Verschaffen Sie sich nun einen Überblick über den Datensatz:
 
