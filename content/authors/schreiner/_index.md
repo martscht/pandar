@@ -66,4 +66,4 @@ email: ""
 user_groups: ["Team"]
 ---
 
-Zarah Schreiner ist seit 2021 studentische Hilfskraft in den Abteilungen *Psychologische Methoden mit interdisziplinärer Ausrichtung*. Dabei leitete sie zunächst ein Tutorium, das begleitend zu den Vorlesungen Statisitk I und II gehalten wurden und ist seit 2022 fest an der Abteilung angestellt.
+Zarah Schreiner ist seit 2021 studentische Hilfskraft an der Goethe Universität. Dabei leitete sie zunächst Tutorien für die Abteilungen *Psychologische Methoden mit interdisziplinärer Ausrichtung* und *Psychologische Methodenlehre, Evaluation und Forschungsmethodik*, die begleitend zu den Vorlesungen Statisitk I und II gehalten wurden. Seit 2022 ist sie fest an der Abteilung *Psychologische Methodenlehre, Evaluation und Forschungsmethodik* angestellt.
