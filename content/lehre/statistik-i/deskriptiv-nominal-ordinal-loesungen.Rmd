@@ -1,0 +1,221 @@
+---
+title: "Deskriptivstatistik für Nominal- und Ordinalskalen - Lösungen" 
+type: post
+date: '2020-11-26' 
+slug: deskriptiv-nominal-ordinal-loesungen
+categories: ["Statistik I"] 
+tags: [] 
+subtitle: ''
+summary: '' 
+authors: [buchholz, nehler] 
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/descriptive_post.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)"
+projects: []
+reading_time: false
+share: false
+_build:
+  list: never
+output:
+  html_document:
+    keep_md: true
+---
+
+Die Lösungen sind exemplarische Möglichkeiten. In `R` gibt es immer viele Wege ans Ziel. Wenn Sie einen anderen mit dem korrekten Ergebnis gewählt haben, kann dieser genauso richtig sein wie die hier präsentierten Ansätze.
+
+### Vorbereitung
+
+<details><summary>Lösung</summary>
+
+Laden Sie zunächst den Datensatz `fb22` von der pandar-Website herunter und dann ein.
+
+```{r}
+load(url('https://pandar.netlify.app/daten/fb22.rda'))   # Daten laden
+```
+
+Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [variablen.pdf](/lehre/statistik-i/variablen.pdf) entnehmen.
+
+Verschaffen Sie sich nun einen Überblick über den Datensatz:
+
+```{r}
+dim(fb22)
+str(fb22)
+```
+
+Der Datensatz besteht aus `r nrow(fb22)` Zeilen (Beobachtungen) und `r ncol(fb22)` Spalten (=Variablen).
+
+</details>
+
+
+
+## Aufgabe 1
+
+Untersuchen Sie, welche Arbeitsbranche Sie und Ihre Kommiliton:innen nach dem Studium anstreben!  
+
+* Vergeben Sie zunächst die korrekten Wertelabels an die Ausprägungen der Variable.  
+* Lassen Sie sich absolute und relative Häufigkeiten ausgeben.  
+* Untersuchen Sie mit den geeigneten Maßen die zentrale Tendenz und Dispersion dieser Variable.  
+
+
+<details><summary>Lösung</summary>
+
+**Faktor erstellen**
+
+```{r}
+fb22$ziel <- factor(fb22$ziel,
+                        levels = 1:4,
+                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
+levels(fb22$ziel)
+```
+
+**Absolute und relative Häufigkeiten anfordern**  
+
+```{r}
+table(fb22$ziel)              # absolut
+prop.table(table(fb22$ziel))  # relativ
+```
+
+**Zentrale Tendenz und Dispersion für nominalskalierte Variablen: Modus, relativer Informationsgehalt**
+
+```{r}
+# Modus
+which.max(table(fb22$ziel))
+```
+
+```{r}
+#relativer Informationsgehalt
+hj <- prop.table(table(fb22$ziel))  # hj erstellen
+ln_hj <- log(hj)                    # Logarithmus bestimmen
+summand <- ln_hj * hj               # Berechnung fuer jede Kategorie
+summe <- sum(summand)               # Gesamtsumme
+k <- length(hj)                     # Anzahl Kategorien bestimmen
+relInf <- -1/log(k) * summe         # Relativer Informationsgehalt
+relInf
+```
+
+Der Modus der Variable lautet `r names(which.max(table(fb22$ziel)))` - die meisten Ihres Jahrgangs (*n* = `r max(table(fb22$ziel))` bzw. `r round(max(prop.table(table(fb22$ziel)))*100,2)`%) streben einen Job in diesem Bereich an. Der relative Informationsgehalt der Variable beträgt `r round(relInf, 2)`. Sie sehen hier, dass wir im Code einen kleinen Unterschied zum Tutorial eingebaut haben. Die Anzahl der Kategorien wird nicht mehr durch `dim(tab)` sondern durch `length(hj)` bestimmt. Das Resultat ist nicht verschieden - die Anzahl der Kategorien wird gezählt. Wir wollen somit aber nochmal deutlich machen, dass es in `R` immer sehr viele Wege zu einem Ziel geben kann.
+
+</details>
+
+
+
+## Aufgabe 2
+
+Die Variable `nr3` enthält die Angaben über das Ausmaß, in dem Sie und Ihre Kommilitonen:innen Ihre Verbindung zur Natur als Teil Ihrer Spiritualität ansehen.
+
+* Bestimmen Sie für diese Variable den Modus.     
+* Untersuchen Sie die Streuung für diese Variable optisch, indem Sie einen Boxplot erstellen.  
+* Bestimmen Sie die Quartile und den Interquartilsbereich (IQB) auch als Zahlen.
+
+<details><summary>Lösung</summary>
+
+**Modus**
+
+```{r}
+which.max(table(fb22$nr3))
+```
+
+**Häufigkeiten**
+
+```{r}
+table(fb22$nr3)
+prop.table(table(fb22$nr3))
+```
+
+Der Modus der Variable "nr3" beträgt `r which.max(table(fb22$nr3))`, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = `r max(table(fb22$nr3))` bzw. `r round(max(prop.table(table(fb22$nr3)))*100,2)`%).
+
+**Boxplot**
+
+```{r}
+boxplot(fb22$nr3)
+```
+
+**Quartile**
+
+```{r}
+quantile(fb22$nr3, c(.25,.5,.75), na.rm=T)
+```
+
+Der Median beträgt `r quantile(fb22$nr3, .5, na.rm=T)`. Das 1. und 3. Quartil betragen `r quantile(fb22$nr3, .25, na.rm=T)` bzw. `r quantile(fb22$nr3, .75, na.rm=T)`. Folglich sind die Grenzen des Interquartilsbereich (IQB) `r quantile(fb22$nr3, .25, na.rm=T)` und `r  quantile(fb22$nr3, .75, na.rm=T)`. Der Interquartilsabstand (IQA) beträgt `r  quantile(fb22$nr3, .75, na.rm=T)-quantile(fb22$nr3, .25, na.rm=T)`.
+
+</details>
+
+
+## Aufgabe 3
+
+Erstellen Sie für die Variable `wohnen` eine geeignete Abbildung.   
+
+* Stellen Sie sicher, dass die einzelnen Ausprägungen der Variable in der Darstellung interpretierbar benannt sind!  
+* Dekorieren Sie diese Abbildung nach eigenen Wünschen (z.B. mit einer Farbpalette und Achsenbeschriftungen).
+* Speichern Sie die Grafik per Syntax als .jpg-Datei mit dem Namen "Befragung-fb22.jpg" ab.
+
+<details><summary>Lösung</summary>
+
+**Faktor erstellen**
+
+```{r}
+fb22$wohnen <- factor(fb22$wohnen, 
+                      levels = 1:4, 
+                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+```
+
+**Default Darstellung und überarbeitete Grafik**
+
+Um die Vergleichbarkeit zu erhöhen, wird im folgenden Code ein kleiner Trick angewendet. Die beiden Histogramme sollten am besten gleichzeitig unter **Plots** angezeigt werden. Durch die verwendete Funktion `par()` kann man verschiedene Plots gemeinsam in einem Fenster zeichnen. Das Argument bestimmt dabei, dass es eine Zeile und zwei Spalten für die Plots gibt.
+
+```{r}
+par(mfrow=c(1,2))
+
+# Default
+barplot(table(fb22$wohnen))
+
+# Überarbeitet
+barplot(
+  # wichtig: Funktion auf Häufigkeitstabelle, nicht die Variable selbst anwenden:
+  table(fb22$wohnen),                               
+  # aussagekräftiger Titel, inkl. Zeilenumbruch ("\n") 
+  main = "Befragung Erstis im WS 20/21:\nAktuelle Wohnsituation", 
+  # y-Achsen-Beschriftung:
+  ylab = "Häufigkeit",
+  # Farben aus einer Farbpalette:
+  col = rainbow(10),
+  # Platz zwischen Balken minimieren:
+  space = 0.1,
+  # graue Umrandungen der Balken:
+  border = "grey2",
+  # Unterscheidlich dichte Schattierungen (statt Füllung) für die vier Balken:
+  density = c(50, 75, 25, 50),
+  # Richtung, in dem die Schattierung in den vier Balken verläuft
+  angle = c(-45, 0, 45, 90),
+  # Schriftausrichtung der Achsen horizontal:
+  las=2,
+  #y-Achse erweitern, sodass mehr Platz zum Titel bleibt:
+  ylim = c(0,60))
+```
+
+**Speichern (per Syntax)**
+
+```{r, results = "hide"}
+jpeg("Befragung-fb22.jpg", width=20, height=10, units="cm", res=200)
+barplot(
+  table(fb22$wohnen),                               
+  main = "Befragung Erstis im WS 21/22:\nAktuelle Wohnsituation", 
+  ylab = "Häufigkeit",
+  col = rainbow(10),
+  space = 0.1,
+  border = "grey2",
+  density = c(50,75,25,50),
+  angle = c(-45,0,45,90),
+  las=2,
+  ylim = c(0,60))
+dev.off()
+```
+
+Im Arbeitsverzeichnis sollte die Datei nun vorliegen.
+
+</details>
+
+
+
