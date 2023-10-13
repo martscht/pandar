@@ -59,7 +59,7 @@ email: ""
 user_groups: ["Teaching"]
 ---
 
-Miriam Scheppa-Lahyani arbeitete von 2017 bis 2022 als wissenschaftliche Hilfskraft in der Abteilung der Arbeits- und Organisationspsychologie an der Goethe Universität Frankfurt am Main.
+Miriam Scheppa-Lahyani arbeitete von 2017 bis 2023 als wissenschaftliche Mitarbeiterin in der Abteilung der Arbeits- und Organisationspsychologie an der Goethe Universität Frankfurt am Main.
 
 **Biografie**
 
