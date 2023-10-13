@@ -2,14 +2,14 @@
 title: "Tests und Konfidenzintervalle" 
 type: post
 date: '2020-12-11' 
-slug: tests-und-konfidenzintervalle
+slug: tests-konfidenzintervalle
 categories: ["Statistik I"] 
 tags: ["z-Test", "t-Test", "Konfidenzintervall", "Cohen's d"] 
 subtitle: ''
 summary: 'In diesem Beitrag geht es um die Berechnung und Interpretation des z-Tests und des t-Tests. Außerdem soll ein Konfidenzintervall um den wahren Populationsmittelwert bestimmt sowie Hypethesengenerierung und das Effektstärkemaß Cohens d vorgestellt werden.' 
 authors: [scheppa-lahyani, nehler] 
 weight: 5
-lastmod: '`r Sys.Date()`'
+lastmod: '2023-10-13'
 featured: no
 banner:
   image: "/header/BSc2_Tests.jpg"
@@ -22,25 +22,22 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/tests-und-konfidenzintervalle
+    url: /lehre/statistik-i/tests-konfidenzintervalle
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/statistik-i/tests-und-konfidenzintervalle.R
+    url: /lehre/statistik-i/tests-konfidenzintervalle.R
   - icon_pack: fas
     icon: pen-to-square
     name: Aufgaben
-    url: /lehre/statistik-i/tests-und-konfidenzintervalle-aufgaben
+    url: /lehre/statistik-i/tests-konfidenzintervalle-aufgaben
 output:
   html_document:
     keep_md: true
 ---
 
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-knitr::opts_chunk$set(error = TRUE)
-library(knitr)
-```
+
 
   
 {{< spoiler text="Kernfragen dieser Lehreinheit" >}}
@@ -75,7 +72,8 @@ Nachdem wir uns die letzten Wochen mit Deskriptivstatistik und Verteilungen besc
 
 Der Datensatz wird in diesem Tutorial nicht direkt verwendet, wird aber für das spätere Beispiel gebraucht. Wir beschäftigen uns aber wieder zu Beginn mit dem Einladen, um die Struktur der Tutorials gleich zu lassen. Den Datensatz haben wir bereits unter diesem [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb22.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
-```{r}
+
+```r
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -115,7 +113,6 @@ fb22$nr_ges_z <- scale(fb22$nr_ges) # Standardisiert
 # Weitere Standardisierugen
 fb22$nerd_std <- scale(fb22$nerd)
 fb22$neuro_std <- scale(fb22$neuro)
-
 ```
 ***
 
@@ -157,7 +154,8 @@ $$\sigma_{\bar{x}} = {\frac{{\sigma}}{\sqrt{n}}}$$
   
 Zunächst legen wir alle für den *z-*Wert relevanten Informationen in unser Environment ab, wobei wir auch schon den Standardfehler des Mittelwerts ($\sigma_{\bar{x}}$) berechnen.
 
-```{r}
+
+```r
 mean_IQ <- 100 #Mean Grundgesamtheit
 sd_IQ <- 15 #SD der Grundgesamtheit
 sample_size <- 75 #Stichprobengröße
@@ -168,16 +166,26 @@ new_sd_IQ <- 17 #SD der Stichprobe (Populationsschätzer)
 
 Demnach wird der empirische *z-*Wert $z_{emp}$ wie folgt berechnet:
 
-```{r}
+
+```r
 z_IQ <- abs((new_mean_IQ-mean_IQ)/(sd_IQ/sqrt(sample_size))) #abs() berechnet den Betrag des Ergebnisses
 z_IQ
 ```
 
+```
+## [1] 2.886751
+```
+
 bzw.
 
-```{r}
+
+```r
 z_IQ <- abs((new_mean_IQ-mean_IQ)/se_IQ)
 z_IQ
+```
+
+```
+## [1] 2.886751
 ```
 
 Beachten Sie: es geht immer um den Betrag des Ergebnisses, weshalb wir die Funktion `abs()` verwenden.
@@ -187,15 +195,25 @@ Der beobachtete Stichprobenmittelwert weicht demnach um **$z_{IQ}$ = 2.89** *SE*
 Um entscheiden zu können, ob es sich um eine signifikante Abweichung handelt, muss der **kritische *z-*Wert** $z_{krit}$ bestimmt werden.  
 Für eine Irrtumswahrscheinlichkeit von 5% und eine einseitige Hypothesentestung wäre dies:
   
-```{r}
+
+```r
 z_krit <- qnorm(1-.05) #bei einer zweiseitigen Testung würden wir qnorm(1-(.05/2)) verwenden
 z_krit
 ```
 
+```
+## [1] 1.644854
+```
+
 Der **kritische *z-*Wert** beträgt demnach **$z_{krit}$ = 1.64**. Damit das Ergebnis als signifikant gewertet wird, muss der empirische *z-*Wert $z_{emp}$ größer sein als der kritsiche *z-*Wert (**$z_{IQ}$ > $z_{krit}$**). Hierfür können wir auch eine logische Abfrage nutzen:
   
-```{r}
+
+```r
 z_IQ > z_krit
+```
+
+```
+## [1] TRUE
 ```
 
 Das Ergebnis `TRUE` zeigt uns, dass es sich um einen signifikanten Unterschied handelt.
@@ -205,16 +223,26 @@ Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Der 
 
 Wie hoch ist die Wahrscheinlichkeit angesichts der bekannten Normalverteilung diesen oder einen GRÖßEREN (einseitig) empirischen *z-*Wert $z_{emp}$ zu erreichen?
   
-```{r}
+
+```r
 p_z_IQ_oneside <- pnorm(z_IQ, lower.tail = FALSE)
 p_z_IQ_oneside
 ```
 
+```
+## [1] 0.001946209
+```
+
 Wie hoch ist die Wahrscheinlichkeit angesichts der bekannten Normalverteilung diesen oder einen EXTREMEREN (zweiseitig) *z-*Wert $z_{emp}$ zu erreichen?
   
-```{r}
+
+```r
 p_z_IQ_twoside <- 2*pnorm(z_IQ, lower.tail = FALSE) #verdoppeln, da zweiseitig
 p_z_IQ_twoside
+```
+
+```
+## [1] 0.003892417
 ```
 
 Wir erkennen, dass in beiden Fällen der Wert kleiner als .05 (5%) ist. Demnach ist die Wahrscheinlichkeit, diesen Wert (oder einen noch extremeren Wert) per Zufall erhalten zu haben, sehr gering, wenn die $H_0$ gilt.
@@ -233,24 +261,46 @@ Ein 95%-Konfidenzintervall ist somit ein Intervall, welches in 95% der Fälle be
 
 Wenn wir ein 95%-Konfidenzintervall bestimmen wollen, brauchen wir das zugehörige Quantil aus der Standardnormalverteilung - also den *z*-Wert für $\frac{\alpha}{2}$. Wir müssen das $\alpha$-Niveau halbieren, da wir uns momentan beim Bilden eines zweiseitigen Konfidenzintervalles befinden. Wir haben bereits gelernt, dass man Quantile aus der Normalverteilung mit der Funktion `qnorm()` erhalten kann. Die Standardnormalverteilung mitt Mittelwert von 0 und Standardabweichung von 1 ist dabei der Default, aber wir geben die Argumente zur Übung trotzdem selbst an.
   
-```{r}
+
+```r
 z_quantil_zweiseitig <- qnorm(p = 1-(.05/2), mean = 0, sd = 1)
 z_quantil_zweiseitig
 ```
-Wir sehen, dass der Wert `r round(z_quantil_zweiseitig,3)` 2.5% der Verteilung Richtung positiv unendlich abtrennt. Nun haben wir alle wichtigen Informationen, um ein zweiseitiges Konfidenzintervall um unseren Mittelwert zu legen.
 
-```{r}
+```
+## [1] 1.959964
+```
+Wir sehen, dass der Wert 1.96 2.5% der Verteilung Richtung positiv unendlich abtrennt. Nun haben wir alle wichtigen Informationen, um ein zweiseitiges Konfidenzintervall um unseren Mittelwert zu legen.
+
+
+```r
 positive_mean_IQ <- new_mean_IQ+((z_quantil_zweiseitig*sd_IQ)/sqrt(sample_size))
 positive_mean_IQ
+```
 
+```
+## [1] 108.3948
+```
+
+```r
 negative_mean_IQ <- new_mean_IQ-((z_quantil_zweiseitig*sd_IQ)/sqrt(sample_size))
 negative_mean_IQ
+```
 
+```
+## [1] 101.6052
+```
+
+```r
 conf_interval_IQ <- c(negative_mean_IQ, positive_mean_IQ )
 conf_interval_IQ
 ```
 
-In diesem Fall liegt der Schätzer für den wahren IQ Wert der Grundgesamtheit $\mu$, aus der die Stichprobe gezogen wurde, zwischen `r round(conf_interval_IQ[1],2)` und `r round(conf_interval_IQ[2],2)`. Das bedeutet, dass mit einer Wahrscheinlichkeit von 95% der wahre IQ Wert der Grundgesamtheit in unserem Konfidenzinterall `r round(conf_interval_IQ[1],2)` und `r round(conf_interval_IQ[2],2)` liegt.
+```
+## [1] 101.6052 108.3948
+```
+
+In diesem Fall liegt der Schätzer für den wahren IQ Wert der Grundgesamtheit $\mu$, aus der die Stichprobe gezogen wurde, zwischen 101.61 und 108.39. Das bedeutet, dass mit einer Wahrscheinlichkeit von 95% der wahre IQ Wert der Grundgesamtheit in unserem Konfidenzinterall 101.61 und 108.39 liegt.
 
 Das Konfidenzintervall kann auch dafür genutzt werden, um eine Aussage über die von uns angenommenen Hypothesen zu treffen. Dafür müsste untersucht werden, ob das Intervall den angenommenen Populationsmittelwert (100 enthält). Wir erinnern uns jedoch, dass in den Hypothesen eine Richtung vorgegeben wurde, weshalb hierfür auch ein einseitiges Konfidenzintervall benötigt werden würde.
 
@@ -260,15 +310,25 @@ $$\mu = \bar{x} - z_{\alpha} * \sigma_{\bar{x}} = \bar{x} \pm z_{\alpha}*\frac{\
 
 Wir haben bereits gesehen, dass eine Bestimmung des z-Werts durch die Funktion `qnorm()` möglich ist. 
 
-```{r}
+
+```r
 z_quantil_einseitig <- qnorm(p = 1-.05, mean = 0, sd = 1)
 z_quantil_einseitig
 ```
 
+```
+## [1] 1.644854
+```
+
 Anschließend kann die untere Grenze des Intervalls sehr simpel bestimmt werden.
 
-```{r}
+
+```r
 new_mean_IQ-((z_quantil_einseitig*sd_IQ)/sqrt(sample_size))
+```
+
+```
+## [1] 102.151
 ```
 
 Da das Konfidenzintervall für den Stichprobenmittelwert die 100 **nicht** enthält, ist die Annahme unter der $H_0$ ($\mu \leq  100$) nicht haltbar. Daher würden wir die $H_0$ in diesem Fall verwerfen. Beachten Sie: Ein einseitiger *z*-Test bei einer Irrtumswahrscheinlichkeit $\alpha$ und die Besimmung über ein (1-$\alpha$)-Konfidenzintervall kommen immer zu denselben Schlussfolgerungen. 
@@ -296,16 +356,20 @@ Die erste Voraussetzung lässt sich nicht mathematisch sondern theoretisch prüf
 
 Fehlt also noch die Testung der Normalverteilung der abhängigen Variable. Dafür sollten wir zunächst unsere gemessenen Werte in einen Vektor ablegen.
   
-```{r}
+
+```r
 men_height <- c(183, 178, 175, 186, 185, 179, 181, 179, 182, 177)
 ```
   
 In der letzten Woche haben wir bereits gelernt, dass man die Normalverteilung einer erhobenen Variable graphisch prüfen kann. In einem sog. QQ-Plot werden die unter der Normalverteilung erwarteten Quantile und die tatsächlich beobachteten Quantile in einem Streudiagramm dargestellt. Je deutlicher die Punkte auf der Geraden liegen, desto näher ist die beobachtete Verteilung an der Normalverteilung.
 
-```{r}
+
+```r
 qqnorm(men_height) 
 qqline(men_height)
 ```
+
+![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 Es sind keine weiten Abweichungen zu erkennen, weshalb wir zunächst davon ausgehen, dass die Vermutung nicht verworfen werden muss.
 
@@ -313,9 +377,14 @@ Es sind keine weiten Abweichungen zu erkennen, weshalb wir zunächst davon ausge
 
 Nun wollen wir inferenzstatistisch prüfen, ob die Vermutung der Forschungsgruppe bestätigt werden kann. Als ersten Schritt berechnen wir den Mittelwert in unserer Stichprobe. Da unsere Alternativhypothese davon handelt, dass der Wert in der Stichprobe größer sein soll, können wir zunächst betrachten, ob dies deskriptiv überhaupt der Fall ist.
   
-```{r}
+
+```r
 mean_men_height <- mean(men_height)
 mean_men_height
+```
+
+```
+## [1] 180.5
 ```
 
 Wir sehen, dass der Wert deskriptiv größer ist als die angegebene Größe der Population von 180cm. Der t-Test basiert auf folgender Formel:
@@ -327,53 +396,80 @@ $$\hat\sigma_{\bar{x}} = {\frac{{\hat\sigma}}{\sqrt{n}}}$$
 
 Da die Varianz in der Population nicht bekannt ist, muss diese mittels Nutzung der Varianz der Stichprobe geschätzt werden. Dies funktioniert über die Funktion `sd()`.
 
-```{r}
+
+```r
 sd_men_height <- sd(men_height)
 sd_men_height
-```  
+```
+
+```
+## [1] 3.535534
+```
 
 Der Standardfehler des Mittelwerts wird anschließend auf der Basis dieses geschätzten Wertes selber geschätzt und nicht wie im z-Test bestimmt. Dafür brauchen wir als zusätzliche Information noch die Stichprobengröße, die wir beispielsweise über die `length` unserer Werte bestimmen können.
 
-```{r}
+
+```r
 n_men_height <- length(men_height)
 se_men_height <- sd_men_height/sqrt(n_men_height)
 ```
 
 Als letzten Bestandteil unserer Berechnungen kann man jetzt noch den gegebenen Populationsmittelwert in ein Objekt ablegen.
 
-```{r}
+
+```r
 average_men_height <- 180
-```  
+```
 
 Nun haben wir alle Informationen gegeben, um den empirischen *t-*Wert $t_{emp}$ zu bestimmen:
   
-```{r}
+
+```r
 t_men_height <- abs((mean_men_height-average_men_height)/se_men_height)
 t_men_height
+```
+
+```
+## [1] 0.4472136
 ```
 
 Die empirische Prüfgröße (wie auch der Name des Tests) weist bereits darauf hin, dass wir uns bei der Hypothesenprüfung nicht mehr im Rahmen der Standardnormalverteilung bewegen. Dies liegt daran, dass sich durch das Schätzen der Populationsvarianz keine exakte Standardnormalverteilung mehr ergibt. Stattdessen wird mit einer t-Verteilung gearbeitet, deren genaue Form von der Anzahl der Freiheitsgraden abhängt. Die Unterscheidung zwischen Standardnormalverteilung und der t-Verteilung liegt besonders in den Extrembereichen. Da genau diese jedoch für die inferenzstatistische Testung von Interesse sind, ist die Nutzung der richtigen Verteilung wichtig.
 
 Im Rahmen des t-Testes im Einstichproben-Fall bestimmen sich die Freiheitsgrade mittels $n - 1$. Der kritische *t-*Wert $t_{krit}$ für unser Beispiel kann also folgendermaßen bestimmt werden:
 
-```{r}
+
+```r
 krit_t_men_height <- qt(0.95, df=n_men_height-1) 
 krit_t_men_height
 ```
 
+```
+## [1] 1.833113
+```
+
 Ist der empirische größer als der kritische *t-*Wert ($t_{emp} > t_{krit}$)?
   
-```{r}
+
+```r
 t_men_height > krit_t_men_height
+```
+
+```
+## [1] FALSE
 ```
 
 Der empirische *t-*Wert wird hier nicht überboten.
 
 Alternativ: Bestimmen des $p$-Wertes:
 
-```{r}
+
+```r
 p_t_men_height <- pt(t_men_height, n_men_height-1, lower.tail = F) #einseitige Testung
 p_t_men_height
+```
+
+```
+## [1] 0.3326448
 ```
 
 Der *p*-Wert liegt über .05 ($p > \alpha$). 
@@ -384,27 +480,40 @@ Die Differenz zwischen dem Mittelwert der Population $\mu$ und dem beobachteten 
 
 Natürlich geht alles auch noch einfacher:
   
-```{r, echo = FALSE}
-height_test <- t.test(men_height, mu=180, alternative="greater") #alternative bestimmt, ob die Hypothese gerichtet ist oder nicht. Siehe hierzu ?t.test.
+
+
+
+```r
+t.test(men_height, mu=180, alternative="greater") #alternative bestimmt, ob die Hypothese gerichtet ist oder nicht. Siehe hierzu ?t.test.
 ```
 
-```{r}
-t.test(men_height, mu=180, alternative="greater") #alternative bestimmt, ob die Hypothese gerichtet ist oder nicht. Siehe hierzu ?t.test.
+```
+## 
+## 	One Sample t-test
+## 
+## data:  men_height
+## t = 0.44721, df = 9, p-value = 0.3326
+## alternative hypothesis: true mean is greater than 180
+## 95 percent confidence interval:
+##  178.4505      Inf
+## sample estimates:
+## mean of x 
+##     180.5
 ```
 
 Hier haben wir nun alle wichtigen Informationen gebündelt. 
 
-`t` = $t_{emp}$ = `r height_test$statistic`
+`t` = $t_{emp}$ = 0.4472136
 
-`df` = Freiheitsgrade = `r height_test$parameter`
+`df` = Freiheitsgrade = 9
 
-`p-value` = $p$ = `r height_test$p.value`
+`p-value` = $p$ = 0.3326448
 
-`mean of x` = $\bar{x}$ = `r height_test$estimate`
+`mean of x` = $\bar{x}$ = 180.5
 
 Wir erkennen auch hier, dass der empirische *p*-Wert über .05 liegt ($p > \alpha$). Demnach wird die $H_0$ mit einer Irrtumswahrscheinlichkeit von 5% beibehalten.
 
-Das 95%ige Konfidenzintervall wird uns ebenfalls ausgegeben. Beachten Sie, dass es sich aufgrund unserer Hypothese um ein einseitiges Intervall handelt (nach oben offen). Basierend auf der Stichprobe liegt der wahre Wert $\mu$ zwischen `r height_test$conf.int[1]` und $\infty$. Man erkennt also, dass der Wert von 180 in diesem Konfidenzintervall liegt, was ebenso bestätigt, dass es keinen Unterschied gibt.
+Das 95%ige Konfidenzintervall wird uns ebenfalls ausgegeben. Beachten Sie, dass es sich aufgrund unserer Hypothese um ein einseitiges Intervall handelt (nach oben offen). Basierend auf der Stichprobe liegt der wahre Wert $\mu$ zwischen 178.4505174 und $\infty$. Man erkennt also, dass der Wert von 180 in diesem Konfidenzintervall liegt, was ebenso bestätigt, dass es keinen Unterschied gibt.
 
 
 ## Beispiel mit unserem Datensatz
@@ -442,28 +551,37 @@ Beim Start von R werden die Basispakete automatisch geladen. Zusatzpakete müsse
 
 Gehen wir das Prinzip an dem Beispielpaket `psych` durch, das verschiedene Operationen enthält, die in der psychologischen Forschung häufig benötigt werden. Die Installation muss dem Laden des Paketes logischerweise vorausgestellt sein. Wenn R einmal geschlossen wird, müssen alle Zusatzpakete neu geladen, jedoch nicht neu installiert werden.
 
-```{r, eval = FALSE}
+
+```r
 install.packages('psych')          # installieren
 ```
 
-```{r}
+
+```r
 library(psych)                     # laden
 ```
 
 Wir erhalten hier als *Warning Message* den Hinweis, unter welcher Version das Paket erstellt wurde.
 Eine kleine Suche nach Hilfe zu Pakete kann man mit `??` erhalten.
 
-```{r, eval = F}
+
+```r
 ??psych                          # Hilfe
 ```
 
 Da das Paket `psych` nun geladen ist, können wir Funktionen aus diesem nutzen. Für unsere Übersicht über deskriptive Maße der Variable `neuro` gibt es die Funktion `describe()`.
 
-```{r}
+
+```r
 describe(fb22$neuro)
 ```
 
-Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei `r mean(fb22$neuro)`. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
+```
+##    vars   n mean   sd median trimmed  mad  min max range  skew kurtosis   se
+## X1    1 159 3.63 0.72   3.75    3.65 0.74 1.25   5  3.75 -0.43     0.09 0.06
+```
+
+Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei 3.6257862. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
 
 ### Hypothesengenerierung {#Hypothesen}
 
@@ -490,18 +608,116 @@ Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Va
 
 In der Praxis würde man sich für eine der drei Hypothesen-Varianten entscheiden. Zu Übungszwecken werden aber alle drei Varianten durchgespielt.
 
-```{r}
+
+```r
 t.test(fb22$neuro, mu=3.3) #ungerichtet
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  fb22$neuro
+## t = 5.716, df = 158, p-value = 5.295e-08
+## alternative hypothesis: true mean is not equal to 3.3
+## 95 percent confidence interval:
+##  3.513214 3.738358
+## sample estimates:
+## mean of x 
+##  3.625786
+```
+
+```r
 t.test(fb22$neuro, mu=3.3, alternative="less") #gerichtet, Stichprobenmittelwert geringer
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  fb22$neuro
+## t = 5.716, df = 158, p-value = 1
+## alternative hypothesis: true mean is less than 3.3
+## 95 percent confidence interval:
+##      -Inf 3.720089
+## sample estimates:
+## mean of x 
+##  3.625786
+```
+
+```r
 t.test(fb22$neuro, mu=3.3, alternative="greater") #gerichtet, Stichprobenmittelwert höher
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  fb22$neuro
+## t = 5.716, df = 158, p-value = 2.648e-08
+## alternative hypothesis: true mean is greater than 3.3
+## 95 percent confidence interval:
+##  3.531484      Inf
+## sample estimates:
+## mean of x 
+##  3.625786
 ```
 
 **Konfidenzintervall:** Wir erkennen, dass das 95%-ige Konfidenzintervall per Standardeinstellung berechnet wird. Falls wir dieses vergrößern oder verkleinern wollen, müssen wir dies explizit formulieren im Argument `conf.level`:
   
-```{r}
+
+```r
 t.test(fb22$neuro, mu=3.3, conf.level=0.99) #99%-iges Konfidenzintervall für die ungerichtete Hypothese
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  fb22$neuro
+## t = 5.716, df = 158, p-value = 5.295e-08
+## alternative hypothesis: true mean is not equal to 3.3
+## 99 percent confidence interval:
+##  3.477181 3.774391
+## sample estimates:
+## mean of x 
+##  3.625786
+```
+
+```r
 t.test(fb22$neuro, mu=3.3, alternative="less", conf.level=0.99) #99%-iges Konfidenzintervall für die gerichtete Hypothese (Stichprobenmittelwert geringer)
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  fb22$neuro
+## t = 5.716, df = 158, p-value = 1
+## alternative hypothesis: true mean is less than 3.3
+## 99 percent confidence interval:
+##      -Inf 3.759737
+## sample estimates:
+## mean of x 
+##  3.625786
+```
+
+```r
 t.test(fb22$neuro, mu=3.3, alternative="greater", conf.level=0.99) #99%-iges Konfidenzintervall für die gerichtete Hypothese (Stichprobenmittelwert höher)
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  fb22$neuro
+## t = 5.716, df = 158, p-value = 2.648e-08
+## alternative hypothesis: true mean is greater than 3.3
+## 99 percent confidence interval:
+##  3.491836      Inf
+## sample estimates:
+## mean of x 
+##  3.625786
 ```
 
 Es zeigt sich, dass der Neurotizismuswert der Studierenden sich von der Studierenden-Population signifikant auf dem 1%-Niveau unterscheidet.
@@ -529,12 +745,17 @@ Dieses statistische Effektmaß beschreibt die Relevanz von signifikanten Ergebni
 
 $$d = |\frac{\bar{x} - {\mu}}{\sigma}|$$
 
-```{r}
+
+```r
 mean_Neuro <- mean(fb22$neuro) #Neurotizismuswert der Stichprobe
 sd_Neuro <- sd(fb22$neuro, na.rm = T) #Stichproben SD (Populationsschätzer)
 mean_Popu_Neuro <- 3.3 #Neurotizismuswert der Grundgesamtheit
 d <- abs((mean_Neuro-mean_Popu_Neuro)/sd_Neuro) #abs(), da Betrag
 d
+```
+
+```
+## [1] 0.4533059
 ```
 
 Die Effektgröße ist in diesem Fall mit einem Wert von .4533 mittelstark ausgeprägt. Normalerweise sollte die Einordnung der Größe anhand vergleichbarer Studien aus dem selben Bereich durchgeführt werden. Bei völliger Ahnungslosigkeit über relevante Größen gibt es eine Übersicht zur Orientierung. Es gilt nach Cohen (1988):
