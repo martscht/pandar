@@ -1,14 +1,14 @@
 ---
 # Display name
-title: Johannes Hartig
+title: Marvin Schröder
 
 # Username (this should match the folder name)
 authors:
-- hartig
+- schroeder
 
 # Full name (for SEO)
-first_name: Johannes
-last_name: Hartig
+first_name: Marvin
+last_name: Schröder
 
 # Is this the primary user of the site?
 superuser: false
@@ -18,8 +18,8 @@ role: Autor
 
 # Organizations/Affiliations
 organizations:
-- name: DIPF | Leibniz-Institut für Bildungsforschung und Bildungsinformation
-  url: "https://www.dipf.de/de/institut"
+- name: Goethe Universität - A&O
+  url: "https://www.uni-frankfurt.de/aopsych"
 
 # Short bio (displayed in user profile at end of posts)
 bio:
@@ -41,10 +41,10 @@ social:
 #   link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
 - icon: link
   icon_pack: fa
-  link: https://www.dipf.de/de/institut/personen/hartig-johannes
+  link: https://www.uni-frankfurt.de/73995839/Marvin_Schr%C3%B6der
 - icon: researchgate
   icon_pack: fab
-  link: https://www.researchgate.net/profile/Johannes_Hartig2
+  link: https://www.researchgate.net/profile/Marvin-Schroeder-2
 # Link to a PDF of your resume/CV from the About widget.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.
 # - icon: cv
@@ -59,14 +59,10 @@ email: ""
 user_groups: ["Teaching"]
 ---
 
-Johannes Hartig ist Professor für Educational Measurement am Leibniz-Institut für Bildungsforschung und Bildungsinformation DIPF.
+Marvin Schröder ist wissenschaftlicher Mitarbeiter der Abteilung _Arbeits- und Organisationspsychologie_ an der Goethe-Universität Frankfurt.
 
-<!---
-**Biografie**
+**Biographie**
 
-- Studium der Psychologie an der Goethe-Universität Frankfurt samt Promotion in 2003
-- wissenschaftlicher Mitarbeiter im Bereich Psychologische Methodenlehre, Evaluation und Forschungsmethodik an der Goethe-Universität Frankfurt von 1998 bis 2003
-- wissenschaftlicher Mitarbeiter in der Arbeitseinheit Bildungsqualität und Evaluation des DIPF von 2003 bis 2008
-- Professor für Methoden der empirischen Pädagogischen Forschung an der Universität Erfurt von 2008 bis 2010
-- Leitung des Arbeitsbereiches Educational Measurement in der Arbeitseinheit Bildungsqualität und Evaluation am DIPF seit 2010
---->
+- Bachelor-Studium (2014-2017) sowie Master-Studium (2017-2020) der Psychologie in Frankfurt am Main mit den Schwerpunkten Arbeits- und Organisationspsychologie (Major) und Pädagogische Psychologie (Minor)
+- Wissenschaftliche Hilfskraft der Abteilung Allgemeine Psychologie 1 2016-2017, Differenzielle Psychologie und Psychologische Diagnostik 2016-2017 sowie in der Abteilung für Arbeits- und Organisationspsychologie seit Ende 2018
+- Wissenschaftlicher Mitarbeiter in der Abteilung Arbeits- und Organisationspsychologie seit Februar 2020

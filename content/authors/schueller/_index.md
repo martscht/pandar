@@ -1,25 +1,25 @@
 ---
 # Display name
-title: Johannes Hartig
+title: Johanna Schüller
 
 # Username (this should match the folder name)
 authors:
-- hartig
+- schueller
 
 # Full name (for SEO)
-first_name: Johannes
-last_name: Hartig
+first_name: Johanna
+last_name: Schüller
 
 # Is this the primary user of the site?
 superuser: false
 
 # Role/position
-role: Autor
+role: Autorin
 
 # Organizations/Affiliations
 organizations:
-- name: DIPF | Leibniz-Institut für Bildungsforschung und Bildungsinformation
-  url: "https://www.dipf.de/de/institut"
+- name: Goethe Universität - Klinische
+  url: "https://www.psychologie.uni-frankfurt.de/50043096/Klinische_Psychologie_und_Psychotherapie"
 
 # Short bio (displayed in user profile at end of posts)
 bio:
@@ -41,10 +41,10 @@ social:
 #   link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
 - icon: link
   icon_pack: fa
-  link: https://www.dipf.de/de/institut/personen/hartig-johannes
-- icon: researchgate
-  icon_pack: fab
-  link: https://www.researchgate.net/profile/Johannes_Hartig2
+  link: https://www.psychologie.uni-frankfurt.de/59352621/Johanna_Sch%C3%BCller_M_Sc
+#- icon: researchgate
+#  icon_pack: fab
+#  link: https://www.researchgate.net/profile/Marvin-Schroeder-2
 # Link to a PDF of your resume/CV from the About widget.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.
 # - icon: cv
@@ -59,14 +59,4 @@ email: ""
 user_groups: ["Teaching"]
 ---
 
-Johannes Hartig ist Professor für Educational Measurement am Leibniz-Institut für Bildungsforschung und Bildungsinformation DIPF.
-
-<!---
-**Biografie**
-
-- Studium der Psychologie an der Goethe-Universität Frankfurt samt Promotion in 2003
-- wissenschaftlicher Mitarbeiter im Bereich Psychologische Methodenlehre, Evaluation und Forschungsmethodik an der Goethe-Universität Frankfurt von 1998 bis 2003
-- wissenschaftlicher Mitarbeiter in der Arbeitseinheit Bildungsqualität und Evaluation des DIPF von 2003 bis 2008
-- Professor für Methoden der empirischen Pädagogischen Forschung an der Universität Erfurt von 2008 bis 2010
-- Leitung des Arbeitsbereiches Educational Measurement in der Arbeitseinheit Bildungsqualität und Evaluation am DIPF seit 2010
---->
+Johanna Schüller ist wissenschaftliche Mitarbeiterin der Abteilung Klinische Psychologie und Psychotherapie und übernimmt dort die Aufgabe der Statistik- und Methodenberatung. 

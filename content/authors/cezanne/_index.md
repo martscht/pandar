@@ -1,14 +1,14 @@
 ---
 # Display name
-title: Johannes Hartig
+title: Yannick Cezanne
 
 # Username (this should match the folder name)
 authors:
-- hartig
+- cezanne
 
 # Full name (for SEO)
-first_name: Johannes
-last_name: Hartig
+first_name: Yannick
+last_name: Cezanne
 
 # Is this the primary user of the site?
 superuser: false
@@ -18,12 +18,13 @@ role: Autor
 
 # Organizations/Affiliations
 organizations:
-- name: DIPF | Leibniz-Institut für Bildungsforschung und Bildungsinformation
-  url: "https://www.dipf.de/de/institut"
+- name: Goethe Universität - PsyMiA
+  url: "https://www.psychologie.uni-frankfurt.de/75520710"
 
 # Short bio (displayed in user profile at end of posts)
 bio:
 interests:
+
 education:
 # Social/Academic Networking
 # For available icons, see: https://sourcethemes.com/academic/docs/widgets/#icons
@@ -39,12 +40,18 @@ social:
 # - icon: google-scholar
 #   icon_pack: ai
 #   link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
-- icon: link
-  icon_pack: fa
-  link: https://www.dipf.de/de/institut/personen/hartig-johannes
-- icon: researchgate
-  icon_pack: fab
-  link: https://www.researchgate.net/profile/Johannes_Hartig2
+  - icon: github
+    icon_pack: fab
+    link: https://github.com/YCezanne
+# - icon: bitbucket
+#   icon_pack: fab
+#   link: https://bitbucket.com/martscht
+#  - icon: link
+#    icon_pack: fa
+#    link: https://www.psychologie.uni-frankfurt.de/54448027/Julien_Irmer
+#  - icon: researchgate
+#    icon_pack: fab
+#    link: https://www.researchgate.net/profile/Julien_P_Irmer
 # Link to a PDF of your resume/CV from the About widget.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.
 # - icon: cv
@@ -59,14 +66,10 @@ email: ""
 user_groups: ["Teaching"]
 ---
 
-Johannes Hartig ist Professor für Educational Measurement am Leibniz-Institut für Bildungsforschung und Bildungsinformation DIPF.
+Yannick Cezanne war von 2022 bis 2023 studentische Hilfskraft in der Abteilung *Psychologische Methoden mit interdisziplinärer Ausrichtung*. Dabei unterstützt er vor allem die Praktika zu `R`.
 
-<!---
-**Biografie**
 
-- Studium der Psychologie an der Goethe-Universität Frankfurt samt Promotion in 2003
-- wissenschaftlicher Mitarbeiter im Bereich Psychologische Methodenlehre, Evaluation und Forschungsmethodik an der Goethe-Universität Frankfurt von 1998 bis 2003
-- wissenschaftlicher Mitarbeiter in der Arbeitseinheit Bildungsqualität und Evaluation des DIPF von 2003 bis 2008
-- Professor für Methoden der empirischen Pädagogischen Forschung an der Universität Erfurt von 2008 bis 2010
-- Leitung des Arbeitsbereiches Educational Measurement in der Arbeitseinheit Bildungsqualität und Evaluation am DIPF seit 2010
---->
+**Biographie**
+
+- 2 Semester Studium der Mathematik an der Johann Wolfgang Goethe-Universität in Frankfurt von 2020 bis 2021
+- Bachelor-Studium der Psychologie an der Johann Wolfgang Goethe-Universität in Frankfurt seit 2021

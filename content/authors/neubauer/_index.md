@@ -1,14 +1,14 @@
 ---
 # Display name
-title: Johannes Hartig
+title: Andreas Neubauer
 
 # Username (this should match the folder name)
 authors:
-- hartig
+- neubauer
 
 # Full name (for SEO)
-first_name: Johannes
-last_name: Hartig
+first_name: Andreas
+last_name: Neubauer
 
 # Is this the primary user of the site?
 superuser: false
@@ -33,18 +33,18 @@ social:
 # - icon: envelope
 #   icon_pack: fas
 #   link: '#contact'  # For a direct email link, use "mailto:test@example.org".
-# - icon: twitter
-#   icon_pack: fab
-#   link: https://twitter.com/GeorgeCushen
-# - icon: google-scholar
-#   icon_pack: ai
-#   link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
+- icon: twitter
+  icon_pack: fab
+  link: https://twitter.com/abNeubauer
+- icon: google-scholar
+  icon_pack: ai
+  link: https://scholar.google.de/citations?hl=de&user=n44col8AAAAJ
 - icon: link
   icon_pack: fa
-  link: https://www.dipf.de/de/institut/personen/hartig-johannes
+  link: https://www.dipf.de/de/institut/personen/neubauer-andreas?set_language=de#3
 - icon: researchgate
   icon_pack: fab
-  link: https://www.researchgate.net/profile/Johannes_Hartig2
+  link: https://www.researchgate.net/profile/Andreas-Neubauer-6
 # Link to a PDF of your resume/CV from the About widget.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.
 # - icon: cv
@@ -59,14 +59,3 @@ email: ""
 user_groups: ["Teaching"]
 ---
 
-Johannes Hartig ist Professor für Educational Measurement am Leibniz-Institut für Bildungsforschung und Bildungsinformation DIPF.
-
-<!---
-**Biografie**
-
-- Studium der Psychologie an der Goethe-Universität Frankfurt samt Promotion in 2003
-- wissenschaftlicher Mitarbeiter im Bereich Psychologische Methodenlehre, Evaluation und Forschungsmethodik an der Goethe-Universität Frankfurt von 1998 bis 2003
-- wissenschaftlicher Mitarbeiter in der Arbeitseinheit Bildungsqualität und Evaluation des DIPF von 2003 bis 2008
-- Professor für Methoden der empirischen Pädagogischen Forschung an der Universität Erfurt von 2008 bis 2010
-- Leitung des Arbeitsbereiches Educational Measurement in der Arbeitseinheit Bildungsqualität und Evaluation am DIPF seit 2010
---->
