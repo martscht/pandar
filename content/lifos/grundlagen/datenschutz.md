@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [beitner] 
 weight: 4
-lastmod: '2023-10-09'
+lastmod: '2023-10-11'
 featured: no
 banner:
   image: "/header/lifos-datenschutz-header.jpg"
@@ -88,7 +88,7 @@ Szenario: In eurer Studienkohorte wird eine Untersuchung zu den Big 5 Persönlic
 Die meisten Daten, die wir in der Psychologie erheben, sind nicht sofort anonym. Häufig benötigt es Änderungen am Datenset, um eine Anonymisierung zu erreichen. Im Folgenden werden mehrere Vorgehensweisen erläutert. 
 
 1. **Entfernung von eindeutig personenbezogenen Variablen** (wie Namen, Email-Adressen, Matrikelnummern, und auch VP-Codes)
-2. **Entfernung von Variablen, die nicht zur Reproduzierbarkeit der Ergebnisse benötigt werden** (Nach dem Prinzip der Datensparsamkeit. Entfernt werden können z. B.: Meta-Daten wie Login-Zeit, Server-Log-Daten, Browser und OS-Version, und auch freie Textfelder)
+2. **Entfernung von Variablen, die nicht zur Reproduzierbarkeit der Ergebnisse benötigt werden** (nach dem Prinzip der Datensparsamkeit. Entfernt werden können z. B.: Meta-Daten wie Login-Zeit, Server-Log-Daten, Browser und OS-Version, und auch freie Textfelder)
 3. **Augenmerk legen auf einzigartige Merkmalsausprägungen** (z. B. Geschlecht, Alter, ...) **und Variablen ggf. entfernen**
 4. **Daten k-anonymisieren** ([K-Anonymität](https://de.wikipedia.org/wiki/K-Anonymit%C3%A4t), sodass keine Kombination von Merkmalsausprägungen einzigartig im Datenset ist, sondern öfters vorkommt und somit keinen Schluss auf einzelne Personen zulässt. K-Anonymität kann durch verschiedene Möglichkeiten erreicht werden, wie z. B. *binnen*: statt des kontinuierlichen Alters *21, 23, und 24*, gibt man ordinale Kategorien an: *zwischen 20 und 25 Jahre*, wodurch drei individuelle Werte zu einem gemeinsamen wurden)
 
@@ -114,5 +114,4 @@ Hier ist eine Checkliste mit Fragen, die euch dabei helfen soll, zu überprüfen
 ### 5. Was tun bei Unsicherheit? {#Kontakt .anchorheader}
 
 Lasst eure Betreuer:innen euer Datenset vor dem Teilen absegnen und solltet ihr euch unsicher sein, ob euer Datenset auf LIFOS geteilt werden kann, haltet bitte Rücksprache mit euren Betreuer:innen. Bei weiteren Fragen, Unklarheiten oder Anmerkungen könnt ihr uns auch unter **LIFOS**[at]**uni-frankfurt**[punkt]**de** erreichen.
-
 

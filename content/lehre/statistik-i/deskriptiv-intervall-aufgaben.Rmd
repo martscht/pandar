@@ -4,7 +4,7 @@ type: post
 date: '2019-10-18' 
 slug: deskriptiv-intervall-aufgaben
 categories: [] 
-tags: ["Statistik I Aufgaben"] 
+tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
 authors: [nehler, buchholz]

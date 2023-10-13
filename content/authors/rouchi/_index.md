@@ -66,4 +66,4 @@ email: "h.rouchi@psych.uni-frankfurt.de"
 user_groups: ["Team"]
 ---
 
-Hasti Rouchi ist studentische Mitarbeiterin in den Abteilungen _Psychologische Methoden mit interdisziplinärer Ausrichtung_ und _Psychologische Methodenlehre, Evaluation und Forschungsmethodik_ an der Goethe-Universität Frankfurt. Derzeit studiert sie Psychologie im Master mit dem Schwerpunkt klinische Psychologie. 
+Hasti Rouchi war studentische Mitarbeiterin in den Abteilungen _Psychologische Methoden mit interdisziplinärer Ausrichtung_ und _Psychologische Methodenlehre, Evaluation und Forschungsmethodik_ an der Goethe-Universität Frankfurt. Nach ihrem Studium leitet sie aktuell das Sekretariat der Abteilungen neben der Ausbildung zur psychologischen Psychotherapeutin. 
