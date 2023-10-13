@@ -19,7 +19,7 @@ role: Autorin
 # Organizations/Affiliations
 organizations:
 - name: Leibniz Institut für Bildungsforschung und Bildungsinformation (DIPF)
-  url: "https://www.dipf.de/de/institut/personen/koehler-carmen"
+  url: "https://www.dipf.de/de/institut"
 
 # Short bio (displayed in user profile at end of posts)
 bio:
@@ -46,12 +46,12 @@ social:
 # - icon: bitbucket
 #   icon_pack: fab
 #   link: https://bitbucket.com/martscht
-#  - icon: link
-#    icon_pack: fa
-#    link: https://www.psychologie.uni-frankfurt.de/54448027/Julien_Irmer
-  - icon: researchgate
-    icon_pack: fab
-    link: https://www.researchgate.net/profile/Carmen-Koehler-3
+- icon: link
+  icon_pack: fa
+  link: https://www.dipf.de/de/institut/personen/koehler-carmen
+- icon: researchgate
+  icon_pack: fab
+  link: https://www.researchgate.net/profile/Carmen-Koehler-3
 # Link to a PDF of your resume/CV from the About widget.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.
 # - icon: cv

@@ -48,9 +48,9 @@ social:
 # - icon: bitbucket
 #   icon_pack: fab
 #   link:
-# - icon: link
-#   icon_pack: fa
-#   link: https://www.psychologie.uni-frankfurt.de/78419488/Team
+- icon: link
+  icon_pack: fa
+  link: https://www.iqb.hu-berlin.de/institut/staff/?pg=c163
 - icon: researchgate
   icon_pack: fab
   link: https://www.researchgate.net/profile/Janine-Buchholz
