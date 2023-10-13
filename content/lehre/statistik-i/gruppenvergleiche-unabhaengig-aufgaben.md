@@ -4,12 +4,12 @@ type: post
 date: '2019-10-18' 
 slug: gruppenvergleiche-unabhaengig-aufgaben
 categories: [] 
-tags: ["Statistik I Aufgaben"] 
+tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
 authors: [koehler, buchholz]
 weight: 1
-lastmod: '2023-10-08'
+lastmod: '2023-10-13'
 featured: no
 banner:
   image: "/header/BSc2_test_unabh_stpr.jpg"

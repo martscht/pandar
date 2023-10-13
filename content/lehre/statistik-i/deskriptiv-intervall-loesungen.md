@@ -3,12 +3,12 @@ title: "Deskriptivstatistik für Intervallskalen - Lösungen"
 type: post
 date: '2020-11-26' 
 slug: deskriptiv-intervall-loesungen 
-categories: ["Statistik I"] 
+categories: ["Statistik I Aufgaben"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [nehler, buchholz] 
-lastmod: '2023-10-12'
+lastmod: '2023-10-13'
 featured: no
 banner:
   image: "/header/descriptive_post.jpg"

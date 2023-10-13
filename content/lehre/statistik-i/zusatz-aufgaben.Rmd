@@ -3,7 +3,7 @@ title: "Freiwillige Übungsaufgaben (alle Abschnitte)"
 type: post
 date: '2021-11-29' 
 slug: zusatz-aufgaben 
-categories: ["Statistik I"] 
+categories: ["Statistik I", "Statisik I Übungen"] 
 tags: ["Deskriptivstatistik", "Regression"] 
 subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es um vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 

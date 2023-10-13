@@ -4,7 +4,7 @@ type: post
 date: '2020-10-01'
 slug: crash-kurs-aufgaben
 categories: []
-tags: ["Statistik I Aufgaben"]
+tags: ["Statistik I Übungen"]
 subtitle: ''
 summary: ''
 authors: [schultze]

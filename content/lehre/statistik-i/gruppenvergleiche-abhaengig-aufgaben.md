@@ -4,12 +4,12 @@ type: post
 date: '2019-10-18' 
 slug: gruppenvergleiche-abhaengig-aufgaben
 categories: [] 
-tags: ["Statistik I Aufgaben"] 
+tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
 authors: [koehler, buchholz]
 weight:
-lastmod: '2023-10-08'
+lastmod: '2023-10-13'
 featured: no
 banner:
   image: "/header/BSc2_test_abh_stpr.jpg"

@@ -3,12 +3,12 @@ title: "R Crash-Kurs - Lösungen"
 type: post
 date: '2020-11-09' 
 slug: crash-kurs-loesungen 
-categories: ["Statistik I"] 
+categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [schultze] 
-lastmod: '2023-10-12'
+lastmod: '2023-10-13'
 featured: no
 banner:
   image: "/header/crash_post.jpg"

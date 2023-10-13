@@ -4,7 +4,7 @@ type: post
 date: '2019-10-18' 
 slug: tests-und-konfidenzintervalle-aufgaben 
 categories: [] 
-tags: ["Statistik I Aufgaben"] 
+tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
 authors: [scheppa-lahyani, nehler] 
@@ -43,7 +43,7 @@ output:
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb22.rda'))  
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb22$geschl_faktor <- factor(fb22$geschl,

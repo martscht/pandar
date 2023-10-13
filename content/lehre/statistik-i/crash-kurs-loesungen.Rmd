@@ -3,7 +3,7 @@ title: "R Crash-Kurs - Lösungen"
 type: post
 date: '2020-11-09' 
 slug: crash-kurs-loesungen 
-categories: ["Statistik I"] 
+categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 

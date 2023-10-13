@@ -3,7 +3,7 @@ title: "Deskriptivstatistik für Nominal- und Ordinalskalen - Lösungen"
 type: post
 date: '2020-11-26' 
 slug: deskriptiv-nominal-ordinal-loesungen
-categories: ["Statistik I"] 
+categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 

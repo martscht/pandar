@@ -3,12 +3,12 @@ title: "Deskriptivstatistik für Nominal- und Ordinalskalen - Lösungen"
 type: post
 date: '2020-11-26' 
 slug: deskriptiv-nominal-ordinal-loesungen
-categories: ["Statistik I"] 
+categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [buchholz, nehler] 
-lastmod: '2023-10-12'
+lastmod: '2023-10-13'
 featured: no
 banner:
   image: "/header/descriptive_post.jpg"

@@ -4,12 +4,12 @@ type: post
 date: '2019-10-18' 
 slug: einfache-regression-aufgaben 
 categories: [] 
-tags: ["Statistik I Aufgaben"] 
+tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
 authors: [winkler, neubauer]
 weight:
-lastmod: '2023-10-10'
+lastmod: '2023-10-13'
 featured: no
 banner:
   image: "/header/BSc2_Regression.jpg"

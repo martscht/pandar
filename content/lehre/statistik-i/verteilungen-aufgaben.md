@@ -4,12 +4,12 @@ type: post
 date: '2019-10-18' 
 slug: verteilungen-aufgaben 
 categories: []
-tags: ["Statistik I Aufgaben"] 
+tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
 authors: [nehler] 
 weight: 
-lastmod: '2023-10-08'
+lastmod: '2023-10-13'
 featured: no
 banner:
   image: "/header/PsyBSc2_verteilungen.png"
