@@ -59,4 +59,4 @@ email: ""
 user_groups: ["Teaching"]
 ---
 
-Johanna Schüller ist wissenschaftliche Mitarbeiterin der Abteilung Klinische Psychologie und Psychotherapie und übernimmt dort die Aufgabe der Statistik- und Methodenberatung. 
+Johanna Schüller ist wissenschaftliche Mitarbeiterin der Abteilung Klinische Psychologie und Psychotherapie und übernimmt dort die Aufgabe der Statistik- und Methodenberatung. Neben Ihrer Promotion in der Abteilung absolviert sie auch die Ausbildung zur Psychotherapeutin.
