@@ -12,7 +12,7 @@ sections:
       text: 'Auf dieser Seite stellen wir Material aus der R-bezogenen Lehre im Psychologie-Studium zur Verfügung! Außerdem haben wir einige Projekte erstellt, in denen du deine R-Kenntnisse auch ganz unabhängig von den Inhalten im Studium ausprobieren, vertiefen und erweitern kannst.
       
       
-      Im Moment ziehen wir um, sodass noch nicht alle Abschnitte der Seite schon wieder aktiv sind. Alles was die aktuelle Lehre betrifft ist zugänglich - nur mit den Extras und den Projekten bitten wir noch um etwas Geduld.'
+      Im Moment ziehen wir um, sodass noch nicht alle Abschnitte der Seite schon wieder aktiv sind. Alles was die aktuelle Lehre betrifft ist zugänglich - nur mit den Extras und den Projekten bitten wir noch um etwas Geduld. Falls etwas fehlen sollte, gibt es solange [hier](https://courageous-donut-84b9e9.netlify.app/) noch die alte Seite.'
     design:
       background:
         color: '#00618f' 
