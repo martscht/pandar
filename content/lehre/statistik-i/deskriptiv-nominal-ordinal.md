@@ -4,7 +4,7 @@ type: post
 date: '2020-09-24'
 slug: deskriptiv-nominal-ordinal
 categories: ["Statistik I"]
-tags: ["Deskriptiv", "Plots", "Nominal und Ordinal", "Tabelle"]
+tags: ["Deskriptivstatistik", "Grafiken", "Skalenniveau"]
 subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
 authors: [nehler, buchholz]
@@ -43,13 +43,13 @@ output:
 
 
 {{< spoiler text="Kernfragen dieser Lehreinheit" >}}
-* Wie werden **Häufigkeitstabellen** erstellt?  
-* Wie können aus absoluten Häufigkeitstabellen **relative Häufigkeitstabellen** gemacht werden?  
-* Wie können **Modus und Median** bestimmt werden?  
-* Auf welche Weise lässt sich der **relative Informationsgehalt** bestimmen, obwohl es dafür in R keine Funktion gibt?  
-* Welche Befehle können genutzt werden, um **Balken-, Kuchendiagramme und Histogramme** zu erzeugen?  
-* Welche Möglichkeiten gibt es, um **Grafiken anzupassen**?  
-* Wie können **Grafiken gespeichert** werden?
+* Wie werden [Häufigkeitstabellen](#Häufigkeitstabellen) erstellt?  
+* Wie können aus absoluten Häufigkeitstabellen [relative Häufigkeitstabellen](#RelativeHäufigkeiten) gemacht werden?  
+* Wie können [Modus](#Modus) und [Median](#Median) bestimmt werden?  
+* Auf welche Weise lässt sich der [relative Informationsgehalt](#RelativerInformationsgehalt) bestimmen, obwohl es dafür in R keine Funktion gibt?  
+* Welche Befehle können genutzt werden, um [Balken-, Kuchendiagramme und Histogramme](#Grafiken) zu erzeugen?  
+* Welche Möglichkeiten gibt es, um [Grafiken anzupassen](#GrafikenAnpassen)?  
+* Wie können [Grafiken gespeichert](#GrafikenSpeichern) werden?
 {{< /spoiler >}}
 
 ***
@@ -80,13 +80,12 @@ names(fb23)        # Namen der Variablen
 ```
 
 ```
-##  [1] "mdbf1_pre"   "mdbf2_pre"   "mdbf3_pre"   "mdbf4_pre"   "mdbf5_pre"   "mdbf6_pre"  
-##  [7] "mdbf7_pre"   "mdbf8_pre"   "mdbf9_pre"   "mdbf10_pre"  "mdbf11_pre"  "mdbf12_pre" 
-## [13] "lz"          "extra"       "vertr"       "gewis"       "neuro"       "offen"      
-## [19] "prok"        "nerd"        "grund"       "fach"        "ziel"        "wissen"     
-## [25] "therap"      "lerntyp"     "hand"        "job"         "ort"         "ort12"      
-## [31] "wohnen"      "uni1"        "uni2"        "uni3"        "uni4"        "attent_pre" 
-## [37] "gs_post"     "wm_post"     "ru_post"     "attent_post"
+##  [1] "mdbf1_pre"   "mdbf2_pre"   "mdbf3_pre"   "mdbf4_pre"   "mdbf5_pre"   "mdbf6_pre"   "mdbf7_pre"  
+##  [8] "mdbf8_pre"   "mdbf9_pre"   "mdbf10_pre"  "mdbf11_pre"  "mdbf12_pre"  "lz"          "extra"      
+## [15] "vertr"       "gewis"       "neuro"       "offen"       "prok"        "nerd"        "grund"      
+## [22] "fach"        "ziel"        "wissen"      "therap"      "lerntyp"     "hand"        "job"        
+## [29] "ort"         "ort12"       "wohnen"      "uni1"        "uni2"        "uni3"        "uni4"       
+## [36] "attent_pre"  "gs_post"     "wm_post"     "ru_post"     "attent_post"
 ```
 
 ```r
@@ -127,9 +126,9 @@ fb23$hand
 ```
 
 ```
-##  [1]  2  2  2  1  2  1  2  2  2  2  2  2  1  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2
-## [30]  2  2  2  2  2  2  2  2  2  2  2  2  1 NA  2  2  2  2  2  2  2  2  2  2  2  2 NA  2  2
-## [59]  1  2  2 NA  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2  1  2  2  1
+##  [1]  2  2  2  1  2  1  2  2  2  2  2  2  1  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2
+## [35]  2  2  2  2  2  2  2  1 NA  2  2  2  2  2  2  2  2  2  2  2  2 NA  2  2  1  2  2 NA  2  2  2  2  1  2
+## [69]  2  2  2  2  2  2  2  2  2  1  2  2  1
 ```
 
 Die Variable `hand` liegt numerisch vor, es treten die Werte 1 und 2 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/lehre/statistik-i/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "links". Diese *Label* werden nun im Faktor hinterlegt.
@@ -176,9 +175,9 @@ fb23$fach
 ```
 
 ```
-##  [1]  4  4  4  4  2  3  4  4  1  2  1  2  4  3  4  3  2  2  4  5  3  1  1  4  2  4  2  4  5
-## [30]  4  4  4  3  4  4  4  4  4  1  3  4  4 NA  3  4 NA  2  4  2  4  1  4  4  4  1 NA  4  4
-## [59]  3  4  1 NA  1  4  3  2  4 NA NA  4  4  4  4  2  2  4  1  1  4  3  1
+##  [1]  4  4  4  4  2  3  4  4  1  2  1  2  4  3  4  3  2  2  4  5  3  1  1  4  2  4  2  4  5  4  4  4  3  4
+## [35]  4  4  4  4  1  3  4  4 NA  3  4 NA  2  4  2  4  1  4  4  4  1 NA  4  4  3  4  1 NA  1  4  3  2  4 NA
+## [69] NA  4  4  4  4  2  2  4  1  1  4  3  1
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
@@ -253,7 +252,7 @@ fb23$fach <- relevel(
 
 ***
 
-## Häufigkeitstabellen
+## Häufigkeitstabellen {#Häufigkeitstabellen}
 
 Eine deskriptivstatistische Möglichkeit zur Darstellung diskreter (zählbarer) nominalskalierter Variablen sind Häufigkeitstabellen. Diese können in `R` mit der Funktion `table()` angefordert werden.
 
@@ -274,7 +273,7 @@ table(fb23$fach)
 Häufig sind relative Häufigkeiten informativer. Nachfolgend werden zwei Möglichkeiten zur Erstellung von relativen Häufigkeitstabellen in `R` gezeigt.
 
 
-**Relative Häufigkeiten (manuell)**
+**Relative Häufigkeiten (manuell)** {{< intext_anchor RelativeHäufigkeiten >}}
 
 Relative Häufigkeiten können aus absoluten Häufigkeiten abgeleitet werden: $h_j = \frac{n_j}{n}$.
 
@@ -320,7 +319,7 @@ Ungefähr 2.67% Ihres Jahrgangs geben als Lieblingsfach "Diagnostik/Methoden" an
 
 ***
 
-## Grafiken in `R`
+## Grafiken in `R` {#Grafiken}
 
 <img src="/lehre/statistik-i/deskriptiv-nominal-ordinal_files/figure-html/comic-barplot-1.png" style="display: block; margin: auto;" />
 
@@ -355,7 +354,7 @@ pie(tab)
 
 In der Vorlesung haben Sie bereits gelernt, dass diese Form der Darstellung aber nicht für detaillierte Analysen zu empfehlen ist, weil Erkenntnisse daraus viel schwerer zu ziehen sind. Bei den Zusatzargumenten werden wir uns also nur mit der Funktion `barplot()` beschäftigen.
 
-**Zusatzargumente für Plots**
+**Zusatzargumente für Plots** {{< intext_anchor GrafikenAnpassen >}}
 
 Die Funktionen zur Erstellung sehr simpler Grafiken sind also denkbar einfach - die Grafiken selbst aber zunächst nicht unbedingt hübsch. `R` bietet diverse Zusatzargumente zur Anpassung der Optik von Grafiken.
 
@@ -379,13 +378,13 @@ colors()[1:20]
 ```
 
 ```
-##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1" "antiquewhite2"
-##  [6] "antiquewhite3" "antiquewhite4" "aquamarine"    "aquamarine1"   "aquamarine2"  
-## [11] "aquamarine3"   "aquamarine4"   "azure"         "azure1"        "azure2"       
-## [16] "azure3"        "azure4"        "beige"         "bisque"        "bisque1"
+##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1" "antiquewhite2" "antiquewhite3"
+##  [7] "antiquewhite4" "aquamarine"    "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"  
+## [13] "azure"         "azure1"        "azure2"        "azure3"        "azure4"        "beige"        
+## [19] "bisque"        "bisque1"
 ```
 
-Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
+Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [https://r-charts.com/colors/]( https://r-charts.com/colors/). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
 
 Zusätzlich können Farbpaletten verwendet werden. Sie bestehen aus einem Farbverlauf, aus dem einzelne Farben "herausgezogen" werden, wodurch ein zusammengehöriges Farbthema in einer Abbildung entsteht. `R` liefert einige dieser Paletten: `rainbow(...)`, `heat.colors(...)`, `topo.colors(...)`, ... Die Farbpalette wird ebenfalls per `col`-Argugment spezifiziert. Technisch handelt es sich um eine Funktion, für die als Argument die Anzahl der Farben spezifiziert werden muss, die aus der Palette "gezogen" werden sollen. Es wäre also so, als würden wir diese 5 Farben per Hand eingeben, nur dass wir die Person entscheiden lassen, die eine Palette programmiert hat Beispielsweise werden mit `col = rainbow(5)` fünf Farben aus der rainbow-Palette gezogen. Der Output würde so aussehen.
 
@@ -418,7 +417,7 @@ Alle verwendeten Argumente (bis auf eines) sind bereits in der Tabelle oben besc
 
 Hinweis: Es gibt natürlich noch viele weitere Argumente, mit denen Sie Bestandteile des Diagramms anpassen können. Falls Sie sich beispielsweise fragen, wie sie aus dem Säulendiagramm ein Balkendiagramm machen können, könnten Sie das mit dem Argument `horiz` erreichen. Wenn Sie also die horizontale Ausrichtung der Grafik auf `TRUE` setzen, erhalten Sie horizontale Balken anstatt vertikale Säulen.
 
-**Grafiken speichern**
+**Grafiken speichern** {{< intext_anchor GrafikenSpeichern >}}
 
 Es gibt zwei Möglichkeiten, um in `R` erzeugte Grafiken als Bilddatei zu speichern: manuell und per Funktion.  
 
@@ -462,7 +461,7 @@ Auch hier gilt: Wenn kein Pfad spezifiziert wurde, liegt die Datei in Ihrem Arbe
 
 ## Deskriptivstatistische Kennwerte auf Nominalskalenniveau
 
-**Modus**
+**Modus** {{< intext_anchor Modus >}}
 
 Der Modus (*Mo*) ist ein Maß der zentralen Tendenz, das die häufigste Ausprägung einer Variable anzeigt. Die Häufigkeiten sind ja schon in der Häufigkeitstabelle enthalten. Man könnte den Modus also einfach ablesen. Das gleiche lässt sich allerdings auch anhand von Funktionen tun:  
 
@@ -497,7 +496,7 @@ which.max(tab) # Modus
 Der Modus der Variable `fach` lautet also Klinische, die Ausprägung trat 39 mal auf.
 
 
-**Relativer Informationsgehalt**
+**Relativer Informationsgehalt** {{< intext_anchor RelativerInformationsgehalt >}}
 
 Der relative Informationsgehalt ist ein Dispersionsmaß, das schon auf Nominalskalenniveau funktioniert. Dafür gibt es in `R` allerdings keine Funktion! Aus Lehreinheit 1 wissen Sie jedoch, dass `R` als Taschenrechner genutzt werden kann, folglich können beliebig komplexe Gleichungen in `R` umgesetzt werden. Die Formel zur Berechnung des relativen Informationsgehalts $H$ lautet:
 
@@ -579,9 +578,9 @@ fb23$wissen
 ```
 
 ```
-##  [1]  5  4  2  3  4  4  4  4  2  4  3  4  3  5  4  3  4  5  5  3  5  5  5  5  3  3  5  3  5
-## [30]  4  3  4  3  2  4  3  4  5  4  5  4  4 NA  3  3  3  4  3  3  4  3  3  3  2  2 NA  3  5
-## [59]  2  3  3 NA  5  4  4  3  5  3  4  4  5  4  3  2  4  5  2  4  4  3  4
+##  [1]  5  4  2  3  4  4  4  4  2  4  3  4  3  5  4  3  4  5  5  3  5  5  5  5  3  3  5  3  5  4  3  4  3  2
+## [35]  4  3  4  5  4  5  4  4 NA  3  3  3  4  3  3  4  3  3  3  2  2 NA  3  5  2  3  3 NA  5  4  4  3  5  3
+## [69]  4  4  5  4  3  2  4  5  2  4  4  3  4
 ```
 
 Wiederholung:
@@ -648,7 +647,7 @@ Fehlende Werte sind ein ganz eigenes Forschungsgebiet der Methodik und man könn
 
 ## Deskriptivstatistische Kennwerte ab Ordinalskalenniveau
 
-**Median**
+**Median** {{< intext_anchor Median >}}
 
 Wir können uns den Einfluss fehlender Werte auf die Arbeit mit `R` mit der Betrachtung der Funktion für den Median, die praktischerweise `median()` heißt, veranschaulichen, indem wir einmal ein extra Argument benennen.
 
