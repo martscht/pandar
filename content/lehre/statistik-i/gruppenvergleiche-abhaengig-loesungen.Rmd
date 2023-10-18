@@ -1,0 +1,347 @@
+---
+title: "Tests für abhängige Stichproben - Lösungen" 
+type: post
+date: '2022-12-13' 
+slug: gruppenvergleiche-abhaengig-loesungen 
+categories: ["Statistik I Übungen"] 
+tags: [] 
+subtitle: ''
+summary: '' 
+authors: [koehler, buchholz] 
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/BSc2_test_abh_stpr.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/449195)"
+projects: []
+expiryDate: 
+publishDate: '2023-12-24'
+_build:
+  list: never
+reading_time: false
+share: false
+output:
+  html_document:
+    keep_md: true
+---
+
+## Vorbereitung
+
+<details><summary>Lösung</summary>
+
+```{r, echo = F}
+#### Was bisher geschah: ----
+
+# Daten laden
+load(url('https://pandar.netlify.app/daten/fb22.rda'))  
+
+# Nominalskalierte Variablen in Faktoren verwandeln
+fb22$geschl_faktor <- factor(fb22$geschl,
+                             levels = 1:3,
+                             labels = c("weiblich", "männlich", "anderes"))
+fb22$fach <- factor(fb22$fach,
+                    levels = 1:5,
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
+fb22$ziel <- factor(fb22$ziel,
+                        levels = 1:4,
+                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
+fb22$wohnen <- factor(fb22$wohnen, 
+                      levels = 1:4, 
+                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+
+# Skalenbildung
+
+fb22$prok2_r <- -1 * (fb22$prok2 - 5)
+fb22$prok3_r <- -1 * (fb22$prok3 - 5)
+fb22$prok5_r <- -1 * (fb22$prok5 - 5)
+fb22$prok7_r <- -1 * (fb22$prok7 - 5)
+fb22$prok8_r <- -1 * (fb22$prok8 - 5)
+
+# Prokrastination
+fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
+                          'prok4', 'prok5_r', 'prok6',
+                          'prok7_r', 'prok8_r', 'prok9', 
+                          'prok10')] |> rowMeans()
+# Naturverbundenheit
+fb22$nr_ges <-  fb22[, c('nr1', 'nr2', 'nr3', 'nr4', 'nr5',  'nr6')] |> rowMeans()
+fb22$nr_ges_z <- scale(fb22$nr_ges) # Standardisiert
+
+# Weitere Standardisierungen
+fb22$nerd_std <- scale(fb22$nerd)
+fb22$neuro_std <- scale(fb22$neuro)
+
+```
+
+Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-abhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+
+Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
+
+```{r}
+dim(fb22)
+str(fb22)
+```
+
+Der Datensatz besteht aus `r nrow(fb22)` Zeilen (Beobachtungen) und `r ncol(fb22)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error = TRUE)
+```
+
+Für die Beantwortung der Fragen werden einige Pakete benötigt, die wir bereits durchgeführt haben.
+
+```{r}
+library(psych)
+library(car)
+library(effsize)
+```
+
+</details>
+
+
+## Aufgabe 1
+Unterscheidet sich im Durchschnitt die Angabe von Psychologiestudierenden zu ihrer Prokrastinationstendenz, wenn sie positiv formulierte Items (prok1, prok4, prok6, prok9, prok10) beantworten im Vergleich zu negativ formulierten Items (prok2, prok3, prok5, prok7 und prok8)? 
+
+<details><summary>Lösung</summary>
+
+
+Die Skala "Prokrastination" soll bei hohen Werten eine höhere Prokrastinationstendenz darstellen. Um zu vergleichen, ob die Zustimmung je nach Itemformulierung (pos. vs. neg.) anders ausfällt, müssen wir die rekodierten Versionen der Variablen nehmen (wurde im Seminar bereits durchgeführt).
+
+Anschließend bilden wir für jede Person ihren Mittelwert auf den positiv formulierten Items sowie ihren Mittelwert auf den negativ formulierten Items.
+
+```{r}
+# Skalenbildung
+prokrast_pos <- fb22[, c('prok1', 'prok4',  'prok6',
+                         'prok9', 'prok10')]
+prokrast_pos$mean <- rowMeans(prokrast_pos,na.rm = T)
+
+prokrast_neg <- fb22[, c('prok2_r', 'prok3_r',
+                         'prok5_r', 'prok7_r',
+                         'prok8_r')]
+prokrast_neg$mean <- rowMeans(prokrast_neg,na.rm = T)
+```
+
+**Deskriptivstatistische Beantwortung der Fragestellung: grafisch**
+
+Je ein Histogramm pro Skala, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
+```{r}
+par(mfrow=c(2,1), mar=c(3,2,2,0))
+hist(prokrast_pos$mean, xlim=c(0,4), ylim=c(1,60), main="Prokrastinationstendenz positiv formulierte Items", xlab="", ylab="", las=1)
+abline(v=mean(prokrast_pos$mean), lty=2, lwd=2)
+hist(prokrast_neg$mean, xlim=c(0,4), ylim=c(1,60), main="Prokrastinationstendenz negativ formulierte Items", xlab="", ylab="", las=1)
+abline(v=mean(prokrast_neg$mean), lty=2, lwd=2)
+par(mfrow=c(1,1))
+```
+
+**Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
+```{r}
+summary(prokrast_pos$mean)
+summary(prokrast_neg$mean)
+#alternativ
+library(psych)
+describe(prokrast_pos$mean)
+describe(prokrast_neg$mean)
+```
+```{r, echo=FALSE}
+positiv <- describe(prokrast_pos$mean)
+negativ <- describe(prokrast_neg$mean)
+```
+Mittelwert positiv (_M_ = `r round(positiv$mean, 2)`, _SD_ = `r round(positiv$sd, 2)`) ist deskriptiv höher als Mittelwert negativ (_M_ = `r round(negativ$mean, 2)`, _SD_ = `r round(negativ$sd, 2)`).
+
+**Voraussetzungen für t-Test für abhängige Stichproben**
+
+1. Die abhängige Variable ist intervallskaliert $\rightarrow$ ok
+2. Die Messwerte innerhalb der Paare dürfen sich gegenseitig beeinflussen/voneinander abhängig sein; keine Abhängigkeiten zwischen den Messwertpaaren $\rightarrow$ ok
+3. Die Differenzvariable _d_ muss in der Population normalverteilt sein $\rightarrow$ ab $n \ge 30$ gegeben, ansonsten grafische Prüfung oder Hintergrundwissen 
+
+**Voraussetzungsprüfung: Normalverteilung von _d_**
+```{r}
+par(mar=c(3,3,3,0)) #ändern der Ränder (margins) des Plot-Fensters
+difference <- prokrast_pos$mean-prokrast_neg$mean
+hist(difference, 
+     breaks = 15,
+     xlim=c(-2,2), 
+     ylim = c(0,1), 
+     main="Verteilung der Differenzen", 
+     xlab="Differenzen", ylab="", las=1,freq=F)
+curve(dnorm(x, mean=mean(difference), sd=sd(difference)), col="blue", lwd=2, add=T)
+par(mfrow=c(1,1)) #Zurücksetzen auf default
+qqnorm(difference,las=1)
+qqline(difference, col="blue")
+```
+
+$\Rightarrow$ Differenzen sehen einigermaßen normalverteilt aus
+
+**Hypothesen**
+
+* Art des Effekts: Unterschiedshypothese  
+* Richtung des Effekts: Ungerichtet $\rightarrow$ ungerichtete Hypothese
+* Größe des Effekts: Unspezifisch  
+
+
+Hypothesenpaar (inhaltlich):  
+H0: Studierende geben in gleichem Ausmaß ihre Prokrastinationstendenz an, d.h. die Richtung der Itemformulierung ist irrelevant.
+
+H1: Studierende geben nicht im gleichen Ausmaß ihre Prokrastinationstendenz an, d.h. die Richtung der Itemformulierung hat einen Einfluss.
+
+Hypothesenpaar (statistisch):  
+
+* $H_0$: $\mu_\text{positiv} = \mu_\text{negativ}$  bzw. $\mu_{d} = 0$
+* $H_1$: $\mu_\text{positiv} \ne   \mu_\text{negativ}$  bzw. $\mu_{d} \ne 0$
+
+**Spezifikation des Signifikanzniveaus**
+
+$\alpha = .05$
+
+**Durchführung des _t_-Tests für abhängige Stichproben in R**
+
+```{r}
+t.test(x = prokrast_pos$mean, y  = prokrast_neg$mean, 
+       paired = T,                       # Stichproben sind abhängig
+       alternative = "two.sided",        # ungerichtete Hypothese 
+       conf.level = .95)                 # alpha = .05
+```
+
+```{r, echo=FALSE}
+ttest <- t.test(x = prokrast_pos$mean, y  = prokrast_neg$mean, paired = T, alternative = "less", conf.level = .95)
+```
+
+* Zur Erinnerung: _df_ bei _t_-test mit abhängigen Stichproben: _n_ - 1 
+* _t_(0.05;`r ttest$parameter`) = `r round(ttest$statistic, 3)`, _p_ < .001 $\rightarrow$ signifikant, H0 wird verworfen.
+
+**Schätzung des standardisierten Populationseffekts**
+
+```{r}
+mean_d <- mean(difference)
+sd.d.est <- sd(difference) #die geschätzte SD der Differenzen
+d_prok <- mean_d/sd.d.est
+d_prok
+```
+
+$\Rightarrow$ Der standardisierte Populationseffekt beträgt _d2''_ = `r round(d_prok, 2)` und ist laut Konventionen nach Cohen (1988) groß. 
+
+**Formales Berichten des Ergebnisses**
+
+Es wurde untersucht, ob Psychologiestudierende in Anbhängigkeit der Itemformulierung in unterschiedlichem Maße angeben, dass sie prokrastinieren. Es findet sich deskriptiv ein Unterschied: Bei den positiv formulierten Items liegt der durchschnittliche Prokrastinationswert bei `r round(positiv$mean, 2)` (_SD_ = `r round(positiv$sd, 2)`), während er bei negativ formulierten Items bei `r round(negativ$mean, 2)` (_SD_ = `r round(negativ$sd, 2)`) liegt. 
+
+Zur Beantwortung der Fragestellung wurde ein ungerichteter _t_-Test für abhängige Stichproben durchgeführt. Der Unterschied ist signifikant (_t_(`r ttest$parameter`) = `r round(ttest$statistic, 3)`, _p_ < .001), somit wird die Nullhypothese verworfen. Die Itemformulierung scheint einen Einfluss auf die angegebene Prokrastinationstendenz zu haben. 
+
+Dieser Einfluss ist nach dem standardisierten Populationseffekt von _d''_ = `r round(d_prok, 2)` groß.
+
+Anmerkung: Hierbei ist zu bedenken, dass es neben der Richtung der Itemformulierung  natürlich noch andere (bei unserer Erhebung nicht kontrollierte) Eigenheiten der Items geben kann, die zu Unterschieden führen (z. B. wie extrem bzw. schwierig die Items formuliert sind). 
+
+</details>
+
+
+## Aufgabe 2
+Ein Therapeut behauptet, dass eine von ihm entwickelte Meditation die Zufriedenheit von Menschen positiv beeinflusst. Er möchte dies mit wissenschaftlichen Methoden zeigen und misst die Zufriedenheit vor und nach der Meditation. Es ergeben sich folgende Werte für 18 Personen:   
+
+```{r echo = FALSE, results='asis'}
+library(knitr)
+kable(data.frame(Vpn = 1:18, Vorher = c(4.1,5.9,4.4,7.8,2.4,8.8,3.1,5.0,6.0,4.5,5.8,4.4,3.2,7.3,7.4,6.3,4.3,7.1), 
+                             Nachher = c(4.0,7.2,8.1,6.2,4.1,7.7,5.5,6.9,8.2,5.4,9.1,5.6,6.8,7.5,6.4,4.9,6.1,7.9)))
+```
+
+Wirkt die Meditation positiv auf die Zufriedenheit?
+
+<details><summary>Lösung</summary>
+**Datensatz generieren**
+```{r}
+dataMeditation <- data.frame(Vpn = 1:18, 
+                             Vorher = c(4.1,5.9,4.4,7.8,2.4,8.8,3.1,5.0,6.0,4.5,5.8,4.4,3.2,7.3,7.4,6.3,4.3,7.1), 
+                             Nachher = c(4.0,7.2,8.1,6.2,4.1,7.7,5.5,6.9,8.2,5.4,9.1,5.6,6.8,7.5,6.4,4.9,6.1,7.9))
+```
+
+**Deskriptivstatistische Beantwortung der Fragestellung: grafisch**
+
+Histogramme (weil Intervallskalenqualität):
+Je ein Histogramm pro Gruppe, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
+```{r}
+par(mfrow=c(2,1), mar=c(3,2,2,0))
+hist(dataMeditation[, "Vorher"], xlim=c(0,10), ylim=c(1,6), main="Zufriedenheit vor der Meditation", xlab="", ylab="", las=1)
+abline(v=mean(dataMeditation[, "Vorher"]), lty=2, lwd=2)
+hist(dataMeditation[, "Nachher"], xlim=c(0,10), ylim=c(1,6), main="Zufriedenheit nach der Meditation", xlab="", ylab="", las=1)
+abline(v=mean(dataMeditation[, "Nachher"]), lty=2, lwd=2)
+par(mfrow=c(1,1))
+```
+
+**Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
+```{r}
+summary(dataMeditation[, "Vorher"])
+summary(dataMeditation[, "Nachher"])
+#alternativ
+library(psych)
+describe(dataMeditation[, "Vorher"])
+describe(dataMeditation[, "Nachher"])
+```
+```{r, echo=FALSE}
+vorher <- describe(dataMeditation[, "Vorher"])
+nachher <- describe(dataMeditation[, "Nachher"])
+```
+Mittelwert vorher (_M_ = `r round(vorher$mean, 2)`, _SD_ = `r round(vorher$sd, 2)`) ist deskriptiv niedriger als Mittelwert nachher (_M_ = `r round(nachher$mean, 2)`, _SD_ = `r round(nachher$sd, 2)`).
+
+**Voraussetzungen für t-Test für abhängige Stichproben**
+
+1. Die abhängige Variable ist intervallskaliert $\rightarrow$ ok
+2. Die Messwerte innerhalb der Paare dürfen sich gegenseitig beeinflussen/voneinander abhängig sein; keine Abhängigkeiten zwischen den Messwertpaaren $\rightarrow$ ok
+3. Die Differenzvariable _d_ muss in der Population normalverteilt sein $\rightarrow$ ab $n \ge 30$ gegeben, ansonsten grafische Prüfung oder Hintergrundwissen 
+
+**Voraussetzungsprüfung: Normalverteilung von _d_**
+```{r}
+par(mar=c(3,3,3,0)) #ändern der Ränder (margins) des Plot-Fensters
+difference2 <- dataMeditation[, "Vorher"]-dataMeditation[, "Nachher"]
+hist(difference2, xlim=c(-6,4), main="Verteilung der Differenzen", xlab="Differenzen", ylab="", las=1,freq=F)
+curve(dnorm(x, mean=mean(difference2), sd=sd(difference2)), col="blue", lwd=2, add=T)
+par(mfrow=c(1,1)) #Zurücksetzen auf default
+qqnorm(difference2,las=1)
+qqline(difference2, col="blue")
+```
+
+$\Rightarrow$ Differenzen sehen nicht normalverteilt aus
+
+$\Rightarrow$ Durchführung des Wilcoxon-Tests für abhängige Stichproben, da die Voraussetzungen hierfür erfüllt sind.
+
+**Hypothesen**
+
+* Art des Effekts: Unterschiedshypothese  
+* Richtung des Effekts: Gerichtet $\rightarrow$ gerichtete Hypothesen (Der Wissenschaftler erwartet eine positive Wirkung der Meditation auf die Zufriedenheit.) 
+* Größe des Effekts: Unspezifisch  
+
+
+Hypothesenpaar (inhaltlich):  
+H0: Die Meditation wirkt sich nicht oder negativ auf die Zufriedenheit aus.
+
+H1: Die Meditation wirkt sich positiv auf die Zufriedenheit aus.
+
+Hypothesenpaar (statistisch):  
+
+* $H_0$: $\eta_\text{vorher} \ge \eta_\text{nachher}$  bzw. $\mu_{d} \ge 0$
+* $H_1$: $\eta_\text{vorher} <   \eta_\text{nachher}$  bzw. $\mu_{d} < 0$
+
+**Spezifikation des Signifikanzniveaus**
+
+$\alpha = .05$
+
+**Inferenzstatistik: Wilcoxon-Test für abhängige Stichproben**
+```{r}
+wilcox.test(x = dataMeditation[, "Vorher"], y  = dataMeditation[, "Nachher"], # die beiden abhängigen Gruppen
+       paired = T,                       # Stichproben sind abhängig
+       alternative = "less",             # gerichtete Hypothese -> einseitige Testung
+       conf.level = .95)                 # alpha = .05
+```
+
+```{r, echo=FALSE}
+wilcoxtest <- wilcox.test(x = dataMeditation[, "Vorher"], y  = dataMeditation[, "Nachher"], paired = T, alternative = "less", conf.level = .95)
+```
+
+$\Rightarrow$ _V_ = `r wilcoxtest$statistic`, _p_ < .01 $\rightarrow$ H0 wird verworfen.
+
+
+**Formales Berichten des Ergebnisses**
+
+Es wurde in einer Wiederholungsmessung untersucht, ob sich Meditation auf Zufriedenheit auswirkt. Zunächst findet sich deskriptiv ein Unterschied: Vor der Meditation liegt der durchschnittliche Zufriedenheitswert bei `r round(vorher$mean, 2)` (_SD_ = `r round(vorher$sd, 2)`), während er nach der Meditation bei `r round(nachher$mean, 2)` (_SD_ = `r round(nachher$sd, 2)`) liegt. 
+
+Da die Differenzen nicht normalverteilt waren, wurde ein gerichteter Wilcoxon-Test für abhängige Stichproben durchgeführt. Der Unterschied wurde bei einem Signifikanzniveau von alpha = .05 signifikant (_V_ = `r wilcoxtest$statistic`, _p_ < .01). Somit wird die Nullhypothese verworfen. Die Meditation hat einen positiven Einfluss auf die Zufriedenheit.
+
+
+</details>
