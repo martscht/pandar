@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler] 
 weight: 4
-lastmod: '2023-10-06'
+lastmod: '2023-10-18'
 featured: no
 banner:
   image: "/header/PsyBSc2_verteilungen.png"
@@ -59,7 +59,7 @@ Der Datensatz ist in diesem Tutorial nicht zentral und kommt erst im letzten Abs
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb22.rda'))  
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb22$geschl_faktor <- factor(fb22$geschl,
@@ -173,7 +173,7 @@ sample(x = wuerfel, size = 1)
 ```
 
 ```
-## [1] 2
+## [1] 1
 ```
 
 Unter dem Argument `x` kann definiert werden, aus welcher Menge an Objekten zufällig gezogen wird - in diesem Fall die Ziffern zwischen 1 und 6, die im Objekt `wuerfel` hinterlegt sind. `size` definiert die Anzahl an Wiederholungen. Wenn wir nun also zwei Würfel werfen wollen, können wir die `size` einfach erhöhen. Dabei ist es außerdem wichtig, ob das Experiment mit oder ohne Zurücklegen durchgeführt wird. Dafür ist das Argument `replace` verantwortlich, das standardmäßig auf `FALSE` steht. Da die Würfel jedoch auch die selbe Zahl anzeigen können, agieren wir mit Zurücklegen und müssen das Argument auf `TRUE` setzen.
@@ -184,7 +184,7 @@ sample(x = wuerfel, size = 2, replace = TRUE)
 ```
 
 ```
-## [1] 6 6
+## [1] 1 4
 ```
 
 Für die Verteilung der Ergebnisse ist es vor allem wichtig, wie die Summe aus den beiden Ziffern aussieht. Die Funktionen kann man in einer Zeile kombinieren.
@@ -195,7 +195,7 @@ sample(x = wuerfel, size = 2, replace = TRUE) |> sum()
 ```
 
 ```
-## [1] 10
+## [1] 7
 ```
 
 Des Weiteren soll der Wurf nicht nur einmal mit den beiden Würfeln durchgeführt werden, sondern häufiger wiederholt werden. Hier hilft Ihnen  `replicate()`, wobei die Anzahl an wiederholten Durchführungen einer Funktion im Argument `n` festgelegt werden kann. Weiterhin muss im Argument `expr` die Funktion genannt werden, die wiederholt werden soll.
@@ -206,7 +206,7 @@ replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ```
 
 ```
-##  [1]  7  7  7  8  3  9  7  6 11  6
+##  [1]  8  5 11  2  3  9  6  8  8  4
 ```
 
 Beachten Sie jedoch, dass Sie bei zweimaliger Durchführung desselben Befehls nicht zwei Mal dasselbe Ergebnis bekommen werden, da `R` den Zufall jeweils neu simuliert. 
@@ -217,7 +217,7 @@ replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ```
 
 ```
-##  [1]  6  8  7 11  7  9 10  5  5  5
+##  [1]  4 10  6  6  7  7  5  6 12  5
 ```
 
 Zur Konstanthaltung der Ergebnisse eines Zufallsvorgangs kann `set.seed()` genutzt werden, durch das der `R` interne Zufallsgenerator stets an der selben Stelle gestartet wird. Dies ermöglicht die Reproduzierbarkeit des Ergebnisses (Anmerkung: bei verschiedenen Versionen von `R` könnte der Befehl auch andere Resultate produzieren).
@@ -376,7 +376,8 @@ Anmerkung: Grafiken mit gefärbten Bestandteilen werden hier zu didaktischen Zwe
 Neben der genauen Erfolgszahl gibt es auch häufig Fragestellungen, die sich mit Bereichen befassen: Wie wahrscheinlich ist es, dass höchstens 20 Mal grün gedreht wird bei 100 Versuchen? In unserem Plot der Wahrscheinlichkeitsverteilung würde der erfragte Wert die Summe der Werte vieler Balken sein. 
 
 ![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
-`{{% intext_anchor "Verteilung" %}}`{=html}
+
+{{< intext_anchor Verteilungen >}}
 Eine solche Frage kann mit Hilfe der *Verteilungsfunktion* der Binomialverteilung beantwortet werden. Hier werden die Werte der niedrigeren Zahlen *kumuliert* - das bedeutet aufaddiert. 
 
 Auch hierfür ist in R eine Funktion definiert mit dem Namen `pbinom()`. `q` gibt nun die Zahl an, bis zu der alle Wahrscheinlichkeiten aufaddiert werden. `size` und `prob` erhalten ihre Bedeutung. `lower.tail = TRUE` (Standardeinstellung) sorgt für eine Aufaddierung der Werte startend bei 0 (also 0 bis 20 Mal grün). Bei `lower.tail = FALSE` würde von der anderen Seite, also der `size` zugeordneten Zahl, begonnen werden. Die Aufaddierung der Werte geht dann von dem maximalen Wert (also $n$ und in diesem Fall 100) bis zu dem Wert `1 + q` (21 bis 100 Mal grün). 
