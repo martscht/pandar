@@ -5,11 +5,11 @@ dim(fb23)          # Anzahl Zeile und Spalten
 str(fb23$hand)
 fb23$hand
 
-fb23$hand <- factor(fb23$hand,                                   # Ausgangsvariable
+fb23$hand_factor <- factor(fb23$hand,                                   # Ausgangsvariable
                              levels = 1:2,                                  # Faktorstufen
                              labels = c("links", "rechts")) # Label für Faktorstufen
-str(fb23$hand)
-head(fb23$hand)
+str(fb23$hand_factor)
+head(fb23$hand_factor)
 
 fb23$fach
 
@@ -100,8 +100,7 @@ quantile(fb23$wissen, .75, na.rm=TRUE) - quantile(fb23$wissen, na.rm=TRUE)
 
 IQR(fb23$wissen, na.rm = TRUE)
 
-variable <- c(1, 3, rep(4,3), rep(5, 8), rep(6, 9), rep(7,8), 8, 8, 9 , 10)
-boxplot(variable, ylim = c(0,10))
+
 
 boxplot(fb23$wissen)
 

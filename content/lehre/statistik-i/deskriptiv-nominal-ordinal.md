@@ -143,10 +143,10 @@ Vorgehensweise:
 
 
 ```r
-fb23$hand <- factor(fb23$hand,                                   # Ausgangsvariable
+fb23$hand_factor <- factor(fb23$hand,                                   # Ausgangsvariable
                              levels = 1:2,                                  # Faktorstufen
                              labels = c("links", "rechts")) # Label für Faktorstufen
-str(fb23$hand)
+str(fb23$hand_factor)
 ```
 
 ```
@@ -154,7 +154,7 @@ str(fb23$hand)
 ```
 
 ```r
-head(fb23$hand)
+head(fb23$hand_factor)
 ```
 
 ```
@@ -740,7 +740,7 @@ boxplot(fb23$wissen)
 
 
 
-In diesem Beispiel betragen Median und Q3 jeweils 3, sodass sich die entsprechenden Linien überlagern. 
+In diesem Beispiel betragen Median und Q3 jeweils 4, sodass sich die entsprechenden Linien überlagern. 
 
 Auch ein Boxplot kann grafisch angepasst werden. Nachfolgend sehen Sie ein Beispiel, in dem möglichst viel verändert wurde, um die verschiedenen Möglichkeiten aufzuzeigen. Nicht alle Veränderungen sind unbedingt sinnvoll in diesem Fall.
 
