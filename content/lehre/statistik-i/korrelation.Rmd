@@ -4,9 +4,9 @@ type: post
 date: '2021-01-04'
 slug: korrelation 
 categories: ["Statistik I"] 
-tags: ["Korrelation", "Grundlagen", "Hilfe"] 
+tags: ["Korrelation", "Grundlagen", "Tabellen", "Varianz"] 
 subtitle: ''
-summary: '' 
+summary: 'In diesem Beitrag lernst du, Kreuztabellen in R zu erstellen, mit Hilfe derer du die Häufigkeit von Kombinationen von Ausprägungen in mehreren Variablen veranschaulichen kannst. Du erfährst außerdem, welche Möglichkeiten es gibt, Varianzen und Kovarianzen zu bestimmen und wie du verschiedene Korrelationen (Produkt-Moment-Korrelation, Rang-Korrelation, Kendalls $\tau$) in R berechnest.' 
 authors: [nehler, winkler, schroeder, neubauer]
 weight: 8
 lastmod: '`r Sys.Date()`'
@@ -42,7 +42,7 @@ knitr::opts_chunk$set(error = TRUE)
 library(knitr)
 ```
 
-{{< spoiler text = "Kernfragen dieses Beitrags" >}}
+{{< spoiler text = "Kernfragen dieser Lehreinheit" >}}
 * Wie können [Kreuztabellen](#Kreuztabellen) in R erstellt werden? Welche Varianten gibt es, [relative Häufigkeitstabellen](#Relativtabelle) zu erstellen?
 * Wie kann ein gemeinsames [Balkendiagramm](#Balkendiagramm) für zwei Variablen erstellt werden?
 * Welche zwei Varianten gibt es, [Varianzen und Kovarianzen](#Ko_Varianz) zu bestimmen?
@@ -191,7 +191,9 @@ $$\hat{\sigma}^2_{X} = \frac{\sum_{m=1}^n (y_m - \bar{y})^2}{n-1}$$
 
 und Kovarianz.
 
-$$\hat{\sigma}_{XY} = \frac{\sum_{m=1}^n (x_m - \bar{x}) \cdot (y_m - \bar{y})}{n-1}$$
+<div class=“big maths“> \begin{equation} \small
+\hat{\sigma}_{XY} = \frac{\sum_{m=1}^n (x_m - \bar{x}) \cdot (y_m - \bar{y})}{n-1}
+\end{equation}</div>
 
 Die Funktionen für die Varianz ist dabei `var()`. Im Folgenden wird diese für die Variablen `vertr` (Verträglichkeit) und `gewis` (Gewissenhaftigkeit) aus dem Datensatz bestimmt. Als Argumente müssen jeweils die Variablennamen verwendet werden.
 Wie bereits in vergangenen Sitzungen gesehen, führen fehlende Werte zu der Ausgabe `NA`. Um dies vorzubeugen, wird im univariaten Fall `na.rm = TRUE` zum Ausschluss verwendet. 

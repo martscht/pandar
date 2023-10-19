@@ -4,12 +4,12 @@ type: post
 date: '2021-01-04'
 slug: korrelation 
 categories: ["Statistik I"] 
-tags: ["Korrelation", "Grundlagen", "Hilfe"] 
+tags: ["Korrelation", "Grundlagen", "Tabellen", "Varianz"] 
 subtitle: ''
-summary: '' 
+summary: 'In diesem Beitrag lernst du, Kreuztabellen in R zu erstellen, mit Hilfe derer du die Häufigkeit von Kombinationen von Ausprägungen in mehreren Variablen veranschaulichen kannst. Du erfährst außerdem, welche Möglichkeiten es gibt, Varianzen und Kovarianzen zu bestimmen und wie du verschiedene Korrelationen (Produkt-Moment-Korrelation, Rang-Korrelation, Kendalls $\tau$) in R berechnest.' 
 authors: [nehler, winkler, schroeder, neubauer]
 weight: 8
-lastmod: '2023-10-18'
+lastmod: '2023-10-19'
 featured: no
 banner:
   image: "/header/BSc2_Korrelation.jpg"
@@ -39,7 +39,7 @@ output:
 
 
 
-{{< spoiler text = "Kernfragen dieses Beitrags" >}}
+{{< spoiler text = "Kernfragen dieser Lehreinheit" >}}
 * Wie können [Kreuztabellen](#Kreuztabellen) in R erstellt werden? Welche Varianten gibt es, [relative Häufigkeitstabellen](#Relativtabelle) zu erstellen?
 * Wie kann ein gemeinsames [Balkendiagramm](#Balkendiagramm) für zwei Variablen erstellt werden?
 * Welche zwei Varianten gibt es, [Varianzen und Kovarianzen](#Ko_Varianz) zu bestimmen?
@@ -238,13 +238,21 @@ addmargins(prop.table(tab))      # als geschachtelte Funktion
 
 ```
 ##              
-##                Wirtschaft    Therapie   Forschung      Andere         Sum
-##   Allgemeine  0.027210884 0.020408163 0.054421769 0.027210884 0.129251701
-##   Biologische 0.040816327 0.040816327 0.074829932 0.027210884 0.183673469
-##   Entwicklung 0.054421769 0.122448980 0.040816327 0.034013605 0.251700680
-##   Klinische   0.013605442 0.340136054 0.006802721 0.027210884 0.387755102
-##   Diag./Meth. 0.000000000 0.006802721 0.040816327 0.000000000 0.047619048
-##   Sum         0.136054422 0.530612245 0.217687075 0.115646259 1.000000000
+##                Wirtschaft    Therapie   Forschung      Andere
+##   Allgemeine  0.027210884 0.020408163 0.054421769 0.027210884
+##   Biologische 0.040816327 0.040816327 0.074829932 0.027210884
+##   Entwicklung 0.054421769 0.122448980 0.040816327 0.034013605
+##   Klinische   0.013605442 0.340136054 0.006802721 0.027210884
+##   Diag./Meth. 0.000000000 0.006802721 0.040816327 0.000000000
+##   Sum         0.136054422 0.530612245 0.217687075 0.115646259
+##              
+##                       Sum
+##   Allgemeine  0.129251701
+##   Biologische 0.183673469
+##   Entwicklung 0.251700680
+##   Klinische   0.387755102
+##   Diag./Meth. 0.047619048
+##   Sum         1.000000000
 ```
 
 ```r
@@ -253,13 +261,21 @@ prop.table(tab) |> addmargins()  # als Pipe
 
 ```
 ##              
-##                Wirtschaft    Therapie   Forschung      Andere         Sum
-##   Allgemeine  0.027210884 0.020408163 0.054421769 0.027210884 0.129251701
-##   Biologische 0.040816327 0.040816327 0.074829932 0.027210884 0.183673469
-##   Entwicklung 0.054421769 0.122448980 0.040816327 0.034013605 0.251700680
-##   Klinische   0.013605442 0.340136054 0.006802721 0.027210884 0.387755102
-##   Diag./Meth. 0.000000000 0.006802721 0.040816327 0.000000000 0.047619048
-##   Sum         0.136054422 0.530612245 0.217687075 0.115646259 1.000000000
+##                Wirtschaft    Therapie   Forschung      Andere
+##   Allgemeine  0.027210884 0.020408163 0.054421769 0.027210884
+##   Biologische 0.040816327 0.040816327 0.074829932 0.027210884
+##   Entwicklung 0.054421769 0.122448980 0.040816327 0.034013605
+##   Klinische   0.013605442 0.340136054 0.006802721 0.027210884
+##   Diag./Meth. 0.000000000 0.006802721 0.040816327 0.000000000
+##   Sum         0.136054422 0.530612245 0.217687075 0.115646259
+##              
+##                       Sum
+##   Allgemeine  0.129251701
+##   Biologische 0.183673469
+##   Entwicklung 0.251700680
+##   Klinische   0.387755102
+##   Diag./Meth. 0.047619048
+##   Sum         1.000000000
 ```
 
 ****
@@ -288,7 +304,9 @@ $$\hat{\sigma}^2_{X} = \frac{\sum_{m=1}^n (y_m - \bar{y})^2}{n-1}$$
 
 und Kovarianz.
 
-$$\hat{\sigma}_{XY} = \frac{\sum_{m=1}^n (x_m - \bar{x}) \cdot (y_m - \bar{y})}{n-1}$$
+<div class=“big maths“> \begin{equation} \small
+\hat{\sigma}_{XY} = \frac{\sum_{m=1}^n (x_m - \bar{x}) \cdot (y_m - \bar{y})}{n-1}
+\end{equation}</div>
 
 Die Funktionen für die Varianz ist dabei `var()`. Im Folgenden wird diese für die Variablen `vertr` (Verträglichkeit) und `gewis` (Gewissenhaftigkeit) aus dem Datensatz bestimmt. Als Argumente müssen jeweils die Variablennamen verwendet werden.
 Wie bereits in vergangenen Sitzungen gesehen, führen fehlende Werte zu der Ausgabe `NA`. Um dies vorzubeugen, wird im univariaten Fall `na.rm = TRUE` zum Ausschluss verwendet. 
@@ -574,8 +592,8 @@ cor <- cor.test(fb22$vertr, fb22$gewis,
 ```
 
 ```
-## Warning in cor.test.default(fb22$vertr, fb22$gewis, alternative = "two.sided", : Cannot
-## compute exact p-value with ties
+## Warning in cor.test.default(fb22$vertr, fb22$gewis, alternative =
+## "two.sided", : Cannot compute exact p-value with ties
 ```
 
 ```r
@@ -696,7 +714,7 @@ Betrachten wir nun den Koeffizienten $\hat{\gamma}$ für zwei andere Items (`pro
 ## t-norm: min 
 ## alternative hypothesis: true gamma is not equal to 0 
 ## sample gamma = -0.3303587 
-## estimated p-value = 0.001 (1 of 1000 values)
+## estimated p-value = < 2.2e-16 (0 of 1000 values)
 ```
 Der Koeffizient von -0.33 zeigt uns, dass die Items zwar miteinander korrelieren, allerdings negativ. Ist hier etwas schief gelaufen? Nein, `prok2` ist lediglich ein invertiertes Item. Mit der rekodierten Variante der `prok2` Variable würde das `-` nicht da stehen, aber die Höhe der Korrelation gleich bleiben. Wir sehen daher, dass `prok1` mit `prok2` signifikant zusammenhängt. Die beiden Items messen demnach ein ähnliches zugrundeliegendes Konstrukt (Prokrastination).
 
