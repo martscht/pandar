@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte Variablen vorgestellt. Dabei wird zunächst die Berechnung des Mittelwerts, der Varianz sowie Standardabweichung behandelt. Dann wird gezeigt, wie Variablen zentriert bzw. standardisiert werden können. Abschließend geht es außerdem um das Rekodieren von Items und das Bilden von Skalenwerten.' 
 authors: [nehler, beitner, buchholz] 
 weight: 3
-lastmod: '2023-10-06'
+lastmod: '2023-10-18'
 featured: no
 banner:
   image: "/header/descriptive_post.jpg"
@@ -68,26 +68,26 @@ Absolut | absoluter Wert | Identität | ... | ... |
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb22.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 
 ```r
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb22$geschl_faktor <- factor(fb22$geschl,
-                             levels = 1:3,
-                             labels = c("weiblich", "männlich", "anderes"))
-fb22$fach <- factor(fb22$fach,
+fb23$hand_factor <- factor(fb23$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
+fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb22$ziel <- factor(fb22$ziel,
+fb23$ziel <- factor(fb23$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb22$wohnen <- factor(fb22$wohnen, 
+fb23$wohnen <- factor(fb23$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 ```
@@ -117,16 +117,14 @@ Der Mittelwert pro Person über alle 5 Items ist in der Spalte `lz` zu finden. D
 
 
 ```r
-fb22$lz
+fb23$lz
 ```
 
 ```
-##   [1] 5.4 6.0 3.0 6.0 3.2 5.8 4.2  NA 5.4 4.6 4.8 5.4 5.0 4.8 6.6 6.0 5.0 6.0 3.6 5.0 5.8 4.6 4.8 6.4 4.2 4.6  NA 5.8 6.4
-##  [30] 4.0 4.2 5.8 4.2 5.0 5.2 6.2 5.2 5.4 4.2 5.2 4.8 2.8 3.4 5.6 3.4 4.2 4.2 5.0 6.0 5.0 4.6 5.8 3.6 3.2 4.0 4.6 4.8 4.6
-##  [59] 4.8 5.0 5.4 4.4 5.2 2.6 3.8 6.6 4.8 3.6 5.8 5.8 4.6 6.2 5.2 5.4 5.0 1.4 4.6 4.8 5.4 2.8 3.2 2.4 5.4 2.2 4.8 6.0 5.2
-##  [88] 4.8 5.8 5.6 4.6 4.4 5.4 5.4 3.8 5.6 5.6 4.2 4.6 6.2 3.8 4.2 3.8 3.8 5.4 4.6 5.2 3.6 2.4 4.2 4.4 3.2 4.2 4.0 2.6 2.0
-## [117] 4.6 5.2 4.4 1.8 4.6 4.4 5.4 5.0 6.0 3.0 4.8 6.0 3.4 6.4 3.6 5.2 5.0 4.8 5.8 4.8 5.8 5.2 5.2 6.4 4.8 3.8 4.6 2.6 6.0
-## [146] 5.0 5.6 3.2 4.4 6.4 5.8 5.2 5.2 3.6 5.8 3.0 5.6 4.2 5.4
+##  [1] 4.4 4.4 6.4 4.8 5.8 2.6 5.2 5.4 1.4 4.8 5.4 5.2 6.0 6.2 5.2 4.6 2.0 5.2 3.6 5.8 3.2
+## [22] 5.0 6.8 6.2 4.4 4.8 4.6 6.0 4.0 2.6 4.8 4.0 4.0 5.2 5.4 4.6 5.6 4.2 4.2 6.2 3.2 4.2
+## [43] 4.6 5.4 5.8 6.0 5.0 3.6 6.2 5.0 3.8 5.8 6.8 3.2 5.6 5.8 4.6 5.4 4.4 4.2 4.4 5.4 5.0
+## [64] 6.4 5.4 4.2 2.8 5.6 5.0 5.2 5.0 3.6 5.8 3.8 3.6 4.0 5.6 5.2 5.8 6.0 6.0
 ```
 
 ## Deskriptivstatistik für mindestens intervallskalierte Variablen
@@ -137,26 +135,26 @@ fb22$lz
 
 ```r
 # Minimum & Maximum
-range(fb22$lz, na.rm=T)
+range(fb23$lz, na.rm=T)
 ```
 
 ```
-## [1] 1.4 6.6
+## [1] 1.4 6.8
 ```
 
 ```r
 # Quartile
-quantile(fb22$lz, c(.25, .5, .75), na.rm=T)
+quantile(fb23$lz, c(.25, .5, .75), na.rm=T)
 ```
 
 ```
 ## 25% 50% 75% 
-## 4.2 4.8 5.4
+## 4.2 5.0 5.6
 ```
 
 ```r
 #Box-Whisker Plot
-boxplot(fb22$lz)
+boxplot(fb23$lz)
 ```
 
 ![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
@@ -168,7 +166,7 @@ Für intervallskalierte Daten ist eine beliebte grafische Darstellungsform das H
 
 ```r
 # Histogramm
-hist(fb22$lz)
+hist(fb23$lz)
 ```
 
 ![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
@@ -178,7 +176,7 @@ Natürlich kann man auch hier zusätzliche Argumente nutzen, die die Optik des H
 
 ```r
 # Histogramm (20 Breakpoints anfordern)
-hist(fb22$lz,
+hist(fb23$lz,
      breaks = 20)
 ```
 
@@ -193,7 +191,7 @@ Achtung! Die Anzahl der Kategorien kann den Eindruck der Daten beeinflussen. Hie
 
 ```r
 # Histogramm (ungleiche Kategorien)
-hist(fb22$lz,
+hist(fb23$lz,
      breaks = c(1, 3, 3.3, 3.6, 3.9, 4.5, 5, 7))
 ```
 
@@ -212,11 +210,11 @@ In `R` ist die Funktion zum Glück sehr intuitiv benannt. Dabei muss auch hier b
 
 ```r
 # Arithmetisches Mittel
-mean(fb22$lz, na.rm = TRUE)
+mean(fb23$lz, na.rm = TRUE)
 ```
 
 ```
-## [1] 4.709554
+## [1] 4.846914
 ```
 
 ## Varianz
@@ -230,14 +228,14 @@ Wollen wir diese nun per Hand bestimmen, könnte folgender Code das für uns erl
 
 ```r
 # Händische Varianzberechnung
-sum((fb22$lz - mean(fb22$lz, na.rm = TRUE))^2, na.rm = TRUE) / (nrow(fb22)-2)
+sum((fb23$lz - mean(fb23$lz, na.rm = TRUE))^2, na.rm = TRUE) / (nrow(fb23)-2)
 ```
 
 ```
-## [1] 1.145705
+## [1] 1.206351
 ```
 
-Achtung! Wir benötigen für die Varianzberechnung `n` (s. Formel)! Wir nutzen hier `nrow(fb22)-2 `, weil `nrow(fb22)` nicht das richtige n anzeigt (2 Personen haben einen fehlenden Wert, daher die Anzahl an Zeilen minus der 2 fehlenden Werte = n).
+Achtung! Wir benötigen für die Varianzberechnung `n` (s. Formel)! Wir nutzen hier `nrow(fb23)-0 `, weil `nrow(fb23)` nicht das richtige n anzeigt (0 Personen haben einen fehlenden Wert, daher die Anzahl an Zeilen minus der 0 fehlenden Werte = n).
 
 
 **Kleiner Diskurs zu fehlenden Werten:**
@@ -248,30 +246,30 @@ Um zu prüfen, ob und wie viele fehlende Werte eine Variable hat, lässt sich z.
 
 
 ```r
-is.na(fb22$lz) |> sum()
+is.na(fb23$lz) |> sum()
 ```
 
 ```
-## [1] 2
+## [1] 0
 ```
 
 Um die Länge einer Variablen ohne fehlende Werte (also die Anzahl an Beobachtungen auf einer Variablen) zu bestimmen, lässt sich z. B. folgende Syntax verwenden:
 
 
 ```r
-na.omit(fb22$lz) |> length() # mit Pipe
+na.omit(fb23$lz) |> length() # mit Pipe
 ```
 
 ```
-## [1] 157
+## [1] 81
 ```
 
 ```r
-length(na.omit(fb22$lz))     # ohne Pipe
+length(na.omit(fb23$lz))     # ohne Pipe
 ```
 
 ```
-## [1] 157
+## [1] 81
 ```
 
 Zur händischen Varianzberechnung können wir daher auch folgende Syntax verwenden:
@@ -279,11 +277,11 @@ Zur händischen Varianzberechnung können wir daher auch folgende Syntax verwend
 
 ```r
 # Händische Varianzberechnung
-sum((fb22$lz - mean(fb22$lz, na.rm = TRUE))^2, na.rm = TRUE) / (length(na.omit(fb22$lz)))
+sum((fb23$lz - mean(fb23$lz, na.rm = TRUE))^2, na.rm = TRUE) / (length(na.omit(fb23$lz)))
 ```
 
 ```
-## [1] 1.145705
+## [1] 1.176565
 ```
 
 
@@ -293,11 +291,11 @@ Sie haben sich eventuell schon gewundert, warum wir eine so bekannten Wert wie d
 
 ```r
 # R-interne Varianzberechnung
-var(fb22$lz, na.rm = TRUE)
+var(fb23$lz, na.rm = TRUE)
 ```
 
 ```
-## [1] 1.153049
+## [1] 1.191272
 ```
 
 Warum erhalten wir hier einen abweichenden Wert im Vergleich zu unserer händischen Varianzberechnung?
@@ -320,34 +318,34 @@ Um in R die empirische Varianz mithilfe der `var()`-Funktion zu berechnen, kann 
 
 ```r
 # Umrechnung der Varianzen
-var(fb22$lz, na.rm = TRUE) * (nrow(fb22) - 1) / nrow(fb22)
+var(fb23$lz, na.rm = TRUE) * (nrow(fb23) - 1) / nrow(fb23)
 ```
 
 ```
-## [1] 1.145797
+## [1] 1.176565
 ```
 
-Achtung! Dies funktioniert in unserem Fall wieder nicht, da die Verwendung von `nrow(fb22)` - wie oben bereits angemerkt - nicht sinnvoll ist: `nrow(fb22)` ist nicht gleich n (es kommt `NA` 2 Mal vor), daher besser:
+Achtung! Dies funktioniert in unserem Fall wieder nicht, da die Verwendung von `nrow(fb23)` - wie oben bereits angemerkt - nicht sinnvoll ist: `nrow(fb23)` ist nicht gleich n (es kommt `NA` 0 Mal vor), daher besser:
 
 
 ```r
 # Umrechnung der Varianzen
-var(fb22$lz, na.rm = TRUE) * (length(na.omit(fb22$lz)) - 1) / (length(na.omit(fb22$lz)))
+var(fb23$lz, na.rm = TRUE) * (length(na.omit(fb23$lz)) - 1) / (length(na.omit(fb23$lz)))
 ```
 
 ```
-## [1] 1.145705
+## [1] 1.176565
 ```
 
 Alternativ, wenn man die fehlenden Werte händisch abzieht:
 
 ```r
 # Umrechnung der Varianzen
-var(fb22$lz, na.rm = TRUE) * (157 - 1) / 157
+var(fb23$lz, na.rm = TRUE) * (157 - 1) / 157
 ```
 
 ```
-## [1] 1.145705
+## [1] 1.183684
 ```
 
 
@@ -355,17 +353,25 @@ var(fb22$lz, na.rm = TRUE) * (157 - 1) / 157
 
 Auch bei der Standardabweichung bestimmt R den Populationsschätzer $\hat{\sigma}_{X}$.
 
-$\hat{\sigma}_{X} = \sqrt{\hat{\sigma}^2_{X}} = \sqrt{\frac{\sum_{m=1}^n (x_m - \bar{x})^2}{n - 1}}$
+{{< math >}}
+<div class="big-maths">
+\begin{equation}
+\small
+\hat{\sigma}_{X} = \sqrt{\hat{\sigma}^2_{X}} = \sqrt{\frac{\sum_{m=1}^n (x_m - \bar{x})^2}{n - 1}}
+\end{equation}
+</div>
+{{< /math >}}
+
 
 
 
 ```r
 # Standardabweichung in R
-sd(fb22$lz, na.rm = TRUE) # Populationsschaetzer
+sd(fb23$lz, na.rm = TRUE) # Populationsschaetzer
 ```
 
 ```
-## [1] 1.073801
+## [1] 1.091454
 ```
 
 
@@ -378,11 +384,11 @@ Wir müssten das Ergebnis also wieder mit einem Faktor ($\sqrt{\frac{n - 1}{n}}$
 
 ```r
 # Umrechnung der Standardabweichung
-sd(fb22$lz, na.rm = TRUE) * sqrt((157 - 1) / 157)
+sd(fb23$lz, na.rm = TRUE) * sqrt((157 - 1) / 157)
 ```
 
 ```
-## [1] 1.070376
+## [1] 1.087972
 ```
 
 Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafür können wir einfach den bereits geschriebenen Code für die empirische Varianz nehmen und aus dem Ergebnis die Wurzel ziehen.
@@ -390,12 +396,12 @@ Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafü
 
 ```r
 # Händische Berechnung der empirischen Standardabweichung
-(sum((fb22$lz - mean(fb22$lz, na.rm = TRUE))^2,
-    na.rm = TRUE) / (length(na.omit(fb22$lz)))) |> sqrt()
+(sum((fb23$lz - mean(fb23$lz, na.rm = TRUE))^2,
+    na.rm = TRUE) / (length(na.omit(fb23$lz)))) |> sqrt()
 ```
 
 ```
-## [1] 1.070376
+## [1] 1.084696
 ```
 
 ***
@@ -407,22 +413,22 @@ In der Vorlesung haben Sie gelernt, dass eine Variable zentriert oder standardis
 
 ```r
 # Zentrierung
-lz_c <- fb22$lz - mean(fb22$lz, na.rm = TRUE)
+lz_c <- fb23$lz - mean(fb23$lz, na.rm = TRUE)
 head(lz_c)    # erste 6 zentrierte Werte
 ```
 
 ```
-## [1]  0.6904459  1.2904459 -1.7095541  1.2904459 -1.5095541  1.0904459
+## [1] -0.44691358 -0.44691358  1.55308642 -0.04691358  0.95308642 -2.24691358
 ```
 
 ```r
 # Standardisierung
-lz_z <- lz_c / sd(fb22$lz, na.rm = TRUE)
+lz_z <- lz_c / sd(fb23$lz, na.rm = TRUE)
 head(lz_z)    # erste 6 standardisierte Werte
 ```
 
 ```
-## [1]  0.6429922  1.2017548 -1.5920582  1.2017548 -1.4058040  1.0155006
+## [1] -0.40946629 -0.40946629  1.42295192 -0.04298265  0.87322646 -2.05864269
 ```
 
 ...oder mit Hilfe bereits existierender Funktionen:
@@ -430,9 +436,9 @@ head(lz_z)    # erste 6 standardisierte Werte
 
 ```r
 ## Befehl zum Standardisieren
-lz_z <- scale(fb22$lz)
+lz_z <- scale(fb23$lz)
 ## Befehl zum Zentrieren (ohne Standardisierung)
-lz_c <- scale(fb22$lz,
+lz_c <- scale(fb23$lz,
               scale = FALSE) # unterbindet Standardisierung
 ```
 
@@ -456,32 +462,37 @@ Viele Fragebögen enthalten sowohl positiv als auch negativ formulierte Items,
 
 Vor der Skalenbildung müssen alle Items in eine Richtung gebracht werden: Das wird auch als **Rekodierung** bezeichnet.
 
-**Beispiel: Fragebogen zur Prokrastionationstendenz**
+**Beispiel: Fragebogen zur Befindlichkeit - Skala gut/schlecht**
 
-* Skala soll bei hohen Werten höhere Prokrastinationstendenz darstellen    
-* Negativ formulierte Items müssen invertiert werden    
-* Invertierte Items sind 2, 3, 5, 7 und 8 
+* Fragebogen haben Sie zu Beginn und am Ende des Praktikums ausgefüllt
+* Skalenwerte für die spätere Befragung (post) haben wir bereits gebildet
+* Skalenwerte für die erste Befragung (pre) stehen noch aus
+* Skala gut/schlecht soll bei hohem Wert darstelle, dass man sich gut fühlt
+* aus dem Gesamtfragebogen zur Befindlichkeit gehören Items 1, 4, 8 und 11 zu der Skala
+* Negativ formulierte Items müssen invertiert werden  
+* Invertierte Items sind 4 und 11 
 * Mögliche Werte von 1 bis 4     
-* Hierzu kennen Sie bereits zwei Möglichkeiten (mit den Befehlen und R-Kenntnissen aus den bisherigen Sitzungen...)    
+
+Mit den Befehlen und R-Kenntnissen aus den bisherigen Sitzungen können wir zwei verschiedene Wege zur Transformation erstellen
 
 
 **Variante 1: Lineare Transformation**
 
 ```r
-fb22$prok2_r <- -1 * (fb22$prok2 - 5)
-head(fb22$prok2)     # erste 6 Werte ohne Transformation
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 5)
+head(fb23$mdbf4_pre)     # erste 6 Werte ohne Transformation
 ```
 
 ```
-## [1] 3 3 3 3 1 4
+## [1] 1 2 1 3 1 2
 ```
 
 ```r
-head(fb22$prok2_r)   # erste 6 Werte mit Transformation
+head(fb23$mdbf4_pre_r)   # erste 6 Werte mit Transformation
 ```
 
 ```
-## [1] 2 2 2 2 4 1
+## [1] 4 3 4 2 4 3
 ```
 
 * Allgemeine Form: $-1 \cdot (x_m - x_{\max} - 1)$   
@@ -502,11 +513,12 @@ Mit Hilfe von logischen Filtern, die wir auch schon im [R-Intro](https://pandar.
 
 
 ```r
-head(fb22$prok3 == 1, 15) #Zeige die ersten 15 Antworten
+head(fb23$mdbf11_pre == 1, 15) #Zeige die ersten 15 Antworten
 ```
 
 ```
-##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE
+##  [1]  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE  TRUE
+## [15]  TRUE
 ```
 
 Wir erhalten einen booleschen Vektor, der uns sagt, wo der Wert 1 auftaucht (`TRUE`) und wo nicht (`FALSE`).
@@ -514,24 +526,24 @@ Mit Hilfe dieses booleschen Vektors können wir die Stellen ansteuern bzw. indiz
 
 
 ```r
-fb22$prok3_r[fb22$prok3 == 1] <- 4
-fb22$prok3_r[fb22$prok3 == 2] <- 3
-fb22$prok3_r[fb22$prok3 == 3] <- 2
-fb22$prok3_r[fb22$prok3 == 4] <- 1
+fb23$mdbf11_pre_r[fb23$mdbf11_pre == 1] <- 4
+fb23$mdbf11_pre_r[fb23$mdbf11_pre == 2] <- 3
+fb23$mdbf11_pre_r[fb23$mdbf11_pre == 3] <- 2
+fb23$mdbf11_pre_r[fb23$mdbf11_pre == 4] <- 1
 
-head(fb22$prok3)
+head(fb23$mdbf11_pre)
 ```
 
 ```
-## [1] 4 2 2 4 4 2
+## [1] 1 2 2 2 1 3
 ```
 
 ```r
-head(fb22$prok3_r)
+head(fb23$mdbf11_pre_r)
 ```
 
 ```
-## [1] 1 3 3 1 1 3
+## [1] 4 3 3 3 4 2
 ```
 
 * Durch logische Filter Personen auswählen, die auf Originalvariable den relevanten Wert haben  
@@ -539,14 +551,6 @@ head(fb22$prok3_r)
 * Vorteil: extrem flexibel, jede Transformation möglich  
 * Nachteil: umständlich zu schreiben  
 
-Um Code zu sparen, invertieren wir also die restlichen Items mittels der linearen Transformation.
-
-
-```r
-fb22$prok5_r <- -1 * (fb22$prok5 - 5)
-fb22$prok7_r <- -1 * (fb22$prok7 - 5)
-fb22$prok8_r <- -1 * (fb22$prok8 - 5)
-```
 
 ## Skalenwerte erstellen {#Skalenwerte}
 
@@ -554,18 +558,16 @@ Skalenwerte werden zumeist als Summen oder Mittelwerte der Items erstellt. Dafü
 
 
 ```r
-# Datensatz der relevanten Variablen
-prokrastination <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
-                            'prok4', 'prok5_r', 'prok6', 
-                            'prok7_r', 'prok8_r', 'prok9', 
-                            'prok10')]
+# neuen Datensatz der relevanten Variablen erstellen 
+gs_pre_data <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')]
 # Skalenwert in Originaldatensatz erstellen
-fb22$prok_ges <- rowMeans(prokrastination)
-head(fb22$prok_ges)
+fb23$gs_pre <- rowMeans(gs_pre_data)
+head(fb23$gs_pre)
 ```
 
 ```
-## [1] 2.0 3.3 3.1  NA 2.0 2.1
+## [1] 3.75 2.50 3.25 2.75 3.75 2.50
 ```
 
 Natürlich kann die Erstellung auch in einem Befehl passieren - beispielsweise durch Verwendung der Pipe. Es gibt aber auch noch viele andere Optionen zur Skalenbildung - es wird (wie eigentlich fast immer) nur ein Ausschnitt der Möglichkeiten gezeigt.
@@ -573,18 +575,16 @@ Natürlich kann die Erstellung auch in einem Befehl passieren - beispielsweise d
 
 ```r
 # Direkter Befehle
-fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
-                          'prok4', 'prok5_r', 'prok6',
-                          'prok7_r', 'prok8_r', 'prok9', 
-                          'prok10')] |> rowMeans()
-head(fb22$prok_ges)
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+head(fb23$gs_pre )
 ```
 
 ```
-## [1] 2.0 3.3 3.1  NA 2.0 2.1
+## [1] 3.75 2.50 3.25 2.75 3.75 2.50
 ```
 
-{{< spoiler text="*Quizfrage*: Was bedeutet `NA` in `fb22$prok_ges`?" >}}
+{{< spoiler text="*Quizfrage*: Was bedeutet `NA` in `fb23$gs_pre `?" >}}
 
 ***Antwort***: `NA` bedeutet in diesem Fall, dass eine teilnehmende Person mindestens ein Item nicht beantwortet hat. Da `rowMeans()` im Hintergrund auch nur `mean()` auf jeder Zeile aufruft, gibt es bei fehlenden Werten die Ausgabe `NA`. Wenn man das vermeiden möchte, kann man wieder das Argument `na.rm = TRUE` hinzufügen. Dabei muss man sich aber im Klaren sein, dass der Mittelwert dann auch für Personen berechnet wird, die nicht alle Items ausgefüllt haben. Im schlimmsten Fall sogar nur ein einziges von 10. Daher sollte solche Entscheidungen immer mit Bedacht getroffen werden.
 

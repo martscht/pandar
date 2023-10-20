@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler, winkler, schroeder, neubauer]
 weight: 8
-lastmod: '2023-10-04'
+lastmod: '2023-10-18'
 featured: no
 banner:
   image: "/header/BSc2_Korrelation.jpg"
@@ -59,7 +59,7 @@ Zu Beginn laden wir wie gewohnt den Datensatz und verteilen die relevanten Label
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb22.rda')) 
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb22$geschl_faktor <- factor(fb22$geschl,
@@ -574,8 +574,8 @@ cor <- cor.test(fb22$vertr, fb22$gewis,
 ```
 
 ```
-## Warning in cor.test.default(fb22$vertr, fb22$gewis, alternative = "two.sided", : Cannot compute exact
-## p-value with ties
+## Warning in cor.test.default(fb22$vertr, fb22$gewis, alternative = "two.sided", : Cannot
+## compute exact p-value with ties
 ```
 
 ```r
@@ -696,7 +696,7 @@ Betrachten wir nun den Koeffizienten $\hat{\gamma}$ für zwei andere Items (`pro
 ## t-norm: min 
 ## alternative hypothesis: true gamma is not equal to 0 
 ## sample gamma = -0.3303587 
-## estimated p-value = < 2.2e-16 (0 of 1000 values)
+## estimated p-value = 0.001 (1 of 1000 values)
 ```
 Der Koeffizient von -0.33 zeigt uns, dass die Items zwar miteinander korrelieren, allerdings negativ. Ist hier etwas schief gelaufen? Nein, `prok2` ist lediglich ein invertiertes Item. Mit der rekodierten Variante der `prok2` Variable würde das `-` nicht da stehen, aber die Höhe der Korrelation gleich bleiben. Wir sehen daher, dass `prok1` mit `prok2` signifikant zusammenhängt. Die beiden Items messen demnach ein ähnliches zugrundeliegendes Konstrukt (Prokrastination).
 

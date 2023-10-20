@@ -1,0 +1,386 @@
+---
+title: "Tests und Konfidenzintervalle - Lösungen" 
+type: post
+date: '2020-12-11' 
+slug: tests-konfidenzintervalle-loesungen 
+categories: ["Statistik I Übungen"] 
+tags: [] 
+subtitle: ''
+summary: '' 
+authors: [scheppa-lahyani, nehler] 
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/BSc2_Tests.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)"
+projects: []
+expiryDate:
+publishDate: '2023-12-10'
+_build:
+  list: never
+reading_time: false
+share: false
+output:
+  html_document:
+    keep_md: true
+---
+
+### Vorbereitung
+
+<details><summary>Lösung</summary>
+
+Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/tests-konfidenzintervalle/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+
+```{r}
+#### Was bisher geschah: ----
+
+# Daten laden
+load(url('https://pandar.netlify.app/daten/fb22.rda'))  
+
+# Nominalskalierte Variablen in Faktoren verwandeln
+fb22$geschl_faktor <- factor(fb22$geschl,
+                             levels = 1:3,
+                             labels = c("weiblich", "männlich", "anderes"))
+fb22$fach <- factor(fb22$fach,
+                    levels = 1:5,
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
+fb22$ziel <- factor(fb22$ziel,
+                        levels = 1:4,
+                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
+fb22$wohnen <- factor(fb22$wohnen, 
+                      levels = 1:4, 
+                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+
+# Skalenbildung
+
+fb22$prok2_r <- -1 * (fb22$prok2 - 5)
+fb22$prok3_r <- -1 * (fb22$prok3 - 5)
+fb22$prok5_r <- -1 * (fb22$prok5 - 5)
+fb22$prok7_r <- -1 * (fb22$prok7 - 5)
+fb22$prok8_r <- -1 * (fb22$prok8 - 5)
+
+# Prokrastination
+fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
+                          'prok4', 'prok5_r', 'prok6',
+                          'prok7_r', 'prok8_r', 'prok9', 
+                          'prok10')] |> rowMeans()
+# Naturverbundenheit
+fb22$nr_ges <-  fb22[, c('nr1', 'nr2', 'nr3', 'nr4', 'nr5',  'nr6')] |> rowMeans()
+fb22$nr_ges_z <- scale(fb22$nr_ges) # Standardisiert
+
+# Weitere Standardisierugen
+fb22$nerd_std <- scale(fb22$nerd)
+fb22$neuro_std <- scale(fb22$neuro)
+
+```
+
+Prüfen Sie zur Sicherheit, ob alles funktioniert hat:
+
+```{r}
+dim(fb22)
+str(fb22)
+```
+
+Der Datensatz besteht aus `r nrow(fb22)` Zeilen (Beobachtungen) und `r ncol(fb22)` Spalten (Variablen). Falls Sie weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+
+</details>
+
+
+## Aufgabe 1
+
+Im Laufe der Aufgaben sollen Sie auch Funktionen aus Paketen nutzen, die nicht standardmäßig aktiviert und auch eventuell noch nicht installiert sind. Sorgen Sie in dieser Aufgabe zunächst dafür, dass Sie Funktionen aus den Paketen `psych` und `car` nutzbar sind. Denken Sie an die beiden dargestellten Schritte aus dem Tutorial und auch daran, dass eine Installation nur einmalig notwendig ist. 
+
+<details><summary>Lösung</summary>
+
+Installieren aller wichtigen Packages. Beachten Sie, dass das `psych` Paket eventuell schon im Tutorial installiert wurde, weshalb Sie dies nicht nochmal machen müssen.
+
+```{r, eval=F}
+install.packages("psych")
+install.packages("car")
+```
+
+Damit die Funktionen ansprechbar sind, müssen die Pakete auch noch mittels `library` aktiviert werden.
+
+```{r}
+library(psych)
+library(car)
+```
+
+</details>
+
+
+## Aufgabe 2
+
+Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
+
+**2.1** Was ist der Mittelwert ($\bar{x}$), die Standardabweichung (*SD*, $\hat\sigma$) und der Standardfehler ($\hat{\sigma_{\bar{x}}}$) der Lebenszufriedenheit in der Gruppe der Psychologie-Studierenden?
+
+<details><summary>Lösung</summary>
+
+**Variante 1**:
+
+```{r}
+mean.lz <- mean(fb22$lz, na.rm = T) #Mittelwert
+mean.lz
+
+sd.lz <- sd(fb22$lz, na.rm = T) #Standardabweichung
+sd.lz
+
+n.lz <- length(na.omit(fb22$lz)) #Stichprobengröße
+se.lz <- sd.lz/sqrt(n.lz) #Standardfehler
+se.lz
+```
+
+* Der Mittelwert der Lebenszufriedenheit in der Stichprobe liegt bei `r round(mean.lz, digits = 3)`.
+* Die Standardabweichung der Lebenszufriedenheit beträgt `r round(sd.lz, digits = 3)`.
+* Der Standardfehler der Lebenszufriedenheit beträgt `r round(se.lz, digits = 3)`.
+
+**Variante 2**:
+
+```{r}
+describe(fb22$lz) #Funktion aus Paket "psych"
+```
+
+</details>
+
+
+
+**2.2** Sind die Lebenszufriedenheitswerte normalverteilt? Veranschaulichen Sie dies mit einem geeigneten Plot. Benutzen Sie außerdem die `qqPlot`-Funktion aus dem `car`-Paket. Wann kann man in diesem Fall von einer Normalverteilung ausgehen?
+
+<details><summary>Lösung</summary>
+
+```{r}
+#geeigneter Plot: QQ-Plot. Alle Punkte sollten auf einer Linie liegen.
+qqnorm(fb22$lz)
+qqline(fb22$lz)
+
+#Die qqPlot-Funktion zeichnet ein Konfidenzintervall in den QQ-Plot. Dies macht es für Betrachter:innen einfacher zu entscheiden, ob alle Punkte in etwa auf einer Linie liegen. Die Punkte sollten nicht außerhalb der blauen Linien liegen.
+qqPlot(fb22$lz)
+
+```
+Beide Darstellungsweisen des QQ-Plot weisen darauf hin, dass die Daten **nicht** normalverteilt sind.
+
+</details>
+
+
+
+**2.3** Unterscheidet sich die Lebenszufriedenheit der Psychologie-Studierenden von der Lebenszufriedenheit der Gesamtbevölkerung ($\mu$ = 4.4)? Bestimmen Sie das 99%ige Konfidenzintervall.
+
+<details><summary>Lösung</summary>
+
+Da die Varianz der Grundgesamtheit nicht bekannt ist, wird ein t-Test herangezogen.
+Obwohl keine Normalverteilung vorliegt, können wir aufgrund des *zentralen Grenzwertsatzes* trotzdem einen t-Test rechnen.
+
+**Hypothesengenerierung:**
+
+$\alpha$ = .01 
+
+$H_0$: Die durchschnittliche Lebenzufriedenheit der Psychologie-Studierenden $\mu_1$ unterscheidet sich nicht von der Lebenszufriedenheit der Gesamtbevölkerung $\mu_0$.
+
+$H_0$: $\mu_0$ $=$ $\mu_1$
+
+$H_1$: Die durchschnittliche Lebenzufriedenheit der Psychologie-Studierenden $\mu_1$ unterscheidet sich von der Lebenszufriedenheit der Gesamtbevölkerung $\mu_0$.
+
+$H_1$: $\mu_0$ $\neq$ $\mu_1$
+
+```{r}
+t.test(fb22$lz, mu=4.4)
+t.test(fb22$lz, mu=4.4, conf.level = 0.99) #Default ist 95%, deshalb erhöhen wir auf 99%
+```
+
+Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die Psychologie-Studierenden unterscheiden sich in ihrer Lebenszufriedenheit von der Gesamtbevölkerung. 
+
+</details>
+
+
+
+## Aufgabe 3
+
+Die durchschnittliche Abschlussnote im Fach Psychologie (Bachelor) ist 2.01 ($\sigma$ = 0.57). Eine Forschungsgruppe vermutet, dass sich die durchschnittliche Abschlussnote über die Jahre verändert hat und nun besser ist. Um dies zu überpruefen, untersucht die Forschungsgruppe eine zufällige Stichprobe aus 140 Psychologie-Studierenden (*N* = 140). Sie ermitteln eine durchschnittliche Abschlussnote von 1.81.
+
+**3.1** Reicht diese Information aus, um nachzuweisen, dass sich die durchschnittliche Abschlussnote verändert hat? Berechnen Sie wenn möglich, ob es eine Veränderung gab ($\alpha$ = .05).
+
+<details><summary>Lösung</summary>
+
+Ja, diese Informationen reichen aus. Die Standardabweichung der Stichprobe wird nicht benötigt.
+
+**Hypothesengenerierung:**
+
+$\alpha$ = .05 
+
+$H_0$: Die durchschnittliche Abschlussnote der Psychologie-Studierenden $\mu_1$ ist schlechter oder gleich groß wie zuvor ($\mu_0$).
+
+$H_0$: $\mu_0$ $\leq$ $\mu_1$
+
+$H_1$: Die durchschnittliche Abschlussnote der Psychologie-Studierenden $\mu_1$ ist besser als zuvor ($\mu_0$).
+
+$H_1$: $\mu_0$ $>$ $\mu_1$
+
+```{r}
+mean.note <- 2.01 #Mittelwert alt
+mean.sd <- 0.57 #Standardabweichung alt
+n.new.note <- 140 #Stichprobengröße
+new.mean.note <- 1.81 #Mittelwert neu
+se.mean.note <- 0.57/sqrt(n.new.note) #Standardfehler
+z.note <- abs((new.mean.note-mean.note)/se.mean.note) #empirischer z-Wert
+z.note
+
+z_krit <- qnorm(1-.05) #kritischer z-Wert
+z_krit
+
+z.note > z_krit #Signifikanzentscheidung
+```
+
+Mit einer Irrtumswahrscheinlichkeit von 5% wird die $H_0$ (keine Veränderung) verworfen. Die Abschlussnote hat sich über die Jahre verbessert.
+
+</details>
+
+
+
+**3.2** Wieviel Prozent der damaligen Fälle hatten eine bessere Abschlussnote als die neue ermittelte Abschlussnote von 1.81?
+
+<details><summary>Lösung</summary>
+
+```{r, echo = FALSE}
+p.norm <- pnorm(q = 1.81, mean = 2.01,sd = .57, lower.tail = T)*100
+```
+
+```{r}
+pnorm(q = 1.81, mean = 2.01,sd = .57, lower.tail = T)*100
+```
+
+Nur `r round(p.norm, digits = 2)`% der Fälle hatten eine bessere Abschlussnote als 1.81. Dies unterstützt das Ergebnis, dass sich der neue Wert von dem bisherigen Mittelwert unterscheidet.  
+
+</details>
+
+
+
+## Aufgabe 4
+
+**4.1** Unterscheiden sich die Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von den Extraversionswerten der Gesamtbevölkerung ($\mu$ = 3.5)? Bestimmen Sie das 95%ige Konfidenzintervall und die Effektgröße.
+
+<details><summary>Lösung</summary>
+
+**Hypothesengenerierung:**
+
+$\alpha$ = .05 
+
+$H_0$: Die durchschnittlichen Extraversionswerte der Psychologie-Studierenden $\mu_1$ unterscheiden sich nicht von den Werten der Gesamtbevölkerung $\mu_0$.
+
+$H_0$: $\mu_0$ $=$ $\mu_1$
+
+$H_1$: Die durchschnittlichen Extraversionswerte der Psychologie-Studierenden $\mu_1$ unterscheiden sich von den Werten der Gesamtbevölkerung $\mu_0$.
+
+$H_1$: $\mu_0$ $\neq$ $\mu_1$
+
+```{r}
+t.test(fb22$extra, mu=3.5)
+```
+
+```{r, echo = FALSE}
+t.test1 <- t.test(fb22$extra, mu=3.5)
+conf.int1 <- t.test1$conf.int
+```
+
+Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die Psychologie-Studierenden unterscheiden sich in ihrer Extraversion von der Gesamtbevölkerung. 
+Das 95%-ige Konfidenzintervall liegt zwischen `r round(conf.int1[1], digits = 2)` und `r round(conf.int1[2], digits = 2)`. Das bedeutet, dass in 95% der Fälle in einer wiederholten Ziehung aus der Grundgesamtheit die mittleren Extraversionswerte zwischen `r round(conf.int1[1], digits = 2)` und `r round(conf.int1[2], digits = 2)` liegen.
+
+**Effektgröße:**
+
+```{r}
+mean_extra <- mean(fb22$extra, na.rm = T) #MW der Stichprobe
+sd_extra <- sd(fb22$extra, na.rm = T) #Stichproben SD (Populationsschätzer)
+mean_Popu_extra <- 3.5 #MW der Grundgesamtheit
+d1 <- abs((mean_extra - mean_Popu_extra)/sd_extra) #abs(), da Betrag
+d1
+```
+
+Die Effektgröße ist mit `r round(d1, digits = 2)` als klein einzuordnen.
+
+</details>
+
+
+
+**4.2** Sind die Nerdiness-Werte (`nerd`) der Psychologie-Studierenden (1. Semester) größer als die Nerdiness-Werte der Gesamtbevölkerung ($\mu$ = 2.9)? Bestimmen Sie das 99%ige Konfidenzintervall und die Effektgröße.
+
+<details><summary>Lösung</summary>
+
+**Hypothesengenerierung:**
+
+$\alpha$ = .01 
+
+$H_0$: Die durchschnittlichen Nerdiness-Werte der Psychologie-Studierenden $\mu_1$ sind geringer oder gleich gross wie die Werte der Gesamtbevölkerung $\mu_0$.
+
+$H_0$: $\mu_0$ $\geq$ $\mu_1$
+
+$H_1$: Die durchschnittlichen Nerdiness-Werte der Psychologie-Studierenden $\mu_1$ sind groesser als die Werte der Gesamtbevölkerung $\mu_0$.
+
+$H_1$: $\mu_0$ $<$ $\mu_1$
+
+```{r}
+t.test(fb22$nerd, mu=2.9, alternative="greater", conf.level = 0.99)
+```
+
+```{r, echo=FALSE}
+t.test2 <- t.test(fb22$nerd, mu=2.9, alternative="greater", conf.level = 0.99)
+conf.int2 <- t.test2$conf.int
+```
+
+Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen und die $H_1$ angenommen werden. Die Psychologie-Studierenden haben höhere Nerdiness-Werte im Vergleich zur Gesamtbevölkerung.
+
+
+**Effektgröße:**
+
+```{r}
+mean_nerd <- mean(fb22$nerd, na.rm = T) #MW der Stichprobe
+sd_nerd <- sd(fb22$nerd, na.rm = T) #Stichproben SD (Populationsschätzer)
+mean_Popu_nerd <- 2.9 #MW der Grundgesamtheit
+d2 <- abs((mean_nerd - mean_Popu_nerd)/sd_nerd) #abs(), da Betrag
+d2
+```
+
+Die Effektgröße ist mit `r round(d2, digits = 2)` als klein bis mittel einzuordnen.
+
+</details>
+
+
+
+**4.3** Sind die Psychologie-Studierenden (1. Semester) verträglicher (`vertr`) als die Grundgesamtheit ($\mu$ = 3.9)? Bestimmen Sie das 95%ige Konfidenzintervall und die Effektgröße.
+
+<details><summary>Lösung</summary>
+
+**Hypothesengenerierung:**
+
+$\alpha$ = .05 
+
+$H_0$: Die durchschnittlichen Verträglichkeitswerte der Psychologie-Studierenden $\mu_1$ sind geringer oder gleich gross wie die Werte der Gesamtbevölkerung $\mu_0$.
+
+$H_0$: $\mu_0$ $\geq$ $\mu_1$
+
+$H_1$: Die durchschnittlichen Verträglichkeitswerte der Psychologie-Studierenden $\mu_1$ sind größer als die Werte der Gesamtbevölkerung $\mu_0$.
+
+$H_1$: $\mu_0$ $<$ $\mu_1$
+
+```{r}
+t.test(fb22$vertr, mu=3.9, alternative = "greater")
+```
+
+```{r, echo = FALSE}
+t.test3 <- t.test(fb22$vertr, mu=3.9, alternative = "greater")
+conf.int3 <- t.test3$conf.int
+```
+
+Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen und die $H_1$ angenommen werden. Die Psychologie-Studierenden haben höhere Verträglichkeitswerte im Vergleich zur Gesamtbevölkerung.
+Das 95%-ige Konfidenzintervall liegt zwischen `r round(conf.int3[1], digits = 2)` und $\infty$ (außerhalb des definierten Wertebereichs). Das bedeutet, dass in 95% der Fälle in einer wiederholten Ziehung aus der Grundgesamtheit die mittleren Verträglichkeitswerte zwischen `r round(conf.int3[1], digits = 2)` und $\infty$ (außerhalb des definierten Wertebereichs) liegen.
+
+**Effektgröße:**
+
+```{r}
+mean_vertr <- mean(fb22$vertr, na.rm = T) #MW der Stichprobe
+sd_vertr <- sd(fb22$vertr, na.rm = T) #Stichproben SD (Populationsschätzer)
+mean_Popu_vertr <- 3.9 #MW der Grundgesamtheit
+d3 <- abs((mean_vertr - mean_Popu_vertr)/sd_vertr) #abs(), da Betrag
+d3
+```
+
+Die Effektgröße ist mit `r round(d3, digits = 2)` als klein bis mittel einzuordnen.

@@ -3,12 +3,12 @@ title: "Deskriptivstatistik für Intervallskalen - Lösungen"
 type: post
 date: '2020-11-26' 
 slug: deskriptiv-intervall-loesungen 
-categories: ["Statistik I Aufgaben"] 
+categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [nehler, buchholz] 
-lastmod: '2023-10-13'
+lastmod: '2023-10-18'
 featured: no
 banner:
   image: "/header/descriptive_post.jpg"
@@ -28,15 +28,31 @@ output:
 
 <details><summary>Lösung</summary>
 
-
 Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/deskriptiv-intervall/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 
+```r
+#### Was bisher geschah: ----
 
+# Daten laden
+load(url('https://pandar.netlify.app/daten/fb22.rda'))  
 
+# Nominalskalierte Variablen in Faktoren verwandeln
+fb22$geschl_faktor <- factor(fb22$geschl,
+                             levels = 1:3,
+                             labels = c("weiblich", "männlich", "anderes"))
+fb22$fach <- factor(fb22$fach,
+                    levels = 1:5,
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
+fb22$ziel <- factor(fb22$ziel,
+                        levels = 1:4,
+                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
+fb22$wohnen <- factor(fb22$wohnen, 
+                      levels = 1:4, 
+                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+```
 
 </details>
-
 
 
 ## Aufgabe 1
@@ -47,8 +63,6 @@ Erstellen Sie im Datensatz `fb22` die Skalenwerte für die Naturverbundenheit, d
 Erstellen Sie den Skalenwert als Mittelwert der sechs Items.
 
 <details><summary>Lösung</summary>
-
-
 
 
 ```r

@@ -1,40 +1,40 @@
-load(url('https://pandar.netlify.app/daten/fb22.rda'))   # Daten laden
-names(fb22)        # Namen der Variablen
-dim(fb22)          # Anzahl Zeile und Spalten
+load(url('https://pandar.netlify.app/daten/fb23.rda'))   # Daten laden
+names(fb23)        # Namen der Variablen
+dim(fb23)          # Anzahl Zeile und Spalten
 
-str(fb22$geschl)
-fb22$geschl
+str(fb23$hand)
+fb23$hand
 
-fb22$geschl_faktor <- factor(fb22$geschl,                                   # Ausgangsvariable
-                             levels = 1:3,                                  # Faktorstufen
-                             labels = c("weiblich", "männlich", "anderes")) # Label für Faktorstufen
-str(fb22$geschl_faktor)
-head(fb22$geschl_faktor)
+fb23$hand_factor <- factor(fb23$hand,                                   # Ausgangsvariable
+                             levels = 1:2,                                  # Faktorstufen
+                             labels = c("links", "rechts")) # Label für Faktorstufen
+str(fb23$hand_factor)
+head(fb23$hand_factor)
 
-fb22$fach
+fb23$fach
 
-fb22$fach <- factor(fb22$fach,
+fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-str(fb22$fach)
+str(fb23$fach)
 
-str(fb22$grund)                            # Ursprungsvariable: Character
-fb22$grund_faktor <- as.factor(fb22$grund) # Umwandlung in Faktor
-str(fb22$grund_faktor)                     # neue Variable: Faktor
+str(fb23$grund)                            # Ursprungsvariable: Character
+fb23$grund_faktor <- as.factor(fb23$grund) # Umwandlung in Faktor
+str(fb23$grund_faktor)                     # neue Variable: Faktor
 
-levels(fb22$fach)         # Abruf
+levels(fb23$fach)         # Abruf
 
-fb22$fach <- relevel(
-  fb22$fach,              # Bezugskategorie wechseln
+fb23$fach <- relevel(
+  fb23$fach,              # Bezugskategorie wechseln
   'Diag./Meth.')          # Neue Bezugskategorie
 
-table(fb22$fach)
+table(fb23$fach)
 
-tab <- table(fb22$fach) # Absolute Haeufigkeiten
+tab <- table(fb23$fach) # Absolute Haeufigkeiten
 sum(tab)                # Gesamtzahl
 tab / sum(tab)          # Relative Haeufigkeiten
 
-tab <- table(fb22$fach) # Absolute
+tab <- table(fb23$fach) # Absolute
 prop.table(tab)         # Relative
 
 
@@ -81,32 +81,32 @@ relinf
 relinf <- (ln_hj * hj) |> sum() * (-1/log(k))  # Relativer Informationsgehalt
 relinf
 
-- 1/log(dim(table(fb22$fach))) * sum(prop.table(table(fb22$fach)) * log(prop.table(table(fb22$fach))))
+- 1/log(dim(table(fb23$fach))) * sum(prop.table(table(fb23$fach)) * log(prop.table(table(fb23$fach))))
 
-fb22$prok4
+fb23$wissen
 
-table(fb22$prok4)               # Absolute Haeufigkeiten
-prop.table(table(fb22$prok4))   # Relative Haeufigkeiten
-which.max(table(fb22$prok4))    # Modus
+table(fb23$wissen)               # Absolute Haeufigkeiten
+prop.table(table(fb23$wissen))   # Relative Haeufigkeiten
+which.max(table(fb23$wissen))    # Modus
 
-median(fb22$prok4)                 # Ohne Argument für NA: funktioniert nicht
-median(fb22$prok4, na.rm = TRUE)   # Expliziter Ausschluss: funktioniert
+median(fb23$wissen)                 # Ohne Argument für NA: funktioniert nicht
+median(fb23$wissen, na.rm = TRUE)   # Expliziter Ausschluss: funktioniert
 
-quantile(fb22$prok4,
+quantile(fb23$wissen,
          c(.25, .5, .75),                   # Quartile anfordern
          na.rm = TRUE)
 
-quantile(fb22$prok4, .75, na.rm=TRUE) - quantile(fb22$prok4, .25, na.rm=TRUE)
+quantile(fb23$wissen, .75, na.rm=TRUE) - quantile(fb23$wissen, na.rm=TRUE)
 
-IQR(fb22$prok4, na.rm = TRUE)
+IQR(fb23$wissen, na.rm = TRUE)
 
-boxplot(fb22$prok4)
 
-boxplot(fb22$nr6)
 
-boxplot(fb22$nr6,
+boxplot(fb23$wissen)
+
+boxplot(fb23$wissen,
         horizontal = TRUE,                # Ausrichtung des Boxplots
-        main = "WS 2022/2023: Item Nr6",  # Überschrift der Grafik
+        main = "WS 2023/2024: Interesse an der Wissenschaft",  # Überschrift der Grafik
         xlab = "Ausprägung",              # x-Achse Bezeichnung 
         las = 1,                          # Ausrichtung der Labels
         border = "red",                   # Farbe der Linien im Boxplot

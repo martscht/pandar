@@ -14,10 +14,12 @@ banner:
   image: "/header/descriptive_post.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)"
 projects: []
-reading_time: false
-share: false
+expiryDate:
+publishDate: '2023-11-19'
 _build:
   list: never
+reading_time: false
+share: false
 output:
   html_document:
     keep_md: true

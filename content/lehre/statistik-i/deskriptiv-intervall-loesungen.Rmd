@@ -28,11 +28,9 @@ output:
 
 <details><summary>Lösung</summary>
 
-
 Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/deskriptiv-intervall/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
-
-```{r, echo = F}
+```{r}
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -54,9 +52,7 @@ fb22$wohnen <- factor(fb22$wohnen,
 
 ```
 
-
 </details>
-
 
 
 ## Aufgabe 1
@@ -67,8 +63,6 @@ Erstellen Sie im Datensatz `fb22` die Skalenwerte für die Naturverbundenheit, d
 Erstellen Sie den Skalenwert als Mittelwert der sechs Items.
 
 <details><summary>Lösung</summary>
-
-
 
 ```{r}
 # Skalenwert
