@@ -14,7 +14,7 @@ last_name: Beitner
 superuser: false
 
 # Role/position
-role: LIFOS
+role: Autorin
 
 # Organizations/Affiliations
 organizations:

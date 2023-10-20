@@ -1,128 +1,120 @@
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb22$geschl_faktor <- factor(fb22$geschl,
-                             levels = 1:3,
-                             labels = c("weiblich", "männlich", "anderes"))
-fb22$fach <- factor(fb22$fach,
+fb23$hand_factor <- factor(fb23$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
+fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb22$ziel <- factor(fb22$ziel,
+fb23$ziel <- factor(fb23$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb22$wohnen <- factor(fb22$wohnen, 
+fb23$wohnen <- factor(fb23$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 
-fb22$lz
+fb23$lz
 
 # Minimum & Maximum
-range(fb22$lz, na.rm=T)
+range(fb23$lz, na.rm=T)
 
 # Quartile
-quantile(fb22$lz, c(.25, .5, .75), na.rm=T)
+quantile(fb23$lz, c(.25, .5, .75), na.rm=T)
 
 #Box-Whisker Plot
-boxplot(fb22$lz)
+boxplot(fb23$lz)
 
 # Histogramm
-hist(fb22$lz)
+hist(fb23$lz)
 
 # Histogramm (20 Breakpoints anfordern)
-hist(fb22$lz,
+hist(fb23$lz,
      breaks = 20)
 
 # Histogramm (ungleiche Kategorien)
-hist(fb22$lz,
+hist(fb23$lz,
      breaks = c(1, 3, 3.3, 3.6, 3.9, 4.5, 5, 7))
 
 # Arithmetisches Mittel
-mean(fb22$lz, na.rm = TRUE)
+mean(fb23$lz, na.rm = TRUE)
 
 # Händische Varianzberechnung
-sum((fb22$lz - mean(fb22$lz, na.rm = TRUE))^2, na.rm = TRUE) / (nrow(fb22)-2)
+sum((fb23$lz - mean(fb23$lz, na.rm = TRUE))^2, na.rm = TRUE) / (nrow(fb23)-2)
 
 library("RXKCD")
 invisible(getXKCD(851))
 
-is.na(fb22$lz) |> sum()
+is.na(fb23$lz) |> sum()
 
-na.omit(fb22$lz) |> length() # mit Pipe
-length(na.omit(fb22$lz))     # ohne Pipe
+na.omit(fb23$lz) |> length() # mit Pipe
+length(na.omit(fb23$lz))     # ohne Pipe
 
 # Händische Varianzberechnung
-sum((fb22$lz - mean(fb22$lz, na.rm = TRUE))^2, na.rm = TRUE) / (length(na.omit(fb22$lz)))
+sum((fb23$lz - mean(fb23$lz, na.rm = TRUE))^2, na.rm = TRUE) / (length(na.omit(fb23$lz)))
 
 # R-interne Varianzberechnung
-var(fb22$lz, na.rm = TRUE)
+var(fb23$lz, na.rm = TRUE)
 
 # Umrechnung der Varianzen
-var(fb22$lz, na.rm = TRUE) * (nrow(fb22) - 1) / nrow(fb22)
+var(fb23$lz, na.rm = TRUE) * (nrow(fb23) - 1) / nrow(fb23)
 
 # Umrechnung der Varianzen
-var(fb22$lz, na.rm = TRUE) * (length(na.omit(fb22$lz)) - 1) / (length(na.omit(fb22$lz)))
+var(fb23$lz, na.rm = TRUE) * (length(na.omit(fb23$lz)) - 1) / (length(na.omit(fb23$lz)))
 
 # Umrechnung der Varianzen
-var(fb22$lz, na.rm = TRUE) * (157 - 1) / 157
+var(fb23$lz, na.rm = TRUE) * (157 - 1) / 157
 
 # Standardabweichung in R
-sd(fb22$lz, na.rm = TRUE) # Populationsschaetzer
+sd(fb23$lz, na.rm = TRUE) # Populationsschaetzer
 
 # Umrechnung der Standardabweichung
-sd(fb22$lz, na.rm = TRUE) * sqrt((157 - 1) / 157)
+sd(fb23$lz, na.rm = TRUE) * sqrt((157 - 1) / 157)
 
 # Händische Berechnung der empirischen Standardabweichung
-(sum((fb22$lz - mean(fb22$lz, na.rm = TRUE))^2,
-    na.rm = TRUE) / (length(na.omit(fb22$lz)))) |> sqrt()
+(sum((fb23$lz - mean(fb23$lz, na.rm = TRUE))^2,
+    na.rm = TRUE) / (length(na.omit(fb23$lz)))) |> sqrt()
 
 # Zentrierung
-lz_c <- fb22$lz - mean(fb22$lz, na.rm = TRUE)
+lz_c <- fb23$lz - mean(fb23$lz, na.rm = TRUE)
 head(lz_c)    # erste 6 zentrierte Werte
 
 # Standardisierung
-lz_z <- lz_c / sd(fb22$lz, na.rm = TRUE)
+lz_z <- lz_c / sd(fb23$lz, na.rm = TRUE)
 head(lz_z)    # erste 6 standardisierte Werte
 
 ## Befehl zum Standardisieren
-lz_z <- scale(fb22$lz)
+lz_z <- scale(fb23$lz)
 ## Befehl zum Zentrieren (ohne Standardisierung)
-lz_c <- scale(fb22$lz,
+lz_c <- scale(fb23$lz,
               scale = FALSE) # unterbindet Standardisierung
 
-fb22$prok2_r <- -1 * (fb22$prok2 - 5)
-head(fb22$prok2)     # erste 6 Werte ohne Transformation
-head(fb22$prok2_r)   # erste 6 Werte mit Transformation
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 5)
+head(fb23$mdbf4_pre)     # erste 6 Werte ohne Transformation
+head(fb23$mdbf4_pre_r)   # erste 6 Werte mit Transformation
 
-head(fb22$prok3 == 1, 15) #Zeige die ersten 15 Antworten
+head(fb23$mdbf11_pre == 1, 15) #Zeige die ersten 15 Antworten
 
-fb22$prok3_r[fb22$prok3 == 1] <- 4
-fb22$prok3_r[fb22$prok3 == 2] <- 3
-fb22$prok3_r[fb22$prok3 == 3] <- 2
-fb22$prok3_r[fb22$prok3 == 4] <- 1
+fb23$mdbf11_pre_r[fb23$mdbf11_pre == 1] <- 4
+fb23$mdbf11_pre_r[fb23$mdbf11_pre == 2] <- 3
+fb23$mdbf11_pre_r[fb23$mdbf11_pre == 3] <- 2
+fb23$mdbf11_pre_r[fb23$mdbf11_pre == 4] <- 1
 
-head(fb22$prok3)
-head(fb22$prok3_r)
+head(fb23$mdbf11_pre)
+head(fb23$mdbf11_pre_r)
 
-fb22$prok5_r <- -1 * (fb22$prok5 - 5)
-fb22$prok7_r <- -1 * (fb22$prok7 - 5)
-fb22$prok8_r <- -1 * (fb22$prok8 - 5)
-
-# Datensatz der relevanten Variablen
-prokrastination <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
-                            'prok4', 'prok5_r', 'prok6', 
-                            'prok7_r', 'prok8_r', 'prok9', 
-                            'prok10')]
+# neuen Datensatz der relevanten Variablen erstellen 
+gs_pre_data <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')]
 # Skalenwert in Originaldatensatz erstellen
-fb22$prok_ges <- rowMeans(prokrastination)
-head(fb22$prok_ges)
+fb23$gs_pre <- rowMeans(gs_pre_data)
+head(fb23$gs_pre)
 
 # Direkter Befehle
-fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
-                          'prok4', 'prok5_r', 'prok6',
-                          'prok7_r', 'prok8_r', 'prok9', 
-                          'prok10')] |> rowMeans()
-head(fb22$prok_ges)
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+head(fb23$gs_pre )
