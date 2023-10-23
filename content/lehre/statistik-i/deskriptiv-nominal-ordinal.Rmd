@@ -403,9 +403,9 @@ In diesem Abschnitt lernen Sie deskriptivstatistische Kennwerte für ordinalskal
 
 Zunächst aber eine Wiederholung: Wie Sie aus der Vorlesung wissen, können die in der Tabelle am Anfang dieses Dokuments aufgeführten statistischen Kennwerte (Zentrale Lage, Dispersion) auch für Skalenniveaus genutzt werden, die "weiter unten" in der Tabelle stehen. Für ordinalskalierte Variablen (Rangklassen) kann also auch der Modus berechnet werden.
 
-Nachfolgend soll mit dem Item zum interesse an wissenschaftlichen Grundlagen gearbeitet werden. Es wurde wie folgt erhoben:
+Nachfolgend soll mit dem Item zum interesse an wissenschaftlichen Grundlagen gearbeitet werden. Auf dem Screenshot ist das Item (obere) nochmal abgebildet.
 
-![](fb_prok1.PNG)
+![](interests.png)
 
 Es treten die Werte `r min(fb23$wissen,na.rm=TRUE)` bis  `r max(fb23$wissen,na.rm=TRUE)` empirisch auf, außerdem gibt es  `r sum(is.na(fb23$wissen))` fehlende Werte (dargestellt als `NA`):
 
@@ -485,7 +485,7 @@ $$IQA = Q_3 - Q_1$$
 Mit `quantile()` ist die Umsetzung in `R` etwas umständlich, da wir die Funktion zwei Mal aufrufen und die Differenz daraus bilden müssen.
 
 ```{r}
-quantile(fb23$wissen, .75, na.rm=TRUE) - quantile(fb23$wissen, na.rm=TRUE)
+quantile(fb23$wissen, .75, na.rm=TRUE) - quantile(fb23$wissen, .25, na.rm=TRUE)
 ```
 
 Dabei ist in der Ausgabe besonders die Überschrift verwirrend (75%), die hier nichts mit der Bedeutung des Wertes zu tun hat. Der IQA der Variable `wissen` beträgt `r quantile(fb23$wissen, .75, na.rm=TRUE) - quantile(fb23$wissen, .25, na.rm=TRUE)`. Für die Berechnung des IQA gibt es auch die direkte Funktion `IQR()`, die uns das ganze einfacher macht.

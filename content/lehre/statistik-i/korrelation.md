@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler, winkler, schroeder, neubauer]
 weight: 8
-lastmod: '2023-10-18'
+lastmod: '2023-10-22'
 featured: no
 banner:
   image: "/header/BSc2_Korrelation.jpg"
@@ -59,46 +59,28 @@ Zu Beginn laden wir wie gewohnt den Datensatz und verteilen die relevanten Label
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb22.rda')) 
+load(url('https://pandar.netlify.app/daten/fb23.rda')) 
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb22$geschl_faktor <- factor(fb22$geschl,
-                             levels = 1:3,
-                             labels = c("weiblich", "männlich", "anderes"))
-fb22$fach <- factor(fb22$fach,
+
+fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb22$ziel <- factor(fb22$ziel,
+fb23$ziel <- factor(fb23$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
 
-fb22$wohnen <- factor(fb22$wohnen, 
+fb23$wohnen <- factor(fb23$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
-fb22$ort <- factor(fb22$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
 
-fb22$job <- factor(fb22$job, levels=c(1,2), labels=c("nein", "ja"))
-# Skalenbildung
-
-fb22$prok2_r <- -1 * (fb22$prok2 - 5)
-fb22$prok3_r <- -1 * (fb22$prok3 - 5)
-fb22$prok5_r <- -1 * (fb22$prok5 - 5)
-fb22$prok7_r <- -1 * (fb22$prok7 - 5)
-fb22$prok8_r <- -1 * (fb22$prok8 - 5)
-
-# Prokrastination
-fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
-                          'prok4', 'prok5_r', 'prok6',
-                          'prok7_r', 'prok8_r', 'prok9', 
-                          'prok10')] |> rowMeans()
-# Naturverbundenheit
-fb22$nr_ges <-  fb22[, c('nr1', 'nr2', 'nr3', 'nr4', 'nr5',  'nr6')] |> rowMeans()
-fb22$nr_ges_z <- scale(fb22$nr_ges) # Standardisiert
+fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
 
 # Weitere Standardisierungen
-fb22$nerd_std <- scale(fb22$nerd)
-fb22$neuro_std <- scale(fb22$neuro)
+fb23$nerd_std <- scale(fb23$nerd)
+fb23$neuro_std <- scale(fb23$neuro)
 ```
 
 ****
@@ -110,14 +92,14 @@ Die Erstellung von *Häufigkeitstabellen* zur Darstellung univariater Häufigkei
 
 
 ```r
-tab <- table(fb22$fach)               #Absolut
+tab <- table(fb23$fach)               #Absolut
 tab
 ```
 
 ```
 ## 
 ##  Allgemeine Biologische Entwicklung   Klinische Diag./Meth. 
-##          19          27          37          57           7
+##          30          31          19          82           5
 ```
 
 ```r
@@ -127,7 +109,7 @@ prop.table(tab)                       #Relativ
 ```
 ## 
 ##  Allgemeine Biologische Entwicklung   Klinische Diag./Meth. 
-##  0.12925170  0.18367347  0.25170068  0.38775510  0.04761905
+##  0.17964072  0.18562874  0.11377246  0.49101796  0.02994012
 ```
 
 {{<intext_anchor Kreuztabellen>}}
@@ -136,18 +118,18 @@ Die Erweiterung für den bivariaten Fall ist dabei nicht schwierig und wird als 
 
 
 ```r
-tab<-table(fb22$fach,fb22$ziel)       #Kreuztabelle
+tab<-table(fb23$fach,fb23$ziel)       #Kreuztabelle
 tab
 ```
 
 ```
 ##              
 ##               Wirtschaft Therapie Forschung Andere
-##   Allgemeine           4        3         8      4
-##   Biologische          6        6        11      4
-##   Entwicklung          8       18         6      5
-##   Klinische            2       50         1      4
-##   Diag./Meth.          0        1         6      0
+##   Allgemeine           7       12         7      4
+##   Biologische          5       10        13      3
+##   Entwicklung          1        9         3      6
+##   Klinische            1       72         3      4
+##   Diag./Meth.          1        0         3      1
 ```
 
 In eine Kreuztabelle können Randsummen mit dem `addmargins()` Befehl hinzugefügt werden. Randsummen erzeugen in der letzten Spalte bzw. Zeile die univariaten Häufigkeitstabellen der Variablen.
@@ -160,12 +142,12 @@ addmargins(tab)                       #Randsummen hinzufügen
 ```
 ##              
 ##               Wirtschaft Therapie Forschung Andere Sum
-##   Allgemeine           4        3         8      4  19
-##   Biologische          6        6        11      4  27
-##   Entwicklung          8       18         6      5  37
-##   Klinische            2       50         1      4  57
-##   Diag./Meth.          0        1         6      0   7
-##   Sum                 20       78        32     17 147
+##   Allgemeine           7       12         7      4  30
+##   Biologische          5       10        13      3  31
+##   Entwicklung          1        9         3      6  19
+##   Klinische            1       72         3      4  80
+##   Diag./Meth.          1        0         3      1   5
+##   Sum                 15      103        29     18 165
 ```
 
 {{<intext_anchor Relativtabelle>}}
@@ -180,14 +162,14 @@ prop.table(tab)                       #Relative Häufigkeiten
 ```
 ##              
 ##                Wirtschaft    Therapie   Forschung      Andere
-##   Allgemeine  0.027210884 0.020408163 0.054421769 0.027210884
-##   Biologische 0.040816327 0.040816327 0.074829932 0.027210884
-##   Entwicklung 0.054421769 0.122448980 0.040816327 0.034013605
-##   Klinische   0.013605442 0.340136054 0.006802721 0.027210884
-##   Diag./Meth. 0.000000000 0.006802721 0.040816327 0.000000000
+##   Allgemeine  0.042424242 0.072727273 0.042424242 0.024242424
+##   Biologische 0.030303030 0.060606061 0.078787879 0.018181818
+##   Entwicklung 0.006060606 0.054545455 0.018181818 0.036363636
+##   Klinische   0.006060606 0.436363636 0.018181818 0.024242424
+##   Diag./Meth. 0.006060606 0.000000000 0.018181818 0.006060606
 ```
 
-50 von insgesamt 147 (34.01%)  wollen therapeutisch arbeiten *und* interessieren sich bisher am meisten für die klinische Psychologie.
+72 von insgesamt 165 (43.64%)  wollen therapeutisch arbeiten *und* interessieren sich bisher am meisten für die klinische Psychologie.
 
 
 `prob.table()` kann allerdings nicht nur an der Gesamtzahl relativiert werden, sondern auch an der jeweiligen Zeilen- oder Spaltensumme. Dafür gibt man im Argument `margin` für Zeilen `1` oder für Spalten `2` an.
@@ -200,14 +182,14 @@ prop.table(tab, margin = 1)           #relativiert an Zeilen
 ```
 ##              
 ##               Wirtschaft   Therapie  Forschung     Andere
-##   Allgemeine  0.21052632 0.15789474 0.42105263 0.21052632
-##   Biologische 0.22222222 0.22222222 0.40740741 0.14814815
-##   Entwicklung 0.21621622 0.48648649 0.16216216 0.13513514
-##   Klinische   0.03508772 0.87719298 0.01754386 0.07017544
-##   Diag./Meth. 0.00000000 0.14285714 0.85714286 0.00000000
+##   Allgemeine  0.23333333 0.40000000 0.23333333 0.13333333
+##   Biologische 0.16129032 0.32258065 0.41935484 0.09677419
+##   Entwicklung 0.05263158 0.47368421 0.15789474 0.31578947
+##   Klinische   0.01250000 0.90000000 0.03750000 0.05000000
+##   Diag./Meth. 0.20000000 0.00000000 0.60000000 0.20000000
 ```
 
-Von 57 Personen, die sich am meisten für klinische Psychologie interessieren, wollen 87.72% (nämlich 50 Personen) später therapeutisch arbeiten.
+Von 80 Personen, die sich am meisten für klinische Psychologie interessieren, wollen 90% (nämlich 72 Personen) später therapeutisch arbeiten.
 
 
 ```r
@@ -217,14 +199,14 @@ prop.table(tab, margin = 2)           #relativiert an Spalten
 ```
 ##              
 ##               Wirtschaft   Therapie  Forschung     Andere
-##   Allgemeine  0.20000000 0.03846154 0.25000000 0.23529412
-##   Biologische 0.30000000 0.07692308 0.34375000 0.23529412
-##   Entwicklung 0.40000000 0.23076923 0.18750000 0.29411765
-##   Klinische   0.10000000 0.64102564 0.03125000 0.23529412
-##   Diag./Meth. 0.00000000 0.01282051 0.18750000 0.00000000
+##   Allgemeine  0.46666667 0.11650485 0.24137931 0.22222222
+##   Biologische 0.33333333 0.09708738 0.44827586 0.16666667
+##   Entwicklung 0.06666667 0.08737864 0.10344828 0.33333333
+##   Klinische   0.06666667 0.69902913 0.10344828 0.22222222
+##   Diag./Meth. 0.06666667 0.00000000 0.10344828 0.05555556
 ```
 
-Von 78 Personen, die später therapeutisch arbeiten wollen, interessieren sich 64.1% (nämlich 50 Personen) für die klinische Psychologie.
+Von 103 Personen, die später therapeutisch arbeiten wollen, interessieren sich 69.9% (nämlich 72 Personen) für die klinische Psychologie.
 
 
 `addmargins()`und `prop.table()` können beliebig kombiniert werden.
@@ -239,12 +221,12 @@ addmargins(prop.table(tab))      # als geschachtelte Funktion
 ```
 ##              
 ##                Wirtschaft    Therapie   Forschung      Andere         Sum
-##   Allgemeine  0.027210884 0.020408163 0.054421769 0.027210884 0.129251701
-##   Biologische 0.040816327 0.040816327 0.074829932 0.027210884 0.183673469
-##   Entwicklung 0.054421769 0.122448980 0.040816327 0.034013605 0.251700680
-##   Klinische   0.013605442 0.340136054 0.006802721 0.027210884 0.387755102
-##   Diag./Meth. 0.000000000 0.006802721 0.040816327 0.000000000 0.047619048
-##   Sum         0.136054422 0.530612245 0.217687075 0.115646259 1.000000000
+##   Allgemeine  0.042424242 0.072727273 0.042424242 0.024242424 0.181818182
+##   Biologische 0.030303030 0.060606061 0.078787879 0.018181818 0.187878788
+##   Entwicklung 0.006060606 0.054545455 0.018181818 0.036363636 0.115151515
+##   Klinische   0.006060606 0.436363636 0.018181818 0.024242424 0.484848485
+##   Diag./Meth. 0.006060606 0.000000000 0.018181818 0.006060606 0.030303030
+##   Sum         0.090909091 0.624242424 0.175757576 0.109090909 1.000000000
 ```
 
 ```r
@@ -254,12 +236,12 @@ prop.table(tab) |> addmargins()  # als Pipe
 ```
 ##              
 ##                Wirtschaft    Therapie   Forschung      Andere         Sum
-##   Allgemeine  0.027210884 0.020408163 0.054421769 0.027210884 0.129251701
-##   Biologische 0.040816327 0.040816327 0.074829932 0.027210884 0.183673469
-##   Entwicklung 0.054421769 0.122448980 0.040816327 0.034013605 0.251700680
-##   Klinische   0.013605442 0.340136054 0.006802721 0.027210884 0.387755102
-##   Diag./Meth. 0.000000000 0.006802721 0.040816327 0.000000000 0.047619048
-##   Sum         0.136054422 0.530612245 0.217687075 0.115646259 1.000000000
+##   Allgemeine  0.042424242 0.072727273 0.042424242 0.024242424 0.181818182
+##   Biologische 0.030303030 0.060606061 0.078787879 0.018181818 0.187878788
+##   Entwicklung 0.006060606 0.054545455 0.018181818 0.036363636 0.115151515
+##   Klinische   0.006060606 0.436363636 0.018181818 0.024242424 0.484848485
+##   Diag./Meth. 0.006060606 0.000000000 0.018181818 0.006060606 0.030303030
+##   Sum         0.090909091 0.624242424 0.175757576 0.109090909 1.000000000
 ```
 
 ****
@@ -284,30 +266,45 @@ barplot (tab,
 
 In der Vorlesungen haben Sie gelernt, dass es für *Kovarianzen* und *Varianzen* empirische und geschätzte Werte gibt. R berechnet standardmäßig für die Varianz und Kovarianz die *Populationsschätzer*, verwendet also folgende Formeln für Varianz
 
+{{< math >}}
+<div class="big-maths">
+\begin{equation}
+\small
 $$\hat{\sigma}^2_{X} = \frac{\sum_{m=1}^n (y_m - \bar{y})^2}{n-1}$$
+\end{equation}
+</div>
+{{< /math >}}
+
 
 und Kovarianz.
 
+{{< math >}}
+<div class="big-maths">
+\begin{equation}
+\small
 $$\hat{\sigma}_{XY} = \frac{\sum_{m=1}^n (x_m - \bar{x}) \cdot (y_m - \bar{y})}{n-1}$$
+\end{equation}
+</div>
+{{< /math >}}
 
-Die Funktionen für die Varianz ist dabei `var()`. Im Folgenden wird diese für die Variablen `vertr` (Verträglichkeit) und `gewis` (Gewissenhaftigkeit) aus dem Datensatz bestimmt. Als Argumente müssen jeweils die Variablennamen verwendet werden.
+Die Funktionen für die Varianz ist dabei `var()`. Im Folgenden wird diese für die Variablen `neuro` (Neurotizismus) und `gewis` (Gewissenhaftigkeit) aus dem Datensatz bestimmt. Als Argumente müssen jeweils die Variablennamen verwendet werden.
 Wie bereits in vergangenen Sitzungen gesehen, führen fehlende Werte zu der Ausgabe `NA`. Um dies vorzubeugen, wird im univariaten Fall `na.rm = TRUE` zum Ausschluss verwendet. 
 
 
 ```r
-var(fb22$vertr, na.rm = TRUE)            #Varianz Verträglichkeit
+var(fb23$neuro, na.rm = TRUE)            #Varianz Neurotizismus
 ```
 
 ```
-## [1] 0.3337015
+## [1] 0.9656538
 ```
 
 ```r
-var(fb22$gewis, na.rm = TRUE)            #Varianz Gewissenhaftigkeit
+var(fb23$gewis, na.rm = TRUE)            #Varianz Gewissenhaftigkeit
 ```
 
 ```
-## [1] 0.4389081
+## [1] 0.5873849
 ```
 
 
@@ -315,80 +312,79 @@ Die Funktion `cov()` wird für die Kovarianz verwendet und benötigt als Argumen
 
 
 ```r
-cov(fb22$vertr, fb22$gewis)              #Kovarianz Verträglichkeit und Gewissenhaftigkeit
+cov(fb23$neuro, fb23$gewis)              #Kovarianz Neurotizismus und Gewissenhaftigkeit
 ```
 
 ```
-## [1] 0.07689475
+## [1] NA
 ```
 Da Kovarianzen unstandardisierte Kennzahlen sind, können wir Kovarianzen nicht pauschal nach ihrer Höhe beurteilen. Die Höhe hängt beispielsweise von der Antwortskala ab. 
 
 {{<intext_anchor NA>}}
 
-Natürlich können auch bei der Kovarianzberechnung fehlende Werte zu einem Problem werden. Zur Bewältigung des Problems gibt es das Argument `use`. Bei Zusammenhangsmaßen gibt es in R mehrere Möglichkeiten für den Umgang mit fehlenden Werten, die sich nur unterscheiden, wenn mehr als zwei Variablen korreliert werden:
+Natürlich können auch bei der Kovarianzberechnung fehlende Werte zu einem Problem werden. Hier demonstriert am Beispiel der Lebenszufriedenheit (`lz`) und der Verträglichkeit (`vertr`).
+
+
+```r
+cov(fb23$vertr, fb23$lz)              #Kovarianz Verträglichkeit und Lebenszufriedenheit
+```
+
+```
+## [1] NA
+```
+
+Zur Bewältigung des Problems gibt es das Argument `use`. Bei Zusammenhangsmaßen gibt es in R mehrere Möglichkeiten für den Umgang mit fehlenden Werten, die sich nur unterscheiden, wenn mehr als zwei Variablen korreliert werden:
 
 * *Paarweiser Fallausschluss*: Personen, die auf (mindestens) einer von **zwei** Variablen `NA` haben, werden von der Berechnung ausgeschlossen.
 * *Listenweiser Fallausschluss*: Personen, die auf (mindestens) einer von **allen** Variablen `NA` haben, werden von der Berechnung ausgeschlossen.
 * *na.or.complete*: Zeilen, die einen fehlenden Wert (`NA`) enthalten, werden bei den Berechnungen ignoriert. Das entspricht der Angabe von `na.rm = TRUE` bei der Betrachtung von lediglich zwei Variablen.
 
-Am besten lässt sich der Unterschied in einer *Kovarianzmatrix* veranschaulichen. Hier werden alle Varianzen und Kovarianzen von einer Menge an Variablen berechnet und in einer Tabelle darstellt. Dafür muss ein Datensatz erstellt werden, der nur die interessierenden Variablen enthält. Zu unseren beiden Variablen nehmen wir als drittes noch die Lebenszufriedenheit (`lz`) auf.
+Am besten lässt sich der Unterschied in einer *Kovarianzmatrix* veranschaulichen. Hier werden alle Varianzen und Kovarianzen von einer Menge an Variablen berechnet und in einer Tabelle darstellt. Dafür kann ein Datensatz erstellt werden, der nur die interessierenden Variablen enthält. Wir nehmen alle vier Variablen aus unseren Beispielen zur Kovarianzen auf.
 
 
 ```r
-drei <- fb22[, c('vertr','gewis','lz')]         #Datensatzreduktion
-cov(drei)                                       #Kovarianzmatrix   
+na_test <- fb23[, c('vertr','gewis',"neuro",'lz')] #Datensatzreduktion
+cov(na_test)                                       #Kovarianzmatrix   
 ```
 
 ```
-##            vertr      gewis lz
-## vertr 0.33370154 0.07689475 NA
-## gewis 0.07689475 0.43890813 NA
-## lz            NA         NA NA
+##       vertr gewis neuro lz
+## vertr    NA    NA    NA NA
+## gewis    NA    NA    NA NA
+## neuro    NA    NA    NA NA
+## lz       NA    NA    NA NA
 ```
 
 Da die fehlenden Werte nicht entfernt wurden, gibt R `NA` aus.
 Nun folgt die Gegenüberstellung der beiden betrachteten Möglichkeiten zum Ausschluss. 
 
-Zu Illustrationszwecken setzen wir nun den Wert in Verträglichkeit in Zeilen 50 und 72 auf fehlend:
 
-
-```r
-fb22$vertr_neu <- fb22$vertr                     # erstelle neue Variable vertr_neu
-fb22[c(50,72), 'vertr_neu'] <- NA               # setze vertr_neu in den Zeilen 50 und 72 auf fehlend
-drei_neu <- fb22[, c('vertr_neu','gewis','lz')]         #Datensatzreduktion
-cov(drei_neu)                                       #Kovarianzmatrix   
-```
-
-```
-##           vertr_neu     gewis lz
-## vertr_neu        NA        NA NA
-## gewis            NA 0.4389081 NA
-## lz               NA        NA NA
-```
 
 Vergleichen wir nun dieses Ergebnis mit dem Ergebnis nach *paarweisem Fallausschluss* und *listenweisem Fallausschluss*:
 
 
 ```r
-cov(drei_neu, use = 'pairwise')             #Paarweiser Fallausschluss
+cov(na_test, use = 'pairwise')             #Paarweiser Fallausschluss
 ```
 
 ```
-##            vertr_neu      gewis         lz
-## vertr_neu 0.33465519 0.07675721 0.08361123
-## gewis     0.07675721 0.43890813 0.21902866
-## lz        0.08361123 0.21902866 1.15304916
+##              vertr        gewis       neuro         lz
+## vertr  0.670476412 -0.009761018  0.10439944  0.1547769
+## gewis -0.009761018  0.587384899 -0.01151013  0.1046388
+## neuro  0.104399441 -0.011510129  0.96565378 -0.2750298
+## lz     0.154776868  0.104638755 -0.27502982  1.1044103
 ```
 
 ```r
-cov(drei_neu, use = 'complete')             #Listenweiser Fallausschluss
+cov(na_test, use = 'complete')             #Listenweiser Fallausschluss
 ```
 
 ```
-##            vertr_neu      gewis         lz
-## vertr_neu 0.33083892 0.06784667 0.08361123
-## gewis     0.06784667 0.43618035 0.22378090
-## lz        0.08361123 0.22378090 1.15291831
+##            vertr        gewis        neuro         lz
+## vertr  0.6658732 -0.022741700  0.110677331  0.1547769
+## gewis -0.0227417  0.582714404 -0.008157176  0.1053514
+## neuro  0.1106773 -0.008157176  0.966934870 -0.2728877
+## lz     0.1547769  0.105351362 -0.272887704  1.1093506
 ```
 
 Wie wir sehen, unterscheiden sich die Werte voneinander, da beim listenweisen Fallausschluss noch mehr Personen von Beginn an von der Berechnung ausgeschlossen werden (es werden hier auch die Personen in Zeilen 50 und 72 für die Berechnung der Kovarianz von Gewissenhaftigkeit und Lebenszufriedenheit ausgeschlossen - obwohl diese beiden Personen auf diesen beiden Variablen eigentlich gültige Werte besitzen).
@@ -399,7 +395,7 @@ Der Zusammenhang zwischen zwei Variablen kann in einem *Scatterplot* bzw. *Streu
 
 
 ```r
-plot(x = fb22$vertr, y = fb22$gewis, xlim = c(1,5) , ylim = c(1,5))
+plot(x = fb23$neuro, y = fb23$gewis, xlim = c(1,5) , ylim = c(1,5))
 ```
 
 ![](/lehre/statistik-i/korrelation_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
@@ -410,11 +406,11 @@ Wie in der Vorlesung besprochen, sind für verschiedene Skalenniveaus verschiede
 
 
 ```r
-cor(x = fb22$vertr, y = fb22$gewis, use = 'pairwise')
+cor(x = fb23$neuro, y = fb23$gewis, use = 'pairwise')
 ```
 
 ```
-## [1] 0.2009235
+## [1] -0.01528298
 ```
 
 Bei einer positiven Korrelation gilt „je mehr Variable x... desto mehr Variable y" bzw. umgekehrt, bei einer negativen Korrelation „je mehr Variable x... desto weniger Variable y" bzw. umgekehrt. Korrelationen sind immer ungerichtet, das heißt, sie enthalten keine Information darüber, welche Variable eine andere vorhersagt - beide Variablen sind gleichberechtigt. Korrelationen (und Regressionen, die wir später [in einem Tutorial](/post/regression) kennen lernen werden) liefern *keine* Hinweise auf Kausalitäten. Sie sagen beide etwas über den (linearen) Zusammenhang zweier Variablen aus.
@@ -423,14 +419,15 @@ In R können wir uns auch eine *Korrelationsmatrix* ausgeben lassen. Dies geschi
 
 
 ```r
-cor(drei, use = 'pairwise')
+cor(na_test, use = 'pairwise')
 ```
 
 ```
-##           vertr     gewis        lz
-## vertr 1.0000000 0.2009235 0.1384518
-## gewis 0.2009235 1.0000000 0.3104911
-## lz    0.1384518 0.3104911 1.0000000
+##             vertr       gewis       neuro         lz
+## vertr  1.00000000 -0.01551084  0.13009111  0.1800843
+## gewis -0.01551084  1.00000000 -0.01528298  0.1308033
+## neuro  0.13009111 -0.01528298  1.00000000 -0.2654551
+## lz     0.18008431  0.13080327 -0.26545505  1.0000000
 ```
 
 
@@ -439,11 +436,11 @@ Die default-Einstellung bei `cor()`ist die *Produkt-Moment-Korrelation*, also di
 
 
 ```r
-cor(fb22$vertr, fb22$gewis, use = "pairwise", method = "pearson")
+cor(fb23$neuro, fb23$gewis, use = "pairwise", method = "pearson")
 ```
 
 ```
-## [1] 0.2009235
+## [1] -0.01528298
 ```
 
 
@@ -462,15 +459,15 @@ $\rightarrow$ QQ-Plot, Histogramm & Shapiro-Wilk-Test
 
 ```r
 #QQ
-qqnorm(fb22$vertr)
-qqline(fb22$vertr)
+qqnorm(fb23$neuro)
+qqline(fb23$neuro)
 ```
 
 ![](/lehre/statistik-i/korrelation_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
 ```r
-qqnorm(fb22$gewis)
-qqline(fb22$gewis)
+qqnorm(fb23$gewis)
+qqline(fb23$gewis)
 ```
 
 ![](/lehre/statistik-i/korrelation_files/figure-html/unnamed-chunk-19-2.png)<!-- -->
@@ -478,42 +475,42 @@ qqline(fb22$gewis)
 ```r
 #Histogramm
 
-hist(fb22$vertr, prob = T, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb22$vertr, na.rm = T), sd = sd(fb22$vertr, na.rm = T)), col = "blue", add = T)  
+hist(fb23$neuro, prob = T, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb23$neuro, na.rm = T), sd = sd(fb23$neuro, na.rm = T)), col = "blue", add = T)  
 ```
 
 ![](/lehre/statistik-i/korrelation_files/figure-html/unnamed-chunk-19-3.png)<!-- -->
 
 ```r
-hist(fb22$gewis, prob = T, ylim = c(0,1))
-curve(dnorm(x, mean = mean(fb22$gewis, na.rm = T), sd = sd(fb22$gewis, na.rm = T)), col = "blue", add = T)
+hist(fb23$gewis, prob = T, ylim = c(0,1))
+curve(dnorm(x, mean = mean(fb23$gewis, na.rm = T), sd = sd(fb23$gewis, na.rm = T)), col = "blue", add = T)
 ```
 
 ![](/lehre/statistik-i/korrelation_files/figure-html/unnamed-chunk-19-4.png)<!-- -->
 
 ```r
 #Shapiro
-shapiro.test(fb22$vertr)
+shapiro.test(fb23$neuro)
 ```
 
 ```
 ## 
 ## 	Shapiro-Wilk normality test
 ## 
-## data:  fb22$vertr
-## W = 0.95611, p-value = 6.624e-05
+## data:  fb23$neuro
+## W = 0.95952, p-value = 4.459e-05
 ```
 
 ```r
-shapiro.test(fb22$gewis)
+shapiro.test(fb23$gewis)
 ```
 
 ```
 ## 
 ## 	Shapiro-Wilk normality test
 ## 
-## data:  fb22$gewis
-## W = 0.95665, p-value = 7.423e-05
+## data:  fb23$gewis
+## W = 0.95535, p-value = 1.718e-05
 ```
 
 $p < \alpha$ $\rightarrow$ H1: Normalverteilung kann nicht angenommen werden. Somit ist diese Voraussetzung verletzt. Eine Möglichkeit damit umzugehen, ist die Rangkorrelation nach Spearman. Diese ist nicht an die Voraussetzung der Normalverteilung gebunden. Das Verfahren kann über `method = "spearman"` angewendet werden.
@@ -524,7 +521,7 @@ $p < \alpha$ $\rightarrow$ H1: Normalverteilung kann nicht angenommen werden. So
 
 
 ```r
-r1 <- cor(fb22$vertr,fb22$gewis,
+r1 <- cor(fb23$neuro,fb23$gewis,
           method = "spearman",     #Pearson ist default
           use = "complete") 
 
@@ -532,12 +529,12 @@ r1
 ```
 
 ```
-## [1] 0.2477728
+## [1] -0.009770189
 ```
 
 
 **Interpretation des deskriptiven Zusammenhangs:**  
-Es handelt sich um eine positive Korrelation von _r_ = 0.25. Der Effekt ist nach Cohens (1988) Konvention als schwach bis mittelstark zu bewerten. Je höher die Ausprägung in Verträglichkeit, desto höher ist die Ausprägung in der Gewissenhaftigkeit und anders herum. 
+Es handelt sich um eine positive Korrelation von _r_ = -0.01. Der Effekt ist nach Cohens (1988) Konvention als schwach bis mittelstark zu bewerten. Je höher die Ausprägung in Neurotizismus, desto höher ist die Ausprägung in der Gewissenhaftigkeit und anders herum. 
 
 **Cohens (1988) Konvention zur Interpretation von $|r|$:**
 
@@ -551,31 +548,31 @@ Als weitere Variante der Rangkorrelation gibt es noch Kendalls $\tau$. Diese kan
 
 
 ```r
-cor(fb22$vertr, fb22$gewis, use = 'complete', method = 'kendall')
+cor(fb23$neuro, fb23$gewis, use = 'complete', method = 'kendall')
 ```
 
 ```
-## [1] 0.1882259
+## [1] -0.01091887
 ```
 Die Interpretation erfolgt wie bei Spearman's Rangkorrelation. 
 
 **Signifikanztestung des Korrelationskoeffizienten:**
 Nachdem der Korrelationskoeffizient berechnet wurde, kann dieser noch auf Signifikanz geprüft werden. Dazu verwenden wir die `cor.test()`-Funktion.
 
-* *H0*: $\rho = 0$ $\rightarrow$ es gibt keinen Zusammenhang zwischen Verträglichkeit und Gewissenhaftigkeit
-* *H1*: $\rho \neq 0$ $\rightarrow$  es gibt einen Zusammenhang zwischen Verträglichkeit und Gewissenhaftigkeit
+* *H0*: $\rho = 0$ $\rightarrow$ es gibt keinen Zusammenhang zwischen Neurotizismus und Gewissenhaftigkeit
+* *H1*: $\rho \neq 0$ $\rightarrow$  es gibt einen Zusammenhang zwischen Neurotizismus und Gewissenhaftigkeit
 
 
 ```r
-cor <- cor.test(fb22$vertr, fb22$gewis, 
+cor <- cor.test(fb23$neuro, fb23$gewis, 
          alternative = "two.sided", 
          method = "spearman",      #Da Voraussetzungen für Pearson verletzt
          use = "complete")
 ```
 
 ```
-## Warning in cor.test.default(fb22$vertr, fb22$gewis, alternative = "two.sided", : Cannot
-## compute exact p-value with ties
+## Warning in cor.test.default(fb23$neuro, fb23$gewis, alternative = "two.sided",
+## : Cannot compute exact p-value with ties
 ```
 
 ```r
@@ -583,20 +580,20 @@ cor$p.value      #Gibt den p-Wert aus
 ```
 
 ```
-## [1] 0.001638895
+## [1] 0.8961417
 ```
 
 Anmerkung: Bei der Rangkorrelation kann der exakte p-Wert nicht berechnet werden, da gebundene Ränge vorliegen. Das Ergebnis ist allerdings sehr eindeutig: $p > \alpha$ $\rightarrow$ H1. Die Korrelation ist mit einer Irrtumswahrscheinlichkeit von 5% signifikant von 0 verschieden. Daraus würde sich die folgende Interpretation ergeben:
 
 **Ergebnisinterpretation:**
-Es wurde untersucht, ob Verträglichkeit und Gewissenhaftigkeit miteinander zusammenhängen. Der spearman-Korrelationskoeffizient beträgt 0.25 und ist statistisch signifikant (_p_ = 0.002). Folglich wird die Nullhypothese hier verworfen: Verträglichkeit und Gewissenhaftigkeit weisen einen signifikanten Zusammenhang auf.
+Es wurde untersucht, ob Neurotizismus und Gewissenhaftigkeit miteinander zusammenhängen. Der spearman-Korrelationskoeffizient beträgt -0.01 und ist statistisch signifikant (_p_ = 0.896). Folglich wird die Nullhypothese hier verworfen: Neurotizismus und Gewissenhaftigkeit weisen einen signifikanten Zusammenhang auf.
 
 **Modifikation**
 Wir haben in der Funktion `cor.test()` als Argument `method = "spearman"` eingegeben, da die Voraussetzungen für die Pearson-Korrelation nicht erfüllt waren. Wenn dies der Fall gewesen wäre, müsste man stattdessen `method = "pearson"` angeben:
 
 
 ```r
-cor.test(fb22$vertr, fb22$gewis, 
+cor.test(fb23$neuro, fb23$gewis, 
          alternative = "two.sided", 
          method = "pearson",       
          use = "complete")
@@ -606,14 +603,14 @@ cor.test(fb22$vertr, fb22$gewis,
 ## 
 ## 	Pearson's product-moment correlation
 ## 
-## data:  fb22$vertr and fb22$gewis
-## t = 2.57, df = 157, p-value = 0.0111
+## data:  fb23$neuro and fb23$gewis
+## t = -0.2045, df = 179, p-value = 0.8382
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.04673796 0.34575779
+##  -0.1607823  0.1308665
 ## sample estimates:
-##       cor 
-## 0.2009235
+##         cor 
+## -0.01528298
 ```
 
 
@@ -656,30 +653,30 @@ Dank des neuen Pakets können wir nun den Koeffizienten $\hat{\gamma}$ berechnen
 
 
 ```r
-rococo(fb22$prok1, fb22$prok9)
+rococo(fb23$mdbf2_pre, fb23$mdbf3_pre)
 ```
 
 ```
-## [1] 0.7466895
+## [1] -0.4463776
 ```
 
 Um zu überprüfen, ob zwei ordinalskalierte Variablen signifikant miteinander zusammenhängen, können wir die `rococo.test()`-Funktion anwenden.
 
 
 ```r
-rococo.test(fb22$prok1, fb22$prok9)
+rococo.test(fb23$mdbf2_pre, fb23$mdbf3_pre)
 ```
 
 ```
 ## 
 ## 	Robust Gamma Rank Correlation:
 ## 
-## data: fb22$prok1 and fb22$prok9 (length = 159)
+## data: fb23$mdbf2_pre and fb23$mdbf3_pre (length = 182)
 ## similarity: linear 
 ## rx = 0.1 / ry = 0.2 
 ## t-norm: min 
 ## alternative hypothesis: true gamma is not equal to 0 
-## sample gamma = 0.7466895 
+## sample gamma = -0.4463776 
 ## estimated p-value = < 2.2e-16 (0 of 1000 values)
 ```
 
@@ -690,15 +687,15 @@ Betrachten wir nun den Koeffizienten $\hat{\gamma}$ für zwei andere Items (`pro
 ## 
 ## 	Robust Gamma Rank Correlation:
 ## 
-## data: fb22$prok1 and fb22$prok2 (length = 159)
+## data: fb23$mdbf2_pre and fb23$mdbf3_pre (length = 182)
 ## similarity: linear 
-## rx = 0.1 / ry = 0.1 
+## rx = 0.1 / ry = 0.2 
 ## t-norm: min 
 ## alternative hypothesis: true gamma is not equal to 0 
-## sample gamma = -0.3303587 
-## estimated p-value = 0.001 (1 of 1000 values)
+## sample gamma = -0.4463776 
+## estimated p-value = < 2.2e-16 (0 of 1000 values)
 ```
-Der Koeffizient von -0.33 zeigt uns, dass die Items zwar miteinander korrelieren, allerdings negativ. Ist hier etwas schief gelaufen? Nein, `prok2` ist lediglich ein invertiertes Item. Mit der rekodierten Variante der `prok2` Variable würde das `-` nicht da stehen, aber die Höhe der Korrelation gleich bleiben. Wir sehen daher, dass `prok1` mit `prok2` signifikant zusammenhängt. Die beiden Items messen demnach ein ähnliches zugrundeliegendes Konstrukt (Prokrastination).
+Der Koeffizient von -0.45 zeigt uns, dass die Items zwar miteinander korrelieren, allerdings negativ. Ist hier etwas schief gelaufen? Nein, `prok2` ist lediglich ein invertiertes Item. Mit der rekodierten Variante der `prok2` Variable würde das `-` nicht da stehen, aber die Höhe der Korrelation gleich bleiben. Wir sehen daher, dass `prok1` mit `prok2` signifikant zusammenhängt. Die beiden Items messen demnach ein ähnliches zugrundeliegendes Konstrukt (Prokrastination).
 
 ****
 

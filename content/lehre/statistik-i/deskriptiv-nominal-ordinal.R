@@ -96,7 +96,7 @@ quantile(fb23$wissen,
          c(.25, .5, .75),                   # Quartile anfordern
          na.rm = TRUE)
 
-quantile(fb23$wissen, .75, na.rm=TRUE) - quantile(fb23$wissen, na.rm=TRUE)
+quantile(fb23$wissen, .75, na.rm=TRUE) - quantile(fb23$wissen, .25, na.rm=TRUE)
 
 IQR(fb23$wissen, na.rm = TRUE)
 

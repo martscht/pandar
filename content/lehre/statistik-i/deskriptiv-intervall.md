@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte Variablen vorgestellt. Dabei wird zunächst die Berechnung des Mittelwerts, der Varianz sowie Standardabweichung behandelt. Dann wird gezeigt, wie Variablen zentriert bzw. standardisiert werden können. Abschließend geht es außerdem um das Rekodieren von Items und das Bilden von Skalenwerten.' 
 authors: [nehler, beitner, buchholz] 
 weight: 3
-lastmod: '2023-10-18'
+lastmod: '2023-10-22'
 featured: no
 banner:
   image: "/header/descriptive_post.jpg"
@@ -47,7 +47,7 @@ output:
 * Wie kann die [**empirische Varianz**](#Varianz) bestimmt werden? Wie unterscheidet sich diese von der mit `var()` bestimmten Varianz?
 * Wie können Variablen [**zentriert und standardisiert**](#Zentrieren) werden?
 * Welche Möglichkeiten gibt es, negativ formulierte Items zu [**rekodieren**](#Rekodieren)?
-* Mit welchen Befehlen können in R [**Skalenwerte**](#Skalenwerte) für Fragebögenitems erstellt werden?
+* Mit welchen Befehlen können in R einzelne Items zu [**Skalenwerte**](#Skalenwerte) zusammengefasst werden?
 
 {{< /spoiler >}}
 
@@ -95,25 +95,26 @@ fb23$wohnen <- factor(fb23$wohnen,
 
 ## Mindestens intervallskalierte Variablen
 
-### Klassische mindestens intervallskalierte Variablen
+Nachdem wir deskriptive Maße für nominal- und ordinalskalierte kennengelernt haben, wollen wir uns in diesem Tutorial mit Kennwerten beschäftigen, die für Variablen mit mindestens Intervallskalierung verwendet werden. Dabei ist das Verhältnis von Differenzen für die Funktionalität der Kennwerte die wichtige Voraussetzung, sodass sie bei Intervall-, Verhälts- oder Absolutskalierung genutzt werden können. In der Psychologie begegnen wir Variblen mit diesem Skalenniveau in zwei verschiedenen Bereichen:
+
+#### Klassische mindestens intervallskalierte Variablen
 
 * Behaviorale Maße: Reaktionszeiten, Bearbeitungsdauer, Anzahl von Fehlern, ...
 * Biologische Maße: Hautleitfähigkeit, Stimmhöhe, Anzahl der Sakkaden, ...
 * Neurophysiologische Maße: EEG-Daten, Durchblutung von Hirnregionen, ...
 
 
-### Konstruierte mindestens intervallskalierte Variablen
+#### Konstruierte mindestens intervallskalierte Variablen
 
 * Fragebogendaten werden meist ordinalskaliert erhoben (einzelne Items)
 * Um Intervallskalenniveau zu erreichen, werden Items zu Skalenwerten verrechnet (Summe oder Mittelwert)
 * Erzeugt viele mögliche Ausprägungen und wird als intervallskaliert behandelt
 
-
-**Beispiel: Lebenszufriedenheit**
+Für das Tutorial benutzen wir einen Skalenwert aus dem ausgefüllten Fragebogen, da wir keine behavioralen oder biologischen Maße in der Befragung haben. Wir wollen uns auf die von Ihnen berichtete **Lebenszufriedenheit** konzentrieren. Zur Erinnerung: Diese wurde mit den 5 Items auf der Abbildung erfragt.
 
 {{<inline_image"/lehre/statistik-i/fb_swls.png">}}
 
-Der Mittelwert pro Person über alle 5 Items ist in der Spalte `lz` zu finden. Dies ist also der Skalenwert für die Lebenszufriedenheit jeder einzelnen Person.
+Wir haben den Skalenwerte bereits in der Vorbearteiung des Datesnatzes für Sie erstellt. Dabei haben wir den Mittelwert aus Ihren Antworten auf die 5 Items berechnet. Wir werden uns später noch anschauen wie die Erstellung eines Skalenwertes abläuft. Für Lebeszufriedenheit ist der Skalenwert für jede einzelne Person nun in der Spalte `lz` in unserem Datensatz zu finden. Indem wir die Variable ansprechen, können wir uns die Ausprägungen anzeigen lassen.
 
 
 ```r
@@ -121,16 +122,23 @@ fb23$lz
 ```
 
 ```
-##  [1] 4.4 4.4 6.4 4.8 5.8 2.6 5.2 5.4 1.4 4.8 5.4 5.2 6.0 6.2 5.2 4.6 2.0 5.2 3.6 5.8 3.2
-## [22] 5.0 6.8 6.2 4.4 4.8 4.6 6.0 4.0 2.6 4.8 4.0 4.0 5.2 5.4 4.6 5.6 4.2 4.2 6.2 3.2 4.2
-## [43] 4.6 5.4 5.8 6.0 5.0 3.6 6.2 5.0 3.8 5.8 6.8 3.2 5.6 5.8 4.6 5.4 4.4 4.2 4.4 5.4 5.0
-## [64] 6.4 5.4 4.2 2.8 5.6 5.0 5.2 5.0 3.6 5.8 3.8 3.6 4.0 5.6 5.2 5.8 6.0 6.0
+##   [1] 5.4 3.4 4.4 4.4 6.4  NA 5.6 5.4 5.0 4.8 6.0 5.4 5.4 5.8 2.6 4.8 5.2 5.4 4.4 1.4 4.8 6.6
+##  [23]  NA 5.0 4.8 7.0 5.0 4.8 5.8 5.4 5.2 6.4 5.8 5.2 5.4 3.4 6.8 6.0 6.2 5.6 5.8 5.2 4.6  NA
+##  [45] 5.2 3.6 4.8 5.8 3.2 5.4 5.6 4.6 4.6 5.0 6.8 5.8 5.8 6.2 4.2 4.4 4.8 5.0 6.6 6.6 4.6 6.0
+##  [67] 5.6 6.0 4.0 2.6 4.0 3.8 4.8 4.0 6.2 6.0 4.0 5.2 5.4 2.8 4.6 4.6 5.0 4.0 6.0 5.6 4.2 4.8
+##  [89] 6.0 4.2 6.2 6.2 3.2 4.2 5.6 4.6 6.6 4.2 1.6 4.6 4.6 5.4 5.8 6.0 5.8 5.0 3.6 7.0 6.2 6.0
+## [111] 6.4 5.0 5.4 5.8 5.8 3.8 6.0 5.8 4.8 6.8 3.6 6.2 3.2 5.6 5.8 5.4 5.6 4.6 4.8 5.6 3.2 6.2
+## [133] 5.4 4.4 5.6 5.4 4.2 4.4 4.4 2.8 6.4 5.4 5.6 5.0 6.4 5.0 5.2 6.0 5.4 6.8 4.2 2.8 5.2 6.2
+## [155] 5.6 5.6 5.6 7.0 5.0 4.0 5.2 6.4 5.6 5.0 3.6 5.2 6.6 5.8 3.8 3.6 4.0 3.8 5.6 5.2 5.8 5.4
+## [177] 3.6 6.2 6.0 6.2 6.0 5.4
 ```
+
+Auf den ersten Blick ist es schwer, aus so einer großen Menge an unterschiedlichen Werten ein Fazit zu ziehen. Um eine Stichprobe zusammenzufassen, lernen wir heute deskriptive Maße kennen. Zunächst lässt sich aber feststellen, dass wir es auch auf dem Skalenwert mit fehlenden Werten (`NA`) zu tun haben. 
 
 ## Deskriptivstatistik für mindestens intervallskalierte Variablen
 
-* Verfahren sind "rückwärtskompatibel", d.h. alle Berechnungen, die auf nominalskalierte und ordinalskalierte Variablen anwendbar sind, lassen sich auch auf mindestens intervallskalierte Variablen anwenden
-* Quantile, IQA und Median können weiterhin bestimmt werden
+Bevor wir uns mit neuen Kennwerten beschäftigen, werfen wir nochmal einen Blick zurück. 
+Statistische Verfahren sind "rückwärtskompatibel", d.h. alle Berechnungen, die auf nominalskalierte und ordinalskalierte Variablen anwendbar sind, lassen sich auch auf mindestens intervallskalierte Variablen anwenden. Das bedeutet, dass bspw. Range, Quantile und Median weiterhin valide bestimmt werden können.
 
 
 ```r
@@ -139,17 +147,17 @@ range(fb23$lz, na.rm=T)
 ```
 
 ```
-## [1] 1.4 6.8
+## [1] 1.4 7.0
 ```
 
 ```r
-# Quartile
+# Quartile & Median
 quantile(fb23$lz, c(.25, .5, .75), na.rm=T)
 ```
 
 ```
 ## 25% 50% 75% 
-## 4.2 5.0 5.6
+## 4.6 5.4 5.8
 ```
 
 ```r
@@ -159,9 +167,11 @@ boxplot(fb23$lz)
 
 ![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
+Die Betrachtung zeigt uns, dass die meisten Werte Ihrer selbstberichteten Lebenszufriedenheit im oberen Bereich der Skala liegen. Personen mit sehr niedrigen Skalenwerten werden als mögliche Ausreißer getestet.
+
 ## Histogramme
 
-Für intervallskalierte Daten ist eine beliebte grafische Darstellungsform das Histogramm. Dieses fasst die kontinuierlichen Werte in Klassen (Kategorien, Intervalle) zusammen. Anschließend wird eine Häufigkeitsverteilung (ähnlich dem Barplot) für die kategorisierten Daten erstellen (sekundäre Häufigkeitsverteilung) erstellt. Grundlegend kann solch eine Grafik über den Befehl `hist()` angefordert werden.
+Um die Verteilung der Werte für eine mindestens intervallskalierte noch besser betrachten zu können, wird sehr häufig das Histogramm als grafische Darstellungsform genutzt. Dieses fasst die kontinuierlichen Werte in Klassen (Kategorien, Intervalle) zusammen. Anschließend wird eine Häufigkeitsverteilung (ähnlich dem Barplot) für die kategorisierten Daten erstellen (sekundäre Häufigkeitsverteilung) erstellt. Grundlegend kann solch eine Grafik über den Befehl `hist()` angefordert werden.
 
 
 ```r
@@ -205,7 +215,7 @@ Betrachten wir nun, wie in `R` das Maß der zentralen Tendenz für mindestens in
 
 **Formel:** ${x} = \frac{\sum_{m = 1}^n x_m}{n} = \frac{1}{n} \sum_{m = 1}^n x_m$
 
-In `R` ist die Funktion zum Glück sehr intuitiv benannt. Dabei muss auch hier beachtet werden, dass fehlende Werte über `na.rm = T` ausgeschlossen werden
+In `R` ist die Funktion zum Glück sehr intuitiv benannt. Dabei muss auch hier beachtet werden, dass fehlende Werte über `na.rm = T` ausgeschlossen werden, damit nicht auch als Ergebnis `NA` angezeigt.
 
 
 ```r
@@ -214,7 +224,7 @@ mean(fb23$lz, na.rm = TRUE)
 ```
 
 ```
-## [1] 4.846914
+## [1] 5.121788
 ```
 
 ## Varianz
@@ -232,10 +242,10 @@ sum((fb23$lz - mean(fb23$lz, na.rm = TRUE))^2, na.rm = TRUE) / (nrow(fb23)-2)
 ```
 
 ```
-## [1] 1.206351
+## [1] 1.092139
 ```
 
-Achtung! Wir benötigen für die Varianzberechnung `n` (s. Formel)! Wir nutzen hier `nrow(fb23)-0 `, weil `nrow(fb23)` nicht das richtige n anzeigt (0 Personen haben einen fehlenden Wert, daher die Anzahl an Zeilen minus der 0 fehlenden Werte = n).
+Achtung! Wir benötigen für die Varianzberechnung `n` (s. Formel)! Wir nutzen hier `nrow(fb23)-3 `, weil `nrow(fb23)` nicht das richtige n anzeigt (3 Personen haben einen fehlenden Wert, daher die Anzahl an Zeilen minus der 3 fehlenden Werte = n).
 
 
 **Kleiner Diskurs zu fehlenden Werten:**
@@ -250,7 +260,7 @@ is.na(fb23$lz) |> sum()
 ```
 
 ```
-## [1] 0
+## [1] 3
 ```
 
 Um die Länge einer Variablen ohne fehlende Werte (also die Anzahl an Beobachtungen auf einer Variablen) zu bestimmen, lässt sich z. B. folgende Syntax verwenden:
@@ -261,7 +271,7 @@ na.omit(fb23$lz) |> length() # mit Pipe
 ```
 
 ```
-## [1] 81
+## [1] 179
 ```
 
 ```r
@@ -269,7 +279,7 @@ length(na.omit(fb23$lz))     # ohne Pipe
 ```
 
 ```
-## [1] 81
+## [1] 179
 ```
 
 Zur händischen Varianzberechnung können wir daher auch folgende Syntax verwenden:
@@ -281,7 +291,7 @@ sum((fb23$lz - mean(fb23$lz, na.rm = TRUE))^2, na.rm = TRUE) / (length(na.omit(f
 ```
 
 ```
-## [1] 1.176565
+## [1] 1.09824
 ```
 
 
@@ -295,7 +305,7 @@ var(fb23$lz, na.rm = TRUE)
 ```
 
 ```
-## [1] 1.191272
+## [1] 1.10441
 ```
 
 Warum erhalten wir hier einen abweichenden Wert im Vergleich zu unserer händischen Varianzberechnung?
@@ -322,10 +332,10 @@ var(fb23$lz, na.rm = TRUE) * (nrow(fb23) - 1) / nrow(fb23)
 ```
 
 ```
-## [1] 1.176565
+## [1] 1.098342
 ```
 
-Achtung! Dies funktioniert in unserem Fall wieder nicht, da die Verwendung von `nrow(fb23)` - wie oben bereits angemerkt - nicht sinnvoll ist: `nrow(fb23)` ist nicht gleich n (es kommt `NA` 0 Mal vor), daher besser:
+Achtung! Dies funktioniert in unserem Fall wieder nicht, da die Verwendung von `nrow(fb23)` - wie oben bereits angemerkt - nicht sinnvoll ist: `nrow(fb23)` ist nicht gleich n (es kommt `NA` 3 Mal vor), daher besser:
 
 
 ```r
@@ -334,18 +344,18 @@ var(fb23$lz, na.rm = TRUE) * (length(na.omit(fb23$lz)) - 1) / (length(na.omit(fb
 ```
 
 ```
-## [1] 1.176565
+## [1] 1.09824
 ```
 
 Alternativ, wenn man die fehlenden Werte händisch abzieht:
 
 ```r
 # Umrechnung der Varianzen
-var(fb23$lz, na.rm = TRUE) * (157 - 1) / 157
+var(fb23$lz, na.rm = TRUE) * (179 - 1) / 179
 ```
 
 ```
-## [1] 1.183684
+## [1] 1.09824
 ```
 
 
@@ -371,7 +381,7 @@ sd(fb23$lz, na.rm = TRUE) # Populationsschaetzer
 ```
 
 ```
-## [1] 1.091454
+## [1] 1.050909
 ```
 
 
@@ -384,11 +394,11 @@ Wir müssten das Ergebnis also wieder mit einem Faktor ($\sqrt{\frac{n - 1}{n}}$
 
 ```r
 # Umrechnung der Standardabweichung
-sd(fb23$lz, na.rm = TRUE) * sqrt((157 - 1) / 157)
+sd(fb23$lz, na.rm = TRUE) * sqrt((179 - 1) / 179)
 ```
 
 ```
-## [1] 1.087972
+## [1] 1.04797
 ```
 
 Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafür können wir einfach den bereits geschriebenen Code für die empirische Varianz nehmen und aus dem Ergebnis die Wurzel ziehen.
@@ -401,7 +411,7 @@ Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafü
 ```
 
 ```
-## [1] 1.084696
+## [1] 1.04797
 ```
 
 ***
@@ -418,7 +428,7 @@ head(lz_c)    # erste 6 zentrierte Werte
 ```
 
 ```
-## [1] -0.44691358 -0.44691358  1.55308642 -0.04691358  0.95308642 -2.24691358
+## [1]  0.2782123 -1.7217877 -0.7217877 -0.7217877  1.2782123         NA
 ```
 
 ```r
@@ -428,7 +438,7 @@ head(lz_z)    # erste 6 standardisierte Werte
 ```
 
 ```
-## [1] -0.40946629 -0.40946629  1.42295192 -0.04298265  0.87322646 -2.05864269
+## [1]  0.2647348 -1.6383790 -0.6868221 -0.6868221  1.2162918         NA
 ```
 
 ...oder mit Hilfe bereits existierender Funktionen:
@@ -444,15 +454,12 @@ lz_c <- scale(fb23$lz,
 
 ***
 
-## Items Rekodieren {#Rekodieren}
 
-### Wiederholung: Konstruierte mindestens intervallskalierte Variablen
+## Skalenwerte
 
-* Fragebogendaten werden meist ordinalskaliert erhoben (einzelne Items)
-* Um Intervallskalenniveau zu erreichen werden Items zu Skalenwerten verrechnet (Summe oder Mittelwert)
-* Erzeugt viele mögliche Ausprägungen und wird als intervallskaliert behandelt
+Wie bereits besprochen, werden Fragebogendaten (also einzelne Items, die Versuchsteilnehmden vorgelegt werden) meist ordinalskaliert erhoben. Um Intervallskalenniveau zu erreichen werden Items zu Skalenwerten verrechnet. Beispielsweise kann die Summe oder auch der Mittelwert verwendet werden. Darüber können viele mögliche Ausprägungen erzeugt werden und der Skalenwert wird als intervallskaliert behandelt. Doch nicht immer steigt man direkt in die Aggregation der Items ein. viele Fragebögen bestehen nämlich aus positiven und negativen Items, was eine Rekodierung nötig macht.
 
-### Positive & Negative Items
+### Items Rekodieren {#Rekodieren}
 
 Viele Fragebögen enthalten sowohl positiv als auch negativ formulierte Items,
 
@@ -460,20 +467,15 @@ Viele Fragebögen enthalten sowohl positiv als auch negativ formulierte Items,
 * ...um das psychologische Konstrukt umfassender zu erheben
 * ...um Antworttendenzen leichter identifizieren zu können
 
-Vor der Skalenbildung müssen alle Items in eine Richtung gebracht werden: Das wird auch als **Rekodierung** bezeichnet.
+Vor der Skalenbildung müssen alle Items in eine Richtung gebracht werden: Das wird als **Rekodierung** bezeichnet.
 
-**Beispiel: Fragebogen zur Befindlichkeit - Skala gut/schlecht**
+Betrachten wir als Beispiel den Fragebogen zur Befindlichkeit von dem wir hier einen Ausschnitt dargestellt haben. 
 
-* Fragebogen haben Sie zu Beginn und am Ende des Praktikums ausgefüllt
-* Skalenwerte für die spätere Befragung (post) haben wir bereits gebildet
-* Skalenwerte für die erste Befragung (pre) stehen noch aus
-* Skala gut/schlecht soll bei hohem Wert darstelle, dass man sich gut fühlt
-* aus dem Gesamtfragebogen zur Befindlichkeit gehören Items 1, 4, 8 und 11 zu der Skala
-* Negativ formulierte Items müssen invertiert werden  
-* Invertierte Items sind 4 und 11 
-* Mögliche Werte von 1 bis 4     
+{{<inline_image"/lehre/statistik-i/mdbf.png">}}
 
-Mit den Befehlen und R-Kenntnissen aus den bisherigen Sitzungen können wir zwei verschiedene Wege zur Transformation erstellen
+Im speziellen wollen wir uns auf die Skala gut/schlecht beziehen. Den Fragebogen zur Befindlichkeit haben Sie zu Beginn und am Ende des Praktikums ausgefüllt. Skalenwerte für die spätere Befragung (post) haben wir bereits für Sie in der Datenaufberietung gebildet. Skalenwerte für die erste Befragung (pre) stehen noch aus. Wie bereits erwähnt, wollen wir uns im Tutorial auf die Skala gut/schlecht beziehen. Diese soll bei hohem Wert darstelle, dass man sich gut fühlt. Aus dem abgebildeten Teil des Fragebogens zur Befindlichkeit gehören Items 1 und 4 zu dieser Skala. Hier wird bereits deutlich, dass die es sich um ein negatives und ein positives Item handelt. Damit der Skalenwert gut/schlecht also ein gutes Befinden anzeigt, muss Item 4 vor der Bildung des Skalenwertes rekodiert werden. Weitere Items des Fragebogens, die zu dieser Skala gehören, sind Items 8 und 11, wobei 11 auch negativ formuliert ist (nennt man auch *invertiert*). Auch hier ist also eine Rekodierung nötig.
+
+Auf der Abbildung konnten wir sehen, dass die möglichen Werte für die Beantwortung der Frage von 1 bis 4 gingen. Mit den Befehlen und R-Kenntnissen aus den bisherigen Sitzungen können wir zwei verschiedene Wege zur Transformation erstellen, die wir auf Items 4 und 11 des Fragebogens zur Befindlichkeit (`mdbf`) anwenden.
 
 
 **Variante 1: Lineare Transformation**
@@ -484,7 +486,7 @@ head(fb23$mdbf4_pre)     # erste 6 Werte ohne Transformation
 ```
 
 ```
-## [1] 1 2 1 3 1 2
+## [1] 2 2 1 2 1 1
 ```
 
 ```r
@@ -492,7 +494,7 @@ head(fb23$mdbf4_pre_r)   # erste 6 Werte mit Transformation
 ```
 
 ```
-## [1] 4 3 4 2 4 3
+## [1] 3 3 4 3 4 4
 ```
 
 * Allgemeine Form: $-1 \cdot (x_m - x_{\max} - 1)$   
@@ -517,8 +519,7 @@ head(fb23$mdbf11_pre == 1, 15) #Zeige die ersten 15 Antworten
 ```
 
 ```
-##  [1]  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE  TRUE
-## [15]  TRUE
+##  [1] FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE
 ```
 
 Wir erhalten einen booleschen Vektor, der uns sagt, wo der Wert 1 auftaucht (`TRUE`) und wo nicht (`FALSE`).
@@ -535,7 +536,7 @@ head(fb23$mdbf11_pre)
 ```
 
 ```
-## [1] 1 2 2 2 1 3
+## [1] 3 2 1 2 2 1
 ```
 
 ```r
@@ -543,7 +544,7 @@ head(fb23$mdbf11_pre_r)
 ```
 
 ```
-## [1] 4 3 3 3 4 2
+## [1] 2 3 4 3 3 4
 ```
 
 * Durch logische Filter Personen auswählen, die auf Originalvariable den relevanten Wert haben  
@@ -552,7 +553,7 @@ head(fb23$mdbf11_pre_r)
 * Nachteil: umständlich zu schreiben  
 
 
-## Skalenwerte erstellen {#Skalenwerte}
+### Skalenwerte erstellen {#Skalenwerte}
 
 Skalenwerte werden zumeist als Summen oder Mittelwerte der Items erstellt. Dafür kann man sich beispielsweise alle Daten, die der Skala zugrunde liegen, in einem eigenen kleinen Datensatz ablegen. Dieser Datensatz kann genutzt werden, um den Skalenwert wieder im Original abzulegen. Jede Person repräsentiert eine Zeile - `rowMeans()` berechnet den Mittelwert der Zeilen. Somit erhält jede Person einen eigenen Mittelwert über die Einträge. Führen wir das ganze beispielsweise für den Skalenwert zur Prokrastinationstendenz durch, die mit den 10 Items erhoben wurde. Wichtig ist hier auch, dass wir die rekodierten Items nehmen, da diese ja die "korrekte Richtung" aufweisen.
 
@@ -567,7 +568,7 @@ head(fb23$gs_pre)
 ```
 
 ```
-## [1] 3.75 2.50 3.25 2.75 3.75 2.50
+## [1] 3.00 2.50 3.75   NA 3.25 4.00
 ```
 
 Natürlich kann die Erstellung auch in einem Befehl passieren - beispielsweise durch Verwendung der Pipe. Es gibt aber auch noch viele andere Optionen zur Skalenbildung - es wird (wie eigentlich fast immer) nur ein Ausschnitt der Möglichkeiten gezeigt.
@@ -581,7 +582,7 @@ head(fb23$gs_pre )
 ```
 
 ```
-## [1] 3.75 2.50 3.25 2.75 3.75 2.50
+## [1] 3.00 2.50 3.75   NA 3.25 4.00
 ```
 
 {{< spoiler text="*Quizfrage*: Was bedeutet `NA` in `fb23$gs_pre `?" >}}
@@ -591,11 +592,10 @@ head(fb23$gs_pre )
 {{< /spoiler >}} 
 
 
-## Nützliche Funktionen in diesem Zusammenhang:
+### Ergänzungen
 
-* `rowMeans()` Mittelwert für jede Zeile (über Variablen)  
-* `colMeans()` Mittelwert für jede Spalte (über Personen)  
-* `rowSums()` Summe für jede Zeile (über Variablen)  
-* `colSums()` Summe für jede Spalte (über Personen)  
+Wenn Sie als Skalenwert lieber die Summe aller Items statt des Mittelwertes nutzen wollen, kann dasselbe Vorgehen genutzt werden. Dabei muss dann `rowMeans()` (Mittelwert für jede Zeile über Variablen) durch `rowSums()` (Summe für jede Zeile über Variablen) ersetzt werden. 
+
+Wenn statt Personen in den Zeilen Informationen über Variablen gewonnen werden sollen, kann dies mit `colMeans()` (Mittelwert für jede Spalte über Personen)  und `colSums()` (Summe für jede Spalte über Personen) erreicht werden. Da diese Befehle im typischen psychologischen Setting aber über Personen und nicht Variablen hinweg gehen, werden diese eher nicht im Bereich der Skalenbildung verwendet und hier nur zur Vollständigkeit aufgeführt.  
 
 ***
