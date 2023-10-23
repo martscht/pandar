@@ -9,8 +9,8 @@ subtitle: ''
 summary: 'Dieser Beitrag stellt eine Einführung in `R` dar. Neben grundlegenden Funktionen werden das Einlesen und die Verarbeitung von Daten behandelt, außerdem werden einfache Datenanalysen durchgeführt. Besonderes Augenmerk liegt dabei auf den Grundlagen zur linearen Regression, die als Vorbereitung für die Regressionssitzung dienen. Zudem gibt es eine kleine Wiederholung einiger wichtiger inferenzstatistischer Begriffe.'
 authors: [nehler, irmer, schultze]
 weight: 1
-lastmod: '2023-10-10'
-featured: yes
+lastmod: '2023-10-23'
+featured: no
 banner:
   image: "/header/FEI_Sitzung0_post.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/562631)"

@@ -9,8 +9,8 @@ subtitle: ''
 summary: 'In diesem Beitrag wird eine multiple Regression in `R` exemplarisch durchgeführt. Dabei wird erläutert, wie ein Regressionsmodell in `R` erstellt und der entsprechende `R`-Output interpretiert werden kann. Außerdem werden die Voraussetzungen für die multiple Regression behandelt. Der Fokus liegt dabei auf der Prüfung der Multikollinearität sowie der Identifikation möglicher Ausreißern und einflussreicher Datenpunkte. '
 authors: [nehler, irmer, hartig]
 weight: 2
-lastmod: '2023-10-10'
-featured: no
+lastmod: '2023-10-23'
+featured: yes
 banner:
   image: "/header/FEI_Sitzung1_post.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/806441)"
@@ -285,7 +285,7 @@ mean(x = resid(model)) # Mittelwert mit Referenzierung aus dem lm Objekt "model"
 ```
 
 ```
-## [1] -6.002143e-17
+## [1] -1.158362e-16
 ```
 
 Natürlich könnte man statt der Funktion `resid` auch das Element Residuals im Objekt ansprechen mittels `model$residuals`.
