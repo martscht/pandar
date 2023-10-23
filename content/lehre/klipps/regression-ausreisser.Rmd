@@ -10,7 +10,7 @@ summary: 'In diesem Beitrag wird eine multiple Regression in `R` exemplarisch du
 authors: [nehler, irmer, hartig]
 weight: 2
 lastmod: '`r Sys.Date()`'
-featured: no
+featured: yes
 banner:
   image: "/header/FEI_Sitzung1_post.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/806441)"

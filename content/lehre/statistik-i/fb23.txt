@@ -4,180 +4,177 @@
 "3" 4 3 2 1 3 2 3 3 1 3 1 2 4.4 4 3.5 5 2 4.5 1.5 2.33333333333333 "Interesse und Berufsaussichten" 4 2 5 5 1 2 1 1 2 1 0 1 0 0 6 4 3.75 3.75 6
 "4" NA 3 2 2 2 2 1 2 2 3 2 3 4.4 3 4 3.5 4 3.5 1.6 2.83333333333333 "Wissenschaftliche Ergänzung zu meinen bisherigen Tätigkeiten (Arbeit in der psychiatrischen Akutpflege, Gestalttherapieausbildung), Psychotherapieausbildung" 4 2 4 5 3 2 1 1 2 1 1 1 0 1 6 2.5 2.75 3.5 6
 "5" 3 3 2 1 2 2 1 3 3 2 2 2 6.4 4 4 3.5 3.5 4 2.7 3.83333333333333 "Passt am besten zu mir" 4 2 2 4 3 2 2 1 2 1 0 1 1 0 6 3.75 3 3 6
-"6" 4 2 3 1 2 3 2 4 2 4 1 3 NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA 0 0 0 0 NA NA NA NA NA
-"7" 3 2 3 1 1 2 2 3 3 4 1 2 5.6 4.5 4.5 4 4.5 4 3.3 3.33333333333333 "Weil ich mich schon seit ich klein bin dafür interessiere." 4 2 3 5 1 2 2 2 1 2 0 1 0 0 6 NA NA NA NA
-"8" 2 3 3 3 3 2 2 2 4 2 3 2 5.4 3.5 4 4.5 3 5 2.2 3.16666666666667 NA NA NA NA NA NA NA NA NA NA NA 0 0 0 0 NA 4 3.25 3.5 6
-"9" 3 2 1 2 3 3 3 3 2 2 1 3 5 3.5 4 2.5 2.5 4.5 3.4 3.33333333333333 "Schon immer Interesse am Thema" 4 4 4 3 1 2 2 1 2 3 0 1 1 0 4 2.75 2 2.75 4
-"10" 3 2 2 3 2 2 3 3 2 2 2 3 4.8 2.5 3 3.5 4.5 4 2.4 3.66666666666667 "Interessant, will mehr verstehen warum Menschen so sind wie sie sind und ihnen bei psychischen Erkrankungen helfen können" 4 2 3 5 3 1 1 1 2 3 0 1 1 0 5 3.75 3.25 2.75 5
-"11" 2 1 2 3 4 2 3 2 3 2 4 2 6 3 3.5 4 4 3 3.1 3 "Interessante Inhalte" NA 2 3 5 3 2 2 2 1 2 0 1 0 0 5 2.5 2 2.75 3
-"12" 3 4 1 2 1 2 1 3 1 2 1 3 5.4 4.5 3.5 3.5 3 3 2.7 3.66666666666667 "Ich möchte Psychotherapeutin werden." 4 2 3 5 1 2 2 1 2 1 0 1 1 0 6 3.5 1.5 3.25 6
-"13" 3 2 1 1 3 2 3 3 1 3 1 3 5.4 4.5 3 4 3 5 2.6 2.16666666666667 "Spontan" 4 2 3 4 1 2 2 1 2 1 0 1 1 0 5 3.25 3 2.5 5
-"14" 4 3 1 1 1 2 2 3 1 3 1 3 5.8 3 2 3.5 3.5 3 2.5 3.33333333333333 "Vielfalt des Studiums" 2 1 4 4 3 2 2 1 2 4 0 1 1 0 5 3.5 3.25 3 5
-"15" 3 1 4 2 2 2 1 2 2 1 3 2 2.6 1 2 3.5 5 3.5 2.3 3.33333333333333 "Interesse am Innenleben und den Gedanken und Handlungen von Menschen, selber früh Kontakt mit psychischen Krankheiten in der Familie gehabt. Wunsch schon früh, gewisse Phänomene zu verstehen" 3 2 4 4 1 1 1 1 1 4 1 1 0 0 6 NA NA NA NA
-"16" 3 2 2 2 2 2 2 3 2 2 2 3 4.8 2.5 3 3.5 2.5 3 2.2 3.66666666666667 "interesse" 4 2 4 4 1 2 1 1 1 1 0 1 0 0 5 NA NA NA NA
-"17" 4 3 1 1 1 3 2 4 1 3 1 3 5.2 2.5 2.5 2 2 1.5 2.2 2.5 "Interesse, vielseitige Berufsaussichten " 4 2 4 5 1 2 1 1 2 1 0 1 0 0 6 3.75 3 3.5 6
-"18" 3 2 3 1 3 2 3 2 2 3 2 3 5.4 3 2.5 3 2 3.5 2.6 3.83333333333333 "Ich bin sehr Interesse an Menschen verhalten " 4 2 4 5 2 2 1 1 2 3 1 0 0 0 5 NA NA NA NA
-"19" 3 3 1 2 1 3 3 3 2 2 1 3 4.4 3.5 3.5 2.5 2 2.5 3.1 3.66666666666667 "Ausschlussverfahren und Interesse: Andere Studiengänge haben mich nicht so sehr interessiert." 4 2 4 5 3 2 2 1 1 1 0 1 0 1 5 3.5 3 3.25 6
-"20" 1 2 3 3 3 1 4 2 4 1 4 2 1.4 1.5 2 3 5 4 3.6 4.16666666666667 "weiß ich nicht" 1 4 2 5 3 2 1 2 2 1 1 1 0 0 6 1.25 1.25 2.25 6
-"21" 3 2 4 1 2 2 3 3 3 3 2 2 4.8 3.5 2.5 5 2.5 3.5 1.8 3.33333333333333 "Sinn  " 4 2 4 5 1 2 2 1 1 3 1 1 1 0 6 3.75 2.75 3 6
-"22" 3 3 2 1 2 3 2 3 1 3 1 3 6.6 2.5 4.5 4.5 3 3.5 2.2 2.83333333333333 "Ich möchte Menschen mit Problemen helfen " 1 2 4 4 3 2 2 1 2 3 0 1 0 0 6 3.25 2.75 3 6
-"23" 3 3 4 2 2 1 2 3 4 3 2 2 NA 2.5 3.5 4 4 4 2.7 3.33333333333333 "Besseres Verständnis von mir und anderen" 3 3 3 5 3 2 2 1 1 3 0 1 1 1 5 3.25 3.25 2.5 4
-"24" 3 2 3 2 3 3 3 4 3 2 1 3 5 4 3.5 4 3.5 3 2.4 2.33333333333333 NA 4 2 2 2 3 2 1 1 1 1 0 1 1 0 5 2.5 2 2.25 5
-"25" 3 2 3 2 4 2 3 2 4 2 2 2 4.8 3.5 3 3 4.5 4 3.4 3 "Interessant, viele Möglichkeiten" 2 1 4 5 3 2 1 1 2 1 1 1 0 0 5 NA NA NA NA
-"26" 1 1 1 1 1 1 1 1 1 1 1 1 7 3 3 3 3 3 2.5 5 NA NA NA NA NA NA NA NA NA NA NA 0 0 0 0 NA NA NA NA NA
-"27" 3 3 2 1 2 3 2 3 1 2 1 3 5 3 4 3.5 2 2.5 2.5 3 "Intersse an Menschen" 4 2 3 4 3 2 1 1 1 2 0 1 1 0 6 3.25 2.5 3.5 6
-"28" 3 3 3 1 3 3 2 3 1 3 1 4 4.8 4 4 3 2 4 3 3 "Interesse am Fach" 4 2 4 5 3 2 2 1 1 1 0 1 0 1 6 3 2 3.75 6
-"29" 4 3 2 1 2 4 2 4 1 2 1 3 5.8 3 3.5 4.5 4.5 4.5 3.1 3.5 "Interesse " 3 4 4 5 1 2 2 1 2 1 0 1 1 0 4 NA NA NA NA
-"30" 3 4 1 2 2 4 1 4 2 3 1 4 5.4 4 2.5 3.5 4 3 2.3 3 "Interesse" 1 1 3 5 3 2 2 1 1 4 0 1 0 0 6 3.75 3.25 3.25 6
-"31" 3 3 1 1 2 2 3 3 1 2 3 3 5.2 3 3.5 3 4 4.5 2.7 3 "um meinen Zielen näher zu kommen" 2 2 4 4 3 2 1 1 1 1 0 1 0 0 6 3 2.5 2.75 5
-"32" 3 3 2 1 2 3 2 3 1 3 1 2 6.4 3 4 3.5 3.5 4 2.6 3.33333333333333 NA 4 2 4 4 1 2 1 2 1 NA 0 1 1 0 6 4 2.25 3.5 6
-"33" 3 1 3 1 3 2 4 3 2 1 1 3 5.8 4.5 5 2 2.5 4 3.2 2.5 NA NA NA 5 4 NA 1 1 2 2 1 0 1 0 0 5 3.25 1 2 5
-"34" 3 3 1 1 2 4 3 3 1 3 2 3 5.2 2.5 3.5 2.5 2.5 5 2.7 3 "Interesse an dem Fach" 3 2 4 4 3 1 1 1 2 3 0 1 0 0 5 3.25 2 3 5
-"35" 3 2 2 2 3 3 4 3 2 2 1 3 5.4 5 3.5 4 4 2.5 2.5 2.83333333333333 "Um anderen zu helfen, mehr über den Menschen und seine Denk- und Verhaltensweisen zu erfahren" 1 3 4 5 3 2 1 2 1 2 0 1 1 0 6 3.5 2 3 6
-"36" 3 2 3 2 3 3 3 3 3 3 3 3 3.4 2.5 3.5 3 3 4.5 2.6 3.66666666666667 "Spannende Themen " 2 1 4 5 1 2 2 2 1 2 0 0 1 1 3 2.5 2.25 2.5 5
-"37" 3 2 1 1 3 3 3 2 1 3 1 3 6.8 2 4 3 4 2.5 2.5 2.83333333333333 "Mich interessiert was hinter Verhalten steckt" 4 2 4 4 1 2 1 2 1 3 0 1 1 0 5 3.25 3 4 6
-"38" 4 2 1 1 2 3 2 4 1 4 1 4 6 2 4.5 3.5 4 4 2.7 3 "Menschen helfen, Interesse am menschl. Denken, Verhalten, etc." 4 2 3 5 3 1 1 1 2 3 0 1 1 0 5 4 3.5 4 5
-"39" 3 2 3 1 2 3 3 3 1 2 1 3 6.2 4 4.5 4.5 4 3 2.6 2 "Interesse am menschlichen Handel und den Hintergründen" 3 4 5 5 3 2 1 1 2 1 0 1 1 1 6 3.75 3 3.5 6
-"40" 2 3 2 2 2 3 3 3 2 1 2 3 5.6 5 3.5 4.5 2.5 4.5 2.4 2.66666666666667 "Neugierde" 1 3 4 5 NA 2 2 1 3 NA 0 1 0 0 5 3.75 2.25 3.5 6
-"41" 2 1 2 2 3 3 4 3 2 2 2 3 5.8 4.5 3.5 2.5 3 5 3.2 3.16666666666667 "Neugier, Interesse, Bücher" 4 2 4 3 3 2 1 1 2 1 0 1 1 0 6 3.25 1.75 2.5 6
-"42" 4 3 2 1 2 3 1 3 2 3 1 3 5.2 2.5 3.5 4 3.5 5 2.5 3.83333333333333 "Leidenschaft, Erfüllung" 4 2 4 5 3 1 2 2 1 2 1 1 0 0 6 3 3.25 2.75 5
-"43" 3 3 1 1 2 4 2 4 1 4 1 4 4.6 4 4 2.5 3 3 3.3 2.83333333333333 "Gehirn cool" 3 4 3 4 2 2 2 2 1 2 0 1 1 0 5 3.75 2.75 3.75 6
-"44" 1 1 4 4 4 1 4 1 4 1 4 1 NA 3 2 2 4 5 3.3 3.66666666666667 "Job lol" 2 3 4 4 3 2 1 1 1 3 1 1 1 1 6 1 1 1 5
-"45" 4 4 1 1 1 3 1 4 1 4 1 4 5.2 3 2 5 2 4.5 1.7 3.5 "Um Menschen zu helfen." 2 2 5 5 1 2 2 2 2 4 0 1 0 0 5 NA NA NA NA
-"46" 2 2 3 3 3 1 3 2 3 2 3 2 3.6 5 2 4.5 3 4 2.6 3 "Berufswunsch" 4 3 5 5 3 2 1 1 2 4 0 1 0 0 5 2.5 2 2.25 5
-"47" 1 2 2 3 3 2 2 2 3 1 2 2 4.8 4 3.5 3.5 3 4.5 2.6 2.16666666666667 "Interesse am Fach, Sicherheit, berufliche Perspektiven" 3 4 3 5 3 2 1 1 3 1 0 1 0 1 6 3 1.75 2.75 6
-"48" 2 3 3 1 2 1 3 3 3 2 3 2 5.8 2 4 2 4.5 3 2.9 2.5 "Interesse" 5 4 3 4 3 2 1 2 1 2 1 0 0 0 3 NA NA NA NA
-"49" 3 2 3 2 2 3 3 3 3 3 2 2 3.2 2.5 3 5 3.5 4.5 1.8 4.33333333333333 "Etwas sinnvolles für die Gesellschaft" 3 2 5 5 1 2 2 2 2 4 0 1 0 0 6 3 2.5 3 6
-"50" 3 1 3 1 3 3 3 3 3 3 2 2 5.4 4 3.5 3.5 4 3 2.5 2.83333333333333 "Um Zugang zur Therapeutenausbildung zu bekommen" 4 2 3 4 3 2 1 1 1 4 0 1 0 0 5 2.25 2 1.5 4
-"51" 3 3 1 1 1 3 2 3 1 3 1 3 5.6 4.5 NA 3.5 2 3.5 2 2.83333333333333 "Interesse warum die Psyche der Menschen so funktioniert, wie sie funktioniert " 1 1 3 5 1 2 1 1 1 3 0 0 1 0 5 3.75 3.25 3.25 6
-"52" 2 1 3 2 3 2 4 2 2 1 2 2 4.6 2.5 4 3 3.5 5 3.5 3.5 "Interesse am Studium" 3 4 3 5 1 2 2 2 2 2 0 1 0 0 5 2 1 1.75 5
-"53" 3 3 2 1 1 3 2 4 2 2 1 3 4.6 2.5 2 3 4.5 5 2.9 2.83333333333333 "Psychologie ist überall, sie erklärt die meiste Zahl von allem was passiert" 4 2 4 5 1 2 1 2 1 3 0 0 0 0 5 4 3 3.5 6
-"54" 4 3 1 1 1 4 2 4 1 3 1 3 5 3.5 2.5 4.5 3.5 5 2.6 3.5 "Ist seit Jahren mein Ziel " 1 3 5 5 3 2 2 1 1 4 0 1 0 0 6 NA NA NA NA
-"55" 4 4 1 1 1 4 1 4 1 4 1 4 6.8 4.5 2.5 4.5 1 4 1.8 3 "Interessantester Studiengang" 1 1 5 5 1 2 2 NA 2 3 0 1 0 0 6 4 4 4 6
-"56" 3 4 2 1 3 3 4 4 1 2 1 3 5.8 4.5 3.5 2.5 2.5 2.5 3.1 2.5 "Großes Interesse am Fach und am späteren Beruf" 4 2 5 5 1 2 2 1 2 1 0 1 1 1 6 3 1.5 2.75 5
-"57" 3 4 1 1 1 2 1 3 2 2 1 3 5.8 3.5 2.5 5 3 5 1.6 4.33333333333333 "Um anderen Menschen helfen zu können" 2 2 5 5 1 2 1 2 1 1 0 1 1 0 5 4 3.75 2.75 5
-"58" 4 4 2 2 1 2 1 3 3 4 2 3 6.2 4.5 3 4.5 3.5 3.5 2.7 1.66666666666667 "Akademisierung meines Berufes in der Psychiatrie" 4 2 5 5 2 2 1 2 2 1 0 1 0 0 6 3.25 3.75 3.25 6
-"59" 2 1 2 2 1 3 4 2 1 2 1 3 4.2 3.5 2.5 3.5 1.5 5 2 3.5 "Interessant " 2 3 4 5 1 1 1 1 2 4 0 1 0 0 5 2.75 1.75 2.5 5
-"60" 3 3 1 1 1 4 1 3 1 2 1 3 4.4 3 4.5 4 3.5 4.5 2 2.16666666666667 "passt zu meiner Persönlichkeit/Interessen" 2 2 3 4 3 2 2 1 2 3 0 1 1 0 6 3.5 3 3.75 6
-"61" 3 3 3 1 1 2 3 4 1 3 1 4 4.8 3 3.5 3 4 1.5 2.8 2.66666666666667 "aus Interesse" 4 2 3 4 1 2 1 2 1 2 1 0 0 0 5 NA NA NA NA
-"62" 3 2 2 2 2 2 2 2 4 3 3 3 5 4.5 3 4 2.5 5 3 3.16666666666667 " Mischung aus Natur- und Gesellschaftswissenschaften, Interesse am Gehirn" 2 3 4 2 1 2 1 1 1 2 1 1 1 1 5 3 2.75 2.5 4
-"63" 3 2 1 1 2 3 3 4 1 3 2 3 6.6 4.5 3.5 4.5 2.5 5 2.6 3.33333333333333 "Viele Arbeitsfelder " 4 2 3 4 3 2 1 1 2 1 0 1 1 1 6 3.25 1.75 2.75 6
-"64" 4 3 1 1 2 4 3 4 1 2 1 4 6.6 4.5 3 4 2.5 4 1.8 2.16666666666667 "Interesse am Erleben und Verhalten des Menschen" 3 2 3 4 3 2 2 1 2 1 0 1 1 0 5 3.75 2.5 3.5 5
-"65" 2 1 2 1 2 3 3 3 1 2 1 4 4.6 1.5 3.5 3.5 3 2.5 2.2 4 "Interesse am menschlichen Verhalten und an der Wissenschaft" 2 3 5 3 3 2 2 2 1 2 0 1 0 0 5 3.75 3.25 3.5 5
-"66" 2 1 3 3 3 1 4 2 3 1 1 1 6 4 4 4.5 3 5 2.1 3.33333333333333 NA 4 2 3 5 3 2 1 1 1 3 1 0 0 0 6 3.25 1.25 2 6
-"67" 3 2 4 2 2 1 2 3 3 2 3 1 5.6 4 3.5 3 3 4 2.6 3.5 "Interesse an dem inneren des Menschen und den Abläufen " 1 4 2 4 3 2 1 2 1 2 0 1 0 0 5 NA NA NA NA
-"68" 3 3 1 1 1 2 1 3 2 3 1 2 6 2.5 4 5 4 3 1.6 4.16666666666667 "Das vermittelte Wissen ist sehr spannend und es besteht die Möglichkeit mit Menschen zu arbeiten." 4 2 3 5 1 2 1 2 1 3 0 1 0 0 6 3.75 3.25 3.5 6
-"69" 3 4 2 1 1 4 3 4 1 2 1 3 4 4 3.5 4.5 3 5 1.5 3.5 "Interesse" 5 3 5 3 3 2 1 1 2 1 0 1 0 0 5 4 4 3.5 5
-"70" 3 3 4 2 2 1 2 3 3 2 3 1 2.6 1.5 3 4 4 4 2.2 3.83333333333333 "War schon immer mein Traum " 4 2 4 5 1 2 2 1 1 3 0 1 0 0 5 3.75 3.5 2.5 5
-"71" 2 2 2 1 1 2 4 2 3 1 2 2 4 2 5 4 4 3 1.9 2.5 "Traum " 4 2 4 4 1 2 1 2 1 3 0 1 0 0 4 3.75 2.75 3.25 6
-"72" 2 3 3 2 1 1 3 1 4 1 3 2 3.8 4 4.5 4 3.5 2.5 1.9 2.33333333333333 "großes Interesse" 3 2 2 5 3 2 2 1 2 1 0 1 1 0 6 2.5 2.5 1.75 5
-"73" 3 2 3 2 3 2 2 3 3 2 2 2 4.8 3 3.5 4 5 3 2.7 2.5 "Interesse an psychologischen Inhalten und Verhalten des Menschen auch in Freizeit. " 4 NA 3 5 3 2 2 1 2 1 0 1 1 0 5 2.75 2 2 6
-"74" 3 3 2 3 2 2 2 3 2 3 3 2 4 3 3.5 3.5 4 4 2.5 3.33333333333333 "Menschen helfen, Gutes tun, Veränderung" 4 4 4 4 3 2 1 1 2 3 0 1 1 0 6 3 2 2.5 6
-"75" 2 3 2 2 2 1 3 3 2 3 2 2 6.2 3.5 5 5 3 2.5 2.1 1.16666666666667 "Interesse am Verhalten des/der Menschen, etwas bewirken wollen" 4 2 4 5 3 2 1 2 2 2 0 1 1 0 6 3.5 2.75 3.5 6
-"76" 4 3 2 1 2 3 3 3 2 3 3 3 6 5 3 2.5 3 4.5 3.3 2.33333333333333 "Ich will Therapeutin werden und Menschen helfen, in dem ich sie verstehe" 4 2 3 5 3 2 1 1 2 1 0 1 1 0 6 3.5 2.75 3.5 6
-"77" 2 3 1 3 1 2 1 3 2 3 3 2 4 3.5 3 3.5 5 4.5 3.3 2.16666666666667 "Aus Interesse" 3 3 3 4 1 2 2 1 2 4 0 1 1 0 6 3 3.75 3.75 6
-"78" 3 2 3 3 3 1 2 2 4 2 3 1 5.2 2.5 4 4 4.5 3 2.9 2.83333333333333 "Interesse hat in der Schulzeit begonnen" 4 2 2 4 1 2 2 1 2 1 0 1 1 0 5 3 2.5 2.75 4
-"79" 2 3 1 1 1 4 2 3 1 3 1 4 5.4 3 3 4.5 1.5 5 1.5 2.83333333333333 "Hohes Interesse an wissenschaftlichem Arbeiten und an der Psyche des Menschen " 4 2 4 4 3 2 2 1 2 3 0 1 0 0 6 3.75 4 4 6
-"80" 2 2 3 3 3 2 4 2 2 2 3 2 2.8 3 3 2.5 2 5 3.6 3.16666666666667 "weil es das für mich interessanteste Studienfach ist " 2 1 4 4 3 2 1 2 2 1 0 1 0 0 6 NA NA NA NA
-"81" 3 2 3 1 2 2 3 3 3 3 1 2 4.6 3.5 3.5 2.5 4 4 3 2.33333333333333 "Interesse am Thema" 4 2 3 4 2 2 1 1 1 1 0 1 1 0 5 3.5 3 2 4
-"82" 3 2 3 1 3 3 3 3 2 3 2 3 4.6 3.5 2 1.5 3 3 3.3 1.5 "NC" 4 2 2 4 1 2 1 1 1 1 1 0 0 0 5 1.75 2 2.5 5
-"83" 3 2 3 3 4 2 4 2 1 1 3 1 5 3.5 3.5 3 4 3 3.2 2.66666666666667 NA NA 4 3 5 3 2 1 1 2 1 0 1 0 0 6 2.75 1.75 3 6
-"84" 3 2 2 2 3 4 2 3 2 3 2 3 4 4 3 4 2 3 1.9 2.5 "Arbeit mit Menschen" 4 2 4 3 1 2 1 2 1 1 0 1 1 0 5 3 3 3 6
-"85" 3 2 1 1 2 3 3 3 1 3 1 3 6 2.5 4.5 3.5 3 4 2.2 2.83333333333333 "Der Wunsch Therapie anbieten zu können" 4 2 5 5 1 2 2 2 1 4 0 1 0 0 5 3.75 2.25 3 5
-"86" 3 2 2 1 2 2 2 3 3 3 1 2 5.6 4 3.5 4 4 4 2.5 3 "Interesse an menschenbezogener Arbeit und an den psychischen Vorgängen im Menschen" 4 2 4 5 3 2 2 1 2 1 0 1 1 0 5 NA NA NA NA
-"87" 2 2 3 3 3 2 2 2 3 2 3 1 4.2 3 3.5 2 4.5 4.5 3.2 3.33333333333333 "Interesse" 4 3 5 4 3 2 2 1 1 3 1 1 1 0 5 NA NA NA NA
-"88" 3 1 3 2 3 3 4 3 1 2 2 3 4.8 2.5 3.5 4 3.5 4.5 2.7 3.16666666666667 "Faszination, Übereinstimmung mit Wertevorstellung" 4 2 4 5 1 1 2 2 1 3 0 1 0 0 6 3.25 1.25 3 6
-"89" 3 2 1 1 2 3 2 4 2 3 1 3 6 3.5 3 4 3 5 2.5 3.5 "breit gefächert, viele Möglichkeiten, Interesse" 1 3 4 5 3 2 2 1 2 1 0 1 1 0 6 3.25 3 3.5 5
-"90" 4 2 2 1 2 3 3 4 2 2 1 3 4.2 3.5 4 2.5 4 4.5 2.8 3.16666666666667 "Interesse an Gründen für menschliches Handeln" 1 1 4 5 3 2 2 2 1 2 0 1 1 0 6 4 2.25 3.25 6
-"91" 3 2 1 4 2 4 4 3 2 3 1 3 6.2 3 3.5 4.5 3.5 4 2.3 4 "Mein Wunsch" 3 1 5 5 3 2 1 1 2 1 0 1 0 0 5 3.75 4 3.25 5
-"92" 4 4 1 1 2 3 1 4 3 3 1 3 6.2 2 3.5 3 5 4.5 3.8 3.83333333333333 NA 2 3 3 5 1 2 2 1 2 3 0 1 1 0 6 NA NA NA NA
-"93" 1 2 2 3 2 2 3 2 2 2 3 1 3.2 2 1 4.5 2.5 5 2 3 "Berufsperspektive" 4 2 4 5 1 2 2 1 1 4 0 1 0 0 6 3.25 2.25 3 6
-"94" 3 2 1 2 3 4 3 3 1 2 2 4 4.2 2 3.5 2.5 2 3.5 2.6 4.16666666666667 "Keine Ahnung" 5 3 5 4 1 2 2 2 1 2 1 1 1 0 6 2.75 1.75 3.75 6
-"95" 3 3 1 1 1 4 2 3 1 2 1 3 5.6 1.5 1.5 3 1.5 2.5 2.1 4 "Kein spezieller Grund" 5 1 3 4 1 1 1 1 2 3 0 1 1 0 6 3.5 2.75 3.75 6
-"96" 3 3 2 2 3 3 2 3 1 3 2 3 4.6 4 2 2.5 2.5 3.5 2.4 2.5 "persönliches Interesse " 1 2 4 4 3 2 2 1 2 1 0 1 1 0 6 3.25 2.75 3.5 6
-"97" 3 3 2 1 4 3 1 4 1 3 1 3 6.6 4.5 3.5 3.5 3.5 5 2.4 2.33333333333333 "Interesse an menschlichem Verhalten" 3 4 2 4 3 2 2 1 1 1 0 1 1 1 6 3.25 2.75 2.75 5
-"98" 2 2 3 2 3 2 3 2 3 2 2 1 4.2 2.5 3.5 4 4 4.5 2.7 3.83333333333333 NA 4 2 4 5 3 1 2 2 2 2 0 1 0 0 6 3.25 2.75 3.25 6
-"99" 1 2 4 2 2 1 2 2 4 1 4 1 1.6 2.5 3.5 4 5 3 2.3 3.5 "Interesse, Faszination Gehirn" 2 4 4 4 1 2 2 2 2 2 1 1 0 0 4 2 1.75 1.75 4
-"100" 2 2 4 1 2 3 2 2 4 2 4 1 4.6 3.5 3 4.5 5 3 NA NA NA NA NA NA NA NA NA NA NA NA NA 0 0 0 0 NA NA NA NA NA
-"101" 3 2 1 1 1 3 3 3 1 2 1 3 4.6 3.5 4.5 4 3.5 3.5 2.2 3.16666666666667 "weil es mich unfassbar interessiert und ich mehr lernen will" 2 3 4 5 3 2 2 2 1 2 0 1 1 0 6 3.25 3 2.5 6
-"102" 3 3 2 2 2 2 2 3 2 3 3 3 5.4 3.5 3.5 3.5 3.5 2.5 2.4 2.33333333333333 "Breites Berufsfeld, um aktiven Einfluss im Leben anderer zu haben und ihnen zu helfen" 3 2 3 5 3 2 1 1 1 2 0 1 1 0 6 3 3.25 2.75 6
-"103" 2 3 3 2 3 3 2 2 2 2 2 2 5.8 3 3.5 4 3 4 2.4 2.83333333333333 "Psychotherapeutin werden wollen" 4 2 3 5 1 2 2 2 1 2 0 1 0 0 5 2.75 2.75 3 5
-"104" 3 3 1 1 1 3 1 3 1 2 2 3 6 3 3 3 2 2 2.6 2.5 "Interesse an der Psychologie des Menschen" NA 2 3 4 NA 2 1 1 1 NA 0 1 0 0 5 NA NA NA NA
-"105" 3 3 1 1 3 3 2 4 2 4 1 3 5.8 4.5 3 3 1.5 3.5 1.8 2.33333333333333 "Berufswunsch" 3 2 5 4 3 2 1 1 1 2 0 0 0 0 6 2.5 2.25 2.5 6
-"106" 3 3 1 2 2 3 2 3 1 2 1 3 5 2.5 5 3.5 5 4 2.8 2.66666666666667 NA 2 3 4 4 1 2 2 1 2 NA 0 1 1 0 5 3.25 2.25 3.5 6
-"107" 2 2 2 1 3 3 4 4 2 2 2 3 3.6 3 3 4 1.5 4.5 2.1 2.33333333333333 "Verhaltensmuster vorhersagen " 4 2 3 4 3 2 1 2 1 2 0 1 0 0 5 3.75 2 3 4
-"108" 2 2 4 3 2 1 3 3 4 1 4 1 7 4 3 2 2.5 2 3.4 2.66666666666667 "Interesse an der Psyche des Menschen " 2 3 3 4 3 2 1 1 2 1 0 1 0 0 5 2.25 2 1.75 6
-"109" 3 3 2 1 3 2 3 3 3 2 3 2 6.2 4 2 3.5 4.5 5 2.2 3.16666666666667 NA 2 4 3 5 1 2 1 1 2 4 0 1 1 1 6 2 2.25 2 4
-"110" 3 3 3 1 1 1 1 4 2 3 2 2 6 3.5 3.5 3 3.5 1.5 3 2.83333333333333 "Persönliches Interesse " 4 2 4 4 1 2 1 1 1 4 1 1 1 0 5 3.25 2.25 2 4
-"111" 4 3 2 1 2 3 2 3 1 3 2 3 6.4 3 4.5 4.5 3.5 3 2 3.83333333333333 "persönliches Interesse" 2 2 4 4 3 2 2 1 2 1 0 1 0 0 6 3.75 3.5 3.25 6
-"112" 3 3 2 1 2 3 3 3 2 3 1 3 5 2.5 4 4 3.5 3 2.2 2.66666666666667 "Berufswunsch" 4 4 4 5 3 2 2 1 2 3 0 1 0 0 5 3.25 2.25 3.25 6
-"113" 3 2 2 2 2 3 2 3 2 2 2 3 5.4 3.5 3.5 4 4 2 3 3.5 "Interesse für das Menschliche Verhalten" 5 3 5 4 3 1 1 2 1 2 1 1 0 0 4 3.25 2.25 3 4
-"114" 3 2 3 1 1 2 2 4 2 3 1 2 5.8 3.5 4 3 3 4.5 2.8 3.16666666666667 NA 4 NA 5 5 NA 1 2 2 1 4 0 1 0 0 5 3 3 2.5 3
-"115" 4 3 1 1 1 4 3 4 1 2 1 4 5.8 2.5 3 4 2.5 4 1.9 2.5 NA 4 2 2 4 3 2 1 2 1 3 0 1 1 1 6 3.75 3 3.75 6
-"116" 3 3 3 1 1 3 2 3 2 3 2 2 3.8 2.5 4 3 4 4.5 3 3.5 "Mich hat die Psyche und das Verhalten von Menschen interessiert" 1 1 3 5 3 2 2 1 2 1 0 1 1 0 5 3.25 3.25 3.25 6
-"117" 4 3 2 1 1 3 2 4 1 4 1 3 6 4 3.5 4 2 4 2.2 2.66666666666667 "Verhaltensweisen verstehen, Psychisch erkrankten Menschen helfen, " 4 2 4 5 3 1 2 1 2 4 0 1 1 1 5 NA NA NA NA
-"118" 3 2 1 1 2 2 3 3 2 3 2 2 5.8 4 5 4 4.5 4.5 1.6 3.5 "Interesse, Wunsch in diesem Feld beruflich tätig zu sein." 4 2 3 5 3 2 1 2 2 4 0 1 0 1 6 NA NA NA NA
-"119" 3 3 1 1 1 4 3 4 1 3 1 2 4.8 3 4.5 3.5 3.5 3.5 2.4 2.66666666666667 "Interesse zufällig durch ein Buch gefunden" 2 2 5 5 3 2 1 1 2 4 0 1 1 1 6 3.75 3 3.75 6
-"120" 3 4 2 2 2 4 1 3 1 2 3 3 6.8 4.5 4 2.5 4 5 3.4 3.16666666666667 "Interesse" 4 2 3 5 1 2 1 1 1 3 0 1 1 0 6 NA NA NA NA
-"121" 3 2 2 1 4 2 3 3 3 2 3 1 3.6 1.5 2 3.5 4 2 2.8 3.16666666666667 "Ich möchte einen Teil beitragen." 4 2 2 5 3 2 1 1 2 1 0 1 0 0 6 3.5 1.75 2.75 6
-"122" 3 1 3 1 3 3 3 4 2 4 1 2 6.2 4.5 4.5 3.5 3 2.5 3 2.66666666666667 "Traum " 2 3 5 4 3 2 1 2 2 2 0 1 1 0 6 3.5 2 3.5 6
-"123" 4 3 2 1 2 4 1 3 1 3 1 4 3.2 2 4 3 3.5 3.5 3.5 1.83333333333333 "menschliche Psyche und Verhalten verstehen" 4 2 2 4 1 2 2 1 3 1 1 1 0 0 6 3.5 3 4 6
-"124" 3 3 2 1 2 3 3 3 1 3 1 3 5.6 3.5 4 4 2.5 3.5 2.9 2.5 "Interesse" 1 2 2 5 3 2 1 1 2 3 0 1 1 1 6 NA NA NA NA
-"125" 2 2 1 1 2 2 2 3 2 3 1 3 5.8 4 4 4 4 4.5 NA NA NA NA NA NA NA NA NA NA NA NA NA 0 0 0 0 NA NA NA NA NA
-"126" 2 2 2 1 3 2 3 3 1 2 1 3 5.4 2 4 3.5 4.5 3 2 3 "Interessant, möchte in die klinische Psychotheraphie " 1 2 3 5 1 2 1 1 2 3 0 1 0 0 6 2.25 1.25 2.5 6
-"127" 2 3 3 2 2 2 2 2 3 2 3 1 5.6 3.5 3 3.5 4.5 2.5 3 3.33333333333333 "spannende Berufsoptionen" 1 4 4 4 3 2 1 1 2 1 0 1 1 0 5 2 2.25 2 5
-"128" 3 2 3 1 2 3 3 2 2 2 1 3 4.6 2 3 3 2.5 4.5 2.2 4 "Interesse an Arbeit als Therapeut" 4 2 3 5 3 2 1 2 1 2 0 1 1 0 5 3 2.5 3.5 6
-"129" 3 2 1 1 2 3 1 3 1 3 1 2 4.8 2.5 5 4 3.5 5 2.4 3.83333333333333 "Interesse" 2 3 3 4 3 2 2 1 2 1 0 1 1 0 6 3.75 3.25 3.5 5
-"130" 3 3 2 1 1 3 2 3 1 3 1 3 5.6 4 3.5 2.5 2 3 2.6 3.33333333333333 "interesse an der Thematik" 2 2 4 5 3 2 2 2 1 2 0 1 0 0 6 3.5 3 3 6
-"131" 2 2 3 3 4 2 4 2 3 1 2 1 3.2 2 2.5 3 4.5 4 2.9 2.5 NA NA NA 2 5 1 2 2 1 1 NA 1 1 1 1 5 3.75 2.75 3 6
-"132" 4 3 2 1 1 4 2 4 2 4 1 3 6.2 2.5 4 4 3 4 2 2.83333333333333 "Menschen mit Therapie helfen" 2 2 4 5 3 2 1 2 1 2 0 1 1 0 5 3.5 3 3.25 5
-"133" 4 3 1 1 2 3 2 4 1 4 1 3 5.4 4 5 4 4 4.5 2.3 3.66666666666667 "Interesse am Menschen" 4 2 5 3 1 2 1 1 1 1 0 1 1 0 5 3.75 4 4 6
-"134" 3 2 3 2 3 2 3 3 3 2 2 2 4.4 3 2.5 3 4.5 4.5 3.1 3.16666666666667 "Psychologie Unterricht in Schule hat Spaß gemacht" 3 2 2 4 2 1 2 1 1 3 0 1 0 1 5 NA NA NA NA
-"135" 3 3 1 2 2 3 2 3 2 3 2 3 5.6 3 4 3 3 4.5 3 3.16666666666667 "Interesse und Faszination für menschliche Psyche und sinnvoll" 4 2 4 4 1 2 1 1 1 3 0 1 1 0 5 3 2.75 3.5 6
-"136" 3 2 2 2 3 2 3 2 2 2 3 2 5.4 2.5 4 3.5 3.5 3 3.1 3.5 "klingt sehr interessant, notwendig für Berufswunsch" 1 2 3 4 1 1 2 1 2 4 0 1 0 0 6 NA NA NA NA
-"137" 3 2 2 2 3 3 3 3 3 2 2 3 4.2 2.5 4 3 3 4 2.3 2.66666666666667 "Ich möchte Psychotherapeutin werden" 4 2 3 2 3 2 1 1 1 3 0 1 1 0 5 NA NA NA NA
-"138" 4 4 3 1 1 1 2 3 3 4 3 3 4.4 2.5 3 3 3 3 2.4 3 "Ich habe meine Interesse an Leute zu behandeln " 1 2 3 3 3 2 2 1 1 3 1 0 0 0 5 NA NA NA NA
-"139" 2 2 3 2 3 1 3 3 3 2 2 2 4.4 1.5 3.5 3 4.5 3 3.5 3.33333333333333 "Interesse, Verbindung aus Natur und Geisteswissenschaften " 2 3 4 4 1 2 2 1 2 3 0 1 1 0 5 3 2.25 2.5 4
-"140" 2 2 3 3 4 1 3 2 3 1 4 1 2.8 2.5 3.5 2.5 5 3.5 3 3.16666666666667 NA NA NA 3 3 1 2 2 2 2 NA 0 1 0 0 4 2 2.25 2.25 3
-"141" 3 2 2 1 2 3 3 4 3 2 2 2 6.4 3 2 4 3.5 2 2.7 1.83333333333333 "Interesse daran, herauszufinden warum der Mensch ist wie er ist" 4 4 2 5 NA 2 1 2 1 2 0 1 1 0 6 3 2.5 2.5 5
-"142" 2 3 1 2 2 3 1 3 1 2 1 2 5.4 4.5 2.5 4.5 2.5 2.5 2.1 2.5 NA NA NA NA NA NA NA NA NA NA NA 0 0 0 0 NA NA NA NA NA
-"143" 3 3 2 1 3 2 3 3 2 2 2 3 5.6 2 3 3.5 2.5 3.5 2.4 3.33333333333333 "Interesse am Geist" 1 3 4 4 1 2 1 1 1 2 0 0 0 0 4 3.25 2 3.25 5
-"144" 3 1 4 2 1 4 2 3 3 2 4 3 5 5 2.5 4 1 3 3.1 3.5 "platz bekommen" 1 2 5 5 3 2 2 1 2 1 1 1 0 0 5 NA NA NA NA
-"145" 3 3 1 1 1 3 1 4 2 4 1 2 6.4 4 2.5 4.5 3.5 4.5 2 1.83333333333333 "Therapeutin werden, Arbeit mit Menschen, Interesse an Menschen" 4 2 4 5 3 2 1 2 1 4 0 1 0 0 5 3.5 3.75 3 6
-"146" 2 3 2 1 1 3 1 3 2 2 3 3 5 3.5 4 3.5 4 3.5 2.1 3 "aufgrund eines FSJ Praktikums = Traumberuf" 4 2 3 4 3 2 2 1 1 3 0 1 1 0 5 2.25 2.5 1.5 5
-"147" 2 3 2 1 2 2 2 3 3 2 1 2 5.2 3.5 3 4 3.5 4.5 1.9 3.16666666666667 "ich interessiere mich sehr für die psyche der Menschen und war selber schon oft in Berührung mit Psychotherapeuten und Therapie " 1 4 5 3 1 2 1 1 1 2 0 1 1 0 6 3.25 2.75 2.5 5
-"148" 3 4 2 1 1 3 1 3 2 3 1 3 6 3.5 2.5 4 2.5 3 1.9 3 "Akademische Anerkennung,Interesse,finanzielle Möglichkeiten" 1 3 4 5 3 2 2 1 2 3 0 1 0 1 6 NA NA NA NA
-"149" 3 2 1 1 2 2 2 4 2 2 1 2 5.4 3 4.5 4 4 3.5 2.8 3.33333333333333 "Weil es sich mit meinen Interessen deckt." 3 3 4 4 1 2 2 2 1 2 0 1 0 0 4 4 3 3.5 5
-"150" 4 4 2 1 1 3 1 4 2 3 1 3 6.8 3 4 5 2 2 2.2 2.66666666666667 "Ich finde es interessant den Menschen und sein Verhalten zu studieren." 1 2 4 3 3 2 1 2 1 3 0 1 1 0 6 3.5 3.25 3.5 6
-"151" 3 2 1 2 3 2 4 3 2 2 1 3 4.2 2 3.5 4 5 2.5 2.4 3 "Interesse" 2 2 3 5 3 2 1 2 2 2 0 1 0 0 6 3.25 2.5 3.25 6
-"152" 3 3 2 1 2 3 3 4 2 3 1 3 2.8 2.5 3 2.5 4 4 2.9 4.16666666666667 "Karrieremöglichkeiten, tiefgründiges Interesse, Anerkennung" 4 2 5 5 1 1 1 1 3 2 0 1 1 0 6 4 3.25 2.75 6
-"153" 2 2 1 1 2 2 2 2 1 2 1 3 5.2 4 2.5 3.5 2.5 3.5 2.8 2.66666666666667 "Sinnvolle Aufgabe " 4 2 5 5 1 2 2 2 2 3 0 0 1 0 4 NA NA NA NA
-"154" 3 4 2 1 1 3 1 3 1 3 2 3 6.2 4 4.5 3 1.5 3 1.8 2.5 "Interesse" 1 2 3 4 1 2 2 1 2 NA 0 1 1 1 6 2.5 2.5 2.5 3
-"155" 3 1 3 1 3 1 4 3 4 2 4 1 5.6 2.5 2 3 4 5 2.7 4.33333333333333 "Menschen helfen" 4 2 3 4 3 2 1 2 3 2 0 1 1 0 6 3.5 2 3 6
-"156" 3 2 1 1 3 3 3 3 1 2 1 2 5.6 4 5 3.5 4 3.5 2.6 3.16666666666667 "persönliches Interesse" 4 2 4 5 1 2 2 1 2 1 0 1 1 1 5 3.5 2.5 2.75 5
-"157" 2 3 3 3 2 2 1 2 1 2 2 2 5.6 2.5 4 4.5 4.5 3 2.4 2.33333333333333 NA NA 2 3 4 1 2 1 1 2 4 0 1 0 0 5 2.5 3.25 3.25 3
-"158" 3 2 3 1 2 3 2 4 1 3 1 3 7 5 4.5 3.5 3 5 1.8 2.66666666666667 "Langjähriges Interesse, Verstehen wollen" 1 3 4 5 3 2 2 2 1 2 1 1 1 0 6 3.75 3.5 2.75 6
-"159" 3 2 2 1 2 3 3 3 1 3 1 3 5 2.5 4 5 3.5 4 2.1 2.66666666666667 NA NA NA 4 4 NA 2 1 1 2 3 0 1 0 0 5 3.5 2.5 3.25 5
-"160" 3 2 3 2 3 2 3 2 2 3 3 2 4 4 4.5 2.5 4 2 3.3 2.83333333333333 "Interesse, Wunsch Menschen zu helfen" 4 2 4 5 1 2 1 2 2 2 0 1 0 0 6 3 3 2.25 5
-"161" 4 3 2 1 2 3 2 3 2 2 1 3 5.2 4 3.5 3.5 3.5 5 2.6 3.16666666666667 "Arbeit mit anderen Personen, Hilfe und Vertrauen schenken" 4 2 4 5 3 2 2 2 1 2 0 1 0 0 5 3.25 3 3.5 6
-"162" 3 2 2 2 3 4 4 3 2 2 1 4 6.4 5 2 4 2.5 4 2.2 1.83333333333333 "daran interessiert, anderen Menschen zu helfen" 4 2 2 5 3 2 2 1 2 1 0 1 1 1 6 3 1.75 4 6
-"163" 3 2 1 1 3 3 4 4 1 3 1 3 5.6 3.5 4.5 3 3 5 2.4 4.5 "Interesse" 4 2 2 5 3 2 2 1 2 1 0 1 1 0 6 3.75 3 4 6
-"164" 2 2 4 2 2 1 2 2 4 2 3 1 5 4.5 3.5 3.5 3 5 3.2 2.83333333333333 "interesse an Forensik + klinischer Psychologie" 4 3 5 5 3 2 1 2 1 1 0 1 0 0 6 1 1.25 1.75 6
-"165" 2 3 4 2 3 2 3 3 3 2 1 1 3.6 4 4 3.5 5 3 3.5 3 "Interesse, Berufswunsch" 4 2 4 5 3 2 1 2 2 3 0 1 0 0 6 3.5 3 2.75 6
-"166" 3 3 2 1 1 3 2 3 1 3 1 4 5.2 4.5 3 5 2 4.5 1.6 2.33333333333333 "Passt zu meinen Interessen, Fähigkeiten " 2 2 1 5 1 2 2 1 2 3 0 1 1 0 5 3 1.75 3.5 6
-"167" 1 3 4 3 4 3 3 1 1 2 2 1 6.6 3.5 3.5 4 5 4.5 2.4 3.16666666666667 "Traumberuf" 4 1 3 3 3 2 1 1 1 3 0 0 0 0 6 2.5 2.5 2 6
-"168" 3 3 2 2 1 1 2 3 3 3 2 2 5.8 4 5 3.5 2.5 2 2.5 2 "Interesse" 4 2 3 5 3 2 1 1 2 1 0 1 1 0 5 2.75 2.25 2.25 5
-"169" 3 3 2 2 2 2 3 3 2 2 3 1 3.8 3 4 2.5 4 2.5 2.7 2.33333333333333 "Da mich mehrere Menschen schon als Psychologen nennen und ich habe Erfahrungen gesammelt " 2 1 2 4 2 2 1 1 1 3 1 1 0 0 6 NA NA NA NA
-"170" 3 4 1 1 3 4 4 3 2 3 2 4 3.6 3 4 2.5 4.5 3.5 2 2.5 NA 2 3 4 4 3 2 1 1 2 NA 0 1 1 0 6 3.75 2.25 4 6
-"171" 3 2 3 2 2 2 3 3 3 2 1 2 4 3 3.5 3.5 4 2 2.4 3.33333333333333 "Interessiere mich dafür" 4 2 5 5 1 2 1 1 1 4 0 1 0 0 6 3 2.5 2 6
-"172" 3 2 2 1 3 1 3 3 3 1 3 3 3.8 3 3 3 5 3.5 2.5 2.66666666666667 "'zweite Option nach Medizin" 2 3 4 4 1 2 2 1 2 1 0 1 1 0 6 3 2 1.75 5
-"173" 2 2 3 1 3 2 2 3 3 2 1 2 5.6 2.5 5 2 4 3 2.8 2.83333333333333 "Interesse an Studieninhalten" 1 2 2 5 1 2 2 1 2 4 0 1 0 0 6 3.25 2.5 2.75 5
-"174" 2 4 1 1 2 4 1 3 1 4 1 3 5.2 5 3 2.5 2.5 5 3.3 3.5 "Vielfalt" 1 1 4 4 1 1 1 2 1 2 0 1 0 0 3 NA NA NA NA
-"175" 2 2 3 2 2 2 4 2 3 2 2 2 5.8 1 3.5 3.5 5 4 3 4.16666666666667 "Interesse am menschlichen Verhalten und dessen Ursachen" 4 2 4 5 3 2 1 2 1 2 0 1 0 0 6 NA NA NA NA
-"176" 4 2 1 1 1 4 4 3 1 3 1 3 5.4 4 4.5 3 1 4 2.1 3.83333333333333 "Passion" 4 2 5 5 3 2 1 2 2 3 1 1 0 0 6 3.75 3.5 3.75 6
-"177" 3 2 3 2 3 2 3 2 3 1 2 2 3.6 2.5 4 3.5 4.5 4 3.1 2.66666666666667 NA 1 2 3 4 1 1 1 1 2 3 0 1 0 0 6 3.25 2 3 6
-"178" 4 3 1 1 2 4 2 4 1 2 1 4 6.2 4 3 2.5 2.5 4 1.9 2.5 NA 1 2 2 5 NA 2 2 1 2 NA 0 1 1 0 5 4 3.25 4 5
-"179" 2 3 2 1 1 2 1 3 2 3 1 3 6 3.5 4 2 3 4 3.6 2.16666666666667 "Die Bandbreite an Themen und Inhalten" 3 2 3 5 3 2 2 1 2 1 0 1 0 1 6 3.25 3 2.75 6
-"180" 4 3 1 1 2 3 2 4 1 3 1 2 6.2 4 4 3.5 2 4 2.1 2.66666666666667 "Kombination mit vorherigem Studium " 2 4 5 5 3 2 1 1 1 4 0 1 1 1 5 3.75 3 3.5 5
-"181" 3 2 4 2 3 2 3 3 3 2 2 2 6 2.5 4 4 3 3.5 2.1 3.66666666666667 "Interesse" 1 1 4 4 3 1 1 1 1 3 1 1 0 1 5 3 2.25 2.75 5
-"182" 3 2 2 1 1 3 3 4 2 3 2 2 5.4 2 5 4 4.5 3.5 2.2 2.16666666666667 NA NA NA 3 5 NA 2 2 2 2 NA 0 1 0 0 6 3.5 3 2.75 6
+"6" 3 2 3 1 1 2 2 3 3 4 1 2 5.6 4.5 4.5 4 4.5 4 3.3 3.33333333333333 "Weil ich mich schon seit ich klein bin dafür interessiere." 4 2 3 5 1 2 2 2 1 2 0 1 0 0 6 NA NA NA NA
+"7" 2 3 3 3 3 2 2 2 4 2 3 2 5.4 3.5 4 4.5 3 5 2.2 3.16666666666667 NA NA NA NA NA NA NA NA NA NA NA 0 0 0 0 NA 4 3.25 3.5 6
+"8" 3 2 1 2 3 3 3 3 2 2 1 3 5 3.5 4 2.5 2.5 4.5 3.4 3.33333333333333 "Schon immer Interesse am Thema" 4 4 4 3 1 2 2 1 2 3 0 1 1 0 4 2.75 2 2.75 4
+"9" 3 2 2 3 2 2 3 3 2 2 2 3 4.8 2.5 3 3.5 4.5 4 2.4 3.66666666666667 "Interessant, will mehr verstehen warum Menschen so sind wie sie sind und ihnen bei psychischen Erkrankungen helfen können" 4 2 3 5 3 1 1 1 2 3 0 1 1 0 5 3.75 3.25 2.75 5
+"10" 2 1 2 3 4 2 3 2 3 2 4 2 6 3 3.5 4 4 3 3.1 3 "Interessante Inhalte" NA 2 3 5 3 2 2 2 1 2 0 1 0 0 5 2.5 2 2.75 3
+"11" 3 4 1 2 1 2 1 3 1 2 1 3 5.4 4.5 3.5 3.5 3 3 2.7 3.66666666666667 "Ich möchte Psychotherapeutin werden." 4 2 3 5 1 2 2 1 2 1 0 1 1 0 6 3.5 1.5 3.25 6
+"12" 3 2 1 1 3 2 3 3 1 3 1 3 5.4 4.5 3 4 3 5 2.6 2.16666666666667 "Spontan" 4 2 3 4 1 2 2 1 2 1 0 1 1 0 5 3.25 3 2.5 5
+"13" 4 3 1 1 1 2 2 3 1 3 1 3 5.8 3 2 3.5 3.5 3 2.5 3.33333333333333 "Vielfalt des Studiums" 2 1 4 4 3 2 2 1 2 4 0 1 1 0 5 3.5 3.25 3 5
+"14" 3 1 4 2 2 2 1 2 2 1 3 2 2.6 1 2 3.5 5 3.5 2.3 3.33333333333333 "Interesse am Innenleben und den Gedanken und Handlungen von Menschen, selber früh Kontakt mit psychischen Krankheiten in der Familie gehabt. Wunsch schon früh, gewisse Phänomene zu verstehen" 3 2 4 4 1 1 1 1 1 4 1 1 0 0 6 NA NA NA NA
+"15" 3 2 2 2 2 2 2 3 2 2 2 3 4.8 2.5 3 3.5 2.5 3 2.2 3.66666666666667 "interesse" 4 2 4 4 1 2 1 1 1 1 0 1 0 0 5 NA NA NA NA
+"16" 4 3 1 1 1 3 2 4 1 3 1 3 5.2 2.5 2.5 2 2 1.5 2.2 2.5 "Interesse, vielseitige Berufsaussichten " 4 2 4 5 1 2 1 1 2 1 0 1 0 0 6 3.75 3 3.5 6
+"17" 3 2 3 1 3 2 3 2 2 3 2 3 5.4 3 2.5 3 2 3.5 2.6 3.83333333333333 "Ich bin sehr Interesse an Menschen verhalten " 4 2 4 5 2 2 1 1 2 3 1 0 0 0 5 NA NA NA NA
+"18" 3 3 1 2 1 3 3 3 2 2 1 3 4.4 3.5 3.5 2.5 2 2.5 3.1 3.66666666666667 "Ausschlussverfahren und Interesse: Andere Studiengänge haben mich nicht so sehr interessiert." 4 2 4 5 3 2 2 1 1 1 0 1 0 1 5 3.5 3 3.25 6
+"19" 1 2 3 3 3 1 4 2 4 1 4 2 1.4 1.5 2 3 5 4 3.6 4.16666666666667 "weiß ich nicht" 1 4 2 5 3 2 1 2 2 1 1 1 0 0 6 1.25 1.25 2.25 6
+"20" 3 2 4 1 2 2 3 3 3 3 2 2 4.8 3.5 2.5 5 2.5 3.5 1.8 3.33333333333333 "Sinn  " 4 2 4 5 1 2 2 1 1 3 1 1 1 0 6 3.75 2.75 3 6
+"21" 3 3 2 1 2 3 2 3 1 3 1 3 6.6 2.5 4.5 4.5 3 3.5 2.2 2.83333333333333 "Ich möchte Menschen mit Problemen helfen " 1 2 4 4 3 2 2 1 2 3 0 1 0 0 6 3.25 2.75 3 6
+"22" 3 3 4 2 2 1 2 3 4 3 2 2 NA 2.5 3.5 4 4 4 2.7 3.33333333333333 "Besseres Verständnis von mir und anderen" 3 3 3 5 3 2 2 1 1 3 0 1 1 1 5 3.25 3.25 2.5 4
+"23" 3 2 3 2 3 3 3 4 3 2 1 3 5 4 3.5 4 3.5 3 2.4 2.33333333333333 NA 4 2 2 2 3 2 1 1 1 1 0 1 1 0 5 2.5 2 2.25 5
+"24" 3 2 3 2 4 2 3 2 4 2 2 2 4.8 3.5 3 3 4.5 4 3.4 3 "Interessant, viele Möglichkeiten" 2 1 4 5 3 2 1 1 2 1 1 1 0 0 5 NA NA NA NA
+"25" 1 1 1 1 1 1 1 1 1 1 1 1 7 3 3 3 3 3 2.5 5 NA NA NA NA NA NA NA NA NA NA NA 0 0 0 0 NA NA NA NA NA
+"26" 3 3 2 1 2 3 2 3 1 2 1 3 5 3 4 3.5 2 2.5 2.5 3 "Intersse an Menschen" 4 2 3 4 3 2 1 1 1 2 0 1 1 0 6 3.25 2.5 3.5 6
+"27" 3 3 3 1 3 3 2 3 1 3 1 4 4.8 4 4 3 2 4 3 3 "Interesse am Fach" 4 2 4 5 3 2 2 1 1 1 0 1 0 1 6 3 2 3.75 6
+"28" 4 3 2 1 2 4 2 4 1 2 1 3 5.8 3 3.5 4.5 4.5 4.5 3.1 3.5 "Interesse " 3 4 4 5 1 2 2 1 2 1 0 1 1 0 4 NA NA NA NA
+"29" 3 4 1 2 2 4 1 4 2 3 1 4 5.4 4 2.5 3.5 4 3 2.3 3 "Interesse" 1 1 3 5 3 2 2 1 1 4 0 1 0 0 6 3.75 3.25 3.25 6
+"30" 3 3 1 1 2 2 3 3 1 2 3 3 5.2 3 3.5 3 4 4.5 2.7 3 "um meinen Zielen näher zu kommen" 2 2 4 4 3 2 1 1 1 1 0 1 0 0 6 3 2.5 2.75 5
+"31" 3 3 2 1 2 3 2 3 1 3 1 2 6.4 3 4 3.5 3.5 4 2.6 3.33333333333333 NA 4 2 4 4 1 2 1 2 1 NA 0 1 1 0 6 4 2.25 3.5 6
+"32" 3 1 3 1 3 2 4 3 2 1 1 3 5.8 4.5 5 2 2.5 4 3.2 2.5 NA NA NA 5 4 NA 1 1 2 2 1 0 1 0 0 5 3.25 1 2 5
+"33" 3 3 1 1 2 4 3 3 1 3 2 3 5.2 2.5 3.5 2.5 2.5 5 2.7 3 "Interesse an dem Fach" 3 2 4 4 3 1 1 1 2 3 0 1 0 0 5 3.25 2 3 5
+"34" 3 2 2 2 3 3 4 3 2 2 1 3 5.4 5 3.5 4 4 2.5 2.5 2.83333333333333 "Um anderen zu helfen, mehr über den Menschen und seine Denk- und Verhaltensweisen zu erfahren" 1 3 4 5 3 2 1 2 1 2 0 1 1 0 6 3.5 2 3 6
+"35" 3 2 3 2 3 3 3 3 3 3 3 3 3.4 2.5 3.5 3 3 4.5 2.6 3.66666666666667 "Spannende Themen " 2 1 4 5 1 2 2 2 1 2 0 0 1 1 3 2.5 2.25 2.5 5
+"36" 3 2 1 1 3 3 3 2 1 3 1 3 6.8 2 4 3 4 2.5 2.5 2.83333333333333 "Mich interessiert was hinter Verhalten steckt" 4 2 4 4 1 2 1 2 1 3 0 1 1 0 5 3.25 3 4 6
+"37" 4 2 1 1 2 3 2 4 1 4 1 4 6 2 4.5 3.5 4 4 2.7 3 "Menschen helfen, Interesse am menschl. Denken, Verhalten, etc." 4 2 3 5 3 1 1 1 2 3 0 1 1 0 5 4 3.5 4 5
+"38" 3 2 3 1 2 3 3 3 1 2 1 3 6.2 4 4.5 4.5 4 3 2.6 2 "Interesse am menschlichen Handel und den Hintergründen" 3 4 5 5 3 2 1 1 2 1 0 1 1 1 6 3.75 3 3.5 6
+"39" 2 3 2 2 2 3 3 3 2 1 2 3 5.6 5 3.5 4.5 2.5 4.5 2.4 2.66666666666667 "Neugierde" 1 3 4 5 NA 2 2 1 3 NA 0 1 0 0 5 3.75 2.25 3.5 6
+"40" 2 1 2 2 3 3 4 3 2 2 2 3 5.8 4.5 3.5 2.5 3 5 3.2 3.16666666666667 "Neugier, Interesse, Bücher" 4 2 4 3 3 2 1 1 2 1 0 1 1 0 6 3.25 1.75 2.5 6
+"41" 4 3 2 1 2 3 1 3 2 3 1 3 5.2 2.5 3.5 4 3.5 5 2.5 3.83333333333333 "Leidenschaft, Erfüllung" 4 2 4 5 3 1 2 2 1 2 1 1 0 0 6 3 3.25 2.75 5
+"42" 3 3 1 1 2 4 2 4 1 4 1 4 4.6 4 4 2.5 3 3 3.3 2.83333333333333 "Gehirn cool" 3 4 3 4 2 2 2 2 1 2 0 1 1 0 5 3.75 2.75 3.75 6
+"43" 1 1 4 4 4 1 4 1 4 1 4 1 NA 3 2 2 4 5 3.3 3.66666666666667 "Job lol" 2 3 4 4 3 2 1 1 1 3 1 1 1 1 6 1 1 1 5
+"44" 4 4 1 1 1 3 1 4 1 4 1 4 5.2 3 2 5 2 4.5 1.7 3.5 "Um Menschen zu helfen." 2 2 5 5 1 2 2 2 2 4 0 1 0 0 5 NA NA NA NA
+"45" 2 2 3 3 3 1 3 2 3 2 3 2 3.6 5 2 4.5 3 4 2.6 3 "Berufswunsch" 4 3 5 5 3 2 1 1 2 4 0 1 0 0 5 2.5 2 2.25 5
+"46" 1 2 2 3 3 2 2 2 3 1 2 2 4.8 4 3.5 3.5 3 4.5 2.6 2.16666666666667 "Interesse am Fach, Sicherheit, berufliche Perspektiven" 3 4 3 5 3 2 1 1 3 1 0 1 0 1 6 3 1.75 2.75 6
+"47" 2 3 3 1 2 1 3 3 3 2 3 2 5.8 2 4 2 4.5 3 2.9 2.5 "Interesse" 5 4 3 4 3 2 1 2 1 2 1 0 0 0 3 NA NA NA NA
+"48" 3 2 3 2 2 3 3 3 3 3 2 2 3.2 2.5 3 5 3.5 4.5 1.8 4.33333333333333 "Etwas sinnvolles für die Gesellschaft" 3 2 5 5 1 2 2 2 2 4 0 1 0 0 6 3 2.5 3 6
+"49" 3 1 3 1 3 3 3 3 3 3 2 2 5.4 4 3.5 3.5 4 3 2.5 2.83333333333333 "Um Zugang zur Therapeutenausbildung zu bekommen" 4 2 3 4 3 2 1 1 1 4 0 1 0 0 5 2.25 2 1.5 4
+"50" 3 3 1 1 1 3 2 3 1 3 1 3 5.6 4.5 NA 3.5 2 3.5 2 2.83333333333333 "Interesse warum die Psyche der Menschen so funktioniert, wie sie funktioniert " 1 1 3 5 1 2 1 1 1 3 0 0 1 0 5 3.75 3.25 3.25 6
+"51" 2 1 3 2 3 2 4 2 2 1 2 2 4.6 2.5 4 3 3.5 5 3.5 3.5 "Interesse am Studium" 3 4 3 5 1 2 2 2 2 2 0 1 0 0 5 2 1 1.75 5
+"52" 3 3 2 1 1 3 2 4 2 2 1 3 4.6 2.5 2 3 4.5 5 2.9 2.83333333333333 "Psychologie ist überall, sie erklärt die meiste Zahl von allem was passiert" 4 2 4 5 1 2 1 2 1 3 0 0 0 0 5 4 3 3.5 6
+"53" 4 3 1 1 1 4 2 4 1 3 1 3 5 3.5 2.5 4.5 3.5 5 2.6 3.5 "Ist seit Jahren mein Ziel " 1 3 5 5 3 2 2 1 1 4 0 1 0 0 6 NA NA NA NA
+"54" 4 4 1 1 1 4 1 4 1 4 1 4 6.8 4.5 2.5 4.5 1 4 1.8 3 "Interessantester Studiengang" 1 1 5 5 1 2 2 NA 2 3 0 1 0 0 6 4 4 4 6
+"55" 3 4 2 1 3 3 4 4 1 2 1 3 5.8 4.5 3.5 2.5 2.5 2.5 3.1 2.5 "Großes Interesse am Fach und am späteren Beruf" 4 2 5 5 1 2 2 1 2 1 0 1 1 1 6 3 1.5 2.75 5
+"56" 3 4 1 1 1 2 1 3 2 2 1 3 5.8 3.5 2.5 5 3 5 1.6 4.33333333333333 "Um anderen Menschen helfen zu können" 2 2 5 5 1 2 1 2 1 1 0 1 1 0 5 4 3.75 2.75 5
+"57" 4 4 2 2 1 2 1 3 3 4 2 3 6.2 4.5 3 4.5 3.5 3.5 2.7 1.66666666666667 "Akademisierung meines Berufes in der Psychiatrie" 4 2 5 5 2 2 1 2 2 1 0 1 0 0 6 3.25 3.75 3.25 6
+"58" 2 1 2 2 1 3 4 2 1 2 1 3 4.2 3.5 2.5 3.5 1.5 5 2 3.5 "Interessant " 2 3 4 5 1 1 1 1 2 4 0 1 0 0 5 2.75 1.75 2.5 5
+"59" 3 3 1 1 1 4 1 3 1 2 1 3 4.4 3 4.5 4 3.5 4.5 2 2.16666666666667 "passt zu meiner Persönlichkeit/Interessen" 2 2 3 4 3 2 2 1 2 3 0 1 1 0 6 3.5 3 3.75 6
+"60" 3 3 3 1 1 2 3 4 1 3 1 4 4.8 3 3.5 3 4 1.5 2.8 2.66666666666667 "aus Interesse" 4 2 3 4 1 2 1 2 1 2 1 0 0 0 5 NA NA NA NA
+"61" 3 2 2 2 2 2 2 2 4 3 3 3 5 4.5 3 4 2.5 5 3 3.16666666666667 " Mischung aus Natur- und Gesellschaftswissenschaften, Interesse am Gehirn" 2 3 4 2 1 2 1 1 1 2 1 1 1 1 5 3 2.75 2.5 4
+"62" 3 2 1 1 2 3 3 4 1 3 2 3 6.6 4.5 3.5 4.5 2.5 5 2.6 3.33333333333333 "Viele Arbeitsfelder " 4 2 3 4 3 2 1 1 2 1 0 1 1 1 6 3.25 1.75 2.75 6
+"63" 4 3 1 1 2 4 3 4 1 2 1 4 6.6 4.5 3 4 2.5 4 1.8 2.16666666666667 "Interesse am Erleben und Verhalten des Menschen" 3 2 3 4 3 2 2 1 2 1 0 1 1 0 5 3.75 2.5 3.5 5
+"64" 2 1 2 1 2 3 3 3 1 2 1 4 4.6 1.5 3.5 3.5 3 2.5 2.2 4 "Interesse am menschlichen Verhalten und an der Wissenschaft" 2 3 5 3 3 2 2 2 1 2 0 1 0 0 5 3.75 3.25 3.5 5
+"65" 2 1 3 3 3 1 4 2 3 1 1 1 6 4 4 4.5 3 5 2.1 3.33333333333333 NA 4 2 3 5 3 2 1 1 1 3 1 0 0 0 6 3.25 1.25 2 6
+"66" 3 2 4 2 2 1 2 3 3 2 3 1 5.6 4 3.5 3 3 4 2.6 3.5 "Interesse an dem inneren des Menschen und den Abläufen " 1 4 2 4 3 2 1 2 1 2 0 1 0 0 5 NA NA NA NA
+"67" 3 3 1 1 1 2 1 3 2 3 1 2 6 2.5 4 5 4 3 1.6 4.16666666666667 "Das vermittelte Wissen ist sehr spannend und es besteht die Möglichkeit mit Menschen zu arbeiten." 4 2 3 5 1 2 1 2 1 3 0 1 0 0 6 3.75 3.25 3.5 6
+"68" 3 4 2 1 1 4 3 4 1 2 1 3 4 4 3.5 4.5 3 5 1.5 3.5 "Interesse" 5 3 5 3 3 2 1 1 2 1 0 1 0 0 5 4 4 3.5 5
+"69" 3 3 4 2 2 1 2 3 3 2 3 1 2.6 1.5 3 4 4 4 2.2 3.83333333333333 "War schon immer mein Traum " 4 2 4 5 1 2 2 1 1 3 0 1 0 0 5 3.75 3.5 2.5 5
+"70" 2 2 2 1 1 2 4 2 3 1 2 2 4 2 5 4 4 3 1.9 2.5 "Traum " 4 2 4 4 1 2 1 2 1 3 0 1 0 0 4 3.75 2.75 3.25 6
+"71" 2 3 3 2 1 1 3 1 4 1 3 2 3.8 4 4.5 4 3.5 2.5 1.9 2.33333333333333 "großes Interesse" 3 2 2 5 3 2 2 1 2 1 0 1 1 0 6 2.5 2.5 1.75 5
+"72" 3 2 3 2 3 2 2 3 3 2 2 2 4.8 3 3.5 4 5 3 2.7 2.5 "Interesse an psychologischen Inhalten und Verhalten des Menschen auch in Freizeit. " 4 NA 3 5 3 2 2 1 2 1 0 1 1 0 5 2.75 2 2 6
+"73" 3 3 2 3 2 2 2 3 2 3 3 2 4 3 3.5 3.5 4 4 2.5 3.33333333333333 "Menschen helfen, Gutes tun, Veränderung" 4 4 4 4 3 2 1 1 2 3 0 1 1 0 6 3 2 2.5 6
+"74" 2 3 2 2 2 1 3 3 2 3 2 2 6.2 3.5 5 5 3 2.5 2.1 1.16666666666667 "Interesse am Verhalten des/der Menschen, etwas bewirken wollen" 4 2 4 5 3 2 1 2 2 2 0 1 1 0 6 3.5 2.75 3.5 6
+"75" 4 3 2 1 2 3 3 3 2 3 3 3 6 5 3 2.5 3 4.5 3.3 2.33333333333333 "Ich will Therapeutin werden und Menschen helfen, in dem ich sie verstehe" 4 2 3 5 3 2 1 1 2 1 0 1 1 0 6 3.5 2.75 3.5 6
+"76" 2 3 1 3 1 2 1 3 2 3 3 2 4 3.5 3 3.5 5 4.5 3.3 2.16666666666667 "Aus Interesse" 3 3 3 4 1 2 2 1 2 4 0 1 1 0 6 3 3.75 3.75 6
+"77" 3 2 3 3 3 1 2 2 4 2 3 1 5.2 2.5 4 4 4.5 3 2.9 2.83333333333333 "Interesse hat in der Schulzeit begonnen" 4 2 2 4 1 2 2 1 2 1 0 1 1 0 5 3 2.5 2.75 4
+"78" 2 3 1 1 1 4 2 3 1 3 1 4 5.4 3 3 4.5 1.5 5 1.5 2.83333333333333 "Hohes Interesse an wissenschaftlichem Arbeiten und an der Psyche des Menschen " 4 2 4 4 3 2 2 1 2 3 0 1 0 0 6 3.75 4 4 6
+"79" 2 2 3 3 3 2 4 2 2 2 3 2 2.8 3 3 2.5 2 5 3.6 3.16666666666667 "weil es das für mich interessanteste Studienfach ist " 2 1 4 4 3 2 1 2 2 1 0 1 0 0 6 NA NA NA NA
+"80" 3 2 3 1 2 2 3 3 3 3 1 2 4.6 3.5 3.5 2.5 4 4 3 2.33333333333333 "Interesse am Thema" 4 2 3 4 2 2 1 1 1 1 0 1 1 0 5 3.5 3 2 4
+"81" 3 2 3 1 3 3 3 3 2 3 2 3 4.6 3.5 2 1.5 3 3 3.3 1.5 "NC" 4 2 2 4 1 2 1 1 1 1 1 0 0 0 5 1.75 2 2.5 5
+"82" 3 2 3 3 4 2 4 2 1 1 3 1 5 3.5 3.5 3 4 3 3.2 2.66666666666667 NA NA 4 3 5 3 2 1 1 2 1 0 1 0 0 6 2.75 1.75 3 6
+"83" 3 2 2 2 3 4 2 3 2 3 2 3 4 4 3 4 2 3 1.9 2.5 "Arbeit mit Menschen" 4 2 4 3 1 2 1 2 1 1 0 1 1 0 5 3 3 3 6
+"84" 3 2 1 1 2 3 3 3 1 3 1 3 6 2.5 4.5 3.5 3 4 2.2 2.83333333333333 "Der Wunsch Therapie anbieten zu können" 4 2 5 5 1 2 2 2 1 4 0 1 0 0 5 3.75 2.25 3 5
+"85" 3 2 2 1 2 2 2 3 3 3 1 2 5.6 4 3.5 4 4 4 2.5 3 "Interesse an menschenbezogener Arbeit und an den psychischen Vorgängen im Menschen" 4 2 4 5 3 2 2 1 2 1 0 1 1 0 5 NA NA NA NA
+"86" 2 2 3 3 3 2 2 2 3 2 3 1 4.2 3 3.5 2 4.5 4.5 3.2 3.33333333333333 "Interesse" 4 3 5 4 3 2 2 1 1 3 1 1 1 0 5 NA NA NA NA
+"87" 3 1 3 2 3 3 4 3 1 2 2 3 4.8 2.5 3.5 4 3.5 4.5 2.7 3.16666666666667 "Faszination, Übereinstimmung mit Wertevorstellung" 4 2 4 5 1 1 2 2 1 3 0 1 0 0 6 3.25 1.25 3 6
+"88" 3 2 1 1 2 3 2 4 2 3 1 3 6 3.5 3 4 3 5 2.5 3.5 "breit gefächert, viele Möglichkeiten, Interesse" 1 3 4 5 3 2 2 1 2 1 0 1 1 0 6 3.25 3 3.5 5
+"89" 4 2 2 1 2 3 3 4 2 2 1 3 4.2 3.5 4 2.5 4 4.5 2.8 3.16666666666667 "Interesse an Gründen für menschliches Handeln" 1 1 4 5 3 2 2 2 1 2 0 1 1 0 6 4 2.25 3.25 6
+"90" 3 2 1 4 2 4 4 3 2 3 1 3 6.2 3 3.5 4.5 3.5 4 2.3 4 "Mein Wunsch" 3 1 5 5 3 2 1 1 2 1 0 1 0 0 5 3.75 4 3.25 5
+"91" 4 4 1 1 2 3 1 4 3 3 1 3 6.2 2 3.5 3 5 4.5 3.8 3.83333333333333 NA 2 3 3 5 1 2 2 1 2 3 0 1 1 0 6 NA NA NA NA
+"92" 1 2 2 3 2 2 3 2 2 2 3 1 3.2 2 1 4.5 2.5 5 2 3 "Berufsperspektive" 4 2 4 5 1 2 2 1 1 4 0 1 0 0 6 3.25 2.25 3 6
+"93" 3 2 1 2 3 4 3 3 1 2 2 4 4.2 2 3.5 2.5 2 3.5 2.6 4.16666666666667 "Keine Ahnung" 5 3 5 4 1 2 2 2 1 2 1 1 1 0 6 2.75 1.75 3.75 6
+"94" 3 3 1 1 1 4 2 3 1 2 1 3 5.6 1.5 1.5 3 1.5 2.5 2.1 4 "Kein spezieller Grund" 5 1 3 4 1 1 1 1 2 3 0 1 1 0 6 3.5 2.75 3.75 6
+"95" 3 3 2 2 3 3 2 3 1 3 2 3 4.6 4 2 2.5 2.5 3.5 2.4 2.5 "persönliches Interesse " 1 2 4 4 3 2 2 1 2 1 0 1 1 0 6 3.25 2.75 3.5 6
+"96" 3 3 2 1 4 3 1 4 1 3 1 3 6.6 4.5 3.5 3.5 3.5 5 2.4 2.33333333333333 "Interesse an menschlichem Verhalten" 3 4 2 4 3 2 2 1 1 1 0 1 1 1 6 3.25 2.75 2.75 5
+"97" 2 2 3 2 3 2 3 2 3 2 2 1 4.2 2.5 3.5 4 4 4.5 2.7 3.83333333333333 NA 4 2 4 5 3 1 2 2 2 2 0 1 0 0 6 3.25 2.75 3.25 6
+"98" 1 2 4 2 2 1 2 2 4 1 4 1 1.6 2.5 3.5 4 5 3 2.3 3.5 "Interesse, Faszination Gehirn" 2 4 4 4 1 2 2 2 2 2 1 1 0 0 4 2 1.75 1.75 4
+"99" 3 2 1 1 1 3 3 3 1 2 1 3 4.6 3.5 4.5 4 3.5 3.5 2.2 3.16666666666667 "weil es mich unfassbar interessiert und ich mehr lernen will" 2 3 4 5 3 2 2 2 1 2 0 1 1 0 6 3.25 3 2.5 6
+"100" 3 3 2 2 2 2 2 3 2 3 3 3 5.4 3.5 3.5 3.5 3.5 2.5 2.4 2.33333333333333 "Breites Berufsfeld, um aktiven Einfluss im Leben anderer zu haben und ihnen zu helfen" 3 2 3 5 3 2 1 1 1 2 0 1 1 0 6 3 3.25 2.75 6
+"101" 2 3 3 2 3 3 2 2 2 2 2 2 5.8 3 3.5 4 3 4 2.4 2.83333333333333 "Psychotherapeutin werden wollen" 4 2 3 5 1 2 2 2 1 2 0 1 0 0 5 2.75 2.75 3 5
+"102" 3 3 1 1 1 3 1 3 1 2 2 3 6 3 3 3 2 2 2.6 2.5 "Interesse an der Psychologie des Menschen" NA 2 3 4 NA 2 1 1 1 NA 0 1 0 0 5 NA NA NA NA
+"103" 3 3 1 1 3 3 2 4 2 4 1 3 5.8 4.5 3 3 1.5 3.5 1.8 2.33333333333333 "Berufswunsch" 3 2 5 4 3 2 1 1 1 2 0 0 0 0 6 2.5 2.25 2.5 6
+"104" 3 3 1 2 2 3 2 3 1 2 1 3 5 2.5 5 3.5 5 4 2.8 2.66666666666667 NA 2 3 4 4 1 2 2 1 2 NA 0 1 1 0 5 3.25 2.25 3.5 6
+"105" 2 2 2 1 3 3 4 4 2 2 2 3 3.6 3 3 4 1.5 4.5 2.1 2.33333333333333 "Verhaltensmuster vorhersagen " 4 2 3 4 3 2 1 2 1 2 0 1 0 0 5 3.75 2 3 4
+"106" 2 2 4 3 2 1 3 3 4 1 4 1 7 4 3 2 2.5 2 3.4 2.66666666666667 "Interesse an der Psyche des Menschen " 2 3 3 4 3 2 1 1 2 1 0 1 0 0 5 2.25 2 1.75 6
+"107" 3 3 2 1 3 2 3 3 3 2 3 2 6.2 4 2 3.5 4.5 5 2.2 3.16666666666667 NA 2 4 3 5 1 2 1 1 2 4 0 1 1 1 6 2 2.25 2 4
+"108" 3 3 3 1 1 1 1 4 2 3 2 2 6 3.5 3.5 3 3.5 1.5 3 2.83333333333333 "Persönliches Interesse " 4 2 4 4 1 2 1 1 1 4 1 1 1 0 5 3.25 2.25 2 4
+"109" 4 3 2 1 2 3 2 3 1 3 2 3 6.4 3 4.5 4.5 3.5 3 2 3.83333333333333 "persönliches Interesse" 2 2 4 4 3 2 2 1 2 1 0 1 0 0 6 3.75 3.5 3.25 6
+"110" 3 3 2 1 2 3 3 3 2 3 1 3 5 2.5 4 4 3.5 3 2.2 2.66666666666667 "Berufswunsch" 4 4 4 5 3 2 2 1 2 3 0 1 0 0 5 3.25 2.25 3.25 6
+"111" 3 2 2 2 2 3 2 3 2 2 2 3 5.4 3.5 3.5 4 4 2 3 3.5 "Interesse für das Menschliche Verhalten" 5 3 5 4 3 1 1 2 1 2 1 1 0 0 4 3.25 2.25 3 4
+"112" 3 2 3 1 1 2 2 4 2 3 1 2 5.8 3.5 4 3 3 4.5 2.8 3.16666666666667 NA 4 NA 5 5 NA 1 2 2 1 4 0 1 0 0 5 3 3 2.5 3
+"113" 4 3 1 1 1 4 3 4 1 2 1 4 5.8 2.5 3 4 2.5 4 1.9 2.5 NA 4 2 2 4 3 2 1 2 1 3 0 1 1 1 6 3.75 3 3.75 6
+"114" 3 3 3 1 1 3 2 3 2 3 2 2 3.8 2.5 4 3 4 4.5 3 3.5 "Mich hat die Psyche und das Verhalten von Menschen interessiert" 1 1 3 5 3 2 2 1 2 1 0 1 1 0 5 3.25 3.25 3.25 6
+"115" 4 3 2 1 1 3 2 4 1 4 1 3 6 4 3.5 4 2 4 2.2 2.66666666666667 "Verhaltensweisen verstehen, Psychisch erkrankten Menschen helfen, " 4 2 4 5 3 1 2 1 2 4 0 1 1 1 5 NA NA NA NA
+"116" 3 2 1 1 2 2 3 3 2 3 2 2 5.8 4 5 4 4.5 4.5 1.6 3.5 "Interesse, Wunsch in diesem Feld beruflich tätig zu sein." 4 2 3 5 3 2 1 2 2 4 0 1 0 1 6 NA NA NA NA
+"117" 3 3 1 1 1 4 3 4 1 3 1 2 4.8 3 4.5 3.5 3.5 3.5 2.4 2.66666666666667 "Interesse zufällig durch ein Buch gefunden" 2 2 5 5 3 2 1 1 2 4 0 1 1 1 6 3.75 3 3.75 6
+"118" 3 4 2 2 2 4 1 3 1 2 3 3 6.8 4.5 4 2.5 4 5 3.4 3.16666666666667 "Interesse" 4 2 3 5 1 2 1 1 1 3 0 1 1 0 6 NA NA NA NA
+"119" 3 2 2 1 4 2 3 3 3 2 3 1 3.6 1.5 2 3.5 4 2 2.8 3.16666666666667 "Ich möchte einen Teil beitragen." 4 2 2 5 3 2 1 1 2 1 0 1 0 0 6 3.5 1.75 2.75 6
+"120" 3 1 3 1 3 3 3 4 2 4 1 2 6.2 4.5 4.5 3.5 3 2.5 3 2.66666666666667 "Traum " 2 3 5 4 3 2 1 2 2 2 0 1 1 0 6 3.5 2 3.5 6
+"121" 4 3 2 1 2 4 1 3 1 3 1 4 3.2 2 4 3 3.5 3.5 3.5 1.83333333333333 "menschliche Psyche und Verhalten verstehen" 4 2 2 4 1 2 2 1 3 1 1 1 0 0 6 3.5 3 4 6
+"122" 3 3 2 1 2 3 3 3 1 3 1 3 5.6 3.5 4 4 2.5 3.5 2.9 2.5 "Interesse" 1 2 2 5 3 2 1 1 2 3 0 1 1 1 6 NA NA NA NA
+"123" 2 2 2 1 3 2 3 3 1 2 1 3 5.4 2 4 3.5 4.5 3 2 3 "Interessant, möchte in die klinische Psychotheraphie " 1 2 3 5 1 2 1 1 2 3 0 1 0 0 6 2.25 1.25 2.5 6
+"124" 2 3 3 2 2 2 2 2 3 2 3 1 5.6 3.5 3 3.5 4.5 2.5 3 3.33333333333333 "spannende Berufsoptionen" 1 4 4 4 3 2 1 1 2 1 0 1 1 0 5 2 2.25 2 5
+"125" 3 2 3 1 2 3 3 2 2 2 1 3 4.6 2 3 3 2.5 4.5 2.2 4 "Interesse an Arbeit als Therapeut" 4 2 3 5 3 2 1 2 1 2 0 1 1 0 5 3 2.5 3.5 6
+"126" 3 2 1 1 2 3 1 3 1 3 1 2 4.8 2.5 5 4 3.5 5 2.4 3.83333333333333 "Interesse" 2 3 3 4 3 2 2 1 2 1 0 1 1 0 6 3.75 3.25 3.5 5
+"127" 3 3 2 1 1 3 2 3 1 3 1 3 5.6 4 3.5 2.5 2 3 2.6 3.33333333333333 "interesse an der Thematik" 2 2 4 5 3 2 2 2 1 2 0 1 0 0 6 3.5 3 3 6
+"128" 2 2 3 3 4 2 4 2 3 1 2 1 3.2 2 2.5 3 4.5 4 2.9 2.5 NA NA NA 2 5 1 2 2 1 1 NA 1 1 1 1 5 3.75 2.75 3 6
+"129" 4 3 2 1 1 4 2 4 2 4 1 3 6.2 2.5 4 4 3 4 2 2.83333333333333 "Menschen mit Therapie helfen" 2 2 4 5 3 2 1 2 1 2 0 1 1 0 5 3.5 3 3.25 5
+"130" 4 3 1 1 2 3 2 4 1 4 1 3 5.4 4 5 4 4 4.5 2.3 3.66666666666667 "Interesse am Menschen" 4 2 5 3 1 2 1 1 1 1 0 1 1 0 5 3.75 4 4 6
+"131" 3 2 3 2 3 2 3 3 3 2 2 2 4.4 3 2.5 3 4.5 4.5 3.1 3.16666666666667 "Psychologie Unterricht in Schule hat Spaß gemacht" 3 2 2 4 2 1 2 1 1 3 0 1 0 1 5 NA NA NA NA
+"132" 3 3 1 2 2 3 2 3 2 3 2 3 5.6 3 4 3 3 4.5 3 3.16666666666667 "Interesse und Faszination für menschliche Psyche und sinnvoll" 4 2 4 4 1 2 1 1 1 3 0 1 1 0 5 3 2.75 3.5 6
+"133" 3 2 2 2 3 2 3 2 2 2 3 2 5.4 2.5 4 3.5 3.5 3 3.1 3.5 "klingt sehr interessant, notwendig für Berufswunsch" 1 2 3 4 1 1 2 1 2 4 0 1 0 0 6 NA NA NA NA
+"134" 3 2 2 2 3 3 3 3 3 2 2 3 4.2 2.5 4 3 3 4 2.3 2.66666666666667 "Ich möchte Psychotherapeutin werden" 4 2 3 2 3 2 1 1 1 3 0 1 1 0 5 NA NA NA NA
+"135" 4 4 3 1 1 1 2 3 3 4 3 3 4.4 2.5 3 3 3 3 2.4 3 "Ich habe meine Interesse an Leute zu behandeln " 1 2 3 3 3 2 2 1 1 3 1 0 0 0 5 NA NA NA NA
+"136" 2 2 3 2 3 1 3 3 3 2 2 2 4.4 1.5 3.5 3 4.5 3 3.5 3.33333333333333 "Interesse, Verbindung aus Natur und Geisteswissenschaften " 2 3 4 4 1 2 2 1 2 3 0 1 1 0 5 3 2.25 2.5 4
+"137" 2 2 3 3 4 1 3 2 3 1 4 1 2.8 2.5 3.5 2.5 5 3.5 3 3.16666666666667 NA NA NA 3 3 1 2 2 2 2 NA 0 1 0 0 4 2 2.25 2.25 3
+"138" 3 2 2 1 2 3 3 4 3 2 2 2 6.4 3 2 4 3.5 2 2.7 1.83333333333333 "Interesse daran, herauszufinden warum der Mensch ist wie er ist" 4 4 2 5 NA 2 1 2 1 2 0 1 1 0 6 3 2.5 2.5 5
+"139" 2 3 1 2 2 3 1 3 1 2 1 2 5.4 4.5 2.5 4.5 2.5 2.5 2.1 2.5 NA NA NA NA NA NA NA NA NA NA NA 0 0 0 0 NA NA NA NA NA
+"140" 3 3 2 1 3 2 3 3 2 2 2 3 5.6 2 3 3.5 2.5 3.5 2.4 3.33333333333333 "Interesse am Geist" 1 3 4 4 1 2 1 1 1 2 0 0 0 0 4 3.25 2 3.25 5
+"141" 3 1 4 2 1 4 2 3 3 2 4 3 5 5 2.5 4 1 3 3.1 3.5 "platz bekommen" 1 2 5 5 3 2 2 1 2 1 1 1 0 0 5 NA NA NA NA
+"142" 3 3 1 1 1 3 1 4 2 4 1 2 6.4 4 2.5 4.5 3.5 4.5 2 1.83333333333333 "Therapeutin werden, Arbeit mit Menschen, Interesse an Menschen" 4 2 4 5 3 2 1 2 1 4 0 1 0 0 5 3.5 3.75 3 6
+"143" 2 3 2 1 1 3 1 3 2 2 3 3 5 3.5 4 3.5 4 3.5 2.1 3 "aufgrund eines FSJ Praktikums = Traumberuf" 4 2 3 4 3 2 2 1 1 3 0 1 1 0 5 2.25 2.5 1.5 5
+"144" 2 3 2 1 2 2 2 3 3 2 1 2 5.2 3.5 3 4 3.5 4.5 1.9 3.16666666666667 "ich interessiere mich sehr für die psyche der Menschen und war selber schon oft in Berührung mit Psychotherapeuten und Therapie " 1 4 5 3 1 2 1 1 1 2 0 1 1 0 6 3.25 2.75 2.5 5
+"145" 3 4 2 1 1 3 1 3 2 3 1 3 6 3.5 2.5 4 2.5 3 1.9 3 "Akademische Anerkennung,Interesse,finanzielle Möglichkeiten" 1 3 4 5 3 2 2 1 2 3 0 1 0 1 6 NA NA NA NA
+"146" 3 2 1 1 2 2 2 4 2 2 1 2 5.4 3 4.5 4 4 3.5 2.8 3.33333333333333 "Weil es sich mit meinen Interessen deckt." 3 3 4 4 1 2 2 2 1 2 0 1 0 0 4 4 3 3.5 5
+"147" 4 4 2 1 1 3 1 4 2 3 1 3 6.8 3 4 5 2 2 2.2 2.66666666666667 "Ich finde es interessant den Menschen und sein Verhalten zu studieren." 1 2 4 3 3 2 1 2 1 3 0 1 1 0 6 3.5 3.25 3.5 6
+"148" 3 2 1 2 3 2 4 3 2 2 1 3 4.2 2 3.5 4 5 2.5 2.4 3 "Interesse" 2 2 3 5 3 2 1 2 2 2 0 1 0 0 6 3.25 2.5 3.25 6
+"149" 3 3 2 1 2 3 3 4 2 3 1 3 2.8 2.5 3 2.5 4 4 2.9 4.16666666666667 "Karrieremöglichkeiten, tiefgründiges Interesse, Anerkennung" 4 2 5 5 1 1 1 1 3 2 0 1 1 0 6 4 3.25 2.75 6
+"150" 2 2 1 1 2 2 2 2 1 2 1 3 5.2 4 2.5 3.5 2.5 3.5 2.8 2.66666666666667 "Sinnvolle Aufgabe " 4 2 5 5 1 2 2 2 2 3 0 0 1 0 4 NA NA NA NA
+"151" 3 4 2 1 1 3 1 3 1 3 2 3 6.2 4 4.5 3 1.5 3 1.8 2.5 "Interesse" 1 2 3 4 1 2 2 1 2 NA 0 1 1 1 6 2.5 2.5 2.5 3
+"152" 3 1 3 1 3 1 4 3 4 2 4 1 5.6 2.5 2 3 4 5 2.7 4.33333333333333 "Menschen helfen" 4 2 3 4 3 2 1 2 3 2 0 1 1 0 6 3.5 2 3 6
+"153" 3 2 1 1 3 3 3 3 1 2 1 2 5.6 4 5 3.5 4 3.5 2.6 3.16666666666667 "persönliches Interesse" 4 2 4 5 1 2 2 1 2 1 0 1 1 1 5 3.5 2.5 2.75 5
+"154" 2 3 3 3 2 2 1 2 1 2 2 2 5.6 2.5 4 4.5 4.5 3 2.4 2.33333333333333 NA NA 2 3 4 1 2 1 1 2 4 0 1 0 0 5 2.5 3.25 3.25 3
+"155" 3 2 3 1 2 3 2 4 1 3 1 3 7 5 4.5 3.5 3 5 1.8 2.66666666666667 "Langjähriges Interesse, Verstehen wollen" 1 3 4 5 3 2 2 2 1 2 1 1 1 0 6 3.75 3.5 2.75 6
+"156" 3 2 2 1 2 3 3 3 1 3 1 3 5 2.5 4 5 3.5 4 2.1 2.66666666666667 NA NA NA 4 4 NA 2 1 1 2 3 0 1 0 0 5 3.5 2.5 3.25 5
+"157" 3 2 3 2 3 2 3 2 2 3 3 2 4 4 4.5 2.5 4 2 3.3 2.83333333333333 "Interesse, Wunsch Menschen zu helfen" 4 2 4 5 1 2 1 2 2 2 0 1 0 0 6 3 3 2.25 5
+"158" 4 3 2 1 2 3 2 3 2 2 1 3 5.2 4 3.5 3.5 3.5 5 2.6 3.16666666666667 "Arbeit mit anderen Personen, Hilfe und Vertrauen schenken" 4 2 4 5 3 2 2 2 1 2 0 1 0 0 5 3.25 3 3.5 6
+"159" 3 2 2 2 3 4 4 3 2 2 1 4 6.4 5 2 4 2.5 4 2.2 1.83333333333333 "daran interessiert, anderen Menschen zu helfen" 4 2 2 5 3 2 2 1 2 1 0 1 1 1 6 3 1.75 4 6
+"160" 3 2 1 1 3 3 4 4 1 3 1 3 5.6 3.5 4.5 3 3 5 2.4 4.5 "Interesse" 4 2 2 5 3 2 2 1 2 1 0 1 1 0 6 3.75 3 4 6
+"161" 2 2 4 2 2 1 2 2 4 2 3 1 5 4.5 3.5 3.5 3 5 3.2 2.83333333333333 "interesse an Forensik + klinischer Psychologie" 4 3 5 5 3 2 1 2 1 1 0 1 0 0 6 1 1.25 1.75 6
+"162" 2 3 4 2 3 2 3 3 3 2 1 1 3.6 4 4 3.5 5 3 3.5 3 "Interesse, Berufswunsch" 4 2 4 5 3 2 1 2 2 3 0 1 0 0 6 3.5 3 2.75 6
+"163" 3 3 2 1 1 3 2 3 1 3 1 4 5.2 4.5 3 5 2 4.5 1.6 2.33333333333333 "Passt zu meinen Interessen, Fähigkeiten " 2 2 1 5 1 2 2 1 2 3 0 1 1 0 5 3 1.75 3.5 6
+"164" 1 3 4 3 4 3 3 1 1 2 2 1 6.6 3.5 3.5 4 5 4.5 2.4 3.16666666666667 "Traumberuf" 4 1 3 3 3 2 1 1 1 3 0 0 0 0 6 2.5 2.5 2 6
+"165" 3 3 2 2 1 1 2 3 3 3 2 2 5.8 4 5 3.5 2.5 2 2.5 2 "Interesse" 4 2 3 5 3 2 1 1 2 1 0 1 1 0 5 2.75 2.25 2.25 5
+"166" 3 3 2 2 2 2 3 3 2 2 3 1 3.8 3 4 2.5 4 2.5 2.7 2.33333333333333 "Da mich mehrere Menschen schon als Psychologen nennen und ich habe Erfahrungen gesammelt " 2 1 2 4 2 2 1 1 1 3 1 1 0 0 6 NA NA NA NA
+"167" 3 4 1 1 3 4 4 3 2 3 2 4 3.6 3 4 2.5 4.5 3.5 2 2.5 NA 2 3 4 4 3 2 1 1 2 NA 0 1 1 0 6 3.75 2.25 4 6
+"168" 3 2 3 2 2 2 3 3 3 2 1 2 4 3 3.5 3.5 4 2 2.4 3.33333333333333 "Interessiere mich dafür" 4 2 5 5 1 2 1 1 1 4 0 1 0 0 6 3 2.5 2 6
+"169" 3 2 2 1 3 1 3 3 3 1 3 3 3.8 3 3 3 5 3.5 2.5 2.66666666666667 "'zweite Option nach Medizin" 2 3 4 4 1 2 2 1 2 1 0 1 1 0 6 3 2 1.75 5
+"170" 2 2 3 1 3 2 2 3 3 2 1 2 5.6 2.5 5 2 4 3 2.8 2.83333333333333 "Interesse an Studieninhalten" 1 2 2 5 1 2 2 1 2 4 0 1 0 0 6 3.25 2.5 2.75 5
+"171" 2 4 1 1 2 4 1 3 1 4 1 3 5.2 5 3 2.5 2.5 5 3.3 3.5 "Vielfalt" 1 1 4 4 1 1 1 2 1 2 0 1 0 0 3 NA NA NA NA
+"172" 2 2 3 2 2 2 4 2 3 2 2 2 5.8 1 3.5 3.5 5 4 3 4.16666666666667 "Interesse am menschlichen Verhalten und dessen Ursachen" 4 2 4 5 3 2 1 2 1 2 0 1 0 0 6 NA NA NA NA
+"173" 4 2 1 1 1 4 4 3 1 3 1 3 5.4 4 4.5 3 1 4 2.1 3.83333333333333 "Passion" 4 2 5 5 3 2 1 2 2 3 1 1 0 0 6 3.75 3.5 3.75 6
+"174" 3 2 3 2 3 2 3 2 3 1 2 2 3.6 2.5 4 3.5 4.5 4 3.1 2.66666666666667 NA 1 2 3 4 1 1 1 1 2 3 0 1 0 0 6 3.25 2 3 6
+"175" 4 3 1 1 2 4 2 4 1 2 1 4 6.2 4 3 2.5 2.5 4 1.9 2.5 NA 1 2 2 5 NA 2 2 1 2 NA 0 1 1 0 5 4 3.25 4 5
+"176" 2 3 2 1 1 2 1 3 2 3 1 3 6 3.5 4 2 3 4 3.6 2.16666666666667 "Die Bandbreite an Themen und Inhalten" 3 2 3 5 3 2 2 1 2 1 0 1 0 1 6 3.25 3 2.75 6
+"177" 4 3 1 1 2 3 2 4 1 3 1 2 6.2 4 4 3.5 2 4 2.1 2.66666666666667 "Kombination mit vorherigem Studium " 2 4 5 5 3 2 1 1 1 4 0 1 1 1 5 3.75 3 3.5 5
+"178" 3 2 4 2 3 2 3 3 3 2 2 2 6 2.5 4 4 3 3.5 2.1 3.66666666666667 "Interesse" 1 1 4 4 3 1 1 1 1 3 1 1 0 1 5 3 2.25 2.75 5
+"179" 3 2 2 1 1 3 3 4 2 3 2 2 5.4 2 5 4 4.5 3.5 2.2 2.16666666666667 NA NA NA 3 5 NA 2 2 2 2 NA 0 1 0 0 6 3.5 3 2.75 6

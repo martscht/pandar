@@ -46,8 +46,8 @@ sections:
     id: lehre-features
     content:
       title: 'R in der Psychologie'
-      subtitle: 'Der Einstieg zur Methodenlehre im Bachelor und Master'
-      text: 'Hier eine Auswahl der Beiträge für die Lehre in der Psychologie, die sich gut für einen Einstieg in verschiedene Themen eignen. Den Überblick über alle Lehrinhalte findest du [hier](/lehre/main)! <br><br>'
+      subtitle: 'Die aktuellen Beiträge für die Methodenlehre im Bachelor und Master'
+      text: 'Hier findest du die Beiträge, die für die aktuelle Woche in unseren Lehrveranstaltungen relevant sind. Einen Überblick über alle Lehrinhalte findest du [hier](/lehre/main)! <br><br>'
       # Choose how many pages you would like to display (0 = all pages)
       count: 4
       # Filter on criteria
