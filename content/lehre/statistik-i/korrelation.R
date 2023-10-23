@@ -60,6 +60,8 @@ cov(fb23$vertr, fb23$lz)              #Kovarianz Verträglichkeit und Lebenszufr
 na_test <- fb23[, c('vertr','gewis',"neuro",'lz')] #Datensatzreduktion
 cov(na_test)                                       #Kovarianzmatrix   
 
+cov(na_test, use = "everything")         # Kovarianzmatrix mit Argument   
+
 cov(na_test, use = 'pairwise')             #Paarweiser Fallausschluss
 
 cov(na_test, use = 'complete')             #Listenweiser Fallausschluss
