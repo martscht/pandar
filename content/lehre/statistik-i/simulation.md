@@ -8,8 +8,8 @@ tags: ["Einführung", "Datenmanagement", "Grundlagen", "Hilfe"]
 subtitle: ''
 summary: '' 
 authors: [] 
-weight: 10
-lastmod: '2023-10-11'
+weight: 8
+lastmod: '2023-10-24'
 featured: no
 banner:
   image: "/header/BSc2_Sim_Power_new.jpg"
@@ -208,8 +208,8 @@ replicate(n = 10, expr = {X_1 <- rnorm(N)
 ```
 
 ```
-##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306
-##  [8] 0.43862992 0.96766599 0.68865560
+##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306 0.43862992
+##  [9] 0.96766599 0.68865560
 ```
 
 Uns werden insgesamt 10 $p$-Werte übergeben. Wenn wir genau hinsehen, dann erkennen wir den ersten $p$-Wert wieder. Dies ist der $p$-Wert unseres Experiments weiter oben. Wiederholen wir nun das Experiment nicht nur 10 Mal, sondern 10000 Mal, dann erhalten wir eine gute Übersicht über das Verhalten der $p$-Werte unter den Bedingungen, die wir vorgegeben haben: Gültigkeit der Nullhypothese und Standardnormalverteilung der beiden von einander unabhängigen Variablen. Damit uns die 10000 Werte nicht einfach in die Konsole gedruckt werden, legen wir sie im Objekt `pt_H0` ab (für $p$-Werte für den $t$-Test unter der $H_0$-Hypothese):

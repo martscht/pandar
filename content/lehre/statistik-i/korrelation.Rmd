@@ -8,7 +8,7 @@ tags: ["Korrelation", "Grundlagen", "Hilfe"]
 subtitle: ''
 summary: '' 
 authors: [nehler, winkler, schroeder, neubauer]
-weight: 8
+weight: 9
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
