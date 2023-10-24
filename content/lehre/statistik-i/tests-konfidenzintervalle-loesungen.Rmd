@@ -14,8 +14,8 @@ banner:
   image: "/header/BSc2_Tests.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)"
 projects: []
-expiryDate:
-publishDate: '2023-12-10'
+expiryDate: '2024-10-10'
+publishDate: '2023-11-30'
 _build:
   list: never
 reading_time: false
