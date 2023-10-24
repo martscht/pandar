@@ -2,12 +2,12 @@
 title: "Tests und Konfidenzintervalle - Lösungen" 
 type: post
 date: '2020-12-11' 
-slug: tests-konfidenzintervalle-loesungen 
+slug: tests-konfidenzintervalle-loesungen
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
-authors: [scheppa-lahyani, nehler] 
+authors: [scheppa-lahyani, nehler, vogler] 
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
@@ -29,59 +29,46 @@ output:
 
 <details><summary>Lösung</summary>
 
-Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/tests-konfidenzintervalle/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+Laden Sie zunächst den Datensatz `fb23` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb23.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/tests-konfidenzintervalle/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 ```{r}
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb22$geschl_faktor <- factor(fb22$geschl,
-                             levels = 1:3,
-                             labels = c("weiblich", "männlich", "anderes"))
-fb22$fach <- factor(fb22$fach,
+fb23$hand_factor <- factor(fb23$hand,
+                           levels = 1:2,
+                           labels = c("links", "rechts"))
+
+fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
-                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb22$ziel <- factor(fb22$ziel,
-                        levels = 1:4,
-                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb22$wohnen <- factor(fb22$wohnen, 
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung',
+                               'Klinische', 'Diag./Meth.'))
+
+fb23$ziel <- factor(fb23$ziel,
+                    levels = 1:4,
+                    labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
+
+fb23$wohnen <- factor(fb23$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
-# Skalenbildung
-
-fb22$prok2_r <- -1 * (fb22$prok2 - 5)
-fb22$prok3_r <- -1 * (fb22$prok3 - 5)
-fb22$prok5_r <- -1 * (fb22$prok5 - 5)
-fb22$prok7_r <- -1 * (fb22$prok7 - 5)
-fb22$prok8_r <- -1 * (fb22$prok8 - 5)
-
-# Prokrastination
-fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
-                          'prok4', 'prok5_r', 'prok6',
-                          'prok7_r', 'prok8_r', 'prok9', 
-                          'prok10')] |> rowMeans()
-# Naturverbundenheit
-fb22$nr_ges <-  fb22[, c('nr1', 'nr2', 'nr3', 'nr4', 'nr5',  'nr6')] |> rowMeans()
-fb22$nr_ges_z <- scale(fb22$nr_ges) # Standardisiert
-
 # Weitere Standardisierugen
-fb22$nerd_std <- scale(fb22$nerd)
-fb22$neuro_std <- scale(fb22$neuro)
+fb23$nerd_std <- scale(fb23$nerd)
+fb23$neuro_std <- scale(fb23$neuro)
 
 ```
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat:
 
 ```{r}
-dim(fb22)
-str(fb22)
+dim(fb23)
+str(fb23)
 ```
 
-Der Datensatz besteht aus `r nrow(fb22)` Zeilen (Beobachtungen) und `r ncol(fb22)` Spalten (Variablen). Falls Sie weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus `r nrow(fb23)` Zeilen (Beobachtungen) und `r ncol(fb23)` Spalten (Variablen). Falls Sie weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 </details>
 
@@ -120,25 +107,25 @@ Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 **Variante 1**:
 
 ```{r}
-mean.lz <- mean(fb22$lz, na.rm = T) #Mittelwert
-mean.lz
+mean_lz <- mean(fb23$lz, na.rm = T) #Mittelwert
+mean_lz
 
-sd.lz <- sd(fb22$lz, na.rm = T) #Standardabweichung
-sd.lz
+sd_lz <- sd(fb23$lz, na.rm = T) #Standardabweichung
+sd_lz
 
-n.lz <- length(na.omit(fb22$lz)) #Stichprobengröße
-se.lz <- sd.lz/sqrt(n.lz) #Standardfehler
-se.lz
+n_lz <- length(na.omit(fb23$lz)) #Stichprobengröße
+se_lz <- sd_lz / sqrt(n_lz) #Standardfehler
+se_lz
 ```
 
-* Der Mittelwert der Lebenszufriedenheit in der Stichprobe liegt bei `r round(mean.lz, digits = 3)`.
-* Die Standardabweichung der Lebenszufriedenheit beträgt `r round(sd.lz, digits = 3)`.
-* Der Standardfehler der Lebenszufriedenheit beträgt `r round(se.lz, digits = 3)`.
+* Der Mittelwert der Lebenszufriedenheit in der Stichprobe liegt bei `r round(mean_lz, digits = 3)`.
+* Die Standardabweichung der Lebenszufriedenheit beträgt `r round(sd_lz, digits = 3)`.
+* Der Standardfehler der Lebenszufriedenheit beträgt `r round(se_lz, digits = 3)`.
 
 **Variante 2**:
 
 ```{r}
-describe(fb22$lz) #Funktion aus Paket "psych"
+describe(fb23$lz) #Funktion aus Paket "psych"
 ```
 
 </details>
@@ -151,11 +138,11 @@ describe(fb22$lz) #Funktion aus Paket "psych"
 
 ```{r}
 #geeigneter Plot: QQ-Plot. Alle Punkte sollten auf einer Linie liegen.
-qqnorm(fb22$lz)
-qqline(fb22$lz)
+qqnorm(fb23$lz)
+qqline(fb23$lz)
 
 #Die qqPlot-Funktion zeichnet ein Konfidenzintervall in den QQ-Plot. Dies macht es für Betrachter:innen einfacher zu entscheiden, ob alle Punkte in etwa auf einer Linie liegen. Die Punkte sollten nicht außerhalb der blauen Linien liegen.
-qqPlot(fb22$lz)
+qqPlot(fb23$lz)
 
 ```
 Beide Darstellungsweisen des QQ-Plot weisen darauf hin, dass die Daten **nicht** normalverteilt sind.
@@ -184,9 +171,21 @@ $H_1$: Die durchschnittliche Lebenzufriedenheit der Psychologie-Studierenden $\m
 $H_1$: $\mu_0$ $\neq$ $\mu_1$
 
 ```{r}
-t.test(fb22$lz, mu=4.4)
-t.test(fb22$lz, mu=4.4, conf.level = 0.99) #Default ist 95%, deshalb erhöhen wir auf 99%
+t.test(fb23$lz, mu=4.4)
+t.test(fb23$lz, mu=4.4, conf.level = 0.99) #Default ist 95%, deshalb erhöhen wir auf 99%
 ```
+
+Zuvor ist uns aufgefallen, dass die Lebenszufriedenheit nicht normalskaliert ist.
+Außerdem haben wir gelernt das ab *n* > 30 der zentrale Grenzwertsatz greift. Es
+gibt aber auch noch die Möglichkeit auf einen Test mit weniger strengen Voraussetzungen zurückzugreifen. Dafür büßen wir etwas Power ($1 - \beta$) ein. Das heißt, wenn ein Effekt vorliegt ist es schwerer (unwahrscheinlicher) diesen nachzuweisen.
+Einen solchen Test lernt ihr im nächsten Kapitel kennen und der
+Vollständigkeit halber werden wir in hier vorrechnen. Dabei handelt es sich um den Wilcoxon-Test.
+
+```{r}
+wilcox.test(fb23$lz, mu = 4.4, conf.level = 0.99) #gleiche Argumente wie beim t-Test
+```
+
+Auch dieser Test fällt signifikant aus. Daraus können wir schließen:
 
 Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die Psychologie-Studierenden unterscheiden sich in ihrer Lebenszufriedenheit von der Gesamtbevölkerung. 
 
@@ -217,18 +216,18 @@ $H_1$: Die durchschnittliche Abschlussnote der Psychologie-Studierenden $\mu_1$ 
 $H_1$: $\mu_0$ $>$ $\mu_1$
 
 ```{r}
-mean.note <- 2.01 #Mittelwert alt
-mean.sd <- 0.57 #Standardabweichung alt
-n.new.note <- 140 #Stichprobengröße
-new.mean.note <- 1.81 #Mittelwert neu
-se.mean.note <- 0.57/sqrt(n.new.note) #Standardfehler
-z.note <- abs((new.mean.note-mean.note)/se.mean.note) #empirischer z-Wert
-z.note
+mean_note <- 2.01 #Mittelwert alt
+mean_sd <- 0.57 #Standardabweichung alt
+n_new_note <- 140 #Stichprobengröße
+new_mean_note <- 1.81 #Mittelwert neu
+se_mean_note <- 0.57/sqrt(n_new_note) #Standardfehler
+z_note <- abs((new_mean_note - mean_note)/se_mean_note) #empirischer z-Wert
+z_note
 
-z_krit <- qnorm(1-.05) #kritischer z-Wert
+z_krit <- qnorm(1 - .05) #kritischer z-Wert
 z_krit
 
-z.note > z_krit #Signifikanzentscheidung
+z_note > z_krit #Signifikanzentscheidung
 ```
 
 Mit einer Irrtumswahrscheinlichkeit von 5% wird die $H_0$ (keine Veränderung) verworfen. Die Abschlussnote hat sich über die Jahre verbessert.
@@ -242,14 +241,14 @@ Mit einer Irrtumswahrscheinlichkeit von 5% wird die $H_0$ (keine Veränderung) v
 <details><summary>Lösung</summary>
 
 ```{r, echo = FALSE}
-p.norm <- pnorm(q = 1.81, mean = 2.01,sd = .57, lower.tail = T)*100
+p_norm <- pnorm(q = 1.81, mean = 2.01, sd = .57, lower.tail = T) * 100
 ```
 
 ```{r}
-pnorm(q = 1.81, mean = 2.01,sd = .57, lower.tail = T)*100
+pnorm(q = 1.81, mean = 2.01, sd = .57, lower.tail = T)*100
 ```
 
-Nur `r round(p.norm, digits = 2)`% der Fälle hatten eine bessere Abschlussnote als 1.81. Dies unterstützt das Ergebnis, dass sich der neue Wert von dem bisherigen Mittelwert unterscheidet.  
+Nur `r round(p_norm, digits = 2)`% der Fälle hatten eine bessere Abschlussnote als 1.81. Dies unterstützt das Ergebnis, dass sich der neue Wert von dem bisherigen Mittelwert unterscheidet.  
 
 </details>
 
@@ -274,28 +273,28 @@ $H_1$: Die durchschnittlichen Extraversionswerte der Psychologie-Studierenden $\
 $H_1$: $\mu_0$ $\neq$ $\mu_1$
 
 ```{r}
-t.test(fb22$extra, mu=3.5)
+t.test(fb23$extra, mu = 3.5)
 ```
 
 ```{r, echo = FALSE}
-t.test1 <- t.test(fb22$extra, mu=3.5)
-conf.int1 <- t.test1$conf.int
+t_test1 <- t.test(fb23$extra, mu = 3.5)
+conf_int1 <- t_test1$conf.int
 ```
 
 Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die Psychologie-Studierenden unterscheiden sich in ihrer Extraversion von der Gesamtbevölkerung. 
-Das 95%-ige Konfidenzintervall liegt zwischen `r round(conf.int1[1], digits = 2)` und `r round(conf.int1[2], digits = 2)`. Das bedeutet, dass in 95% der Fälle in einer wiederholten Ziehung aus der Grundgesamtheit die mittleren Extraversionswerte zwischen `r round(conf.int1[1], digits = 2)` und `r round(conf.int1[2], digits = 2)` liegen.
+Das 95%-ige Konfidenzintervall liegt zwischen `r round(conf_int1[1], digits = 2)` und `r round(conf_int1[2], digits = 2)`. Das bedeutet, dass in 95% der Fälle in einer wiederholten Ziehung aus der Grundgesamtheit die mittleren Extraversionswerte zwischen `r round(conf_int1[1], digits = 2)` und `r round(conf_int1[2], digits = 2)` liegen.
 
 **Effektgröße:**
 
 ```{r}
-mean_extra <- mean(fb22$extra, na.rm = T) #MW der Stichprobe
-sd_extra <- sd(fb22$extra, na.rm = T) #Stichproben SD (Populationsschätzer)
-mean_Popu_extra <- 3.5 #MW der Grundgesamtheit
-d1 <- abs((mean_extra - mean_Popu_extra)/sd_extra) #abs(), da Betrag
+mean_extra <- mean(fb23$extra, na.rm = T) #Mittlere Extraversion der Stichprobe
+sd_extra <- sd(fb23$extra, na.rm = T) #Stichproben SD (Populationsschätzer)
+mean_Popu_extra <- 3.5 #Mittlere Extraversion der Grundgesamtheit
+d1 <- abs((mean_extra - mean_Popu_extra) / sd_extra) #abs(), da Betrag
 d1
 ```
 
-Die Effektgröße ist mit `r round(d1, digits = 2)` als klein einzuordnen.
+Die Effektgröße ist mit `r round(d1, digits = 2)` nach Cohen (1988) als klein einzuordnen.
 
 </details>
 
@@ -318,28 +317,28 @@ $H_1$: Die durchschnittlichen Nerdiness-Werte der Psychologie-Studierenden $\mu_
 $H_1$: $\mu_0$ $<$ $\mu_1$
 
 ```{r}
-t.test(fb22$nerd, mu=2.9, alternative="greater", conf.level = 0.99)
+t.test(fb23$nerd, mu = 2.9, alternative = "greater", conf.level = 0.99)
 ```
 
 ```{r, echo=FALSE}
-t.test2 <- t.test(fb22$nerd, mu=2.9, alternative="greater", conf.level = 0.99)
-conf.int2 <- t.test2$conf.int
+t_test2 <- t.test(fb23$nerd, mu = 2.9, alternative = "greater", conf.level = 0.99)
+conf_int2 <- t_test2$conf.int
 ```
 
-Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen und die $H_1$ angenommen werden. Die Psychologie-Studierenden haben höhere Nerdiness-Werte im Vergleich zur Gesamtbevölkerung.
+Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die Psychologie-Studierenden haben höhere Nerdiness-Werte im Vergleich zur Gesamtbevölkerung.
 
 
 **Effektgröße:**
 
 ```{r}
-mean_nerd <- mean(fb22$nerd, na.rm = T) #MW der Stichprobe
-sd_nerd <- sd(fb22$nerd, na.rm = T) #Stichproben SD (Populationsschätzer)
-mean_Popu_nerd <- 2.9 #MW der Grundgesamtheit
-d2 <- abs((mean_nerd - mean_Popu_nerd)/sd_nerd) #abs(), da Betrag
+mean_nerd <- mean(fb23$nerd, na.rm = T) #Mittlere Nerdiness der Stichprobe
+sd_nerd <- sd(fb23$nerd, na.rm = T) #Stichproben SD (Populationsschätzer)
+mean_Popu_nerd <- 2.9 #Mittlere Nerdiness der Grundgesamtheit
+d2 <- abs((mean_nerd - mean_Popu_nerd) / sd_nerd) #abs(), da Betrag
 d2
 ```
 
-Die Effektgröße ist mit `r round(d2, digits = 2)` als klein bis mittel einzuordnen.
+Die Effektgröße ist mit `r round(d2, digits = 2)` nach Cohen als klein einzuordnen.
 
 </details>
 
@@ -362,25 +361,25 @@ $H_1$: Die durchschnittlichen Verträglichkeitswerte der Psychologie-Studierende
 $H_1$: $\mu_0$ $<$ $\mu_1$
 
 ```{r}
-t.test(fb22$vertr, mu=3.9, alternative = "greater")
+t.test(fb23$vertr, mu = 3.9, alternative = "greater")
 ```
 
 ```{r, echo = FALSE}
-t.test3 <- t.test(fb22$vertr, mu=3.9, alternative = "greater")
-conf.int3 <- t.test3$conf.int
+t_test3 <- t.test(fb23$vertr, mu = 3.9, alternative = "greater")
+conf_int3 <- t_test3$conf.int
 ```
 
-Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen und die $H_1$ angenommen werden. Die Psychologie-Studierenden haben höhere Verträglichkeitswerte im Vergleich zur Gesamtbevölkerung.
-Das 95%-ige Konfidenzintervall liegt zwischen `r round(conf.int3[1], digits = 2)` und $\infty$ (außerhalb des definierten Wertebereichs). Das bedeutet, dass in 95% der Fälle in einer wiederholten Ziehung aus der Grundgesamtheit die mittleren Verträglichkeitswerte zwischen `r round(conf.int3[1], digits = 2)` und $\infty$ (außerhalb des definierten Wertebereichs) liegen.
+Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die Psychologie-Studierenden haben höhere Verträglichkeitswerte im Vergleich zur Gesamtbevölkerung.
+Das 95%-ige Konfidenzintervall liegt zwischen `r round(conf_int3[1], digits = 2)` und $\infty$ (außerhalb des definierten Wertebereichs). Das bedeutet, dass in 95% der Fälle in einer wiederholten Ziehung aus der Grundgesamtheit die mittleren Verträglichkeitswerte zwischen `r round(conf_int3[1], digits = 2)` und $\infty$ (außerhalb des definierten Wertebereichs) liegen.
 
 **Effektgröße:**
 
 ```{r}
-mean_vertr <- mean(fb22$vertr, na.rm = T) #MW der Stichprobe
-sd_vertr <- sd(fb22$vertr, na.rm = T) #Stichproben SD (Populationsschätzer)
-mean_Popu_vertr <- 3.9 #MW der Grundgesamtheit
-d3 <- abs((mean_vertr - mean_Popu_vertr)/sd_vertr) #abs(), da Betrag
+mean_vertr <- mean(fb23$vertr, na.rm = T) #Mittlere Verträglichkeit der Stichprobe
+sd_vertr <- sd(fb23$vertr, na.rm = T) #Stichproben SD (Populationsschätzer)
+mean_Popu_vertr <- 3.9 #Mittlere Verträglichkeit der Grundgesamtheit
+d3 <- abs((mean_vertr - mean_Popu_vertr) / sd_vertr) #abs(), da Betrag
 d3
 ```
 
-Die Effektgröße ist mit `r round(d3, digits = 2)` als klein bis mittel einzuordnen.
+Die Effektgröße ist mit `r round(d3, digits = 2)` nach Cohen (1988) als mittel einzuordnen.
