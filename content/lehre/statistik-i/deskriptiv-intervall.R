@@ -67,13 +67,13 @@ var(fb23$lz, na.rm = TRUE) * (nrow(fb23) - 1) / nrow(fb23)
 var(fb23$lz, na.rm = TRUE) * (length(na.omit(fb23$lz)) - 1) / (length(na.omit(fb23$lz)))
 
 # Umrechnung der Varianzen
-var(fb23$lz, na.rm = TRUE) * (179 - 1) / 179
+var(fb23$lz, na.rm = TRUE) * (177 - 1) / 177
 
 # Standardabweichung in R
 sd(fb23$lz, na.rm = TRUE) # Populationsschaetzer
 
 # Umrechnung der Standardabweichung
-sd(fb23$lz, na.rm = TRUE) * sqrt((179 - 1) / 179)
+sd(fb23$lz, na.rm = TRUE) * sqrt((177 - 1) / 177)
 
 # Händische Berechnung der empirischen Standardabweichung
 (sum((fb23$lz - mean(fb23$lz, na.rm = TRUE))^2,

@@ -9,7 +9,7 @@ subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
 authors: [nehler, buchholz]
 weight: 2
-lastmod: '2023-10-22'
+lastmod: '2023-10-23'
 featured: no
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
@@ -80,13 +80,14 @@ names(fb23)        # Namen der Variablen
 ```
 
 ```
-##  [1] "mdbf1_pre"   "mdbf2_pre"   "mdbf3_pre"   "mdbf4_pre"   "mdbf5_pre"   "mdbf6_pre"  
-##  [7] "mdbf7_pre"   "mdbf8_pre"   "mdbf9_pre"   "mdbf10_pre"  "mdbf11_pre"  "mdbf12_pre" 
-## [13] "lz"          "extra"       "vertr"       "gewis"       "neuro"       "offen"      
-## [19] "prok"        "nerd"        "grund"       "fach"        "ziel"        "wissen"     
-## [25] "therap"      "lerntyp"     "hand"        "job"         "ort"         "ort12"      
-## [31] "wohnen"      "uni1"        "uni2"        "uni3"        "uni4"        "attent_pre" 
-## [37] "gs_post"     "wm_post"     "ru_post"     "attent_post"
+##  [1] "mdbf1_pre"   "mdbf2_pre"   "mdbf3_pre"   "mdbf4_pre"   "mdbf5_pre"  
+##  [6] "mdbf6_pre"   "mdbf7_pre"   "mdbf8_pre"   "mdbf9_pre"   "mdbf10_pre" 
+## [11] "mdbf11_pre"  "mdbf12_pre"  "lz"          "extra"       "vertr"      
+## [16] "gewis"       "neuro"       "offen"       "prok"        "nerd"       
+## [21] "grund"       "fach"        "ziel"        "wissen"      "therap"     
+## [26] "lerntyp"     "hand"        "job"         "ort"         "ort12"      
+## [31] "wohnen"      "uni1"        "uni2"        "uni3"        "uni4"       
+## [36] "attent_pre"  "gs_post"     "wm_post"     "ru_post"     "attent_post"
 ```
 
 ```r
@@ -94,10 +95,10 @@ dim(fb23)          # Anzahl Zeile und Spalten
 ```
 
 ```
-## [1] 182  40
+## [1] 179  40
 ```
 
-In der letzten Sitzung haben wir schon einige Befehle für das Screening eines Datensatzes kennen gelernt. Dabei zeigt `names()` alle Variablennamen an, während `dim()` uns Zeilen und Spalten ausgibt. Der Datensatz hat also 182 Beobachtungen auf 40 Variablen.
+In der letzten Sitzung haben wir schon einige Befehle für das Screening eines Datensatzes kennen gelernt. Dabei zeigt `names()` alle Variablennamen an, während `dim()` uns Zeilen und Spalten ausgibt. Der Datensatz hat also 179 Beobachtungen auf 40 Variablen.
 
 
 ***
@@ -119,7 +120,7 @@ str(fb23$hand)
 ```
 
 ```
-##  int [1:182] 2 2 2 2 2 NA 2 NA 2 1 ...
+##  int [1:179] 2 2 2 2 2 2 NA 2 1 2 ...
 ```
 
 ```r
@@ -127,13 +128,14 @@ fb23$hand
 ```
 
 ```
-##   [1]  2  2  2  2  2 NA  2 NA  2  1  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2 NA  2  2  2
-##  [30]  2  2  2  1  1  2  2  2  1  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2
-##  [59]  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2
-##  [88]  1  2  2  2  2  2  2  1  2  2  1  2 NA  2  2  2  2  2  2  2  2  2  2  2  2  1  1  2  2
-## [117]  1  2  2  2  2  2  2  2 NA  2  2  2  2  2  2  2  2  1  2  1  2  2  2  2  2 NA  2  2  2
-## [146]  2  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1
-## [175]  2  2  1  2  2  2  1  2
+##   [1]  2  2  2  2  2  2 NA  2  1  2  2  2  2  1  2  2  2  2  2  2  2  2  2
+##  [24]  2 NA  2  2  2  2  2  2  1  1  2  2  2  1  2  2  2  1  2  2  2  2  2
+##  [47]  2  2  2  2  2  2  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2
+##  [70]  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  2  2  2  2
+##  [93]  2  1  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  1  1  2  2  1
+## [116]  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  1  2  2  2  2  2
+## [139] NA  2  2  2  2  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2
+## [162]  2  2  2  2  2  2  2  2  2  1  2  2  1  2  2  2  1  2
 ```
 
 Die Variable `hand` liegt numerisch vor, es treten die Werte 1 und 2 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/lehre/statistik-i/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "links". Diese *Label* werden nun im Faktor hinterlegt.
@@ -154,7 +156,7 @@ str(fb23$hand_factor)
 ```
 
 ```
-##  Factor w/ 2 levels "links","rechts": 2 2 2 2 2 NA 2 NA 2 1 ...
+##  Factor w/ 2 levels "links","rechts": 2 2 2 2 2 2 NA 2 1 2 ...
 ```
 
 ```r
@@ -162,7 +164,7 @@ head(fb23$hand_factor)
 ```
 
 ```
-## [1] rechts rechts rechts rechts rechts <NA>  
+## [1] rechts rechts rechts rechts rechts rechts
 ## Levels: links rechts
 ```
 
@@ -180,13 +182,14 @@ fb23$fach
 ```
 
 ```
-##   [1]  4  4  4  4  4 NA  4 NA  4  4 NA  4  4  2  3  4  4  4  4  1  4  1  3  4  2 NA  4  4  3
-##  [30]  1  2  4 NA  3  1  2  4  4  3  1  4  4  3  2  2  4  3  5  3  4  1  3  4  1  1  4  2  4
-##  [59]  2  2  4  2  4  3  2  4  1  4  5  4  4  3  4  4  4  4  3  4  4  2  4  4 NA  4  4  4  4
-##  [88]  4  1  1  3  2  4  5  5  1  3  4  2 NA  2  3  4 NA  3  2  4  2  2  4  2  4  5  4  4  1
-## [117]  4  4  2  4  4  2  4  1 NA  1  1  4  2  2 NA  2  4  3  4  1  4  1  2 NA  4 NA  1  1  4
-## [146]  4  1  1  3  1  2  4  4  1  4  4 NA  1 NA  4  4  4  4  4  4  2  4  4  2  2  4  2  1  1
-## [175]  4  4  1  1  3  2  1 NA
+##   [1]  4  4  4  4  4  4 NA  4  4 NA  4  4  2  3  4  4  4  4  1  4  1  3  4
+##  [24]  2 NA  4  4  3  1  2  4 NA  3  1  2  4  4  3  1  4  4  3  2  2  4  3
+##  [47]  5  3  4  1  3  4  1  1  4  2  4  2  2  4  2  4  3  2  4  1  4  5  4
+##  [70]  4  3  4  4  4  4  3  4  4  2  4  4 NA  4  4  4  4  4  1  1  3  2  4
+##  [93]  5  5  1  3  4  2  2  3  4 NA  3  2  4  2  2  4  2  4  5  4  4  1  4
+## [116]  4  2  4  4  2  4  1  1  1  4  2  2 NA  2  4  3  4  1  4  1  2 NA  4
+## [139] NA  1  1  4  4  1  1  3  1  2  4  4  1  4  4 NA  1 NA  4  4  4  4  4
+## [162]  4  2  4  4  2  2  4  2  1  1  4  4  1  1  3  2  1 NA
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
@@ -200,7 +203,7 @@ str(fb23$fach)
 ```
 
 ```
-##  Factor w/ 5 levels "Allgemeine","Biologische",..: 4 4 4 4 4 NA 4 NA 4 4 ...
+##  Factor w/ 5 levels "Allgemeine","Biologische",..: 4 4 4 4 4 4 NA 4 4 NA ...
 ```
 
 Hinweis: In Beispiel 2 wurde die Ursprungsvariable mit dem Faktor überschrieben. Sie ist nun verschwunden, der Datensatz enthält nur noch den Faktor, nicht mehr die numerische Variable.
@@ -218,7 +221,7 @@ str(fb23$grund)                            # Ursprungsvariable: Character
 ```
 
 ```
-##  chr [1:182] "Berufsziel" "Interesse am Menschen" "Interesse und Berufsaussichten" ...
+##  chr [1:179] "Berufsziel" "Interesse am Menschen" ...
 ```
 
 ```r
@@ -227,7 +230,7 @@ str(fb23$grund_faktor)                     # neue Variable: Faktor
 ```
 
 ```
-##  Factor w/ 141 levels " Mischung aus Natur- und Gesellschaftswissenschaften, Interesse am Gehirn",..: 13 51 73 141 106 NA 139 NA 116 40 ...
+##  Factor w/ 141 levels " Mischung aus Natur- und Gesellschaftswissenschaften, Interesse am Gehirn",..: 13 51 73 141 106 139 NA 116 40 41 ...
 ```
 
 
@@ -387,10 +390,11 @@ colors()[1:20]
 ```
 
 ```
-##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1" "antiquewhite2"
-##  [6] "antiquewhite3" "antiquewhite4" "aquamarine"    "aquamarine1"   "aquamarine2"  
-## [11] "aquamarine3"   "aquamarine4"   "azure"         "azure1"        "azure2"       
-## [16] "azure3"        "azure4"        "beige"         "bisque"        "bisque1"
+##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1"
+##  [5] "antiquewhite2" "antiquewhite3" "antiquewhite4" "aquamarine"   
+##  [9] "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"  
+## [13] "azure"         "azure1"        "azure2"        "azure3"       
+## [17] "azure4"        "beige"         "bisque"        "bisque1"
 ```
 
 Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
@@ -579,7 +583,7 @@ Nachfolgend soll mit dem Item zum interesse an wissenschaftlichen Grundlagen gea
 
 ![](/lehre/statistik-i/interests.png)
 
-Es treten die Werte 1 bis  5 empirisch auf, außerdem gibt es  6 fehlende Werte (dargestellt als `NA`):
+Es treten die Werte 1 bis  5 empirisch auf, außerdem gibt es  3 fehlende Werte (dargestellt als `NA`):
 
 
 ```r
@@ -587,13 +591,14 @@ fb23$wissen
 ```
 
 ```
-##   [1]  5  4  5  4  2 NA  3 NA  4  3  3  3  3  4  4  4  4  4  4  2  4  4  3  2  4 NA  3  4  4
-##  [30]  3  4  4  5  4  4  4  4  3  5  4  4  4  3  4  5  5  3  3  5  3  3  3  4  5  5  5  5  5
-##  [59]  4  3  3  4  3  3  5  3  2  3  5  4  4  2  3  4  4  3  3  2  4  4  3  2  3  4  5  4  5
-##  [88]  4  4  4  5  3  4  5  3  4  2  4  4 NA  4  3  3  3  5  4  3  3  3  4  4  4  5  5  2  3
-## [117]  4  3  5  3  2  5  2  2 NA  3  4  3  3  4  2  4  5  2  4  3  3  3  4  3  2 NA  4  5  4
-## [146]  3  5  4  4  4  3  5  5  3  3  4  3  4  4  4  4  2  2  5  4  1  3  3  2  4  5  4  2  4
-## [175]  4  5  3  2  3  5  4  3
+##   [1]  5  4  5  4  2  3 NA  4  3  3  3  3  4  4  4  4  4  4  2  4  4  3  2
+##  [24]  4 NA  3  4  4  3  4  4  5  4  4  4  4  3  5  4  4  4  3  4  5  5  3
+##  [47]  3  5  3  3  3  4  5  5  5  5  5  4  3  3  4  3  3  5  3  2  3  5  4
+##  [70]  4  2  3  4  4  3  3  2  4  4  3  2  3  4  5  4  5  4  4  4  5  3  4
+##  [93]  5  3  4  2  4  4  4  3  3  3  5  4  3  3  3  4  4  4  5  5  2  3  4
+## [116]  3  5  3  2  5  2  2  3  4  3  3  4  2  4  5  2  4  3  3  3  4  3  2
+## [139] NA  4  5  4  3  5  4  4  4  3  5  5  3  3  4  3  4  4  4  4  2  2  5
+## [162]  4  1  3  3  2  4  5  4  2  4  4  5  3  2  3  5  4  3
 ```
 
 Wiederholung:

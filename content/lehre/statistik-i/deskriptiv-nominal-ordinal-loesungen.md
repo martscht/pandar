@@ -8,16 +8,18 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [buchholz, nehler] 
-lastmod: '2023-10-13'
+lastmod: '2023-10-24'
 featured: no
 banner:
   image: "/header/descriptive_post.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)"
 projects: []
-reading_time: false
-share: false
+expiryDate: '2024-10-10'
+publishDate: '2023-11-09'
 _build:
   list: never
+reading_time: false
+share: false
 output:
   html_document:
     keep_md: true

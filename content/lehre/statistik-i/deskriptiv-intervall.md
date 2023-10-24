@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte Variablen vorgestellt. Dabei wird zunächst die Berechnung des Mittelwerts, der Varianz sowie Standardabweichung behandelt. Dann wird gezeigt, wie Variablen zentriert bzw. standardisiert werden können. Abschließend geht es außerdem um das Rekodieren von Items und das Bilden von Skalenwerten.' 
 authors: [nehler, beitner, buchholz] 
 weight: 3
-lastmod: '2023-10-22'
+lastmod: '2023-10-23'
 featured: no
 banner:
   image: "/header/descriptive_post.jpg"
@@ -122,15 +122,17 @@ fb23$lz
 ```
 
 ```
-##   [1] 5.4 3.4 4.4 4.4 6.4  NA 5.6 5.4 5.0 4.8 6.0 5.4 5.4 5.8 2.6 4.8 5.2 5.4 4.4 1.4 4.8 6.6
-##  [23]  NA 5.0 4.8 7.0 5.0 4.8 5.8 5.4 5.2 6.4 5.8 5.2 5.4 3.4 6.8 6.0 6.2 5.6 5.8 5.2 4.6  NA
-##  [45] 5.2 3.6 4.8 5.8 3.2 5.4 5.6 4.6 4.6 5.0 6.8 5.8 5.8 6.2 4.2 4.4 4.8 5.0 6.6 6.6 4.6 6.0
-##  [67] 5.6 6.0 4.0 2.6 4.0 3.8 4.8 4.0 6.2 6.0 4.0 5.2 5.4 2.8 4.6 4.6 5.0 4.0 6.0 5.6 4.2 4.8
-##  [89] 6.0 4.2 6.2 6.2 3.2 4.2 5.6 4.6 6.6 4.2 1.6 4.6 4.6 5.4 5.8 6.0 5.8 5.0 3.6 7.0 6.2 6.0
-## [111] 6.4 5.0 5.4 5.8 5.8 3.8 6.0 5.8 4.8 6.8 3.6 6.2 3.2 5.6 5.8 5.4 5.6 4.6 4.8 5.6 3.2 6.2
-## [133] 5.4 4.4 5.6 5.4 4.2 4.4 4.4 2.8 6.4 5.4 5.6 5.0 6.4 5.0 5.2 6.0 5.4 6.8 4.2 2.8 5.2 6.2
-## [155] 5.6 5.6 5.6 7.0 5.0 4.0 5.2 6.4 5.6 5.0 3.6 5.2 6.6 5.8 3.8 3.6 4.0 3.8 5.6 5.2 5.8 5.4
-## [177] 3.6 6.2 6.0 6.2 6.0 5.4
+##   [1] 5.4 3.4 4.4 4.4 6.4 5.6 5.4 5.0 4.8 6.0 5.4 5.4 5.8 2.6 4.8 5.2 5.4
+##  [18] 4.4 1.4 4.8 6.6  NA 5.0 4.8 7.0 5.0 4.8 5.8 5.4 5.2 6.4 5.8 5.2 5.4
+##  [35] 3.4 6.8 6.0 6.2 5.6 5.8 5.2 4.6  NA 5.2 3.6 4.8 5.8 3.2 5.4 5.6 4.6
+##  [52] 4.6 5.0 6.8 5.8 5.8 6.2 4.2 4.4 4.8 5.0 6.6 6.6 4.6 6.0 5.6 6.0 4.0
+##  [69] 2.6 4.0 3.8 4.8 4.0 6.2 6.0 4.0 5.2 5.4 2.8 4.6 4.6 5.0 4.0 6.0 5.6
+##  [86] 4.2 4.8 6.0 4.2 6.2 6.2 3.2 4.2 5.6 4.6 6.6 4.2 1.6 4.6 5.4 5.8 6.0
+## [103] 5.8 5.0 3.6 7.0 6.2 6.0 6.4 5.0 5.4 5.8 5.8 3.8 6.0 5.8 4.8 6.8 3.6
+## [120] 6.2 3.2 5.6 5.4 5.6 4.6 4.8 5.6 3.2 6.2 5.4 4.4 5.6 5.4 4.2 4.4 4.4
+## [137] 2.8 6.4 5.4 5.6 5.0 6.4 5.0 5.2 6.0 5.4 6.8 4.2 2.8 5.2 6.2 5.6 5.6
+## [154] 5.6 7.0 5.0 4.0 5.2 6.4 5.6 5.0 3.6 5.2 6.6 5.8 3.8 3.6 4.0 3.8 5.6
+## [171] 5.2 5.8 5.4 3.6 6.2 6.0 6.2 6.0 5.4
 ```
 
 Auf den ersten Blick ist es schwer, aus so einer großen Menge an unterschiedlichen Werten ein Fazit zu ziehen. Um eine Stichprobe zusammenzufassen, lernen wir heute deskriptive Maße kennen. Zunächst lässt sich aber feststellen, dass wir es auch auf dem Skalenwert mit fehlenden Werten (`NA`) zu tun haben. 
@@ -224,7 +226,7 @@ mean(fb23$lz, na.rm = TRUE)
 ```
 
 ```
-## [1] 5.121788
+## [1] 5.120904
 ```
 
 ## Varianz
@@ -242,10 +244,10 @@ sum((fb23$lz - mean(fb23$lz, na.rm = TRUE))^2, na.rm = TRUE) / (nrow(fb23)-2)
 ```
 
 ```
-## [1] 1.092139
+## [1] 1.106512
 ```
 
-Achtung! Wir benötigen für die Varianzberechnung `n` (s. Formel)! Wir nutzen hier `nrow(fb23)-3 `, weil `nrow(fb23)` nicht das richtige n anzeigt (3 Personen haben einen fehlenden Wert, daher die Anzahl an Zeilen minus der 3 fehlenden Werte = n).
+Achtung! Wir benötigen für die Varianzberechnung `n` (s. Formel)! Wir nutzen hier `nrow(fb23)-2 `, weil `nrow(fb23)` nicht das richtige n anzeigt (2 Personen haben einen fehlenden Wert, daher die Anzahl an Zeilen minus der 2 fehlenden Werte = n).
 
 
 **Kleiner Diskurs zu fehlenden Werten:**
@@ -260,7 +262,7 @@ is.na(fb23$lz) |> sum()
 ```
 
 ```
-## [1] 3
+## [1] 2
 ```
 
 Um die Länge einer Variablen ohne fehlende Werte (also die Anzahl an Beobachtungen auf einer Variablen) zu bestimmen, lässt sich z. B. folgende Syntax verwenden:
@@ -271,7 +273,7 @@ na.omit(fb23$lz) |> length() # mit Pipe
 ```
 
 ```
-## [1] 179
+## [1] 177
 ```
 
 ```r
@@ -279,7 +281,7 @@ length(na.omit(fb23$lz))     # ohne Pipe
 ```
 
 ```
-## [1] 179
+## [1] 177
 ```
 
 Zur händischen Varianzberechnung können wir daher auch folgende Syntax verwenden:
@@ -291,7 +293,7 @@ sum((fb23$lz - mean(fb23$lz, na.rm = TRUE))^2, na.rm = TRUE) / (length(na.omit(f
 ```
 
 ```
-## [1] 1.09824
+## [1] 1.106512
 ```
 
 
@@ -305,7 +307,7 @@ var(fb23$lz, na.rm = TRUE)
 ```
 
 ```
-## [1] 1.10441
+## [1] 1.112799
 ```
 
 Warum erhalten wir hier einen abweichenden Wert im Vergleich zu unserer händischen Varianzberechnung?
@@ -332,10 +334,10 @@ var(fb23$lz, na.rm = TRUE) * (nrow(fb23) - 1) / nrow(fb23)
 ```
 
 ```
-## [1] 1.098342
+## [1] 1.106582
 ```
 
-Achtung! Dies funktioniert in unserem Fall wieder nicht, da die Verwendung von `nrow(fb23)` - wie oben bereits angemerkt - nicht sinnvoll ist: `nrow(fb23)` ist nicht gleich n (es kommt `NA` 3 Mal vor), daher besser:
+Achtung! Dies funktioniert in unserem Fall wieder nicht, da die Verwendung von `nrow(fb23)` - wie oben bereits angemerkt - nicht sinnvoll ist: `nrow(fb23)` ist nicht gleich n (es kommt `NA` 2 Mal vor), daher besser:
 
 
 ```r
@@ -344,18 +346,18 @@ var(fb23$lz, na.rm = TRUE) * (length(na.omit(fb23$lz)) - 1) / (length(na.omit(fb
 ```
 
 ```
-## [1] 1.09824
+## [1] 1.106512
 ```
 
 Alternativ, wenn man die fehlenden Werte händisch abzieht:
 
 ```r
 # Umrechnung der Varianzen
-var(fb23$lz, na.rm = TRUE) * (179 - 1) / 179
+var(fb23$lz, na.rm = TRUE) * (177 - 1) / 177
 ```
 
 ```
-## [1] 1.09824
+## [1] 1.106512
 ```
 
 
@@ -381,7 +383,7 @@ sd(fb23$lz, na.rm = TRUE) # Populationsschaetzer
 ```
 
 ```
-## [1] 1.050909
+## [1] 1.054893
 ```
 
 
@@ -394,11 +396,11 @@ Wir müssten das Ergebnis also wieder mit einem Faktor ($\sqrt{\frac{n - 1}{n}}$
 
 ```r
 # Umrechnung der Standardabweichung
-sd(fb23$lz, na.rm = TRUE) * sqrt((179 - 1) / 179)
+sd(fb23$lz, na.rm = TRUE) * sqrt((177 - 1) / 177)
 ```
 
 ```
-## [1] 1.04797
+## [1] 1.051909
 ```
 
 Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafür können wir einfach den bereits geschriebenen Code für die empirische Varianz nehmen und aus dem Ergebnis die Wurzel ziehen.
@@ -411,7 +413,7 @@ Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafü
 ```
 
 ```
-## [1] 1.04797
+## [1] 1.051909
 ```
 
 ***
@@ -428,7 +430,7 @@ head(lz_c)    # erste 6 zentrierte Werte
 ```
 
 ```
-## [1]  0.2782123 -1.7217877 -0.7217877 -0.7217877  1.2782123         NA
+## [1]  0.279096 -1.720904 -0.720904 -0.720904  1.279096  0.479096
 ```
 
 ```r
@@ -438,7 +440,7 @@ head(lz_z)    # erste 6 standardisierte Werte
 ```
 
 ```
-## [1]  0.2647348 -1.6383790 -0.6868221 -0.6868221  1.2162918         NA
+## [1]  0.2645729 -1.6313541 -0.6833906 -0.6833906  1.2125363  0.4541655
 ```
 
 ...oder mit Hilfe bereits existierender Funktionen:
@@ -519,7 +521,8 @@ head(fb23$mdbf11_pre == 1, 15) #Zeige die ersten 15 Antworten
 ```
 
 ```
-##  [1] FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE
+##  [1] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE  TRUE
+## [13]  TRUE FALSE FALSE
 ```
 
 Wir erhalten einen booleschen Vektor, der uns sagt, wo der Wert 1 auftaucht (`TRUE`) und wo nicht (`FALSE`).
@@ -568,7 +571,7 @@ head(fb23$gs_pre)
 ```
 
 ```
-## [1] 3.00 2.50 3.75   NA 3.25 4.00
+## [1] 3.00 2.50 3.75   NA 3.25 3.50
 ```
 
 Natürlich kann die Erstellung auch in einem Befehl passieren - beispielsweise durch Verwendung der Pipe. Es gibt aber auch noch viele andere Optionen zur Skalenbildung - es wird (wie eigentlich fast immer) nur ein Ausschnitt der Möglichkeiten gezeigt.
@@ -582,7 +585,7 @@ head(fb23$gs_pre )
 ```
 
 ```
-## [1] 3.00 2.50 3.75   NA 3.25 4.00
+## [1] 3.00 2.50 3.75   NA 3.25 3.50
 ```
 
 {{< spoiler text="*Quizfrage*: Was bedeutet `NA` in `fb23$gs_pre `?" >}}

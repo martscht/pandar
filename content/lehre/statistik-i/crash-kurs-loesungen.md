@@ -8,12 +8,14 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [schultze] 
-lastmod: '2023-10-13'
+lastmod: '2023-10-24'
 featured: no
 banner:
   image: "/header/crash_post.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
+expiryDate: '2024-10-10'
+publishDate: '2023-10-10'
 reading_time: false
 share: false
 _build:

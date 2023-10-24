@@ -271,7 +271,7 @@ var(fb23$lz, na.rm = TRUE) * (length(na.omit(fb23$lz)) - 1) / (length(na.omit(fb
 Alternativ, wenn man die fehlenden Werte händisch abzieht:
 ```{r}
 # Umrechnung der Varianzen
-var(fb23$lz, na.rm = TRUE) * (179 - 1) / 179
+var(fb23$lz, na.rm = TRUE) * (177 - 1) / 177
 ```
 
 
@@ -304,7 +304,7 @@ Wir müssten das Ergebnis also wieder mit einem Faktor ($\sqrt{\frac{n - 1}{n}}$
 
 ```{r}
 # Umrechnung der Standardabweichung
-sd(fb23$lz, na.rm = TRUE) * sqrt((179 - 1) / 179)
+sd(fb23$lz, na.rm = TRUE) * sqrt((177 - 1) / 177)
 ```
 
 Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafür können wir einfach den bereits geschriebenen Code für die empirische Varianz nehmen und aus dem Ergebnis die Wurzel ziehen.

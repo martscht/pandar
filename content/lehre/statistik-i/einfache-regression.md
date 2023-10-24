@@ -8,8 +8,8 @@ tags: ["Regression", "Lineare Regression", "Streudiagramm", "Determinationskoeff
 subtitle: ''
 summary: 'In diesem Beitrag werden die lineare Regression und ihre Voraussetzungen vorgestellt. Außerdem soll der Unterschied zwischen standardisierten und nicht-standardisierten Regressionsgewichten deutlich werden sowie die Berechnung des Determinationskoeffizienten R^2 und dessen Bedeutung geklärt werden.' 
 authors: [winkler, neubauer, nehler]
-weight: 9
-lastmod: '2023-10-09'
+weight: 10
+lastmod: '2023-10-24'
 featured: no
 banner:
   image: "/header/BSc2_Regression.jpg"
@@ -58,7 +58,7 @@ Zu Beginn laden wir wie gewohnt den Datensatz und verteilen die relevanten Label
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb22.rda'))  
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb22$geschl_faktor <- factor(fb22$geschl,
@@ -281,7 +281,7 @@ formula(lin_mod)
 
 ```
 ## nerd ~ extra
-## <environment: 0x558ddf034280>
+## <environment: 0x55c0c117cce8>
 ```
 
 Wie wir bereits weiter oben gesehen haben, werden mit dem Befehl `lm()` auch automatisch immer die Residuen ($e_m$) geschätzt, die mit `residuals()` (oder alternativ: `resid()`) abgefragt werden können.
