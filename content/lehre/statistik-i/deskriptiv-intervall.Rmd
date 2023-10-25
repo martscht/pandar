@@ -280,12 +280,10 @@ var(fb23$lz, na.rm = TRUE) * (177 - 1) / 177
 Auch bei der Standardabweichung bestimmt R den Populationsschätzer $\hat{\sigma}_{X}$.
 
 {{< math >}}
-<div class="big-maths">
 \begin{equation}
 \small
 \hat{\sigma}_{X} = \sqrt{\hat{\sigma}^2_{X}} = \sqrt{\frac{\sum_{m=1}^n (x_m - \bar{x})^2}{n - 1}}
 \end{equation}
-</div>
 {{< /math >}}
 
 
