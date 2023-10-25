@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [schloter, nehler] 
 weight: 2
-lastmod: '2023-10-09'
+lastmod: '2023-10-25'
 featured: no
 banner:
   image: "/header/road_waysign.jpg"
@@ -58,7 +58,7 @@ After logging in, you will arrive at this homepage:
 As you can see, there are three options to choose from. Firstly, **Create a project**, where you can create a project (surprise!). In the collapsible section below, we will show you how to create your own project without being part of a group and without using a template. However, you should **not** do this for your thesis, as your project belongs to the department under which you create it and there are already templates intended for your use. You can see how this works [here](/lifos/grundlagen/eigenesprojekt-en/).
 
 
-<details><summary> **Create your own project** </summary>
+{{< spoiler text="**Create your own project**" >}} 
 
 To create your own project, go to the LIFOS homepage and click on **New project** on the right-hand side.
 
@@ -76,7 +76,7 @@ In the project URL, assign the project to yourself by simply selecting your user
 ![](/lifos/grundlagen/gitlaborientierung_newblankproject.png) 
 At the end, click on *Create Project* and you have created your own project - without group membership or template.
 
-</details>
+{{< /spoiler >}}
 
 On the other hand, there is also **Explore public projects** here, which is self-explanatory. When you click on this, the following page opens:
 
@@ -131,5 +131,5 @@ If you are now worried that someone will make changes to your project that you d
 
 ### Conclusion and next steps 
 
-The tutorial should provide an insight into the background and interface of **LIFOS**. The first impulse is now to create your own project for your study work. To help you not start completely from scratch, we have already created templates for various situations. In the next [tutorial](#), you will find a decision tree that will help you choose the appropriate template for you.
+The tutorial should provide an insight into the background and interface of **LIFOS**. The first impulse is now to create your own project for your study work. To help you not start completely from scratch, we have already created templates for various situations. In the next [tutorial](/lifos/grundlagen/template-auswahl-en/), you will find a decision tree that will help you choose the appropriate template for you.
 

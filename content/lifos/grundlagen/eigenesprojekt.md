@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [schloter, nehler, pommeranz, beitner] 
 weight: 3
-lastmod: '2023-10-09'
+lastmod: '2023-10-25'
 featured: no
 banner:
   image: "/header/road_start.jpg"
@@ -69,15 +69,15 @@ Dieser Schritt ist sehr wichtig, da das Projekt auf jeden Fall zur richtigen Abt
 
 ##### Visibility-Levels
 
-Nachdem ihr das Template ausgewählt habt, das auf euer Vorhaben am besten zutrifft, müsst ihr diesem einen Namen geben. Dieser Projekttitel sollte ausschlaggebend und von inhaltlicher Natur sein. Ein passender Projekttitel wäre zum Beispiel die Überschrift eurer Thesis. Ihr müsst bedenken, dass andere Personen aufgrund des Projekttitels eventuell auf euer Projekt aufmerksam werden und sich dieses anschauen. Deswegen ist ein passender Titel sehr wichtig. Außerdem hättet ihr theoretisch die Möglichkeit das *Visibility-Level* anzupassen. Durch Letzteres wird festgelegt, wer das Projekt und alle zugehörigen Dateien sehen kann. Hier gibt es drei Optionen, von denen wir auch eine deaktiviert haben. Trotzdem wollen wir es kurz erklären. Aber ihr wählt als Standard-Option grundsätzlich immer *internal*. Nur so kann ein Austausch innerhalb des Instituts gewährleistet werden, ohne den Schutzraum der Lernplattform nach außen zu öffnen. Wenn eure Daten der Instanz nicht zur Verfügung stehen sollen, muss der Datenordner leer bleiben, genaueres könnt ihr hier<!-- WIP --> nachlesen. 
+Nachdem ihr das Template ausgewählt habt, das auf euer Vorhaben am besten zutrifft, müsst ihr diesem einen Namen geben. Dieser Projekttitel sollte ausschlaggebend und von inhaltlicher Natur sein. Ein passender Projekttitel wäre zum Beispiel die Überschrift eurer Thesis. Ihr müsst bedenken, dass andere Personen aufgrund des Projekttitels eventuell auf euer Projekt aufmerksam werden und sich dieses anschauen. Deswegen ist ein passender Titel sehr wichtig. Außerdem hättet ihr theoretisch die Möglichkeit das *Visibility-Level* anzupassen. Durch Letzteres wird festgelegt, wer das Projekt und alle zugehörigen Dateien sehen kann. Hier gibt es drei Optionen, von denen wir auch eine deaktiviert haben. Trotzdem wollen wir es kurz erklären. Aber ihr wählt als Standard-Option grundsätzlich immer *internal*. Nur so kann ein Austausch innerhalb des Instituts gewährleistet werden, ohne den Schutzraum der Lernplattform nach außen zu öffnen. Wenn eure Daten der Instanz nicht zur Verfügung stehen sollen, muss der Datenordner leer bleiben, genaueres könnt ihr [hier](/lifos/grundlagen/datenschutz/)<!-- WIP --> nachlesen. 
 
-<details><summary> **Private** </summary>
+{{< spoiler text="**Private**" >}}
 
 Wenn ihr diese Option auswählt, können nur die Mitglieder der Gruppe, der das Projekt zugeordnet ist, auf dieses zugreifen. Diese Version wählt ihr höchstens für ein Test-Projekt zum Üben, sonst immer *internal*  
 
-</details>
+{{< /spoiler >}}
 
-<details><summary> **Internal** </summary>
+{{< spoiler text="**Internal**" >}} 
 
 Diese Option solltet ihr immer wählen. 
 
@@ -85,15 +85,15 @@ Wählt ihr diese Option, so kann jeder, der Zugangsdaten zu **LIFOS** hat, euer 
 
 Falls ihr sehr vertrauliche Daten habt, muss der Ordner für die Daten leer bleiben, da sie sonst von der ganzen Instanz einsehbar sind.
 
-</details>
+{{< /spoiler >}}
 
-<details><summary> **Public** </summary>
+{{< spoiler text="**Public**" >}}
 
 Diese Option könnt ihr bei eurer Projekterstellung gar nicht auswählen, der Vollständigkeit halber haben steht sie hier trotzdem: 
 
 Hier könnte wirklich die ganze Welt euer Projekt sehen, da man auch von außerhalb der **LIFOS**-Seite darauf zugreifen kann. Der geschützte Raum der Übungsplattform wird damit verlassen. Wählt diese Option also nicht oder nur mit Bedacht. Beispielsweise ist das Projekt mit den Nutzungsbedingungen und der Datenschutzerklärung auf **Public** geschaltet, damit man diese Informationen auch vor der Anmeldung einsehen kann. 
 
-</details>
+{{< /spoiler >}}
 
 Außerdem könnt ihr noch eine Projektbeschreibung hinzufügen. Diese könnt ihr als Studierende bei einem Projekt, das einer Gruppe angehörig ist, nicht mehr selbst bearbeiten. Achtet hier also darauf, dass ihr eine aussagekräftige Beschreibung direkt wählt. Eine nachträgliche Änderung ist nur durch die betreuende Person möglich. 
 
@@ -126,11 +126,11 @@ Starten wir zunächst einmal mit der Erklärung, wie man Dateien in das Reposito
 
 Es öffnet sich eine Liste mit Optionen. Stellen wir uns nun vor, dass wir die Datei namens "Datenauswertung.R" hochladen wollen. Wir klicken nun einfach auf *Upload File*. Dann könnt ihr die Datei ganz einfach mit Drag-and-Drop Prinzip einfügen. Außerdem werdet ihr aufgefordert eine Commit-Message zu schreiben, damit ihr später wisst, was ihr da überhaupt gemacht habt oder eure Gruppenmitglieder sehen können, was das für eine neue Datei ist. Diese sollte kurz und aussagekräftig sein und den Dateinamen der Datei beeinhalten an der ihr etwas geändert habt, z.B. "Add Datenauswertung.R to 2_Scripts". 
 
-<details><summary> **Was ist ein Commit?** </summary>
+{{< spoiler text="**Was ist ein Commit?**" >}}
 
 Wie wir bereits beschrieben haben,  ist der LIFOS eine <span style="color: darkred;">**GitLab**</span> Instanz. Hochladen und modifizieren von Dateien wird im <span style="color: darkred;">**Git**</span>-"Universum" in einem `Commit` verarbeitet. <span style="color: darkred;">**GitLab**</span> und <span style="color: darkred;">**Git**</span> verwalten Versionen von Dateien, jede dieser Versionen wird innerhalb eines `Commit` in einem Repository abgelegt - `Commits` beinhalten also quasi eine Kopie der Version der einzelnen Datei. 
 
-</details>
+{{< /spoiler >}}
 
 
 ![](/lifos/grundlagen/gitlaborientierung_DateiCommit.png) 
@@ -224,7 +224,7 @@ Nachdem ihr die letzte Datei in eurem Ordner gelöscht habt (in diesem Fall ".gi
 
 Wie wir bereits im Intro zu LIFOS beschrieben haben, ist es für Studierende generell nicht möglich, ein Projekt, das einer Gruppe zugehörig ist, zu löschen. So soll Fehlern vorgebeugt werden. Ist das Löschen dennoch nötig, wendet euch bitte an eure betreuende Person oder auch an den [zentralen Support von LIFOS](mailto:lifos@uni-frankurt.de).
 
-Wie ihr eigene Projekte (also ohne Gruppenzugehörigkeit) löschen könnt ist in dem Tutorial zur vertiefenden Markdown-Übung beschrieben, diese findet ihr [hier](/extras/lifos/basic-markdown-uebung#löschen-eures-projektes). Eine kleine Einleitung in Markdown mit den Beschreibungen der wichtigsten Funktionalitäten folgt aber auch hier schon.
+Wie ihr eigene Projekte (also ohne Gruppenzugehörigkeit) löschen könnt ist in dem Tutorial zur vertiefenden Markdown-Übung beschrieben, diese findet ihr [hier](/lifos/extras/basic-markdown-uebung#löschen-eures-projektes). Eine kleine Einleitung in Markdown mit den Beschreibungen der wichtigsten Funktionalitäten folgt aber auch hier schon.
 
 ## Basic Markdown Funktionalitäten {#Markdown .anchorheader}
 

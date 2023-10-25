@@ -70,13 +70,13 @@ Once you have chosen the template that best suits your project, you need to give
 
 In theory, you also have the option to adjust the *visibility level*. By the latter, it is determined who can access the project and all associated files. There are three options available, one of which we have also deactivated. Nevertheless, we would like to briefly explain it. However, as the default option, you always choose internal. This is the only way to ensure internal exchange within the institute without opening up the protective space of the learning platform to the outside. If you do not want your data to be available to the instance, the data folder must remain empty. You can find more details here<!-- WIP -->.
 
-<details><summary> **Private** </summary>
+{{< spoiler text="**Private**" >}}
 
 If you select this option, only members of the group to which the project is assigned can access it. You should choose this option only for a test project for practicing, otherwise always choose *internal*.
 
-</details>
+{{< /spoiler >}}
 
-<details><summary> **Internal** </summary>
+{{< spoiler text="**Internal**" >}} 
 
 You should always choose this option.
 
@@ -84,15 +84,15 @@ By selecting this option, anyone with access to **LIFOS** can see your project. 
 
 If you have highly confidential data, the data folder must remain empty, as otherwise it would be visible to the entire instance.
 
-</details>
+{{< /spoiler >}}
 
-<details><summary> **Public** </summary>
+{{< spoiler text="**Public**" >}}
 
 You cannot select this option when creating your project, but for completeness, it is mentioned here.
 
 With this option, the entire world could see your project because it can be accessed from outside the **LIFOS** site. This would leave the protected space of the exercise platform. Therefore, do not choose this option or only do so with careful consideration. For example, the project with the terms of use and the privacy policy is set to **Public** so that this information can be viewed before registration.
 
-</details>
+{{< /spoiler >}}
 
 You can also add a project description. As a student in a group project, you cannot edit this yourself anymore. So make sure to choose a meaningful description right away. A subsequent change is only possible through the supervising person.
 
@@ -125,11 +125,11 @@ Let's start with an explanation of how to upload files to the repository. We ass
 
 A list of options will appear. Let's say we want to upload a file called "Datenauswertung.R". We simply click on *Upload File*. Then you can easily insert the file using the drag-and-drop principle. You will also be prompted to write a commit message so that you will know later what you did or your group members can see what the new file is. This message should be short and informative and should include the name of the file you changed, such as "Add Datenauswertung.R to 2_Scripts".
 
-<details><summary> **What is a Commit?** </summary>
+{{< spoiler text="**What is a Commit?**" >}}
 
 As we have already described, LIFOS is a <span style="color: darkred;">GitLab</span> instance. Uploading and modifying files in the <span style="color: darkred;">Git</span> universe is processed in a `commit`. <span style="color: darkred;">GitLab</span> and <span style="color: darkred;">Git</span> manage versions of files, and each of these versions is stored within a `commit` in a repository - commits thus contain a copy of the version of each file.
 
-</details>
+{{< /spoiler >}}
 
 
 ![](gitlaborientierung_DateiCommit.png) 
