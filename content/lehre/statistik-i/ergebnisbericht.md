@@ -65,9 +65,8 @@ Kursive Teile sind üblicherweise Teil eines Berichts, werden aber im Rahmen die
   * 3.2 Deskriptivstatistische Ergebnisse
   * 3.3 Inferenzstatistischer Schluss
 * *4 Diskussion*
-* CRediT Taxonomy
 * *Literatur*
-* Anhang
+* Anhang (inklusive CRediT Taxonomy)
 
 # Deckblatt
 
@@ -174,6 +173,18 @@ Prüfung der aufgestellten Hypothesen unter Angabe der gewählten Signifikanztes
 
 Im Ergebnisteil werden kurze Antwortsätze auf die gestellten Fragestellungen formuliert. Es steht Ihnen frei, eine kurze Interpretation Ihrer Ergebnisse einzubinden. Dieser Teil kann kurz und knapp sein.
 
+
+## Anhang
+
+Im Anhang werden nur diejenigen Materialien aufgenommen, die im Textteil der Arbeit den Inhaltsablauf „stören“ würden, jedoch für das Nachvollziehen der Argumentation oder als ausführlicher Quellenbeleg zur Hand sein sollten. Bitte fügen Sie dem Ergebnisbericht alle in diesem Sinne relevanten Materialien (in jedem Fall ein Blanko-Exemplar des Fragebogens, zum Beispiel als Screenshot) sowie falls notwendig weitere Abbildungen, Tabellen und Berechnungen im Anhang bei.
+
+* Anhänge sollten nicht redundant sein!
+* Alle im Anhang angefügten Texte, Abbildungen etc. müssen im Text in einem Querverweis erwähnt werden.
+* Falls ein Anhang sehr umfangreich ist, kann er ein eigenes Inhaltsverzeichnis erhalten
+* Die Inhalte werden fortlaufend bezeichnet (Anhang A, Anhang B, ...)
+
+In den Anhang eures Ergebnisberichts sollt ihr in jedem Fall eine CRediT Taxonomy einfügen.
+
 ## CRediT Taxonomy
 
 Die CRediT (Contributor Roles) Taxonomy wurde 2015 eingeführt und hilft, die konkreten Beiträge der Autor*innen eines Forschungsberichts deutlich zu machen. Insgesamt lässt CRediT eine Unterscheidung von bis zu 14 Rollen zu (bei Interesse finden Sie alle Rollen [hier](https://www.cell.com/pb/assets/raw/shared/guidelines/CRediT-taxonomy.pdf)). Für den Ergebnisbericht Ihrer Gruppenarbeit sind die sechs folgenden Rollen relevant: 
@@ -189,15 +200,6 @@ Beispiel:
 Die drei Studierenden Ananas Ameise (A.A.), Banane Bär (B.B.) und Cranberry Chamäleon (C.C.) haben die Arbeit folgendermaßen unter sich aufgeteilt: 
 
 > Konzeptualisierung: A.A., B.B.; Methode: C.C., Software: A.A.; Analyse: B.B., C.C.; Schreiben - Original: A.A., B.B., C.C.; Schreiben - Review und Überarbeitung: B.B., C.C.
-
-## Anhang
-
-Im Anhang werden nur diejenigen Materialien aufgenommen, die im Textteil der Arbeit den Inhaltsablauf „stören“ würden, jedoch für das Nachvollziehen der Argumentation oder als ausführlicher Quellenbeleg zur Hand sein sollten. Bitte fügen Sie dem Ergebnisbericht alle in diesem Sinne relevanten Materialien (in jedem Fall ein Blanko-Exemplar des Fragebogens, zum Beispiel als Screenshot) sowie falls notwendig weitere Abbildungen, Tabellen und Berechnungen im Anhang bei.
-
-* Anhänge sollten nicht redundant sein!
-* Alle im Anhang angefügten Texte, Abbildungen etc. müssen im Text in einem Querverweis erwähnt werden.
-* Falls ein Anhang sehr umfangreich ist, kann er ein eigenes Inhaltsverzeichnis erhalten
-* Die Inhalte werden fortlaufend bezeichnet (Anhang A, Anhang B, ...)
 
 # Hinweise zu Tabellen und Abbildungen
 
@@ -230,5 +232,5 @@ Im Anhang werden nur diejenigen Materialien aufgenommen, die im Textteil der Arb
 
 {{<inline_image"/lehre/statistik-i/ergebnisbericht_abbildung.png">}}
 
-## "Richtlinien zur Manuskriptgestaltung" der Deutschen Gesellschaft für Psychologie (DGPs)
-Diese Informationen sind den "Richtlinien zur Manuskriptgestaltung" der Deutschen Gesellschaft für Psychologie (DGPs) entnommen. Diese Richtlinien enthalten darüber hinaus sehr viel mehr Informationen. Sie finden eine e-Book Variante der Richtlinien in der online Bibliothek der Universität.
+## Publication Manual der American Psychological Association
+Diese Informationen sind dem Publication Manual der American Psychological Association entnommen. Das Manual enthält darüber hinaus sehr viel mehr Informationen. In der Bibliothek der Universität stehen mehrere Exemplare zur Verfügung, die ausgeliehen werden können.
