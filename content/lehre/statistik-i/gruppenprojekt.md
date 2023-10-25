@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [schueller, schultze, winkler, beitner, nehler]
 weight: 12
-lastmod: '2023-10-09'
+lastmod: '2023-10-25'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"
@@ -26,7 +26,7 @@ links:
   - icon_pack: fas
     icon: pen-to-square
     name: Ergebnisbericht
-    url: /lehre/statistik-i/Ergebisbericht.R
+    url: /lehre/statistik-i/ergebnisbericht
   - icon_pack: fas
     icon: pen-to-square
     name: LIFOS

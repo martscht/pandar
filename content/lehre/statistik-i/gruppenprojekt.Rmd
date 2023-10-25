@@ -26,7 +26,7 @@ links:
   - icon_pack: fas
     icon: pen-to-square
     name: Ergebnisbericht
-    url: /lehre/statistik-i/Ergebisbericht.R
+    url: /lehre/statistik-i/ergebnisbericht
   - icon_pack: fas
     icon: pen-to-square
     name: LIFOS
