@@ -42,10 +42,12 @@ output:
 
 * Pro Gruppe Abgabe eines Berichts über die eigene empirische Untersuchung
 * Umfang: ca. 5 Seiten (entscheidend ist aber, dass der Inhalt vollständig ist)
-* Zeilenabstand: 1,5 cm, Seitenabstand an allen Rändern: mindestens 2,6 cm
+* Zeilenabstand: 1,5 cm 
+* Seitenabstand an allen Rändern: mindestens 2,54 cm
 * Schriftart: Times New Roman
+* Schriftgröße: 12
 * Abgabe des Berichts (PDF-Dokument), des Arbeitsdatensatzes (.rda) und des Auswertungsskripts (.R)
-* **Abgabe bis zum 06.02.2023 23:59 Uhr**
+* **Abgabe bis zum ??.??.2023 23:59 Uhr**
 
 # Aufbau des Berichts
 Kursive Teile sind üblicherweise Teil eines Berichts, werden aber im Rahmen dieses Praktikums nicht erwartet.
@@ -53,17 +55,16 @@ Kursive Teile sind üblicherweise Teil eines Berichts, werden aber im Rahmen die
 * Deckblatt
 * Inhaltsverzeichnis
 * *Zusammenfassung*
-* *Einleitung*
-* 1. Fragestellung
-* 2. Methode
+* 1 *Einleitung und* Fragestellung
+* 2 Methode
   * 2.1 Stichprobe
   * 2.2 Material
   * 2.3 Durchführung
-* 3. Ergebnisse
+* 3 Ergebnisse
   * 3.1 Datenaufbereitung
   * 3.2 Deskriptivstatistische Ergebnisse
   * 3.3 Inferenzstatistischer Schluss
-* *Diskussion*
+* *4 Diskussion*
 * CRediT Taxonomy
 * *Literatur*
 * Anhang
@@ -85,7 +86,7 @@ In diesem Tutorial gehen wir die Aspekte durch, die für Sie im Rahmen der Grupp
 ## Inhaltsverzeichnis
 Das Inhaltsverzeichnis listet alle Kapitel und Unterkapitel des Berichts auf. Hierbei korrekt zugeordnete Seitenzahlen nicht vergessen! Das Inhaltsverzeichnis selbst erhält keine Seitenzahl.
 
-## 1. Fragestellung
+## 1 Fragestellung
 
 * Präzise Formulierung der Fragestellungen und Hypothesen.
 * H0 (Nullhypothese) und H1 (Alternativhypothese) für beide Hypothesen verbal und statistisch angeben
@@ -101,21 +102,24 @@ Wichtig: stringentes und datengeleitetes Vorgehen bezogen auf die Fragestellunge
 
 * Was *genau* wurde erhoben, welche Hypothesen können Sie damit untersuchen?
 
-## 2. Methode
+## 2 Methode
 Der Methodenabschnitt gibt detaillierte Informationen darüber, mit wem und wie die Untersuchung durchgeführt wurde. Die Informationen im Methodenteil müssen so präzise und vollständig sein, dass es einem/r Leser:in, dem/der nur der Bericht zur Verfügung steht, prinzipiell möglich ist, die Untersuchung zu replizieren.
 
 ### 2.1 Stichprobe
 
+Kursive Teile werden üblicherweise miterhoben. Im Rahmen dieses Praktikums soll das aus Datenschutzgründen jedoch nicht geschehen!
+
 * Anzahl der Teilnehmenden
-* Alter
-* Geschlecht
+* *Alter*
+* *Geschlecht*
 * weitere erfragte Variablen (z.B. Bildungsstand, aktuelle Tätigkeit)
 * eventuelle besondere Auswahlkriterien mit Relevanz für die Untersuchung (z.B. nur Berufstätige, nur Psychologiestudierende)
 * Rekrutierung und Auswahl (Zufallsauswahl, anfallende Stichprobe etc.)
 * Informationen über evtl. Entlohnungen (z. B. monetärer Art)
 * Information darüber, ob (und ggf. warum nicht) alle Teilnehmer:innen in die Auswertung eingingen
 
-> Beispiel: "Die Stichprobe setzt sich aus insgesamt 20 studentischen Teilnehmer:innen im Alter zwischen 20 und 45 Jahren zusammen. Das durchschnittliche Alter (arithmetisches Mittel) innerhalb der Stichprobe beträgt 24.5 Jahre (SD = 7.29). Siebzehn Proband:innen sind weiblich und drei männlich. Achtzehn der 20 Personen sind Studierende der Psychologie im ersten Fachsemester, zwei befinden sich im dritten Fachsemester Psychologie. Die Teilnehmer:innen wurden über einen Aushang an der Goethe-Universität in Frankfurt am Main rekrutiert. Es handelt sich somit um eine anfallende Stichprobe. Alle Daten gingen in die Auswertung ein."
+> Beispiel: "Die Stichprobe setzt sich aus insgesamt 20 studentischen Teilnehmer:innen zusammen. Achtzehn der 20 Personen sind Studierende der Psychologie im ersten Fachsemester, zwei befinden sich im dritten Fachsemester Psychologie. Die TeilnehmerInnen wurden über einen Link zur Studie, der auf verschiedenen Social Media Plattformen geteilt wurde, rekrutiert. Es handelt sich somit um eine anfallende Stichprobe.
+Psychologie-Studierende der Goethe-Universität erhielten für ihre Teilnahme fünf Versuchspersonenminuten (VPM). Alle Daten gingen in die Auswertung ein."
 
 ### 2.2 Material
 
@@ -125,6 +129,7 @@ Beschreibung des verwendenten Materials (hier: Fragebogen):
 * Fragen bzw. Aussagen (zum Konstrukt + demographische Angaben)
 * Falls bestehende Fragebögen verwendet werden: Namen, Autor:innen und Quelle nennen
 * Antwortformate (z. B. siebenstufige Ratingskala von "stimme überhaupt nicht zu" bis "stimme völlig zu")
+* Kodierung
 
 
 > Beispiel: "Die emotionale Dissonanz wurde mit vier Items gemessen, die angelehnt an die Frankfurt Emotion Work Scales formuliert waren (FEWS; Zapf et al., 1999). Beispiel-Items sind „Wie häufig kommt es bei Ihrer Arbeit vor, dass Sie bestimmte Gefühle zum Ausdruck bringen müssen, die Sie eigentlich nicht empfinden?“ oder „Wie oft kommt es bei Ihrer Arbeit vor, dass Ihre eigentlich erlebten Gefühle nicht denen entsprechen, die Sie im Umgang mit anderen Menschen zeigen sollten?“. Die Bewertungen der Aussagen wurden von den Teilnehmer:innen auf einer fünfstufigen Likert-Skala vorgenommen, die von 1 = "sehr selten/nie"" bis 5 = "immer"" reichte."
@@ -136,11 +141,11 @@ Hier wird der gesamte Ablauf der Untersuchung von der Instruktion der Teilnehmer
 
 * (Wie) wurden die Teilnehmer:innen eingewiesen? (Instruktion)
 * Informationen zur Einverständniserklärung
+* Einzel- oder Gruppensetting?
+* Wurden die Fragen von den TeilnehmerInnen selbstständig bearbeitet oder vorgelesen und die Antworten mitprotokolliert?
 * Wie wurde der Fragebogen dargeboten?
-* Wurde für die Teilnahme eine Vergütung (z.B. Versuchspersonenminuten oder Geld) vergeben?
-* Informationen zur Präregistrierung
 
-## 3. Ergebnisse
+## 3 Ergebnisse
 ### 3.1 Datenaufbereitung
 
 Enthält Informationen über:
@@ -148,7 +153,7 @@ Enthält Informationen über:
 * Kodierung der Variablen (ggf. Umcodierung von negativ formulierten Items)
 * evtl. Index- bzw. Skalenbildung
 * fehlende Werte (missing values) und Umgang mit ihnen
-* Ausschluss von Probanden (z. B. Ausreißer)
+* Ausschluss von Proband:innen (z. B. Ausreißer)
 * Prüfung der Voraussetzungen der statistischen Verfahren
 * Implikationen aus der Voraussetzungsprüfung
 
@@ -157,12 +162,15 @@ Enthält Informationen über:
 
 Die Beschreibung der Daten beinhaltet eine Erläuterung der wesentlichen deskriptiven Befunde (Maße der zentralen Tendenz und Dispersionsmaße) mit Bezug auf die Hypothesen sowie deren graphische Darstellung (Mittelwertediagramme, Box-Plots u. Ä.). Die wichtigsten deskriptiven Kennwerte sollten auch in einer Tabelle vergleichend gegenübergestellt werden.
 
-> Ergebniswerte werden mit zwei Nachkommastellen dargestellt. Alle statistischen Kennwerte (MW, SD, F, p, t, r, ...) sind kursiv zu setzen. Als Dezimaltrennzeichen dient der Punkt und nicht wie sonst im Deutschen üblich das Komma.
+* Ergebniswerte werden mit zwei Nachkommastellen dargestellt, p-Werte können auch mit drei Nachkommastellen dargestellt werden. 
+* p-Werte werden ohne 0 or dem Dezimaltrennzeichen dargestellt (*p* = .34 statt *p* = 0.34)
+* Alle statistischen Kennwerte (*MW*, *SD*, *F*, *p*, *t*, *r*, ...) sind kursiv zu setzen. 
+* Als Dezimaltrennzeichen dient der Punkt und nicht wie sonst im Deutschen üblich das Komma.
 
 ### 3.3 Inferenzstatistischer Schluss
 Prüfung der aufgestellten Hypothesen unter Angabe der gewählten Signifikanztests. Die gewählten Signifikanztests sollten dargestellt und begründet werden. Die Ergebnisse werden (inhaltlich präzise) mit Bezug auf die Hypothesen formuliert und immer unter Angabe der empirischen Prüfgröße und dem zugehörigen p-Wert, Seitigkeit der Testung, Freiheitsgrade und Alpha-Niveau dargestellt.
 
-> Bsp.: $t_{(df=18)} = -2.632, p =.017 < \alpha = 0.05$
+> Bsp.: $t(df=18, zweiseitig) = -2.632, p =.017 < \alpha = 0.05$
 
 Im Ergebnisteil werden kurze Antwortsätze auf die gestellten Fragestellungen formuliert. Es steht Ihnen frei, eine kurze Interpretation Ihrer Ergebnisse einzubinden. Dieser Teil kann kurz und knapp sein.
 
