@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [koehler, buchholz, goldhammer] 
-lastmod: '`r Sys.Date()`'
+lastmod: '2023-10-25'
 featured: no
 banner:
   image: "/header/BSc2_test_unabh_stpr.jpg"
@@ -26,16 +26,12 @@ output:
 ---
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(error = TRUE)
-library(psych)
-library(car)
-library(effsize)
-```
+
 
 **Daten einlesen**
 
-```{r}
+
+```r
 load(url('https://pandar.netlify.app/daten/fb22.rda')) 
 ```
 
@@ -43,15 +39,35 @@ load(url('https://pandar.netlify.app/daten/fb22.rda'))
 
 Prüfe zunächst, ob die Variablen Faktoren sind.
 
-```{r}
+
+```r
 is.factor(fb22$fach)
+```
+
+```
+## [1] FALSE
+```
+
+```r
 is.factor(fb22$ort)
+```
+
+```
+## [1] FALSE
+```
+
+```r
 is.factor(fb22$geschl)
+```
+
+```
+## [1] FALSE
 ```
 
 Falls nicht:
 
-```{r}
+
+```r
 # Lieblingsfach als Faktor - falls es noch keiner war
 fb22$fach <- factor(fb22$fach, 
                     levels = 1:5,
@@ -77,7 +93,8 @@ Unterscheiden sich Studierende, die sich für Allgemeine Psychologie (Variable "
 
 <details><summary>Lösung</summary>
 **Deskriptivstatistische Beantwortung der Fragestellung: grafisch**
-```{r}
+
+```r
 data1 <- fb22[ (which(fb22$fach=="Allgemeine"|fb22$fach=="Klinische")), ]
 data1$fach <- droplevels(data1$fach)
 boxplot(data1$intel ~ data1$fach,
@@ -86,14 +103,31 @@ boxplot(data1$intel ~ data1$fach,
         main="Interessenfach und Intellekt")
 ```
 
+![](/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
 
-```{r}
+
+```r
 # Überblick
 
 library(psych)
 describeBy(data1$intel, data1$fach)
+```
 
+```
+## 
+##  Descriptive statistics by group 
+## group: Allgemeine
+##    vars  n mean   sd median trimmed  mad min max range skew kurtosis   se
+## X1    1 19 3.79 0.48   3.75    3.76 0.37   3   5     2 0.59     0.08 0.11
+## ------------------------------------------------------------- 
+## group: Klinische
+##    vars  n mean   sd median trimmed  mad  min  max range  skew kurtosis   se
+## X1    1 57 3.54 0.63   3.75    3.56 0.37 1.75 4.75     3 -0.63     0.34 0.08
+```
+
+```r
 # Berechnung der empirischen Standardabweichung
 
 intel.A <- data1$intel[(data1$fach=="Allgemeine")]
@@ -101,7 +135,13 @@ sigma.A <- sd(intel.A)
 n.A <- length(intel.A[!is.na(intel.A)])
 sd.A <- sigma.A * sqrt((n.A-1) / n.A)
 sd.A 
+```
 
+```
+## [1] 0.4677997
+```
+
+```r
 intel.B <- data1$intel[(data1$fach=="Klinische")]
 sigma.B <- sd(intel.B)
 n.B <- length(intel.B[!is.na(intel.B)])
@@ -109,7 +149,11 @@ sd.B <- sigma.B * sqrt((n.B-1) / n.B)
 sd.B
 ```
 
-Mittelwert der Allgemeinen Psychologen (_M_ = `r round(mean(intel.A), 2)`, _SD_ = `r round(sd.A, 2)`) unterscheidet sich deskriptivstatistisch vom Mittelwert der Klinischen (_M_ = `r round(mean(intel.B), 2)`, _SD_ = `r round(sd.B, 2)`).
+```
+## [1] 0.6255499
+```
+
+Mittelwert der Allgemeinen Psychologen (_M_ = 3.79, _SD_ = 0.47) unterscheidet sich deskriptivstatistisch vom Mittelwert der Klinischen (_M_ = 3.54, _SD_ = 0.63).
 
 
 **Voraussetzungsprüfung: Normalverteilung**
@@ -133,21 +177,26 @@ $\alpha = .05$
 
 **Voraussetzungsprüfung: Varianzhomogenität**
 
-```{r}
+
+```r
 library(car)
 leveneTest(data1$intel ~ data1$fach)
 ```
-```{r echo=F}
-levene <- leveneTest(data1$intel ~ data1$fach)
-f <- round(levene$`F value`[1], 2)
-p <- round(levene$`Pr(>F)`[1], 3)
+
+```
+## Levene's Test for Homogeneity of Variance (center = median)
+##       Df F value Pr(>F)
+## group  1  1.3813 0.2437
+##       74
 ```
 
-_F_(`r levene$Df[1]`, `r levene$Df[2]`) = `r f`, _p_ = `r p` $\rightarrow$ Das Ergebnis ist nicht signifikant, die $H_0$ wird beibehalten und Varianzhomogenität angenommen.
+
+_F_(1, 74) = 1.38, _p_ = 0.244 $\rightarrow$ Das Ergebnis ist nicht signifikant, die $H_0$ wird beibehalten und Varianzhomogenität angenommen.
 
 **Durchführung des _t_-Tests**
 
-```{r}
+
+```r
 t.test(data1$intel ~ data1$fach,           # abhängige Variable ~ unabhängige Variable
        paired = F,                   # Stichproben sind unabhängig 
        alternative = "two.sided",         # zweiseitige Testung
@@ -155,13 +204,25 @@ t.test(data1$intel ~ data1$fach,           # abhängige Variable ~ unabhängige 
        conf.level = .95)             # alpha = .05 
 ```
 
-```{r, echo=FALSE}
-ttest <- t.test(data1$intel ~ data1$fach, paired = F, alternative = "two.sided", var.equal = T, conf.level = .95) 
 ```
+## 
+## 	Two Sample t-test
+## 
+## data:  data1$intel by data1$fach
+## t = 1.6058, df = 74, p-value = 0.1126
+## alternative hypothesis: true difference in means between group Allgemeine and group Klinische is not equal to 0
+## 95 percent confidence interval:
+##  -0.0612611  0.5700330
+## sample estimates:
+## mean in group Allgemeine  mean in group Klinische 
+##                 3.789474                 3.535088
+```
+
+
 
 **Formales Berichten des Ergebnisses**
 
-Es wurde untersucht, ob sich Studierende, die sich für Allgemeine Psychologie interessieren, im Persönlichkeitsmerkmal 'Intellekt' (auch: Offenheit für neue Erfahrungen) von Studierenden, die sich für Klinische Psychologie interessieren, unterscheiden. Deskriptiv liegt ein solcher Unterschied vor: Die Mittelwerte betragen `r round(mean(intel.A), 2)` (Allgemeine, _SD_ = `r round(mean(sd.A), 2)`) und `r round(mean(intel.B), 2)` (Klinische, _SD_ = `r round(mean(sd.B), 2)`). Der entsprechende _t_-Test zeigt jedoch ein nicht signifikantes Ergebnis (_t_(_df_ = `r ttest$parameter`, zweis.) = `r round(ttest$statistic, 2)`, _p_ = `r round(ttest$p.value, 3)`). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Die Studierenden sind im Persönlichkeitsmerkmal 'Intellekt' unabhängig davon, ob sie sich für Allgemeine Psychologie oder für Klinische Psychologie interessieren.
+Es wurde untersucht, ob sich Studierende, die sich für Allgemeine Psychologie interessieren, im Persönlichkeitsmerkmal 'Intellekt' (auch: Offenheit für neue Erfahrungen) von Studierenden, die sich für Klinische Psychologie interessieren, unterscheiden. Deskriptiv liegt ein solcher Unterschied vor: Die Mittelwerte betragen 3.79 (Allgemeine, _SD_ = 0.47) und 3.54 (Klinische, _SD_ = 0.63). Der entsprechende _t_-Test zeigt jedoch ein nicht signifikantes Ergebnis (_t_(_df_ = 74, zweis.) = 1.61, _p_ = 0.113). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Die Studierenden sind im Persönlichkeitsmerkmal 'Intellekt' unabhängig davon, ob sie sich für Allgemeine Psychologie oder für Klinische Psychologie interessieren.
 
 </details>
 
@@ -171,33 +232,62 @@ Sind Studierende, die außerhalb von Frankfurt wohnen ("ort"), unzufriedener im 
 <details><summary>Lösung</summary>
 **Deskriptivstatistische Beantwortung der Fragestellung: grafisch**
 
-```{r}
+
+```r
 boxplot(fb22$lz ~ fb22$ort,
         xlab="Wohnort", ylab="Lebenszufriedenheit", 
         las=1, cex.lab=1.5, 
         main="Wohnort und Lebenszufriedenheit")
 ```
 
+![](/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
 
-```{r}
+
+```r
 library(psych)
 describeBy(fb22$lz, fb22$ort)
+```
+
+```
+## 
+##  Descriptive statistics by group 
+## group: Frankfurt
+##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 95  4.8 1.15      5     4.9 1.19 1.4 6.6   5.2 -0.77     0.14 0.12
+## ------------------------------------------------------------- 
+## group: anderer
+##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 53 4.68 0.91    4.8    4.75 0.89   2 6.2   4.2 -0.73     0.19 0.13
+```
+
+```r
 summary(fb22[which(fb22$ort=="Frankfurt"), "lz"])
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##     1.4     4.2     5.0     4.8     5.7     6.6       1
+```
+
+```r
 summary(fb22[which(fb22$ort=="anderer"), "lz"])
 ```
 
-```{r, echo=FALSE}
-deskr <- describeBy(fb22$lz, fb22$ort)
-fra <- summary(fb22[which(fb22$ort=="Frankfurt"), "lz"])
-and <- summary(fb22[which(fb22$ort=="anderer"), "lz"])
 ```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##   2.000   4.200   4.800   4.683   5.400   6.200       1
+```
+
+
 
 Mittelwert der Nicht-Frankfurter:innen ist deskriptiv niedriger als der der Frankfurter:innen.
 
 **Voraussetzungsprüfung: Normalverteilung**
 
-```{r, fig.height=4, fig.align="center"}
+
+```r
 par(mfrow=c(1,2))
 lz.F <- fb22[which(fb22$ort=="Frankfurt"), "lz"]
 hist(lz.F, xlim=c(1,9), ylim=c(0,.5), main="Lebenzufriedenheit\n(Frankfurter)", xlab="", ylab="", las=1, prob=T)
@@ -206,9 +296,12 @@ qqnorm(lz.F)
 qqline(lz.F, col="red")
 ```
 
+<img src="/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+
 $\rightarrow$ Entscheidung: Normalverteilung wird nicht angenommen
 
-```{r, fig.height=4, fig.align="center"}
+
+```r
 par(mfrow=c(1,2))
 lz.a <- fb22[which(fb22$ort=="anderer"), "lz"]
 hist(lz.a, xlim=c(1,9), main="Lebenszufriedenheit\n(Nicht-Frankfurter)", xlab="", ylab="", las=1, prob=T)
@@ -216,6 +309,8 @@ curve(dnorm(x, mean=mean(lz.a, na.rm=T), sd=sd(lz.a, na.rm=T)), col="red", lwd=2
 qqnorm(lz.a)
 qqline(lz.a, col="red")
 ```
+
+<img src="/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
 
 $\rightarrow$ Entscheidung: Normalverteilung wird nicht angenommmen 
 
@@ -237,20 +332,28 @@ $\alpha = .05$
 
 **Durchführung des Wilcoxon-Tests**
 
-```{r}
+
+```r
 wilcox.test(fb22$lz ~ fb22$ort,           # abhängige Variable ~ unabhängige Variable
        paired = F,                   # Stichproben sind unabhängig 
        alternative = "greater",         # einseitige Testung: Gruppe1 (Frankfurter:innen) > Gruppe2 (Nicht-Frankfurter:innen) 
        conf.level = .95)             # alpha = .05 
 ```
 
-```{r, echo=FALSE}
-wilcox <- wilcox.test(fb22$lz ~ fb22$ort, paired = F, alternative = "greater",  conf.level = .95)
 ```
+## 
+## 	Wilcoxon rank sum test with continuity correction
+## 
+## data:  fb22$lz by fb22$ort
+## W = 2775, p-value = 0.1515
+## alternative hypothesis: true location shift is greater than 0
+```
+
+
 
 **Formales Berichten des Ergebnisses** 
 
-Es wurde untersucht, ob außerhalb von Frankfurt wohnende Studierende unzufriedener im Leben sind als die in Frankfurt wohnenden. Deskriptiv  zeigt sich das erwartete Muster: die Nicht-Frankfurter:innen sind weniger zufrieden (_Mdn_ = `r round(deskr$anderer$median, 1)`, _IQB_ = [`r round(and[2], 1)` ; `r round(and[5], 1)`]) als die Frankfurter:innen (_Mdn_ = `r round(deskr$Frankfurt$median, 1)`, _IQB_ = [`r round(fra[2], 1)` ; `r round(fra[5], 1)`]). Jedoch ist das Ergebnis des einseitigen Wilcoxon-Tests nicht signifikant (_W_ = `r round(wilcox$statistic, 1)`, _p_ = `r round(wilcox$p.value, 3)`). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. 
+Es wurde untersucht, ob außerhalb von Frankfurt wohnende Studierende unzufriedener im Leben sind als die in Frankfurt wohnenden. Deskriptiv  zeigt sich das erwartete Muster: die Nicht-Frankfurter:innen sind weniger zufrieden (_Mdn_ = 4.8, _IQB_ = [4.2 ; 5.4]) als die Frankfurter:innen (_Mdn_ = 5, _IQB_ = [4.2 ; 5.7]). Jedoch ist das Ergebnis des einseitigen Wilcoxon-Tests nicht signifikant (_W_ = 2775, _p_ = 0.151). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. 
 
 
 </details>
@@ -267,12 +370,20 @@ Beide Variablen sind nominalskaliert $\rightarrow \chi^2$-Test
 2. Jede Person lässt sich eindeutig einer Kategorie bzw. Merkmalskombination zuordnen $\rightarrow$ ok
 3. Zellbesetzung für alle $n_{ij}$ > 5 $\rightarrow$ Prüfung anhand von Häufigkeitstabelle 
 
-```{r}
+
+```r
 fb22$geschlecht <- fb22$geschl
 fb22$geschlecht[fb22$geschlecht=="anderes"] <- NA #Umkodieren von "anderes" in fehlenden Wert
 fb22$geschlecht <- droplevels(fb22$geschlecht) #Level "anderes" wird eliminiert
 tab <- table(fb22$geschlecht, fb22$ort)
 tab
+```
+
+```
+##            
+##             Frankfurt anderer
+##   weiblich         79      46
+##   maennlich        15       8
 ```
 
 $\rightarrow n_{ij}$ > 5 in allen Zellen gegeben
@@ -295,26 +406,38 @@ Hypothesenpaar (statistisch):
 
 **Durchführung des $\chi^2$-Test in R**
 
-```{r}
+
+```r
 chisq.test(tab, correct=FALSE)
 ```
 
-```{r, echo=FALSE}
-chi2 <- chisq.test(tab, correct=FALSE)
+```
+## 
+## 	Pearson's Chi-squared test
+## 
+## data:  tab
+## X-squared = 0.034116, df = 1, p-value = 0.8535
 ```
 
-$\chi^2$ = `r round(chi2$statistic, 3)`, df = `r chi2$parameter`, _p_ = `r round(chi2$p.value, 3)` $\rightarrow H_0$
+
+
+$\chi^2$ = 0.034, df = 1, _p_ = 0.853 $\rightarrow H_0$
 
 **Effektstärke Phi ($\phi$)**
 
-```{r}
+
+```r
 library(psych)
 phi(tab)
 ```
 
+```
+## [1] -0.02
+```
+
 **Ergebnisinterpretation**
 
-Es wurde untersucht, ob sich männliche und weibliche Studierende in ihrem Wohnort (Frankfurt vs. außerhalb) unterscheiden. Zur Beantwortung der Fragestellung wurde ein Vierfelder-Chi-Quadrat-Test für unabhängige Stichproben berechnet. Der Zusammenhang zwischen Wohnort und Geschlecht ist nicht signifikant ($\chi^2$(`r chi2$parameter`) = `r round(chi2$statistic, 3)`, _p_ = `r round(chi2$p.value, 3)`), somit wird die Nullhypothese beibehalten. Der Effekt ist von vernachlässigbarer Stärke ($\phi$ = `r phi(tab)`). Männliche und weibliche Studierende wohnen also mit gleicher Wahrscheinlichkeit in Frankfurt bzw. außerhalb von Frankfurt.
+Es wurde untersucht, ob sich männliche und weibliche Studierende in ihrem Wohnort (Frankfurt vs. außerhalb) unterscheiden. Zur Beantwortung der Fragestellung wurde ein Vierfelder-Chi-Quadrat-Test für unabhängige Stichproben berechnet. Der Zusammenhang zwischen Wohnort und Geschlecht ist nicht signifikant ($\chi^2$(1) = 0.034, _p_ = 0.853), somit wird die Nullhypothese beibehalten. Der Effekt ist von vernachlässigbarer Stärke ($\phi$ = -0.02). Männliche und weibliche Studierende wohnen also mit gleicher Wahrscheinlichkeit in Frankfurt bzw. außerhalb von Frankfurt.
 
 </details>
 
