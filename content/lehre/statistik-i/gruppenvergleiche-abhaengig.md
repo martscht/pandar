@@ -12,7 +12,7 @@ weight: 7
 lastmod: '2023-10-08'
 featured: no
 banner:
-  image: "/header/BSc2_test_abh_stpr.jpg"
+  image: "/header/consent_checkbox.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/449195)"
 projects: []
 reading_time: false

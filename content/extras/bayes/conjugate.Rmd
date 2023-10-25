@@ -11,7 +11,7 @@ summary: ''
 authors: [schultze]
 featured: no
 banner: 
-  image: "/header/bayes_conjugate.jpg"
+  image: "/header/spoons_and_spices.jpg"
   caption: "[Courtesy of pexels](https://www.pexels.com/photo/seasoning-powders-2632292/)"
 projects: []
 

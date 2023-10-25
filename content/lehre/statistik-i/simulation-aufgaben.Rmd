@@ -12,7 +12,7 @@ weight:
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/BSc2_Sim_Power.jpg"
+  image: "/header/windmills.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/674621)"
 projects: []
 reading_time: false

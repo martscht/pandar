@@ -12,7 +12,7 @@ weight: 3
 lastmod: '2023-10-09'
 featured: no
 banner:
-  image: "/header/EigenesProjektLifos.jpg"
+  image: "/header/road_start.jpg"
   caption: "[Courtesy of Pixabay](https://cdn.pixabay.com/photo/2018/05/26/14/53/directory-3431477_960_720.jpg)"
 projects: []
 reading_time: false

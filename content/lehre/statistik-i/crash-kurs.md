@@ -12,7 +12,7 @@ weight: 1
 lastmod: '2023-10-23'
 featured: yes
 banner:
-  image: "/header/crash_post.jpg"
+  image: "/header/toy_car_crash.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
 

@@ -11,7 +11,7 @@ weight: 9
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-     image: "/header/KliPsy_Kausal_Head.jpg"
+     image: "/header/pendulum_chain.jpg"
      caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1109965)"
 projects: []
 

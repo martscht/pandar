@@ -12,7 +12,7 @@ weight: 10
 lastmod: '2023-10-24'
 featured: no
 banner:
-  image: "/header/BSc2_Regression.jpg"
+  image: "/header/modern_buildings.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/411588)"
 projects: []
 reading_time: false

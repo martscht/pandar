@@ -38,6 +38,16 @@ main:
     pre: "<i class='fas fa-book-open'></i>&ensp;"
     url: '/lifos/main'
     weight: 200
+  - name: "LIFOS Grundlagen"
+    pre: "<i class='far fa-folder-open'></i>&ensp;"
+    url: '/lifos/main#lifos-grundlagen'
+    parent: "LIFOS"
+    weight: 201
+  - name: "LIFOS Extras"
+    pre: "<i class='fab fa-gitlab'></i>&ensp;"
+    url: '/lifos/main#lifos-extras'
+    parent: "LIFOS"
+    weight: 202
 
   - name: "Projekte"
     pre: "<i class='fas fa-laptop'></i>&ensp;"

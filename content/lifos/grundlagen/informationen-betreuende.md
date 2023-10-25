@@ -12,7 +12,7 @@ weight: 5
 lastmod: '2023-10-11'
 featured: no
 banner:
-  image: "/header/LIFOS-informationen.jpg"
+  image: "/header/open_books.jpg"
   caption: "[Courtesy of Pixabay](https://pixabay.com/images/id-1151405/)"
 projects: []
 reading_time: false

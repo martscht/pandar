@@ -12,7 +12,7 @@ weight: 4
 lastmod: '2023-10-11'
 featured: no
 banner:
-  image: "/header/lifos-datenschutz-header.jpg"
+  image: "/header/privacy_policy.jpg"
   caption: "[Courtesy of Pixabay](https://pixabay.com/de/photos/datenschutz-datenschutzerkl%C3%A4rung-5243225/)"
 projects: []
 reading_time: false

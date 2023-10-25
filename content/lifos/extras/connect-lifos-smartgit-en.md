@@ -12,7 +12,7 @@ weight: 2
 lastmod: '2023-10-09'
 featured: no
 banner:
-  image: "/header/smartgitlifos.jpg"
+  image: "/header/drawings_space.jpg"
   caption: "[Courtesy of pixabay](https://pixabay.com/de/illustrations/internet-planeten-getr%c3%a4nke-3116062/)"
 projects: []
 reading_time: false

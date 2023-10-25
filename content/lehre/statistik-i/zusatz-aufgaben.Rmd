@@ -12,7 +12,7 @@ weight: 11
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/PsyBSc2_extra.png"
+  image: "/header/mechanical_number_display.png"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/753544)"
 projects: []
 _build:

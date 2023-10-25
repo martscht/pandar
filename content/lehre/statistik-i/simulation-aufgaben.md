@@ -12,7 +12,7 @@ weight:
 lastmod: '2023-10-13'
 featured: no
 banner:
-  image: "/header/BSc2_Sim_Power.jpg"
+  image: "/header/windmills.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/674621)"
 projects: []
 reading_time: false

@@ -17,7 +17,7 @@ sections:
     design:
       background:
         image:
-          filename: teaching2.jpg
+          filename: header/chalkboard_goethe.jpg
         text_color_light: true
       columns: 2
   - block: markdown

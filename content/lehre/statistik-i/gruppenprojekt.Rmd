@@ -12,7 +12,7 @@ weight: 12
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/group_post.jpg"
+  image: "/header/frog_collective.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1220573)"
 projects: []
 reading_time: false

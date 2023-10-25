@@ -11,7 +11,7 @@ authors: [nehler, irmer, hartig]
 lastmod: '2023-07-31'
 featured: no 
 banner:
-  image: "/header/FEI_Data.jpg"
+  image: "/header/dog_with_glasses.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/734854)"
 projects: []
 

@@ -11,7 +11,7 @@ authors: [nehler, buchholz]
 lastmod: '2023-10-25'
 featured: no
 banner:
-  image: "/header/descriptive_post.jpg"
+  image: "/header/frogs_on_phones.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)"
 projects: []
 expiryDate: '2024-10-10'

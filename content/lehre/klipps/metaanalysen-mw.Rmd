@@ -11,7 +11,7 @@ weight: 7
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/Klipps_Meta-Analyse_MW.jpg"
+  image: "/header/model_planets_and_aliens.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1075945)"
 projects: []
 

@@ -12,7 +12,7 @@ weight: 2
 lastmod: '2023-10-09'
 featured: no
 banner:
-  image: "/header/gitlab_markdown2.jpg"
+  image: "/header/code_weave.jpg"
   caption: "[Courtesy of Pixabay](https://pixabay.com/images/id-108881/)"
 projects: []
 reading_time: false
