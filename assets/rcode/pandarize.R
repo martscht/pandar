@@ -6,6 +6,9 @@ pandarize <- function(x, purl = TRUE) {
   .R <- gsub('.Rmd', '.R', .rmd)
   .html <- gsub('.Rmd', '.html', .rmd)
   
+  generated_images_folder_path <- paste0(.location, x, "_files")
+  unlink(generated_images_folder_path, recursive = TRUE)
+  
   rmarkdown::render(.rmd, envir = new.env())
   
   if (purl) knitr::purl(.rmd, .R, documentation = 0)
