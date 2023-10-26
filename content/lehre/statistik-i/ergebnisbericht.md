@@ -4,13 +4,13 @@ type: post
 author:
 date: '2021-01-15'
 slug: ergebnisbericht
-categories: ["Statistik I"]
+categories: []
 tags: []
 subtitle: ''
 summary: ''
 authors: [schueller, beitner, nehler, winkler]
 weight: 12
-lastmod: '2023-10-25'
+lastmod: '2023-10-26'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"
