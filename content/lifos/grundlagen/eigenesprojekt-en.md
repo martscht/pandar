@@ -4,12 +4,12 @@ type: post
 date: '2022-11-14' 
 slug: eigenesprojekt-en
 categories: ["LIFOS"] 
-tags: ["Grundlagen", "Orientierung"] 
+tags: ["Grundlagen", "Orientierung","Git"] 
 subtitle: ''
-summary: '' 
+summary: 'If you have already read through and understood the prior posts, then this one will help you to setup your own project on the Gitlab-page of LIFOS.'
 authors: [schloter, nehler, pommeranz, beitner] 
 weight: 2
-lastmod: '2023-10-25'
+lastmod: '2023-10-26'
 featured: no
 banner:
   image: "/header/road_start.jpg"

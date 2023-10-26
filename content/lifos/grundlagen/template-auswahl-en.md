@@ -4,12 +4,12 @@ type: post
 date: '2023-05-17' 
 slug: template-auswahl-en
 categories: ["LIFOS"] 
-tags: ["Grundlagen", "Hilfe"] 
+tags: ["Grundlagen", "Hilfsmittel"] 
 subtitle: 'Here you can find the perfect template for your project'
-summary: '' 
+summary: 'In this short post you can figure out which template you need for your projects or theses through the answering of a short multiple choice quiz.' 
 authors: [beitner,pommeranz] 
 weight: 2
-lastmod: '2023-10-09'
+lastmod: '2023-10-26'
 featured: no
 banner:
   #image: "/header/road_start.jpg"

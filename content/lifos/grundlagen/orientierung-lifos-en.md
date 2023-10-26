@@ -6,10 +6,11 @@ slug: orientierung-lifos-en
 categories: ["LIFOS"] 
 tags: ["Grundlagen", "Orientierung"] 
 subtitle: ''
-summary: '' 
+summary: 'This first entry serves as a introduction to LIFOS, an Ope Science Infrastrucutre which is used to support your potential university projects and theses. You will be shown the basics of the page of LIFOS and some background of its use' 
+
 authors: [schloter, nehler] 
 weight: 2
-lastmod: '2023-10-25'
+lastmod: '2023-10-26'
 featured: no
 banner:
   image: "/header/road_waysign.jpg"

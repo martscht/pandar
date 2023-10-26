@@ -4,12 +4,12 @@ type: post
 date: '2022-11-14' 
 slug: basic-markdown-uebung
 categories: ["LIFOS Extras", "LIFOS"] 
-tags: ["Extras"] 
+tags: ["Extras","Setup","Git"] 
 subtitle: ''
-summary: '' 
+summary: 'In diesem Beitrag wird euch erklärt, wie ihr in LIFOS ein eigenes Markdown-Projekt erstellt und innerhalb des Projekts Übung mit Markdown erlangt. Die eigentlichen Übungsaufgaben sind dabei nur innerhalb des Projektes.' 
 authors: [schloter, nehler, pommeranz] 
 weight: 3
-lastmod: '2023-10-09'
+lastmod: '2023-10-26'
 featured: no
 banner:
   image: "/header/code_weave.jpg"

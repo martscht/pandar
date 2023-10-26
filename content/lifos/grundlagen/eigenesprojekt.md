@@ -4,12 +4,12 @@ type: post
 date: '2022-11-14' 
 slug: eigenesprojekt
 categories: ["LIFOS Grundlagen", "LIFOS"] 
-tags: ["Grundlagen", "Orientierung"] 
+tags: ["Grundlagen", "Orientierung","Git"] 
 subtitle: ''
-summary: '' 
+summary: 'Sofern ihr bereits die Grundlagen versteht, die in den vorherigen Beiträgen aufgebaut wurden, wird euch nun in diesem Beitrag erklärt, wie ihr euer eigenes Projekt auf der Gitlab-Seite einrichtet.' 
 authors: [schloter, nehler, pommeranz, beitner] 
 weight: 3
-lastmod: '2023-10-25'
+lastmod: '2023-10-26'
 featured: no
 banner:
   image: "/header/road_start.jpg"
