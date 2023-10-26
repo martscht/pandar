@@ -8,7 +8,7 @@ categories: []
 tags: []
 subtitle: ''
 summary: ''
-authors: [schueller, beitner, nehler, winkler]
+authors: [schueller, beitner, schreiner, nehler]
 weight: 12
 lastmod: '2023-10-26'
 featured: no
@@ -46,8 +46,7 @@ output:
 * Seitenabstand an allen Rändern: mindestens 2,54 cm
 * Schriftart: Times New Roman
 * Schriftgröße: 12
-* Abgabe des Berichts (PDF-Dokument), des Arbeitsdatensatzes (.rda) und des Auswertungsskripts (.R)
-* **Abgabe bis zum ??.??.2023 23:59 Uhr**
+
 
 # Aufbau des Berichts
 Kursive Teile sind üblicherweise Teil eines Berichts, werden aber im Rahmen dieses Praktikums nicht erwartet.
