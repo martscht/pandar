@@ -4,9 +4,9 @@ type: post
 date: '2023-07-18' 
 slug: datenschutz-en
 categories: ["LIFOS"] 
-tags: [] 
+tags: ["Datenschutz", "Hilfsmittel"] 
 subtitle: ''
-summary: '' 
+summary: 'Within this post some aspects of data privacy protection will be talked about. Said aspects are necessary to ensure a minimum of data protection within your projects on LIFOS that are necessary from both a legal and ethical perspective. Some talking points include the GDPR and a checklist which you can use, to achieve a satisfactory degree of anonimity within your datasets'
 authors: [beitner] 
 weight: 4
 lastmod: '`r Sys.Date()`'

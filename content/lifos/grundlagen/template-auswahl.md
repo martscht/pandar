@@ -4,12 +4,12 @@ type: post
 date: '2023-05-17' 
 slug: template-auswahl
 categories: ["LIFOS Grundlagen", "LIFOS"] 
-tags: ["Grundlagen", "Hilfe"] 
+tags: ["Grundlagen", "Hilfsmittel"] 
 subtitle: 'Hier findet ihr die perfekte Vorlage für euer Projekt'
-summary: '' 
+summary: 'In diesem kurzen Beitrag könnt ihr für euch per Multiple-Choice Fragen herausfinden, welche LIFOS-Vorlage am ehesten geeignet ist für eure Projekte und Arbeiten.' 
 authors: [beitner,pommeranz] 
 weight: 2
-lastmod: '2023-10-09'
+lastmod: '2023-10-26'
 featured: no
 banner:
   #image: "/header/road_start.jpg"

@@ -4,12 +4,12 @@ type: post
 date: '2023-10-09' 
 slug: informationen-betreuende
 categories: ["LIFOS Grundlagen", "LIFOS"] 
-tags: [] 
+tags: ["Lehrende", "Grundlagen", "Orientierung"] 
 subtitle: ''
-summary: '' 
+summary: 'In diesem Beitrag stehen alle notwendigen Informationen, die Sie als Betreuende und Dozierende, die LIFOS in der Lehre verwenden, benötigen. Dies enthät eine kurze Erklärung zu LIFOS, Ihre Rechte und Pflichten, sowie FAQs.' 
 authors: [beitner] 
 weight: 5
-lastmod: '2023-10-11'
+lastmod: '2023-10-26'
 featured: no
 banner:
   image: "/header/open_books.jpg"

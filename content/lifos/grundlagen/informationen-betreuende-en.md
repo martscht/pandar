@@ -4,12 +4,12 @@ type: post
 date: '2023-10-09' 
 slug: informationen-betreuende-en
 categories: ["LIFOS"] 
-tags: [] 
+tags: ["Lehrende", "Grundlagen", "Orientierung"] 
 subtitle: ''
-summary: '' 
+summary: 'In this post you can find all the information you need as a supervisor who uses LIFOS in their teaching. This includes, amongs others, what LIFOs is in the first place, your rights and obligations as a supervisor and FAQs.'
 authors: [beitner] 
 weight: 5
-lastmod: '2023-10-11'
+lastmod: '2023-10-26'
 featured: no
 banner:
   image: "/header/open_books.jpg"

@@ -6,10 +6,10 @@ slug: orientierung-lifos
 categories: ["LIFOS Grundlagen", "LIFOS"] 
 tags: ["Grundlagen", "Orientierung"] 
 subtitle: ''
-summary: '' 
+summary: 'Dieses Intro dient als erster Einstieg in LIFOS, eie Open Science Infrastruktur zur Unterstützung von Abschluss- und Projektarbeiten. Hier werden euch die Grundlagen der Seite, sowie der dahinterstehende Zweck nähergebracht.' 
 authors: [schloter, nehler] 
 weight: 1
-lastmod: '2023-10-25'
+lastmod: '2023-10-26'
 featured: no
 banner:
   image: "/header/road_waysign.jpg"
