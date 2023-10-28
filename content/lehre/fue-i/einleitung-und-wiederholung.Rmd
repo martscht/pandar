@@ -30,7 +30,7 @@ links:
   - icon_pack: fas
     icon: pen-to-square
     name: Übungsdaten
-    url: /lehre/fue-i/einleitung-und-wiederholung-aufgaben
+    url: /lehre/fue-i/msc1-daten#Sitzung1
 output:
   html_document:
     keep_md: true
