@@ -23,6 +23,10 @@ links:
     icon: pen-to-square
     name: Aufgaben
     url: /lehre/statistik-i/zusatz-aufgaben
+  - icon_pack: fas
+    icon: star
+    name: Lösungen
+    url: /lehre/statistik-i/zusatz-loesungen
 output:
   html_document:
     keep_md: true

@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es um vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [cezanne, mueller, nehler] 
 weight: 11
-lastmod: '2023-10-13'
+lastmod: '2023-10-28'
 featured: no
 banner:
   image: "/header/mechanical_number_display.png"
@@ -23,6 +23,10 @@ links:
     icon: pen-to-square
     name: Aufgaben
     url: /lehre/statistik-i/zusatz-aufgaben
+  - icon_pack: fas
+    icon: star
+    name: Lösungen
+    url: /lehre/statistik-i/zusatz-loesungen
 output:
   html_document:
     keep_md: true
@@ -337,53 +341,15 @@ Lässt sich Prokrastination durch Gewissenhaftigkeit (`gewis`) vorsagen?
 
 ```r
 fb22$prok2_r <- -1 * (fb22$prok2 - 5)
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'fb22' not found
-```
-
-```r
 fb22$prok3_r <- -1 * (fb22$prok3 - 5)
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'fb22' not found
-```
-
-```r
 fb22$prok5_r <- -1 * (fb22$prok5 - 5)
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'fb22' not found
-```
-
-```r
 fb22$prok7_r <- -1 * (fb22$prok7 - 5)
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'fb22' not found
-```
-
-```r
 fb22$prok8_r <- -1 * (fb22$prok8 - 5)
-```
 
-```
-## Error in eval(expr, envir, enclos): object 'fb22' not found
-```
-
-```r
 fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
                           'prok4', 'prok5_r', 'prok6',
                           'prok7_r', 'prok8_r', 'prok9', 
                           'prok10')] |> rowMeans()
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'fb22' not found
 ```
 
 * Stellen Sie die Regressionsgerade auf und prüfen sie die Voraussetzungen.

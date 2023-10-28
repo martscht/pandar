@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [winkler, neubauer]
 weight:
-lastmod: '2023-10-13'
+lastmod: '2023-10-28'
 featured: no
 banner:
   image: "/header/modern_buildings.jpg"
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/regression
+    url: /lehre/statistik-i/einfache-regression
   - icon_pack: fas
     icon: star
     name: Lösungen
-    url: /lehre/statistik-i/regression-loesungen
+    url: /lehre/statistik-i/einfache-regression-loesungen
 output:
   html_document:
     keep_md: true
