@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer, hartig] 
 weight: 2
-lastmod: '2023-10-28'
+lastmod: '2023-10-30'
 featured: no
 banner:
   image: "/header/frog_overencumbered.jpg"
@@ -344,8 +344,10 @@ names(summary_our_model)      # weitere mögliche Argumente, die wir erhalten k�
 ```
 
 ```
-##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"        
-##  [7] "df"            "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled"
+##  [1] "call"          "terms"         "residuals"    
+##  [4] "coefficients"  "aliased"       "sigma"        
+##  [7] "df"            "r.squared"     "adj.r.squared"
+## [10] "fstatistic"    "cov.unscaled"
 ```
 
 ```r
@@ -400,7 +402,7 @@ Die Varianz der Residuen sollte unabhängig von den Ausprägungen der Prädiktor
 
 
 ```r
-residualPlots(model = our_model, pch = 16)
+residualPlots(our_model, pch = 16)
 ```
 
 <img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
@@ -441,7 +443,13 @@ Das Histogramm zeigt keine großen Verstöße gegen die Normalverteilungsannahme
 <!-- NEEDS REVIEW, NOT WORKING -->
 
 ```r
-#qqPlot(our_model, pch = 16, distribution = "norm")
+qqPlot(our_model, pch = 16, distribution = "norm")
+```
+
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+
+```
+## [1]  6 33
 ```
 
 Durch die Angabe von `distribution = "norm"` als Argument für die Funktion `qqPlot` des `car`-Pakets wird ein Vergleich der vorliegenden Variable gegen eine Normalverteilung erzeugt (auch der Vergleich zu anderen Verteilungen wäre möglich - die Anführungszeichen sind dabei essentiell. Welche weiteren Verteilungen es gibt, kann bspw. in der oben angegebenen Quelle gefunden werden). Die blaue Fläche zeigt ein "gebootstraptes" (vgl. [Eid, et al., 2017, S. 283](https://ubffm.hds.hebis.de/Record/HEB366849158)) 95% Konfidenzintervall an. In diesem Plot sind studentisierte Residuen dargestellt, welche gegen die zugehörigen Qunatile der angenommenen Verteilung abgetragen werden (vgl. [Eid, 2017, S. 717 und folgend](https://ubffm.hds.hebis.de/Record/HEB366849158)). Die Punkte sollten möglichst nah an der durchgezogenen Linie (Winkelhalbierende oder Gerade "$y=x$") liegen. Zahlen im Plot zeigen extreme Werte auf (zur Erinnerung, bei einer Standardnormalverteilung mit Mittelwert 0 und Varianz 1 sind Werte ab 1.96 auf dem 5% Niveau extrem - deshalb werden hier die Residuen der Proband*innen 6 und 33 als extrem dargestellt). Diese Zahlen werden auch nochmal in der Console ausgegeben. Insgesamt scheint auch hier keinen Grund zum Zweifeln an der Normalverteilungsannahme zu geben.
@@ -798,21 +806,26 @@ MD
 ```
 
 ```
-##   [1]  0.88733518  0.21566377  2.41458442  0.13177919  1.27927630  4.28965128  0.03451167
-##   [8]  0.33661264  9.62502968  1.22925996  3.44404519  1.06648706  1.47842392  1.83106572
-##  [15]  4.29879647 22.89143112  0.21555167  0.49834275  2.65724843  1.81949191  2.12850866
-##  [22]  1.31066833  0.14334729  0.15748576  1.71430321  1.74615142  1.00646134  0.17988251
-##  [29]  5.04513115  7.14678462  0.16464887  7.01861572  4.85177478  1.19043337  2.72462931
-##  [36]  4.34611563  0.52793945  0.80019408  0.74740206  0.57368396  0.28016792  6.27035221
-##  [43]  4.07657057  0.04345642  0.81076314  2.97056512  2.10323417  1.08103246  0.60950451
-##  [50]  2.90704907  0.10986424  6.09359260  0.94728160  2.35683503  0.03620534  0.40241153
-##  [57]  1.62654030  1.72697393  3.75760606  1.46629223  0.71323544  0.41142182  0.39965918
-##  [64]  0.61656862  0.37536805  0.22094404  3.04527077  0.27381745  0.79358572  3.86151524
-##  [71]  3.19370574  0.19468438  0.29354422  2.35326071  0.95634005  0.07240648  1.92700957
-##  [78]  1.44365936  0.12899197  4.04487099  0.42931176  0.05394028  4.83779128  0.15390664
-##  [85]  2.20766936  1.27108100  0.37456784  0.20895062  1.47329914  1.26292357  1.25364137
-##  [92]  0.67270315  0.85951141  4.25348827  0.28156897  0.18421086  0.47650958  0.13256756
-##  [99]  8.26520343  0.18224578
+##   [1]  0.88733518  0.21566377  2.41458442  0.13177919  1.27927630
+##   [6]  4.28965128  0.03451167  0.33661264  9.62502968  1.22925996
+##  [11]  3.44404519  1.06648706  1.47842392  1.83106572  4.29879647
+##  [16] 22.89143112  0.21555167  0.49834275  2.65724843  1.81949191
+##  [21]  2.12850866  1.31066833  0.14334729  0.15748576  1.71430321
+##  [26]  1.74615142  1.00646134  0.17988251  5.04513115  7.14678462
+##  [31]  0.16464887  7.01861572  4.85177478  1.19043337  2.72462931
+##  [36]  4.34611563  0.52793945  0.80019408  0.74740206  0.57368396
+##  [41]  0.28016792  6.27035221  4.07657057  0.04345642  0.81076314
+##  [46]  2.97056512  2.10323417  1.08103246  0.60950451  2.90704907
+##  [51]  0.10986424  6.09359260  0.94728160  2.35683503  0.03620534
+##  [56]  0.40241153  1.62654030  1.72697393  3.75760606  1.46629223
+##  [61]  0.71323544  0.41142182  0.39965918  0.61656862  0.37536805
+##  [66]  0.22094404  3.04527077  0.27381745  0.79358572  3.86151524
+##  [71]  3.19370574  0.19468438  0.29354422  2.35326071  0.95634005
+##  [76]  0.07240648  1.92700957  1.44365936  0.12899197  4.04487099
+##  [81]  0.42931176  0.05394028  4.83779128  0.15390664  2.20766936
+##  [86]  1.27108100  0.37456784  0.20895062  1.47329914  1.26292357
+##  [91]  1.25364137  0.67270315  0.85951141  4.25348827  0.28156897
+##  [96]  0.18421086  0.47650958  0.13256756  8.26520343  0.18224578
 ```
 
 Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Probandennummer der möglichen Ausreißer.
@@ -1228,8 +1241,10 @@ lm(Schulleistungen$reading ~ 1 + Schulleistungen$female + Schulleistungen$IQ)
 ##     Schulleistungen$IQ)
 ## 
 ## Coefficients:
-##            (Intercept)  Schulleistungen$female      Schulleistungen$IQ  
-##                 88.209                  38.470                   3.944
+##            (Intercept)  Schulleistungen$female  
+##                 88.209                  38.470  
+##     Schulleistungen$IQ  
+##                  3.944
 ```
 
 Wir können auch neue Variablen definieren, um diese dann direkt anzusprechen (es ändern sich entsprechend die Namen der Koeffizienten):

@@ -265,7 +265,8 @@ Regressionsresiduen sollten homoskedastisch und normalverteilt sein.
 Die Varianz der Residuen sollte unabhängig von den Ausprägungen der Prädiktoren sein. Dies wird i.d.R. grafisch geprüft, indem die Residuen $e_i$ gegen die vorhergesagten Werte $\hat{y}_i$ geplottet werden: der sogenannte *Residuenplot* (engl.: *residual plot*). In diesem Streudiagramm sollten die Residuen gleichmäßig über $\hat{y}_i$ streuen und keine systematischen Trends (linear, quadratisch, auffächernd, o.ä.) erkennbar sein. **Prüfung nicht-linearer Zusammenhänge:** Die Funktion `residualPlots` des Pakets `car` erzeugt separate Streudiagramme für die Residuen in Abhängigkeit von jedem einzelnen Prädiktor $x_j$ und von den vorhergesagten Werten $\hat{y}_i$ (*"Fitted Values"*); als Input braucht die Funktion das Modell `our_model`. Zusätzlich wird für jeden Plot ein quadratischer Trend eingezeichnet und auf Signifikanz getestet, wodurch eine zusätzliche Prüfung auf nicht-lineare Effekte erfolgt. Sind diese Tests nicht signifikant, ist davon auszugehen, dass diese Effekte nicht vorliegen und die Voraussetzung der Homoskedastizität damit nicht verletzt ist.  
 
 ```{r, fig.width=10, fig.height = 10}
-residualPlots(model = our_model, pch = 16)
+
+residualPlots(our_model, pch = 16)
 ```
 
 Da die Plots alle recht unsystematisch aussehen und die nichtlinearen Effekte nicht signifikant sind, spricht all dies für die Homoskedastizitätsannahme.
@@ -293,7 +294,7 @@ Das Histogramm zeigt keine großen Verstöße gegen die Normalverteilungsannahme
 Ähnliche Informationen sind aus dem *Q-Q-Plot* zu entnehmen. Dafür kann der Befehl `qqPlot` aus dem `car` Paket genutzt werden. Hier kann die Verteilung, gegen die geprüft werden soll, direkt mit `distribution` festgelegt werden.
 <!-- NEEDS REVIEW, NOT WORKING -->
 ```{r}
-#qqPlot(our_model, pch = 16, distribution = "norm")
+qqPlot(our_model, pch = 16, distribution = "norm")
 ```
 
 Durch die Angabe von `distribution = "norm"` als Argument für die Funktion `qqPlot` des `car`-Pakets wird ein Vergleich der vorliegenden Variable gegen eine Normalverteilung erzeugt (auch der Vergleich zu anderen Verteilungen wäre möglich - die Anführungszeichen sind dabei essentiell. Welche weiteren Verteilungen es gibt, kann bspw. in der oben angegebenen Quelle gefunden werden). Die blaue Fläche zeigt ein "gebootstraptes" (vgl. [Eid, et al., 2017, S. 283](https://ubffm.hds.hebis.de/Record/HEB366849158)) 95% Konfidenzintervall an. In diesem Plot sind studentisierte Residuen dargestellt, welche gegen die zugehörigen Qunatile der angenommenen Verteilung abgetragen werden (vgl. [Eid, 2017, S. 717 und folgend](https://ubffm.hds.hebis.de/Record/HEB366849158)). Die Punkte sollten möglichst nah an der durchgezogenen Linie (Winkelhalbierende oder Gerade "$y=x$") liegen. Zahlen im Plot zeigen extreme Werte auf (zur Erinnerung, bei einer Standardnormalverteilung mit Mittelwert 0 und Varianz 1 sind Werte ab 1.96 auf dem 5% Niveau extrem - deshalb werden hier die Residuen der Proband*innen 6 und 33 als extrem dargestellt). Diese Zahlen werden auch nochmal in der Console ausgegeben. Insgesamt scheint auch hier keinen Grund zum Zweifeln an der Normalverteilungsannahme zu geben.

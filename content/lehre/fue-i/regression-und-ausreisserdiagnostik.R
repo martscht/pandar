@@ -58,14 +58,15 @@ summary_our_model$r.squared  # R^2
 
 avPlots(model = our_model, pch = 16, lwd = 4) 
 
-residualPlots(model = our_model, pch = 16)
+
+residualPlots(our_model, pch = 16)
 
 res <- studres(our_model) # Studentisierte Residuen als Objekt speichern
 hist(res, freq = F)
 xWerte <- seq(from = min(res), to = max(res), by = 0.01)
 lines(x = xWerte, y = dnorm(x = xWerte, mean = mean(res), sd = sd(res)), lwd = 3)
 
-#qqPlot(our_model, pch = 16, distribution = "norm")
+qqPlot(our_model, pch = 16, distribution = "norm")
 
 ks.test(x = res, y = "pnorm")
 
