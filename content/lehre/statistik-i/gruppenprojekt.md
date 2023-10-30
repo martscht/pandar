@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler, beitner, schüller, schultze]
 weight: 12
-lastmod: '2023-10-26'
+lastmod: '2023-10-30'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"
@@ -183,9 +183,9 @@ Der Sinn der Präregistrierung ist es, die Transparenz bei der Planung von Forsc
 
 Eine Präregistrierung hat zudem den positiven Nebeneffekt, dass Sie als Forscher:innen frühzeitig eine klare und strukturierte Vorstellung von Ihrem Projekt entwickeln müssen. Dafür müssen Sie das Projekt bis zum Ende durchdenken, können mögliche Fallstricke erkennen und im Idealfall Probleme/Fehler vor ihrem Auftreten verhindern.
 
-Den ersten Kontakt mit Aspekten von Open Science sollen Sie in einem geschützten Umfeld haben, weshalb wir die Übungsplattform LIFOS erstellt haben. 
+Den ersten Kontakt mit Aspekten von Open Science sollen Sie in einem geschützten Umfeld haben, weshalb wir die Übungsplattform LIFOS erstellt haben. Eine ausführliche Beschreibung zur Navigation auf LIFOS im Rahmen des Praktikums finden Sie [hier](/lehre/statistik-i/quickguide-lifos).
 
-# 3. Erstellung des Fragebogens {#Online-Fragebogen}
+# 4. Erstellung des Fragebogens {#Online-Fragebogen}
 Fragebögen können in Papierform oder auch online durchgeführt werden. In diesem Praktikum wird die Datenerhebung über einen Online-Fragebogen durchgeführt. Sie müssen den Fragebogen nicht selber erstellen -- dies wird von der Praktikumsleitung übernommen. Der erstellte Fragebogen umfasst dann alle Fragestellungen aus Ihrer Praktikumsgruppe. Damit genug Personen erhoben werden können, bewerben Sie den Fragebogen (besonders bei anderen Psychologie-Studierenden, denn es können Versuchspersonenminuten gesammelt werden).
 
 *Zusatzinfo*
@@ -202,27 +202,28 @@ Im Laufe des Studiums müssen Sie sicher auch eine Umfragen selber erstellen. Wi
 * maq-online - http://www.maq-online.de
 * LimeSurvey/LimeService - https://www.limeservice.com/de
 
-# 4. Auswertung {#Auswertung}
+# 5. Auswertung {#Auswertung}
 
 Nach der Durchführung der Befragung sollen die Daten genutzt werden, um Ihre Hypothesen zu prüfen. Die Auswertung startet direkt nach der Weihnachtspause. In der ersten Präsenzsitzung werden Sie in Ihrem Praktikum den Datensatz erhalten und da dieser für alle gleich ist gemeinsam Teile der Datenaufbereitung besprechen. Die Fertigstellung der Analyse müssen Sie dann in Ihren Kleingruppen organisieren.
 
-# 5. Berichterstellung {#Bericht}
+# 6. Berichterstellung {#Bericht}
 
 Neben der Datenerhebung und -auswertung gehört auch das Schreiben eines Berichts zu den Ergebnissen zum wissenschaftlichen Prozess. Dies sollen Sie hier im Praktikum in einem reduzierten Rahmen üben. Dabei geht es hauptsächlich darum, die erhaltenen statistischen Ergebnisse einzuordnen und inhatliche Schlüsse daraus zu ziehen. Der Bericht wird in Ihrer Kleingruppe gemeinsam erstellt -- es muss nicht jede Person einen einzelnen Bericht schreiben. Hinweise über die verpflichtenden Inhalte des Berichts und einige Beispiele erhalten Sie [in diesem eigenen Tutorial](/lehre/statistik-i/ergebnisbericht). 
 
-# 6. Abgabe {#Abgabe}
+# 7. Abgabe {#Abgabe}
 
-Auch bei der Abgabe Ihrer Studienleistung legen wir auf das Üben von Open Science Praktiken großen Wert. Deshalb wird diese wieder über die Übungsplattform LIFOS geregelt. Nähere Informationen finden Sie erneut in dem zugehörigen Tutorial. Durch diesen Link werden Sie direkt an die richtige Stelle geleitet. Die Abgabe umfasst das in der Studie verwendete Material, nachvollziehbar kommentierten und ausführbaren Code, den zugehörigen Rohdatensatz und den geschriebenen Bericht. Deadline für das Hochladen der Berichte ist 
+Auch bei der Abgabe Ihrer Studienleistung legen wir auf das Üben von Open Science Praktiken großen Wert. Deshalb wird diese wieder über die Übungsplattform LIFOS geregelt. Nähere Informationen finden Sie erneut in dem zugehörigen Tutorial. Durch diesen Link werden Sie direkt an die richtige Stelle geleitet. Die Abgabe umfasst das in der Studie verwendete Material, nachvollziehbar kommentierten und ausführbaren Code, den zugehörigen Rohdatensatz und den geschriebenen Bericht. Deadline für das Hochladen der Dokumente ist der 04.02.2024.
 
 # Zusammenfassung
 
 Bitte beachten Sie zusammenfassend: 
 * jeweils eine Unterschieds- und Zusammenhangshypothese -- stimmen Sie die entwickelten Hypothesen mit dem/der Dozent:in Ihres Kurses ab
-* Präregistrierung Ihres Forschungsvorhabens ist Pflicht (**Stichtag XX.XX.2023**)
+* Operationalisierung für zusätzliche Variablen im Rahmen Ihrer Hypothesen muss mit Praktikumsleitung abgesprochen werden (**Stichtag 26.11.2023**)
+* Präregistrierung Ihres Forschungsvorhabens ist Pflicht (**Stichtag für erste Abgabe 15.12.2023** -- **(eventuell) final nach Einarbeitung von Feedback bis zum 22.12.2023**)
 * Bewerben Sie die Umfrage aus Ihrem Praktikum in Gruppen -- Teilnahme an den Studien bringt Versuchspersonenminuten
 * Auswertung wird in einem Präsenztermin gestartet, muss dann aber als Gruppe weitergeführt werden
-* Anschlussbericht muss verafasst werden [hier](/lehre/statistik-i/hinweise-zum-ergebnisbericht)
-* Dokumente (Bericht, Material, kommentierte Code, Datensatz) müssen auf der Open Science Übungsplattform LIFOS hochgeladen werden (**Stichtag XX.XX.2023**)
+* Anschlussbericht muss verfasst werden [hier](/lehre/statistik-i/hinweise-zum-ergebnisbericht)
+* Dokumente (Bericht, Material, kommentierte Code, Datensatz) müssen auf der Open Science Übungsplattform LIFOS hochgeladen werden (**Stichtag 04.02.2024**)
 
 <!-- #### Alte Infos -->
 

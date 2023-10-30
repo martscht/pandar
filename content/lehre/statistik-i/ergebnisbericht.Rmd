@@ -61,8 +61,9 @@ Kursive Teile sind üblicherweise Teil eines Berichts, werden aber im Rahmen die
   * 2.3 Durchführung
 * 3 Ergebnisse
   * 3.1 Datenaufbereitung
-  * 3.2 Deskriptivstatistische Ergebnisse
-  * 3.3 Inferenzstatistischer Schluss
+  * 3.2 Sensitivitätsanalyse
+  * 3.3 Deskriptivstatistische Ergebnisse
+  * 3.4 Inferenzstatistischer Schluss
 * *4 Diskussion*
 * *Literatur*
 * Anhang (inklusive CRediT Taxonomy)
@@ -155,8 +156,15 @@ Enthält Informationen über:
 * Prüfung der Voraussetzungen der statistischen Verfahren
 * Implikationen aus der Voraussetzungsprüfung
 
+### 3.2 Sensitivitätsanalyse
 
-### 3.2 Deskriptivstatistische Ergebnisse
+In vielen Situationen sollte vor der Durchführung einer Studie eine a-priori Poweranalyse zur Bestimmung der nötigen Anzahl an Personen verwendet werden. Wir kennen die Poweranalyse vor Start der Präregistrierung aber nicht, was dieses Vorgehen schwer macht. Des Weiteren haben wir auch keinen Einfluss auf die Versuchspersonenzahl (können die Erhebung nicht abschließen zu einem Zeitpunkt), da alle Studierende die Möglichkeit bekommen sollten, an den Studien teilzunehmen.
+
+Daher werden wir statt der a-priori Poweranalyse eine  Sensitivitätsanalyse durchführen, die wir während des Semesters kennenlernen werden. Grob gesagt soll dabei bestimmt werden, welche Effekte wir mit unserer erreichten Stichprobe überhaupt aufdecken können. In der Analyse und auch im Bericht wird dieser Punkt daher nach der Datenaufbereitung durchgeführt, wenn die finale Anzahl an Versuchspersonen fest steht. Die Sensitivitätsanalyse soll dabei für beide Hypothesen (Unterschied und Zusammenhang) durchgeführt und im Bericht dargestellt
+werden.
+
+
+### 3.3 Deskriptivstatistische Ergebnisse
 
 Die Beschreibung der Daten beinhaltet eine Erläuterung der wesentlichen deskriptiven Befunde (Maße der zentralen Tendenz und Dispersionsmaße) mit Bezug auf die Hypothesen sowie deren graphische Darstellung (Mittelwertediagramme, Box-Plots u. Ä.). Die wichtigsten deskriptiven Kennwerte sollten auch in einer Tabelle vergleichend gegenübergestellt werden.
 
@@ -165,7 +173,7 @@ Die Beschreibung der Daten beinhaltet eine Erläuterung der wesentlichen deskrip
 * Alle statistischen Kennwerte (*MW*, *SD*, *F*, *p*, *t*, *r*, ...) sind kursiv zu setzen. 
 * Als Dezimaltrennzeichen dient der Punkt und nicht wie sonst im Deutschen üblich das Komma.
 
-### 3.3 Inferenzstatistischer Schluss
+### 3.4 Inferenzstatistischer Schluss
 Prüfung der aufgestellten Hypothesen unter Angabe der gewählten Signifikanztests. Die gewählten Signifikanztests sollten dargestellt und begründet werden. Die Ergebnisse werden (inhaltlich präzise) mit Bezug auf die Hypothesen formuliert und immer unter Angabe der empirischen Prüfgröße und dem zugehörigen p-Wert, Seitigkeit der Testung, Freiheitsgrade und Alpha-Niveau dargestellt.
 
 > Bsp.: $t(df=18, zweiseitig) = -2.632, p =.017 < \alpha = 0.05$
