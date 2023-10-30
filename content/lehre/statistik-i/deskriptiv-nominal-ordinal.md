@@ -13,7 +13,7 @@ lastmod: '2023-10-23'
 featured: no
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
-  image: /header/descriptive_post.jpg
+  image: /header/frogs_on_phones.jpg
 projects: []
 reading_time: false
 share: false

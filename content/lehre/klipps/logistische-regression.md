@@ -11,7 +11,7 @@ weight: 5
 lastmod: '2023-08-31'
 featured: no
 banner:
-  image: "/header/KliPsy_Sitzung5.jpg"
+  image: "/header/meds.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/565804)"
 projects: []
 

@@ -11,7 +11,7 @@ weight: 11
 lastmod: '2023-09-12'
 featured: no
 banner:
-  image: "/header/klipps_network.jpg"
+  image: "/header/global_network.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1575603)"
 projects: []
 

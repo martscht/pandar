@@ -12,7 +12,7 @@ weight: 1
 lastmod: '2023-10-23'
 featured: no
 banner:
-  image: "/header/FEI_Sitzung0_post.jpg"
+  image: "/header/chalkboard_equation.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/562631)"
 projects: []
 

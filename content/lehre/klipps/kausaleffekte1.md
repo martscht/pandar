@@ -11,7 +11,7 @@ weight: 9
 lastmod: '2023-09-12'
 featured: no
 banner:
-     image: "/header/KliPsy_Kausal_Head.jpg"
+     image: "/header/pendulum_chain.jpg"
      caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1109965)"
 projects: []
 

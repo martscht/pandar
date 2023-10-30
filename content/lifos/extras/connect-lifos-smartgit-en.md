@@ -4,15 +4,15 @@ type: post
 date: '2023-02-23' 
 slug: connect-lifos-smartgit-en
 categories: ["LIFOS"] 
-tags: ["Extras"] 
+tags: ["Extras","Setup","Git"] 
 subtitle: ''
-summary: '' 
+summary: 'In this post, SmartGit will be explained to youm including its use and how to set it up on your own computer. The focus lies on the application of SmartGit for the context of LIFOS.' 
 authors: [schloter, nehler, pommeranz] 
 weight: 2
-lastmod: '2023-10-09'
+lastmod: '2023-10-26'
 featured: no
 banner:
-  image: "/header/smartgitlifos.jpg"
+  image: "/header/drawings_space.jpg"
   caption: "[Courtesy of pixabay](https://pixabay.com/de/illustrations/internet-planeten-getr%c3%a4nke-3116062/)"
 projects: []
 reading_time: false

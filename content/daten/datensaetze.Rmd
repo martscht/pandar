@@ -12,7 +12,7 @@ authors: [rouchi, schultze]
 lastmod: '2023-06-15'
 featured: no
 banner:
-  image: "/header/datensaetze.jpg"
+  image: "/header/fire_exit.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/126532)"
 projects: []
 

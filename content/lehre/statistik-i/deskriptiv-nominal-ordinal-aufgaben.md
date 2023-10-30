@@ -9,10 +9,10 @@ subtitle: ''
 summary: '' 
 authors: [buchholz, nehler]
 weight: 
-lastmod: '2023-10-13'
+lastmod: '2023-10-27'
 featured: no
 banner:
-  image: "/header/descriptive_post.jpg"
+  image: "/header/frogs_on_phones.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
 reading_time: false
@@ -39,7 +39,7 @@ output:
 
 ### Vorbereitung
 
-> Laden Sie die Daten aus [<i class="fas fa-download"></i> `fb22.rda`](/daten/fb22.rda) oder direkt von der Website über die gelernten Befehle. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie die Daten aus [<i class="fas fa-download"></i> `fb23.rda`](/daten/fb23.rda) oder direkt von der Website über die gelernten Befehle. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 
 ## Aufgabe 1
@@ -53,7 +53,7 @@ Untersuchen Sie, welche Arbeitsbranche Sie und Ihre Kommiliton:innen nach dem St
 
 ## Aufgabe 2
 
-Die Variable `nr3` enthält die Angaben über das Ausmaß, in dem Sie und Ihre Kommiliton:innen Ihre Verbindung zur Natur als Teil Ihrer Spiritualität ansehen.
+Die Variable `wissen` enthält die Angaben über das Ausmaß, in dem sich Sie und Ihre Kommilitonen:innen für wissenschaftliche Grundlagen interessieren.
 
 * Bestimmen Sie für diese Variable den Modus.     
 * Untersuchen Sie die Streuung für diese Variable optisch, indem Sie einen Boxplot erstellen.  
@@ -66,5 +66,5 @@ Erstellen Sie für die Variable `wohnen` eine geeignete Abbildung.
 
 * Stellen Sie sicher, dass die einzelnen Ausprägungen der Variable in der Darstellung interpretierbar benannt sind!  
 * Dekorieren Sie diese Abbildung nach eigenen Wünschen (z.B. mit einer Farbpalette und Achsenbeschriftungen).
-* Speichern Sie die Grafik per Syntax als .jpg-Datei mit dem Namen "Befragung-fb22.jpg" ab.
+* Speichern Sie die Grafik per Syntax als .jpg-Datei mit dem Namen "Befragung-fb23.jpg" ab.
 

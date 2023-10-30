@@ -6,13 +6,13 @@ slug: orientierung-lifos
 categories: ["LIFOS Grundlagen", "LIFOS"] 
 tags: ["Grundlagen", "Orientierung"] 
 subtitle: ''
-summary: '' 
+summary: 'Dieses Intro dient als erster Einstieg in LIFOS, eie Open Science Infrastruktur zur Unterstützung von Abschluss- und Projektarbeiten. Hier werden euch die Grundlagen der Seite, sowie der dahinterstehende Zweck nähergebracht.' 
 authors: [schloter, nehler] 
 weight: 1
-lastmod: '2023-10-09'
+lastmod: '2023-10-26'
 featured: no
 banner:
-  image: "/header/orientierung_gitlab_header.jpg"
+  image: "/header/road_waysign.jpg"
   caption: "[Courtesy of Pixabay](https://cdn.pixabay.com/photo/2018/05/26/14/53/directory-3431477_960_720.jpg)"
 projects: []
 reading_time: false
@@ -56,7 +56,7 @@ Nachdem Ihr euch eingeloggt habt, kommt Ihr zu der Startseite:
 
 Wie Ihr hier seht, habt Ihr drei Sachen zur Auswahl. Zum einen **Create a project**, hier könnt Ihr (wer hätte es gedacht) ein Projekt erstellen. In dem unten anschließenden ausklappbaren Abschnitt, zeigen wir euch wie Ihr ein eigenes Projekt - ohne Gruppenzugehörgkeit und Template- erstellen könnt. Das solltet Ihr für eure Arbeit allerdings **nicht** machen, da euer Projekt der Abteilung zugehörig ist unter der Ihr das Projekt erstellt und es schon Vorlagen gibt, die Ihr benutzen sollt. Wie das funktioniert seht Ihr [hier](/lifos/grundlagen/eigenesprojekt/). 
 
-<details><summary> **Eigenes Projekt erstellen** </summary>
+{{< spoiler text="**Eigenes Projekt erstellen**" >}}
 
 Um ein eigenes Projekt zu erstellen, geht Ihr auf der LIFOS-Startseite rechts auf **New project**.
 
@@ -74,7 +74,7 @@ Bei der Project-URL ordnet Ihr das Projekt euch selbst zu, indem Ihr einfach eur
 ![](/lifos/grundlagen/gitlaborientierung_newblankproject.png) 
 Am Ende klickt Ihr auf *Create Project* und Ihr habt ein eigenes Projekt erstellt - ohne Gruppenzugehörigkeit oder Vorlage. 
 
-</details>
+{{< /spoiler >}}
 
 Zum anderen befindet sich hier noch **Explore public projects**, auch wieder selbsterklärend. Wenn Ihr hierauf klickt, öffnet sich folgende Seite: 
 
@@ -128,5 +128,5 @@ Solltet Ihr euch nun Sorgen machen, dass jemand an eurem Projekt Änderungen vor
 
 ### Fazit und weiteres Vorgehen   
 
-Das Tutorial sollte einen Einblick in den Hintergrund und die Oberfläche von **LIFOS** geben. Der erste Impuls ist nun die Erstellung eines eigenen Projektes für eure Studienarbeit. Damit Ihr nicht ganz leer in die Erstellung starten müsst, haben wir bereits Templates für verschiedene Situationen erstellt. Im nächsten [Tutorial](#) findet Ihr einen Entscheidungsbaum, anhand dem Ihr das geeignete Template für euch auswählen könnt. 
+Das Tutorial sollte einen Einblick in den Hintergrund und die Oberfläche von **LIFOS** geben. Der erste Impuls ist nun die Erstellung eines eigenen Projektes für eure Studienarbeit. Damit Ihr nicht ganz leer in die Erstellung starten müsst, haben wir bereits Templates für verschiedene Situationen erstellt. Im nächsten [Tutorial](/lifos/grundlagen/template-auswahl/) findet Ihr einen Entscheidungsbaum, anhand dem Ihr das geeignete Template für euch auswählen könnt. 
 

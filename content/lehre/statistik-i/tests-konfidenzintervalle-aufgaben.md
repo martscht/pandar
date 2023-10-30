@@ -12,7 +12,7 @@ weight:
 lastmod: '2023-10-24'
 featured: no
 banner:
-  image: "/header/BSc2_Tests.jpg"
+  image: "/header/angel_of_the_north.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)"
 projects: []
 reading_time: false

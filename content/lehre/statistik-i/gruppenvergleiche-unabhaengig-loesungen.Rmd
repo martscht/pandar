@@ -11,11 +11,11 @@ authors: [koehler, buchholz, goldhammer]
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/BSc2_test_unabh_stpr.jpg"
+  image: "/header/writing_math.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/662606)"
 projects: []
-expiryDate:
-publishDate: '2023-10-17'
+expiryDate: '2024-10-10'
+publishDate: '2023-12-17'
 _build:
   list: never
 reading_time: false
@@ -35,13 +35,8 @@ library(effsize)
 
 **Daten einlesen**
 
-```{r echo=F}
-load("fb22.rda")
-```
-
-```{r, eval=F}
-setwd("...")  
-load("fb22.rda")
+```{r}
+load(url('https://pandar.netlify.app/daten/fb22.rda')) 
 ```
 
 **Daten aufbereiten**

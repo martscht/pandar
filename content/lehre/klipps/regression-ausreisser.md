@@ -12,7 +12,7 @@ weight: 2
 lastmod: '2023-10-23'
 featured: yes
 banner:
-  image: "/header/FEI_Sitzung1_post.jpg"
+  image: "/header/frog_overencumbered.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/806441)"
 projects: []
 

@@ -11,7 +11,7 @@ authors: [schultze]
 lastmod: '2023-06-15'
 featured: no
 banner:
-  image: "/header/crash_post.jpg"
+  image: "/header/toy_car_crash.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
 
@@ -47,7 +47,7 @@ output:
 
 ## Daten erstellen
 
-In folgender Tabelle sind die fünf schnellsten Zeiten im Finale des 100m Sprint der Frauen bei den Olympischen Spiele in Tokyo dargestellt:
+In folgender Tabelle sind die fünf schnellsten Zeiten im Finale des 100m Sprint der Frauen bei den Olympischen Sommerspielen 2020 in Tokyo dargestellt:
 
 Sprinterin | Zeit (in s)
 ------ | -----------
@@ -57,7 +57,7 @@ Shericka Jackson | 10.76
 Marie-Josee Ta Lou | 10.91
 Ajla del Ponte | 10.97
 
-5. Erstellen Sie jeweils einen Vektor `sprinterin` und einen Vektor `zeit`, die die jeweiligen Informationen aus der Tabelle enthalten. Prüfen Sie, welchen Typ diese beiden Vektoren haben.
+5. Erstellen Sie einen Vektor `sprinterin` und einen Vektor `zeit`, die die jeweiligen Informationen aus der Tabelle enthalten. Prüfen Sie, welchen Typ diese beiden Vektoren haben.
 6. Führen Sie die beiden Vektoren in einem Datensatz zusammen. Stellen Sie sicher, dass die Variable `sprinterin` nicht in einen Faktor umgewandelt wird.
 7. Lassen Sie sich via Elementenauswahl die Zeit von Shericka Jackson ausgeben.
 8. Nehmen Sie die 6. schnellste Läuferin, Mujinha Kambundji, und ihre Zeit von  10.99 Sekunden in den Datensatz auf.
@@ -68,7 +68,7 @@ Ajla del Ponte | 10.97
 
 ## Datenmanagement
 
-Die folgenden Aufgaben beziehen sich auf den Datensatz **fb22**, den Sie [{{< icon name="download" pack="fas" >}} hier als CSV finden](/daten/fb22.csv). Sofern Sie es nicht bereits getan haben, setzen Sie das Working Directory auf den Ordner, in dem Sie den Datensatz gespeichert haben und laden Sie diesen Datensatz als Objekt `fb22`.
+Die folgenden Aufgaben beziehen sich auf den Datensatz **fb23**, den Sie [{{< icon name="download" pack="fas" >}} hier als CSV finden](/daten/fb23.csv). Sofern Sie es nicht bereits getan haben, setzen Sie das Working Directory auf den Ordner, in dem Sie den Datensatz gespeichert haben und laden Sie diesen Datensatz als Objekt `fb23`.
 
 11. Der [Variablenübersicht](/lehre/statistik-i/variablen.pdf) können Sie die Variablennamen, Variablenbedeutungen und die Kodierschemata entnehmen. Die Variable `ziel` kodiert die Arbeitsbranchen, in denen Sie und Ihre Kommilitoninnen und Kommilitonen nach dem Abschluss tätig sein wollen. Wandeln Sie diese Variable in einen Faktor um und vergeben Sie die entsprechenden Labels.
 12. Erstellen Sie eine Variable `uni`, die darlegt, wie viele der Uniangebote eine Teilnehmerin oder ein Teilnehmer bereits in Anspruch genommen hat (aus den Variablen `uni1` bis `uni4`).

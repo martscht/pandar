@@ -6,13 +6,13 @@ slug: tests-konfidenzintervalle
 categories: ["Statistik I"] 
 tags: ["z-Test", "t-Test", "Konfidenzintervall", "Cohen's d"] 
 subtitle: ''
-summary: 'In diesem Beitrag geht es um die Berechnung und Interpretation des z-Tests und des t-Tests. Außerdem soll ein Konfidenzintervall um den wahren Populationsmittelwert bestimmt sowie Hypethesengenerierung und das Effektstärkemaß Cohens d vorgestellt werden.' 
-authors: [scheppa-lahyani, nehler] 
+summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
+authors: [nehler, scheppa-lahyani] 
 weight: 5
-lastmod: '2023-10-13'
+lastmod: '2023-10-24'
 featured: no
 banner:
-  image: "/header/BSc2_Tests.jpg"
+  image: "/header/angel_of_the_north.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)"
 projects: []
 reading_time: false
@@ -54,35 +54,21 @@ output:
 
 ***
  
-## Was erwartet Sie heute?
-  
-Nachdem wir uns die letzten Wochen mit Deskriptivstatistik und Verteilungen beschäftigt haben, wird unser Thema nun Gruppenunterschiede sein. Wir interessieren uns heute vor allem für den Unterschied zwischen dem Mittelwert einer Stichprobe und dem Mittelwert der dazugehörigen Population, aus der die Stichprobe stammt.
 
-## Aufbau der Sitzung
-
-* z-Test
-* Konfidenzintervalle
-* t-Test
-* Beispiel am Datensatz
-* Effektgröße
-
-***
 
 ## Vorbereitende Schritte {#prep}
 
-Der Datensatz wird in diesem Tutorial nicht direkt verwendet, wird aber für das spätere Beispiel gebraucht. Wir beschäftigen uns aber wieder zu Beginn mit dem Einladen, um die Struktur der Tutorials gleich zu lassen. Den Datensatz haben wir bereits unter diesem [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb22.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Der Datensatz wird in diesem Tutorial nicht direkt verwendet, wird aber für das spätere Beispiel gebraucht. Wir beschäftigen uns aber wieder zu Beginn mit dem Einladen, um die Struktur der Tutorials gleich zu lassen. Den Datensatz haben wir bereits unter diesem [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 
 ```r
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb23.rda'))  
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb22$geschl_faktor <- factor(fb22$geschl,
-                             levels = 1:3,
-                             labels = c("weiblich", "männlich", "anderes"))
+
 fb22$fach <- factor(fb22$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
@@ -93,19 +79,8 @@ fb22$wohnen <- factor(fb22$wohnen,
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
-# Skalenbildung
 
-fb22$prok2_r <- -1 * (fb22$prok2 - 5)
-fb22$prok3_r <- -1 * (fb22$prok3 - 5)
-fb22$prok5_r <- -1 * (fb22$prok5 - 5)
-fb22$prok7_r <- -1 * (fb22$prok7 - 5)
-fb22$prok8_r <- -1 * (fb22$prok8 - 5)
 
-# Prokrastination
-fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
-                          'prok4', 'prok5_r', 'prok6',
-                          'prok7_r', 'prok8_r', 'prok9', 
-                          'prok10')] |> rowMeans()
 # Naturverbundenheit
 fb22$nr_ges <-  fb22[, c('nr1', 'nr2', 'nr3', 'nr4', 'nr5',  'nr6')] |> rowMeans()
 fb22$nr_ges_z <- scale(fb22$nr_ges) # Standardisiert
@@ -116,76 +91,98 @@ fb22$neuro_std <- scale(fb22$neuro)
 ```
 ***
 
+## Was erwartet Sie heute?
+  
+Nachdem wir uns die letzten Wochen mit Deskriptivstatistik und Verteilungen beschäftigt haben, werden wir heute in die Inferenzstatistik starten. Diese wird auch als prüfende Statistik bezeichnet -- wir wollen also nicht nur Daten beschreiben sondern auch unsere Hypothesen überprüfen. Der Einstieg soll mit einem möglichst einfachen Fall dargestellt haben. Dafür nutzen wir Tests, die nur mit einer Stichprobe arbeiten.
+
+
+***
+
 # Let's start {#Unterschied}
 
-Der durchschnittliche IQ der Population ist $\mu_0$ = 100 und die Standardabweichung ist 15. Eine Forschungsgruppe glaubt aber, dass dieser gestiegen sei und entscheidet, diese Vermutung an einer zufälligen Stichprobe von 75 Erwachsenen zu testen. Sie finden heraus, dass der durchschnittliche IQ der Stichprobe $\mu_1$ = 105 (*SD* = 17) ist.
+Für die Einstichprobentests ist es essentiell, dass gewisse Populationsinformationen vorliegen. Dies kann beispielsweise bei genormten Tests (wie IQ-Tests) der Fall sein. Stellen wir uns also vor, dass es für den Fragebogen zur Nerdiness (`nerd`) aus der `fb23` Umfrage Normwerte gibt.  
 
-**Was wären hier $H_0$ und $H_1$?**
+Der imaginierte Mittelwert der Population liegt bei $\mu_0 = 2.5$, während die Standardabweichung der Population bei $\sigma = 0.5$ liegt. Wir wollen nun im folgenden untersuchen, ob sich unsere Stichprobe (also die Studierenden des ersten Semesters) von diesem Wert unterscheiden.
+
+## Einstichproben-z-Test {#z_Test}
+
+Für den **Einstichproben-z-Test** (auch Einstichproben-Gauß-Test genannt) benötigen wir neben dem Mittelwert der Stichprobe auch den Mittelwert der Population und (im Unterschied zu dem später betrachteten Einstichproben-t-Test) auch die Populationsstandardabweichung. Da wir diese drei Informationen haben, ist er die richtige Wahl. Bevor wir mit einer inferenzstatistischen Testung starten, sollten allerdings Hypothesen vorliegen. Diese leitet man in der Praxis aus der Theorie ab. Wir gehen hier jetzt erstmal davon aus, dass wir den Mittelwert der Stichprobe auf einen Unterschied zum Mittelwert der Population testen wollen ohne eine Richtung anzunehmen. 
+
+Dafür können wir nun ein Hypothesenpaar bestehend aus $H_0$ und $H_1$ aufstellen. Aus Übungszwecken machen wir das einmal inhaltlich und einmal durch eine statistische Schreibweise.
+
+**Inhaltlich**  
+$H_0$: Der Mittelwert unserer Stichprobe auf der Variable Nerdiness unterscheidet sich nicht von der Population.
+
+$H_1$: Der Mittelwert unserer Stichprobe auf der Variable Nerdiness unterscheidet sich von der Population.
+
+**Statistisch**
+$H_0: \mu_0 = \mu_1$
   
-$\alpha$ = .05 
+$H_1: \mu_0 \neq \mu_1$
 
-$H_0$: Der durchschnittliche IQ der Stichprobe ist gleich oder geringer als zuvor.
-
-$H_0$: $\mu_0$ $\geq$ $\mu_1$
+Außerdem sollten wir eine Irrtumswahrscheinlichkeit $\alpha$ festlegen, die wir auch später nochmal genauer besprechen werden. Wir entscheiden uns hier für den in der Psychologie häufig verwendeten Wert von 5\%.
   
-$H_1$: Der durchschnittliche IQ der Stichprobe ist höher als zuvor.
+Nach diesen Festlegungen wird bei inferenzstatistischen Testungen häufig eine deskriptive Betrachtung im Rahmen der Hypothesen vollzogen. Für den vorliegenden Test würde es hier Sinn machen, dass der Mittelwert unserer Stichprobe auf der Variable Nerdiness `nerd` bestimmt wird. Den Code dafür haben wir bereits kennengelernt. Dabei gibt es auf der Variable keine fehlenden Werte. 
 
-$H_1$: $\mu_0$ $<$ $\mu_1$
+
+```r
+mean(fb23$nerd)
+```
+
+```
+## [1] 3.032588
+```
+
+Wir sehen hier bereits, dass ich der Wert der Stichprobe von dem der Population rein deskriptiv unterscheidet. Doch reicht dieses deskriptive Ergebnis, um daraus Schlussfolgerungen für die Hypothesen zu ziehen?  
   
-Die Frage: Reicht dieses deskriptive Ergebnis (100 vs. 105) um daraus schlusszufolgern, dass der durchschnittliche IQ sich verändert hat?  
-  
-**Nein**. Erst mit Hilfe des z- oder t-Tests kann herausgefunden werden, wie (un)wahrscheinlich die beobachtete Diskrepanz (100 vs. 105) ist. 
+**Nein**. Erst mit Hilfe der Inferenzstatistik kann herausgefunden werden, wie (un)wahrscheinlich die beobachtete Diskrepanz unter Annahme der $H_0$ (also dass es eigentlich keinen Unterschied gibt) ist
 
-ABER: ob z- oder t-Test zum Einsatz kommt, hängt davon ab, ob neben dem Mittelwert auch die Standardabweichung (*SD*, $\sigma$) der Grundgesamtheit bekannt ist.  
-In diesem Fall ist die *SD* bekannt, demnach wäre ein z-Test an dieser Stelle anzuwenden.
 
-## z-Test {#z_Test}
+Der Einstichproben-z-Test setzt voraus, dass das Merkmal in der Population, auf die sich die Nullhypothese ($H_0$) bezieht, normalverteilt ist und (wie bereits erwähnt) der Mittelwert sowie die Standardabweichung der Population bekannt sind. Des Weiteren verwendet der Einstichproben-z-Test grundsätzlich die Standardnormalverteilung als Stichprobenkennwerteverteilung (SKV), deswegen ist er nicht für kleine Stichproben geeignet.  
+Der Einstichproben-z-Test prüft anhand des arithmetischen Mittels einer Stichprobe, ob der Erwartungswert der zugehörigen Grundgesamtheit ungleich (bzw. kleiner oder größer) als ein vorgegebener Wert ist.
 
-Der **z-Test** oder **Einstichproben-Gauss-Test** setzt voraus, dass das Merkmal in der Population, auf die sich die Nullhypothese ($H_0$) bezieht, normalverteilt ist und der Mittelwert sowie die Standardabweichung bekannt sind.  
-Des Weiteren verwendet der Gauss-Test grundsätzlich die Standardnormalverteilung als Stichprobenkennwerteverteilung (SKV), deswegen ist er nicht für kleine Stichproben geeignet.  
-Der Einstichproben-Gauss-Test prüft anhand des arithmetischen Mittels einer Stichprobe, ob der Erwartungswert der zugehörigen Grundgesamtheit ungleich (bzw. kleiner oder größer) als ein vorgegebener Wert ist.
-
-Die Formel für den **empirischen *z-*Wert** $z_{emp}$ ist:
+Die Formel für den **empirischen z-Wert** $z_{emp}$ ist:
   
 $$z_{emp} = |\frac{\bar{x} - {\mu}}{\sigma_{\bar{x}}}|$$
   wobei sich der Standardfehler (*SE*) des Mittelwerts wie folgt berechnet:
   
 $$\sigma_{\bar{x}} = {\frac{{\sigma}}{\sqrt{n}}}$$
   
-Zunächst legen wir alle für den *z-*Wert relevanten Informationen in unser Environment ab, wobei wir auch schon den Standardfehler des Mittelwerts ($\sigma_{\bar{x}}$) berechnen.
+Zunächst legen wir alle für den z-Wert relevanten Informationen in unser Environment ab, die wir entweder per Hand eingeben müssen (Populationsinformationen) oder mit einer einfachen Funktion bestimmen können.
 
 
 ```r
-mean_IQ <- 100 #Mean Grundgesamtheit
-sd_IQ <- 15 #SD der Grundgesamtheit
-sample_size <- 75 #Stichprobengröße
-se_IQ <- sd_IQ/sqrt(sample_size) #standard error (SE), also Standardfehler
-new_mean_IQ <- 105 #Stichprobenmittelwert
-new_sd_IQ <- 17 #SD der Stichprobe (Populationsschätzer)
+pop_mean_nerd <- 2.5                 # Mittelwert Grundgesamtheit
+pop_sd_nerd <- 0.5                   # SD der Grundgesamtheit
+sample_mean_nerd <- mean(fb23$nerd)  # Stichprobenmittelwert
+sample_size <- nrow(fb23)            # Stichprobengröße (da keine NA)
 ```
 
-Demnach wird der empirische *z-*Wert $z_{emp}$ wie folgt berechnet:
+Als nächstes müssen wir den Standardfehler des Mittelwerts ($\sigma_{\bar{x}}$) berechnen.
 
 
 ```r
-z_IQ <- abs((new_mean_IQ-mean_IQ)/(sd_IQ/sqrt(sample_size))) #abs() berechnet den Betrag des Ergebnisses
-z_IQ
+se_nerd <- pop_sd_nerd/sqrt(sample_size) # Standardfehler des Mittelwerts
 ```
 
-```
-## [1] 2.886751
-```
+Demnach wird der empirische z-Wert $z_{emp}$ wie folgt berechnet:
 
-bzw.
 
 
 ```r
-z_IQ <- abs((new_mean_IQ-mean_IQ)/se_IQ)
-z_IQ
+z_emp <- abs((pop_mean_nerd - mean_nerd)/ se_nerd)
 ```
 
 ```
-## [1] 2.886751
+## Error in eval(expr, envir, enclos): object 'mean_nerd' not found
+```
+
+```r
+z_emp
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'z_emp' not found
 ```
 
 Beachten Sie: es geht immer um den Betrag des Ergebnisses, weshalb wir die Funktion `abs()` verwenden.
@@ -209,11 +206,11 @@ Der **kritische *z-*Wert** beträgt demnach **$z_{krit}$ = 1.64**. Damit das Erg
   
 
 ```r
-z_IQ > z_krit
+z_emp > z_krit
 ```
 
 ```
-## [1] TRUE
+## Error in eval(expr, envir, enclos): object 'z_emp' not found
 ```
 
 Das Ergebnis `TRUE` zeigt uns, dass es sich um einen signifikanten Unterschied handelt.
@@ -225,24 +222,38 @@ Wie hoch ist die Wahrscheinlichkeit angesichts der bekannten Normalverteilung di
   
 
 ```r
-p_z_IQ_oneside <- pnorm(z_IQ, lower.tail = FALSE)
+p_z_IQ_oneside <- pnorm(z_emp, lower.tail = FALSE)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'z_emp' not found
+```
+
+```r
 p_z_IQ_oneside
 ```
 
 ```
-## [1] 0.001946209
+## Error in eval(expr, envir, enclos): object 'p_z_IQ_oneside' not found
 ```
 
 Wie hoch ist die Wahrscheinlichkeit angesichts der bekannten Normalverteilung diesen oder einen EXTREMEREN (zweiseitig) *z-*Wert $z_{emp}$ zu erreichen?
   
 
 ```r
-p_z_IQ_twoside <- 2*pnorm(z_IQ, lower.tail = FALSE) #verdoppeln, da zweiseitig
+p_z_IQ_twoside <- 2*pnorm(z_emp, lower.tail = FALSE) #verdoppeln, da zweiseitig
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'z_emp' not found
+```
+
+```r
 p_z_IQ_twoside
 ```
 
 ```
-## [1] 0.003892417
+## Error in eval(expr, envir, enclos): object 'p_z_IQ_twoside' not found
 ```
 
 Wir erkennen, dass in beiden Fällen der Wert kleiner als .05 (5%) ist. Demnach ist die Wahrscheinlichkeit, diesen Wert (oder einen noch extremeren Wert) per Zufall erhalten zu haben, sehr gering, wenn die $H_0$ gilt.
@@ -274,21 +285,21 @@ Wir sehen, dass der Wert 1.96 2.5% der Verteilung Richtung positiv unendlich abt
 
 
 ```r
-positive_mean_IQ <- new_mean_IQ+((z_quantil_zweiseitig*sd_IQ)/sqrt(sample_size))
+positive_mean_IQ <- pop_mean_nerd+((z_quantil_zweiseitig*pop_sd_nerd)/sqrt(sample_size))
 positive_mean_IQ
 ```
 
 ```
-## [1] 108.3948
+## [1] 2.573247
 ```
 
 ```r
-negative_mean_IQ <- new_mean_IQ-((z_quantil_zweiseitig*sd_IQ)/sqrt(sample_size))
+negative_mean_IQ <- pop_mean_nerd-((z_quantil_zweiseitig*pop_sd_nerd)/sqrt(sample_size))
 negative_mean_IQ
 ```
 
 ```
-## [1] 101.6052
+## [1] 2.426753
 ```
 
 ```r
@@ -297,10 +308,10 @@ conf_interval_IQ
 ```
 
 ```
-## [1] 101.6052 108.3948
+## [1] 2.426753 2.573247
 ```
 
-In diesem Fall liegt der Schätzer für den wahren IQ Wert der Grundgesamtheit $\mu$, aus der die Stichprobe gezogen wurde, zwischen 101.61 und 108.39. Das bedeutet, dass mit einer Wahrscheinlichkeit von 95% der wahre IQ Wert der Grundgesamtheit in unserem Konfidenzinterall 101.61 und 108.39 liegt.
+In diesem Fall liegt der Schätzer für den wahren IQ Wert der Grundgesamtheit $\mu$, aus der die Stichprobe gezogen wurde, zwischen 2.43 und 2.57. Das bedeutet, dass mit einer Wahrscheinlichkeit von 95% der wahre IQ Wert der Grundgesamtheit in unserem Konfidenzinterall 2.43 und 2.57 liegt.
 
 Das Konfidenzintervall kann auch dafür genutzt werden, um eine Aussage über die von uns angenommenen Hypothesen zu treffen. Dafür müsste untersucht werden, ob das Intervall den angenommenen Populationsmittelwert (100 enthält). Wir erinnern uns jedoch, dass in den Hypothesen eine Richtung vorgegeben wurde, weshalb hierfür auch ein einseitiges Konfidenzintervall benötigt werden würde.
 
@@ -328,7 +339,7 @@ new_mean_IQ-((z_quantil_einseitig*sd_IQ)/sqrt(sample_size))
 ```
 
 ```
-## [1] 102.151
+## Error in eval(expr, envir, enclos): object 'new_mean_IQ' not found
 ```
 
 Da das Konfidenzintervall für den Stichprobenmittelwert die 100 **nicht** enthält, ist die Annahme unter der $H_0$ ($\mu \leq  100$) nicht haltbar. Daher würden wir die $H_0$ in diesem Fall verwerfen. Beachten Sie: Ein einseitiger *z*-Test bei einer Irrtumswahrscheinlichkeit $\alpha$ und die Besimmung über ein (1-$\alpha$)-Konfidenzintervall kommen immer zu denselben Schlussfolgerungen. 
@@ -369,7 +380,7 @@ qqnorm(men_height)
 qqline(men_height)
 ```
 
-![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
 Es sind keine weiten Abweichungen zu erkennen, weshalb wir zunächst davon ausgehen, dass die Vermutung nicht verworfen werden muss.
 
@@ -577,8 +588,10 @@ describe(fb22$neuro)
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad  min max range  skew kurtosis   se
-## X1    1 159 3.63 0.72   3.75    3.65 0.74 1.25   5  3.75 -0.43     0.09 0.06
+##    vars   n mean   sd median trimmed  mad  min max range  skew
+## X1    1 159 3.63 0.72   3.75    3.65 0.74 1.25   5  3.75 -0.43
+##    kurtosis   se
+## X1     0.09 0.06
 ```
 
 Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei 3.6257862. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 

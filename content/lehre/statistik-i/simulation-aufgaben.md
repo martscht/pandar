@@ -9,11 +9,11 @@ subtitle: ''
 summary: '' 
 authors: [irmer]
 weight: 
-lastmod: '2023-10-13'
+lastmod: '2023-10-28'
 featured: no
 banner:
-  image: "/header/BSc2_Sim_Power.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/674621)"
+  image: "/header/windmills_but_fancy.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1178076)"
 projects: []
 reading_time: false
 share: false
