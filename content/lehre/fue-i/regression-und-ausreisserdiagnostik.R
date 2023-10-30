@@ -12,6 +12,8 @@ library(MASS)     # Zusätzliche Funktion für Diagnostik von Datensätzen
 
 load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
 
+
+
 head(Schulleistungen)
 
 lm(reading ~ 1 + female + IQ, data = Schulleistungen)

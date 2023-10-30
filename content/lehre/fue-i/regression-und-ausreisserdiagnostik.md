@@ -77,6 +77,8 @@ Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hi
 load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
 ```
 
+
+
 Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik "Data" unser Datensatz mit dem Namen "_Schulleistungen_" erscheinen. 
 
 ### Ein Überblick über die Daten
@@ -344,10 +346,9 @@ names(summary_our_model)      # weitere mögliche Argumente, die wir erhalten k�
 ```
 
 ```
-##  [1] "call"          "terms"         "residuals"    
-##  [4] "coefficients"  "aliased"       "sigma"        
-##  [7] "df"            "r.squared"     "adj.r.squared"
-## [10] "fstatistic"    "cov.unscaled"
+##  [1] "call"          "terms"         "residuals"     "coefficients" 
+##  [5] "aliased"       "sigma"         "df"            "r.squared"    
+##  [9] "adj.r.squared" "fstatistic"    "cov.unscaled"
 ```
 
 ```r
@@ -386,7 +387,7 @@ Eine grafische Prüfung der partiellen Linearität zwischen den einzelnen Prädi
 avPlots(model = our_model, pch = 16, lwd = 4) 
 ```
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
 
 Mit Hilfe der Argumente `pch=16` und `lwd=4` werden die Darstellung der Punkte (ausgefüllt anstatt leer) sowie die Dicke der Linie (vierfache Dicke) manipuliert (_für mehr zu Grafikparametern in `R` siehe [{{< icon name="graduation-cap" pack="fas" >}}  hier](https://www.statmethods.net/advgraphs/parameters.html)_). Den Achsenbeschriftungen ist zu entnehmen, dass auf der Y-Achse jeweils *reading | others* dargestellt ist. Die vertikale Linie *|* steht hierbei für den mathematischen Ausdruck *gegeben*. *Others* steht hierbei für alle weiteren (anderen) Prädiktoren im Modell. Dies bedeutet, dass es sich hierbei um die Residuen aus der Regression von *reading* auf alle anderen Prädiktoren handelt. Bei den unabhängigen Variablen (UV, *female*, *IQ*) steht *UV | others* also jeweils für die jeweilige UV gegeben der anderen UVs im Modell. Somit beschreiben die beiden Plots jeweils die Beziehungen, die die UVs über die anderen UVs im Modell hinaus mit dem Kriterium (AV, abhängige Variable) haben. Es ist zu beachten, dass die Variable Geschlecht hier nur zwei Ausprägungen hat.
 
@@ -405,7 +406,7 @@ Die Varianz der Residuen sollte unabhängig von den Ausprägungen der Prädiktor
 residualPlots(our_model, pch = 16)
 ```
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
 
 ```
 ##            Test stat Pr(>|Test stat|)
@@ -435,7 +436,7 @@ xWerte <- seq(from = min(res), to = max(res), by = 0.01)
 lines(x = xWerte, y = dnorm(x = xWerte, mean = mean(res), sd = sd(res)), lwd = 3)
 ```
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
 
 Das Histogramm zeigt keine großen Verstöße gegen die Normalverteilungsannahme.
 
@@ -446,7 +447,7 @@ Das Histogramm zeigt keine großen Verstöße gegen die Normalverteilungsannahme
 qqPlot(our_model, pch = 16, distribution = "norm")
 ```
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
 
 ```
 ## [1]  6 33
@@ -595,7 +596,7 @@ abline(v = 2*(2+1)/n, col = "red")  # Cut-off als große Stichprobe
 abline(v = 3*(2+1)/n, col = "blue")  # Cut-off als kleine Stichprobe
 ```
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
 Hier eine kurze Beschreibung aller Argumente in der Grafik: Das Zusatzargument `breaks = 20` in `hist` gibt an, dass 20 Balken gezeichnet werden sollen. `abline` ist eine Funktion, die eine Gerade einem Plot hinzufügt. Dem Argument `v` wird hierbei der Punkt übergeben, an welchem eine **v**ertikale Linie eingezeichnet werden soll. `col = "red"` bzw. `col = "blue"` gibt an, dass diese Linie rot bzw. blau sein soll.
 
@@ -610,7 +611,7 @@ hist(CD, breaks  = 20)
 abline(v = 1, col = "red")  # Cut-off bei 1
 ```
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
 In diesem Plot ist die vertikale Linie nicht enthalten, da der Plot schon zu früh entlang der x-Achse aufhört. Wir können die Grenzen mit `xlim = c(0,1)` explizit von 0 bis 1 vorgeben:
 
 
@@ -620,7 +621,7 @@ hist(CD, breaks  = 20, xlim = c(0, 1))
 abline(v = 1, col = "red")  # Cut-off bei 1
 ```
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
 
 
 ### Blasendiagramm
@@ -634,7 +635,7 @@ Die Funktion `influencePlot` des `car`-Paketes erzeugt ein "Blasendiagramm" zur 
 InfPlot <- influencePlot(our_model)
 ```
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" />
 
 ```r
 IDs <- as.numeric(row.names(InfPlot))
@@ -699,7 +700,7 @@ Die Entscheidung, ob Ausreißer oder auffällige Datenpunkte aus Analysen ausges
 ### Einfluss von Hebelwert und Cook's Distanz
 Was wäre nun gewesen, wenn die Hebelwerte oder Cook's Distanz extreme Werte angezeigt hätten? Um dieser Frage auf den Grund zu gehen, schauen wir uns für eine Kombination der beiden Koeffizienten den Effekt auf eine Regressionsgerade an. Die vier Grafiken zeigen jeweils die Regressionsgerade in schwarz ohne den jeweiligen Ausreißer, während die Gerade in blau die Regressionsanalyse (`Y ~ 1 + X`) inklusive des Ausreißers symbolisiert.
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
 
 In `A)` ist die Regression ohne Ausreißer dargestellt. `B)` zeigt den Effekt, wenn nur der Hebelwert groß ist. Es ist kaum ein Einfluss auf die Regressionsgerade auszumachen. Der Mittelwert der Variable `X` wird stark nach rechts verschoben. Dies bedeutet, dass ein großer Hebelwert nur den Mittelwert dieser Variable in Richtung des Ausreißers "hebelt", nicht aber zwangsweise die Regressionsgerade! `C)` zeigt eine große Cook's Distanz bei gleichzeitig kleinem Hebelwert. die Gerade ist etwas nach oben verschoben und auch die Steigung hat sich leicht verändert. Insgesamt ist mit dem bloßen Auge allerdings noch kein extremer Effekt auf die Gerade auszumachen. Dieser Effekt wird nur in `D)` deutlich. Hier ist sowohl Cook's Distanz als auch der Hebelwert extrem. Dadurch verändert sich die Regressionsgerade stark. Hier könnten wir davon sprechen, dass die Gerade durch den Ausreißer nach unten "gehebelt" wird. Die hier dargestellte Erhebung hat auch auch die größte Mahalanobisdistanz, da sie sowohl in `X` als auch in `Y` Richtung extrem ist (siehe dazu nächsten Abschnitt). Insgesamt zeigt diese Grafik, dass nicht ein Koeffizient alleine ausreicht, um einen Effekt auf eine Regressionsanalyse zu untersuchen und dass Werte besonders dann extreme Auswirkungen haben, wenn mehrere Koeffizienten groß sind!
 
@@ -711,7 +712,7 @@ $$MD_i=(\mathbf{X}_i-\bar{\mathbf{X}})'\Sigma^{-1}(\mathbf{X}_i-\bar{\mathbf{X}}
 Der Vektor der Mittelwertsdifferenzen $\mathbf{X}_i-\bar{\mathbf{X}}$ wird durch die Kovarianzmatrix  der Daten $\Sigma$ gewichtet. Sind zwei Variablen $X_1$ und $X_2$ positiv korreliert, so treten große Werte (und auch kleine Werte) auf beiden Variablen gemeinsam häufig auf, allerdings sind große $X_1$ und kleine $X_2$-Werte (gleichzeitig und auch umgekehrt) unwahrscheinlich. Dies lässt sich anhand der Mahalanobisdistanz untersuchen. *Wann ist nun ein Mahalanobisdistanzwert extrem?* Dies können wir uns an einem zweidimensionalen Beispiel klarer machen. Dazu tragen wir in ein Diagramm die Ellipsen (Kurven) gleicher Mahalanobisdistanz ein, also jene Linien, welche laut Mahalanobisdistanz gleich weit vom Zentroiden entfernt liegen. Je dunkler die Kurven, desto weiter entfernt liegen diese Punkte vom Zentroiden (hier $(0,0)$) und desto unwahrscheinlicher sind diese Punkte in den Daten zu beobachten. In diesem Beispiel nehmen wir an, dass die Variablen positiv korreliert sind:
 
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" />
 Hier ist 
 \begin{align*}
 \mathbf{X}&=\begin{pmatrix}X_1\\ X_2\end{pmatrix}\\
@@ -765,13 +766,13 @@ xWerte <- seq(from = min(MD), to = max(MD), by = 0.01)
 lines(x = xWerte, y = dchisq(x = xWerte, df = 2), lwd = 3)
 ```
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-34-1.png" style="display: block; margin: auto;" />
 
 ```r
 qqPlot(x = MD,distribution =  "chisq", df = 2, pch = 16)
 ```
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-33-2.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-34-2.png" style="display: block; margin: auto;" />
 
 ```
 ## [1] 16  9
@@ -1291,7 +1292,7 @@ ggplot(data = df_res, aes(x = res)) +
      labs(title = "Histogramm der Residuen mit Normalverteilungsdichte", x = "Residuen") # Füge eigenen Titel und Achsenbeschriftung hinzu
 ```
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-53-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-54-1.png" style="display: block; margin: auto;" />
 
 Nutzen wir nur die Defaulteinstellung des Histogramms (bis auf `bins = 15` *- für die Vergleichbarkeit der beiden Grafiken*), sieht es so aus:
 
@@ -1303,7 +1304,7 @@ ggplot(data = df_res, aes(x = res)) +
      stat_function(fun = dnorm, args = list(mean = mean(res), sd = sd(res)))
 ```
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-54-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-55-1.png" style="display: block; margin: auto;" />
 
 Hier sind auch noch die weiteren Histogramme dieser Sitzung mit `ggplot` aufbereitet:
 
@@ -1319,7 +1320,7 @@ ggplot(data = df_h, aes(x = h)) +
   geom_vline(xintercept = 4/n, col = "red") # Cut-off bei 4/n
 ```
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-55-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-56-1.png" style="display: block; margin: auto;" />
 
 #### Cooks-Distanz:
 
@@ -1333,7 +1334,7 @@ ggplot(data = df_CD, aes(x = CD)) +
   geom_vline(xintercept = 1, col = "red") # Cut-Off bei 1
 ```
 
-<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-56-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-57-1.png" style="display: block; margin: auto;" />
 
 </details>
 
@@ -1510,6 +1511,7 @@ Dieser Exkurs zeigt, wie sich die Multikollinearität auf die Standardfehler und
 *Die Matrix $I$ ist im Zusammenhang mit der Maximum-Likelihood-Schätzung die Inverse der Fischer-Information und enthält die Informationen der Kovariationen der Parameterschätzer (diese Informationen enthält sie hier im Übrigen auch!).*
 
 </details>
+
 
 ***
 

@@ -36,6 +36,9 @@ output:
     keep_md: true
 ---
 
+<!-- includes a workaround to avoid errors with car functions residualPlots and avPlots -->
+<!-- loads the data set Schulleistungen into the global environment and also removes it afterwards -->
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 ```
@@ -73,6 +76,10 @@ Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hi
 
 ```{r}
 load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
+```
+
+```{r, echo= F, purl=FALSE}
+Schulleistungen <<- Schulleistungen
 ```
 
 Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik "Data" unser Datensatz mit dem Namen "_Schulleistungen_" erscheinen. 
@@ -974,6 +981,9 @@ Dieser Exkurs zeigt, wie sich die Multikollinearität auf die Standardfehler und
 
 </details>
 
+```{r, echo = F, purl = F}
+rm(Schulleistungen, envir= globalenv())
+``` 
 ***
 
 ## Literatur
