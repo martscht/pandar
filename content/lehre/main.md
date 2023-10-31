@@ -31,7 +31,7 @@ sections:
         
         {{< category_list "statistik-i" 10>}}
 
-        Die Umfrage aus der ersten Woche gibt es [hier](https://psybsc2.formr.org/). Die Daten, die dabei in der ersten Sitzung entstanden sind, können Sie [{{< icon name="download" pack="fas" >}}   hier im RDA Format](/post/fb22.rda) und [{{< icon name="download" pack="fas" >}} hier im CSV Format](/post/fb22.csv) herunterladen. Was welche Variablen in diesem Datensatz bedeutet, wird in der [{{< icon name="download" pack="fas" >}} Variablenübersicht](/lehre/statistik-i/variablen.pdf) erläutert.
+        Die Umfrage aus der ersten Woche gibt es [hier](https://psybsc2.formr.org/). Die Daten, die dabei in der ersten Sitzung entstanden sind, können Sie [{{< icon name="download" pack="fas" >}}   hier im RDA Format](/daten/fb23.rda) und [{{< icon name="download" pack="fas" >}} hier im CSV Format](/daten/fb23.csv) herunterladen. Was welche Variablen in diesem Datensatz bedeutet, wird in der [{{< icon name="download" pack="fas" >}} Variablenübersicht](/lehre/statistik-i/variablen.pdf) erläutert.
 
     design:
       columns: 2
