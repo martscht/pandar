@@ -4,11 +4,11 @@ type: post
 date: '2023-10-31' 
 slug: matrixalgebra
 categories: ["Statistik I"] 
-tags: [Grundlagen, Matrix] 
+tags: ["Grundlagen", "Matrix"] 
 subtitle: ''
 summary: '' 
 authors: [irmer] 
-weight: 4
+weight: 10.5
 lastmod: '2023-10-31'
 featured: no
 banner:
@@ -1063,14 +1063,10 @@ Wollen wir nun die Kovarianzmatrix von `X` bestimmen, so ginge dies bspw. durch:
 ```
 
 ```
-##            prok1      prok2
-## prok1  0.6666667 -0.1835443
-## prok2 -0.1835443  0.8139479
-## prok3 -0.4177215  0.1530929
-##            prok3
-## prok1 -0.4177215
-## prok2  0.1530929
-## prok3  0.7305947
+##            prok1      prok2      prok3
+## prok1  0.6666667 -0.1835443 -0.4177215
+## prok2 -0.1835443  0.8139479  0.1530929
+## prok3 -0.4177215  0.1530929  0.7305947
 ```
 
 ```r
@@ -1078,14 +1074,10 @@ cov(X)
 ```
 
 ```
-##            prok1      prok2
-## prok1  0.6666667 -0.1835443
-## prok2 -0.1835443  0.8139479
-## prok3 -0.4177215  0.1530929
-##            prok3
-## prok1 -0.4177215
-## prok2  0.1530929
-## prok3  0.7305947
+##            prok1      prok2      prok3
+## prok1  0.6666667 -0.1835443 -0.4177215
+## prok2 -0.1835443  0.8139479  0.1530929
+## prok3 -0.4177215  0.1530929  0.7305947
 ```
 
 Eine alternative Schreibweise wäre:
@@ -1095,14 +1087,10 @@ Eine alternative Schreibweise wäre:
 ```
 
 ```
-##            prok1      prok2
-## prok1  0.6666667 -0.1835443
-## prok2 -0.1835443  0.8139479
-## prok3 -0.4177215  0.1530929
-##            prok3
-## prok1 -0.4177215
-## prok2  0.1530929
-## prok3  0.7305947
+##            prok1      prok2      prok3
+## prok1  0.6666667 -0.1835443 -0.4177215
+## prok2 -0.1835443  0.8139479  0.1530929
+## prok3 -0.4177215  0.1530929  0.7305947
 ```
 
 In Büchern steht dann 
