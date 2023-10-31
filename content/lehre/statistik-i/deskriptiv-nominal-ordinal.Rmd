@@ -10,7 +10,7 @@ summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalsk
 authors: [nehler, buchholz]
 weight: 2
 lastmod: '`r Sys.Date()`'
-featured: no
+featured: yes
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
   image: /header/frogs_on_phones.jpg

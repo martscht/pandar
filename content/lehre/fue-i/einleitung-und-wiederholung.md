@@ -9,8 +9,8 @@ subtitle: ''
 summary: '' 
 authors: [irmer] 
 weight: 1
-lastmod: '2023-10-26'
-featured: no
+lastmod: '2023-10-31'
+featured: yes
 banner:
   image: "/header/chalkboard_equation.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/562631)"
@@ -30,7 +30,7 @@ links:
   - icon_pack: fas
     icon: pen-to-square
     name: Übungsdaten
-    url: /lehre/fue-i/einleitung-und-wiederholung-aufgaben
+    url: /lehre/fue-i/msc1-daten#Sitzung1
 output:
   html_document:
     keep_md: true
@@ -77,20 +77,13 @@ head(Schulleistungen)
 ```
 
 ```
-##   female        IQ  reading
-## 1      1  81.77950 449.5884
-## 2      1 106.75898 544.8495
-## 3      0  99.14033 331.3466
-## 4      1 111.91499 531.5384
-## 5      1 116.12682 604.3759
-## 6      0 106.14127 308.7457
-##       math
-## 1 451.9832
-## 2 589.6540
-## 3 509.3267
-## 4 560.4300
-## 5 659.4524
-## 6 602.8577
+##   female        IQ  reading     math
+## 1      1  81.77950 449.5884 451.9832
+## 2      1 106.75898 544.8495 589.6540
+## 3      0  99.14033 331.3466 509.3267
+## 4      1 111.91499 531.5384 560.4300
+## 5      1 116.12682 604.3759 659.4524
+## 6      0 106.14127 308.7457 602.8577
 ```
 
 Wir erkennen die 4 Spalten mit dem Geschlecht, dem IQ, der Lese- und der Mathematikleistung. Außerdem sehen wir, dass die Variablen mit den Namen `IQ`, `reading` und `math` einige Dezimalstellen aufweisen, was daran liegt, dass diese Daten simuliert wurden (allerdings echten Daten nachempfunden sind). Da es sich bei unserem Datensatz um ein Objekt vom Typ `data.frame` handelt, können wir die Variablennamen des Datensatzes außerdem mit der `names` Funktion abfragen. Weitere interessante Funktionen sind die `nrow` und `ncol` Funktion, die, wie Sie sich sicher schon gedacht haben, die Zeilen- und die Spaltenanzahl wiedergeben (wir könnten auch `dim` verwenden, was diese beiden Informationen auf einmal ausgibt). 
@@ -102,8 +95,7 @@ names(Schulleistungen)
 ```
 
 ```
-## [1] "female"  "IQ"      "reading"
-## [4] "math"
+## [1] "female"  "IQ"      "reading" "math"
 ```
 
 ```r
@@ -154,40 +146,19 @@ Schulleistungen$IQ
 ```
 
 ```
-##   [1]  81.77950 106.75898  99.14033
-##   [4] 111.91499 116.12682 106.14127
-##   [7]  85.44854  93.24323 135.19738
-##  [10]  89.90152  92.72073 115.90123
-##  [13] 114.54088  83.28294 126.41670
-##  [16] 107.20436  90.03418  98.34044
-##  [19] 117.06874 115.55140  68.11351
-##  [22] 125.64776  93.34804 106.93651
-##  [25]  98.78466  78.93267 113.05378
-##  [28]  92.86905  86.44483  70.17249
-##  [31] 111.44613  93.78654  87.54754
-##  [34]  87.01957  69.32581  92.85801
-##  [37]  70.56712  74.17486 105.61195
-##  [40] 110.63901  91.54624 105.73141
-##  [43] 125.26215 101.14873 111.09582
-##  [46]  79.99545  84.45429  84.50532
-##  [49]  96.60821 103.90556  81.03395
-##  [52] 126.12813  89.47650  80.78064
-##  [55] 106.48847 103.58060  84.88878
-##  [58] 115.90930  97.28407  91.60586
-##  [61] 121.77877 110.26187 100.32137
-##  [64] 112.65157 122.84032  96.45124
-##  [67]  75.48471  91.27550 111.85776
-##  [70]  92.72890  76.84326  92.93814
-##  [73] 103.25579  81.15462  92.27190
-##  [76] 106.40950  96.70280 104.06385
-##  [79] 107.98499  60.76781  94.55947
-##  [82] 103.55973 101.83276 113.06302
-##  [85]  76.56824  97.56684 104.28662
-##  [88] 106.08550 120.97759  82.65717
-##  [91] 108.41181 103.38963 100.59534
-##  [94] 122.79791  97.91853  92.96729
-##  [97]  77.51862 105.01989  54.05485
-## [100] 106.12641
+##   [1]  81.77950 106.75898  99.14033 111.91499 116.12682 106.14127  85.44854  93.24323
+##   [9] 135.19738  89.90152  92.72073 115.90123 114.54088  83.28294 126.41670 107.20436
+##  [17]  90.03418  98.34044 117.06874 115.55140  68.11351 125.64776  93.34804 106.93651
+##  [25]  98.78466  78.93267 113.05378  92.86905  86.44483  70.17249 111.44613  93.78654
+##  [33]  87.54754  87.01957  69.32581  92.85801  70.56712  74.17486 105.61195 110.63901
+##  [41]  91.54624 105.73141 125.26215 101.14873 111.09582  79.99545  84.45429  84.50532
+##  [49]  96.60821 103.90556  81.03395 126.12813  89.47650  80.78064 106.48847 103.58060
+##  [57]  84.88878 115.90930  97.28407  91.60586 121.77877 110.26187 100.32137 112.65157
+##  [65] 122.84032  96.45124  75.48471  91.27550 111.85776  92.72890  76.84326  92.93814
+##  [73] 103.25579  81.15462  92.27190 106.40950  96.70280 104.06385 107.98499  60.76781
+##  [81]  94.55947 103.55973 101.83276 113.06302  76.56824  97.56684 104.28662 106.08550
+##  [89] 120.97759  82.65717 108.41181 103.38963 100.59534 122.79791  97.91853  92.96729
+##  [97]  77.51862 105.01989  54.05485 106.12641
 ```
 _**Tipp:** In `R`-Studio können Sie sich Ihren Umgang mit der Software in vielen Dingen vereinfachen, indem Sie die automatische Vervollständigung der Software nutzen. Dies tun Sie, indem Sie bspw. `Schulleistungen$` tippen und dann den Tabulator [oder "Strg" + "Leertaste" auf Windows {{< icon name="windows" pack="fab" >}} oder Linux Rechner {{< icon name="linux" pack="fab" >}} oder "Control" + "Leertaste" auf Mac OS Rechnern {{< icon name="apple" pack="fab" >}}] auf Ihrer Tastatur drücken. Ihnen werden dann Vorschläge für mögliche Argumente aufgezeigt. Das gleiche funktioniert auch in Funktionen. Hier müssen Sie zunächst den Funktionsnamen schreiben und die Klammern öffnen. Mit dem Tabulator erhalten Sie anschließend Vorschläge für mögliche Argumente, die Sie der Funktion übergeben können. Schauen Sie sich dies doch einmal an! Dies funktioniert übrigens auch für das Vervollständigen von Dateipfaden. Hierbei muss allerdings darauf geachtet werden, dass diese in Anführungsstrichen geschrieben werden und Sie müssen beachten, wo ihr aktuelles Working-Directory liegt. Sie können allerdings auch den vollständigen Pfad eingeben, indem Sie auf Windows PCs {{< icon name="windows" pack="fab" >}} mit "C:/Users/" und auf Mac OS Rechnern {{< icon name="apple" pack="fab" >}} mit "/Users/" beginnen und dann den Tabulator drücken und den jeweilig richtigen Ordner auswählen, bis Sie an Ihrer Zieldatei angekommen sind!_
 
@@ -255,10 +226,8 @@ summary(Schulleistungen$IQ)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 
-##   54.05   87.42   98.56   98.13 
-## 3rd Qu.    Max. 
-##  108.09  135.20
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   54.05   87.42   98.56   98.13  108.09  135.20
 ```
 Als Ausgabe erhalten wir den kleinsten Wert 54.05 (das Minimum, welches hier bspw. auf 2 Nachkommastellen gerundet ist; Originalwert = 54.0548457), das erste Quartil 87.42, also den 25.-Prozentrang (25% PR), den Median 98.56 (2. Quartil; 50% PR),  den Mittelwert 98.13, das 3. Quartil 108.09 (75% PR) und den größten Wert 135.2 (Maximum). Wenden wir diese Funktion auf ein `R`-Objekt an, so gibt uns diese eine Zusammenfassung dieses Objekts aus, was häufig auch einfach die Zusammenfassung einer Analyse ist. Dies schauen wir uns später nochmals genauer an.
 
@@ -270,10 +239,8 @@ colMeans(Schulleistungen)
 ```
 
 ```
-##    female        IQ   reading 
-##   0.54000  98.13425 496.06605 
-##      math 
-## 561.46446
+##    female        IQ   reading      math 
+##   0.54000  98.13425 496.06605 561.46446
 ```
 
 Da `female` 0-1 kodiert ist und `1` für Mädchen steht, bedeutet die hier beobachtete Zahl von .54, dass gerade ca. 54% der Proband*innen weiblich waren. 
