@@ -12,7 +12,7 @@ weight: 4
 lastmod: '2023-10-19'
 featured: no
 banner:
-  image: "/header/PsyBSc2_verteilungen.png"
+  image: "/header/six_sided_dice.png"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1087694)"
 projects: []
 reading_time: false

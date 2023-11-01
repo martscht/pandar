@@ -11,7 +11,7 @@ weight: 6
 lastmod: '2023-08-28'
 featured: no
 banner:
-     image: "/header/HLM_Head.jpg"
+     image: "/header/color_coded_bees.jpg"
      caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/991196)"
 projects: []
 

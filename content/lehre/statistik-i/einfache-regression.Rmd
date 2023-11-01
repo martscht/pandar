@@ -8,11 +8,11 @@ tags: ["Regression", "Lineare Regression", "Streudiagramm", "Determinationskoeff
 subtitle: ''
 summary: 'In diesem Beitrag werden die lineare Regression und ihre Voraussetzungen vorgestellt. Außerdem soll der Unterschied zwischen standardisierten und nicht-standardisierten Regressionsgewichten deutlich werden sowie die Berechnung des Determinationskoeffizienten R^2 und dessen Bedeutung geklärt werden.' 
 authors: [winkler, neubauer, nehler]
-weight: 9
+weight: 10
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/BSc2_Regression.jpg"
+  image: "/header/modern_buildings.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/411588)"
 projects: []
 reading_time: false
@@ -59,7 +59,7 @@ Zu Beginn laden wir wie gewohnt den Datensatz und verteilen die relevanten Label
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb22.rda'))  
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb22$geschl_faktor <- factor(fb22$geschl,

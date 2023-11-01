@@ -11,7 +11,7 @@ weight: 10
 lastmod: '2023-09-18'
 featured: no
 banner:
-     image: "/header/Kausal2_Head.jpg"
+     image: "/header/dusk_or_dawn.jpg"
      caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/795494)"
 projects: []
 

@@ -11,7 +11,7 @@ weight: 8
 lastmod: '2023-09-11'
 featured: no
 banner:
-  image: "/header/KliPsy_Meta-Analyse_Cor.jpg"
+  image: "/header/meds_and_ampules.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1208971)"
 projects: []
 

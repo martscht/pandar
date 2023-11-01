@@ -8,11 +8,11 @@ tags: ["Korrelation", "Grundlagen", "Hilfe"]
 subtitle: ''
 summary: '' 
 authors: [nehler, winkler, schroeder, neubauer]
-weight: 8
-lastmod: '2023-10-23'
+weight: 9
+lastmod: '2023-10-24'
 featured: no
 banner:
-  image: "/header/BSc2_Korrelation.jpg"
+  image: "/header/storch_with_baby.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
 reading_time: false
@@ -593,8 +593,8 @@ cor <- cor.test(fb23$neuro, fb23$gewis,
 ```
 
 ```
-## Warning in cor.test.default(fb23$neuro, fb23$gewis, alternative =
-## "two.sided", : Cannot compute exact p-value with ties
+## Warning in cor.test.default(fb23$neuro, fb23$gewis, alternative = "two.sided", : Cannot compute
+## exact p-value with ties
 ```
 
 ```r

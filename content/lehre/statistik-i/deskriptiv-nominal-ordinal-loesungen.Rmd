@@ -11,11 +11,11 @@ authors: [buchholz, nehler]
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/descriptive_post.jpg"
+  image: "/header/frogs_on_phones.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)"
 projects: []
-expiryDate:
-publishDate: '2023-11-19'
+expiryDate: '2024-10-10'
+publishDate: '2023-11-09'
 _build:
   list: never
 reading_time: false
@@ -31,10 +31,10 @@ Die Lösungen sind exemplarische Möglichkeiten. In `R` gibt es immer viele Wege
 
 <details><summary>Lösung</summary>
 
-Laden Sie zunächst den Datensatz `fb22` von der pandar-Website herunter und dann ein.
+Laden Sie zunächst den Datensatz `fb23` von der pandar-Website herunter und dann ein.
 
 ```{r}
-load(url('https://pandar.netlify.app/daten/fb22.rda'))   # Daten laden
+load(url('https://pandar.netlify.app/daten/fb23.rda'))   # Daten laden
 ```
 
 Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
@@ -42,11 +42,11 @@ Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem
 Verschaffen Sie sich nun einen Überblick über den Datensatz:
 
 ```{r}
-dim(fb22)
-str(fb22)
+dim(fb23)
+str(fb23)
 ```
 
-Der Datensatz besteht aus `r nrow(fb22)` Zeilen (Beobachtungen) und `r ncol(fb22)` Spalten (=Variablen).
+Der Datensatz besteht aus `r nrow(fb23)` Zeilen (Beobachtungen) und `r ncol(fb23)` Spalten (Variablen).
 
 </details>
 
@@ -66,29 +66,29 @@ Untersuchen Sie, welche Arbeitsbranche Sie und Ihre Kommiliton:innen nach dem St
 **Faktor erstellen**
 
 ```{r}
-fb22$ziel <- factor(fb22$ziel,
+fb23$ziel <- factor(fb23$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-levels(fb22$ziel)
+levels(fb23$ziel)
 ```
 
 **Absolute und relative Häufigkeiten anfordern**  
 
 ```{r}
-table(fb22$ziel)              # absolut
-prop.table(table(fb22$ziel))  # relativ
+table(fb23$ziel)              # absolut
+prop.table(table(fb23$ziel))  # relativ
 ```
 
 **Zentrale Tendenz und Dispersion für nominalskalierte Variablen: Modus, relativer Informationsgehalt**
 
 ```{r}
 # Modus
-which.max(table(fb22$ziel))
+which.max(table(fb23$ziel))
 ```
 
 ```{r}
 #relativer Informationsgehalt
-hj <- prop.table(table(fb22$ziel))  # hj erstellen
+hj <- prop.table(table(fb23$ziel))  # hj erstellen
 ln_hj <- log(hj)                    # Logarithmus bestimmen
 summand <- ln_hj * hj               # Berechnung fuer jede Kategorie
 summe <- sum(summand)               # Gesamtsumme
@@ -97,7 +97,7 @@ relInf <- -1/log(k) * summe         # Relativer Informationsgehalt
 relInf
 ```
 
-Der Modus der Variable lautet `r names(which.max(table(fb22$ziel)))` - die meisten Ihres Jahrgangs (*n* = `r max(table(fb22$ziel))` bzw. `r round(max(prop.table(table(fb22$ziel)))*100,2)`%) streben einen Job in diesem Bereich an. Der relative Informationsgehalt der Variable beträgt `r round(relInf, 2)`. Sie sehen hier, dass wir im Code einen kleinen Unterschied zum Tutorial eingebaut haben. Die Anzahl der Kategorien wird nicht mehr durch `dim(tab)` sondern durch `length(hj)` bestimmt. Das Resultat ist nicht verschieden - die Anzahl der Kategorien wird gezählt. Wir wollen somit aber nochmal deutlich machen, dass es in `R` immer sehr viele Wege zu einem Ziel geben kann.
+Der Modus der Variable lautet `r names(which.max(table(fb23$ziel)))` - die meisten Ihres Jahrgangs (*n* = `r max(table(fb23$ziel))` bzw. `r round(max(prop.table(table(fb23$ziel)))*100,2)`%) streben einen Job in diesem Bereich an. Der relative Informationsgehalt der Variable beträgt `r round(relInf, 2)`. Sie sehen hier, dass wir im Code einen kleinen Unterschied zum Tutorial eingebaut haben. Die Anzahl der Kategorien wird nicht mehr durch `dim(tab)` sondern durch `length(hj)` bestimmt. Das Resultat ist nicht verschieden - die Anzahl der Kategorien wird gezählt. Wir wollen somit aber nochmal deutlich machen, dass es in `R` immer sehr viele Wege zu einem Ziel geben kann.
 
 </details>
 
@@ -105,7 +105,7 @@ Der Modus der Variable lautet `r names(which.max(table(fb22$ziel)))` - die meist
 
 ## Aufgabe 2
 
-Die Variable `nr3` enthält die Angaben über das Ausmaß, in dem Sie und Ihre Kommilitonen:innen Ihre Verbindung zur Natur als Teil Ihrer Spiritualität ansehen.
+Die Variable `wissen` enthält die Angaben über das Ausmaß, in dem sich Sie und Ihre Kommilitonen:innen für wissenschaftliche Grundlagen interessieren.
 
 * Bestimmen Sie für diese Variable den Modus.     
 * Untersuchen Sie die Streuung für diese Variable optisch, indem Sie einen Boxplot erstellen.  
@@ -116,31 +116,31 @@ Die Variable `nr3` enthält die Angaben über das Ausmaß, in dem Sie und Ihre K
 **Modus**
 
 ```{r}
-which.max(table(fb22$nr3))
+which.max(table(fb23$wissen))
 ```
 
 **Häufigkeiten**
 
 ```{r}
-table(fb22$nr3)
-prop.table(table(fb22$nr3))
+table(fb23$wissen)
+prop.table(table(fb23$wissen))
 ```
 
-Der Modus der Variable "nr3" beträgt `r which.max(table(fb22$nr3))`, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = `r max(table(fb22$nr3))` bzw. `r round(max(prop.table(table(fb22$nr3)))*100,2)`%).
+Der Modus der Variable "wissen" beträgt `r which.max(table(fb23$wissen))`, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = `r max(table(fb23$wissen))` bzw. `r round(max(prop.table(table(fb23$wissen)))*100,2)`%).
 
 **Boxplot**
 
 ```{r}
-boxplot(fb22$nr3)
+boxplot(fb23$wissen)
 ```
 
 **Quartile**
 
 ```{r}
-quantile(fb22$nr3, c(.25,.5,.75), na.rm=T)
+quantile(fb23$wissen, c(.25,.5,.75), na.rm=T)
 ```
 
-Der Median beträgt `r quantile(fb22$nr3, .5, na.rm=T)`. Das 1. und 3. Quartil betragen `r quantile(fb22$nr3, .25, na.rm=T)` bzw. `r quantile(fb22$nr3, .75, na.rm=T)`. Folglich sind die Grenzen des Interquartilsbereich (IQB) `r quantile(fb22$nr3, .25, na.rm=T)` und `r  quantile(fb22$nr3, .75, na.rm=T)`. Der Interquartilsabstand (IQA) beträgt `r  quantile(fb22$nr3, .75, na.rm=T)-quantile(fb22$nr3, .25, na.rm=T)`.
+Der Median beträgt `r quantile(fb23$wissen, .5, na.rm=T)`. Das 1. und 3. Quartil betragen `r quantile(fb23$wissen, .25, na.rm=T)` bzw. `r quantile(fb23$wissen, .75, na.rm=T)`. Folglich sind die Grenzen des Interquartilsbereich (IQB) `r quantile(fb23$wissen, .25, na.rm=T)` und `r  quantile(fb23$wissen, .75, na.rm=T)`. Der Interquartilsabstand (IQA) beträgt `r  quantile(fb23$wissen, .75, na.rm=T)-quantile(fb23$wissen, .25, na.rm=T)`.
 
 </details>
 
@@ -151,14 +151,14 @@ Erstellen Sie für die Variable `wohnen` eine geeignete Abbildung.
 
 * Stellen Sie sicher, dass die einzelnen Ausprägungen der Variable in der Darstellung interpretierbar benannt sind!  
 * Dekorieren Sie diese Abbildung nach eigenen Wünschen (z.B. mit einer Farbpalette und Achsenbeschriftungen).
-* Speichern Sie die Grafik per Syntax als .jpg-Datei mit dem Namen "Befragung-fb22.jpg" ab.
+* Speichern Sie die Grafik per Syntax als .jpg-Datei mit dem Namen "Befragung-fb23.jpg" ab.
 
 <details><summary>Lösung</summary>
 
 **Faktor erstellen**
 
 ```{r}
-fb22$wohnen <- factor(fb22$wohnen, 
+fb23$wohnen <- factor(fb23$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 ```
@@ -171,14 +171,14 @@ Um die Vergleichbarkeit zu erhöhen, wird im folgenden Code ein kleiner Trick an
 par(mfrow=c(1,2))
 
 # Default
-barplot(table(fb22$wohnen))
+barplot(table(fb23$wohnen))
 
 # Überarbeitet
 barplot(
   # wichtig: Funktion auf Häufigkeitstabelle, nicht die Variable selbst anwenden:
-  table(fb22$wohnen),                               
+  table(fb23$wohnen),                               
   # aussagekräftiger Titel, inkl. Zeilenumbruch ("\n") 
-  main = "Befragung Erstis im WS 20/21:\nAktuelle Wohnsituation", 
+  main = "Befragung Erstis im WS 23/24:\nAktuelle Wohnsituation", 
   # y-Achsen-Beschriftung:
   ylab = "Häufigkeit",
   # Farben aus einer Farbpalette:
@@ -200,10 +200,10 @@ barplot(
 **Speichern (per Syntax)**
 
 ```{r, results = "hide"}
-jpeg("Befragung-fb22.jpg", width=20, height=10, units="cm", res=200)
+jpeg("Befragung-fb23.jpg", width=20, height=10, units="cm", res=200)
 barplot(
-  table(fb22$wohnen),                               
-  main = "Befragung Erstis im WS 21/22:\nAktuelle Wohnsituation", 
+  table(fb23$wohnen),                               
+  main = "Befragung Erstis im WS 23/24:\nAktuelle Wohnsituation", 
   ylab = "Häufigkeit",
   col = rainbow(10),
   space = 0.1,

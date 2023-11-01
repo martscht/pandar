@@ -12,11 +12,11 @@ sections:
     content:
       title: "LIFOS"
       subtitle: Lokale Infrastruktur für Open Science
-      text: "![](header/hochschulstift_header_test.png) ![](header/Digitell_Header_test.jpg) Auf dieser Seite finden sich alle unterstützenden Infos zur Nutzung der [Plattform LIFOS](https://lifos.uni-frankfurt.de/users/sign_in), die im Rahmen des Projekts “Lokale Infrastruktur für Open Science” entstanden ist. Das Projekt wurde ermöglicht durch die Stiftung [Innovation in der Hochschullehre](https://stiftung-hochschullehre.de/) und das [Projekt DigiTell](https://www.uni-frankfurt.de/106198465/Digital_Teaching_and_Learning_Lab___DigiTeLL)."
+      text: "![](header/hochschulstiftung_innovation.png) ![](header/digitell.jpg) Auf dieser Seite finden sich alle unterstützenden Infos zur Nutzung der [Plattform LIFOS](https://lifos.uni-frankfurt.de/users/sign_in), die im Rahmen des Projekts “Lokale Infrastruktur für Open Science” entstanden ist. Das Projekt wurde ermöglicht durch die Stiftung [Innovation in der Hochschullehre](https://stiftung-hochschullehre.de/) und das [Projekt DigiTell](https://www.uni-frankfurt.de/106198465/Digital_Teaching_and_Learning_Lab___DigiTeLL)."
     design:
       background:
         image:
-          filename: header/lifos_header2.jpg
+          filename: header/node_junctions.jpg
         text_color_light: true
       columns: 2
       

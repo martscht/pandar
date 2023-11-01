@@ -12,7 +12,7 @@ weight: 3
 lastmod: '2023-10-23'
 featured: no
 banner:
-  image: "/header/descriptive_post.jpg"
+  image: "/header/frogs_on_phones.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)"
 projects: []
 reading_time: false

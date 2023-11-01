@@ -11,7 +11,7 @@ summary: 'Klassische inferenzstatistische Prüfung beginnt jedes Mal mit naiven 
 authors: [schultze]
 featured: no
 banner: 
-  image: "/header/bayes_intro.jpg"
+  image: "/header/baby_toy.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/769748)"
 projects: []
 

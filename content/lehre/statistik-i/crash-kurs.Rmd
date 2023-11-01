@@ -10,9 +10,9 @@ summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wi
 authors: [schultze]
 weight: 1
 lastmod: '`r Sys.Date()`'
-featured: yes
+featured: no
 banner:
-  image: "/header/crash_post.jpg"
+  image: "/header/toy_car_crash.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
 

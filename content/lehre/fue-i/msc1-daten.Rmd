@@ -1,0 +1,365 @@
+---
+title: "Daten für die Übungen" 
+type: post
+date: '2020-10-14' 
+slug: msc1-daten
+categories: [] 
+tags: ["Aufgaben", "Multivariat","Daten"] 
+subtitle: ''
+summary: '' 
+authors: [irmer] 
+weight: 1
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/dog_with_glasses.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/734854)"
+projects: []
+reading_time: false
+share: false
+
+links:
+output:
+  html_document:
+    keep_md: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```
+
+
+## Sitzung 1: Schuldaten {#Sitzung1}
+Wie verwenden erneut den Datensatz `Schulleistungen.rda`. Sie können den [{{< icon name="download" pack="fas" >}} Datensatz "Schulleistungen.rda" hier herunterladen](/daten/Schulleistungen.rda). Liegt der Datensatz bspw. auf dem Desktop, so müssen wir den Dateipfad dorthin legen und können dann den Datensatz laden (wir gehen hier davon aus, dass Ihr PC "Musterfrau" heißt)
+
+```{r, eval = F}
+load("C:/Users/Musterfrau/Desktop/Schulleistungen.rda")
+```
+
+Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hierzu brauchen Sie nur die URL und müssen `R` sagen, dass es sich bei dieser um eine URL handelt, indem Sie die Funktion `url` auf den Link anwenden. Der funktionierende Befehl sieht so aus (wobei die URL in Anführungszeichen geschrieben werden muss):
+
+```{r}
+load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
+```
+
+
+<!-- ## Sitzung 2: Nerdiness Daten {#Sitzung2} -->
+<!-- Für die Übung der Sitzung 1 zur Regression, wollen wir einen Datensatz verwenden, der die **Nerdiness** einer Person erfasst. -->
+
+<!-- Die "Nerdy Personality Attributes Scale" (*NPAS*) wurde entwickelt, um die "Nerdiness" einer Person zu quantifizieren. Die Daten liegen öffentlich zugänglich auf der [Open Psychometrics Website](https://openpsychometrics.org), wo Sie selbstverständlich die Möglichkeit haben, den [Fragebogen selbst auszufüllen](https://openpsychometrics.org/tests/NPAS/). Die Daten werden auf einer 5-Punkte Likert Skala erhoben von 1=Disagree, 3=Neutral und 5=Agree. Sie haben die Möglichkeit, den fertigen, gekürzten Datensatz, den Sie für die Aufgaben brauchen, direkt von der [{{< icon name="download" pack="fas" >}}  hier von der Website herunterladen](/daten/NerdData.rda). Die Raw-Data Files aller Fragebogen auf der [Open Psychometrics Website](https://openpsychometrics.org) sind [hier einzusehen](https://openpsychometrics.org/_rawdata/). Diese Files bestehen aus einem "*.zip*"-File, welches nach dem Entpacken jeweils aus einem "*.csv*"-File mit den Daten und einem "*.txt*"-File mit Beschreibungen besteht. Das "*.zip*"-File zum NPAS können Sie [{{< icon name="download" pack="fas" >}}  hier herunterladen](http://openpsychometrics.org/_rawdata/NPAS-data-16December2018.zip). Nach dem Entpacken haben Sie einen Ordner mit dem Namen *NPAS-data-16December2018*, welcher die Dateien *data.csv* und *codebook.txt* enthält. Die Variablen zur Nerdiness sind -->
+
+<!-- | Label | Itemwortlaut | -->
+<!-- | --- | --- | -->
+<!-- | Q1	 | I am interested in science. | -->
+<!-- | Q2	 | I was in advanced classes. | -->
+<!-- | Q3	 | I like to play RPGs. (Ex. D&D) | -->
+<!-- | Q4	 | My appearance is not as important as my intelligence. | -->
+<!-- | Q5	 | I collect books. | -->
+<!-- | Q6	 | I prefer academic success to social success. | -->
+<!-- | Q7	 | I watch science related shows. | -->
+<!-- | Q8	 | I spend recreational time researching topics others might find dry or overly rigorous. | -->
+<!-- | Q9	 | I like science fiction. | -->
+<!-- | Q10 | I would rather read a book than go to a party. | -->
+<!-- | Q11 | I am more comfortable with my hobbies than  | I am with other people. | -->
+<!-- | Q12 | I spend more time at the library than any other public place. | -->
+<!-- | Q13 | I would describe my smarts as bookish. | -->
+<!-- | Q14 | I like to read technology news reports. | -->
+<!-- | Q15 | I have started writing a novel. | -->
+<!-- | Q16 | I gravitate towards introspection. | -->
+<!-- | Q17 | I am more comfortable interacting online than in person. | -->
+<!-- | Q18 | I love to read challenging material. | -->
+<!-- | Q19 | I have played a lot of video games. | -->
+<!-- | Q20 | I was a very odd child. | -->
+<!-- | Q21 | I sometimes prefer fictional people to real ones. | -->
+<!-- | Q22 | I enjoy learning more than I need to. | -->
+<!-- | Q23 | I get excited about my ideas and research. | -->
+<!-- | Q24 | I am a strange person. | -->
+<!-- | Q25 | I care about super heroes. | -->
+<!-- | Q26 | I can be socially awkward at times. | -->
+
+<!-- Außerdem gibt es noch zahlreiche weitere Items in diesem Fragebogen. Für uns sind noch die Persönlichkeitseigenschaften, gemessen durch den *Ten Item Personality Inventory* (TIPI) von Gosling, Rentfrow und Swann (2003)  sowie das Item "Nerdy" von Relevanz. Der TIPI sowie das zusätzliche "Nerdy"-Item wurden folgendermaßen auf einer 7-Punkt-Likert Skala beantwortet: -->
+
+<!-- *"I see myself as:" _____* -->
+
+<!-- | Label | Itemwortlaut | Zuordnung | -->
+<!-- | --- | --- | --- | -->
+<!-- | TIPI1 | 	Extraverted, enthusiastic. | Extraversion | -->
+<!-- | TIPI2 | 	Critical, quarrelsome. | Agreeableness* | -->
+<!-- | TIPI3 | 	Dependable, self-disciplined. | Conscientiousness | -->
+<!-- | TIPI4 | 	Anxious, easily upset. | Neuroticism | -->
+<!-- | TIPI5 | 	Open to new experiences, complex. | Openness | -->
+<!-- | TIPI6 | 	Reserved, quiet. | Extraversion* | -->
+<!-- | TIPI7 | 	Sympathetic, warm. |  Agreeableness | -->
+<!-- | TIPI8 | 	Disorganized, careless. | Conscientiousness* | -->
+<!-- | TIPI9 | 	Calm, emotionally stable. | Neuroticism* | -->
+<!-- | TIPI10 | 	Conventional, uncreative. | Openness* | -->
+<!-- | nerdy |      Nerdy. | Nerdiness | -->
+
+<!-- Das Sternchen (*) gibt jeweils an, dass es sich um invers kodierte Items handelt. Nach Herunterladen und Abspeichern auf dem Desktop, können wir das ".csv"-File wie folgt einladen und als `NerdData_long` (wir wollen den Datensatz nämlich kürzen) abspeichern: -->
+
+<!-- ```{r, eval = F} -->
+<!-- NerdData_long <- read.csv(file = "C:/Users/Musterfrau/Desktop/NPAS-data-16December2018/data.csv", header = T, sep = "\t") -->
+<!-- # oder über das Working Directory -->
+<!-- setwd("C:/Users/Musterfrau/Desktop/NPAS-data-16December2018/") -->
+<!-- NerdData_long <- read.csv(file = "data.csv", header = T, sep = "\t") -->
+<!-- ``` -->
+
+<!-- Der Funktion `read.csv` müssen wir als Argument `file` die Datei inklusive Endung (und ggf. dem Dateipfad dort hin) übergeben. Zusätzlich spezifizieren wir hier `header = T`, womit wir sagen, dass die Spaltenüberschriften als Variablennamen verwendet werden sollen. Außerdem geben wir mit `sep = "\t"` an, dass Einträge durch Tabstopp getrennt sind (also durch den Tabulator/ mehrere Leerzeichen). Nun wollen wir den Datensatz als ".rda"-File abspeichern - allerdings nur die ersten 300 Personen in den Datensatz mit aufnehmen: -->
+
+<!-- ```{r, eval = F} -->
+<!-- setwd("C:/Users/Musterfrau/Desktop/NPAS-data-16December2018/") # Working Directory setzen (hier hin wird dann der Datensatz gespeichert) -->
+<!-- NerdData <- NerdData_long[1:300,] # Kürzen -->
+<!-- save(list = c("NerdData"), file = "NerdData.rda") -->
+<!-- ``` -->
+
+<!-- Der Funktion `save` übergeben wir hier dem Argument `list` das Objekt (oder die Objekte, deswegen auch "Liste"), welche wir abspeichern wollen. `file` müssen wir den Namen des Objekts sowie die Endung übergeben. In unserem Ordner "*NPAS-data-16December2018*" sollte sich jetzt die Datei "NerdData.rda" befinden. Diese können Sie ganz einfach über die Website herunterladen und anschließend laden. -->
+
+<!-- ```{r, eval = F} -->
+<!-- load("C:/Users/Musterfrau/Desktop/NerdData.rda") -->
+<!-- ``` -->
+
+<!-- oder direkt über die Website in `R` laden: -->
+
+<!-- ```{r} -->
+<!-- load(url("https://pandar.netlify.app/daten/NerdData.rda")) -->
+<!-- ``` -->
+
+
+<!-- Sie werden die Daten etwas aufbereiten müssen: bspw. müssen Skalen gebildet und Items reskaliert werden. -->
+
+<!-- ### Tipps -->
+<!-- Als Tipp zur Reskalierung, können Sie sich Folgendes überlegen: wenn sie `1:3` in `R` eingeben so erhalten Sie: -->
+
+<!-- ```{r} -->
+<!-- 1:3 -->
+<!-- ``` -->
+
+<!-- also einen Vektor von 1 bis 3. Dies kann als die Ausprägungen eines 3-stufigen Likert-Items angesehen werden. Sie können nun diese Skala "umdrehen", indem Sie mit `-1` multiplizieren: -->
+<!-- ```{r} -->
+<!-- -1*(1:3) -->
+<!-- ``` -->
+
+<!-- Nun sind allerdings nur noch negative Ausprägungen möglich. Wir können diese "umgedrehte" Skala wieder in die ursprüngliche transformieren, indem wir 4 addieren: -->
+
+<!-- ```{r} -->
+<!-- -1*(1:3) + 4 -->
+<!-- ``` -->
+
+<!-- Sie sehen, dass sich dadurch die Skala umdrehen lässt: -->
+
+<!-- ```{r} -->
+<!-- cbind(1:3, -1*(1:3) + 4) -->
+<!-- ``` -->
+
+<!-- Wenden Sie dieses Wissen auf die jeweiligen Skalen an, die reskaliert werden müssen. -->
+
+<!-- Weitere Tipps zum Auswählen von Variablen aus einem Datensatz und zum Verarbeiten der Daten sind, dass Sie aus einem Datensatz via `[, c("NameV1", "NameV2")]` einen Subdatensatz ziehen können (hier nur die Variablen mit den Namen `NameV1` und `NameV2`). Bspw. können Sie den `Schulleistungen`-Datensatz herunterbrechen und nur noch die Matheleistung und die Leseleistung betrachten, indem Sie Folgendes tippen (wir nennen den resultierenden Datensatz mal `Schulleistungen_short`): -->
+
+<!-- ```{r} -->
+<!-- Schulleistungen_short <- Schulleistungen[, c("math", "reading")] -->
+<!-- head(Schulleistungen_short) -->
+<!-- ``` -->
+
+<!-- Außerdem lassen sich Skalenwerte als Mittel über die Items mit `rowMeans` bestimmen. -->
+
+<!-- Als Beispiel hier **eine** (denn es gibt viele verschiedene!) Lösung zur Berechnung der Nerd-Skala sowie der Extraversion: -->
+
+<!-- ```{r, eval = F} -->
+<!-- NerdData$Nerdiness <- rowMeans(NerdData[,1:26]) -->
+<!-- NerdData$Extraversion <- rowMeans(cbind(NerdData$TIPI1, -1*NerdData$TIPI6+8)) -->
+<!-- ``` -->
+
+<!-- `cbind` bindet die beiden Vektoren (erstes und zweites Item der Extraversion, wobei das zweite rekodiert wurde) zu einer 2-Spaltenmatrix, auf welche anschließend `rowMeans` angewandt werden kann, um die Skalenwerte pro Person zu erhalten. Anschließend können Sie dann die entsprechenden wichtigen Skalen in einen neuen Datensatz schreiben (hier besteht dieser biespielhaft aus der *Nerdiness* und der *Extraversion*): -->
+
+<!-- ```{r, eval = F} -->
+<!-- NerdData_relevant <- NerdData[, c("Nerdiness", "Extraversion")] -->
+<!-- ``` -->
+
+<!-- ## Sitzung 3: Students in Classes {#Sitzung3} -->
+
+<!-- Wir wollen uns erneut das fiktive Datenbeispiel (Datensatz `StudentsInClasses` aus dem gleichnamigen .rda File `StudentsInClasses.rda`) mit Schüler/innen (Ebene 1) in Schulklassen (Eben 2) anschauen. Sie können den   [{{< icon name="download" pack="fas" >}} Datensatz "StudentsInClasses.rda" hier herunterladen](/daten/StudentsInClasses.rda) und diesen anschließend mit `load` laden (bspw. auf dem Desktop von Frau "Musterfrau"). -->
+
+<!-- ```{r, eval = F} -->
+<!-- load("C:/Users/Musterfrau/Desktop/StudentsInClasses.rda") -->
+<!-- ``` -->
+
+<!-- Genauso können Sie die Daten direkt von der Website laden: -->
+
+<!-- ```{r, eval = F} -->
+<!-- load(url("https://pandar.netlify.app/daten/StudentsInClasses.rda")) -->
+<!-- ``` -->
+
+
+
+<!-- ## Sitzung 4: {#Sitzung4} -->
+
+<!-- Wir wollen uns ein simuliertes Datenbeispiel zu Einstellungsentscheidungen in jungen Start-Ups ansehen (Datensatz `Assessment` aus dem gleichnamigen .rda File `Assessment.rda`). Sie können den   [{{< icon name="download" pack="fas" >}} Datensatz "Assessment.rda" hier herunterladen](/daten/Assessment.rda) und diesen anschließend mit `load` laden (bspw. auf dem Desktop von Frau "Musterfrau"). -->
+
+<!-- ```{r, eval = F} -->
+<!-- load("C:/Users/Musterfrau/Desktop/Assessment.rda") -->
+<!-- ``` -->
+
+<!-- Genauso können Sie die Daten direkt von der Website laden: -->
+
+<!-- ```{r, eval = T} -->
+<!-- load(url("https://pandar.netlify.app/daten/Assessment.rda")) -->
+<!-- ``` -->
+
+<!-- Der Datensatz enthält folgende Variablen: -->
+
+<!-- ```{r, echo  = F} -->
+<!-- knitr::kable(head(Assessment, 10)) -->
+<!-- ``` -->
+
+<!-- `Hired` gibt an, ob die jeweilige Person eingestellt wurde. `Age` ist das Alter in Jahren. `Expertise` ist die Expertise der jeweiligen Person als Selbsteinschätzung beantwortet auf einer 7-stufigen Likert-Skala. `Party` gibt die politische Orientierung der Person an. Diese Variable hat 3 Abstufungen: -->
+
+<!-- ```{r} -->
+<!-- levels(Assessment$Party) -->
+<!-- ``` -->
+
+<!-- Hierbei steht `Elected` für die in diesem Landkreis gewählte Regierungspartei - somit hat die betrachtete Person die gleiche politische Orientierung wie der Landkreis, während `right` und `left` angibt, dass die Person etwas stärker rechts bzw. etwas stärker links orientiert ist als die regierende Partei. -->
+
+<!-- *** -->
+
+<!-- # Zusatz-Übungsdaten -->
+
+<!-- ## Zusatz-Sitzung: PCA {#ZusatzPCA} -->
+
+<!-- Bis zum 25.11.2020 konnten Studierende des Masterkurses zu folgenden Weihnachtssongs einschätzen, wie gut diese Ihnen gefallen sowie Auskunft darüber geben, welche Aspekte der Weihnachtszeit ihnen besonders am Herzen liegen: -->
+
+<!-- | Label | Beschreibung | Frage | -->
+<!-- | --- | --- | --- | -->
+<!-- Song1	| "Oh Tannenbaum"	|	Wie gut gefallen Ihnen folgende X-Mas Songs? -->
+<!-- Song2	| "Jingle Bells"	|	Wie gut gefallen Ihnen folgende X-Mas Songs? -->
+<!-- Song3	| "Santa Baby" von z.B. Eartha Kitt	|	Wie gut gefallen Ihnen folgende X-Mas Songs? -->
+<!-- Song4	| "Feliz Navidad" von José Feliciano	|	Wie gut gefallen Ihnen folgende X-Mas Songs? -->
+<!-- Song5	| "Holz - Weihnachtslied" von 257ers	|	Wie gut gefallen Ihnen folgende X-Mas Songs? -->
+<!-- Song6	| "White Christmas" von Elvis Presley	|	Wie gut gefallen Ihnen folgende X-Mas Songs? -->
+<!-- Song7	| "Let it Go" von Idina Menzel (Frozen Soundtrack)	|	Wie gut gefallen Ihnen folgende X-Mas Songs? -->
+<!-- Song8	| "Rudolf the red nosed reindeer"	|	Wie gut gefallen Ihnen folgende X-Mas Songs? -->
+<!-- Song9	| Last Christmas" von Wham!	|	Wie gut gefallen Ihnen folgende X-Mas Songs? -->
+<!-- Song10	| "Oh Du Fröhliche"	|	Wie gut gefallen Ihnen folgende X-Mas Songs? -->
+<!-- Song11	| "Schneeflöckchen, Weißröckchen"	|	Wie gut gefallen Ihnen folgende X-Mas Songs? -->
+<!-- Song12	| "Christmas is all around" aus dem Film "Love Actually - Tatsächlich Liebe"	|	Wie gut gefallen Ihnen folgende X-Mas Songs? -->
+<!-- Song13	| "Driving home for Christmas" von Chris Rea	|	Wie gut gefallen Ihnen folgende X-Mas Songs? -->
+<!-- Song14	| "Lass jetzt los (Let it Go)" von Helene Fischer (Die Eiskönigin – Völlig unverfroren Soundtrack)	|	Wie gut gefallen Ihnen folgende X-Mas Songs? -->
+<!-- Y1	| Weihnachtsfeiertage	|	Wie sehr mögen Sie Weihnachten bzw. die Weihnachtszeit mit allem was dazugehört? -->
+<!-- Y2	| gesamte Weihnachtszeit	|	Wie sehr mögen Sie Weihnachten bzw. die Weihnachtszeit mit allem was dazugehört? -->
+<!-- Y3	| Weihnachtsferien	|	Wie sehr mögen Sie Weihnachten bzw. die Weihnachtszeit mit allem was dazugehört? -->
+<!-- Y4	| Winterzeit	|	Wie sehr mögen Sie Weihnachten bzw. die Weihnachtszeit mit allem was dazugehört? -->
+
+
+<!-- Wir wollen untersuchen, ob es in diesen Daten Regelmäßigkeiten gibt. -->
+
+<!-- Sie können den   [{{< icon name="download" pack="fas" >}} Datensatz "Xmas.rda" hier herunterladen](/daten/Xmas.rda) und diesen anschließend mit `load` laden (bspw. auf dem Desktop von Frau "Musterfrau"). -->
+
+<!-- ```{r, eval = F} -->
+<!-- load("C:/Users/Musterfrau/Desktop/Xmas.rda") -->
+<!-- ``` -->
+
+<!-- Genauso können Sie die Daten direkt von der Website laden: -->
+
+<!-- ```{r, eval = F} -->
+<!-- load(url("https://pandar.netlify.app/daten/Xmas.rda")) -->
+<!-- ``` -->
+
+
+
+
+<!-- ## Zusatz-Sitzung: MANOVA {#ZusatzMANOVA} -->
+
+
+<!-- Wir wollen uns Mittelwertsunterschiede der *Big-5* eines entsprechenden Fragebogens ansehen. Der Originaldatensatz ist ein Onlinedatensatz, wird seit 2012 erfasst und ist auf [{{< icon name="download" pack="fas" >}} openpsychometrics.org](https://openpsychometrics.org/_rawdata/) als *.zip* downloadbar. Bisher haben über **19700** Proband\*innen aus der ganzen Welt teilgenommen. Zu jeder der fünf Facetten gibt es 10 Fragen. Der Fragebogen ist [hier](https://openpsychometrics.org/tests/IPIP-BFFM/) einzusehen und durchführbar. Im Datensatz *Big5.rda* befindet sich eine gekürzte Version des Fragebogen. Der Itemwortlaut der Persönlichkeitseigenschaften ist: -->
+
+<!-- | Label | Itemwortlaut | -->
+<!-- | --- | --- | -->
+<!-- | E1	| I am the life of the party. | -->
+<!-- | E2*	| I don't talk a lot. | -->
+<!-- | E3	| I feel comfortable around people. | -->
+<!-- | E4*	| I keep in the background. | -->
+<!-- | E5	| I start conversations. | -->
+<!-- | E6*	| I have little to say. | -->
+<!-- | E7	| I talk to a lot of different people at parties. | -->
+<!-- | E8*	| I don't like to draw attention to myself. | -->
+<!-- | E9	| I don't mind being the center of attention. | -->
+<!-- | E10*	| I am quiet around strangers. | -->
+<!-- | N1	| I get stressed out easily. | -->
+<!-- | N2*	| I am relaxed most of the time. | -->
+<!-- | N3	| I worry about things. | -->
+<!-- | N4*	| I seldom feel blue. | -->
+<!-- | N5	| I am easily disturbed. | -->
+<!-- | N6	| I get upset easily. | -->
+<!-- | N7	| I change my mood a lot. | -->
+<!-- | N8	| I have frequent mood swings. | -->
+<!-- | N9	| I get irritated easily. | -->
+<!-- | N10	| I often feel blue. | -->
+<!-- | A1*	| I feel little concern for others. | -->
+<!-- | A2	| I am interested in people. | -->
+<!-- | A3*	| I insult people. | -->
+<!-- | A4	| I sympathize with others' feelings. | -->
+<!-- | A5*	| I am not interested in other people's problems. | -->
+<!-- | A6	| I have a soft heart. | -->
+<!-- | A7*	| I am not really interested in others. | -->
+<!-- | A8	| I take time out for others. | -->
+<!-- | A9	| I feel others' emotions. | -->
+<!-- | A10	| I make people feel at ease. | -->
+<!-- | C1	| I am always prepared. | -->
+<!-- | C2*	| I leave my belongings around. | -->
+<!-- | C3	| I pay attention to details. | -->
+<!-- | C4*	| I make a mess of things. | -->
+<!-- | C5	| I get chores done right away. | -->
+<!-- | C6*	| I often forget to put things back in their proper place. | -->
+<!-- | C7	| I like order. | -->
+<!-- | C8*	| I shirk my duties. | -->
+<!-- | C9	| I follow a schedule. | -->
+<!-- | C10	| I am exacting in my work. | -->
+<!-- | O1	| I have a rich vocabulary. | -->
+<!-- | O2*	| I have difficulty understanding abstract ideas. | -->
+<!-- | O3	| I have a vivid imagination. | -->
+<!-- | O4*	| I am not interested in abstract ideas. | -->
+<!-- | O5	| I have excellent ideas. | -->
+<!-- | O6*	| I do not have a good imagination. | -->
+<!-- | O7	| I am quick to understand things. | -->
+<!-- | O8	| I use difficult words. | -->
+<!-- | O9	| I spend time reflecting on things. | -->
+<!-- | O10	| I am full of ideas. | -->
+
+<!-- Hierbei steht **E** für **E**xtraversion, **N** für **N**eurotizismus, **A** für **A**greeableness (Verträglichkeit), **C** für **C**onscientiousness (Gewissenhaftigkeit) und **O** für **O**ffenheit für Erfahrung. Sie müssen zur Vorbereitung auf die Übungen Items invertieren (inverse Items sind mit "\*" gekennzeichnet) und jeweils Skalenmittelwerte (z.B. geschickt mit `colMeans`) für jede Persönlichkeitsfacette bestimmen (wir nehmen hier der Einfachheit halber an, dass die Items $\tau$-äquivalent sind und somit gleiche wahre Anteile der dahinterliegenden latenten Variable messen - dazu mehr im nächsten Semester - in kurz: Sie dürfen einfach Items mitteln, um Skalenwerte zu erhalten). -->
+
+<!-- Sie können den gekürzten  [{{< icon name="download" pack="fas" >}} Datensatz "Big5.rda" hier herunterladen](/daten/Big5.rda) und diesen anschließend mit `load` laden (bspw. auf dem Desktop von Frau "Musterfrau"). -->
+
+<!-- ```{r, eval = F} -->
+<!-- load("C:/Users/Musterfrau/Desktop/Big5.rda") -->
+<!-- ``` -->
+
+<!-- Genauso können Sie die Daten direkt von der Website laden: -->
+
+<!-- ```{r, eval = F} -->
+<!-- load(url("https://pandar.netlify.app/daten/Big5.rda")) -->
+<!-- ``` -->
+
+
+<!-- Außerdem können Sie den Datensatz selbst wie folgt kürzen. Dazu müssen Sie nur das *.zip*-File herunterladen und das Working Directory entsprechend legen, sodass Sie die Daten einlesen können. Wir verwenden nur Daten aus Deutschland, Frankreich und den Vereinigten Arabischen Emiraten. -->
+
+<!-- ```{r, eval = F} -->
+<!-- data_full <- read.table("BIG5/data.csv", header = T, sep = "\t") # nach entpacken des .zip liegen die Daten in einem Ordner namens Big5 -->
+
+<!-- ### Entferne leere Zeilen und Zeilen mit Missings aus dem Datensatz -->
+<!-- ind <- apply(data_full, 1, FUN = function(x) any(is.na(x))) # erzeuge eine Variable, welche TRUE ist, wenn mindestens ein Eintrag pro Zeile fehlt und ansonsten FALSE anzeigt -->
+<!-- data_full <- data_full[!ind, ] # Wähle nur diejenigen Zeilen, in denen unsere Indikatorvariable "ind" NICHT TRUE anzeigt, also wo alle Einträge vorhanden sind -->
+<!-- # !ind (Ausrufezeichen vor ind) negiert die Einträge in ind (Prüfe bspw. !FALSE == TRUE, nicht false ist gleich true) -->
+
+<!-- ### Shorten Data Set -->
+<!-- Big5 <- data_full[data_full$country %in% c("DE", "FR", "AE") , ] -->
+<!-- # Verwende nur Daten aus den Ländern: Deutschland (DE), Frankreich (FR) und den Vereinigten Arabischen Emiraten (AE) -->
+<!-- Big5 <- Big5[Big5$gender %in% c(1,2),] # verwende nur ausgefüllte Fälle -->
+<!-- Big5$gender <- as.factor(Big5$gender) -->
+<!-- Big5$country <- as.factor(Big5$country) -->
+<!-- Big5 <- data.frame(Big5) # Schreibe Datensatz als data.frame -->
+<!-- save(list = c("Big5"), file = "Big5.rda") -->
+<!-- # Speichere gekürzten Datensatz in .rda file (dem R-internen Datenformat) -->
+<!-- ##  Das ist auch der Datensatz, den wir weiter verwendet haben! -->
+<!-- ``` -->
+
+<!-- Das Geschlecht hat nach der Datensatzkürzung nur zwei Ausprägungen: `1` = Männern und `2` = Frauen. -->

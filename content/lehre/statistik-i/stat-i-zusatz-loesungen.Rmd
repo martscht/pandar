@@ -1,0 +1,1113 @@
+---
+title: "Freiwillige Übungsaufgaben - Lösungen" 
+type: post
+date: '2021-11-29' 
+slug: zusatz-loesungen 
+categories: ["Statistik I Übungen"] 
+tags: [] 
+subtitle: ''
+summary: '' 
+authors: [cezanne, mueller, nehler] 
+weight: 
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/mechanical_number_display.png"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/753544)"
+projects: []
+expiryDate: 
+publishDate: '2024-02-11'
+_build:
+  list: never
+reading_time: false
+share: false
+output:
+  html_document:
+    keep_md: true
+---
+
+
+Hier finden Sie die Lösungen zu den Zusatzaufgaben!
+
+***
+
+Zunächst wollen wir nochmal Übungen mit einem kleinen, ausgedachten Datensatz durchführen. Stellen Sie sich dafür vor, dass Sie im Rahmen Ihres Studiums haben eine Untersuchung mit 10 Studierenden durchgeführt. Dabei haben Sie das Alter (in ganzen Zahlen), das Geschlecht (weiblich, männlich, divers), die deutsche Lieblingsstadt (Berlin, Hamburg, München, Frankfurt, Dresden), sowie die generelle Lebenszufriedenheit, gemessen mit 5 Items, erhoben. 
+
+## Aufgabe 1
+
+Laden Sie die folgenden 3 Vektoren und den Datensatz in Ihr Environment.
+
+* Welche Klasse haben die Vektoren? 
+* Wie lauten die Dimensionen des Datensatzes? 
+
+```{r}
+#demographische Daten:
+geschlecht <- c(1, 2, 2, 1, 1, 1, 3, 2, 1, 2)   
+alter <- c(20, 21, 19, 19, 20, 23, 22, 21, 19, 25)
+stadt <- c(2, 1, 1, 4, 3, 2, 5, 4, 1, 3) 
+
+#Lebenszufriedenheit:
+lz_items <- data.frame(lz1 = c(3, 4, 4, 2, 1, 4, 3, 5, 4, 3), lz2 = c(2, 2, 3, 2, 4, 1, 2, 3, 2, 2), lz3 = c(5, 3, 4, 4, 3, 5, 2, 4, 3, 4), lz4 = c(2, 1, 3, 2, 2, 3, 2, 4, 2, 1), lz5 = c(4, 4, 3, 3, 1, 4, 3, 4, 5, 3)) 
+```
+
+<details><summary>Lösung</summary>
+
+An dieser Stelle zunächst eine generelle Anmerkung: Für einige der nachfolgenden Aufgaben wird es - wie eigentlich fast immer in `R` - mehrere Lösungswege geben. Die hier gezeigten Wege sind also exemplarische Vorlagen.
+
+```{r}
+class(geschlecht)
+class(alter)
+class(stadt)
+dim(lz_items)
+```
+
+Die einzelnen Vektoren gehören alle zur Klasse `r class(stadt)`, da sie nur Zahlen beinhalten. Die Dimensionen des Datensatzes zu den `lz_items` betragen `r nrow(lz_items)` Zeilen und `r ncol(lz_items)` Spalten (in dem Fall die Anzahl der Lebenszufriedenheites-Items).
+
+</details>
+
+* Führen Sie die Vektoren und den Datensatz zusammen zu einem gemeinsamen Datensatz mit dem Namen `data`. Wie viele Variablen hat der neue Datensatz, wieviele Proband:innen liegen vor?
+
+<details><summary>Lösung</summary>
+
+```{r}
+data <- data.frame(geschlecht, alter, stadt, lz_items)
+dim(data)
+```
+In `dim` wäre die Anzahl der Proband:innen, also die Anzahl der Zeilen, der erste Wert. Es liegen also `r nrow(data)` Proband:innen vor. Der zweite Wert beschreibt die Anzahl der Variablen. Hier haben wir demnach um `r ncol(data)` Variablen.
+
+</details>
+
+
+* Wandeln Sie die Variable `geschlecht` und die Variable `stadt` in Faktoren um. Dabei sind die Zahlen in der Reihenfolge im Beschreibungstesxt zugeordnet (Beispiel: `1` bei Geschlecht wäre `weiblich`). Überschreiben Sie die alten Variablen und überprüfen Sie die Umwandlung.
+
+<details><summary>Lösung</summary>
+```{r}
+data$geschlecht <- factor(data$geschlecht, levels = 1:3, labels = c("weiblich", "männlich", "divers"))
+str(data$geschlecht)
+
+data$stadt <- factor(data$stadt, levels = 1:5, labels = c("Berlin", "Hamburg", "München", "Frankfurt", "Dresden"))
+str(data$stadt)
+```
+</details>
+
+
+## Aufgabe 2
+
+Nun wollen wir die Extraktion von bestimmten Datenpunkten nochmal üben. 
+
+* Welche deutsche Lieblingsstadt hat Person 4 angegeben?
+* Welches Geschlecht haben Person 7 und 8 angekreuzt? 
+* Wie lauten die Lebenszufriedenheits-Werte von Person 2 und 3 auf allen Items?
+
+
+<details><summary>Lösung</summary>
+
+
+```{r}
+data[4, "stadt"]
+data[c(7, 8), "geschlecht"]
+data[c(2, 3), c(4:8)]
+```
+
+* Wir sehen, dass Person 4 die Stadt `r data[4, "stadt"]` angegeben hat.
+* Person 7 hat das Geschlecht `r data[c(7, 8), "geschlecht"][1]` angegeben und Person 8 `r data[c(7, 8), "geschlecht"][2]`.
+* In der ausgegebenen Tabelle werden die Lebenszufriedenheits-Werte von Person 2 und 3 auf allen Items ausgegeben.
+
+</details>
+
+
+## Aufgabe 3
+
+Im Folgenden soll nicht nur extrahiert, sondern auch ersetzt werden.
+
+* Ihnen fällt auf, dass die Angabe der 3. Person in Item `lz2` und `lz4` nicht korrekt sind. Die korrekten Werte betragen 2 (für `lz2`) und 1 (für `lz4`). Wandeln Sie die Angaben im Datensatz entsprechend um.
+
+<details><summary>Lösung</summary>
+
+```{r}
+data[3, "lz2"] <- 2
+data[3, "lz4"] <- 1
+```
+
+</details>
+
+* Person 6 hat zudem ein falsches Alter angegeben (eigentlich 24). Welches Alter steht noch im Datensatz? Korrigieren Sie es entsprechend.
+
+
+<details><summary>Lösung</summary>
+
+```{r}
+data[6, "alter"]
+```
+Das Alter der Person 6, das im Datensatz steht, beträgt `r data[6, "alter"]`. Hier muss also das richtige Alter (24 Jahre) zugeordnet werden.
+
+```{r}
+data[6, "alter"] <- 24
+```
+</details>
+
+
+## Aufgabe 4
+
+Bei Item `lz2` und `lz4` handelt es sich um invertierte Items. Wandeln Sie die Items entsprechend um, sodass einheitlich eine hohe Ausprägung für eine hohe Lebenszufriedenheit steht. Überschreiben Sie dabei die Ursprungsvariablen. Die Variablen hatten 5 mögliche Antwortkategorien.
+
+
+<details><summary>Lösung</summary>
+```{r}
+data$lz2 <- -1 * (data$lz2 - 6)
+data$lz4 <- -1 * (data$lz4 - 6)
+```
+</details>
+
+## Aufgabe 5
+
+Datenextraktion kann auch mit logischer Überprüfung kombiniert werden. Bearbeiten Sie dafür folgende Fragestellungen
+
+* Haben Person 1 und Person 5 dasselbe Alter und Geschlecht? 
+* Haben Person 2 und Person 10 dasselbe Geschlecht und dieselbe Lieblingsstadt angegeben? 
+
+<details><summary>Lösung</summary>
+```{r}
+data[1, c("alter", "geschlecht")] == data[5, c("alter", "geschlecht")]
+data[2, c("geschlecht", "stadt")] == data[10, c("geschlecht", "stadt")]
+```
+Natürlich könnte man die Vergleiche auch jeweils einzeln durchführen, doch mit diesem Code geht es etwas schneller. Wenn man das und als verbindendes Element verstehen will (beide Werte müssen gleich sein), müsste man es folgendermaßen lösen.
+
+```{r}
+data[1, "alter"] == data[5,"alter"] & data[1, "geschlecht"] == data[5, "geschlecht"]
+data[2, "geschlecht"] == data[10, "geschlecht"] & data[2,  "stadt"] == data[10, "stadt"]
+```
+Dabei wird nur `TRUE` als Resultat ausgegeben, wenn beide durch `&` verbundene Aussagen als `TRUE` gewertet werden. Da, wie wir bereits gesehen haben, die Angabe in `stadt` nicht gleich ist beim zweiten Vergleich, erhalten wir hier ein `FALSE`. 
+
+</details>
+
+## Aufabe 6
+
+Der Datensatz enthält noch nicht die vollständige Menge an erhobenen Informationen. Sie hatten zusätzlich die Lieblingsfarbe der Versuchspersonen erhoben:
+
+
+```{r}
+farbe <- c(1, 2, 1, 1, 3, 4, 2, 2, 1, 4)  #1 = blau, 2 = rot, 3 = grün, 4 = schwarz
+```
+
+* Diese Angaben fehlen jedoch in `data`. Fügen Sie diese neue Spalte mit den entsprechenden Labels dem Datensatz hinzu. 
+
+
+<details><summary>Lösung</summary>
+```{r}
+data$farbe <- farbe
+data$farbe <- factor(data$farbe, levels = 1:4, labels = c("blau", "rot", "grün", "schwarz"))
+str(data$farbe)
+```
+</details>
+
+## Aufgabe 7 
+
+Nach einiger Zeit können Sie noch 3 weitere Proband:innen von der Teilnahme überzeugen. Fügen Sie diese zusätzlich an den Datensatz an. Die aufgeführten Zeilen wurden bereits invertiert. 
+
+
+```{r, eval = F}
+c("weiblich", 21, "Frankfurt", 4, 4, 3, 4, 4, "blau")
+c("männlich", 19, "Dresden", 2, 5, 2, 4, 3, "schwarz")
+c("weiblich", 20, "Berlin", 1, 5, 1, 5, 1, "blau")
+```
+
+<details><summary>Lösung</summary>
+```{r}
+data[11, ] <- c("weiblich", 21, "Frankfurt", 4, 4, 3, 4, 4, "blau")
+data[12, ] <- c("männlich", 19, "Dresden", 2, 5, 2, 4, 3, "schwarz")
+data[13, ] <- c("weiblich", 20, "Berlin", 1, 5, 1, 5, 1, "blau")
+```
+
+Hier sollte es am einfachsten sein, die neuen Personen manuell an den Datensatz anzufügen. Dabei starten wir natürlich mit der nächsten Zeile nach der vorherigen Anzahl. In diesem Fall hatten wir schon 10 Personen erhoben, starten also mit 11.
+
+</details>
+
+
+
+## Aufgabe 8 
+
+Schauen Sie sich die Struktur Ihres Datensatzes an. Was fällt Ihnen auf? Passen Sie den Datensatz ggf. wieder an seine ursprüngliche Struktur an.  
+
+<details><summary>Lösung</summary>
+```{r}
+str(data)
+```
+
+Es fällt auf, dass unsere `numeric` Variablen jetzt als `chr` angezeigt werden. Sie sollten also zurücktransformiert werden.
+
+```{r}
+data$alter <- as.numeric(data$alter)
+data$lz1 <- as.numeric(data$lz1)
+data$lz2 <- as.numeric(data$lz2)
+data$lz3 <- as.numeric(data$lz3)
+data$lz4 <- as.numeric(data$lz4)
+data$lz5 <- as.numeric(data$lz5)
+```
+</details>
+
+## Aufgabe 9
+
+Erstellen Sie eine neue Variable `lz_ges` im Datensatz `data`, die die Antworten auf den lz-Items bestmöglich zusammenfasst. 
+
+<details><summary>Lösung</summary>
+```{r}
+data$lz_ges <- rowMeans(data[, 4:8])
+data$lz_ges   
+```
+</details>
+
+
+## Aufgabe 10 
+
+Speichern Sie den Datensatz als RDA-Datei unter dem Namen `Data_lz` lokal in ihrem Praktikums-Ordner ab. Lassen Sie sich erst den Pfad des aktuellen Working Directory ausgeben, und ändern Sie diesen ggf.
+
+<details><summary>Lösung</summary>
+```{r, eval = FALSE}
+getwd()
+setwd("...")
+save(data, file = "Data_lz.rda")
+```
+</details>
+
+
+
+## Aufgabe 11 
+
+
+Nachdem nun der Datensatz auf dem finalen Niveau ist, sollen Sie erste deskriptivstatistische Werte bestimmen. 
+
+* Wieviele Proband:innen haben die Farbe "schwarz" als Lieblingsfarbe ausgewählt? 
+* Was ist der Modus der Variable `farbe`? Wie hoch ist die Häufigkeit?
+
+<details><summary>Lösung</summary>
+```{r}
+table(data$farbe)            # Häufigkeiten
+which.max(table(data$farbe)) # Modus
+max(table(data$farbe))       # Ausprägung
+```
+
+* `r table(data$farbe)[4]` Proband:innen haben die Farbe "schwarz" als Lieblingsfarbe ausgewählt.
+* Der Modus der Variable `farbe` ist `r names(which.max(table(data$farbe)))` und kommt `r max(table(data$farbe))` mal vor.
+
+</details>
+
+## Aufgabe 12
+
+Betrachten wir statt der Variable `farbe` nun die Variable `geschlecht`.
+
+* Lassen Sie sich die absolute Häufigkeit in der für Menschen ungünstigeren grafischen Darstellungsform ausgeben.
+* Wie hoch ist der relative Anteil der Versuchspersonen, die "männlich" angegeben haben?
+
+<details><summary>Lösung</summary>
+
+```{r}
+pie(table(data$geschlecht))
+```
+
+```{r}
+prop.table(table(data$geschlecht))
+```
+
+Der relative Anteil der Versuchspersonen, die "männlich" angegeben haben, beträgt `r round(prop.table(table(data$geschlecht))[2], digits = 3)`.
+
+</details>
+
+## Aufgabe 13
+
+Berechnen Sie den relativen Informationsgehalt für die Variable `stadt`. Was bedeutet das Ergebnis? 
+
+<details><summary>Lösung</summary>
+```{r}
+bruch <- -(1/log(5))
+hj <- prop.table(table(data$stadt))
+summe <- sum(hj * log(hj))
+bruch * summe
+```
+
+Das Maximum des relativen Informationsgehaltes ist bei 1. Dieses steht für eine Gleichverteilung auf alle möglichen Ausprägungen, also alle Kategorien. Daher ist unser Ergebnis ein Hinweise auf eine recht gleichmäßige Verteilung der Lieblingsstadt in Deutschland, denn für die Variable `stadt` ergibt sich ein relativer Informationsgehalt von `r round(bruch * summe, digits = 3)`.
+</details>
+
+## Aufgabe 14
+
+Betrachten wir nun ein einzelnes Item (`lz3`) aus dem Fragebogen zur Lebenszufriedenheit.
+
+* Berechnen Sie ein geeignetes Maß der zentralen Tendenz. 
+* Geben Sie den Interquartilsbereich an. 
+* Überprüfen Sie Ihre Angabe, indem Sie sich einen Boxplot ausgeben lassen. 
+* Berechnen Sie zudem den Interquartilsabstand.
+
+<details><summary>Lösung</summary>
+```{r}
+median(data$lz3)
+quantile(data$lz3, c(.25, .75))
+boxplot(data$lz3)
+quantile(data$lz3, .75) - quantile(data$lz3, .25)
+```
+
+* Der Median für `lz3` beträgt `r median(data$lz3)`.
+* Der Interquartilsbereich erstreckt sich vom Wert `r quantile(data$lz3, c(.25, .75))[1]` bis zum Wert `r quantile(data$lz3, c(.25, .75))[2]`.
+* Der Interquartilsabstand beträgt `r quantile(data$lz3, .75) - quantile(data$lz3, .25)`.
+
+</details>
+
+
+
+## Aufgabe 15
+
+Anstatt nur einer Variable soll nun der gesamte Skalenwert `lz_ges` betrachtet werden.
+
+* Berechnen Sie ein sinnvolles Maß der zentralen Tendenz.
+* Bestimmen Sie ein passendes Streuungsmaß.
+
+<details><summary>Lösung</summary>
+```{r}
+mean(data$lz_ges)
+#Varianz (beide Wege)
+var(data$lz_ges) * (12 / 13)
+sum((data$lz_ges - mean(data$lz_ges))^2) / 13
+```
+
+* Das arithmetische Mittel beträgt `r round(mean(data$lz_ges), digits = 3)`.
+* Die Varianz beträgt `r round(var(data$lz_ges) * (12 / 13), digits = 3)`.
+
+</details>
+
+
+
+
+## Aufgabe 16
+
+Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `fb22` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Eventuell haben Sie ihn ja auch aktiv in Ihrem Environment. Der Datensatz sollte 159 Versuchspersonen enthalten. Der Basisdatensatz hatte 36 Variablen, aber kann natürlich mehr enthalten, falls Sie weitere erstellt und abgespeichert haben. 
+
+```{r}
+rm(list = ls())
+load(url('https://pandar.netlify.app/daten/fb22.rda'))
+```
+
+Wandeln Sie zum Start die Variable `lerntyp` in einen Faktor um. Die Labels lauten in dieser Reihenfolge: `c(alleine, Gruppe, Mischtyp)`. Erstellen Sie dafür keine neuen Spalten, sondern überschreiben Sie die bereits bestehenden. Überprüfen Sie im Nachhinein die Umwandlung.
+
+<details><summary>Lösung</summary>
+```{r}
+fb22$lerntyp <- factor(fb22$lerntyp, levels = 1:3, labels = c("alleine", "Gruppe", "Mischtyp"))
+
+str(fb22$lerntyp)
+```
+</details>
+
+
+
+
+
+## Aufgabe 17 
+
+Erstellen Sie ein Balkendiagramm mit der Variable `lerntyp`. Geben Sie der Grafik einen Titel, eine Achsenbeschriftung, sowie ein fesches, hippes farbliches Design.
+
+<details><summary>Lösung</summary>
+```{r}
+colours <- c("#CFB1B3", "#BC7B7D", "#DAB457")  #HEX-Werte (Paletten auf Pinterest)
+colours2 <- c("#B7C5D5", "#D6EDEC", "#E7E8ED")
+
+table_lerntyp <- table(fb22$lerntyp)
+
+barplot(table_lerntyp, main = "Lerntypen Jahrgang 2022", ylab = "Anzahl Studierende", col = colours)
+barplot(table_lerntyp, main = "Lerntypen Jahrgang 2022", ylab = "Anzahl Studierende", col = colours2)
+``` 
+</details>
+
+## Aufgabe 18
+
+Betrachten Sie die Variablen `prok4` und `prok10`. Liegen NAs vor? Wenn ja, wieviele? Überprüfen Sie dies mit Ihnen bekannten Befehlen.
+
+<details><summary>Lösung</summary>
+```{r}
+sum(is.na(fb22$prok4))
+sum(is.na(fb22$prok10))
+```
+
+* Die Variable `prok4` enthält `r sum(is.na(fb22$prok4))` fehlende Werte.
+* Die Variable `prok10` enthält `r sum(is.na(fb22$prok10))` fehlende Werte.
+
+</details>
+
+## Aufgabe 19
+
+Die beiden Variablen sollen weiter betrachtet werden. Entfernen Sie bei Analysen (falls nötig) die fehlenden Werte. 
+
+* Bestimmen Sie das Maß der zentralen Tendenz für die beiden Variablen. Werden die Proband:innen-Angaben bei Variable `prok4` und `prok10` in derselben Kategorie in zwei gleichgroße Hälften geteilt?
+* In welchem Bereich liegen die mittleren 50% der Angaben in den beiden Variablen `prok4` und `prok10`?
+* Lassen Sie sich dies zusätzlich grafisch ausgeben.
+
+<details><summary>Lösung</summary>
+
+Da wir gefunden haben, dass in `prok10` keine fehlenden Werte vorliegen, können wir die Befehle ohne die Ergänzung `na.rm = T` durchführen. 
+
+```{r}
+median(fb22$prok4, na.rm = T)
+median(fb22$prok10)
+
+quantile(fb22$prok4, c(.25, .75), na.rm = T)
+quantile(fb22$prok10, c(.25, .75))
+```
+
+* Der Median von `prok4` liegt bei `r median(fb22$prok4, na.rm = T)`, bei `prok10` liegt er bei `r median(fb22$prok10)`.
+* Die mittleren 50% der Angaben in Variable `prok4` reicht vom Wert `r quantile(fb22$prok4, c(.25, .75), na.rm = T)[1]` bis zum Wert `r quantile(fb22$prok4, c(.25, .75), na.rm = T)[2]`, bei der Variable `prok10` reicht er von `r quantile(fb22$prok10, c(.25, .75))[1]` bis `r quantile(fb22$prok10, c(.25, .75))[2]`.
+
+```{r}
+boxplot(fb22$prok4)
+boxplot(fb22$prok10)
+```
+
+</details>
+
+## Aufgabe 20
+
+Nun betrachten wir den Skalenwert, der unter `gewis` abgelegt ist. Dieser steht für die Persönlichkeitseigenschaft Gewissenhaftigkeit.
+
+* Was ist der niedrigste, was ist der höchste Wert der Variable? 
+* Wie hoch ist die mittlere Ausprägung?
+
+<details><summary>Lösung</summary>
+```{r}
+range(fb22$gewis)
+mean(fb22$gewis)
+```
+
+* Der niedrigste Gewissenhaftigskeitswert liegt bei `r range(fb22$gewis)[1]`, der höchste bei `r range(fb22$gewis)[2]`.
+* Die mittlere Ausprägung der Gewissenhaftigkeit liegt bei `r round(mean(fb22$gewis), digits = 3)`.
+
+</details>
+
+## Aufgabe 21 
+
+Ist Ihr Jahrgang im Mittel, rein deskriptiv betrachtet, gewissenhafter (`gewis`) oder extravertierter (`extra`)? In welcher der beiden Variablen variieren die Angaben stärker? Gehen Sie für die Beantwortung davon aus, dass die Skalen gleich genormt sind.
+
+<details><summary>Lösung</summary>
+Zunächst sollten wir überprüfen, ob es fehlende Werte auf den Skalen gibt.
+
+```{r}
+sum(is.na(fb22$gewis))
+sum(is.na(fb22$extra))
+```
+
+Das ist offensichtlich nicht der Fall. Daher können wir die Befehle auch ohne den ergänzenden Teil durchführen.
+
+```{r}
+mean(fb22$gewis)
+mean(fb22$extra)
+
+var(fb22$gewis) * (158/159)
+var(fb22$extra) * (158/159)
+```
+
+Der Mittelwert von `gewis` liegt bei `r round(mean(fb22$gewis), digits = 3)`, der von `extra` bei `r round(mean(fb22$extra), digits = 3)`. Unter den getroffenen Annahmen ist Ihre Gruppe gewissenhafter. Auch die Streuung ist deskriptiv auf der Extraversion größer. Hier liegt sie bei `r round(var(fb22$extra) * (158/159), digits = 3)`, während sie bei der Gewissenheit bei `r round(var(fb22$gewis) * (158/159), digits = 3)` liegt.
+
+</details>
+
+
+## Aufgabe 22
+
+Verträglichkeit ist in `vertr` abgelegt. 
+
+* Lassen Sie sich das Histogramm ausgeben. 
+* Zentrieren Sie die Variable `vertr`. Legen Sie dafür eine neue Spalte in `fb22` an mit dem Namen `vertr_z` und lassen Sie sich erneut ein Histogramm ausgeben. Was hat sich verändert? 
+* Standardisieren Sie die Variable `vertr` und speichern Sie diese ebenfalls unter einer neuen Spalte mit dem Namen `vertr_st` ab. Was ist nun anders beim Histogramm?
+
+
+<details><summary>Lösung</summary>
+```{r}
+hist(fb22$vertr)
+```
+
+Dieses Histogramm soll erstmal zum Vergleich dienen. Wir sehen die ursprünglichen Skalenwerte.
+
+```{r}
+fb22$vertr_z <- scale(fb22$vertr, scale = F)
+hist(fb22$vertr_z)
+```
+
+Durch die Zentrierung verändert sich die Form erstmal nicht. Der Mittelwert der Werte wird auf 0 gesetzt. Optisch äußert sich das dadurch, dass die Werte auf der x-Achse nun andere sind.
+
+```{r}
+fb22$vertr_st <- scale(fb22$vertr, scale = T)
+hist(fb22$vertr_st)
+```
+
+Die Standardisierung setzt die Standardabweichung auf 1. Aufgrund der neuen Wertestruktur wird natürlich auch die Kategorienanzahl geändert. 
+
+</details>
+
+## Aufgabe 23 
+
+Vergleichen Sie deskriptiv das Maß der zentralen Tendenz der Variable `extra` zwischen den Teilnehmenden, die `alleine` und `Gruppen` in der bevorzugten Lernform angegeben hatten. Welche der beiden Gruppen hat die höhere Ausprägung? Welche der beiden Gruppen ist im Mittel nerdier (`nerd`)? 
+
+<details><summary>Lösung</summary>
+
+Da wir zwei Analysen durchführen wollen, wäre es eine gute Möglichkeit, die Personen in reduzierten Datensätzen abzulegen. Dies kann mittels der Funktion `subset` gelöst werden.
+
+```{r}
+fb22_alleine <- subset(fb22, subset = lerntyp == "alleine")
+fb22_gruppe <- subset(fb22, subset = lerntyp == "Gruppe")
+```
+
+Über das Argument `subset` geben wir an, in welcher Variable (`lerntyp`) die Auswahl stattfindet und anschließend legen wir die Auswahl der einzelnen Gruppen über das bereits bekannte `==` fest. 
+
+Eine andere Möglichkeit wäre die Verwendung der logischen Auswahl anhand eckiger Klammern.
+
+```{r, eval = F}
+fb22_alleine <- fb22[fb22$lerntyp == "alleine",]
+fb22_gruppe <- fb22[fb22$lerntyp == "Gruppe",]
+```
+
+Nun können Mittelwerte für die beiden Gruppen bestimmt werden. Beachten Sie, dass die Ergänzung von `na.rm` nur auf dem zweiten demonstrierten Weg wichtig ist. Dort können Personen mit einem Eintrag nicht richtig zugeordnet werden und sind daher in den beiden Datensätzen erhalten - allerdings nicht mit ihren richtigen Werten sondern mit überall `NA`. Die Funktion `subset` nimmt diese Fälle hingegen nicht mit auf. 
+
+```{r}
+mean(fb22_alleine$extra, na.rm = T)
+mean(fb22_gruppe$extra, na.rm = T)
+
+mean(fb22_alleine$nerd, na.rm = T)
+mean(fb22_gruppe$nerd, na.rm = T)
+```
+
+Personen, die gerne in Gruppen lernen, weisen einen Mittelwert von `r round(mean(fb22_gruppe$extra), digits = 3)` auf. Sie sind rein deskriptiv extravertierter als Personen, die lieber alleine lernen. Diese haben hier einen Mittelwert von `r round(mean(fb22_alleine$extra), digits = 3)`. Umgekehrtes gilt in unserer Stichprobe hingegen für die Nerdiness. Hier haben Personen, die in Gruppen lernen, einen Wert von `r round(mean(fb22_gruppe$nerd), digits = 3)` und Personen, die lieber alleine lernen, einen Wert von `r round(mean(fb22_alleine$nerd), digits = 3)`.
+</details>
+
+## Aufgabe 24
+
+Etwa 75% Prozent der Psychologiestudierenden in Deutschland sind weiblich. Sie treffen zufällig auf 15 Psychologiestudierende.
+
+* Wie wahrscheinlich ist es, dass genau 9 der Personen weiblich sind?
+
+<details><summary>Lösung</summary>
+```{r}
+dbinom(9, 15, 0.75)
+```
+Die Wahrscheinlichkeit beträgt `r round(dbinom(9, 15, 0.75),4)*100`%.
+</details>
+
+* Wie wahrscheinlich ist es, dass mindestens 11 der Personen weiblich sind?
+
+<details><summary>Lösung</summary>
+
+```{r}
+1- pbinom(10, 15, 0.75)
+#Alternativ:
+pbinom(10, 15, 0.75, lower.tail = F)
+```
+Die Wahrscheinlichkeit beträgt `r round(pbinom(10, 15, 0.75, lower.tail = F),4)*100`%.
+</details>
+
+* Stellen Sie die Verteilungsfunktion der kummulierten Wahrscheinlichkeit aller Werte in einem Plot dar.
+
+<details><summary>Lösung</summary>
+```{r}
+X <- 0:15
+wk <- pbinom(X, 15, 0.75)
+plot(x = X, y = wk, typ = "h", xlab = "Anzahl Frauen", ylab = "kummulierte Wahrscheinlichkeit")
+```
+</details>
+
+
+## Aufgabe 25
+
+In Deutschland liegt die Gewissenhaftigkeit (`gewis`) bei Frauen im Mittel bei *µ* = 3.73.
+
+* Sind Frauen, die Psychologie studieren, im Mittel gewissenhafter als Frauen in der Allgemeinbevölkerung? Stellen Sie die Hypothesen auf und führen Sie einen geeigneten Test durch.
+* Geben Sie zudem das 99%-ige Konfidenzintervall und die Effektgröße an.
+
+<details><summary>Lösung</summary>
+
+**Hypothesen**
+
+$H_0$: Die durchschnittliche Gewissenhaftigkeit der Frauen, die Psychologie studieren, ist gleich oder geringer als die der Frauen in der Allgemeinbevölkerung.
+
+$H_0$: $\mu_0$ $\geq$ $\mu_1$
+  
+$H_1$: Die durchschnittliche Gewissenhaftigkeit der Frauen, die Psychologie studieren, ist höher als die der Frauen in der Allgemeinbevölkerung.
+
+$H_1$: $\mu_0$ $<$ $\mu_1$
+
+Wir testen zuerst ob unsere Variable `Geschlecht` bereits als Faktor vorliegt. Wenn nicht wandeln wir sie in einen Faktor um. 
+
+```{r}
+load(url('https://pandar.netlify.app/daten/fb22.rda'))
+is.factor(fb22$geschl)
+fb22$geschl <- factor(fb22$geschl,
+                      levels = 1:3, 
+                      labels = c("weiblich", "männlich", "anderes"))
+```
+
+Nun erstellen wir ein `subset`, indem nur die weiblichen Teilnehmenden des `fb22` Datensatzes enthalten sind.
+
+```{r}
+fb22_frauen <- subset(fb22, geschl == "weiblich")
+```
+
+**t-Test**
+
+Da wir einen Stichprobenmittelwert mit einem Populationsmittelwert vergleichen wollen und die Varianz in der Population nicht vorliegt, führen wir einen Einstichproben-t-Test durch.
+
+```{r}
+t.test(fb22_frauen$gewis, mu = 3.73, alternative = "greater", conf.level = .99)
+```
+
+```{r, echo = FALSE}
+t.test1 <- t.test(fb22_frauen$gewis, mu = 3.73, alternative = "greater", conf.level = .99)
+conf.int1 <- t.test1$conf.int
+```
+
+Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen und die $H_1$ angenommen werden. Die weiblichen Psychologie-Studierenden haben verglichen mit der Gesamtbevölkerung der Frauen höhere Gewissenhaftswerte.
+Das 99%-ige Konfidenzintervall liegt zwischen `r round(conf.int1[1], digits = 2)` und $\infty$ (außerhalb des definierten Wertebereichs). Das bedeutet, dass in 99% der Fälle in einer wiederholten Ziehung aus der Grundgesamtheit die mittleren Verträglichkeitswerte zwischen `r round(conf.int1[1], digits = 2)` und $\infty$ (außerhalb des definierten Wertebereichs) liegen.
+
+**Effektgröße**
+
+Für das Effektgrößemaß berechnen wir **Cohen's d**.
+```{r}
+mean_gewis_frauen <- mean(fb22_frauen$gewis, na.rm = T)
+sd_gewis_frauen <- sd(fb22_frauen$gewis, na.rm = T)
+mean_gewis_population <- 3.73
+d <- abs((mean_gewis_frauen - mean_gewis_population)/sd_gewis_frauen)
+```
+Die Effektgröße ist mit `r round(d, digits = 2)` als groß einzustufen.
+
+</details>
+
+
+
+## Aufgabe 26
+
+Unterscheiden sich Personen, die gerne alleine lernen von Personen, die es bevorzugen in Gruppen zu lernen oder ein Mischtyp sind (`lerntyp`), in ihrer Extraversion (`extra`)? Schauen Sich sich die Daten graphisch an und führen sie nach Voraussetzungsprüfung einen geeigneten Test durch.
+
+<details><summary>Lösung</summary>
+
+Zuerst schauen wir uns an ob die Variable `Lerntyp` bereits als Faktor vorliegt und wandeln sie gegebenenfalls um.
+
+```{r}
+is.factor(fb22$lerntyp)
+fb22$lerntyp <- factor(fb22$lerntyp, 
+                       levels = 1:3, 
+                       labels = c("alleine", "Gruppe", "Mischtyp"))
+```
+
+Nun wollen wir eine neue Variable erstellen, in der die Personen, die gerne in der Gruppe lernen oder ein Mischtyp sind, zusammengefasst werden.
+
+```{r}
+fb22$lerntyp_neu <- fb22$lerntyp == "alleine"
+fb22$lerntyp_neu <- as.numeric(fb22$lerntyp_neu) #Umwandlung in Numeric, da der Variablen Typ nun Logical ist
+fb22$lerntyp_neu <- factor(fb22$lerntyp_neu, 
+                           levels = 0:1, 
+                           labels = c("Gruppe oder Mischtyp", "alleine"))
+```
+
+Jetzt können wir uns die Extraversion der Gruppen deskriptiv in einem Boxplot darstellen lassen.
+
+```{r}
+boxplot(fb22$extra ~ fb22$lerntyp_neu, xlab = "Lerntyp", ylab = "Extraversion") 
+```
+
+Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir aber nun noch inferenzstatistisch überprüfen. Dafür überprüfen wir die Voraussetzungen eines t-Tests für unabhängige Stichproben. Wir können annehmen, dass die abhängige Variable intervallskaliert ist und dass die einzelnen Messwerte voneinander unabhängig sind. Wir müssen nun noch die Normalverteilung der Extraversion in den Gruppen und die Homoskedastizität überprüfen.
+
+**Prüfung der Normalverteilung**
+
+Wir nutzen dafür die qqPlot Funktion aus dem `car` Paket.
+
+```{r}
+library(car)
+qqPlot(fb22$extra[fb22$lerntyp_neu == "alleine"])
+qqPlot(fb22$extra[fb22$lerntyp_neu == "Gruppe oder Mischtyp"])
+```
+
+Die Abweichungen sind nicht zu weit. Trotzdem führen wir zur weiteren Absicherung noch den Shapiro-Test durch.
+
+```{r}
+shapiro.test(fb22$extra[fb22$lerntyp_neu == "alleine"])
+shapiro.test(fb22$extra[fb22$lerntyp_neu == "Gruppe oder Mischtyp"])
+```
+
+Keiner der Tests ist signifikant, sodass wir die Normalverteilungsannahme beibehalten.
+
+**Homoskedastizität**
+
+Diese überprüfen wir mittels Levene-Test.
+
+```{r}
+leveneTest(fb22$extra ~ fb22$lerntyp_neu)
+```
+
+Das Ergebnis ist nicht signifikant, sodass wir die $H_0$ nicht ablehnen und die Homoskedastizität der Varianzen annehmen können.
+Damit sind alle Voraussetzungen eines t-Tests erfüllt.
+
+```{r}
+t.test(fb22$extra ~ fb22$lerntyp_neu, var.equal = T)
+```
+
+Der deskriptive Unterschied der Mittelwerte lässt sich somit auch inferenzstatistisch feststellen, denn mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen und die $H_1$ angenommen werden. Die Teilnehmenden, die lieber alleine lernen, unterscheiden sich von den Teilnehmenden, die lieber in der Gruppe lernen oder ein Mischtyp sind, in ihrer Extraversion (t(*df* = `r t.test(fb22$extra ~ fb22$lerntyp_neu, var.equal = T)$parameter`, zweis.) = `r round(t.test(fb22$extra ~ fb22$lerntyp_neu, var.equal = T)$statistic, 2)`, *p* = <.001).
+
+</details>
+
+
+## Aufgabe 27
+
+Haben Studierende, die bei ihren Eltern wohnen (`wohnen`), mit gleicher Wahrscheinlichkeit einen Nebenjob (`job`) wie Studierende, die nicht bei ihren Eltern wohnen?
+
+* Prüfen Sie die Voraussetungen für einen Chi-Quadrat-Test.
+
+<details><summary>Lösung</summary>
+
+Als erstes müssen wir den Datensatz aufbereiten.
+
+```{r}
+is.factor(fb22$wohnen)
+is.factor(fb22$job)
+
+fb22$wohnen <- factor(fb22$wohnen, levels = 1:4, labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+fb22$job <- factor(fb22$job, levels = 1:2, labels = c("nein", "ja"))
+
+fb22$wohnen_bei_Eltern <- fb22$wohnen == "bei Eltern" #wir erstellen eine Variable, die angibt, ob eine Personen bei den Eltern wohnt oder nicht
+```
+
+Die Voraussetzungen, dass die einzelnen Beobachtungen voneinander unabhängig sind und jede Person eindeutig einer Merkmalskombination zuordbar ist, ist durch das Studiendesign erfüllt. Wir müssen aber noch prüfen, ob jede Zelle mit mehr als fünf Personen gefüllt ist.
+
+```{r}
+tab <- table(fb22$wohnen_bei_Eltern, fb22$job)
+tab
+```
+
+Die Voraussetzungen für einen Chi-Quadrat-Test sind erfüllt.
+
+</details>
+
+
+* Berechnen Sie die erwarteten Häufigkeiten der Zellen und treffen Sie eine Signifikanzentscheidung.
+
+<details><summary>Lösung</summary>
+
+Für die Erwarteten Häufigkeiten brauchen wir die Randsummen. Diese erhalten wir mit dem Befehl `addmargins`.
+
+```{r}
+
+tab_mar <- addmargins(tab)
+tab_mar
+
+```
+
+Die erwarteten Häufigkeiten der Zellen erhalten wir wie folgt:
+
+```{r}
+n <- tab_mar[3,3]
+
+erwartet_11 <- (tab_mar[1,3]*tab_mar[3,1])/n
+erwartet_12 <- (tab_mar[1,3]*tab_mar[3,2])/n
+erwartet_21 <- (tab_mar[2,3]*tab_mar[3,1])/n
+erwartet_22 <- (tab_mar[2,3]*tab_mar[3,2])/n
+
+erwartet <- data.frame(nein = c(erwartet_11, erwartet_21), ja = c(erwartet_12, erwartet_22))
+erwartet
+
+```
+
+Für die Signifikanzentscheidung berechnen wir den empirischen Chi-Quadrat-Wert und den zugehörigen p-Wert.
+
+```{r}
+chi_quadrat_Wert <- (tab[1,1]-erwartet[1,1])^2/erwartet[1,1]+
+  (tab[1,2]-erwartet[1,2])^2/erwartet[1,2]+
+  (tab[2,1]-erwartet[2,1])^2/erwartet[2,1]+
+  (tab[2,2]-erwartet[2,2])^2/erwartet[2,2]
+
+chi_quadrat_Wert
+
+pchisq(chi_quadrat_Wert, 1, lower.tail = F) #Freiheitsgrad beträgt 1
+```
+Somit ist der Test nicht signifikant und es lässt sich feststellen, dass das Wohnen bei den Eltern nicht damit zusammen hängt, ob ein Nebenjob ausgeübt wird.
+
+Wir können unser Ergebnis auch noch mit dem Befehl `chisq.test()` überprüfen und sehen, dass dieser das gleiche Ergebnis liefert.
+
+```{r}
+chisq.test(tab, correct = F)
+```
+
+</details>
+
+## Aufgabe 28
+
+Weichen Psychologie-Studierende, die einen Nebenjob haben, in ihrem Intellekt (`intel`) von Psychologie-Studierenden, die keinen Nebenjob haben, ab.
+
+* Führen Sie nach Voraussetzungsprüfung einen geeigneten Test durch.
+
+<details><summary>Lösung</summary>
+Wir beginnen die Voraussetzungen des t-Tests für unabhängige Stichproben zu überprüfen. Die Voraussetzungen der Intervallskaliertheit der unabhängigen Variable und die Unabhängigkeit der einzelnen Messwerte ist per Untersuchungsdesign erfüllt. Wir wollen nun also die Normalverteilung des Merkmals in der Grundgesamtheit der Gruppen überprüfen.
+
+
+```{r}
+#Wir überprüfen erst wieder, ob die Variable Nebenjob als Faktor vorliegt
+is.factor(fb22$job)
+
+library(car)
+qqPlot(fb22$intel[fb22$job == "nein"])
+qqPlot(fb22$intel[fb22$job == "ja"])
+shapiro.test(fb22$intel[fb22$job == "nein"])
+shapiro.test(fb22$intel[fb22$job == "ja"])
+```
+Die Normalverteilungsannahme ist nicht erfüllt. Wir können also keinen t-Test durchführen. Wir überprüfen nun die Voraussetzungen des Wilcoxon-Tests.
+Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr der selben Verteilung folgen.
+
+```{r}
+hist(fb22$intel[fb22$job == "ja"])
+hist(fb22$intel[fb22$job == "nein"])
+```
+Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
+
+```{r}
+leveneTest(fb22$intel ~ fb22$job)
+```
+
+Wir können von Varianzhomogenität ausgehen und somit einen Wilcoxon-Test durchführen.
+
+```{r}
+wilcox.test(fb22$lz ~ fb22$ort)
+```
+Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = `r wilcox.test(fb22$lz ~ fb22$ort)$statistic `, *p* = `r round(wilcox.test(fb22$lz ~ fb22$ort)$p.value, 3)` ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Psychologie-Studierende, die einen Nebenjob haben und Psychologie-Studierende, die keinen Nebenjob haben, sich nicht in ihrem Intellekt unterscheiden. 
+
+</details>
+
+## Aufgabe 29
+
+Unterscheidet sich im Durchschnitt die Nerdiness (`nerd`) von Psychologiestudierenden von ihrem Intellekt (`intel`)?
+
+* Stellen sie die Hypothesen auf.
+
+<details><summary>Lösung</summary>
+
+$H_0$: Die durchschnittliche Nerdiness von Psychologoiestudierenden unterscheidet sich nicht von ihrem Intellekt.
+
+$H_0$: $\mu_0$ $=$ $\mu_1$
+  
+$H_1$: Die durchschnittliche Nerdiness von Psychologoiestudierenden unterscheidet sich von ihrem Intellekt.
+
+$H_1$: $\mu_0$ $≠$ $\mu_1$
+
+</details>
+
+
+* Begründen Sie weshalb Sie welchen Test benutzen wollen.
+
+<details><summary>Lösung</summary>
+
+Da die Nerdiness- und Intellekt-Werte, die verglichen werden sollen, immer von der selben Person stammen, sind die Werte voneinander abhängig. Daher wollen wir einen t-Test für abhängige Stichproben durchführen. Die Werte sind intervallskaliert, voneinander abhängig und die Differenzvariable ist normalverteilt, da wir bei einer Stichprobe von n ≥ 30 direkt davon ausgehen können. Somit sind alle Voraussetzungen für den t-Test erfüllt.
+
+</details>
+
+
+* Führen Sie den Test durch und berechnen Sie gegebenfalls eine Effektgröße.
+
+<details><summary>Lösung</summary>
+
+```{r}
+t.test(fb22$nerd, fb22$intel, paired = T)
+
+```
+Der Gruppenunterschied ist signifikant (*t*(158) = `r round(t.test(fb22$nerd, fb22$intel, paired = T)$statistic, 2)` , *p* < .001), somit wird die Nullhypothese verworfen. Psychologiestudierende weisen unterschiedliche Werte auf der Skala Nerdiness und auf der Skala Intellekt auf.
+
+**Effektstärke:**
+
+```{r}
+library("effsize")
+cohen.d(fb22$nerd, fb22$intel, paired = T, within = F)
+```
+
+Der Effekt ist mit `r round(cohen.d(fb22$nerd, fb22$intel, paired = T, within = F)$estimate, 2)` als mittel bis groß einzuschätzen.
+
+</details>
+
+
+## Aufgabe 30
+
+Hängt die Gewissenhaftigkeit (`gewis`) positiv mit der Anzahl an geschriebenen Wörtern zusammen, die als Begründung (`grund`) für die Wahl des Psychologiestudiums angegeben wurde? Überprüfen Sie die Voraussetzungen für das gewählte Zusammenhangsmaß.
+
+**Tipp:** Mit folgendem Befehl lässt sich die Anzahl an Wörtern einer Eingabe berechnen:
+
+
+```{r}
+library(stringr) #falls noch nicht installiert: install.packages("stringr")
+str_count("Wie viele Wörter hat dieser Satz?", "\\w+")
+```
+
+<details><summary>Lösung</summary>
+
+Als erstes erstellen wir eine Variable mit der Anzahl an geschriebenen Wörtern.
+
+```{r}
+fb22$woerter_grund <- str_count(fb22$grund, "\\w+")
+```
+
+Nun schauen wir uns den Zusammenhang der Variablen in einem Scatterplot an.
+
+```{r}
+plot(x = fb22$woerter_grund, y = fb22$gewis)
+```
+
+Wir schließen einen nicht linearen Zusammenhang nicht aus und überprüfen nun die Normalverteilung der Variablen.
+
+```{r}
+library(car)
+qqPlot(fb22$gewis)
+qqPlot(fb22$woerter_grund)
+```
+Die Normalverteilungsannahme ist nicht erfüllt. Daher können wir keine Pearson-Produkt-Moment Korrelation berechnen und berechnen stattdessen die Rangkorrelation nach Spearman, die nicht an die Normalverteilungsannahme gebunden ist.
+
+```{r}
+cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "greater")
+```
+
+Es besteht kein positiver Zusammenhang zwischen Gewissenhaftigkeit und der Anzahl an geschriebenen Wörter bei der Begründung für das Psychologiestudium.
+
+</details>
+
+## Aufgabe 31
+
+Lässt sich Prokrastination durch Gewissenhaftigkeit (`gewis`) vorsagen? 
+(Falls noch nicht geschehen, berechnen sie den Skalenwert der Prokrastination)
+
+```{r}
+fb22$prok2_r <- -1 * (fb22$prok2 - 5)
+fb22$prok3_r <- -1 * (fb22$prok3 - 5)
+fb22$prok5_r <- -1 * (fb22$prok5 - 5)
+fb22$prok7_r <- -1 * (fb22$prok7 - 5)
+fb22$prok8_r <- -1 * (fb22$prok8 - 5)
+
+fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
+                          'prok4', 'prok5_r', 'prok6',
+                          'prok7_r', 'prok8_r', 'prok9', 
+                          'prok10')] |> rowMeans()
+```
+
+* Stellen Sie die Regressionsgerade auf und prüfen sie die Voraussetzungen.
+
+<details><summary>Lösung</summary>
+
+Die einzige Voraussetzung, die wir vor der Aufstellung des Regressionsmodell prüfen können, ist der lineare Zusammenhang der Variablen mit Hilfe eines Scatterplot.
+
+```{r}
+plot(fb22$gewis, fb22$prok_ges, xlab = "Gewissenhaftigkeit", ylab = "Prokrastination", 
+     main = "Zusammenhang zwischen Gewissenhaftigkeit und Prokrastination", pch = 19)
+lines(loess.smooth(fb22$gewis, fb22$prok_ges), col = 'blue')
+```
+
+Die Voraussetzung ist erfüllt. Wir können nun also unser Regressionsmodell aufstellen.
+
+```{r}
+fm <- lm(prok_ges ~ 1 + gewis, data = fb22)
+```
+
+Nun prüfen wir die anderen Voraussetungen.
+
+```{r}
+par(mfrow = c(2, 2)) #vier Abbildungen gleichzeitig
+plot(fm)
+```
+
+Der Q-Q-Plot oben rechts deutet auf Normalverteilung hin. Die rote Anpassungslinie des Scale-Location Plots unten links ist annähernd parallel zur x-Achse, sodass wir von Varianzhomogenität ausgehen können. Da auch der vierte Plot unten rechts nicht auf potentiell problematische einflussreiche Datenpunkte hindeutet, sind alle Vorausetzungen erfüllt.
+
+```{r}
+fm
+```
+Die Regressionsgleichung lautet also $y_i$ = `r round(coef(fm)[1],3)` - `r abs(round(coef(fm)[2],3))`*$x_i$ + $e_i$. 
+</details>
+
+
+* Prüfen Sie nun die Signifikanz der Koeffizienten mit einem 99%-Konfidenzintervall.
+
+<details><summary>Lösung</summary>
+
+```{r}
+confint(fm, level = .99)
+```
+
+In keiner der Intervalle ist die Null enthalten, sodass wir davon ausgehen können, dass die beiden Koeffizienten tatsächlich von Null verschieden sind.
+
+</details>
+
+
+* Wie viel Prozent der Varianz von Prokrastination lässt sich durch die Gewissenhaftigkeit aufklären?
+
+<details><summary>Lösung</summary>
+
+```{r}
+summary(fm)
+summary(fm)$r.squared
+```
+
+
+
+
+Durch die Gewissenhaftigkeit kann `r round(summary(fm)$r.squared,4)*100`% der Varianz von Prokrastination erklärt werden.
+
+</details>
+
+* Eine Person hat einen Gewissenhaftswert von 3.2. Welchen Prokrastinationswert sagt, dass Modell für diese Person voraus?
+
+<details><summary>Lösung</summary>
+```{r}
+fm$coefficients[1] + 3.2*fm$coefficients[2]
+
+#Alternativ:
+predict(fm, newdata = data.frame(gewis = 3.2))
+```
+Das Modell sagt einen Prokrastinationswert von `r round(predict(fm, newdata = data.frame(gewis = 3.2)),2)` voraus.
+</details>
+
+
+
+## Aufgabe 32
+
+In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologie-Studierenden unterscheiden. Die gefundene Effektgröße betrug d = -0.56. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie 10^4 mal wiederholen.
+Nutzen Sie den Seed 4321 (`set.seed(4321)`).
+
+* Führen Sie eine Simulation durch, um die empirische Power des t-Tests zu bestimmen.
+
+<details><summary>Lösung</summary>
+```{r}
+d <- -0.56 #Effektstärke
+N <- 159 #Anzahl der Teilnehmenden von fb22
+set.seed(4321)
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(159) 
+                                   Y <- rnorm(159) + d #Normalverteilte Stichproben mit Mittelwertsunterschied von d Standardabweichungen
+                                   ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T) #Paired = T, da es sich um einen t-Test für abhängige Stichproben handelt
+                                   ttestH1$p.value})
+mean(tH1 < .05 )
+```
+
+Die Power des Tests beträgt `r mean(tH1 < .05 )*100`%.
+</details>
+
+* Wie hoch ist die Wahrscheinlichkeit eines $\beta$-Fehlers?
+
+<details><summary>Lösung</summary>
+```{r}
+1 - mean(tH1 < .05 )
+```
+
+Die Wahrscheinlichkeit eines $\beta$-Fehlers beträgt `r (1 - mean(tH1 < .05))*100`%.
+
+</details>
+
+
+* Angenommen wir wollen das $\alpha$-Niveau verändern. Wie würde sich das auf die Power des Tests auswirken? Simulieren sie diesmal den empirischen t-Wert und erstellen Sie einen Powerplot für $\alpha$ = 0.001, $\alpha$ = 0.01, $\alpha$ = 0.025, $\alpha$ = 0.05, $\alpha$ = 0.1.
+
+<details><summary>Lösung</summary>
+```{r}
+set.seed(4321)
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(159) 
+                                   Y <- rnorm(159) + d 
+                                   ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T)
+                                   ttestH1$statistic})
+power <- c(mean(abs(tH1) > qt(p = 1- 0.001/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.01/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.025/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.05/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.1/2, df = N)))
+
+x <- c(.001, 0.01, 0.025, 0.05, 0.1)
+plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
+```
+
+Wir sehen das je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 159 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
+
+</details>
+

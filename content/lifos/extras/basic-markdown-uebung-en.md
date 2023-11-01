@@ -4,15 +4,16 @@ type: post
 date: '2022-11-14' 
 slug: basic-markdown-uebung-en
 categories: ["LIFOS"] 
-tags: ["Extras"] 
+tags: ["Extras","Setup","Git"] 
 subtitle: ''
-summary: '' 
+summary: 'This post will explain how to setup your own Markdown-project within LIFOS and how to acquire experience with Markdown through the project itself. The exercises used to learn Markdown themselves are only within the project.' 
+
 authors: [schloter, nehler, pommeranz] 
 weight: 2
-lastmod: '2023-10-09'
+lastmod: '2023-10-26'
 featured: no
 banner:
-  image: "/header/gitlab_markdown2.jpg"
+  image: "/header/code_weave.jpg"
   caption: "[Courtesy of Pixabay](https://pixabay.com/images/id-108881/)"
 projects: []
 reading_time: false

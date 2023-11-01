@@ -12,7 +12,7 @@ weight: 6
 lastmod: '2023-10-18'
 featured: no
 banner:
-  image: "/header/BSc2_test_unabh_stpr.jpg"
+  image: "/header/writing_math.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
 reading_time: false

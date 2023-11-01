@@ -4,15 +4,15 @@ type: post
 date: '2023-05-17' 
 slug: template-auswahl-en
 categories: ["LIFOS"] 
-tags: ["Grundlagen", "Hilfe"] 
+tags: ["Grundlagen", "Hilfsmittel"] 
 subtitle: 'Here you can find the perfect template for your project'
-summary: '' 
+summary: 'In this short post you can figure out which template you need for your projects or theses through the answering of a short multiple choice quiz.' 
 authors: [beitner,pommeranz] 
 weight: 2
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  #image: "/header/crash_post.jpg"
+  #image: "/header/road_start.jpg"
   #caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
 reading_time: false
