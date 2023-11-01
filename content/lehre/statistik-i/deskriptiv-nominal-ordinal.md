@@ -4,12 +4,12 @@ type: post
 date: '2020-09-24'
 slug: deskriptiv-nominal-ordinal
 categories: ["Statistik I"]
-tags: ["Deskriptivstatistik", "Grafiken", "Skalenniveau"]
+tags: ["Deskriptiv", "Plots", "Nominal und Ordinal", "Tabelle"]
 subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
 authors: [nehler, buchholz]
 weight: 2
-lastmod: '2023-10-18'
+lastmod: '2023-10-23'
 featured: no
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
@@ -43,13 +43,13 @@ output:
 
 
 {{< spoiler text="Kernfragen dieser Lehreinheit" >}}
-* Wie werden [Häufigkeitstabellen](#Häufigkeitstabellen) erstellt?  
-* Wie können aus absoluten Häufigkeitstabellen [relative Häufigkeitstabellen](#RelativeHäufigkeiten) gemacht werden?  
-* Wie können [Modus](#Modus) und [Median](#Median) bestimmt werden?  
-* Auf welche Weise lässt sich der [relative Informationsgehalt](#RelativerInformationsgehalt) bestimmen, obwohl es dafür in R keine Funktion gibt?  
-* Welche Befehle können genutzt werden, um [Balken-, Kuchendiagramme und Histogramme](#Grafiken) zu erzeugen?  
-* Welche Möglichkeiten gibt es, um [Grafiken anzupassen](#GrafikenAnpassen)?  
-* Wie können [Grafiken gespeichert](#GrafikenSpeichern) werden?
+* Wie werden **Häufigkeitstabellen** erstellt?  
+* Wie können aus absoluten Häufigkeitstabellen **relative Häufigkeitstabellen** gemacht werden?  
+* Wie können **Modus und Median** bestimmt werden?  
+* Auf welche Weise lässt sich der **relative Informationsgehalt** bestimmen, obwohl es dafür in R keine Funktion gibt?  
+* Welche Befehle können genutzt werden, um **Balken-, Kuchendiagramme und Histogramme** zu erzeugen?  
+* Welche Möglichkeiten gibt es, um **Grafiken anzupassen**?  
+* Wie können **Grafiken gespeichert** werden?
 {{< /spoiler >}}
 
 ***
@@ -80,11 +80,13 @@ names(fb23)        # Namen der Variablen
 ```
 
 ```
-##  [1] "mdbf1_pre"   "mdbf2_pre"   "mdbf3_pre"   "mdbf4_pre"   "mdbf5_pre"   "mdbf6_pre"   "mdbf7_pre"  
-##  [8] "mdbf8_pre"   "mdbf9_pre"   "mdbf10_pre"  "mdbf11_pre"  "mdbf12_pre"  "lz"          "extra"      
-## [15] "vertr"       "gewis"       "neuro"       "offen"       "prok"        "nerd"        "grund"      
-## [22] "fach"        "ziel"        "wissen"      "therap"      "lerntyp"     "hand"        "job"        
-## [29] "ort"         "ort12"       "wohnen"      "uni1"        "uni2"        "uni3"        "uni4"       
+##  [1] "mdbf1_pre"   "mdbf2_pre"   "mdbf3_pre"   "mdbf4_pre"   "mdbf5_pre"  
+##  [6] "mdbf6_pre"   "mdbf7_pre"   "mdbf8_pre"   "mdbf9_pre"   "mdbf10_pre" 
+## [11] "mdbf11_pre"  "mdbf12_pre"  "lz"          "extra"       "vertr"      
+## [16] "gewis"       "neuro"       "offen"       "prok"        "nerd"       
+## [21] "grund"       "fach"        "ziel"        "wissen"      "therap"     
+## [26] "lerntyp"     "hand"        "job"         "ort"         "ort12"      
+## [31] "wohnen"      "uni1"        "uni2"        "uni3"        "uni4"       
 ## [36] "attent_pre"  "gs_post"     "wm_post"     "ru_post"     "attent_post"
 ```
 
@@ -93,10 +95,10 @@ dim(fb23)          # Anzahl Zeile und Spalten
 ```
 
 ```
-## [1] 81 40
+## [1] 179  40
 ```
 
-In der letzten Sitzung haben wir schon einige Befehle für das Screening eines Datensatzes kennen gelernt. Dabei zeigt `names()` alle Variablennamen an, während `dim()` uns Zeilen und Spalten ausgibt. Der Datensatz hat also 81 Beobachtungen auf 40 Variablen.
+In der letzten Sitzung haben wir schon einige Befehle für das Screening eines Datensatzes kennen gelernt. Dabei zeigt `names()` alle Variablennamen an, während `dim()` uns Zeilen und Spalten ausgibt. Der Datensatz hat also 179 Beobachtungen auf 40 Variablen.
 
 
 ***
@@ -118,7 +120,7 @@ str(fb23$hand)
 ```
 
 ```
-##  int [1:81] 2 2 2 1 2 1 2 2 2 2 ...
+##  int [1:179] 2 2 2 2 2 2 NA 2 1 2 ...
 ```
 
 ```r
@@ -126,9 +128,14 @@ fb23$hand
 ```
 
 ```
-##  [1]  2  2  2  1  2  1  2  2  2  2  2  2  1  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2
-## [35]  2  2  2  2  2  2  2  1 NA  2  2  2  2  2  2  2  2  2  2  2  2 NA  2  2  1  2  2 NA  2  2  2  2  1  2
-## [69]  2  2  2  2  2  2  2  2  2  1  2  2  1
+##   [1]  2  2  2  2  2  2 NA  2  1  2  2  2  2  1  2  2  2  2  2  2  2  2  2
+##  [24]  2 NA  2  2  2  2  2  2  1  1  2  2  2  1  2  2  2  1  2  2  2  2  2
+##  [47]  2  2  2  2  2  2  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2
+##  [70]  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  2  2  2  2
+##  [93]  2  1  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  1  1  2  2  1
+## [116]  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  1  2  2  2  2  2
+## [139] NA  2  2  2  2  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2
+## [162]  2  2  2  2  2  2  2  2  2  1  2  2  1  2  2  2  1  2
 ```
 
 Die Variable `hand` liegt numerisch vor, es treten die Werte 1 und 2 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/lehre/statistik-i/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "links". Diese *Label* werden nun im Faktor hinterlegt.
@@ -149,7 +156,7 @@ str(fb23$hand_factor)
 ```
 
 ```
-##  Factor w/ 2 levels "links","rechts": 2 2 2 1 2 1 2 2 2 2 ...
+##  Factor w/ 2 levels "links","rechts": 2 2 2 2 2 2 NA 2 1 2 ...
 ```
 
 ```r
@@ -157,7 +164,7 @@ head(fb23$hand_factor)
 ```
 
 ```
-## [1] rechts rechts rechts links  rechts links 
+## [1] rechts rechts rechts rechts rechts rechts
 ## Levels: links rechts
 ```
 
@@ -175,9 +182,14 @@ fb23$fach
 ```
 
 ```
-##  [1]  4  4  4  4  2  3  4  4  1  2  1  2  4  3  4  3  2  2  4  5  3  1  1  4  2  4  2  4  5  4  4  4  3  4
-## [35]  4  4  4  4  1  3  4  4 NA  3  4 NA  2  4  2  4  1  4  4  4  1 NA  4  4  3  4  1 NA  1  4  3  2  4 NA
-## [69] NA  4  4  4  4  2  2  4  1  1  4  3  1
+##   [1]  4  4  4  4  4  4 NA  4  4 NA  4  4  2  3  4  4  4  4  1  4  1  3  4
+##  [24]  2 NA  4  4  3  1  2  4 NA  3  1  2  4  4  3  1  4  4  3  2  2  4  3
+##  [47]  5  3  4  1  3  4  1  1  4  2  4  2  2  4  2  4  3  2  4  1  4  5  4
+##  [70]  4  3  4  4  4  4  3  4  4  2  4  4 NA  4  4  4  4  4  1  1  3  2  4
+##  [93]  5  5  1  3  4  2  2  3  4 NA  3  2  4  2  2  4  2  4  5  4  4  1  4
+## [116]  4  2  4  4  2  4  1  1  1  4  2  2 NA  2  4  3  4  1  4  1  2 NA  4
+## [139] NA  1  1  4  4  1  1  3  1  2  4  4  1  4  4 NA  1 NA  4  4  4  4  4
+## [162]  4  2  4  4  2  2  4  2  1  1  4  4  1  1  3  2  1 NA
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
@@ -191,7 +203,7 @@ str(fb23$fach)
 ```
 
 ```
-##  Factor w/ 5 levels "Allgemeine","Biologische",..: 4 4 4 4 2 3 4 4 1 2 ...
+##  Factor w/ 5 levels "Allgemeine","Biologische",..: 4 4 4 4 4 4 NA 4 4 NA ...
 ```
 
 Hinweis: In Beispiel 2 wurde die Ursprungsvariable mit dem Faktor überschrieben. Sie ist nun verschwunden, der Datensatz enthält nur noch den Faktor, nicht mehr die numerische Variable.
@@ -209,7 +221,7 @@ str(fb23$grund)                            # Ursprungsvariable: Character
 ```
 
 ```
-##  chr [1:81] "Interesse und Berufsaussichten" ...
+##  chr [1:179] "Berufsziel" "Interesse am Menschen" ...
 ```
 
 ```r
@@ -218,11 +230,11 @@ str(fb23$grund_faktor)                     # neue Variable: Faktor
 ```
 
 ```
-##  Factor w/ 63 levels "Akademisierung meines Berufes in der Psychiatrie",..: 35 63 49 18 59 21 37 14 62 17 ...
+##  Factor w/ 141 levels " Mischung aus Natur- und Gesellschaftswissenschaften, Interesse am Gehirn",..: 13 51 73 141 106 139 NA 116 40 41 ...
 ```
 
 
-Die neue Variable ist nun ein Faktor mit 63 Stufen. Das Vorgehen ist nur zur Anschauung gedacht und in diesem speziellen Fall nicht sinnvoll, da jede einzelne Freitextantwort vermutlich nur genau einmal vorkommt und später sowieso nicht (ohne zusätzliche Kodierung) in statistischen Analysen weiterverwendet werden kann.
+Die neue Variable ist nun ein Faktor mit 141 Stufen. Das Vorgehen ist nur zur Anschauung gedacht und in diesem speziellen Fall nicht sinnvoll, da jede einzelne Freitextantwort vermutlich nur genau einmal vorkommt und später sowieso nicht (ohne zusätzliche Kodierung) in statistischen Analysen weiterverwendet werden kann.
 
 Wir haben nun also gelernt, dass Faktoren auf verschiedene Weisen erstellt werden können. Wir benutzen nun die Funktion `factor()`, wenn unsere Variable zunächst nur `numerisch` vorlag (Beispiele 1 und 2) und wir eine Bedeutung zuordnen wollen. Wenn die Variable als `character` (Beispiel 3 und Intro-Sitzung), nutzen wir die Funktion `as.factor()`.
 
@@ -252,7 +264,7 @@ fb23$fach <- relevel(
 
 ***
 
-## Häufigkeitstabellen {#Häufigkeitstabellen}
+## Häufigkeitstabellen
 
 Eine deskriptivstatistische Möglichkeit zur Darstellung diskreter (zählbarer) nominalskalierter Variablen sind Häufigkeitstabellen. Diese können in `R` mit der Funktion `table()` angefordert werden.
 
@@ -267,13 +279,13 @@ table(fb23$fach)
 ```
 ## 
 ## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
-##           2          12          12          10          39
+##           5          30          31          19          82
 ```
 
 Häufig sind relative Häufigkeiten informativer. Nachfolgend werden zwei Möglichkeiten zur Erstellung von relativen Häufigkeitstabellen in `R` gezeigt.
 
 
-**Relative Häufigkeiten (manuell)** {{< intext_anchor RelativeHäufigkeiten >}}
+**Relative Häufigkeiten (manuell)**
 
 Relative Häufigkeiten können aus absoluten Häufigkeiten abgeleitet werden: $h_j = \frac{n_j}{n}$.
 
@@ -286,7 +298,7 @@ sum(tab)                # Gesamtzahl
 ```
 
 ```
-## [1] 75
+## [1] 167
 ```
 
 ```r
@@ -296,7 +308,7 @@ tab / sum(tab)          # Relative Haeufigkeiten
 ```
 ## 
 ## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
-##  0.02666667  0.16000000  0.16000000  0.13333333  0.52000000
+##  0.02994012  0.17964072  0.18562874  0.11377246  0.49101796
 ```
 
 **Relative Häufigkeiten (per Funktion)**
@@ -312,14 +324,14 @@ prop.table(tab)         # Relative
 ```
 ## 
 ## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
-##  0.02666667  0.16000000  0.16000000  0.13333333  0.52000000
+##  0.02994012  0.17964072  0.18562874  0.11377246  0.49101796
 ```
 
-Ungefähr 2.67% Ihres Jahrgangs geben als Lieblingsfach "Diagnostik/Methoden" an! Vielleicht können wir ja noch mehr von Ihnen mit dem nächsten Thema begeistern. :-)
+Ungefähr 2.99% Ihres Jahrgangs geben als Lieblingsfach "Diagnostik/Methoden" an! Vielleicht können wir ja noch mehr von Ihnen mit dem nächsten Thema begeistern. :-)
 
 ***
 
-## Grafiken in `R` {#Grafiken}
+## Grafiken in `R`
 
 <img src="/lehre/statistik-i/deskriptiv-nominal-ordinal_files/figure-html/comic-barplot-1.png" style="display: block; margin: auto;" />
 
@@ -354,7 +366,7 @@ pie(tab)
 
 In der Vorlesung haben Sie bereits gelernt, dass diese Form der Darstellung aber nicht für detaillierte Analysen zu empfehlen ist, weil Erkenntnisse daraus viel schwerer zu ziehen sind. Bei den Zusatzargumenten werden wir uns also nur mit der Funktion `barplot()` beschäftigen.
 
-**Zusatzargumente für Plots** {{< intext_anchor GrafikenAnpassen >}}
+**Zusatzargumente für Plots**
 
 Die Funktionen zur Erstellung sehr simpler Grafiken sind also denkbar einfach - die Grafiken selbst aber zunächst nicht unbedingt hübsch. `R` bietet diverse Zusatzargumente zur Anpassung der Optik von Grafiken.
 
@@ -378,13 +390,14 @@ colors()[1:20]
 ```
 
 ```
-##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1" "antiquewhite2" "antiquewhite3"
-##  [7] "antiquewhite4" "aquamarine"    "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"  
-## [13] "azure"         "azure1"        "azure2"        "azure3"        "azure4"        "beige"        
-## [19] "bisque"        "bisque1"
+##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1"
+##  [5] "antiquewhite2" "antiquewhite3" "antiquewhite4" "aquamarine"   
+##  [9] "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"  
+## [13] "azure"         "azure1"        "azure2"        "azure3"       
+## [17] "azure4"        "beige"         "bisque"        "bisque1"
 ```
 
-Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [https://r-charts.com/colors/]( https://r-charts.com/colors/). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
+Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
 
 Zusätzlich können Farbpaletten verwendet werden. Sie bestehen aus einem Farbverlauf, aus dem einzelne Farben "herausgezogen" werden, wodurch ein zusammengehöriges Farbthema in einer Abbildung entsteht. `R` liefert einige dieser Paletten: `rainbow(...)`, `heat.colors(...)`, `topo.colors(...)`, ... Die Farbpalette wird ebenfalls per `col`-Argugment spezifiziert. Technisch handelt es sich um eine Funktion, für die als Argument die Anzahl der Farben spezifiziert werden muss, die aus der Palette "gezogen" werden sollen. Es wäre also so, als würden wir diese 5 Farben per Hand eingeben, nur dass wir die Person entscheiden lassen, die eine Palette programmiert hat Beispielsweise werden mit `col = rainbow(5)` fünf Farben aus der rainbow-Palette gezogen. Der Output würde so aussehen.
 
@@ -417,7 +430,7 @@ Alle verwendeten Argumente (bis auf eines) sind bereits in der Tabelle oben besc
 
 Hinweis: Es gibt natürlich noch viele weitere Argumente, mit denen Sie Bestandteile des Diagramms anpassen können. Falls Sie sich beispielsweise fragen, wie sie aus dem Säulendiagramm ein Balkendiagramm machen können, könnten Sie das mit dem Argument `horiz` erreichen. Wenn Sie also die horizontale Ausrichtung der Grafik auf `TRUE` setzen, erhalten Sie horizontale Balken anstatt vertikale Säulen.
 
-**Grafiken speichern** {{< intext_anchor GrafikenSpeichern >}}
+**Grafiken speichern**
 
 Es gibt zwei Möglichkeiten, um in `R` erzeugte Grafiken als Bilddatei zu speichern: manuell und per Funktion.  
 
@@ -461,7 +474,7 @@ Auch hier gilt: Wenn kein Pfad spezifiziert wurde, liegt die Datei in Ihrem Arbe
 
 ## Deskriptivstatistische Kennwerte auf Nominalskalenniveau
 
-**Modus** {{< intext_anchor Modus >}}
+**Modus**
 
 Der Modus (*Mo*) ist ein Maß der zentralen Tendenz, das die häufigste Ausprägung einer Variable anzeigt. Die Häufigkeiten sind ja schon in der Häufigkeitstabelle enthalten. Man könnte den Modus also einfach ablesen. Das gleiche lässt sich allerdings auch anhand von Funktionen tun:  
 
@@ -473,7 +486,7 @@ tab            # Tabelle ausgeben
 ```
 ## 
 ## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
-##           2          12          12          10          39
+##           5          30          31          19          82
 ```
 
 ```r
@@ -481,7 +494,7 @@ max(tab)       # Größte Häufigkeit
 ```
 
 ```
-## [1] 39
+## [1] 82
 ```
 
 ```r
@@ -493,10 +506,10 @@ which.max(tab) # Modus
 ##         5
 ```
 
-Der Modus der Variable `fach` lautet also Klinische, die Ausprägung trat 39 mal auf.
+Der Modus der Variable `fach` lautet also Klinische, die Ausprägung trat 82 mal auf.
 
 
-**Relativer Informationsgehalt** {{< intext_anchor RelativerInformationsgehalt >}}
+**Relativer Informationsgehalt**
 
 Der relative Informationsgehalt ist ein Dispersionsmaß, das schon auf Nominalskalenniveau funktioniert. Dafür gibt es in `R` allerdings keine Funktion! Aus Lehreinheit 1 wissen Sie jedoch, dass `R` als Taschenrechner genutzt werden kann, folglich können beliebig komplexe Gleichungen in `R` umgesetzt werden. Die Formel zur Berechnung des relativen Informationsgehalts $H$ lautet:
 
@@ -514,7 +527,7 @@ ln_hj                       # Ergebnisse für jede Kategorie
 ```
 ## 
 ## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
-##  -3.6243409  -1.8325815  -1.8325815  -2.0149030  -0.6539265
+##  -3.5085559  -1.7167964  -1.6840066  -2.1735548  -0.7112746
 ```
 
 ```r
@@ -526,7 +539,7 @@ relinf
 ```
 
 ```
-## [1] 0.8026222
+## [1] 0.8217729
 ```
 
 Eine kleine Abkürzung durch Einsparen der Schritte am Ende könnte hier folgendermaßen mittels Pipe erreicht werden:
@@ -538,7 +551,7 @@ relinf
 ```
 
 ```
-## [1] 0.8026222
+## [1] 0.8217729
 ```
 
 
@@ -550,12 +563,12 @@ Eine alternative Schreibweise, die ohne Zwischenschritte auskommt, dafür aber i
 ```
 
 ```
-## [1] 0.8026222
+## [1] 0.8217729
 ```
 
 Wie man hier sieht, stößt die Schachtelung ohne das Speichern von Zwischenergebnissen oder das nutzen der Pipe schnell an die Grenzen der Übersichtlichkeit. 
 
-In allen drei Varianten kommen wir aber zum gleichen Schluss: der relative Informationsgehalt der Variable `fach` beträgt 0.803. Da der mögliche Wertebereich zwischen 0 (für alle Personen selbe Kategorie) und 1 (für alle Kategorien gleich viele Personen) variiert, kann hier von einer starken Verteilung der Personen ausgegangen werden.
+In allen drei Varianten kommen wir aber zum gleichen Schluss: der relative Informationsgehalt der Variable `fach` beträgt 0.822. Da der mögliche Wertebereich zwischen 0 (für alle Personen selbe Kategorie) und 1 (für alle Kategorien gleich viele Personen) variiert, kann hier von einer starken Verteilung der Personen ausgegangen werden.
 
 
 ***
@@ -566,11 +579,11 @@ In diesem Abschnitt lernen Sie deskriptivstatistische Kennwerte für ordinalskal
 
 Zunächst aber eine Wiederholung: Wie Sie aus der Vorlesung wissen, können die in der Tabelle am Anfang dieses Dokuments aufgeführten statistischen Kennwerte (Zentrale Lage, Dispersion) auch für Skalenniveaus genutzt werden, die "weiter unten" in der Tabelle stehen. Für ordinalskalierte Variablen (Rangklassen) kann also auch der Modus berechnet werden.
 
-Nachfolgend soll mit dem Item zum interesse an wissenschaftlichen Grundlagen gearbeitet werden. Es wurde wie folgt erhoben:
+Nachfolgend soll mit dem Item zum interesse an wissenschaftlichen Grundlagen gearbeitet werden. Auf dem Screenshot ist das Item (obere) nochmal abgebildet.
 
-![](/lehre/statistik-i/fb_prok1.PNG)
+![](/lehre/statistik-i/interests.png)
 
-Es treten die Werte 2 bis  5 empirisch auf, außerdem gibt es  3 fehlende Werte (dargestellt als `NA`):
+Es treten die Werte 1 bis  5 empirisch auf, außerdem gibt es  3 fehlende Werte (dargestellt als `NA`):
 
 
 ```r
@@ -578,9 +591,14 @@ fb23$wissen
 ```
 
 ```
-##  [1]  5  4  2  3  4  4  4  4  2  4  3  4  3  5  4  3  4  5  5  3  5  5  5  5  3  3  5  3  5  4  3  4  3  2
-## [35]  4  3  4  5  4  5  4  4 NA  3  3  3  4  3  3  4  3  3  3  2  2 NA  3  5  2  3  3 NA  5  4  4  3  5  3
-## [69]  4  4  5  4  3  2  4  5  2  4  4  3  4
+##   [1]  5  4  5  4  2  3 NA  4  3  3  3  3  4  4  4  4  4  4  2  4  4  3  2
+##  [24]  4 NA  3  4  4  3  4  4  5  4  4  4  4  3  5  4  4  4  3  4  5  5  3
+##  [47]  3  5  3  3  3  4  5  5  5  5  5  4  3  3  4  3  3  5  3  2  3  5  4
+##  [70]  4  2  3  4  4  3  3  2  4  4  3  2  3  4  5  4  5  4  4  4  5  3  4
+##  [93]  5  3  4  2  4  4  4  3  3  3  5  4  3  3  3  4  4  4  5  5  2  3  4
+## [116]  3  5  3  2  5  2  2  3  4  3  3  4  2  4  5  2  4  3  3  3  4  3  2
+## [139] NA  4  5  4  3  5  4  4  4  3  5  5  3  3  4  3  4  4  4  4  2  2  5
+## [162]  4  1  3  3  2  4  5  4  2  4  4  5  3  2  3  5  4  3
 ```
 
 Wiederholung:
@@ -592,8 +610,8 @@ table(fb23$wissen)               # Absolute Haeufigkeiten
 
 ```
 ## 
-##  2  3  4  5 
-##  8 26 27 17
+##  1  2  3  4  5 
+##  1 20 54 69 32
 ```
 
 ```r
@@ -602,8 +620,8 @@ prop.table(table(fb23$wissen))   # Relative Haeufigkeiten
 
 ```
 ## 
-##         2         3         4         5 
-## 0.1025641 0.3333333 0.3461538 0.2179487
+##           1           2           3           4           5 
+## 0.005681818 0.113636364 0.306818182 0.392045455 0.181818182
 ```
 
 ```r
@@ -612,7 +630,7 @@ which.max(table(fb23$wissen))    # Modus
 
 ```
 ## 4 
-## 3
+## 4
 ```
 
 
@@ -647,7 +665,7 @@ Fehlende Werte sind ein ganz eigenes Forschungsgebiet der Methodik und man könn
 
 ## Deskriptivstatistische Kennwerte ab Ordinalskalenniveau
 
-**Median** {{< intext_anchor Median >}}
+**Median**
 
 Wir können uns den Einfluss fehlender Werte auf die Arbeit mit `R` mit der Betrachtung der Funktion für den Median, die praktischerweise `median()` heißt, veranschaulichen, indem wir einmal ein extra Argument benennen.
 
@@ -698,12 +716,12 @@ Mit `quantile()` ist die Umsetzung in `R` etwas umständlich, da wir die Funktio
 
 
 ```r
-quantile(fb23$wissen, .75, na.rm=TRUE) - quantile(fb23$wissen, na.rm=TRUE)
+quantile(fb23$wissen, .75, na.rm=TRUE) - quantile(fb23$wissen, .25, na.rm=TRUE)
 ```
 
 ```
-##   0%  25%  50%  75% 100% 
-##    2    1    0    0   -1
+## 75% 
+##   1
 ```
 
 Dabei ist in der Ausgabe besonders die Überschrift verwirrend (75%), die hier nichts mit der Bedeutung des Wertes zu tun hat. Der IQA der Variable `wissen` beträgt 1. Für die Berechnung des IQA gibt es auch die direkte Funktion `IQR()`, die uns das ganze einfacher macht.

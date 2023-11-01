@@ -23,7 +23,7 @@ fb23$lz
 # Minimum & Maximum
 range(fb23$lz, na.rm=T)
 
-# Quartile
+# Quartile & Median
 quantile(fb23$lz, c(.25, .5, .75), na.rm=T)
 
 #Box-Whisker Plot
@@ -67,13 +67,13 @@ var(fb23$lz, na.rm = TRUE) * (nrow(fb23) - 1) / nrow(fb23)
 var(fb23$lz, na.rm = TRUE) * (length(na.omit(fb23$lz)) - 1) / (length(na.omit(fb23$lz)))
 
 # Umrechnung der Varianzen
-var(fb23$lz, na.rm = TRUE) * (157 - 1) / 157
+var(fb23$lz, na.rm = TRUE) * (177 - 1) / 177
 
 # Standardabweichung in R
 sd(fb23$lz, na.rm = TRUE) # Populationsschaetzer
 
 # Umrechnung der Standardabweichung
-sd(fb23$lz, na.rm = TRUE) * sqrt((157 - 1) / 157)
+sd(fb23$lz, na.rm = TRUE) * sqrt((177 - 1) / 177)
 
 # Händische Berechnung der empirischen Standardabweichung
 (sum((fb23$lz - mean(fb23$lz, na.rm = TRUE))^2,
