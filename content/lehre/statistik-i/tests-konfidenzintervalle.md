@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
 authors: [nehler, scheppa-lahyani] 
 weight: 5
-lastmod: '2023-10-31'
+lastmod: '2023-11-02'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -336,7 +336,7 @@ Auch in der statistischen Hypothesennotation bildet sich die Richtung der Hypoth
 $$H_0: \mu_0 \geq \mu_1$$
   
 $$H_1: \mu_0 < \mu_1$$
-Um eine weitere Modifikation unseres Vorgehens im Vergleich zum letzten Test zu haben, ändern wir auch unser Signifikanzniveau. Wir wollen diesmal auf der sehr sicheren Seite sein und wählen daher im weiteren Vorgehen $\alpha = 1\%$.
+Um eine weitere Modifikation unseres Vorgehens im Vergleich zum letzten Test zu haben, ändern wir auch unser Signifikanzniveau. Wir wollen diesmal auf der sehr sicheren Seite sein und wählen daher im weiteren Vorgehen $\alpha = 1$\%.
 
 Bevor wir in die inferenzstatistische Analyse einsteigen, ist es immer gut, sich einen Überblick über die deskriptiven Werte zu verschaffen. Wir können nun natürlich einfach die bereits gelernten Funktionen zu Mittelwert, Varianz, Minimum, etc. nutzen. Doch gibt es einen schnelleren Weg? Die Basisinstallation von `R` bietet uns keine Alternative. Jedoch gibt es zusätzliche *Pakete*, die den Pool an möglichen Funktionen erweitern. Die Logik wird im Folgenden erläutert.
 
@@ -613,7 +613,7 @@ Wir erkennen auch hier, dass der empirische *p*-Wert über .05 liegt ($p > \alph
 Das 95%ige Konfidenzintervall wird uns ebenfalls ausgegeben. Beachten Sie, dass es sich aufgrund unserer Hypothese um ein einseitiges Intervall handelt (nach oben offen). Basierend auf der Stichprobe liegt der wahre Wert $\mu$ zwischen 3.1829135 und $\infty$. Man erkennt also, dass der Wert von 180 in diesem Konfidenzintervall liegt, was ebenso bestätigt, dass es keinen Unterschied gibt.
 
 
-Die $H_0$ wird mit einer Irrtumswahrscheinlichkeit von 1% verworfen. Der Neurotizismuswert der Studierenden ist höher als der der Studierenden-Population.
+Die $H_0$ wird mit einer Irrtumswahrscheinlichkeit von $1\\%$ verworfen. Der Neurotizismuswert der Studierenden ist höher als der der Studierenden-Population.
 
 
 #### Einseitiges Konfidenzintervall für den Einstichproben-t-Test
