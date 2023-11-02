@@ -2,14 +2,14 @@
 title: "Simulation und Poweranalyse - Aufgaben" 
 type: post
 date: '2019-10-18' 
-slug: simulation-aufgaben
+slug: simulation-poweranalyse-aufgaben
 categories: [ ] 
 tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
 authors: [irmer]
 weight: 
-lastmod: '2023-10-28'
+lastmod: '2023-11-02'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
