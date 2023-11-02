@@ -2,7 +2,7 @@
 title: "Simulation und Poweranalyse" 
 type: post
 date: '2019-10-18' 
-slug: simulation 
+slug: simulation-poweranalyse
 categories: ["Statistik I"] 
 tags: ["Einführung", "Datenmanagement", "Grundlagen", "Hilfe"] 
 subtitle: ''
@@ -153,8 +153,7 @@ ttestH0
 ## 	Two Sample t-test
 ## 
 ## data:  X_1 and X_2
-## t = 1.1349, df = 38,
-## p-value = 0.2635
+## t = 1.1349, df = 38, p-value = 0.2635
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.2558241  0.9086358
@@ -192,18 +191,10 @@ replicate(n = 5, expr = rnorm(3))
 ```
 
 ```
-##            [,1]       [,2]
-## [1,]  1.4494963 -0.2806230
-## [2,] -1.0686427 -0.9943401
-## [3,] -0.8553646 -0.9685143
-##            [,3]       [,4]
-## [1,] -1.1073182 -0.4968500
-## [2,] -1.2519859 -1.8060313
-## [3,] -0.5238281 -0.5820759
-##            [,5]
-## [1,] -1.1088896
-## [2,] -1.0149620
-## [3,] -0.1623095
+##            [,1]       [,2]       [,3]       [,4]       [,5]
+## [1,]  1.4494963 -0.2806230 -1.1073182 -0.4968500 -1.1088896
+## [2,] -1.0686427 -0.9943401 -1.2519859 -1.8060313 -1.0149620
+## [3,] -0.8553646 -0.9685143 -0.5238281 -0.5820759 -0.1623095
 ```
 `replicate()` kann aber nicht nur einzelne Funktionen, sondern auch mehrere Zeilen *R*-Code entgegennehmen, solange diese in geschwungenen Klammern `{ ... }` angegeben werden. Wenn wir zwei unabhängige Variablen erstellen, mit einem $t$-Test auf Mittelwertsgleichheit prüfen und uns den $p$-Wert ausgeben lassen wollen, brauchen wir die folgenden vier Zeilen:
 
@@ -227,11 +218,8 @@ replicate(n = 10, expr = {X_1 <- rnorm(N)
 ```
 
 ```
-##  [1] 0.26352442 0.03081077
-##  [3] 0.21285027 0.27429670
-##  [5] 0.53201656 0.79232864
-##  [7] 0.93976306 0.43862992
-##  [9] 0.96766599 0.68865560
+##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864
+##  [7] 0.93976306 0.43862992 0.96766599 0.68865560
 ```
 
 Uns werden insgesamt 10 $p$-Werte übergeben. Wenn wir genau hinsehen, dann erkennen wir den ersten $p$-Wert wieder. Dies ist der $p$-Wert unseres Experiments weiter oben. Wiederholen wir nun das Experiment nicht nur 10 Mal, sondern 10000 Mal, dann erhalten wir eine gute Übersicht über das Verhalten der $p$-Werte unter den Bedingungen, die wir vorgegeben haben: Gültigkeit der Nullhypothese und Standardnormalverteilung der beiden von einander unabhängigen Variablen. Damit uns die 10000 Werte nicht einfach in die Konsole gedruckt werden, legen wir sie im Objekt `pt_H0` ab (für $p$-Werte für den $t$-Test unter der $H_0$-Hypothese):
@@ -252,7 +240,7 @@ Schauen wir uns doch mal die Verteilung der $p$-Werte an:
 hist(pt_H0, breaks = 20) 
 ```
 
-![](/lehre/statistik-i/simulation_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](/lehre/statistik-i/simulation-poweranalyse_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 {{< intext_anchor Alpha >}}
 
@@ -292,7 +280,7 @@ x <- seq(-4, 4, 0.01) # Sequenz von -4 bis 4 in 0.01 Schritten
 lines(x = x, y = dt(x = x, df = 38), lwd = 2) # lwd = Liniendicke
 ```
 
-![](/lehre/statistik-i/simulation_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/lehre/statistik-i/simulation-poweranalyse_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 Die empirischen $t$-Werte können wir auch mit dem kritischen Wert abgleichen. Weil die $t$-Verteilung symmetrisch ist, können wir hier zweiseitig testen, indem wir einfach die Beträge (`abs()`) der empirischen $t$-Werte nutzen.
 
@@ -360,7 +348,7 @@ mean(pt_H1 < 0.05) # empirische Power
 hist(pt_H1, breaks = 20)
 ```
 
-![](/lehre/statistik-i/simulation_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/lehre/statistik-i/simulation-poweranalyse_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 Die empirische Power (die Wahrscheinlichkeit in unserer Simulation, dass die $H_0$ verworfen wird) liegt bei 0.335. Das Histogramm ist nun alles andere als gleichverteilt. Kleine $p$-Werte nahe Null kommen wesentlich häufiger vor als große $p$-Werte nahe 1. 
 
@@ -378,7 +366,7 @@ x <- seq(-4, 4, 0.01) # Sequenz von -4 bis 4 in 0.01 Schritten
 lines(x = x, y = dt(x = x, df = 38), lwd = 2) # lwd = Liniendicke
 ```
 
-![](/lehre/statistik-i/simulation_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](/lehre/statistik-i/simulation-poweranalyse_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
 Der Grafik entnehmen wir, dass die gesamte Verteilung der empirischen t-Werte verschoben ist im Vergleich zur theoretischen Verteilung (Linie). Somit ist klar, dass die Hypothese häufiger verworfen werden muss, da die kritischen $t$-Werte unter der Alternativhypothese nicht mehr sinnvoll sind!
 
@@ -428,8 +416,7 @@ t_power
 ```
 
 ```
-## [1] 0.3350 0.5991 0.7700
-## [4] 0.8809 0.9369
+## [1] 0.3350 0.5991 0.7700 0.8809 0.9369
 ```
 
 Wir sehen sehr gut, dass die Power ansteigt. Der zugehörige Power-Plot sieht nun so aus (zunächst legen wir die Stichproben in `Ns` ab):
@@ -441,7 +428,7 @@ plot(x = Ns, y = t_power, type = "b",
      main = "Power vs. N", xlab = "n", ylab = "Power des t-Tests mit d = .5")
 ```
 
-![](/lehre/statistik-i/simulation_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](/lehre/statistik-i/simulation-poweranalyse_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 Dem Plot entnehmen wir, dass ab etwas über $N=60$ die Power oberhalb der gewünschten $80\\%$-Marke liegt. Wir erkennen also, dass die Wahrscheinlichkeit einen Effekt zu finden, wenn dieser da ist, mit steigender Stichprobengröße wächst. Auf diesem Weg kann ein Experiment auch hinsichtlich der nötigen Stichprobengröße geplant werden. Wenn aus Voruntersuchungen oder der Literatur bekannt ist, wie groß ein Effekt zu erwarten ist, dann kann über Poweranalysen untersucht werden, wie groß eine Stichprobe sein muss, um einen Effekt mit hinreichend großer Wahrscheinlichkeit zu identifizieren.
 
@@ -449,14 +436,14 @@ Genauso könnten wir uns fragen, wie groß ein Effekt sein muss, damit mit der v
 
 Wenn man dies auf die Spitze treibt, dann landet man vielleicht bei diesem schönen Plot:
 
-<img src="/lehre/statistik-i/simulation_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-i/simulation-poweranalyse_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
 
 {{< intext_anchor t-Power >}}
 
 Auf der x-Achse ist die Mittelwertsdifferenz dargestellt, $N$ ist farblich kodiert. Dieser Plot enthält also sowohl Informationen über die Asymptotik (Verhalten mit steigender Stichprobengröße) und über die Auswirkung der Effektstärke. Die gestrichelte Linien symbolisiert die gewünschten $80\\%$, die gepunktete Linie zeigt das $\alpha$-Fehlerniveau von $5\\%$. Hier wurden allerdings keine Simulationen durchgeführt (sonst wären die Linien nicht so "smooth"), denn für den $t$-Test lässt sich die Power auch noch leicht über Formeln bestimmen. Wie das funktioniert schauen wir uns im nächsten Abschnitt an. Zuvor tauschen wir nochmal in den Power-Plot die Achsen und schreiben $n$ auf die x-Achse und kodieren die Effektgröße farbig. So sieht das Ganze unserem anderen Plot etwas ähnlicher!
 
 
-<img src="/lehre/statistik-i/simulation_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-i/simulation-poweranalyse_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
 
 Wir sehen, dass die Power stets mit der Stichprobengröße wächst (es sei denn, der Effekt ist exakt 0, dann haben wir eine horizontale Linie auf dem $\alpha$-Fehlerniveau). Da der $t$-Test symmetrisch ist, sehen wir nur die positiven Mittelwertsdifferenzen $d$ abgebildet, während die negativen jeweils verdeckt sind ($d$ verdeckt $-d$).
 
@@ -605,7 +592,7 @@ Die $p$-Werte sind wieder einigermaßen uniform auf [0,1] verteilt:
 hist(pcor_H0, breaks = 20) 
 ```
 
-![](/lehre/statistik-i/simulation_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
+![](/lehre/statistik-i/simulation-poweranalyse_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
 
 Das empirische $\alpha$-Niveau liegt bei:
 

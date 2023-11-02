@@ -2,7 +2,7 @@
 title: "Simulation und Poweranalyse" 
 type: post
 date: '2019-10-18' 
-slug: simulation 
+slug: simulation-poweranalyse
 categories: ["Statistik I"] 
 tags: ["Einführung", "Datenmanagement", "Grundlagen", "Hilfe"] 
 subtitle: ''

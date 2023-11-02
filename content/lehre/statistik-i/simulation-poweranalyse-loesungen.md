@@ -2,14 +2,14 @@
 title: "Simulation und Poweranalyse - Lösungen" 
 type: post
 date: '2021-09-21' 
-slug: simulation-loesungen 
+slug: simulation-poweranalyse-loesungen 
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [irmer] 
 weight:
-lastmod: '`r Sys.Date()`'
+lastmod: '2023-11-02'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -27,9 +27,7 @@ output:
 ---
 
 
-```{r setup, echo = FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 
 ## Aufgabe 1
@@ -40,7 +38,8 @@ $$Y:= \rho X + \sqrt{1-\rho^2}Z,$$
 
 wieder standard-normalverteilt und um den Korrelationskoeffizienten $\rho$ korreliert mit $X$. Wir können also relativ einfach zwei korrelierte Variablen generieren. Wie in der Sitzung verwenden wir $N=20$:
 
-```{r}
+
+```r
 N <- 20
 
 set.seed(12345)
@@ -48,8 +47,26 @@ X <- rnorm(N)
 Z <- rnorm(N)
 Y <- 0.5*X + sqrt(1 - 0.5^2)*Z
 cor(X, Y) # empirische Korrelation
+```
+
+```
+## [1] 0.579799
+```
+
+```r
 sd(X) 
+```
+
+```
+## [1] 0.8339354
+```
+
+```r
 sd(Y)
+```
+
+```
+## [1] 1.232089
 ```
 
 Falls Sie die oben genutzte Formel zur Generierung korrelierter Zufallsvariablen überprüfen wollen, dann setzen Sie doch einmal `N = 10^6` (also eine Stichprobe von 1 Mio). Dann sollte die empirische Korrelation sehr nah an der theoretischen liegen. Auch sollten dann die empirischen Standardabweichungen sehr nah an der 1 liegen.
@@ -60,7 +77,8 @@ Verwenden Sie für diese Aufgabe stets den Seed 12345 (`set.seed(12345)`).
 * Betrachten Sie das Modell für eine Stichprobe von `N = 10^6`. Berichten Sie die empirische Korrelation sowie die empirischen Standardabweichungen.
 
 <details><summary>Lösung</summary>
-```{r}
+
+```r
 N <- 10^6
 
 set.seed(12345)
@@ -68,11 +86,29 @@ X <- rnorm(N)
 Z <- rnorm(N)
 Y <- 0.5*X + sqrt(1 - 0.5^2)*Z
 cor(X, Y) # empirische Korrelation
+```
+
+```
+## [1] 0.4994574
+```
+
+```r
 sd(X) 
+```
+
+```
+## [1] 1.001315
+```
+
+```r
 sd(Y)
 ```
 
-Die Korrelation liegt bei $\hat{\rho}_{XY}=$`r round(cor(X, Y), 4)` und liegt damit sehr nah an der theoretischen (wahren) 0.5. Die beiden Standardabweichungen liegen bei $\hat{\sigma}_X=$ `r round(sd(X), 4)` und  $\hat{\sigma}_Y=$ `r round(sd(Y), 4)` und damit beide sehr nah an der theoretischen (wahren) 1.
+```
+## [1] 0.9994427
+```
+
+Die Korrelation liegt bei $\hat{\rho}_{XY}=$0.4995 und liegt damit sehr nah an der theoretischen (wahren) 0.5. Die beiden Standardabweichungen liegen bei $\hat{\sigma}_X=$ 1.0013 und  $\hat{\sigma}_Y=$ 0.9994 und damit beide sehr nah an der theoretischen (wahren) 1.
 
 </details>
 
@@ -80,7 +116,8 @@ Die Korrelation liegt bei $\hat{\rho}_{XY}=$`r round(cor(X, Y), 4)` und liegt da
 * Untersuchen Sie die Power des Korrelationstests für eine Korrelation von $\rho=0.5$ und $N = 20$. Führen Sie eine Simulationsstudie durch. Wie groß ist die Power?
 
 <details><summary>Lösung</summary>
-```{r}
+
+```r
 N <- 20
 set.seed(12345)
 pcor_H1 <- replicate(n = 10000, expr = {X <- rnorm(N)
@@ -91,7 +128,11 @@ pcor_H1 <- replicate(n = 10000, expr = {X <- rnorm(N)
 mean(pcor_H1 < 0.05) # empirische Power
 ```
 
-Die Power des Korrelationstests für eine Korrelation von 0.5 für $N=20$ liegt bei `r mean(pcor_H1 < 0.05)*100`%.
+```
+## [1] 0.6385
+```
+
+Die Power des Korrelationstests für eine Korrelation von 0.5 für $N=20$ liegt bei 63.85%.
 
 </details>
 
@@ -101,16 +142,27 @@ Die Power des Korrelationstests für eine Korrelation von 0.5 für $N=20$ liegt 
 
 
 <details><summary>Lösung</summary>
-```{r}
+
+```r
 set.seed(12345)
 cors_H1 <- replicate(n = 10000, expr = {X <- rnorm(N)
                                         Z <- rnorm(N)
                                         Y <- 0.5*X + sqrt(1 - 0.5^2)*Z
                                         cor(X, Y)})
 summary(cors_H1)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.4293  0.3791  0.5080  0.4889  0.6177  0.8997
+```
+
+```r
 hist(cors_H1, breaks = 50)
 ```
-Die Verteilung der Korrelationen ist nicht normalverteilt. Die Verteilung ist links-schief/rechts-steil. Wir erkennen, dass Korrelationen zwischen `r round(min(cors_H1), 4)` und `r round(max(cors_H1), 4)` liegen. Die mittlere Korrelation liegt bei `r round(mean(cors_H1), 4)`, der Median der Korrelationen liegt bei `r round(median(cors_H1), 4)`. Die zentralen Tendenzen liegt also sehr nah an der theoretischen Korrelation von 0.5.
+
+![](/lehre/statistik-i/simulation-poweranalyse-loesungen_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+Die Verteilung der Korrelationen ist nicht normalverteilt. Die Verteilung ist links-schief/rechts-steil. Wir erkennen, dass Korrelationen zwischen -0.4293 und 0.8997 liegen. Die mittlere Korrelation liegt bei 0.4889, der Median der Korrelationen liegt bei 0.508. Die zentralen Tendenzen liegt also sehr nah an der theoretischen Korrelation von 0.5.
 
 </details>
 
@@ -123,7 +175,8 @@ Wiederholen Sie die Analyse. Verändern Sie diesmal die Varianz der beiden Varia
 * Betrachten Sie das Modell für eine Stichprobe von `N = 10^6`. Berichten Sie die empirische Korrelation sowie die empirischen Standardabweichungen.
 
 <details><summary>Lösung</summary>
-```{r}
+
+```r
 N <- 10^6
 
 set.seed(12345)
@@ -133,11 +186,29 @@ Y <- 0.5*X + sqrt(1 - 0.5^2)*Z
 X_new <- 3*X
 Y_new <- 0.5*Y
 cor(X_new, Y_new) # empirische Korrelation
+```
+
+```
+## [1] 0.4994574
+```
+
+```r
 sd(X_new) 
+```
+
+```
+## [1] 3.003945
+```
+
+```r
 sd(Y_new)
 ```
 
-Die Korrelation liegt bei $\hat{\rho}_{X_\text{new}Y_\text{new}}=$`r round(cor(X_new, Y_new), 4)` und liegt damit sehr nah an der theoretischen (wahren) 0.5. Insbesondere ist diese Korrelation gleich der Korrelation zwischen X und Y von oben! Das liegt daran, dass die Varianz die Korrelation nicht beeinflusst. Die beiden Standardabweichungen liegen bei $\hat{\sigma}_{X_\text{new}}=$ `r round(sd(X_new), 4)` und  $\hat{\sigma}_{Y_\text{new}}=$ `r round(sd(Y_new), 4)` und damit beide sehr nah an der theoretischen (wahren) dran. Diese entsprechen gerade den Vorfaktoren, die wir daran multipliziert haben. Also 3 für $X_\text{new}$ und 0.5 für $Y_\text{new}$.
+```
+## [1] 0.4997214
+```
+
+Die Korrelation liegt bei $\hat{\rho}_{X_\text{new}Y_\text{new}}=$0.4995 und liegt damit sehr nah an der theoretischen (wahren) 0.5. Insbesondere ist diese Korrelation gleich der Korrelation zwischen X und Y von oben! Das liegt daran, dass die Varianz die Korrelation nicht beeinflusst. Die beiden Standardabweichungen liegen bei $\hat{\sigma}_{X_\text{new}}=$ 3.0039 und  $\hat{\sigma}_{Y_\text{new}}=$ 0.4997 und damit beide sehr nah an der theoretischen (wahren) dran. Diese entsprechen gerade den Vorfaktoren, die wir daran multipliziert haben. Also 3 für $X_\text{new}$ und 0.5 für $Y_\text{new}$.
 
 </details>
 
@@ -146,7 +217,8 @@ Die Korrelation liegt bei $\hat{\rho}_{X_\text{new}Y_\text{new}}=$`r round(cor(X
 
 
 <details><summary>Lösung</summary>
-```{r}
+
+```r
 N <- 20
 set.seed(12345)
 pcor_H1_new <- replicate(n = 10000, expr = {X <- rnorm(N)
@@ -159,7 +231,11 @@ pcor_H1_new <- replicate(n = 10000, expr = {X <- rnorm(N)
 mean(pcor_H1_new < 0.05) # empirische Power
 ```
 
-Die Power des Korrelationstests für eine Korrelation von 0.5 für $N=20$ und Variablen mit Varianzen von 9 und 0.25 liegt bei `r mean(pcor_H1_new < 0.05)*100`%. Diese Power ist identisch zur Power zuvor. Das zeigt uns, dass die Power des Korrelationstests unter Voraussetzung der Normalverteilung nur von der Korrelationsgröße, aber nicht von der Varianz der Variablen, abhängt. (Natürlich dürfen wir nicht eine Variable mit 0 multiplizieren, da das zu einer Konstanten führt, die immer eine Korrelation von 0 mit allen anderen Zufallsvariablen hat.)
+```
+## [1] 0.6385
+```
+
+Die Power des Korrelationstests für eine Korrelation von 0.5 für $N=20$ und Variablen mit Varianzen von 9 und 0.25 liegt bei 63.85%. Diese Power ist identisch zur Power zuvor. Das zeigt uns, dass die Power des Korrelationstests unter Voraussetzung der Normalverteilung nur von der Korrelationsgröße, aber nicht von der Varianz der Variablen, abhängt. (Natürlich dürfen wir nicht eine Variable mit 0 multiplizieren, da das zu einer Konstanten führt, die immer eine Korrelation von 0 mit allen anderen Zufallsvariablen hat.)
 
 </details>
 
@@ -175,7 +251,8 @@ Nutzen Sie den Seed 12345 (`set.seed(12345)`).
 
 <details><summary>Lösung</summary>
 
-```{r}
+
+```r
 N <- 20
 set.seed(12345)
 pt_H0 <- replicate(n = 10000, expr = {X <- rnorm(N)
@@ -184,7 +261,11 @@ pt_H0 <- replicate(n = 10000, expr = {X <- rnorm(N)
                                       ttestH1$p.value})
 mean(pt_H0 < 0.001) # empirischer Alpha-Fehler
 ```
-Der empirische $\alpha$-Fehler liegt bei `r mean(mean(pt_H0 < 0.001))*100`% und liegt damit sehr nah an dem vorgegebenem Niveau von $\alpha = 0.1\%$. In der Sitzung hatten wir einen empirischen $\alpha$-Fehler, der sehr nah an den theoretischen $5\%$ lag. Der Unterschied ist zu erwarten, da wir das vorgegebene $\alpha$-Fehlerniveau verändert haben!
+
+```
+## [1] 0.0011
+```
+Der empirische $\alpha$-Fehler liegt bei 0.11% und liegt damit sehr nah an dem vorgegebenem Niveau von $\alpha = 0.1\%$. In der Sitzung hatten wir einen empirischen $\alpha$-Fehler, der sehr nah an den theoretischen $5\%$ lag. Der Unterschied ist zu erwarten, da wir das vorgegebene $\alpha$-Fehlerniveau verändert haben!
 
 
 </details>
@@ -194,7 +275,8 @@ Der empirische $\alpha$-Fehler liegt bei `r mean(mean(pt_H0 < 0.001))*100`% und 
 
 <details><summary>Lösung</summary>
 
-```{r}
+
+```r
 set.seed(12345)
 pt_H1 <- replicate(n = 10000, expr = {X <- rnorm(N)
                                       Y <- rnorm(N) + 0.5
@@ -202,7 +284,11 @@ pt_H1 <- replicate(n = 10000, expr = {X <- rnorm(N)
                                       ttestH1$p.value})
 mean(pt_H1 < 0.001) # empirische Power
 ```
-Die empirische Power liegt bei `r mean(pt_H1 < 0.001)*100`%. Dieser Wert fällt nun deutlich geringer aus, als die `r mean(pt_H1 < 0.05)*100`%, die wir in der Sitzung beobachtet hatten. Dies zeigt nochmal deutlich auf, dass wenn wir unsere Irrtumswahrscheinlichkeit drastisch reduzieren wollen, wir in Kauf nehmen, dass die Power einen Effekt zu finden, wenn dieser da ist, deutlich eingeschränkt wird!
+
+```
+## [1] 0.0362
+```
+Die empirische Power liegt bei 3.62%. Dieser Wert fällt nun deutlich geringer aus, als die 33.5%, die wir in der Sitzung beobachtet hatten. Dies zeigt nochmal deutlich auf, dass wenn wir unsere Irrtumswahrscheinlichkeit drastisch reduzieren wollen, wir in Kauf nehmen, dass die Power einen Effekt zu finden, wenn dieser da ist, deutlich eingeschränkt wird!
 
 Sie können sich die Power auch für andere Irrtumswahrscheinlichkeiten anschauen, indem Sie die `0.001` ersetzen durch Ihre gewünschte Irrtumswahrscheinlichkeit!
 
@@ -221,7 +307,8 @@ Nutzen Sie den Seed 12345 (`set.seed(12345)`).
 
 <details><summary>Lösung</summary>
 
-```{r, echo=T}
+
+```r
 set.seed(12345)
 pt_H1_0 <- replicate(n = 10000, expr = {X <- rnorm(20)
                                         Y <- rnorm(20) 
@@ -257,6 +344,8 @@ Ds <- seq(0, 1.25, 0.25)
 plot(x = Ds, y = t_power_d, type = "b", main = "Power vs. d")
 ```
 
+![](/lehre/statistik-i/simulation-poweranalyse-loesungen_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+
 Dem Plot ist zu entnehmen, dass die Power mit steigender Effektgröße ansteigt. 
 
 </details>
@@ -281,7 +370,8 @@ Nutzen Sie den Seed 12345 (`set.seed(12345)`).
 
 <details><summary>Lösung</summary>
 
-```{r}
+
+```r
 N <- 20
 set.seed(12345)
 pt_H1_t <- replicate(n = 10000, expr = {X <- rnorm(N)
@@ -289,7 +379,13 @@ pt_H1_t <- replicate(n = 10000, expr = {X <- rnorm(N)
                                       ttestH1 <- t.test(X, Y, var.equal = TRUE)
                                       ttestH1$p.value})
 mean(pt_H1_t < 0.05) # empirische Power des t-Tests
+```
 
+```
+## [1] 0.335
+```
+
+```r
 set.seed(12345)
 pt_H1_W <- replicate(n = 10000, expr = {X <- rnorm(N)
                                       Y <- rnorm(N) + 0.5
@@ -297,8 +393,12 @@ pt_H1_W <- replicate(n = 10000, expr = {X <- rnorm(N)
                                       wilcoxonH1$p.value})
 mean(pt_H1_W < 0.05) # empirische Power des Wilcoxon-Tests
 ```
-Die empirische Power des $t$-Tests liegt bei `r mean(pt_H1_t < 0.05)*100`%.
-Die empirische Power des Wilcoxon-Tests liegt bei `r mean(pt_H1_W < 0.05)*100`%. Damit fällt die Power des Wilcoxon-Test marginal geringer aus, als die des $t$-Tests. Dies lässt sich dadurch erklären, dass die Intervallskala mehr statistische Informationen trägt. Allerdings ist der $t$-Test anfälliger gegen Verstöße von Modellannahmen!
+
+```
+## [1] 0.3198
+```
+Die empirische Power des $t$-Tests liegt bei 33.5%.
+Die empirische Power des Wilcoxon-Tests liegt bei 31.98%. Damit fällt die Power des Wilcoxon-Test marginal geringer aus, als die des $t$-Tests. Dies lässt sich dadurch erklären, dass die Intervallskala mehr statistische Informationen trägt. Allerdings ist der $t$-Test anfälliger gegen Verstöße von Modellannahmen!
 
 Bspw. mit solchen Fragen beschäftigen sich Methodiker:innen aus verschiedensten Disziplinen. Wenn Sie sich dafür interessieren, fragen Sie doch gerne in einer der beiden Abteilungen nach!
 
