@@ -34,39 +34,43 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | Beschreibung | Direkter Download |
 | ----- | --- |
 | [Achtsamkeit und Depression](#achtsamkeit-und-depression-raw_data) |  [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/awz3d/download) |
-| [Alkoholkonsum von Jugendlichen](#alkoholkonsum-von-jugendlichen-alc) | [{{< icon name="download" pack="fas" >}} `alc` ](/post/alc.rda) |
-[Arbeitsstress bei Call-Center-Mitarbeiter:innen](#arbeitsstress-bei-call-center-mitarbeiterinnen-stressatwork) | [{{< icon name="download" pack="fas" >}} `StressAtWork` ](/post/StressAtWork.rda) |
-| [Vergleich von Behandlungsformen](#vergleich-von-behandlungsformen-behandlungsform) | [{{< icon name="download" pack="fas" >}} `Behandlungsform` ](post/Behandlungsform.rda)
-| [Die Big Five Persönlichkeitsdimensionen](#die-big-five-persönlichkeitsdimensionen-big5) | [{{< icon name="download" pack="fas" >}} `Big5` ](/post/Big5_EFA.rda) |
+| [Alkoholkonsum von Jugendlichen](#alkoholkonsum-von-jugendlichen-alc) | [{{< icon name="download" pack="fas" >}} `alc` ](/daten/alc.rda) |
+[Arbeitsstress bei Call-Center-Mitarbeiter:innen](#arbeitsstress-bei-call-center-mitarbeiterinnen-stressatwork) | [{{< icon name="download" pack="fas" >}} `StressAtWork` ](/daten/StressAtWork.rda) |
+| [Vergleich von Behandlungsformen](#vergleich-von-behandlungsformen-behandlungsform) | [{{< icon name="download" pack="fas" >}} `Behandlungsform` ](daten/Behandlungsform.rda)
+| [Die Big Five Persönlichkeitsdimensionen](#die-big-five-persönlichkeitsdimensionen-big5) | [{{< icon name="download" pack="fas" >}} `Big5` ](/daten/Big5_EFA.rda) |
 | [Interozeptive Aufmerksamkeit und Genauigkeit](#interozeptive-aufmerksamkeit-und-genauigkeit-body) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/j6ef3/download) |
-| [Bildungsinvestitionen auf der Welt](#bildungsinvestitionen-auf-der-welt-edu_exp) | [{{< icon name="download" pack="fas" >}} `edu_exp` ](/post/edu_exp.rda) 
-| [Bullyingprävention bei Jugendlichen](#bullyingprävention-bei-jugendlichen-fairplayer) | [{{< icon name="download" pack="fas" >}} `fairplayer` ](/post/faiplayer.rda) |
-| [Quasi-Experimentelle Therapiestudie](#quasi-experimentelle-therapiestudie-cbtdata) | [{{< icon name="download" pack="fas" >}} `CBTdata` ](/post/CBTdata.rda) |
-| [Depressivität](#depressivitat-Depression) | [{{< icon name="download" pack="fas" >}} `Depression` ](/post/Depression.rda) |
+| [Bildungsinvestitionen auf der Welt](#bildungsinvestitionen-auf-der-welt-edu_exp) | [{{< icon name="download" pack="fas" >}} `edu_exp` ](/daten/edu_exp.rda) 
+| [Bullyingprävention bei Jugendlichen](#bullyingprävention-bei-jugendlichen-fairplayer) | [{{< icon name="download" pack="fas" >}} `fairplayer` ](/daten/faiplayer.rda) |
+| [Quasi-Experimentelle Therapiestudie](#quasi-experimentelle-therapiestudie-cbtdata) | [{{< icon name="download" pack="fas" >}} `CBTdata` ](/daten/CBTdata.rda) |
+| [Depressivität](#depressivitat-Depression) | [{{< icon name="download" pack="fas" >}} `Depression` ](/daten/Depression.rda) |
 | [Effektivität der CBT bei Depression](#effektivität-der-cbt-bei-depression-f2f_cbt) | _Teil des Pakets `metafor`_ |
-|  [Entwicklung der Weltbevölkerung](#entwicklung-der-weltbevölkerung-worldpopulation) | [{{< icon name="download" pack="fas" >}} `WorldPopulation` ](/post/WorldPopulation.rda) |
-| [Fragebogendaten aus dem ersten Semester](#fragebogendaten-aus-dem-ersten-semester-fb22) |  [{{< icon name="download" pack="fas" >}} `fb22` ](/post/fb22.rda) |
+|  [Entwicklung der Weltbevölkerung](#entwicklung-der-weltbevölkerung-worldpopulation) | [{{< icon name="download" pack="fas" >}} `WorldPopulation` ](/daten/WorldPopulation.rda) |
+| [Fragebogendaten aus dem ersten Semester](#fragebogendaten-aus-dem-ersten-semester-fb22) |  [{{< icon name="download" pack="fas" >}} `fb22` ](/daten/fb22.rda) |
 | [Gender, Drug, and Depression](#gender-drug-and-depression-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/prc92/download) |
-| [Skalenwerte der Generic Conspiracist Beliefs Scale](#skalenwerte-der-generic-conspiracist-beliefs-scale-conspiracy) | [{{< icon name="download" pack="fas" >}} `conspiracy` ](/post/conspiracy.rda) |
-| [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa)) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa` ](/post/conspiracy_cfa.rda) |
+| [Skalenwerte der Generic Conspiracist Beliefs Scale](#skalenwerte-der-generic-conspiracist-beliefs-scale-conspiracy) | [{{< icon name="download" pack="fas" >}} `conspiracy` ](/daten/conspiracy.rda) |
+| [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa)) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa` ](/daten/conspiracy_cfa.rda) |
 | [Gewissenhaftigkeit und Medikamenteneinnahme](#gewissenhaftigkeit-und-medikamenteneinnahme-data_combined) |  _Teil des Pakets `metafor`_ |
 | [Internetintervention für psychische Störungen](#internetintervention-für-psychische-störungen-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/zc8ut/download) |
 | [Kooperationsbereitschaft von Geschwistern](#kooperationsbereitschaft-von-geschwistern-datakooperation) | _via Syntax erstellt_ |
-| [Machiavellismus-Fragebogen](#machiavellismus-fragebogen-mach) | [{{< icon name="download" pack="fas" >}} `mach` ](/post/mach.rda) |
+| [Machiavellismus-Fragebogen](#machiavellismus-fragebogen-mach) | [{{< icon name="download" pack="fas" >}} `mach` ](/daten/mach.rda) |
 | [Major Depression](#major-depression-data) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/g6ya4/download) |
-| [Mehrdimensionaler Befindlichkeitsfragebogen](#mehrdimensionaler-befindlichkeitsfragebogen-mdbf) | [{{< icon name="download" pack="fas" >}} `mdbf` ](/post/mdbf.rda) |
+| [Mehrdimensionaler Befindlichkeitsfragebogen](#mehrdimensionaler-befindlichkeitsfragebogen-mdbf) | [{{< icon name="download" pack="fas" >}} `mdbf` ](/daten/mdbf.rda) |
 | [Mental Health and Social Contact During the COVID-19 Pandemic](#mental-health-and-social-contact-during-the-covid-19-pandemic-data) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/qev5n/download) |
-| [Naturverbundenheit](#naturverbundenheit-nature) | [{{< icon name="download" pack="fas" >}} `nature` ](/post/nature.rda) |
-| [Lesekompetenz in der PISA-Erhebung](#lesekompetenz-in-der-pisa-erhebung-pisa2009) | [{{< icon name="download" pack="fas" >}} `PISA2009` ](/post/PISA2009.rda) |
+| [Naturverbundenheit](#naturverbundenheit-nature) | [{{< icon name="download" pack="fas" >}} `nature` ](/daten/nature.rda) |
+| [Lesekompetenz in der PISA-Erhebung](#lesekompetenz-in-der-pisa-erhebung-pisa2009) | [{{< icon name="download" pack="fas" >}} `PISA2009` ](/daten/PISA2009.rda) |
 | [Parental Burnout](#parental-burnout-burnout) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/qev5n/download) |
-| [Hauptkomponentenanalyse](#hauptkomponentenanalyse-pca) | [{{< icon name="download" pack="fas" >}} `PCA` ](/post/PCA.RData) |
+| [Hauptkomponentenanalyse](#hauptkomponentenanalyse-pca) | [{{< icon name="download" pack="fas" >}} `PCA` ](/daten/PCA.RData) |
 | [Psychisches Wohlbefinden von Individuen während des Lockdowns in Frankreich](#psychisches-wohlbefinden-von-individuen-während-des-lockdowns-in-frankreich-lockdown) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/dc6me/download)
 | [Kulturelle Unterschiede in Korruptionsbestrafung](#kulturelle-unterschiede-in-korruptionsbestrafung-punish) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/4wypx/download)
-| [Schulleistungen](#schulleistungen) | [{{< icon name="download" pack="fas" >}} `Schulleistungen` ](/post/Schulleistungen.rda) |
-| [Therapieerfolg](#therapieerfolg-therapy) | [{{< icon name="download" pack="fas" >}} `Therapy` ](/post/Therapy.rda) |
-| [Titanic](#titanic) |  [{{< icon name="download" pack="fas" >}} `Titanic` ](/post/Titanic.rda) |
+| [Schulleistungen](#schulleistungen) | [{{< icon name="download" pack="fas" >}} `Schulleistungen` ](/daten/Schulleistungen.rda) |
+| [Therapieerfolg](#therapieerfolg-therapy) | [{{< icon name="download" pack="fas" >}} `Therapy` ](/daten/Therapy.rda) |
+| [Titanic](#titanic) |  [{{< icon name="download" pack="fas" >}} `Titanic` ](/daten/Titanic.rda) |
 | [Traumatische Erlebnisse und psychische Störungen](#traumatische-erlebnisse-und-psychische-störungen-trauma) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/a9vun/download) |
 
+| [Machiavellismus-Fragebogen](#machiavellismus-fragebogen-mach) | [{{< icon name="download" pack="fas" >}} `mach` ](/daten/mach.rda) |
+| [Machiavellismus-Fragebogen](#machiavellismus-fragebogen-mach) | [{{< icon name="download" pack="fas" >}} `mach` ](/daten/mach.rda) |
+| [Machiavellismus-Fragebogen](#machiavellismus-fragebogen-mach) | [{{< icon name="download" pack="fas" >}} `mach` ](/daten/mach.rda) |
+| [Machiavellismus-Fragebogen](#machiavellismus-fragebogen-mach) | [{{< icon name="download" pack="fas" >}} `mach` ](/daten/mach.rda) |
 
 ---
 
@@ -165,7 +169,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 Für das Quiz ANOVA III in PsyBSc7 wurde der Datensatz nochmal in zwei getrennten Formaten erweitert. Die erweiterten Daten sind simulationsbasiert. Die Daten können mit folgendem Befehl eingeladen werden:
 
 ```{r, eval = T}
-load(url("https://pandar.netlify.app/post/alc_extended.rda"))
+load(url("https://pandar.netlify.app/daten/alc_extended.rda"))
 ```
 
 Im Environment erscheinen zwei Datensätze. Der Datensatz `alc17` hat eine Variable mehr (`alcuse.17`), während `alc18` nochmal 2 weitere zusätzliche Variablen (`treat` und `alcuse.18`) hat.
@@ -193,7 +197,7 @@ Auf `pandaR` wird der Datensatz in den Tutorials [Pfadanalysen und Strukturgleic
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/StressAtWork.rda"))
+load(url("https://pandar.netlify.app/daten/StressAtWork.rda"))
 ```
 
 ### Größe
@@ -229,7 +233,7 @@ Auf `pandaR` wird der Datensatz in dem [Quiz 5](/post/bsc7-daten/#Quiz5) für Ps
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/Behandlungsform.rda"))
+load(url("https://pandar.netlify.app/daten/Behandlungsform.rda"))
 ```
 
 ### Größe
@@ -265,7 +269,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Exploratorische Faktorenanalyse
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/Big5_EFA.rda"))
+load(url("https://pandar.netlify.app/daten/Big5_EFA.rda"))
 ```
 
 ### Größe
@@ -374,7 +378,7 @@ Auf `pandaR` wird der Datensatz für den [DigiGEBF Workshop ggplotting](/extras/
 
 ### Datensatz laden
 ```{r}
-load(url('https://pandar.netlify.com/post/edu_exp.rda'))
+load(url('https://pandar.netlify.com/daten/edu_exp.rda'))
 ```
 
 ### Größe
@@ -422,7 +426,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Einführung in lavaan](/post/la
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/fairplayer.rda"))
+load(url("https://pandar.netlify.app/daten/fairplayer.rda"))
 ```
 
 ### Größe
@@ -467,7 +471,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Schätzung von Kausaleffekten 1
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/CBTdata.rda"))
+load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 ```
 
 ### Größe
@@ -503,7 +507,7 @@ Auf `pandaR` wird der Datensatz in den Tutorials [Einleitung und Wiederholung Kl
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/Depression.rda"))
+load(url("https://pandar.netlify.app/daten/Depression.rda"))
 ```
 
 ### Größe
@@ -603,7 +607,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Regression V](/post/nichtlinear
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/WorldPopulation.rda"))
+load(url("https://pandar.netlify.app/daten/WorldPopulation.rda"))
 ```
 
 ### Größe
@@ -634,7 +638,7 @@ Auf `pandaR` wird der Datensatz in fast allen Tutorials von [PsyBsc2](/lehre/#bs
 
 ### Datensatz laden
 ```{r}
-load(url('https://pandar.netlify.app/post/fb22.rda'))
+load(url('https://pandar.netlify.app/daten/fb22.rda'))
 ```
 
 ### Größe
@@ -742,7 +746,7 @@ Auf `pandaR` wird der Datensatz in den Tutorials [ANOVA I](/post/anova1) und [AN
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/conspiracy.rda"))
+load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
 ```
 
 ### Größe
@@ -779,7 +783,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Konfirmatorische Faktorenanalys
 
 ### Datensatz laden
 ```{r, eval=FALSE}
-load(url("https://pandar.netlify.app/post/conspiracy_cfa.rda"))
+load(url("https://pandar.netlify.app/daten/conspiracy_cfa.rda"))
 ```
 
 ### Größe
@@ -838,7 +842,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/post/metaan
 ### Datensatz laden
 ```{r, results="hide"}
 library(metafor)
-load(url('https://pandar.netlify.app/post/preprocessing/reliabilites.molloy2014.rda'))
+load(url('https://pandar.netlify.app/daten/preprocessing/reliabilites.molloy2014.rda'))
 ```
 
 Im nächsten Schritt sollte der Datensatz mit den Reliabilitäten und der ursprüngliche Datensatz zusammen gefasst werden. Dafür gibt es einige Möglichkeiten. Hier ist ein Beispiel aufgeführt: 
@@ -980,7 +984,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Wiederholung von Grundlagen in 
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/mach.rda"))
+load(url("https://pandar.netlify.app/daten/mach.rda"))
 ```
 
 ### Größe
@@ -1067,7 +1071,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Loops und Funktionen](/post/loo
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/mdbf.rda"))
+load(url("https://pandar.netlify.app/daten/mdbf.rda"))
 ```
 
 ### Größe
@@ -1163,7 +1167,7 @@ Auf `pandaR` wird der Datensatz in dem [Quiz 5](/post/bsc7-daten/#Quiz5) für Ps
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/nature.rda"))
+load(url("https://pandar.netlify.app/daten/nature.rda"))
 ```
 
 ### Größe
@@ -1194,7 +1198,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Regression IV: quadratische und
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/PISA2009.rda"))
+load(url("https://pandar.netlify.app/daten/PISA2009.rda"))
 ```
 
 ### Größe
@@ -1277,7 +1281,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Hauptkomponentenanalyse](/post/
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/PCA.RData"))
+load(url("https://pandar.netlify.app/daten/PCA.RData"))
 ```
 
 ### Größe
@@ -1455,7 +1459,7 @@ Auf `pandaR` wird der Datensatz in den Tutorials [Partial- & Semipartialkorrelat
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/Schulleistungen.rda"))
+load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
 ```
 
 ### Größe
@@ -1488,7 +1492,7 @@ Auf `pandaR` wird der Datensatz in den Tutorials [Multivariate Varianzanalyse](/
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/Therapy.rda"))
+load(url("https://pandar.netlify.app/daten/Therapy.rda"))
 ```
 
 ### Größe
@@ -1522,7 +1526,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Logistische Regressionsanalyse]
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/Titanic.rda"))
+load(url("https://pandar.netlify.app/daten/Titanic.rda"))
 ```
 
 ### Größe
