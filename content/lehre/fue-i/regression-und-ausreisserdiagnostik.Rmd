@@ -907,22 +907,34 @@ ggplot(data = df_CD, aes(x = CD)) +
 
 ### Appendix D {#AppendixD}
 
-<details><summary><b>Multikollinearität und Standardfehler</b></summary>
+<details><summary><b>Multikollinearität und Standardfehler</b><em>fb23</em></summary>
 
 Dies ist der Appendix A der Bachelor Sitzung zu Voraussetzungen der Regression von [Julien Irmer](/authors/irmer).
 
 Im Folgenden stehen $\beta$s für _**unstandardisierte**_ Regressionskoeffizienten.
 
-Für eine einfache Regressionsgleichung mit {{< math >}}$$Y_i=\beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + \varepsilon_i$${{</ math >}}
-kann die selbe Gleichung auch in Matrixnotation formuliert werden {{< math >}}$$Y = X\beta + \varepsilon.$${{</ math >}} Hier ist $X$ die Systemmatrix, welche die Zeilenvektoren {{< math >}}$X_i=(1, x_{i1}, x_{i2})${{</ math >}} enthält. Die Standardfehler, welche die Streuung der Parameter {{< math >}}$\beta:=(\beta_0,\beta_1,\beta_2)${{</ math >}} beschreiben, lassen sich wie folgt ermitteln. Wir bestimmen zunächst die Matrix $I$ wie folgt
-{{< math >}}$$I:=(X'X)^{-1}\hat{\sigma}^2_e,$${{</ math >}}
-wobei {{< math >}}$\hat{\sigma}^2_e${{</ math >}} die Residualvarianz unserer Regressionsanalyse ist (also der nicht-erklärte Anteil an der Varianz von $Y$). Aus der Matrix $I$ erhalten wir die Standardfehler sehr einfach: Sie stehen im Quadrat auf der Diagonalen. Das heißt, die Standardfehler sind {{< math >}}$SE(\beta)=\sqrt{\text{diag}(I)}${{</ math >}} (Wir nehmen mit $\text{diag}$ die Diagonalelemente aus $I$ und ziehen aus diesen jeweils die Wurzel: der erste Eintrag ist der $SE$ von $\beta_0$; also {{< math >}}$SE(\beta_0)=\sqrt{I_{11}}${{</ math >}}; der zweite von {{< math >}}$\beta_1$;$SE(\beta_1)=\sqrt{I_{22}}${{</ math >}}; usw.). Was hat das nun mit der Kollinearität zu tun? Wir wissen, dass in $X'X$ die Information über die Kovariation im Datensatz steckt (*dafür muss nur noch durch die Stichprobengröße geteilt werden und das Vektorprodukt der Mittelwerte abgezogen werden; damit wir eine Zentrierung um den Mittelwert sowie eine Normierung an der Stichprobengröße vorgenommen*). Beispielsweise lässt sich die empirische Kovarianzmatrix $S$ zweier Variablen $z_1$ und $z_2$ sehr einfach bestimmen mit {{< math >}}$Z:=(z_1, z_2)${{</ math >}}:
+Für eine einfache Regressionsgleichung mit 
+{{< math >}}
+$$Y_i=\beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + \varepsilon_i$$
+{{</ math >}}
+
+kann die selbe Gleichung auch in Matrixnotation formuliert werden 
+{{< math >}}
+$$Y = X\beta + \varepsilon.$$
+{{</ math >}}
+Hier ist $X$ die Systemmatrix, welche die Zeilenvektoren $X_i=(1, x_{i1}, x_{i2})$ enthält. Die Standardfehler, welche die Streuung der Parameter $\beta:=(\beta_0,\beta_1,\beta_2)$ beschreiben, lassen sich wie folgt ermitteln. Wir bestimmen zunächst die Matrix $I$ wie folgt
+{{< math >}}
+$$I:=(X'X)^{-1}\hat{\sigma}^2_e,$$
+{{</ math >}}
+
+wobei $\hat{\sigma}^2_e$ die Residualvarianz unserer Regressionsanalyse ist (also der nicht-erklärte Anteil an der Varianz von $Y$). Aus der Matrix $I$ erhalten wir die Standardfehler sehr einfach: Sie stehen im Quadrat auf der Diagonalen. Das heißt, die Standardfehler sind $SE(\beta)=\sqrt{\text{diag}(I)}$ (Wir nehmen mit $\text{diag}$ die Diagonalelemente aus $I$ und ziehen aus diesen jeweils die Wurzel: der erste Eintrag ist der $SE$ von $\beta_0$; also $SE(\beta_0)=\sqrt{I_{11}}$; der zweite von $\beta_1$;$SE(\beta_1)=\sqrt{I_{22}}$; usw.). Was hat das nun mit der Kollinearität zu tun? Wir wissen, dass in $X'X$ die Information über die Kovariation im Datensatz steckt (*dafür muss nur noch durch die Stichprobengröße geteilt werden und das Vektorprodukt der Mittelwerte abgezogen werden; damit wir eine Zentrierung um den Mittelwert sowie eine Normierung an der Stichprobengröße vorgenommen*). Beispielsweise lässt sich die empirische Kovarianzmatrix $S$ zweier Variablen $z_1$ und $z_2$ sehr einfach bestimmen mit $Z:=(z_1, z_2)$:
 {{< math >}}
 $$ S=\frac{1}{n}Z'Z - \begin{pmatrix}\overline{z}_1\\\overline{z}_2 \end{pmatrix}\begin{pmatrix}\overline{z}_1&\overline{z}_2 \end{pmatrix}.$$
 {{</ math >}}
+
 Weitere Informationen hierzu (Kovarianzmatrix und Standardfehler) sind im Appendix B (sowie auch in einigen Kapiteln von [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) Unterpunkt 5.2-5.4 bzw. ab Seite 1058) nachzulesen. 
 
-Insgesamt bedeutet dies, dass die Standardfehler von der Inversen der Kovarianzmatrix unserer Daten sowie von der Residualvarianz abhängen. Sie sind also groß, wenn die Residualvarianz groß ist (damit ist die Vorhersage von $Y$ schlecht) oder wenn die Inverse der Kovarianzmatrix groß ist (also wenn die Variablen stark redundant sind und somit hoch miteinander korrelieren). Nehmen wir dazu der Einfachheit halber an, dass {{< math >}}$\hat{\sigma}_e^2=1${{</ math >}} (es geht hier nur um eine numerische Präsentation der Effekte, nicht um ein sinnvolles Modell) sowie {{< math >}}$n = 100${{</ math >}} (Stichprobengröße). Zusätzlich gehen wir von zentrierten Variablen (Mittelwert von 0) aus. Dann lässt sich aus $X'X$ durch Division durch $100$ die Kovarianzmatrix der Variablen bestimmen. Wir gucken uns drei Fälle an:
+Insgesamt bedeutet dies, dass die Standardfehler von der Inversen der Kovarianzmatrix unserer Daten sowie von der Residualvarianz abhängen. Sie sind also groß, wenn die Residualvarianz groß ist (damit ist die Vorhersage von $Y$ schlecht) oder wenn die Inverse der Kovarianzmatrix groß ist (also wenn die Variablen stark redundant sind und somit hoch miteinander korrelieren). Nehmen wir dazu der Einfachheit halber an, dass $\hat{\sigma}_e^2=1$ (es geht hier nur um eine numerische Präsentation der Effekte, nicht um ein sinnvolles Modell) sowie $n = 100$ (Stichprobengröße). Zusätzlich gehen wir von zentrierten Variablen (Mittelwert von 0) aus. Dann lässt sich aus $X'X$ durch Division durch $100$ die Kovarianzmatrix der Variablen bestimmen. Wir gucken uns drei Fälle an:
 
 {{< math >}}
 \begin{align*}

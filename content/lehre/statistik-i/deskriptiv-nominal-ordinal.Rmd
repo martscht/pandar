@@ -44,7 +44,8 @@ output:
 ```
 
 
-{{< spoiler text="Kernfragen dieser Lehreinheit" >}}
+<details><summary>Kernfragen dieser Lehreinheit</summary>
+
 * Wie werden **Häufigkeitstabellen** erstellt?  
 * Wie können aus absoluten Häufigkeitstabellen **relative Häufigkeitstabellen** gemacht werden?  
 * Wie können **Modus und Median** bestimmt werden?  
@@ -52,7 +53,8 @@ output:
 * Welche Befehle können genutzt werden, um **Balken-, Kuchendiagramme und Histogramme** zu erzeugen?  
 * Welche Möglichkeiten gibt es, um **Grafiken anzupassen**?  
 * Wie können **Grafiken gespeichert** werden?
-{{< /spoiler >}}
+
+</details>
 
 ***
 
