@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler, buchholz]
 weight:
-lastmod: '2023-10-13'
+lastmod: '2023-11-01'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -38,12 +38,12 @@ output:
 
 ### Vorbereitung
 
-> Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/deskriptiv-intervall/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb23` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb23.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/deskriptiv-intervall/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 
 ## Aufgabe 1
 
-Erstellen Sie im Datensatz `fb22` die Skalenwerte für die Naturverbundenheit, die mit den Items nr1 bis nr6 gemessen wurde. Keines der Items ist invertiert.
+Erstellen Sie im Datensatz `fb23` die Skalenwerte für die Naturverbundenheit, die mit den Items nr1 bis nr6 gemessen wurde. Keines der Items ist invertiert.
 
 
 * Erstellen Sie den Skalenwert als Mittelwert der sechs Items.

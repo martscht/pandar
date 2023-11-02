@@ -6,10 +6,10 @@ slug: verteilungen
 categories: ["Statistik I"] 
 tags: ["Verteilungen", "Normalverteilung"]
 subtitle: ''
-summary: '' 
+summary: 'In diesem Post lernt ihr, Zufallsexperimente und Bernoulli-Experimente zu simulieren, eine Binomialverteilung darzustellen sowie Wahrscheinlichkeitverteilungen und Verteilungsfunktionen zu erstellen. Außerdem erfahrt ihr, wie man Dichte- und Verteilungsfunktionen erstellt und wie man eine empirisch erhobene Variable gegen die Normalverteilung abtragen kann.' 
 authors: [nehler] 
 weight: 4
-lastmod: '2023-10-06'
+lastmod: '2023-10-19'
 featured: no
 banner:
   image: "/header/six_sided_dice.png"
@@ -59,7 +59,7 @@ Der Datensatz ist in diesem Tutorial nicht zentral und kommt erst im letzten Abs
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb22.rda'))  
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb22$geschl_faktor <- factor(fb22$geschl,
@@ -376,7 +376,8 @@ Anmerkung: Grafiken mit gefärbten Bestandteilen werden hier zu didaktischen Zwe
 Neben der genauen Erfolgszahl gibt es auch häufig Fragestellungen, die sich mit Bereichen befassen: Wie wahrscheinlich ist es, dass höchstens 20 Mal grün gedreht wird bei 100 Versuchen? In unserem Plot der Wahrscheinlichkeitsverteilung würde der erfragte Wert die Summe der Werte vieler Balken sein. 
 
 ![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
-`{{% intext_anchor "Verteilung" %}}`{=html}
+
+{{< intext_anchor Verteilungen >}}
 Eine solche Frage kann mit Hilfe der *Verteilungsfunktion* der Binomialverteilung beantwortet werden. Hier werden die Werte der niedrigeren Zahlen *kumuliert* - das bedeutet aufaddiert. 
 
 Auch hierfür ist in R eine Funktion definiert mit dem Namen `pbinom()`. `q` gibt nun die Zahl an, bis zu der alle Wahrscheinlichkeiten aufaddiert werden. `size` und `prob` erhalten ihre Bedeutung. `lower.tail = TRUE` (Standardeinstellung) sorgt für eine Aufaddierung der Werte startend bei 0 (also 0 bis 20 Mal grün). Bei `lower.tail = FALSE` würde von der anderen Seite, also der `size` zugeordneten Zahl, begonnen werden. Die Aufaddierung der Werte geht dann von dem maximalen Wert (also $n$ und in diesem Fall 100) bis zu dem Wert `1 + q` (21 bis 100 Mal grün). 
@@ -567,7 +568,9 @@ rnorm(10,mean = 100,sd = 15)
 ```
 
 ```
-##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336  91.34905 110.82285 109.28648 100.31509 104.12275
+##  [1] 114.52734 129.48052 113.29484 100.45810
+##  [5] 114.24336  91.34905 110.82285 109.28648
+##  [9] 100.31509 104.12275
 ```
 
 ***
@@ -598,7 +601,7 @@ curve(dnorm(x, mean=mean(fb22$nerd), sd=sd(fb22$nerd)), add=T)
 
 Im Plot sieht man recht gut, dass es kleine Abweichungen der wirklichen empirischen Verteilung von der perfekten Form der Normalverteilung gibt. Kleinere Abweichungen sind jedoch zu erwarten und sollten nicht zu hoch eingestuft werden. Leider wird es bei der optischen Prüfung keine perfekt objektive Lösung geben, doch je mehr Plots man im Laufe der Forschungskarriere betrachtet, umso besser kann man auch diese Verläufe einordnen. 
 
-Eine zweite Möglichkeit ist das Erstellen eines sogenannten QQ-Plots (steht für quantile-quantile). Auf der x-Achse sind diejenige Positionen notiert, die unter Gültigkeit der theoretischen Form der Normalverteilung zu erwarten wären. Auf der y-Achse wird die beobachtete Position eines Messwerts abgetragen. Damit die Werte die gleiche Skalierung haben und damit einfacher interpretierbar sind, standardisieren wir zunächst unsere Variable `neuro`. Hierür erstellen wir eine neue Variable `neuro_std` in unserem Datensatz. Codetechnisch ist ein QQ-Plot dann schnell erstellt. Mit `qqnorm()` zeichnet man die Punkte, während `qqline()` als Unterstützung nochmal die Linien durch die Mitte zeichnet.
+Eine zweite Möglichkeit ist das Erstellen eines sogenannten QQ-Plots (steht für quantile-quantile). Auf der x-Achse sind diejenige Positionen notiert, die unter Gültigkeit der theoretischen Form der Normalverteilung zu erwarten wären. Auf der y-Achse wird die beobachtete Position eines Messwerts abgetragen. Damit die Werte die gleiche Skalierung haben und damit einfacher interpretierbar sind, standardisieren wir zunächst unsere Variable `neuro`. Hierfür erstellen wir eine neue Variable `neuro_std` in unserem Datensatz. Codetechnisch ist ein QQ-Plot dann schnell erstellt. Mit `qqnorm()` zeichnet man die Punkte, während `qqline()` als Unterstützung nochmal die Linien durch die Mitte zeichnet.
 
 
 ```r
