@@ -7,7 +7,7 @@ categories: ["Statistik I"]
 tags: ["Zusatz", "Gruppenprojekt", "Grundlagen"] 
 subtitle: ''
 summary: '' 
-authors: [nehler, beitner, schüller, schultze]
+authors: [nehler, beitner, schueller, schultze]
 weight: 12
 lastmod: '`r Sys.Date()`'
 featured: no
