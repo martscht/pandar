@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer, hartig] 
 weight: 2
-lastmod: '2023-10-31'
+lastmod: '2023-11-02'
 featured: no
 banner:
   image: "/header/frog_overencumbered.jpg"
@@ -90,20 +90,13 @@ head(Schulleistungen)
 ```
 
 ```
-##   female        IQ  reading
-## 1      1  81.77950 449.5884
-## 2      1 106.75898 544.8495
-## 3      0  99.14033 331.3466
-## 4      1 111.91499 531.5384
-## 5      1 116.12682 604.3759
-## 6      0 106.14127 308.7457
-##       math
-## 1 451.9832
-## 2 589.6540
-## 3 509.3267
-## 4 560.4300
-## 5 659.4524
-## 6 602.8577
+##   female        IQ  reading     math
+## 1      1  81.77950 449.5884 451.9832
+## 2      1 106.75898 544.8495 589.6540
+## 3      0  99.14033 331.3466 509.3267
+## 4      1 111.91499 531.5384 560.4300
+## 5      1 116.12682 604.3759 659.4524
+## 6      0 106.14127 308.7457 602.8577
 ```
 
 Wir erkennen die 4 Spalten mit dem Geschlecht, dem IQ, der Lese- und der Mathematikleistung. 
@@ -152,10 +145,8 @@ lm(reading ~ 1 + female + IQ, data = Schulleistungen)
 ## lm(formula = reading ~ 1 + female + IQ, data = Schulleistungen)
 ## 
 ## Coefficients:
-## (Intercept)       female  
-##      88.209       38.470  
-##          IQ  
-##       3.944
+## (Intercept)       female           IQ  
+##      88.209       38.470        3.944
 ```
 
 Hierbei zeigt die Tilde (`~`) auf, welche Variable die AV ist (sie steht links der Tilde), welche die UVs sind (sie stehen rechts der Tilde und werden durch `+` getrennt) und ob das Interzept mitgeschätzt werden soll (per Default wird dieses mitgeschätzt, was bedeutet, dass "`1 +`" redundant ist und daher hier weggelassen werden könnte - nicht mit einbezogen wird das Interzept via "`0 +`"). Diese Notation wird in sehr vielen Modell verwendet, in welchen es um die Beziehung zwischen unabhängigen und abhängigen Variablen geht! Im [Appendix B](#AppendixB) können Sie nachlesen, welche weiteren Befehle zum gleichen Ergebnis führen und wie bspw. explizit das Interzept in die Gleichung mit aufgenommen werden kann (oder darauf verzichtet wird!). 
@@ -178,24 +169,16 @@ summary(our_model)
 ## lm(formula = reading ~ 1 + female + IQ, data = Schulleistungen)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q 
-## -208.779  -64.215   -0.211   58.652 
-##      Max 
-##  174.254 
+##      Min       1Q   Median       3Q      Max 
+## -208.779  -64.215   -0.211   58.652  174.254 
 ## 
 ## Coefficients:
-##             Estimate Std. Error
-## (Intercept)  88.2093    56.5061
-## female       38.4705    17.3863
-## IQ            3.9444     0.5529
-##             t value Pr(>|t|)    
-## (Intercept)   1.561   0.1218    
-## female        2.213   0.0293 *  
-## IQ            7.134 1.77e-10 ***
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  88.2093    56.5061   1.561   0.1218    
+## female       38.4705    17.3863   2.213   0.0293 *  
+## IQ            3.9444     0.5529   7.134 1.77e-10 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*'
-##   0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 86.34 on 97 degrees of freedom
 ## Multiple R-squared:  0.3555,	Adjusted R-squared:  0.3422 
@@ -215,28 +198,16 @@ summary(lm.beta(our_model))
 ## lm(formula = reading ~ 1 + female + IQ, data = Schulleistungen)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q 
-## -208.779  -64.215   -0.211   58.652 
-##      Max 
-##  174.254 
+##      Min       1Q   Median       3Q      Max 
+## -208.779  -64.215   -0.211   58.652  174.254 
 ## 
 ## Coefficients:
-##             Estimate Standardized
-## (Intercept)  88.2093           NA
-## female       38.4705       0.1810
-## IQ            3.9444       0.5836
-##             Std. Error t value
-## (Intercept)    56.5061   1.561
-## female         17.3863   2.213
-## IQ              0.5529   7.134
-##             Pr(>|t|)    
-## (Intercept)   0.1218    
-## female        0.0293 *  
-## IQ          1.77e-10 ***
+##             Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)  88.2093           NA    56.5061   1.561   0.1218    
+## female       38.4705       0.1810    17.3863   2.213   0.0293 *  
+## IQ            3.9444       0.5836     0.5529   7.134 1.77e-10 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*'
-##   0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 86.34 on 97 degrees of freedom
 ## Multiple R-squared:  0.3555,	Adjusted R-squared:  0.3422 
@@ -257,28 +228,16 @@ our_model |> lm.beta() |> summary()
 ## lm(formula = reading ~ 1 + female + IQ, data = Schulleistungen)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q 
-## -208.779  -64.215   -0.211   58.652 
-##      Max 
-##  174.254 
+##      Min       1Q   Median       3Q      Max 
+## -208.779  -64.215   -0.211   58.652  174.254 
 ## 
 ## Coefficients:
-##             Estimate Standardized
-## (Intercept)  88.2093           NA
-## female       38.4705       0.1810
-## IQ            3.9444       0.5836
-##             Std. Error t value
-## (Intercept)    56.5061   1.561
-## female         17.3863   2.213
-## IQ              0.5529   7.134
-##             Pr(>|t|)    
-## (Intercept)   0.1218    
-## female        0.0293 *  
-## IQ          1.77e-10 ***
+##             Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)  88.2093           NA    56.5061   1.561   0.1218    
+## female       38.4705       0.1810    17.3863   2.213   0.0293 *  
+## IQ            3.9444       0.5836     0.5529   7.134 1.77e-10 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*'
-##   0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 86.34 on 97 degrees of freedom
 ## Multiple R-squared:  0.3555,	Adjusted R-squared:  0.3422 
@@ -323,7 +282,7 @@ mean(x = our_model$residuals) # Mittelwert mit Referenzierung aus dem lm Objekt 
 ```
 
 ```
-## [1] 2.18485e-15
+## [1] 1.048103e-15
 ```
 Mit Hilfe der `quantile` Funktion können wir beliebige Prozentränge eines Vektors anfordern. Hierbei gibt `resid(our_model)` (genauso wie `our_model$residuals`) einen Vektor mit Residuen aus. Indem wir `probs` z.B. auf `.01` setzen, würden wir den 1. Prozentrang (1%) erhalten.
 
@@ -376,18 +335,10 @@ summary_our_model$coefficients # Koeffiziententabelle
 ```
 
 ```
-##             Estimate Standardized
-## (Intercept) 88.20929           NA
-## female      38.47046    0.1810138
-## IQ           3.94442    0.5836188
-##             Std. Error  t value
-## (Intercept) 56.5060958 1.561058
-## female      17.3863424 2.212683
-## IQ           0.5528999 7.134059
-##                 Pr(>|t|)
-## (Intercept) 1.217669e-01
-## female      2.926502e-02
-## IQ          1.765181e-10
+##             Estimate Standardized Std. Error  t value     Pr(>|t|)
+## (Intercept) 88.20929           NA 56.5060958 1.561058 1.217669e-01
+## female      38.47046    0.1810138 17.3863424 2.212683 2.926502e-02
+## IQ           3.94442    0.5836188  0.5528999 7.134059 1.765181e-10
 ```
 
 ```r
@@ -395,11 +346,8 @@ names(summary_our_model)      # weitere mögliche Argumente, die wir erhalten k�
 ```
 
 ```
-##  [1] "call"          "terms"        
-##  [3] "residuals"     "coefficients" 
-##  [5] "aliased"       "sigma"        
-##  [7] "df"            "r.squared"    
-##  [9] "adj.r.squared" "fstatistic"   
+##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"      
+##  [6] "sigma"         "df"            "r.squared"     "adj.r.squared" "fstatistic"   
 ## [11] "cov.unscaled"
 ```
 
@@ -461,14 +409,10 @@ residualPlots(our_model, pch = 16)
 <img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
 
 ```
-##            Test stat
-## female        0.0340
-## IQ            1.4015
-## Tukey test    0.5234
-##            Pr(>|Test stat|)
-## female               0.9730
-## IQ                   0.1643
-## Tukey test           0.6007
+##            Test stat Pr(>|Test stat|)
+## female        0.0207           0.9835
+## IQ            1.4015           0.1643
+## Tukey test    0.5234           0.6007
 ```
 
 Da die Plots alle recht unsystematisch aussehen und die nichtlinearen Effekte nicht signifikant sind, spricht all dies für die Homoskedastizitätsannahme.
@@ -522,8 +466,7 @@ ks.test(x = res, y = "pnorm")
 
 ```
 ## 
-## 	Asymptotic one-sample
-## 	Kolmogorov-Smirnov test
+## 	Asymptotic one-sample Kolmogorov-Smirnov test
 ## 
 ## data:  res
 ## D = 0.032672, p-value = 0.9999
@@ -550,28 +493,18 @@ summary(quad_int_model)
 ## lm(formula = reading ~ 1 + female * IQ + I(IQ^2), data = Schulleistungen)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q 
-## -211.971  -54.872    6.851   54.419 
-##      Max 
-##  175.129 
+##      Min       1Q   Median       3Q      Max 
+## -211.971  -54.872    6.851   54.419  175.129 
 ## 
 ## Coefficients:
-##              Estimate Std. Error
-## (Intercept) 383.78629  240.50423
-## female      251.40639  109.39663
-## IQ           -3.60177    5.02462
-## I(IQ^2)       0.04479    0.02622
-## female:IQ    -2.14684    1.09789
-##             t value Pr(>|t|)  
-## (Intercept)   1.596   0.1139  
-## female        2.298   0.0237 *
-## IQ           -0.717   0.4752  
-## I(IQ^2)       1.708   0.0908 .
-## female:IQ    -1.955   0.0535 .
+##              Estimate Std. Error t value Pr(>|t|)  
+## (Intercept) 383.78629  240.50423   1.596   0.1139  
+## female      251.40639  109.39663   2.298   0.0237 *
+## IQ           -3.60177    5.02462  -0.717   0.4752  
+## I(IQ^2)       0.04479    0.02622   1.708   0.0908 .
+## female:IQ    -2.14684    1.09789  -1.955   0.0535 .
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*'
-##   0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 84.68 on 95 degrees of freedom
 ## Multiple R-squared:  0.3928,	Adjusted R-squared:  0.3673 
@@ -876,55 +809,20 @@ MD
 ```
 
 ```
-##   [1]  0.88733518  0.21566377
-##   [3]  2.41458442  0.13177919
-##   [5]  1.27927630  4.28965128
-##   [7]  0.03451167  0.33661264
-##   [9]  9.62502968  1.22925996
-##  [11]  3.44404519  1.06648706
-##  [13]  1.47842392  1.83106572
-##  [15]  4.29879647 22.89143112
-##  [17]  0.21555167  0.49834275
-##  [19]  2.65724843  1.81949191
-##  [21]  2.12850866  1.31066833
-##  [23]  0.14334729  0.15748576
-##  [25]  1.71430321  1.74615142
-##  [27]  1.00646134  0.17988251
-##  [29]  5.04513115  7.14678462
-##  [31]  0.16464887  7.01861572
-##  [33]  4.85177478  1.19043337
-##  [35]  2.72462931  4.34611563
-##  [37]  0.52793945  0.80019408
-##  [39]  0.74740206  0.57368396
-##  [41]  0.28016792  6.27035221
-##  [43]  4.07657057  0.04345642
-##  [45]  0.81076314  2.97056512
-##  [47]  2.10323417  1.08103246
-##  [49]  0.60950451  2.90704907
-##  [51]  0.10986424  6.09359260
-##  [53]  0.94728160  2.35683503
-##  [55]  0.03620534  0.40241153
-##  [57]  1.62654030  1.72697393
-##  [59]  3.75760606  1.46629223
-##  [61]  0.71323544  0.41142182
-##  [63]  0.39965918  0.61656862
-##  [65]  0.37536805  0.22094404
-##  [67]  3.04527077  0.27381745
-##  [69]  0.79358572  3.86151524
-##  [71]  3.19370574  0.19468438
-##  [73]  0.29354422  2.35326071
-##  [75]  0.95634005  0.07240648
-##  [77]  1.92700957  1.44365936
-##  [79]  0.12899197  4.04487099
-##  [81]  0.42931176  0.05394028
-##  [83]  4.83779128  0.15390664
-##  [85]  2.20766936  1.27108100
-##  [87]  0.37456784  0.20895062
-##  [89]  1.47329914  1.26292357
-##  [91]  1.25364137  0.67270315
-##  [93]  0.85951141  4.25348827
-##  [95]  0.28156897  0.18421086
-##  [97]  0.47650958  0.13256756
+##   [1]  0.88733518  0.21566377  2.41458442  0.13177919  1.27927630  4.28965128  0.03451167
+##   [8]  0.33661264  9.62502968  1.22925996  3.44404519  1.06648706  1.47842392  1.83106572
+##  [15]  4.29879647 22.89143112  0.21555167  0.49834275  2.65724843  1.81949191  2.12850866
+##  [22]  1.31066833  0.14334729  0.15748576  1.71430321  1.74615142  1.00646134  0.17988251
+##  [29]  5.04513115  7.14678462  0.16464887  7.01861572  4.85177478  1.19043337  2.72462931
+##  [36]  4.34611563  0.52793945  0.80019408  0.74740206  0.57368396  0.28016792  6.27035221
+##  [43]  4.07657057  0.04345642  0.81076314  2.97056512  2.10323417  1.08103246  0.60950451
+##  [50]  2.90704907  0.10986424  6.09359260  0.94728160  2.35683503  0.03620534  0.40241153
+##  [57]  1.62654030  1.72697393  3.75760606  1.46629223  0.71323544  0.41142182  0.39965918
+##  [64]  0.61656862  0.37536805  0.22094404  3.04527077  0.27381745  0.79358572  3.86151524
+##  [71]  3.19370574  0.19468438  0.29354422  2.35326071  0.95634005  0.07240648  1.92700957
+##  [78]  1.44365936  0.12899197  4.04487099  0.42931176  0.05394028  4.83779128  0.15390664
+##  [85]  2.20766936  1.27108100  0.37456784  0.20895062  1.47329914  1.26292357  1.25364137
+##  [92]  0.67270315  0.85951141  4.25348827  0.28156897  0.18421086  0.47650958  0.13256756
 ##  [99]  8.26520343  0.18224578
 ```
 
@@ -991,10 +889,8 @@ our_next_model
 ## lm(formula = math ~ reading + IQ, data = Schulleistungen)
 ## 
 ## Coefficients:
-## (Intercept)      reading  
-##    58.17167     -0.03585  
-##          IQ  
-##     5.30982
+## (Intercept)      reading           IQ  
+##    58.17167     -0.03585      5.30982
 ```
 
 Nun schätzen wir diese Parameter zu Fuß:
@@ -1007,8 +903,7 @@ head(y)
 ```
 
 ```
-## [1] 451.9832 589.6540 509.3267
-## [4] 560.4300 659.4524 602.8577
+## [1] 451.9832 589.6540 509.3267 560.4300 659.4524 602.8577
 ```
 
 ```r
@@ -1064,14 +959,10 @@ XX
 ```
 
 ```
-##                      reading
-##           100.000    49606.6
-## reading 49606.605 25730126.1
-## IQ       9813.425  4962448.1
-##                  IQ
-##            9813.425
-## reading 4962448.077
-## IQ       987595.824
+##                      reading          IQ
+##           100.000    49606.6    9813.425
+## reading 49606.605 25730126.1 4962448.077
+## IQ       9813.425  4962448.1  987595.824
 ```
 
 #### 2. Berechnung der Inversen der Kreuzproduktsumme $(X'X)^{-1}$
@@ -1085,14 +976,10 @@ solve(XX)
 ```
 
 ```
-##                             reading
-##          0.4207610612 -1.568521e-04
-## reading -0.0001568521  1.316437e-06
-## IQ      -0.0033928220 -5.056210e-06
-##                    IQ
-##         -3.392822e-03
-## reading -5.056210e-06
-## IQ       6.013228e-05
+##                             reading            IQ
+##          0.4207610612 -1.568521e-04 -3.392822e-03
+## reading -0.0001568521  1.316437e-06 -5.056210e-06
+## IQ      -0.0033928220 -5.056210e-06  6.013228e-05
 ```
 
 {{< math >}}
@@ -1157,8 +1044,7 @@ head(y_hat)
 ```
 
 ```
-## [1] 476.2897 605.5115 572.7112
-## [4] 633.3661 653.1192 610.6951
+## [1] 476.2897 605.5115 572.7112 633.3661 653.1192 610.6951
 ```
 
 {{< math >}}
@@ -1271,10 +1157,8 @@ lm(reading ~ 1 + female + IQ, data = Schulleistungen)
 ## lm(formula = reading ~ 1 + female + IQ, data = Schulleistungen)
 ## 
 ## Coefficients:
-## (Intercept)       female  
-##      88.209       38.470  
-##          IQ  
-##       3.944
+## (Intercept)       female           IQ  
+##      88.209       38.470        3.944
 ```
 
 Das Interzept kann explizit mit angegeben werden (falls Sie `0 +` schreiben, setzen Sie das Interzept auf 0, was sich entsprechend auf die Parameterschätzungen auswirken wird, falls das Interzept von 0 verschieden ist!):
@@ -1307,10 +1191,8 @@ lm(reading ~ female + IQ, data = Schulleistungen)
 ## lm(formula = reading ~ female + IQ, data = Schulleistungen)
 ## 
 ## Coefficients:
-## (Intercept)       female  
-##      88.209       38.470  
-##          IQ  
-##       3.944
+## (Intercept)       female           IQ  
+##      88.209       38.470        3.944
 ```
 
 Mit `formula` benutzen wir nicht die Position in der Funktion, sondern das Argument für die Formel: 
@@ -1325,10 +1207,8 @@ lm(formula = 1 + reading ~ female + IQ, data = Schulleistungen)
 ## lm(formula = 1 + reading ~ female + IQ, data = Schulleistungen)
 ## 
 ## Coefficients:
-## (Intercept)       female  
-##      89.209       38.470  
-##          IQ  
-##       3.944
+## (Intercept)       female           IQ  
+##      89.209       38.470        3.944
 ```
 Wir können also auch einfach die Reihenfolge umdrehen, solange wir Argumente benutzen: 
 
@@ -1342,10 +1222,8 @@ lm(data = Schulleistungen, formula = 1 + reading ~ female + IQ)
 ## lm(formula = 1 + reading ~ female + IQ, data = Schulleistungen)
 ## 
 ## Coefficients:
-## (Intercept)       female  
-##      89.209       38.470  
-##          IQ  
-##       3.944
+## (Intercept)       female           IQ  
+##      89.209       38.470        3.944
 ```
 
 Die Formel kann auch in Anführungszeichen geschrieben werden:
@@ -1360,10 +1238,8 @@ lm("reading ~ 1 + female + IQ", data = Schulleistungen)
 ## lm(formula = "reading ~ 1 + female + IQ", data = Schulleistungen)
 ## 
 ## Coefficients:
-## (Intercept)       female  
-##      88.209       38.470  
-##          IQ  
-##       3.944
+## (Intercept)       female           IQ  
+##      88.209       38.470        3.944
 ```
 
 Wir können auf die Datensatzspezifizierung verzichten, indem wir die Variablen direkt ansprechen (es ändern sich entsprechend die Namen der Koeffizienten im Output):
@@ -1379,12 +1255,8 @@ lm(Schulleistungen$reading ~ 1 + Schulleistungen$female + Schulleistungen$IQ)
 ##     Schulleistungen$IQ)
 ## 
 ## Coefficients:
-##            (Intercept)  
-##                 88.209  
-## Schulleistungen$female  
-##                 38.470  
-##     Schulleistungen$IQ  
-##                  3.944
+##            (Intercept)  Schulleistungen$female      Schulleistungen$IQ  
+##                 88.209                  38.470                   3.944
 ```
 
 Wir können auch neue Variablen definieren, um diese dann direkt anzusprechen (es ändern sich entsprechend die Namen der Koeffizienten):
@@ -1403,10 +1275,8 @@ lm(AV ~ 1 + UV1 + UV2)
 ## lm(formula = AV ~ 1 + UV1 + UV2)
 ## 
 ## Coefficients:
-## (Intercept)          UV1  
-##      88.209       38.470  
-##         UV2  
-##       3.944
+## (Intercept)          UV1          UV2  
+##      88.209       38.470        3.944
 ```
 
 Selbstverständlich gibt es auch noch weitere Befehle, die zum selben Ergebnis kommen. Sie sehen, dass Sie in `R` in vielen Bereichen mit leicht unterschiedlichem Code zum selben Ergebnis gelangen!
@@ -1481,22 +1351,34 @@ ggplot(data = df_CD, aes(x = CD)) +
 
 ### Appendix D {#AppendixD}
 
-<details><summary><b>Multikollinearität und Standardfehler</b></summary>
+<details><summary><b>Multikollinearität und Standardfehler</b><em>fb23</em></summary>
 
 Dies ist der Appendix A der Bachelor Sitzung zu Voraussetzungen der Regression von [Julien Irmer](/authors/irmer).
 
 Im Folgenden stehen $\beta$s für _**unstandardisierte**_ Regressionskoeffizienten.
 
-Für eine einfache Regressionsgleichung mit {{< math >}}$$Y_i=\beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + \varepsilon_i$${{</ math >}}
-kann die selbe Gleichung auch in Matrixnotation formuliert werden {{< math >}}$$Y = X\beta + \varepsilon.$${{</ math >}} Hier ist $X$ die Systemmatrix, welche die Zeilenvektoren {{< math >}}$X_i=(1, x_{i1}, x_{i2})${{</ math >}} enthält. Die Standardfehler, welche die Streuung der Parameter {{< math >}}$\beta:=(\beta_0,\beta_1,\beta_2)${{</ math >}} beschreiben, lassen sich wie folgt ermitteln. Wir bestimmen zunächst die Matrix $I$ wie folgt
-{{< math >}}$$I:=(X'X)^{-1}\hat{\sigma}^2_e,$${{</ math >}}
-wobei {{< math >}}$\hat{\sigma}^2_e${{</ math >}} die Residualvarianz unserer Regressionsanalyse ist (also der nicht-erklärte Anteil an der Varianz von $Y$). Aus der Matrix $I$ erhalten wir die Standardfehler sehr einfach: Sie stehen im Quadrat auf der Diagonalen. Das heißt, die Standardfehler sind {{< math >}}$SE(\beta)=\sqrt{\text{diag}(I)}${{</ math >}} (Wir nehmen mit $\text{diag}$ die Diagonalelemente aus $I$ und ziehen aus diesen jeweils die Wurzel: der erste Eintrag ist der $SE$ von $\beta_0$; also {{< math >}}$SE(\beta_0)=\sqrt{I_{11}}${{</ math >}}; der zweite von {{< math >}}$\beta_1$;$SE(\beta_1)=\sqrt{I_{22}}${{</ math >}}; usw.). Was hat das nun mit der Kollinearität zu tun? Wir wissen, dass in $X'X$ die Information über die Kovariation im Datensatz steckt (*dafür muss nur noch durch die Stichprobengröße geteilt werden und das Vektorprodukt der Mittelwerte abgezogen werden; damit wir eine Zentrierung um den Mittelwert sowie eine Normierung an der Stichprobengröße vorgenommen*). Beispielsweise lässt sich die empirische Kovarianzmatrix $S$ zweier Variablen $z_1$ und $z_2$ sehr einfach bestimmen mit {{< math >}}$Z:=(z_1, z_2)${{</ math >}}:
+Für eine einfache Regressionsgleichung mit 
+{{< math >}}
+$$Y_i=\beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + \varepsilon_i$$
+{{</ math >}}
+
+kann die selbe Gleichung auch in Matrixnotation formuliert werden 
+{{< math >}}
+$$Y = X\beta + \varepsilon.$$
+{{</ math >}}
+Hier ist $X$ die Systemmatrix, welche die Zeilenvektoren $X_i=(1, x_{i1}, x_{i2})$ enthält. Die Standardfehler, welche die Streuung der Parameter $\beta:=(\beta_0,\beta_1,\beta_2)$ beschreiben, lassen sich wie folgt ermitteln. Wir bestimmen zunächst die Matrix $I$ wie folgt
+{{< math >}}
+$$I:=(X'X)^{-1}\hat{\sigma}^2_e,$$
+{{</ math >}}
+
+wobei $\hat{\sigma}^2_e$ die Residualvarianz unserer Regressionsanalyse ist (also der nicht-erklärte Anteil an der Varianz von $Y$). Aus der Matrix $I$ erhalten wir die Standardfehler sehr einfach: Sie stehen im Quadrat auf der Diagonalen. Das heißt, die Standardfehler sind $SE(\beta)=\sqrt{\text{diag}(I)}$ (Wir nehmen mit $\text{diag}$ die Diagonalelemente aus $I$ und ziehen aus diesen jeweils die Wurzel: der erste Eintrag ist der $SE$ von $\beta_0$; also $SE(\beta_0)=\sqrt{I_{11}}$; der zweite von $\beta_1$;$SE(\beta_1)=\sqrt{I_{22}}$; usw.). Was hat das nun mit der Kollinearität zu tun? Wir wissen, dass in $X'X$ die Information über die Kovariation im Datensatz steckt (*dafür muss nur noch durch die Stichprobengröße geteilt werden und das Vektorprodukt der Mittelwerte abgezogen werden; damit wir eine Zentrierung um den Mittelwert sowie eine Normierung an der Stichprobengröße vorgenommen*). Beispielsweise lässt sich die empirische Kovarianzmatrix $S$ zweier Variablen $z_1$ und $z_2$ sehr einfach bestimmen mit $Z:=(z_1, z_2)$:
 {{< math >}}
 $$ S=\frac{1}{n}Z'Z - \begin{pmatrix}\overline{z}_1\\\overline{z}_2 \end{pmatrix}\begin{pmatrix}\overline{z}_1&\overline{z}_2 \end{pmatrix}.$$
 {{</ math >}}
+
 Weitere Informationen hierzu (Kovarianzmatrix und Standardfehler) sind im Appendix B (sowie auch in einigen Kapiteln von [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) Unterpunkt 5.2-5.4 bzw. ab Seite 1058) nachzulesen. 
 
-Insgesamt bedeutet dies, dass die Standardfehler von der Inversen der Kovarianzmatrix unserer Daten sowie von der Residualvarianz abhängen. Sie sind also groß, wenn die Residualvarianz groß ist (damit ist die Vorhersage von $Y$ schlecht) oder wenn die Inverse der Kovarianzmatrix groß ist (also wenn die Variablen stark redundant sind und somit hoch miteinander korrelieren). Nehmen wir dazu der Einfachheit halber an, dass {{< math >}}$\hat{\sigma}_e^2=1${{</ math >}} (es geht hier nur um eine numerische Präsentation der Effekte, nicht um ein sinnvolles Modell) sowie {{< math >}}$n = 100${{</ math >}} (Stichprobengröße). Zusätzlich gehen wir von zentrierten Variablen (Mittelwert von 0) aus. Dann lässt sich aus $X'X$ durch Division durch $100$ die Kovarianzmatrix der Variablen bestimmen. Wir gucken uns drei Fälle an:
+Insgesamt bedeutet dies, dass die Standardfehler von der Inversen der Kovarianzmatrix unserer Daten sowie von der Residualvarianz abhängen. Sie sind also groß, wenn die Residualvarianz groß ist (damit ist die Vorhersage von $Y$ schlecht) oder wenn die Inverse der Kovarianzmatrix groß ist (also wenn die Variablen stark redundant sind und somit hoch miteinander korrelieren). Nehmen wir dazu der Einfachheit halber an, dass $\hat{\sigma}_e^2=1$ (es geht hier nur um eine numerische Präsentation der Effekte, nicht um ein sinnvolles Modell) sowie $n = 100$ (Stichprobengröße). Zusätzlich gehen wir von zentrierten Variablen (Mittelwert von 0) aus. Dann lässt sich aus $X'X$ durch Division durch $100$ die Kovarianzmatrix der Variablen bestimmen. Wir gucken uns drei Fälle an:
 
 {{< math >}}
 \begin{align*}

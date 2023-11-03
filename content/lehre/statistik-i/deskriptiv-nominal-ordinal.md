@@ -9,7 +9,7 @@ subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
 authors: [nehler, buchholz]
 weight: 2
-lastmod: '2023-10-31'
+lastmod: '2023-11-02'
 featured: yes
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
@@ -42,7 +42,8 @@ output:
 
 
 
-{{< spoiler text="Kernfragen dieser Lehreinheit" >}}
+<details><summary>Kernfragen dieser Lehreinheit</summary>
+
 * Wie werden **Häufigkeitstabellen** erstellt?  
 * Wie können aus absoluten Häufigkeitstabellen **relative Häufigkeitstabellen** gemacht werden?  
 * Wie können **Modus und Median** bestimmt werden?  
@@ -50,7 +51,8 @@ output:
 * Welche Befehle können genutzt werden, um **Balken-, Kuchendiagramme und Histogramme** zu erzeugen?  
 * Welche Möglichkeiten gibt es, um **Grafiken anzupassen**?  
 * Wie können **Grafiken gespeichert** werden?
-{{< /spoiler >}}
+
+</details>
 
 ***
 
@@ -80,14 +82,13 @@ names(fb23)        # Namen der Variablen
 ```
 
 ```
-##  [1] "mdbf1_pre"   "mdbf2_pre"   "mdbf3_pre"   "mdbf4_pre"   "mdbf5_pre"  
-##  [6] "mdbf6_pre"   "mdbf7_pre"   "mdbf8_pre"   "mdbf9_pre"   "mdbf10_pre" 
-## [11] "mdbf11_pre"  "mdbf12_pre"  "lz"          "extra"       "vertr"      
-## [16] "gewis"       "neuro"       "offen"       "prok"        "nerd"       
-## [21] "grund"       "fach"        "ziel"        "wissen"      "therap"     
-## [26] "lerntyp"     "hand"        "job"         "ort"         "ort12"      
-## [31] "wohnen"      "uni1"        "uni2"        "uni3"        "uni4"       
-## [36] "attent_pre"  "gs_post"     "wm_post"     "ru_post"     "attent_post"
+##  [1] "mdbf1_pre"   "mdbf2_pre"   "mdbf3_pre"   "mdbf4_pre"   "mdbf5_pre"   "mdbf6_pre"  
+##  [7] "mdbf7_pre"   "mdbf8_pre"   "mdbf9_pre"   "mdbf10_pre"  "mdbf11_pre"  "mdbf12_pre" 
+## [13] "lz"          "extra"       "vertr"       "gewis"       "neuro"       "offen"      
+## [19] "prok"        "nerd"        "grund"       "fach"        "ziel"        "wissen"     
+## [25] "therap"      "lerntyp"     "hand"        "job"         "ort"         "ort12"      
+## [31] "wohnen"      "uni1"        "uni2"        "uni3"        "uni4"        "attent_pre" 
+## [37] "gs_post"     "wm_post"     "ru_post"     "attent_post"
 ```
 
 ```r
@@ -128,13 +129,13 @@ fb23$hand
 ```
 
 ```
-##   [1]  2  2  2  2  2  2 NA  2  1  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2 NA  2
-##  [27]  2  2  2  2  2  1  1  2  2  2  1  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2
-##  [53]  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2
-##  [79]  2  2  2  2  2  2  2  2  1  2  2  2  2  2  2  1  2  2  1  2  2  2  2  2  2  2
-## [105]  2  2  2  2  2  2  1  1  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2
-## [131]  1  2  1  2  2  2  2  2 NA  2  2  2  2  2  2  2  2  2  1  2  2  2  2  2  2  2
-## [157]  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  2  1  2  2  2  1  2
+##   [1]  2  2  2  2  2  2 NA  2  1  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2 NA  2  2  2
+##  [29]  2  2  2  1  1  2  2  2  1  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2
+##  [57]  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2
+##  [85]  2  2  1  2  2  2  2  2  2  1  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  1  1
+## [113]  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  1  2  2  2  2  2 NA  2
+## [141]  2  2  2  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2
+## [169]  2  2  1  2  2  1  2  2  2  1  2
 ```
 
 Die Variable `hand` liegt numerisch vor, es treten die Werte 1 und 2 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/lehre/statistik-i/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "links". Diese *Label* werden nun im Faktor hinterlegt.
@@ -181,13 +182,13 @@ fb23$fach
 ```
 
 ```
-##   [1]  4  4  4  4  4  4 NA  4  4 NA  4  4  2  3  4  4  4  4  1  4  1  3  4  2 NA  4
-##  [27]  4  3  1  2  4 NA  3  1  2  4  4  3  1  4  4  3  2  2  4  3  5  3  4  1  3  4
-##  [53]  1  1  4  2  4  2  2  4  2  4  3  2  4  1  4  5  4  4  3  4  4  4  4  3  4  4
-##  [79]  2  4  4 NA  4  4  4  4  4  1  1  3  2  4  5  5  1  3  4  2  2  3  4 NA  3  2
-## [105]  4  2  2  4  2  4  5  4  4  1  4  4  2  4  4  2  4  1  1  1  4  2  2 NA  2  4
-## [131]  3  4  1  4  1  2 NA  4 NA  1  1  4  4  1  1  3  1  2  4  4  1  4  4 NA  1 NA
-## [157]  4  4  4  4  4  4  2  4  4  2  2  4  2  1  1  4  4  1  1  3  2  1 NA
+##   [1]  4  4  4  4  4  4 NA  4  4 NA  4  4  2  3  4  4  4  4  1  4  1  3  4  2 NA  4  4  3
+##  [29]  1  2  4 NA  3  1  2  4  4  3  1  4  4  3  2  2  4  3  5  3  4  1  3  4  1  1  4  2
+##  [57]  4  2  2  4  2  4  3  2  4  1  4  5  4  4  3  4  4  4  4  3  4  4  2  4  4 NA  4  4
+##  [85]  4  4  4  1  1  3  2  4  5  5  1  3  4  2  2  3  4 NA  3  2  4  2  2  4  2  4  5  4
+## [113]  4  1  4  4  2  4  4  2  4  1  1  1  4  2  2 NA  2  4  3  4  1  4  1  2 NA  4 NA  1
+## [141]  1  4  4  1  1  3  1  2  4  4  1  4  4 NA  1 NA  4  4  4  4  4  4  2  4  4  2  2  4
+## [169]  2  1  1  4  4  1  1  3  2  1 NA
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
@@ -219,7 +220,7 @@ str(fb23$grund)                            # Ursprungsvariable: Character
 ```
 
 ```
-##  chr [1:179] "Berufsziel" "Interesse am Menschen" ...
+##  chr [1:179] "Berufsziel" "Interesse am Menschen" "Interesse und Berufsaussichten" ...
 ```
 
 ```r
@@ -588,13 +589,13 @@ fb23$wissen
 ```
 
 ```
-##   [1]  5  4  5  4  2  3 NA  4  3  3  3  3  4  4  4  4  4  4  2  4  4  3  2  4 NA  3
-##  [27]  4  4  3  4  4  5  4  4  4  4  3  5  4  4  4  3  4  5  5  3  3  5  3  3  3  4
-##  [53]  5  5  5  5  5  4  3  3  4  3  3  5  3  2  3  5  4  4  2  3  4  4  3  3  2  4
-##  [79]  4  3  2  3  4  5  4  5  4  4  4  5  3  4  5  3  4  2  4  4  4  3  3  3  5  4
-## [105]  3  3  3  4  4  4  5  5  2  3  4  3  5  3  2  5  2  2  3  4  3  3  4  2  4  5
-## [131]  2  4  3  3  3  4  3  2 NA  4  5  4  3  5  4  4  4  3  5  5  3  3  4  3  4  4
-## [157]  4  4  2  2  5  4  1  3  3  2  4  5  4  2  4  4  5  3  2  3  5  4  3
+##   [1]  5  4  5  4  2  3 NA  4  3  3  3  3  4  4  4  4  4  4  2  4  4  3  2  4 NA  3  4  4
+##  [29]  3  4  4  5  4  4  4  4  3  5  4  4  4  3  4  5  5  3  3  5  3  3  3  4  5  5  5  5
+##  [57]  5  4  3  3  4  3  3  5  3  2  3  5  4  4  2  3  4  4  3  3  2  4  4  3  2  3  4  5
+##  [85]  4  5  4  4  4  5  3  4  5  3  4  2  4  4  4  3  3  3  5  4  3  3  3  4  4  4  5  5
+## [113]  2  3  4  3  5  3  2  5  2  2  3  4  3  3  4  2  4  5  2  4  3  3  3  4  3  2 NA  4
+## [141]  5  4  3  5  4  4  4  3  5  5  3  3  4  3  4  4  4  4  2  2  5  4  1  3  3  2  4  5
+## [169]  4  2  4  4  5  3  2  3  5  4  3
 ```
 
 Wiederholung:

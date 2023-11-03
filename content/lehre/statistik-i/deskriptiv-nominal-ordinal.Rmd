@@ -44,15 +44,17 @@ output:
 ```
 
 
-{{< spoiler text="Kernfragen dieser Lehreinheit" >}}
-* Wie werden [Häufigkeitstabellen](#Häufigkeitstabellen) erstellt?  
-* Wie können aus absoluten Häufigkeitstabellen [relative Häufigkeitstabellen](#RelativeHäufigkeiten) gemacht werden?  
-* Wie können [Modus](#Modus) und [Median](#Median) bestimmt werden?  
-* Auf welche Weise lässt sich der [relative Informationsgehalt](#RelativerInformationsgehalt) bestimmen, obwohl es dafür in R keine Funktion gibt?  
-* Welche Befehle können genutzt werden, um [Balken-, Kuchendiagramme und Histogramme](#Grafiken) zu erzeugen?  
-* Welche Möglichkeiten gibt es, um [Grafiken anzupassen](#GrafikenAnpassen)?  
-* Wie können [Grafiken gespeichert](#GrafikenSpeichern) werden?
-{{< /spoiler >}}
+<details><summary>Kernfragen dieser Lehreinheit</summary>
+
+* Wie werden **Häufigkeitstabellen** erstellt?  
+* Wie können aus absoluten Häufigkeitstabellen **relative Häufigkeitstabellen** gemacht werden?  
+* Wie können **Modus und Median** bestimmt werden?  
+* Auf welche Weise lässt sich der **relative Informationsgehalt** bestimmen, obwohl es dafür in R keine Funktion gibt?  
+* Welche Befehle können genutzt werden, um **Balken-, Kuchendiagramme und Histogramme** zu erzeugen?  
+* Welche Möglichkeiten gibt es, um **Grafiken anzupassen**?  
+* Wie können **Grafiken gespeichert** werden?
+
+</details>
 
 ***
 
