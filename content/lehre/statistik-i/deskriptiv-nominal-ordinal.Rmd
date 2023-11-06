@@ -4,13 +4,13 @@ type: post
 date: '2020-09-24'
 slug: deskriptiv-nominal-ordinal
 categories: ["Statistik I"]
-tags: ["Deskriptiv", "Plots", "Nominal und Ordinal", "Tabelle"]
+tags: ["Deskriptivstatistik", "Grafiken", "Skalenniveau"]
 subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
 authors: [nehler, buchholz]
 weight: 2
 lastmod: '`r Sys.Date()`'
-featured: yes
+featured: no
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
   image: /header/frogs_on_phones.jpg
@@ -44,7 +44,8 @@ output:
 ```
 
 
-{{< spoiler text="Kernfragen dieser Lehreinheit" >}}
+<details><summary>Kernfragen dieser Lehreinheit</summary>
+
 * Wie werden **Häufigkeitstabellen** erstellt?  
 * Wie können aus absoluten Häufigkeitstabellen **relative Häufigkeitstabellen** gemacht werden?  
 * Wie können **Modus und Median** bestimmt werden?  
@@ -52,7 +53,8 @@ output:
 * Welche Befehle können genutzt werden, um **Balken-, Kuchendiagramme und Histogramme** zu erzeugen?  
 * Welche Möglichkeiten gibt es, um **Grafiken anzupassen**?  
 * Wie können **Grafiken gespeichert** werden?
-{{< /spoiler >}}
+
+</details>
 
 ***
 
@@ -179,7 +181,7 @@ fb23$fach <- relevel(
 
 ***
 
-## Häufigkeitstabellen
+## Häufigkeitstabellen {#Häufigkeitstabellen}
 
 Eine deskriptivstatistische Möglichkeit zur Darstellung diskreter (zählbarer) nominalskalierter Variablen sind Häufigkeitstabellen. Diese können in `R` mit der Funktion `table()` angefordert werden.
 
@@ -193,7 +195,7 @@ table(fb23$fach)
 Häufig sind relative Häufigkeiten informativer. Nachfolgend werden zwei Möglichkeiten zur Erstellung von relativen Häufigkeitstabellen in `R` gezeigt.
 
 
-**Relative Häufigkeiten (manuell)**
+**Relative Häufigkeiten (manuell)** {{< intext_anchor RelativeHäufigkeiten >}}
 
 Relative Häufigkeiten können aus absoluten Häufigkeiten abgeleitet werden: $h_j = \frac{n_j}{n}$.
 
@@ -218,7 +220,7 @@ Ungefähr `r round(prop.table(tab)[1]*100,2)`% Ihres Jahrgangs geben als Lieblin
 
 ***
 
-## Grafiken in `R`
+## Grafiken in `R` {#Grafiken}
 
 ```{r comic-barplot, echo=FALSE,warning=FALSE, fig.align='center',cache=FALSE, purl = FALSE}
 library("RXKCD")
@@ -254,7 +256,7 @@ pie(tab)
 
 In der Vorlesung haben Sie bereits gelernt, dass diese Form der Darstellung aber nicht für detaillierte Analysen zu empfehlen ist, weil Erkenntnisse daraus viel schwerer zu ziehen sind. Bei den Zusatzargumenten werden wir uns also nur mit der Funktion `barplot()` beschäftigen.
 
-**Zusatzargumente für Plots**
+**Zusatzargumente für Plots** {{< intext_anchor GrafikenAnpassen >}}
 
 Die Funktionen zur Erstellung sehr simpler Grafiken sind also denkbar einfach - die Grafiken selbst aber zunächst nicht unbedingt hübsch. `R` bietet diverse Zusatzargumente zur Anpassung der Optik von Grafiken.
 
@@ -276,7 +278,7 @@ xlab, ylab | Beschriftung der Achsen
 colors()[1:20]
 ```
 
-Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
+Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [https://r-charts.com/colors/]( https://r-charts.com/colors/). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
 
 Zusätzlich können Farbpaletten verwendet werden. Sie bestehen aus einem Farbverlauf, aus dem einzelne Farben "herausgezogen" werden, wodurch ein zusammengehöriges Farbthema in einer Abbildung entsteht. `R` liefert einige dieser Paletten: `rainbow(...)`, `heat.colors(...)`, `topo.colors(...)`, ... Die Farbpalette wird ebenfalls per `col`-Argugment spezifiziert. Technisch handelt es sich um eine Funktion, für die als Argument die Anzahl der Farben spezifiziert werden muss, die aus der Palette "gezogen" werden sollen. Es wäre also so, als würden wir diese 5 Farben per Hand eingeben, nur dass wir die Person entscheiden lassen, die eine Palette programmiert hat Beispielsweise werden mit `col = rainbow(5)` fünf Farben aus der rainbow-Palette gezogen. Der Output würde so aussehen.
 
@@ -301,7 +303,7 @@ Alle verwendeten Argumente (bis auf eines) sind bereits in der Tabelle oben besc
 
 Hinweis: Es gibt natürlich noch viele weitere Argumente, mit denen Sie Bestandteile des Diagramms anpassen können. Falls Sie sich beispielsweise fragen, wie sie aus dem Säulendiagramm ein Balkendiagramm machen können, könnten Sie das mit dem Argument `horiz` erreichen. Wenn Sie also die horizontale Ausrichtung der Grafik auf `TRUE` setzen, erhalten Sie horizontale Balken anstatt vertikale Säulen.
 
-**Grafiken speichern**
+**Grafiken speichern** {{< intext_anchor GrafikenSpeichern >}}
 
 Es gibt zwei Möglichkeiten, um in `R` erzeugte Grafiken als Bilddatei zu speichern: manuell und per Funktion.  
 
@@ -344,7 +346,7 @@ Auch hier gilt: Wenn kein Pfad spezifiziert wurde, liegt die Datei in Ihrem Arbe
 
 ## Deskriptivstatistische Kennwerte auf Nominalskalenniveau
 
-**Modus**
+**Modus** {{< intext_anchor Modus >}}
 
 Der Modus (*Mo*) ist ein Maß der zentralen Tendenz, das die häufigste Ausprägung einer Variable anzeigt. Die Häufigkeiten sind ja schon in der Häufigkeitstabelle enthalten. Man könnte den Modus also einfach ablesen. Das gleiche lässt sich allerdings auch anhand von Funktionen tun:  
 
@@ -357,7 +359,7 @@ which.max(tab) # Modus
 Der Modus der Variable `fach` lautet also `r names(which.max(tab))`, die Ausprägung trat `r max(tab)` mal auf.
 
 
-**Relativer Informationsgehalt**
+**Relativer Informationsgehalt** {{< intext_anchor RelativerInformationsgehalt >}}
 
 Der relative Informationsgehalt ist ein Dispersionsmaß, das schon auf Nominalskalenniveau funktioniert. Dafür gibt es in `R` allerdings keine Funktion! Aus Lehreinheit 1 wissen Sie jedoch, dass `R` als Taschenrechner genutzt werden kann, folglich können beliebig komplexe Gleichungen in `R` umgesetzt werden. Die Formel zur Berechnung des relativen Informationsgehalts $H$ lautet:
 
@@ -453,7 +455,7 @@ Fehlende Werte sind ein ganz eigenes Forschungsgebiet der Methodik und man könn
 
 ## Deskriptivstatistische Kennwerte ab Ordinalskalenniveau
 
-**Median**
+**Median** {{< intext_anchor Median >}}
 
 Wir können uns den Einfluss fehlender Werte auf die Arbeit mit `R` mit der Betrachtung der Funktion für den Median, die praktischerweise `median()` heißt, veranschaulichen, indem wir einmal ein extra Argument benennen.
 

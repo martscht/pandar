@@ -48,23 +48,6 @@ lines(x = x, y = dt(x = x, df = 38), lwd = 2) # lwd = Liniendicke
 t_krit <- qt(p = .975, df = 38)
 mean(abs(tt_H0) > t_krit) # empirischer Alpha-Fehler
 
-set.seed(1234)
-Y <- rnorm(N)
-Z <- rnorm(N)
-cor(Y, Z) # empirische Korrelation
-cortestH0 <- cor.test(Y, Z)
-cortestH0$p.value # empirischer p-Wert
-
-set.seed(1234)
-pcor_H0 <- replicate(n = 10000, expr = {Y <- rnorm(N)
-                                        Z <- rnorm(N)
-                                        cortestH0 <- cor.test(Y, Z)
-                                        cortestH0$p.value})
-
-hist(pcor_H0, breaks = 20) 
-
-mean(pcor_H0 < 0.05)
-
 set.seed(12345)
 X_1 <- rnorm(N)
 X_2 <- rnorm(N) + 0.5 
@@ -115,7 +98,8 @@ t_power <- c(mean(pt_H1_20 < 0.05),
 t_power
 
 Ns <- seq(20, 100, 20)
-plot(x = Ns, y = t_power, type = "b", main = "Power vs. N")
+plot(x = Ns, y = t_power, type = "b",
+     main = "Power vs. N", xlab = "n", ylab = "Power des t-Tests mit d = .5")
 
 library(pwr)
 Erg <- c()
@@ -138,6 +122,38 @@ ggplot(data = Erg, aes(x = d, y = Power, col = n, group = n))+
      scale_colour_gradientn(colours=rainbow(4))+
      ggtitle("Power vs. d and n", subtitle = " Using formulas instead of simulation")+ theme_apa(base_size = 20)
 
-# falls noch nicht installiert: "install.packages("pwr")"
- library(pwr)
- pwr.t.test(n = 20, d = 0.5)
+library(papaja)
+library(ggplot2)
+ggplot(data = Erg, aes(x = n, y = Power, col = d, group = d))+
+     geom_line(lwd=1)+
+     geom_abline(slope = 0,intercept = .05, lty = 3)+
+     geom_abline(slope = 0,intercept = .8, lty = 2) + 
+     scale_colour_gradientn(colours=rainbow(4))+
+     ggtitle("Power vs. n and d", subtitle = " Using formulas instead of simulation")+ theme_apa(base_size = 20)
+
+library(WebPower)
+
+args(wp.t)
+
+wp.t(n1 = 20, d = .5, type = "two.sample", alternative = "two.sided")
+
+wp.t(n1 = 20, power = .8, type = "two.sample", alternative = "two.sided")
+
+wp.t(d = .5, power = .8, type = "two.sample", alternative = "two.sided")
+
+set.seed(1234)
+Y <- rnorm(N)
+Z <- rnorm(N)
+cor(Y, Z) # empirische Korrelation
+cortestH0 <- cor.test(Y, Z)
+cortestH0$p.value # empirischer p-Wert
+
+set.seed(1234)
+pcor_H0 <- replicate(n = 10000, expr = {Y <- rnorm(N)
+                                        Z <- rnorm(N)
+                                        cortestH0 <- cor.test(Y, Z)
+                                        cortestH0$p.value})
+
+hist(pcor_H0, breaks = 20) 
+
+mean(pcor_H0 < 0.05)

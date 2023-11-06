@@ -46,11 +46,11 @@ library(knitr)
 {{< spoiler text="Kernfragen dieser Lehreinheit" >}}
 <!-- Die divs sind wichtig, damit die Liste funktioniert! Innerhalb dieses Abschnitts ist HTML erlaubt (safeHTML) -->
 
-* Wie berechne ich, ob es einen [**Unterschied zwischen einer Stichprobe und der dazugehörigen Population**](#Unterschied) gibt? 
+
 * Wann und wie rechne ich einen [**z-Test (Einstichproben-Gauss-Test)**](#z_Test)? Wie interpretiere ich die Ergebnisse?
 * Wie bestimme ich das [**Konfidenzintervall**](#KonfInt) des wahren Werts $\mu$?
 * Wann und wie rechne ich einen [**t-Test**?](#t_Test) Welche Voraussetzungen hat dieser? Wie interpretiere ich die Ergebnisse?
-* Wie gehe ich mit [**gerichteten vs. ungerichteten Hypothesen**](#Hypothesen) um?
+* Was sind [**Pakete**](#Pakete) und wie kann ich sie installieren und laden?
 * Was ist [**Cohen's *d***](#Cohens_d) und wie berechne ich es? Wie interpretiere ich die Ergebnisse?
 
 {{< /spoiler >}}
@@ -71,25 +71,24 @@ load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 
-fb22$fach <- factor(fb22$fach,
+fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb22$ziel <- factor(fb22$ziel,
+fb23$ziel <- factor(fb23$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb22$wohnen <- factor(fb22$wohnen, 
+fb23$wohnen <- factor(fb23$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 
 
 # Naturverbundenheit
-fb22$nr_ges <-  fb22[, c('nr1', 'nr2', 'nr3', 'nr4', 'nr5',  'nr6')] |> rowMeans()
-fb22$nr_ges_z <- scale(fb22$nr_ges) # Standardisiert
+
 
 # Weitere Standardisierugen
-fb22$nerd_std <- scale(fb22$nerd)
-fb22$neuro_std <- scale(fb22$neuro)
+fb23$nerd_std <- scale(fb23$nerd)
+fb23$neuro_std <- scale(fb23$neuro)
 
 ```
 ***
@@ -101,31 +100,33 @@ Nachdem wir uns die letzten Wochen mit Deskriptivstatistik und Verteilungen besc
 
 ***
 
-# Let's start {#Unterschied}
+# Einstichproben-z-Test {#z_Test}
 
-Für die Einstichprobentests ist es essentiell, dass gewisse Populationsinformationen vorliegen. Dies kann beispielsweise bei genormten Tests (wie IQ-Tests) der Fall sein. Stellen wir uns also vor, dass es für den Fragebogen zur Nerdiness (`nerd`) aus der `fb23` Umfrage Normwerte gibt.  
+Für die Einstichprobentests ist es essentiell, dass gewisse Populationsinformationen vorliegen. Dies kann beispielsweise bei genormten Tests (wie IQ-Tests) der Fall sein. Stellen wir uns also vor, dass es für den Fragebogen zur Nerdiness (`nerd`) aus der `fb23` Umfrage Normwerte gibt. Der imaginierte Mittelwert der Population liegt bei $\mu_0 = 2.5$, während die Standardabweichung der Population bei $\sigma = 0.9$ liegt. Wir wollen nun im folgenden untersuchen, ob sich unsere Stichprobe in `fb23` (also die Studierenden des ersten Semesters) von diesem Wert unterscheiden.
 
-Der imaginierte Mittelwert der Population liegt bei $\mu_0 = 2.5$, während die Standardabweichung der Population bei $\sigma = 0.5$ liegt. Wir wollen nun im folgenden untersuchen, ob sich unsere Stichprobe (also die Studierenden des ersten Semesters) von diesem Wert unterscheiden.
-
-## Einstichproben-z-Test {#z_Test}
-
-Für den **Einstichproben-z-Test** (auch Einstichproben-Gauß-Test genannt) benötigen wir neben dem Mittelwert der Stichprobe auch den Mittelwert der Population und (im Unterschied zu dem später betrachteten Einstichproben-t-Test) auch die Populationsstandardabweichung. Da wir diese drei Informationen haben, ist er die richtige Wahl. Bevor wir mit einer inferenzstatistischen Testung starten, sollten allerdings Hypothesen vorliegen. Diese leitet man in der Praxis aus der Theorie ab. Wir gehen hier jetzt erstmal davon aus, dass wir den Mittelwert der Stichprobe auf einen Unterschied zum Mittelwert der Population testen wollen ohne eine Richtung anzunehmen. 
+Für den **Einstichproben-z-Test** (auch Einstichproben-Gauß-Test genannt) benötigen wir neben dem Mittelwert der Stichprobe auch den Mittelwert der Population und (im Unterschied zu dem später betrachteten Einstichproben-t-Test) auch die Populationsstandardabweichung. Da wir diese drei Informationen haben, ist er die richtige Wahl. Bevor wir mit einer inferenzstatistischen Testung starten, sollten allerdings Hypothesen vorliegen. Diese leitet man in der Praxis aus der Literatur ab. Wir gehen hier jetzt erstmal davon aus, dass wir den Mittelwert der Stichprobe auf einen Unterschied zum Mittelwert der Population testen wollen, ohne eine Richtung anzunehmen. 
 
 Dafür können wir nun ein Hypothesenpaar bestehend aus $H_0$ und $H_1$ aufstellen. Aus Übungszwecken machen wir das einmal inhaltlich und einmal durch eine statistische Schreibweise.
 
-**Inhaltlich**  
+#### Inhaltlich
 $H_0$: Der Mittelwert unserer Stichprobe auf der Variable Nerdiness unterscheidet sich nicht von der Population.
 
 $H_1$: Der Mittelwert unserer Stichprobe auf der Variable Nerdiness unterscheidet sich von der Population.
 
-**Statistisch**
-$H_0: \mu_0 = \mu_1$
+#### Statistisch
+$$H_0: \mu_0 = \mu_1$$
   
-$H_1: \mu_0 \neq \mu_1$
+$$H_1: \mu_0 \neq \mu_1$$
 
 Außerdem sollten wir eine Irrtumswahrscheinlichkeit $\alpha$ festlegen, die wir auch später nochmal genauer besprechen werden. Wir entscheiden uns hier für den in der Psychologie häufig verwendeten Wert von 5\%.
   
-Nach diesen Festlegungen wird bei inferenzstatistischen Testungen häufig eine deskriptive Betrachtung im Rahmen der Hypothesen vollzogen. Für den vorliegenden Test würde es hier Sinn machen, dass der Mittelwert unserer Stichprobe auf der Variable Nerdiness `nerd` bestimmt wird. Den Code dafür haben wir bereits kennengelernt. Dabei gibt es auf der Variable keine fehlenden Werte. 
+Nach diesen Festlegungen wird bei inferenzstatistischen Testungen häufig eine deskriptive Betrachtung im Rahmen der Hypothesen vollzogen. Für den vorliegenden Test würde es hier Sinn machen, dass der Mittelwert unserer Stichprobe auf der Variable Nerdiness `nerd` bestimmt wird. Den Code dafür haben wir bereits kennengelernt. Um vor der Durchführung zu testen, ob es auf der Variable fehlende Werte gibt, die die Berechnung beeinflussen würden, können wir die Funktion `anyNA()` verwenden.
+
+```{r}
+anyNA(fb23$nerd)
+```
+
+Dabei gibt es auf der Variable keine fehlenden Werte. Also können wir die `mean()` Funktion ohne weiteres Argument verwenden.
 
 ```{r}
 mean(fb23$nerd)
@@ -137,11 +138,17 @@ Wir sehen hier bereits, dass ich der Wert der Stichprobe von dem der Population 
 
 
 Der Einstichproben-z-Test setzt voraus, dass das Merkmal in der Population, auf die sich die Nullhypothese ($H_0$) bezieht, normalverteilt ist und (wie bereits erwähnt) der Mittelwert sowie die Standardabweichung der Population bekannt sind. Des Weiteren verwendet der Einstichproben-z-Test grundsätzlich die Standardnormalverteilung als Stichprobenkennwerteverteilung (SKV), deswegen ist er nicht für kleine Stichproben geeignet.  
+
 Der Einstichproben-z-Test prüft anhand des arithmetischen Mittels einer Stichprobe, ob der Erwartungswert der zugehörigen Grundgesamtheit ungleich (bzw. kleiner oder größer) als ein vorgegebener Wert ist.
 
-Die Formel für den **empirischen z-Wert** $z_{emp}$ ist:
+** HIER NOCH EIN BILD EINBAUEN**
+
+
+Wir müssen also bestimmen, wie wahrscheinlich der empirisch gefundene Mittelwert unter der Voraussetzung ist, dass der Mittelwert der Population und dessen Standardabweichung gilt. Dafür werden wir zuerst den **empirischen z-Wert** bestimmen -- also den Wert auf der x-Achse auf dem Bild. Zu diesem können wir dann bestimmen, wie unwahrscheinlich er ist.
+
+Die Formel für den empirischen z-Wert $z_{emp}$ ist:
   
-$$z_{emp} = |\frac{\bar{x} - {\mu}}{\sigma_{\bar{x}}}|$$
+$$z_{emp} = \frac{\bar{x} - {\mu}}{\sigma_{\bar{x}}}$$
   wobei sich der Standardfehler (*SE*) des Mittelwerts wie folgt berechnet:
   
 $$\sigma_{\bar{x}} = {\frac{{\sigma}}{\sqrt{n}}}$$
@@ -150,7 +157,7 @@ Zunächst legen wir alle für den z-Wert relevanten Informationen in unser Envir
 
 ```{r}
 pop_mean_nerd <- 2.5                 # Mittelwert Grundgesamtheit
-pop_sd_nerd <- 0.5                   # SD der Grundgesamtheit
+pop_sd_nerd <- 0.9                   # SD der Grundgesamtheit
 sample_mean_nerd <- mean(fb23$nerd)  # Stichprobenmittelwert
 sample_size <- nrow(fb23)            # Stichprobengröße (da keine NA)
 ```
@@ -165,23 +172,22 @@ Demnach wird der empirische z-Wert $z_{emp}$ wie folgt berechnet:
 
 
 ```{r}
-z_emp <- abs((pop_mean_nerd - mean_nerd)/ se_nerd)
+z_emp <- (sample_mean_nerd - pop_mean_nerd)/ se_nerd
 z_emp
 ```
 
-Beachten Sie: es geht immer um den Betrag des Ergebnisses, weshalb wir die Funktion `abs()` verwenden.
+Der empirische *z-*Wert $z_{emp}$ ist eine Angabe, um wie viele Standardabweichungen der SKV der Mittelwerte (das heißt: um wie viele Standardfehler *SE*) der Mittelwert der Stichprobe vom Mittelwert der Grundgesamtheit abweicht. 
 
-Der empirische *z-*Wert $z_{emp}$ ist eine Angabe, um wie viele Standardabweichungen der Mittelwerte der SKV (das heißt: um wie viele Standardfehler *SE*) der Mittelwert der Stichprobe vom Mittelwert der Grundgesamtheit abweicht.  
-Der beobachtete Stichprobenmittelwert weicht demnach um **$z_{IQ}$ = 2.89** *SE* (nach oben) vom Mittelwert der Grundgesamtheit ab.  
+Der beobachtete Stichprobenmittelwert weicht demnach um $z_{emp}$ = `r round(z_emp,2)` *SE* (nach oben) vom Mittelwert der Grundgesamtheit ab.  
 Um entscheiden zu können, ob es sich um eine signifikante Abweichung handelt, muss der **kritische *z-*Wert** $z_{krit}$ bestimmt werden.  
 Für eine Irrtumswahrscheinlichkeit von 5% und eine einseitige Hypothesentestung wäre dies:
   
 ```{r}
-z_krit <- qnorm(1-.05) #bei einer zweiseitigen Testung würden wir qnorm(1-(.05/2)) verwenden
+z_krit <- qnorm(1-.05/2) # Bestimmung des kritischen Wertes
 z_krit
 ```
 
-Der **kritische *z-*Wert** beträgt demnach **$z_{krit}$ = 1.64**. Damit das Ergebnis als signifikant gewertet wird, muss der empirische *z-*Wert $z_{emp}$ größer sein als der kritsiche *z-*Wert (**$z_{IQ}$ > $z_{krit}$**). Hierfür können wir auch eine logische Abfrage nutzen:
+Der **kritische *z-*Wert** beträgt demnach $z_{krit}$ = `r round(z_krit, 2)`. Damit das Ergebnis als signifikant gewertet wird, muss der empirische *z-*Wert $z_{emp}$ größer sein als der kritsiche *z-*Wert (**$z_{emp}$ > $z_{krit}$**). Hierfür können wir auch eine logische Abfrage nutzen:
   
 ```{r}
 z_emp > z_krit
@@ -194,73 +200,62 @@ Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Der 
 
 Wie hoch ist die Wahrscheinlichkeit angesichts der bekannten Normalverteilung diesen oder einen GRÖßEREN (einseitig) empirischen *z-*Wert $z_{emp}$ zu erreichen?
   
-```{r}
-p_z_IQ_oneside <- pnorm(z_emp, lower.tail = FALSE)
-p_z_IQ_oneside
+```{r} 
+pnorm(z_emp, lower.tail = FALSE)
 ```
 
 Wie hoch ist die Wahrscheinlichkeit angesichts der bekannten Normalverteilung diesen oder einen EXTREMEREN (zweiseitig) *z-*Wert $z_{emp}$ zu erreichen?
   
 ```{r}
-p_z_IQ_twoside <- 2*pnorm(z_emp, lower.tail = FALSE) #verdoppeln, da zweiseitig
-p_z_IQ_twoside
+2*pnorm(z_emp, lower.tail = FALSE) #verdoppeln, da zweiseitig
 ```
 
-Wir erkennen, dass in beiden Fällen der Wert kleiner als .05 (5%) ist. Demnach ist die Wahrscheinlichkeit, diesen Wert (oder einen noch extremeren Wert) per Zufall erhalten zu haben, sehr gering, wenn die $H_0$ gilt.
+Wir erkennen, dass der Wert kleiner als .05 (5\%) ist. Demnach ist die Wahrscheinlichkeit, diesen Wert (oder einen noch extremeren Wert) per Zufall erhalten zu haben, sehr gering, wenn die $H_0$ gilt.
 
 ***
 
 ## Konfidenzintervalle {#KonfInt}
 
-Wir können auch ein Konfidenzintervall um den wahren Populationsmittelwert $\mu$ bestimmen. Wenn wir z.B. ein 95%-Konfidenzintervall wählen und wir aus der selben Grundgesamtheit wiederholt die selbe Anzahl an Fällen ziehen (unsere Studie also sehr oft wiederholen), dann werden 95% aller Konfidenzintervalle den wahren Populationsmittelwert $\mu$ enthalten.
+** FORMULIERUNGEN HIER MÜSSEN NOCHMAL KLAR GEZOGEN WERDEN **
+<!-- ERSTER SATZ WIRD NEU AUF MARTINS FOLIEN SEIN -->
+
+5% Irrtumswahrscheinlichkeit heißt, dass das Intervall mit 5%-iger Wahrscheinlichkeit zu den Intervallen gehört, die den Populationsparamert nicht enthalten
+
+<!-- DIESE SÄTZE SIND DEFINITIONEN AUS DEM EID -->
+Das (1 − α)-Konfidenzintervall bezeichnet den Bereich um einen geschätzten Populationsparameter, für den
+gilt, dass er mit einer Wahrscheinlichkeit von 1 − α den Populationsparameter überdeckt.
+
+Wir können auch ein Konfidenzintervall bestimmen, um unsere Hypothese zu testen. Wenn wir z.B. ein 95%-Konfidenzintervall wählen und wir aus der selben Grundgesamtheit wiederholt die selbe Anzahl an Fällen ziehen (unsere Studie also sehr oft wiederholen), dann werden 95% aller Konfidenzintervalle den wahren Populationsmittelwert $\mu$ enthalten. Ein 95%-Konfidenzintervall ist somit ein Intervall, welches in 95% der Fälle beim Ziehen aus der selben Grundgesamtheit den wahren Wert $\mu$ enthält.
 
 Dabei gilt:
   
 $$\mu = \bar{x} \pm z_{\frac{\alpha}{2}} * \sigma_{\bar{x}} = \bar{x} \pm z_{\frac{\alpha}{2}}*\frac{\sigma}{\sqrt{n}}$$
-  
-Ein 95%-Konfidenzintervall ist somit ein Intervall, welches in 95% der Fälle beim Ziehen aus der selben Grundgesamtheit den wahren Wert $\mu$ enthält.
 
-Wenn wir ein 95%-Konfidenzintervall bestimmen wollen, brauchen wir das zugehörige Quantil aus der Standardnormalverteilung - also den *z*-Wert für $\frac{\alpha}{2}$. Wir müssen das $\alpha$-Niveau halbieren, da wir uns momentan beim Bilden eines zweiseitigen Konfidenzintervalles befinden. Wir haben bereits gelernt, dass man Quantile aus der Normalverteilung mit der Funktion `qnorm()` erhalten kann. Die Standardnormalverteilung mitt Mittelwert von 0 und Standardabweichung von 1 ist dabei der Default, aber wir geben die Argumente zur Übung trotzdem selbst an.
+Wenn wir ein 95%-Konfidenzintervall bestimmen wollen, brauchen wir das zugehörige Quantil aus der Standardnormalverteilung - also den *z*-Wert für $\frac{\alpha}{2}$. Wir müssen das $\alpha$-Niveau halbieren, da wir uns momentan beim Bilden eines zweiseitigen Konfidenzintervalles befinden. Wir haben bereits gelernt, dass man Quantile aus der Normalverteilung mit der Funktion `qnorm()` erhalten kann. Die Standardnormalverteilung mit Mittelwert von 0 und Standardabweichung von 1 ist dabei der Default, aber wir geben die Argumente zur Übung trotzdem selbst an.
   
 ```{r}
 z_quantil_zweiseitig <- qnorm(p = 1-(.05/2), mean = 0, sd = 1)
 z_quantil_zweiseitig
 ```
+
 Wir sehen, dass der Wert `r round(z_quantil_zweiseitig,3)` 2.5% der Verteilung Richtung positiv unendlich abtrennt. Nun haben wir alle wichtigen Informationen, um ein zweiseitiges Konfidenzintervall um unseren Mittelwert zu legen.
 
 ```{r}
-positive_mean_IQ <- pop_mean_nerd+((z_quantil_zweiseitig*pop_sd_nerd)/sqrt(sample_size))
-positive_mean_IQ
+up_conf_nerd <- sample_mean_nerd+((z_quantil_zweiseitig*pop_sd_nerd)/sqrt(sample_size))
+up_conf_nerd
 
-negative_mean_IQ <- pop_mean_nerd-((z_quantil_zweiseitig*pop_sd_nerd)/sqrt(sample_size))
-negative_mean_IQ
+lo_conf_nerd <- sample_mean_nerd-((z_quantil_zweiseitig*pop_sd_nerd)/sqrt(sample_size))
+lo_conf_nerd
 
-conf_interval_IQ <- c(negative_mean_IQ, positive_mean_IQ )
-conf_interval_IQ
+conf_nerd <- c(lo_conf_nerd, up_conf_nerd)
+conf_nerd
 ```
 
-In diesem Fall liegt der Schätzer für den wahren IQ Wert der Grundgesamtheit $\mu$, aus der die Stichprobe gezogen wurde, zwischen `r round(conf_interval_IQ[1],2)` und `r round(conf_interval_IQ[2],2)`. Das bedeutet, dass mit einer Wahrscheinlichkeit von 95% der wahre IQ Wert der Grundgesamtheit in unserem Konfidenzinterall `r round(conf_interval_IQ[1],2)` und `r round(conf_interval_IQ[2],2)` liegt.
+In diesem Fall würde man den wahren Mittelwert der Grundgesamtheit, aus der die Stichprobe gezogen wurde, zwischen `r round(conf_nerd[1],2)` und `r round(conf_nerd[2],2)` vermuten. Mit einer Wahrscheinlichkeit von 95% der wahre Mittelwerte für Nerdiness in unserem Konfidenzinterall `r round(conf_nerd[1],2)` und `r round(conf_nerd[2],2)` liegt.
 
-Das Konfidenzintervall kann auch dafür genutzt werden, um eine Aussage über die von uns angenommenen Hypothesen zu treffen. Dafür müsste untersucht werden, ob das Intervall den angenommenen Populationsmittelwert (100 enthält). Wir erinnern uns jedoch, dass in den Hypothesen eine Richtung vorgegeben wurde, weshalb hierfür auch ein einseitiges Konfidenzintervall benötigt werden würde.
+Das Konfidenzintervall kann nun auch dafür genutzt werden, unsere Hypothesen zu überprüfen. Wenn der Populationsmittelwert nicht im Konfidenzintervall liegt, entscheiden wir uns dafür, dass die Stichprobe eben nicht aus dieser Population gezogen wurde.
 
-Wir wollten also testen, ob der Stichprobenmittelwert größer als der Wert 100 ist. Daher müssen in unserem Konfidenzintervall um den Stichprobenmittelwert eine untere Grenze bestimmen, während wir es nach oben offen halten können (Richtung positiv unendlich). Die zugehörige Gleichung ändert sich nur geringfügig. Wir müssen den z-Wert nun einseitig bestimmen und dann eben auch nur die untere Grenze unseres Intervalls. 
 
-$$\mu = \bar{x} - z_{\alpha} * \sigma_{\bar{x}} = \bar{x} \pm z_{\alpha}*\frac{\sigma}{\sqrt{n}}$$
-
-Wir haben bereits gesehen, dass eine Bestimmung des z-Werts durch die Funktion `qnorm()` möglich ist. 
-
-```{r}
-z_quantil_einseitig <- qnorm(p = 1-.05, mean = 0, sd = 1)
-z_quantil_einseitig
-```
-
-Anschließend kann die untere Grenze des Intervalls sehr simpel bestimmt werden.
-
-```{r}
-new_mean_IQ-((z_quantil_einseitig*sd_IQ)/sqrt(sample_size))
-```
-
-Da das Konfidenzintervall für den Stichprobenmittelwert die 100 **nicht** enthält, ist die Annahme unter der $H_0$ ($\mu \leq  100$) nicht haltbar. Daher würden wir die $H_0$ in diesem Fall verwerfen. Beachten Sie: Ein einseitiger *z*-Test bei einer Irrtumswahrscheinlichkeit $\alpha$ und die Besimmung über ein (1-$\alpha$)-Konfidenzintervall kommen immer zu denselben Schlussfolgerungen. 
 
 ***
 
@@ -268,37 +263,100 @@ Da das Konfidenzintervall für den Stichprobenmittelwert die 100 **nicht** enth�
 
 Die Bekanntheit des Populationsmittelwertes und der Populationsvarianz ist jedoch ein seltener Fall in der Praxis. Zunächst machen wir eine Erweiterung auf den Fall, dass die Populationsvarianz nicht bekannt ist. Trotzdem soll weiterhin ein **Stichprobenmittelwert** mit einem **bekannten Populationsmittelwert** verglichen werden. Wir werden sehen, dass dies zwar ein paar Veränderungen im Vorgehen und den Gleichungen mit sich bringt, das Prinzip aber erhalten bleibt. Bezeichnet wird das Vorgehen nun als t-Test, den wir im Einstichproben-Fall hier durchführen möchten.
 
+Für dieses statistische Verfahren stellen wir uns die Frage, ob der Neurotizismus Wert der Psychologie-Studierenden in unserer Stichprobe größer ist als der Populationsmittelwert aller Studierenden. Nehmen wir dafür an, dass der mittlere Neurotizismuswert in der Population der Studierenden bei $\mu = 3.1$ liegt, aber die Populationsstandardabweichung nicht bekannt ist. Zunächst sollten wir wieder Hypothesen aufstellen, was wir wieder inhaltlich und statistisch machen. 
 
-Unterschiedliche Quellen geben an, dass die durchschnittliche Größe der Männer in Deutschland 180 cm beträgt (z.B. https://www.laenderdaten.info/durchschnittliche-körpergrössen.php). Eine Forschungsgruppe vermutet jedoch, dass die Männer in Deutschland eigentlich größer sind und ermittelt von zehn zufällig gezogenen Männer die Körpergröße.
+#### Inhaltlich
+In der Fragestellung fällt direkt ein Unterschied auf. Wir haben hier eine Richtung unserer Vermutung -- nehmen wir an, dass wir diese aus der Literatur ableiten konnten. Also haben wir keine ungerichteten sondern gerichtete Hypothesen. Dies muss sich natürlich auch in unserer Formulierung wiederspiegeln. Unsere Vermutung (Stichprobenmittelwert ist größer als Populationsmittelwert) nehmen wir als $H_1$ auf, während in der $H_0$ alle gegenteiligen Fälle (kleiner oder gleich) aufgeführt sind.
 
-Die Größe der Männer beträgt: 183, 178, 175, 186, 185, 179, 181, 179, 182, 177 (gemessen in cm). 
+$H_0$: Der mittlere Neurotizismuswert unserer Stichprobe ist gleich oder niedriger als der mittlere Neurotizismuswert der Studierenden-Population.
+
+$H_1$: Der mittlere Neurotizismuswert unserer Stichprobe ist höher als der mittlere Neurotizismuswert der Studierenden-Population.
 
 
-### Voraussetzungsprüfung
 
-Der Test hat die folgenden Voraussetzungen:
+#### Statistisch
+Auch in der statistischen Hypothesennotation bildet sich die Richtung der Hypothesen natürlich ab.
+
+$$H_0: \mu_0 \geq \mu_1$$
   
- 1. Metrisch skalierte abhängige Variable
- 2. Bei *n* < 30 : Normalverteilung der abhängigen Variable in der Population.
-  
-Die erste Voraussetzung lässt sich nicht mathematisch sondern theoretisch prüfen. Im Beispiel können wir uns mit der Größe in cm aber zum Glück sehr sicher sein, dass eine metrische Variable vorliegt.
+$$H_1: \mu_0 < \mu_1$$
+Um eine weitere Modifikation unseres Vorgehens im Vergleich zum letzten Test zu haben, ändern wir auch unser Signifikanzniveau. Wir wollen diesmal auf der sehr sicheren Seite sein und wählen daher im weiteren Vorgehen $\alpha = 1$\%.
 
-Fehlt also noch die Testung der Normalverteilung der abhängigen Variable. Dafür sollten wir zunächst unsere gemessenen Werte in einen Vektor ablegen.
-  
-```{r}
-men_height <- c(183, 178, 175, 186, 185, 179, 181, 179, 182, 177)
+Bevor wir in die inferenzstatistische Analyse einsteigen, ist es immer gut, sich einen Überblick über die deskriptiven Werte zu verschaffen. Wir können nun natürlich einfach die bereits gelernten Funktionen zu Mittelwert, Varianz, Minimum, etc. nutzen. Doch gibt es einen schnelleren Weg? Die Basisinstallation von `R` bietet uns keine Alternative. Jedoch gibt es zusätzliche *Pakete*, die den Pool an möglichen Funktionen erweitern. Die Logik wird im Folgenden erläutert.
+
+### Wie können andere Funktionen in R genutzt werden? - Library und Pakete {#pakete}
+
+R ist in einer Pakete-Logik aufgebaut. Das liegt daran, dass es immer mehr Funktionen in R gibt, die aber nie jemand alle gleichzeitig brauchen wird. Zur Schonung der Kapazität sind diese Funktionalitäten also in Pakete aufgeteilt. In *Basispaketen*, die standardmäßig geladen werden (also vorinstalliert sind und aktiviert werden beim Öffnen von R / RStudio), sind grundlegende Befehle und Analysen implementiert. Beispiele für solche Basispakete sind `base`, `stats` und `graphics`, aus denen wir unwissentlich schon einige Funktionen verwendet haben - bspw. `mean()`, `median()` und `barplot()`. 
+
+Für spezifischere Analysen (also weitere Funktionen) müssen *Zusatzpakete* teilweise erst installiert, zumindest aber immer per Hand geladen werden (Beispiele sind `psych`, `car` oder `ggplot2`). Nur die Funktionen von erst installierten und dann geladenen Paketen können in einem Skript benutzt werden.
+
+Unter dem Reiter *Packages* wird die *Library* angezeigt. Hier sind alle Pakete enthalten, die einmal installiert wurden. Pakete müssen ab und zu (per Hand) aktualisiert werden. 
+
+{{<inline_image"/lehre/statistik-i/library.JPG">}}
+
+Sobald Sie eigene Pakete installiert haben, gibt es in dem Reiter *Packages* die Einteilung in die *System Library* (also standardmäßig installierte Pakete) und die *User Library* (von Ihnen installierte Pakete).
+
+Die folgenden Bilder verdeutlichen nochmal das Prinzip vom Installieren und Laden. Bei der Installation von R werden die Basispakete automatisch in die Library installiert. Zusatzpakete müssen mit der Funktion `install.packages()` mit dem Paketnamen als Argument installiert werden. Hierzu ist meist eine Internetverbindung nötig.
+
+
+{{<inline_image"/lehre/statistik-i/pakete_installieren.JPG">}}
+
+
+Beim Start von R werden die Basispakete automatisch geladen. Zusatzpakete müssen hingegen mit der Funktion `library()` mit dem Paketnamen als Argument geladen werden.
+
+
+{{<inline_image"/lehre/statistik-i/pakete_laden.JPG">}}
+
+
+Gehen wir das Prinzip an dem Beispielpaket `psych` durch, das verschiedene Operationen enthält, die in der psychologischen Forschung häufig benötigt werden. Die Installation muss dem Laden des Paketes logischerweise vorausgestellt sein. Wenn R einmal geschlossen wird, müssen alle Zusatzpakete neu geladen, jedoch nicht neu installiert werden.
+
+```{r, eval = FALSE}
+install.packages('psych')          # installieren
 ```
-  
-In der letzten Woche haben wir bereits gelernt, dass man die Normalverteilung einer erhobenen Variable graphisch prüfen kann. In einem sog. QQ-Plot werden die unter der Normalverteilung erwarteten Quantile und die tatsächlich beobachteten Quantile in einem Streudiagramm dargestellt. Je deutlicher die Punkte auf der Geraden liegen, desto näher ist die beobachtete Verteilung an der Normalverteilung.
 
 ```{r}
-qqnorm(men_height) 
-qqline(men_height)
+library(psych)                     # laden
 ```
 
-Es sind keine weiten Abweichungen zu erkennen, weshalb wir zunächst davon ausgehen, dass die Vermutung nicht verworfen werden muss.
+Wir erhalten hier als *Warning Message* den Hinweis, unter welcher Version das Paket erstellt wurde.
+Eine kleine Suche nach Hilfe zu Pakete kann man mit `??` erhalten.
 
-### Signifikanz bestimmen
+```{r, eval = F}
+??psych                          # Hilfe
+```
+
+Da das Paket `psych` nun geladen ist, können wir Funktionen aus diesem nutzen. Für unsere Übersicht über deskriptive Maße der Variable `neuro` gibt es die Funktion `describe()`.
+
+```{r}
+describe(fb23$neuro)
+```
+
+Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei `r mean(fb23$neuro)`. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
+
+Zurück zu unserer inhatlichen Fragestellung: Der Mittelwert von unserer Stichprobe ist deskriptiv größer als der Populationsmittelwert aller Studierenden. Dies reicht natürlich noch nicht, um eine inferenzstatistische Aussage zu treffen -- dafür muss im Folgenden der Test durchgeführt werden. Bei gerichteten Hypothesen gibt es jedoch manchmal den Effekt, dass man bei der deskriptiven Überprüfung schon stoppen kann. Wenn sich bspw. deskriptiv gezeigt hätte, dass der Mittelwert unserer Stichprobe kleiner ist als der Populationsmittelwert, kann man die Testung abbrechen. Die $H_1$ Hypothese wird hier direkt abgelehnt und die $H_0$ weiter angenommen. Da dieser Fall hier aber nicht aufgetreten ist, machen wir mit der Testung weiter.
+
+#### Voraussetzungsprüfung
+
+Inferenzstatistische Tests haben für ihre Durchführung immer Voraussetzungen. Diese können in Anzahl und Art variieren. Verletzungen von Voraussetzungen verzerren verschiedene Aspekte der Testung. Für manche Verletzungen gibt es Korrekturen, andere führen dazu, dass man ein anderes Verfahren wählen muss. Wir werden uns im Laufe des Semesters mit vielen Voraussetzungen beschäftigen. Für den Einstichproben-t-Test ist die Liste der Voraussetzungen nicht sehr lange:
+
+  
+1. mindestens intervallskalierte abhängige Variable
+2. Bei *n* < 30 : Normalverteilung der abhängigen Variable in der Population.
+  
+Die erste Voraussetzung lässt sich nicht mathematisch sondern theoretisch prüfen. Sie ist natürlich essentiell, da wir hier mit Mittelwerten und Varianzen rechnen und wir bereits gelernt haben, dass diese erst ab dem Intervallskalenniveau genutzt werden sollten. Wir haben außerdem gelernt, dass Skalenwerte häufig als intervallskaliert angenommen werden. Da wir in `fb23$neuro` solche Skalenwerte haben, können wir diese Voraussetzung als gegeben annehmen.
+
+Nun sollten wir also die Normalverteilung prüfen. Hier haben wir letzte Woche bereits gelernt, dass dies grafisch geschehen kann. In einem sog. QQ-Plot werden die unter der Normalverteilung erwarteten Quantile und die tatsächlich beobachteten Quantile in einem Streudiagramm dargestellt. Je deutlicher die Punkte auf der Geraden liegen, desto näher ist die beobachtete Verteilung an der Normalverteilung.
+
+```{r}
+qqnorm(fb23$neuro) 
+qqline(fb23$neuro)
+```
+
+Nach dem Plot zu urteilen könnte eine Verletzung der Normalverteilungsannahme hier vorliegen. Allerdings können wir uns behelfen und den Test trotzdem durchführen. Die Normalverteilungsannahme darf nämlich verletzt sein, wenn die Stichprobe mindestens 30 Personen umfasst. In diesen Fällen wird das inferenzstatistische Ergebnis nicht verzerrt. Dann gilt der *zentrale Grenzwertsatz*: Die Stichprobenkennwertverteilung der Mittelwerte nähert sich einer Normalverteilung an, unabhängig davon wie das Merkmal selbst in der Population verteilt ist.
+
+
+
+#### Signifikanz bestimmen
 
 Nun wollen wir inferenzstatistisch prüfen, ob die Vermutung der Forschungsgruppe bestätigt werden kann. Als ersten Schritt berechnen wir den Mittelwert in unserer Stichprobe. Da unsere Alternativhypothese davon handelt, dass der Wert in der Stichprobe größer sein soll, können wir zunächst betrachten, ob dies deskriptiv überhaupt der Fall ist.
   
@@ -373,144 +431,62 @@ Die Differenz zwischen dem Mittelwert der Population $\mu$ und dem beobachteten 
 
 Natürlich geht alles auch noch einfacher:
   
-```{r, echo = FALSE}
-height_test <- t.test(men_height, mu=180, alternative="greater") #alternative bestimmt, ob die Hypothese gerichtet ist oder nicht. Siehe hierzu ?t.test.
+```{r, echo = FALSE, purl = F}
+neuro_test <- t.test(fb23$neuro, mu=3.3, alternative="greater", conf.level=0.99)
 ```
 
 ```{r}
-t.test(men_height, mu=180, alternative="greater") #alternative bestimmt, ob die Hypothese gerichtet ist oder nicht. Siehe hierzu ?t.test.
+t.test(fb23$neuro, mu=3.3, alternative="greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
 ```
 
 Hier haben wir nun alle wichtigen Informationen gebündelt. 
 
-`t` = $t_{emp}$ = `r height_test$statistic`
+`t` = $t_{emp}$ = `r neuro_test$statistic`
 
-`df` = Freiheitsgrade = `r height_test$parameter`
+`df` = Freiheitsgrade = `r neuro_test$parameter`
 
-`p-value` = $p$ = `r height_test$p.value`
+`p-value` = $p$ = `r neuro_test$p.value`
 
-`mean of x` = $\bar{x}$ = `r height_test$estimate`
+`mean of x` = $\bar{x}$ = `r neuro_test$estimate`
 
 Wir erkennen auch hier, dass der empirische *p*-Wert über .05 liegt ($p > \alpha$). Demnach wird die $H_0$ mit einer Irrtumswahrscheinlichkeit von 5% beibehalten.
 
-Das 95%ige Konfidenzintervall wird uns ebenfalls ausgegeben. Beachten Sie, dass es sich aufgrund unserer Hypothese um ein einseitiges Intervall handelt (nach oben offen). Basierend auf der Stichprobe liegt der wahre Wert $\mu$ zwischen `r height_test$conf.int[1]` und $\infty$. Man erkennt also, dass der Wert von 180 in diesem Konfidenzintervall liegt, was ebenso bestätigt, dass es keinen Unterschied gibt.
+Das 95%ige Konfidenzintervall wird uns ebenfalls ausgegeben. Beachten Sie, dass es sich aufgrund unserer Hypothese um ein einseitiges Intervall handelt (nach oben offen). Basierend auf der Stichprobe liegt der wahre Wert $\mu$ zwischen `r neuro_test$conf.int[1]` und $\infty$. Man erkennt also, dass der Wert von 180 in diesem Konfidenzintervall liegt, was ebenso bestätigt, dass es keinen Unterschied gibt.
 
 
-## Beispiel mit unserem Datensatz
+Die $H_0$ wird mit einer Irrtumswahrscheinlichkeit von $1\\%$ verworfen. Der Neurotizismuswert der Studierenden ist höher als der der Studierenden-Population.
 
 
-**Unterscheidet sich unsere studentische Stichprobe in ihrem Neurotizismuswert von Studierenden im Allgemeinen?** 
-  Wir nehmen an, dass der mittlere Neurotizismuswert in der Population der Studierenden bei $\mu$ = 3.3 liegt. 
+#### Einseitiges Konfidenzintervall für den Einstichproben-t-Test
 
- 1. Ist die erste Voraussetzung erfüllt?
- 2. Normalverteilungsannahme darf verletzt sein (verzerrt das Ergebnis des t-Tests nicht), wenn die Stichprobe mindestens 30 Personen umfasst. Dann gilt der *zentrale Grenzwertsatz*: "Die Stichprobenkennwertverteilung nähert sich einer Normalverteilung an, selbst wenn diese nicht normalverteilt ist."
+** NOCH DIE KOMPLETTE FORMULIERNUG ANPASSEN **
 
-Bevor wir in die inferenzstatistische Analyse einsteigen, ist es immer gut, sich einen Überblick über die deskriptiven Werte zu verschaffen. Wir können nun natürlich einfach die bereits gelernten Funktionen zu Mittelwert, Varianz, Minimum, etc. nutzen. Doch gibt es einen schnelleren Weg? Die Basisinstallation von `R` bietet uns keine Alternative. Jedoch gibt es zusätzliche *Pakete*, die den Pool an möglichen Funktionen erweitern. Die Logik wird im Folgenden erläutert.
+Im Sinne der Vollständigkeit wollen wir hier auch nochmal zeigen, wie sich das Konfidenzintervall für diesen Test bestimmen würde. In der Funktion wurde uns dieses bereits ausgegeben, doch wir wollen es nochmal händisch prüfen. Da es sich um gerichtete Hypothesen handelt, müssen wir ein einseitiges Konfidenzintervall bestimmen. 
 
-### Wie können andere Funktionen in R genutzt werden? - Library und Pakete {#pakete}
+Die zugehörige Gleichung ändert sich nur geringfügig. Wir müssen den z-Wert nun einseitig bestimmen und dann eben auch nur die untere Grenze unseres Intervalls. 
 
-R ist in einer Pakete-Logik aufgebaut. Das liegt daran, dass es immer mehr Funktionen in R gibt, die aber nie jemand alle gleichzeitig brauchen wird. Zur Schonung der Kapazität sind diese Funktionalitäten also in Pakete aufgeteilt. In *Basispaketen*, die standardmäßig geladen werden (also vorinstalliert sind beim Öffnen von R), sind grundlegende Befehle und Analysen implementiert (Beispiele für solche Basispakete sind `base`, `stats`, `graphics`). Für spezifischere Analysen (also Funktionen) müssen *Zusatzpakete* teilweise erst installiert, zumindest aber immer per Hand geladen werden (Beispiele sind `psych`, `car`, `ggplot2`). Nur die Funktionen von erst installierten und dann geladenen Paketen können in einem Skript benutzt werden.
+$$\mu = \bar{x} - z_{\alpha} * \sigma_{\bar{x}} = \bar{x} \pm z_{\alpha}*\frac{\sigma}{\sqrt{n}}$$
 
-Unter dem Reiter *Packages* wird die *Library* angezeigt. Hier sind alle Pakete enthalten, die einmal installiert wurden. Pakete müssen ab und zu (per Hand) aktualisiert werden. 
-
-{{<inline_image"/lehre/statistik-i/library.JPG">}}
-
-Sobald Sie eigene Pakete installiert haben, gibt es in dem Reiter *Packages* die Einteilung in die *System Library* (also standardmäßig installierte Pakete) und die *User Library* (von Ihnen installierte Pakete).
-
-Die folgenden Bilder verdeutlichen nochmal das Prinzip vom Installieren und Laden. Bei der Installation von R werden die Basispakete automatisch in die Library installiert. Zusatzpakete müssen mit der Funktion `install.packages()` mit dem Paketnamen als Argument installiert werden. Hierzu ist meist eine Internetverbindung nötig.
-
-
-{{<inline_image"/lehre/statistik-i/pakete_installieren.JPG">}}
-
-
-Beim Start von R werden die Basispakete automatisch geladen. Zusatzpakete müssen hingegen mit der Funktion `library()` mit dem Paketnamen als Argument geladen werden.
-
-
-{{<inline_image"/lehre/statistik-i/pakete_laden.JPG">}}
-
-
-Gehen wir das Prinzip an dem Beispielpaket `psych` durch, das verschiedene Operationen enthält, die in der psychologischen Forschung häufig benötigt werden. Die Installation muss dem Laden des Paketes logischerweise vorausgestellt sein. Wenn R einmal geschlossen wird, müssen alle Zusatzpakete neu geladen, jedoch nicht neu installiert werden.
-
-```{r, eval = FALSE}
-install.packages('psych')          # installieren
-```
+Wir haben bereits gesehen, dass eine Bestimmung des z-Werts durch die Funktion `qnorm()` möglich ist. 
 
 ```{r}
-library(psych)                     # laden
+z_quantil_einseitig <- qnorm(p = 1-.05, mean = 0, sd = 1)
+z_quantil_einseitig
 ```
 
-Wir erhalten hier als *Warning Message* den Hinweis, unter welcher Version das Paket erstellt wurde.
-Eine kleine Suche nach Hilfe zu Pakete kann man mit `??` erhalten.
-
-```{r, eval = F}
-??psych                          # Hilfe
-```
-
-Da das Paket `psych` nun geladen ist, können wir Funktionen aus diesem nutzen. Für unsere Übersicht über deskriptive Maße der Variable `neuro` gibt es die Funktion `describe()`.
+Anschließend kann die untere Grenze des Intervalls sehr simpel bestimmt werden.
 
 ```{r}
-describe(fb22$neuro)
+new_mean_IQ-((z_quantil_einseitig*sd_IQ)/sqrt(sample_size))
 ```
 
-Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei `r mean(fb22$neuro)`. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
-
-### Hypothesengenerierung {#Hypothesen}
-
-**Variante 1**:
-
-**Ungerichtete $H_1$**: "Der mittlere Neurotizismuswert unserer Stichprobe unterscheidet sich vom mittleren Neurotizismuswert der Studierenden-Population" 
---> zweiseitiger t-Test
-
-**Ungerichtete $H_0$**: "Der mittlere Neurotizismuswert unserer Stichprobe unterscheidet sich nicht vom mittleren Neurotizismuswert der Studierenden-Population"
-
-**Variante 2**:
-
-**Gerichtete (geringer) $H_1$**: "Der mittlere Neurotizismuswert unserer Stichprobe ist niedriger als der mittlere Neurotizismuswert der Studierenden-Population." \
---> einseitiger t-Test mit `alternative="less"`
-
-**Gerichtete (geringer) $H_0$**: "Der mittlere Neurotizismuswert unserer Stichprobe ist gleich oder höher als der mittlere Neurotizismuswert der Studierenden-Population."
-
-**Variante 3**:
-
-**Gerichtete (höher) $H_1$**: "Der mittlere Neurotizismuswert unserer Stichprobe ist höher als der mittlere Neurotizismuswert der Studierenden-Population." \
---> einseitiger t-Test mit `alternative="greater"`
-
-**Gerichtete (höher) $H_0$**: "Der mittlere Neurotizismuswert unserer Stichprobe ist gleich oder niedriger als der mittlere Neurotizismuswert der Studierenden-Population."
-
-In der Praxis würde man sich für eine der drei Hypothesen-Varianten entscheiden. Zu Übungszwecken werden aber alle drei Varianten durchgespielt.
-
-```{r}
-t.test(fb22$neuro, mu=3.3) #ungerichtet
-t.test(fb22$neuro, mu=3.3, alternative="less") #gerichtet, Stichprobenmittelwert geringer
-t.test(fb22$neuro, mu=3.3, alternative="greater") #gerichtet, Stichprobenmittelwert höher
-```
-
-**Konfidenzintervall:** Wir erkennen, dass das 95%-ige Konfidenzintervall per Standardeinstellung berechnet wird. Falls wir dieses vergrößern oder verkleinern wollen, müssen wir dies explizit formulieren im Argument `conf.level`:
-  
-```{r}
-t.test(fb22$neuro, mu=3.3, conf.level=0.99) #99%-iges Konfidenzintervall für die ungerichtete Hypothese
-t.test(fb22$neuro, mu=3.3, alternative="less", conf.level=0.99) #99%-iges Konfidenzintervall für die gerichtete Hypothese (Stichprobenmittelwert geringer)
-t.test(fb22$neuro, mu=3.3, alternative="greater", conf.level=0.99) #99%-iges Konfidenzintervall für die gerichtete Hypothese (Stichprobenmittelwert höher)
-```
-
-Es zeigt sich, dass der Neurotizismuswert der Studierenden sich von der Studierenden-Population signifikant auf dem 1%-Niveau unterscheidet.
-
-**Ungerichtet**
-
-Die $H_0$ wird mit einer Irrtumswahrscheinlichkeit von 1% verworfen. Der Neurotizismuswert der Studierenden unterscheidet sich von der Studierenden-Population.
-
-**Gerichtet (geringer)**
-
-Die $H_0$ wird beibehalten. Der Neurotizismuswert der Studierenden ist nicht kleiner als der der Studierenden-Population.
-*Bemerke*: Einen gerichteten t-Test, der $\bar{x} < \mu$ untersucht, würde man an dieser Stelle nicht durchführen, da die deskriptiven Werte schon gegen die Hypothese sprechen (da $\bar{x} > \mu$ und nicht $\bar{x} < \mu$).
-
-**Gerichtet (höher)**
-
-Die $H_0$ wird mit einer Irrtumswahrscheinlichkeit von 1% verworfen. Der Neurotizismuswert der Studierenden ist höher als der der Studierenden-Population.
+Da das Konfidenzintervall für den Stichprobenmittelwert die 100 **nicht** enthält, ist die Annahme unter der $H_0$ ($\mu \leq  100$) nicht haltbar. Daher würden wir die $H_0$ in diesem Fall verwerfen. Beachten Sie: Ein einseitiger *z*-Test bei einer Irrtumswahrscheinlichkeit $\alpha$ und die Besimmung über ein (1-$\alpha$)-Konfidenzintervall kommen immer zu denselben Schlussfolgerungen. 
 
 ***
 
 ## Effektgröße {#Cohens_d}
+
+** PAKET EINBAUEN **
 
 Als Effektgröße für Mittelwertsunterschiede kann **Cohen's d** (Cohen, 1988) verwendet werden. 
 
@@ -519,8 +495,8 @@ Dieses statistische Effektmaß beschreibt die Relevanz von signifikanten Ergebni
 $$d = |\frac{\bar{x} - {\mu}}{\sigma}|$$
 
 ```{r}
-mean_Neuro <- mean(fb22$neuro) #Neurotizismuswert der Stichprobe
-sd_Neuro <- sd(fb22$neuro, na.rm = T) #Stichproben SD (Populationsschätzer)
+mean_Neuro <- mean(fb23$neuro) #Neurotizismuswert der Stichprobe
+sd_Neuro <- sd(fb23$neuro, na.rm = T) #Stichproben SD (Populationsschätzer)
 mean_Popu_Neuro <- 3.3 #Neurotizismuswert der Grundgesamtheit
 d <- abs((mean_Neuro-mean_Popu_Neuro)/sd_Neuro) #abs(), da Betrag
 d

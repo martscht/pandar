@@ -9,8 +9,8 @@ subtitle: ''
 summary: '' 
 authors: [irmer, hartig] 
 weight: 2
-lastmod: '2023-10-30'
-featured: no
+lastmod: '2023-11-06'
+featured: yes
 banner:
   image: "/header/frog_overencumbered.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/806441)"
@@ -346,9 +346,8 @@ names(summary_our_model)      # weitere mögliche Argumente, die wir erhalten k�
 ```
 
 ```
-##  [1] "call"          "terms"         "residuals"     "coefficients" 
-##  [5] "aliased"       "sigma"         "df"            "r.squared"    
-##  [9] "adj.r.squared" "fstatistic"    "cov.unscaled"
+##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"        
+##  [7] "df"            "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled"
 ```
 
 ```r
@@ -714,10 +713,12 @@ Der Vektor der Mittelwertsdifferenzen $\mathbf{X}_i-\bar{\mathbf{X}}$ wird durch
 
 <img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
 Hier ist 
+{{< math >}}
 \begin{align*}
 \mathbf{X}&=\begin{pmatrix}X_1\\ X_2\end{pmatrix}\\
 \bar{\mathbf{X}}&=\begin{pmatrix}\bar{X}_1\\ \bar{X}_2\end{pmatrix}=\begin{pmatrix}0\\ 0\end{pmatrix}
 \end{align*}
+{{</ math >}}
 Der Zentroid ist hier in Hellgrün dargestellt. Außerdem sind zwei Punkte (in schwarz) eingezeichnet, die die gleiche Mahalanobisdistanz haben. Allerdings sehen wir, repräsentiert durch die blaue Linie, ebenfalls die euklidische Distanz. Die euklidische Distanz ist jene, welche wir nutzen, wenn wir ein Maßband anlegen würden (um bspw. ein Zimmer zu vermessen oder eben die Distanz auf dem Bildschirm der beiden Punkte vom hellgrünen Zentroiden). Dies bedeutet, dass wenn wir in dieser Grafik (und damit in den Daten) die Kovariation der Variablen ignorieren würden, so würden wir den linken schwarzen Punkt und die blaue Linie als äquidistant (also gleich weit entfernt) annehmen. Berücksichtigen wir allerdings die positive Korrelation der Variablen, dann erkennen wir, dass die beiden schwarzen Punkte gleich wahrscheinlich sind und damit im Schnitt gleich häufig auftreten. Dies lässt sich folgendermaßen erklären: wenn zwei Variablen positiv korreliert sind, sind extreme positive und extreme negative Werte auf beiden Variablen gleichzeitig recht wahrscheinlich, während es sehr unwahrscheinlich ist, dass die eine Variable eine hohe und die andere gleichzeitig eine niedrige Ausprägung aufweist (und umgekehrt). Entsprechend haben Wertekonstellationen, die sehr unwahrscheinlich sind (gegeben der Struktur in den Daten) eine große Mahalanobisdistanz - in der Grafik wächst also die Mahalanobisdistanz je dunkler die Kurve.
 
 Beschäftigen wir uns zunächst mit der Testung auf multivariate Normalverteilung. Wenn diese gegeben ist, sind die Daten der Mahalanobisdistanz $\chi^2(df=p)$ verteilt ist, wobei $p$ die Anzahl an Variablen ist. Der Vorteil hiervon ist, dass wir eine eindimensionale Verteilung untersuchen können, um ein Gefühl für multivariate Daten zu erhalten. Bspw. kann dann ein Histogramm oder ein Q-Q-Plot verwendet werden, um die Daten auf Normalverteilung zu untersuchen, bzw. es kann bspw. der Kolmogorov-Smirnov Test durchgeführt werden, um zu prüfen, ob die Mahalanobisdistanz $\chi^2(df=p)$ verteilt ist. 
@@ -807,23 +808,21 @@ MD
 ```
 
 ```
-##   [1]  0.88733518  0.21566377  2.41458442  0.13177919  1.27927630  4.28965128
-##   [7]  0.03451167  0.33661264  9.62502968  1.22925996  3.44404519  1.06648706
-##  [13]  1.47842392  1.83106572  4.29879647 22.89143112  0.21555167  0.49834275
-##  [19]  2.65724843  1.81949191  2.12850866  1.31066833  0.14334729  0.15748576
-##  [25]  1.71430321  1.74615142  1.00646134  0.17988251  5.04513115  7.14678462
-##  [31]  0.16464887  7.01861572  4.85177478  1.19043337  2.72462931  4.34611563
-##  [37]  0.52793945  0.80019408  0.74740206  0.57368396  0.28016792  6.27035221
-##  [43]  4.07657057  0.04345642  0.81076314  2.97056512  2.10323417  1.08103246
-##  [49]  0.60950451  2.90704907  0.10986424  6.09359260  0.94728160  2.35683503
-##  [55]  0.03620534  0.40241153  1.62654030  1.72697393  3.75760606  1.46629223
-##  [61]  0.71323544  0.41142182  0.39965918  0.61656862  0.37536805  0.22094404
-##  [67]  3.04527077  0.27381745  0.79358572  3.86151524  3.19370574  0.19468438
-##  [73]  0.29354422  2.35326071  0.95634005  0.07240648  1.92700957  1.44365936
-##  [79]  0.12899197  4.04487099  0.42931176  0.05394028  4.83779128  0.15390664
-##  [85]  2.20766936  1.27108100  0.37456784  0.20895062  1.47329914  1.26292357
-##  [91]  1.25364137  0.67270315  0.85951141  4.25348827  0.28156897  0.18421086
-##  [97]  0.47650958  0.13256756  8.26520343  0.18224578
+##   [1]  0.88733518  0.21566377  2.41458442  0.13177919  1.27927630  4.28965128  0.03451167
+##   [8]  0.33661264  9.62502968  1.22925996  3.44404519  1.06648706  1.47842392  1.83106572
+##  [15]  4.29879647 22.89143112  0.21555167  0.49834275  2.65724843  1.81949191  2.12850866
+##  [22]  1.31066833  0.14334729  0.15748576  1.71430321  1.74615142  1.00646134  0.17988251
+##  [29]  5.04513115  7.14678462  0.16464887  7.01861572  4.85177478  1.19043337  2.72462931
+##  [36]  4.34611563  0.52793945  0.80019408  0.74740206  0.57368396  0.28016792  6.27035221
+##  [43]  4.07657057  0.04345642  0.81076314  2.97056512  2.10323417  1.08103246  0.60950451
+##  [50]  2.90704907  0.10986424  6.09359260  0.94728160  2.35683503  0.03620534  0.40241153
+##  [57]  1.62654030  1.72697393  3.75760606  1.46629223  0.71323544  0.41142182  0.39965918
+##  [64]  0.61656862  0.37536805  0.22094404  3.04527077  0.27381745  0.79358572  3.86151524
+##  [71]  3.19370574  0.19468438  0.29354422  2.35326071  0.95634005  0.07240648  1.92700957
+##  [78]  1.44365936  0.12899197  4.04487099  0.42931176  0.05394028  4.83779128  0.15390664
+##  [85]  2.20766936  1.27108100  0.37456784  0.20895062  1.47329914  1.26292357  1.25364137
+##  [92]  0.67270315  0.85951141  4.25348827  0.28156897  0.18421086  0.47650958  0.13256756
+##  [99]  8.26520343  0.18224578
 ```
 
 Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Probandennummer der möglichen Ausreißer.
@@ -857,13 +856,15 @@ Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [{{< icon
 ## Appendix
 ### Appendix A {#AppendixA}
 
-<details><summary>**Regression "zu Fuß"**</summary>
+<details> <summary><b>Regression zu Fuß</b></summary>
 
 Wir schauen uns nun ein weiteres Beispiel an und berechnen alle Koeffizienten zunächst mit `lm` und anschließend "zu Fuß". Wir wollen folgendes Modell schätzen
-
+{{< math >}}
 $$y_{i,math} = b_0 +b_{reading}x_{i,reading} + b_{IQ}x_{i,IQ} + e_i$$
+{{</ math >}}
 oder in Matrixform:
 
+{{< math >}}
 $$\begin{align}
 \begin{pmatrix} y_1\\y_2\\y_3\\y_4\\...\\y_{100}\end{pmatrix} = b_{0} *
 \begin {pmatrix}1\\1\\1\\1\\...\\1\end{pmatrix} + b_{reading} *
@@ -871,6 +872,7 @@ $$\begin{align}
 \begin {pmatrix}x_{IQ1}\\x_{IQ2}\\x_{IQ3}\\x_{IQ4}\\...\\x_{IQ100}\end{pmatrix} +
 \begin {pmatrix}e_1\\e_2\\e_3\\e_4\\...\\e_{100}\end{pmatrix}
 \end{align}$$
+{{</ math >}}
 
 Mit `lm` kommen wir zu folgendem Ergebnis; das Modell nennen wir phantasievoll `our_next_model`:
 
@@ -920,10 +922,13 @@ head(X)
 ## [6,] 1 308.7457 106.14127
 ```
 
+{{< math >}}
 \begin{align}y = \begin{pmatrix}451,98\\589,65\\509,33\\560,43\\...\\603,18\end{pmatrix}\end{align}
+{{</ math >}}
 
+{{< math >}}
 \begin{align}X = \begin{pmatrix}1 & 449,59 & 81,78\\1 & 544,85 & 106,76\\1 & 331,35 & 99,14\\1 & 531,54 & 111,91\\ ... & ... & ... \\1 & 487,22 & 106,13\end{pmatrix}\end{align}
-
+{{</ math >}}
 
 **Vorgehen bei der Berechnung der Regressionsgewichte:**
 
@@ -936,11 +941,14 @@ head(X)
 
 Die Kreuzproduktsumme (X'X) wird berechnet, indem die transponierte Matrix X (X') mit der Matrix X multipliziert wird. Die transponierte Matrix X' erhalten Sie durch den Befehl t(X).
 
+{{< math >}}
+
 \begin{align}
+\tiny
 \dfrac{}{X'\begin{pmatrix} 1 & 1 & 1 & 1 & ... & 1\\449,58 & 544,85 & 331,35 & 531,54 & ... & 487,22\\81,78 & 106,76 & 99,14 & 111,91 & ... & 106,13\end{pmatrix}}
 \dfrac{\begin{pmatrix}1 & 449,59 & 81,78\\1 & 544,85 & 106,76\\1 & 331,35 & 99,14\\1 & 531,54 & 111,91\\... & ... & ... \\1 & 487,22 & 106,13\end{pmatrix}X}
 {\begin{pmatrix}100,00 & 49606,60 & 9813,43\\49606,61 & 25730126,10 & 4962448,08\\9813,43 & 4962448,10 & 987595,82\end{pmatrix}X'X}\end{align}
-
+{{</ math >}}
 
 
 ```r
@@ -973,18 +981,21 @@ solve(XX)
 ## IQ      -0.0033928220 -5.056210e-06  6.013228e-05
 ```
 
+{{< math >}}
 \begin{align}(X'X)^{-1}= \begin{pmatrix}0,42 & -1,56e^{-04} & -3,39^{-03}\\-0,00 & 1,32e^{-06} & -5,06e^{-06}\\-0,00 & -5,06e^{-06} & 6,01e^{-05}\end{pmatrix}\end{align}
+{{</ math >}}
 
 #### 3. Berechnung des Kreuzproduksummenvektors (X'y)
 
 Der Kreuzproduktsummenvektor (X'y) wird durch die Multiplikation der transponierten X Matrix (X') und des Vektors y berechnet.  
 
-
+{{< math >}}
 \begin{align}
 \dfrac{}{X'\begin{pmatrix}1 & 1 & 1 & 1 & ... & 1\\449,58 & 544,85 & 331,35 & 531,54 & ... & 487,22\\81,78 & 106,76 & 99,14 & 111,91 & ... & 106,13\end{pmatrix}}
 \dfrac{\begin{pmatrix}451,98\\589,65\\509,33\\560,43\\...\\603,18\end{pmatrix}y}
 {\begin{pmatrix}56146,45\\28313059,77\\5636931,00\end{pmatrix}X'y}
 \end{align}
+{{</ math >}}
 
 
 ```r
@@ -1004,12 +1015,13 @@ head(Xy)
 
 Die geschätzten Regressionsgewichte nach dem Kriterium der kleinsten Quadrate werden berechnet, indem die Inverse der Kreuzproduktsumme $(X'X)^{-1}$ mit dem  Kreuzproduksummenvektor (X'y) multipliziert wird. Den Vektor mit den vorhergesagten Werte von y ($\hat{y}$) können Sie durch die Multiplikation der X-Matrix mit den Regressionsgewichten ($\hat{b}$) berechnen.  
 
+{{< math >}}
 \begin{align}
 \dfrac{}{(X'X)^{-1}\begin{pmatrix}0,42 & -1,56e^{-04} & -3,39^{-03}\\-0,00 & 1,32e^{-06} & -5,06e^{-06}\\-0,00 & -5,06e^{-06} & 6,01e^{-05}\end{pmatrix}}
 \dfrac{\begin{pmatrix}56146,45\\28313059,77\\5636931,00\end{pmatrix}X'y}
 {\begin{pmatrix}58,17\\-0,04\\5,31\end{pmatrix}\hat{b}}
 \end{align}
-
+{{</ math >}}
 
 
 ```r
@@ -1033,9 +1045,12 @@ head(y_hat)
 ```
 ## [1] 476.2897 605.5115 572.7112 633.3661 653.1192 610.6951
 ```
+
+{{< math >}}
 \begin{align}
 \hat{y}_{math} = \begin{pmatrix}476,29\\605,51\\572,71\\633,37\\...\\604,22\end{pmatrix}
 \end{align}
+{{</ math >}}
 
 Tatsächlich kommen wir zum selben Ergebnis wie mit `lm`. Dies liegt daran, dass `lm` im Grunde diese Matrixoperationen für uns durchführt!
 
@@ -1084,7 +1099,7 @@ lm.beta(our_next_model)
 
 Der Determinationskoeffizient $R^2$ gibt an, wie viel Varianz in der abhängigen Variable durch die unabhängigen Variablen erklärt werden kann:
 
-$R^2= \dfrac{Q_d}{Q_d + Q_e}$
+{{< math >}}$R^2= \dfrac{Q_d}{Q_d + Q_e}${{</ math >}}
 
 
 ```r
@@ -1094,7 +1109,7 @@ Q_e <- sum((y - y_hat)^2)          # Fehlerquadratsumme
 R2 <- Q_d / (Q_d + Q_e)            # Determinationskoeffizient R2
 ```
 
-$R^2= \dfrac{Q_d}{Q_d + Q_e} = \dfrac{6.5805169\times 10^{5}}{6.5805169\times 10^{5} + 6.9223863\times 10^{5}} = 0.49$
+{{< math >}}$R^2= \dfrac{Q_d}{Q_d + Q_e} = \dfrac{6.5805169\times 10^{5}}{6.5805169\times 10^{5} + 6.9223863\times 10^{5}} = 0.49${{</ math >}}
 
 
 **$F$-Wert**
@@ -1112,7 +1127,7 @@ F_krit <- qf(.95, df1=m, df2=n-m-1)  # kritischer F-Wert (alpha=5%)
 p <- 1-pf(F_omn, m, n-m-1)           # p-Wert
 ```
 
-
+{{< math >}}
 $F_{omn} = \dfrac{\dfrac{R^2}{m}}{\dfrac{1-R^2}{n-m-1}} = \dfrac{\dfrac{0.49}{2}}{\dfrac{1-0.49}{100-2-1}} = 46.1$
 
 $df_1 = 2, df_1 = n-m-1 = 100-2-1 =97$
@@ -1120,13 +1135,13 @@ $df_1 = 2, df_1 = n-m-1 = 100-2-1 =97$
 $F_{krit}(\alpha=.05, df_1=2, df_2= 97)= 3.09$
 
 $p=0.00000000000000844$
+{{</ math >}}
 
 </details>
 
-
 ### Appendix B {#AppendixB}
 
-<details><summary>**Regressionsmodell**</summary>
+{{< spoiler text="**Regressionsmodell**" >}}
 
 Folgende Befehle führen zum gleichen Ergebnis wie:
 
@@ -1265,12 +1280,12 @@ lm(AV ~ 1 + UV1 + UV2)
 
 Selbstverständlich gibt es auch noch weitere Befehle, die zum selben Ergebnis kommen. Sie sehen, dass Sie in `R` in vielen Bereichen mit leicht unterschiedlichem Code zum selben Ergebnis gelangen!
 
-</details>
+{{</ spoiler >}}
 
 
 ### Appendix C {#AppendixC}
 
-<details><summary>**ggplot2**</summary>
+{{< spoiler text="**ggplot2**" >}}
 
 Im folgenden Block sehen wir den Code für ein Histogramm in `ggplot2`-Notation (das Paket muss natürlich installiert sein: `install.packages(ggplot2)`). Hier sind einige Zusatzeinstellungen gewählt, die das Histogramm optisch aufbereiten. 
 
@@ -1331,38 +1346,56 @@ ggplot(data = df_CD, aes(x = CD)) +
 
 <img src="/lehre/fue-i/regression-und-ausreisserdiagnostik_files/figure-html/unnamed-chunk-56-1.png" style="display: block; margin: auto;" />
 
-</details>
+{{</ spoiler >}}
 
 ### Appendix D {#AppendixD}
 
-<details><summary>**Multikollinearität und Standardfehler**</summary>
+<details><summary><b>Multikollinearität und Standardfehler</b><em>fb23</em></summary>
 
 Dies ist der Appendix A der Bachelor Sitzung zu Voraussetzungen der Regression von [Julien Irmer](/authors/irmer).
 
 Im Folgenden stehen $\beta$s für _**unstandardisierte**_ Regressionskoeffizienten.
 
-Für eine einfache Regressionsgleichung mit $$Y_i=\beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + \varepsilon_i$$
-kann die selbe Gleichung auch in Matrixnotation formuliert werden $$Y = X\beta + \varepsilon.$$ Hier ist $X$ die Systemmatrix, welche die Zeilenvektoren $X_i=(1, x_{i1}, x_{i2})$ enthält. Die Standardfehler, welche die Streuung der Parameter $\beta:=(\beta_0,\beta_1,\beta_2)$ beschreiben, lassen sich wie folgt ermitteln. Wir bestimmen zunächst die Matrix $I$ wie folgt
+Für eine einfache Regressionsgleichung mit 
+{{< math >}}
+$$Y_i=\beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + \varepsilon_i$$
+{{</ math >}}
+
+kann die selbe Gleichung auch in Matrixnotation formuliert werden 
+{{< math >}}
+$$Y = X\beta + \varepsilon.$$
+{{</ math >}}
+Hier ist $X$ die Systemmatrix, welche die Zeilenvektoren $X_i=(1, x_{i1}, x_{i2})$ enthält. Die Standardfehler, welche die Streuung der Parameter $\beta:=(\beta_0,\beta_1,\beta_2)$ beschreiben, lassen sich wie folgt ermitteln. Wir bestimmen zunächst die Matrix $I$ wie folgt
+{{< math >}}
 $$I:=(X'X)^{-1}\hat{\sigma}^2_e,$$
+{{</ math >}}
+
 wobei $\hat{\sigma}^2_e$ die Residualvarianz unserer Regressionsanalyse ist (also der nicht-erklärte Anteil an der Varianz von $Y$). Aus der Matrix $I$ erhalten wir die Standardfehler sehr einfach: Sie stehen im Quadrat auf der Diagonalen. Das heißt, die Standardfehler sind $SE(\beta)=\sqrt{\text{diag}(I)}$ (Wir nehmen mit $\text{diag}$ die Diagonalelemente aus $I$ und ziehen aus diesen jeweils die Wurzel: der erste Eintrag ist der $SE$ von $\beta_0$; also $SE(\beta_0)=\sqrt{I_{11}}$; der zweite von $\beta_1$;$SE(\beta_1)=\sqrt{I_{22}}$; usw.). Was hat das nun mit der Kollinearität zu tun? Wir wissen, dass in $X'X$ die Information über die Kovariation im Datensatz steckt (*dafür muss nur noch durch die Stichprobengröße geteilt werden und das Vektorprodukt der Mittelwerte abgezogen werden; damit wir eine Zentrierung um den Mittelwert sowie eine Normierung an der Stichprobengröße vorgenommen*). Beispielsweise lässt sich die empirische Kovarianzmatrix $S$ zweier Variablen $z_1$ und $z_2$ sehr einfach bestimmen mit $Z:=(z_1, z_2)$:
+{{< math >}}
 $$ S=\frac{1}{n}Z'Z - \begin{pmatrix}\overline{z}_1\\\overline{z}_2 \end{pmatrix}\begin{pmatrix}\overline{z}_1&\overline{z}_2 \end{pmatrix}.$$
+{{</ math >}}
+
 Weitere Informationen hierzu (Kovarianzmatrix und Standardfehler) sind im Appendix B (sowie auch in einigen Kapiteln von [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) Unterpunkt 5.2-5.4 bzw. ab Seite 1058) nachzulesen. 
 
 Insgesamt bedeutet dies, dass die Standardfehler von der Inversen der Kovarianzmatrix unserer Daten sowie von der Residualvarianz abhängen. Sie sind also groß, wenn die Residualvarianz groß ist (damit ist die Vorhersage von $Y$ schlecht) oder wenn die Inverse der Kovarianzmatrix groß ist (also wenn die Variablen stark redundant sind und somit hoch miteinander korrelieren). Nehmen wir dazu der Einfachheit halber an, dass $\hat{\sigma}_e^2=1$ (es geht hier nur um eine numerische Präsentation der Effekte, nicht um ein sinnvolles Modell) sowie $n = 100$ (Stichprobengröße). Zusätzlich gehen wir von zentrierten Variablen (Mittelwert von 0) aus. Dann lässt sich aus $X'X$ durch Division durch $100$ die Kovarianzmatrix der Variablen bestimmen. Wir gucken uns drei Fälle an:
 
+{{< math >}}
 \begin{align*}
 \text{Fall 1: } X'X&=\begin{pmatrix}100&0&0\\0&100&0\\0&0&100\end{pmatrix},\\
 \text{Fall 2: } X'X&=\begin{pmatrix}100&0&0\\0&100&99\\0&99&100\end{pmatrix}, \\ 
 \text{Fall 3: } X'X&=\begin{pmatrix}100&0&0\\0&100&100\\0&100&100\end{pmatrix}.
 \end{align*}
+{{</ math >}}
 
 Hierbei ist zu beachten, dass $X$ die Systemmatrix ist, welche auch die $1$ des Interzepts enthält. Natürlich ist eine Variable von einer Konstanten unabhängig, weswegen die erste Zeile und Spalte von $X'X$ jeweils der Vektor $(100, 0, 0)$ ist. Die zugehörigen Korrelationsmatrizen können durch Divison durch 100 berechnet werden (*da wir zentrierte Variablen haben, die Stichprobengröße gleich 100 ist und die Varianzen der Variablen gerade 100 sind!*). Wir betrachten nur die Minormatrizen, aus welchen die 1. Zeile und die 1. Spalte gestrichen wurden. Diese teilen wir durch 100 und erhalten die Korrelationsmatrix der Variablen:
 
+{{< math >}}
 \begin{align*}
 \text{Fall 1: }\Sigma_1&=\begin{pmatrix}1&0\\0&1\end{pmatrix},\\
 \text{Fall 2: }\Sigma_2&=\begin{pmatrix}1&.99\\.99&1\end{pmatrix},\\
 \text{Fall 3: } \Sigma_3&=\begin{pmatrix}1&1\\1&1\end{pmatrix}. 
 \end{align*}
+{{</ math >}}
 
 Im *Fall 1* sind die zwei Variablen unkorreliert. Die Inverse ist leicht zu bilden.
 

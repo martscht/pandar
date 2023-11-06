@@ -7,9 +7,9 @@ categories: ["Statistik I"]
 tags: ["Zusatz", "Gruppenprojekt", "Grundlagen"] 
 subtitle: ''
 summary: '' 
-authors: [nehler, beitner, schüller, schultze]
+authors: [nehler, beitner, schueller, schultze]
 weight: 12
-lastmod: '2023-10-30'
+lastmod: '2023-11-02'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"
@@ -212,7 +212,7 @@ Neben der Datenerhebung und -auswertung gehört auch das Schreiben eines Bericht
 
 # 7. Abgabe {#Abgabe}
 
-Auch bei der Abgabe Ihrer Studienleistung legen wir auf das Üben von Open Science Praktiken großen Wert. Deshalb wird diese wieder über die Übungsplattform LIFOS geregelt. Nähere Informationen finden Sie erneut in dem zugehörigen Tutorial. Durch diesen Link werden Sie direkt an die richtige Stelle geleitet. Die Abgabe umfasst das in der Studie verwendete Material, nachvollziehbar kommentierten und ausführbaren Code, den zugehörigen Rohdatensatz und den geschriebenen Bericht. Deadline für das Hochladen der Dokumente ist der 04.02.2024.
+Auch bei der Abgabe Ihrer Studienleistung legen wir auf das Üben von Open Science Praktiken großen Wert. Deshalb wird diese wieder über die Übungsplattform LIFOS geregelt. Nähere Informationen finden Sie erneut in dem [zugehörigen Tutorial](/lehre/statistik-i/quickguide-lifos). Die Abgabe umfasst das in der Studie verwendete Material, nachvollziehbar kommentierten und ausführbaren Code, den zugehörigen Rohdatensatz und den geschriebenen Bericht. 
 
 # Zusammenfassung
 

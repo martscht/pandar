@@ -9,8 +9,8 @@ subtitle: ''
 summary: 'In diesem Beitrag wird eine multiple Regression in `R` exemplarisch durchgeführt. Dabei wird erläutert, wie ein Regressionsmodell in `R` erstellt und der entsprechende `R`-Output interpretiert werden kann. Außerdem werden die Voraussetzungen für die multiple Regression behandelt. Der Fokus liegt dabei auf der Prüfung der Multikollinearität sowie der Identifikation möglicher Ausreißern und einflussreicher Datenpunkte. '
 authors: [nehler, irmer, hartig]
 weight: 2
-lastmod: '2023-10-23'
-featured: yes
+lastmod: '2023-11-06'
+featured: no
 banner:
   image: "/header/frog_overencumbered.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/806441)"
@@ -285,7 +285,7 @@ mean(x = resid(model)) # Mittelwert mit Referenzierung aus dem lm Objekt "model"
 ```
 
 ```
-## [1] -1.158362e-16
+## [1] -6.002143e-17
 ```
 
 Natürlich könnte man statt der Funktion `resid` auch das Element Residuals im Objekt ansprechen mittels `model$residuals`.
@@ -359,9 +359,8 @@ names(summary_model) # weitere mögliche Argumente, die wir erhalten können
 ```
 
 ```
-##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"      
-##  [6] "sigma"         "df"            "r.squared"     "adj.r.squared" "fstatistic"   
-## [11] "cov.unscaled"
+##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"        
+##  [7] "df"            "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled"
 ```
 
 Gleiches können wir mit allen Summary-Objekten auch in späteren Sitzungen machen!
@@ -1008,19 +1007,18 @@ MD
 ```
 
 ```
-##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173  1.29835776
-##  [8]  0.89484803  5.31999173  0.07401952  1.85988286  0.96581665  2.87179069  1.29835776
-## [15]  3.08398338  6.11730810  0.96581665  0.33582974  1.93061376  3.99622396  0.96581665
-## [22]  1.85988286  1.93061376  3.57704668  0.07401952  0.96581665  1.68027868  0.88006651
-## [29]  1.85988286  1.85988286  0.96581665  0.19639932  0.07401952  2.79831527  0.19639932
-## [36]  1.64697702  2.42350418  0.89484803  0.96581665  0.19639932  9.85316591  0.89484803
-## [43]  6.01723026  4.27802381  0.88006651  0.19639932  0.07401952  0.38036881  8.84194961
-## [50]  1.64697702  0.19639932  1.29835776  2.87179069  4.92199266  7.18339325  0.19639932
-## [57]  0.33582974  0.38036881  3.46236019  0.07401952  0.33582974  0.38036881  3.48368968
-## [64]  8.46422112  0.19639932  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570
-## [71]  0.38036881  0.07401952  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429
-## [78]  3.08398338  2.86848429  1.09506856  2.39394112  1.50981570  1.09506856  2.42350418
-## [85] 10.28690861  1.33295604  0.19639932  0.88006651  1.68027868  1.09506856
+##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173  1.29835776  0.89484803
+##  [9]  5.31999173  0.07401952  1.85988286  0.96581665  2.87179069  1.29835776  3.08398338  6.11730810
+## [17]  0.96581665  0.33582974  1.93061376  3.99622396  0.96581665  1.85988286  1.93061376  3.57704668
+## [25]  0.07401952  0.96581665  1.68027868  0.88006651  1.85988286  1.85988286  0.96581665  0.19639932
+## [33]  0.07401952  2.79831527  0.19639932  1.64697702  2.42350418  0.89484803  0.96581665  0.19639932
+## [41]  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651  0.19639932  0.07401952  0.38036881
+## [49]  8.84194961  1.64697702  0.19639932  1.29835776  2.87179069  4.92199266  7.18339325  0.19639932
+## [57]  0.33582974  0.38036881  3.46236019  0.07401952  0.33582974  0.38036881  3.48368968  8.46422112
+## [65]  0.19639932  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570  0.38036881  0.07401952
+## [73]  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429  3.08398338  2.86848429  1.09506856
+## [81]  2.39394112  1.50981570  1.09506856  2.42350418 10.28690861  1.33295604  0.19639932  0.88006651
+## [89]  1.68027868  1.09506856
 ```
 
 Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Fallnummer (Pbn-Nr) der möglichen Ausreißer.

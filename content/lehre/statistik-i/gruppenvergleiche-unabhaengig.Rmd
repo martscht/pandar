@@ -4,9 +4,9 @@ type: post
 date: '2019-10-18' 
 slug: gruppenvergleiche-unabhaengig 
 categories: ["Statistik I"] 
-tags: ["t-Test", "chi2-test", "Wilcoxon-Test", "unabhängig"] 
+tags: ["t-Test", "Wilcoxon-Test", "Deskriptivstatistik", "Inferenzstatistik"] 
 subtitle: ''
-summary: '' 
+summary: 'In diesem Post lernt ihr Unterschiede zwischen zwei Gruppen zu veranschaulichen. Ihr erfahrt außerdem, wie ihr verschiedene Tests für unabhängige Stichproben in R durchführt und ihre Voraussetzungen prüft.' 
 authors: [koehler, buchholz, irmer, nehler, goldhammer] 
 weight: 6
 lastmod: '`r Sys.Date()`'
@@ -45,9 +45,9 @@ library(knitr)
 {{< spoiler text="Kernfragen dieser Lehreinheit über Gruppenvergleiche" >}}
 * Wie fertige ich [Deskriptivstatistiken](#Statistiken) (Grafiken, Kennwerte) zur Veranschaulichung des Unterschieds zwischen zwei Gruppen an?
 * Was sind [Voraussetzungen](#Vorraussetzungen) des *t*-Tests und wie prüfe ich sie?
-* Wie führe ich einen [*t*-Test](#t-Test) in R durch?\
-* Wie berechne ich die [Effektstärke](#Effektstärke) Cohen's *d*?\
-* Wie führe ich den [Wilcoxon-Test](#Wilcox) (auch "Mann-Whitney-Test", "U-Test", "Mann-Whitney-U-Test", "Wilcoxon-Rangsummentest") in R durch?\
+* Wie führe ich einen [*t*-Test](#t-Test) in R durch?
+* Wie berechne ich die [Effektstärke](#Effektstärke) Cohen's *d*?
+* Wie führe ich den [Wilcoxon-Test](#Wilcox) (auch "Mann-Whitney-Test", "U-Test", "Mann-Whitney-U-Test", "Wilcoxon-Rangsummentest") in R durch?
 * Wie führe ich den [Vierfelder-Chi-Quadrat-Test](#Chi-Sq) in R durch?
 {{< /spoiler >}}
 
@@ -73,7 +73,7 @@ Wie man anhand der Fragestellungen bereits gesehen hat, beschäftigen wir uns mi
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb22.rda'))  
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb22$geschl_faktor <- factor(fb22$geschl,
@@ -225,15 +225,15 @@ Damit wir den Ergebnissen des *t*-Tests trauen können, müssen dessen Vorausset
 **Voraussetzungen für die Durchführung des *t*-Tests**
 
 1.  die abhängige Variable ist intervallskaliert $\rightarrow$ ok
-2.  die einzelnen Messwerte sind voneinander unabhängig (Messwert einer Vpn hat keinen Einfluss auf den Messwert einer anderen) $\rightarrow$ ok\
-3.  das untersuchte Merkmal ist in den Grundgesamtheiten der beiden Gruppen normalverteilt $\rightarrow$ (ggf.) optische Prüfung\
+2.  die einzelnen Messwerte sind voneinander unabhängig (Messwert einer Vpn hat keinen Einfluss auf den Messwert einer anderen) $\rightarrow$ ok
+3.  das untersuchte Merkmal ist in den Grundgesamtheiten der beiden Gruppen normalverteilt $\rightarrow$ (ggf.) optische Prüfung
 4.  Homoskedastizität: Varianzen der Variablen innerhalb der Populationen sind gleich $\rightarrow$ Levene-Test
 
 **zu 3): Optische Prüfung auf Normalverteilung in den beiden Gruppen**
 
 Falls das Merkmal in der Population normalverteilt ist und die Stichproben groß genug sind, darf diese Voraussetzung generell als erfüllt betrachtet werden ($\rightarrow$ Zentraler Grenzwertsatz). Für kleinere Stichproben empfiehlt sich eine optische Prüfung auf Normalverteilung. Zur optischen Prüfung auf Normalverteilung gibt es mehrere Möglichkeiten, von denen zwei im Folgenden erläutert und dann jeweils durchgeführt werden.
 
--   Möglichkeit 1: die bei Normalverteilung erwartete Dichtefunktion über das Histogramm legen und so die Übereinstimmung beurteilen\
+-   Möglichkeit 1: die bei Normalverteilung erwartete Dichtefunktion über das Histogramm legen und so die Übereinstimmung beurteilen
 -   Möglichkeit 2: QQ-Plot (quantile-quantile): es wird die beobachtete Position eines Messwerts gegen diejenige Position, die unter Gültigkeit der Normalverteilung zu erwarten wäre, abgetragen. Bei Normalverteilung liegen die Punkte (in etwa) auf einer Geraden.
 
 ```{r, fig.height=4, fig.align="center"}
@@ -274,7 +274,7 @@ dev.off()
 
 Das Hypothesenpaar im Levene-Test lautet:
 
--   $H_0$: Homoskedastizität ist gegeben.\
+-   $H_0$: Homoskedastizität ist gegeben.
 -   $H_1$: Homoskedastizität ist nicht gegeben.
 
 Ein nicht-signifikantes Ergebnis (*p* \> .05) zeigt also Homoskedastizität an. Den Levene-Test können wir mit Hilfe des `car`-Pakets durchführen (dieses muss natürlich vorher installiert sein). Die nötige Funktion heißt `leveneTest()`. Sie nimmt eine Formel entgegen, die die Punktzahl ihrer jeweiligen Gruppe zuweist. Links von der `~` (Tilde) steht die abhängige Variable (hier der Nerdiness-Testwert), deren Mittelwertsunterschied durch die unabhängige Variable (hier Geschlecht) rechts der `~` erklärt werden soll. Wir merken uns also, dass die Gruppenzugehörigkeit rechts der `~` stehen muss.
@@ -310,12 +310,12 @@ $\rightarrow$ Fragestellung ist ungerichtet, erfordert also auch eine ungerichte
 
 Hypothesenpaar (inhaltlich):
 
--   $H_0$: Studentinnen und Studenten unterscheiden sich nicht im Nerdiness-Testwert.\
+-   $H_0$: Studentinnen und Studenten unterscheiden sich nicht im Nerdiness-Testwert.
 -   $H_1$: Studentinnen und Studenten unterscheiden sich im Nerdiness-Testwert.
 
 Hypothesenpaar (statistisch):
 
--   $H_0$: $\mu_\text{weiblich} = \mu_\text{männlich}$ bzw. $\mu_\text{weiblich} - \mu_\text{männlich} = 0$\
+-   $H_0$: $\mu_\text{weiblich} = \mu_\text{männlich}$ bzw. $\mu_\text{weiblich} - \mu_\text{männlich} = 0$
 -   $H_1$: $\mu_\text{weiblich} \ne \mu_\text{männlich}$ bzw. $\mu_\text{weiblich} - \mu_\text{männlich} \ne 0$
 
 **Signifikanzniveau**
@@ -344,9 +344,17 @@ ttest <- t.test(dataB$nerd ~ dataB$geschl_faktor, paired = FALSE, alternative = 
 
 Wir wissen nun, dass sich die Mittelwertsdifferenz nicht auf die Population verallgemeinern lässt. Dennoch wollen wir zur Eindordnung des Ergebnisses die Effektstärke ermitteln: Cohen's *d* gibt den standardisierten Mittelwertsunterschied zwischen zwei Gruppen an. "Standardisiert" bedeutet, dass wir uns nicht mehr auf der Originalmetrik befinden (hier: Nerdiness-Testwert), sondern mit Standardabweichungen arbeiten. Ein Wert von 1 zeigt also an, dass sich die Gruppenmittelwerte um eine Standardabweichung voneinander unterscheiden. Die Effektstärke berechnet sich wie folgt:
 
-$$ d = \frac{\bar{x}_1-\bar{x}_2} {\hat{\sigma}_{inn}} $$ wobei
+<div class=“big maths“> \begin{equation} \small 
+d = \frac{\bar{x}_1-\bar{x}_2} {\hat{\sigma}_{inn}}
+\end{equation}</div>
 
-$$ {\hat{\sigma}_{inn}} = \sqrt{ \frac{{\hat{\sigma}_1^2}*(n_1-1) + {\hat{\sigma}^2_2}*(n_2-1)} {(n_1-1) + (n_2-1)} }$$ Cohen (1988) hat folgende Konventionen zur Beurteilung der Effektstärke *d* vorgeschlagen, die man heranziehen kann, um den Effekt "bei kompletter Ahnungslosigkeit" einschätzen zu können (wissen wir mehr über den Sachverhalt, so sollten Effektstärken lieber im Bezug zu anderen Studienergebnissen interpretiert werden):
+wobei
+
+<div class=“big maths“> \begin{equation} \small 
+{\hat{\sigma}_{inn}} = \sqrt{ \frac{{\hat{\sigma}_1^2}*(n_1-1) + {\hat{\sigma}^2_2}*(n_2-1)} {(n_1-1) + (n_2-1)}}
+\end{equation}</div>
+
+Cohen (1988) hat folgende Konventionen zur Beurteilung der Effektstärke *d* vorgeschlagen, die man heranziehen kann, um den Effekt "bei kompletter Ahnungslosigkeit" einschätzen zu können (wissen wir mehr über den Sachverhalt, so sollten Effektstärken lieber im Bezug zu anderen Studienergebnissen interpretiert werden):
 
 |  *d*  |  Interpretation  |
 |:-----:|:----------------:|
@@ -454,18 +462,18 @@ Um diese Beobachtung inferenzstatistisch zu untermauern, müssen wir den richtig
 
 **Voraussetzungen für die Durchführung des *t*-Tests:**
 
-1.  die abhängige Variable ist intervallskaliert $\rightarrow$ nicht ok\
-2.  die einzelnen Messwerte sind voneinander unabhängig (Messwert einer Vpn hat keinen Einfluss auf den Messwert einer anderen) $\rightarrow$ ok\
-3.  das untersuchte Merkmal ist in den Grundgesamtheiten der beiden Gruppen normalverteilt $\rightarrow$ (ggf.) optische Prüfung\
+1.  die abhängige Variable ist intervallskaliert $\rightarrow$ nicht ok
+2.  die einzelnen Messwerte sind voneinander unabhängig (Messwert einer Vpn hat keinen Einfluss auf den Messwert einer anderen) $\rightarrow$ ok
+3.  das untersuchte Merkmal ist in den Grundgesamtheiten der beiden Gruppen normalverteilt $\rightarrow$ (ggf.) optische Prüfung
 4.  Homoskedastizität: Varianzen der Variablen innerhalb der Populationen sind gleich $\rightarrow$ Levene-Test
 
 Da die erste Voraussetzung nicht erfüllt ist - das Item nr2 ist eine lediglich ordinalskalierte Variable - wollen wir nun einen Wilcoxon-Test (für unabhängige Stichproben) durchführen. Auch für diesen Test gilt es, Voraussetzungen zu untersuchen:
 
 **Voraussetzungen für die Durchführung des Wilcoxon-Tests (für unabhängige Stichproben):**
 
-1.  die abhängige Variable ist stetig (zumindest ordinal-skaliert) $\rightarrow$ ok\
-2.  die einzelnen Messwerte sind voneinander unabhängig (Messwert einer Vpn hat keinen Einfluss auf den Messwert einer anderen) $\rightarrow$ ok\
-3.  das Merkmal folgt in beiden Gruppen der gleichen Verteilung $\rightarrow$ (ggf.) optische Prüfung\
+1.  die abhängige Variable ist stetig (zumindest ordinal-skaliert) $\rightarrow$ ok
+2.  die einzelnen Messwerte sind voneinander unabhängig (Messwert einer Vpn hat keinen Einfluss auf den Messwert einer anderen) $\rightarrow$ ok
+3.  das Merkmal folgt in beiden Gruppen der gleichen Verteilung $\rightarrow$ (ggf.) optische Prüfung
 4.  Streuung der Variablen für beide Gruppen ist innerhalb der Populationen gleich $\rightarrow$ Folgt aus der Voraussetzung 3 $\rightarrow$  als Indiz können wir in bestimmten Fällen den Levene-Test nutzen
 
 
@@ -490,7 +498,7 @@ $\rightarrow$ Vergleichbarkeit der Verteilungsform in den beiden Gruppen ist ein
 
 Das Hypothesenpaar im Levene-Test lautet:
 
--   $H_0$: Homoskedastizität ist gegeben.\
+-   $H_0$: Homoskedastizität ist gegeben.
 -   $H_1$: Homoskedastizität ist nicht gegeben.
 
 Ein nicht-signifikantes Ergebnis (*p* \> .05) zeigt also Homoskedastizität an.
@@ -526,12 +534,12 @@ $\rightarrow$ Fragestellung ist gerichtet, erfordert also auch eine gerichtete H
 
 Hypothesenpaar (inhaltlich):
 
--   $H_0$: Studentinnen stimmen Item nr2 weniger oder genauso stark zu wie Studenten.\
+-   $H_0$: Studentinnen stimmen Item nr2 weniger oder genauso stark zu wie Studenten.
 -   $H_1$: Studentinnen stimmen Item nr2 stärker zu als Studenten.
 
 Hypothesenpaar (statistisch):
 
--   $H_0$: $\eta_\text{weiblich} \leq \eta_\text{männlich}$ bzw. $\eta_\text{weiblich} - \eta_\text{männlich} \leq 0$\
+-   $H_0$: $\eta_\text{weiblich} \leq \eta_\text{männlich}$ bzw. $\eta_\text{weiblich} - \eta_\text{männlich} \leq 0$
 -   $H_1$: $\eta_\text{weiblich} \gt \eta_\text{männlich}$ bzw. $\eta_\text{weiblich} - \eta_\text{männlich} \gt 0$
 
 **Signifikanzniveau**
@@ -620,18 +628,18 @@ Kommen wir nun zur inferenzstatistischen Prüfung unserer Hypothese.
 
 **Hypothesen**
 
--   Art des Effekts: Zusammenhangshypothese\
--   Richtung des Effekts: Ungerichtet\
+-   Art des Effekts: Zusammenhangshypothese
+-   Richtung des Effekts: Ungerichtet
 -   Größe des Effekts: Unspezifisch
 
 Hypothesenpaar (inhaltlich):
 
--   $H_0$: Studierende mit Wohnort in Uninähe haben mit gleicher Wahrscheinlichkeit einen Nebenjob wie Studierende, deren Wohnort außerhalb von Frankfurt liegt.\
+-   $H_0$: Studierende mit Wohnort in Uninähe haben mit gleicher Wahrscheinlichkeit einen Nebenjob wie Studierende, deren Wohnort außerhalb von Frankfurt liegt.
 -   $H_1$: Studierende mit Wohnort in Uninähe haben mit einer höheren oder niedrigeren Wahrscheinlichkeit einen Nebenjob als Studierende, deren Wohnort außerhalb von Frankfurt liegt.
 
 Hypothesenpaar (statistisch):
 
--   $H_0$: $\pi_{ij} = \pi_{i\bullet} \cdot \pi_{\bullet j}$\
+-   $H_0$: $\pi_{ij} = \pi_{i\bullet} \cdot \pi_{\bullet j}$
 -   $H_1$: $\pi_{ij} \neq \pi_{i\bullet} \cdot \pi_{\bullet j}$
 
 wobei $\pi_{ij}$ die Wahrscheinlichkeit, in Zelle $ij$ zu landen, ist. Betrachten wir die Häufigkeitstabelle, dann entspricht dies der Wahrscheinlichkeit der Ausprägung der $i$-ten Zeile (Variable: Wohnortnähe) und der $j$-ten Spalte (Variable: Nebenjob). $\pi_{i\bullet}$ beschreibt die Wahrscheinlichkeit, die Ausprägung der $i$-ten Zeile (Variable: Wohnortnähe) zu haben. $\pi_{\bullet j}$ beschreibt die Wahrscheinlichkeit, die Ausprägung der der $j$-ten Spalte (Variable: Nebenjob) zu haben. Die beiden betrachteten Variablen sind voneinander unabhängig, wenn die Wahrscheinlichkeit für das Auftreten von Y (Nebenjob) nicht davon abhängt, welches X (Wohnort) vorliegt. Ist dies der Fall, lässt sich die Wahrscheinlichkeit für das Auftreten der Kombination der Merkmalsausprägungen in das Produkt der Einzelwahrscheinlichkeiten zerlegen. Bspw. sollte sich die Wahrscheinlichkeit in Frankfurt zu wohnen und keinen Nebenjob zu haben, ausdrücken lassen (gleich sein) mit der Wahrscheinlichkeit in Frankfurt zu wohnen multipliziert mit der Wahrscheinlichkeit keinen Nebenjob zu haben: $\pi_\text{FFM,nein}=\pi_{\text{FFM},\bullet}\cdot\pi_{\bullet,\text{nein}}$ (unter $H_0$).
@@ -679,7 +687,7 @@ chi_quadrat_Wert
 
 Die Freiheitsgrade berechnen sich aus der Anzahl der untersuchten Kategorien: $df = (p - 1) \cdot (k - 1)$. Hier, im Fall des Vierfelder-$\chi^2$-Tests also mit $df = 1$, wobei
 
--   *p*: Anzahl Kategorien Variable "ort" = 2\
+-   *p*: Anzahl Kategorien Variable "ort" = 2
 -   *k*: Anzahl Kategorien Variable "job" = 2
 
 Zur Bestimmung des kritischen Wertes und des $p$-Wertes ziehen wir die jeweiligen Funktionen der $\chi^2$ -Verteilung heran:
@@ -764,7 +772,7 @@ cor(ort_num, job_num, use="pairwise")
 
 Cohen (1988) hat folgende Konventionen zur Beurteilung der Effektstärke $\phi$ vorgeschlagen, die man heranziehen kann, um den Effekt "bei kompletter Ahnungslosigkeit" einschätzen zu können (wissen wir mehr über den Sachverhalt, so sollten Effektstärken lieber im Bezug zu anderen Studienergebnissen interpretiert werden):
 
-|  $|\phi|$  |  Interpretation  |
+| *phi* |  Interpretation  |
 |:-----:|:----------------:|
 | \~ .1 |  kleiner Effekt  |
 | \~ .3 | mittlerer Effekt |

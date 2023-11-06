@@ -9,8 +9,8 @@ subtitle: ''
 summary: '' 
 authors: [irmer] 
 weight: 1
-lastmod: '2023-10-31'
-featured: yes
+lastmod: '2023-11-06'
+featured: no
 banner:
   image: "/header/chalkboard_equation.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/562631)"
@@ -146,19 +146,18 @@ Schulleistungen$IQ
 ```
 
 ```
-##   [1]  81.77950 106.75898  99.14033 111.91499 116.12682 106.14127  85.44854  93.24323
-##   [9] 135.19738  89.90152  92.72073 115.90123 114.54088  83.28294 126.41670 107.20436
-##  [17]  90.03418  98.34044 117.06874 115.55140  68.11351 125.64776  93.34804 106.93651
-##  [25]  98.78466  78.93267 113.05378  92.86905  86.44483  70.17249 111.44613  93.78654
-##  [33]  87.54754  87.01957  69.32581  92.85801  70.56712  74.17486 105.61195 110.63901
-##  [41]  91.54624 105.73141 125.26215 101.14873 111.09582  79.99545  84.45429  84.50532
-##  [49]  96.60821 103.90556  81.03395 126.12813  89.47650  80.78064 106.48847 103.58060
-##  [57]  84.88878 115.90930  97.28407  91.60586 121.77877 110.26187 100.32137 112.65157
-##  [65] 122.84032  96.45124  75.48471  91.27550 111.85776  92.72890  76.84326  92.93814
-##  [73] 103.25579  81.15462  92.27190 106.40950  96.70280 104.06385 107.98499  60.76781
-##  [81]  94.55947 103.55973 101.83276 113.06302  76.56824  97.56684 104.28662 106.08550
-##  [89] 120.97759  82.65717 108.41181 103.38963 100.59534 122.79791  97.91853  92.96729
-##  [97]  77.51862 105.01989  54.05485 106.12641
+##   [1]  81.77950 106.75898  99.14033 111.91499 116.12682 106.14127  85.44854  93.24323 135.19738
+##  [10]  89.90152  92.72073 115.90123 114.54088  83.28294 126.41670 107.20436  90.03418  98.34044
+##  [19] 117.06874 115.55140  68.11351 125.64776  93.34804 106.93651  98.78466  78.93267 113.05378
+##  [28]  92.86905  86.44483  70.17249 111.44613  93.78654  87.54754  87.01957  69.32581  92.85801
+##  [37]  70.56712  74.17486 105.61195 110.63901  91.54624 105.73141 125.26215 101.14873 111.09582
+##  [46]  79.99545  84.45429  84.50532  96.60821 103.90556  81.03395 126.12813  89.47650  80.78064
+##  [55] 106.48847 103.58060  84.88878 115.90930  97.28407  91.60586 121.77877 110.26187 100.32137
+##  [64] 112.65157 122.84032  96.45124  75.48471  91.27550 111.85776  92.72890  76.84326  92.93814
+##  [73] 103.25579  81.15462  92.27190 106.40950  96.70280 104.06385 107.98499  60.76781  94.55947
+##  [82] 103.55973 101.83276 113.06302  76.56824  97.56684 104.28662 106.08550 120.97759  82.65717
+##  [91] 108.41181 103.38963 100.59534 122.79791  97.91853  92.96729  77.51862 105.01989  54.05485
+## [100] 106.12641
 ```
 _**Tipp:** In `R`-Studio können Sie sich Ihren Umgang mit der Software in vielen Dingen vereinfachen, indem Sie die automatische Vervollständigung der Software nutzen. Dies tun Sie, indem Sie bspw. `Schulleistungen$` tippen und dann den Tabulator [oder "Strg" + "Leertaste" auf Windows {{< icon name="windows" pack="fab" >}} oder Linux Rechner {{< icon name="linux" pack="fab" >}} oder "Control" + "Leertaste" auf Mac OS Rechnern {{< icon name="apple" pack="fab" >}}] auf Ihrer Tastatur drücken. Ihnen werden dann Vorschläge für mögliche Argumente aufgezeigt. Das gleiche funktioniert auch in Funktionen. Hier müssen Sie zunächst den Funktionsnamen schreiben und die Klammern öffnen. Mit dem Tabulator erhalten Sie anschließend Vorschläge für mögliche Argumente, die Sie der Funktion übergeben können. Schauen Sie sich dies doch einmal an! Dies funktioniert übrigens auch für das Vervollständigen von Dateipfaden. Hierbei muss allerdings darauf geachtet werden, dass diese in Anführungsstrichen geschrieben werden und Sie müssen beachten, wo ihr aktuelles Working-Directory liegt. Sie können allerdings auch den vollständigen Pfad eingeben, indem Sie auf Windows PCs {{< icon name="windows" pack="fab" >}} mit "C:/Users/" und auf Mac OS Rechnern {{< icon name="apple" pack="fab" >}} mit "/Users/" beginnen und dann den Tabulator drücken und den jeweilig richtigen Ordner auswählen, bis Sie an Ihrer Zieldatei angekommen sind!_
 

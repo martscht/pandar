@@ -4,7 +4,7 @@ library(knitr)
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb22.rda'))  
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb22$geschl_faktor <- factor(fb22$geschl,
