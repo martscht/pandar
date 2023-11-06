@@ -66,11 +66,10 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Therapieerfolg](#therapieerfolg-therapy) | [{{< icon name="download" pack="fas" >}} `Therapy` ](/daten/Therapy.rda) |
 | [Titanic](#titanic) |  [{{< icon name="download" pack="fas" >}} `Titanic` ](/daten/Titanic.rda) |
 | [Traumatische Erlebnisse und psychische Störungen](#traumatische-erlebnisse-und-psychische-störungen-trauma) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/a9vun/download) |
-
-| [Machiavellismus-Fragebogen](#machiavellismus-fragebogen-mach) | [{{< icon name="download" pack="fas" >}} `mach` ](/daten/mach.rda) |
-| [Machiavellismus-Fragebogen](#machiavellismus-fragebogen-mach) | [{{< icon name="download" pack="fas" >}} `mach` ](/daten/mach.rda) |
-| [Machiavellismus-Fragebogen](#machiavellismus-fragebogen-mach) | [{{< icon name="download" pack="fas" >}} `mach` ](/daten/mach.rda) |
-| [Machiavellismus-Fragebogen](#machiavellismus-fragebogen-mach) | [{{< icon name="download" pack="fas" >}} `mach` ](/daten/mach.rda) |
+| [Einstellungsentscheidungen](#assessment) | [{{< icon name="download" pack="fas" >}} `Assessment` ](/daten/Assessment.rda) |
+| [Nerdiness](#nerd) | [{{< icon name="download" pack="fas" >}} `NerdData` ](/daten/NerdData.rda) |
+| [Students in Classes](#studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
+| [Xmas](#xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
 
 ---
 
@@ -142,7 +141,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [ANOVA III](/post/anova3) und [Q
 
 ### Datensatz laden
 ```{r}
-load(url("https://pandar.netlify.app/post/alc.rda"))
+load(url("https://pandar.netlify.app/daten/alc.rda"))
 ```
 
 ### Größe
@@ -1584,3 +1583,180 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+
+| [Einstellungsentscheidungen](#assessment) | [{{< icon name="download" pack="fas" >}} `Assessment` ](/daten/Assessment.rda) |
+| [Nerdiness](#nerd) | [{{< icon name="download" pack="fas" >}} `NerdData` ](/daten/NerdData.rda) |
+| [Students in Classes](#studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
+| [Xmas](#xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
+
+## Assessment {#assessment}
+### Beschreibung
+Bei dem Datensatz handelt es sich um ein simuliertes Datenbeispiel zu Einstellungsentscheidungen in jungen Start-Ups.
+
+Auf `pandaR` wird der Datensatz in den [Übungsaufgaben](/lehre/fue-i/msc1-daten) für PsyMSc1 verwendet.
+
+### Datensatz laden
+```{r}
+load(url("https://pandar.netlify.app/daten/Assessment.rda"))
+```
+
+### Größe
+Der Datensatz besteht aus `r dim(Assessment)[1]` Beobachtungen auf `r dim(Assessment[2]` Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+| Variable | Inhalt |
+| --- | ---- |
+| `Hired` | gibt an, ob die jeweilige Person eingestellt wurde |
+| `Age` | ist das Alter in Jahren |
+| `Expertise` | ist die Expertise der jeweiligen Person als Selbsteinschätzung auf einer 7-stufigen Likert-Skala |
+| `Party` | gibt die politische Orientierung der Person in 3 Abstufungen an (Elected, right, left) |
+
+### Fehlende Werte
+In dem Datensatz liegen keine fehlenden Werte vor.
+<!-- </details> -->
+
+## Nerdiness {#nerd}
+### Beschreibung
+Bei dem Datensatz handelt es sich eine gekürzte Version von Daten zur "Nerdy Personality Attributes Scale", die auf der [Open Psychometrics Website](https://openpsychometrics.org/) erfasst wurden
+
+Auf `pandaR` wird der Datensatz in den [Übungsaufgaben](/lehre/fue-i/msc1-daten) für PsyMSc1 verwendet.
+
+### Datensatz laden
+```{r}
+load(url("https://pandar.netlify.app/daten/NerdData.rda"))
+```
+
+### Größe
+Der Datensatz besteht aus `r dim(NerdData)[1]` Beobachtungen auf `r dim(NerdData[2]` Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht eines Teils der erhobenen Variablen und ihre Bedeutungen.
+
+NPAS-Items
+| Variable | Inhalt |
+| --- | ---- |
+| `Q1`	 | I am interested in science. |
+| `Q2`	 | I was in advanced classes. |
+| `Q3`	 | I like to play RPGs. (Ex. D&D) |
+| `Q4`	 | My appearance is not as important as my intelligence. |
+| `Q5`	 | I collect books. |
+| `Q6`	 | I prefer academic success to social success. |
+| `Q7`	 | I watch science related shows. |
+| `Q8`	 | I spend recreational time researching topics others might find dry or overly rigorous. 
+| `Q9`	 | I like science fiction. |
+| `Q10` | I would rather read a book than go to a party. |
+| `Q11` | I am more comfortable with my hobbies than  | I am with other people. | 		
+| `Q12` | I spend more time at the library than any other public place. |
+| `Q13` | I would describe my smarts as bookish. |
+| `Q14` | I like to read technology news reports. |
+| `Q15` | I have started writing a novel. |
+| `Q16` | I gravitate towards introspection. |
+| `Q17` | I am more comfortable interacting online than in person. |
+| `Q18` | I love to read challenging material. |
+| `Q19` | I have played a lot of video games. |
+| `Q20` | I was a very odd child. |
+| `Q21` | I sometimes prefer fictional people to real ones. |
+| `Q22` | I enjoy learning more than I need to. |
+| `Q23` | I get excited about my ideas and research. |
+| `Q24` | I am a strange person. |
+| `Q25` | I care about super heroes. |
+| `Q26` | I can be socially awkward at times. |
+
+Ten Item Personality Inventory (TIPI) Items + "nerdy"
+| Variable | Inhalt |
+| --- | ---- |
+| `TIPI1` | 	Extraverted, enthusiastic. | Extraversion |
+| `TIPI2` | 	Critical, quarrelsome. | Agreeableness* |
+| `TIPI3` | 	Dependable, self-disciplined. | Conscientiousness |
+| `TIPI4` | 	Anxious, easily upset. | Neuroticism |
+| `TIPI5` | 	Open to new experiences, complex. | Openness |
+| `TIPI6` | 	Reserved, quiet. | Extraversion* |
+| `TIPI7` | 	Sympathetic, warm. |  Agreeableness |
+| `TIPI8` | 	Disorganized, careless. | Conscientiousness* |
+| `TIPI9` | 	Calm, emotionally stable. | Neuroticism* |
+| `TIPI10` | 	Conventional, uncreative. | Openness* |
+| `nerdy` |      Nerdy. | Nerdiness |
+
+### Fehlende Werte
+In dem Datensatz liegen keine fehlenden Werte vor.
+<!-- </details> -->
+
+## Students in Classes {#studentsinclasses}
+### Beschreibung
+Bei dem Datensatz handelt es sich um ein fiktives Datenbeispiel mit Multilevel-Daten.
+
+Auf `pandaR` wird der Datensatz in den [Übungsaufgaben](/lehre/fue-i/msc1-daten) für PsyMSc1 verwendet, sowie in der Hierarchischen Regression in PsyMsc1.
+
+### Datensatz laden
+```{r}
+load(url("https://pandar.netlify.app/daten/StudentsInClasses.rda"))
+```
+
+### Größe
+Der Datensatz besteht aus `r dim(StudentsInClasses)[1]` Beobachtungen auf `r dim(StudentsInClasses[2]` Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+Ebene 1 (within)
+| Variable | Inhalt |
+| --- | ---- |
+| `MatheL` | Mathematikleistung als AV |
+| `Motivation` | Motivation der Schüler*innen als Prädiktor |
+| `KFT` | Intelligenz der Schüler*innen als Prädiktor (Kognitiver Fähigkeitstest) |
+
+Ebene 2 (between-level)
+| Variable | Inhalt |
+| --- | ---- |
+| `KlassenG` | Klassengröße als Prädiktor |
+| `schulklasse` | Klassenzugehörigkeit als Gruppierungsvariable |
+
+### Fehlende Werte
+In dem Datensatz liegen keine fehlenden Werte vor.
+<!-- </details> -->
+
+## Xmas {#xmas}
+### Beschreibung
+Bis zum 25.11.2020 konnten Studierende des Masterkurses MSc1 zu folgenden Weihnachtssongs einschätzen, wie gut diese Ihnen gefallen sowie Auskunft darüber geben, welche Aspekte der Weihnachtszeit ihnen besonders am Herzen liegen. 
+
+Auf `pandaR` wird der Datensatz in den [Übungsaufgaben](/lehre/fue-i/msc1-daten) für PsyMSc1 verwendet.
+
+### Datensatz laden
+```{r}
+load(url("https://pandar.netlify.app/daten/Xmas.rda"))
+```
+
+### Größe
+Der Datensatz besteht aus `r dim(Xmas)[1]` Beobachtungen auf `r dim(Xmas[2]` Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+| Variable | Beschreibung | Frage |
+| --- | --- | --- |
+| `Song1`	| "Oh Tannenbaum"	|	Wie gut gefallen Ihnen folgende X-Mas Songs?
+| `Song2`	| "Jingle Bells"	|	Wie gut gefallen Ihnen folgende X-Mas Songs?
+| `Song3`	| "Santa Baby" von z.B. Eartha Kitt	|	Wie gut gefallen Ihnen folgende X-Mas Songs?
+| `Song4`	| "Feliz Navidad" von José Feliciano	|	Wie gut gefallen Ihnen folgende X-Mas Songs?
+| `Song5`	| "Holz - Weihnachtslied" von 257ers	|	Wie gut gefallen Ihnen folgende X-Mas Songs?
+| `Song6`	| "White Christmas" von Elvis Presley	|	Wie gut gefallen Ihnen folgende X-Mas Songs?
+| `Song7`	| "Let it Go" von Idina Menzel (Frozen Soundtrack)	|	Wie gut gefallen Ihnen folgende X-Mas Songs?
+| `Song8`	| "Rudolf the red nosed reindeer"	|	Wie gut gefallen Ihnen folgende X-Mas Songs?
+| `Song9`	| Last Christmas" von Wham!	|	Wie gut gefallen Ihnen folgende X-Mas Songs?
+| `Song10`	| "Oh Du Fröhliche"	|	Wie gut gefallen Ihnen folgende X-Mas Songs?
+| `Song11`	| "Schneeflöckchen, Weißröckchen"	|	Wie gut gefallen Ihnen folgende X-Mas Songs?
+| `Song12`	| "Christmas is all around" aus dem Film "Love Actually - Tatsächlich Liebe"	|	Wie gut gefallen Ihnen folgende X-Mas Songs?
+| `Song13`	| "Driving home for Christmas" von Chris Rea	|	Wie gut gefallen Ihnen folgende X-Mas Songs?
+| `Song14`	| "Lass jetzt los (Let it Go)" von Helene Fischer (Die Eiskönigin – Völlig unverfroren Soundtrack)	|	Wie gut gefallen Ihnen folgende X-Mas Songs?
+| `Y1`	| Weihnachtsfeiertage	|	Wie sehr mögen Sie Weihnachten bzw. die Weihnachtszeit mit allem was dazugehört?
+| `Y2`	| gesamte Weihnachtszeit	|	Wie sehr mögen Sie Weihnachten bzw. die Weihnachtszeit mit allem was dazugehört?
+| `Y3`	| Weihnachtsferien	|	Wie sehr mögen Sie Weihnachten bzw. die Weihnachtszeit mit allem was dazugehört?
+| `Y4`	| Winterzeit	|	Wie sehr mögen Sie Weihnachten bzw. die Weihnachtszeit mit allem was dazugehört?
+
+### Fehlende Werte
+In dem Datensatz liegen keine fehlenden Werte vor.
+<!-- </details> -->
+
