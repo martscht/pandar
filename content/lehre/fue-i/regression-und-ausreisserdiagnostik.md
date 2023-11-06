@@ -9,8 +9,8 @@ subtitle: ''
 summary: '' 
 authors: [irmer, hartig] 
 weight: 2
-lastmod: '2023-11-02'
-featured: no
+lastmod: '2023-11-06'
+featured: yes
 banner:
   image: "/header/frog_overencumbered.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/806441)"
@@ -346,9 +346,8 @@ names(summary_our_model)      # weitere m√∂gliche Argumente, die wir erhalten k√
 ```
 
 ```
-##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"      
-##  [6] "sigma"         "df"            "r.squared"     "adj.r.squared" "fstatistic"   
-## [11] "cov.unscaled"
+##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"        
+##  [7] "df"            "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled"
 ```
 
 ```r

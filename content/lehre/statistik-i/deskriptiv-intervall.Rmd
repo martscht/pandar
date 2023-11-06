@@ -10,7 +10,7 @@ summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte
 authors: [nehler, beitner, buchholz] 
 weight: 3
 lastmod: '`r Sys.Date()`'
-featured: no
+featured: yes
 banner:
   image: "/header/frogs_on_phones.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)"
