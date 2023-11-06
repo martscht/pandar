@@ -7,8 +7,8 @@ categories: ["Statistik I Übungen"]
 tags: [] 
 subtitle: ''
 summary: '' 
-authors: [nehler, buchholz] 
-lastmod: '2023-11-03'
+authors: [nehler, buchholz, zacharias, pommeranz] 
+lastmod: '2023-11-06'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -28,12 +28,10 @@ output:
 
 ### Vorbereitung
 
-<details><summary>Lösung</summary>
-
 
 Laden Sie zunächst den Datensatz `fb23` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb23.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/deskriptiv-intervall/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
-
+<details><summary>R-Code für die Vorbereitung</summary>
 
 ```r
 #### Was bisher geschah: ----
@@ -61,20 +59,27 @@ fb23$wohnen <- factor(fb23$wohnen,
 
 ## Aufgabe 1
 
-Erstellen Sie im Datensatz `fb23` die Skalenwerte für die aktuelle Stimmung, die mit den Items mdbf1 bis mdbf12 gemessen wurde. Keines der Items ist invertiert.
+Erstellen Sie im Datensatz `fb23` die Skalenwerte für die Unterstkala "Ruhe" der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. Mdbf3 und Mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `wm` ab.
 
+* Erstellen Sie den Skalenwert als Mittelwert der drei Items.
 
-* Erstellen Sie den Skalenwert als Mittelwert der zwölf Items.
 
 <details><summary>Lösung</summary>
 
 
 ```r
+# Invertieren
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 5)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 5)
+```
+
+
+```r
 # Skalenwert
 
-mood <- fb23[, c("mdbf1_pre", "mdbf2_pre", "mdbf3_pre", "mdbf4_pre", "mdbf5_pre", "mdbf6_pre", "mdbf7_pre", "mdbf8_pre", "mdbf9_pre", "mdbf10_pre", "mdbf11_pre", "mdbf12_pre")]
+wm <- fb23[, c("mdbf3_pre_r", "mdbf6_pre", "mdbf9_pre_r", "mdbf12_pre")]
 
-fb23$mood_ges <- rowMeans(mood)
+fb23$wm <- rowMeans(wm)
 ```
 
 Oder in einem Schritt mit der Pipe:
@@ -83,7 +88,7 @@ Oder in einem Schritt mit der Pipe:
 ```r
 # Skalenwert
 
-fb23$mood_ges <-  fb23[, c("mdbf1_pre", "mdbf2_pre", "mdbf3_pre", "mdbf4_pre", "mdbf5_pre", "mdbf6_pre", "mdbf7_pre", "mdbf8_pre", "mdbf9_pre", "mdbf10_pre", "mdbf11_pre", "mdbf12_pre")] |> rowMeans()
+fb23$wm <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
 ```
 
 </details>
@@ -102,41 +107,40 @@ Bestimmen Sie für die Skala den gesamten Mittelwert und Median.
 
 ```r
 # Median und Mittelwert
-median(fb23$mood_ges, na.rm = TRUE)
+median(fb23$wm, na.rm = TRUE)
 ```
 
 ```
-## [1] 2.333333
+## [1] 3
 ```
 
 ```r
-mean(fb23$mood_ges, na.rm = TRUE)
+mean(fb23$wm, na.rm = TRUE)
 ```
 
 ```
-## [1] 2.328652
+## [1] 2.730447
 ```
 
-Der Median und der Mittelwert sind nahezu identisch, was eine symmetrische Verteilung vermuten lässt.
+Der Median ist größer als der Mittelwert, was eine linksschiefe Verteilung vermuten lässt.
 
 
 **Prüfen der Vermutung anhand eines Histogramms!**
 
 
 ```r
-hist(fb23$mood_ges, breaks = 30) # Histogramm
+hist(fb23$wm, breaks = 6) # Histogramm
 ```
 
-![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
-Unser Histogramm zeigt uns, dass die Verteilung tatsächlich einigermaßen symmetrisch verläuft. Um dies sehen zu können, ist es wichtig, dass wir der `hist`-Funktion das Argument `breaks` übergeben und hier einen entsprechenden Wert einsetzen, der die Anzahl an Kategorien vorgibt, die wir gerne geplottet bekommen wollen. Übergeben wir das Argument nicht, bestimmt R die Anzahl selbst und in unserem Fall wird die Darstellung dann zu ungenau, um die Symmetrie der Verteilung zu sehen. 
-
+Unser Histogramm zeigt uns, dass die Verteilung tatsächlich einigermaßen linksschief verläuft.
 </details>
 
 
 ## Aufgabe 3
 
-Bestimmen Sie für den Skalenwert `mood_ges` die empirische Varianz und Standardabweichung. Achten Sie dabei darauf, ob es auf der Skala fehlende Werte gibt.
+Bestimmen Sie für den Skalenwert `wm` die empirische Varianz und Standardabweichung. Achten Sie dabei darauf, ob es auf der Skala fehlende Werte gibt.
 
 * Sind empirische Varianz und Standardabweichung größer oder kleiner als diejenige Schätzung, die mithilfe von `var()` oder `sd()` bestimmt wird?
 
@@ -147,46 +151,46 @@ Bestimmen Sie für den Skalenwert `mood_ges` die empirische Varianz und Standard
 * Empirische Varianz: $s^2_{X} = \frac{\sum_{m=1}^n (x_m - \bar{x})^2}{n}$  
 * Schätzer der Populationsvarianz: $\hat{\sigma}^2_{X} = \frac{\sum_{m=1}^n (x_m - \bar{x})^2}{n - 1}$  
 
-Zur Berechnung der Varianz gemäß Formel benötigen wir $n$. Wir könnten mit `nrow(fb23)` die Länge des Datensatzes für `n` heranziehen. Dies ist jedoch nur dann sinnvoll, wenn auf der Variable `mood_ges` keine fehlenden Werte vorhanden sind!
+Zur Berechnung der Varianz gemäß Formel benötigen wir $n$. Wir könnten mit `nrow(fb23)` die Länge des Datensatzes für `n` heranziehen. Dies ist jedoch nur dann sinnvoll, wenn auf der Variable `wm` keine fehlenden Werte vorhanden sind!
 
 
 ```r
-is.na(fb23$mood_ges) |> sum()
+is.na(fb23$wm) |> sum()
 ```
 
 ```
-## [1] 1
+## [1] 0
 ```
 
-Hier gibt es tatsächlich einen fehlenden Wert. Im Tutorial haben wir aber bereits gelernt, dass man mit `length(na.omit(fb23$mood_ges))` die Anzahl an Personen bestimmen kann, die auf der Skala einen Wert haben.
+Hier gibt es tatsächlich keinen fehlenden Wert.
 
 
 ```r
 # empirische Varianz
 # per Hand
-sum((fb23$mood_ges - mean(fb23$mood_ges, na.rm = T))^2, na.rm = T) / (length(na.omit(fb23$mood_ges)))
+sum((fb23$wm - mean(fb23$wm, na.rm = T))^2, na.rm = T) / (length(na.omit(fb23$wm)))
 ```
 
 ```
-## [1] 0.04570218
+## [1] 0.5582769
 ```
 
 ```r
 # durch Umrechnung 
-var(fb23$mood_ges, na.rm = T) * (length(na.omit(fb23$mood_ges))-1) / length(na.omit(fb23$mood_ges))
+var(fb23$wm, na.rm = T) * (length(na.omit(fb23$wm))-1) / length(na.omit(fb23$wm))
 ```
 
 ```
-## [1] 0.04570218
+## [1] 0.5582769
 ```
 
 ```r
 # Populationsschätzer
-var(fb23$mood_ges, na.rm = T)
+var(fb23$wm, na.rm = T)
 ```
 
 ```
-## [1] 0.04596038
+## [1] 0.5614133
 ```
 
 Die empirische Varianz ist kleiner als der Populationsschätzer.
@@ -195,21 +199,21 @@ Nun fehlt noch die Betrachtung der Standardabweichung. Als einfachste Möglichke
 
 
 ```r
-# empirische Standardabweichung
-(sum((fb23$mood_ges - mean(fb23$mood_ges, na.rm = T))^2, na.rm = T) / length(na.omit(fb23$mood_ges))) |> sqrt()
+# empirische Standardabweichung (na.omit / na.rm kann auch ausgelassen werden!)
+(sum((fb23$wm - mean(fb23$wm, na.rm = T))^2, na.rm = T) / length(na.omit(fb23$wm))) |> sqrt()
 ```
 
 ```
-## [1] 0.2137807
+## [1] 0.7471793
 ```
 
 ```r
 # Populationsschätzer
-sd(fb23$mood_ges, na.rm = T)
+sd(fb23$wm, na.rm = T)
 ```
 
 ```
-## [1] 0.2143837
+## [1] 0.7492752
 ```
 
 Auch hier ist der empirische Wert kleiner als der Schätzer.
@@ -219,10 +223,10 @@ Auch hier ist der empirische Wert kleiner als der Schätzer.
 
 ## Aufgabe 4
 
-Erstellen Sie eine z-standardisierte Variante der Stimmungs-Skala als `mood_ges_z`.
+Erstellen Sie eine z-standardisierte Variante der Stimmungs-Skala als `wm_z`.
 
-* Erstellen Sie für `mood_ges_z` ein Histogramm.
-* Was fällt Ihnen auf, wenn Sie dieses mit dem Histogramm der unstandardisierten Werte `mood_ges` vergleichen?
+* Erstellen Sie für `wm_z` ein Histogramm.
+* Was fällt Ihnen auf, wenn Sie dieses mit dem Histogramm der unstandardisierten Werte `wm` vergleichen?
 * Erstellen Sie beide Histogramme noch einmal mit 40 angeforderten Breaks.
 
 
@@ -235,27 +239,27 @@ Um die Vergleichbarkeit zu erhöhen, wird im folgenden Code ein kleiner Trick an
 par(mfrow=c(1,2))
 
 # z-Standardisierung
-fb23$mood_ges_z <- scale(fb23$mood_ges)
+fb23$wm_z <- scale(fb23$wm)
 
 # Histogramme
-hist(fb23$mood_ges_z)
-hist(fb23$mood_ges)
+hist(fb23$wm_z)
+hist(fb23$wm)
 ```
 
-![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 Beim Vergleich der beiden Histogrammen fällt auf, dass sich - aufgrund der R-Voreinstellungen - das Erscheinungsbild fälschlicherweise unterscheidet (vor allem, wenn wir die y-Achse betrachten!) - eigentlich sollte sich durch die z-Transformation nur Skalierung der x-Achsen-Variable verändern. Tatsächlich aber bestimmt R hier eine unterschiedliche Anzahl von Kategorien. Wir erhalten eine konstantere Darstellung durch das `breaks`-Argument:
 
 
 ```r
-# Histogramme mit jeweils 40 Breaks
+# Histogramme mit jeweils 5/6 Breaks
 par(mfrow=c(1,2))
-hist(fb23$mood_ges_z, breaks = 40)
-hist(fb23$mood_ges, breaks = 40)
+hist(fb23$wm_z, breaks = 5)
+hist(fb23$wm, breaks = 6)
 ```
 
-![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
-Die Verteilungen sehen nun tatächlich gleich aus. Da die Breaks ein weicher Befehl sind, kann es hier jedoch trotzdem vorkommen, dass keine komplette Gleichheit gegeben werden kann.
+Die Verteilungen sehen nun tatächlich vergleichbar aus. Da die Breaks ein weicher Befehl sind, kann hier keine komplette Gleichheit gegeben werden.
 
 </details>

@@ -7,9 +7,9 @@ categories: []
 tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
-authors: [nehler, buchholz]
+authors: [nehler, buchholz, zacharias, pommeranz]
 weight:
-lastmod: '2023-11-03'
+lastmod: '2023-11-06'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -43,10 +43,9 @@ output:
 
 ## Aufgabe 1
 
-Erstellen Sie im Datensatz `fb23` die Skalenwerte für die aktuelle Stimmung, die mit den Items mdbf1 bis mdbf12 gemessen wurde. Keines der Items ist invertiert.
+Erstellen Sie im Datensatz `fb23` die Skalenwerte für die Unterstkala "Ruhe" der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. Mdbf3 und Mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `wm` ab.
 
-
-* Erstellen Sie den Skalenwert als Mittelwert der zwölf Items.
+* Erstellen Sie den Skalenwert als Mittelwert der drei Items.
 
 ## Aufgabe 2
 
@@ -57,15 +56,15 @@ Bestimmen Sie für die Skala den gesamten Mittelwert und Median.
 
 ## Aufgabe 3
 
-Bestimmen Sie für den Skalenwert `mood_ges` die empirische Varianz und Standardabweichung. Achten Sie dabei darauf, ob es auf der Skala fehlende Werte gibt.
+Bestimmen Sie für den Skalenwert `wm` die empirische Varianz und Standardabweichung. Achten Sie dabei darauf, ob es auf der Skala fehlende Werte gibt.
 
 * Sind empirische Varianz und Standardabweichung größer oder kleiner als diejenige Schätzung, die mithilfe von `var()` oder `sd()` bestimmt wird?  
 
 
 ## Aufgabe 4
 
-Erstellen Sie eine z-standardisierte Variante der Stimmungs-Skala als `mood_ges_z`.
+Erstellen Sie eine z-standardisierte Variante der Stimmungs-Skala als `wm_z`.
 
-* Erstellen Sie für `mood_ges_z` ein Histogramm.
-* Was fällt Ihnen auf, wenn Sie dieses mit dem Histogramm der unstandardisierten Werte `mood_ges` vergleichen?
+* Erstellen Sie für `wm_z` ein Histogramm.
+* Was fällt Ihnen auf, wenn Sie dieses mit dem Histogramm der unstandardisierten Werte `wm` vergleichen?
 * Erstellen Sie beide Histogramme noch einmal mit 40 angeforderten Breaks.
