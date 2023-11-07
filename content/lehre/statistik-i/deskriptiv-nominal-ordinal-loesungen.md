@@ -8,14 +8,14 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [buchholz, nehler] 
-lastmod: '2023-10-27'
+lastmod: '2023-11-07'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)"
 projects: []
-expiryDate: '2024-10-10'
-publishDate: '2023-11-09'
+expiryDate: ''
+publishDate: ''
 _build:
   list: never
 reading_time: false

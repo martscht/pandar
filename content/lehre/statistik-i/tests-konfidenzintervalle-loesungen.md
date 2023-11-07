@@ -7,15 +7,15 @@ categories: ["Statistik I Übungen"]
 tags: [] 
 subtitle: ''
 summary: '' 
-authors: [scheppa-lahyani, nehler, vogler] 
-lastmod: '2023-10-31'
+authors: [nehler, scheppa-lahyani, vogler] 
+lastmod: '2023-11-07'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)"
 projects: []
-expiryDate: '2024-10-10'
-publishDate: '2023-11-30'
+expiryDate: ''
+publishDate: ''
 _build:
   list: never
 reading_time: false
@@ -176,7 +176,7 @@ library(car)
 
 Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 
-**2.1** Was ist der Mittelwert ($\bar{x}$), die Standardabweichung (*SD*, $\hat\sigma$) und der Standardfehler ($\hat{\sigma_{\bar{x}}}$) der Lebenszufriedenheit in der Gruppe der Psychologie-Studierenden?
+**2.1** Was ist der Mittelwert ($\bar{x}$) und die geschätzte Populations-Standardabweichung ($\hat\sigma$) der Lebenszufriedenheit in der Gruppe der Psychologie-Studierenden? Schätzen Sie außerdem ausgehend von unseren erhobenen Daten den Standardfehler des Mittelwerts ($\hat{\sigma_{\bar{x}}}$) der Lebenszufriedenheit?
 
 <details><summary>Lösung</summary>
 
@@ -213,7 +213,7 @@ se_lz
 
 * Der Mittelwert der Lebenszufriedenheit in der Stichprobe liegt bei 5.121.
 * Die Standardabweichung der Lebenszufriedenheit beträgt 1.055.
-* Der Standardfehler der Lebenszufriedenheit beträgt 0.079.
+* Der Standardfehler des Mittelwerts der Lebenszufriedenheit wird als 0.079 geschätzt.
 
 **Variante 2**:
 
@@ -530,9 +530,7 @@ Die Effektgröße ist mit 0.53 nach Cohen (1988) als mittel einzuordnen.
 Folgende Aufgaben haben ein erhöhtes Schwierigkeitsniveau.
 Nehmen Sie für die weiteren Aufgaben den Datensatz `fb23` als Grundgesamtheit (Population) an.
 
-**4.1**
-
-Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Die mittlere Gewissenhaftigkeit dieser Stichprobe beträgt $\mu$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrer Gewissenhaftigkeit (`gewis`) von der Grundgesamtheit?
+**4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Die mittlere Gewissenhaftigkeit dieser Stichprobe beträgt $\mu$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrer Gewissenhaftigkeit (`gewis`) von der Grundgesamtheit?
 Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzintervall.
 
 <details><summary>Lösung</summary>
@@ -608,9 +606,7 @@ Das 95%-ige Konfidenzintervall liegt zwischen 3.49 und 3.71. Das bedeutet, dass 
 
 </details>
 
-**4.2**
-
-Ziehen Sie nun selbst eine Stichprobe mit $n$ = 31 aus dem Datensatz. Nutzen Sie hierfür die `set.seed(1234)`-Funktion. Versuchen Sie zunächst selbst mit Hilfe der `sample()`-Funktion eine Stichprobe ($n$ = 31) zu ziehen. Falls Sie hier von alleine nicht weiterkommen, ist das kein Problem. Nutzen Sie dann für die weitere Aufgabenstellung folgenden Code:
+**4.2** Ziehen Sie nun selbst eine Stichprobe mit $n$ = 31 aus dem Datensatz. Nutzen Sie hierfür die `set.seed(1234)`-Funktion. Versuchen Sie zunächst selbst mit Hilfe der `sample()`-Funktion eine Stichprobe ($n$ = 31) zu ziehen. Falls Sie hier von alleine nicht weiterkommen, ist das kein Problem. Nutzen Sie dann für die weitere Aufgabenstellung folgenden Code:
 
 <details><summary>Code</summary>
 
