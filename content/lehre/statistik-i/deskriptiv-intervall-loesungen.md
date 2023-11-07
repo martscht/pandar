@@ -8,14 +8,14 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, buchholz, zacharias, pommeranz] 
-lastmod: '2023-11-06'
+lastmod: '2023-11-07'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)"
 projects: []
 expiryDate: '2024-10-10'
-publishDate: ''
+publishDate: '2023-11-16'
 reading_time: false
 share: false
 _build:
@@ -260,6 +260,6 @@ hist(fb23$wm, breaks = 6)
 
 ![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
-Die Verteilungen sehen nun tatächlich vergleichbar aus. Da die Breaks ein weicher Befehl sind, kann hier keine komplette Gleichheit gegeben werden.
+Die Verteilungen sehen nun tatsächlich vergleichbar aus. Da die Breaks ein weicher Befehl sind, kann hier keine komplette Gleichheit gegeben werden.
 
 </details>
