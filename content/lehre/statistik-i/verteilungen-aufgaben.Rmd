@@ -50,13 +50,13 @@ Bei einem Gewinnspiel auf dem Jahrmarkt wird aus zwei Töpfen eine Kugel gezogen
 Eine typischer Münzwurf bietet die Optionen Kopf oder Zahl.
 
 * Simulieren Sie mithilfe von R einen Münzwurf.
-* Replizieren Sie diesen Wurf nun fünf Mal. Lassen Sie sich dabei in einem abgespeicherten Objekt logisch (`FALSE` oder `TRUE`) ausgeben, ob die Münze Kopf angezeigt hat. Verwenden Sie zur Konstanthaltung einen Seed von 1901.
+* Replizieren Sie diesen Wurf nun fünf Mal. Lassen Sie sich dabei in einem abgespeicherten Objekt logisch (`TRUE` oder `FALSE`) ausgeben, ob die Münze Kopf angezeigt hat. Verwenden Sie zur Konstanthaltung einen Seed von 1901.
 * Welchem Wert würde sich der Mittelwert des eben abgespeicherten Objektes im unendlichen Fall annähern?
 
 
 ## Aufgabe 3
 
-Sie wollen an einem Gewinnspiel mit Losen teilnehmen. Dafür hat der Veranstalter ein computerbasiertes Vorgehen, in dem in 70% der Fällen Nieten angezeigt werden.
+Sie wollen an einem Gewinnspiel mit Losen teilnehmen. Dafür hat der Veranstalter ein computerbasiertes Vorgehen, in dem in 70% der Fälle Nieten angezeigt werden.
 
 * Wie wahrscheinlich ist es, dass Sie in 10 Versuchen genau 4 Mal einen Gewinn erhalten?
 * Plotten Sie die Wahrscheinlichkeitsverteilung für die 10 Versuche!
