@@ -25,9 +25,23 @@ fb23$nerd_std <- scale(fb23$nerd)
 fb23$neuro_std <- scale(fb23$neuro)
 
 
+curve(expr = dnorm(x, mean = 2.5, sd = 0.9),
+     from = 0,
+     to = 4.5,
+     main = "Population", 
+     xlab = "Nerdiness-Werte",
+     ylab = "Dichte")
+abline(v = mean(fb23$nerd),col=  "red")
+
 anyNA(fb23$nerd)
 
 mean(fb23$nerd)
+
+
+
+
+
+
 
 pop_mean_nerd <- 2.5                 # Mittelwert Grundgesamtheit
 pop_sd_nerd <- 0.9                   # SD der Grundgesamtheit
@@ -39,14 +53,23 @@ se_nerd <- pop_sd_nerd/sqrt(sample_size) # Standardfehler des Mittelwerts
 z_emp <- (sample_mean_nerd - pop_mean_nerd)/ se_nerd
 z_emp
 
-z_krit <- qnorm(1-.05/2) # Bestimmung des kritischen Wertes
-z_krit
-
-z_emp > z_krit
+x <- seq(0, 4.5, 0.1) 
+y <- dnorm(x, 2.5, 0.9/sqrt(nrow(fb23)))
+plot(x, y, type="l", 
+      main = "SKV des MW für Nerdiness Population mit unserer Stichprobengröße", 
+      xlab = "Nerdiness-Werte",
+      ylab = "Dichte f(x)")
+polygon(c(min(x), x[x<=mean(fb23$nerd)],  mean(fb23$nerd)), c(0, y[x<=mean(fb23$nerd)],  0), col="red")
+abline(v = mean(fb23$nerd),col=  "red")
 
 pnorm(z_emp, lower.tail = FALSE)
 
 2*pnorm(z_emp, lower.tail = FALSE) #verdoppeln, da zweiseitig
+
+z_krit <- qnorm(1-.05/2) # Bestimmung des kritischen Wertes
+z_krit
+
+abs(z_emp) > abs(z_krit)
 
 z_quantil_zweiseitig <- qnorm(p = 1-(.05/2), mean = 0, sd = 1)
 z_quantil_zweiseitig
@@ -71,31 +94,29 @@ describe(fb23$neuro)
 qqnorm(fb23$neuro) 
 qqline(fb23$neuro)
 
-mean_men_height <- mean(men_height)
-mean_men_height
+anyNA(fb23$neuro)
+sample_mean_neuro <- mean(fb23$neuro)
+pop_mean_neuro <- 3.1
 
-sd_men_height <- sd(men_height)
-sd_men_height
+sample_sd_neuro <- sd(fb23$neuro)
+sample_sd_neuro
 
-n_men_height <- length(men_height)
-se_men_height <- sd_men_height/sqrt(n_men_height)
+sample_size <- nrow(fb23)
+se_neuro <- sample_sd_neuro/sqrt(sample_size)
 
-average_men_height <- 180
+t_emp <- (sample_mean_neuro - pop_mean_neuro) / se_neuro
+t_emp
 
-t_men_height <- abs((mean_men_height-average_men_height)/se_men_height)
-t_men_height
+pt(t_emp, df = sample_size - 1, lower.tail = F) #einseitige Testung
 
-krit_t_men_height <- qt(0.95, df=n_men_height-1) 
-krit_t_men_height
+t_krit <- qt(0.05, df = sample_size-1, lower.tail = FALSE)
+t_krit
 
-t_men_height > krit_t_men_height
-
-p_t_men_height <- pt(t_men_height, n_men_height-1, lower.tail = F) #einseitige Testung
-p_t_men_height
+t_emp > t_krit
 
 
 
-t.test(fb23$neuro, mu=3.3, alternative="greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
+t.test(fb23$neuro, mu=3.1, alternative="greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
 
 z_quantil_einseitig <- qnorm(p = 1-.05, mean = 0, sd = 1)
 z_quantil_einseitig
