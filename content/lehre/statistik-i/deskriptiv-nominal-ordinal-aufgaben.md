@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [buchholz, nehler]
 weight: 
-lastmod: '2023-10-27'
+lastmod: '2023-11-09'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -53,7 +53,7 @@ Untersuchen Sie, welche Arbeitsbranche Sie und Ihre Kommiliton:innen nach dem St
 
 ## Aufgabe 2
 
-Die Variable `wissen` enthält die Angaben über das Ausmaß, in dem sich Sie und Ihre Kommilitonen:innen für wissenschaftliche Grundlagen interessieren.
+Die Variable `therap` enthält die Angaben über das Ausmaß, in dem sich Sie und Ihre Kommilitonen:innen für anwendungsbezogene Aspekte interessieren.
 
 * Bestimmen Sie für diese Variable den Modus.     
 * Untersuchen Sie die Streuung für diese Variable optisch, indem Sie einen Boxplot erstellen.  
