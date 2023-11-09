@@ -123,7 +123,7 @@ Let's start with an explanation of how to upload files to the repository. We ass
 
 ![](gitlaborientierung_DateienHochladen.png) 
 
-A list of options will appear. Let's say we want to upload a file called "Datenauswertung.R". We simply click on *Upload File*. Then you can easily insert the file using the drag-and-drop principle. You will also be prompted to write a commit message so that you will know later what you did or your group members can see what the new file is. This message should be short and informative and should include the name of the file you changed, such as "Add Datenauswertung.R to 2_Scripts".
+A list of options will appear. Let's say we want to upload a file called "Datenauswertung.R". We simply click on *Upload File*. Then you can easily insert the file using the drag-and-drop principle. You will also be prompted to write a commit message so that you will know later what you did or your group members can see what the new file is. This message should be short and informative and should include the name of the file you changed, such as "Add Datenauswertung.R to 2_Scripts". It is important, that your target branch remains as **main**!
 
 {{< spoiler text="**What is a Commit?**" >}}
 
@@ -136,7 +136,7 @@ As we have already described, LIFOS is a <span style="color: darkred;">GitLab</s
 Finally, click on *Upload File*. You will now find your file in the overview of your project:
 
 ![](gitlaborientierung_DatenauswertungÜbersicht.png) 
-You can also create a new file directly on <span style="color: darkred;">GitLab</span> by clicking on *New File*. Here you will also be prompted to write a commit message for the same reasons as above.
+You can also create a new file directly on <span style="color: darkred;">GitLab</span> by clicking on *New File*. Here you will also be prompted to write a commit message for the same reasons as above. Again, please keep in mind that you commit to the target branch **main**.
 
 If you want to create a file directly in a folder, you must first open the desired folder and then repeat the same procedure as above.
 
@@ -201,7 +201,7 @@ Now you give this folder a name (e.g., "Test Folder") and an appropriate commit 
 
 ![](gitlaborientierung_OrdnerCommit.png)
 
-Then you have to click on *Create Directory*, and you have created a new folder! You can find it on the homepage of your project. 
+Then, after making sure that you chose **main** as your target branch, you have to click on *Create Directory*, and you have created a new folder! You can find it on the homepage of your project. 
 
 ##### Delete a folder 
 
@@ -409,3 +409,36 @@ If you want to practice creating a document with Markdown, you can find instruct
 
 This tutorial has explained how to create a project and edit files and folders in it. However, you have probably noticed that there are many other functions and possibilities for working with <span style="color: darkred;">GitLab</span> and the LIFOS server. You have also learned the basics of Markdown. To make your work with <span style="color: darkred;">GitLab</span> easier, you can check out the <span style="color: darkred;">SmartGit</span> tutorial. You can find it [here](/lifos/extras/connect-smartgit-lifos/). A more in-depth introduction to <span style="color: darkred;">GitLab</span> is currently under construction. 
 
+#### Help
+
+<details>
+<summary>What can I do if I accidentally commited to a branch that is not <b>main</b>?</summary>
+
+You can push your changes from the wrong branch to **main** and delete the accidental branch (if it was created on accident) in a few easy steps.
+
+First, enter your project and click on the merge request symbol to the left.
+
+Your changes on other branches should be visible as a merge request.
+
+![](Gitlab_Project_Merge_Requests.png)
+
+If you now click on *create merge request* a new window should open up
+
+![](Gitlab_Project_New_Merge.png)
+
+Here you now enter a title and description for your merge which should properly explain why and what you are merging from a different branch.
+
+Afterwards, check the merge option `Delete source branch when merge request is accepted` if you intend to delete the branch onto which you accidentally commited your changes instead of **main** and press `Create merge request`.
+
+You will now land on a new page.
+
+![](Gitlab_Project_New_Merge_Confirm.png)
+
+Now you need to confirm your merge and the squashing of the source branch from which you are merging once more by clicking the `Merge`-button.
+
+After a short moment, you should now see that your merge suceeded!
+
+![](Gitlab_Project_New_Merge_Sucess.png)
+
+*If that is not the case, or you got stuck elsewhere in the process you can contact LIFOS[at]uni-frankfurt[punkt]de instead.*
+</details>
