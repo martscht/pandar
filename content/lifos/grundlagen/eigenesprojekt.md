@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'Sofern ihr bereits die Grundlagen versteht, die in den vorherigen Beiträgen aufgebaut wurden, wird euch nun in diesem Beitrag erklärt, wie ihr euer eigenes Projekt auf der Gitlab-Seite einrichtet.' 
 authors: [schloter, nehler, pommeranz, beitner] 
 weight: 3
-lastmod: '2023-10-26'
+lastmod: '2023-11-09'
 featured: no
 banner:
   image: "/header/road_start.jpg"
@@ -124,7 +124,7 @@ Starten wir zunächst einmal mit der Erklärung, wie man Dateien in das Reposito
 
 ![](/lifos/grundlagen/gitlaborientierung_DateienHochladen.png) 
 
-Es öffnet sich eine Liste mit Optionen. Stellen wir uns nun vor, dass wir die Datei namens "Datenauswertung.R" hochladen wollen. Wir klicken nun einfach auf *Upload File*. Dann könnt ihr die Datei ganz einfach mit Drag-and-Drop Prinzip einfügen. Außerdem werdet ihr aufgefordert eine Commit-Message zu schreiben, damit ihr später wisst, was ihr da überhaupt gemacht habt oder eure Gruppenmitglieder sehen können, was das für eine neue Datei ist. Diese sollte kurz und aussagekräftig sein und den Dateinamen der Datei beeinhalten an der ihr etwas geändert habt, z.B. "Add Datenauswertung.R to 2_Scripts". 
+Es öffnet sich eine Liste mit Optionen. Stellen wir uns nun vor, dass wir die Datei namens "Datenauswertung.R" hochladen wollen. Wir klicken nun einfach auf *Upload File*. Dann könnt ihr die Datei ganz einfach mit Drag-and-Drop Prinzip einfügen. Außerdem werdet ihr aufgefordert eine Commit-Message zu schreiben, damit ihr später wisst, was ihr da überhaupt gemacht habt oder eure Gruppenmitglieder sehen können, was das für eine neue Datei ist. Diese sollte kurz und aussagekräftig sein und den Dateinamen der Datei beeinhalten an der ihr etwas geändert habt, z.B. "Add Datenauswertung.R to 2_Scripts". Es ist wichtig, dass der Target branch **main** ist!
 
 {{< spoiler text="**Was ist ein Commit?**" >}}
 
@@ -137,7 +137,7 @@ Wie wir bereits beschrieben haben,  ist der LIFOS eine <span style="color: darkr
 Zum Abschluss klickt ihr auf *Upload File*. Ihr findet euere Datei jetzt bei der Übersicht eures Projekts wieder: 
 
 ![](/lifos/grundlagen/gitlaborientierung_DatenauswertungÜbersicht.png) 
-Ihr könnt aber auch direkt auf <span style="color: darkred;">**GitLab**</span> eine neue Datei erstellen mit *New File*. Hier werdet ihr auch aufgefordert eine Commit-Message zu schreiben aus denselben Gründen, wie oben.
+Ihr könnt aber auch direkt auf <span style="color: darkred;">**GitLab**</span> eine neue Datei erstellen mit *New File*. Hier werdet ihr auch aufgefordert eine Commit-Message zu schreiben aus denselben Gründen, wie oben. Erneut bitte beachten, dass der Commit auf dem Branch **main** geschieht.
 
 Falls ihr eine Datei direkt in einem Ordner erstellen wollt, müsst ihr den gewünschten Ordner öffnen und dann diesselbe Prozedur, wie oben wiederholen, durchführen. 
 
@@ -200,7 +200,7 @@ Anschließend öffnet sich eine Toggle-Down Liste bei der wir auf *New Directory
 
 ![](/lifos/grundlagen/gitlaborientierung_OrdnerErstellen.png)
 
-Diesem Ordner gebt ihr nun einen Namen (z.B. "Test-Ordner") und eine passende `Commit`-Message. 
+Diesem Ordner gebt ihr nun einen Namen (z.B. "Test-Ordner") und eine passende `Commit`-Message, wie immer mit **main** als Target branch. 
 
 ![](/lifos/grundlagen/gitlaborientierung_OrdnerCommit.png)
 
@@ -433,3 +433,37 @@ Wenn ihr eine Übung zum Erstellen eines Dokumentes mit Markdown durchführen wo
 
 Dieses Tutorial hat euch erklärt wie ihr ein Projekt erstellen könnt, sowie Dateien und Ordner in diesem bearbeiten könnt. Ihr habt aber bestimmt selbst gemerkt, dass es noch viele andere verschiedenen Funktionen und Möglichkeiten gibt mit <span style="color: darkred;">**GitLab**</span> und dem LIFOS-Server zu arbeiten. Außerdem habt ihr die Basics von Markdown gelernt. Um euch die Arbeit mit <span style="color: darkred;">**GitLab**</span> einfacher zu machen, könnt ihr euch das <span style="color: darkred;">**SmartGit**</span> Tutorial anschauen. Dieses findet ihr [hier](/lifos/extras/connect-lifos-smartgit). Eine vertiefende Einführung zu <span style="color: darkred;">**GitLab**</span> ist aktuell noch im Bau. 
 
+#### Hilfe
+
+<details>
+<summary>Was kann ich tun, wenn ich aus Versehen auf einen anderen Branch als <b>main</b> commited habe?</summary>
+
+In diesem Fall könnt ihr eure Änderungen von dem falschen Branch auf Main pushen und den falschen Branch, sofern er aus Versehen erstellt wurde, auch löschen.
+
+Zuerst solltet ihr auf euer Projekt gehen und auf der linken Seite das `Merge requests` Symbol anklicken
+
+Hier sollte ihr eure Änderungen auf dem anderen Branch als *Merge Request* sehen.
+
+![](/lifos/grundlagen/Gitlab_Project_Merge_Requests.png)
+
+Klickt ihr dabei nun auf *create merge request* öffnet sich ein neues Fenster.
+
+![](/lifos/grundlagen/Gitlab_Project_New_Merge.png)
+
+Hier könnt ihr nun einen Titel und eine Beschreibung für euren Merge hinzufügen, der den Grund und Inhalt eures ursprünglichen Commits erklärt, und vielleicht auch auf den falschen Commit hinweist.
+
+
+Wählt danach, sofern ihr den anderen Branch löschen wollt da ihr ihn unabsichtlich erstellt habt, `Delete source branch when merge request is accepted` aus. Danach könnt ihr `Create merge request` anklicken.
+
+Ihr solltet nun auf einer neuen Seite landen
+
+![](/lifos/grundlagen/Gitlab_Project_New_Merge_Confirm.png)
+
+Hier müsst ihr euren Merge und das löschen des source branch von welchem aus der Fehler ausging erneut bestätigen und den `Merge`-button betätigen
+
+Nach einem kurzen Moment solltet ihr nun sehen, dass der Merge erfolgreich war!
+
+![](/lifos/grundlagen/Gitlab_Project_New_Merge_Sucess.png)
+
+*Sollte dies nicht der Fall sein, oder solltet ihr irgendwo vorher bereits Probleme haben, könnt ihr auch LIFOS[at]uni-frankfurt[punkt]de kontaktieren.*
+</details>

@@ -57,11 +57,11 @@ Wie wir bereits besprochen haben, sollen Sie im Rahmen des Praktikums eine erste
 
 [LIFOS](https://lifos.uni-frankfurt.de) steht für **L**okale **I**nfrastruktur **f**ür **O**pen **S**cience und ist unsere universitätsinterne Übungsplattform für Studierende der Pychologie-Studiengänge der Goethe-Universität Frankfurt. Die Plattform basiert auf GitLab und ist der Struktur des [Open Science Frameworks](https://osf.io) nachempfunden. Die Idee ist, Open Science Praktiken im Rahmen des Studiums in einem geschützten Rahmen üben und durchführen zu können. Um mit Ihrem Projekt auf LIFOS loszulegen, müssen Sie zuerst folgende Schritten absolvieren:
 
-1. Loggen Sie sich auf LIFOS ein
-Hierfür benötigen Sie lediglich die Zugangsdaten Ihres HRZ-Kontos. 
+<ol><li><p><b>Loggen Sie sich auf LIFOS ein</b></p> 
+Hierfür benötigen Sie lediglich die Zugangsdaten Ihres HRZ-Kontos.</li> 
 
-2. Finden Sie Ihre Praktikums-Gruppe und beantragen Sie Zugang
-Projekte auf LIFOS müssen in den jeweiligen Abteilungen/Kursen angelegt werden, um auch diesen zugeordnet werden zu können. Das heißt, Sie müssen erst Mitglied Ihrer PsyBSc2 Praktikumsgruppe auf LIFOS werden, um dann in ebenjener Gruppe ein Projekt anzulegen. Um die Gruppe auf LIFOS zu finden, klicken Sie oben links auf die drei Striche, dann auf *Groups*, dann auf *View all groups*. 
+<li><p><b>Finden Sie Ihre Praktikums-Gruppe und beantragen Sie Zugang</b></p>
+Projekte auf LIFOS müssen in den jeweiligen Abteilungen/Kursen angelegt werden, um auch diesen zugeordnet werden zu können. Das heißt, Sie müssen erst Mitglied Ihrer PsyBSc2 Praktikumsgruppe auf LIFOS werden, um dann in ebenjener Gruppe ein Projekt anzulegen. Um die Gruppe auf LIFOS zu finden, klicken Sie oben links auf die drei Striche, dann auf *Groups*, dann auf *View all groups*. </li></ol>
 
 ![](quickguide-lifos01.png)
 
