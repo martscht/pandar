@@ -8,14 +8,14 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [buchholz, nehler] 
-lastmod: '2023-10-27'
+lastmod: '2023-11-09'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)"
 projects: []
-expiryDate: '2024-10-10'
-publishDate: '2023-11-09'
+expiryDate: ''
+publishDate: ''
 _build:
   list: never
 reading_time: false
@@ -190,7 +190,7 @@ Der Modus der Variable lautet Therapie - die meisten Ihres Jahrgangs (*n* = 106 
 
 ## Aufgabe 2
 
-Die Variable `wissen` enthält die Angaben über das Ausmaß, in dem sich Sie und Ihre Kommilitonen:innen für wissenschaftliche Grundlagen interessieren.
+Die Variable `therap` enthält die Angaben über das Ausmaß, in dem sich Sie und Ihre Kommilitonen:innen für anwendungsbezogene Aspekte interessieren.
 
 * Bestimmen Sie für diese Variable den Modus.     
 * Untersuchen Sie die Streuung für diese Variable optisch, indem Sie einen Boxplot erstellen.  
@@ -202,11 +202,11 @@ Die Variable `wissen` enthält die Angaben über das Ausmaß, in dem sich Sie un
 
 
 ```r
-which.max(table(fb23$wissen))
+which.max(table(fb23$therap))
 ```
 
 ```
-## 4 
+## 5 
 ## 4
 ```
 
@@ -214,32 +214,32 @@ which.max(table(fb23$wissen))
 
 
 ```r
-table(fb23$wissen)
+table(fb23$therap)
 ```
 
 ```
 ## 
-##  1  2  3  4  5 
-##  1 20 54 69 32
+##  2  3  4  5 
+##  3 11 65 97
 ```
 
 ```r
-prop.table(table(fb23$wissen))
+prop.table(table(fb23$therap))
 ```
 
 ```
 ## 
-##           1           2           3           4           5 
-## 0.005681818 0.113636364 0.306818182 0.392045455 0.181818182
+##          2          3          4          5 
+## 0.01704545 0.06250000 0.36931818 0.55113636
 ```
 
-Der Modus der Variable "wissen" beträgt 4, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = 69 bzw. 39.2%).
+Der Modus der Variable `therap` beträgt 4, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = 97 bzw. 55.11%).
 
 **Boxplot**
 
 
 ```r
-boxplot(fb23$wissen)
+boxplot(fb23$therap)
 ```
 
 ![](/lehre/statistik-i/deskriptiv-nominal-ordinal-loesungen_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
@@ -248,15 +248,15 @@ boxplot(fb23$wissen)
 
 
 ```r
-quantile(fb23$wissen, c(.25,.5,.75), na.rm=T)
+quantile(fb23$therap, c(.25,.5,.75), na.rm=T)
 ```
 
 ```
 ## 25% 50% 75% 
-##   3   4   4
+##   4   5   5
 ```
 
-Der Median beträgt 4. Das 1. und 3. Quartil betragen 3 bzw. 4. Folglich sind die Grenzen des Interquartilsbereich (IQB) 3 und 4. Der Interquartilsabstand (IQA) beträgt 1.
+Der Median beträgt 5. Das 1. und 3. Quartil betragen 4 bzw. 5. Folglich sind die Grenzen des Interquartilsbereich (IQB) 4 und 5. Der Interquartilsabstand (IQA) beträgt 1.
 
 </details>
 

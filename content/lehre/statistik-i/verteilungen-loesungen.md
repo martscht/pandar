@@ -8,14 +8,14 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler] 
-lastmod: '2023-10-18'
+lastmod: '2023-11-07'
 featured: no
 banner:
   image: "/header/six_sided_dice.png"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1087694)"
 projects: []
 expiryDate: 
-publishDate: '2023-11-26'
+publishDate: ''
 _build:
   list: never
 reading_time: false
@@ -64,7 +64,7 @@ sum(kombis$gewinn == TRUE)
 ## [1] 7
 ```
 
-Die Spalte Gewinn enthält hier in logischer Form Informationen darüber, ob eine der beiden Kugeln grün war. Der vertikale Strich steht dabei für einen oder Zusammenhang. `gewinn` wird `TRUE`, wenn entweder `Var1` oder `Var2` mit `gruen` an dieser Stelle gefüllt ist. Dabei würde auch `TRUE` entstehen, wenn beide logischen Überprüfungen `TRUE` anzeigen. Danach muss also nur noch die Summe der `TRUE` Einträge geprüft werden. Diese ist 7.
+Die Spalte `gewinn` enthält hier in logischer Form Informationen darüber, ob eine der beiden Kugeln grün war. Der vertikale Strich `|` steht dabei für einen oder-Zusammenhang. `gewinn` wird `TRUE`, wenn entweder `Var1` oder `Var2` mit `gruen` an dieser Stelle gefüllt ist. Dabei entsteht auch `TRUE`, wenn beide logischen Überprüfungen `TRUE` anzeigen. Danach muss also nur noch die Summe der `TRUE` Einträge geprüft werden. Diese ist 7.
 
 </details>
 
@@ -88,7 +88,7 @@ sample(x = muenze, size = 1)
 
 </details>
 
-* Replizieren Sie diesen Wurf nun fünf Mal. Lassen Sie sich dabei in einem abgespeicherten Objekt logisch (`FALSE` oder `TRUE`) ausgeben, ob die Münze Kopf angezeigt hat. Verwenden Sie zur Konstanthaltung einen Seed von 1901.
+* Replizieren Sie diesen Wurf nun fünf Mal. Lassen Sie sich dabei in einem abgespeicherten Objekt logisch (`TRUE` oder `FALSE`) ausgeben, ob die Münze Kopf angezeigt hat. Verwenden Sie zur Konstanthaltung einen Seed von 1901.
 
 <details><summary>Lösung</summary>
 
@@ -107,7 +107,7 @@ Natürlich wäre es auch möglich, erst die 5 Replikationen in einem Objekt abzu
 
 <details><summary>Lösung</summary>
 
-`TRUE` und `FALSE` werden wie bereits besprochen als `1` und `0` in `R` behandelt. Bei unendlichen Würfen sollt man erwarten, dass Kopf und Zahl gleich häufig vorkommen. Demnach stehen in unserem Objekt gleich viele `TRUE` und `FALSE` Angaben. Der Mittelwert würde gegen 0.5 gehen.
+`TRUE` und `FALSE` werden wie bereits besprochen als `1` und `0` in `R` behandelt. Bei unendlichen Würfen sollte man erwarten, dass Kopf und Zahl gleich häufig vorkommen. Demnach stehen in unserem Objekt gleich viele `TRUE` und `FALSE` Angaben. Der Mittelwert würde gegen 0.5 gehen.
 
 </details>
 
@@ -141,7 +141,7 @@ probs <- dbinom(x, size = 10, prob = 0.3)
 plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten eines Gewinns", ylab = "Wahrscheinlichkeit bei 10 Versuchen")
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 </details>
 
@@ -158,7 +158,7 @@ pbinom (q = 4, size = 10, prob = 0.3, lower.tail = FALSE)
 ## [1] 0.1502683
 ```
 
-Durch `q = 4` und `lower.tail = FALSE` werden hier die Werte von 5 bis 10 Gewinnen aufaddiert.
+Durch `q = 4` und `lower.tail = FALSE` werden hier die Werte der Wahrscheinlichkeiten von 5 bis 10 Gewinnen aufaddiert.
 
 </details>
 
@@ -174,6 +174,8 @@ pbinom(q = 8, size = 10, prob = 0.3) - pbinom(q = 5, size = 10, prob = 0.3)
 ```
 ## [1] 0.0472053
 ```
+
+Hier berechnen wir zunächst die Wahrscheinlichkeit, maximal 8 (d.h. 8 oder weniger) Gewinne zu erzielen und ziehen dann die Wahrscheinlichkeit ab, maximal 5 Gewinne zu erzielen. Somit erhalten wir die Wahrscheinlichkeit dafür, mindestens 6 und maximal 8 Gewinne zu erhalten.
 
 </details>
 
@@ -216,7 +218,7 @@ curve (expr = dnorm (x, mean = 50, sd = 10),
        ylab = "Dichte")
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
 
 </details>
 
@@ -236,7 +238,7 @@ curve (expr = dnorm (x, mean = 0, sd = 1),
        ylab = "Dichte")
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
 
 </details>
 
@@ -244,7 +246,7 @@ curve (expr = dnorm (x, mean = 0, sd = 1),
 
 <details><summary>Lösung</summary>
 
-Ein einfacher Weg ist die Standardisierung des Wertes des Skalenwertes nach der Formel.
+Ein einfacher Weg ist die Standardisierung des Skalenwertes nach der Formel.
 
 
 ```r
@@ -281,7 +283,7 @@ curve (expr = pnorm (x, mean = 0, sd = 1),
        ylab = "F(x)")
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
 
 </details>
 
@@ -295,17 +297,17 @@ Zum Abschluss werden wir auch hier eine Variable aus unserem Datensatz betrachte
 
 
 ```r
-load(url('https://pandar.netlify.app/daten/fb22.rda')) 
-is.numeric(fb22$neuro)
+load(url('https://pandar.netlify.app/daten/fb23.rda'))
+is.numeric(fb23$neuro)
 ```
 
 ```
 ## [1] TRUE
 ```
 
-Einladen können wir den Datensatz über den gewohnten Befehl. Wir geben hier die Vorbereitung der anderen Befehle nicht nochmal an, da `neuro` als Variable bereits existiert und der Text hier nicht zu lange werden soll.
+Einladen können wir den Datensatz über den gewohnten Befehl. Wir geben hier die Vorbereitung der anderen Befehle nicht nochmal an, da `neuro` als Variable bereits existiert und der Text hier nicht zu lang werden soll.
 
-Da wir Werte wie den Mittelwert für die Überprüfung der Normalverteilung verwenden wären, ist es nötig, eine numerische Variable vorliegen zu haben (`is.numeric`). Das Resultat `TRUE` zeigt uns an, dass dies gegeben ist. 
+Da wir Werte wie den Mittelwert für die Überprüfung der Normalverteilung verwenden werden, ist es nötig, eine numerische Variable vorliegen zu haben (`is.numeric`). Das Resultat `TRUE` zeigt uns an, dass dies gegeben ist.
 
 </details>
 
@@ -314,7 +316,7 @@ Da wir Werte wie den Mittelwert für die Überprüfung der Normalverteilung verw
 <details><summary>Lösung</summary>
 
 ```r
-fb22$neuro |> is.na() |> sum()
+fb23$neuro |> is.na() |> sum()
 ```
 
 ```
@@ -322,37 +324,37 @@ fb22$neuro |> is.na() |> sum()
 ```
 
 ```r
-mean(fb22$neuro) 
+mean(fb23$neuro) 
 ```
 
 ```
-## [1] 3.625786
+## [1] 3.354749
 ```
-Beispielsweise können wir die Variable `neuro` als Vektor nehmen und erstmal jeden Eintrag überprüfen, ob er fehlt. Dann würde ein `TRUE` entstehen. Da dieses als 1 gewertet wird, können wir anschließend mit `sum` die Anzahl herausfinden. In diesem Fall ergibt sich 0 - also kein Wert fehlt. Der Mittelwert kann also ohne Eränzungen zu den `NA` mit der Funktion `mean` direkt bestimmt werden.
+Ein Lösungsansatz ist es, die Variable `neuro` als Vektor zu nehmen und erstmal für jeden Eintrag zu überprüfen, ob dieser fehlt. Dann würde ein `TRUE` entstehen. Da dieses als 1 gewertet wird, können wir anschließend mit `sum` die Anzahl der fehlenden Werte ermitteln. In diesem Fall ergibt sich 0 - also kein Wert fehlt. Der Mittelwert kann demnach ohne Ergänzungen zu den `NA` mit der Funktion `mean` direkt bestimmt werden.
 
 </details>
 
-* Erstellen Sie für die Variable ein Histogramm mit sinnvollen Begrenzungen auf der x-Achse und der theoretisch erwarteten Normalverteilung. Bewerten Sie auch hinsichtlich der Passung!
+* Erstellen Sie für die Variable ein Histogramm mit sinnvollen Begrenzungen auf der x-Achse und der theoretisch erwarteten Normalverteilung. Bewerten Sie diese auch hinsichtlich der Passung!
 
 <details><summary>Lösung</summary>
 
 ```r
-hist(fb22$neuro, xlim=c(0,6), main="Score", xlab="", ylab="", prob=T)
-curve(dnorm(x, mean=mean(fb22$neuro), sd=sd(fb22$neuro)), add=T)
+hist(fb23$neuro, xlim=c(0,6), main="Score", xlab="", ylab="", prob=T)
+curve(dnorm(x, mean=mean(fb23$neuro), sd=sd(fb23$neuro)), add=T)
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
-Der Befehl unterscheidet sich zunächst nicht von der Betrachtung im Tutorial. Logischerweise muss nur alles auf die Variable `neuro` angewendet werden. Jedoch sehen wir, dass der Plot leider nicht vollständig angezeigt wird, wenn die Linie der Normalverteilung hinzufügen. Dies könnte durch eine Modifikation der y-Achse `y-lim` umgangen werden.
+![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
+Der Befehl unterscheidet sich zunächst nicht von der Betrachtung im Tutorial. Logischerweise muss nur alles auf die Variable `neuro` angewendet werden. Jedoch sehen wir, dass der Plot leider oben leicht abgeschnitten wird, wenn wir die Linie der Normalverteilung hinzufügen. Dies kann durch eine Modifikation der y-Achse `y-lim` umgangen werden:
 
 
 ```r
-hist(fb22$neuro, xlim=c(0,6), ylim=c(0,0.6), main="Score", xlab="", ylab="", prob=T)
-curve(dnorm(x, mean=mean(fb22$neuro), sd=sd(fb22$neuro)), add=T)
+hist(fb23$neuro, xlim=c(0,6), ylim=c(0,0.5), main="Score", xlab="", ylab="", prob=T)
+curve(dnorm(x, mean=mean(fb23$neuro), sd=sd(fb23$neuro)), add=T)
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
 
-Wir sehen leichte Abweichungen des Histogramms von der theoretischen Kurve. Vor allem im unteren Bereich bei einem Wert von 1 bis 1.5 sind Personen, die die Verteilung nicht erwarten würde, während im oberen Teil (über 5) Leute fehlen (was ja auch logisch ist, da es keinen höheren Wert geben konnte aufgrund der Konstruktion der Fragen). Auch wenn diesmal Abweichungen deutlicher zu sehen sind als im Tutorial, würde man noch keine starke Verletzung attestieren, da die Form der Glocke auch gut dargestellt wird.
+Wir sehen leichte Abweichungen des Histogramms von der theoretischen Kurve. Vor allem im unteren Bereich bei einem Wert von 1 bis 2.5 sind Personen, die die Verteilung nicht erwarten würde, während im oberen Teil (über 5) Leute fehlen (was ja auch logisch ist, da es keinen höheren Wert geben konnte aufgrund der Konstruktion der Fragen). Auch wenn diesmal Abweichungen deutlicher zu sehen sind als im Tutorial, würde man noch keine starke Verletzung attestieren, da die Form der Glocke auch gut dargestellt wird.
 
 </details>
 
@@ -363,15 +365,25 @@ Wir sehen leichte Abweichungen des Histogramms von der theoretischen Kurve. Vor 
 Wir haben im Tutorial gelernt, dass die Erstellung einer standardisierten Variable die Interpretierbarkeit eines solchen Plots fördern kann. 
 
 
+
 ```r
-fb22$neuro_std <- scale(fb22$neuro, center = T, scale = T)
-qqnorm(fb22$neuro_std)
-qqline(fb22$neuro_std, col = "red")
+fb23$neuro_std <- scale(fb23$neuro, center = T, scale = T)
+hist(fb23$neuro_std, xlim=c(-3,3), ylim=c(0,0.5), main="Score", xlab="", ylab="", prob=T)
+curve(dnorm(x, mean=mean(fb23$neuro_std), sd=sd(fb23$neuro_std)), add=T)
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
 
-Der QQ-Plot zeigt ein ähnliches Muster wie das Histogramm. In der empirischen Verteilung gibt es niedrige Werte, die durch die theoretische Verteilung nicht so zu erwarten wären (Person hat einen z-Wert von kleiner -3, obwohl nur kleiner -2 erwartet wird). Die Werte bleiben demnach unter den Erwartungen - streuen zu weit nach links. Auch auf der rechten Seite bleiben unsere empirischen Werte unter den theoretisch erwarteten zurück (liegen unterhalb der Linie - Personen haben z-Werte unter 2, obwohl über 2 erwartet wird). Hier bedeutet dies, dass unsere empirischen Werte nicht weit genug nach rechts streuen.
+
+
+```r
+qqnorm(fb23$neuro_std)
+qqline(fb23$neuro_std, col = "red")
+```
+
+![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
+
+Der QQ-Plot zeigt ein ähnliches Muster wie das Histogramm. In der empirischen Verteilung gibt es auf der linken Seite vereinzelt zu hohe Werte, die durch die theoretische Verteilung nicht so zu erwarten wären (liegen oberhalb der Linie - Personen haben z-Werte leicht unter -2 obwohl bis zu -3 erwartet wird). Die Werte liegen über den Erwartungen - streuen zu weit nach rechts. Auf auf der rechten Seite wiederum bleiben einige empirischen Werte unter den theoretisch erwarteten zurück (liegen unterhalb der Linie - Personen haben z-Werte unter 2, obwohl über 2 erwartet wird). Hier bedeutet dies, dass unsere empirischen Werte nicht weit genug nach rechts streuen.
 
 Trotzdem ist auch hier die Verletzung auf wenige Punkte fokussiert, weshalb wir keine starke Verletzung annehmen. Die Färbung erhalten wir in diesem Fall dadurch, dass wir in `qqline` noch eine Farbe im Argument `col` ergänzen.
 

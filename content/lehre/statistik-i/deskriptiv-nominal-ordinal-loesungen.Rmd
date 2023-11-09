@@ -14,8 +14,8 @@ banner:
   image: "/header/frogs_on_phones.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)"
 projects: []
-expiryDate: '2024-10-10'
-publishDate: '2023-11-09'
+expiryDate: ''
+publishDate: ''
 _build:
   list: never
 reading_time: false
@@ -105,7 +105,7 @@ Der Modus der Variable lautet `r names(which.max(table(fb23$ziel)))` - die meist
 
 ## Aufgabe 2
 
-Die Variable `wissen` enthält die Angaben über das Ausmaß, in dem sich Sie und Ihre Kommilitonen:innen für wissenschaftliche Grundlagen interessieren.
+Die Variable `therap` enthält die Angaben über das Ausmaß, in dem sich Sie und Ihre Kommilitonen:innen für anwendungsbezogene Aspekte interessieren.
 
 * Bestimmen Sie für diese Variable den Modus.     
 * Untersuchen Sie die Streuung für diese Variable optisch, indem Sie einen Boxplot erstellen.  
@@ -116,31 +116,31 @@ Die Variable `wissen` enthält die Angaben über das Ausmaß, in dem sich Sie un
 **Modus**
 
 ```{r}
-which.max(table(fb23$wissen))
+which.max(table(fb23$therap))
 ```
 
 **Häufigkeiten**
 
 ```{r}
-table(fb23$wissen)
-prop.table(table(fb23$wissen))
+table(fb23$therap)
+prop.table(table(fb23$therap))
 ```
 
-Der Modus der Variable "wissen" beträgt `r which.max(table(fb23$wissen))`, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = `r max(table(fb23$wissen))` bzw. `r round(max(prop.table(table(fb23$wissen)))*100,2)`%).
+Der Modus der Variable `therap` beträgt `r which.max(table(fb23$therap))`, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = `r max(table(fb23$therap))` bzw. `r round(max(prop.table(table(fb23$therap)))*100,2)`%).
 
 **Boxplot**
 
 ```{r}
-boxplot(fb23$wissen)
+boxplot(fb23$therap)
 ```
 
 **Quartile**
 
 ```{r}
-quantile(fb23$wissen, c(.25,.5,.75), na.rm=T)
+quantile(fb23$therap, c(.25,.5,.75), na.rm=T)
 ```
 
-Der Median beträgt `r quantile(fb23$wissen, .5, na.rm=T)`. Das 1. und 3. Quartil betragen `r quantile(fb23$wissen, .25, na.rm=T)` bzw. `r quantile(fb23$wissen, .75, na.rm=T)`. Folglich sind die Grenzen des Interquartilsbereich (IQB) `r quantile(fb23$wissen, .25, na.rm=T)` und `r  quantile(fb23$wissen, .75, na.rm=T)`. Der Interquartilsabstand (IQA) beträgt `r  quantile(fb23$wissen, .75, na.rm=T)-quantile(fb23$wissen, .25, na.rm=T)`.
+Der Median beträgt `r quantile(fb23$therap, .5, na.rm=T)`. Das 1. und 3. Quartil betragen `r quantile(fb23$therap, .25, na.rm=T)` bzw. `r quantile(fb23$therap, .75, na.rm=T)`. Folglich sind die Grenzen des Interquartilsbereich (IQB) `r quantile(fb23$therap, .25, na.rm=T)` und `r  quantile(fb23$therap, .75, na.rm=T)`. Der Interquartilsabstand (IQA) beträgt `r  quantile(fb23$therap, .75, na.rm=T)-quantile(fb23$therap, .25, na.rm=T)`.
 
 </details>
 

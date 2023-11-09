@@ -14,8 +14,8 @@ banner:
   image: "/header/angel_of_the_north.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)"
 projects: []
-expiryDate: '2024-10-10'
-publishDate: '2023-11-30'
+expiryDate: ''
+publishDate: ''
 _build:
   list: never
 reading_time: false
@@ -100,20 +100,21 @@ library(car)
 
 Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 
-**2.1** Was ist der Mittelwert ($\bar{x}$) und die geschätzte Populations-Standardabweichung ($\hat\sigma$) der Lebenszufriedenheit in der Gruppe der Psychologie-Studierenden? Schätzen Sie außerdem ausgehend von unseren erhobenen Daten den Standardfehler des Mittelwerts ($\hat{\sigma_{\bar{x}}}$) der Lebenszufriedenheit?
+**2.1** Was ist der Mittelwert ($\bar{x}$) und die geschätzte Populations-Standardabweichung ($\hat\sigma$) der Lebenszufriedenheit in der Gruppe der Psychologie-Studierenden? Schätzen Sie außerdem ausgehend von unseren erhobenen Daten den Standardfehler des Mittelwerts ($\hat{\sigma_{\bar{x}}}$) der Lebenszufriedenheit.
 
 <details><summary>Lösung</summary>
 
 **Variante 1**:
 
 ```{r}
-mean_lz <- mean(fb23$lz, na.rm = T) #Mittlere Lebenszufriedenheit
+mean_lz <- mean(fb23$lz, na.rm = TRUE) #Mittlere Lebenszufriedenheit
 mean_lz
 
-sd_lz <- sd(fb23$lz, na.rm = T) #Standardabweichung
+sd_lz <- sd(fb23$lz, na.rm = TRUE) #Standardabweichung (Populationsschätzer)
 sd_lz
 
 n_lz <- length(na.omit(fb23$lz)) #Stichprobengröße
+
 se_lz <- sd_lz / sqrt(n_lz) #Standardfehler
 se_lz
 ```
@@ -175,7 +176,7 @@ t.test(fb23$lz, mu=4.4)
 t.test(fb23$lz, mu=4.4, conf.level = 0.99) #Default ist 95%, deshalb erhöhen wir auf 99%
 ```
 
-Zuvor ist uns aufgefallen, dass die Lebenszufriedenheit nicht normalskaliert ist.
+Zuvor ist uns aufgefallen, dass die Lebenszufriedenheit nicht normalverteilt ist.
 Außerdem haben wir gelernt das ab $n$ > 30 der zentrale Grenzwertsatz greift.
 Es gibt aber auch noch die Möglichkeit auf einen Test mit weniger strengen Voraussetzungen zurückzugreifen. Dafür büßen wir etwas Power ($1 - \beta$) ein. Das heißt, wenn ein Effekt vorliegt ist es schwerer (unwahrscheinlicher) diesen nachzuweisen.
 Der Ein-Stichproben Wilcoxon Tests der folgt wird **nicht** in der Vorlesung behandelt und ist auch **nicht** klausurrelevant.
@@ -193,7 +194,7 @@ Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die 
 
 ## Aufgabe 3
 
-**3.1** Unterscheiden sich die Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von den Extraversionswerten der Gesamtbevölkerung ($\mu$ = 3.5)? Bestimmen Sie das 95%ige Konfidenzintervall und die Effektgröße.
+**3.1** Unterscheiden sich die Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von den Extraversionswerten der Gesamtbevölkerung ($\mu$ = 3.5)? Bestimmen Sie das 99%ige Konfidenzintervall und treffen Sie basiered auf Ihrem Ergebnis eine Signifikanzentscheidung.
 
 <details><summary>Lösung</summary>
 
@@ -210,40 +211,28 @@ $H_1$: Die durchschnittlichen Extraversionswerte der Psychologie-Studierenden $\
 $H_1$: $\mu_0$ $\neq$ $\mu_1$
 
 ```{r}
-t.test(fb23$extra, mu = 3.5)
+t.test(fb23$extra, mu = 3.5, conf.level = 0.99)
 ```
 
 ```{r, echo = FALSE}
-t_test1 <- t.test(fb23$extra, mu = 3.5)
+t_test1 <- t.test(fb23$extra, mu = 3.5, conf.level = 0.99)
 conf_int1 <- t_test1$conf.int
 ```
 
-Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die Psychologie-Studierenden unterscheiden sich in ihrer Extraversion von der Gesamtbevölkerung. 
-Das 95%-ige Konfidenzintervall liegt zwischen `r round(conf_int1[1], digits = 2)` und `r round(conf_int1[2], digits = 2)`. Das bedeutet, dass in 95% der Fälle in einer wiederholten Ziehung aus der Grundgesamtheit die mittleren Extraversionswerte zwischen `r round(conf_int1[1], digits = 2)` und `r round(conf_int1[2], digits = 2)` liegen.
+Das 99%-ige Konfidenzintervall liegt zwischen `r round(conf_int1[1], digits = 2)` und `r round(conf_int1[2], digits = 2)`. Der Mittelwert der Gesamtbevölkerung ($\mu$ = 3.5) liegt außerhalb dieses Intervalls, somit kann mit einer Irrtumswahrscheinlichkeit von 1% die $H_0$ verworfen werden. Die Psychologie-Studierenden unterscheiden sich in ihrer Extraversion von der Gesamtbevölkerung. 
 
-**Effektgröße:**
-
-```{r}
-mean_extra <- mean(fb23$extra, na.rm = TRUE) #Mittlere Extraversion der Stichprobe
-sd_extra <- sd(fb23$extra, na.rm = TRUE) #Stichproben SD (Populationsschätzer)
-mean_pop_extra <- 3.5 #Mittlere Extraversion der Grundgesamtheit
-d1 <- abs((mean_extra - mean_pop_extra) / sd_extra) #abs(), da Betrag
-d1
-```
-
-Die Effektgröße ist mit `r round(d1, digits = 2)` nach Cohen (1988) als klein einzuordnen.
 
 </details>
 
 
 
-**3.2** Sind die Nerdiness-Werte (`nerd`) der Psychologie-Studierenden (1. Semester) größer als die Nerdiness-Werte der Gesamtbevölkerung ($\mu$ = 2.9)? Bestimmen Sie das 99%ige Konfidenzintervall und die Effektgröße.
+**3.2** Sind die Nerdiness-Werte (`nerd`) der Psychologie-Studierenden (1. Semester) größer als die Nerdiness-Werte der Gesamtbevölkerung ($\mu$ = 2.9)? Bestimmen Sie den p-Wert und treffen Sie basierend auf Ihrem Ergebnis eine Signifikanzentscheidung.
 
 <details><summary>Lösung</summary>
 
 **Hypothesengenerierung:**
 
-$\alpha$ = .01 
+$\alpha$ = .05 
 
 $H_0$: Die durchschnittlichen Nerdiness-Werte der Psychologie-Studierenden $\mu_1$ sind geringer oder gleich gross wie die Werte der Gesamtbevölkerung $\mu_0$.
 
@@ -254,74 +243,45 @@ $H_1$: Die durchschnittlichen Nerdiness-Werte der Psychologie-Studierenden $\mu_
 $H_1$: $\mu_0$ $<$ $\mu_1$
 
 ```{r}
-t.test(fb23$nerd, mu = 2.9, alternative = "greater", conf.level = 0.99)
+t.test(fb23$nerd, mu = 2.9, alternative = "greater")
 ```
 
 ```{r, echo=FALSE}
-t_test2 <- t.test(fb23$nerd, mu = 2.9, alternative = "greater", conf.level = 0.99)
-conf_int2 <- t_test2$conf.int
+t_test2 <- t.test(fb23$nerd, mu = 2.9, alternative = "greater")
+p_test2 <- t_test2$p.value
 ```
 
-Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die Psychologie-Studierenden haben höhere Nerdiness-Werte im Vergleich zur Gesamtbevölkerung.
+Der p-Wert beträgt `r round(p_test2, digits = 4)` < .05, somit kann mit einer Irrtumswahrscheinlichkeit von 5% die $H_0$ verworfen werden. Die Psychologie-Studierenden haben höhere Nerdiness-Werte im Vergleich zur Gesamtbevölkerung.
 
-
-**Effektgröße:**
-
-```{r}
-mean_nerd <- mean(fb23$nerd, na.rm = TRUE) #Mittlere Nerdiness der Stichprobe
-sd_nerd <- sd(fb23$nerd, na.rm = TRUE) #Stichproben SD (Populationsschätzer)
-mean_pop_nerd <- 2.9 #Mittlere Nerdiness der Grundgesamtheit
-d2 <- abs((mean_nerd - mean_pop_nerd) / sd_nerd) #abs(), da Betrag
-d2
-```
-
-Die Effektgröße ist mit `r round(d2, digits = 2)` nach Cohen (1988) als klein einzuordnen.
 
 </details>
 
 
 
-**3.3** Sind die Psychologie-Studierenden (1. Semester) verträglicher (`vertr`) als die Grundgesamtheit ($\mu$ = 3.9)? Bestimmen Sie das 95%ige Konfidenzintervall und die Effektgröße.
+**3.3** Sind die Psychologie-Studierenden (1. Semester) verträglicher (`vertr`) als die Grundgesamtheit ($\mu$ = 3.9)? Bestimmen Sie die Effektgröße und ordnen sie diese ein.
+
 
 <details><summary>Lösung</summary>
-
-**Hypothesengenerierung:**
-
-$\alpha$ = .05 
-
-$H_0$: Die durchschnittlichen Verträglichkeitswerte der Psychologie-Studierenden $\mu_1$ sind geringer oder gleich gross wie die Werte der Gesamtbevölkerung $\mu_0$.
-
-$H_0$: $\mu_0$ $\geq$ $\mu_1$
-
-$H_1$: Die durchschnittlichen Verträglichkeitswerte der Psychologie-Studierenden $\mu_1$ sind größer als die Werte der Gesamtbevölkerung $\mu_0$.
-
-$H_1$: $\mu_0$ $<$ $\mu_1$
-
-```{r}
-t.test(fb23$vertr, mu = 3.9, alternative = "greater")
-```
-
-```{r, echo = FALSE}
-t_test3 <- t.test(fb23$vertr, mu = 3.9, alternative = "greater")
-conf_int3 <- t_test3$conf.int
-```
-
-Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die Psychologie-Studierenden haben höhere Verträglichkeitswerte im Vergleich zur Gesamtbevölkerung.
-Das 95%-ige Konfidenzintervall liegt zwischen `r round(conf_int3[1], digits = 2)` und $\infty$ (außerhalb des definierten Wertebereichs). Das bedeutet, dass in 95% der Fälle in einer wiederholten Ziehung aus der Grundgesamtheit die mittleren Verträglichkeitswerte zwischen `r round(conf_int3[1], digits = 2)` und $\infty$ (außerhalb des definierten Wertebereichs) liegen.
 
 **Effektgröße:**
 
 ```{r}
 mean_vertr <- mean(fb23$vertr, na.rm = TRUE) #Mittlere Verträglichkeit der Stichprobe
+
 sd_vertr <- sd(fb23$vertr, na.rm = TRUE) #Stichproben SD (Populationsschätzer)
+
 mean_pop_vertr <- 3.9 #Mittlere Verträglichkeit der Grundgesamtheit
+
 d3 <- abs((mean_vertr - mean_pop_vertr) / sd_vertr) #abs(), da Betrag
 d3
 ```
 
-Die Effektgröße ist mit `r round(d3, digits = 2)` nach Cohen (1988) als mittel einzuordnen.
+Die Effektgröße ist mit `r round(d3, digits = 2)` nach Cohen (1988) als mittelstark einzuordnen.
+
 
 </details>
+
+
 
 ## Aufgabe 4
 
@@ -347,24 +307,50 @@ $H_1$: $\mu_0$ $\neq$ $\mu_1$
 
 **z-Test:**
 
+Wir arbeiten für diesen Aufgabenblock unter der Annahme, dass uns die Daten der gesamten Population, in unserem Fall aller Psychologie 1. Semester, in Form des Datensatzes `fb23` vorliegen. Daher ist der angemessene Test ist in diesem Fall der z-Test.
+
+Zuvor überprüfen wir noch ob es fehlende Werte auf der Variable `gewis` gibt. Sollte dies nicht der Fall sein können wir uns das Argument `na.rm = TRUE` sowie die Funktion `na.omit()` später an mehreren Stellen in der Rechnung sparen.
+
 ```{r}
 anyNA(fb23$gewis) #keine NA's vorhanden
+```
 
+Nun zur eigentlichen Rechnung:
+
+```{r}
 mean_gewis_pop <- mean(fb23$gewis) #Mittelwert der Population
 
+mean_gewis_smpl1 <- 3.6 #Mittelwert der Stichprobe
+```
+
+Weiterhin brauchen wir den Standardfehler. Dieser erechnet sich bei einem z-Test über die Standardabweichung der Population.
+
+```{r}
 sd_gewis_pop <- sd(fb23$gewis) * sqrt((nrow(fb23) - 1) / nrow(fb23)) #empirische Standardabweichung der Population
 
 se_gewis <- sd_gewis_pop / sqrt(nrow(fb23)) #Standardfehler
+```
 
-mean_gewis_smpl1 <- 3.6 #Mittelwert der Stichprobe
+Da die `sd()`-Funktion von Natur aus die geschätzte Standardabweichung berechnet, wir aber die empirische Standardabweichung benötigen müssen wir diese noch mit $\sqrt\frac{n-1}{n}$ verrechnen.
 
-z_gewis1 <- (mean_gewis_smpl1 - mean_gewis_pop) / se_gewis
+Weiter geht es mit:
 
-z_krit <- qnorm(1 - 0.05/2) #zweiseitig
+```{r}
+z_gewis1 <- (mean_gewis_smpl1 - mean_gewis_pop) / se_gewis #empirischer z-Wert
 
-abs(z_gewis1) > z_krit #signifikant
+z_krit <- qnorm(1 - 0.05/2) #kritischer z-Wert, zweiseitig
+```
 
-2 * pnorm(z_gewis1, lower.tail = FALSE) #p > .05
+Der Abgleich des empirischen z-Werts mit dem kritischen Wert ergibt:
+
+```{r}
+abs(z_gewis1) > z_krit #nicht signifikant
+```
+
+Zusätzlich lässt sich auch noch der p-Wert über folgende Formel berechnen:
+
+```{r}
+2 * pnorm(z_gewis1, lower.tail = FALSE) #p > .05, nicht signifikant
 ```
 
 **Konfidenzintervall:**
@@ -378,9 +364,11 @@ conf_int
 ```
 
 Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ nicht verworfen werden. Die Psychologie-Studierenden der Stichprobe unterscheiden sich nicht in ihrer Gewissenhaftigkeit von der Grundgesamtheit (Datensatz). 
-Das 95%-ige Konfidenzintervall liegt zwischen `r round(conf_int[1], digits = 2)` und `r round(conf_int[2], digits = 2)`. Das bedeutet, dass in 95% der Fälle in einer wiederholten Ziehung aus der Grundgesamtheit die mittleren Gewissenhaftigkeitswerte zwischen `r round(conf_int[1], digits = 2)` und `r round(conf_int[2], digits = 2)` liegen.
+Das 95%-ige Konfidenzintervall liegt zwischen `r round(conf_int[1], digits = 2)` und `r round(conf_int[2], digits = 2)`.
+
 
 </details>
+
 
 **4.2** Ziehen Sie nun selbst eine Stichprobe mit $n$ = 31 aus dem Datensatz. Nutzen Sie hierfür die `set.seed(1234)`-Funktion. Versuchen Sie zunächst selbst mit Hilfe der `sample()`-Funktion eine Stichprobe ($n$ = 31) zu ziehen. Falls Sie hier von alleine nicht weiterkommen, ist das kein Problem. Nutzen Sie dann für die weitere Aufgabenstellung folgenden Code:
 
@@ -416,7 +404,12 @@ set.seed(1234) #erlaubt Reproduzierbarkeit
 fb23_sample <- fb23[sample(nrow(fb23), size = 31), ] #zieht eine Stichprobe mit n = 31
 ```
 
+Mit der `set.seed()`-Funktion haben wir uns bereits im vorherigen Kapitel zu [Verteilungen](/lehre/statistik-i/verteilungen/) beschäftigt. Sie erlaubt uns die Ergebnisse eines Zufallsvorgangs konstant zu halten.
+Die `sample()`-Funktion nimmt als erstes Argument **keinen** Datensatz entgegen sondern ausschließlich einen Vektor. Daher nutzen wir die Funktion um uns wahllos 31 Zahlen zwischen 1 und `nrow(fb23)` auszugeben. Der äußere Teil gibt uns dann die Zeilen (Personen) die mit den besagten 31 Zahlen übereinstimmen wieder. 
+
 **z-Test:**
+
+Nachdem wir unsere Stichprobe gezogen haben ist die Berechnung analog zu Aufgabe 4.1. Für eine detailierte Beschreibung der Rechenschritte verweisen wir Sie auf die Lösung der vorherigen Aufgabe.
 
 ```{r}
 anyNA(fb23$gewis) #keine NA's vorhanden
@@ -429,13 +422,13 @@ se_gewis <- sd_gewis_pop / sqrt(nrow(fb23)) #Standardfehler
 
 mean_gewis_smpl2 <- mean(fb23_sample$gewis) #Mittelwert der Stichprobe
 
-z_gewis2 <- (mean_gewis_smpl2 - mean_gewis_pop) / se_gewis
+z_gewis2 <- (mean_gewis_smpl2 - mean_gewis_pop) / se_gewis #empirischer z-Wert
 
-z_krit <- qnorm(1 - 0.05/2) #zweiseitig
+z_krit <- qnorm(1 - 0.05/2) #kritischer z-Wert, zweiseitig
 
 abs(z_gewis2) > z_krit #signifikant
 
-2 * pnorm(z_gewis2) #p < .05
+2 * pnorm(z_gewis2) #p < .05, signifikant
 ```
 
 Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die Psychologie-Studierenden der Stichprobe unterscheiden sich in ihrer Gewissenhaftigkeit von der Grundgesamtheit (Datensatz). 
