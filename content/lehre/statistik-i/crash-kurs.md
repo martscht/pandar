@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
 authors: [schultze]
 weight: 1
-lastmod: '2023-10-31'
+lastmod: '2023-11-09'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"
@@ -70,7 +70,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 611798 mal heruntergeladen
+* Allein in den letzten 30 Tagen 619310 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
@@ -572,7 +572,7 @@ Gerade 1. kann Ihnen dabei Helfen Fehler zu umgehen, die nur auftreten, weil Sie
 
 ***
 
-## Daten
+## Daten {#Daten}
 
 Um zu verstehen, wie Daten in R funktionieren, nutzen wir als Beispiel ein klassisches Experiment aus der Psychologie: den Stroop Test. Die Grundidee lässt sich am leichtesten in einem Bild darstellen:
 
@@ -1449,27 +1449,20 @@ head(fb23)    # Kopfzeilen
 ```
 
 ```
-##   mdbf1_pre mdbf2_pre mdbf3_pre mdbf4_pre mdbf5_pre mdbf6_pre mdbf7_pre mdbf8_pre
-## 1         4         2         3         2         3         2         4         3
-## 2         2         2         4         2         2         1         3         2
-## 3         4         3         2         1         3         2         3         3
-## 4        NA         3         2         2         2         2         1         2
-## 5         3         3         2         1         2         2         1         3
-## 6         3         2         3         1         1         2         2         3
-##   mdbf9_pre mdbf10_pre mdbf11_pre mdbf12_pre  lz extra vertr gewis neuro offen prok
-## 1         2          3          3          1 5.4   3.5   1.5   4.5   5.0   5.0  1.8
-## 2         4          2          2          1 3.4   3.0   3.0   4.0   5.0   5.0  3.1
-## 3         1          3          1          2 4.4   4.0   3.5   5.0   2.0   4.5  1.5
-## 4         2          3          2          3 4.4   3.0   4.0   3.5   4.0   3.5  1.6
-## 5         3          2          2          2 6.4   4.0   4.0   3.5   3.5   4.0  2.7
-## 6         3          4          1          2 5.6   4.5   4.5   4.0   4.5   4.0  3.3
-##       nerd
-## 1 4.166667
-## 2 3.000000
-## 3 2.333333
-## 4 2.833333
-## 5 3.833333
-## 6 3.333333
+##   mdbf1_pre mdbf2_pre mdbf3_pre mdbf4_pre mdbf5_pre mdbf6_pre mdbf7_pre mdbf8_pre mdbf9_pre
+## 1         4         2         3         2         3         2         4         3         2
+## 2         2         2         4         2         2         1         3         2         4
+## 3         4         3         2         1         3         2         3         3         1
+## 4        NA         3         2         2         2         2         1         2         2
+## 5         3         3         2         1         2         2         1         3         3
+## 6         3         2         3         1         1         2         2         3         3
+##   mdbf10_pre mdbf11_pre mdbf12_pre  lz extra vertr gewis neuro offen prok     nerd
+## 1          3          3          1 5.4   3.5   1.5   4.5   5.0   5.0  1.8 4.166667
+## 2          2          2          1 3.4   3.0   3.0   4.0   5.0   5.0  3.1 3.000000
+## 3          3          1          2 4.4   4.0   3.5   5.0   2.0   4.5  1.5 2.333333
+## 4          3          2          3 4.4   3.0   4.0   3.5   4.0   3.5  1.6 2.833333
+## 5          2          2          2 6.4   4.0   4.0   3.5   3.5   4.0  2.7 3.833333
+## 6          4          1          2 5.6   4.5   4.5   4.0   4.5   4.0  3.3 3.333333
 ##                                                                                                                                                          grund
 ## 1                                                                                                                                                   Berufsziel
 ## 2                                                                                                                                        Interesse am Menschen
@@ -1477,20 +1470,20 @@ head(fb23)    # Kopfzeilen
 ## 4 Wissenschaftliche Ergänzung zu meinen bisherigen Tätigkeiten (Arbeit in der psychiatrischen Akutpflege, Gestalttherapieausbildung), Psychotherapieausbildung
 ## 5                                                                                                                                       Passt am besten zu mir
 ## 6                                                                                                   Weil ich mich schon seit ich klein bin dafür interessiere.
-##   fach ziel wissen therap lerntyp hand job ort ort12 wohnen uni1 uni2 uni3 uni4
-## 1    4    2      5      5       3    2   1   2     2      4    0    1    0    0
-## 2    4    2      4      5       3    2   1   1     1      1    1    1    1    1
-## 3    4    2      5      5       1    2   1   1     2      1    0    1    0    0
-## 4    4    2      4      5       3    2   1   1     2      1    1    1    0    1
-## 5    4    2      2      4       3    2   2   1     2      1    0    1    1    0
-## 6    4    2      3      5       1    2   2   2     1      2    0    1    0    0
-##   attent_pre gs_post wm_post ru_post attent_post
-## 1          6    3.00    2.00    2.25           6
-## 2          6    2.75    1.00    1.50           5
-## 3          6    4.00    3.75    3.75           6
-## 4          6    2.50    2.75    3.50           6
-## 5          6    3.75    3.00    3.00           6
-## 6          6      NA      NA      NA          NA
+##   fach ziel wissen therap lerntyp hand job ort ort12 wohnen uni1 uni2 uni3 uni4 attent_pre gs_post
+## 1    4    2      5      5       3    2   1   2     2      4    0    1    0    0          6    3.00
+## 2    4    2      4      5       3    2   1   1     1      1    1    1    1    1          6    2.75
+## 3    4    2      5      5       1    2   1   1     2      1    0    1    0    0          6    4.00
+## 4    4    2      4      5       3    2   1   1     2      1    1    1    0    1          6    2.50
+## 5    4    2      2      4       3    2   2   1     2      1    0    1    1    0          6    3.75
+## 6    4    2      3      5       1    2   2   2     1      2    0    1    0    0          6      NA
+##   wm_post ru_post attent_post
+## 1    2.00    2.25           6
+## 2    1.00    1.50           5
+## 3    3.75    3.75           6
+## 4    2.75    3.50           6
+## 5    3.00    3.00           6
+## 6      NA      NA          NA
 ```
 
 ```r
