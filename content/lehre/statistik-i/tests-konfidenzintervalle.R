@@ -16,11 +16,7 @@ fb23$wohnen <- factor(fb23$wohnen,
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 
-
-# Naturverbundenheit
-
-
-# Weitere Standardisierugen
+# Standardisierungen
 fb23$nerd_std <- scale(fb23$nerd)
 fb23$neuro_std <- scale(fb23$neuro)
 
