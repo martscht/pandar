@@ -48,6 +48,7 @@ Wie wir bereits besprochen haben, sollen Sie im Rahmen des Praktikums eine erste
 - Was ist eine [**Präregistrierung**](#praeregistrierung) und wie können Sie Ihr Projekt präregistrieren?
 - Worauf müssen Sie achten, wenn Sie Ihre [**Analysen**](#analysen) teilen? 
 - Wie schließen Sie ein Projekt auf LIFOS ab?
+- Wie kann man einen Commit [**korrigieren**](#Hilfe), den man auf dem falschen Branch ausgeführt hat?
 
 {{< /spoiler >}}
 
@@ -113,4 +114,39 @@ Dies gilt ebenso für das Datenset, welches in *4_Daten* hochgeladen werden soll
 # Projektabschluss {#projektabschluss}
 
 Wenn Sie mit Ihrem Gruppenbericht fertig sind, laden Sie die finale PDF-Version Ihres Berichts im Ordner *5_Bericht* hoch.
-Zu guter Letzt, gibt es dann noch das *README.md*-Dokument. Das README ist eine Markdown-Textdatei, die Informationen über Ihr Projekt enthalten soll, einschließlich Zweck, Inhalt und weitere Details. Sie befindet sich normalerweise im Stammverzeichnis. Die README-Datei dient als Schnellreferenz für jeden, der versucht, euer Projekt zu verstehen oder zu verwenden, und ist eine wichtige Ressource für jeden, der auf sie stößt. Die Datei ist mit der Sprache Markdown formatiert. Wie man Markdown verwendet, können Sie [hier](https://pandar.netlify.app/lifos/grundlagen/eigenesprojekt/), [hier](https://pandar.netlify.app/lifos/extras/basic-markdown-uebung/) und [hier](https://www.markdownguide.org/basic-syntax/) erfahren. Wenn Sie die README-Datei angepasst haben und alle Dateien wie beschrieben hochgeladen haben, sind Sie mit Ihrem Projekt auf LIFOS fertig :) 
+Zu guter Letzt, gibt es dann noch das *README.md*-Dokument. Das README ist eine Markdown-Textdatei, die Informationen über Ihr Projekt enthalten soll, einschließlich Zweck, Inhalt und weitere Details. Sie befindet sich normalerweise im Stammverzeichnis. Die README-Datei dient als Schnellreferenz für jeden, der versucht, euer Projekt zu verstehen oder zu verwenden, und ist eine wichtige Ressource für jeden, der auf sie stößt. Die Datei ist mit der Sprache Markdown formatiert. Wie man Markdown verwendet, können Sie [hier](https://pandar.netlify.app/lifos/grundlagen/eigenesprojekt/), [hier](https://pandar.netlify.app/lifos/extras/basic-markdown-uebung/) und [hier](https://www.markdownguide.org/basic-syntax/) erfahren. Wenn Sie die README-Datei angepasst haben und alle Dateien wie beschrieben hochgeladen haben, sind Sie mit Ihrem Projekt auf LIFOS fertig :)
+
+## Hilfestellung{#Hilfe}
+
+<details>
+<summary>Was kann ich tun, wenn ich aus Versehen auf einen anderen Branch als <b>main</b> commited habe?</summary>
+
+In diesem Fall könnt ihr eure Änderungen von dem falschen Branch auf Main pushen und den falschen Branch, sofern er aus Versehen erstellt wurde, auch löschen.
+
+Zuerst solltet ihr auf euer Projekt gehen und auf der linken Seite das `Merge requests` Symbol anklicken
+
+Hier sollte ihr eure Änderungen auf dem anderen Branch als *Merge Request* sehen.
+
+![](../../lifos/grundlagen/Gitlab_Project_Merge_Requests.png)
+
+Klickt ihr dabei nun auf *create merge request* öffnet sich ein neues Fenster.
+
+![](../../lifos/grundlagen/Gitlab_Project_New_Merge.png)
+
+Hier könnt ihr nun einen Titel und eine Beschreibung für euren Merge hinzufügen, der den Grund und Inhalt eures ursprünglichen Commits erklärt, und vielleicht auch auf den falschen Commit hinweist.
+
+
+Wählt danach, sofern ihr den anderen Branch löschen wollt da ihr ihn unabsichtlich erstellt habt, `Delete source branch when merge request is accepted` aus. Danach könnt ihr `Create merge request` anklicken.
+
+Ihr solltet nun auf einer neuen Seite landen
+
+![](../../lifos/grundlagen/Gitlab_Project_New_Merge_Confirm.png)
+
+Hier müsst ihr euren Merge und das löschen des source branch von welchem aus der Fehler ausging erneut bestätigen und den `Merge`-button betätigen
+
+Nach einem kurzen Moment solltet ihr nun sehen, dass der Merge erfolgreich war!
+
+![](../../lifos/grundlagen/Gitlab_Project_New_Merge_Sucess.png)
+
+*Sollte dies nicht der Fall sein, oder solltet ihr irgendwo vorher bereits Probleme haben, könnt ihr auch LIFOS[at]uni-frankfurt[punkt]de kontaktieren.*
+</details>
