@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
 authors: [nehler, scheppa-lahyani] 
 weight: 5
-lastmod: '2023-11-08'
+lastmod: '2023-11-10'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -80,11 +80,7 @@ fb23$wohnen <- factor(fb23$wohnen,
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 
-
-# Naturverbundenheit
-
-
-# Weitere Standardisierugen
+# Standardisierungen
 fb23$nerd_std <- scale(fb23$nerd)
 fb23$neuro_std <- scale(fb23$neuro)
 ```
@@ -99,7 +95,7 @@ Nachdem wir uns die letzten Wochen mit Deskriptivstatistik und Verteilungen besc
 
 # Einstichproben-z-Test {#z_Test}
 
-Für die Einstichprobentests ist es essentiell, dass gewisse Populationsinformationen vorliegen, da wir unsere Stichprobe mit dieser vergleichen wollen. Das Vorliegen von Informationen kann beispielsweise bei genormten Tests (wie IQ-Tests) gegeben sein. Stellen wir uns also vor, dass es für den Fragebogen zur Nerdiness (`nerd`) aus der `fb23` Umfrage Normwerte gibt. Der imaginierte Mittelwert der Population liegt bei $\mu_0 = 2.5$, während die Standardabweichung der Population bei $\sigma = 0.9$ liegt. Wir wollen nun im folgenden untersuchen, ob sich unsere Stichprobe in `fb23` (also die Studierenden des ersten Semesters) von diesem Wert unterscheiden.
+Für die Einstichprobentests ist es essentiell, dass gewisse Populationsinformationen vorliegen, da wir unsere Stichprobe mit dieser vergleichen wollen. Das Vorliegen von Informationen kann beispielsweise bei genormten Tests (wie IQ-Tests) gegeben sein. Stellen wir uns also vor, dass es für den Fragebogen zur Nerdiness (`nerd`) aus der `fb23` Umfrage Normwerte gibt. Der imaginierte Mittelwert der Population liegt bei $\mu_0 = 2.5$, während die Standardabweichung der Population bei $\sigma = 3.1$ liegt. Wir wollen nun im folgenden untersuchen, ob sich unsere Stichprobe in `fb23` (also die Studierenden des ersten Semesters) von diesem Wert unterscheiden.
 
 Im Endeffekt befinden wir also bei einem ähnlichen Setting wie im vorhergehenden Tutorial zu Verteilungen. Die Population kann hier durch die Kurve dargestellt werden, während der Mittelwert unserer Stichprobe mit einem roten Strich eingezeichnet ist. Wir haben gelernt, dass man für den spezifischen Wert einer gezogenen Person aus dieser Population nun sagen könnte, wie viel Prozent der Verteilung kleiner (und auch größer) als dieser Wert sind.
 
@@ -147,18 +143,18 @@ mean(fb23$nerd)
 
 Wir sehen hier bereits, dass ich der Wert der Stichprobe von dem der Population rein deskriptiv unterscheidet. Doch reicht dieses deskriptive Ergebnis, um daraus Schlussfolgerungen für die Hypothesen zu ziehen?  
   
-**Nein**. Erst mit Hilfe der Inferenzstatistik kann herausgefunden werden, wie (un)wahrscheinlich die beobachtete Diskrepanz unter Annahme der $H_0$ (also dass es eigentlich keinen Unterschied gibt) ist
+**Nein**. Erst mit Hilfe der Inferenzstatistik kann herausgefunden werden, wie (un)wahrscheinlich die beobachtete Diskrepanz unter Annahme der $H_0$ (also dass es eigentlich keinen Unterschied gibt) ist.
 
-Der Einstichproben-z-Test setzt voraus, dass das Merkmal in der Population, auf die sich die Nullhypothese ($H_0$) bezieht, normalverteilt ist und (wie bereits erwähnt) der Mittelwert sowie die Standardabweichung der Population bekannt sind. Des Weiteren verwendet der Einstichproben-z-Test grundsätzlich die Standardnormalverteilung als Stichprobenkennwerteverteilung (SKV), deswegen ist er nicht für kleine Stichproben geeignet.  
+Der Einstichproben-z-Test setzt voraus, dass das Merkmal in der Population, auf die sich die Nullhypothese ($H_0$) bezieht, normalverteilt ist und (wie bereits erwähnt) der Mittelwert sowie die Standardabweichung der Population bekannt sind. Des Weiteren verwendet der Einstichproben-z-Test grundsätzlich die Standardnormalverteilung als Stichprobenkennwerteverteilung (SKV), weswegen er für kleine Stichproben nicht gut geeignet ist.  
 
-Der Einstichproben-z-Test prüft anhand des arithmetischen Mittels einer Stichprobe, ob der Erwartungswert der zugehörigen Grundgesamtheit ungleich (bzw. kleiner oder größer) als ein vorgegebener Wert ist. Wir müssen also bestimmen, wie wahrscheinlich der empirisch gefundene Mittelwert unter der Voraussetzung ist, dass er aus der Population mit ihrem Mittelwert und dessen Standardabweichung stammt. Zu Beginn haben wir bereits überlegt, dass sowohl die Standardabweichung als auch die Stichprobengröße einen Einfluss auf die Wahrscheinlichkeit von verschiedenen Mittelwerten haben sollten. Wir stellen hier den Einfluss der Stichprobengröße nochmal bildlich da. Gehen wir davon aus, dass wir nur 2 Personen aus der Populaion erheben, dann ist das Auffinden eines Wertes der weit vom eigentlichen Mittelwert der Population entfernt ist leichter möglich. Im Gegensatz dazu sollte sich bei 1000 Personen in einer Stichprobe auch der Mittelwert der Population widerfinden und Abweichungen seltener sein. Die Gegenüberstellung ist in den nächsten 2 Plots nochmal dargestellt. Bei beiden wurde unendlich oft aus unserer Population der Nerdiness eine Stichprobe gezogen. Bei der ersten Grafik sind es jeweils nur 2 Personen, während es bei der zweiten 1000 sind. Diese Verteilungen ist nun Stichprobenkennwerteverteilung des Mittelwerts. Unsere Annahmen zeigen sich bestätigt - die Mittelwerte streuen stärker mit weniger Personen. 
+Der Einstichproben-z-Test prüft anhand des arithmetischen Mittels einer Stichprobe, ob der Erwartungswert der zugehörigen Grundgesamtheit ungleich (bzw. kleiner oder größer) als ein vorgegebener Wert ist. Wir müssen also bestimmen, wie wahrscheinlich der empirisch gefundene Mittelwert unter der Voraussetzung ist, dass er aus der Population mit ihrem Mittelwert und dessen Standardabweichung stammt. Zu Beginn haben wir bereits überlegt, dass sowohl die Standardabweichung als auch die Stichprobengröße einen Einfluss auf die Wahrscheinlichkeit von verschiedenen Mittelwerten haben sollten. Wir stellen hier den Einfluss der Stichprobengröße nochmal bildlich da. Gehen wir davon aus, dass wir nur 2 Personen aus der Populaion erheben, dann ist das Auffinden eines Wertes der weit vom eigentlichen Mittelwert der Population entfernt ist leichter möglich. Im Gegensatz dazu sollte sich bei 1000 Personen in einer Stichprobe auch der Mittelwert der Population widerfinden und Abweichungen seltener sein. Die Gegenüberstellung ist in den nächsten 2 Plots nochmal dargestellt. Bei beiden wurde unendlich oft aus unserer Population der Nerdiness eine Stichprobe gezogen. Jeweils wird ein Mittelwert berechnet, in der Grafik abgetragen und dadurch eine Übersicht über die Häufigkeit erstellt. Bei der ersten Grafik werden pro Wiederholung jeweils nur 2 Personen, während es bei der zweiten 1000 sind. Diese Verteilungen ist nun Stichprobenkennwerteverteilung des Mittelwerts. Unsere Annahmen zeigen sich bestätigt - die Mittelwerte streuen stärker mit weniger Personen. 
 
 ![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 
 ![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
-In unserer Stichproben haben wir nicht so einen extremen Fall - die Stichprobengröße beträgt $n = $179. Der rote Strich symbolisiert weiterhin den von uns gefundenen Mittelwert in der Stichprobe. Wie wahrscheinlich ist dieser nun, wenn wir davon ausgehen, dass er aus der beschriebenen Population der Nerdiness stammt? Dafür müssen wir die Verteilung wieder als Fläche betrachten, doch schon hier wird deutlich, dass der gefundene Wert sehr viel Fläche nach links abdrängt.
+In unserer Stichproben haben wir nicht so einen extremen Fall - die Stichprobengröße beträgt $n = $179. Der rote Strich symbolisiert weiterhin den von uns gefundenen Mittelwert in der Stichprobe. Wie wahrscheinlich ist dieser nun, wenn wir davon ausgehen, dass er aus der beschriebenen Population der Nerdiness stammt? Dafür müssen wir die Verteilung wieder als Fläche betrachten und die exakte Wahrscheinlichkeit bestimmen. Doch schon hier in der Abbildung deutlich, dass der gefundene Wert sehr viel Fläche nach links abschneidet -- also ein sehr unwahrscheinlicher Fall vorliegt.
 
 ![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
@@ -173,24 +169,24 @@ $$z_{emp} = \frac{\bar{x} - {\mu}}{\sigma_{\bar{x}}}$$
   
 $$\sigma_{\bar{x}} = {\frac{{\sigma}}{\sqrt{n}}}$$
   
-Zunächst legen wir alle für den z-Wert relevanten Informationen in unser Environment ab, die wir entweder per Hand eingeben müssen (Populationsinformationen) oder mit einer einfachen Funktion bestimmen können.
+Wie bereits besprochen wird der Standardfehler des Mittelwerts (also die Streuung der SKV) kleiner, wenn wir mehr Personen untersuchen und größer, wenn die Varianz in der Population größer ist. Zunächst legen wir alle für den z-Wert relevanten Informationen in unser Environment ab, die wir entweder per Hand eingeben müssen (Populationsinformationen) oder mit einer einfachen Funktion bestimmen können.
 
 
 ```r
 pop_mean_nerd <- 2.5                 # Mittelwert Grundgesamtheit
-pop_sd_nerd <- 0.9                   # SD der Grundgesamtheit
+pop_sd_nerd <- 3.1                 # SD der Grundgesamtheit
 sample_mean_nerd <- mean(fb23$nerd)  # Stichprobenmittelwert
 sample_size <- nrow(fb23)            # Stichprobengröße (da keine NA)
 ```
 
-Als nächstes müssen wir den Standardfehler des Mittelwerts ($\sigma_{\bar{x}}$) berechnen. Dieser ist im Endeffekt die Standardabweichung der eben betrachteten SKV des Mittelwerts. 
+Als nächstes müssen wir den Standardfehler des Mittelwerts ($\sigma_{\bar{x}}$) berechnen.
 
 
 ```r
 se_nerd <- pop_sd_nerd/sqrt(sample_size) # Standardfehler des Mittelwerts
 ```
 
-Der empirische z-Wert $z_{emp}$ zeigt nun nur auf, wie viele Standardfehler (also Standardabweichungen in der SKV) der gefundene Mittelwert von dem Populationsmittelwert abweicht. Er wird wie folgt berechnet:
+Der empirische z-Wert $z_{emp}$ zeigt nun einfach auf, wie viele Standardfehler (also Standardabweichungen in der SKV) der gefundene Mittelwert von dem Populationsmittelwert abweicht. Er wird wie folgt berechnet:
 
 
 
@@ -200,15 +196,15 @@ z_emp
 ```
 
 ```
-## [1] 7.917275
+## [1] 2.298564
 ```
 
-Der beobachtete Stichprobenmittelwert weicht demnach um $z_{emp}$ = 7.92 *SE* (nach oben) vom Mittelwert der Grundgesamtheit ab.  
-Um entscheiden zu können, ob es sich um eine signifikante Abweichung handelt, muss nun bestimmt werden wie wahrscheinlich ein solcher oder noch extremerer Unterschied ist. Dafür können wir nun den p-Wert bestimmen, den wir auch schon kennengelernt haben. Dieser ist im Endeffekt eine Aussage über die Fläche der Verteilung, die außerhalb unseres gefunden Werts liegt.
+Der beobachtete Stichprobenmittelwert weicht demnach um $z_{emp}$ = 2.3 *SE* (nach oben) vom Mittelwert der Grundgesamtheit ab.  
+Um entscheiden zu können, ob es sich um eine signifikante Abweichung handelt, muss nun bestimmt werden wie wahrscheinlich ein solcher oder noch extremerer Unterschied ist. Dafür können wir den p-Wert bestimmen. Dieser ist im Endeffekt eine Aussage über die Fläche der Verteilung, die außerhalb unseres gefunden Werts liegt.
 
 ![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
-In Rot ist die Fläche für kleinere Werte als unseren eingzeichnet. Es wird bereits deutlich, dass die Fläche in unserem Fall sehr groß sein sollte . Mit `pnorm()` und `lower.tail = FALSE` können wir direkt bestimmen, wie viel Fläche der Verteilung noch für Werte größer als den unseren übrig ist. 
+In Rot ist die Fläche für kleinere Werte als unseren eingzeichnet. Es wird bereits deutlich, dass die Fläche in unserem Fall sehr groß sein sollte. Umgekehrt muss der Anteil der Fläche, der für größere Werte als unseren in der Verteilung vorliegt (also der weiße Anteil), sehr gering sein. Mit `pnorm()` und `lower.tail = FALSE` können wir direkt bestimmen, wie viel Prozent der Fläche der Verteilung noch für Werte größer als den unseren übrig ist. 
 
 
 ```r
@@ -216,8 +212,10 @@ pnorm(z_emp, lower.tail = FALSE)
 ```
 
 ```
-## [1] 1.213858e-15
+## [1] 0.01076486
 ```
+
+Ungefähr 1.08% der Werte sind also größer als unserer.
 
 Achtung: Dieser Wert ist hier noch nicht unser p-Wert, da wir eine zweiseitige Testung haben. Wir haben nur die Fläche für den Fall "größer" bestimmt und nicht für "extremer". Wir können uns aber die Symmetrie der Verteilung zu nutze machen und den gefundenen Wert mit 2 multiplizieren. 
   
@@ -227,10 +225,10 @@ Achtung: Dieser Wert ist hier noch nicht unser p-Wert, da wir eine zweiseitige T
 ```
 
 ```
-## [1] 2.427716e-15
+## [1] 0.02152972
 ```
 
-Wir erkennen, dass der Wert kleiner als .05 (5\%) ist. Demnach ist die Wahrscheinlichkeit, diesen Wert (oder einen noch extremeren Wert) per Zufall erhalten zu haben, sehr gering, wenn die $H_0$ gilt. Wir würden uns für die $H_1$ entscheiden.
+Insgesamt 2.15% der Werte extremer als unserer. Wir erkennen, dass der Wert kleiner als .05 (5\%) ist. Demnach ist die Wahrscheinlichkeit, diesen Wert (oder einen noch extremeren Wert) per Zufall erhalten zu haben, sehr gering, wenn die $H_0$ gilt. Wir würden uns für die $H_1$ entscheiden.
 
 ### Weitere Möglichkeit: Vergleich mit kritischem Wert
 
@@ -257,7 +255,7 @@ abs(z_emp) > abs(z_krit)
 ## [1] TRUE
 ```
 
-Das Ergebnis `TRUE` zeigt uns, dass unser Wert extremer ist und es sich um einen signifikanten Unterschied handelt. Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Der durchschnittliche IQ der Stichprobe ist höher als der durchschnittliche IQ der Grundgesamtheit.
+Das Ergebnis `TRUE` zeigt uns, dass unser Wert extremer ist und es sich um einen signifikanten Unterschied handelt. Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die durschnittliche Nerdiness der Stichprobe unterscheidet sich von der durchschnittlichen Nerdiness der Grundgesamtheit.
 
 
 
@@ -265,22 +263,17 @@ Das Ergebnis `TRUE` zeigt uns, dass unser Wert extremer ist und es sich um einen
 
 ## Konfidenzintervalle {#KonfInt}
 
-** FORMULIERUNGEN HIER MÜSSEN NOCHMAL KLAR GEZOGEN WERDEN **
-<!-- ERSTER SATZ WIRD NEU AUF MARTINS FOLIEN SEIN -->
+Alternativ (oder auch ergänzend) können wir ein Konfidenzintervall bestimmen, um unsere Hypothese zu testen. In der Literatur wird häufig folgende Definition benutzt: Das (1 − α)-Konfidenzintervall bezeichnet den Bereich um einen geschätzten Populationsparameter (also den Wert aus der Stichprobe), für den gilt, dass er mit einer Wahrscheinlichkeit von 1 − α den Populationsparameter (bei Mittelwerten $\mu$) überdeckt. Eine etwas technischere Formulierung wäre: Die Wahl von 5% Irrtumswahrscheinlichkeit bei der Bildung eines Konfidenzintervalles heißt, dass das Intervall mit 5%-iger Wahrscheinlichkeit zu den Intervallen gehört, die den Populationsparameter (bei Mittelwerten $\mu$) nicht enthalten.
 
-5% Irrtumswahrscheinlichkeit heißt, dass das Intervall mit 5%-iger Wahrscheinlichkeit zu den Intervallen gehört, die den Populationsparamert nicht enthalten
+Die Idee für die Absicherung bleibt bei beiden Definitionen dieselbe - einfach gesagt: Wir legen einen Bereich um unserern Stichprobenwert, dessen Breite wir anhand einer Irrtumswahrscheinlichkeit bestimmen. Wenn der uns bekannte Populationsparameter (bei Mittelwerten $\mu$) nun nicht in diesem Bereich liegt, gehen wir davon aus, dass unsere Stichprobe nicht zu dieser Population gehört. Denn wir sind uns ja zu (1- $\alpha$ )% sicher, dass unser Konfidenzintervall den Populationswert, der zu unserer Stichprobe gehört, überdecken sollte. Damit würden wir im Fall von Mittelwerten vermuten, dass $\mu_1 \neq \mu_2$, was genau der $H_1$ Hypothese unserer vorangegangen Testung entspricht.
 
-<!-- DIESE SÄTZE SIND DEFINITIONEN AUS DEM EID -->
-Das (1 − α)-Konfidenzintervall bezeichnet den Bereich um einen geschätzten Populationsparameter, für den
-gilt, dass er mit einer Wahrscheinlichkeit von 1 − α den Populationsparameter überdeckt.
-
-Wir können auch ein Konfidenzintervall bestimmen, um unsere Hypothese zu testen. Wenn wir z.B. ein 95%-Konfidenzintervall wählen und wir aus der selben Grundgesamtheit wiederholt die selbe Anzahl an Fällen ziehen (unsere Studie also sehr oft wiederholen), dann werden 95% aller Konfidenzintervalle den wahren Populationsmittelwert $\mu$ enthalten. Ein 95%-Konfidenzintervall ist somit ein Intervall, welches in 95% der Fälle beim Ziehen aus der selben Grundgesamtheit den wahren Wert $\mu$ enthält.
-
-Dabei gilt:
+Für die Berechnung des Konfidenzintervalls brauchen wir Parameter, die uns bereits bekannt sind. Folgendes wird berechnet.
   
-$$\mu = \bar{x} \pm z_{\frac{\alpha}{2}} * \sigma_{\bar{x}} = \bar{x} \pm z_{\frac{\alpha}{2}}*\frac{\sigma}{\sqrt{n}}$$
+$$\bar{x} \pm z_{\frac{\alpha}{2}} * \sigma_{\bar{x}} = \bar{x} \pm z_{\frac{\alpha}{2}}*\frac{\sigma}{\sqrt{n}}$$
 
-Wenn wir ein 95%-Konfidenzintervall bestimmen wollen, brauchen wir das zugehörige Quantil aus der Standardnormalverteilung - also den *z*-Wert für $\frac{\alpha}{2}$. Wir müssen das $\alpha$-Niveau halbieren, da wir uns momentan beim Bilden eines zweiseitigen Konfidenzintervalles befinden. Wir haben bereits gelernt, dass man Quantile aus der Normalverteilung mit der Funktion `qnorm()` erhalten kann. Die Standardnormalverteilung mit Mittelwert von 0 und Standardabweichung von 1 ist dabei der Default, aber wir geben die Argumente zur Übung trotzdem selbst an.
+Die Gleichtung enthält den Standardfehler ($\sigma_\bar{x}$) des Mittelwerts, der weiterhin aus der Standardabweichung ($\sigma$) der Population und der Wurzel aus der Stichprobengröße ($n$) bestimmt werden kann. Wenn wir ein 95%-Konfidenzintervall bestimmen wollen, brauchen wir das zugehörige Quantil aus der Standardnormalverteilung - also den *z*-Wert für $\frac{\alpha}{2}$. Wir müssen das $\alpha$-Niveau halbieren, da wir wie besprochen eine zweiseitige Testung durchführen. 
+
+Wir haben bereits gesehen, dass man Quantile aus der Normalverteilung mit der Funktion `qnorm()` erhalten kann. Die Standardnormalverteilung mit Mittelwert von 0 und Standardabweichung von 1 ist dabei der Default, aber wir geben die Argumente zur Übung trotzdem selbst an.
   
 
 ```r
@@ -292,26 +285,33 @@ z_quantil_zweiseitig
 ## [1] 1.959964
 ```
 
-Wir sehen, dass der Wert 1.96 2.5% der Verteilung Richtung positiv unendlich abtrennt. Nun haben wir alle wichtigen Informationen, um ein zweiseitiges Konfidenzintervall um unseren Mittelwert zu legen.
+Dieser Wert kommt uns bekannt vor -- er entspricht dem bereits bestimmten $z_{krit}$. Dies ist auch kein Zufall, da wir jeweils danach gesucht haben, welcher Wert die extremsten 5% (2.5% jeweils unten und oben) von der Verteilung abtrennt. Nun haben wir alle wichtigen Informationen, um ein zweiseitiges Konfidenzintervall um unseren Mittelwert der Stichprobe zu legen.
 
 
 ```r
 up_conf_nerd <- sample_mean_nerd+((z_quantil_zweiseitig*pop_sd_nerd)/sqrt(sample_size))
+
+lo_conf_nerd <- sample_mean_nerd-((z_quantil_zweiseitig*pop_sd_nerd)/sqrt(sample_size))
+
 up_conf_nerd
 ```
 
 ```
-## [1] 3.164434
+## [1] 3.486722
 ```
 
 ```r
-lo_conf_nerd <- sample_mean_nerd-((z_quantil_zweiseitig*pop_sd_nerd)/sqrt(sample_size))
 lo_conf_nerd
 ```
 
 ```
-## [1] 2.900743
+## [1] 2.578455
 ```
+
+In diesem Fall würde man den wahren Mittelwert der Grundgesamtheit, aus der die Stichprobe gezogen wurde, zwischen 2.58 und 3.49 vermuten. Mit einer Wahrscheinlichkeit von 95% enthält unser Konfidenzintervall zwischen 2.58 und 3.49 den wahren Wert der zugehörigen Population.
+
+Optisch ansprechender können wir das Ergebnis natürlich ausgeben, indem wir unsere beiden Werte in einen gemeinsamen Vektor ablegen.
+
 
 ```r
 conf_nerd <- c(lo_conf_nerd, up_conf_nerd)
@@ -319,12 +319,10 @@ conf_nerd
 ```
 
 ```
-## [1] 2.900743 3.164434
+## [1] 2.578455 3.486722
 ```
 
-In diesem Fall würde man den wahren Mittelwert der Grundgesamtheit, aus der die Stichprobe gezogen wurde, zwischen 2.9 und 3.16 vermuten. Mit einer Wahrscheinlichkeit von 95% der wahre Mittelwerte für Nerdiness in unserem Konfidenzinterall 2.9 und 3.16 liegt.
-
-Das Konfidenzintervall kann nun auch dafür genutzt werden, unsere Hypothesen zu überprüfen. Wenn der Populationsmittelwert nicht im Konfidenzintervall liegt, entscheiden wir uns dafür, dass die Stichprobe eben nicht aus dieser Population gezogen wurde.
+Das Konfidenzintervall kann nun dafür genutzt werden, unsere Hypothesen zu überprüfen. Wir sind uns dabei zu 95% sicher, dass unser Konfidenzintervall den wahren Wert der Population, aus dem unsere Stichprobe stammt enthält. Das Konfidenzintervall überdeckt allerdings nicht den vorgegebenen Populationswert von $\mu_0 = 2.5$. Daher würden wir davon ausgehen, dass sich der Mittelwert der Population, aus der unsere Stichprobe stammt, von diesem unterscheidet $\mu_0 \neq \mu_1$. Die Hypothese $H_0$ wird damit verworfen und die $H_1$ angenommen. 
 
 
 
@@ -407,8 +405,10 @@ describe(fb23$neuro)
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 179 3.35 0.98    3.5    3.37 0.74   1   5     4 -0.19    -0.68 0.07
+##    vars   n mean   sd median trimmed  mad min max range
+## X1    1 179 3.35 0.98    3.5    3.37 0.74   1   5     4
+##     skew kurtosis   se
+## X1 -0.19    -0.68 0.07
 ```
 
 Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei 3.3547486. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
@@ -433,7 +433,7 @@ qqnorm(fb23$neuro)
 qqline(fb23$neuro)
 ```
 
-![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 Nach dem Plot zu urteilen könnte eine Verletzung der Normalverteilungsannahme hier vorliegen. Allerdings können wir uns behelfen und den Test trotzdem durchführen. Die Normalverteilungsannahme darf nämlich verletzt sein, wenn die Stichprobe mindestens 30 Personen umfasst. In diesen Fällen wird das inferenzstatistische Ergebnis nicht verzerrt. Dann gilt der *zentrale Grenzwertsatz*: Die Stichprobenkennwertverteilung der Mittelwerte nähert sich einer Normalverteilung an, unabhängig davon wie das Merkmal selbst in der Population verteilt ist.
 
