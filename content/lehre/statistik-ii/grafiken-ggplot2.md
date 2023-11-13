@@ -6,10 +6,10 @@ slug: grafiken-ggplot2
 categories: ["Statistik II"] 
 tags: ["ggplotting", "Datenmanagement", "Grafiken"] 
 subtitle: ''
-summary: 'In diesem Post lernt ihr, Grafiken mit Hilfe des Paketes "ggplot2" zu erstellen.' 
-authors: [schultze] 
+summary: 'In diesem Post lernt ihr, Daten in R mit Hilfe des Pakets "ggplot2" zu visualisieren. Das Tutorial startet mit den Grundprinzipien des Pakets, wie Daten in Schichten dargestellt werden, die Geometrie und Ästhetik der Grafiken sowie die Verwendung von Themes und Farbpaletten zur Anpassung der Abbildungen. Außerdem werden Methoden zur Beschriftung und Anpassung von Grafiken für eine übersichtlichere Darstellung von Daten erläutert.'
+authors: [schultze]
 weight: 2
-lastmod: '2023-11-10'
+lastmod: '2023-11-13'
 featured: no
 banner:
   image: "/header/colorful_bubbles.jpg"
@@ -78,20 +78,20 @@ head(edu_exp)
 ```
 
 ```
-##   geo     Country     Wealth Region Year Population
-## 1 afg Afghanistan low_income   asia 1997   19357126
-## 2 afg Afghanistan low_income   asia 1998   19737770
-## 3 afg Afghanistan low_income   asia 1999   20170847
-## 4 afg Afghanistan low_income   asia 2000   20779957
-## 5 afg Afghanistan low_income   asia 2001   21606992
-## 6 afg Afghanistan low_income   asia 2002   22600774
-##   Expectancy Income Primary Secondary Tertiary    Index
-## 1      53.74    865      NA        NA       NA 13.33333
-## 2      52.80    800      NA        NA       NA 13.33333
-## 3      54.43    735      NA        NA       NA 14.00000
-## 4      54.63    687      NA        NA       NA 14.66667
-## 5      54.76    646      NA        NA       NA 14.66667
-## 6      55.65   1016      NA        NA       NA 15.33333
+##   geo     Country     Wealth Region Year Population Expectancy Income Primary Secondary Tertiary
+## 1 afg Afghanistan low_income   asia 1997   19357126      53.74    865      NA        NA       NA
+## 2 afg Afghanistan low_income   asia 1998   19737770      52.80    800      NA        NA       NA
+## 3 afg Afghanistan low_income   asia 1999   20170847      54.43    735      NA        NA       NA
+## 4 afg Afghanistan low_income   asia 2000   20779957      54.63    687      NA        NA       NA
+## 5 afg Afghanistan low_income   asia 2001   21606992      54.76    646      NA        NA       NA
+## 6 afg Afghanistan low_income   asia 2002   22600774      55.65   1016      NA        NA       NA
+##      Index
+## 1 13.33333
+## 2 13.33333
+## 3 14.00000
+## 4 14.66667
+## 5 14.66667
+## 6 15.33333
 ```
 
 
@@ -152,8 +152,7 @@ ggplot(edu_2013, aes(x = Primary, y = Index)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/simple_scatter-1.png)<!-- -->
@@ -201,8 +200,7 @@ basic + geom_point()
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/object_combos-1.png)<!-- -->
@@ -220,8 +218,7 @@ ggplot(edu_2013, aes(x = Primary, y = Index)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
@@ -235,8 +232,7 @@ ggplot(edu_2013, aes(x = Primary, y = Index)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
@@ -266,8 +262,7 @@ ggplot(edu_2013, aes(x = Primary, y = Index)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/grouped-points-1.png)<!-- -->
@@ -303,8 +298,7 @@ ggplot(edu_sel, aes(x = Primary, y = Index,
 ```
 
 ```
-## Warning: Removed 505 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 505 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/chaotic-neutral-1.png)<!-- -->
@@ -320,8 +314,7 @@ ggplot(edu_sel, aes(x = Primary, y = Index,
 ```
 
 ```
-## Warning: Removed 505 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 505 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/faceted-1.png)<!-- -->
@@ -352,8 +345,7 @@ scatter + theme_minimal()
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/theme-minimal-1.png)<!-- -->
@@ -378,8 +370,7 @@ scatter + theme_tufte()
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/tufte-1.png)<!-- -->
@@ -392,8 +383,7 @@ scatter + theme_fivethirtyeight()
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/gdocs-1.png)<!-- -->
@@ -431,8 +421,7 @@ ggplot(edu_2013, aes(x = Primary, y = Index, color = Region)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/labeled-1.png)<!-- -->
@@ -462,8 +451,7 @@ scatter
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/labeled_properly-1.png)<!-- -->
@@ -484,8 +472,7 @@ scatter + scale_color_grey()
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
@@ -507,8 +494,7 @@ scatter + scale_color_manual(values = gu_colors)
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
@@ -533,13 +519,11 @@ scatter + geom_smooth()
 ```
 
 ```
-## Warning: Removed 101 rows containing non-finite values
-## (`stat_smooth()`).
+## Warning: Removed 101 rows containing non-finite values (`stat_smooth()`).
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/specific_trends-1.png)<!-- -->
@@ -562,13 +546,11 @@ ggplot(edu_2013, aes(x = Primary, y = Index)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing non-finite values
-## (`stat_smooth()`).
+## Warning: Removed 101 rows containing non-finite values (`stat_smooth()`).
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/global_trend-1.png)<!-- -->
@@ -584,13 +566,11 @@ scatter + geom_smooth(method = 'lm', se = FALSE)
 ```
 
 ```
-## Warning: Removed 101 rows containing non-finite values
-## (`stat_smooth()`).
+## Warning: Removed 101 rows containing non-finite values (`stat_smooth()`).
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/specific_regressions-1.png)<!-- -->

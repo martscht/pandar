@@ -27,27 +27,14 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/wiederholung-grundlagen.R
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-ii/wiederholung-grundlagen-aufgaben
 output:
   html_document:
     keep_md: true
 ---
 
-```{r setup, include=FALSE, purl=FALSE}
-knitr::opts_chunk$set(fig.align = "center")
-options(knitr.duplicate.label = "allow") #Muss gesetzt werden, Setup-Chunk blockiert sonst Durchführung da er zeitweise doppelt existiert
-options(knitr.purl.inline = FALSE) #Inline-Code wird hiermit entweder mit ins Skript übernommen (TRUE) oder ausgelassen (FALSE)
-knitr::purl("wiederholung-grundlagen.Rmd", documentation = 0) #Legt fest ob Purl nur die Chunkinhalte(0), auch die Chunkeinstellungen (1) oder direkt das Ganze Skript in ein R-Skript umwandelt!; NAME DES RMD MUSS EINGESTELLT WERDEN!
-file.rename("wiederholung-grundlagen.R","/lehre/statistik-ii/wiederholung-grundlagen.R") #NAME DER R-DATEI MUSS ANGEPASST WERDEN AN RMD-NAMEN!UNTERORDNER SOLLTE MIT KURS ÜBEREINSTIMMEN! (Siehe Ordner in /post)
-```
-
-```{r Info, purl=TRUE, echo=FALSE}
-# ---- Wiederholung von Grundlagen in R ----
-#Dieses Skript stammt von https://pandar.netlify.app/lehre/statistik-ii/wiederholung-grundlagen.R, von der PandaR-Website der Goethe Universität Frankfurt.
-#Die Autoren dieses Skripts sind Kai J. Nehler, Johanna Schüller & Martin Schultze. Skriptkompilierung von Kevin Pommeranz.
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+knitr::opts_chunk$set(error = TRUE)
+library(knitr)
 ```
 
 ## Wiederholung von Grundlagen in R
@@ -412,8 +399,8 @@ Bei Dateipfaden ist darauf zu achten, dass bei  Linux <i class="fa-brands fa-lin
 Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hierzu brauchen Sie nur die URL und müssen `R` sagen, dass es sich bei dieser um eine URL handelt, indem Sie die Funktion `url` auf den Link anwenden. Der funktionierende Befehl sieht so aus (wobei die URL in Anführungszeichen geschrieben werden muss):
 
 ```{r, echo=-1}
-#Laden des Datensatz aus dem Internet
-# load(url("https://pandar.netlify.app/daten/mach.rda"))
+# Laden des Datensatz aus dem Internet
+load(url("https://pandar.netlify.app/daten/mach.rda"))
 ```
 
 Durch die Betrachtung dieses Link erkennen wir, dass Websiten im Grunde auch nur sehr anschaulich dargestellte Ordnerstrukturen sind. So liegt auf der Pandar-Seite, die auf *netlify.app* gehostet wird, ein Ordner namens *post*, in welchem wiederum das `mach.rda` liegt.

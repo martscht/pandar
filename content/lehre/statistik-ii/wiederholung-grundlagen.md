@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden nochmal die Grundlagen in R aus Statistik I aufgefrischt.' 
 authors: [nehler, schueller, schultze] 
 weight: 1
-lastmod: '2023-11-09'
+lastmod: '2023-11-13'
 featured: no
 banner:
   image: "/header/cat_with_glasses.jpg"
@@ -22,21 +22,15 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/wiederholung-grundlagen
+    url: /lehre/statistik-ii/wiederholung-grundlagen
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/statistik-i/wiederholung-grundlagen.R
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/wiederholung-grundlagen-aufgaben
+    url: /lehre/statistik-ii/wiederholung-grundlagen.R
 output:
   html_document:
     keep_md: true
 ---
-
-
 
 
 
@@ -82,7 +76,7 @@ Für den Verlauf dieses Modul benötigen Sie die Statistiksoftware `R` und für 
 
 Wie Sie eventuell feststellen, ist `RStudio` nun Teil der größeren Firma [posit](https://posit.co/). _Zunächst_ ändert das aber nichts an den Nutzungsbedingungen und den Features von RStudio.
 
-Es ist sehr sinnvoll `R` aktuell zu halten, weil Pakete nur für die derzeitige R-Version weiterentwickelt werden und es so passieren kann, dass Ihre R-Version von bestimmten Pakete nicht mehr unterstützt wird. Die Aktuelle Version von R ist 4.2.3. Welche Version Sie zur Zeit nutzen, können Sie so herausfinden:
+Es ist sehr sinnvoll `R` aktuell zu halten, weil Pakete nur für die derzeitige R-Version weiterentwickelt werden und es so passieren kann, dass Ihre R-Version von bestimmten Pakete nicht mehr unterstützt wird. Die Aktuelle Version von R ist 4.3.1. Welche Version Sie zur Zeit nutzen, können Sie so herausfinden:
 
 
 ```r
@@ -90,7 +84,7 @@ R.Version()$version.string
 ```
 
 ```
-## [1] "R version 4.2.3 (2023-03-15)"
+## [1] "R version 4.3.1 (2023-06-16)"
 ```
 Wie Sie sehen, ist die Version relativ neu. Wenn Sie eine andere Version nutzen, ist nun der _perfekte_ Zeitpunkt für ein Update! Der typische Weg R auf Windows oder Mac zu aktualisieren ist es, die aktuelle Fassung herunterzuladen und ganz normal neu zu installieren. Die vorangegangene Version können Sie anschließend deinstallieren. Es ist möglich mehrere Versionen von R gleichzeitig installiert zu haben, um im Fall von größeren Updates Ergebnisse aus älteren Analyseskripten reproduzieren zu können.
 
@@ -133,7 +127,7 @@ Oft gibt es darüber hinaus online noch ausführlichere Informationen zur Anwend
 
 Dokumentieren Sie alle Schritte sorgfältig. Strukturieren Sie Ihren Code durch sinnvoll gewählte Überschriften (mittels Kommentarfunktion), sodass Sie auch später wieder verstehen, was Sie beim letzten Mal gemacht haben. Beginnen Sie ganz oben mit dem sogenannten "Set-Up": Titel der Analyse, ggf. Datum, Setzen des Working Directories, Laden der nötigen Pakete, Einlesen der Daten. Kommentieren Sie jeden Schritt sorgfältig und verständlich (spätestens nach zwei Monaten haben Sie sonst garantiert vergessen, was Sie gemeint haben...). Wenn Sie Korrekturen machen, löschen Sie überflüssige Code-Zeilen, um nicht die Übersicht zu verlieren. Achten Sie darauf, dass sich das Working Directory ändert, wenn Sie den Ort eines Ordner auf Ihrem Rechner ändern oder Ordner umbenennen, und passen Sie die Befehle entsprechend an. Zunächst ist die Dokumentation ein zeitaufwendiger Schritt mehr, aber Future-You wird es Ihnen danken. Über die einfachsten Strukturierungsmaßnahmen werden wir gleich in den `R`- Basics nochmal sprechen.
 
-{{<inline_image"/lehre/statistik-i/comments.jpg">}}
+{{<inline_image"/lehre/statistik-ii/comments.jpg">}}
 <!-- https://i.redd.it/b9e4xbeg40151.jpg Ich habe keine Ahnung, ob das Bild urheberechtlich geschützt ist, und weiß nicht wie ich es herausfinden könnte-->
 
 **Ausprobieren!**
@@ -152,7 +146,7 @@ Einer der größten Durchbrüche für die Gestaltung und Fehlerbehebung von Code
 
 Das traditionelle `R` ist im Rahmen seiner Nutzeroberfläche einer Konsole ähnlich und damit nicht sehr benutzerfreundlich. Durch die Erweiterung mit `RStudio` wird die Verwendung deutlich erleichtert, weshalb wir dieses auch herunterladen. 
 
-{{<inline_image"/lehre/statistik-i/rstudio.png">}}
+{{<inline_image"/lehre/statistik-ii/rstudio.png">}}
 
 `RStudio` besteht aus vier Panels. Wenn wir `RStudio` zum ersten Mal öffnen sind jedoch nur drei sichtbar. Das vierte wird durch das Öffnen eines neuen Files sichtbar (oder auch durch **Strg+Shift+n** bzw. in OS X: **Cmd+Shift+n**). 
 
@@ -167,15 +161,15 @@ Zunächst betrachten wir das Fenster unten links - die Konsole. In dieser kann C
 ## [1] 3
 ```
 
-Auf diese Weise kann man zwar Aktionen ausführen, hat nach dem Schließen von `RStudio` aber keine Dokumentation, was man durchgeführt hat. Dafür ist das Script, also das eben neu geöffnete File, im linken oberen Fenster gedacht. Dort kann Code geschrieben und später auch gespeichert werden. Wenn wir unsere Addition nun dort notieren und anschließend **Enter** drücken passiert erstmal nichts. Damit etwas passiert, muss die Syntax mit Run Button  {{<inline_image"/lehre/statistik-i/run.png">}} oder mit  **Strg+Return** (OS X: **cmd+Return**) ausgeführt werden. Das Ergebnis wird aber nicht im Script selbst, sondern in der Konsole angezeigt.
+Auf diese Weise kann man zwar Aktionen ausführen, hat nach dem Schließen von `RStudio` aber keine Dokumentation, was man durchgeführt hat. Dafür ist das Script, also das eben neu geöffnete File, im linken oberen Fenster gedacht. Dort kann Code geschrieben und später auch gespeichert werden. Wenn wir unsere Addition nun dort notieren und anschließend **Enter** drücken passiert erstmal nichts. Damit etwas passiert, muss die Syntax mit Run Button  {{<inline_image"/lehre/statistik-ii/run.png">}} oder mit  **Strg+Return** (OS X: **cmd+Return**) ausgeführt werden. Das Ergebnis wird aber nicht im Script selbst, sondern in der Konsole angezeigt.
 
 Oben rechts wird per Voreinstellung das *Environment* angezeigt, das wir gleich noch füllen werden. Unten rechts gibt es verschiedene Tabs wie beispielsweise die Hilfe und die Anzeige von Plots.
 
-Wenn Sie einmal etwas in der Konsole ausgeführt haben, anstatt es im Skript zu hinterlegen, können Sie anhand der **History** nachvollziehen, welche Schritte Sie durchlaufen haben. In dieser können Sie auch mehrere Zeilen bzw. Schritte markieren und diese über den {{<inline_image"/lehre/statistik-i/tosource.png">}} Button in Ihre Syntax einfügen.
+Wenn Sie einmal etwas in der Konsole ausgeführt haben, anstatt es im Skript zu hinterlegen, können Sie anhand der **History** nachvollziehen, welche Schritte Sie durchlaufen haben. In dieser können Sie auch mehrere Zeilen bzw. Schritte markieren und diese über den {{<inline_image"/lehre/statistik-ii/tosource.png">}} Button in Ihre Syntax einfügen.
 
 ### Strukturierung und einfache Operationen
 
-Wir haben bereits eine Addition in unser Script geschrieben. Auch wenn wir dieses in zwei Jahren nochmal öffnen, werden wir uns wohl daran erinnern, was dieser Befehl macht. Das ist aber - wie wir bereits in den allgemeinen Hinweisen beschrieben haben - nicht immer so klar. Damit wir auch später noch wissen, weshalb wir eine Operation durchführen brauchen wir also *Kommentare*. In `R` werden sie durch (beliebig viele) `#` begonnen und enden bei einem Zeilenumbruch. Mit Kommentaren kann Syntax auch in verschiedene Abschnitte gegliedert werden. Wir empfehlen, Abschnittüberschriften mit `####` zu beginnen und mit `----` zu beenden. `RStudio` erkennt solche Kommentare automatisch als Überschriften und stellt über den {{<inline_image"/lehre/statistik-i/outline.png">}} Button eine darauf basierende Gliederung zur Verfügung.
+Wir haben bereits eine Addition in unser Script geschrieben. Auch wenn wir dieses in zwei Jahren nochmal öffnen, werden wir uns wohl daran erinnern, was dieser Befehl macht. Das ist aber - wie wir bereits in den allgemeinen Hinweisen beschrieben haben - nicht immer so klar. Damit wir auch später noch wissen, weshalb wir eine Operation durchführen brauchen wir also *Kommentare*. In `R` werden sie durch (beliebig viele) `#` begonnen und enden bei einem Zeilenumbruch. Mit Kommentaren kann Syntax auch in verschiedene Abschnitte gegliedert werden. Wir empfehlen, Abschnittüberschriften mit `####` zu beginnen und mit `----` zu beenden. `RStudio` erkennt solche Kommentare automatisch als Überschriften und stellt über den {{<inline_image"/lehre/statistik-ii/outline.png">}} Button eine darauf basierende Gliederung zur Verfügung.
 
 Beispielsweise könnten wir also unser Skript nun folgendermaßen besser lesbar machen.
 
@@ -503,7 +497,7 @@ Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hi
 
 
 ```r
-# load(url("https://pandar.netlify.app/daten/mach.rda"))
+load(url("https://pandar.netlify.app/daten/mach.rda"))
 ```
 
 Durch die Betrachtung dieses Link erkennen wir, dass Websiten im Grunde auch nur sehr anschaulich dargestellte Ordnerstrukturen sind. So liegt auf der Pandar-Seite, die auf *netlify.app* gehostet wird, ein Ordner namens *post*, in welchem wiederum das `mach.rda` liegt.
@@ -520,20 +514,20 @@ head(mach) # ersten 6 Zeilen
 ```
 
 ```
-##   TIPI1 TIPI2 TIPI3 TIPI4 TIPI5 TIPI6 TIPI7 TIPI8 TIPI9 TIPI10 education urban gender engnat age hand religion orientation race voted
-## 1     6     5     6     1     7     3     7     4     7      1         2     3      1      1  26    1        7           1   30     1
-## 2     2     5     6     2     4     6     5     4     6      5         2     2      1      1  18    1        1           1   60     2
-## 3     1     7     6     7     5     7     1     4     1      4         1     1      2      1  15    1        2           2   10     2
-## 4     6     5     5     7     7     2     6     2     2      3         4     3      2      2  31    1        6           1   60     1
-## 5     2     5     5     6     7     6     5     3     4      5         2     2      1      2  20    1        4           3   60     1
-## 6     2     4     6     2     3     7     5     2     7      1         1     1      1      2  17    1        1           1   70     2
-##   married familysize  nit      pit     cvhn pvhn
-## 1       2          5 4.00 2.666667 3.833333 2.00
-## 2       1          2 5.00 1.166667 3.833333 2.75
-## 3       1          2 5.00 1.000000 4.000000 2.00
-## 4       3          2 3.75 2.166667 3.000000 1.50
-## 5       1          2 4.75 1.666667 2.666667 2.00
-## 6       1          3 4.00 2.666667 3.166667 2.25
+##   TIPI1 TIPI2 TIPI3 TIPI4 TIPI5 TIPI6 TIPI7 TIPI8 TIPI9 TIPI10 education urban gender engnat age
+## 1     6     5     6     1     7     3     7     4     7      1         2     3      1      1  26
+## 2     2     5     6     2     4     6     5     4     6      5         2     2      1      1  18
+## 3     1     7     6     7     5     7     1     4     1      4         1     1      2      1  15
+## 4     6     5     5     7     7     2     6     2     2      3         4     3      2      2  31
+## 5     2     5     5     6     7     6     5     3     4      5         2     2      1      2  20
+## 6     2     4     6     2     3     7     5     2     7      1         1     1      1      2  17
+##   hand religion orientation race voted married familysize  nit      pit     cvhn pvhn
+## 1    1        7           1   30     1       2          5 4.00 2.666667 3.833333 2.00
+## 2    1        1           1   60     2       1          2 5.00 1.166667 3.833333 2.75
+## 3    1        2           2   10     2       1          2 5.00 1.000000 4.000000 2.00
+## 4    1        6           1   60     1       3          2 3.75 2.166667 3.000000 1.50
+## 5    1        4           3   60     1       1          2 4.75 1.666667 2.666667 2.00
+## 6    1        1           1   70     2       1          3 4.00 2.666667 3.166667 2.25
 ```
 
 Da es sich bei unserem Datensatz um ein Objekt vom Typ `data.frame` handelt, können wir die Variablennamen des Datensatzes außerdem mit der `names`-Funktion abfragen. Eine weitere interessante Funktion ist `dim`, die die Anzahl der Zeilen und Spalten ausgibt. 
@@ -544,9 +538,11 @@ names(mach) # Namen der Variablen
 ```
 
 ```
-##  [1] "TIPI1"       "TIPI2"       "TIPI3"       "TIPI4"       "TIPI5"       "TIPI6"       "TIPI7"       "TIPI8"       "TIPI9"      
-## [10] "TIPI10"      "education"   "urban"       "gender"      "engnat"      "age"         "hand"        "religion"    "orientation"
-## [19] "race"        "voted"       "married"     "familysize"  "nit"         "pit"         "cvhn"        "pvhn"
+##  [1] "TIPI1"       "TIPI2"       "TIPI3"       "TIPI4"       "TIPI5"       "TIPI6"      
+##  [7] "TIPI7"       "TIPI8"       "TIPI9"       "TIPI10"      "education"   "urban"      
+## [13] "gender"      "engnat"      "age"         "hand"        "religion"    "orientation"
+## [19] "race"        "voted"       "married"     "familysize"  "nit"         "pit"        
+## [25] "cvhn"        "pvhn"
 ```
 
 ```r
@@ -688,7 +684,7 @@ Natürlich ist die Regressionsanalyse nicht ohne Voraussetzungen. Diese werden w
 plot(mach$pvhn, mach$cvhn, xlab = "Positive Sichtweise", ylab = "Negative Sichtweise")
 ```
 
-<img src="/lehre/statistik-i/wiederholung-grundlagen_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/wiederholung-grundlagen_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" />
 
 Gerade in diesem Plot sieht man, dass die Standardfunktionalität von `R` mit der Menge an Personen im Datensatz nicht zurechtkommt. Die Umsetzung der Parameterschätzung anhand der kleinsten Quadrate ist mit der Funktion `lm` möglich. Beachten Sie hierbei, dass angegeben wird, welche Variable durch welche Variable vorhergesagt wird. Das bedeutet, dass wir hier zuerst die zynische Sichtweise und dann das Alter nennen müssen.
 
@@ -752,8 +748,9 @@ names(model) #andere Inhalte der Liste
 ```
 
 ```
-##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"        "qr"            "df.residual"  
-##  [9] "xlevels"       "call"          "terms"         "model"
+##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values"
+##  [6] "assign"        "qr"            "df.residual"   "xlevels"       "call"         
+## [11] "terms"         "model"
 ```
 
 Die weiteren Inhalte umfassen unter anderem die `residuals`, die für das Prüfen der Voraussetzungen wichtig wären, aber auch die vorhergesagten Werte (`fitted.values`). 
@@ -842,8 +839,8 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ```
 
 ```
-##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value"  "stderr"      "alternative" "method"     
-## [10] "data.name"
+##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value" 
+##  [7] "stderr"      "alternative" "method"      "data.name"
 ```
 
 ```r
@@ -872,7 +869,7 @@ Nun sind wir am Schluss des behandelten Codes in der Seminar-Sitzung angekommen.
 ***
 
 ## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/lehre/statistik-i/wiederholung-grundlagen.R).
+Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/lehre/statistik-ii/wiederholung-grundlagen.R).
 
 ***
 
@@ -891,16 +888,16 @@ Hier finden Sie eine sehr [ausführliche Anleitung](https://rmarkdown.rstudio.co
 ##### Schritte zur Erstellung eines Markdowns
 
 - File -> New File -> R Markdown 
-{{<inline_image"/lehre/statistik-i/Screenshot1.png">}}
+{{<inline_image"/lehre/statistik-ii/Screenshot1.png">}}
 
 - Zielformat festlegen (Word, PDF, HTML...) und Titel geben
-{{<inline_image"/lehre/statistik-i/Screenshot2.png">}}
+{{<inline_image"/lehre/statistik-ii/Screenshot2.png">}}
 
 - Das Skript, das dadurch erstellt wird ist eine Schablone mit Vorlagen für Freitext und R-Chunks und wichtigen Hinweisen für die Erstellung. Hier finden Sie viele Informationen, die Ihnen beim Bearbeiten Ihres Markdowns helfen. Diese Vorlage können Sie ganz einfach weiterbearbeiten, um Ihr eigenes Dokument zu erstellen.
-{{<inline_image"/lehre/statistik-i/Screenshot3.png">}}
+{{<inline_image"/lehre/statistik-ii/Screenshot3.png">}}
 
 - Indem Sie auf Knit (engl. "Stricken") klicken, wird das Dokument in Zielformat erstellt. Ohne Änderungen an der Vorlage können Sie das Skript knitten, und sehen schon einmal, wie das finale Dokument aussehen wird. Wenn Sie Änderungen vornehmen, können Sie immer wieder überprüfen, wie sich das auf das erstellte Dokument auswirkt.
-{{<inline_image"/lehre/statistik-i/Screenshot4.png">}}
+{{<inline_image"/lehre/statistik-ii/Screenshot4.png">}}
 
 
 #### Papaja
@@ -909,7 +906,7 @@ Besonders hilfreich ist das Package *papaja* (Prepare Reproducible APA Journal A
 
 Wenn Sie das *papaja*-Package installiert haben, können Sie bei der Erstellung eines Markdowns mit den gleichen Schritten wie oben, unter Template den "APA article" auswählen, wodurch automatisch alle Einstellungen passend vorgenommen werden:
 
-{{<inline_image"/lehre/statistik-i/Screenshot5.png">}}
+{{<inline_image"/lehre/statistik-ii/Screenshot5.png">}}
 
 Das [Manual für die Anwendung](http://frederikaust.com/papaja_man/index.html) finden Sie online. 
 
@@ -923,7 +920,7 @@ Das [Manual für die Anwendung](http://frederikaust.com/papaja_man/index.html) f
 
 Wenn wir mit dem Datensatz `mach` prüfen wollen, ob Personen die nicht wählen (`voted`) insgesamt eine zynischere Betrachtung der Menschheit (`cvhn`) an den Tag legen, können wir ChatGPT darum bitten, den Code für uns zu generieren:
 
-{{<inline_image"/lehre/statistik-i/chatGPT1.png">}}
+{{<inline_image"/lehre/statistik-ii/chatGPT1.png">}}
 
 Diese Interaktion verdeutlicht bereits die oben genannten zwei wichtigen Aspekte, um ChatGPT sinnvoll für Hilfestellung mit `R`-Programmierung nutzen zu können: 
 
@@ -932,7 +929,7 @@ Diese Interaktion verdeutlicht bereits die oben genannten zwei wichtigen Aspekte
 
 Punkt 1 kann eventuell dadurch umgangen werden, dass Sie bessere Prompts schreiben als ich, aber wie ChatGPT selbst zugibt, kann hier kein Code evaluiert werden - es wird also darauf hinauslaufen, dass Sie den Code bei sich durchführen und ihn dafür entsprechend anpassen. Wir können uns das verdeutlichen, indem wir ChatGPT um ein Beispiel mit simulierten Fragen bitten (weil es ja keinen Zugriff auf unsere Daten hat):
 
-{{<inline_image"/lehre/statistik-i/chatGPT3.png">}}
+{{<inline_image"/lehre/statistik-ii/chatGPT3.png">}}
 
 
 Die Antwort, die ChatGPT produziert ist beeindruckend detailliert (und größtenteils sogar richtig), aber Sie sollten hier Folgendes berücksichtigen:
@@ -962,14 +959,14 @@ t.test(group1, group2)
 
 Die Ergebnisse sind nicht die Gleichen, obwohl wir mit einem festen Seed gearbeitet haben. Wie wir in BSc2 [mehrmals](/lehre/statistik-i/verteilungen) [besprochen](/lehre/statistik-i/simulation/) haben, ist `set.seed` aber explizit dafür da, dass bei jeder Durchführung des Zufallsexperiments auch exakt die gleichen Ergebnisse erzeugt werden. Das ist auch ChatGPT "bewusst":
 
-{{<inline_image"/lehre/statistik-i/chatGPT4.png">}}
+{{<inline_image"/lehre/statistik-ii/chatGPT4.png">}}
 
 
 Was der KI hingegen an dieser Stelle nicht bewusst ist, ist dass Sie den Code nicht selbst ausgeführt hat, sondern es sich um eine (sehr komplexe) Zusammenstückelung von Informationen ist, die online auffindbar sind. Sie können sich an dieser Stelle länger mit ChatGPT darüber streiten, wo dieser Unterschied herkommt, wenn Sie möchten (ich habe es probiert und irgendwann entnervt aufgegeben).
 
 Den Aufmerksamen unter Ihnen ist auch direkt aufgefallen, was den 2. Punkt bekräftigt: ChatGPT hat ins in der ursprünglichen Anfrage nicht den R-Code für einen $t$-Test, sondern für einen Welch-Test präsentiert:
 
-{{<inline_image"/lehre/statistik-i/chatGPT2.png">}}
+{{<inline_image"/lehre/statistik-ii/chatGPT2.png">}}
 
 
 Dieser kurze Exkurs soll Ihnen zeigen, dass Sie ChatGPT durchaus sehr gut nutzen können, um R-Code erzeugen zu lassen (insbesondere, wenn es sich um komplexere Vorhaben handelt, als einfache $t$-Tests) - Sie sollten allerdings immer einschätzen können, ob der erzeugte Code sinnvoll ist und auch tatsächlich das macht, was Sie wollten.
@@ -978,7 +975,7 @@ Dieser kurze Exkurs soll Ihnen zeigen, dass Sie ChatGPT durchaus sehr gut nutzen
 
 Neben der Möglichkeit mit ChatGPT _neuen_ Code zu generieren, können Sie die Vorteile dieses Systems auch nutzen, um Fehler in Ihrem aktuellen Code zu identifizieren und zu beheben. Ein sehr vereinfachtes Beispiel:
 
-{{<inline_image"/lehre/statistik-i/chatGPT5.png">}}
+{{<inline_image"/lehre/statistik-ii/chatGPT5.png">}}
 
 
 In diesem Beispiel sollten Sie bereits selbst den Fehler identifiziert haben, aber die KI ist auch bei komplexeren, längeren Skripten in der Lage, die Fehlerquellen relativ zuverlässig zu identifizieren. In Fällen, in denen das Problem nicht eindeutig klar aus dem Code hervorgeht, ohne ihn Zeile für Zeile zu evaluieren (wie wir oben gesehen haben, etwas das ChatGPT nicht kann), wird Ihnen eine Liste von möglichen Fehlerquellen gegeben, die Sie selbst inspizieren können. 
@@ -995,10 +992,10 @@ foo <- function(x) {
 
 Sollte Ihnen nicht klar sein, was hier passiert, kann ChatGPT Abhilfe schaffen:
 
-{{<inline_image"/lehre/statistik-i/chatGPT6.png">}}
+{{<inline_image"/lehre/statistik-ii/chatGPT6.png">}}
 
 
-Darüber hinaus, könnten wir die KI an dieser Stelle auch bitten, solche selbstgeschriebenen Funktionen zu verbessern. Z.B. die Anzahl der [Loops](/lehre/statistik-i/loops-und-funktionen) in unseren Skripten zu minimieren, damit die Auswertung schneller und effizienter läuft.
+Darüber hinaus, könnten wir die KI an dieser Stelle auch bitten, solche selbstgeschriebenen Funktionen zu verbessern. Z.B. die Anzahl der [Loops](/lehre/statistik-ii/loops-und-funktionen) in unseren Skripten zu minimieren, damit die Auswertung schneller und effizienter läuft.
 
 Generell sollten Sie ChatGPT als neues Werkzeug verstehen, welches Ihnen in vielen Belangen der R-Programmierung (und logischerweise auch darüber hinaus) behilflich sein kann. Wie bei jedem Werkzeug, sollte der Umgang aber gelernt und geübt sein, damit man für sich den meisten Nutzen daraus ziehen kann.
 
