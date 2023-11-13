@@ -6,7 +6,7 @@ slug: partial
 categories: ["Statistik II"] 
 tags: ["Partialkorrelation", "Korrelation", "Zusammenhangsanalyse", "geteilte Varianz"] 
 subtitle: ''
-summary: '' 
+summary: 'In diesem Beitrag zur Partial- und Semipartialkorrelation lernst du den Einfluss von Drittvariablen zu kontrollieren und so Scheinkorrelationen zu entlarven. Das Beispiel mit Schulleistungen zeigt, dass der ursprüngliche Zusammenhang zwischen der Lese- und Mathematikleistung verschwindet, wenn der Einfluss des IQ berücksichtigt wird. Die Semipartialkorrelation spezifisch aufzeigt, wie der IQ die Mathematikleistung beeinflusst. Diese Werkzeuge sind entscheidend, um versteckte Muster in statistischen Daten zu entwirren und Kausalitätsannahmen zu überprüfen.'
 authors: [schroeder, gruetzmacher, nehler, irmer]
 weight: 3
 lastmod: '2023-11-13'
@@ -37,7 +37,7 @@ output:
 
 ## Einleitung
 
-Sicher haben Sie in der Welt der Verschwörungstheorien mal gehört, dass die Anzahl der COVID-Erkrankungen mit der Anzahl der 5G-Tower zusammenhängt. Aber wussten Sie, dass auch der Konsum von Eiscreme und die Anzahl der Morde in New York oder die Anzahl von Nicolas-Cage-Filmauftritten mit der Anzahl weiblicher Redakteure beim Harvard Law Review positiv korreliert sind? $$^1^$$
+Sicher haben Sie in der Welt der Verschwörungstheorien mal gehört, dass die Anzahl der COVID-Erkrankungen mit der Anzahl der 5G-Tower zusammenhängt. Aber wussten Sie, dass auch der Konsum von Eiscreme und die Anzahl der Morde in New York oder die Anzahl von Nicolas-Cage-Filmauftritten mit der Anzahl weiblicher Redakteure beim Harvard Law Review positiv korreliert sind? $^1$
 
 Die Frage ist jedoch, ob mit den korrelativen Zusammenhängen der Beweis erbracht wurde, dass 5G-Strahlungen für COVID-Erkrankungen verantwortlich sind, der Eiskonsum zu einer erhöhten Mordrate führt oder die Anzahl der Filme, in denen Nicolas Cage mitspielt, einen Effekt auf die Frauenquote bei der Harvard Law Review hat. Die Antwort ist, wie Sie in Statistik I und Ihrer Einführung in die Versuchsplanung bereits wissen: **_Nein!_** 
 
@@ -49,7 +49,7 @@ Der Zusammenhang zwischen zwei Variablen kann nämlich durch eine Drittvariable 
 
 *Anmerkungen:*
 
-¹ Es gibt einen ganzen Blog, der sich mit solchen Scheinkorrelationen (bzw. [*spurious Correlations*](http://tylervigen.com/spurious-correlations)) befasst.
+$^1$ Es gibt einen ganzen Blog, der sich mit solchen Scheinkorrelationen (bzw. [*spurious Correlations*](http://tylervigen.com/spurious-correlations)) befasst.
 
 
 ## Wiederholung Korrelationen
@@ -57,7 +57,7 @@ In der Psychologie werden häufig statistische Zusammenhänge (bzw. stochastisch
 
 $$r_{xy} = corr(X,Y) = \dfrac {\sum\limits_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum\limits_{i=1}^n (X_i - \bar{X})^2 \cdot \sum\limits_{i=1}^n (Y_i - \bar{Y})^2}}\hat{=}\frac{\mathbb{C}ov[X,Y]}{\sqrt{\mathbb{V}ar[X]\mathbb{V}ar[Y]}}$$
 
-Der Korrelationskoeffizient r~xy~ misst die Stärke und Richtung einer linearen Beziehung zwischen zwei Variablen *x* und *y*. Der Wert von r~xy~ liegt dabei immer im Wertebereich zwischen +1 und -1. Man kann auch sagen, dass die Kovarianz "skaliert" wird, um diese besser  interpretieren zu können, deshalb steht in obiger Formel auch, $\mathbb{C}ov[X,Y]$ (Kovarianz zwischen $X$ und $Y$) geteilt durch das Produkt aus der Wurzel der Varianzen $\mathbb{V}ar[X]$ und $\mathbb{V}ar[Y]$. Eine Korrelation von 1 bedeutet ein perfekter positiver Zusammenhang, d.h. mit der Zunahme der eine Variablen, nimmt auch die anderen Variable zu und umgekehrt. Eine Korrelation von -1 bedeutet ein perfekter negativer Zusammenhang bei dem die Zunahme der einen Variablen mit der Abnahme der anderen Variablen einhergeht. Eine Korrelation von 0 hingegen bedeutet, dass es keinen Zusammenhang zwischen den Variablen gibt. Je höher der absolute Wert einer Korrelation zweier Variablen ist, desto mehr Varianz teilen die beiden Variablen miteinander.     
+Der Korrelationskoeffizient $r_{xy}$ misst die Stärke und Richtung einer linearen Beziehung zwischen zwei Variablen *x* und *y*. Der Wert von $r_{xy}$ liegt dabei immer im Wertebereich zwischen +1 und -1. Man kann auch sagen, dass die Kovarianz "skaliert" wird, um diese besser  interpretieren zu können, deshalb steht in obiger Formel auch, $\mathbb{C}ov[X,Y]$ (Kovarianz zwischen $X$ und $Y$) geteilt durch das Produkt aus der Wurzel der Varianzen $\mathbb{V}ar[X]$ und $\mathbb{V}ar[Y]$. Eine Korrelation von 1 bedeutet ein perfekter positiver Zusammenhang, d.h. mit der Zunahme der eine Variablen, nimmt auch die anderen Variable zu und umgekehrt. Eine Korrelation von -1 bedeutet ein perfekter negativer Zusammenhang bei dem die Zunahme der einen Variablen mit der Abnahme der anderen Variablen einhergeht. Eine Korrelation von 0 hingegen bedeutet, dass es keinen Zusammenhang zwischen den Variablen gibt. Je höher der absolute Wert einer Korrelation zweier Variablen ist, desto mehr Varianz teilen die beiden Variablen miteinander.     
 
 {{<inline_image"/lehre/statistik-ii/VisualisierungderKorrelation.png">}}
 
@@ -68,7 +68,7 @@ Der Zusammenhang zwischen zwei Variablen *x* und *y* kann aber auch durch eine D
 
 ## Partialkorrelation
 
-Die Partialkorrelation ist die bivariate Korrelation zweier Variablen *x* und *y*, die bestehen würde, wenn zuvor der Einfluss einer weiteren Variable *z* statistisch kontrolliert (d.h. "auspartialisiert" oder "herausgerechnet") wird. Konzeptionell kann die Partialkorrelation r~xy.z~ gebildet werden als Korrelation der Regressionsresiduen von *x* bei Vorhersage durch *z* und *y* bei Vorhersage durch *z*. Weil das Regressionsresiduum nichts mit den Prädiktoren gemein hat, bleiben nach Regression von *x* und *y* auf *z* jeweils nur der Anteil an *x* und *y* übrig, der nichts mit *z* zu tun hat.
+Die Partialkorrelation ist die bivariate Korrelation zweier Variablen *x* und *y*, die bestehen würde, wenn zuvor der Einfluss einer weiteren Variable *z* statistisch kontrolliert (d.h. "auspartialisiert" oder "herausgerechnet") wird. Konzeptionell kann die Partialkorrelation $r_{xy.z}$ gebildet werden als Korrelation der Regressionsresiduen von *x* bei Vorhersage durch *z* und *y* bei Vorhersage durch *z*. Weil das Regressionsresiduum nichts mit den Prädiktoren gemein hat, bleiben nach Regression von *x* und *y* auf *z* jeweils nur der Anteil an *x* und *y* übrig, der nichts mit *z* zu tun hat.
 
 {{<inline_image"/lehre/statistik-ii/Partial2.png">}}
 
@@ -224,7 +224,7 @@ cor(res_reading_IQ, res_math_IQ)
 ## [1] -0.0375247
 ```
 
-Es zeigt sich also, dass der ursprüngliche Zusammenhang zwischen der Lese- und Mathematikleistung (*r~xy~*= 0.37) unter Kontrolle der allgemeinen Intelligenz verschwindet. 
+Es zeigt sich also, dass der ursprüngliche Zusammenhang zwischen der Lese- und Mathematikleistung ($r_{xy}=0.37$) unter Kontrolle der allgemeinen Intelligenz verschwindet. 
 
 #### Paket-Nutzung
 
@@ -256,28 +256,28 @@ pcor.test(x=Schulleistungen$reading, y=Schulleistungen$math, z=Schulleistungen$I
 ## 1 -0.0375247 0.712311 -0.3698359 100  1 pearson
 ```
 
-Die Partialkorrelation (r~xy.z~) beträgt -0.04 und ist nicht signifikant von 0 verschieden (p= 0.71). Es zeigt sich also, dass der ursprüngliche Zusammenhang zwischen der Lese- und Mathematikleistung (*r~xy~*=0.37) unter Kontrolle der allgemeinen Intelligenz verschwindet. Es handelt sich also um eine Scheinkorrelation zwischen der Lese- und der Matheleistung. Anders ausgedrückt lassen sich gemeinsame Unterschiede auf Lese und Matheleistung zwischen zwei Kindern allein druch den Unterschied in der Intelligenz dieser beiden Kinder erklären. Angenommen Kind *A* hat überdurchschnittliche Lese- und und Matheleistungen in den beiden Tests, während Kind *B* durchschnittliche Werte auf beiden Tests aufweist, dann lässt sich dieser Unterschied in beiden Tests zwischen Kind *A* und Kind *B* allein durch Unterschiede der beiden Kinder in der Intelligenz erklären. Auf Grund der Vorzeichen müsste Kind *A* bspw. eine überdurchschnittliche Intelligenz aufweisen, während Kind *B* eine durchschnittliche Intelligenz zeigt.
+Die Partialkorrelation ($r_{xy.z}$) beträgt -0.04 und ist nicht signifikant von 0 verschieden (p= 0.71). Es zeigt sich also, dass der ursprüngliche Zusammenhang zwischen der Lese- und Mathematikleistung ($r_{xy}$=0.37) unter Kontrolle der allgemeinen Intelligenz verschwindet. Es handelt sich also um eine Scheinkorrelation zwischen der Lese- und der Matheleistung. Anders ausgedrückt lassen sich gemeinsame Unterschiede auf Lese und Matheleistung zwischen zwei Kindern allein druch den Unterschied in der Intelligenz dieser beiden Kinder erklären. Angenommen Kind *A* hat überdurchschnittliche Lese- und und Matheleistungen in den beiden Tests, während Kind *B* durchschnittliche Werte auf beiden Tests aufweist, dann lässt sich dieser Unterschied in beiden Tests zwischen Kind *A* und Kind *B* allein durch Unterschiede der beiden Kinder in der Intelligenz erklären. Auf Grund der Vorzeichen müsste Kind *A* bspw. eine überdurchschnittliche Intelligenz aufweisen, während Kind *B* eine durchschnittliche Intelligenz zeigt.
     
 ### Mögliche Veränderung der ursprünglichen Korrelation bei Bestimmung der Partialkorrelation
 
 Wird eine Partialkorrelation berechnet, kann die ursprüngliche Korrelation sich auf drei Arten verhalten (betraglich bedeutet immer "ohne Vorzeichen": z.B. |-1| = 1):
 
-1. Partialkorrelation ist (betraglich) kleiner als die ursprüngliche Korrelation (|r~xy.z~|<|r~xy~|)
+1. Partialkorrelation ist (betraglich) kleiner als die ursprüngliche Korrelation (|$r_{xy.z}$|<|$r_{xy}$|)
 
-Wie in unserem Bespiel teilen alle drei Variablen miteinander Varianz. Partialisiert man nun eine Variable aus dem Zusammenhang der beiden anderen Variablen heraus, wird die geteilte Varianz weniger, womit die Korrelation betraglich sinkt (es ist wichtig diese Aussage für den Betrag zu formulieren, denn auch wenn eine Korrelation negativ ausfällt, bspw. r~xy~ = -.20, und eine dritte Variable wird auspartialisiert womit dann die gemeinsame Varianz zwischen *x* und *y* sinkt, so verringert sich die Partialkorrelation bspw. auf r~xy.z~=-.10). Dieser Fall ist der am häufigsten eintretende, da in der Forschung oft Variablen auspartialisiert werden, weil es theoretische Annahme gibt, warum die Variablen Varianz teilen sollten, man aber eine isolierte Assoziation (Beziehung) zwischen *x* auf *y* betrachten möchte. Der im Tutorial dargestellte Effekt ist die extremste Form dieser Klasse an  Veränderung, bei der die Partialkorrelation dann fast bei 0 liegt.
+Wie in unserem Bespiel teilen alle drei Variablen miteinander Varianz. Partialisiert man nun eine Variable aus dem Zusammenhang der beiden anderen Variablen heraus, wird die geteilte Varianz weniger, womit die Korrelation betraglich sinkt (es ist wichtig diese Aussage für den Betrag zu formulieren, denn auch wenn eine Korrelation negativ ausfällt, bspw. $r_{xy}$ = -.20, und eine dritte Variable wird auspartialisiert womit dann die gemeinsame Varianz zwischen *x* und *y* sinkt, so verringert sich die Partialkorrelation bspw. auf $r_{xy.z}$=-.10). Dieser Fall ist der am häufigsten eintretende, da in der Forschung oft Variablen auspartialisiert werden, weil es theoretische Annahme gibt, warum die Variablen Varianz teilen sollten, man aber eine isolierte Assoziation (Beziehung) zwischen *x* auf *y* betrachten möchte. Der im Tutorial dargestellte Effekt ist die extremste Form dieser Klasse an  Veränderung, bei der die Partialkorrelation dann fast bei 0 liegt.
 
-2. Partialkorrelation ist gleich der ursprünglichen Korrelation (r~xy.z~=r~xy~)
+2. Partialkorrelation ist gleich der ursprünglichen Korrelation ($r_{xy.z}$=$r_{xy}$)
 
-Ist die Partialkorrelation r~xy.z~ genauso groß (nicht signifikant unterschiedlich) wie die Ausgangskorrelation r~xy~, ist *z* mit *x* und *y* unkorreliert. Die Drittvariable *z* würde also keinen Zusammenhang und damit keine geteilte Varianz mit *x* und *y* haben (und auch nicht erklären).
+Ist die Partialkorrelation $r_{xy.z}$ genauso groß (nicht signifikant unterschiedlich) wie die Ausgangskorrelation $r_{xy}$, ist *z* mit *x* und *y* unkorreliert. Die Drittvariable *z* würde also keinen Zusammenhang und damit keine geteilte Varianz mit *x* und *y* haben (und auch nicht erklären).
 
 
-3. Partialkorrelation ist (betraglich) größer als die ursprüngliche Korrelation (|r~xy.z~|>|r~xy~|)
+3. Partialkorrelation ist (betraglich) größer als die ursprüngliche Korrelation (|$r_{xy.z}$|>|$r_{xy}$|)
 
 In einem solchen Fall liegt meist ein Suppressoreffekt vor (ein Teil der Varianz in *x* wird durch die Drittvariable unterdrückt bzw. supprimiert, der für den Zusammenhang mit *y* irrelevant ist). Der klassische Suppressoreffekt tritt dann auf, wenn *z* mit *y* zu 0 korreliert (was nicht immer der Fall sein muss), mit *x* aber eine bedeutende Korrelation aufweist (Sonderformen eines Suppressoreffekts finden Interessierte in Eid & Gollwitzer 2017, Kap.18,19). In solch einem Fall wird der für *y* irrelevante Varianzanteil in *x* durch den Supressor *z* gebunden, wodurch der relative Anteil an geteilter Varianz zwischen *x* und *y* größer wird. Ein Beispiel: Sie untersuchen den Zusammenhang von Sport (x), Kalorienzufuhr(z) und Gewichtsverlust (y). Sporttreiben korreliert positiv mit Gewichtsverlust und Kalorienzufuhr, Kalorienzufuhr aber nicht mit Gewichtsverlust. In einer Partialkorrelation wird die Korrelation von Sporttreiben mit Gewichtsverlust unter der Kontrolle von Kalorienzufuhr größer. Sie können daraus schließen, dass die Kalorienzuführ in diesem Beispiel als Suppressor agiert. Die Inhaltliche Begründung dafür wäre, dass mit einer erhöhten sportlichen Aktivität eine erhöhte Kalorienzufuhr einhergeht. Dieser Zusammenhang hat den positiven Effekt von Sport supprimiert. 
 
 ## Semipartialkorrelation
 
-Wird aus inhaltlichen Gründen angenommen, dass die Drittvariable nur eine der Variablen *x* oder *y* beeinflusst, kann auf eine weitere Methode zur Aufdeckung von Scheinkorrelationen, redundanten oder maskierten Zusammenhängen zurückgegriffen werden; die Semipartialkorrelation. Bei dieser Methode wird der Einfluss der Drittvariablen nur aus einer der beiden Variablen herausgerechnet. Die Semipartialkorrelation r~x(y.z)~ entspricht der Korrelation zwischen x und dem Residuum von y bei Vorhersage durch z.
+Wird aus inhaltlichen Gründen angenommen, dass die Drittvariable nur eine der Variablen *x* oder *y* beeinflusst, kann auf eine weitere Methode zur Aufdeckung von Scheinkorrelationen, redundanten oder maskierten Zusammenhängen zurückgegriffen werden; die Semipartialkorrelation. Bei dieser Methode wird der Einfluss der Drittvariablen nur aus einer der beiden Variablen herausgerechnet. Die Semipartialkorrelation $r_{x(y.z)}$ entspricht der Korrelation zwischen x und dem Residuum von y bei Vorhersage durch z.
 
 {{<inline_image"/lehre/statistik-ii/Partial3.png">}}
 
@@ -307,12 +307,12 @@ spcor.test(x=Schulleistungen$reading, y=Schulleistungen$math, z=Schulleistungen$
 ## 1 -0.03087634 0.7615954 -0.3042418 100  1 pearson
 ```
 
-Der Koeffizient der Semipartialkorrelation (r~x(y.z)~) beträgt -0.03 und ist nicht signifikant (p=0). Es zeigt sich also, dass der ursprüngliche Zusammenhang zwischen Lese- und Mathematikleistung (*r~xy~*= 0) verschwindet, wenn der Einfluss der allgemeinen Intelligenz auf die Mathematikleistung kontrolliert wird.
+Der Koeffizient der Semipartialkorrelation ($r_{x(y.z)}$) beträgt -0.03 und ist nicht signifikant (p=0). Es zeigt sich also, dass der ursprüngliche Zusammenhang zwischen Lese- und Mathematikleistung ($r_{xy}$=0.37) verschwindet, wenn der Einfluss der allgemeinen Intelligenz auf die Mathematikleistung kontrolliert wird.
 
 ## Wann wähle ich die Partial- und wann die Semipartialkorrelation?
 
 Ob Sie in Ihren Untersuchungen die Partial- oder Semipartialkorrelation zur Kontrolle von Drittvariablen verwenden, begründet sich primär in theoretischen Annahmen. Bei der Partialkorrelation nehmen Sie an, dass die Drittvariable *z* beide Variablen *x* und *y* ursächlich beeinflusst. In unserem Beispiel stellen wir uns den IQ als Ursache für die Leistungen in Mathematik und Lesen vor, daher wäre eine Partialkorrelation angebracht. 
-Die Semipartialkorrelation ist dann das Mittel der Wahl, wenn die Drittvariable nur eine der beiden Variablen *x* oder *y* theoretisch kausal bedingt und zwischen den anderen Variablen lediglich ein ungerichteter Zusammenhang angenommen wird. In unserem Beispiel würde dies bedeuten, dass wir beispielsweise lediglich annehmen, dass der IQ die Matehmatikleistung bedingt, jedoch nicht die Leseleitung. Eine mögliche Begründung könnte sein, dass Mathematik stark von der abstrakten Vorstellungkraft profitiert, die im IQ abgebildet ist, die Leseleistung hingegen eine Fertigkeit ist, die vorallem erlernt wird. Da diese Annahme schwer empirisch zu stützen ist, eignet sich die Semipartialkorrelation in unserem Beispiel weniger als die Partialkorrelaton. Dies ist vermutlich in den meisten Anwendungsbereichen so. Im Rahmen der Regressionsanalyse stellt die Semi-Partialkorrelation eine wichtige Rolle in der Berechnung des Determinationskoeffizienten dar. Darüber erfähren Sie in der nächsten Sitzung mehr.
+Die Semipartialkorrelation ist dann das Mittel der Wahl, wenn die Drittvariable nur eine der beiden Variablen *x* oder *y* theoretisch kausal bedingt und zwischen den anderen Variablen lediglich ein ungerichteter Zusammenhang angenommen wird. In unserem Beispiel würde dies bedeuten, dass wir beispielsweise lediglich annehmen, dass der IQ die Mathematikleistung bedingt, jedoch nicht die Leseleitung. Eine mögliche Begründung könnte sein, dass Mathematik stark von der abstrakten Vorstellungkraft profitiert, die im IQ abgebildet ist, die Leseleistung hingegen eine Fertigkeit ist, die vorallem erlernt wird. Da diese Annahme schwer empirisch zu stützen ist, eignet sich die Semipartialkorrelation in unserem Beispiel weniger als die Partialkorrelaton. Dies ist vermutlich in den meisten Anwendungsbereichen so. Im Rahmen der Regressionsanalyse stellt die Semi-Partialkorrelation eine wichtige Rolle in der Berechnung des Determinationskoeffizienten dar. Darüber erfähren Sie in der nächsten Sitzung mehr.
 
 # Zusammenfassung
 
