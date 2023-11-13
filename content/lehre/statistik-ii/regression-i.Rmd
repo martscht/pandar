@@ -525,10 +525,8 @@ Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class
 
 ***
 
-## Appendix
-
-### Appendix A {#AppendixA}
-<details><summary>**Multipler Determinationskoeffizient mit Variablennamen**</summary>
+## Appendix A {#AppendixA}
+{{< spoiler text = "**Multipler Determinationskoeffizient mit Variablennamen**">}}
 
 Durch die Benennung der Objekte mit Buchstaben, der schriftlichen Notation mit Buchstabend und der Argumente von `spcor.test`, die auch Buchstaben entsprechen, könnte es zu kleinen Verwirrungen kommen. Trotzdem war die allgemeine Darstellung als Zeichen einer breiten Gültigkeit wichtig. Hier wird das ganze nochmal spezifischer an den Daten orientiert, wobei der beschreibende Text natürlich recht ähnlich bleibt. 
 
@@ -567,5 +565,6 @@ cor.mathreading^2 + semipartial$estimate^2
 ```
 
 Wir erhalten auf diese Weise natürlich dasselbe Ergebnis, das wir auch mit den Quadratsummen und unter Verwendung der Objekte als Buchstaben bestimmen konnten. 
-</details>
+
+{{< /spoiler >}}
 

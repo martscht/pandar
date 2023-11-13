@@ -311,9 +311,9 @@ Um jetzt den Unterschied genau zu erkennen, müssen wir zunächst die **Loglikel
 
 ***
 
-## Appendix A {#AppendixA .anchorhead}
+## Appendix A {#AppendixA}
 
-{{< spoiler text = "Inferenzstatistik der Semipartialkorrelation und der Modellvergleich" >}}
+{{< spoiler text = "**Inferenzstatistik der Semipartialkorrelation und der Modellvergleich**" >}}
 
 Wir arbeiten weiterhin mit dem Datensatz `Schulleistungen` und gehen davon aus, dass wir bereits `reading` und `female` zur Vorhersage von `math` nutzen. nun soll zusätzlich noch `IQ` aufgenommen werden. Den Modelltest erlangen wir über das eingeschränkte und uneingeschränkte Modell mit der Funktion `anova()`.
 
@@ -334,9 +334,9 @@ Weiterhin sehen wir, dass das Inkrement und die quadrierte Semipartialkorrelatio
 
 {{< /spoiler >}}
 
-## Appendix B {#AppendixB .anchorhead}
+## Appendix B {#AppendixB}
 
-{{< spoiler text = "Bestimmen von AIC und Vergleich zwischen `AIC` und `extractAIC`" >}}
+{{< spoiler text = "**Bestimmen von AIC und Vergleich zwischen `AIC` und `extractAIC`**" >}}
 
 Wie bereits oben besprochen, benötigen wir für die Berechnung des AIC die Loglikelihood (Logarithmus der Likelihood) der Daten. Diese erhalten wir ganz einfach mit der `logLik` Funktion. 
 
@@ -406,8 +406,4 @@ Der Unterschied in den bestimmten AICs ist identisch. Somit sehen wir, dass die 
 {{< /spoiler >}}
 
 ***
-
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/lehre/statistik-ii/regression-ii.R).
 

@@ -102,7 +102,7 @@ Zur Vorbereitung müssen wir außerdem noch `ggplot2` aktivieren, das wir im Ver
 
 
 ```r
-#Pakete laden
+# Pakete laden
 library(ggplot2)       # für Graphiken
 ```
 

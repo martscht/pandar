@@ -2,7 +2,7 @@
 load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
 head(Schulleistungen)
 
-#Pakete laden
+# Pakete laden
 library(ggplot2)       # für Graphiken
 
 # grafische Darstellung mittels Scatterplot

@@ -6,7 +6,7 @@ slug: regression-ii
 categories: ["Statistik II"] 
 tags: ["Regression", "Zusammenhangsanalyse", "Erklärte Varianz", "Modelloptimierung"] 
 subtitle: 'Modelloptimierung'
-summary: 'In diesem Post lernt ihr, Daten in R mit Hilfe des Pakets "ggplot2" zu visualisieren. Das Tutorial startet mit den Grundprinzipien des Pakets, wie Daten in Schichten dargestellt werden, die Geometrie und Ästhetik der Grafiken sowie die Verwendung von Themes und Farbpaletten zur Anpassung der Abbildungen. Außerdem werden Methoden zur Beschriftung und Anpassung von Grafiken für eine übersichtlichere Darstellung von Daten erläutert.'
+summary: ''
 authors: [irmer, hartig, schueller, nehler]
 weight: 5
 lastmod: '2023-11-13'
@@ -290,6 +290,23 @@ Wie immer gibt es in `R` viele weitere Wege, zum selben Ziel zu kommen. Das Pake
 ```r
 # install.packages("olsrr")
 library(olsrr)
+```
+
+```
+## 
+## Attaching package: 'olsrr'
+```
+
+```
+## The following object is masked from 'package:MASS':
+## 
+##     cement
+```
+
+```
+## The following object is masked from 'package:datasets':
+## 
+##     rivers
 ```
 
 Die Funktion `ols_step_both_p()` beinhaltet die Auswahl auf Basis der Signifikanz des Inkrements oder Dekrements und führt in jedem Schritt Tests für Einschluss und Ausschluss durch. Sie nutzt also die Technik, die wir gerade für den theorigeleiteten Modellvergleich auch genommen haben. Dieses Vorgehen sollte nicht als Default angesehen werden, da einige Probleme bestehen, auf die wir nach der Demonstration eingehen. Aufgrund der Prävalenz des Vorgehens haben wir uns dazu entschieden, es auch zu präsentieren.
@@ -612,9 +629,9 @@ Um jetzt den Unterschied genau zu erkennen, müssen wir zunächst die **Loglikel
 
 ***
 
-## Appendix A {#AppendixA .anchorhead}
+## Appendix A {#AppendixA}
 
-{{< spoiler text = "Inferenzstatistik der Semipartialkorrelation und der Modellvergleich" >}}
+{{< spoiler text = "**Inferenzstatistik der Semipartialkorrelation und der Modellvergleich**" >}}
 
 Wir arbeiten weiterhin mit dem Datensatz `Schulleistungen` und gehen davon aus, dass wir bereits `reading` und `female` zur Vorhersage von `math` nutzen. nun soll zusätzlich noch `IQ` aufgenommen werden. Den Modelltest erlangen wir über das eingeschränkte und uneingeschränkte Modell mit der Funktion `anova()`.
 
@@ -660,9 +677,9 @@ Weiterhin sehen wir, dass das Inkrement und die quadrierte Semipartialkorrelatio
 
 {{< /spoiler >}}
 
-## Appendix B {#AppendixB .anchorhead}
+## Appendix B {#AppendixB}
 
-{{< spoiler text = "Bestimmen von AIC und Vergleich zwischen `AIC` und `extractAIC`" >}}
+{{< spoiler text = "**Bestimmen von AIC und Vergleich zwischen `AIC` und `extractAIC`**" >}}
 
 Wie bereits oben besprochen, benötigen wir für die Berechnung des AIC die Loglikelihood (Logarithmus der Likelihood) der Daten. Diese erhalten wir ganz einfach mit der `logLik` Funktion. 
 
@@ -792,8 +809,4 @@ Der Unterschied in den bestimmten AICs ist identisch. Somit sehen wir, dass die 
 {{< /spoiler >}}
 
 ***
-
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/lehre/statistik-ii/regression-ii.R).
 
