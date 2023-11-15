@@ -6,8 +6,8 @@ slug: grafiken-ggplot2
 categories: ["Statistik II"] 
 tags: ["ggplotting", "Datenmanagement", "Grafiken"] 
 subtitle: ''
-summary: 'In diesem Post lernt ihr, Grafiken mit Hilfe des Paketes "ggplot2" zu erstellen.' 
-authors: [schultze] 
+summary: 'In diesem Post lernt ihr, Daten in R mit Hilfe des Pakets "ggplot2" zu visualisieren. Das Tutorial startet mit den Grundprinzipien des Pakets, wie Daten in Schichten dargestellt werden, die Geometrie und Ästhetik der Grafiken sowie die Verwendung von Themes und Farbpaletten zur Anpassung der Abbildungen. Außerdem werden Methoden zur Beschriftung und Anpassung von Grafiken für eine übersichtlichere Darstellung von Daten erläutert.'
+authors: [schultze]
 weight: 2
 lastmod: '`r Sys.Date()`'
 featured: no
@@ -137,14 +137,14 @@ ggplot(edu_2013)
 Was entsteht ist eine leere Fläche. Wie bereits beschrieben, besteht eine Abbildung in `ggplot2` immer aus den drei Komponenten Daten, Geometrie und Ästhetik. Bisher haben wir nur eine festgelegt. Als erste Ästhetik sollten wir festlegen, welche Variablen auf x- und y-Achse dargestellt werden sollen. Nehmen wir einen einfachen Scatterplot, in dem wir den Zusammenhang zwischen Ausgaben für die Grundschulbildung (`Primary`) und dem tatsächlich erreichten Education Index (`Index`) darstellen. 
 
 ```{r empty_scatter, fig=TRUE, echo=-1}
-#Aes wird hier mit einer IV/DV angeben für einen Scatter-Plot, Plot steht schon, aber Daten fehlen, da geom fehlt
+# Aes wird hier mit einer IV/DV angeben für einen Scatter-Plot, Plot steht schon, aber Daten fehlen, da geom fehlt
 ggplot(edu_2013, aes(x = Primary, y = Index))
 ```
 
 Ästhetik wird in `ggplot2` über den `aes`-Befehl erzeugt. Jetzt fehlt uns noch die geometrische Form, mit der die Daten abgebildet werden sollen. Für die Geometrie-Komponente stehen in `ggplot2` sehr viele Funktionen zur Verfügung, die allesamt mit `geom_` beginnen. Eine Übersicht über die Möglichkeiten findet sich z.B. [hier](https://ggplot2.tidyverse.org/reference/#section-layer-geoms). Naheliegenderweise nehmen wir für einen Scatterplot Punkte als die geometrische Form (`geom_point`), die wir darstellen wollen. Neue Schichten werden in ihrer eigenen Funktion erzeugt und mit dem einfachen `+` zu einem bestehenden Plot hinzugefügt. Für ein Punktdiagramme sieht das Ganze also einfach so aus:
 
 ```{r simple_scatter, fig=TRUE, echo=-1}
-#Nun wird der fertige Scatter Plot zwischen Grundschulbildung und Education Index dargestellt
+# Nun wird der fertige Scatter Plot zwischen Grundschulbildung und Education Index dargestellt
 ggplot(edu_2013, aes(x = Primary, y = Index)) +
   geom_point()
 ```
@@ -154,7 +154,7 @@ Der immense Vorteil des Schichtens besteht darin, dass wir gleichzeitig mehrere 
 In der Abbildung sieht es zunächst ganz danach aus, als gebe es zwischen den Ausgaben für die Grundschulbildung und dem erreichten Bildungsindex einen positiven Zusammenhang. Rein numerisch können wir uns das Ganze z.B. mit einer Korrelation angucken:
 
 ```{r, echo=-1}
-#Da Plot einen positiv linearen Zusammenhang vermuten lässt, wird nun die Korrelation getestet
+# Da Plot einen positiv linearen Zusammenhang vermuten lässt, wird nun die Korrelation getestet
 cor.test(edu_2013$Index, edu_2013$Primary)
 ```
 Mehr zu Korrelation findet sich in [diesem Beitrag](/lehre/statistik-i/korrelation) zu Statistik I.
@@ -166,14 +166,14 @@ Einer der Vorteile, die sich durch das Schichten der Abbildungen ergibt ist, das
 
 
 ```{r basic_plot, echo=-1}
-#Speichert eine Grundlagenschicht in ggplot, basierend auf data und aes, diese gilt als Basis für die danach erstellten Grafiken
+# Speichert eine Grundlagenschicht in ggplot, basierend auf data und aes, diese gilt als Basis für die danach erstellten Grafiken
 basic <- ggplot(edu_2013, aes(x = Primary, y = Index))
 ```
 
 In `basic` wird jetzt die *Anleitung* für die Erstellung der Grafik gespeichert. Erstellt wird die Grafik aber erst, wenn wir das Objekt aufrufen. Dabei können wir das Objekt auch mit beliebigen anderen Komponenten über `+` kombinieren:
 
 ```{r object_combos, echo=-1}
-#Grundschema wird zusammen mit Punkten für Datenpunkte aufgerufen
+# Grundschema wird zusammen mit Punkten für Datenpunkte aufgerufen
 basic + geom_point()
 ```
 
@@ -184,7 +184,7 @@ Damit die Beispiele im weiteren Verlauf auch selbstständig funktionieren, wird 
 Oben wurde erwähnt, dass Ästhetik die dritte Komponente ist und als Beispiel wird die Farbe genannt. Das stimmt nicht immer: die Farbe der Darstellung muss nicht zwingend eine Ästhetik sein. Gucken wir uns zunächst an, wie es aussieht, wenn wir die Farbe der Darstellung ändern wollen:
 
 ```{r, fig=TRUE, echo=-1}
-#Es wird dargestellt, dass die geometrischen Formen der Datenpunkte gefärbt werden können, hier blau; Zeigt das Farbe nicht exklusiv bei aes geändert wird
+# Es wird dargestellt, dass die geometrischen Formen der Datenpunkte gefärbt werden können, hier blau; Zeigt das Farbe nicht exklusiv bei aes geändert wird
 ggplot(edu_2013, aes(x = Primary, y = Index)) +
   geom_point(color = 'blue')
 ```
@@ -192,7 +192,7 @@ ggplot(edu_2013, aes(x = Primary, y = Index)) +
 Alle Punkte haben die Farbe geändert. Eine Ästhetik im Sinne der `ggplot`-Grammatik ist immer abhängig von den Daten. Die globale Vergabe von Farbe ist also keine Ästhetik. Sie ist es nur, wenn wir sie von Ausprägungen der Daten abhängig machen. Das funktioniert z.B. so:
 
 ```{r, echo=-1}
-#Farbverlauf durch Werte von x über aes
+# Farbverlauf durch Werte von x über aes
 ggplot(edu_2013, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Primary))
 ```
@@ -204,13 +204,13 @@ ggplot(edu_2013, aes(x = Primary, y = Index)) +
 Jeder einzelne Punkt in unserer Abbildung stellt ein Land im Jahr 2013 dar. Der einfache Scatterplot aus dem letzten Abschnitt erlaubt uns zwar einen groben Überblick über den Zusammenhang zwischen Ausgaben für Primärbildung und den Bildungsindex zu erhalten, aber gerade über die Länder wissen wir einiges mehr, das wir eventuell bei dieser Betrachtung berücksichtigen wollen. Z.B. lassen sich Länder rein geographisch anhand der Kontinente meist ganz gut gruppieren. Im Datensatz gibt es dafür die Variable `Region`:
 
 ```{r, echo=-1}
-#Tabelle der vier "Kontinent", die sich im Datensatz befinden, Amerikas zusammengefasst, kein Australien
+# Tabelle der vier "Kontinent", die sich im Datensatz befinden, Amerikas zusammengefasst, kein Australien
 table(edu_2013$Region)
 ```
 Wie wir sehen, sind die beiden Amerikas zusammengefasst, aber im Wesentlichen haben wir eine relativ gleichmäßige Aufteilung der Länder in diese vier großen Regionen. Um diese Regionen auch in der Abbildung erkenntlich zu machen, können wir die Punkte entsprechend einfärben:
 
 ```{r grouped-points, fig=TRUE, echo=-1}
-#Scatterplot mit Kontinenten als IV
+# Scatterplot mit Kontinenten als IV
 ggplot(edu_2013, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region))
 ```
@@ -221,7 +221,7 @@ Wie Sie sehen ergibt sich automatisch eine Legende auf der rechten Seite, die je
 Das Problem ist bei diesem Vorgehen, dass wir die Ästhetik für jede Geometrie wiederholen müssten, wenn wir z.B. Punkte und Linien zusammen in einer Abbildung zeichnen wollen. Stattdessen können wir in `ggplot` auch allgemein eine Gruppierung vornehmen, die für alle Geometrien übernommen wird, um so das Erscheinungsbild zu vereinheitlichen:
 
 ```{r, eval=FALSE, echo=-1}
-#Verschiebt Farbgruppierung in allgemeinen Plot, damit diese an sich auf alle Geometrie-Elemente angewandt werden würde, wird nicht ausgewertet!
+# Verschiebt Farbgruppierung in allgemeinen Plot, damit diese an sich auf alle Geometrie-Elemente angewandt werden würde, wird nicht ausgewertet!
 ggplot(edu_2013, aes(x = Primary, y = Index, color = Region)) +
   geom_point()
 ```
@@ -231,7 +231,7 @@ ggplot(edu_2013, aes(x = Primary, y = Index, color = Region)) +
 Sehr viele Datenpunkte in der gleichen Abbildung darzustellen, kann mitunter sehr unübersichtlich werden. Z.B. könnten wir neben unserer Abbildung für 2013 auch noch Informationen über andere Jahre darstellen wollen. Dafür erstellen wir uns zunächst einen Datensatz mit Informationen aus 1998, 2003, 2008 und 2013, um die Entwicklung der Ausgaben und Bildungsindizes in 5-Jahres-Abständen betrachten zu können.
 
 ```{r, echo=-1}
-#Datensatz mit mehreren Jahren
+# Datensatz mit mehreren Jahren
 edu_sel <- subset(edu_exp,  Year %in% c(1998, 2003, 2008, 2013))
 edu_sel$Year <- as.factor(edu_sel$Year)
 ```
@@ -239,7 +239,7 @@ edu_sel$Year <- as.factor(edu_sel$Year)
 Beim Versuch, das alles in einer Abbildung darzustellen, wird es etwas chaotisch, selbst wenn wir über die Ästhetik der Punkt-Form (`pch` für Pointcharacter) versuchen, verschiedene Jahre kenntlich zu machen:
 
 ```{r chaotic-neutral, fig=TRUE, echo=-1}
-#Beispiel einer etwas chaotischen Darstellung all dieser Jahresdaten zur selben Zeit
+# Beispiel einer etwas chaotischen Darstellung all dieser Jahresdaten zur selben Zeit
 ggplot(edu_sel, aes(x = Primary, y = Index, 
   color = Region, pch = Year)) +
   geom_point()
@@ -248,7 +248,7 @@ ggplot(edu_sel, aes(x = Primary, y = Index,
 Eine Möglichkeit, in diesem Fall Übersichtlichkeit zu bewahren, ist das sogenannte Faceting. Dabei wird eine Abbildung anhand von Ausprägungen auf einer oder mehr Variablen in verschiedene Abbildungen unterteilt. 
 
 ```{r faceted, fig=TRUE, echo=-1}
-#Übersichtlichkeit durch faceting, trennt in einzelne Abbildungn nach Jahreszeit
+# Übersichtlichkeit durch faceting, trennt in einzelne Abbildungn nach Jahreszeit
 ggplot(edu_sel, aes(x = Primary, y = Index, 
   color = Region)) +
   geom_point() +
@@ -268,7 +268,7 @@ Die Abbildungen, die wir bisher erstellt haben, nutzen alle das in `ggplot2` vor
 In `ggplot2` werden die Grundeigenschaften von Abbildungen in "Themes" zusammengefasst. Mit `?theme_test` erhält man eine Auflistung aller Themes, die von `ggplot2` direkt zur Verfügung gestellt werden. Diese 10 Themes sind erst einmal sehr konservative Einstellungen für die Eigenschaften von Grafiken. Sehen wir uns meinen persönlichen Favoriten, das sehr dezente `theme_minimal()` an. Dazu legen wir die Grundanleitung der Abbildung für 2013 zunächst in einem Objekt ab (das ist nicht notwendig, soll nur im Folgenden den Fokus auf die Themes legen):
 
 ```{r, echo=-1}
-#Speichern des Grundmodells des scatter-plots, um es danach mit versch. Themes darzustellen
+# Speichern des Grundmodells des scatter-plots, um es danach mit versch. Themes darzustellen
 scatter <- ggplot(edu_2013, aes(x = Primary, y = Index, color = Region)) +
   geom_point()
 ```
@@ -276,7 +276,7 @@ scatter <- ggplot(edu_2013, aes(x = Primary, y = Index, color = Region)) +
 Um das Theme einer Abbildung zu verändern, können Sie es - wie Geometrie - mit dem `+` hinzufügen.
 
 ```{r theme-minimal, fig=TRUE, echo=-1}
-#Minimal theme
+# Minimal theme
 scatter + theme_minimal()
 ```
 
@@ -285,7 +285,7 @@ Gegenüber der Voreinstellung (`theme_grey`) verändert sich hier, dass der Hint
 Über die von `ggplot2` direkt mitgelieferten Themes hinaus gibt es beinahe unzählige weitere Pakete, in denen vordefinierte Themes enthalten sind. Eine der beliebtesten Sammlungen findet sich im Paket `ggthemes`:
 
 ```{r, eval = FALSE, echo=-1}
-#Pacakge für weitere ggplot-themes, kann man durch auskommentieren installieren
+# Package für weitere ggplot-themes, kann man durch auskommentieren installieren
 install.packages('ggthemes')
 library(ggthemes)
 ```
@@ -297,28 +297,28 @@ library(ggthemes)
 Dieses Paket liefert (neben anderen optischen Erweiterungen) über 20 neue Themes, die häufig den Visualisierungen in kommerzieller Software oder in bestimmten Publikationen nachempfunden sind. In Anlehnung an weit verbreitete Grundprinzipien zur Grafikgestaltung nutzen wir als allererstes natürlich das nach Tuftes "maximal Data, minimal Ink"-Prinzip erstellte Theme:
 
 ```{r tufte, fig = TRUE, echo=-1}
-#maximal Data, minimal Ink - Theme
+# maximal Data, minimal Ink - Theme
 scatter + theme_tufte()
 ```
 
 Aber es gibt natürlich auch etwas komplexer aussehende Themes, wie diesen Nachbau der Grundprinzipien von Abbildungen auf [Nate Silvers Website fivethirtyeight](https://fivethirtyeight.com/):
 
 ```{r gdocs, fig = TRUE, echo=-1}
-#Komplexeres Theme basierend auf Prinzipien von Nate Silvers Website https://fivethirtyeight.com/
+# Komplexeres Theme basierend auf Prinzipien von Nate Silvers Website https://fivethirtyeight.com/
 scatter + theme_fivethirtyeight()
 ```
 
 Wenn uns ein Theme so gefällt, dass wir dieses für alle Plots benutzen wollen, können wir es mit `theme_set()` als neue Voreinstellung definieren. Wie gesagt, mag ich den minimalistischen Stil von `theme_minimal()`, weil er wenig von den Daten ablenkt:
 
 ```{r, echo=-1}
-#Beispielhaft minimal als default-theme setzen
+# Beispielhaft minimal als default-theme setzen
 theme_set(theme_minimal())
 ```
 
 Dieser Befehl sollte allerdings mit Vorsicht genossen werden, weil er globale Einstellungen in `R` verändert, ohne davor zu warnen, dass eventuell vorherige Einstellungen verloren gehen. Zur Sicherheit können wir mit 
 
 ```{r, eval = FALSE, echo=-1}
-#Hiermit kann man zurück zum ursprünglichen R-Theme da R-Grundeinstellungen ersetzt werden
+# Hiermit kann man zurück zum ursprünglichen R-Theme da R-Grundeinstellungen ersetzt werden
 theme_set(theme_grey())
 ```
 
@@ -331,7 +331,7 @@ Eine der wichtigsten Komponenten jeder Abbildung ist die Beschriftung. Nur wenn 
 Für unsere Abbildung wäre es sinnvoll, neben einem Titel auch eine aussagekräftigere Beschriftung der Achsen und der Legende vorzunehmen. 
 
 ```{r labeled, fig = TRUE, echo=-1}
-#Einfügen von Beschriftungen für die einzelnen Bestandteile und Achsen
+# Einfügen von Beschriftungen für die einzelnen Bestandteile und Achsen
 ggplot(edu_2013, aes(x = Primary, y = Index, color = Region)) +
   geom_point() +
   labs(x = 'Spending on Primary Eduction',
@@ -345,7 +345,7 @@ Die `labs`-Funktion ermöglicht uns das Vergeben von *Labels* für die Variablen
 Die einzige Beschriftung, die jetzt noch ein wenig unschön ist, sind die einzelnen Ausprägungen der Regionen, weil diese nicht mit Großbuchstaben anfangen. Diese kommen direkt aus unseren Daten und stellen die einzigartigen Ausprägungen des Faktors `Region` in unserem Datensatz dar. Um hier bessere Kontrolle über die Variable zu haben, bietet es sich an, diese Variable in einen Faktor umzuwandeln (wie wir es z.B. schon ganz zu [Beginn des ersten Semesters](/lehre/statistik-i/crash-kurs#Daten) gemacht hatten):
 
 ```{r, echo=-1}
-#Ändert die Faktornamen der Regionen, damit diese am Anfang großgeschrieben sind
+# Ändert die Faktornamen der Regionen, damit diese am Anfang großgeschrieben sind
 edu_2013$Region <- factor(edu_2013$Region, levels = c('africa', 'americas', 'asia', 'europe'),
   labels = c('Africa', 'Americas', 'Asia', 'Europe'))
 ```
@@ -353,7 +353,7 @@ edu_2013$Region <- factor(edu_2013$Region, levels = c('africa', 'americas', 'asi
 Mit diesem neu angelegten Faktor, sollte sich auch die Legende in unserer Abbildung entsprechend ändern:
 
 ```{r labeled_properly, fig = TRUE, echo=-1}
-#Erneute Abbildung nun da die Faktoren geändert sind, dieses Mal wird sie auch wieder als Objekt hinterlegt damit man sie erneut aufrufen kann
+# Erneute Abbildung nun da die Faktoren geändert sind, dieses Mal wird sie auch wieder als Objekt hinterlegt damit man sie erneut aufrufen kann
 scatter <- ggplot(edu_2013, aes(x = Primary, y = Index, color = Region)) +
   geom_point() +
   labs(x = 'Spending on Primary Eduction',
@@ -375,7 +375,7 @@ In `ggplot2` wird die Vergabe von Farben in der Ästhetik anhand von zwei Dingen
 Nehmen wir an, dass wir unsere Abbildung irgendwo drucken möchten - Farbdruck ist wahnsinnig teuer. Um mit Grautönen zu arbeiten, können wir z.B. `scale_color_grey` benutzen:
 
 ```{r, echo=-1}
-#Ändert Farbe zu Grautönen, für Druckfreundlichkeit
+# Ändert Farbe zu Grautönen, für Druckfreundlichkeit
 scatter + scale_color_grey()
 ```
 
@@ -384,14 +384,14 @@ Das bei den [Themes](#Themes) erwähnte Paket `ggthemes` enthält auch weitere F
 Für diese Palette können wir zunächst in einem Objekt die Farben festhalten, die wir benötigen. In `ggplot2` ist es dabei am gängigsten, Farben entweder [über Worte auszuwählen](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf) oder via [hexadezimaler Farbdefinition](https://www.color-hex.com/) zu bestimmen. Für die fünf Farben, die von der Corporate Design Abteilung der Goethe Uni definiert werdenm ergibt sich folgendes Objekt:
 
 ```{r, echo=-1}
-# definiren einer custom Farbpalette basierend auf der Corporate Goethe Universität Palette
+# Definiren einer custom Farbpalette basierend auf der Corporate Goethe Universität Palette
 gu_colors <- c('#00618f', '#e3ba0f', '#ad3b76', '#737c45', '#c96215')
 ```
 
 Dieses Objekt können wir dann nutzen, um mit `scale_color_manual` selbstständig Farben zuzuweisen:
 
 ```{r, echo=-1}
-#Zuweisung der händisch erstellten Farbpalette zum Scatterplot
+# Zuweisung der händisch erstellten Farbpalette zum Scatterplot
 scatter + scale_color_manual(values = gu_colors)
 ```
 
@@ -406,14 +406,14 @@ Eine wichtige Art, Abbildungen zu ergänzen, die wir hier noch direkt besprechen
 In den Abschnitten [`ggplot2` Grundprinzipien](#Grundprinzipien) und [Abbildungen anpassen](#Anpassen) haben wir uns mit dem sehr verbreiteten Scatterplot befasst. In diesen Plots werden zwei Variablen zueinander ins Verhältnis gestellt. Typischerweise wollen wir aus solchen Plots auch einen Trend erkennen können. Z.B. hatten wir schon mit dem `cor.test()`-Befehl gesehen, dass es einen positiven linearen Zusammehang zwischen Ausgaben für die Grundschulbildung und den Bildungsindex eines Landes zu geben scheint. Mit `geom_smooth` können wir uns eine "Glättung" der Datenlagen anschauen, die den generellen Trend verdeutlicht. Per Voreinstellung wird hierzu die sogenannte LOESS-Glättung genutzt.
 
 ```{r specific_trends, fig = TRUE, echo=-1}
-#Generellen Trend der Datenlage über geom_smooth abbilden
+# Generellen Trend der Datenlage über geom_smooth abbilden
 scatter + geom_smooth()
 ```
 
 Was eingezeichnet wird, sind die *spezifischen* Trendlinien unserer vier Welt-Regionen. Die schattierten Flächen um diese Linie herum stellen den Standardschätzfehler dieser Kurve dar. Um uns die globale Trendlinie anzeigen zu lassen, müssen wir die Gruppierung der Beobachtung wieder geometriespezifisch machen:
 
 ```{r global_trend, fig=TRUE, echo=-1}
-#Globaler Trend, schattierte Fläche um Linie ist Standardschätzfehler,
+# Globaler Trend, schattierte Fläche um Linie ist Standardschätzfehler,
 ggplot(edu_2013, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region)) +
   geom_smooth() +
@@ -425,15 +425,9 @@ ggplot(edu_2013, aes(x = Primary, y = Index)) +
 Wir können in diese Abbildung auch statt LOWESS-Linien die Ergebnisse von Regressionen einzeichnen lassen. Statt diese Regression separat über `lm()` erstellen zu müssen, wird uns dieser Schritt von `ggplot2` abgenommen, wenn wir das Argument `method` in `geom_smooth` nutzen. So können wir uns z.B. die Regionen-spezifischen Regressionen in die Abbildung einpflegen lassen. Um die Standardfehler zu unterdrücken und nur die Regressionen zu erhalten, können wir außerdem mit `se = FALSE` die grauen Flächen unterdrücken.
 
 ```{r specific_regressions, fig = TRUE, echo=-1}
-#Regression, regionsspezifisch, ohne Standardfehler
+# Regression, regionsspezifisch, ohne Standardfehler
 scatter + geom_smooth(method = 'lm', se = FALSE)
 ```
-
-<!-- Erstmal noch auskommentiert
-***
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [{{< icon name = “linux“ pack = “fab“ >}} hier herunterladen](/post/PsyBSc7_R_Files/02_grafiken-mit-ggplot2.R).
--->
 ***
 
 Für eine Vertiefung der Grafiken mit `ggplot2` (z.B. Animationen, interaktive Grafiken und individuelle Themes) haben wir im [Extras Abschnitt](/extras#ggplotting) die Materialien aus einem Workshop der digiGEBF bereitgestellt.

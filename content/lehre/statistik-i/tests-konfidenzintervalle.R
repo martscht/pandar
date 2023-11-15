@@ -16,18 +16,14 @@ fb23$wohnen <- factor(fb23$wohnen,
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 
-
-# Naturverbundenheit
-
-
-# Weitere Standardisierugen
+# Standardisierungen
 fb23$nerd_std <- scale(fb23$nerd)
 fb23$neuro_std <- scale(fb23$neuro)
 
 
-curve(expr = dnorm(x, mean = 2.5, sd = 0.9),
-     from = 0,
-     to = 4.5,
+curve(expr = dnorm(x, mean = 2.5, sd = 3.1),
+     from = -0.5,
+     to = 5.5,
      main = "Population", 
      xlab = "Nerdiness-Werte",
      ylab = "Dichte")
@@ -44,7 +40,7 @@ mean(fb23$nerd)
 
 
 pop_mean_nerd <- 2.5                 # Mittelwert Grundgesamtheit
-pop_sd_nerd <- 0.9                   # SD der Grundgesamtheit
+pop_sd_nerd <- 3.1                 # SD der Grundgesamtheit
 sample_mean_nerd <- mean(fb23$nerd)  # Stichprobenmittelwert
 sample_size <- nrow(fb23)            # Stichprobengröße (da keine NA)
 
@@ -53,8 +49,8 @@ se_nerd <- pop_sd_nerd/sqrt(sample_size) # Standardfehler des Mittelwerts
 z_emp <- (sample_mean_nerd - pop_mean_nerd)/ se_nerd
 z_emp
 
-x <- seq(0, 4.5, 0.1) 
-y <- dnorm(x, 2.5, 0.9/sqrt(nrow(fb23)))
+x <- seq(-0.5, 5.5, 0.1) 
+y <- dnorm(x, 2.5, 3.1/sqrt(nrow(fb23)))
 plot(x, y, type="l", 
       main = "SKV des MW für Nerdiness Population mit unserer Stichprobengröße", 
       xlab = "Nerdiness-Werte",
@@ -75,9 +71,10 @@ z_quantil_zweiseitig <- qnorm(p = 1-(.05/2), mean = 0, sd = 1)
 z_quantil_zweiseitig
 
 up_conf_nerd <- sample_mean_nerd+((z_quantil_zweiseitig*pop_sd_nerd)/sqrt(sample_size))
-up_conf_nerd
 
 lo_conf_nerd <- sample_mean_nerd-((z_quantil_zweiseitig*pop_sd_nerd)/sqrt(sample_size))
+
+up_conf_nerd
 lo_conf_nerd
 
 conf_nerd <- c(lo_conf_nerd, up_conf_nerd)

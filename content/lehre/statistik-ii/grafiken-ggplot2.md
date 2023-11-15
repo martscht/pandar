@@ -6,10 +6,10 @@ slug: grafiken-ggplot2
 categories: ["Statistik II"] 
 tags: ["ggplotting", "Datenmanagement", "Grafiken"] 
 subtitle: ''
-summary: 'In diesem Post lernt ihr, Grafiken mit Hilfe des Paketes "ggplot2" zu erstellen.' 
-authors: [schultze] 
+summary: 'In diesem Post lernt ihr, Daten in R mit Hilfe des Pakets "ggplot2" zu visualisieren. Das Tutorial startet mit den Grundprinzipien des Pakets, wie Daten in Schichten dargestellt werden, die Geometrie und Ästhetik der Grafiken sowie die Verwendung von Themes und Farbpaletten zur Anpassung der Abbildungen. Außerdem werden Methoden zur Beschriftung und Anpassung von Grafiken für eine übersichtlichere Darstellung von Daten erläutert.'
+authors: [schultze]
 weight: 2
-lastmod: '2023-11-10'
+lastmod: '2023-11-13'
 featured: no
 banner:
   image: "/header/colorful_bubbles.jpg"
@@ -78,20 +78,20 @@ head(edu_exp)
 ```
 
 ```
-##   geo     Country     Wealth Region Year Population
-## 1 afg Afghanistan low_income   asia 1997   19357126
-## 2 afg Afghanistan low_income   asia 1998   19737770
-## 3 afg Afghanistan low_income   asia 1999   20170847
-## 4 afg Afghanistan low_income   asia 2000   20779957
-## 5 afg Afghanistan low_income   asia 2001   21606992
-## 6 afg Afghanistan low_income   asia 2002   22600774
-##   Expectancy Income Primary Secondary Tertiary    Index
-## 1      53.74    865      NA        NA       NA 13.33333
-## 2      52.80    800      NA        NA       NA 13.33333
-## 3      54.43    735      NA        NA       NA 14.00000
-## 4      54.63    687      NA        NA       NA 14.66667
-## 5      54.76    646      NA        NA       NA 14.66667
-## 6      55.65   1016      NA        NA       NA 15.33333
+##   geo     Country     Wealth Region Year Population Expectancy Income Primary Secondary Tertiary
+## 1 afg Afghanistan low_income   asia 1997   19357126      53.74    865      NA        NA       NA
+## 2 afg Afghanistan low_income   asia 1998   19737770      52.80    800      NA        NA       NA
+## 3 afg Afghanistan low_income   asia 1999   20170847      54.43    735      NA        NA       NA
+## 4 afg Afghanistan low_income   asia 2000   20779957      54.63    687      NA        NA       NA
+## 5 afg Afghanistan low_income   asia 2001   21606992      54.76    646      NA        NA       NA
+## 6 afg Afghanistan low_income   asia 2002   22600774      55.65   1016      NA        NA       NA
+##      Index
+## 1 13.33333
+## 2 13.33333
+## 3 14.00000
+## 4 14.66667
+## 5 14.66667
+## 6 15.33333
 ```
 
 
@@ -132,7 +132,7 @@ Um diese Daten in eine Schicht der Grafik zu überführen, können wir sie einfa
 ggplot(edu_2013)
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 Was entsteht ist eine leere Fläche. Wie bereits beschrieben, besteht eine Abbildung in `ggplot2` immer aus den drei Komponenten Daten, Geometrie und Ästhetik. Bisher haben wir nur eine festgelegt. Als erste Ästhetik sollten wir festlegen, welche Variablen auf x- und y-Achse dargestellt werden sollen. Nehmen wir einen einfachen Scatterplot, in dem wir den Zusammenhang zwischen Ausgaben für die Grundschulbildung (`Primary`) und dem tatsächlich erreichten Education Index (`Index`) darstellen. 
 
@@ -141,7 +141,7 @@ Was entsteht ist eine leere Fläche. Wie bereits beschrieben, besteht eine Abbil
 ggplot(edu_2013, aes(x = Primary, y = Index))
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/empty_scatter-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/empty_scatter-1.png" style="display: block; margin: auto;" />
 
 Ästhetik wird in `ggplot2` über den `aes`-Befehl erzeugt. Jetzt fehlt uns noch die geometrische Form, mit der die Daten abgebildet werden sollen. Für die Geometrie-Komponente stehen in `ggplot2` sehr viele Funktionen zur Verfügung, die allesamt mit `geom_` beginnen. Eine Übersicht über die Möglichkeiten findet sich z.B. [hier](https://ggplot2.tidyverse.org/reference/#section-layer-geoms). Naheliegenderweise nehmen wir für einen Scatterplot Punkte als die geometrische Form (`geom_point`), die wir darstellen wollen. Neue Schichten werden in ihrer eigenen Funktion erzeugt und mit dem einfachen `+` zu einem bestehenden Plot hinzugefügt. Für ein Punktdiagramme sieht das Ganze also einfach so aus:
 
@@ -152,11 +152,10 @@ ggplot(edu_2013, aes(x = Primary, y = Index)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/simple_scatter-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/simple_scatter-1.png" style="display: block; margin: auto;" />
 
 Der immense Vorteil des Schichtens besteht darin, dass wir gleichzeitig mehrere Visualisierungsformen nutzen können. Das Prinzip bleibt das gleiche wie vorher: wir fügen Schichten mit dem `+` hinzu. Wir können also z.B. für Zeitverläufe einfach Punkte und Linien direkt miteinander kombinieren. 
 
@@ -201,11 +200,10 @@ basic + geom_point()
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/object_combos-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/object_combos-1.png" style="display: block; margin: auto;" />
 
 Damit die Beispiele im weiteren Verlauf auch selbstständig funktionieren, wird unten immer der gesamte Plot aufgeschrieben. Aber für Ihre eigenen Übungen oder Notizen ist es durchaus praktischer mit dieser Objekt Funktionalität zu arbeiten, um so zu umgehen, dass man immer wieder die gleichen Abschnitte aufschreiben muss.
 
@@ -220,11 +218,10 @@ ggplot(edu_2013, aes(x = Primary, y = Index)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 Alle Punkte haben die Farbe geändert. Eine Ästhetik im Sinne der `ggplot`-Grammatik ist immer abhängig von den Daten. Die globale Vergabe von Farbe ist also keine Ästhetik. Sie ist es nur, wenn wir sie von Ausprägungen der Daten abhängig machen. Das funktioniert z.B. so:
 
@@ -235,11 +232,10 @@ ggplot(edu_2013, aes(x = Primary, y = Index)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 Über den Befehl `aes` definieren wir eine Ästhetik und sagen `ggplot`, dass die Farbe der Punkte von der Ausprägung auf der Variable `Primary` abhängen soll. Die Farbe kann aber natürlich auch von jeder anderen Variable im Datensatz abhängen. Wie das aussehen kann, gucken wir uns im kommenden Abschnitt an.
 
@@ -266,11 +262,10 @@ ggplot(edu_2013, aes(x = Primary, y = Index)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/grouped-points-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/grouped-points-1.png" style="display: block; margin: auto;" />
 
 
 Wie Sie sehen ergibt sich automatisch eine Legende auf der rechten Seite, die jeder Region eine Farbe zuweist.
@@ -303,11 +298,10 @@ ggplot(edu_sel, aes(x = Primary, y = Index,
 ```
 
 ```
-## Warning: Removed 505 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 505 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/chaotic-neutral-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/chaotic-neutral-1.png" style="display: block; margin: auto;" />
 
 Eine Möglichkeit, in diesem Fall Übersichtlichkeit zu bewahren, ist das sogenannte Faceting. Dabei wird eine Abbildung anhand von Ausprägungen auf einer oder mehr Variablen in verschiedene Abbildungen unterteilt. 
 
@@ -320,11 +314,10 @@ ggplot(edu_sel, aes(x = Primary, y = Index,
 ```
 
 ```
-## Warning: Removed 505 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 505 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/faceted-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/faceted-1.png" style="display: block; margin: auto;" />
 
 In `facet_wrap` wird wieder mit der `R`-Gleichungsnotation gearbeitet: hier wird der Plot anhand der unabhängigen Variablen hinter der Tilde in Gruppen eingeteilt. Das gibt auch wieder die Möglichkeit mit `+` mehrere Variablen zu definieren, die zum Faceting benutzt werden sollen. Wenn Sie Gruppen anhand von zwei Variablen bilden, bietet es sich außerdem an, `facet_grid` zu benutzen.
 
@@ -352,11 +345,10 @@ scatter + theme_minimal()
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/theme-minimal-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/theme-minimal-1.png" style="display: block; margin: auto;" />
 
 Gegenüber der Voreinstellung (`theme_grey`) verändert sich hier, dass der Hintergrund jetzt nicht mehr grau ist und das Raster stattdessen in Hellgrau gehalten ist. An diesem Punkt wird erneut der Vorteil des Schichtsystems von ggplot deutlich: wir definieren Daten, Ästhetik und Geometrie und können dann optische Anpassungen über das Theme vornehmen, die von den diesen drei Komponenten unabhängig verändert werden können. Diese Art und Weise, wie von ggplot Abbildungen definiert werden, hat den Vorteil, dass alles was wir hier besprechen auch auf jeden anderen Abbildungstyp anwendbar ist (eine größere Auswahl verschiedener Plots haben wir im [ggplotpourri](/post/ggplotting-ggplotpourri) zusammengestellt), weil wir einfach die `geom_`-Funktionen austauschen können. Die Eigenschaften der Abbildung hinsichtlich des Aussehens von Hintergrund usw. bleiben davon aber unberührt.
 
@@ -378,11 +370,10 @@ scatter + theme_tufte()
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/tufte-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/tufte-1.png" style="display: block; margin: auto;" />
 
 Aber es gibt natürlich auch etwas komplexer aussehende Themes, wie diesen Nachbau der Grundprinzipien von Abbildungen auf [Nate Silvers Website fivethirtyeight](https://fivethirtyeight.com/):
 
@@ -392,11 +383,10 @@ scatter + theme_fivethirtyeight()
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/gdocs-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/gdocs-1.png" style="display: block; margin: auto;" />
 
 Wenn uns ein Theme so gefällt, dass wir dieses für alle Plots benutzen wollen, können wir es mit `theme_set()` als neue Voreinstellung definieren. Wie gesagt, mag ich den minimalistischen Stil von `theme_minimal()`, weil er wenig von den Daten ablenkt:
 
@@ -431,11 +421,10 @@ ggplot(edu_2013, aes(x = Primary, y = Index, color = Region)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/labeled-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/labeled-1.png" style="display: block; margin: auto;" />
 
 Die `labs`-Funktion ermöglicht uns das Vergeben von *Labels* für die Variablen, die wir als Ästhetiken in `aes()` festgehalten haben. `x` ersetzt also den Variablennamen von `Primary`, der per Voreinstellung zur Beschriftung herangezogen wird. Das Gleiche gilt dann auch für `y` und `color` ersetzt den Titel der Legende. Die `ggtitle`-Funktion nimmt zwei Argumente entgegen: den Titel und einen Untertitel.
 
@@ -462,11 +451,10 @@ scatter
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/labeled_properly-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/labeled_properly-1.png" style="display: block; margin: auto;" />
 
 Damit wir unsere Grafik in späteren Abschnitten wiederverwenden können, haben wir sie hier wieder erst in einem Objekt abgelegt, anstatt sie direkt ausgeben zu lassen.
 
@@ -484,11 +472,10 @@ scatter + scale_color_grey()
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
 
 Das bei den [Themes](#Themes) erwähnte Paket `ggthemes` enthält auch weitere Farbpaletten, die Sie nutzen können, um Ihren Plot nach Ihren Vorlieben zu gestalten. Wichtig ist beispielsweise, dass es eine Palette namens `colorblind` hat, die Farben so auswählt, dass sie auch von Personen mit Farbblindheit differenziert werden können. In Fällen mit 6 oder weniger Gruppen bietet sich darüber hinaus in solchen Fällen an, mit der Ästhetik `pch` (für plot-character) zu arbeiten. Darüber hinaus gibt es für Fans der Filme von Wes Anderson z.B. das Paket `wesanderson`, welches für jeden seiner Filme die Farbpalette parat hat. Darüber hinaus können wir aber natürlich auch unsere ganz eigene Farbpalette definieren - z.B. die offizielle Farbpalette des Corporate Designs der Goethe Universität, die Sie auf den Folien von PsyBSc 1 und 2 im letzten Semester kennen (und lieben!) gelernt haben.
 
@@ -507,11 +494,10 @@ scatter + scale_color_manual(values = gu_colors)
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
 
 Die Zuordnung der Farben erfolgt anhand der Reihenfolge in `gu_colors` und der Reihenfolge der Ausprägungen von `Region`. Letztere ist - wie sie bestimmt festgestellt haben - alphabetisch. Wie häufig in `ggplot2` können Sie die Daten ändern (also mit `relevel` die Reihenfolge der Ausprägungen ändern) um Veränderungen in der Darstellung zu bewirken.
 
@@ -533,16 +519,14 @@ scatter + geom_smooth()
 ```
 
 ```
-## Warning: Removed 101 rows containing non-finite values
-## (`stat_smooth()`).
+## Warning: Removed 101 rows containing non-finite values (`stat_smooth()`).
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/specific_trends-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/specific_trends-1.png" style="display: block; margin: auto;" />
 
 Was eingezeichnet wird, sind die *spezifischen* Trendlinien unserer vier Welt-Regionen. Die schattierten Flächen um diese Linie herum stellen den Standardschätzfehler dieser Kurve dar. Um uns die globale Trendlinie anzeigen zu lassen, müssen wir die Gruppierung der Beobachtung wieder geometriespezifisch machen:
 
@@ -562,16 +546,14 @@ ggplot(edu_2013, aes(x = Primary, y = Index)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing non-finite values
-## (`stat_smooth()`).
+## Warning: Removed 101 rows containing non-finite values (`stat_smooth()`).
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/global_trend-1.png)<!-- -->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/global_trend-1.png" style="display: block; margin: auto;" />
 Wir können in diese Abbildung auch statt LOWESS-Linien die Ergebnisse von Regressionen einzeichnen lassen. Statt diese Regression separat über `lm()` erstellen zu müssen, wird uns dieser Schritt von `ggplot2` abgenommen, wenn wir das Argument `method` in `geom_smooth` nutzen. So können wir uns z.B. die Regionen-spezifischen Regressionen in die Abbildung einpflegen lassen. Um die Standardfehler zu unterdrücken und nur die Regressionen zu erhalten, können wir außerdem mit `se = FALSE` die grauen Flächen unterdrücken.
 
 
@@ -584,22 +566,14 @@ scatter + geom_smooth(method = 'lm', se = FALSE)
 ```
 
 ```
-## Warning: Removed 101 rows containing non-finite values
-## (`stat_smooth()`).
+## Warning: Removed 101 rows containing non-finite values (`stat_smooth()`).
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 101 rows containing missing values (`geom_point()`).
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/specific_regressions-1.png)<!-- -->
-
-<!-- Erstmal noch auskommentiert
-***
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [{{< icon name = “linux“ pack = “fab“ >}} hier herunterladen](/post/PsyBSc7_R_Files/02_grafiken-mit-ggplot2.R).
--->
+<img src="/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/specific_regressions-1.png" style="display: block; margin: auto;" />
 ***
 
 Für eine Vertiefung der Grafiken mit `ggplot2` (z.B. Animationen, interaktive Grafiken und individuelle Themes) haben wir im [Extras Abschnitt](/extras#ggplotting) die Materialien aus einem Workshop der digiGEBF bereitgestellt.

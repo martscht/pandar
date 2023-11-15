@@ -1,0 +1,570 @@
+---
+title: "Regressionsanalyse I" 
+type: post
+date: '2021-04-22' 
+slug: regression-i 
+categories: ["Statistik II"] 
+tags: ["Regression", "Zusammenhangsanalyse", "Gerichtete Zusammenhänge"] 
+subtitle: 'Multiple Regression'
+summary: ''
+authors: [nehler, schroeder, gruetzmacher]
+weight: 4
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/man_with_binoculars.jpg"
+  caption: "[Courtesy of pxhere](https://www.pexels.com/photo/man-looking-in-binoculars-during-sunset-802412/)"
+projects: []
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-ii/regression-i
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /lehre/statistik-ii/regression-i.R
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+knitr::opts_chunk$set(error = TRUE)
+library(knitr)
+```
+
+## Einleitung
+
+In der [letzten Sitzung](/lehre/statistik-ii/partial) haben wir unter anderem Korrelationen zwischen zwei Variablen behandelt. Zur Wiederholung: Mithilfe einer Korrelation kann die Stärke des Zusammenhangs zwischen zwei Variablen quantifiziert werden. Dabei haben beide Variablen den gleichen Stellenwert, d.h. eigentlich ist es egal, welche Variable die x- und welche Variable die y-Variable ist. Wir haben außerdem Methoden kennengelernt, mit denen der Einfluss einer (oder mehrerer) Drittvariablen kontrolliert werden kann; die Partial- und Semipartialkorrelation. In der heutigen Sitzung wollen wir uns hingegen mit gerichteten Zusammenhängen, d.h. mit Regressionen, beschäftigen.
+
+## Lineare Regression
+
+Das Ziel einer Regression besteht darin, eine Variable durch eine oder mehrere andere Variablen vorherzusagen (Prognose). Die vorhergesagte Variable wird als Kriterium, Regressand oder auch abhängige Variable (AV) bezeichnet und üblicherweise mit $y$ symbolisiert. Die Variablen zur Vorhersage der abhängigen Variablen werden als Prädiktoren, Regressoren oder unabhängige Variablen (UV) bezeichnet und üblicherweise mit $x$ symbolisiert. Im ersten Semester hatten wir stets nur einen Prädiktor - dies kann jedoch jetzt erweitert werden. Deshalb bekommen die Prädiktoren einen Indize $x_1$, $x_2$ usw. 
+Die häufigste Form der Regressionsanalyse ist die lineare Regression, bei der der Zusammenhang über eine Gerade bzw. eine Ebene (bei zwei Prädiktoren) beschrieben wird. Demzufolge kann die lineare Beziehung zwischen den vorgesagten Werten und den Werten der unabhängigen Variablen mathematisch folgendermaßen beschreiben werden:
+
+$$y_i = b_0 +b_{1}x_{i1} + ... +b_{m}x_{im} + e_i$$
+
+* $b_0$ = y-Achsenabschnitt/ Ordinatenabschnitt/ Konstante/ Interzept:
+    + Der Wert von $y$ bei einer Ausprägung von 0 in allen $x$-Variablen
+    
+* $b_{1}/ b_m$ = Regressionsgewichte der Prädiktoren:
+    + beziffern die Steigung der Regressionsgeraden
+    + Interpretation: die Steigung der Geraden lässt erkennen, um wie viele Einheiten $y$ zunimmt, wenn $x$ um eine Einheit zunimmt
+* $e_i$ = Regressionsresiduum (kurz: Residuum), Residualwert oder Fehlerwert:
+    + die Differenz zwischen einem vorhergesagten ($\hat{y}$) und beobachteten ($y$) y-Wert 
+    + je größer die Fehlerwerte, umso größer ist die Abweichung eines beobachteten vom vorhergesagten Wert
+    
+### Einfache lineare Regression
+
+Die einfache lineare Regression hat nur einen Prädiktor. Daher entsteht eine Gerade im Modell. Das Modell folgt der uns bekannten Form:
+
+$\hat{y_i} = b_0 +b_{1}x_{i1}$ (Regressiongerade = vorhergesagte Werte)
+
+
+Grafische Darstellung einer einfachen linearen Regression{{<inline_image"/lehre/statistik-ii/Reg1.png">}}
+
+### Multiple Regression (mehrere Prädiktoren)
+
+Wenn wir nun 2 Prädiktoren haben, wird zwischen diesen und der abhängigen Variable eine Ebene aufgespannt. Die Modellgleichung lautet dabei wie bereits gezeigt:
+
+$y_i = b_0 +b_{1}x_{i1} + b_{2}x_{i2} + e_i$
+
+
+Grafische Darstellung einer multiplen Regression{{<inline_image"/lehre/statistik-ii/Reg2.png">}}
+
+Eine Erweiterung auf mehr als zwei Prädiktoren ist mathematisch problemlos möglich, aber grafisch nicht mehr schön darstellbar. Deshalb hören wir mit Zeichnungen an dieser Stelle auf.
+
+
+## Berechnung der Regressionsgewichte $b_i$ mit Hilfe der händischen Formeln in `R`
+
+In der Vorlesung haben Sie das Vorgehen zur Bestimmung der Regressionskoeffizienten $b_i$ kennen gelernt. Dies ist mit einem einfachen Taschenrechner, aber natürlich auch mit der Hilfe von `R` möglich. Diesen Einsatz wollen wir hier demonstieren.
+
+Folgendes Anwendungsbeispiel setzen wir dabei ein: Eine Stichprobe von 100 Schüler:innen hat einen Lese- und einen Mathematiktest sowie zusätzlich einen allgemeinen Intelligenztest bearbeitet. Die Testleistungen sind untereinander alle positiv korreliert. Auch die beiden fachspezifischen Tests für Lesen (`reading`) und Mathematik (`math`) korrelieren substanziell.
+
+Oft wird argumentiert, dass zum Lösen von mathematischen Textaufgaben auch Lesekompetenz erforderlich ist (z. B. bei Textaufgaben). Anhand des Datensatzes soll untersucht werden, wie stark sich die Mathematikleistungen durch Lesekompetenz und allgemeine Intelligenz vorhersagen lassen.
+
+Die Formel lautet demnach:
+
+$$y_{i,math} = b_0 +b_{reading}x_{i,reading} + b_{IQ}x_{i,IQ} + e_i$$
+oder in Matrixform:
+
+$$\begin{align}
+\begin{bmatrix} y_1\\y_2\\y_3\\y_4\\...\\y_{100}\end{bmatrix} = b_{0} *
+\begin {bmatrix}1\\1\\1\\1\\...\\1\end{bmatrix} + b_{reading} *
+\begin {bmatrix}x_{reading1}\\x_{reading2}\\x_{reading3}\\x_{reading4}\\...\\y_{reading100}\end{bmatrix} + b_{IQ} *
+\begin {bmatrix}x_{IQ1}\\x_{IQ2}\\x_{IQ3}\\x_{IQ4}\\...\\x_{IQ100}\end{bmatrix} +
+\begin {bmatrix}e_1\\e_2\\e_3\\e_4\\...\\e_{100}\end{bmatrix}
+\end{align}$$
+
+Die Daten der Schüler:innen können Sie sich direkt ins Environment einladen.
+
+```{r}
+# Datensatz laden
+load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
+names(Schulleistungen)
+```
+
+Zusätzlich zu den bereits beschriebenen Variablen gibt es hier noch `female`, wobei eine `1` für eine weibliche Person steht. Diese Variable werden wir heute allerdings nicht nutzen. Die Variable `math` gibt die Leistungen der Schüler:innen im Mathematik-Test wieder. Diese sollen unsere abhängige Variable darstellen, weshalb wir sie einem Objekt namens `y` zuordnen.
+
+
+```{r}
+# Vektor y
+y <- Schulleistungen$math
+str(y)
+```
+Durch die Anwendung von `str` sehen wir, dass es sich bei dem Vektor erwartungsgemäß um einen numerischen handelt.
+
+Als nächstes wollen wir unsere Prädiktoren vorbereiten. Diese werden gemeinsam in der Matrix `X` erfasst. Hierfür müssen wir die Spalten `reading` und `IQ` aus unserem Datensatz `Schulleistungen` auswählen.
+
+```{r}
+# Matrix X vorbereiten 
+X <- as.matrix(Schulleistungen[,c("reading", "IQ")])      
+```
+
+Anschließend wird noch eine Spalte mit Einsen benötigt, die für die Regressionskonstante eintritt. Da die Regressionskonstante für alle Personen denselben Einfluss hat, können die zugehörigen $x_0$ Werte mit 1 beschrieben werden. Wir nennen den Vektor zunächst `constant`. Erstellt wird er mit der Funktion `rep`. Diese sorgt dafür, dass 1en (erstes Argument) wiederholt werden - und dabei genau `nrow(X)`-mal, da die Anzahl der Zeilen von `X` die Anzahl der Personen beschreibt. Typischerweise steht die Regressionskonstante als erstes, weshalb der 1en-Vektor `constant` als erstes in `cbind` eingeht. Wir fügen als zweites die vorher erstellte Matrix `X` ein und überschreiben diese.
+
+```{r}
+# Matrix X erweitern
+constant <- rep(1, nrow(X))
+X <- cbind(constant, X)                         
+head(X)
+```
+
+Durch die Betrachtung der ersten 6 Zeilen mit `head` sehen wir, dass unsere Zusammenführung funktioniert hat. In handschriftlicher Notation würden unsere beiden erstellten Vektoren nun folgendermaßen aussehen. 
+
+\begin{align}y = \begin{bmatrix}`r round(y[1],2)` \\`r round(y[2],2)` \\`r round(y[3],2)`\\`r round(y[4],2)`\\...\\`r round(y[length(y)],2)`\end{bmatrix}\end{align}
+
+\begin{align}X=\begin{bmatrix}1 & `r round(X[1,2], 2)` & `r round(X[1,3], 2)`\\1 & `r round(X[2,2], 2)` & `r round(X[2,3], 2)`\\1 & `r round(X[3,2], 2)` & `r round(X[3,3], 2)`\\1 & `r round(X[4,2], 2)` & `r round(X[4,3], 2)`\\... & ... & ... \\1 & `r round(X[length(y),2], 2)` & `r round(X[length(y),3], 2)`\end{bmatrix}\end{align}
+
+
+Mit `X` und `y` in unserem Environment können wir nun in die Berechnung starten.
+
+### Vorgehen bei der Berechnung der Regressionsgewichte:
+
+Die Regressionsgewichte in der multiplen Regression können mit folgender Formel geschätzt werden:
+
+$$\hat{b} = (X'X)^{-1}X'y$$
+
+Wir wollen zunächst die Gleichung in einzelne Schritte zerlegen, um die nötigen Notationen in `R` kennenzulernen.
+
+1. Berechnung der Kreuzproduktsumme (X’X)
+2. Berechnung der Inversen der Kreuzproduktsumme ($(X'X)^{-1}$)
+3. Berechnung des Kreuzproduksummenvektors (X'y)
+4. Berechnung des Einflussgewichtsvektor
+
+#### 1. Berechnung der Kreuzproduktsumme (X’X)
+
+Die Kreuzproduktsumme (X'X) wird berechnet, indem die transponierte Matrix X (X') mit der Matrix X multipliziert wird. Die transponierte Matrix X' erhalten Sie in R durch die Befehl `t(X)`.
+
+```{r, echo=-1}
+# Transponierte Matrix - Befehl
+t(X) # X' erhalten Sie durch t(X)
+```
+
+\begin{align}X=\begin{bmatrix}1 & `r round(X[1,2], 2)` & `r round(X[1,3], 2)`\\1 & `r round(X[2,2], 2)` & `r round(X[2,3], 2)`\\1 & `r round(X[3,2], 2)` & `r round(X[3,3], 2)`\\1 & `r round(X[4,2], 2)` & `r round(X[4,3], 2)`\\... & ... & ... \\1 & `r round(X[length(y),2], 2)` & `r round(X[length(y),3], 2)`\end{bmatrix}\end{align}
+
+
+\begin{align}X'=\begin{bmatrix} 1 & 1 & 1 & 1 & ... & 1\\`r round(X[1,2], 2)` & `r round(X[2,2], 2)` & `r round(X[3,2], 2)` & `r round(X[4,2], 2)` & ... & `r round(X[length(y),2], 2)`\\`r round(X[1,3], 2)` & `r round(X[2,3], 2)` & `r round(X[3,3], 2)` & `r round(X[4,3], 2)` & ... & `r round(X[length(y),3], 2)`\end{bmatrix}\end{align}
+
+Wir nennen das Kreuzprodukt an dieser Stelle `X.X` und nicht `X'X`, da dies mit der Bedeutung von ' in der Sprache nicht funktioniert. Für das Erstellen der Kreuzproduktsumme muss das normale Zeichen für die Multiplikation `*` von zwei `%`-Zeichen umschlossen werden. An dieser Stelle würde sonst auch eine Fehlermeldung resultieren, aber bei quadratischen Matrizenist der Unterschied von Bedeutung.
+
+```{r, echo=-1}
+# Erster Schritt:
+# Berechnung der Kreuzproduktsumme X’X in R
+X.X <- t(X) %*% X       
+X.X
+```
+
+Die zugehörige handschriftliche Notation würde demnach so aussehen:
+
+\begin{align}X'X=\begin{bmatrix}`r round(X.X[1,1],2)` & `r format(X.X[1,2],nsmall = 1,scientific = F)` & `r format(round(X.X[1,3],1),nsmall = 1,scientific = F)`  \\`r format(round(X.X[2,1],2),scientific = F)` & `r format(X.X[2,2],nsmall = 1,scientific = F)`  & `r format(round(X.X[2,3],1),nsmall = 1,scientific = F)` \\`r format(round(X.X[3,1],1),nsmall = 1,scientific = F)`   & `r format(round(X.X[3,2],1),nsmall = 1,scientific = F)`  &  `r format(X.X[3,3],nsmall = 1,scientific = F)` \end{bmatrix}\end{align}
+
+#### 2. Berechnung der Inversen der Kreuzproduktsumme $(X'X)^{-1}$
+
+Die Inverse der Kreuzproduktsumme kann in `R` durch den `solve()` Befehl berechnet werden.
+
+```{r, echo = F, purl=FALSE}
+# Berechnung der Inversen (mit Regel nach Sarrus) in R
+inv.X.X <- solve(X.X)
+```
+
+```{r, echo=-1}
+# Zweiter Schritt:
+# Berechnung der Inversen (mit Regel nach Sarrus) in R
+solve(X.X)
+```
+
+\begin{align}(X'X)^{-1}= \begin{bmatrix}`r format(inv.X.X[1,1],digits = 2, scientific = F)` & `r format(inv.X.X[1,2],digits = 3, scientific = T)`  & `r format(inv.X.X[1,3],digits = 3, scientific = T)`\\`r format(inv.X.X[2,1],digits = 3, scientific = T)` & `r format(inv.X.X[2,2],digits = 3, scientific = T)`& `r format(inv.X.X[2,3],digits = 3, scientific = T)`\\`r format(inv.X.X[3,1],digits = 3, scientific = T)` & `r format(inv.X.X[3,2],digits = 3, scientific = T)` & `r format(inv.X.X[3,3],digits = 3, scientific = T)`\end{bmatrix}\end{align}
+
+#### 3. Berechnung des Kreuzproduktsummenvektors (X'y)
+
+Der Kreuzproduktsummenvektor (X'y) wird durch die Multiplikation der transponierten X Matrix (X') und des Vektors y berechnet.  
+
+
+\begin{align}X'=\begin{bmatrix}1 & 1 & 1 & 1 & ... & 1\\`r round(X[1,2],2)` & `r round(X[2,2],2)` & `r round(X[3,2],2)` & `r round(X[4,2],2)` & ... & `r round(X[length(y),2],2)`\\`r round(X[1,3],2)` & `r round(X[2,3],2)` & `r round(X[3,3],2)` & `r round(X[4,3],2)` & ... & `r round(X[length(y),3],2)`\end{bmatrix}\end{align}
+
+\begin{align}y=\begin{bmatrix}`r round(y[1],2)`\\ `r round(y[2],2)`\\ `r round(y[3],2)`\\`r round(y[4],2)`\\...\\`r round(y[length(y)],2)`\end{bmatrix}\end{align}
+
+Die Verwendung von `%*%` zum Bilden des Kreuzprodukts und der Funktion `t()` zum Transponieren haben wir bereits kennengelernt und können hier problemlos den Code schreiben.
+
+```{r, echo=-1}
+# Dritter Schritt:
+# Berechnung des Kreuzproduksummenvektors X`y in R
+X.y <- t(X) %*% y        
+X.y
+```
+
+\begin{align}X'y=\begin{bmatrix}`r format(X.y[1], scientific = F)`\\`r format(X.y[2], scientific = F)`\\`r format(X.y[3], scientific = F)`\end{bmatrix}\end{align}
+
+
+#### 4. Berechnung des Einflussgewichtsvektors
+
+Die geschätzten Regressionsgewichte nach dem Kriterium der kleinsten Quadrate werden berechnet, indem die Inverse der Kreuzproduktsumme $((X'X)^{-1})$ mit dem Kreuzproduktsummenvektor (X'y) multipliziert wird.   
+
+\begin{align}(X'X)^{-1}= \begin{bmatrix}`r format(inv.X.X[1,1],digits = 2, scientific = F)` & `r format(inv.X.X[1,2],digits = 3, scientific = T)`  & `r format(inv.X.X[1,3],digits = 3, scientific = T)`\\`r format(inv.X.X[2,1],digits = 3, scientific = T)` & `r format(inv.X.X[2,2],digits = 3, scientific = T)`& `r format(inv.X.X[2,3],digits = 3, scientific = T)`\\`r format(inv.X.X[3,1],digits = 3, scientific = T)` & `r format(inv.X.X[3,2],digits = 3, scientific = T)` & `r format(inv.X.X[3,3],digits = 3, scientific = T)`\end{bmatrix}\end{align}
+
+\begin{align}X'y=\begin{bmatrix}`r format(X.y[1], scientific = F)`\\`r format(X.y[2], scientific = F)`\\`r format(X.y[3], scientific = F)`\end{bmatrix}\end{align}
+
+
+```{r, echo=-1}
+# Vierter Schritt:
+# Berechnung des Einflussgewichtsvektor in R
+b_hat <- solve(X.X) %*% X.y     # Vektor der geschätzten Regressionsgewichte
+b_hat
+```
+
+
+\begin{align}\hat{b}=\begin{bmatrix}`r round(b_hat[1],2)`\\`r round(b_hat[2],2)` \\`r round(b_hat[3],2)`\end{bmatrix}\end{align}
+
+
+#### Vorhersage der Mathematikleistung
+
+Den Vektor mit den vorhergesagten Werten von y ($\hat{y}$) können Sie durch die Multiplikation der Matrix $X$ mit den Regressionsgewichten ($\hat{b}$) berechnen.
+
+
+```{r, echo=-1}
+# Vektor mit den vorhergesagten Werten
+y_hat <- X %*% b_hat # Vorhersagewerte für jede einzelne Person 
+head(y_hat)
+
+```
+\begin{align}
+\hat{y}_{math} = \begin{bmatrix}`r round(y_hat[1],2)`\\ `r round(y_hat[2],2)`\\`r round(y_hat[3],2)`\\`r round(y_hat[4],2)`\\...\\`r round(y_hat[length(y_hat)],2)`\end{bmatrix}
+\end{align}
+
+
+### Berechnung der standardisierten Regressionsgewichte 
+
+Bisher wurden  nur die *unstandardisierten Regressionsgewichte* berechnet. Diese haben den Vorteil, dass die Interpretation bei bekannten Skalen anschaulicher ausfällt. So wird das unstandardisierte Regressionsgewicht folgendermaßen interpretiert: wenn sich die unabhängige Variable um eine Einheit (bspw. der IQ um einen Punkt) verändert, verändert sich die abhängige Variable (bspw. die Note um 0.1) um den unstandardisierten Koeffizienten. Besonders bei dichotomen Prädiktoren ist die Bedeutsamkeit der unstandardisierten Regressionsgewichte viel leichter. Der Nachteil dieser unstandardisierten Regressionsgewichte ist jedoch, dass die Regressionsgewichte verschiedener Prädiktoren innerhalb eines Modells nicht vergleichbar sind. Demzufolge kann anhand der Größe der Regressionsgewichte nicht gesagt werden, welcher Regressionskoeffizient, d.h. welcher Prädiktor, eine stärkere Erklärungskraft hat.
+
+Daher werden die Regressionsgewichte häufig standardisiert. Durch die Standardisierung sind die Regressionsgewichte nicht mehr von der ursprünglichen Skala abhängig und haben daher den Vorteil, dass sie miteinander verglichen werden können. Die Interpretation der *standardisierten Regressionsgewichte* lautet folgendermaßen: wenn sich die unabhängige Variable um eine Standardabweichung erhöht (und unter Kontrolle weiterer unabhängiger Variablen), so beträgt die erwartete Veränderung in der abhängigen Variable $\beta$ Standardabweichungen.
+
+Die standardisierten Regressionsgewichte können bestimmt werden, indem zunächst alle Variablen standardisiert werden. Dafür haben wir bereits im letzten Semester den Befehl `scale` kennen gelernt. Wir wenden ihn auf die Werte der abhängigen Variable `y` und die der Prädiktoren `X` an. 
+
+```{r}
+#Berechnung der standardisierten Regressionsgewichte
+y_s <- scale(y) # Standardisierung y
+X_s <- scale(X) # Standardisierung X
+head(X_s)
+```
+
+Bei der Ansicht des standardisierten Objektes `X_s` sehen wir, dass alle Werte in der ersten Spalte nun `NaN` sind. Dies liegt daran, dass in dieser Spalte ja keine Streuung vorhanden ist und die Standardisierung somit nicht funktioniert. Wir sollten uns allerdings überlegen, ob wir den Achsenabschnitt überhaupt brauchen. Wir haben im ersten Semester gelernt, dass die Regressionsgrade immer durch den Punkt (Mittelwert unabhänige Variable / Mittelwert abhängige Variable geht). Im standardisierten Fall bedeutet dies, dass der Punkt (0/0) auf der Grade liegen musste und damit der Achsenabschnitt (an Stelle x = 0) auf jeden Fall 0 sein musste. Diese Überlegung geht auch in der multiplen Regression, wo die Regressionsebene im standardisierten Fallnun also durch den Punkt (0/0/0) geht. Wir können daher den ehemaligen Einsenvektor ignorieren und entfernen die erste Spalte aus unserem Objekt `X_s`.
+
+```{r}
+X_s <-  X_s[,-1]     # erste Spalte entfernen   
+```
+
+Die bereits im unstandardisierten Fall zur Bestimmung der Regressionsgewichte könnten nun wieder einzeln durchgeführt werden. Allerdings kann man diese natürlich auch in einer Zeile Code durchführen, was hier demonstriert wird. 
+
+```{r, echo=-1}
+#Kombination der Einzelschritte zur Bestimmung der Regressionsgewichte
+b_hat_s <- solve(t(X_s)%*% X_s) %*% t(X_s)%*%y_s #Regressionsgewichte aus den standardisierten Variablen
+round(b_hat_s, 3)
+
+```
+
+Die Operation gibt uns für beide Prädiktoren jeweils ein Steigungsgewicht zurück. Wir erkennen, dass der Einfluss des IQs der Lesefähigkeit deskriptiv überlegen ist. Die genaue Interpretation greifen wir später nochmal auf.
+
+### Berechnung des globalen Signifikanztest
+
+Deskriptiv haben wir nun ein Modell aufgestellt. Wie auch im letzten Semester stellt sich aber die Frage, ob wir dieses auch auf die Population übertragen können. Der Test des gesamten Modells wird auch als Omnibus-Test bezeichnet. Wir wollen im ersten Schritt betrachten, wie viel Varianz unser Modell erklären kann und es im Anschluss auf Signifikanz testen.
+
+#### Determinationskoeffizient $R^2$ per Quadratsummen
+
+Der Determinationskoeffizient $R^2$ gibt an, wieviel Varianz in der abhängigen Variable durch die unabhängigen Variablen erklärt werden kann. Dafür müssen die Quadratsummen bestimmt werden, die die Streuung der Variablen repräsentieren. Einfach gesagt, hat die abhängige Variable eine totale Quadratsumme, die in einen durch die Regression erklärten und einen nicht erklärten Teil geteilt werden kann. 
+
+$$Q_{t} = Q_d + Q_e$$
+
+Die totale Quadratsumme wird bestimmt, indem die Abweichungen aller Fälle vom Mittelwert der Variablen bestimmt werden. 
+
+$$ Q_{t} =  \sum^n_{i=1}(y_i - \bar{y})^2$$
+
+```{r}
+Q_t <- sum((y - mean(y))^2)          # Totale Quadratsumme
+Q_t
+```
+
+Der erklärte Teil wird auch als Regressionsquadratsumme bezeichnet und mit $Q_d$ repräsentiert. Erklärt werden kann der Teil der Abweichungen vom Mittelwert, der auf der von uns berechneten Regressionsgrade liegt - also die vorhergesagten Werte für die Personen $\hat{y}_i$.
+
+$$ Q_{d} =  \sum^n_{i=1}(\hat{y}_i - \bar{y})^2$$
+
+```{r}
+Q_d <- sum((y_hat - mean(y))^2)    # Regressionsquadratsumme
+Q_d
+```
+
+Der nicht erklärte Anteil wird als Fehlerquadratsumme $Q_e$ bezeichnet. Hierbei wird die Abweichung unserer vorhergesagten Werte $\hat{y}_{i}$ vom wahren Wert der Personen $y$ bestimmt.
+
+$$ Q_{e} =  \sum^n_{i=1}(y_{i} - \hat{y}_i)^2$$
+
+```{r}
+Q_e <- sum((y - y_hat)^2)          # Fehlerquadratsumme
+Q_e
+```
+
+Die Summe aus aus der Regressionsquadratsumme und der Fehlerquadratsumme ergibt die totale Quadratsumme. Wir können also überprüfen, ob unsere bisherigen Berechnungen plausibel sind. Aufgrund der großen Zahlen kann es zu kleinen Ungenauigkeiten kommen, weshalb wir hier die Nachkommastellen durch Rundung auf zwei reduzieren.
+
+```{r, echo=-1}
+#Zusammenrechnung der gerundeten Werte, um zu zeigen, dass sich Q_t aus der Summe von Q_d und Q_e ergibt
+round(Q_t,2) == round(Q_d + Q_e, 2)
+```
+
+Spannender ist jedoch, dass wir durch den Quotient aus der Regressionsquadratsumme und der totalen Quadratsumme den Anteil der erklärten Varianz simpel bestimmen können.
+
+$$R^2= \dfrac{Q_d}{Q_d + Q_e}$$
+
+```{r}
+R2 <- Q_d / (Q_d + Q_e)            # Determinationskoeffizient R^2
+# Alternativ Q_d / Q_t
+```
+
+$R^2= \dfrac{Q_d}{Q_d + Q_e} = \dfrac{`r format(Q_d, scientific = F, nsmall = 2)`}{`r format(Q_d, scientific = F, nsmall = 2)` + `r format(Q_t, scientific = F, nsmall = 2)`} = `r round (R2,2)`$
+
+`r round (R2,2)` der Varianz in der Mathematikleistung können demnach durch unser Modell erklärt werden.
+
+
+#### Determinationskoeffizient $R^2$ per Semipartialkorrelation
+
+An dieser Stelle können wir anstatt der Quadratsummen auch unser Wissen aus dem letzten Tutorial nutzen und die Semipartialkorrelation zur Hilfe ziehen. 
+
+In der einfachen Regression haben wir gelernt, dass sich der Determinationskoeffizient als Quadrat der Korrelation bestimmen lässt. Wenn wir nun also die Mathematikleistung zunächst nur durch Lesefähigkeit vorhersagen wollen, können wir die Funktion `cor` nutzen und das Ergebnis quadrieren. Beachtet, dass wir die Mathematikleistung unter `y` abgelegt haben. Die Lesefähigkeit, als ersten Prädiktor, finden wir in der zweiten Spalte der Matrix `X`. Die erste Spalte haben wir mit einem Einsenvektor belegt (also obwohl wir in der zweiten Spalte schauen, nennen wir den Prädiktor in der Notation $x_1$). 
+
+```{r, echo=-1}
+#Determinationskoeffizient über quadrierte Korrelation
+corx1y <- cor(y, X[,2])
+corx1y^2 
+```
+
+Bei multipler Regression ist der Determinationskoeffizient neben der Berechnung der Quadratsummen auch so definiert, dass für jeden weiteren Prädiktor das Quadrat einer Semipartialkorrelatin aufaddiert wird, um den multiplen Determinationskoeffizienten zu bestimmen. Dabei wird der schon aufgenommene Prädiktor aus dem neuen herauspartialisiert und der Rest dann mit dem Kriterium korreliert (also die Semipartialkorrelation bestimmt).
+
+$R^2 = r^2_{yx_1} + r^2_{y(x_2.x_1)} + r^2_{y(x_3.x_2x_1)}$
+
+Wie man in der Gleichung sieht, kann man diese Logik natürtlich auch auf mehr als einen Prädiktor erweitern. Die schon vorhanden Prädiktoren werden dabei stets aus dem neu aufgenommenen herauspartialisiert. In unserem Beispiel ist das nicht notwendig, da wir insgesamt nur zwei Prädiktoren haben. Wir müssen nun also eine Semipartialkorrelation bestimmen, wofür wir das Paket `ppcor` kennen gelernt haben. Darin gibt es die Funktion `spcor.test`. Als Argument benötigen wir hier in `y` die Werte, aus denen herauspartialisiert werden sollen. Hier müssen wir also unserer neuen Prädiktor $x_2$ allgemeine Intelligenz eintragen, der in der dritten Spalte der Matrix `X` zu finden ist. Im Argument `z` werden die Variable eingetragen, die herauspartialisert wird - also die Lesefähigkeit. Für das Kriterium Mathematikfähigkeit bleibt also nur noch das Argument `x`. 
+
+```{r, echo=-1}
+#Semipartialkorrelation mit ppcor, aus y wird partialisiert, x2 ist Prädiktor "allgemeine Intelligenz", z, "Lesefähigkeit" ist Variable die rauspartialisiert wird
+library(ppcor)
+spcor.test(x = y, y = X[,3], z = X[,2])
+```
+
+Wie besprochen, kann man die Ergebnisse von Analysen auch in ein Objekt ablegen. Dies hat den Vorteil, dass man dann auf verschiedene Informationen zugreifen kann. Mit `$estimate` können wir uns ausschließlich den Wert der Semipartialkorrelation anzeigen lassen.
+
+```{r, echo=-1}
+#Ergebnis wird in Objekt abgelegt und gezeigt, dass per $estimate der Wert der spcor angezeigt werden kann
+semipartial <- spcor.test(x = y, y = X[,3], z = X[,2])
+semipartial$estimate
+```
+
+Zur Bestimmung des multiplen Determinationskoeffizienten, müssen wir nun nur noch der Formel folgend aufaddieren. Zuerst nehmen wir die einfache Korrelation von Lesefähigkeit und Mathematikfähigkeit zum Quadrat. Anschließend wird noch die Semipartialkorrelation zum Quadrat hinzu addiert.
+
+```{r, echo=-1}
+#Aufaddieren zur Bestimmung des multiplen Determinationskoeffizienten
+corx1y^2 + semipartial$estimate^2
+```
+
+Wir erhalten auf diese Weise natürlich dasselbe Ergebnis, das wir auch mit den Quadratsummen bestimmen konnten. Wer mit den ganzen Buchstaben ein bisschen verwirrt wurde, kann sich dasselbe Vorgehen nochmal mit den Variablennamen in [Appendix A](#AppendixA) anschauen.
+
+#### F-Wert
+
+Der F-Wert dient zur Überprüfung der Gesamtsignifikanz des Modells. Er sagt aus, ob der Determinationskoeffizient $R^2$ signifikant von 0 verschieden ist. Der empirische Testwert wird über die folgende Formel bestimmt.
+
+$F_{omn} = \dfrac{\dfrac{R^2}{m}}{\dfrac{1-R^2}{n-m-1}}$
+
+$R^2$ haben wir bereits im vorherigen Abschnitt bestimmt. Ergänzend müssen wir also noch $n$ und $m$ bestimmen. $n$ ist die Anzahl an Peronen oder Fällen in unserem Datensatz. Diese können wir beispielweise über die Länge `length` des Objekts mit den abhängigen Varibalen `y` bestimmen. $m$ beschreibt die Anzahl der Prädiktoren. Wenn wir dies von `R` automatisch bestimmen lassen wollen, können wir die Anzahl der Spalten `ncol` unserer Prädiktorenmatrix `X` bestimmen. Allerdings müssen wir bedenken, dass wir noch eine Spalten mit 1en hinzugefügt haben. Diese muss von der Zahl der Spalten also noch abgezogen werden. 
+
+```{r, echo=-1}
+#Bestimmen von n (Anzahl Personen/Fälle) und m (Anzahl Prädiktoren), sowie empirischer F-Wert
+n <- length(y)                     # Fallzahl (n=100)
+m <- ncol(X)-1                     # Zahl der Prädiktoren (m=2)
+F_omn <- (R2/m) / ((1-R2)/(n-m-1)) # empirischer F-Wert
+F_omn
+```
+
+
+$F_{omn} = \dfrac{\dfrac{R^2}{m}}{\dfrac{1-R^2}{n-m-1}} = \dfrac{\dfrac{`r round(R2,2)`}{`r m`}}{\dfrac{1-`r round(R2,2)`}{`r n`-`r m`-1}} = `r round(F_omn,2)`$
+
+Der berechnete Wert entspricht einem empirischen Wert, der mit einem kritischen Wert verglichen werden muss, um die Signifikanz zu bewerten. Hierfür müssen wir in die F-Verteilung schauen. Die zugehörigen Freiheitsgrade können aus den bereits berechneten $m$ und $n$ bestimmt werden.
+
+$df_1 = 2, df_2 = n-m-1 = `r n`-`r m`-1 =`r n-m-1`$
+
+Zusätzlich benötigen wir natürlich noch einen $\alpha$-Fehler, der auch hier häufig auf 5% gesetzt wird. Im letzten Semester haben wir gelernt, dass wir Quantile aus Verteilungen mit dem Präfix `q` und dann dem Familiennamen (bspw. `qnorm` oder `qt`)  ausgeben können. Wenig überraschend funktioniert an dieser Stelle also der Befehl `qf`. 
+
+```{r, echo=-1}
+#Berechnung des alpha-Fehlers
+F_krit <- qf(.95, df1=m, df2=n-m-1)  # kritischer F-Wert (alpha=5%)
+```
+
+$F_{krit}(\alpha=.05, df_1=2, df_2= 97)= `r round (F_krit,2)`$
+
+Für eine Signifikanzentscheidung müssen die F-Werte nun miteinander verglichen werden. 
+
+```{r, echo=-1}
+#Vergleich des kritischen und empirischen F
+F_krit < F_omn  # Vergleich durch logische Überprüfung
+```
+
+Da der kritische Wert kleiner ist, verwerfen wir die Nullhypothese. Das Gesamtmodell wird als signifikant angesehen. Man kann anstatt des kritischen Wertes auch einfach den $p$-Wert bestimmen, der zu unserem empirischen `F_omn` korrespondiert. Für die Bestimmung von Wahrscheinlichkeiten in Verteilungen haben wir den Präfix `p` kennen gelernt. Mit Angabe der zugehörigen Freiheitsgrade können wir den $p$-Wert erhalten und mit unserem $\alpha$ vergleichen. 
+
+```{r, echo=-1}
+#Verwerfen der Nullhypothese da kritischer Wert kleiner, jetzt jedoch noch alternative Methode mit p-Wert die das selbe ausgibt
+p <- 1-pf(F_omn, m, n-m-1)           # p-Wert
+p < 0.05
+```
+
+$p=`r format(p, digits = 3,  scientific = T)`$
+
+Das Ergebnis ist hier natürlich das gleiche - die Nullhypothese wird verworfen.
+
+## Berechnung der Regression mit `lm`-Funktionen in `R`
+
+Im ersten Semester haben wir bereits die einfache lineare Regression in `R` durchgeführt. Natürlich gibt es auch für die multiple lineare Regression eine Funktionalität. Wir werden uns zunächst den unstandardisierten und dann den standardisierten Fall anschauen und auch nochmal die Interpretation klar machen.
+
+### Unstandardisierte Regression
+
+Für die Schätzung von Regressionsmodellen kann, wie im Fall mit einem Prädiktor, die Basis-Funktion `lm` verwendet werden. Verschiedene Prädiktoren werden alle hinter der Tilde `~` aufgeführt und mit dem `+`-Zeichen getrennt. Wir wollen hier weiterhin in unserem Datensatz `Schulleistungen` die Mathematikleistung (`math`) durch die Leseleistung (`reading`) und den IQ (`IQ`) vorhersagen. Die beiden Prädiktoren werden nach der vorangegangenen Beschreibung also mit `+` getrennt.
+
+```{r}
+# Regressionsanalyse mit lm (nicht mehr händisch)
+reg <- lm(math ~ reading + IQ, data = Schulleistungen)
+```
+
+Nun wollen wir überprüfen, ob die Ergebnisse den händisch berechneten entsprechen. Eine gute Übersicht über das Modell erhält man mit der Funktion `summary`. 
+
+```{r, echo=-1}
+#Vergleich der Ergebnisse mit händischer Berechnung
+summary(reg)
+```
+```{r, echo=FALSE}
+sum_reg <- summary(reg)
+```
+
+Die Übereinstimmung mit den händisch berechneten Regressionsgewichten wird bereits deutlich. Im nächsten Abschnitt befassen wir uns nochmal genauer mit der Interpretation.
+
+#### Ergebnisinterpretation unstandardisierte Regression
+
+* die Lesekompetenz und allgemeine Intelligenz erklären gemeinsam `r round((sum_reg$r.squared)*100, 2)`% der Varianz in der Mathematiktestleistung
+* Dieser Varianzanteil ist signifikant von null verschieden
+* Regressionsgewichte:
+    + Regressionskonstante $b_0$:
+        + Der Erwartungswert der Mathematikleistung für ein Individuum mit null Punkten im IQ und null Punkten in Lesekompetenz beträgt `r round(b_hat[1],2)` Punkte.
+    + Regressionsgewicht $b_1$:
+        + bei einem Punkt mehr in der Lesekompetenz und unter Kontrolle (Konstanthaltung) des IQ beträgt die erwartete Veränderung in der Mathematikleistung `r round(b_hat[2],2)` Punkte.
+        + Der Einfluss von Lesekompetenz auf Mathematikleistung ist nicht signfikant von null verschieden ($p$=`r round(summary(reg)$coefficients[,4][2], 2)`)
+    + Regressionsgewicht $b_2$:
+        + unter Kontrolle (Konstanthaltung) der Lesekompetenz beträgt die erwartete Veränderung in der Mathematikleistung bei einem Punkt mehr im IQ `r round(b_hat[3],2)` Punkte.
+        + Der Einfluss der allgemeinen Intelligenz auf Mathematikleistung ist signfikant von null verschieden ($p$=`r format(summary(reg)$coefficients[,4][3], scientific = T, digits = 3)`)    
+
+
+
+
+### Standardisierte Regression
+
+Zur Durchführung der standardisierten Regression mit Hilfe von Funktionen in `R` könnten wir natürlich händisch alle Variablen mit `scale()` standardisieren und dann in `lm()` übergeben. Dieses Vorgehen würde aber den Achsenabschnitt mitschätzen, was wir nicht brauchen Es gibt eine bereits geschriebene Funktion `lm.beta()` aus dem gleichnamigen Paket `lm.beta`, die für uns eine zusätzliche Anzeige der standardisierten Regressionsgewichte bereit hält. Das Paket haben wir im normalen Ablauf der Tutorials noch nicht installiert, weshalb wir hier nochmal darauf verweisen.  Aus diesem Grund werden oft *standardisierte Regressionskoeffizienten* berechnet und berichtet.  
+
+```{r, eval = F, echo=-1}
+#Paket für Anzeige der standardisiserten Regressionsgewichte - installieren wenn noch nicht vorhanden, dafür auskommentieren!
+install.packages("lm.beta") #Paket installieren (wenn nötig)
+```
+
+Nach der (ggf. nötigen) Installation müssen wir das Paket für die Bearbeitung laden.
+
+```{r, echo=-1}
+#Nun Paket laden
+library(lm.beta)
+```
+
+*lm* steht hier für lineares Modell und *beta* für die standardisierten Koeffizienten. Anmerkung: In der Literatur werden oft auch unstandardisierte Regressionkoeffizienten als $\beta$s bezeichnet, sodass darauf stets zu achten ist, was gemeint ist.
+
+Die Funktion `lm.beta()` muss auf ein Ergebnis der normalen `lm`-Funktion angewendet werden. Wir haben dieses Ergebnis im Objekt `reg` hinterlegt. Anschließend wollen wir uns für die Interpretation wieder das `summary()` ausgeben lassen. Natürlich kann man diese Schritte auch mit der Pipe lösen, was als Kommentar noch aufgeführt ist. 
+
+```{r}
+# Ergebnisausgabe einschließlich standardisierter Koeffizienten mit lm.beta
+reg_s <- lm.beta(reg)
+summary(reg_s)         # reg |> lm.beta() |> summary()
+```
+
+Wir sehen, dass die ursprüngliche Ausgabe um die Spalte `standardized` erweitert wurde. An der standardisierten Lösung fällt auf, dass das Interzept $\beta_0$ als `NA` angezeigt wird. Dies liegt wie bereits besprochen daran, dass beim Standardisieren die Mittelwerte aller Variablen (Prädiktoren und Kriterium) auf $0$ und die Standardabweichungen auf $1$ gesetzt werden. Somit muss das Interzept hier genau $0$ betragen. Weil jeder geschätzte Parameter der Regressionsgleichung einen Freiheitsgrad **kostet**, wird der Parameter besser einfach nicht mitgeschätzt, also als `NA` angegeben.
+
+#### Ergebnisinterpretation standardisierte Regression
+
+* Standardisierte Regressionsgewichte
+    + Standardisiertes Regressionsgewicht $\beta_0$: Der Achsenabschnitt ist null, da die Ebene durch den Punkt der Mittelwerte aller Variablen geht (0/0/0).
+    + Standardisiertes Regressionsgewicht $\beta_1$: Unter Kontrolle (Konstanthaltung) des IQ beträgt die erwartete Veränderung in der Mathematikleistung bei einer Standardabweichung mehr in Lesekompetenz `r round(b_hat_s[2],2)` Standardabweichungen.
+    + Standardisiertes Regressionsgewicht $\beta_2$: Unter Kontrolle (Konstanthaltung) der Lesekompetenz beträgt die erwartete Veränderung in der Mathematikleistung bei einer Standardabweichung mehr im IQ `r round(b_hat_s[3],2)` Standardabweichungen.
+
+Verweis zu letzter Sitzung: In solch einer multiplen Regression können Suppressoreffekte gut aufgedeckt werden. Diese zeigen sich dann, wenn die $\beta$-Gewichte in der multiplen Regression dem Betrag nach größer sind, als deren korrespondierende $\beta$-Gewichte in einer einfachen Regression. Dies ist in unserem Beispiel jedoch nicht der Fall.
+    
+***
+
+## R-Skript
+Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/lehre/statistik-ii/regression-i.R).
+
+***
+
+## Appendix A {#AppendixA}
+{{< spoiler text = "**Multipler Determinationskoeffizient mit Variablennamen**">}}
+
+Durch die Benennung der Objekte mit Buchstaben, der schriftlichen Notation mit Buchstabend und der Argumente von `spcor.test`, die auch Buchstaben entsprechen, könnte es zu kleinen Verwirrungen kommen. Trotzdem war die allgemeine Darstellung als Zeichen einer breiten Gültigkeit wichtig. Hier wird das ganze nochmal spezifischer an den Daten orientiert, wobei der beschreibende Text natürlich recht ähnlich bleibt. 
+
+In der einfachen Regression haben wir gelernt, dass sich der Determinationskoeffizient als Quadrat der Korrelation bestimmen lässt. Wenn wir nun also die Mathematikleistung zunächst nur durch Lesefähigkeit vorhersagen wollen, können wir die Funktion `cor` nutzen und das Ergebnis quadrieren. Beide Variablen sind im Datensatz `Schulleistungen` enthalten.
+
+```{r, purl=FALSE}
+
+cor.mathreading <- cor(Schulleistungen$math, Schulleistungen$reading)
+cor.mathreading
+```
+
+Bei multipler Regression ist der Determinationskoeffizient neben der Berechnung der Quadratsummen auch so definiert, dass für jeden weiteren Prädiktor das Quadrat einer Semipartialkorrelatin aufaddiert wird, um den multiplen Determinationskoeffizienten zu bestimmen. Dabei wird der schon aufgenommene Prädiktor aus dem neuen herauspartialisiert und der Rest dann mit dem Kriterium korreliert (also die Semipartialkorrelation bestimmt). Bezogen auf unser Beispiel gibt es zwei Prädiktoren. Zunächst hatten wir die Mathe- und Lesefähigkeit korreliert. 
+
+$R^2 = r^2_{MathReading} + r^2_{Math(IQ.Reading)} $
+
+Wir müssen nun also eine Semipartialkorrelation bestimmen, wofür wir das Paket `ppcor` kennen gelernt haben. Darin gibt es die Funktion `spcor.test`. Als Argument benötigen wir hier in `y` die Werte, aus denen herauspartialisiert werden sollen. Hier müssen wir also unserer neuen Prädiktor allgemeine Intelligenz `IQ` eintragen. Im Argument `z` werden die Variable eingetragen, die herauspartialisert wird - also die Lesefähigkeit `reading`. Für das Kriterium Mathematikfähigkeit `math` bleibt also nur noch das Argument `x`. Alle Variablen befinden sich im Datensatz `Schulleistungen
+
+```{r, purl=FALSE}
+library(ppcor)
+spcor.test(x = Schulleistungen$math, 
+           y = Schulleistungen$IQ, 
+           z = Schulleistungen$reading)
+```
+
+Wie besprochen, kann man die Ergebnisse von Analysen auch in ein Objekt ablegen. Dies hat den Vorteil, dass man dann auf verschiedene Informationen zugreifen kann. Mit `$estimate` können wir uns ausschließlich den Wert der Semipartialkorrelation anzeigen lassen.
+
+```{r, purl=FALSE}
+semipartial <- spcor.test(x = y, y = X[,3], z = X[,2])
+semipartial$estimate
+```
+
+Zur Bestimmung des multiplen Determinationskoeffizienten, müssen wir nun nur noch der Formel folgend aufaddieren. Zuerst nehmen wir die einfache Korrelation von Lesefähigkeit und Mathematikfähigkeit zum Quadrat. Anschließend wird noch die Semipartialkorrelation zum Quadrat hinzu addiert.
+
+```{r, purl=FALSE}
+cor.mathreading^2 + semipartial$estimate^2
+```
+
+Wir erhalten auf diese Weise natürlich dasselbe Ergebnis, das wir auch mit den Quadratsummen und unter Verwendung der Objekte als Buchstaben bestimmen konnten. 
+
+{{< /spoiler >}}
+

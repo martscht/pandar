@@ -8,14 +8,14 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [schultze] 
-lastmod: '2023-10-27'
+lastmod: '2023-11-15'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
-expiryDate: '2024-10-10'
-publishDate: '2023-10-10'
+expiryDate: ''
+publishDate: ''
 reading_time: false
 share: false
 _build:

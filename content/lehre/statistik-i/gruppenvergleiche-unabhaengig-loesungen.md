@@ -8,14 +8,14 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [koehler, buchholz, goldhammer] 
-lastmod: '2023-10-28'
+lastmod: '2023-11-15'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/662606)"
 projects: []
-expiryDate: '2024-10-10'
-publishDate: '2023-12-17'
+expiryDate: ''
+publishDate: ''
 _build:
   list: never
 reading_time: false
@@ -103,7 +103,7 @@ boxplot(data1$intel ~ data1$fach,
         main="Interessenfach und Intellekt")
 ```
 
-![](pandar.git//lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
 
@@ -121,7 +121,7 @@ describeBy(data1$intel, data1$fach)
 ## group: Allgemeine
 ##    vars  n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 19 3.79 0.48   3.75    3.76 0.37   3   5     2 0.59     0.08 0.11
-## ------------------------------------------------------------------------------------------ 
+## ---------------------------------------------------------- 
 ## group: Klinische
 ##    vars  n mean   sd median trimmed  mad  min  max range  skew kurtosis   se
 ## X1    1 57 3.54 0.63   3.75    3.56 0.37 1.75 4.75     3 -0.63     0.34 0.08
@@ -240,7 +240,7 @@ boxplot(fb22$lz ~ fb22$ort,
         main="Wohnort und Lebenszufriedenheit")
 ```
 
-![](pandar.git//lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
 
@@ -256,7 +256,7 @@ describeBy(fb22$lz, fb22$ort)
 ## group: Frankfurt
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 95  4.8 1.15      5     4.9 1.19 1.4 6.6   5.2 -0.77     0.14 0.12
-## ------------------------------------------------------------------------------------------ 
+## ---------------------------------------------------------- 
 ## group: anderer
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 53 4.68 0.91    4.8    4.75 0.89   2 6.2   4.2 -0.73     0.19 0.13
@@ -296,7 +296,7 @@ qqnorm(lz.F)
 qqline(lz.F, col="red")
 ```
 
-<img src="pandar.git//lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 $\rightarrow$ Entscheidung: Normalverteilung wird nicht angenommen
 
@@ -310,7 +310,7 @@ qqnorm(lz.a)
 qqline(lz.a, col="red")
 ```
 
-<img src="pandar.git//lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
 
 $\rightarrow$ Entscheidung: Normalverteilung wird nicht angenommmen 
 

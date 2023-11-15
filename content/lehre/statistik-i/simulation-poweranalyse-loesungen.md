@@ -9,14 +9,14 @@ subtitle: ''
 summary: '' 
 authors: [irmer] 
 weight:
-lastmod: '2023-11-02'
+lastmod: '2023-11-15'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1178076)"
 projects: []
-expiryDate: 
-publishDate: '2023-12-31'
+expiryDate: ''
+publishDate: ''
 _build:
   list: never
 reading_time: false
