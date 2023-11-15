@@ -14,8 +14,8 @@ banner:
   image: "/header/writing_math.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/662606)"
 projects: []
-expiryDate: '2024-10-10'
-publishDate: '2023-12-17'
+expiryDate: ''
+publishDate: ''
 _build:
   list: never
 reading_time: false
