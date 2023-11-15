@@ -58,7 +58,11 @@ main:
     pre: "<i class='fas fa-wand-sparkles'></i>&ensp;"
     url: '/under-construction'
     weight: 400
-  
+
+  - name: "tigeR"
+    pre: "<i class='fas fa-paw'></i>&ensp;"
+    url: 'https://tiger.uni-frankfurt.de/app/shinytigeR'
+    weight: 500  
   # - name: "Bayes"
   #   pre: "<i class='fa-solid fa-dice-d20'></i>&ensp;"
   #   url: '/extras/main#bayes'
