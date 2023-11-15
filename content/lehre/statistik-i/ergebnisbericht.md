@@ -4,13 +4,13 @@ type: post
 author:
 date: '2021-01-15'
 slug: ergebnisbericht
-categories: []
-tags: []
+categories: ["Studienleistung"]
+tags: ["APA", "CRediT Taxonomy", "Berichtaufbau", "Tabellen und Abbildungen"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Bericht erhalten Sie Informationen zu dem Ergebnisbericht, den Sie im Rahmen des Statistik-Praktikums erstellen. Neben allgemeinen Hinweisen zu der Berichtgestaltung wird Ihnen der Aufbau eines Ergebnisbericht vorgestellt. Auf jeden Abschnitt, den Ihr Ergebnisbericht haben soll, wird dann noch einmal genauer eingegangen. Unter anderem wird die sogenannte CRediT Taxonomy erläutert, mit der Sie die konkreten Beiträge der einzelnen Gruppenmitglieder deutlich machen sollen. Zuletzt werden Ihnen einige Hinweise dazu gegeben, wie Sie Tabellen und Abbildungen APA-konform gestalten.'
 authors: [schueller, beitner, schreiner, nehler]
 weight: 12
-lastmod: '2023-10-30'
+lastmod: '2023-11-15'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"
@@ -75,7 +75,7 @@ Kursive Teile sind üblicherweise Teil eines Berichts, werden aber im Rahmen die
 Das Deckblatt enthält also folgende Informationen:
 
 * Art des Berichts (hier: Ergebnisbericht)
-* Titel (Gegendstand der Untersuchung)
+* Titel (Gegenstand der Untersuchung)
 * Informationen zur Veranstaltung
 * Namen und Matrikelnummer aller Verfasser:innen
 * Das Deckblatt erhält keine Seitenzahl

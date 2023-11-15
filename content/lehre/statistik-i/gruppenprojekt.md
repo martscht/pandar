@@ -3,13 +3,13 @@ title: "Gruppenprojekt"
 type: post
 date: '2019-10-18' 
 slug: gruppenprojekt 
-categories: ["Statistik I"] 
-tags: ["Zusatz", "Gruppenprojekt", "Grundlagen"] 
+categories: ["Statistik I", "Studienleistung"] 
+tags: ["Zusatz", "Gruppenprojekt", "Grundlagen", "Hypothesengenerierung"] 
 subtitle: ''
-summary: '' 
+summary: 'In diesem Beitrag finden Sie noch einmal alle Informationen, die das Gruppenprojekt betreffen, das Sie im Rahmen des Statistik-Praktikums durchführen. Dabei wird ausführlich auf die Generierung und Operationalisierung von Hypothesen eingegangen, außerdem gibt es Informationen zur Präregistrierung und zu der Erstellung des Ergebnisbericht, den Sie im Sinne von Open Science auf einer Übungsplattform bereitstellen sollen.' 
 authors: [nehler, beitner, schueller, schultze]
 weight: 12
-lastmod: '2023-11-02'
+lastmod: '2023-11-15'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"

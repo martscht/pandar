@@ -3,13 +3,13 @@ title: "LIFOS im PsyBSc2-Praktikum "
 type: post
 date: '2023-10-09' 
 slug: quickguide-lifos
-categories: ["LIFOS"] 
-tags: ["Zusatz", "Gruppenprojekt"] 
+categories: ["Studienleistung", "LIFOS"] 
+tags: ["Zusatz", "Gruppenprojekt", "Open Science"] 
 subtitle: ''
-summary: '' 
+summary: 'In diesem Beitrag wird Ihnen eine kurze Einführung in LIFOS (Lokale Infrastruktur für Open Science) gegeben. Hierbei handelt es sich um eine universitätsinterne Übungsplattform für Psychologie-Studierende der Goethe Universität, die es Ihnen ermöglichen soll, Open Science Praktikem in einem geschützten Raum zu üben. In diesem Quickguide wird Ihnen erklärt, wie Sie sich bei LIFOS anmelden und Ihr Projekt am richtigen Ort anlegen. Außerdem wird erläutert, welche Schritte Sie im Rahmen Ihres Praktikums auf LIFOS durchführen sollen.' 
 authors: [beitner, nehler]
 weight: 12
-lastmod: '2023-11-10'
+lastmod: '2023-11-15'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"
@@ -54,7 +54,7 @@ Wie wir bereits besprochen haben, sollen Sie im Rahmen des Praktikums eine erste
 
 # Erste Schritte auf LIFOS {#firststeps}
 
-[LIFOS](https://lifos.uni-frankfurt.de) steht für **L**okale **I**nfrastruktur **f**ür **O**pen **S**cience und ist unsere universitätsinterne Übungsplattform für Studierende der Pychologie-Studiengänge der Goethe-Universität Frankfurt. Die Plattform basiert auf GitLab und ist der Struktur des [Open Science Frameworks](https://osf.io) nachempfunden. Die Idee ist, Open Science Praktiken im Rahmen des Studiums in einem geschützten Rahmen üben und durchführen zu können. Um mit Ihrem Projekt auf LIFOS loszulegen, müssen Sie zuerst folgende Schritten absolvieren:
+[LIFOS](https://lifos.uni-frankfurt.de) steht für **L**okale **I**nfrastruktur **f**ür **O**pen **S**cience und ist unsere universitätsinterne Übungsplattform für Studierende der Psychologie-Studiengänge der Goethe-Universität Frankfurt. Die Plattform basiert auf GitLab und ist der Struktur des [Open Science Frameworks](https://osf.io) nachempfunden. Die Idee ist, Open Science Praktiken im Rahmen des Studiums in einem geschützten Rahmen üben und durchführen zu können. Um mit Ihrem Projekt auf LIFOS loszulegen, müssen Sie zuerst folgende Schritte absolvieren:
 
 <ol><li><p><b>Loggen Sie sich auf LIFOS ein</b></p> 
 Hierfür benötigen Sie lediglich die Zugangsdaten Ihres HRZ-Kontos.</li> 
@@ -73,7 +73,7 @@ Klicken Sie auf Ihre Gruppe. Oben steht nun blau hinterlegt *Request access*. Kl
 
 # Auf LIFOS ein Projekt anlegen {#projektstart}
 
-Nachdem Sie und Ihre Gruppenkolleg:innen Mitglied in Ihrer Praktikumsgruppe wurden, können Sie Ihr Projekt in der Gruppe anlegen. Hierfür ist es wichtig, dass Sie bereits Ihre Fragestellung kennen, um einen inhaltlichen Titel für Ihr Projekt angeben zu können. Begeben Sie sich auf LIFOS zu Ihrer Praktikumsgruppe. **Wichtig**: Es reicht aus, wenn *eine* Person aus Ihrer Gruppe das Projekt anlegt. Sie können im Anschluss alle darauf zugreifen. Klicken Sie auf den blauen Knopf *New Project*, dann auf *Create from template*, dann auf *Instance*, und dann bei **PsyBSc2 Statistik I Praktikum Template** auf *Use template*. Hier können Sie nun Ihren Projekttitel eingeben und in der *Project description* geben Sie alle Namen Ihrer Projektgruppe, den Kurs, und das aktuelle Semester an. im Stil: *Eure Namen – Kurs – Semester*. Zum Beispiel: Ameise Alex, Bär Berti, Chamäleon Chiara - Statistik I Praktikum - WiSe 2023/24.
+Nachdem Sie und Ihre Gruppenkolleg:innen Mitglied in Ihrer Praktikumsgruppe wurden, können Sie Ihr Projekt in der Gruppe anlegen. Hierfür ist es wichtig, dass Sie bereits Ihre Fragestellung kennen, um einen inhaltlichen Titel für Ihr Projekt angeben zu können. Begeben Sie sich auf LIFOS zu Ihrer Praktikumsgruppe. **Wichtig**: Es reicht aus, wenn *eine* Person aus Ihrer Gruppe das Projekt anlegt. Sie können im Anschluss alle darauf zugreifen. Klicken Sie auf den blauen Knopf *New Project*, dann auf *Create from template*, dann auf *Instance*, und dann bei **PsyBSc2 Statistik I Praktikum Template** auf *Use template*. Hier können Sie nun Ihren Projekttitel eingeben und in der *Project description* geben Sie alle Namen Ihrer Projektgruppe, den Kurs, und das aktuelle Semester an und zwar im Stil: *Eure Namen – Kurs – Semester*. Zum Beispiel: Ameise Alex, Bär Berti, Chamäleon Chiara - Statistik I Praktikum - WiSe 2023/24.
 Dadurch können andere später leichter nachvollziehen, wer an dem Projekt mitgearbeitet hat. Obwohl die folgenden Dinge bereits richtig eingestellt sein sollten, achten Sie vor der Erstellung noch darauf, 
 - dass bei Template das PsyBSc2 Template steht,
 - dass bei Project URL Ihre Gruppe steht und
@@ -87,7 +87,7 @@ Dadurch, dass Sie das Projekt basierend auf dem PsyBSc2 Template initialisiert h
 
 # Bearbeitung von Projekten auf LIFOS {#bearbeitung}
 
-Auf LIFOS kann man Projekte bearbeiten, indem man Dateien und Ordner hinzufügt, umbenennt, oder wieder entfernt. Außerdem kann man die README-Datei, auf die hier [später](#projektabschluss) noch eingegangen wird, bearbeiten. Um das Projekt zu bearbeiten, ist es am einfachsten, ins Web IDE zu gehen. Hier öffnet sich ein User Interface, in dem man ganz einfach agieren kann. Zum Beispiel lassen sich mehrere Dateien gleichzeitig hochladen, löschen, etc. Wenn Sie mit Ihren Änderungen fertig sind, klicken Sie links unten auf *Create commit*. Das ist ein [Git]()-Befehl, auf den wir hier nicht näher eingehen werden. Für jetzt können Sie *commit* als so etwas wie *Speichern* verstehen. Nach dem Klicken öffnet sich ein kleines Textfeld. Hier können Sie vermerken, welche Änderungen Sie vorgenommen haben. Achten Sie nun **unbedingt** darauf, dass Sie *commit to main branch* auswählen. Wenn Sie das alles befolgen, sind im Anschluss Ihre Änderungen im Projekt sichtbar. Sollten Sie die Änderungen doch nicht speichern wollen, können Sie oben rechts auch auf den rot umrandeten Knopf *Discard changes* klicken. 
+Auf LIFOS kann man Projekte bearbeiten, indem man Dateien und Ordner hinzufügt, umbenennt oder wieder entfernt. Außerdem kann man die README-Datei, auf die hier [gleich](#projektabschluss) noch eingegangen wird, bearbeiten. Um das Projekt zu bearbeiten, ist es am einfachsten, ins Web IDE zu gehen. Hier öffnet sich ein User Interface, in dem man ganz einfach agieren kann. Zum Beispiel lassen sich mehrere Dateien gleichzeitig hochladen, löschen, etc. Wenn Sie mit Ihren Änderungen fertig sind, klicken Sie links unten auf *Create commit*. Das ist ein Git-Befehl, auf den wir hier nicht näher eingehen werden. Jetzt können Sie *commit* erstmal als so etwas wie *Speichern* verstehen. Nach dem Klicken öffnet sich ein kleines Textfeld. Hier können Sie vermerken, welche Änderungen Sie vorgenommen haben. Achten Sie nun **unbedingt** darauf, dass Sie *commit to main branch* auswählen. Wenn Sie das alles befolgen, sind im Anschluss Ihre Änderungen im Projekt sichtbar. Sollten Sie die Änderungen doch nicht speichern wollen, können Sie oben rechts auch auf den rot umrandeten Knopf *Discard changes* klicken. 
 
 ![](/lehre/statistik-i/quickguide-lifos04.png)
 
@@ -101,11 +101,11 @@ In Ihrem Projekt auf LIFOS finden Sie im Ordner *1_Präregistrierung* ein Word-D
 
 # Analysecode {#analysen}
 
-Wenn Sie die Datenanalyse abgeschlossen haben, können Sie Ihr R-Skript im Ordner *3_Skripte* hochladen. Achten Sie darauf, dass die Ergebnisse auch auf anderen Rechnern reproduzierbar sind, sprich, dass Ihr Skript durchläuft und dieselben Ergebnisse ausgibt, egal von welchem Computer es ausgeführt wird. Darüber hinaus sollte Ihr Skript auch für unbeteiligte Personen verständlich sein Achten Sie dafür auf eine sinnvolle Struktur, nutzen Sie sinnvolle Variablennamen und kommentieren Sie Ihr Skript ausführlich. All diese Dinge werden Sie auch im Statistik I Praktikum lernen.
+Wenn Sie die Datenanalyse abgeschlossen haben, können Sie Ihr R-Skript im Ordner *3_Skripte* hochladen. Achten Sie darauf, dass die Ergebnisse auch auf anderen Rechnern reproduzierbar sind, sprich, dass Ihr Skript durchläuft und dieselben Ergebnisse ausgibt, egal von welchem Computer es ausgeführt wird. Darüber hinaus sollte Ihr Skript auch für unbeteiligte Personen verständlich sein. Achten Sie dafür auf eine sinnvolle Struktur, nutzen Sie sinnvolle Variablennamen und kommentieren Sie Ihr Skript ausführlich. All diese Dinge werden Sie auch im Statistik I Praktikum lernen.
 
 # Weitere Schritte
 
-Da es gute wissenschaftliche Praxis ist, auch die Materialien zu teilen, die zur Studie verwendet werden, gibt es diesen Ordner auch auf LIFOS. In *2_Materialien* können Sie alle Materialien hochladen, die in Ihrer Studie verwendet wurden. In diesem Fall ist dies der Fragebogen, den Ihre Dozierenden mit Ihnen teilen.
+Da es gute wissenschaftliche Praxis ist, auch die Materialien zu teilen, die zur Studie verwendet werden, gibt es diesen Ordner auch auf LIFOS. In *2_Materialien* können Sie alle Materialien hochladen, die in Ihrer Studie verwendet wurden. In diesem Fall ist dies der Fragebogen, den Ihre Dozent:innen mit Ihnen teilen.
 
 Dies gilt ebenso für das Datenset, welches in *4_Daten* hochgeladen werden soll.
 
@@ -123,7 +123,7 @@ In diesem Fall könnt ihr eure Änderungen von dem falschen Branch auf Main push
 
 Zuerst solltet ihr auf euer Projekt gehen und auf der linken Seite das `Merge requests` Symbol anklicken
 
-Hier sollte ihr eure Änderungen auf dem anderen Branch als *Merge Request* sehen.
+Hier solltet ihr eure Änderungen auf dem anderen Branch als *Merge Request* sehen.
 
 ![](/lehre/statistik-i/../../lifos/grundlagen/Gitlab_Project_Merge_Requests.png)
 
@@ -146,5 +146,5 @@ Nach einem kurzen Moment solltet ihr nun sehen, dass der Merge erfolgreich war!
 
 ![](/lehre/statistik-i/../../lifos/grundlagen/Gitlab_Project_New_Merge_Sucess.png)
 
-*Sollte dies nicht der Fall sein, oder solltet ihr irgendwo vorher bereits Probleme haben, könnt ihr auch LIFOS[at]uni-frankfurt[punkt]de kontaktieren.*
+*Sollte dies nicht der Fall sein, oder solltet ihr irgendwo vorher bereits Probleme haben, könnt ihr auch LIFOS@uni-frankfurt.de kontaktieren.*
 </details>
