@@ -9,7 +9,7 @@ summary: 'In diesem Beitrag werden die Kovarianzanalayse (ANCOVA) und die moderi
 authors: [irmer]
 weight: 4
 lastmod: '`r Sys.Date()`'
-featured: yes
+featured: no
 banner:
   image: "/header/daily_report_bw.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/763765)"

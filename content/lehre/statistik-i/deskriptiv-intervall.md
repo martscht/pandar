@@ -9,8 +9,8 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte Variablen vorgestellt. Dabei wird zunächst die Berechnung des Mittelwerts, der Varianz sowie Standardabweichung behandelt. Dann wird gezeigt, wie Variablen zentriert bzw. standardisiert werden können. Abschließend geht es außerdem um das Rekodieren von Items und das Bilden von Skalenwerten.' 
 authors: [nehler, beitner, buchholz] 
 weight: 3
-lastmod: '2023-11-06'
-featured: yes
+lastmod: '2023-11-20'
+featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)"
@@ -121,20 +121,14 @@ fb23$lz
 ```
 
 ```
-##   [1] 5.4 3.4 4.4 4.4 6.4 5.6 5.4 5.0 4.8 6.0 5.4 5.4 5.8
-##  [14] 2.6 4.8 5.2 5.4 4.4 1.4 4.8 6.6  NA 5.0 4.8 7.0 5.0
-##  [27] 4.8 5.8 5.4 5.2 6.4 5.8 5.2 5.4 3.4 6.8 6.0 6.2 5.6
-##  [40] 5.8 5.2 4.6  NA 5.2 3.6 4.8 5.8 3.2 5.4 5.6 4.6 4.6
-##  [53] 5.0 6.8 5.8 5.8 6.2 4.2 4.4 4.8 5.0 6.6 6.6 4.6 6.0
-##  [66] 5.6 6.0 4.0 2.6 4.0 3.8 4.8 4.0 6.2 6.0 4.0 5.2 5.4
-##  [79] 2.8 4.6 4.6 5.0 4.0 6.0 5.6 4.2 4.8 6.0 4.2 6.2 6.2
-##  [92] 3.2 4.2 5.6 4.6 6.6 4.2 1.6 4.6 5.4 5.8 6.0 5.8 5.0
-## [105] 3.6 7.0 6.2 6.0 6.4 5.0 5.4 5.8 5.8 3.8 6.0 5.8 4.8
-## [118] 6.8 3.6 6.2 3.2 5.6 5.4 5.6 4.6 4.8 5.6 3.2 6.2 5.4
-## [131] 4.4 5.6 5.4 4.2 4.4 4.4 2.8 6.4 5.4 5.6 5.0 6.4 5.0
-## [144] 5.2 6.0 5.4 6.8 4.2 2.8 5.2 6.2 5.6 5.6 5.6 7.0 5.0
-## [157] 4.0 5.2 6.4 5.6 5.0 3.6 5.2 6.6 5.8 3.8 3.6 4.0 3.8
-## [170] 5.6 5.2 5.8 5.4 3.6 6.2 6.0 6.2 6.0 5.4
+##   [1] 5.4 3.4 4.4 4.4 6.4 5.6 5.4 5.0 4.8 6.0 5.4 5.4 5.8 2.6 4.8 5.2 5.4 4.4 1.4 4.8 6.6  NA 5.0
+##  [24] 4.8 7.0 5.0 4.8 5.8 5.4 5.2 6.4 5.8 5.2 5.4 3.4 6.8 6.0 6.2 5.6 5.8 5.2 4.6  NA 5.2 3.6 4.8
+##  [47] 5.8 3.2 5.4 5.6 4.6 4.6 5.0 6.8 5.8 5.8 6.2 4.2 4.4 4.8 5.0 6.6 6.6 4.6 6.0 5.6 6.0 4.0 2.6
+##  [70] 4.0 3.8 4.8 4.0 6.2 6.0 4.0 5.2 5.4 2.8 4.6 4.6 5.0 4.0 6.0 5.6 4.2 4.8 6.0 4.2 6.2 6.2 3.2
+##  [93] 4.2 5.6 4.6 6.6 4.2 1.6 4.6 5.4 5.8 6.0 5.8 5.0 3.6 7.0 6.2 6.0 6.4 5.0 5.4 5.8 5.8 3.8 6.0
+## [116] 5.8 4.8 6.8 3.6 6.2 3.2 5.6 5.4 5.6 4.6 4.8 5.6 3.2 6.2 5.4 4.4 5.6 5.4 4.2 4.4 4.4 2.8 6.4
+## [139] 5.4 5.6 5.0 6.4 5.0 5.2 6.0 5.4 6.8 4.2 2.8 5.2 6.2 5.6 5.6 5.6 7.0 5.0 4.0 5.2 6.4 5.6 5.0
+## [162] 3.6 5.2 6.6 5.8 3.8 3.6 4.0 3.8 5.6 5.2 5.8 5.4 3.6 6.2 6.0 6.2 6.0 5.4
 ```
 
 Auf den ersten Blick ist es schwer, aus so einer großen Menge an unterschiedlichen Werten ein Fazit zu ziehen. Um eine Stichprobe zusammenzufassen, lernen wir heute deskriptive Maße kennen. Zunächst lässt sich aber feststellen, dass wir es auch auf dem Skalenwert mit fehlenden Werten (`NA`) zu tun haben. 
@@ -430,8 +424,7 @@ head(lz_c)    # erste 6 zentrierte Werte
 ```
 
 ```
-## [1]  0.279096 -1.720904 -0.720904 -0.720904  1.279096
-## [6]  0.479096
+## [1]  0.279096 -1.720904 -0.720904 -0.720904  1.279096  0.479096
 ```
 
 ```r
@@ -441,8 +434,7 @@ head(lz_z)    # erste 6 standardisierte Werte
 ```
 
 ```
-## [1]  0.2645729 -1.6313541 -0.6833906 -0.6833906  1.2125363
-## [6]  0.4541655
+## [1]  0.2645729 -1.6313541 -0.6833906 -0.6833906  1.2125363  0.4541655
 ```
 
 ...oder mit Hilfe bereits existierender Funktionen:
@@ -523,8 +515,7 @@ head(fb23$mdbf11_pre == 1, 15) #Zeige die ersten 15 Antworten
 ```
 
 ```
-##  [1] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE
-## [10] FALSE  TRUE  TRUE  TRUE FALSE FALSE
+##  [1] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE
 ```
 
 Wir erhalten einen booleschen Vektor, der uns sagt, wo der Wert 1 auftaucht (`TRUE`) und wo nicht (`FALSE`).
