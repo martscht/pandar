@@ -7,9 +7,9 @@ categories: ["Statistik I"]
 tags: ["Verteilungen", "Normalverteilung"]
 subtitle: ''
 summary: 'In diesem Post lernt ihr, Zufallsexperimente und Bernoulli-Experimente zu simulieren, eine Binomialverteilung darzustellen sowie Wahrscheinlichkeitverteilungen und Verteilungsfunktionen zu erstellen. Außerdem erfahrt ihr, wie man Dichte- und Verteilungsfunktionen erstellt und wie man eine empirisch erhobene Variable gegen die Normalverteilung abtragen kann.' 
-authors: [nehler] 
+authors: [nehler, liu] 
 weight: 4
-lastmod: '2023-11-08'
+lastmod: '2023-11-20'
 featured: no
 banner:
   image: "/header/six_sided_dice.png"
@@ -38,7 +38,6 @@ output:
 
 
 
-
 {{< spoiler text = "Kernfragen dieser Lehreinheit" >}}
 * Wie können [**Zufallsexperimente**](#Zufall) und [**Bernoulli-Experimente**](#Zufall) simuliert werden?  
 * Wie lässt sich die [**Binomialverteilung darstellen**](#Binomial)?  
@@ -52,53 +51,15 @@ output:
 
 ## Vorbereitende Schritte {#prep}
 
-Der Datensatz ist in diesem Tutorial nicht zentral und kommt erst im letzten Abschnitt zum Tragen. Trotzdem beschäftigen wir uns zum Start mit dem Einladen, um die Struktur der Tutorials gleich zu lassen. Den Datensatz haben wir bereits unter diesem [<i class="fas fa-download"></i> Link herunterladen](/daten/fb22.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Der Datensatz wird in diesem Tutorial nicht genutzt, weshalb wir ihn nicht einladen. 
 
-
-```r
-#### Was bisher geschah: ----
-
-# Daten laden
-load(url('https://pandar.netlify.app/daten/fb22.rda'))  
-
-# Nominalskalierte Variablen in Faktoren verwandeln
-fb22$geschl_faktor <- factor(fb22$geschl,
-                             levels = 1:3,
-                             labels = c("weiblich", "männlich", "anderes"))
-fb22$fach <- factor(fb22$fach,
-                    levels = 1:5,
-                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb22$ziel <- factor(fb22$ziel,
-                        levels = 1:4,
-                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb22$wohnen <- factor(fb22$wohnen, 
-                      levels = 1:4, 
-                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-
-# Skalenbildung
-
-fb22$prok2_r <- -1 * (fb22$prok2 - 5)
-fb22$prok3_r <- -1 * (fb22$prok3 - 5)
-fb22$prok5_r <- -1 * (fb22$prok5 - 5)
-fb22$prok7_r <- -1 * (fb22$prok7 - 5)
-fb22$prok8_r <- -1 * (fb22$prok8 - 5)
-
-#Prokrastination
-fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
-                          'prok4', 'prok5_r', 'prok6',
-                          'prok7_r', 'prok8_r', 'prok9', 
-                          'prok10')] |> rowMeans()
-#Naturverbundenheit
-fb22$nr_ges <-  fb22[, c('nr1', 'nr2', 'nr3', 'nr4', 'nr5',  'nr6')] |> rowMeans()
-fb22$nr_ges_z <- scale(fb22$nr_ges) # Standardisiert
-```
 ***
 
 ## Warum Wahrscheinlichkeit?
 
-In der psychologischen Forschung werden nur Stichproben gezogen. Für die Übertragung der Ergebnisse auf die Grundgesamtheit (Population), aus der die Stichprobe stammt, ist eine Betrachtung der Wahrscheinlichkeitstheorie essentiell. Die Grundlagen der Wahrscheinlichkeitstheorie haben Sie in der Vorlesung vermittelt bekommen. Hier geht es nun um die praktische Anwendung in `R`. Im weiteren Verlauf werden zuerst Zufallsexperimente und empirische Häufigkeitsverteilungen betrachtet. Anschließend werden verschiedene Verteilungen dargestellt.
+In der psychologischen Forschung werden nur Stichproben gezogen. Für die Übertragung der Ergebnisse auf die Grundgesamtheit (Population), aus der die Stichprobe stammt, ist eine Betrachtung der Wahrscheinlichkeitsverteilungen essentiell. Die Grundlagen der Wahrscheinlichkeitsverteilungen haben Sie in der Vorlesung vermittelt bekommen. Hier geht es nun um die praktische Anwendung in `R`. Im weiteren Verlauf werden zuerst Zufallsexperimente und empirische Häufigkeitsverteilungen betrachtet. Anschließend werden verschiedene Verteilungen dargestellt.
 
-<img src="/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" />
 
 ***
 
@@ -173,7 +134,7 @@ sample(x = wuerfel, size = 1)
 ```
 
 ```
-## [1] 3
+## [1] 2
 ```
 
 Unter dem Argument `x` kann definiert werden, aus welcher Menge an Objekten zufällig gezogen wird - in diesem Fall die Ziffern zwischen 1 und 6, die im Objekt `wuerfel` hinterlegt sind. `size` definiert die Anzahl an Wiederholungen. Wenn wir nun also zwei Würfel werfen wollen, können wir die `size` einfach erhöhen. Dabei ist es außerdem wichtig, ob das Experiment mit oder ohne Zurücklegen durchgeführt wird. Dafür ist das Argument `replace` verantwortlich, das standardmäßig auf `FALSE` steht. Da die Würfel jedoch auch die selbe Zahl anzeigen können, agieren wir mit Zurücklegen und müssen das Argument auf `TRUE` setzen.
@@ -184,7 +145,7 @@ sample(x = wuerfel, size = 2, replace = TRUE)
 ```
 
 ```
-## [1] 3 4
+## [1] 6 6
 ```
 
 Für die Verteilung der Ergebnisse ist es vor allem wichtig, wie die Summe aus den beiden Ziffern aussieht. Die Funktionen kann man in einer Zeile kombinieren.
@@ -195,7 +156,7 @@ sample(x = wuerfel, size = 2, replace = TRUE) |> sum()
 ```
 
 ```
-## [1] 5
+## [1] 10
 ```
 
 Des Weiteren soll der Wurf nicht nur einmal mit den beiden Würfeln durchgeführt werden, sondern häufiger wiederholt werden. Hier hilft Ihnen  `replicate()`, wobei die Anzahl an wiederholten Durchführungen einer Funktion im Argument `n` festgelegt werden kann. Weiterhin muss im Argument `expr` die Funktion genannt werden, die wiederholt werden soll.
@@ -206,7 +167,7 @@ replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ```
 
 ```
-##  [1]  8  8  8  4  8 10  3  4  9  7
+##  [1]  7  7  7  8  3  9  7  6 11  6
 ```
 
 Beachten Sie jedoch, dass Sie bei zweimaliger Durchführung desselben Befehls nicht zwei Mal dasselbe Ergebnis bekommen werden, da `R` den Zufall jeweils neu simuliert. 
@@ -217,7 +178,7 @@ replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ```
 
 ```
-##  [1] 4 8 5 6 7 7 8 7 7 5
+##  [1]  6  8  7 11  7  9 10  5  5  5
 ```
 
 Zur Konstanthaltung der Ergebnisse eines Zufallsvorgangs kann `set.seed()` genutzt werden, durch das der `R` interne Zufallsgenerator stets an der selben Stelle gestartet wird. Dies ermöglicht die Reproduzierbarkeit des Ergebnisses (Anmerkung: bei verschiedenen Versionen von `R` könnte der Befehl auch andere Resultate produzieren).
@@ -254,7 +215,7 @@ Zur Veranschaulichung der Ergebnisse können Sie das bereits besprochene Histogr
 hist(results_10,xlim = c(1.5,12.5), breaks = c(1.5:12.5))
 ```
 
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 Durch eine Erhöhung der Würfe nähert sich die empirische Wahrscheinlichkeit der einzelnen Ergebnisse den theoretischen Wahrscheinlichkeiten an. Auch dies kann man grafisch darstellen.
 
@@ -265,21 +226,21 @@ results_50 <- sample(x = wuerfel, size = 2, replace = TRUE) |> sum() |> replicat
 hist(results_50, xlim = c(1.5,12.5), breaks = c(1.5:12.5))
 ```
 
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 ```r
 results_250 <- sample(x = wuerfel, size = 2, replace = TRUE) |> sum() |> replicate(n = 250)
 hist(results_250, xlim = c(1.5,12.5), breaks = c(1.5:12.5))
 ```
 
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-13-2.png)<!-- -->
+![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-12-2.png)<!-- -->
 
 ```r
 results_10000 <- sample(x = wuerfel, size = 2, replace = TRUE) |> sum() |> replicate(n = 10000)
 hist(results_10000, xlim = c(1.5,12.5), breaks = c(1.5:12.5))
 ```
 
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-13-3.png)<!-- -->
+![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-12-3.png)<!-- -->
 
 Dies wird auch daran deutlich, dass sich der Mittelwert der Verteilung nun dem *Erwartungswert* von 7 annähert.
 
@@ -363,21 +324,20 @@ probs <- dbinom(x, size = 100, prob = 0.2) #Wahrscheinlichkeiten für alle mögl
 plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten des Ereignis Grün", ylab = "Wahrscheinlichkeit bei 100 Drehungen")
 ```
 
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
 Die Funktion `plot()` gibt uns die Möglichkeit, eigene `x` und `y` Werte zu definieren. Es werden alle Zahlen zwischen 0 und 100 mit der dazugehörigen Wahrscheinlichkeit abgebildet. `type` gibt uns die Möglichkeit, verschiedene Darstellungsarten zu wählen (`h` steht in dem Fall für histogrammähnliche Striche). `xlab` und `ylab` ermöglichen die Achsenbeschriftung. 
 
 Im folgenden Plot ist nochmal abgebildet, was wir mit der Funktion `dbinom()` für den Wert 20 erreicht haben: Wir konnten die "Höhe" seines Balkens bestimmen - also die Wahrscheinlichkeit für genau 20 Erfolge. 
 
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 Anmerkung: Grafiken mit gefärbten Bestandteilen werden hier zu didaktischen Zwecken dargestellt. Es wird nicht erwartet, dass dies selber beherrscht wird und aus Gründen des Umfangs auch nicht beschrieben.
 
 Neben der genauen Erfolgszahl gibt es auch häufig Fragestellungen, die sich mit Bereichen befassen: Wie wahrscheinlich ist es, dass höchstens 20 Mal grün gedreht wird bei 100 Versuchen? In unserem Plot der Wahrscheinlichkeitsverteilung würde der erfragte Wert die Summe der Werte vieler Balken sein. 
 
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
-
-{{< intext_anchor Verteilungen >}}
+![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+`{{% intext_anchor "Verteilung" %}}`{=html}
 Eine solche Frage kann mit Hilfe der *Verteilungsfunktion* der Binomialverteilung beantwortet werden. Hier werden die Werte der niedrigeren Zahlen *kumuliert* - das bedeutet aufaddiert. 
 
 Auch hierfür ist in R eine Funktion definiert mit dem Namen `pbinom()`. `q` gibt nun die Zahl an, bis zu der alle Wahrscheinlichkeiten aufaddiert werden. `size` und `prob` erhalten ihre Bedeutung. `lower.tail = TRUE` (Standardeinstellung) sorgt für eine Aufaddierung der Werte startend bei 0 (also 0 bis 20 Mal grün). Bei `lower.tail = FALSE` würde von der anderen Seite, also der `size` zugeordneten Zahl, begonnen werden. Die Aufaddierung der Werte geht dann von dem maximalen Wert (also $n$ und in diesem Fall 100) bis zu dem Wert `1 + q` (21 bis 100 Mal grün). 
@@ -417,17 +377,17 @@ plot(x = x, y = probs, type = "h",
      ylab = "kumulierte Wahrscheinlichkeit")
 ```
 
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 Im Endeffekt haben wir mit `pbinom()` also wieder einen Wert aus dieser Verteilung ablesen können. 
 
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 Es ist bereits ein Muster zu erkennen: Der Buchstabe vor dem Funktionsname `"binom()"` (`"d"` als Punktwahrscheinlichkeit für ein bestimmtes `x` bzw. `"p"` als kumulierte Wahrscheinlichkeit für ein bestimmtes `x`) verändert die Funktion. Des Weiteren bietet R noch die zufällige Simulation des Experimentes mit `"r"` und den Präfix `"q"` für die Quantilfunktion. 
 
 Gehen wir nun einmal umgekehrt an unser Experiment heran. Wir wollen hier herausfinden, welche Anzahl an Treffern in den unteren 10 Prozent der Verteilung liegen. Auch hier werden die einzelnen Wahrscheinlichkeiten wieder aufaddiert / kumuliert. Optisch gesehen suchen wir also nach dem Ort in unserer Verteilungsfunktion, wo die 10 Prozent liegen.
 
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 Die Funktion `qbinom()` beantwortet uns diese entgegengesetzte Fragestellung von `pbinom()`. 
 
@@ -470,7 +430,15 @@ Diese Präfixe können für alle in R integrierten Verteilungstypen benutzt werd
 
 ## Stetige Zufallsvariablen {#Dichte .anchorheader}
 
-Die Anzahl an Treffern in diesem Experiment stellt eine *diskrete Zufallsvariable* dar. Zwischen den Werten 4 und 5 Treffer liegen beispielsweise keine anderen Möglichkeiten. Im Gegensatz dazu stehen *stetige Zufallsvariablen*. Bei diesen liegen zwischen einer Unter- und einer Obergrenze überabzählbar unendlich viele Werte. Beispielsweise liegen zwischen einer Größe von 180 und 181 cm unzählbar viele Abstufungen. Für stetige Zufallsvariablen kann daher nicht einfach eine Wahrscheinlichkeitsfunktion ausgegeben werden, da sie der Theorie nach unendlich viele Balken enthalten würde. Deshalb gibt es hierfür die *Dichtefunktion*. Die Fläche unter dieser Funktion ergibt einen Wert von 1 - genauso wie die Addition aller Balken einer Wahrscheinlichkeitsfunktion. Viele Merkmale in der Psychologie folgen dabei der Normalverteilung (Größe, IQ, etc.), die Sie in der Vorlesung kennen gelernt haben. Diese stellt eine besondere Form der Dichtefunktion dar mit folgenden Eigenschaften:
+Die Anzahl an Treffern in diesem Experiment stellt eine *diskrete Zufallsvariable* dar. Zwischen den Werten 4 und 5 Treffer liegen beispielsweise keine anderen Möglichkeiten. Im Gegensatz dazu stehen *stetige Zufallsvariablen*. Bei diesen liegen zwischen einer Unter- und einer Obergrenze überabzählbar unendlich viele Werte. Beispielsweise liegen zwischen einer Größe von 180 und 181 cm unzählbar viele Abstufungen. Für stetige Zufallsvariablen kann daher nicht einfach eine Wahrscheinlichkeitsfunktion ausgegeben werden, da sie der Theorie nach unendlich viele Balken enthalten würde. Deshalb gibt es hierfür die *Dichtefunktion*. 
+
+$$
+f(x|\mu,\sigma) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}
+$$
+
+mit $\mu$ für den Mittelwert und $\sigma$ für die Standardabweichung
+
+Die Fläche unter dieser Funktion ergibt einen Wert von 1 - genauso wie die Addition aller Balken einer Wahrscheinlichkeitsfunktion. Viele Merkmale in der Psychologie folgen dabei der Normalverteilung (Größe, IQ, etc.), die Sie in der Vorlesung kennen gelernt haben. Diese stellt eine besondere Form der Dichtefunktion dar mit folgenden Eigenschaften:
 
 * Symmetrisch um $\mu$
 * Glockenförmig
@@ -478,7 +446,7 @@ Die Anzahl an Treffern in diesem Experiment stellt eine *diskrete Zufallsvariabl
 * Erwartungswert = Median = Maximum bei $\mu$
 * 68.27% der Verteilung liegen zwischen $\mu$ $\pm$ $\sigma$
 
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
 
 Für die IQ-Verteilung der Population wird angenommen, dass diese den Mittelwert von 100 hat und eine Standardabweichung von 15. Die bewährten Tests werden dahingehend genormt. Wenn wir nun den Wert auf der x-Achse aus der Dichtefunktion eines Probanden erfahren wollen (IQ = 114.3), können wir diesen mit der `dnorm()` Funktion berechnen. Benötigt werden neben dem x-Wert (in diesem Fall der IQ-Wert) noch der Mittelwert `mean` und die Standardabweichung `sd` der zugrundeliegenden Verteilung.
 
@@ -490,6 +458,20 @@ dnorm(x = 114.3, mean = 100, sd = 15)
 ```
 ## [1] 0.01688363
 ```
+
+Neben der Verwendung von `dnorm()` können wir die Wahrscheinlichkeitsdichte auch manuell berechnen. Dazu können wir die Formel einfach in Code übersetzen, um die Funktionalität von `dnorm()` zu prüfen. Wir haben bereits gelernt, dass die Wurzelfunktion in `sqrt()` heißt. Die Zahl $\pi$ liegt als Objekt standardmäßig vor mit dem Namen `pi`, auch wenn es uns nicht im Global Environment angezeigt wird -- aber auch Funktionen wie `sum()`, `mean()` und sehr viele andere werden dort ja nicht angezeigt, also ist das für uns nichts neues. Die Funktion `exp()` haben wir in der Hilfe zur Logarithmus Funktion `log()` gesehen und hilft uns beim letzten Teil der Gleichung.  
+
+
+```r
+1 / (15 * sqrt(2 * pi)) * exp(-0.5 * ((114.3 - 100) / 15)^2)
+```
+
+```
+## [1] 0.01688363
+```
+
+Eingesetzt sind hier die Werte $sd = 15$, $x = 114.3$ und $\bar{x} = 100$ Mit dieser manuellen Methode erhalten wir das gleiche Ergebnis wie mit `dnorm()`. Insgesamt ist die Zeile Code aber recht umständlich, weshalb wir auf jeden Fall bei der Nutzung der Funktion bleiben sollten. 
+
 
 Alleine ist der Wert aus der Dichtefunktion noch nicht aussgekräftig für die Anwendung. Trotzdem betrachten wir zunächst den grafischen Aspekt. Wenn wir nun den eben gesehenen Plot zeichnen wollen, verwenden wir bei stetigen Funktionen, wie es die Dichtefunktion eine ist, den Befehl `curve()`. Dafür muss im Argument `expr` eine Funktion in Abhängigkeit von x genannt werden. Mit `from` und `to` legt man die Grenzen der Bereiche fest. Auf der x-Achse (`xlab`) sollen die möglichen IQ-Werte, auf der y-Achse (`ylab`) die zugehörigen Werte der Dichtefunktion f(x) abgebidet werden. Mit `main` wird ein Titel für die Grafik vergeben.
 
@@ -526,7 +508,21 @@ pnorm(114.3, mean = 100, sd = 15, lower.tail = TRUE)
 
 82.98 % der Fläche liegen also unterhalb unseres IQ-Wertes von 114.3. 17.02 % der Fläche liegen hingegen oberhalb unseres IQ-Wertes von 114.3.
 
-Auch hier können wir uns zur Veranschaulichung einmal die Verteilungsfunktion ausgeben lassen. Dafür zeichnen wir die Funktion `pnorm()`. Die restliche Grafikerstellung funktioniert analog zu dem, was wir bereits gesehen haben, mit der `curve()` Funktion.
+Neben der Verwendung von `pnorm()` können wir die Fläche unter der Kurve auch manuell integrieren. Dazu verwenden wir die Funktion `integrate()` und unser Wissen aus der Vorlesung.
+
+Die `integrate()` in R wird verwendet, um das bestimmte Integral einer Funktion über ein angegebenes Intervall zu berechnen. Diese Funktion hat drei Argumente: `f` benennt die zu integrierende Funktion. `lower` ist die untere Grenze des Integrationsintervalls. `upper` ist die Obergrenze des Integrationsintervalls. Wenn die Funktion, die wir integrieren wollen, auch Argumente hat, werden diese in `integrate` auch aufgeführt. Dabei gibt es in `dnorm()` den Mittelwert `mean` und die Standardabweichung `sd`.
+
+
+```r
+integrate(f = dnorm, lower = -Inf, upper = 114.3, mean = 100, sd = 15)
+```
+
+```
+## 0.8297894 with absolute error < 1.6e-06
+```
+Diese Methode liefert das gleiche Ergebnis wie die Verwendung von `pnorm()` und gibt zusätzlich eine Warnmeldung über die Genauigkeit. `integrate()` ist im Endeffekt flexibler, weil man es eben auf viele Funktionen anwenden kann (`pnorm()` gilt nur für die Normalverteilung) . Allerdings gibt es bei den meisten Verteilungen auch eine vordefinierte Verteilungsfunktion mit dem Präfix `p` (Integral der Dichtefunktion), weshalb wir `integrate()` im ersten Semester eher selten benutzen werden.
+
+Auch hier können wir zur Veranschaulichung einmal die Verteilungsfunktion als Grafik betrachten. Dafür zeichnen wir die Funktion `pnorm()`. Der restliche Code funktioniert analog zu dem, was wir bereits gesehen haben, mit der `curve()` Funktion.
 
 
 ```r
@@ -538,11 +534,11 @@ curve(expr = pnorm(x, mean = 100, sd = 15, lower.tail = TRUE),
      ylab = "F(x)")
 ```
 
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
 
 Hier ist schön zu sehen, dass sich die Verteilungsfunktion mit steigendem IQ-Wert der 1 annähert, da dies die Fläche unter der Dichtefunktion ist. Aus der Verteilung haben wir mit `pnorm()` den y-Wert bei 114.3 ablesen können.
 
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 Auch der Präfix `"q"` funktioniert äquivalent. Durch `qnorm()` erhalten wir unter Angabe einer Wahrscheinlichkeit den zugehörigen Wert aus der Verteilungsfunktion der Dichte. Wir wollen hier betrachten, welcher Wert die unteren 50% der Verteilung abtrennt.
 
@@ -557,7 +553,7 @@ qnorm(p = 0.5, mean = 100, sd = 15, lower.tail = TRUE)
 
 Aufgrund der Symmetrie der Normalverteilung wird hier wie erwartet die Verteilung durch genau ihren Mittelwert (in diesem Fall 100) in 2 Hälften geteilt.
 
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 Um die Ziehung aus einer Normalverteilung zu simulieren, können wir mit dem Präfix `"r"` wieder Daten zufällig auswählen. Anstatt `"binom()"` folgt nun aber `"norm()"`. Als Argumente werden die Anzahl der Werte, der Mittelwert `mean` und die Standardabweichung `sd` der gewünschten Verteilung benötigt. Es werden zufällig 10 Elemente aus einer Normalverteilung gezogen, die den vorgegebenen Parametern entspricht.
 
@@ -568,51 +564,10 @@ rnorm(10,mean = 100,sd = 15)
 ```
 
 ```
-##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336  91.34905 110.82285 109.28648 100.31509
-## [10] 104.12275
+##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336  91.34905
+##  [7] 110.82285 109.28648 100.31509 104.12275
 ```
 
 ***
 
-## Normalverteilungsüberprüfung in der Empirie {#Normalverteilung .anchorheader}
-
-Kommen wir zum Abschluss des Tutorials nochmal zu einer praktischeren Anwendung. Dafür brauchen wir natürlich den Datensatz, den wir bereits eingeladen haben.
-
-Einige Verfahren, die wir im weiteren Verlauf des Semesters kennenlernen werden, setzen für ihre fehlerfreie Durchführung voraus, dass die untersuchte Variable einer Normalverteilung folgt. Besonders für kleinere Stichproben empfiehlt sich dabei eine optische Prüfung, die wir hier nun vorstellen wollen. 
-
-Die erste Möglichkeit besteht darin, dass wir die der Normalverteilung nach erwartete Dichtefunktion über das Histogramm der interessierenden Variable legen und so die Übereinstimmung beurteilen. Wir haben bereits, dass die Funktion `hist()` ein solches Histogramm zeichnet. Unter `xlim` legen wir fest, dass das Diagramm nur zwischen 0 und 6 gezeichnet wird, da die Fragebogenscores nur zwischen 1 und 5 sein konnten. Damit stellen wir ein schöneres Aussehen des Plots sicher. Genauso wählen wir eine Überschrift, während wir die Achsenbezeichungen weglassen. Mit dem Argument `probability` können wir dafür sorgen, dass nicht absolute Häufigkeiten abgetragen werden (sondern wieder Dichte). Die Summe der Fläche der Balken im Plot wird damit auf 1 gesetzt - diesen Wert kennen wir auch von der Dichtefunktion der Normalverteilung. Auch unter dieser Funktion ist die Fläche gleich 1.
-
-
-```r
-hist(fb22$nerd, xlim=c(0,6), main="Score", xlab="", ylab="", probability=T)
-```
-
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
-
-Jetzt müssen wir die Normalverteilung noch dazu zeichnen. Hiefür nutzen wir wieder die `curve()` Funktion. Da wir bereits einen Plot (das Histogramm) gezeichnet haben, können wir mit dem Argument `add` dafür sorgen, dass die Kurve in das bestehende Bild integriert wird. Daher müssen wir keine Angaben für `from`, `to` und Ähnliches machen. Lediglich die Form der Verteilung als Dichtefunktion der Normalverteilung `dnorm()` und die dazu gehörigen beschreibenden Maße Mittelwert und Standardabweichung (hervorgehend aus unserer Nerdiness Variable) werden benötigt. 
-
-
-```r
-curve(dnorm(x, mean=mean(fb22$nerd), sd=sd(fb22$nerd)), add=T)
-```
-
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
-
-Im Plot sieht man recht gut, dass es kleine Abweichungen der wirklichen empirischen Verteilung von der perfekten Form der Normalverteilung gibt. Kleinere Abweichungen sind jedoch zu erwarten und sollten nicht zu hoch eingestuft werden. Leider wird es bei der optischen Prüfung keine perfekt objektive Lösung geben, doch je mehr Plots man im Laufe der Forschungskarriere betrachtet, umso besser kann man auch diese Verläufe einordnen. 
-
-Eine zweite Möglichkeit ist das Erstellen eines sogenannten QQ-Plots (steht für quantile-quantile). Auf der x-Achse sind diejenige Positionen notiert, die unter Gültigkeit der theoretischen Form der Normalverteilung zu erwarten wären. Auf der y-Achse wird die beobachtete Position eines Messwerts abgetragen. Damit die Werte die gleiche Skalierung haben und damit einfacher interpretierbar sind, standardisieren wir zunächst unsere Variable `nerd`. Hierfür erstellen wir eine neue Variable `nerd_std` in unserem Datensatz. Codetechnisch ist ein QQ-Plot dann schnell erstellt. Mit `qqnorm()` zeichnet man die Punkte, während `qqline()` als Unterstützung nochmal die Linien durch die Mitte zeichnet.
-
-
-```r
-fb22$nerd_std <- scale(fb22$nerd, center = T, scale = T)
-qqnorm(fb22$nerd_std)
-qqline(fb22$nerd_std)
-```
-
-![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
-
-Entspricht nun unsere empirische Datenmenge der angenommenen Normalverteilung perfekt, würden alle Punkte auf der Geraden in der Mitte liegen. Auch hier gilt natürlich, dass die Bewertung letztlich eine gewisse Subjektivität hat. Die Punkte sollten nicht zu weit von der Geraden entfernt liegen. Für unsere Nerdiness Variable können nur leichte Abweichungen festgestellt werden, weshalb wir die Normalverteilung annehmen können.
-
-Die beschriebenen optischen Überprüfungen waren nur eine kleine Einführung zur Normalverteilung in der Empirie. Wir werden in den nächsten Wochen noch andere Aspekte und Überprüfungen kennenlernen.
-
-***
+Natürlich gibt es noch viele weitere Verteilungen, denen Werte in der Empirie folgen können. Weiterhin liegen Verteilungen bei erhobenen Daten selten in der betrachteten, perfekten Form vor. In den nächsten Wochen werden uns Verteilungen bei der Beurteilung von Hypothesen stets begleiten und wir werden den Umgang mit ihnen weiter kennenlernen.
