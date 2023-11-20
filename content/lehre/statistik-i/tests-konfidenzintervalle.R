@@ -88,8 +88,17 @@ library(psych)                     # laden
 
 describe(fb23$neuro)
 
-qqnorm(fb23$neuro) 
-qqline(fb23$neuro)
+
+
+
+
+hist(fb23$neuro, xlim=c(0,6), main = "Histogramm",
+     xlab = "Score", ylab= "Dichte", freq = FALSE)
+curve(dnorm(x, mean = mean(fb23$neuro), sd = sd(fb23$neuro)), add = T)
+
+fb23$neuro_std <- scale(fb23$neuro, center = T, scale = T)
+qqnorm(fb23$neuro_std)
+qqline(fb23$neuro_std)
 
 anyNA(fb23$neuro)
 sample_mean_neuro <- mean(fb23$neuro)
