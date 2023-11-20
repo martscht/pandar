@@ -8,8 +8,8 @@ subtitle: ''
 summary: 'In diesem Beitrag werden die Kovarianzanalayse (ANCOVA) und die moderierte Regressionsanalyse behandelt. Zuerst wird die ANCOVA vorgeführt, bei der eine nominalskalierte Gruppierungsvariable in ein einfaches Regressionsmodell einbezogen wird, um Gruppenunterschiede zu berücksichtigen. Dann wird die moderierte Regression erläutert, bei der ein zusätzlicher kontinuierlicher Prädiktor, der Moderator genannt wird, in ein Regressionsmodell aufgenommen wird, um zu untersuchen, ob er die Beziehung zwischen Prädiktor und Kriterium beeinflusst. Zuletzt wird gezeigt, wie man sich gegen quadratische Effekte und Multikollinearität absichert.'
 authors: [irmer]
 weight: 4
-lastmod: '2023-11-06'
-featured: yes
+lastmod: '2023-11-20'
+featured: no
 banner:
   image: "/header/daily_report_bw.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/763765)"
@@ -186,6 +186,13 @@ Der Effekt der Lebenszufriedenheit ($\beta_X$) ist statistisch bedeutsam. Auch d
 
 ```r
 library(car)
+```
+
+```
+## Loading required package: carData
+```
+
+```r
 Anova(reg_ancova)
 ```
 

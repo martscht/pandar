@@ -9,7 +9,7 @@ summary: 'In diesem Beitrag wird die logistische Regression behandelt, die sich 
 authors: [nehler, irmer]
 weight: 5
 lastmod: '`r Sys.Date()`'
-featured: no
+featured: yes
 banner:
   image: "/header/meds.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/565804)"

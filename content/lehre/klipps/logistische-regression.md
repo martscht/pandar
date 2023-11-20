@@ -8,8 +8,8 @@ subtitle: 'Generalisiertes lineares Modell: dichotome abhängige Variablen'
 summary: 'In diesem Beitrag wird die logistische Regression behandelt, die sich im Falle einer dichotomen abhängigen Variable eignet. Dabei werden der Logit (die Linkfunktion), die Erfolgswahrscheinlichkeit und die Odds erläutert. Es erfolgt ein Vergleich zwischen logistischer Regression und normaler Regressionsanalyse sowie eine Demonstration der logistischen Regressionsanalyse, bei der die Beiträge einzelner Prädiktoren zur Vorhersage untersucht werden.'
 authors: [nehler, irmer]
 weight: 5
-lastmod: '2023-08-31'
-featured: no
+lastmod: '2023-11-20'
+featured: yes
 banner:
   image: "/header/meds.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/565804)"

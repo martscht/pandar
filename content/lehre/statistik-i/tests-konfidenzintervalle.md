@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
 authors: [nehler, scheppa-lahyani] 
 weight: 5
-lastmod: '2023-11-10'
+lastmod: '2023-11-15'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -158,7 +158,7 @@ In unserer Stichproben haben wir nicht so einen extremen Fall - die Stichprobeng
 
 ![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
-Nochmal soll hier erwähnt sein, dass die Streuung der SKV des Mittelwerts positiv auch von der Populationsvarianz abhängt, jedoch wollen wir nun zum praktischen Teil übergehen.
+Nochmal soll hier erwähnt sein, dass die Streuung der SKV des Mittelwerts (neben der Stichprobengröße) auch positiv von der Populationsvarianz abhängt, jedoch wollen wir nun zum praktischen Teil übergehen.
 
 Um die theoretischen Überlegungen mathematisch umzusetzen, werden wir zuerst den **empirischen z-Wert** bestimmen -- also den Wert auf der x-Achse auf dem Bild. Zu diesem können wir dann bestimmen, wie unwahrscheinlich er ist.
 
@@ -265,13 +265,13 @@ Das Ergebnis `TRUE` zeigt uns, dass unser Wert extremer ist und es sich um einen
 
 Alternativ (oder auch ergänzend) können wir ein Konfidenzintervall bestimmen, um unsere Hypothese zu testen. In der Literatur wird häufig folgende Definition benutzt: Das (1 − α)-Konfidenzintervall bezeichnet den Bereich um einen geschätzten Populationsparameter (also den Wert aus der Stichprobe), für den gilt, dass er mit einer Wahrscheinlichkeit von 1 − α den Populationsparameter (bei Mittelwerten $\mu$) überdeckt. Eine etwas technischere Formulierung wäre: Die Wahl von 5% Irrtumswahrscheinlichkeit bei der Bildung eines Konfidenzintervalles heißt, dass das Intervall mit 5%-iger Wahrscheinlichkeit zu den Intervallen gehört, die den Populationsparameter (bei Mittelwerten $\mu$) nicht enthalten.
 
-Die Idee für die Absicherung bleibt bei beiden Definitionen dieselbe - einfach gesagt: Wir legen einen Bereich um unserern Stichprobenwert, dessen Breite wir anhand einer Irrtumswahrscheinlichkeit bestimmen. Wenn der uns bekannte Populationsparameter (bei Mittelwerten $\mu$) nun nicht in diesem Bereich liegt, gehen wir davon aus, dass unsere Stichprobe nicht zu dieser Population gehört. Denn wir sind uns ja zu (1- $\alpha$ )% sicher, dass unser Konfidenzintervall den Populationswert, der zu unserer Stichprobe gehört, überdecken sollte. Damit würden wir im Fall von Mittelwerten vermuten, dass $\mu_1 \neq \mu_2$, was genau der $H_1$ Hypothese unserer vorangegangen Testung entspricht.
+Die Idee für die Absicherung bleibt bei beiden Definitionen dieselbe - einfach gesagt: Wir legen einen Bereich um unserern Stichprobenwert, dessen Breite wir anhand einer Irrtumswahrscheinlichkeit bestimmen. Wenn der uns bekannte Populationsparameter (bei Mittelwerten $\mu$) nun nicht in diesem Bereich liegt, gehen wir davon aus, dass unsere Stichprobe nicht zu dieser Population gehört. Denn wir sind uns ja zu (1- $\alpha$ )% sicher, dass unser Konfidenzintervall den Populationswert, der zu unserer Stichprobe gehört, überdecken sollte. Damit würden wir im Fall von Mittelwerten vermuten, dass $\mu_0 \neq \mu_1$, was genau der $H_1$ Hypothese unserer vorangegangen Testung entspricht.
 
 Für die Berechnung des Konfidenzintervalls brauchen wir Parameter, die uns bereits bekannt sind. Folgendes wird berechnet.
   
-$$\bar{x} \pm z_{\frac{\alpha}{2}} * \sigma_{\bar{x}} = \bar{x} \pm z_{\frac{\alpha}{2}}*\frac{\sigma}{\sqrt{n}}$$
+$$\bar{x} \pm z_{1-\frac{\alpha}{2}} * \sigma_{\bar{x}} = \bar{x} \pm z_{1-\frac{\alpha}{2}}*\frac{\sigma}{\sqrt{n}}$$
 
-Die Gleichtung enthält den Standardfehler ($\sigma_\bar{x}$) des Mittelwerts, der weiterhin aus der Standardabweichung ($\sigma$) der Population und der Wurzel aus der Stichprobengröße ($n$) bestimmt werden kann. Wenn wir ein 95%-Konfidenzintervall bestimmen wollen, brauchen wir das zugehörige Quantil aus der Standardnormalverteilung - also den *z*-Wert für $\frac{\alpha}{2}$. Wir müssen das $\alpha$-Niveau halbieren, da wir wie besprochen eine zweiseitige Testung durchführen. 
+Die Gleichtung enthält den Standardfehler ($\sigma_\bar{x}$) des Mittelwerts, der weiterhin aus der Standardabweichung ($\sigma$) der Population und der Wurzel aus der Stichprobengröße ($n$) bestimmt werden kann. Wenn wir ein 95%-Konfidenzintervall bestimmen wollen, brauchen wir das zugehörige Quantil aus der Standardnormalverteilung - also den *z*-Wert für $1-\frac{\alpha}{2}$. Wir müssen das $\alpha$-Niveau halbieren, da wir wie besprochen eine zweiseitige Testung durchführen. 
 
 Wir haben bereits gesehen, dass man Quantile aus der Normalverteilung mit der Funktion `qnorm()` erhalten kann. Die Standardnormalverteilung mit Mittelwert von 0 und Standardabweichung von 1 ist dabei der Default, aber wir geben die Argumente zur Übung trotzdem selbst an.
   
@@ -335,7 +335,7 @@ Die Bekanntheit des Populationsmittelwertes und der Populationsvarianz ist jedoc
 Für dieses statistische Verfahren stellen wir uns die Frage, ob der Neurotizismus Wert der Psychologie-Studierenden in unserer Stichprobe größer ist als der Populationsmittelwert aller Studierenden. Nehmen wir dafür an, dass der mittlere Neurotizismuswert in der Population der Studierenden bei $\mu = 3.1$ liegt, aber die Populationsstandardabweichung nicht bekannt ist. Zunächst sollten wir wieder Hypothesen aufstellen, was wir wieder inhaltlich und statistisch machen. 
 
 #### Inhaltlich
-In der Fragestellung fällt direkt ein Unterschied auf. Wir haben hier eine Richtung unserer Vermutung -- nehmen wir an, dass wir diese aus der Literatur ableiten konnten. Also haben wir keine ungerichteten sondern gerichtete Hypothesen. Dies muss sich natürlich auch in unserer Formulierung wiederspiegeln. Unsere Vermutung (Stichprobenmittelwert ist größer als Populationsmittelwert) nehmen wir als $H_1$ auf, während in der $H_0$ alle gegenteiligen Fälle (kleiner oder gleich) aufgeführt sind.
+In der Fragestellung fällt direkt ein Unterschied auf. Wir haben hier eine Richtung in unserer Fragestellung -- nehmen wir an, dass wir diese aus der Literatur ableiten konnten. Also haben wir keine ungerichteten sondern gerichtete Hypothesen. Dies muss sich natürlich auch in unserer Formulierung wiederspiegeln. Unsere Vermutung (Stichprobenmittelwert ist größer als Populationsmittelwert) nehmen wir als $H_1$ auf, während in der $H_0$ alle gegenteiligen Fälle (kleiner oder gleich) aufgeführt sind.
 
 $H_0$: Der mittlere Neurotizismuswert unserer Stichprobe ist gleich oder niedriger als der mittlere Neurotizismuswert der Studierenden-Population.
 
@@ -411,7 +411,7 @@ describe(fb23$neuro)
 ## X1 -0.19    -0.68 0.07
 ```
 
-Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei 3.3547486. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
+Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei 3.35. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
 
 Zurück zu unserer inhatlichen Fragestellung: Der Mittelwert von unserer Stichprobe ist deskriptiv größer als der Populationsmittelwert aller Studierenden. Dies reicht natürlich noch nicht, um eine inferenzstatistische Aussage zu treffen -- dafür muss im Folgenden der Test durchgeführt werden. Bei gerichteten Hypothesen gibt es jedoch manchmal den Effekt, dass man bei der deskriptiven Überprüfung schon stoppen kann. Wenn sich bspw. deskriptiv gezeigt hätte, dass der Mittelwert unserer Stichprobe kleiner ist als der Populationsmittelwert, kann man die Testung abbrechen. Die $H_1$ Hypothese wird hier direkt abgelehnt und die $H_0$ weiter angenommen. Da dieser Fall hier aber nicht aufgetreten ist, machen wir mit der Testung weiter.
 
@@ -474,7 +474,7 @@ sample_sd_neuro
 ## [1] 0.979347
 ```
 
-Der Standardfehler des Mittelwerts wird anschließend auf der Basis dieses geschätzten Wertes selber geschätzt und nicht wie im z-Test bestimmt. Dafür brauchen wir als zusätzliche Information noch die Stichprobengröße, die wir beispielsweise über `nrow()` unseres Datensatzes bestimmen können, da wir keine fehlenden Werte haben.
+Der Standardfehler des Mittelwerts wird anschließend auf der Basis dieses geschätzten Wertes selber geschätzt und nicht wie im z-Test bestimmt. Formeltechnisch wird die Schätzung durch das Dach über den Buchstaben gekennzeichnet. Für die Schätzung des Standardfehlers des Mittelwerts brauchen wir als zusätzliche Information noch die Stichprobengröße, die wir beispielsweise über `nrow()` unseres Datensatzes bestimmen können, da wir keine fehlenden Werte haben.
 
 
 ```r
@@ -494,9 +494,9 @@ t_emp
 ## [1] 3.48018
 ```
 
-Die empirische Prüfgröße (wie auch der Name des Tests) weist bereits darauf hin, dass wir uns bei der Hypothesenprüfung nicht mehr im Rahmen der Standardnormalverteilung bewegen. Dies liegt daran, dass sich durch das Schätzen der Populationsvarianz keine exakte Standardnormalverteilung mehr ergibt. Stattdessen wird mit einer t-Verteilung gearbeitet, deren genaue Form von der Anzahl der Freiheitsgraden abhängt. Die Unterscheidung zwischen Standardnormalverteilung und der t-Verteilung liegt besonders in den Extrembereichen. Da genau diese jedoch für die inferenzstatistische Testung von Interesse sind, ist die Nutzung der richtigen Verteilung wichtig.
+Die Bezeichnung der empirischen Prüfgröße (wie auch der Name des Tests) weist bereits darauf hin, dass wir uns bei der Hypothesenprüfung nicht mehr im Rahmen der Standardnormalverteilung bewegen. Dies liegt daran, dass sich durch das Schätzen der Populationsvarianz keine exakte Standardnormalverteilung mehr ergibt. Stattdessen wird mit einer t-Verteilung gearbeitet, deren genaue Form von der Anzahl der Freiheitsgraden abhängt. Die Unterscheidung zwischen Standardnormalverteilung und der t-Verteilung liegt besonders in den Extrembereichen. Da genau diese jedoch für die inferenzstatistische Testung von Interesse sind, ist die Nutzung der richtigen Verteilung wichtig.
 
-Im Rahmen des t-Testes im Einstichproben-Fall bestimmen sich die Freiheitsgrade mittels $n - 1$. Bestimmen des $p$-Wertes:
+Wenn wir den $p$-Wert in einer t-Verteilung bestimmen wollen, nutzen wir `pt()` statt `pnorm()`. Als zusätzliches Argument neben dem empirischen Wert und `lower.tail` benötigen wir hier noch die Anzahl der Freiheitsgrade. Im Rahmen des t-Testes im Einstichproben-Fall bestimmen sich die Freiheitsgrade mittels $n - 1$.
 
 
 ```r
@@ -507,24 +507,24 @@ pt(t_emp, df = sample_size - 1, lower.tail = F) #einseitige Testung
 ## [1] 0.0003150813
 ```
 
-Der *p*-Wert ist kleiner .05 ($p < \alpha$).  Die Differenz zwischen dem Mittelwert der Population $\mu$ und dem beobachteten Mittelwert $\bar{x}$ in der Stichprobe ist signifikant. Demnach wird die $H_0$ verworfen und die $H_1$ angenommen.
+Der *p*-Wert ist kleiner .01 ($p < \alpha$). Der Erwartungswert für den Mittelwert unserer Sichprobe $\mu_1$ ist demnach größer als der bekannte Populationsmittelwert $\mu_0$. Demnach würden wir die $H_0$ verwerfen und die $H_1$ annehmen.
 
 
 ### Weitere Möglichkeit: Vergleich mit kritischem Wert
 
-Auch bei diesem Test kann statt des p-Werts der kritische t-Wert $t_{krit}$ bestimmt werden:
+Auch bei diesem Test kann statt des p-Werts der kritische t-Wert $t_{krit}$ bestimmt werden. Statt `qnorm()` nutzen wir hier dann natürlich `qt()` und geben wieder die Freiheitsgrade an.
 
 
 ```r
-t_krit <- qt(0.05, df = sample_size-1, lower.tail = FALSE)
+t_krit <- qt(0.01, df = sample_size-1, lower.tail = FALSE)
 t_krit
 ```
 
 ```
-## [1] 1.653459
+## [1] 2.347479
 ```
 
-Ist der empirische größer als der kritische *t-*Wert ($t_{emp} > t_{krit}$)?
+Der kritische *t-*Wert ($t_{krit}$) wird hier so bestimmt, dass er das den Wert sucht, der die unteren 99% abtrennt. Dies entspricht dann 1% der Verteilung nach oben und damit genau unserem $\alpha$-Niveau. Zur Entscheidung bezüglich der Hypothesen müssen wir nun den empirischen und kritischen $t$-Wert vergleichen.
   
 
 ```r
@@ -535,19 +535,58 @@ t_emp > t_krit
 ## [1] TRUE
 ```
 
-Der empirische t-Wert ist wie erwartet größer als der kritische. 
+Der empirische t-Wert ist größer als der kritische ($t_{emp} > t_{krit}$), wodurch wir die $H_0$ verwerfen und die $H_1$ annehmen. Dies sollte uns aber nicht überraschen, da natürlich dasselbe Ergebnis rauskommen muss wie bei der Testung über den $p$-Wert.  
 
+
+#### Einseitiges Konfidenzintervall für den Einstichproben-t-Test
+
+Auch für den Einstichproben-t-Test kann ein äquivalentes Konfidenzintervall bestimmt werden. Dies funktioniert sehr ähnlich zu dem vorherigen Vorgehen beim Einstichproben-z-Test, jedoch brauchen wir aufgrund unserer Hypothesen ein einseitiges Konfidenzintervall. Gleichzeitig müssen wir das $\alpha$-Niveau anpassen.
+
+Die Gleichung für ein zweiseitiges Konfidenzintervall beim Einstichproben-t-Test sieht erstmal sehr ähnlich. Statt eines Wertes auf der z-Verteilung wird nun ein Wert aus der t-Verteilung abgelesen und für die Bestimmung der Grenzen verwendet. Außerdem wird der Standardfehler des Mittelwerts bzw. die Populationsvarianz hier nur geschätzt, da wir diese Informationen nicht gegeben haben. 
+
+{{< math >}}$$\mu = \bar{x} \pm t_{1-\frac{\alpha}{2}} * \hat{\sigma}_{\bar{x}} = \bar{x} \pm t_{1- \frac{\alpha}{2}}*\frac{\hat{\sigma}}{\sqrt{n}}$${{</ math >}}
+
+Wenn wir nun einseitige Hypothesen haben brauchen wir nur eine der beiden Grenzen bestimmen. Wir gehen davon aus, dass unser Stichprobenmittelwert größer ist als der Populationsmittelwert. Wir legen das Konfidenzintervall um unseren Stichprobenmittelwert und können es daher nach oben offen lassen (größerer Populationsmittelwert würde sowieso immer die $H_0$ nach sich ziehen -- hier brauchen wir keine Grenze). Es muss also nur eine untere Grenze bestimmt werden und die obere kann als unendlich ($\infty$) angenommen werden. Die untere Grenze kann mit dem gesamten $\alpha$-Niveau bestimmt werden. Wir müssen dieses nicht mehr auf beide Bereiche aufteilen.
+
+{{< math >}}$$\mu = \bar{x} - t_{1-\alpha} * \hat{\sigma}_{\bar{x}} = \bar{x} - t_{1- \alpha}*\frac{\hat{\sigma}}{\sqrt{n}}$${{</ math >}}
+
+Kleine Anmerkung: Natürlich könnten wir auch beim Einstichproben-z-Test ein einseitiges Konfidenzintervall berechnen, was äquivalent funktionieren würde.
+
+Kommen wir zur Umsetzung. Den zugehörigen t-Wert können wir wieder mit der Funktion `qt()` bestimmen.
+
+
+```r
+t_quantil_einseitig <- qt(0.01, df = sample_size-1, lower.tail = FALSE)
+t_quantil_einseitig
+```
+
+```
+## [1] 2.347479
+```
+
+Anschließend kann die untere Grenze des Intervalls sehr simpel bestimmt werden.
+
+
+```r
+sample_mean_neuro - t_quantil_einseitig *(sample_sd_neuro / sqrt(sample_size))
+```
+
+```
+## [1] 3.182913
+```
+
+Der Populationsmittelwert liegt nicht in dem Konfidenzintervall für den Erwartungswert unserer Stichprobe, sondern ist kleiner als die untere Grenze. Daher würden wir die $H_0$ in diesem Fall verwerfen. Auch beim Einstichproben-t-Test -- egal ob mit einseitiger oder zweiseitiger Hypothese -- gilt: Die Durchführung des inferenzstatistischen Test kommt hinsichtlich der Hypothesenbeurteilung zur selben Schlusffolgerung wie die Berechnung des äquivalenten Konfidenzintervalls.
 
 
 ### t-test mit `t.test()` Funktion
 
-Natürlich geht alles auch noch einfacher:
+Statt der händischen Berechnung gibt es auch noch die Funktion `t.test()`, die uns die Ergebnisse direkt ausgeben kann. Trotzdem wollten wir erstmal uns das Prinzip anschauen, weil empirische, kritische und p-Werte sowie Konfidenzintervalle sehr zentrale Konzepte der Statistik sind und uns im weiteren Verlauf immer wieder begegnen werden. Die Funktion braucht im Einstichprobenfall neben den Werten der Stichprobe noch das Argument `mu`, in dem der Populationsmittelwert festgehalten wird. `alternative` gibt an, ob wir in unseren Hypothesen eine Richtung haben (`two.sided` für ungerichtete Hypothesen, `less` oder `greater` für gerichtete Hypothesen). Da unsere Hypothese $H_1$ den Stichprobenmittelwert als größer als den Populationsmittelwert annimmt, wählen wir in diesem Fall `greater`. In `conf.level` geben wir $1 - \alpha$ an -- mit Hilfe dieses Arguments bestimmt R das Konfidenzintervall.
   
 
 
 
 ```r
-t.test(fb23$neuro, mu=3.1, alternative="greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
+t.test(x = fb23$neuro, mu = 3.1, alternative = "greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
 ```
 
 ```
@@ -564,73 +603,35 @@ t.test(fb23$neuro, mu=3.1, alternative="greater", conf.level=0.99) #gerichtet, S
 ##  3.354749
 ```
 
-Im Output sind bereits die wichtigsten Informationen enthalten. Wir erhalten den empirischen t-Wert $t_{emp}$ = 3.48. Der kritische Wert wird hier nicht ausgegeben, sondern stattdessen der p-Wert $p$ = 3.15\times 10^{-4}. Auch die Freiheitsgrade `df` = 178 werden mit berichtet.
+Im Output sind bereits die wichtigsten Informationen enthalten. Wir erhalten den empirischen t-Wert $t_{emp}$ = 3.48. Der kritische Wert wird hier nicht ausgegeben, sondern stattdessen der p-Wert. Auch die Freiheitsgrade `df` werden mit berichtet.
 
 Die Ergebnisse entsprechen (erfreulicherweise) genau denen, die wir auch per Hand bestimmt haben. Demnach wird die $H_0$ verworfen und die $H_0$ angenommen.
 
-Das 95%ige Konfidenzintervall wird uns ebenfalls ausgegeben. Beachten Sie, dass es sich aufgrund unserer Hypothese um ein einseitiges Intervall handelt (nach oben offen). Wir betrachten im nächsten Abschnitt, wie sich dieses zusammensetzt.
-
-#### Einseitiges Konfidenzintervall für den Einstichproben-t-Test
-
-** NOCH DIE KOMPLETTE FORMULIERNUG ANPASSEN **
-
-Im Sinne der Vollständigkeit wollen wir hier auch nochmal zeigen, wie sich das Konfidenzintervall für diesen Test bestimmen würde. In der Funktion wurde uns dieses bereits ausgegeben, doch wir wollen es nochmal händisch prüfen. Da es sich um gerichtete Hypothesen handelt, müssen wir ein einseitiges Konfidenzintervall bestimmen. 
-
-Die zugehörige Gleichung ändert sich nur geringfügig. Wir müssen den z-Wert nun einseitig bestimmen und dann eben auch nur die untere Grenze unseres Intervalls. 
-
-$$\mu = \bar{x} - z_{\alpha} * \sigma_{\bar{x}} = \bar{x} \pm z_{\alpha}*\frac{\sigma}{\sqrt{n}}$$
-
-Wir haben bereits gesehen, dass eine Bestimmung des z-Werts durch die Funktion `qnorm()` möglich ist. 
-
-
-```r
-z_quantil_einseitig <- qnorm(p = 1-.05, mean = 0, sd = 1)
-z_quantil_einseitig
-```
-
-```
-## [1] 1.644854
-```
-
-Anschließend kann die untere Grenze des Intervalls sehr simpel bestimmt werden.
-
-
-```r
-new_mean_IQ-((z_quantil_einseitig*sd_IQ)/sqrt(sample_size))
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'new_mean_IQ' not found
-```
-
-Da das Konfidenzintervall für den Stichprobenmittelwert die 100 **nicht** enthält, ist die Annahme unter der $H_0$ ($\mu \leq  100$) nicht haltbar. Daher würden wir die $H_0$ in diesem Fall verwerfen. Beachten Sie: Ein einseitiger *z*-Test bei einer Irrtumswahrscheinlichkeit $\alpha$ und die Besimmung über ein (1-$\alpha$)-Konfidenzintervall kommen immer zu denselben Schlussfolgerungen. 
+Das 99%ige Konfidenzintervall wird uns ebenfalls ausgegeben. Beachten Sie, dass es sich aufgrund unserer Hypothese um ein einseitiges Intervall handelt (nach oben offen). Dies wird in R durch `Inf` gekennzeichnet, was für unendlich auf Englisch (infinity) steht).
 
 ***
 
 ## Effektgröße {#Cohens_d}
 
-** PAKET EINBAUEN **
+Kommen wir zum letzten Thema dieses Beitrags. Neben der inferenzstatistischen Absicherung der Hypothesen sollte auch die Stärke des gefundenen Effekts untersucht werden. Bei vielen Testungen wäre es durch die reine Hinzunahme an Personen möglich, ein signifikantes Ergebnis zu erhalten. Dies bedeutet aber nur, dass ein Effekt auf die Population übertragbar ist. Die Bedeutsamkeit (in diesem Fall: wie stark unterscheiden sich die Mittelwerte) wird dadurch nicht deutlich.
+Die Bedeutsamkeit wird durch eine Effektgröße angegeben, wobei bei Mittelwertsunterschiede meist **Cohen's d** verwendet wird.
 
-Als Effektgröße für Mittelwertsunterschiede kann **Cohen's d** (Cohen, 1988) verwendet werden. 
-
-Dieses statistische Effektmaß beschreibt die Relevanz von signifikanten Ergebnissen. Zudem kann es verwendet werden, um den Effekt über verschiedene Studien hinweg zu vergleichen.
+Betrachten wir zunächst die Formel für die Berechnung beim Einstichproben-z-Test. Die Bestandteile kommen uns bekannt vor -- im Zähler wird die Differenz der Mittelwerte aus Stichprobe und Population gebildet. Die Differenz wird durch die Populationsstandardabweichlung standardisiert.
 
 $$d = |\frac{\bar{x} - {\mu}}{\sigma}|$$
+Die Umsetzung in R ist aufgrund der einfachen Formel auch recht schnell. In unserem Einstichproben-z-Test haben wir die Nerdiness Werte aus unserer Stichprobe analysiert. Die funktion `abs()` bestimmt den Betrag einer Zahl und wird daher hier verwendet.
 
 
 ```r
-mean_Neuro <- mean(fb23$neuro) #Neurotizismuswert der Stichprobe
-sd_Neuro <- sd(fb23$neuro, na.rm = T) #Stichproben SD (Populationsschätzer)
-mean_Popu_Neuro <- 3.3 #Neurotizismuswert der Grundgesamtheit
-d <- abs((mean_Neuro-mean_Popu_Neuro)/sd_Neuro) #abs(), da Betrag
-d
+dz <- abs((sample_mean_nerd - pop_mean_nerd)/ pop_mean_nerd) 
+dz
 ```
 
 ```
-## [1] 0.05590317
+## [1] 0.2130354
 ```
 
-Die Effektgröße ist in diesem Fall mit einem Wert von .4533 mittelstark ausgeprägt. Normalerweise sollte die Einordnung der Größe anhand vergleichbarer Studien aus dem selben Bereich durchgeführt werden. Bei völliger Ahnungslosigkeit über relevante Größen gibt es eine Übersicht zur Orientierung. Es gilt nach Cohen (1988):
+Effektgrößen beschreiben die Relevanz von signifikanten Ergebnissen. Zudem kann es verwendet werden, um den Effekt über verschiedene Studien hinweg zu vergleichen. Normalerweise sollte die Einordnung der Größe anhand vergleichbarer Studien aus dem selben Bereich durchgeführt werden. Bei völliger Ahnungslosigkeit über relevante Größen gibt es eine Übersicht zur Orientierung. Es gilt nach Cohen (1988):
 
 *d* = 0.2 -> kleiner Effekt
 
@@ -638,6 +639,30 @@ Die Effektgröße ist in diesem Fall mit einem Wert von .4533 mittelstark ausgep
 
 *d* = 0.8 -> großer Effekt
 
-Cohen, J. (1988). *Statistical power analysis for the Behavioral Sciences*. Routledge.
+Die Effektgröße beträgt in diesem Fall 0.21. Da wir keine Vergleichsstudien haben spricht dies für einen kleinen Effekt.
+
+
+
+Im Fall des Einstichproben-t-Tests verwenden wir die geschätzte Populationsstandardabweichung. Ansonsten ändert sich die Berechnung nicht.
+
+$$d = |\frac{\bar{x} - {\mu}}{\hat{\sigma}}|$$
+
+Auch hier ist die Umsetzung in R sehr leicht -- in unserer Anwendung haben wir beim Einstichproben-t-Test die Variable `neuro` aus unserem Datensatz verwendet.
+
+```r
+dt <- abs((sample_mean_neuro - pop_mean_neuro)/ sample_sd_neuro)
+dt
+```
+
+```
+## [1] 0.2601209
+```
+
+Die Effektgröße beträgt 0.26`, womit wir uns auch hier im Bereich eines kleinen Effektes befinden.
+
 
 ***
+
+## Literatur
+
+Cohen, J. (1988). *Statistical power analysis for the Behavioral Sciences*. Routledge.

@@ -106,22 +106,22 @@ t_emp
 
 pt(t_emp, df = sample_size - 1, lower.tail = F) #einseitige Testung
 
-t_krit <- qt(0.05, df = sample_size-1, lower.tail = FALSE)
+t_krit <- qt(0.01, df = sample_size-1, lower.tail = FALSE)
 t_krit
 
 t_emp > t_krit
 
+t_quantil_einseitig <- qt(0.01, df = sample_size-1, lower.tail = FALSE)
+t_quantil_einseitig
+
+sample_mean_neuro - t_quantil_einseitig *(sample_sd_neuro / sqrt(sample_size))
 
 
-t.test(fb23$neuro, mu=3.1, alternative="greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
 
-z_quantil_einseitig <- qnorm(p = 1-.05, mean = 0, sd = 1)
-z_quantil_einseitig
+t.test(x = fb23$neuro, mu = 3.1, alternative = "greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
 
-new_mean_IQ-((z_quantil_einseitig*sd_IQ)/sqrt(sample_size))
+dz <- abs((sample_mean_nerd - pop_mean_nerd)/ pop_mean_nerd) 
+dz
 
-mean_Neuro <- mean(fb23$neuro) #Neurotizismuswert der Stichprobe
-sd_Neuro <- sd(fb23$neuro, na.rm = T) #Stichproben SD (Populationsschätzer)
-mean_Popu_Neuro <- 3.3 #Neurotizismuswert der Grundgesamtheit
-d <- abs((mean_Neuro-mean_Popu_Neuro)/sd_Neuro) #abs(), da Betrag
-d
+dt <- abs((sample_mean_neuro - pop_mean_neuro)/ sample_sd_neuro)
+dt
