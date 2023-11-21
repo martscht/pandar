@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
 authors: [nehler, scheppa-lahyani] 
 weight: 5
-lastmod: '2023-11-20'
+lastmod: '2023-11-21'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -65,10 +65,12 @@ Den Datensatz haben wir bereits unter diesem [{{< icon name="download" pack="fas
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb23.rda'))  
+load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-
+fb23$hand_factor <- factor(fb23$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
 fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
@@ -79,10 +81,20 @@ fb23$wohnen <- factor(fb23$wohnen,
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
+# Rekodierung invertierter Items
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
+fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
 
-# Standardisierungen
-fb23$nerd_std <- scale(fb23$nerd)
-fb23$neuro_std <- scale(fb23$neuro)
+# Berechnung von Skalenwerten
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+fb23$wm_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+
+# z-Standardisierung
+fb23$wm_pre_zstd <- scale(fb23$wm_pre, center = TRUE, scale = TRUE)
 ```
 ***
 
@@ -680,7 +692,7 @@ dt
 ## [1] 0.2601209
 ```
 
-Die Effektgröße beträgt 0.26`, womit wir uns auch hier im Bereich eines kleinen Effektes befinden.
+Die Effektgröße beträgt 0.26, womit wir uns auch hier im Bereich eines kleinen Effektes befinden.
 
 
 ***
