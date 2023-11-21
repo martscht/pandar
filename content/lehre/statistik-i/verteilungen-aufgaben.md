@@ -7,9 +7,9 @@ categories: []
 tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
-authors: [nehler] 
+authors: [nehler, zacharias] 
 weight: 
-lastmod: '2023-11-07'
+lastmod: '2023-11-21'
 featured: no
 banner:
   image: "/header/six_sided_dice.png"
@@ -75,10 +75,15 @@ Ein Fragebogen zum Thema Stressempfinden wird so konzipiert, dass die Verteilung
 
 ## Aufgabe 5
 
-Zum Abschluss werden wir auch hier eine Variable aus unserem Datensatz betrachten. Dabei wird es um Neurotizismus gehen. Den Datensatz haben wir bereits heruntergeladen, können ihn aber auch online abrufen. Beachten müssen wir, dass bereits Veränderungen vorgenommen wurden, die [hier](/lehre/statistik-i/verteilungen/#prep) zusammengefasst werden.
+Eine Schlafforscherin plant die Messung der Zeit (in Minuten), die Menschen benötigen, um nach einem stressigen Tag einzuschlafen. Sie geht davon aus, dass die gemessenen Werte einer Exponentialverteilung mit einer Rate (Kehrwert der mittleren Zeit bis zum Einschlafen) von λ = 0.05 folgen.
 
-* Laden Sie den Datensatz zunächst in ihr Environment ein und überprüfen Sie, ob die Variable `neuro` den passenden Typ für unsere Betrachtung hat!
-* Überprüfen Sie, ob die Variable fehlende Werte enthält. Bestimmen Sie anschließend den Mittelwert der Variable.
-* Erstellen Sie für die Variable ein Histogramm mit sinnvollen Begrenzungen auf der x-Achse und der theoretisch erwarteten Normalverteilung. Bewerten Sie auch hinsichtlich der Passung!
-* Führt die Betrachtung des Histogramms und eine Betrachtung eines QQ-Plots zum selben Ergebnis? Zusatz: Versuchen Sie, die Linie im Plot rot zu färben!
+* Nutzen Sie die Hilfe in R, um die Funktion für die Exponentialverteilung zu finden.
+
+* Zeichnen Sie die Dichtefunktion der Exponentialverteilung für die Einschlafzeit von 0 bis 60 Minuten.
+
+* Berechnen Sie die Wahrscheinlichkeit, dass eine Person 
+a) bis zu 10 Minuten und
+b) zwischen 15 und 20 Minuten 
+benötigt, um nach einem stressigen Tag einzuschlafen. Nutzen Sie hierzu beide Male die Funktion `integrate()` und vergleichen Sie das Ergebnis im Anschluss jeweils mit dem Resultat, das Sie erhalten, wenn Sie die vordefinierte Verteilungsfunktion mit dem entsprechenden Präfix verwenden.
+
 

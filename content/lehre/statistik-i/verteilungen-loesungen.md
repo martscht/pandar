@@ -7,8 +7,8 @@ categories: ["Statistik I Übungen"]
 tags: [] 
 subtitle: ''
 summary: '' 
-authors: [nehler] 
-lastmod: '2023-11-07'
+authors: [nehler, zacharias] 
+lastmod: '2023-11-21'
 featured: no
 banner:
   image: "/header/six_sided_dice.png"
@@ -141,7 +141,7 @@ probs <- dbinom(x, size = 10, prob = 0.3)
 plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten eines Gewinns", ylab = "Wahrscheinlichkeit bei 10 Versuchen")
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 </details>
 
@@ -218,7 +218,7 @@ curve (expr = dnorm (x, mean = 50, sd = 10),
        ylab = "Dichte")
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 </details>
 
@@ -238,7 +238,7 @@ curve (expr = dnorm (x, mean = 0, sd = 1),
        ylab = "Dichte")
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 </details>
 
@@ -283,108 +283,90 @@ curve (expr = pnorm (x, mean = 0, sd = 1),
        ylab = "F(x)")
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
+![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 </details>
 
 ## Aufgabe 5
 
-Zum Abschluss werden wir auch hier eine Variable aus unserem Datensatz betrachten. Dabei wird es um Neurotizismus gehen. Den Datensatz haben wir bereits heruntergeladen, können ihn aber auch online abrufen. Beachten müssen wir, dass bereits Veränderungen vorgenommen wurden, die [hier](/lehre/statistik-i/verteilungen/#prep) zusammengefasst werden.
+Eine Schlafforscherin plant die Messung der Zeit (in Minuten), die Menschen benötigen, um nach einem stressigen Tag einzuschlafen. Sie geht davon aus, dass die gemessenen Werte einer Exponentialverteilung mit einer Rate (Kehrwert der mittleren Zeit bis zum Einschlafen) von λ = 0.05 folgen.
 
-* Laden Sie den Datensatz zunächst in ihr Environment ein und überprüfen Sie, ob die Variable `neuro` den passenden Typ für unsere Betrachtung hat!
+* Nutzen Sie die Hilfe in R, um die Funktion für die Exponentialverteilung zu finden.
 
 <details><summary>Lösung</summary>
 
 
 ```r
-load(url('https://pandar.netlify.app/daten/fb23.rda'))
-is.numeric(fb23$neuro)
+?distributions
 ```
 
-```
-## [1] TRUE
-```
-
-Einladen können wir den Datensatz über den gewohnten Befehl. Wir geben hier die Vorbereitung der anderen Befehle nicht nochmal an, da `neuro` als Variable bereits existiert und der Text hier nicht zu lang werden soll.
-
-Da wir Werte wie den Mittelwert für die Überprüfung der Normalverteilung verwenden werden, ist es nötig, eine numerische Variable vorliegen zu haben (`is.numeric`). Das Resultat `TRUE` zeigt uns an, dass dies gegeben ist.
+Wir erhalten eine Übersicht über die Verteilungen, die in im `stats`-Paket verfügbar sind. Die Exponentialfunktion ist über das Kürzel `exp()` und den entsprechenden Präfix (`d`, `p`, `q`, `r`) aufrufbar.  
 
 </details>
 
-* Überprüfen Sie, ob die Variable fehlende Werte enthält. Bestimmen Sie anschließend den Mittelwert der Variable.
+* Zeichnen Sie die Dichtefunktion der Exponentialverteilung für die Einschlafzeit von 0 bis 60 Minuten.
 
 <details><summary>Lösung</summary>
 
-```r
-fb23$neuro |> is.na() |> sum()
-```
-
-```
-## [1] 0
-```
 
 ```r
-mean(fb23$neuro) 
+curve(expr = dexp(x, rate = 0.05), 
+      from = 0, 
+      to = 60,
+      main = "Exponentialverteilung",
+      xlab = "Einschlafzeit (Minuten)",
+      ylab = "Dichte f(x)")
 ```
 
-```
-## [1] 3.354749
-```
-Ein Lösungsansatz ist es, die Variable `neuro` als Vektor zu nehmen und erstmal für jeden Eintrag zu überprüfen, ob dieser fehlt. Dann würde ein `TRUE` entstehen. Da dieses als 1 gewertet wird, können wir anschließend mit `sum` die Anzahl der fehlenden Werte ermitteln. In diesem Fall ergibt sich 0 - also kein Wert fehlt. Der Mittelwert kann demnach ohne Ergänzungen zu den `NA` mit der Funktion `mean` direkt bestimmt werden.
-
+![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 </details>
 
-* Erstellen Sie für die Variable ein Histogramm mit sinnvollen Begrenzungen auf der x-Achse und der theoretisch erwarteten Normalverteilung. Bewerten Sie diese auch hinsichtlich der Passung!
+* Berechnen Sie die Wahrscheinlichkeit, dass eine Person 
+a) bis zu 10 Minuten und
+b) zwischen 15 und 20 Minuten 
+benötigt, um nach einem stressigen Tag einzuschlafen. Nutzen Sie hierzu beide Male die Funktion `integrate()` und vergleichen Sie das Ergebnis im Anschluss jeweils mit dem Resultat, das Sie erhalten, wenn Sie die vordefinierte Verteilungsfunktion mit dem entsprechenden Präfix verwenden. 
 
 <details><summary>Lösung</summary>
+Die Wahrscheinlichkeit, dass eine Person bis zu 10 Minuten benötigt, um einzuschlafen, berechnet sich wie folgt:
 
 ```r
-hist(fb23$neuro, xlim=c(0,6), main="Score", xlab="", ylab="", prob=T)
-curve(dnorm(x, mean=mean(fb23$neuro), sd=sd(fb23$neuro)), add=T)
+# manuell mit integrate()
+integrate(f = dexp, lower = 0, upper = 10, rate = 0.05)
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
-Der Befehl unterscheidet sich zunächst nicht von der Betrachtung im Tutorial. Logischerweise muss nur alles auf die Variable `neuro` angewendet werden. Jedoch sehen wir, dass der Plot leider oben leicht abgeschnitten wird, wenn wir die Linie der Normalverteilung hinzufügen. Dies kann durch eine Modifikation der y-Achse `y-lim` umgangen werden:
-
+```
+## 0.3934693 with absolute error < 4.4e-15
+```
 
 ```r
-hist(fb23$neuro, xlim=c(0,6), ylim=c(0,0.5), main="Score", xlab="", ylab="", prob=T)
-curve(dnorm(x, mean=mean(fb23$neuro), sd=sd(fb23$neuro)), add=T)
+# über Verteilungsfunktion pexp()
+pexp(10, rate = 0.05, lower.tail = TRUE)
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
-
-Wir sehen leichte Abweichungen des Histogramms von der theoretischen Kurve. Vor allem im unteren Bereich bei einem Wert von 1 bis 2.5 sind Personen, die die Verteilung nicht erwarten würde, während im oberen Teil (über 5) Leute fehlen (was ja auch logisch ist, da es keinen höheren Wert geben konnte aufgrund der Konstruktion der Fragen). Auch wenn diesmal Abweichungen deutlicher zu sehen sind als im Tutorial, würde man noch keine starke Verletzung attestieren, da die Form der Glocke auch gut dargestellt wird.
-
-</details>
-
-* Führt die Betrachtung des Histogramms und eine Betrachtung eines QQ-Plots zum selben Ergebnis? Zusatz: Versuchen Sie, die Linie im Plot rot zu färben!
-
-<details><summary>Lösung</summary>
-
-Wir haben im Tutorial gelernt, dass die Erstellung einer standardisierten Variable die Interpretierbarkeit eines solchen Plots fördern kann. 
-
+```
+## [1] 0.3934693
+```
+Wir erhalten das gleiche Ergebnis und mit der `integrate`-Funktion noch zusätzlich die Angabe über die Genauigkeit unserer Berechnung. 
+Die Wahrscheinlichkeit, dass eine Person zwischen 15 und 20 Minuten benötigt, um einzuschlafen, berechnet sich wie folgt:
 
 
 ```r
-fb23$neuro_std <- scale(fb23$neuro, center = T, scale = T)
-hist(fb23$neuro_std, xlim=c(-3,3), ylim=c(0,0.5), main="Score", xlab="", ylab="", prob=T)
-curve(dnorm(x, mean=mean(fb23$neuro_std), sd=sd(fb23$neuro_std)), add=T)
+# manuell mit integrate()
+integrate(f = dexp, lower = 15, upper = 20, rate = 0.05)
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
-
-
+```
+## 0.1044871 with absolute error < 1.2e-15
+```
 
 ```r
-qqnorm(fb23$neuro_std)
-qqline(fb23$neuro_std, col = "red")
+# über Verteilungsfunktionp exp()
+pexp(20, rate = 0.05, lower.tail = TRUE) - pexp(15, rate = 0.05, lower.tail = TRUE)
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
-
-Der QQ-Plot zeigt ein ähnliches Muster wie das Histogramm. In der empirischen Verteilung gibt es auf der linken Seite vereinzelt zu hohe Werte, die durch die theoretische Verteilung nicht so zu erwarten wären (liegen oberhalb der Linie - Personen haben z-Werte leicht unter -2 obwohl bis zu -3 erwartet wird). Die Werte liegen über den Erwartungen - streuen zu weit nach rechts. Auf auf der rechten Seite wiederum bleiben einige empirischen Werte unter den theoretisch erwarteten zurück (liegen unterhalb der Linie - Personen haben z-Werte unter 2, obwohl über 2 erwartet wird). Hier bedeutet dies, dass unsere empirischen Werte nicht weit genug nach rechts streuen.
-
-Trotzdem ist auch hier die Verletzung auf wenige Punkte fokussiert, weshalb wir keine starke Verletzung annehmen. Die Färbung erhalten wir in diesem Fall dadurch, dass wir in `qqline` noch eine Farbe im Argument `col` ergänzen.
+```
+## [1] 0.1044871
+```
+Wir stellen fest, die Ergebnisse stimmen wieder überein. 
 
 </details>

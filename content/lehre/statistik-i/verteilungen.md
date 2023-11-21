@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr, Zufallsexperimente und Bernoulli-Experimente zu simulieren, eine Binomialverteilung darzustellen sowie Wahrscheinlichkeitverteilungen und Verteilungsfunktionen zu erstellen. Außerdem erfahrt ihr, wie man Dichte- und Verteilungsfunktionen erstellt und wie man eine empirisch erhobene Variable gegen die Normalverteilung abtragen kann.' 
 authors: [nehler, liu] 
 weight: 4
-lastmod: '2023-11-20'
+lastmod: '2023-11-21'
 featured: yes
 banner:
   image: "/header/six_sided_dice.png"
@@ -134,7 +134,7 @@ sample(x = wuerfel, size = 1)
 ```
 
 ```
-## [1] 1
+## [1] 3
 ```
 
 Unter dem Argument `x` kann definiert werden, aus welcher Menge an Objekten zufällig gezogen wird - in diesem Fall die Ziffern zwischen 1 und 6, die im Objekt `wuerfel` hinterlegt sind. `size` definiert die Anzahl an Wiederholungen. Wenn wir nun also zwei Würfel werfen wollen, können wir die `size` einfach erhöhen. Dabei ist es außerdem wichtig, ob das Experiment mit oder ohne Zurücklegen durchgeführt wird. Dafür ist das Argument `replace` verantwortlich, das standardmäßig auf `FALSE` steht. Da die Würfel jedoch auch die selbe Zahl anzeigen können, agieren wir mit Zurücklegen und müssen das Argument auf `TRUE` setzen.
@@ -145,7 +145,7 @@ sample(x = wuerfel, size = 2, replace = TRUE)
 ```
 
 ```
-## [1] 5 3
+## [1] 3 4
 ```
 
 Für die Verteilung der Ergebnisse ist es vor allem wichtig, wie die Summe aus den beiden Ziffern aussieht. Die Funktionen kann man in einer Zeile kombinieren.
@@ -156,7 +156,7 @@ sample(x = wuerfel, size = 2, replace = TRUE) |> sum()
 ```
 
 ```
-## [1] 11
+## [1] 5
 ```
 
 Des Weiteren soll der Wurf nicht nur einmal mit den beiden Würfeln durchgeführt werden, sondern häufiger wiederholt werden. Hier hilft Ihnen  `replicate()`, wobei die Anzahl an wiederholten Durchführungen einer Funktion im Argument `n` festgelegt werden kann. Weiterhin muss im Argument `expr` die Funktion genannt werden, die wiederholt werden soll.
@@ -167,7 +167,7 @@ replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ```
 
 ```
-##  [1]  7  5  8  4 12  5 12  8 10  6
+##  [1]  8  8  8  4  8 10  3  4  9  7
 ```
 
 Beachten Sie jedoch, dass Sie bei zweimaliger Durchführung desselben Befehls nicht zwei Mal dasselbe Ergebnis bekommen werden, da `R` den Zufall jeweils neu simuliert. 
@@ -178,7 +178,7 @@ replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ```
 
 ```
-##  [1]  8  8  7  7  7  6  7 12  4  4
+##  [1] 4 8 5 6 7 7 8 7 7 5
 ```
 
 Zur Konstanthaltung der Ergebnisse eines Zufallsvorgangs kann `set.seed()` genutzt werden, durch das der `R` interne Zufallsgenerator stets an der selben Stelle gestartet wird. Dies ermöglicht die Reproduzierbarkeit des Ergebnisses (Anmerkung: bei verschiedenen Versionen von `R` könnte der Befehl auch andere Resultate produzieren).
@@ -337,7 +337,9 @@ Anmerkung: Grafiken mit gefärbten Bestandteilen werden hier zu didaktischen Zwe
 Neben der genauen Erfolgszahl gibt es auch häufig Fragestellungen, die sich mit Bereichen befassen: Wie wahrscheinlich ist es, dass höchstens 20 Mal grün gedreht wird bei 100 Versuchen? In unserem Plot der Wahrscheinlichkeitsverteilung würde der erfragte Wert die Summe der Werte vieler Balken sein. 
 
 ![](/lehre/statistik-i/verteilungen_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
-`{{% intext_anchor "Verteilung" %}}`{=html}
+
+{{< intext_anchor Verteilung>}}
+
 Eine solche Frage kann mit Hilfe der *Verteilungsfunktion* der Binomialverteilung beantwortet werden. Hier werden die Werte der niedrigeren Zahlen *kumuliert* - das bedeutet aufaddiert. 
 
 Auch hierfür ist in R eine Funktion definiert mit dem Namen `pbinom()`. `q` gibt nun die Zahl an, bis zu der alle Wahrscheinlichkeiten aufaddiert werden. `size` und `prob` erhalten ihre Bedeutung. `lower.tail = TRUE` (Standardeinstellung) sorgt für eine Aufaddierung der Werte startend bei 0 (also 0 bis 20 Mal grün). Bei `lower.tail = FALSE` würde von der anderen Seite, also der `size` zugeordneten Zahl, begonnen werden. Die Aufaddierung der Werte geht dann von dem maximalen Wert (also $n$ und in diesem Fall 100) bis zu dem Wert `1 + q` (21 bis 100 Mal grün). 
@@ -459,7 +461,7 @@ dnorm(x = 114.3, mean = 100, sd = 15)
 ## [1] 0.01688363
 ```
 
-Neben der Verwendung von `dnorm()` können wir die Wahrscheinlichkeitsdichte auch manuell berechnen. Dazu können wir die Formel einfach in Code übersetzen, um die Funktionalität von `dnorm()` zu prüfen. Wir haben bereits gelernt, dass die Wurzelfunktion in `sqrt()` heißt. Die Zahl $\pi$ liegt als Objekt standardmäßig vor mit dem Namen `pi`, auch wenn es uns nicht im Global Environment angezeigt wird -- aber auch Funktionen wie `sum()`, `mean()` und sehr viele andere werden dort ja nicht angezeigt, also ist das für uns nichts neues. Die Funktion `exp()` haben wir in der Hilfe zur Logarithmus Funktion `log()` gesehen und hilft uns beim letzten Teil der Gleichung.  
+Neben der Verwendung von `dnorm()` können wir die Wahrscheinlichkeitsdichte auch manuell berechnen. Dazu können wir die Formel einfach in Code übersetzen, um die Funktionalität von `dnorm()` zu prüfen. Wir haben bereits gelernt, dass die Wurzelfunktion in R `sqrt()` heißt. Die Zahl $\pi$ liegt als Objekt standardmäßig vor mit dem Namen `pi`, auch wenn es uns nicht im Global Environment angezeigt wird -- aber auch Funktionen wie `sum()`, `mean()` und sehr viele andere werden dort ja nicht angezeigt, also ist das für uns nichts neues. Die Funktion `exp()` haben wir in der Hilfe zur Logarithmus Funktion `log()` gesehen und hilft uns beim letzten Teil der Gleichung.  
 
 
 ```r
@@ -473,7 +475,7 @@ Neben der Verwendung von `dnorm()` können wir die Wahrscheinlichkeitsdichte auc
 Eingesetzt sind hier die Werte $sd = 15$, $x = 114.3$ und $\bar{x} = 100$ Mit dieser manuellen Methode erhalten wir das gleiche Ergebnis wie mit `dnorm()`. Insgesamt ist die Zeile Code aber recht umständlich, weshalb wir auf jeden Fall bei der Nutzung der Funktion bleiben sollten. 
 
 
-Alleine ist der Wert aus der Dichtefunktion noch nicht aussgekräftig für die Anwendung. Trotzdem betrachten wir zunächst den grafischen Aspekt. Wenn wir nun den eben gesehenen Plot zeichnen wollen, verwenden wir bei stetigen Funktionen, wie es die Dichtefunktion eine ist, den Befehl `curve()`. Dafür muss im Argument `expr` eine Funktion in Abhängigkeit von x genannt werden. Mit `from` und `to` legt man die Grenzen der Bereiche fest. Auf der x-Achse (`xlab`) sollen die möglichen IQ-Werte, auf der y-Achse (`ylab`) die zugehörigen Werte der Dichtefunktion f(x) abgebidet werden. Mit `main` wird ein Titel für die Grafik vergeben.
+Alleine ist der Wert aus der Dichtefunktion noch nicht aussgekräftig für die Anwendung. Trotzdem betrachten wir zunächst den grafischen Aspekt. Wenn wir nun den eben gesehenen Plot zeichnen wollen, verwenden wir bei stetigen Funktionen, wie es die Dichtefunktion eine ist, den Befehl `curve()`. Dafür muss im Argument `expr` eine Funktion in Abhängigkeit von x genannt werden. Mit `from` und `to` legt man die Grenzen der Bereiche fest. Auf der x-Achse (`xlab`) sollen die möglichen IQ-Werte, auf der y-Achse (`ylab`) die zugehörigen Werte der Dichtefunktion f(x) abgebildet werden. Mit `main` wird ein Titel für die Grafik vergeben.
 
 
 ```r
@@ -564,8 +566,8 @@ rnorm(10,mean = 100,sd = 15)
 ```
 
 ```
-##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336  91.34905 110.82285 109.28648 100.31509
-## [10] 104.12275
+##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336
+##  [6]  91.34905 110.82285 109.28648 100.31509 104.12275
 ```
 
 ***
