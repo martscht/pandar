@@ -316,28 +316,28 @@ Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafü
 
 ## Zentrierung und Standardisierung {#Zentrieren}
 
-In der Vorlesung haben Sie gelernt, dass eine Variable zentriert oder standardisiert werden kann. Die Zentrierung sorgt für einen Mittelwert von 0, während die Standardisierung zusätzlich die Varianz auf 1 setzt. Die Variablenzentrierung und -standardisierung lässt sich in R per Hand berechnen.
+In der Vorlesung haben Sie gelernt, dass eine Variable zentriert oder standardisiert werden kann. Die Zentrierung sorgt für einen Mittelwert von 0, während die z-Standardisierung zusätzlich die Varianz auf 1 setzt. Die Variablenzentrierung und -standardisierung lässt sich in R per Hand berechnen.
 
 ```{r}
 # Zentrierung
 lz_c <- fb23$lz - mean(fb23$lz, na.rm = TRUE)
 head(lz_c)    # erste 6 zentrierte Werte
 
-# Standardisierung
+# z-Standardisierung
 lz_z <- lz_c / sd(fb23$lz, na.rm = TRUE)
-head(lz_z)    # erste 6 standardisierte Werte
+head(lz_z)    # erste 6 z-standardisierte Werte
 ```
 
 ...oder mit Hilfe bereits existierender Funktionen:
 
 ```{r}
-## Befehl zum Standardisieren
-lz_z <- scale(fb23$lz)
-## Befehl zum Zentrieren (ohne Standardisierung)
-lz_c <- scale(fb23$lz,
-              scale = FALSE) # unterbindet Standardisierung
+## Befehl zum z-Standardisieren
+lz_z <- scale(fb23$lz, center = TRUE, scale = TRUE) # Mittelwert auf 0 und Varianz auf 1
+## Befehl zum Zentrieren (ohne Varianzrelativierung)
+lz_c <- scale(fb23$lz, center = TRUE, scale = FALSE) # setzt Varianz nicht auf 1
 ```
 
+Beachten Sie, dass wir hier die z-standardisierten und zentrierten Werte jeweils in einem eigenen Objekt (`lz_z` und `lz_c`) und nicht als neue Variable im Datensatz (`fb23`) abgelegt haben. 
 ***
 
 

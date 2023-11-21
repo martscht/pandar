@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, buchholz, zacharias, pommeranz] 
-lastmod: '2023-11-07'
+lastmod: '2023-11-21'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -59,7 +59,7 @@ fb23$wohnen <- factor(fb23$wohnen,
 
 ## Aufgabe 1
 
-Erstellen Sie im Datensatz `fb23` die Skalenwerte für die Unterstkala "Ruhe" der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. Mdbf3 und Mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `wm` ab.
+Erstellen Sie im Datensatz `fb23` die Skalenwerte für die Unterstkala "Ruhe" der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. mdbf3 und mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `wm_pre` im Datensatz `fb23` ab.
 
 * Erstellen Sie den Skalenwert als Mittelwert der drei Items.
 
@@ -77,9 +77,9 @@ fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 5)
 ```r
 # Skalenwert
 
-wm <- fb23[, c("mdbf3_pre_r", "mdbf6_pre", "mdbf9_pre_r", "mdbf12_pre")]
+wm_pre <- fb23[, c("mdbf3_pre_r", "mdbf6_pre", "mdbf9_pre_r", "mdbf12_pre")]
 
-fb23$wm <- rowMeans(wm)
+fb23$wm_pre <- rowMeans(wm_pre)
 ```
 
 Oder in einem Schritt mit der Pipe:
@@ -88,7 +88,8 @@ Oder in einem Schritt mit der Pipe:
 ```r
 # Skalenwert
 
-fb23$wm <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+fb23$wm_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
 ```
 
 </details>
@@ -107,7 +108,7 @@ Bestimmen Sie für die Skala den gesamten Mittelwert und Median.
 
 ```r
 # Median und Mittelwert
-median(fb23$wm, na.rm = TRUE)
+median(fb23$wm_pre, na.rm = TRUE)
 ```
 
 ```
@@ -115,7 +116,7 @@ median(fb23$wm, na.rm = TRUE)
 ```
 
 ```r
-mean(fb23$wm, na.rm = TRUE)
+mean(fb23$wm_pre, na.rm = TRUE)
 ```
 
 ```
@@ -129,7 +130,7 @@ Der Median ist größer als der Mittelwert, was eine linksschiefe Verteilung ver
 
 
 ```r
-hist(fb23$wm, breaks = 6) # Histogramm
+hist(fb23$wm_pre, breaks = 6) # Histogramm
 ```
 
 ![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
@@ -140,7 +141,7 @@ Unser Histogramm zeigt uns, dass die Verteilung tatsächlich einigermaßen links
 
 ## Aufgabe 3
 
-Bestimmen Sie für den Skalenwert `wm` die empirische Varianz und Standardabweichung. Achten Sie dabei darauf, ob es auf der Skala fehlende Werte gibt.
+Bestimmen Sie für den Skalenwert `wm_pre` die empirische Varianz und Standardabweichung. Achten Sie dabei darauf, ob es auf der Skala fehlende Werte gibt.
 
 * Sind empirische Varianz und Standardabweichung größer oder kleiner als diejenige Schätzung, die mithilfe von `var()` oder `sd()` bestimmt wird?
 
@@ -155,7 +156,7 @@ Zur Berechnung der Varianz gemäß Formel benötigen wir $n$. Wir könnten mit `
 
 
 ```r
-is.na(fb23$wm) |> sum()
+is.na(fb23$wm_pre) |> sum()
 ```
 
 ```
@@ -168,7 +169,7 @@ Hier gibt es tatsächlich keinen fehlenden Wert.
 ```r
 # empirische Varianz
 # per Hand
-sum((fb23$wm - mean(fb23$wm, na.rm = T))^2, na.rm = T) / (length(na.omit(fb23$wm)))
+sum((fb23$wm_pre - mean(fb23$wm_pre, na.rm = T))^2, na.rm = T) / (length(na.omit(fb23$wm_pre)))
 ```
 
 ```
@@ -177,7 +178,7 @@ sum((fb23$wm - mean(fb23$wm, na.rm = T))^2, na.rm = T) / (length(na.omit(fb23$wm
 
 ```r
 # durch Umrechnung 
-var(fb23$wm, na.rm = T) * (length(na.omit(fb23$wm))-1) / length(na.omit(fb23$wm))
+var(fb23$wm_pre, na.rm = T) * (length(na.omit(fb23$wm_pre))-1) / length(na.omit(fb23$wm_pre))
 ```
 
 ```
@@ -186,7 +187,7 @@ var(fb23$wm, na.rm = T) * (length(na.omit(fb23$wm))-1) / length(na.omit(fb23$wm)
 
 ```r
 # Populationsschätzer
-var(fb23$wm, na.rm = T)
+var(fb23$wm_pre, na.rm = T)
 ```
 
 ```
@@ -200,7 +201,7 @@ Nun fehlt noch die Betrachtung der Standardabweichung. Als einfachste Möglichke
 
 ```r
 # empirische Standardabweichung (na.omit / na.rm kann auch ausgelassen werden!)
-(sum((fb23$wm - mean(fb23$wm, na.rm = T))^2, na.rm = T) / length(na.omit(fb23$wm))) |> sqrt()
+(sum((fb23$wm_pre - mean(fb23$wm_pre, na.rm = T))^2, na.rm = T) / length(na.omit(fb23$wm_pre))) |> sqrt()
 ```
 
 ```
@@ -209,7 +210,7 @@ Nun fehlt noch die Betrachtung der Standardabweichung. Als einfachste Möglichke
 
 ```r
 # Populationsschätzer
-sd(fb23$wm, na.rm = T)
+sd(fb23$wm_pre, na.rm = T)
 ```
 
 ```
@@ -223,10 +224,10 @@ Auch hier ist der empirische Wert kleiner als der Schätzer.
 
 ## Aufgabe 4
 
-Erstellen Sie eine z-standardisierte Variante der Stimmungs-Skala als `wm_z`.
+Erstellen Sie eine z-standardisierte Variante der Skala wach/müde und legen Sie diese im Datensatz als neue Variable `wm_pre_zstd` an.
 
-* Erstellen Sie für `wm_z` ein Histogramm.
-* Was fällt Ihnen auf, wenn Sie dieses mit dem Histogramm der unstandardisierten Werte `wm` vergleichen?
+* Erstellen Sie für die z-standardisierte Variable ein Histogramm.
+* Was fällt Ihnen auf, wenn Sie dieses mit dem Histogramm der unstandardisierten Werte (Erinnerung: Variablennamen `wm_pre`) vergleichen?
 * Erstellen Sie beide Histogramme noch einmal mit 40 angeforderten Breaks.
 
 
@@ -239,11 +240,11 @@ Um die Vergleichbarkeit zu erhöhen, wird im folgenden Code ein kleiner Trick an
 par(mfrow=c(1,2))
 
 # z-Standardisierung
-fb23$wm_z <- scale(fb23$wm)
+fb23$wm_pre_zstd <- scale(fb23$wm_pre, center = TRUE, scale = TRUE)
 
 # Histogramme
-hist(fb23$wm_z)
-hist(fb23$wm)
+hist(fb23$wm_pre_zstd)
+hist(fb23$wm_pre)
 ```
 
 ![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
@@ -254,8 +255,8 @@ Beim Vergleich der beiden Histogrammen fällt auf, dass sich - aufgrund der R-Vo
 ```r
 # Histogramme mit jeweils 5/6 Breaks
 par(mfrow=c(1,2))
-hist(fb23$wm_z, breaks = 5)
-hist(fb23$wm, breaks = 6)
+hist(fb23$wm_pre_zstd, breaks = 5)
+hist(fb23$wm_pre, breaks = 6)
 ```
 
 ![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
