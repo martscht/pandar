@@ -73,7 +73,7 @@ Ein Fragebogen zum Thema Stressempfinden wird so konzipiert, dass die Verteilung
 * Für welchen z-Wert gilt stets die Aussage, dass die Verteilungsfunktion den y-Wert von 0.5 erreicht?
 * Zeichnen Sie die Verteilungsfunktion für die Standardnormalverteilung in den bereits verwendeten Grenzen.
 
-## Aufgabe 5
+## Aufgabe 5 (Transferaufgabe)
 
 Eine Schlafforscherin plant die Messung der Zeit (in Minuten), die Menschen benötigen, um nach einem stressigen Tag einzuschlafen. Sie geht davon aus, dass die gemessenen Werte einer Exponentialverteilung mit einer Rate (Kehrwert der mittleren Zeit bis zum Einschlafen) von λ = 0.05 folgen.
 

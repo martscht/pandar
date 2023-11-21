@@ -287,7 +287,7 @@ curve (expr = pnorm (x, mean = 0, sd = 1),
 
 </details>
 
-## Aufgabe 5
+## Aufgabe 5 (Transferaufgabe)
 
 Eine Schlafforscherin plant die Messung der Zeit (in Minuten), die Menschen benötigen, um nach einem stressigen Tag einzuschlafen. Sie geht davon aus, dass die gemessenen Werte einer Exponentialverteilung mit einer Rate (Kehrwert der mittleren Zeit bis zum Einschlafen) von λ = 0.05 folgen.
 
