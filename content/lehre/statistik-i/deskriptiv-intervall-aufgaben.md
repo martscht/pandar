@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler, buchholz, zacharias, pommeranz]
 weight:
-lastmod: '2023-11-06'
+lastmod: '2023-11-21'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -43,7 +43,7 @@ output:
 
 ## Aufgabe 1
 
-Erstellen Sie im Datensatz `fb23` die Skalenwerte für die Unterstkala "Ruhe" der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. Mdbf3 und Mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `wm` ab.
+Erstellen Sie im Datensatz `fb23` die Skalenwerte für die Unterstkala "Ruhe" der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. mdbf3 und mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `wm_pre` im Datensatz `fb23` ab.
 
 * Erstellen Sie den Skalenwert als Mittelwert der drei Items.
 
@@ -63,8 +63,8 @@ Bestimmen Sie für den Skalenwert `wm` die empirische Varianz und Standardabweic
 
 ## Aufgabe 4
 
-Erstellen Sie eine z-standardisierte Variante der Stimmungs-Skala als `wm_z`.
+Erstellen Sie eine z-standardisierte Variante der Skala wach/müde und legen Sie diese im Datensatz als neue Variable `wm_pre_zstd` an.
 
-* Erstellen Sie für `wm_z` ein Histogramm.
-* Was fällt Ihnen auf, wenn Sie dieses mit dem Histogramm der unstandardisierten Werte `wm` vergleichen?
+* Erstellen Sie für die z-standardisierte Variable ein Histogramm.
+* Was fällt Ihnen auf, wenn Sie dieses mit dem Histogramm der unstandardisierten Werte (Erinnerung: Variablennamen `wm_pre`) vergleichen?
 * Erstellen Sie beide Histogramme noch einmal mit 40 angeforderten Breaks.

@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte Variablen vorgestellt. Dabei wird zunächst die Berechnung des Mittelwerts, der Varianz sowie Standardabweichung behandelt. Dann wird gezeigt, wie Variablen zentriert bzw. standardisiert werden können. Abschließend geht es außerdem um das Rekodieren von Items und das Bilden von Skalenwerten.' 
 authors: [nehler, beitner, buchholz] 
 weight: 3
-lastmod: '2023-11-20'
+lastmod: '2023-11-21'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -121,14 +121,15 @@ fb23$lz
 ```
 
 ```
-##   [1] 5.4 3.4 4.4 4.4 6.4 5.6 5.4 5.0 4.8 6.0 5.4 5.4 5.8 2.6 4.8 5.2 5.4 4.4 1.4 4.8 6.6  NA 5.0
-##  [24] 4.8 7.0 5.0 4.8 5.8 5.4 5.2 6.4 5.8 5.2 5.4 3.4 6.8 6.0 6.2 5.6 5.8 5.2 4.6  NA 5.2 3.6 4.8
-##  [47] 5.8 3.2 5.4 5.6 4.6 4.6 5.0 6.8 5.8 5.8 6.2 4.2 4.4 4.8 5.0 6.6 6.6 4.6 6.0 5.6 6.0 4.0 2.6
-##  [70] 4.0 3.8 4.8 4.0 6.2 6.0 4.0 5.2 5.4 2.8 4.6 4.6 5.0 4.0 6.0 5.6 4.2 4.8 6.0 4.2 6.2 6.2 3.2
-##  [93] 4.2 5.6 4.6 6.6 4.2 1.6 4.6 5.4 5.8 6.0 5.8 5.0 3.6 7.0 6.2 6.0 6.4 5.0 5.4 5.8 5.8 3.8 6.0
-## [116] 5.8 4.8 6.8 3.6 6.2 3.2 5.6 5.4 5.6 4.6 4.8 5.6 3.2 6.2 5.4 4.4 5.6 5.4 4.2 4.4 4.4 2.8 6.4
-## [139] 5.4 5.6 5.0 6.4 5.0 5.2 6.0 5.4 6.8 4.2 2.8 5.2 6.2 5.6 5.6 5.6 7.0 5.0 4.0 5.2 6.4 5.6 5.0
-## [162] 3.6 5.2 6.6 5.8 3.8 3.6 4.0 3.8 5.6 5.2 5.8 5.4 3.6 6.2 6.0 6.2 6.0 5.4
+##   [1] 5.4 3.4 4.4 4.4 6.4 5.6 5.4 5.0 4.8 6.0 5.4 5.4 5.8 2.6 4.8 5.2 5.4 4.4 1.4 4.8 6.6  NA
+##  [23] 5.0 4.8 7.0 5.0 4.8 5.8 5.4 5.2 6.4 5.8 5.2 5.4 3.4 6.8 6.0 6.2 5.6 5.8 5.2 4.6  NA 5.2
+##  [45] 3.6 4.8 5.8 3.2 5.4 5.6 4.6 4.6 5.0 6.8 5.8 5.8 6.2 4.2 4.4 4.8 5.0 6.6 6.6 4.6 6.0 5.6
+##  [67] 6.0 4.0 2.6 4.0 3.8 4.8 4.0 6.2 6.0 4.0 5.2 5.4 2.8 4.6 4.6 5.0 4.0 6.0 5.6 4.2 4.8 6.0
+##  [89] 4.2 6.2 6.2 3.2 4.2 5.6 4.6 6.6 4.2 1.6 4.6 5.4 5.8 6.0 5.8 5.0 3.6 7.0 6.2 6.0 6.4 5.0
+## [111] 5.4 5.8 5.8 3.8 6.0 5.8 4.8 6.8 3.6 6.2 3.2 5.6 5.4 5.6 4.6 4.8 5.6 3.2 6.2 5.4 4.4 5.6
+## [133] 5.4 4.2 4.4 4.4 2.8 6.4 5.4 5.6 5.0 6.4 5.0 5.2 6.0 5.4 6.8 4.2 2.8 5.2 6.2 5.6 5.6 5.6
+## [155] 7.0 5.0 4.0 5.2 6.4 5.6 5.0 3.6 5.2 6.6 5.8 3.8 3.6 4.0 3.8 5.6 5.2 5.8 5.4 3.6 6.2 6.0
+## [177] 6.2 6.0 5.4
 ```
 
 Auf den ersten Blick ist es schwer, aus so einer großen Menge an unterschiedlichen Werten ein Fazit zu ziehen. Um eine Stichprobe zusammenzufassen, lernen wir heute deskriptive Maße kennen. Zunächst lässt sich aber feststellen, dass wir es auch auf dem Skalenwert mit fehlenden Werten (`NA`) zu tun haben. 
@@ -414,7 +415,7 @@ Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafü
 
 ## Zentrierung und Standardisierung {#Zentrieren}
 
-In der Vorlesung haben Sie gelernt, dass eine Variable zentriert oder standardisiert werden kann. Die Zentrierung sorgt für einen Mittelwert von 0, während die Standardisierung zusätzlich die Varianz auf 1 setzt. Die Variablenzentrierung und -standardisierung lässt sich in R per Hand berechnen.
+In der Vorlesung haben Sie gelernt, dass eine Variable zentriert oder standardisiert werden kann. Die Zentrierung sorgt für einen Mittelwert von 0, während die z-Standardisierung zusätzlich die Varianz auf 1 setzt. Die Variablenzentrierung und -standardisierung lässt sich in R per Hand berechnen.
 
 
 ```r
@@ -428,9 +429,9 @@ head(lz_c)    # erste 6 zentrierte Werte
 ```
 
 ```r
-# Standardisierung
+# z-Standardisierung
 lz_z <- lz_c / sd(fb23$lz, na.rm = TRUE)
-head(lz_z)    # erste 6 standardisierte Werte
+head(lz_z)    # erste 6 z-standardisierte Werte
 ```
 
 ```
@@ -441,13 +442,13 @@ head(lz_z)    # erste 6 standardisierte Werte
 
 
 ```r
-## Befehl zum Standardisieren
-lz_z <- scale(fb23$lz)
-## Befehl zum Zentrieren (ohne Standardisierung)
-lz_c <- scale(fb23$lz,
-              scale = FALSE) # unterbindet Standardisierung
+## Befehl zum z-Standardisieren
+lz_z <- scale(fb23$lz, center = TRUE, scale = TRUE) # Mittelwert auf 0 und Varianz auf 1
+## Befehl zum Zentrieren (ohne Varianzrelativierung)
+lz_c <- scale(fb23$lz, center = TRUE, scale = FALSE) # setzt Varianz nicht auf 1
 ```
 
+Beachten Sie, dass wir hier die z-standardisierten und zentrierten Werte jeweils in einem eigenen Objekt (`lz_z` und `lz_c`) und nicht als neue Variable im Datensatz (`fb23`) abgelegt haben. 
 ***
 
 
@@ -515,7 +516,8 @@ head(fb23$mdbf11_pre == 1, 15) #Zeige die ersten 15 Antworten
 ```
 
 ```
-##  [1] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE
+##  [1] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE
+## [15] FALSE
 ```
 
 Wir erhalten einen booleschen Vektor, der uns sagt, wo der Wert 1 auftaucht (`TRUE`) und wo nicht (`FALSE`).

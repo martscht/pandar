@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
 authors: [nehler, scheppa-lahyani] 
 weight: 5
-lastmod: '2023-11-15'
+lastmod: '2023-11-21'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -65,10 +65,12 @@ Den Datensatz haben wir bereits unter diesem [{{< icon name="download" pack="fas
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb23.rda'))  
+load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-
+fb23$hand_factor <- factor(fb23$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
 fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
@@ -79,10 +81,20 @@ fb23$wohnen <- factor(fb23$wohnen,
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
+# Rekodierung invertierter Items
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
+fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
 
-# Standardisierungen
-fb23$nerd_std <- scale(fb23$nerd)
-fb23$neuro_std <- scale(fb23$neuro)
+# Berechnung von Skalenwerten
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+fb23$wm_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+
+# z-Standardisierung
+fb23$wm_pre_zstd <- scale(fb23$wm_pre, center = TRUE, scale = TRUE)
 ```
 ***
 
@@ -405,10 +417,8 @@ describe(fb23$neuro)
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range
-## X1    1 179 3.35 0.98    3.5    3.37 0.74   1   5     4
-##     skew kurtosis   se
-## X1 -0.19    -0.68 0.07
+##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 179 3.35 0.98    3.5    3.37 0.74   1   5     4 -0.19    -0.68 0.07
 ```
 
 Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei 3.35. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
@@ -425,15 +435,39 @@ Inferenzstatistische Tests haben für ihre Durchführung immer Voraussetzungen. 
   
 Die erste Voraussetzung lässt sich nicht mathematisch sondern theoretisch prüfen. Sie ist natürlich essentiell, da wir hier mit Mittelwerten und Varianzen rechnen und wir bereits gelernt haben, dass diese erst ab dem Intervallskalenniveau genutzt werden sollten. Wir haben außerdem gelernt, dass Skalenwerte häufig als intervallskaliert angenommen werden. Da wir in `fb23$neuro` solche Skalenwerte haben, können wir diese Voraussetzung als gegeben annehmen.
 
-Nun sollten wir also die Normalverteilung prüfen. Hier haben wir letzte Woche bereits gelernt, dass dies grafisch geschehen kann. In einem sog. QQ-Plot werden die unter der Normalverteilung erwarteten Quantile und die tatsächlich beobachteten Quantile in einem Streudiagramm dargestellt. Je deutlicher die Punkte auf der Geraden liegen, desto näher ist die beobachtete Verteilung an der Normalverteilung.
+Nun sollten wir also die Normalverteilung prüfen. In diesem Tutorial lernen wir zunächst optische Prüfungen kennen -- im weiteren Verlauf des Studiums werden auch inferenzstatistische Testungen dazu kommen. Die einfachste optische Prüfung ist das Zeichnen eines Histogramms. Wir haben bereits gelernt, dass das mit dem Befehl `hist()` erreicht werden kann. Statt absoluten Häufigkeiten sollen hier die Dichten angezeigt werden, was wir durch die Eingabe von `freq = FALSE` bestimmen.
 
 
 ```r
-qqnorm(fb23$neuro) 
-qqline(fb23$neuro)
+hist(fb23$neuro, xlim=c(0,6), main = "Histogramm",
+     xlab = "Score", ylab= "Dichte", freq = FALSE)
 ```
 
 ![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+
+Wir sehen bereits, dass der Gipfel unserer empirischen Werte für eine Normalverteilung fehlt. Das Abflachen zu den Seiten sieht aber relativ Glockenförmig und symmetrisch aus. Für eine bessere Einordnung wäre es hilfreich, die theoretisch angenommene Normalverteilung noch zusätzlich zu unseren empirischen Werten einzuzeichnen. Hiefür nutzen wir die `curve()` Funktion. Da wir bereits einen Plot (das Histogramm) gezeichnet haben, können wir mit dem Argument `add` dafür sorgen, dass die Kurve in das bestehende Bild integriert wird. Daher müssen wir keine Angaben für `from`, `to` und Ähnliches machen. Lediglich die Form der Verteilung als Dichtefunktion der theoretischen Normalverteilung `dnorm()` und die dazu gehörigen beschreibenden Maße Mittelwert und Standardabweichung (hervorgehend aus unserer Nerdiness Variable) werden benötigt. 
+
+
+```r
+curve(dnorm(x, mean = mean(fb23$neuro), sd = sd(fb23$neuro)), add = T)
+```
+
+![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+
+Im Plot sieht man recht gut, dass es kleine Abweichungen der wirklichen empirischen Verteilung von der theoretische, perfekten Form der Normalverteilung gibt. Kleinere Abweichungen sind jedoch zu erwarten und sollten nicht zu hoch eingestuft werden. Leider wird es bei der optischen Prüfung keine perfekt objektive Lösung geben, doch je mehr Plots man im Laufe der Forschungskarriere betrachtet, umso besser kann man auch diese Verläufe einordnen. 
+
+Eine zweite Möglichkeit ist das Erstellen eines sogenannten QQ-Plots (steht für quantile-quantile). Auf der x-Achse sind diejenige Positionen notiert, die unter Gültigkeit der theoretischen Form der Normalverteilung zu erwarten wären. Auf der y-Achse wird die beobachtete Position eines Messwerts abgetragen. Damit die Werte die gleiche Skalierung haben und damit einfacher interpretierbar sind, standardisieren wir zunächst unsere Variable `neuro`. Hierfür erstellen wir eine neue Variable `neuro_std` in unserem Datensatz. Codetechnisch ist ein QQ-Plot dann schnell erstellt. Mit `qqnorm()` zeichnet man die Punkte, während `qqline()` als Unterstützung nochmal die Linien durch die Mitte zeichnet.
+
+
+```r
+fb23$neuro_std <- scale(fb23$neuro, center = T, scale = T)
+qqnorm(fb23$neuro_std)
+qqline(fb23$neuro_std)
+```
+
+![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+
+Entspricht nun unsere empirische Datenmenge der angenommenen Normalverteilung perfekt, würden alle Punkte auf der Geraden in der Mitte liegen. Auch hier gilt natürlich, dass die Bewertung letztlich eine gewisse Subjektivität hat. Die Punkte sollten nicht zu weit von der Geraden entfernt liegen. 
 
 Nach dem Plot zu urteilen könnte eine Verletzung der Normalverteilungsannahme hier vorliegen. Allerdings können wir uns behelfen und den Test trotzdem durchführen. Die Normalverteilungsannahme darf nämlich verletzt sein, wenn die Stichprobe mindestens 30 Personen umfasst. In diesen Fällen wird das inferenzstatistische Ergebnis nicht verzerrt. Dann gilt der *zentrale Grenzwertsatz*: Die Stichprobenkennwertverteilung der Mittelwerte nähert sich einer Normalverteilung an, unabhängig davon wie das Merkmal selbst in der Population verteilt ist.
 
@@ -658,7 +692,7 @@ dt
 ## [1] 0.2601209
 ```
 
-Die Effektgröße beträgt 0.26`, womit wir uns auch hier im Bereich eines kleinen Effektes befinden.
+Die Effektgröße beträgt 0.26, womit wir uns auch hier im Bereich eines kleinen Effektes befinden.
 
 
 ***

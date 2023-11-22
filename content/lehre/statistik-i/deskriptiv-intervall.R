@@ -83,15 +83,14 @@ sd(fb23$lz, na.rm = TRUE) * sqrt((177 - 1) / 177)
 lz_c <- fb23$lz - mean(fb23$lz, na.rm = TRUE)
 head(lz_c)    # erste 6 zentrierte Werte
 
-# Standardisierung
+# z-Standardisierung
 lz_z <- lz_c / sd(fb23$lz, na.rm = TRUE)
-head(lz_z)    # erste 6 standardisierte Werte
+head(lz_z)    # erste 6 z-standardisierte Werte
 
-## Befehl zum Standardisieren
-lz_z <- scale(fb23$lz)
-## Befehl zum Zentrieren (ohne Standardisierung)
-lz_c <- scale(fb23$lz,
-              scale = FALSE) # unterbindet Standardisierung
+## Befehl zum z-Standardisieren
+lz_z <- scale(fb23$lz, center = TRUE, scale = TRUE) # Mittelwert auf 0 und Varianz auf 1
+## Befehl zum Zentrieren (ohne Varianzrelativierung)
+lz_c <- scale(fb23$lz, center = TRUE, scale = FALSE) # setzt Varianz nicht auf 1
 
 fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 5)
 head(fb23$mdbf4_pre)     # erste 6 Werte ohne Transformation

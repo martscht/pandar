@@ -1,10 +1,12 @@
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb23.rda'))  
+load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-
+fb23$hand_factor <- factor(fb23$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
 fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
@@ -15,10 +17,20 @@ fb23$wohnen <- factor(fb23$wohnen,
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
+# Rekodierung invertierter Items
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
+fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
 
-# Standardisierungen
-fb23$nerd_std <- scale(fb23$nerd)
-fb23$neuro_std <- scale(fb23$neuro)
+# Berechnung von Skalenwerten
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+fb23$wm_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+
+# z-Standardisierung
+fb23$wm_pre_zstd <- scale(fb23$wm_pre, center = TRUE, scale = TRUE)
 
 
 curve(expr = dnorm(x, mean = 2.5, sd = 3.1),
@@ -88,8 +100,17 @@ library(psych)                     # laden
 
 describe(fb23$neuro)
 
-qqnorm(fb23$neuro) 
-qqline(fb23$neuro)
+
+
+
+
+hist(fb23$neuro, xlim=c(0,6), main = "Histogramm",
+     xlab = "Score", ylab= "Dichte", freq = FALSE)
+curve(dnorm(x, mean = mean(fb23$neuro), sd = sd(fb23$neuro)), add = T)
+
+fb23$neuro_std <- scale(fb23$neuro, center = T, scale = T)
+qqnorm(fb23$neuro_std)
+qqline(fb23$neuro_std)
 
 anyNA(fb23$neuro)
 sample_mean_neuro <- mean(fb23$neuro)
