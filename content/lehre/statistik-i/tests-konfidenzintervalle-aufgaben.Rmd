@@ -47,25 +47,32 @@ load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb23$hand_factor <- factor(fb23$hand,
-                           levels = 1:2,
-                           labels = c("links", "rechts"))
-
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
 fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
-                    labels = c('Allgemeine', 'Biologische', 'Entwicklung',
-                               'Klinische', 'Diag./Meth.'))
-
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
 fb23$ziel <- factor(fb23$ziel,
-                    levels = 1:4,
-                    labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-
+                        levels = 1:4,
+                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
 fb23$wohnen <- factor(fb23$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
-# Weitere Standardisierugen
-fb23$nerd_std <- scale(fb23$nerd)
-fb23$neuro_std <- scale(fb23$neuro)
+# Rekodierung invertierter Items
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
+fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
+
+# Berechnung von Skalenwerten
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+fb23$wm_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+
+# z-Standardisierung
+fb23$wm_pre_zstd <- scale(fb23$wm_pre, center = TRUE, scale = TRUE)
 
 ```
 
@@ -91,7 +98,7 @@ Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 
 **2.1** Was ist der Mittelwert ($\bar{x}$) und die geschätzte Populations-Standardabweichung ($\hat\sigma$) der Lebenszufriedenheit in der Gruppe der Psychologie-Studierenden? Schätzen Sie außerdem ausgehend von unseren erhobenen Daten den Standardfehler des Mittelwerts ($\hat{\sigma_{\bar{x}}}$) der Lebenszufriedenheit?
 
-**2.2** Sind die Lebenszufriedenheitswerte normalverteilt? Veranschaulichen Sie dies mit einem geeigneten Plot. Benutzen Sie außerdem die `qqPlot`-Funktion aus dem `car`-Paket. Wann kann man in diesem Fall von einer Normalverteilung ausgehen?
+**2.2** Sind die Lebenszufriedenheitswerte normalverteilt? Veranschaulichen Sie dies mit einer geeigneten optischen Prüfung. Benutzen Sie außerdem die `qqPlot`-Funktion aus dem `car`-Paket. Wann kann man in diesem Fall von einer Normalverteilung ausgehen?
 
 **2.3** Unterscheidet sich die Lebenszufriedenheit der Psychologie-Studierenden von der Lebenszufriedenheit der Gesamtbevölkerung (wie bereits geschrieben $\mu$ = 4.4)? Bestimmen Sie das 99%ige Konfidenzintervall.
 
@@ -102,7 +109,9 @@ Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 
 **3.2** Sind die Nerdiness-Werte (`nerd`) der Psychologie-Studierenden (1. Semester) größer als die Nerdiness-Werte der Gesamtbevölkerung ($\mu$ = 2.9)? Bestimmen Sie den p-Wert und treffen Sie basierend auf Ihrem Ergebnis eine Signifikanzentscheidung.
 
-**3.3** Sind die Psychologie-Studierenden (1. Semester) verträglicher (`vertr`) als die Grundgesamtheit ($\mu$ = 3.9)? Bestimmen Sie die Effektgröße und ordnen sie diese ein.
+**3.3** Überprüfen Sie Ihre Entscheidung aus **3.2** erneut, indem sie händisch ihren empirischen t-Wert ermittlen und mit dem entsprechenden kritischen t-Wert vergleichen.
+
+**3.4** Zeigen die Psychologie-Studierenden (1. Semester) höhere Werte auf der Verträglichkeits-Skala (`vertr`) als die Grundgesamtheit ($\mu$ = 3.9)? Bestimmen Sie die Effektgröße und ordnen sie diese ein.
 
 
 ## Aufgabe 4
@@ -110,7 +119,7 @@ Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 Folgende Aufgaben haben ein erhöhtes Schwierigkeitsniveau.
 Nehmen Sie für die weiteren Aufgaben den Datensatz `fb23` als Grundgesamtheit (Population) an.
 
-**4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Die mittlere Gewissenhaftigkeit dieser Stichprobe beträgt $\mu$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrer Gewissenhaftigkeit (`gewis`) von der Grundgesamtheit?
+**4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Der mittlere Gewissenhaftigkeits-Wert dieser Stichprobe beträgt $\mu$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrem Wert (`gewis`) von der Grundgesamtheit?
 Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzintervall.
 
 **4.2** Ziehen Sie nun selbst eine Stichprobe mit $n$ = 31 aus dem Datensatz. Nutzen Sie hierfür die `set.seed(1234)`-Funktion. Versuchen Sie zunächst selbst mit Hilfe der `sample()`-Funktion eine Stichprobe ($n$ = 31) zu ziehen. Falls Sie hier von alleine nicht weiterkommen, ist das kein Problem. Nutzen Sie dann für die weitere Aufgabenstellung folgenden Code:
@@ -120,8 +129,26 @@ Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzinterv
 ```{r}
 set.seed(1234) #erlaubt Reproduzierbarkeit
 fb23_sample <- fb23[sample(nrow(fb23), size = 31), ] #zieht eine Stichprobe mit n = 31
+
+anyNA(fb23$gewis) #keine NA's vorhanden
+
+mean_gewis_pop <- mean(fb23$gewis) #Mittelwert der Population
+
+sd_gewis_pop <- sd(fb23$gewis) * sqrt((nrow(fb23) - 1) / nrow(fb23)) #empirische Standardabweichung der Population
+
+se_gewis <- sd_gewis_pop / sqrt(nrow(fb23)) #Standardfehler
+
+mean_gewis_smpl2 <- mean(fb23_sample$gewis) #Mittelwert der Stichprobe
+
+z_gewis2 <- (mean_gewis_smpl2 - mean_gewis_pop) / se_gewis #empirischer z-Wert
+
+z_krit <- qnorm(1 - 0.05/2) #kritischer z-Wert, zweiseitig
+
+abs(z_gewis2) > z_krit #signifikant
+
+2 * pnorm(z_gewis2) #p < .05, signifikant
 ```
 
 </details>
 
-Untersuchen Sie erneut, ob sich die Stichprobe von der Grundgesamtheit (Population) in ihrer Gewissenhaftigkeit unterscheidet. Berechnen Sie den angemessenen Test.
+Untersuchen Sie erneut, ob sich die Stichprobe von der Grundgesamtheit (Population) in ihren Gewissenhaftigkeits-Werten unterscheidet. Berechnen Sie den angemessenen Test.

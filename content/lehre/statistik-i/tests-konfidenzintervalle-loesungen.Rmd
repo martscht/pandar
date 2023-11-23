@@ -14,8 +14,8 @@ banner:
   image: "/header/angel_of_the_north.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)"
 projects: []
-expiryDate: ''
-publishDate: ''
+expiryDate: '2024-10-10'
+
 _build:
   list: never
 reading_time: false
@@ -39,25 +39,32 @@ load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb23$hand_factor <- factor(fb23$hand,
-                           levels = 1:2,
-                           labels = c("links", "rechts"))
-
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
 fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
-                    labels = c('Allgemeine', 'Biologische', 'Entwicklung',
-                               'Klinische', 'Diag./Meth.'))
-
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
 fb23$ziel <- factor(fb23$ziel,
-                    levels = 1:4,
-                    labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-
+                        levels = 1:4,
+                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
 fb23$wohnen <- factor(fb23$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
-# Weitere Standardisierugen
-fb23$nerd_std <- scale(fb23$nerd)
-fb23$neuro_std <- scale(fb23$neuro)
+# Rekodierung invertierter Items
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
+fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
+
+# Berechnung von Skalenwerten
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+fb23$wm_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+
+# z-Standardisierung
+fb23$wm_pre_zstd <- scale(fb23$wm_pre, center = TRUE, scale = TRUE)
 
 ```
 
@@ -133,11 +140,15 @@ describe(fb23$lz) #Funktion aus Paket "psych"
 
 
 
-**2.2** Sind die Lebenszufriedenheitswerte normalverteilt? Veranschaulichen Sie dies mit einem geeigneten Plot. Benutzen Sie außerdem die `qqPlot`-Funktion aus dem `car`-Paket. Wann kann man in diesem Fall von einer Normalverteilung ausgehen?
+**2.2** Sind die Lebenszufriedenheitswerte normalverteilt? Veranschaulichen Sie dies mit einer geeigneten optischen Prüfung. Benutzen Sie außerdem die `qqPlot`-Funktion aus dem `car`-Paket. Wann kann man in diesem Fall von einer Normalverteilung ausgehen?
 
 <details><summary>Lösung</summary>
 
 ```{r}
+#Histogramm zur Veranschaulichung der Normalverteilung
+hist(fb23$lz, xlim = c(1,7), main = "Histogramm", xlab = "Score", ylab = "Dichte", freq = FALSE)
+curve(dnorm(x, mean = mean(fb23$lz, na.rm = TRUE), sd = sd(fb23$lz, na.rm = TRUE)), add = TRUE)
+
 #geeigneter Plot: QQ-Plot. Alle Punkte sollten auf einer Linie liegen.
 qqnorm(fb23$lz)
 qqline(fb23$lz)
@@ -146,7 +157,7 @@ qqline(fb23$lz)
 qqPlot(fb23$lz)
 
 ```
-Beide Darstellungsweisen des QQ-Plot weisen darauf hin, dass die Daten **nicht** normalverteilt sind.
+Das Histogramm, sowie beide Darstellungsweisen des QQ-Plot weisen darauf hin, dass die Daten **nicht** normalverteilt sind.
 
 </details>
 
@@ -224,8 +235,6 @@ Das 99%-ige Konfidenzintervall liegt zwischen `r round(conf_int1[1], digits = 2)
 
 </details>
 
-
-
 **3.2** Sind die Nerdiness-Werte (`nerd`) der Psychologie-Studierenden (1. Semester) größer als die Nerdiness-Werte der Gesamtbevölkerung ($\mu$ = 2.9)? Bestimmen Sie den p-Wert und treffen Sie basierend auf Ihrem Ergebnis eine Signifikanzentscheidung.
 
 <details><summary>Lösung</summary>
@@ -256,9 +265,22 @@ Der p-Wert beträgt `r round(p_test2, digits = 4)` < .05, somit kann mit einer I
 
 </details>
 
+**3.3** Überprüfen Sie Ihre Entscheidung aus **3.2** erneut, indem sie händisch ihren empirischen t-Wert ermitteln und mit dem entsprechenden kritischen t-Wert vergleichen.
 
+<details><summary>Lösung</summary>
 
-**3.3** Sind die Psychologie-Studierenden (1. Semester) verträglicher (`vertr`) als die Grundgesamtheit ($\mu$ = 3.9)? Bestimmen Sie die Effektgröße und ordnen sie diese ein.
+```{r}
+t_emp <- (mean(fb23$nerd)-2.9) / (sd(fb23$neuro)/sqrt(nrow(fb23))) # (Mittelwert Stichprobe - Mittelwert Population) / Standardfehler des Mittelwerts
+t_krit <- qt(0.05, df = (nrow(fb23)-1), lower.tail = FALSE) # Bei "Default" des vorigen Tests gehen wir von 5% beim Alphafehler aus - Alternativhypothese Größer, daher lower.tail = F
+t_emp > t_krit #Vergleich
+```
+
+Da der empirische Wert größer als der kritische Wert ist, können wir erneut bestätigen, dass die H0 verworfen und die H1 angenommen werden kann!
+
+</details>
+
+**3.4** Zeigen die Psychologie-Studierenden (1. Semester) höhere Werte auf der Verträglichkeits-Skala (`vertr`) als die Grundgesamtheit ($\mu$ = 3.9)? Bestimmen Sie die Effektgröße und ordnen sie diese ein.
+
 
 
 <details><summary>Lösung</summary>
@@ -288,7 +310,7 @@ Die Effektgröße ist mit `r round(d3, digits = 2)` nach Cohen (1988) als mittel
 Folgende Aufgaben haben ein erhöhtes Schwierigkeitsniveau.
 Nehmen Sie für die weiteren Aufgaben den Datensatz `fb23` als Grundgesamtheit (Population) an.
 
-**4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Die mittlere Gewissenhaftigkeit dieser Stichprobe beträgt $\mu$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrer Gewissenhaftigkeit (`gewis`) von der Grundgesamtheit?
+**4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Der mittlere Gewissenhaftigkeits-Wert dieser Stichprobe beträgt $\mu$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrem Wert (`gewis`) von der Grundgesamtheit?
 Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzintervall.
 
 <details><summary>Lösung</summary>
@@ -360,7 +382,7 @@ upper_conf_gewis <- mean_gewis_smpl1 + z_krit * se_gewis
 lower_conf_gewis <- mean_gewis_smpl1 - z_krit * se_gewis
 
 conf_int <- c(lower_conf_gewis, upper_conf_gewis)
-conf_int
+conf_int # Mittelwert der Population innerhalb des Intervalls, H0 kann nicht verworfen werden
 ```
 
 Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ nicht verworfen werden. Die Psychologie-Studierenden der Stichprobe unterscheiden sich nicht in ihrer Gewissenhaftigkeit von der Grundgesamtheit (Datensatz). 
@@ -432,5 +454,8 @@ abs(z_gewis2) > z_krit #signifikant
 ```
 
 Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die Psychologie-Studierenden der Stichprobe unterscheiden sich in ihrer Gewissenhaftigkeit von der Grundgesamtheit (Datensatz). 
+
+
+
 
 </details>

@@ -58,6 +58,11 @@
 {{ if $block.content.filters.exclude_future }}
   {{ $query = where $query "Date" "<" now }}
 {{ end }}
+{{/* <!-- Eigene Addition hier drunter -->*/}}
+{{/* <!-- Einziges Problem: featuredate wird HIER nicht als Datum behandelt, nur von sort by-->*/}}
+{{ if $block.content.filters.exclude_future_featured }}
+  {{ $query = where $query "Params.featuredate" "<" now }}
+{{ end }}
 
 {{ $count := len $query }}
 
