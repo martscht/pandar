@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, scheppa-lahyani, vogler] 
-lastmod: '2023-11-23'
+lastmod: '2023-11-24'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -164,6 +164,21 @@ library(psych)
 library(car)
 ```
 
+```
+## Lade nötiges Paket: carData
+```
+
+```
+## 
+## Attache Paket: 'car'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:psych':
+## 
+##     logit
+```
+
 </details>
 
 
@@ -171,7 +186,7 @@ library(car)
 
 Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 
-**2.1** Was ist der Mittelwert ($\bar{x}$) und die geschätzte Populations-Standardabweichung ($\hat\sigma$) der Lebenszufriedenheit in der Gruppe der Psychologie-Studierenden? Schätzen Sie außerdem ausgehend von unseren erhobenen Daten den Standardfehler des Mittelwerts ($\hat{\sigma_{\bar{x}}}$) der Lebenszufriedenheit.
+**2.1** Was ist der Mittelwert der Stichprobe ($\bar{x}$) und die geschätzte Populations-Standardabweichung ($\hat\sigma$) der Lebenszufriedenheit in der Gruppe der Psychologie-Studierenden? Schätzen Sie außerdem ausgehend von unseren erhobenen Daten den Standardfehler des Mittelwerts ($\hat{\sigma_{\bar{x}}}$) der Lebenszufriedenheit.
 
 <details><summary>Lösung</summary>
 
@@ -345,10 +360,9 @@ Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die 
 
 </details>
 
-
 ## Aufgabe 3
 
-**3.1** Unterscheiden sich die Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von den Extraversionswerten der Gesamtbevölkerung ($\mu$ = 3.5)? Bestimmen Sie das 99%ige Konfidenzintervall und treffen Sie basiered auf Ihrem Ergebnis eine Signifikanzentscheidung.
+**3.1** Unterscheidet sich der Mittelwert der Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von dem der Gesamtbevölkerung ($\mu$ = 3.5, $\sigma$ = 1.2)? Bestimmen Sie das 99%ige Konfidenzintervall und treffen Sie basiered auf Ihrem Ergebnis eine Signifikanzentscheidung.
 
 <details><summary>Lösung</summary>
 
@@ -356,41 +370,69 @@ Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die 
 
 $\alpha$ = .05 
 
-$H_0$: Die durchschnittlichen Extraversionswerte der Psychologie-Studierenden $\mu_1$ unterscheiden sich nicht von den Werten der Gesamtbevölkerung $\mu_0$.
+$H_0$: Der Mittelwert der Extraversionswerte der Psychologie-Studierenden $\mu_1$ unterscheidet sich nicht von der Gesamtbevölkerung $\mu_0$.
 
 $H_0$: $\mu_0$ $=$ $\mu_1$
 
-$H_1$: Die durchschnittlichen Extraversionswerte der Psychologie-Studierenden $\mu_1$ unterscheiden sich von den Werten der Gesamtbevölkerung $\mu_0$.
+$H_1$: Die Mittelwert der Extraversionswerte der Psychologie-Studierenden $\mu_1$ unterscheidet sich von der Gesamtbevölkerung $\mu_0$.
 
 $H_1$: $\mu_0$ $\neq$ $\mu_1$
 
 
 ```r
-t.test(fb23$extra, mu = 3.5, conf.level = 0.99)
+## Erste Schritte
+
+anyNA(fb23$extra) #keine NA's vorhanden
 ```
 
 ```
-## 
-## 	One Sample t-test
-## 
-## data:  fb23$extra
-## t = -3.4235, df = 178, p-value = 0.0007673
-## alternative hypothesis: true mean is not equal to 3.5
-## 99 percent confidence interval:
-##  3.091826 3.444487
-## sample estimates:
-## mean of x 
-##  3.268156
+## [1] FALSE
 ```
 
+```r
+mean_extra_pop <- 3.5 #Mittelwert der Population
 
+sd_extra_pop <- 1.2 #empirische Standardabweichung der Population
 
-Das 99%-ige Konfidenzintervall liegt zwischen 3.09 und 3.44. Der Mittelwert der Gesamtbevölkerung ($\mu$ = 3.5) liegt außerhalb dieses Intervalls, somit kann mit einer Irrtumswahrscheinlichkeit von 1% die $H_0$ verworfen werden. Die Psychologie-Studierenden unterscheiden sich in ihrer Extraversion von der Gesamtbevölkerung. 
+se_extra <- sd_extra_pop / sqrt(nrow(fb23)) #Standardfehler
+
+mean_extra_smpl <- mean(fb23$extra) #Mittelwert der Stichprobe
+
+## Konfidenzintervall
+
+z_quantil_zweiseitig <- qnorm(p = 1-(.01/2), mean = 0, sd = 1)
+
+upper <- mean_extra_smpl+((z_quantil_zweiseitig*sd_extra_pop)/sqrt(nrow(fb23)))
+
+lower <- mean_extra_smpl-((z_quantil_zweiseitig*sd_extra_pop)/sqrt(nrow(fb23)))
+
+# 3.5 lieg nicht in dem Bereich zwischen Upper und lower -> Signifikanzentscheidung kann schon getroffen werden (Mittelwert unterscheidet sich!)
+  
+## zusätzlich mögliche Signifikanzentscheidung
+
+z_extra <- (mean_extra_smpl - mean_extra_pop) / se_extra #empirischer z-Wert
+
+z_krit <- qnorm(1 - 0.05/2) #kritischer z-Wert, zweiseitig
+
+abs(z_extra) > z_krit #signifikant
+```
+
+```
+## [1] TRUE
+```
+
+```r
+2 * pnorm(z_extra) #p < .05, signifikant
+```
+
+```
+## [1] 0.009741298
+```
 
 
 </details>
 
-**3.2** Sind die Nerdiness-Werte (`nerd`) der Psychologie-Studierenden (1. Semester) größer als die Nerdiness-Werte der Gesamtbevölkerung ($\mu$ = 2.9)? Bestimmen Sie den p-Wert und treffen Sie basierend auf Ihrem Ergebnis eine Signifikanzentscheidung.
+**3.2** Sind die Offenheits-Werte (`offen`) der Psychologie-Studierenden (1. Semester) größer als die Offenheits-Werte der Gesamtbevölkerung ($\mu$ = 3.6)? Bestimmen Sie den p-Wert und treffen Sie basierend auf Ihrem Ergebnis eine Signifikanzentscheidung.
 
 <details><summary>Lösung</summary>
 
@@ -398,36 +440,36 @@ Das 99%-ige Konfidenzintervall liegt zwischen 3.09 und 3.44. Der Mittelwert der 
 
 $\alpha$ = .05 
 
-$H_0$: Die durchschnittlichen Nerdiness-Werte der Psychologie-Studierenden $\mu_1$ sind geringer oder gleich gross wie die Werte der Gesamtbevölkerung $\mu_0$.
+$H_0$: Die durchschnittlichen Offenheits-Werte der Psychologie-Studierenden $\mu_1$ sind geringer oder gleich gross wie die Werte der Gesamtbevölkerung $\mu_0$.
 
 $H_0$: $\mu_0$ $\geq$ $\mu_1$
 
-$H_1$: Die durchschnittlichen Nerdiness-Werte der Psychologie-Studierenden $\mu_1$ sind groesser als die Werte der Gesamtbevölkerung $\mu_0$.
+$H_1$: Die durchschnittlichen Offenheits-Werte der Psychologie-Studierenden $\mu_1$ sind groesser als die Werte der Gesamtbevölkerung $\mu_0$.
 
 $H_1$: $\mu_0$ $<$ $\mu_1$
 
 
 ```r
-t.test(fb23$nerd, mu = 2.9, alternative = "greater")
+t.test(fb23$offen, mu = 3.6, alternative = "greater")
 ```
 
 ```
 ## 
 ## 	One Sample t-test
 ## 
-## data:  fb23$nerd
-## t = 2.8109, df = 178, p-value = 0.002747
-## alternative hypothesis: true mean is greater than 2.9
+## data:  fb23$offen
+## t = 2.0257, df = 178, p-value = 0.02214
+## alternative hypothesis: true mean is greater than 3.6
 ## 95 percent confidence interval:
-##  2.954595      Inf
+##  3.625769      Inf
 ## sample estimates:
 ## mean of x 
-##  3.032588
+##  3.740223
 ```
 
 
 
-Der p-Wert beträgt 0.0027 < .05, somit kann mit einer Irrtumswahrscheinlichkeit von 5% die $H_0$ verworfen werden. Die Psychologie-Studierenden haben höhere Nerdiness-Werte im Vergleich zur Gesamtbevölkerung.
+Der p-Wert beträgt 0.0221 < .05, somit kann mit einer Irrtumswahrscheinlichkeit von 5% die $H_0$ verworfen werden. Die Psychologie-Studierenden haben höhere Offenheits-Werte im Vergleich zur Gesamtbevölkerung.
 
 
 </details>
@@ -438,7 +480,7 @@ Der p-Wert beträgt 0.0027 < .05, somit kann mit einer Irrtumswahrscheinlichkeit
 
 
 ```r
-t_emp <- (mean(fb23$nerd)-2.9) / (sd(fb23$neuro)/sqrt(nrow(fb23))) # (Mittelwert Stichprobe - Mittelwert Population) / Standardfehler des Mittelwerts
+t_emp <- (mean(fb23$offen)-3.6) / (sd(fb23$offen)/sqrt(nrow(fb23))) # (Mittelwert Stichprobe - Mittelwert Population) / Standardfehler des Mittelwerts
 t_krit <- qt(0.05, df = (nrow(fb23)-1), lower.tail = FALSE) # Bei "Default" des vorigen Tests gehen wir von 5% beim Alphafehler aus - Alternativhypothese Größer, daher lower.tail = F
 t_emp > t_krit #Vergleich
 ```
