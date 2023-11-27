@@ -7,9 +7,9 @@ categories: []
 tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
-authors: [nehler, vogler, scheppa-lahyani] 
+authors: [nehler, vogler, scheppa-lahyani, pommeranz] 
 weight: 
-lastmod: '2023-11-24'
+lastmod: '2023-11-27'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -130,13 +130,13 @@ Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 
 ## Aufgabe 3
 
-**3.1** Unterscheidet sich der Mittelwert der Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von dem der Gesamtbevölkerung ($\mu$ = 3.5, $\sigma$ = 1.2)? Bestimmen Sie das 99%ige Konfidenzintervall und treffen Sie basiered auf Ihrem Ergebnis eine Signifikanzentscheidung.
+**3.1** Unterscheidet sich der Mittelwert der Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von dem der Gesamtbevölkerung ($\mu$ = 3.5, $\sigma$ = 1.2)? Bestimmen Sie den p-Wert und treffen Sie basiered auf Ihrem Ergebnis eine Signifikanzentscheidung.
 
 **3.2** Sind die Offenheits-Werte (`offen`) der Psychologie-Studierenden (1. Semester) größer als die Offenheits-Werte der Gesamtbevölkerung ($\mu$ = 3.6)? Bestimmen Sie den p-Wert und treffen Sie basierend auf Ihrem Ergebnis eine Signifikanzentscheidung.
 
 **3.3** Überprüfen Sie Ihre Entscheidung aus **4.2** erneut, indem sie händisch ihren empirischen t-Wert ermittlen und mit dem entsprechenden kritischen t-Wert vergleichen.
 
-**3.4** Zeigen die Psychologie-Studierenden (1. Semester) höhere Werte auf der Verträglichkeits-Skala (`vertr`) als die Grundgesamtheit ($\mu$ = 3.9)? Bestimmen Sie die Effektgröße und ordnen sie diese ein.
+**3.4** Zeigen die Psychologie-Studierenden (1. Semester) höhere Werte auf der Verträglichkeits-Skala (`vertr`) als die Grundgesamtheit ($\mu$ = 3.3)? Bestimmen Sie das Konfidenzintervall sowie die Effektgröße und ordnen sie diese ein.
 
 
 ## Aufgabe 4
@@ -144,7 +144,7 @@ Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 Folgende Aufgaben haben ein erhöhtes Schwierigkeitsniveau.
 Nehmen Sie für die weiteren Aufgaben den Datensatz `fb23` als Grundgesamtheit (Population) an.
 
-**4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Der mittlere Gewissenhaftigkeits-Wert dieser Stichprobe beträgt $\mu$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrem Wert (`gewis`) von der Grundgesamtheit?
+**4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Der mittlere Gewissenhaftigkeits-Wert dieser Stichprobe beträgt $\bar{x}$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrem Wert (`gewis`) von der Grundgesamtheit?
 Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzintervall.
 
 **4.2** Ziehen Sie nun selbst eine Stichprobe mit $n$ = 31 aus dem Datensatz. Nutzen Sie hierfür die `set.seed(1234)`-Funktion. Versuchen Sie zunächst selbst mit Hilfe der `sample()`-Funktion eine Stichprobe ($n$ = 31) zu ziehen. Falls Sie hier von alleine nicht weiterkommen, ist das kein Problem. Nutzen Sie dann für die weitere Aufgabenstellung folgenden Code:

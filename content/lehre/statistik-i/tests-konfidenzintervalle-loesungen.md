@@ -7,8 +7,8 @@ categories: ["Statistik I Übungen"]
 tags: [] 
 subtitle: ''
 summary: '' 
-authors: [nehler, scheppa-lahyani, vogler] 
-lastmod: '2023-11-24'
+authors: [nehler, scheppa-lahyani, vogler, pommeranz] 
+lastmod: '2023-11-27'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -162,21 +162,6 @@ Damit die Funktionen ansprechbar sind, müssen die Pakete auch noch mittels `lib
 ```r
 library(psych)
 library(car)
-```
-
-```
-## Lade nötiges Paket: carData
-```
-
-```
-## 
-## Attache Paket: 'car'
-```
-
-```
-## Das folgende Objekt ist maskiert 'package:psych':
-## 
-##     logit
 ```
 
 </details>
@@ -362,7 +347,7 @@ Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die 
 
 ## Aufgabe 3
 
-**3.1** Unterscheidet sich der Mittelwert der Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von dem der Gesamtbevölkerung ($\mu$ = 3.5, $\sigma$ = 1.2)? Bestimmen Sie das 99%ige Konfidenzintervall und treffen Sie basiered auf Ihrem Ergebnis eine Signifikanzentscheidung.
+**3.1** Unterscheidet sich der Mittelwert der Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von dem der Gesamtbevölkerung ($\mu$ = 3.5, $\sigma$ = 1.2)? Bestimmen Sie den p-Wert und treffen Sie basiered auf Ihrem Ergebnis eine Signifikanzentscheidung.
 
 <details><summary>Lösung</summary>
 
@@ -383,13 +368,7 @@ $H_1$: $\mu_0$ $\neq$ $\mu_1$
 ## Erste Schritte
 
 anyNA(fb23$extra) #keine NA's vorhanden
-```
 
-```
-## [1] FALSE
-```
-
-```r
 mean_extra_pop <- 3.5 #Mittelwert der Population
 
 sd_extra_pop <- 1.2 #empirische Standardabweichung der Population
@@ -397,38 +376,24 @@ sd_extra_pop <- 1.2 #empirische Standardabweichung der Population
 se_extra <- sd_extra_pop / sqrt(nrow(fb23)) #Standardfehler
 
 mean_extra_smpl <- mean(fb23$extra) #Mittelwert der Stichprobe
+```
+**z-Wert bestimmen**
 
-## Konfidenzintervall
-
-z_quantil_zweiseitig <- qnorm(p = 1-(.01/2), mean = 0, sd = 1)
-
-upper <- mean_extra_smpl+((z_quantil_zweiseitig*sd_extra_pop)/sqrt(nrow(fb23)))
-
-lower <- mean_extra_smpl-((z_quantil_zweiseitig*sd_extra_pop)/sqrt(nrow(fb23)))
-
-# 3.5 lieg nicht in dem Bereich zwischen Upper und lower -> Signifikanzentscheidung kann schon getroffen werden (Mittelwert unterscheidet sich!)
-  
-## zusätzlich mögliche Signifikanzentscheidung
-
+```r
 z_extra <- (mean_extra_smpl - mean_extra_pop) / se_extra #empirischer z-Wert
-
-z_krit <- qnorm(1 - 0.05/2) #kritischer z-Wert, zweiseitig
-
-abs(z_extra) > z_krit #signifikant
 ```
-
-```
-## [1] TRUE
-```
+**p-Wert bestimmen**
 
 ```r
 2 * pnorm(z_extra) #p < .05, signifikant
 ```
+**optionale z-Wert-Prüfung**
 
-```
-## [1] 0.009741298
-```
+```r
+z_krit <- qnorm(1 - 0.05/2) #kritischer z-Wert, zweiseitig
 
+abs(z_extra) > z_krit #signifikant, kann als zusätzliche Überprüfung genutzt werden
+```
 
 </details>
 
@@ -440,11 +405,11 @@ abs(z_extra) > z_krit #signifikant
 
 $\alpha$ = .05 
 
-$H_0$: Die durchschnittlichen Offenheits-Werte der Psychologie-Studierenden $\mu_1$ sind geringer oder gleich gross wie die Werte der Gesamtbevölkerung $\mu_0$.
+$H_0$: Die durchschnittlichen Offenheits-Werte der Psychologie-Studierenden $\mu_1$ sind geringer oder gleich groß wie die Werte der Gesamtbevölkerung $\mu_0$.
 
 $H_0$: $\mu_0$ $\geq$ $\mu_1$
 
-$H_1$: Die durchschnittlichen Offenheits-Werte der Psychologie-Studierenden $\mu_1$ sind groesser als die Werte der Gesamtbevölkerung $\mu_0$.
+$H_1$: Die durchschnittlichen Offenheits-Werte der Psychologie-Studierenden $\mu_1$ sind größer als die Werte der Gesamtbevölkerung $\mu_0$.
 
 $H_1$: $\mu_0$ $<$ $\mu_1$
 
@@ -493,31 +458,54 @@ Da der empirische Wert größer als der kritische Wert ist, können wir erneut b
 
 </details>
 
-**3.4** Zeigen die Psychologie-Studierenden (1. Semester) höhere Werte auf der Verträglichkeits-Skala (`vertr`) als die Grundgesamtheit ($\mu$ = 3.9)? Bestimmen Sie die Effektgröße und ordnen sie diese ein.
+**3.4** Zeigen die Psychologie-Studierenden (1. Semester) höhere Werte auf der Verträglichkeits-Skala (`vertr`) als die Grundgesamtheit ($\mu$ = 3.3)? Bestimmen Sie das 99%-Konfidenzintervall sowie die Effektgröße und ordnen sie diese ein.
 
 
 
 <details><summary>Lösung</summary>
 
-**Effektgröße:**
+**Hypothesengenerierung:**
+
+$\alpha$ = .01 
+
+$H_0$: Die durchschnittlichen Verträglichkeits-Werte der Psychologie-Studierenden $\mu_1$ sind geringer oder gleich groß wie die Werte der Gesamtbevölkerung $\mu_0$.
+
+$H_0$: $\mu_0$ $\geq$ $\mu_1$
+
+$H_1$: Die durchschnittlichen Verträglichkeits-Werte der Psychologie-Studierenden $\mu_1$ sind größer als die Werte der Gesamtbevölkerung $\mu_0$.
+
+$H_1$: $\mu_0$ $<$ $\mu_1$
 
 
 ```r
+anyNA(fb23$vertr) # NAs vorhanden !
+
 mean_vertr <- mean(fb23$vertr, na.rm = TRUE) #Mittlere Verträglichkeit der Stichprobe
 
 sd_vertr <- sd(fb23$vertr, na.rm = TRUE) #Stichproben SD (Populationsschätzer)
 
-mean_pop_vertr <- 3.9 #Mittlere Verträglichkeit der Grundgesamtheit
+mean_pop_vertr <- 3.3 #Mittlere Verträglichkeit der Grundgesamtheit
+```
+**Konfidenzintervall**
 
+```r
+t_quantil_einseitig_vertr <- qt(0.01, df = length(na.omit(fb23$vertr))-1, lower.tail = FALSE)
+
+t_lower_vertr <- mean_vertr - t_quantil_einseitig_vertr * (sd_vertr / sqrt(length(na.omit(fb23$vertr)))) # Formel für N muss angepasst werden an NAs -> Wir nehmen die Länge des Vektors der Variable ohne NA statt nrow! Siehe Deskriptivstatistik für Intervallskalen
+```
+**Effektgröße**
+
+```r
 d3 <- abs((mean_vertr - mean_pop_vertr) / sd_vertr) #abs(), da Betrag
 d3
 ```
 
 ```
-## [1] 0.5312277
+## [1] 0.198954
 ```
 
-Die Effektgröße ist mit 0.53 nach Cohen (1988) als mittelstark einzuordnen.
+Da der Mittelwert der Population von 3.3 kleiner ist als das untere Konfidenzintervall mit 3.319 kann die $H_0$ verworfen werden.
+Die Effektgröße ist mit 0.2 nach Cohen (1988) als klein einzuordnen.
 
 
 </details>
@@ -529,7 +517,7 @@ Die Effektgröße ist mit 0.53 nach Cohen (1988) als mittelstark einzuordnen.
 Folgende Aufgaben haben ein erhöhtes Schwierigkeitsniveau.
 Nehmen Sie für die weiteren Aufgaben den Datensatz `fb23` als Grundgesamtheit (Population) an.
 
-**4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Der mittlere Gewissenhaftigkeits-Wert dieser Stichprobe beträgt $\mu$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrem Wert (`gewis`) von der Grundgesamtheit?
+**4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Der mittlere Gewissenhaftigkeits-Wert dieser Stichprobe beträgt $\bar{x}$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrem Wert (`gewis`) von der Grundgesamtheit?
 Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzintervall.
 
 <details><summary>Lösung</summary>
