@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [] 
 weight: 8
-lastmod: '2023-11-02'
+lastmod: '2023-11-27'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -22,15 +22,15 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/simulation
+    url: /lehre/statistik-i/simulation-poweranalyse
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/statistik-i/simulation.R
+    url: /lehre/statistik-i/simulation-poweranalyse.R
   - icon_pack: fas
     icon: pen-to-square
     name: Aufgaben
-    url: /lehre/statistik-i/simulation-aufgaben
+    url: /lehre/statistik-i/simulation-poweranalye-aufgaben
 output:
   html_document:
     keep_md: true
@@ -218,8 +218,7 @@ replicate(n = 10, expr = {X_1 <- rnorm(N)
 ```
 
 ```
-##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864
-##  [7] 0.93976306 0.43862992 0.96766599 0.68865560
+##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306 0.43862992 0.96766599 0.68865560
 ```
 
 Uns werden insgesamt 10 $p$-Werte übergeben. Wenn wir genau hinsehen, dann erkennen wir den ersten $p$-Wert wieder. Dies ist der $p$-Wert unseres Experiments weiter oben. Wiederholen wir nun das Experiment nicht nur 10 Mal, sondern 10000 Mal, dann erhalten wir eine gute Übersicht über das Verhalten der $p$-Werte unter den Bedingungen, die wir vorgegeben haben: Gültigkeit der Nullhypothese und Standardnormalverteilung der beiden von einander unabhängigen Variablen. Damit uns die 10000 Werte nicht einfach in die Konsole gedruckt werden, legen wir sie im Objekt `pt_H0` ab (für $p$-Werte für den $t$-Test unter der $H_0$-Hypothese):
