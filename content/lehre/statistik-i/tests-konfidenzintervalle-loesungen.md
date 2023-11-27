@@ -7,15 +7,15 @@ categories: ["Statistik I Übungen"]
 tags: [] 
 subtitle: ''
 summary: '' 
-authors: [nehler, scheppa-lahyani, vogler] 
-lastmod: '2023-11-08'
+authors: [nehler, scheppa-lahyani, vogler, pommeranz] 
+lastmod: '2023-11-27'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)"
 projects: []
-expiryDate: ''
-publishDate: ''
+expiryDate: '2024-10-10'
+
 _build:
   list: never
 reading_time: false
@@ -40,25 +40,32 @@ load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb23$hand_factor <- factor(fb23$hand,
-                           levels = 1:2,
-                           labels = c("links", "rechts"))
-
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
 fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
-                    labels = c('Allgemeine', 'Biologische', 'Entwicklung',
-                               'Klinische', 'Diag./Meth.'))
-
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
 fb23$ziel <- factor(fb23$ziel,
-                    levels = 1:4,
-                    labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-
+                        levels = 1:4,
+                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
 fb23$wohnen <- factor(fb23$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
-# Weitere Standardisierugen
-fb23$nerd_std <- scale(fb23$nerd)
-fb23$neuro_std <- scale(fb23$neuro)
+# Rekodierung invertierter Items
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
+fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
+
+# Berechnung von Skalenwerten
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+fb23$wm_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+
+# z-Standardisierung
+fb23$wm_pre_zstd <- scale(fb23$wm_pre, center = TRUE, scale = TRUE)
 ```
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat:
@@ -69,7 +76,7 @@ dim(fb23)
 ```
 
 ```
-## [1] 179  43
+## [1] 179  48
 ```
 
 ```r
@@ -77,57 +84,60 @@ str(fb23)
 ```
 
 ```
-## 'data.frame':	179 obs. of  43 variables:
-##  $ mdbf1_pre  : int  4 2 4 NA 3 3 2 3 3 2 ...
-##  $ mdbf2_pre  : int  2 2 3 3 3 2 3 2 2 1 ...
-##  $ mdbf3_pre  : int  3 4 2 2 2 3 3 1 2 2 ...
-##  $ mdbf4_pre  : int  2 2 1 2 1 1 3 2 3 3 ...
-##  $ mdbf5_pre  : int  3 2 3 2 2 1 3 3 2 4 ...
-##  $ mdbf6_pre  : int  2 1 2 2 2 2 2 3 2 2 ...
-##  $ mdbf7_pre  : int  4 3 3 1 1 2 2 3 3 3 ...
-##  $ mdbf8_pre  : int  3 2 3 2 3 3 2 3 3 2 ...
-##  $ mdbf9_pre  : int  2 4 1 2 3 3 4 2 2 3 ...
-##  $ mdbf10_pre : int  3 2 3 3 2 4 2 2 2 2 ...
-##  $ mdbf11_pre : int  3 2 1 2 2 1 3 1 2 4 ...
-##  $ mdbf12_pre : int  1 1 2 3 2 2 2 3 3 2 ...
-##  $ lz         : num  5.4 3.4 4.4 4.4 6.4 5.6 5.4 5 4.8 6 ...
-##  $ extra      : num  3.5 3 4 3 4 4.5 3.5 3.5 2.5 3 ...
-##  $ vertr      : num  1.5 3 3.5 4 4 4.5 4 4 3 3.5 ...
-##  $ gewis      : num  4.5 4 5 3.5 3.5 4 4.5 2.5 3.5 4 ...
-##  $ neuro      : num  5 5 2 4 3.5 4.5 3 2.5 4.5 4 ...
-##  $ offen      : num  5 5 4.5 3.5 4 4 5 4.5 4 3 ...
-##  $ prok       : num  1.8 3.1 1.5 1.6 2.7 3.3 2.2 3.4 2.4 3.1 ...
-##  $ nerd       : num  4.17 3 2.33 2.83 3.83 ...
-##  $ grund      : chr  "Berufsziel" "Interesse am Menschen" "Interesse und Berufsaussichten" "Wissenschaftliche Ergänzung zu meinen bisherigen Tätigkeiten (Arbeit in der psychiatrischen Akutpflege, Gestalt"| __truncated__ ...
-##  $ fach       : Factor w/ 5 levels "Allgemeine","Biologische",..: 4 4 4 4 4 4 NA 4 4 NA ...
-##  $ ziel       : Factor w/ 4 levels "Wirtschaft","Therapie",..: 2 2 2 2 2 2 NA 4 2 2 ...
-##  $ wissen     : int  5 4 5 4 2 3 NA 4 3 3 ...
-##  $ therap     : int  5 5 5 5 4 5 NA 3 5 5 ...
-##  $ lerntyp    : num  3 3 1 3 3 1 NA 1 3 3 ...
-##  $ hand       : int  2 2 2 2 2 2 NA 2 1 2 ...
-##  $ job        : int  1 1 1 1 2 2 NA 2 1 2 ...
-##  $ ort        : int  2 1 1 1 1 2 NA 1 1 2 ...
-##  $ ort12      : int  2 1 2 2 2 1 NA 2 2 1 ...
-##  $ wohnen     : Factor w/ 4 levels "WG","bei Eltern",..: 4 1 1 1 1 2 NA 3 3 2 ...
-##  $ uni1       : num  0 1 0 1 0 0 0 0 0 0 ...
-##  $ uni2       : num  1 1 1 1 1 1 0 1 1 1 ...
-##  $ uni3       : num  0 1 0 0 1 0 0 1 1 0 ...
-##  $ uni4       : num  0 1 0 1 0 0 0 0 0 0 ...
-##  $ attent_pre : int  6 6 6 6 6 6 NA 4 5 5 ...
-##  $ gs_post    : num  3 2.75 4 2.5 3.75 NA 4 2.75 3.75 2.5 ...
-##  $ wm_post    : num  2 1 3.75 2.75 3 NA 3.25 2 3.25 2 ...
-##  $ ru_post    : num  2.25 1.5 3.75 3.5 3 NA 3.5 2.75 2.75 2.75 ...
-##  $ attent_post: int  6 5 6 6 6 NA 6 4 5 3 ...
-##  $ hand_factor: Factor w/ 2 levels "links","rechts": 2 2 2 2 2 2 NA 2 1 2 ...
-##  $ nerd_std   : num [1:179, 1] 1.797 -0.0516 -1.108 -0.3157 1.2688 ...
-##   ..- attr(*, "scaled:center")= num 3.03
-##   ..- attr(*, "scaled:scale")= num 0.631
-##  $ neuro_std  : num [1:179, 1] 1.68 1.68 -1.383 0.659 0.148 ...
-##   ..- attr(*, "scaled:center")= num 3.35
-##   ..- attr(*, "scaled:scale")= num 0.979
+## 'data.frame':	179 obs. of  48 variables:
+##  $ mdbf1_pre   : int  4 2 4 NA 3 3 2 3 3 2 ...
+##  $ mdbf2_pre   : int  2 2 3 3 3 2 3 2 2 1 ...
+##  $ mdbf3_pre   : int  3 4 2 2 2 3 3 1 2 2 ...
+##  $ mdbf4_pre   : int  2 2 1 2 1 1 3 2 3 3 ...
+##  $ mdbf5_pre   : int  3 2 3 2 2 1 3 3 2 4 ...
+##  $ mdbf6_pre   : int  2 1 2 2 2 2 2 3 2 2 ...
+##  $ mdbf7_pre   : int  4 3 3 1 1 2 2 3 3 3 ...
+##  $ mdbf8_pre   : int  3 2 3 2 3 3 2 3 3 2 ...
+##  $ mdbf9_pre   : int  2 4 1 2 3 3 4 2 2 3 ...
+##  $ mdbf10_pre  : int  3 2 3 3 2 4 2 2 2 2 ...
+##  $ mdbf11_pre  : int  3 2 1 2 2 1 3 1 2 4 ...
+##  $ mdbf12_pre  : int  1 1 2 3 2 2 2 3 3 2 ...
+##  $ lz          : num  5.4 3.4 4.4 4.4 6.4 5.6 5.4 5 4.8 6 ...
+##  $ extra       : num  3.5 3 4 3 4 4.5 3.5 3.5 2.5 3 ...
+##  $ vertr       : num  1.5 3 3.5 4 4 4.5 4 4 3 3.5 ...
+##  $ gewis       : num  4.5 4 5 3.5 3.5 4 4.5 2.5 3.5 4 ...
+##  $ neuro       : num  5 5 2 4 3.5 4.5 3 2.5 4.5 4 ...
+##  $ offen       : num  5 5 4.5 3.5 4 4 5 4.5 4 3 ...
+##  $ prok        : num  1.8 3.1 1.5 1.6 2.7 3.3 2.2 3.4 2.4 3.1 ...
+##  $ nerd        : num  4.17 3 2.33 2.83 3.83 ...
+##  $ grund       : chr  "Berufsziel" "Interesse am Menschen" "Interesse und Berufsaussichten" "Wissenschaftliche Ergänzung zu meinen bisherigen Tätigkeiten (Arbeit in der psychiatrischen Akutpflege, Gestalt"| __truncated__ ...
+##  $ fach        : Factor w/ 5 levels "Allgemeine","Biologische",..: 4 4 4 4 4 4 NA 4 4 NA ...
+##  $ ziel        : Factor w/ 4 levels "Wirtschaft","Therapie",..: 2 2 2 2 2 2 NA 4 2 2 ...
+##  $ wissen      : int  5 4 5 4 2 3 NA 4 3 3 ...
+##  $ therap      : int  5 5 5 5 4 5 NA 3 5 5 ...
+##  $ lerntyp     : num  3 3 1 3 3 1 NA 1 3 3 ...
+##  $ hand        : int  2 2 2 2 2 2 NA 2 1 2 ...
+##  $ job         : int  1 1 1 1 2 2 NA 2 1 2 ...
+##  $ ort         : int  2 1 1 1 1 2 NA 1 1 2 ...
+##  $ ort12       : int  2 1 2 2 2 1 NA 2 2 1 ...
+##  $ wohnen      : Factor w/ 4 levels "WG","bei Eltern",..: 4 1 1 1 1 2 NA 3 3 2 ...
+##  $ uni1        : num  0 1 0 1 0 0 0 0 0 0 ...
+##  $ uni2        : num  1 1 1 1 1 1 0 1 1 1 ...
+##  $ uni3        : num  0 1 0 0 1 0 0 1 1 0 ...
+##  $ uni4        : num  0 1 0 1 0 0 0 0 0 0 ...
+##  $ attent_pre  : int  6 6 6 6 6 6 NA 4 5 5 ...
+##  $ gs_post     : num  3 2.75 4 2.5 3.75 NA 4 2.75 3.75 2.5 ...
+##  $ wm_post     : num  2 1 3.75 2.75 3 NA 3.25 2 3.25 2 ...
+##  $ ru_post     : num  2.25 1.5 3.75 3.5 3 NA 3.5 2.75 2.75 2.75 ...
+##  $ attent_post : int  6 5 6 6 6 NA 6 4 5 3 ...
+##  $ hand_factor : Factor w/ 2 levels "links","rechts": 2 2 2 2 2 2 NA 2 1 2 ...
+##  $ mdbf4_pre_r : num  3 3 4 3 4 4 2 3 2 2 ...
+##  $ mdbf11_pre_r: num  2 3 4 3 3 4 2 4 3 1 ...
+##  $ mdbf3_pre_r : num  2 1 3 3 3 2 2 4 3 3 ...
+##  $ mdbf9_pre_r : num  3 1 4 3 2 2 1 3 3 2 ...
+##  $ gs_pre      : num  3 2.5 3.75 NA 3.25 3.5 2 3.25 2.75 1.75 ...
+##  $ wm_pre      : num  2 1 2.75 2.75 2.25 2 1.75 3.25 2.75 2.25 ...
+##  $ wm_pre_zstd : num [1:179, 1] -0.9749 -2.3095 0.0261 0.0261 -0.6412 ...
+##   ..- attr(*, "scaled:center")= num 2.73
+##   ..- attr(*, "scaled:scale")= num 0.749
 ```
 
-Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 43 Spalten (Variablen). Falls Sie weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 48 Spalten (Variablen). Falls Sie weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 </details>
 
@@ -161,7 +171,7 @@ library(car)
 
 Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 
-**2.1** Was ist der Mittelwert ($\bar{x}$) und die geschätzte Populations-Standardabweichung ($\hat\sigma$) der Lebenszufriedenheit in der Gruppe der Psychologie-Studierenden? Schätzen Sie außerdem ausgehend von unseren erhobenen Daten den Standardfehler des Mittelwerts ($\hat{\sigma_{\bar{x}}}$) der Lebenszufriedenheit.
+**2.1** Was ist der Mittelwert der Stichprobe ($\bar{x}$) und die geschätzte Populations-Standardabweichung ($\hat\sigma$) der Lebenszufriedenheit in der Gruppe der Psychologie-Studierenden? Schätzen Sie außerdem ausgehend von unseren erhobenen Daten den Standardfehler des Mittelwerts ($\hat{\sigma_{\bar{x}}}$) der Lebenszufriedenheit.
 
 <details><summary>Lösung</summary>
 
@@ -217,10 +227,18 @@ describe(fb23$lz) #Funktion aus Paket "psych"
 
 
 
-**2.2** Sind die Lebenszufriedenheitswerte normalverteilt? Veranschaulichen Sie dies mit einem geeigneten Plot. Benutzen Sie außerdem die `qqPlot`-Funktion aus dem `car`-Paket. Wann kann man in diesem Fall von einer Normalverteilung ausgehen?
+**2.2** Sind die Lebenszufriedenheitswerte normalverteilt? Veranschaulichen Sie dies mit einer geeigneten optischen Prüfung. Benutzen Sie außerdem die `qqPlot`-Funktion aus dem `car`-Paket. Wann kann man in diesem Fall von einer Normalverteilung ausgehen?
 
 <details><summary>Lösung</summary>
 
+
+```r
+#Histogramm zur Veranschaulichung der Normalverteilung
+hist(fb23$lz, xlim = c(1,7), main = "Histogramm", xlab = "Score", ylab = "Dichte", freq = FALSE)
+curve(dnorm(x, mean = mean(fb23$lz, na.rm = TRUE), sd = sd(fb23$lz, na.rm = TRUE)), add = TRUE)
+```
+
+![](/lehre/statistik-i/tests-konfidenzintervalle-loesungen_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 ```r
 #geeigneter Plot: QQ-Plot. Alle Punkte sollten auf einer Linie liegen.
@@ -228,19 +246,19 @@ qqnorm(fb23$lz)
 qqline(fb23$lz)
 ```
 
-![](/lehre/statistik-i/tests-konfidenzintervalle-loesungen_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](/lehre/statistik-i/tests-konfidenzintervalle-loesungen_files/figure-html/unnamed-chunk-7-2.png)<!-- -->
 
 ```r
 #Die qqPlot-Funktion zeichnet ein Konfidenzintervall in den QQ-Plot. Dies macht es für Betrachter:innen einfacher zu entscheiden, ob alle Punkte in etwa auf einer Linie liegen. Die Punkte sollten nicht außerhalb der blauen Linien liegen.
 qqPlot(fb23$lz)
 ```
 
-![](/lehre/statistik-i/tests-konfidenzintervalle-loesungen_files/figure-html/unnamed-chunk-7-2.png)<!-- -->
+![](/lehre/statistik-i/tests-konfidenzintervalle-loesungen_files/figure-html/unnamed-chunk-7-3.png)<!-- -->
 
 ```
 ## [1] 19 98
 ```
-Beide Darstellungsweisen des QQ-Plot weisen darauf hin, dass die Daten **nicht** normalverteilt sind.
+Das Histogramm, sowie beide Darstellungsweisen des QQ-Plot weisen darauf hin, dass die Daten **nicht** normalverteilt sind.
 
 </details>
 
@@ -327,10 +345,9 @@ Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die 
 
 </details>
 
-
 ## Aufgabe 3
 
-**3.1** Unterscheiden sich die Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von den Extraversionswerten der Gesamtbevölkerung ($\mu$ = 3.5)? Bestimmen Sie das 99%ige Konfidenzintervall und treffen Sie basiered auf Ihrem Ergebnis eine Signifikanzentscheidung.
+**3.1** Unterscheidet sich der Mittelwert der Extraversionswerte (`extra`) der Studierenden der Psychologie (1. Semester) von dem der Gesamtbevölkerung ($\mu$ = 3.5, $\sigma$ = 1.2)? Bestimmen Sie den p-Wert und treffen Sie basiered auf Ihrem Ergebnis eine Signifikanzentscheidung.
 
 <details><summary>Lösung</summary>
 
@@ -338,43 +355,49 @@ Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die 
 
 $\alpha$ = .05 
 
-$H_0$: Die durchschnittlichen Extraversionswerte der Psychologie-Studierenden $\mu_1$ unterscheiden sich nicht von den Werten der Gesamtbevölkerung $\mu_0$.
+$H_0$: Der Mittelwert der Extraversionswerte der Psychologie-Studierenden $\mu_1$ unterscheidet sich nicht von der Gesamtbevölkerung $\mu_0$.
 
 $H_0$: $\mu_0$ $=$ $\mu_1$
 
-$H_1$: Die durchschnittlichen Extraversionswerte der Psychologie-Studierenden $\mu_1$ unterscheiden sich von den Werten der Gesamtbevölkerung $\mu_0$.
+$H_1$: Die Mittelwert der Extraversionswerte der Psychologie-Studierenden $\mu_1$ unterscheidet sich von der Gesamtbevölkerung $\mu_0$.
 
 $H_1$: $\mu_0$ $\neq$ $\mu_1$
 
 
 ```r
-t.test(fb23$extra, mu = 3.5, conf.level = 0.99)
+## Erste Schritte
+
+anyNA(fb23$extra) #keine NA's vorhanden
+
+mean_extra_pop <- 3.5 #Mittelwert der Population
+
+sd_extra_pop <- 1.2 #empirische Standardabweichung der Population
+
+se_extra <- sd_extra_pop / sqrt(nrow(fb23)) #Standardfehler
+
+mean_extra_smpl <- mean(fb23$extra) #Mittelwert der Stichprobe
 ```
+**z-Wert bestimmen**
 
+```r
+z_extra <- (mean_extra_smpl - mean_extra_pop) / se_extra #empirischer z-Wert
 ```
-## 
-## 	One Sample t-test
-## 
-## data:  fb23$extra
-## t = -3.4235, df = 178, p-value = 0.0007673
-## alternative hypothesis: true mean is not equal to 3.5
-## 99 percent confidence interval:
-##  3.091826 3.444487
-## sample estimates:
-## mean of x 
-##  3.268156
+**p-Wert bestimmen**
+
+```r
+2 * pnorm(z_extra) #p < .05, signifikant
 ```
+**optionale z-Wert-Prüfung**
 
+```r
+z_krit <- qnorm(1 - 0.05/2) #kritischer z-Wert, zweiseitig
 
-
-Das 99%-ige Konfidenzintervall liegt zwischen 3.09 und 3.44. Der Mittelwert der Gesamtbevölkerung ($\mu$ = 3.5) liegt außerhalb dieses Intervalls, somit kann mit einer Irrtumswahrscheinlichkeit von 1% die $H_0$ verworfen werden. Die Psychologie-Studierenden unterscheiden sich in ihrer Extraversion von der Gesamtbevölkerung. 
-
+abs(z_extra) > z_krit #signifikant, kann als zusätzliche Überprüfung genutzt werden
+```
 
 </details>
 
-
-
-**3.2** Sind die Nerdiness-Werte (`nerd`) der Psychologie-Studierenden (1. Semester) größer als die Nerdiness-Werte der Gesamtbevölkerung ($\mu$ = 2.9)? Bestimmen Sie den p-Wert und treffen Sie basierend auf Ihrem Ergebnis eine Signifikanzentscheidung.
+**3.2** Sind die Offenheits-Werte (`offen`) der Psychologie-Studierenden (1. Semester) größer als die Offenheits-Werte der Gesamtbevölkerung ($\mu$ = 3.6)? Bestimmen Sie den p-Wert und treffen Sie basierend auf Ihrem Ergebnis eine Signifikanzentscheidung.
 
 <details><summary>Lösung</summary>
 
@@ -382,66 +405,107 @@ Das 99%-ige Konfidenzintervall liegt zwischen 3.09 und 3.44. Der Mittelwert der 
 
 $\alpha$ = .05 
 
-$H_0$: Die durchschnittlichen Nerdiness-Werte der Psychologie-Studierenden $\mu_1$ sind geringer oder gleich gross wie die Werte der Gesamtbevölkerung $\mu_0$.
+$H_0$: Die durchschnittlichen Offenheits-Werte der Psychologie-Studierenden $\mu_1$ sind geringer oder gleich groß wie die Werte der Gesamtbevölkerung $\mu_0$.
 
 $H_0$: $\mu_0$ $\geq$ $\mu_1$
 
-$H_1$: Die durchschnittlichen Nerdiness-Werte der Psychologie-Studierenden $\mu_1$ sind groesser als die Werte der Gesamtbevölkerung $\mu_0$.
+$H_1$: Die durchschnittlichen Offenheits-Werte der Psychologie-Studierenden $\mu_1$ sind größer als die Werte der Gesamtbevölkerung $\mu_0$.
 
 $H_1$: $\mu_0$ $<$ $\mu_1$
 
 
 ```r
-t.test(fb23$nerd, mu = 2.9, alternative = "greater")
+t.test(fb23$offen, mu = 3.6, alternative = "greater")
 ```
 
 ```
 ## 
 ## 	One Sample t-test
 ## 
-## data:  fb23$nerd
-## t = 2.8109, df = 178, p-value = 0.002747
-## alternative hypothesis: true mean is greater than 2.9
+## data:  fb23$offen
+## t = 2.0257, df = 178, p-value = 0.02214
+## alternative hypothesis: true mean is greater than 3.6
 ## 95 percent confidence interval:
-##  2.954595      Inf
+##  3.625769      Inf
 ## sample estimates:
 ## mean of x 
-##  3.032588
+##  3.740223
 ```
 
 
 
-Der p-Wert beträgt 0.0027 < .05, somit kann mit einer Irrtumswahrscheinlichkeit von 5% die $H_0$ verworfen werden. Die Psychologie-Studierenden haben höhere Nerdiness-Werte im Vergleich zur Gesamtbevölkerung.
+Der p-Wert beträgt 0.0221 < .05, somit kann mit einer Irrtumswahrscheinlichkeit von 5% die $H_0$ verworfen werden. Die Psychologie-Studierenden haben höhere Offenheits-Werte im Vergleich zur Gesamtbevölkerung.
 
 
 </details>
 
+**3.3** Überprüfen Sie Ihre Entscheidung aus **3.2** erneut, indem sie händisch ihren empirischen t-Wert ermitteln und mit dem entsprechenden kritischen t-Wert vergleichen.
+
+<details><summary>Lösung</summary>
 
 
-**3.3** Sind die Psychologie-Studierenden (1. Semester) verträglicher (`vertr`) als die Grundgesamtheit ($\mu$ = 3.9)? Bestimmen Sie die Effektgröße und ordnen sie diese ein.
+```r
+t_emp <- (mean(fb23$offen)-3.6) / (sd(fb23$offen)/sqrt(nrow(fb23))) # (Mittelwert Stichprobe - Mittelwert Population) / Standardfehler des Mittelwerts
+t_krit <- qt(0.05, df = (nrow(fb23)-1), lower.tail = FALSE) # Bei "Default" des vorigen Tests gehen wir von 5% beim Alphafehler aus - Alternativhypothese Größer, daher lower.tail = F
+t_emp > t_krit #Vergleich
+```
+
+```
+## [1] TRUE
+```
+
+Da der empirische Wert größer als der kritische Wert ist, können wir erneut bestätigen, dass die H0 verworfen und die H1 angenommen werden kann!
+
+</details>
+
+**3.4** Zeigen die Psychologie-Studierenden (1. Semester) höhere Werte auf der Verträglichkeits-Skala (`vertr`) als die Grundgesamtheit ($\mu$ = 3.3)? Bestimmen Sie das 99%-Konfidenzintervall sowie die Effektgröße und ordnen sie diese ein.
+
 
 
 <details><summary>Lösung</summary>
 
-**Effektgröße:**
+**Hypothesengenerierung:**
+
+$\alpha$ = .01 
+
+$H_0$: Die durchschnittlichen Verträglichkeits-Werte der Psychologie-Studierenden $\mu_1$ sind geringer oder gleich groß wie die Werte der Gesamtbevölkerung $\mu_0$.
+
+$H_0$: $\mu_0$ $\geq$ $\mu_1$
+
+$H_1$: Die durchschnittlichen Verträglichkeits-Werte der Psychologie-Studierenden $\mu_1$ sind größer als die Werte der Gesamtbevölkerung $\mu_0$.
+
+$H_1$: $\mu_0$ $<$ $\mu_1$
 
 
 ```r
+anyNA(fb23$vertr) # NAs vorhanden !
+
 mean_vertr <- mean(fb23$vertr, na.rm = TRUE) #Mittlere Verträglichkeit der Stichprobe
 
 sd_vertr <- sd(fb23$vertr, na.rm = TRUE) #Stichproben SD (Populationsschätzer)
 
-mean_pop_vertr <- 3.9 #Mittlere Verträglichkeit der Grundgesamtheit
+mean_pop_vertr <- 3.3 #Mittlere Verträglichkeit der Grundgesamtheit
+```
+**Konfidenzintervall**
 
+```r
+t_quantil_einseitig_vertr <- qt(0.01, df = length(na.omit(fb23$vertr))-1, lower.tail = FALSE)
+
+t_lower_vertr <- mean_vertr - t_quantil_einseitig_vertr * (sd_vertr / sqrt(length(na.omit(fb23$vertr)))) # Formel für N muss angepasst werden an NAs -> Wir nehmen die Länge des Vektors der Variable ohne NA statt nrow! Siehe Deskriptivstatistik für Intervallskalen
+```
+**Effektgröße**
+
+```r
 d3 <- abs((mean_vertr - mean_pop_vertr) / sd_vertr) #abs(), da Betrag
 d3
 ```
 
 ```
-## [1] 0.5312277
+## [1] 0.198954
 ```
 
-Die Effektgröße ist mit 0.53 nach Cohen (1988) als mittelstark einzuordnen.
+Da der Mittelwert der Population von 3.3 kleiner ist als das untere Konfidenzintervall mit 3.319 kann die $H_0$ verworfen werden.
+Die Effektgröße ist mit 0.2 nach Cohen (1988) als klein einzuordnen.
 
 
 </details>
@@ -453,7 +517,7 @@ Die Effektgröße ist mit 0.53 nach Cohen (1988) als mittelstark einzuordnen.
 Folgende Aufgaben haben ein erhöhtes Schwierigkeitsniveau.
 Nehmen Sie für die weiteren Aufgaben den Datensatz `fb23` als Grundgesamtheit (Population) an.
 
-**4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Die mittlere Gewissenhaftigkeit dieser Stichprobe beträgt $\mu$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrer Gewissenhaftigkeit (`gewis`) von der Grundgesamtheit?
+**4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Der mittlere Gewissenhaftigkeits-Wert dieser Stichprobe beträgt $\bar{x}$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrem Wert (`gewis`) von der Grundgesamtheit?
 Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzintervall.
 
 <details><summary>Lösung</summary>
@@ -544,7 +608,7 @@ upper_conf_gewis <- mean_gewis_smpl1 + z_krit * se_gewis
 lower_conf_gewis <- mean_gewis_smpl1 - z_krit * se_gewis
 
 conf_int <- c(lower_conf_gewis, upper_conf_gewis)
-conf_int
+conf_int # Mittelwert der Population innerhalb des Intervalls, H0 kann nicht verworfen werden
 ```
 
 ```
@@ -639,5 +703,8 @@ abs(z_gewis2) > z_krit #signifikant
 ```
 
 Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die Psychologie-Studierenden der Stichprobe unterscheiden sich in ihrer Gewissenhaftigkeit von der Grundgesamtheit (Datensatz). 
+
+
+
 
 </details>
