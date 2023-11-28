@@ -43,7 +43,7 @@ output:
 
 ## Aufgabe 1
 
-Erstellen Sie im Datensatz `fb23` die Skalenwerte für die Unterskala "Ruhe" der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. mdbf3 und mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `wm_pre` im Datensatz `fb23` ab.
+Erstellen Sie im Datensatz `fb23` die Skalenwerte für die Subskala ruhig/unruhig der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. mdbf3 und mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `ru_pre` im Datensatz `fb23` ab.
 
 * Erstellen Sie den Skalenwert als Mittelwert der vier Items.
 
@@ -56,15 +56,15 @@ Bestimmen Sie für die Skala den gesamten Mittelwert und Median.
 
 ## Aufgabe 3
 
-Bestimmen Sie für den Skalenwert `wm` die empirische Varianz und Standardabweichung. Achten Sie dabei darauf, ob es auf der Skala fehlende Werte gibt.
+Bestimmen Sie für den Skalenwert `ru_pre` die empirische Varianz und Standardabweichung. Achten Sie dabei darauf, ob es auf der Skala fehlende Werte gibt.
 
 * Sind empirische Varianz und Standardabweichung größer oder kleiner als diejenige Schätzung, die mithilfe von `var()` oder `sd()` bestimmt wird?  
 
 
 ## Aufgabe 4
 
-Erstellen Sie eine z-standardisierte Variante der Skala wach/müde und legen Sie diese im Datensatz als neue Variable `wm_pre_zstd` an.
+Erstellen Sie eine z-standardisierte Variante der Skala ruhig/unruhig und legen Sie diese im Datensatz als neue Variable `ru_pre_zstd` an.
 
 * Erstellen Sie für die z-standardisierte Variable ein Histogramm.
-* Was fällt Ihnen auf, wenn Sie dieses mit dem Histogramm der unstandardisierten Werte (Erinnerung: Variablennamen `wm_pre`) vergleichen?
+* Was fällt Ihnen auf, wenn Sie dieses mit dem Histogramm der unstandardisierten Werte (Erinnerung: Variablennamen `ru_pre`) vergleichen?
 * Erstellen Sie beide Histogramme noch einmal mit 40 angeforderten Breaks.
