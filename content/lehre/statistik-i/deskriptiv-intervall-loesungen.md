@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, buchholz, zacharias, pommeranz] 
-lastmod: '2023-11-21'
+lastmod: '2023-11-28'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -59,9 +59,9 @@ fb23$wohnen <- factor(fb23$wohnen,
 
 ## Aufgabe 1
 
-Erstellen Sie im Datensatz `fb23` die Skalenwerte für die Unterstkala "Ruhe" der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. mdbf3 und mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `wm_pre` im Datensatz `fb23` ab.
+Erstellen Sie im Datensatz `fb23` die Skalenwerte für die Unterskala "Ruhe" der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. mdbf3 und mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `wm_pre` im Datensatz `fb23` ab.
 
-* Erstellen Sie den Skalenwert als Mittelwert der drei Items.
+* Erstellen Sie den Skalenwert als Mittelwert der vier Items.
 
 
 <details><summary>Lösung</summary>
