@@ -141,7 +141,7 @@ sample_mean_neuro - t_quantil_einseitig *(sample_sd_neuro / sqrt(sample_size))
 
 t.test(x = fb23$neuro, mu = 3.1, alternative = "greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
 
-dz <- abs((sample_mean_nerd - pop_mean_nerd)/ pop_mean_nerd) 
+dz <- abs((sample_mean_nerd - pop_mean_nerd)/ pop_sd_nerd) 
 dz
 
 dt <- abs((sample_mean_neuro - pop_mean_neuro)/ sample_sd_neuro)

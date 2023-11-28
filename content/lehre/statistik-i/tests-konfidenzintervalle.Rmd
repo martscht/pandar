@@ -10,7 +10,7 @@ summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Int
 authors: [nehler, scheppa-lahyani] 
 weight: 5
 lastmod: '`r Sys.Date()`'
-featured: no
+featured: yes
 banner:
   image: "/header/angel_of_the_north.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)"
@@ -570,7 +570,7 @@ $$d = |\frac{\bar{x} - {\mu}}{\sigma}|$$
 Die Umsetzung in R ist aufgrund der einfachen Formel auch recht schnell. In unserem Einstichproben-z-Test haben wir die Nerdiness Werte aus unserer Stichprobe analysiert. Die funktion `abs()` bestimmt den Betrag einer Zahl und wird daher hier verwendet.
 
 ```{r}
-dz <- abs((sample_mean_nerd - pop_mean_nerd)/ pop_mean_nerd) 
+dz <- abs((sample_mean_nerd - pop_mean_nerd)/ pop_sd_nerd) 
 dz
 ```
 
