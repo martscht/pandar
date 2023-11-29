@@ -9,8 +9,8 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
 authors: [nehler, scheppa-lahyani] 
 weight: 5
-lastmod: '2023-11-21'
-featured: no
+lastmod: '2023-11-28'
+featured: yes
 banner:
   image: "/header/angel_of_the_north.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)"
@@ -90,11 +90,11 @@ fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
 # Berechnung von Skalenwerten
 fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
                         'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
-fb23$wm_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
                          "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
 
 # z-Standardisierung
-fb23$wm_pre_zstd <- scale(fb23$wm_pre, center = TRUE, scale = TRUE)
+fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
 ```
 ***
 
@@ -657,12 +657,12 @@ Die Umsetzung in R ist aufgrund der einfachen Formel auch recht schnell. In unse
 
 
 ```r
-dz <- abs((sample_mean_nerd - pop_mean_nerd)/ pop_mean_nerd) 
+dz <- abs((sample_mean_nerd - pop_mean_nerd)/ pop_sd_nerd) 
 dz
 ```
 
 ```
-## [1] 0.2130354
+## [1] 0.1718027
 ```
 
 Effektgrößen beschreiben die Relevanz von signifikanten Ergebnissen. Zudem kann es verwendet werden, um den Effekt über verschiedene Studien hinweg zu vergleichen. Normalerweise sollte die Einordnung der Größe anhand vergleichbarer Studien aus dem selben Bereich durchgeführt werden. Bei völliger Ahnungslosigkeit über relevante Größen gibt es eine Übersicht zur Orientierung. Es gilt nach Cohen (1988):
@@ -673,7 +673,7 @@ Effektgrößen beschreiben die Relevanz von signifikanten Ergebnissen. Zudem kan
 
 *d* = 0.8 -> großer Effekt
 
-Die Effektgröße beträgt in diesem Fall 0.21. Da wir keine Vergleichsstudien haben spricht dies für einen kleinen Effekt.
+Die Effektgröße beträgt in diesem Fall 0.17. Da wir keine Vergleichsstudien haben spricht dies für einen kleinen Effekt.
 
 
 
