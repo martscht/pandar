@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [] 
 weight: 3
-lastmod: '2023-11-27'
+lastmod: '2023-11-29'
 featured: no
 banner:
   image: "/header/books.jpg"
@@ -345,9 +345,10 @@ names(summary(m0)) # alle Informationen, die wir der Summary entlocken können
 ```
 
 ```
-##  [1] "methTitle"    "objClass"     "devcomp"      "isLmer"       "useScale"     "logLik"       "family"      
-##  [8] "link"         "ngrps"        "coefficients" "sigma"        "vcov"         "varcor"       "AICtab"      
-## [15] "call"         "residuals"    "fitMsgs"      "optinfo"
+##  [1] "methTitle"    "objClass"     "devcomp"      "isLmer"       "useScale"    
+##  [6] "logLik"       "family"       "link"         "ngrps"        "coefficients"
+## [11] "sigma"        "vcov"         "varcor"       "AICtab"       "call"        
+## [16] "residuals"    "fitMsgs"      "optinfo"
 ```
 
 **Inhaltliche Interpretation**: 16.2% der Varianz in der Mathematikleistung können durch die Klassenzugehörigkeit erklärt werden. Die Multi-Level-Struktur in den Daten muss somit unbedingt berücksichtigt werden.
@@ -430,7 +431,7 @@ Die Varianz unseres Kriteriums $Y$ haben wir im Null-Modell in Varianz des Clust
 
 $$\mathbb{V}ar[Y] = \mathbb{V}ar[u_0]+\underbrace{\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*]}_{\mathbb{V}ar[\varepsilon]}.$$ 
 
-Für mehr Informationen zu Varianzrechenregeln siehe im [Appendix B](#AppendixB) nach. Wir schreiben hier $\varepsilon^*$, da es sich um ein anderes Residuum handelt, als im leeren Modell ($X_1$ ist ja mit von der Partie). Dieser ideellen Gleichung ist zu entnehmen, dass die Varianz von $\varepsilon^*$ kleiner ausfällt, also die von $\varepsilon$, wenn $\gamma_{10}\neq 0$ und $X_1$ nicht konstant ist, also wenn $X_1$ zur Vorhersage vom Kriterium beiträgt (also folgt $\mathbb{V}ar[\varepsilon^*]<\mathbb{V}ar[\varepsilon]$). Wir machen uns diese Gegebenheit zu nutze und quantifizieren die relative Veränderung in der Varianz des Residuums und nennen diese Pseudo-$R^2$:
+Für mehr Informationen zu Varianzrechenregeln siehe im [Appendix B](#AppendixB) nach. Wir schreiben hier $\varepsilon^\*$, da es sich um ein anderes Residuum handelt, als im leeren Modell ($X_1$ ist ja mit von der Partie). Dieser ideellen Gleichung ist zu entnehmen, dass die Varianz von $\varepsilon^\*$ kleiner ausfällt, also die von $\varepsilon$, wenn $\gamma_{10}\neq 0$ und $X_1$ nicht konstant ist, also wenn $X_1$ zur Vorhersage vom Kriterium beiträgt (also folgt $\mathbb{V}ar[\varepsilon^*]<\mathbb{V}ar[\varepsilon]$). Wir machen uns diese Gegebenheit zu nutze und quantifizieren die relative Veränderung in der Varianz des Residuums und nennen diese Pseudo-$R^2$:
 
 <div class=“big maths“> 
 \begin{equation} 
@@ -803,7 +804,8 @@ summary(m4)
 
 ```
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +      (1 | schulklasse)
+## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
+##     (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
 ## REML criterion at convergence: 6200.9
@@ -820,8 +822,8 @@ summary(m4)
 ## 
 ## Fixed effects:
 ##                          Estimate Std. Error        df t value Pr(>|t|)    
-## (Intercept)              53.79131    0.87354  36.11428  61.579  < 2e-16 ***
-## KlassenG_c               -0.21300    0.13491  37.53997  -1.579    0.123    
+## (Intercept)              53.79131    0.87354  36.11427  61.579  < 2e-16 ***
+## KlassenG_c               -0.21300    0.13491  37.53996  -1.579    0.123    
 ## Motivation_c              6.13299    0.29316 807.83209  20.920  < 2e-16 ***
 ## KlassenG_c:Motivation_c   0.27575    0.04679 808.15014   5.893 5.56e-09 ***
 ## ---
@@ -864,7 +866,8 @@ summary(m4c)
 
 ```
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +      (1 + Motivation_c | schulklasse)
+## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
+##     (1 + Motivation_c | schulklasse)
 ##    Data: StudentsInClasses
 ## 
 ## REML criterion at convergence: 5767.3
@@ -928,7 +931,7 @@ X^*_{ij}=X_{ij}-\bar{X}_{\cdot\cdot}
 \end{equation}
 </div>
 
-Ein Wert von 0 auf $X_{ij}^*$ bedeutet, dass diese Messung gerade genau dem Mittelwert der gesamten Stichprobe (über alle Personen $i$ und alle Clustereinheiten $j$) entspricht.
+Ein Wert von 0 auf $X_{ij}^\*$ bedeutet, dass diese Messung gerade genau dem Mittelwert der gesamten Stichprobe (über alle Personen $i$ und alle Clustereinheiten $j$) entspricht.
 
 ### Group-Mean-Centering
 Bei der gruppenspezifischen (auch clusterspezifischen) Zentrierung (Group-Mean-Centering), ziehen wir von jeder Messung $X_{ij}$ den Mittelwert des $j$ Clusters auf dieser Variable ab (also bspw. den Mittelwert der Matheleistung einer Klasse ziehen wir von den individuellen Matheleistungen aller Schüler dieser Klasse ab):
@@ -976,13 +979,20 @@ head(StudentsInClasses)
 ```
 
 ```
-##   MatheL Motivation KFT KlassenG schulklasse Motivation_c KlassenG_c Motivation_groupc Mot_groupmeans Mot_groupmeans_c
-## 1  48.76          4  98       26           1   -0.2858824  -1.090588             -0.36           4.36       0.07411765
-## 2  46.01          3  96       26           1   -1.2858824  -1.090588             -1.36           4.36       0.07411765
-## 3  65.96          5 112       26           1    0.7141176  -1.090588              0.64           4.36       0.07411765
-## 4  42.08          4  94       26           1   -0.2858824  -1.090588             -0.36           4.36       0.07411765
-## 5   0.00          2  78       26           1   -2.2858824  -1.090588             -2.36           4.36       0.07411765
-## 6  56.52          5 104       26           1    0.7141176  -1.090588              0.64           4.36       0.07411765
+##   MatheL Motivation KFT KlassenG schulklasse Motivation_c KlassenG_c Motivation_groupc
+## 1  48.76          4  98       26           1   -0.2858824  -1.090588             -0.36
+## 2  46.01          3  96       26           1   -1.2858824  -1.090588             -1.36
+## 3  65.96          5 112       26           1    0.7141176  -1.090588              0.64
+## 4  42.08          4  94       26           1   -0.2858824  -1.090588             -0.36
+## 5   0.00          2  78       26           1   -2.2858824  -1.090588             -2.36
+## 6  56.52          5 104       26           1    0.7141176  -1.090588              0.64
+##   Mot_groupmeans Mot_groupmeans_c
+## 1           4.36       0.07411765
+## 2           4.36       0.07411765
+## 3           4.36       0.07411765
+## 4           4.36       0.07411765
+## 5           4.36       0.07411765
+## 6           4.36       0.07411765
 ```
 
 ```r
@@ -991,10 +1001,10 @@ round(colMeans(StudentsInClasses), 10)
 ```
 
 ```
-##            MatheL        Motivation               KFT          KlassenG       schulklasse      Motivation_c 
-##         53.616047          4.285882        100.001176         27.090588         20.280000          0.000000 
-##        KlassenG_c Motivation_groupc    Mot_groupmeans  Mot_groupmeans_c 
-##          0.000000          0.000000          4.285882          0.000000
+##            MatheL        Motivation               KFT          KlassenG       schulklasse 
+##         53.616047          4.285882        100.001176         27.090588         20.280000 
+##      Motivation_c        KlassenG_c Motivation_groupc    Mot_groupmeans  Mot_groupmeans_c 
+##          0.000000          0.000000          0.000000          4.285882          0.000000
 ```
 
 Die Funktion `group.center` aus dem `robumeta`-Paket nimmt uns die Arbeit ab, die Daten händisch an den Gruppenmittelwerten zu zentrieren ($X_{ij}^{**}$). Sie nimmt 2 Argumente entgegen: `var` die Variable, die zentriert werden soll (hier die Motivation), und `grp` die Gruppierungsvariable (hier die Schulklasse). Die Funktion `group.mean` funktioniert analog zu `group.center` und gibt uns gruppenspezifische Mittelwerte aus. Zum Schluss wird noch die Gruppierungsvariable zentriert am Gesamtmittelwert: 
