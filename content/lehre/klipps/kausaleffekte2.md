@@ -8,7 +8,7 @@ subtitle: 'Propensity Scores'
 summary: ''
 authors: [hartig]
 weight: 10
-lastmod: '2023-09-18'
+lastmod: '2023-11-29'
 featured: no
 banner:
      image: "/header/dusk_or_dawn.jpg"
@@ -56,7 +56,7 @@ Wir verwenden wieder unserer fiktives Datenbeispiel, in dem Patient\*innen, die 
 
 
 ```r
-load(url("https://pandar.netlify.app/post/CBTdata.rda"))
+load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 head(CBTdata)
 ```
 

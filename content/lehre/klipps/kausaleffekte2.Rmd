@@ -57,7 +57,7 @@ library(questionr)    # Für gewichtete Tabellen
 Wir verwenden wieder unserer fiktives Datenbeispiel, in dem Patient\*innen, die an einer Depression oder einer Angststörung leiden, entweder mit einer kognitiven Verhaltenstherapie (CBT) behandelt oder in einer Wartekontrollgruppe belassen wurden. Die Zuordnung konnte nicht randomisiert erfolgen, weshalb der Effekt der Behandlung nicht ohne weiteres berechenbar ist.
 
 ```{r, results="hide"}
-load(url("https://pandar.netlify.app/post/CBTdata.rda"))
+load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 head(CBTdata)
 ```
 
