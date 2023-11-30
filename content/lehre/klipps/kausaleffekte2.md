@@ -8,7 +8,7 @@ subtitle: 'Propensity Scores'
 summary: ''
 authors: [hartig]
 weight: 10
-lastmod: '2023-11-29'
+lastmod: '2023-11-30'
 featured: no
 banner:
      image: "/header/dusk_or_dawn.jpg"
@@ -60,6 +60,7 @@ load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 head(CBTdata)
 ```
 
+<div class = "big-maths">
 <table>
  <thead>
   <tr>
@@ -136,6 +137,7 @@ head(CBTdata)
   </tr>
 </tbody>
 </table>
+</div>
 
 
 
@@ -447,13 +449,14 @@ df.full <- match.data(m.full)
 df.full <- df.full[order(df.full$subclass, df.full$Treatment),] 
 ```
 
-Das Optimal Pair Matching resultiert in einem Datensatz, in dem Paare (Variable `subclass`) mit je einer Person aus der Treatment- und eine aus der Kontrollgruppe enthalten sind. Die Gewichtung (Variable `weights`) ist für alle Personen 1. Wir sehen zudem, dass die von `matchit` erzeugte Distanz (`distance`) unserem oben erzeugten Propensity Score (`PS_P`) entspricht. 
+Das Optimal Pair Matching resultiert in einem Datensatz, in dem Paare (Variable `subclass`) enthalten sind, die aus je einer Person aus der Treatment- und einer Person aus der Kontrollgruppe bestehen. Die Gewichtung (Variable `weights`) ist für alle Personen 1. Wir sehen zudem, dass die von `matchit` erzeugte Distanz (`distance`) unserem oben erzeugten Propensity Score (`PS_P`) entspricht. 
 
 
 ```r
 head(df.optimal)
 ```
 
+<div class = "big-maths">
 <table class="table" style="margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -572,6 +575,7 @@ head(df.optimal)
   </tr>
 </tbody>
 </table>
+</div>
 
 Das Full Optimal Matching resultiert in einem Datensatz, in dem in den Subklassen unterschiedlich viele Fälle enthalten sind. Die Personen der Treatmentgruppe (`CBT`) erhalten ein Gewicht von 1, die Personen aus der Kontrollgruppe werden so gewichtet, dass die Häufigkeit der Subklassen derjenigen der Treatment-Gruppe entspricht. Im Auszug sind in Subklasse 5 mehr Kontroll- als Treatment-Fälle enthalten, diese werden entsprechend geringer gewichtet. In Subklasse 6 sind mehr Treatment-Fälle, hier erhält der Kontroll-Fall ein höheres Gewicht (in die Gewichte geht zusätzlich noch die Verteilung der Treatment-Fälle auf die Subklassen ein; mehr Informationen stehen in  [Appendix B](#Gewichtung)).
 
@@ -581,6 +585,7 @@ Das Full Optimal Matching resultiert in einem Datensatz, in dem in den Subklasse
 df.full[df.full$subclass %in% c(5,6),]
 ```
 
+<div class = "big-maths">
 <table class="table" style="margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -683,6 +688,7 @@ df.full[df.full$subclass %in% c(5,6),]
   </tr>
 </tbody>
 </table>
+</div>
 
 #### Demonstration der Gewichtung
 
@@ -716,15 +722,15 @@ round(wtd.table(y = demo.df$subclass,
 ## CBT 7.00 4.00 1.00 1.00 1.00 2.00 1.00 1.00 4.00
 ```
 
-*Hier eine kurz Erklärung zum Code:* Im ersten Schritt haben wir hier nur diejenigen Fälle ausgewählt, die in den Subklassen 1,..,9 sind. Anschließend werden mit `droplevels` diejenigen Levels (also kategorialen Ausprägungen) des `factors` `subclass` entfernt, die jetzt nicht mehr in den Daten enthalten sind. Mit Hilfe von `table` erhalten wir eine einfache 2x9-Häufigkeitstabelle. Die Zahlen entsprechen den absoluten Häufigkeiten der beiden Gruppen (in den Zeilen) in den jeweiligen Subklassen (in den Spalten). Mit Hilfe der `wtd.table` Funktion erhalten wir eine gewichtete Häufigkeitstabelle. Die funktioniert analog zu `table`, nur müssen wir dieses mal noch die Gewichtung dem Argument `weights` zuordnen. Damit das Ganze übersichtlicher wird, runden wir noch auf 2 Nachkommastellen.
+*Hier eine kurz Erklärung zum Code:* Im ersten Schritt haben wir hier nur diejenigen Fälle ausgewählt, die in den Subklassen 1,...,9 sind. Anschließend werden mit `droplevels` diejenigen Levels (also kategorialen Ausprägungen) des `factors` `subclass` entfernt, die jetzt nicht mehr in den Daten enthalten sind. Mit Hilfe von `table` erhalten wir eine einfache 2x9-Häufigkeitstabelle. Die Zahlen entsprechen den absoluten Häufigkeiten der beiden Gruppen (in den Zeilen) in den jeweiligen Subklassen (in den Spalten). Mit Hilfe der `wtd.table` Funktion erhalten wir eine gewichtete Häufigkeitstabelle. Die funktioniert analog zu `table`, nur müssen wir dieses mal noch die Gewichtung dem Argument `weights` zuordnen. Damit das Ganze übersichtlicher wird, runden wir noch auf 2 Nachkommastellen.
 
 ### Kontrolle der Balance
 
-Die mit beiden Methoden erzielte Balance der Kovariaten lassen wir uns mit `plot(summary())` anzeigen. In diesen Plots wird die absoluten ("ohne Vorzeichen") standardisierte Mittelwertsdifferenz (x-Achse) zwischen den beiden Gruppen auf den Kovariaten (y-Achse) für den vollen Datensatz ("All") und den gematchten Datensatz ("Matched") dargestellt. Je näher die Punkte an der Null liegen, desto besser. Die vertikalen Linien zeigen einen Bereich an, der als erstrebenswert gilt. Hier sind die Unterschiede zwischen den Gruppen nur minimal (i.d.R. nicht signifikant).
+Die mit beiden Methoden erzielte Balance der Kovariaten lassen wir uns mit `plot(summary())` anzeigen. In diesen Plots wird die absolute ("ohne Vorzeichen") standardisierte Mittelwertsdifferenz (x-Achse) zwischen den beiden Gruppen auf den Kovariaten (y-Achse) für den vollen Datensatz ("All") und den gematchten Datensatz ("Matched") dargestellt. Je näher die Punkte an der Null liegen, desto besser. Die vertikalen Linien zeigen einen Bereich an, der als erstrebenswert gilt. Hier sind die Unterschiede zwischen den Gruppen nur minimal (i.d.R. nicht signifikant).
 
 
-<img src="/lehre/klipps/kausaleffekte2_files/figure-html/unnamed-chunk-25-1.png" width="50%" /><img src="kausaleffekte2_files/figure-html/unnamed-chunk-25-2.png" width="50%" />
-
+<img src="/lehre/klipps/kausaleffekte2_files/figure-html/unnamed-chunk-25-1.png" width="50%" />
+<img src="/lehre/klipps/kausaleffekte2_files/figure-html/unnamed-chunk-26-1.png" width="50%" />
 
 Wir sehen, dass die bestehenden Unterschiede durch das Optimal Pair Matching nur geringfügig reduziert werden. Durch das ungünstige Verhältnis von Treatment- zu Kontrollfällen sind die Möglichkeiten der Zwillingsbildung für den Datensatz sehr begrenzt. Die Reduktion der Unterschiede kommt nur durch den Ausschluss der "unpassendsten" Treatment-Fälle (!) zustande. Im Unterschied hierzu erreicht das Full Optimal Matching eine sehr gute Balance.
 
@@ -819,7 +825,7 @@ summary(lm.full)
 ## F-statistic: 55.46 on 1 and 324 DF,  p-value: 8.696e-13
 ```
 
-Hier finden wir einen starken signifikanten Effekt des Treatments ($\beta = -4.38$), der ähnlich ausfällt wie der im ersten Teil dieses Themenblocks, der unter Kontrolle der Kovariaten geschätzten Effekt (dieser betrug $\beta = -4.06$).
+Hier finden wir einen starken signifikanten Effekt des Treatments ($\beta = -4.38$), der ähnlich ausfällt wie der unter Kontrolle der Kovariaten geschätzte Effekt aus dem ersten Teil dieses Themenblocks (dieser betrug $\beta = -4.06$).
 
 ## Stratifizierung
 
@@ -869,7 +875,7 @@ ggplot(df.strat, aes(x=distance, fill = Treatment)) +
   coord_flip()
 ```
 
-![](/lehre/klipps/kausaleffekte2_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](/lehre/klipps/kausaleffekte2_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
 
 Der Effekt der bei der Stratifizierung gebildeten Gewichte lässt sich veranschaulichen, indem dieselbe Grafik mit gewichteten Häufigkeiten erzeugt wird. Die Häufigkeiten in der Treatment-Gruppe bleiben unverändert, die in der Kontrollgruppe werden der Treatmentgruppe angeglichen:
 
@@ -890,13 +896,13 @@ ggplot(df.strat, aes(x=distance, fill = Treatment, weights=weights)) +
          coord_flip()
 ```
 
-![](/lehre/klipps/kausaleffekte2_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](/lehre/klipps/kausaleffekte2_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
 ### Effektschätzung
 
 
 
-Es gibt nun mehrere Möglichkeiten bei Stratifizierung den Treatmenteffekt zu bestimmen. Entweder können wir in jedem Stratum den Effekt schätzen, indem wir die Mittelwerte in der CBT und der WL Gruppe vergleichen (siehe hierzu [Appendix C](#AppendixC)), oder wir verwenden die Gewichte, die bei der Stratifizierung ebenfalls bestimmt werden und rechnen erneut eine gewichtete Regression. Da bei der ersten Variante das Bestimmen des Standardfehlers und die damit verbundene Signifikanzentscheidung recht schwierig ist, schauen wir uns jetzt, wie für das Full Optimal Matching, eine Schätzung mit dem linearen Modell unter Verwendung der Gewichte an. Der hier resultierende Effekt von $\beta = -3.89$ ist ähnlich dem beim Full Optimal Matching. Beide Methoden sind sich konzeptuell ähnlich, bei der Stratifizierung werden mit einer einfacheren Methode weniger Subklassen gebildet.
+Es gibt nun mehrere Möglichkeiten bei Stratifizierung den Treatmenteffekt zu bestimmen. Entweder können wir in jedem Stratum den Effekt schätzen, indem wir die Mittelwerte in der CBT und der WL Gruppe vergleichen (siehe hierzu [Appendix C](#AppendixC)) oder wir verwenden die Gewichte, die bei der Stratifizierung ebenfalls bestimmt werden und rechnen erneut eine gewichtete Regression. Da bei der ersten Variante das Bestimmen des Standardfehlers und die damit verbundene Signifikanzentscheidung recht schwierig ist, schauen wir uns jetzt, wie für das Full Optimal Matching, eine Schätzung mit dem linearen Modell unter Verwendung der Gewichte an. Der hier resultierende Effekt von $\beta = -3.89$ ist ähnlich dem beim Full Optimal Matching. Beide Methoden sind sich konzeptuell ähnlich, bei der Stratifizierung werden mit einer einfacheren Methode weniger Subklassen gebildet.
 
 
 ```r
@@ -929,7 +935,7 @@ Die Gewichte waren im Datensatz `df.strat` unter dem Argument `weights` verfügb
 
 ## Gewichtung mit dem Propensity Score
 
-Alternativ zur Bildung von Gewichten durch Matching können wir die Gewichte direkt auf Basis des Propensity Scores $\pi$ und der Treatmentgruppen-Zugehörigkeit $X \in \{0,1\}$ konstruieren. Die Formel hierfür ist
+Alternativ zur Bildung von Gewichten durch Matching können wir die Gewichte direkt auf Basis des Propensity Scores $\pi$ und der Treatmentgruppenzugehörigkeit $X \in \{0,1\}$ konstruieren. Die Formel hierfür ist
 
 $$\frac{X_i}{\pi_i}+\frac{1-X_i}{1-\pi_i}$$
 
@@ -974,11 +980,6 @@ Wir sehen, dass alle Korrekturen zu ähnlichen Ergebnissen kommen. Der Treatment
 
 ***
 
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [`<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg>`{=html} hier herunterladen](/post/KliPPs_MSc5a_R_Files/10_Kausalschätzer_2_RCode.R).
-
-***
-
 ## Appendix A {#AppendixA} 
 
 
@@ -995,9 +996,9 @@ plot(density(CBTdata$PS_P[CBTdata$Treatment == "CBT"]),
 lines(density(CBTdata$PS_P[CBTdata$Treatment == "WL"]))
 ```
 
-![](/lehre/klipps/kausaleffekte2_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](/lehre/klipps/kausaleffekte2_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
 
-Jetzt können wir leider die Linien nicht unterscheiden, weswegen wir die Farben aus den anderen Grafiken nun auch hier einfügen. Außerdem spendieren wir eine Legenende, änderen die Dicke der Linien und entfernen den seltsame Titel:
+Jetzt können wir leider die Linien nicht unterscheiden, weswegen wir die Farben aus den anderen Grafiken nun auch hier verwenden. Außerdem fügen wir eine Legende hinzu, änderen die Dicke der Linien und entfernen den seltsamen Titel:
 
 
 ```r
@@ -1010,7 +1011,7 @@ legend(legend = c("CBT", "WL"), lwd = 2,
        col = c("#56B4E9", "#E69F00"), x = "bottom")
 ```
 
-![](/lehre/klipps/kausaleffekte2_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+![](/lehre/klipps/kausaleffekte2_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
 
 </details>
 
@@ -1020,7 +1021,7 @@ legend(legend = c("CBT", "WL"), lwd = 2,
 <details><summary>**Bildung der Gewichte**</summary>
 
 
-Die Gewichte zur Schätzung des ATT, mit denen die relativen Häufigkeiten der Kovariaten-Subklassen der Treatment-Gruppe, an die Kontrollgruppe angeglichen werden, werden wie folgt gebildet:
+Die Gewichte zur Schätzung des ATT, mit denen die relativen Häufigkeiten der Kovariaten-Subklassen der Treatment-Gruppe an die Kontrollgruppe angeglichen werden, werden wie folgt gebildet:
 
 $$w_{Cs}=\frac{N_C}{n_{Cs}}*\frac{n_{Ts}}{N_T}$$
 Hierbei sind
@@ -1031,7 +1032,7 @@ Hierbei sind
 * $n_{Cs}$ die Anzahl von Kontrollpersonen in Subklasse $s$
 * $n_{Ts}$ die Anzahl von Treatment-Personen in Subklasse $s$
 
-Die Gewichte werden also umso größer, je mehr Treatment-Personen in einer Subklasse $s$ sind, und um so kleiner, je mehr Kontrollpersonen in der Subklasse sind. Die Summe der Gewichte über alle Subklassen $S$ entspricht der urprünglichen Fallzahl $N_C$:
+Die Gewichte werden also umso größer, je mehr Treatment-Personen in einer Subklasse $s$ sind und umso kleiner, je mehr Kontrollpersonen in der Subklasse sind. Die Summe der Gewichte über alle Subklassen $S$ entspricht der ursprünglichen Fallzahl $N_C$:
 
 $$\sum^S_{s=1}{w_{Cs}}=N_C$$
 </details>
@@ -1047,7 +1048,7 @@ $$\sum^S_{s=1}{w_{Cs}}=N_C$$
 Den Treatment-Effekt können wir "per Hand" berechnen. Die Funktion `tapply` wird hierbei benutzt, um die Mittelwerte von Treatment- und Kontrollgruppe in den Strata zu berechnen. `tapply` wendet dabei eine Funktion (hier `mean`) auf eine Kombination aus Gruppierungen an. Diese Mittelwerte packen wir anschließend in einen `data.frame`, um sie uns besser anzusehen.
 
 Die Mittelwerte in der CBT und der WL Gruppen werden dann als Schätzer für $Y^0$ und $Y^1$ verwendet, aus ihrer Differenz ergibt sich der ATT innerhalb jedes Stratum. 
-Für jedes Stratum wird anhand des Anteils der Fälle an der Gesamtstichprobe ein Gewichtungsfaktor berechtet. 
+Für jedes Stratum wird anhand des Anteils der Fälle an der Gesamtstichprobe ein Gewichtungsfaktor berechnet. 
 
 
 ```r
@@ -1066,7 +1067,7 @@ MWW
 ## 5 29.83333 23.72222 -6.111111
 ```
 
-Der ATT ergibt sich dann als gewichtete Summe der Effekte innerhalb der Strata. Hierzu müssen wir zunächst kurz die Gewichte mittels `table` bestimmen und diese dann durch die Gesamtanzahl (`nrow(df.strat)`) teilen, und dann die gewichtete Summe berechnen.
+Der ATT ergibt sich dann als gewichtete Summe der Effekte innerhalb der Strata. Hierzu müssen wir zunächst kurz die Gewichte mittels `table` bestimmen, diese dann durch die Gesamtanzahl (`nrow(df.strat)`) teilen und dann die gewichtete Summe berechnen.
 
 
 ```r
