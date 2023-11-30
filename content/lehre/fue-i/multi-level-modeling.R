@@ -1,6 +1,6 @@
 ## load("C:/Users/Musterfrau/Desktop/StudentsInClasses.rda")
 
-## load(url("https://pandar.netlify.app/post/StudentsInClasses.rda"))
+## load(url("https://pandar.netlify.app/daten/StudentsInClasses.rda"))
 
 load(url("https://github.com/jpirmer/MSc1_FEI/blob/master/data/StudentsInClasses.rda?raw=true"))
 

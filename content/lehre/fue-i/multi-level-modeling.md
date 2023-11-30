@@ -7,9 +7,9 @@ categories: ["FuE I"]
 tags: ["Hierarchische Regression", "Multi-Level Analyse", "ggplot", "Interaktion"] 
 subtitle: ''
 summary: '' 
-authors: [] 
+authors: [irmer] 
 weight: 3
-lastmod: '2023-11-29'
+lastmod: '2023-11-30'
 featured: no
 banner:
   image: "/header/books.jpg"
@@ -38,12 +38,8 @@ output:
 
 
 
-
-
-
-
 ## Einleitung
-In dieser Sitzung wollen wir hierarchische Daten mit der Multi-Level-Regression (auch hierarchische Regression, Multi-Level-Modeling, Linear Mixed-Effects Modeling, Random Coefficient Regression vgl. bspw. [Eid, Gollwitzer & Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 20 und [Pituch und Stevens (2016)](https://ubffm.hds.hebis.de/Record/HEB371183324) Kapitel 13) analysieren. Diese Daten sind dahingehend speziell, dass es in ihnen Clusterungen von Datenpunkten gibt, die zueinander ähnlicher sind als zu den übrigen. Dies verletzt die Annahme der Unabhängigkeit in der typischen Regressionsanalyse, was zu erheblichen Fehlschlüssen führen kann. Wir wollen uns ein fiktives Datenbeispiel (Datensatz `StudentsInClasses` aus dem gleichnamigen .rda File `StudentsInClasses.rda`) mit Schüler*innen (Ebene 1) in Schulklassen (Eben 2) anschauen. Sie können den [<i class="fas fa-download"></i> hier herunterladen](/data/StudentsInClasses.rda).
+In dieser Sitzung wollen wir hierarchische Daten mit der Multi-Level-Regression (auch hierarchische Regression, Multi-Level-Modeling, Linear Mixed-Effects Modeling, Random Coefficient Regression vgl. bspw. [Eid, Gollwitzer & Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 20 und [Pituch und Stevens (2016)](https://ubffm.hds.hebis.de/Record/HEB371183324) Kapitel 13) analysieren. Diese Daten sind dahingehend speziell, dass es in ihnen Clusterungen von Datenpunkten gibt, die zueinander ähnlicher sind als zu den übrigen. Dies verletzt die Annahme der Unabhängigkeit in der typischen Regressionsanalyse, was zu erheblichen Fehlschlüssen führen kann. Wir wollen uns ein fiktives Datenbeispiel (Datensatz `StudentsInClasses` aus dem gleichnamigen .rda File `StudentsInClasses.rda`) mit Schüler*innen (Ebene 1) in Schulklassen (Eben 2) anschauen. Sie können den [<i class="fas fa-download"></i> Datensatz "StudentsInClasses.rda" hier herunterladen](/daten/StudentsInClasses.rda).
 
 ### Daten laden
 Dazu laden wir mit `load` die Daten (bspw. auf dem Desktop von Frau "Musterfrau") _Tipp: Verwenden Sie unbedingt die automatische Vervollständigung von `R`-Studio, wie in den letzten Sitzung beschrieben_.
@@ -57,7 +53,7 @@ Genauso können Sie die Daten direkt von der Website laden:
 
 
 ```r
-load(url("https://pandar.netlify.app/post/StudentsInClasses.rda"))
+load(url("https://pandar.netlify.app/daten/StudentsInClasses.rda"))
 ```
 
 
@@ -345,10 +341,9 @@ names(summary(m0)) # alle Informationen, die wir der Summary entlocken können
 ```
 
 ```
-##  [1] "methTitle"    "objClass"     "devcomp"      "isLmer"       "useScale"    
-##  [6] "logLik"       "family"       "link"         "ngrps"        "coefficients"
-## [11] "sigma"        "vcov"         "varcor"       "AICtab"       "call"        
-## [16] "residuals"    "fitMsgs"      "optinfo"
+##  [1] "methTitle"    "objClass"     "devcomp"      "isLmer"       "useScale"     "logLik"       "family"      
+##  [8] "link"         "ngrps"        "coefficients" "sigma"        "vcov"         "varcor"       "AICtab"      
+## [15] "call"         "residuals"    "fitMsgs"      "optinfo"
 ```
 
 **Inhaltliche Interpretation**: 16.2% der Varianz in der Mathematikleistung können durch die Klassenzugehörigkeit erklärt werden. Die Multi-Level-Struktur in den Daten muss somit unbedingt berücksichtigt werden.
@@ -804,8 +799,7 @@ summary(m4)
 
 ```
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
-##     (1 | schulklasse)
+## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +      (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
 ## REML criterion at convergence: 6200.9
@@ -822,8 +816,8 @@ summary(m4)
 ## 
 ## Fixed effects:
 ##                          Estimate Std. Error        df t value Pr(>|t|)    
-## (Intercept)              53.79131    0.87354  36.11427  61.579  < 2e-16 ***
-## KlassenG_c               -0.21300    0.13491  37.53996  -1.579    0.123    
+## (Intercept)              53.79131    0.87354  36.11428  61.579  < 2e-16 ***
+## KlassenG_c               -0.21300    0.13491  37.53997  -1.579    0.123    
 ## Motivation_c              6.13299    0.29316 807.83209  20.920  < 2e-16 ***
 ## KlassenG_c:Motivation_c   0.27575    0.04679 808.15014   5.893 5.56e-09 ***
 ## ---
@@ -866,8 +860,7 @@ summary(m4c)
 
 ```
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
-##     (1 + Motivation_c | schulklasse)
+## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +      (1 + Motivation_c | schulklasse)
 ##    Data: StudentsInClasses
 ## 
 ## REML criterion at convergence: 5767.3
@@ -979,20 +972,13 @@ head(StudentsInClasses)
 ```
 
 ```
-##   MatheL Motivation KFT KlassenG schulklasse Motivation_c KlassenG_c Motivation_groupc
-## 1  48.76          4  98       26           1   -0.2858824  -1.090588             -0.36
-## 2  46.01          3  96       26           1   -1.2858824  -1.090588             -1.36
-## 3  65.96          5 112       26           1    0.7141176  -1.090588              0.64
-## 4  42.08          4  94       26           1   -0.2858824  -1.090588             -0.36
-## 5   0.00          2  78       26           1   -2.2858824  -1.090588             -2.36
-## 6  56.52          5 104       26           1    0.7141176  -1.090588              0.64
-##   Mot_groupmeans Mot_groupmeans_c
-## 1           4.36       0.07411765
-## 2           4.36       0.07411765
-## 3           4.36       0.07411765
-## 4           4.36       0.07411765
-## 5           4.36       0.07411765
-## 6           4.36       0.07411765
+##   MatheL Motivation KFT KlassenG schulklasse Motivation_c KlassenG_c Motivation_groupc Mot_groupmeans Mot_groupmeans_c
+## 1  48.76          4  98       26           1   -0.2858824  -1.090588             -0.36           4.36       0.07411765
+## 2  46.01          3  96       26           1   -1.2858824  -1.090588             -1.36           4.36       0.07411765
+## 3  65.96          5 112       26           1    0.7141176  -1.090588              0.64           4.36       0.07411765
+## 4  42.08          4  94       26           1   -0.2858824  -1.090588             -0.36           4.36       0.07411765
+## 5   0.00          2  78       26           1   -2.2858824  -1.090588             -2.36           4.36       0.07411765
+## 6  56.52          5 104       26           1    0.7141176  -1.090588              0.64           4.36       0.07411765
 ```
 
 ```r
@@ -1001,10 +987,10 @@ round(colMeans(StudentsInClasses), 10)
 ```
 
 ```
-##            MatheL        Motivation               KFT          KlassenG       schulklasse 
-##         53.616047          4.285882        100.001176         27.090588         20.280000 
-##      Motivation_c        KlassenG_c Motivation_groupc    Mot_groupmeans  Mot_groupmeans_c 
-##          0.000000          0.000000          0.000000          4.285882          0.000000
+##            MatheL        Motivation               KFT          KlassenG       schulklasse      Motivation_c 
+##         53.616047          4.285882        100.001176         27.090588         20.280000          0.000000 
+##        KlassenG_c Motivation_groupc    Mot_groupmeans  Mot_groupmeans_c 
+##          0.000000          0.000000          4.285882          0.000000
 ```
 
 Die Funktion `group.center` aus dem `robumeta`-Paket nimmt uns die Arbeit ab, die Daten händisch an den Gruppenmittelwerten zu zentrieren ($X_{ij}^{**}$). Sie nimmt 2 Argumente entgegen: `var` die Variable, die zentriert werden soll (hier die Motivation), und `grp` die Gruppierungsvariable (hier die Schulklasse). Die Funktion `group.mean` funktioniert analog zu `group.center` und gibt uns gruppenspezifische Mittelwerte aus. Zum Schluss wird noch die Gruppierungsvariable zentriert am Gesamtmittelwert: 
@@ -1102,11 +1088,17 @@ StudentsInClasses %>%             # Datensatz wird manipuliert
 
 <details><summary><b>Varianzrechenregeln</b></summary>
 
-Wenn Sie sich nun fragen, wieso wir $\gamma_{10}$ in $\mathbb{V}ar[Y] = \mathbb{V}ar[u_0]+\underbrace{\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*]}_{\mathbb{V}ar[\varepsilon]}$ quadrieren mussten, dann überlegen Sie sich folgendes Beispiel anhand der empirischen Stichprobenvarianz von einer Variable $Y$. Diese berechnen wir so:
+Wenn Sie sich nun fragen, wieso wir $\gamma_{10}$ in 
+
+$\mathbb{V}ar[Y] = \mathbb{V}ar[u_0]+\underbrace{\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*]}_{\mathbb{V}ar[\varepsilon]}$ 
+
+quadrieren mussten, dann überlegen Sie sich folgendes Beispiel anhand der empirischen Stichprobenvarianz von einer Variable $Y$. Diese berechnen wir so:
 
 $$\hat{\mathbb{V}ar}[Y] = \frac{1}{n}\sum_{i=1}^n(Y_i-\bar{Y})^2,$$
 
 wobei $\bar{Y}$ der Mittelwert von $Y$ ist. Wenn wir nun alle Einträge von $Y$ mit einer Konstanten multiplizieren, also für jede Person $i$ das Produkt $aY_i$ berechnen (z.B. $a=10$ oder $a=\gamma_{10}$) und die Varianz bestimmen (der Mittelwert von $aY$ ist einfach $a\bar{Y}$), dann ergibt sich:
+
+<div class = "big-maths">
 \begin{align*}
 \hat{\mathbb{V}ar}[aY] &= \frac{1}{n}\sum_{i=1}^n(aY_i-a\bar{Y})^2\\
 &=\frac{1}{n}\sum_{i=1}^n\big(a(Y_i-\bar{Y})\big)^2\\
@@ -1114,9 +1106,11 @@ wobei $\bar{Y}$ der Mittelwert von $Y$ ist. Wenn wir nun alle Einträge von $Y$ 
 &=a^2\frac{1}{n}\sum_{i=1}^n(Y_i-\bar{Y})^2\\
 &=a^2\hat{\mathbb{V}ar}[Y],
 \end{align*}
+</div>
 
 Da $a$ in der Klammer steht, die quadriert wird, muss natürlich $a$ quadriert werden. Da auch $a^2$ eine Konstante ist, kann sie vor die Summe gezogen werden. Daraus wird dann ersichtlich, dass die Varianz des Produktes einer Variablen mit einer Konstanten gleich der Konstanten zum Quadrat multipliziert mit der Varianz der Variablen ist. Das Ganze kann auch als Beweis durchgeführt werden - wir müssten lediglich mit Integralen und Dichten (Wahrscheinlichkeitsverteilungen) rechnen. Weitere wichtige Rechenvorschriften sind (für $A$ und $B$ Zufallsvariablen und $\alpha$ und $\beta$ Konstanten):
 
+<div class = "big-maths">
 \begin{align}
 \mathbb{V}ar[\alpha] &= 0\\
 \mathbb{V}ar[A]&=\mathbb{C}ov[A,A] \\
@@ -1125,14 +1119,19 @@ Da $a$ in der Klammer steht, die quadriert wird, muss natürlich $a$ quadriert w
 \mathbb{V}ar[A+B]&= \mathbb{V}ar[A] + 2\mathbb{C}ov[A,B] + \mathbb{V}ar[B]\\
 \mathbb{V}ar[\alpha A+\beta B]&= \alpha^2\mathbb{V}ar[A] + 2\alpha \beta \mathbb{C}ov[A,B] + \beta^2\mathbb{V}ar[B]
 \end{align}
+</div>
 
 Außerdem ist es so, dass wenn $A$ und $B$ unabhängig sind so folgt, dass $\mathbb{C}ov[A,B]=0$ (aber nicht umgekehrt!). Eine Konstante ist unabhängig von allen Variablen und hat eine Varianz von 0. Somit können wir die Variation von $Y$ im Modell mit Motivation $X_1$ als Prädiktor wie folgt berechnen:
 
+<div class=“big maths“> 
 \begin{align}
+\small
 \mathbb{V}ar[Y_{ij}]&=\mathbb{V}ar[\gamma_{00} + u_{0j} + \gamma_{10}X_{1,ij} + \varepsilon_{ij}^*]\\
 &= \mathbb{V}ar[u_{0j}] + 2\gamma_{10}\mathbb{C}ov[u_{0j},X_{1,ij}] +\mathbb{C}ov[u_{0j},\varepsilon_{ij}^*] + 2\gamma_{10}\mathbb{C}ov[X_{1,ij},\varepsilon_{ij}^*] + \gamma_{10}^2\mathbb{V}ar[X_{1,ij}] + \mathbb{V}ar[\varepsilon_{ij}^*]  \\
 &= \mathbb{V}ar[u_0]+\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*],
 \end{align}
+</div>
+
 
 da $u_0$ und $\varepsilon^*$ unabhängig von einander und vom Prädiktor sind (somit ihre Kovarianzen jeweils 0 sind).
 
