@@ -143,7 +143,7 @@ Wir wissen auch bereits, dass der Prima-Facie-Effekt (PFE) von 0.39 Punkten nich
 
 ## Konstruktion des Propensity Scores{#Konstruktion}
 
-Zur Bildung des Propensity Scores verwenden wir eine logistische Regression mit den Variablen, von denen wir bereits wissen, dass sich die Gruppen darin Unterscheiden: Art der Störung, Prätest im BDI und Prätest im SWL:
+Zur Bildung des Propensity Scores verwenden wir eine logistische Regression mit den Variablen, von denen wir bereits wissen, dass sich die Gruppen darin unterscheiden: Art der Störung, Prätest im BDI und Prätest im SWL:
 
 
 ```r
@@ -221,7 +221,7 @@ summary(mod_ps2)
 ## Number of Fisher Scoring iterations: 4
 ```
 
-Da keiner der Wechselwirkungs-Terme signifikant ist, verwenden wir im nächsten Schritt das einfachere Modell `mod_ps1`. Mit der `predict`-Funktion erhalten wir Vorhergesagte Werte in Logit-Einheiten, mit der `logistic`-Funktion des `psych`-Paktets können wir diese in Wahrscheinlichkeiten transformieren:
+Da keiner der Wechselwirkungs-Terme signifikant ist, verwenden wir im nächsten Schritt das einfachere Modell `mod_ps1`. Mit der `predict`-Funktion erhalten wir vorhergesagte Werte in Logit-Einheiten, mit der `logistic`-Funktion des `psych`-Paktets können wir diese in Wahrscheinlichkeiten transformieren:
 
 
 ```r
@@ -234,7 +234,7 @@ plot(CBTdata$PS_logit, CBTdata$PS_P)
 
 
 
-Der Plot zeigt uns nun den Zusammenhang zwischen dem vorhergesagtem Propensity Score `PS_logit` in der Logit-Skala und dem zugehörigen Propensity Score in der in Wahrschienlichkeiten transformierten Skala `PS_P`. Wir erkennen wieder die Ogive (S-Form), die wir bereits in der Sitzung zur logistischen Regression kennengelernt haben [(Sitzung zur logistischen Regression)](/post/logistische-regression-klipps).
+Der Plot zeigt uns nun den Zusammenhang zwischen dem vorhergesagtem Propensity Score `PS_logit` in der Logit-Skala und dem zugehörigen Propensity Score in der in Wahrscheinlichkeiten transformierten Skala `PS_P`. Wir erkennen wieder die Ogive (S-Form), die wir bereits in der Sitzung zur logistischen Regression kennengelernt haben [(Sitzung zur logistischen Regression)](/lehre/klipps/logistische-regression).
 
 ### Prüfung des Overlap
 
@@ -269,7 +269,7 @@ grid.arrange(p1, p2, nrow=1) # Beide Plots nebeneinander
 
 Wem die Grafiken etwas kompliziert erscheinen, kann in [Appendix A](#AppendixA) nachlesen, wie eine sehr kurze 2-Zeilen (aber nicht so schöne) Variante funktioniert.
 
-Für Fälle außerhalb der *common support region* können keine kausalen Effekte geschätzt werden. Für diese gibt es nämlich keine "vergleichbaren" Studienteilnehmenden. Die Fälle, um die es geht sind gerade Personen aus der CBT-Gruppe, die eine sehr hohe Wahrscheinlichkeit aufweisen, das Treatment bekommen zu haben (was sie auch haben, aber das ist hier nicht die Frage). Um genauer zu sein: Wir wollen diejenigen Fälle identifizieren aus der CBT-Gruppe, die eine höhere Treatmentwahrscheinlichkeit und damit einen höheren Propensity-Score in Wahrscheinlichkeits-Skala haben, als alle Personen aus der WL-Gruppe. Genauso wollen wir Personen aus der WL-Gruppe identifizieren, die einen niedrigeren Propensity-Score haben als alle Personen aus der CBT-Gruppe.
+Für Fälle außerhalb der *common support region* können keine kausalen Effekte geschätzt werden. Für diese gibt es nämlich keine "vergleichbaren" Studienteilnehmenden. Die Fälle, um die es geht, sind gerade Personen aus der CBT-Gruppe, die eine sehr hohe Wahrscheinlichkeit aufweisen, das Treatment bekommen zu haben (was sie auch haben, aber das ist hier nicht die Frage). Um genauer zu sein: Wir wollen diejenigen Fälle aus der CBT-Gruppe identifizieren, die eine höhere Treatmentwahrscheinlichkeit und damit einen höheren Propensity-Score in der Wahrscheinlichkeits-Skala haben als alle Personen aus der WL-Gruppe. Genauso wollen wir Personen aus der WL-Gruppe identifizieren, die einen niedrigeren Propensity-Score haben als alle Personen aus der CBT-Gruppe.
 
 Den kleinsten Wert in der CBT-Gruppe erhalten wir mit
 
@@ -283,7 +283,7 @@ min(subset(CBTdata, Treatment=="CBT")$PS_P)
 ```
 wobei mit `subset` ein Subdatensatz erstellt wird, für den gilt, dass `Treatment == "CBT"`. Auf diesen Subdatensatz greifen wir mit `$` zu und wählen den Propensity-Score aus. Mit `min` erhalten wir schließlich das Minimum.
 
-Nun sind die Personen, die in der WL-Gruppe sind und einen `PS_P`-Wert kleiner als dieser minimale Wert haben, die Folgenden: 
+Nun sind die Personen, die in der WL-Gruppe sind und einen `PS_P`-Wert kleiner als diesen minimalen Wert haben, die folgenden: 
 
 
 ```r
@@ -317,7 +317,7 @@ max(subset(CBTdata, Treatment=="WL")$PS_P)
 ## [1] 0.9374229
 ```
 
-Nun sind die Personen, die in der WL-Gruppe sind und einen `PS_P`-Wert kleiner als dieser minimale Wert haben, die Folgenden: 
+Nun sind die Personen, die in der WL-Gruppe sind und einen `PS_P`-Wert kleiner als diesen minimalen Wert haben, die folgenden: 
 
 
 ```r
@@ -339,7 +339,7 @@ CBTdata[(CBTdata$Treatment=="CBT" &
 
 
 
-Wir schließen 16 Fälle aus, die außerhalb des Überschneidungsbereichs liegen (das `!` negiert die logsiche Aussage, mit Hilfe derer wir die Fälle überhaupt identifizieren konnten):
+Wir schließen 16 Fälle aus, die außerhalb des Überschneidungsbereichs liegen (das `!` negiert die logische Aussage, mit Hilfe derer wir die Fälle überhaupt identifizieren konnten):
 
 
 ```r
@@ -381,9 +381,9 @@ grid.arrange(p1, p2, nrow=1) # Beide Plots nebeneinander
 
 ## Verwendung des Propensity Score in der ANCOVA{#ANCOVA}
 
-Wir können den Treatment-Effekt schätzen, indem wir den Propensity Score anstelle der ursprünglichen Kovariaten als Kontrollvariable verwenden. Wir vergleichen hier die klassische ANCOVA mit allen Kovariaten mit einem Modell, in dem nur der Propensity Score kontrolliert wird (Achtung, aufgrund der Reduktion des Datensatzes entsprechen die Ergebnisse des 1. Modells nicht exakt [denen im ersten Teil dieses Blocks](https://pandar.netlify.app/post/kausal/#ANCOVA)!)
+Wir können den Treatment-Effekt schätzen, indem wir den Propensity Score anstelle der ursprünglichen Kovariaten als Kontrollvariable verwenden. Wir vergleichen hier die klassische ANCOVA mit allen Kovariaten mit einem Modell, in dem nur der Propensity Score kontrolliert wird. (Achtung, aufgrund der Reduktion des Datensatzes entsprechen die Ergebnisse des 1. Modells nicht exakt [denen im ersten Teil dieses Blocks](/lehre/klipps/kausaleffekte1/#ANCOVA)!)
 
-Dazu stellen wir zwei ANCOVA-Modelle auf, einmal mittels Kovariatenadjustierung (`BDI.adj`) und einmal mittels Propensity-Score (`BDI.PS`) in der Logit-Skala. Zur besseren Vergleichbarkeit runden wir den Gruppenunterschiedsparameter (das ist der 2. in diesem Fall, der 1. ist das Interzept) auf 2 Nachkommastellen.
+Dazu stellen wir zwei ANCOVA-Modelle auf: einmal mittels Kovariatenadjustierung (`BDI.adj`) und einmal mittels Propensity-Score (`BDI.PS`) in der Logit-Skala. Zur besseren Vergleichbarkeit runden wir den Gruppenunterschiedsparameter (das ist der 2. in diesem Fall, der 1. ist das Interzept) auf 2 Nachkommastellen.
 
 
 ```r
@@ -429,13 +429,13 @@ m.full <- matchit(Treatment ~ Disorder + BDI_pre + SWL_pre, method = "full",
                   data = CBTdata, distance = "glm", link = "logit")
 ```
 
-Die `matchit`-Funktion nimmt als erstes Argument die Formel `Treatment ~ Disorder + BDI_pre + SWL_pre`, die wir auch zur Bildung des Propensity-Scores verwendet hatten, entgegen, um so die Gruppenzugehörigkeit zu untersuchen. Mit `method` wählen wir die Matching-Methode (`"optimal"` oder `"full"`), `data` ordnen wir unseren Datensatz zu. Wir nehmen hier wieder den ursprünglichen `CBTdata`-Datensatz, die Kürzung unseres Datensatzes aus dem Abschnitt zuvor ging also verloren. Mit den Optionen `distance = "glm"` und `link = "logit"`wird eingestellt, dass das Matching mit Propensity Scores erfolgt, die durch logistische Regression gebildet werden (das ist auch die Standardeinstellung, könnte man also weglassen).
+Die `matchit`-Funktion nimmt als erstes Argument die Formel `Treatment ~ Disorder + BDI_pre + SWL_pre` entgegen, die wir auch zur Bildung des Propensity-Scores verwendet hatten, um so die Gruppenzugehörigkeit zu untersuchen. Mit `method` wählen wir die Matching-Methode (`"optimal"` oder `"full"`), `data` ordnen wir unseren Datensatz zu. Wir nehmen hier wieder den ursprünglichen `CBTdata`-Datensatz, die Kürzung unseres Datensatzes aus dem Abschnitt zuvor ging also verloren. Mit den Optionen `distance = "glm"` und `link = "logit"`wird eingestellt, dass das Matching mit Propensity Scores erfolgt, die durch logistische Regression gebildet werden (das ist auch die Standardeinstellung, das könnte man also weglassen).
 
 Für die Methode, die Zwillingspaare bildet, erhalten wir eine Warnung, da die Stichprobe weniger Kontrollpersonen als Treatmentpersonen enthält und dadurch Personen aus der Treatment-Gruppe ausgeschlossen werden. Diese Warnung ist hilfreich, da wir unseren Datensatz (und damit die Power) verringern. Das resultierende Objekt enthält noch nicht den gematchten Datensatz, sondern nur die Zuordnung der Paare und weitere Informationen.
 
 ### Inspektion der Datensätze
 
-Für beide Methoden wird der durch das Matching gebildete Datensatz mit der Funktion `match.data` extrahiert. Diesen sortieren wir anschließend nach Subklasse und Treatment mittels `order` und wenden dies auf die Zeilen an (vor dem `,`, es könnten auch die Spalten sortiert werden). 
+Für beide Methoden wird der durch das Matching gebildete Datensatz mit der Funktion `match.data` extrahiert. Diesen sortieren wir anschließend nach Subklasse und Treatment mittels `order` und wenden dies auf die Zeilen (vor dem `,`) an. (Es könnten auch die Spalten sortiert werden.) 
 
 
 ```r
