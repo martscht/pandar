@@ -7,7 +7,7 @@ categories: ["FuE I"]
 tags: ["Hierarchische Regression", "Multi-Level Analyse", "ggplot", "Interaktion"] 
 subtitle: ''
 summary: '' 
-authors: [] 
+authors: [irmer] 
 weight: 3
 lastmod: '`r Sys.Date()`'
 featured: no
@@ -36,16 +36,12 @@ output:
     keep_md: true
 ---
 
-
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
-
-
-
 ## Einleitung
-In dieser Sitzung wollen wir hierarchische Daten mit der Multi-Level-Regression (auch hierarchische Regression, Multi-Level-Modeling, Linear Mixed-Effects Modeling, Random Coefficient Regression vgl. bspw. [Eid, Gollwitzer & Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 20 und [Pituch und Stevens (2016)](https://ubffm.hds.hebis.de/Record/HEB371183324) Kapitel 13) analysieren. Diese Daten sind dahingehend speziell, dass es in ihnen Clusterungen von Datenpunkten gibt, die zueinander ähnlicher sind als zu den übrigen. Dies verletzt die Annahme der Unabhängigkeit in der typischen Regressionsanalyse, was zu erheblichen Fehlschlüssen führen kann. Wir wollen uns ein fiktives Datenbeispiel (Datensatz `StudentsInClasses` aus dem gleichnamigen .rda File `StudentsInClasses.rda`) mit Schüler*innen (Ebene 1) in Schulklassen (Eben 2) anschauen. Sie können den [<i class="fas fa-download"></i> hier herunterladen](/data/StudentsInClasses.rda).
+In dieser Sitzung wollen wir hierarchische Daten mit der Multi-Level-Regression (auch hierarchische Regression, Multi-Level-Modeling, Linear Mixed-Effects Modeling, Random Coefficient Regression vgl. bspw. [Eid, Gollwitzer & Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 20 und [Pituch und Stevens (2016)](https://ubffm.hds.hebis.de/Record/HEB371183324) Kapitel 13) analysieren. Diese Daten sind dahingehend speziell, dass es in ihnen Clusterungen von Datenpunkten gibt, die zueinander ähnlicher sind als zu den übrigen. Dies verletzt die Annahme der Unabhängigkeit in der typischen Regressionsanalyse, was zu erheblichen Fehlschlüssen führen kann. Wir wollen uns ein fiktives Datenbeispiel (Datensatz `StudentsInClasses` aus dem gleichnamigen .rda File `StudentsInClasses.rda`) mit Schüler*innen (Ebene 1) in Schulklassen (Eben 2) anschauen. Sie können den [<i class="fas fa-download"></i> Datensatz "StudentsInClasses.rda" hier herunterladen](/daten/StudentsInClasses.rda).
 
 ### Daten laden
 Dazu laden wir mit `load` die Daten (bspw. auf dem Desktop von Frau "Musterfrau") _Tipp: Verwenden Sie unbedingt die automatische Vervollständigung von `R`-Studio, wie in den letzten Sitzung beschrieben_.
@@ -57,7 +53,7 @@ load("C:/Users/Musterfrau/Desktop/StudentsInClasses.rda")
 Genauso können Sie die Daten direkt von der Website laden:
 
 ```{r, eval = F}
-load(url("https://pandar.netlify.app/post/StudentsInClasses.rda"))
+load(url("https://pandar.netlify.app/daten/StudentsInClasses.rda"))
 ```
 
 ```{r, include=F}
@@ -718,11 +714,17 @@ StudentsInClasses %>%             # Datensatz wird manipuliert
 
 <details><summary><b>Varianzrechenregeln</b></summary>
 
-Wenn Sie sich nun fragen, wieso wir $\gamma_{10}$ in $\mathbb{V}ar[Y] = \mathbb{V}ar[u_0]+\underbrace{\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*]}_{\mathbb{V}ar[\varepsilon]}$ quadrieren mussten, dann überlegen Sie sich folgendes Beispiel anhand der empirischen Stichprobenvarianz von einer Variable $Y$. Diese berechnen wir so:
+Wenn Sie sich nun fragen, wieso wir $\gamma_{10}$ in 
+
+$\mathbb{V}ar[Y] = \mathbb{V}ar[u_0]+\underbrace{\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*]}_{\mathbb{V}ar[\varepsilon]}$ 
+
+quadrieren mussten, dann überlegen Sie sich folgendes Beispiel anhand der empirischen Stichprobenvarianz von einer Variable $Y$. Diese berechnen wir so:
 
 $$\hat{\mathbb{V}ar}[Y] = \frac{1}{n}\sum_{i=1}^n(Y_i-\bar{Y})^2,$$
 
 wobei $\bar{Y}$ der Mittelwert von $Y$ ist. Wenn wir nun alle Einträge von $Y$ mit einer Konstanten multiplizieren, also für jede Person $i$ das Produkt $aY_i$ berechnen (z.B. $a=10$ oder $a=\gamma_{10}$) und die Varianz bestimmen (der Mittelwert von $aY$ ist einfach $a\bar{Y}$), dann ergibt sich:
+
+<div class = "big-maths">
 \begin{align*}
 \hat{\mathbb{V}ar}[aY] &= \frac{1}{n}\sum_{i=1}^n(aY_i-a\bar{Y})^2\\
 &=\frac{1}{n}\sum_{i=1}^n\big(a(Y_i-\bar{Y})\big)^2\\
@@ -730,9 +732,11 @@ wobei $\bar{Y}$ der Mittelwert von $Y$ ist. Wenn wir nun alle Einträge von $Y$ 
 &=a^2\frac{1}{n}\sum_{i=1}^n(Y_i-\bar{Y})^2\\
 &=a^2\hat{\mathbb{V}ar}[Y],
 \end{align*}
+</div>
 
 Da $a$ in der Klammer steht, die quadriert wird, muss natürlich $a$ quadriert werden. Da auch $a^2$ eine Konstante ist, kann sie vor die Summe gezogen werden. Daraus wird dann ersichtlich, dass die Varianz des Produktes einer Variablen mit einer Konstanten gleich der Konstanten zum Quadrat multipliziert mit der Varianz der Variablen ist. Das Ganze kann auch als Beweis durchgeführt werden - wir müssten lediglich mit Integralen und Dichten (Wahrscheinlichkeitsverteilungen) rechnen. Weitere wichtige Rechenvorschriften sind (für $A$ und $B$ Zufallsvariablen und $\alpha$ und $\beta$ Konstanten):
 
+<div class = "big-maths">
 \begin{align}
 \mathbb{V}ar[\alpha] &= 0\\
 \mathbb{V}ar[A]&=\mathbb{C}ov[A,A] \\
@@ -741,14 +745,19 @@ Da $a$ in der Klammer steht, die quadriert wird, muss natürlich $a$ quadriert w
 \mathbb{V}ar[A+B]&= \mathbb{V}ar[A] + 2\mathbb{C}ov[A,B] + \mathbb{V}ar[B]\\
 \mathbb{V}ar[\alpha A+\beta B]&= \alpha^2\mathbb{V}ar[A] + 2\alpha \beta \mathbb{C}ov[A,B] + \beta^2\mathbb{V}ar[B]
 \end{align}
+</div>
 
 Außerdem ist es so, dass wenn $A$ und $B$ unabhängig sind so folgt, dass $\mathbb{C}ov[A,B]=0$ (aber nicht umgekehrt!). Eine Konstante ist unabhängig von allen Variablen und hat eine Varianz von 0. Somit können wir die Variation von $Y$ im Modell mit Motivation $X_1$ als Prädiktor wie folgt berechnen:
 
+<div class=“big maths“> 
 \begin{align}
+\small
 \mathbb{V}ar[Y_{ij}]&=\mathbb{V}ar[\gamma_{00} + u_{0j} + \gamma_{10}X_{1,ij} + \varepsilon_{ij}^*]\\
 &= \mathbb{V}ar[u_{0j}] + 2\gamma_{10}\mathbb{C}ov[u_{0j},X_{1,ij}] +\mathbb{C}ov[u_{0j},\varepsilon_{ij}^*] + 2\gamma_{10}\mathbb{C}ov[X_{1,ij},\varepsilon_{ij}^*] + \gamma_{10}^2\mathbb{V}ar[X_{1,ij}] + \mathbb{V}ar[\varepsilon_{ij}^*]  \\
 &= \mathbb{V}ar[u_0]+\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*],
 \end{align}
+</div>
+
 
 da $u_0$ und $\varepsilon^*$ unabhängig von einander und vom Prädiktor sind (somit ihre Kovarianzen jeweils 0 sind).
 
