@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/klipps/logistische-regression
+    url: /lehre/klipps/logistische-regression-klinische
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/klipps/logistische-regression.R
+    url: /lehre/klipps/logistische-regression-klinische.R
   - icon_pack: fas
     icon: pen-to-square
     name: Quizdaten
