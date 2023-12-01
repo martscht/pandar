@@ -3,13 +3,13 @@ title: "Tests und Konfidenzintervalle - Aufgaben"
 type: post
 date: '2019-10-18' 
 slug: tests-konfidenzintervalle-aufgaben 
-categories: [] 
-tags: ["Statistik I Übungen"] 
+categories: ["Statistik I Übungen"] 
+tags: [] 
 subtitle: ''
 summary: '' 
 authors: [nehler, vogler, scheppa-lahyani, pommeranz] 
 weight: 
-lastmod: '2023-11-28'
+lastmod: '2023-12-01'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
