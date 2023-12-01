@@ -1,6 +1,6 @@
 ## load("C:/Users/Musterfrau/Desktop/Titanic.rda")
 
-#load(url("https://pandar.netlify.app/daten/Titanic.rda"))
+#load(url("https://pandar.netlify.app/daten/Titanic.rda")) 
 load(url("https://courageous-donut-84b9e9.netlify.app/post/Titanic.rda"))
 
 head(Titanic)

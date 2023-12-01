@@ -29,8 +29,8 @@ links:
     url: /lehre/fue-i/logistische-regression-titanic.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/fue-i/logistische-regression-titanic-aufgaben
+    name: Übungsdaten
+    url: /lehre/fue-i/msc1-daten#Sitzung1
 output:
   html_document:
     keep_md: true
