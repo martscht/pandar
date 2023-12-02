@@ -7,7 +7,7 @@ categories: ["Statistik I Übungen"]
 tags: [] 
 subtitle: ''
 summary: '' 
-authors: [koehler, buchholz, goldhammer] 
+authors: [koehler, buchholz, goldhammer, walter, nehler] 
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
@@ -26,129 +26,177 @@ output:
 ---
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(error = TRUE)
-library(psych)
-library(car)
-library(effsize)
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
-**Daten einlesen**
+## Vorbereitung
 
-```{r}
-load(url('https://pandar.netlify.app/daten/fb22.rda')) 
-```
+> Laden Sie zunächst den Datensatz `fb23` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb23.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-unabhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
-**Daten aufbereiten**
 
-Prüfe zunächst, ob die Variablen Faktoren sind.
+```{r, echo = F}
+#### Was bisher geschah: ----
 
-```{r}
-is.factor(fb22$fach)
-is.factor(fb22$ort)
-is.factor(fb22$geschl)
-```
+# Daten laden
+load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
-Falls nicht:
-
-```{r}
-# Lieblingsfach als Faktor - falls es noch keiner war
-fb22$fach <- factor(fb22$fach, 
+# Nominalskalierte Variablen in Faktoren verwandeln
+fb23$hand_factor <- factor(fb23$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
+fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
-                    labels = c('Allgemeine', 'Biologische', 'Entwicklung',
-                               'Klinische', 'Diag./Meth.'))
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
 
-# Wohnort als Faktor - falls es noch keiner war
-fb22$ort <- factor(fb22$ort, 
-                   levels = c(1, 2),
-                   labels = c('Frankfurt', 'anderer'))
+fb23$ziel <- factor(fb23$ziel,
+                        levels = 1:4,
+                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
+fb23$wohnen <- factor(fb23$wohnen, 
+                      levels = 1:4, 
+                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
+# Rekodierung invertierter Items
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
+fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
 
-# Geschlecht als Faktor - falls es noch keiner war
-fb22$geschl <- factor(fb22$geschl, 
-                      levels=c(1,2,3), 
-                      labels=c('weiblich', 'maennlich', 'anderes'))
+# Berechnung von Skalenwerten
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+
+# z-Standardisierung
+fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
 ```
 
 ***
 
 ## Aufgabe 1
-Unterscheiden sich Studierende, die sich für Allgemeine Psychologie (Variable "fach") interessieren, im Persönlichkeitsmerkmal Intellekt (auch: Offenheit für neue Erfahrungen, "intel") von Studierenden, die sich für Klinische Psychologie interessieren? Normalverteilung des Merkmals in der Population darf angenommen werden. 
+Wir wollen untersuchen, ob sich Studierende, die sich für Allgemeine Psychologie (Variable `fach`) interessieren, im Persönlichkeitsmerkmal Offenheit für neue Erfahrungen (auch Intellekt, `offen`) von Studierenden, die sich für Klinische Psychologie interessieren? Die Voraussetzung der Normalverteilung nehmen wir an, weshalb wir hier einen t-Test durchführen dürfen. 
+
+* Untersuchen Sie die Fragestellung zunächst rein deskriptiv. Bestimmen Sie dafür die Mittelwerte und empirischen Standardabweichungen der beiden Gruppen. 
 
 <details><summary>Lösung</summary>
-**Deskriptivstatistische Beantwortung der Fragestellung: grafisch**
+
+In der Variable `fach` liegen 5 verschiedene Fächer vor. Es interessieren aber nur zwei Ausprägungen davon, weshalb wir ein Subset aus unseren Daten bilden. Dieses legen wir in einem neuen Datensatz ab, den wir `data1` nennen, da er zur ersten Aufgabe gehört. 
+
 ```{r}
-data1 <- fb22[ (which(fb22$fach=="Allgemeine"|fb22$fach=="Klinische")), ]
+table(fb23$fach)
+data1 <- fb23[fb23$fach=="Allgemeine"|fb23$fach=="Klinische", ]
+```
+
+Damit im neuen Datensatz die alten Levels nicht mehr existieren (und bspw. bei Nutzung von `table()` mit einer Häufigkeit von 0 angezeigt werden), verwenden wir den Befehl `droplevels()`.
+
+```{r}
+table(data1$fach)
 data1$fach <- droplevels(data1$fach)
-boxplot(data1$intel ~ data1$fach,
-        xlab="Interessenfach", ylab="Intellekt", 
+table(data1$fach)
+```
+
+Beachten Sie, dass dieses Vorgehen aber keine Personen ausschließt, die das Lieblingsfach nicht angegeben haben. Dies können wir aber durch eine weitere Reduktion des Datensatzes erreichen.
+
+```{r}
+data1 <- data1[!is.na(data1$fach),]
+
+```
+
+**Deskriptivstatistische Beantwortung der Fragestellung: grafisch**
+
+```{r}
+boxplot(data1$offen ~ data1$fach,
+        xlab="Interessenfach", ylab="Offenheit für neue Erfahrungen", 
         las=1, cex.lab=1.5, 
-        main="Interessenfach und Intellekt")
+        main="Interessenfach und Offenheit")
 ```
 
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
+Die `describeBy()` Funktion aus dem Paket `psych` kann uns helfen, direkt die deskriptiven Maße getrennt für unsere beiden Gruppen zu erstellen.
 
 ```{r}
-# Überblick
-
 library(psych)
-describeBy(data1$intel, data1$fach)
+describeBy(x = data1$offen, group = data1$fach)
+```
+Allerdings haben wir auch gelernt, dass die Funktion `describeBy()` nur Populationsschätzer für Varianz und Standardabweichung berichtet. Deshalb müssen wir die empirische Schätzung mittels der Korrektur durchführen. Hierfür gibt es natürlich verschiedene Wege. Wir ziehen uns in dem Code alle Offenheits-Werte, die Personen mit den jeweiligen Fächern angegeben haben und legen Sie jeweils in ein Objekt (`offen_A` und `offen_K`) ab. Diese Objekte sind Vektoren und enthalten somit NUR die Offenheits-Werte. Allerdings müssen wir hier fehlende Werte beachten, da es sein könnte, dass eine Person zwar die Frage nach ihrem Lieblingsfach, aber nicht die Frage nach ihrer Offenheit. In dem Beispiel kommt das zwar nicht vor, aber zur Sicherheit haben wir den Code allgemein gültig geschrieben.
 
-# Berechnung der empirischen Standardabweichung
+```{r}
+offen_A <- data1$offen[(data1$fach=="Allgemeine")]
+sigma_A <- sd(offen_A)
+n_A <- length(offen_A[!is.na(offen_A)])
+sd_A <- sigma_A * sqrt((n_A - 1) / n_A)
+sd_A 
 
-intel.A <- data1$intel[(data1$fach=="Allgemeine")]
-sigma.A <- sd(intel.A)
-n.A <- length(intel.A[!is.na(intel.A)])
-sd.A <- sigma.A * sqrt((n.A-1) / n.A)
-sd.A 
-
-intel.B <- data1$intel[(data1$fach=="Klinische")]
-sigma.B <- sd(intel.B)
-n.B <- length(intel.B[!is.na(intel.B)])
-sd.B <- sigma.B * sqrt((n.B-1) / n.B)
-sd.B
+offen_K <- data1$offen[(data1$fach=="Klinische")]
+sigma_K <- sd(offen_K)
+n_K <- length(offen_K[!is.na(offen_K)])
+sd_K <- sigma_K * sqrt((n_K-1) / n_K)
+sd_K
 ```
 
-Mittelwert der Allgemeinen Psychologen (_M_ = `r round(mean(intel.A), 2)`, _SD_ = `r round(sd.A, 2)`) unterscheidet sich deskriptivstatistisch vom Mittelwert der Klinischen (_M_ = `r round(mean(intel.B), 2)`, _SD_ = `r round(sd.B, 2)`).
+Mittelwert der Allgemeinen Psychologen ($M = `r round(mean(offen_A), 2)`$, $SD_ = `r round(sd_A, 2)`$ unterscheidet sich deskriptivstatistisch vom Mittelwert der Klinischen ($M = `r round(mean(offen_K), 2)`$, $SD = `r round(sd_K, 2)`$).
 
+</details>
 
-**Voraussetzungsprüfung: Normalverteilung**
+* Formulieren Sie die Hypothesen basierend auf der Aufgabenstellung inhaltlich und statistisch.
 
-Nicht nötig, da Normalverteilung in Population angenommen werden darf (s. Aufgabenstellung).
-
+<details><summary>Lösung</summary>
 **Hypothesen**
 
 * Art des Effekts: Unterschiedshypothese  
 * Richtung des Effekts: Ungerichtet $\rightarrow$ ungerichtete Hypothesen  
 * Größe des Effekts: Unspezifisch  
 
-Hypthesenpaar (statistisch):  
+Hypothesenpaar (inhaltlich):
+
+* $H_0$: Die Offenheitswerte unterscheiden sich nicht zwischen Studierenden, die als Lieblingsfach klinische, und Studierenden, die als Lieblingsfach allgemeine Psychologie angegeben haben.
+* $H_1$: Die Offenheitswerte unterscheiden sich zwischen Studierenden, die als Lieblingsfach klinische, und Studierenden, die als Lieblingsfach allgemeine Psychologie angegeben haben.
+
+Hypothesenpaar (statistisch):  
 
 * $H_0$: $\mu_\text{Allgemeine} =   \mu_\text{Klinische}$
 * $H_1$: $\mu_\text{Allgemeine} \ne \mu_\text{Klinische}$
 
-**Spezifikation des Signifikanzniveaus** 
+</details>
 
-$\alpha = .05$
+
+
+
+
+* Welche Voraussetzung gibt es neben der Normalverteilung noch für die Durchführung des t-Tests. Bewerten Sie, ob diese gegeben sind und prüfen Sie diese gegebenenfalls.
+
+<details><summary>Lösung</summary>
+
+Die zusätzlichen Voraussetzungen sind die folgenden:
+
+1.  zwei unabhängige Stichproben $\rightarrow$ ist gegeben
+2.  die einzelnen Messwerte innerhalb der Gruppen sind voneinander unabhängig (Messwert einer Vpn hat keinen Einfluss auf den Messwert einer anderen) $\rightarrow$ kann als gegeben angeommen werden
+3.  Homoskedastizität: Varianzen der Variablen innerhalb der beiden Populationen sind gleich $\rightarrow$ Levene-Test
 
 **Voraussetzungsprüfung: Varianzhomogenität**
 
 ```{r}
 library(car)
-leveneTest(data1$intel ~ data1$fach)
+leveneTest(data1$offen ~ data1$fach)
 ```
-```{r echo=F}
-levene <- leveneTest(data1$intel ~ data1$fach)
+```{r, echo=FALSE}
+levene <- leveneTest(data1$offen ~ data1$fach)
 f <- round(levene$`F value`[1], 2)
 p <- round(levene$`Pr(>F)`[1], 3)
 ```
 
-_F_(`r levene$Df[1]`, `r levene$Df[2]`) = `r f`, _p_ = `r p` $\rightarrow$ Das Ergebnis ist nicht signifikant, die $H_0$ wird beibehalten und Varianzhomogenität angenommen.
+$F$(`r levene$Df[1]`, `r levene$Df[2]`) = `r f`, $p$ = `r p` $\rightarrow$ Das Ergebnis ist nicht signifikant, die $H_0$ wird beibehalten und Varianzhomogenität angenommen.
+</details>
+
+* Führen Sie abschließend den t-Test und berichten Sie die Ergebnisse formal. $\alpha$ soll den Wert 0.05 haben.
+
+<details><summary>Lösung</summary>
 
 **Durchführung des _t_-Tests**
 
 ```{r}
-t.test(data1$intel ~ data1$fach,           # abhängige Variable ~ unabhängige Variable
+t.test(data1$offen ~ data1$fach,           # abhängige Variable ~ unabhängige Variable
        paired = F,                   # Stichproben sind unabhängig 
        alternative = "two.sided",         # zweiseitige Testung
        var.equal = T,                # Varianzhomogenität ist gegeben (-> Levene-Test)
@@ -156,69 +204,49 @@ t.test(data1$intel ~ data1$fach,           # abhängige Variable ~ unabhängige 
 ```
 
 ```{r, echo=FALSE}
-ttest <- t.test(data1$intel ~ data1$fach, paired = F, alternative = "two.sided", var.equal = T, conf.level = .95) 
+ttest <- t.test(data1$offen ~ data1$fach, paired = F, alternative = "two.sided", var.equal = T, conf.level = .95) 
 ```
 
 **Formales Berichten des Ergebnisses**
 
-Es wurde untersucht, ob sich Studierende, die sich für Allgemeine Psychologie interessieren, im Persönlichkeitsmerkmal 'Intellekt' (auch: Offenheit für neue Erfahrungen) von Studierenden, die sich für Klinische Psychologie interessieren, unterscheiden. Deskriptiv liegt ein solcher Unterschied vor: Die Mittelwerte betragen `r round(mean(intel.A), 2)` (Allgemeine, _SD_ = `r round(mean(sd.A), 2)`) und `r round(mean(intel.B), 2)` (Klinische, _SD_ = `r round(mean(sd.B), 2)`). Der entsprechende _t_-Test zeigt jedoch ein nicht signifikantes Ergebnis (_t_(_df_ = `r ttest$parameter`, zweis.) = `r round(ttest$statistic, 2)`, _p_ = `r round(ttest$p.value, 3)`). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Die Studierenden sind im Persönlichkeitsmerkmal 'Intellekt' unabhängig davon, ob sie sich für Allgemeine Psychologie oder für Klinische Psychologie interessieren.
+Es wurde untersucht, ob sich Studierende, die sich für Allgemeine Psychologie interessieren, im Persönlichkeitsmerkmal Offenheit für neue Erfahrungen von Studierenden, die sich für Klinische Psychologie interessieren, unterscheiden. Deskriptiv liegt ein solcher Unterschied vor: Die Mittelwerte betragen `r round(mean(offen_A), 2)` (Allgemeine, $SD = `r round(mean(sd_A), 2)`$) und `r round(mean(offen_K), 2)` (Klinische, $SD = `r round(mean(sd_K), 2)`$). Der entsprechende $t$-Test zeigt jedoch ein nicht signifikantes Ergebnis (_t_(_df_ = `r ttest$parameter`, zweis.) = `r round(ttest$statistic, 2)`, $p$ = `r round(ttest$p.value, 3)`). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Die Studierenden unterscheiden sich nicht im Persönlichkeitsmerkmal *Offenheit für neue Erfahrungen* unabhängig davon, ob sie sich für Allgemeine Psychologie oder für Klinische Psychologie interessieren.
 
 </details>
 
 ## Aufgabe 2
-Sind Studierende, die außerhalb von Frankfurt wohnen ("ort"), unzufriedener im Leben ("lz") als diejenigen, die innerhalb von Frankfurt wohnen?  
+
+In dieser Aufgabe soll untersucht werden, ob sich Studierende mit Wohnort in Frankfut, sich selbst zu Beginn der Praktikumsstizung als wacher eingestuft haben als Studierende, die nicht in Frankfurt wohnen.
+
+* Zunächst geht es an die Datenvorbereitung. Verwandeln Sie die Variable Ort in einen Faktor, bei dem eine `1` für `FFM` und eine `2` für `anderer` steht. **ACHTUNG**: Wenn Sie den Appendix des Tutorials durchgearbeitet haben, ist dieser Schritt nicht nötig
 
 <details><summary>Lösung</summary>
-**Deskriptivstatistische Beantwortung der Fragestellung: grafisch**
 
 ```{r}
-boxplot(fb22$lz ~ fb22$ort,
-        xlab="Wohnort", ylab="Lebenszufriedenheit", 
-        las=1, cex.lab=1.5, 
-        main="Wohnort und Lebenszufriedenheit")
+# Achtung, nur einmal durchführen (ansonsten Datensatz neu einladen und Code erneut durchlaufen lassen!)
+fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
 ```
 
-**Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
+</details>
+
+* Außerdem muss der Skalenwert (`wm_pre`) noch erstellt werden. Dieser setzt sich aus den Mittelwerten der Fragen 2, 5, 7 und 10 des MDBF zusammen. Beachten Sie dabei, dass es 4 Antwortkategorien gab und die Items 5 und 7 vor der Skalenbildung invertiert werden müssen.
+
+<details><summary>Lösung</summary>
 
 ```{r}
-library(psych)
-describeBy(fb22$lz, fb22$ort)
-summary(fb22[which(fb22$ort=="Frankfurt"), "lz"])
-summary(fb22[which(fb22$ort=="anderer"), "lz"])
+# Rekodierung invertierter Items
+fb23$mdbf5_pre_r <- -1 * (fb23$mdbf5_pre - 4 - 1)
+fb23$mdbf7_pre_r <- -1 * (fb23$mdbf7_pre - 4 - 1)
+
+# Berechnung von Skalenwerten
+fb23$wm_pre  <- fb23[, c('mdbf1_pre', 'mdbf5_pre_r', 
+                        'mdbf7_pre_r', 'mdbf10_pre')] |> rowMeans()
 ```
 
-```{r, echo=FALSE}
-deskr <- describeBy(fb22$lz, fb22$ort)
-fra <- summary(fb22[which(fb22$ort=="Frankfurt"), "lz"])
-and <- summary(fb22[which(fb22$ort=="anderer"), "lz"])
-```
+</details>
 
-Mittelwert der Nicht-Frankfurter:innen ist deskriptiv niedriger als der der Frankfurter:innen.
+* Leiten Sie aus der Fragestellung die Hypothesen inhaltlich und statistisch ab.
 
-**Voraussetzungsprüfung: Normalverteilung**
-
-```{r, fig.height=4, fig.align="center"}
-par(mfrow=c(1,2))
-lz.F <- fb22[which(fb22$ort=="Frankfurt"), "lz"]
-hist(lz.F, xlim=c(1,9), ylim=c(0,.5), main="Lebenzufriedenheit\n(Frankfurter)", xlab="", ylab="", las=1, prob=T)
-curve(dnorm(x, mean=mean(lz.F, na.rm=T), sd=sd(lz.F, na.rm=T)), col="red", lwd=2, add=T)
-qqnorm(lz.F)
-qqline(lz.F, col="red")
-```
-
-$\rightarrow$ Entscheidung: Normalverteilung wird nicht angenommen
-
-```{r, fig.height=4, fig.align="center"}
-par(mfrow=c(1,2))
-lz.a <- fb22[which(fb22$ort=="anderer"), "lz"]
-hist(lz.a, xlim=c(1,9), main="Lebenszufriedenheit\n(Nicht-Frankfurter)", xlab="", ylab="", las=1, prob=T)
-curve(dnorm(x, mean=mean(lz.a, na.rm=T), sd=sd(lz.a, na.rm=T)), col="red", lwd=2, add=T)
-qqnorm(lz.a)
-qqline(lz.a, col="red")
-```
-
-$\rightarrow$ Entscheidung: Normalverteilung wird nicht angenommmen 
-
+<details><summary>Lösung</summary>
 
 **Hypothesen**
 
@@ -226,40 +254,197 @@ $\rightarrow$ Entscheidung: Normalverteilung wird nicht angenommmen
 * Richtung des Effekts: Gerichtet $\rightarrow$ gerichtete Hypothesen  
 * Größe des Effekts: Unspezifisch  
 
-Hypthesenpaar (statistisch):  
+Hypothesenpaar (inhaltlich):
 
-* $H_0$: $\eta_\text{Frankfurter} \le \eta_\text{nicht-Frankfurter}$  
-* $H_1$: $\eta_\text{Frankfurter} >   \eta_\text{nicht-Frankfurter}$
+* $H_0$: Studierende, die in Frankfurt wohnen, schätzen sich selbst zu Beginn des Praktikums weniger oder gleich wach ein als Studierende, die nicht in Frankfurt wohnen.
+* $H_1$: Studierende, die in Frankfurt wohnen, schätzen sich selbst zu Beginn des Praktikums wacher ein als Studierende, die nicht in Frankfurt wohnen.
 
-**Spezifikation des Signifikanzniveaus**
+Hypothesenpaar (statistisch):  
 
-$\alpha = .05$
+* $H_0$: $\mu_\text{FFM} \leq   \mu_\text{andere}$
+* $H_1$: $\mu_\text{FFM} > \mu_\text{andere}$
 
-**Durchführung des Wilcoxon-Tests**
+</details>
+
+* Nehmen Sie alle Voraussetzungen als gegeben an und führen Sie direkt den t-Test durch. Nutzen Sie als Signifikanzniveau $\alpha = 0.01$ und treffen Sie eine Entscheidung hinsichtlich der Hypothesen.
+
+<details><summary>Lösung</summary>
+
 
 ```{r}
-wilcox.test(fb22$lz ~ fb22$ort,           # abhängige Variable ~ unabhängige Variable
+t.test(fb23$wm_pre ~ fb23$ort,           # abhängige Variable ~ unabhängige Variable
        paired = F,                   # Stichproben sind unabhängig 
-       alternative = "greater",         # einseitige Testung: Gruppe1 (Frankfurter:innen) > Gruppe2 (Nicht-Frankfurter:innen) 
-       conf.level = .95)             # alpha = .05 
+       alternative = "greater",         # einseitige Testung
+       var.equal = T,                # Varianzhomogenität ist gegeben (-> Levene-Test)
+       conf.level = .99)             # alpha = .05 
 ```
 
-```{r, echo=FALSE}
-wilcox <- wilcox.test(fb22$lz ~ fb22$ort, paired = F, alternative = "greater",  conf.level = .95)
+In der inferenzstatistischen Testung zeigt sich kein signifikanter Unterschied. Wir würden also die $H0$ beibehalten, auch wenn der Mittelwert der Gruppe FFM deskriptiv ein wenig größer ist.
+
+</details>
+
+
+
+## Aufgabe 3
+
+In dieser Aufgabe wollen wir die Frage beantworten, ob Studierende die auf Unipartys gehen (`uni3`), sich in Ihrer Lebenszufriedenheit von denen unterscheiden (`lz`), die dies nicht tun. Im Tutorial haben Sie bereits gelernt, dass Lebenszufriedenheit als schiefverteilt angenommen werden kann. Wählen Sie also einen Test, der diese Schiefe berücksichtigt.
+
+* Welcher Test wäre an dieser Stelle geeignet. Leiten Sie aus der Fragestellung die passenden Hypothesen für diesen Test auf.
+
+<details><summary>Lösung</summary>
+
+**Hypothesen**
+
+* Art des Effekts: Unterschiedshypothese  
+* Richtung des Effekts: Gerichtet $\rightarrow$ gerichtete Hypothesen  
+* Größe des Effekts: Unspezifisch  
+
+Hypthesenpaar (Inhaltlich):  
+
+* $H_0$: Studierende, die Unipartys besuchen, erreichen im Mittel gleiche Werte der Lebenszufriedenheit wie Studierende, die diese Partys nicht besuchen.
+* $H_1$: Studierende, die Unipartys besuchen, erreichen im Mittel unterschiedliche Werte der Lebenszufriedenheit als Studierende, die diese Partys nicht besuchen.
+
+Hypthesenpaar (statistisch):  
+
+* $H_0$: $\eta_\text{Unipartys} \neq \eta_\text{keine Unipartys}$  
+* $H_1$: $\eta_\text{Unipartys} =   \eta_\text{keine Unipartys}$
+
+</details>
+
+* Erstellen Sie eine neue Variable `unipartys` in unserem Datensatz `fb23`. Diese soll als Faktor vorliegen und aus `uni3` erstellt werden, wobei `0` für `nein` und `1` für `ja` steht.
+
+<details><summary>Lösung</summary>
+```{r}
+# Nominalskalierte Variablen in Faktoren verwandeln
+fb23$unipartys <- factor(fb23$uni3,
+                             levels = 0:1,
+                             labels = c("nein", "ja"))
 ```
-
-**Formales Berichten des Ergebnisses** 
-
-Es wurde untersucht, ob außerhalb von Frankfurt wohnende Studierende unzufriedener im Leben sind als die in Frankfurt wohnenden. Deskriptiv  zeigt sich das erwartete Muster: die Nicht-Frankfurter:innen sind weniger zufrieden (_Mdn_ = `r round(deskr$anderer$median, 1)`, _IQB_ = [`r round(and[2], 1)` ; `r round(and[5], 1)`]) als die Frankfurter:innen (_Mdn_ = `r round(deskr$Frankfurt$median, 1)`, _IQB_ = [`r round(fra[2], 1)` ; `r round(fra[5], 1)`]). Jedoch ist das Ergebnis des einseitigen Wilcoxon-Tests nicht signifikant (_W_ = `r round(wilcox$statistic, 1)`, _p_ = `r round(wilcox$p.value, 3)`). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. 
 
 
 </details>
 
-## Aufgabe 3
-Ist die Wahrscheinlichkeit dafür, innerhalb von Frankfurt zu wohnen, die gleiche für weibliche wie für männliche Erstsemester-Studierende der Psychologie?
+
+* Betrachten Sie die deskriptivstatistischen Kennwerte und ordnen Sie diese hinsichtlich unserer Hypothese ein.
 
 <details><summary>Lösung</summary>
+
+**Deskriptivstatistische Beantwortung der Fragestellung: grafisch**
+
+```{r}
+boxplot(fb23$lz ~ fb23$unipartys,
+        ylab="Lebenszufriedenheit", 
+        las=1, cex.lab=1.5, 
+        main="Unipartys und Lebenszufriedenheit")
+```
+
+**Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
+
+```{r}
+describeBy(fb23$lz, fb23$unipartys)
+```
+
+```{r, echo=FALSE}
+deskr <- describeBy(fb23$lz, fb23$unipartys)
+party <- summary(fb23[which(fb23$unipartys=="ja"), "lz"])
+noparty <- summary(fb23[which(fb23$unipartys=="nein"), "lz"])
+```
+
+Rein deskriptiv unterscheiden sich die beiden Gruppen in ihrer mittleren Lebenszufriedenheit
+
+</details>
+
+* Welche Voraussetzungen hat der von Ihnen ausgewählte Test? Beurteilen Sie die Voraussetzungen und testen Sie diese gegebenenfalls.
+
+<details><summary>Lösung</summary>
+
+1.  zwei unabhängige Stichproben $\rightarrow$ ok
+2.  die einzelnen Messwerte sind innerhalb der beiden Gruppen voneinander unabhängig (Messwert einer Vpn hat keinen Einfluss auf den Messwert einer anderen) $\rightarrow$ ok
+3.  das untersuchte Merkmal ist stetig (mindestens singulär-ordinal skaliert) $\rightarrow$ Fragebogenscore mit begrenzter Anzahl, aber wir nehmen diese als nahe genug an $\infty$ an
+4.  das Merkmal folgt in beiden Gruppen der gleichen Verteilung
+
+**Voraussetzungsprüfung: gleiche Verteilung**
+
+```{r, fig.height=4, fig.align="center"}
+par(mfrow=c(1,2))
+lz_party <- fb23[which(fb23$unipartys=="ja"), "lz"]
+hist(lz_party, xlim=c(1,9), ylim=c(0,0.5), main="Lebenzufriedenheit\n(Unipartys)", xlab="", ylab="", las=1, prob=T)
+curve(dnorm(x, mean=mean(lz_party, na.rm=T), sd=sd(lz_party, na.rm=T)), col="red", lwd=2, add=T)
+qqnorm(lz_party)
+qqline(lz_party, col="red")
+```
+
+
+```{r, fig.height=4, fig.align="center"}
+par(mfrow=c(1,2))
+lz_noparty <- fb23[which(fb23$unipartys=="nein"), "lz"]
+hist(lz_noparty, xlim=c(1,9), main="Lebenszufriedenheit\n(Keine Unipartys)", xlab="", ylab="", las=1, prob=T)
+curve(dnorm(x, mean=mean(lz_noparty, na.rm=T), sd=sd(lz_noparty, na.rm=T)), col="red", lwd=2, add=T)
+qqnorm(lz_noparty)
+qqline(lz_noparty, col="red")
+```
+
+```{r}
+leveneTest(fb23$lz ~ fb23$unipartys)
+``` 
+
+
+</details>
+
+* Führen Sie abschließend die inferenzstatistische Prüfung durch und berichten Sie die Ergebnisse formal. $\alpha$ soll den Wert 0.05 haben.
+
+<details><summary>Lösung</summary>
+
+**Durchführung des Wilcoxon-Tests**
+
+```{r}
+wilcox.test(fb23$lz ~ fb23$unipartys, # abhängige Variable ~ unabhängige Variable
+       paired = F,                   # Stichproben sind unabhängig 
+       alternative = "two.sided",      # zweiseitige Testung 
+       conf.level = .95)             # alpha = .05 
+```
+
+```{r, echo=FALSE}
+wilcox <- wilcox.test(fb23$lz ~ fb23$unipartys, paired = F, alternative = "two.sided",  conf.level = .95)
+```
+
+**Formales Berichten des Ergebnisses** 
+
+Es wurde untersucht, ob Studierende, die auf Unipartys gehen, sich in der Lebenszufriedenheit von denen unterscheiden, die das nicht tun. Deskriptiv  zeigt sich, dass die Uniparty-Gänger:innen zufriedener sind ($Mdn = `r round(deskr$ja$median, 1)`$) als die, die das nicht tun ($Mdn = `r round(deskr$nein$median, 1)`$). entsprechende Wilcoxon-Test zeigt ein signifikantes Ergebnis ($W = `r round(wilcox$statistic, 1)`$, $p = `r round(wilcox$p.value, 3)`$). Die Nullhypothese wird daher verworfen. Studierende, die auf Unipartys gehen, unterscheiden sich im Mittel in ihrer Lebenszufriedenheit von denen, die dies nicht tun.
+
+
+</details>
+
+
+
+## Appendix
+
+Hier finden Sie noch eine Aufgabe, die den im Appendix des Tutorials behandelten Test abfragt.
+
+<details><summary> Aufgabe zum Appendix </summary>
+Ist die Wahrscheinlichkeit dafür, neben dem Studium einen Job (`job`) zu haben, die gleiche für Erstsemesterstudierende der Psychologie die in einer Wohngemeinschaft wohnen wie für Studierenden die bei ihren Eltern wohnen (`wohnen`)? Führen Sie die Testung mit $\alpha = 0.05$ durch.
+
+<details><summary>Lösung</summary>
+
 Beide Variablen sind nominalskaliert $\rightarrow \chi^2$-Test
+
+**Vorbereitung der Daten**
+
+Die Variable `job` wurde schon im Appendix des Tutorials erstellt. Trotzdem hier nochmal zur Sicherheit, damit das Dokument der Lösungen in sich stimmig ist. Wenn Sie diesen Befehl schon ausgeführt haben, sollten Sie ihn aber nicht nochmal ausführen. Sonst müssen Sie den Datensatz neu laden und bis zu diesem Zeitpunkt wieder ausführen.
+
+```{r}
+fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
+``` 
+
+Weiterhin gibt es bei der Variable `wohnen` mehr als die beiden Ausprägungen, die wir vergleichen wollen. Also reduzieren wir den Datensatz und legen den neuen Datensatz unter dem Namen `data4` für die dritte Aufgabe ab.
+
+```{r}
+data4 <- fb23[(which(fb23$wohnen=="WG"|fb23$wohnen=="bei Eltern")),] # Neuer Datensatz der nur Personen beinhaltet, die entweder bei den Eltern oder in einer WG wohnen
+levels(data4$wohnen)
+data4$wohnen <- droplevels(data4$wohnen) 
+# Levels "alleine" und "sonstiges" wurden eliminiert
+levels(data4$wohnen)
+``` 
 
 **Voraussetzungen**  
 
@@ -268,10 +453,7 @@ Beide Variablen sind nominalskaliert $\rightarrow \chi^2$-Test
 3. Zellbesetzung für alle $n_{ij}$ > 5 $\rightarrow$ Prüfung anhand von Häufigkeitstabelle 
 
 ```{r}
-fb22$geschlecht <- fb22$geschl
-fb22$geschlecht[fb22$geschlecht=="anderes"] <- NA #Umkodieren von "anderes" in fehlenden Wert
-fb22$geschlecht <- droplevels(fb22$geschlecht) #Level "anderes" wird eliminiert
-tab <- table(fb22$geschlecht, fb22$ort)
+tab <- table(data4$wohnen, data4$job)
 tab
 ```
 
@@ -285,8 +467,8 @@ $\rightarrow n_{ij}$ > 5 in allen Zellen gegeben
 
 Hyothesenpaar (inhaltlich):  
 
-* $H_0$: Weibliche und männliche Studierende der Psychologie wohnen mit gleicher Wahrscheinlichkeit innerhalb bzw. außerhalb von Frankfurt.  
-* $H_1$: Weibliche und männliche Studierende der Psychologie unterscheiden sich in der Wahrscheinlichkeit, innerhalb bzw. außerhalb von Frankfurt zu wohnen.  
+* $H_0$: Studierende die in einer WG wohnen und Studierende die bei ihren Eltern wohnen haben mit gleicher Wahrscheinlichkeit einen Job bzw. keinen Job.  
+* $H_1$: Studierende die in einer WG wohnen und Studierende die bei ihren Eltern wohnen unterscheiden sich in der Wahrscheinlichkeit einen Job bzw. keinen Job neben dem Studium zu haben.  
 
 Hypothesenpaar (statistisch):  
 
@@ -301,9 +483,10 @@ chisq.test(tab, correct=FALSE)
 
 ```{r, echo=FALSE}
 chi2 <- chisq.test(tab, correct=FALSE)
+
 ```
 
-$\chi^2$ = `r round(chi2$statistic, 3)`, df = `r chi2$parameter`, _p_ = `r round(chi2$p.value, 3)` $\rightarrow H_0$
+$\chi^2$ = `r round(chi2$statistic, 3)`, df = `r chi2$parameter`, p = `r round(chi2$p.value, 3)` $\rightarrow H_0$
 
 **Effektstärke Phi ($\phi$)**
 
@@ -314,7 +497,6 @@ phi(tab)
 
 **Ergebnisinterpretation**
 
-Es wurde untersucht, ob sich männliche und weibliche Studierende in ihrem Wohnort (Frankfurt vs. außerhalb) unterscheiden. Zur Beantwortung der Fragestellung wurde ein Vierfelder-Chi-Quadrat-Test für unabhängige Stichproben berechnet. Der Zusammenhang zwischen Wohnort und Geschlecht ist nicht signifikant ($\chi^2$(`r chi2$parameter`) = `r round(chi2$statistic, 3)`, _p_ = `r round(chi2$p.value, 3)`), somit wird die Nullhypothese beibehalten. Der Effekt ist von vernachlässigbarer Stärke ($\phi$ = `r phi(tab)`). Männliche und weibliche Studierende wohnen also mit gleicher Wahrscheinlichkeit in Frankfurt bzw. außerhalb von Frankfurt.
-
+Es wurde untersucht, ob sich Studierende die in einer WG wohnen und Studierende die bei ihren Eltern wohnen darin unterscheiden, ob sie einen Job haben oder nicht (Job vs. kein Job). Zur Beantwortung der Fragestellung wurde ein Vierfelder-Chi-Quadrat-Test für unabhängige Stichproben berechnet. Der Zusammenhang zwischen Wohnsituation und Berufstätigkeit ist nicht signifikant ($\chi^2$(`r chi2$parameter`) = `r round(chi2$statistic, 3)`, _p_ = `r round(chi2$p.value, 3)`), somit wird die Nullhypothese beibehalten. Der Effekt ist von vernachlässigbarer Stärke ($\phi$ = `r phi(tab)`). Studierende die in einer WG wohnen und Studierende die bei ihren Eltern wohnen haben also mit gleicher Wahrscheinlichkeit einen Job bzw. keinen Job. 
 </details>
-
+</details>
