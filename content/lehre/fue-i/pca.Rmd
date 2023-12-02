@@ -587,7 +587,7 @@ Dies bedeutet, dass sehr kleine Eigenwerte auch für komplette lineare Abhängig
 
 <details><summary> <b> PCArt </b> </summary>
 
-[Prof. Dr. Martin Schultze](/authors/schultze) hat ein kleines `R` Paket geschrieben, welches die PCA verbildlicht: Von bekannten Gemälden wird die Information, welche in jedem Pixel steckt, durch eine Hauptkomponentenanalyse zerlegt und das Gemälde anschließend nur durch eine Auswahl an Komponenten dargestellt. Sie können dieses Paket installieren, indem Sie zunächst `devtools` installieren und dann direkt vom `r fontawesome::fa("github")` Github Repository installieren:
+[Prof. Dr. Martin Schultze](/authors/schultze) hat ein kleines `R` Paket geschrieben, welches die PCA verbildlicht: Von bekannten Gemälden wird die Information, welche in jedem Pixel steckt, durch eine Hauptkomponentenanalyse zerlegt und das Gemälde anschließend nur durch eine Auswahl an Komponenten dargestellt. Sie können dieses Paket installieren, indem Sie zunächst `devtools` installieren und dann direkt vom <i class="fa-brands fa-github"></i> Github Repository installieren:
 ```{r, eval = F}
 install.packages("devtools")
 devtools::install_github("https://github.com/martscht/PCArt")
