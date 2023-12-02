@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [walter, nehler] 
-lastmod: '2023-12-01'
+lastmod: '2023-12-02'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -36,7 +36,7 @@ output:
 
 
 ## Aufgabe 1
-Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach Ihrem Befinden zum Zeitpunkt der Umfrage befragt. Hierbei wurde unteranderem erhoben, wie ruhig (hohe Werte) oder unruhig (niedrige Werte) Sie sich zu beiden Zeitpunkten gefühlt haben (Variable `ru_prä` und `ru_post`). Nun wollen Sie untersuchen, ob die Teilnahme am Statistikpraktikum einen Einfluss auf das Befinden der Studierenden hat. Sie gehen davon aus, dass sich der Ruhestudium vor und nach dem Praktikum unterscheidet ohne eine Richtung anzunehmen.
+Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach Ihrem Befinden zum Zeitpunkt der Umfrage befragt. Hierbei wurde unteranderem erhoben, wie ruhig (hohe Werte) oder unruhig (niedrige Werte) Sie sich zu beiden Zeitpunkten gefühlt haben (Variable `ru_pre` und `ru_post`). Nun wollen Sie untersuchen, ob die Teilnahme am Statistikpraktikum einen Einfluss auf das Befinden der Studierenden hat. Sie gehen davon aus, dass sich der Ruhestudium vor und nach dem Praktikum unterscheidet ohne eine Richtung anzunehmen.
 
 
 

@@ -37,8 +37,6 @@ output:
 ```{r, echo = F}
 #### Was bisher geschah: ----
 
-
-
 # Daten laden
 load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
@@ -58,7 +56,7 @@ fb23$ru_pre <- rowMeans(ru_pre)
 
 
 ## Aufgabe 1
-Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach Ihrem Befinden zum Zeitpunkt der Umfrage befragt. Hierbei wurde unteranderem erhoben, wie ruhig (hohe Werte) oder unruhig (niedrige Werte) Sie sich zu beiden Zeitpunkten gefühlt haben (Variable `ru_prä` und `ru_post`). Nun wollen Sie untersuchen, ob die Teilnahme am Statistikpraktikum einen Einfluss auf das Befinden der Studierenden hat. Sie gehen davon aus, dass sich der Ruhestudium vor und nach dem Praktikum unterscheidet ohne eine Richtung anzunehmen.
+Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach Ihrem Befinden zum Zeitpunkt der Umfrage befragt. Hierbei wurde unteranderem erhoben, wie ruhig (hohe Werte) oder unruhig (niedrige Werte) Sie sich zu beiden Zeitpunkten gefühlt haben (Variable `ru_pre` und `ru_post`). Nun wollen Sie untersuchen, ob die Teilnahme am Statistikpraktikum einen Einfluss auf das Befinden der Studierenden hat. Sie gehen davon aus, dass sich der Ruhestudium vor und nach dem Praktikum unterscheidet ohne eine Richtung anzunehmen.
 
 
 
