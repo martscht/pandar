@@ -303,11 +303,24 @@ Anhand der Ergebnisse können wir folgende Aussage treffen: Studierende, die sic
 
 Wir wissen nun, dass es zwischen Populationen, aus denen die beiden Stichproben kommen keinen Unterschied in den Erwartungswerten gibt. Dennoch wollen wir zur Eindordnung des Ergebnisses die Effektstärke ermitteln: Cohen's $d$ gibt den standardisierten Mittelwertsunterschied zwischen zwei Gruppen an. "Standardisiert" bedeutet, dass wir uns nicht mehr auf der Originalmetrik befinden (hier auf der Skala von 1 bis 5), sondern mit Standardabweichungen arbeiten. Ein Wert von 1 zeigt also an, dass sich die Gruppenmittelwerte um eine Standardabweichung voneinander unterscheiden. Die Effektstärke berechnet sich wie folgt: 
 
-$$d = \frac{\bar{x}_1-\bar{x}_2}{\hat{\sigma}_{inn}}$$
+{{< math >}}
+\begin{equation}
+\small
+d = \frac{\bar{x}_1-\bar{x}_2}{\hat{\sigma}_{inn}}
+\end{equation}
+{{< /math >}}
+
 
 wobei 
 
-$${\hat{\sigma}_{inn}} = \sqrt{ \frac{{\hat{\sigma}_1^2}*(n_1-1) + {\hat{\sigma}^2_2}*(n_2-1)} {(n_1-1) + (n_2-1)}}$$
+{{< math >}}
+\begin{equation}
+\small
+\hat{\sigma}_{inn} = \sqrt{\frac{{\hat{\sigma}_1^2}\cdot(n_1-1) + {\hat{\sigma}^2_2}\cdot(n_2-1)} {(n_1-1) + (n_2-1)}}
+\end{equation}
+{{< /math >}}
+
+
 
 Cohen (1988) hat folgende Konventionen zur Beurteilung der Effektstärke $d$ vorgeschlagen, die man heranziehen kann, um den Effekt "bei kompletter Ahnungslosigkeit" einschätzen zu können (wissen wir mehr über den Sachverhalt, so sollten Effektstärken lieber im Bezug zu anderen Studienergebnissen interpretiert werden):
 
