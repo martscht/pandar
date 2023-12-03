@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer] 
 weight: 3
-lastmod: '2023-11-30'
+lastmod: '2023-12-03'
 featured: no
 banner:
   image: "/header/books.jpg"
@@ -42,7 +42,7 @@ output:
 In dieser Sitzung wollen wir hierarchische Daten mit der Multi-Level-Regression (auch hierarchische Regression, Multi-Level-Modeling, Linear Mixed-Effects Modeling, Random Coefficient Regression vgl. bspw. [Eid, Gollwitzer & Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 20 und [Pituch und Stevens (2016)](https://ubffm.hds.hebis.de/Record/HEB371183324) Kapitel 13) analysieren. Diese Daten sind dahingehend speziell, dass es in ihnen Clusterungen von Datenpunkten gibt, die zueinander ähnlicher sind als zu den übrigen. Dies verletzt die Annahme der Unabhängigkeit in der typischen Regressionsanalyse, was zu erheblichen Fehlschlüssen führen kann. Wir wollen uns ein fiktives Datenbeispiel (Datensatz `StudentsInClasses` aus dem gleichnamigen .rda File `StudentsInClasses.rda`) mit Schüler*innen (Ebene 1) in Schulklassen (Eben 2) anschauen. Sie können den [<i class="fas fa-download"></i> Datensatz "StudentsInClasses.rda" hier herunterladen](/daten/StudentsInClasses.rda).
 
 ### Daten laden
-Dazu laden wir mit `load` die Daten (bspw. auf dem Desktop von Frau "Musterfrau") _Tipp: Verwenden Sie unbedingt die automatische Vervollständigung von `R`-Studio, wie in den letzten Sitzung beschrieben_.
+Dazu laden wir mit `load` die Daten (bspw. auf dem Desktop von Frau "Musterfrau") _Tipp: Verwenden Sie unbedingt die automatische Vervollständigung von `R`-Studio, wie in den letzten Sitzungen beschrieben_.
 
 
 ```r
@@ -182,7 +182,7 @@ Y_{ij} = \gamma_{00} + \underbrace{u_{0j} + \varepsilon_{ij}}_{e_i}
 \end{equation}
 </div>
 
-In einer einfachen Regression würde $e_i:=u_{0j}+\varepsilon_{ij}$ als Residuum angesehen werden. Damit haben alle Erhebungen aus der gleichen Clustereinheit $j$ etwas gemeinsam (nämlich $u_{0j}$) und sind somit korreliert. Dies widerspricht der $i.i.d.$-Annahme in der Regression (vgl. [Regressionssitzung](/post/regression-und-ausreisserdiagnostik)).
+In einer einfachen Regression würde $e_i:=u_{0j}+\varepsilon_{ij}$ als Residuum angesehen werden. Damit haben alle Erhebungen aus der gleichen Clustereinheit $j$ etwas gemeinsam (nämlich $u_{0j}$) und sind somit korreliert. Dies widerspricht der $i.i.d.$-Annahme in der Regression (vgl. [Regressionssitzung](/lehre/fue-i/regression-und-ausreisserdiagnostik)).
 
 ## Analysen mit dem Beispieldatensatz
 
@@ -343,7 +343,7 @@ names(summary(m0)) # alle Informationen, die wir der Summary entlocken können
 ```
 ##  [1] "methTitle"    "objClass"     "devcomp"      "isLmer"       "useScale"     "logLik"       "family"      
 ##  [8] "link"         "ngrps"        "coefficients" "sigma"        "vcov"         "varcor"       "AICtab"      
-## [15] "call"         "residuals"    "fitMsgs"      "optinfo"
+## [15] "call"         "residuals"    "fitMsgs"      "optinfo"      "corrSet"
 ```
 
 **Inhaltliche Interpretation**: 16.2% der Varianz in der Mathematikleistung können durch die Klassenzugehörigkeit erklärt werden. Die Multi-Level-Struktur in den Daten muss somit unbedingt berücksichtigt werden.
@@ -419,14 +419,14 @@ Im Output hat sich nun der Abschnitt `Fixed effects` erweitert um den Effekt der
 
 `Correlation of Fixed Effects:` gibt an, wie stark die festen Efffekte (hier Interzept und Steigungskoeffizient von `Motivation_c`) korreliert sind. Dies ist ein Maß für die Stabilität der Schätzung. Sind diese Korrelationen sehr groß, dann hat dies negative Auswirkungen auf die Standardfehler. Diese sind dann zu groß. An den Schätzungen der Parameter ändert dies allerdings nichts. Jedoch kann die Signifikanzentscheidung negativ beeinflusst sein. Diese Korrelationen können reduziert werden, durch Verringerungen der Komplexität im Modell (Multikollinearität), aber auch durch Zentrierung!
 
-Insgesamt ist zu sagen, dass unsere Hypothese 1 durch die Daten gestützt wird. Es stellt sich allerdings die Frage, ob die signifikante lineare Beziehung der Variable auch inhaltlich bedeutsam ist. Um dies besser beurteilen zu können, wollen wir ein Pseudo-$R^2$ bestimmen - es ist sehr dem Determinationskoeffizienten der Regression verwandt, kann aber Fehlschätzungen unterliegen, weswegen es nicht für bare Münze genommen werden sollte. Es kann uns allerdings helfen, besser einschätzen zu können, wie groß denn die Varianzaufklärung des Prädiktors ist, auch wenn wir im Hinterkopf behalten sollten, dass mit Pseudo-$R^2$ auch Probleme auftreten können (die es in der Regel mit dem Determinationskoeffizienten nicht gibt). Für mehr Informationen hierzu schaue bspw. in [Eid, et al. (2017)]() Kapitel 20.3.4 ab Seite 750.
+Insgesamt ist zu sagen, dass unsere Hypothese 1 durch die Daten gestützt wird. Es stellt sich allerdings die Frage, ob die signifikante lineare Beziehung der Variable auch inhaltlich bedeutsam ist. Um dies besser beurteilen zu können, wollen wir ein Pseudo-$R^2$ bestimmen - es ist sehr dem Determinationskoeffizienten der Regression verwandt, kann aber Fehlschätzungen unterliegen, weswegen es nicht für bare Münze genommen werden sollte. Es kann uns allerdings helfen, besser einschätzen zu können, wie groß denn die Varianzaufklärung des Prädiktors ist, auch wenn wir im Hinterkopf behalten sollten, dass mit Pseudo-$R^2$ auch Probleme auftreten können (die es in der Regel mit dem Determinationskoeffizienten nicht gibt). Für mehr Informationen hierzu schauen Sie bspw. in [Eid, et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) Kapitel 20.3.4 ab Seite 750.
 
 ### Pseudo $R^2$: within
 Die Varianz unseres Kriteriums $Y$ haben wir im Null-Modell in Varianz des Cluster (Interzeptvarianz) und (within) Residualvarianz aufgeteilt: $\mathbb{V}ar[Y] = \mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon]$. Die Variation von $u_0$ beschreibt somit die between-Variation, die auf Unterschiede zwischen Klassen (und somit Unterschiede, die auf die Clusterung zurückzuführen sind), während die Variation von $\varepsilon$ gerade die within-Variation ist. Unter ideellen Bedingungen sollte nun ein L1-Prädiktor nur die within-Residualvariation verringern (dies ist dann gegeben, wenn ein L1 Prädiktor sich nicht systematisch zwischen Klassen unterscheidet, es also keine Mittelwertsunterschiede über Klassen hinweg auf dieser L1 Variable gibt!): für den Prädiktor Motivation ($X_1$) ergibt sich die Variation von $Y$ als 
 
 $$\mathbb{V}ar[Y] = \mathbb{V}ar[u_0]+\underbrace{\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*]}_{\mathbb{V}ar[\varepsilon]}.$$ 
 
-Für mehr Informationen zu Varianzrechenregeln siehe im [Appendix B](#AppendixB) nach. Wir schreiben hier $\varepsilon^\*$, da es sich um ein anderes Residuum handelt, als im leeren Modell ($X_1$ ist ja mit von der Partie). Dieser ideellen Gleichung ist zu entnehmen, dass die Varianz von $\varepsilon^\*$ kleiner ausfällt, also die von $\varepsilon$, wenn $\gamma_{10}\neq 0$ und $X_1$ nicht konstant ist, also wenn $X_1$ zur Vorhersage vom Kriterium beiträgt (also folgt $\mathbb{V}ar[\varepsilon^*]<\mathbb{V}ar[\varepsilon]$). Wir machen uns diese Gegebenheit zu nutze und quantifizieren die relative Veränderung in der Varianz des Residuums und nennen diese Pseudo-$R^2$:
+Für mehr Informationen zu Varianzrechenregeln schauen Sie im [Appendix B](#AppendixB) nach. Wir schreiben hier $\varepsilon^\*$, da es sich um ein anderes Residuum handelt, als im leeren Modell ($X_1$ ist ja mit von der Partie). Dieser ideellen Gleichung ist zu entnehmen, dass die Varianz von $\varepsilon^\*$ kleiner ausfällt, also die von $\varepsilon$, wenn $\gamma_{10}\neq 0$ und $X_1$ nicht konstant ist, also wenn $X_1$ zur Vorhersage vom Kriterium beiträgt (also folgt $\mathbb{V}ar[\varepsilon^*]<\mathbb{V}ar[\varepsilon]$). Wir machen uns diese Gegebenheit zu nutze und quantifizieren die relative Veränderung in der Varianz des Residuums und nennen diese Pseudo-$R^2$:
 
 <div class=“big maths“> 
 \begin{equation} 
@@ -506,7 +506,7 @@ VarU1 <- VarCorr(m1)$schulklasse[1]  # Varianz des Interzepts im Modell mit Moti
 ## [1] -0.1130776
 ```
 
-Am Ergebnis erkennen wir auch, wieso es sich hierbei nur um ein Pseudo-$R^2$ handelt, denn die Varianz des Interzepts steigt tatsächlich von `m0` zu `m1`.  Dies kann auf die simultane Schätzung der beiden Varianzen mit Hilfe von (restricted) Maximum Likelihood zurückgeführt werden, welche nicht nur von den Varianzen der Mittelwerte abhängt, sondern auch vom Stichprobenfehler (vgl. Eid, et al., 2017, S. 752). In so einem Fall wird Pseudo-$R^2$ auf 0 gesetzt. Folglich gehen wir davon aus, dass der erklärte between Varianzanteil der Matheleistung durch die Motivation 0 ist. Diesem Problem kann durch die zusätzliche Gewichtung der Varianzen durch die Anzahl der Level 1 und Level 2 Einheiten entgegengewirkt werden, was Sie vielleicht beim Schreiben Ihrer Masterarbeit dann durchführen könnten (vgl. Eid, et al., 2017, S. 752 und folgend).
+Am Ergebnis erkennen wir auch, wieso es sich hierbei nur um ein Pseudo-$R^2$ handelt, denn die Varianz des Interzepts steigt tatsächlich von `m0` zu `m1`.  Dies kann auf die simultane Schätzung der beiden Varianzen mit Hilfe von (restricted) Maximum Likelihood zurückgeführt werden, welche nicht nur von den Varianzen der Mittelwerte abhängt, sondern auch vom Stichprobenfehler (vgl. [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 752). In so einem Fall wird Pseudo-$R^2$ auf 0 gesetzt. Folglich gehen wir davon aus, dass der erklärte between Varianzanteil der Matheleistung durch die Motivation 0 ist. Diesem Problem kann durch die zusätzliche Gewichtung der Varianzen durch die Anzahl der Level 1 und Level 2 Einheiten entgegengewirkt werden, was Sie vielleicht beim Schreiben Ihrer Masterarbeit dann durchführen könnten (vgl. [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 752 und folgend).
 
 ### Pseudo $R^2$: between and within
 Zum Schluss bestimmen wir nun noch den Anteil der Variation des Kriteriums der insgesamt (between und within) durch den Prädiktor erklärt werden kann. Dazu schauen wir uns die gemeinsame Veränderung der Varianzen auf Level 1 (within) und Level 2 (between) an. Erklärt der Prädiktor substantielle Anteile, so sollte gelten:
@@ -937,8 +937,8 @@ X_{ij}^{**}=X_{ij}-\bar{X}_{\cdot j}
 \end{equation}
 </div>
 
-Ein Wert von 0 auf $X_{ij}^{**}$ entspricht nun dem Durchschnitt in Cluster/Gruppe $j$. 
-Die Variable $X_{ij}^{**}$ sollte somit within Variation erklären (im Beispiel also die Variation innerhalb einer Klasse), was dafür spricht, dass es sinnvoll ist, diese Varianzaufklärung mit $R^2_\text{pseudo:within}$ zu quantifizieren. Außerdem ist es sinnvoll anschließend die Variable $\bar{X}_{\cdot j}$ mit in die Analysen aufzunehmen, da sie between-Variation enthält (also Variation, die Unterschiede zwischen Clustern darstellt). Die Varianzaufklärung von $\bar{X}_{\cdot j}$ kann somit mit  $R^2_\text{pseudo:between}$ quantifiziert werden. Die gemeinsame Varianzaufklärung (quasi den Gesamtanteil between und within) können wir mit  $R^2_\text{pseudo:bw}$ quantifizieren.
+Ein Wert von 0 auf $X_{ij}^{\**}$ entspricht nun dem Durchschnitt in Cluster/Gruppe $j$. 
+Die Variable $X_{ij}^{**}$ sollte somit within Variation erklären (im Beispiel also die Variation innerhalb einer Klasse), was dafür spricht, dass es sinnvoll ist, diese Varianzaufklärung mit $R^2_\text{pseudo:within}$ zu quantifizieren. Außerdem ist es sinnvoll anschließend die Variable $$\bar{X}_{\cdot j}$$ mit in die Analysen aufzunehmen, da sie between-Variation enthält (also Variation, die Unterschiede zwischen Clustern darstellt). Die Varianzaufklärung von $\bar{X}_{\cdot j}$ kann somit mit  $R^2_\text{pseudo:between}$ quantifiziert werden. Die gemeinsame Varianzaufklärung (quasi den Gesamtanteil between und within) können wir mit  $R^2_\text{pseudo:bw}$ quantifizieren.
 
 Um diese Variablen anschließend auch noch sinnvoll hinsichtlich (z.B. Cross-Level-) Interaktionen interpretieren zu können, sollte die Gruppenmittelwertsvariable idealerweise auch noch am zentralen Mittelwert zentriert sein (der zentrale Mittelwert ist gerade auch der Mittelwert dieser Gruppenmittelwertsvariable):
 
