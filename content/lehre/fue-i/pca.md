@@ -188,16 +188,16 @@ Um noch mehr auf einen Blick zu sehen, wollen wir uns die Korrelationsmatrix gra
 corrplot(R_UV)
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 Wenn wir noch ein paar mehr Einstellungen an dieser Funktion vornehmen, erhalten wir eine Grafik, die auch die Koeffizienten enthält und noch etwas besser auf einen Blick interpretierbar ist. Wenn Sie sich für den Code interessieren, schauen Sie bitte im [Appendix A](#AppendixA) nach.
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 Je dunkler die Farbe (blau oder rot), desto stärker betraglich die Korrelation zwischen den Variablen. Es scheinen sich zwei Gruppen von Variablen zu bilden, die besonders stark linear zusammenzuhängen scheinen. Wir färben mal alles Rote auch Blau ein, um nur noch die Stärke der Effekte der Grafik zu entnehmen.
 
 ### Grafische Veranschaulichung der absoluten Stärke der Zusammenhänge
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 Nun ist noch stärker ersichtlich, dass jeweils die Variablen `x1-x3` und die Variablen `x4-x6` eine Gruppe bilden, da sie deskriptiv gesehen untereinander stärker zusammenzuhängen scheinen als zwischen den Gruppen. Diese Gruppen an Variablen haben vielleicht mehr Gemeinsamkeiten untereinander (also innerhalb einer Gruppe) als zwischen den Gruppen. Mit Hilfe einer PCA können wir nun untersuchen, auf wie viele Hauptkomponenten sich die Daten reduzieren lassen. Unserer laienhafter Einschätzung nach sollten es 2 sein!
 
@@ -540,7 +540,7 @@ fa.parallel(dataUV, fa = "pc", error.bars = T)
 ```
 
 ```
-## Parallel analysis suggests that the number of factors =  NA  and the number of components =  1
+## Parallel analysis suggests that the number of factors =  NA  and the number of components =  2
 ```
 
 ```r
@@ -548,7 +548,7 @@ fa.parallel(dataUV, fa = "pc", error.bars = T)
 abline(h = 1)
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
 
 Die blaue durchgezogene Linie stellt den Eigenwerteverlauf unserer Daten dar. Die gepunktete Linie ist die Parallelanalyse auf Basis von simulierten Daten, während die gestrichelte Linie die Parallelanalyse auf Basis von Resampling darstellt.
 
@@ -609,7 +609,7 @@ Diesmal erkennen wir sehr deutlich, wie unterschiedlich der Output aussieht. die
 ### Grafische Veranschaulichungen des Ladungsmusters
 In einem Balkendiagramm dargestellt sehen wir die Ladungen auf den beiden Hauptkomponenten (PC1 und PC2). Es ist keine eindeutige Zuordnung zu den beiden Komponenten zu erkennen. Was wir allerdings sehen ist, dass auf der ersten Komponenten die Ladungen im Schnitt (betraglich) größer ausfallen. Dies ist wenig überraschend, da die erste Hauptkomponente so extrahiert wird, dass sie die größte Varianz und somit den größten Eigenwert hat. Der Code zur Grafik ist in [Appendix A](#AppendixA) abgedruckt.
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
 
 Da sich zwei Hauptkomponenten noch leicht gegeneinander abtragen lassen, können wir uns dies auch ansehen und zwar indem wir einfach `plot` auf das PCA-Objekt anwenden. Außerdem spezifizieren wir noch mit `pch = 1`, dass die Punkte anders als der Default dargestellt werden. Dies machen wir, um diese Punkte später besser von der rotierten Lösung unterscheiden zu können!
 
@@ -618,7 +618,7 @@ Da sich zwei Hauptkomponenten noch leicht gegeneinander abtragen lassen, können
 plot(PCA2, pch = 1)
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 Auf der x-Achse werden die Ladungen auf der 1. Hauptkomponente abgetragen, während auf der y-Achse die Ladungen auf der 2. abgetragen werden. Würde Einfachstruktur vorliegen (also eindeutige Zuordnung einer Variable zu einer Hauptkomponente), so würden wir erwarten, dass ein Datenpunkt jeweils weit entfernt vom Ursprung (Punkt $(0,0)$), aber nah an einer der Achsen liegt. Die Zahlen stellen hierbei die Nummer der Variable dar (wobei die Spalten durchnummeriert werden). `x4` und `x6` liegen bspw. recht weit von beiden Achsen entfernt - sie werden keiner der beiden Hauptkomponenten eindeutig zugeordnet. Im nächsten Abschnitt erreichen wir Einfachstruktur, indem wir _"varimax"_ rotieren.
 
 
@@ -667,7 +667,7 @@ Diesmal haben sich die Komponentenladungen geändert und zwar so, dass die Kompo
 
 Es wird eine stärkere Einfachstruktur sichtbar: sowohl im Barplot,
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 als auch in einem Plot, in welchen die Ladungen der Hauptkomponenten gegeneinander abgetragen werden (hier wählen wir mit `cex = 2`, dass die Punkte doppelt so groß eingezeichnet werden wie per Default, damit wir später noch stärker den Unterschied zur unrotierten Lösung sehen):
 
@@ -676,7 +676,7 @@ als auch in einem Plot, in welchen die Ladungen der Hauptkomponenten gegeneinand
 plot(PCA3, cex = 2)
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 
 Auch hier lässt sich die Einfachstruktur dadurch erkennen, dass die Punkte mit den Zahlen (und entsprechend die Nummer der Variablen) 1-4 und 6 sehr nah an den Achsen liegen. Nur `x5` wird nicht eindeutig einer Komponente zugeordnet.
 
@@ -687,14 +687,14 @@ Diese lässt sich auch in einem stark vereinfachten Pfaddiagramm darstellen. Daz
 fa.diagram(PCA3)
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 Gestrichelte Pfeile zeigen entgegengesetze Vorzeichen an. Hier wird zwar `x5` der 2. Hauptkomponente zugeordnet, aber es fällt schon etwas auf, dass dessen Koeffizient etwas geringer ausfällt als die der anderen. Außerdem ist hier noch zu vermerken, dass die PCA kein Erklärungsmodell liefert. Das bedeutet, dass wir den Hauptkomponenten keine inhaltliche Bedeutung unterstellen können a la: das ist die latente Variable, die die jeweilige Variation in den Daten erzeugt. Wie an den Pfeilen ersichtlich, sind die Hauptkomponenten Linearkombination der Variablen. Bei Erklärungsmodellen wäre es genau anders herum. Die Variablen würden sich aus den Hauptkomponenten zusammensetzen! Um Erklärungsmodelle anzusetzen, müssen Sie noch bis zum Kurs im Sommer warten, wenn es um latente Modellierung geht. Folglich stehen hohe Ladungen auf einer Hauptkomponenten nur für hohe Gemeinsamkeiten in der Variation der Items.
 
 ### Unrotierte und rotierte Ladungen in einem Plot
 Zu guter Letzt wollen wir den Rotationseffekt noch genauer erkennen und plotten die unrotierte und die rotierte Lösung in eine Grafik:
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
 
 Dieser Grafik ist zu entnehmen, dass de facto alle Punkte um ca 50° (so genau man dies eben mit dem Geodreieck am Bildschirm nachmessen kann) im Uhrzeigersinn rotiert wurden und somit näher den Achsen liegen (Einfachstruktur). Die Entfernung zum Ursprung (dem Punkt $(0,0)$) wurde nicht verändert! Jetzt haben wir zwei Hauptkomponenten, von denen wir ziemlich genau wissen, was in diese drin steckt. Die Frage ist nun, wie wir mit diesen weiterrechnen können und was der Nutzen davon ist.
 
@@ -744,7 +744,7 @@ Der folgende Plot zeigt die Verteilung der individuellen Werte auf den Hauptkomp
 plot(PCs)
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
 
 Dies liegt ganz einfach daran, dass die Werte auf den Hauptkomponenten nach orthogonaler Rotation unkorreliert sind (Korrelationsmatrix gerundet auf die 10. Nachkommastelle):
 
@@ -912,7 +912,7 @@ corrplot(R_UV, method = "color",tl.col = "black", addCoef.col = "black",
          col=colorRampPalette(c("red","white","blue"))(100))
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
 
 
 ```r
@@ -920,7 +920,7 @@ corrplot(R_UV, method = "color",tl.col = "black", addCoef.col = "black",
          col=colorRampPalette(c("blue","white","blue"))(100))
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
 
 
 ```r
@@ -929,7 +929,7 @@ barplot(PCA2$loadings, beside = T, names.arg = rep(colnames(dataUV),2),
         main  = "Ladungsmuster der Variablen \n auf den Hauptkomponenten")
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
 
 
 
@@ -939,7 +939,7 @@ barplot(PCA3$loadings, beside = T, names.arg = rep(colnames(dataUV),2),
         main  = "Ladungsmuster der Variablen \n auf den Hauptkomponenten")
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
 
 
 ```r
@@ -948,7 +948,7 @@ par(new=TRUE) # neuen Plot erzeugen, welcher über den bereits erzeugten geplott
 plot(PCA2, xaxt = "n", yaxt = "n", ylab = "", xlab = "", xlim = c(-1,1),ylim = c(-1,1), pch = 1)
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
 
 </details>
 
@@ -995,7 +995,7 @@ theta <- eigen(R_UV)$values
 plot(theta, type="l", ylab = "Eigenwert", xlab = "Hauptkomponente")
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-54-1.png)<!-- -->
 
 Durch die Funktion `eigen` können wir also leicht die Vektoren erzeugen und somit die Hauptkomponenten bestimmen - dazu müssen wir lediglich $\Gamma$ mit den Variablen (matrix-)multiplizieren. Die Rotation ist etwas schwieriger. Wir können für die unrotierte Lösung recht leicht die Ladungsmatrix `\Lambda` erstellen, indem wir $\Gamma$ mit der Wurzel aus den jeweiligen Eigenwerten multiplizieren:
 
@@ -1071,7 +1071,7 @@ plot(eigen(R2)$values, type="l", ylab = "Eigenwert", xlab = "Hauptkomponente")
 abline(h=0, col="red")
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-57-1.png)<!-- -->
 
 ```r
 solve(R2)
@@ -1150,7 +1150,7 @@ libary(PCArt)
 PCArtQuiz()
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-58-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-62-1.png)<!-- -->
 
 ```
 ## [1] 0

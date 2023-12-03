@@ -610,7 +610,7 @@ Wir schauen uns hier die Intensität für die ersten 25 Pixel (1 bis 5 horizonta
 PCArt::PCArtQuiz()
 
 # analog:
-libary(PCArt)
+library(PCArt)
 PCArtQuiz()
 ```
 
