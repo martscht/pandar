@@ -82,10 +82,9 @@ Prüfen Sie zur Sicherheit, ob alles funktioniert hat:
 
 ```{r}
 dim(fb23)
-str(fb23)
 ```
 
-Der Datensatz besteht aus `r nrow(fb23)` Zeilen (Beobachtungen) und `r ncol(fb23)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus `r nrow(fb23)` Zeilen (Beobachtungen) und mindestens (unter Einbeziehung der Ergänzungen) `r ncol(fb23)` Spalten (Variablen). Falls Sie bereits weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ## Aufgabe 1

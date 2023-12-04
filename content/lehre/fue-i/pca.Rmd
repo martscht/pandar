@@ -5,14 +5,14 @@ date: '2019-10-18'
 slug: pca
 categories: ["FuE I"] 
 tags: ["Hauptkomponentenanalyse", "Korrelation", "Regression", "Lineare Abhängigkeit"] 
-subtitle: ''
+subtitle: 'Principal Component Analysis: PCA'
 summary: '' 
 authors: [irmer]
 weight: 5
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/FEI_Sitzung3_post.jpg"
+  image: "/header/birds_migration.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/867521)"
 projects: []
 reading_time: false
@@ -22,15 +22,15 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/pca
+    url: /lehre/fue-i/pca
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/statistik-i/pca.R
+    url: /lehre/fue-i/pca.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/pca-aufgaben
+    name: Übungsdaten
+    url: /lehre/fue-i/msc1-daten#ZusatzPCA
 output:
   html_document:
     keep_md: true
@@ -97,7 +97,7 @@ cor(dataUV) # Korrelationsmatrix
 cov(dataUV) # Kovarianzmatrix
 ```
 
-Beide Matrizen sind identisch! Anstatt des Datensatzes `dataUV` hätten wir auch `data[,1:6]` auswählen können. `[,1:6]` zeigt hierbei an, dass wir die 1. bis 6. Spalten von `data` verwenden wollen. Um dies genauer zu sehen, können Sie ja einfach mal ``data[,1:6]` in Ihrem `R`-Fenster ausführen und dann die beiden Objekte vergleichen. Um damit weiterrechnen zu können, speichern wir die Korrelationsmatrix der UVs unter dem Namen `R_UV` ab.
+Beide Matrizen sind identisch! Anstatt des Datensatzes `dataUV` hätten wir auch `data[,1:6]` auswählen können. `[,1:6]` zeigt hierbei an, dass wir die 1. bis 6. Spalte von `data` verwenden wollen. Um dies genauer zu sehen, können Sie ja einfach mal `data[,1:6]` in Ihrem `R`-Fenster ausführen und dann die beiden Objekte vergleichen. Um damit weiterrechnen zu können, speichern wir die Korrelationsmatrix der UVs unter dem Namen `R_UV` ab.
 
 
 ```{r}
@@ -131,27 +131,31 @@ Nun ist noch stärker ersichtlich, dass jeweils die Variablen `x1-x3` und die Va
 
 Wenn Sie wünschen, können Sie hier die Grundbegriffe der PCA "ausklappen".
 
-<details><summary>**Grundbegriffe der PCA**</summary>
+<details><summary><b>Grundbegriffe der PCA</b></summary>
 
 In der PCA bestimmen wir Hauptkomponenten $H$, die sich als Linearkombinationen der Variablen darstellen lassen mit der Eigenschaft, dass diese Hauptkomponenten unkorreliert sind und somit keine gemeinsame lineare Information enthalten. Z.B. sehen die Gleichungen zweier Hauptkomponenten, die aus zwei Variablen $Z_1$ und $Z_2$ entstehen, wie folgt aus:
+
 \begin{align}
-H_1 &= \gamma_{11}Z_1 + \gamma_{12}Z_2\\
+H_1 &= \gamma_{11}Z_1 + \gamma_{12}Z_2\\\\
 H_2 &= \gamma_{21}Z_1 + \gamma_{22}Z_2,
 \end{align}
-wobei die $\gamma$s so gewählt sind, dass $\gamma_{11}^2 + \gamma_{12}^2 = 1$, $\gamma_{21}^2 + \gamma_{22}^2 = 1$ und $\gamma_{11}\gamma_{21} + \gamma_{12}\gamma_{22} = 0$. In Matrixnotation sieht dies wie folgt aus:
+
+wobei die $\gamma$s so gewählt sind, dass $\gamma_{11}^2 + \gamma_{12}^2 = 1$, $\gamma_{21}^2 + \gamma_{22}^2 = 1$ und $\gamma_{11}\gamma_{21} + \gamma_{12}\gamma_{22} = 0$. 
+
+In Matrixnotation sieht dies wie folgt aus:
 $$\mathbf{H}=\Gamma\mathbf{Z},$$
 mit
 \begin{align}
-\mathbf{H} &= \begin{pmatrix}H_1\\ H_2\end{pmatrix}\\
-\Gamma &= \begin{pmatrix}\gamma_{11}&\gamma_{12}\\ \gamma_{21} & \gamma_{22}\end{pmatrix}\\
-\mathbf{Z} &= \begin{pmatrix}Z_1\\ Z_2\end{pmatrix}.
+\mathbf{H} &= \begin{pmatrix}H_1\\\\ H_2\end{pmatrix}\\\\
+\Gamma &= \begin{pmatrix}\gamma_{11}&\gamma_{12}\\\\ \gamma_{21} & \gamma_{22}\end{pmatrix}\\\\
+\mathbf{Z} &= \begin{pmatrix}Z_1\\\\ Z_2\end{pmatrix}.
 \end{align}
 
-Die Eigenschaft der $\gamma$s lässt sich dann wie folgt ausdrücken: $\Gamma\Gamma'=I$, wobei $I$ die Identitätsmatrix/Einheitsmatrix ist. In der Psychologie sind wir nun daran interessiert, die Daten zu reduzieren. Wir wollen also $\mathbf{Z}$ bspw. nur durch eine Hauptkomponente darstellen. Dazu müssen wir die sogenannten Ladungen der Variablen auf den Hauptkomponenten bestimmen. Diese erhalten wir, indem wir die jeweiligen Gewichte $\gamma$ mit der Wurzel aus den Eigenwerten multiplizieren (dies funktioniert nur, wenn die Variablen standardisiert sind). Dann lassen sich die Variablen durch standardisierte (Varianz = 1) Hauptkomponenten $\mathbf{H}^*$ darstellen:
+Die Eigenschaft der $\gamma$s lässt sich dann wie folgt ausdrücken: $\Gamma\Gamma'=I$, wobei $I$ die Identitätsmatrix/Einheitsmatrix ist. In der Psychologie sind wir nun daran interessiert, die Daten zu reduzieren. Wir wollen also $\mathbf{Z}$ bspw. nur durch eine Hauptkomponente darstellen. Dazu müssen wir die sogenannten Ladungen der Variablen auf den Hauptkomponenten bestimmen. Diese erhalten wir, indem wir die jeweiligen Gewichte $\gamma$ mit der Wurzel aus den Eigenwerten multiplizieren (dies funktioniert nur, wenn die Variablen standardisiert sind). Dann lassen sich die Variablen durch standardisierte (Varianz = 1) Hauptkomponenten $\mathbf{H}^\*$ darstellen:
 $$\mathbf{Z}=\Lambda\mathbf{H}^*.$$
 Die Ladungsmatrix $\Lambda$ lässt sich wie folgt bestimmen: $\Lambda = \Gamma'\Theta_{std}$ mit
-$$\Theta_{std} = \begin{pmatrix} \sqrt{\theta_1} & 0 & 0\\
-0 & \ddots  & 0\\
+$$\Theta_{std} = \begin{pmatrix} \sqrt{\theta_1} & 0 & 0\\\\
+0 & \ddots  & 0\\\\
 0 & 0 & \sqrt{\theta_m}
 \end{pmatrix},$$
 
@@ -159,8 +163,8 @@ wobei $m$ gerade die Anzahl der Variablen ist. Hierbei ist das Transponieren wic
 
 $$R:= \Lambda \Lambda'\quad (=\Sigma_\mathbf{Z})$$
 wobei
-$$\Lambda' \Lambda =  \begin{pmatrix} \theta_1 & 0 & 0\\
-0 & \ddots  & 0\\
+$$\Lambda' \Lambda =  \begin{pmatrix} \theta_1 & 0 & 0\\\\
+0 & \ddots  & 0\\\\
 0 & 0 & \theta_m
 \end{pmatrix}=:\Theta$$
 
@@ -168,16 +172,27 @@ gerade eine Diagonalmatrix mit den Eigenwerten auf der Diagonalen ist (man achte
 
 
 #### Datenreduktion
-Bis hierhin wurden die Daten noch nicht reduziert. Es wurde nur ein Weg präsentiert, wie die Korrelationsmatrix auch dargestellt werden kann mit Hilfe von orthogonalen (unkorrelierten) Hauptkomponenten. Wenn wir nun nur ein paar der Hauptkomponenten behalten (bspw. $k$ der $m$ Komponenten), dann geht Variation im Datensatz verloren. Hierbei ist es sinnig, dies anhand der Eigenwerte, also der Varianzen festzumachen, welche der Größe nach sortiert sind. Die Variation wird also durch die Reduktion der Hauptkomponenten verringert. Dies geschieht, indem wir aus der Matrix $\Lambda$ ein paar Spalten herausnehmen. Diese nennen wir dann $\Lambda^*$. Entsprechend verändert sich auch die resultierende Korrelationsmatrix $R^*$, welche auch häufig implizierte (durch das reduzierte "Modell"; dazu im nächsten Semester mehr) Korrelationsmatrix ($\Sigma_\mathbf{Z}$) genannt wird. Diese lässt sich immer so bestimmen:
+Bis hierhin wurden die Daten noch nicht reduziert. Es wurde nur ein Weg präsentiert, wie die Korrelationsmatrix auch dargestellt werden kann mit Hilfe von orthogonalen (unkorrelierten) Hauptkomponenten. Wenn wir nun nur ein paar der Hauptkomponenten behalten (bspw. $k$ der $m$ Komponenten), dann geht Variation im Datensatz verloren. Hierbei ist es sinnig, dies anhand der Eigenwerte, also der Varianzen festzumachen, welche der Größe nach sortiert sind. Die Variation wird also durch die Reduktion der Hauptkomponenten verringert. Dies geschieht, indem wir aus der Matrix $\Lambda$ ein paar Spalten herausnehmen. Diese nennen wir dann $\Lambda^\*$. Entsprechend verändert sich auch die resultierende Korrelationsmatrix $R^*$, welche auch häufig implizierte (durch das reduzierte "Modell"; dazu im nächsten Semester mehr) Korrelationsmatrix ($\Sigma_\mathbf{Z}$) genannt wird. Diese lässt sich immer so bestimmen:
 
-$$R^*:= \Lambda^* \Lambda^{*'}\quad (=\Sigma_\mathbf{Z})$$
+<div class=“big maths“>
+\begin{equation} 
+R^*:= \Lambda^* \Lambda^{*'}\quad (=\Sigma_\mathbf{Z})
+\end{equation}
+</div>
+
+
 wobei
-$$\Lambda^{*'} \Lambda^* =  \begin{pmatrix} \theta_1 & 0 & 0\\
+
+<div class=“big maths“>
+\begin{equation} 
+\Lambda^{*'} \Lambda^* =  \begin{pmatrix} \theta_1 & 0 & 0\\
 0 & \ddots  & 0\\
 0 & 0 & \theta_k
-\end{pmatrix}$$
+\end{pmatrix}
+\end{equation}
+</div>
 
- Haben wir also nur ein paar der Hauptkomponenten gewählt, ist das resultierende $R^*$ nicht mehr gleich der Korrelationsmatrix, sondern repräsentiert die Korrelationsmatrix des reduzierten Datensatzes, wobei auf der Diagonalen keine 1en sondern die Kommunalitäten der Variablen stehen. Die ursprünglichen Variablen wurden in ihrer Variation eingeschränkt. Hier ist allerdings zu vermerken, dass wir diese reduzierte Korrelationsmatrix **NICHT** als Kovarianzmatrix interpretieren sollten, welche erst noch in einen Korrelationsmatrix zu überführen gilt! Sie können $R^*$ (oder $\Sigma_Z$) als Korrelationsmatrix interpretieren und sollten sich die 1en auf der Diagnale einfach denken! *Jetzt aber Mal mit der dahinterliegenden Mathematik bei Seite*: Wie wir dies in `R` umsetzen und wo wir die jeweiligen Matrizen ablesen, schauen wir uns im Folgenden an.
+Haben wir also nur ein paar der Hauptkomponenten gewählt, ist das resultierende $R^\*$ nicht mehr gleich der Korrelationsmatrix, sondern repräsentiert die Korrelationsmatrix des reduzierten Datensatzes, wobei auf der Diagonalen keine 1en sondern die Kommunalitäten der Variablen stehen. Die ursprünglichen Variablen wurden in ihrer Variation eingeschränkt. Hier ist allerdings zu vermerken, dass wir diese reduzierte Korrelationsmatrix **NICHT** als Kovarianzmatrix interpretieren sollten, welche erst noch in einen Korrelationsmatrix zu überführen gilt! Sie können $R^\*$ (oder $\Sigma_Z$) als Korrelationsmatrix interpretieren und sollten sich die 1en auf der Diagnale einfach denken! *Jetzt aber Mal mit der dahinterliegenden Mathematik bei Seite*: Wie wir dies in `R` umsetzen und wo wir die jeweiligen Matrizen ablesen, schauen wir uns im Folgenden an.
 </details>
 
 
@@ -240,7 +255,8 @@ Cumulative Proportion 0.43 0.67 0.80 0.89 0.95 1.00')
 ```
 
 
-`SS loadings` steht für "Sum of Squares loadings", also die Quadratsumme der Ladungen. Diese ist gleich dem Eigenwert: $\theta_j = \Sigma_{i=1}^p\lambda_{ij}^2 = \lambda_{1j}^2+\dots+\lambda_{pj}^2$ (Spaltenquadratsumme der Komponentenladungen), mit $p=$ Anzahl an Variablen (hier $p=6$). `Proportion Var` betitelt den (relativen) Anteil der Variation, der durch die jeweiligen Komponenten erklärt werden kann. `Cumulative Var` kumuliert, also summiert, diese Anteile bis zur jeweiligen Komponente auf ($\text{CumVar}_i = \sum_{j=1}^i\theta_j = \theta_1+\dots+\theta_i$, also $\text{CumVar}_1=\theta_1$ und $\text{CumVar}_2=\theta_1+\theta_2$, usw.). `Proportion Explained` setzt die Variation, die durch die Komponenten erklärt wird, in Relation zur gesamten erklärten Varianz (d.h. hier summiert sich die erklärte Varianz immer zu 1, während sich die proportionale Varianz nur zu 1 aufsummiert, wenn die gesamte Variation im Datensatz auf die beiden Variablen zurückzuführen ist - da wir hier die Maximalanzahl extrahiert haben, geben beide die gleichen Zahlen wieder - dazu später mehr!). `Cumulative Proportion` beschreibt das gleiche wie `Cumulative Var`, nur bezieht sie sich hier auf die `Proportion Explained`.
+`SS loadings` steht für "Sum of Squares loadings", also die Quadratsumme der Ladungen. Diese ist gleich dem Eigenwert: $\theta_j = \Sigma_{i=1}^p\lambda_{ij}^2 = \lambda_{1j}^2+\dots+\lambda_{pj}^2$ (Spaltenquadratsumme der Komponentenladungen), mit $p=$ Anzahl an Variablen (hier $p=6$). `Proportion Var` betitelt den (relativen) Anteil der Variation, der durch die jeweiligen Komponenten erklärt werden kann. `Cumulative Var` kumuliert, also summiert, diese Anteile bis zur jeweiligen Komponente auf 
+( $\text{CumVar}_i = \sum_{j=1}^i\theta_j = \theta_1+\dots+\theta_i$, also $\text{CumVar}_1=\theta_1$ und $\text{CumVar}_2=\theta_1+\theta_2$, usw. ). `Proportion Explained` setzt die Variation, die durch die Komponenten erklärt wird, in Relation zur gesamten erklärten Varianz (d.h. hier summiert sich die erklärte Varianz immer zu 1, während sich die proportionale Varianz nur zu 1 aufsummiert, wenn die gesamte Variation im Datensatz auf die beiden Variablen zurückzuführen ist - da wir hier die Maximalanzahl extrahiert haben, geben beide die gleichen Zahlen wieder - dazu später mehr!). `Cumulative Proportion` beschreibt das gleiche wie `Cumulative Var`, nur bezieht sie sich hier auf die `Proportion Explained`.
 
 
 ```{r, echo = F}
@@ -266,7 +282,7 @@ PCA1$loadings
 
 PCA1$loadings[,] # um alle zu sehen
 ```
-`[,]` erzwingt, dass alle Ladungen angezeigt werden, da ansonsten intern ein Cutoff-Wert herangezogen wird, um das Ganze übersichtlicher zu machen (i.d.R. betraglich > 0.2). Außerdem ändern sich die Eigenwerte, je nachdem, wie die Ladungen angezeigt werden, was sehr seltsam erscheint... `r fontawesome::fa("frown")` Ein extremes Beispiel erkennen wir, indem wir die Komponentenladungen auf eine Nachkommastelle runden:
+`[,]` erzwingt, dass alle Ladungen angezeigt werden, da ansonsten intern ein Cutoff-Wert herangezogen wird, um das Ganze übersichtlicher zu machen (i.d.R. betraglich > 0.2). Außerdem ändern sich die Eigenwerte, je nachdem, wie die Ladungen angezeigt werden, was sehr seltsam erscheint... <i class="fa-solid fa-face-frown"></i> Ein extremes Beispiel erkennen wir, indem wir die Komponentenladungen auf eine Nachkommastelle runden:
 ```{r}
 round(PCA1$loadings, 1)
 ```
@@ -295,11 +311,11 @@ Wir erkennen, dass hier die Gewichte nicht in ihrer ursprünglichen Form angezei
 ```{r}
 round(t(PCA1$weights) %*% PCA1$weights %*% diag(PCA1$values), 10)
 ```
-Wobei mit `$values` gerade die Eigenwerte angesprochen werden und mit `diag` aus diesem Vektor aus Eigenwerten eine Diagonalmatrix erzeugt wird mit Eigenwerten auf der Diagonale und Nullen sonst (für eine Wiederholung der Matrixoperationen siehe in der [Einleitungssitzung](/post/einleitung-und-wiederholung) im [Appendix B](/post/einleitung-und-wiederholung/#AppendixB) nach).
+Wobei mit `$values` gerade die Eigenwerte angesprochen werden und mit `diag` aus diesem Vektor aus Eigenwerten eine Diagonalmatrix erzeugt wird mit Eigenwerten auf der Diagonale und Nullen sonst (für eine Wiederholung der Matrixoperationen siehe in der [Einleitungssitzung](/lehre/fue-i/einleitung-und-wiederholung) im [Appendix B](/lehre/fue-i/einleitung-und-wiederholung/#AppendixB) nach).
 
 
 ## Bestimmung der Komponentenzahl ##
-Die alles entscheidende Frage ist nun: _Wie viele Komponenten extrahieren wir, um unsere Daten(-dimensionalität) zu reduzieren?_ Dazu schauen wir uns den Eigenwerteverlauf einmal an. Die Eigenwerte werden immer in absteigender Reihenfolge ausgegeben. Da wir eine Korrelationsmatrix herangezogen haben, können wir das Eigenwerte-größer-1 Kriterium (Kaiser-Gutmann Kriterium) anwenden und alle Komponenten beibehalten, deren Eigenwert größer 1 ist (hätten wir eine Kovarianzmatrix hergenommen, würde sich diese Kriterium dahingehen verändern, dass alle Hauptkomponenten beibehalten werden, deren Eigenwert größer als der durchschnittliche Eigenwert, bzw. die durchschnittliche Varianz, ist - *Plottwist*: Gleiches gilt auch im Korrelationsfall! Hier haben alle Variablen eine Varianz von 1, damit ist die durchschnittliche Varianz gleich dem durchschnittlichen Eigenwert und somit gleich 1). Ganz so einfach ist es allerdings nicht, denn es gibt noch das Ellbow-Kriterium (auch Scree Plot genannt), in welchem wir nach einem Knick im Eigenwerteverlauf suchen. Dies ist der Idee geschuldet, dass davon ausgegangen wird, dass Eigenwerte unbedeutsamer Hauptkomponenten substantiell kleiner ausfallen (im und nach den Knick) als Eigenwerte bedeutsamer Hauptkomponenten (vor dem Knick). Des Weiteren gibt es noch die simulationsbasierte Parallel-Analyse, welche im gleichen Stichprobenumfang sehr viele unkorrelierte Datensätze simuliert und dann einen auf unsere Bedürfnisse angepassten zufälligen durchschnittlichen Eigenwerteverlauf generiert (siehe bspw. [Siehe Eid et al., 2017,]((https://ubffm.hds.hebis.de/Record/HEB366849158)) Kapitel 25.3.2 oder [Brandt, 2020](https://ubffm.hds.hebis.de/Record/HEB468515836), Kapitel 23.4). Das gleiche wird in `R` außerdem noch mit Neuverteilen der Datenpunkte über die Variablen hinweg gemacht (resampling). Nach diesen beiden Kriterien entscheiden wir uns für alle Hauptkomponenten deren Eigenwert größer als der durchschnittliche zufällige Eigenwert ist.
+Die alles entscheidende Frage ist nun: _Wie viele Komponenten extrahieren wir, um unsere Daten(-dimensionalität) zu reduzieren?_ Dazu schauen wir uns den Eigenwerteverlauf einmal an. Die Eigenwerte werden immer in absteigender Reihenfolge ausgegeben. Da wir eine Korrelationsmatrix herangezogen haben, können wir das Eigenwerte-größer-1 Kriterium (Kaiser-Gutmann Kriterium) anwenden und alle Komponenten beibehalten, deren Eigenwert größer 1 ist (hätten wir eine Kovarianzmatrix hergenommen, würde sich diese Kriterium dahingehen verändern, dass alle Hauptkomponenten beibehalten werden, deren Eigenwert größer als der durchschnittliche Eigenwert, bzw. die durchschnittliche Varianz, ist - *Plottwist*: Gleiches gilt auch im Korrelationsfall! Hier haben alle Variablen eine Varianz von 1, damit ist die durchschnittliche Varianz gleich dem durchschnittlichen Eigenwert und somit gleich 1). Ganz so einfach ist es allerdings nicht, denn es gibt noch das Ellbow-Kriterium (auch Scree Plot genannt), in welchem wir nach einem Knick im Eigenwerteverlauf suchen. Dies ist der Idee geschuldet, dass davon ausgegangen wird, dass Eigenwerte unbedeutsamer Hauptkomponenten substantiell kleiner ausfallen (im und nach den Knick) als Eigenwerte bedeutsamer Hauptkomponenten (vor dem Knick). Des Weiteren gibt es noch die simulationsbasierte Parallel-Analyse, welche im gleichen Stichprobenumfang sehr viele unkorrelierte Datensätze simuliert und dann einen auf unsere Bedürfnisse angepassten zufälligen durchschnittlichen Eigenwerteverlauf generiert (siehe bspw. [Siehe Eid et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) Kapitel 25.3.2 oder [Brandt, 2020](https://ubffm.hds.hebis.de/Record/HEB468515836), Kapitel 23.4). Das gleiche wird in `R` außerdem noch mit Neuverteilen der Datenpunkte über die Variablen hinweg gemacht (resampling). Nach diesen beiden Kriterien entscheiden wir uns für alle Hauptkomponenten deren Eigenwert größer als der durchschnittliche zufällige Eigenwert ist.
 
 Wir können alle drei/vier Methoden in einer Funktion untersuchen, welche `fa.parallel` heißt. Diese führt eigentlich eine Parallelanalyse für Faktorenanalysen (FA) durch und plotten dann die Eigenwertverläufe in einer Grafik. Wenn wir allerdings das Zusatzargument `fa = "pc"` wählen, so wird das ganze für eine PCA gemacht. Wir müssen der Funktion lediglich die Daten übergeben (damit geresampled werden kann!). Zum Schluss malen wir noch eine horizontale Linie bei der Eigenwertsgröße von 1 hinzu, um das Eigenwerte-größer-1 Kriterium leichter prüfen zu können (`abline(h = 1) `).
 
@@ -351,7 +367,7 @@ Auf der x-Achse werden die Ladungen auf der 1. Hauptkomponente abgetragen, währ
 
 
 ## PCA mit zwei 2 Hauptkomponenten mit Varimax-Rotation ##
-Eine Varimax (**Var**ianz **max**imierende) Rotation (für mehr Informationen zur Rotation siehe siehe bspw. [Siehe Eid et al., 2017,]((https://ubffm.hds.hebis.de/Record/HEB366849158)) Kapitel 25.3.3 oder [Brandt, 2020](https://ubffm.hds.hebis.de/Record/HEB468515836), Kapitel 23.5) führen wir durch, indem wir `rotate = "varimax"` spezifizieren (weitere Möglichkeiten wären bspw. "quartimax" oder "bifactor" als orthogonale Roationen und "promax", "oblimin" oder "simplimax" als Beispiele für oblique Rotationen, über welche Sie sich mit der Hilfe näher vertraut machen können).
+Eine Varimax (**Var**ianz **max**imierende) Rotation (für mehr Informationen zur Rotation siehe siehe bspw. [Siehe Eid et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) Kapitel 25.3.3 oder [Brandt, 2020](https://ubffm.hds.hebis.de/Record/HEB468515836), Kapitel 23.5) führen wir durch, indem wir `rotate = "varimax"` spezifizieren (weitere Möglichkeiten wären bspw. "quartimax" oder "bifactor" als orthogonale Roationen und "promax", "oblimin" oder "simplimax" als Beispiele für oblique Rotationen, über welche Sie sich mit der Hilfe näher vertraut machen können).
 
 ```{r}
 PCA3 <- pca(r = R_UV, nfactors = 2, rotate = "varimax")
@@ -461,14 +477,10 @@ Die beiden Hauptkomponenten erklären fast so viel Varianz wie die sechs einzeln
 ###### Interpretation
 Somit lässt sich sagen, dass die Kovariaten zur Vorhersage des Kriteriums geeignet sind und dass sie jedoch sehr ähnliche Aspekte abdecken. Die Professorin sollte die Kovariaten in ihrer Studie weiter miterheben, da sie Systematiken am Kriterium erklären.
 
-In [Appendix B](#AppendixB) wird die PCA noch einmal [zu Fuß](#PCAzuFuss) durchgeführt und zudem ein Exkurs dargestellt, in dem erläutert wird, was passiert, wenn Variablen [komplett linear abhängig von einander](#ExkursAbhaengigkeit) sind (und sie nicht nur stark miteinander zusammenhängen).
+In [Appendix B](#AppendixB) wird die PCA noch einmal zu Fuß durchgeführt und zudem ein Exkurs dargestellt, in dem erläutert wird, was passiert, wenn Variablen [komplett linear abhängig von einander](#ExkursAbhaengigkeit) sind (und sie nicht nur stark miteinander zusammenhängen).
 
 In [Appendix C](#AppendixC) sehen Sie eine bildliche Veranschaulichung der PCA, in welcher die Pixel von Bildern mit einer PCA verrechnet werden und somit nur Teilinformationen von Bildern darstellbar sind; falls Sie dazu Lust haben!
 
-***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [`r fontawesome::fa("download")` hier herunterladen](/post/MSc1_R_Files/3_PCA_RCode.R).
 
 ***
 
@@ -476,7 +488,7 @@ Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [`r fonta
 ## Appendix
 ### Appendix A {#AppendixA}
 
-<details><summary>**Grafische Veranschaulichung**</summary>
+<details><summary> <b> Grafische Veranschaulichung </b> </summary>
 
 ```{r echo=T, message=FALSE, warning=FALSE}
 corrplot(R_UV, method = "color",tl.col = "black", addCoef.col = "black",
@@ -512,9 +524,9 @@ plot(PCA2, xaxt = "n", yaxt = "n", ylab = "", xlab = "", xlim = c(-1,1),ylim = c
 
 ### Appendix B {#AppendixB}
 
-<details><summary>**PCA zu Fuß**</summary>
+<details><summary> <b>PCA zu Fuß</b> </summary>
 
-Wir wollen nun die PCA mit Basisfunktionen in `R` durchführen. Dies soll aufzeigen, wie einfach eigentlich eine solche Analyse ist! Die Funktion, die wir verwenden wollen, ist die Basis-Funktion `eigen` [(siehe Eid et al., 2017,]((https://ubffm.hds.hebis.de/Record/HEB366849158)) S. 934 und folgend im *blauen Kasten*):
+Wir wollen nun die PCA mit Basisfunktionen in `R` durchführen. Dies soll aufzeigen, wie einfach eigentlich eine solche Analyse ist! Die Funktion, die wir verwenden wollen, ist die Basis-Funktion `eigen` [(siehe Eid et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) S. 934 und folgend im *blauen Kasten*):
 
 Für jede quadratische pxp-Matrix $A$ (wobei die Nullmatrix, welche nur aus Nullen besteht, ausgeschlossen wird) können Skalare $\theta$ und Vektoren $\boldsymbol{x}$ (die nicht nur Nullen enthalten) gefunden werden, für die gilt:
 
@@ -573,9 +585,9 @@ Dies bedeutet, dass sehr kleine Eigenwerte auch für komplette lineare Abhängig
 
 ### Appendix C {#AppendixC}
 
-<details><summary>**PCArt**</summary>
+<details><summary> <b> PCArt </b> </summary>
 
-[Prof. Dr. Martin Schultze](/authors/schultze) hat ein kleines `R` Paket geschrieben, welches die PCA verbildlicht: Von bekannten Gemälden wird die Information, welche in jedem Pixel steckt, durch eine Hauptkomponentenanalyse zerlegt und das Gemälde anschließend nur durch eine Auswahl an Komponenten dargestellt. Sie können dieses Paket installieren, indem Sie zunächst `devtools` installieren und dann direkt vom `r fontawesome::fa("github")` Github Repository installieren:
+[Prof. Dr. Martin Schultze](/authors/schultze) hat ein kleines `R` Paket geschrieben, welches die PCA verbildlicht: Von bekannten Gemälden wird die Information, welche in jedem Pixel steckt, durch eine Hauptkomponentenanalyse zerlegt und das Gemälde anschließend nur durch eine Auswahl an Komponenten dargestellt. Sie können dieses Paket installieren, indem Sie zunächst `devtools` installieren und dann direkt vom <i class="fa-brands fa-github"></i> Github Repository installieren:
 ```{r, eval = F}
 install.packages("devtools")
 devtools::install_github("https://github.com/martscht/PCArt")
@@ -598,7 +610,7 @@ Wir schauen uns hier die Intensität für die ersten 25 Pixel (1 bis 5 horizonta
 PCArt::PCArtQuiz()
 
 # analog:
-libary(PCArt)
+library(PCArt)
 PCArtQuiz()
 ```
 
@@ -621,7 +633,8 @@ Na, um welches Bild handelt es sich?
 [Brandt H. (2020).](https://ubffm.hds.hebis.de/Record/HEB468515836) Exploratorische Faktorenanalyse (EFA). In [Moosbrugger H., Kelava A.](https://ubffm.hds.hebis.de/Record/HEB468515836) (eds) Testtheorie und Fragebogenkonstruktion. Berlin, Heidelberg: Springer. [https://doi.org/10.1007/978-3-662-61532-4_23](https://doi.org/10.1007/978-3-662-61532-4_23)
 
 
-[Eid, M., Gollwitzer, M., & Schmitt, M. (2017).](https://ubffm.hds.hebis.de/Record/HEB366849158) *Statistik und Forschungsmethoden* (5. Auflage, 1. Auflage: 2010). Weinheim: Beltz.
+[Eid, M., Gollwitzer, M., & Schmitt, M. (2017).](https://ubffm.hds.hebis.de/Record/HEB366849158)
+*Statistik und Forschungsmethoden* (5. Auflage, 1. Auflage: 2010). Weinheim: Beltz.
 
 
 [Pituch, K. A. & Stevens, J. P. (2016).](https://ubffm.hds.hebis.de/Record/HEB371183324) *Applied Multivariate Statistics for the Social Sciences* (6th ed.). New York: Taylor & Francis.

@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr Unterschiede zwischen zwei Gruppen zu veranschaulichen. Ihr erfahrt außerdem, wie ihr verschiedene Tests für unabhängige Stichproben in R durchführt und ihre Voraussetzungen prüft.' 
 authors: [koehler, buchholz, irmer, nehler, goldhammer, schultze] 
 weight: 6
-lastmod: '2023-12-01'
+lastmod: '2023-12-04'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -50,24 +50,11 @@ output:
 
 ***
 
-## Was erwartet Sie?
 
-Nachdem wir uns zuletzt mit dem Unterschied zwischen dem Mittelwert einer Stichprobe und einem von uns theoretisch postulierten Wert ($\mu_0$) auseinandergesetzt haben, fokussieren wir uns nun auf Unterschiede zwischen zwei Gruppen. Hierbei muss zwischen unabhängigen und abhängigen Stichproben unterschieden werden - um den ersten Fall geht es uns hier, den Zweiten gucken wir uns in der [nächsten Sitzung](/lehre/statistik-i/gruppenvergleiche-abhaengig) an.
-
-In dieser Sitzung geht es uns um primär um zwei Vergleiche: 
-
-  1. Erreichen klinisch und nicht klinisch interessierte Studierende in der Verträglichkeit im Durchschnitt gleich hohe Werte? (*t-Test und Cohen's d für unabhängige Stichproben*)
-  2. Erreichen klinisch interessierte im Gegensatz zu nicht klinisch interessierten Studierenden in der Lebenszufriedenheit im Mittel höhere Werte? (*Wilcoxon-Test für unabhängige Stichproben*)
-  
-Außerdem finden Sie im Anhang auch noch eine weitere Frage:
-
-  3.  Haben Studierende mit Wohnort in Uninähe (Frankfurt) mit gleicher Wahrscheinlichkeit einen Nebenjob wie Studierende, deren Wohnort außerhalb von Frankfurt liegt? (*Vierfelder-*$\chi^2$-Test)
-
-***
 
 ## Vorbereitende Schritte {#prep}
 
-Wie man anhand der Fragestellungen bereits gesehen hat, beschäftigen wir uns mit den Werten aus unserem Datensatz. Diesen könne Sie entweder unter diesem [<i class="fas fa-download"></i> Link herunterladen](/daten/fb23.rda) oder ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
 
 
 ```r
@@ -106,8 +93,23 @@ fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre",
 fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
 ```
 
+***
+
+## Was erwartet Sie?
+
+Nachdem wir uns zuletzt mit dem Unterschied zwischen dem Mittelwert einer Stichprobe und einem von uns theoretisch postulierten Wert ($\mu_0$) auseinandergesetzt haben, fokussieren wir uns nun auf Unterschiede zwischen zwei Gruppen. Hierbei muss zwischen unabhängigen und abhängigen Stichproben unterschieden werden - um den ersten Fall geht es uns hier, den Zweiten gucken wir uns in der [nächsten Sitzung](/lehre/statistik-i/gruppenvergleiche-abhaengig) an.
+
+In dieser Sitzung geht es uns um primär um zwei Vergleiche: 
+
+  1. Erreichen klinisch und nicht klinisch interessierte Studierende in der Verträglichkeit im Durchschnitt gleich hohe Werte? (*t-Test und Cohen's d für unabhängige Stichproben*)
+  2. Erreichen klinisch interessierte im Gegensatz zu nicht klinisch interessierten Studierenden in der Lebenszufriedenheit im Mittel höhere Werte? (*Wilcoxon-Test für unabhängige Stichproben*)
+  
+Außerdem finden Sie im Anhang auch noch eine weitere Frage:
+
+  3.  Haben Studierende mit Wohnort in Uninähe (Frankfurt) mit gleicher Wahrscheinlichkeit einen Nebenjob wie Studierende, deren Wohnort außerhalb von Frankfurt liegt? (*Vierfelder-*$\chi^2$-Test)
 
 ***
+
 
 ## Mittelwertsvergleich
 
@@ -218,7 +220,7 @@ describeBy(x = fb23$vertr, group = fb23$fach_klin)        # beide Gruppen im Ver
 ## group: nicht klinisch
 ##    vars  n mean  sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 84 3.43 0.8    3.5    3.46 0.74 1.5   5   3.5 -0.19    -0.58 0.09
-## --------------------------------------------------------------------- 
+## ----------------------------------------------------------------------- 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 82 3.47 0.85    3.5     3.5 0.74   1   5     4 -0.4      0.1 0.09
@@ -386,11 +388,24 @@ Anhand der Ergebnisse können wir folgende Aussage treffen: Studierende, die sic
 
 Wir wissen nun, dass es zwischen Populationen, aus denen die beiden Stichproben kommen keinen Unterschied in den Erwartungswerten gibt. Dennoch wollen wir zur Eindordnung des Ergebnisses die Effektstärke ermitteln: Cohen's $d$ gibt den standardisierten Mittelwertsunterschied zwischen zwei Gruppen an. "Standardisiert" bedeutet, dass wir uns nicht mehr auf der Originalmetrik befinden (hier auf der Skala von 1 bis 5), sondern mit Standardabweichungen arbeiten. Ein Wert von 1 zeigt also an, dass sich die Gruppenmittelwerte um eine Standardabweichung voneinander unterscheiden. Die Effektstärke berechnet sich wie folgt: 
 
-$$d = \frac{\bar{x}_1-\bar{x}_2}{\hat{\sigma}_{inn}}$$
+{{< math >}}
+\begin{equation}
+\small
+d = \frac{\bar{x}_1-\bar{x}_2}{\hat{\sigma}_{inn}}
+\end{equation}
+{{< /math >}}
+
 
 wobei 
 
-$${\hat{\sigma}_{inn}} = \sqrt{ \frac{{\hat{\sigma}_1^2}*(n_1-1) + {\hat{\sigma}^2_2}*(n_2-1)} {(n_1-1) + (n_2-1)}}$$
+{{< math >}}
+\begin{equation}
+\small
+\hat{\sigma}_{inn} = \sqrt{\frac{{\hat{\sigma}_1^2}\cdot(n_1-1) + {\hat{\sigma}^2_2}\cdot(n_2-1)} {(n_1-1) + (n_2-1)}}
+\end{equation}
+{{< /math >}}
+
+
 
 Cohen (1988) hat folgende Konventionen zur Beurteilung der Effektstärke $d$ vorgeschlagen, die man heranziehen kann, um den Effekt "bei kompletter Ahnungslosigkeit" einschätzen zu können (wissen wir mehr über den Sachverhalt, so sollten Effektstärken lieber im Bezug zu anderen Studienergebnissen interpretiert werden):
 
@@ -430,6 +445,17 @@ Natürlich gibt es in `R` auch eine angenehmere Alternative:
 ```r
 # install.packages("effsize")
 library("effsize")
+```
+
+```
+## 
+## Attaching package: 'effsize'
+```
+
+```
+## The following object is masked from 'package:psych':
+## 
+##     cohen.d
 ```
 
 
@@ -490,7 +516,7 @@ describeBy(fb23$lz, fb23$fach_klin) # beide Gruppen im Vergleich
 ## group: nicht klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 83 5.11 1.13    5.4    5.19 1.19 1.4   7   5.6 -0.87     0.91 0.12
-## --------------------------------------------------------------------- 
+## ----------------------------------------------------------------------- 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 82 5.12 0.96    5.2    5.17 0.89 2.6 6.8   4.2 -0.49    -0.38 0.11
@@ -604,6 +630,10 @@ wilcox.test(fb23$lz ~ fb23$fach_klin,     # abhängige Variable ~ unabhängige V
 Per Voreinstellung wird in R der exakte $p$-Wert bestimmt, wenn die Stichprobe insgesamt weniger als 50 Personen umfasst und keine Rangbindungen vorliegen. Bei größeren Stichproben folgt die Rangsumme aufgrund des zentralen Grenzwertsatzes ausreichend gut der Normalverteilung und es wird ein $z$-Test der Rangsumme durchgeführt. Weil die Rangsumme allerdings nur ganze Zahlen annehmen kann ist diese Approximation ein wenig ungenau (insbesondere dann, wenn die Stichprobe noch relativ klein ist). Per Voreinstellung wird daher in R eine Kontinuitätskorrektur durchgeführt (mit dem Argument `correct = TRUE`), sodass Sie nicht den gleichen Wert erhalten, den Sie bekommen, wenn Sie den Test händisch durchführen würden. Wenn Sie diese Korrektur ausschalten (`correct = FALSE`) erhalten Sie den gleichen Wert.
 
 
+```
+## Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot compute exact
+## p-value with ties
+```
 
 ### Ergebnisinterpretation
 

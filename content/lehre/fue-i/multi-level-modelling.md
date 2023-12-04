@@ -2,14 +2,14 @@
 title: "Hierarchische Regression" 
 type: post
 date: '2019-10-18' 
-slug: multi-level-modeling
+slug: multi-level-modelling
 categories: ["FuE I"] 
 tags: ["Hierarchische Regression", "Multi-Level Analyse", "ggplot", "Interaktion"] 
 subtitle: ''
 summary: '' 
 authors: [irmer] 
 weight: 3
-lastmod: '2023-11-30'
+lastmod: '2023-12-04'
 featured: no
 banner:
   image: "/header/books.jpg"
@@ -42,7 +42,7 @@ output:
 In dieser Sitzung wollen wir hierarchische Daten mit der Multi-Level-Regression (auch hierarchische Regression, Multi-Level-Modeling, Linear Mixed-Effects Modeling, Random Coefficient Regression vgl. bspw. [Eid, Gollwitzer & Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 20 und [Pituch und Stevens (2016)](https://ubffm.hds.hebis.de/Record/HEB371183324) Kapitel 13) analysieren. Diese Daten sind dahingehend speziell, dass es in ihnen Clusterungen von Datenpunkten gibt, die zueinander ähnlicher sind als zu den übrigen. Dies verletzt die Annahme der Unabhängigkeit in der typischen Regressionsanalyse, was zu erheblichen Fehlschlüssen führen kann. Wir wollen uns ein fiktives Datenbeispiel (Datensatz `StudentsInClasses` aus dem gleichnamigen .rda File `StudentsInClasses.rda`) mit Schüler*innen (Ebene 1) in Schulklassen (Eben 2) anschauen. Sie können den [<i class="fas fa-download"></i> Datensatz "StudentsInClasses.rda" hier herunterladen](/daten/StudentsInClasses.rda).
 
 ### Daten laden
-Dazu laden wir mit `load` die Daten (bspw. auf dem Desktop von Frau "Musterfrau") _Tipp: Verwenden Sie unbedingt die automatische Vervollständigung von `R`-Studio, wie in den letzten Sitzung beschrieben_.
+Dazu laden wir mit `load` die Daten (bspw. auf dem Desktop von Frau "Musterfrau") _Tipp: Verwenden Sie unbedingt die automatische Vervollständigung von `R`-Studio, wie in den letzten Sitzungen beschrieben_.
 
 
 ```r
@@ -182,7 +182,7 @@ Y_{ij} = \gamma_{00} + \underbrace{u_{0j} + \varepsilon_{ij}}_{e_i}
 \end{equation}
 </div>
 
-In einer einfachen Regression würde $e_i:=u_{0j}+\varepsilon_{ij}$ als Residuum angesehen werden. Damit haben alle Erhebungen aus der gleichen Clustereinheit $j$ etwas gemeinsam (nämlich $u_{0j}$) und sind somit korreliert. Dies widerspricht der $i.i.d.$-Annahme in der Regression (vgl. [Regressionssitzung](/post/regression-und-ausreisserdiagnostik)).
+In einer einfachen Regression würde $e_i:=u_{0j}+\varepsilon_{ij}$ als Residuum angesehen werden. Damit haben alle Erhebungen aus der gleichen Clustereinheit $j$ etwas gemeinsam (nämlich $u_{0j}$) und sind somit korreliert. Dies widerspricht der $i.i.d.$-Annahme in der Regression (vgl. [Regressionssitzung](/lehre/fue-i/regression-und-ausreisserdiagnostik)).
 
 ## Analysen mit dem Beispieldatensatz
 
@@ -341,9 +341,9 @@ names(summary(m0)) # alle Informationen, die wir der Summary entlocken können
 ```
 
 ```
-##  [1] "methTitle"    "objClass"     "devcomp"      "isLmer"       "useScale"     "logLik"       "family"      
-##  [8] "link"         "ngrps"        "coefficients" "sigma"        "vcov"         "varcor"       "AICtab"      
-## [15] "call"         "residuals"    "fitMsgs"      "optinfo"
+##  [1] "methTitle"    "objClass"     "devcomp"      "isLmer"       "useScale"     "logLik"      
+##  [7] "family"       "link"         "ngrps"        "coefficients" "sigma"        "vcov"        
+## [13] "varcor"       "AICtab"       "call"         "residuals"    "fitMsgs"      "optinfo"
 ```
 
 **Inhaltliche Interpretation**: 16.2% der Varianz in der Mathematikleistung können durch die Klassenzugehörigkeit erklärt werden. Die Multi-Level-Struktur in den Daten muss somit unbedingt berücksichtigt werden.
@@ -419,14 +419,14 @@ Im Output hat sich nun der Abschnitt `Fixed effects` erweitert um den Effekt der
 
 `Correlation of Fixed Effects:` gibt an, wie stark die festen Efffekte (hier Interzept und Steigungskoeffizient von `Motivation_c`) korreliert sind. Dies ist ein Maß für die Stabilität der Schätzung. Sind diese Korrelationen sehr groß, dann hat dies negative Auswirkungen auf die Standardfehler. Diese sind dann zu groß. An den Schätzungen der Parameter ändert dies allerdings nichts. Jedoch kann die Signifikanzentscheidung negativ beeinflusst sein. Diese Korrelationen können reduziert werden, durch Verringerungen der Komplexität im Modell (Multikollinearität), aber auch durch Zentrierung!
 
-Insgesamt ist zu sagen, dass unsere Hypothese 1 durch die Daten gestützt wird. Es stellt sich allerdings die Frage, ob die signifikante lineare Beziehung der Variable auch inhaltlich bedeutsam ist. Um dies besser beurteilen zu können, wollen wir ein Pseudo-$R^2$ bestimmen - es ist sehr dem Determinationskoeffizienten der Regression verwandt, kann aber Fehlschätzungen unterliegen, weswegen es nicht für bare Münze genommen werden sollte. Es kann uns allerdings helfen, besser einschätzen zu können, wie groß denn die Varianzaufklärung des Prädiktors ist, auch wenn wir im Hinterkopf behalten sollten, dass mit Pseudo-$R^2$ auch Probleme auftreten können (die es in der Regel mit dem Determinationskoeffizienten nicht gibt). Für mehr Informationen hierzu schaue bspw. in [Eid, et al. (2017)]() Kapitel 20.3.4 ab Seite 750.
+Insgesamt ist zu sagen, dass unsere Hypothese 1 durch die Daten gestützt wird. Es stellt sich allerdings die Frage, ob die signifikante lineare Beziehung der Variable auch inhaltlich bedeutsam ist. Um dies besser beurteilen zu können, wollen wir ein Pseudo-$R^2$ bestimmen - es ist sehr dem Determinationskoeffizienten der Regression verwandt, kann aber Fehlschätzungen unterliegen, weswegen es nicht für bare Münze genommen werden sollte. Es kann uns allerdings helfen, besser einschätzen zu können, wie groß denn die Varianzaufklärung des Prädiktors ist, auch wenn wir im Hinterkopf behalten sollten, dass mit Pseudo-$R^2$ auch Probleme auftreten können (die es in der Regel mit dem Determinationskoeffizienten nicht gibt). Für mehr Informationen hierzu schauen Sie bspw. in [Eid, et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) Kapitel 20.3.4 ab Seite 750.
 
 ### Pseudo $R^2$: within
 Die Varianz unseres Kriteriums $Y$ haben wir im Null-Modell in Varianz des Cluster (Interzeptvarianz) und (within) Residualvarianz aufgeteilt: $\mathbb{V}ar[Y] = \mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon]$. Die Variation von $u_0$ beschreibt somit die between-Variation, die auf Unterschiede zwischen Klassen (und somit Unterschiede, die auf die Clusterung zurückzuführen sind), während die Variation von $\varepsilon$ gerade die within-Variation ist. Unter ideellen Bedingungen sollte nun ein L1-Prädiktor nur die within-Residualvariation verringern (dies ist dann gegeben, wenn ein L1 Prädiktor sich nicht systematisch zwischen Klassen unterscheidet, es also keine Mittelwertsunterschiede über Klassen hinweg auf dieser L1 Variable gibt!): für den Prädiktor Motivation ($X_1$) ergibt sich die Variation von $Y$ als 
 
 $$\mathbb{V}ar[Y] = \mathbb{V}ar[u_0]+\underbrace{\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*]}_{\mathbb{V}ar[\varepsilon]}.$$ 
 
-Für mehr Informationen zu Varianzrechenregeln siehe im [Appendix B](#AppendixB) nach. Wir schreiben hier $\varepsilon^\*$, da es sich um ein anderes Residuum handelt, als im leeren Modell ($X_1$ ist ja mit von der Partie). Dieser ideellen Gleichung ist zu entnehmen, dass die Varianz von $\varepsilon^\*$ kleiner ausfällt, also die von $\varepsilon$, wenn $\gamma_{10}\neq 0$ und $X_1$ nicht konstant ist, also wenn $X_1$ zur Vorhersage vom Kriterium beiträgt (also folgt $\mathbb{V}ar[\varepsilon^*]<\mathbb{V}ar[\varepsilon]$). Wir machen uns diese Gegebenheit zu nutze und quantifizieren die relative Veränderung in der Varianz des Residuums und nennen diese Pseudo-$R^2$:
+Für mehr Informationen zu Varianzrechenregeln schauen Sie im [Appendix B](#AppendixB) nach. Wir schreiben hier $\varepsilon^\*$, da es sich um ein anderes Residuum handelt, als im leeren Modell ($X_1$ ist ja mit von der Partie). Dieser ideellen Gleichung ist zu entnehmen, dass die Varianz von $\varepsilon^\*$ kleiner ausfällt, also die von $\varepsilon$, wenn $\gamma_{10}\neq 0$ und $X_1$ nicht konstant ist, also wenn $X_1$ zur Vorhersage vom Kriterium beiträgt (also folgt $\mathbb{V}ar[\varepsilon^*]<\mathbb{V}ar[\varepsilon]$). Wir machen uns diese Gegebenheit zu nutze und quantifizieren die relative Veränderung in der Varianz des Residuums und nennen diese Pseudo-$R^2$:
 
 <div class=“big maths“> 
 \begin{equation} 
@@ -506,7 +506,7 @@ VarU1 <- VarCorr(m1)$schulklasse[1]  # Varianz des Interzepts im Modell mit Moti
 ## [1] -0.1130776
 ```
 
-Am Ergebnis erkennen wir auch, wieso es sich hierbei nur um ein Pseudo-$R^2$ handelt, denn die Varianz des Interzepts steigt tatsächlich von `m0` zu `m1`.  Dies kann auf die simultane Schätzung der beiden Varianzen mit Hilfe von (restricted) Maximum Likelihood zurückgeführt werden, welche nicht nur von den Varianzen der Mittelwerte abhängt, sondern auch vom Stichprobenfehler (vgl. Eid, et al., 2017, S. 752). In so einem Fall wird Pseudo-$R^2$ auf 0 gesetzt. Folglich gehen wir davon aus, dass der erklärte between Varianzanteil der Matheleistung durch die Motivation 0 ist. Diesem Problem kann durch die zusätzliche Gewichtung der Varianzen durch die Anzahl der Level 1 und Level 2 Einheiten entgegengewirkt werden, was Sie vielleicht beim Schreiben Ihrer Masterarbeit dann durchführen könnten (vgl. Eid, et al., 2017, S. 752 und folgend).
+Am Ergebnis erkennen wir auch, wieso es sich hierbei nur um ein Pseudo-$R^2$ handelt, denn die Varianz des Interzepts steigt tatsächlich von `m0` zu `m1`.  Dies kann auf die simultane Schätzung der beiden Varianzen mit Hilfe von (restricted) Maximum Likelihood zurückgeführt werden, welche nicht nur von den Varianzen der Mittelwerte abhängt, sondern auch vom Stichprobenfehler (vgl. [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 752). In so einem Fall wird Pseudo-$R^2$ auf 0 gesetzt. Folglich gehen wir davon aus, dass der erklärte between Varianzanteil der Matheleistung durch die Motivation 0 ist. Diesem Problem kann durch die zusätzliche Gewichtung der Varianzen durch die Anzahl der Level 1 und Level 2 Einheiten entgegengewirkt werden, was Sie vielleicht beim Schreiben Ihrer Masterarbeit dann durchführen könnten (vgl. [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 752 und folgend).
 
 ### Pseudo $R^2$: between and within
 Zum Schluss bestimmen wir nun noch den Anteil der Variation des Kriteriums der insgesamt (between und within) durch den Prädiktor erklärt werden kann. Dazu schauen wir uns die gemeinsame Veränderung der Varianzen auf Level 1 (within) und Level 2 (between) an. Erklärt der Prädiktor substantielle Anteile, so sollte gelten:
@@ -649,13 +649,13 @@ gibt uns Kennwerte zum Modellvergleich an. Ganz vorne stehen die Namen der Model
 
 Diese Heterogenität lässt sich über ein Streudiagramm der klassenspezifischen Koeffizienten $\beta_{1j}$ veranschaulichen. Den Code zu den hier aufgeführten Grafiken können Interessierte in [Appendix A](#AppendixA) einsehen.
 
-![](/lehre/fue-i/multi-level-modeling_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/lehre/fue-i/multi-level-modelling_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 Dem Histogramm ist deutlich zu entnehmen, dass die Steigungskoeffizienten annähernd normalverteilt sind (dies ist eine wichtige Annahme, die in die Modellierung einfließt). Außerdem können wir die Heterogenität der Steigungskoeffizienten erkennen.
 
 Eine alternative Visualisierung ist der Plot der klassenspezifischen Regresssionsgeraden, wobei $\beta_{0j}$ und $\beta_{1j}$ klassenspezifisch variieren. Die blaue Linie stellt hierbei den durchschnittliche (fixed) Effekt dar, welcher auch als Formel nochmals in die Grafik geschrieben wurde. Auch entnehmen wir der Grafik, dass die Motivation kategoriell ist (vertikale Ansammlung der Punkte).
 
-![](/lehre/fue-i/multi-level-modeling_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](/lehre/fue-i/multi-level-modelling_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 Außerdem können wir diesem Plot die Korrelation des Interzepts und der Steigung entnehmen, welche bei .31 lag. Hierbei müssen wir genau aufpassen, wo wir diese Korrelation ablesen. Die Aussage ist nämlich, dass je größer der Interzept, desto stärker der Zusammenhang zwischen Motivation und Matheleistung. Dies müssen wir entlang der y-Achse (vertikale gestrichelte Linie) untersuchen - an der Stelle, wo die Motivation durchschnittlich ausgeprägt ist und die zentrierte Variable somit den Wert 0 annimmt. Wenn wir genau hinsehen, ist es so, dass je größer der Schnittpunkt mit der y-Achse, desto größer die Steigung!
 
@@ -799,7 +799,8 @@ summary(m4)
 
 ```
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +      (1 | schulklasse)
+## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
+##     (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
 ## REML criterion at convergence: 6200.9
@@ -816,8 +817,8 @@ summary(m4)
 ## 
 ## Fixed effects:
 ##                          Estimate Std. Error        df t value Pr(>|t|)    
-## (Intercept)              53.79131    0.87354  36.11428  61.579  < 2e-16 ***
-## KlassenG_c               -0.21300    0.13491  37.53997  -1.579    0.123    
+## (Intercept)              53.79131    0.87354  36.11427  61.579  < 2e-16 ***
+## KlassenG_c               -0.21300    0.13491  37.53996  -1.579    0.123    
 ## Motivation_c              6.13299    0.29316 807.83209  20.920  < 2e-16 ***
 ## KlassenG_c:Motivation_c   0.27575    0.04679 808.15014   5.893 5.56e-09 ***
 ## ---
@@ -844,7 +845,7 @@ summary(m4b)
 #### Grafische Veranschaulichung
 Die Wechselwirkung kann veranschaulicht werden, indem die Regressionsgeraden nach Klassengröße unterschieden werden (hier: über die Farbe). Die in der folgenden Grafik goldene/gelbe Geraden repräsentieren (überdurchschnittlich) große Klassen, die blauen kleine (unterdurchschnittlich große/ überdurchschnittlich kleine) Klassen. Die goldenen/gelben Linien sind steiler als die blauen Linien.
 
-![](/lehre/fue-i/multi-level-modeling_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+![](/lehre/fue-i/multi-level-modelling_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
 
 Der Grafik ist dieser Effekt deutlich zu entnehmen. Final können wir sagen, dass die individuelle Matheleistung in Schulklassen mit mehr Schülerinnen und Schülern stärker von der Lernmotivation der/des Einzelnen abhängt als in kleinen Schulklassen.
 
@@ -860,7 +861,8 @@ summary(m4c)
 
 ```
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +      (1 + Motivation_c | schulklasse)
+## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
+##     (1 + Motivation_c | schulklasse)
 ##    Data: StudentsInClasses
 ## 
 ## REML criterion at convergence: 5767.3
@@ -937,8 +939,8 @@ X_{ij}^{**}=X_{ij}-\bar{X}_{\cdot j}
 \end{equation}
 </div>
 
-Ein Wert von 0 auf $X_{ij}^{**}$ entspricht nun dem Durchschnitt in Cluster/Gruppe $j$. 
-Die Variable $X_{ij}^{**}$ sollte somit within Variation erklären (im Beispiel also die Variation innerhalb einer Klasse), was dafür spricht, dass es sinnvoll ist, diese Varianzaufklärung mit $R^2_\text{pseudo:within}$ zu quantifizieren. Außerdem ist es sinnvoll anschließend die Variable $\bar{X}_{\cdot j}$ mit in die Analysen aufzunehmen, da sie between-Variation enthält (also Variation, die Unterschiede zwischen Clustern darstellt). Die Varianzaufklärung von $\bar{X}_{\cdot j}$ kann somit mit  $R^2_\text{pseudo:between}$ quantifiziert werden. Die gemeinsame Varianzaufklärung (quasi den Gesamtanteil between und within) können wir mit  $R^2_\text{pseudo:bw}$ quantifizieren.
+Ein Wert von 0 auf $X_{ij}^{\**}$ entspricht nun dem Durchschnitt in Cluster/Gruppe $j$. 
+Die Variable $X_{ij}^{**}$ sollte somit within Variation erklären (im Beispiel also die Variation innerhalb einer Klasse), was dafür spricht, dass es sinnvoll ist, diese Varianzaufklärung mit $R^2_\text{pseudo:within}$ zu quantifizieren. Außerdem ist es sinnvoll anschließend die Variable $\bar{X}\_{\cdot j}$ mit in die Analysen aufzunehmen, da sie between-Variation enthält (also Variation, die Unterschiede zwischen Clustern darstellt). Die Varianzaufklärung von $\bar{X}\_{\cdot j}$ kann somit mit  $R^2\_\text{pseudo:between}$ quantifiziert werden. Die gemeinsame Varianzaufklärung (quasi den Gesamtanteil between und within) können wir mit  $R^2\_\text{pseudo:bw}$ quantifizieren.
 
 Um diese Variablen anschließend auch noch sinnvoll hinsichtlich (z.B. Cross-Level-) Interaktionen interpretieren zu können, sollte die Gruppenmittelwertsvariable idealerweise auch noch am zentralen Mittelwert zentriert sein (der zentrale Mittelwert ist gerade auch der Mittelwert dieser Gruppenmittelwertsvariable):
 
@@ -972,13 +974,20 @@ head(StudentsInClasses)
 ```
 
 ```
-##   MatheL Motivation KFT KlassenG schulklasse Motivation_c KlassenG_c Motivation_groupc Mot_groupmeans Mot_groupmeans_c
-## 1  48.76          4  98       26           1   -0.2858824  -1.090588             -0.36           4.36       0.07411765
-## 2  46.01          3  96       26           1   -1.2858824  -1.090588             -1.36           4.36       0.07411765
-## 3  65.96          5 112       26           1    0.7141176  -1.090588              0.64           4.36       0.07411765
-## 4  42.08          4  94       26           1   -0.2858824  -1.090588             -0.36           4.36       0.07411765
-## 5   0.00          2  78       26           1   -2.2858824  -1.090588             -2.36           4.36       0.07411765
-## 6  56.52          5 104       26           1    0.7141176  -1.090588              0.64           4.36       0.07411765
+##   MatheL Motivation KFT KlassenG schulklasse Motivation_c KlassenG_c Motivation_groupc
+## 1  48.76          4  98       26           1   -0.2858824  -1.090588             -0.36
+## 2  46.01          3  96       26           1   -1.2858824  -1.090588             -1.36
+## 3  65.96          5 112       26           1    0.7141176  -1.090588              0.64
+## 4  42.08          4  94       26           1   -0.2858824  -1.090588             -0.36
+## 5   0.00          2  78       26           1   -2.2858824  -1.090588             -2.36
+## 6  56.52          5 104       26           1    0.7141176  -1.090588              0.64
+##   Mot_groupmeans Mot_groupmeans_c
+## 1           4.36       0.07411765
+## 2           4.36       0.07411765
+## 3           4.36       0.07411765
+## 4           4.36       0.07411765
+## 5           4.36       0.07411765
+## 6           4.36       0.07411765
 ```
 
 ```r
@@ -987,10 +996,10 @@ round(colMeans(StudentsInClasses), 10)
 ```
 
 ```
-##            MatheL        Motivation               KFT          KlassenG       schulklasse      Motivation_c 
-##         53.616047          4.285882        100.001176         27.090588         20.280000          0.000000 
-##        KlassenG_c Motivation_groupc    Mot_groupmeans  Mot_groupmeans_c 
-##          0.000000          0.000000          4.285882          0.000000
+##            MatheL        Motivation               KFT          KlassenG       schulklasse 
+##         53.616047          4.285882        100.001176         27.090588         20.280000 
+##      Motivation_c        KlassenG_c Motivation_groupc    Mot_groupmeans  Mot_groupmeans_c 
+##          0.000000          0.000000          0.000000          4.285882          0.000000
 ```
 
 Die Funktion `group.center` aus dem `robumeta`-Paket nimmt uns die Arbeit ab, die Daten händisch an den Gruppenmittelwerten zu zentrieren ($X_{ij}^{**}$). Sie nimmt 2 Argumente entgegen: `var` die Variable, die zentriert werden soll (hier die Motivation), und `grp` die Gruppierungsvariable (hier die Schulklasse). Die Funktion `group.mean` funktioniert analog zu `group.center` und gibt uns gruppenspezifische Mittelwerte aus. Zum Schluss wird noch die Gruppierungsvariable zentriert am Gesamtmittelwert: 
@@ -1010,12 +1019,6 @@ Diese Art der Zentrierung spielt insbesondere in Multi-Level-Analyse mit Messwie
 In [Appendix C](#AppendixC) wird eine Funktion präsentiert, mit welcher wir uns leicht Effekte in Multi-Level-Modellen ansehen können und so bspw. erkennen, wie unterschiedliche within und between Effekte ausfallen können - z.B. dass sie komplett gegenläufig sein können, was gleichzeitig einen wichtigen Vorteil dieser Analysemethode aufzeigt! Es wird auch das Big-Fish Little-Pond Prinzip daran erläutert.
 
 ***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [`{{< icon name="download" pack="fas" >}}` hier herunterladen](/lehre/fue-i/multi-level-modeling.R).
-
-***
-
 
 ## Appendix
 ### Appendix A {#AppendixA}
@@ -1045,7 +1048,7 @@ arrows(y0 = dnorm(x = gamma10+sqrt(VarU1), mean = gamma10,
 text(x = 17, y= 0.04, labels = "+/- 1SD", col = "blue", cex = 2) # Text in Grafik einfügen
 ```
 
-![](/lehre/fue-i/multi-level-modeling_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](/lehre/fue-i/multi-level-modelling_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
 
 ```r
@@ -1061,7 +1064,7 @@ ggplot(data = StudentsInClasses, aes(x=Motivation_c, y = MatheL))+geom_point(col
               slope = summary_model$coefficients[2,1], lwd = 2, col = "blue")
 ```
 
-![](/lehre/fue-i/multi-level-modeling_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+![](/lehre/fue-i/multi-level-modelling_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
 
 Die folgende Grafik können Sie für Ihr Modell replizieren, indem Sie `m4` durch Ihr Modell ersetzen und anschließend die Clustervariable durch Ihre ersetzen (in `group = schulklasse`) und die L2 Variable ebenfalls durch Ihre L2 Variable ersetzen (in `color = KlassenG_c`). In `y = MatheL` muss Ihre AV rein und `x = Motivation_c` ist die (zentrierte) UV.
 
@@ -1079,7 +1082,7 @@ StudentsInClasses %>%             # Datensatz wird manipuliert
   geom_line(size=0.5)  # Vorhergesagte Werte als Linien
 ```
 
-![](/lehre/fue-i/multi-level-modeling_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](/lehre/fue-i/multi-level-modelling_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 </details>
 
@@ -1123,14 +1126,13 @@ Da $a$ in der Klammer steht, die quadriert wird, muss natürlich $a$ quadriert w
 
 Außerdem ist es so, dass wenn $A$ und $B$ unabhängig sind so folgt, dass $\mathbb{C}ov[A,B]=0$ (aber nicht umgekehrt!). Eine Konstante ist unabhängig von allen Variablen und hat eine Varianz von 0. Somit können wir die Variation von $Y$ im Modell mit Motivation $X_1$ als Prädiktor wie folgt berechnen:
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{align}
-\small
-\mathbb{V}ar[Y_{ij}]&=\mathbb{V}ar[\gamma_{00} + u_{0j} + \gamma_{10}X_{1,ij} + \varepsilon_{ij}^*]\\
-&= \mathbb{V}ar[u_{0j}] + 2\gamma_{10}\mathbb{C}ov[u_{0j},X_{1,ij}] +\mathbb{C}ov[u_{0j},\varepsilon_{ij}^*] + 2\gamma_{10}\mathbb{C}ov[X_{1,ij},\varepsilon_{ij}^*] + \gamma_{10}^2\mathbb{V}ar[X_{1,ij}] + \mathbb{V}ar[\varepsilon_{ij}^*]  \\
-&= \mathbb{V}ar[u_0]+\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*],
+\mathbb{V}ar[Y_{ij}] = &\mathbb{V}ar[\gamma_{00} + u_{0j} + \gamma_{10}X_{1,ij} + \varepsilon_{ij}^*] \\
+= &\mathbb{V}ar[u_{0j}] + 2\gamma_{10}\mathbb{C}ov[u_{0j},X_{1,ij}] +\mathbb{C}ov[u_{0j},\varepsilon_{ij}^{*} + \\ &2\gamma_{10}\mathbb{C}ov[X_{1,ij},\varepsilon_{ij}^*] + \gamma_{10}^2\mathbb{V}ar[X_{1,ij}] + \mathbb{V}ar[\varepsilon_{ij}^*]  \\
+= &\mathbb{V}ar[u_0]+\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*],
 \end{align}
-</div>
+{{< /math >}}
 
 
 da $u_0$ und $\varepsilon^*$ unabhängig von einander und vom Prädiktor sind (somit ihre Kovarianzen jeweils 0 sind).
@@ -1198,7 +1200,7 @@ Die Funktion nimmt 4 Argumente entgegen. `nb` die Anzahl an Clustern (Default is
 plot_within_between_effects(nb = 50, nw = 50, between_effect = -1, within_effect = 1)
 ```
 
-![](/lehre/fue-i/multi-level-modeling_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](/lehre/fue-i/multi-level-modelling_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 Die gesamte Punktewolke sinkt in Y für steigendes X, aber innerhalb einer Gruppe (Cluster) steigt Y für steigendes X. Falls wir hier also die Multi-Level-Struktur ignorieren, so würden wir falsche Schlüsse im Hinblick auf die Beziehung zwischen X und Y ziehen. Dieser Effekt wird manchmal auch Big-Fish-Little-Pond Effekt (siehe auch [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158) S. 740; auch Kapitel 20.2.5 behandelt diese Kontexteffekt etwas ausführlicher) genannt: wenn wir beispielsweise annehmen, dass Y das Leistungsselbstkonzept ist und X ist die Begabung. In bspw. Schulklassen mit niedriger Begabung sollten Kinder mit vergleichsweise hoher Begabung ein höheres Leistungsselbstkonzept haben. Dies gilt auch für Schulklassen mit begabteren Kindern. Allerdings ist in  Klassen mit durchschnittlich begabteren Kindern insgesamt das Leistungsselbstkonzept etwas niedriger, da diese sich nur mit ebenfalls sehr begabten Kindern vergleichen können.
 
