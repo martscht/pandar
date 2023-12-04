@@ -8,7 +8,7 @@ subtitle: 'Propensity Scores'
 summary: ''
 authors: [hartig]
 weight: 10
-lastmod: '2023-11-30'
+lastmod: '2023-12-04'
 featured: no
 banner:
      image: "/header/dusk_or_dawn.jpg"
