@@ -43,17 +43,17 @@ output:
 ***
 
 ## Aufgabe 1
-Wir wollen untersuchen, ob sich Studierende, die sich für Allgemeine Psychologie (Variable `fach`) interessieren, im Persönlichkeitsmerkmal Offenheit für neue Erfahrungen (auch Intellekt, `offen`) von Studierenden, die sich für Klinische Psychologie interessieren? Die Voraussetzung der Normalverteilung nehmen wir an, weshalb wir hier einen t-Test durchführen dürfen. 
+Wir wollen untersuchen, ob sich Studierende, die sich für Allgemeine Psychologie (Variable `fach`) interessieren, im Persönlichkeitsmerkmal Offenheit für neue Erfahrungen (auch Intellekt, `offen`) von Studierenden, die sich für Klinische Psychologie interessieren, unterscheiden? Gehen Sie in der Beantwortung der Fragen davon aus, dass wir einen $t$-Test durchführen werden. Die Testung der Voraussetzungen werden wir im Laufe der Aufgabe durchführen.
 
 * Untersuchen Sie die Fragestellung zunächst rein deskriptiv. Bestimmen Sie dafür die Mittelwerte und empirischen Standardabweichungen der beiden Gruppen. 
 * Formulieren Sie die Hypothesen basierend auf der Aufgabenstellung inhaltlich und statistisch.
-* Welche Voraussetzung gibt es neben der Normalverteilung noch für die Durchführung des t-Tests. Bewerten Sie, ob diese gegeben sind und prüfen Sie diese gegebenenfalls.
+* Welche Voraussetzung gibt es für die Durchführung des $t$-Tests. Bewerten Sie, ob diese gegeben sind und prüfen Sie diese gegebenenfalls.
 * Führen Sie abschließend den t-Test und berichten Sie die Ergebnisse formal. $\alpha$ soll den Wert 0.05 haben.
 
 
 ## Aufgabe 2
 
-In dieser Aufgabe soll untersucht werden, ob sich Studierende mit Wohnort in Frankfut, sich selbst zu Beginn der Praktikumsstizung als wacher eingestuft haben als Studierende, die nicht in Frankfurt wohnen.
+In dieser Aufgabe soll untersucht werden, ob sich Studierende mit Wohnort in Frankfut, sich selbst zu Beginn der Praktikumsstizung als wacher eingestuft haben als Studierende, die nicht in Frankfurt wohnen. Für die Untersuchung soll der Mittelwert der beiden Gruppen betrachtet werden.
 
 * Zunächst geht es an die Datenvorbereitung. Verwandeln Sie die Variable Ort in einen Faktor, bei dem eine `1` für `FFM` und eine `2` für `anderer` steht. **ACHTUNG**: Wenn Sie den Appendix des Tutorials durchgearbeitet haben, ist dieser Schritt nicht nötig
 * Außerdem muss der Skalenwert (`wm_pre`) noch erstellt werden. Dieser setzt sich aus den Mittelwerten der Fragen 2, 5, 7 und 10 des MDBF zusammen. Beachten Sie dabei, dass es 4 Antwortkategorien gab und die Items 5 und 7 vor der Skalenbildung invertiert werden müssen.

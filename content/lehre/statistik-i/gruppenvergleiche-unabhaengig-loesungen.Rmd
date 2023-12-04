@@ -75,7 +75,7 @@ fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
 ***
 
 ## Aufgabe 1
-Wir wollen untersuchen, ob sich Studierende, die sich für Allgemeine Psychologie (Variable `fach`) interessieren, im Persönlichkeitsmerkmal Offenheit für neue Erfahrungen (auch Intellekt, `offen`) von Studierenden, die sich für Klinische Psychologie interessieren? Die Voraussetzung der Normalverteilung nehmen wir an, weshalb wir hier einen t-Test durchführen dürfen. 
+Wir wollen untersuchen, ob sich Studierende, die sich für Allgemeine Psychologie (Variable `fach`) interessieren, im Persönlichkeitsmerkmal Offenheit für neue Erfahrungen (auch Intellekt, `offen`) von Studierenden, die sich für Klinische Psychologie interessieren, unterscheiden? Gehen Sie in der Beantwortung der Fragen davon aus, dass wir einen $t$-Test durchführen werden. Die Testung der Voraussetzungen werden wir im Laufe der Aufgabe durchführen.
 
 * Untersuchen Sie die Fragestellung zunächst rein deskriptiv. Bestimmen Sie dafür die Mittelwerte und empirischen Standardabweichungen der beiden Gruppen. 
 
@@ -161,10 +161,7 @@ Hypothesenpaar (statistisch):
 </details>
 
 
-
-
-
-* Welche Voraussetzung gibt es neben der Normalverteilung noch für die Durchführung des t-Tests. Bewerten Sie, ob diese gegeben sind und prüfen Sie diese gegebenenfalls.
+* Welche Voraussetzung gibt es für die Durchführung des $t$-Tests. Bewerten Sie, ob diese gegeben sind und prüfen Sie diese gegebenenfalls.
 
 <details><summary>Lösung</summary>
 
@@ -172,7 +169,29 @@ Die zusätzlichen Voraussetzungen sind die folgenden:
 
 1.  zwei unabhängige Stichproben $\rightarrow$ ist gegeben
 2.  die einzelnen Messwerte innerhalb der Gruppen sind voneinander unabhängig (Messwert einer Vpn hat keinen Einfluss auf den Messwert einer anderen) $\rightarrow$ kann als gegeben angeommen werden
-3.  Homoskedastizität: Varianzen der Variablen innerhalb der beiden Populationen sind gleich $\rightarrow$ Levene-Test
+3.  das untersuchte Merkmal ist in den Grundgesamtheiten der beiden Gruppen normalverteilt $\rightarrow$ (ggf.) optische Prüfung
+4.  Homoskedastizität: Varianzen der Variablen innerhalb der beiden Populationen sind gleich $\rightarrow$ Levene-Test
+
+
+**Voraussetzungsprüfung: Normalverteilung**
+```{r, fig.height=4, fig.align="center"}
+par(mfrow=c(1,2))
+hist(offen_K, xlim=c(0.5,5.5), ylim=c(0,0.5), main="Offenheit\n(Klinische)", xlab="", ylab="", las=1, prob=T)
+curve(dnorm(x, mean=mean(offen_K, na.rm=T), sd=sd(offen_K, na.rm=T)), col="red", lwd=2, add=T)
+qqnorm(offen_K)
+qqline(offen_K, col="red")
+```
+
+
+```{r, fig.height=4, fig.align="center"}
+par(mfrow=c(1,2))
+hist(offen_A, xlim=c(0.5,5.5), main="Offenheit\n(Allgemeine)", xlab="", ylab="", las=1, prob=T)
+curve(dnorm(x, mean=mean(offen_A, na.rm=T), sd=sd(offen_A, na.rm=T)), col="red", lwd=2, add=T)
+qqnorm(offen_A)
+qqline(offen_A, col="red")
+```
+
+Wir sehen anhand der Abbildungen, dass unsere empirischen Verteilungen nicht den theoretischen Normalverteilungen entsprechen, was vor allem na einem Deckeneffekt liegt (viele Personen haben die maximale Offenheit gewählt). Gleichzeitig wissen wir durch den zentralen Grenzwertsatz, dass die Stichprobenkennwerteverteilung bei großem $N$ bei kleineren Verletzungen der Symmetrie trotzdem der gewünschten Verteilung folgt. Da wir eine große Stichprobe und keine starke Verletzung der Symmetrie vorliegen haben, bleiben wir erstmal bei der Durchführung des $t$-Tests und untersuchen die Varianzhomogenität.
 
 **Voraussetzungsprüfung: Varianzhomogenität**
 
@@ -215,7 +234,7 @@ Es wurde untersucht, ob sich Studierende, die sich für Allgemeine Psychologie i
 
 ## Aufgabe 2
 
-In dieser Aufgabe soll untersucht werden, ob sich Studierende mit Wohnort in Frankfut, sich selbst zu Beginn der Praktikumsstizung als wacher eingestuft haben als Studierende, die nicht in Frankfurt wohnen.
+In dieser Aufgabe soll untersucht werden, ob sich Studierende mit Wohnort in Frankfut, sich selbst zu Beginn der Praktikumsstizung als wacher eingestuft haben als Studierende, die nicht in Frankfurt wohnen. Für die Untersuchung soll der Mittelwert der beiden Gruppen betrachtet werden.
 
 * Zunächst geht es an die Datenvorbereitung. Verwandeln Sie die Variable Ort in einen Faktor, bei dem eine `1` für `FFM` und eine `2` für `anderer` steht. **ACHTUNG**: Wenn Sie den Appendix des Tutorials durchgearbeitet haben, ist dieser Schritt nicht nötig
 

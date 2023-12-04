@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [koehler, buchholz, goldhammer, walter, nehler] 
-lastmod: '2023-12-02'
+lastmod: '2023-12-04'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -38,7 +38,7 @@ output:
 ***
 
 ## Aufgabe 1
-Wir wollen untersuchen, ob sich Studierende, die sich für Allgemeine Psychologie (Variable `fach`) interessieren, im Persönlichkeitsmerkmal Offenheit für neue Erfahrungen (auch Intellekt, `offen`) von Studierenden, die sich für Klinische Psychologie interessieren? Die Voraussetzung der Normalverteilung nehmen wir an, weshalb wir hier einen t-Test durchführen dürfen. 
+Wir wollen untersuchen, ob sich Studierende, die sich für Allgemeine Psychologie (Variable `fach`) interessieren, im Persönlichkeitsmerkmal Offenheit für neue Erfahrungen (auch Intellekt, `offen`) von Studierenden, die sich für Klinische Psychologie interessieren, unterscheiden? Gehen Sie in der Beantwortung der Fragen davon aus, dass wir einen $t$-Test durchführen werden. Die Testung der Voraussetzungen werden wir im Laufe der Aufgabe durchführen.
 
 * Untersuchen Sie die Fragestellung zunächst rein deskriptiv. Bestimmen Sie dafür die Mittelwerte und empirischen Standardabweichungen der beiden Gruppen. 
 
@@ -119,7 +119,7 @@ describeBy(x = data1$offen, group = data1$fach)
 ## group: Allgemeine
 ##    vars  n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 30 3.67 0.82    3.5    3.67 0.74   2   5     3 0.11       -1 0.15
-## --------------------------------------------------------------------- 
+## ----------------------------------------------------------------------- 
 ## group: Klinische
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 82 3.77 0.98      4    3.86 0.74 1.5   5   3.5 -0.58    -0.59 0.11
@@ -177,10 +177,7 @@ Hypothesenpaar (statistisch):
 </details>
 
 
-
-
-
-* Welche Voraussetzung gibt es neben der Normalverteilung noch für die Durchführung des t-Tests. Bewerten Sie, ob diese gegeben sind und prüfen Sie diese gegebenenfalls.
+* Welche Voraussetzung gibt es für die Durchführung des $t$-Tests. Bewerten Sie, ob diese gegeben sind und prüfen Sie diese gegebenenfalls.
 
 <details><summary>Lösung</summary>
 
@@ -188,7 +185,35 @@ Die zusätzlichen Voraussetzungen sind die folgenden:
 
 1.  zwei unabhängige Stichproben $\rightarrow$ ist gegeben
 2.  die einzelnen Messwerte innerhalb der Gruppen sind voneinander unabhängig (Messwert einer Vpn hat keinen Einfluss auf den Messwert einer anderen) $\rightarrow$ kann als gegeben angeommen werden
-3.  Homoskedastizität: Varianzen der Variablen innerhalb der beiden Populationen sind gleich $\rightarrow$ Levene-Test
+3.  das untersuchte Merkmal ist in den Grundgesamtheiten der beiden Gruppen normalverteilt $\rightarrow$ (ggf.) optische Prüfung
+4.  Homoskedastizität: Varianzen der Variablen innerhalb der beiden Populationen sind gleich $\rightarrow$ Levene-Test
+
+
+**Voraussetzungsprüfung: Normalverteilung**
+
+```r
+par(mfrow=c(1,2))
+hist(offen_K, xlim=c(0.5,5.5), ylim=c(0,0.5), main="Offenheit\n(Klinische)", xlab="", ylab="", las=1, prob=T)
+curve(dnorm(x, mean=mean(offen_K, na.rm=T), sd=sd(offen_K, na.rm=T)), col="red", lwd=2, add=T)
+qqnorm(offen_K)
+qqline(offen_K, col="red")
+```
+
+<img src="/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+
+
+
+```r
+par(mfrow=c(1,2))
+hist(offen_A, xlim=c(0.5,5.5), main="Offenheit\n(Allgemeine)", xlab="", ylab="", las=1, prob=T)
+curve(dnorm(x, mean=mean(offen_A, na.rm=T), sd=sd(offen_A, na.rm=T)), col="red", lwd=2, add=T)
+qqnorm(offen_A)
+qqline(offen_A, col="red")
+```
+
+<img src="/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+
+Wir sehen anhand der Abbildungen, dass unsere empirischen Verteilungen nicht den theoretischen Normalverteilungen entsprechen, was vor allem na einem Deckeneffekt liegt (viele Personen haben die maximale Offenheit gewählt). Gleichzeitig wissen wir durch den zentralen Grenzwertsatz, dass die Stichprobenkennwerteverteilung bei großem $N$ bei kleineren Verletzungen der Symmetrie trotzdem der gewünschten Verteilung folgt. Da wir eine große Stichprobe und keine starke Verletzung der Symmetrie vorliegen haben, bleiben wir erstmal bei der Durchführung des $t$-Tests und untersuchen die Varianzhomogenität.
 
 **Voraussetzungsprüfung: Varianzhomogenität**
 
@@ -248,7 +273,7 @@ Es wurde untersucht, ob sich Studierende, die sich für Allgemeine Psychologie i
 
 ## Aufgabe 2
 
-In dieser Aufgabe soll untersucht werden, ob sich Studierende mit Wohnort in Frankfut, sich selbst zu Beginn der Praktikumsstizung als wacher eingestuft haben als Studierende, die nicht in Frankfurt wohnen.
+In dieser Aufgabe soll untersucht werden, ob sich Studierende mit Wohnort in Frankfut, sich selbst zu Beginn der Praktikumsstizung als wacher eingestuft haben als Studierende, die nicht in Frankfurt wohnen. Für die Untersuchung soll der Mittelwert der beiden Gruppen betrachtet werden.
 
 * Zunächst geht es an die Datenvorbereitung. Verwandeln Sie die Variable Ort in einen Faktor, bei dem eine `1` für `FFM` und eine `2` für `anderer` steht. **ACHTUNG**: Wenn Sie den Appendix des Tutorials durchgearbeitet haben, ist dieser Schritt nicht nötig
 
@@ -390,7 +415,7 @@ boxplot(fb23$lz ~ fb23$unipartys,
         main="Unipartys und Lebenszufriedenheit")
 ```
 
-![](/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
 
@@ -405,7 +430,7 @@ describeBy(fb23$lz, fb23$unipartys)
 ## group: nein
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 94 4.96 1.12    5.2    5.05 0.89 1.4   7   5.6 -0.84     0.69 0.12
-## --------------------------------------------------------------------- 
+## ----------------------------------------------------------------------- 
 ## group: ja
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 83  5.3 0.96    5.4    5.35 1.19 2.8   7   4.2 -0.45    -0.55 0.11
@@ -438,7 +463,7 @@ qqnorm(lz_party)
 qqline(lz_party, col="red")
 ```
 
-<img src="/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -451,7 +476,7 @@ qqnorm(lz_noparty)
 qqline(lz_noparty, col="red")
 ```
 
-<img src="/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
 
 
 ```r
