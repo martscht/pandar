@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Projekt untersuchen wir die Häufigkeit, mit der politische Parteien auf Google gesucht werden. Das heißt, dass wir uns die Entwicklung der Google-Suchanfragen seit 2004 anschauen, die von [Google Trends](https://trends.google.de/trends/?geo=DE) abgerufen werden kann. Daraus wollen wir eine Überblicksdarstellung generieren. Es wird also notwendig sein, diese Daten in R zu importieren, sie nach Bedarf umzustellen und abschließend mit dem Paket `ggplot2` darzustellen.'
 authors: [berger, mehler, rouchi]
 weight: 1
-lastmod: '`r Sys.Date()`'
+lastmod: '2023-12-04'
 featured: no
 banner:
   image: "/header/google_frogs.jpg"
@@ -32,14 +32,9 @@ output:
     keep_md: true
 ---
 
-```{r setup, include=FALSE, purl=FALSE}
 
-```
 
-```{r, echo = FALSE}
-wide <- readRDS('p1_wide.rds')
-long <- readRDS('p1_long.rds')
-```
+
 
 
 # Übersicht
@@ -58,7 +53,7 @@ Auf der Seite befindet sich ein Suchfeld, wo du den ersten Begriff eingeben und 
 
 Die Skala ist bei jeder Statistik sehr wichtig und kann fehlinterpretiert werden. Daher ist es sehr wichtig, dass du dich mit der Skala dieses Datensatzes befasst. Über jeder Abbildung befindet sich ein <i class="far fa-question-circle"></i> , wo die Skala erklärt wird. Hier wird jeder Punkt im Bezug zum höchsten Punkt dargestellt. Als wir diese Seite erstellt haben, sah das Ergebnis der Suche unseres Beispiels so aus:
 
-![](affe_giraffe.png)
+![](/projekte/projekt1/affe_giraffe.png)
 
 Das heißt also, dass bei uns der Suchbegriff *Affe* in der Woche vom 23. zum 29. Dezember den Maximalwert erreicht hat, und der Begriff *Giraffe* nur auf 48% dieser Menge von Suchanfragen gekommen ist. Je nach Bezugspunkt ändern sich also die Werte. Das ist sehr wichtig, wenn man verschiedene dieser Datensätze vergleichen will.
 
@@ -71,7 +66,8 @@ Zur grafischen Darstellung empfehlen wir, dass du mit `ggplot2` arbeitest. Falls
 
 Um ggplot benutzen zu können, musst du dir das passende Paket (`ggplot2`) herunterladen und es in deine `R`-Sitzung laden:
 
-```{r, eval = FALSE}
+
+```r
 install.packages('ggplot2')
 library(ggplot2)
 ```
@@ -101,13 +97,15 @@ Um 9 Parteien gleichzeitig abbilden zu können, ist es notwendig, zwei separate 
 
 Bevor du die beiden Dateien in `R` einliest, kannst du ein bisschen Schreibarbeit sparen, wenn du erst den Arbeitsordner (working directory) festlegst. Idealerweise solltest du einen Ordner anlegen, in dem du alle relevanten Dateien für dieses Projekt speicherst.
 
-```{r, eval = FALSE}
+
+```r
 setwd('...') # statt '...' einen Ordner-Pfad festlegen
 ```
 
 Die beiden Datensätze können dann mit
 
-```{r}
+
+```r
 a <- read.table('multiTimeline.csv', header = TRUE, sep= ',')
 b <- read.table('multiTimeline(1).csv', header = TRUE, sep = ',')
 ```
@@ -116,9 +114,103 @@ eingelesen werden. Neben dem Dateinamen müssen hier das Argument `header` (der 
 
 Die ersten Zeilen der beiden Datensätze sollten dann so aussehen:
 
-```{r}
+
+```r
 head(a)
+```
+
+```
+##     Monat
+## 1 2004-01
+## 2 2004-02
+## 3 2004-03
+## 4 2004-04
+## 5 2004-05
+## 6 2004-06
+##   Alternative.für.Deutschland...Deutschland.
+## 1                                         <1
+## 2                                         <1
+## 3                                         <1
+## 4                                         <1
+## 5                                         <1
+## 6                                         <1
+##   Sozialdemokratische.Partei.Deutschlands...Deutschland.
+## 1                                                     10
+## 2                                                     13
+## 3                                                     13
+## 4                                                     11
+## 5                                                     12
+## 6                                                     16
+##   Freie.Demokratische.Partei...Deutschland.
+## 1                                         4
+## 2                                         4
+## 3                                         4
+## 4                                         3
+## 5                                         5
+## 6                                         7
+##   Bündnis.90.Die.Grünen...Deutschland.
+## 1                                    4
+## 2                                    4
+## 3                                    4
+## 4                                    3
+## 5                                    4
+## 6                                    8
+##   Die.Linke...Deutschland.
+## 1                       <1
+## 2                       <1
+## 3                        1
+## 4                       <1
+## 5                       <1
+## 6                       <1
+```
+
+```r
 head(b)
+```
+
+```
+##     Monat
+## 1 2004-01
+## 2 2004-02
+## 3 2004-03
+## 4 2004-04
+## 5 2004-05
+## 6 2004-06
+##   Alternative.für.Deutschland...Deutschland.
+## 1                                         <1
+## 2                                         <1
+## 3                                         <1
+## 4                                         <1
+## 5                                         <1
+## 6                                         <1
+##   Partei.Mensch.Umwelt.Tierschutz...Deutschland.
+## 1                                              0
+## 2                                              0
+## 3                                             <1
+## 4                                             <1
+## 5                                             <1
+## 6                                              1
+##   Christlich.Demokratische.Union.Deutschlands...Deutschland.
+## 1                                                          8
+## 2                                                         10
+## 3                                                          9
+## 4                                                          9
+## 5                                                         11
+## 6                                                         14
+##   Marxistisch.Leninistische.Partei.Deutschlands...Deutschland.
+## 1                                                           <1
+## 2                                                           <1
+## 3                                                           <1
+## 4                                                           <1
+## 5                                                           <1
+## 6                                                           <1
+##   Nationaldemokratische.Partei.Deutschlands...Deutschland.
+## 1                                                        2
+## 2                                                        2
+## 3                                                        2
+## 4                                                        2
+## 5                                                        3
+## 6                                                        4
 ```
 
 
@@ -150,13 +242,14 @@ Nun kannst du dazu übergehen, die beiden Datensätze zusammenzuführen Dafür i
 
 Falls du den Befehl nicht verstehst, folgt hier eine kurze Erklärung des Befehls:
 
-```{r, eval = FALSE}
+
+```r
 Datensatz <- cbind("Datensatz_A","Datensatz_B")
 ```
 
 Voraussetzung für das Funktionieren dieses Befehls in unserem Beispiel ist, dass die Anzahl der Zeilen beider Datensätze übereinstimmt. Als Output erhält man einen `Datensatz`, bei dem `Datensatz_B` "hinten" an `Datensatz_A` angehängt wurde.
 
-Das Endergebnis sollte ein Datensatz mit `r nrow(wide)` Zeilen und `r ncol(wide)` Spalten sein.
+Das Endergebnis sollte ein Datensatz mit 190 Zeilen und 10 Spalten sein.
 
 </details>
 
@@ -166,7 +259,8 @@ Das Endergebnis sollte ein Datensatz mit `r nrow(wide)` Zeilen und `r ncol(wide)
 Hier stellt sich die Frage: Liegen alle Daten in der Variablenart vor, die man benötigt?
 Die Variablenart jeder Variable (Spalte) lässt sich mit folgendem Befehl abfragen:
 
-```{r, eval = FALSE}
+
+```r
 class(Variablenname)
 ```
 
@@ -194,35 +288,82 @@ Wenn du fertig mit der Bearbeitung der Aufgabenstellung sein solltest, kannst du
 
 Bevor die beiden Datensätze zusammengeführt werden können, sollten zunächst doppelt vorkommende Spalten umbenannt werden, damit sie hinterher weniger Probleme machen. Um zu sehen, welche Namen in beiden auftauchen, können wir `names` benutzen:
 
-```{r}
+
+```r
 names(a)
+```
+
+```
+## [1] "Monat"                                                 
+## [2] "Alternative.für.Deutschland...Deutschland."            
+## [3] "Sozialdemokratische.Partei.Deutschlands...Deutschland."
+## [4] "Freie.Demokratische.Partei...Deutschland."             
+## [5] "Bündnis.90.Die.Grünen...Deutschland."                  
+## [6] "Die.Linke...Deutschland."
+```
+
+```r
 names(b)
+```
+
+```
+## [1] "Monat"                                                       
+## [2] "Alternative.für.Deutschland...Deutschland."                  
+## [3] "Partei.Mensch.Umwelt.Tierschutz...Deutschland."              
+## [4] "Christlich.Demokratische.Union.Deutschlands...Deutschland."  
+## [5] "Marxistisch.Leninistische.Partei.Deutschlands...Deutschland."
+## [6] "Nationaldemokratische.Partei.Deutschlands...Deutschland."
 ```
 
 Hier sind also die ersten beiden Spalten doppelt. Wir können diese beiden einfach aus `b` entfernen:
 
-```{r}
+
+```r
 b <- b[, -c(1, 2)]
 names(b)
 ```
 
+```
+## [1] "Partei.Mensch.Umwelt.Tierschutz...Deutschland."              
+## [2] "Christlich.Demokratische.Union.Deutschlands...Deutschland."  
+## [3] "Marxistisch.Leninistische.Partei.Deutschlands...Deutschland."
+## [4] "Nationaldemokratische.Partei.Deutschlands...Deutschland."
+```
+
 Um beide zusammenzufügen, dann:
 
-```{r}
+
+```r
 c <- cbind(a, b)
 ```
 
 Das Problem dieses kombinierten Datensatzes ist, dass nicht alle Variablen numerisch sind. Das bewirkt, dass die Variablen nur sehr schwer in einer gemeinsamen Abbildung dargestellt werden können:
 
-```{r}
+
+```r
 str(c)
+```
+
+```
+## 'data.frame':	190 obs. of  10 variables:
+##  $ Monat                                                       : chr  "2004-01" "2004-02" "2004-03" "2004-04" ...
+##  $ Alternative.für.Deutschland...Deutschland.                  : chr  "<1" "<1" "<1" "<1" ...
+##  $ Sozialdemokratische.Partei.Deutschlands...Deutschland.      : int  10 13 13 11 12 16 9 11 17 9 ...
+##  $ Freie.Demokratische.Partei...Deutschland.                   : int  4 4 4 3 5 7 3 3 8 4 ...
+##  $ Bündnis.90.Die.Grünen...Deutschland.                        : int  4 4 4 3 4 8 3 3 6 4 ...
+##  $ Die.Linke...Deutschland.                                    : chr  "<1" "<1" "1" "<1" ...
+##  $ Partei.Mensch.Umwelt.Tierschutz...Deutschland.              : chr  "0" "0" "<1" "<1" ...
+##  $ Christlich.Demokratische.Union.Deutschlands...Deutschland.  : int  8 10 9 9 11 14 8 8 16 9 ...
+##  $ Marxistisch.Leninistische.Partei.Deutschlands...Deutschland.: chr  "<1" "<1" "<1" "<1" ...
+##  $ Nationaldemokratische.Partei.Deutschlands...Deutschland.    : int  2 2 2 2 3 4 2 3 15 7 ...
 ```
 
 Das kommt daher, dass der Wert `<1` nicht als numerisch interpretiert wird, sondern als eine Beschriftung, sodass die Variable in `R` automatisch als `factor` erkannt und als nominalskaliert behandelt wird. Diese Werte müssen also alle ersetzt werden, um wieder mit numerischen Daten rechnen zu können.
 
 Das ließe sich z.B. dadurch erreichen, dass wir in `c` alle Werte einzeln ersetzen. Dieses Vorgehen hat allerdings den Nachteil, dass es sehr viele einzelne Schritte benötigt, weswegen wir hier einen Trick anwenden: wir lesen die Daten als numerisch ein und tun dabei so, als wären `<1` fehlende Werte. Das können wir durch das Argument `na = ` im `read.table`-Befehl erreichen, den wir zum Einlesen der Daten genutzt haben:
 
-```{r}
+
+```r
 # Daten einlesen
 a <- read.table('multiTimeline.csv',header = T, sep= ',' , na = '<1')
 b <- read.table('multiTimeline(1).csv', header = T , sep = ',' , na = '<1')
@@ -235,16 +376,48 @@ c <- cbind(a, b)
 str(c)
 ```
 
-Jetzt sind alle Variablen außer `r names(c)[1]` als `integer` (also eine Sonderform numerischer Variablen) abgespeichert. Das heißt, wir müssen nun lediglich die mit `NA` als fehlend markierten Beobachtungen durch 0 ersetzen:
+```
+## 'data.frame':	190 obs. of  10 variables:
+##  $ Monat                                                       : chr  "2004-01" "2004-02" "2004-03" "2004-04" ...
+##  $ Alternative.für.Deutschland...Deutschland.                  : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ Sozialdemokratische.Partei.Deutschlands...Deutschland.      : int  10 13 13 11 12 16 9 11 17 9 ...
+##  $ Freie.Demokratische.Partei...Deutschland.                   : int  4 4 4 3 5 7 3 3 8 4 ...
+##  $ Bündnis.90.Die.Grünen...Deutschland.                        : int  4 4 4 3 4 8 3 3 6 4 ...
+##  $ Die.Linke...Deutschland.                                    : int  NA NA 1 NA NA NA NA NA NA NA ...
+##  $ Partei.Mensch.Umwelt.Tierschutz...Deutschland.              : int  0 0 NA NA NA 1 NA 0 NA NA ...
+##  $ Christlich.Demokratische.Union.Deutschlands...Deutschland.  : int  8 10 9 9 11 14 8 8 16 9 ...
+##  $ Marxistisch.Leninistische.Partei.Deutschlands...Deutschland.: int  NA NA NA NA NA NA NA NA 1 NA ...
+##  $ Nationaldemokratische.Partei.Deutschlands...Deutschland.    : int  2 2 2 2 3 4 2 3 15 7 ...
+```
 
-```{r}
+Jetzt sind alle Variablen außer Monat als `integer` (also eine Sonderform numerischer Variablen) abgespeichert. Das heißt, wir müssen nun lediglich die mit `NA` als fehlend markierten Beobachtungen durch 0 ersetzen:
+
+
+```r
 c[is.na(c)] <- 0
 ```
 
 Im letzten Schritt zur Datenaufbereitung vergeben wir noch etwas kürzere Namen für die Spalten:
 
-```{r}
+
+```r
 names(c)
+```
+
+```
+##  [1] "Monat"                                                       
+##  [2] "Alternative.für.Deutschland...Deutschland."                  
+##  [3] "Sozialdemokratische.Partei.Deutschlands...Deutschland."      
+##  [4] "Freie.Demokratische.Partei...Deutschland."                   
+##  [5] "Bündnis.90.Die.Grünen...Deutschland."                        
+##  [6] "Die.Linke...Deutschland."                                    
+##  [7] "Partei.Mensch.Umwelt.Tierschutz...Deutschland."              
+##  [8] "Christlich.Demokratische.Union.Deutschlands...Deutschland."  
+##  [9] "Marxistisch.Leninistische.Partei.Deutschlands...Deutschland."
+## [10] "Nationaldemokratische.Partei.Deutschlands...Deutschland."
+```
+
+```r
 names(c) <- c('Monat', 'AfD', 'SPD', 'FDP', 'DieGrüne', 'DieLinke', 'Tierschutzpartei', 'CDU', 'MLPD', 'NPD')
 ```
 
@@ -268,11 +441,12 @@ Falls du von alleine nicht weiterkommen solltest, kannst du dir den folgenden **
 
 <details><summary>Umstrukturierung der Daten</summary>
 
-Das Ziel der Umformung ist, dass eine Zeile des Datensatzes aus Datum, Partei und Prozentzahl besteht. Dadurch erhält man einen Datensatz aus `r nrow(long)` Zeilen und `r ncol(long)` Spalten.
+Das Ziel der Umformung ist, dass eine Zeile des Datensatzes aus Datum, Partei und Prozentzahl besteht. Dadurch erhält man einen Datensatz aus 1710 Zeilen und 3 Spalten.
 
 Dafür kann man den `reshape`-Befehl benutzen:
 
-```{r, eval = FALSE}
+
+```r
 langer_Datensatz <- reshape(Datensatz, varying = ...,
                             v.names = ..., timevar = ...,
                             idvar = ..., times = ...,
@@ -293,13 +467,15 @@ langer_Datensatz <- reshape(Datensatz, varying = ...,
 
 Wenn das Paket geladen ist, kann als Grundbefehl `ggplot` genutzt werden. Dieser kann zunächst die unterste Ebene der Abbildung (die Daten) als Argument entgegennehmen:
 
-```{r, eval = FALSE}
+
+```r
 ggplot(data = Datensatz)
 ```
 
 Weil wir daran interessiert sind, bestimmte Variablen abzubilden, können wir diese in der Abbildung "mappen" oder abbilden:
 
-```{r, eval = FALSE}
+
+```r
 ggplot(data = Datensatz, mapping = aes(x = ..., y = ..., group = ...))
 ```
 
@@ -307,7 +483,8 @@ Diese "Aesthetics" dienen dazu, zu definieren, wie die Variablen im Diagramm dar
 
 Zusätzlich zu dieser Basis muss noch durch ein `geom` festgelegt werden, wie die Daten anzeigt werden sollen, die wir abbilden. Weil es sich um Zeitverläufe handelt, bietet sich ein **Liniendiagramm** an. Für die Farbe der Linien können wir die Gruppierungsvariable direkt wieder benutzen!
 
-```{r, eval = FALSE}
+
+```r
 geom_line(aes(colour = ...))
 ```
 
@@ -321,13 +498,15 @@ Wenn du fertig mit der Bearbeitung der Aufgabenstellung sein solltest, kannst du
 <p>
 Zunächst müssen wir das Paket `ggplot2` laden:
 
-```{r}
+
+```r
 library(ggplot2)
 ```
 
 Wie bei den [Tipps](/post/tipps1) oder auch bei der [Kurzeinführung in ggplot2](/post/grafiken-mit-ggplot2) besprochen, erwartet der `ggplot`-Befehl einen Datensatz mit Variablen, die wir auf x- und y-Achse darstellen wollen und eventuell eine Gruppierungsvariable. Die x-Achse ist in unserem Fall sehr einfach: es ist die Zeit. Das Problem stellt die y-Achse dar: hierfür haben wir zur Zeit nicht 1 sondern 9 Variablen. Darüber hinaus sind diese 9 Variablen eine Mischung aus unserer y-Achse und der Gruppierungsvariable! Was wir benötigen, um eine klare Abbildung in `ggplot2` zu erzeugen, ist ein Datensatz, der die drei "klassischen" Variablen enthält (x, y, Gruppe). Dafür können wir den `reshape`-Befehl nutzen:
 
-```{r}
+
+```r
 c_long <- reshape(c,      # Ausgansdaten
   varying =  c('AfD', 'SPD', 'FDP', 'DieGrüne', 'DieLinke', 'Tierschutzpartei', 'CDU', 'MLPD', 'NPD'),
                           # alle Variablen, die hinterher eine einzige Variable sein sollen
@@ -343,13 +522,16 @@ Hier wird der Datensatz ins `long`-Format übertragen - er hat hinterher mehr Ze
 
 Mit diesem Datensatz können wir in `ggplot2` direkt ein Liniendiagramm erzeugen:
 
-```{r, fig = TRUE}
+
+```r
 ggplot(data = c_long, aes(x = Monat, y = Prozent, group = Partei)) +
   geom_line(aes(colour = Partei)) +      # Liniendiagramm
   xlab('Zeitraum') +                     # Beschriftung x-Achse
   ylab('Anfragen (in % des Maximums)') + # Beschriftung y-Achse
   ggtitle('Suchanfragen')                # Überschrift
 ```
+
+![](/projekte/projekt1/google-trends_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 </details>
 
@@ -395,8 +577,13 @@ Das Problem liegt in den vorliegenden Daten. `R` kann diese Umwandlung nur mit e
 
 `paste0` "klebt" die Argumente, die der Funktion gegeben werden aneinander. Die `0` bedeutet dabei, dass sie durch nichts getrennt werden sollen. Z.B. könnten wir den Befehl benutzen um einen beliebigen Satz zu schreiben:
 
-```{r}
+
+```r
 paste0('Ich will', ' Kuchen.')
+```
+
+```
+## [1] "Ich will Kuchen."
 ```
 
 In `paste0` können aber auch Variablen genutzt werden, um *jeder Beobachtung* etwas hinzuzufügen. In unserem Fall müssen wir uns also einfach nur irgendeinen Tag im Monat aussuchen und diesen an unsere Datumsvariable anheften.
@@ -422,44 +609,64 @@ Wenn du fertig mit der Bearbeitung der Aufgabenstellung sein solltest, kannst du
 
 Die Abbildung aus Schritt 1 ist noch nicht sonderlich schön. Das erste offensichtliche Manko ist, dass es unmöglich ist, die Zeit an der x-Achse abzulesen. Um diesen Zustand zu beheben, muss die Zeit in eine "echte" Zeitvariable im `POSIXct`-Format umgewandelt werden:
 
-```{r}
+
+```r
 class(c_long$Monat)
+```
+
+```
+## [1] "character"
 ```
 
 Für die Umwandlung ins `POSIXct`-Format gibt es eine Funktion namens `strptime`. Diese funktioniert allerdings wesentlich besser, wenn die Ausgangsvariable eine `character`-Variable ist. Also müssen wir die Zeit erst in eine Text-Variable umwandeln (dafür erstellen wir vorsichtshalber eine neue Variable):
 
-```{r}
+
+```r
 c_long$nMonat <- as.character(c_long$Monat)
 ```
 
 Aus der Hilfe zu `strptime` wird ersichtlich, dass immer mindestens Tag, Monat und Jahr in Zeitvariablen erwartet werden. Daher müssen wir der neuen Text-Variable noch einen Tag hinzufügen. Der genaue Tag macht dabei keinen Unterschied (weil unsere Daten ja nur monatlich sind) - wir nehmen einfach den 1. jeden Monats:
 
-```{r}
+
+```r
 c_long$nMonat <- paste0(c_long$nMonat, '-01')
 head(c_long$nMonat)
 ```
 
+```
+## [1] "2004-01-01" "2004-02-01" "2004-03-01"
+## [4] "2004-04-01" "2004-05-01" "2004-06-01"
+```
+
 So hat die neue `nMonat`-Variable ein typisches Zeitformat: Jahr-Monat-Tag. Dieses Format erkennt `strptime` leider nicht automatisch, also müssen wir via `format`-Argument ansagen, wie unsere Daten aussehen:
 
-```{r}
+
+```r
 c_long$nMonat <- strptime(c_long$nMonat,
   format="%Y-%m-%d")    # Format des Datums
 ```
 
 Aus der Hilfe von `strptime` sehen wir, dass `%Y` Jahre (mit Jahrhunderten), `%m` Monate (in Zahlen) und `%d` Tage sind. Die Variable wird nur folgendermaßen klassifiziert.
 
-```{r}
+
+```r
 class(c$nMonat)
+```
+
+```
+## [1] "NULL"
 ```
 Das ist zwar leider nicht die richtige Klasse, aber das Problem lässt sich schnell beheben:
 
-```{r}
+
+```r
 c_long$nMonat <- as.POSIXct(c_long$nMonat)
 ```
 
 Wenn wir jetzt die Abbildung erneut erstellen, sieht die x-Achse schon viel besser aus:
 
-```{r}
+
+```r
 ggplot(data = c_long, aes(x = nMonat, y = Prozent, group = Partei)) +
   geom_line(aes(colour = Partei)) +      # Liniendiagramm
   xlab('Zeitraum') +                     # Beschriftung x-Achse
@@ -467,9 +674,12 @@ ggplot(data = c_long, aes(x = nMonat, y = Prozent, group = Partei)) +
   ggtitle('Suchanfragen')                # Überschrift
 ```
 
+![](/projekte/projekt1/google-trends_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+
 Um bestimmte Abschnitte näher unter die Lupe zu nehmen, können wir jetzt Anhand der Zeitvariable spezifische Auswahlen treffen. Wenn wir uns z.B. den Zeitraum um die Bundestagswahl von 2013 näher angucken möchten, können wir uns auf die Jahre zwischen 2012 und 2014 konzentrieren:
 
-```{r, fig = TRUE}
+
+```r
 wahl_2013 <- subset(c_long, subset = (nMonat < '2014-07-01' & nMonat > '2012-01-01'))
 
 ggplot(data = wahl_2013, aes(x = nMonat, y = Prozent, group = Partei)) +
@@ -479,9 +689,12 @@ ggplot(data = wahl_2013, aes(x = nMonat, y = Prozent, group = Partei)) +
   ggtitle('Suchanfragen')                # Überschrift
 ```
 
+![](/projekte/projekt1/google-trends_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+
 Ein weiteres Manko bei diesen Abbildungen sind die verwirrenden Farben. In Deutschland gibt es ein relativ konsistent genutzes Schema, nach dem die [politische Parteien durch bestimmte Farben dargestellt werden](https://de.wikipedia.org/wiki/Politische_Farbe). Wir können dieses Schema auch in unserer Abbildungen nutzen, wenn wir die Farben per Hand vergeben und dann mit `scale_color_manual` in unseren Plot aufnehmen:
 
-```{r}
+
+```r
 farben <- c('AfD' = 'deepskyblue', 'CDU' = 'black', 'DieGrüne' = 'green3',
             'DieLinke' = 'magenta', 'FDP' = 'gold', 'MLPD' = 'orange',
             'NPD' = 'brown', 'SPD' = 'red', 'Tierschutzpartei' = 'darkblue')
@@ -493,6 +706,8 @@ ggplot(data = wahl_2013, aes(x = nMonat, y = Prozent, group = Partei)) +
   ggtitle('Suchanfragen') +              # Überschrift
   scale_color_manual(values = farben)
 ```
+
+![](/projekte/projekt1/google-trends_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
 
 </details>
 
