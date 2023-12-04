@@ -401,17 +401,6 @@ install.packages('psych')          # installieren
 library(psych)                     # laden
 ```
 
-```
-## 
-## Attaching package: 'psych'
-```
-
-```
-## The following objects are masked from 'package:ggplot2':
-## 
-##     %+%, alpha
-```
-
 Wir erhalten hier als *Warning Message* den Hinweis, unter welcher Version das Paket erstellt wurde.
 Eine kleine Suche nach Hilfe zu Pakete kann man mit `??` erhalten.
 

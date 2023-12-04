@@ -37,9 +37,8 @@ output:
     
 ---
   
-```{r setup, cache = FALSE, echo = FALSE, warning = FALSE, message = FALSE}
-knitr::opts_chunk$set(error = TRUE,warning = FALSE, message = FALSE)
-library(knitr)
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 {{< spoiler text="Kernfragen dieser Lehreinheit über Gruppenvergleiche" >}}
@@ -53,24 +52,11 @@ library(knitr)
 
 ***
 
-## Was erwartet Sie?
 
-Nachdem wir uns zuletzt mit dem Unterschied zwischen dem Mittelwert einer Stichprobe und einem von uns theoretisch postulierten Wert ($\mu_0$) auseinandergesetzt haben, fokussieren wir uns nun auf Unterschiede zwischen zwei Gruppen. Hierbei muss zwischen unabhängigen und abhängigen Stichproben unterschieden werden - um den ersten Fall geht es uns hier, den Zweiten gucken wir uns in der [nächsten Sitzung](/lehre/statistik-i/gruppenvergleiche-abhaengig) an.
-
-In dieser Sitzung geht es uns um primär um zwei Vergleiche: 
-
-  1. Erreichen klinisch und nicht klinisch interessierte Studierende in der Verträglichkeit im Durchschnitt gleich hohe Werte? (*t-Test und Cohen's d für unabhängige Stichproben*)
-  2. Erreichen klinisch interessierte im Gegensatz zu nicht klinisch interessierten Studierenden in der Lebenszufriedenheit im Mittel höhere Werte? (*Wilcoxon-Test für unabhängige Stichproben*)
-  
-Außerdem finden Sie im Anhang auch noch eine weitere Frage:
-
-  3.  Haben Studierende mit Wohnort in Uninähe (Frankfurt) mit gleicher Wahrscheinlichkeit einen Nebenjob wie Studierende, deren Wohnort außerhalb von Frankfurt liegt? (*Vierfelder-*$\chi^2$-Test)
-
-***
 
 ## Vorbereitende Schritte {#prep}
 
-Wie man anhand der Fragestellungen bereits gesehen hat, beschäftigen wir uns mit den Werten aus unserem Datensatz. Diesen könne Sie entweder unter diesem [<i class="fas fa-download"></i> Link herunterladen](/daten/fb23.rda) oder ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
 
 ```{r}
 #### Was bisher geschah: ----
@@ -109,8 +95,23 @@ fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
 
 ```
 
+***
+
+## Was erwartet Sie?
+
+Nachdem wir uns zuletzt mit dem Unterschied zwischen dem Mittelwert einer Stichprobe und einem von uns theoretisch postulierten Wert ($\mu_0$) auseinandergesetzt haben, fokussieren wir uns nun auf Unterschiede zwischen zwei Gruppen. Hierbei muss zwischen unabhängigen und abhängigen Stichproben unterschieden werden - um den ersten Fall geht es uns hier, den Zweiten gucken wir uns in der [nächsten Sitzung](/lehre/statistik-i/gruppenvergleiche-abhaengig) an.
+
+In dieser Sitzung geht es uns um primär um zwei Vergleiche: 
+
+  1. Erreichen klinisch und nicht klinisch interessierte Studierende in der Verträglichkeit im Durchschnitt gleich hohe Werte? (*t-Test und Cohen's d für unabhängige Stichproben*)
+  2. Erreichen klinisch interessierte im Gegensatz zu nicht klinisch interessierten Studierenden in der Lebenszufriedenheit im Mittel höhere Werte? (*Wilcoxon-Test für unabhängige Stichproben*)
+  
+Außerdem finden Sie im Anhang auch noch eine weitere Frage:
+
+  3.  Haben Studierende mit Wohnort in Uninähe (Frankfurt) mit gleicher Wahrscheinlichkeit einen Nebenjob wie Studierende, deren Wohnort außerhalb von Frankfurt liegt? (*Vierfelder-*$\chi^2$-Test)
 
 ***
+
 
 ## Mittelwertsvergleich
 

@@ -1,6 +1,3 @@
-knitr::opts_chunk$set(error = TRUE,warning = FALSE, message = FALSE)
-library(knitr)
-
 #### Was bisher geschah: ----
 
 # Daten laden

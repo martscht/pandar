@@ -38,8 +38,7 @@ output:
 
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-knitr::opts_chunk$set(error = TRUE)
-library(knitr)
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 
