@@ -63,7 +63,9 @@
 {{/* <!-- Gucken, ob AsTime das Problem gelöst hat -->*/}}
 
 {{ if $block.content.filters.exclude_future_featured }}
-  {{ $query = where time.AsTime $query "Params.featuredate" "<" now }}
+  {{ $currentTime := now }}
+  {{ $currentTimeAsString := $currentTime.Format "2006-01-02" }}
+  {{ $query = where $query "Params.featuredate" "<" $currentTimeAsString }}
 {{ end }}
 
 {{ $count := len $query }}

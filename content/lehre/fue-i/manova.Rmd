@@ -1,0 +1,468 @@
+---
+title: "Multivariate Varianzanalyse" 
+type: post
+date: '2020-11-02' 
+slug: manova 
+categories: ["FuE I"] 
+tags: ["MANOVA", "multivariat", "Varianzanalyse", "Messwiederholung"] 
+subtitle: 'MANOVA'
+summary: '' 
+authors: [irmer] 
+weight: 6
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/beach.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1324327)"
+projects: []
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/fue-i/manova
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /lehre/fue-i/manova.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/fue-i/manova-aufgaben
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+
+# Vorbereitungen
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
+```
+
+## Einleitung
+In dieser Sitzung wollen wir mehrere Variablen gleichzeitig hinsichtlich Gruppenunterschiede mit Hilfe der mutlivariaten Varianzanalyse  (engl. **M**ultivariate **AN**alysis **O**f **VA**riance, MANOVA, vgl. bspw. [Eid, Gollwitzer & Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 15, sowie Wiederholungskapitel zur ANOVA und Mittelwertsvergleichen Kapitel 10-14, insbesondere 13-14, und [Pituch und Stevens, 2016,](https://ubffm.hds.hebis.de/Record/HEB371183324) Kapitel 4-6) untersuchen. Die MANOVA hat vor allem dann Vorteile, wenn die abhängigen Variablen, die wir bzgl. Gruppenunterschieden verrechnen wollen, korreliert sind!  Wir wollen uns ein fiktives Datenbeispiel (Datensatz `Therapy` aus dem gleichnamigen .rda File `Therapy.rda`) ansehen, in welchem der Therapieerfolg auf mehreren abhängigen Variablen untersucht werden sollen. Sie können den   [<i class="fas fa-download"></i> Datensatz "Therapy.rda" hier herunterladen](https://pandar.netlify.app/daten/Therapy.rda).
+
+### Daten laden
+Wir laden zunächst die Daten: entweder lokal von Ihrem Rechner:
+
+```{r, eval = F}
+load("C:/Users/Musterfrau/Desktop/Therapy.rda")
+```
+
+oder wir laden sie direkt über die Website:
+
+```{r, eval = T}
+#load(url("https://pandar.netlify.app/daten/Therapy.rda"))
+load(url("https://courageous-donut-84b9e9.netlify.app/post/Therapy.rda"))
+```
+
+Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik "Data" unser Datensatz mit dem Namen "_Therapy_" erscheinen. 
+
+### Übersicht über die Daten
+Wir wollen uns einen Überblick über die Daten verschaffen:
+
+```{r}
+head(Therapy)
+levels(Therapy$Intervention)
+levels(Therapy$Geschlecht)
+```
+
+Die abhängigen Variablen sind `Lebenszufriedenheit`, `Arbeitsbeanspruchung`, `Depressivitaet` und `Arbeitszufriedenheit`. Die Variable `Intervention` hat drei Stufen: eine Kontrollgruppe, ein verhaltenstherapiebasiertes Coaching, sowie das verhaltenstherapiebasierte Coaching inklusive einer Gruppenübung. Das Geschlecht ist 0-1 kodiert, wobei `0` für männlich und `1` für weiblich steht. Insgesamt sind die Variablennamen der AVs recht lang. Wir wollen diese kürzen:
+
+```{r}
+colnames(Therapy) # Spaltennamen ansehen
+colnames(Therapy) <- c("LZ", "AB", "Dep", "AZ", "Intervention", "Geschlecht") # Spaltennamen neu zuordnen
+head(Therapy)
+```
+
+So - schon viel übersichtlicher!
+
+### Hypothesen
+Wir wollen untersuchen, ob es einen Therapieerfolg gibt, also die Therapieformen Einfluss auf die abhängigen Variablen haben. Des Weiteren wäre es interessant zu prüfen, ob sich auch die beiden Therapieformen unterscheiden. Zusätzlich wollen wir uns Geschlechtseffekte ansehen:
+
+1. Die Therapieformen sowie die Kontrollgruppe unterscheiden sich auf mindestens einer AV
+2. Die Therapieformen unterscheiden sich untereinander
+3.  Das Geschlecht nimmt über die Therapieformen hinaus Einfluss auf die AVs
+
+
+### Pakete laden
+Nachdem wir neue Pakete installiert haben (`install.packages`), laden wir diese:
+```{r, message=F}
+library(heplots) # für Box-M Test für Kovarianzhomogenität
+library(car)
+```
+
+
+## Modellspezifikation
+Die MANOVA ist die multivariate Erweiterung der ANOVA. Glücklicherweise ist der `R`-Code, den wir verwenden, um eine MANOVA zur Datenanalyse heranzuziehen, sehr ähnlich den Befehlen zu einer Regressionsanalyse oder einer ANOVA. Die Idee ist diesmal, dass wir mehrere AVs als Spalten einer Matrix links der `~` (Tilde) haben, die die AVs von den UVs trennt. Auf der rechten Seite müssen Faktoren/Gruppenzugehörigkeiten abgetragen werden. Eine multifaktorielle MANOVA führen wir durch, indem wir mehrere Faktoren durch `+` verknüpfen (das geht also ganz einfach!). Die MANOVA hat als Voraussetzung, dass die Kovarianzmatrizen (der Residuen) über alle Gruppen hinweg homogen sind (Kovarianzhomogenität) sowie, dass die Residuen (bzw. die Variablen) der abhängigen Variablen multivariat normalverteilt sind. Hier wird sich explizit auf die Residuen bezogen, da diese immer einen Mittelwert von 0 haben, egal wie viele Gruppierungen es in einer Analyse gibt. Außerdem wird wie in den meisten statistischen Analysen angenommen, dass die Beobachtungen aus einer *independent and identically distributed* ($i.i.d.$, deutsch: unabhängig und identisch verteilt) Population (dies bedeutet, dass alle Beobachtungen unabhängig sind und den gleichen Verteilungs- und Modellannahmen unterliegen) stammen. Dies bleibt allerdings eine Annahme, die nur über die sinnvolle Wahl des Designs (Randomisierung etc.) angenommen werden kann. Wir wollen die testbaren Voraussetzungen im Laufe dieser Sitzung prüfen.
+
+
+## Untersuchen der Hypothesen
+
+Wir beginnen mit dem Prüfen der Hypothesen.
+
+### Hypothese 1
+Bevor wir mit der Analyse der ersten Hypothese anfangen, prüfen wir noch schnell die Annahme der Kovarianzhomogenität der Residuen. Dies geschieht mit *Box M*-Test. Dazu verwenden wir die Funktion `boxM` aus dem `heplots`-Paket. Wir müssen der `boxM` Funktion eine `formula` ähnlich der der `lm`-Funktion für die Regression übergeben. Diese hat dieses mal allerdings eine Matrix mit den AVs als Spalten, welche wir mit `cbind` erstellen. Anschließend müssen wir sagen, durch welche Gruppierung die AVs vorhergesagt werden sollen, damit intern die Residuen bestimmt werden können, bzw. sodass die Gruppierung der Kovarianzmatrix vorgenommen werden kann. Dies machen wir ganz einfach wie in anderen (generalisierten) linearen Modellen mit der `~`, die die AVs von den UVs (hier Gruppenzugehörigkeit) trennen. Als letztes Argument übergeben wir `data` noch den Datensatz.
+
+```{r}
+boxM(cbind(LZ, AB, Dep, AZ) ~ Intervention, data = Therapy)
+```
+
+Der Test ist nicht statistisch signifikant, was wir an dem relativ kleinen $\chi^2$-Wert relativ zu den Freiheitsgraden $df$ sehen. Der $p$-Wert liegt bei 0.48. Folglich wird die Nullhypothese auf Kovarianzmatrixhomogenität nicht verworfen und wir nehmen diese weiterhin an (Achtung: die $H_0$ kann **nicht** *bestätigt* werden...). Schauen wir uns spaßeshalber die Kovarianzmatrizen der AVs in den 3 Gruppen an. Dazu wählen wir aus den Daten `Therapy` nur diejenigen Zeilen aus, für welche bspw. `Therapy$Intervention == "Kontrollgruppe"`, also für die die Erhebung aus der Kontrollgruppe stammt. Wir wählen dann noch die 1. bis 4. Spalte via `1:4` und erhalten somit den Datensatz, der nur Personen aus der Kontrollgruppe enthält. Wenn wir nun die `cov` Funktion darauf anwenden, erhalten wir die Kovarianzmatrix in der Kontrollgruppe. Diese runden wir noch fix auf 2 Nachkomma stellen mit `round`. Probieren Sie doch selbst einmal diese Funktionen von innen nach außen aus, um zu prüfen was passiert! 
+
+```{r}
+round(cov(Therapy[Therapy$Intervention == "Kontrollgruppe", 1:4]), digits = 2)
+round(cov(Therapy[Therapy$Intervention == "VT Coaching", 1:4]), digits = 2)
+```
+
+Oder mal mit der Pipe (hier passier das Gleiche wie zuvor, nur mit anderem `R`-Code, der ggf. die Klammerungen erleichtert):
+
+```{r}
+Therapy[Therapy$Intervention == "VT Coaching + Gruppenuebung", 1:4] |> cov() |> round(digits = 2)
+```
+
+Die Kovarianzmatrizen wirken nicht gleich, aber auch nicht drastisch unterschiedlich. Der Box-M Test hat uns diese augenscheinlich Prüfung abgenommen und uns gezeigt, dass diese Abweichung aller Voraussicht nach durch Zufall passiert sind (da nicht signifikantes Ergebnis). Wir können also getrost eine MANOVA durchführen. Diese *sollten* wir auch durchführen, da die AVs deutlich korreliert sind! 
+
+Der Befehl dafür heißt ganz einfach `manova`. Ihm übergeben wir die gleichen Informationen, wie auch der `BoxM` Funktion. Wir nennen dieses Objekt `manova1`. Da dieses Objekt noch sehr unübersichtliche Informationen enthält und wir besonders an Signifikanzentschiedungen interessiert sind, könnten wir wieder die `summary` auf das `manova1`-Objekt anwenden. Allerdings wollen wir später auch eine mehrfaktorielle MANOVA betrachten, wo wir genau mit der Quadratsummenzerlegung aufpassen müssen --- dazu später mehr. Aus diesem Grund verwenden wir auch jetzt schon nicht direkt die `summary`, sondern wenden erst noch die `Manova`-Funktion aus dem `car`-Paket auf das `manova1`-Objekt an. Diese stellt den zweiten Quadratsummentyp per Default ein, welcher bei mehrfaktorielle MANOVAs immer dem Typ I, der sonst der Default ist, zu bevorzugen ist. Dieses Objekt nennen wir dann `M1`.
+
+
+```{r}
+manova1 <- manova(cbind(LZ, AB, Dep, AZ) ~ Intervention, 
+                  data = Therapy) 
+M1 <- Manova(manova1)
+summary(M1)
+```
+
+Die Summary zeigt zunächst, dass Quadratsummen vom Typ II verwendet wurden. Dann werden uns die `Sum of Squares and Products for error`, also die Quadrat- und Kreuzproduktsummen für die Fehler. Das ist also gerade Matrix $W$, die die Within-Variation symbolisiert. Darunter stehen die Quadrat und Kreuzproduktsummen für unseren Gruppenvergleich `Term: Intervention`, also die Between-Variationsmatrix $B$. In `Multivariate Tests: Intervention` werden uns alle multivariaten Teststatistiken angezeigt und deren Signifikanzentscheidung. Es gibt hier insgesamt 4: Teststatistiken nach `Pillai`, `Wilks`, `Hotelling-Lawley` und `Roy`. Außerdem werden uns die Hypothesenfreiheitsgrade `Df` ausgegeben, welche die Freiheitsgrade der Mittelwertsvergleiche anzeigt. Da es insgesamt 3 Gruppen sind, liegt dieser bei 2 (und zwar für alle Teststatistiken). Bspw. zeigt `Wilks` den Wilks-$\Lambda$-Wert und `approx F` den zugehörigen $F$-Wert, in welchen $\Lambda$ (approx.) transformiert wurde. Außerdem werden die entsprechenden Zähler- (`num Df`, num = numerator) und Nennerfreiheitsgrade (`den Df`, den = denominator) von $F$ sowie der zugehörige $p$-Wert (`Pr(>F) `) angezeigt. Diese können sich über die Teststatistiken unterscheiden. Wem das zu unübersichtlich ist, kann in der `summary` auch mit `test = "Wilks"` nur Wilks-$\Lambda$ abrufen.
+
+Wir erkennen einen Wilks-$\Lambda$-Wert von `r round(summary(manova(cbind(LZ, AB, Dep, AZ) ~ Intervention, data = Therapy), test = "Wilks")$stats[1,2], 3)`. Dieser wird mit Hilfe der $F$-Statistik auf Signifikanz geprüft, indem er transformiert wird. Der zugehörige $F$-Wert liegt bei $F(8, 168)=$ `r round(summary(manova(cbind(LZ, AB, Dep, AZ) ~ Intervention, data = Therapy), test = "Wilks")$stats[1,3], 3)`, $p<0.001$. Wir können dem Summary-Objekt auch die Within und Between Kreuzproduktsummen-Matrizen entlocken, die zur Bestimmen von $\Lambda$ essentiell sind. Dazu speichern wir die Summmary in `sum_manova1` ab.
+
+
+```{r}
+sum_manova1 <- summary(M1)
+```
+
+Die Informationen, die wir suchen verbergen sich hinter `$multivaraite.tests`. Hier bekommen wir also die gewünschten Informationen, Anhand derer wir $\Lambda$ auch zu Fuß bestimmen können - nämlich via 
+$$\Lambda:=\frac{|W|}{|W+B|},$$
+wobei $W$ für die Within-Kreuzproduktsummen (also die Variation der Residuen, "Sum of Squares and Products for Error" [SSPE]) und $B$ für die Between-Kreuzprodukt (also die Variation zwischen den Gruppen, "Sum of Squares and Products for Hypothesis" [SSPH]) summen steht.
+
+```{r}
+W <- sum_manova1$multivariate.tests$Intervention$SSPE # W-Matrix (E steht für errors)
+B <- sum_manova1$multivariate.tests$Intervention$SSPH # B-Matrix (H steht für Hypothesis)
+
+det(W)/(det(B + W)) # Wilks Lambda 
+```
+
+Der Befehl für die Determinante war `det`. Wir erkennen, dass der zu Fuß berechnete $\Lambda$_Wert, der exakt gleiche Wert ist, wie wir ihn in der Summary oben erhalten haben. $\Lambda$ ist ein inverses Maß, was bedeutet, dass kleine Werte gegen die Nullhypothese (also Mittelwertgleichheit) sprechen. Da wir die Null-Hypothese verworfen haben, bedeutet dies, dass mindestens ein Mittelwertsvektorpaar in der Population nicht gleich ist. Gleichzeitig ist dies der Fall sobald ein Mittelwertspaar innerhalb eines Mittelwertsvektorpaar über zwei Gruppen unterschiedlich ist. 
+
+In Eid et al. (2017) wird auch Pillai's Spur empfohlen für die Signifikanztestung einer MANOVA. Allerdings kommen alle 4 Teststatistiken hier zum identischen Ergebnis. Da dieser Test gleiche Hypothesenfreiheitsgrade bei einem etwas kleineren $F$-Wert aufweist, zeigt uns dies, dass Pillai's Spur ggf. etwas konservativer ist.
+
+#### Wie sehen die Mittelwerte aus?
+Wir wissen nun, dass es Unterschiede gibt. Allerdings wissen wir noch nicht auf welchen Variablen und zwischen welchen Gruppen diese vorliegen. Um eine Idee zu erhalten, schauen wir uns das ganze einmal grafisch an (der Code zur Grafik findet sich in [Appendix A](#AppendixA)). In dieser Grafik werden die SEs der Mittelwerte pro Variable dargestellt (nicht die Konfidenzintervalle). Die Fehlerbalken können also ein Indiz für mögliche signifikante Unterschiede liefern, allerdings können diese nicht die Signifikanzentscheidung ersetzen:
+
+
+```{r, echo = F}
+library(ggplot2)
+Therapy_long <- reshape(data = Therapy, varying = names(Therapy)[1:4],idvar = names(Therapy)[5:6],
+         direction = "long", v.names = "AVs", timevar = "Variable", new.row.names = 1:360)
+Therapy_long$Variable[Therapy_long$Variable == 1] <- "Lebenszufriedenheit"
+Therapy_long$Variable[Therapy_long$Variable == 2] <- "Arbeitsbeanspruchung"
+Therapy_long$Variable[Therapy_long$Variable == 3] <- "Depressivitaet"
+Therapy_long$Variable[Therapy_long$Variable == 4] <- "Arbeitszufriedenheit"
+
+
+ggplot(Therapy_long, aes(x = Intervention, y = AVs,  group = Variable, col = Variable))+ stat_summary(fun.data = mean_se)+stat_summary(fun.data = mean_se, geom = c("line"))
+```
+ 
+Auch können wir mit `aggregate` Mittelwerte (und andere Deskriptivstatistiken) sehr leicht für verschiedene Gruppen bestimmen: sie nimmt bspw. die gleiche Modellgleichung entgegen wie `manova` - wir müssen lediglich das Argument `FUN` ergänzen, welchen wir die Funktion, die pro Gruppe angewandt weden soll, übergeben müssen. Auch andere Funktionen wären hier möglich (wie etwa `sd`, `min`, `median` oder `max`).
+
+```{r}
+aggregate(cbind(LZ, AB, Dep, AZ) ~ Intervention, 
+          data = Therapy, 
+          FUN = mean)
+```
+ 
+Es scheint, dass es nicht auf allen Variablen Unterschiede zwischen allen Gruppen gibt. Wir könnten bspw. vermuten, dass es auf der Variable Lebenszufriedenheit keine Unterschiede zwischen der Kontrollgruppe und dem VT-Coaching gibt. Allerdings lassen sich Unterschiede zwischen diesen beiden und der VT-Coaching plus Gruppenübung Bedingung erwarten. Wir gehen dem Ganzen auf den Grund, indem wir Post-Hoc ANOVAs durchführen. 
+ 
+### Hypothese 2
+
+Ist der Omnibustest signifikant, so können wir weitere Post-Hoc-Analysen durchführen, mit welchen wir herausfinden können, wo die Unterschiede zwischen den Gruppen liegen und auf welchen Variablen. Wäre die MANOVA nicht signifikant, sollten auch keine weiteren Analysen durchgeführt werden!
+
+Post-Hoc ANOVA lassen sich super leicht durchführen. Dazu müssen wir lediglich die Funktion `summary.aov` auf das MANOVA-Objekt `manova1` anwenden (Das auf `M1` anzuwenden, funktioniert leider nicht...). Uns werden dann vier verschiedene Outputs von ANOVAs ausgegeben - nämlich jeweils eine für jede AV:
+```{r}
+summary.aov(manova1) # post hoc anovas
+```
+
+Der Output enthält folgende Informationen:
+
+```{r, echo = F}
+cat('  Response LZ :')
+```
+gibt an, um welche AV es sich handelt: hier Lebenszufriedenheit (`LZ`).
+
+```{r, echo = F}
+cat('
+              Df Sum Sq Mean Sq F value    Pr(>F)    
+ Intervention  2   39.2 19.6000   9.891 0.0001347 ***
+ Residuals    87  172.4  1.9816                      
+ ---
+ Signif. codes:  0 \'***\' 0.001 \'**\' 0.01 \'*\' 0.05 \'.\' 0.1 \' \' 1')
+```
+
+Dies ist der eigentliche Output der ANOVA für die Lebenszufriedenheit. Wir erkennen beim Effekt der `Intervention`, dass es sich erneut um 2 Hypothesen-`Df` handelt. Außerdem werden uns noch die `Sum Sq`, also die "*Sum of Squares*" und die `Mean Sq` also die "*Mean Sum of Squares*" ausgegeben und zwar sowohl für die Unterschiede zwischen den Gruppen (`Intervention`) und innerhalb der Gruppen (`Residuals`). `Mean Sq` ist gerade einfach `Sum Sq` geteilt durch `Df`. Der $F$-Wert, der unter `F value` vermerkt ist, ergibt sich dann als Quotient der beiden `Mean Sq` $F=\frac{MQS_{zw}}{MQS_{in}}$, wobei $MQS_{zw}$ und $MQS_{in}$ jeweils die mittlere Quadratsumme zwischen und innerhalb der Gruppen beschreibt. Der zugehörige $p$-Wert zeigt uns, dass es auf der Variable Lebenszufriedenheit Unterschiede zwischen den Gruppen auch in der Population gibt (mit einer Irrtumswahrscheinlichkeit von 5%): $F(2,87)=$ 9.891, $p<0.001$. ` Signif. codes` wird nur mit ausgegeben, sofern das Ergebnis statistisch signifikant war. Die Freiheitsgrade sind logischerweise für alle AVs gleich: Insgesamt gibt es Gruppenunterschiede bei der Lebenszufriedenheit ($F(2,87)=$ 9.891, $p<0.001$), der Depression ($F(2,87)=$ 24.25, $p<0.001$) und der Arbeitszufriedenheit ($F(2,87)=$ 22.45, $p<0.001$) (mit einer Irrtumswahrscheinlichkeit von 5%), keine aber bzgl. der Arbeitsbelastung ($F(2,87)=$ 0.41, $p>0.05$). Somit scheinen die Interventionen keinen Einfluss auf die Arbeitsbelastung zu haben. Wir haben hier keine Korrektur für die $p$-Werte durchgeführt (z.B. Bonferroni), da die MANOVA bereits signifikant war.
+
+Wir können auch einzelne ANOVAs gezielt durchführen, indem wir bspw. nur den `aov`-Befehl anwenden und anschließend, wie im MANOVA Befehl, nur eben diesmal für eine Variable, das Modell spezifizieren:
+
+```{r}
+anovaLZ <- aov(LZ ~ Intervention, data = Therapy)
+summary(anovaLZ)
+```
+
+Wir erkennen, dass die Summary komplett identisch ist, zu der ersten ANOVA im zuvor generierten `summary.aov`-Objekt - nämlich der Post-Hoc ANOVA der Lebenszufriedenheit (`LZ`). Weitere Informationen zu ANOVAs können Sie [in den Unterlagen aus dem Bachelor](/lehre/statistik-ii) finden. 
+
+Um nun noch genauer zu erfahren, welche Gruppen sich unterscheiden, führen wir paar-weise $t$-Tests durch - jedoch nur für diejenigen AVs, deren ANOVA signifikant war. Der Befehl hierzu heißt `pairwise.t.test`. Ihr übergeben wir die Variable `x`, die Gruppierung `g` und den Umgang mit den $p$-Werten `p.adjust.method = "none"` (hier wählen wir keine, da die MANOVAs und die ANOVAs bereits signifikant waren). Insgesamt schauen wir uns paar-weise $t$-Tests für Lebenszufriedenheit, Depression und Arbeitszufriedenheit an.
+
+```{r}
+pairwise.t.test(x = Therapy$LZ, g = Therapy$Intervention, p.adjust.method = "none")
+pairwise.t.test(x = Therapy$Dep, g = Therapy$Intervention, p.adjust.method = "none")
+pairwise.t.test(x = Therapy$AZ, g = Therapy$Intervention, p.adjust.method = "none")
+```
+Der Output zeigt jeweils den $p$-Wert des jeweiligen Mittelwertvergleichs in Matrixform. Die Zeilen heißen `VT Coaching` und `VT Coaching + Gruppenuebung`, während die Spalten `Kontrollgruppe` und `VT Coaching` heißen. Somit ist der Eintrag `[1,1]` gerade der Mittelwertsvergleich zwischen   `VT Coaching` und `Kontrollgruppe` und bspw. der Eintrag `[2,2]` der Mittelwertsvergleich zwischen `VT Coaching + Gruppenuebung` und `VT Coaching`. 
+
+
+Wollen wir die $p$-Werte weiter korrigieren bzw. kontrollieren, so können wir entweder bei der `p.adjust.method` bspw. `"bonferroni"` eingeben oder wir führen einen Post-Hoc Test durch, der das $\alpha$-Niveau über alle Tests pro ANOVA unter Kontrolle hält: Tukey's Honest Signficance Distance (HSD). Die Funktion in `R` heißt hierzu `tukeyHSD` und muss auf ein ANOVA (`aov`) Objekt angewandt werden, welches wir eben kennengelernt haben. Die Ergebnisse lassen sich auch grafisch veranschaulichen, indem wir die `plot`-Funktion auf das Objekt anwenden (`las = 1` lässt Achsenbeschriftungen horizontal erscheinen): 
+
+```{r}
+TukeyHSD(aov(LZ ~ Intervention, data = Therapy)) # Tukey HSD für LZ
+
+
+# als Plot
+tukeyLZ <- TukeyHSD(aov(LZ ~ Intervention, data = Therapy))
+plot(tukeyLZ, las = 1)
+
+TukeyHSD(aov(Dep ~ Intervention, data = Therapy)) # Tukey HSD für Dep
+plot(TukeyHSD(aov(Dep ~ Intervention, data = Therapy)), las = 1) # Tukey HSD-Plot für Dep
+
+TukeyHSD(aov(AZ ~ Intervention, data = Therapy)) # Tukey HSD für AZ
+plot(TukeyHSD(aov(AZ ~ Intervention, data = Therapy)), las = 1) # Tukey HSD-Plot für AZ
+```
+
+Schließen die HSD (Intervalle) die Null (vertikale gestrichelte Linie) **_nicht_** ein, so ist der Mittel in den beiden Gruppen unterschiedlich (mit einer Irrtumswahrscheinlichkeit von 5%). Wir können die Achsenbeschriftungen leider nicht sehr gut erkennen, allerdings können wir dem Output der `TukeyHSD`-Funktion entnehmen, welche Mittelwerte verglichen wurden: somit wissen wir, dass das erste Paar  `VT Coaching` und `Kontrollgruppe`, das zweite Paar `VT Coaching + Gruppenuebung`  und die `Kontrollgruppe` und das  3. Paar die beiden VT-Gruppen vergleicht. 
+
+Die Ergebnisse der $t$-Tests und der Tukey's HSD stimmen überein und lassen sich wie folgt zusammenfassen:
+
+| AV | Kontrollgruppe vs VT-Coaching | Kontrollgruppe vs VT-Coaching + Gruppenübung | VT-Coaching vs VT-Coaching + Gruppenübung |
+| --- | --- | --- | --- | --- |
+| Lebenszufriedenheit | ns | signifikant | signifikant |
+| Depression | signifikant | signifikant | ns |
+| Arbeitszufriedenheit | signifikant | signifikant | ns |
+
+Somit ist ersichtlich, dass die Interventionen sich nicht gleich auf die AVs auswirken. VT-Coaching inklusive Gruppenübungen führte zu einer Verbesserung der Lebenszufriedenheit (da gestiegen), Depressionssymptomatik (da gesunken) und Arbeitszufriedenheit (da gestiegen) im Vergleich zur Kontrollgruppe (die Richtung konnten wir den Mittelwerten und der Grafik entnehmen). Keine Unterschiede zwischen Kontrollgruppe und VT-Coaching ließen sich bzgl. der Lebenszufriedenheit finden, bzgl. der Depressionssymptomatik und der Arbeitszufriedenheit jedoch schon. Die zusätzliche Gruppenübung hat nur eine positive Auswirkung auf die Lebenszufriedenheit, negative Stimmung (Dep) oder Arbeitszufriedenheit profitiert davon nicht. Alle Aussagen sind statistischer Natur, unterliegen somit also einer Irrtumswahrscheinlichkeit! Keinen Einfluss hatten die Interventionen auf die Arbeitsbelastung.
+
+##### Interpretation
+
+Den Ergebnissen ist zu entnehmen, dass das zusätzliche Gruppentraining nur Einfluss auf die Lebenszufriedenheit nimmt. Vielleicht wurden ja in diesem Gruppentraining spezifische Aspekte dazu vermittelt? Diese Frage können wir leider nicht beantworten, da es sich hierbei um simulierte Daten handelt...  Außerdem schien das Coaching insgesamt Depressionssymptomatiken zu verbessern sowie die Arbeitszufriedenheit zu erhöhen. Eine tatsächlich Reduktion der empfundenen Arbeitsbelastungen konnte nicht erreicht werden. Folglich wurde vermutlich an der Denkweise, nicht aber an der Arbeitsweise gearbeitet! Insgesamt wird Hypothese 3 teilweise gestützt, da es Unterschiede der Interventionsgruppen bzgl. der Lebenszufriedenheit gab. Allerdings müsste weiter diskutiert werden (falls es sich hierbei um echte Daten gehandelt hätte), ob ein Effekt auf nur einer Variable ausreichen würde die Gruppenübungen zusätzlich durchzuführen (wir nehmen hier einmal an, dass das ein Mehraufwand wäre!).
+
+### Normalverteilung der Residuen
+Die Annahme der Normalverteilung der Residuen können wir wieder mit Hilfe der Mahalnobisdistanz prüfen. Dafür bestimmen wir zunächst die Residuen unsere Analyse mit `resid(manova1)` und führen anschließend die Modellierung der Mahalanobisdistanz mit der $\chi^2(4)$-Verteilung und einem Histogramm (auch Q-Q-Plot wäre möglich) durch, wie wir es in der [Sitzung zur Regression](/lehre/fue-i/regression-und-ausreisserdiagnostik) gelernt haben (mal mit Beschriftung und anderer Farbe):
+
+```{r}
+MD <- mahalanobis(resid(manova1), center = colMeans(resid(manova1)), cov = cov(resid(manova1)))
+hist(MD, breaks = 20, col = "skyblue", border = "blue", freq = F, main = "Mahalnobisdistanz vs Chi2(4) Verteilung",
+     xlab = "Mahalanobisdistanz")
+xWerte <- seq(from = min(MD), to = max(MD), by = 0.01)
+lines(x = xWerte, y = dchisq(x = xWerte, df = 4), lwd = 3, col = "blue")
+```
+
+Noch besser sieht man es vielleicht mit einem Q-Q-Plot. Wir verwenden hier wieder die Funktion aus dem `car`-Paket, wie in der Sitzung zur [Regression](/lehre/fue-i/regression-und-ausreisserdiagnostik).
+
+```{r}
+qqPlot(MD, distribution = "chisq", df = 4)
+```
+
+Insgesamt scheinen die Residuen einigermaßen $\chi^2(4)$-verteilt. Somit gibt es keinen Grund an der Annahme der multivariaten Normalverteilung zu zweifeln. Folglich können wir weiterhin den Ergebnissen vertrauen. Wir hatten hier $df=4$ für die $\chi^2$-Verteilung verwendet, da es insgesamt 4 Variablen waren, die wir auf multivariate Normalität untersucht hatten.
+ 
+### Hypothese 3
+Um unsere 3. Hypothese zu prüfen, müssen wir sowohl de Einfluss der Therapie als auch des Geschlechts mit in das Modell aufnehmen. Wir können eine mehrfaktorielle MANOVA durchführen, indem wir einfach das Geschlecht a la `lm`-Manier als weiteren Prädiktor in die MANOVA-Gleichung aufnehmen. Allerdings gibt es bei solchen mehrfaktoriellen Gruppenvergleichen das Problem mit den Quadratsummen. Effekte werden signifikant je nach dem, wie sie kodiert sind. Um diesem Problem aus dem Weg zu gehen, verwenden wir die `Manova`-Funktion aus dem `car`-Paket. Diese stellt nämlich die Quadratsummen vom Typ II ein, während in der Basisfunktion die Quadratsumme vom Typ I implementiert ist. Die Quadratsummen haben erst einen Einfluss auf die Berechnungen, wenn mindestens 2 Faktoren in die Analyse aufgenommen werden! Hierbei gilt, dass bei Typ I schrittweise die Faktoren in das Modell aufgenommen werden und es daher auf die Reihenfolge der Faktoren ankommt. Dies ist natürlich nicht gewünscht, denn wir wollen einfach nur wissen, ob es Unterschiede gibt und ob diese eher auf das Geschlecht oder auf die Therapieform zurückzuführen sind.Bei Typ II spielt die Reihenfolge keine Rolle. Allerdings sollte Typ II nur dann interpretiert werden, wenn die Interaktion nicht signifikant ist.
+
+
+```{r}
+manova3 <- manova(cbind(LZ, AB, Dep, AZ) ~ Intervention + Geschlecht, 
+                  data = Therapy)
+M3 <- Manova(manova3, test = "Wilks")
+summary(M3)
+```
+
+Der Output wird um den zusätzlichen Effekt des Geschlechts auf die vier AVs erweitert. Ansonsten ist der Output völlig analog zu oben zu lesen. Sowohl die Intervention als auch das Geschlecht scheinen einen Haupteffekt zu haben. Somit scheint es Unterschiede auf mindestens einer AV zwischen mindestens 2 Gruppen zu geben. Wir erhalten die Mittelwerte pro Gruppe wieder ganz leicht mit `aggregate`:
+
+```{r, results = "hide"}
+aggregate(cbind(LZ, AB, Dep, AZ) ~ Intervention + Geschlecht, 
+           data = Therapy,
+           FUN = mean)
+```
+
+```{r, echo = F}
+knitr::kable(aggregate(cbind(LZ, AB, Dep, AZ) ~ Intervention + Geschlecht, 
+           data = Therapy,
+           FUN = mean))
+```
+
+
+Wenn Sie sich an Ihr Bachelor-Statistikwissen zurückerinnern, so wissen Sie vielleicht noch, dass bei einer zweifaktoriellen ANOVA auch eine Interaktion zwischen den Faktoren möglich war. Dies geht selbstverständlich auch mit der MANOVA. In `R` lässt sich dies, wie in der [Multi-Level-Sitzung](/lehre/fue-i/multi-level-modeling) diskutiert, mit `*` oder präziser mit `:` umsetzen:
+
+```{r}
+manova3b <- manova(cbind(LZ, AB, Dep, AZ) ~ Intervention + Geschlecht + Intervention:Geschlecht, 
+                  data = Therapy)
+M3b <- Manova(manova3b)
+summary(M3b)
+```
+
+Die Analysen für die Interaktione erkennen wir unter dem Block `Term: Intervention:Geschlecht`. Hier stehen die Teststatistiken, die den Interaktionseffekt untersuchen. Auch eine Quadrat-und-Produktsumme wird dort ausgegeben.
+
+Die Interaktion ist nicht signifikant. Somit hängt der Therapieeffekt nicht vom Geschlecht der jeweiligen Person ab. Dies ist somit eine gute Nachricht, da nicht geschlechterspezifisch vorgegangen werden müsste, falls es sich hierbei um echte Daten gehandelt hätte! Es ist aber durchaus gegeben, dass sich die Ausprägungen über die Geschlechter im Mittel unterscheiden. 
+
+Auch Post-Hoc multifaktorielle ANOVAs sind möglich. Hier erweitert sich der Output entsprechend. Da die Interaktion nicht statistisch bedeutsam war, schauen wir uns die Post-Hoc ANOVAs für `manova3` an:
+
+```{r}
+summary.aov(manova3)
+```
+
+Bzgl. der Lebenszufriedenheit gab es nur einen Haupteffekt der Intervention ($F(2,86)=$ 10.025, $p<0.001$), nicht aber bzgl. des Geschlechts ($F(1,86)=$ 2.183, $p>0.05$). Die Arbeitsbelastung unterschied sich weder über die Interventionsgruppen noch über das Geschlecht. Sowohl die Depression als auch  die Arbeitszufriedenheit zeigten signifikante Haupteffekte sowohl der Intervention (`Dep`: $F(2,86)=$ 31.870, $p<0.001$, `AZ`: $F(2,86)=$ 25.813, $p<0.001$) als auch des Geschlechts (`Dep`: $F(1,86)=$ 28.335, $p<0.001$, `AZ`: $F(1,86)=$ 14.029, $p<0.001$). Insgesamt wird Hypothese 3 durch die Daten gestützt. 
+
+In [Appendix B](#AppendixB) wird eine MANOVA und eine ANOVA mit Messwiederholung vorgestellt. Außerdem wird kurz die MANCOVA (multivariate Kovarianzanalyse) und die ANCOVA (Kovarianzanalyse) erwähnt. Alles beide ist in `R` sehr leicht umzusetzen, unterliegt allerdings weiteren Annahmen.  
+
+Die nächste Sitzung zeigt eine [Diskriminanzanalyse](/lehre/fue-i/diskriminanzanalyse) zu diesem Datensatz. Diese ist deshalb interessant, da sie die Fragestellung der MANOVA umdreht und nicht nach Gruppenunterschiede im Mittel fragt sondern modelliert in wieweit die Gruppenzugehörigkeit durch die AVs vorhergesagt werden kann. Da es sich bei dieser Sitzung um einen (freiwiligen) Zusatz handelt, wird diese nicht so intensiv behandelt.
+
+
+***
+
+## R-Skript
+Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/lehre/fue-i/manova.R).
+
+***
+
+
+## Appendix 
+
+### Appendix A {#AppendixA}
+
+<details><summary><b>R-Code zu den Grafiken</b></summary>
+
+```{r, echo = T}
+library(ggplot2)
+Therapy_long <- reshape(data = Therapy, varying = names(Therapy)[1:4],idvar = names(Therapy)[5:6],
+         direction = "long", v.names = "AVs", timevar = "Variable", new.row.names = 1:360)
+
+Therapy_long$Variable[Therapy_long$Variable == 1] <- "Lebenszufriedenheit"
+Therapy_long$Variable[Therapy_long$Variable == 2] <- "Arbeitsbeanspruchung"
+Therapy_long$Variable[Therapy_long$Variable == 3] <- "Depressivitaet"
+Therapy_long$Variable[Therapy_long$Variable == 4] <- "Arbeitszufriedenheit"
+
+
+ggplot(Therapy_long, aes(x = Intervention, y = AVs,  group = Variable, col = Variable))+ stat_summary(fun.data = mean_se)+stat_summary(fun.data = mean_se, geom = c("line"))
+```
+
+`reshape` transformiert den Datensatz vom Wide in das Long-Format (weites Format vs. langes Format): `data` nimmt den Datensatz entgegen, `varying` die Variablen, die wiederholt gemessen wurden (in diesem Fall unsere AVs), `v.names` nimmt die Namen unter dem die Variablen zusammengefasst werden sollen entgegen, `timevar` zeigt die Variable, die Wiederholung kennzeichnen soll, `idvar` sind Variablen, die sich über die Wiederholungen nicht verändern (die also Mehrfach in den Datensatz integriert werden) und `direction` nimmt entgegen, ob von Wide zu Long (`"long"`) oder von Long zu Wide (`"wide"`) transformiert werden soll. Dem Code ist ersichtlich, dass dies insbesondere für Messwiederholungen verwendet wird. Wir können hier allerdings die Variablen als Messwiederholungen auf unterschiedlichen Variablen ansehen. Das Long-Format ist insbesondere für das Darstellen mehrerer Gruppen in `ggplot` interessant. Hier lassen sich über die Gruppierungsvariable (hier `Variable` - den Namen, den wir `timevar` übergeben hatten) ganz leicht mehrere Linien einzeichnen. Die Fehlerbalken sind hierbei ganz einfach der SE des Mittelwerts pro Variable und Gruppe. Die Daten werden mit `stat_summary` und dem Zusatzargument `fun.data = mean_se` in Mittelwert und SE des Mittelwerts zusammengefasst. Eine detaillierte Erläuterung finden Sie in [<i class="fa-solid fa-graduation-cap"></i> Grafiken mit `ggplot2`](/lehre/statistik-ii/grafiken-mit-ggplot2) von [Prof. Dr. Martin Schultze](/authors/schultze).
+
+</details>
+
+
+
+### Appendix B {#AppendixB}
+
+<details><summary><b>MANOVA (und ANOVA) mit Messwiederholung</b></summary>
+
+Dieser Exkurs soll zusätzliche Analysen mit Messwiederholung beschreiben. Das Ganze ist nicht sonderlich komplex, geht aber über diese Veranstaltung hinaus (da bspw. weitere Annahmen von Nöten sind) -- könnte jedoch für Sie beim Schreiben Ihrer Masterarbeit relevant sein.
+
+Sowohl bei MANOVAs als auch bei ANOVAs besteht die Möglichkeit die Messwiederholung, bspw. von Probanden, mit zu berücksichtigen. So hätte auch der gesamte Verlauf der Studie und somit der Verlauf der Merkmale über die Zeit (z.B. Prä, Post und ein Follow-Up einige Wochen nach Beendigung der Therapie) abgebildet werden können. In einem solchen Datensatz würde es eine Variable geben müssen, welche anzeigt, welche Messungen alle zum selben Objekt (bspw. zur selben Person) gehören - ganz ähnlich wie die Cluster-Variable in der [hierarchischen Regression](/lehre/fue-i/multi-level-modeling). Außerdem würde dann die Möglichkeit bestehen auch within-Effekte zu modellieren, also Prädiktoren könnten untersucht werden, die den Verlauf über die Zeit einer Person weiter erklären. Hier könnte bspw. der Messzeitpunkt als Prädiktor mit in das Modell aufgenommen werden -- dann würde man untersuchen können, ob es Unterschiede über die Messzeitpunkte als Gruppierungsvariable gibt (auch kontinuierliche Variablen sind hier möglich - dann handelt es sich allerdings um eine MANCOVA, also eine multivariate Kovarianzanalyse bzw. ANCOVA also eine Kovarianzanalyse -- Würden wir dann den Messzeitpunkt als *1, 2, 3,...* modellieren, so würde die multivariate Kovarianzanalyse für den Messzeitpunkt eine lineare Veränderung annehmen, was für das vorgeschlagene Design wenig sinnvoll erscheint - in diesem ist es sinnvoller den Messzeitpunkt als Faktor mit aufzunehmen, um jegliche Unterschiede zwischen diesen abzubilden!). Der Output erweitert sich um eine Between und eine Within Ebene und Effekte werden auf beiden geprüft. Angenommen, wir hätten Daten, die an mehreren Tagen gemessen wurden und würden unsere Analysen "mit Messwiederholung" wiederholen. Dann könnte der Datensatz bspw. so aussehen:
+
+```{r, echo = F}
+set.seed(1)
+j <- 0
+d <- matrix(data = NA, nrow = 90*3, ncol = 8)
+names <- c("LZ", "AB", "Dep", "AZ", "Intervention", "Sex", "ID", "day")
+
+for(i in 1:dim(Therapy)[1])
+{
+     temp <- Therapy[i,]
+     k <- 1
+     repeat{
+          j <- j + 1
+          d[j, ] <-  unlist(c(temp[1:4] + 0.3*k + rnorm(4), temp[5:6], i, k ))
+          if(k == 3) break
+          k <- k + 1
+     }
+}
+d <- data.frame(d)
+names(d) <- names
+d$Intervention <- as.factor(d$Intervention)
+d$Sex <- as.factor(d$Sex)
+d$ID <- as.factor(d$ID)
+d$day <- as.factor(d$day)
+
+Therapy_repeated <- d
+
+knitr::kable(head(Therapy_repeated, 6))
+```
+
+Es müssten zunächst weitere Annahmen an die Daten gestellt werden, die wir hier nicht prüfen wollen (z.B. Sphärizität der Kovarianzmatrizen).
+
+Um eine repeated-measures MANOVA durchzuführen, müssen wir die Daten zunächst in das richtige Format bringen. Die Daten liegen gerade im Longformat vor. Wir brauchen sie allerdings im Wideformat. Die Transformation nimmt uns reshape ab:
+
+```{r, results = "hide"}
+Therapy_repeated_wide <- reshape(data = Therapy_repeated, direction = "wide", 
+                                v.names = c("LZ", "AB", "Dep", "AZ"), 
+                                timevar = "day", 
+                                idvar = "ID")
+```
+
+```{r, echo = F}
+knitr::kable(head(Therapy_repeated_wide, 6))
+
+```
+
+Jetzt haben wir also jeweils 3 Variablen für `LZ`, nämlich `LZ.1`, `LZ.2` und `LZ.3`. Gleiches gilt für `AB`, `Dep` und `AZ`. Als nächstes erstellen wir eine Variable, die die Zugehörigkeit zum Tag innehat. Wir wollen die Daten anschließend wie folgt zusammenschreiben: `cbind(LZ.1, LZ.2, LZ.3, AB.1, AB.2, AB.3, Dep.1, Dep.2, Dep.3, AZ.1, AZ.2, AZ.3)`. Hier ist ersichtlich, dass die ersten 3 Spalten zu einer Variable gehören, nämlich zu `LZ` und dass es sich um den 1., 2. und 3. Tag handelt. Wir brauchen nun eine zweite Datenmatrix, die genau diese Information enthält:
+
+```{r}
+days <- factor(rep(1:3, 4))
+rep_data <- data.frame("day" = days)
+head(rep_data)
+```
+
+Mit Hilfe dieses Datensatzes transformieren wir quasi die Analyse innerhalb des `Manova`-Befehls wieder ins Longformat, also sagen, dass es sich um Messwiederholung handelt:
+
+```{r}
+repeated_manova <- manova(cbind(LZ.1, LZ.2, LZ.3, AB.1, AB.2, AB.3, Dep.1, Dep.2, Dep.3, AZ.1, AZ.2, AZ.3) ~ Intervention*Sex, data = Therapy_repeated_wide)
+Manova(repeated_manova, idata = rep_data, idesign =~ day, type = 3, test = "Wilks")
+Manova(repeated_manova, idata = rep_data, idesign =~ day, type = 3, test = "Pillai")
+```
+
+Wir verwenden hier Quadratsummen vom Typ 3, damit die Interaktionen zwischen Messzeitpunkt und Faktoren sinnvoll untersuchbar sind. Nur die Intervention zeigt einen Effekt (Between Effekt). Innerhalb der Individuen (Within-Effekt) gibt es Unterschiede bzgl. des Messzeitpunktes (mit einer Irrtumswahrscheinlichkeit von 5%). Das können wir anhand des signifikanten Effekts von `day` ablesen. Das Ausmaß der AVs verändert sich also über die Zeit. Der Zeitpunkt wurde hier als Faktor mitmodelliert, da wir keine lineare Beziehen annehmen wollten (dies wäre dann eine MANCOVA) gewesen, wenn wir hier für `day` eine intervallskalierte Variable verwenden würden. Dies geht hier über den Stoff deutlich hinaus und verlangt auch noch weitere Überlegungen und ggf. andere Funktionen.
+
+Das Ganze ginge auch mit der Basisfunktion. Allerdings müssten dann wieder die Gruppen bestimmt kodiert werden, um nicht das Problem mit den Quadratsummen zu bekommen. Der Code für Quadratsummen vom Typ I (die nicht sinnvoll sind, bzw. einer spezifischen Reihenfolge von Hypothesen entsprechen), sähen so aus:
+
+```{r, results = "hide"}
+repeated_manova <- manova(cbind(LZ, AB, Dep, AZ) ~ Intervention*Sex + factor(day) + Error(ID),
+                          data = Therapy_repeated)
+summary(repeated_manova, test = "Wilks")
+```
+
+`Error(ID)` zeigt an, dass diese Variable Mehrfachmessung kodiert. Das schöne an dieser Herangehensweise ist, dass wir die Daten im Longformat verwenden können. Für weitere Informationen zu den Quadratsumme, siehe [Appendix der Sitzung zur zweifaktoriellen ANOVA aus dem Bachelorstudium](/lehre/statistik-ii/zweifaktorielle-anova). 
+
+</details>
+
+***
+
+## Literatur
+[Eid, M., Gollwitzer, M., & Schmitt, M. (2017).](https://ubffm.hds.hebis.de/Record/HEB366849158) *Statistik und Forschungsmethoden* (5. Auflage, 1. Auflage: 2010). Weinheim: Beltz.
+
+[Pituch, K. A. & Stevens, J. P. (2016).](https://ubffm.hds.hebis.de/Record/HEB371183324) *Applied Multivariate Statistics for the Social Sciences* (6th ed.). New York: Taylor & Francis.
+
+
+
+* <small> *Blau hinterlegte Autor:innenangaben führen Sie direkt zur universitätsinternen Ressource.* </small>

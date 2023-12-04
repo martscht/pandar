@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/simulation
+    url: /lehre/statistik-i/simulation-poweranalyse
   - icon_pack: fas
     icon: star
     name: Lösungen
-    url: /lehre/statistik-i/simulation-loesungen
+    url: /lehre/statistik-i/simulation-poweranalyse-loesungen
 output:
   html_document:
     keep_md: true

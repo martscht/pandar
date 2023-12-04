@@ -3,11 +3,11 @@ title: "Tests für abhängige Stichproben - Aufgaben"
 type: post
 date: '2019-10-18' 
 slug: gruppenvergleiche-abhaengig-aufgaben
-categories: [] 
-tags: ["Statistik I Übungen"] 
+categories: ["Statistik I Übungen"] 
+tags: [] 
 subtitle: ''
 summary: '' 
-authors: [koehler, buchholz]
+authors: [walter, nehler]
 weight:
 lastmod: '`r Sys.Date()`'
 featured: no
@@ -40,81 +40,18 @@ output:
 
 ## Vorbereitung
 
-```{r, echo = F}
-#### Was bisher geschah: ----
-
-# Daten laden
-load(url('https://pandar.netlify.app/daten/fb22.rda'))  
-
-# Nominalskalierte Variablen in Faktoren verwandeln
-fb22$geschl_faktor <- factor(fb22$geschl,
-                             levels = 1:3,
-                             labels = c("weiblich", "männlich", "anderes"))
-fb22$fach <- factor(fb22$fach,
-                    levels = 1:5,
-                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb22$ziel <- factor(fb22$ziel,
-                        levels = 1:4,
-                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb22$wohnen <- factor(fb22$wohnen, 
-                      levels = 1:4, 
-                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-
-# Skalenbildung
-
-fb22$prok2_r <- -1 * (fb22$prok2 - 5)
-fb22$prok3_r <- -1 * (fb22$prok3 - 5)
-fb22$prok5_r <- -1 * (fb22$prok5 - 5)
-fb22$prok7_r <- -1 * (fb22$prok7 - 5)
-fb22$prok8_r <- -1 * (fb22$prok8 - 5)
-
-# Prokrastination
-fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
-                          'prok4', 'prok5_r', 'prok6',
-                          'prok7_r', 'prok8_r', 'prok9', 
-                          'prok10')] |> rowMeans()
-# Naturverbundenheit
-fb22$nr_ges <-  fb22[, c('nr1', 'nr2', 'nr3', 'nr4', 'nr5',  'nr6')] |> rowMeans()
-fb22$nr_ges_z <- scale(fb22$nr_ges) # Standardisiert
-
-# Weitere Standardisierugen
-fb22$nerd_std <- scale(fb22$nerd)
-fb22$neuro_std <- scale(fb22$neuro)
-
-```
-
-> Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-abhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
-
-Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
-
-```{r}
-dim(fb22)
-str(fb22)
-```
-
-Der Datensatz besteht aus `r nrow(fb22)` Zeilen (Beobachtungen) und `r ncol(fb22)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+> Laden Sie zunächst den Datensatz `fb23` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb23.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-abhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 
 ## Aufgabe 1
-Unterscheidet sich im Durchschnitt die Angabe von Psychologiestudierenden zu ihrer Prokrastinationstendenz, wenn sie positiv formulierte Items (prok1, prok4, prok6, prok9, prok10) beantworten im Vergleich zu negativ formulierten Items (prok2, prok3, prok5, prok7 und prok8)? 
-
-## Aufgabe 2
-Ein Therapeut behauptet, dass eine von ihm entwickelte Meditation die Zufriedenheit von Menschen positiv beeinflusst. Er möchte dies mit wissenschaftlichen Methoden zeigen und misst die Zufriedenheit vor und nach der Meditation. Es ergeben sich folgende Werte für 18 Personen:   
-
-```{r echo = FALSE, results='asis'}
-library(knitr)
-kable(data.frame(Vpn = 1:18, Vorher = c(4.1,5.9,4.4,7.8,2.4,8.8,3.1,5.0,6.0,4.5,5.8,4.4,3.2,7.3,7.4,6.3,4.3,7.1), 
-                             Nachher = c(4.0,7.2,8.1,6.2,4.1,7.7,5.5,6.9,8.2,5.4,9.1,5.6,6.8,7.5,6.4,4.9,6.1,7.9)))
-```
+Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach Ihrem Befinden zum Zeitpunkt der Umfrage befragt. Hierbei wurde unteranderem erhoben, wie ruhig (hohe Werte) oder unruhig (niedrige Werte) Sie sich zu beiden Zeitpunkten gefühlt haben (Variable `ru_pre` und `ru_post`). Nun wollen Sie untersuchen, ob die Teilnahme am Statistikpraktikum einen Einfluss auf das Befinden der Studierenden hat. Sie gehen davon aus, dass sich der Ruhestudium vor und nach dem Praktikum unterscheidet ohne eine Richtung anzunehmen.
 
 
-Wirkt die Meditation positiv auf die Zufriedenheit?
 
-**Denken Sie bei der Bearbeitung der Aufgabe an Folgendes:**
-
-*	Deskriptivstatistische Beantwortung der Fragestellung  
-*	Voraussetzungsprüfungen   
-*	Spezifikation der Hypothesen und des Signifikanzniveaus  
-*	Ggf. Berechnung der Effektstärke  
-*	Formales Berichten des Ergebnisses    
+* Stellen Sie zunächst das Hypothesenpaar der Testung inhaltich und auch mathematisch auf. Spezifizieren Sie das Signifikanzniveau. Dieses soll so gewählt werden, dass wir die Nullhypothese in 1 von 20 Fällen fälschlicherweise verwerfen würden.
+* Bestimmen Sie die deskriptivstatistischen Maße und bewerten Sie diese im Hinblick auf die Hypothesen. Beachten Sie, dass bei der späteren inferenzstatistischen Testung nur Personen eingehen, die zu beiden Messzeitpunkten Angaben gemacht haben. Schließen Sie also Personen mit fehlenden Werten auf einer (oder beiden) Variablen vor der Berechnung der deskriptivstatistischen Maße aus.
+* Welcher inferenzstatistische Test ist zur Überprüfung der Hypothesen am geeignetsten? Prüfen Sie die Voraussetzungen dieses Tests.
+* Führen Sie die inferenzstatistische Testung durch.
+* Berechnen Sie die zugehörige Effektstärke.
+* Berichten Sie die Ergebnisse formal (in schriftlicher Form).
 

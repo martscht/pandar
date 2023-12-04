@@ -26,11 +26,11 @@ fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
 # Berechnung von Skalenwerten
 fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
                         'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
-fb23$wm_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
                          "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
 
 # z-Standardisierung
-fb23$wm_pre_zstd <- scale(fb23$wm_pre, center = TRUE, scale = TRUE)
+fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
 
 
 curve(expr = dnorm(x, mean = 2.5, sd = 3.1),
@@ -141,7 +141,7 @@ sample_mean_neuro - t_quantil_einseitig *(sample_sd_neuro / sqrt(sample_size))
 
 t.test(x = fb23$neuro, mu = 3.1, alternative = "greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
 
-dz <- abs((sample_mean_nerd - pop_mean_nerd)/ pop_mean_nerd) 
+dz <- abs((sample_mean_nerd - pop_mean_nerd)/ pop_sd_nerd) 
 dz
 
 dt <- abs((sample_mean_neuro - pop_mean_neuro)/ sample_sd_neuro)

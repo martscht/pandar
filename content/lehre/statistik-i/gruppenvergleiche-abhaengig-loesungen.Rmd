@@ -7,7 +7,7 @@ categories: ["Statistik I Übungen"]
 tags: [] 
 subtitle: ''
 summary: '' 
-authors: [koehler, buchholz] 
+authors: [walter, nehler] 
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
@@ -15,7 +15,7 @@ banner:
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/449195)"
 projects: []
 expiryDate: 
-publishDate: '2023-12-24'
+publishDate: 
 _build:
   list: never
 reading_time: false
@@ -25,323 +25,215 @@ output:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
 ## Vorbereitung
 
-<details><summary>Lösung</summary>
+> Laden Sie zunächst den Datensatz `fb23` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb23.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-abhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+
 
 ```{r, echo = F}
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
-# Nominalskalierte Variablen in Faktoren verwandeln
-fb22$geschl_faktor <- factor(fb22$geschl,
-                             levels = 1:3,
-                             labels = c("weiblich", "männlich", "anderes"))
-fb22$fach <- factor(fb22$fach,
-                    levels = 1:5,
-                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb22$ziel <- factor(fb22$ziel,
-                        levels = 1:4,
-                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb22$wohnen <- factor(fb22$wohnen, 
-                      levels = 1:4, 
-                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+# Vorbereitung der Subskala ruhig/unruhig
 
-# Skalenbildung
+# Invertieren
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 5)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 5)
 
-fb22$prok2_r <- -1 * (fb22$prok2 - 5)
-fb22$prok3_r <- -1 * (fb22$prok3 - 5)
-fb22$prok5_r <- -1 * (fb22$prok5 - 5)
-fb22$prok7_r <- -1 * (fb22$prok7 - 5)
-fb22$prok8_r <- -1 * (fb22$prok8 - 5)
+# Skalenwert
 
-# Prokrastination
-fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
-                          'prok4', 'prok5_r', 'prok6',
-                          'prok7_r', 'prok8_r', 'prok9', 
-                          'prok10')] |> rowMeans()
-# Naturverbundenheit
-fb22$nr_ges <-  fb22[, c('nr1', 'nr2', 'nr3', 'nr4', 'nr5',  'nr6')] |> rowMeans()
-fb22$nr_ges_z <- scale(fb22$nr_ges) # Standardisiert
+ru_pre <- fb23[, c("mdbf3_pre_r", "mdbf6_pre", "mdbf9_pre_r", "mdbf12_pre")]
 
-# Weitere Standardisierungen
-fb22$nerd_std <- scale(fb22$nerd)
-fb22$neuro_std <- scale(fb22$neuro)
+fb23$ru_pre <- rowMeans(ru_pre)
 
 ```
-
-Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-abhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
-
-Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
-
-```{r}
-dim(fb22)
-str(fb22)
-```
-
-Der Datensatz besteht aus `r nrow(fb22)` Zeilen (Beobachtungen) und `r ncol(fb22)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
-
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(error = TRUE)
-```
-
-Für die Beantwortung der Fragen werden einige Pakete benötigt, die wir bereits durchgeführt haben.
-
-```{r}
-library(psych)
-library(car)
-library(effsize)
-```
-
-</details>
 
 
 ## Aufgabe 1
-Unterscheidet sich im Durchschnitt die Angabe von Psychologiestudierenden zu ihrer Prokrastinationstendenz, wenn sie positiv formulierte Items (prok1, prok4, prok6, prok9, prok10) beantworten im Vergleich zu negativ formulierten Items (prok2, prok3, prok5, prok7 und prok8)? 
+Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach Ihrem Befinden zum Zeitpunkt der Umfrage befragt. Hierbei wurde unteranderem erhoben, wie ruhig (hohe Werte) oder unruhig (niedrige Werte) Sie sich zu beiden Zeitpunkten gefühlt haben (Variable `ru_pre` und `ru_post`). Nun wollen Sie untersuchen, ob die Teilnahme am Statistikpraktikum einen Einfluss auf das Befinden der Studierenden hat. Sie gehen davon aus, dass sich der Ruhestudium vor und nach dem Praktikum unterscheidet ohne eine Richtung anzunehmen.
+
+
+
+* Stellen Sie zunächst das Hypothesenpaar der Testung inhaltich und auch mathematisch auf. Spezifizieren Sie das Signifikanzniveau. Dieses soll so gewählt werden, dass wir die Nullhypothese in 1 von 20 Fällen fälschlicherweise verwerfen würden.
 
 <details><summary>Lösung</summary>
 
+**Hypothesen**
 
-Die Skala "Prokrastination" soll bei hohen Werten eine höhere Prokrastinationstendenz darstellen. Um zu vergleichen, ob die Zustimmung je nach Itemformulierung (pos. vs. neg.) anders ausfällt, müssen wir die rekodierten Versionen der Variablen nehmen (wurde im Seminar bereits durchgeführt).
+* Art des Effekts: Unterschiedshypothese  
+* Richtung des Effekts: ungerichtete Hypothese
+* Größe des Effekts: Unspezifisch  
 
-Anschließend bilden wir für jede Person ihren Mittelwert auf den positiv formulierten Items sowie ihren Mittelwert auf den negativ formulierten Items.
+
+Hypothesenpaar (inhaltlich):  
+H0: Die Teilnahme am Statistikpraktikum wirkt sich nicht auf das Ruheempfinden der Studierenden aus.
+H1: Die Teilnahme am Statistikpraktikum wirkt sich auf das Ruheempfinden der Studierenden aus.
+
+Hypothesenpaar (statistisch):  
+
+* $H_0$: $\eta_\text{nachher} = \eta_\text{vorher}$  bzw. $\mu_{d} = 0$
+* $H_1$: $\eta_\text{nachher} \neq  \eta_\text{vorher}$  bzw. $\mu_{d} \neq 0$
+
+**Spezifikation des Signifikanzniveaus**
+
+$\alpha = .05$
+
+</details>
+
+* Bestimmen Sie die deskriptivstatistischen Maße und bewerten Sie diese im Hinblick auf die Hypothesen. Beachten Sie, dass bei der späteren inferenzstatistischen Testung nur Personen eingehen, die zu beiden Messzeitpunkten Angaben gemacht haben. Schließen Sie also Personen mit fehlenden Werten auf einer (oder beiden) Variablen vor der Berechnung der deskriptivstatistischen Maße aus.
+
+<details><summary>Lösung</summary>
+
+**Bevor es weiter geht:**
+
+Ein Blick in den fb23-Datensatz verrät, dass auf dem Skalenwert ru_post, der Messung des Ruheempfindes zum zweiten Zeitpunkt, Werte fehlen. Diese fehlenden Werte werden als *NA* abgebildet.
+
+Um verfälschte deskriptiv- und inferenzstatistische Ergebnisse zu vermeiden, werden alle Personen aus der weiteren Berechung ausgeschlossen, die einen fehlenden Wert auf `ru_post` (oder `ru_pre`) aufweisen. Damit wir den Datensatz `fb23` aber nicht generell verändern, legen wir estmal einen neuen Datesatz an, der nur die beiden interessierenden Variablen enthält.
 
 ```{r}
-# Skalenbildung
-prokrast_pos <- fb22[, c('prok1', 'prok4',  'prok6',
-                         'prok9', 'prok10')]
-prokrast_pos$mean <- rowMeans(prokrast_pos,na.rm = T)
 
-prokrast_neg <- fb22[, c('prok2_r', 'prok3_r',
-                         'prok5_r', 'prok7_r',
-                         'prok8_r')]
-prokrast_neg$mean <- rowMeans(prokrast_neg,na.rm = T)
+ruhe <- fb23[, c("ru_pre", "ru_post")] #Erstellung eines neuen Datensatzes, welcher nur die für uns wichtigen Variablen enthält
+
+ruhe <- na.omit(ruhe) #Entfernt alle Beobachtungen, die auf einer der beiden Variable einen fehlenden Wert haben
+
+str(ruhe) #Ablesen der finalen Stichprobengröße
 ```
 
-**Deskriptivstatistische Beantwortung der Fragestellung: grafisch**
+Nach dem Entfernen der fehlenden Werte haben wir eine Stichprobengröße von $n = 147$.
 
-Je ein Histogramm pro Skala, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
+**Deskriptivstatistische Überprüfung der Hypothesen: grafisch**
+
+Histogramme (weil die Skalenwerte Intervallskalenqualität haben):
+Je ein Histogramm pro Gruppe, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert.
+
 ```{r}
-par(mfrow=c(2,1), mar=c(3,2,2,0))
-hist(prokrast_pos$mean, xlim=c(0,4), ylim=c(1,60), main="Prokrastinationstendenz positiv formulierte Items", xlab="", ylab="", las=1)
-abline(v=mean(prokrast_pos$mean), lty=2, lwd=2)
-hist(prokrast_neg$mean, xlim=c(0,4), ylim=c(1,60), main="Prokrastinationstendenz negativ formulierte Items", xlab="", ylab="", las=1)
-abline(v=mean(prokrast_neg$mean), lty=2, lwd=2)
-par(mfrow=c(1,1))
+par(mfrow=c(2,1), mar=c(3,2,2,0)) # Zusammenfügen der zwei Histogramme in eine Plot-Datei und ändern der Ränder (margins) des Plot-Fensters
+
+hist(ruhe[, "ru_pre"], xlim=c(0,5), ylim=c(1,50), main="Ruheempfinden vor der Sitzung", xlab="", ylab="", las=1)
+abline(v=mean(ruhe[, "ru_pre"]), lty=2, lwd=2)
+
+hist(ruhe[, "ru_post"], xlim=c(0,5), ylim=c(1,50), main="Ruheempfinden nach der Sitzung", xlab="", ylab="", las=1)
+abline(v=mean(ruhe[, "ru_post"]), lty=2, lwd=2)
+
+par(mfrow=c(1,1)) #Zurücksetzen auf default
 ```
+
 
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
+
 ```{r}
-summary(prokrast_pos$mean)
-summary(prokrast_neg$mean)
-#alternativ
+summary(ruhe[, "ru_pre"])
+summary(ruhe[, "ru_post"])
+# aus dem Paket psych, das wir bereits installiert haben
 library(psych)
-describe(prokrast_pos$mean)
-describe(prokrast_neg$mean)
+describe(ruhe[, "ru_pre"])
+describe(ruhe[, "ru_post"])
 ```
 ```{r, echo=FALSE}
-positiv <- describe(prokrast_pos$mean)
-negativ <- describe(prokrast_neg$mean)
+vorher <- describe(ruhe[, "ru_pre"])
+nachher <- describe(ruhe[, "ru_post"])
 ```
-Mittelwert positiv (_M_ = `r round(positiv$mean, 2)`, _SD_ = `r round(positiv$sd, 2)`) ist deskriptiv höher als Mittelwert negativ (_M_ = `r round(negativ$mean, 2)`, _SD_ = `r round(negativ$sd, 2)`).
+Der Mittelwert vorher ($M$ = `r round(vorher$mean, 2)`, $SD$ = `r round(vorher$sd, 2)`) ist deskriptiv niedriger als Mittelwert nachher ($M$ = `r round(nachher$mean, 2)`, $SD$ = `r round(nachher$sd, 2)`).
+
+Die deskriptivstatistischen Maße unterscheiden sich. 
+
+</details>
+
+* Welcher inferenzstatistische Test ist zur Überprüfung der Hypothesen am geeignetsten? Prüfen Sie die Voraussetzungen dieses Tests.
+
+<details><summary>Lösung</summary>
 
 **Voraussetzungen für t-Test für abhängige Stichproben**
 
 1. Die abhängige Variable ist intervallskaliert $\rightarrow$ ok
-2. Die Messwerte innerhalb der Paare dürfen sich gegenseitig beeinflussen/voneinander abhängig sein; keine Abhängigkeiten zwischen den Messwertpaaren $\rightarrow$ ok
-3. Die Differenzvariable _d_ muss in der Population normalverteilt sein $\rightarrow$ ab $n \ge 30$ gegeben, ansonsten grafische Prüfung oder Hintergrundwissen 
 
-**Voraussetzungsprüfung: Normalverteilung von _d_**
+2. Die Messwerte innerhalb der Paare dürfen sich gegenseitig beeinflussen/voneinander abhängig sein; keine Abhängigkeiten zwischen den Messwertpaaren $\rightarrow$ ok
+
+3. Die Stichprobenkennwerteverteilung der mittleren Mittelwertsdifferenz muss in der Population normalverteilt sein (ist gegeben, wenn die Verteilung der Mittelwertsdifferenzen in der Stichprobe normalverteilt ist) $\rightarrow$ ab $n > 30$ ist Normalverteilung der Stichprobenkennwerteverteilung durch zetralen Grenzwertsatz gegeben, ansonsten grafische Prüfung oder Hintergrundwissen $\rightarrow$ mit $n = 147$ erfüllt; Überprüfung der Normalverteilung von _d_ wird hier aus Übungszwecken trotzdem mit aufgeführt.
+
+**Grafische Voraussetzungsprüfung: Normalverteilung von _d_**
 ```{r}
 par(mar=c(3,3,3,0)) #ändern der Ränder (margins) des Plot-Fensters
-difference <- prokrast_pos$mean-prokrast_neg$mean
-hist(difference, 
-     breaks = 15,
-     xlim=c(-2,2), 
-     ylim = c(0,1), 
-     main="Verteilung der Differenzen", 
-     xlab="Differenzen", ylab="", las=1,freq=F)
+difference <- ruhe[, "ru_pre"]-ruhe[, "ru_post"]
+hist(difference, xlim=c(-4,4), main="Verteilung der Differenzen", xlab="Differenzen", ylab="", las=1,freq=F)
 curve(dnorm(x, mean=mean(difference), sd=sd(difference)), col="blue", lwd=2, add=T)
 par(mfrow=c(1,1)) #Zurücksetzen auf default
 qqnorm(difference,las=1)
 qqline(difference, col="blue")
 ```
 
-$\Rightarrow$ Differenzen sehen einigermaßen normalverteilt aus
+$\Rightarrow$ Differenzen sehen einigermaßen normalverteilt aus. 
 
-**Hypothesen**
+$\Rightarrow$ Durchführung des t-Tests für abhängige Stichproben, da alle Voraussetzungen hierfür erfüllt sind.
+</details>
 
-* Art des Effekts: Unterschiedshypothese  
-* Richtung des Effekts: Ungerichtet $\rightarrow$ ungerichtete Hypothese
-* Größe des Effekts: Unspezifisch  
+* Führen Sie die inferenzstatistische Testung durch.
 
-
-Hypothesenpaar (inhaltlich):  
-H0: Studierende geben in gleichem Ausmaß ihre Prokrastinationstendenz an, d.h. die Richtung der Itemformulierung ist irrelevant.
-
-H1: Studierende geben nicht im gleichen Ausmaß ihre Prokrastinationstendenz an, d.h. die Richtung der Itemformulierung hat einen Einfluss.
-
-Hypothesenpaar (statistisch):  
-
-* $H_0$: $\mu_\text{positiv} = \mu_\text{negativ}$  bzw. $\mu_{d} = 0$
-* $H_1$: $\mu_\text{positiv} \ne   \mu_\text{negativ}$  bzw. $\mu_{d} \ne 0$
-
-**Spezifikation des Signifikanzniveaus**
-
-$\alpha = .05$
+<details><summary>Lösung</summary>
 
 **Durchführung des _t_-Tests für abhängige Stichproben in R**
 
 ```{r}
-t.test(x = prokrast_pos$mean, y  = prokrast_neg$mean, 
-       paired = T,                       # Stichproben sind abhängig
-       alternative = "two.sided",        # ungerichtete Hypothese 
-       conf.level = .95)                 # alpha = .05
+t.test(x = ruhe[, "ru_pre"], y  = ruhe[, "ru_post"], # die Werte vorher und nachher
+       paired = T,                                   # Stichproben sind abhängig
+       alternative = "two.sided",                    # unggerichtete Hypothese -> zweiseitig Testung
+       conf.level = .95)                             # alpha = .05
+```
+
+```{r, eval = FALSE}
+# Alternative Schreibweise
+t.test(x = ruhe$ru_pre, y = ruhe$ru_post, 
+       paired = T,
+       alternative = "two.sided",
+       conf.level = .95)
 ```
 
 ```{r, echo=FALSE}
-ttest <- t.test(x = prokrast_pos$mean, y  = prokrast_neg$mean, paired = T, alternative = "less", conf.level = .95)
+ttest <- t.test(x = ruhe[, "ru_pre"], y  = ruhe[, "ru_post"], paired = T, alternative = "two.sided", conf.level = .95)
 ```
 
-* Zur Erinnerung: _df_ bei _t_-test mit abhängigen Stichproben: _n_ - 1 
-* _t_(0.05;`r ttest$parameter`) = `r round(ttest$statistic, 3)`, _p_ < .001 $\rightarrow$ signifikant, H0 wird verworfen.
+* Zur Erinnerung: $df$ bei $t$-test mit abhängigen Stichproben: $n - 1$ (wobei $n$ die Anzahl der Paare darstellt)
+* _t_(`r ttest$parameter`) = `r round(ttest$statistic, 3)`, $p > .05$ $\rightarrow$ nicht signifikant, H0 wird beibehalten.
+
+</details>
+
+* Berechnen Sie die zugehörige Effektstärke.
+
+<details><summary>Lösung</summary>
 
 **Schätzung des standardisierten Populationseffekts**
 
 ```{r}
-mean_d <- mean(difference)
-sd.d.est <- sd(difference) #die geschätzte SD der Differenzen
-d_prok <- mean_d/sd.d.est
-d_prok
+mean_d <- mean(difference) # Mittelwert der Differenzen
+sd.d.est <- sd(difference) # geschätzte Populationsstandardabweichung der Differenzen
+d <- mean_d/sd.d.est
+d
 ```
 
-$\Rightarrow$ Der standardisierte Populationseffekt beträgt _d2''_ = `r round(d_prok, 2)` und ist laut Konventionen nach Cohen (1988) groß. 
+$\Rightarrow$ Der standardisierte Populationseffekt beträgt _d2''_ = `r round(d, 2)` und ist laut Konventionen nach Cohen (1988) klein. 
 
-**Formales Berichten des Ergebnisses**
+Zu beachten ist, dass der standardisierte Populationseffekt auf der vorher berechneten Differenzvariable basiert. Aus diesem Grund hat der Effekt ein negatives Vorzeichen.
 
-Es wurde untersucht, ob Psychologiestudierende in Anbhängigkeit der Itemformulierung in unterschiedlichem Maße angeben, dass sie prokrastinieren. Es findet sich deskriptiv ein Unterschied: Bei den positiv formulierten Items liegt der durchschnittliche Prokrastinationswert bei `r round(positiv$mean, 2)` (_SD_ = `r round(positiv$sd, 2)`), während er bei negativ formulierten Items bei `r round(negativ$mean, 2)` (_SD_ = `r round(negativ$sd, 2)`) liegt. 
-
-Zur Beantwortung der Fragestellung wurde ein ungerichteter _t_-Test für abhängige Stichproben durchgeführt. Der Unterschied ist signifikant (_t_(`r ttest$parameter`) = `r round(ttest$statistic, 3)`, _p_ < .001), somit wird die Nullhypothese verworfen. Die Itemformulierung scheint einen Einfluss auf die angegebene Prokrastinationstendenz zu haben. 
-
-Dieser Einfluss ist nach dem standardisierten Populationseffekt von _d''_ = `r round(d_prok, 2)` groß.
-
-Anmerkung: Hierbei ist zu bedenken, dass es neben der Richtung der Itemformulierung  natürlich noch andere (bei unserer Erhebung nicht kontrollierte) Eigenheiten der Items geben kann, die zu Unterschieden führen (z. B. wie extrem bzw. schwierig die Items formuliert sind). 
+Zur Berechnung der Differenzvariable wurden von den Prä-Messungen die Post-Messungen abgezogen. Ein negatives Vorzeichen des standardisierten Populationseffektes deutet also, wie auch unsere deskriptivstatistischen Ergebnisse, darauf hin, dass die Teilnahme am Statistikpraktikum einen positiven Effekt auf das Ruheempfinden haben könnte. Dies könnte man in einer weiteren Studie inferenzstatistisch überprüfen.
 
 </details>
 
-
-## Aufgabe 2
-Ein Therapeut behauptet, dass eine von ihm entwickelte Meditation die Zufriedenheit von Menschen positiv beeinflusst. Er möchte dies mit wissenschaftlichen Methoden zeigen und misst die Zufriedenheit vor und nach der Meditation. Es ergeben sich folgende Werte für 18 Personen:   
-
-```{r echo = FALSE, results='asis'}
-library(knitr)
-kable(data.frame(Vpn = 1:18, Vorher = c(4.1,5.9,4.4,7.8,2.4,8.8,3.1,5.0,6.0,4.5,5.8,4.4,3.2,7.3,7.4,6.3,4.3,7.1), 
-                             Nachher = c(4.0,7.2,8.1,6.2,4.1,7.7,5.5,6.9,8.2,5.4,9.1,5.6,6.8,7.5,6.4,4.9,6.1,7.9)))
-```
-
-Wirkt die Meditation positiv auf die Zufriedenheit?
+* Berichten Sie die Ergebnisse formal (in schriftlicher Form).
 
 <details><summary>Lösung</summary>
-**Datensatz generieren**
-```{r}
-dataMeditation <- data.frame(Vpn = 1:18, 
-                             Vorher = c(4.1,5.9,4.4,7.8,2.4,8.8,3.1,5.0,6.0,4.5,5.8,4.4,3.2,7.3,7.4,6.3,4.3,7.1), 
-                             Nachher = c(4.0,7.2,8.1,6.2,4.1,7.7,5.5,6.9,8.2,5.4,9.1,5.6,6.8,7.5,6.4,4.9,6.1,7.9))
-```
-
-**Deskriptivstatistische Beantwortung der Fragestellung: grafisch**
-
-Histogramme (weil Intervallskalenqualität):
-Je ein Histogramm pro Gruppe, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
-```{r}
-par(mfrow=c(2,1), mar=c(3,2,2,0))
-hist(dataMeditation[, "Vorher"], xlim=c(0,10), ylim=c(1,6), main="Zufriedenheit vor der Meditation", xlab="", ylab="", las=1)
-abline(v=mean(dataMeditation[, "Vorher"]), lty=2, lwd=2)
-hist(dataMeditation[, "Nachher"], xlim=c(0,10), ylim=c(1,6), main="Zufriedenheit nach der Meditation", xlab="", ylab="", las=1)
-abline(v=mean(dataMeditation[, "Nachher"]), lty=2, lwd=2)
-par(mfrow=c(1,1))
-```
-
-**Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
-```{r}
-summary(dataMeditation[, "Vorher"])
-summary(dataMeditation[, "Nachher"])
-#alternativ
-library(psych)
-describe(dataMeditation[, "Vorher"])
-describe(dataMeditation[, "Nachher"])
-```
-```{r, echo=FALSE}
-vorher <- describe(dataMeditation[, "Vorher"])
-nachher <- describe(dataMeditation[, "Nachher"])
-```
-Mittelwert vorher (_M_ = `r round(vorher$mean, 2)`, _SD_ = `r round(vorher$sd, 2)`) ist deskriptiv niedriger als Mittelwert nachher (_M_ = `r round(nachher$mean, 2)`, _SD_ = `r round(nachher$sd, 2)`).
-
-**Voraussetzungen für t-Test für abhängige Stichproben**
-
-1. Die abhängige Variable ist intervallskaliert $\rightarrow$ ok
-2. Die Messwerte innerhalb der Paare dürfen sich gegenseitig beeinflussen/voneinander abhängig sein; keine Abhängigkeiten zwischen den Messwertpaaren $\rightarrow$ ok
-3. Die Differenzvariable _d_ muss in der Population normalverteilt sein $\rightarrow$ ab $n \ge 30$ gegeben, ansonsten grafische Prüfung oder Hintergrundwissen 
-
-**Voraussetzungsprüfung: Normalverteilung von _d_**
-```{r}
-par(mar=c(3,3,3,0)) #ändern der Ränder (margins) des Plot-Fensters
-difference2 <- dataMeditation[, "Vorher"]-dataMeditation[, "Nachher"]
-hist(difference2, xlim=c(-6,4), main="Verteilung der Differenzen", xlab="Differenzen", ylab="", las=1,freq=F)
-curve(dnorm(x, mean=mean(difference2), sd=sd(difference2)), col="blue", lwd=2, add=T)
-par(mfrow=c(1,1)) #Zurücksetzen auf default
-qqnorm(difference2,las=1)
-qqline(difference2, col="blue")
-```
-
-$\Rightarrow$ Differenzen sehen nicht normalverteilt aus
-
-$\Rightarrow$ Durchführung des Wilcoxon-Tests für abhängige Stichproben, da die Voraussetzungen hierfür erfüllt sind.
-
-**Hypothesen**
-
-* Art des Effekts: Unterschiedshypothese  
-* Richtung des Effekts: Gerichtet $\rightarrow$ gerichtete Hypothesen (Der Wissenschaftler erwartet eine positive Wirkung der Meditation auf die Zufriedenheit.) 
-* Größe des Effekts: Unspezifisch  
-
-
-Hypothesenpaar (inhaltlich):  
-H0: Die Meditation wirkt sich nicht oder negativ auf die Zufriedenheit aus.
-
-H1: Die Meditation wirkt sich positiv auf die Zufriedenheit aus.
-
-Hypothesenpaar (statistisch):  
-
-* $H_0$: $\eta_\text{vorher} \ge \eta_\text{nachher}$  bzw. $\mu_{d} \ge 0$
-* $H_1$: $\eta_\text{vorher} <   \eta_\text{nachher}$  bzw. $\mu_{d} < 0$
-
-**Spezifikation des Signifikanzniveaus**
-
-$\alpha = .05$
-
-**Inferenzstatistik: Wilcoxon-Test für abhängige Stichproben**
-```{r}
-wilcox.test(x = dataMeditation[, "Vorher"], y  = dataMeditation[, "Nachher"], # die beiden abhängigen Gruppen
-       paired = T,                       # Stichproben sind abhängig
-       alternative = "less",             # gerichtete Hypothese -> einseitige Testung
-       conf.level = .95)                 # alpha = .05
-```
-
-```{r, echo=FALSE}
-wilcoxtest <- wilcox.test(x = dataMeditation[, "Vorher"], y  = dataMeditation[, "Nachher"], paired = T, alternative = "less", conf.level = .95)
-```
-
-$\Rightarrow$ _V_ = `r wilcoxtest$statistic`, _p_ < .01 $\rightarrow$ H0 wird verworfen.
-
 
 **Formales Berichten des Ergebnisses**
 
-Es wurde in einer Wiederholungsmessung untersucht, ob sich Meditation auf Zufriedenheit auswirkt. Zunächst findet sich deskriptiv ein Unterschied: Vor der Meditation liegt der durchschnittliche Zufriedenheitswert bei `r round(vorher$mean, 2)` (_SD_ = `r round(vorher$sd, 2)`), während er nach der Meditation bei `r round(nachher$mean, 2)` (_SD_ = `r round(nachher$sd, 2)`) liegt. 
+Es wurde in einer Wiederholungsmessung untersucht, ob sich die Teilnahme am Statistikpraktikum  auf das Ruheempfinden auswirkt. Zunächst findet sich deskriptiv folgender Unterschied: Vor der Praktikumssitzung liegt der durchschnittliche Zufriedenheitswert bei `r round(vorher$mean, 2)` (_SD_ = `r round(vorher$sd, 2)`), während er nach der Praktikumssitzung bei `r round(nachher$mean, 2)` (_SD_ = `r round(nachher$sd, 2)`) liegt. 
 
-Da die Differenzen nicht normalverteilt waren, wurde ein gerichteter Wilcoxon-Test für abhängige Stichproben durchgeführt. Der Unterschied wurde bei einem Signifikanzniveau von alpha = .05 signifikant (_V_ = `r wilcoxtest$statistic`, _p_ < .01). Somit wird die Nullhypothese verworfen. Die Meditation hat einen positiven Einfluss auf die Zufriedenheit.
+Zur Beantwortung der Fragestellung wurde ein ungerichteter _t_-Test für abhängige Stichproben durchgeführt. Der Gruppenunterschied ist signifikant (_t_(`r ttest$parameter`) = `r round(ttest$statistic, 3)`, $p < .05$), somit wird die Nullhypothese verworfen. Wir gehen davon aus, dass sich die Teilnahme am Statistikpraktikum auf das Ruheempfinden auswirkt.
 
+Der standardisierte Populationseffekt von _d''_ = `r round(d, 2)` ist laut Konventionen nach Cohen (1988) klein.
 
 </details>

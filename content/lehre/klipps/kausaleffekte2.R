@@ -8,7 +8,7 @@ library(gridExtra)
 library(MatchIt)      # Für das Propensity Score Matching
 library(questionr)    # Für gewichtete Tabellen
 
-load(url("https://pandar.netlify.app/post/CBTdata.rda"))
+load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 head(CBTdata)
 
 knitr::kable(head(CBTdata))

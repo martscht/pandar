@@ -3,13 +3,13 @@ title: "Tests und Konfidenzintervalle - Aufgaben"
 type: post
 date: '2019-10-18' 
 slug: tests-konfidenzintervalle-aufgaben 
-categories: [] 
-tags: ["Statistik I Übungen"] 
+categories: ["Statistik I Übungen"] 
+tags: [] 
 subtitle: ''
 summary: '' 
 authors: [nehler, vogler, scheppa-lahyani, pommeranz] 
 weight: 
-lastmod: '2023-11-27'
+lastmod: '2023-12-01'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -104,8 +104,8 @@ str(fb23)
 ##  $ mdbf3_pre_r : num  2 1 3 3 3 2 2 4 3 3 ...
 ##  $ mdbf9_pre_r : num  3 1 4 3 2 2 1 3 3 2 ...
 ##  $ gs_pre      : num  3 2.5 3.75 NA 3.25 3.5 2 3.25 2.75 1.75 ...
-##  $ wm_pre      : num  2 1 2.75 2.75 2.25 2 1.75 3.25 2.75 2.25 ...
-##  $ wm_pre_zstd : num [1:179, 1] -0.9749 -2.3095 0.0261 0.0261 -0.6412 ...
+##  $ ru_pre      : num  2 1 2.75 2.75 2.25 2 1.75 3.25 2.75 2.25 ...
+##  $ ru_pre_zstd : num [1:179, 1] -0.9749 -2.3095 0.0261 0.0261 -0.6412 ...
 ##   ..- attr(*, "scaled:center")= num 2.73
 ##   ..- attr(*, "scaled:scale")= num 0.749
 ```
