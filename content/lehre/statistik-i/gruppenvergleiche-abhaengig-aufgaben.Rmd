@@ -44,7 +44,7 @@ output:
 
 
 ## Aufgabe 1
-Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach Ihrem Befinden zum Zeitpunkt der Umfrage befragt. Hierbei wurde unteranderem erhoben, wie ruhig (hohe Werte) oder unruhig (niedrige Werte) Sie sich zu beiden Zeitpunkten gefühlt haben (Variable `ru_pre` und `ru_post`). Nun wollen Sie untersuchen, ob die Teilnahme am Statistikpraktikum einen Einfluss auf das Befinden der Studierenden hat. Sie gehen davon aus, dass sich der Ruhestudium vor und nach dem Praktikum unterscheidet ohne eine Richtung anzunehmen.
+Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach Ihrem Befinden zum Zeitpunkt der Umfrage befragt. Hierbei wurde unteranderem erhoben, wie wach (hohe Werte) oder müde (niedrige Werte) Sie sich zu beiden Zeitpunkten gefühlt haben (Variable `wm_pre` und `wm_post`). Nun wollen Sie untersuchen, ob die Teilnahme am Statistikpraktikum einen Einfluss auf das Befinden der Studierenden hat. Sie gehen davon aus, dass sich die Angaben zu Wach vor und nach dem Praktikum unterscheidet ohne eine Richtung anzunehmen.
 
 
 
@@ -52,6 +52,6 @@ Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach I
 * Bestimmen Sie die deskriptivstatistischen Maße und bewerten Sie diese im Hinblick auf die Hypothesen. Beachten Sie, dass bei der späteren inferenzstatistischen Testung nur Personen eingehen, die zu beiden Messzeitpunkten Angaben gemacht haben. Schließen Sie also Personen mit fehlenden Werten auf einer (oder beiden) Variablen vor der Berechnung der deskriptivstatistischen Maße aus.
 * Welcher inferenzstatistische Test ist zur Überprüfung der Hypothesen am geeignetsten? Prüfen Sie die Voraussetzungen dieses Tests.
 * Führen Sie die inferenzstatistische Testung durch.
-* Berechnen Sie die zugehörige Effektstärke.
+* Bestimmen Sie unabhängig von der Signifikanzentscheidung die zugehörige Effektstärke.
 * Berichten Sie die Ergebnisse formal (in schriftlicher Form).
 

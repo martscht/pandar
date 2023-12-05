@@ -40,23 +40,52 @@ output:
 # Daten laden
 load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
-# Vorbereitung der Subskala ruhig/unruhig
+# Nominalskalierte Variablen in Faktoren verwandeln
+fb23$hand_factor <- factor(fb23$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
+fb23$fach <- factor(fb23$fach,
+                    levels = 1:5,
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
+fb23$ziel <- factor(fb23$ziel,
+                        levels = 1:4,
+                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
+fb23$wohnen <- factor(fb23$wohnen, 
+                      levels = 1:4, 
+                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+fb23$fach_klin <- factor(as.numeric(fb23$fach == "Klinische"),
+                         levels = 0:1,
+                         labels = c("nicht klinisch", "klinisch"))
+fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
+fb23$unipartys <- factor(fb23$uni3,
+                             levels = 0:1,
+                             labels = c("nein", "ja"))
 
-# Invertieren
-fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 5)
-fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 5)
+# Rekodierung invertierter Items
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
+fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
+fb23$mdbf5_pre_r <- -1 * (fb23$mdbf5_pre - 4 - 1)
+fb23$mdbf7_pre_r <- -1 * (fb23$mdbf7_pre - 4 - 1)
 
-# Skalenwert
+# Berechnung von Skalenwerten
+fb23$wm_pre  <- fb23[, c('mdbf1_pre', 'mdbf5_pre_r', 
+                        'mdbf7_pre_r', 'mdbf10_pre')] |> rowMeans()
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
 
-ru_pre <- fb23[, c("mdbf3_pre_r", "mdbf6_pre", "mdbf9_pre_r", "mdbf12_pre")]
-
-fb23$ru_pre <- rowMeans(ru_pre)
+# z-Standardisierung
+fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
 
 ```
 
 
 ## Aufgabe 1
-Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach Ihrem Befinden zum Zeitpunkt der Umfrage befragt. Hierbei wurde unteranderem erhoben, wie ruhig (hohe Werte) oder unruhig (niedrige Werte) Sie sich zu beiden Zeitpunkten gefühlt haben (Variable `ru_pre` und `ru_post`). Nun wollen Sie untersuchen, ob die Teilnahme am Statistikpraktikum einen Einfluss auf das Befinden der Studierenden hat. Sie gehen davon aus, dass sich der Ruhestudium vor und nach dem Praktikum unterscheidet ohne eine Richtung anzunehmen.
+Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach Ihrem Befinden zum Zeitpunkt der Umfrage befragt. Hierbei wurde unteranderem erhoben, wie wach (hohe Werte) oder müde (niedrige Werte) Sie sich zu beiden Zeitpunkten gefühlt haben (Variable `wm_pre` und `wm_post`). Nun wollen Sie untersuchen, ob die Teilnahme am Statistikpraktikum einen Einfluss auf das Befinden der Studierenden hat. Sie gehen davon aus, dass sich die Angaben zu Wach vor und nach dem Praktikum unterscheidet ohne eine Richtung anzunehmen.
 
 
 
@@ -72,8 +101,8 @@ Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach I
 
 
 Hypothesenpaar (inhaltlich):  
-H0: Die Teilnahme am Statistikpraktikum wirkt sich nicht auf das Ruheempfinden der Studierenden aus.
-H1: Die Teilnahme am Statistikpraktikum wirkt sich auf das Ruheempfinden der Studierenden aus.
+H0: Die Teilnahme am Statistikpraktikum wirkt sich nicht auf das Wachempfinden der Studierenden aus.
+H1: Die Teilnahme am Statistikpraktikum wirkt sich auf das Wachempfinden der Studierenden aus.
 
 Hypothesenpaar (statistisch):  
 
@@ -92,17 +121,17 @@ $\alpha = .05$
 
 **Bevor es weiter geht:**
 
-Ein Blick in den fb23-Datensatz verrät, dass auf dem Skalenwert ru_post, der Messung des Ruheempfindes zum zweiten Zeitpunkt, Werte fehlen. Diese fehlenden Werte werden als *NA* abgebildet.
+Ein Blick in den fb23-Datensatz verrät, dass auf dem Skalenwert `wm_post`, der Messung des Wachempfindens zum zweiten Zeitpunkt, Werte fehlen. Diese fehlenden Werte werden als *NA* abgebildet.
 
-Um verfälschte deskriptiv- und inferenzstatistische Ergebnisse zu vermeiden, werden alle Personen aus der weiteren Berechung ausgeschlossen, die einen fehlenden Wert auf `ru_post` (oder `ru_pre`) aufweisen. Damit wir den Datensatz `fb23` aber nicht generell verändern, legen wir estmal einen neuen Datesatz an, der nur die beiden interessierenden Variablen enthält.
+Um verfälschte deskriptiv- und inferenzstatistische Ergebnisse zu vermeiden, werden alle Personen aus der weiteren Berechung ausgeschlossen, die einen fehlenden Wert auf `wm_post` (oder `wm_pre`) aufweisen. Damit wir den Datensatz `fb23` aber nicht generell verändern, legen wir estmal einen neuen Datesatz an, der nur die beiden interessierenden Variablen enthält.
 
 ```{r}
 
-ruhe <- fb23[, c("ru_pre", "ru_post")] #Erstellung eines neuen Datensatzes, welcher nur die für uns wichtigen Variablen enthält
+wach <- fb23[, c("wm_pre", "wm_post")] #Erstellung eines neuen Datensatzes, welcher nur die für uns wichtigen Variablen enthält
 
-ruhe <- na.omit(ruhe) #Entfernt alle Beobachtungen, die auf einer der beiden Variable einen fehlenden Wert haben
+wach <- na.omit(wach) #Entfernt alle Beobachtungen, die auf einer der beiden Variable einen fehlenden Wert haben
 
-str(ruhe) #Ablesen der finalen Stichprobengröße
+str(wach) #Ablesen der finalen Stichprobengröße
 ```
 
 Nach dem Entfernen der fehlenden Werte haben wir eine Stichprobengröße von $n = 147$.
@@ -115,11 +144,11 @@ Je ein Histogramm pro Gruppe, untereinander dargestellt, vertikale Linie für de
 ```{r}
 par(mfrow=c(2,1), mar=c(3,2,2,0)) # Zusammenfügen der zwei Histogramme in eine Plot-Datei und ändern der Ränder (margins) des Plot-Fensters
 
-hist(ruhe[, "ru_pre"], xlim=c(0,5), ylim=c(1,50), main="Ruheempfinden vor der Sitzung", xlab="", ylab="", las=1)
-abline(v=mean(ruhe[, "ru_pre"]), lty=2, lwd=2)
+hist(wach[, "wm_pre"], xlim=c(0,5), ylim=c(1,50), main="Wachempfinden vor der Sitzung", xlab="", ylab="", las=1)
+abline(v=mean(wach[, "wm_pre"]), lty=2, lwd=2)
 
-hist(ruhe[, "ru_post"], xlim=c(0,5), ylim=c(1,50), main="Ruheempfinden nach der Sitzung", xlab="", ylab="", las=1)
-abline(v=mean(ruhe[, "ru_post"]), lty=2, lwd=2)
+hist(wach[, "wm_post"], xlim=c(0,5), ylim=c(1,50), main="Wachempfinden nach der Sitzung", xlab="", ylab="", las=1)
+abline(v=mean(wach[, "wm_post"]), lty=2, lwd=2)
 
 par(mfrow=c(1,1)) #Zurücksetzen auf default
 ```
@@ -128,16 +157,16 @@ par(mfrow=c(1,1)) #Zurücksetzen auf default
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
 
 ```{r}
-summary(ruhe[, "ru_pre"])
-summary(ruhe[, "ru_post"])
+summary(wach[, "wm_pre"])
+summary(wach[, "wm_post"])
 # aus dem Paket psych, das wir bereits installiert haben
 library(psych)
-describe(ruhe[, "ru_pre"])
-describe(ruhe[, "ru_post"])
+describe(wach[, "wm_pre"])
+describe(wach[, "wm_post"])
 ```
 ```{r, echo=FALSE}
-vorher <- describe(ruhe[, "ru_pre"])
-nachher <- describe(ruhe[, "ru_post"])
+vorher <- describe(wach[, "wm_pre"])
+nachher <- describe(wach[, "wm_post"])
 ```
 Der Mittelwert vorher ($M$ = `r round(vorher$mean, 2)`, $SD$ = `r round(vorher$sd, 2)`) ist deskriptiv niedriger als Mittelwert nachher ($M$ = `r round(nachher$mean, 2)`, $SD$ = `r round(nachher$sd, 2)`).
 
@@ -160,7 +189,7 @@ Die deskriptivstatistischen Maße unterscheiden sich.
 **Grafische Voraussetzungsprüfung: Normalverteilung von _d_**
 ```{r}
 par(mar=c(3,3,3,0)) #ändern der Ränder (margins) des Plot-Fensters
-difference <- ruhe[, "ru_pre"]-ruhe[, "ru_post"]
+difference <- wach[, "wm_pre"]-wach[, "wm_post"]
 hist(difference, xlim=c(-4,4), main="Verteilung der Differenzen", xlab="Differenzen", ylab="", las=1,freq=F)
 curve(dnorm(x, mean=mean(difference), sd=sd(difference)), col="blue", lwd=2, add=T)
 par(mfrow=c(1,1)) #Zurücksetzen auf default
@@ -168,9 +197,7 @@ qqnorm(difference,las=1)
 qqline(difference, col="blue")
 ```
 
-$\Rightarrow$ Differenzen sehen einigermaßen normalverteilt aus. 
-
-$\Rightarrow$ Durchführung des t-Tests für abhängige Stichproben, da alle Voraussetzungen hierfür erfüllt sind.
+$\Rightarrow$ Differenzen weisen leichte bis mittlere Abweichungen zur Normalverteilung auf. Symmetrie trotzdem gegeben und auf Grund des zentralen Grenzwertsatzes und der Stichprobengröße $\Rightarrow$ Durchführung des t-Tests für abhängige Stichproben
 </details>
 
 * Führen Sie die inferenzstatistische Testung durch.
@@ -180,7 +207,7 @@ $\Rightarrow$ Durchführung des t-Tests für abhängige Stichproben, da alle Vor
 **Durchführung des _t_-Tests für abhängige Stichproben in R**
 
 ```{r}
-t.test(x = ruhe[, "ru_pre"], y  = ruhe[, "ru_post"], # die Werte vorher und nachher
+t.test(x = wach[, "wm_pre"], y  = wach[, "wm_post"], # die Werte vorher und nachher
        paired = T,                                   # Stichproben sind abhängig
        alternative = "two.sided",                    # unggerichtete Hypothese -> zweiseitig Testung
        conf.level = .95)                             # alpha = .05
@@ -188,22 +215,22 @@ t.test(x = ruhe[, "ru_pre"], y  = ruhe[, "ru_post"], # die Werte vorher und nach
 
 ```{r, eval = FALSE}
 # Alternative Schreibweise
-t.test(x = ruhe$ru_pre, y = ruhe$ru_post, 
+t.test(x = wach$wm_pre, y = wach$wm_post, 
        paired = T,
        alternative = "two.sided",
        conf.level = .95)
 ```
 
 ```{r, echo=FALSE}
-ttest <- t.test(x = ruhe[, "ru_pre"], y  = ruhe[, "ru_post"], paired = T, alternative = "two.sided", conf.level = .95)
+ttest <- t.test(x = wach[, "wm_pre"], y  = wach[, "wm_post"], paired = T, alternative = "two.sided", conf.level = .95)
 ```
 
 * Zur Erinnerung: $df$ bei $t$-test mit abhängigen Stichproben: $n - 1$ (wobei $n$ die Anzahl der Paare darstellt)
-* _t_(`r ttest$parameter`) = `r round(ttest$statistic, 3)`, $p > .05$ $\rightarrow$ nicht signifikant, H0 wird beibehalten.
+* _t_(`r ttest$parameter`) = `r round(ttest$statistic, 3)`, $p =$ `r round(ttest$p.value, 3)` $\rightarrow$ nicht signifikant, H0 wird beibehalten.
 
 </details>
 
-* Berechnen Sie die zugehörige Effektstärke.
+* Bestimmen Sie unabhängig von der Signifikanzentscheidung die zugehörige Effektstärke.
 
 <details><summary>Lösung</summary>
 
@@ -220,7 +247,7 @@ $\Rightarrow$ Der standardisierte Populationseffekt beträgt _d2''_ = `r round(d
 
 Zu beachten ist, dass der standardisierte Populationseffekt auf der vorher berechneten Differenzvariable basiert. Aus diesem Grund hat der Effekt ein negatives Vorzeichen.
 
-Zur Berechnung der Differenzvariable wurden von den Prä-Messungen die Post-Messungen abgezogen. Ein negatives Vorzeichen des standardisierten Populationseffektes deutet also, wie auch unsere deskriptivstatistischen Ergebnisse, darauf hin, dass die Teilnahme am Statistikpraktikum einen positiven Effekt auf das Ruheempfinden haben könnte. Dies könnte man in einer weiteren Studie inferenzstatistisch überprüfen.
+Zur Berechnung der Differenzvariable wurden von den Prä-Messungen die Post-Messungen abgezogen. Ein negatives Vorzeichen des standardisierten Populationseffektes deutet also, wie auch unsere deskriptivstatistischen Ergebnisse, darauf hin, dass die Teilnahme am Statistikpraktikum einen positiven Effekt auf das Wachempfinden haben könnte. Dies könnte man in einer weiteren Studie inferenzstatistisch überprüfen.
 
 </details>
 
@@ -230,9 +257,9 @@ Zur Berechnung der Differenzvariable wurden von den Prä-Messungen die Post-Mess
 
 **Formales Berichten des Ergebnisses**
 
-Es wurde in einer Wiederholungsmessung untersucht, ob sich die Teilnahme am Statistikpraktikum  auf das Ruheempfinden auswirkt. Zunächst findet sich deskriptiv folgender Unterschied: Vor der Praktikumssitzung liegt der durchschnittliche Zufriedenheitswert bei `r round(vorher$mean, 2)` (_SD_ = `r round(vorher$sd, 2)`), während er nach der Praktikumssitzung bei `r round(nachher$mean, 2)` (_SD_ = `r round(nachher$sd, 2)`) liegt. 
+Es wurde in einer Wiederholungsmessung untersucht, ob sich die Teilnahme am Statistikpraktikum  auf das Wachempfinden auswirkt. Zunächst findet sich deskriptiv folgender Unterschied: Vor der Praktikumssitzung liegt der durchschnittliche Zufriedenheitswert bei `r round(vorher$mean, 2)` (_SD_ = `r round(vorher$sd, 2)`), während er nach der Praktikumssitzung bei `r round(nachher$mean, 2)` (_SD_ = `r round(nachher$sd, 2)`) liegt. 
 
-Zur Beantwortung der Fragestellung wurde ein ungerichteter _t_-Test für abhängige Stichproben durchgeführt. Der Gruppenunterschied ist signifikant (_t_(`r ttest$parameter`) = `r round(ttest$statistic, 3)`, $p < .05$), somit wird die Nullhypothese verworfen. Wir gehen davon aus, dass sich die Teilnahme am Statistikpraktikum auf das Ruheempfinden auswirkt.
+Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Gruppenunterschied ist nicht signifikant ($t$(`r ttest$parameter`) = `r round(ttest$statistic, 3)`, $p =$ `r round(ttest$p.value,3)`), somit wird die Nullhypothese beibehalten. Wir gehen davon aus, dass sich die Teilnahme am Statistikpraktikum nicht auf das Wachempfinden auswirkt.
 
 Der standardisierte Populationseffekt von _d''_ = `r round(d, 2)` ist laut Konventionen nach Cohen (1988) klein.
 

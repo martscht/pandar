@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es um vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [nehler, koehler, buchholz, irmer, liu] 
 weight: 7
-lastmod: '2023-12-05'
+lastmod: '`r Sys.Date()`'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -37,7 +37,9 @@ output:
 ---
 
 
-
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
 
 
      
@@ -56,8 +58,7 @@ output:
 
 Den Datensatz haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
 
-
-```r
+```{r}
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -103,6 +104,7 @@ fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre",
 
 # z-Standardisierung
 fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
+
 ```
 
 ***
@@ -121,32 +123,18 @@ Die Werte dieser Variablen zum zweiten Messzeitpunkt sind insofern voneinander a
 
 Wie immer beginnen wir mit der deskriptivstatistischen Analyse unserer Daten. Die beiden Variablen können wir bspw. mit dem `summary()`-Befehl näher betrachten.
 
-
-```r
+```{r}
 summary(fb23$ru_pre)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    1.00    2.25    3.00    2.73    3.25    4.00
-```
-
-```r
 summary(fb23$ru_post)
-```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##   1.000   2.500   3.000   2.951   3.500   4.000      32
-```
 
-Zunächst einmal ist offensichtlich, dass sich die Mittelwerte vor und nach der Sitzung unterscheiden. Die Frage bleibt aber bestehen, ob sich dieser Unterschied auf die Population verallgemeinern lässt. Weiterhin sticht hier direkt ins Auge, dass es nach in der Post-Variable fehlende Werte (32) gibt. Diese Personen können in die abhängige Testung nicht einbezogen werden und wir müssen das bei den folgenden Befehlen beachten.
+Zunächst einmal ist offensichtlich, dass sich die Mittelwerte vor und nach der Sitzung unterscheiden. Die Frage bleibt aber bestehen, ob sich dieser Unterschied auf die Population verallgemeinern lässt. Weiterhin sticht hier direkt ins Auge, dass es nach in der Post-Variable fehlende Werte (`r sum(is.na(fb23$ru_post))`) gibt. Diese Personen können in die abhängige Testung nicht einbezogen werden und wir müssen das bei den folgenden Befehlen beachten.
 
 
 Mithilfe von Histogrammen stellen wir jeweils die Verteilungen der Werte vor und nach der Sitzung dar, wobei in den Histogrammen eine vertikale Linie ergänzt ist, die den jeweiligen Mittelwert anzeigt.
 
-
-```r
+```{r}
 # Je ein Histogramm pro Werte, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
 par(mfrow=c(2,1), mar=c(3,3,2,0))
 hist(fb23$ru_pre, 
@@ -170,11 +158,6 @@ hist(fb23$ru_post,
 abline(v=mean(fb23$ru_post, na.rm = T), 
        lwd=3,
        col="darksalmon")
-```
-
-![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
-
-```r
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters, zuvor hatten wir "dev.off()" kennengelernt
 ```
 
@@ -193,8 +176,7 @@ Um unsere inferenzstistische Entscheidung mittels der $t$-Verteilung abzusichern
 
 Wir müssen also nur die Voraussetzung der Normalverteilung der Differenzvariable $d$ zusätzlich prüfen. Es ist wie bei den unabhängigen Tests üblich, diese Annahme optisch basierend auf der Stichprobe zu testen. Da wir hier die Differenzvariable betrachten wollen, müssen wir diese zunächst erstellen. Dies geht zum Glück sehr einfach, indem wir die Werte aller Personen auf `ru_pre` jeweils von ihren `ru_post` Werten abziehen. Personen mit einem fehlenden Wert auf einer der beien Variable erhalten auf `difference` jetzt automatisch ein `NA`. Somit sind alle Werte in den Grafiken die, die dann auch in unsere inferenzstatistische Prüfung eingehen. Anschließend schauen wir uns das Histogramm der Differenzvariable und den QQ-Plot an:
 
-
-```r
+```{r}
 difference <- fb23$ru_post-fb23$ru_pre
 hist(difference, 
      xlim=c(-3,3), 
@@ -208,16 +190,9 @@ curve(dnorm(x, mean=mean(difference, na.rm = T), sd=sd(difference, na.rm = T)),
       col="blue", 
       lwd=2, 
       add=T)
-```
-
-![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
-
-```r
 qqnorm(difference)
 qqline(difference, col="blue")
 ```
-
-![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-4-2.png)<!-- -->
 
 Auf den Abbildungen sind kleine Abweichungen der Differenzen von der Normalverteilung zu sehen. Bei diesen geringen Abweichungen könnte man die Normalverteilung annehmen. Zusätzlich gilt (wie auch bei den Einstichproben- und unabhängigen Tests) der zentrale Grenzwertsatz. In Fällen, in denen die Stichprobe (also Anzahl an Messwertpaaren) ausreichend groß ist, folgt die Stichprobenkennwerteverteilung wegen auch unabhängig von der Verteilung der Differenzen in der Population der $t$-Verteilung. “Ausreichend groß” ist natürlich Auslegungssache, aber nochmal zur Erinnerung: Bei Stichproben ab $n \geq 30$ greift der Effekt, wenn das Merkmal zumindest symmetrisch verteilt ist. Andere Empfehlungen gehen besonders bei sehr schiefen Verteilungen in Richtung von 80 Messwertpaaren. Die kleinen Abweichungen von der Normalverteilung und die große Stichproben sprechen also dafür, dass unsere Stichprobenkennwerteverteilung der mittleren Differenz der $t$-Verteilung folgt. Wir können also mit der inferenzstatistischen Überprüfung starten.
 
@@ -240,30 +215,19 @@ Bevor wir jetzt die Rechnungen durchführen, sollten wir noch das Signifikanzniv
 
 Wir verwenden hier die Funktion `t.test()`. Diesmal müssen wir allerdings die beiden Variablen einzeln der Funktion übergeben. Dies geschieht über die Argumente `x` und `y`. Das Argument `paired = T` führt dazu, dass der *t*-Test für abhängige (gepaarte) Stichproben durchgeführt wird.
 
-
-```r
+```{r}
 t.test(x = fb23$ru_post, y = fb23$ru_pre, # die beiden abhaengigen Variablen
       paired = T,                      # Stichproben sind abhaengig
       conf.level = .95)   
-```
 
 ```
-## 
-## 	Paired t-test
-## 
-## data:  fb23$ru_post and fb23$ru_pre
-## t = 4.353, df = 146, p-value = 2.511e-05
-## alternative hypothesis: true mean difference is not equal to 0
-## 95 percent confidence interval:
-##  0.1123539 0.2992108
-## sample estimates:
-## mean difference 
-##       0.2057823
+
+```{r, echo=FALSE}
+ttest <- t.test(x = fb23$ru_post, y = fb23$ru_pre,
+       paired = T, conf.level = .95)
 ```
 
-
-
-Auf den ursprünglichen Variablen sind immer noch die Personen mit fehlenden Werten enthalten. Trotzdem meldet die Funktion `t.test()` kein Problem. Was passiert hier also? Ein Indiz können uns die Freiheitsgrade beiten, die mit $n-1$ bestimmt werden können. Hier wird deutlich, dass Personen mit fehlenden Werten auf einer der beiden Variablen einfach ignoriert werden. Aber man bekommt (außer der überraschend kleinen Freiheitsgraden im Vergleich zur Größer des Datensatzes keine) keine Warnungn dazu. Kommen wir zur Interpretation des Ergebnis. $t$(146) = 4.35 -- der zugehörige p-Wert ($p < .01$) ist somit kleiner als unser festelegtes $\alpha$. Wir verwerfen die $H_0$ und nehmen die $H_1$ an.
+Auf den ursprünglichen Variablen sind immer noch die Personen mit fehlenden Werten enthalten. Trotzdem meldet die Funktion `t.test()` kein Problem. Was passiert hier also? Ein Indiz können uns die Freiheitsgrade beiten, die mit $n-1$ bestimmt werden können. Hier wird deutlich, dass Personen mit fehlenden Werten auf einer der beiden Variablen einfach ignoriert werden. Aber man bekommt (außer der überraschend kleinen Freiheitsgraden im Vergleich zur Größer des Datensatzes keine) keine Warnungn dazu. Kommen wir zur Interpretation des Ergebnis. $t$(`r ttest$parameter`) = `r round(ttest$statistic, 2)` -- der zugehörige p-Wert ($p < .01$) ist somit kleiner als unser festelegtes $\alpha$. Wir verwerfen die $H_0$ und nehmen die $H_1$ an.
 
 
 
@@ -277,43 +241,26 @@ wobei
 
 Wir führen die Berechnung von Cohen's $d$ für abhängige Stichproben zunächst von Hand durch. Dafür speichern wir uns die nötigen Größen ab und wenden dann die präsentierte Formel an:
 
-
-```r
+```{r}
 mean_d <- mean(difference, na.rm = T)
 sd.d.est <- sd(difference, na.rm = T)
 d_Wert <- mean_d/sd.d.est
 d_Wert
 ```
 
-```
-## [1] 0.359032
-```
-
 **Berechnung mit Funktion `cohen.d()`**
-
-```r
+```{r, results="hide"}
 #alternativ:
 #install.packages("effsize")
 library("effsize")
 ```
 
-
-```r
+```{r}
 d2 <- cohen.d(fb23$ru_post, fb23$ru_pre, 
       paired = TRUE,  #paired steht fuer 'abhaengig'
       within = FALSE, #wir brauchen nicht die Varianz innerhalb
       na.rm = TRUE)   
 d2
-```
-
-```
-## 
-## Cohen's d
-## 
-## d estimate: 0.359032 (small)
-## 95 percent confidence interval:
-##     lower     upper 
-## 0.1915546 0.5265094
 ```
 
 Mit dem Argument `within = T`, was der Default ist, wird für die Varianzberechnung die Varianz innerhalb der Gruppen herangezogen (vergleiche Formel Cohen's $d$ für unanghängige Stichproben).
@@ -326,12 +273,12 @@ _d''_ | Interpretation |
 ~ .35 | mittlerer Effekt |
 ~ .57 | großer Effekt |
 
-Zusammenfassend lässt sich sagen: Der standardisierte Populationseffekt beträgt $d_2''$ = 0.36 und ist laut Konventionen klein bis mittel. 
+Zusammenfassend lässt sich sagen: Der standardisierte Populationseffekt beträgt $d_2''$ = `r round(d_Wert, 2)` und ist laut Konventionen klein bis mittel. 
 
 
 ### Ergebnisinterpretation
 Zunächst findet sich deskriptiv ein Unterschied: 
-Der Mittelwert der Differenzen zwischen ruhig und unruhig beträgt 0.21. Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Unterschied zwischen den beiden Messzeitpunkten ist signifikant ($t$(146) = 4.35, $p < .01$), somit wird die Nullhypothese verworfen. Dieser Unterschied ist nach dem standardisierten Populationseffekt von $d_2''$ = 0.36 klein bis mittel.
+Der Mittelwert der Differenzen zwischen ruhig und unruhig beträgt `r round(mean(difference, na.rm = T), 2)`. Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Unterschied zwischen den beiden Messzeitpunkten ist signifikant ($t$(`r ttest$parameter`) = `r round(ttest$statistic, 2)`, $p < .01$), somit wird die Nullhypothese verworfen. Dieser Unterschied ist nach dem standardisierten Populationseffekt von $d_2''$ = `r round(d_Wert, 2)` klein bis mittel.
 
 ***
 
@@ -349,46 +296,27 @@ Allerdings konzentrieren wir uns nicht auf den Vergleich von Mittelwerten, sonde
 
 Wie immer beginnen wir mit der deskriptivstatistischen Analyse unserer Daten. Im letzten Abschnitt haben wir bereits gesehen, dass es bei der Post-Befragung eine größere Zahl an fehlenden Werten gab. 
 
-
-```r
+```{r}
 summary(fb23$gs_pre)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##   1.000   2.750   3.250   3.131   3.500   4.000       1
-```
-
-```r
 summary(fb23$gs_post)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##   1.000   3.000   3.250   3.202   3.750   4.000      32
 ```
 
 Es zeigt sich, dass es sowohl in der Pre- als auch in der Post-Befragung fehlende Werte gibt. Damit alle folgenden Ergebnisse auf den gleichen Daten basieren, reduzieren wir unseren Datensatz auf Personen, die zu beiden Zeitpunkten Antworten gegeben haben und legen diesen neuen Datensatz unter dem Namen `gut` ab. Gleichzeitig sollen dort auch nur noch die beiden Variablen von Interesse beinhaltet sein.
 
-
-```r
+```{r}
 gut <- fb23[, c("gs_pre", "gs_post")] # Erstellung eines neuen Datensatzes, welcher nur die für uns wichtigen Variablen enthält
 
 gut <- na.omit(gut) # Entfernt alle Beobachtungen, die auf einer der beiden Variable einen fehlenden Wert haben
 
 nrow(gut) # resultierende Stichprobengröße
-```
 
-```
-## [1] 146
 ```
 
 
 
 Lassen wir uns die Subskala nun grafisch ausgeben, wofür beim Vergleich der Mediane ein Boxplot gut geeignet ist.
 
-
-```r
+```{r}
 # Je ein Histogramm pro Gruppe, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
 par(mfrow=c(1,2), mar=c(3,3,2,0))
 boxplot(fb23$gs_pre, 
@@ -399,11 +327,7 @@ boxplot(fb23$gs_pre,
 boxplot(fb23$gs_post, 
      main="Subskala Schlecht nach der Sitzung", 
      las=1)
-```
 
-![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
-
-```r
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters
 ```
 
@@ -435,8 +359,7 @@ Weiterhin muss das Signifikanzniveau vor der Untersuchung festgelegt werden. Es 
 
 Die Argumente der Funktion für den Wilcoxon-Vorzeichen-Rangsummentest für abhängige Stichproben sehen dem des $t$-Tests für abhängige Stichproben sehr ähnlich. 
 
-
-```r
+```{r}
 wilcox.test(x = fb23$gs_post, 
             y = fb23$gs_pre, # die beiden abhängigen Gruppen
             paired = T,      # Stichproben sind abhängig
@@ -445,31 +368,14 @@ wilcox.test(x = fb23$gs_post,
             conf.level = .95)                 # alpha = .05
 ```
 
-```
-## Warning in wilcox.test.default(x = fb23$gs_post, y = fb23$gs_pre, paired
-## = T, : cannot compute exact p-value with ties
-```
-
-```
-## Warning in wilcox.test.default(x = fb23$gs_post, y = fb23$gs_pre, paired
-## = T, : cannot compute exact p-value with zeroes
+```{r, echo=FALSE}
+wilcox <- wilcox.test(x = fb23$gs_post, y  = fb23$gs_pre, paired = T, alternative = "greater", conf.level = .95)
 ```
 
-```
-## 
-## 	Wilcoxon signed rank test with continuity correction
-## 
-## data:  fb23$gs_post and fb23$gs_pre
-## V = 3660, p-value = 0.04944
-## alternative hypothesis: true location shift is greater than 0
-```
-
-
-
-V = 3660, _p_ < .05 $\rightarrow$ H0 wird verworfen.
+V = `r wilcox$statistic`, _p_ < .05 $\rightarrow$ H0 wird verworfen.
 
 
 ### Ergebnisinterpretation  
 
 Zunächst findet sich deskriptiv keine Unterschied: 
-Vor und nach der ersten Sitzung weisen die Studierenden einen identischen Median von 3.25 (_IQR_ = 0.75) auf [IQR ist die Interquartil-Range also die Distanz vom Prozentrang 25% bis zum Prozentrang 75%]. Da der Mittelwert in diesem Kontext nicht adäquater Repräsentant für die Variable ist, wurde ein Wilcoxon-Test für abhängige Stichproben durchgeführt, um die Medien zu vergleichen. Der Unterschied wurde bei einem Signifikanzniveau von alpha = .05 signifikant (_V_ = 3660, _p_ < .01). Somit wird die Nullhypothese verworfen. 
+Vor und nach der ersten Sitzung weisen die Studierenden einen identischen Median von `r round(median(fb23$gs_post, na.rm = T), 2 )` (_IQR_ = `r round(abs(diff(quantile(fb23$gs_post, probs = c(.25, .75), na.rm =T))), 2)`) auf [IQR ist die Interquartil-Range also die Distanz vom Prozentrang 25% bis zum Prozentrang 75%]. Da der Mittelwert in diesem Kontext nicht adäquater Repräsentant für die Variable ist, wurde ein Wilcoxon-Test für abhängige Stichproben durchgeführt, um die Medien zu vergleichen. Der Unterschied wurde bei einem Signifikanzniveau von alpha = .05 signifikant (_V_ = `r wilcox$statistic`, _p_ < .01). Somit wird die Nullhypothese verworfen. 
