@@ -458,7 +458,7 @@ wobei sich der Standardfehler (*SE*)  des Mittelwerts wie folgt zusammensetzt:
   
 $$\hat\sigma_{\bar{x}} = {\frac{{\hat\sigma}}{\sqrt{n}}}$$
 
-Da die Varianz in der Population nicht bekannt ist, muss diese mittels Nutzung der Varianz der Stichprobe geschätzt werden. Dies funktioniert über die Funktion `sd()`.
+Da die Standardabweichung in der Population nicht bekannt ist, muss diese mittels Nutzung der Standardabweichung der Stichprobe geschätzt werden. Dies funktioniert über die Funktion `sd()`.
 
 ```{r}
 sample_sd_neuro <- sd(fb23$neuro)
