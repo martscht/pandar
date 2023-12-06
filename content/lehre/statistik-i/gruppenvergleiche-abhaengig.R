@@ -113,34 +113,39 @@ d2 <- cohen.d(fb23$ru_post, fb23$ru_pre,
       na.rm = TRUE)   
 d2
 
-summary(fb23$gs_pre)
-summary(fb23$gs_post)
+load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 
-gut <- fb23[, c("gs_pre", "gs_post")] # Erstellung eines neuen Datensatzes, welcher nur die für uns wichtigen Variablen enthält
+head(CBTdata)
 
-gut <- na.omit(gut) # Entfernt alle Beobachtungen, die auf einer der beiden Variable einen fehlenden Wert haben
+CBTdata <- CBTdata[CBTdata$Treatment == "CBT" & 
+                     CBTdata$Disorder == "DEP", ]
 
-nrow(gut) # resultierende Stichprobengröße
-
+summary(CBTdata$BDI_pre)
+summary(CBTdata$BDI_post)
 
 # Je ein Histogramm pro Gruppe, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
 par(mfrow=c(1,2), mar=c(3,3,2,0))
-boxplot(fb23$gs_pre, 
-     main="Subskala Gut vor der Sitzung", 
-     las=1)
+hist(CBTdata$BDI_pre, 
+     main="Depressionsscore \nvor der Therapie", 
+     breaks = 10)
 
 
-boxplot(fb23$gs_post, 
-     main="Subskala Schlecht nach der Sitzung", 
-     las=1)
+hist(CBTdata$BDI_post, 
+     main="Depressionsscore \nnach der Therapie",
+     breaks = 10)
 
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters
 
-wilcox.test(x = fb23$gs_post, 
-            y = fb23$gs_pre, # die beiden abhängigen Gruppen
-            paired = T,      # Stichproben sind abhängig
-            alternative = "greater", # gerichtete Hypothese
-            exact = T,
-            conf.level = .95)                 # alpha = .05
+dif_dep <- CBTdata$BDI_post - CBTdata$BDI_pre
+hist(dif_dep,
+     main="Differenzen Depressionsscores",
+     breaks = 10)
 
-wilcox <- wilcox.test(x = fb23$gs_post, y  = fb23$gs_pre, paired = T, alternative = "greater", conf.level = .95)
+wilcox.test(x = CBTdata$BDI_pre, 
+            y = CBTdata$BDI_post,    # die beiden abhängigen Gruppen
+            paired = T,              # Stichproben sind abhängig
+            alternative = "greater", # gerichtete Hypothese
+            exact = F,               # Approximation?
+            conf.level = .95)        # alpha = .05
+
+wilcox <- wilcox.test(x = CBTdata$BDI_pre, y  = CBTdata$BDI_post, paired = T, alternative = "greater", conf.level = .95)

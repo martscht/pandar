@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es um vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [nehler, koehler, buchholz, irmer, liu] 
 weight: 7
-lastmod: '2023-12-05'
+lastmod: '2023-12-06'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -107,7 +107,7 @@ fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
 
 ***
 
-Nachdem wir uns mit **unabhängige Stichproben** in der ([letzten Sitzung](/lehre/statistik-i/gruppenvergleiche-unabhaengig)) beschäftigt haben wollen wir diesmal mit abhängigen Stichproben beschäftigen. Anwendungen dafür in der Praxis sind beispielsweise Zwillinge, Paare oder auch Messwiederholungen. Da wir nicht Ihre Geschwister mit erhoben haben, müssen wir uns in den Beispielen auf Messwiederholungen beschränken. Dafür wurden Sie einige Fragen zu Beginn und am Ende der ersten Praktikumssitzung untersucht.
+Nachdem wir uns mit **unabhängige Stichproben** in der ([letzten Sitzung](/lehre/statistik-i/gruppenvergleiche-unabhaengig)) beschäftigt haben wollen wir diesmal mit abhängigen Stichproben beschäftigen. Anwendungen dafür in der Praxis sind beispielsweise Zwillinge, Paare oder auch Messwiederholungen. Beide behandelten Fragestellungen in diesem Beitrag funktionieren mit Messwiederholung. Die Methoden sind aber auf andere Arten abhängiger Stichproben übertragbar.
 
 ***
 
@@ -338,76 +338,102 @@ Der Mittelwert der Differenzen zwischen ruhig und unruhig beträgt 0.21. Zur Bea
 
 ## Medianvergleich für abhängige Stichprobe
 
-Fragestellung: Erreichen die Studierenden in ihrer 'Guten vs. Schlechten Stimmung' nach der ersten Sitzung im Mittel höhere Werte als vor der ersten Sitzung des Kurses?
+Für den Medianvergleich bei abhängigen Stichproben kommen wir jetzt leider zu dem Punkt, dass alle Variablen in unserem Datensatz keine guten Voraussetzungen für den Test liefern, den wir an dieser Stelle präsentieren wollen: den Wilxocon-Vorzeichen-Rangtest. Wir haben zwar noch andere Variablen mit abhängigen Messungen (zu Beginn und am Ende des Praktikums), aber eine später präsentierte Voraussetzung für den Test ist, dass die Variable stetig ist. Damit können wir in unserem Datensatz nicht dienen. Wir müssen daher auf einen anderen Datensatz zugreifen, den wir aber direkt aus PandaR einladen können.
 
-Wie bei der letzten Forschungsfrage hat jede Person die gleichen Fragen zweimal beantwortet (Messwiederholung), so dass die Werte dieser Variablen zum zweiten Messzeitpunkt voneinander abhängig sind. Der Unterschied besteht jedoch darin, dass diese Hypothese gerichtet ist. 
 
-Allerdings konzentrieren wir uns nicht auf den Vergleich von Mittelwerten, sondern auf den von Medianen. Der Grund dafür liegt in der theoretischen Überlegung, dass der Mittelwert in diesem Kontext kein adäquater Repräsentant für die Variable ist. Es kann sein, dass der Mittelwert durch Ausreißer verzerrt wird, während der Median ein robusteres Maß darstellt, das den zentralen Trend der Daten besser widerspiegelt. 
+```r
+load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
+```
 
+Hierbei handelt es sich um fiktive Daten, die den Behandlungseffekt der kognitiv-behavioralen Verhaltenstherapie bei verschiedenen psychologischen Störungsbildern aufzeigen sollen. Wir können eine Übersicht über die enthaltenen Variablen erhalten, indem wir den `head()`-Befehl nutzen.
+
+
+```r
+head(CBTdata)
+```
+
+```
+##   Age Gender Treatment Disorder BDI_pre SWL_pre BDI_post SWL_post
+## 1  39 female       CBT      ANX      27      10       24       15
+## 2  36 female       CBT      ANX      22      13       13       17
+## 3  61 female       CBT      ANX      24      11       17       14
+## 4  70 female       CBT      ANX      30      15       22       19
+## 5  64 female       CBT      DEP      32      12       26       20
+## 6  50 female       CBT      ANX      24      15       23       22
+```
+
+Es wird deutlich, dass eine Person zu zwei Zeitpunkten hinsichtlich ihres Depressionsscores (BDI) und ihrer Lebenszufriedenheit (DWL) erhoben wurden. Wir wollen uns im Tutorial auf die Depression konzentrieren. Die Werte der Variablen (`BDI_pre` und `BDI_post`) zu den beiden Messzeitpunkten sind somit voneinander abhängig.
+
+Allerdings konzentrieren wir uns nicht auf den Vergleich von Mittelwerten, sondern auf den von Medianen. Der Grund dafür liegt in der theoretischen Überlegung, dass der Mittelwert des Depressionsscores kein adäquater Repräsentant für die Variable ist. Dies wäre bspw. durch einen cut-off Wert auf dem BDI Fragebogen zu erwarten (nur ab einem bestimmten Wert bekommt man überhaupt die Diagnose). Weiterhin könnte der Mittelwert durch sehr starke klinische Fälle (also Ausreißer) verzerrt werden, während der Median ein robusteres Maß darstellt, das den zentralen Trend der Daten dann besser widerspiegeln kann. 
+
+Wir wollen also eine Unterschiedsmessung von `BDI_post` und `BDI_pre` vornehmen. Um dem ganzen noch mehr inhaltliche Bedeutung zu verleihen, reduzieren wir unseren Datensatz auf die Personen, die wirklich an der Therapie teilgenommen haben (nicht auf der Warteliste standen) und auf Personen, die als Diagnose Depression (keine andere psychische Erkrankung) erhalten haben. Dies können wir durch einen logischen Filter erreichen, mit dem wir die Daten überschreiben.
+
+
+```r
+CBTdata <- CBTdata[CBTdata$Treatment == "CBT" & 
+                     CBTdata$Disorder == "DEP", ]
+```
+
+Der resultierende Datensatz sollte 60 Zeilen enthalten. Die Fragestellung soll nun spezfisch sein: Ist der Depressionscore nach der Intervention durch kognitiv-behaviorale Therapie niedriger als davor?
 
 ### Deskriptivstatistik
 
-Wie immer beginnen wir mit der deskriptivstatistischen Analyse unserer Daten. Im letzten Abschnitt haben wir bereits gesehen, dass es bei der Post-Befragung eine größere Zahl an fehlenden Werten gab. 
+Wie immer beginnen wir mit der deskriptivstatistischen Analyse unserer Daten. Einige Informationen können wir beispielsweise durch den `summary()`-Befehl erhalten 
 
 
 ```r
-summary(fb23$gs_pre)
+summary(CBTdata$BDI_pre)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##   1.000   2.750   3.250   3.131   3.500   4.000       1
+##        V1       
+##  Min.   :13.00  
+##  1st Qu.:19.75  
+##  Median :22.00  
+##  Mean   :22.20  
+##  3rd Qu.:25.00  
+##  Max.   :32.00
 ```
 
 ```r
-summary(fb23$gs_post)
+summary(CBTdata$BDI_post)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##   1.000   3.000   3.250   3.202   3.750   4.000      32
+##        V1       
+##  Min.   : 9.00  
+##  1st Qu.:13.00  
+##  Median :18.00  
+##  Mean   :17.90  
+##  3rd Qu.:21.25  
+##  Max.   :30.00
 ```
 
-Es zeigt sich, dass es sowohl in der Pre- als auch in der Post-Befragung fehlende Werte gibt. Damit alle folgenden Ergebnisse auf den gleichen Daten basieren, reduzieren wir unseren Datensatz auf Personen, die zu beiden Zeitpunkten Antworten gegeben haben und legen diesen neuen Datensatz unter dem Namen `gut` ab. Gleichzeitig sollen dort auch nur noch die beiden Variablen von Interesse beinhaltet sein.
+Es zeigt sich zunächst, dass es in dem Datensatz keine fehlenden Werte gibt. Weiterhin ist der Median des Depressionsscores vor der Testung höher als danach, was der Richtung unserer Hypothesen entspricht.
 
-
-```r
-gut <- fb23[, c("gs_pre", "gs_post")] # Erstellung eines neuen Datensatzes, welcher nur die für uns wichtigen Variablen enthält
-
-gut <- na.omit(gut) # Entfernt alle Beobachtungen, die auf einer der beiden Variable einen fehlenden Wert haben
-
-nrow(gut) # resultierende Stichprobengröße
-```
-
-```
-## [1] 146
-```
-
-
-
-Lassen wir uns die Subskala nun grafisch ausgeben, wofür beim Vergleich der Mediane ein Boxplot gut geeignet ist.
+Lassen wir uns die statistischen Maße noch durch das Aufzeichnen einer Verteilung ergänzen. Nutzen wir hierfür das Histogramm. Im Titel können wir mit `\n` einen Zeilenumbruch erreichen.
 
 
 ```r
 # Je ein Histogramm pro Gruppe, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
 par(mfrow=c(1,2), mar=c(3,3,2,0))
-boxplot(fb23$gs_pre, 
-     main="Subskala Gut vor der Sitzung", 
-     las=1)
+hist(CBTdata$BDI_pre, 
+     main="Depressionsscore \nvor der Therapie", 
+     breaks = 10)
 
 
-boxplot(fb23$gs_post, 
-     main="Subskala Schlecht nach der Sitzung", 
-     las=1)
+hist(CBTdata$BDI_post, 
+     main="Depressionsscore \nnach der Therapie",
+     breaks = 10)
 ```
 
-![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 ```r
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters
 ```
 
-Hier sieht man direkt, dass es viele Ausreißer in beiden Messperioden gibt. Dies ist der Grund, warum der Median ein geeignetes Maß für die zentrale Tendenz ist. Leider ist der Median vor und nach dem Praktikum genau gleich. Damit würde sich eigentlich die weitere Untersuchung erübrigen. Zu Übungszwecken werden wir sie trotzdem durchführen.
+Wie vermutet haben wir sowohl vor als auch nach der Therapie. Hier sieht man direkt, dass es viele Ausreißer in beiden Messperioden gibt. Dies ist der Grund, warum der Median ein geeignetes Maß für die zentrale Tendenz ist. Leider ist der Median vor und nach dem Praktikum genau gleich. Damit würde sich eigentlich die weitere Untersuchung erübrigen. Zu Übungszwecken werden wir sie trotzdem durchführen.
 
 
 
@@ -415,14 +441,28 @@ Hier sieht man direkt, dass es viele Ausreißer in beiden Messperioden gibt. Die
 
 Zunächst prüfen wir, ob wir zur Beantwortung der Fragestellung einen Wilcoxon-Tests-Test für abhängige Stichproben verwenden können: 
 
-**Voraussetzungen für die Durchführung des Wilcoxon-Tests (für abhängige Stichproben):**
+1.  die Messwerte innerhalb der Paare dürfen sich gegenseitig beeinflussen/voneinander abhängig sein; keine Abhängigkeiten zwischen den Messwertpaaren $\rightarrow$ ok
+2.  die Variable ist stetig 
+3.  die Differenzvariable ist hinsichtlich der Größe reliabel $\rightarrow$ bedeutete für uns, dass wir eine Intervallskalierung brauchen, damit die Differenzen zweier Messwertpaare vergleichbar sind
+4.  die Differenzvariable ist symmetrisch verteilt (nicht notwendigerweise normalverteilt; ggf. grafische Prüfung oder Hintergrundwissen)
+
+Die erste Voraussetzung nehmen wir wie beschrieben als gegeben an, da die Messwerte Prä und Post einer Messwiederholung entsprechen und zwischen den einzelnen Personen keine Abhängigkeiten bestehen sollten. Im strengen Sinn ist die Variable nicht stetig, da nicht alle Werte theoretisch möglich sind, also unendlich Ausprägungen möglich sind. Trotzdem haben wir im Histogramm bereits gesehen, dass einige Werte möglich waren und wir nehmen jetzt mal an, dass wir damit nah genug an unendlich dran sind. Hinsichtlich der Skalierung unserer Variable gehen wir davon aus, dass sie intervallskaliert ist, da wir uns mit einem Fragebogenscore beschäftigen. Diese Skalierung wird benötigt, da im ersten Schritt die Differenzen zwischen dem Prä- und dem Post-Wert 
+
+Bleibt noch die Voraussetzung, die Verteilung der Differenzwerte zu betrachten. Dafür bileden wir zunächst einen Vektor mit dem Namen `dif_dep`, der die Differenzen aller Personen enthält. Anschließend schauen wir uns auch die zu diesem Vektor das Histogramm an.
 
 
-1.  die Messwerte innerhalb der Paare dürfen sich gegenseitig beeinflussen/voneinander abhängig sein; keine Abhängigkeiten zwischen den Messwertpaaren $\rightarrow$ ok\
-2.  die Differenzvariable ist in der Population stetig (zumindest singulär ordinal) 
-3.  die Differenzvariable ist symmetrisch verteilt (nicht notwendigerweise normalverteilt; ggf. grafische Prüfung oder Hintergrundwissen)
+```r
+dif_dep <- CBTdata$BDI_post - CBTdata$BDI_pre
+hist(dif_dep,
+     main="Differenzen Depressionsscores",
+     breaks = 10)
+```
 
-### 5.3. Inferenzstatistik mit dem Wilcoxon-Vorzeichen-Rangtest für abhängige Stichproben
+![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+
+Die Differenzen weisen Abweichungen von der Symmetri-Annahme vor. Jedoch sind dies nur einzelne, wenige Fälle, weshalb wir die inferenzstatistische Testung trotzdem durchführen.
+
+### Durchführung des Wilcoxon-Vorzeichen-Rangtest für abhängige Stichproben
 
 Aus unserer Fragestellung wird eine Unterschiedsyhpothese deutlich, die einen gerichteten Effekt postuliert. Das Hypothesenpaar sieht folgendermaßen aus:
 
@@ -437,39 +477,28 @@ Die Argumente der Funktion für den Wilcoxon-Vorzeichen-Rangsummentest für abh�
 
 
 ```r
-wilcox.test(x = fb23$gs_post, 
-            y = fb23$gs_pre, # die beiden abhängigen Gruppen
-            paired = T,      # Stichproben sind abhängig
+wilcox.test(x = CBTdata$BDI_pre, 
+            y = CBTdata$BDI_post,    # die beiden abhängigen Gruppen
+            paired = T,              # Stichproben sind abhängig
             alternative = "greater", # gerichtete Hypothese
-            exact = T,
-            conf.level = .95)                 # alpha = .05
-```
-
-```
-## Warning in wilcox.test.default(x = fb23$gs_post, y = fb23$gs_pre, paired
-## = T, : cannot compute exact p-value with ties
-```
-
-```
-## Warning in wilcox.test.default(x = fb23$gs_post, y = fb23$gs_pre, paired
-## = T, : cannot compute exact p-value with zeroes
+            exact = F,               # Approximation?
+            conf.level = .95)        # alpha = .05
 ```
 
 ```
 ## 
 ## 	Wilcoxon signed rank test with continuity correction
 ## 
-## data:  fb23$gs_post and fb23$gs_pre
-## V = 3660, p-value = 0.04944
+## data:  CBTdata$BDI_pre and CBTdata$BDI_post
+## V = 1640, p-value = 6.047e-10
 ## alternative hypothesis: true location shift is greater than 0
 ```
 
 
 
-V = 3660, _p_ < .05 $\rightarrow$ H0 wird verworfen.
+Durch das Argument `exact` kann angegeben werden, ob man einen exakten p-Wert oder eine Approximation ausgeben lassen will -- in spezifischen Konstellationen kann man diese Wahl trffen. Für Fälle mit Rangbindungen und Differenzen von 0 wird eine Approximation genutzt, die wir hier auch uns anzeigen lassen. Auch unsere Stichprobengröße führt dazu, dass die Approximation genutzt wird. Trotzdem steuern wir mit `exact = FALSE` auch bewusst an. Die Signifikanzentscheidung kann mit diesem Output direkt getroffen werden. Der empirische Wert liegt bei V = 1640 und für den zugehörigen p-Wert gilt: $p < .01$. Wir würden die H0 also verwerfen. Am Output fällt uns in Unterschied zum $t$-Test auf, dass kein Konfidenzintervall ausgegeben wird, was uns aber nicht weiter stört, da wir unsere Hypothesen prüfen konnten.
 
 
 ### Ergebnisinterpretation  
 
-Zunächst findet sich deskriptiv keine Unterschied: 
-Vor und nach der ersten Sitzung weisen die Studierenden einen identischen Median von 3.25 (_IQR_ = 0.75) auf [IQR ist die Interquartil-Range also die Distanz vom Prozentrang 25% bis zum Prozentrang 75%]. Da der Mittelwert in diesem Kontext nicht adäquater Repräsentant für die Variable ist, wurde ein Wilcoxon-Test für abhängige Stichproben durchgeführt, um die Medien zu vergleichen. Der Unterschied wurde bei einem Signifikanzniveau von alpha = .05 signifikant (_V_ = 3660, _p_ < .01). Somit wird die Nullhypothese verworfen. 
+Da der Mittelwert für die Depressionsscores kein sinnvolles Maß für die zentrale Tendenz darstellt, wurde ein Wilcoxon-Vorzeichen-Rangtest für abhängige Stichproben durchgeführt, um die Medien zu vergleichen. Zunächst findet sich deskriptiv ein Unterschied: Vor der Therapie ist der Median des Depressionsscores größer 22 als nach der Therapie 18. Der Unterschied wurde bei einem Signifikanzniveau von alpha = .05 signifikant (_V_ = 1640, $p$ < .01). Somit wird die Nullhypothese verworfen und es wird angenommen, dass der Depressionsscore nach der Therapie niedriger ist als davor.
