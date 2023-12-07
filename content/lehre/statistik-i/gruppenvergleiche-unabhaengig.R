@@ -77,19 +77,40 @@ sd_klinisch
 
 # Gruppe 1 (nichtKlinisch) 
 par(mfrow=c(1,2))
+
 vertr_nichtKlinisch <- fb23[(fb23$fach_klin=="nicht klinisch"), "vertr"]
-hist(vertr_nichtKlinisch, xlim=c(0,6), ylim=c(0,.8), main="Verträglichkeit (nicht klinisch)", xlab="", ylab="", las=1, probability=T)
-curve(dnorm(x, mean=mean(vertr_nichtKlinisch, na.rm=T), sd=sd(vertr_nichtKlinisch, na.rm=T)), col="blue", lwd=2, add=T)
+
+hist(vertr_nichtKlinisch, 
+     xlim=c(0,6), ylim=c(0,.8), 
+     main="Verträglichkeit (nicht klinisch)", 
+     xlab="", ylab="", 
+     las=1, probability=T)
+curve(dnorm(x, 
+            mean = mean(vertr_nichtKlinisch, na.rm=T), 
+            sd = sd(vertr_nichtKlinisch, na.rm=T)), 
+      col="blue", lwd=2, add=T)
+
 qqnorm(vertr_nichtKlinisch)
 qqline(vertr_nichtKlinisch, col="blue")
 
+dev.off()
+
 # Gruppe 2 (klinisch) 
 par(mfrow=c(1,2))
+
 vertr_klinisch <- fb23[(fb23$fach_klin=="klinisch"), "vertr"]
-hist(vertr_klinisch, xlim=c(0,6), ylim=c(0,.8), main="Verträglichkeit (klinisch)", xlab="", ylab="", las=1, probability=T)
-curve(dnorm(x, mean=mean(vertr_klinisch, na.rm=T), sd=sd(vertr_klinisch, na.rm=T)), col="blue", lwd=2, add=T)
+hist(vertr_klinisch, 
+     xlim=c(0,6), ylim=c(0,.8), 
+     main="Verträglichkeit (klinisch)", 
+     xlab="", ylab="", las=1, probability=T)
+curve(dnorm(x, 
+            mean = mean(vertr_klinisch, na.rm=T),
+            sd = sd(vertr_klinisch, na.rm=T)), 
+      col="blue", lwd=2, add=T)
+
 qqnorm(vertr_klinisch)
 qqline(vertr_klinisch, col="blue")
+
 dev.off()
 
 library(car)

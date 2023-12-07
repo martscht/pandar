@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [walter, nehler] 
-lastmod: '2023-12-02'
+lastmod: '2023-12-05'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -36,7 +36,7 @@ output:
 
 
 ## Aufgabe 1
-Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach Ihrem Befinden zum Zeitpunkt der Umfrage befragt. Hierbei wurde unteranderem erhoben, wie ruhig (hohe Werte) oder unruhig (niedrige Werte) Sie sich zu beiden Zeitpunkten gefühlt haben (Variable `ru_pre` und `ru_post`). Nun wollen Sie untersuchen, ob die Teilnahme am Statistikpraktikum einen Einfluss auf das Befinden der Studierenden hat. Sie gehen davon aus, dass sich der Ruhestudium vor und nach dem Praktikum unterscheidet ohne eine Richtung anzunehmen.
+Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach Ihrem Befinden zum Zeitpunkt der Umfrage befragt. Hierbei wurde unteranderem erhoben, wie wach (hohe Werte) oder müde (niedrige Werte) Sie sich zu beiden Zeitpunkten gefühlt haben (Variable `wm_pre` und `wm_post`). Nun wollen Sie untersuchen, ob die Teilnahme am Statistikpraktikum einen Einfluss auf das Befinden der Studierenden hat. Sie gehen davon aus, dass sich die Angaben zu Wach vor und nach dem Praktikum unterscheidet ohne eine Richtung anzunehmen.
 
 
 
@@ -52,8 +52,8 @@ Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach I
 
 
 Hypothesenpaar (inhaltlich):  
-H0: Die Teilnahme am Statistikpraktikum wirkt sich nicht auf das Ruheempfinden der Studierenden aus.
-H1: Die Teilnahme am Statistikpraktikum wirkt sich auf das Ruheempfinden der Studierenden aus.
+H0: Die Teilnahme am Statistikpraktikum wirkt sich nicht auf das Wachempfinden der Studierenden aus.
+H1: Die Teilnahme am Statistikpraktikum wirkt sich auf das Wachempfinden der Studierenden aus.
 
 Hypothesenpaar (statistisch):  
 
@@ -72,25 +72,25 @@ $\alpha = .05$
 
 **Bevor es weiter geht:**
 
-Ein Blick in den fb23-Datensatz verrät, dass auf dem Skalenwert ru_post, der Messung des Ruheempfindes zum zweiten Zeitpunkt, Werte fehlen. Diese fehlenden Werte werden als *NA* abgebildet.
+Ein Blick in den fb23-Datensatz verrät, dass auf dem Skalenwert `wm_post`, der Messung des Wachempfindens zum zweiten Zeitpunkt, Werte fehlen. Diese fehlenden Werte werden als *NA* abgebildet.
 
-Um verfälschte deskriptiv- und inferenzstatistische Ergebnisse zu vermeiden, werden alle Personen aus der weiteren Berechung ausgeschlossen, die einen fehlenden Wert auf `ru_post` (oder `ru_pre`) aufweisen. Damit wir den Datensatz `fb23` aber nicht generell verändern, legen wir estmal einen neuen Datesatz an, der nur die beiden interessierenden Variablen enthält.
+Um verfälschte deskriptiv- und inferenzstatistische Ergebnisse zu vermeiden, werden alle Personen aus der weiteren Berechung ausgeschlossen, die einen fehlenden Wert auf `wm_post` (oder `wm_pre`) aufweisen. Damit wir den Datensatz `fb23` aber nicht generell verändern, legen wir estmal einen neuen Datesatz an, der nur die beiden interessierenden Variablen enthält.
 
 
 ```r
-ruhe <- fb23[, c("ru_pre", "ru_post")] #Erstellung eines neuen Datensatzes, welcher nur die für uns wichtigen Variablen enthält
+wach <- fb23[, c("wm_pre", "wm_post")] #Erstellung eines neuen Datensatzes, welcher nur die für uns wichtigen Variablen enthält
 
-ruhe <- na.omit(ruhe) #Entfernt alle Beobachtungen, die auf einer der beiden Variable einen fehlenden Wert haben
+wach <- na.omit(wach) #Entfernt alle Beobachtungen, die auf einer der beiden Variable einen fehlenden Wert haben
 
-str(ruhe) #Ablesen der finalen Stichprobengröße
+str(wach) #Ablesen der finalen Stichprobengröße
 ```
 
 ```
-## 'data.frame':	147 obs. of  2 variables:
-##  $ ru_pre : num  2 1 2.75 2.75 2.25 1.75 3.25 2.75 2.25 3.25 ...
-##  $ ru_post: num  2.25 1.5 3.75 3.5 3 3.5 2.75 2.75 2.75 3.25 ...
-##  - attr(*, "na.action")= 'omit' Named int [1:32] 6 14 15 17 24 25 28 44 47 53 ...
-##   ..- attr(*, "names")= chr [1:32] "7" "15" "16" "18" ...
+## 'data.frame':	146 obs. of  2 variables:
+##  $ wm_pre : num  2.5 2.25 2.75 3 2.25 2.25 2.5 1.75 3.25 2.5 ...
+##  $ wm_post: num  2 1 3.75 3 3.25 2 3.25 2 1.5 3 ...
+##  - attr(*, "na.action")= 'omit' Named int [1:33] 4 6 14 15 17 24 25 28 44 47 ...
+##   ..- attr(*, "names")= chr [1:33] "4" "7" "15" "16" ...
 ```
 
 Nach dem Entfernen der fehlenden Werte haben wir eine Stichprobengröße von $n = 147$.
@@ -104,11 +104,11 @@ Je ein Histogramm pro Gruppe, untereinander dargestellt, vertikale Linie für de
 ```r
 par(mfrow=c(2,1), mar=c(3,2,2,0)) # Zusammenfügen der zwei Histogramme in eine Plot-Datei und ändern der Ränder (margins) des Plot-Fensters
 
-hist(ruhe[, "ru_pre"], xlim=c(0,5), ylim=c(1,50), main="Ruheempfinden vor der Sitzung", xlab="", ylab="", las=1)
-abline(v=mean(ruhe[, "ru_pre"]), lty=2, lwd=2)
+hist(wach[, "wm_pre"], xlim=c(0,5), ylim=c(1,50), main="Wachempfinden vor der Sitzung", xlab="", ylab="", las=1)
+abline(v=mean(wach[, "wm_pre"]), lty=2, lwd=2)
 
-hist(ruhe[, "ru_post"], xlim=c(0,5), ylim=c(1,50), main="Ruheempfinden nach der Sitzung", xlab="", ylab="", las=1)
-abline(v=mean(ruhe[, "ru_post"]), lty=2, lwd=2)
+hist(wach[, "wm_post"], xlim=c(0,5), ylim=c(1,50), main="Wachempfinden nach der Sitzung", xlab="", ylab="", las=1)
+abline(v=mean(wach[, "wm_post"]), lty=2, lwd=2)
 ```
 
 ![](/lehre/statistik-i/gruppenvergleiche-abhaengig-loesungen_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
@@ -122,44 +122,48 @@ par(mfrow=c(1,1)) #Zurücksetzen auf default
 
 
 ```r
-summary(ruhe[, "ru_pre"])
+summary(wach[, "wm_pre"])
 ```
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   1.000   2.250   3.000   2.745   3.250   4.000
+##    1.00    2.25    2.75    2.63    3.00    4.00
 ```
 
 ```r
-summary(ruhe[, "ru_post"])
+summary(wach[, "wm_post"])
 ```
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   1.000   2.500   3.000   2.951   3.500   4.000
+##    1.00    2.00    2.50    2.58    3.00    4.00
 ```
 
 ```r
 # aus dem Paket psych, das wir bereits installiert haben
 library(psych)
-describe(ruhe[, "ru_pre"])
+describe(wach[, "wm_pre"])
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 147 2.74 0.76      3    2.79 0.74   1   4     3 -0.48    -0.55 0.06
+##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis
+## X1    1 146 2.63 0.59   2.75    2.64 0.74   1   4     3 -0.19    -0.29
+##      se
+## X1 0.05
 ```
 
 ```r
-describe(ruhe[, "ru_post"])
+describe(wach[, "wm_post"])
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 147 2.95 0.65      3    2.98 0.74   1   4     3 -0.43    -0.36 0.05
+##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis
+## X1    1 146 2.58 0.69    2.5    2.59 0.74   1   4     3 -0.15    -0.41
+##      se
+## X1 0.06
 ```
 
-Der Mittelwert vorher ($M$ = 2.74, $SD$ = 0.76) ist deskriptiv niedriger als Mittelwert nachher ($M$ = 2.95, $SD$ = 0.65).
+Der Mittelwert vorher ($M$ = 2.63, $SD$ = 0.59) ist deskriptiv niedriger als Mittelwert nachher ($M$ = 2.58, $SD$ = 0.69).
 
 Die deskriptivstatistischen Maße unterscheiden sich. 
 
@@ -181,7 +185,7 @@ Die deskriptivstatistischen Maße unterscheiden sich.
 
 ```r
 par(mar=c(3,3,3,0)) #ändern der Ränder (margins) des Plot-Fensters
-difference <- ruhe[, "ru_pre"]-ruhe[, "ru_post"]
+difference <- wach[, "wm_pre"]-wach[, "wm_post"]
 hist(difference, xlim=c(-4,4), main="Verteilung der Differenzen", xlab="Differenzen", ylab="", las=1,freq=F)
 curve(dnorm(x, mean=mean(difference), sd=sd(difference)), col="blue", lwd=2, add=T)
 ```
@@ -196,9 +200,7 @@ qqline(difference, col="blue")
 
 ![](/lehre/statistik-i/gruppenvergleiche-abhaengig-loesungen_files/figure-html/unnamed-chunk-6-2.png)<!-- -->
 
-$\Rightarrow$ Differenzen sehen einigermaßen normalverteilt aus. 
-
-$\Rightarrow$ Durchführung des t-Tests für abhängige Stichproben, da alle Voraussetzungen hierfür erfüllt sind.
+$\Rightarrow$ Differenzen weisen leichte bis mittlere Abweichungen zur Normalverteilung auf. Symmetrie trotzdem gegeben und auf Grund des zentralen Grenzwertsatzes und der Stichprobengröße $\Rightarrow$ Durchführung des t-Tests für abhängige Stichproben
 </details>
 
 * Führen Sie die inferenzstatistische Testung durch.
@@ -209,7 +211,7 @@ $\Rightarrow$ Durchführung des t-Tests für abhängige Stichproben, da alle Vor
 
 
 ```r
-t.test(x = ruhe[, "ru_pre"], y  = ruhe[, "ru_post"], # die Werte vorher und nachher
+t.test(x = wach[, "wm_pre"], y  = wach[, "wm_post"], # die Werte vorher und nachher
        paired = T,                                   # Stichproben sind abhängig
        alternative = "two.sided",                    # unggerichtete Hypothese -> zweiseitig Testung
        conf.level = .95)                             # alpha = .05
@@ -219,20 +221,20 @@ t.test(x = ruhe[, "ru_pre"], y  = ruhe[, "ru_post"], # die Werte vorher und nach
 ## 
 ## 	Paired t-test
 ## 
-## data:  ruhe[, "ru_pre"] and ruhe[, "ru_post"]
-## t = -4.353, df = 146, p-value = 2.511e-05
+## data:  wach[, "wm_pre"] and wach[, "wm_post"]
+## t = 1.0791, df = 145, p-value = 0.2823
 ## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
-##  -0.2992108 -0.1123539
+##  -0.04129183  0.14060690
 ## sample estimates:
 ## mean difference 
-##      -0.2057823
+##      0.04965753
 ```
 
 
 ```r
 # Alternative Schreibweise
-t.test(x = ruhe$ru_pre, y = ruhe$ru_post, 
+t.test(x = wach$wm_pre, y = wach$wm_post, 
        paired = T,
        alternative = "two.sided",
        conf.level = .95)
@@ -241,11 +243,11 @@ t.test(x = ruhe$ru_pre, y = ruhe$ru_post,
 
 
 * Zur Erinnerung: $df$ bei $t$-test mit abhängigen Stichproben: $n - 1$ (wobei $n$ die Anzahl der Paare darstellt)
-* _t_(146) = -4.353, $p > .05$ $\rightarrow$ nicht signifikant, H0 wird beibehalten.
+* _t_(145) = 1.079, $p =$ 0.282 $\rightarrow$ nicht signifikant, H0 wird beibehalten.
 
 </details>
 
-* Berechnen Sie die zugehörige Effektstärke.
+* Bestimmen Sie unabhängig von der Signifikanzentscheidung die zugehörige Effektstärke.
 
 <details><summary>Lösung</summary>
 
@@ -260,14 +262,14 @@ d
 ```
 
 ```
-## [1] -0.359032
+## [1] 0.08930936
 ```
 
-$\Rightarrow$ Der standardisierte Populationseffekt beträgt _d2''_ = -0.36 und ist laut Konventionen nach Cohen (1988) klein. 
+$\Rightarrow$ Der standardisierte Populationseffekt beträgt _d2''_ = 0.09 und ist laut Konventionen nach Cohen (1988) klein. 
 
 Zu beachten ist, dass der standardisierte Populationseffekt auf der vorher berechneten Differenzvariable basiert. Aus diesem Grund hat der Effekt ein negatives Vorzeichen.
 
-Zur Berechnung der Differenzvariable wurden von den Prä-Messungen die Post-Messungen abgezogen. Ein negatives Vorzeichen des standardisierten Populationseffektes deutet also, wie auch unsere deskriptivstatistischen Ergebnisse, darauf hin, dass die Teilnahme am Statistikpraktikum einen positiven Effekt auf das Ruheempfinden haben könnte. Dies könnte man in einer weiteren Studie inferenzstatistisch überprüfen.
+Zur Berechnung der Differenzvariable wurden von den Prä-Messungen die Post-Messungen abgezogen. Ein negatives Vorzeichen des standardisierten Populationseffektes deutet also, wie auch unsere deskriptivstatistischen Ergebnisse, darauf hin, dass die Teilnahme am Statistikpraktikum einen positiven Effekt auf das Wachempfinden haben könnte. Dies könnte man in einer weiteren Studie inferenzstatistisch überprüfen.
 
 </details>
 
@@ -277,10 +279,10 @@ Zur Berechnung der Differenzvariable wurden von den Prä-Messungen die Post-Mess
 
 **Formales Berichten des Ergebnisses**
 
-Es wurde in einer Wiederholungsmessung untersucht, ob sich die Teilnahme am Statistikpraktikum  auf das Ruheempfinden auswirkt. Zunächst findet sich deskriptiv folgender Unterschied: Vor der Praktikumssitzung liegt der durchschnittliche Zufriedenheitswert bei 2.74 (_SD_ = 0.76), während er nach der Praktikumssitzung bei 2.95 (_SD_ = 0.65) liegt. 
+Es wurde in einer Wiederholungsmessung untersucht, ob sich die Teilnahme am Statistikpraktikum  auf das Wachempfinden auswirkt. Zunächst findet sich deskriptiv folgender Unterschied: Vor der Praktikumssitzung liegt der durchschnittliche Zufriedenheitswert bei 2.63 (_SD_ = 0.59), während er nach der Praktikumssitzung bei 2.58 (_SD_ = 0.69) liegt. 
 
-Zur Beantwortung der Fragestellung wurde ein ungerichteter _t_-Test für abhängige Stichproben durchgeführt. Der Gruppenunterschied ist signifikant (_t_(146) = -4.353, $p < .05$), somit wird die Nullhypothese verworfen. Wir gehen davon aus, dass sich die Teilnahme am Statistikpraktikum auf das Ruheempfinden auswirkt.
+Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Gruppenunterschied ist nicht signifikant ($t$(145) = 1.079, $p =$ 0.282), somit wird die Nullhypothese beibehalten. Wir gehen davon aus, dass sich die Teilnahme am Statistikpraktikum nicht auf das Wachempfinden auswirkt.
 
-Der standardisierte Populationseffekt von _d''_ = -0.36 ist laut Konventionen nach Cohen (1988) klein.
+Der standardisierte Populationseffekt von _d''_ = 0.09 ist laut Konventionen nach Cohen (1988) klein.
 
 </details>

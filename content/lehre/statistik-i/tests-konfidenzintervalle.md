@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
 authors: [nehler, scheppa-lahyani] 
 weight: 5
-lastmod: '2023-12-04'
+lastmod: '2023-12-07'
 featured: yes
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -417,8 +417,10 @@ describe(fb23$neuro)
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 179 3.35 0.98    3.5    3.37 0.74   1   5     4 -0.19    -0.68 0.07
+##    vars   n mean   sd median trimmed  mad min max range  skew
+## X1    1 179 3.35 0.98    3.5    3.37 0.74   1   5     4 -0.19
+##    kurtosis   se
+## X1    -0.68 0.07
 ```
 
 Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei 3.35. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
@@ -445,7 +447,7 @@ hist(fb23$neuro, xlim=c(0,6), main = "Histogramm",
 
 ![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
-Wir sehen bereits, dass der Gipfel unserer empirischen Werte für eine Normalverteilung fehlt. Das Abflachen zu den Seiten sieht aber relativ Glockenförmig und symmetrisch aus. Für eine bessere Einordnung wäre es hilfreich, die theoretisch angenommene Normalverteilung noch zusätzlich zu unseren empirischen Werten einzuzeichnen. Hiefür nutzen wir die `curve()` Funktion. Da wir bereits einen Plot (das Histogramm) gezeichnet haben, können wir mit dem Argument `add` dafür sorgen, dass die Kurve in das bestehende Bild integriert wird. Daher müssen wir keine Angaben für `from`, `to` und Ähnliches machen. Lediglich die Form der Verteilung als Dichtefunktion der theoretischen Normalverteilung `dnorm()` und die dazu gehörigen beschreibenden Maße Mittelwert und Standardabweichung (hervorgehend aus unserer Nerdiness Variable) werden benötigt. 
+Wir sehen bereits, dass der Gipfel unserer empirischen Werte für eine Normalverteilung fehlt. Das Abflachen zu den Seiten sieht aber relativ Glockenförmig und symmetrisch aus. Für eine bessere Einordnung wäre es hilfreich, die theoretisch angenommene Normalverteilung noch zusätzlich zu unseren empirischen Werten einzuzeichnen. Hiefür nutzen wir die `curve()` Funktion. Da wir bereits einen Plot (das Histogramm) gezeichnet haben, können wir mit dem Argument `add` dafür sorgen, dass die Kurve in das bestehende Bild integriert wird. Daher müssen wir keine Angaben für `from`, `to` und Ähnliches machen. Lediglich die Form der Verteilung als Dichtefunktion der theoretischen Normalverteilung `dnorm()` und die dazu gehörigen beschreibenden Maße Mittelwert und Standardabweichung (hervorgehend aus unserer Nerdiness Variable) werden benötigt. Genau genommen sollte man hier die empirische Standardabweichung nutzen, weil im Histogramm ja auch die Werte aus der Stichprobe dargestellt werden. Da bei einer steigenden Stichprobengröße aber die empirische Varianz und das Ergebnis von `sd()` sehr ähnlich sind und wir hier nur eine optische Einordnung vornehmen, nutzen wir einfach die Funktion, damit der Code nicht zu unübersichtlich wird.
 
 
 ```r
@@ -496,7 +498,7 @@ wobei sich der Standardfehler (*SE*)  des Mittelwerts wie folgt zusammensetzt:
   
 $$\hat\sigma_{\bar{x}} = {\frac{{\hat\sigma}}{\sqrt{n}}}$$
 
-Da die Varianz in der Population nicht bekannt ist, muss diese mittels Nutzung der Varianz der Stichprobe geschätzt werden. Dies funktioniert über die Funktion `sd()`.
+Da die Standardabweichung in der Population nicht bekannt ist, muss diese mittels Nutzung der Standardabweichung der Stichprobe geschätzt werden. Dies funktioniert über die Funktion `sd()`.
 
 
 ```r

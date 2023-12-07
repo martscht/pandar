@@ -218,14 +218,26 @@ Um die Verteilung optisch zu prüfen, haben wir zwei Möglichkeiten:
 ```{r, fig.height=4, fig.align="center"}
 # Gruppe 1 (nichtKlinisch) 
 par(mfrow=c(1,2))
+
 vertr_nichtKlinisch <- fb23[(fb23$fach_klin=="nicht klinisch"), "vertr"]
-hist(vertr_nichtKlinisch, xlim=c(0,6), ylim=c(0,.8), main="Verträglichkeit (nicht klinisch)", xlab="", ylab="", las=1, probability=T)
-curve(dnorm(x, mean=mean(vertr_nichtKlinisch, na.rm=T), sd=sd(vertr_nichtKlinisch, na.rm=T)), col="blue", lwd=2, add=T)
+
+hist(vertr_nichtKlinisch, 
+     xlim=c(0,6), ylim=c(0,.8), 
+     main="Verträglichkeit (nicht klinisch)", 
+     xlab="", ylab="", 
+     las=1, probability=T)
+curve(dnorm(x, 
+            mean = mean(vertr_nichtKlinisch, na.rm=T), 
+            sd = sd(vertr_nichtKlinisch, na.rm=T)), 
+      col="blue", lwd=2, add=T)
+
 qqnorm(vertr_nichtKlinisch)
 qqline(vertr_nichtKlinisch, col="blue")
+
+dev.off()
 ```
 
-Mithilfe von `curve()` kann eine Linie in eine Grafik eingezeichnet werden. Hierbei bezeichnet `x` die x-Koordinate. `dnorm()` hatten wir bereits kennen gelernt. Diese Funktion beschreibt die Dichte der Normalverteilung. Die Normalverteilung ist eindeutig durch ihren Mittelwert und durch ihre Standardabweichung definiert. Wir müssen `dnorm()` also jeweils den empirischen Mittelwert sowie die empirische Standardabweichung übergeben. Das Argument `add = T` ist nötig, da sonst ein neuer Plot für die Kurve erstellt wird. Durch `add = T` wird sie dem Histogramm hinzugefügt. Damit die Dichte sichtbar ist, muss im Histogramm zuvor das Argument `probability = T` gewählt werden. Ansonsten würden absolute Häufigkeiten anstatt der relativen Häufigkeiten abgetragen werden. Den `qqnorm()`-Befehl hatten wir auch bereits kennen gelernt. Mit `qqline()` erhalten wir die nötige Linie, auf welcher die Punkte einigermaßen liegen müssen, damit sie als normalverteilt einzustufen sind.
+Mithilfe von `curve()` kann eine Linie in eine Grafik eingezeichnet werden. Hierbei bezeichnet `x` die x-Koordinate. `dnorm()` hatten wir bereits kennen gelernt. Diese Funktion beschreibt die Dichte der Normalverteilung. Die Normalverteilung ist eindeutig durch ihren Mittelwert und durch ihre Standardabweichung definiert. Wir müssen `dnorm()` also jeweils den empirischen Mittelwert sowie die empirische Standardabweichung übergeben. Wenn man es sehr genau nehmen will, müsste man hier also eine Verrechnung der von R erzeugten Standardabweichung vornehmen. Wie im letzten Tutorial beschrieben nutzen wir aber einfach das Ergebnis von `sd()`. Dies wird auch in allen weiteren Tutorials ohne zusätzlichen Hinweis gemacht. Das Argument `add = T` ist nötig, da sonst ein neuer Plot für die Kurve erstellt wird. Durch `add = T` wird sie dem Histogramm hinzugefügt. Damit die Dichte sichtbar ist, muss im Histogramm zuvor das Argument `probability = T` gewählt werden. Ansonsten würden absolute Häufigkeiten anstatt der relativen Häufigkeiten abgetragen werden. Den `qqnorm()`-Befehl hatten wir auch bereits kennen gelernt. Mit `qqline()` erhalten wir die nötige Linie, auf welcher die Punkte einigermaßen liegen müssen, damit sie als normalverteilt einzustufen sind.
 
 Die Treppenform, die wir hier im QQ-Plot sehen ist für fragebogenbasierte Daten sehr typisch. Sie entsteht dadurch, dass wir mit vorgegebenen Antwortkategorien keine stetige Variable erzeugen können. Stattdessen gibt es hier anscheinend nur acht verschiedene Ausprägungen der Variable `vertr`. Dadurch, dass dieser Skalenwert als Mittelwert aus zwei fünfstufigen Items erzeugt wurde sind theoretisch nur neun Ausprägungen möglich - alle Zahlen von 1 bis 5 in 0,5er Schritten. Je mehr Items wir zusammenführen, um einen Skalenwert zu berechnen, desto besser können wir eine stetige Variable approximieren. Für die Prokrastinationstendenz `prok` z.B. haben wir einen Skalenwert aus zehn verschiedenen Items mit jeweils vier Antwortkategorien erzeugt, sodass wir 31 mögliche Ausprägungen haben.
 
@@ -236,11 +248,20 @@ Wir wiederholen die Befehle von zuvor auch für die zweite Gruppe:
 ```{r, fig.height=4, fig.align="center"}
 # Gruppe 2 (klinisch) 
 par(mfrow=c(1,2))
+
 vertr_klinisch <- fb23[(fb23$fach_klin=="klinisch"), "vertr"]
-hist(vertr_klinisch, xlim=c(0,6), ylim=c(0,.8), main="Verträglichkeit (klinisch)", xlab="", ylab="", las=1, probability=T)
-curve(dnorm(x, mean=mean(vertr_klinisch, na.rm=T), sd=sd(vertr_klinisch, na.rm=T)), col="blue", lwd=2, add=T)
+hist(vertr_klinisch, 
+     xlim=c(0,6), ylim=c(0,.8), 
+     main="Verträglichkeit (klinisch)", 
+     xlab="", ylab="", las=1, probability=T)
+curve(dnorm(x, 
+            mean = mean(vertr_klinisch, na.rm=T),
+            sd = sd(vertr_klinisch, na.rm=T)), 
+      col="blue", lwd=2, add=T)
+
 qqnorm(vertr_klinisch)
 qqline(vertr_klinisch, col="blue")
+
 dev.off()
 ```
 

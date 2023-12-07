@@ -7,9 +7,9 @@ categories: ["Statistik I"]
 tags: ["Abhängige Stichproben", "t-Test", "Wilcoxon-Test", "Voraussetzungsprüfung"] 
 subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es um vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
-authors: [koehler, buchholz, irmer, nehler] 
+authors: [nehler, koehler, buchholz, irmer, liu] 
 weight: 7
-lastmod: '2023-10-08'
+lastmod: '2023-12-06'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -39,7 +39,7 @@ output:
 
 
 
-Nachdem wir uns mit **unabhängige Stichproben** in der ([letzten Sitzung](/lehre/statistik-i/gruppenvergleiche-unabhaengig)) beschäftigt haben wollen wir diesmal mit abhängigen Stichproben beschäftigen. Anwendungen dafür in der Praxis sind beispielsweise Zwillinge, Paare oder auch Messwiederholungen. 
+
      
 {{< spoiler text="Kernfragen der Lehreinheiten über Gruppenvergleiche" >}}
 * Wie fertige ich [Deskriptivstatistiken](#Statistiken) (Grafiken, Kennwerte) zur Veranschaulichung des Unterschieds zwischen zwei Gruppen an?  
@@ -54,228 +54,195 @@ Nachdem wir uns mit **unabhängige Stichproben** in der ([letzten Sitzung](/lehr
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz haben wir bereits unter diesem [{{< icon name="download" pack="fas" >}}Link heruntergeladen](/daten/fb22.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
 
 
 ```r
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb22$geschl_faktor <- factor(fb22$geschl,
-                             levels = 1:3,
-                             labels = c("weiblich", "männlich", "anderes"))
-fb22$fach <- factor(fb22$fach,
+fb23$hand_factor <- factor(fb23$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
+fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb22$ziel <- factor(fb22$ziel,
+fb23$ziel <- factor(fb23$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-
-fb22$wohnen <- factor(fb22$wohnen, 
+fb23$wohnen <- factor(fb23$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+fb23$fach_klin <- factor(as.numeric(fb23$fach == "Klinische"),
+                         levels = 0:1,
+                         labels = c("nicht klinisch", "klinisch"))
+fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
+fb23$unipartys <- factor(fb23$uni3,
+                             levels = 0:1,
+                             labels = c("nein", "ja"))
 
-fb22$ort <- factor(fb22$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+# Rekodierung invertierter Items
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
+fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
+fb23$mdbf5_pre_r <- -1 * (fb23$mdbf5_pre - 4 - 1)
+fb23$mdbf7_pre_r <- -1 * (fb23$mdbf7_pre - 4 - 1)
 
-fb22$job <- factor(fb22$job, levels=c(1,2), labels=c("nein", "ja"))
-# Skalenbildung
+# Berechnung von Skalenwerten
+fb23$wm_pre  <- fb23[, c('mdbf1_pre', 'mdbf5_pre_r', 
+                        'mdbf7_pre_r', 'mdbf10_pre')] |> rowMeans()
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
 
-fb22$prok2_r <- -1 * (fb22$prok2 - 5)
-fb22$prok3_r <- -1 * (fb22$prok3 - 5)
-fb22$prok5_r <- -1 * (fb22$prok5 - 5)
-fb22$prok7_r <- -1 * (fb22$prok7 - 5)
-fb22$prok8_r <- -1 * (fb22$prok8 - 5)
-
-# Prokrastination
-fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
-                          'prok4', 'prok5_r', 'prok6',
-                          'prok7_r', 'prok8_r', 'prok9', 
-                          'prok10')] |> rowMeans()
-# Naturverbundenheit
-fb22$nr_ges <-  fb22[, c('nr1', 'nr2', 'nr3', 'nr4', 'nr5',  'nr6')] |> rowMeans()
-fb22$nr_ges_z <- scale(fb22$nr_ges) # Standardisiert
-
-# Weitere Standardisierungen
-fb22$nerd_std <- scale(fb22$nerd)
-fb22$neuro_std <- scale(fb22$neuro)
+# z-Standardisierung
+fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
 ```
 
 ***
 
-## 4. Fragestellung D: Haben Psychologiestudierende vergleichbare Werte auf den Skalen Neurotizismus und Extraversion? {#Statistiken}
+Nachdem wir uns mit **unabhängige Stichproben** in der ([letzten Sitzung](/lehre/statistik-i/gruppenvergleiche-unabhaengig)) beschäftigt haben wollen wir diesmal mit abhängigen Stichproben beschäftigen. Anwendungen dafür in der Praxis sind beispielsweise Zwillinge, Paare oder auch Messwiederholungen. Beide behandelten Fragestellungen in diesem Beitrag funktionieren mit Messwiederholung. Die Methoden sind aber auf andere Arten abhängiger Stichproben übertragbar.
 
-Die Werte auf beiden Variablen sind insofern voneinander abhängig, dass jede Person die Fragen zu Neurotizismus und die Fragen zu Extraversion beantwortet hat (&rarr; Messwiederholung). Es gibt daher Faktoren innerhalb der Person, die einen gemeinsamen Teil der Varianz erzeugen.
+***
 
-Anmerkung: Wir fragen hier bewusst nicht, ob Psychologiestudierende neurotischer sind als extravertiert. Dies würde voraussetzen, dass die Items der beiden Skalen vergleichbar schwierig sind. 
+## Mittelwertvergleich für abhängige Stichproben
 
-Wir wollen im Folgenden lediglich die Frage beantworten, ob die Differenz zwischen den beiden Skalen (also die Mittelwerte für Neurotizismus und Extraversion) statistisch bedeutsam ist.
+Für den ersten Teil des Tutorials beschäftigen wir uns mit folgender Fragestellung: Gibt es einen Unterschied in den Werten der Subskalen 'Ruhig vs. Unruhig Stimmung' bei Psychologiestudierenden vor und nach der ersten Sitzung des Kurses? Wir nehmen in der Fragestellung keine Richtung vor, da wir für Unterschiede in beide Richtungen und Erklärungen vorstellen können. Ist nach dem Praktikum die Stimmung ruhiger, weil die Aufregung von der ersten Veranstaltung verflogen ist? Oder ist die Stimmung unruhiger, weil der erste Kontakt mit R stattgefunden hat?
 
-### 4.1. Deskriptivstatistik
+Die Werte dieser Variablen zum zweiten Messzeitpunkt sind insofern voneinander abhängig, als dass jede Person dieselben Fragen zweimal beantwortet hat (Messwiederholung). Es gibt daher Faktoren innerhalb der Person, die einen gemeinsamen Teil der Varianz erzeugen. 
 
-Wie immer beginnen wir mit der deskriptivstatistischen Analyse unserer Daten.
+### Deskriptivstatistik
 
-#### 4.1.1. grafisch
-Mithilfe von Histogrammen
+Wie immer beginnen wir mit der deskriptivstatistischen Analyse unserer Daten. Die beiden Variablen können wir bspw. mit dem `summary()`-Befehl näher betrachten.
+
 
 ```r
-# Je ein Histogramm pro Skala, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
-par(mfrow=c(2,1), mar=c(3,3,2,0))
-hist(fb22$neuro, 
-     xlim=c(1,5),
-     ylim = c(0,50),
-     main="Neurotizismus", 
-     xlab="", 
-     ylab="", 
-     las=1)
-abline(v=mean(fb22$neuro), 
-       lty=2, 
-       lwd=2)
-
-hist(fb22$extra, 
-     xlim=c(1,5),
-     ylim = c(0,50),
-     main="Extraversion", 
-     xlab="", 
-     ylab="", 
-     las=1)
-abline(v=mean(fb22$extra), 
-       lty=2, 
-       lwd=2)
+summary(fb23$ru_pre)
 ```
 
-![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.00    2.25    3.00    2.73    3.25    4.00
+```
+
+```r
+summary(fb23$ru_post)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##   1.000   2.500   3.000   2.951   3.500   4.000      32
+```
+
+Zunächst einmal ist offensichtlich, dass sich die Mittelwerte vor und nach der Sitzung unterscheiden. Die Frage bleibt aber bestehen, ob sich dieser Unterschied auf die Population verallgemeinern lässt. Weiterhin sticht hier direkt ins Auge, dass es nach in der Post-Variable fehlende Werte (32) gibt. Diese Personen können in die abhängige Testung nicht einbezogen werden und wir müssen das bei den folgenden Befehlen beachten.
+
+
+Mithilfe von Histogrammen stellen wir jeweils die Verteilungen der Werte vor und nach der Sitzung dar, wobei in den Histogrammen eine vertikale Linie ergänzt ist, die den jeweiligen Mittelwert anzeigt.
+
+
+```r
+# Je ein Histogramm pro Werte, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
+par(mfrow=c(2,1), mar=c(3,3,2,0))
+hist(fb23$ru_pre, 
+     xlim=c(1,5),
+     ylim = c(0,80),
+     main="Subskalen 'Ruhig vs. Unruhig' vor der Sitzung", 
+     xlab="", 
+     ylab="", 
+     las=1)
+abline(v=mean(fb23$ru_pre, na.rm = T), 
+       lwd=3,
+       col="aquamarine3")
+
+hist(fb23$ru_post, 
+     xlim=c(1,5),
+     ylim = c(0,80),
+     main="Subskalen 'Ruhig vs. Unruhig' nach der Sitzung", 
+     xlab="", 
+     ylab="", 
+     las=1)
+abline(v=mean(fb23$ru_post, na.rm = T), 
+       lwd=3,
+       col="darksalmon")
+```
+
+![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 ```r
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters, zuvor hatten wir "dev.off()" kennengelernt
 ```
 
-`abline()` fügt eine Linie in eine Grafik ein. Mit dem Zusatzargument `v` geben wir eine vertikale Linie in den Plot (hier den Mittelwert). Insgesamt scheinen sich die beiden Verteilungen  zu unterscheiden: Der Mittelwert von Neurotizismus liegt höher als der von Extraversion.  
-
-#### 4.1.2. statistisch
-
-Deskriptivstatistisch sehen die Ergebnisse so aus:
+Die Funktion `abline()` fügt diese zusätzliche Linie in die Grafik ein. Mit dem Zusatzargument `v` geben wir an, dass es sich um eine vertikale Linie handeln soll. Der Ort der vertikalen Linie wird auch direkt über das Argumen `v` gesteuert. In dem Code soll diese jeweils den Mittelwert der beiden Gruppen kennzeichnen. Insgesamt scheinen sich die beiden Verteilungen  zu unterscheiden: Der Mittelwert von nach der Sitzung liegt höher als der vor der Sitzung. Beachten Sie jedoch, dass hier Personen mit fehlenden Werten auf der Post-Variable noch nicht ausgeschlossen sind, wodurch die späteren Ergebnisse anders ausfallen könnten.
 
 
-```r
-summary(fb22$neuro)
-```
+### Voraussetzungsprüfung {#Vorraussetzungen}
 
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   1.250   3.250   3.750   3.626   4.250   5.000
-```
-
-```r
-summary(fb22$extra)
-```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   1.500   3.000   3.250   3.379   3.750   5.000
-```
-
-```r
-#alternativ
-library(psych)
-describe(fb22$neuro)
-```
-
-```
-##    vars   n mean   sd median trimmed  mad  min max range  skew kurtosis   se
-## X1    1 159 3.63 0.72   3.75    3.65 0.74 1.25   5  3.75 -0.43     0.09 0.06
-```
-
-```r
-describe(fb22$extra)
-```
-
-```
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 159 3.38 0.71   3.25    3.39 0.74 1.5   5   3.5 -0.06    -0.31 0.06
-```
-
-Achtung: Bei den hier berichteten SD handelt es sich (wie immer in R) um den Populationsschätzer. Die Mittelwerte der beiden Gruppen unterscheiden sich. Die Frage ist nun, ob sich dieser Unterschied auf die Population verallgemeinern lässt.
-
-### 4.2. Voraussetzungsprüfung {#Vorraussetzungen}
-
-Um den Ergebnissen eines $t$-Test für abhängige Stichproben vertrauen zu können, müssen dessen Voraussetzungen erfüllt sein: 
+Um unsere inferenzstistische Entscheidung mittels der $t$-Verteilung abzusichern, die beim $t$-Test passieren würde, müssen wir dessen Voraussetzungen erfüllt sein: 
 
 **Voraussetzungen für die Durchführung des *t*-Tests für abhängige Stichproben:**  
 
 1. Die abhängige Variable ist intervallskaliert $\rightarrow$ ok  
 2. Die Messwerte innerhalb der Paare dürfen sich gegenseitig beeinflussen/voneinander abhängig sein; keine Abhängigkeiten zwischen den Messwertpaaren $\rightarrow$ ok  
-3. Die Differenzvariable _d_ muss in der Population normalverteilt sein $\rightarrow$ ab $n \ge 30$ meist gegeben (s. zentraler Grenzwertsatz), ggf. grafische Prüfung oder Hintergrundwissen  
+3. Die Differenzvariable $d$ muss in der Population normalverteilt sein $\rightarrow$ ggf. optische Prüfung
 
-**zu 3. Normalverteilung von *d* **
-
-Da wir hier die Differenzvariable betrachten müssen, müssen wir diese zunächst erstellen.  Anschließend schauen wir uns das Histogramm der Differenzvariable und den QQ-Plot an:
+Wir müssen also nur die Voraussetzung der Normalverteilung der Differenzvariable $d$ zusätzlich prüfen. Es ist wie bei den unabhängigen Tests üblich, diese Annahme optisch basierend auf der Stichprobe zu testen. Da wir hier die Differenzvariable betrachten wollen, müssen wir diese zunächst erstellen. Dies geht zum Glück sehr einfach, indem wir die Werte aller Personen auf `ru_pre` jeweils von ihren `ru_post` Werten abziehen. Personen mit einem fehlenden Wert auf einer der beien Variable erhalten auf `difference` jetzt automatisch ein `NA`. Somit sind alle Werte in den Grafiken die, die dann auch in unsere inferenzstatistische Prüfung eingehen. Anschließend schauen wir uns das Histogramm der Differenzvariable und den QQ-Plot an:
 
 
 ```r
-difference <- fb22$neuro-fb22$extra
+difference <- fb23$ru_post-fb23$ru_pre
 hist(difference, 
      xlim=c(-3,3), 
      ylim = c(0,1),
      main="Verteilung der Differenzen", 
      xlab="Differenzen", 
      ylab="", 
-     las=1,
-     probability = T)
-curve(dnorm(x, mean=mean(difference), sd=sd(difference)), 
+     las=1, 
+     freq = F)
+curve(dnorm(x, mean=mean(difference, na.rm = T), sd=sd(difference, na.rm = T)), 
       col="blue", 
       lwd=2, 
       add=T)
 ```
 
-![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 ```r
 qqnorm(difference)
 qqline(difference, col="blue")
 ```
 
-![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-5-2.png)<!-- -->
+![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-4-2.png)<!-- -->
 
-$\Rightarrow$ Differenzen sehen normalverteilt aus, es wird also Normalverteilung angenommen. Somit sind alle drei Voraussetzungen für die Durchführung des _t_-Tests für abhängige Stichproben erfüllt.
+Auf den Abbildungen sind kleine Abweichungen der Differenzen von der Normalverteilung zu sehen. Bei diesen geringen Abweichungen könnte man die Normalverteilung annehmen. Zusätzlich gilt (wie auch bei den Einstichproben- und unabhängigen Tests) der zentrale Grenzwertsatz. In Fällen, in denen die Stichprobe (also Anzahl an Messwertpaaren) ausreichend groß ist, folgt die Stichprobenkennwerteverteilung wegen auch unabhängig von der Verteilung der Differenzen in der Population der $t$-Verteilung. “Ausreichend groß” ist natürlich Auslegungssache, aber nochmal zur Erinnerung: Bei Stichproben ab $n \geq 30$ greift der Effekt, wenn das Merkmal zumindest symmetrisch verteilt ist. Andere Empfehlungen gehen besonders bei sehr schiefen Verteilungen in Richtung von 80 Messwertpaaren. Die kleinen Abweichungen von der Normalverteilung und die große Stichproben sprechen also dafür, dass unsere Stichprobenkennwerteverteilung der mittleren Differenz der $t$-Verteilung folgt. Wir können also mit der inferenzstatistischen Überprüfung starten.
+
+### Durchführung des $t$-Test für abhängige Stichproben
+
+Aus der Fragestellung lässt sich ableiten, dass es sich bei unserer Untersuchung um eine Unterschiedshypothese handelt, in der wir keine Richtung angenommen haben. Beginnen wir also damit, das Hypothesenpaar auszuarbeiten.
+
+* $H_0$: Studierende sind vor und nach dem Praktikum gleich ruhig.
+* $H_1$: Studierende sind vor und nach dem Praktikum unterschiedlich ruhig.
+
+Etwas formaler ausgedrückt:
+
+* $H_0$: $\mu_\text{vor} = \mu_\text{nach}$  bzw.  $\mu_{d} = 0$  
+* $H_1$: $\mu_\text{vor} \ne \mu_\text{nach}$    bzw.  $\mu_{d} \ne 0$
 
 
-### 4.3. Inferenzstatistik: *t*-Test für abhängige Stichproben
-
-Zur Erinnerung:  
-
-> Fragestellung D: "Haben Psychologiestudierende vergleichbare Werte auf den Skalen Neurotizismus und Extraversion?"   
-
-**Hypothesen:** 
-
-* Art des Effekts: Unterschiedshypothese
-* Richtung des Effekts: Ungerichtet 
-* Grösse des Effekts: Unspezifisch
-
-Hyothesenpaar (inhaltlich):  
-
-* H0: Psychologiestudierende haben vergleichbare Werte auf den Skalen Neurotizismus und Extraversion. 
-* H1: Bei Psychologiestudierende unterscheiden sich die Werte auf den Skalen Neurotizismus und Extraversion.  
-
-Hypothesenpaar (statistisch):  
-
-* H0: $\mu_\text{neuro} = \mu_\text{extra}$  bzw.  $\mu_{d} = 0$  
-* H1: $\mu_\text{neuro} \ne \mu_\text{extra}$    bzw.  $\mu_{d} \ne 0$
-
-**Signifikanzniveau**  
-
-Das Signifikanzniveau muss vor der Untersuchung festgelegt werden. Es soll hier 5% betragen. $\rightarrow$ $\alpha=.05$
+Bevor wir jetzt die Rechnungen durchführen, sollten wir noch das Signifikanzniveau Untersuchung festlegen. Es soll hier 5% betragen. $\rightarrow$ $\alpha=.05$
 
 {{<intext_anchor t-Test>}}
-**Durchführung des abhängigen *t*-Tests in R:**
 
 Wir verwenden hier die Funktion `t.test()`. Diesmal müssen wir allerdings die beiden Variablen einzeln der Funktion übergeben. Dies geschieht über die Argumente `x` und `y`. Das Argument `paired = T` führt dazu, dass der *t*-Test für abhängige (gepaarte) Stichproben durchgeführt wird.
 
 
 ```r
-t.test(x = fb22$extra, y = fb22$neuro, # die beiden abhaengigen Variablen
+t.test(x = fb23$ru_post, y = fb23$ru_pre, # die beiden abhaengigen Variablen
       paired = T,                      # Stichproben sind abhaengig
       conf.level = .95)   
 ```
@@ -284,42 +251,42 @@ t.test(x = fb22$extra, y = fb22$neuro, # die beiden abhaengigen Variablen
 ## 
 ## 	Paired t-test
 ## 
-## data:  fb22$extra and fb22$neuro
-## t = -3.2465, df = 158, p-value = 0.001427
+## data:  fb23$ru_post and fb23$ru_pre
+## t = 4.353, df = 146, p-value = 2.511e-05
 ## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
-##  -0.39703668 -0.09667401
+##  0.1123539 0.2992108
 ## sample estimates:
 ## mean difference 
-##      -0.2468553
+##       0.2057823
 ```
 
 
 
-$\rightarrow$ _t_(158) = 3.25, _p_ < .01 $\rightarrow$ signifikant, H0 wird verworfen.
+Auf den ursprünglichen Variablen sind immer noch die Personen mit fehlenden Werten enthalten. Trotzdem meldet die Funktion `t.test()` kein Problem. Was passiert hier also? Ein Indiz können uns die Freiheitsgrade beiten, die mit $n-1$ bestimmt werden können. Hier wird deutlich, dass Personen mit fehlenden Werten auf einer der beiden Variablen einfach ignoriert werden. Aber man bekommt (außer der überraschend kleinen Freiheitsgraden im Vergleich zur Größer des Datensatzes keine) keine Warnungn dazu. Kommen wir zur Interpretation des Ergebnis. $t$(146) = 4.35 -- der zugehörige p-Wert ($p < .01$) ist somit kleiner als unser festelegtes $\alpha$. Wir verwerfen die $H_0$ und nehmen die $H_1$ an.
 
 
 
-### 4.4. Schätzung des standardisierten Populationseffekts {#Populationseffekt}
+### Schätzung des standardisierten Populationseffekts {#Populationseffekt}
 
-Formel: $$d_2'' = \frac{\bar{d}} {\hat{sd}_{d}}$$
+Formel: $$\text{Cohen's } d'' = \frac{\bar{d}} {\hat{sd}_{d}}$$
 wobei  
 
 * $\bar{d}$: Mittelwert der Differenz aller Wertepaare  
 * $\hat{sd}_{d}$: geschätzte SD der Differenzen  
 
-Wir führen die Berechnung von Cohen's *d* für abhängige Stichproben zunächst von Hand durch. Dafür speichern wir uns die nötigen Größen ab und wenden dann die präsentierte Formel an:
+Wir führen die Berechnung von Cohen's $d$ für abhängige Stichproben zunächst von Hand durch. Dafür speichern wir uns die nötigen Größen ab und wenden dann die präsentierte Formel an:
 
 
 ```r
-mean_d <- mean(difference)
-sd.d.est <- sd(difference)
+mean_d <- mean(difference, na.rm = T)
+sd.d.est <- sd(difference, na.rm = T)
 d_Wert <- mean_d/sd.d.est
 d_Wert
 ```
 
 ```
-## [1] 0.2574633
+## [1] 0.359032
 ```
 
 **Berechnung mit Funktion `cohen.d()`**
@@ -332,9 +299,10 @@ library("effsize")
 
 
 ```r
-d2 <- cohen.d(fb22$neuro, fb22$extra, 
-      paired = T,  #paired steht fuer 'abhaengig'
-      within = F)   #wir brauchen nicht die Varianz innerhalb
+d2 <- cohen.d(fb23$ru_post, fb23$ru_pre, 
+      paired = TRUE,  #paired steht fuer 'abhaengig'
+      within = FALSE, #wir brauchen nicht die Varianz innerhalb
+      na.rm = TRUE)   
 d2
 ```
 
@@ -342,16 +310,15 @@ d2
 ## 
 ## Cohen's d
 ## 
-## d estimate: 0.2574633 (small)
+## d estimate: 0.359032 (small)
 ## 95 percent confidence interval:
-##      lower      upper 
-## 0.09886578 0.41606085
+##     lower     upper 
+## 0.1915546 0.5265094
 ```
 
-Mit dem Argument `within = T`, was der Default ist, wird für die Varianzberechnung die Varianz innerhalb der Gruppen herangezogen (vergleiche Formel Cohen's _d_ für unanghängige Stichproben).
+Mit dem Argument `within = T`, was der Default ist, wird für die Varianzberechnung die Varianz innerhalb der Gruppen herangezogen (vergleiche Formel Cohen's $d$ für unanghängige Stichproben).
 
-Konventionen nach Cohen (1988) für _t_-Test für abhängige Stichproben 
-(Achtung: Werte unterscheiden sich zw. abhängigem und unabhängigem _t_-Test):
+Wie auch zu den vorherigen inferenzstatistischen Tests gibt es auch hier Konventionen nach Cohen (1988). Die Werte unterscheiden sich zwischen abhängigem und unabhängigem $t$-Test. Wir möchten aber nochmal betonen, dass diese Konventionen nur bei völliger Ahnungslosigkeit genutzt werden sollten und sonst Effekstärken im Rahmen des Anwendungsgebietes eingeordnet werden sollten.
 
 _d''_ | Interpretation |
 :-: | :------: |
@@ -359,240 +326,179 @@ _d''_ | Interpretation |
 ~ .35 | mittlerer Effekt |
 ~ .57 | großer Effekt |
 
-$\Rightarrow$ der standardisierte Populationseffekt beträgt $d_2''$ = 0.26 und ist laut Konventionen klein bis mittel. 
+Zusammenfassend lässt sich sagen: Der standardisierte Populationseffekt beträgt $d_2''$ = 0.36 und ist laut Konventionen klein bis mittel. 
 
 
-### 4.5. Ergebnisinterpretation
-Es wurde an Psychologiestudierenden untersucht, ob sie vergleichbare Werte auf den Skalen Neurotizismus und Extraversion aufweisen. Zunächst findet sich deskriptiv ein Unterschied: Psychologiestudierende weisen einen durchschnittlichen Neurotizismus-Wert von 3.63 (_SD_ = 0.72) auf, während der durchschnittliche Extraversions-Wert 3.38 (_SD_ = 0.71) beträgt. Zur Beantwortung der Fragestellung wurde ein ungerichteter _t_-Test für abhängige Stichproben durchgeführt. Der Gruppenunterschied ist signifikant (_t_(158) = 3.25, _p_ < .01), somit wird die Nullhypothese verworfen. Psychologiestudierende weisen einen höheren Wert auf der Skala Neurotizismus als auf der Skala Extraversion auf. Dieser Unterschied ist nach dem standardisierten Populationseffekt von $d_2''$ = 0.26 klein bis mittel.
+### Ergebnisinterpretation
+Zunächst findet sich deskriptiv ein Unterschied: 
+Der Mittelwert der Differenzen zwischen ruhig und unruhig beträgt 0.21. Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Unterschied zwischen den beiden Messzeitpunkten ist signifikant ($t$(146) = 4.35, $p < .01$), somit wird die Nullhypothese verworfen. Dieser Unterschied ist nach dem standardisierten Populationseffekt von $d_2''$ = 0.36 klein bis mittel.
 
 ***
 
 
-## 5. Fragestellung E: Sind jüngere Geschwister kooperativer als ältere? $\rightarrow$ Wilcoxon-Test
+## Medianvergleich für abhängige Stichprobe
 
-In unserem `fb22` Datensatz findet sich kein schönes Beispiel zur Illustration des Wilcoxon-Tests für abhängige Stichproben. Aus diesem Grund verwenden wir einen anderen Datensatz. Der Datensatz stammt aus Eid, Gollwitzer & Schmitt: "Statistik und Forschungsmethoden" (4. Auflage, S. 370). 
-
-* Abhängige Variable (AV): Kooperationsbereitschaft (stetige Variable mit Werten von 0 [nicht kooperativ] bis 1 [maximal kooperativ])
-* Gruppen: das jeweils ältere Geschwisterteil (Gruppe "Älter") vs. das jeweils jüngere Geschwisterteil (Gruppe "Jünger") 
+Für den Medianvergleich bei abhängigen Stichproben kommen wir jetzt leider zu dem Punkt, dass alle Variablen in unserem Datensatz keine guten Voraussetzungen für den Test liefern, den wir an dieser Stelle präsentieren wollen: den Wilxocon-Vorzeichen-Rangtest. Wir haben zwar noch andere Variablen mit abhängigen Messungen (zu Beginn und am Ende des Praktikums), aber eine später präsentierte Voraussetzung für den Test ist, dass die Variable stetig ist. Damit können wir in unserem Datensatz nicht dienen. Wir müssen daher auf einen anderen Datensatz zugreifen, den wir aber direkt aus PandaR einladen können.
 
 
 ```r
-# Datensatz generieren
-dataKooperation <- data.frame(Paar = 1:10,  Juenger = c(0.49,0.25,0.51,0.55,0.35,0.54,0.24,0.49,0.38,0.50), Aelter = c(0.4,0.25,0.31,0.44,0.25,0.33,0.26,0.38,0.23,0.35))
-dataKooperation # überprüfen, ob alles geklappt hat
+load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
+```
+
+Hierbei handelt es sich um fiktive Daten, die den Behandlungseffekt der kognitiv-behavioralen Verhaltenstherapie bei verschiedenen psychologischen Störungsbildern aufzeigen sollen. Wir können eine Übersicht über die enthaltenen Variablen erhalten, indem wir den `head()`-Befehl nutzen.
+
+
+```r
+head(CBTdata)
 ```
 
 ```
-##    Paar Juenger Aelter
-## 1     1    0.49   0.40
-## 2     2    0.25   0.25
-## 3     3    0.51   0.31
-## 4     4    0.55   0.44
-## 5     5    0.35   0.25
-## 6     6    0.54   0.33
-## 7     7    0.24   0.26
-## 8     8    0.49   0.38
-## 9     9    0.38   0.23
-## 10   10    0.50   0.35
+##   Age Gender Treatment Disorder BDI_pre SWL_pre BDI_post SWL_post
+## 1  39 female       CBT      ANX      27      10       24       15
+## 2  36 female       CBT      ANX      22      13       13       17
+## 3  61 female       CBT      ANX      24      11       17       14
+## 4  70 female       CBT      ANX      30      15       22       19
+## 5  64 female       CBT      DEP      32      12       26       20
+## 6  50 female       CBT      ANX      24      15       23       22
 ```
 
-Ein Blick auf die Messwertpaare lässt bereits erkennen, dass die Stichproben (also die Messwerte in den beiden experimentellen Bedingungen) voneinander abhängig sind. Die Geschwisterpaare ähneln sich hinsichtlich ihrer kooperativen Verhaltenstendenzen. Auch inhaltlich sind sie von einander abhängig, da die meisten Geschwister miteinander verwandt sind, also ähnliche Gene aufweisen, und in der Regel im gleichen Zuhause aufwachsen und somit gleiche/sehr ähnliche Umwelteinflüsse genießen. 
+Es wird deutlich, dass eine Person zu zwei Zeitpunkten hinsichtlich ihres Depressionsscores (BDI) und ihrer Lebenszufriedenheit (DWL) erhoben wurden. Wir wollen uns im Tutorial auf die Depression konzentrieren. Die Werte der Variablen (`BDI_pre` und `BDI_post`) zu den beiden Messzeitpunkten sind somit voneinander abhängig.
 
-Relevant ist nun die Frage, ob die Differenz zwischen den beiden Mittelwerten (also zwischen jüngeren und älteren Geschwistern) statistisch bedeutsam ist - also ob die mittlere Differenz zwischen den Paaren von Null verschieden ist.
+Allerdings konzentrieren wir uns nicht auf den Vergleich von Mittelwerten, sondern auf den von Medianen. Der Grund dafür liegt in der theoretischen Überlegung, dass der Mittelwert des Depressionsscores kein adäquater Repräsentant für die Variable ist. Dies wäre bspw. durch einen cut-off Wert auf dem BDI Fragebogen zu erwarten (nur ab einem bestimmten Wert bekommt man überhaupt die Diagnose). Weiterhin könnte der Mittelwert durch sehr starke klinische Fälle (also Ausreißer) verzerrt werden, während der Median ein robusteres Maß darstellt, das den zentralen Trend der Daten dann besser widerspiegeln kann. 
 
-### 5.1. Deskriptivstatistik
+Wir wollen also eine Unterschiedsmessung von `BDI_post` und `BDI_pre` vornehmen. Um dem ganzen noch mehr inhaltliche Bedeutung zu verleihen, reduzieren wir unseren Datensatz auf die Personen, die wirklich an der Therapie teilgenommen haben (nicht auf der Warteliste standen) und auf Personen, die als Diagnose Depression (keine andere psychische Erkrankung) erhalten haben. Dies können wir durch einen logischen Filter erreichen, mit dem wir die Daten überschreiben.
 
-Wie immer beginnen wir mit der deskriptivstatistischen Analyse unserer Daten.
 
-#### 5.1.1. grafisch
-Mithilfe von Histogrammen
+```r
+CBTdata <- CBTdata[CBTdata$Treatment == "CBT" & 
+                     CBTdata$Disorder == "DEP", ]
+```
+
+Der resultierende Datensatz sollte 60 Zeilen enthalten. Die Fragestellung soll nun spezfisch sein: Ist der Depressionscore nach der Intervention durch kognitiv-behaviorale Therapie niedriger als davor?
+
+### Deskriptivstatistik
+
+Wie immer beginnen wir mit der deskriptivstatistischen Analyse unserer Daten. Einige Informationen können wir beispielsweise durch den `summary()`-Befehl erhalten 
+
+
+```r
+summary(CBTdata$BDI_pre)
+```
+
+```
+##        V1       
+##  Min.   :13.00  
+##  1st Qu.:19.75  
+##  Median :22.00  
+##  Mean   :22.20  
+##  3rd Qu.:25.00  
+##  Max.   :32.00
+```
+
+```r
+summary(CBTdata$BDI_post)
+```
+
+```
+##        V1       
+##  Min.   : 9.00  
+##  1st Qu.:13.00  
+##  Median :18.00  
+##  Mean   :17.90  
+##  3rd Qu.:21.25  
+##  Max.   :30.00
+```
+
+Es zeigt sich zunächst, dass es in dem Datensatz keine fehlenden Werte gibt. Weiterhin ist der Median des Depressionsscores vor der Testung höher als danach, was der Richtung unserer Hypothesen entspricht.
+
+Lassen wir uns die statistischen Maße noch durch das Aufzeichnen einer Verteilung ergänzen. Nutzen wir hierfür das Histogramm. Im Titel können wir mit `\n` einen Zeilenumbruch erreichen.
+
 
 ```r
 # Je ein Histogramm pro Gruppe, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
-par(mfrow=c(2,1), mar=c(3,3,2,0))
-hist(dataKooperation[, "Juenger"], 
-     xlim=c(0,1), 
-     main="Kooperationsbereitschaft jüngeres Geschwisterteil", 
-     xlab="", 
-     ylab="", 
-     las=1)
-abline(v=mean(dataKooperation[, "Juenger"]), 
-       lty=2, 
-       lwd=2)
+par(mfrow=c(1,2), mar=c(3,3,2,0))
+hist(CBTdata$BDI_pre, 
+     main="Depressionsscore \nvor der Therapie", 
+     breaks = 10)
 
-hist(dataKooperation[, "Aelter"], 
-     xlim=c(0,1), 
-     main="Kooperationsbereitschaft älteres Geschwisterteil", 
-     xlab="", 
-     ylab="", 
-     las=1)
-abline(v=mean(dataKooperation[, "Aelter"]), 
-       lty=2, 
-       lwd=2)
+
+hist(CBTdata$BDI_post, 
+     main="Depressionsscore \nnach der Therapie",
+     breaks = 10)
 ```
 
-![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 ```r
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters
 ```
 
-Die Histogramme sind via `xlim` so gewählt, dass sie die gleiche x-Achse aufweisen und somit ausgesprochen gut vergleichbar sind. `abline()` fügt eine Linie in eine Grafik ein. Mit dem Zusatzargument `v` geben wir eine vertikale Linie in den Plot (hier den Mittelwert). Insgesamt scheinen sich die beiden Verteilungen etwas zu unterscheiden!  
-
-#### 5.1.2. statistisch
-
-Deskriptivstatistisch sehen die Ergebnisse so aus:
+Wie vermutet haben wir sowohl vor als auch nach der Therapie. Hier sieht man direkt, dass es viele Ausreißer in beiden Messperioden gibt. Dies ist der Grund, warum der Median ein geeignetes Maß für die zentrale Tendenz ist. Leider ist der Median vor und nach dem Praktikum genau gleich. Damit würde sich eigentlich die weitere Untersuchung erübrigen. Zu Übungszwecken werden wir sie trotzdem durchführen.
 
 
-```r
-summary(dataKooperation[, "Juenger"])
-```
 
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##  0.2400  0.3575  0.4900  0.4300  0.5075  0.5500
-```
+### Voraussetzungsprüfung
 
-```r
-summary(dataKooperation[, "Aelter"])
-```
+Zunächst prüfen wir, ob wir zur Beantwortung der Fragestellung einen Wilcoxon-Tests-Test für abhängige Stichproben verwenden können: 
 
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##  0.2300  0.2525  0.3200  0.3200  0.3725  0.4400
-```
+1.  die Messwerte innerhalb der Paare dürfen sich gegenseitig beeinflussen/voneinander abhängig sein; keine Abhängigkeiten zwischen den Messwertpaaren $\rightarrow$ ok
+2.  die Variable ist stetig 
+3.  die Differenzvariable ist hinsichtlich der Größe reliabel $\rightarrow$ bedeutete für uns, dass wir eine Intervallskalierung brauchen, damit die Differenzen zweier Messwertpaare vergleichbar sind
+4.  die Differenzvariable ist symmetrisch verteilt (nicht notwendigerweise normalverteilt; ggf. grafische Prüfung oder Hintergrundwissen)
 
-```r
-#alternativ
-library(psych)
-describe(dataKooperation[, "Juenger"])
-```
+Die erste Voraussetzung nehmen wir wie beschrieben als gegeben an, da die Messwerte Prä und Post einer Messwiederholung entsprechen und zwischen den einzelnen Personen keine Abhängigkeiten bestehen sollten. Im strengen Sinn ist die Variable nicht stetig, da nicht alle Werte theoretisch möglich sind, also unendlich Ausprägungen möglich sind. Trotzdem haben wir im Histogramm bereits gesehen, dass einige Werte möglich waren und wir nehmen jetzt mal an, dass wir damit nah genug an unendlich dran sind. Hinsichtlich der Skalierung unserer Variable gehen wir davon aus, dass sie intervallskaliert ist, da wir uns mit einem Fragebogenscore beschäftigen. Diese Skalierung wird benötigt, da im ersten Schritt die Differenzen zwischen dem Prä- und dem Post-Wert 
 
-```
-##    vars  n mean   sd median trimmed  mad  min  max range  skew kurtosis   se
-## X1    1 10 0.43 0.12   0.49    0.44 0.08 0.24 0.55  0.31 -0.57    -1.46 0.04
-```
-
-```r
-describe(dataKooperation[, "Aelter"])
-```
-
-```
-##    vars  n mean   sd median trimmed mad  min  max range skew kurtosis   se
-## X1    1 10 0.32 0.07   0.32    0.32 0.1 0.23 0.44  0.21 0.23    -1.57 0.02
-```
-
-Achtung: Bei den hier berichteten _SD_ handelt es sich (wie immer in R) um den Populationsschätzer. 
-
-Die Mittelwerte der beiden Gruppen unterscheiden sich leicht. Die Frage ist nun, ob sich dieser Unterschied auf die Population verallgemeinern lässt.
-
-### 5.2. Voraussetzungsprüfung
-
-Zunächst prüfen wir, ob wir zur Beantwortung der Fragestellung einen $t$-Test für abhängige Stichproben verwenden können: 
-
-**Voraussetzungen für die Durchführung des *t*-Tests für abhängige Stichproben:**  
-
-1. Die abhängige Variable ist intervallskaliert $\rightarrow$ ok  
-2. Die Messwerte innerhalb der Paare dürfen sich gegenseitig beeinflussen/voneinander abhängig sein; keine Abhängigkeiten zwischen den Messwertpaaren $\rightarrow$ ok  
-3. Die Differenzvariable _d_ muss in der Population normalverteilt sein $\rightarrow$ ab $n \ge 30$ meist gegeben (s. zentraler Grenzwertsatz), ggf. grafische Prüfung oder Hintergrundwissen  
-
-**zu 3. Normalverteilung von *d* **
-
-Da wir die Differenzvariable betrachten müssen, erstellen wir diese zunächst. Das passiert vektorwertig. Anschließend schauen wir uns wie immer das Histogramm und den QQ-Plot an:
+Bleibt noch die Voraussetzung, die Verteilung der Differenzwerte zu betrachten. Dafür bileden wir zunächst einen Vektor mit dem Namen `dif_dep`, der die Differenzen aller Personen enthält. Anschließend schauen wir uns auch die zu diesem Vektor das Histogramm an.
 
 
 ```r
-difference <- dataKooperation[, "Juenger"]-dataKooperation[, "Aelter"]
-hist(difference, 
-     xlim=c(-.3,.3), 
-     ylim = c(0,5.5),
-     main="Verteilung der Differenzen", 
-     xlab="Differenzen", 
-     ylab="", 
-     las=1)
-curve(dnorm(x, mean=mean(difference), sd=sd(difference)), 
-      col="blue", 
-      lwd=2, 
-      add=T)
+dif_dep <- CBTdata$BDI_post - CBTdata$BDI_pre
+hist(dif_dep,
+     main="Differenzen Depressionsscores",
+     breaks = 10)
 ```
 
 ![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
-```r
-qqnorm(difference)
-qqline(difference, col="blue")
-```
+Die Differenzen weisen Abweichungen von der Symmetri-Annahme vor. Jedoch sind dies nur einzelne, wenige Fälle, weshalb wir die inferenzstatistische Testung trotzdem durchführen.
 
-![](/lehre/statistik-i/gruppenvergleiche-abhaengig_files/figure-html/unnamed-chunk-15-2.png)<!-- -->
+### Durchführung des Wilcoxon-Vorzeichen-Rangtest für abhängige Stichproben
 
-$\Rightarrow$ Differenzen sehen nicht normalverteilt aus.
+Aus unserer Fragestellung wird eine Unterschiedsyhpothese deutlich, die einen gerichteten Effekt postuliert. Das Hypothesenpaar sieht folgendermaßen aus:
 
-Da die letzte Voraussetzung nicht erfüllt ist, führen wir einen Wilcoxon-Test (für abhängige Stichproben) durch. 
+* $H_0$: $\eta_\text{nach} \le \eta_\text{vor}$    
+* $H_1$: $\eta_\text{nach} > \eta_\text{vor}$    
 
-Auch für diesen Test gilt es, Voraussetzungen zu untersuchen:
+Weiterhin muss das Signifikanzniveau vor der Untersuchung festgelegt werden. Es soll hier 5% betragen. $\rightarrow$ $\alpha=.05$.
 
-**Voraussetzungen für die Durchführung des Wilcoxon-Tests (für abhängige Stichproben):**
-
-1.  die Differenzvariable ist in der Population stetig (zumindest singulär ordinal) $\rightarrow$ ok\
-2.  die Messwerte innerhalb der Paare dürfen sich gegenseitig beeinflussen/voneinander abhängig sein; keine Abhängigkeiten zwischen den Messwertpaaren $\rightarrow$ ok\
-3.  die Differenzvariable ist symmetrisch verteilt (nicht notwendigerweise normalverteilt) $\rightarrow$ ok\
-
-### 5.3. Inferenzstatistik: Wilcoxon-Test für abhängige Stichproben
-
-Zur Erinnerung:  
-
-> Fragestellung E: "Sind jüngere Geschwister kooperativer als ältere?"   
-
-**Hypothesen:** 
-
-* Art des Effekts: Unterschiedshypothese
-* Richtung des Effekts: Gerichtet - positiver Effekt
-* Grösse des Effekts: Unspezifisch
-
-Hyothesenpaar (inhaltlich):  
-
-* H0: Jüngere Geschwister sind genau so oder weniger kooperativ wie ältere Geschwister. 
-* H1: Jüngere Geschwister sind kooperativer als ältere Geschwister.  
-
-Hypothesenpaar (statistisch):  
-
-* H0: $\mu_\text{jünger} \le \mu_\text{älter}$  bzw.  $\mu_{d} \le 0$  
-* H1: $\mu_\text{jünger} > \mu_\text{älter}$    bzw.  $\mu_{d} > 0$
-
-**Signifikanzniveau**  
-
-Das Signifikanzniveau muss vor der Untersuchung festgelegt werden. Es soll hier 5% betragen. $\rightarrow$ $\alpha=.05$
 {{<intext_anchor Wilcox>}}
-**Durchführung des Wilcoxon-Tests für abhängige Stichproben in R:**
 
-Die Funktion für den Wilcoxon-Test für abhängige Stichproben sieht dem des _t_-Tests für abhängige Stichproben sehr ähnlich. 
+Die Argumente der Funktion für den Wilcoxon-Vorzeichen-Rangsummentest für abhängige Stichproben sehen dem des $t$-Tests für abhängige Stichproben sehr ähnlich. 
 
 
 ```r
-wilcox.test(x = dataKooperation[, "Juenger"], 
-            y  = dataKooperation[, "Aelter"], # die beiden abhängigen Gruppen
-            paired = T,      # Stichproben sind abhängig
+wilcox.test(x = CBTdata$BDI_pre, 
+            y = CBTdata$BDI_post,    # die beiden abhängigen Gruppen
+            paired = T,              # Stichproben sind abhängig
             alternative = "greater", # gerichtete Hypothese
-            conf.level = .95)                 # alpha = .05
+            exact = F,               # Approximation?
+            conf.level = .95)        # alpha = .05
 ```
 
 ```
 ## 
 ## 	Wilcoxon signed rank test with continuity correction
 ## 
-## data:  dataKooperation[, "Juenger"] and dataKooperation[, "Aelter"]
-## V = 44, p-value = 0.006426
+## data:  CBTdata$BDI_pre and CBTdata$BDI_post
+## V = 1640, p-value = 6.047e-10
 ## alternative hypothesis: true location shift is greater than 0
 ```
 
 
 
-_V_ = 44, _p_ < .01 $\rightarrow$ H0 wird verworfen.
+Durch das Argument `exact` kann angegeben werden, ob man einen exakten p-Wert oder eine Approximation ausgeben lassen will -- in spezifischen Konstellationen kann man diese Wahl trffen. Für Fälle mit Rangbindungen und Differenzen von 0 wird eine Approximation genutzt, die wir hier auch uns anzeigen lassen. Auch unsere Stichprobengröße führt dazu, dass die Approximation genutzt wird. Trotzdem steuern wir mit `exact = FALSE` auch bewusst an. Die Signifikanzentscheidung kann mit diesem Output direkt getroffen werden. Der empirische Wert liegt bei V = 1640 und für den zugehörigen p-Wert gilt: $p < .01$. Wir würden die H0 also verwerfen. Am Output fällt uns in Unterschied zum $t$-Test auf, dass kein Konfidenzintervall ausgegeben wird, was uns aber nicht weiter stört, da wir unsere Hypothesen prüfen konnten.
 
 
-{{<intext_anchor Bericht>}}
+### Ergebnisinterpretation  
 
-### 5.4 Ergebnisinterpretation  
-
-Es wurde an Geschwisterpaaren untersucht, ob jüngere Geschwister kooperativer sind als ältere Geschwister. Zunächst findet sich deskriptiv ein Unterschied: Jüngere Geschwister weisen einen durchschnittlichen Wert (Median) von 0.49 (_IQR_ = 0.15) auf, während die älteren Geschwister einen Wert (Median) von 0.32 (_IQR_ = 0.12) aufweisen [IQR ist die Interquartil-Range also die Distanz vom Prozentrang 25% bis zum Prozentrang 75%]. Da die Differenzen nicht normalverteilt waren, wurde ein Wilcoxon-Test für abhängige Stichproben durchgeführt. Der Unterschied wurde bei einem Signifikanzniveau von alpha = .05 signifikant (_V_ = 44, _p_ < .01). Somit wird die Nullhypothese verworfen. Der Befund deutet darauf hin, dass jüngere Geschwister kooperativer sind als ihr jeweils älteres Geschwisterteil.
-
+Da der Mittelwert für die Depressionsscores kein sinnvolles Maß für die zentrale Tendenz darstellt, wurde ein Wilcoxon-Vorzeichen-Rangtest für abhängige Stichproben durchgeführt, um die Medien zu vergleichen. Zunächst findet sich deskriptiv ein Unterschied: Vor der Therapie ist der Median des Depressionsscores größer 22 als nach der Therapie 18. Der Unterschied wurde bei einem Signifikanzniveau von alpha = .05 signifikant (_V_ = 1640, $p$ < .01). Somit wird die Nullhypothese verworfen und es wird angenommen, dass der Depressionsscore nach der Therapie niedriger ist als davor.

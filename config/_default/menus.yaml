@@ -51,7 +51,7 @@ main:
 
   - name: "Projekte"
     pre: "<i class='fas fa-laptop'></i>&ensp;"
-    url: '/under-construction'
+    url: '/projekte/main'
     weight: 300
 
   - name: "Extras"
