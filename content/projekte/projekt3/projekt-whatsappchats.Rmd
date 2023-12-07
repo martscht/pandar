@@ -50,10 +50,10 @@ In dieser Aufgabe sollst du lernen, Texte zu analysieren; und zwar nicht mehr wi
 
 Für diese Aufgabe benötigst du die Handyapplikation WhatsApp und einen Gruppenchat mit Freunden oder Bekannten von dir. Diesen kannst du exportieren, indem du an deinem Handy auf deinen Gruppenchat drückst. Oben rechts siehst du drei vertikale Punkte und unter „Mehr“ findest du „Chat exportieren“. Den Chat solltest du zunächst ohne Medien exportieren.
 
-![](/post/2019-11-13-uebersicht3_files/whatsapp1.jpeg){width=40%} 
-![](/post/2019-11-13-uebersicht3_files/whatsapp2.jpeg){width=40%}
+![](whatsapp1.jpeg){width=40%} 
+![](whatsapp2.jpeg){width=40%}
 
-![](/post/2019-11-13-uebersicht3_files/whatsapp3.jpeg){width=40%} ![](/post/2019-11-13-uebersicht3_files/whatsapp4.jpeg){width=40%}
+![](whatsapp3.jpeg){width=40%} ![](whatsapp4.jpeg){width=40%}
 
 
 Es sollte sich ein Fenster öffnen, in dem verschiedene Möglichkeiten zum Versenden der Datei angezeigt werden. Du kannst dir den Text beispielsweise per E-Mail schicken, um auch von deinem Computer auf die Datei zugreifen zu können. Lade die Textdatei auf deinen Computer und speichere sie im gleichen Ordner, in dem du auch deine R-Datei speichern möchtest.
@@ -459,13 +459,15 @@ library(udpipe)
 ```
 
 Das Folgende wurde bereits erwähnt, der Vollständigkeit halber steht es hier aber nochmals. Um `udpipe` benutzen zu können, musst du das Modell in der richtigen Sprache herunterladen und in die aktuelle Sitzung laden.
-```{r ERROR, fig = F} 
-# model <- udpipe_download_model(language = 'german')
+```{r, eval = FALSE}
+model <- udpipe_download_model(language = 'german')
+```
+```{r, fig = F} 
 germodel <- udpipe_load_model(file = dir(pattern = 'udpipe')) 
 ```
     
 
-Nun müssen die verschiedenen Listen eingelesen werden. Wir haben die Tabellen mit den richtigen Namen versehen, damit es einfacher und ordentlicher ist. Das ist zwar kein Muss, aber umbedingt zu empfehlen.
+Nun müssen die verschiedenen Listen eingelesen werden. Wir haben die Tabellen mit den richtigen Namen versehen, damit es einfacher und ordentlicher ist. Das ist zwar kein Muss, aber unbedingt zu empfehlen.
 ```{r}
 emo <- read.csv('EmotionLookupTable.txt', sep = '\t', header = FALSE, stringsAsFactors = FALSE)
 names(emo) <- c('Wort', 'Senti', 'Englisch', 'Quelle', 'Entstehung')
