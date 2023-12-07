@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr Unterschiede zwischen zwei Gruppen zu veranschaulichen. Ihr erfahrt außerdem, wie ihr verschiedene Tests für unabhängige Stichproben in R durchführt und ihre Voraussetzungen prüft.' 
 authors: [koehler, buchholz, irmer, nehler, goldhammer, schultze] 
 weight: 6
-lastmod: '2023-12-04'
+lastmod: '2023-12-07'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -211,6 +211,20 @@ Wir können uns auch Deskriptivstatistiken ansehen. Bspw. könnten wir uns die M
 
 ```r
 library(psych)
+```
+
+```
+## 
+## Attaching package: 'psych'
+```
+
+```
+## The following objects are masked from 'package:ggplot2':
+## 
+##     %+%, alpha
+```
+
+```r
 describeBy(x = fb23$vertr, group = fb23$fach_klin)        # beide Gruppen im Vergleich 
 ```
 
@@ -218,12 +232,16 @@ describeBy(x = fb23$vertr, group = fb23$fach_klin)        # beide Gruppen im Ver
 ## 
 ##  Descriptive statistics by group 
 ## group: nicht klinisch
-##    vars  n mean  sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 84 3.43 0.8    3.5    3.46 0.74 1.5   5   3.5 -0.19    -0.58 0.09
-## ----------------------------------------------------------------------- 
+##    vars  n mean  sd median trimmed  mad min max range  skew kurtosis
+## X1    1 84 3.43 0.8    3.5    3.46 0.74 1.5   5   3.5 -0.19    -0.58
+##      se
+## X1 0.09
+## ---------------------------------------------------- 
 ## group: klinisch
-##    vars  n mean   sd median trimmed  mad min max range skew kurtosis   se
-## X1    1 82 3.47 0.85    3.5     3.5 0.74   1   5     4 -0.4      0.1 0.09
+##    vars  n mean   sd median trimmed  mad min max range skew kurtosis
+## X1    1 82 3.47 0.85    3.5     3.5 0.74   1   5     4 -0.4      0.1
+##      se
+## X1 0.09
 ```
 
 Achtung, bei den hier berichteten `sd` handelt es sich nicht um die Stichprobenkennwerte, sondern um die Populationsschätzer. Daher berechnen wir die Standardabweichung auch nochmals per Hand:
@@ -272,16 +290,35 @@ Um die Verteilung optisch zu prüfen, haben wir zwei Möglichkeiten:
 ```r
 # Gruppe 1 (nichtKlinisch) 
 par(mfrow=c(1,2))
+
 vertr_nichtKlinisch <- fb23[(fb23$fach_klin=="nicht klinisch"), "vertr"]
-hist(vertr_nichtKlinisch, xlim=c(0,6), ylim=c(0,.8), main="Verträglichkeit (nicht klinisch)", xlab="", ylab="", las=1, probability=T)
-curve(dnorm(x, mean=mean(vertr_nichtKlinisch, na.rm=T), sd=sd(vertr_nichtKlinisch, na.rm=T)), col="blue", lwd=2, add=T)
+
+hist(vertr_nichtKlinisch, 
+     xlim=c(0,6), ylim=c(0,.8), 
+     main="Verträglichkeit (nicht klinisch)", 
+     xlab="", ylab="", 
+     las=1, probability=T)
+curve(dnorm(x, 
+            mean = mean(vertr_nichtKlinisch, na.rm=T), 
+            sd = sd(vertr_nichtKlinisch, na.rm=T)), 
+      col="blue", lwd=2, add=T)
+
 qqnorm(vertr_nichtKlinisch)
 qqline(vertr_nichtKlinisch, col="blue")
 ```
 
 <img src="/lehre/statistik-i/gruppenvergleiche-unabhaengig_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
-Mithilfe von `curve()` kann eine Linie in eine Grafik eingezeichnet werden. Hierbei bezeichnet `x` die x-Koordinate. `dnorm()` hatten wir bereits kennen gelernt. Diese Funktion beschreibt die Dichte der Normalverteilung. Die Normalverteilung ist eindeutig durch ihren Mittelwert und durch ihre Standardabweichung definiert. Wir müssen `dnorm()` also jeweils den empirischen Mittelwert sowie die empirische Standardabweichung übergeben. Das Argument `add = T` ist nötig, da sonst ein neuer Plot für die Kurve erstellt wird. Durch `add = T` wird sie dem Histogramm hinzugefügt. Damit die Dichte sichtbar ist, muss im Histogramm zuvor das Argument `probability = T` gewählt werden. Ansonsten würden absolute Häufigkeiten anstatt der relativen Häufigkeiten abgetragen werden. Den `qqnorm()`-Befehl hatten wir auch bereits kennen gelernt. Mit `qqline()` erhalten wir die nötige Linie, auf welcher die Punkte einigermaßen liegen müssen, damit sie als normalverteilt einzustufen sind.
+```r
+dev.off()
+```
+
+```
+## null device 
+##           1
+```
+
+Mithilfe von `curve()` kann eine Linie in eine Grafik eingezeichnet werden. Hierbei bezeichnet `x` die x-Koordinate. `dnorm()` hatten wir bereits kennen gelernt. Diese Funktion beschreibt die Dichte der Normalverteilung. Die Normalverteilung ist eindeutig durch ihren Mittelwert und durch ihre Standardabweichung definiert. Wir müssen `dnorm()` also jeweils den empirischen Mittelwert sowie die empirische Standardabweichung übergeben. Wenn man es sehr genau nehmen will, müsste man hier also eine Verrechnung der von R erzeugten Standardabweichung vornehmen. Wie im letzten Tutorial beschrieben nutzen wir aber einfach das Ergebnis von `sd()`. Dies wird auch in allen weiteren Tutorials ohne zusätzlichen Hinweis gemacht. Das Argument `add = T` ist nötig, da sonst ein neuer Plot für die Kurve erstellt wird. Durch `add = T` wird sie dem Histogramm hinzugefügt. Damit die Dichte sichtbar ist, muss im Histogramm zuvor das Argument `probability = T` gewählt werden. Ansonsten würden absolute Häufigkeiten anstatt der relativen Häufigkeiten abgetragen werden. Den `qqnorm()`-Befehl hatten wir auch bereits kennen gelernt. Mit `qqline()` erhalten wir die nötige Linie, auf welcher die Punkte einigermaßen liegen müssen, damit sie als normalverteilt einzustufen sind.
 
 Die Treppenform, die wir hier im QQ-Plot sehen ist für fragebogenbasierte Daten sehr typisch. Sie entsteht dadurch, dass wir mit vorgegebenen Antwortkategorien keine stetige Variable erzeugen können. Stattdessen gibt es hier anscheinend nur acht verschiedene Ausprägungen der Variable `vertr`. Dadurch, dass dieser Skalenwert als Mittelwert aus zwei fünfstufigen Items erzeugt wurde sind theoretisch nur neun Ausprägungen möglich - alle Zahlen von 1 bis 5 in 0,5er Schritten. Je mehr Items wir zusammenführen, um einen Skalenwert zu berechnen, desto besser können wir eine stetige Variable approximieren. Für die Prokrastinationstendenz `prok` z.B. haben wir einen Skalenwert aus zehn verschiedenen Items mit jeweils vier Antwortkategorien erzeugt, sodass wir 31 mögliche Ausprägungen haben.
 
@@ -293,9 +330,17 @@ Wir wiederholen die Befehle von zuvor auch für die zweite Gruppe:
 ```r
 # Gruppe 2 (klinisch) 
 par(mfrow=c(1,2))
+
 vertr_klinisch <- fb23[(fb23$fach_klin=="klinisch"), "vertr"]
-hist(vertr_klinisch, xlim=c(0,6), ylim=c(0,.8), main="Verträglichkeit (klinisch)", xlab="", ylab="", las=1, probability=T)
-curve(dnorm(x, mean=mean(vertr_klinisch, na.rm=T), sd=sd(vertr_klinisch, na.rm=T)), col="blue", lwd=2, add=T)
+hist(vertr_klinisch, 
+     xlim=c(0,6), ylim=c(0,.8), 
+     main="Verträglichkeit (klinisch)", 
+     xlab="", ylab="", las=1, probability=T)
+curve(dnorm(x, 
+            mean = mean(vertr_klinisch, na.rm=T),
+            sd = sd(vertr_klinisch, na.rm=T)), 
+      col="blue", lwd=2, add=T)
+
 qqnorm(vertr_klinisch)
 qqline(vertr_klinisch, col="blue")
 ```
@@ -323,6 +368,24 @@ Ein nicht-signifikantes Ergebnis (*p* \> .05) deutet also darauf hin, dass wir n
 
 ```r
 library(car)
+```
+
+```
+## Loading required package: carData
+```
+
+```
+## 
+## Attaching package: 'car'
+```
+
+```
+## The following object is masked from 'package:psych':
+## 
+##     logit
+```
+
+```r
 leveneTest(fb23$vertr ~ fb23$fach_klin)
 ```
 
@@ -514,12 +577,16 @@ describeBy(fb23$lz, fb23$fach_klin) # beide Gruppen im Vergleich
 ## 
 ##  Descriptive statistics by group 
 ## group: nicht klinisch
-##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 83 5.11 1.13    5.4    5.19 1.19 1.4   7   5.6 -0.87     0.91 0.12
-## ----------------------------------------------------------------------- 
+##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis
+## X1    1 83 5.11 1.13    5.4    5.19 1.19 1.4   7   5.6 -0.87     0.91
+##      se
+## X1 0.12
+## ---------------------------------------------------- 
 ## group: klinisch
-##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 82 5.12 0.96    5.2    5.17 0.89 2.6 6.8   4.2 -0.49    -0.38 0.11
+##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis
+## X1    1 82 5.12 0.96    5.2    5.17 0.89 2.6 6.8   4.2 -0.49    -0.38
+##      se
+## X1 0.11
 ```
 
 Auch hier sehen wir wieder, dass die Gruppe der nicht klinisch interessierten Studierenden einen etwas gößeren Median auf als die Gruppe der klinisch interessierten Studierenden. 
@@ -631,8 +698,8 @@ Per Voreinstellung wird in R der exakte $p$-Wert bestimmt, wenn die Stichprobe i
 
 
 ```
-## Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...): cannot compute exact
-## p-value with ties
+## Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...):
+## cannot compute exact p-value with ties
 ```
 
 ### Ergebnisinterpretation
