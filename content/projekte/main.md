@@ -3,7 +3,7 @@ type: landing
 title: "Projekte"
 summary: "Auf dieser Überblicksseite findest du alle Projekte, die wir bisher erstellt haben. Jedes Projekt ist in vier Abschnitte gegliedert: Übersicht, Problemstellung, Tipps und Lösungen. Die ersten beiden stellen das jeweilige Projekt inhaltlich vor und schildern die Probleme, die in der Bewältigung auftreten könnten. Bei den Tipps gibt es kleine Hilfestellungen, wenn du an irgendeiner Stelle nicht weiterkommen solltest. Die Lösungen zeigen dann letztlich, wie wir dieses Projekt bearbeitet haben.
 
-Wenn du dir die Projekte anschaust, dann ist es nicht zwingend notwendig, sie in der präsentierten Reihenfolge durchzugehen. Generell werden die Projekte zwar nach unten hin etwas schwieriger, aber keines erfordert explizit die Bearbeitung eines vorhergehenden Projekts, weshalb alle weitestgehend unabhängig voneinander bearbeitet werden können. Falls du erst noch einen Blick in die Auffrischung werfen willst, findest du [hier](https://pandar.netlify.app/categories/zusatz) ein paar zusätzliche Inhalte."
+Wenn du dir die Projekte anschaust, dann ist es nicht zwingend notwendig, sie in der präsentierten Reihenfolge durchzugehen. Generell werden die Projekte zwar nach unten hin etwas schwieriger, aber keines erfordert explizit die Bearbeitung eines vorhergehenden Projekts, weshalb alle weitestgehend unabhängig voneinander bearbeitet werden können. Falls du erst noch einen Blick in die Auffrischung werfen willst, findest du [hier](/lehre/statistik-i/crash-kurs/) ein paar zusätzliche Inhalte."
 weight: 10
 
 show_date: false
@@ -16,7 +16,7 @@ sections:
       subtitle: 
       text: "Auf dieser Überblicksseite findest du alle Projekte, die wir bisher erstellt haben. Jedes Projekt ist in vier Abschnitte gegliedert: Übersicht, Problemstellung, Tipps und Lösungen. Die ersten beiden stellen das jeweilige Projekt inhaltlich vor und schildern die Probleme, die in der Bewältigung auftreten könnten. Bei den Tipps gibt es kleine Hilfestellungen, wenn du an irgendeiner Stelle nicht weiterkommen solltest. Die Lösungen zeigen dann letztlich, wie wir dieses Projekt bearbeitet haben.
 
-Wenn du dir die Projekte anschaust, dann ist es nicht zwingend notwendig, sie in der präsentierten Reihenfolge durchzugehen. Generell werden die Projekte zwar nach unten hin etwas schwieriger, aber keines erfordert explizit die Bearbeitung eines vorhergehenden Projekts, weshalb alle weitestgehend unabhängig voneinander bearbeitet werden können. Falls du erst noch einen Blick in die Auffrischung werfen willst, findest du [hier](https://pandar.netlify.app/categories/zusatz) ein paar zusätzliche Inhalte."
+Wenn du dir die Projekte anschaust, dann ist es nicht zwingend notwendig, sie in der präsentierten Reihenfolge durchzugehen. Generell werden die Projekte zwar nach unten hin etwas schwieriger, aber keines erfordert explizit die Bearbeitung eines vorhergehenden Projekts, weshalb alle weitestgehend unabhängig voneinander bearbeitet werden können. Falls du erst noch einen Blick in die Auffrischung werfen willst, findest du [hier](/lehre/statistik-i/crash-kurs/) ein paar zusätzliche Inhalte."
     design:
       background:
         color: "#01628f"

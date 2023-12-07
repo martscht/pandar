@@ -53,6 +53,26 @@ main:
     pre: "<i class='fas fa-laptop'></i>&ensp;"
     url: '/projekte/main'
     weight: 300
+  - name: "Verbentrainer"
+    pre: "<i class='fas fa-language'></i>&ensp;"
+    url: '/projekte/main#projekt-1'
+    parent: "Projekte"
+    weight: 301
+  - name: "Trends"
+    pre: "<i class='fab fa-google'></i>&ensp;"
+    url: '/projekte/main#projekt-2'
+    parent: "Projekte"
+    weight: 302
+  - name: "Casino"
+    pre: "<i class='fas fa-dice'></i>&ensp;"
+    url: '/projekte/main#projekt-3'
+    parent: "Projekte"
+    weight: 303
+  - name: "WhatsApp"
+    pre: "<i class='fab fa-whatsapp'></i>&ensp;"
+    url: '/projekte/main#projekt-4'
+    parent: "Projekte"
+    weight: 304    
 
   - name: "Extras"
     pre: "<i class='fas fa-wand-sparkles'></i>&ensp;"
