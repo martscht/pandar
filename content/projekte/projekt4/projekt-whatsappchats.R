@@ -1,5 +1,3 @@
-knitr::opts_chunk$set(echo = TRUE)
-
 ## install.packages('rwhatsapp')
 ## library(rwhatsapp)
 ## raw <- rwa_read('MeineGruppe.txt')

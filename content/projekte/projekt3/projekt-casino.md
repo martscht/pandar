@@ -3,13 +3,13 @@ title: Casino
 type: post
 date: '2019-12-14T23:00:00'
 slug: projekt-casino
-categories: ["Projekt2"]
-tags: ["Projekt2"]
+categories: []
+tags: ["Projekt3"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Projekt versuchen wir, uns den Weg ins Casino zu ersparen, indem wir selbst ein vollständiges Roulette in R programmieren. Das heißt, dass wir uns mit Zufallsziehungen, Schleifen und Funktionen auseinandersetzen müssen. Aber Vorsicht, Glücksspiel kann süchtig machen!'
 authors: [mehler, rouchi]
 weight: 1
-lastmod: '2023-12-06'
+lastmod: '2023-12-07'
 featured: no
 banner:
   image: "/header/roulette.jpg"
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /projekte/projekt2/projekt-casino
+    url: /projekte/projekt3/projekt-casino
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /projekte/projekt2/projekt-casino.R 
+    url: /projekte/projekt3/projekt-casino.R 
 output:
   html_document:
     keep_md: true
@@ -66,7 +66,7 @@ Anhand der Gewinnquote lässt sich berechnen, wie hoch die Auszahlung ist, sollt
 
 Der Wetttisch beim französischen Roulette sieht folgendermaßen aus:
 
-![](/projekte/projekt2/Projekt2_Roulette_table.png)
+![](/projekte/projekt3/Projekt2_Roulette_table.png)
 
 ## Beispiel zur Verwendung von Funktionen {#Beispiel}
 
@@ -269,8 +269,11 @@ sample(0:36)
 ```
 
 ```
-##  [1]  0 27  8 24 22 23 19 15  2 17 33  1 36  7 20  5  4 18 21 34 29  3 11  9 16 28 13 32
-## [29] 30 14 31 35 12 25  6 26 10
+##  [1]  0 27  8 24 22 23 19 15
+##  [9]  2 17 33  1 36  7 20  5
+## [17]  4 18 21 34 29  3 11  9
+## [25] 16 28 13 32 30 14 31 35
+## [33] 12 25  6 26 10
 ```
  
 Was hier nun passiert, ist eine Urnenziehung "ohne Zurücklegen" bis alle Nummern gezogen wurden. Das entspricht jedoch nicht der Zufallsziehung beim Roulette. Dort wird jeweils "mit Zurücklegen" gespielt. Das kann man nun auf zwei Wegen erreichen: 
@@ -308,8 +311,13 @@ Ziehungen
 ```
 
 ```
-##  [1] 31 35  5  5  3  9 17 16 28 31  5 35 14  3 13  1 29 24 12 32 17 34 18 18  0 19 12 15
-## [29] 34  6  9 16  8 25 34 22 12 17 34 16  8  7 25 20 36 31  9 17 27 23
+##  [1] 31 35  5  5  3  9 17 16
+##  [9] 28 31  5 35 14  3 13  1
+## [17] 29 24 12 32 17 34 18 18
+## [25]  0 19 12 15 34  6  9 16
+## [33]  8 25 34 22 12 17 34 16
+## [41]  8  7 25 20 36 31  9 17
+## [49] 27 23
 ```
 
 Oder man geht einen etwas schwierigeren Weg über eine `for`-Schleife. Dafür erstellt man zuerst ein leeres Objekt, in dem man dann im Folgenden die einzelnen Ziehungen speichern kann, und führt dann die Schleife aus.
@@ -324,8 +332,13 @@ Ziehungen
 ```
 
 ```
-##  [1] 10 33  9 21 14 36 32 10 21 24 29  6 27 29 33 14 30  7 26 21 26 33 36 15 20 10  6 25
-## [29] 35  6  2  9 21 28 30  4 20 22  6 35 35 35 21  2  5 25  2  2 13 17
+##  [1] 10 33  9 21 14 36 32 10
+##  [9] 21 24 29  6 27 29 33 14
+## [17] 30  7 26 21 26 33 36 15
+## [25] 20 10  6 25 35  6  2  9
+## [33] 21 28 30  4 20 22  6 35
+## [41] 35 35 21  2  5 25  2  2
+## [49] 13 17
 ```
 
 Die erste Variante ist zwar wesentlich einfacher zu schreiben (und für `R` auch wesentlich einfacher und schneller auszuführen), aber die zweite erlaubt es uns, nach dem Rollen jeder einzelnen Kugel noch andere Dinge zu tun.
@@ -353,9 +366,15 @@ Wenn also eine 9 herausgekommen ist, soll ein Gewinn von `180` eingesetzt werden
 
 
 ```
-##  [1]  -5  -5 180  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5
-## [22]  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5 180  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5
-## [43]  -5  -5  -5  -5  -5  -5  -5  -5
+##  [1]  -5  -5 180  -5  -5  -5
+##  [7]  -5  -5  -5  -5  -5  -5
+## [13]  -5  -5  -5  -5  -5  -5
+## [19]  -5  -5  -5  -5  -5  -5
+## [25]  -5  -5  -5  -5  -5  -5
+## [31]  -5 180  -5  -5  -5  -5
+## [37]  -5  -5  -5  -5  -5  -5
+## [43]  -5  -5  -5  -5  -5  -5
+## [49]  -5  -5
 ```
 
 Jetzt kann man zu jeder Runde den Gewinn ablesen. Insgesamt ergibt das eine Ausbeute von:
@@ -552,8 +571,13 @@ Ziehungen
 ```
 
 ```
-##  [1] 15 13 15 10 34 30 33  7 23 18 23 16 25 22 34  8 24  6 22  2  9 30  1 24 35 17 16 35
-## [29] 30  6 30  2 27 17 22  9 13 20 36 12 25 35 12 17 10 20 21  2  8  0
+##  [1] 15 13 15 10 34 30 33  7
+##  [9] 23 18 23 16 25 22 34  8
+## [17] 24  6 22  2  9 30  1 24
+## [25] 35 17 16 35 30  6 30  2
+## [33] 27 17 22  9 13 20 36 12
+## [41] 25 35 12 17 10 20 21  2
+## [49]  8  0
 ```
 
 ```r
@@ -561,9 +585,15 @@ Gewinne
 ```
 
 ```
-##  [1]  10  10  10 -10 -10 -10  10  10  10 -10  10 -10  10 -10 -10 -10 -10 -10 -10 -10  10
-## [22] -10  10 -10  10  10 -10  10 -10 -10 -10 -10  10  10 -10  10  10 -10 -10 -10  10  10
-## [43] -10  10 -10 -10  10 -10 -10 -10
+##  [1]  10  10  10 -10 -10 -10
+##  [7]  10  10  10 -10  10 -10
+## [13]  10 -10 -10 -10 -10 -10
+## [19] -10 -10  10 -10  10 -10
+## [25]  10  10 -10  10 -10 -10
+## [31] -10 -10  10  10 -10  10
+## [37]  10 -10 -10 -10  10  10
+## [43] -10  10 -10 -10  10 -10
+## [49] -10 -10
 ```
 
 
@@ -590,9 +620,15 @@ cumsum(Gewinne)
 ```
 
 ```
-##  [1]  10  20  30  20  10   0  10  20  30  20  30  20  30  20  10   0 -10 -20 -30 -40 -30
-## [22] -40 -30 -40 -30 -20 -30 -20 -30 -40 -50 -60 -50 -40 -50 -40 -30 -40 -50 -60 -50 -40
-## [43] -50 -40 -50 -60 -50 -60 -70 -80
+##  [1]  10  20  30  20  10   0
+##  [7]  10  20  30  20  30  20
+## [13]  30  20  10   0 -10 -20
+## [19] -30 -40 -30 -40 -30 -40
+## [25] -30 -20 -30 -20 -30 -40
+## [31] -50 -60 -50 -40 -50 -40
+## [37] -30 -40 -50 -60 -50 -40
+## [43] -50 -40 -50 -60 -50 -60
+## [49] -70 -80
 ```
 
 ```r

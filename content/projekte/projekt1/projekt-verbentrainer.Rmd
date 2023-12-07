@@ -1,26 +1,38 @@
 ---
 title: Verbentrainer
+type: post
 date: '2022-07-24T23:00:00'
 slug: projekt-verbentrainer
-categories:
-  - Projekt 0
-tags: []
+categories: []
+tags: ["Projekt1"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Projekt lernen wir, wie man einen Verbentrainer erstellen kann. Wir erstellen dafür einerseits eine Liste unkonjugierter Verben, sowie die Konjugationsformen, und kombinieren diese zufällig. So kann das konjugieren durch das Aufrufen zufälliger Listeneinträge geübt werden. Dies wird an einem spanischen Beispiel illustriert.'
 authors: [rouchi]
-lastmod: '2022-07-27'
+weight: 1
+lastmod: '`r Sys.Date()`'
 featured: no
-image:
-  caption: ''
-  focal_point: ''
-  preview_only: no
-projects: []
-header:
-  image: "/header/verben.jpg"
+banner:
+  image: "/header/architecture_valencia.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/674624)"
+projects: []
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /projekte/projekt1/projekt-verbentrainer
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /projekte/projekt1/projekt-verbentrainer.R 
+output:
+  html_document:
+    keep_md: true
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, purl=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -64,7 +76,7 @@ Im ersten Teil des Projekts fokussieren wir uns zunächst ausschließlich auf da
 Falls du von alleine nicht weiterkommen solltest, kannst du dir die folgenden **Tipps** anschauen:
 
 
-<details><summary>Struktur in `R`</summary>
+<details><summary>Struktur in <code>R</code></summary>
 
 Zunächst sollten wir über die Struktur des Trainers in `R` nachdenken. (Meines Wissens nach) gibt es keine konkrete Funktion, die wir dafür verwenden können, sondern wir müssen uns eine Struktur überlegen, auf die wir bereits vorhandene Befehle anwenden können. Eine Form, die sich hierfür besonders anbietet, ist die allseits beliebte **Tabelle**. Es gibt sie in den verschiedensten Layouts, sie ist leicht zu erstellen und man kann viel an ihr rumarbeiten. Probiere also, dir eine Tabelle zu überlegen, in der man Personen zu Verben zuordnen kann.
 
@@ -191,7 +203,7 @@ Im Prinzip ist diese Aufgabe recht einfach, wenn du den ersten Teil bereits gesc
 </details>
 
 
-<details><summary>`R`-Code</summary>
+<details><summary><code>R</code>-Code</summary>
 
 Der Code ähnelt sehr stark dem ersten Teil des Projekts. Schau dir genau die einzelnen Schritte der ersten Aufgabe an und überleg dir, wie du die Tabelle am Besten erweitern kannst.
 
@@ -244,11 +256,11 @@ Jetzt kann der Reihe nach jedes Verb für eine bestimmte Person in einer bestimm
 
 </details>
 
-## Aufgabe 3: Erstellen eines HTMLs (mit Zufallsknopf)
+<!-- ## Aufgabe 3: Erstellen eines HTMLs (mit Zufallsknopf) -->
 
--> kurze Einführung in RMarkdown, damit Tabelle als HTML abgespeichert werden kann
+<!-- -> kurze Einführung in RMarkdown, damit Tabelle als HTML abgespeichert werden kann -->
 
--> mit plotly einen Plot der Tabelle erstellen, damit es anschaulicher ist
+<!-- -> mit plotly einen Plot der Tabelle erstellen, damit es anschaulicher ist -->
 
 
 

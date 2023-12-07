@@ -3,10 +3,10 @@ title: Casino
 type: post
 date: '2019-12-14T23:00:00'
 slug: projekt-casino
-categories: ["Projekt2"]
-tags: ["Projekt2"]
+categories: []
+tags: ["Projekt3"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Projekt versuchen wir, uns den Weg ins Casino zu ersparen, indem wir selbst ein vollständiges Roulette in R programmieren. Das heißt, dass wir uns mit Zufallsziehungen, Schleifen und Funktionen auseinandersetzen müssen. Aber Vorsicht, Glücksspiel kann süchtig machen!'
 authors: [mehler, rouchi]
 weight: 1
 lastmod: '`r Sys.Date()`'
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /projekte/projekt2/projekt-casino
+    url: /projekte/projekt3/projekt-casino
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /projekte/projekt2/projekt-casino.R 
+    url: /projekte/projekt3/projekt-casino.R 
 output:
   html_document:
     keep_md: true
