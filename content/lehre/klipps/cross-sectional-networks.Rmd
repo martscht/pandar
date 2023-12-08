@@ -130,7 +130,7 @@ Die Variablen *observe*, *describe*, *awareness*, *nonjudging* und *nonreactivit
 
 ## Netzwerkschätzung
 
-Es gibt in `R` einige Pakete, die sich mit der Netzwerkanalyse auseinandersetzen. Ein häufig verwendetes Paket ist `bootnet`, das einige vorher entwickelte Pakete vereint und daher für verschiedene Fragestellungen einsetzbar ist. Weiterhin werden wir auch inder Auswertung auf Funktionen dieses Pakets zurückgreifen, weshalb wir uns in diesem Tutorial für seine Nutzung entschieden haben. Vor der ersten Verwendung muss das Paket natürlich installiert werden - die vorher entwickelten Pakete werden als Dependencies automatisch mit installiert. 
+Es gibt in `R` einige Pakete, die sich mit der Netzwerkanalyse auseinandersetzen. Ein häufig verwendetes Paket ist `bootnet`, das einige vorher entwickelte Pakete vereint und daher für verschiedene Fragestellungen einsetzbar ist. Weiterhin werden wir auch in der Auswertung auf Funktionen dieses Pakets zurückgreifen, weshalb wir uns in diesem Tutorial für seine Nutzung entschieden haben. Vor der ersten Verwendung muss das Paket natürlich installiert werden - die vorher entwickelten Pakete werden als Dependencies automatisch mitinstalliert. 
 
 ```{r, eval = FALSE}
 install.packages("bootnet")
@@ -144,19 +144,19 @@ library(bootnet)
 
 Die Schätzung von Netzwerken funktioniert in dem Paket fast ausschließlich durch die Sammelfunktion `estimateNetwork`. In ihr können durch Argumente verschiedene Netzwerkanalysen durchgeführt werden, wie wir im weiteren Verlauf sehen werden.
 
-Starten wir zunächst mit der einfachsten Berechnung von Zusammenhängen, die wir für intervallskalierte Variablen kennengelernt haben - die Produkt-Moment-Korrelation. Wenn wir eine Netzwerkstruktur erstellen wollen, indem das Gewicht der Kanten der Korrelation zwischen den zugehörigen Knoten entspricht, muss das Argument `default` mit `"cor"` gefüllt werden. Weiterhin muss natürlich der Datensatz mit aufgeführt werden, für den die Schätzung durchgeführt werden soll. Wir weisen dieses Netzerk dem Objekt `cor_net` zu und betrachten die `summary`. 
+Starten wir zunächst mit der einfachsten Berechnung von Zusammenhängen, die wir für intervallskalierte Variablen kennengelernt haben - die Produkt-Moment-Korrelation. Wenn wir eine Netzwerkstruktur erstellen wollen, bei der das Gewicht der Kanten der Korrelation zwischen den zugehörigen Knoten entspricht, muss das Argument `default` mit `"cor"` gefüllt werden. Weiterhin muss natürlich der Datensatz mit aufgeführt werden, für den die Schätzung durchgeführt werden soll. Wir weisen dieses Netzerk dem Objekt `cor_net` zu und betrachten die `summary`. 
 
 ```{r}
 cor_net <- estimateNetwork(raw_data, default = "cor")
 summary(cor_net)
 ```
-Bei der Schätzung erhalten wir zunächst eine Warning Message, die wir aber nicht weiter betrachten müssen. In der `summary()` sind einige Informationen abgetraten. Über das Netzwerk wird dabei ausgesagt, dass es `r cor_net$nNode` Knoten gibt. Weiterhin wird angezeigt, dass alle Korrelationen (also die Gewichte der Kanten) nicht gleich 0 sind. Auch das durchschnittliche Gewicht der Kanten wird bestimmt. Wir erhalten zusätzliche einige Hinweise zum weiteren Vorgehen und der Zitation. Dabei konzentrieren wir uns jetzt zunächst erst einmal darauf, das Netzwerk zu zeichnen.
+Bei der Schätzung erhalten wir zunächst eine Warning Message, die wir aber nicht weiter betrachten müssen. In der `summary()` sind einige Informationen abgetragen. Über das Netzwerk wird dabei ausgesagt, dass es `r cor_net$nNode` Knoten gibt. Weiterhin wird angezeigt, dass alle Korrelationen (also die Gewichte der Kanten) nicht gleich 0 sind. Auch das durchschnittliche Gewicht der Kanten wird bestimmt. Wir erhalten zusätzlich einige Hinweise zum weiteren Vorgehen und der Zitation. Dabei konzentrieren wir uns jetzt zunächst erst einmal darauf, das Netzwerk zu zeichnen.
 
 ```{r}
 plot(cor_net)
 ```
 
-Das Paket zeichnet - wie wir es bereits gesehen haben - positive Beziehungen als blaue Striche. Je stärker das Gewicht einer Kante ist, desto dicker ist die zugehörige Linie . Die Erstellung der Struktur in der Grafik (also an welchem Ort welcher Knoten passiert wird), wird durch einen Algorithmus berechnet. Das Ziel dabei ist es, Knoten mit starken Verbindungen möglichst eng zu platzieren, welche mit schwächeren Verbindungen weiter entfernt. Die dahinter liegende Mathematik werden wir an dieser Stelle nicht besprechen. Neben Plots ist auch eine Darstellung als Matrix mit Zahlen möglich (in diesem Fall also die Korrelationsmatrix). Diese wird im Objekt abgelegt und kann daher sehr simpel ausgegeben werden.
+Das Paket zeichnet - wie wir es bereits gesehen haben - positive Beziehungen als blaue Striche. Je stärker das Gewicht einer Kante ist, desto dicker ist die zugehörige Linie . Die Erstellung der Struktur in der Grafik (also an welchem Ort welcher Knoten positioniert wird), wird durch einen Algorithmus berechnet. Das Ziel dabei ist es, Knoten mit starken Verbindungen möglichst eng aneinander zu platzieren, Knoten mit schwächeren Verbindungen weiter voneinander entfernt. Die zugrunde liegende Mathematik werden wir an dieser Stelle nicht besprechen. Neben Plots ist auch eine Darstellung als Matrix mit Zahlen möglich (in diesem Fall also die Korrelationsmatrix). Diese wird im Objekt abgelegt und kann daher sehr simpel ausgegeben werden.
 
 ```{r}
 cor_net$graph
@@ -164,45 +164,50 @@ cor_net$graph
 
 Die Koeffizienten liegen wie immer bei der Korrelation zwischen -1 und 1. Wir können uns exemplarisch noch die Beziehung der ersten beiden Variablen in der Matrix und im Plot anschauen. Das Gewicht wird als `r cor_net$graph[1,2]` ausgegeben. Im Plot findet man beide Items am Rand rechts. Sie sind durch einen dünnen (weil kleinerer Wert), blauen (weil positiver Wert) Strich verbunden.
 
-Aus einiger Arbeit mit Korrelationen in multivariaten Settings wissen wir, dass die Einzigartigkeit einer Beziehung durch einfache Korrelationen nicht abgebildet wird. Obwohl zwei Variablen in unserem Plot also verbunden sind, könnten sie eigentlich keinen eigenen Zusammenhang haben, sondern durch eine Drittvariable gesteuert sein. Deshalb betrachtet man für solche Darstellungen üblicherweise nicht Korrelationen. Stattdessen werden die Partialkorrelationen berechnet. Die Gewichte der Kanten sollen die Beziehungen zwischen den Knoten abbilden, nachdem auf alle anderen Informationen im Datensatz kontrolliert wurde. Im Bachelor haben wir Formeln für das Herauspartialisieren einer Variable aus der Beziehung für die Berechnung der Partialkorrelation kennen gelernt. Dies würde viel rechnerischen Aufwand bedeuten. Zum Glück können Partialkorrelationen auch aus der Inversen der Kovarianzmatrix berechnet werden. 
+Aus einiger Arbeit mit Korrelationen in multivariaten Settings wissen wir, dass die Einzigartigkeit einer Beziehung durch einfache Korrelationen nicht abgebildet wird. Obwohl zwei Variablen in unserem Plot also verbunden sind, ist es möglich, dass sie eigentlich keinen eigenen Zusammenhang haben, sondern durch eine Drittvariable gesteuert sein. Deshalb betrachtet man für solche Darstellungen üblicherweise nicht Korrelationen. Stattdessen werden die Partialkorrelationen berechnet. Die Gewichte der Kanten sollen die Beziehungen zwischen den Knoten abbilden, nachdem auf alle anderen Informationen im Datensatz kontrolliert wurde. Im Bachelor haben wir Formeln für das Herauspartialisieren einer Variable aus der Beziehung zwischen zwei anderen Variablen und somit für die Berechnung der Partialkorrelation kennen gelernt. Dies würde viel rechnerischen Aufwand bedeuten. Zum Glück können Partialkorrelationen auch aus der Inversen der Kovarianzmatrix berechnet werden. 
 
 $$ \Theta = \Sigma^{-1} $$
 $\Sigma$ bezeichnet die Kovarianzmatrix, während $\Theta$ die Inverse dieser symbolisiert. Die Berechnung der Partialkorrelation $\rho$ zweier Variablen $j$ und $p$ anhand der Einträge aus $\Theta$ folgt dann folgender Formel:
 
 $$ \rho(y_py_j) = -\frac{\Theta_{y_py_j}}{\sqrt{\Theta_{y_py_p}}\sqrt{\Theta_{y_jy_j}}}$$
 
-Für das Vorgehen in `R` hat diese Verwendung eines anderen Maßes erstmal keine großen Konsequenzen. In `default` muss jetzt `"pcor"` angegeben werden. Wir nennen das resultierende Objekt `pcor_net` und lassen uns wieder das `summary()` ausgeben.
+Für das Vorgehen in `R` hat diese Verwendung eines anderen Maßes erstmal keine großen Konsequenzen. In `default` muss jetzt `"pcor"` angegeben werden. Wir nennen das resultierende Objekt `pcor_net` und lassen uns wieder die `summary()` ausgeben.
 
 ```{r}
 pcor_net <- estimateNetwork(raw_data, default = "pcor")
 summary(pcor_net)
 ```
-Der Output verändert seine Struktur dabei nicht, nur die Werte werden für die neue Berechnung angepasst. Weiterhin sind jedoch keine Gewichte von Kanten 0, wozu wir gleich nochmal kommen werden. Zunächst wollen wir uns aber das Netzwerk nochmal zeichnen lassen.
+Im Output werden die Werte werden für die neue Berechnung angepasst. Weiterhin sind jedoch keine Gewichte von Kanten 0, wozu wir gleich nochmal kommen werden. Zunächst wollen wir uns aber das Netzwerk nochmal zeichnen lassen.
 
 ```{r}
 plot(pcor_net)
 ```
 
-Zunächst sehen wir, dass sich die Struktur geändert hat. Da der Algorithmus nun andere Werte verwendet, platziert er auch die Knoten an anderen Orten.  Ein Problem der Analyse von ehobenen Daten ist es, dass durch die Fehlervarianz in den Messung eigentlich immer alle Knoten untereinander verbunden sind. Dies führt vor allem bei komplexen Netzwerken mit vielen Knoten dazu, dass die Visualisierung des Netzwerkes unübersichtlich wird und man sich mit Kanten beschäftigt, die keine relevante Beziehung zwischen zwei Knoten darstellen. Es gibt verschiedene Ansätze, um relevante Beziehungen für die Darstellung auszuwählen. Wir benutzen im weiteren Verlauf allerdings nur den Ansatz der **Regularisierung**, da wir nicht ausreichend Zeit für alle Möglichkeiten haben und die Regularisierung als noch unbekanntes Prinzip am lehrreichsten sein sollte.
+Zunächst sehen wir, dass sich die Struktur geändert hat. Da der Algorithmus nun andere Werte verwendet, platziert er auch die Knoten an anderen Orten.  Ein Problem bei der Analyse von erhobenen Daten ist es, dass durch die Fehlervarianz in der Messung eigentlich immer alle Knoten untereinander verbunden sind. Dies führt vor allem bei komplexen Netzwerken mit vielen Knoten dazu, dass die Visualisierung des Netzwerkes unübersichtlich wird und man sich mit Kanten beschäftigt, die keine relevante Beziehung zwischen zwei Knoten darstellen. Es gibt verschiedene Ansätze, um relevante Beziehungen für die Darstellung auszuwählen. Wir benutzen im weiteren Verlauf allerdings nur den Ansatz der **Regularisierung**, da wir nicht ausreichend Zeit für alle Möglichkeiten haben und die Regularisierung als noch unbekanntes Prinzip am lehrreichsten sein sollte.
 
 
 ### Regularisierung und Netzwerkauswahl
 
-Ein regularisiertes Partialkorrelations-Netzwerk ist eine visualisierte gewichtete Netzwerkstruktur, das durch Regulations-Techniken aus dem Feld des Machine-Learnings geschätzt wird. Daraus resultiert eine sogenannte **sparse network structure** (also eine spärlich besetzte Netzwerkstruktur). Das bedeutet, dass viele der Parameter auf den Kanten exakt 0 sind. Die theoretische Reichweite der bestraften (siehe nächster Absatz) Partialkorrelationen liegt dabei weiterhin zwischen 0 und 1.  
+Ein regularisiertes Partialkorrelationsnetzwerk ist eine visualisierte gewichtete Netzwerkstruktur, die durch Regulationstechniken aus dem Feld des Machine Learnings geschätzt wird. Daraus resultiert eine sogenannte **sparse network structure** (also eine spärlich besetzte Netzwerkstruktur). Das bedeutet, dass viele der Parameter auf den Kanten exakt 0 sind. Die theoretische Reichweite der bestraften (siehe nächster Absatz) Partialkorrelationen liegt dabei weiterhin zwischen 0 und 1.  
 
-Das aktuelle Mittel der Wahl für regularisierte Netzwerke ist die *Lasso-Regulation*. Der Mechanismus ist so aufgestellt, dass **falsche** Kanten nicht auftreten sollen. Falsche Kanten bedeutet, dass diese in der Population nicht existieren, aber in der Stichprobe trotzdem keine Partialkorrelationen von 0 vorliegen würde. Die Lasso-Regularisierung hat gegenüber anderen Regularisierungs-Techniken den Vorteil, dass Werte genau 0 sein können. Man nennt das Vorgehen bei der Regularisierung auch eine *Bestrafung* des Parameters, da er in seiner Größe und Richtung (oder genau auf 0) reduziert wird.
+Das aktuelle Mittel der Wahl für regularisierte Netzwerke ist die *Lasso-Regulation*. Der Mechanismus ist so aufgestellt, dass **falsche** Kanten nicht auftreten sollen. Falsche Kanten bedeutet, dass diese in der Population nicht existieren, aber in der Stichprobe trotzdem keine Partialkorrelationen von 0 vorliegen würden. Die Lasso-Regularisierung hat gegenüber anderen Regularisierungs-Techniken den Vorteil, dass Werte genau 0 sein können. Man nennt das Vorgehen bei der Regularisierung auch eine *Bestrafung* des Parameters, da er in seiner Größe gegen (oder genau auf) 0 reduziert wird.
 
-Lasso kommt ursprünglich aus der multiplen Regression und wurde zur Selektion von Prädiktoren genutzt. Friedman et al. (2008) haben eine Überleitung in die Analyse von Graphen (Netzwerke sind eigentlich auch nur Graphen) gespannt - daher kommt auch die Bezeichnung als *graphical lasso* (*glasso*). Obwohl es um Werte von 0 in der Partialkorrelationsmatrix geht, wird mathematisch die Bestrafung und Schätzung in der inversen Kovarianzmatrix $\Theta$ vorgenommen. Wenn dort ein Eintrag 0 ist, folgt daraus nach der bereits dargestellten  Form der Berechnung der Partialkorrelation aber auch, dass diese den Wert 0 annimmt. Dabei werden die einzelnen Einträge in $\Theta$ bestraft. Für die Schätzung der regularisierten inversen Kovarianzmatrix wird die folgende Gleichung maximiert.
+Lasso kommt ursprünglich aus der multiplen Regression und wurde zur Selektion von Prädiktoren genutzt. Friedman et al. (2008) haben eine Überleitung in die Analyse von Graphen (Netzwerke sind eigentlich auch nur Graphen) gespannt - daher kommt auch die Bezeichnung als *graphical lasso* (*glasso*). Obwohl es um Werte von 0 in der <ins>Partialkorrelationsmatrix</ins> geht, wird mathematisch die Bestrafung und Schätzung in der <ins>inversen Kovarianzmatrix</ins> $\Theta$ vorgenommen. Wenn dort ein Eintrag 0 ist, folgt daraus nach der bereits dargestellten Form der Berechnung der Partialkorrelation aber auch, dass diese den Wert 0 annimmt. Dabei werden die einzelnen Einträge in $\Theta$ bestraft. Für die Schätzung der regularisierten inversen Kovarianzmatrix wird die folgende Gleichung maximiert:
 
-$$\log \det(\Theta) - trace(S\Theta) - \lambda \|\Theta\|_1$$
-Dabei steht $S$ für die empirisch gefundene Kovarianzmatrix. $\|\Theta\|_1$ bezeichnet die absolute Summe aller Einträge in $\Theta$. Da der Maximierungsprozess unter anderem duale Räumen verwendet, werden wir uns damit nicht näher befassen. Anhand der Gleichung sehen wir aber, dass hohe Werte in der inversen Matrix einen niedrigeren Gesamtwert ergeben, weshalb diese runter regularisiert werden. Weiterhin sehen wir, dass das Ergebnis der Maximierung abhängig von der Wahl eines $\lambda$-Wertes ist, den man auch als Bestrafungsparameter bezeichnet. Für eine gute Auwahl wird die Schätzung standardmäßig mit verschiedenen Bestrafungsparametern durchgeführt. Üblich sind dabei 100 $\lambda$-Werte. Als obere Grenze $\lambda_{max}$ wird der Wert gewählt, der alle Einträge auf 0 regularisieren würde. Bis zu einer gewählten unteren Grenze (meist $\lambda_{max} \cdot 0.01 $) werden die andere Werte in einer logarithmischen Verteilung festgelegt.
+<div class="big-maths">
+\begin{equation}
+\log \det(\Theta) - trace(S\Theta) - \lambda \|\Theta\|_1
+\end{equation}
+</div>
+
+Dabei steht $S$ für die empirisch gefundene Kovarianzmatrix. {{<math>}}$\|\Theta\|_1${{</math>}} bezeichnet die absolute Summe aller Einträge in $\Theta$. Da der Maximierungsprozess unter anderem duale Räume verwendet, werden wir uns mit diesem Prozess nicht näher befassen. Anhand der Gleichung sehen wir aber, dass hohe Werte in der inversen Matrix einen niedrigeren Gesamtwert ergeben, weshalb diese runter regularisiert werden. Weiterhin sehen wir, dass das Ergebnis der Maximierung abhängig von der Wahl eines $\lambda$-Wertes ist, den man auch als Bestrafungsparameter bezeichnet. Für eine gute Auwahl wird die Schätzung standardmäßig mit verschiedenen Bestrafungsparametern durchgeführt. Üblich sind dabei 100 $\lambda$-Werte. Als obere Grenze $\lambda_{max}$ wird der Wert gewählt, der alle Einträge auf 0 regularisieren würde. Bis zu einer gewählten unteren Grenze (meist $\lambda_{max} \cdot 0.01 $) werden die andere Werte in einer logarithmischen Verteilung festgelegt.
 
 Nachdem 100 verschiedene inverse Kovarianzmatrizen geschätzt wurden, muss noch eine Auswahl der besten Werte geschehen. Üblicherweise wird dabei die Minimierung des Informationskriteriums *EBIC* nach Foygel und Drton (2010) genutzt.
 
 $$ EBIC = -2LL + E \cdot \log(n) + 4 \cdot \gamma \cdot E \cdot \log(p) $$
-In die Berechnung gehen einige Größen ein, wobei wir die meisten auch schon gesehen haben. Ein Loglikelihood-Wert ($LL$) wird für das Modell bestimmt, während $n$ die Größe der Stichprobe ist. $p$ bezeichnet die Größe des Netzwerkes (Anzahl der Knoten) - also die Zeilen- und auch Spaltenanzahl der Matrix. $E$ hingegen ist Anzahl der Elemente der Matrix, die nicht Null sind. Nicht direkt aus der bestraften inversen Kovarianzmatrix $\Theta$ lässt sich $\gamma$ ablesen. Dies ist ein weiterer freier Parameter (auch Hyperparameter genannt), der gewählt werden muss. Üblicherweise wird hier ein Wert von 0.5 gewählt. Aus der Gleichung lässt sich ablesen, dass ein hoher Wert Netzwerke mit mehr Kanten mehr bestrafen würde, da der letzte Term größer und damit durch die Subtraktion der Gesamtwert kleiner wird. Für einen explorativen Ansatz wird deshalb auch ein $\gamma$-Wert von 0 empfohlen.
+In die Berechnung gehen einige Größen ein, wobei wir die meisten auch schon gesehen haben. Ein Loglikelihood-Wert ($LL$) wird für das Modell bestimmt, während $n$ die Größe der Stichprobe ist. $p$ bezeichnet die Größe des Netzwerkes (Anzahl der Knoten), also die Zeilen- und auch Spaltenanzahl der Matrix. $E$ hingegen ist Anzahl der Elemente der Matrix, die nicht Null sind. Nicht direkt aus der bestraften inversen Kovarianzmatrix $\Theta$ lässt sich $\gamma$ ablesen. Dies ist ein weiterer freier Parameter (auch Hyperparameter genannt), der gewählt werden muss. Üblicherweise wird hier ein Wert von 0.5 gewählt. Aus der Gleichung lässt sich ablesen, dass ein hoher Wert Netzwerke mit mehr Kanten mehr bestrafen würde, da der letzte Term größer und damit durch die Subtraktion der Gesamtwert kleiner wird. Für einen explorativen Ansatz wird deshalb auch ein $\gamma$-Wert von 0 empfohlen.
 
-Nachdem die beiden wichtigen Schritte (Regularisierung und Auswahl) nun theoretisch dargestellt wurden, können wir uns mit der praktischen Umsetzung befassen. `bootnet` bietet natürlich eine Möglichkeit, beide Schritte auf einmal durchzuführen. Die Kombination der Bestrafung anhand des grafischen Lasso mit der Auswahl des besten Netzwerkes durch EBIC führt zu der Benennung als `"EBICglasso` in dem Argument `default` in der bereits bekannten Funktion. Wir legen das Objekt unter `reg_net` als Netzwerk mit regularisierten Werten ab. Die Anzahl der geschätzten Werte, die anhand ihres EBICs anschließend bewertet werden, kann mit `nlambda` festgelegt werden. Weiterhin interessant ist das Argument `tuning`, in dem $\gamma$ als Hyperparameter zur Bestrafung für Netzwerke mit vielen Edges festgelegt werden kann. Die hier gewählten Werte sind dabei die Standardeinstellungen des Paketes, aber eine Variation ist (wie zum Teil auch beschrieben) durchaus situativ nötig.
+Nachdem die beiden wichtigen Schritte (Regularisierung und Auswahl) nun theoretisch dargestellt wurden, können wir uns mit der praktischen Umsetzung befassen. `bootnet` bietet natürlich eine Möglichkeit, beide Schritte auf einmal durchzuführen. Die Kombination der Bestrafung anhand des grafischen Lasso mit der Auswahl des besten Netzwerkes durch EBIC führt zu der Benennung als `"EBICglasso` in dem Argument `default` in der bereits bekannten Funktion. Wir legen das Objekt unter `reg_net` als Netzwerk mit regularisierten Werten ab. Die Anzahl der geschätzten Werte, die anhand ihres EBICs anschließend bewertet werden, kann mit `nlambda` festgelegt werden. Weiterhin interessant ist das Argument `tuning`, in dem $\gamma$ als Hyperparameter zur Bestrafung für Netzwerke mit vielen Edges festgelegt werden kann. Die hier gewählten Werte sind dabei die Standardeinstellungen des Paketes, aber eine Variation ist (wie zum Teil auch beschrieben) durchaus situativ notwendig.
 
 ```{r}
 reg_net <- estimateNetwork(raw_data, default = "EBICglasso",
@@ -210,7 +215,7 @@ reg_net <- estimateNetwork(raw_data, default = "EBICglasso",
 summary(reg_net)
 ```
 
-Der Aufbau der `summary()` verändert sich auch im Fall der Regularisierung nicht. Wir sehen allerdings, dass nun nicht mehr alle Gewichte der Kanten ungleich null sind - nur 54 der ursrünglichen 78 haben noch ein solches. Anscheinend wurde ein Netzwerk ausgewählt, in dem manche Kanten als falsch angesehen werden. Im abgelegten Objekt `reg_net` kann man sich unter `results` diese auch noch genauer anschauen. Unter `optnet` sind die Gewichte der Kanten abgelegt, die später zum Aufzeichnen der Struktur verwendet werden.
+Der Aufbau der `summary()` verändert sich auch im Fall der Regularisierung nicht. Wir sehen allerdings, dass nun nicht mehr alle Gewichte der Kanten ungleich null sind - nur 54 der ursprünglichen 78 Kanten haben noch ein Non-Zero-Gewicht. Anscheinend wurde ein Netzwerk ausgewählt, in dem manche Kanten als falsch angesehen werden. Im abgelegten Objekt `reg_net` kann man sich unter `results` diese auch noch genauer anschauen. Unter `optnet` sind die Gewichte der Kanten abgelegt, die später zum Aufzeichnen der Struktur verwendet werden.
 
 ```{r}
 reg_net$results$optnet
@@ -226,7 +231,7 @@ reg_net$results$lambda
 
 Der größte Bestrafungsparameter ist der letzte Eintrag in der Matrix. Für diesen sollten alle Gewichte der Kanten auf 0 herunterregularisiert worden sein.
 
-Die Werte aller 100 bestraften inversen Kovarianzmatrizen sind unter `reg_net$results$results$wi`. Beispielsweise ist das komplett leere Netzwerke (also mit dem größten Bestrafungsparameter $\lambda$) als 100. Objekt abgelegt.
+Die Werte aller 100 bestraften inversen Kovarianzmatrizen finden sich unter `reg_net$results$results$wi`. Beispielsweise ist das komplett leere Netzwerke (also mit dem größten Bestrafungsparameter $\lambda$) als 100stes Objekt abgelegt.
 
 ```{r}
 reg_net$results$results$wi[,,100]
@@ -238,9 +243,9 @@ Für jede dieser Strukturen hat die Funktion dann automatisch den EBIC mitbestim
 reg_net$results$ebic
 ```
 
-Der niedrigste dieser Werte hat für die Funktion den Ausschlag gegeben, welche Matrix als Struktur für das optimale Netzwerk ausgewählt wurde. Das Paket nutzt also genau das Vorgehen, dass zu Beginn dieses Abschnitts theoretisch beschrieben wurde. 
+Der niedrigste dieser Werte hat für die Funktion den Ausschlag gegeben, welche Matrix als Struktur für das optimale Netzwerk ausgewählt worden ist. Das Paket nutzt also genau das Vorgehen, dass zu Beginn dieses Abschnitts theoretisch beschrieben wurde. 
 
-Zur Veranschaulichung des Einfluss von $\gamma$ ziehen wir hier nochmal einen Vergleich mit einem größeren Parameter in `tuning` von 2. 
+Zur Veranschaulichung des Einflusses von $\gamma$ ziehen wir hier nochmal einen Vergleich mit einem größeren Parameter von 2 in `tuning`. 
 
 ```{r}
 reg_net2 <- estimateNetwork(raw_data, default = "EBICglasso",
@@ -248,15 +253,15 @@ reg_net2 <- estimateNetwork(raw_data, default = "EBICglasso",
 summary(reg_net2)
 ```
 
-Das gewählte Netzwerk hätte jetzt noch 48 Kanten, die ein Gewicht ungleich 0 aufweisen würden. Natürlich ist `tuning = 2` ein unrealistisch hoher Wert, da dieser wie empfohlen stets zwischen 0 und 0.5 liegen sollte. Mathematisch macht dies jedoch keinen Unterschied und das Beispiel demonstriert seinen Zweck sehr gut: Ein größerer Hyperparameter $\gamma$ führt dazu, dass ein Netzwerk mit weniger Gewichten unterschiedlich von 0 ausgewählt wird. Bei anderen Netzwerkkonstellationen wird dort auch ein Unterschied zwischen der Wahl von 0 oder 0.5 vorliegen.
+Das gewählte Netzwerk hätte jetzt noch 48 Kanten, die ein Gewicht ungleich 0 aufweisen würden. Natürlich ist `tuning = 2` ein unrealistisch hoher Wert, da dieser wie empfohlen stets zwischen 0 und 0.5 liegen sollte. Mathematisch macht dies jedoch keinen Unterschied und das Beispiel demonstriert seinen Zweck sehr gut: Ein größerer Hyperparameter $\gamma$ führt dazu, dass ein Netzwerk mit weniger Gewichten unterschiedlich von 0 ausgewählt wird. Bei anderen Netzwerkkonstellationen würde dort auch ein Unterschied zwischen der Wahl von 0 oder 0.5 vorliegen.
 
-Zum Abschluss dieses Abschnitts wollen wir natürlich das geschätzte Netzwerk auch nochmal zeichnen
+Zum Abschluss dieses Abschnitts wollen wir natürlich das geschätzte Netzwerk auch nochmal zeichnen:
 
 ```{r}
 plot(reg_net)
 ```
 
-Dabei wird nochmal deutlich, dass einige Kanten nun nicht mehr gezeichnet werden, da sie ein Gewicht von 0 haben. Trotzdem ist die Struktur der beiden Konstrukte noch gut zu erkennen. Die fünf Facetten der Achtsamkeit sind am oberen Rand mit großteils positiven Zusammenhängen, während die depressiven Symptome einen gemeinsamen Kern bilden. Die meisten Verbindungen zwischen den beiden Konstrukten sind dabei auch negativ, was darauf hindeutet, dass Menschen, die eine hohen Achtsamkeit zeigen, auch weniger depressive Symptome zeigen.
+Dabei wird nochmal deutlich, dass einige Kanten nun nicht mehr gezeichnet werden, da sie ein Gewicht von 0 haben. Trotzdem ist die Struktur der beiden Konstrukte noch gut zu erkennen. Die fünf Facetten der Achtsamkeit sind am oberen Rand mit großteils positiven Zusammenhängen, während die depressiven Symptome einen gemeinsamen Kern bilden. Die meisten Verbindungen zwischen den beiden Konstrukten sind dabei negativ, was darauf hindeutet, dass Menschen, die eine hohen Achtsamkeit aufweisen, auch weniger depressive Symptome zeigen.
 
 ## Zentralitätsindizes
 
