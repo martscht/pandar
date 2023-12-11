@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer, nehler] 
 weight: 8
-lastmod: '2023-12-07'
+lastmod: '2023-12-11'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -223,8 +223,8 @@ replicate(n = 10, expr = {X_1 <- rnorm(N)
 ```
 
 ```
-##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864
-##  [7] 0.93976306 0.43862992 0.96766599 0.68865560
+##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306 0.43862992
+##  [9] 0.96766599 0.68865560
 ```
 
 Uns werden insgesamt 10 $p$-Werte übergeben. Wenn wir genau hinsehen, dann erkennen wir den ersten $p$-Wert wieder. Dies ist der $p$-Wert unseres Experiments weiter oben. Wiederholen wir nun das Experiment nicht nur 10 Mal, sondern 10000 Mal, dann erhalten wir eine gute Übersicht über das Verhalten der $p$-Werte unter den Bedingungen, die wir vorgegeben haben: Gültigkeit der Nullhypothese und Standardnormalverteilung der beiden von einander unabhängigen Variablen. Damit uns die 10000 Werte nicht einfach in die Konsole gedruckt werden, legen wir sie im Objekt `pt_H0` ab (für $p$-Werte für den $t$-Test unter der $H_0$-Hypothese):
@@ -479,7 +479,7 @@ args(wp.t)
 Mit `help(wp.t)` erhalten wir zu jedem dieser Argumente auch noch weitere Informationen sowie Beispiele. `n1` und `n2` sind die Stichprobengrößen der 1. und 2. Gruppe. Wenn wir `n2` frei lassen (oder `= NULL`), dann wird angenommen, dass beide Stichproben gleich groß sind. `d` ist die standardisierte Effektgröße 
 
 {{< math >}}
-$$d:=\frac{|\mu_{X_1}-\mu_{X_2}|}{\sigma}.$$
+$$d:=\frac{\mu_{X_1}-\mu_{X_2}}{\sigma}.$$
 {{</ math >}}
 
 sie nimmt also an, dass die Variablen standardisiert sind. `alpha` ist das zugehörige $\alpha$-Fehlerniveau. `power` können wir einen Zielwert für die Power übergeben. `type` gibt an, welche Art von $t$-Test durchgeführt werden soll: `"two.sample"`, `"one.sample"`, `"paired"` und `"two.sample.2n"`. Dies steht für also 2 unabhängige Stichproben (gleiche Stichprobengröße, `"two.sample"`), 1-Stichprobentest (`"one.sample"`), geparter $t$-Test (`"paired"`) und $t$-Test mit 2 unabhängigen Stichproben aber unterschiedlichen Stichprobengrößen (`"two.sample.2n"`). Bei $n_1=n_2=20$ hatten wir vorhin bei einer Mittelwertsdifferenz von 0.5 eine simulierte Power von 0.335 heraus. Dies untersuchen wir nun analytisch:
@@ -500,6 +500,7 @@ wp.t(n1 = 20, d = .5, type = "two.sample", alternative = "two.sided")
 ```
 
 Unsere simulierte Power von 0.335  liegt sehr nah an den theoretischen 0.337939 dran. 
+
 
 ### Sensitivitätsanalysen
 
@@ -543,6 +544,63 @@ wp.t(d = .5, power = .8, type = "two.sample", alternative = "two.sided")
 ```
 
 Für eine standardisierte Mittelwertsdifferenz von .5 brauchen wir also eine Stichprobengröße pro Gruppe von $n=$ 64, wenn wir mit einer Wahrscheinlichkeit von $80\\%$ die Nullhypothese verwerfen wollen. An dieser Stelle sei angemerkt, dass diese Stichproben immer aufgerundet werden müssen und dass das eine Schätzung für $n$ pro Gruppe unter Idealbedingungen ist. Es wird angenommen, dass alle Voraussetzungen exakt erfüllt sind. 
+
+### Gerichtete Hypothesen mit `WebPower`
+
+Eine wichtige Ergänzung sollte an dieser Stelle für gerichtete Hypothesen erwähnt werden: wenn Sie die Hypothese richten, müssen Sie gleichzeitig auf das Vorzeichen von `d` achten. Wenn wir für unseren $t$-Test eine a-priori Power-Analyse durchführen wollen, um das $n$ zu bestimmen, dann könnte das z.B. so aussehen:
+
+
+```r
+wp.t(d = .5, power = .8, type = "two.sample", alternative = "greater")
+```
+
+```
+## Two-sample t-test
+## 
+##           n   d alpha power
+##     50.1508 0.5  0.05   0.8
+## 
+## NOTE: n is number in *each* group
+## URL: http://psychstat.org/ttest
+```
+
+Wenn wir aber annehmen, dass der Effekt umgedreht ist, bei $d$ aber den Betrag nutzen passiert Folgendes:
+
+
+```r
+wp.t(d = .5, power = .8, type = "two.sample", alternative = "less")
+```
+
+```
+## Error in uniroot(function(n) eval(p.body) - power, c(2 + 1e-10, 1e+07), : no sign change found in 1000 iterations
+```
+Die Funktion ist nicht in der Lage, das nötige $n$ zu bestimmen, weil die Alternativ-Hypothese, dass der Mittelwert in der ersten Gruppe kleiner ist (`alternative = "less"`) nicht zuverlässig aufgedeckt werden kann, wenn $d$ in der Population positiv ist.
+
+Dazu hier ein Warnhinweis, bezüglich eines Bugs in WebPower: wenn Sie Sensitivitätsanalyse betreiben, funktioniert das derzeit nur für "größer als" Aussagen. Für die Gegenrichtung erhalten Sie immer eine Fehlermeldung:
+
+
+```r
+wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "less")
+```
+
+```
+## Error in uniroot(function(d) eval(p.body) - power, c(-10, 5), tol = tol, : no sign change found in 1000 iterations
+```
+
+```r
+wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "greater")
+```
+
+```
+## Two-sample t-test
+## 
+##      n         d alpha power
+##     20 0.8006879  0.05   0.8
+## 
+## NOTE: n is number in *each* group
+## URL: http://psychstat.org/ttest
+```
+Dies ist zwar in diesem Fall nicht von dramatischer Konsequenz, weil das gesamte Verfahren symmetrisch ist, aber wenn Sie z.B. ungleiche Stichproben haben (`type = "two.sample.2n"`) sollten Sie diese explizit im Auge behalten.
 
 ### Appendix A {#AppendixA} 
 
@@ -597,7 +655,7 @@ Die $p$-Werte sind wieder einigermaßen uniform auf [0,1] verteilt:
 hist(pcor_H0, breaks = 20) 
 ```
 
-![](/lehre/statistik-i/simulation-poweranalyse_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
+![](/lehre/statistik-i/simulation-poweranalyse_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
 
 Das empirische $\alpha$-Niveau liegt bei:
 

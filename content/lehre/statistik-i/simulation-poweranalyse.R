@@ -141,6 +141,13 @@ wp.t(n1 = 20, power = .8, type = "two.sample", alternative = "two.sided")
 
 wp.t(d = .5, power = .8, type = "two.sample", alternative = "two.sided")
 
+wp.t(d = .5, power = .8, type = "two.sample", alternative = "greater")
+
+wp.t(d = .5, power = .8, type = "two.sample", alternative = "less")
+
+wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "less")
+wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "greater")
+
 set.seed(1234)
 Y <- rnorm(N)
 Z <- rnorm(N)
