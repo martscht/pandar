@@ -3,9 +3,9 @@ title: Netzwerkanalyse im Querschnitt
 date: '2022-01-11'
 slug: cross-sectional-networks
 categories: ["KliPPs"]
-tags: ["Querschnitt", "Zusammenfassung", "Netzwerkanalyse"]
+tags: ["Querschnitt", "Regularisierung", "Zentralität", "Bootstrap" ]
 subtitle: ''
-summary: ''
+summary: 'In diesem Beitrag geht es um grundlegende Begriffe der Netzwerkanalyse sowie die Berechnung und Visualisierung von Netzwerkstrukturen. Es wird auf den Regularisierungsansatz eingegangen, um relevante Beziehungen im Netzwerk darzustellen. Außerdem werden Zentralitätsindizes thematisiert, mithilfe derer der Einfluss der einzelnen Knoten im Netzwerk untersucht werden kann. Zuletzt wird das sogenannten Bootstrapping behandelt, das Aussagen zur Genauigkeit und Stabilität von geschätzten Netzwerken ermöglicht.'
 authors: [nehler]
 weight: 11
 lastmod: '`r Sys.Date()`'
@@ -105,7 +105,7 @@ Nachdem nun die wichtigsten Basics über Netzwerke abgehandelt wurden, können w
 
 ## Daten
 
-In dieser Sitzung wollen wir einen Datensatz von Rubin (2020). verwenden. Dieser steht auf [OSF zum Download](https://osf.io/awz3d/) zur Verfügung kann aber auch über den folgenden Befehl direkt ins Environment eingeladen werden. 
+In dieser Sitzung wollen wir einen Datensatz von Rubin (2020) verwenden. Dieser steht auf [OSF zum Download](https://osf.io/awz3d/) zur Verfügung kann aber auch über den folgenden Befehl direkt ins Environment eingeladen werden. 
 
 ```{r, results = "hide"}
 raw_data <- readRDS(url("https://osf.io/awz3d/download"))
@@ -265,30 +265,31 @@ Dabei wird nochmal deutlich, dass einige Kanten nun nicht mehr gezeichnet werden
 
 ## Zentralitätsindizes
 
-Nachdem durch die eben durchgeführte Analyse ein Netzwerk für die Präsentation ausgewählt und auch gezeichnet wurde, stellt sich die Frage, welche weiteren Aussagen durch die Netzwerkanalyse durchführbar sind. In den technischen und sozialen Netzwerken wurde dafür die Zentralität der Knoten untersucht. Darin wird durch verschiedene Facetten aufgezeigt, welcher Knoten im Netzwerk am meisten Einfluss hat. Die Aktivierung dieser Knoten sollte zu einer (De-)Aktivierung anderer, verbundener Knoten im Netzwerk führen. Die Herangehensweise wurde mit kleinen Anpassungen für die Psychologischen Netzwerke übernommen. Die Anwendung steht aktuell in der Kritik aufgrund von instabiler Schätzung und der Frage nach inhaltlicher Relevanz. Da diese Diskussion jedoch nicht abgeschlossen ist und die Indizes noch breitflächig zum Einsatz kommen, werden wir die wichtigen Werte auch an dieser Stelle besprechen und berechnen.
+Nachdem durch die eben durchgeführte Analyse ein Netzwerk für die Präsentation ausgewählt und auch gezeichnet wurde, stellt sich die Frage, welche weiteren Erkenntnisse durch die Netzwerkanalyse gewonnen werden können. In den technischen und sozialen Netzwerken wurde dafür die Zentralität der Knoten untersucht. Darin wird durch verschiedene Facetten aufgezeigt, welcher Knoten im Netzwerk am meisten Einfluss hat. Die Aktivierung dieser Knoten sollte zu einer (De-)Aktivierung anderer, verbundener Knoten im Netzwerk führen. Die Herangehensweise wurde mit kleinen Anpassungen für die psychologischen Netzwerke übernommen. Die Anwendung steht aktuell in der Kritik aufgrund von instabiler Schätzung und der Frage nach inhaltlicher Relevanz. Da diese Diskussion jedoch nicht abgeschlossen ist und die Indizes noch breitflächig zum Einsatz kommen, werden wir die wichtigen Werte auch an dieser Stelle besprechen und berechnen.
 
-Die Zentralität eines Knoten ist hoch, wenn er starke oder viele Verbindungen hat, alle anderen Knoten schnell erreichbar sind oder viele Verbindungen zwischen anderen Knoten gehen durch diesen Knoten gehen. Im Folgenden werden die **Zentralitätsindizes** beschrieben und berechnet, die diese Eigenschaften repräsentieren. Während `bootnet` später wieder zum Einsatz kommt, ist es für die einfache Berechnung der Indizes nicht geeignet, weshalb wir das Paket `qgraph` aktivieren müssen. Dieses ist bei der Installation von `bootnet` mitinstalliert worden. 
+Die Zentralität eines Knotens ist hoch, wenn er starke oder viele Verbindungen hat, alle anderen Knoten schnell erreichbar sind oder viele Verbindungen zwischen anderen Knoten durch diesen Knoten gehen. Im Folgenden werden die **Zentralitätsindizes** beschrieben und berechnet, die diese Eigenschaften repräsentieren. Während `bootnet` später wieder zum Einsatz kommt, ist es für die einfache Berechnung der Indizes nicht geeignet, weshalb wir das Paket `qgraph` aktivieren müssen. Dieses ist bei der Installation von `bootnet` mitinstalliert worden. 
 
 ```{r}
 library(qgraph)
 ```
 
-Einige Zentralitätsindizes werden über die Funktion `centrality()` gemeinsam berechnet. Als `graph` Argument braucht man die Struktur des Graphen, die wie besprochen in `reg_net$graph` vorhanden ist.  Wir legen die Resultate erstmal in ein Objekt `centrality_indices` an und
+Einige Zentralitätsindizes werden über die Funktion `centrality()` gemeinsam berechnet. Als `graph` Argument braucht man die Struktur des Graphen, die wie besprochen in `reg_net$graph` vorhanden ist.  Wir legen die Resultate erstmal in einem Objekt `centrality_indices` ab.
 
 ```{r}
 centrality_indices <- centrality(graph = reg_net$graph)
 ```
 
-Die Anzahl von Verbindungen eines Knoten zu anderen Knoten im Netzwerk wird üblicherweise als **Grad der Zentralität** *(eng: degree)* bezeichnet. Dieser Wert ist besonders in ungewichteten Netzwerken von Interesse. Wenn Gewichte mit im Spiel sind, wird häufig die *Stärke* des Knoten *(eng: strength)* betrachtet. Diese wird durch die aufsummierten und gewichteten Werte aller Kanten eines Knoten zu allen anderen im Netzwerk vorhandenen Knoten dargestellt. Um die Stärke eines Knoten zu berechnen, müssen daher nur die Gewichte aller mit ihm verbundenen Kanten aufaddiert werden.
+Die Anzahl von Verbindungen eines Knoten zu anderen Knoten im Netzwerk wird üblicherweise als **Grad der Zentralität** *(eng.: degree)* bezeichnet. Dieser Wert ist besonders in ungewichteten Netzwerken von Interesse. Wenn Gewichte mit im Spiel sind, wird häufig die **Stärke** des Knoten *(eng.: strength)* betrachtet. Diese wird durch die aufsummierten und gewichteten Werte aller Kanten eines Knoten zu allen anderen im Netzwerk vorhandenen Knoten dargestellt. Um die Stärke eines Knoten zu berechnen, müssen daher nur die Gewichte aller mit ihm verbundenen Kanten aufaddiert werden.
 
-$$s_{i} = \sum^{p}_{j = 1} w_{ij}$$
-Die Differenzierung zwischen strength und degree ist leider nicht immer komplett konsistent. Wir werden gleich sehen, dass in `R` die Ausfabe generell als degree bezeichnet wird, da diese Funktion für ungewichtete als auch gewichtete Netzwerke nutzbar ist. Daher müssen wir uns in dem erstellten Objekt auf den Unterpunkt `OutDegree` konzentrieren. 
+{{<math>}}$$s_{i} = \sum^{p}_{j = 1} w_{ij}$${{</math>}}
+
+Die Differenzierung zwischen strength und degree ist leider nicht immer komplett konsistent. Wir werden gleich sehen, dass in `R` die Ausgabe generell als degree bezeichnet wird, da diese Funktion sowohl für ungewichtete als auch für gewichtete Netzwerke nutzbar ist. Daher müssen wir uns in dem erstellten Objekt auf den Unterpunkt `OutDegree` konzentrieren. 
 
 ```{r}
 centrality_indices$OutDegree
 ```
 
-Eine hohe Zahl im Output bedeutet also einen starken direkte Bindung zu anderen Knoten. Den höchsten Wert in unserem Netzwerk hat dabei die Müdigkeit. Noch eine kleine Anmerkung: Die Unterpunkte `InDegree` und `OutDegree` im Objekt `centrality_indices` sind gleich, da es sich um ein ungerichtetes Netzwerk handelt.
+Eine hohe Zahl im Output bedeutet also eine starke direkte Bindung zu anderen Knoten. Den höchsten Wert in unserem Netzwerk hat dabei die Müdigkeit. Noch eine kleine Anmerkung: Die Unterpunkte `InDegree` und `OutDegree` im Objekt `centrality_indices` sind gleich, da es sich um ein ungerichtetes Netzwerk handelt.
 
 Auch eine grafische Übersicht für die Zentralitätsindizes aller Knoten ist im Paket `graph` integriert. Diese kann mit der Funktion `centralityPlot` erstellt werden. Im Argument `include` kann angegeben werden, welche Zentralitätsindizes aufgezeichnet werden sollen. Wir nehmen alle drei besprochenen Werte. 
 
@@ -296,7 +297,7 @@ Auch eine grafische Übersicht für die Zentralitätsindizes aller Knoten ist im
 centralityPlot(reg_net, include = c("Strength"))
 ```
 
-Dabei wird standardmäßig statt der normalen Wert der z-Score ausgegeben. Ein negativer Wert bedeutet hier demnach nicht eine negative Stärke, sondern eine kleinere Stärke im Vergleich zu den anderen Knoten. Wenn man stattdessen die Rohwerte haben möchte, müsste man das Argument `scale` mit `"raw"` füllen.
+Dabei wird standardmäßig statt des normalen Werts der z-Score ausgegeben. Ein negativer Wert bedeutet hier demnach nicht eine negative Stärke, sondern eine kleinere Stärke im Vergleich zu den anderen Knoten. Wenn man stattdessen die Rohwerte haben möchte, müsste man das Argument `scale` mit `"raw"` füllen.
 
 ```{r}
 centralityPlot(reg_net, scale = "raw", include = c( "Strength"))
@@ -304,11 +305,11 @@ centralityPlot(reg_net, scale = "raw", include = c( "Strength"))
 
 ## Bootstrap
 
-Ein wichtiges Kriterium für aussagekräftige Parameter einer statistischen Methode ist eine Stabilität in der Schätzung Damit ist bspw. gemeint, dass moderate Änderungen in der Stichprobe zu keinen starken Änderungen in den Ergebnissen führen. Auch erhalten wir für die Gewichte der Kanten nur eine Punktschätzung und keine Sicherheit. In der bisher behandelten Statistik wurden diese Unsicherheiten meist durch die Standardfehler angegeben, die die Berechnung von Konfidenzintervallen ermöglichten. Diese können jedoch für die Netzwerkanalyse nicht so einfach bestimmt werden. Zum Beispiel folgen die Werte der Gewichte auf den Kanten nicht einer benötigten Normalverteilung. Die Zentralitätsindizes sind sogar mit einem Bias versehen. Epskamp et al. (2018a) schlagen als alternativen Weg *Bootstrapping* vor. Damit soll eine Aussage über die Genauigkeit und Stabilität der Zentralitätsindizes und der Gewichte getroffen werden können.
+Ein wichtiges Kriterium für aussagekräftige Parameter einer statistischen Methode ist eine Stabilität in der Schätzung. Damit ist bspw. gemeint, dass moderate Änderungen in der Stichprobe zu keinen starken Änderungen in den Ergebnissen führen. Auch erhalten wir für die Gewichte der Kanten nur eine Punktschätzung und keine Sicherheit. In der bisher behandelten Statistik wurden diese Unsicherheiten meist durch die Standardfehler angegeben, die die Berechnung von Konfidenzintervallen ermöglichten. Diese können jedoch für die Netzwerkanalyse nicht so einfach bestimmt werden. Zum Beispiel folgen die Werte der Gewichte auf den Kanten nicht einer benötigten Normalverteilung. Die Zentralitätsindizes sind sogar mit einem Bias versehen. Epskamp et al. (2018a) schlagen als alternativen Weg *Bootstrapping* vor. Damit soll eine Aussage über die Genauigkeit und Stabilität der Zentralitätsindizes und der Gewichte getroffen werden können.
 
 Beim Bootstrapping wird ein Modell häufiger mit simulierten Daten (genannt *parametric*) oder einer Stichprobe (genannt *non-parametric*) der eigentlichen Werte bestimmt. Nochmal etwas detaillierter erklärt: Beim parametrischen Bootstrapping wird die neu geschätzte Struktur als Grundlage für die Simulation von Daten genutzt und mit diesem neuen Datensatz werden die Parameter (Gewichte, Zentralitätsindizies...) noch einmal neu geschätzt. Beim nicht-parametrischen Bootstrapping werden aus dem ursprünglichen Datensatz Beobachtungen (Personen) mit Zurücklegen gezogen und mit diesen wird die Analyse nochmal durchgeführt. Man erhält in beiden Fällen beispielsweise 100 Werte für das Gewicht der Kante zwischen dem  Knoten Observe und Interest. Für Netzwerkanalysen wird typischerweise das non-parameteric Bootstrapping genutzt, da die Simulation von Werten aufgrund der Bestrafung bei der Regularisierung weitere Probleme verursacht.
 
-Ein Konfidenzintervall kann danach recht simpel dadurch gebildet werden, dass ein bestimmtes Intervall in der Reihenfolge gesucht wird. Möchte man beispielsweise ein 90%-iges Intervall berichten, liegt dieses zwischen dem 5. und 95. Wert in einer geordneten Abfolge. Dies kann in der Netzwerkanalyse für die Gewichte der Kanten durchgeführt werden. Wichtig ist, dass auch das Konfidenzintervall nicht als Testung der Signifikanz angesehen werden sollte. Bereits die Schätzung des Gewichts als ungleich von 0 während der Regularisierung wird als Zeichen für die Verschiedenheit von 0 angesehen. Die Konfidenzintervalle sollen hingegen Hinweise auf die Stabilität eines Gewichts bieten und eventuell auch für den Vergleich zwischen verschiedenen Werten nützlich sein. Bei den Zentralitätsindizes schlägt dieser einfache Ansatz jedoch aufgrund des Bias fehl und es wurde noch keine passende Methode entwickelt.  Deshalb muss die Stabilität hier anders dargestellt werden. Die später auch im Paket verwendete Lösung orientiert sich an der Logik, dass stabile Schätzer auch ähnliche Werte haben sollen, wenn nur einige Beobachtungen aus dem eigentlichen Datensatz zur Verfügung stehen. Dafür werden die Werte der Stärke für alle Knoten einmal für das Netzwerk mit allen Werten und dann für das reduzierte Netzwerk berechnet. Anschließend kann zwischen diesen beiden Werten die Korrelation bestimmt werden, wobei eine hohe Korrelation für eine hohe Stabilität in der Reihenfolge der Stärke in den Daten spricht. Dieses Vorgehen wird auch als *case-dropping subset bootstrapping* bezeichnet. Dabei kann nun untersucht werden, wie weit der Datensatz reduziert werden kann, ohne unter einen bestimmten Wert in der Korrelation zu gelangen. Hierfür wird im Paket später 0.7 genutzt, da dieser bei Korrelationen als großer Effekt angesehen wird. Definiert wird als *correlation stability coefficient* ($CS$) die maximale Anzahl an Personen, die ausgeschlossen werden kann, ohne dass ein 95%iges Intervall der Korrelationen unter den Threshold von 0.7 fällt. Eine bisherige Simulation zeigt, dass der Koeffizient $CS$ nicht unter 0.25 sein sollte und am besten über 0.5 - also mindestens 25% sollten ausschließbar sein ohne unter den Threshold zu kommen. Die Entwicklung der Analyse ist in diesem Bereich aber noch nicht so weit, dass diese Werte schon als feste Orientierung dienen sollten. Sie sind erstmal nur eine Orientierung. 
+Ein Konfidenzintervall kann danach recht simpel dadurch gebildet werden, dass ein bestimmtes Intervall in der Reihenfolge gesucht wird. Möchte man beispielsweise ein 90%-iges Intervall berichten, liegt dieses zwischen dem 5. und 95. Wert in einer geordneten Abfolge. Dies kann in der Netzwerkanalyse für die Gewichte der Kanten durchgeführt werden. Wichtig ist, dass auch das Konfidenzintervall nicht als Testung der Signifikanz angesehen werden sollte. Bereits die Schätzung des Gewichts als ungleich von 0 während der Regularisierung wird als Zeichen für die Verschiedenheit von 0 angesehen. Die Konfidenzintervalle sollen hingegen Hinweise auf die Stabilität eines Gewichts bieten und eventuell auch für den Vergleich zwischen verschiedenen Werten nützlich sein. Bei den Zentralitätsindizes schlägt dieser einfache Ansatz jedoch aufgrund des Bias fehl und eine passende Methode wurde noch nicht entwickelt. Deshalb muss die Stabilität hier anders dargestellt werden. Die später auch im Paket verwendete Lösung orientiert sich an der Logik, dass stabile Schätzer auch ähnliche Werte haben sollen, wenn nur einige Beobachtungen aus dem eigentlichen Datensatz zur Verfügung stehen. Dafür werden die Werte der Stärke für alle Knoten einmal für das Netzwerk mit allen Werten und dann für das reduzierte Netzwerk berechnet. Anschließend kann zwischen diesen beiden Werten die Korrelation bestimmt werden, wobei eine hohe Korrelation für eine hohe Stabilität in der Reihenfolge der Stärke in den Daten spricht. Dieses Vorgehen wird auch als *case-dropping subset bootstrapping* bezeichnet. Dabei kann nun untersucht werden, wie weit der Datensatz reduziert werden kann, ohne unter einen bestimmten Wert in der Korrelation zu gelangen. Hierfür wird im Paket später 0.7 genutzt, da dieser bei Korrelationen als großer Effekt angesehen wird. Als *correlation stability coefficient* ($CS$) wird die maximale Anzahl an Personen definiert, die ausgeschlossen werden kann, ohne dass ein 95%iges Intervall der Korrelationen unter den Threshold von 0.7 fällt. Eine bisherige Simulation zeigt, dass der Koeffizient $CS$ nicht unter 0.25 sein sollte und am besten über 0.5 - also mindestens 25% sollten ausschließbar sein ohne unter den Threshold zu kommen. Die Entwicklung der Analyse ist in diesem Bereich aber noch nicht so weit, dass diese Werte schon als feste Richtlinie dienen sollten. Sie sind erstmal nur eine Orientierung. 
 
 
 In `R` ist ein solches Vorgehen anhand eines Bootstraps in `bootnet` integriert (daher auch der Name - Bootstrap in Networks). Der Funktionsname entspricht an dieser Stelle auch dem Paketnamen. Es gibt verschiedene Möglichkeiten, den Input zu gestalten. Wir orientieren uns hier jetzt daran, dass wir die Struktur des Netzwerks bereits durch `estimateNetwork()` geschätzt und in `reg_net` abgelegt haben. Im Argument `nBoots` kann festgelegt werden, wie oft ein Bootstrap gezogen werden soll. Der hier eingegebene Wert von 100 ist sehr niedrig (Standardeinstellung ist bspw. 1000), aber wir wollen erstmal Zeit in der Berechnung sparen. Wenn die Funktion ausgeführt wird, erscheint einiges in der Konsole, was aber nicht spezifisch besprochen werden muss. Um zu zeigen, dass solch eine Aktivität normal ist, lassen wir es aber auch in diesem Tutorial erscheinen. Die Ergebnisse ordnen wir zunächst dem Objekt `boot1` zu und lassen uns dessen Inhalt dann grafisch ausgeben. Da es sich beim Bootstrapping auch um eine Zufallsziehung handelt, sollte zur Vergleichbarkeit ein Seed mittels `set.seed()` festgelegt werden. Die Funktion ist allerdings so geschrieben, dass sie auf verschiedene Kerne zur Berechnung zurückgreift, wodurch dennoch unterschiedliche Ergebnisse resultieren können, wenn man das Vorgehen nicht auf die Durchführung mit einem Kern setzt. Eine simple Lösung ist dabei das von der Funktion bereitgestellte Argument `nCores` - allerdings wird die Durchführung dadurch auch langsamer, weil die Arbeit nicht mehr aufgeteilt wird. Für dieses Tutorial bleiben wir aber bei dieser schnell umsetzbaren Lösung. 
@@ -320,9 +321,9 @@ boot1 <- bootnet(reg_net, nBoots = 100, nCores = 1)
 plot(boot1, order = "sample", labels = F)
 ```
 
-Die angegebenen Warnings betreffen eher den Code der Funktion bzw. des Paketes und können von uns nicht verändert werden. Abgebildet werden die Gewichte von allen Kanten zwischen zwei Knoten. Einmal wird die Punktschätzung angezeigt anhand der roten Linie. Weiterhin wird der Mittelwert für die berechneten Werten aus den Bootstrap durch die schwarze Linie gezeigt. Der graue Bereich gibt das Konfidenzintervall der Schätzungen an. Wir können hierbei sehen, dass die berechneten Werte gute Repräsentanten sind. 
+Die angegebenen Warnings betreffen eher den Code der Funktion bzw. des Paketes und können von uns nicht verändert werden. Abgebildet werden die Gewichte von allen Kanten zwischen zwei Knoten. Dabei wird die Punktschätzung angezeigt anhand der roten Linie. Weiterhin wird der Mittelwert für die berechneten Werte aus den Bootstrap durch die schwarze Linie gezeigt. Der graue Bereich gibt das Konfidenzintervall der Schätzungen an. Wir können hierbei sehen, dass die berechneten Werte gute Repräsentanten sind. 
 
-Neben der Berechnung der Konfidenzintervalle für die Gewichte der Kanten, kann auch die Stabilität der Zentrailitätsindizes über die Funktion `bootnet` betrachtet werden. Dafür müssen nur die Argumente angepasst werden. Für `nBoot` bleiben wir auch hier zunächst beim zu kleinen aber zeitsparenderem Wert von 300. In `statistics` können die Statistiken angegeben werden, für die die Untersuchung der Stabilität durchgeführt werden soll. Hier geben wir also `"Strength"` ein. Wir ordnen diese neue Operation dem Objekt `boot2` zu und lassen auch dieses uns wieder durch die `plot`-Funktion anzeigen. In `type` wird festgehalten, dass wir bei der Analyse im Subset Personen ausschließen wollen. Möglich wäre auch der Ausschluss von Knoten, dieser ist aber schwieriger zu interpretieren und wird daher nicht genauer betrachtet. In `caseMin` wird festgehalten, wie viele Personen minimal für die Analyse entfernt werden sollen - an diesem Ort beginnt sozusagen die Suche nach dem Unterschreiten des Thresholds. Bei `caseMax` ist folglich die maximale Anzahl festgelegt. `caseN` bestimmt die Anzahl an Zwischenschritten zwischen den beiden Extremen. Zu Zwecken der Anschaulichkeit wollen wir am liebsten Schritte in 5% und erreichen das durch die Anzahl von 15. Auch bei der Durchführung dieses Codes erscheinen wieder viele Sachen in der Konsole, die auf Pandar aber augeblendet werden, um die Länge der Seite zu kürzen. 
+Neben der Berechnung der Konfidenzintervalle für die Gewichte der Kanten kann auch die Stabilität der Zentralitätsindizes über die Funktion `bootnet` betrachtet werden. Dafür müssen nur die Argumente angepasst werden. Für `nBoot` bleiben wir auch hier zunächst beim zu kleinen aber zeitsparenderem Wert von 300. In `statistics` können die Statistiken angegeben werden, für die die Untersuchung der Stabilität durchgeführt werden soll. Hier geben wir also `"strength"` ein. Wir ordnen diese neue Operation dem Objekt `boot2` zu und lassen uns auch dieses wieder durch die `plot`-Funktion anzeigen. In `type` wird festgehalten, dass wir bei der Analyse im Subset Personen ausschließen wollen. Möglich wäre auch der Ausschluss von Knoten, dieser ist aber schwieriger zu interpretieren und wird daher nicht genauer betrachtet. In `caseMin` wird festgehalten, wie viele Personen minimal für die Analyse entfernt werden sollen - an diesem Ort beginnt sozusagen die Suche nach dem Unterschreiten des Thresholds. Bei `caseMax` ist folglich die maximale Anzahl festgelegt. `caseN` bestimmt die Anzahl an Zwischenschritten zwischen den beiden Extremen. Zu Zwecken der Anschaulichkeit wollen wir am liebsten Schritte in 5% und erreichen das durch die Anzahl von 15. Auch bei der Durchführung dieses Codes erscheinen wieder viele Sachen in der Konsole, die auf Pandar aber augeblendet werden, um die Länge der Seite zu kürzen. 
 
 ```{r, message = F,results = "hide", fig.keep='all', warning = F}
 set.seed(2023)
@@ -340,31 +341,31 @@ Die Stabilität sieht zunächst sehr gut aus. Um nicht mit einem Lineal die Wert
 corStability(boot2, cor = 0.7)
 ```
 
-Anhand der ausgegebenen Tabelle sehen wir zunächst, dass die Boots zufällig auf die verschiedenen Größen verteilt werden. Es wird also nicht jede prozentuale Reduzierung 300 mal durchgeführt. Dies ist ein deutliches Zeichen, dass eine höhere Anzahl in `nBoots` auf jeden Fall nötig wäre, damit die Ergebnisse für jede einzelne prozentuale Reduzierung weniger abhängig vom Zufall wäre und auch gleichmäßigere Verteilung in der Anzahl an Bootstraps zwischen den Cases ermöglicht wird. Strength unterschreitet selbst bei der von uns maximal eingestellten Reduktion um 75% nicht den Threshold. Werte der Strength können demnach als sehr stabil betrachtet und interpretiert werden. Gleichzeitig gibt die Funktion auch nochmal eine Empfehlung, wie ein noch spezifischerer Wert gefunden werden könnte anhand der Anpassung von `caseMin` und `caseMax`. 
+Anhand der ausgegebenen Tabelle sehen wir zunächst, dass die Boots zufällig auf die verschiedenen Größen verteilt werden. Es wird also nicht jede prozentuale Reduzierung 300 mal durchgeführt. Dies ist ein deutliches Zeichen, dass eine höhere Anzahl in `nBoots` auf jeden Fall nötig wäre, damit die Ergebnisse für jede einzelne prozentuale Reduzierung weniger abhängig vom Zufall wäre und auch eine gleichmäßigere Verteilung in der Anzahl an Bootstraps zwischen den Cases ermöglicht wird. Strength unterschreitet selbst bei der von uns maximal eingestellten Reduktion um 75% nicht den Threshold. Werte der Strength können demnach als sehr stabil betrachtet und interpretiert werden. Gleichzeitig gibt die Funktion auch nochmal eine Empfehlung, wie ein noch spezifischerer Wert gefunden werden könnte anhand der Anpassung von `caseMin` und `caseMax`. 
 
 ## Fazit
 
-Die Netzwerkanalyse für psychologisch Konstrukte ist ein sich noch entwickelndes Gebiet. Sie wird kein Ersatz der typischen latenten Modelle sein können, für die Visualisierung und spezifischere Betrachtung der Dynamik zwischen Symptomen aber in jedem Fall hilfreich sein. Die genaue Vorgehensweise der Schätzung und Interpretation sind aktuell ein Thema der methodischen Forschung. Dabei ist auch in der Diskussion, welche Fragestellungen beantwortet werden können (vor allem im querschnittlichen Ansatz). Im Paket `bootnet` sind dabei stets aktuelle Ansätze auffindbar. Es ist dabei auch sehr verständlich geschrieben und dient einem nutzerfreundlichen Einstieg.
+Die Netzwerkanalyse für psychologische Konstrukte ist ein sich noch entwickelndes Gebiet. Sie wird kein Ersatz der typischen latenten Modelle sein können, für die Visualisierung und spezifischere Betrachtung der Dynamik zwischen Symptomen aber in jedem Fall hilfreich sein. Die genaue Vorgehensweise der Schätzung und die Interpretation sind aktuell ein Thema der methodischen Forschung. Dabei ist auch in der Diskussion, welche Fragestellungen beantwortet werden können (vor allem im querschnittlichen Ansatz). Im Paket `bootnet` sind dabei stets aktuelle Ansätze auffindbar. Es ist dabei auch sehr verständlich geschrieben und dient einem nutzerfreundlichen Einstieg.
 
 ***
 
 ## Literatur
 
-[Epskamp, S., Borsboom, D., & Fried, E. I. (20181).](https://ubffm.hds.hebis.de/EBSCO/Record?id=edsarx.1604.08462|edsarx) Estimating psychological networks and their accuracy: A tutorial paper. _Behav Res, 50_, 195-212.  [https://doi.org/10.3758/s13428-017-0862-1](https://doi.org/10.3758/s13428-017-0862-1)
+Epskamp, S., Borsboom, D., & Fried, E. I. (20181). Estimating psychological networks and their accuracy: A tutorial paper. _Behav Res, 50_, 195-212.  [https://doi.org/10.3758/s13428-017-0862-1](https://doi.org/10.3758/s13428-017-0862-1)
 
-[Epskamp, S., & Fried, E. I. (2018b).](https://ubffm.hds.hebis.de/EBSCO/Record?id=edsarx.1607.01367|edsarx) A tutorial on regularized partial correlation networks. _Psychological Methods, 23_(4), 617-634.  [https://doi.org/10.1037/met0000167](https://doi.org/10.1037/met0000167)
+Epskamp, S., & Fried, E. I. (2018b). A tutorial on regularized partial correlation networks. _Psychological Methods, 23_(4), 617-634.  [https://doi.org/10.1037/met0000167](https://doi.org/10.1037/met0000167)
 
-[Foygel, R., & Drton, M.  (2010).](https://ubffm.hds.hebis.de/EBSCO/Record?id=edsarx.1011.6640|edsarx) Extended Bayesian information criteria for Gaussian graphical models. *Advances in Neural Information Processing Systems*, *23*, 604–612.
+Foygel, R., & Drton, M.  (2010).] Extended Bayesian information criteria for Gaussian graphical models. *Advances in Neural Information Processing Systems*, *23*, 604–612.
 
-[Friedman, J., Hastie, T., & Tibshirani, R. (2008).](https://ubffm.hds.hebis.de/EBSCO/Record?id=RN231666321|edsbl) Sparse inverse covariance estimation with the graphical lasso. _Biostatistics, 9_(3), 432-441.  [https://doi.org/10.1093/biostatistics/kxm045](https://doi.org/10.1093/biostatistics/kxm045)
+Friedman, J., Hastie, T., & Tibshirani, R. (2008). Sparse inverse covariance estimation with the graphical lasso. _Biostatistics, 9_(3), 432-441.  [https://doi.org/10.1093/biostatistics/kxm045](https://doi.org/10.1093/biostatistics/kxm045)
 
+***
 
+## Appendix
 
-* <small> *Blau hinterlegte Autor:innenangaben führen Sie direkt zur universitätsinternen Ressource.* </small>
+<details><summary>Appendix A: Weitere (veraltete) Zentralitätsindizes</summary>    
 
-details><summary>Appendix A: Weitere (veraltete) Zentralitätsindizes</summary>    
-
-Wie im Haupttext des Tutorials angesprochen, wurden auch andere Kennwerte für die Zentralität aus den technischen Netzwerken in die Psychologie übernommen. Es konnte allerdings gezeigt werden, dass die Stabilität von diesen sehr schlecht ist und auch ihre theoretische Fundierung wurde im Psychologischen Kontext in Frage gestellt. Wir wollen mit diesem Abschnitt nicht ihre Nutzung empfehlen, sondern über die Hintergründe aufklären (und auch nochmal die Instabilität aufzeigen).
+Wie im Haupttext des Tutorials angesprochen, wurden auch andere Kennwerte für die Zentralität aus den technischen Netzwerken in die Psychologie übernommen. Es konnte allerdings gezeigt werden, dass die Stabilität von diesen sehr schlecht ist und auch ihre theoretische Fundierung wurde im psychologischen Kontext in Frage gestellt. Wir wollen mit diesem Abschnitt nicht ihre Nutzung empfehlen, sondern über die Hintergründe aufklären (und auch nochmal die Instabilität aufzeigen).
 
 Die *Verbundenheit (eng: closeness)* von Knoten quantifiziert ihre Beziehungen im Netzwerk anhand ihrer indirekten Verbindungen mit anderen Knoten. Hohe Verbundenheit charakterisiert im Mittel eine kurze Distanz von einem Knoten zu allen anderen Knoten. Knoten mit hoher Verbundenheit sind leicht von Veränderungen in einem beliebigen Part des Netzwerks betroffen und beeinflussen im Gegenzug leicht andere Knoten.
 
@@ -372,7 +373,7 @@ Die *Verbundenheit (eng: closeness)* von Knoten quantifiziert ihre Beziehungen i
 centrality_indices$Closeness
 ```
 
-Insgesamt bitet sich ein sehr homogenes Bild in der Verbundenheit. Einige Knoten haben starke Verbindungen zu allen anderen Knoten. Das Maximum ist bei Selfimage zu finden.
+Insgesamt bietet sich ein sehr homogenes Bild in der Verbundenheit. Einige Knoten haben starke Verbindungen zu allen anderen Knoten. Das Maximum ist bei Selfimage zu finden.
 
 Die *Dazwischenheit (eng: betweenness)* eines Knoten gibt Informationen über die Wichtigkeit eines Knotens im Rahmen der kürzesten Verbindungen zwischen zwei anderen Knoten. Dafür wird für jede Kombination an zwei Knoten der kürzeste Weg zwischen ihnen berechnet (also die stärkste Verbindung). Anschließend bekommt jeder Knoten, der auf diesem kürzesten Weg ist (ausgenommen der beiden Punkte, um die es geht), "einen Punkt" in Dazwischenheit. Durch einen Knoten mit hoher Dazwischenheit gehen also viele kürzeste Wege zwischen zwei anderen Knoten.
 
@@ -389,7 +390,7 @@ Wie im Tutorial berichtet, kann mit der Funktion `centralityPlot()` eine Übersi
 centralityPlot(reg_net, include = c("Closeness", "Betweenness"))
 ```
 
-Auch der besprochene Parameter $CS$ kann nicht nur für Strength, sondern auch für die Zentralitätsindizes bestimmt werden. Dafür nutzen wir im Tutorial beschrieben erstmal die Funktion `bootnet()`, um in `statistics` jetzt die beiden interessierende Indizes einzutragen. Die anderen Einstellungen lassen wir gleich.
+Auch der besprochene Parameter $CS$ kann nicht nur für Strength, sondern auch für die Zentralitätsindizes bestimmt werden. Dafür nutzen wir wie im Tutorial beschrieben erstmal die Funktion `bootnet()`, um in `statistics` jetzt die beiden interessierenden Indizes einzutragen. Die anderen Einstellungen lassen wir gleich.
 
 
 ```{r, message = F,results = "hide", fig.keep='all', warning = F}
@@ -407,7 +408,7 @@ Aus der Grafik lässt sich bereits erschließen, dass Betweenness die Ansprüche
 corStability(boot3, cor = 0.7)
 ```
 
-Bezüglich der $CS$-Werte wird deutlich, dass Betweenness direkt beim ersten Test mit einer Reduzierung von 5% unter die Ansprüche in der Korrelation kommt. Deshalb wird hier ein Wert von 0 ausgegeben. Für Closeness ist die Unterschreitung auch früher gegeben. Insgeamt sollten diese Werte also nicht interpretiert werden.
+Bezüglich der $CS$-Werte wird deutlich, dass Betweenness direkt beim ersten Test mit einer Reduzierung von 5% unter die Ansprüche in der Korrelation kommt. Deshalb wird hier ein Wert von 0 ausgegeben. Für Closeness ist die Unterschreitung auch früher gegeben. Insgesamt sollten diese Werte also nicht interpretiert werden.
 
 
 </details>
