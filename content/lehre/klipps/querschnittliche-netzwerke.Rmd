@@ -1,7 +1,7 @@
 ---
 title: Netzwerkanalyse im Querschnitt
 date: '2022-01-11'
-slug: cross-sectional-networks
+slug: querschnittliche-netzwerke
 categories: ["KliPPs"]
 tags: ["Querschnitt", "Regularisierung", "Zentralität", "Bootstrap" ]
 subtitle: ''
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/klipps/cross-sectional-networks
+    url: /lehre/klipps/querschnittliche-netzwerke
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/klipps/cross-sectional-networks.R
+    url: /lehre/klipps/querschnittliche-netzwerke.R
 
 output:
   html_document:
