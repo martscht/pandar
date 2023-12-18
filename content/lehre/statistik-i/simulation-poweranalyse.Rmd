@@ -400,7 +400,7 @@ args(wp.t)
 Mit `help(wp.t)` erhalten wir zu jedem dieser Argumente auch noch weitere Informationen sowie Beispiele. `n1` und `n2` sind die Stichprobengrößen der 1. und 2. Gruppe. Wenn wir `n2` frei lassen (oder `= NULL`), dann wird angenommen, dass beide Stichproben gleich groß sind. `d` ist die standardisierte Effektgröße 
 
 {{< math >}}
-$$d:=\frac{|\mu_{X_1}-\mu_{X_2}|}{\sigma}.$$
+$$d:=\frac{\mu_{X_1}-\mu_{X_2}}{\sigma}.$$
 {{</ math >}}
 
 sie nimmt also an, dass die Variablen standardisiert sind. `alpha` ist das zugehörige $\alpha$-Fehlerniveau. `power` können wir einen Zielwert für die Power übergeben. `type` gibt an, welche Art von $t$-Test durchgeführt werden soll: `"two.sample"`, `"one.sample"`, `"paired"` und `"two.sample.2n"`. Dies steht für also 2 unabhängige Stichproben (gleiche Stichprobengröße, `"two.sample"`), 1-Stichprobentest (`"one.sample"`), geparter $t$-Test (`"paired"`) und $t$-Test mit 2 unabhängigen Stichproben aber unterschiedlichen Stichprobengrößen (`"two.sample.2n"`). Bei $n_1=n_2=20$ hatten wir vorhin bei einer Mittelwertsdifferenz von 0.5 eine simulierte Power von `r mean(pt_H1_20 < .05)` heraus. Dies untersuchen wir nun analytisch:
@@ -410,6 +410,7 @@ wp.t(n1 = 20, d = .5, type = "two.sample", alternative = "two.sided")
 ```
 
 Unsere simulierte Power von `r mean(pt_H1_20 < .05)`  liegt sehr nah an den theoretischen `r wp.t(n1 = 20, d = .5, type = "two.sample", alternative = "two.sided")$power` dran. 
+
 
 ### Sensitivitätsanalysen
 
@@ -431,6 +432,31 @@ wp.t(d = .5, power = .8, type = "two.sample", alternative = "two.sided")
 ```
 
 Für eine standardisierte Mittelwertsdifferenz von .5 brauchen wir also eine Stichprobengröße pro Gruppe von $n=$ `r ceiling(wp.t(d = .5, power = .8, type = "two.sample", alternative = "two.sided")$n)`, wenn wir mit einer Wahrscheinlichkeit von $80\\%$ die Nullhypothese verwerfen wollen. An dieser Stelle sei angemerkt, dass diese Stichproben immer aufgerundet werden müssen und dass das eine Schätzung für $n$ pro Gruppe unter Idealbedingungen ist. Es wird angenommen, dass alle Voraussetzungen exakt erfüllt sind. 
+
+### Gerichtete Hypothesen mit `WebPower`
+
+Eine wichtige Ergänzung sollte an dieser Stelle für gerichtete Hypothesen erwähnt werden: wenn Sie die Hypothese richten, müssen Sie gleichzeitig auf das Vorzeichen von `d` achten. Wenn wir für unseren $t$-Test eine a-priori Power-Analyse durchführen wollen, um das $n$ zu bestimmen, dann könnte das z.B. so aussehen:
+
+```{r}
+wp.t(d = .5, power = .8, type = "two.sample", alternative = "greater")
+```
+
+Wenn wir aber annehmen, dass der Effekt umgedreht ist, bei $d$ aber den Betrag nutzen passiert Folgendes:
+
+```{r, error = TRUE}
+wp.t(d = .5, power = .8, type = "two.sample", alternative = "less")
+```
+Die Funktion ist nicht in der Lage, das nötige $n$ zu bestimmen, weil die Alternativ-Hypothese, dass der Mittelwert in der ersten Gruppe kleiner ist (`alternative = "less"`) nicht zuverlässig aufgedeckt werden kann, wenn $d$ in der Population positiv ist.
+
+Dazu hier ein Warnhinweis, bezüglich eines Bugs in WebPower: wenn Sie Sensitivitätsanalyse betreiben, funktioniert das derzeit nur für "größer als" Aussagen. Für die Gegenrichtung erhalten Sie immer eine Fehlermeldung:
+
+```{r, error = TRUE}
+wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "less")
+```
+```{r}
+wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "greater")
+```
+Dies ist zwar in diesem Fall nicht von dramatischer Konsequenz, weil das gesamte Verfahren symmetrisch ist, aber wenn Sie z.B. ungleiche Stichproben haben (`type = "two.sample.2n"`) sollten Sie diese explizit im Auge behalten.
 
 ### Appendix A {#AppendixA} 
 

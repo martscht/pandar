@@ -37,7 +37,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 Bisher haben wir gelernt, dass viele statistische Größen durch Summen, Mittelwerte, Quadrate, Abweichungen und weitere recht einfache Rechenoperationen bestimmt werden können. Diese lassen sich oft noch einfacher durch Matrizen und Vektoren ausdrücken. Vielleicht kennen Sie Matrizen aus der Schule. Falls nicht, ist das gar kein Problem, denn dieser Post wird sich mit Vektoren und Matrizen ausführlicher beschäftigen. Matrixalgebra wird bspw. auch in Eid, et al. (2017) im _Anhang B: Matrixalgebra_ ab Seite 1051 behandelt.
