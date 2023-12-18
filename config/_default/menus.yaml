@@ -74,15 +74,26 @@ main:
     parent: "Projekte"
     weight: 304    
 
-  - name: "Extras"
-    pre: "<i class='fas fa-wand-sparkles'></i>&ensp;"
+  - name: "Workshops"
+    pre: "<i class='fas fa-people-line'></i>&ensp;"
     url: '/under-construction'
     weight: 400
+
+  - name: "Extras"
+    pre: "<i class='fas fa-rocket'></i>&ensp;"
+    url: '/extras/main'
+    weight: 500
+
+  - name: "Git"
+    pre: "<i class='fab fa-github'></i>&ensp;"
+    url: '/extras/main#git'
+    parent: "Extras"
+    weight: 501
 
   - name: "tigeR"
     pre: "<i class='fas fa-paw'></i>&ensp;"
     url: 'https://tiger.uni-frankfurt.de/app/shinytigeR'
-    weight: 500  
+    weight: 600  
   # - name: "Bayes"
   #   pre: "<i class='fa-solid fa-dice-d20'></i>&ensp;"
   #   url: '/extras/main#bayes'
