@@ -3,16 +3,16 @@ title: "Datenaufbereitung für ggplotting"
 type: post
 date: '2019-10-18' 
 slug: ggplotting-daten
-categories: []
+categories: ["ggplotting"]
 tags: ["ggplotting", "Datenaufbereitung", "Datenmanagement"] 
 subtitle: ''
 summary: '' 
 authors: [schultze] 
-weight:
+weight: 0
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/ggplotting_data.jpg"
+  image: "/header/disc_reader.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/669159)"
 projects: []
 reading_time: false
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/crash-kurs
+    url: /workshops/ggplotting/ggplotting-daten
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/statistik-i/crash-kurs.R
+    url: /workshops/ggplotting/ggplotting-daten.R
 output:
   html_document:
     keep_md: true
@@ -56,7 +56,7 @@ Die Datensätze, die wir benutzen werden können größtenteils über das [githu
 raw_geo <- read.csv('https://github.com/open-numbers/ddf--gapminder--systema_globalis/raw/master/ddf--entities--geo--country.csv')
 
 # Populationsdaten
-# pop <- read.csv('https://github.com/open-numbers/ddf--gapminder--systema_globalis/raw/master/countries-etc-datapoints/ddf--datapoints--population_total--by--geo--time.csv')
+#pop <- read.csv('https://github.com/open-numbers/ddf--gapminder--systema_globalis/raw/master/countries-etc-datapoints/ddf--datapoints--population_total--by--geo--time.csv')
 
 # Lebenserwartung
 # expect <- read.csv('https://github.com/open-numbers/ddf--gapminder--systema_globalis/raw/master/countries-etc-datapoints/ddf--datapoints--life_expectancy_at_birth_with_projections--by--geo--time.csv')
@@ -97,7 +97,7 @@ names(geo)
 
 Diese geschrumpften Informationen müssen jetzt zunächst mit den Informationen zum den Ländern zusammengeführt werden.
 
-```{r}
+```{r Error}
 geo <- right_join(geo, pop, by = 'geo') |>
   full_join(expect, by = c('geo', 'time')) |>
   full_join(income, by = c('geo', 'time')) 
