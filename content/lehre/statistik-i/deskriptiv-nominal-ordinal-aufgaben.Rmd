@@ -7,7 +7,7 @@ categories: []
 tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
-authors: [buchholz, nehler]
+authors: [buchholz, nehler, sinn]
 weight: 
 lastmod: '`r Sys.Date()`'
 featured: no

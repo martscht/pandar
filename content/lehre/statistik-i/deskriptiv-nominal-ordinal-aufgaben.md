@@ -7,9 +7,9 @@ categories: []
 tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
-authors: [buchholz, nehler]
+authors: [buchholz, nehler, sinn]
 weight: 
-lastmod: '2023-11-09'
+lastmod: '2023-12-22'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
