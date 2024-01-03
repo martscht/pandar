@@ -46,13 +46,13 @@ knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 
 ## Quiz 1: Wiederholung und `ggplot2` {#Quiz1}
 
-Die Fragen zum Quiz bezüglich Wiederholung und `ggplot2` stammen aus dem bereits im ersten Tutorial bearbeiteten Machiavellismusfragebogen. Sie können den Datensatz direkt aus dem Internet in ihren Workspace in `R` zu laden. Der funktionierende Befehl sieht so aus:
+Die Fragen zum Quiz bezüglich Wiederholung und `ggplot2` stammen aus dem bereits im ersten Tutorial bearbeiteten Machiavellismusfragebogen. Sie können den Datensatz direkt aus dem Internet in ihren Workspace in `R` laden. Der funktionierende Befehl sieht so aus:
 
 ```{r}
 load(url("https://courageous-donut-84b9e9.netlify.app/post/mach.rda"))
 ```
 
-Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"](https://openpsychometrics.org/_rawdata/), einer Online-Plattform, die eine Sammlung an Daten aus verschiedensten Persönlichkeitstests zur Verfügung stellt. Wir haben schon Modifikationen für Sie darin vorgenommen. Natürlich können Sie den Datensatz "mach.rda" auch {{< icon name = "download" pack = "fas">}}[hier](https://courageous-donut-84b9e9.netlify.app/post/mach.rda) herunterladen, um ihn dann lokal zu lagern.
+Die hier verwendeten Daten stammen aus dem [Open-Source Psychometrics Project](https://openpsychometrics.org/_rawdata/), einer Online-Plattform, die eine Sammlung an Daten aus verschiedensten Persönlichkeitstests zur Verfügung stellt. Wir haben schon Modifikationen für Sie darin vorgenommen. Natürlich können Sie den Datensatz "mach.rda" auch {{< icon name = "download" pack = "fas">}}[hier](https://courageous-donut-84b9e9.netlify.app/post/mach.rda) herunterladen, um ihn dann lokal zu lagern.
 
 Der Datensatz erhält viele Angaben zur Persönlichkeit und zu demografischen Daten. Kern ist aber der 20 Items umfassende Machiavellismusfragebogen von Christie und Geis (1970) und die daraus ableitbare 4-faktorielle Struktur des Konzepts (Corral & Calvete, 2000). Die Skalenwerte dieser vier Faktoren haben wir bereits im Datensatz angelegt:
 
@@ -63,7 +63,7 @@ Der Datensatz erhält viele Angaben zur Persönlichkeit und zu demografischen Da
 | `cvhn` | _Cynical view of human nature_ |
 | `pvhn` | _Positive view of human nature_ |
 
-Der Struktur dieser vier Faktoren liegt die Idee zugrunde, dass Machiavellismus in zwei Konzepte - Taktiken und Überzeugungen - unterteilt werden kann. _Taktiken_ stellen dabei vor allem eigene Verhaltensweisen im Umgang mit anderen Menschen dar, während _Überzeugungen_ sich auf die grundlegende Natur anderer Menschen und ihrer Absichten beziehen. Innerhalb dieser beiden Konzepte wird noch einmal zwischen positiven und negativen Aspekten unterschieden. So stellt z.B. Item 2 "The best way to handle people is to tell them what they want to hear." einen negativen Umgang mit anderen Menschen dar. Das Item 8 "Generally speaking, people won't work hard unless they're forced to do so." stellt eine zynische Überzeugung bezüglich der grundlegenden Eigenschaften anderer Menschen dar.
+Der Struktur dieser vier Faktoren liegt die Idee zugrunde, dass Machiavellismus in zwei Konzepte - Taktiken und Überzeugungen - unterteilt werden kann. _Taktiken_ stellen dabei vor allem eigene Verhaltensweisen im Umgang mit anderen Menschen dar, während _Überzeugungen_ sich auf die grundlegende Natur anderer Menschen und ihrer Absichten beziehen. Innerhalb dieser beiden Konzepte wird noch einmal zwischen positiven und negativen Aspekten unterschieden. So stellt beispielsweise Item 2 "The best way to handle people is to tell them what they want to hear" einen negativen Umgang mit anderen Menschen dar. Das Item 8 "Generally speaking, people won't work hard unless they're forced to do so" stellt eine zynische Überzeugung bezüglich der grundlegenden Eigenschaften anderer Menschen dar.
 
 Neben diesen Skalenwerten enthält der Datensatz auch diverse Variablen zu demografischem Hintergrund und allgemeinen Angaben über die Personen. Im Quiz sind davon folgende relevant:
 
@@ -146,7 +146,7 @@ Im ersten Teil des Quiz verwenden wir den Datensatz `Behandlungsform.rda`. Sie k
 load(url("https://courageous-donut-84b9e9.netlify.app/post/Behandlungsform.rda"))
 ```
 
-In dem Datensatz sind die Ausprägungen von 100 Personen auf 6 Variablen abgetragen. Für das Quiz sind dabei zwei Variablen relevant, die diesmal relative selbsterklärend sind. KVT steht dabei für kognitive Verhaltenstherapie.
+In dem Datensatz sind die Ausprägungen von 100 Personen auf 6 Variablen abgetragen. Für das Quiz sind dabei zwei Variablen relevant, die diesmal relativ selbsterklärend sind. KVT steht dabei für kognitive Verhaltenstherapie.
 
 | Variable | Bedeutung |
 | --- | --- |
@@ -172,15 +172,15 @@ Der Datensatz behandelt die Naturverbundenheit in 6 Items. Weiterhin sind Inform
 
 ## Quiz 5: Varianzanalyse mit Messwiederholung {#Quiz5}
 
-Für das Quiz wurde der Datensatz zum **Alkoholkonsum von Jugendlichen** von Curran, Stice und Chassin (1997), der auch schon im Tutorial verwendet wurde, um weitere Messzeitpunkte erweitert, um ein neues Setting für das Quiz zu demonstrieren. Die neuen Daten sind also nicht mehr aus der Studie bzw. gemessen, sondern zusätzliche simulierte Werte.
+Für das Quiz wurde der Datensatz zum **Alkoholkonsum von Jugendlichen** von Curran, Stice und Chassin (1997), der auch schon im Tutorial verwendet wurde, um weitere Messzeitpunkte erweitert, um ein neues Setting für das Quiz zu demonstrieren. Die neuen Daten sind also nicht mehr aus der Studie bzw. gemessen, sondern enthalten zusätzliche simulierte Werte.
 
-Sie können den Datensatz {{< icon name = "download" pack = "fas">}}[hier](https://courageous-donut-84b9e9.netlify.app/post/alc_extended.rda) herunterladen. So laden wir die Daten direkt über `pandaR`:
+Sie können den Datensatz {{< icon name = "download" pack = "fas">}}[hier](https://courageous-donut-84b9e9.netlify.app/post/alc_extended.rda) herunterladen. So laden wir die Daten direkt über `PandaR`:
 
 ```{r, eval = T}
 load(url("https://courageous-donut-84b9e9.netlify.app/post/alc_extended.rda"))
 ```
 
-Im Environment sollten nun zwei Datensätze erscheinen. Wie bereits beschrieben sind diese Erweiterungen des ursprünglichen Datensatzes. Der Datensatz `alc17` hat eine Variable mehr (`alcuse.17`), während `alc18` nochmal 2 weitere zusätzliche Variablen (`treat` und `alcuse.18`) hat. Im Quiz wird stets beschrieben, mit welchem Datensatz Sie arbeiten sollen.
+Im Environment sollten nun zwei Datensätze erscheinen. Wie bereits beschrieben, handelt es sich bei diesen um Erweiterungen des ursprünglichen Datensatzes. Der Datensatz `alc17` hat eine Variable mehr (`alcuse.17`), während `alc18` nochmal 2 weitere zusätzliche Variablen (`treat` und `alcuse.18`) hat. Im Quiz wird stets beschrieben, mit welchem Datensatz Sie arbeiten sollen.
 
 Insgesamt existieren die folgenden Variablen:
 
@@ -201,7 +201,7 @@ Insgesamt existieren die folgenden Variablen:
  
 ## Quiz 6: Quadratische & Interaktionseffekte und Loops & Funktionen {#Quiz6}
 
-Für dieses Quiz werden überwiegend selbstständig Daten erzeugt oder Code geschrieben. Für den ersten Teil des Quizzes verwenden wir einen simulierten Datensatz, der einige nennenswerte Aspekte der moderierten Regression aufzeigt. Den Datensatz laden Sie via
+Für dieses Quiz werden überwiegend selbstständig Daten erzeugt oder Code geschrieben. Für den ersten Teil des Quizzes verwenden wir einen simulierten Datensatz, der einige nennenswerte Aspekte der moderierten Regression aufzeigt. Den Datensatz können Sie {{< icon name = "download" pack = "fas">}}[hier](https://courageous-donut-84b9e9.netlify.app/post/Interaction.rda) herunterladen oder Sie laden ihn direkt via
 
 ```{r, eval = F}
 load(url("https://courageous-donut-84b9e9.netlify.app/post/Interaction.rda"))
@@ -216,12 +216,12 @@ Der Datentsatz besteht aus $n=1234$ Beobachtungen auf 3 Variablen:
 | `X2` | Handlungsspielraum | Prädiktor 2 |
 
 
-Da die Daten simuliert sind, tragen sie keine inhaltliche Bedeutung. Sie könnten sich beispielsweise folgende Variablen vorstellen: _`Y` = Arbeitszufriedenheit, `X1` = Arbeitskomplexität, `X2` = Handlungsspielraum. In diesem Setting ist es sinnvoll, nichtlineare Effekte zu untersuchen, da anzunehmen wäre, dass zu leichte Arbeit als langweilig und zu komplexe Arbeit als überfordernd eingeschätzt werden könnten und sich entsprechend negativ auf die Zufriedenheit auswirken (Annahme quadratischer Effekt von Komplexität). Genauso kann angenommen werden, dass Handlungsspielraum sich besonders bei komplexen Jobs positiv auswirkt (Annahme einer Interaktion). Auch könnte es einen Sättigungseffekt von Handlungsspielraum geben, sodass nur bis zu einem bestimmten Punkt mehr Handlungsspielraum auch zu einer höheren Zufriedenheit führt (Annahme quadratischer Effekt von Handlungsspielraum). **Das sind natürlich nur Beispiele zur Verdeutlichung, die Daten wurden keinen echten Zusammenhängen nachempfunden.**_
+Da die Daten simuliert sind, tragen sie keine inhaltliche Bedeutung. Sie könnten sich beispielsweise folgende Variablen vorstellen: _`Y` = Arbeitszufriedenheit, `X1` = Arbeitskomplexität, `X2` = Handlungsspielraum. In diesem Setting ist es sinnvoll, nichtlineare Effekte zu untersuchen, da anzunehmen wäre, dass zu leichte Arbeit als langweilig und zu komplexe Arbeit als überfordernd eingeschätzt werden könnte und sich entsprechend beides negativ auf die Zufriedenheit auswirkt (Annahme quadratischer Effekt von Komplexität). Genauso kann angenommen werden, dass sich Handlungsspielraum besonders bei komplexen Jobs positiv auswirkt (Annahme einer Interaktion). Auch könnte es einen Sättigungseffekt von Handlungsspielraum geben, sodass nur bis zu einem bestimmten Punkt mehr Handlungsspielraum auch zu einer höheren Zufriedenheit führt (Annahme quadratischer Effekt von Handlungsspielraum). **Das sind natürlich nur Beispiele zur Verdeutlichung, die Daten wurden keinen echten Zusammenhängen nachempfunden.**_
 
 ***
 
 ## Weiterer Datensatz
-Der `mdbf`-Datensatz enthält 98 Beobachtungen auf 12 Variablen, allesamt Items des **M**ehr**d**imensionalen **B**efindlichkeits**f**ragebogens. In diesem Fragebogen werden Adjektive zur Beschreibung der aktuellen Stimmung genutzt, um die drei Dimensionen der Stimmung - Gut vs. Schlecht, Wach vs. Müde und Ruhig vs. Unruhig - zu erheben. Dafür laden wir zunächst den mdbdf-Datensatz von der `pandaR`-Website, und schauen uns die ersten Zeilen an.
+Der `mdbf`-Datensatz enthält 98 Beobachtungen auf 12 Variablen, allesamt Items des **M**ehr**d**imensionalen **B**efindlichkeits**f**ragebogens. In diesem Fragebogen werden Adjektive zur Beschreibung der aktuellen Stimmung genutzt, um die drei Dimensionen der Stimmung - Gut vs. Schlecht, Wach vs. Müde und Ruhig vs. Unruhig - zu erheben. Dafür laden wir zunächst {{< icon name = "download" pack = "fas">}}[hier](https://courageous-donut-84b9e9.netlify.app/post/mdbf.rda) den mdbf-Datensatz herunter oder wir laden ihn direkt von der `PandaR`-Website, und schauen uns die ersten Zeilen an.
 
 ```{r}
 load(url("https://courageous-donut-84b9e9.netlify.app/post/mdbf.rda"))
@@ -242,4 +242,4 @@ load(url("https://courageous-donut-84b9e9.netlify.app/post/mdbf.rda"))
 | `stim11` | unwohl | negativ | Gut vs. Schlecht |
 | `stim12` | entspannt | positiv | Ruhig vs. Unruhig |
 
-In der Spalte *Dimension* sehen wir, dass die Items 3 verschiedene Dimensionen abbilden: *Gut vs. Schlecht*, *Wach vs. Müde* und *Ruhig vs. Unruhig*. Die Items sind dabei unterschiedlich gepolt - die Adjektive "ausgeruht" und "schlapp" erfasst beide die Dimension *Wach vs. Müde*, jedoch in unterschiedlicher Ausrichtung.
+In der Spalte *Dimension* sehen wir, dass die Items 3 verschiedene Dimensionen abbilden: *Gut vs. Schlecht*, *Wach vs. Müde* und *Ruhig vs. Unruhig*. Die Items sind dabei unterschiedlich gepolt - die Adjektive "ausgeruht" und "schlapp" erfassen beide die Dimension *Wach vs. Müde*, jedoch in unterschiedlicher Ausrichtung.
