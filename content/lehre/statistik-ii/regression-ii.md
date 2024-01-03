@@ -9,7 +9,7 @@ subtitle: 'Modelloptimierung'
 summary: ''
 authors: [irmer, hartig, schueller, nehler]
 weight: 5
-lastmod: '2023-11-13'
+lastmod: '2024-01-03'
 featured: no
 banner:
   image: "/header/gardening_tools.jpg"
@@ -293,20 +293,7 @@ library(olsrr)
 ```
 
 ```
-## 
-## Attaching package: 'olsrr'
-```
-
-```
-## The following object is masked from 'package:MASS':
-## 
-##     cement
-```
-
-```
-## The following object is masked from 'package:datasets':
-## 
-##     rivers
+## Error in library(olsrr): there is no package called 'olsrr'
 ```
 
 Die Funktion `ols_step_both_p()` beinhaltet die Auswahl auf Basis der Signifikanz des Inkrements oder Dekrements und führt in jedem Schritt Tests für Einschluss und Ausschluss durch. Sie nutzt also die Technik, die wir gerade für den theorigeleiteten Modellvergleich auch genommen haben. Dieses Vorgehen sollte nicht als Default angesehen werden, da einige Probleme bestehen, auf die wir nach der Demonstration eingehen. Aufgrund der Prävalenz des Vorgehens haben wir uns dazu entschieden, es auch zu präsentieren.
@@ -323,98 +310,7 @@ ols_step_both_p(m, pent = .05, prem = .10, details = TRUE)
 ```
 
 ```
-## Stepwise Selection Method   
-## ---------------------------
-## 
-## Candidate Terms: 
-## 
-## 1. reading 
-## 2. female 
-## 3. IQ 
-## 
-## We are selecting variables based on p value...
-## 
-## 
-## Stepwise Selection: Step 1 
-## 
-## + IQ 
-## 
-##                          Model Summary                           
-## ----------------------------------------------------------------
-## R                       0.698       RMSE                 84.105 
-## R-Squared               0.487       Coef. Var            14.980 
-## Adj. R-Squared          0.481       MSE                7073.620 
-## Pred R-Squared          0.468       MAE                  52.958 
-## ----------------------------------------------------------------
-##  RMSE: Root Mean Square Error 
-##  MSE: Mean Square Error 
-##  MAE: Mean Absolute Error 
-## 
-##                                  ANOVA                                  
-## -----------------------------------------------------------------------
-##                    Sum of                                              
-##                   Squares        DF    Mean Square      F         Sig. 
-## -----------------------------------------------------------------------
-## Regression     657075.570         1     657075.570    92.891    0.0000 
-## Residual       693214.751        98       7073.620                     
-## Total         1350290.321        99                                    
-## -----------------------------------------------------------------------
-## 
-##                                    Parameter Estimates                                    
-## -----------------------------------------------------------------------------------------
-##       model      Beta    Std. Error    Std. Beta      t       Sig       lower      upper 
-## -----------------------------------------------------------------------------------------
-## (Intercept)    53.901        53.330                 1.011    0.315    -51.931    159.733 
-##          IQ     5.172         0.537        0.698    9.638    0.000      4.107      6.237 
-## -----------------------------------------------------------------------------------------
-## 
-## 
-## 
-## No more variables to be added/removed.
-## 
-## 
-## Final Model Output 
-## ------------------
-## 
-##                          Model Summary                           
-## ----------------------------------------------------------------
-## R                       0.698       RMSE                 84.105 
-## R-Squared               0.487       Coef. Var            14.980 
-## Adj. R-Squared          0.481       MSE                7073.620 
-## Pred R-Squared          0.468       MAE                  52.958 
-## ----------------------------------------------------------------
-##  RMSE: Root Mean Square Error 
-##  MSE: Mean Square Error 
-##  MAE: Mean Absolute Error 
-## 
-##                                  ANOVA                                  
-## -----------------------------------------------------------------------
-##                    Sum of                                              
-##                   Squares        DF    Mean Square      F         Sig. 
-## -----------------------------------------------------------------------
-## Regression     657075.570         1     657075.570    92.891    0.0000 
-## Residual       693214.751        98       7073.620                     
-## Total         1350290.321        99                                    
-## -----------------------------------------------------------------------
-## 
-##                                    Parameter Estimates                                    
-## -----------------------------------------------------------------------------------------
-##       model      Beta    Std. Error    Std. Beta      t       Sig       lower      upper 
-## -----------------------------------------------------------------------------------------
-## (Intercept)    53.901        53.330                 1.011    0.315    -51.931    159.733 
-##          IQ     5.172         0.537        0.698    9.638    0.000      4.107      6.237 
-## -----------------------------------------------------------------------------------------
-```
-
-```
-## 
-##                               Stepwise Selection Summary                               
-## --------------------------------------------------------------------------------------
-##                      Added/                   Adj.                                        
-## Step    Variable    Removed     R-Square    R-Square     C(p)        AIC        RMSE      
-## --------------------------------------------------------------------------------------
-##    1       IQ       addition       0.487       0.481    2.4470    1174.1802    84.1048    
-## --------------------------------------------------------------------------------------
+## Error in ols_step_both_p(m, pent = 0.05, prem = 0.1, details = TRUE): could not find function "ols_step_both_p"
 ```
 
 Der Output ist extrem detailliert, wobei allerdings nicht aufgeführt wird, wie die jeweiligen Inkremente oder Dekremente der anderen Variablen ausgefallen waren, die nicht selektiert wurden. Mit der `ols_step_both_p` wählen wir nur den IQ als Prädiktor aus! Uns wird nach jedem Step zunächst gesagt, welcher Prädiktor gewählt wurde und wie sich verschiedene Fit-Maße verhalten (bspw. AIC oder $R^2$). Für uns ist an dieser Stelle besonders das $R^2$ (`R-Squared`) von Relevanz. Die ANOVA im Output beschreibt einfach eine ANOVA der zu vergleichenden Modelle, wobei zunächst mit dem Null-Modell, welches nur das Interzept enthält, begonnen wird. 

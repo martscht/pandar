@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr, Daten in R mit Hilfe des Pakets "ggplot2" zu visualisieren. Das Tutorial startet mit den Grundprinzipien des Pakets, wie Daten in Schichten dargestellt werden, die Geometrie und Ästhetik der Grafiken sowie die Verwendung von Themes und Farbpaletten zur Anpassung der Abbildungen. Außerdem werden Methoden zur Beschriftung und Anpassung von Grafiken für eine übersichtlichere Darstellung von Daten erläutert.'
 authors: [schultze]
 weight: 2
-lastmod: '2023-11-20'
+lastmod: '2024-01-03'
 featured: no
 banner:
   image: "/header/colorful_bubbles.jpg"
@@ -27,6 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/grafiken-ggplot2.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Quizdaten
+    url: /lehre/statistik-ii/quizdaten-bsc7#Quiz1
 output:
   html_document:
     keep_md: true
@@ -78,20 +82,13 @@ head(edu_exp)
 ```
 
 ```
-##   geo     Country     Wealth Region Year Population Expectancy Income Primary Secondary Tertiary
-## 1 afg Afghanistan low_income   asia 1997   19357126      53.74    865      NA        NA       NA
-## 2 afg Afghanistan low_income   asia 1998   19737770      52.80    800      NA        NA       NA
-## 3 afg Afghanistan low_income   asia 1999   20170847      54.43    735      NA        NA       NA
-## 4 afg Afghanistan low_income   asia 2000   20779957      54.63    687      NA        NA       NA
-## 5 afg Afghanistan low_income   asia 2001   21606992      54.76    646      NA        NA       NA
-## 6 afg Afghanistan low_income   asia 2002   22600774      55.65   1016      NA        NA       NA
-##      Index
-## 1 13.33333
-## 2 13.33333
-## 3 14.00000
-## 4 14.66667
-## 5 14.66667
-## 6 15.33333
+##   geo     Country     Wealth Region Year Population Expectancy Income Primary Secondary Tertiary    Index
+## 1 afg Afghanistan low_income   asia 1997   19357126      53.74    865      NA        NA       NA 13.33333
+## 2 afg Afghanistan low_income   asia 1998   19737770      52.80    800      NA        NA       NA 13.33333
+## 3 afg Afghanistan low_income   asia 1999   20170847      54.43    735      NA        NA       NA 14.00000
+## 4 afg Afghanistan low_income   asia 2000   20779957      54.63    687      NA        NA       NA 14.66667
+## 5 afg Afghanistan low_income   asia 2001   21606992      54.76    646      NA        NA       NA 14.66667
+## 6 afg Afghanistan low_income   asia 2002   22600774      55.65   1016      NA        NA       NA 15.33333
 ```
 
 
