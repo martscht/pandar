@@ -52,7 +52,7 @@ Die Fragen zum Quiz bezüglich Wiederholung und `ggplot2` stammen aus dem bereit
 load(url("https://courageous-donut-84b9e9.netlify.app/post/mach.rda"))
 ```
 
-Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"](https://openpsychometrics.org/_rawdata/), einer Online-Plattform, die eine Sammlung an Daten aus verschiedensten Persönlichkeitstests zur Verfügung stellt. Wir haben schon Modifikationen für Sie darin vorgenommen. Natürlich können Sie den [`r fontawesome::fa("download")` Datensatz "mach.rda" auch hier herunterladen](https://courageous-donut-84b9e9.netlify.app/post/mach.rda), um ihn dann lokal zu lagern.
+Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"](https://openpsychometrics.org/_rawdata/), einer Online-Plattform, die eine Sammlung an Daten aus verschiedensten Persönlichkeitstests zur Verfügung stellt. Wir haben schon Modifikationen für Sie darin vorgenommen. Natürlich können Sie den Datensatz "mach.rda" auch {{< icon name = "download" pack = "fas">}}[hier](https://courageous-donut-84b9e9.netlify.app/post/mach.rda) herunterladen, um ihn dann lokal zu lagern.
 
 Der Datensatz erhält viele Angaben zur Persönlichkeit und zu demografischen Daten. Kern ist aber der 20 Items umfassende Machiavellismusfragebogen von Christie und Geis (1970) und die daraus ableitbare 4-faktorielle Struktur des Konzepts (Corral & Calvete, 2000). Die Skalenwerte dieser vier Faktoren haben wir bereits im Datensatz angelegt:
 
@@ -77,8 +77,8 @@ Neben diesen Skalenwerten enthält der Datensatz auch diverse Variablen zu demog
 ***
 
 ## Quiz 2: Partial- & Semipartialkorrelation und Multiple Regression {#Quiz2}
-
-Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichprobe der PISA-Erhebung in Deutschland 2009. Sie können den im Folgenden verwendeten  [`r fontawesome::fa("download")` Datensatz "PISA2009.rda" hier herunterladen](https://courageous-donut-84b9e9.netlify.app/post/PISA2009.rda). Alternativ können Sie ihn auch direkt über diesen Befehl in Ihr Environment einladen.
+ 
+Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichprobe der PISA-Erhebung in Deutschland 2009. Sie können den im Folgenden verwendeten Datensatz "PISA2009.rda" {{< icon name = "download" pack = "fas">}}[hier](https://courageous-donut-84b9e9.netlify.app/post/PISA2009.rda) herunterladen. Alternativ können Sie ihn auch direkt über diesen Befehl in Ihr Environment einladen.
 
 ```{r, eval = T}
 load(url("https://courageous-donut-84b9e9.netlify.app/post/PISA2009.rda"))
@@ -110,7 +110,7 @@ Im Datensatz sind viele Variablen der pädagogischen Forschung erhalten, die im 
 
 Die Daten für dieses Quiz entsprechen denen aus dem zweiten Quiz. Um Verwirrung zu vermeiden, wird die Beschreibung hier nochmal aufgeführt.
 
-Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichprobe der PISA-Erhebung in Deutschland 2009. Sie können den im Folgenden verwendeten  [`r fontawesome::fa("download")` Datensatz "PISA2009.rda" hier herunterladen](https://courageous-donut-84b9e9.netlify.app/post/PISA2009.rda). Alternativ können Sie ihn auch direkt über diesen Befehl in Ihr Environment einladen.
+Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichprobe der PISA-Erhebung in Deutschland 2009. Sie können den im Folgenden verwendeten Datensatz "PISA2009.rda" {{< icon name = "download" pack = "fas">}}[hier](https://courageous-donut-84b9e9.netlify.app/post/PISA2009.rda) herunterladen. Alternativ können Sie ihn auch direkt über diesen Befehl in Ihr Environment einladen.
 
 ```{r, eval = T}
 load(url("https://courageous-donut-84b9e9.netlify.app/post/PISA2009.rda"))
@@ -140,7 +140,7 @@ Im Datensatz sind viele Variablen der pädagogischen Forschung erhalten, die im 
 
 ## Quiz 4: Einfaktorielle und zweifaktorielle ANOVA {#Quiz4}
 
-Im ersten Teil des Quiz verwenden wir den Datensatz `Behandlungsform.rda`. Sie können den [`r fontawesome::fa("download")`Datensatz hier herunterladen](/post/Behandlungsform.rda). Er kann aber auch wie gewohnt direkt von `PandaR` eingeladen werden.
+Im ersten Teil des Quiz verwenden wir den Datensatz `Behandlungsform.rda`. Sie können den Datensatz {{< icon name = "download" pack = "fas">}}[hier](https://courageous-donut-84b9e9.netlify.app/post/Behandlungsform.rda) herunterladen. Er kann aber auch wie gewohnt direkt von `PandaR` eingeladen werden.
 
 ```{r,eval = F}
 load(url("https://courageous-donut-84b9e9.netlify.app/post/Behandlungsform.rda"))
@@ -154,7 +154,7 @@ In dem Datensatz sind die Ausprägungen von 100 Personen auf 6 Variablen abgetra
 | `Therapieform` | Form der Therapie (Kontrolle, KVT, blended Care KVT) |
 
 
-Im zweiten Teil des Quiz arbeiten wir mit dem `nature`-Datensatz. Sie können den  [`r fontawesome::fa("download")` Datensatz hier herunterladen](https://courageous-donut-84b9e9.netlify.app/post/nature.rda). Gleichzeitig kann er aber auch einfach über den folgenden Link direkt eingeladen werden.
+Im zweiten Teil des Quiz arbeiten wir mit dem `nature`-Datensatz. Sie können den Datensatz {{< icon name = "download" pack = "fas">}}[hier](https://courageous-donut-84b9e9.netlify.app/post/nature.rda) herunterladen. Gleichzeitig kann er aber auch einfach über den folgenden Link direkt eingeladen werden.
 
 ```{r, eval = T}
 load(url("https://courageous-donut-84b9e9.netlify.app/post/nature.rda"))
@@ -174,7 +174,7 @@ Der Datensatz behandelt die Naturverbundenheit in 6 Items. Weiterhin sind Inform
 
 Für das Quiz wurde der Datensatz zum **Alkoholkonsum von Jugendlichen** von Curran, Stice und Chassin (1997), der auch schon im Tutorial verwendet wurde, um weitere Messzeitpunkte erweitert, um ein neues Setting für das Quiz zu demonstrieren. Die neuen Daten sind also nicht mehr aus der Studie bzw. gemessen, sondern zusätzliche simulierte Werte.
 
-Sie können den [`r fontawesome::fa("download")`Datensatz hier herunterladen](/post/alc_extended.rda). So laden wir die Daten direkt über `pandaR`:
+Sie können den Datensatz {{< icon name = "download" pack = "fas">}}[hier](https://courageous-donut-84b9e9.netlify.app/post/alc_extended.rda) herunterladen. So laden wir die Daten direkt über `pandaR`:
 
 ```{r, eval = T}
 load(url("https://courageous-donut-84b9e9.netlify.app/post/alc_extended.rda"))
