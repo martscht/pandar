@@ -2,11 +2,11 @@
 title: Daten für die Quiz
 type: post
 date: '2021-04-21'
-slug: quizdaten_stat2
+slug: quizdaten-bsc7
 categories: [""]
 tags: ["Daten"]
 subtitle: ''
-summary: 'Auf dieser Seite finden sich alle Datensätze für die Studienleistungen in PsyBSc7. Die Durchführung der Quiz findet auf der Lernplattform moodle für die Teilnehmenden des Moduls statt.'
+summary: 'Auf dieser Seite finden sich alle Datensätze für die Studienleistungen in PsyBSc2. Die Durchführung der Quiz findet auf der Lernplattform moodle für die Teilnehmenden des Moduls statt.'
 authors: [nehler, rouchi, irmer]
 lastmod: '`r Sys.Date()`'
 featured: no
@@ -52,7 +52,7 @@ Die Fragen zum Quiz bezüglich Wiederholung und `ggplot2` stammen aus dem bereit
 load(url("https://courageous-donut-84b9e9.netlify.app/post/mach.rda"))
 ```
 
-Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"](https://openpsychometrics.org/_rawdata/), einer Online-Plattform, die eine Sammlung an Daten aus verschiedensten Persönlichkeitstests zur Verfügung stellt. Wir haben schon Modifikationen für Sie darin vorgenommen. Natürlich können Sie den [`r fontawesome::fa("download")` Datensatz "mach.rda" auch hier herunterladen](https://pandar.netlify.app/post/mach.rda), um ihn dann lokal zu lagern.
+Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"](https://openpsychometrics.org/_rawdata/), einer Online-Plattform, die eine Sammlung an Daten aus verschiedensten Persönlichkeitstests zur Verfügung stellt. Wir haben schon Modifikationen für Sie darin vorgenommen. Natürlich können Sie den [`r fontawesome::fa("download")` Datensatz "mach.rda" auch hier herunterladen](https://courageous-donut-84b9e9.netlify.app/post/mach.rda), um ihn dann lokal zu lagern.
 
 Der Datensatz erhält viele Angaben zur Persönlichkeit und zu demografischen Daten. Kern ist aber der 20 Items umfassende Machiavellismusfragebogen von Christie und Geis (1970) und die daraus ableitbare 4-faktorielle Struktur des Konzepts (Corral & Calvete, 2000). Die Skalenwerte dieser vier Faktoren haben wir bereits im Datensatz angelegt:
 
@@ -78,7 +78,7 @@ Neben diesen Skalenwerten enthält der Datensatz auch diverse Variablen zu demog
 
 ## Quiz 2: Partial- & Semipartialkorrelation und Multiple Regression {#Quiz2}
 
-Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichprobe der PISA-Erhebung in Deutschland 2009. Sie können den im Folgenden verwendeten  [`r fontawesome::fa("download")` Datensatz "PISA2009.rda" hier herunterladen](https://pandar.netlify.app/post/PISA2009.rda). Alternativ können Sie ihn auch direkt über diesen Befehl in Ihr Environment einladen.
+Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichprobe der PISA-Erhebung in Deutschland 2009. Sie können den im Folgenden verwendeten  [`r fontawesome::fa("download")` Datensatz "PISA2009.rda" hier herunterladen](https://courageous-donut-84b9e9.netlify.app/post/PISA2009.rda). Alternativ können Sie ihn auch direkt über diesen Befehl in Ihr Environment einladen.
 
 ```{r, eval = T}
 load(url("https://courageous-donut-84b9e9.netlify.app/post/PISA2009.rda"))
@@ -110,7 +110,7 @@ Im Datensatz sind viele Variablen der pädagogischen Forschung erhalten, die im 
 
 Die Daten für dieses Quiz entsprechen denen aus dem zweiten Quiz. Um Verwirrung zu vermeiden, wird die Beschreibung hier nochmal aufgeführt.
 
-Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichprobe der PISA-Erhebung in Deutschland 2009. Sie können den im Folgenden verwendeten  [`r fontawesome::fa("download")` Datensatz "PISA2009.rda" hier herunterladen](https://pandar.netlify.app/post/PISA2009.rda). Alternativ können Sie ihn auch direkt über diesen Befehl in Ihr Environment einladen.
+Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichprobe der PISA-Erhebung in Deutschland 2009. Sie können den im Folgenden verwendeten  [`r fontawesome::fa("download")` Datensatz "PISA2009.rda" hier herunterladen](https://courageous-donut-84b9e9.netlify.app/post/PISA2009.rda). Alternativ können Sie ihn auch direkt über diesen Befehl in Ihr Environment einladen.
 
 ```{r, eval = T}
 load(url("https://courageous-donut-84b9e9.netlify.app/post/PISA2009.rda"))
@@ -138,28 +138,7 @@ Im Datensatz sind viele Variablen der pädagogischen Forschung erhalten, die im 
 
 ***
 
-## Quiz 4: Quadratische & Interaktionseffekte und Loops & Funktionen {#Quiz4}
-
-Für dieses Quiz werden überwiegend selbstständig Daten erzeugt oder Code geschrieben. Für den ersten Teil des Quizzes verwenden wir einen simulierten Datensatz, der einige nennenswerte Aspekte der moderierten Regression aufzeigt. Den Datensatz laden Sie via
-
-```{r, eval = F}
-load(url("https://courageous-donut-84b9e9.netlify.app/post/Interaction.rda"))
-```
-
-Der Datentsatz besteht aus $n=1234$ Beobachtungen auf 3 Variablen:
-
-| Variable | Beispiel | Bedeutung |
-| --- | --- | --- |
-| `Y` | Arbeitszufriedenheit | Abhängige Variable |
-| `X1` | Arbeitskomplexität | Prädiktor 1 |
-| `X2` | Handlungsspielraum | Prädiktor 2 |
-
-
-Da die Daten simuliert sind, tragen sie keine inhaltliche Bedeutung. Sie könnten sich beispielsweise folgende Variablen vorstellen: _`Y` = Arbeitszufriedenheit, `X1` = Arbeitskomplexität, `X2` = Handlungsspielraum. In diesem Setting ist es sinnvoll, nichtlineare Effekte zu untersuchen, da anzunehmen wäre, dass zu leichte Arbeit als langweilig und zu komplexe Arbeit als überfordernd eingeschätzt werden könnten und sich entsprechend negativ auf die Zufriedenheit auswirken (Annahme quadratischer Effekt von Komplexität). Genauso kann angenommen werden, dass Handlungsspielraum sich besonders bei komplexen Jobs positiv auswirkt (Annahme einer Interaktion). Auch könnte es einen Sättigungseffekt von Handlungsspielraum geben, sodass nur bis zu einem bestimmten Punkt mehr Handlungsspielraum auch zu einer höheren Zufriedenheit führt (Annahme quadratischer Effekt von Handlungsspielraum). **Das sind natürlich nur Beispiele zur Verdeutlichung, die Daten wurden keinen echten Zusammenhängen nachempfunden.**_
-
-***
-
-## Quiz 5: Einfaktorielle und zweifaktorielle ANOVA {#Quiz5}
+## Quiz 4: Einfaktorielle und zweifaktorielle ANOVA {#Quiz4}
 
 Im ersten Teil des Quiz verwenden wir den Datensatz `Behandlungsform.rda`. Sie können den [`r fontawesome::fa("download")`Datensatz hier herunterladen](/post/Behandlungsform.rda). Er kann aber auch wie gewohnt direkt von `PandaR` eingeladen werden.
 
@@ -175,7 +154,7 @@ In dem Datensatz sind die Ausprägungen von 100 Personen auf 6 Variablen abgetra
 | `Therapieform` | Form der Therapie (Kontrolle, KVT, blended Care KVT) |
 
 
-Im zweiten Teil des Quiz arbeiten wir mit dem `nature`-Datensatz. Sie können den  [`r fontawesome::fa("download")` Datensatz hier herunterladen](https://pandar.netlify.app/post/nature.rda). Gleichzeitig kann er aber auch einfach über den folgenden Link direkt eingeladen werden.
+Im zweiten Teil des Quiz arbeiten wir mit dem `nature`-Datensatz. Sie können den  [`r fontawesome::fa("download")` Datensatz hier herunterladen](https://courageous-donut-84b9e9.netlify.app/post/nature.rda). Gleichzeitig kann er aber auch einfach über den folgenden Link direkt eingeladen werden.
 
 ```{r, eval = T}
 load(url("https://courageous-donut-84b9e9.netlify.app/post/nature.rda"))
@@ -191,7 +170,7 @@ Der Datensatz behandelt die Naturverbundenheit in 6 Items. Weiterhin sind Inform
 
 ***
 
-## Quiz 6: Varianzanalyse mit Messwiederholung {#Quiz6}
+## Quiz 5: Varianzanalyse mit Messwiederholung {#Quiz5}
 
 Für das Quiz wurde der Datensatz zum **Alkoholkonsum von Jugendlichen** von Curran, Stice und Chassin (1997), der auch schon im Tutorial verwendet wurde, um weitere Messzeitpunkte erweitert, um ein neues Setting für das Quiz zu demonstrieren. Die neuen Daten sind also nicht mehr aus der Studie bzw. gemessen, sondern zusätzliche simulierte Werte.
 
@@ -217,6 +196,27 @@ Insgesamt existieren die folgenden Variablen:
 | `alcuse.17` | selbstberichtete Häufigkeit, mit der Alkohol im Alter von 17 Jahren konsumiert wird | 0 = nie, 7 = täglich |
 | `treat` | Behandlung | 0 = nein, 1 = ja |
 | `alcuse.18` | selbstberichtete Häufigkeit, mit der Alkohol im Alter von 18 Jahren konsumiert wird | 0 = nie, 7 = täglich |
+
+***
+ 
+## Quiz 6: Quadratische & Interaktionseffekte und Loops & Funktionen {#Quiz6}
+
+Für dieses Quiz werden überwiegend selbstständig Daten erzeugt oder Code geschrieben. Für den ersten Teil des Quizzes verwenden wir einen simulierten Datensatz, der einige nennenswerte Aspekte der moderierten Regression aufzeigt. Den Datensatz laden Sie via
+
+```{r, eval = F}
+load(url("https://courageous-donut-84b9e9.netlify.app/post/Interaction.rda"))
+```
+
+Der Datentsatz besteht aus $n=1234$ Beobachtungen auf 3 Variablen:
+
+| Variable | Beispiel | Bedeutung |
+| --- | --- | --- |
+| `Y` | Arbeitszufriedenheit | Abhängige Variable |
+| `X1` | Arbeitskomplexität | Prädiktor 1 |
+| `X2` | Handlungsspielraum | Prädiktor 2 |
+
+
+Da die Daten simuliert sind, tragen sie keine inhaltliche Bedeutung. Sie könnten sich beispielsweise folgende Variablen vorstellen: _`Y` = Arbeitszufriedenheit, `X1` = Arbeitskomplexität, `X2` = Handlungsspielraum. In diesem Setting ist es sinnvoll, nichtlineare Effekte zu untersuchen, da anzunehmen wäre, dass zu leichte Arbeit als langweilig und zu komplexe Arbeit als überfordernd eingeschätzt werden könnten und sich entsprechend negativ auf die Zufriedenheit auswirken (Annahme quadratischer Effekt von Komplexität). Genauso kann angenommen werden, dass Handlungsspielraum sich besonders bei komplexen Jobs positiv auswirkt (Annahme einer Interaktion). Auch könnte es einen Sättigungseffekt von Handlungsspielraum geben, sodass nur bis zu einem bestimmten Punkt mehr Handlungsspielraum auch zu einer höheren Zufriedenheit führt (Annahme quadratischer Effekt von Handlungsspielraum). **Das sind natürlich nur Beispiele zur Verdeutlichung, die Daten wurden keinen echten Zusammenhängen nachempfunden.**_
 
 ***
 
