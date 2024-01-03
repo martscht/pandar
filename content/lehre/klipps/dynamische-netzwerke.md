@@ -8,7 +8,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um Netzwerke mit Zeitverlaufsmessung, genauer gesagt, um sogenannte idiographische Netzwerke, die sich auf einzelne Personen beziehen. Das hier beschriebene Modell zur Repräsentation personenbezogener Längsschnittdaten setzt sich aus zwei Bestandteilen zusammen, die als temporal und contemporaneous bezeichnet werden. Die Modellschätzung und Visualisierung in R werden vorgeführt. Zuletzt werden Problematiken der Modellschätzung, aber auch praktische Anwendungen solcher Modelle besprochen.'
 authors: [siepe, nehler]
 weight: 12
-lastmod: '2023-12-13'
+lastmod: '2024-01-03'
 featured: no
 banner:
   image: "/header/wooden_bridge.jpg"
@@ -30,7 +30,7 @@ links:
   - icon_pack: fas
     icon: pen-to-square
     name: Quizdaten
-    url: /lehre/klipps/quizdaten#Block5b
+    url: /lehre/klipps/quizdaten-klipps#Block5b
 
 output:
   html_document:
@@ -72,8 +72,8 @@ names(data)
 ```
 
 ```
-## [1] "relaxed"           "sad"               "nervous"           "concentration"     "tired"            
-## [6] "rumination"        "bodily.discomfort" "time"
+## [1] "relaxed"           "sad"               "nervous"           "concentration"     "tired"             "rumination"       
+## [7] "bodily.discomfort" "time"
 ```
 Die eingeladenen Daten befassen sich mit einer einzelnen Person. Dabei handelt es sich laut der Autor:innen um eine Person, die sich nach einer Major Depression-Diagnose schon in der Behandlung befand. Die Fragen wurden von der teilnehmenden Person 5 Mal am Tag über 14 Tage hinweg ausgefüllt. Dies wird uns auch angezeigt, wenn wir uns die Spalte `time` ausgeben lassen.
 

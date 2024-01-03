@@ -8,7 +8,7 @@ subtitle: 'Mittlere Korrelationen'
 summary: 'In diesem Beitrag wird untersucht, wie Korrelationen metaanalytisch zusammengefasst werden können. Beispielhaft wird vorgeführt, wie untersucht werden kann, ob ein Zusammenhang zwischen zwei Variablen besteht. Zur Veranschaulichung der Unterschiedlichkeit der Korrelationskoeffizienten aus den verschiedenen Studien werden Regressionen betrachet. Um eine durchschnittliche Regressionsgerade zu bestimmen, werden alle Korrelationskoeffizienten in z-Werte transfomiert und unterschiedlich stark gewichtet. Dann wird das Random Effects Modell genauer betrachtet und darauf hingewiesen, dass der hier vorhergesagte z-Wert erst wieder in eine Korrelation retransformiert werden muss. Zuletzt wird gezeigt, wie Korrelationen mittels der Minderungskorrektur um deren Reliabilität korrigiert werden.'
 authors: [irmer]
 weight: 8
-lastmod: '2023-09-11'
+lastmod: '2024-01-03'
 featured: no
 banner:
   image: "/header/meds_and_ampules.jpg"
@@ -30,7 +30,7 @@ links:
   - icon_pack: fas
     icon: pen-to-square
     name: Quizdaten
-    url: /lehre/klipps/quizdaten#Block4
+    url: /lehre/klipps/quizdaten-klipps#Block4
 
 output:
   html_document:
@@ -282,13 +282,16 @@ names(REM)
 ```
 
 ```
-##  [1] "b"            "beta"         "se"           "zval"         "pval"         "ci.lb"        "ci.ub"        "vb"           "tau2"         "se.tau2"      "tau2.fix"    
-## [12] "tau2.f"       "I2"           "H2"           "R2"           "vt"           "QE"           "QEp"          "QM"           "QMdf"         "QMp"          "k"           
-## [23] "k.f"          "k.eff"        "k.all"        "p"            "p.eff"        "parms"        "int.only"     "int.incl"     "intercept"    "allvipos"     "coef.na"     
-## [34] "yi"           "vi"           "X"            "weights"      "yi.f"         "vi.f"         "X.f"          "weights.f"    "M"            "outdat.f"     "ni"          
-## [45] "ni.f"         "ids"          "not.na"       "subset"       "slab"         "slab.null"    "measure"      "method"       "model"        "weighted"     "test"        
-## [56] "dfs"          "ddf"          "s2w"          "btt"          "m"            "digits"       "level"        "control"      "verbose"      "add"          "to"          
-## [67] "drop00"       "fit.stats"    "data"         "formula.yi"   "formula.mods" "version"      "call"         "time"
+##  [1] "b"            "beta"         "se"           "zval"         "pval"         "ci.lb"        "ci.ub"        "vb"          
+##  [9] "tau2"         "se.tau2"      "tau2.fix"     "tau2.f"       "I2"           "H2"           "R2"           "vt"          
+## [17] "QE"           "QEp"          "QM"           "QMdf"         "QMp"          "k"            "k.f"          "k.eff"       
+## [25] "k.all"        "p"            "p.eff"        "parms"        "int.only"     "int.incl"     "intercept"    "allvipos"    
+## [33] "coef.na"      "yi"           "vi"           "X"            "weights"      "yi.f"         "vi.f"         "X.f"         
+## [41] "weights.f"    "M"            "outdat.f"     "ni"           "ni.f"         "ids"          "not.na"       "subset"      
+## [49] "slab"         "slab.null"    "measure"      "method"       "model"        "weighted"     "test"         "dfs"         
+## [57] "ddf"          "s2w"          "btt"          "m"            "digits"       "level"        "control"      "verbose"     
+## [65] "add"          "to"           "drop00"       "fit.stats"    "data"         "formula.yi"   "formula.mods" "version"     
+## [73] "call"         "time"
 ```
 
 Beispielsweise können wir dem Objekt so auch die mittlere Schätzung (`$b`) oder $\tau^2$ (`$tau2`) entlocken.
@@ -335,7 +338,8 @@ names(pred_REM)
 ```
 
 ```
-##  [1] "pred"      "se"        "ci.lb"     "ci.ub"     "pi.lb"     "pi.ub"     "cr.lb"     "cr.ub"     "slab"      "digits"    "method"    "transf"    "pred.type"
+##  [1] "pred"      "se"        "ci.lb"     "ci.ub"     "pi.lb"     "pi.ub"     "cr.lb"     "cr.ub"     "slab"      "digits"   
+## [11] "method"    "transf"    "pred.type"
 ```
 
 ```r

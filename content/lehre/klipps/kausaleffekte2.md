@@ -8,7 +8,7 @@ subtitle: 'Propensity Scores'
 summary: 'Dieser Beitrag behandelt erneut die Abschätzung von Kauseffekten anhand eines Datensatzes mit Patient:innen, die entweder sofort ein Treatment erhielten oder in der Wartekontrollgruppe verblieben. Zuerst wird ein sogenannter Propensity Score für beide Gruppen geschätzt, der die Treatment-Wahrscheinlichkeit vorhersagt. Fälle, die außerhalb des Überlappungsbereichs beider Gruppen (common support region) liegen, werden ausgeschlossen. Anschließend kann der Propensity Score als Kontrollvariable verwendet werden, um eine Schätzung des Treatmenteffekts vorzunehmen. Im Weiteren werden das Optimal Pair Matching, das Full Optimal Matching sowie die Stratifizierung gezeigt. Es erfolgt erneut eine Effektschätzung unter Verwendung der entsprechenden Datensätze.'
 authors: [hartig]
 weight: 10
-lastmod: '2023-12-12'
+lastmod: '2024-01-03'
 featured: no
 banner:
      image: "/header/dusk_or_dawn.jpg"
@@ -30,7 +30,7 @@ links:
   - icon_pack: fas
     icon: pen-to-square
     name: Quizdaten
-    url: /lehre/klipps/quizdaten#Block5a
+    url: /lehre/klipps/quizdaten-klipps#Block5a
  
 output:
   html_document:

@@ -8,7 +8,7 @@ subtitle: ''
 summary: 'Dieser Beitrag behandelt die hierarchische Regression als Verfahren für hierarchischen Strukturen. Zunächst wird die sogenannte Intraklassenkorrelation erläutert. Weiterhin wird die Einbindung von festen Effekten und Zufallseffekten in ein Regressionsmodell vorgeführt. Schließlich wird demonstriert, wie Ebene-1 und Ebene-2 Prädiktoren sowie deren Interaktion in ein Modell integriert werden können.'
 authors: [hartig, irmer]
 weight: 6
-lastmod: '2023-08-28'
+lastmod: '2024-01-03'
 featured: no
 banner:
      image: "/header/color_coded_bees.jpg"
@@ -30,7 +30,7 @@ links:
   - icon_pack: fas
     icon: pen-to-square
     name: Quizdaten
-    url: /lehre/klipps/quizdaten#Block3
+    url: /lehre/klipps/quizdaten-klipps#Block3
 
 output:
   html_document:
@@ -329,8 +329,8 @@ PWB.time.random <- lmer(PWB ~ 1 + Time + (1 + Time | ID), data = lockdown)
 ```
 
 ```
-## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : Model failed
-## to converge with max|grad| = 0.00460588 (tol = 0.002, component 1)
+## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : Model failed to converge with max|grad| =
+## 0.00460588 (tol = 0.002, component 1)
 ```
 
 ```r
@@ -547,8 +547,8 @@ PWB.Age.Time <- lmer(PWB ~ 1 + Age + Time + Age:Time + (1 + Time | ID), data = l
 ```
 
 ```
-## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : Model failed
-## to converge with max|grad| = 0.00644566 (tol = 0.002, component 1)
+## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : Model failed to converge with max|grad| =
+## 0.00644566 (tol = 0.002, component 1)
 ```
 
 ```r
