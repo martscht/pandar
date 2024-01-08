@@ -2,15 +2,15 @@
 title: "Freiwillige Übungsaufgaben (alle Abschnitte)" 
 type: post
 date: '2021-11-29' 
-slug: zusatz-aufgaben 
+slug: zusatz-aufgaben-old
 categories: ["Statistik I", "Statisik I Übungen"] 
 tags: ["Deskriptivstatistik", "Regression"] 
 subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es um vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [cezanne, mueller, nehler] 
 weight: 11
-lastmod: '`r Sys.Date()`'
-featured: no
+lastmod: '2024-01-08'
+featured: no 
 banner:
   image: "/header/mechanical_number_display.png"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/753544)"
@@ -33,10 +33,7 @@ output:
 ---
 
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-knitr::opts_chunk$set(error = TRUE,warning = FALSE, message = FALSE)
-library(knitr)
-```
+
 
 
 Wie angekündigt finden Sie im Folgenden nun nochmal Aufgaben, die sich auf die Tutorials 1 bis 3 beziehen. 
@@ -50,7 +47,8 @@ Laden Sie die folgenden 3 Vektoren und den Datensatz in Ihr Environment.
 * Welche Klasse haben die Vektoren? 
 * Wie lauten die Dimensionen des Datensatzes? 
 
-```{r}
+
+```r
 #demographische Daten:
 geschlecht <- c(1, 2, 2, 1, 1, 1, 3, 2, 1, 2)   
 alter <- c(20, 21, 19, 19, 20, 23, 22, 21, 19, 25)
@@ -105,7 +103,8 @@ Datenextraktion kann auch mit logischer Überprüfung kombiniert werden. Bearbei
 Der Datensatz enthält noch nicht die vollständige Menge an erhobenen Informationen. Sie hatten zusätzlich die Lieblingsfarbe der Versuchspersonen erhoben:
 
 
-```{r}
+
+```r
 farbe <- c(1, 2, 1, 1, 3, 4, 2, 2, 1, 4)  #1 = blau, 2 = rot, 3 = grün, 4 = schwarz
 ```
 
@@ -118,7 +117,8 @@ farbe <- c(1, 2, 1, 1, 3, 4, 2, 2, 1, 4)  #1 = blau, 2 = rot, 3 = grün, 4 = sch
 Nach einiger Zeit können Sie noch 3 weitere Proband*innen von der Teilnahme überzeugen. Fügen Sie diese zusätzlich an den Datensatz an. Die aufgeführten Zeilen wurden bereits invertiert. 
 
 
-```{r, eval = F}
+
+```r
 c("weiblich", 21, "Frankfurt", 4, 4, 3, 4, 4, "blau")
 c("männlich", 19, "Dresden", 2, 5, 2, 4, 3, "schwarz")
 c("weiblich", 20, "Berlin", 1, 5, 1, 5, 1, "blau")
@@ -198,9 +198,14 @@ Anstatt nur einer Variable soll nun der gesamte Skalenwert `lz_ges` betrachtet w
 
 Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `fb22` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Eventuell haben Sie ihn ja auch aktiv in Ihrem Environment. Der Datensatz sollte 159 Versuchspersonen enthalten. Der Basisdatensatz hatte 36 Variablen, aber kann natürlich mehr enthalten, falls Sie weitere erstellt und abgespeichert haben. 
 
-```{r}
+
+```r
 rm(list = ls())
 load(url('https://pandar.netlify.app/post/fb22.rda'))
+```
+
+```
+## Error in load(url("https://pandar.netlify.app/post/fb22.rda")): cannot open the connection to 'https://pandar.netlify.app/post/fb22.rda'
 ```
 
 Wandeln Sie zum Start die Variable `lerntyp` in einen Faktor um. Die Labels lauten in dieser Reihenfolge: `c(alleine, Gruppe, Mischtyp)`. Erstellen Sie dafür keine neuen Spalten, sondern überschreiben Sie die bereits bestehenden. Überprüfen Sie im Nachhinein die Umwandlung.
@@ -318,9 +323,14 @@ Hängt die Gewissenhaftigkeit (`gewis`) positiv mit der Anzahl an geschriebenen 
 **Tipp:** Mit folgendem Befehl lässt sich die Anzahl an Wörtern einer Eingabe berechnen:
 
 
-```{r}
+
+```r
 library(stringr) #falls noch nicht installiert: install.packages("stringr")
 str_count("Wie viele Wörter hat dieser Satz?", "\\w+")
+```
+
+```
+## [1] 6
 ```
 
 ## Aufgabe 31
@@ -328,17 +338,56 @@ str_count("Wie viele Wörter hat dieser Satz?", "\\w+")
 Lässt sich Prokrastination durch Gewissenhaftigkeit (`gewis`) vorsagen? 
 (Falls noch nicht geschehen, berechnen sie den Skalenwert der Prokrastination)
 
-```{r}
-fb22$prok2_r <- -1 * (fb22$prok2 - 5)
-fb22$prok3_r <- -1 * (fb22$prok3 - 5)
-fb22$prok5_r <- -1 * (fb22$prok5 - 5)
-fb22$prok7_r <- -1 * (fb22$prok7 - 5)
-fb22$prok8_r <- -1 * (fb22$prok8 - 5)
 
+```r
+fb22$prok2_r <- -1 * (fb22$prok2 - 5)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'fb22' not found
+```
+
+```r
+fb22$prok3_r <- -1 * (fb22$prok3 - 5)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'fb22' not found
+```
+
+```r
+fb22$prok5_r <- -1 * (fb22$prok5 - 5)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'fb22' not found
+```
+
+```r
+fb22$prok7_r <- -1 * (fb22$prok7 - 5)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'fb22' not found
+```
+
+```r
+fb22$prok8_r <- -1 * (fb22$prok8 - 5)
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'fb22' not found
+```
+
+```r
 fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
                           'prok4', 'prok5_r', 'prok6',
                           'prok7_r', 'prok8_r', 'prok9', 
                           'prok10')] |> rowMeans()
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'fb22' not found
 ```
 
 * Stellen Sie die Regressionsgerade auf und prüfen sie die Voraussetzungen.
