@@ -10,7 +10,7 @@ summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Int
 authors: [nehler, scheppa-lahyani] 
 weight: 5
 lastmod: '`r Sys.Date()`'
-featured: yes
+featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)"

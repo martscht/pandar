@@ -9,8 +9,8 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
 authors: [nehler, scheppa-lahyani] 
 weight: 5
-lastmod: '2023-12-07'
-featured: yes
+lastmod: '2024-01-09'
+featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)"
@@ -417,10 +417,8 @@ describe(fb23$neuro)
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range  skew
-## X1    1 179 3.35 0.98    3.5    3.37 0.74   1   5     4 -0.19
-##    kurtosis   se
-## X1    -0.68 0.07
+##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 179 3.35 0.98    3.5    3.37 0.74   1   5     4 -0.19    -0.68 0.07
 ```
 
 Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei 3.35. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 

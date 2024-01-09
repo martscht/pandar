@@ -7,10 +7,10 @@ categories: ["Statistik I"]
 tags: ["Korrelation", "Grundlagen", "Hilfe"] 
 subtitle: ''
 summary: '' 
-authors: [nehler, winkler, schroeder, neubauer]
+authors: [nehler, winkler, schroeder, neubauer, goldhammer]
 weight: 9
-lastmod: '2023-10-24'
-featured: no
+lastmod: '2024-01-09'
+featured: yes
 banner:
   image: "/header/storch_with_baby.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
@@ -45,6 +45,7 @@ output:
 * Welche zwei Varianten gibt es, [Varianzen und Kovarianzen](#Ko_Varianz) zu bestimmen?
 * Wie kann die [Produkt-Moment-Korrelation](#PMK), die [Rang-Korrelation nach Spearman](#Rs) und [Kendalls $\tau$](#tau) bestimmt werden?
 * Wie wird bei der Berechnung von [Korrelationen mit fehlenden Werten](#NA) umgegangen?
+* Wie lässt sich der Zusammenhang zweier [dichotomer (nominaler) Variablen](#Dichotome_var) berechnen?
 {{< /spoiler >}}
 
 ***
@@ -85,7 +86,7 @@ fb23$neuro_std <- scale(fb23$neuro)
 
 ****
 
-## Häufigkeitstabellen
+## Häufigkeitstabellen 
 
 Die Erstellung von *Häufigkeitstabellen* zur Darstellung univariater Häufigkeiten haben Sie schon kennengelernt. Dies funktioniert mit einfachen Befehlen für die Häufigkeiten und die zugehörigen relativen Prozentzahlen.
 
@@ -264,7 +265,7 @@ barplot (tab,
 
 ## Varianz, Kovarianz und Korrelation {#Ko_Varianz .anchorheader}
 
-In der Vorlesungen haben Sie gelernt, dass es für *Kovarianzen* und *Varianzen* empirische und geschätzte Werte gibt. R berechnet standardmäßig für die Varianz und Kovarianz die *Populationsschätzer*, verwendet also folgende Formeln für Varianz
+In der Vorlesung haben Sie gelernt, dass es für *Kovarianzen* und *Varianzen* empirische und geschätzte Werte gibt. R berechnet standardmäßig für die Varianz und Kovarianz die *Populationsschätzer*, verwendet also folgende Formeln für Varianz
 
 {{< math >}}
 <div class="big-maths">
@@ -435,7 +436,7 @@ cor(x = fb23$neuro, y = fb23$gewis, use = 'pairwise')
 ## [1] -0.0295697
 ```
 
-Bei einer positiven Korrelation gilt „je mehr Variable x... desto mehr Variable y" bzw. umgekehrt, bei einer negativen Korrelation „je mehr Variable x... desto weniger Variable y" bzw. umgekehrt. Korrelationen sind immer ungerichtet, das heißt, sie enthalten keine Information darüber, welche Variable eine andere vorhersagt - beide Variablen sind gleichberechtigt. Korrelationen (und Regressionen, die wir später [in einem Tutorial](/post/regression) kennen lernen werden) liefern *keine* Hinweise auf Kausalitäten. Sie sagen beide etwas über den (linearen) Zusammenhang zweier Variablen aus.
+Bei einer positiven Korrelation gilt „je mehr Variable x... desto mehr Variable y" bzw. umgekehrt, bei einer negativen Korrelation „je mehr Variable x... desto weniger Variable y" bzw. umgekehrt. Korrelationen sind immer ungerichtet, das heißt, sie enthalten keine Information darüber, welche Variable eine andere vorhersagt - beide Variablen sind gleichberechtigt. Korrelationen (und Regressionen, die wir später [in einem Tutorial](/lehre/statistik-i/regression) kennen lernen werden) liefern *keine* Hinweise auf Kausalitäten. Sie sagen beide etwas über den (linearen) Zusammenhang zweier Variablen aus.
 
 In R können wir uns auch eine *Korrelationsmatrix* ausgeben lassen. Dies geschieht äquivalent zu der Kovarianzmatrix mit dem Datensatz als Argument in der `cor()` Funktion. In der Diagonale stehen die Korrelationen der Variable mit sich selbst - also 1 - und in den restlichen Feldern die Korrelationen der Variablen untereinander.
 
@@ -535,7 +536,7 @@ shapiro.test(fb23$gewis)
 ## W = 0.95577, p-value = 2.097e-05
 ```
 
-$p < \alpha$ $\rightarrow$ H1: Normalverteilung kann nicht angenommen werden. Somit ist diese Voraussetzung verletzt. Eine Möglichkeit damit umzugehen, ist die Rangkorrelation nach Spearman. Diese ist nicht an die Voraussetzung der Normalverteilung gebunden. Das Verfahren kann über `method = "spearman"` angewendet werden.
+$p < \alpha$ $\rightarrow$ $H_1: Normalverteilung kann nicht angenommen werden. Somit ist diese Voraussetzung verletzt. Eine Möglichkeit damit umzugehen, ist die Rangkorrelation nach Spearman. Diese ist nicht an die Voraussetzung der Normalverteilung gebunden. Das Verfahren kann über `method = "spearman"` angewendet werden.
 
 {{<intext_anchor Rs>}}
 
@@ -556,7 +557,7 @@ r1
 
 
 #### Interpretation des deskriptiven Zusammenhangs:
-Es handelt sich um eine positive Korrelation von _r_ = -0.02. Der Effekt ist nach Cohens (1988) Konvention als schwach bis mittelstark zu bewerten. Je höher die Ausprägung in Neurotizismus, desto höher ist die Ausprägung in der Gewissenhaftigkeit und anders herum. 
+Es handelt sich um eine schwache negative Korrelation von _r_ = -0.02. Der Effekt ist nach Cohens (1988) Konvention als vernachlässigbar bis schwach zu bewerten. D.h. es gibt keinen nennenswerten Zusammenhang zwischen der Ausprägung in Neurotizismus und der Ausprägung in der Gewissenhaftigkeit. 
 
 #### Cohens (1988) Konvention zur Interpretation von $|r|$
 
@@ -581,8 +582,8 @@ Die Interpretation erfolgt wie bei Spearman's Rangkorrelation.
 **Signifikanztestung des Korrelationskoeffizienten:**
 Nachdem der Korrelationskoeffizient berechnet wurde, kann dieser noch auf Signifikanz geprüft werden. Dazu verwenden wir die `cor.test()`-Funktion.
 
-* *H0*: $\rho = 0$ $\rightarrow$ es gibt keinen Zusammenhang zwischen Neurotizismus und Gewissenhaftigkeit
-* *H1*: $\rho \neq 0$ $\rightarrow$  es gibt einen Zusammenhang zwischen Neurotizismus und Gewissenhaftigkeit
+* $H_0$: $\rho = 0$ $\rightarrow$ es gibt keinen Zusammenhang zwischen Neurotizismus und Gewissenhaftigkeit
+* $H_1$: $\rho \neq 0$ $\rightarrow$  es gibt einen Zusammenhang zwischen Neurotizismus und Gewissenhaftigkeit
 
 
 ```r
@@ -593,8 +594,8 @@ cor <- cor.test(fb23$neuro, fb23$gewis,
 ```
 
 ```
-## Warning in cor.test.default(fb23$neuro, fb23$gewis, alternative = "two.sided", : Cannot compute
-## exact p-value with ties
+## Warning in cor.test.default(fb23$neuro, fb23$gewis, alternative = "two.sided", : Cannot
+## compute exact p-value with ties
 ```
 
 ```r
@@ -605,10 +606,10 @@ cor$p.value      #Gibt den p-Wert aus
 ## [1] 0.7574974
 ```
 
-Anmerkung: Bei der Rangkorrelation kann der exakte p-Wert nicht berechnet werden, da gebundene Ränge vorliegen. Das Ergebnis ist allerdings sehr eindeutig: $p > \alpha$ $\rightarrow$ H1. Die Korrelation ist mit einer Irrtumswahrscheinlichkeit von 5% signifikant von 0 verschieden. Daraus würde sich die folgende Interpretation ergeben:
+Anmerkung: Bei der Rangkorrelation kann der exakte p-Wert nicht berechnet werden, da gebundene Ränge vorliegen. Das Ergebnis ist allerdings sehr eindeutig: $p > \alpha$ $\rightarrow$ $H_0$. Die Korrelation fällt nicht signifikant von 0 verschieden aus, d.h. die $H_0$ wird beibehalten. Daraus würde sich die folgende Interpretation ergeben:
 
 **Ergebnisinterpretation:**
-Es wurde untersucht, ob Neurotizismus und Gewissenhaftigkeit miteinander zusammenhängen. Der spearman-Korrelationskoeffizient beträgt -0.02 und ist statistisch signifikant (_p_ = 0.757). Folglich wird die Nullhypothese hier verworfen: Neurotizismus und Gewissenhaftigkeit weisen einen signifikanten Zusammenhang auf.
+Es wurde untersucht, ob Neurotizismus und Gewissenhaftigkeit miteinander zusammenhängen. Der Spearman-Korrelationskoeffizient beträgt -0.02 und ist statistisch nicht signifikant (_p_ = 0.757). Folglich wird die Nullhypothese hier beibehalten: Neurotizismus und Gewissenhaftigkeit weisen keinen Zusammenhang auf.
 
 **Modifikation**
 Wir haben in der Funktion `cor.test()` als Argument `method = "spearman"` eingegeben, da die Voraussetzungen für die Pearson-Korrelation nicht erfüllt waren. Wenn dies der Fall gewesen wäre, müsste man stattdessen `method = "pearson"` angeben:
@@ -635,13 +636,223 @@ cor.test(fb23$neuro, fb23$gewis,
 ## -0.0295697
 ```
 
+### Zusammenhang dichotomer (nominaler) Variablen {#Dichotome_var .anchorheader}
+
+Abschließend lernen wir Zusammenhangsmaße für dichotome nominalskalierte Variablen kennen. Dazu bearbeiten wir folgende Forschungsfragestellung: Haben Studierende mit Wohnort in Uninähe (Frankfurt) eher einen Nebenjob als Studierende, deren Wohnort außerhalb von Frankfurt liegt?
+
+Wir analysieren aus unserem Datensatz die beiden dichotomen Variablen `job` (ja [`ja`] vs. nein [`nein`]) und `ort` (Frankfurt [`FFM`] vs. außerhalb [`andere`]). Die Variablen `ort` und `job` liegen nach den vorbereitenden Schritten bereits als Faktor-Variablen mit entsprechende Labels vor. Dies wird durch die folgende Prüfung bestätigt:
+
+
+```r
+is.factor(fb23$ort)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+is.factor(fb23$job)
+```
+
+```
+## [1] TRUE
+```
+Erstellen der Kreuztabelle als Datenbasis:
+
+```r
+tab <- table(fb23$ort, fb23$job)
+tab
+```
+
+```
+##          
+##           nein ja
+##   FFM       61 54
+##   anderer   35 25
+```
+
+
+**Korrelationskoeffizient Phi** ($\phi$)
+
+Wie in der Vorlesung behandelt, berechnet sich $\phi$ folgendermaßen:
+
+$$\phi = \frac{n_{11}n_{22}-n_{12}n_{21}}{\sqrt{(n_{11}+n_{12})(n_{11}+n_{21})(n_{12}+n_{22})(n_{21}+n_{22})}}$$ welches einen Wertebereich von [-1,1] aufweist und analog zur Korrelation interpretiert werden kann. 1 steht in diesem Fall für einen perfekten positiven Zusammenhang .
+
+In `R` sieht das so aus:
+
+
+```r
+korr_phi <- (tab[1,1]*tab[2,2]-tab[1,2]*tab[2,1])/
+  sqrt((tab[1,1]+tab[1,2])*(tab[1,1]+tab[2,1])*(tab[1,2]+tab[2,2])*(tab[2,1]+tab[2,2]))
+korr_phi
+```
+
+```
+## [1] -0.05045674
+```
+
+Durch ein mathematisches Wunder (dass Sie gerne anhand der Formeln für Kovarianz und Korrelation nachvollziehen können) entspricht diese Korrelation exakt dem Wert, den wir auch anhand der Pearson-Korrelation zwischen den beiden Variablen bestimmen würden:
+
+
+```r
+# Numerische Variablen erstellen
+ort_num <- as.numeric(fb23$ort)
+job_num <- as.numeric(fb23$job)
+
+cor(ort_num, job_num, use = 'pairwise')
+```
+
+```
+## [1] -0.05045674
+```
+Das hat gegenüber der händischen Bestimmung natürlich den Vorteil, dass wir direkt $p$-Wert und Konfidenzintervall bestimmen können:
+
+
+```r
+cor.test(ort_num, job_num)
+```
+
+```
+## 
+## 	Pearson's product-moment correlation
+## 
+## data:  ort_num and job_num
+## t = -0.6645, df = 173, p-value = 0.5073
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.19732292  0.09862459
+## sample estimates:
+##         cor 
+## -0.05045674
+```
+
+
+Cohen (1988) hat folgende Konventionen zur Beurteilung der Effektstärke $\phi$ vorgeschlagen, die man heranziehen kann, um den Effekt "bei kompletter Ahnungslosigkeit" einschätzen zu können (wissen wir mehr über den Sachverhalt, so sollten Effektstärken lieber im Bezug zu anderen Studienergebnissen interpretiert werden):
+
+| *phi* |  Interpretation  |
+|:-----:|:----------------:|
+| \~ .1 |  kleiner Effekt  |
+| \~ .3 | mittlerer Effekt |
+| \~ .5 |  großer Effekt   |
+
+Der Wert für den Zusammenhang der beiden Variablen ist also bei völliger Ahnungslosigkeit als klein einzuschätzen.
+
+
+**Yules Q**
+
+Dieses Zusammenhangsmaße berechnet sich als
+
+$$Q=\frac{n_{11}n_{22}-n_{12}n_{21}}{n_{11}n_{22}+n_{12}n_{21}},$$
+
+welches einen Wertebereich von [-1,1] aufweist und analog zur Korrelation interpretiert werden kann. 1 steht in diesem Fall für einen perfekten positiven Zusammenhang.
+
+In `R` sieht das so aus:
+
+
+```r
+YulesQ <- (tab[1,1]*tab[2,2]-tab[1,2]*tab[2,1])/
+                 (tab[1,1]*tab[2,2]+tab[1,2]*tab[2,1])
+YulesQ
+```
+
+```
+## [1] -0.1068814
+```
+
+
+Das Ganze lässt sich auch mit dem `psych` Paket und der darin enthaltenen Funktionen `phi()` und `Yule()` umsetzen:
+
+
+```r
+# alternativ mit psych Paket
+library(psych)
+phi(tab, digits = 8)
+```
+
+```
+## [1] -0.05045674
+```
+
+```r
+Yule(tab)
+```
+
+```
+## [1] -0.1068814
+```
+
+**Odds (Wettquotient) und Odds-Ratio**
+
+Der Odds (Wettquotient, Chance) gibt das Verhältnis der Wahrscheinlichkeiten an, dass ein Ereignis eintritt bzw. dass es nicht eintritt. 
+Das Wettquotienten-Verhältnis (Odds-Ratio) zeigt an, um wieviel sich dieses Verhältnis zwischen Ausprägungen einer zweiten dichotomen Variablen unterscheidet (Maß für den Zusammenhang).
+
+Zur Erinnerung die Kreuztabelle:
+
+```r
+tab
+```
+
+```
+##          
+##           nein ja
+##   FFM       61 54
+##   anderer   35 25
+```
+
+Berechnung des Odds für `FFM`:
+
+```r
+Odds_FFM = tab[1,1]/tab[1,2]
+Odds_FFM
+```
+
+```
+## [1] 1.12963
+```
+Für in Frankfurt Wohnende ist die Chance keinen Job zu haben demnach 1.13-mal so hoch wie einen Job zu haben. 
+
+Berechnung des Odds für `anderer`:
+
+```r
+Odds_anderer = tab[2,1]/tab[2,2]
+Odds_anderer
+```
+
+```
+## [1] 1.4
+```
+
+Für nicht in Frankfurt Wohnende ist die Chance keinen Job zu haben 1.4-mal so hoch wie einen Job zu haben. 
+
+Berechnung des Odds-Ratio:
+
+```r
+OR = Odds_anderer/Odds_FFM
+OR
+```
+
+```
+## [1] 1.239344
+```
+
+Die Chance, keinen Job zu haben, ist für nicht in Frankfurt Wohnende 1.24-mal so hoch wie für in Frankfurt Wohnende. Man könnte auch den Kehrwert bilden, wodurch sich der Wert ändert, die Interpretation jedoch nicht. 
+
+#### Ergebnisinterpretation
+
+Es wurde untersucht, ob Studierende mit Wohnort in Uninähe (also in Frankfurt) eher einen Nebenjob haben als Studierende, deren Wohnort außerhalb von Frankfurt liegt. Zur Beantwortung der Fragestellung wurden die Korrelationmaße $\phi$ und Yules Q bestimmt. Der Zusammenhang ist jeweils leicht negativ, d.h. dass Studierende, die nicht in Frankfurt wohnen, eher keinen Job haben. Der Effekt ist aber von vernachlässigbarer Größe ($\phi$ = -0.05). 
+Diese Befundlage ergibt sich auch aus dem Odds-Ratio, das geringfügig größer als 1 aufällt (OR = 1.24).
 
 
 ***
 
-## Vertiefung: Wie können Zusammenhangsmaße für ordinalskalierte Daten berechnet werden?
+## Appendix 
+
+<details><summary>Zusammenhangsmaße für ordinalskalierte Daten</summary>
+
+### Vertiefung: Wie können Zusammenhangsmaße für ordinalskalierte Daten berechnet werden?
 	
-_In diesem Abschnitt wird vertiefend die Bestimmung von Zusammenhangsmaßen für ordinalskalierte Variablen besprochen. Den dazugehörigen Auszug aus den Vorlesungsfolien, der in diesem Jahr herausgekürzt wurde, finden Sie [hier](/post/Bonus_Korrelation.pdf)._
+_In diesem Abschnitt wird vertiefend die Bestimmung von Zusammenhangsmaßen für ordinalskalierte Variablen besprochen. Den dazugehörigen Auszug aus den Vorlesungsfolien, der in diesem Jahr herausgekürzt wurde, finden Sie im Moodle-Ordner._
 
 Ordinalskalierte Daten können aufgrund der Verletzung der Äquidistanz zwischen bspw. Antwortstufen eines Items eines Messinstrumentes nicht schlicht mittels Pearson-Korrelation in Zusammenhang gesetzt werden. Zudem sind oft Verteilungsannahmen bei ordinalskalierten Variablen verletzt. Der Koeffizient $\hat{\gamma}$ ist zur Betrachtung solcher Zusammenhänge am besten geeignet (sogar besser als Spearman's und Kendalls's Rangkorrelation). Er nimmt - ähnlich wie Spearman's und Kendall's Koeffizenten - weder eine gewisse Verteilung der Daten an, noch deren Äquidistanz.
 
@@ -671,7 +882,7 @@ Die Funktion heißt hier zufälligerweise genau gleich wie das Paket. Wenn man n
 ?rococo
 ```
 
-Dank des neuen Pakets können wir nun den Koeffizienten $\hat{\gamma}$ berechnen und damit den Zusammenhang zwischen Items betrachten. Schauen wir uns nun mal den Zusammenhang der beiden Prokrastinationsitems `prok1` und `prok9` an, um zu überprüfen, ob die beiden Items auch (wie beabsichtigt) etwas Ähnliches messen (nähmlich Prokrastionationstendenz). Die beiden Variablen wurden ursprünglich auf einer Skala von 1 (*stimmt nicht*) bis 4 (*stimmt genau*) (also auf Ordinalskalenniveau) erfasst. 
+Dank des neuen Pakets können wir nun den Koeffizienten $\hat{\gamma}$ berechnen und damit den Zusammenhang zwischen Items betrachten. Schauen wir uns nun mal den Zusammenhang der beiden Prokrastinationsitems `fb23$mdbf2_pre` und `fb23$mdbf3_pre` an, um zu überprüfen, ob die beiden Items auch (wie beabsichtigt) etwas Ähnliches messen (nähmlich die aktuelle Stimmung). Die beiden Variablen wurden ursprünglich auf einer Skala von 1 (*stimmt gar nicht*) bis 4 (*stimmt vollkommen*) (also auf Ordinalskalenniveau) erfasst. 
 
 
 ```r
@@ -702,22 +913,11 @@ rococo.test(fb23$mdbf2_pre, fb23$mdbf3_pre)
 ## estimated p-value = < 2.2e-16 (0 of 1000 values)
 ```
 
-Betrachten wir nun den Koeffizienten $\hat{\gamma}$ für zwei andere Items (`prok1` mit `prok2`) 
+
+Der Koeffizient von -0.45 zeigt uns, dass die Items zwar miteinander korrelieren, allerdings negativ. Ist hier etwas schief gelaufen? Nein, `mdbf2_pre` und `mdbf3_pre` repräsentieren gegenläufige Stimmungsaspekte. Mit der rekodierten Variante einer der beiden Variablen würde das `-` nicht da stehen, aber die Höhe der Korrelation bliebe gleich. Wir sehen daher, dass `mdbf2_pre` mit `mdbf3_pre` signifikant zusammenhängt. Die beiden Items messen demnach ein ähnliches zugrundeliegendes Konstrukt (aktuelle Stimmung).
 
 
-```
-## 
-## 	Robust Gamma Rank Correlation:
-## 
-## data: fb23$mdbf2_pre and fb23$mdbf3_pre (length = 179)
-## similarity: linear 
-## rx = 0.1 / ry = 0.2 
-## t-norm: min 
-## alternative hypothesis: true gamma is not equal to 0 
-## sample gamma = -0.4482018 
-## estimated p-value = < 2.2e-16 (0 of 1000 values)
-```
-Der Koeffizient von -0.45 zeigt uns, dass die Items zwar miteinander korrelieren, allerdings negativ. Ist hier etwas schief gelaufen? Nein, `prok2` ist lediglich ein invertiertes Item. Mit der rekodierten Variante der `prok2` Variable würde das `-` nicht da stehen, aber die Höhe der Korrelation gleich bleiben. Wir sehen daher, dass `prok1` mit `prok2` signifikant zusammenhängt. Die beiden Items messen demnach ein ähnliches zugrundeliegendes Konstrukt (Prokrastination).
+</details>
 
-****
+
 
