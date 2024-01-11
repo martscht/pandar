@@ -2,14 +2,14 @@
 title: "Freiwillige Übungsaufgaben - Lösungen"
 type: post
 date: '2021-11-29'
-slug: zusatz-loesungen-new
+slug: zusatz-loesungen
 categories: ["Statistik I Übungen"]
 tags: ["R Deskriptivstatistik"]
 subtitle: ''
 summary: ''
 authors: [cezanne, mueller, nehler]
 weight:
-lastmod: '2024-01-08' 
+lastmod: '2024-01-11' 
 featured: no
 banner:
   image: "/header/mechanical_number_display.png"
@@ -27,7 +27,7 @@ Hier finden Sie die Lösungen zu den Zusatzaufgaben!
 
 ***
 
-Zunächst wollen wir nochmal Übungen mit einem kleinen, ausgedachten Datensatz durchführen. Stellen Sie sich dafür vor, dass Sie im Rahmen Ihres Studiums haben eine Untersuchung mit 10 Studierenden durchgeführt. Dabei haben Sie das Alter (in ganzen Zahlen), das Geschlecht (weiblich, männlich, divers), die deutsche Lieblingsstadt (Berlin, Hamburg, München, Frankfurt, Dresden), sowie die generelle Lebenszufriedenheit, gemessen mit 5 Items, erhoben. 
+Zunächst wollen wir nochmal Übungen mit einem kleinen, ausgedachten Datensatz durchführen. Stellen Sie sich dafür vor, dass Sie im Rahmen Ihres Studiums eine Untersuchung mit 10 Studierenden durchgeführt haben. Dabei haben Sie das Alter (in ganzen Zahlen), das Geschlecht (weiblich, männlich, divers), die deutsche Lieblingsstadt (Berlin, Hamburg, München, Frankfurt, Dresden) sowie die generelle Lebenszufriedenheit, gemessen mit 5 Items, erhoben. 
 
 ## Aufgabe 1
 
@@ -101,12 +101,12 @@ dim(data)
 ```
 ## [1] 10  8
 ```
-In `dim` wäre die Anzahl der Proband:innen, also die Anzahl der Zeilen, der erste Wert. Es liegen also 10 Proband:innen vor. Der zweite Wert beschreibt die Anzahl der Variablen. Hier haben wir demnach um 8 Variablen.
+In `dim` wäre die Anzahl der Proband:innen, also die Anzahl der Zeilen, der erste Wert. Es liegen also 10 Proband:innen vor. Der zweite Wert beschreibt die Anzahl der Variablen. Hier haben wir demnach 8 Variablen.
 
 </details>
 
 
-* Wandeln Sie die Variable `geschlecht` und die Variable `stadt` in Faktoren um. Dabei sind die Zahlen in der Reihenfolge im Beschreibungstesxt zugeordnet (Beispiel: `1` bei Geschlecht wäre `weiblich`). Überschreiben Sie die alten Variablen und überprüfen Sie die Umwandlung.
+* Wandeln Sie die Variable `geschlecht` und die Variable `stadt` in Faktoren um. Dabei sind die Zahlen in der Reihenfolge im Beschreibungstext zugeordnet (Beispiel: `1` bei Geschlecht wäre `weiblich`). Überschreiben Sie die alten Variablen und überprüfen Sie die Umwandlung.
 
 <details><summary>Lösung</summary>
 
@@ -207,7 +207,7 @@ data[6, "alter"]
 ```
 ## [1] 23
 ```
-Das Alter der Person 6, das im Datensatz steht, beträgt 23. Hier muss also das richtige Alter (24 Jahre) zugeordnet werden.
+Im Datensatz steht, dass das Alter der Person 6 23 beträgt. Hier muss also das richtige Alter (24 Jahre) zugeordnet werden.
 
 
 ```r
@@ -255,7 +255,7 @@ data[2, c("geschlecht", "stadt")] == data[10, c("geschlecht", "stadt")]
 ##   geschlecht stadt
 ## 2       TRUE FALSE
 ```
-Natürlich könnte man die Vergleiche auch jeweils einzeln durchführen, doch mit diesem Code geht es etwas schneller. Wenn man das und als verbindendes Element verstehen will (beide Werte müssen gleich sein), müsste man es folgendermaßen lösen.
+Natürlich könnte man die Vergleiche auch jeweils einzeln durchführen, doch mit diesem Code geht es etwas schneller. Wenn man das "und" als verbindendes Element verstehen will (beide Werte müssen gleich sein), könnte man es folgendermaßen lösen.
 
 
 ```r
@@ -273,7 +273,7 @@ data[2, "geschlecht"] == data[10, "geschlecht"] & data[2,  "stadt"] == data[10, 
 ```
 ## [1] FALSE
 ```
-Dabei wird nur `TRUE` als Resultat ausgegeben, wenn beide durch `&` verbundene Aussagen als `TRUE` gewertet werden. Da, wie wir bereits gesehen haben, die Angabe in `stadt` nicht gleich ist beim zweiten Vergleich, erhalten wir hier ein `FALSE`. 
+Dabei wird nur dann `TRUE` als Resultat ausgegeben, wenn beide durch `&` verbundenen Aussagen als `TRUE` gewertet werden. Da, wie wir bereits gesehen haben, die Angabe in `stadt` nicht gleich ist beim zweiten Vergleich, erhalten wir hier ein `FALSE`. 
 
 </details>
 
@@ -384,7 +384,7 @@ data$lz_ges
 
 ## Aufgabe 10 
 
-Speichern Sie den Datensatz als RDA-Datei unter dem Namen `Data_lz` lokal in ihrem Praktikums-Ordner ab. Lassen Sie sich erst den Pfad des aktuellen Working Directory ausgeben, und ändern Sie diesen ggf.
+Speichern Sie den Datensatz als RDA-Datei unter dem Namen `Data_lz` lokal in Ihrem Praktikums-Ordner ab. Lassen Sie sich erst den Pfad des aktuellen Working Directory ausgeben und ändern Sie diesen gegebenenfalls.
 
 <details><summary>Lösung</summary>
 
@@ -487,7 +487,7 @@ bruch * summe
 ## [1] 0.9723626
 ```
 
-Das Maximum des relativen Informationsgehaltes ist bei 1. Dieses steht für eine Gleichverteilung auf alle möglichen Ausprägungen, also alle Kategorien. Daher ist unser Ergebnis ein Hinweise auf eine recht gleichmäßige Verteilung der Lieblingsstadt in Deutschland, denn für die Variable `stadt` ergibt sich ein relativer Informationsgehalt von 0.972.
+Das Maximum des relativen Informationsgehaltes ist bei 1. Dieses steht für eine Gleichverteilung auf alle möglichen Ausprägungen, also alle Kategorien. Daher ist unser Ergebnis ein Hinweise auf eine recht gleichmäßige Verteilung der Lieblingsstädte in Deutschland, denn für die Variable `stadt` ergibt sich ein relativer Informationsgehalt von 0.972.
 </details>
 
 ## Aufgabe 14
@@ -667,7 +667,7 @@ sum(is.na(fb22$prok10))
 
 Die beiden Variablen sollen weiter betrachtet werden. Entfernen Sie bei Analysen (falls nötig) die fehlenden Werte. 
 
-* Bestimmen Sie das Maß der zentralen Tendenz für die beiden Variablen. Werden die Proband:innen-Angaben bei Variable `prok4` und `prok10` in derselben Kategorie in zwei gleichgroße Hälften geteilt?
+* Bestimmen Sie das Maß der zentralen Tendenz für die beiden Variablen. Ist es für `prok4` und `prok5` dieselbe Kategorie, die die Proband:innen-Angaben in zwei gleich große Hälften teilt? 
 * In welchem Bereich liegen die mittleren 50% der Angaben in den beiden Variablen `prok4` und `prok10`?
 * Lassen Sie sich dies zusätzlich grafisch ausgeben.
 
@@ -710,8 +710,8 @@ quantile(fb22$prok10, c(.25, .75))
 ##   2   4
 ```
 
-* Der Median von `prok4` liegt bei 3, bei `prok10` liegt er bei 3.
-* Die mittleren 50% der Angaben in Variable `prok4` reicht vom Wert 2 bis zum Wert 3, bei der Variable `prok10` reicht er von 2 bis 4.
+* Der Median von `prok4` liegt bei 3, bei `prok10` liegt er bei 3. Es ist also für die beiden Variablen dieselbe Kategorie, die die Angaben der Proband:innen in zwei gleich große Hälften teilt. 
+* Die mittleren 50% der Angaben in der Variable `prok4` reichen vom Wert 2 bis zum Wert 3, bei der Variable `prok10` reichen sie von 2 bis 4.
 
 
 ```r
@@ -760,7 +760,7 @@ mean(fb22$gewis)
 
 ## Aufgabe 21 
 
-Ist Ihr Jahrgang im Mittel, rein deskriptiv betrachtet, gewissenhafter (`gewis`) oder extravertierter (`extra`)? In welcher der beiden Variablen variieren die Angaben stärker? Gehen Sie für die Beantwortung davon aus, dass die Skalen gleich genormt sind.
+Erzielt der Jahrgang 22 im Mittel, rein deskriptiv betrachtet, höhere Werte in Gewissenhaftigkeit (`gewis`) als in Extraversion (`extra`) oder liegt genau der umgekehrte Fall vor? In welcher der beiden Variablen variieren die Angaben stärker? Gehen Sie für die Beantwortung davon aus, dass die Skalen gleich genormt sind.
 
 <details><summary>Lösung</summary>
 Zunächst sollten wir überprüfen, ob es fehlende Werte auf den Skalen gibt.
@@ -817,7 +817,7 @@ var(fb22$extra) * (158/159)
 ## [1] 0.4951693
 ```
 
-Der Mittelwert von `gewis` liegt bei 3.884, der von `extra` bei 3.379. Unter den getroffenen Annahmen ist Ihre Gruppe gewissenhafter. Auch die Streuung ist deskriptiv auf der Extraversion größer. Hier liegt sie bei 0.495, während sie bei der Gewissenheit bei 0.436 liegt.
+Der Mittelwert von `gewis` liegt bei 3.884, der von `extra` bei 3.379. Unter den getroffenen Annahmen ist dieser Jahrgang stärker gewissenhaft als extravertiert. Auch die Streuung ist deskriptiv bei der Extraversion größer. Hier liegt sie bei 0.495, während sie bei der Gewissenheit bei 0.436 liegt.
 
 </details>
 
@@ -827,7 +827,7 @@ Der Mittelwert von `gewis` liegt bei 3.884, der von `extra` bei 3.379. Unter den
 Verträglichkeit ist in `vertr` abgelegt. 
 
 * Lassen Sie sich das Histogramm ausgeben. 
-* Zentrieren Sie die Variable `vertr`. Legen Sie dafür eine neue Spalte in `fb22` an mit dem Namen `vertr_z` und lassen Sie sich erneut ein Histogramm ausgeben. Was hat sich verändert? 
+* Zentrieren Sie die Variable `vertr`. Legen Sie dafür eine neue Spalte in `fb22` mit dem Namen `vertr_z` an und lassen Sie sich erneut ein Histogramm ausgeben. Was hat sich verändert? 
 * Standardisieren Sie die Variable `vertr` und speichern Sie diese ebenfalls unter einer neuen Spalte mit dem Namen `vertr_st` ab. Was ist nun anders beim Histogramm?
 
 
@@ -865,7 +865,7 @@ Die Standardisierung setzt die Standardabweichung auf 1. Aufgrund der neuen Wert
 
 ## Aufgabe 23 
 
-Vergleichen Sie deskriptiv das Maß der zentralen Tendenz der Variable `extra` zwischen den Teilnehmenden, die `alleine` und `Gruppen` in der bevorzugten Lernform angegeben hatten. Welche der beiden Gruppen hat die höhere Ausprägung? Welche der beiden Gruppen ist im Mittel nerdier (`nerd`)? 
+Vergleichen Sie deskriptiv das Maß der zentralen Tendenz in der Variable `extra` zwischen den Teilnehmenden, die `alleine`, und denjenigen, die `Gruppen` in der bevorzugten Lernform angegeben haben. Welche der beiden Gruppen hat die höhere Ausprägung? Welche der beiden Gruppen ist im Mittel nerdier (`nerd`)? 
 
 <details><summary>Lösung</summary>
 
@@ -887,7 +887,7 @@ fb22_alleine <- fb22[fb22$lerntyp == "alleine",]
 fb22_gruppe <- fb22[fb22$lerntyp == "Gruppe",]
 ```
 
-Nun können Mittelwerte für die beiden Gruppen bestimmt werden. Beachten Sie, dass die Ergänzung von `na.rm` nur auf dem zweiten demonstrierten Weg wichtig ist. Dort können Personen mit einem Eintrag nicht richtig zugeordnet werden und sind daher in den beiden Datensätzen erhalten - allerdings nicht mit ihren richtigen Werten sondern mit überall `NA`. Die Funktion `subset` nimmt diese Fälle hingegen nicht mit auf. 
+Nun können Mittelwerte für die beiden Gruppen bestimmt werden. Beachten Sie, dass die Ergänzung von `na.rm = T` nur auf dem zweiten demonstrierten Weg wichtig ist. Dort können Personen, die keinen Eintrag in der Auswahl-Variable haben, nicht richtig zugeordnet werden und sind daher in den beiden Datensätzen erhalten - allerdings nicht mit ihren richtigen Werten, stattdessen steht bei ihnen in jeder Spalte `NA`. Die Funktion `subset` nimmt diese Fälle hingegen nicht mit auf. 
 
 
 ```r
