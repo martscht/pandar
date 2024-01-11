@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird eine multiple Regression in `R` exemplarisch durchgeführt. Dabei wird erläutert, wie ein Regressionsmodell in `R` erstellt und der entsprechende `R`-Output interpretiert werden kann. Außerdem werden die Voraussetzungen für die multiple Regression behandelt. Der Fokus liegt dabei auf der Prüfung der Multikollinearität sowie der Identifikation möglicher Ausreißern und einflussreicher Datenpunkte. '
 authors: [nehler, irmer, hartig]
 weight: 2
-lastmod: '2023-11-06'
+lastmod: '2024-01-03'
 featured: no
 banner:
   image: "/header/frog_overencumbered.jpg"
@@ -31,7 +31,7 @@ links:
   - icon_pack: fas
     icon: pen-to-square
     name: Quizdaten
-    url: /lehre/klipps/quizdaten#Block1
+    url: /lehre/klipps/quizdaten-klipps#Block1
 
 output:
   html_document:
@@ -359,8 +359,8 @@ names(summary_model) # weitere mögliche Argumente, die wir erhalten können
 ```
 
 ```
-##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"        
-##  [7] "df"            "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled"
+##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"         "df"           
+##  [8] "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled"
 ```
 
 Gleiches können wir mit allen Summary-Objekten auch in späteren Sitzungen machen!
@@ -539,18 +539,12 @@ Depression[IDs,]
 ```
 
 ```
-##    Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus                Intervention
-## 41                   2              4              6             3                 VT Coaching
-## 49                   5              4              2             8                 VT Coaching
-## 64                  10              4              1            10 VT Coaching + Gruppenuebung
-## 78                   7              9              8             6 VT Coaching + Gruppenuebung
-## 85                  11              7              5            10 VT Coaching + Gruppenuebung
-##    Geschlecht
-## 41  maennlich
-## 49  maennlich
-## 64  maennlich
-## 78  maennlich
-## 85  maennlich
+##    Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus                Intervention Geschlecht
+## 41                   2              4              6             3                 VT Coaching  maennlich
+## 49                   5              4              2             8                 VT Coaching  maennlich
+## 64                  10              4              1            10 VT Coaching + Gruppenuebung  maennlich
+## 78                   7              9              8             6 VT Coaching + Gruppenuebung  maennlich
+## 85                  11              7              5            10 VT Coaching + Gruppenuebung  maennlich
 ```
 
 ```r
@@ -1007,18 +1001,15 @@ MD
 ```
 
 ```
-##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173  1.29835776  0.89484803
-##  [9]  5.31999173  0.07401952  1.85988286  0.96581665  2.87179069  1.29835776  3.08398338  6.11730810
-## [17]  0.96581665  0.33582974  1.93061376  3.99622396  0.96581665  1.85988286  1.93061376  3.57704668
-## [25]  0.07401952  0.96581665  1.68027868  0.88006651  1.85988286  1.85988286  0.96581665  0.19639932
-## [33]  0.07401952  2.79831527  0.19639932  1.64697702  2.42350418  0.89484803  0.96581665  0.19639932
-## [41]  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651  0.19639932  0.07401952  0.38036881
-## [49]  8.84194961  1.64697702  0.19639932  1.29835776  2.87179069  4.92199266  7.18339325  0.19639932
-## [57]  0.33582974  0.38036881  3.46236019  0.07401952  0.33582974  0.38036881  3.48368968  8.46422112
-## [65]  0.19639932  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570  0.38036881  0.07401952
-## [73]  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429  3.08398338  2.86848429  1.09506856
-## [81]  2.39394112  1.50981570  1.09506856  2.42350418 10.28690861  1.33295604  0.19639932  0.88006651
-## [89]  1.68027868  1.09506856
+##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173  1.29835776  0.89484803  5.31999173  0.07401952
+## [11]  1.85988286  0.96581665  2.87179069  1.29835776  3.08398338  6.11730810  0.96581665  0.33582974  1.93061376  3.99622396
+## [21]  0.96581665  1.85988286  1.93061376  3.57704668  0.07401952  0.96581665  1.68027868  0.88006651  1.85988286  1.85988286
+## [31]  0.96581665  0.19639932  0.07401952  2.79831527  0.19639932  1.64697702  2.42350418  0.89484803  0.96581665  0.19639932
+## [41]  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651  0.19639932  0.07401952  0.38036881  8.84194961  1.64697702
+## [51]  0.19639932  1.29835776  2.87179069  4.92199266  7.18339325  0.19639932  0.33582974  0.38036881  3.46236019  0.07401952
+## [61]  0.33582974  0.38036881  3.48368968  8.46422112  0.19639932  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570
+## [71]  0.38036881  0.07401952  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429  3.08398338  2.86848429  1.09506856
+## [81]  2.39394112  1.50981570  1.09506856  2.42350418 10.28690861  1.33295604  0.19639932  0.88006651  1.68027868  1.09506856
 ```
 
 Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Fallnummer (Pbn-Nr) der möglichen Ausreißer.

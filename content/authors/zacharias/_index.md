@@ -66,4 +66,4 @@ email: ""
 user_groups: ["Teaching"]
 ---
 
-Leila Zacharias arbeitet als studentische Hilfskraft in der Abteilung *Psychologische Methoden mit interdisziplinärer Ausrichtung*.
+Leila Zacharias ist seit 2018 studentische Hilfskraft in den Abteilungen *Psychologische Methoden mit interdisziplinärer Ausrichtung*, *Evaluation und Forschungsmethodik* und *Allgemeine Psychologie I* an der Goethe Universität Frankfurt. In der Methoden-Abteilung war sie zunächst als Tutorin für Statistik I und anschließend als Lehrassistenz in den Praktika zu R tätig. Seit 2023 bietet sie eine Sprechstunde zu R an und unterstützt die Abteilung bei der Umsetzung von Forschungsprojekten im Rahmen der Statistik-Lehre sowie bei der Erstellung von Übungsaufgaben auf pandaR.

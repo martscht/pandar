@@ -113,6 +113,44 @@ cor.test(fb23$neuro, fb23$gewis,
          use = "complete")
 
 
+is.factor(fb23$ort)
+is.factor(fb23$job)
+
+tab <- table(fb23$ort, fb23$job)
+tab
+
+korr_phi <- (tab[1,1]*tab[2,2]-tab[1,2]*tab[2,1])/
+  sqrt((tab[1,1]+tab[1,2])*(tab[1,1]+tab[2,1])*(tab[1,2]+tab[2,2])*(tab[2,1]+tab[2,2]))
+korr_phi
+
+# Numerische Variablen erstellen
+ort_num <- as.numeric(fb23$ort)
+job_num <- as.numeric(fb23$job)
+
+cor(ort_num, job_num, use = 'pairwise')
+
+cor.test(ort_num, job_num)
+
+YulesQ <- (tab[1,1]*tab[2,2]-tab[1,2]*tab[2,1])/
+                 (tab[1,1]*tab[2,2]+tab[1,2]*tab[2,1])
+YulesQ
+
+# alternativ mit psych Paket
+library(psych)
+phi(tab, digits = 8)
+Yule(tab)
+
+tab
+
+Odds_FFM = tab[1,1]/tab[1,2]
+Odds_FFM
+
+Odds_anderer = tab[2,1]/tab[2,2]
+Odds_anderer
+
+OR = Odds_anderer/Odds_FFM
+OR
+
 ## install.packages('rococo')          #installieren
 
 library(rococo)                     #laden
@@ -126,4 +164,3 @@ rococo(fb23$mdbf2_pre, fb23$mdbf3_pre)
 rococo.test(fb23$mdbf2_pre, fb23$mdbf3_pre)
 
 roc.test <- rococo.test(fb23$mdbf2_pre, fb23$mdbf3_pre)
-roc.test

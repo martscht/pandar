@@ -30,7 +30,7 @@ links:
   - icon_pack: fas
     icon: pen-to-square
     name: Quizdaten
-    url: /lehre/klipps/quizdaten#Block5a
+    url: /lehre/klipps/quizdaten-klipps#Block5a
  
 output:
   html_document:
