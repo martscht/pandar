@@ -1,0 +1,283 @@
+---
+title: Einführung in lineare Modelle in R
+type: post
+date: '2023-02-23'
+slug: kiju-lm
+categories: ["KiJu"]
+tags: ["Regression"]
+subtitle: ''
+summary: ''
+authors: [nehler, schreiner]
+weight: 2
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/metal_beams_electricity.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/140211)"
+projects: []
+
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /workshops/kiju/kiju-lm
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /workshops/kiju/kiju-lm.R
+
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r, echo=FALSE}
+library(knitr)
+```
+
+
+## Vorbereitung
+
+Zunächst müssen wir das `haven`-Paket wieder aktivieren und einen Teil des Code aus dem letzten Tutorial wieder durchführen.
+
+```{r, eval = FALSE}
+library(haven)
+setwd("~/Pfad/zu/Ordner")
+data <- read_sav(file = "fb22_mod.sav")
+data$geschl_faktor <- factor(data$geschl,                                   # Ausgangsvariable
+                             levels = c(1, 2, 3),                           # Faktorstufen
+                             labels = c("weiblich", "männlich", "anderes")) # Label für Faktorstufen
+data$nr_ges <- rowMeans(data[,c("nr1", "nr2", "nr3", "nr4", "nr5", "nr6")])
+data$prok <- rowMeans(data[,c("prok1", "prok4", "prok6", "prok9", "prok10")])
+
+data$wohnen_faktor <- factor(data$wohnen,                                   
+                             levels = c(1, 2, 3, 4),                                
+                             labels = c("WG", "bei Eltern", "alleine", "sonstiges")) 
+```
+
+```{r, echo = FALSE}
+library(haven)
+data <- read_sav(file = "../../daten/fb22_mod.sav")
+data$geschl_faktor <- factor(data$geschl,                                   # Ausgangsvariable
+                             levels = c(1, 2, 3),                           # Faktorstufen
+                             labels = c("weiblich", "männlich", "anderes")) # Label für Faktorstufen
+data$nr_ges <- rowMeans(data[,c("nr1", "nr2", "nr3", "nr4", "nr5", "nr6")])
+data$prok <- rowMeans(data[,c("prok1", "prok4", "prok6", "prok9", "prok10")])
+
+data$wohnen_faktor <- factor(data$wohnen,                                   
+                             levels = c(1, 2, 3, 4),                                
+                             labels = c("WG", "bei Eltern", "alleine", "sonstiges")) 
+```
+
+## lineare Modellierung
+
+Die Grundlage für die spätere hierarchische Ansetzung ist das lineares Modell ohne Hierarchie, dem wir uns demnach im Folgenden widmen werden. 
+
+### Syntax
+
+Es gibt eine spezielle Syntax für die Darstellungen von Abhängigkeiten. Dies wollen wir anhand der `aggregate`-Funktion demonstrieren. Hier wird eine bestimmte Operation an einer Variable in Abhängigkeit einer anderen Variable durchgeführt. 
+
+
+```{r}
+aggregate(extra ~ geschl_faktor, data = data, FUN = mean)
+```
+
+### Einfaches lineares Modell
+
+Nun übertragen wir die eben gelernte Syntaxlogik und schauen uns die Variable `extra` (Extraversion) in Abhängigkeit von `lz` (Lebenszufriedenheit) an. 
+
+```{r}
+lm(extra ~ lz, data = data)
+```
+
+Das Model selbst hat offenbar erstmal nur eine sehr beschränkte Ausgabe. Häufig kann man mehr aus Funktionen herausholen, wenn man ihren Output zunächst in einem Objekt ablegt:
+
+```{r}
+mod <- lm(extra ~ lz, data = data)
+```
+
+Das Objekt `mod` erscheint damit im Environment. Es ist vom Typ Liste, das ist etwas anderes als ein Datensatz mit einer festen Anzahl an Spalten pro Reihe und umgekehrt. Bei Listen können in verschiedenen Bestandteilen der Liste ganz unterschiedliche Sachen liegen. Beispielsweise können auch Datensätze Bestandteile von Listen sein. Die Auswahl von Listenbestandteilen funktioniert aber ebenfalls durch das `$`. 
+
+```{r}
+mod$coefficients
+mod$call
+```
+
+Genau wie Variablen (`numeric` etc.) können auch Listen verschiedene Klassen haben. Beispielsweise liegt hier die `class` `lm` vor, entsprechend der Funktion mit der wir das Objekt erstellt haben. 
+Datensätze hingegen haben meist die `class` `data.frame`.
+
+```{r}
+class(data)
+class(mod)
+```
+
+Neben der händischen Exploration eines Objektes können wir auch automatische Funktionen nutzen, wie beispielsweise die `summary`-Funktion, die wohl am häufigsten verwendet wird. 
+
+```{r}
+summary(mod)
+```
+
+Sie zeigt uns die wichtigsten Parameter an. Die `summary`-Funktion ist auch auf Objekte anderer Klassen anwendbar. Wenn wir sie auf den Datensatz anwenden, werden uns Zusammenfassungen der Variablen angezeigt. Auch in den nächsten Blöcken werden wir sie noch verwenden. 
+
+```{r}
+summary(data)
+```
+Weitere Beispiele für solche Funktionen, die auf Objekte verschiedener Klassen angewandt werden können, sind `plot()` und `resid()`. 
+Die einfache lineare Modellierung kann [hier](/lehre/statistik-i/einfache-regression/) vertieft werden.
+
+## Multiple Regression
+
+Die multiple Regression ist eine Erweiterung des Modells mit der Aufnahme von Effekten.
+Zur multiplen Regression gibt es viele Themen in der [Übersicht von PsyBSc7](/lehre/main/#statistik-ii).
+
+### Kontinuierliche Prädiktoren
+
+Schauen wir uns zunächst eine einfache Erweiterung der Syntax um eine Addition an. 
+
+```{r}
+mod_kont <- lm(lz ~ neuro + intel, data = data)
+```
+
+Die `class` bleibt gleich und auch die `summary` ist daher gleich aufgebaut. Die `Coefficients` werden logischerweise um einen Eintrag erweitert. 
+
+```{r}
+class(mod_kont)
+summary(mod_kont)
+```
+
+
+### Aufnahme kategorialer Prädiktor
+
+Nun nehmen wir zunächst einmal die Variable `geschl` (Geschlecht) auf, so wie sie ursprünglich vorlag. Die Syntax bleibt dabei genau gleich. 
+
+```{r}
+mod_kat <- lm(lz ~ intel + geschl, data = data)
+summary(mod_kat)
+```
+
+Wir sehen, dass `geschl` ein eigenes Steigungsgewicht bekommt. Das ist überraschend, da es drei Ausprägungen in dieser Variable gibt.
+Daher ist die Verwandlung in einen Faktor essentiell. 
+
+```{r}
+mod_kat <- lm(lz ~ intel + geschl_faktor, data = data)
+summary(mod_kat)
+```
+
+Die `summary` zeigt uns direkt an, in welcher Kategorie der Unterschied besteht. Die fehlende Kategorie wird als Referenz genutzt. Standardmäßig liegt hier also eine Dummykodierung vor. 
+
+### Moderierte Regression
+
+Nun soll der Interaktionseffekt zwischen zwei Variablen aufgenommen werden. Bevor wir dies tun, müssen wir die Variablen zentrieren, damit Multikollinearität vorgebeugt wird. 
+
+```{r}
+data$neuro_center <- scale(data$neuro, scale = F, center = T)
+data$intel_center <- scale(data$intel, scale = F, center = T)
+```
+
+Wir überprüfen die Funktionalität; diese ist nicht immer genau null, aber maschinell gesehen schon.
+
+```{r}
+mean(data$neuro_center)
+mean(data$intel_center)
+```
+
+Setzen wir nun die lineare Modellierung mit Moderationseffekt um. Da eine Moderation eine Multiplikation der Effekte ist, würde man intuitiv den Code folgendermaßen schreiben. 
+
+```{r}
+mod_inter_nocenter <- lm(lz ~ neuro + intel + neuro * intel, data = data)
+mod_inter_center <- lm(lz ~ neuro_center + intel_center + neuro_center * intel_center, data = data)
+summary(mod_inter_nocenter)
+summary(mod_inter_center)
+```
+Wir sehen, dass die Zentralisierung wie erwartet die Standardfehler reduziert hat. Kommen wir jetzt nochmal zurück zum Code: die intuitive Lösung mit der Multiplikation benötigt theoretisch nicht die einzelne Aufführung der Variablen, die Teil der Interaktion sind.
+
+```{r}
+mod_inter_center <- lm(lz ~ neuro_center * intel_center, data = data)
+summary(mod_inter_center)
+```
+
+Allerdings hat das natürlich den Nachteil, dass man nicht spezifisch auswählt und damit nicht so stark über sein Modell nachdenken muss. Es besteht daher die Möglichkeit, Interaktionen sehr präzise mit dem `:` auszuwählen.  
+
+```{r}
+mod_inter_center <- lm(lz ~ neuro_center + intel_center + neuro_center:intel_center, data = data)
+summary(mod_inter_center)
+```
+ 
+Kommen wir nun zur grafischen Darstellung: Es gibt ein Paket, dass diese sehr gut unterstützt. Es erstellt automatisch Grafen im Rahmen von `ggplot()`, wozu es auf PandaR einen [ganzen Workshop](https://pandar.netlify.app/extras/#ggplotting) oder auch ein einzelnes, einführendes [Tutorial](https://pandar.netlify.app/post/grafiken-mit-ggplot2/) gibt. <!--ggplotting-Beiträge fehlen noch-->
+
+```{r, eval = FALSE}
+install.packages("interactions")
+library(interactions)
+```
+
+```{r}
+library(interactions)
+```
+
+Die Festlegung des Moderators kann `R` natürlich nicht für uns übernehmen.
+
+```{r}
+interact_plot(model = mod_inter_center, pred = intel_center, modx = neuro_center)
+```
+
+Weitere Infos zur Moderation, besonders zum Zusammenspiel mit quadratischen Effekten, finden sich [hier](https://pandar.netlify.app/post/ancova-und-moderierte-regression/). <!-- Beitrag fehlt noch, Teil von MSc5a-->
+
+## Anwendungen
+
+1. Erstelle eine multiple Regression mit Extraversion als abhängiger Variable und Art des Wohnens sowie Verträglichkeit als unabhängigen Variablen.
+
+<details><summary>Lösung</summary>
+
+```{r}
+mod_extra <- lm(extra ~ wohnen_faktor + vertr, data = data)
+summary(mod_extra)
+```
+
+</details>
+
+2. Finde mit Hilfe des Internets heraus, wie standardisierte Regressionsparameter mit Hilfe einer Funktion ausgegeben werden können.
+
+<details><summary>Lösung</summary>
+
+```{r}
+library(lm.beta)
+lm.beta(mod_extra)
+summary(lm.beta(mod_extra))
+```
+
+Eine geschachtelte Funktion ist teilweise schwierig zu lesen. Es gibt als Lösung die Pipe, die ein Objekt in eine weitere Funktion weitergibt. 
+
+```{r}
+mod_extra |> lm.beta() |> summary()
+```
+
+</details>
+
+3. Zur Veranschaulichung des Codes - keine Empfehlung für solch ein Modell: Nun sollen statt Art des Wohnens die Skalenscores für Prokrastination und Naturverbundenheit genutzt werden. Außerdem soll die Dreifachinteraktion der Prädiktoren aufgenommen werden, aber keine Interaktionen zwischen zwei Prädiktoren.
+
+<details><summary>Lösung</summary>
+
+```{r}
+data$nr_ges_center <- scale(data$nr_ges, scale = F, center = T) 
+data$prok_center <- scale(data$prok, scale = F, center = T)
+data$vertr_center <- scale(data$vertr, scale = F, center = T)
+```
+
+
+```{r}
+mod_falsch <- lm(extra ~ nr_ges_center * prok_center * vertr_center, data = data)
+summary(mod_falsch)
+```
+
+```{r}
+mod_korrekt <- lm(extra ~ nr_ges_center + prok_center + vertr_center + nr_ges_center:prok_center:vertr_center, data = data)
+summary(mod_korrekt)
+```
+
+Anmerkung: Es ist empfehlenswert, keine Modelle zu bestimmen, in denen Interaktionen niedrigerer Ordnung nicht drin sind.
+
+</details>
+ 

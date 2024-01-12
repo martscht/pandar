@@ -76,8 +76,20 @@ main:
 
   - name: "Workshops"
     pre: "<i class='fas fa-people-line'></i>&ensp;"
-    url: '/under-construction'
+    url: '/workshops/main'
     weight: 400
+
+#    - name: "ggplotting"
+#    pre: "<i class='fas fa-people-line'></i>&ensp;"
+#    url: '/workshops/main#ggplotting'
+#    parent: "Projekte"
+#    weight: 401
+
+  - name: "KiJu"
+    pre: "<i class='fas fa-baby'></i>&ensp;"
+    url: '/workshops/main#kiju'
+    parent: "Workshops"
+    weight: 402
 
   - name: "Extras"
     pre: "<i class='fas fa-rocket'></i>&ensp;"

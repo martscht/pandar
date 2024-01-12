@@ -1,0 +1,458 @@
+---
+title: Gemischte Modelle für den Längsschnitt
+type: post
+date: '2023-02-28'
+slug: lmm-long
+categories: ["KiJu"]
+tags: ["Regression", "Hierarchische Daten", "Zufallseffekte"]
+subtitle: ''
+summary: ''
+authors: [schultze]
+weight: 4
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/rainbow_loops_road.jpg"
+  caption: "[Courtesy of pexels](https://www.pexels.com/photo/asphalt-blur-car-city-290470/)"
+projects: []
+
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /workshops/kiju/lmm-long
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /workshops/kiju/lmm-long.R
+
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r, echo=FALSE}
+library(knitr)
+```
+
+Abschnitte:
+
+- [Vorbereitung](#vorbereitung)
+- [LST-Grundmodell](#state-trait-modell)
+- [Wachstumskurven](#einfache-wachstumskurven)
+- [Vorhersagen von Veränderung](#wachstumskurven-mit-prädiktoren)
+- [Autoregressive Modelle](#autoregressive-modelle)
+
+
+## Vorbereitung
+
+### Kontinuierliche vs. diskrete Zeit
+
+- Kontinuierliche Zeit
+  * Zeit wird in "natürlichen" Einheiten (Millisekunden, Stunden, Tage, ...) abgebildet
+  * Veränderung ist eine (stetige) Funktion der Zeit
+  * Eine funktionale Form wird vorgegeben (linear, quadratisch, logarithmisch)
+  * Aus der Funktion wird auf alle zeitlichen Abstände generalisiert
+  * Abstände zwischen Messungen können intra- und interindividuell variieren
+- Diskrete Zeit
+  * Zeit wird in künstlichen Einheiten (meist Messzeitpunkten) angegeben
+  * Veränderung findet in Intervallen statt
+  * Die Form der Veränderung ist unbekannt
+  * Abstände zwischen Messungen müssen interindividuell identisch sein
+  
+### Datenbeispiel
+
+```{r, eval=FALSE}
+load(url('https://pandar.netlify.app/daten/Sunday.rda'))
+head(sunday)
+```
+
+```{r, echo=FALSE}
+load('../../daten/Sunday.rda')
+head(sunday)
+```
+
+Crayen, C., Eid, M., Lischetzke, T., Courvoisier, D. S. und Vermunt, J. K. (2012). Exploring dynamics in mood regulation—Mixture latent Markov modeling of ambulatory assessment data. _Psychosomatic Medicine_, 74, 366-376.
+
+- Ambulatory-Assessment Studie zur Stimmungsregulation
+  * Messzeitpunkte in 150 Personen (Variable id)
+  * Bis zu 8 Messungen pro Tag, Zeitabstand zwischen 60 und 180 Minuten
+  * Hier: Ein Tag (Sonntag) ausgewählt
+- Berichten von Daily hassles (neg) oder Uplifts (pos)
+- Momentante gute Stimmung (gs) und Wachheit (wm), erfasst mit 4 bzw. 2 vierstufigen Items
+- Einmalige Einschätzung der eigenen Morningness (meq)
+- Zählung der individuellen Messzeitpunkte beginnt bei 0 (mzp)
+- Uhrzeit in (anteiligen) Stunden ab 8 Uhr morgens (ctime)
+- Vorherige gute Stimmung (gs_lag) und Wachheit (wm_lag), erfasst mit 4 bzw. 2 vierstufigen Items
+
+### Pakete
+
+```{r, eval = FALSE}
+# Für Plots der Modelle - dauert einen Moment
+install.packages('sjPlot', dependencies = TRUE)
+
+# Für eine erweiterte Modellzusammenfassung
+installpackages('jtools')
+```
+
+Für alternative Ansätze der Darstellung bzw. Berechnung von Komponenten (nur in vereinzelten Beispielen genutzt)
+
+```{r, eval = FALSE}
+# Für Inferenz der fixed effects
+install.packages('lmerTest')
+
+# Für Bestimmung von Pseudo R^2
+install.packages('MuMIn')
+```
+
+```{r}
+library(lme4)
+library(sjPlot)
+library(jtools)
+library(ggplot2)
+```
+
+
+## State-Trait-Modell
+
+**Level 1** 
+$$ y_{ti} = \beta_{0i} + r_{ti} $$
+
+**Level 2**
+$$ \beta_{0i} = \gamma_{00} + u_{0i} $$
+
+**Gesamtgleichung**
+$$ y_{ti} = \gamma_{00} + u_{0i} + r_{ti} $$
+- Klassisches Nullmodell, nur $t$ für "Time" und $i$ für "individual"
+- Zerlegung in LST:
+  * $\tau_{ti}$: True Score der Person $i$ zum Zeitpunkt $t$
+  * $\xi_{i}$: Trait der Person $i$
+  * $\zeta_{ti}$: State-Abweichung vom Trait zum Zeitpunkt $t$ für Person $i$
+
+$$ \tau_{ti} = \xi_{i} + \zeta_{ti} $$
+
+```{r}
+mod0 <- lmer(wm ~ 1 + (1 | id), sunday)
+print(summ(mod0))
+```
+ICC: Stabilitätsausmaß (relativer Varianzanteil der Personeneigenschaften)
+
+```{r}
+# Individuelle Traits (Ewartungswerte, beta0i)
+coef(mod0)$id |> head()
+
+# Abweichungen (u0i)
+ranef(mod0)$id |> head()
+```
+
+```{r, fig=TRUE}
+plot_model(mod0, 're', sort.est = '(Intercept)')
+```
+
+## Einfache Wachstumskurven
+
+### Lineares Wachstum
+
+- Random Intercept Modell mit Zeit als UV
+
+```{r}
+mod1 <- lmer(wm ~ 1 + ctime + (1 | id), sunday)
+print(summ(mod1))
+```
+```{r, fig=TRUE}
+sunday$pred_mod1 <- predict(mod1)
+
+subset(sunday, as.numeric(id) < 10) |>
+  ggplot(aes(x = ctime, y = wm, color = id)) + 
+    geom_point() + 
+    geom_line(aes(y = pred_mod1)) +
+    theme_minimal() + facet_wrap(~ id)
+```
+
+### Kurvilineares Wachstum
+
+```{r, fig = TRUE}
+plot_model(mod1, 'slope')
+```
+```{r}
+sunday$ct_quad <- sunday$ctime^2
+```
+
+```{r}
+cor(sunday$ctime, sunday$ctime^2)
+poly(sunday$ctime, 2)
+```
+
+
+```{r}
+mod2 <- lmer(wm ~ 1 + poly(ctime, 2) + (1 | id), sunday)
+print(summ(mod2))
+```
+
+- Was ist eigentlich `poly`? --> [siehe Dokumentation hier](/post/quadratische-und-moderierte-regression/#AppendixA)
+  * Gesamtmodell nicht anders gegenüber händischem Quadrat
+  * Nötig, sobald mehr als quadratische Terme, immer sinnvoll
+  * Anschließende Darstellung etwas komplizierter
+
+```{r}
+tmp <- poly(sunday$ctime, 2)
+sunday$poly1 <- tmp[,1]
+sunday$poly2 <- tmp[,2]
+```
+
+
+```{r, eval = FALSE}
+plot_model(mod2, 'pred') # hässlich
+
+# schöner
+sunday$pred_mod2 <- predict(mod2)
+ggplot(sunday, aes(x = ctime, y = pred_mod2)) + 
+  geom_smooth(se = FALSE)
+```
+
+
+
+### Random Slopes Modell
+
+```{r}
+tmp <- poly(sunday$ctime, 2)
+tmp <- as.data.frame(tmp)
+names(tmp) <- c('poly1', 'poly2')
+sunday <- cbind(sunday, tmp)
+mod3a <- lmer(wm ~ 1 + poly1 + poly2 + (1 + poly1 | id), sunday)
+mod3b <- lmer(wm ~ 1 + poly1 + poly2 + (1 + poly1 + poly2 | id), sunday)
+anova(mod2, mod3a, mod3b, refit = FALSE)
+```
+
+```{r}
+print(summ(mod3b))
+VarCorr(mod3b)
+```
+
+```{r, fig=TRUE}
+sunday$pred_mod3 <- predict(mod3b)
+
+subset(sunday, as.numeric(id) < 10) |>
+  ggplot(aes(x = ctime, y = wm, color = id)) + 
+    geom_point() + 
+    geom_line(aes(y = pred_mod3)) +
+    theme_minimal() + facet_wrap(~ id)
+```
+
+## Wachstumskurven mit Prädiktoren
+
+- Dynamische Prädiktoren (L1-Prädiktoren)
+  * Variablen auf Ebene der Zeitpunkte
+  * Situationale Faktoren (z. B. Zeit, Ort, soziale Umgebung)
+  * Variable Personenfaktoren (z. B. Stimmung, wahrgenommener Stress)
+  * Erklären Abweichungen der Situationen vom generellen Trend
+- Stabile Prädiktoren (L2-Prädiktoren)
+  * Variablen auf Ebene der Personen
+  * Generell stabile Merkmale (z. B. Geschlecht, Big 5, SES)
+  * Innerhalb der Erhebung unveränderliche Merkmale (z.B. Experimentalgruppe, Baselinemerkmale)
+  * Erklären interindividuelle Unterschiede (in der Veränderung)
+
+### Dynamische Prädiktoren
+
+```{r, warning = TRUE}
+mod4 <- lmer(wm ~ 1 + poly1 + poly2 + pos + (1 + poly1 + poly2 | id), sunday)
+print(summ(mod4))
+```
+```{r, fig=TRUE}
+sunday$pred_mod4 <- predict(mod4)
+
+subset(sunday, as.numeric(id) < 10) |>
+  ggplot(aes(x = ctime, y = wm, color = id)) + 
+    geom_point(aes(shape = pos)) + 
+    geom_line(aes(y = pred_mod4)) +
+    theme_minimal() + facet_wrap(~ id)
+```
+
+Sonderfall _discontinuous growth_:
+- L1-Prädiktoren können auch Kodiervariablen sein
+  * Übergang zwischen Grund- und Sekundarschule
+  * Interventionsbeginn
+  * Tagesübergänge
+- Kodiervariablen können plötzliche Sprünge oder eine Veränderung des Wachstums ermöglichen
+
+time | event | ptime
+--- | --- | ---
+1 | 0 | 0 
+2 | 0 | 0
+3 | 0 | 0
+4 | 1 | 0
+5 | 1 | 1
+6 | 1 | 2
+7 | 1 | 3
+
+- "event": plötzlicher Sprung im Niveau
+- "ptime": Veränderung der Trajectory
+
+### Stabile Prädiktoren
+
+```{r, warning = TRUE}
+mod5 <- lmer(wm ~ 1 + poly1 + poly2 + meq + (1 + poly1 + poly2 | id), sunday) # + meq = additiver Effekt auf das Mittel (Interaktion morning/evening)
+print(summ(mod5))
+```
+
+```{r}
+mod5b <- lmer(wm ~ 1 + poly1 + poly2 + meq + meq:poly2 + meq:poly1 + # kann meq weggelassen werden, wenn es nicht interessiert?
+                (1 + poly1 + poly2 | id), sunday)
+summ(mod5b)
+```
+
+
+### Cross-Level-Interaktionen
+
+```{r, warning = TRUE}
+mod6 <- lmer(wm ~ 1 + poly1*meq + poly2*meq + (1 + poly1 + poly2 | id), sunday)
+print(summ(mod6))
+```
+```{r, fig = TRUE}
+plot_model(mod6, 'pred', terms = c('poly1', 'meq'))
+```
+
+## Autoregressive Modelle
+
+- Beliebt weil Grundlage für Vektor-Autoregressive Modelle (Längsschnitt-Netzwerkanalysen)
+- iid Annahme (independent and identically distributed)
+  * L1-Residuen sind voneinander unabhängig
+  * L1-Residuen folgen der gleichen Verteilung (impliziert Homoskedastizität)
+- Annahmen der OLS Regression
+  * Unabhängigkeit der Residuen
+  * Homoskedastizität der Residuen
+- MLM berücksichtigt nur Abhängigkeiten durch angegebene Cluster-Variablen
+- Andere Abhängigkeiten (serielle Abhängigkeit, weitere Clusterungsebenen, usw.) können weiterhin zu Verzerrungen führen
+
+### Explizite Autoregression
+
+- Lag Variable erstellen
+```{r, eval = FALSE}
+# mit basis R-Befehlen
+sunday$wm_lag <- NA
+for (i in sunday$id) {
+  sunday[sunday$id == i, 'wm_lag'] <- embed(c(NA, sunday[sunday$id == i, 'wm']), 2)[, 2]
+}
+
+# mit dplyr (sehr verbreitet)
+library(dplyr)
+sunday <- group_by(sunday, id) %>% mutate(wm_lag = lag(wm))
+```
+
+```{r, error = TRUE}
+mod0 <- lmer(gs ~ 1 + (1 | id), sunday)
+mod1 <- lmer(gs ~ 1 + gs_lag + (1 | id), sunday)
+anova(mod0, mod1)
+```
+
+```{r}
+mod0b <- update(mod0, data = mod1@frame)
+mod1b <- update(mod1, data = mod1@frame)
+anova(mod0b, mod1b)
+```
+
+Drei Varianzkomponenten:
+
+- Stabiler Anteil (ICC)
+- Vorhersagbare State-Komponente
+- Unvorhersagbare State-Komponente
+
+```{r}
+MuMIn::r.squaredGLMM(mod0b)
+MuMIn::r.squaredGLMM(mod1b)
+```
+
+```{r}
+print(summ(mod1b))
+```
+
+Serielle Abhängigkeit:
+$$
+  y_{ti} = \gamma_{00} + \gamma_{10} y_{(t-1)i} + u_{0i} + r_{ti} \\
+  y_{(t-1)i} = \gamma_{00} + \gamma_{10} y_{(t-2)i} + u_{0i} + r_{(t-1)i} \\
+$$
+
+Indirekter Effekt: $\beta_{t(t-\text{lag})} = \gamma_{10}^{\text{lag}}$
+
+```{r, fig=TRUE}
+curve(.47^x, xlim = c(0, 7))
+```
+
+- Vorteile expliziter AR:
+  * Einfache Spezifikation und Interpretation
+  * Umgeht die Unabhängigkeitsannahme
+  * Erlaubt Zufallseffekte der Autoregression
+- Nachteile expliziter AR:
+  * Nimmt zusätzliche Prädiktoren in die Gleichung auf
+  * Erste Messung pro Person entfällt durch Missing
+  * Nimmt gleiche Abstände zwischen Messungen an
+  * Interpretation der Parameter immer unter Annahme gleicher Werte zum vorherigen Zeitpunkt
+
+### Autoregressive Fehlerstruktur
+
+- Ohne zusätzlichen Prädiktoren
+- Residualkovarianzmatrix wird verändert
+- Gleiche Idee: ein Parameter ($\rho$) bezeichnet die zusätzliche Abhängigkeit zwischen benachbarten Messungen
+- Voraussetzung ist hier, dass der autoregressive Effekte positiv ist
+
+$$
+  \Sigma_{r} = var(r_{ti}) 
+    \begin{bmatrix}
+      1 & \rho & \rho^2 & \rho^3 \\
+      \rho & 1 & \rho & \rho^2 \\
+      \rho^2 & \rho & 1 & \rho \\
+      \rho^3 & \rho^2 & \rho & 1
+    \end{bmatrix}
+$$
+
+- lme4 dazu nicht in der Lage
+  * viele alternative Pakete können verschiedene Residualstrukturen
+  * hier Awendung mit `nlme`, weil vorinstalliert und `lme4` relativ ähnlich
+  
+```{r}
+library(nlme)
+mod0_nlme <- lme(fixed = gs ~ 1, random = ~ 1 | id, data = sunday)
+summary(mod0_nlme)
+summary(mod0)
+```
+```{r}
+mod1_nlme <- lme(fixed = gs ~ 1, random = ~ 1 | id, data = sunday, 
+  correlation = corAR1())
+summary(mod1_nlme)
+```
+
+- Das correlation-Argument erlaubt die Spezifikation einer Korrelationsstruktur auf L1
+- `corAR1()` wählt die autoregressive Struktur 1. Ordnung
+- Es wird angenommen, dass die Daten richtig sortiert sind!
+
+### Zeitkontinuierliche Autoregression
+
+- Bisherige Annahme: gleiche Abstände der Messungen, gleiche Messungen für alle Personen
+  * $\phi$ bzw. $\gamma_{10}$ beschreiben AR zwischen $t$ und $t-1$ (diskrete Zeitpunkte)
+  * $\phi$ berücksichtigt dabei nicht zeitlichen Abstand zwischen $t$ und $t-1$
+
+```{r}
+mod2_nlme <- lme(fixed = gs ~ 1, random = ~ 1 | id, data = sunday, 
+  correlation = corCAR1(, form = ~ ctime))
+summary(mod2_nlme)
+```
+
+```{r, echo=FALSE}
+difftime <- vector('numeric')
+for (i in sunday$id) {
+  difftime <- c(difftime, diff(sunday[sunday$id == i, 'ctime']))
+}
+
+```
+
+
+- $\phi$ hier interpretieren als AR über eine Stunde
+  * In diskretem Fall: AR zwischen zwei Zeitpunkten
+  * Mittlerer Abstand zwischen zwei Zeitpunkten: `r round(mean(difftime), 2)`
+  * Annäherung: $.569^{`r round(mean(difftime), 2)`} = `r round(.569^mean(difftime), 3)`$ (aus Ergebnis oben: $\phi = .392$)
+
+
+# Level 3
