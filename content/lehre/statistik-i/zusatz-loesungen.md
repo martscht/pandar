@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [cezanne, mueller, nehler]
 weight:
-lastmod: '2024-01-11' 
+lastmod: '2024-01-12' 
 featured: no
 banner:
   image: "/header/mechanical_number_display.png"
@@ -922,14 +922,14 @@ mean(fb22_gruppe$nerd, na.rm = T)
 ## [1] 2.75
 ```
 
-Personen, die gerne in Gruppen lernen, weisen einen Mittelwert von 4.125 auf. Sie sind rein deskriptiv extravertierter als Personen, die lieber alleine lernen. Diese haben hier einen Mittelwert von 3.086. Umgekehrtes gilt in unserer Stichprobe hingegen für die Nerdiness. Hier haben Personen, die in Gruppen lernen, einen Wert von 2.75 und Personen, die lieber alleine lernen, einen Wert von 3.226.
+Personen, die angaben gerne in Gruppen zu lernen, weisen einen Mittelwert von 4.125 auf. Sie sind rein deskriptiv extravertierter als Personen, die angaben lieber alleine zu lernen. Diese haben hier einen Mittelwert von 3.086. Umgekehrtes gilt in unserer Stichprobe hingegen für die Nerdiness. Hier haben Personen, die in Gruppen lernen, einen Wert von 2.75 und Personen, die lieber alleine lernen, einen Wert von 3.226.
 </details>
 
 ## Aufgabe 24
 
 Etwa 75% Prozent der Psychologiestudierenden in Deutschland sind weiblich. Sie treffen zufällig auf 15 Psychologiestudierende.
 
-* Wie wahrscheinlich ist es, dass genau 9 der Personen weiblich sind?
+* Wie wahrscheinlich ist es, dass genau 9 dieser Personen weiblich sind?
 
 <details><summary>Lösung</summary>
 
@@ -985,8 +985,8 @@ plot(x = X, y = wk, typ = "h", xlab = "Anzahl Frauen", ylab = "kummulierte Wahrs
 
 In Deutschland liegt die Gewissenhaftigkeit (`gewis`) bei Frauen im Mittel bei *µ* = 3.73.
 
-* Sind Frauen, die Psychologie studieren, im Mittel gewissenhafter als Frauen in der Allgemeinbevölkerung? Stellen Sie die Hypothesen auf und führen Sie einen geeigneten Test durch.
-* Geben Sie zudem das 99%-ige Konfidenzintervall und die Effektgröße an.
+* Sind Frauen, die Psychologie studieren, im Mittel gewissenhafter als Frauen in der Allgemeinbevölkerung? Stellen Sie die Hypothesen ($H_0$ und $H_1$) auf und führen Sie einen geeigneten Test durch.
+* Geben Sie zudem das {{<math>}}$99\%${{</math>}}-ige Konfidenzintervall und die Effektgröße an.
 
 <details><summary>Lösung</summary>
 
@@ -1000,7 +1000,7 @@ $H_1$: Die durchschnittliche Gewissenhaftigkeit der Frauen, die Psychologie stud
 
 $H_1$: $\mu_0$ $<$ $\mu_1$
 
-Wir testen zuerst ob unsere Variable `Geschlecht` bereits als Faktor vorliegt. Wenn nicht wandeln wir sie in einen Faktor um. 
+Wir testen zuerst ob unsere Variable `Geschlecht` bereits als Faktor vorliegt. Wenn nicht, wandeln wir sie in einen Faktor um. 
 
 
 ```r
@@ -1050,8 +1050,8 @@ t.test(fb22_frauen$gewis, mu = 3.73, alternative = "greater", conf.level = .99)
 
 
 
-Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen und die $H_1$ angenommen werden. Die weiblichen Psychologie-Studierenden haben verglichen mit der Gesamtbevölkerung der Frauen höhere Gewissenhaftswerte.
-Das 99%-ige Konfidenzintervall liegt zwischen 3.86 und $\infty$ (außerhalb des definierten Wertebereichs). Das bedeutet, dass in 99% der Fälle in einer wiederholten Ziehung aus der Grundgesamtheit die mittleren Verträglichkeitswerte zwischen 3.86 und $\infty$ (außerhalb des definierten Wertebereichs) liegen.
+Mit einer Irrtumswahrscheinlichkeit von {{<math>}}$5\%${{</math>}} kann die $H_0$ verworfen und die $H_1$ angenommen werden. Die weiblichen Psychologiestudierenden haben verglichen mit der Gesamtbevölkerung der Frauen höhere Gewissenhaftswerte.
+Das {{<math>}}$99\%${{</math>}}-ige Konfidenzintervall liegt zwischen 3.86 und $\infty$ (außerhalb des definierten Wertebereichs). Das bedeutet, dass in {{<math>}}$99\%${{</math>}}% der Fälle in einer wiederholten Ziehung aus der Grundgesamtheit die mittleren Verträglichkeitswerte zwischen 3.86 und $\infty$ (außerhalb des definierten Wertebereichs) liegen.
 
 **Effektgröße**
 
@@ -1071,11 +1071,11 @@ Die Effektgröße ist mit 0.43 als groß einzustufen.
 
 ## Aufgabe 26
 
-Unterscheiden sich Personen, die gerne alleine lernen von Personen, die es bevorzugen in Gruppen zu lernen oder ein Mischtyp sind (`lerntyp`), in ihrer Extraversion (`extra`)? Schauen Sich sich die Daten graphisch an und führen sie nach Voraussetzungsprüfung einen geeigneten Test durch.
+Unterscheiden sich Personen, die gerne alleine lernen, in ihrer Extraversion (`extra`) von Personen, die es bevorzugen in Gruppen zu lernen oder ein Mischtyp sind (`lerntyp`)? Schauen Sich sich die Daten graphisch an und führen sie nach Voraussetzungsprüfung einen geeigneten Test durch.
 
 <details><summary>Lösung</summary>
 
-Zuerst schauen wir uns an ob die Variable `Lerntyp` bereits als Faktor vorliegt und wandeln sie gegebenenfalls um.
+Zuerst schauen wir uns an, ob die Variable `Lerntyp` bereits als Faktor vorliegt und wandeln sie gegebenenfalls um.
 
 
 ```r
@@ -1116,7 +1116,7 @@ Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir
 
 **Prüfung der Normalverteilung**
 
-Wir nutzen dafür die qqPlot Funktion aus dem `car` Paket.
+Wir nutzen dafür die `qqPlot`-Funktion aus dem `car`-Paket.
 
 
 ```r
@@ -1207,7 +1207,7 @@ t.test(fb22$extra ~ fb22$lerntyp_neu, var.equal = T)
 ##                           3.594512                           3.085821
 ```
 
-Der deskriptive Unterschied der Mittelwerte lässt sich somit auch inferenzstatistisch feststellen, denn mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen und die $H_1$ angenommen werden. Die Teilnehmenden, die lieber alleine lernen, unterscheiden sich von den Teilnehmenden, die lieber in der Gruppe lernen oder ein Mischtyp sind, in ihrer Extraversion (t(*df* = 147, zweis.) = 4.64, *p* = <.001).
+Der deskriptive Unterschied der Mittelwerte lässt sich somit auch inferenzstatistisch feststellen, denn mit einer Irrtumswahrscheinlichkeit von {{<math>}}$5\%${{</math>}} kann die $H_0$ verworfen und die $H_1$ angenommen werden. Die Teilnehmenden, die lieber alleine lernen, unterscheiden sich von den Teilnehmenden, die lieber in der Gruppe lernen oder ein Mischtyp sind, in ihrer Extraversion ($t$(*df* = 147, zweis.) = 4.64, *p* = <.001).
 
 </details>
 
@@ -1270,7 +1270,7 @@ Die Voraussetzungen für einen Chi-Quadrat-Test sind erfüllt.
 
 <details><summary>Lösung</summary>
 
-Für die Erwarteten Häufigkeiten brauchen wir die Randsummen. Diese erhalten wir mit dem Befehl `addmargins`.
+Für die erwarteten Häufigkeiten brauchen wir die Randsummen. Diese erhalten wir mit dem Befehl `addmargins`.
 
 
 ```r
@@ -1330,7 +1330,7 @@ pchisq(chi_quadrat_Wert, 1, lower.tail = F) #Freiheitsgrad beträgt 1
 ```
 ## [1] 0.5436804
 ```
-Somit ist der Test nicht signifikant und es lässt sich feststellen, dass das Wohnen bei den Eltern nicht damit zusammen hängt, ob ein Nebenjob ausgeübt wird.
+Somit ist der Test nicht signifikant und es lässt sich feststellen, dass das Wohnen bei den Eltern nicht damit zusammen hängt, ob ein Nebenjob ausgeübt wird oder nicht.
 
 Wir können unser Ergebnis auch noch mit dem Befehl `chisq.test()` überprüfen und sehen, dass dieser das gleiche Ergebnis liefert.
 
@@ -1351,12 +1351,12 @@ chisq.test(tab, correct = F)
 
 ## Aufgabe 28
 
-Weichen Psychologie-Studierende, die einen Nebenjob haben, in ihrem Intellekt (`intel`) von Psychologie-Studierenden, die keinen Nebenjob haben, ab.
+Weichen Psychologiestudierende, die einen Nebenjob haben, in ihrem Intellekt (`intel`) von Psychologiestudierenden, die keinen Nebenjob haben, ab.
 
 * Führen Sie nach Voraussetzungsprüfung einen geeigneten Test durch.
 
 <details><summary>Lösung</summary>
-Wir beginnen die Voraussetzungen des t-Tests für unabhängige Stichproben zu überprüfen. Die Voraussetzungen der Intervallskaliertheit der unabhängigen Variable und die Unabhängigkeit der einzelnen Messwerte ist per Untersuchungsdesign erfüllt. Wir wollen nun also die Normalverteilung des Merkmals in der Grundgesamtheit der Gruppen überprüfen.
+Wir beginnen die Voraussetzungen des t-Tests für unabhängige Stichproben zu überprüfen. Die Voraussetzungen, dass die unabhängige Variable intervallskaliert ist und die einzelnen Messwerte unabhängig voneinander sind, sind per Untersuchungsdesign erfüllt. Wir wollen nun also die Normalverteilung des Merkmals in den Gruppen überprüfen.
 
 
 
@@ -1414,7 +1414,7 @@ shapiro.test(fb22$intel[fb22$job == "ja"])
 ## W = 0.93146, p-value = 0.005113
 ```
 Die Normalverteilungsannahme ist nicht erfüllt. Wir können also keinen t-Test durchführen. Wir überprüfen nun die Voraussetzungen des Wilcoxon-Tests.
-Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr der selben Verteilung folgen.
+Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselben Verteilung folgen.
 
 
 ```r
@@ -1457,23 +1457,23 @@ wilcox.test(fb22$lz ~ fb22$ort)
 ## W = 2775, p-value = 0.3029
 ## alternative hypothesis: true location shift is not equal to 0
 ```
-Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = 2775, *p* = 0.303 ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Psychologie-Studierende, die einen Nebenjob haben und Psychologie-Studierende, die keinen Nebenjob haben, sich nicht in ihrem Intellekt unterscheiden. 
+Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = 2775, *p* = 0.303 ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Psychologiestudierende, die einen Nebenjob haben, und Psychologiestudierende, die keinen Nebenjob haben, nicht in ihrem Intellekt unterscheiden. 
 
 </details>
 
 ## Aufgabe 29
 
-Unterscheidet sich im Durchschnitt die Nerdiness (`nerd`) von Psychologiestudierenden von ihrem Intellekt (`intel`)?
+Unterscheiden sich  Nerdiness (`nerd`) und Intellekt (`intel`) von Psychologiestudierenden im Durchschnitt voneinander? Gehen Sie für die Beantwortung davon aus, dass die Skalen gleich genormt sind.
 
 * Stellen sie die Hypothesen auf.
 
 <details><summary>Lösung</summary>
 
-$H_0$: Die durchschnittliche Nerdiness von Psychologoiestudierenden unterscheidet sich nicht von ihrem Intellekt.
+$H_0$: Die durchschnittliche Nerdiness von Psychologiestudierenden unterscheidet sich nicht von deren Intellekt.
 
 $H_0$: $\mu_0$ $=$ $\mu_1$
   
-$H_1$: Die durchschnittliche Nerdiness von Psychologoiestudierenden unterscheidet sich von ihrem Intellekt.
+$H_1$: Die durchschnittliche Nerdiness von Psychologoiestudierenden unterscheidet sich von deren Intellekt.
 
 $H_1$: $\mu_0$ $≠$ $\mu_1$
 
@@ -1484,7 +1484,7 @@ $H_1$: $\mu_0$ $≠$ $\mu_1$
 
 <details><summary>Lösung</summary>
 
-Da die Nerdiness- und Intellekt-Werte, die verglichen werden sollen, immer von der selben Person stammen, sind die Werte voneinander abhängig. Daher wollen wir einen t-Test für abhängige Stichproben durchführen. Die Werte sind intervallskaliert, voneinander abhängig und die Differenzvariable ist normalverteilt, da wir bei einer Stichprobe von n ≥ 30 direkt davon ausgehen können. Somit sind alle Voraussetzungen für den t-Test erfüllt.
+Da die Nerdiness- und Intellekt-Werte, die verglichen werden sollen, immer von derselben Person stammen, sind die Werte voneinander abhängig. Daher wollen wir einen t-Test für abhängige Stichproben durchführen. Die Werte sind intervallskaliert, voneinander abhängig und die Differenzvariable ist normalverteilt, da wir bei einer Stichprobe von n ≥ 30 direkt davon ausgehen können. Somit sind alle Voraussetzungen für den t-Test erfüllt.
 
 </details>
 
@@ -1511,7 +1511,7 @@ t.test(fb22$nerd, fb22$intel, paired = T)
 ## mean difference 
 ##      -0.4627883
 ```
-Der Gruppenunterschied ist signifikant (*t*(158) = -7.06 , *p* < .001), somit wird die Nullhypothese verworfen. Psychologiestudierende weisen unterschiedliche Werte auf der Skala Nerdiness und auf der Skala Intellekt auf.
+Der Gruppenunterschied ist signifikant ($t$(158) = -7.06 , *p* < .001), somit wird die Nullhypothese verworfen. Unter den getroffenen Annahmen weisen Psychologiestudierende unterschiedliche Werte auf der Skala Nerdiness und auf der Skala Intellekt auf.
 
 **Effektstärke:**
 
@@ -1538,7 +1538,7 @@ Der Effekt ist mit -0.56 als mittel bis groß einzuschätzen.
 
 ## Aufgabe 30
 
-Hängt die Gewissenhaftigkeit (`gewis`) positiv mit der Anzahl an geschriebenen Wörtern zusammen, die als Begründung (`grund`) für die Wahl des Psychologiestudiums angegeben wurde? Überprüfen Sie die Voraussetzungen für das gewählte Zusammenhangsmaß.
+Hängt die Gewissenhaftigkeit (`gewis`) positiv mit der Anzahl an geschriebenen Wörtern zusammen, die als Begründung (`grund`) für die Wahl des Psychologiestudiums angegeben wurden? Überprüfen Sie die Voraussetzungen für das gewählte Zusammenhangsmaß.
 
 **Tipp:** Mit folgendem Befehl lässt sich die Anzahl an Wörtern einer Eingabe berechnen:
 
@@ -1594,7 +1594,7 @@ qqPlot(fb22$woerter_grund)
 ```
 ## [1] 136  93
 ```
-Die Normalverteilungsannahme ist nicht erfüllt. Daher können wir keine Pearson-Produkt-Moment Korrelation berechnen und berechnen stattdessen die Rangkorrelation nach Spearman, die nicht an die Normalverteilungsannahme gebunden ist.
+Die Normalverteilungsannahme ist nicht erfüllt. Daher können wir keine Pearson Produkt-Moment-Korrelation ermitteln und berechnen stattdessen die Rangkorrelation nach Spearman, die nicht an die Normalverteilungsannahme gebunden ist.
 
 
 ```r
@@ -1602,7 +1602,8 @@ cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "gre
 ```
 
 ```
-## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot compute exact p-value with ties
+## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot compute exact p-value
+## with ties
 ```
 
 ```
@@ -1623,8 +1624,8 @@ Es besteht kein positiver Zusammenhang zwischen Gewissenhaftigkeit und der Anzah
 
 ## Aufgabe 31
 
-Lässt sich Prokrastination durch Gewissenhaftigkeit (`gewis`) vorsagen? 
-(Falls noch nicht geschehen, berechnen sie den Skalenwert der Prokrastination)
+Lässt sich Prokrastination durch Gewissenhaftigkeit (`gewis`) vorhersagen? 
+(Falls noch nicht geschehen, berechnen sie den Skalenwert der Prokrastination.)
 
 
 ```r
@@ -1672,7 +1673,7 @@ plot(fm)
 
 ![](/lehre/statistik-i/zusatz-loesungen_files/figure-html/unnamed-chunk-76-1.png)<!-- -->
 
-Der Q-Q-Plot oben rechts deutet auf Normalverteilung hin. Die rote Anpassungslinie des Scale-Location Plots unten links ist annähernd parallel zur x-Achse, sodass wir von Varianzhomogenität ausgehen können. Da auch der vierte Plot unten rechts nicht auf potentiell problematische einflussreiche Datenpunkte hindeutet, sind alle Vorausetzungen erfüllt.
+Der Q-Q-Plot oben rechts deutet auf Normalverteilung hin. Die rote Anpassungslinie des Scale-Location Plots unten links ist annähernd parallel zur x-Achse, sodass wir von Varianzhomogenität ausgehen können. Da auch der vierte Plot unten rechts nicht auf potentiell problematische, einflussreiche Datenpunkte hindeutet, sind alle Vorausetzungen erfüllt.
 
 
 ```r
@@ -1688,11 +1689,11 @@ fm
 ## (Intercept)        gewis  
 ##      4.0282      -0.3922
 ```
-Die Regressionsgleichung lautet also $y_i$ = 4.028 - 0.392*$x_i$ + $e_i$. 
+Die Regressionsgleichung lautet also $$ y_i = 4.028 - 0.392*x_i + e_i $$. 
 </details>
 
 
-* Prüfen Sie nun die Signifikanz der Koeffizienten mit einem 99%-Konfidenzintervall.
+* Prüfen Sie nun mit einem {{<math>}}$99\%${{</math>}}-Konfidenzintervall die Signifikanz der Koeffizienten.
 
 <details><summary>Lösung</summary>
 
@@ -1707,12 +1708,12 @@ confint(fm, level = .99)
 ## gewis       -0.5352757 -0.2490569
 ```
 
-In keiner der Intervalle ist die Null enthalten, sodass wir davon ausgehen können, dass die beiden Koeffizienten tatsächlich von Null verschieden sind.
+In keinem der Intervalle ist die Null enthalten, sodass wir davon ausgehen können, dass die beiden Koeffizienten tatsächlich von Null verschieden sind.
 
 </details>
 
 
-* Wie viel Prozent der Varianz von Prokrastination lässt sich durch die Gewissenhaftigkeit aufklären?
+* Wie viel Prozent der Varianz von Prokrastination lassen sich durch die Gewissenhaftigkeit aufklären?
 
 <details><summary>Lösung</summary>
 
@@ -1754,7 +1755,7 @@ summary(fm)$r.squared
 
 
 
-Durch die Gewissenhaftigkeit kann 24.78% der Varianz von Prokrastination erklärt werden.
+Durch die Gewissenhaftigkeit können {{<math>}}$ 24.78\%${{</math>}} der Varianz von Prokrastination erklärt werden.
 
 </details>
 
@@ -1787,7 +1788,7 @@ Das Modell sagt einen Prokrastinationswert von 2.77 voraus.
 
 ## Aufgabe 32
 
-In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologie-Studierenden unterscheiden. Die gefundene Effektgröße betrug d = -0.56. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie 10^4 mal wiederholen.
+In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug d = -0.56. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie 10^4 mal wiederholen.
 Nutzen Sie den Seed 4321 (`set.seed(4321)`).
 
 * Führen Sie eine Simulation durch, um die empirische Power des t-Tests zu bestimmen.
