@@ -7,7 +7,7 @@ categories: ["Statistik I Übungen"]
 tags: [] 
 subtitle: ''
 summary: '' 
-authors: [nehler, winkler, schroeder] 
+authors: [nehler, winkler, vogler, schroeder] 
 weight: 
 lastmod: '`r Sys.Date()`'
 featured: no
@@ -32,330 +32,73 @@ output:
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb22$geschl_faktor <- factor(fb22$geschl,
-                             levels = 1:3,
-                             labels = c("weiblich", "männlich", "anderes"))
-fb22$fach <- factor(fb22$fach,
+fb23$hand_factor <- factor(fb23$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
+fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb22$ziel <- factor(fb22$ziel,
+fb23$ziel <- factor(fb23$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb22$wohnen <- factor(fb22$wohnen, 
+fb23$wohnen <- factor(fb23$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+fb23$fach_klin <- factor(as.numeric(fb23$fach == "Klinische"),
+                         levels = 0:1,
+                         labels = c("nicht klinisch", "klinisch"))
+fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
+fb23$unipartys <- factor(fb23$uni3,
+                             levels = 0:1,
+                             labels = c("nein", "ja"))
 
-# Skalenbildung
+# Rekodierung invertierter Items
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
+fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
+fb23$mdbf5_pre_r <- -1 * (fb23$mdbf5_pre - 4 - 1)
+fb23$mdbf7_pre_r <- -1 * (fb23$mdbf7_pre - 4 - 1)
 
-fb22$prok2_r <- -1 * (fb22$prok2 - 5)
-fb22$prok3_r <- -1 * (fb22$prok3 - 5)
-fb22$prok5_r <- -1 * (fb22$prok5 - 5)
-fb22$prok7_r <- -1 * (fb22$prok7 - 5)
-fb22$prok8_r <- -1 * (fb22$prok8 - 5)
+# Berechnung von Skalenwerten
+fb23$wm_pre  <- fb23[, c('mdbf1_pre', 'mdbf5_pre_r', 
+                        'mdbf7_pre_r', 'mdbf10_pre')] |> rowMeans()
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
 
-# Prokrastination
-fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
-                          'prok4', 'prok5_r', 'prok6',
-                          'prok7_r', 'prok8_r', 'prok9', 
-                          'prok10')] |> rowMeans()
-# Naturverbundenheit
-fb22$nr_ges <-  fb22[, c('nr1', 'nr2', 'nr3', 'nr4', 'nr5',  'nr6')] |> rowMeans()
-fb22$nr_ges_z <- scale(fb22$nr_ges) # Standardisiert
-
-# Weitere Standardisierungen
-fb22$nerd_std <- scale(fb22$nerd)
-fb22$neuro_std <- scale(fb22$neuro)
+# z-Standardisierung
+fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
 
 ```
 
-Laden Sie zunächst den Datensatz `fb22` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb22.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-abhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb23` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb23.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/korrelation/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 ```{r}
-dim(fb22)
-str(fb22)
+dim(fb23)
+names(fb23)
 ```
 
-Der Datensatz besteht aus `r nrow(fb22)` Zeilen (Beobachtungen) und `r ncol(fb22)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus `r nrow(fb23)` Zeilen (Beobachtungen) und `r ncol(fb23)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ***
-# Korrelation
 
 ## Aufgabe 1
 
-In der Befragung am Anfang des Semesters wurde gefragt, ob Sie neben der Uni einen Nebenjob (`job`) ausüben und in welcher Wohnsituation Sie sich befinden (`wohnen`). Erstellen Sie für diese beiden Variablen eine Kreuztabelle mit Randsummen.
-
--   Stellen Sie zunächst sicher, dass die Variablen als Faktoren vorliegen und die Kategorien beider Variablen korrekt bezeichnet sind.
-
-<details>
-
-<summary>Lösung</summary>
-
-Zunächst können wir überprüfen, ob die Variablen als Fakto vorliegen.
-
-```{r}
-#Labels
-is.factor(fb22$job)
-is.factor(fb22$wohnen)
-```
-
-Wenn Sie die Datensatzvorbereitung aus dem Skript kopiert haben, sollte `wohnen` bereits ein Faktor sein. Also müssen nur `job` in einen Faktor verwandeln.
-
-```{r}
-#Labels
-fb22$job <- factor(fb22$job, levels = c(1, 2),
-  labels = c('nein', 'ja'))
-
-str(fb22$job)
-```
-
-Für den Fall, dass `wohnen` noch kein Faktor im Datensatz war, kann folgender Code durchgeführt werden. Achten Sie aber drauf, dass dieser Befehl auf eine Variable nicht angewendet werden sollte, wenn diese bereits ein Faktor ist. Ansonsten kommt es zu dem Fehler, dass die Variable keine Informationen mehr enthält.
-
-```{r, eval = F}
-#Labels
-fb22$wohnen <- factor(fb22$wohnen, levels = 1:4,
-     label = c('WG', 'bei Eltern', 'alleine', 'sonstiges'))
-```
-
-Die Variable sieht dann folgendermaßen aus.
-
-```{r}
-str(fb22$wohnen)
-```
-
-</details>
-
--   Wie viele Personen wohnen in einer WG und haben keinen Nebenjob?
-
-<details>
-
-<summary>Lösung</summary>
-
-```{r}
-# Kreuztabelle absolut
-tab <- table(fb22$job, fb22$wohnen)
-addmargins(tab)
-```
-
-`r tab[1,1]` Personen wohnen in einer WG und haben keinen Nebenjob.
-
-</details>
-
--   Was ist der relative Anteil aller Teilnehmer:innen, die bei ihren Eltern wohnen?
-
-<details>
-
-<summary>Lösung</summary>
-
-```{r}
-# Relative Häufigkeiten, mit Randsummen
-addmargins(prop.table(tab))
-```
-
-`r round(addmargins(prop.table(tab))[3,2]*100,2)`% aller Teilnehmer:innen wohnen bei ihren Eltern.
-
-</details>
-
--   Welcher Anteil der Personen, die alleine wohnen, gehen einer Nebentätigkeit nach?
-
-<details>
-
-<summary>Lösung</summary>
-
-```{r}
-# Relative Häufigkeiten, an wohnen normiert
-prop.table(tab, 2)
-```
-
-`r round(prop.table(tab, 2)[2,3]*100,2)`% aller Teilnehmer:innen, die alleine wohnen, gehen einer Nebentätigkeit nach.
-
-</details>
-
-## Aufgabe 2
-
-Erstellen Sie für diese Kombination an Variablen ein gruppiertes Balkendiagramm.
-
--   Achten Sie darauf, dass die Balken nebeneinander stehen.
--   Nutzen Sie für die Personen mit und ohne Nebenjob unterschiedliche Farben und fügen Sie eine Legende hinzu, die das verdeutlicht.
-
-<details>
-
-<summary>Lösung</summary>
-
-```{r}
-# Gruppiertes Balkendiagramm
-barplot(tab,
-  beside = TRUE,             # nebeneinander
-  col = c('blue', 'orange'), # Farben definieren: Blau und Orange
-  legend = rownames(tab))    # Legende einfuegen
-```
-
-</details>
-
-## Aufgabe 3
-
-Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglichkeit (`vertr`), Gewissenhaftigkeit (`gewis`), Neurotizismus (`neuro`) und Intellekt (`intel`) ist am stärksten mit der Lebenszufriedenheit korreliert (`lz`)?
-
--   Überprüfen Sie die Voraussetzungen für die Pearson-Korrelation.
-
-<details>
-
-<summary>Lösung</summary>
-
-**Voraussetzungen Pearson-Korrelation:**
-
-1.  Skalenniveau: intervallskalierte Daten $\rightarrow$ ok\
-2.  Linearität: Zusammenhang muss linear sein $\rightarrow$ Grafische überprüfung (Scatterplot)
-
-```{r}
-# Scatterplot
-plot(fb22$extra, fb22$lz, 
-  xlim = c(0, 6), ylim = c(0, 7), pch = 19)
-
-plot(fb22$vertr, fb22$lz, 
-  xlim = c(0, 6), ylim = c(0, 7), pch = 19)
-
-plot(fb22$gewis, fb22$lz, 
-  xlim = c(0, 6), ylim = c(0, 7), pch = 19)
-
-plot(fb22$neuro, fb22$lz, 
-  xlim = c(0, 6), ylim = c(0, 7), pch = 19)
-
-plot(fb22$intel, fb22$lz, 
-  xlim = c(0, 6), ylim = c(0, 7), pch = 19)
-```
-
-</details>
-
-<details>
-
-<summary>Lösung</summary>
-
-3.  Normalverteilung $\rightarrow$ QQ-Plot, Histogramm oder Shapiro-Wilk-Test
-
-```{r}
-#QQ
-qqnorm(fb22$extra)
-qqline(fb22$extra)
-
-qqnorm(fb22$vertr)
-qqline(fb22$vertr)
-
-qqnorm(fb22$gewis)
-qqline(fb22$gewis)
-
-qqnorm(fb22$neuro)
-qqline(fb22$neuro)
-
-qqnorm(fb22$intel)
-qqline(fb22$intel)
-
-qqnorm(fb22$lz)
-qqline(fb22$lz)
-
-#Histogramm
-hist(fb22$extra, prob = T, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb22$extra, na.rm = T), sd = sd(fb22$extra, na.rm = T)), col = "blue", add = T)  
-
-hist(fb22$vertr, prob = T, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb22$vertr, na.rm = T), sd = sd(fb22$vertr, na.rm = T)), col = "blue", add = T)  
-
-hist(fb22$gewis, prob = T, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb22$gewis, na.rm = T), sd = sd(fb22$gewis, na.rm = T)), col = "blue", add = T)  
-
-hist(fb22$neuro, prob = T, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb22$neuro, na.rm = T), sd = sd(fb22$neuro, na.rm = T)), col = "blue", add = T)  
-
-hist(fb22$intel, prob = T, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb22$intel, na.rm = T), sd = sd(fb22$intel, na.rm = T)), col = "blue", add = T)  
-
-hist(fb22$lz, prob = T, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb22$lz, na.rm = T), sd = sd(fb22$lz, na.rm = T)), col = "blue", add = T)  
-
-#Shapiro
-shapiro.test(fb22$extra)
-shapiro.test(fb22$vertr)
-shapiro.test(fb22$gewis)
-shapiro.test(fb22$neuro)
-shapiro.test(fb22$intel)
-shapiro.test(fb22$lz)
-
-
-```
-
-$p < \alpha$ $\rightarrow$ H1: Normalverteilung kann für alle Variablen außer `extra` nicht angenommen werden. Somit ist diese Voraussetzung für die meisten Variablen verletzt. Daher sollten wir fortlaufend die Rangkorrelation nach Spearman nutzen.
-
-</details>
-
--   Erstellen Sie für diese Frage eine Korrelationsmatrix, die alle Korrelationen enthält. Verwenden Sie die Funktion `round()` (unter Betrachtung der Hilfe), um die Werte auf zwei Nachkommastellen zu runden und die Tabelle dadurch übersichtlicher darzustellen.
-
-<details>
-<summary>Lösung</summary>
-
-```{r}
-# Korrelationstabelle erstellen und runden
-cor_mat <- round(cor(fb22[,c('lz', 'extra', 'vertr', 'gewis', 'neuro', 'intel')], use = 'pairwise', method = 'spearman'),2)
-cor_mat
-```
-
-
-</details>
-
--   Wie würden Sie das Ausmaß dieser Korrelation nach den Richtlinien von Cohen (1988) einschätzen?
-
-<details>
-
-<summary>Lösung</summary>
-
-Die größte Korrelation mit der Lebenszufriedenheit hat die Gewissenhaftigkeit. Nach den Richtlinien ist diese mit `r cor_mat[4]` einem positiven mittleren Effekt, der ungefähr 0.3 beträgt, zuzuordnen.
-
-</details>
-
--   Ist der Korrelationskoeffizient von Lebenszufriedenheit und Gewissenhaftigkeit statistisch signifikant?
-
-<details>
-
-<summary>Lösung</summary>
-
-```{r}
-cor.test(fb22$lz, fb22$gewis, 
-         alternative = "two.sided", 
-         method = "spearman",       
-         use = "complete.obs")
-```
-
-$p < \alpha$ $\rightarrow$ H1. Die Korrelation ist mit einer Irrtumswahrscheinlichkeit von 5% signifikant von 0 verschieden.
-
-</details>
-
-## Aufgabe 4
-
-Berechnen sie die Pearson-Korrelation, die Spearman-Korrelation, Kendall's Tau sowie $\hat{\gamma}$ für den Zusammenhang von `prok1` und `prok6`.
-
-<details>
-
-<summary>Lösung</summary>
-
-```{r}
-library(rococo)
-cor(fb22$prok1, fb22$prok6, method = "pearson")
-cor(fb22$prok1, fb22$prok6, method = "spearman")
-cor(fb22$prok1, fb22$prok6, method = "kendall")
-rococo(fb22$prok1, fb22$prok6)
-```
-
-</details>
-
-## Aufgabe 5
-
 Das Paket `psych` enthält vielerlei Funktionen, die für die Analyse von Datensätzen aus psychologischer Forschung praktisch sind. Eine von ihnen (`describe()`) erlaubt es, gleichzeitig verschiedene Deskriptivstatistiken für Variablen zu erstellen.
 
--   Installieren und laden Sie das Paket `psych`.
+  * Installieren (falls noch nicht geschehen) und laden Sie das Paket `psych`.
+  * Nutzen Sie den neugewonnen Befehl `describe()`, um sich gleichzeitig die verschiedenen Deskriptivstatistiken für Lebenszufriedenheit (`lz`) ausgeben zu lassen.
+  * Die Funktion `describeBy()` ermöglicht außerdem Deskriptivstatistiken in Abhängigkeit einer gruppierenden Variable auszugeben. Machen Sie sich diesen Befehl zunutze, um sich die Lebenszufriedenheit (`lz`) abhängig von der derzeitigen Wohnsituation (`wohnen`) anzeigen zu lassen.
+  * `describe()` kann auch genutzt werden, um gleichzeitig Deskriptivstatistiken für verschiedene Variablen zu berechnen. Nutzen Sie diese Funktionalität, um sich gleichzeitg die univariaten Deskriptivstatistiken für die fünf Persönlichkeitsdimensionen ausgeben zu lassen.
 
 <details>
 
@@ -366,7 +109,7 @@ Das Paket `psych` enthält vielerlei Funktionen, die für die Analyse von Datens
 install.packages('psych')
 ```
 
-```{r}
+```{r message=FALSE}
 # Paket laden
 library(psych)
 ```
@@ -380,7 +123,19 @@ library(psych)
 <summary>Lösung</summary>
 
 ```{r}
-describe(fb22$lz)
+describe(fb23$lz)
+```
+
+</details>
+
+-   `describeBy()` ermöglicht die Ausgabe von Deskriptivstatistiken in Abhängigkeit einer gruppierenden Variable.
+
+<details>
+
+<summary>Lösung</summary>
+
+```{r}
+describeBy(fb23$lz, group = fb23$wohnen)
 ```
 
 </details>
@@ -392,8 +147,377 @@ describe(fb22$lz)
 <summary>Lösung</summary>
 
 ```{r}
-describe(fb22[,c("extra","vertr","gewis","neuro","intel")])
+describe(fb23[,c("extra","vertr","gewis","neuro","offen")])
 ```
+
+</details>
+
+
+
+## Aufgabe 2
+
+In der Befragung am Anfang des Semesters wurde gefragt, ob Sie neben der Uni einen Nebenjob (`job`) ausüben und mit welcher Hand sie primär schreiben (`hand`). Erstellen Sie für diese beiden Variablen eine Kreuztabelle mit Randsummen.
+
+  * Stellen Sie zunächst sicher, dass die Variablen als Faktoren vorliegen und die Kategorien beider Variablen korrekt bezeichnet sind. 
+  * Wie viele Personen sind Linkshänder und haben keinen Nebenjob? 
+  * Was ist der relative Anteil aller Teilnehmenden, die einem Nebenjob nachgehen?
+
+  * Berechnen Sie nun mit Hilfe des `psych`-Pakets die Korrelationskoeffizienten Phi ($\phi$) und Yules Q für das oben genannte Beispiel.
+  
+<details>
+
+<summary>Lösung</summary>
+
+Zunächst können wir überprüfen, ob die Variablen als Faktor vorliegen.
+
+```{r}
+#Labels
+is.factor(fb23$job)
+is.factor(fb23$hand)
+```
+
+Wenn Sie die Datensatzvorbereitung aus dem Skript kopiert haben, sollte die Variable `job` bereits ein Faktor sein.
+Die Variable `hand` jedoch nicht. Dies müssen wir ändern.
+
+```{r}
+fb23$hand <- factor(fb23$hand,
+                    levels = c(1, 2),
+                    labels = c("links", "rechts"))
+```
+
+Für den Fall, dass die Variable `job` noch nicht als Faktor im Datensatz vorliegt, kann folgender Code durchgeführt werden. Achten Sie aber drauf, dass dieser Befehl auf eine Variable nicht angewendet werden sollte, wenn diese bereits ein Faktor ist. Ansonsten kommt es zu dem Fehler, dass die Variable keine Informationen mehr enthält.
+
+```{r, eval = F}
+fb23$job <- factor(fb23$job, levels = c(1, 2),
+  labels = c('nein', 'ja'))
+```
+
+Die Variablen sehen dann folgendermaßen aus.
+
+```{r}
+str(fb23$job)
+
+str(fb23$hand)
+```
+
+</details>
+
+-   Wie viele Personen sind Linkshänder und haben keinen Nebenjob?
+
+<details>
+
+<summary>Lösung</summary>
+
+```{r}
+# Kreuztabelle absolut
+tab <- table(fb23$hand, fb23$job)
+addmargins(tab)
+```
+
+`r tab[1,1]` Personen schreiben primär mit der linken Hand und haben keinen Nebenjob.
+
+</details>
+
+-   Was ist der relative Anteil aller Teilnehmenden, die einem Nebenjob nachgehen?
+
+<details>
+
+<summary>Lösung</summary>
+
+```{r}
+# Relative Häufigkeiten, mit Randsummen
+addmargins(prop.table(tab))
+```
+
+`r round(addmargins(prop.table(tab))[3,2]*100,2)`% aller Teilnehmenden gehen keiner Nebentätigkeit nach.
+
+</details>
+
+-   Berechnung der Korrelationskoeffizienten Phi ($\phi$) und Yules Q mit Hilfe des `psych`-Pakets.
+
+<details>
+
+<summary>Lösung</summary>
+
+```{r}
+phi(tab, digits = 3)
+
+Yule(tab) |> round(digits = 3) #da die Yule()-Funktion nicht direkt runden kann geben wir das Ergebnis an die round()-Funktion weiter
+```
+
+Beide Koeffizienten sprechen für eine wenn überhaupt schwache Korrelation.
+
+</details>
+
+
+## Aufgabe 3
+
+Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglichkeit (`vertr`), Gewissenhaftigkeit (`gewis`), Neurotizismus (`neuro`) und Offenheit für neue Erfahrungen (`offen`) ist am stärksten mit der Lebenszufriedenheit korreliert (`lz`)?
+
+  * Überprüfen Sie die Voraussetzungen für die Pearson-Korrelation.
+  * Erstellen Sie für diese Frage eine Korrelationsmatrix, die alle Korrelationen enthält. Verwenden Sie die Funktion `round()` (unter Betrachtung der Hilfe), um die Werte auf zwei Nachkommastellen zu runden und die Tabelle dadurch übersichtlicher darzustellen.
+  * Wie würden Sie das Ausmaß der betragsmäßig größten Korrelation mit der Lebenszufiredenheit nach den Richtlinien von Cohen (1988) einschätzen?
+  * Ist der Korrelationskoeffizient von Neurotizismus und Lebenszufriedenheit statistisch bedeutsam?
+
+
+Voraussetzungsprüfung:
+
+<details>
+
+<summary>Lösung</summary>
+
+**Voraussetzungen Pearson-Korrelation:**
+
+1.  Skalenniveau: intervallskalierte Daten $\rightarrow$ ok\
+2.  Linearität: Zusammenhang muss linear sein $\rightarrow$ Grafische überprüfung (Scatterplot)
+
+```{r}
+# Scatterplot
+plot(fb23$extra, fb23$lz, 
+  xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+
+plot(fb23$vertr, fb23$lz, 
+  xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+
+plot(fb23$gewis, fb23$lz, 
+  xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+
+plot(fb23$neuro, fb23$lz, 
+  xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+
+plot(fb23$offen, fb23$lz, 
+  xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+```
+
+Die fünf Scatterplots lassen allesamt auf einen linearen Zusammenhang zwischen den Variablen schließen.
+
+</details>
+
+<details>
+
+<summary>Lösung</summary>
+
+3.  Normalverteilung $\rightarrow$ QQ-Plot, Histogramm oder Shapiro-Wilk-Test
+
+```{r}
+#QQ
+qqnorm(fb23$extra)
+qqline(fb23$extra)
+
+qqnorm(fb23$vertr)
+qqline(fb23$vertr)
+
+qqnorm(fb23$gewis)
+qqline(fb23$gewis)
+
+qqnorm(fb23$neuro)
+qqline(fb23$neuro)
+
+qqnorm(fb23$offen)
+qqline(fb23$offen)
+
+qqnorm(fb23$lz)
+qqline(fb23$lz)
+
+#Histogramm
+hist(fb23$extra, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb23$extra, na.rm = TRUE), sd = sd(fb23$extra, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+
+hist(fb23$vertr, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb23$vertr, na.rm = TRUE), sd = sd(fb23$vertr, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+
+hist(fb23$gewis, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb23$gewis, na.rm = TRUE), sd = sd(fb23$gewis, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+
+hist(fb23$neuro, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb23$neuro, na.rm = TRUE), sd = sd(fb23$neuro, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+
+hist(fb23$offen, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb23$offen, na.rm = TRUE), sd = sd(fb23$offen, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+
+hist(fb23$lz, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb23$lz, na.rm = TRUE), sd = sd(fb23$lz, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+
+#Shapiro
+shapiro.test(fb23$extra)
+shapiro.test(fb23$vertr)
+shapiro.test(fb23$gewis)
+shapiro.test(fb23$neuro)
+shapiro.test(fb23$offen)
+shapiro.test(fb23$lz)
+
+
+```
+
+$p < \alpha$ $\rightarrow$ H1: Normalverteilung kann für alle Variablen nicht angenommen werden. Somit ist diese Voraussetzung für alle Variablen verletzt. Daher sollten wir fortlaufend die Rangkorrelation nach Spearman nutzen.
+
+</details>
+
+-   Erstellen Sie für diese Frage eine Korrelationsmatrix, die alle Korrelationen enthält. Verwenden Sie die Funktion `round()` (unter Betrachtung der Hilfe), um die Werte auf zwei Nachkommastellen zu runden und die Tabelle dadurch übersichtlicher darzustellen.
+
+<details>
+<summary>Lösung</summary>
+
+```{r}
+# Korrelationstabelle erstellen und runden
+cor_mat <- round(cor(fb23[,c('lz', 'extra', 'vertr', 'gewis', 'neuro', 'offen')],
+                     use = 'pairwise',
+                     method = 'spearman'),2)
+cor_mat
+```
+
+
+</details>
+
+-   Wie würden Sie das Ausmaß der betragsmäßig größten Korrelation mit der Lebenszufriedenheit nach den Richtlinien von Cohen (1988) einschätzen?
+
+<details>
+
+<summary>Lösung</summary>
+
+Die betragsmäßig größte Korrelation mit der Lebenszufriedenheit hat die Extraversion. Nach den Richtlinien ist diese mit `r cor_mat[2]` einem positiven mittleren Effekt, der ungefähr 0.3 beträgt, zuzuordnen.
+
+</details>
+
+-   Ist der Korrelationskoeffizient von Lebenszufriedenheit und Neurotizismus statistisch signifikant?
+
+<details>
+
+<summary>Lösung</summary>
+
+```{r}
+cor.test(fb23$lz, fb23$neuro, 
+         alternative = "two.sided", 
+         method = "spearman",       
+         use = "pairwise") 
+```
+
+$p < \alpha$ $\rightarrow$ H1. Die Korrelation ist mit einer Irrtumswahrscheinlichkeit von 5% signifikant von 0 verschieden.
+
+</details>
+
+## Aufgabe 4
+
+Untersuchen Sie die Korrelation zwischen Nerdiness (`nerd`) und Prokrastinationstendenz (`prok`). Berechnen Sie dafür ein geeignetes Korrelationsmaß und testen Sie dieses auf Signifikanz.
+
+<details>
+
+<summary>Lösung</summary>
+
+Um das geeignete Korrelationsmaß zu bestimmen überprüfen wir zunächst die Vorrausetzungen der Pearson-Korrelation:
+
+1.  Skalenniveau: intervallskalierte Daten $\rightarrow$ ok\
+2.  Linearität: Zusammenhang muss linear sein $\rightarrow$ Grafische überprüfung (Scatterplot)
+
+```{r}
+# Scatterplot
+plot(fb23$nerd, fb23$prok, 
+  xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+```
+
+Es ist kein klarer linearer Zusammenhang zwischen `nerd` und `prok` zu erkennen.
+Gleichzeitig ist keine andere Art des Zusammenhangs (polynomial, exponentiell etc.) offensichtlich. Daher gehen wir für diese Aufgabe, um im Rahmen des Erstsemester Statistik Praktikums zu bleiben, davon aus dass die Vorraussetzung der Linearität erfüllt ist.  
+
+3.  Normalverteilung $\rightarrow$ QQ-Plot, Histogramm oder Shapiro-Wilk Test
+
+```{r message=FALSE}
+#Car-Paket laden
+library(car)
+```
+
+```{r}
+
+#QQ-Plot
+qqPlot(fb23$nerd)
+qqPlot(fb23$prok)
+
+
+#Histogramm
+hist(fb23$nerd, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb23$nerd, na.rm = TRUE), sd = sd(fb23$nerd, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+
+hist(fb23$prok, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb23$prok, na.rm = TRUE), sd = sd(fb23$prok, na.rm = TRUE)), col = "#00618F", add = TRUE)
+
+
+#Shapiro-Wilk Test
+shapiro.test(fb23$nerd) #nicht signifikant
+shapiro.test(fb23$prok) #knapp signifikant
+
+```
+
+Auf Basis der zwei graphischen und dem inferenzstatistischen Verfahren kommen wir zum Schluss das beide Variablen normalverteilt vorliegen, auch wenn der Shapiro-Wilk Test für `prok` signifikant ausfällt. 
+Hier lässt sich auch mit dem *zentralen Grenzwertsatz* argumentieren. Als Faustregel gilt hiernach $n > 30 \rightarrow$ normalverteilt.
+
+Somit kommen wir zum Schluss das die Pearson-Korrelation hier das richtige Korrelationsmaß ist.
+Falls Sie für ihre Berechnung jedoch die Normalverteilungsannahme verworfen haben und mit Spearman gerechnet haben ist dies auch ok.
+
+```{r}
+cor.test(fb23$nerd, fb23$prok,
+         alternative = "two.sided",
+         method = "pearson",
+         use = "pairwise")
+
+cor.test(fb23$nerd, fb23$prok,
+                        alternative = "two.sided",
+                        method = "spearman",
+                        use = "pairwise")
+```
+
+```{r echo=FALSE}
+cor_pearson <- cor.test(fb23$nerd, fb23$prok,
+                        alternative = "two.sided",
+                        method = "pearson",
+                        use = "pairwise")
+
+cor_spearman <- cor.test(fb23$nerd, fb23$prok,
+                        alternative = "two.sided",
+                        method = "spearman",
+                        use = "pairwise")
+
+```
+
+Sowohl die Pearson-Korrelation (p = `r cor_pearson$p.value`) als auch Spearman-Rangkorrelation (p = `r cor_spearman$p.value`) sind nicht signifikant von 0 verschieden. 
+
+</details>
+
+## Aufgabe 5 Bonus
+
+Im vorherigen Kapitel haben wir die Poweranalyse behandelt. Solche Analysen kann man auch für Korrelationen vornehmen. Frischen Sie gerne Ihren Wissensstand [hier](/lehre/statistik-i/simulation-poweranalyse/) noch einmal auf.
+Daher, führen sie mit Hilfe des Pakets `WebPower` eine Sensitivitätsanalyse für den Datensatz `fb23` unter folgenden Parametern durch:
+
+  * Fehler 1. Art ($\alpha = 5\%$)
+  * Fehler 2. Art ($\beta = 20\%$)
+  * Alternativhypothese ($H_1$: $\rho_1 \neq 0$)
+  
+<details>
+
+<summary>Lösung</summary>
+
+Bei einer Sensitivitätsanalyse interessiert uns wie stark ein Effekt sein muss damit wir ihn gegeben der Stichprobengröße (n) und $\alpha$-Fehlerniveau mit einer Wahrscheinlichkeit (Power = 1 - $\beta$) finden.
+Einfach gesagt, gesucht ist die aufdeckbare Effektstärke.
+Außerdem sind Korrelationen ihre eigenen Effektgrößen, daher müssen wir nicht noch etwa Cohens d berechnen.
+
+```{r message=FALSE}
+library(WebPower)
+```
+
+```{r}
+
+wp.correlation(n = nrow(fb23),            
+               r = NULL,                  #gesucht
+               power = 0.8,               #Power = 1 - Beta
+               alternative = "two.sided") #leitet sich aus der H1 ab
+```
+
+```{r echo=FALSE}
+pa <- wp.correlation(n = nrow(fb23),            
+                     r = NULL,                  
+                     power = 0.8,               
+                     alternative = "two.sided")
+```
+
+Gegeben es gibt eine von null verschiedene (signifikante) Pearson-Korrelation muss diese mindestens `r round(pa$r, 3)` groß sein, damit wir diese mit einer Power von 80%, auf einem $alpha$-Fehlerniveau von 5% in unserem Datensatz, mit n = `r nrow(fb23)` finden könnten.
 
 </details>
 

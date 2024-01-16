@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, scheppa-lahyani, vogler, pommeranz] 
-lastmod: '2023-12-04'
+lastmod: '2024-01-16'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -106,21 +106,6 @@ library(psych)
 library(car)
 ```
 
-```
-## Loading required package: carData
-```
-
-```
-## 
-## Attaching package: 'car'
-```
-
-```
-## The following object is masked from 'package:psych':
-## 
-##     logit
-```
-
 </details>
 
 
@@ -176,8 +161,10 @@ describe(fb23$lz) #Funktion aus Paket "psych"
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 177 5.12 1.05    5.4    5.19 0.89 1.4   7   5.6 -0.75     0.58 0.08
+##    vars   n mean   sd median trimmed  mad min max range
+## X1    1 177 5.12 1.05    5.4    5.19 0.89 1.4   7   5.6
+##     skew kurtosis   se
+## X1 -0.75     0.58 0.08
 ```
 
 </details>
@@ -469,12 +456,14 @@ Die Effektgröße ist mit 0.2 nach Cohen (1988) als klein einzuordnen.
 
 
 
+
+
 ## Aufgabe 4
 
 Folgende Aufgaben haben ein erhöhtes Schwierigkeitsniveau.
 Nehmen Sie für die weiteren Aufgaben den Datensatz `fb23` als Grundgesamtheit (Population) an.
 
-**4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Der mittlere Gewissenhaftigkeits-Wert dieser Stichprobe beträgt $\bar{x}$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrem Wert (`gewis`) von der Grundgesamtheit?
+**4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Die mittlere Gewissenhaftigkeit dieser Stichprobe beträgt $\mu$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrer Gewissenhaftigkeit (`gewis`) von der Grundgesamtheit?
 Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzintervall.
 
 <details><summary>Lösung</summary>
@@ -565,7 +554,7 @@ upper_conf_gewis <- mean_gewis_smpl1 + z_krit * se_gewis
 lower_conf_gewis <- mean_gewis_smpl1 - z_krit * se_gewis
 
 conf_int <- c(lower_conf_gewis, upper_conf_gewis)
-conf_int # Mittelwert der Population innerhalb des Intervalls, H0 kann nicht verworfen werden
+conf_int
 ```
 
 ```
@@ -636,7 +625,7 @@ mean_gewis_pop <- mean(fb23$gewis) #Mittelwert der Population
 
 sd_gewis_pop <- sd(fb23$gewis) * sqrt((nrow(fb23) - 1) / nrow(fb23)) #empirische Standardabweichung der Population
 
-se_gewis <- sd_gewis_pop / sqrt(nrow(fb23)) #Standardfehler
+se_gewis <- sd_gewis_pop / sqrt(nrow(fb23_sample)) #Standardfehler
 
 mean_gewis_smpl2 <- mean(fb23_sample$gewis) #Mittelwert der Stichprobe
 
@@ -644,24 +633,21 @@ z_gewis2 <- (mean_gewis_smpl2 - mean_gewis_pop) / se_gewis #empirischer z-Wert
 
 z_krit <- qnorm(1 - 0.05/2) #kritischer z-Wert, zweiseitig
 
-abs(z_gewis2) > z_krit #signifikant
+abs(z_gewis2) > z_krit #nicht signifikant
 ```
 
 ```
-## [1] TRUE
+## [1] FALSE
 ```
 
 ```r
-2 * pnorm(z_gewis2) #p < .05, signifikant
+2 * pnorm(z_gewis2) #p > .05, nicht signifikant
 ```
 
 ```
-## [1] 0.02563394
+## [1] 0.3530255
 ```
 
-Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ verworfen werden. Die Psychologie-Studierenden der Stichprobe unterscheiden sich in ihrer Gewissenhaftigkeit von der Grundgesamtheit (Datensatz). 
-
-
-
+Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ **nicht** verworfen werden. Die Psychologie-Studierenden der Stichprobe unterscheiden sich in ihrer Gewissenhaftigkeit von der Grundgesamtheit (Datensatz). 
 
 </details>
