@@ -1,0 +1,516 @@
+---
+title: Einführung in gemischte Modelle mit lme4
+type: post
+date: '2023-02-23'
+slug: lmm-intro
+categories: ["KiJu"]
+tags: ["Regression", "Hierarchische Daten", "Zufallseffekte"]
+subtitle: ''
+summary: ''
+authors: [schultze]
+weight: 3
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/grapevines_dark.jpg"
+  caption: "[Courtesy of pexels](https://www.pexels.com/photo/bunches-of-grapes-hanging-from-vines-3840335/)"
+projects: []
+
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /workshops/kiju/lmm-intro
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /workshops/kiju/lmm-intro.R
+
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+options(width="60")
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
+
+```{r, echo=FALSE}
+library(knitr)
+```
+
+
+## Vorbereitung
+
+### Datenbeispiel
+
+- International College Survey (Diener, Kim-Pietro, Scollon, et al., 2001)
+- Wohlbefinden in unterschiedlichen Ländern
+
+```{r, eval=FALSE}
+load(url('https://pandar.netlify.app/post/kultur.rda'))
+head(kultur)[, 1:8] # alle Zeilen und Spalten 1-8 für die ersten 6 Personen
+```
+
+```{r, echo=FALSE}
+load("../../daten/kultur.rda")
+head(kultur)[, 1:8] # alle Zeilen und Spalten 1-8 für die ersten 6 Personen
+```
+
+- Lebenszufriedenheit (lezu)
+  * 5 Items auf einer Skala von 1 (“strongly disagree”) bis 7 (“strongly agree”)
+  * z.B. “I am satisfied with my life”
+- Positiver Affekt (pa) & negativer Affekt (na)
+  * "For the following list of emotions, please rate how often you felt each of the emotions in the last week"
+  * Skala von 1 (“not at all”) bis 7 (“all the time”)
+  * Für positiven Affekt: Pleasant, Happy, Cheerful, etc.
+  * Für negativen Affekt: Unpleasant, Sad, Anger, etc.
+- Klarheit eigener Gefühle (kla_e)
+- Aufmerksamkeit auf eigene Gefühle (auf_e)
+- Schachtelung in Nationen (nation)
+
+```{r}
+levels(kultur$nation) # Übersicht über alle vorkommenden Nationen
+```
+
+```{r}
+dim(kultur) # Anzahl Zeilen und Spalten des ganzen Datensatzes
+```
+
+
+### Regressionsergebnisse im Beispiel
+
+```{r}
+mod <- lm(lezu ~ 1 + pa, kultur) # Interzept wird hier explizit angefordert
+summary(mod)
+```
+- Darstellung der Ergebnisse (siehe [ggplotting unter Extras](https://pandar.netlify.app/extras/#ggplotting))
+
+```{r scatter-reg, fig = TRUE}
+library(ggplot2)
+ggplot(kultur, aes(x = pa, y = lezu)) + 
+  geom_point() +
+  geom_abline(intercept = coef(mod)[1], slope = coef(mod)[2], color = 'blue') +
+  theme_minimal()
+```
+
+
+- R-Funktionen für Regression
+
+Befehl | Funktionalität
+--- | ------
+`summary()` | Zusammenfassung der Ergebnisse
+`coef()` | Koeffizienten ausgeben lassen
+`confint()` | Konfidenzintervalle für Koeffizienten
+`resid()` | Ausgabe der $e_{i}$
+`predict()` | Ausgabe der $\hat{y}_i$
+`anova()` | Modellvergleiche
+`plot()` | Residuenplots zur Diagnostik
+
+### Pakete
+
+```{r, eval = FALSE}
+# Für Plots der Modelle - dauert einen Moment
+install.packages('sjPlot', dependencies = TRUE)
+
+# Für eine erweiterte Modellzusammenfassung
+installpackages('jtools')
+```
+
+Für alternative Ansätze der Darstellung bzw. Berechnung von Komponenten (nur in vereinzelten Beispielen genutzt)
+
+```{r, eval = FALSE}
+# Für Inferenz der fixed effects
+install.packages('lmerTest')
+
+# Für Bestimmung von Pseudo R^2
+install.packages('MuMIn')
+```
+
+
+## Hintergrund zu LMMs
+
+- Verletzung der Annahme unabhängiger Beobachtungen
+  * Varianz kleiner als bei Zufallsstichprobe (wegen Abhängigkeiten)
+  * Effektives $n$ überschätzt
+  * Präzision der Effekte überschätzt (SE unterschätzt)
+- Koeffizienten nicht verzerrt, aber gemischt
+  * Risiko falscher Schlüsse
+
+  
+- Für Umgang mit Voraussetzungsverletzung ist Korrektur der SE ausreichend
+- Für korrekte Zerlegung von Effekten und deren Wirkebene: LMMs
+
+
+- Feste Effekte (Kodiervariablen)
+  * Aussagen über einzelne Ausprägungen relevant
+  * Durch Studiendesign festgelegt oder natürliche Gruppen
+  * Geschlecht, Therapieansätze, Schulformen
+- Zufällige Effekte (LMMs)
+  * Zusammenfassende Aussagen über viele Ausprägungen relevant
+  * Per Zufall aus Population gezogen
+  * Schulklasse, Therapeut:innen, Teams
+
+  
+- Übliche Begriffe
+  * Mehrebenenmodelle
+  * Gemischte Modelle (LMMs)
+  * Hierarchische Modelle
+
+Level 2 | Level 1
+--- | ---
+macro-units | micro-units
+primary units | secondary units
+clusters | elementary units
+between level | within level
+
+## Nullmodell
+
+### Notation
+
+Notation | Bedeutung
+-- | -----
+$y_{ij}$ | AV-Wert von Person $i$ in Cluster $j$
+$r_{ij}$ | Residuum auf L1, Abweichung der Person von Vorhersage
+$u_{0j}$ | Residuum auf L2, Abweichung des Clusters von Vorhersage
+$\beta_{0j}$ | (bedingter) Erwartungswert für Cluster $j$
+$\gamma_{00}$ | Erwartungswert der Erwartungswerte über alle Cluster
+
+**Level 1** 
+$$ y_{ij} = \beta_{0j} + r_{ij} $$
+
+**Level 2**
+$$ \beta_{0j} = \gamma_{00} + u_{0j} $$
+
+**Gesamtgleichung**
+$$ y_{ij} = \gamma_{00} + u_{0j} + r_{ij} $$
+
+### Nullmodell in lme4
+
+```{r}
+library(lme4)
+mod0 <- lmer(lezu ~ 1 + (1 | nation), kultur)
+```
+
+Generelle Schreibweise:
+
+- `lmer`: *linear mixed effects regression*
+- `AV ~ UV`: wie in `lm`
+- `(RE | Cluster)`: Welcher Parameter (`RE`) soll über die Cluster variieren dürfen
+
+
+```{r}
+summary(mod0)
+```
+
+### Inferenzstatistik in lme4
+
+```{r}
+confint(mod0)
+```
+
+```{r}
+library(lmerTest)
+mod0 <- lmer(lezu ~ 1 + (1 | nation), kultur)
+summary(mod0)
+```
+
+## Zufällige Effekte
+
+```{r}
+summary(mod0)$var
+```
+
+- Darstellung der Ergebnisse in `sjPlot`
+  * gibt `ggplot` Objekt aus, sodass damit alle üblichen Anpassungen vorgenommen werden können
+
+
+```{r caterpillar-mod0, fig = TRUE}
+library(sjPlot)
+plot_model(mod0, type = 're', sort.est = '(Intercept)') +  # Plot für Random Effects (re), sortiert nach Schätzung (est) der Interzept ('(Intercept)')
+  ggplot2::theme_minimal() # Layout
+
+# Breite der Fehlerbalken hängt mit Stichprobengröße zusammen
+```
+
+- Einzelne Werte abrufen (für weitere Verarbeitung)
+
+```{r}
+ranef(mod0)
+```
+
+### ICC
+
+$$
+  ICC = \rho(y_{ij}, y_{i'j}) = \frac{var(u_{0j})}{var(y_{ij})} = \frac{\sigma^2_{u_{0j}}}{\sigma^2_{u_{0j}} + \sigma^2_{r_{ij}}}
+$$
+
+- händisch berechnen:
+
+```{r}
+tmp <- VarCorr(mod0) |> as.data.frame()
+tmp$vcov[1] / sum(tmp$vcov)
+```
+
+- in `jtools`
+
+```{r}
+library(jtools)
+print(summ(mod0))
+```
+- Wenn $ICC > 0$, ist die Annahme der Unabhängigkeit verletzt und es wird ein Multilevel-Modell benötigt
+- Wenn $ICC > 0$ können dennoch Gruppenunterschiede bzgl. der _Regressionsgewichte_ bestehen
+- Häufig wird $ICC >.10$ als Cut-Off Kriterium gewertet
+  * Schon bei kleinen Werten, kann Clusterung zur starken Überschätzung der Power führen
+- Forschungsbereich Bildung und Organisationen:
+  * klein:  .05, mittel: .10, groß: .15
+- Forschungsbereich kleine Gruppen und Familien:
+  * klein: .10, mittel: .20, groß: .30
+- Generell: je größer die Gruppen desto kleiner ICC per Zufall
+- Effektive Stichprobengröße:
+$$ 
+  n_{\text{eff}} = \frac{n}{1 + (n_{\text{clus}} - 1)ICC}
+$$
+
+## Level-1 Prädiktoren
+
+### Random Intercept Model
+
+**Level 1** 
+$$ y_{ij} = \beta_{0j} + \beta_{1j}x_{ij} + r_{ij} $$
+
+**Level 2**
+$$ \beta_{0j} = \gamma_{00} + u_{0j} $$
+$$ \beta_{1j} = \gamma_{10} $$
+
+
+**Gesamtgleichung**
+$$ y_{ij} = \gamma_{00} + \gamma_{10}x_{ij} + u_{0j} + r_{ij} $$
+
+Vergleich der Parameterinterpretation:
+
+- Nullmodell
+  * $\gamma_{00}$ Erwartungswert der Gruppenerwartungswerte
+  * $r_{ij}$ Abweichung eines individuellen Wertes vom jeweiligen Gruppenerwartungswert
+  * $u_{0j}$ u0j Abweichung eines Gruppenerwartungswert vom Erwartungswert der Gruppenerwartungswerte
+- Random Intercept Modell
+  * $\gamma_{00}$ Mittleres Intercept
+  * $r_{ij}$ Abweichung eines individuellen Wertes von der gruppenspezifische Regressionsgeraden bzw. vom vorhergesagten Wert
+  * $u_{0j}$ Abweichung eines gruppenspezifischen Intercepts vom mittleren Intercept
+
+
+- Modell in `lme4` Aufstellen
+
+```{r}
+mod1 <- lmer(lezu ~ 1 + pa + (1 | nation), kultur) # pa als Prädiktor zusätzlich aufnehmen
+print(summ(mod1))
+```
+
+```{r}
+coef(mod1)$nation['Canada',] # spezifische Koeffizienten für Kanada auswählen
+```
+
+```{r}
+mod1b <- lmer(lezu ~ 1 + pa + (1 + pa | nation), kultur) # Random Intercept Random Slope Modell
+summ(mod1b)
+```
+
+
+### Grafische Darstellung
+
+```{r caterpillar-mod1, fig = TRUE}
+plot_model(mod1, type = 're', sort.est = '(Intercept)')
+```
+
+### Mehrere Prädiktoren
+
+- *Übungsaufgabe*: positiven und negativen Affekt aufnehmen
+  * Was ist bedeutsam in der Vorhersage der Lebenszufriedenheit?
+  
+```{r}
+mod2 <- lmer(lezu ~ 1 + pa + na + (1 | nation), kultur)
+print(summ(mod2))
+```
+
+
+### Prüfung via Modellvergleich
+
+```{r, error = TRUE}
+anova(mod0, mod1, mod2)
+```
+- Fehlende Werte auf den UVs verändern Größe des Datensatzes
+
+```{r}
+kultur_comp <- mod2@frame
+mod0_u <- update(mod0, data = kultur_comp)
+mod1_u <- update(mod1, data = kultur_comp)
+mod2_u <- update(mod2, data = kultur_comp)
+```
+
+```{r, error = TRUE}
+anova(mod0_u, mod1_u, mod2_u)
+```
+
+### Random Slopes Modelle
+
+
+**Level 1** 
+$$ y_{ij} = \beta_{0j} + \beta_{1j}x_{1ij} + \beta_{2j}x_{2ij} + r_{ij} $$
+
+**Level 2**
+$$ \beta_{0j} = \gamma_{00} + u_{0j} $$
+$$ \beta_{1j} = \gamma_{10} + u_{1j} $$
+$$ \beta_{2j} = \gamma_{20} + u_{2j} $$
+
+**Gesamtgleichung**
+$$ y_{ij} = \gamma_{00} + \gamma_{10}x_{1ij} + \gamma_{20}x_{2ij} + u_{0j} + u_{1j}x_{1ij} + u_{2j}x_{2ij} + r_{ij} $$
+```{r, warning = TRUE}
+mod3 <- lmer(lezu ~ 1 + pa + na + (1 + pa + na | nation), kultur)
+```
+
+- Fehlende Konvergenz des Modells
+  * sehr kleine Zufallseffekte
+  * sehr hohe Korrelationen zwischen Zufallseffekten
+  * hohe Modellkomplexität
+  * in jedem Fall: inhaltliche Diagnostik betreiben!
+
+```{r}
+# Optimizer wechseln, langsamer aber Versuch Konvergenz zu erreichen
+opts <- lmerControl(optimizer = 'bobyqa')
+mod3 <- lmer(lezu ~ 1 + pa + na + (1 + pa + na | nation), kultur, control = opts)
+```
+
+```{r}
+print(summ(mod3))
+```
+- Gibt leider Korrelationen zwischen REs nicht aus
+
+```{r}
+summary(mod3)$varcor
+```
+
+### Tests der Zufallseffekte
+
+```{r, eval=FALSE}
+anova(mod0, mod1) # Fehlermeldung, da Modelle auf den gleichen Datensatz angewandt werden müssen
+```
+
+```{r}
+# Respezifizierung
+mod0b <- update(mod0, data = mod1@frame)
+mod1b <- update(mod1, data = mod1@frame)
+
+anova(mod0b, mod1b)
+```
+
+
+```{r}
+anova(mod2, mod3, refit = FALSE)
+```
+
+```{r, eval = FALSE}
+confint(mod3)
+```
+```{r, echo = FALSE}
+load('KiJu_LMMs_confint3.rda')
+print(ci_mod3)
+```
+
+### Cluster-spezifische Effekte 
+
+```{r}
+coef(mod3)
+```
+
+```{r caterpillar-mod3, fig = TRUE}
+plot_model(mod3, type = 're', grid = FALSE, sort.est = TRUE)[c(1,3)]
+```
+
+## Level 2 Prädiktoren
+
+### Im Random Intercept Modell
+
+**Level 1** 
+$$ y_{ij} = \beta_{0j} + \beta_{1j}x_{1ij} + \beta_{2j}x_{2ij} + r_{ij} $$
+
+**Level 2**
+$$ \beta_{0j} = \gamma_{00} + \gamma_{01} w_{j} + u_{0j} $$
+$$ \beta_{1j} = \gamma_{10} $$
+$$ \beta_{2j} = \gamma_{20} $$
+
+**Gesamtgleichung**
+$$ y_{ij} = \gamma_{00} + \gamma_{10}x_{1ij} + \gamma_{20}x_{2ij} + \gamma_{01} w_{j} + u_{0j} + r_{ij} $$
+- Interpretation der Parameter
+  * `(Intercept)` Erwarteter Lebenszufriedenheitswert für Menschen mit 0 positiven Affekt in einem Land mit 0 GDP
+  * `pa`/`na` Unterschied zwischen Personen, die sich um eine Einheit im positiven/negativen Affekt unterscheiden, aber aus Ländern mit gleichem GDP kommen.
+  * `gdp` Unterschied zwischen Personen mit gleichem positivem und negativen Affekt die aus Ländern mit 1 GDP Unterschied kommen
+
+```{r}
+mod4 <- lmer(lezu ~ 1 + pa + na + gdp + (1 | nation), kultur)
+print(summ(mod4))
+```
+
+
+### Zentrierung
+
+- Effekte der L1 Prädiktoren sind Mischungen aus Individual- und Ländereffekten
+- Allgemein CWC für die meisten L1 Prädiktoren empfohlen (mehr bei Enders & Tofighi, 2007, und Yaremych et al., 2021)
+
+```{r}
+cwc <- with(kultur, aggregate(cbind(pa, na) ~ nation, FUN = mean))
+names(cwc) <- c('nation', 'pa_mean', 'na_mean')
+kultur_cen <- merge(kultur, cwc, by = 'nation', all.x = TRUE)
+```
+
+```{r}
+kultur$pa_cwc <- kultur$pa - kultur$pa_mean
+kultur$na_cwc <- kultur$na - kultur$na_mean
+```
+
+- Modellterme verändern sich
+
+```{r}
+mod5 <- lmer(lezu ~ 1 + pa_mean + pa_cwc + na_mean + na_cwc + (1 | nation), kultur)
+print(summ(mod5))
+```
+### Cross-Level Interaktion
+
+**Level 1** 
+$$ y_{ij} = \beta_{0j} + \beta_{1j}x_{1ij} + \beta_{2j}x_{2ij} + r_{ij} $$
+
+**Level 2**
+$$ \beta_{0j} = \gamma_{00} + \gamma_{01} w_{j} + u_{0j} $$
+$$ \beta_{1j} = \gamma_{10} + \gamma_{11} w_{j}  + u_{1j} $$
+$$ \beta_{2j} = \gamma_{20} + \gamma_{21} w_{j}  + u_{2j} $$
+
+**Gesamtgleichung**
+$$ y_{ij} = \gamma_{00} + \gamma_{10}x_{1ij} + \gamma_{20}x_{2ij} + \gamma_{01} w_{j} + \gamma_{11} w_{j}x_{1ij} + \gamma_{21} w_{j}x_{2ij} + u_{0j} + u_{1j}x_{1ij} + u_{2j}x_{2ij} + r_{ij} $$
+
+Parameter | Bedeutung 
+-- | ---------
+$\gamma_{00}$ | Mittleres Intercept
+$\gamma_{01}$ | Regressionsgewicht des L2-Prädiktors $w_j$ für den Random Intercept
+$\gamma_{10}$ | Slope des L1-Prädiktors $x_{ij}$ für L2-Einheiten mit $w_j = 0$, $E(B_1 | W = 0)$
+$\gamma_{11}$ | Veränderung von $\hat\beta_{ij}$ pro Einheit des L2-Prädiktors $w_j$
+$u_{0j}$ | L2-Residuum bzgl. der Intercepts $(\beta_{0j} − \hat\beta_{0j})$
+$u_{1j}$ | L2-Residuum bzgl. des Slopes  $(\beta_{1j} − \hat\beta_{1j})$
+$r_{ij}$ | L1-Residuum $(y_{ij} − \hat y_{ij})$
+
+```{r}
+mod6 <- lmer(lezu ~ pa_cwc*gdp + na_cwc*gdp + pa_mean*gdp + na_mean*gdp + (pa_cwc + na_cwc | nation), kultur)
+print(summ(mod6))
+```
+```{r, fig = TRUE}
+plot_model(mod6, 'pred', 
+  terms = c('na_cwc', 'gdp'))
+```
+
+```{r, fig = TRUE}
+plot_model(mod6, 'est')
+```
+

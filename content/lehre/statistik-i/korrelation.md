@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler, winkler, schroeder, neubauer, goldhammer]
 weight: 9
-lastmod: '2024-01-09'
+lastmod: '2024-01-16'
 featured: yes
 banner:
   image: "/header/storch_with_baby.jpg"
@@ -60,28 +60,48 @@ Zu Beginn laden wir wie gewohnt den Datensatz und verteilen die relevanten Label
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb23.rda')) 
+load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-
+fb23$hand_factor <- factor(fb23$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
 fb23$fach <- factor(fb23$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
 fb23$ziel <- factor(fb23$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-
 fb23$wohnen <- factor(fb23$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-
+fb23$fach_klin <- factor(as.numeric(fb23$fach == "Klinische"),
+                         levels = 0:1,
+                         labels = c("nicht klinisch", "klinisch"))
 fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-
 fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
+fb23$unipartys <- factor(fb23$uni3,
+                             levels = 0:1,
+                             labels = c("nein", "ja"))
 
-# Weitere Standardisierungen
-fb23$nerd_std <- scale(fb23$nerd)
-fb23$neuro_std <- scale(fb23$neuro)
+# Rekodierung invertierter Items
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
+fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
+fb23$mdbf5_pre_r <- -1 * (fb23$mdbf5_pre - 4 - 1)
+fb23$mdbf7_pre_r <- -1 * (fb23$mdbf7_pre - 4 - 1)
+
+# Berechnung von Skalenwerten
+fb23$wm_pre  <- fb23[, c('mdbf1_pre', 'mdbf5_pre_r', 
+                        'mdbf7_pre_r', 'mdbf10_pre')] |> rowMeans()
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+
+# z-Standardisierung
+fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
 ```
 
 ****
@@ -162,12 +182,19 @@ prop.table(tab)                       #Relative Häufigkeiten
 
 ```
 ##              
-##                Wirtschaft    Therapie   Forschung      Andere
-##   Allgemeine  0.042424242 0.072727273 0.042424242 0.024242424
-##   Biologische 0.030303030 0.060606061 0.078787879 0.018181818
-##   Entwicklung 0.006060606 0.054545455 0.018181818 0.036363636
-##   Klinische   0.006060606 0.436363636 0.018181818 0.024242424
-##   Diag./Meth. 0.006060606 0.000000000 0.018181818 0.006060606
+##                Wirtschaft    Therapie   Forschung
+##   Allgemeine  0.042424242 0.072727273 0.042424242
+##   Biologische 0.030303030 0.060606061 0.078787879
+##   Entwicklung 0.006060606 0.054545455 0.018181818
+##   Klinische   0.006060606 0.436363636 0.018181818
+##   Diag./Meth. 0.006060606 0.000000000 0.018181818
+##              
+##                    Andere
+##   Allgemeine  0.024242424
+##   Biologische 0.018181818
+##   Entwicklung 0.036363636
+##   Klinische   0.024242424
+##   Diag./Meth. 0.006060606
 ```
 
 72 von insgesamt 165 (43.64%)  wollen therapeutisch arbeiten *und* interessieren sich bisher am meisten für die klinische Psychologie.
@@ -221,13 +248,21 @@ addmargins(prop.table(tab))      # als geschachtelte Funktion
 
 ```
 ##              
-##                Wirtschaft    Therapie   Forschung      Andere         Sum
-##   Allgemeine  0.042424242 0.072727273 0.042424242 0.024242424 0.181818182
-##   Biologische 0.030303030 0.060606061 0.078787879 0.018181818 0.187878788
-##   Entwicklung 0.006060606 0.054545455 0.018181818 0.036363636 0.115151515
-##   Klinische   0.006060606 0.436363636 0.018181818 0.024242424 0.484848485
-##   Diag./Meth. 0.006060606 0.000000000 0.018181818 0.006060606 0.030303030
-##   Sum         0.090909091 0.624242424 0.175757576 0.109090909 1.000000000
+##                Wirtschaft    Therapie   Forschung
+##   Allgemeine  0.042424242 0.072727273 0.042424242
+##   Biologische 0.030303030 0.060606061 0.078787879
+##   Entwicklung 0.006060606 0.054545455 0.018181818
+##   Klinische   0.006060606 0.436363636 0.018181818
+##   Diag./Meth. 0.006060606 0.000000000 0.018181818
+##   Sum         0.090909091 0.624242424 0.175757576
+##              
+##                    Andere         Sum
+##   Allgemeine  0.024242424 0.181818182
+##   Biologische 0.018181818 0.187878788
+##   Entwicklung 0.036363636 0.115151515
+##   Klinische   0.024242424 0.484848485
+##   Diag./Meth. 0.006060606 0.030303030
+##   Sum         0.109090909 1.000000000
 ```
 
 ```r
@@ -236,13 +271,21 @@ prop.table(tab) |> addmargins()  # als Pipe
 
 ```
 ##              
-##                Wirtschaft    Therapie   Forschung      Andere         Sum
-##   Allgemeine  0.042424242 0.072727273 0.042424242 0.024242424 0.181818182
-##   Biologische 0.030303030 0.060606061 0.078787879 0.018181818 0.187878788
-##   Entwicklung 0.006060606 0.054545455 0.018181818 0.036363636 0.115151515
-##   Klinische   0.006060606 0.436363636 0.018181818 0.024242424 0.484848485
-##   Diag./Meth. 0.006060606 0.000000000 0.018181818 0.006060606 0.030303030
-##   Sum         0.090909091 0.624242424 0.175757576 0.109090909 1.000000000
+##                Wirtschaft    Therapie   Forschung
+##   Allgemeine  0.042424242 0.072727273 0.042424242
+##   Biologische 0.030303030 0.060606061 0.078787879
+##   Entwicklung 0.006060606 0.054545455 0.018181818
+##   Klinische   0.006060606 0.436363636 0.018181818
+##   Diag./Meth. 0.006060606 0.000000000 0.018181818
+##   Sum         0.090909091 0.624242424 0.175757576
+##              
+##                    Andere         Sum
+##   Allgemeine  0.024242424 0.181818182
+##   Biologische 0.018181818 0.187878788
+##   Entwicklung 0.036363636 0.115151515
+##   Klinische   0.024242424 0.484848485
+##   Diag./Meth. 0.006060606 0.030303030
+##   Sum         0.109090909 1.000000000
 ```
 
 ****
@@ -536,7 +579,7 @@ shapiro.test(fb23$gewis)
 ## W = 0.95577, p-value = 2.097e-05
 ```
 
-$p < \alpha$ $\rightarrow$ $H_1: Normalverteilung kann nicht angenommen werden. Somit ist diese Voraussetzung verletzt. Eine Möglichkeit damit umzugehen, ist die Rangkorrelation nach Spearman. Diese ist nicht an die Voraussetzung der Normalverteilung gebunden. Das Verfahren kann über `method = "spearman"` angewendet werden.
+$p < \alpha$ $\rightarrow$ $H_1$: Normalverteilung kann nicht angenommen werden. Somit ist diese Voraussetzung verletzt. Eine Möglichkeit damit umzugehen, ist die Rangkorrelation nach Spearman. Diese ist nicht an die Voraussetzung der Normalverteilung gebunden. Das Verfahren kann über `method = "spearman"` angewendet werden.
 
 {{<intext_anchor Rs>}}
 
@@ -594,8 +637,9 @@ cor <- cor.test(fb23$neuro, fb23$gewis,
 ```
 
 ```
-## Warning in cor.test.default(fb23$neuro, fb23$gewis, alternative = "two.sided", : Cannot
-## compute exact p-value with ties
+## Warning in cor.test.default(fb23$neuro, fb23$gewis,
+## alternative = "two.sided", : Cannot compute exact p-value
+## with ties
 ```
 
 ```r
