@@ -30,7 +30,7 @@ links:
   - icon_pack: fas
     icon: pen-to-square
     name: Aufgaben
-    url: /lehre/statistik-i/simulation-poweranalye-aufgaben
+    url: /lehre/statistik-i/simulation-poweranalyse-aufgaben
 output:
   html_document:
     keep_md: true

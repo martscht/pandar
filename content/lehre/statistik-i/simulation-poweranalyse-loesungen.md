@@ -7,9 +7,9 @@ categories: ["Statistik I Übungen"]
 tags: [] 
 subtitle: ''
 summary: '' 
-authors: [irmer] 
+authors: [irmer, sinn] 
 weight:
-lastmod: '2023-11-15'
+lastmod: '2024-01-11'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -241,6 +241,46 @@ Die Power des Korrelationstests für eine Korrelation von 0.5 für $N=20$ und Va
 
 
 ## Aufgabe 3
+### Sensitivitätsanalyse für die Korrelation
+
+In den [Inhalten](/lehre/statistik-i/simulation-poweranalyse/) zu dieser Sitzung haben Sie neben der Poweranalyse auch die Sensitivitätsanalyse für den $t$-Test kennengelernt. Diese lässt sich mithilfe des Pakets `WebPower` auch für die Korrelation durchführen.
+
+* Laden Sie zunächst das Paket `WebPower` und schauen Sie sich die Funktion für die Poweranalyse bei einer Korrelation an.
+
+<details><summary>Lösung</summary>
+
+```r
+library(WebPower)
+?wp.correlation
+```
+</details>
+
+* Nehmen Sie an, dass Sie eine Gruppe von $N=50$ Personen untersucht haben. Sie möchten nun wissen, wie groß der Korrelationskoeffizient theoretisch sein müsste damit eine Power von $95\\%$ erreicht werden kann. Das $\alpha$-Fehleriveau soll dabei bei $0.05$ liegen.
+
+<details><summary>Lösung</summary>
+
+Für die Sensitivitätsanalyse legen wir in der Funktion `wp.correlation` die Stichprobengröße ($N$), die Power für die wir uns interessieren sowie das $\alpha$-Fehlerniveau fest. Den Korrelationskoeffizienten `r` lassen wir hingegen leer:
+
+
+```r
+wp.correlation(n = 50, r = NULL, power = 0.95, alpha = 0.05, alternative = c("two.sided"))
+```
+
+```
+## Power for correlation
+## 
+##      n         r alpha power
+##     50 0.4780569  0.05  0.95
+## 
+## URL: http://psychstat.org/correlation
+```
+
+Es müsste also eine Korrelation von 0.4780569 vorliegen, damit wir mit unserer Stichprobe eine Power von $95\\%$ erreichen.
+
+</details>
+
+
+## Aufgabe 4
 ### Type I-Error und Power zu einem $\alpha$-Niveau von $0.1\%$ des $t$-Test
 
 Wir wollen nun die Power des $t$-Tests für ein anderes $\alpha$-Fehlerniveau bestimmen. Wiederholen Sie also die Poweranalysen aus der Sitzung für den $\alpha$-Fehler und die Power für ein $\alpha$-Fehlerniveau von $0.1\%$.
@@ -295,7 +335,7 @@ Sie können sich die Power auch für andere Irrtumswahrscheinlichkeiten anschaue
 </details>
 
 
-## Aufgabe 4
+## Aufgabe 5
 ### Power-Plots für den $t$-Test
 
 Wir wollen nun die Power des $t$-Tests für unterschiedliche Effektgrößen untersuchen. In den beiden Gruppen soll jeweils eine Varianz von 1 herrschen. Verändern Sie also den Code der Sitzung nur hinsichtlich der Effektgröße. Das $\alpha$-Fehlerniveau soll wieder bei $5\%$ liegen.
@@ -344,7 +384,7 @@ Ds <- seq(0, 1.25, 0.25)
 plot(x = Ds, y = t_power_d, type = "b", main = "Power vs. d")
 ```
 
-![](/lehre/statistik-i/simulation-poweranalyse-loesungen_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/lehre/statistik-i/simulation-poweranalyse-loesungen_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 Dem Plot ist zu entnehmen, dass die Power mit steigender Effektgröße ansteigt. 
 
@@ -359,7 +399,7 @@ Diesem Plot ist nun zu entnehmen, dass eine Mittelwertsdifferenz von größer 0.
 
 </details>
 
-## Aufgabe 5
+## Aufgabe 6
 ### Powervergleich: $t$-Test vs. Wilcoxon-Test
 
 Wir wollen nun die Power des $t$-Tests mit der Power des Wilcoxon-Test vergleichen. Der Wilcoxon-Test ist flexibler anzuwenden, da er weniger Annahmen aufweist. Untersuchen Sie, wie sich dies auf die Power auswirkt. Das $\alpha$-Fehlerniveau soll wieder bei $5\%$ liegen.
