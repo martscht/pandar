@@ -42,7 +42,7 @@ output:
 
 Bisher haben wir gelernt, dass viele statistische Größen durch Summen, Mittelwerte, Quadrate, Abweichungen und weitere recht einfache Rechenoperationen bestimmt werden können. Diese lassen sich oft noch einfacher durch Matrizen und Vektoren ausdrücken. Vielleicht kennen Sie Matrizen aus der Schule. Falls nicht, ist das gar kein Problem, denn dieser Post wird sich mit Vektoren und Matrizen ausführlicher beschäftigen. Matrixalgebra wird bspw. auch in Eid, et al. (2017) im _Anhang B: Matrixalgebra_ ab Seite 1051 behandelt.
 
-Vektoren kennen wir bereits aus den ersten Datensätzen, die wir kennengelernt haben. Bspw. enthält ein Variablenvektor einer Person einfach nur die Einträge der Variablen aus dem Datensatz dieser spezifischen Person. Matrizen haben wir im Grunde auch schon kennengelernt. Ein Datensatz ist sehr stark verwandt mit einer Matrix. Genauso wie ein Datensatz, besteht auch eine Matrix aus Zeilen und Spalten. Der Hauptunterschied ist, dass bei einer Matrix nur numerische Inhlaten, also Zahlen, erlaubt sind. Wenn wir Daten in `R` verarbeiten wollen, wird der Datensatz oft in Matrizen umtransformiert (falls er vorher nicht-numerische Inhalte enthielt) und dann mit geeigneten Operationen, sogenannten Matrixoperationen, verarbeitet.
+Vektoren kennen wir bereits aus den ersten Datensätzen, die wir kennengelernt haben. Bspw. enthält ein Variablenvektor einer Person einfach nur die Einträge der Variablen aus dem Datensatz dieser spezifischen Person. Matrizen haben wir im Grunde auch schon kennengelernt. Ein Datensatz ist sehr stark verwandt mit einer Matrix. Genauso wie ein Datensatz, besteht auch eine Matrix aus Zeilen und Spalten. Der Hauptunterschied ist, dass bei einer Matrix nur numerische Inhalte, also Zahlen, erlaubt sind. Wenn wir Daten in `R` verarbeiten wollen, wird der Datensatz oft in Matrizen umtransformiert (falls er vorher nicht-numerische Inhalte enthielt) und dann mit geeigneten Operationen, sogenannten Matrixoperationen, verarbeitet.
 
 `R` ist eine vektorbasierte Programmiersprache, was bedeutet, dass möglichst viel mit Vektor- oder Matrixoperationen durchgeführt werden soll, da diese besonders optimiert (und damit besonders schnell) sind. Um davon Gebrauch zu machen, müssen wir uns mit diesen Operationen vertraut machen: 
 
@@ -138,7 +138,7 @@ Wenn wir mit $-1$ multiplizieren erhalten wir
 -1*x
 ```
 
-Jedes Element wird also mit $-1$ multipliziert. Davon können wir direkt die Subtraktion von Vektoren ablesen. Wollen wir $y-x$ rechnen, so ergibt sich mit Hilfe der Skalarmultiplikation $y+(-1)x$. Damit können wir elementenweisen $y$ mit $-1x$ addieren:
+Jedes Element wird also mit $-1$ multipliziert. Davon können wir direkt die Subtraktion von Vektoren ablesen. Wollen wir $y-x$ rechnen, so ergibt sich mit Hilfe der Skalarmultiplikation $y+(-1)x$. Damit können wir elementenweise $y$ mit $-1x$ addieren:
 
 {{< math >}}
 $$y-x=\begin{pmatrix} y_1\\ y_2\\ y_3 \end{pmatrix} + \begin{pmatrix}-x_1\\ -x_2\\ -x_3 \end{pmatrix}=\begin{pmatrix}y_1-x_1\\ y_2-x_2\\ y_3-x_3 \end{pmatrix} =\begin{pmatrix}10-1\\ 8-2\\ 6-3 \end{pmatrix}=\begin{pmatrix}9\\ 6\\ 3 \end{pmatrix}.$$
@@ -178,7 +178,11 @@ $$A=\begin{pmatrix}a_{11} & a_{12}\\ a_{21} & a_{22}\\a_{31} & a_{32} \end{pmatr
 {{</ math >}}
 
 Die 3 Zeilenvektoren sind $a_{1\cdot}=(a_{11}, a_{12})$, $a_{2\cdot}=(a_{21}, a_{22})$ und $a_{3\cdot}=(a_{31}, a_{32})$. Die entsprechenden Spaltenvektoren sind 
-{{< math >}}$$a_{\cdot1}=\begin{pmatrix}a_{11}\\ a_{21}\\ a_{31}\end{pmatrix} \quad \text{ und } \quad a_{\cdot2}=\begin{pmatrix}a_{12}\\ a_{22}\\ a_{32}\end{pmatrix}$${{</ math >}}. Wir bemerken, dass die Indizes der Elemente uns die Position in der Matrix angeben. Bspw. ist $a_{32}$ das Element in $A$ in der 3. Zeile (1. Index) in der 2. Spalte (2. Index). 
+{{< math >}}$$a_{\cdot1}=\begin{pmatrix}a_{11}\\ a_{21}\\ a_{31}\end{pmatrix} \quad \text{ und } \quad a_{\cdot2}=\begin{pmatrix}a_{12}\\ a_{22}\\ a_{32}\end{pmatrix}.$$
+
+{{</ math >}}
+
+Wir bemerken, dass die Indizes der Elemente uns die Position in der Matrix angeben. Bspw. ist $a_{32}$ das Element in $A$ in der 3. Zeile (1. Index) in der 2. Spalte (2. Index). 
 
 Die gerade behandelten Vektoren  können wir ganz leicht zu einer Matrix machen, indem wir den Befehl `as.matrix` bspw. auf `x` anwenden. Dieser Befehl erzeugt  eine 3x1 Matrix - also aus mathematischer Sicht eigentlich einen Spaltenvektor.
 
@@ -319,7 +323,7 @@ Nun führen wir Matrixmultiplikation durch:
 B %*% P
 ```
 
-Wir erkennen, dass Xavian `r (B%*%P)[1,1]`€ und Yvonne `r (B%*%P)[2,1]`€ ausgeben muss. Angenommen es gäbe eine Konkurrenzladen, der andere Preise für das Obst angibt. Wir können dies in unsere Matrix $P$ aufnehmen und so bestimmen, wie viel die beiden in den jeweiligen Läden ausgeben müssten. Wir verwenden diesmal den `matrix`-Befehl, um direkt eine Matrix zu erzeugen. Dieser Befehl nimmt zunächst einen Vektor mit den Elementen entgegen. Hier empfiehlt es sich durch Zeilenumbrüche Ordnung hereinzubringen. Anschließend sagen wir noch wie viele Zeilen (`nrow`) und Spalten (`ncol`) wir benötigen. Mit `byrow = TRUE` geben wir an, dass die Matrix zeilenweise befüllt werden soll. In *Laden A* kosten Orangen 0.50€, Äpfel 0.30€ und Bananen 0.20€. In *Laden B* sind Bananen super teuer und kosten 1.00€. Hingegen sind Orangen und Äpfel extrem billig und kosten nur 0.05€. Wenn wir die Zeilen und Spalten der Preismatrix $P$ entsprechend bennen, sagt uns das Matrixprodukt nun, wie viel Xavian und Yvonne in den Beiden Läden bezahlen müssen.
+Wir erkennen, dass Xavian `r (B%*%P)[1,1]`€ und Yvonne `r (B%*%P)[2,1]`€ ausgeben muss. Angenommen es gäbe einen Konkurrenzladen, der andere Preise für das Obst angibt. Wir können dies in unsere Matrix $P$ aufnehmen und so bestimmen, wie viel die beiden in den jeweiligen Läden ausgeben müssten. Wir verwenden diesmal den `matrix`-Befehl, um direkt eine Matrix zu erzeugen. Dieser Befehl nimmt zunächst einen Vektor mit den Elementen entgegen. Hier empfiehlt es sich durch Zeilenumbrüche Ordnung hereinzubringen. Anschließend sagen wir noch wie viele Zeilen (`nrow`) und Spalten (`ncol`) wir benötigen. Mit `byrow = TRUE` geben wir an, dass die Matrix zeilenweise befüllt werden soll. In *Laden A* kosten Orangen 0.50€, Äpfel 0.30€ und Bananen 0.20€. In *Laden B* sind Bananen super teuer und kosten 1.00€. Hingegen sind Orangen und Äpfel extrem billig und kosten nur 0.05€. Wenn wir die Zeilen und Spalten der Preismatrix $P$ entsprechend bennen, sagt uns das Matrixprodukt nun, wie viel Xavian und Yvonne in den Beiden Läden bezahlen müssen.
 
 ```{r}
 P <- matrix(c(.5, .05,
@@ -333,7 +337,7 @@ B %*% P
 Obwohl die Bananen so teuer sind, macht es für Yvonne mehr Sinn in Laden B einzukaufen, während Xavian besser beraten ist bei Laden A zu bleiben (unter der etwas seltsamen Annahme, dass man alles in einem Laden kaufen muss).
 
 #### Spezielle Matrizen
-Eine quadratische Matrix hat genauso viele Zeilen wie Spalten. Eine wichtige quadratische Matrix ist die Einheitsmatrix $I$, welche nur 1en auf der Diagonalen und sonst 0en hat. Diese ist gerade das Elemente, mit welchem wir getrost multiplizieren können (falls die Dimensionen stimmen), weil dann nichts passiert (wie Multiplikation mit 1 bei Zahlen). Wir erhalten sie mit `diag`, was eigentlich eine (quadratische) Diagonalmatrix erzeugt mit beliebigen Elementen auf der Diagonalen:
+Eine quadratische Matrix hat genauso viele Zeilen wie Spalten. Eine wichtige quadratische Matrix ist die Einheitsmatrix $I$, welche nur 1en auf der Diagonalen und sonst 0en hat. Diese ist gerade das Element, mit welchem wir getrost multiplizieren können (falls die Dimensionen stimmen), weil dann nichts passiert (wie Multiplikation mit 1 bei Zahlen). Wir erhalten sie mit `diag`, was eigentlich eine (quadratische) Diagonalmatrix erzeugt mit beliebigen Elementen auf der Diagonalen:
 
 ```{r}
 diag(3) # Einheitsmatrix 3x3

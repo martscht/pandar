@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer] 
 weight: 10.5
-lastmod: '2023-10-31'
+lastmod: '2024-01-15'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -40,7 +40,7 @@ output:
 
 Bisher haben wir gelernt, dass viele statistische Größen durch Summen, Mittelwerte, Quadrate, Abweichungen und weitere recht einfache Rechenoperationen bestimmt werden können. Diese lassen sich oft noch einfacher durch Matrizen und Vektoren ausdrücken. Vielleicht kennen Sie Matrizen aus der Schule. Falls nicht, ist das gar kein Problem, denn dieser Post wird sich mit Vektoren und Matrizen ausführlicher beschäftigen. Matrixalgebra wird bspw. auch in Eid, et al. (2017) im _Anhang B: Matrixalgebra_ ab Seite 1051 behandelt.
 
-Vektoren kennen wir bereits aus den ersten Datensätzen, die wir kennengelernt haben. Bspw. enthält ein Variablenvektor einer Person einfach nur die Einträge der Variablen aus dem Datensatz dieser spezifischen Person. Matrizen haben wir im Grunde auch schon kennengelernt. Ein Datensatz ist sehr stark verwandt mit einer Matrix. Genauso wie ein Datensatz, besteht auch eine Matrix aus Zeilen und Spalten. Der Hauptunterschied ist, dass bei einer Matrix nur numerische Inhlaten, also Zahlen, erlaubt sind. Wenn wir Daten in `R` verarbeiten wollen, wird der Datensatz oft in Matrizen umtransformiert (falls er vorher nicht-numerische Inhalte enthielt) und dann mit geeigneten Operationen, sogenannten Matrixoperationen, verarbeitet.
+Vektoren kennen wir bereits aus den ersten Datensätzen, die wir kennengelernt haben. Bspw. enthält ein Variablenvektor einer Person einfach nur die Einträge der Variablen aus dem Datensatz dieser spezifischen Person. Matrizen haben wir im Grunde auch schon kennengelernt. Ein Datensatz ist sehr stark verwandt mit einer Matrix. Genauso wie ein Datensatz, besteht auch eine Matrix aus Zeilen und Spalten. Der Hauptunterschied ist, dass bei einer Matrix nur numerische Inhalte, also Zahlen, erlaubt sind. Wenn wir Daten in `R` verarbeiten wollen, wird der Datensatz oft in Matrizen umtransformiert (falls er vorher nicht-numerische Inhalte enthielt) und dann mit geeigneten Operationen, sogenannten Matrixoperationen, verarbeitet.
 
 `R` ist eine vektorbasierte Programmiersprache, was bedeutet, dass möglichst viel mit Vektor- oder Matrixoperationen durchgeführt werden soll, da diese besonders optimiert (und damit besonders schnell) sind. Um davon Gebrauch zu machen, müssen wir uns mit diesen Operationen vertraut machen: 
 
@@ -241,7 +241,11 @@ $$A=\begin{pmatrix}a_{11} & a_{12}\\ a_{21} & a_{22}\\a_{31} & a_{32} \end{pmatr
 {{</ math >}}
 
 Die 3 Zeilenvektoren sind $a_{1\cdot}=(a_{11}, a_{12})$, $a_{2\cdot}=(a_{21}, a_{22})$ und $a_{3\cdot}=(a_{31}, a_{32})$. Die entsprechenden Spaltenvektoren sind 
-{{< math >}}$$a_{\cdot1}=\begin{pmatrix}a_{11}\\ a_{21}\\ a_{31}\end{pmatrix} \quad \text{ und } \quad a_{\cdot2}=\begin{pmatrix}a_{12}\\ a_{22}\\ a_{32}\end{pmatrix}$${{</ math >}}. Wir bemerken, dass die Indizes der Elemente uns die Position in der Matrix angeben. Bspw. ist $a_{32}$ das Element in $A$ in der 3. Zeile (1. Index) in der 2. Spalte (2. Index). 
+{{< math >}}$$a_{\cdot1}=\begin{pmatrix}a_{11}\\ a_{21}\\ a_{31}\end{pmatrix} \quad \text{ und } \quad a_{\cdot2}=\begin{pmatrix}a_{12}\\ a_{22}\\ a_{32}\end{pmatrix}.$$
+
+{{</ math >}}
+
+Wir bemerken, dass die Indizes der Elemente uns die Position in der Matrix angeben. Bspw. ist $a_{32}$ das Element in $A$ in der 3. Zeile (1. Index) in der 2. Spalte (2. Index). 
 
 Die gerade behandelten Vektoren  können wir ganz leicht zu einer Matrix machen, indem wir den Befehl `as.matrix` bspw. auf `x` anwenden. Dieser Befehl erzeugt  eine 3x1 Matrix - also aus mathematischer Sicht eigentlich einen Spaltenvektor.
 
@@ -609,7 +613,7 @@ det(C)
 ```
 
 ```
-## [1] 6.661338e-16
+## [1] -9.516197e-16
 ```
 
 ```r
