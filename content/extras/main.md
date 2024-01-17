@@ -64,31 +64,6 @@ sections:
   #           
   #     
   #     
-  # - block: markdown
-  #   id: diagnostik
-  #   content:
-  #     title: Grundlagen der Diagnostik (PsyBSc8)
-  #     subtitle:  
-  #     text: 
-  #       In dem Modul Grundlagen der Diagnostik (PsyBSc8) lernt ihr im Praktikum ein psychologisches Testverfahren zu erstellen und empirisch zu überprüfen. In diesem Zusammenhang führen viele von euch wahrscheinlich das erste Mal eine Itemanalyse und eine Exploratorische Faktorenanalyse durch. Hier könnt ihr noch einmal in aller Ruhe nachlesen, was euch im Praktikum schon einmal vorgeführt wurde.
-  #       {{< category_list "diagnostik" 2 >}}
-  # 
-  #   design:
-  #     columns: 2
-  #           
-  #     
-  #     
-  # - block: markdown
-  #   id: kiju
-  #   content:
-  #     title: Einführung in R und LMMs (KiJu)
-  #     subtitle:  
-  #     text: 
-  #       Hier findet sich das (vorläufige) Material zum mini-R-Workshop für die Abt. Kinder- und Jugendlichenpsychotherapie.
-  #       {{< category_list "kiju" 4 >}}
-  # 
-  #   design:
-  #     columns: 2
   #           
   #     
   #     

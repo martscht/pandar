@@ -28,9 +28,14 @@ main:
     url: "/lehre/main#klipps"
     parent: "Lehre"
     weight: 104
-  - name: "Forschungsmod. F&E"
-    pre: "<i class='fas fa-laptop-code'></i>&ensp;"
-    url: "/lehre/main#MSc5_fe"
+#  - name: "Forschungsmod. F&E"
+#    pre: "<i class='fas fa-laptop-code'></i>&ensp;"
+#    url: "/lehre/main#MSc5_fe"
+#    parent: "Lehre"
+#    weight: 105
+  - name: "Diagnostik"
+    pre: "<i class='fas fa-eye'></i>&ensp;"
+    url: "/lehre/main#diagnostik"
     parent: "Lehre"
     weight: 105
 

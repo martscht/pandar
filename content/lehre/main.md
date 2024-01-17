@@ -71,6 +71,18 @@ sections:
         {{< category_list "klipps" 12 "I,I,II,II,II,III,IV,IV,Va,Va,Vb,Vb">}}
     design:
       columns: 2
+      
+  - block: markdown
+    id: diagnostik
+    content:
+      title: Grundlagen der Diagnostik
+      subtitle: PsyBsc8
+      text:
+        In dem Modul Grundlagen der Diagnostik (PsyBSc8) lernt ihr im Praktikum ein psychologisches Testverfahren zu erstellen und empirisch zu überprüfen. In diesem Zusammenhang führen viele von euch wahrscheinlich das erste Mal eine Itemanalyse und eine Exploratorische Faktorenanalyse durch. Hier könnt ihr noch einmal in aller Ruhe nachlesen, was euch im Praktikum schon einmal vorgeführt wurde.
+        {{< category_list "diagnostik" 2 >}}
+
+    design:
+      columns: 2
 ---
 
 
