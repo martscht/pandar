@@ -1,4 +1,4 @@
-knitr::opts_chunk$set(echo = TRUE)
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 
 x <- c(1, 2, 3)
 y <- c(10, 8, 6)

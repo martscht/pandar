@@ -21,20 +21,6 @@ sections:
         text_color_light: true
       columns: 2
       
-  # - block: markdown
-  #   id: ggplotting
-  #   content:
-  #     title: ggplotting
-  #     subtitle:  Teil der [digiGEBF21](https://www.digigebf21.de/frontend/index.php)
-  #     text: 
-  #       Ein Bild sagt mehr als tausend Zahlen! Mit einer guten Grafik lassen sich viele Informationen übersichtlich darstellen, Sachverhalten schnell erkennen und auch an Laien komplizierte Datenlagen verständlich kommunizieren. Dabei ist eine gute Visualisierung nicht einfach. Komplexe Inhalte müssen klar, präzise und effizient dargestellt werden und sollen idealerweise auch noch hübsch aussehen. ggplot ist die R-Antwort auf diese Probleme und kann um diverse Aspekte - z.B. Animationen mit gganimate - erweitert werden!
-  #       {{< category_list "ggplotting" 12 >}}
-  #       Den [Foliensatz zum Workshop gibt es hier](https://pandar.netlify.app/post/ggplotting-folien.pdf).
-  #       
-  #   design:
-  #     columns: 2
-      
-      
       
   - block: markdown
     id: git
@@ -62,49 +48,7 @@ sections:
   #   design:
   #     columns: 2
   #           
-  #     
-  #     
-  # - block: markdown
-  #   id: diagnostik
-  #   content:
-  #     title: Grundlagen der Diagnostik (PsyBSc8)
-  #     subtitle:  
-  #     text: 
-  #       In dem Modul Grundlagen der Diagnostik (PsyBSc8) lernt ihr im Praktikum ein psychologisches Testverfahren zu erstellen und empirisch zu überprüfen. In diesem Zusammenhang führen viele von euch wahrscheinlich das erste Mal eine Itemanalyse und eine Exploratorische Faktorenanalyse durch. Hier könnt ihr noch einmal in aller Ruhe nachlesen, was euch im Praktikum schon einmal vorgeführt wurde.
-  #       {{< category_list "diagnostik" 2 >}}
-  # 
-  #   design:
-  #     columns: 2
-  #           
-  #     
-  #     
-  # - block: markdown
-  #   id: kiju
-  #   content:
-  #     title: Einführung in R und LMMs (KiJu)
-  #     subtitle:  
-  #     text: 
-  #       Hier findet sich das (vorläufige) Material zum mini-R-Workshop für die Abt. Kinder- und Jugendlichenpsychotherapie.
-  #       {{< category_list "kiju" 4 >}}
-  # 
-  #   design:
-  #     columns: 2
-  #           
-  #     
-  #     
-  # - block: markdown
-  #   id: a&o
-  #   content:
-  #     title: Meta-Analyse im A&O-Kontext
-  #     subtitle:  Arbeits- und Organisationspsychologie
-  #     text: 
-  #       Die hier präsentierten Unterlagen sind während des Forschungsmoduls A&O (SoSe 2020 und WiSe 2020/21) entstanden. Es kann als ergänzende Ressource behandelt werden, in der die Meta-Analyse in einem anderen Bereich der Psychologie (neben der klinischen) angewendet wird.
-  #       {{< category_list "a&o" 1 >}}
-  # 
-  #   design:
-  #     columns: 2
-  #           
-  #     
+  #  
   #     
   # - block: markdown
   #   id: bayes

@@ -1,0 +1,468 @@
+---
+title: "Exploratorische Faktorenanalyse"
+type: post
+date: '2022-12-06'
+slug: diagnostik-efa
+categories: ["Diagnostik"]
+tags: ["Fragebogen", "Seminar"]
+subtitle: ''
+summary: ''
+authors: [schnatz, farugie]
+weight: 2
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/coastal_sailing.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/707872)"
+projects: []
+
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/diagnostik/diagnostik-efa
+
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r knitr options, echo=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+## Laden der Daten & Übersicht  
+
+Wir beginnen mit dem Datensatz, mit dem wir letztes Skript aufgehört haben. Wie immer müsst ihr dafür den Pfad wählen, in dem sich die Daten befinden. Mit `glimpse()` können wir uns nochmal einen kurzen Überblick verschaffen, wie die Datenstruktur aussieht und welche Variablen wir nach der Itemanalyse beibehalten/ausgeschlossen haben.        
+ 
+```{r}
+library(tidyverse)
+library(here)
+data_gis_final <- read.csv(url("https://raw.githubusercontent.com/jlschnatz/PsyBSc8_Diagnostik/main/src/data/data-gis-final.csv"))
+glimpse(data_gis_final)
+```
+
+Als Erinnerung können wir uns nochmal die psychometrische Eigenschaften der beibehaltenen Items anschauen. Wir benutzen dafür wieder die Funktion aus dem `sjPlot` Package, die wir letztes Skript kennengelernt haben.
+
+```{r}
+library(sjPlot)
+sjt.itemanalysis(
+  df = data_gis_final, 
+  factor.groups.titles = NULL # kein Titel
+  ) 
+```
+
+## Identifikation der Anzahl der Faktoren    
+
+Zur Bestimmung der Anzahl der Faktoren in der exploratorischen Faktorenanalyse gibt es mehrere Herangehensweisen, die bereits in dem Lernbar-Video vorgestellt wurden: das Eigenwertkriterium/Kaiser-Guttman-Kriterium (Kaiser, 1960), der Scree-Plot (Cattell, 1966) und die Parallelanalyse (Horn, 1965). Jedes dieser Verfahren hat seine eigenen Vorbehalte hinsichtlich Konservativität und Objektivität. Deswegen ist es in der Praxis empfehlenswert, die Ergebnisse mehrerer Kriterien gleichzeitig zu berücksichtigen, um die höchste Genauigkeit zu erzielen. Für eine Übersicht hinsichtlich verschiedener Extraktionsmethoden und deren Vergleich siehe: Auerswald, 2019.
+
+### 1. Möglichkeit: Eigenwertkriterium
+
+Das Eigenwertkriterium bzw. Kaiser-Kriterium ist das liberalste Maß der Entscheidung, weswegen tendeziell dadurch viele Faktoren entstehen. Zur Bestimmung werden die Eigenwerte errechnet und alle Faktoren beibehalten, deren Eigenwert >= 1 ist. Es gibt zwei Möglichkeiten, den Eigenwerteverlauf mittels R zu bestimmen. 
+
+::: panel-tabset
+
+#### 1. Weg: Base-R Funktion `eigen()`
+
+```{r}
+# Base
+eigen(cor(data_gis_final))$values 
+# Alternative Schreibweise (mit pipes):
+cor(data_gis_final) %>% 
+  eigen() %>% 
+  chuck("values") 
+# in Tabellenform:
+cor(data_gis_final) %>% 
+  eigen() %>% 
+  chuck("values") %>% 
+  as_tibble() %>% 
+  rename(Eigenvalue = value) %>% 
+  tab_df(
+    title = "Eigenwertverlauf",
+    col.header = "Eigenwert",
+    show.rownames = TRUE
+    )
+```
+
+#### 2. Weg: `FactorMineR` Package
+
+Mit dem alternativen Weg könnnen wir noch etwas mehr Informationen als nur die Eigenwerte extrahieren. Dazu müssen wir das `FactoMineR` Package laden bzw. wenn noch nicht geschehen auch installieren. Wir verwenden die `PCA()` Funktion und extrahieren im Anschluss die Eigenwerte und Varianzaufklärung der möglichen Faktoren aus der abgespeichertern Liste.
+
+```{r}
+library(FactoMineR)
+pca <- PCA(data_gis_final, graph = FALSE) 
+eigen <- as_tibble(pca$eig) # als dataframe abspeichern
+eigen <- as_tibble(pca[["eig"]]) # Alternative
+# in Tabellenform:
+tab_df(
+  x = eigen,
+  show.rownames = TRUE,
+  title = "Eigenwertverlauf mit zusätzlicher Information hinsichtlich erklärte Varianz",
+  col.header  = c("Eigenwert", "Erklärte Varianz", "Kum. erklärte Varianz")
+  ) 
+```
+
+:::
+
+Wie anhand der Ergebnisse erkennbar ist, wird durch das Eigenwertkriterium ein Modell mit 2 Faktoren vorgeschlagen.
+
+### 2. Möglichkeit: Scree-Plot
+
+Der Scree-Plot ist ein visuell deskriptives Kriterium zur Entscheidung der Faktoren. Dabei ist das Kriterium konservativer als das Eigenwertkriterium.Wie in dem Lernbar-Video beschrieben wird der optische Knick herangezogen, um die Entscheidung über die Faktorenanzahl zu treffen. Alle Faktoren, die sich "über" dem Knick befinden, werden beibehalten.  
+
+Um in R einen Scree-Plot zu generieren, könnnen wir entweder die Base-R Plotting Funktionen verwenden oder das sehr erfolgreiche `ggplot2` Package der tidyverse Familie benutzen. Dabei können zwar mit Base R Plotting Funktionen zwar in nur wenigen Zeilen ein Plot erstellt werden, bieten dafür aber nicht so viele Anpassungsmöglichkeiten und folgen keiner klaren Struktur im Vergleich zu ggplot2. Wem es also wichtig sein sollte, schöne Plots zu generieren, sollte eher das ggplot2 Package nutzen. Wer nochmal eine ggplot2 Auffrischung brauchen sollte, findet hier ein paar nützliche Links: [PandaR](https://pandar.netlify.app/post/ggplotting-intro/), [R for Data Science](https://r4ds.had.co.nz/data-visualisation.html).
+
+::: panel-tabset
+
+#### 1. Weg: Base-R
+
+Wir benutzen das `psych` Package, um den Scree-Plot zu erstellen. Dabei verwendet dieses Package im Hintergrund Base R für das Plotting.
+
+```{r}
+library(psych)
+scree(
+  rx = data_gis_final, 
+  factors = TRUE,
+  pc = FALSE, # sollen Hauptkomponenten auch dargestellt werden?
+  hline = 1 # Plot mit Knicklinie, hline = -1 -> ohne Linie
+  ) 
+```
+
+#### 2. Weg: `ggplot2` Package
+
+Wir erstellen zunächst einen Dataframe, indem die Eigenwerte und Nummerierung der Faktoren als zwei Variablen gespeichert sind. Danach werden diese Daten in Layern mittels ggplot2 geplottet.
+
+```{r}
+data_eigen <- tibble(
+  Eigenwert = eigen(cor(data_gis_final))$values,
+  Faktor = 1:length(Eigenwert)
+)
+# Basis-ggplot Layer
+ggplot(data = data_eigen, aes(x = Faktor, y = Eigenwert)) + 
+  # Horizontale Linie bei y = 1
+   geom_hline(
+    color = "darkgrey", 
+    yintercept = 1,
+    linetype = "dashed" 
+    ) +
+  # Hinzufügen der Linien
+  geom_line(alpha = 0.6) + 
+  # Hinzufügen der Punkte
+  geom_point(size = 3) +
+  # Achsenveränderung der y-Achse
+  scale_y_continuous(
+    breaks = seq(0, 10, 2),
+    limits = c(0, 10),
+    expand = c(0, 0)
+  ) +
+  # Achsenveränderung der x-Achse
+  scale_x_continuous(
+    breaks = seq(1, 17),
+    limits = c(1, 17)
+  ) +
+  # Theme
+  theme_classic() + 
+  theme(axis.title = element_text(face = "bold"))
+```
+
+:::
+
+Die Ergebnisse der Scree-Plots suggerieren ein Modell mit nur einem Faktor. Dementsprechend wäre die Entscheidung im Vergleich zum Kaiser-Kriterium deutlich konservativer.
+
+### 3. Möglichkeit: Parallelanalyse
+
+Die letzte vorgestellte Möglichkeit ist die Parallelanalyse. Hierbei werden die empirischen Eigenwerte einer Faktorenanalyse mit den Eigenwerten eines simulierten Datensatzen mit normalverteilten Daten verglichen (Klopp, 2010). Es werden dabei Faktoren beibehalten, bei denen der empirische Eigenwerte größer als der simulierte Eigenwert ist. Anders formuliert werden Faktoren beibehalten, die mehr Varianz aufklären als rein zufällig simulierte Daten. Von den drei vorgestellten Kriterien ist diese das konservativste Kriterium
+
+::: panel-tabset
+
+#### Möglichkeit 1
+
+```{r}
+fa.parallel(
+  x = data_gis_final, 
+  fm = "pa", # Principal Axis Factoring Extraktion
+  fa = "both", # FA + PCA
+  n.iter = 500, # Anzahl der Simulationen
+  quant = .95, # Vergleichsintervall
+  main = "Parallelanalyse mittels Base R und psych-Package"
+  )
+```
+
+#### Möglichkeit 2
+
+Wir speichern zunächst die ausgegeben Daten der Funktion `fa.parallel()` in einem Objekt ab. Danach erstellen wir einen Dateframe mit den relevanten Informationen (empirische und simulierte Eigenwerte).
+
+```{r, message=FALSE}
+data_pa <- fa.parallel(
+  x = data_gis_final, 
+  fm= "pa", 
+  fa = "fa", 
+  plot = FALSE,
+  n.iter = 500,
+  quant = .95
+  )
+# Dataframe
+tibble(
+  Observed = data_pa$fa.values, # empirisch
+  Simulated = data_pa$fa.sim    # simuliert
+) %>% 
+  # Zeilennummer als eigene Variable
+  rownames_to_column(var = "Factor") %>% 
+  mutate(Factor = as.integer(Factor)) %>% 
+  # Wide-Format in Long-Format
+  pivot_longer(
+    cols = -Factor,
+    names_to = "obs_sim",
+    values_to = "Eigenvalue"
+    ) %>% 
+  ggplot(aes(x = Factor, y = Eigenvalue, color = obs_sim)) + 
+  geom_line(
+    size = 0.7,
+    alpha = .8
+    ) + 
+  geom_point(
+    size = 3.5,
+    alpha = .8
+    ) + 
+  scale_y_continuous(
+    breaks = seq(0, 9, 3),
+    limits = c(-.5, 9),
+    expand = c(0, 0)
+  ) + 
+  scale_x_continuous(
+    breaks = seq(1, 17),
+    limits = c(0, 17),
+    expand = c(0, 0)
+  ) +
+  scale_color_manual(
+    name = NULL,
+    values = c("#1D3554", "#DFE07C")
+    ) +
+  coord_cartesian(clip = "off") + 
+  theme_light() + 
+  theme(legend.position = "bottom")
+  
+```
+
+:::
+
+Die Ergebnisse der Parallelanalyse suggerieren ein Modell mit drei Faktoren. Da dies das konservativste Vorgehen ist, entscheiden wir uns für ein dreifaktorielles Modell für die weitere Analyse.
+
+## Extraktion der Faktoren & Rotation
+
+Als nächsten Schritt können wir nun die eigentliche exploratorische Faktoranalyse durchführen. Wir benutzen dafür wieder ein Befehl aus dem `sjPlot` Package, mit dem wir direkt die Faktorstruktur als Tabelle darstellen können. Es gibt aber auch viele  alternative Packages, mit denen eine EFA durchgeführt werden kann (z.B. psych `fa()` oder base R `factanal()`). 
+
+Wir spezifizieren ein Modell mit 3 Faktoren, die mittels Principal Axis Facoring extrahiert werden (`method = "pa"`) und führen anschließend eine oblimine Rotation durch (`rotation = "oblimin"`). Wie in der Lernbar bereits vorgestellt, gibt es unterschiedliche Rotationsverfahren nach der Extraktion der Faktoren. Bei orthogonalen Rotation bleiben die latenten Faktoren unkorreliert, wohingegen bei obliquer Rotation die Faktoren miteinander korrelieren dürfen. Alle Rotationsverfahren haben das Ziel, möglichst eine Einfachstruktur zu erhalten, d.h. dass jedes Item möglichst nur auf einen Faktor lädt. Für einen Vergleich verschiedener Rotationsverfahren und wann welches angewendet werden sollte: Costello, 2005.
+
+```{r}
+tab_fa(
+  data = data_gis_final,
+  nmbr.fctr = 3, 
+  rotation = "oblimin", 
+  fctr.load.tlrn = 0, 
+  method = "pa",
+  title = "Faktorenanalyse",
+  )
+```
+
+## Finale Modellspezifizierung
+
+Die Faktorladungen von Item 6 und Item 11 liegen unter dem üblichen Cut-off Wert von $\lambda = 0.4$  (bzw. teils auch $\lambda = 0.3$) und sollten deswegen ausgeschlossen werden. Alle anderen Items laden weitestgehend gut auf einen Faktor und besitzen hohe Faktorladungen. Für eine abschließende Modellspezifizierung erstellen wir einen neuen Datensatz ohne die zwei genannten Variablen und führen erneut eine Faktorenanalyse durch.
+
+```{r}
+drop_facload1 <- c("GIS6","GIS11")
+data_gis_fa1<- select(data_gis_final, -all_of(drop_facload1))
+tab_fa(
+  data = data_gis_fa1, 
+  nmbr.fctr = 3,
+  rotation = "oblimin", 
+  fctr.load.tlrn = 0, 
+  method = "pa",
+  title = "Finale Faktorenanalyse"
+  )
+```
+
+## Deskriptive Analyse der Faktorstruktur
+
+Anschließend können wir für jeden Faktor getrennt eine finale Itemanalyse durchführen. Das sjPlot Package kann dabei alle drei Tabellen für die Faktoren gleichzeitig in einer Funktion berechnen. Dafür muss zunächst jedoch ein Index erstellt werden, der spezifiziert, welche Items zu welchem Faktor gehören. Danach kann durch das Argument `factor.groups` die Faktorstruktur spezifiziert werden.
+
+```{r}
+fa_index <- tab_fa(
+  data = data_gis_fa1, 
+  nmbr.fctr = 3, 
+  rotation = "oblimin", 
+  fctr.load.tlrn = 0, 
+  method = "pa"
+  ) %>% 
+  pluck("factor.index")
+sjt.itemanalysis(
+  df = data_gis_fa1, 
+  factor.groups = fa_index, 
+  factor.groups.titles = c("Faktor 1","Faktor 2","Faktor 3")
+  )
+```
+
+Ebenfalls sollte zusätzlich zur internen Konsistenz Cronbach´s $\alpha$ auch McDonald´s $\omega$ für jede Skala berechnet werden. Dafür speichern wir den Index als Dataframe und danach alle Itemnamen des jeweiligen Faktors als eigenes Objekt ab. Nun können wir eine kleine Funktion erstellen, mit der wir immer wieder für einen Datensatz $\alpha$ und $\omega$ berechnen können. Wir sparen uns somit die Arbeit, jedes Mal wieder den Code zu wiederholen, welcher im Body (hinter der eckigen Klammern) der Funktion steht. Wichtig ist, dass wir mit der `return()` angeben, was letztendlich dem User ausgegeben werden soll (sonst wird nichts angezeigt).
+
+```{r}
+#| warning: false
+index <- as.data.frame(fa_index) %>% 
+  rownames_to_column(var = "item") 
+f1_names <- pull(filter(index, fa_index == 1), item)
+f2_names <- pull(filter(index, fa_index == 2), item)
+f3_names <- pull(filter(index, fa_index == 3), item)
+# Funktionsinput: Dataframe & Vektor der Variablennamen des jeweiligen Faktors
+get_reliability <- function(.data, .var_names) {
+  om <- omega(select(.data, all_of(.var_names)), plot = FALSE)
+  out <- list(
+    omega = om$omega.tot, 
+    alpha = om$alpha
+  )
+  # Angabe, welche Objekte ausgegeben werden sollen
+  return(out)
+}
+ 
+get_reliability(data_gis_fa1, f1_names)
+get_reliability(data_gis_fa1, f2_names)
+get_reliability(data_gis_fa1, f3_names)
+```
+
+# Testwertanalyse
+
+Als letztes werden wir die deskriptiven Kennwerte der Testwerte der drei Skalen genauer betrachten. Diese müssen wir zunächst erstmal berechnen. Über die Funktion `rowwise()` wird angegeben, dass nachfolgend eine Variable erstellt wird, bei der über die Zeilen hinweg aufsummiert werden soll. Die Variablen/Items die aufsummiert werden, können über die Funktion `c_across(variablen/items)` angegeben werden.
+
+```{r}
+data_gis_fa1 <- data_gis_fa1 %>% 
+  rowwise() %>% 
+  mutate(gis_score = sum(c_across(everything()))) %>% 
+  mutate(
+    f1 = sum(c_across(all_of(f1_names))),
+    f2 = sum(c_across(all_of(f2_names))),
+    f3 = sum(c_across(all_of(f3_names))),
+    ) 
+```
+
+Wir können uns mittles der `describe()`, welche bereits im letzten Skript vorgestellt wurde die wichtigsten deskriptiven Kennwerte ausgeben lassen.
+```{r}
+tab_df(describe(data_gis_fa1$f1))
+tab_df(describe(data_gis_fa1$f2))
+tab_df(describe(data_gis_fa1$f3))
+```
+
+Diese deskriptiven Kennwerte können wir zudem abschließend in einem Histogramm mit unterlegter Normalverteilung visualisieren. Wir benutzen für das Plotten der Normalverteilung das Package `ggh4x` mit der Funktion `stat_theodensity()`. Das praktische hierbei ist, dass wir nicht aktiv die Parameter der Normalverteilung (*M* und *SD*) angeben müssen, sondern die Funktion das für uns im Hintergrund auf Basis der Daten berechnet. Im nachfolgenden Beispiel wird der Plot für den Gesamttestwert (alle Items) berechnet. Wenn eine der 3 Skalen geplottet werden soll, muss dies nur in der `ggplot()` Funktion angegeben werden (s.h. Code).
+
+
+```{r}
+#| warning: false
+#| fig-align: "center"
+#| fig-width: 6
+#| fig-height: 5
+library(ggh4x)
+ggplot(data_gis_fa1, aes(x = gis_score)) +  # oder x = f1/f2/f3
+  geom_histogram(
+    binwidth = 3,
+    fill = "lightgrey",
+    ) +
+  stat_theodensity(
+    mapping = aes(y = after_stat(count)), 
+    distri = "norm", 
+    color = "darkblue",
+    size = 0.5
+    ) +
+  scale_x_continuous(
+    name = "GIS Score",
+    limits = c(0, 80), # Achsenlimit
+    breaks = seq(0, 80, 10), # Achsenabschnitte
+    expand = c(0, 0)
+    ) +
+  scale_y_continuous(
+    name = "Frequency",
+    limits = c(0, 60),
+    breaks = seq(0, 60, 10),
+    expand = c(0, 0)
+  ) +
+  theme_light()
+```
+
+Für diejenigen unter euch, die sich in etwas anspruchvolleres R bzw. ggplot2-Territorium wagen wollen: Es gibt auch die Möglichkeit, alle Skalen gleichzeitig in einem Bild zu plotten. Um jeden einzelnen Schritt der großen Pipe zu verstehen, geht am besten jeden einzelnen Layer durch und schaut, wie sich der Plot verändert. Auch hilfreich kann es sein, wenn man die einzelnen Parameter in den Layern verändert, um zu schauen, was diese bewirken. Es reicht allerdings natürlich auch völlig aus, wenn ihr euch an dem letzten Plot orientiert!
+
+```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
+#| fig-align: "center"
+#| fig-width: 10
+#| fig-height: 6.5
+library(ggh4x)
+strip_labels <- as_labeller(c(f1 = "Factor 1", f2 = "Factor 2",
+                              f3 = "Factor 3", gis_score = "Gesamtscore"))
+data_gis_fa1 %>% 
+  select(f1, f2, f3, gis_score) %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "factor",
+    values_to = "score"
+    ) %>% 
+  ggplot(aes(x = score, fill = factor)) + 
+  facet_wrap(
+    facets  = vars(factor), 
+    labeller = strip_labels,
+    scales = "free" 
+    )  +
+  geom_histogram(
+    bins = 30,
+    alpha = 0.7,
+    show.legend = FALSE
+  ) +
+  stat_theodensity(aes(y = after_stat(count), color = factor)) +
+  facetted_pos_scales(
+    x = list(
+      factor == "f1" ~ scale_x_continuous(limits = c(0, 30)),
+      factor == "f2" ~ scale_x_continuous(limits = c(0, 30)),
+      factor == "f3" ~ scale_x_continuous(limits = c(0, 30)),
+      factor == "gis_score" ~ scale_x_continuous(limits = c(0, 80))
+      )
+    ) +
+  scale_y_continuous(
+    expand = c(0, 0),
+    limits = c(0, 70),
+    breaks = seq(0, 70, 10)
+    ) +
+  scale_x_continuous(expand = c(0, 0)) +
+  coord_cartesian(clip = "off") +
+  xlab("Score") + 
+  ylab("Frequency") +
+  scale_fill_manual(values=c("#68768cFF","#d4d47bFF","#e87261FF","#6d9388FF")) +
+  scale_colour_manual(values=c("#293d5cFF","#c1c243FF","#e73e26FF","#2e6657FF")) +
+  guides(color = "none", fill = "none") +
+  theme_light() + 
+  theme(
+    panel.spacing = unit(.35, "cm"),
+    axis.title = element_text(face = "bold"),
+    strip.text = element_text(
+      face = "bold", 
+      color = "black",
+      margin = margin(b = 5)),
+    strip.background = element_rect(fill = "white")
+    )
+```
+
+***
+
+## Literatur
+
+Auerswald, M., & Moshagen, M. (2019). How to determine the number of factors to retain in exploratory factor analysis: A comparison of extraction methods under realistic conditions. Psychological Methods, 24(4), 468.
+
+Cattell, R. B. (1966). The scree test for the number of factors. Multivariate Behavioral Research, 1(2), 245–276.
+
+Costello, A. B., & Osborne, J. (2005). Best practices in exploratory factor analysis: Four recommendations for getting the most from your analysis. Practical Assessment, Research, and Evaluation, 10(1), 7.
+
+Horn, J. L. (1965). A rationale and test for the number of factors in factor analysis. Psychometrika, 30(2), 179–185.
+
+Kaiser, H. F. (1960). The application of electronic computers to factor analysis. Educational and Psychological Measurement, 20(1), 141–151.
+
+Klopp, E. (2010). Explorative Faktorenanalyse. [https://doi.org/10.23668/psycharchives.9238](https://doi.org/10.23668/psycharchives.9238) 
+
+
