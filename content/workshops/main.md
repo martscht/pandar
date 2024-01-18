@@ -47,21 +47,6 @@ sections:
     design:
       columns: 2
       
-
-  # - block: markdown
-  #   id: a&o
-  #   content:
-  #     title: Meta-Analyse im A&O-Kontext
-  #     subtitle:  Arbeits- und Organisationspsychologie
-  #     text: 
-  #       Die hier präsentierten Unterlagen sind während des Forschungsmoduls A&O (SoSe 2020 und WiSe 2020/21) entstanden. Es kann als ergänzende Ressource behandelt werden, in der die Meta-Analyse in einem anderen Bereich der Psychologie (neben der klinischen) angewendet wird.
-  #       {{< category_list "a&o" 1 >}}
-  # 
-  #   design:
-  #     columns: 2
-  #           
-  #     
-  #     
 ---
 
 
