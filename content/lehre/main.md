@@ -87,7 +87,7 @@ sections:
         <h3>Meta-Analyse im A&O-Kontext</h3>
         
         Die hier präsentierten Unterlagen sind während des Forschungsmoduls A&O (SoSe 2020 und WiSe 2020/21) entstanden. Eine ergänzende Ressource zu Meta-Analysen im nicht-klinischen Bereich.
-        {{< category_list "Meta_AuO" 1 >}}
+        {{< category_list "meta-auo" 1 >}}
         <br>
         <h3>Independence in R</h3>
         
