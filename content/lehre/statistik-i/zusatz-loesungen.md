@@ -609,9 +609,6 @@ str(fb22$lerntyp)
 </details>
 
 
-
-
-
 ## Aufgabe 17 
 
 Erstellen Sie ein Balkendiagramm mit der Variable `lerntyp`. Geben Sie der Grafik einen Titel, eine Achsenbeschriftung, sowie ein fesches, hippes farbliches Design.
@@ -1602,7 +1599,8 @@ cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "gre
 ```
 
 ```
-## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot compute exact p-value with ties
+## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot compute exact
+## p-value with ties
 ```
 
 ```
