@@ -1056,7 +1056,7 @@ Das Modell sagt einen Prokrastinationswert von `r round(predict(fm, newdata = da
 
 ## Aufgabe 32
 
-In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug d = -0.56. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie 10^4 mal wiederholen.
+In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug $d=-0.56$. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
 Nutzen Sie den Seed 4321 (`set.seed(4321)`).
 
 * Führen Sie eine Simulation durch, um die empirische Power des t-Tests zu bestimmen.
@@ -1088,7 +1088,7 @@ Die Wahrscheinlichkeit eines $\beta$-Fehlers beträgt `r (1 - mean(tH1 < .05))*1
 </details>
 
 
-* Angenommen wir wollen das $\alpha$-Niveau verändern. Wie würde sich das auf die Power des Tests auswirken? Simulieren sie diesmal den empirischen t-Wert und erstellen Sie einen Powerplot für $\alpha$ = 0.001, $\alpha$ = 0.01, $\alpha$ = 0.025, $\alpha$ = 0.05, $\alpha$ = 0.1.
+* Angenommen wir wollen das $\alpha$-Niveau verändern. Wie würde sich das auf die Power des Tests auswirken? Simulieren sie diesmal den empirischen t-Wert und erstellen Sie einen Powerplot, in dem $\alpha$ = 0.001, $\alpha$ = 0.01, $\alpha$ = 0.025, $\alpha$ = 0.05, $\alpha$ = 0.1 abgetragen sind. 
 
 <details><summary>Lösung</summary>
 ```{r}
@@ -1103,7 +1103,7 @@ x <- c(.001, 0.01, 0.025, 0.05, 0.1)
 plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
 ```
 
-Wir sehen das je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 159 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
+Wir sehen: Je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 159 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
 
 </details>
 
