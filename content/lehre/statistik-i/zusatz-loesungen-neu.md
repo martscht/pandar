@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [cezanne, mueller, nehler]
 weight:
-lastmod: '2024-01-21' 
+lastmod: '2024-01-22' 
 featured: no
 banner:
   image: "/header/mechanical_number_display.png"
@@ -611,31 +611,33 @@ str(fb22$lerntyp)
 
 ## Aufgabe 16.2
 
-Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `nature` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Der Datensatz sollte 1522 Versuchspersonen enthalten und 27 Variablen. 
+Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `nature` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Der Datensatz sollte 1522 Versuchspersonen und 27 Variablen enthalten. 
 
 
 ```r
 rm(list = ls())
-load(url('https://pandar.netlify.app/daten/fb22.rda'))
+load(url('https://pandar.netlify.app/daten/nature.rda'))
 ```
 
-Wandeln Sie zum Start die Variable `lerntyp` in einen Faktor um. Die Labels lauten in dieser Reihenfolge: `c(alleine, Gruppe, Mischtyp)`. Erstellen Sie dafür keine neuen Spalten, sondern überschreiben Sie die bereits bestehenden. Überprüfen Sie im Nachhinein die Umwandlung.
+
+ 
+In der Variable `urban` ist festgehalten, in welcher Gegend jemand als Kind gelebt hat. Wandeln Sie diese Variable in einen Faktor um. Die Labels lauten: `c("laendlich", "vorstaedtisch", "staedtisch")`. Erstellen Sie dafür keine neuen Spalten, sondern überschreiben Sie die bereits bestehenden. Überprüfen Sie im Nachhinein die Umwandlung.
 
 <details><summary>Lösung</summary>
 
 ```r
-fb22$lerntyp <- factor(fb22$lerntyp, levels = 1:3, labels = c("alleine", "Gruppe", "Mischtyp"))
+nature$urban <- factor(nature$urban, levels = 1:3, labels = c("laendlich", "vorstaedtisch", "staedtisch"))
 
-str(fb22$lerntyp)
+str(nature$urban)
 ```
 
 ```
-##  Factor w/ 3 levels "alleine","Gruppe",..: 1 1 1 1 1 NA 3 2 3 1 ...
+##  Factor w/ 3 levels "laendlich","vorstaedtisch",..: 1 3 3 1 2 1 3 2 3 2 ...
 ```
 </details>
 
 
-
+ 
 
 ## Aufgabe 17 
 
@@ -652,15 +654,39 @@ table_lerntyp <- table(fb22$lerntyp)
 barplot(table_lerntyp, main = "Lerntypen Jahrgang 2022", ylab = "Anzahl Studierende", col = colours)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
 
 ```r
 barplot(table_lerntyp, main = "Lerntypen Jahrgang 2022", ylab = "Anzahl Studierende", col = colours2)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-30-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-31-2.png)<!-- -->
 </details>
 
+## Aufgabe 17.2
+
+Erstellen Sie ein Balkendiagramm mit der Variable `urban`. Geben Sie der Grafik einen Titel, eine Achsenbeschriftung, sowie ein fesches, hippes farbliches Design.
+
+<details><summary>Lösung</summary>
+
+```r
+colours <- c("#CFB1B3", "#BC7B7D", "#DAB457")  #HEX-Werte (Paletten auf Pinterest)
+colours2 <- c("#B7C5D5", "#D6EDEC", "#E7E8ED")
+
+table_urban <- table(nature$urban)
+
+barplot(table_urban, main = "Wohngegend als Kind", ylab = "Anzahl ProbandInnen", col = colours)
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+
+```r
+barplot(table_urban, main = "Wohngegend als Kind", ylab = "Anzahl ProbandInnen", col = colours2)
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-32-2.png)<!-- -->
+</details>
+  
 ## Aufgabe 18
 
 Betrachten Sie die Variablen `prok4` und `prok10`. Liegen NAs vor? Wenn ja, wieviele? Überprüfen Sie dies mit Ihnen bekannten Befehlen.
@@ -686,6 +712,34 @@ sum(is.na(fb22$prok10))
 * Die Variable `prok4` enthält 2 fehlende Werte.
 * Die Variable `prok10` enthält 0 fehlende Werte.
 
+</details>
+
+## Aufgabe 18. 2
+  
+Betrachten Sie die Variablen `Q1` ("Mein idealer Urlaubsort wäre ein abgelegenes Gebiet in der Wildnis") und `Q5` ("Meine Beziehung zur Natur ist ein wichtiger Teil meines Wesens"). Die Items wurden den ProbandInnen zusammen mit einer 5-Punkte-Bewertungsskala von 1 (stimme nicht zu) bis 5 (stimme zu) vorgelegt. 
+Überprüfen Sie zunächst mit den Ihnen bekannten Befehlen ob und wenn ja, wieviele NAs vorliegen.
+
+<details><summary>Lösung</summary>
+
+```r
+sum(is.na(nature$Q1))
+```
+
+```
+## [1] 2
+```
+
+```r
+sum(is.na(nature$Q5))
+```
+
+```
+## [1] 0
+```
+
+* Die Variable `Q1` enthält 2 fehlende Werte.
+* Die Variable `Q5` enthält 0 fehlende Werte.
+ 
 </details>
 
 ## Aufgabe 19
@@ -743,16 +797,83 @@ quantile(fb22$prok10, c(.25, .75))
 boxplot(fb22$prok4)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 
 ```r
 boxplot(fb22$prok10)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-33-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-36-2.png)<!-- -->
 
 </details>
 
+## Aufgabe 19.2
+
+Die beiden Variablen sollen weiter betrachtet werden. Entfernen Sie bei Analysen (falls nötig) die fehlenden Werte. 
+
+* Bestimmen Sie das Maß der zentralen Tendenz für die beiden Variablen. Ist es für `Q1` und `Q5` dieselbe Kategorie, die die Proband:innen-Angaben in zwei gleich große Hälften teilt? 
+* In welchem Bereich liegen die mittleren 50% der Angaben in den beiden Variablen `Q1` und `Q5`?
+* Lassen Sie sich dies zusätzlich grafisch ausgeben.
+
+<details><summary>Lösung</summary>
+
+Da wir gefunden haben, dass in `Q5` keine fehlenden Werte vorliegen, können wir die Befehle ohne die Ergänzung `na.rm = T` durchführen. 
+
+
+```r
+median(nature$Q1, na.rm = T)
+```
+
+```
+## [1] 4
+```
+
+```r
+median(nature$Q5)
+```
+
+```
+## [1] 5
+```
+
+```r
+quantile(nature$Q1, c(.25, .75), na.rm = T)
+```
+
+```
+## 25% 75% 
+##   3   5
+```
+
+```r
+quantile(nature$Q5, c(.25, .75))
+```
+
+```
+## 25% 75% 
+##   4   5
+```
+
+* Der Median von `Q1` liegt bei 4, bei `Q5` liegt er bei 5. Es ist also für die beiden Variablen nicht dieselbe Kategorie, die die Angaben der Proband:innen in zwei gleich große Hälften teilt. 
+* Die mittleren 50% der Angaben in der Variable `Q1` reichen vom Wert 3 bis zum Wert 5, bei der Variable `Q2` reichen sie von 4 bis 5.
+
+
+```r
+boxplot(nature$Q1)
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+
+
+```r
+boxplot(nature$Q5)
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
+
+</details> 
+
+  
 ## Aufgabe 20
 
 Nun betrachten wir den Skalenwert, der unter `gewis` abgelegt ist. Dieser steht für die Persönlichkeitseigenschaft Gewissenhaftigkeit.
@@ -780,6 +901,36 @@ mean(fb22$gewis)
 
 * Der niedrigste Gewissenhaftigskeitswert liegt bei 2, der höchste bei 5.
 * Die mittlere Ausprägung der Gewissenhaftigkeit liegt bei 3.884.
+
+</details>
+
+## Aufgabe 20.2
+
+Nun betrachten wir den Skalenwert, der unter `age` abgelegt ist und das Alter der Proband:innen enthält.   
+
+* Was ist der niedrigste, was ist der höchste Wert der Variable? 
+* Wie hoch ist die mittlere Ausprägung?
+
+<details><summary>Lösung</summary>
+
+```r
+range(nature$age)
+```
+
+```
+## [1] 13 78
+```
+
+```r
+mean(nature$age)
+```
+
+```
+## [1] 29.87911
+```
+
+* Der niedrigste Wert liegt bei 13, der höchste bei 78.
+* Die mittlere Ausprägung liegt bei 29.879.
 
 </details>
 
@@ -862,7 +1013,7 @@ Verträglichkeit ist in `vertr` abgelegt.
 hist(fb22$vertr)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
 
 Dieses Histogramm soll erstmal zum Vergleich dienen. Wir sehen die ursprünglichen Skalenwerte.
 
@@ -872,7 +1023,7 @@ fb22$vertr_z <- scale(fb22$vertr, scale = F)
 hist(fb22$vertr_z)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
 
 Durch die Zentrierung verändert sich die Form erstmal nicht. Der Mittelwert der Werte wird auf 0 gesetzt. Optisch äußert sich das dadurch, dass die Werte auf der x-Achse nun andere sind.
 
@@ -882,7 +1033,7 @@ fb22$vertr_st <- scale(fb22$vertr, scale = T)
 hist(fb22$vertr_st)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
 
 Die Standardisierung setzt die Standardabweichung auf 1. Aufgrund der neuen Wertestruktur wird natürlich auch die Kategorienanzahl geändert. 
 
@@ -1002,7 +1153,7 @@ wk <- pbinom(X, 15, 0.75)
 plot(x = X, y = wk, typ = "h", xlab = "Anzahl Frauen", ylab = "kummulierte Wahrscheinlichkeit")
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
 </details>
 
 
@@ -1135,7 +1286,7 @@ Jetzt können wir uns die Extraversion der Gruppen deskriptiv in einem Boxplot d
 boxplot(fb22$extra ~ fb22$lerntyp_neu, xlab = "Lerntyp", ylab = "Extraversion") 
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-60-1.png)<!-- -->
 
 Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir aber nun noch inferenzstatistisch überprüfen. Dafür überprüfen wir die Voraussetzungen eines t-Tests für unabhängige Stichproben. Wir können annehmen, dass die abhängige Variable intervallskaliert ist und dass die einzelnen Messwerte voneinander unabhängig sind. Wir müssen nun noch die Normalverteilung der Extraversion in den Gruppen und die Homoskedastizität überprüfen.
 
@@ -1149,7 +1300,7 @@ library(car)
 qqPlot(fb22$extra[fb22$lerntyp_neu == "alleine"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-54-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-61-1.png)<!-- -->
 
 ```
 ## [1]  7 38
@@ -1159,7 +1310,7 @@ qqPlot(fb22$extra[fb22$lerntyp_neu == "alleine"])
 qqPlot(fb22$extra[fb22$lerntyp_neu == "Gruppe oder Mischtyp"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-54-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-61-2.png)<!-- -->
 
 ```
 ## [1] 12 32
@@ -1399,7 +1550,7 @@ library(car)
 qqPlot(fb22$intel[fb22$job == "nein"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-64-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-71-1.png)<!-- -->
 
 ```
 ## [1] 30 79
@@ -1409,7 +1560,7 @@ qqPlot(fb22$intel[fb22$job == "nein"])
 qqPlot(fb22$intel[fb22$job == "ja"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-64-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-71-2.png)<!-- -->
 
 ```
 ## [1] 49 46
@@ -1446,13 +1597,13 @@ Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselbe
 hist(fb22$intel[fb22$job == "ja"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-65-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-72-1.png)<!-- -->
 
 ```r
 hist(fb22$intel[fb22$job == "nein"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-65-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-72-2.png)<!-- -->
 Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
 
 
@@ -1594,7 +1745,7 @@ Nun schauen wir uns den Zusammenhang der Variablen in einem Scatterplot an.
 plot(x = fb22$woerter_grund, y = fb22$gewis)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-72-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-79-1.png)<!-- -->
 
 Wir schließen einen nicht linearen Zusammenhang nicht aus und überprüfen nun die Normalverteilung der Variablen.
 
@@ -1604,7 +1755,7 @@ library(car)
 qqPlot(fb22$gewis)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-73-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-80-1.png)<!-- -->
 
 ```
 ## [1] 54 80
@@ -1614,7 +1765,7 @@ qqPlot(fb22$gewis)
 qqPlot(fb22$woerter_grund)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-73-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-80-2.png)<!-- -->
 
 ```
 ## [1] 136  93
@@ -1627,8 +1778,7 @@ cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "gre
 ```
 
 ```
-## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot compute exact
-## p-value with ties
+## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot compute exact p-value with ties
 ```
 
 ```
@@ -1679,7 +1829,7 @@ plot(fb22$gewis, fb22$prok_ges, xlab = "Gewissenhaftigkeit", ylab = "Prokrastina
 lines(loess.smooth(fb22$gewis, fb22$prok_ges), col = 'blue')
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-76-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-83-1.png)<!-- -->
 
 Die Voraussetzung ist erfüllt. Wir können nun also unser Regressionsmodell aufstellen.
 
@@ -1696,7 +1846,7 @@ par(mfrow = c(2, 2)) #vier Abbildungen gleichzeitig
 plot(fm)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-78-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-85-1.png)<!-- -->
 
 Der Q-Q-Plot oben rechts deutet auf Normalverteilung hin. Die rote Anpassungslinie des Scale-Location Plots unten links ist annähernd parallel zur x-Achse, sodass wir von Varianzhomogenität ausgehen können. Da auch der vierte Plot unten rechts nicht auf potentiell problematische, einflussreiche Datenpunkte hindeutet, sind alle Vorausetzungen erfüllt.
 
@@ -1871,7 +2021,7 @@ x <- c(.001, 0.01, 0.025, 0.05, 0.1)
 plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-85-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-92-1.png)<!-- -->
 
 Wir sehen: Je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 159 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
 

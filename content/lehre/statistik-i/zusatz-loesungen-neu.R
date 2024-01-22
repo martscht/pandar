@@ -100,12 +100,14 @@ fb22$lerntyp <- factor(fb22$lerntyp, levels = 1:3, labels = c("alleine", "Gruppe
 
 str(fb22$lerntyp)
 
-rm(list = ls())
-load(url('https://pandar.netlify.app/daten/fb22.rda'))
+## rm(list = ls())
+## load(url('https://pandar.netlify.app/daten/nature.rda'))
 
-fb22$lerntyp <- factor(fb22$lerntyp, levels = 1:3, labels = c("alleine", "Gruppe", "Mischtyp"))
+load("/home/zarah/Documents/nature.rda")
 
-str(fb22$lerntyp)
+nature$urban <- factor(nature$urban, levels = 1:3, labels = c("laendlich", "vorstaedtisch", "staedtisch"))
+
+str(nature$urban)
 
 colours <- c("#CFB1B3", "#BC7B7D", "#DAB457")  #HEX-Werte (Paletten auf Pinterest)
 colours2 <- c("#B7C5D5", "#D6EDEC", "#E7E8ED")
@@ -115,8 +117,19 @@ table_lerntyp <- table(fb22$lerntyp)
 barplot(table_lerntyp, main = "Lerntypen Jahrgang 2022", ylab = "Anzahl Studierende", col = colours)
 barplot(table_lerntyp, main = "Lerntypen Jahrgang 2022", ylab = "Anzahl Studierende", col = colours2)
 
+colours <- c("#CFB1B3", "#BC7B7D", "#DAB457")  #HEX-Werte (Paletten auf Pinterest)
+colours2 <- c("#B7C5D5", "#D6EDEC", "#E7E8ED")
+
+table_urban <- table(nature$urban)
+
+barplot(table_urban, main = "Wohngegend als Kind", ylab = "Anzahl ProbandInnen", col = colours)
+barplot(table_urban, main = "Wohngegend als Kind", ylab = "Anzahl ProbandInnen", col = colours2)
+
 sum(is.na(fb22$prok4))
 sum(is.na(fb22$prok10))
+
+sum(is.na(nature$Q1))
+sum(is.na(nature$Q5))
 
 median(fb22$prok4, na.rm = T)
 median(fb22$prok10)
@@ -127,8 +140,21 @@ quantile(fb22$prok10, c(.25, .75))
 boxplot(fb22$prok4)
 boxplot(fb22$prok10)
 
+median(nature$Q1, na.rm = T)
+median(nature$Q5)
+
+quantile(nature$Q1, c(.25, .75), na.rm = T)
+quantile(nature$Q5, c(.25, .75))
+
+boxplot(nature$Q1)
+
+boxplot(nature$Q5)
+
 range(fb22$gewis)
 mean(fb22$gewis)
+
+range(nature$age)
+mean(nature$age)
 
 sum(is.na(fb22$gewis))
 sum(is.na(fb22$extra))
