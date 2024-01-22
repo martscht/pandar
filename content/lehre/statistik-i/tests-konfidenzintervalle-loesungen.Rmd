@@ -387,7 +387,7 @@ Weiterhin brauchen wir den Standardfehler. Dieser erechnet sich bei einem z-Test
 ```{r}
 sd_gewis_pop <- sd(fb23$gewis) * sqrt((nrow(fb23) - 1) / nrow(fb23)) #empirische Standardabweichung der Population
 
-se_gewis <- sd_gewis_pop / sqrt(nrow(fb23)) #Standardfehler
+se_gewis <- sd_gewis_pop / sqrt(42) #Standardfehler
 ```
 
 Da die `sd()`-Funktion von Natur aus die geschätzte Standardabweichung berechnet, wir aber die empirische Standardabweichung benötigen müssen wir diese noch mit $\sqrt\frac{n-1}{n}$ verrechnen.

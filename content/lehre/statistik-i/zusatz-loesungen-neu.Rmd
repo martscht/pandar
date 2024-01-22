@@ -2,7 +2,7 @@
 title: "Freiwillige Übungsaufgaben - Lösungen"
 type: post
 date: '2021-11-29'
-slug: zusatz-loesungen
+slug: zusatz-loesungen-neu
 categories: ["Statistik I Übungen"]
 tags: ["R Deskriptivstatistik"]
 subtitle: ''
@@ -390,6 +390,28 @@ fb22$lerntyp <- factor(fb22$lerntyp, levels = 1:3, labels = c("alleine", "Gruppe
 str(fb22$lerntyp)
 ```
 </details>
+
+
+## Aufgabe 16.2
+
+Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `nature` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Der Datensatz sollte 1522 Versuchspersonen enthalten und 27 Variablen. 
+
+```{r}
+rm(list = ls())
+load(url('https://pandar.netlify.app/daten/fb22.rda'))
+```
+
+Wandeln Sie zum Start die Variable `lerntyp` in einen Faktor um. Die Labels lauten in dieser Reihenfolge: `c(alleine, Gruppe, Mischtyp)`. Erstellen Sie dafür keine neuen Spalten, sondern überschreiben Sie die bereits bestehenden. Überprüfen Sie im Nachhinein die Umwandlung.
+
+<details><summary>Lösung</summary>
+```{r}
+fb22$lerntyp <- factor(fb22$lerntyp, levels = 1:3, labels = c("alleine", "Gruppe", "Mischtyp"))
+
+str(fb22$lerntyp)
+```
+</details>
+
+
 
 
 ## Aufgabe 17 
