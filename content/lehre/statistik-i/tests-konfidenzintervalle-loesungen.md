@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, scheppa-lahyani, vogler, pommeranz] 
-lastmod: '2024-01-16'
+lastmod: '2024-01-22'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -106,6 +106,21 @@ library(psych)
 library(car)
 ```
 
+```
+## Loading required package: carData
+```
+
+```
+## 
+## Attaching package: 'car'
+```
+
+```
+## The following object is masked from 'package:psych':
+## 
+##     logit
+```
+
 </details>
 
 
@@ -161,10 +176,8 @@ describe(fb23$lz) #Funktion aus Paket "psych"
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range
-## X1    1 177 5.12 1.05    5.4    5.19 0.89 1.4   7   5.6
-##     skew kurtosis   se
-## X1 -0.75     0.58 0.08
+##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 177 5.12 1.05    5.4    5.19 0.89 1.4   7   5.6 -0.75     0.58 0.08
 ```
 
 </details>
@@ -510,7 +523,7 @@ Weiterhin brauchen wir den Standardfehler. Dieser erechnet sich bei einem z-Test
 ```r
 sd_gewis_pop <- sd(fb23$gewis) * sqrt((nrow(fb23) - 1) / nrow(fb23)) #empirische Standardabweichung der Population
 
-se_gewis <- sd_gewis_pop / sqrt(nrow(fb23)) #Standardfehler
+se_gewis <- sd_gewis_pop / sqrt(42) #Standardfehler
 ```
 
 Da die `sd()`-Funktion von Natur aus die geschätzte Standardabweichung berechnet, wir aber die empirische Standardabweichung benötigen müssen wir diese noch mit $\sqrt\frac{n-1}{n}$ verrechnen.
@@ -543,7 +556,7 @@ Zusätzlich lässt sich auch noch der p-Wert über folgende Formel berechnen:
 ```
 
 ```
-## [1] 0.2253066
+## [1] 0.5569719
 ```
 
 **Konfidenzintervall:**
@@ -558,11 +571,11 @@ conf_int
 ```
 
 ```
-## [1] 3.488025 3.711975
+## [1] 3.368834 3.831166
 ```
 
 Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ nicht verworfen werden. Die Psychologie-Studierenden der Stichprobe unterscheiden sich nicht in ihrer Gewissenhaftigkeit von der Grundgesamtheit (Datensatz). 
-Das 95%-ige Konfidenzintervall liegt zwischen 3.49 und 3.71.
+Das 95%-ige Konfidenzintervall liegt zwischen 3.37 und 3.83.
 
 
 </details>
