@@ -34,19 +34,6 @@ sections:
     design:
       columns: 2
       
-      
-      
-  # - block: markdown
-  #   id: independence
-  #   content:
-  #     title: Independence in R
-  #     subtitle:  A tutorial by [Dr. Sophie Nolden](https://pandar.netlify.app/authors/nolden)
-  #     text: 
-  #       This is a guide, specifically designed for students, to help with your handling of R - especially when working with your own data. Here you will find detailed examples for working with R, data aggregation, descriptive and inferential statistics and much more.
-  #       {{< category_list "independence" 1 >}}
-  # 
-  #   design:
-  #     columns: 2
   #           
   #  
   #     

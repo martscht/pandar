@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [cezanne, mueller, nehler]
 weight:
-lastmod: '2024-01-12' 
+lastmod: '2024-01-21' 
 featured: no
 banner:
   image: "/header/mechanical_number_display.png"
@@ -607,9 +607,6 @@ str(fb22$lerntyp)
 ##  Factor w/ 3 levels "alleine","Gruppe",..: 1 1 1 1 1 NA 3 2 3 1 ...
 ```
 </details>
-
-
-
 
 
 ## Aufgabe 17 
@@ -1602,8 +1599,8 @@ cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "gre
 ```
 
 ```
-## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot compute exact p-value
-## with ties
+## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot compute exact
+## p-value with ties
 ```
 
 ```
@@ -1759,7 +1756,7 @@ Durch die Gewissenhaftigkeit können {{<math>}}$ 24.78\%${{</math>}} der Varianz
 
 </details>
 
-* Eine Person hat einen Gewissenhaftswert von 3.2. Welchen Prokrastinationswert sagt, dass Modell für diese Person voraus?
+* Eine Person hat einen Gewissenhaftswert von 3.2. Welchen Prokrastinationswert sagt das Modell für diese Person voraus?
 
 <details><summary>Lösung</summary>
 
@@ -1788,7 +1785,7 @@ Das Modell sagt einen Prokrastinationswert von 2.77 voraus.
 
 ## Aufgabe 32
 
-In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug d = -0.56. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie 10^4 mal wiederholen.
+In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug $d=-0.56$. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
 Nutzen Sie den Seed 4321 (`set.seed(4321)`).
 
 * Führen Sie eine Simulation durch, um die empirische Power des t-Tests zu bestimmen.
@@ -1830,7 +1827,7 @@ Die Wahrscheinlichkeit eines $\beta$-Fehlers beträgt 0.11%.
 </details>
 
 
-* Angenommen wir wollen das $\alpha$-Niveau verändern. Wie würde sich das auf die Power des Tests auswirken? Simulieren sie diesmal den empirischen t-Wert und erstellen Sie einen Powerplot für $\alpha$ = 0.001, $\alpha$ = 0.01, $\alpha$ = 0.025, $\alpha$ = 0.05, $\alpha$ = 0.1.
+* Angenommen wir wollen das $\alpha$-Niveau verändern. Wie würde sich das auf die Power des Tests auswirken? Simulieren sie diesmal den empirischen t-Wert und erstellen Sie einen Powerplot, in dem $\alpha$ = 0.001, $\alpha$ = 0.01, $\alpha$ = 0.025, $\alpha$ = 0.05, $\alpha$ = 0.1 abgetragen sind. 
 
 <details><summary>Lösung</summary>
 
@@ -1848,7 +1845,7 @@ plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
 
 ![](/lehre/statistik-i/zusatz-loesungen_files/figure-html/unnamed-chunk-83-1.png)<!-- -->
 
-Wir sehen das je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 159 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
+Wir sehen: Je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 159 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
 
 </details>
 

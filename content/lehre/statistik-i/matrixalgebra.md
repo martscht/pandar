@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer] 
 weight: 10.5
-lastmod: '2024-01-15'
+lastmod: '2024-01-18'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -27,10 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-i/matrixalgebra.R
-#  - icon_pack: fas
-#    icon: pen-to-square
-#    name: Aufgaben
-#    url: /lehre/statistik-i/matrixalgebra-aufgaben
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/matrixalgebra-aufgaben
 output:
   html_document:
     keep_md: true
@@ -155,7 +155,7 @@ In `R` sieht das so aus
 ## [1] 3 6 9
 ```
 
-Genauso können wir auch jedes Element durch 2 Teilen, indem wir mit $\frac{1}{2}$ also 0.5 multiplizieren.
+Genauso können wir auch jedes Element durch 2 teilen, indem wir mit $\frac{1}{2}$ also 0.5 multiplizieren.
 
 
 ```r
@@ -177,7 +177,7 @@ Wenn wir mit $-1$ multiplizieren erhalten wir
 ## [1] -1 -2 -3
 ```
 
-Jedes Element wird also mit $-1$ multipliziert. Davon können wir direkt die Subtraktion von Vektoren ablesen. Wollen wir $y-x$ rechnen, so ergibt sich mit Hilfe der Skalarmultiplikation $y+(-1)x$. Damit können wir elementenweisen $y$ mit $-1x$ addieren:
+Jedes Element wird also mit $-1$ multipliziert. Davon können wir direkt die Subtraktion von Vektoren ablesen. Wollen wir $y-x$ rechnen, so ergibt sich mit Hilfe der Skalarmultiplikation $y+(-1)x$. Damit können wir elementenweise $y$ mit $-1x$ addieren:
 
 {{< math >}}
 $$y-x=\begin{pmatrix} y_1\\ y_2\\ y_3 \end{pmatrix} + \begin{pmatrix}-x_1\\ -x_2\\ -x_3 \end{pmatrix}=\begin{pmatrix}y_1-x_1\\ y_2-x_2\\ y_3-x_3 \end{pmatrix} =\begin{pmatrix}10-1\\ 8-2\\ 6-3 \end{pmatrix}=\begin{pmatrix}9\\ 6\\ 3 \end{pmatrix}.$$
@@ -518,7 +518,7 @@ B %*% P
 ## y   8.6
 ```
 
-Wir erkennen, dass Xavian 1.7€ und Yvonne 8.6€ ausgeben muss. Angenommen es gäbe eine Konkurrenzladen, der andere Preise für das Obst angibt. Wir können dies in unsere Matrix $P$ aufnehmen und so bestimmen, wie viel die beiden in den jeweiligen Läden ausgeben müssten. Wir verwenden diesmal den `matrix`-Befehl, um direkt eine Matrix zu erzeugen. Dieser Befehl nimmt zunächst einen Vektor mit den Elementen entgegen. Hier empfiehlt es sich durch Zeilenumbrüche Ordnung hereinzubringen. Anschließend sagen wir noch wie viele Zeilen (`nrow`) und Spalten (`ncol`) wir benötigen. Mit `byrow = TRUE` geben wir an, dass die Matrix zeilenweise befüllt werden soll. In *Laden A* kosten Orangen 0.50€, Äpfel 0.30€ und Bananen 0.20€. In *Laden B* sind Bananen super teuer und kosten 1.00€. Hingegen sind Orangen und Äpfel extrem billig und kosten nur 0.05€. Wenn wir die Zeilen und Spalten der Preismatrix $P$ entsprechend bennen, sagt uns das Matrixprodukt nun, wie viel Xavian und Yvonne in den Beiden Läden bezahlen müssen.
+Wir erkennen, dass Xavian 1.7€ und Yvonne 8.6€ ausgeben muss. Angenommen es gäbe einen Konkurrenzladen, der andere Preise für das Obst angibt. Wir können dies in unsere Matrix $P$ aufnehmen und so bestimmen, wie viel die beiden in den jeweiligen Läden ausgeben müssten. Wir verwenden diesmal den `matrix`-Befehl, um direkt eine Matrix zu erzeugen. Dieser Befehl nimmt zunächst einen Vektor mit den Elementen entgegen. Hier empfiehlt es sich durch Zeilenumbrüche Ordnung hereinzubringen. Anschließend sagen wir noch wie viele Zeilen (`nrow`) und Spalten (`ncol`) wir benötigen. Mit `byrow = TRUE` geben wir an, dass die Matrix zeilenweise befüllt werden soll. In *Laden A* kosten Orangen 0.50€, Äpfel 0.30€ und Bananen 0.20€. In *Laden B* sind Bananen super teuer und kosten 1.00€. Hingegen sind Orangen und Äpfel extrem billig und kosten nur 0.05€. Wenn wir die Zeilen und Spalten der Preismatrix $P$ entsprechend bennen, sagt uns das Matrixprodukt nun, wie viel Xavian und Yvonne in den Beiden Läden bezahlen müssen.
 
 
 ```r
@@ -539,7 +539,7 @@ B %*% P
 Obwohl die Bananen so teuer sind, macht es für Yvonne mehr Sinn in Laden B einzukaufen, während Xavian besser beraten ist bei Laden A zu bleiben (unter der etwas seltsamen Annahme, dass man alles in einem Laden kaufen muss).
 
 #### Spezielle Matrizen
-Eine quadratische Matrix hat genauso viele Zeilen wie Spalten. Eine wichtige quadratische Matrix ist die Einheitsmatrix $I$, welche nur 1en auf der Diagonalen und sonst 0en hat. Diese ist gerade das Elemente, mit welchem wir getrost multiplizieren können (falls die Dimensionen stimmen), weil dann nichts passiert (wie Multiplikation mit 1 bei Zahlen). Wir erhalten sie mit `diag`, was eigentlich eine (quadratische) Diagonalmatrix erzeugt mit beliebigen Elementen auf der Diagonalen:
+Eine quadratische Matrix hat genauso viele Zeilen wie Spalten. Eine wichtige quadratische Matrix ist die Einheitsmatrix $I$, welche nur 1en auf der Diagonalen und sonst 0en hat. Diese ist gerade das Element, mit welchem wir getrost multiplizieren können (falls die Dimensionen stimmen), weil dann nichts passiert (wie Multiplikation mit 1 bei Zahlen). Wir erhalten sie mit `diag`, was eigentlich eine (quadratische) Diagonalmatrix erzeugt mit beliebigen Elementen auf der Diagonalen:
 
 
 ```r

@@ -2,7 +2,7 @@
 title: "Freiwillige Übungsaufgaben - Lösungen"
 type: post
 date: '2021-11-29'
-slug: zusatz-loesungen
+slug: zusatz-loesungen-neu
 categories: ["Statistik I Übungen"]
 tags: ["R Deskriptivstatistik"]
 subtitle: ''
@@ -392,6 +392,32 @@ str(fb22$lerntyp)
 </details>
 
 
+## Aufgabe 16.2
+
+Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `nature` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Der Datensatz sollte 1522 Versuchspersonen und 27 Variablen enthalten. 
+
+```{r, eval = FALSE}
+rm(list = ls())
+load(url('https://pandar.netlify.app/daten/nature.rda'))
+```
+
+```{r, echo = FALSE}
+load("/home/zarah/Documents/nature.rda")
+```
+ 
+In der Variable `urban` ist festgehalten, in welcher Gegend jemand als Kind gelebt hat. Wandeln Sie diese Variable in einen Faktor um. Die Labels lauten: `c("laendlich", "vorstaedtisch", "staedtisch")`. Erstellen Sie dafür keine neuen Spalten, sondern überschreiben Sie die bereits bestehenden. Überprüfen Sie im Nachhinein die Umwandlung.
+
+<details><summary>Lösung</summary>
+```{r}
+nature$urban <- factor(nature$urban, levels = 1:3, labels = c("laendlich", "vorstaedtisch", "staedtisch"))
+
+str(nature$urban)
+```
+</details>
+
+
+ 
+
 ## Aufgabe 17 
 
 Erstellen Sie ein Balkendiagramm mit der Variable `lerntyp`. Geben Sie der Grafik einen Titel, eine Achsenbeschriftung, sowie ein fesches, hippes farbliches Design.
@@ -408,6 +434,22 @@ barplot(table_lerntyp, main = "Lerntypen Jahrgang 2022", ylab = "Anzahl Studiere
 ``` 
 </details>
 
+## Aufgabe 17.2
+
+Erstellen Sie ein Balkendiagramm mit der Variable `urban`. Geben Sie der Grafik einen Titel, eine Achsenbeschriftung, sowie ein fesches, hippes farbliches Design.
+
+<details><summary>Lösung</summary>
+```{r}
+colours <- c("#CFB1B3", "#BC7B7D", "#DAB457")  #HEX-Werte (Paletten auf Pinterest)
+colours2 <- c("#B7C5D5", "#D6EDEC", "#E7E8ED")
+
+table_urban <- table(nature$urban)
+
+barplot(table_urban, main = "Wohngegend als Kind", ylab = "Anzahl ProbandInnen", col = colours)
+barplot(table_urban, main = "Wohngegend als Kind", ylab = "Anzahl ProbandInnen", col = colours2)
+``` 
+</details>
+  
 ## Aufgabe 18
 
 Betrachten Sie die Variablen `prok4` und `prok10`. Liegen NAs vor? Wenn ja, wieviele? Überprüfen Sie dies mit Ihnen bekannten Befehlen.
@@ -421,6 +463,22 @@ sum(is.na(fb22$prok10))
 * Die Variable `prok4` enthält `r sum(is.na(fb22$prok4))` fehlende Werte.
 * Die Variable `prok10` enthält `r sum(is.na(fb22$prok10))` fehlende Werte.
 
+</details>
+
+## Aufgabe 18. 2
+  
+Betrachten Sie die Variablen `Q1` ("Mein idealer Urlaubsort wäre ein abgelegenes Gebiet in der Wildnis") und `Q5` ("Meine Beziehung zur Natur ist ein wichtiger Teil meines Wesens"). Die Items wurden den ProbandInnen zusammen mit einer 5-Punkte-Bewertungsskala von 1 (stimme nicht zu) bis 5 (stimme zu) vorgelegt. 
+Überprüfen Sie zunächst mit den Ihnen bekannten Befehlen ob und wenn ja, wieviele NAs vorliegen.
+
+<details><summary>Lösung</summary>
+```{r}
+sum(is.na(nature$Q1))
+sum(is.na(nature$Q5))
+```
+
+* Die Variable `Q1` enthält `r sum(is.na(nature$Q1))` fehlende Werte.
+* Die Variable `Q5` enthält `r sum(is.na(nature$Q5))` fehlende Werte.
+ 
 </details>
 
 ## Aufgabe 19
@@ -453,6 +511,40 @@ boxplot(fb22$prok10)
 
 </details>
 
+## Aufgabe 19.2
+
+Die beiden Variablen sollen weiter betrachtet werden. Entfernen Sie bei Analysen (falls nötig) die fehlenden Werte. 
+
+* Bestimmen Sie das Maß der zentralen Tendenz für die beiden Variablen. Ist es für `Q1` und `Q5` dieselbe Kategorie, die die Proband:innen-Angaben in zwei gleich große Hälften teilt? 
+* In welchem Bereich liegen die mittleren 50% der Angaben in den beiden Variablen `Q1` und `Q5`?
+* Lassen Sie sich dies zusätzlich grafisch ausgeben.
+
+<details><summary>Lösung</summary>
+
+Da wir gefunden haben, dass in `Q5` keine fehlenden Werte vorliegen, können wir die Befehle ohne die Ergänzung `na.rm = T` durchführen. 
+
+```{r}
+median(nature$Q1, na.rm = T)
+median(nature$Q5)
+
+quantile(nature$Q1, c(.25, .75), na.rm = T)
+quantile(nature$Q5, c(.25, .75))
+```
+
+* Der Median von `Q1` liegt bei `r median(nature$Q1, na.rm = T)`, bei `Q5` liegt er bei `r median(nature$Q5)`. Es ist also für die beiden Variablen nicht dieselbe Kategorie, die die Angaben der Proband:innen in zwei gleich große Hälften teilt. 
+* Die mittleren 50% der Angaben in der Variable `Q1` reichen vom Wert `r quantile(nature$Q1, c(.25, .75), na.rm = T)[1]` bis zum Wert `r quantile(nature$Q1, c(.25, .75), na.rm = T)[2]`, bei der Variable `Q2` reichen sie von `r quantile(nature$Q5, c(.25, .75))[1]` bis `r quantile(nature$Q5, c(.25, .75))[2]`.
+
+```{r}
+boxplot(nature$Q1)
+```
+
+```{r}
+boxplot(nature$Q5)
+```
+
+</details> 
+
+  
 ## Aufgabe 20
 
 Nun betrachten wir den Skalenwert, der unter `gewis` abgelegt ist. Dieser steht für die Persönlichkeitseigenschaft Gewissenhaftigkeit.
@@ -468,6 +560,24 @@ mean(fb22$gewis)
 
 * Der niedrigste Gewissenhaftigskeitswert liegt bei `r range(fb22$gewis)[1]`, der höchste bei `r range(fb22$gewis)[2]`.
 * Die mittlere Ausprägung der Gewissenhaftigkeit liegt bei `r round(mean(fb22$gewis), digits = 3)`.
+
+</details>
+
+## Aufgabe 20.2
+
+Nun betrachten wir den Skalenwert, der unter `age` abgelegt ist und das Alter der Proband:innen enthält.   
+
+* Was ist der niedrigste, was ist der höchste Wert der Variable? 
+* Wie hoch ist die mittlere Ausprägung?
+
+<details><summary>Lösung</summary>
+```{r}
+range(nature$age)
+mean(nature$age)
+```
+
+* Der niedrigste Wert liegt bei `r range(nature$age)[1]`, der höchste bei `r range(nature$age)[2]`.
+* Die mittlere Ausprägung liegt bei `r round(mean(nature$age), digits = 3)`.
 
 </details>
 
