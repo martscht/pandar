@@ -8,8 +8,8 @@ tags: ["Deskriptivstatistik", "Regression"]
 subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es um vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [cezanne, mueller, nehler] 
-weight: 11
-lastmod: '2024-01-21'
+weight: 13
+lastmod: '2024-01-24'
 featured: no 
 banner:
   image: "/header/mechanical_number_display.png"
