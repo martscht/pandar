@@ -243,8 +243,8 @@ $$\hat{y} = 3.72 + (-0.21)*x_m$$
 
 **Interpretation der Regressionskoeffizienten:**  
 
-* *b0 (Achsenabschnitt)*: beträgt die Extraversion 0, wird eine Nerdiness von 3.72 vorhergesagt  
-* *b1 (Regressionsgewicht)*: mit jeder Steigerung der Extraversion um 1 Einheit wird eine um 0.21 Einheiten niedrigere (!) Nerdiness vorhergesagt
+* *$b_0$ (Achsenabschnitt)*: beträgt die Extraversion 0, wird eine Nerdiness von 3.72 vorhergesagt  
+* *$b_1$ (Regressionsgewicht)*: mit jeder Steigerung der Extraversion um 1 Einheit wird eine um 0.21 Einheiten niedrigere (!) Nerdiness vorhergesagt
 
 
 ### Residuen Werte
