@@ -1,10 +1,10 @@
 ---
-title: "Regression - Lösungen" 
+title: "Regression I - Lösungen" 
 type: post
 date: '2021-01-04' 
-slug: einfache-regression-loesungen 
-categories: ["Statistik I Übungen"] 
-tags: [] 
+slug: einfache-reg-i-loesungen 
+categories: [] 
+tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
 authors: [winkler, neubauer] 

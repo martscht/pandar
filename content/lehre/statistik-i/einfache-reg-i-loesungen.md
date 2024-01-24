@@ -1,15 +1,15 @@
 ---
-title: "Regression - Lösungen" 
+title: "Regression I - Lösungen" 
 type: post
 date: '2021-01-04' 
-slug: einfache-regression-loesungen 
-categories: ["Statistik I Übungen"] 
-tags: [] 
+slug: einfache-reg-i-loesungen 
+categories: [] 
+tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
 authors: [winkler, neubauer] 
 weight: 
-lastmod: '2023-10-28'
+lastmod: '2024-01-24'
 featured: no
 banner:
   image: "/header/modern_buildings.jpg"
@@ -124,7 +124,7 @@ Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglic
 plot(fb22$extra, fb22$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
-![](pandar.git//lehre/statistik-i/einfache-regression-loesungen_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](/lehre/statistik-i/einfache-reg-i-loesungen_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 **`vertr`:**
 
@@ -132,7 +132,7 @@ plot(fb22$extra, fb22$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 plot(fb22$vertr, fb22$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
-![](pandar.git//lehre/statistik-i/einfache-regression-loesungen_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](/lehre/statistik-i/einfache-reg-i-loesungen_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 **`gewis`:**
 
@@ -140,7 +140,7 @@ plot(fb22$vertr, fb22$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 plot(fb22$gewis, fb22$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
-![](pandar.git//lehre/statistik-i/einfache-regression-loesungen_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](/lehre/statistik-i/einfache-reg-i-loesungen_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 **`neuro`:**
 
@@ -148,7 +148,7 @@ plot(fb22$gewis, fb22$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 plot(fb22$neuro, fb22$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
-![](pandar.git//lehre/statistik-i/einfache-regression-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/lehre/statistik-i/einfache-reg-i-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 **`intel`:**
 
@@ -156,7 +156,7 @@ plot(fb22$neuro, fb22$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 plot(fb22$intel, fb22$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
-![](pandar.git//lehre/statistik-i/einfache-regression-loesungen_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](/lehre/statistik-i/einfache-reg-i-loesungen_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 </details>
 
 <p>
@@ -187,7 +187,7 @@ summary(fme)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.055 on 155 degrees of freedom
-##   (2 observations deleted due to missingness)
+##   (2 Beobachtungen als fehlend gelöscht)
 ## Multiple R-squared:  0.04177,	Adjusted R-squared:  0.03559 
 ## F-statistic: 6.757 on 1 and 155 DF,  p-value: 0.01024
 ```
@@ -216,7 +216,7 @@ summary(fmv)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.067 on 155 degrees of freedom
-##   (2 observations deleted due to missingness)
+##   (2 Beobachtungen als fehlend gelöscht)
 ## Multiple R-squared:  0.01917,	Adjusted R-squared:  0.01284 
 ## F-statistic: 3.029 on 1 and 155 DF,  p-value: 0.08376
 ```
@@ -245,7 +245,7 @@ summary(fmg)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.024 on 155 degrees of freedom
-##   (2 observations deleted due to missingness)
+##   (2 Beobachtungen als fehlend gelöscht)
 ## Multiple R-squared:  0.0964,	Adjusted R-squared:  0.09058 
 ## F-statistic: 16.54 on 1 and 155 DF,  p-value: 7.57e-05
 ```
@@ -274,7 +274,7 @@ summary(fmn)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.066 on 155 degrees of freedom
-##   (2 observations deleted due to missingness)
+##   (2 Beobachtungen als fehlend gelöscht)
 ## Multiple R-squared:  0.02034,	Adjusted R-squared:  0.01402 
 ## F-statistic: 3.219 on 1 and 155 DF,  p-value: 0.07476
 ```
@@ -303,7 +303,7 @@ summary(fmi)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.023 on 155 degrees of freedom
-##   (2 observations deleted due to missingness)
+##   (2 Beobachtungen als fehlend gelöscht)
 ## Multiple R-squared:  0.09885,	Adjusted R-squared:  0.09303 
 ## F-statistic:    17 on 1 and 155 DF,  p-value: 6.068e-05
 ```
@@ -334,7 +334,7 @@ fmi <- lm(lz ~ intel, fb22)                              #Modell erstellen und a
 abline(fmi, col = "red")                                  #Modellierter linearer Zusammenhang in zuvor erstellten Plot einzeichnen
 ```
 
-![](pandar.git//lehre/statistik-i/einfache-regression-loesungen_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](/lehre/statistik-i/einfache-reg-i-loesungen_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 **zu Voraussetzungen 2-4:**
 
@@ -344,7 +344,7 @@ par(mfrow = c(2, 2)) #Vier Abbildungen gleichzeitig
 plot(fmi)
 ```
 
-![](pandar.git//lehre/statistik-i/einfache-regression-loesungen_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/lehre/statistik-i/einfache-reg-i-loesungen_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 ```r
 par(mfrow = c(1, 1)) #wieder auf eine Abbildung zurücksetzen
@@ -385,7 +385,7 @@ plot(fb22$neuro, fb22$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 abline(fmn, col = "red")
 ```
 
-![](pandar.git//lehre/statistik-i/einfache-regression-loesungen_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](/lehre/statistik-i/einfache-reg-i-loesungen_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 </details>
 
 <p>
@@ -414,7 +414,7 @@ summary(fmn)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.066 on 155 degrees of freedom
-##   (2 observations deleted due to missingness)
+##   (2 Beobachtungen als fehlend gelöscht)
 ## Multiple R-squared:  0.02034,	Adjusted R-squared:  0.01402 
 ## F-statistic: 3.219 on 1 and 155 DF,  p-value: 0.07476
 ```

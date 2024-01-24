@@ -1,15 +1,15 @@
 ---
-title: "Regression - Aufgaben" 
+title: "Regression I - Aufgaben" 
 type: post
 date: '2019-10-18' 
-slug: einfache-regression-aufgaben 
+slug: einfache-reg-i-aufgaben 
 categories: [] 
 tags: ["Statistik I Übungen"] 
 subtitle: ''
 summary: '' 
 authors: [winkler, neubauer]
 weight:
-lastmod: '2023-10-28'
+lastmod: '2024-01-24'
 featured: no
 banner:
   image: "/header/modern_buildings.jpg"
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/einfache-regression
+    url: /lehre/statistik-i/einfache-reg-i
   - icon_pack: fas
     icon: star
     name: Lösungen
-    url: /lehre/statistik-i/einfache-regression-loesungen
+    url: /lehre/statistik-i/einfache-reg-i-loesungen
 output:
   html_document:
     keep_md: true
