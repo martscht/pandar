@@ -15,8 +15,8 @@ banner:
   image: "/header/storch_with_baby.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/855019)"
 projects: []
-expiryDate: 
-publishDate: '2024-01-28'
+expiryDate: ''
+publishDate: ''
 _build:
   list: never
 reading_time: false

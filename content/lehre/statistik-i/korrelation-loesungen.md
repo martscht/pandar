@@ -9,14 +9,14 @@ subtitle: ''
 summary: '' 
 authors: [nehler, winkler, vogler, schroeder] 
 weight: 
-lastmod: '2024-01-16'
+lastmod: '2024-01-25'
 featured: no
 banner:
   image: "/header/storch_with_baby.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/855019)"
 projects: []
-expiryDate: 
-publishDate: '2024-01-28'
+expiryDate: ''
+publishDate: ''
 _build:
   list: never
 reading_time: false
@@ -48,24 +48,15 @@ names(fb23)
 ```
 
 ```
-##  [1] "mdbf1_pre"    "mdbf2_pre"    "mdbf3_pre"   
-##  [4] "mdbf4_pre"    "mdbf5_pre"    "mdbf6_pre"   
-##  [7] "mdbf7_pre"    "mdbf8_pre"    "mdbf9_pre"   
-## [10] "mdbf10_pre"   "mdbf11_pre"   "mdbf12_pre"  
-## [13] "lz"           "extra"        "vertr"       
-## [16] "gewis"        "neuro"        "offen"       
-## [19] "prok"         "nerd"         "grund"       
-## [22] "fach"         "ziel"         "wissen"      
-## [25] "therap"       "lerntyp"      "hand"        
-## [28] "job"          "ort"          "ort12"       
-## [31] "wohnen"       "uni1"         "uni2"        
-## [34] "uni3"         "uni4"         "attent_pre"  
-## [37] "gs_post"      "wm_post"      "ru_post"     
-## [40] "attent_post"  "hand_factor"  "fach_klin"   
-## [43] "unipartys"    "mdbf4_pre_r"  "mdbf11_pre_r"
-## [46] "mdbf3_pre_r"  "mdbf9_pre_r"  "mdbf5_pre_r" 
-## [49] "mdbf7_pre_r"  "wm_pre"       "gs_pre"      
-## [52] "ru_pre"       "ru_pre_zstd"
+##  [1] "mdbf1_pre"    "mdbf2_pre"    "mdbf3_pre"    "mdbf4_pre"    "mdbf5_pre"    "mdbf6_pre"   
+##  [7] "mdbf7_pre"    "mdbf8_pre"    "mdbf9_pre"    "mdbf10_pre"   "mdbf11_pre"   "mdbf12_pre"  
+## [13] "lz"           "extra"        "vertr"        "gewis"        "neuro"        "offen"       
+## [19] "prok"         "nerd"         "grund"        "fach"         "ziel"         "wissen"      
+## [25] "therap"       "lerntyp"      "hand"         "job"          "ort"          "ort12"       
+## [31] "wohnen"       "uni1"         "uni2"         "uni3"         "uni4"         "attent_pre"  
+## [37] "gs_post"      "wm_post"      "ru_post"      "attent_post"  "hand_factor"  "fach_klin"   
+## [43] "unipartys"    "mdbf4_pre_r"  "mdbf11_pre_r" "mdbf3_pre_r"  "mdbf9_pre_r"  "mdbf5_pre_r" 
+## [49] "mdbf7_pre_r"  "wm_pre"       "gs_pre"       "ru_pre"       "ru_pre_zstd"
 ```
 
 Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 53 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
@@ -112,10 +103,8 @@ describe(fb23$lz)
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range
-## X1    1 177 5.12 1.05    5.4    5.19 0.89 1.4   7   5.6
-##     skew kurtosis   se
-## X1 -0.75     0.58 0.08
+##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 177 5.12 1.05    5.4    5.19 0.89 1.4   7   5.6 -0.75     0.58 0.08
 ```
 
 </details>
@@ -135,28 +124,20 @@ describeBy(fb23$lz, group = fb23$wohnen)
 ## 
 ##  Descriptive statistics by group 
 ## group: WG
-##    vars  n mean   sd median trimmed  mad min max range
-## X1    1 55 5.11 1.09    5.2    5.19 0.89 1.4   7   5.6
-##     skew kurtosis   se
-## X1 -0.83     0.94 0.15
-## --------------------------------------------- 
+##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 55 5.11 1.09    5.2    5.19 0.89 1.4   7   5.6 -0.83     0.94 0.15
+## ------------------------------------------------------------------------- 
 ## group: bei Eltern
-##    vars  n mean   sd median trimmed  mad min max range
-## X1    1 40 5.04 1.03    5.2    5.14 0.89 1.6   7   5.4
-##     skew kurtosis   se
-## X1 -1.01     1.52 0.16
-## --------------------------------------------- 
+##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 40 5.04 1.03    5.2    5.14 0.89 1.6   7   5.4 -1.01     1.52 0.16
+## ------------------------------------------------------------------------- 
 ## group: alleine
-##    vars  n mean   sd median trimmed  mad min max range
-## X1    1 44  5.2 0.99    5.2    5.22 1.19 2.6 6.8   4.2
-##     skew kurtosis   se
-## X1 -0.24    -0.41 0.15
-## --------------------------------------------- 
+##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 44  5.2 0.99    5.2    5.22 1.19 2.6 6.8   4.2 -0.24    -0.41 0.15
+## ------------------------------------------------------------------------- 
 ## group: sonstiges
-##    vars  n mean   sd median trimmed  mad min max range
-## X1    1 25 5.07 1.08    5.4    5.16 0.89 2.6 6.4   3.8
-##     skew kurtosis   se
-## X1 -0.81    -0.65 0.22
+##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 25 5.07 1.08    5.4    5.16 0.89 2.6 6.4   3.8 -0.81    -0.65 0.22
 ```
 
 </details>
@@ -173,18 +154,12 @@ describe(fb23[,c("extra","vertr","gewis","neuro","offen")])
 ```
 
 ```
-##       vars   n mean   sd median trimmed  mad min max range
-## extra    1 179 3.27 0.91    3.0    3.28 0.74 1.0   5   4.0
-## vertr    2 178 3.46 0.82    3.5    3.49 0.74 1.0   5   4.0
-## gewis    3 179 3.53 0.77    3.5    3.54 0.74 1.5   5   3.5
-## neuro    4 179 3.35 0.98    3.5    3.37 0.74 1.0   5   4.0
-## offen    5 179 3.74 0.93    4.0    3.79 1.48 1.5   5   3.5
-##        skew kurtosis   se
-## extra -0.08    -0.64 0.07
-## vertr -0.26    -0.18 0.06
-## gewis -0.13    -0.51 0.06
-## neuro -0.19    -0.68 0.07
-## offen -0.34    -0.79 0.07
+##       vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## extra    1 179 3.27 0.91    3.0    3.28 0.74 1.0   5   4.0 -0.08    -0.64 0.07
+## vertr    2 178 3.46 0.82    3.5    3.49 0.74 1.0   5   4.0 -0.26    -0.18 0.06
+## gewis    3 179 3.53 0.77    3.5    3.54 0.74 1.5   5   3.5 -0.13    -0.51 0.06
+## neuro    4 179 3.35 0.98    3.5    3.37 0.74 1.0   5   4.0 -0.19    -0.68 0.07
+## offen    5 179 3.74 0.93    4.0    3.79 1.48 1.5   5   3.5 -0.34    -0.79 0.07
 ```
 
 </details>
@@ -625,9 +600,8 @@ cor.test(fb23$lz, fb23$neuro,
 ```
 
 ```
-## Warning in cor.test.default(fb23$lz, fb23$neuro,
-## alternative = "two.sided", : Cannot compute exact p-value
-## with ties
+## Warning in cor.test.default(fb23$lz, fb23$neuro, alternative = "two.sided", : Cannot compute
+## exact p-value with ties
 ```
 
 ```
@@ -777,9 +751,8 @@ cor.test(fb23$nerd, fb23$prok,
 ```
 
 ```
-## Warning in cor.test.default(fb23$nerd, fb23$prok,
-## alternative = "two.sided", : Cannot compute exact p-value
-## with ties
+## Warning in cor.test.default(fb23$nerd, fb23$prok, alternative = "two.sided", : Cannot compute
+## exact p-value with ties
 ```
 
 ```
@@ -796,9 +769,8 @@ cor.test(fb23$nerd, fb23$prok,
 
 
 ```
-## Warning in cor.test.default(fb23$nerd, fb23$prok,
-## alternative = "two.sided", : Cannot compute exact p-value
-## with ties
+## Warning in cor.test.default(fb23$nerd, fb23$prok, alternative = "two.sided", : Cannot compute
+## exact p-value with ties
 ```
 
 Sowohl die Pearson-Korrelation (p = 0.8451798) als auch Spearman-Rangkorrelation (p = 0.4976397) sind nicht signifikant von 0 verschieden. 
