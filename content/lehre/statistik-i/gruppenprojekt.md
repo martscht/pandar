@@ -8,8 +8,8 @@ tags: ["Zusatz", "Gruppenprojekt", "Grundlagen", "Hypothesengenerierung"]
 subtitle: ''
 summary: 'In diesem Beitrag finden Sie noch einmal alle Informationen, die das Gruppenprojekt betreffen, das Sie im Rahmen des Statistik-Praktikums durchführen. Dabei wird ausführlich auf die Generierung und Operationalisierung von Hypothesen eingegangen, außerdem gibt es Informationen zur Präregistrierung und zu der Erstellung des Ergebnisbericht, den Sie im Sinne von Open Science auf einer Übungsplattform bereitstellen sollen.' 
 authors: [nehler, beitner, schueller, schultze]
-weight: 12
-lastmod: '2023-11-15'
+weight: 14
+lastmod: '2024-01-24'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"
