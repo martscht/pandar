@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es um vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [cezanne, mueller, nehler] 
 weight: 13
-lastmod: '2024-01-24'
+lastmod: '2024-02-01'
 featured: no 
 banner:
   image: "/header/mechanical_number_display.png"
@@ -174,7 +174,7 @@ Anstatt nur einer Variable soll nun der gesamte Skalenwert `lz_ges` betrachtet w
 
 ## Aufgabe 16
 
-Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `fb22` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Eventuell haben Sie ihn ja auch aktiv in Ihrem Environment. Der Datensatz sollte 159 Versuchspersonen enthalten. Der Basisdatensatz hatte 36 Variablen, aber kann natürlich mehr enthalten, falls Sie weitere erstellt und abgespeichert haben. 
+Legen wir die ausgedachten Werte nun beiseite. Die restlichen Zusatzaufgaben beschäftigen mit dem Datensatz des letzten Jahrgangs. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `fb22` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Der Datensatz sollte 159 Versuchspersonen enthalten.
 
 
 ```r
