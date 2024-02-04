@@ -1,0 +1,217 @@
+---
+title: "Multiple Regression" 
+type: post
+date: '2024-02-02'
+slug: multiple-regression 
+categories: ["Statistik I"] 
+tags: ["Regression", "Determinationskoeffizient", "Matrixalgebra"] 
+subtitle: ''
+summary: '' 
+authors: [schultze]
+weight: 12
+lastmod: '`r Sys.Date()`'
+featured: yes
+banner:
+  image: "/header/stormies"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/89134)"
+projects: []
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/multiple-regression
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /lehre/statistik-i/multiple-regression.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/multiple-regression-aufgaben
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
+
+{{< spoiler text = "Kernfragen dieser Lehreinheit" >}}
+
+{{< /spoiler >}}
+
+***
+
+## Vorbereitende Schritte {#prep}
+
+Wie bei jedem Beitrag, fangen wir damit an, dass wir den Datensatz so aufbereiten, dass wir alle notwendigen Variablen vorliegen haben. 
+
+```{r}
+#### Was bisher geschah: ----
+
+# Daten laden
+load(url('https://pandar.netlify.app/daten/fb23.rda'))  
+
+# Nominalskalierte Variablen in Faktoren verwandeln
+fb23$hand_factor <- factor(fb23$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
+fb23$fach <- factor(fb23$fach,
+                    levels = 1:5,
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
+fb23$ziel <- factor(fb23$ziel,
+                        levels = 1:4,
+                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
+
+fb23$wohnen <- factor(fb23$wohnen, 
+                      levels = 1:4, 
+                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+
+fb23$fach_klin <- factor(as.numeric(fb23$fach == "Klinische"),
+                         levels = 0:1,
+                         labels = c("nicht klinisch", "klinisch"))
+
+fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+
+fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
+
+
+# Rekodierung invertierter Items
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
+fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
+fb23$mdbf5_pre_r <- -1 * (fb23$mdbf5_pre - 4 - 1)
+fb23$mdbf7_pre_r <- -1 * (fb23$mdbf7_pre - 4 - 1)
+
+
+# Berechnung von Skalenwerten
+fb23$wm_pre  <- fb23[, c('mdbf1_pre', 'mdbf5_pre_r', 
+                        'mdbf7_pre_r', 'mdbf10_pre')] |> rowMeans()
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+```
+
+Wie immer gilt: wenn Sie direkt vorher einen anderen Beitrag gelesen haben und der Datensatz noch im Environment liegt, dann können Sie den Abschnitt getrost überspringen.
+
+## Einfache lineare Regression
+
+Im [letzten Beitrag](/lehre/statistik-i/einfache-regression) haben wir uns die einfache lineare Regression angesehen. Konkret ging es dabei darum, dass wir eine abhängige Variable (AV) durch genau eine unabhängige Variable vorhergesagt haben. Oder als Gleichung ausgedrückt:
+
+\[
+y_m = b_0 + b_1 x_m + e_m
+\]
+
+Im Datensatz `fb23` haben wir so die Nerdiness (`nerd`) durch die Extraversion (`extra`) vorhergesagt - die Annahme war dabei, dass Personen, die introvertierter sind (also geringere Werte auf der Extraversionsskala aufweisen) sich auch Hobbies gesucht haben, die typischerweise als "nerdig" gelten. In `R` haben wir den `lm`-Befehl genutzt, um diese Hypothese auch einer Prüfung zu unterziehen.
+
+```{r}
+# Einfache Regression
+mod1 <- lm(nerd ~ 1 + extra, data = fb23)
+
+# Ergebnisse
+summary(mod1)
+```
+
+```{r, echo = FALSE}
+r2 <- summary(mod1)$r.squared
+b0 <- coef(mod1)[1]
+b1 <- coef(mod1)[2]
+```
+
+Bei dieser Regression haben wir gesehen, dass die Extraversion ein bedeutsamer Prädiktor für die Nerdiness ist. Dabei geht mit einem Unterschied von einer Einheit in der Extraversion ein Unterschied von `r round(b1, 2)` Einheiten in der Nerdiness einher. Der Determinationskoeffizient beträgt `r round(r2, 2)`, was bedeutet, dass `r round(r2 * 100, 2)`% der Varianz in der Nerdiness durch die Extraversion erklärt wird. Wie wir auch schon gesehen hatten, entspricht dies der quadrierten Korrelation zwischen Extraversion und Nerdiness und die Tests beider gegen 0 sind äquivalent:
+
+```{r}
+cor.test(fb23$nerd, fb23$extra)
+```
+
+## Multiple Regression
+
+In diesem Beitrag geht es uns jetzt darum, diese Idee auf mehrere unabhängige Variablen zu erweitern. Das bedeutet, dass wir eine abhängige Variable durch mehrere unabhängige Variablen vorhersagen. Oder als Gleichung ausgedrückt:
+
+\[
+y_m = b_0 + b_1 x_{1m} + b_2 x_{2m} + \ldots + b_k x_{km} + e_m
+\]
+
+$K$ entspricht dabei der Anzahl der Prädiktoren, die wir in das Modell aufgenommen haben. Neben der Extraversion gehören noch die Veträglichkeit (`vertr`), die Gewissenhaftigkeit (`gewis`), der Neurotizismus und die Offenheit für neue Erfahrungen (`offen`) zu den Big Five Persönlichkeitsmerkmalen. Wir können also ein Modell aufstellen, in dem wir die Nerdiness durch all diese Persönlichkeitsmerkmale vorhersagen. 
+
+```{r}
+# Multiple Regression
+mod2 <- lm(nerd ~ 1 + extra + vertr + gewis + neuro + offen, 
+  data = fb23)
+
+# Ergebnisse
+summary(mod2)
+```
+### Interpretation der Gewichte
+
+```{r, echo = FALSE}
+mod_tmp <- lm(neuro ~ extra, fb23)
+b1_tmp <- coef(mod_tmp)[2]
+```
+
+
+In der einfachen linearen Regression hatten wir gesagt, dass $b_1$ dem vorhergesagten Unterschied zwischen zwei Personen entspricht, die sich um eine Einheit in der unabhängigen Variable unterscheiden. Diese Interpretation lässt allerdings außer Acht, dass sich diese beiden Personen auch in anderen Eigenschaften unterscheiden können. Zum Beispiel unterscheiden sich diese beiden (fiktiven) Leute auch um ca. `r abs(round(b1_tmp, 2))` Einheiten im Neurotizismus (extravertiertere Personen sind dabei weniger neurotisch). In der einfachen linearen Regression bleibt also unklar, ob der vorhergesagte Unterschied zwischen den Personen auch wirklich auf Unterschiede in unserem Prädiktor zurückzuführen ist, oder ob es auch an anderen, nicht berücksichtigten Eigenschaften liegen könnte.
+
+In der multiplen Regression versuchen wir die Variablen aufzunehmen, die relevant sein könnten. Dadurch verändert sich auch die Interpretation des Regressionsgewichts: $b_1$ gibt jetzt den vorhergesagten Unterschied zwischen zwei Personen an, die sich um eine Einheit in der Extraversion unterscheiden, aber in allen anderen Prädiktoren gleich sind. Wir haben - so die häufig genutzte Ausdrucksweise - auf die anderen Big Five Merkmale "kontrolliert".
+
+Im Scatterplot wird dieser Unterschied deutlich:
+
+```{r, fig = TRUE}
+# Gewichte aus der multiple Regression
+b0 <- coef(mod2)[1]
+b1 <- coef(mod2)[2]
+
+# Scatterplot
+plot(fb23$nerd ~ fb23$extra, 
+     xlab = "Extraversion", 
+     ylab = "Nerdiness")
+
+# Ergebnis der einfachen Regression
+abline(mod1, col = "red")
+
+# Ergebnis der multiplen Regression
+abline(a = b0, b = b1, col = "blue")
+
+# Legende
+legend("topright", legend = c("Einfache Reg.", "Multiple Reg."), col = c("red", "blue"), lty = 1)
+```
+Der erste Unterschied, der zwischen den beiden Regressiongeraden auffällt ist, dass sie versetzt sind - also nicht beim gleichen Wert die y-Achse schneiden. Das liegt daran, dass nicht nur die Regressionsgewichte ihre Bedeutung verändern, sondern auch der Achsenabschnitt. Dieser ist jetzt der vorhergesagte Wert für die Nerdiness, wenn _alle_ Prädiktoren 0 sind:
+
+\[
+\widehat{y} = b_0 + b_1 \cdot 0 + b_2 \cdot 0 + b_3 \cdot 0 + b_4 \cdot 0 + b_5 \cdot 0 \\
+\widehat{y} = b_0
+\]
+
+Wenn wir z.B. sehen wollen, wie sich die Extraversion auf die Nerdiness bei Personen auswirkt, die in ihren sonstigen Eigenschaften eher durchschnittlich sind, können wir einfach statt 0 die entsprechenden Mittelwerte in die Gleichung einsetzen. Mit unseren [Kenntnissen über Matrixalgebra](/lehre/statistik-i/matrixalgebra) können wir das Ganze sogar relativ kurz halten:
+
+```{r, fig = TRUE}
+# Achsenabschnitt bestimmen
+X <- matrix(c(1, 0, 
+  mean(fb23$vertr, na.rm = TRUE), 
+  mean(fb23$gewis, na.rm = TRUE), 
+  mean(fb23$neuro, na.rm = TRUE), 
+  mean(fb23$offen, na.rm = TRUE)))
+
+a <- coef(mod2) %*% X
+
+# Scatteplot
+plot(fb23$nerd ~ fb23$extra, 
+     xlab = "Extraversion", 
+     ylab = "Nerdiness")
+
+abline(a = a, b = b1, col = "green")
+```
+
+Der zweite Unterschied zwischen der roten und der blauen Linie im ersten Scatterplot war ein leichter Unterschied im Steigungskoeffizienten. Dieser liegt eben genau daran, dass das Gewicht jetzt Unterschiede zwischen zwei Personen sind, die sich _nur_ in der Extraversion unterscheiden, aber sonst in allen (berücksichtigten) Belangen gleich sind.
+
+Die anderen Gewichte können wir analog interpretieren. Dabei sehen wir, dass nur die Extraversion und die Offenheit für neue Erfahrungen bedeutsame Prädiktoren für die Nerdiness sind. Das bedeutet, dass nur diese beiden bedeutsamen _einzigartigen_ Beitrag zur Vorhersage der Nerdiness leisten können. Zwei Personen, die sich z.B. in der Gewissenhaftigkeit um eine Einheit unterscheiden, aber hinsichtlich der anderen vier Dimensionen gleich sind, unterscheiden sich fast überhaupt nicht hinsichtlich der vorhergesagten Nerdiness.
+
+### Determinationskoeffizient
+
