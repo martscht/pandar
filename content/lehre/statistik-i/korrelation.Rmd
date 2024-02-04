@@ -210,7 +210,7 @@ und Kovarianz.
 </div>
 {{< /math >}}
 
-### Funktionen und Behandlung fehlender Werte
+### Funktionen und Behandlung fehlender Werte {#fehlende-werte}
 
 Die Funktionen für die Varianz ist dabei `var()`. Im Folgenden wird diese für die Variablen `neuro` (Neurotizismus) und `gewis` (Gewissenhaftigkeit) aus dem Datensatz bestimmt. Als Argumente müssen jeweils die Variablennamen verwendet werden.
 Wie bereits in vergangenen Sitzungen gesehen, führen fehlende Werte zu der Ausgabe `NA`. Um dies vorzubeugen, wird im univariaten Fall `na.rm = TRUE` zum Ausschluss verwendet. 
