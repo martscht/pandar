@@ -560,7 +560,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
 ***
 
 ## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](regression-v.R).
+Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](../regression-v.R).
 
 
 ***

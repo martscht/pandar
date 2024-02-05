@@ -649,7 +649,7 @@ Wir erkennen, dass sowohl der lineare als auch der quadratische Trend signifikan
 
 
 ## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/post/PsyBSc7_R_Files/ANOVA-III.R).
+Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](../anova-iii.R).
 
 ***
 

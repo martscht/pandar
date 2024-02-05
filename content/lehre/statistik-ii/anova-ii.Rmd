@@ -449,7 +449,7 @@ Generell ist Typ II besser geeignet um die Quadratsummen von Haupteffekten zu be
 ***
 
 ## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](anova-ii.R).
+Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](../anova-ii.R).
 
 ***
 

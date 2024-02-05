@@ -119,14 +119,16 @@ table(alc$id)
 
 ```
 ## 
-##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
-## 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
-## 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
-## 76 77 78 79 80 81 82 
-##  1  1  1  1  1  1  1
+##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 77 78 79 80 81 82 
+##  1  1  1  1  1  1
 ```
 
 Wie bereits geschildert benötigt das `ez`-Paket für die ANOVA mit Messwiederholung allerdings einen Datensatz im langen Format. Für die Transformation der Daten aus einem in das andere Format gibt es die `reshape`-Funktion, welche unterschiedliche Argumente benötigt, je nachdem, in welche Richtung die Daten transformiert werden sollen. Hier wollen wir aus dem breiten Format ins lange Format transformieren, um die Daten hinterher für die Varianzanalyse mit Messwiederholung nutzen zu können.
@@ -298,13 +300,6 @@ In diesem Fall ist von Interesse, wie sich der **Alkoholkonsum von Jugendlichen 
 
 ```r
 library(ez)
-```
-
-```
-## Warning: Paket 'ez' wurde unter R Version 4.3.1 erstellt
-```
-
-```r
 ezStats(alc_long, alcuse, id, within = age)
 ```
 
@@ -313,8 +308,9 @@ ezStats(alc_long, alcuse, id, within = age)
 ```
 
 ```
-## Warning: There is at least one numeric within variable, therefore aov() will
-## be used for computation and no assumption checks will be obtained.
+## Warning: There is at least one numeric within variable,
+## therefore aov() will be used for computation and no
+## assumption checks will be obtained.
 ```
 
 ```
@@ -393,8 +389,10 @@ ezANOVA(data = alc_long, dv = alcuse, wid = id, within = age)
 ## 2    age 0.8858857 0.007854286     *
 ## 
 ## $`Sphericity Corrections`
-##   Effect       GGe        p[GG] p[GG]<.05       HFe        p[HF] p[HF]<.05
-## 2    age 0.8975739 2.342158e-05         * 0.9166239 1.991144e-05         *
+##   Effect       GGe        p[GG] p[GG]<.05       HFe
+## 2    age 0.8975739 2.342158e-05         * 0.9166239
+##          p[HF] p[HF]<.05
+## 2 1.991144e-05         *
 ```
 
 Der sogenannte **Mauchly Test** (`Mauchly's Test for Sphericity`) zeigt hier an, dass es bedeutsame Abweichungen von der *Annahme der Sphärizität* gibt ($p$ < .05), die Annahme also nicht als gegeben betrachtet werden kann. Weil diese Situation sehr häufig vorkommt, gibt es eine Reihe verbreiteter Korrekturen, von denen `ezANOVA` die **Greenhouse-Geisser** (`GGe`) und die **Huynh-Feldt Korrekturen** (`HFe`) anbietet. Es hat sich gezeigt, dass die *Greenhouse-Geisser Korrektur* mitunter zu strikt ist (also zu selten bedeutsame Ergebnisse gefunden werden), weswegen beide Varianten ausgegeben werden. Beide Korrekturen führen zu kleineren Freiheitsgraden (durch Multiplikation mit dem Faktor $\epsilon$ in Bestimmung des kritischen F-Wertes. Im Output der Funktion sehen wir die Korrektur durch einen darauf angepassten p-Wert - die korrigierten Freiheitsgrade werden nicht aufgeführt (aber $\epsilon$, wenn man diese selbst ausrechnen will). Eine Empfehlung für eine der beiden Korrekturen zu geben ist schwer, da sie sich häufig nur leicht unterscheiden. Verschiedene Daumenregeln existieren, doch sollte im besten Fall die Power im Versuchsplan so gestaltet werden, dass der kleine Unterschied in keinen unterschiedlichen Signifikanzentscheidungen resultiert. 
@@ -426,20 +424,20 @@ psych::ICC(alc[, c('alcuse.14', 'alcuse.15', 'alcuse.16')])
 ## Call: psych::ICC(x = alc[, c("alcuse.14", "alcuse.15", "alcuse.16")])
 ## 
 ## Intraclass correlation coefficients 
-##                          type  ICC   F df1 df2       p lower bound
-## Single_raters_absolute   ICC1 0.51 4.1  81 164 1.4e-14        0.38
-## Single_random_raters     ICC2 0.51 4.6  81 162 6.3e-17        0.37
-## Single_fixed_raters      ICC3 0.55 4.6  81 162 6.3e-17        0.42
-## Average_raters_absolute ICC1k 0.75 4.1  81 164 1.4e-14        0.64
-## Average_random_raters   ICC2k 0.76 4.6  81 162 6.3e-17        0.64
-## Average_fixed_raters    ICC3k 0.78 4.6  81 162 6.3e-17        0.69
-##                         upper bound
-## Single_raters_absolute         0.63
-## Single_random_raters           0.64
-## Single_fixed_raters            0.66
-## Average_raters_absolute        0.83
-## Average_random_raters          0.84
-## Average_fixed_raters           0.85
+##                          type  ICC   F df1 df2       p
+## Single_raters_absolute   ICC1 0.51 4.1  81 164 1.4e-14
+## Single_random_raters     ICC2 0.51 4.6  81 162 6.3e-17
+## Single_fixed_raters      ICC3 0.55 4.6  81 162 6.3e-17
+## Average_raters_absolute ICC1k 0.75 4.1  81 164 1.4e-14
+## Average_random_raters   ICC2k 0.76 4.6  81 162 6.3e-17
+## Average_fixed_raters    ICC3k 0.78 4.6  81 162 6.3e-17
+##                         lower bound upper bound
+## Single_raters_absolute         0.38        0.63
+## Single_random_raters           0.37        0.64
+## Single_fixed_raters            0.42        0.66
+## Average_raters_absolute        0.64        0.83
+## Average_random_raters          0.64        0.84
+## Average_fixed_raters           0.69        0.85
 ## 
 ##  Number of subjects = 82     Number of Judges =  3
 ## See the help file for a discussion of the other 4 McGraw and Wong estimates,
@@ -455,10 +453,6 @@ Wie für eine [ANOVA ohne Messwiederholung](anova-ii), kann auch in diesem Fall 
 
 ```r
 library(emmeans)
-```
-
-```
-## Warning: Paket 'emmeans' wurde unter R Version 4.3.2 erstellt
 ```
 
 Kontraste sind hier hilfreich, da spezifischere Hypothesen getesten werden können, während unsere bisherige Analyse nur einen globalen Effekt feststellen konnte. Die `contrast`-Funktion des Pakets benötigt als Input ein `aov`-Objekt. Wir haben bereits gelernt, dass solch ein Objekt mit der Funktion `aov` erstellt werden kann (`aov(alcuse ~ age, data = alc_long`; links steht die abhängige Variable Nutzung von Alkohol getrennt von der `~` stehen dann die Gruppenvariablen hier die Zeit). Wenn wir diesen Code jetzt so übernehmen würden, würden aber die Abhängigkeiten in unserem Datensatz durch die Messwiederholung nicht berücksichtigt. Genauer gesagt muss die Abhängigkeit in den Fehlern modelliert werden, die duch die Messwiederholung entsteht. In `aov` wird dies durch die Hinzunahme von `Error()` erreicht. Die Fehler sind abhängig von der Personen ID zu den verschiedenen Messungen. In `Error` müssen beide Informationen getrennt durch einen Backslash `\` aufgegührt werden. Wir schreiben also zunächst `id`, da alle gleichen Ausprägungen zur gleichen Person gehören. Nach dem Backslash schreiben wir `age`, da es sich hierbei um eine Innersubjektvariable (eine Within-Variable). Diese Schreibweise sagt quasi, dass wir die Messzeitpunkte innerhalb einer Person als Gruppe betrachten. 
@@ -563,10 +557,6 @@ Wir können uns erstmal rein deskriptiv anschauen, inwiefern der lineare Verlauf
 
 ```r
 library(ggplot2)
-```
-
-```
-## Warning: Paket 'ggplot2' wurde unter R Version 4.3.2 erstellt
 ```
 
 Zur Erinnerungen können Sie die Abbildung nach Ihren Wünschen umgestalten, wie in der [2. Sitzung](grafiken-ggplot2) besprochen:
@@ -766,13 +756,15 @@ ezStats(alc_long,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make
+## sure you specified a well-considered value for the type
+## argument to ezANOVA().
 ```
 
 ```
-## Warning in ezStats(alc_long, dv = alcuse, wid = id, within = age, between =
-## coa): Unbalanced groups. Mean N will be used in computation of FLSD
+## Warning in ezStats(alc_long, dv = alcuse, wid = id,
+## within = age, between = coa): Unbalanced groups. Mean N
+## will be used in computation of FLSD
 ```
 
 ```
@@ -796,14 +788,15 @@ ezPlot(alc_long,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make
+## sure you specified a well-considered value for the type
+## argument to ezANOVA().
 ```
 
 ```
-## Warning in ezStats(data = data, dv = dv, wid = wid, within = within,
-## within_full = within_full, : Unbalanced groups. Mean N will be used in
-## computation of FLSD
+## Warning in ezStats(data = data, dv = dv, wid = wid,
+## within = within, within_full = within_full, : Unbalanced
+## groups. Mean N will be used in computation of FLSD
 ```
 
 <img src="/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" />
@@ -830,16 +823,21 @@ ezANOVA(alc_long,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make
+## sure you specified a well-considered value for the type
+## argument to ezANOVA().
 ```
 
 ```
 ## $ANOVA
-##    Effect DFn DFd          F            p p<.05          ges
-## 2     coa   1  80 15.0889366 2.101590e-04     * 0.1108265719
-## 3     age   2 160 12.2596915 1.112344e-05     * 0.0494086230
-## 4 coa:age   2 160  0.1132673 8.929835e-01       0.0004799824
+##    Effect DFn DFd          F            p p<.05
+## 2     coa   1  80 15.0889366 2.101590e-04     *
+## 3     age   2 160 12.2596915 1.112344e-05     *
+## 4 coa:age   2 160  0.1132673 8.929835e-01      
+##            ges
+## 2 0.1108265719
+## 3 0.0494086230
+## 4 0.0004799824
 ## 
 ## $`Mauchly's Test for Sphericity`
 ##    Effect         W           p p<.05
@@ -847,9 +845,12 @@ ezANOVA(alc_long,
 ## 4 coa:age 0.8859965 0.008386194     *
 ## 
 ## $`Sphericity Corrections`
-##    Effect       GGe        p[GG] p[GG]<.05       HFe        p[HF] p[HF]<.05
-## 3     age 0.8976633 2.626605e-05         * 0.9169621 2.233274e-05         *
-## 4 coa:age 0.8976633 8.726825e-01           0.9169621 8.768214e-01
+##    Effect       GGe        p[GG] p[GG]<.05       HFe
+## 3     age 0.8976633 2.626605e-05         * 0.9169621
+## 4 coa:age 0.8976633 8.726825e-01           0.9169621
+##          p[HF] p[HF]<.05
+## 3 2.233274e-05         *
+## 4 8.768214e-01
 ```
 
 Obwohl `ez` den *Mauchly Test* für Sphärizität mitliefert, ist im Fall des Split-Plot Designs die *eigentliche* Annahme die *Gleichheit der Varianz-Kovarianz-Matrizen der messwiederholten Variablen über alle Gruppen hinweg*. Diese Annahme kann mithilfe des **Box-M-Tests** geprüft werden, welcher allerdings in nur wenigen Paketen implementiert ist, weil er in der Mehrheit aller empirischen Anwendungen statistisch bedeutsam ist. Wer ihn dennoch durchführen möchte, findet ihn z.B. im `heplots` Paket:
@@ -861,10 +862,12 @@ heplots::boxM(alc[, c('alcuse.14', 'alcuse.15', 'alcuse.16')], group = alc$coa)
 
 ```
 ## 
-## 	Box's M-test for Homogeneity of Covariance Matrices
+## 	Box's M-test for Homogeneity of Covariance
+## 	Matrices
 ## 
 ## data:  alc[, c("alcuse.14", "alcuse.15", "alcuse.16")]
-## Chi-Sq (approx.) = 21.486, df = 6, p-value = 0.0015
+## Chi-Sq (approx.) = 21.486, df = 6, p-value =
+## 0.0015
 ```
 
 Auch in unserem Fall wird eine signifikante Verletzung der Annahme angezeigt. Nach [Eid et al. (2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 494) ist die ANOVA gegenüber der Verletzung der Homgenitätsannahme bezüglich der Kovarianzmatrizen dann robust, wenn die Sphärizitätsannahme nicht verworfen werden muss. In dem Output von der ANOVA haben wir aber gesehen, dass auch hier eine signifikante Verletzung vorliegt. Für die Interpretaion können nun die zuvor dargestellten Korrekturen oder eine "echte" robuste Variante (z.B. im `WRS2`-Paket) genutzt werden. Betrachten wir nun nochmal genauer den oben schon gezeigten Output.
@@ -873,10 +876,14 @@ Auch in unserem Fall wird eine signifikante Verletzung der Annahme angezeigt. Na
 
 ```
 ## $ANOVA
-##    Effect DFn DFd          F            p p<.05          ges
-## 2     coa   1  80 15.0889366 2.101590e-04     * 0.1108265719
-## 3     age   2 160 12.2596915 1.112344e-05     * 0.0494086230
-## 4 coa:age   2 160  0.1132673 8.929835e-01       0.0004799824
+##    Effect DFn DFd          F            p p<.05
+## 2     coa   1  80 15.0889366 2.101590e-04     *
+## 3     age   2 160 12.2596915 1.112344e-05     *
+## 4 coa:age   2 160  0.1132673 8.929835e-01      
+##            ges
+## 2 0.1108265719
+## 3 0.0494086230
+## 4 0.0004799824
 ## 
 ## $`Mauchly's Test for Sphericity`
 ##    Effect         W           p p<.05
@@ -884,9 +891,12 @@ Auch in unserem Fall wird eine signifikante Verletzung der Annahme angezeigt. Na
 ## 4 coa:age 0.8859965 0.008386194     *
 ## 
 ## $`Sphericity Corrections`
-##    Effect       GGe        p[GG] p[GG]<.05       HFe        p[HF] p[HF]<.05
-## 3     age 0.8976633 2.626605e-05         * 0.9169621 2.233274e-05         *
-## 4 coa:age 0.8976633 8.726825e-01           0.9169621 8.768214e-01
+##    Effect       GGe        p[GG] p[GG]<.05       HFe
+## 3     age 0.8976633 2.626605e-05         * 0.9169621
+## 4 coa:age 0.8976633 8.726825e-01           0.9169621
+##          p[HF] p[HF]<.05
+## 3 2.233274e-05         *
+## 4 8.768214e-01
 ```
 
 Bezüglich der Ergebnisse der ANOVA zeigt sich, dass das Alter (korrigierte Effekte nach HF) und ob ein Elternteil Alkoholiker (`coa`) ist einen bedeutsamen Einfluss auf das Trinkverhalten von Jugendlichen haben. Da `coa` nur einmal gemessen wurde, wird für den Effekt keine Korrektur verwendet. Dass die Interaktion nicht statistisch bedeutsam ist, deutet darauf hin, dass die Entwicklung über die Zeit zwischen beiden Gruppen von Jugendlichen parallel verläuft.
@@ -1123,7 +1133,7 @@ Wir erkennen, dass sowohl der lineare als auch der quadratische Trend signifikan
 
 
 ## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/post/PsyBSc7_R_Files/ANOVA-III.R).
+Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](../anova-iii.R).
 
 ***
 

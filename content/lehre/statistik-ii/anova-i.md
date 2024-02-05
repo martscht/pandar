@@ -9,7 +9,7 @@ subtitle: '1-fakt. ANOVA'
 summary: ''
 authors: [scheppa-lahyani, irmer, wallot, nehler]
 weight: 7
-lastmod: '2024-01-25'
+lastmod: '2024-02-05'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"
@@ -74,13 +74,20 @@ head(conspiracy)
 ```
 
 ```
-##              edu    urban gender age       GM       MG       ET       PW       CI
-## 2     highschool suburban female  14 4.000000 5.000000 4.666667 3.333333 4.666667
-## 3        college suburban female  26 2.000000 4.000000 1.500000 2.000000 3.333333
-## 4        college    rural   male  25 5.000000 4.333333 1.000000 3.333333 4.666667
-## 5 not highschool suburban   male  37 5.000000 4.333333 2.333333 3.333333 4.666667
-## 6        college    rural   male  34 1.000000 1.000000 1.000000 1.000000 1.000000
-## 7 not highschool suburban   male  17 3.333333 2.666667 3.000000 2.666667 3.666667
+##              edu    urban gender age       GM       MG
+## 2     highschool suburban female  14 4.000000 5.000000
+## 3        college suburban female  26 2.000000 4.000000
+## 4        college    rural   male  25 5.000000 4.333333
+## 5 not highschool suburban   male  37 5.000000 4.333333
+## 6        college    rural   male  34 1.000000 1.000000
+## 7 not highschool suburban   male  17 3.333333 2.666667
+##         ET       PW       CI
+## 2 4.666667 3.333333 4.666667
+## 3 1.500000 2.000000 3.333333
+## 4 1.000000 3.333333 4.666667
+## 5 2.333333 3.333333 4.666667
+## 6 1.000000 1.000000 1.000000
+## 7 3.000000 2.666667 3.666667
 ```
 
 Die **ersten vier Variablen** enthalten Informationen über den demographischen Hintergrund der Personen: höchster Bildungsabschluss (`edu`), Typ des Wohnortes (`urban`), Geschlecht (`gender`) und Alter (`age`). Die **fünf restlichen Variablen** sind Skalenwerte bezüglich verschiedener Subdimensionen verschwörungstheoretischer Überzeugungen: `GM` (goverment malfeasance), `MG` (malevolent global conspiracies), `ET` (extraterrestrial cover-up), `PW` (personal well-being) und `CI` (control of information).
@@ -130,7 +137,8 @@ leveneTest(conspiracy$ET ~ conspiracy$urban)
 ## group    2  2.5335 0.07959 .
 ##       2448                  
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Die Funktion nimmt die Variable selbst entgegen sowie die Gruppierungsvariable. `ET` aus dem `conspiracy`-Datensatz stellt hierbei die AV dar, die Gruppierungsvariable `urban` ist die UV. Wir erkennen im Output, was genau der Levene-Test eigentlich macht: `Levene's Test for Homogeneity of Variance`, nämlich die Varianzen auf Homogenität prüfen.  Das Ergebnis ist nicht signifikant. In diesem Fall muss die Annahme der Varianzhomogenität über die drei Gruppen hinweg also *nicht verworfen* werden. 
@@ -195,8 +203,8 @@ names(temp)
 ```
 
 ```
-##  [1] "urban"   "edu"     "gender"  "age"     "GM"      "MG"      "ET"      "PW"     
-##  [9] "CI"      "ET_mu_k"
+##  [1] "urban"   "edu"     "gender"  "age"     "GM"     
+##  [6] "MG"      "ET"      "PW"      "CI"      "ET_mu_k"
 ```
 
 Anhand der Dimensionen können wir sehen, dass unser neuer Datensatz nun eine Variable mehr hat als `conspiracy`. Diese zusätzliche Spalte ist genau die, die die Mittelwerte pro Gruppe enthält (`ET_mu_k`).
@@ -310,8 +318,9 @@ ezANOVA(conspiracy, wid = id, dv = ET, between = urban)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make
+## sure you specified a well-considered value for the type
+## argument to ezANOVA().
 ```
 
 ```
@@ -342,8 +351,9 @@ ezANOVA(conspiracy, wid = id, dv = ET, between = urban, detailed = TRUE)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make
+## sure you specified a well-considered value for the type
+## argument to ezANOVA().
 ```
 
 ```
@@ -352,8 +362,10 @@ ezANOVA(conspiracy, wid = id, dv = ET, between = urban, detailed = TRUE)
 
 ```
 ## $ANOVA
-##   Effect DFn  DFd      SSn      SSd        F          p p<.05         ges
-## 1  urban   2 2448 12.05839 4297.891 3.434118 0.03240931     * 0.002797802
+##   Effect DFn  DFd      SSn      SSd        F          p
+## 1  urban   2 2448 12.05839 4297.891 3.434118 0.03240931
+##   p<.05         ges
+## 1     * 0.002797802
 ## 
 ## $`Levene's Test for Homogeneity of Variance`
 ##   DFn  DFd     SSn      SSd        F         p p<.05
@@ -415,7 +427,8 @@ summary(alternative)
 ## urban          2     12   6.029   3.434 0.0324 *
 ## Residuals   2448   4298   1.756                 
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Diese entsprechen also wie erwartet unserem vorherigen Ergebnis. 
@@ -434,10 +447,14 @@ TukeyHSD(alternative, conf.level = 0.95)
 ## Fit: aov(formula = ET ~ urban, data = conspiracy)
 ## 
 ## $urban
-##                      diff         lwr       upr     p adj
-## suburban-rural -0.0434230 -0.21345311 0.1266071 0.8207046
-## urban-rural     0.1128996 -0.06507135 0.2908705 0.2969918
-## urban-suburban  0.1563226  0.01515294 0.2974922 0.0256251
+##                      diff         lwr       upr
+## suburban-rural -0.0434230 -0.21345311 0.1266071
+## urban-rural     0.1128996 -0.06507135 0.2908705
+## urban-suburban  0.1563226  0.01515294 0.2974922
+##                    p adj
+## suburban-rural 0.8207046
+## urban-rural    0.2969918
+## urban-suburban 0.0256251
 ```
 
 Das Ergebnis bietet neben den einfachen $p$-Werten auch korrigierte Konfidenzintervalle für die Mittelwertsdifferenzen. Darüber hinaus können die Ergebnisse auch in einem Plot dargestellt werden:
@@ -462,8 +479,9 @@ aov_t <- ezANOVA(conspiracy, wid = id, dv = ET, between = urban, return_aov = T)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make
+## sure you specified a well-considered value for the type
+## argument to ezANOVA().
 ```
 
 ```
@@ -505,17 +523,21 @@ TukeyHSD(aov_t$aov, conf.level = 0.95)
 ## Fit: aov(formula = formula(aov_formula), data = data)
 ## 
 ## $urban
-##                      diff         lwr       upr     p adj
-## suburban-rural -0.0434230 -0.21345311 0.1266071 0.8207046
-## urban-rural     0.1128996 -0.06507135 0.2908705 0.2969918
-## urban-suburban  0.1563226  0.01515294 0.2974922 0.0256251
+##                      diff         lwr       upr
+## suburban-rural -0.0434230 -0.21345311 0.1266071
+## urban-rural     0.1128996 -0.06507135 0.2908705
+## urban-suburban  0.1563226  0.01515294 0.2974922
+##                    p adj
+## suburban-rural 0.8207046
+## urban-rural    0.2969918
+## urban-suburban 0.0256251
 ```
 
 
 ***
 
 ## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier  herunterladen](anova-i.R).
+Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier  herunterladen](../anova-i.R).
 
 ***
 
