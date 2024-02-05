@@ -3,7 +3,7 @@ library(psych)        # Für Deskriptivstatistiken
 library(EffectLiteR)  # Für die Schätzung adjustierter Effekte
 library(car)          # Quadratsummen in Anova-Output
 
-load(url("https://pandar.netlify.app/post/CBTdata.rda"))
+load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 head(CBTdata)
 
 knitr::kable(head(CBTdata))

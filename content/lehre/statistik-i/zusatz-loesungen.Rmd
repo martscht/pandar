@@ -374,7 +374,7 @@ sum((data$lz_ges - mean(data$lz_ges))^2) / 13
 
 ## Aufgabe 16
 
-Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `fb22` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Eventuell haben Sie ihn ja auch aktiv in Ihrem Environment. Der Datensatz sollte 159 Versuchspersonen enthalten. Der Basisdatensatz hatte 36 Variablen, aber kann natürlich mehr enthalten, falls Sie weitere erstellt und abgespeichert haben. 
+Legen wir die ausgedachten Werte nun beiseite. Die restlichen Zusatzaufgaben beschäftigen mit dem Datensatz des letzten Jahrgangs. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `fb22` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Der Datensatz sollte 159 Versuchspersonen enthalten.
 
 ```{r}
 rm(list = ls())

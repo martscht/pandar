@@ -57,7 +57,7 @@ library(car)          # Quadratsummen in Anova-Output
 In unserem fiktiven Datenbeispiel wurden Patient:innen, die an einer Depression oder einer Angststörung leiden, entweder mit einer kognitiven Verhaltenstherapie (CBT) behandelt oder in einer Wartekontrollgruppe belassen. Eine zufällige Zuordnung war nicht vollständig möglich, da die Zuordnung der Patient:innen von den überweisenden Hausärzt:innen mit beeinflusst werden konnte (z.B. durch Geltendmachung einer besonderen Dringlichkeit der Therapie). Zunächst laden wir diesen Datensatz und verschaffen uns einen Überblick:
 
 ```{r, results="hide"}
-load(url("https://pandar.netlify.app/post/CBTdata.rda"))
+load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 head(CBTdata)
 ```
 

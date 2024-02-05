@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [cezanne, mueller, nehler]
 weight:
-lastmod: '2024-01-21' 
+lastmod: '2024-02-01' 
 featured: no
 banner:
   image: "/header/mechanical_number_display.png"
@@ -585,7 +585,7 @@ sum((data$lz_ges - mean(data$lz_ges))^2) / 13
 
 ## Aufgabe 16
 
-Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `fb22` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Eventuell haben Sie ihn ja auch aktiv in Ihrem Environment. Der Datensatz sollte 159 Versuchspersonen enthalten. Der Basisdatensatz hatte 36 Variablen, aber kann natürlich mehr enthalten, falls Sie weitere erstellt und abgespeichert haben. 
+Legen wir die ausgedachten Werte nun beiseite. Die restlichen Zusatzaufgaben beschäftigen mit dem Datensatz des letzten Jahrgangs. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `fb22` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Der Datensatz sollte 159 Versuchspersonen enthalten.
 
 
 ```r
@@ -1515,6 +1515,20 @@ Der Gruppenunterschied ist signifikant ($t$(158) = -7.06 , *p* < .001), somit wi
 
 ```r
 library("effsize")
+```
+
+```
+## 
+## Attaching package: 'effsize'
+```
+
+```
+## The following object is masked from 'package:psych':
+## 
+##     cohen.d
+```
+
+```r
 cohen.d(fb22$nerd, fb22$intel, paired = T, within = F)
 ```
 
@@ -1599,8 +1613,8 @@ cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "gre
 ```
 
 ```
-## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot compute exact
-## p-value with ties
+## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot
+## compute exact p-value with ties
 ```
 
 ```
