@@ -315,15 +315,15 @@ In dieser Aufgabe wollen wir die Frage beantworten, ob Studierende die auf Unipa
 **Hypothesen**
 
 * Art des Effekts: Unterschiedshypothese  
-* Richtung des Effekts: Gerichtet $\rightarrow$ gerichtete Hypothesen  
+* Richtung des Effekts: Ungerichtet $\rightarrow$ ungerichtete Hypothesen  
 * Größe des Effekts: Unspezifisch  
 
-Hypthesenpaar (Inhaltlich):  
+Hypothesenpaar (inhaltlich):
 
 * $H_0$: Studierende, die Unipartys besuchen, erreichen im Mittel gleiche Werte der Lebenszufriedenheit wie Studierende, die diese Partys nicht besuchen.
 * $H_1$: Studierende, die Unipartys besuchen, erreichen im Mittel unterschiedliche Werte der Lebenszufriedenheit als Studierende, die diese Partys nicht besuchen.
 
-Hypthesenpaar (statistisch):  
+Hypothesenpaar (statistisch):  
 
 * $H_0$: $\eta_\text{Unipartys} \neq \eta_\text{keine Unipartys}$  
 * $H_1$: $\eta_\text{Unipartys} =   \eta_\text{keine Unipartys}$
