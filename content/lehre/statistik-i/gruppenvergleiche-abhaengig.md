@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es um vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [nehler, koehler, buchholz, irmer, liu] 
 weight: 7
-lastmod: '2023-12-06'
+lastmod: '2024-02-06'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -433,9 +433,7 @@ hist(CBTdata$BDI_post,
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters
 ```
 
-Wie vermutet haben wir sowohl vor als auch nach der Therapie. Hier sieht man direkt, dass es viele Ausreißer in beiden Messperioden gibt. Dies ist der Grund, warum der Median ein geeignetes Maß für die zentrale Tendenz ist. Leider ist der Median vor und nach dem Praktikum genau gleich. Damit würde sich eigentlich die weitere Untersuchung erübrigen. Zu Übungszwecken werden wir sie trotzdem durchführen.
-
-
+Wie vermutet haben wir sowohl vor als auch nach der Therapie. Hier sieht man direkt, dass es viele Ausreißer in beiden Messperioden gibt. Dies ist der Grund, warum der Median ein geeignetes Maß für die zentrale Tendenz ist.
 
 ### Voraussetzungsprüfung
 
@@ -466,8 +464,8 @@ Die Differenzen weisen Abweichungen von der Symmetri-Annahme vor. Jedoch sind di
 
 Aus unserer Fragestellung wird eine Unterschiedsyhpothese deutlich, die einen gerichteten Effekt postuliert. Das Hypothesenpaar sieht folgendermaßen aus:
 
-* $H_0$: $\eta_\text{nach} \le \eta_\text{vor}$    
-* $H_1$: $\eta_\text{nach} > \eta_\text{vor}$    
+* $H_0$: $\eta_\text{nach} \ge \eta_\text{vor}$    
+* $H_1$: $\eta_\text{nach} < \eta_\text{vor}$    
 
 Weiterhin muss das Signifikanzniveau vor der Untersuchung festgelegt werden. Es soll hier 5% betragen. $\rightarrow$ $\alpha=.05$.
 
