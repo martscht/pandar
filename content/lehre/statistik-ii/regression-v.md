@@ -9,7 +9,7 @@ subtitle: 'nichtlineare Regression'
 summary: ''
 authors: [irmer, schultze]
 weight: 12
-lastmod: '2024-02-05'
+lastmod: '2024-02-06'
 featured: no
 banner:
   image: "/header/penguins_on_ice.jpg"
@@ -27,10 +27,6 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/regression-v.R
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Quizdaten
-    url: /lehre/statistik-ii/
 output:
   html_document:
     keep_md: true
@@ -312,8 +308,7 @@ summary(m_l)
 ## (Intercept) -4.646e+10  1.801e+09  -25.79   <2e-16 ***
 ## Year         2.569e+07  9.426e+05   27.26   <2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 8.94e+08 on 219 degrees of freedom
 ## Multiple R-squared:  0.7723,	Adjusted R-squared:  0.7713 
@@ -372,8 +367,7 @@ summary(m_log)
 ## (Intercept) 3.781382   0.328712   11.50   <2e-16 ***
 ## Year        0.009265   0.000172   53.87   <2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.1631 on 219 degrees of freedom
 ## Multiple R-squared:  0.9298,	Adjusted R-squared:  0.9295 
@@ -404,8 +398,7 @@ summary(m_log2)
 ## (Intercept) 3.781382   0.328712   11.50   <2e-16 ***
 ## Year        0.009265   0.000172   53.87   <2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.1631 on 219 degrees of freedom
 ## Multiple R-squared:  0.9298,	Adjusted R-squared:  0.9295 
@@ -536,8 +529,7 @@ summary(m_dis)
 ## Post1950      -2.024e+01  4.713e-01  -42.95   <2e-16 ***
 ## Year:Post1950  1.045e-02  2.385e-04   43.80   <2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.03845 on 217 degrees of freedom
 ## Multiple R-squared:  0.9961,	Adjusted R-squared:  0.9961 
@@ -593,8 +585,7 @@ summary(m_q)
 ## poly(Year, 2)1 2.437e+10  3.152e+08   77.32   <2e-16 ***
 ## poly(Year, 2)2 1.238e+10  3.152e+08   39.30   <2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 315200000 on 218 degrees of freedom
 ## Multiple R-squared:  0.9718,	Adjusted R-squared:  0.9716 
@@ -628,8 +619,7 @@ anova(m_l, m_q)
 ## 1    219 1.7504e+20                                   
 ## 2    218 2.1652e+19  1 1.5338e+20 1544.3 < 2.2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Dies ist der Modellvergleich des linearen und des quadratischen Modells. Hier sollte dem anova-Befehl immer das "kleinere" (restriktivere) Modell (mit weniger Prädiktoren und Parametern, die zu schätzen sind) zuerst übergeben werden. Hier: `m_l`, da sonst die df negativ sind und auch die Änderung in den `Sum of Sq` (Quadratsumme) negativ sind! `R` erkennt dies zwar und testet trotzdem die richtige Differenz auf Signifikanz, aber wir wollen uns besser vollständig korrekt aneignen!
@@ -716,8 +706,7 @@ summary(m_log_quad)
 ## poly(Year, 2)1  8.787459   0.046253  189.99   <2e-16 ***
 ## poly(Year, 2)2  2.315495   0.046253   50.06   <2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.04625 on 218 degrees of freedom
 ## Multiple R-squared:  0.9944,	Adjusted R-squared:  0.9943 
@@ -740,8 +729,7 @@ anova(m_log, m_log_quad)
 ## 1    219 5.8279                                  
 ## 2    218 0.4664  1    5.3615 2506.1 < 2.2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Durch den quadratisch-exponentiellen Verlauf (bzw. den quadratischen Verlauf in den logarithmierten Daten) lassen sich 99.44% der Variation der Bevölkerungsdichte erklären, was einem signifikantem Varianzinkrement von 6.46% im Vergleich zum reinen exponentiellen Verlaufsmodell entspricht. Interessant zu sehen ist, dass fast 100% der Variation im Datensatz erklärbar ist. Eine Übersicht über $R^2$ in den Modellen ist in [Appendix C](#AppendixC) einzusehen.
@@ -766,20 +754,13 @@ head(WorldPopulation)
 ```
 
 ```
-##   Year Population log_Population pred_Pop_exp Post1950
-## 1 1800  982454635       20.70556    768019076        0
-## 2 1801  985895135       20.70906    775168245        0
-## 3 1802  989555435       20.71277    782383962        0
-## 4 1803  992954135       20.71620    789666848        0
-## 5 1804  995485735       20.71874    797017526        0
-## 6 1805 1000098535       20.72336    804436629        0
-##   pred_Pop_dis pred_Pop_exp_quad
-## 1    940385460        1082904426
-## 2    946020970        1082790682
-## 3    951690251        1082769604
-## 4    957393507        1082841189
-## 5    963130942        1083005453
-## 6    968902759        1083262439
+##   Year Population log_Population pred_Pop_exp Post1950 pred_Pop_dis pred_Pop_exp_quad
+## 1 1800  982454635       20.70556    768019076        0    940385460        1082904426
+## 2 1801  985895135       20.70906    775168245        0    946020970        1082790682
+## 3 1802  989555435       20.71277    782383962        0    951690251        1082769604
+## 4 1803  992954135       20.71620    789666848        0    957393507        1082841189
+## 5 1804  995485735       20.71874    797017526        0    963130942        1083005453
+## 6 1805 1000098535       20.72336    804436629        0    968902759        1083262439
 ```
 
 Dem Datensatz haben wir nun eine neue Spalte hinzugefügt, welche die vorhergesagten Populationswerte enthält, die durch das quadratisch-exponentielle Modell vorhergesagt werden (retransformiert; nicht mehr in Log-Skala). Im Folgenden ist die finale Grafik mit dem linearen, exponentiellen, diskontinuierlichen und dem quadratisch-exponentiellen Verlauf dargestellt. Außerdem 

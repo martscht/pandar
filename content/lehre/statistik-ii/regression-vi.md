@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schultze]
 weight: 13
-lastmod: '2024-02-05'
+lastmod: '2024-02-06'
 featured: no
 banner:
   image: "/header/transaction_50_euros.jpg"
@@ -27,10 +27,6 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/regression-vi.R
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Quizdaten
-    url: /lehre/statistik-ii/
 output:
   html_document:
     keep_md: true
@@ -61,20 +57,13 @@ head(punish)
 ```
 
 ```
-##   country      bribe   age gender gains difficult notice
-## 1   China individual 21-30 female   8.6       3.0    3.8
-## 2   China individual 31-40 female  10.0       3.8    1.6
-## 3   China individual 31-40   male   9.2       1.6    2.0
-## 4   China individual 31-40 female  10.0       1.2    0.8
-## 5   China individual 31-40 female   9.0       1.4    1.2
-## 6   China individual 31-40   male   9.0       8.0    6.0
-##   probable severe
-## 1      3.0    2.8
-## 2      1.0    1.2
-## 3      2.2    2.4
-## 4      2.4    4.6
-## 5      4.2    4.6
-## 6      7.8    8.6
+##   country      bribe   age gender gains difficult notice probable severe
+## 1   China individual 21-30 female   8.6       3.0    3.8      3.0    2.8
+## 2   China individual 31-40 female  10.0       3.8    1.6      1.0    1.2
+## 3   China individual 31-40   male   9.2       1.6    2.0      2.2    2.4
+## 4   China individual 31-40 female  10.0       1.2    0.8      2.4    4.6
+## 5   China individual 31-40 female   9.0       1.4    1.2      4.2    4.6
+## 6   China individual 31-40   male   9.0       8.0    6.0      7.8    8.6
 ```
 
 In der Studie, aus der diese Daten kommen, wurden kulturelle Unterschiede in der Einschätzung von und Reaktion auf Bestechung untersucht. Spezifisch ging es darum, wie sich Personen in China und den USA darin unterscheiden, wie sie individuelle und gruppenbezogene Bestechung wahrnehmen und für wie wahrscheinlich und schwer sie Bestrafungen für diese halten. Dabei wurden fünf verschiedene Situationen als Text dargestellt. In [Tabelle 1](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509#ajsp12509-tbl-0001) des Artikels von [Hong-Zhi et al. (2021)](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509) sind die fünf Situationen dargestellt. Der erste Text dreht sich um Bestechung im Gesundheitswesen, welche im individuellen Fall so aussieht:
@@ -127,8 +116,7 @@ summary(mod1)
 ## (Intercept)    4.5435     0.2378   19.11   <2e-16 ***
 ## countryChina   0.4468     0.3463    1.29    0.199    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.28 on 172 degrees of freedom
 ## Multiple R-squared:  0.009582,	Adjusted R-squared:  0.003824 
@@ -277,8 +265,7 @@ summary(mod1b)
 ## (Intercept)   4.7669     0.1732   27.53   <2e-16 ***
 ## country1     -0.2234     0.1732   -1.29    0.199    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.28 on 172 degrees of freedom
 ## Multiple R-squared:  0.009582,	Adjusted R-squared:  0.003824 
@@ -374,8 +361,7 @@ summary(mod2)
 ## countryChina      0.4472     0.3471   1.289    0.199    
 ## bribeindividual   0.1812     0.3469   0.523    0.602    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.285 on 171 degrees of freedom
 ## Multiple R-squared:  0.01116,	Adjusted R-squared:  -0.0004046 
@@ -447,19 +433,13 @@ summary(mod3)
 ## -4.1182 -1.7436  0.0564  1.5993  5.0564 
 ## 
 ## Coefficients:
-##                              Estimate Std. Error t value
-## (Intercept)                    4.0167     0.3231  12.432
-## countryChina                   1.3787     0.4700   2.933
-## bribeindividual                1.1015     0.4672   2.358
-## countryChina:bribeindividual  -1.9533     0.6806  -2.870
-##                              Pr(>|t|)    
-## (Intercept)                   < 2e-16 ***
-## countryChina                  0.00382 ** 
-## bribeindividual               0.01952 *  
-## countryChina:bribeindividual  0.00463 ** 
+##                              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                    4.0167     0.3231  12.432  < 2e-16 ***
+## countryChina                   1.3787     0.4700   2.933  0.00382 ** 
+## bribeindividual                1.1015     0.4672   2.358  0.01952 *  
+## countryChina:bribeindividual  -1.9533     0.6806  -2.870  0.00463 ** 
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.238 on 170 degrees of freedom
 ## Multiple R-squared:  0.05685,	Adjusted R-squared:  0.04021 
@@ -533,16 +513,11 @@ Weil für diese Gruppe der Mittelwert nicht mehr aus dem Intercept und einem ein
 
 
 ```
-##                               Estimate Std. Error
-## (Intercept)                   4.016667  0.3230915
-## countryChina                  1.378682  0.4700153
-## bribeindividual               1.101515  0.4671896
-## countryChina:bribeindividual -1.953274  0.6806394
-##                                t value     Pr(>|t|)
-## (Intercept)                  12.431978 1.183591e-25
-## countryChina                  2.933271 3.817026e-03
-## bribeindividual               2.357748 1.952359e-02
-## countryChina:bribeindividual -2.869764 4.629547e-03
+##                               Estimate Std. Error   t value     Pr(>|t|)
+## (Intercept)                   4.016667  0.3230915 12.431978 1.183591e-25
+## countryChina                  1.378682  0.4700153  2.933271 3.817026e-03
+## bribeindividual               1.101515  0.4671896  2.357748 1.952359e-02
+## countryChina:bribeindividual -1.953274  0.6806394 -2.869764 4.629547e-03
 ```
 
 Dies bedeutet auch, dass es auf die spezifische Kombination aus Land und Art der Bestechung ankommt, für die Vorhersage der eingeschätzten Schwere der Bestrafung. Für die Grafik bedeutet die Signifikanz des Interaktionseffektes, dass die Geraden sich signifikant von der Parallelität unterscheiden.
@@ -567,8 +542,7 @@ anova(mod1, mod2, mod3)
 ## 2    171 893.07  1     1.426 0.2846 0.59441   
 ## 3    170 851.81  1    41.265 8.2355 0.00463 **
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 ```r
@@ -631,8 +605,7 @@ summary(mod4)
 ## age41-50     0.55628    0.52250   1.065  0.28855    
 ## ageover 50  -0.02331    0.62101  -0.038  0.97010    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.246 on 170 degrees of freedom
 ## Multiple R-squared:  0.05035,	Adjusted R-squared:  0.03359 
@@ -718,8 +691,7 @@ summary(mod5)
 ## (Intercept)   4.4212     0.6766   6.534 3.74e-09 ***
 ## gains         0.0219     0.1138   0.192    0.848    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.224 on 90 degrees of freedom
 ## Multiple R-squared:  0.0004112,	Adjusted R-squared:  -0.0107 
@@ -748,8 +720,7 @@ summary(mod6)
 ## gains           -0.03392    0.11311  -0.300   0.7650    
 ## bribeindividual  1.12940    0.46126   2.449   0.0163 *  
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.165 on 89 degrees of freedom
 ## Multiple R-squared:  0.0635,	Adjusted R-squared:  0.04245 
@@ -793,19 +764,13 @@ summary(mod7)
 ## -4.2442 -1.2632 -0.0587  1.3676  4.2925 
 ## 
 ## Coefficients:
-##                       Estimate Std. Error t value
-## (Intercept)             5.6659     0.8784   6.450
-## gains                  -0.3177     0.1588  -2.001
-## bribeindividual        -1.9180     1.3089  -1.465
-## gains:bribeindividual   0.5455     0.2201   2.478
-##                       Pr(>|t|)    
-## (Intercept)           5.86e-09 ***
-## gains                   0.0485 *  
-## bribeindividual         0.1464    
-## gains:bribeindividual   0.0151 *  
+##                       Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)             5.6659     0.8784   6.450 5.86e-09 ***
+## gains                  -0.3177     0.1588  -2.001   0.0485 *  
+## bribeindividual        -1.9180     1.3089  -1.465   0.1464    
+## gains:bribeindividual   0.5455     0.2201   2.478   0.0151 *  
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.105 on 88 degrees of freedom
 ## Multiple R-squared:  0.1246,	Adjusted R-squared:  0.09475 
@@ -860,22 +825,23 @@ Im [Beitrag zu Interaktionen zwischen intervallskalierten Variablen](regression-
 
 ```r
 library(reghelper)
+```
+
+```
+## Warning: Paket 'reghelper' wurde unter R Version 4.2.3 erstellt
+```
+
+```r
 simple_slopes(mod7)
 ```
 
 ```
-##      gains      bribe Test Estimate Std. Error t value
-## 1 3.536522     sstest        0.0113     0.6362  0.0178
-## 2 5.584783     sstest        1.1287     0.4485  2.5167
-## 3 7.633043     sstest        2.2461     0.6357  3.5330
-## 4   sstest      group       -0.3177     0.1588 -2.0010
-## 5   sstest individual        0.2279     0.1525  1.4943
-##   df Pr(>|t|) Sig.
-## 1 88 0.985874     
-## 2 88 0.013660    *
-## 3 88 0.000657  ***
-## 4 88 0.048475    *
-## 5 88 0.138685
+##      gains      bribe Test Estimate Std. Error t value df Pr(>|t|) Sig.
+## 1 3.536522     sstest        0.0113     0.6362  0.0178 88 0.985874     
+## 2 5.584783     sstest        1.1287     0.4485  2.5167 88 0.013660    *
+## 3 7.633043     sstest        2.2461     0.6357  3.5330 88 0.000657  ***
+## 4   sstest      group       -0.3177     0.1588 -2.0010 88 0.048475    *
+## 5   sstest individual        0.2279     0.1525  1.4943 88 0.138685
 ```
 
 Die ersten drei Zeilen zeigen uns Gruppenunterschiede zwischen individueller und kollektiver Bestechung bei verschiedenen Ausprägungen von `gains` - per Voreinstellung eine Standardabweichung unter dem Mittelwert, dem Mittelwert und eine Standardabweichung darüber. Die letzten beiden Zeilen zeigen uns die gruppenspezifischen Regressionsgewichte. Für `bribe = 'group'` entspricht dies genau der Testung, die wir schon in der normalen `summary` gesehen haben. Nun erhalten wir auch das Gegenstück und sehen, dass der positive Effekt in der Gruppe, die individuelle Bestechung gesehen hat, nicht statistisch bedeutsam von 0 abweicht.
@@ -912,8 +878,7 @@ summary(mod8)
 ## bribeindividual  0.19243    0.35402   0.544    0.587    
 ## gains           -0.01663    0.09786  -0.170    0.865    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.292 on 170 degrees of freedom
 ## Multiple R-squared:  0.01133,	Adjusted R-squared:  -0.006118 
@@ -1033,16 +998,11 @@ simple_slopes(mod13, levels = list(gains = 'sstest'))
 ```
 
 ```
-##   country      bribe  gains Test Estimate Std. Error
-## 1     U.S      group sstest       -0.3177     0.1676
-## 2   China      group sstest        0.1126     0.2177
-## 3     U.S individual sstest        0.2279     0.1610
-## 4   China individual sstest       -0.1968     0.2534
-##   t value  df Pr(>|t|) Sig.
-## 1 -1.8950 166  0.05983    .
-## 2  0.5172 166  0.60573     
-## 3  1.4151 166  0.15890     
-## 4 -0.7767 166  0.43844
+##   country      bribe  gains Test Estimate Std. Error t value  df Pr(>|t|) Sig.
+## 1     U.S      group sstest       -0.3177     0.1676 -1.8950 166  0.05983    .
+## 2   China      group sstest        0.1126     0.2177  0.5172 166  0.60573     
+## 3     U.S individual sstest        0.2279     0.1610  1.4151 166  0.15890     
+## 4   China individual sstest       -0.1968     0.2534 -0.7767 166  0.43844
 ```
 Wir sehen also, dass trotz der großen optischen Unterschiede in den Regressionsgewichten, keins der gruppenspezifischen Regressionsgewichte statistisch bedeutsam von 0 abweicht.
 

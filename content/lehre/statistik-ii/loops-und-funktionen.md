@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [irmer, schueller, wallot]
 weight: 11
-lastmod: '2024-02-05'
+lastmod: '2024-02-06'
 featured: no
 banner:
   image: "/header/sprinkled_lollipops.jpg"
@@ -30,7 +30,7 @@ links:
   - icon_pack: fas
     icon: pen-to-square
     name: Quizdaten
-    url: /lehre/statistik-ii/
+    url: /lehre/statistik-ii/quizdaten-bsc7#Quiz6
 output:
   html_document:
     keep_md: true
@@ -324,7 +324,7 @@ x
 ```
 
 ```
-## [1] 6
+## [1] 3
 ```
 
 ```r
@@ -332,7 +332,7 @@ y
 ```
 
 ```
-## [1] 1
+## [1] 0
 ```
 
 Wenn Sie diesen Code mehrfach ausführen, bekommen Sie immer wieder unterschiedliche Paare an `x` und `y`. Auch der erste Versuch muss nicht mit den hier auf `PandaR` zu findenden Ergebnissen übereinstimmen, da wir keinen Seed verwenden. Probieren Sie dies gerne aus!
@@ -689,11 +689,8 @@ replicate(n = 10, expr = {X <- rnorm(N)
 ```
 
 ```
-##  [1] 0.26352442 0.03081077
-##  [3] 0.21285027 0.27429670
-##  [5] 0.53201656 0.79232864
-##  [7] 0.93976306 0.43862992
-##  [9] 0.96766599 0.68865560
+##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306
+##  [8] 0.43862992 0.96766599 0.68865560
 ```
 
 Wenn wir nun genauer hinschauen, dann sehen wir, dass der Block 
@@ -722,11 +719,8 @@ replicate(n = 10, expr = mySim(N = 20))
 ```
 
 ```
-##  [1] 0.26352442 0.03081077
-##  [3] 0.21285027 0.27429670
-##  [5] 0.53201656 0.79232864
-##  [7] 0.93976306 0.43862992
-##  [9] 0.96766599 0.68865560
+##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306
+##  [8] 0.43862992 0.96766599 0.68865560
 ```
 
 In der Sitzung zu [Simulationsstudien und Poweranalysen](../statistik-i/simulation-poweranalyse) hatten wir außerdem den empirischen $t$-Wert untersucht. Diesen können wir nun ganz leicht mit aufnehmen.
@@ -745,18 +739,9 @@ replicate(n = 10, expr = mySim2(N = 20))
 ```
 
 ```
-##          [,1]        [,2]
-## p   0.2635244  0.03081077
-## t.t 1.1349024 -2.24295556
-##          [,3]       [,4]
-## p   0.2128503  0.2742967
-## t.t 1.2670437 -1.1092419
-##          [,5]      [,6]
-## p   0.5320166 0.7923286
-## t.t 0.6306927 0.2651479
-##          [,7]       [,8]
-## p   0.9397631  0.4386299
-## t.t 0.0760693 -0.7827414
+##          [,1]        [,2]      [,3]       [,4]      [,5]      [,6]      [,7]       [,8]
+## p   0.2635244  0.03081077 0.2128503  0.2742967 0.5320166 0.7923286 0.9397631  0.4386299
+## t.t 1.1349024 -2.24295556 1.2670437 -1.1092419 0.6306927 0.2651479 0.0760693 -0.7827414
 ##            [,9]     [,10]
 ## p    0.96766599 0.6886556
 ## t.t -0.04080374 0.4037557
@@ -826,10 +811,8 @@ coef(reg) # Koeffizienten abgreifen
 ```
 
 ```
-## (Intercept)          X1 
-##   0.4480455   0.5145347 
-##          X2 
-##   0.2532168
+## (Intercept)          X1          X2 
+##   0.4480455   0.5145347   0.2532168
 ```
 
 Wir sehen, dass die Koeffizienten recht nah an den "wahren" Werten liegen. Verpacken wir das Ganze in eine Funktion, so können wir den Bias der Schätzung untersuchen. Der Bias ist die durchschnittliche Abweichung der Schätzung vom wahren Wert. Ein Bias von 0 ist somit erstrebenswert!
@@ -854,46 +837,14 @@ replicate(n = 10, expr = myRegSim(N = 10^3))
 ```
 
 ```
-##                  [,1]
-## (Intercept) 0.4480455
-## X1          0.5145347
-## X2          0.2532168
-##                  [,2]
-## (Intercept) 0.4645526
-## X1          0.4229675
-## X2          0.3155510
-##                  [,3]
-## (Intercept) 0.0959823
-## X1          0.5794930
-## X2          0.3264700
-##                  [,4]
-## (Intercept) 0.4036081
-## X1          0.6167309
-## X2          0.2033327
-##                  [,5]
-## (Intercept) 0.3621404
-## X1          0.4935631
-## X2          0.2789048
-##                  [,6]
-## (Intercept) 0.4454766
-## X1          0.4068533
-## X2          0.3184694
-##                  [,7]
-## (Intercept) 0.2000509
-## X1          0.5341167
-## X2          0.3038769
-##                  [,8]
-## (Intercept) 0.2704179
-## X1          0.4260486
-## X2          0.3344544
-##                  [,9]
-## (Intercept) 0.2343473
-## X1          0.5119222
-## X2          0.3198885
-##                 [,10]
-## (Intercept) 0.4723725
-## X1          0.4416930
-## X2          0.3067544
+##                  [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]
+## (Intercept) 0.4480455 0.4645526 0.0959823 0.4036081 0.3621404 0.4454766 0.2000509
+## X1          0.5145347 0.4229675 0.5794930 0.6167309 0.4935631 0.4068533 0.5341167
+## X2          0.2532168 0.3155510 0.3264700 0.2033327 0.2789048 0.3184694 0.3038769
+##                  [,8]      [,9]     [,10]
+## (Intercept) 0.2704179 0.2343473 0.4723725
+## X1          0.4260486 0.5119222 0.4416930
+## X2          0.3344544 0.3198885 0.3067544
 ```
 
 Speichern wir das Ganze ab, transponieren es und bilden `colMeans`, so erhalten wir eine Schätzung für die durchschnittliche Schätzung unseres Experiments (das wir insgesamt 10 Mal unter identischen Voraussetzungen durchführen konnten):
@@ -906,10 +857,8 @@ colMeans(mySimErg)
 ```
 
 ```
-## (Intercept)          X1 
-##   0.3396994   0.4947923 
-##          X2 
-##   0.2960919
+## (Intercept)          X1          X2 
+##   0.3396994   0.4947923   0.2960919
 ```
 
 Selbst bei nur 10 Wiederholungen und einer Stichprobengröße von 1000 ist der Bias schon sehr gering (zum Vergleich, die wahren Werte waren 0.3, 0.5, 0.3). Der Bias wird nun so bestimmt:
@@ -953,12 +902,8 @@ toss
 ```
 
 ```
-##  [1] "Zahl" "Kopf" "Kopf"
-##  [4] "Zahl" "Zahl" "Zahl"
-##  [7] "Kopf" "Kopf" "Zahl"
-## [10] "Kopf" "Kopf" "Kopf"
-## [13] "Zahl" "Kopf" "Kopf"
-## [16] "Kopf"
+##  [1] "Zahl" "Kopf" "Kopf" "Zahl" "Zahl" "Zahl" "Kopf" "Kopf" "Zahl" "Kopf" "Kopf" "Kopf"
+## [13] "Zahl" "Kopf" "Kopf" "Kopf"
 ```
 
 ### `repeat`-Loops 
@@ -986,10 +931,7 @@ fibo
 ```
 
 ```
-##  [1]    1    1    2    3    5
-##  [6]    8   13   21   34   55
-## [11]   89  144  233  377  610
-## [16]  987 1597
+##  [1]    1    1    2    3    5    8   13   21   34   55   89  144  233  377  610  987 1597
 ```
 
 Loops können mit `break` unterbrochen werden - das gilt nicht nur für `repeat`, sondern auch für die anderen beiden Formen von Loops. Hier wurde eine `if`-Bedingung in den Loop geschachtelt. In jedem einzelnen Durchlauf des Loops wird geprüft, ob die Bedingung erfüllt ist, und die Durchführung wird beendet (`break`), sobald dies der Fall ist. 
@@ -1069,7 +1011,7 @@ Sys.time() - t1 # bestimmte die Laufzeit durch aktuelle Zeit minus Startzeit
 ```
 
 ```
-## Time difference of 0.01693606 secs
+## Time difference of 0.02136993 secs
 ```
 
 ```r
@@ -1079,7 +1021,7 @@ Sys.time() - t2 # bestimmte die Laufzeit durch aktuelle Zeit minus Startzeit
 ```
 
 ```
-## Time difference of 0.001479149 secs
+## Time difference of 0.001729965 secs
 ```
 
 Loops sind in diesem Beispiel fast um den Faktor 10 langsamer (zumindest, wenn Sie den Code für `10^6` Beobachtungen durchführen, die Maske, die für diese Website genutzt wird, ist deutlich langsamer, weswegen hier auf `10^3` ausgewichen wurde...). Es gibt jedoch viele Anwendungsgebiete, wo Loops das Mittel der Wahl sind!

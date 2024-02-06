@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [irmer, hartig]
 weight: 10
-lastmod: '2024-02-05'
+lastmod: '2024-02-06'
 featured: no
 banner:
   image: "/header/schoolbus.jpg"
@@ -27,10 +27,6 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/regression-iv.R
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Quizdaten
-    url: /lehre/statistik-ii/
 output:
   html_document:
     keep_md: true
@@ -76,8 +72,19 @@ Außerdem werden wir folgende `R`-Pakete benötigen:
 library(car)
 library(MASS)
 library(lm.beta) # erforderlich für standardiserte Gewichte
+```
+
+```
+## Warning: Paket 'lm.beta' wurde unter R Version 4.2.3 erstellt
+```
+
+```r
 library(ggplot2)
 library(interactions) # für Interaktionsplots in moderierten Regressionen
+```
+
+```
+## Warning: Paket 'interactions' wurde unter R Version 4.2.3 erstellt
 ```
 
 
@@ -102,19 +109,13 @@ summary(lm.beta(m1))
 ## -261.95  -55.34   13.83   61.24  181.60 
 ## 
 ## Coefficients:
-##             Estimate Standardized Std. Error t value
-## (Intercept) 340.7035           NA    24.0770  14.151
-## HISEI         1.4440       0.2507     0.4769   3.028
-## MotherEdu    10.7052       0.1628     5.3740   1.992
-## Books        16.1988       0.2272     5.9608   2.718
-##             Pr(>|t|)    
-## (Intercept)  < 2e-16 ***
-## HISEI        0.00291 ** 
-## MotherEdu    0.04823 *  
-## Books        0.00737 ** 
+##             Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept) 340.7035           NA    24.0770  14.151  < 2e-16 ***
+## HISEI         1.4440       0.2507     0.4769   3.028  0.00291 ** 
+## MotherEdu    10.7052       0.1628     5.3740   1.992  0.04823 *  
+## Books        16.1988       0.2272     5.9608   2.718  0.00737 ** 
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 84.28 on 146 degrees of freedom
 ## Multiple R-squared:  0.2564,	Adjusted R-squared:  0.2411 
@@ -138,8 +139,7 @@ residualPlots(m1, pch = 16)
 ## Books        -1.3387          0.18277  
 ## Tukey test   -1.1034          0.26986  
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Die Effekte von Sozialstatus und Büchern werden durch das lineare Modell gut wiedergegeben. Für den Bildungsabschluss der Mutter ist ein leicht nicht-linearer Zusammenhang zu erkennen. Der quadratische Trend für die Residuen ist signifikant (*signifikantes Ergebnis für den Bildungsabschluss der Mutter*). Der Effekt ist dadurch charakterisiert, dass der Zuwachs der Lesekompetenz im unteren Bereich des mütterlichen Bildungsabschlusses stärker ist und im oberen Bereich abflacht. 
@@ -159,6 +159,11 @@ ggplot(data = df_res, aes(x = res)) +
                     fill = "skyblue") +           # Wie sollen die Balken gefüllt sein?
      stat_function(fun = dnorm, args = list(mean = mean(res), sd = sd(res)), col = "darkblue") + # Füge die Normalverteilungsdiche "dnorm" hinzu und nutze den empirischen Mittelwert und die empirische Standardabweichung "args = list(mean = mean(res), sd = sd(res))", wähle dunkelblau als Linienfarbe
      labs(title = "Histogramm der Residuen mit Normalverteilungsdichte", x = "Residuen") # Füge eigenen Titel und Achsenbeschriftung hinzu
+```
+
+```
+## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+## ℹ Please use `after_stat(density)` instead.
 ```
 
 <img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
@@ -201,21 +206,14 @@ summary(lm.beta(m1.b))
 ## -247.206  -50.365    8.392   57.886  171.694 
 ## 
 ## Coefficients:
-##                      Estimate Standardized Std. Error
-## (Intercept)          377.9988           NA    25.4205
-## HISEI                  1.4692       0.2550     0.4720
-## poly(MotherEdu, 2)1  187.5689       0.1588    95.5443
-## poly(MotherEdu, 2)2 -169.6388      -0.1436    83.5003
-## Books                 16.5747       0.2324     5.9009
-##                     t value Pr(>|t|)    
-## (Intercept)          14.870  < 2e-16 ***
-## HISEI                 3.113  0.00223 ** 
-## poly(MotherEdu, 2)1   1.963  0.05154 .  
-## poly(MotherEdu, 2)2  -2.032  0.04402 *  
-## Books                 2.809  0.00566 ** 
+##                      Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)          377.9988           NA    25.4205  14.870  < 2e-16 ***
+## HISEI                  1.4692       0.2550     0.4720   3.113  0.00223 ** 
+## poly(MotherEdu, 2)1  187.5689       0.1588    95.5443   1.963  0.05154 .  
+## poly(MotherEdu, 2)2 -169.6388      -0.1436    83.5003  -2.032  0.04402 *  
+## Books                 16.5747       0.2324     5.9009   2.809  0.00566 ** 
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 83.4 on 145 degrees of freedom
 ## Multiple R-squared:  0.2769,	Adjusted R-squared:  0.257 
@@ -244,8 +242,8 @@ cor(poly(PISA2009$MotherEdu, 2))
 
 ```
 ##              1            2
-## 1 1.000000e+00 7.025821e-18
-## 2 7.025821e-18 1.000000e+00
+## 1 1.000000e+00 2.412055e-16
+## 2 2.412055e-16 1.000000e+00
 ```
 Heraus kommt eine Korrelationsmatrix und im Eintrag [1,2] erkennen wir, dass die Korrelation nun de facto 0 ist. Was genau `poly` macht, steht in [Appendix A](#AppendixA).
 
@@ -280,8 +278,7 @@ anova(m1, m1.b)
 ## 1    146 1037169                              
 ## 2    145 1008463  1     28706 4.1274 0.04402 *
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Hier sollte dem anova-Befehl immer das "kleinere" (restriktivere) Modell (mit weniger Prädiktoren und Parametern, die zu schätzen sind) zuerst übergeben werden. Hier: `m1`, da sonst (1) die df negativ sind (und auch als solche vom Programm angezeigt werden können, obwohl dieses das oft erkennen kann und dann das Vorzeichen umdreht...) und (2) die Änderung in den `Sum of Sq` (Quadratsumme) negativ ist! `R` erkennt dies zwar und testet trotzdem die richtige Differenz auf Signifikanz, aber wir wollen uns besser vollständig korrekt verhalten! Das Inkrement des quadratischen Trends ist signifikant, der $p$-Wert liegt bei 0.044.
@@ -399,8 +396,7 @@ summary(mod_reg)
 ## IQ           0.63477    0.11624   5.461 3.71e-07 ***
 ## math:IQ      0.15815    0.07956   1.988   0.0497 *  
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.8183 on 96 degrees of freedom
 ## Multiple R-squared:  0.3506,	Adjusted R-squared:  0.3303 
@@ -515,19 +511,13 @@ summary(lm.beta(m1.b1))
 ## -261.95  -55.34   13.83   61.24  181.60 
 ## 
 ## Coefficients:
-##                    Estimate Standardized Std. Error
-## (Intercept)        380.4553           NA    25.6622
-## HISEI                1.4440       0.2507     0.4769
-## poly(MotherEdu, 1) 192.2979       0.1628    96.5335
-## Books               16.1988       0.2272     5.9608
-##                    t value Pr(>|t|)    
-## (Intercept)         14.825  < 2e-16 ***
-## HISEI                3.028  0.00291 ** 
-## poly(MotherEdu, 1)   1.992  0.04823 *  
-## Books                2.718  0.00737 ** 
+##                    Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)        380.4553           NA    25.6622  14.825  < 2e-16 ***
+## HISEI                1.4440       0.2507     0.4769   3.028  0.00291 ** 
+## poly(MotherEdu, 1) 192.2979       0.1628    96.5335   1.992  0.04823 *  
+## Books               16.1988       0.2272     5.9608   2.718  0.00737 ** 
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 84.28 on 146 degrees of freedom
 ## Multiple R-squared:  0.2564,	Adjusted R-squared:  0.2411 
@@ -549,21 +539,14 @@ summary(lm.beta(m1.b2))
 ## -247.206  -50.365    8.392   57.886  171.694 
 ## 
 ## Coefficients:
-##                      Estimate Standardized Std. Error
-## (Intercept)          377.9988           NA    25.4205
-## HISEI                  1.4692       0.2550     0.4720
-## poly(MotherEdu, 2)1  187.5689       0.1588    95.5443
-## poly(MotherEdu, 2)2 -169.6388      -0.1436    83.5003
-## Books                 16.5747       0.2324     5.9009
-##                     t value Pr(>|t|)    
-## (Intercept)          14.870  < 2e-16 ***
-## HISEI                 3.113  0.00223 ** 
-## poly(MotherEdu, 2)1   1.963  0.05154 .  
-## poly(MotherEdu, 2)2  -2.032  0.04402 *  
-## Books                 2.809  0.00566 ** 
+##                      Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)          377.9988           NA    25.4205  14.870  < 2e-16 ***
+## HISEI                  1.4692       0.2550     0.4720   3.113  0.00223 ** 
+## poly(MotherEdu, 2)1  187.5689       0.1588    95.5443   1.963  0.05154 .  
+## poly(MotherEdu, 2)2 -169.6388      -0.1436    83.5003  -2.032  0.04402 *  
+## Books                 16.5747       0.2324     5.9009   2.809  0.00566 ** 
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 83.4 on 145 degrees of freedom
 ## Multiple R-squared:  0.2769,	Adjusted R-squared:  0.257 
@@ -586,19 +569,13 @@ summary(lm.beta(m1.c1))
 ## -261.95  -55.34   13.83   61.24  181.60 
 ## 
 ## Coefficients:
-##             Estimate Standardized Std. Error t value
-## (Intercept) 340.7035           NA    24.0770  14.151
-## HISEI         1.4440       0.2507     0.4769   3.028
-## MotherEdu    10.7052       0.1628     5.3740   1.992
-## Books        16.1988       0.2272     5.9608   2.718
-##             Pr(>|t|)    
-## (Intercept)  < 2e-16 ***
-## HISEI        0.00291 ** 
-## MotherEdu    0.04823 *  
-## Books        0.00737 ** 
+##             Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept) 340.7035           NA    24.0770  14.151  < 2e-16 ***
+## HISEI         1.4440       0.2507     0.4769   3.028  0.00291 ** 
+## MotherEdu    10.7052       0.1628     5.3740   1.992  0.04823 *  
+## Books        16.1988       0.2272     5.9608   2.718  0.00737 ** 
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 84.28 on 146 degrees of freedom
 ## Multiple R-squared:  0.2564,	Adjusted R-squared:  0.2411 
@@ -621,21 +598,14 @@ summary(lm.beta(m1.c2))
 ## -247.206  -50.365    8.392   57.886  171.694 
 ## 
 ## Coefficients:
-##             Estimate Standardized Std. Error t value
-## (Intercept) 283.9386           NA    36.7185   7.733
-## HISEI         1.4692       0.2550     0.4720   3.113
-## MotherEdu    46.0086       0.6998    18.1726   2.532
-## MotherEdu2   -4.8171      -0.5597     2.3711  -2.032
-## Books        16.5747       0.2324     5.9009   2.809
-##             Pr(>|t|)    
-## (Intercept) 1.62e-12 ***
-## HISEI        0.00223 ** 
-## MotherEdu    0.01241 *  
-## MotherEdu2   0.04402 *  
-## Books        0.00566 ** 
+##             Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept) 283.9386           NA    36.7185   7.733 1.62e-12 ***
+## HISEI         1.4692       0.2550     0.4720   3.113  0.00223 ** 
+## MotherEdu    46.0086       0.6998    18.1726   2.532  0.01241 *  
+## MotherEdu2   -4.8171      -0.5597     2.3711  -2.032  0.04402 *  
+## Books        16.5747       0.2324     5.9009   2.809  0.00566 ** 
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 83.4 on 145 degrees of freedom
 ## Multiple R-squared:  0.2769,	Adjusted R-squared:  0.257 
@@ -657,12 +627,9 @@ rbind(coef(m1.b2),coef(m1.c2)) # vgl Koeffizienten
 ```
 
 ```
-##      (Intercept)    HISEI poly(MotherEdu, 2)1
-## [1,]    377.9988 1.469164           187.56888
-## [2,]    283.9386 1.469164            46.00863
-##      poly(MotherEdu, 2)2    Books
-## [1,]         -169.638816 16.57467
-## [2,]           -4.817134 16.57467
+##      (Intercept)    HISEI poly(MotherEdu, 2)1 poly(MotherEdu, 2)2    Books
+## [1,]    377.9988 1.469164           187.56888         -169.638816 16.57467
+## [2,]    283.9386 1.469164            46.00863           -4.817134 16.57467
 ```
 
 ```r
@@ -725,6 +692,11 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
      geom_line(col = "blue", lwd = 2)+ geom_line(mapping = aes(x, x^2), lty = 3)+
      labs(x = "x", y =  "f(x)",
           title = expression("f(x)="~0.5*x^2))
+```
+
+```
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
 ```
 
 <img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
@@ -885,9 +857,9 @@ cor(poly(A, 2))
 ```
 
 ```
-##              1            2
-## 1 1.000000e+00 9.847944e-17
-## 2 9.847944e-17 1.000000e+00
+##             1           2
+## 1 1.00000e+00 1.92988e-17
+## 2 1.92988e-17 1.00000e+00
 ```
 
 ```r
@@ -1125,8 +1097,7 @@ summary(mod_reg_full)
 ## I(IQ^2)     -0.09759    0.12960  -0.753 0.453316    
 ## math:IQ      0.28688    0.19461   1.474 0.143780    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.8245 on 94 degrees of freedom
 ## Multiple R-squared:  0.3545,	Adjusted R-squared:  0.3202 
