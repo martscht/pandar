@@ -298,8 +298,8 @@ Es ist für den `for`-Loop nötig, vorher zu wissen, für welche Fälle ein Skri
 
 *Anwendungsbeispiel:* Loops sind zum Beispiel nützlich für das Rekodieren von Items. Der `mdbf` Datensatz enthält 98 Beobachtungen in 12 Variablen, allesamt Items des **M**ehr**d**imensionalen **B**efindlichkeits**f**ragebogens. In diesem Fragebogen werden Adjektive zur Beschreibung der aktuellen Stimmung genutzt um die drei Dimensionen der Stimmung - Gut vs. Schlecht, Wach vs. Müde und Ruhig vs. Unruhig - zu erheben. Dafür laden wir zunächst den mdbdf-Datensatz von der Pandar-Website, und schauen uns die ersten Zeilen an.
 
-```{r, eval=FALSE}
-load(url("https://pandar.netlify.app/post/mdbf.rda"))
+```{r, eval=T}
+load(url("https://pandar.netlify.app/daten/mdbf.rda"))
 head(mdbf)
 ```
 

@@ -2,8 +2,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 
 ## load("C:/Users/Musterfrau/Desktop/PISA2009.rda")
 
-## load(url("https://pandar.netlify.app/daten/PISA2009.rda"))
-load("../../daten/PISA2009.rda")
+load(url("https://pandar.netlify.app/daten/PISA2009.rda"))
 
 library(car)
 library(MASS)

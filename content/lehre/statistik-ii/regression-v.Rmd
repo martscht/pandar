@@ -197,11 +197,8 @@ load("C:/Users/Musterfrau/Desktop/WorldPopulation.rda")
 
 oder wir laden sie direkt über die Website:
 
-```{r, eval = F}
+```{r, eval = T}
 load(url("https://pandar.netlify.app/daten/WorldPopulation.rda"))
-```
-```{r, echo = F}
-load("../../daten/WorldPopulation.rda")
 ```
 
 Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik "Data" unser Datensatz mit dem Namen "_WorldPopulation_" erscheinen.

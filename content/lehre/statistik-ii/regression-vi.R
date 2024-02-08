@@ -1,7 +1,6 @@
 knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 
-## source("https://pandar.netlify.app/lehre/statistik-ii/Data_Processing_punish.R")
-source("Data_Processing_punish.R")
+source("https://pandar.netlify.app/lehre/statistik-ii/Data_Processing_punish.R")
 
 head(punish)
 

@@ -112,8 +112,8 @@ for (i in vekt) {
   print(i)
 }
 
-## load(url("https://pandar.netlify.app/post/mdbf.rda"))
-## head(mdbf)
+load(url("https://pandar.netlify.app/daten/mdbf.rda"))
+head(mdbf)
 
 mdbf$stim4_r[mdbf$stim4 == 1] <- 4
 mdbf$stim4_r[mdbf$stim4 == 2] <- 3

@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [irmer, hartig]
 weight: 10
-lastmod: '2024-02-06'
+lastmod: '2024-02-08'
 featured: no
 banner:
   image: "/header/schoolbus.jpg"
@@ -61,10 +61,6 @@ oder direkt über die Website:
 load(url("https://pandar.netlify.app/daten/PISA2009.rda"))
 ```
 
-```r
-load("../../daten/PISA2009.rda")
-```
-
 Außerdem werden wir folgende `R`-Pakete benötigen:
 
 
@@ -75,7 +71,8 @@ library(lm.beta) # erforderlich für standardiserte Gewichte
 ```
 
 ```
-## Warning: Paket 'lm.beta' wurde unter R Version 4.2.3 erstellt
+## Warning: Paket 'lm.beta' wurde unter R Version 4.3.1
+## erstellt
 ```
 
 ```r
@@ -84,7 +81,8 @@ library(interactions) # für Interaktionsplots in moderierten Regressionen
 ```
 
 ```
-## Warning: Paket 'interactions' wurde unter R Version 4.2.3 erstellt
+## Warning: Paket 'interactions' wurde unter R Version
+## 4.3.1 erstellt
 ```
 
 
@@ -109,13 +107,19 @@ summary(lm.beta(m1))
 ## -261.95  -55.34   13.83   61.24  181.60 
 ## 
 ## Coefficients:
-##             Estimate Standardized Std. Error t value Pr(>|t|)    
-## (Intercept) 340.7035           NA    24.0770  14.151  < 2e-16 ***
-## HISEI         1.4440       0.2507     0.4769   3.028  0.00291 ** 
-## MotherEdu    10.7052       0.1628     5.3740   1.992  0.04823 *  
-## Books        16.1988       0.2272     5.9608   2.718  0.00737 ** 
+##             Estimate Standardized Std. Error t value
+## (Intercept) 340.7035           NA    24.0770  14.151
+## HISEI         1.4440       0.2507     0.4769   3.028
+## MotherEdu    10.7052       0.1628     5.3740   1.992
+## Books        16.1988       0.2272     5.9608   2.718
+##             Pr(>|t|)    
+## (Intercept)  < 2e-16 ***
+## HISEI        0.00291 ** 
+## MotherEdu    0.04823 *  
+## Books        0.00737 ** 
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 84.28 on 146 degrees of freedom
 ## Multiple R-squared:  0.2564,	Adjusted R-squared:  0.2411 
@@ -130,7 +134,7 @@ Die Residuenplots sowie die Testung auf quadratische Trends, die zusammen mit de
 residualPlots(m1, pch = 16)
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 ```
 ##            Test stat Pr(>|Test stat|)  
@@ -139,7 +143,8 @@ residualPlots(m1, pch = 16)
 ## Books        -1.3387          0.18277  
 ## Tukey test   -1.1034          0.26986  
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Die Effekte von Sozialstatus und Büchern werden durch das lineare Modell gut wiedergegeben. Für den Bildungsabschluss der Mutter ist ein leicht nicht-linearer Zusammenhang zu erkennen. Der quadratische Trend für die Residuen ist signifikant (*signifikantes Ergebnis für den Bildungsabschluss der Mutter*). Der Effekt ist dadurch charakterisiert, dass der Zuwachs der Lesekompetenz im unteren Bereich des mütterlichen Bildungsabschlusses stärker ist und im oberen Bereich abflacht. 
@@ -162,11 +167,15 @@ ggplot(data = df_res, aes(x = res)) +
 ```
 
 ```
-## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+## Warning: The dot-dot notation (`..density..`) was deprecated in
+## ggplot2 3.4.0.
 ## ℹ Please use `after_stat(density)` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see
+## where this warning was generated.
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
 ```r
 # Test auf Abweichung von der Normalverteilung mit dem Shpiro Test
@@ -206,14 +215,21 @@ summary(lm.beta(m1.b))
 ## -247.206  -50.365    8.392   57.886  171.694 
 ## 
 ## Coefficients:
-##                      Estimate Standardized Std. Error t value Pr(>|t|)    
-## (Intercept)          377.9988           NA    25.4205  14.870  < 2e-16 ***
-## HISEI                  1.4692       0.2550     0.4720   3.113  0.00223 ** 
-## poly(MotherEdu, 2)1  187.5689       0.1588    95.5443   1.963  0.05154 .  
-## poly(MotherEdu, 2)2 -169.6388      -0.1436    83.5003  -2.032  0.04402 *  
-## Books                 16.5747       0.2324     5.9009   2.809  0.00566 ** 
+##                      Estimate Standardized Std. Error
+## (Intercept)          377.9988           NA    25.4205
+## HISEI                  1.4692       0.2550     0.4720
+## poly(MotherEdu, 2)1  187.5689       0.1588    95.5443
+## poly(MotherEdu, 2)2 -169.6388      -0.1436    83.5003
+## Books                 16.5747       0.2324     5.9009
+##                     t value Pr(>|t|)    
+## (Intercept)          14.870  < 2e-16 ***
+## HISEI                 3.113  0.00223 ** 
+## poly(MotherEdu, 2)1   1.963  0.05154 .  
+## poly(MotherEdu, 2)2  -2.032  0.04402 *  
+## Books                 2.809  0.00566 ** 
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 83.4 on 145 degrees of freedom
 ## Multiple R-squared:  0.2769,	Adjusted R-squared:  0.257 
@@ -242,8 +258,8 @@ cor(poly(PISA2009$MotherEdu, 2))
 
 ```
 ##              1            2
-## 1 1.000000e+00 2.412055e-16
-## 2 2.412055e-16 1.000000e+00
+## 1 1.000000e+00 7.025821e-18
+## 2 7.025821e-18 1.000000e+00
 ```
 Heraus kommt eine Korrelationsmatrix und im Eintrag [1,2] erkennen wir, dass die Korrelation nun de facto 0 ist. Was genau `poly` macht, steht in [Appendix A](#AppendixA).
 
@@ -278,7 +294,8 @@ anova(m1, m1.b)
 ## 1    146 1037169                              
 ## 2    145 1008463  1     28706 4.1274 0.04402 *
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Hier sollte dem anova-Befehl immer das "kleinere" (restriktivere) Modell (mit weniger Prädiktoren und Parametern, die zu schätzen sind) zuerst übergeben werden. Hier: `m1`, da sonst (1) die df negativ sind (und auch als solche vom Programm angezeigt werden können, obwohl dieses das oft erkennen kann und dann das Vorzeichen umdreht...) und (2) die Änderung in den `Sum of Sq` (Quadratsumme) negativ ist! `R` erkennt dies zwar und testet trotzdem die richtige Differenz auf Signifikanz, aber wir wollen uns besser vollständig korrekt verhalten! Das Inkrement des quadratischen Trends ist signifikant, der $p$-Wert liegt bei 0.044.
@@ -290,7 +307,7 @@ Erzeugt man für das erweiterte Modell Residuenplots, ist der quadratische Trend
 residualPlots(m1.b, pch = 16)
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 ```
 ##                    Test stat Pr(>|Test stat|)
@@ -303,7 +320,7 @@ residualPlots(m1.b, pch = 16)
 Was bedeutet nun dieser Effekt inhaltlich? Um dies genauer zu verstehen, stellen wir die um die anderen Variablen bereinigte Beziehung zwischen dem Bildungsabschluss der Mutter und der Leseleistung grafisch dar. 
 
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 
 Für den Grafik-Code sowie weitere Informationen zu quadaratischen Effekten und Funktionen siehe [Appendix A](#AppendixA). Die Grafik zeigt die vorhergesagte Beziehung zwischen den standardisierten Werten des Bildungsabschlusses der Mutter und der Leseleistung. Hierbei steht erneut `|` für "gegeben" (wie beim Partialplot mit `avPlots` aus der vergangenen Sitzung). Wir sehen also den um die anderen Variablen im Modell bereinigten Effekt zwischen Bildungsabschluss und Leseleistung. Hierbei ist ein starker mittlerer Anstieg der Leseleistung (-1 bis ca. 0.1) für einen Anstieg des Bildungsabschlusses von deutlich unterdurchschnittlich bis durchschnittlich (von -2.5 bis 0) zu sehen. Danach ist die Beziehung zwischen der Leseleistung und dem Bildungsabschluss fast horizontal (Veränderung geringer als 0.1). Das spricht dafür, dass es für einen durchschnittlichen bis überdurchschnittlichen Bildungsabschluss der Mutter (von 0 bis 1.5) kaum eine Beziehung zwischen den Variablen gibt. Dies bedeutet, dass besonders im unterdurchschnittlichen Bereich der mütterlichen Bildung Unterschiede zwischen Müttern einen starken Zusammenhang mit der Leseleistung ihrer Kinder zeigen. Wenn das Bildungsniveau der Mutter jedoch durchschnittlich oder überdurchschnittlich ist, scheint der Zusammenhang beinahe zu verschwinden. 
@@ -318,7 +335,7 @@ curve(linear * x + quadratisch * x^2,
       xlim = c(-2, 2))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 Mit Hilfe von `poly(X, p)` lassen sich Polynome bis zum Grad $p$ (als $X, X^2,\dots,X^{p-1},X^p$) in die Regression aufnehmen, ohne, dass sich die Parameterschätzungen der anderen Potenzen von $X$ ändern. Durch `poly` können also leicht Modelle mit Polynomen zur Potenz 4 und 5 verglichen werden, da die Koeffizienten des linearen ($X=X^1$), des quadratischen ($X^2$), des kubischen ($X^3$), etc. in den Modellen gleich sind. Wenn Sie noch mehr über die Funktion `poly` und ihre Vorteile erfahren möchten, schauen Sie sich gerne [Appendix A](#AppendixA) an. Wenn wir `poly` nicht verwenden wollen würden, sollten wir zumindest die Prädiktoren, für welche wir quadratische Effekte annehmen, zentrieren, also den Mittelwert der Variable von dieser abziehen. Bspw. $X_i-\bar{X}$, was in `R` so aussieht: `X-mean(X)`. Diese Variable würden wir dann an unseren Datensatz anhängen. Dies wird im nächsten Abschnitt zur moderierten Regression gemacht. Hierbei ist zu beachten, dass Standardisierung nichts anderes ist als Zentrierung unter zusätzlicher Setzung der Varianz/Standardbweichung auf 1 pro Variable!
 
@@ -396,7 +413,8 @@ summary(mod_reg)
 ## IQ           0.63477    0.11624   5.461 3.71e-07 ***
 ## math:IQ      0.15815    0.07956   1.988   0.0497 *  
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.8183 on 96 degrees of freedom
 ## Multiple R-squared:  0.3506,	Adjusted R-squared:  0.3303 
@@ -411,7 +429,7 @@ library(interactions)
 interact_plot(model = mod_reg, pred = IQ, modx = math)
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
 
 Uns wird nun ein Plot mit drei Linien ausgegeben. Dieser wird häufig "simple slopes" Plot genannt. Dargestellt sind drei Beziehungen zwischen dem `IQ` und `reading` für unterschiedliche Ausprägungen von `math`. Erstens für einen durchschnittlichen `math`-Wert und zweitens und drittens für Werte, die (1) eine Standardabweichung (SD) oberhalb oder (2) eine Standardabweichung (SD) unterhalb des Mittelwerts liegen. Damit bekommen wir ein Gefühl dafür, wie sehr sich die Beziehung (und damit Interzept und Slope) zwischen der Leseleistung und der Intelligenz verändert für unterschiedliche Ausprägungen der Matheleistung: Für eine durchschnittliche (`Mean`) Ausprägung, eine unter- (`- 1 SD`) und eine überdurchschnittliche (`+ 1 SD`) Ausprägung. Die Signifikanzentscheidung oben zeigte uns, dass diese Unterschiede bedeutsam sind und somit die Matheleistung entscheidend dafür ist, wie genau die Leseleistung mit der Intelligenz zusammenhängt. Die einzelnen Regressionsgeraden lassen sich ebenfalls auf signifikante Unterschiede prüfen. Es kann auch untersucht werden, welche Ausprägungen des Moderators zu unterschiedlichen "bedingten" Regressionsgewichten führen, also ab wann sich Interzept oder Slope des Prädiktors signifikant verändert, wenn sich der Moderator verändert. Inhaltlich wäre eine Post-Hoc (also nach der Analyse entstehende) Interpretation, dass intelligente Kinder, die gut in Mathematik sind, besonders gut lesen können und sich dies auch bereits in den Textaufgaben der Matheaufgaben geäußert haben könnte. Dies ist allerdings eine Interpretation, die mit Vorsicht zu genießen ist. Sie wurde quasi an die Ergebnisse angepasst. Wir wissen allerdings, dass dies ein exploratives Vorgehen ist und dass so nur bedingt wissenschaftliche Erkenntnisse gewonnen werden können Ein besseres Vorgehen wäre, dass wir im Vorhinein Hypothesen aus Theorien ableiten und diese an einem Datensatz prüfen. Außerdem müssten wir, um ganz sicher zu gehen, dass es in der Population eine Interaktion gibt (mit einem Irrtumsniveau von 5%), auch die quadratischen Effekte mit in das Modell aufnehmen! In unserem Beispiel hätten wir die quadratischen Effekte wie folgt aufnehmen können: `reading ~ IQ+math+ I(math^2)+I(IQ*math) +I(IQ^2)`. Die Daten hatten wir zuvor schon zentriert beziehungsweise sogar standardisiert. Hier ist das `I()` als Funktion anzusehen, die auch "as.is" genannt wird, also "so wie es dort steht". Dieser werden arithmetische Funktionen übergeben. Diese überschreibt die Kurzschreibweise `IQ*math= IQ + math + IQ:math`, da das `*` als Multiplikationsoperator interpretiert wird. Wir könnten also auch die beiden Schreibweisen mischend `reading ~ IQ*math + I(math^2) + I(IQ^2)` schreiben.  Hätten wir `I()` nicht verwendet, hätten wir vorher alle Funktionen von Variablen an den Datensatz anhängen müssen.
 
@@ -419,11 +437,11 @@ Interessierte Lesende können sich bei Interesse, welches über diesen Kurs hina
 
 Die folgende Grafik stellt den Sachverhalt noch einmal als 3D Grafik (mit dem Paket `plot3D`) dar (ziemlich cool oder?). In dieser Grafik erkennen wir sehr deutlich, dass die Simple Slopes tatsächlich eine stark vereinfachte Darstellung sind und es tatsächlich unendlich viele bzw. so viele unterschiedliche Beziehungen zwischen Prädiktor (`IQ`) und Kriterium (`reading`) in Abhängigkeit des Moderators (`math`) gibt, wie dieser (`math`) Ausprägungen hat. Der Code zu den Grafiken lässt sich in [Appendix B](#AppendixB) nachlesen.
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
 
 Hier ist die x-Achse ($-links\longleftrightarrow rechts+$) des IQs dargestellt und in die Tiefe ist die Matheleistung (oft z-Achse: ($-vorne\longleftrightarrow hinten+$)). Die y-Achse (im Plot heißt diese blöderweise z-Achse) stellt die Leseleistung dar. ($-unten\longleftrightarrow oben+$). Wir erkennen in dieser Ansicht ein wenig die Simple-Slopes von zuvor, denn die Achse der Matheleistung läuft ins Negative "aus dem Bildschirm hinaus", während sie ins Positive "in den Bildschirm hinein" verläuft. Der nähere Teil der "Hyperebene" weißt eine geringere Beziehung zwischen dem IQ und der Leseleistung auf, während der Teil, der weiter entfernt liegt, eine stärkere Beziehung aufweist. Genau das haben wir auch in den Simple Slopes zuvor gesehen. Dort war für eine hohe Matheleistung die Beziehung zwischen dem IQ und der Leseleistung auch stärker. Wichtig ist, dass in diesem Plot die Beziehung zwischen dem IQ und der Leseleistung für eine fest gewählte Ausprägung der Matheleistung tatsächlich linear verläuft. Es ist also so, dass wir quasi ganz viele Linien aneinander kleben, um diese gewölbte Ebene zu erhalten. Die Ausprägung der Matheleistung ist im nächsten Plot noch besser zu erkennen, in der der Plot etwas gedreht dargestellt wird. Farblich ist außerdem die Ausprägung der Leseleistung dargestellt, damit die Werte leichter zu vergleichen sind. 
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
 Diese Plots geben einen noch besseren Eindruck davon, was genau bei einer Interaktion passiert und wie "austauschbar" eigentlich der Moderator oder der Prädiktor sind. Außerdem kann man mit den Überlegungen aus diesem Abschnitt leicht einsehen, dass das quadratische Modell von oben tatsächlich ein Spezialfall dieses moderierten Modells ist, in welchem der Prädiktor mit sich selbst interagiert (sich selbst moderiert). Darüber, wie genau man moderierte Regressionen durchführt, gibt es viel Literatur. Einige Forschende sagen, dass man neben der Interaktion auch immer die quadratischen Effekte mit aufnehmen sollte, um auszuschließen, dass die Interaktion ein Artefakt ist, der nur auf quadratische Effekte zurückzuführen ist. Das stellt eine hervorragenden Übung dar, um sich dies einmal anzusehen! In [Appendix C](#AppendixC) sehen Sie die Simple Slopes sowie die 3D-Grafiken auch noch einmal für das "volle" quadratisch-Interaktionsmodell.
 
@@ -511,13 +529,19 @@ summary(lm.beta(m1.b1))
 ## -261.95  -55.34   13.83   61.24  181.60 
 ## 
 ## Coefficients:
-##                    Estimate Standardized Std. Error t value Pr(>|t|)    
-## (Intercept)        380.4553           NA    25.6622  14.825  < 2e-16 ***
-## HISEI                1.4440       0.2507     0.4769   3.028  0.00291 ** 
-## poly(MotherEdu, 1) 192.2979       0.1628    96.5335   1.992  0.04823 *  
-## Books               16.1988       0.2272     5.9608   2.718  0.00737 ** 
+##                    Estimate Standardized Std. Error
+## (Intercept)        380.4553           NA    25.6622
+## HISEI                1.4440       0.2507     0.4769
+## poly(MotherEdu, 1) 192.2979       0.1628    96.5335
+## Books               16.1988       0.2272     5.9608
+##                    t value Pr(>|t|)    
+## (Intercept)         14.825  < 2e-16 ***
+## HISEI                3.028  0.00291 ** 
+## poly(MotherEdu, 1)   1.992  0.04823 *  
+## Books                2.718  0.00737 ** 
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 84.28 on 146 degrees of freedom
 ## Multiple R-squared:  0.2564,	Adjusted R-squared:  0.2411 
@@ -539,14 +563,21 @@ summary(lm.beta(m1.b2))
 ## -247.206  -50.365    8.392   57.886  171.694 
 ## 
 ## Coefficients:
-##                      Estimate Standardized Std. Error t value Pr(>|t|)    
-## (Intercept)          377.9988           NA    25.4205  14.870  < 2e-16 ***
-## HISEI                  1.4692       0.2550     0.4720   3.113  0.00223 ** 
-## poly(MotherEdu, 2)1  187.5689       0.1588    95.5443   1.963  0.05154 .  
-## poly(MotherEdu, 2)2 -169.6388      -0.1436    83.5003  -2.032  0.04402 *  
-## Books                 16.5747       0.2324     5.9009   2.809  0.00566 ** 
+##                      Estimate Standardized Std. Error
+## (Intercept)          377.9988           NA    25.4205
+## HISEI                  1.4692       0.2550     0.4720
+## poly(MotherEdu, 2)1  187.5689       0.1588    95.5443
+## poly(MotherEdu, 2)2 -169.6388      -0.1436    83.5003
+## Books                 16.5747       0.2324     5.9009
+##                     t value Pr(>|t|)    
+## (Intercept)          14.870  < 2e-16 ***
+## HISEI                 3.113  0.00223 ** 
+## poly(MotherEdu, 2)1   1.963  0.05154 .  
+## poly(MotherEdu, 2)2  -2.032  0.04402 *  
+## Books                 2.809  0.00566 ** 
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 83.4 on 145 degrees of freedom
 ## Multiple R-squared:  0.2769,	Adjusted R-squared:  0.257 
@@ -569,13 +600,19 @@ summary(lm.beta(m1.c1))
 ## -261.95  -55.34   13.83   61.24  181.60 
 ## 
 ## Coefficients:
-##             Estimate Standardized Std. Error t value Pr(>|t|)    
-## (Intercept) 340.7035           NA    24.0770  14.151  < 2e-16 ***
-## HISEI         1.4440       0.2507     0.4769   3.028  0.00291 ** 
-## MotherEdu    10.7052       0.1628     5.3740   1.992  0.04823 *  
-## Books        16.1988       0.2272     5.9608   2.718  0.00737 ** 
+##             Estimate Standardized Std. Error t value
+## (Intercept) 340.7035           NA    24.0770  14.151
+## HISEI         1.4440       0.2507     0.4769   3.028
+## MotherEdu    10.7052       0.1628     5.3740   1.992
+## Books        16.1988       0.2272     5.9608   2.718
+##             Pr(>|t|)    
+## (Intercept)  < 2e-16 ***
+## HISEI        0.00291 ** 
+## MotherEdu    0.04823 *  
+## Books        0.00737 ** 
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 84.28 on 146 degrees of freedom
 ## Multiple R-squared:  0.2564,	Adjusted R-squared:  0.2411 
@@ -598,14 +635,21 @@ summary(lm.beta(m1.c2))
 ## -247.206  -50.365    8.392   57.886  171.694 
 ## 
 ## Coefficients:
-##             Estimate Standardized Std. Error t value Pr(>|t|)    
-## (Intercept) 283.9386           NA    36.7185   7.733 1.62e-12 ***
-## HISEI         1.4692       0.2550     0.4720   3.113  0.00223 ** 
-## MotherEdu    46.0086       0.6998    18.1726   2.532  0.01241 *  
-## MotherEdu2   -4.8171      -0.5597     2.3711  -2.032  0.04402 *  
-## Books        16.5747       0.2324     5.9009   2.809  0.00566 ** 
+##             Estimate Standardized Std. Error t value
+## (Intercept) 283.9386           NA    36.7185   7.733
+## HISEI         1.4692       0.2550     0.4720   3.113
+## MotherEdu    46.0086       0.6998    18.1726   2.532
+## MotherEdu2   -4.8171      -0.5597     2.3711  -2.032
+## Books        16.5747       0.2324     5.9009   2.809
+##             Pr(>|t|)    
+## (Intercept) 1.62e-12 ***
+## HISEI        0.00223 ** 
+## MotherEdu    0.01241 *  
+## MotherEdu2   0.04402 *  
+## Books        0.00566 ** 
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 83.4 on 145 degrees of freedom
 ## Multiple R-squared:  0.2769,	Adjusted R-squared:  0.257 
@@ -627,9 +671,12 @@ rbind(coef(m1.b2),coef(m1.c2)) # vgl Koeffizienten
 ```
 
 ```
-##      (Intercept)    HISEI poly(MotherEdu, 2)1 poly(MotherEdu, 2)2    Books
-## [1,]    377.9988 1.469164           187.56888         -169.638816 16.57467
-## [2,]    283.9386 1.469164            46.00863           -4.817134 16.57467
+##      (Intercept)    HISEI poly(MotherEdu, 2)1
+## [1,]    377.9988 1.469164           187.56888
+## [2,]    283.9386 1.469164            46.00863
+##      poly(MotherEdu, 2)2    Books
+## [1,]         -169.638816 16.57467
+## [2,]           -4.817134 16.57467
 ```
 
 ```r
@@ -679,7 +726,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~x^2))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
 Wir werden diese Funktion immer als Referenz mit in die Grafiken einzeichnen.
 
 
@@ -694,12 +741,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~0.5*x^2))
 ```
 
-```
-## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## ℹ Please use `linewidth` instead.
-```
-
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
 
 ```r
@@ -713,7 +755,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~2*x^2))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -728,7 +770,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~-x^2))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
 Diese invers-u-förmige Beziehung ist eine konkave Funktion. Als Eselsbrücke für das Wort *konkav*, welches fast das englische Wort *cave* enthält, können wir uns merken: Eine konkave Funktion stellt eine Art *Höhleneingang* dar.
 
 $c$ bewirkt eine vertikale Verschiebung der Parabel:
@@ -744,7 +786,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~x^2+1))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" />
 
 $b$ bewirkt eine horizontale und vertikale Verschiebung, die nicht mehr leicht vorhersehbar ist. Für $f(x)=x^2+x$ lässt sich beispielsweise durch Umformen $f(x)=x^2+x=x(x+1)$ leicht erkennen, dass diese Funktion zwei Nullstellen bei $0$ und $-1$ hat. Somit ist ersichtlich, dass die Funktion nach unten und nach links verschoben ist:
 
@@ -760,7 +802,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~x^2+x))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" />
 
 Für die genaue Gestalt einer allgemeinen quadratischen Funktion $ax^2 + bx + c$ würden wir die Nullstellen durch das Lösen der Gleichung $ax^2 + bx + c=0$ bestimmen (via *p-q Formel* oder *a-b-c-Formel*). Den Scheitelpunkt würden wir durch das Ableiten und Nullsetzen der Gleichung bestimmen. Wir müssten also $2ax+b=0$ lösen und dies in die Gleichung einsetzen. Wir könnten auch die binomischen Formeln nutzen, um die Funktion in die Gestalt $f(x):=a'(x-b')^2+c'$ oder $f(x):=a'(x-b'_1)(x-b_2')+c'$ zu bekommen, falls die Nullstellen reell sind (also das Gleichungssystem *lösbar* ist), da wir so die Nullstellen ablesen können als $b'$ oder $b_1'$ und $b_2'$, falls $c=0$. Für die Interpretation der Ergebnisse reicht es zu wissen, dass $a$ eine Stauchung bewirkt und entscheind dafür ist, ob die Funktion u-förmig oder invers-u-förmig verläuft.
 
@@ -776,7 +818,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~-0.5*x^2+x+2))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
 $\longrightarrow$ so ähnlich sieht die bedingte Beziehung (kontrolliert für die weiteren Prädiktoren im Modell) zwischen dem Bildungsabschluss der Mutter und der Leseleistung aus.
 
 </details>
@@ -795,7 +837,7 @@ ggplot(data = data_ME, aes(x = std_ME,  y = pred_effect_ME)) + geom_point(pch = 
           title = "Standardisierte bedingte Beziehung zwischen\n Bildungsabschluss der Mutter und Leseleistung")
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" />
 
 Wir verwenden `scale`, um die linearen und quadratischen Anteile des Bildungsabschlusses der Mutter zu standardisieren und speichern sie in `X`. Anschließend ist das Interzept der quadratischen Funktion 0 ($c=0$, da wir standardisiert haben). Die zugehörigen standardisierten Koeffizienten sind $b=0.1588$ und $a=-0.1436$, die wir aus der standardisierten `summary` abgelesen haben. Somit wissen wir, dass es sich um eine invers-u-förmige Beziehung handelt (ohne die Grafik zu betrachten). Wir speichern die standardisierten Koeffizienten unter `std_par_ME` ab und verwenden anschließend das Matrixprodukt ` X %*% std_par_ME`, um die vorhergesagten Werte via $y_{std,i}=0.1588 ME - 0.1436ME^2$ zu berechnen. Diese vorhergesagten Werte `pred_effect_ME` plotten wir nun gegen die standardisierten Werte des Bildungsabschlusses der  Mutter `std_ME`, welche in der ersten Spalte von `X` stehen: `X[, 1]`.
 
@@ -857,9 +899,9 @@ cor(poly(A, 2))
 ```
 
 ```
-##             1           2
-## 1 1.00000e+00 1.92988e-17
-## 2 1.92988e-17 1.00000e+00
+##              1            2
+## 1 1.000000e+00 9.847944e-17
+## 2 9.847944e-17 1.000000e+00
 ```
 
 ```r
@@ -1047,7 +1089,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
           main = "Moderierte Regression")
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-40-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-39-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -1060,7 +1102,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
           main = "Moderierte Regression")
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-41-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-40-1.png" style="display: block; margin: auto;" />
 
 Für weitere Informationen zum Umgang mit diesem Plot siehe bspw. hier: [3D Grafiken mit `plot3D` <i class="fas fa-graduation-cap"></i>](http://www.sthda.com/english/wiki/impressive-package-for-3d-and-4d-graph-r-software-and-data-visualization).
 
@@ -1097,7 +1139,8 @@ summary(mod_reg_full)
 ## I(IQ^2)     -0.09759    0.12960  -0.753 0.453316    
 ## math:IQ      0.28688    0.19461   1.474 0.143780    
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.8245 on 94 degrees of freedom
 ## Multiple R-squared:  0.3545,	Adjusted R-squared:  0.3202 
@@ -1108,7 +1151,7 @@ summary(mod_reg_full)
 interact_plot(model = mod_reg_full, pred = IQ, modx = math, modx.values = c(-3, -1, 0, 1, 3))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-42-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-41-1.png" style="display: block; margin: auto;" />
 
 Mit `modx.values = c(-3, -1, 0, 1, 3)` stellen wir hier noch ein, dass wir auch Geraden für $\pm 3 SD$ und $\pm 1 SD$ des Moderators (`math`) sehen wollen. Wir erkennen in der Summary auch, dass im vollen Modell nur noch der `IQ` einen linearen Effekt auf `reading` hat!
 
@@ -1140,7 +1183,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
           main = "Moderierte Regression")
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-43-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-42-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -1153,7 +1196,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
           main = "Moderierte Regression")
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-44-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-43-1.png" style="display: block; margin: auto;" />
 
 Auch die 3D-Grafiken sind nicht länger aus "Geraden zusammengesetzt", sondern bestehen aus Parabeln/Kurven! 
 

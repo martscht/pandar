@@ -9,7 +9,7 @@ subtitle: '1-fakt. ANOVA'
 summary: ''
 authors: [scheppa-lahyani, irmer, wallot, nehler]
 weight: 7
-lastmod: '2024-02-05'
+lastmod: '2024-02-08'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"
@@ -128,6 +128,13 @@ Die Homoskedastizitätsannahme besagt, dass die Varianzen jeder Gruppe über die
 
 ```r
 library(car)
+```
+
+```
+## Lade nötiges Paket: carData
+```
+
+```r
 leveneTest(conspiracy$ET ~ conspiracy$urban)
 ```
 
@@ -267,6 +274,12 @@ pf(F_wert, nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$ur
 
 Grafisch gesehen lassen wir uns also die Fläche für den folgenden Bereich der F-Verteilung anzeigen.
 
+
+```
+## Warning: Paket 'ggplot2' wurde unter R Version 4.3.2
+## erstellt
+```
+
 <img src="/lehre/statistik-ii/anova-i_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
 
 Zur Beurteilung der Signifikanz muss der errechnete p-Wert mit dem vorher festgelegten $\alpha$-Niveau verglichen werden. Nehmen wir die üblichen 5% an, zeigt sich hier ein signifikanter Effekt.
@@ -287,6 +300,11 @@ Anschließend kann es geladen werden.
 ```r
 # Paket laden 
 library(ez)
+```
+
+```
+## Warning: Paket 'ez' wurde unter R Version 4.3.1
+## erstellt
 ```
 
 Weil die Funktion für verschiedene Arten von *ANOVAs* geeignet ist, benötigt sie einige sehr spezifisiche Argumente. Für die *einfaktorielle ANOVA* werden vier Argumente benötigt:

@@ -44,11 +44,8 @@ Hier wird es, wie immer auf Pandar, vor allem um die Umsetzung in R und die Inte
 
 Das Beispiel, was wir in diesem Beitrag betrachten, dreht sich um Daten aus der ersten Studie im Artikel von [Hong-Zhi et al. (2021)](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509). Weil die Daten für unsere Berechnungen ein wenig gekürzt und umbenannt werden müssen, können wir das dafür vorbereitete Skript ausführen:
 
-```{r, eval=F}
+```{r, eval=T}
 source("https://pandar.netlify.app/lehre/statistik-ii/Data_Processing_punish.R")
-```
-```{r, echo=F}
-source("Data_Processing_punish.R")
 ```
 Die vollständigen Daten können aber auch direkt vom [<i class="fas fa-download"></i> OSF heruntergeladen ](https://osf.io/4wypx/download) werden.
 

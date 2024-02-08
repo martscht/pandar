@@ -3,8 +3,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 
 ## load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
 
-## load(url("https://pandar.netlify.app/post/conspiracy.rda"))
-load("../../daten/conspiracy.rda")
+load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
 
 dim(conspiracy)
 
