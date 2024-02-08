@@ -1,0 +1,460 @@
+---
+title: "ANOVA II: zweifaktorielle ANOVA"
+type: post
+date: '2021-03-30' 
+slug: anova-ii
+categories: ["Statistik II"] 
+tags: ["ANOVA","Zweifaktoriell", "Kontraste"] 
+subtitle: '2-fakt. ANOVA'
+summary: ''
+authors: [irmer,scheppa-lahyani,schultze]
+weight: 8
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/heart_alien.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1293359)"
+projects: []
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-ii/anova-ii
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /lehre/statistik-ii/anova-ii.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Quizdaten
+    url: /lehre/statistik-ii/quizdaten-bsc7#Quiz4
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+# Vorbereitungen
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```
+
+In der letzten Sitzung haben wir die [einfaktorielle Varianzanalyse](/post/anova1) behandelt. Die spezifische Benennung als *einfaktoriell* verdeutlicht schon, dass wir hier ansetzen und Erweiterungen vornehmen können. In dieser Sitzung geht es vor allem um die *zweifaktorielle* Varianzanalyse. Ziel dieser Analyse ist es gleichzeitig Gruppenunterschiede auf mehreren (um genau zu sein 2 im zweifaktoriellen Fall) Variablen zu untersuchen und dabei zu überprüfen, ob Kombinationen von Gruppen besondere Auswirkungen haben. Für weitere Inhalte siehe bspw. auch [Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.2 und folgend)](https://hds.hebis.de/ubffm/Record/HEB366849158).
+
+Wir arbeiten wieder mit dem `conspiracy` Datensatz. Sie können den im Folgenden verwendeten [<i class="fas fa-download"></i> Datensatz "conspiracy.rda" hier herunterladen](../../daten/conspiracy.rda).
+
+### Daten laden
+Wir laden zunächst die Daten: entweder lokal von Ihrem Rechner:
+
+```{r, eval = F}
+load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
+```
+
+oder wir laden sie direkt über die Website:
+
+```{r, eval = F}
+load(url("https://pandar.netlify.app/post/conspiracy.rda"))
+```
+```{r, echo = F}
+load("../../daten/conspiracy.rda")
+```
+Eine kurze Übersicht über den Datensatz zeigt:
+
+```{r}
+dim(conspiracy)
+```
+
+Der Datensatz enthält die Werte von 2451 Personen auf 9 Variablen. 
+
+```{r}
+head(conspiracy)
+```
+
+Er stammt aus einer Untersuchung zum Thema *verschwörungstheoretische Überzegungen*. Die **ersten vier Variablen** enthalten Informationen über den demographischen Hintergrund der Personen: höchster Bildungsabschluss (`edu`), Typ des Wohnortes (`urban`), Geschlecht (`gender`) und Alter (`age`). Die **fünf restlichen Variablen** sind Skalenwerte bezüglich verschiedener subdimensionen verschwörungstheoretischer Überzeugungen: `GM` (goverment malfeasance), `MG` (malevolent global conspiracies), `ET` (extraterrestrial cover-up), `PW` (personal well-being) und `CI` (control of information).
+
+
+## Einfaktorielle ANOVA
+
+In der letzten Sitzung zeigte sich, dass die Überzeugung, dass die Existenz von Außerirdischen durch eine globale Verschwörung verdeckt wird (`ET`), von der Art des Wohngebiets (`urban`) abhängig ist. Zur Berechnung der einfaktoriellen ANOVA wurde das `ez`-Paket verwendet. Dieses Paket brauchen wir weiterhin:
+
+```{r, message = F}
+library(ez)
+```
+
+Wie schon in der letzten Sitzung, ist es zunächst erforderlich eine Personen-ID zu erzeugen. In diesem Fall kann einfach die Zeilennummer einer Person genutzt werden:
+
+```{r}
+conspiracy$id <- as.factor(1:nrow(conspiracy))
+```
+
+Wir führen zur kurzen Wiederholung noch einmal die einfaktorielle ANOVA bezüglich des Wohnortes durch, um uns zu vergegenwärtigen, wie der `ezANOVA`-Befehl funktioniert! Der `ezANOVA` Befehl, um eine einfaktorielle ANOVA durchzuführen, braucht vier Argumente: `data` übergeben wir unseren Datensatz (`data = conspiracy`), `wid` kennzeichnet den Within-Identifier, eine Personen ID Variable, weswegen wir diesem Argument unsere ID-Variable übergeben (`wid = id`),  `dv` steht für "Dependent Variable", also abhängige Variable, weswegen wir hier die Überzeugung, dass die Existenz von Außerirdischen durch eine globale Verschwörung verdeckt wird, übergeben (`dv = ET`), `between` ist die unabhängige Variable, die zwischen Personen unterscheidet, also die Gruppierungsvariable für deren Effekt wir uns interessieren, hier die Art des Wohngebiets (`between = urban`).
+
+```{r}
+ezANOVA(data = conspiracy, wid = id, dv = ET, between = urban)
+```
+
+Die Ergebnisse zeigen, dass die Annahme der Homoskedastizität nicht verworfen werden muss ($p$ > .05) und dass es bedeutsame Unterschiede zwischen verschiedenen Wohnorten hinsichtlich der verschwörungstheoretischen Überzeugung gibt, dass die Existenz Außerirdischer absichtlich verschleiert wird.
+
+Die Ergebnisse aus den Übungsaufgaben ergaben bezüglich des Bildungabschlusses:
+
+```{r, echo = FALSE}
+ezANOVA(conspiracy, wid = id, dv = ET, between = edu, white.adjust = TRUE)
+```
+
+Hier musste die Annahme der Homoskedastizität verworfen werden ($p$ < .05), sodass eine Adjustierung der Inferenzstatistik durchgeführt werden sollte (`white.adjust = TRUE`). Im ersten Fall erhalten wir auch das generalisierte partielle $\eta^2$, also einen Schätzer der Effektstärke, die im Grunde angibt, wie viel systematische Variation in den Daten ist, relativ zur zufälligen Schwankung. Um dies in der Skala der ursprünglichen Variablen zu interpretieren, können wir uns rein deskriptiv die gruppenspezifischen Mittelwerte angucken. Dazu kann mit einer Vielzahl von Funktionen gearbeitet werden. Eine gängige Variante ist der `tapply`-Befehl:
+
+```{r}
+tapply(X = conspiracy$ET, INDEX = conspiracy$urban, FUN = mean)
+tapply(X = conspiracy$ET, INDEX = conspiracy$edu, FUN = mean)
+```
+
+Dieser Funktion müssen jeweils die Daten (`X`), ein Index für Gruppierung (`INDEX`) sowie eine Funktion, die auf die Subgruppen angewendet werden soll (`FUN`, hier der Mittelwert, deshalb `FUN = mean`), übergeben werden. Es gibt jedoch noch unzählbar viele andere Wege zum selben Ergebnis zu kommen. Hier einige Beispiele:
+
+```{r}
+# Mithilfe des aggregate-Befehls
+aggregate(ET ~ urban, data = conspiracy, mean)
+aggregate(ET ~ edu, data = conspiracy, mean)
+
+# Mithilfe des aggregate-Befehls mit anderer Schreibweise (wie bei tapply)
+aggregate(conspiracy$ET, list(conspiracy$urban), mean)
+aggregate(conspiracy$ET, list(conspiracy$edu), mean)
+
+# Mithilfe des describeBy-Befehls aus dem psych-Paket
+library(psych)
+describeBy(conspiracy$ET, conspiracy$urban)
+describeBy(conspiracy$ET, conspiracy$edu)
+```
+
+## Deskriptive Darstellung der Kombinationen
+
+In der mehrfaktoriellen ANOVA steht nicht nur der Vergleich von Gruppen anhand *einer* unabhängigen Variable im Mittelpunkt, sondern der Fokus liegt auf der *Kombination von Gruppierungen* anhand mehrerer unabhängiger Variablen. Deksriptiv können die Mittelwerte aus Gruppenkombinationen ebenfalls mit der `tapply`-Funktion bestimmt werden:
+
+```{r}
+# Gruppierungskombinationen erstellen
+kombi <- conspiracy[, c('urban', 'edu')]
+
+# Kombinationsspezifische Mittelwertetabelle
+tapply(X = conspiracy$ET, INDEX = kombi, FUN = mean)
+```
+
+Im `ez`-Paket sind neben den Funktionen zur direkten Berechnung von Varianzanalysen auch einige zusätzliche Hilfefunktionen integriert. Dazu gehört die `ezStats`-Funktion, die die Darstellung von Gruppengrößen, Mittelwerten und Standardabweichungen innerhalb der einzelnen Gruppenkombinationen erlaubt. Die Argumente, die diese Funktion erwartet, sind analog zu denen in der `ezANOVA`-Funktion:
+
+  - `data = `: der genutzte Datensatz
+  - `wid = `: eine Personen ID-Variable
+  - `dv = `: die abhängige Variable (dependent variable)
+  - `between = `: eine Gruppierungsvariable (die *zwischen* Personen unterscheidet)
+
+Um mehrere Variablen als unabhängige Variablen zu deklarieren, kann mit `c()` ein Vektor eröffnet werden, der an das Argument `between` weitergegeben wird.
+
+```{r}
+ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu))
+```
+
+Neben $N$, $\bar{X}$ und $\hat{\sigma}$ wird in der Ausgabe auch *Fisher's Least Significant Difference* (FLSD) ausgegeben. Diese kennzeichnet den minimalen Mittelwertsunterschied, der im direkten Vergleich zweier Gruppen signifikant wäre. Schon an dieser Stelle werden wir von `ez` darauf hingewiesen, dass die Gruppen ungleich groß sind und dies in der ANOVA zu Problemen führen könnte.
+
+Für eine grafische Darstellung der Mittelwerte, kann `ezPlot` benutzt werden. Der Befehl nimmt die gleichen Argumente entgegen wie `ezStats`, benötigt aber zusätzlich eine Aussage darüber, welche Variable auf der x-Achse abgetragen werden soll (`x = `) und welche Variable farblich unterschieden werden soll (`split = `). Mit dieser Funktion wird dann ein `ggplot` erstellt. Diesen könnten Sie mit dem, was wir in der [Sitzung zu `ggplot2`](grafiken-ggplot2) besprochen haben, auch händisch erstellen! `ezPlot` nimmt Ihnen hier aber ein wenig Arbeit ab:
+
+```{r}
+ezPlot(conspiracy, dv = ET, wid = id, between = c(urban, edu),
+  x = urban, split = edu)
+```
+
+Die **FLSD** wird hier in Form von *Error-Bars* dargestellt - durch diese kann also abgeschätzt werden, welche Mittelwerte sich statistisch bedeutsam unterscheiden.
+
+Auf den ersten Blick fällt schon einmal auf, dass Menschen, die als höchsten Bildungsabschluss das College besucht hatten, deutlich niedrigere Mittelwerte hinsichtlich der Verschwörung aufweisen, als jene, die keinen High-School oder maximal einen High-School Abschluss haben. Wir schauen uns dies im Folgenden genauer an, indem wir eine **zweifaktorielle ANOVA** durchführen.
+
+## Zweifaktorielle Varianzanalyse
+
+Mithilfe der zweifaktoriellen Varianzanalyse können drei zentralen Fragen beantwortet werden ([Eid et al., 2017](https://hds.hebis.de/ubffm/Record/HEB366849158), S. 432):
+
+  1. Lassen sich **Unterschiede in der AV** auf **Unterschiede in der 1. UV** zurückführen? (**Haupteffekt 1**, manchmal auch Haupteffekt Faktor A)
+  2. Lassen sich **Unterschiede in der AV** auf **Unterschiede in der 2. UV** zurückführen? (**Haupteffekt 2**, manchmal auch Haupteffekt Faktor B)
+  3. Hängt der **Einfluss der 1. UV** auf die AV von der **2. UV ab**, bzw. hängt der **Einfluss der 2. UV** von der **1. UV ab**? (**Interaktionseffekt**, manchmal auch Interaktionseffekt A*B)
+
+Im Beispiel wären die Fragen also:
+
+  1. Lassen sich Unterschiede in der ET-Überzeugung (`ET`) auf die Art des Wohnorts (`urban`) zurückführen?
+  2. Lassen sich Unterschiede in der ET-Überzeugung (`ET`) auf das Bildungsniveau (`edu`) zurückführen?
+  3. Unterschieden sich die Unterschiede aufgrund der Art des Wohnorts (`urban`) zwischen den Bildungsniveaus (`edu`)?
+
+Deskriptiv lässt sich ein Hinweis auf eine Antwort zur 3. Frage in der Abbildung der Mittelwerte darin erkennen, dass innerhalb der Gruppe mit ländlichem Wohnort (`rural`) Personen ohne Highschool Abschluss eine höhere verschwörungstheoretische Überzeugung aufweisen als Personen mit höheren Bildungsabschlüssen, wohingegen sie in den beiden anderen Wohnort-Gruppen einen niedrigeren ET-Wert aufweisen als Personen mit Highschool Abschluss.
+
+Etwas technischer ausgedrückt lassen sich die drei Fragen in Hypothesenpaaren formulieren ([Eid et al., 2017](https://hds.hebis.de/ubffm/Record/HEB366849158), S. 442):
+
+  1. $H_0: \mu_{j \bullet} - \mu = 0$, $\quad H_1: \mu_{j \bullet} - \mu \neq 0$
+  2. $H_0: \mu_{\bullet k} - \mu = 0$, $\quad H_1: \mu_{\bullet k} - \mu \neq 0$
+  3. $H_0: \mu_{jk} - \mu_{j \bullet} - \mu_{\bullet k} + \mu = 0$, $\quad H_1: \mu_{jk} - \mu_{j \bullet} - \mu_{\bullet k} + \mu \neq 0$
+
+Diese können von den Gleichungen für die zweifaktorielle ANOVA abgeleitet werden. Der beobachtete Wert der i-ten Person aus Stufe j des 1. Faktors (Faktor A) und Stufe k des 2. Faktors (Faktor B) setzt sich wie folgt zusammen:
+
+$$Y_{ijk} := \mu + \alpha_j+\beta_k + \gamma_{jk} + \varepsilon_{ijk} = \mu_{jk} + \varepsilon_{ijk},$$
+
+wobei $\mu$ der Mittelwert über alle Messungen ist (Grand Mean). $\alpha_j$ stellt die Abweichung vom Mittelwert bedingt durch den Faktor A auf der j-ten Stufe, $\beta_k$ die Abweichung von Mittelwert bedingt durch den Faktor B auf der k-ten Stufe dar. $\gamma_{jk}$ ist die Abweichung vom Mittelwert aufgrund der spezifischen Kombination des Faktors A auf der j-ten Stufe und des Faktors B auf der k-ten, was auch die Interaktionen dieser Gruppenkombination genannt wird. Entsprechend stellt $\mu_{jk}$ auch den Mittelwert in Gruppe Faktor A Stufe j und Faktor B Stufe k dar. $\varepsilon_{ijk}$ beschreibt das Residuum, das zufällige Abweichungen in den Gruppen darstellt (dieses wird als normalverteilt und unabhängig mit gleicher Varianz über alle Gruppen hinweg angenommen!). Nun können wir die Gleichung von oben hierzu übersetzten:
+
+1. $\mu_{j \bullet}$ ist der Mittelwert der j-ten Stufe auf Faktor A unabhängig von Faktor B - hier wird also über alle $\beta_k$ und $\gamma_{jk}$ gemittelt ($\beta_k$ und $\gamma_{jk}$ fallen somit weg). Somit ist $\alpha_j$ nichts anderes als die Differenz zwischen $\mu_{j \bullet}$ und $\mu$, also: $\alpha_j:=\mu_{j \bullet} - \mu$.
+
+2. $\mu_{\bullet k}$ ist dementsprechend der Mittelwert der k-ten Stufe auf Faktor B unabhängig von Faktor A - $\alpha_j$ und $\gamma_{jk}$ fallen somit weg. Es ergibt sich $\beta_k:=\mu_{\bullet k}-\mu$.
+
+3. $\mu_{jk}$ ist der Mittelwert der entsteht, wenn man Faktor A und Faktor B kombiniert. Da aber der alleinige Interaktionseffekt gesucht ist, muss dieser noch um die alleinigen Effekte $\mu_{j \bullet}$ und $\mu_{\bullet k}$ bereinigt werden. Daher ergibt sich $\gamma_{jk}:=\mu_{jk}-\alpha_j-\beta_k-\mu$ und daraus dann $\gamma_{jk}:=\mu_{jk}-(\mu_{j \bullet}-\mu)-(\mu_{\bullet k}-\mu)-\mu$. Wenn man dies nun vereinfacht, entsteht: $\gamma_{jk}:=\mu_{jk}-\mu_{j \bullet}-\mu_{\bullet k}+\mu$.
+
+Da wir wissen wollen, ob sich die Effekte $\alpha_j$, $\beta_k$ und $\gamma_{jk}$ signifikant von Null unterscheiden, werden die Gleichungen in die oben genannten Hypothesen überführt. Bspw. wäre die Hypothese für Faktor A: $H_0: \alpha_1 = \dots \alpha_J = 0$ oder $H_0: \alpha_j=0$, wobei $\alpha_j:=\mu_{j \bullet} - \mu$.
+
+
+Die drei Nullhypothesen werden in der **zweifaktoriellen ANOVA** geprüft. Die für `ezStats` genutzten Argumente können auch für `ezANOVA` benutzt werden. Um eine etwas detailliertere Ausgabe zu erhalten, kann zudem `detailed = TRUE` gesetzt werden.
+
+```{r}
+ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), detailed = TRUE)
+```
+
+In der ANOVA erhalten wir folgende Informationen: `Effect` ist die unabhängige Variable, `DFn` sind die Hypothesenfreiheitsgrade (das n steht für numerator, also den Zähler des F-Bruchs), `DFd` sind die Residualfreiheitsgrade (d steht für denominator, also den Nenner des F-Bruchs), `SSn` ist die Hypothesen-Sum-of-Squares/-quadratsumme, `SSd` die Residualquadratsumme, `F` der F-Wert, `p` der p-Wert zum F-Wert, `p<.05` gibt uns eine Signifikanzentscheidung und `ges` ist das generalisierte partielle $\eta^2$.
+
+Der *Levene Test* fällt in diesem Fall statistisch bedeutsam aus, sodass die Homoskedastizitätsannahme (in diesem Fall: die Varianz ist in allen 9 Gruppen identisch) verworfen werden muss. `ezANOVA` liefert eine eingebaute Korrekturmöglichkeit (HC3 von MacKinnon & White, 1985), die mithilfe `white.adjust = TRUE` angefordert werden kann. Probieren Sie das doch einmal selbst aus, indem Sie den Code kopieren und die Korrektur anfordern! Wie verändert das die Ergebnisse, die Ihnen ausgegeben werden?
+
+```{r}
+ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), detailed = TRUE, white.adjust = TRUE)
+```
+
+In diesem Fall werden beide Haupteffekte statistisch bedeutsam, die Interaktion allerdings nicht. Inhaltlich heißt das, dass sowohl die Art des Wohnorts als auch das Bildungsniveau einen Einfluss auf die verschwörungstheoretische Überzeugung haben. Über die jeweiligen Effekte hinaus, ist die spezifische Kombination aus Wohnort und Bildungsniveau für diese Überzeugung irrelevant.
+
+Wenn Interaktionen von 0 verschieden sind, wird davon abgeraten die Haupteffekte zu interpretieren. Ähnliches hatten wir bemerkt, als wir die [quadratische und moderierte Regression](regression-iv) kennengelernt hatten. Hier war es auch wenig sinnvoll den linearen Effekt ohne den quadratischen zu interpretieren, bzw. den Effekt des Prädiktors unabhängig vom Moderator zu interpretieren --- genauso ist es hier auch!
+
+Welche unterschiedlichen Kombinationen an Signifikanzen es gibt und was diese schematisch bedeuten, kann bspw. in [Eid et al. (2017](https://hds.hebis.de/ubffm/Record/HEB366849158), p. 436, Abbildung 13.6) nachgelesen werden.
+
+
+## Post-Hoc Analyse und Kontraste
+
+### Alle Gruppenvergleiche
+
+Mit *Tukeys Honest Significant Difference* können, wie auch in der [letzten Sitzung](anova-i), alle möglichen Gruppenkombinationen verglichen werden. Wir müssen die `TuckeyHSD` Funktion auf ein `aov`-Objekt anwenden.
+
+```{r}
+TukeyHSD(aov(ET ~ urban*edu, conspiracy))
+```
+
+Leider ist das Ergebnis etwas unübersichtlich, weil sich in diesem Fall 36 Vergleiche ergeben. Mit ein paar Funktionen aus dem `emmeans`-Paket können wir versuchen, das optisch etwas aufzubereiten. Dafür müssen wir zunächst das Paket laden:
+
+```{r}
+library(emmeans)
+```
+
+In diesem Paket gibt es die wenig überraschend benannte `emmeans`-Funktion, mit der wir alle weiteren Analysen vorbereiten müssen:
+
+```{r}
+emm <- emmeans(aov(ET ~ urban*edu, conspiracy), ~ urban * edu)
+```
+
+Diese Funktion nimmt als erstes Argument das gleiche `aov`-Objekt entgegen wie `TukeyHSD`. Als zweites müssen wir definieren, welche unabhängigen Variablen uns in der Post-Hoc Analyse interessieren. Weil wir hier alle Gruppen betrachten möchten, können wir einfach die gleiche Struktur der unabhängigen Variablen wiederholen: `~ urban * edu`.
+
+Wenn wir uns das entstandene Objekt angucken, sehen wir eine Tabelle mit 7 Spalten:
+
+```{r}
+emm
+```
+
+Die ersten beiden Spalten  (`urban`, `edu`) geben an, welche Ausprägungen unsere beiden unabhängigen Variablen haben. Die erste Zeile bezieht sich also auf Personen aus einem ländlichen Gebiet, die keinen Highschool-Abschluss haben. Die dritte Spalte (`emmean`) ist der Gruppenmittelwert, die vierte der dazugehörige Standardfehler (`SE`), dann die fünfte die Freiheitsgrade (`df`) und die letzten beiden Spalten geben das Konfidenzintervall des Mittelwerts an (`lower.CL` ist die untere und `upper.CL` die obere Grenze des Konfidenzintervalls).
+
+Mittelwerte und Konfidenzintervalle können wir uns sehr einfach direkt plotten lassen:
+
+```{r, fig = TRUE}
+plot(emm)
+```
+
+Diese Abbildung können wir um eine Aussage über die direkten Vergleiche erweitern:
+
+```{r, fig = TRUE}
+plot(emm, comparisons = TRUE)
+```
+
+Die neu hinzugekommenen roten Pfeile geben uns einen Hinweis dazu, welche Gruppen sich unterscheiden. Wenn zwei rote Pfeile überlappen, gibt es keinen statistisch bedeutsamen Unterschied. Wenn Sie das nicht tun, unterscheiden sich die beiden Gruppenmittelwerte auf dem festgeleten $\alpha$-Fehlerniveau (per Voreinstellung 5%) statistisch bedeutsam.
+
+Eine zweite Möglichkeit, die Ergebnisse ein wenig übersichtlicher zu gestalten sind *pairwise $p$-value plots*. Im `emmeans`-Paket werden diese über `pwpp` angefordert:
+
+```{r, fig = TRUE}
+pwpp(emm)
+```
+
+In dieser Abbildung ist auf der x-Achse der $p$-Wert des Mittelwertvergleichs dargestellt. Auf der y-Achse werden die Gruppen anhand ihrer deskriptiven Mittelwerte sortiert und abgetragen (dabei sind alle Abstände zwischen zwei Gruppen gleich groß, egal wie groß der Mittelwertsunterschied auf der abhängigen Variable tatsächlich ist). Eine Verbindung besteht immer zwischen jenen Gruppen, die auf dem jeweiligen Niveau signifikant sind (`Tuckey-adjusted P value`). Die `x`-Achse ist gestaucht dargestellt, um möglichst gut darstellen zu können, welche Gruppen sich jeweils auf welchem Niveau unterscheiden. Bspw. hat der Gruppenvergleich `urban highschool` vs. `suburban not highschool` einen `Tuckey-adjusted P value` von etwas mehr als 0.1.
+
+Wir hätten auch mit Hilfe des `ezANOVA`-Befehls ein `aov`-Objekt erhalten können, mit welchem wir die oben aufgeführten Späße hätten durchführen können. Dazu müssen wir das Objekt lediglich abspeichern und das Argument `return_aov` auf `T`, bzw. `TRUE` setzen:
+
+```{r, warning = F, message = F}
+ez1 <- ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), detailed = TRUE, return_aov = T)
+aov1 <- ez1$aov
+emm1 <- emmeans(aov1, ~ urban * edu)
+plot(emm1, comparisons = TRUE) # identisch zu oben
+```
+
+So ein `aov`-Objekt hat auch weitere Vorteile, da wir bspw. dem `ez1` Objekt nicht direkt alle Informationen, wie etwa die Residuen, entlocken können. Um einem `aov`-Objekt ähnliche Infos wie dem `ezANOVA`-Objekt zu entlocken, wird in der Regel die `summary` Funktion verwendet. Genauso können auch weitere Werte, wie bspw. die Residuen, diesem Objekt entnommen werden, was bspw. mit der `resid` Funktion geht, welche bereits auch in der letzten Sitzung zur [einfaktoriellen Varianzanalyse](anova-i) angesprochen wurden, um die Normalverteilung der Residuen zu untersuchen.
+
+### Kontraste
+
+In Situationen mit vielen Gruppen ist es außerordentlich ineffizient, *alle* Vergleiche durchzuführen. Durch die Grundgedanken des Nullhypothesentestens muss das $\alpha$-Fehlerniveau auf alle *durchgeführten* Tests korrigiert werden. Nach klassischer *Bonferroni*-Korrektur wäre das korrigierte $\alpha$-Fehlerniveau in diesem Fall also $\frac{.05}{36} = `r round(.05/36, 4)`$ um eine echte Irrtumswahrscheinlichkeit von 5% aufrecht zu erhalten. An dieser Stelle können daher *geplante Kontraste* genutzt werden, um a-priori definierte, theoretisch relevante Vergleiche durchzuführen. So kann die Anzahl der Tests auf die theoretisch notwendigen reduziert werden und mit einer weniger restriktiven Korrektur gerechnet werden.
+
+Um Kontraste definieren zu können, müssen wir zunächst in Erfahrung bringen, in welcher Reihenfolge die Gruppenkombinationen intern repräsentiert werden. Diese Reihenfolge haben wir bereits im `emm`-Objekt gesehen:
+
+```{r}
+emm
+```
+
+Mithilfe eines 9 Elemente langen Vektors können Kontraste festgelegt werden. Um z.B. die Gruppe "rural, not highschool" (Zeile 1) mit der Gruppe "suburban, not highschool" (Zeile 2) zu vergleichen, kann folgender Vektor angelegt werden:
+
+```{r}
+cont1 <- c(1, -1, 0, 0, 0, 0, 0, 0, 0)
+```
+
+Die Nullhypothese, die durch diesen Vektor geprüft wird, lässt sich mithilfe der Reihenfolge der Gruppen leicht zusammenstellen. Wenn $j$ die drei Stufen von `urban` indiziert (1 = rural, 2 = suburban, 3 = urban) und $k$ die drei Stufen von `edu` (1 = not highschool, 2 = highschool, 3 = college), ist die durch `cont1` festgelegte Nullhypothese:
+
+$H_0: 1 \cdot \mu_{11} - 1 \cdot \mu_{21} + 0 \cdot \mu_{31} + 0 \cdot \mu_{12} + 0 \cdot \mu_{22} + 0 \cdot \mu_{32} + 0 \cdot \mu_{13} + 0 \cdot \mu_{23} + 0 \cdot \mu_{33} = 0$
+
+Oder gekürzt:
+
+$H_0: \mu_{11} - \mu_{21} = 0$
+
+Mit dem `contrast`-Befehl kann der festgelegte Kontrast geprüft werden, indem wir das Mittelwertsobjekt `emm` übergeben und anschließend die Gruppenzugehörigkeit via Kontrast als Liste `list(cont1)` übergeben:
+
+```{r}
+contrast(emm, list(cont1))
+```
+
+Dieser Kontrast entspricht dem ersten Vergleich des oben durchgeführten `TukeyHSD`, unterscheidet sich jedoch im $p$-Wert. Der hier bestimmte $p$-Wert ist nicht korrigiert (weil nur ein Kontrast geprüft wurde), der oben aufgeführte ist hingegen auf 36 Tests Tukey-korrigiert. Genauso können andere Gruppen miteinander verglichen werden, indem die jeweiligen Stellen von `cont1` verändert werden. Eine generelle Daumenregel besagt, dass die Summe des Kontrastvektors 0 sein sollte:
+
+```{r}
+sum(cont1)
+sum(cont1) == 0
+```
+
+Falls dies nicht der Fall ist, dann ist der Kontrast nicht richtig gewählt!
+
+Mithilfe der Kontrast-Vektoren können auch komplexe Hypothesen geprüft werden. Beispielsweise könnten wir vergleichen, inwiefern sich Personen aus städtischer Umgebung ($j = 3$) mit mindestens High School Abschluss ($k = 2$ und $k = 3$) von Personen ohne High School Abschluss ($k = 1$) unterscheiden. Da nun die Gruppen 32 und 33 gleichwertig sind, teilen sie sich einen Platz. Daher bekommen beide Gruppen einen halben Platz, also 0.5:
+
+```{r}
+cont2 <- c(0, 0, 1, 0, 0, -.5, 0, 0, -.5)
+```
+
+oder in Hypothesenform: $H_0: \mu_{31} - .5 \cdot \mu_{32} - .5 \cdot \mu_{33} = 0$ bzw. $H_0: \mu_{31} - \frac{\mu_{32} + \mu_{33}}{2} = 0$. 
+
+Weil sowohl `cont1` als auch `cont2` durchgeführt werden, muss für das multiple Testen der beiden korrigiert werden. Das kann dadurch erreicht werden, dass im `contrast`-Befehl alle Kontraste gleichzeitig eingeschlossen werden und mit `adjust = 'bonferroni'` z.B. die Bonferroni-Korrektur ausgewählt wird:
+
+```{r}
+contrast(emm, list(cont1, cont2), adjust = 'bonferroni')
+```
+
+Der erste Kontrast ist nicht signifikant (p = 0.2809 > 0.05), der zweite jedoch schon (p = 0.0414 < 0.05). Damit unterscheiden sich die Mittelwerte in den Gruppen mit mindestens und ohne High-School Abschluss mit einer Irrtumswahrscheinlichkeit von $5\%$.  Hierbei ist nun zu beachten, dass dieser Kontrast eigentlich verworfen werden müsste, da die städtischen Menschen mit Collegeabschluss eine sehr geringe Überzeugung haben (1.98), dass die Regierung die Existenz von Außerirdischen vertuschen, während die High-Schoolabsolvent\*innen (2.60) tatsächlich einen höheren Mittelwert als die Menschen ohne High-Schoolabschluss (2.51) hatten. (Ungewichtetes) Mitteln bringt uns dann einen Vergleich von mindestens High-Schoolabschluss vs. keinen High-Schoolabschluss von 2.29 vs. 2.51, sodass diese Differenz signifikant wird, obwohl die High-Schoolabsolvent\*innen eigentlich einen höheren Mittelwert als diejenigen ohne Abschluss haben!  
+
+
+***
+
+## Appendix A
+
+<details><summary><b>Quadratsummen-Typ</b></summary>
+
+Bei mehrfaktoriellen ANOVAs können die Quadratsummen auf unterschiedliche Arten berechnet werden. Verbreitet sind dabei 3 Typen, zwischen denen man sich anhand der inhaltlichen Hypothesen entscheiden sollte.
+
+### Typ I
+
+Typ I berücksichtigt in der Berechnung der Quadratsummen nur die vorherigen unabhängigen Variablen. Dies entspricht konzeptuell der sequentiellen Aufnahme von Prädiktoren in der Regression.
+
+```{r}
+# QS-Typ 1, Reihenfolge 1
+ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 1)
+
+# QS-Typ 1, Reihenfolge 2
+ezANOVA(conspiracy, dv = ET, wid = id, between = c(edu, urban), type = 1)
+```
+
+Dies ist im Übrigen auch der Default im `lm`-Befehl, an den auch einfach eine `factor`-Variable übergeben werden kann. Auf das `lm`-Objekt wird dann die `anova`-Funktion angewandt, um den gängigen ANOVA-Output zu erhalten. Jedoch sollte hier aufgepasst werden, falls Interaktionen bestimmt werden. Der Default ist immer Typ I!
+
+```{r}
+# QS-Typ 1, Reihenfolge 1 mit lm
+anova(lm(ET ~ urban*edu, data = conspiracy))
+
+# QS-Typ 1, Reihenfolge 2 mit lm
+anova(lm(ET ~ edu*urban, data = conspiracy))
+```
+
+`*` fügt immer neben der Interaktion automatisch noch die Haupteffekte hinzu. Das gleiche funktioniert selbstverständlich auch mit dem `aov` Befehl (ein `aov`-Objekt können wir auch in der `ezANOVA` anfordern und damit weiterrechnen, wir wollen hier aber die Äquvialenz der Vorgehensweisen aufzeigen):
+
+
+```{r}
+# QS-Typ 1, Reihenfolge 1 mit aov
+summary(aov(ET ~ urban*edu, data = conspiracy))
+
+# QS-Typ 1, Reihenfolge 2 mit aov
+summary(aov(ET ~ edu*urban, data = conspiracy))
+```
+
+Wir sehen deutlich, dass sich der $F$-Wert ändert, je nach dem in welcher Reihenfolge die Prädiktoren in die Gleichung genommen werden. Demnach kann es sein, dass die Reihenfolge die Signifikanzentscheidung beeinflusst.
+
+### Typ II
+
+Typ II berücksichtigt in der Berechnung alle anderen unabhängigen Variablen. In der Berechnung der einzelnen Quadratsummen wird allerdings angenommen, dass alle Interaktionen, an denen dieser Term beteiligt ist, 0 sind. Typ II ist in `ezANOVA` voreingestellt.
+
+```{r}
+# QS-Typ 2
+ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 2)
+```
+
+Die Quadratsummen mit `lm` zu replizieren, ist extrem aufwendig. Es geht aber auch noch bspw. mit dem `Anova` Befehl aus dem `car`-Paket, welcher auf ein `lm` oder ein `aov`-Objekt angewandt wird. 
+
+Zunächst laden wir das Paket:
+
+```{r, message = F, warning=F}
+library(car)
+```
+
+Anschließend verwenden wir `Anova` aus dem `car`-Paket wie zuvor `anova` auf das `lm`-Objekt oder wie die `summary` auf das `aov`-Objekt an. Mit dem Zusatzargument `type = "II"`, stellen wir, analog zu `ezANOVA`, den Quadratsummentyp ein. Die Reihenfolge der Prädiktoren spielt nun keine Rolle mehr!
+
+```{r}
+Anova(lm(ET ~ urban*edu, data = conspiracy), type = "II")
+Anova(aov(ET ~ urban*edu, data = conspiracy), type = "II")
+```
+
+
+### Typ III
+
+Typ III unterscheidet sich von Typ II nur darin, dass bei der Berechnung nicht angenommen wird, dass die Interaktionen 0 sind. Typ III ist z.B. in SPSS voreingestellt.
+
+```{r}
+# QS-Typ 3
+ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 3)
+```
+
+
+Wir wollen dies nun noch für den `lm` und den `aov`-Befehl replizieren. Hier müssen wir allerdings einige Einstellungen abändern, damit die Quadratsummen auch den richtigen Typ haben. Da dies eine leichte Fehlerquelle darstellt, wird es hier der Vollständigkeit halber präsentiert.
+
+
+```{r}
+# verstelle die Art, wie Kontraste bestimmt werden --- Achtung! Immer wieder zurückstellen
+options(contrasts=c(unordered="contr.sum", ordered="contr.poly")) 
+Anova(lm(ET ~ urban*edu, data = conspiracy), type = "III")
+Anova(aov(ET ~ urban*edu, data = conspiracy), type = "III")
+
+# Einstellungen zurücksetzen zum Default:
+options(contrasts=c(unordered="contr.treatment", ordered="contr.poly"))
+
+# Der Default kann getestet werden via
+options("contrasts")
+```
+
+An den globalen Einstellungen in `R` herum zu spielen erscheint etwas riskant. Daher freuen wir uns, dass die `ezANOVA`-Funktion uns das alles erspart!
+
+### Welcher Typ ist der Richtige?
+
+Generell ist Typ II besser geeignet um die Quadratsummen von Haupteffekten zu bestimmen, wenn Interaktionen empirisch nicht von 0 verschieden sind. Wenn Interaktionen von 0 verschieden sind, wird (unabhängig vom QS-Typ) davon abgeraten die Haupteffekte zu interpretieren, sodass deren Bestimmung in diesem Fall wenig Relevanz hat. Ähnliches hatten wir bemerkt, als wir die [quadratische und moderierte Regression](quadratische-und-moderierte-regression) kennengelernt hatten. Hier war es auch wenig sinnvoll den linearen Effekt ohne den quadratischen zu interpretieren, bzw. den Effekt des Prädiktors unabhängig vom Moderator zu interpretieren --- genauso ist es hier auch! Die Terme höchster Ordnung (hier die Interaktion) sind zwischen Typ II und Typ III identisch, sodass die Interpretation der Interaktion durch die Wahl nicht beeinflusst wird. Von Typ I wird generell abgeraten (wie Ihnen `ezANOVA` auch direkt mitteilt). In einigen Online-Foren steht sogar, dass Typ I nur zu Demonstrationszwecken genutzt werden sollte, dass viel schief gehen kann.
+
+</details>
+
+***
+
+## R-Skript
+Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](../anova-ii.R).
+
+***
+
+## Literatur
+[Eid, M., Gollwitzer, M., & Schmitt, M. (2017).](https://hds.hebis.de/ubffm/Record/HEB366849158) *Statistik und Forschungsmethoden* (5. Auflage, 1. Auflage: 2010). Weinheim: Beltz. 
+
+
+* <small> *Blau hinterlegte Autorenangaben führen Sie direkt zur universitätsinternen Ressource.*

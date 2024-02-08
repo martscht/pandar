@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [koehler, buchholz, goldhammer, walter, nehler] 
-lastmod: '2023-12-04'
+lastmod: '2024-02-06'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -110,6 +110,20 @@ Die `describeBy()` Funktion aus dem Paket `psych` kann uns helfen, direkt die de
 
 ```r
 library(psych)
+```
+
+```
+## 
+## Attaching package: 'psych'
+```
+
+```
+## The following object is masked from 'package:effsize':
+## 
+##     cohen.d
+```
+
+```r
 describeBy(x = data1$offen, group = data1$fach)
 ```
 
@@ -119,7 +133,7 @@ describeBy(x = data1$offen, group = data1$fach)
 ## group: Allgemeine
 ##    vars  n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 30 3.67 0.82    3.5    3.67 0.74   2   5     3 0.11       -1 0.15
-## ----------------------------------------------------------------------- 
+## --------------------------------------------------------------- 
 ## group: Klinische
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 82 3.77 0.98      4    3.86 0.74 1.5   5   3.5 -0.58    -0.59 0.11
@@ -220,6 +234,24 @@ Wir sehen anhand der Abbildungen, dass unsere empirischen Verteilungen nicht den
 
 ```r
 library(car)
+```
+
+```
+## Loading required package: carData
+```
+
+```
+## 
+## Attaching package: 'car'
+```
+
+```
+## The following object is masked from 'package:psych':
+## 
+##     logit
+```
+
+```r
 leveneTest(data1$offen ~ data1$fach)
 ```
 
@@ -371,15 +403,15 @@ In dieser Aufgabe wollen wir die Frage beantworten, ob Studierende die auf Unipa
 **Hypothesen**
 
 * Art des Effekts: Unterschiedshypothese  
-* Richtung des Effekts: Gerichtet $\rightarrow$ gerichtete Hypothesen  
+* Richtung des Effekts: Ungerichtet $\rightarrow$ ungerichtete Hypothesen  
 * Größe des Effekts: Unspezifisch  
 
-Hypthesenpaar (Inhaltlich):  
+Hypothesenpaar (inhaltlich):
 
 * $H_0$: Studierende, die Unipartys besuchen, erreichen im Mittel gleiche Werte der Lebenszufriedenheit wie Studierende, die diese Partys nicht besuchen.
 * $H_1$: Studierende, die Unipartys besuchen, erreichen im Mittel unterschiedliche Werte der Lebenszufriedenheit als Studierende, die diese Partys nicht besuchen.
 
-Hypthesenpaar (statistisch):  
+Hypothesenpaar (statistisch):  
 
 * $H_0$: $\eta_\text{Unipartys} \neq \eta_\text{keine Unipartys}$  
 * $H_1$: $\eta_\text{Unipartys} =   \eta_\text{keine Unipartys}$
@@ -430,7 +462,7 @@ describeBy(fb23$lz, fb23$unipartys)
 ## group: nein
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 94 4.96 1.12    5.2    5.05 0.89 1.4   7   5.6 -0.84     0.69 0.12
-## ----------------------------------------------------------------------- 
+## --------------------------------------------------------------- 
 ## group: ja
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 83  5.3 0.96    5.4    5.35 1.19 2.8   7   4.2 -0.45    -0.55 0.11
