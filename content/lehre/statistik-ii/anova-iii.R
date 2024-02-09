@@ -3,8 +3,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 
 ## load("C:/Users/Musterfrau/Desktop/alc.rda")
 
-## load(url("https://pandar.netlify.app/daten/alc.rda"))
-load("../../daten/alc.rda")
+load(url("https://pandar.netlify.app/daten/alc.rda"))
 
 dim(alc)
 head(alc)

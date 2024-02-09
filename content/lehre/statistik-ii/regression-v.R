@@ -42,8 +42,7 @@ abline(h = log(a), lty = 3)  # im Punkt log(a) schneidet log(f) (das linearisier
 
 ## load("C:/Users/Musterfrau/Desktop/WorldPopulation.rda")
 
-## load(url("https://pandar.netlify.app/daten/WorldPopulation.rda"))
-load("../../daten/WorldPopulation.rda")
+load(url("https://pandar.netlify.app/daten/WorldPopulation.rda"))
 
 head(WorldPopulation)
 

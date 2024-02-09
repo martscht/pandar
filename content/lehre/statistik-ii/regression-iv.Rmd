@@ -57,11 +57,8 @@ load("C:/Users/Musterfrau/Desktop/PISA2009.rda")
 
 oder direkt über die Website:
 
-```{r, eval = F}
+```{r, eval = T}
 load(url("https://pandar.netlify.app/daten/PISA2009.rda"))
-```
-```{r, echo = T}
-load("../../daten/PISA2009.rda")
 ```
 
 Außerdem werden wir folgende `R`-Pakete benötigen:
