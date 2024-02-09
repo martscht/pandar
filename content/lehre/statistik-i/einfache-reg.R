@@ -72,8 +72,6 @@ abline(lin_mod, col = 'red')
 
 residuals(lin_mod)
 
-fb23$res <- residuals(lin_mod)
-
 predict(lin_mod)
 
 extra_neu <- data.frame(extra = c(1, 2, 3, 4, 5))
