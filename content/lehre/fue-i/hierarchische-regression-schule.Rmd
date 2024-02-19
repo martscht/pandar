@@ -2,7 +2,7 @@
 title: "Hierarchische Regression" 
 type: post
 date: '2019-10-18' 
-slug: multi-level-modelling
+slug: hierarchische-regression-schule
 categories: ["FuE I"] 
 tags: ["Hierarchische Regression", "Multi-Level Analyse", "ggplot", "Interaktion"] 
 subtitle: ''
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/fue-i/multi-level-modeling
+    url: /lehre/fue-i/hierarchische-regression-schule
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/fue-i/multi-level-modeling.R
+    url: /lehre/fue-i/hierarchische-regression-schule.R
   - icon_pack: fas
     icon: pen-to-square
     name: Übungsdaten

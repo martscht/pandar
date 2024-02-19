@@ -2,14 +2,14 @@
 title: "Hierarchische Regression" 
 type: post
 date: '2019-10-18' 
-slug: multi-level-modelling
+slug: hierarchische-regression-schule
 categories: ["FuE I"] 
 tags: ["Hierarchische Regression", "Multi-Level Analyse", "ggplot", "Interaktion"] 
 subtitle: ''
 summary: '' 
 authors: [irmer] 
 weight: 3
-lastmod: '2023-12-04'
+lastmod: '2024-02-19'
 featured: no
 banner:
   image: "/header/books.jpg"
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/fue-i/multi-level-modeling
+    url: /lehre/fue-i/hierarchische-regression-schule
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/fue-i/multi-level-modeling.R
+    url: /lehre/fue-i/hierarchische-regression-schule.R
   - icon_pack: fas
     icon: pen-to-square
     name: Übungsdaten
@@ -341,9 +341,9 @@ names(summary(m0)) # alle Informationen, die wir der Summary entlocken können
 ```
 
 ```
-##  [1] "methTitle"    "objClass"     "devcomp"      "isLmer"       "useScale"     "logLik"      
-##  [7] "family"       "link"         "ngrps"        "coefficients" "sigma"        "vcov"        
-## [13] "varcor"       "AICtab"       "call"         "residuals"    "fitMsgs"      "optinfo"
+##  [1] "methTitle"    "objClass"     "devcomp"      "isLmer"       "useScale"     "logLik"       "family"      
+##  [8] "link"         "ngrps"        "coefficients" "sigma"        "vcov"         "varcor"       "AICtab"      
+## [15] "call"         "residuals"    "fitMsgs"      "optinfo"
 ```
 
 **Inhaltliche Interpretation**: 16.2% der Varianz in der Mathematikleistung können durch die Klassenzugehörigkeit erklärt werden. Die Multi-Level-Struktur in den Daten muss somit unbedingt berücksichtigt werden.
@@ -649,13 +649,13 @@ gibt uns Kennwerte zum Modellvergleich an. Ganz vorne stehen die Namen der Model
 
 Diese Heterogenität lässt sich über ein Streudiagramm der klassenspezifischen Koeffizienten $\beta_{1j}$ veranschaulichen. Den Code zu den hier aufgeführten Grafiken können Interessierte in [Appendix A](#AppendixA) einsehen.
 
-![](/lehre/fue-i/multi-level-modelling_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/lehre/fue-i/hierarchische-regression-schule_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 Dem Histogramm ist deutlich zu entnehmen, dass die Steigungskoeffizienten annähernd normalverteilt sind (dies ist eine wichtige Annahme, die in die Modellierung einfließt). Außerdem können wir die Heterogenität der Steigungskoeffizienten erkennen.
 
 Eine alternative Visualisierung ist der Plot der klassenspezifischen Regresssionsgeraden, wobei $\beta_{0j}$ und $\beta_{1j}$ klassenspezifisch variieren. Die blaue Linie stellt hierbei den durchschnittliche (fixed) Effekt dar, welcher auch als Formel nochmals in die Grafik geschrieben wurde. Auch entnehmen wir der Grafik, dass die Motivation kategoriell ist (vertikale Ansammlung der Punkte).
 
-![](/lehre/fue-i/multi-level-modelling_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](/lehre/fue-i/hierarchische-regression-schule_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 Außerdem können wir diesem Plot die Korrelation des Interzepts und der Steigung entnehmen, welche bei .31 lag. Hierbei müssen wir genau aufpassen, wo wir diese Korrelation ablesen. Die Aussage ist nämlich, dass je größer der Interzept, desto stärker der Zusammenhang zwischen Motivation und Matheleistung. Dies müssen wir entlang der y-Achse (vertikale gestrichelte Linie) untersuchen - an der Stelle, wo die Motivation durchschnittlich ausgeprägt ist und die zentrierte Variable somit den Wert 0 annimmt. Wenn wir genau hinsehen, ist es so, dass je größer der Schnittpunkt mit der y-Achse, desto größer die Steigung!
 
@@ -799,8 +799,7 @@ summary(m4)
 
 ```
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
-##     (1 | schulklasse)
+## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +      (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
 ## REML criterion at convergence: 6200.9
@@ -845,7 +844,15 @@ summary(m4b)
 #### Grafische Veranschaulichung
 Die Wechselwirkung kann veranschaulicht werden, indem die Regressionsgeraden nach Klassengröße unterschieden werden (hier: über die Farbe). Die in der folgenden Grafik goldene/gelbe Geraden repräsentieren (überdurchschnittlich) große Klassen, die blauen kleine (unterdurchschnittlich große/ überdurchschnittlich kleine) Klassen. Die goldenen/gelben Linien sind steiler als die blauen Linien.
 
-![](/lehre/fue-i/multi-level-modelling_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+
+```
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+```
+
+![](/lehre/fue-i/hierarchische-regression-schule_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
 
 Der Grafik ist dieser Effekt deutlich zu entnehmen. Final können wir sagen, dass die individuelle Matheleistung in Schulklassen mit mehr Schülerinnen und Schülern stärker von der Lernmotivation der/des Einzelnen abhängt als in kleinen Schulklassen.
 
@@ -974,20 +981,20 @@ head(StudentsInClasses)
 ```
 
 ```
-##   MatheL Motivation KFT KlassenG schulklasse Motivation_c KlassenG_c Motivation_groupc
-## 1  48.76          4  98       26           1   -0.2858824  -1.090588             -0.36
-## 2  46.01          3  96       26           1   -1.2858824  -1.090588             -1.36
-## 3  65.96          5 112       26           1    0.7141176  -1.090588              0.64
-## 4  42.08          4  94       26           1   -0.2858824  -1.090588             -0.36
-## 5   0.00          2  78       26           1   -2.2858824  -1.090588             -2.36
-## 6  56.52          5 104       26           1    0.7141176  -1.090588              0.64
-##   Mot_groupmeans Mot_groupmeans_c
-## 1           4.36       0.07411765
-## 2           4.36       0.07411765
-## 3           4.36       0.07411765
-## 4           4.36       0.07411765
-## 5           4.36       0.07411765
-## 6           4.36       0.07411765
+##   MatheL Motivation KFT KlassenG schulklasse Motivation_c KlassenG_c Motivation_groupc Mot_groupmeans
+## 1  48.76          4  98       26           1   -0.2858824  -1.090588             -0.36           4.36
+## 2  46.01          3  96       26           1   -1.2858824  -1.090588             -1.36           4.36
+## 3  65.96          5 112       26           1    0.7141176  -1.090588              0.64           4.36
+## 4  42.08          4  94       26           1   -0.2858824  -1.090588             -0.36           4.36
+## 5   0.00          2  78       26           1   -2.2858824  -1.090588             -2.36           4.36
+## 6  56.52          5 104       26           1    0.7141176  -1.090588              0.64           4.36
+##   Mot_groupmeans_c
+## 1       0.07411765
+## 2       0.07411765
+## 3       0.07411765
+## 4       0.07411765
+## 5       0.07411765
+## 6       0.07411765
 ```
 
 ```r
@@ -996,10 +1003,10 @@ round(colMeans(StudentsInClasses), 10)
 ```
 
 ```
-##            MatheL        Motivation               KFT          KlassenG       schulklasse 
-##         53.616047          4.285882        100.001176         27.090588         20.280000 
-##      Motivation_c        KlassenG_c Motivation_groupc    Mot_groupmeans  Mot_groupmeans_c 
-##          0.000000          0.000000          0.000000          4.285882          0.000000
+##            MatheL        Motivation               KFT          KlassenG       schulklasse      Motivation_c 
+##         53.616047          4.285882        100.001176         27.090588         20.280000          0.000000 
+##        KlassenG_c Motivation_groupc    Mot_groupmeans  Mot_groupmeans_c 
+##          0.000000          0.000000          4.285882          0.000000
 ```
 
 Die Funktion `group.center` aus dem `robumeta`-Paket nimmt uns die Arbeit ab, die Daten händisch an den Gruppenmittelwerten zu zentrieren ($X_{ij}^{**}$). Sie nimmt 2 Argumente entgegen: `var` die Variable, die zentriert werden soll (hier die Motivation), und `grp` die Gruppierungsvariable (hier die Schulklasse). Die Funktion `group.mean` funktioniert analog zu `group.center` und gibt uns gruppenspezifische Mittelwerte aus. Zum Schluss wird noch die Gruppierungsvariable zentriert am Gesamtmittelwert: 
@@ -1048,7 +1055,7 @@ arrows(y0 = dnorm(x = gamma10+sqrt(VarU1), mean = gamma10,
 text(x = 17, y= 0.04, labels = "+/- 1SD", col = "blue", cex = 2) # Text in Grafik einfügen
 ```
 
-![](/lehre/fue-i/multi-level-modelling_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](/lehre/fue-i/hierarchische-regression-schule_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
 
 ```r
@@ -1064,7 +1071,7 @@ ggplot(data = StudentsInClasses, aes(x=Motivation_c, y = MatheL))+geom_point(col
               slope = summary_model$coefficients[2,1], lwd = 2, col = "blue")
 ```
 
-![](/lehre/fue-i/multi-level-modelling_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+![](/lehre/fue-i/hierarchische-regression-schule_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
 
 Die folgende Grafik können Sie für Ihr Modell replizieren, indem Sie `m4` durch Ihr Modell ersetzen und anschließend die Clustervariable durch Ihre ersetzen (in `group = schulklasse`) und die L2 Variable ebenfalls durch Ihre L2 Variable ersetzen (in `color = KlassenG_c`). In `y = MatheL` muss Ihre AV rein und `x = Motivation_c` ist die (zentrierte) UV.
 
@@ -1082,7 +1089,7 @@ StudentsInClasses %>%             # Datensatz wird manipuliert
   geom_line(size=0.5)  # Vorhergesagte Werte als Linien
 ```
 
-![](/lehre/fue-i/multi-level-modelling_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](/lehre/fue-i/hierarchische-regression-schule_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 </details>
 
@@ -1200,7 +1207,7 @@ Die Funktion nimmt 4 Argumente entgegen. `nb` die Anzahl an Clustern (Default is
 plot_within_between_effects(nb = 50, nw = 50, between_effect = -1, within_effect = 1)
 ```
 
-![](/lehre/fue-i/multi-level-modelling_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](/lehre/fue-i/hierarchische-regression-schule_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 Die gesamte Punktewolke sinkt in Y für steigendes X, aber innerhalb einer Gruppe (Cluster) steigt Y für steigendes X. Falls wir hier also die Multi-Level-Struktur ignorieren, so würden wir falsche Schlüsse im Hinblick auf die Beziehung zwischen X und Y ziehen. Dieser Effekt wird manchmal auch Big-Fish-Little-Pond Effekt (siehe auch [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158) S. 740; auch Kapitel 20.2.5 behandelt diese Kontexteffekt etwas ausführlicher) genannt: wenn wir beispielsweise annehmen, dass Y das Leistungsselbstkonzept ist und X ist die Begabung. In bspw. Schulklassen mit niedriger Begabung sollten Kinder mit vergleichsweise hoher Begabung ein höheres Leistungsselbstkonzept haben. Dies gilt auch für Schulklassen mit begabteren Kindern. Allerdings ist in  Klassen mit durchschnittlich begabteren Kindern insgesamt das Leistungsselbstkonzept etwas niedriger, da diese sich nur mit ebenfalls sehr begabten Kindern vergleichen können.
 
