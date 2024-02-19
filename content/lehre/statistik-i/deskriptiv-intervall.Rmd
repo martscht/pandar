@@ -92,6 +92,16 @@ fb23$wohnen <- factor(fb23$wohnen,
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 ```
+
+Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
+
+```{r}
+dim(fb23)
+```
+
+Der Datensatz besteht aus `r nrow(fb23)` Zeilen (Beobachtungen) und `r ncol(fb23)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+
+
 ***
 
 ## Mindestens intervallskalierte Variablen

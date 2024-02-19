@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, buchholz, zacharias, pommeranz] 
-lastmod: '2023-11-28'
+lastmod: '2024-02-19'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -53,6 +53,20 @@ fb23$wohnen <- factor(fb23$wohnen,
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 ```
+
+Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
+
+
+```r
+dim(fb23)
+```
+
+```
+## [1] 179  41
+```
+
+Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 41 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+
 
 </details>
 
@@ -133,7 +147,7 @@ Der Median ist größer als der Mittelwert, was eine linksschiefe Verteilung ver
 hist(fb23$ru_pre, breaks = 6) # Histogramm
 ```
 
-![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 Unser Histogramm zeigt uns, dass die Verteilung tatsächlich einigermaßen linksschief verläuft.
 </details>
@@ -247,7 +261,7 @@ hist(fb23$ru_pre_zstd)
 hist(fb23$ru_pre)
 ```
 
-![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 Beim Vergleich der beiden Histogrammen fällt auf, dass sich - aufgrund der R-Voreinstellungen - das Erscheinungsbild fälschlicherweise unterscheidet (vor allem, wenn wir die y-Achse betrachten!) - eigentlich sollte sich durch die z-Transformation nur Skalierung der x-Achsen-Variable verändern. Tatsächlich aber bestimmt R hier eine unterschiedliche Anzahl von Kategorien. Wir erhalten eine konstantere Darstellung durch das `breaks`-Argument:
 
@@ -259,7 +273,7 @@ hist(fb23$ru_pre_zstd, breaks = 5)
 hist(fb23$ru_pre, breaks = 6)
 ```
 
-![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 Die Verteilungen sehen nun tatsächlich vergleichbar aus. Da die Breaks ein weicher Befehl sind, kann hier keine komplette Gleichheit gegeben werden.
 
