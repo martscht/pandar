@@ -2,14 +2,14 @@
 title: Verbentrainer
 type: post
 date: '2022-07-24T23:00:00'
-slug: projekt-verbentrainer
+slug: verbentrainer
 categories: []
 tags: ["Projekt1"]
 subtitle: ''
 summary: 'In diesem Projekt lernen wir, wie man einen Verbentrainer erstellen kann. Wir erstellen dafür einerseits eine Liste unkonjugierter Verben, sowie die Konjugationsformen, und kombinieren diese zufällig. So kann das konjugieren durch das Aufrufen zufälliger Listeneinträge geübt werden. Dies wird an einem spanischen Beispiel illustriert.'
 authors: [rouchi]
 weight: 1
-lastmod: '`r Sys.Date()`'
+lastmod: '2024-02-19'
 featured: no
 banner:
   image: "/header/architecture_valencia.jpg"
@@ -22,19 +22,17 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /projekte/projekt1/projekt-verbentrainer
+    url: /projekte/projekt1/verbentrainer
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /projekte/projekt1/projekt-verbentrainer.R 
+    url: /projekte/projekt1/verbentrainer.R 
 output:
   html_document:
     keep_md: true
 ---
 
-```{r setup, include=FALSE, purl=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 # Übersicht
 
@@ -87,7 +85,8 @@ Zunächst sollten wir über die Struktur des Trainers in `R` nachdenken. (Meines
 
 Vielleicht hast du ja schon erkannt, dass du zwei Vektoren anlegen musst, um deine Tabelle zu erstellen; eine für die Personen und eine für die Verben. Da es viel Arbeit ist, die Verben von der [Internetseite](https://www.idiomax.com/es/spanish-verb-list.aspx) Stück für Stück zu kopieren, habe ich diese Arbeit übernommen, sodass du einfach den folgenden Code kopieren kannst:
 
-```{r, eval=FALSE}
+
+```r
 verben <- c("abrir", "acabar", "acercar", "aconsejar", "acordar", "amar", "andar", "apoyar", "aprender", "armar", "asesinar", "atacar", "ayudar", "bailar", "bajar", "bastar", "bañar", "beber", "buscar", "caer", "callar", "calmar", "cambiar", "caminar", "campar", "cantar", "cazar", "cenar", "centrar", "cercar", "cerrar", "citar", "cocinar", "coger", "comenzar", "comer", "comparar", "comprar", "conducir", "conocer", "conseguir", "contar", "continuar", "correr", "cortar", "coser", "costar", "crear", "creer", "cuidar", "culpar", "dar", "dañar", "deber", "decidir", "decir", "dejar", "descansar", "describir", "desear", "destruir", "disculpar", "divertir", "doler", "dormir", "durar", "elegir", "empezar", "empujar", "encantar", "encontrar", "enseñar", "entender", "entrar", "equipar", "esconder", "escribir", "escuchar", "esperar", "esposar", "estar", "estudiar", "existir", "explicar", "extrañar", "faltar", "forzar", "funcionar", "ganar", "gritar", "gustar", "haber", "hablar", "hacer", "importar", "intentar", "ir", "jugar", "jurar", "lamentar", "lanzar", "largar", "lavar", "leer", "limpiar", "llamar", "llegar", "llenar", "llevar", "llorar", "luchar", "mandar", "matar", "mejor", "mejorar", "mentir", "mirar", "morir", "mostrar", "mover", "necesitar", "negociar", "nombrar", "ocurrir", "odiar", "ofrecer", "olvidar", "orar", "oír", "pagar", "parar", "parecer", "partir", "pasar", "pelar", "pelear", "peligrar", "penar", "pensar", "perder", "perdonar", "permitir", "pisar", "poder", "poner", "preferir", "preguntar", "preocupar", "preparar", "probar", "prometer", "pulsar", "quedar", "quemar", "querer", "recibir", "reconocer", "recordar", "regalar", "regresar", "repetir", "responder", "reír", "saber", "sacar", "salir", "saltar", "salvar", "seguir", "sentar", "sentir", "ser", "significar", "sonar", "sonreír", "soñar", "suceder", "suponer", "tardar", "temer", "tener", "terminar", "tirar", "tocar", "tomar", "trabajar", "traer", "tratar", "usar", "valer", "vender", "venir", "ver", "viajar", "visitar", "vivir", "volver")
 ```
 
@@ -112,42 +111,60 @@ Um die Tabelle zu erstellen, müssen wir zunächst die einzelnen Spalten als Vek
 
 Die Verbliste stellt einen Vektor dar, der aus den Verben der Internetseite besteht:
 
-```{r, eval=T}
+
+```r
 verben <- c("abrir", "acabar", "acercar", "aconsejar", "acordar", "amar", "andar", "apoyar", "aprender", "armar", "asesinar", "atacar", "ayudar", "bailar", "bajar", "bastar", "bañar", "beber", "buscar", "caer", "callar", "calmar", "cambiar", "caminar", "campar", "cantar", "cazar", "cenar", "centrar", "cercar", "cerrar", "citar", "cocinar", "coger", "comenzar", "comer", "comparar", "comprar", "conducir", "conocer", "conseguir", "contar", "continuar", "correr", "cortar", "coser", "costar", "crear", "creer", "cuidar", "culpar", "dar", "dañar", "deber", "decidir", "decir", "dejar", "descansar", "describir", "desear", "destruir", "disculpar", "divertir", "doler", "dormir", "durar", "elegir", "empezar", "empujar", "encantar", "encontrar", "enseñar", "entender", "entrar", "equipar", "esconder", "escribir", "escuchar", "esperar", "esposar", "estar", "estudiar", "existir", "explicar", "extrañar", "faltar", "forzar", "funcionar", "ganar", "gritar", "gustar", "haber", "hablar", "hacer", "importar", "intentar", "ir", "jugar", "jurar", "lamentar", "lanzar", "largar", "lavar", "leer", "limpiar", "llamar", "llegar", "llenar", "llevar", "llorar", "luchar", "mandar", "matar", "mejor", "mejorar", "mentir", "mirar", "morir", "mostrar", "mover", "necesitar", "negociar", "nombrar", "ocurrir", "odiar", "ofrecer", "olvidar", "orar", "oír", "pagar", "parar", "parecer", "partir", "pasar", "pelar", "pelear", "peligrar", "penar", "pensar", "perder", "perdonar", "permitir", "pisar", "poder", "poner", "preferir", "preguntar", "preocupar", "preparar", "probar", "prometer", "pulsar", "quedar", "quemar", "querer", "recibir", "reconocer", "recordar", "regalar", "regresar", "repetir", "responder", "reír", "saber", "sacar", "salir", "saltar", "salvar", "seguir", "sentar", "sentir", "ser", "significar", "sonar", "sonreír", "soñar", "suceder", "suponer", "tardar", "temer", "tener", "terminar", "tirar", "tocar", "tomar", "trabajar", "traer", "tratar", "usar", "valer", "vender", "venir", "ver", "viajar", "visitar", "vivir", "volver")
 ```
 
 Für die Spalte der Personen müssen wir einen weiteren Vektor anlegen:
 
-```{r, eval=T}
+
+```r
 person <- c("yo", "tú", "él/ella", "nosotres", "vosotres", "elles")
 ```
 
 Wenn wir jetzt die Tabelle mit dem `data.frame`-Befehl aus den beiden Vektoren zusammenbauen wöllten, stoßen wir auf folgende Fehlermeldung:
 
-```{r, error=TRUE}
+
+```r
 Tabelle <- data.frame(verben, person)
+```
+
+```
+## Error in data.frame(verben, person): arguments imply differing number of rows: 197, 6
 ```
 
 Zum einen haben wir 197 Verben in unserer Liste, doch nur 6 Personen. Dies würde keine anständige Tabelle ergeben. Außerdem wollen wir eine zufällige Zuordnung der Personen zu den Verben, wobei sich diese wiederholen sollen. Wir müssen also eine andere Funktion verwenden, welche diese beiden Aspekte berücksichtigt:
 
-```{r}
+
+```r
 Tabelle <- data.frame(verben)
 ```
 
-```{r, eval=F}
+
+```r
 Tabelle$person <- print(sample(person, 197, replace = T))
 ```
 
-```{r, echo=F, include=FALSE}
-Tabelle$person <- print(sample(person, 197, replace = T))
-```
+
 
 Wir verwenden den `sample`-Befehl, in dem wir unseren Vektor "person" spezifizieren, dann angeben, wie oft aus unserem Vektor ein zufälliger Wert gezogen soll - in diesem Fall so oft wie wir Verben in der Liste stehen haben - und zuletzt legen wir fest, dass wir "mit Zurücklegen" ziehen, denn bei nur 6 Personen auf 197 Verben müssen sich einige einige Male wiederholen.
 
 Somit haben wir eine Tabelle erstellt, in der wir in der ersten Spalte unsere Verben haben und in der zweiten unsere zufällig zugeordneten Personen. Ein Beispiel dafür könnte wie folgt aussehen:
 
-```{r}
+
+```r
 head(Tabelle)
+```
+
+```
+##      verben  person
+## 1     abrir   elles
+## 2    acabar   elles
+## 3   acercar él/ella
+## 4 aconsejar   elles
+## 5   acordar   elles
+## 6      amar      yo
 ```
 
 </details>
@@ -217,39 +234,48 @@ Wenn du fertig mit der Bearbeitung der Aufgabenstellung sein solltest, kannst du
 
 Unsere Tabelle von Teil 1 müssen wir lediglich um eine weitere Spalte erweitern. Zunächst legen wir hierfür wieder einen Vektor mit unseren Werten - in diesem Fall den verschiedenen Zeitformen - an:
 
-```{r}
+
+```r
 tempus <- c("Presente (I)", "Pretérito indefinido (I)", "Pretérito imperfecto (I)", "Futuro simple", "Condicional simple", "Presente (S)", "Pretérito imperfecto (S)", "Imperativo")
 ```
 
 
 Jetzt können wir unsere Tabelle ganz einfach (zumindest ist es ganz einfach, wenn man die Lösung von Teil 1 kennt) um diesen Vektor erweitern:
 
-```{r, eval = F}
+
+```r
 Tabelle$tempus <- print(sample(tempus, 197, replace = T))
 ```
 
-```{r, echo=FALSE, include=FALSE}
-Tabelle$tempus <- print(sample(tempus, 197, replace = T))
-```
+
 
 Wieder legen wir hiermit fest, dass aus unserem Vektor "tempus" 197 mal ein zufälliger Wert ausgewählt werden soll - wieder mit Zurücklegen, denn so viele Zeitformen gibt es im Spanischen dann doch auch wieder nicht.
 
 Am Besten kombinieren wir die Befehle für die Zufallsziehung der Tabelle an dieser Stelle, damit wir sie immer zusammenstehen haben und wir beide gleichzeitig ausführen können, damit bei jedem neuen Run sowohl die Personen, als auch die Zeitformen durchgemischt werden:
 
-```{r, echo=FALSE, include=FALSE}
-Tabelle$person <- print(sample(person, 197, replace = T))
-Tabelle$tempus <- print(sample(tempus, 197, replace = T))
-```
 
-```{r, eval=FALSE}
+
+
+```r
 Tabelle$person <- print(sample(person, 197, replace = T))
 Tabelle$tempus <- print(sample(zeit, 197, replace = T))
 ```
 
 Wenn wir uns jetzt wieder unsere Tabelle ausgeben lassen, sehen wir, dass sie um die Spalte "Tempus" ergänzt wurde und die Personen erneut durchgemischt wurden:
 
-```{r}
+
+```r
 head(Tabelle)
+```
+
+```
+##      verben   person                   tempus
+## 1     abrir  él/ella Pretérito imperfecto (I)
+## 2    acabar    elles            Futuro simple
+## 3   acercar nosotres               Imperativo
+## 4 aconsejar  él/ella       Condicional simple
+## 5   acordar  él/ella             Presente (S)
+## 6      amar  él/ella       Condicional simple
 ```
 
 Jetzt kann der Reihe nach jedes Verb für eine bestimmte Person in einer bestimmten Zeitform konjugiert werden.

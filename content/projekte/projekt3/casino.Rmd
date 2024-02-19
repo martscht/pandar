@@ -2,7 +2,7 @@
 title: Casino
 type: post
 date: '2019-12-14T23:00:00'
-slug: projekt-casino
+slug: casino
 categories: []
 tags: ["Projekt3"]
 subtitle: ''
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /projekte/projekt3/projekt-casino
+    url: /projekte/projekt3/casino
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /projekte/projekt3/projekt-casino.R 
+    url: /projekte/projekt3/casino.R 
 output:
   html_document:
     keep_md: true
@@ -68,7 +68,7 @@ Anhand der Gewinnquote lässt sich berechnen, wie hoch die Auszahlung ist, sollt
 
 Der Wetttisch beim französischen Roulette sieht folgendermaßen aus:
 
-![](Projekt2_Roulette_table.png)
+![](Roulette_table.png)
 
 ## Beispiel zur Verwendung von Funktionen {#Beispiel}
 
