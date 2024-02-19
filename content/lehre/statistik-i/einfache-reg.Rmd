@@ -219,12 +219,7 @@ Mit dem Befehl `lm()` werden auch automatisch immer die Residuen ($e_m$) geschä
 residuals(lin_mod)
 ```
 
-Diese können auch als neue Variable im Datensatz angelegt werden und hätten dort die Bedeutung des "Ausmaßes an Nerdiness, das nicht durch Extraversion vorhergesagt werden kann" - also die Differenz aus vorhergesagtem und tatsächlich beobachtetem Wert der y-Variable (Nerdiness).
-
-```{r}
-fb23$res <- residuals(lin_mod)
-```
-
+Die Residuen haben die Bedeutung des "Ausmaßes an Nerdiness, das nicht durch Extraversion vorhergesagt werden kann" - also die Differenz aus vorhergesagtem und tatsächlich beobachtetem Wert der y-Variable (Nerdiness).
 
 ### Vorhergesagte Werte
 
