@@ -2,7 +2,7 @@
 title: "Multiple Regression - Lösungen" 
 type: post
 date: '2024-02-06' 
-slug: multiple-regression-loesungen 
+slug: multiple-reg-loesungen 
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
@@ -16,11 +16,20 @@ banner:
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/89134)"
 projects: []
 expiryDate: 
-publishDate: '2024-02-06'
+publishDate: 
 _build:
   list: never
 reading_time: false
 share: false
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/multiple-reg
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/multiple-reg-aufgaben
 output:
   html_document:
     keep_md: true

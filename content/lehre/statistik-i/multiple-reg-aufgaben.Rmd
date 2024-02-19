@@ -2,9 +2,9 @@
 title: "Multiple Regression - Aufgaben" 
 type: post
 date: '2024-02-06' 
-slug: multiple-regression-aufgaben
-categories: [] 
-tags: ["Statistik I Übungen"] 
+slug: multiple-reg-aufgaben
+categories: ["Statistik I Übungen"] 
+tags: [] 
 subtitle: ''
 summary: '' 
 authors: [vogler]
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/multiple-regression
+    url: /lehre/statistik-i/multiple-reg
   - icon_pack: fas
     icon: star
     name: Lösungen
-    url: /lehre/statistik-i/multiple-regression-loesungen
+    url: /lehre/statistik-i/multiple-reg-loesungen
 output:
   html_document:
     keep_md: true

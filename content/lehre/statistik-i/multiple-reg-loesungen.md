@@ -2,25 +2,34 @@
 title: "Multiple Regression - Lösungen" 
 type: post
 date: '2024-02-06' 
-slug: multiple-regression-loesungen 
+slug: multiple-reg-loesungen 
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [vogler] 
 weight: 
-lastmod: '2024-02-09'
+lastmod: '2024-02-19'
 featured: no
 banner:
   image: "/header/stormies.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/89134)"
 projects: []
 expiryDate: 
-publishDate: '2024-02-06'
+publishDate: 
 _build:
   list: never
 reading_time: false
 share: false
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/multiple-reg
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/multiple-reg-aufgaben
 output:
   html_document:
     keep_md: true
@@ -87,22 +96,14 @@ summary(fb23[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ```
 
 ```
-##      extra           vertr           gewis           neuro           offen     
-##  Min.   :1.000   Min.   :1.000   Min.   :1.500   Min.   :1.000   Min.   :1.50  
-##  1st Qu.:2.500   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:2.500   1st Qu.:3.00  
-##  Median :3.000   Median :3.500   Median :3.500   Median :3.500   Median :4.00  
-##  Mean   :3.268   Mean   :3.463   Mean   :3.531   Mean   :3.355   Mean   :3.74  
-##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.50  
-##  Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.00  
-##                  NA's   :1                                                     
-##       prok      
-##  Min.   :1.500  
-##  1st Qu.:2.200  
-##  Median :2.500  
-##  Mean   :2.545  
-##  3rd Qu.:2.950  
-##  Max.   :3.800  
-## 
+##      extra           vertr           gewis           neuro           offen           prok      
+##  Min.   :1.000   Min.   :1.000   Min.   :1.500   Min.   :1.000   Min.   :1.50   Min.   :1.500  
+##  1st Qu.:2.500   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:2.500   1st Qu.:3.00   1st Qu.:2.200  
+##  Median :3.000   Median :3.500   Median :3.500   Median :3.500   Median :4.00   Median :2.500  
+##  Mean   :3.268   Mean   :3.463   Mean   :3.531   Mean   :3.355   Mean   :3.74   Mean   :2.545  
+##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.50   3rd Qu.:2.950  
+##  Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.00   Max.   :3.800  
+##                  NA's   :1
 ```
 
 ```r
@@ -171,7 +172,7 @@ lines(lowess(fb23_short$gewis, fb23_short$prok), col = "red")
 abline(mod_gewis, col = "blue")
 ```
 
-![](/lehre/statistik-i/multiple-regression-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/lehre/statistik-i/multiple-reg-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 Für beide Variablen sind klare lineare Verläufe erkennbar.
 
@@ -197,7 +198,7 @@ Auch die Voraussetzung der **Unabhängigkeit der Residuen** ist inhaltlicher Nat
 plot(mod_base, which = 3)
 ```
 
-![](/lehre/statistik-i/multiple-regression-loesungen_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](/lehre/statistik-i/multiple-reg-loesungen_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 ```r
 car::ncvTest(mod_base) #nicht signifikant --> Homoskedastizität wird angenommen
@@ -215,7 +216,7 @@ car::ncvTest(mod_base) #nicht signifikant --> Homoskedastizität wird angenommen
 car::qqPlot(mod_base)
 ```
 
-![](/lehre/statistik-i/multiple-regression-loesungen_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/lehre/statistik-i/multiple-reg-loesungen_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 ```
 ## 144 170 

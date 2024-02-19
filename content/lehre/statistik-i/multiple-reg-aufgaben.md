@@ -2,14 +2,14 @@
 title: "Multiple Regression - Aufgaben" 
 type: post
 date: '2024-02-06' 
-slug: multiple-regression-aufgaben
-categories: [] 
-tags: ["Statistik I Übungen"] 
+slug: multiple-reg-aufgaben
+categories: ["Statistik I Übungen"] 
+tags: [] 
 subtitle: ''
 summary: '' 
 authors: [vogler]
 weight:
-lastmod: '2024-02-09'
+lastmod: '2024-02-19'
 featured: no
 banner:
   image: "/header/stormies.jpg"
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/multiple-regression
+    url: /lehre/statistik-i/multiple-reg
   - icon_pack: fas
     icon: star
     name: Lösungen
-    url: /lehre/statistik-i/multiple-regression-loesungen
+    url: /lehre/statistik-i/multiple-reg-loesungen
 output:
   html_document:
     keep_md: true
@@ -59,7 +59,7 @@ Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 42 Spalten (Variablen).
 
 Ihr womöglich erstes Semester des Psychologie Studiums neigt sich dem Ende entgegen und die Klausuren rücken somit immer näher. Als vorbildliche\*r Student\*in sind Sie bereits fleißig am Lernen.
 Jedoch beobachten Sie in manchen Kommilitoninnen und Kommilitonen, dass diese nicht so fleißig sind und eher vor sich hin prokrastinieren.
-Sie vermuten, dass bestimmte Persönlichkeitsmerkmale die Prokrastinationstendenz (`prok`) vorhersagen könnten. Konkret vermuten Sie einen positiven Zusammenhang mit Neurotizismus (`neuro`) und einen negativen Zusammenhang mit Gewissenhaftigkeit (`gewis`).
+Sie vermuten, dass bestimmte Persönlichkeitsmerkmale die Prokrastinationstendenz (`prok`) vorhersagen könnten. Konkret vermuten Sie einen positiven Zusammenhang mit Neurotizismus (`neuro`) und einen negativen Zusammenhang mit Gewissenhaftigkeit (`gewis`). Im weiteren Verlauf sollen aber alle Eigenschaften aus dem Big Five Modell überprüft werden.
 
 Dafür reduzieren Sie zunächst Ihren Datensatz auf die relevanten Variablen und entfernen sämtliche fehlende Werte:
 
@@ -94,22 +94,14 @@ summary(fb23[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ```
 
 ```
-##      extra           vertr           gewis           neuro           offen     
-##  Min.   :1.000   Min.   :1.000   Min.   :1.500   Min.   :1.000   Min.   :1.50  
-##  1st Qu.:2.500   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:2.500   1st Qu.:3.00  
-##  Median :3.000   Median :3.500   Median :3.500   Median :3.500   Median :4.00  
-##  Mean   :3.268   Mean   :3.463   Mean   :3.531   Mean   :3.355   Mean   :3.74  
-##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.50  
-##  Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.00  
-##                  NA's   :1                                                     
-##       prok      
-##  Min.   :1.500  
-##  1st Qu.:2.200  
-##  Median :2.500  
-##  Mean   :2.545  
-##  3rd Qu.:2.950  
-##  Max.   :3.800  
-## 
+##      extra           vertr           gewis           neuro           offen           prok      
+##  Min.   :1.000   Min.   :1.000   Min.   :1.500   Min.   :1.000   Min.   :1.50   Min.   :1.500  
+##  1st Qu.:2.500   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:2.500   1st Qu.:3.00   1st Qu.:2.200  
+##  Median :3.000   Median :3.500   Median :3.500   Median :3.500   Median :4.00   Median :2.500  
+##  Mean   :3.268   Mean   :3.463   Mean   :3.531   Mean   :3.355   Mean   :3.74   Mean   :2.545  
+##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.50   3rd Qu.:2.950  
+##  Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.00   Max.   :3.800  
+##                  NA's   :1
 ```
 
 ```r
