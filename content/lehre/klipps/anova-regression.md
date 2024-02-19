@@ -1,14 +1,14 @@
 ---
 title: ANOVA vs. Regression
 date: '2021-10-14'
-slug: anova-vs-regression
+slug: anova-regression
 categories: ["KliPPs"]
 tags: ["Regression", "ANOVA", "Interaktionseffekte", "Quadratsummentypen"]
 subtitle: ''
 summary: 'In diesem Beitrag geht es um den Zusammenhang von ANOVA und Regression. Zunächst wird gezeigt, wie man Regressionsmodelle miteinander vergleicht. Dann betrachten wir die einfaktorielle und die zweifaktorielle ANOVA genauer an. Dabei gehen wir auf die verschiedenen Typen von Quadratsummen ein, die bei der zweifaktoriellen ANOVA zur Überprüfung unterschiedlicher Hypothesen verwendet werden. Der Beitrag verdeutlicht, dass Regression und ANOVA zu denselben Ergebnis kommen, wenn dieselben Hypothesen geprüft werden.'
 authors: [irmer]
 weight: 3
-lastmod: '2023-08-22'
+lastmod: '2024-02-19'
 featured: no
 banner:
   image: "/header/daily_report_color.jpg"
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/klipps/anova-vs-regression
+    url: /lehre/klipps/anova-regression
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/klipps/anova-vs-regression.R
+    url: /lehre/klipps/anova-regression.R
 
 output:
   html_document:
@@ -52,45 +52,65 @@ names(osf)
 ```
 
 ```
-##   [1] "X"                                 "ID"                                "group"                            
-##   [4] "stratum"                           "bsi_pre"                           "bsi_mid"                          
-##   [7] "bsi_post"                          "bsi_fu"                            "bsi_fu2"                          
-##  [10] "panas_pa_pre"                      "panas_pa_mid"                      "panas_pa_post"                    
-##  [13] "panas_pa_fu"                       "panas_pa_fu2"                      "panas_na_pre"                     
-##  [16] "panas_na_mid"                      "panas_na_post"                     "panas_na_fu"                      
-##  [19] "panas_na_fu2"                      "swls_pre"                          "swls_mid"                         
-##  [22] "swls_post"                         "swls_fu"                           "swls_fu2"                         
-##  [25] "phq9_pre"                          "phq9_post"                         "gad7_pre"                         
-##  [28] "gad7_post"                         "lsas_pre"                          "lsas_post"                        
-##  [31] "lsas_anx_pre"                      "lsas_anx_post"                     "lsas_avo_pre"                     
-##  [34] "lsas_avo_post"                     "pas_pre"                           "pas_post"                         
-##  [37] "shai_anx_pre"                      "shai_anx_post"                     "shai_neg_pre"                     
-##  [40] "shai_neg_post"                     "phq15_pre"                         "phq15_post"                       
-##  [43] "NEQ_1_A"                           "NEQ_1_B"                           "NEQ_1_C"                          
-##  [46] "NEQ_2_A"                           "NEQ_2_B"                           "NEQ_2_C"                          
-##  [49] "NEQ_3_A"                           "NEQ_3_B"                           "NEQ_3_C"                          
-##  [52] "NEQ_4_A"                           "NEQ_4_B"                           "NEQ_4_C"                          
-##  [55] "NEQ_5_A"                           "NEQ_5_B"                           "NEQ_5_C"                          
-##  [58] "NEQ_6_A"                           "NEQ_6_B"                           "NEQ_6_C"                          
-##  [61] "NEQ_7_A"                           "NEQ_7_B"                           "NEQ_7_C"                          
-##  [64] "NEQ_8_A"                           "NEQ_8_B"                           "NEQ_8_C"                          
-##  [67] "NEQ_9_A"                           "NEQ_9_B"                           "NEQ_9_C"                          
-##  [70] "NEQ_10_A"                          "NEQ_10_B"                          "NEQ_10_C"                         
-##  [73] "NEQ_11_A"                          "NEQ_11_B"                          "NEQ_11_C"                         
-##  [76] "NEQ_12_A"                          "NEQ_12_B"                          "NEQ_12_C"                         
-##  [79] "NEQ_13_A"                          "NEQ_13_B"                          "NEQ_13_C"                         
-##  [82] "NEQ_14_A"                          "NEQ_14_B"                          "NEQ_14_C"                         
-##  [85] "NEQ_15_A"                          "NEQ_15_B"                          "NEQ_15_C"                         
-##  [88] "NEQ_16_A"                          "NEQ_16_B"                          "NEQ_16_C"                         
-##  [91] "NEQ_17_A"                          "NEQ_17_B"                          "NEQ_17_C"                         
-##  [94] "NEQ_18_A"                          "NEQ_18_B"                          "NEQ_18_C"                         
-##  [97] "NEQ_19_A"                          "NEQ_19_B"                          "NEQ_19_C"                         
-## [100] "NEQ_20_A"                          "NEQ_20_B"                          "NEQ_20_C"                         
-## [103] "csq8_1"                            "csq8_2"                            "csq8_3"                           
-## [106] "csq8_4"                            "csq8_5"                            "csq8_6"                           
-## [109] "csq8_7"                            "csq_8"                             "completed_modules"                
-## [112] "logins_after_allocation"           "sent_messages"                     "received_messages"                
-## [115] "exercises_total"                   "time_spent_after_allocation_hours" "exercises_per_login"
+##   [1] "X"                                 "ID"                               
+##   [3] "group"                             "stratum"                          
+##   [5] "bsi_pre"                           "bsi_mid"                          
+##   [7] "bsi_post"                          "bsi_fu"                           
+##   [9] "bsi_fu2"                           "panas_pa_pre"                     
+##  [11] "panas_pa_mid"                      "panas_pa_post"                    
+##  [13] "panas_pa_fu"                       "panas_pa_fu2"                     
+##  [15] "panas_na_pre"                      "panas_na_mid"                     
+##  [17] "panas_na_post"                     "panas_na_fu"                      
+##  [19] "panas_na_fu2"                      "swls_pre"                         
+##  [21] "swls_mid"                          "swls_post"                        
+##  [23] "swls_fu"                           "swls_fu2"                         
+##  [25] "phq9_pre"                          "phq9_post"                        
+##  [27] "gad7_pre"                          "gad7_post"                        
+##  [29] "lsas_pre"                          "lsas_post"                        
+##  [31] "lsas_anx_pre"                      "lsas_anx_post"                    
+##  [33] "lsas_avo_pre"                      "lsas_avo_post"                    
+##  [35] "pas_pre"                           "pas_post"                         
+##  [37] "shai_anx_pre"                      "shai_anx_post"                    
+##  [39] "shai_neg_pre"                      "shai_neg_post"                    
+##  [41] "phq15_pre"                         "phq15_post"                       
+##  [43] "NEQ_1_A"                           "NEQ_1_B"                          
+##  [45] "NEQ_1_C"                           "NEQ_2_A"                          
+##  [47] "NEQ_2_B"                           "NEQ_2_C"                          
+##  [49] "NEQ_3_A"                           "NEQ_3_B"                          
+##  [51] "NEQ_3_C"                           "NEQ_4_A"                          
+##  [53] "NEQ_4_B"                           "NEQ_4_C"                          
+##  [55] "NEQ_5_A"                           "NEQ_5_B"                          
+##  [57] "NEQ_5_C"                           "NEQ_6_A"                          
+##  [59] "NEQ_6_B"                           "NEQ_6_C"                          
+##  [61] "NEQ_7_A"                           "NEQ_7_B"                          
+##  [63] "NEQ_7_C"                           "NEQ_8_A"                          
+##  [65] "NEQ_8_B"                           "NEQ_8_C"                          
+##  [67] "NEQ_9_A"                           "NEQ_9_B"                          
+##  [69] "NEQ_9_C"                           "NEQ_10_A"                         
+##  [71] "NEQ_10_B"                          "NEQ_10_C"                         
+##  [73] "NEQ_11_A"                          "NEQ_11_B"                         
+##  [75] "NEQ_11_C"                          "NEQ_12_A"                         
+##  [77] "NEQ_12_B"                          "NEQ_12_C"                         
+##  [79] "NEQ_13_A"                          "NEQ_13_B"                         
+##  [81] "NEQ_13_C"                          "NEQ_14_A"                         
+##  [83] "NEQ_14_B"                          "NEQ_14_C"                         
+##  [85] "NEQ_15_A"                          "NEQ_15_B"                         
+##  [87] "NEQ_15_C"                          "NEQ_16_A"                         
+##  [89] "NEQ_16_B"                          "NEQ_16_C"                         
+##  [91] "NEQ_17_A"                          "NEQ_17_B"                         
+##  [93] "NEQ_17_C"                          "NEQ_18_A"                         
+##  [95] "NEQ_18_B"                          "NEQ_18_C"                         
+##  [97] "NEQ_19_A"                          "NEQ_19_B"                         
+##  [99] "NEQ_19_C"                          "NEQ_20_A"                         
+## [101] "NEQ_20_B"                          "NEQ_20_C"                         
+## [103] "csq8_1"                            "csq8_2"                           
+## [105] "csq8_3"                            "csq8_4"                           
+## [107] "csq8_5"                            "csq8_6"                           
+## [109] "csq8_7"                            "csq_8"                            
+## [111] "completed_modules"                 "logins_after_allocation"          
+## [113] "sent_messages"                     "received_messages"                
+## [115] "exercises_total"                   "time_spent_after_allocation_hours"
+## [117] "exercises_per_login"
 ```
 Das sind sehr viele Variablen. Wir beschränken uns in dieser und in der folgenden Sitzung auf einige wenige Variablen, die nach dem Durchführen des Treatments erhoben wurden: `ID` (Teilnehmendennummer), `group` (Gruppenzugehörigkeit: Wartelistenkontrollgruppe vs. Treatmentgruppe), `stratum` (Krankheitsbild: Angststörung [**ANX**iety], Depression [**DEP**ression] oder somatische Belastungsstörung [**SOM**atic symptom disorder]), `bsi_post` (Symptomschwere), `swls_post` (Lebenszufriedenheit [*S*atisfaction *W*ith *L*ife *S*creening]) und `pas_post` (Panikstörung und Agoraphobie [*P*anic and *A*goraphobia *S*creening]). Wir kürzen entsprechend den Datensatz und schauen ihn uns mit `head` an:
 
@@ -357,8 +377,8 @@ ezANOVA(data = osf, wid = ID, dv = bsi_post, between = group)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the
+## type argument to ezANOVA().
 ```
 
 ```
@@ -389,8 +409,8 @@ ezANOVA(data = osf, wid = ID, dv = bsi_post, between = group, detailed = T)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the
+## type argument to ezANOVA().
 ```
 
 ```
@@ -417,8 +437,8 @@ ezANOVA1 <- ezANOVA(data = osf, wid = ID, dv = bsi_post, between = group, detail
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the
+## type argument to ezANOVA().
 ```
 
 ```
@@ -569,13 +589,13 @@ ezANOVA1 <- ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid 
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the
+## type argument to ezANOVA().
 ```
 
 ```
-## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable. Hopefully you are
-## doing this for demonstration purposes only!
+## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable.
+## Hopefully you are doing this for demonstration purposes only!
 ```
 
 ```r
@@ -604,8 +624,8 @@ ezPlot(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID, x = str
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the
+## type argument to ezANOVA().
 ```
 
 ```
@@ -613,11 +633,11 @@ ezPlot(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID, x = str
 ```
 
 ```
-## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, : Unbalanced groups. Mean N will
-## be used in computation of FLSD
+## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, : Unbalanced
+## groups. Mean N will be used in computation of FLSD
 ```
 
-<img src="/lehre/klipps/anova-vs-regression_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/klipps/anova-regression_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
 
 Die Fisher's Least Significant Distance (FLSD) ist eine Schätzung für die minimale Distanz zwischen Mittelwerten in Gruppen, die signifikant wäre. Damit gibt dieser Plot erste Anzeichen über mögliche signifikante Mittelwertsunterschiede.
 
@@ -630,13 +650,13 @@ ezANOVA(data = osf, dv = bsi_post, between = c(stratum, group), wid = ID,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the
+## type argument to ezANOVA().
 ```
 
 ```
-## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable. Hopefully you are
-## doing this for demonstration purposes only!
+## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable.
+## Hopefully you are doing this for demonstration purposes only!
 ```
 
 ```
@@ -715,8 +735,8 @@ ezANOVA2 <- ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid 
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the
+## type argument to ezANOVA().
 ```
 
 ```
@@ -745,8 +765,8 @@ ezANOVA(data = osf, dv = bsi_post, between = c(stratum, group), wid = ID,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the
+## type argument to ezANOVA().
 ```
 
 ```
@@ -851,8 +871,8 @@ ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the
+## type argument to ezANOVA().
 ```
 
 ```

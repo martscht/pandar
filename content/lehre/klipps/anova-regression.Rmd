@@ -1,7 +1,7 @@
 ---
 title: ANOVA vs. Regression
 date: '2021-10-14'
-slug: anova-vs-regression
+slug: anova-regression
 categories: ["KliPPs"]
 tags: ["Regression", "ANOVA", "Interaktionseffekte", "Quadratsummentypen"]
 subtitle: ''
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/klipps/anova-vs-regression
+    url: /lehre/klipps/anova-regression
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/klipps/anova-vs-regression.R
+    url: /lehre/klipps/anova-regression.R
 
 output:
   html_document:
