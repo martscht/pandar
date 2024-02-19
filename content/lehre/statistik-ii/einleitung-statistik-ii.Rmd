@@ -2,7 +2,7 @@
 title: "Wiederholung von Grundlagen in R" 
 type: post
 date: '2021-03-30' 
-slug: wiederholung-grundlagen 
+slug: einleitung-statistik-ii
 categories: ["Statistik II"] 
 tags: ["Grundlagen", "Wiederholung", "Einführung", "Hilfe"] 
 subtitle: ''
@@ -22,19 +22,18 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-ii/wiederholung-grundlagen
+    url: /lehre/statistik-ii/einleitung-statistik-ii
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/statistik-ii/wiederholung-grundlagen.R
+    url: /lehre/statistik-ii/einleitung-statistik-ii.R
 output:
   html_document:
     keep_md: true
 ---
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-knitr::opts_chunk$set(error = TRUE)
-library(knitr)
+
 ```
 
 ## Wiederholung von Grundlagen in R
