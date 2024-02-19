@@ -53,7 +53,7 @@ fb23$wohnen <- factor(fb23$wohnen,
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 ```
 
-Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
+Falls Sie nochmal sicher gehen wollen, ob alles korrekt funktioniert hat, könnte die Anzahl der Zeilen und Spalten einen Hinweis geben:
 
 
 ```r
