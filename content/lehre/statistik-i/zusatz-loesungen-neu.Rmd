@@ -377,7 +377,7 @@ sum((data$lz_ges - mean(data$lz_ges))^2) / 13
 Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `fb22` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Eventuell haben Sie ihn ja auch aktiv in Ihrem Environment. Der Datensatz sollte 159 Versuchspersonen enthalten. Der Basisdatensatz hatte 36 Variablen, aber kann natürlich mehr enthalten, falls Sie weitere erstellt und abgespeichert haben. 
 
 ```{r}
-rm(list = ls())
+# rm(list = ls())
 load(url('https://pandar.netlify.app/daten/fb22.rda'))
 ```
 
@@ -394,17 +394,14 @@ str(fb22$lerntyp)
 
 ## Aufgabe 16.2
 
-Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `nature` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Der Datensatz sollte 1522 Versuchspersonen und 27 Variablen enthalten. 
+Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `nature` in das Environment. Dies können sie mittels der URL von der PandaR-Website machen. Der Datensatz sollte 1522 Versuchspersonen und 27 Variablen enthalten. 
 
-```{r, eval = FALSE}
-rm(list = ls())
-load(url('https://pandar.netlify.app/daten/nature.rda'))
+```{r}
+# rm(list = ls())
+source(url("https://pandar.netlify.app/daten/nature_zusatz_processing.R"))
 ```
 
-```{r, echo = FALSE}
-load("/home/zarah/Documents/nature.rda")
-```
- 
+
 In der Variable `urban` ist festgehalten, in welcher Gegend jemand als Kind gelebt hat. Wandeln Sie diese Variable in einen Faktor um. Die Labels lauten: `c("laendlich", "vorstaedtisch", "staedtisch")`. Erstellen Sie dafür keine neuen Spalten, sondern überschreiben Sie die bereits bestehenden. Überprüfen Sie im Nachhinein die Umwandlung.
 
 <details><summary>Lösung</summary>
@@ -581,6 +578,7 @@ mean(nature$age)
 
 </details>
 
+
 ## Aufgabe 21 
 
 Erzielt der Jahrgang 22 im Mittel, rein deskriptiv betrachtet, höhere Werte in Gewissenhaftigkeit (`gewis`) als in Extraversion (`extra`) oder liegt genau der umgekehrte Fall vor? In welcher der beiden Variablen variieren die Angaben stärker? Gehen Sie für die Beantwortung davon aus, dass die Skalen gleich genormt sind.
@@ -604,6 +602,75 @@ var(fb22$extra) * (158/159)
 ```
 
 Der Mittelwert von `gewis` liegt bei `r round(mean(fb22$gewis), digits = 3)`, der von `extra` bei `r round(mean(fb22$extra), digits = 3)`. Unter den getroffenen Annahmen ist dieser Jahrgang stärker gewissenhaft als extravertiert. Auch die Streuung ist deskriptiv bei der Extraversion größer. Hier liegt sie bei `r round(var(fb22$extra) * (158/159), digits = 3)`, während sie bei der Gewissenheit bei `r round(var(fb22$gewis) * (158/159), digits = 3)` liegt.
+
+</details>
+
+
+## Aufgabe 21.2
+
+Schauen wir uns nun noch einen weiteren Datensatz an. Laden Sie sich den Datensatz `SD3` in das Environment. Dies können Sie mittels der URL von der PandaR-Website machen. Der Datensatz sollte 18192 Versuchspersonen und 29 Variablen enthalten. 
+
+
+```{r}
+# rm(list = ls())
+load(url("https://pandar.netlify.app/daten/SD3_origin.rda"))
+```
+
+Dieser Datensatz enthält Daten, die mit einem Fragebogen zur Dunklen Triade (Short Dark Triad) erfasst wurden. Es lassen sich drei Subskalen berechnen. Die Items `M1` bis `M9` beziehen sich auf das Konstrukt des Machiavellismus, die Items `N1` bis `N9` erfassen Narzissmus und die Items `P1` bis `P9` Psychopathie. Die Items wurden anhand einer fünf-Punte-Skala von 1 (stimme nicht zu) bis 5 (stimme zu) beantwortet. Es ist zu beachten, dass die Items `N2`, `N6`, `N8`, `P2` und `P7` invertiert sind. 
+
+* Schließen Sie zunächst alle `NAs` aus, sollten sich welche in diesem Datensatz befinden.
+
+* Wandeln Sie also zunächst diese Items so um, dass hohe Werte für eine hohe Ausprägung in diesem Konstrukt stehen. Überschreiben Sie dafür wieder die Ursprungsvariable.
+
+* Erstellen Sie dann drei neue Variablen `M_ges`, `N_ges`, `P_ges`, die die Antworten auf den drei Subskalen jeweils zusammenfassen.
+
+<details><summary>Lösung</summary>
+
+Zuerst werden die `NAs` ausgeschlossen.
+```{r}
+SD3 <- na.omit(SD3_origin)
+```
+
+Zunächst werden die Items invertiert.
+```{r}
+SD3$N2 <- -1 * (SD3$N2 - 6)
+SD3$N6 <- -1 * (SD3$N6 - 6)
+SD3$N8 <- -1 * (SD3$N8 - 6)
+
+SD3$P2 <- -1 * (SD3$P2 - 6)
+SD3$P7 <- -1 * (SD3$P7 - 6)
+```
+
+Überprüfen wir nun noch, ob `NAs` vorliegen.
+```{r}
+sum(is.na(SD3))
+```
+
+Jetzt können wir jeweils die Mittelwerte für die Items der verschiedenen Subskalen berechnen und in neuen Variablen festhalten.
+```{r}
+SD3$M_ges <- rowMeans(SD3[, 1:9])
+SD3$N_ges <- rowMeans(SD3[, 10:18])  
+SD3$P_ges <- rowMeans(SD3[, 19:27]) 
+```
+</details>
+
+
+## Aufgabe 21.3
+
+Erzielen die Proband:innen im Mittel, rein deskriptiv betrachtet, höhere Werte in Machiavellismus (`M_ges`) als in Narzissmus (`N_ges`) oder liegt genau der umgekehrte Fall vor? In welcher der beiden Variablen variieren die Angaben stärker? Gehen Sie für die Beantwortung davon aus, dass die Skalen gleich genormt sind.
+
+<details><summary>Lösung</summary>
+
+
+```{r}
+mean(SD3$M_ges)
+mean(SD3$N_ges)
+
+var(SD3$M_ges) * (18190/18191)
+var(SD3$N_ges) * (18190/18191)
+```
+
+Der Mittelwert von `M_ges` liegt bei `r round(mean(SD3$M_ges), digits = 3)`, der von `N_ges` bei `r round(mean(SD3$N_ges), digits = 3)`. Unter den getroffenen Annahmen sind die Proband:innen stärker machiavellistisch als narzisstisch. Die Streuung ist deskriptiv beim Narzissmus größer. Hier liegt sie bei `r round(var(SD3$N_ges) * (18190/18191), digits = 3)`, während sie beim Machiavellismus bei `r round(var(SD3$M_ges) * (18190/18191), digits = 3)` liegt.
 
 </details>
 
@@ -634,6 +701,38 @@ Durch die Zentrierung verändert sich die Form erstmal nicht. Der Mittelwert der
 ```{r}
 fb22$vertr_st <- scale(fb22$vertr, scale = T)
 hist(fb22$vertr_st)
+```
+
+Die Standardisierung setzt die Standardabweichung auf 1. Aufgrund der neuen Wertestruktur wird natürlich auch die Kategorienanzahl geändert. 
+
+</details>
+
+## Aufgabe 22.2
+
+Schauen wir uns nun das Konstrukt der Psychopathie nochmal genauer an.
+
+* Lassen Sie sich das Histogramm der Variable `P_ges` ausgeben. 
+* Zentrieren Sie die Variable `P_ges`. Legen Sie dafür noch eine neue Spalte in `SD3` mit dem Namen `P_z` an und lassen Sie sich erneut ein Histogramm ausgeben. Was hat sich verändert? 
+* Standardisieren Sie die Variable `P_ges` und speichern Sie diese ebenfalls unter einer neuen Spalte mit dem Namen `P_st` ab. Was ist nun anders beim Histogramm?
+
+
+<details><summary>Lösung</summary>
+```{r}
+hist(SD3$P_ges)
+```
+
+Dieses Histogramm soll erstmal zum Vergleich dienen. Wir sehen die ursprünglichen Skalenwerte.
+
+```{r}
+SD3$P_z <- scale(SD3$P_ges, scale = F)
+hist(SD3$P_z)
+```
+
+Durch die Zentrierung verändert sich die Form erstmal nicht. Der Mittelwert der Werte wird auf 0 gesetzt. Optisch äußert sich das dadurch, dass die Werte auf der x-Achse nun andere sind.
+
+```{r}
+SD3$P_st <- scale(SD3$P_ges, scale = T)
+hist(SD3$P_st)
 ```
 
 Die Standardisierung setzt die Standardabweichung auf 1. Aufgrund der neuen Wertestruktur wird natürlich auch die Kategorienanzahl geändert. 
@@ -673,6 +772,46 @@ mean(fb22_gruppe$nerd, na.rm = T)
 ```
 
 Personen, die angaben gerne in Gruppen zu lernen, weisen einen Mittelwert von `r round(mean(fb22_gruppe$extra), digits = 3)` auf. Sie sind rein deskriptiv extravertierter als Personen, die angaben lieber alleine zu lernen. Diese haben hier einen Mittelwert von `r round(mean(fb22_alleine$extra), digits = 3)`. Umgekehrtes gilt in unserer Stichprobe hingegen für die Nerdiness. Hier haben Personen, die in Gruppen lernen, einen Wert von `r round(mean(fb22_gruppe$nerd), digits = 3)` und Personen, die lieber alleine lernen, einen Wert von `r round(mean(fb22_alleine$nerd), digits = 3)`.
+</details>
+
+
+## Aufgabe 23.2
+
+Die Items `Q1` bis `Q6` dienen zur Erfassung der 
+Naturverbundenheit. Keines der Items ist invers. In der Variable `Q_ges` ist der Mittelwert dieser Naturverbundenheits-Items für jede Person festgehalten.
+
+
+Vergleichen Sie deskriptiv das Maß der zentralen Tendenz in der Variable `Q_ges` zwischen den Teilnehmenden, die auf die Frage nach ihrer Religion (`religion`) Atheismus (kodiert mit `2`) und denjenigen, die Hinduismus (kodiert mit `8`) angegeben haben. Welche der beiden Gruppen hat die höhere Ausprägung? 
+
+<details><summary>Lösung</summary>
+
+Da wir zwei Analysen durchführen wollen, wäre es eine gute Möglichkeit, die Personen in reduzierten Datensätzen abzulegen. Dies kann mittels der Funktion `subset` gelöst werden.
+
+```{r}
+nature_atheist <- subset(nature, subset = religion == 2)
+nature_hindu <- subset(nature, subset = religion == 8)
+```
+
+Über das Argument `subset` geben wir an, in welcher Variable (`religion`) die Auswahl stattfindet und anschließend legen wir die Auswahl der einzelnen Gruppen über das bereits bekannte `==` fest. 
+
+Eine andere Möglichkeit wäre die Verwendung der logischen Auswahl anhand eckiger Klammern.
+
+```{r, eval = F}
+nature_atheist <- nature[nature$religion == 2,]
+nature_hindu <- nature[nature$religion == 8,]
+```
+
+Nun können Mittelwerte für die beiden Gruppen bestimmt werden. Beachten Sie, dass die Ergänzung von `na.rm = T` nur auf dem zweiten demonstrierten Weg wichtig ist. Dort können Personen, die keinen Eintrag in der Auswahl-Variable haben, nicht richtig zugeordnet werden und sind daher in den beiden Datensätzen erhalten - allerdings nicht mit ihren richtigen Werten, stattdessen steht bei ihnen in jeder Spalte `NA`. Die Funktion `subset` nimmt diese Fälle hingegen nicht mit auf. 
+
+```{r}
+mean(nature_atheist$Q_ges, na.rm = T)
+mean(nature_hindu$Q_ges, na.rm = T)
+```
+
+Personen, die angaben Atheist:innen zu sein, weisen einen Mittelwert von `r round(mean(nature_atheist$Q_ges), digits = 3)` auf. 
+Sie sind rein deskriptiv weniger naturverbunden als Personen, die angaben Hinduist:innen zu sein. 
+Diese haben hier einen Mittelwert von `r round(mean(nature_hindu$Q_ges, na.rm=T), digits = 3)`. 
+
 </details>
 
 ## Aufgabe 24
@@ -848,6 +987,9 @@ Der deskriptive Unterschied der Mittelwerte lässt sich somit auch inferenzstati
 
 </details>
 
+## Aufgabe 26.2
+
+Unterscheiden sich Personen, die in einer ländlichen Gegend aufgewachsen sind, in ihrer Naturverbundenheit (`Q_ges`) von Personen, die in einer städtischen oder vorstädtischen Gegend aufgewachsen sind (`urban`)? Schauen Sich sich die Daten graphisch an und führen sie nach Voraussetzungsprüfung einen geeigneten Test durch.
 
 ## Aufgabe 27
 
@@ -972,6 +1114,88 @@ wilcox.test(fb22$lz ~ fb22$ort)
 Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = `r wilcox.test(fb22$lz ~ fb22$ort)$statistic `, *p* = `r round(wilcox.test(fb22$lz ~ fb22$ort)$p.value, 3)` ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Psychologiestudierende, die einen Nebenjob haben, und Psychologiestudierende, die keinen Nebenjob haben, nicht in ihrem Intellekt unterscheiden. 
 
 </details>
+
+
+## Aufgabe 28.2
+
+Weichen Personen, die in einer ländlichen Gegend aufgewachsen sind, in ihrer Naturverbundenheit (`Q_ges`) von Personen, die in einer städtischen oder vorstädtischen Gegend aufgewachsen sind (`urban`) ab?
+
+* Führen Sie nach Voraussetzungsprüfung einen geeigneten Test durch.
+
+<details><summary>Lösung</summary>
+Wir beginnen die Voraussetzungen des t-Tests für unabhängige Stichproben zu überprüfen. Die Voraussetzungen, dass die unabhängige Variable intervallskaliert ist und die einzelnen Messwerte unabhängig voneinander sind, sind per Untersuchungsdesign erfüllt. Wir wollen nun also die Normalverteilung des Merkmals in den Gruppen überprüfen.
+
+
+```{r}
+#Wir überprüfen erst wieder, ob die Variable Nebenjob als Faktor vorliegt
+is.factor(nature$urban)
+```
+
+############################
+Nun wollen wir eine neue Variable erstellen, in der die Personen, die in einer städtischen oder vorstädtischen Gegend aufgewachsen sind, zusammengefasst werden.
+
+```{r}
+nature$urban_neu <- nature$urban == "laendlich"
+nature$urban_neu <- as.numeric(nature$urban_neu) #Umwandlung in Numeric, da der Variablen Typ nun Logical ist
+nature$urban_neu <- factor(nature$urban_neu, 
+                           levels = 0:1, 
+                           labels = c("staedtisch oder vorstaedtisch", "laendlich"))
+```
+
+Jetzt können wir uns die Extraversion der Gruppen deskriptiv in einem Boxplot darstellen lassen.
+
+```{r}
+boxplot(nature$Q_ges ~ nature$urban_neu, xlab = "Gegend", ylab = "Naturverbundenheit") 
+```
+
+Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir aber nun noch inferenzstatistisch überprüfen. Dafür überprüfen wir die Voraussetzungen eines t-Tests für unabhängige Stichproben. Wir können annehmen, dass die abhängige Variable intervallskaliert ist und dass die einzelnen Messwerte voneinander unabhängig sind. Wir müssen nun noch die Normalverteilung der Extraversion in den Gruppen und die Homoskedastizität überprüfen.
+
+**Prüfung der Normalverteilung**
+
+Wir nutzen dafür die `qqPlot`-Funktion aus dem `car`-Paket.
+
+```{r}
+library(car)
+qqPlot(nature$Q_ges[nature$urban_neu == "laendlich"])
+qqPlot(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
+```
+
+Die Abweichungen sind recht weit. Wir führen noch den Shapiro-Test durch.
+
+```{r}
+shapiro.test(nature$Q_ges[nature$urban_neu == "laendlich"])
+shapiro.test(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
+```
+
+Keiner der Tests ist signifikant, sodass wir die Normalverteilungsannahme beibehalten.
+###########################
+
+ 
+Die Normalverteilungsannahme ist nicht erfüllt. Wir können also keinen t-Test durchführen. Wir überprüfen nun die Voraussetzungen des Wilcoxon-Tests.
+Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselben Verteilung folgen.
+
+```{r}
+hist(nature$Q_ges[nature$urban_neu == "laendlich"])
+hist(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
+```
+Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
+
+```{r}
+leveneTest(nature$Q_ges ~ nature$urban_neu)
+
+var(nature$Q_ges[nature$urban_neu == "laendlich"], na.rm =T)
+var(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"], na.rm = T)
+```
+
+Wir können von Varianzhomogenität ausgehen und somit einen Wilcoxon-Test durchführen.
+
+```{r}
+wilcox.test(nature$Q_ges ~ nature$urban_neu)
+```
+Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = `r wilcox.test(nature$Q_ges ~ nature$urban_neu)$statistic `, *p* = `r round(wilcox.test(nature$Q_ges ~ nature$urban_neu)$p.value, 3)` ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Psychologiestudierende, die einen Nebenjob haben, und Psychologiestudierende, die keinen Nebenjob haben, nicht in ihrem Intellekt unterscheiden. 
+
+</details> 
+
 
 ## Aufgabe 29
 
