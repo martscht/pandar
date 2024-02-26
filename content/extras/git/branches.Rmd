@@ -168,6 +168,30 @@ Also werden wir ihn jetzt löschen. Dafür klicken wir auf *Analyse2* (sodass er
 ![](images/branches_Delete2.png) 
 Da wir aber auf diesem **Branch** nicht gearbeitet haben und dieser somit unnötig ist, kann er weg.
 
+
+# Remote Branches lokal hinzufügen
+
+Zum Abschluss des Tutorials gehen wir nochmal in ein Setting, in dem ihr mit mehreren anderen Personen zusammen an einem Projekt arbeitet. Hier kann es sein, dass eine andere Person einen Branch erstellt und auf <span style="color: darkred;">**GitHub**</span> hinzufügt, den ihr vielleicht auch nutzen wollt. Trotzdem wird er nicht automatisch bei euch lokal hinzugefügt. Remote **Branches** sind in diesem Fall also **Branches**, die auf <span style="color: darkred;">**GitHub**</span> in eurem Repository liegen, aber noch nicht bei euch lokal.
+
+Damit wir diese Situation alleine simulieren können, fügen wir einfach auf <span style="color: darkred;">**GitHub**</span> einen neuen **Branch** hinzu. Dazu geht ihr zunächst auf die Hauptseite eures Repository - also die auf dem Bild dargestellte Ansicht - und drückt auf `master`. 
+
+
+![](images/github_repo.PNG)
+Anschließend muss nur ein Name gegeben werden. So lange ein **Branch** dieses Namens nicht existiert, wird angeboten, einen neuen Branch mit diesem Namen zu erzeugen. Das können wir durch einen Klick bestätigen.
+
+![](images/github_branch_creation.PNG)
+
+Nun haben wir also einen neuen **Branch** auf <span style="color: darkred;">**GitHub**</span> erstellt, der bei uns lokal noch nicht existiert. Dafür wechseln wir zurück auf <span style="color: darkred;">**SmartGit**</span>. Die Ansicht muss nochmal aktualisiert werden (bspw. über einen `pull`, aber da kann man verschiedene Wege gehen. Ihr solltet jetzt angezeigt bekommen, dass es einen Branch im **origin** mehr gibt, den ihr nicht unter **local Branches** seht. 
+
+![](images/smartgit_branch_added_via_github.PNG)
+Man kann ihn aber ganz leicht lokal hinzufügen. Dafür macht ihr einen Doppelklick auf den **Branch**, den ihr hinzufügen wollt. Anschließend erscheint dieses Fenster, in dem ihr noch einen neun Namen geben könntet. Die restlichen Defaults sind für das lokale tracken korrekt. Dann klickt ihr *Checkout*.
+
+![](images/smartgit_add_branch_tracked.PNG)
+
+Nun habt ihr den **Branch** auch lokal.
+
+![](images/smartgit_added_branch_tracked.PNG)
+
 # Fazit und Ausblick
 
 Wie ihr seht, sind **Branches** in <span style="color: darkred;">**Git**</span> ein sehr nützliches Tool, beispielsweise wenn ihr ein Original und eine Entwicklungsdatei habt. Natürlich ist das **Branches**-Tool noch viel umfangreicher als hier beschrieben. Ihr könnt auch die Entwicklungsdatei nochmal spalten und dann entscheiden, welche ihr mergen wollt - im Endeffekt also die Branches immer weiter aufsplitten. Hier aber aufpassen, dass ihr den Überblick behaltet. 

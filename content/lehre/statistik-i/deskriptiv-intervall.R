@@ -18,6 +18,8 @@ fb23$wohnen <- factor(fb23$wohnen,
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 
+dim(fb23)
+
 fb23$lz
 
 # Minimum & Maximum

@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte Variablen vorgestellt. Dabei wird zunächst die Berechnung des Mittelwerts, der Varianz sowie Standardabweichung behandelt. Dann wird gezeigt, wie Variablen zentriert bzw. standardisiert werden können. Abschließend geht es außerdem um das Rekodieren von Items und das Bilden von Skalenwerten.' 
 authors: [nehler, beitner, buchholz] 
 weight: 3
-lastmod: '2023-12-04'
+lastmod: '2024-02-19'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -90,6 +90,21 @@ fb23$wohnen <- factor(fb23$wohnen,
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 ```
+
+Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
+
+
+```r
+dim(fb23)
+```
+
+```
+## [1] 179  41
+```
+
+Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 41 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+
+
 ***
 
 ## Mindestens intervallskalierte Variablen
@@ -121,15 +136,13 @@ fb23$lz
 ```
 
 ```
-##   [1] 5.4 3.4 4.4 4.4 6.4 5.6 5.4 5.0 4.8 6.0 5.4 5.4 5.8 2.6 4.8 5.2 5.4 4.4 1.4 4.8 6.6  NA
-##  [23] 5.0 4.8 7.0 5.0 4.8 5.8 5.4 5.2 6.4 5.8 5.2 5.4 3.4 6.8 6.0 6.2 5.6 5.8 5.2 4.6  NA 5.2
-##  [45] 3.6 4.8 5.8 3.2 5.4 5.6 4.6 4.6 5.0 6.8 5.8 5.8 6.2 4.2 4.4 4.8 5.0 6.6 6.6 4.6 6.0 5.6
-##  [67] 6.0 4.0 2.6 4.0 3.8 4.8 4.0 6.2 6.0 4.0 5.2 5.4 2.8 4.6 4.6 5.0 4.0 6.0 5.6 4.2 4.8 6.0
-##  [89] 4.2 6.2 6.2 3.2 4.2 5.6 4.6 6.6 4.2 1.6 4.6 5.4 5.8 6.0 5.8 5.0 3.6 7.0 6.2 6.0 6.4 5.0
-## [111] 5.4 5.8 5.8 3.8 6.0 5.8 4.8 6.8 3.6 6.2 3.2 5.6 5.4 5.6 4.6 4.8 5.6 3.2 6.2 5.4 4.4 5.6
-## [133] 5.4 4.2 4.4 4.4 2.8 6.4 5.4 5.6 5.0 6.4 5.0 5.2 6.0 5.4 6.8 4.2 2.8 5.2 6.2 5.6 5.6 5.6
-## [155] 7.0 5.0 4.0 5.2 6.4 5.6 5.0 3.6 5.2 6.6 5.8 3.8 3.6 4.0 3.8 5.6 5.2 5.8 5.4 3.6 6.2 6.0
-## [177] 6.2 6.0 5.4
+##   [1] 5.4 3.4 4.4 4.4 6.4 5.6 5.4 5.0 4.8 6.0 5.4 5.4 5.8 2.6 4.8 5.2 5.4 4.4 1.4 4.8 6.6  NA 5.0 4.8 7.0 5.0
+##  [27] 4.8 5.8 5.4 5.2 6.4 5.8 5.2 5.4 3.4 6.8 6.0 6.2 5.6 5.8 5.2 4.6  NA 5.2 3.6 4.8 5.8 3.2 5.4 5.6 4.6 4.6
+##  [53] 5.0 6.8 5.8 5.8 6.2 4.2 4.4 4.8 5.0 6.6 6.6 4.6 6.0 5.6 6.0 4.0 2.6 4.0 3.8 4.8 4.0 6.2 6.0 4.0 5.2 5.4
+##  [79] 2.8 4.6 4.6 5.0 4.0 6.0 5.6 4.2 4.8 6.0 4.2 6.2 6.2 3.2 4.2 5.6 4.6 6.6 4.2 1.6 4.6 5.4 5.8 6.0 5.8 5.0
+## [105] 3.6 7.0 6.2 6.0 6.4 5.0 5.4 5.8 5.8 3.8 6.0 5.8 4.8 6.8 3.6 6.2 3.2 5.6 5.4 5.6 4.6 4.8 5.6 3.2 6.2 5.4
+## [131] 4.4 5.6 5.4 4.2 4.4 4.4 2.8 6.4 5.4 5.6 5.0 6.4 5.0 5.2 6.0 5.4 6.8 4.2 2.8 5.2 6.2 5.6 5.6 5.6 7.0 5.0
+## [157] 4.0 5.2 6.4 5.6 5.0 3.6 5.2 6.6 5.8 3.8 3.6 4.0 3.8 5.6 5.2 5.8 5.4 3.6 6.2 6.0 6.2 6.0 5.4
 ```
 
 Auf den ersten Blick ist es schwer, aus so einer großen Menge an unterschiedlichen Werten ein Fazit zu ziehen. Um eine Stichprobe zusammenzufassen, lernen wir heute deskriptive Maße kennen. Zunächst lässt sich aber feststellen, dass wir es auch auf dem Skalenwert mit fehlenden Werten (`NA`) zu tun haben. 
@@ -164,7 +177,7 @@ quantile(fb23$lz, c(.25, .5, .75), na.rm=T)
 boxplot(fb23$lz)
 ```
 
-![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 Die Betrachtung zeigt uns, dass die meisten Werte Ihrer selbstberichteten Lebenszufriedenheit im oberen Bereich der Skala liegen. Personen mit sehr niedrigen Skalenwerten werden als mögliche Ausreißer getestet.
 
@@ -178,7 +191,7 @@ Um die Verteilung der Werte für eine mindestens intervallskalierte noch besser 
 hist(fb23$lz)
 ```
 
-![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 Natürlich kann man auch hier zusätzliche Argumente nutzen, die die Optik des Histogramms verändern. Dabei können beispielsweise Farbe, Achsenbeschriftungen oder auch der Titel verändert werden. Damit haben wir uns aber bereits auseinandergesetzt und wiederholen es deswegen an dieser Stelle nicht nochmal. Eine neue Bearbeitungsoption für den Plot ist aber das Argument `breaks`. Hierin wird beschrieben, an welchem Ort eine Kategorie anfängt und wieder aufhört. bspw. startet die erste Kategorie bei 1 und geht bis 3, die zweite dann bei 3 bis 5 und die vierte von 5 bis 7. Die Anzahl der Breakpoints wäre in diesem Beispiel 4 (`c(1, 3, 5, 7)`). Ohne eigenen Input bestimmt `R` dieses komplett selbst. Wir können aber auch einen Wert zuordnen - bspw. eine ganze Zahl. 
 
@@ -189,7 +202,7 @@ hist(fb23$lz,
      breaks = 20)
 ```
 
-![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 Das Argument ist eine weiche Einstellung. `R` weiß jetzt, dass wir 20 Kategorien bevorzugen. Im Hintergrund laufen aber Funktionen ab, die einen optisch ansprechenden Code produzieren. Deshalb erhalten wir mehr als 20 Breakpoints. Eine weiche Einstellung bedeutet also, dass `R` das Argument nicht als Pflicht übernimmt. Dieses Phänomen werden wir relativ selten im Verlauf des Semesters sehen. Es wird aber in der Hilfe `?hist` im Unterpunkt `breaks` beschrieben. 
 
@@ -204,7 +217,7 @@ hist(fb23$lz,
      breaks = c(1, 3, 3.3, 3.6, 3.9, 4.5, 5, 7))
 ```
 
-![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 Für die eigene Bestimmung der Grenzen muss also anstatt einer ganzen Zahl dem Befehl ein Vektor `c()` mit allen Breakpoints übergeben werden.
 
@@ -249,7 +262,7 @@ Achtung! Wir benötigen für die Varianzberechnung `n` (s. Formel)! Wir nutzen h
 
 **Kleiner Diskurs zu fehlenden Werten:**
 
-<img src="/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
 Um zu prüfen, ob und wie viele fehlende Werte eine Variable hat, lässt sich z. B. folgende Syntax verwenden:
 
