@@ -613,23 +613,17 @@ Schauen wir uns nun noch einen weiteren Datensatz an. Laden Sie sich den Datensa
 
 ```{r}
 # rm(list = ls())
-load(url("https://pandar.netlify.app/daten/SD3_origin.rda"))
+source('/home/zarah/pandar.git/content/daten/SD3_zusatz_processing.R')
+# source(url("https://pandar.netlify.app/daten/SD3_zusatz_processing.R"))
 ```
 
 Dieser Datensatz enthält Daten, die mit einem Fragebogen zur Dunklen Triade (Short Dark Triad) erfasst wurden. Es lassen sich drei Subskalen berechnen. Die Items `M1` bis `M9` beziehen sich auf das Konstrukt des Machiavellismus, die Items `N1` bis `N9` erfassen Narzissmus und die Items `P1` bis `P9` Psychopathie. Die Items wurden anhand einer fünf-Punte-Skala von 1 (stimme nicht zu) bis 5 (stimme zu) beantwortet. Es ist zu beachten, dass die Items `N2`, `N6`, `N8`, `P2` und `P7` invertiert sind. 
-
-* Schließen Sie zunächst alle `NAs` aus, sollten sich welche in diesem Datensatz befinden.
 
 * Wandeln Sie also zunächst diese Items so um, dass hohe Werte für eine hohe Ausprägung in diesem Konstrukt stehen. Überschreiben Sie dafür wieder die Ursprungsvariable.
 
 * Erstellen Sie dann drei neue Variablen `M_ges`, `N_ges`, `P_ges`, die die Antworten auf den drei Subskalen jeweils zusammenfassen.
 
 <details><summary>Lösung</summary>
-
-Zuerst werden die `NAs` ausgeschlossen.
-```{r}
-SD3 <- na.omit(SD3_origin)
-```
 
 Zunächst werden die Items invertiert.
 ```{r}
@@ -666,11 +660,12 @@ Erzielen die Proband:innen im Mittel, rein deskriptiv betrachtet, höhere Werte 
 mean(SD3$M_ges)
 mean(SD3$N_ges)
 
-var(SD3$M_ges) * (18190/18191)
-var(SD3$N_ges) * (18190/18191)
+n <- nrow(SD3)
+var(SD3$M_ges) * ((n-1)/n)
+var(SD3$N_ges) * ((n-1)/n)
 ```
 
-Der Mittelwert von `M_ges` liegt bei `r round(mean(SD3$M_ges), digits = 3)`, der von `N_ges` bei `r round(mean(SD3$N_ges), digits = 3)`. Unter den getroffenen Annahmen sind die Proband:innen stärker machiavellistisch als narzisstisch. Die Streuung ist deskriptiv beim Narzissmus größer. Hier liegt sie bei `r round(var(SD3$N_ges) * (18190/18191), digits = 3)`, während sie beim Machiavellismus bei `r round(var(SD3$M_ges) * (18190/18191), digits = 3)` liegt.
+Der Mittelwert von `M_ges` liegt bei `r round(mean(SD3$M_ges), digits = 3)`, der von `N_ges` bei `r round(mean(SD3$N_ges), digits = 3)`. Unter den getroffenen Annahmen sind die Proband:innen stärker machiavellistisch als narzisstisch. Die Streuung ist deskriptiv beim Machiavellismus größer. Hier liegt sie bei `r round(var(SD3$M_ges) * ((n-1)/n), digits = 3)`, während sie beim Narzismus bei `r round(var(SD3$N_ges) * ((n-1)/n), digits = 3)` liegt.
 
 </details>
 
@@ -1246,6 +1241,55 @@ Der Effekt ist mit `r round(cohen.d(fb22$nerd, fb22$intel, paired = T, within = 
 
 </details>
 
+## Aufgabe 29.2
+
+Unterscheiden sich  Marchiavellismus (`M_ges`) und Narzissmus (`N_ges`) im Durchschnitt voneinander? Gehen Sie für die Beantwortung davon aus, dass die Skalen gleich genormt sind.
+
+* Stellen sie die Hypothesen auf.
+
+<details><summary>Lösung</summary>
+
+$H_0$: Der durchschnittliche Marchiavellismus in der Bevölkerung unterscheidet sich nicht von deren Narzissmus.
+
+$H_0$: $\mu_0$ $=$ $\mu_1$
+  
+$H_1$: Der durchschnittliche Marchiavellismus in der Bevölkerung unterscheidet sich von deren Narzissmus.
+
+$H_1$: $\mu_0$ $≠$ $\mu_1$
+
+</details>
+
+
+* Begründen Sie weshalb Sie welchen Test benutzen wollen.
+
+<details><summary>Lösung</summary>
+
+Da die Marchiavellismus- und Narzissmus-Werte, die verglichen werden sollen, immer von derselben Person stammen, sind die Werte voneinander abhängig. Daher wollen wir einen t-Test für abhängige Stichproben durchführen. Die Werte sind intervallskaliert, voneinander abhängig und die Differenzvariable ist normalverteilt, da wir bei einer Stichprobe von n ≥ 30 direkt davon ausgehen können. Somit sind alle Voraussetzungen für den t-Test erfüllt.
+
+</details>
+
+
+* Führen Sie den Test durch und berechnen Sie gegebenfalls eine Effektgröße.
+
+<details><summary>Lösung</summary>
+
+```{r}
+t.test(SD3$M_ges, SD3$N_ges, paired = T)
+```
+Der Gruppenunterschied ist signifikant ($t$(18190) = `r round(t.test(SD3$M_ges, SD3$N_ges, paired = T)$statistic, 2)` , *p* < .001), somit wird die Nullhypothese verworfen. Unter den getroffenen Annahmen weist die Bevölkerung unterschiedliche Werte auf der Skala Nerdiness und auf der Skala Intellekt auf.
+
+**Effektstärke:**
+
+```{r}
+library("effsize")
+cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)
+```
+
+Der Effekt ist mit `r round(cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)$estimate, 2)` als groß einzuschätzen.
+
+</details>
+
+
 
 ## Aufgabe 30
 
@@ -1366,7 +1410,6 @@ summary(fm)$r.squared
 
 
 
-
 Durch die Gewissenhaftigkeit können {{<math>}}$ `r round(summary(fm)$r.squared,4)*100`\%${{</math>}} der Varianz von Prokrastination erklärt werden.
 
 </details>
@@ -1384,10 +1427,9 @@ Das Modell sagt einen Prokrastinationswert von `r round(predict(fm, newdata = da
 </details>
 
 
-
 ## Aufgabe 32
 
-In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug $d=-0.56$. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
+In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug $d=$. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
 Nutzen Sie den Seed 4321 (`set.seed(4321)`).
 
 * Führen Sie eine Simulation durch, um die empirische Power des t-Tests zu bestimmen.
@@ -1424,11 +1466,65 @@ Die Wahrscheinlichkeit eines $\beta$-Fehlers beträgt `r (1 - mean(tH1 < .05))*1
 <details><summary>Lösung</summary>
 ```{r}
 set.seed(4321)
-tH1 <- replicate(n = 10^4, expr = {X <- rnorm(159) 
-                                   Y <- rnorm(159) + d 
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d 
                                    ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T)
                                    ttestH1$statistic})
 power <- c(mean(abs(tH1) > qt(p = 1- 0.001/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.01/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.025/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.05/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.1/2, df = N)))
+
+x <- c(.001, 0.01, 0.025, 0.05, 0.1)
+plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
+```
+
+Wir sehen: Je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 44 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
+
+</details>
+
+
+## Aufgabe 32
+
+In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug `r round(cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)$estimate, 2)`. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
+Nutzen Sie den Seed 4321 (`set.seed(4321)`).
+
+* Führen Sie eine Simulation durch, um die empirische Power des t-Tests zu bestimmen.
+
+<details><summary>Lösung</summary>
+```{r}
+d <- cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)$estimate #Effektstärke
+N <- nrow(SD3) #Anzahl der Teilnehmenden von SD3
+set.seed(4321)
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d #Normalverteilte Stichproben mit Mittelwertsunterschied von d Standardabweichungen
+                                   ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T) #Paired = T, da es sich um einen t-Test für abhängige Stichproben handelt
+                                   ttestH1$p.value})
+mean(tH1 < .05 )
+```
+
+Die Power des Tests beträgt `r mean(tH1 < .05 )*100`%.
+</details>
+
+* Wie hoch ist die Wahrscheinlichkeit eines $\beta$-Fehlers?
+
+<details><summary>Lösung</summary>
+```{r}
+1 - mean(tH1 < .05 )
+```
+
+Die Wahrscheinlichkeit eines $\beta$-Fehlers beträgt `r (1 - mean(tH1 < .05))*100`%.
+
+</details>
+
+
+* Angenommen wir wollen das $\alpha$-Niveau verändern. Wie würde sich das auf die Power des Tests auswirken? Simulieren sie diesmal den empirischen t-Wert und erstellen Sie einen Powerplot, in dem $\alpha$ = 0.001, $\alpha$ = 0.01, $\alpha$ = 0.025, $\alpha$ = 0.05, $\alpha$ = 0.1 abgetragen sind. 
+
+<details><summary>Lösung</summary>
+```{r}
+set.seed(4321)
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d 
+                                   ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T)
+                                   ttestH1$statistic})
+power <- c(mean(abs(tH1) > qt(p = 1- 0.001/2,  df  = N)), mean(abs(tH1) > qt(p = 1- 0.01/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.025/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.05/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.1/2, df = N)))
 
 x <- c(.001, 0.01, 0.025, 0.05, 0.1)
 plot(x = x, y = power, type = "b", main = "Power vs. Alpha")

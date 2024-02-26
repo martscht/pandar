@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [cezanne, mueller, nehler]
 weight:
-lastmod: '2024-02-22' 
+lastmod: '2024-02-26' 
 featured: no
 banner:
   image: "/header/mechanical_number_display.png"
@@ -1006,24 +1006,17 @@ Schauen wir uns nun noch einen weiteren Datensatz an. Laden Sie sich den Datensa
 
 ```r
 # rm(list = ls())
-load(url("https://pandar.netlify.app/daten/SD3_origin.rda"))
+source('/home/zarah/pandar.git/content/daten/SD3_zusatz_processing.R')
+# source(url("https://pandar.netlify.app/daten/SD3_zusatz_processing.R"))
 ```
 
 Dieser Datensatz enthält Daten, die mit einem Fragebogen zur Dunklen Triade (Short Dark Triad) erfasst wurden. Es lassen sich drei Subskalen berechnen. Die Items `M1` bis `M9` beziehen sich auf das Konstrukt des Machiavellismus, die Items `N1` bis `N9` erfassen Narzissmus und die Items `P1` bis `P9` Psychopathie. Die Items wurden anhand einer fünf-Punte-Skala von 1 (stimme nicht zu) bis 5 (stimme zu) beantwortet. Es ist zu beachten, dass die Items `N2`, `N6`, `N8`, `P2` und `P7` invertiert sind. 
-
-* Schließen Sie zunächst alle `NAs` aus, sollten sich welche in diesem Datensatz befinden.
 
 * Wandeln Sie also zunächst diese Items so um, dass hohe Werte für eine hohe Ausprägung in diesem Konstrukt stehen. Überschreiben Sie dafür wieder die Ursprungsvariable.
 
 * Erstellen Sie dann drei neue Variablen `M_ges`, `N_ges`, `P_ges`, die die Antworten auf den drei Subskalen jeweils zusammenfassen.
 
 <details><summary>Lösung</summary>
-
-Zuerst werden die `NAs` ausgeschlossen.
-
-```r
-SD3 <- na.omit(SD3_origin)
-```
 
 Zunächst werden die Items invertiert.
 
@@ -1069,7 +1062,7 @@ mean(SD3$M_ges)
 ```
 
 ```
-## [1] 3.705691
+## [1] 3.60101
 ```
 
 ```r
@@ -1077,26 +1070,27 @@ mean(SD3$N_ges)
 ```
 
 ```
-## [1] 3.067573
+## [1] 3.050505
 ```
 
 ```r
-var(SD3$M_ges) * (18190/18191)
+n <- nrow(SD3)
+var(SD3$M_ges) * ((n-1)/n)
 ```
 
 ```
-## [1] 0.6305812
+## [1] 0.5804255
 ```
 
 ```r
-var(SD3$N_ges) * (18190/18191)
+var(SD3$N_ges) * ((n-1)/n)
 ```
 
 ```
-## [1] 0.5911097
+## [1] 0.5075502
 ```
 
-Der Mittelwert von `M_ges` liegt bei 3.706, der von `N_ges` bei 3.068. Unter den getroffenen Annahmen sind die Proband:innen stärker machiavellistisch als narzisstisch. Die Streuung ist deskriptiv beim Narzissmus größer. Hier liegt sie bei 0.591, während sie beim Machiavellismus bei 0.631 liegt.
+Der Mittelwert von `M_ges` liegt bei 3.601, der von `N_ges` bei 3.051. Unter den getroffenen Annahmen sind die Proband:innen stärker machiavellistisch als narzisstisch. Die Streuung ist deskriptiv beim Machiavellismus größer. Hier liegt sie bei 0.58, während sie beim Narzismus bei 0.508 liegt.
 
 </details>
 
@@ -1116,7 +1110,7 @@ Verträglichkeit ist in `vertr` abgelegt.
 hist(fb22$vertr)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
 
 Dieses Histogramm soll erstmal zum Vergleich dienen. Wir sehen die ursprünglichen Skalenwerte.
 
@@ -1126,7 +1120,7 @@ fb22$vertr_z <- scale(fb22$vertr, scale = F)
 hist(fb22$vertr_z)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
 
 Durch die Zentrierung verändert sich die Form erstmal nicht. Der Mittelwert der Werte wird auf 0 gesetzt. Optisch äußert sich das dadurch, dass die Werte auf der x-Achse nun andere sind.
 
@@ -1136,7 +1130,7 @@ fb22$vertr_st <- scale(fb22$vertr, scale = T)
 hist(fb22$vertr_st)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
 
 Die Standardisierung setzt die Standardabweichung auf 1. Aufgrund der neuen Wertestruktur wird natürlich auch die Kategorienanzahl geändert. 
 
@@ -1157,7 +1151,7 @@ Schauen wir uns nun das Konstrukt der Psychopathie nochmal genauer an.
 hist(SD3$P_ges)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
 
 Dieses Histogramm soll erstmal zum Vergleich dienen. Wir sehen die ursprünglichen Skalenwerte.
 
@@ -1167,7 +1161,7 @@ SD3$P_z <- scale(SD3$P_ges, scale = F)
 hist(SD3$P_z)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
 
 Durch die Zentrierung verändert sich die Form erstmal nicht. Der Mittelwert der Werte wird auf 0 gesetzt. Optisch äußert sich das dadurch, dass die Werte auf der x-Achse nun andere sind.
 
@@ -1177,7 +1171,7 @@ SD3$P_st <- scale(SD3$P_ges, scale = T)
 hist(SD3$P_st)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-54-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
 
 Die Standardisierung setzt die Standardabweichung auf 1. Aufgrund der neuen Wertestruktur wird natürlich auch die Kategorienanzahl geändert. 
 
@@ -1351,7 +1345,7 @@ wk <- pbinom(X, 15, 0.75)
 plot(x = X, y = wk, typ = "h", xlab = "Anzahl Frauen", ylab = "kummulierte Wahrscheinlichkeit")
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-63-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-62-1.png)<!-- -->
 </details>
 
 
@@ -1484,7 +1478,7 @@ Jetzt können wir uns die Extraversion der Gruppen deskriptiv in einem Boxplot d
 boxplot(fb22$extra ~ fb22$lerntyp_neu, xlab = "Lerntyp", ylab = "Extraversion") 
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-71-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-70-1.png)<!-- -->
 
 Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir aber nun noch inferenzstatistisch überprüfen. Dafür überprüfen wir die Voraussetzungen eines t-Tests für unabhängige Stichproben. Wir können annehmen, dass die abhängige Variable intervallskaliert ist und dass die einzelnen Messwerte voneinander unabhängig sind. Wir müssen nun noch die Normalverteilung der Extraversion in den Gruppen und die Homoskedastizität überprüfen.
 
@@ -1505,7 +1499,7 @@ library(car)
 qqPlot(fb22$extra[fb22$lerntyp_neu == "alleine"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-72-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-71-1.png)<!-- -->
 
 ```
 ## [1]  7 38
@@ -1515,7 +1509,7 @@ qqPlot(fb22$extra[fb22$lerntyp_neu == "alleine"])
 qqPlot(fb22$extra[fb22$lerntyp_neu == "Gruppe oder Mischtyp"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-72-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-71-2.png)<!-- -->
 
 ```
 ## [1] 12 32
@@ -1758,7 +1752,7 @@ library(car)
 qqPlot(fb22$intel[fb22$job == "nein"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-82-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-81-1.png)<!-- -->
 
 ```
 ## [1] 30 79
@@ -1768,7 +1762,7 @@ qqPlot(fb22$intel[fb22$job == "nein"])
 qqPlot(fb22$intel[fb22$job == "ja"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-82-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-81-2.png)<!-- -->
 
 ```
 ## [1] 49 46
@@ -1805,13 +1799,13 @@ Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselbe
 hist(fb22$intel[fb22$job == "ja"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-83-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-82-1.png)<!-- -->
 
 ```r
 hist(fb22$intel[fb22$job == "nein"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-83-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-82-2.png)<!-- -->
 Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
 
 
@@ -1885,7 +1879,7 @@ Jetzt können wir uns die Extraversion der Gruppen deskriptiv in einem Boxplot d
 boxplot(nature$Q_ges ~ nature$urban_neu, xlab = "Gegend", ylab = "Naturverbundenheit") 
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-88-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-87-1.png)<!-- -->
 
 Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir aber nun noch inferenzstatistisch überprüfen. Dafür überprüfen wir die Voraussetzungen eines t-Tests für unabhängige Stichproben. Wir können annehmen, dass die abhängige Variable intervallskaliert ist und dass die einzelnen Messwerte voneinander unabhängig sind. Wir müssen nun noch die Normalverteilung der Extraversion in den Gruppen und die Homoskedastizität überprüfen.
 
@@ -1899,7 +1893,7 @@ library(car)
 qqPlot(nature$Q_ges[nature$urban_neu == "laendlich"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-89-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-88-1.png)<!-- -->
 
 ```
 ## [1] 351   4
@@ -1909,7 +1903,7 @@ qqPlot(nature$Q_ges[nature$urban_neu == "laendlich"])
 qqPlot(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-89-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-88-2.png)<!-- -->
 
 ```
 ## [1]  32 204
@@ -1954,13 +1948,13 @@ Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselbe
 hist(nature$Q_ges[nature$urban_neu == "laendlich"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-91-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-90-1.png)<!-- -->
 
 ```r
 hist(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-91-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-90-2.png)<!-- -->
 Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
 
 
@@ -2087,6 +2081,81 @@ Der Effekt ist mit -0.56 als mittel bis groß einzuschätzen.
 
 </details>
 
+## Aufgabe 29.2
+
+Unterscheiden sich  Marchiavellismus (`M_ges`) und Narzissmus (`N_ges`) im Durchschnitt voneinander? Gehen Sie für die Beantwortung davon aus, dass die Skalen gleich genormt sind.
+
+* Stellen sie die Hypothesen auf.
+
+<details><summary>Lösung</summary>
+
+$H_0$: Der durchschnittliche Marchiavellismus in der Bevölkerung unterscheidet sich nicht von deren Narzissmus.
+
+$H_0$: $\mu_0$ $=$ $\mu_1$
+  
+$H_1$: Der durchschnittliche Marchiavellismus in der Bevölkerung unterscheidet sich von deren Narzissmus.
+
+$H_1$: $\mu_0$ $≠$ $\mu_1$
+
+</details>
+
+
+* Begründen Sie weshalb Sie welchen Test benutzen wollen.
+
+<details><summary>Lösung</summary>
+
+Da die Marchiavellismus- und Narzissmus-Werte, die verglichen werden sollen, immer von derselben Person stammen, sind die Werte voneinander abhängig. Daher wollen wir einen t-Test für abhängige Stichproben durchführen. Die Werte sind intervallskaliert, voneinander abhängig und die Differenzvariable ist normalverteilt, da wir bei einer Stichprobe von n ≥ 30 direkt davon ausgehen können. Somit sind alle Voraussetzungen für den t-Test erfüllt.
+
+</details>
+
+
+* Führen Sie den Test durch und berechnen Sie gegebenfalls eine Effektgröße.
+
+<details><summary>Lösung</summary>
+
+
+```r
+t.test(SD3$M_ges, SD3$N_ges, paired = T)
+```
+
+```
+## 
+## 	Paired t-test
+## 
+## data:  SD3$M_ges and SD3$N_ges
+## t = 4.8118, df = 43, p-value = 1.87e-05
+## alternative hypothesis: true mean difference is not equal to 0
+## 95 percent confidence interval:
+##  0.3197814 0.7812287
+## sample estimates:
+## mean difference 
+##       0.5505051
+```
+Der Gruppenunterschied ist signifikant ($t$(18190) = 4.81 , *p* < .001), somit wird die Nullhypothese verworfen. Unter den getroffenen Annahmen weist die Bevölkerung unterschiedliche Werte auf der Skala Nerdiness und auf der Skala Intellekt auf.
+
+**Effektstärke:**
+
+
+```r
+library("effsize")
+cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)
+```
+
+```
+## 
+## Cohen's d
+## 
+## d estimate: 0.7254081 (medium)
+## 95 percent confidence interval:
+##     lower     upper 
+## 0.3885896 1.0622267
+```
+
+Der Effekt ist mit 0.73 als groß einzuschätzen.
+
+</details>
+
+
 
 ## Aufgabe 30
 
@@ -2121,7 +2190,7 @@ Nun schauen wir uns den Zusammenhang der Variablen in einem Scatterplot an.
 plot(x = fb22$woerter_grund, y = fb22$gewis)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-98-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-99-1.png)<!-- -->
 
 Wir schließen einen nicht linearen Zusammenhang nicht aus und überprüfen nun die Normalverteilung der Variablen.
 
@@ -2131,7 +2200,7 @@ library(car)
 qqPlot(fb22$gewis)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-99-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-100-1.png)<!-- -->
 
 ```
 ## [1] 54 80
@@ -2141,7 +2210,7 @@ qqPlot(fb22$gewis)
 qqPlot(fb22$woerter_grund)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-99-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-100-2.png)<!-- -->
 
 ```
 ## [1] 136  93
@@ -2206,7 +2275,7 @@ plot(fb22$gewis, fb22$prok_ges, xlab = "Gewissenhaftigkeit", ylab = "Prokrastina
 lines(loess.smooth(fb22$gewis, fb22$prok_ges), col = 'blue')
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-102-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-103-1.png)<!-- -->
 
 Die Voraussetzung ist erfüllt. Wir können nun also unser Regressionsmodell aufstellen.
 
@@ -2223,7 +2292,7 @@ par(mfrow = c(2, 2)) #vier Abbildungen gleichzeitig
 plot(fm)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-104-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-105-1.png)<!-- -->
 
 Der Q-Q-Plot oben rechts deutet auf Normalverteilung hin. Die rote Anpassungslinie des Scale-Location Plots unten links ist annähernd parallel zur x-Achse, sodass wir von Varianzhomogenität ausgehen können. Da auch der vierte Plot unten rechts nicht auf potentiell problematische, einflussreiche Datenpunkte hindeutet, sind alle Vorausetzungen erfüllt.
 
@@ -2306,7 +2375,6 @@ summary(fm)$r.squared
 
 
 
-
 Durch die Gewissenhaftigkeit können {{<math>}}$ 24.78\%${{</math>}} der Varianz von Prokrastination erklärt werden.
 
 </details>
@@ -2337,10 +2405,9 @@ Das Modell sagt einen Prokrastinationswert von 2.77 voraus.
 </details>
 
 
-
 ## Aufgabe 32
 
-In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug $d=-0.56$. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
+In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug $d=$. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
 Nutzen Sie den Seed 4321 (`set.seed(4321)`).
 
 * Führen Sie eine Simulation durch, um die empirische Power des t-Tests zu bestimmen.
@@ -2388,8 +2455,8 @@ Die Wahrscheinlichkeit eines $\beta$-Fehlers beträgt 0.11%.
 
 ```r
 set.seed(4321)
-tH1 <- replicate(n = 10^4, expr = {X <- rnorm(159) 
-                                   Y <- rnorm(159) + d 
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d 
                                    ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T)
                                    ttestH1$statistic})
 power <- c(mean(abs(tH1) > qt(p = 1- 0.001/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.01/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.025/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.05/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.1/2, df = N)))
@@ -2398,7 +2465,74 @@ x <- c(.001, 0.01, 0.025, 0.05, 0.1)
 plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-111-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-112-1.png)<!-- -->
+
+Wir sehen: Je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 44 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
+
+</details>
+
+
+## Aufgabe 32
+
+In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug 0.73. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
+Nutzen Sie den Seed 4321 (`set.seed(4321)`).
+
+* Führen Sie eine Simulation durch, um die empirische Power des t-Tests zu bestimmen.
+
+<details><summary>Lösung</summary>
+
+```r
+d <- cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)$estimate #Effektstärke
+N <- nrow(SD3) #Anzahl der Teilnehmenden von SD3
+set.seed(4321)
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d #Normalverteilte Stichproben mit Mittelwertsunterschied von d Standardabweichungen
+                                   ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T) #Paired = T, da es sich um einen t-Test für abhängige Stichproben handelt
+                                   ttestH1$p.value})
+mean(tH1 < .05 )
+```
+
+```
+## [1] 0.9142
+```
+
+Die Power des Tests beträgt 91.42%.
+</details>
+
+* Wie hoch ist die Wahrscheinlichkeit eines $\beta$-Fehlers?
+
+<details><summary>Lösung</summary>
+
+```r
+1 - mean(tH1 < .05 )
+```
+
+```
+## [1] 0.0858
+```
+
+Die Wahrscheinlichkeit eines $\beta$-Fehlers beträgt 8.58%.
+
+</details>
+
+
+* Angenommen wir wollen das $\alpha$-Niveau verändern. Wie würde sich das auf die Power des Tests auswirken? Simulieren sie diesmal den empirischen t-Wert und erstellen Sie einen Powerplot, in dem $\alpha$ = 0.001, $\alpha$ = 0.01, $\alpha$ = 0.025, $\alpha$ = 0.05, $\alpha$ = 0.1 abgetragen sind. 
+
+<details><summary>Lösung</summary>
+
+```r
+set.seed(4321)
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d 
+                                   ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T)
+                                   ttestH1$statistic})
+power <- c(mean(abs(tH1) > qt(p = 1- 0.001/2,  df  = N)), mean(abs(tH1) > qt(p = 1- 0.01/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.025/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.05/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.1/2, df = N)))
+
+x <- c(.001, 0.01, 0.025, 0.05, 0.1)
+plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-115-1.png)<!-- -->
 
 Wir sehen: Je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 159 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
 

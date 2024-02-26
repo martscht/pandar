@@ -164,9 +164,8 @@ var(fb22$gewis) * (158/159)
 var(fb22$extra) * (158/159)
 
 # rm(list = ls())
-load(url("https://pandar.netlify.app/daten/SD3_origin.rda"))
-
-SD3 <- na.omit(SD3_origin)
+source('/home/zarah/pandar.git/content/daten/SD3_zusatz_processing.R')
+# source(url("https://pandar.netlify.app/daten/SD3_zusatz_processing.R"))
 
 SD3$N2 <- -1 * (SD3$N2 - 6)
 SD3$N6 <- -1 * (SD3$N6 - 6)
@@ -184,8 +183,9 @@ SD3$P_ges <- rowMeans(SD3[, 19:27])
 mean(SD3$M_ges)
 mean(SD3$N_ges)
 
-var(SD3$M_ges) * (18190/18191)
-var(SD3$N_ges) * (18190/18191)
+n <- nrow(SD3)
+var(SD3$M_ges) * ((n-1)/n)
+var(SD3$N_ges) * ((n-1)/n)
 
 hist(fb22$vertr)
 
@@ -364,6 +364,11 @@ t.test(fb22$nerd, fb22$intel, paired = T)
 library("effsize")
 cohen.d(fb22$nerd, fb22$intel, paired = T, within = F)
 
+t.test(SD3$M_ges, SD3$N_ges, paired = T)
+
+library("effsize")
+cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)
+
 library(stringr) #falls noch nicht installiert: install.packages("stringr")
 str_count("Wie viele Wörter hat dieser Satz?", "\\w+")
 
@@ -421,11 +426,32 @@ mean(tH1 < .05 )
 1 - mean(tH1 < .05 )
 
 set.seed(4321)
-tH1 <- replicate(n = 10^4, expr = {X <- rnorm(159) 
-                                   Y <- rnorm(159) + d 
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d 
                                    ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T)
                                    ttestH1$statistic})
 power <- c(mean(abs(tH1) > qt(p = 1- 0.001/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.01/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.025/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.05/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.1/2, df = N)))
+
+x <- c(.001, 0.01, 0.025, 0.05, 0.1)
+plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
+
+d <- cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)$estimate #Effektstärke
+N <- nrow(SD3) #Anzahl der Teilnehmenden von SD3
+set.seed(4321)
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d #Normalverteilte Stichproben mit Mittelwertsunterschied von d Standardabweichungen
+                                   ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T) #Paired = T, da es sich um einen t-Test für abhängige Stichproben handelt
+                                   ttestH1$p.value})
+mean(tH1 < .05 )
+
+1 - mean(tH1 < .05 )
+
+set.seed(4321)
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d 
+                                   ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T)
+                                   ttestH1$statistic})
+power <- c(mean(abs(tH1) > qt(p = 1- 0.001/2,  df  = N)), mean(abs(tH1) > qt(p = 1- 0.01/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.025/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.05/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.1/2, df = N)))
 
 x <- c(.001, 0.01, 0.025, 0.05, 0.1)
 plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
