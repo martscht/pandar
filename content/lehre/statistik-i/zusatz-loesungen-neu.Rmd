@@ -984,7 +984,84 @@ Der deskriptive Unterschied der Mittelwerte lässt sich somit auch inferenzstati
 
 ## Aufgabe 26.2
 
-Unterscheiden sich Personen, die in einer ländlichen Gegend aufgewachsen sind, in ihrer Naturverbundenheit (`Q_ges`) von Personen, die in einer städtischen oder vorstädtischen Gegend aufgewachsen sind (`urban`)? Schauen Sich sich die Daten graphisch an und führen sie nach Voraussetzungsprüfung einen geeigneten Test durch.
+Laden Sie sich nun einen weiteren Datensatz `zusatz` in ihr Environment. 
+
+```{r}
+# load(url('https://pandar.netlify.app/daten/zusatz.rda'))
+load('/home/zarah/pandar.git/content/daten/zusatz.rda')
+```
+
+Dieser enthält simulierte Daten, aber wir stellen uns einfach mal vor, dass wir Daten aus einer bestimmten Stichprobe vorliegen haben. In der Spalte `diet` ist dann eine Information darüber enthalten, wie sich jemand ernährt. Dabei werden drei Ernährungsweisen unterschieden: nicht-vegetarisch (und damit auch nicht vegan; 1), vegetarisch (2) und vegan (3). Unterscheiden sich Personen, die sich vegan oder vegetarisch ernähren, in ihrer Happiness (`happiness`) von Personen, die sich nicht vegetarisch/vegan ernähren?
+
+Schauen Sich sich die Daten graphisch an und führen sie nach Voraussetzungsprüfung einen geeigneten Test durch.
+
+<details><summary>Lösung</summary>
+
+Zuerst schauen wir uns an, ob die Variable `diet` bereits als Faktor vorliegt und wandeln sie gegebenenfalls um.
+
+```{r}
+is.factor(zusatz$diet)
+zusatz$diet <- factor(zusatz$diet, 
+                       levels = 1:3, 
+                       labels = c("nicht-vegetarisch", "vegetarisch", "vegan"))
+```
+
+Nun wollen wir eine neue Variable erstellen, in der die Personen, die sich vegetarisch oder vegan ernähren, zusammengefasst werden.
+
+```{r}
+zusatz$diet_neu <- zusatz$diet == "nicht-vegetarisch"
+zusatz$diet_neu <- as.numeric(zusatz$diet_neu) #Umwandlung in Numeric, da der Variablen Typ nun Logical ist
+zusatz$diet_neu <- factor(zusatz$diet_neu, 
+                           levels = 0:1, 
+                           labels = c("vegetarisch oder vegan", "nicht-vegetarisch"))
+```
+
+Jetzt können wir uns die Happiness der Gruppen deskriptiv in einem Boxplot darstellen lassen.
+
+```{r}
+boxplot(zusatz$happiness ~ zusatz$diet_neu, xlab = "Diet", ylab = "Happiness") 
+```
+
+Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir aber nun noch inferenzstatistisch überprüfen. Dafür überprüfen wir die Voraussetzungen eines t-Tests für unabhängige Stichproben. Wir können annehmen, dass die abhängige Variable intervallskaliert ist und dass die einzelnen Messwerte voneinander unabhängig sind. Wir müssen nun noch die Normalverteilung der Extraversion in den Gruppen und die Homoskedastizität überprüfen.
+
+**Prüfung der Normalverteilung**
+
+Wir nutzen dafür die `qqPlot`-Funktion aus dem `car`-Paket.
+
+```{r}
+library(car)
+qqPlot(zusatz$happiness[zusatz$diet_neu == "nicht-vegetarisch"])
+qqPlot(zusatz$happiness[zusatz$diet_neu == "vegetarisch oder vegan"])
+```
+
+Die Abweichungen sind nicht zu weit. Trotzdem führen wir zur weiteren Absicherung noch den Shapiro-Test durch.
+
+```{r}
+shapiro.test(zusatz$happiness[zusatz$diet_neu == "nicht-vegetarisch"])
+shapiro.test(zusatz$happiness[zusatz$diet_neu == "vegetarisch oder vegan"])
+```
+
+Keiner der Tests ist signifikant, sodass wir die Normalverteilungsannahme beibehalten.
+
+**Homoskedastizität**
+
+Diese überprüfen wir mittels Levene-Test.
+
+```{r}
+leveneTest(zusatz$happiness ~ zusatz$diet_neu)
+```
+
+Das Ergebnis ist nicht signifikant, sodass wir die $H_0$ nicht ablehnen und die Homoskedastizität der Varianzen annehmen können.
+Damit sind alle Voraussetzungen eines t-Tests erfüllt.
+
+```{r}
+t.test(zusatz$happiness ~ zusatz$diet_neu, var.equal = T)
+```
+
+Der deskriptive Unterschied der Mittelwerte lässt sich somit auch inferenzstatistisch feststellen, denn mit einer Irrtumswahrscheinlichkeit von {{<math>}}$5\%${{</math>}} kann die $H_0$ verworfen und die $H_1$ angenommen werden. Die Teilnehmenden, die sich nicht-vegetarisch ernähren, unterscheiden sich von den Teilnehmenden, die sich vegetarisch oder vegan ernähren, in ihrer Happiness ($t$(*df* = `r t.test(zusatz$happiness ~ zusatz$diet_neu, var.equal = T)$parameter`, zweis.) = `r round(t.test(zusatz$happiness ~ zusatz$diet_neu, var.equal = T)$statistic, 2)`, *p* = <.001).
+
+</details>
+
 
 ## Aufgabe 27
 
@@ -1068,6 +1145,87 @@ chisq.test(tab, correct = F)
 
 </details>
 
+## Aufgabe 27.2
+
+In der Variable `living` ist dokumentiert, ob jemand nicht-alleine (1) oder alleine (2) lebt. In der Variable `pet` steht drin, ob jemand kein Haustier besitzt (1), eine Katze (2) hält, einen Hund (3) hat oder irgendein anderes Haustier (4) besitzt.
+Haben Personen, die alleine leben mit gleicher Wahrscheinlichkeit ein Haustier wie Personen, die nicht alleine leben?
+
+* Prüfen Sie die Voraussetungen für einen Chi-Quadrat-Test.
+
+<details><summary>Lösung</summary>
+
+Als erstes müssen wir den Datensatz aufbereiten.
+
+```{r}
+is.factor(zusatz$living)
+is.factor(zusatz$pet)
+
+zusatz$living <- factor(zusatz$living, levels = 1:2, labels = c("nicht-alleine", "alleine"))
+zusatz$pet <- factor(zusatz$pet, levels = 1:4, labels = c("keins", "Katze", "Hund", "anderes"))
+
+zusatz$pet_owner <- zusatz$pet %in% c("Katze", "Hund", "anderes")  #wir erstellen eine Variable, die angibt, ob eine Personen bei den Eltern wohnt oder nicht
+```
+
+Die Voraussetzungen, dass die einzelnen Beobachtungen voneinander unabhängig sind und jede Person eindeutig einer Merkmalskombination zuordbar ist, ist durch das Studiendesign erfüllt. Wir müssen aber noch prüfen, ob jede Zelle mit mehr als fünf Personen gefüllt ist.
+
+```{r}
+tab <- table(zusatz$pet_owner, zusatz$living)
+tab
+```
+
+Die Voraussetzungen für einen Chi-Quadrat-Test sind erfüllt.
+
+</details>
+
+
+* Berechnen Sie die erwarteten Häufigkeiten der Zellen und treffen Sie eine Signifikanzentscheidung.
+
+<details><summary>Lösung</summary>
+
+Für die erwarteten Häufigkeiten brauchen wir die Randsummen. Diese erhalten wir mit dem Befehl `addmargins`.
+
+```{r}
+tab_mar <- addmargins(tab)
+tab_mar
+```
+
+Die erwarteten Häufigkeiten der Zellen erhalten wir wie folgt:
+
+```{r}
+n <- tab_mar[3,3]
+
+erwartet_11 <- (tab_mar[1,3]*tab_mar[3,1])/n
+erwartet_12 <- (tab_mar[1,3]*tab_mar[3,2])/n
+erwartet_21 <- (tab_mar[2,3]*tab_mar[3,1])/n
+erwartet_22 <- (tab_mar[2,3]*tab_mar[3,2])/n
+
+erwartet <- data.frame(nein = c(erwartet_11, erwartet_21), ja = c(erwartet_12, erwartet_22))
+erwartet
+
+```
+
+Für die Signifikanzentscheidung berechnen wir den empirischen Chi-Quadrat-Wert und den zugehörigen p-Wert.
+
+```{r}
+chi_quadrat_Wert <- (tab[1,1]-erwartet[1,1])^2/erwartet[1,1]+
+  (tab[1,2]-erwartet[1,2])^2/erwartet[1,2]+
+  (tab[2,1]-erwartet[2,1])^2/erwartet[2,1]+
+  (tab[2,2]-erwartet[2,2])^2/erwartet[2,2]
+
+chi_quadrat_Wert
+
+pchisq(chi_quadrat_Wert, 1, lower.tail = F) #Freiheitsgrad beträgt 1
+```
+Somit ist der Test signifikant und es lässt sich feststellen, dass das Alleine-Wohnen damit zusammen hängt, ob jemand ein Haustier besitzt oder nicht.
+
+Wir können unser Ergebnis auch noch mit dem Befehl `chisq.test()` überprüfen und sehen, dass dieser das gleiche Ergebnis liefert.
+
+```{r}
+chisq.test(tab, correct = F)
+```
+
+</details>
+
 ## Aufgabe 28
 
 Weichen Psychologiestudierende, die einen Nebenjob haben, in ihrem Intellekt (`intel`) von Psychologiestudierenden, die keinen Nebenjob haben, ab.
@@ -1113,83 +1271,95 @@ Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = `r wil
 
 ## Aufgabe 28.2
 
-Weichen Personen, die in einer ländlichen Gegend aufgewachsen sind, in ihrer Naturverbundenheit (`Q_ges`) von Personen, die in einer städtischen oder vorstädtischen Gegend aufgewachsen sind (`urban`) ab?
+In der Variable `school` ist enthalten, ob jemand eine öffentliche (1) oder eine private (2) Schule besucht hat.  
+Unterscheiden sich Personen, die auf eine private Schule gegangen sind, in ihrem Intellekt (`intel`) von Personen, die eine öffentliche Schule besucht haben. 
+
 
 * Führen Sie nach Voraussetzungsprüfung einen geeigneten Test durch.
 
 <details><summary>Lösung</summary>
 Wir beginnen die Voraussetzungen des t-Tests für unabhängige Stichproben zu überprüfen. Die Voraussetzungen, dass die unabhängige Variable intervallskaliert ist und die einzelnen Messwerte unabhängig voneinander sind, sind per Untersuchungsdesign erfüllt. Wir wollen nun also die Normalverteilung des Merkmals in den Gruppen überprüfen.
 
-
 ```{r}
 #Wir überprüfen erst wieder, ob die Variable Nebenjob als Faktor vorliegt
-is.factor(nature$urban)
-```
+is.factor(zusatz$school)
 
-############################
-Nun wollen wir eine neue Variable erstellen, in der die Personen, die in einer städtischen oder vorstädtischen Gegend aufgewachsen sind, zusammengefasst werden.
+zusatz$school <- factor(zusatz$school, levels = 1:2, labels = c("öffentlich", "privat"))
 
-```{r}
-nature$urban_neu <- nature$urban == "laendlich"
-nature$urban_neu <- as.numeric(nature$urban_neu) #Umwandlung in Numeric, da der Variablen Typ nun Logical ist
-nature$urban_neu <- factor(nature$urban_neu, 
-                           levels = 0:1, 
-                           labels = c("staedtisch oder vorstaedtisch", "laendlich"))
-```
-
-Jetzt können wir uns die Extraversion der Gruppen deskriptiv in einem Boxplot darstellen lassen.
-
-```{r}
-boxplot(nature$Q_ges ~ nature$urban_neu, xlab = "Gegend", ylab = "Naturverbundenheit") 
-```
-
-Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir aber nun noch inferenzstatistisch überprüfen. Dafür überprüfen wir die Voraussetzungen eines t-Tests für unabhängige Stichproben. Wir können annehmen, dass die abhängige Variable intervallskaliert ist und dass die einzelnen Messwerte voneinander unabhängig sind. Wir müssen nun noch die Normalverteilung der Extraversion in den Gruppen und die Homoskedastizität überprüfen.
-
-**Prüfung der Normalverteilung**
-
-Wir nutzen dafür die `qqPlot`-Funktion aus dem `car`-Paket.
-
-```{r}
 library(car)
-qqPlot(nature$Q_ges[nature$urban_neu == "laendlich"])
-qqPlot(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
+qqPlot(zusatz$intel[zusatz$school == "privat"])
+qqPlot(zusatz$intel[zusatz$school == "öffentlich"])
+shapiro.test(zusatz$intel[zusatz$school == "privat"])
+shapiro.test(zusatz$intel[zusatz$school == "öffentlich"])
 ```
-
-Die Abweichungen sind recht weit. Wir führen noch den Shapiro-Test durch.
-
-```{r}
-shapiro.test(nature$Q_ges[nature$urban_neu == "laendlich"])
-shapiro.test(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
-```
-
-Keiner der Tests ist signifikant, sodass wir die Normalverteilungsannahme beibehalten.
-###########################
-
- 
 Die Normalverteilungsannahme ist nicht erfüllt. Wir können also keinen t-Test durchführen. Wir überprüfen nun die Voraussetzungen des Wilcoxon-Tests.
 Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselben Verteilung folgen.
 
 ```{r}
-hist(nature$Q_ges[nature$urban_neu == "laendlich"])
-hist(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
+hist(zusatz$intel[zusatz$school == "privat"])
+hist(zusatz$intel[zusatz$school == "öffentlich"])
 ```
 Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
 
 ```{r}
-leveneTest(nature$Q_ges ~ nature$urban_neu)
-
-var(nature$Q_ges[nature$urban_neu == "laendlich"], na.rm =T)
-var(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"], na.rm = T)
+leveneTest(zusatz$intel ~ zusatz$school)
 ```
 
 Wir können von Varianzhomogenität ausgehen und somit einen Wilcoxon-Test durchführen.
 
 ```{r}
-wilcox.test(nature$Q_ges ~ nature$urban_neu)
+wilcox.test(zusatz$intel ~ zusatz$school)
 ```
-Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = `r wilcox.test(nature$Q_ges ~ nature$urban_neu)$statistic `, *p* = `r round(wilcox.test(nature$Q_ges ~ nature$urban_neu)$p.value, 3)` ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Psychologiestudierende, die einen Nebenjob haben, und Psychologiestudierende, die keinen Nebenjob haben, nicht in ihrem Intellekt unterscheiden. 
+Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = `r wilcox.test(zusatz$intel ~ zusatz$school)$statistic `, *p* = `r round(wilcox.test(zusatz$intel ~ zusatz$school)$p.value, 3)` ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Personen, die auf eine private Schule gegangen sind, und Personen, die eine öffentliche Schule besucht haben, nicht in ihrem Intellekt unterscheiden. 
 
-</details> 
+</details>
+
+
+## Aufgabe 28.3
+
+In der Variable `school` ist enthalten, ob jemand eine öffentliche (1) oder eine private (2) Schule besucht hat.  
+Unterscheiden sich Personen, die auf eine private Schule gegangen sind, in ihrem Intellekt (`intel`) von Personen, die eine öffentliche Schule besucht haben. 
+
+
+* Führen Sie nach Voraussetzungsprüfung einen geeigneten Test durch.
+
+<details><summary>Lösung</summary>
+Wir beginnen die Voraussetzungen des t-Tests für unabhängige Stichproben zu überprüfen. Die Voraussetzungen, dass die unabhängige Variable intervallskaliert ist und die einzelnen Messwerte unabhängig voneinander sind, sind per Untersuchungsdesign erfüllt. Wir wollen nun also die Normalverteilung des Merkmals in den Gruppen überprüfen.
+
+```{r}
+#Wir überprüfen erst wieder, ob die Variable Nebenjob als Faktor vorliegt
+is.factor(zusatz$school)
+
+zusatz$school <- factor(zusatz$school, levels = 1:2, labels = c("öffentlich", "privat"))
+
+library(car)
+qqPlot(zusatz$intel[zusatz$school == "privat"])
+qqPlot(zusatz$intel[zusatz$school == "öffentlich"])
+shapiro.test(zusatz$intel[zusatz$school == "privat"])
+shapiro.test(zusatz$intel[zusatz$school == "öffentlich"])
+```
+Die Normalverteilungsannahme ist nicht erfüllt. Wir können also keinen t-Test durchführen. Wir überprüfen nun die Voraussetzungen des Wilcoxon-Tests.
+Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselben Verteilung folgen.
+
+```{r}
+hist(zusatz$intel[zusatz$school == "privat"])
+hist(zusatz$intel[zusatz$school == "öffentlich"])
+```
+Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
+
+```{r}
+leveneTest(zusatz$intel ~ zusatz$school)
+```
+
+Wir können von Varianzhomogenität ausgehen und somit einen Wilcoxon-Test durchführen.
+
+```{r}
+wilcox.test(zusatz$intel ~ zusatz$school)
+```
+Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = `r wilcox.test(zusatz$intel ~ zusatz$school)$statistic `, *p* = `r round(wilcox.test(zusatz$intel ~ zusatz$school)$p.value, 3)` ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Personen, die auf eine private Schule gegangen sind, und Personen, die eine öffentliche Schule besucht haben, nicht in ihrem Intellekt unterscheiden. 
+
+</details>
+
 
 
 ## Aufgabe 29
@@ -1290,7 +1460,6 @@ Der Effekt ist mit `r round(cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F
 </details>
 
 
-
 ## Aufgabe 30
 
 Hängt die Gewissenhaftigkeit (`gewis`) positiv mit der Anzahl an geschriebenen Wörtern zusammen, die als Begründung (`grund`) für die Wahl des Psychologiestudiums angegeben wurden? Überprüfen Sie die Voraussetzungen für das gewählte Zusammenhangsmaß.
@@ -1333,6 +1502,45 @@ cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "gre
 Es besteht kein positiver Zusammenhang zwischen Gewissenhaftigkeit und der Anzahl an geschriebenen Wörter bei der Begründung für das Psychologiestudium.
 
 </details>
+
+
+## Aufgabe 30.2
+
+Hängt die Gewissenhaftigkeit (`gewis`) positiv mit der Anzahl an geschriebenen Wörtern zusammen, die als Begründung (`grund`) für die Wahl des Psychologiestudiums angegeben wurden? Überprüfen Sie die Voraussetzungen für das gewählte Zusammenhangsmaß.
+
+
+
+<details><summary>Lösung</summary>
+
+Als erstes erstellen wir eine Variable mit der Anzahl an geschriebenen Wörtern.
+
+```{r}
+fb22$woerter_grund <- str_count(fb22$grund, "\\w+")
+```
+
+Nun schauen wir uns den Zusammenhang der Variablen in einem Scatterplot an.
+
+```{r}
+plot(x = fb22$woerter_grund, y = fb22$gewis)
+```
+
+Wir schließen einen nicht linearen Zusammenhang nicht aus und überprüfen nun die Normalverteilung der Variablen.
+
+```{r}
+library(car)
+qqPlot(fb22$gewis)
+qqPlot(fb22$woerter_grund)
+```
+Die Normalverteilungsannahme ist nicht erfüllt. Daher können wir keine Pearson Produkt-Moment-Korrelation ermitteln und berechnen stattdessen die Rangkorrelation nach Spearman, die nicht an die Normalverteilungsannahme gebunden ist.
+
+```{r}
+cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "greater")
+```
+
+Es besteht kein positiver Zusammenhang zwischen Gewissenhaftigkeit und der Anzahl an geschriebenen Wörter bei der Begründung für das Psychologiestudium.
+
+</details>
+
 
 ## Aufgabe 31
 
