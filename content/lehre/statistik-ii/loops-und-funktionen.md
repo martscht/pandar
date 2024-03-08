@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [irmer, schueller, wallot]
 weight: 11
-lastmod: '2024-02-08'
+lastmod: '2024-03-08'
 featured: no
 banner:
   image: "/header/sprinkled_lollipops.jpg"
@@ -39,7 +39,7 @@ output:
 
 
 
-In diesem Block werden wir verschiedene Arten von Loops (Schleifen) kennenlernen und lernen, vertieft mit Funktionen zu arbeiten. Dieses Wissen wollen wir dann nutzen, um nochmals Power- bzw. Simulationsanalysen durchzuführen, welche wir in der [Sitzung zu Simulationsstudien und Poweranalysen](../statistik-i/simulation-poweranalyse) bereits kennengelernt haben. Vorab beschäftigen wir uns noch mit einigen Grundlagen zum Thema logische Abfragen.
+In diesem Block werden wir verschiedene Arten von Loops (Schleifen) kennenlernen und lernen, vertieft mit Funktionen zu arbeiten. Dieses Wissen wollen wir dann nutzen, um nochmals Power- bzw. Simulationsanalysen durchzuführen, welche wir in der [Sitzung zu Simulationsstudien und Poweranalysen](../../statistik-i/simulation-poweranalyse) bereits kennengelernt haben. Vorab beschäftigen wir uns noch mit einigen Grundlagen zum Thema logische Abfragen.
 
 # Logische Abfragen und Bedingungen: `if` und `else`
 
@@ -250,7 +250,7 @@ Das gilt sowohl für `if`, als auch für `else`. Die einzige Bedingung ist, dass
 
 Häufig werden mehrere Abfragen ineinander geschachtelt, sodass die Ausdrücke schnell sehr kompliziert werden können. Falls in mehreren Schritten verschiedene Bedingungen abgefragt werden, und verschiedene Konsequenzen folgen sollen, kann auch das `else if` verwendet werden. Hierbei werden verschiedene Möglichkeiten abgefragt, für die verschiedene Befehle ausgeführt werden sollen. Wenn die erste Bedingung nicht zutrifft, wird die zweite Bedingung (nach dem `else if`) geprüft, wenn diese auch nicht zutrifft, wird das nächste `else if` geprüft. Der Befehl nach dem `else` wird dann nur ausgeführt, wenn keine der vorherigen Bedingungen zutrifft. 
 
-![](/lehre/statistik-ii//post/date.jpg){width=70%}
+![](/lehre/statistik-ii/../date.jpg)
 
 Hier sehen Sie ein Beispiel für eine if-else-Abfrage, die Sie jeden Morgen nutzen können, um herauszufinden, wie Sie sich heute fühlen sollten. 
 
@@ -324,7 +324,7 @@ x
 ```
 
 ```
-## [1] 3
+## [1] 6
 ```
 
 ```r
@@ -332,7 +332,7 @@ y
 ```
 
 ```
-## [1] 0
+## [1] 1
 ```
 
 Wenn Sie diesen Code mehrfach ausführen, bekommen Sie immer wieder unterschiedliche Paare an `x` und `y`. Auch der erste Versuch muss nicht mit den hier auf `PandaR` zu findenden Ergebnissen übereinstimmen, da wir keinen Seed verwenden. Probieren Sie dies gerne aus!
@@ -395,20 +395,13 @@ head(mdbf)
 ```
 
 ```
-##   stim1 stim2 stim3 stim4 stim5 stim6 stim7 stim8 stim9
-## 1     4     4     3     2     3     4     1     4     3
-## 2     4     2     1     1     4     5     4     4     2
-## 3     4     3     4     3     2     3     2     3     4
-## 4     4     4     1     1     3     3     4     4     1
-## 5     4     3     2     2     3     4     3     4     2
-## 6     4     4     3     2     2     3     2     4     3
-##   stim10 stim11 stim12
-## 1      3      2      3
-## 2      4      1      3
-## 3      2      3      2
-## 4      3      1      4
-## 5      3      2      4
-## 6      3      3      3
+##   stim1 stim2 stim3 stim4 stim5 stim6 stim7 stim8 stim9 stim10 stim11 stim12
+## 1     4     4     3     2     3     4     1     4     3      3      2      3
+## 2     4     2     1     1     4     5     4     4     2      4      1      3
+## 3     4     3     4     3     2     3     2     3     4      2      3      2
+## 4     4     4     1     1     3     3     4     4     1      3      1      4
+## 5     4     3     2     2     3     4     3     4     2      3      2      4
+## 6     4     4     3     2     2     3     2     4     3      3      3      3
 ```
 
 
@@ -693,7 +686,7 @@ Außerdem gibt es noch Funktionen wie `replicate`, `apply`, `lapply`, `sapply`, 
 
 ## Anwendung: Simulationsstudien und Poweranalysen
 
-In der Sitzung zu [Simulationsstudien und Poweranalysen](/post/simulation) aus dem vergangenen Semester hatten wir empirisch die Power und den $\alpha$-Fehler des $t$-Tests sowie des Korrelationstest untersucht. Dabei hatten wir `replicate` verwendet. Bspw. hatten wir mit folgendem Code den $p$-Wert des $t$-Tests unter der $H_0$ Hypothese untersucht:
+In der Sitzung zu [Simulationsstudien und Poweranalysen](../../statistik-i/simulation-poweranalyse) aus dem vergangenen Semester hatten wir empirisch die Power und den $\alpha$-Fehler des $t$-Tests sowie des Korrelationstest untersucht. Dabei hatten wir `replicate` verwendet. Bspw. hatten wir mit folgendem Code den $p$-Wert des $t$-Tests unter der $H_0$ Hypothese untersucht:
 
 
 ```r
@@ -706,9 +699,8 @@ replicate(n = 10, expr = {X <- rnorm(N)
 ```
 
 ```
-##  [1] 0.26352442 0.03081077 0.21285027 0.27429670
-##  [5] 0.53201656 0.79232864 0.93976306 0.43862992
-##  [9] 0.96766599 0.68865560
+##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306
+##  [8] 0.43862992 0.96766599 0.68865560
 ```
 
 Wenn wir nun genauer hinschauen, dann sehen wir, dass der Block 
@@ -737,12 +729,11 @@ replicate(n = 10, expr = mySim(N = 20))
 ```
 
 ```
-##  [1] 0.26352442 0.03081077 0.21285027 0.27429670
-##  [5] 0.53201656 0.79232864 0.93976306 0.43862992
-##  [9] 0.96766599 0.68865560
+##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306
+##  [8] 0.43862992 0.96766599 0.68865560
 ```
 
-In der Sitzung zu [Simulationsstudien und Poweranalysen](../statistik-i/simulation-poweranalyse) hatten wir außerdem den empirischen $t$-Wert untersucht. Diesen können wir nun ganz leicht mit aufnehmen.
+In der Sitzung zu [Simulationsstudien und Poweranalysen](../../statistik-i/simulation-poweranalyse) hatten wir außerdem den empirischen $t$-Wert untersucht. Diesen können wir nun ganz leicht mit aufnehmen.
 
 
 ```r
@@ -758,12 +749,9 @@ replicate(n = 10, expr = mySim2(N = 20))
 ```
 
 ```
-##          [,1]        [,2]      [,3]       [,4]
-## p   0.2635244  0.03081077 0.2128503  0.2742967
-## t.t 1.1349024 -2.24295556 1.2670437 -1.1092419
-##          [,5]      [,6]      [,7]       [,8]
-## p   0.5320166 0.7923286 0.9397631  0.4386299
-## t.t 0.6306927 0.2651479 0.0760693 -0.7827414
+##          [,1]        [,2]      [,3]       [,4]      [,5]      [,6]      [,7]       [,8]
+## p   0.2635244  0.03081077 0.2128503  0.2742967 0.5320166 0.7923286 0.9397631  0.4386299
+## t.t 1.1349024 -2.24295556 1.2670437 -1.1092419 0.6306927 0.2651479 0.0760693 -0.7827414
 ##            [,9]     [,10]
 ## p    0.96766599 0.6886556
 ## t.t -0.04080374 0.4037557
@@ -786,14 +774,6 @@ S
 ```r
 # install.packages("mvtnorm")
 library(mvtnorm)
-```
-
-```
-## Warning: Paket 'mvtnorm' wurde unter R Version 4.3.2
-## erstellt
-```
-
-```r
 set.seed(1234)
 X <- rmvnorm(n = 10^3, mean = c(2, 3), sigma = S)
 colMeans(X)
@@ -867,18 +847,14 @@ replicate(n = 10, expr = myRegSim(N = 10^3))
 ```
 
 ```
-##                  [,1]      [,2]      [,3]      [,4]
-## (Intercept) 0.4480455 0.4645526 0.0959823 0.4036081
-## X1          0.5145347 0.4229675 0.5794930 0.6167309
-## X2          0.2532168 0.3155510 0.3264700 0.2033327
-##                  [,5]      [,6]      [,7]      [,8]
-## (Intercept) 0.3621404 0.4454766 0.2000509 0.2704179
-## X1          0.4935631 0.4068533 0.5341167 0.4260486
-## X2          0.2789048 0.3184694 0.3038769 0.3344544
-##                  [,9]     [,10]
-## (Intercept) 0.2343473 0.4723725
-## X1          0.5119222 0.4416930
-## X2          0.3198885 0.3067544
+##                  [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]
+## (Intercept) 0.4480455 0.4645526 0.0959823 0.4036081 0.3621404 0.4454766 0.2000509
+## X1          0.5145347 0.4229675 0.5794930 0.6167309 0.4935631 0.4068533 0.5341167
+## X2          0.2532168 0.3155510 0.3264700 0.2033327 0.2789048 0.3184694 0.3038769
+##                  [,8]      [,9]     [,10]
+## (Intercept) 0.2704179 0.2343473 0.4723725
+## X1          0.4260486 0.5119222 0.4416930
+## X2          0.3344544 0.3198885 0.3067544
 ```
 
 Speichern wir das Ganze ab, transponieren es und bilden `colMeans`, so erhalten wir eine Schätzung für die durchschnittliche Schätzung unseres Experiments (das wir insgesamt 10 Mal unter identischen Voraussetzungen durchführen konnten):
@@ -936,9 +912,8 @@ toss
 ```
 
 ```
-##  [1] "Zahl" "Kopf" "Kopf" "Zahl" "Zahl" "Zahl" "Kopf"
-##  [8] "Kopf" "Zahl" "Kopf" "Kopf" "Kopf" "Zahl" "Kopf"
-## [15] "Kopf" "Kopf"
+##  [1] "Zahl" "Kopf" "Kopf" "Zahl" "Zahl" "Zahl" "Kopf" "Kopf" "Zahl" "Kopf" "Kopf" "Kopf"
+## [13] "Zahl" "Kopf" "Kopf" "Kopf"
 ```
 
 ### `repeat`-Loops 
@@ -966,8 +941,7 @@ fibo
 ```
 
 ```
-##  [1]    1    1    2    3    5    8   13   21   34   55
-## [11]   89  144  233  377  610  987 1597
+##  [1]    1    1    2    3    5    8   13   21   34   55   89  144  233  377  610  987 1597
 ```
 
 Loops können mit `break` unterbrochen werden - das gilt nicht nur für `repeat`, sondern auch für die anderen beiden Formen von Loops. Hier wurde eine `if`-Bedingung in den Loop geschachtelt. In jedem einzelnen Durchlauf des Loops wird geprüft, ob die Bedingung erfüllt ist, und die Durchführung wird beendet (`break`), sobald dies der Fall ist. 
@@ -1047,7 +1021,7 @@ Sys.time() - t1 # bestimmte die Laufzeit durch aktuelle Zeit minus Startzeit
 ```
 
 ```
-## Time difference of 0.0198369 secs
+## Time difference of 0.02241206 secs
 ```
 
 ```r
@@ -1057,14 +1031,9 @@ Sys.time() - t2 # bestimmte die Laufzeit durch aktuelle Zeit minus Startzeit
 ```
 
 ```
-## Time difference of 0.001897097 secs
+## Time difference of 0.002121925 secs
 ```
 
 Loops sind in diesem Beispiel fast um den Faktor 10 langsamer (zumindest, wenn Sie den Code für `10^6` Beobachtungen durchführen, die Maske, die für diese Website genutzt wird, ist deutlich langsamer, weswegen hier auf `10^3` ausgewichen wurde...). Es gibt jedoch viele Anwendungsgebiete, wo Loops das Mittel der Wahl sind!
 
 </details>
-
-***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](../loops-und-funktionen.R).

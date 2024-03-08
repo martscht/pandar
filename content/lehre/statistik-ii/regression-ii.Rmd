@@ -33,7 +33,7 @@ output:
 ---
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-knitr::opts_chunk$set(error = TRUE)
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 library(knitr)
 ```
 
@@ -244,7 +244,7 @@ summary(step(m, direction = "both"))
 
 Der Output enthält folgende Inhalte:
 
-```{r, warning=FALSE, echo = F}
+```{r, warning=FALSE, echo = F, purl=FALSE}
 # Output der summary, Wert von AIC für Alle
 
 out <- summary(step(m)) |> capture.output()
@@ -254,7 +254,7 @@ out[grep(pattern = begin, out):(grep(pattern = end, out)-1)] |> paste(collapse =
 
 zeigt uns das Anfangsmodell und den zugehörigen AIC.
 
-```{r, warning=FALSE, echo = F}
+```{r, warning=FALSE, echo = F, purl=FALSE}
 # Darstellung der Modelle
 
 begin <- "Df"; end <- "Step"
@@ -263,7 +263,7 @@ out[grep(pattern = begin, out):(grep(pattern = end, out)-1)] |> paste(collapse =
 
 ist der Output des ersten Schrittes. `<none>` beschreibt unser Modell (ohne Veränderung). Jede Zeile steht für ein Modell, in welchem jeweils maximal ein Prädiktor aus dem Modell ausgeschlossen wird oder maximal ein Prädiktor in das Modell aufgenommen wird. Das "Minus" (`-`) am Anfang der Zeile zeigt an, dass hier ein Prädiktor ausgeschlossen wird. Eine "Plus" (`+`) zeigt an, dass der jeweilige Prädiktor hinzukam. Die `Df` zeigen wieder an, wie sich die Freiheitsgrade verändern. Würden wir eine Variable verwenden, die aus mehr als 2 Faktorstufen besteht, würden hier auch `Df` größer 1 stehen. `Sum of Sq` zeigt an, wie sich die Sum of Squares verändern. `RSS` ist wieder die Residual Sum of Squares, wie oben.
 
-```{r, warning=FALSE, echo = F}
+```{r, warning=FALSE, echo = F, purl=FALSE}
 # Darstellung der nächsten Modelle, nachdem Leseleistung ausgeschlossen wurde; Ende bereits erreicht (minimale AIC)
 
 begin <- "Step"; end <- "Call"
@@ -313,7 +313,7 @@ Um jetzt den Unterschied genau zu erkennen, müssen wir zunächst die **Loglikel
 
 ## Appendix A {#AppendixA}
 
-{{< spoiler text = "**Inferenzstatistik der Semipartialkorrelation und der Modellvergleich**" >}}
+<details><summary><b>Inferenzstatistik der Semipartialkorrelation und der Modellvergleich</b></summary>
 
 Wir arbeiten weiterhin mit dem Datensatz `Schulleistungen` und gehen davon aus, dass wir bereits `reading` und `female` zur Vorhersage von `math` nutzen. nun soll zusätzlich noch `IQ` aufgenommen werden. Den Modelltest erlangen wir über das eingeschränkte und uneingeschränkte Modell mit der Funktion `anova()`.
 
@@ -332,11 +332,11 @@ sp$p             # p-Wert der Semipartialkorrelation
 ``` 
 Weiterhin sehen wir, dass das Inkrement und die quadrierte Semipartialkorrelation derselbe Wert sind. Die $p$-Werte hingegen unterscheiden sich. Dies kommt daher, dass der Modelltest eigentlich die Partialkorrelation testet. Einschlägige Literatur begründet das damit, dass für diese der Standardfehler weniger komplex zu bestimmt wäre. Weiterhin sind sich die Nullhypothesen auch ähnlich, wodurch in den allermeisten Fällen der Modelltest und die Prüfung der Semipartialkorrelation zur selben Signifikanzentscheidung führen.
 
-{{< /spoiler >}}
+</details>
 
 ## Appendix B {#AppendixB}
 
-{{< spoiler text = "**Bestimmen von AIC und Vergleich zwischen `AIC` und `extractAIC`**" >}}
+<details><summary><b>Bestimmen von AIC und Vergleich zwischen `AIC` und `extractAIC`</b></summary>
 
 Wie bereits oben besprochen, benötigen wir für die Berechnung des AIC die Loglikelihood (Logarithmus der Likelihood) der Daten. Diese erhalten wir ganz einfach mit der `logLik` Funktion. 
 
@@ -356,7 +356,7 @@ $$-\frac{1}{2}\log(2\pi) -\frac{1}{2}\log(\sigma^2) - \frac{\varepsilon_i^2}{2\s
 
 Haben wir nun ganz viele Beobachtungen, müssen diese bzgl. der Likelihood multipliziert werden (unabhängige Ereignisse werden multipliziert - das folgt dem gleichen Konzept, wie als wenn wir zweimal einen Würfel würfeln, dann müssen  die Wahrscheinlichkeiten bspw. die 6 zu würfeln, multipliziert werden). Wenn wir dann logarithmieren, entsteht eine Summe, mit der relativ leicht umgegangen werden kann (deswegen wird auch zumeist die Loglikelihood genutzt, da diese genau dann wenn die Likelihood maximal ist, auch maximal ist, allerdings leichter zu "handlen" ist):
 
-$$\sum_{i=1}^n-\frac{1}{2}\log(2\pi) -\frac{1}{2}\log(\sigma^2) - \frac{\varepsilon_i^2}{2\sigma^2} = \frac{n}{2}\log(2\pi) -\frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2} \sum_{i=1}^n \varepsilon_i^2$$
+$$\tiny \sum_{i=1}^n-\frac{1}{2}\log(2\pi) -\frac{1}{2}\log(\sigma^2) - \frac{\varepsilon_i^2}{2\sigma^2} = \frac{n}{2}\log(2\pi) -\frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2} \sum_{i=1}^n \varepsilon_i^2$$
 
 den letzten Ausdruck kennen wir aber! Das ist die Fehlerquadratsumme! Es gilt $\sum_{i=1}^n \varepsilon_i^2 = n\sigma^2$. Wir können also $\frac{1}{2\sigma^2}\sum_{i=1}^n \varepsilon_i^2$ kürzen: $\frac{1}{2\sigma^2}\sum_{i=1}^n \varepsilon_i^2 = \frac{1}{2\sigma^2}n\sigma^2 = \frac{n}{2}$ ($\sigma^2$ fliegt raus). Also ist die Loglikelihood unserer Daten:
 
@@ -403,7 +403,7 @@ extractAIC(model1) - extractAIC(model2)
 
 Der Unterschied in den bestimmten AICs ist identisch. Somit sehen wir, dass die Unterschiede in den absoluten Werten keinen Einfluss auf die Auswahl der Modelle nimmt. Was für ein Aufwand. Wir hoffen, dass die Herleitung beim Verstehen des Sachverhalts hilft.
 
-{{< /spoiler >}}
+</details>
 
 ***
 

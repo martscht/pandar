@@ -9,7 +9,7 @@ subtitle: '1-fakt. ANOVA'
 summary: ''
 authors: [scheppa-lahyani, irmer, wallot, nehler]
 weight: 7
-lastmod: '2024-02-08'
+lastmod: '2024-03-08'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"
@@ -38,7 +38,7 @@ output:
 
 In den letzten Sitzungen haben wir uns ausführlicher mit dem Zusammenhang zwischen Variablen in Form von Korrelation und Regression beschäftigt. Nun möchten wir untersuchen, ob es einen Unterschied zwischen mehreren Gruppen hinsichtlich der Mittelwerte in einer Variablen gibt. Im letzten Semester haben Sie schon den **t-Test** kennen gelernt, mit dem Mittelwertsunterschiede zwischen zwei Gruppen untersucht werden können. Wenn wir nun mehr als zwei Gruppen miteinander vergleichen möchten, müssten wir mehrere **t-Tests** mit allen Kombinationen durchführen. Bei z. B. 3 Gruppen müssten wir $\binom{3}{2}$ *t-Tests* durchführen. Wie Sie sicherlich noch wissen, führt dies aber zu einer $\alpha$**-Fehler-Inflation oder -Kumulierung**. In diesem Fall muss demnach eine **ANOVA** genutzt werden. Da wir den Unterschied auf *einer Gruppenvariable* wissen wollen, nutzen wir die *einfaktorielle ANOVA*. Wie das Verfahren für mehrere Gruppenvariablen ist, wird in der nächsten Sitzung besprochen. Mehr zur *einfaktoriellen ANOVA* finden Sie in [`Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.1 und folgend)`](https://ubffm.hds.hebis.de/Record/HEB366849158). 
 
-Die praktische Arbeit soll anhand des Datensatzes `conspiracy` demonstriert werden, den wir also zunächst in unser Environment laden müssen.
+Die praktische Arbeit soll anhand des Datensatzes `conspiracy` demonstriert werden, den wir also zunächst in unser Environment laden müssen.Dieser stammt aus einer Erhebung zur Validierung eines Fragebogens, aus dem Skalenwerte gebildet werden, die verschiedene Dimensionen von Verschwörungsglauben abbilden sollen.
 
 ### Daten laden
 Wenn Sie den Datensatz lokal auf ihrem Rechner haben möchten, können Sie [<i class="fas fa-download"></i> "conspiracy.rda" hier herunterladen](../../daten/conspiracy.rda). Anschließend muss er eingeladen werden - natürlich mit Ihrem Dateipfad.
@@ -74,20 +74,13 @@ head(conspiracy)
 ```
 
 ```
-##              edu    urban gender age       GM       MG
-## 2     highschool suburban female  14 4.000000 5.000000
-## 3        college suburban female  26 2.000000 4.000000
-## 4        college    rural   male  25 5.000000 4.333333
-## 5 not highschool suburban   male  37 5.000000 4.333333
-## 6        college    rural   male  34 1.000000 1.000000
-## 7 not highschool suburban   male  17 3.333333 2.666667
-##         ET       PW       CI
-## 2 4.666667 3.333333 4.666667
-## 3 1.500000 2.000000 3.333333
-## 4 1.000000 3.333333 4.666667
-## 5 2.333333 3.333333 4.666667
-## 6 1.000000 1.000000 1.000000
-## 7 3.000000 2.666667 3.666667
+##              edu    urban gender age       GM       MG       ET       PW       CI
+## 2     highschool suburban female  14 4.000000 5.000000 4.666667 3.333333 4.666667
+## 3        college suburban female  26 2.000000 4.000000 1.500000 2.000000 3.333333
+## 4        college    rural   male  25 5.000000 4.333333 1.000000 3.333333 4.666667
+## 5 not highschool suburban   male  37 5.000000 4.333333 2.333333 3.333333 4.666667
+## 6        college    rural   male  34 1.000000 1.000000 1.000000 1.000000 1.000000
+## 7 not highschool suburban   male  17 3.333333 2.666667 3.000000 2.666667 3.666667
 ```
 
 Die **ersten vier Variablen** enthalten Informationen über den demographischen Hintergrund der Personen: höchster Bildungsabschluss (`edu`), Typ des Wohnortes (`urban`), Geschlecht (`gender`) und Alter (`age`). Die **fünf restlichen Variablen** sind Skalenwerte bezüglich verschiedener Subdimensionen verschwörungstheoretischer Überzeugungen: `GM` (goverment malfeasance), `MG` (malevolent global conspiracies), `ET` (extraterrestrial cover-up), `PW` (personal well-being) und `CI` (control of information).
@@ -128,13 +121,6 @@ Die Homoskedastizitätsannahme besagt, dass die Varianzen jeder Gruppe über die
 
 ```r
 library(car)
-```
-
-```
-## Lade nötiges Paket: carData
-```
-
-```r
 leveneTest(conspiracy$ET ~ conspiracy$urban)
 ```
 
@@ -144,8 +130,7 @@ leveneTest(conspiracy$ET ~ conspiracy$urban)
 ## group    2  2.5335 0.07959 .
 ##       2448                  
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Die Funktion nimmt die Variable selbst entgegen sowie die Gruppierungsvariable. `ET` aus dem `conspiracy`-Datensatz stellt hierbei die AV dar, die Gruppierungsvariable `urban` ist die UV. Wir erkennen im Output, was genau der Levene-Test eigentlich macht: `Levene's Test for Homogeneity of Variance`, nämlich die Varianzen auf Homogenität prüfen.  Das Ergebnis ist nicht signifikant. In diesem Fall muss die Annahme der Varianzhomogenität über die drei Gruppen hinweg also *nicht verworfen* werden. 
@@ -210,8 +195,8 @@ names(temp)
 ```
 
 ```
-##  [1] "urban"   "edu"     "gender"  "age"     "GM"     
-##  [6] "MG"      "ET"      "PW"      "CI"      "ET_mu_k"
+##  [1] "urban"   "edu"     "gender"  "age"     "GM"      "MG"      "ET"      "PW"     
+##  [9] "CI"      "ET_mu_k"
 ```
 
 Anhand der Dimensionen können wir sehen, dass unser neuer Datensatz nun eine Variable mehr hat als `conspiracy`. Diese zusätzliche Spalte ist genau die, die die Mittelwerte pro Gruppe enthält (`ET_mu_k`).
@@ -274,13 +259,7 @@ pf(F_wert, nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$ur
 
 Grafisch gesehen lassen wir uns also die Fläche für den folgenden Bereich der F-Verteilung anzeigen.
 
-
-```
-## Warning: Paket 'ggplot2' wurde unter R Version 4.3.2
-## erstellt
-```
-
-<img src="/lehre/statistik-ii/anova-i_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/anova-i_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 Zur Beurteilung der Signifikanz muss der errechnete p-Wert mit dem vorher festgelegten $\alpha$-Niveau verglichen werden. Nehmen wir die üblichen 5% an, zeigt sich hier ein signifikanter Effekt.
 
@@ -300,11 +279,6 @@ Anschließend kann es geladen werden.
 ```r
 # Paket laden 
 library(ez)
-```
-
-```
-## Warning: Paket 'ez' wurde unter R Version 4.3.1
-## erstellt
 ```
 
 Weil die Funktion für verschiedene Arten von *ANOVAs* geeignet ist, benötigt sie einige sehr spezifisiche Argumente. Für die *einfaktorielle ANOVA* werden vier Argumente benötigt:
@@ -336,9 +310,8 @@ ezANOVA(conspiracy, wid = id, dv = ET, between = urban)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make
-## sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -355,7 +328,7 @@ ezANOVA(conspiracy, wid = id, dv = ET, between = urban)
 ## 1   2 2448 3.62836 1752.977 2.533469 0.0795913
 ```
 
-Zunächst werden wir mit einer `## Warning` darauf hingewiesen, dass das Desgin *unbalanciert* ist: die Gruppen sind nicht alle gleich groß. Das kann Konsequenzen auf die Vertrauenswürdigkeit der Ergebnisse haben, wenn wir ANOVAs mit mehr als einem Faktor bestimmen (dazu mehr in der nächsten Sitzung zur [zweifaktoriellen ANOVA](/post/anova2).
+Zunächst werden wir mit einer `## Warning` darauf hingewiesen, dass das Desgin *unbalanciert* ist: die Gruppen sind nicht alle gleich groß. Das kann Konsequenzen auf die Vertrauenswürdigkeit der Ergebnisse haben, wenn wir ANOVAs mit mehr als einem Faktor bestimmen (dazu mehr in der nächsten Sitzung zur [zweifaktoriellen ANOVA](/lehre/statistik-ii/anova-ii).
 
 Die zweite Hälfte der Ergebnisse (`$Levene's Test for Homogeneity of Variance`) liefern die Überprüfung der Homoskedastizitätsannahme mit dem Levene Test. Dieser wird von `ezANOVA` immer automatisch mitgeliefert. Wie zu erwarten, zeigt sich das selbe Ergebnis wie mit dem `leveneTest` aus dem `car`-Paket.
 
@@ -369,9 +342,8 @@ ezANOVA(conspiracy, wid = id, dv = ET, between = urban, detailed = TRUE)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make
-## sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -380,10 +352,8 @@ ezANOVA(conspiracy, wid = id, dv = ET, between = urban, detailed = TRUE)
 
 ```
 ## $ANOVA
-##   Effect DFn  DFd      SSn      SSd        F          p
-## 1  urban   2 2448 12.05839 4297.891 3.434118 0.03240931
-##   p<.05         ges
-## 1     * 0.002797802
+##   Effect DFn  DFd      SSn      SSd        F          p p<.05         ges
+## 1  urban   2 2448 12.05839 4297.891 3.434118 0.03240931     * 0.002797802
 ## 
 ## $`Levene's Test for Homogeneity of Variance`
 ##   DFn  DFd     SSn      SSd        F         p p<.05
@@ -422,7 +392,7 @@ Hier zeigt sich, dass sich ausschließlich Personen aus `urban` und `suburban` U
 
 ### Tukey Test
 
-Ein präziserer Ansatz als die einfachen $t$-Tests bietet **Tukeys Honest Significant Difference** (auch *Tukey-Test* genannt). Dieser kann in `R` allerdings nur auf `aov`-Objekte angewendet werden. Der `aov`-Befehl führt zum selben Ergebnis wie `ezANOVA`. Zu Unterschieden kann es erst bei der [zweifaktoriellen ANOVA](/post/anova2) kommen, da dort der Typ der Quadratsumme ein Rolle spielt, wie diese ausfällt. 
+Ein präziserer Ansatz als die einfachen $t$-Tests bietet **Tukeys Honest Significant Difference** (auch *Tukey-Test* genannt). Dieser kann in `R` allerdings nur auf `aov`-Objekte angewendet werden. Der `aov`-Befehl führt zum selben Ergebnis wie `ezANOVA`. Zu Unterschieden kann es erst bei der [zweifaktoriellen ANOVA](/lehre/statistik-ii/anova-ii) kommen, da dort der Typ der Quadratsumme ein Rolle spielt, wie diese ausfällt. 
 
 #### aov-Befehl
 
@@ -445,8 +415,7 @@ summary(alternative)
 ## urban          2     12   6.029   3.434 0.0324 *
 ## Residuals   2448   4298   1.756                 
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Diese entsprechen also wie erwartet unserem vorherigen Ergebnis. 
@@ -465,14 +434,10 @@ TukeyHSD(alternative, conf.level = 0.95)
 ## Fit: aov(formula = ET ~ urban, data = conspiracy)
 ## 
 ## $urban
-##                      diff         lwr       upr
-## suburban-rural -0.0434230 -0.21345311 0.1266071
-## urban-rural     0.1128996 -0.06507135 0.2908705
-## urban-suburban  0.1563226  0.01515294 0.2974922
-##                    p adj
-## suburban-rural 0.8207046
-## urban-rural    0.2969918
-## urban-suburban 0.0256251
+##                      diff         lwr       upr     p adj
+## suburban-rural -0.0434230 -0.21345311 0.1266071 0.8207046
+## urban-rural     0.1128996 -0.06507135 0.2908705 0.2969918
+## urban-suburban  0.1563226  0.01515294 0.2974922 0.0256251
 ```
 
 Das Ergebnis bietet neben den einfachen $p$-Werten auch korrigierte Konfidenzintervalle für die Mittelwertsdifferenzen. Darüber hinaus können die Ergebnisse auch in einem Plot dargestellt werden:
@@ -483,7 +448,7 @@ tuk <- TukeyHSD(aov(ET ~ urban, data = conspiracy))
 plot(tuk)
 ```
 
-<img src="/lehre/statistik-ii/anova-i_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/anova-i_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 Schließt das Konfidenzintervall für die Mittelwertsdifferenz die Null (gestrichelte Linie) ein, so ist diese Mittelwertsdifferenz statistisch **nicht** signifikant! In unserer Stichprobe kam es zu Mittelwertsunterschieden auf `ET`, da sich die Gruppen `urban` (städtisch) und `suburban` (vorstädtisch) hinsichtlich der Zustimmung zur Überzeugung, dass die Existenz von Außerirdischen geheimgehalten wird, unterscheiden.
 
@@ -497,9 +462,8 @@ aov_t <- ezANOVA(conspiracy, wid = id, dv = ET, between = urban, return_aov = T)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make
-## sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -541,21 +505,11 @@ TukeyHSD(aov_t$aov, conf.level = 0.95)
 ## Fit: aov(formula = formula(aov_formula), data = data)
 ## 
 ## $urban
-##                      diff         lwr       upr
-## suburban-rural -0.0434230 -0.21345311 0.1266071
-## urban-rural     0.1128996 -0.06507135 0.2908705
-## urban-suburban  0.1563226  0.01515294 0.2974922
-##                    p adj
-## suburban-rural 0.8207046
-## urban-rural    0.2969918
-## urban-suburban 0.0256251
+##                      diff         lwr       upr     p adj
+## suburban-rural -0.0434230 -0.21345311 0.1266071 0.8207046
+## urban-rural     0.1128996 -0.06507135 0.2908705 0.2969918
+## urban-suburban  0.1563226  0.01515294 0.2974922 0.0256251
 ```
-
-
-***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier  herunterladen](../anova-i.R).
 
 ***
 

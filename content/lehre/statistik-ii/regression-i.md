@@ -9,7 +9,7 @@ subtitle: 'Multiple Regression'
 summary: ''
 authors: [nehler, schroeder, gruetzmacher]
 weight: 4
-lastmod: '2024-01-03'
+lastmod: '2024-03-08'
 featured: no
 banner:
   image: "/header/man_with_binoculars.jpg"
@@ -93,6 +93,7 @@ Die Formel lautet demnach:
 $$y_{i,math} = b_0 +b_{reading}x_{i,reading} + b_{IQ}x_{i,IQ} + e_i$$
 oder in Matrixform:
 
+{{<math>}}
 $$\begin{align}
 \begin{bmatrix} y_1\\y_2\\y_3\\y_4\\...\\y_{100}\end{bmatrix} = b_{0} *
 \begin {bmatrix}1\\1\\1\\1\\...\\1\end{bmatrix} + b_{reading} *
@@ -100,6 +101,7 @@ $$\begin{align}
 \begin {bmatrix}x_{IQ1}\\x_{IQ2}\\x_{IQ3}\\x_{IQ4}\\...\\x_{IQ100}\end{bmatrix} +
 \begin {bmatrix}e_1\\e_2\\e_3\\e_4\\...\\e_{100}\end{bmatrix}
 \end{align}$$
+{{</math>}}
 
 Die Daten der Schüler:innen können Sie sich direkt ins Environment einladen.
 
@@ -158,11 +160,11 @@ head(X)
 ```
 
 Durch die Betrachtung der ersten 6 Zeilen mit `head` sehen wir, dass unsere Zusammenführung funktioniert hat. In handschriftlicher Notation würden unsere beiden erstellten Vektoren nun folgendermaßen aussehen. 
-
+{{<math>}}
 \begin{align}y = \begin{bmatrix}451.98 \\589.65 \\509.33\\560.43\\...\\603.18\end{bmatrix}\end{align}
 
 \begin{align}X=\begin{bmatrix}1 & 449.59 & 81.78\\1 & 544.85 & 106.76\\1 & 331.35 & 99.14\\1 & 531.54 & 111.91\\... & ... & ... \\1 & 487.22 & 106.13\end{bmatrix}\end{align}
-
+{{</math>}}
 
 Mit `X` und `y` in unserem Environment können wir nun in die Berechnung starten.
 
@@ -189,49 +191,65 @@ t(X) # X' erhalten Sie durch t(X)
 ```
 
 ```
-##              [,1]     [,2]      [,3]     [,4]     [,5]     [,6]      [,7]      [,8]     [,9]     [,10]     [,11]    [,12]
-## constant   1.0000   1.0000   1.00000   1.0000   1.0000   1.0000   1.00000   1.00000   1.0000   1.00000   1.00000   1.0000
-## reading  449.5884 544.8495 331.34664 531.5384 604.3759 308.7457 478.24576 550.18962 822.0051 413.84938 655.53908 605.8732
-## IQ        81.7795 106.7590  99.14033 111.9150 116.1268 106.1413  85.44854  93.24323 135.1974  89.90152  92.72073 115.9012
-##             [,13]     [,14]    [,15]    [,16]     [,17]     [,18]    [,19]    [,20]     [,21]    [,22]     [,23]    [,24]
-## constant   1.0000   1.00000   1.0000   1.0000   1.00000   1.00000   1.0000   1.0000   1.00000   1.0000   1.00000   1.0000
-## reading  625.3337 391.33058 709.9150 490.0105 487.01641 444.92014 668.8459 502.2504 495.87525 485.7415 524.04072 461.2220
-## IQ       114.5409  83.28294 126.4167 107.2044  90.03418  98.34044 117.0687 115.5514  68.11351 125.6478  93.34804 106.9365
-##              [,25]     [,26]    [,27]     [,28]     [,29]     [,30]    [,31]     [,32]     [,33]     [,34]     [,35]     [,36]
-## constant   1.00000   1.00000   1.0000   1.00000   1.00000   1.00000   1.0000   1.00000   1.00000   1.00000   1.00000   1.00000
-## reading  425.66559 385.71861 521.5388 453.28591 640.76462 265.02068 539.1343 524.99381 263.22535 536.29904 469.38977 275.25090
-## IQ        98.78466  78.93267 113.0538  92.86905  86.44483  70.17249 111.4461  93.78654  87.54754  87.01957  69.32581  92.85801
-##              [,37]     [,38]    [,39]    [,40]     [,41]    [,42]    [,43]    [,44]    [,45]     [,46]     [,47]     [,48]
-## constant   1.00000   1.00000   1.0000   1.0000   1.00000   1.0000   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
-## reading  424.78162 416.07719 559.0645 572.9057 549.99247 524.8635 656.9045 475.6473 430.1947 338.43936 563.40059 543.48860
-## IQ        70.56712  74.17486 105.6119 110.6390  91.54624 105.7314 125.2621 101.1487 111.0958  79.99545  84.45429  84.50532
-##              [,49]    [,50]     [,51]    [,52]    [,53]     [,54]    [,55]    [,56]     [,57]    [,58]     [,59]     [,60]
-## constant   1.00000   1.0000   1.00000   1.0000   1.0000   1.00000   1.0000   1.0000   1.00000   1.0000   1.00000   1.00000
-## reading  529.81881 668.8536 478.48482 596.3659 493.1522 333.78586 476.6246 433.0946 395.12879 615.4441 674.95494 551.51318
-## IQ        96.60821 103.9056  81.03395 126.1281  89.4765  80.78064 106.4885 103.5806  84.88878 115.9093  97.28407  91.60586
-##             [,61]    [,62]    [,63]    [,64]    [,65]     [,66]     [,67]    [,68]    [,69]    [,70]     [,71]     [,72]    [,73]
-## constant   1.0000   1.0000   1.0000   1.0000   1.0000   1.00000   1.00000   1.0000   1.0000   1.0000   1.00000   1.00000   1.0000
-## reading  582.4867 550.8037 505.1084 579.3319 469.0869 463.25972 310.39499 494.8413 566.2383 412.3524 317.15817 454.67678 518.8499
-## IQ       121.7788 110.2619 100.3214 112.6516 122.8403  96.45124  75.48471  91.2755 111.8578  92.7289  76.84326  92.93814 103.2558
-##              [,74]    [,75]    [,76]    [,77]    [,78]    [,79]     [,80]     [,81]    [,82]    [,83]    [,84]     [,85]
-## constant   1.00000   1.0000   1.0000   1.0000   1.0000   1.0000   1.00000   1.00000   1.0000   1.0000   1.0000   1.00000
-## reading  522.48525 575.6985 509.0475 603.9479 391.1594 462.6678 540.62765 487.71683 519.8697 300.6192 512.1456 390.68524
-## IQ        81.15462  92.2719 106.4095  96.7028 104.0638 107.9850  60.76781  94.55947 103.5597 101.8328 113.0630  76.56824
-##              [,86]    [,87]    [,88]    [,89]     [,90]    [,91]    [,92]    [,93]    [,94]     [,95]     [,96]     [,97]
-## constant   1.00000   1.0000   1.0000   1.0000   1.00000   1.0000   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
-## reading  380.51429 559.4885 525.6131 609.9593 409.51193 604.2912 543.1018 425.8297 659.4646 506.42468 454.15287 483.78242
-## IQ        97.56684 104.2866 106.0855 120.9776  82.65717 108.4118 103.3896 100.5953 122.7979  97.91853  92.96729  77.51862
-##             [,98]     [,99]   [,100]
-## constant   1.0000   1.00000   1.0000
-## reading  531.9650 198.10626 487.2215
-## IQ       105.0199  54.05485 106.1264
+##              [,1]     [,2]      [,3]     [,4]     [,5]     [,6]      [,7]      [,8]
+## constant   1.0000   1.0000   1.00000   1.0000   1.0000   1.0000   1.00000   1.00000
+## reading  449.5884 544.8495 331.34664 531.5384 604.3759 308.7457 478.24576 550.18962
+## IQ        81.7795 106.7590  99.14033 111.9150 116.1268 106.1413  85.44854  93.24323
+##              [,9]     [,10]     [,11]    [,12]    [,13]     [,14]    [,15]    [,16]
+## constant   1.0000   1.00000   1.00000   1.0000   1.0000   1.00000   1.0000   1.0000
+## reading  822.0051 413.84938 655.53908 605.8732 625.3337 391.33058 709.9150 490.0105
+## IQ       135.1974  89.90152  92.72073 115.9012 114.5409  83.28294 126.4167 107.2044
+##              [,17]     [,18]    [,19]    [,20]     [,21]    [,22]     [,23]    [,24]
+## constant   1.00000   1.00000   1.0000   1.0000   1.00000   1.0000   1.00000   1.0000
+## reading  487.01641 444.92014 668.8459 502.2504 495.87525 485.7415 524.04072 461.2220
+## IQ        90.03418  98.34044 117.0687 115.5514  68.11351 125.6478  93.34804 106.9365
+##              [,25]     [,26]    [,27]     [,28]     [,29]     [,30]    [,31]     [,32]
+## constant   1.00000   1.00000   1.0000   1.00000   1.00000   1.00000   1.0000   1.00000
+## reading  425.66559 385.71861 521.5388 453.28591 640.76462 265.02068 539.1343 524.99381
+## IQ        98.78466  78.93267 113.0538  92.86905  86.44483  70.17249 111.4461  93.78654
+##              [,33]     [,34]     [,35]     [,36]     [,37]     [,38]    [,39]    [,40]
+## constant   1.00000   1.00000   1.00000   1.00000   1.00000   1.00000   1.0000   1.0000
+## reading  263.22535 536.29904 469.38977 275.25090 424.78162 416.07719 559.0645 572.9057
+## IQ        87.54754  87.01957  69.32581  92.85801  70.56712  74.17486 105.6119 110.6390
+##              [,41]    [,42]    [,43]    [,44]    [,45]     [,46]     [,47]     [,48]
+## constant   1.00000   1.0000   1.0000   1.0000   1.0000   1.00000   1.00000   1.00000
+## reading  549.99247 524.8635 656.9045 475.6473 430.1947 338.43936 563.40059 543.48860
+## IQ        91.54624 105.7314 125.2621 101.1487 111.0958  79.99545  84.45429  84.50532
+##              [,49]    [,50]     [,51]    [,52]    [,53]     [,54]    [,55]    [,56]
+## constant   1.00000   1.0000   1.00000   1.0000   1.0000   1.00000   1.0000   1.0000
+## reading  529.81881 668.8536 478.48482 596.3659 493.1522 333.78586 476.6246 433.0946
+## IQ        96.60821 103.9056  81.03395 126.1281  89.4765  80.78064 106.4885 103.5806
+##              [,57]    [,58]     [,59]     [,60]    [,61]    [,62]    [,63]    [,64]
+## constant   1.00000   1.0000   1.00000   1.00000   1.0000   1.0000   1.0000   1.0000
+## reading  395.12879 615.4441 674.95494 551.51318 582.4867 550.8037 505.1084 579.3319
+## IQ        84.88878 115.9093  97.28407  91.60586 121.7788 110.2619 100.3214 112.6516
+##             [,65]     [,66]     [,67]    [,68]    [,69]    [,70]     [,71]     [,72]
+## constant   1.0000   1.00000   1.00000   1.0000   1.0000   1.0000   1.00000   1.00000
+## reading  469.0869 463.25972 310.39499 494.8413 566.2383 412.3524 317.15817 454.67678
+## IQ       122.8403  96.45124  75.48471  91.2755 111.8578  92.7289  76.84326  92.93814
+##             [,73]     [,74]    [,75]    [,76]    [,77]    [,78]    [,79]     [,80]
+## constant   1.0000   1.00000   1.0000   1.0000   1.0000   1.0000   1.0000   1.00000
+## reading  518.8499 522.48525 575.6985 509.0475 603.9479 391.1594 462.6678 540.62765
+## IQ       103.2558  81.15462  92.2719 106.4095  96.7028 104.0638 107.9850  60.76781
+##              [,81]    [,82]    [,83]    [,84]     [,85]     [,86]    [,87]    [,88]
+## constant   1.00000   1.0000   1.0000   1.0000   1.00000   1.00000   1.0000   1.0000
+## reading  487.71683 519.8697 300.6192 512.1456 390.68524 380.51429 559.4885 525.6131
+## IQ        94.55947 103.5597 101.8328 113.0630  76.56824  97.56684 104.2866 106.0855
+##             [,89]     [,90]    [,91]    [,92]    [,93]    [,94]     [,95]     [,96]
+## constant   1.0000   1.00000   1.0000   1.0000   1.0000   1.0000   1.00000   1.00000
+## reading  609.9593 409.51193 604.2912 543.1018 425.8297 659.4646 506.42468 454.15287
+## IQ       120.9776  82.65717 108.4118 103.3896 100.5953 122.7979  97.91853  92.96729
+##              [,97]    [,98]     [,99]   [,100]
+## constant   1.00000   1.0000   1.00000   1.0000
+## reading  483.78242 531.9650 198.10626 487.2215
+## IQ        77.51862 105.0199  54.05485 106.1264
 ```
-
+{{<math>}}
 \begin{align}X=\begin{bmatrix}1 & 449.59 & 81.78\\1 & 544.85 & 106.76\\1 & 331.35 & 99.14\\1 & 531.54 & 111.91\\... & ... & ... \\1 & 487.22 & 106.13\end{bmatrix}\end{align}
 
 
 \begin{align}X'=\begin{bmatrix} 1 & 1 & 1 & 1 & ... & 1\\449.59 & 544.85 & 331.35 & 531.54 & ... & 487.22\\81.78 & 106.76 & 99.14 & 111.91 & ... & 106.13\end{bmatrix}\end{align}
-
+{{</math>}}
 Wir nennen das Kreuzprodukt an dieser Stelle `X.X` und nicht `X'X`, da dies mit der Bedeutung von ' in der Sprache nicht funktioniert. Für das Erstellen der Kreuzproduktsumme muss das normale Zeichen für die Multiplikation `*` von zwei `%`-Zeichen umschlossen werden. An dieser Stelle würde sonst auch eine Fehlermeldung resultieren, aber bei quadratischen Matrizenist der Unterschied von Bedeutung.
 
 
@@ -250,7 +268,9 @@ X.X
 
 Die zugehörige handschriftliche Notation würde demnach so aussehen:
 
+{{<math>}}
 \begin{align}X'X=\begin{bmatrix}100 & 49606.6 & 9813.4  \\49606.6 & 25730126.1  & 4962448.1 \\9813.4   & 4962448.1  &  987595.8 \end{bmatrix}\end{align}
+{{</math>}}
 
 #### 2. Berechnung der Inversen der Kreuzproduktsumme $(X'X)^{-1}$
 
@@ -271,16 +291,19 @@ solve(X.X)
 ## IQ       -0.0033928220 -5.056210e-06  6.013228e-05
 ```
 
+{{<math>}}
 \begin{align}(X'X)^{-1}= \begin{bmatrix}0.42 & -1.57e-04  & -3.39e-03\\-1.57e-04 & 1.32e-06& -5.06e-06\\-3.39e-03 & -5.06e-06 & 6.01e-05\end{bmatrix}\end{align}
+{{</math>}}
 
 #### 3. Berechnung des Kreuzproduktsummenvektors (X'y)
 
 Der Kreuzproduktsummenvektor (X'y) wird durch die Multiplikation der transponierten X Matrix (X') und des Vektors y berechnet.  
 
-
+{{<math>}}
 \begin{align}X'=\begin{bmatrix}1 & 1 & 1 & 1 & ... & 1\\449.59 & 544.85 & 331.35 & 531.54 & ... & 487.22\\81.78 & 106.76 & 99.14 & 111.91 & ... & 106.13\end{bmatrix}\end{align}
 
 \begin{align}y=\begin{bmatrix}451.98\\ 589.65\\ 509.33\\560.43\\...\\603.18\end{bmatrix}\end{align}
+{{</math>}}
 
 Die Verwendung von `%*%` zum Bilden des Kreuzprodukts und der Funktion `t()` zum Transponieren haben wir bereits kennengelernt und können hier problemlos den Code schreiben.
 
@@ -298,17 +321,19 @@ X.y
 ## IQ        5636931.00
 ```
 
+{{<math>}}
 \begin{align}X'y=\begin{bmatrix}56146.45\\28313060\\5636931\end{bmatrix}\end{align}
-
+{{</math>}}
 
 #### 4. Berechnung des Einflussgewichtsvektors
 
 Die geschätzten Regressionsgewichte nach dem Kriterium der kleinsten Quadrate werden berechnet, indem die Inverse der Kreuzproduktsumme $((X'X)^{-1})$ mit dem Kreuzproduktsummenvektor (X'y) multipliziert wird.   
 
+{{<math>}}
 \begin{align}(X'X)^{-1}= \begin{bmatrix}0.42 & -1.57e-04  & -3.39e-03\\-1.57e-04 & 1.32e-06& -5.06e-06\\-3.39e-03 & -5.06e-06 & 6.01e-05\end{bmatrix}\end{align}
 
 \begin{align}X'y=\begin{bmatrix}56146.45\\28313060\\5636931\end{bmatrix}\end{align}
-
+{{</math>}}
 
 
 ```r
@@ -324,9 +349,9 @@ b_hat
 ## IQ        5.30981976
 ```
 
-
+{{<math>}}
 \begin{align}\hat{b}=\begin{bmatrix}58.17\\-0.04 \\5.31\end{bmatrix}\end{align}
-
+{{</math>}}
 
 #### Vorhersage der Mathematikleistung
 
@@ -348,10 +373,12 @@ head(y_hat)
 ## [5,] 653.1192
 ## [6,] 610.6951
 ```
+
+{{<math>}}
 \begin{align}
 \hat{y}_{math} = \begin{bmatrix}476.29\\ 605.51\\572.71\\633.37\\...\\604.22\end{bmatrix}
 \end{align}
-
+{{</math>}}
 
 ### Berechnung der standardisierten Regressionsgewichte 
 
@@ -726,13 +753,8 @@ Verweis zu letzter Sitzung: In solch einer multiplen Regression können Suppress
     
 ***
 
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/lehre/statistik-ii/regression-i.R).
-
-***
-
 ## Appendix A {#AppendixA}
-{{< spoiler text = "**Multipler Determinationskoeffizient mit Variablennamen**">}}
+<details><summary><b>Multipler Determinationskoeffizient mit Variablennamen</b></summary>
 
 Durch die Benennung der Objekte mit Buchstaben, der schriftlichen Notation mit Buchstabend und der Argumente von `spcor.test`, die auch Buchstaben entsprechen, könnte es zu kleinen Verwirrungen kommen. Trotzdem war die allgemeine Darstellung als Zeichen einer breiten Gültigkeit wichtig. Hier wird das ganze nochmal spezifischer an den Daten orientiert, wobei der beschreibende Text natürlich recht ähnlich bleibt. 
 
@@ -792,5 +814,5 @@ cor.mathreading^2 + semipartial$estimate^2
 
 Wir erhalten auf diese Weise natürlich dasselbe Ergebnis, das wir auch mit den Quadratsummen und unter Verwendung der Objekte als Buchstaben bestimmen konnten. 
 
-{{< /spoiler >}}
+</details>
 

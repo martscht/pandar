@@ -36,14 +36,13 @@ output:
     keep_md: true
 ---
 
-```{r setup, include=FALSE}
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r setup, include=FALSE, purl=FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 In der letzten Sitzung haben wir die [einfaktorielle Varianzanalyse](/post/anova1) behandelt. Die spezifische Benennung als *einfaktoriell* verdeutlicht schon, dass wir hier ansetzen und Erweiterungen vornehmen können. In dieser Sitzung geht es vor allem um die *zweifaktorielle* Varianzanalyse. Ziel dieser Analyse ist es gleichzeitig Gruppenunterschiede auf mehreren (um genau zu sein 2 im zweifaktoriellen Fall) Variablen zu untersuchen und dabei zu überprüfen, ob Kombinationen von Gruppen besondere Auswirkungen haben. Für weitere Inhalte siehe bspw. auch [Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.2 und folgend)](https://hds.hebis.de/ubffm/Record/HEB366849158).
 
-Wir arbeiten wieder mit dem `conspiracy` Datensatz. Sie können den im Folgenden verwendeten [<i class="fas fa-download"></i> Datensatz "conspiracy.rda" hier herunterladen](../../daten/conspiracy.rda).
+Wir arbeiten wieder mit dem `conspiracy` Datensatz. Dieser stammt aus einer Erhebung zur Validierung eines Fragebogens, aus dem Skalenwerte gebildet werden, die verschiedene Dimensionen von Verschwörungsglauben abbilden sollen. Sie können den im Folgenden verwendeten [<i class="fas fa-download"></i> Datensatz "conspiracy.rda" hier herunterladen](../../daten/conspiracy.rda).
 
 ### Daten laden
 Wir laden zunächst die Daten: entweder lokal von Ihrem Rechner:
@@ -96,7 +95,7 @@ Die Ergebnisse zeigen, dass die Annahme der Homoskedastizität nicht verworfen w
 
 Die Ergebnisse aus den Übungsaufgaben ergaben bezüglich des Bildungabschlusses:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 ezANOVA(conspiracy, wid = id, dv = ET, between = edu, white.adjust = TRUE)
 ```
 
@@ -151,7 +150,7 @@ ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu))
 
 Neben $N$, $\bar{X}$ und $\hat{\sigma}$ wird in der Ausgabe auch *Fisher's Least Significant Difference* (FLSD) ausgegeben. Diese kennzeichnet den minimalen Mittelwertsunterschied, der im direkten Vergleich zweier Gruppen signifikant wäre. Schon an dieser Stelle werden wir von `ez` darauf hingewiesen, dass die Gruppen ungleich groß sind und dies in der ANOVA zu Problemen führen könnte.
 
-Für eine grafische Darstellung der Mittelwerte, kann `ezPlot` benutzt werden. Der Befehl nimmt die gleichen Argumente entgegen wie `ezStats`, benötigt aber zusätzlich eine Aussage darüber, welche Variable auf der x-Achse abgetragen werden soll (`x = `) und welche Variable farblich unterschieden werden soll (`split = `). Mit dieser Funktion wird dann ein `ggplot` erstellt. Diesen könnten Sie mit dem, was wir in der [Sitzung zu `ggplot2`](grafiken-ggplot2) besprochen haben, auch händisch erstellen! `ezPlot` nimmt Ihnen hier aber ein wenig Arbeit ab:
+Für eine grafische Darstellung der Mittelwerte, kann `ezPlot` benutzt werden. Der Befehl nimmt die gleichen Argumente entgegen wie `ezStats`, benötigt aber zusätzlich eine Aussage darüber, welche Variable auf der x-Achse abgetragen werden soll (`x = `) und welche Variable farblich unterschieden werden soll (`split = `). Mit dieser Funktion wird dann ein `ggplot` erstellt. Diesen könnten Sie mit dem, was wir in der [Sitzung zu `ggplot2`](../grafiken-ggplot2) besprochen haben, auch händisch erstellen! `ezPlot` nimmt Ihnen hier aber ein wenig Arbeit ab:
 
 ```{r}
 ezPlot(conspiracy, dv = ET, wid = id, between = c(urban, edu),
@@ -215,7 +214,7 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), detailed = TRUE,
 
 In diesem Fall werden beide Haupteffekte statistisch bedeutsam, die Interaktion allerdings nicht. Inhaltlich heißt das, dass sowohl die Art des Wohnorts als auch das Bildungsniveau einen Einfluss auf die verschwörungstheoretische Überzeugung haben. Über die jeweiligen Effekte hinaus, ist die spezifische Kombination aus Wohnort und Bildungsniveau für diese Überzeugung irrelevant.
 
-Wenn Interaktionen von 0 verschieden sind, wird davon abgeraten die Haupteffekte zu interpretieren. Ähnliches hatten wir bemerkt, als wir die [quadratische und moderierte Regression](regression-iv) kennengelernt hatten. Hier war es auch wenig sinnvoll den linearen Effekt ohne den quadratischen zu interpretieren, bzw. den Effekt des Prädiktors unabhängig vom Moderator zu interpretieren --- genauso ist es hier auch!
+Wenn Interaktionen von 0 verschieden sind, wird davon abgeraten die Haupteffekte zu interpretieren. Ähnliches hatten wir bemerkt, als wir die [quadratische und moderierte Regression](../regression-iv) kennengelernt hatten. Hier war es auch wenig sinnvoll den linearen Effekt ohne den quadratischen zu interpretieren, bzw. den Effekt des Prädiktors unabhängig vom Moderator zu interpretieren --- genauso ist es hier auch!
 
 Welche unterschiedlichen Kombinationen an Signifikanzen es gibt und was diese schematisch bedeuten, kann bspw. in [Eid et al. (2017](https://hds.hebis.de/ubffm/Record/HEB366849158), p. 436, Abbildung 13.6) nachgelesen werden.
 
@@ -224,7 +223,7 @@ Welche unterschiedlichen Kombinationen an Signifikanzen es gibt und was diese sc
 
 ### Alle Gruppenvergleiche
 
-Mit *Tukeys Honest Significant Difference* können, wie auch in der [letzten Sitzung](anova-i), alle möglichen Gruppenkombinationen verglichen werden. Wir müssen die `TuckeyHSD` Funktion auf ein `aov`-Objekt anwenden.
+Mit *Tukeys Honest Significant Difference* können, wie auch in der [letzten Sitzung](../anova-i), alle möglichen Gruppenkombinationen verglichen werden. Wir müssen die `TuckeyHSD` Funktion auf ein `aov`-Objekt anwenden.
 
 ```{r}
 TukeyHSD(aov(ET ~ urban*edu, conspiracy))
@@ -439,14 +438,9 @@ An den globalen Einstellungen in `R` herum zu spielen erscheint etwas riskant. D
 
 ### Welcher Typ ist der Richtige?
 
-Generell ist Typ II besser geeignet um die Quadratsummen von Haupteffekten zu bestimmen, wenn Interaktionen empirisch nicht von 0 verschieden sind. Wenn Interaktionen von 0 verschieden sind, wird (unabhängig vom QS-Typ) davon abgeraten die Haupteffekte zu interpretieren, sodass deren Bestimmung in diesem Fall wenig Relevanz hat. Ähnliches hatten wir bemerkt, als wir die [quadratische und moderierte Regression](quadratische-und-moderierte-regression) kennengelernt hatten. Hier war es auch wenig sinnvoll den linearen Effekt ohne den quadratischen zu interpretieren, bzw. den Effekt des Prädiktors unabhängig vom Moderator zu interpretieren --- genauso ist es hier auch! Die Terme höchster Ordnung (hier die Interaktion) sind zwischen Typ II und Typ III identisch, sodass die Interpretation der Interaktion durch die Wahl nicht beeinflusst wird. Von Typ I wird generell abgeraten (wie Ihnen `ezANOVA` auch direkt mitteilt). In einigen Online-Foren steht sogar, dass Typ I nur zu Demonstrationszwecken genutzt werden sollte, dass viel schief gehen kann.
+Generell ist Typ II besser geeignet um die Quadratsummen von Haupteffekten zu bestimmen, wenn Interaktionen empirisch nicht von 0 verschieden sind. Wenn Interaktionen von 0 verschieden sind, wird (unabhängig vom QS-Typ) davon abgeraten die Haupteffekte zu interpretieren, sodass deren Bestimmung in diesem Fall wenig Relevanz hat. Ähnliches hatten wir bemerkt, als wir die [quadratische und moderierte Regression](../regression-iv) kennengelernt hatten. Hier war es auch wenig sinnvoll den linearen Effekt ohne den quadratischen zu interpretieren, bzw. den Effekt des Prädiktors unabhängig vom Moderator zu interpretieren --- genauso ist es hier auch! Die Terme höchster Ordnung (hier die Interaktion) sind zwischen Typ II und Typ III identisch, sodass die Interpretation der Interaktion durch die Wahl nicht beeinflusst wird. Von Typ I wird generell abgeraten (wie Ihnen `ezANOVA` auch direkt mitteilt). In einigen Online-Foren steht sogar, dass Typ I nur zu Demonstrationszwecken genutzt werden sollte, dass viel schief gehen kann.
 
 </details>
-
-***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](../anova-ii.R).
 
 ***
 

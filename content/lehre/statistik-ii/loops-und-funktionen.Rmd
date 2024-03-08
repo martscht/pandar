@@ -37,12 +37,12 @@ output:
 
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r setup, include = FALSE, purl=FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 load("../../daten/mdbf.rda")
 ```
 
-In diesem Block werden wir verschiedene Arten von Loops (Schleifen) kennenlernen und lernen, vertieft mit Funktionen zu arbeiten. Dieses Wissen wollen wir dann nutzen, um nochmals Power- bzw. Simulationsanalysen durchzuführen, welche wir in der [Sitzung zu Simulationsstudien und Poweranalysen](../statistik-i/simulation-poweranalyse) bereits kennengelernt haben. Vorab beschäftigen wir uns noch mit einigen Grundlagen zum Thema logische Abfragen.
+In diesem Block werden wir verschiedene Arten von Loops (Schleifen) kennenlernen und lernen, vertieft mit Funktionen zu arbeiten. Dieses Wissen wollen wir dann nutzen, um nochmals Power- bzw. Simulationsanalysen durchzuführen, welche wir in der [Sitzung zu Simulationsstudien und Poweranalysen](../../statistik-i/simulation-poweranalyse) bereits kennengelernt haben. Vorab beschäftigen wir uns noch mit einigen Grundlagen zum Thema logische Abfragen.
 
 # Logische Abfragen und Bedingungen: `if` und `else`
 
@@ -192,7 +192,7 @@ Das gilt sowohl für `if`, als auch für `else`. Die einzige Bedingung ist, dass
 
 Häufig werden mehrere Abfragen ineinander geschachtelt, sodass die Ausdrücke schnell sehr kompliziert werden können. Falls in mehreren Schritten verschiedene Bedingungen abgefragt werden, und verschiedene Konsequenzen folgen sollen, kann auch das `else if` verwendet werden. Hierbei werden verschiedene Möglichkeiten abgefragt, für die verschiedene Befehle ausgeführt werden sollen. Wenn die erste Bedingung nicht zutrifft, wird die zweite Bedingung (nach dem `else if`) geprüft, wenn diese auch nicht zutrifft, wird das nächste `else if` geprüft. Der Befehl nach dem `else` wird dann nur ausgeführt, wenn keine der vorherigen Bedingungen zutrifft. 
 
-![](/post/date.jpg){width=70%}
+![](../date.jpg)
 
 Hier sehen Sie ein Beispiel für eine if-else-Abfrage, die Sie jeden Morgen nutzen können, um herauszufinden, wie Sie sich heute fühlen sollten. 
 
@@ -479,7 +479,7 @@ Wenn wir die Einstellung vergessen, wird - wie bei allen anderen `R` Funktionen 
 Vari(mdbf[, 2])
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat('Error in Vari(mdbf[, 2]) : 
   argument "empirical" is missing, with no default')
 ```
@@ -510,7 +510,7 @@ Außerdem gibt es noch Funktionen wie `replicate`, `apply`, `lapply`, `sapply`, 
 
 ## Anwendung: Simulationsstudien und Poweranalysen
 
-In der Sitzung zu [Simulationsstudien und Poweranalysen](/post/simulation) aus dem vergangenen Semester hatten wir empirisch die Power und den $\alpha$-Fehler des $t$-Tests sowie des Korrelationstest untersucht. Dabei hatten wir `replicate` verwendet. Bspw. hatten wir mit folgendem Code den $p$-Wert des $t$-Tests unter der $H_0$ Hypothese untersucht:
+In der Sitzung zu [Simulationsstudien und Poweranalysen](../../statistik-i/simulation-poweranalyse) aus dem vergangenen Semester hatten wir empirisch die Power und den $\alpha$-Fehler des $t$-Tests sowie des Korrelationstest untersucht. Dabei hatten wir `replicate` verwendet. Bspw. hatten wir mit folgendem Code den $p$-Wert des $t$-Tests unter der $H_0$ Hypothese untersucht:
 
 ```{r}
 N <- 20
@@ -544,7 +544,7 @@ set.seed(1234)
 replicate(n = 10, expr = mySim(N = 20))
 ```
 
-In der Sitzung zu [Simulationsstudien und Poweranalysen](../statistik-i/simulation-poweranalyse) hatten wir außerdem den empirischen $t$-Wert untersucht. Diesen können wir nun ganz leicht mit aufnehmen.
+In der Sitzung zu [Simulationsstudien und Poweranalysen](../../statistik-i/simulation-poweranalyse) hatten wir außerdem den empirischen $t$-Wert untersucht. Diesen können wir nun ganz leicht mit aufnehmen.
 
 ```{r}
 mySim2 <- function(N)
@@ -733,8 +733,3 @@ Sys.time() - t2 # bestimmte die Laufzeit durch aktuelle Zeit minus Startzeit
 Loops sind in diesem Beispiel fast um den Faktor 10 langsamer (zumindest, wenn Sie den Code für `10^6` Beobachtungen durchführen, die Maske, die für diese Website genutzt wird, ist deutlich langsamer, weswegen hier auf `10^3` ausgewichen wurde...). Es gibt jedoch viele Anwendungsgebiete, wo Loops das Mittel der Wahl sind!
 
 </details>
-
-***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](../loops-und-funktionen.R).

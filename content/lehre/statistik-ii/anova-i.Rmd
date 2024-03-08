@@ -33,15 +33,14 @@ output:
 ---
 
 
-```{r setup, include=FALSE}
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r setup, include=FALSE, purl=FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 
 In den letzten Sitzungen haben wir uns ausführlicher mit dem Zusammenhang zwischen Variablen in Form von Korrelation und Regression beschäftigt. Nun möchten wir untersuchen, ob es einen Unterschied zwischen mehreren Gruppen hinsichtlich der Mittelwerte in einer Variablen gibt. Im letzten Semester haben Sie schon den **t-Test** kennen gelernt, mit dem Mittelwertsunterschiede zwischen zwei Gruppen untersucht werden können. Wenn wir nun mehr als zwei Gruppen miteinander vergleichen möchten, müssten wir mehrere **t-Tests** mit allen Kombinationen durchführen. Bei z. B. 3 Gruppen müssten wir $\binom{3}{2}$ *t-Tests* durchführen. Wie Sie sicherlich noch wissen, führt dies aber zu einer $\alpha$**-Fehler-Inflation oder -Kumulierung**. In diesem Fall muss demnach eine **ANOVA** genutzt werden. Da wir den Unterschied auf *einer Gruppenvariable* wissen wollen, nutzen wir die *einfaktorielle ANOVA*. Wie das Verfahren für mehrere Gruppenvariablen ist, wird in der nächsten Sitzung besprochen. Mehr zur *einfaktoriellen ANOVA* finden Sie in [`Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.1 und folgend)`](https://ubffm.hds.hebis.de/Record/HEB366849158). 
 
-Die praktische Arbeit soll anhand des Datensatzes `conspiracy` demonstriert werden, den wir also zunächst in unser Environment laden müssen.
+Die praktische Arbeit soll anhand des Datensatzes `conspiracy` demonstriert werden, den wir also zunächst in unser Environment laden müssen.Dieser stammt aus einer Erhebung zur Validierung eines Fragebogens, aus dem Skalenwerte gebildet werden, die verschiedene Dimensionen von Verschwörungsglauben abbilden sollen.
 
 ### Daten laden
 Wenn Sie den Datensatz lokal auf ihrem Rechner haben möchten, können Sie [<i class="fas fa-download"></i> "conspiracy.rda" hier herunterladen](../../daten/conspiracy.rda). Anschließend muss er eingeladen werden - natürlich mit Ihrem Dateipfad.
@@ -202,7 +201,7 @@ pf(F_wert, nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$ur
 
 Grafisch gesehen lassen wir uns also die Fläche für den folgenden Bereich der F-Verteilung anzeigen.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl = FALSE}
 library(ggplot2)
 Fs <- data.frame(x = seq(0, 7, .1))
 Fs$y <- df(Fs$x,  nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$urban))
@@ -256,7 +255,7 @@ Jetzt kann die ANOVA mit dem `ezANOVA`-Befehl durchgeführt werden, indem wir ei
 ezANOVA(conspiracy, wid = id, dv = ET, between = urban)
 ```
 
-Zunächst werden wir mit einer `## Warning` darauf hingewiesen, dass das Desgin *unbalanciert* ist: die Gruppen sind nicht alle gleich groß. Das kann Konsequenzen auf die Vertrauenswürdigkeit der Ergebnisse haben, wenn wir ANOVAs mit mehr als einem Faktor bestimmen (dazu mehr in der nächsten Sitzung zur [zweifaktoriellen ANOVA](/post/anova2).
+Zunächst werden wir mit einer `## Warning` darauf hingewiesen, dass das Desgin *unbalanciert* ist: die Gruppen sind nicht alle gleich groß. Das kann Konsequenzen auf die Vertrauenswürdigkeit der Ergebnisse haben, wenn wir ANOVAs mit mehr als einem Faktor bestimmen (dazu mehr in der nächsten Sitzung zur [zweifaktoriellen ANOVA](/lehre/statistik-ii/anova-ii).
 
 Die zweite Hälfte der Ergebnisse (`$Levene's Test for Homogeneity of Variance`) liefern die Überprüfung der Homoskedastizitätsannahme mit dem Levene Test. Dieser wird von `ezANOVA` immer automatisch mitgeliefert. Wie zu erwarten, zeigt sich das selbe Ergebnis wie mit dem `leveneTest` aus dem `car`-Paket.
 
@@ -286,7 +285,7 @@ Hier zeigt sich, dass sich ausschließlich Personen aus `urban` und `suburban` U
 
 ### Tukey Test
 
-Ein präziserer Ansatz als die einfachen $t$-Tests bietet **Tukeys Honest Significant Difference** (auch *Tukey-Test* genannt). Dieser kann in `R` allerdings nur auf `aov`-Objekte angewendet werden. Der `aov`-Befehl führt zum selben Ergebnis wie `ezANOVA`. Zu Unterschieden kann es erst bei der [zweifaktoriellen ANOVA](/post/anova2) kommen, da dort der Typ der Quadratsumme ein Rolle spielt, wie diese ausfällt. 
+Ein präziserer Ansatz als die einfachen $t$-Tests bietet **Tukeys Honest Significant Difference** (auch *Tukey-Test* genannt). Dieser kann in `R` allerdings nur auf `aov`-Objekte angewendet werden. Der `aov`-Befehl führt zum selben Ergebnis wie `ezANOVA`. Zu Unterschieden kann es erst bei der [zweifaktoriellen ANOVA](/lehre/statistik-ii/anova-ii) kommen, da dort der Typ der Quadratsumme ein Rolle spielt, wie diese ausfällt. 
 
 #### aov-Befehl
 
@@ -339,12 +338,6 @@ Die Funktion `TukeyHSD` kann nun also auf den spezifischen Part des Outputs von 
 ```{r}
 TukeyHSD(aov_t$aov, conf.level = 0.95)
 ```
-
-
-***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier  herunterladen](../anova-i.R).
 
 ***
 

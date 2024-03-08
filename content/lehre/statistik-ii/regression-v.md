@@ -9,7 +9,7 @@ subtitle: 'nichtlineare Regression'
 summary: ''
 authors: [irmer, schultze]
 weight: 12
-lastmod: '2024-02-08'
+lastmod: '2024-03-08'
 featured: no
 banner:
   image: "/header/penguins_on_ice.jpg"
@@ -34,7 +34,7 @@ output:
 
 
 
-Bisher hatten wir mittels Regressionsanalysen lineare Beziehungen modelliert. In der Sitzung zur [quadratischen und moderierte Regresssion](regression-iv) kamen dann im Grunde quadratische Effekte mit hinzu. Wir können unser Wissen über Regressionen allerdings auch nutzen um nichtlineare Effekte zu modellieren. Wie das geht und was zu beachten ist, schauen wir uns im Folgenden an. Dazu laden wir zunächst altbekannte Pakete:
+Bisher hatten wir mittels Regressionsanalysen lineare Beziehungen modelliert. In der Sitzung zur [quadratischen und moderierte Regresssion](../regression-iv) kamen dann im Grunde quadratische Effekte mit hinzu. Wir können unser Wissen über Regressionen allerdings auch nutzen um nichtlineare Effekte zu modellieren. Wie das geht und was zu beachten ist, schauen wir uns im Folgenden an. Dazu laden wir zunächst altbekannte Pakete:
 
 
 ```r
@@ -265,14 +265,14 @@ head(WorldPopulation)
 ## 6 1805 1000098535
 ```
 
-In der ersten Spalte steht das Jahr; in der 2. die Weltbevölkerungsgröße. Wir wollen uns dies grafisch ansehen. Dazu verwenden wir `ggplot`, um die Population (`Population`) gegen das Jahr (`Year`) abzutragen und zwar als Punkte mit `geom_point()`. Sie können Grafiken mit `ggplot2` in der [zugehörigen Sitzung](/post/grafiken-mit-ggplot2) wiederholen.
+In der ersten Spalte steht das Jahr; in der 2. die Weltbevölkerungsgröße. Wir wollen uns dies grafisch ansehen. Dazu verwenden wir `ggplot`, um die Population (`Population`) gegen das Jahr (`Year`) abzutragen und zwar als Punkte mit `geom_point()`. Sie können Grafiken mit `ggplot2` in der [zugehörigen Sitzung](../grafiken-ggplot2) wiederholen.
 
 
 ```r
 ggplot(data = WorldPopulation, aes(x = Year, y = Population))+geom_point()
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 Das Diagramm lässt deutlich einen nichtlinearen Anstieg der Weltbevölkerung von 1800 bis 2020 vermuten. Auffällig ist auch der leichte Knick, der um 1950 zu vermuten ist und ab welchem die Bevölkerung, deskriptiv gesehen, noch stärker wächst. Dieser Knick ist zum Teil durch das Ende des Krieges, aber auch durch modernere Landwirtschaft und das Aufkommen von neuen Medikamenten (z.B. Penicilline) zu erklären. 
 
@@ -307,8 +307,7 @@ summary(m_l)
 ## (Intercept) -4.646e+10  1.801e+09  -25.79   <2e-16 ***
 ## Year         2.569e+07  9.426e+05   27.26   <2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 8.94e+08 on 219 degrees of freedom
 ## Multiple R-squared:  0.7723,	Adjusted R-squared:  0.7713 
@@ -333,7 +332,7 @@ ggplot(data = df_res, aes(x = res)) +
 
 <img src="/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-8-2.png" style="display: block; margin: auto;" />
 
-Durch `+ geom_smooth(method="lm", formula = "y~x")`, kann mit `ggplot` ein linearer Trend inklusive Konfidenzintervall hinzugefügt werden. Obwohl ein linearer Verlauf sehr unwahrscheinlich erscheint, können mit dem linearen Modell bereits 77.23% der Variation der Bevölkerungsdichte durch die Jahreszahl erklärt werden (entnommen aus der Summary des linearen Modells unter `Multiple R-squared:  0.7723`). Wie der Grafik deutlich zu entnehmen ist, sind die Residuen in dieser Regressionsanalyse stark abhängig von der Jahreszahl (negatives Residuum von ca. 1860-1970 und positive Residuen sonst; *Wiederholung*: $\varepsilon_i=Y_i-\hat{Y}_i$, wobei $\hat{Y}_i$ der vorhergesagte Wert ist, das Vorzeichen erhalten wir also, indem wir uns überlegen, wann die Daten oberhalb oder unterhalb der vorhergesagten Geraden liegen). Auch wenn wir uns das zugehörige Histogramm der Residuen ansehen, widerspricht dieses der Annahme auf Normalverteilung. In [Appendix A](#AppendixA) ist auch ein quadratische Trend hinzugefügt, da wir ja in der vergangenen Sitzung zu [quadratischer oder moderierter Regression](regression-iv) gesehen hatten, dass durch das Hinzufügen von quadratischen Effekten die Vorhersage des Kriteriums verbessert werden kann. Wir interessieren uns jetzt aber erstmal für das exponentielle Wachstum!
+Durch `+ geom_smooth(method="lm", formula = "y~x")`, kann mit `ggplot` ein linearer Trend inklusive Konfidenzintervall hinzugefügt werden. Obwohl ein linearer Verlauf sehr unwahrscheinlich erscheint, können mit dem linearen Modell bereits 77.23% der Variation der Bevölkerungsdichte durch die Jahreszahl erklärt werden (entnommen aus der Summary des linearen Modells unter `Multiple R-squared:  0.7723`). Wie der Grafik deutlich zu entnehmen ist, sind die Residuen in dieser Regressionsanalyse stark abhängig von der Jahreszahl (negatives Residuum von ca. 1860-1970 und positive Residuen sonst; *Wiederholung*: $\varepsilon_i=Y_i-\hat{Y}_i$, wobei $\hat{Y}_i$ der vorhergesagte Wert ist, das Vorzeichen erhalten wir also, indem wir uns überlegen, wann die Daten oberhalb oder unterhalb der vorhergesagten Geraden liegen). Auch wenn wir uns das zugehörige Histogramm der Residuen ansehen, widerspricht dieses der Annahme auf Normalverteilung. In [Appendix A](#AppendixA) ist auch ein quadratische Trend hinzugefügt, da wir ja in der vergangenen Sitzung zu [quadratischer oder moderierter Regression](../regression-iv) gesehen hatten, dass durch das Hinzufügen von quadratischen Effekten die Vorhersage des Kriteriums verbessert werden kann. Wir interessieren uns jetzt aber erstmal für das exponentielle Wachstum!
 
 
 ### Exponentielles Modell für das Bevölkerungswachstum
@@ -367,8 +366,7 @@ summary(m_log)
 ## (Intercept) 3.781382   0.328712   11.50   <2e-16 ***
 ## Year        0.009265   0.000172   53.87   <2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.1631 on 219 degrees of freedom
 ## Multiple R-squared:  0.9298,	Adjusted R-squared:  0.9295 
@@ -399,8 +397,7 @@ summary(m_log2)
 ## (Intercept) 3.781382   0.328712   11.50   <2e-16 ***
 ## Year        0.009265   0.000172   53.87   <2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.1631 on 219 degrees of freedom
 ## Multiple R-squared:  0.9298,	Adjusted R-squared:  0.9295 
@@ -445,7 +442,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
      geom_line(aes(x = Year, y = pred_Pop_exp), col = "red", lwd = 1.5)
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 Das Diagramm der retransformierten vorhergesagten Werten signalisiert, dass ein exponentielles Wachstumsmodell die Daten gut beschreibt. Wir können die Parameter des logarithmischen Modells auch in die Bevölkerungsskala (weg von der log-Skala) übersetzen. Dazu nutzen wir wieder eine Logarithmus/Exponentenregel: $e^{a+b}=e^ae^b$. Also ist $e^{\hat{\beta_0}}$ die Bevölkerung zum Jahr 0 und $e^{\hat{\beta}_1}$ die Veränderung der Bevölkerung (multiplikativ), wenn die Jahreszahl um eine Einheit erhöht wird. Wir können dies leicht wie folgt umsetzen:
 
@@ -480,22 +477,14 @@ Im Datensatz erhalten wir dann also Folgendes:
 
 
 ```
-##     Year Population log_Population pred_Pop_exp
-## 148 1947 2446128932       21.61777   2998437595
-## 149 1948 2466556182       21.62609   3026348797
-## 150 1949 2491236432       21.63604   3054519813
-## 151 1950 2522343946       21.64845   3082953062
-## 152 1951 2569486613       21.66697   3111650983
-## 153 1952 2616809393       21.68522   3140616042
-## 154 1953 2663255370       21.70282   3169850724
-##     Post1950
-## 148        0
-## 149        0
-## 150        0
-## 151        0
-## 152        1
-## 153        1
-## 154        1
+##     Year Population log_Population pred_Pop_exp Post1950
+## 148 1947 2446128932       21.61777   2998437595        0
+## 149 1948 2466556182       21.62609   3026348797        0
+## 150 1949 2491236432       21.63604   3054519813        0
+## 151 1950 2522343946       21.64845   3082953062        0
+## 152 1951 2569486613       21.66697   3111650983        1
+## 153 1952 2616809393       21.68522   3140616042        1
+## 154 1953 2663255370       21.70282   3169850724        1
 ```
 
 Die Idee ist jetzt, dass wir diesen Indikator $Post$ zusätzlich in die Regression aufnehmen und damit folgende Regressiongleichung erhalten:
@@ -515,7 +504,7 @@ Für alle Jahre nach 1950 hingegen, sieht die umgestellte Gleichung so aus:
 $$
   \widehat{Pop_i} = e^{(\beta_0 + \beta_2) + (\beta_1 + \beta_3) \cdot Jahr_i}
 $$
-sodass wir einen neuen Interzept (verschoben um $\beta_2$) und einen neuen Effekt des Jahres (verändert um $\beta_3$) ab diesem Punkt haben. In `R` können wir das Ganze genauso ausdrücken, wie wir es für [andere Regressionen mit Interaktionen](regression-iv) schon gesehen hatten:
+sodass wir einen neuen Interzept (verschoben um $\beta_2$) und einen neuen Effekt des Jahres (verändert um $\beta_3$) ab diesem Punkt haben. In `R` können wir das Ganze genauso ausdrücken, wie wir es für [andere Regressionen mit Interaktionen](../regression-iv) schon gesehen hatten:
 
 
 ```r
@@ -533,19 +522,13 @@ summary(m_dis)
 ## -0.068476 -0.034200  0.006488  0.028597  0.090422 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error t value Pr(>|t|)
-## (Intercept)    9.907e+00  1.346e-01   73.58   <2e-16
-## Year           5.975e-03  7.179e-05   83.23   <2e-16
-## Post1950      -2.024e+01  4.713e-01  -42.95   <2e-16
-## Year:Post1950  1.045e-02  2.385e-04   43.80   <2e-16
-##                  
-## (Intercept)   ***
-## Year          ***
-## Post1950      ***
-## Year:Post1950 ***
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    9.907e+00  1.346e-01   73.58   <2e-16 ***
+## Year           5.975e-03  7.179e-05   83.23   <2e-16 ***
+## Post1950      -2.024e+01  4.713e-01  -42.95   <2e-16 ***
+## Year:Post1950  1.045e-02  2.385e-04   43.80   <2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.03845 on 217 degrees of freedom
 ## Multiple R-squared:  0.9961,	Adjusted R-squared:  0.9961 
@@ -563,16 +546,9 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
   geom_line(aes(x = Year, y = pred_Pop_dis), col = "blue", lwd = 1.5)
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/discont_growth-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/regression-v_files/figure-html/discont_growth-1.png)<!-- -->
 
 ***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](../regression-v.R).
-
-
-***
-
 
 ## Appendix A {#AppendixA}
 
@@ -596,17 +572,12 @@ summary(m_q)
 ## -646432518 -267430205   89039661  288698332  475103733 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error t value Pr(>|t|)
-## (Intercept)    2.617e+09  2.120e+07  123.47   <2e-16
-## poly(Year, 2)1 2.437e+10  3.152e+08   77.32   <2e-16
-## poly(Year, 2)2 1.238e+10  3.152e+08   39.30   <2e-16
-##                   
-## (Intercept)    ***
-## poly(Year, 2)1 ***
-## poly(Year, 2)2 ***
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    2.617e+09  2.120e+07  123.47   <2e-16 ***
+## poly(Year, 2)1 2.437e+10  3.152e+08   77.32   <2e-16 ***
+## poly(Year, 2)2 1.238e+10  3.152e+08   39.30   <2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 315200000 on 218 degrees of freedom
 ## Multiple R-squared:  0.9718,	Adjusted R-squared:  0.9716 
@@ -640,8 +611,7 @@ anova(m_l, m_q)
 ## 1    219 1.7504e+20                                   
 ## 2    218 2.1652e+19  1 1.5338e+20 1544.3 < 2.2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Dies ist der Modellvergleich des linearen und des quadratischen Modells. Hier sollte dem anova-Befehl immer das "kleinere" (restriktivere) Modell (mit weniger Prädiktoren und Parametern, die zu schätzen sind) zuerst übergeben werden. Hier: `m_l`, da sonst die df negativ sind und auch die Änderung in den `Sum of Sq` (Quadratsumme) negativ sind! `R` erkennt dies zwar und testet trotzdem die richtige Differenz auf Signifikanz, aber wir wollen uns besser vollständig korrekt aneignen!
@@ -655,7 +625,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
      geom_smooth(method="lm", formula = "y~poly(x,2)", col = "darkblue")  # plotte quadratischen Verlauf
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/exercise_graph_pop_quad-solution-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/regression-v_files/figure-html/exercise_graph_pop_quad-solution-1.png)<!-- -->
 
 Durch den quadratischen Verlauf lassen sich 97.18% der Variation der Bevölkerungsdichte erklären, was einem signifikantem Varianzinkrement von 19.95% entspricht (*mit einer Irrtumswahrscheinlichkeit von 5% ist das Inkrement in der Population nicht null.* Dies ist äquivialent zu folgdender Aussage: *mit einer Irrtumswahrscheinlichkeit von 5% ist der Effektparameter (der Regressionskoeffizient) des quadratischen Verlaufs in der Population nicht null*; dies spricht folglich für einen quadratischen im Gegensatz zu einem linearen Verlauf). Der Grafik ist deutlich zu entnehmen, dass der quadratische Verlauf nicht weit vom empirischen entfernt liegt.
 
@@ -670,7 +640,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
      geom_line(aes(x = Year, y = pred_Pop_exp), col = "red", lwd = 1.5)
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 
 Das Diagramm der retransformierten vorhergesagten Werten signalisiert, dass ein exponentielles Wachstumsmodell die Daten gut beschreibt, allerdings scheint der quadratische Trend vor allem ab ca. 1975 die Daten besser zu beschreiben.
@@ -689,9 +659,9 @@ Die Vorhersage mit dem diskontinuierlichen Modell exponentiellen Wachstums ist i
 residualPlot(m_log, col = "red") # Residualplot
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/exercise_resid_mlog-solution-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/regression-v_files/figure-html/exercise_resid_mlog-solution-1.png)<!-- -->
 
-Dem Residualplot ist zu entnehmen, dass ggf. sogar ein nicht-linearer Verlauf angemessen wäre (wobei wir uns hier auf die *logarithmische* Skala beziehen, die Ursprungsdaten werden natürlich bereits nicht-linear, nämlich exponentiell, modelliert). Wir gehen dieser Vermutung nach, indem wir dem Log-Plot  einen quadratischen Verlauf hinzufügen. Auch dem `geom_smooth` Befehl kann einfach das modifizierte Regressionsmodell übergeben werden. Dem Argument `formula` müssen wir dazu jediglich die Formel für die Regression übergeben, wobei `y` das Kriterium und `poly(x,2)` (dies hatten wir in der vergangen Sitzung zu [quadratischer oder moderierter Regression](regression-iv) kennengelernt) der Prädiktor mit linearem und quadratischen Anteil beschreibt.  Mit `col = "gold3"` wird die neue Linie auch extra eingefärbt.
+Dem Residualplot ist zu entnehmen, dass ggf. sogar ein nicht-linearer Verlauf angemessen wäre (wobei wir uns hier auf die *logarithmische* Skala beziehen, die Ursprungsdaten werden natürlich bereits nicht-linear, nämlich exponentiell, modelliert). Wir gehen dieser Vermutung nach, indem wir dem Log-Plot  einen quadratischen Verlauf hinzufügen. Auch dem `geom_smooth` Befehl kann einfach das modifizierte Regressionsmodell übergeben werden. Dem Argument `formula` müssen wir dazu jediglich die Formel für die Regression übergeben, wobei `y` das Kriterium und `poly(x,2)` (dies hatten wir in der vergangen Sitzung zu [quadratischer oder moderierter Regression](../regression-iv) kennengelernt) der Prädiktor mit linearem und quadratischen Anteil beschreibt.  Mit `col = "gold3"` wird die neue Linie auch extra eingefärbt.
 
 
 ```r
@@ -723,17 +693,12 @@ summary(m_log_quad)
 ## -0.097348 -0.037302  0.008814  0.039090  0.070984 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error t value Pr(>|t|)
-## (Intercept)    21.478533   0.003111 6903.34   <2e-16
-## poly(Year, 2)1  8.787459   0.046253  189.99   <2e-16
-## poly(Year, 2)2  2.315495   0.046253   50.06   <2e-16
-##                   
-## (Intercept)    ***
-## poly(Year, 2)1 ***
-## poly(Year, 2)2 ***
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    21.478533   0.003111 6903.34   <2e-16 ***
+## poly(Year, 2)1  8.787459   0.046253  189.99   <2e-16 ***
+## poly(Year, 2)2  2.315495   0.046253   50.06   <2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.04625 on 218 degrees of freedom
 ## Multiple R-squared:  0.9944,	Adjusted R-squared:  0.9943 
@@ -756,8 +721,7 @@ anova(m_log, m_log_quad)
 ## 1    219 5.8279                                  
 ## 2    218 0.4664  1    5.3615 2506.1 < 2.2e-16 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Durch den quadratisch-exponentiellen Verlauf (bzw. den quadratischen Verlauf in den logarithmierten Daten) lassen sich 99.44% der Variation der Bevölkerungsdichte erklären, was einem signifikantem Varianzinkrement von 6.46% im Vergleich zum reinen exponentiellen Verlaufsmodell entspricht. Interessant zu sehen ist, dass fast 100% der Variation im Datensatz erklärbar ist. Eine Übersicht über $R^2$ in den Modellen ist in [Appendix C](#AppendixC) einzusehen.
@@ -769,7 +733,7 @@ Schauen wir uns den Residuenplot des quadratisch-exponentiellen Modells an (in l
 residualPlot(m_log_quad)
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/resid_log_Pop_reg_quad-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/regression-v_files/figure-html/resid_log_Pop_reg_quad-1.png)<!-- -->
 
 Es ist deutlich zu sehen, dass der Knick um 1950 auch im quadratisch-exponentiellen Modell noch zu sehen ist. Die Residuenplots zeigen außerdem, dass auch hier die Residuen nicht vollständig unsystematisch sind. Dennoch ist die Resiudalvarianz sehr klein. Dies erkennen wir an der y-Achse.
 
@@ -782,20 +746,13 @@ head(WorldPopulation)
 ```
 
 ```
-##   Year Population log_Population pred_Pop_exp Post1950
-## 1 1800  982454635       20.70556    768019076        0
-## 2 1801  985895135       20.70906    775168245        0
-## 3 1802  989555435       20.71277    782383962        0
-## 4 1803  992954135       20.71620    789666848        0
-## 5 1804  995485735       20.71874    797017526        0
-## 6 1805 1000098535       20.72336    804436629        0
-##   pred_Pop_dis pred_Pop_exp_quad
-## 1    940385460        1082904426
-## 2    946020970        1082790682
-## 3    951690251        1082769604
-## 4    957393507        1082841189
-## 5    963130942        1083005453
-## 6    968902759        1083262439
+##   Year Population log_Population pred_Pop_exp Post1950 pred_Pop_dis pred_Pop_exp_quad
+## 1 1800  982454635       20.70556    768019076        0    940385460        1082904426
+## 2 1801  985895135       20.70906    775168245        0    946020970        1082790682
+## 3 1802  989555435       20.71277    782383962        0    951690251        1082769604
+## 4 1803  992954135       20.71620    789666848        0    957393507        1082841189
+## 5 1804  995485735       20.71874    797017526        0    963130942        1083005453
+## 6 1805 1000098535       20.72336    804436629        0    968902759        1083262439
 ```
 
 Dem Datensatz haben wir nun eine neue Spalte hinzugefügt, welche die vorhergesagten Populationswerte enthält, die durch das quadratisch-exponentielle Modell vorhergesagt werden (retransformiert; nicht mehr in Log-Skala). Im Folgenden ist die finale Grafik mit dem linearen, exponentiellen, diskontinuierlichen und dem quadratisch-exponentiellen Verlauf dargestellt. Außerdem 

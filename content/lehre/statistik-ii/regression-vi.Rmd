@@ -32,8 +32,8 @@ output:
     keep_md: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r setup, include=FALSE, purl=FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 In den bisherigen Sitzungen zur multiplen Regression haben wir als Prädiktoren hauptsächlich intervallskalierte Variablen betrachtet. In einigen Beispielen ist aber z.B. das Geschlecht aufgetaucht. In diesem Beitrag gucken wir uns etwas genauer an, was passiert, wenn Prädiktoren nominalskaliert sind.
@@ -108,17 +108,21 @@ $$
 {{</ math >}}
 Dadurch, dass der Prädiktor den Wert 0 annimmt, wenn eine Person aus den USA kommt, vereinfacht sich die Gleichung:
 {{< math >}}
-$$
-  \hat{y}_{m} = b_0 + b_1 \cdot 0 \\
-  \hat{y}_{m} = b_0
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_{m} = b_0 + b_1 \cdot 0 \\
+  &\hat{y}_{m} = b_0
+\end{split}
+\end{equation}
 {{</ math >}}
 Heißt, das Intercept entspricht dem vorhergesagten Wert für Personen aus den USA. Weil keine weiteren Informationen in der Regression genutzt werden, sagen wir für Personen aus den USA den Mittelwert dieser Gruppe vorher. Für Personen aus China ist $x_m = 1$ also:
 {{< math >}}
-$$
-  \hat{y}_{m} = b_0 + b_1 \cdot 1 \\
-  \hat{y}_{m} = b_0 + b_1
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_{m} = b_0 + b_1 \cdot 1 \\
+  &\hat{y}_{m} = b_0 + b_1
+\end{split}
+\end{equation}
 {{</ math >}}
 Der vorhergesagte Wert ist auch in dieser Gruppe der Mittelwert. Er ergibt sich aus $b_0 + b_1$; $b_1$ ist also der _Mittelwertsunterschied_ zwischen den beiden Gruppen. Prüfen wir, ob ich nicht einfach unhaltbare Behauptungen in den Raum stelle:
 
@@ -186,7 +190,7 @@ tab <- data.frame(country = c('U.S', 'U.S', 'China', 'China'),
   bribe = c('group', 'individual', 'group', 'individual'))
 ```
 
-Wie wir schon [in der Sitzung zur Regression im 1. Semester gesehen haben](/../statistik-i/einfache-regression), können wir einen `data.frame` benutzen, um für alle Einträge darin aus unserem Modell eine Vorhersage generieren zu lassen. Gucken wir uns zunächst das Modell an, in dem wir das Ausmaß der Bestrafung nur durch das Land vorhergesagt haben:
+Wie wir schon [in der Sitzung zur Regression im 1. Semester gesehen haben](../../statistik-i/einfache-regression), können wir einen `data.frame` benutzen, um für alle Einträge darin aus unserem Modell eine Vorhersage generieren zu lassen. Gucken wir uns zunächst das Modell an, in dem wir das Ausmaß der Bestrafung nur durch das Land vorhergesagt haben:
 
 ```{r}
 tab$mod1 <- predict(mod1, tab)
@@ -206,9 +210,9 @@ pred_plot <- ggplot(tab, aes(x = bribe,
 
 pred_plot
 ```
-Der Unterschied zwischen den Ländern (in [späteren Sitzungen](anova-ii) dann _Haupteffekt_ genannt) zeigt sich hier also im Niveauunterschied der beiden Linien (dieser Unterschied ist genau $b_1$).
+Der Unterschied zwischen den Ländern (in [späteren Sitzungen](../anova-ii) dann _Haupteffekt_ genannt) zeigt sich hier also im Niveauunterschied der beiden Linien (dieser Unterschied ist genau $b_1$).
 
-Wenn wir zusätzlich in einer multiple Regression die Art der Bestechung aufnehmen, erweitert sich unser Modell in [bekannter Manier](regression-i):
+Wenn wir zusätzlich in einer multiple Regression die Art der Bestechung aufnehmen, erweitert sich unser Modell in [bekannter Manier](../regression-i):
 
 ```{r}
 mod2 <- lm(severe ~ country + bribe, punish)
@@ -238,7 +242,7 @@ tab$mod2[4] - tab$mod2[3] # identisch
 
 Weil die Linien parallel sind, ist egal in welchem Land wir den Unterschied berechnen. Das Modell nimmt an, dass der Unterschied zwischen individueller und kollektiver Bestechung über die Länder hinweg gleich ist. 
 
-Die oben dargestellte Hypothese geht aber davon aus, dass die Länder sich im Ausmaß der Bestrafung unterscheiden, je nachdem um welche Art von Bestechung es sich handelt. Wir müssen also die Restriktion additiver Effekte aufheben, indem wir, [wie schon für intervallskalierte Prädiktoren besprochen](regression-iv), einen Interaktionsterm in das Modell aufnehmen. Weil die beiden Prädiktoren nominalskaliert sind, können wir sie nicht zentrieren (nominalskalierte Variablen haben kein arithmetisches Mittel) - das ist nicht weiter tragisch, weil wir bei diesen Variablen in geringerem Ausmaß skalierungsbedingte Probleme mit der Multikollinearität haben.
+Die oben dargestellte Hypothese geht aber davon aus, dass die Länder sich im Ausmaß der Bestrafung unterscheiden, je nachdem um welche Art von Bestechung es sich handelt. Wir müssen also die Restriktion additiver Effekte aufheben, indem wir, [wie schon für intervallskalierte Prädiktoren besprochen](../regression-iv), einen Interaktionsterm in das Modell aufnehmen. Weil die beiden Prädiktoren nominalskaliert sind, können wir sie nicht zentrieren (nominalskalierte Variablen haben kein arithmetisches Mittel) - das ist nicht weiter tragisch, weil wir bei diesen Variablen in geringerem Ausmaß skalierungsbedingte Probleme mit der Multikollinearität haben.
 
 ```{r}
 mod3 <- lm(severe ~ country + bribe + country:bribe, punish)
@@ -275,30 +279,36 @@ $$
 {{</ math >}}
 Das Intercept entspricht also dem Wert, der für diese _Referenzgruppe_ vorhergesagt wird. Wenn wir Personen betrachten, die aus China kommen  (`country = 1`), und ebenfalls kollektive Bestechung (`bribe = 0`) gesehen habe, ergibt sich Folgendes:
 {{< math >}}
-$$
-  \hat{y}_{m} = b_0 + b_1 \cdot 1 + b_2 \cdot 0 + b_3 \cdot (1 \cdot 0) \\
-  \hat{y}_{m} = b_0 + b_1\\
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_{m} = b_0 + b_1 \cdot 1 + b_2 \cdot 0 + b_3 \cdot (1 \cdot 0) \\
+  &\hat{y}_{m} = b_0 + b_1\\
+\end{split}
+\end{equation}
 {{</ math >}}
 Die Vorhersage für die Gruppe (in `tab`: `r round(tab[3, 5], 2)`) setzt sich also aus dem Wert für Amerikaner:innen, die kollektive Bestechung gesehen haben ($b_0$) und dem _Unterschied_ zwischen diesen und Personen aus China, die kollektive Bestechung gesehen haben ($b_1$) zusammen. Das heißt, dass das Regressionsgewicht diesen spezifischen Gruppenvergleich prüft.
 
 In gleicher Weise fungiert $b_2$ als der Vergleich zwischen der Referenzgruppe und Personen aus den USA, die individuelle Bestechung gesehen haben:
 {{< math >}}
-$$
-  \hat{y}_{m} = b_0 + b_1 \cdot 0 + b_2 \cdot 1 + b_3 \cdot (0 \cdot 1) \\
-  \hat{y}_{m} = b_0 + b_2\\
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_{m} = b_0 + b_1 \cdot 0 + b_2 \cdot 1 + b_3 \cdot (0 \cdot 1) \\
+  &\hat{y}_{m} = b_0 + b_2
+\end{split}
+\end{equation}
 {{</ math >}}
 Etwas komplexer wird das Problem, wenn wir die letzte Gruppe betrachten: Personen aus China, die individuelle Bestechung gesehen haben:
 {{< math >}}
-$$
-  \hat{y}_{m} = b_0 + b_1 \cdot 1 + b_2 \cdot 1 + b_3 \cdot (1 \cdot 1) \\
-  \hat{y}_{m} = b_0 + b_1 + b_2 + b_3 \\
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_{m} = b_0 + b_1 \cdot 1 + b_2 \cdot 1 + b_3 \cdot (1 \cdot 1) \\
+  &\hat{y}_{m} = b_0 + b_1 + b_2 + b_3 
+\end{split}
+\end{equation}
 {{</ math >}}
 Weil für diese Gruppe der Mittelwert nicht mehr aus dem Intercept und einem einfachen Vergleich bestimmt wird, ist auch die Interpretation des entsprechenden Regressionsgewichts ein bisschen schwieriger. Dieses Gewicht stellt den Unterschied dar zwischen dem Mittelwert der Gruppe und dem, was wir erwartet hätten, hätte es in der Chinesischen Gruppe den gleichen Effekte der Bestechungsart gegeben wie in den USA. Erneut: weil der Interaktionsterm einfache Multiplikation ist, ist es genauso zulässig diese Aussage umzudrehen: dieses Gewicht stellt den Unterschied dar zwischen dem Mittelwert der Gruppe und dem, was wir erwartet hätten, hätte es beim sehen individueller Bestechung den gleichen Länderunterschied gegeben, wie bei kollektiver Bestechung. Die Inferenzstatistik dieses _Interaktionseffekts_ prüft also, ob die Effekte gleich sind. Wie wir in der `summary` gesehen haben, ist dem nicht so:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 summary(mod3)$coefficients
 ```
 
@@ -306,7 +316,7 @@ Dies bedeutet auch, dass es auf die spezifische Kombination aus Land und Art der
 
 ### Modellvergleiche
 
-Wie wir in der [Sitzung zur Modelloptimierung](regression-ii) gesehen haben, können wir die drei Modelle über `anova()` vergleichen, um zu prüfen, ob sie sich hinsichtlich der Vorhersagekraft der eingeschätzten Schwere der Bestrafung unterscheiden. Die Modelle sind ineinander geschachtelt, weil wir in jedem Schritt lediglich einen weiteren Prädiktor aufgenommen haben. 
+Wie wir in der [Sitzung zur Modelloptimierung](../regression-ii) gesehen haben, können wir die drei Modelle über `anova()` vergleichen, um zu prüfen, ob sie sich hinsichtlich der Vorhersagekraft der eingeschätzten Schwere der Bestrafung unterscheiden. Die Modelle sind ineinander geschachtelt, weil wir in jedem Schritt lediglich einen weiteren Prädiktor aufgenommen haben. 
 
 ```{r}
 anova(mod1, mod2, mod3)
@@ -347,10 +357,12 @@ $$
 {{</ math >}}
 Dabei wird - wie oben dargelegt - $x_{2m} = 1$ immer dann, wenn die Person $m$ zwischen 41 und 50 Jahre alt ist:
 {{< math >}}
-$$
-  \hat{y}_m = b_0 + b_1 \cdot 0 + b_2 \cdot 1 + b_3 \cdot 0 \\
-  \hat{y}_m = b_0 + b_2
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_m = b_0 + b_1 \cdot 0 + b_2 \cdot 1 + b_3 \cdot 0 \\
+  &\hat{y}_m = b_0 + b_2
+\end{split}
+\end{equation}
 {{</ math >}}
 
 Wie wir in der 1. Sitzung des 1. Semesters gesehen hatten, ist eine zentrale Eigenschaft des Nominalskalenniveaus, dass Personen einer und nur einer Kategorie zugeordnet werden können. Das heißt für jede Person kann immer höchstens eine dieser drei Variablen den Wert 1 annehmen.
@@ -365,7 +377,7 @@ tab
 
 ## Kombination nominal- und intervallskalierter Prädiktoren
 
-Der Kombination von unabhängigen Variablen mit Nominal- und Intervallskalenniveau kommt in der Psychologie eine so große Bedeutung zu, dass wir diese z.B. im Rahmen der Methodenlehre im Master für klinische Psychologie und Psychotherapie [noch einmal sehr detailliert behandeln](/../klipps/ancova-und-moderierte-regression) werden. Diese Kombination ist deswegen so wichtig, weil wir in der Psychologie besonders Gruppenunterschiede untersuchen und dabei z.B. Interventions- vs. Kontrollgruppe als nominalskalierten Prädiktor nutzen. Gleichzeitig ist es aber auch wichtig, Interventionseffekte entweder um den Einfluss bestimmter psychologischer Eigenschaften zu bereinigen oder explizit den Effekt zu untersuchen, den Interventionen auf den Zusammenhang zwischen Variablen haben. 
+Der Kombination von unabhängigen Variablen mit Nominal- und Intervallskalenniveau kommt in der Psychologie eine so große Bedeutung zu, dass wir diese z.B. im Rahmen der Methodenlehre im Master für klinische Psychologie und Psychotherapie [noch einmal sehr detailliert behandeln](../../klipps/ancova-und-moderierte-regression) werden. Diese Kombination ist deswegen so wichtig, weil wir in der Psychologie besonders Gruppenunterschiede untersuchen und dabei z.B. Interventions- vs. Kontrollgruppe als nominalskalierten Prädiktor nutzen. Gleichzeitig ist es aber auch wichtig, Interventionseffekte entweder um den Einfluss bestimmter psychologischer Eigenschaften zu bereinigen oder explizit den Effekt zu untersuchen, den Interventionen auf den Zusammenhang zwischen Variablen haben. 
 
 Für unseren Fall hatten wir [schon gesehen](#kombination-mehrerer-dichotomer-praediktoren), dass es Unterschiede zwischen den USA und China in der Einschätzung darüber gibt, welche Art von Bestechung mehr oder weniger stark bestraft werden wird. Damit das Modell übersichtlich bleibt, nutzen wir hier erst einmal nur die Daten aus den USA weiter, aber das volle Modell findet sich in [Appendix A](#appendix-a).
 
@@ -402,7 +414,7 @@ scatter +
     color = '#00BFC4')
 ```
 
-Um zu prüfen, ob der Zusammenhang zwischen dem Ausmaß erwarteter Bestrafung und dem Bestechungsgewinn wirklich über beide Arten der Bestechung hinweg gleich ist, können wir - für alle, die meine bisherigen Ausführungen gelesen haben wenig überraschend - einen Interaktionsterm in das Modell aufnehmen. Damit wird aus der ANCOVA eine _generalisierte_ ANCOVA. In diesem Fall _können_ wir `gains` zentrieren, aber im Gegensatz zum Fall mit der [Interaktion zwischen zwei intervallskalierten Prädiktoren](regression-iv) ist dies hier nicht zwingend erforderlich.
+Um zu prüfen, ob der Zusammenhang zwischen dem Ausmaß erwarteter Bestrafung und dem Bestechungsgewinn wirklich über beide Arten der Bestechung hinweg gleich ist, können wir - für alle, die meine bisherigen Ausführungen gelesen haben wenig überraschend - einen Interaktionsterm in das Modell aufnehmen. Damit wird aus der ANCOVA eine _generalisierte_ ANCOVA. In diesem Fall _können_ wir `gains` zentrieren, aber im Gegensatz zum Fall mit der [Interaktion zwischen zwei intervallskalierten Prädiktoren](../regression-iv) ist dies hier nicht zwingend erforderlich.
 
 ```{r}
 mod7 <- lm(severe ~ gains + bribe + gains:bribe, usa)
@@ -418,20 +430,26 @@ $$
 $x_{1m}$ ist jetzt unsere intervallskalierter Prädiktor (`gains`) und $x_{2m}$ unser dummykodierter Indikator für `bribe`. Diese Variable nimmt wieder dann den Wert 0 an, wenn die Person eine Gruppenbestechung gesehen hat. Also ergibt sich dann für die Regressionsgleichung:
 
 {{< math >}}
-$$
-  \hat{y}_m = b_0 + b_1 \cdot x_{1m} + b_2 \cdot 0 + b_3 \cdot (x_{1m} \cdot 0) \\
-  \hat{y}_m = b_0 + b_1 \cdot x_{1m} 
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_m = b_0 + b_1 \cdot x_{1m} + b_2 \cdot 0 + b_3 \cdot (x_{1m} \cdot 0) \\
+  &\hat{y}_m = b_0 + b_1 \cdot x_{1m} 
+\end{split}  
+\end{equation}
 {{</ math >}}
 $b_0$ ist also das Intercept für Personen, die eine Gruppenbestechung gesehen haben - der Wert den wir für Personen vorhersagen, die in dieser Gruppe sind und den Gewinn durch die Bestechung mit 0 einschätzen. Das Regressionsgewicht ist dementsprechend der Unterschied zwischen zwei Personen, _die beide die kollektive Bestechung_ gesehen haben und sich um eine Einheit in der Gewinneinschätzung unterscheiden. Ich weise an dieser Stelle noch einmal darauf hin, dass sich die Interpretation durch Interaktionsterme gegenüber "normalen" Regressionen ändert: es ist nun nicht erforderlich, dass zwei Personen die selbe Ausprägung haben, sondern der Steigungskoeffizient gilt nur für Leute, die eine bestimmte Ausprägung haben (in diesem Fall, dass sie aus der Gruppe "kollektive Bestechung" kommen).
 
 Für Personen aus der Gruppe, die individuelle Bestechung gesehen haben ergibt sich hingegen folgende Regressionsgleichung:
+
 {{< math >}}
-$$
-  \hat{y}_m = b_0 + b_1 \cdot x_{1m} + b_2 \cdot 1 + b_3 \cdot (x_{1m} \cdot 1) \\
-  \hat{y}_m = (b_0 + b_2) + (b_1 + b_3) \cdot x_{1m} 
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_m = b_0 + b_1 \cdot x_{1m} + b_2 \cdot 1 + b_3 \cdot (x_{1m} \cdot 1) \\
+  &\hat{y}_m = (b_0 + b_2) + (b_1 + b_3) \cdot x_{1m}
+\end{split}  
+\end{equation}
 {{</ math >}}
+
 $b_2$ ist also der Unterschied zwischen den Intercepts, also der Unterschied zwischen zwei Personen, die beide den Wert 0 bei der Gewinneinschätzung angeben, aber unterschiedliche Formen der Bestechung (Gruppe vs. individuell) gesehen haben. $b_3$ ist der Unterschied in den Regressionsgewichten der intervallskalierten Variable zwischen den beiden Gruppen, also das Ausmaß an Unterschied im Zusammenhang zwischen $x_1$ und unserer AV, der durch die gesehene Art von Bestechung erklärt wird. Wir erhalten nun also zwei voneinander unterschiedliche Regressionsgerade - für jede der beiden Gruppen eine. Wir sehen, dass die Regressionsgleichung quasi identisch ist zu der einer moderierten Regression, mit dem einzigen Unterschied, dass $x_{2}$ ein nominaler Prädiktor ist:
 
 {{< math >}}$$  \hat{y}_m = (b_0 + b_2x_{2m}) + (b_1 + b_3x_{2m}) \cdot x_{1m} $${{</ math >}}
@@ -449,7 +467,7 @@ scatter +
 ```
 Die Abbildung zeigt den Unterschied im Zusammenhang zwischen erwartetem Profit von Bestechung und der Schwere der Bestrafung zwischen individueller und kollektiver Bestechung in den USA. Personen, die eine Gruppenbestechung als besonders profitabel einschätzen, schätzen das erwartete Ausmaß an Bestrafung als geringer ein, als Personen die die Bestechung als weniger profitabel ansehen. Anders ist es, wenn es um individuelle Bestechung geht: hier scheint dieser Zusammehang genau umgekehrt zu sein. Auch wenn diese Sätze sehr umständlich klingen, ist es wichtig an dieser Stelle darauf zu achten, dass wir _nicht verschiedene Bestechungssituationen_ sondern verschiedene _Personen und deren Einschätzungen_ vergleichen. 
 
-Im [Beitrag zu Interaktionen zwischen intervallskalierten Variablen](regression-iv) hatten wir Simple Slopes - also bestimmte einzelne Regressionsgeraden - kennengelernt, die wir mit dem Paket `interactions` grafisch veranschaulichen konnten und mit Hilfe welcher wir die Effekte in der moderierter Regression genauer inspizieren können. Wie so oft gibt es in `R` Pakete, die sehr ähnliches tun. So enthält das Paket `reghelper` auch Funktionen, mit welcher wir Simple Slopes betrachten können. Die `summary` unseres Modell hat uns zwar gezeigt, dass der negative Zusammenhang bei Gruppenbestechung bedeutsam ist (die Testung von $b_1$) und dass der Unterschied im Regressionsgewicht zwischen den beiden Gruppen bedeutsam ist (die Testung von $b_3$), aber nicht ob der positive Zusammenhang für individuelle Bestechung positiv ist. Dafür können wir uns die Simple Slopes näher angucken:
+Im [Beitrag zu Interaktionen zwischen intervallskalierten Variablen](../regression-iv) hatten wir Simple Slopes - also bestimmte einzelne Regressionsgeraden - kennengelernt, die wir mit dem Paket `interactions` grafisch veranschaulichen konnten und mit Hilfe welcher wir die Effekte in der moderierter Regression genauer inspizieren können. Wie so oft gibt es in `R` Pakete, die sehr ähnliches tun. So enthält das Paket `reghelper` auch Funktionen, mit welcher wir Simple Slopes betrachten können. Die `summary` unseres Modell hat uns zwar gezeigt, dass der negative Zusammenhang bei Gruppenbestechung bedeutsam ist (die Testung von $b_1$) und dass der Unterschied im Regressionsgewicht zwischen den beiden Gruppen bedeutsam ist (die Testung von $b_3$), aber nicht ob der positive Zusammenhang für individuelle Bestechung positiv ist. Dafür können wir uns die Simple Slopes näher angucken:
 
 ```{r, message=FALSE}
 library(reghelper)

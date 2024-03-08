@@ -57,21 +57,11 @@ ols_step_both_p(m, pent = .05, prem = .10, details = TRUE)
 # Optimierung des Modells nach AIC
 summary(step(m, direction = "both"))
 
-# Output der summary, Wert von AIC für Alle
 
-out <- summary(step(m)) |> capture.output()
-begin <- "Start"; end <- "Df"
-out[grep(pattern = begin, out):(grep(pattern = end, out)-1)] |> paste(collapse = "\n") |> cat()
 
-# Darstellung der Modelle
 
-begin <- "Df"; end <- "Step"
-out[grep(pattern = begin, out):(grep(pattern = end, out)-1)] |> paste(collapse = "\n") |> cat()
 
-# Darstellung der nächsten Modelle, nachdem Leseleistung ausgeschlossen wurde; Ende bereits erreicht (minimale AIC)
 
-begin <- "Step"; end <- "Call"
-out[grep(pattern = begin, out):(grep(pattern = end, out)-1)] |> paste(collapse = "\n") |> cat()
 
 # Optimierung mit BIC
 summary(step(m, direction = "both", k=log(nrow(Schulleistungen))))

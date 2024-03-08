@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag zur Partial- und Semipartialkorrelation lernst du den Einfluss von Drittvariablen zu kontrollieren und so Scheinkorrelationen zu entlarven. Das Beispiel mit Schulleistungen zeigt, dass der ursprüngliche Zusammenhang zwischen der Lese- und Mathematikleistung verschwindet, wenn der Einfluss des IQ berücksichtigt wird. Die Semipartialkorrelation spezifisch aufzeigt, wie der IQ die Mathematikleistung beeinflusst. Diese Werkzeuge sind entscheidend, um versteckte Muster in statistischen Daten zu entwirren und Kausalitätsannahmen zu überprüfen.'
 authors: [schroeder, gruetzmacher, nehler, irmer]
 weight: 3
-lastmod: '2023-11-13'
+lastmod: '2024-03-08'
 featured: no
 banner:
   image: "/header/prism_colors.jpg"
@@ -55,8 +55,7 @@ $^1$ Es gibt einen ganzen Blog, der sich mit solchen Scheinkorrelationen (bzw. [
 ## Wiederholung Korrelationen
 In der Psychologie werden häufig statistische Zusammenhänge (bzw. stochastische Abhängigkeiten)  zwischen Variablen ermittelt. Der statistische Zusammenhang kann mithilfe verschiedener Zusammenhangsmaße gemessen werden, z.B. mit der bivariaten Produkt-Moment-Korrelation, die die Beziehung zwischen zwei metrischen Variablen (bzw. einer metrischen und einer dichotomen Variable) berechnet.
 
-$$r_{xy} = corr(X,Y) = \dfrac {\sum\limits_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum\limits_{i=1}^n (X_i - \bar{X})^2 \cdot \sum\limits_{i=1}^n (Y_i - \bar{Y})^2}}\hat{=}\frac{\mathbb{C}ov[X,Y]}{\sqrt{\mathbb{V}ar[X]\mathbb{V}ar[Y]}}$$
-
+$$\small r_{xy} = corr(X,Y) = \dfrac {\sum\limits_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum\limits_{i=1}^n (X_i - \bar{X})^2 \cdot \sum\limits_{i=1}^n (Y_i - \bar{Y})^2}}\hat{=}\frac{\mathbb{C}ov[X,Y]}{\sqrt{\mathbb{V}ar[X]\mathbb{V}ar[Y]}}$$
 Der Korrelationskoeffizient $r_{xy}$ misst die Stärke und Richtung einer linearen Beziehung zwischen zwei Variablen *x* und *y*. Der Wert von $r_{xy}$ liegt dabei immer im Wertebereich zwischen +1 und -1. Man kann auch sagen, dass die Kovarianz "skaliert" wird, um diese besser  interpretieren zu können, deshalb steht in obiger Formel auch, $\mathbb{C}ov[X,Y]$ (Kovarianz zwischen $X$ und $Y$) geteilt durch das Produkt aus der Wurzel der Varianzen $\mathbb{V}ar[X]$ und $\mathbb{V}ar[Y]$. Eine Korrelation von 1 bedeutet ein perfekter positiver Zusammenhang, d.h. mit der Zunahme der eine Variablen, nimmt auch die anderen Variable zu und umgekehrt. Eine Korrelation von -1 bedeutet ein perfekter negativer Zusammenhang bei dem die Zunahme der einen Variablen mit der Abnahme der anderen Variablen einhergeht. Eine Korrelation von 0 hingegen bedeutet, dass es keinen Zusammenhang zwischen den Variablen gibt. Je höher der absolute Wert einer Korrelation zweier Variablen ist, desto mehr Varianz teilen die beiden Variablen miteinander.     
 
 {{<inline_image"/lehre/statistik-ii/VisualisierungderKorrelation.png">}}
@@ -121,7 +120,7 @@ ggplot(Schulleistungen, aes(x=reading, y=math)) +
   labs(x= "Leseleistung", y= "Mathematikleistung")
 ```
 
-<img src="/lehre/statistik-ii/partial_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/partial_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 ```r
 # Korrelationstest
@@ -327,7 +326,7 @@ Wir haben in dem Tutorial die Partial- und Semipartialkorrelation als Erweiterun
 
 ## Appendix A {#AppendixA .anchorhead}
 
-{{< spoiler text = "**Inferenzstatistik der Partialkorrelation und weiter konzeptionelle Überlegungen**">}}
+<details><summary><b>Inferenzstatistik der Partialkorrelation und weiter konzeptionelle Überlegungen</b></summary>
 
 Bevor wir uns die Inferenzstatistik der Partialkorrelation genauer ansehen, wiederholen wir die Inferenzstatistik der Korrelation und schauen uns nochmal genau an, welche Eigenschaften eigentlich so ein Residuum hat.
 
@@ -421,7 +420,7 @@ mean(res_reading_IQ) # mean(eps_x)
 ```
 
 ```
-## [1] 1.563194e-15
+## [1] -1.20997e-15
 ```
 
 ```r
@@ -441,7 +440,7 @@ cov(Schulleistungen$IQ, res_reading_IQ) # 0
 ```
 
 ```
-## [1] 1.952198e-14
+## [1] 5.203189e-14
 ```
 
 ```r
@@ -449,7 +448,7 @@ cor(Schulleistungen$IQ, res_reading_IQ) # 0
 ```
 
 ```
-## [1] 1.414886e-17
+## [1] 3.771093e-17
 ```
 
 ```r
@@ -717,12 +716,4 @@ p
 Super, auch diesmal stimmen die Formeln. Im Laufe Ihres Studiums  wird dieser Sachverhalt immer wieder aufgegriffen und auch noch näher erklärt. An dieser Stelle reicht es uns zu wissen, dass wir bei der Partialkorrelation andere $df$ verwenden müssen.
 
 
-{{< /spoiler >}}
-
-
-
-***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/lehre/statistik-ii/partial.R).
-
+</details>

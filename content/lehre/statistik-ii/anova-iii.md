@@ -9,7 +9,7 @@ subtitle: 'ANOVA mit Messwiederholung'
 summary: ''
 authors: [scheppa-lahyani,irmer,nehler,schultze]
 weight: 9
-lastmod: '2024-02-08'
+lastmod: '2024-03-08'
 featured: no
 banner:
   image: "/header/tree_flooded_lake_sunset.jpg"
@@ -41,7 +41,7 @@ output:
 
 In den letzten beiden Sitzungen ging es darum Unterschiede *zwischen* Personen zu untersuchen, indem wir Mittelwertsunterschiede zwischen verschiedenen Gruppen von Personen geprüft haben (in englischsprachiger Literatur wird dies als *between subjects* ANOVA bezeichnet). In dieser Sitzung soll es darum gehen, Unterschiede *innerhalb* von Personen (im Englischen *within subjects* ANOVA) mithilfe der **ANOVA mit Messwiederholung** zu untersuchen. Diese Unterschiede können dabei z.B. dadurch entstehen, dass wir unterschiedliche Messzeitpunkte untersuchen. Die *Messwiederholung* muss nicht zwingend durch Zeit zustande kommen - andere Möglichkeiten der Messwiederholung sind z.B. unterschiedliche Tests oder Informationsquellen. Wir könnten z.B. Verhaltensauffälligkeiten von Kindern erheben, indem wir sie durch Psychotherapeutinnen und -therapeuten beobachten lassen und die Eltern sowie die Kita-Erzieher und -Erzieherinnen befragen. Auch so messen wir wiederholt das Gleiche und können untersuchen, inwiefern sich hierbei mittlere Unterschiede zeigen. Diese Analysen von Messwiederholungen lassen sich zudem mit den *Zwischen-Subjekt Analysen* kombinieren, die wir bereits behandelt haben. Mehr zur *ANOVA mit Messwiederholung* finden Sie in [`Eid, Gollwitzer und Schmitt (2017, Kapitel 14 und insb. 14.1 und folgend)`](https://ubffm.hds.hebis.de/Record/HEB366849158). 
 
-Für die heutige Sitzung wird der Datensatz  [<i class="fas fa-download"></i> "alc.rda"](../../daten/alc.rda) benötigt.
+Für die heutige Sitzung wird der Datensatz  [<i class="fas fa-download"></i> "alc.rda"](../../daten/alc.rda) benötigt. Dieser stammt aus einer längsschnittlichen Erhebung des Alkoholkonsums von Jugendlichen.
 
 ### Datensatz laden
 
@@ -118,16 +118,12 @@ table(alc$id)
 
 ```
 ## 
-##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
-## 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
-## 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
-## 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
-## 73 74 75 76 77 78 79 80 81 82 
-##  1  1  1  1  1  1  1  1  1  1
+##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
 ```
 
 Wie bereits geschildert benötigt das `ez`-Paket für die ANOVA mit Messwiederholung allerdings einen Datensatz im langen Format. Für die Transformation der Daten aus einem in das andere Format gibt es die `reshape`-Funktion, welche unterschiedliche Argumente benötigt, je nachdem, in welche Richtung die Daten transformiert werden sollen. Hier wollen wir aus dem breiten Format ins lange Format transformieren, um die Daten hinterher für die Varianzanalyse mit Messwiederholung nutzen zu können.
@@ -272,20 +268,13 @@ head(alc_wide)
 ```
 
 ```
-##      id male      peer coa alcuse.14 alcuse.15
-## 1.14  1    0 1.2649111   1  1.732051         2
-## 2.14  2    1 0.8944272   1  0.000000         0
-## 3.14  3    1 0.8944272   1  1.000000         2
-## 4.14  4    1 1.7888544   1  0.000000         2
-## 5.14  5    0 0.8944272   1  0.000000         0
-## 6.14  6    1 1.5491934   1  3.000000         3
-##      alcuse.16
-## 1.14  2.000000
-## 2.14  1.000000
-## 3.14  3.316625
-## 4.14  1.732051
-## 5.14  0.000000
-## 6.14  3.162278
+##      id male      peer coa alcuse.14 alcuse.15 alcuse.16
+## 1.14  1    0 1.2649111   1  1.732051         2  2.000000
+## 2.14  2    1 0.8944272   1  0.000000         0  1.000000
+## 3.14  3    1 0.8944272   1  1.000000         2  3.316625
+## 4.14  4    1 1.7888544   1  0.000000         2  1.732051
+## 5.14  5    0 0.8944272   1  0.000000         0  0.000000
+## 6.14  6    1 1.5491934   1  3.000000         3  3.162278
 ```
 
 Für Variablen, die nicht explizit aufgeführt werden, wird von `reshape` wieder angenommen, dass es nicht wiederholt gemessene "feste" Variablen sind. Im vorliegenden Fall sind Geschlecht (`male`) und die Menge alkoholkonsumierender Peers (`peer`) nur ein Mal gemessen worden und können daher nicht über Messzeitpunkte variieren. Um Variablen bei der Transformation aus dem Datensatz zu entfernen, kann das `drop` Argument genutzt werden.
@@ -314,9 +303,8 @@ ezStats(alc_long, alcuse, id, within = age)
 ```
 
 ```
-## Warning: There is at least one numeric within variable,
-## therefore aov() will be used for computation and no
-## assumption checks will be obtained.
+## Warning: There is at least one numeric within variable, therefore aov() will be used for
+## computation and no assumption checks will be obtained.
 ```
 
 ```
@@ -355,9 +343,9 @@ ezPlot(alc_long, alcuse, id, within = age,
   x = age)
 ```
 
-<img src="/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
-Wie schon in der [letzten Sitzung](/post/anova2/) erklärt, sind die Intervalle um die Mittelwerte herum die *Fisher’s Least Significant Difference* (FLSD) - wenn sich zwei Mittelwerte um diesen Betrag unterscheiden, sollten sie auch statistisch bedeutsam sein.
+Wie schon in der [letzten Sitzung](../anova-ii) erklärt, sind die Intervalle um die Mittelwerte herum die *Fisher’s Least Significant Difference* (FLSD) - wenn sich zwei Mittelwerte um diesen Betrag unterscheiden, sollten sie auch statistisch bedeutsam sein.
 
 ### `ezANOVA` für Messwiederholungen
 
@@ -395,10 +383,8 @@ ezANOVA(data = alc_long, dv = alcuse, wid = id, within = age)
 ## 2    age 0.8858857 0.007854286     *
 ## 
 ## $`Sphericity Corrections`
-##   Effect       GGe        p[GG] p[GG]<.05       HFe
-## 2    age 0.8975739 2.342158e-05         * 0.9166239
-##          p[HF] p[HF]<.05
-## 2 1.991144e-05         *
+##   Effect       GGe        p[GG] p[GG]<.05       HFe        p[HF] p[HF]<.05
+## 2    age 0.8975739 2.342158e-05         * 0.9166239 1.991144e-05         *
 ```
 
 Der sogenannte **Mauchly Test** (`Mauchly's Test for Sphericity`) zeigt hier an, dass es bedeutsame Abweichungen von der *Annahme der Sphärizität* gibt ($p$ < .05), die Annahme also nicht als gegeben betrachtet werden kann. Weil diese Situation sehr häufig vorkommt, gibt es eine Reihe verbreiteter Korrekturen, von denen `ezANOVA` die **Greenhouse-Geisser** (`GGe`) und die **Huynh-Feldt Korrekturen** (`HFe`) anbietet. Es hat sich gezeigt, dass die *Greenhouse-Geisser Korrektur* mitunter zu strikt ist (also zu selten bedeutsame Ergebnisse gefunden werden), weswegen beide Varianten ausgegeben werden. Beide Korrekturen führen zu kleineren Freiheitsgraden (durch Multiplikation mit dem Faktor $\epsilon$ in Bestimmung des kritischen F-Wertes. Im Output der Funktion sehen wir die Korrektur durch einen darauf angepassten p-Wert - die korrigierten Freiheitsgrade werden nicht aufgeführt (aber $\epsilon$, wenn man diese selbst ausrechnen will). Eine Empfehlung für eine der beiden Korrekturen zu geben ist schwer, da sie sich häufig nur leicht unterscheiden. Verschiedene Daumenregeln existieren, doch sollte im besten Fall die Power im Versuchsplan so gestaltet werden, dass der kleine Unterschied in keinen unterschiedlichen Signifikanzentscheidungen resultiert. 
@@ -430,20 +416,13 @@ psych::ICC(alc[, c('alcuse.14', 'alcuse.15', 'alcuse.16')])
 ## Call: psych::ICC(x = alc[, c("alcuse.14", "alcuse.15", "alcuse.16")])
 ## 
 ## Intraclass correlation coefficients 
-##                          type  ICC   F df1 df2       p
-## Single_raters_absolute   ICC1 0.51 4.1  81 164 1.4e-14
-## Single_random_raters     ICC2 0.51 4.6  81 162 6.3e-17
-## Single_fixed_raters      ICC3 0.55 4.6  81 162 6.3e-17
-## Average_raters_absolute ICC1k 0.75 4.1  81 164 1.4e-14
-## Average_random_raters   ICC2k 0.76 4.6  81 162 6.3e-17
-## Average_fixed_raters    ICC3k 0.78 4.6  81 162 6.3e-17
-##                         lower bound upper bound
-## Single_raters_absolute         0.38        0.63
-## Single_random_raters           0.37        0.64
-## Single_fixed_raters            0.42        0.66
-## Average_raters_absolute        0.64        0.83
-## Average_random_raters          0.64        0.84
-## Average_fixed_raters           0.69        0.85
+##                          type  ICC   F df1 df2       p lower bound upper bound
+## Single_raters_absolute   ICC1 0.51 4.1  81 164 1.4e-14        0.38        0.63
+## Single_random_raters     ICC2 0.51 4.6  81 162 6.3e-17        0.37        0.64
+## Single_fixed_raters      ICC3 0.55 4.6  81 162 6.3e-17        0.42        0.66
+## Average_raters_absolute ICC1k 0.75 4.1  81 164 1.4e-14        0.64        0.83
+## Average_random_raters   ICC2k 0.76 4.6  81 162 6.3e-17        0.64        0.84
+## Average_fixed_raters    ICC3k 0.78 4.6  81 162 6.3e-17        0.69        0.85
 ## 
 ##  Number of subjects = 82     Number of Judges =  3
 ## See the help file for a discussion of the other 4 McGraw and Wong estimates,
@@ -454,7 +433,7 @@ Der in diesem Fall relevante ICC-Typ (`type`) ist als `ICC1` gelistet. In diesem
 
 ## Kontraste {#Kontraste}
 
-Wie für eine [ANOVA ohne Messwiederholung](anova-ii), kann auch in diesem Fall mit dem `emmeans`-Paket die Kontrastanalyse durchgeführt werden.
+Wie für eine [ANOVA ohne Messwiederholung](../anova-ii), kann auch in diesem Fall mit dem `emmeans`-Paket die Kontrastanalyse durchgeführt werden.
 
 
 ```r
@@ -528,7 +507,7 @@ em
 
 ### Polynomiale Kontraste und Trendanalysen
 
-In der [letzten Sitzung](anova-ii) hatten wir den `contrast`-Befehl genutzt, um beliebige Kontraste zu definieren. Bei *messwiederholten* Designs mit dem Ziel, Veränderung über die Zeit zu untersuchen, ist es meist sinnvoll zu prüfen, ob die Veränderung über die Zeit durch eine einfache Funktion der Zeit beschrieben werden kann. Für den Zeitverlauf werden häufig Polynome genutzt, wie Sie sie in der [4. Regressionssitzung](regression-iv) gesehen haben. Hierbei ist zu beachten, dass herkömmliche Kontraste immer so aufgestellt werden, dass das **Verwerfen der Null-Hypothese gegen den Kontrast spricht**. Bspw. wenn wir annehmen, dass zwei bestimmte Mittelwerte gleich sind, dann verwerfen wir diese Hypothese bei einem signifikanten Hypothesentest und einer entsprechend großen Teststatistik. 
+In der [letzten Sitzung](../anova-ii) hatten wir den `contrast`-Befehl genutzt, um beliebige Kontraste zu definieren. Bei *messwiederholten* Designs mit dem Ziel, Veränderung über die Zeit zu untersuchen, ist es meist sinnvoll zu prüfen, ob die Veränderung über die Zeit durch eine einfache Funktion der Zeit beschrieben werden kann. Für den Zeitverlauf werden häufig Polynome genutzt, wie Sie sie in der [4. Regressionssitzung](../regression-iv) gesehen haben. Hierbei ist zu beachten, dass herkömmliche Kontraste immer so aufgestellt werden, dass das **Verwerfen der Null-Hypothese gegen den Kontrast spricht**. Bspw. wenn wir annehmen, dass zwei bestimmte Mittelwerte gleich sind, dann verwerfen wir diese Hypothese bei einem signifikanten Hypothesentest und einer entsprechend großen Teststatistik. 
 
 Bei sogenannten **Trendanalysen**, bei denen wir Veränderungen über bspw. die Zeit bei Messwiederholungsdesigns untersuchen, ist dies anders. Hier wird in der Regel eine ganze Batterie an orthogonalen Kontrasten verwendet, die *sukzessive* verschiedene Verläufe testet, wobei hier die Null-Hypothese besagt, dass der jeweilige Verlauf _**nicht**_ gilt. Dies bedeutet im Umkehrschluss, dass bei Trendanalysen die Signifikanz einer Hypothese besagt, dass mindestens dieser Verlauf gilt (auf das _"mindestens"_ gehen wir noch näher ein). 
 
@@ -549,23 +528,23 @@ Die erste Funktion, die üblicherweise getestet wird, ist der **lineare Verlauf*
 
 $$\Lambda = K_1 \cdot \mu_1 + K_2 \cdot \mu_2 + \ldots + K_J \cdot \mu_J$$
 
-wobei $K_j$ die jeweiligen Kontrastkoeffizienten sind. Wie in der [letzten Sitzung](anova-ii) behandelt, wird für Kontrastkoeffizienten die Restriktion aufgestellt, dass $\sum_{j=1}^{J} K_j = 0$ (die Summe aller Kontrastkoeffizienten muss 0 sein). Im Kontext von Messwiederholungen müssen die $K_j$ jetzt so gewählt werden, dass sie mit den Zeitabständen zwischen den Wiederholungen korrespondieren. In unserem Fall geht es um 3 aufeinanderfolgende Jahre - die Abstände zwischen den Wiederholungen sind also gleich (jeweils 1 Jahr) praktischerweise gleich. Wie beschrieben wird für die Überprüfung auf linearen Trend in der H0 ein horizontaler Trend aufgeführt und für diesen die Kontrastkoeffizienten bestimmt.
+wobei $K_j$ die jeweiligen Kontrastkoeffizienten sind. Wie in der [letzten Sitzung](../anova-ii) behandelt, wird für Kontrastkoeffizienten die Restriktion aufgestellt, dass $\sum_{j=1}^{J} K_j = 0$ (die Summe aller Kontrastkoeffizienten muss 0 sein). Im Kontext von Messwiederholungen müssen die $K_j$ jetzt so gewählt werden, dass sie mit den Zeitabständen zwischen den Wiederholungen korrespondieren. In unserem Fall geht es um 3 aufeinanderfolgende Jahre - die Abstände zwischen den Wiederholungen sind also gleich (jeweils 1 Jahr) praktischerweise gleich. Wie beschrieben wird für die Überprüfung auf linearen Trend in der H0 ein horizontaler Trend aufgeführt und für diesen die Kontrastkoeffizienten bestimmt.
 
-Horizontaler Trend würde bedeuten, dass unsere Messwerte eine *horizontale Linie* bilden. Für die Bestimmung der Koeffizienten müssen wir zunächst einige mathematische (theoretische) Überlegungen anstellen. Eine horizontale Linie entsteht, wenn sich die Mittelwerte über die Zeit nicht verändern, also der Abstand vom Mittelpunkt in beide Richtungen gleich groß ist und sich das Vorzeichen nicht verändert: $\mu_2 - \mu_1 = \mu_2 - \mu_3$. Hier ist es extrem wichtig, dass wir das gleiche $\mu$ (hier $\mu_2$) zuerst nennen, da wir sonst fälschlicherweise andere Effekte testen würden. Wenn wir diese kleine Gleichung nun umformen und auf beiden Seiten $\mu_2$ abziehen und anschließend beide Seiten mit $\mu_3$ addieren, dann erhalten wir: $-\mu_1 + \mu_3 = 0$ also die Kontrastkoeffizienten (-1, 0, 1), wie wir sie oben schon aufgeschrieben hatten. Wie schon für die Kontraste in der [letzten Sitzung](anova-ii) wird hierbei die Nullhypothese getestet, dass $H_0 : -1 \cdot \mu_1 + 0 \cdot \mu_2 + 1 \cdot \mu_3 = 0$. Diese Koeffizienten müssen wir in einem eigenen Objekt ablegen. 
+Horizontaler Trend würde bedeuten, dass unsere Messwerte eine *horizontale Linie* bilden. Für die Bestimmung der Koeffizienten müssen wir zunächst einige mathematische (theoretische) Überlegungen anstellen. Eine horizontale Linie entsteht, wenn sich die Mittelwerte über die Zeit nicht verändern, also der Abstand vom Mittelpunkt in beide Richtungen gleich groß ist und sich das Vorzeichen nicht verändert: $\mu_2 - \mu_1 = \mu_2 - \mu_3$. Hier ist es extrem wichtig, dass wir das gleiche $\mu$ (hier $\mu_2$) zuerst nennen, da wir sonst fälschlicherweise andere Effekte testen würden. Wenn wir diese kleine Gleichung nun umformen und auf beiden Seiten $\mu_2$ abziehen und anschließend beide Seiten mit $\mu_3$ addieren, dann erhalten wir: $-\mu_1 + \mu_3 = 0$ also die Kontrastkoeffizienten (-1, 0, 1), wie wir sie oben schon aufgeschrieben hatten. Wie schon für die Kontraste in der [letzten Sitzung](../anova-ii) wird hierbei die Nullhypothese getestet, dass $H_0 : -1 \cdot \mu_1 + 0 \cdot \mu_2 + 1 \cdot \mu_3 = 0$. Diese Koeffizienten müssen wir in einem eigenen Objekt ablegen. 
 
 
 ```r
 lin_cont <- c(-1, 0, 1)
 ```
 
-Wir können uns erstmal rein deskriptiv anschauen, inwiefern der lineare Verlauf eine realistische Behauptung über den Mittelwertsverlauf ist. Wie in der [letzten Sitzung](anova-ii) behandelt, erstellen wir mit `ezPlot` automatisch einen `ggplot` mit der gleichen Snytax wie bei `ezANOVA`. Der Grund, aus dem `ggplot2` als Paket so beliebt ist, ist, dass es modular funktioniert und wir unsere Abbildungen schichten können (wie in der [2. Sitzung](grafiken-ggplot2) behandelt). Wenn Pakete also `ggplot2`-Abbildungen erstellen, können wir diese einfach durch andere `ggplot2`-Komponenten ergänzen (wenn wir vorher `ggplot2` geladen haben):
+Wir können uns erstmal rein deskriptiv anschauen, inwiefern der lineare Verlauf eine realistische Behauptung über den Mittelwertsverlauf ist. Wie in der [letzten Sitzung](../anova-ii) behandelt, erstellen wir mit `ezPlot` automatisch einen `ggplot` mit der gleichen Snytax wie bei `ezANOVA`. Der Grund, aus dem `ggplot2` als Paket so beliebt ist, ist, dass es modular funktioniert und wir unsere Abbildungen schichten können (wie in der [2. Sitzung](../grafiken-ggplot2) behandelt). Wenn Pakete also `ggplot2`-Abbildungen erstellen, können wir diese einfach durch andere `ggplot2`-Komponenten ergänzen (wenn wir vorher `ggplot2` geladen haben):
 
 
 ```r
 library(ggplot2)
 ```
 
-Zur Erinnerungen können Sie die Abbildung nach Ihren Wünschen umgestalten, wie in der [2. Sitzung](grafiken-ggplot2) besprochen:
+Zur Erinnerungen können Sie die Abbildung nach Ihren Wünschen umgestalten, wie in der [2. Sitzung](../grafiken-ggplot2) besprochen:
 
 
 ```r
@@ -577,9 +556,9 @@ ezPlot(alc_long, alcuse, id, within = age,
   xlab('Alter')
 ```
 
-<img src="/lehre/statistik-ii/anova-iii_files/figure-html/ezplot_theme-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/anova-iii_files/figure-html/ezplot_theme-1.png)<!-- -->
 
-Um Verläufe darzustellen, hatten wir in der [2. Sitzung](grafiken-ggplot2) und der [8. Sitzung](regression-v) `geom_smooth()` kennen gelernt. Weil diese Geometrie als Schicht auf den ursprünglichen Plot gelegt werden kann, können wir den linearen Verlauf veranschaulichen:
+Um Verläufe darzustellen, hatten wir in der [2. Sitzung](../grafiken-ggplot2) und der [8. Sitzung](../regression-v) `geom_smooth()` kennen gelernt. Weil diese Geometrie als Schicht auf den ursprünglichen Plot gelegt werden kann, können wir den linearen Verlauf veranschaulichen:
 
 
 ```r
@@ -592,7 +571,7 @@ ezPlot(alc_long, alcuse, id, within = age,
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-<img src="/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 Weil wir für `ezANOVA` das Alter in einen Faktor umgewandelt hatten, müssen wir es für `geom_smooth` erst noch in eine numerische Variable zurücküberführen (`as.numeric`). Dann wählen wir mit `method = 'lm'` das lineare Modell und unterdrücken mit `se = FALSE` das Konfidenzintervall um die Regressionsgerade. In unserem Kontrast für den linearen Effekt prüfen wir den Anstieg dieser Geraden (oben als $\Lambda$ notiert):
 
@@ -638,7 +617,7 @@ ezPlot(alc_long, alcuse, id, within = age,
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-<img src="/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 Wir erkennen deutlich, dass alle Mittelwerte auf dem quadratischen Trend liegen. Das ist allerdings auch einleuchtend, da es immer so ist, dass für $t$ Zeitpunkte ein Polynom bis zum Grad $t-1$ (also: $a_0 + a_1X + a_2X^2 + \dots + a_{t-1}X^{t-1}$) gefunden werden kann, dass alle Punkte trifft, solang nicht mehrere Punkte den gleichen $x$-Wert haben. Die Frage ist nun, ob der quadratische Trend eine signifikante Verbesserung gegenüber dem linearen Trend ist!
 
@@ -762,15 +741,13 @@ ezStats(alc_long,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make
-## sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
-## Warning in ezStats(alc_long, dv = alcuse, wid = id,
-## within = age, between = coa): Unbalanced groups. Mean N
-## will be used in computation of FLSD
+## Warning in ezStats(alc_long, dv = alcuse, wid = id, within = age, between = coa):
+## Unbalanced groups. Mean N will be used in computation of FLSD
 ```
 
 ```
@@ -794,19 +771,16 @@ ezPlot(alc_long,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make
-## sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
-## Warning in ezStats(data = data, dv = dv, wid = wid,
-## within = within, within_full = within_full, :
-## Unbalanced groups. Mean N will be used in computation
-## of FLSD
+## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full =
+## within_full, : Unbalanced groups. Mean N will be used in computation of FLSD
 ```
 
-<img src="/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
 
 Der Plot verdeutlicht bereits, was in dieser Situation die drei zentralen Fragestellungen sind: 
 
@@ -830,21 +804,16 @@ ezANOVA(alc_long,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make
-## sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
 ## $ANOVA
-##    Effect DFn DFd          F            p p<.05
-## 2     coa   1  80 15.0889366 2.101590e-04     *
-## 3     age   2 160 12.2596915 1.112344e-05     *
-## 4 coa:age   2 160  0.1132673 8.929835e-01      
-##            ges
-## 2 0.1108265719
-## 3 0.0494086230
-## 4 0.0004799824
+##    Effect DFn DFd          F            p p<.05          ges
+## 2     coa   1  80 15.0889366 2.101590e-04     * 0.1108265719
+## 3     age   2 160 12.2596915 1.112344e-05     * 0.0494086230
+## 4 coa:age   2 160  0.1132673 8.929835e-01       0.0004799824
 ## 
 ## $`Mauchly's Test for Sphericity`
 ##    Effect         W           p p<.05
@@ -852,12 +821,9 @@ ezANOVA(alc_long,
 ## 4 coa:age 0.8859965 0.008386194     *
 ## 
 ## $`Sphericity Corrections`
-##    Effect       GGe        p[GG] p[GG]<.05       HFe
-## 3     age 0.8976633 2.626605e-05         * 0.9169621
-## 4 coa:age 0.8976633 8.726825e-01           0.9169621
-##          p[HF] p[HF]<.05
-## 3 2.233274e-05         *
-## 4 8.768214e-01
+##    Effect       GGe        p[GG] p[GG]<.05       HFe        p[HF] p[HF]<.05
+## 3     age 0.8976633 2.626605e-05         * 0.9169621 2.233274e-05         *
+## 4 coa:age 0.8976633 8.726825e-01           0.9169621 8.768214e-01
 ```
 
 Obwohl `ez` den *Mauchly Test* für Sphärizität mitliefert, ist im Fall des Split-Plot Designs die *eigentliche* Annahme die *Gleichheit der Varianz-Kovarianz-Matrizen der messwiederholten Variablen über alle Gruppen hinweg*. Diese Annahme kann mithilfe des **Box-M-Tests** geprüft werden, welcher allerdings in nur wenigen Paketen implementiert ist, weil er in der Mehrheit aller empirischen Anwendungen statistisch bedeutsam ist. Wer ihn dennoch durchführen möchte, findet ihn z.B. im `heplots` Paket:
@@ -869,12 +835,10 @@ heplots::boxM(alc[, c('alcuse.14', 'alcuse.15', 'alcuse.16')], group = alc$coa)
 
 ```
 ## 
-## 	Box's M-test for Homogeneity of Covariance
-## 	Matrices
+## 	Box's M-test for Homogeneity of Covariance Matrices
 ## 
 ## data:  alc[, c("alcuse.14", "alcuse.15", "alcuse.16")]
-## Chi-Sq (approx.) = 21.486, df = 6, p-value =
-## 0.0015
+## Chi-Sq (approx.) = 21.486, df = 6, p-value = 0.0015
 ```
 
 Auch in unserem Fall wird eine signifikante Verletzung der Annahme angezeigt. Nach [Eid et al. (2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 494) ist die ANOVA gegenüber der Verletzung der Homgenitätsannahme bezüglich der Kovarianzmatrizen dann robust, wenn die Sphärizitätsannahme nicht verworfen werden muss. In dem Output von der ANOVA haben wir aber gesehen, dass auch hier eine signifikante Verletzung vorliegt. Für die Interpretaion können nun die zuvor dargestellten Korrekturen oder eine "echte" robuste Variante (z.B. im `WRS2`-Paket) genutzt werden. Betrachten wir nun nochmal genauer den oben schon gezeigten Output.
@@ -883,14 +847,10 @@ Auch in unserem Fall wird eine signifikante Verletzung der Annahme angezeigt. Na
 
 ```
 ## $ANOVA
-##    Effect DFn DFd          F            p p<.05
-## 2     coa   1  80 15.0889366 2.101590e-04     *
-## 3     age   2 160 12.2596915 1.112344e-05     *
-## 4 coa:age   2 160  0.1132673 8.929835e-01      
-##            ges
-## 2 0.1108265719
-## 3 0.0494086230
-## 4 0.0004799824
+##    Effect DFn DFd          F            p p<.05          ges
+## 2     coa   1  80 15.0889366 2.101590e-04     * 0.1108265719
+## 3     age   2 160 12.2596915 1.112344e-05     * 0.0494086230
+## 4 coa:age   2 160  0.1132673 8.929835e-01       0.0004799824
 ## 
 ## $`Mauchly's Test for Sphericity`
 ##    Effect         W           p p<.05
@@ -898,12 +858,9 @@ Auch in unserem Fall wird eine signifikante Verletzung der Annahme angezeigt. Na
 ## 4 coa:age 0.8859965 0.008386194     *
 ## 
 ## $`Sphericity Corrections`
-##    Effect       GGe        p[GG] p[GG]<.05       HFe
-## 3     age 0.8976633 2.626605e-05         * 0.9169621
-## 4 coa:age 0.8976633 8.726825e-01           0.9169621
-##          p[HF] p[HF]<.05
-## 3 2.233274e-05         *
-## 4 8.768214e-01
+##    Effect       GGe        p[GG] p[GG]<.05       HFe        p[HF] p[HF]<.05
+## 3     age 0.8976633 2.626605e-05         * 0.9169621 2.233274e-05         *
+## 4 coa:age 0.8976633 8.726825e-01           0.9169621 8.768214e-01
 ```
 
 Bezüglich der Ergebnisse der ANOVA zeigt sich, dass das Alter (korrigierte Effekte nach HF) und ob ein Elternteil Alkoholiker (`coa`) ist einen bedeutsamen Einfluss auf das Trinkverhalten von Jugendlichen haben. Da `coa` nur einmal gemessen wurde, wird für den Effekt keine Korrektur verwendet. Dass die Interaktion nicht statistisch bedeutsam ist, deutet darauf hin, dass die Entwicklung über die Zeit zwischen beiden Gruppen von Jugendlichen parallel verläuft.
@@ -955,7 +912,7 @@ ezPlot(df, Y, id, within = times,
     formula = y ~ 1, color = 'gold3')
 ```
 
-<img src="/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 ```r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))
@@ -1009,7 +966,7 @@ ezPlot(df, Y, id, within = times,
     formula = y ~ 1, color = 'gold3')
 ```
 
-<img src="/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-36-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
 
 ```r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))
@@ -1064,7 +1021,7 @@ ezPlot(df, Y, id, within = times,
     formula = y ~ 1, color = 'gold3')
 ```
 
-<img src="/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 ```r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))
@@ -1117,7 +1074,7 @@ ezPlot(df, Y, id, within = times,
     formula = y ~ 1, color = 'gold3')
 ```
 
-<img src="/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-38-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
 
 ```r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))
@@ -1135,12 +1092,6 @@ Wir erkennen, dass sowohl der lineare als auch der quadratische Trend signifikan
 
 </details>
 
-
-***
-
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](../anova-iii.R).
 
 ***
 

@@ -1,6 +1,3 @@
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-
 library(ggplot2) # Grafiken
 library(car)     # Residuenplots
 library(MASS)    # studres
@@ -72,7 +69,7 @@ WorldPopulation$log_Population <- log(WorldPopulation$Population) # Logarithmus 
 m_log <- lm(log_Population ~ Year, data = WorldPopulation) # lineares Modell mit log(y) als AV (logarithmische Skala)
 summary(m_log)
 
-m_q <- lm(Population ~ poly(Year,2), data = WorldPopulation) # quadratischer Verlauf
+
 
 m_log2 <- lm(I(log(Population)) ~ Year, data = WorldPopulation) # lineares Modell mit log(y) als AV (logarithmische Skala)
 summary(m_log2)
@@ -92,7 +89,7 @@ exp(coef(m_log))
 
 WorldPopulation$Post1950 <- as.numeric(WorldPopulation$Year > 1950)
 
-WorldPopulation[WorldPopulation$Year %in% seq(1947, 1953), ]
+
 
 m_dis <- lm(I(log(Population)) ~ Year * Post1950, data = WorldPopulation)
 summary(m_dis)
