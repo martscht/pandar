@@ -841,7 +841,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/post/metaan
 ### Datensatz laden
 ```{r, results="hide"}
 library(metafor)
-load(url('https://pandar.netlify.app/daten/preprocessing/reliabilites.molloy2014.rda'))
+load(url('https://pandar.netlify.app/daten/reliabilites.molloy2014.rda'))
 ```
 
 Im nächsten Schritt sollte der Datensatz mit den Reliabilitäten und der ursprüngliche Datensatz zusammen gefasst werden. Dafür gibt es einige Möglichkeiten. Hier ist ein Beispiel aufgeführt: 
@@ -1114,7 +1114,7 @@ Auf `pandaR` wird der Datensatz [Block 5b](/post/msc5a-daten/#Block5b) der Quizz
 
 ### Datensatz laden
 ```{r, eval=FALSE}
-source(url("https://pandar.netlify.app/post/Preprocessing/Data_Processing_Quiz4b.R"))
+source(url("https://pandar.netlify.app/daten/Data_Processing_Quiz4b.R"))
 ```
 Sie erhalten einmal den Datensatz `data` und eine Aufzählung aller Variablen, die Knoten im Netzwerk sein sollen, mit `rel_vars`.
 
@@ -1400,7 +1400,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Regression mit nominalskalierte
 Die Daten können direkt vom [{{< icon name="download" pack="fas" >}} OSF heruntergeladen ](https://osf.io/4wypx/download) werden. Allerdings werden einige Schritte durchlaufe, um die Daten auf die nötigen Variablen zu reduzieren, welche mit 
 
 ```{r}
-source("https://pandar.netlify.app/post/Preprocessing/Data_Processing_punish.R")
+source("https://pandar.netlify.app/daten/Data_Processing_punish.R")
 ```
 
 direkt durchgeführt werden können. Zur Nachvollziehbarkeit, hier noch einmal der Inhalt dieses Skripts:
@@ -1557,7 +1557,7 @@ Auf `pandaR` wird der Datensatz in [Block 2](/post/msc5a-daten/#Block2) der Quiz
 
 ### Datensatz laden
 ```{r}
-source(url("https://pandar.netlify.app/post/Preprocessing/Data_Processing_Quiz1.R"))
+source(url("https://pandar.netlify.app/daten/Data_Processing_Quiz1.R"))
 ```
 
 ### Größe
@@ -1602,7 +1602,7 @@ load(url("https://pandar.netlify.app/daten/Assessment.rda"))
 ```
 
 ### Größe
-Der Datensatz besteht aus `r dim(Assessment)[1]` Beobachtungen auf `r dim(Assessment[2]` Variablen.
+Der Datensatz besteht aus `r dim(Assessment)[1]` Beobachtungen auf `r dim(Assessment)[2]` Variablen.
 
 ### Variablen
 In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
@@ -1630,7 +1630,7 @@ load(url("https://pandar.netlify.app/daten/NerdData.rda"))
 ```
 
 ### Größe
-Der Datensatz besteht aus `r dim(NerdData)[1]` Beobachtungen auf `r dim(NerdData[2]` Variablen.
+Der Datensatz besteht aus `r dim(NerdData)[1]` Beobachtungen auf `r dim(NerdData)[2]` Variablen.
 
 ### Variablen
 In der folgenden Tabelle erfolgt eine Übersicht eines Teils der erhobenen Variablen und ihre Bedeutungen.
@@ -1696,7 +1696,7 @@ load(url("https://pandar.netlify.app/daten/StudentsInClasses.rda"))
 ```
 
 ### Größe
-Der Datensatz besteht aus `r dim(StudentsInClasses)[1]` Beobachtungen auf `r dim(StudentsInClasses[2]` Variablen.
+Der Datensatz besteht aus `r dim(StudentsInClasses)[1]` Beobachtungen auf `r dim(StudentsInClasses[2])` Variablen.
 
 ### Variablen
 In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
@@ -1730,7 +1730,7 @@ load(url("https://pandar.netlify.app/daten/Xmas.rda"))
 ```
 
 ### Größe
-Der Datensatz besteht aus `r dim(Xmas)[1]` Beobachtungen auf `r dim(Xmas[2]` Variablen.
+Der Datensatz besteht aus `r dim(Xmas)[1]` Beobachtungen auf `r dim(Xmas)[2]` Variablen.
 
 ### Variablen
 In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
