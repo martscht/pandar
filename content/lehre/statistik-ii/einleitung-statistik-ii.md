@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden nochmal die Grundlagen in R aus Statistik I aufgefrischt.' 
 authors: [nehler, schueller, schultze] 
 weight: 1
-lastmod: '2024-02-19'
+lastmod: '2024-03-08'
 featured: no
 banner:
   image: "/header/cat_with_glasses.jpg"
@@ -76,7 +76,7 @@ Für den Verlauf dieses Modul benötigen Sie die Statistiksoftware `R` und für 
 
 Wie Sie eventuell feststellen, ist `RStudio` nun Teil der größeren Firma [posit](https://posit.co/). _Zunächst_ ändert das aber nichts an den Nutzungsbedingungen und den Features von RStudio.
 
-Es ist sehr sinnvoll `R` aktuell zu halten, weil Pakete nur für die derzeitige R-Version weiterentwickelt werden und es so passieren kann, dass Ihre R-Version von bestimmten Pakete nicht mehr unterstützt wird. Die Aktuelle Version von R ist 4.3.2. Welche Version Sie zur Zeit nutzen, können Sie so herausfinden:
+Es ist sehr sinnvoll `R` aktuell zu halten, weil Pakete nur für die derzeitige R-Version weiterentwickelt werden und es so passieren kann, dass Ihre R-Version von bestimmten Pakete nicht mehr unterstützt wird. Die Aktuelle Version von R ist 4.2.2. Welche Version Sie zur Zeit nutzen, können Sie so herausfinden:
 
 
 ```r
@@ -84,7 +84,7 @@ R.Version()$version.string
 ```
 
 ```
-## [1] "R version 4.3.2 (2023-10-31)"
+## [1] "R version 4.2.2 (2022-10-31 ucrt)"
 ```
 Wie Sie sehen, ist die Version relativ neu. Wenn Sie eine andere Version nutzen, ist nun der _perfekte_ Zeitpunkt für ein Update! Der typische Weg R auf Windows oder Mac zu aktualisieren ist es, die aktuelle Fassung herunterzuladen und ganz normal neu zu installieren. Die vorangegangene Version können Sie anschließend deinstallieren. Es ist möglich mehrere Versionen von R gleichzeitig installiert zu haben, um im Fall von größeren Updates Ergebnisse aus älteren Analyseskripten reproduzieren zu können.
 
@@ -514,20 +514,27 @@ head(mach) # ersten 6 Zeilen
 ```
 
 ```
-##   TIPI1 TIPI2 TIPI3 TIPI4 TIPI5 TIPI6 TIPI7 TIPI8 TIPI9 TIPI10 education urban gender engnat age hand religion
-## 1     6     5     6     1     7     3     7     4     7      1         2     3      1      1  26    1        7
-## 2     2     5     6     2     4     6     5     4     6      5         2     2      1      1  18    1        1
-## 3     1     7     6     7     5     7     1     4     1      4         1     1      2      1  15    1        2
-## 4     6     5     5     7     7     2     6     2     2      3         4     3      2      2  31    1        6
-## 5     2     5     5     6     7     6     5     3     4      5         2     2      1      2  20    1        4
-## 6     2     4     6     2     3     7     5     2     7      1         1     1      1      2  17    1        1
-##   orientation race voted married familysize  nit      pit     cvhn pvhn
-## 1           1   30     1       2          5 4.00 2.666667 3.833333 2.00
-## 2           1   60     2       1          2 5.00 1.166667 3.833333 2.75
-## 3           2   10     2       1          2 5.00 1.000000 4.000000 2.00
-## 4           1   60     1       3          2 3.75 2.166667 3.000000 1.50
-## 5           3   60     1       1          2 4.75 1.666667 2.666667 2.00
-## 6           1   70     2       1          3 4.00 2.666667 3.166667 2.25
+##   TIPI1 TIPI2 TIPI3 TIPI4 TIPI5 TIPI6 TIPI7 TIPI8 TIPI9 TIPI10 education urban gender
+## 1     6     5     6     1     7     3     7     4     7      1         2     3      1
+## 2     2     5     6     2     4     6     5     4     6      5         2     2      1
+## 3     1     7     6     7     5     7     1     4     1      4         1     1      2
+## 4     6     5     5     7     7     2     6     2     2      3         4     3      2
+## 5     2     5     5     6     7     6     5     3     4      5         2     2      1
+## 6     2     4     6     2     3     7     5     2     7      1         1     1      1
+##   engnat age hand religion orientation race voted married familysize  nit      pit
+## 1      1  26    1        7           1   30     1       2          5 4.00 2.666667
+## 2      1  18    1        1           1   60     2       1          2 5.00 1.166667
+## 3      1  15    1        2           2   10     2       1          2 5.00 1.000000
+## 4      2  31    1        6           1   60     1       3          2 3.75 2.166667
+## 5      2  20    1        4           3   60     1       1          2 4.75 1.666667
+## 6      2  17    1        1           1   70     2       1          3 4.00 2.666667
+##       cvhn pvhn
+## 1 3.833333 2.00
+## 2 3.833333 2.75
+## 3 4.000000 2.00
+## 4 3.000000 1.50
+## 5 2.666667 2.00
+## 6 3.166667 2.25
 ```
 
 Da es sich bei unserem Datensatz um ein Objekt vom Typ `data.frame` handelt, können wir die Variablennamen des Datensatzes außerdem mit der `names`-Funktion abfragen. Eine weitere interessante Funktion ist `dim`, die die Anzahl der Zeilen und Spalten ausgibt. 
@@ -538,10 +545,11 @@ names(mach) # Namen der Variablen
 ```
 
 ```
-##  [1] "TIPI1"       "TIPI2"       "TIPI3"       "TIPI4"       "TIPI5"       "TIPI6"       "TIPI7"      
-##  [8] "TIPI8"       "TIPI9"       "TIPI10"      "education"   "urban"       "gender"      "engnat"     
-## [15] "age"         "hand"        "religion"    "orientation" "race"        "voted"       "married"    
-## [22] "familysize"  "nit"         "pit"         "cvhn"        "pvhn"
+##  [1] "TIPI1"       "TIPI2"       "TIPI3"       "TIPI4"       "TIPI5"       "TIPI6"      
+##  [7] "TIPI7"       "TIPI8"       "TIPI9"       "TIPI10"      "education"   "urban"      
+## [13] "gender"      "engnat"      "age"         "hand"        "religion"    "orientation"
+## [19] "race"        "voted"       "married"     "familysize"  "nit"         "pit"        
+## [25] "cvhn"        "pvhn"
 ```
 
 ```r
@@ -647,7 +655,8 @@ describe(mach$cvhn)
 ```
 
 ```
-## Error in describe(mach$cvhn): could not find function "describe"
+##    vars     n mean   sd median trimmed  mad min max range  skew kurtosis se
+## X1    1 65151 2.99 0.81      3    2.99 0.99   1   5     4 -0.09    -0.61  0
 ```
 
 Pakete müssen vor der ersten Nutzung zunächst einmal heruntergeladen werden. Für einige von Ihnen wird dieser Schritt nicht nötig sein, da Sie es bereits heruntergeladen haben.
@@ -662,26 +671,6 @@ Danach muss man ein Package aus der library laden. Dies muss nach jedem Neustart
 
 ```r
 library(psych)
-```
-
-```
-## 
-## Attaching package: 'psych'
-```
-
-```
-## The following object is masked from 'package:car':
-## 
-##     logit
-```
-
-```
-## The following objects are masked from 'package:ggplot2':
-## 
-##     %+%, alpha
-```
-
-```r
 describe(mach$cvhn)
 ```
 
@@ -766,8 +755,9 @@ names(model) #andere Inhalte der Liste
 ```
 
 ```
-##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"       
-##  [7] "qr"            "df.residual"   "xlevels"       "call"          "terms"         "model"
+##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values"
+##  [6] "assign"        "qr"            "df.residual"   "xlevels"       "call"         
+## [11] "terms"         "model"
 ```
 
 Die weiteren Inhalte umfassen unter anderem die `residuals`, die für das Prüfen der Voraussetzungen wichtig wären, aber auch die vorhergesagten Werte (`fitted.values`). 
@@ -856,8 +846,8 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ```
 
 ```
-##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value"  "stderr"     
-##  [8] "alternative" "method"      "data.name"
+##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value" 
+##  [7] "stderr"      "alternative" "method"      "data.name"
 ```
 
 ```r
@@ -882,11 +872,6 @@ Da die Null-Hypothese verworfen wird, nehmen wir an, dass es in der Population e
 Nun sind wir am Schluss des behandelten Codes in der Seminar-Sitzung angekommen. Die Grundlagen von `R` und einigen statistischen Verfahren sind nun aufgefrischt und wir können mit Mut ins zweite Semester starten! 
 
 
-
-***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/lehre/statistik-ii/wiederholung-grundlagen.R).
 
 ***
 
@@ -974,7 +959,7 @@ t.test(group1, group2)
 ##  10.28325  11.89749
 ```
 
-Die Ergebnisse sind nicht die Gleichen, obwohl wir mit einem festen Seed gearbeitet haben. Wie wir in BSc2 [mehrmals](/lehre/statistik-i/verteilungen) [besprochen](/lehre/statistik-i/simulation/) haben, ist `set.seed` aber explizit dafür da, dass bei jeder Durchführung des Zufallsexperiments auch exakt die gleichen Ergebnisse erzeugt werden. Das ist auch ChatGPT "bewusst":
+Die Ergebnisse sind nicht die Gleichen, obwohl wir mit einem festen Seed gearbeitet haben. Wie wir in BSc2 [mehrmals](/lehre/statistik-i/verteilungen) [besprochen](/lehre/statistik-i/simulation-poweranalyse) haben, ist `set.seed` aber explizit dafür da, dass bei jeder Durchführung des Zufallsexperiments auch exakt die gleichen Ergebnisse erzeugt werden. Das ist auch ChatGPT "bewusst":
 
 {{<inline_image"/lehre/statistik-ii/chatGPT4.png">}}
 

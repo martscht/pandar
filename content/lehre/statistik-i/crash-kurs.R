@@ -39,7 +39,8 @@ exp(1)
 
 log(-1)
 
-log(argument = 10)
+## log(argument = 10)
+
 
 my_num <- sum(3, 4, 1, 2)
 
@@ -122,7 +123,9 @@ dat
 str(dat)
 
 three <- c(1, 2, 3)
-data.frame(color, text, cong, react, three)
+## three <- c(1, 2, 3)
+## data.frame(color, text, cong, react, three)
+
 
 four <- c(three, 4)
 data.frame(color, text, cong, react, four)
@@ -210,10 +213,12 @@ args(read.table)
 ## fb23 <- read.table('fb23.csv', header = TRUE, sep = ",")
 
 
+fb23 <- read.table('https://pandar.netlify.app/daten/fb23.csv', header = TRUE, sep = ",")
+
 head(fb23)    # Kopfzeilen
 str(fb23)     # Struktur des Datensatzes
 
-## fb23 <- read.table('https://pandar.netlify.app/daten/fb23.csv', header = TRUE, sep = ",")
+
 
 write.table(fb23,     # zu speichernder Datensatz
   'fb23.txt'          # Dateiname

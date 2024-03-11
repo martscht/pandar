@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer, hartig, nehler]
 weight: 6
-lastmod: '2024-01-03'
+lastmod: '2024-03-08'
 featured: no
 banner:
   image: "/header/glider.jpg"
@@ -140,7 +140,7 @@ summary(lm.beta(mod))
 ```
 
 Die standardisierten Regressionsgewichte für die Prädiktoren geben an, *um wieviele Standardabweichungen* sich $y$ verändert, wenn sich $x$ *um eine Standardabweichung* verändert. 
-Der standardisierte Koeffizient des `IQ` ist  hierbei deutlich größer ($\hat{\beta}_2=$ 0.58) als der vom Geschlecht ($\hat{\beta}_1=$ 0.18). Hierdurch wird sichtbar, dass der `IQ` mehr Variation am Kriterium Leseleistung erklärt. Diese Information ist den unstandardisierten Koeffizienten nicht zu entnehmen (das unstandardierte Regressionsgewicht für Geschlecht ist ja sogar größer als das für Intelligenz, s.o.). Der Unterschied zwischen den unstandardisierten und standardisierten Koeffizienten kommt im Beispiel dadurch zustande, dass der Prädiktor `IQ` eine wesentlich größere Streuung ($\sigma_{IQ}^2$=248.11) aufweist als die dummykodierte Variable `female` ($\sigma_{female}^2$=0.25). Für den Fall eines intervallskalierten Prädiktors wie `IQ` ist der standardisierte Koeffizient auch einfacher zu interpretieren, da man die Skala Verteilung der Variablen nicht berücksichtigen muss: Wenn sich `IQ` um eine Standardabweichung ändert, ändert sich die Leseleistung um 0.58 Standardabweichungen. Für dummykodierte Variablen wie Geschlecht ist diese Interpretation nicht so anschaulich, da hier "eine Einheit in $x$" schon aussagekräftig ist - sie entspricht nämlich dem Unterschied zwischen den mit null und eins kodierten Gruppen. Der unstandardisierte Koeffizient $b_1=$ 38.5 lässt sich als Unterschied zwischen Jungen und Mädchen in Maßeinheiten der Lesefähigkeit interpretieren. "Eine Standardabweichung im Geschlecht" ist hingegen weniger anschaulich. Daher ist es hilfreich, beide Angaben (unstandardisierte und standardisierte Regressionsgewichte) zu kennen.
+Der standardisierte Koeffizient des `IQ` ist  hierbei deutlich größer {{< math >}}($\hat{\beta}_2=${{</ math >}} 0.58) als der vom Geschlecht {{< math >}}($\hat{\beta}_1=${{</ math >}} 0.18). Hierdurch wird sichtbar, dass der `IQ` mehr Variation am Kriterium Leseleistung erklärt. Diese Information ist den unstandardisierten Koeffizienten nicht zu entnehmen (das unstandardierte Regressionsgewicht für Geschlecht ist ja sogar größer als das für Intelligenz, s.o.). Der Unterschied zwischen den unstandardisierten und standardisierten Koeffizienten kommt im Beispiel dadurch zustande, dass der Prädiktor `IQ` eine wesentlich größere Streuung {{< math >}}($\sigma_{IQ}^2${{</ math >}}=248.11) aufweist als die dummykodierte Variable `female` {{< math >}}($\sigma_{female}^2${{</ math >}}=0.25). Für den Fall eines intervallskalierten Prädiktors wie `IQ` ist der standardisierte Koeffizient auch einfacher zu interpretieren, da man die Skala Verteilung der Variablen nicht berücksichtigen muss: Wenn sich `IQ` um eine Standardabweichung ändert, ändert sich die Leseleistung um 0.58 Standardabweichungen. Für dummykodierte Variablen wie Geschlecht ist diese Interpretation nicht so anschaulich, da hier "eine Einheit in $x$" schon aussagekräftig ist - sie entspricht nämlich dem Unterschied zwischen den mit null und eins kodierten Gruppen. Der unstandardisierte Koeffizient $b_1=$ 38.5 lässt sich als Unterschied zwischen Jungen und Mädchen in Maßeinheiten der Lesefähigkeit interpretieren. "Eine Standardabweichung im Geschlecht" ist hingegen weniger anschaulich. Daher ist es hilfreich, beide Angaben (unstandardisierte und standardisierte Regressionsgewichte) zu kennen.
 
 ## Messfehlerfreiheit der unabhängigen Variablen und Unabhängigkeit der Residuen {#Vorschub}
 
@@ -155,13 +155,7 @@ Eine grafische Prüfung der partiellen Linearität zwischen den einzelnen Prädi
 
 ```r
 library(car) # Paket mit einigen Funktionen zur Regressionsdiagnostik
-```
 
-```
-## Loading required package: carData
-```
-
-```r
 # partielle Regressionsplots
 avPlots(model = mod, pch = 16, lwd = 4)
 ```
@@ -442,7 +436,7 @@ Die Entscheidung, ob Ausreißer oder auffällige Datenpunkte aus Analysen ausges
 
 ## Appendix A {#AppendixA}
 
-{{< spoiler text = "**Multikollinearität und Standardfehler**" >}}
+<details><summary><b>Multikollinearität und Standardfehler</b></summary>
 
 **Disclaimer:** Dieser Block ist als Zusatz anzusehen und für Interessierte bestimmt.
 
@@ -616,12 +610,12 @@ Dieser Exkurs zeigt, wie sich die Multikolinearität auf die Standardfehler und 
 
 *Die Matrix $I$ ist im Zusammenhang mit der Maximum-Likelihood-Schätzung die Inverse der Fischer-Information und enthält die Informationen der Kovariationen der Parameterschätzer (diese Informationen enthält sie hier im Übrigen auch!).*
 
-{{< /spoiler >}}
+</details>
 
 
 ## Appendix B {#AppendixB}
 
-{{< spoiler text = "**Standardisierte und Studentisierte Residuen**" >}}
+<details><summary><b>Standardisierte und Studentisierte Residuen</b></summary>
 
 **Disclaimer:** Dieser Block ist als Zusatz anzusehen und für Interessierte bestimmt.
 
@@ -691,11 +685,11 @@ ggplot(data = df, mapping = aes(x = X, y = Y)) + geom_point() +
 
 Diesem Plot entnehmen wir sehr deutlich, dass die Unsicherheit bezüglich der Vorhersage von $Y$ (nämlich $\hat{Y}$) für große $X$ viel größer ausfällt, als für mittlere (oder kleine) $X$. Um den Fehler der Vorhersage genauer zu untersuchen, benötigen wir den Vorhersagefehler, also das Residuum. Um dieses über Studien hinweg immer gleich interpretieren zu können, muss dieses normiert werden. Wir wollen, dass es eine Varianz von 1 hat. Wenn Sie in [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) die Seiten 709 bis 710 durcharbeiten, lernen Sie standardisierte und studentisierte Residuen kennen. Diese Definition weicht etwas von der Definition der standardisierten und studentisierten Residuen aus dem `MASS`-Paket ab. In [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) wird das *standardisierte Residuum* so definiert, dass das Residuum einfach durch seine Standardabweichung geteilt wird:
 
-<div class="big-maths">
+{{< math >}}
 \begin{equation}
 \hat{\varepsilon}_{i,\text{std}} := \frac{\hat{\varepsilon}_{i}}{\hat{\sigma}},
 \end{equation}
-</div>
+{{</ math >}}
 
 
 wobei $\hat{\sigma}$ der geschätze Regressionsfehler (also die Standardabweichung der Residuen) ist.
@@ -809,17 +803,17 @@ round(h-hatvalues(reg), digits = 10)
 
 Super, die *hatvalues* haben wir schon mal ausgerechnet. Nun kommen wir zu den  studentisierten Residuen, welche diese Werte mit einbeziehen. Wir bestimmen hier zwei Varianten des studentisierten Residuums ([Eid et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158)); das internal studentisierte Residuum und das external studentisierte Residuum. Internal und external bezieht sich hierbei auf dem Umstand, ob die Standardabweichung der Residuen unter einbezug (internal) oder unter Auschluss (external) der betrachteten Person bestimmt wird:
 
-<div class="big-maths">
+{{< math >}}
 \begin{equation}
 \hat{\varepsilon}_{i,\text{stud, internal}} := \frac{\hat{\varepsilon}_{i}}{\hat{\sigma}\sqrt{1-h_i}}
 \end{equation}
-</div>
+{{</ math >}}
 
-<div class="big-maths">
+{{< math >}}
 \begin{equation}
 \hat{\varepsilon}_{i,\text{stud, external}} := \frac{\hat{\varepsilon}_{i}}{\hat{\sigma}_{(-i)}\sqrt{1-h_i}}
 \end{equation}
-</div>
+{{</ math >}}
 
 Die beiden Residuen werden also bestimmt, indem das eigentliche Residuum der Person $i$, nämlich $\hat{\varepsilon}_i = Y_i - \hat{Y}_i$ durch den Standardfehler $\hat{\sigma}$ multipliziert mit $\sqrt{1-h_i}$ geteilt wird: $\hat{\sigma}\sqrt{1-h_i}$. $h_i$ ist der Hebelwert der Person $i$. Für das external studentisierte Residuum wird nun zur Bestimmung des Standardfehlers die Analyse wiederholt, nur das Person $i$ aus dem Datensatz ausgeschlossen wird. Dies ist Ähnlich zu der Cooks-Distanz von oben. Nun führen wir das Ganze mal empirisch durch. Hier muss nun gesagt werden, dass innerhalb des `MASS`-Pakets internal-studentisierte Residuen mit dem `stdres` und external-studentisierte Residuen mit dem `studres`-Befehl bestimmt werden und es so zu einer Vermischung der Termologien kommt: 
 
@@ -894,7 +888,7 @@ resid_Xmax_std
 
 Also sehr viel kleiner! Somit würde sein Einfluss auf die Analyse unterschätzt, da signalisiert werden würde, dass der Vorhersagefehler nicht sonderlich groß ausfällt.
 
-{{< /spoiler >}}
+</details>
 
 ***
 

@@ -1,0 +1,143 @@
+---
+title: "MSA - Invarianzstufen" 
+type: post
+date: '2021-04-13' 
+slug: exkurs-invarianzstufen 
+categories: ["FuE II"] 
+tags: ["Zusatz", "Invarianzstufen", "SEM", "MSA"] 
+subtitle: 'Ein Exkurs'
+summary: '' 
+authors: [irmer, schultze] 
+weight: 7
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/milwaukee_art_museum.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1587291)"
+projects: []
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/fue-ii/exkurs-invarianzstufen
+output:
+  html_document:
+    keep_md: true
+---
+
+
+```{r setup, echo=F}
+```
+
+In einer Multi-Sample Analysis werden in der Regel verschiedene Invarianz (also Gleichheiten über die Gruppen) getestet. Diese werden hier noch einmal wiederholt.
+
+## Invarianzstufen
+Die Invarianzstufen sind nach Einschränkungen der Modellparameter sortiert und werden auch (fast) immer in dieser Reihenfolge sukzessive getestet: konfigurale, metrische (schwache), skalare (starke), strikte und vollständige Invarianz. Wir gehen so vor, wie dies per Default im `R`-Paket `lavaan` durchgeführt wird. Wir gehen hierzu davon aus, dass die Skalierung für die Varianzen auf den ersten Faktorladungen ($\lambda=1$) liegt und dass die Skalierung für die Mittelwerte (Interzepte) auf dem latenten Mittelwert liegt ($\kappa=0$).
+
+### Konfigurale Invarianz
+
+Die erste und am wenigsten restriktive Invarianzstufe ist die **konfigurale Invarianz**. Unter konfiguraler Invarianz verstehen wir die Gleichheit der Modelle in den Gruppen - oder salopp gesprochen: gilt konfigurale Invarianz, dann gilt in beiden Gruppen die selbe Faktorstruktur (bzw. die gleiche Konstruktdefinition). Die folgende Grafik soll dies für ein einfaches CFA Modell veranschaulichen, welches auch die oben erwähnten Skalierer enthält. In Schwarz dargestellt sind Invarianzen über die Gruppen hinweg (natürlich ist das Modell, das wir hier behandeln, wesentlich komplexer, aber das angegeben Modell stellt die wichtigsten Aspekte der Gleichsetzung dar!):
+
+<center> <img src = "https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/SEM/images/1_Invarianz_Grafiken.png" width="100%"/> </center>
+
+Ob diese Invarianzstufe hält, können wir durch die Modellpassung des Multigruppenmodells aus dem letzten Abschnitt prüfen. Weil wir das Modell aufgrund der sehr guten Passung nicht verwerfen müssen, gibt uns das den Hinweis, dass zumindest die Faktorstruktur in beiden Gruppen gleich ist (also konfigurale Invarianz hält). Wenn wir z.B. durch Fehlpassung feststellen würden, dass in einer der beiden Gruppen eine zusätzliche Residualkorrelation oder eine Querladung aufgenommen werden muss, müssten wir die Annahme der konfiguralen Messinvarianz verwerfen.
+
+Um die weiteren Invarianzstufen und deren Implikationen besser zu verstehen, schauen wir uns noch einmal die modellimplizierte Varianz und die modellimplizierte Erwartung (den modellimplizierten Mittelwert) einer manifesten Variable $X$ an. Wir verwenden $^{(g)}$, um Unterschiede zwischen Gruppen darzustellen, wobei dies als Platzhalter für bspw. die Gruppennummer fungiert. Lassen wir dies weg, so gehen wir davon aus, dass der Parameter gleich ist über die Gruppen hinweg. Alle anderen Indizes lassen wir weg, um das ganze übersichtlicher zu gestalten.
+
+Eine einfache modellimplizierte Gleichung einer Messung $X$ ist:
+
+$$X^{(g)}=\tau^{(g)}+\lambda^{(g)}\xi^{(g)}+\delta^{(g)}.$$
+
+$\tau$ ist das Interzept und $\lambda$ ist die Faktorladung. Die Varianz von $X$ ist folglich:
+
+$$\mathbb{V}ar\left[X^{(g)}\right]=\left(\lambda^{(g)}\right)^2\phi^{(g)}+\theta^{(g)}.$$
+
+$\phi$ ist die Varianz der latenten Variable, $\xi$, und $\theta$ ist die Residualvarianz, also die Varianz von $\delta$. Wenn Sie sich nun fragen, wieso wir $\lambda$ hier quadrieren müssen, dann überlegen Sie sich folgendes Beispiel anhand der empirischen Stichprobenvarianz von einer Variable $Y$. Diese berechnen wir so:
+
+$$\hat{\mathbb{V}ar}[Y] = \frac{1}{n}\sum_{i=1}^n(Y_i-\bar{Y})^2,$$
+
+wobei $\bar{Y}$ der Mittelwert von $Y$ ist. Wenn wir nun alle Einträge von $Y$ mit einer Konstanten multiplizieren, also für jede Person $i$ das Produkt $aY_i$ berechnen (z.B. $a=10$) und die Varianz bestimmen (der Mittelwert von $aY$ ist einfach $a\bar{Y}$), dann ergibt sich:
+
+{{< math >}}
+\begin{align}
+\hat{\mathbb{V}ar}[aY] &= \frac{1}{n}\sum_{i=1}^n(aY_i-a\bar{Y})^2\\
+&=\frac{1}{n}\sum_{i=1}^n\big(a(Y_i-a\bar{Y})\big)^2\\
+&=\frac{1}{n}\sum_{i=1}^na^2(Y_i-\bar{Y})^2\\
+&=a^2\frac{1}{n}\sum_{i=1}^n(Y_i-\bar{Y})^2=a^2\hat{\mathbb{V}ar}[Y],
+\end{align}
+{{</ math >}}
+
+Da $a$ in der Klammer steht, die quadriert wird, muss natürlich $a$ quadriert werden. Da auch $a^2$ eine Konstante ist, kann sie vor die Summe gezogen werden. Daraus wird dann ersichtlich, dass die Varianz des Produktes einer Variablen mit einer Konstanten gleich der Konstanten zum Quadrat multipliziert mit der Varianz der Variablen ist. Der Mittelwert von $X$ ergibt sich als:
+
+$$\mathbb{E}\left[X^{(g)}\right]=\tau^{(g)}+\lambda^{(g)}\kappa^{(g)},$$
+
+wobei $\kappa$ das Interzept (den Mittelwert) von $\xi$ darstellt. Da $X$ von so vielen Parametern abhängt, ist ohne weitere Annahmen (von Invarianzen der Parameter über die Gruppen hinweg) nicht zu sagen, ob Unterschiede zwischen Gruppen bspw. im Mittelwert von $X$ auf Unterschiede in der latenten Variable oder auf Unterschiede in der Messung zurückzuführen sind. Ähnlich sieht es für die Varianz aus.
+
+### Metrische oder schwache Invarianz
+
+Die nächste Invarianzstufe ist die **metrische** oder **schwache Invarianz**. Nehmen wir metrische Invarianz an, so gehen wir davon aus, dass die Faktorladungen ($\lambda$) über die Gruppen hinweg gleich sind. Dies impliziert, dass die latenten Variablen über die Gruppen hinweg die gleiche Bedeutung haben. Die latenten Variablen lassen sich also inhaltlich gleich interpretieren und die Beziehungen zwischen ihnen sind vergleichbar. Dies ist sehr wichtig, wenn wir bspw. Fragebögen oder Tests über Gruppen (z.B. Länder oder das Geschlecht) hinweg vergleichen wollen. In der Grafik sind nun alle $\lambda$s schwarz (anstatt blau oder rot):
+
+<center> <img src = "https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/SEM/images/2_Invarianz_Grafiken.png" width="100%"/> </center>
+
+Die Varianz von $X$ vereinfacht sich zu (Weglassen von $^{(g)}$ symbolisiert Gleichheit über die Gruppen hinweg):
+$$\mathbb{V}ar\left[X^{(g)}\right]=\lambda^2\phi^{(g)}+\theta^{(g)}.$$
+
+
+
+Hierbei ist es so, dass $\lambda^2\phi^{(g)}$ gerade die Systematik oder den wahren Anteil in der Varianz von $X$ beschreibt. Falls metrische Invarianz gilt, so lassen sich also Unterschiede in den wahren Anteilen der Varianzen der Beobachtungen auf Unterschiede in den latenten Varianzen zurückführen (Achtung: dies ist nicht das Gleiche wie Gleichheit der Reliabilitäten, was anteilig die Systematik in $X$ an der gesamten Varianz von $X$ beschreibt - hierfür müssten ebenfalls $\theta$ gleich sein). Dies bedeutet,  wenn wir metrische Invarianz nicht verwerfen (also weiter davon ausgehen, dass metrische Invarianz gilt), dass wir durch weitere Modellrestriktionen die latenten Varianzen auf Gleichheit prüfen können. Dies ist nicht zulässig, wenn metrische Invarianz *nicht* gilt, also die Faktorladungen sich über die Gruppen hinweg unterscheiden. Spezifizieren wir `group.equal = c("loadings")`, so wird das metrisch-invariante Modell geschätzt.
+
+### Skalare oder starke Invarianz
+
+Unter **skalarer** oder **starker Invarianz** verstehen wir die nächste Invarianzstufe, welche zusätzlich zu den Faktorladungen auch noch die Interzepte ($\tau$) als invariant über die Gruppen hinweg annimmt.  Der Mittelwert von $X$ vereinfacht sich zu:
+
+$$\mathbb{E}\left[X^{(g)}\right]=\tau+\lambda\kappa^{(g)},$$
+
+wobei nun ersichtlich ist, dass nur noch $\kappa$ über die Gruppen hinweg variiert (wegen $^{(g)}$). Dies bedeutet also, dass unter Annahme der skalaren Invarianz Unterschiede in den Mittelwerten der Beobachtungen auf Unterschiede in den Mittelwerten der latenten Variablen zurückzuführen sind. Um dies zu prüfen, würden überlicherweise über die skalare Invarianz hinaus auch noch $\kappa$ über die Gruppen hinweg gleichgesetzt werden. Der Likelihood-Ratio-Test ($\chi^2$-Differenzentest) zwischen dem skalar-invarianten Modell und dem zusätzlich $\kappa$-invarianten Modell entscheidet dann darüber, ob die latenten Mittelwerte sich über die Gruppen hinweg unterscheiden. Wir schätzen das skalar-invariante Modell durch `group.equal = c("loadings", "intercepts")`. Da auch für die Mittelwertsstruktur Skalierer gesetzt werden müssen und diese üblicherweise auf den latenten Mittelwerten liegen ($\kappa=0$), muss dies bei der Invarianztestung berücksichtigt werden. Wenn wir die Skalierer auf den latenten Mittelwerten lassen und die Interzepte der manifesten Variablen gleichsetzen, so nehmen wir damit auch implizit an, dass die latenten Mittelwerte über die Gruppen hinweg gleich sind. Um diesem Problem aus dem Weg zu gehen, stellt die `sem`-Funktion klugerweise ein, dass nur in der ersten Gruppe die latenten Mittelwerte/Interzepte ($\kappa$) auf 0 gesetzt werden, alle übrigen werden frei geschätzt. Dies haben wir uns an entsprechender Stelle im Output unserer Modellschäzung angesehen! In der Grafik sind nun alle $\lambda$s und $\tau$s schwarz (anstatt blau oder rot). Außerdem ist die Effektkodierung der $\kappa$s zu sehen: diese bedeutet, dass der erste latente Mittelwert auf 0 restringiert wird, während der zweite frei geschätzt wird und somit die Abweichungen (den Effekt) quantifiziert werden (beide sind in der Gruppenfarbe dargestellt):
+
+<center> <img src = "https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/SEM/images/3_Invarianz_Grafiken.png" width="100%"/> </center>
+
+### Strikte Invarianz
+
+Setzen wir zusätzlich zu Faktorladungen und Interzepten auch noch die Residualvarianzen ($\theta$) gleich über die Gruppen, so sprechen wir von **strikter Invarianz**. Gilt diese Invarianzbedingung, so lassen sich Unterschiede in den beobachteten Varianzen ausschließlich auf Unterschiede in den latenten Varianzen (also die Varianzen der latenten Variablen) zurückführen. Dies lässt sich der Varianzformel entnehmen:
+
+$$\mathbb{V}ar\left[X^{(g)}\right]=\lambda^2\phi^{(g)}+\theta.$$
+
+Nur noch $\phi$ trägt auf der rechten Seite ein $^{(g)}$. Somit sind nur noch Unterschiede in $\phi$ verantwortlich für Unterschiede in $\mathbb{V}ar\left[X\right]$. In der Grafik sind nun alle $\lambda$s, $\tau$s und $\theta$s schwarz (anstatt blau oder rot):
+
+<center> <img src = "https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/SEM/images/4_Invarianz_Grafiken.png" width="100%"/> </center>
+
+Wir schätzen das strikt-invariante Modell durch `group.equal = c("loadings", "intercepts", "residuals")`.
+
+### Vollständige Invarianz
+
+Gehen wir von **vollständiger Invarianz** aus, so sind alle Parameter über die Gruppen hinweg gleich. Es gibt also keinerlei Unterschiede mehr zwischen den Gruppen. Die $\phi$s und auch die $\kappa$s müssen wieder auf den gleichen Wert über die Gruppen hinweg gesetzt werden. Die Variablen selbst ($X$, $\xi$ und $\delta$) bleiben farbig, da wir nur Parameter über die Gruppen hinweg gleichsetzen. Die Grafik der vollständigen Invarianz sieht folgendermaßen aus:
+
+<center> <img src="https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/SEM/images/5_Invarianz_Grafiken.png" width="100%"/> </center>
+
+Das vollständig-invariante Modell erhalten wir mit `group.equal = c("loadings", "intercepts", "residuals",` ` "means", "lv.variances", "lv.covariances", "regressions")`. Hierbei restringiert `"means"` die latenten Mittelwerte ($\kappa$), `"lv.variances"` die latenten (Residual-)Varianzen ($\phi$s und $\psi$s exogen und endogen) und `"regressions"` die Strukturpfadkoeffizienten ($\gamma$s und $\beta$s). Hätten wir Residualkovarianzen bei den manifesten oder latenten Variablen gehabt, so müssten wir diese auch mit `"residual.covariances"` sowie mit `"lv.covariances"` restringieren.
+
+Die Invarianzstufen lassen sich nach der Anzahl der zu schätzenden Parameter oder den $df$ sortieren. Im _konfigural-invarianten Modell müssen am meisten Parameter_ geschätzt werden, es besitzt also die wenigsten $df$, während im _vollständig-invarianten Modell die wenigsten Parameter_ geschätzt werden müssen, weswegen dieses auch die meisten $df$ hat. Die anderen Modelle liegen wie folgt dazwischen (je weiter links, desto weniger restriktiv ist das Modell, desto mehr Parameter sind zu schätzen und desto weniger $df$ gibt es):
+
+{{< math >}}
+\begin{gather}
+&\textbf{konfigural}
+\quad<\quad\textbf{metrisch/schwach}
+\quad<\quad\textbf{skalar/stark}\\
+&<\quad\textbf{strikt}
+\quad<\quad\textbf{vollständig}\\
+\end{gather}
+{{</ math >}}
+
+Likelihood-Ratio-Tests ($\chi^2$-Differenzentests) werden herangezogen, um zu prüfen, ob die Invarianzeinschränkungen das Modell signifikant hinsichtlich der Passung zu den Daten verschlechtern. Natürlich können nach der strikten Invarianz auch noch weitere Invarianzen geprüft werden außer der vollständigen Invarianz. Beispielsweise die Invarianz spezifischer Regressionskoeffizienten etc.
+
+***
+
+## Literatur
+Gregorich, S. E. (2006). Do self-report instruments allow meaningful comparisons across diverse population groups? Testing measurement invariance using the confirmatory factor analysis framework. _Medical Care_, _44_(11), 78-94.
+
+Schermelleh-Engel, K., Moosbrugger, H., & Müller, H. (2003). Evaluation the fit of structural equation models: tests of significance and descriptive goodness-of-fit measures. _Methods of Psychological Research Online,_ *8*(2), 23-74.
+
+

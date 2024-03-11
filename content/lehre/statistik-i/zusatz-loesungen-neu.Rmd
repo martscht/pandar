@@ -377,7 +377,7 @@ sum((data$lz_ges - mean(data$lz_ges))^2) / 13
 Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `fb22` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Eventuell haben Sie ihn ja auch aktiv in Ihrem Environment. Der Datensatz sollte 159 Versuchspersonen enthalten. Der Basisdatensatz hatte 36 Variablen, aber kann natürlich mehr enthalten, falls Sie weitere erstellt und abgespeichert haben. 
 
 ```{r}
-rm(list = ls())
+# rm(list = ls())
 load(url('https://pandar.netlify.app/daten/fb22.rda'))
 ```
 
@@ -394,17 +394,14 @@ str(fb22$lerntyp)
 
 ## Aufgabe 16.2
 
-Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `nature` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Der Datensatz sollte 1522 Versuchspersonen und 27 Variablen enthalten. 
+Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `nature` in das Environment. Dies können sie mittels der URL von der PandaR-Website machen. Der Datensatz sollte 1522 Versuchspersonen und 27 Variablen enthalten. 
 
-```{r, eval = FALSE}
-rm(list = ls())
-load(url('https://pandar.netlify.app/daten/nature.rda'))
+```{r}
+# rm(list = ls())
+source(url("https://pandar.netlify.app/daten/nature_zusatz_processing.R"))
 ```
 
-```{r, echo = FALSE}
-load("/home/zarah/Documents/nature.rda")
-```
- 
+
 In der Variable `urban` ist festgehalten, in welcher Gegend jemand als Kind gelebt hat. Wandeln Sie diese Variable in einen Faktor um. Die Labels lauten: `c("laendlich", "vorstaedtisch", "staedtisch")`. Erstellen Sie dafür keine neuen Spalten, sondern überschreiben Sie die bereits bestehenden. Überprüfen Sie im Nachhinein die Umwandlung.
 
 <details><summary>Lösung</summary>
@@ -581,6 +578,7 @@ mean(nature$age)
 
 </details>
 
+
 ## Aufgabe 21 
 
 Erzielt der Jahrgang 22 im Mittel, rein deskriptiv betrachtet, höhere Werte in Gewissenhaftigkeit (`gewis`) als in Extraversion (`extra`) oder liegt genau der umgekehrte Fall vor? In welcher der beiden Variablen variieren die Angaben stärker? Gehen Sie für die Beantwortung davon aus, dass die Skalen gleich genormt sind.
@@ -604,6 +602,70 @@ var(fb22$extra) * (158/159)
 ```
 
 Der Mittelwert von `gewis` liegt bei `r round(mean(fb22$gewis), digits = 3)`, der von `extra` bei `r round(mean(fb22$extra), digits = 3)`. Unter den getroffenen Annahmen ist dieser Jahrgang stärker gewissenhaft als extravertiert. Auch die Streuung ist deskriptiv bei der Extraversion größer. Hier liegt sie bei `r round(var(fb22$extra) * (158/159), digits = 3)`, während sie bei der Gewissenheit bei `r round(var(fb22$gewis) * (158/159), digits = 3)` liegt.
+
+</details>
+
+
+## Aufgabe 21.2
+
+Schauen wir uns nun noch einen weiteren Datensatz an. Laden Sie sich den Datensatz `SD3` in das Environment. Dies können Sie mittels der URL von der PandaR-Website machen. Der Datensatz sollte 18192 Versuchspersonen und 29 Variablen enthalten. 
+
+
+```{r}
+# rm(list = ls())
+source('/home/zarah/pandar.git/content/daten/SD3_zusatz_processing.R')
+# source(url("https://pandar.netlify.app/daten/SD3_zusatz_processing.R"))
+```
+
+Dieser Datensatz enthält Daten, die mit einem Fragebogen zur Dunklen Triade (Short Dark Triad) erfasst wurden. Es lassen sich drei Subskalen berechnen. Die Items `M1` bis `M9` beziehen sich auf das Konstrukt des Machiavellismus, die Items `N1` bis `N9` erfassen Narzissmus und die Items `P1` bis `P9` Psychopathie. Die Items wurden anhand einer fünf-Punte-Skala von 1 (stimme nicht zu) bis 5 (stimme zu) beantwortet. Es ist zu beachten, dass die Items `N2`, `N6`, `N8`, `P2` und `P7` invertiert sind. 
+
+* Wandeln Sie also zunächst diese Items so um, dass hohe Werte für eine hohe Ausprägung in diesem Konstrukt stehen. Überschreiben Sie dafür wieder die Ursprungsvariable.
+
+* Erstellen Sie dann drei neue Variablen `M_ges`, `N_ges`, `P_ges`, die die Antworten auf den drei Subskalen jeweils zusammenfassen.
+
+<details><summary>Lösung</summary>
+
+Zunächst werden die Items invertiert.
+```{r}
+SD3$N2 <- -1 * (SD3$N2 - 6)
+SD3$N6 <- -1 * (SD3$N6 - 6)
+SD3$N8 <- -1 * (SD3$N8 - 6)
+
+SD3$P2 <- -1 * (SD3$P2 - 6)
+SD3$P7 <- -1 * (SD3$P7 - 6)
+```
+
+Überprüfen wir nun noch, ob `NAs` vorliegen.
+```{r}
+sum(is.na(SD3))
+```
+
+Jetzt können wir jeweils die Mittelwerte für die Items der verschiedenen Subskalen berechnen und in neuen Variablen festhalten.
+```{r}
+SD3$M_ges <- rowMeans(SD3[, 1:9])
+SD3$N_ges <- rowMeans(SD3[, 10:18])  
+SD3$P_ges <- rowMeans(SD3[, 19:27]) 
+```
+</details>
+
+
+## Aufgabe 21.3
+
+Erzielen die Proband:innen im Mittel, rein deskriptiv betrachtet, höhere Werte in Machiavellismus (`M_ges`) als in Narzissmus (`N_ges`) oder liegt genau der umgekehrte Fall vor? In welcher der beiden Variablen variieren die Angaben stärker? Gehen Sie für die Beantwortung davon aus, dass die Skalen gleich genormt sind.
+
+<details><summary>Lösung</summary>
+
+
+```{r}
+mean(SD3$M_ges)
+mean(SD3$N_ges)
+
+n <- nrow(SD3)
+var(SD3$M_ges) * ((n-1)/n)
+var(SD3$N_ges) * ((n-1)/n)
+```
+
+Der Mittelwert von `M_ges` liegt bei `r round(mean(SD3$M_ges), digits = 3)`, der von `N_ges` bei `r round(mean(SD3$N_ges), digits = 3)`. Unter den getroffenen Annahmen sind die Proband:innen stärker machiavellistisch als narzisstisch. Die Streuung ist deskriptiv beim Machiavellismus größer. Hier liegt sie bei `r round(var(SD3$M_ges) * ((n-1)/n), digits = 3)`, während sie beim Narzismus bei `r round(var(SD3$N_ges) * ((n-1)/n), digits = 3)` liegt.
 
 </details>
 
@@ -634,6 +696,38 @@ Durch die Zentrierung verändert sich die Form erstmal nicht. Der Mittelwert der
 ```{r}
 fb22$vertr_st <- scale(fb22$vertr, scale = T)
 hist(fb22$vertr_st)
+```
+
+Die Standardisierung setzt die Standardabweichung auf 1. Aufgrund der neuen Wertestruktur wird natürlich auch die Kategorienanzahl geändert. 
+
+</details>
+
+## Aufgabe 22.2
+
+Schauen wir uns nun das Konstrukt der Psychopathie nochmal genauer an.
+
+* Lassen Sie sich das Histogramm der Variable `P_ges` ausgeben. 
+* Zentrieren Sie die Variable `P_ges`. Legen Sie dafür noch eine neue Spalte in `SD3` mit dem Namen `P_z` an und lassen Sie sich erneut ein Histogramm ausgeben. Was hat sich verändert? 
+* Standardisieren Sie die Variable `P_ges` und speichern Sie diese ebenfalls unter einer neuen Spalte mit dem Namen `P_st` ab. Was ist nun anders beim Histogramm?
+
+
+<details><summary>Lösung</summary>
+```{r}
+hist(SD3$P_ges)
+```
+
+Dieses Histogramm soll erstmal zum Vergleich dienen. Wir sehen die ursprünglichen Skalenwerte.
+
+```{r}
+SD3$P_z <- scale(SD3$P_ges, scale = F)
+hist(SD3$P_z)
+```
+
+Durch die Zentrierung verändert sich die Form erstmal nicht. Der Mittelwert der Werte wird auf 0 gesetzt. Optisch äußert sich das dadurch, dass die Werte auf der x-Achse nun andere sind.
+
+```{r}
+SD3$P_st <- scale(SD3$P_ges, scale = T)
+hist(SD3$P_st)
 ```
 
 Die Standardisierung setzt die Standardabweichung auf 1. Aufgrund der neuen Wertestruktur wird natürlich auch die Kategorienanzahl geändert. 
@@ -673,6 +767,46 @@ mean(fb22_gruppe$nerd, na.rm = T)
 ```
 
 Personen, die angaben gerne in Gruppen zu lernen, weisen einen Mittelwert von `r round(mean(fb22_gruppe$extra), digits = 3)` auf. Sie sind rein deskriptiv extravertierter als Personen, die angaben lieber alleine zu lernen. Diese haben hier einen Mittelwert von `r round(mean(fb22_alleine$extra), digits = 3)`. Umgekehrtes gilt in unserer Stichprobe hingegen für die Nerdiness. Hier haben Personen, die in Gruppen lernen, einen Wert von `r round(mean(fb22_gruppe$nerd), digits = 3)` und Personen, die lieber alleine lernen, einen Wert von `r round(mean(fb22_alleine$nerd), digits = 3)`.
+</details>
+
+
+## Aufgabe 23.2
+
+Die Items `Q1` bis `Q6` dienen zur Erfassung der 
+Naturverbundenheit. Keines der Items ist invers. In der Variable `Q_ges` ist der Mittelwert dieser Naturverbundenheits-Items für jede Person festgehalten.
+
+
+Vergleichen Sie deskriptiv das Maß der zentralen Tendenz in der Variable `Q_ges` zwischen den Teilnehmenden, die auf die Frage nach ihrer Religion (`religion`) Atheismus (kodiert mit `2`) und denjenigen, die Hinduismus (kodiert mit `8`) angegeben haben. Welche der beiden Gruppen hat die höhere Ausprägung? 
+
+<details><summary>Lösung</summary>
+
+Da wir zwei Analysen durchführen wollen, wäre es eine gute Möglichkeit, die Personen in reduzierten Datensätzen abzulegen. Dies kann mittels der Funktion `subset` gelöst werden.
+
+```{r}
+nature_atheist <- subset(nature, subset = religion == 2)
+nature_hindu <- subset(nature, subset = religion == 8)
+```
+
+Über das Argument `subset` geben wir an, in welcher Variable (`religion`) die Auswahl stattfindet und anschließend legen wir die Auswahl der einzelnen Gruppen über das bereits bekannte `==` fest. 
+
+Eine andere Möglichkeit wäre die Verwendung der logischen Auswahl anhand eckiger Klammern.
+
+```{r, eval = F}
+nature_atheist <- nature[nature$religion == 2,]
+nature_hindu <- nature[nature$religion == 8,]
+```
+
+Nun können Mittelwerte für die beiden Gruppen bestimmt werden. Beachten Sie, dass die Ergänzung von `na.rm = T` nur auf dem zweiten demonstrierten Weg wichtig ist. Dort können Personen, die keinen Eintrag in der Auswahl-Variable haben, nicht richtig zugeordnet werden und sind daher in den beiden Datensätzen erhalten - allerdings nicht mit ihren richtigen Werten, stattdessen steht bei ihnen in jeder Spalte `NA`. Die Funktion `subset` nimmt diese Fälle hingegen nicht mit auf. 
+
+```{r}
+mean(nature_atheist$Q_ges, na.rm = T)
+mean(nature_hindu$Q_ges, na.rm = T)
+```
+
+Personen, die angaben Atheist:innen zu sein, weisen einen Mittelwert von `r round(mean(nature_atheist$Q_ges), digits = 3)` auf. 
+Sie sind rein deskriptiv weniger naturverbunden als Personen, die angaben Hinduist:innen zu sein. 
+Diese haben hier einen Mittelwert von `r round(mean(nature_hindu$Q_ges, na.rm=T), digits = 3)`. 
+
 </details>
 
 ## Aufgabe 24
@@ -848,6 +982,86 @@ Der deskriptive Unterschied der Mittelwerte lässt sich somit auch inferenzstati
 
 </details>
 
+## Aufgabe 26.2
+
+Laden Sie sich nun einen weiteren Datensatz `zusatz` in ihr Environment. 
+
+```{r}
+# load(url('https://pandar.netlify.app/daten/zusatz.rda'))
+load('/home/zarah/pandar.git/content/daten/zusatz.rda')
+```
+
+Dieser enthält simulierte Daten, aber wir stellen uns einfach mal vor, dass wir Daten aus einer bestimmten Stichprobe vorliegen haben. In der Spalte `diet` ist dann eine Information darüber enthalten, wie sich jemand ernährt. Dabei werden drei Ernährungsweisen unterschieden: nicht-vegetarisch (und damit auch nicht vegan; 1), vegetarisch (2) und vegan (3). Unterscheiden sich Personen, die sich vegan oder vegetarisch ernähren, in ihrer Happiness (`happiness`) von Personen, die sich nicht vegetarisch/vegan ernähren?
+
+Schauen Sich sich die Daten graphisch an und führen sie nach Voraussetzungsprüfung einen geeigneten Test durch.
+
+<details><summary>Lösung</summary>
+
+Zuerst schauen wir uns an, ob die Variable `diet` bereits als Faktor vorliegt und wandeln sie gegebenenfalls um.
+
+```{r}
+is.factor(zusatz$diet)
+zusatz$diet <- factor(zusatz$diet, 
+                       levels = 1:3, 
+                       labels = c("nicht-vegetarisch", "vegetarisch", "vegan"))
+```
+
+Nun wollen wir eine neue Variable erstellen, in der die Personen, die sich vegetarisch oder vegan ernähren, zusammengefasst werden.
+
+```{r}
+zusatz$diet_neu <- zusatz$diet == "nicht-vegetarisch"
+zusatz$diet_neu <- as.numeric(zusatz$diet_neu) #Umwandlung in Numeric, da der Variablen Typ nun Logical ist
+zusatz$diet_neu <- factor(zusatz$diet_neu, 
+                           levels = 0:1, 
+                           labels = c("vegetarisch oder vegan", "nicht-vegetarisch"))
+```
+
+Jetzt können wir uns die Happiness der Gruppen deskriptiv in einem Boxplot darstellen lassen.
+
+```{r}
+boxplot(zusatz$happiness ~ zusatz$diet_neu, xlab = "Diet", ylab = "Happiness") 
+```
+
+Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir aber nun noch inferenzstatistisch überprüfen. Dafür überprüfen wir die Voraussetzungen eines t-Tests für unabhängige Stichproben. Wir können annehmen, dass die abhängige Variable intervallskaliert ist und dass die einzelnen Messwerte voneinander unabhängig sind. Wir müssen nun noch die Normalverteilung der Extraversion in den Gruppen und die Homoskedastizität überprüfen.
+
+**Prüfung der Normalverteilung**
+
+Wir nutzen dafür die `qqPlot`-Funktion aus dem `car`-Paket.
+
+```{r}
+library(car)
+qqPlot(zusatz$happiness[zusatz$diet_neu == "nicht-vegetarisch"])
+qqPlot(zusatz$happiness[zusatz$diet_neu == "vegetarisch oder vegan"])
+```
+
+Die Abweichungen sind nicht zu weit. Trotzdem führen wir zur weiteren Absicherung noch den Shapiro-Test durch.
+
+```{r}
+shapiro.test(zusatz$happiness[zusatz$diet_neu == "nicht-vegetarisch"])
+shapiro.test(zusatz$happiness[zusatz$diet_neu == "vegetarisch oder vegan"])
+```
+
+Keiner der Tests ist signifikant, sodass wir die Normalverteilungsannahme beibehalten.
+
+**Homoskedastizität**
+
+Diese überprüfen wir mittels Levene-Test.
+
+```{r}
+leveneTest(zusatz$happiness ~ zusatz$diet_neu)
+```
+
+Das Ergebnis ist nicht signifikant, sodass wir die $H_0$ nicht ablehnen und die Homoskedastizität der Varianzen annehmen können.
+Damit sind alle Voraussetzungen eines t-Tests erfüllt.
+
+```{r}
+t.test(zusatz$happiness ~ zusatz$diet_neu, var.equal = T)
+```
+
+Der deskriptive Unterschied der Mittelwerte lässt sich somit auch inferenzstatistisch feststellen, denn mit einer Irrtumswahrscheinlichkeit von {{<math>}}$5\%${{</math>}} kann die $H_0$ verworfen und die $H_1$ angenommen werden. Die Teilnehmenden, die sich nicht-vegetarisch ernähren, unterscheiden sich von den Teilnehmenden, die sich vegetarisch oder vegan ernähren, in ihrer Happiness ($t$(*df* = `r t.test(zusatz$happiness ~ zusatz$diet_neu, var.equal = T)$parameter`, zweis.) = `r round(t.test(zusatz$happiness ~ zusatz$diet_neu, var.equal = T)$statistic, 2)`, *p* = <.001).
+
+</details>
+
 
 ## Aufgabe 27
 
@@ -931,6 +1145,87 @@ chisq.test(tab, correct = F)
 
 </details>
 
+## Aufgabe 27.2
+
+In der Variable `living` ist dokumentiert, ob jemand nicht-alleine (1) oder alleine (2) lebt. In der Variable `pet` steht drin, ob jemand kein Haustier besitzt (1), eine Katze (2) hält, einen Hund (3) hat oder irgendein anderes Haustier (4) besitzt.
+Haben Personen, die alleine leben mit gleicher Wahrscheinlichkeit ein Haustier wie Personen, die nicht alleine leben?
+
+* Prüfen Sie die Voraussetungen für einen Chi-Quadrat-Test.
+
+<details><summary>Lösung</summary>
+
+Als erstes müssen wir den Datensatz aufbereiten.
+
+```{r}
+is.factor(zusatz$living)
+is.factor(zusatz$pet)
+
+zusatz$living <- factor(zusatz$living, levels = 1:2, labels = c("nicht-alleine", "alleine"))
+zusatz$pet <- factor(zusatz$pet, levels = 1:4, labels = c("keins", "Katze", "Hund", "anderes"))
+
+zusatz$pet_owner <- zusatz$pet %in% c("Katze", "Hund", "anderes")  #wir erstellen eine Variable, die angibt, ob eine Personen bei den Eltern wohnt oder nicht
+```
+
+Die Voraussetzungen, dass die einzelnen Beobachtungen voneinander unabhängig sind und jede Person eindeutig einer Merkmalskombination zuordbar ist, ist durch das Studiendesign erfüllt. Wir müssen aber noch prüfen, ob jede Zelle mit mehr als fünf Personen gefüllt ist.
+
+```{r}
+tab <- table(zusatz$pet_owner, zusatz$living)
+tab
+```
+
+Die Voraussetzungen für einen Chi-Quadrat-Test sind erfüllt.
+
+</details>
+
+
+* Berechnen Sie die erwarteten Häufigkeiten der Zellen und treffen Sie eine Signifikanzentscheidung.
+
+<details><summary>Lösung</summary>
+
+Für die erwarteten Häufigkeiten brauchen wir die Randsummen. Diese erhalten wir mit dem Befehl `addmargins`.
+
+```{r}
+tab_mar <- addmargins(tab)
+tab_mar
+```
+
+Die erwarteten Häufigkeiten der Zellen erhalten wir wie folgt:
+
+```{r}
+n <- tab_mar[3,3]
+
+erwartet_11 <- (tab_mar[1,3]*tab_mar[3,1])/n
+erwartet_12 <- (tab_mar[1,3]*tab_mar[3,2])/n
+erwartet_21 <- (tab_mar[2,3]*tab_mar[3,1])/n
+erwartet_22 <- (tab_mar[2,3]*tab_mar[3,2])/n
+
+erwartet <- data.frame(nein = c(erwartet_11, erwartet_21), ja = c(erwartet_12, erwartet_22))
+erwartet
+
+```
+
+Für die Signifikanzentscheidung berechnen wir den empirischen Chi-Quadrat-Wert und den zugehörigen p-Wert.
+
+```{r}
+chi_quadrat_Wert <- (tab[1,1]-erwartet[1,1])^2/erwartet[1,1]+
+  (tab[1,2]-erwartet[1,2])^2/erwartet[1,2]+
+  (tab[2,1]-erwartet[2,1])^2/erwartet[2,1]+
+  (tab[2,2]-erwartet[2,2])^2/erwartet[2,2]
+
+chi_quadrat_Wert
+
+pchisq(chi_quadrat_Wert, 1, lower.tail = F) #Freiheitsgrad beträgt 1
+```
+Somit ist der Test signifikant und es lässt sich feststellen, dass das Alleine-Wohnen damit zusammen hängt, ob jemand ein Haustier besitzt oder nicht.
+
+Wir können unser Ergebnis auch noch mit dem Befehl `chisq.test()` überprüfen und sehen, dass dieser das gleiche Ergebnis liefert.
+
+```{r}
+chisq.test(tab, correct = F)
+```
+
+</details>
+
 ## Aufgabe 28
 
 Weichen Psychologiestudierende, die einen Nebenjob haben, in ihrem Intellekt (`intel`) von Psychologiestudierenden, die keinen Nebenjob haben, ab.
@@ -972,6 +1267,100 @@ wilcox.test(fb22$lz ~ fb22$ort)
 Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = `r wilcox.test(fb22$lz ~ fb22$ort)$statistic `, *p* = `r round(wilcox.test(fb22$lz ~ fb22$ort)$p.value, 3)` ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Psychologiestudierende, die einen Nebenjob haben, und Psychologiestudierende, die keinen Nebenjob haben, nicht in ihrem Intellekt unterscheiden. 
 
 </details>
+
+
+## Aufgabe 28.2
+
+In der Variable `school` ist enthalten, ob jemand eine öffentliche (1) oder eine private (2) Schule besucht hat.  
+Unterscheiden sich Personen, die auf eine private Schule gegangen sind, in ihrem Intellekt (`intel`) von Personen, die eine öffentliche Schule besucht haben. 
+
+
+* Führen Sie nach Voraussetzungsprüfung einen geeigneten Test durch.
+
+<details><summary>Lösung</summary>
+Wir beginnen die Voraussetzungen des t-Tests für unabhängige Stichproben zu überprüfen. Die Voraussetzungen, dass die unabhängige Variable intervallskaliert ist und die einzelnen Messwerte unabhängig voneinander sind, sind per Untersuchungsdesign erfüllt. Wir wollen nun also die Normalverteilung des Merkmals in den Gruppen überprüfen.
+
+```{r}
+#Wir überprüfen erst wieder, ob die Variable Nebenjob als Faktor vorliegt
+is.factor(zusatz$school)
+
+zusatz$school <- factor(zusatz$school, levels = 1:2, labels = c("öffentlich", "privat"))
+
+library(car)
+qqPlot(zusatz$intel[zusatz$school == "privat"])
+qqPlot(zusatz$intel[zusatz$school == "öffentlich"])
+shapiro.test(zusatz$intel[zusatz$school == "privat"])
+shapiro.test(zusatz$intel[zusatz$school == "öffentlich"])
+```
+Die Normalverteilungsannahme ist nicht erfüllt. Wir können also keinen t-Test durchführen. Wir überprüfen nun die Voraussetzungen des Wilcoxon-Tests.
+Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselben Verteilung folgen.
+
+```{r}
+hist(zusatz$intel[zusatz$school == "privat"])
+hist(zusatz$intel[zusatz$school == "öffentlich"])
+```
+Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
+
+```{r}
+leveneTest(zusatz$intel ~ zusatz$school)
+```
+
+Wir können von Varianzhomogenität ausgehen und somit einen Wilcoxon-Test durchführen.
+
+```{r}
+wilcox.test(zusatz$intel ~ zusatz$school)
+```
+Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = `r wilcox.test(zusatz$intel ~ zusatz$school)$statistic `, *p* = `r round(wilcox.test(zusatz$intel ~ zusatz$school)$p.value, 3)` ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Personen, die auf eine private Schule gegangen sind, und Personen, die eine öffentliche Schule besucht haben, nicht in ihrem Intellekt unterscheiden. 
+
+</details>
+
+
+## Aufgabe 28.3
+
+In der Variable `school` ist enthalten, ob jemand eine öffentliche (1) oder eine private (2) Schule besucht hat.  
+Unterscheiden sich Personen, die auf eine private Schule gegangen sind, in ihrem Intellekt (`intel`) von Personen, die eine öffentliche Schule besucht haben. 
+
+
+* Führen Sie nach Voraussetzungsprüfung einen geeigneten Test durch.
+
+<details><summary>Lösung</summary>
+Wir beginnen die Voraussetzungen des t-Tests für unabhängige Stichproben zu überprüfen. Die Voraussetzungen, dass die unabhängige Variable intervallskaliert ist und die einzelnen Messwerte unabhängig voneinander sind, sind per Untersuchungsdesign erfüllt. Wir wollen nun also die Normalverteilung des Merkmals in den Gruppen überprüfen.
+
+```{r}
+#Wir überprüfen erst wieder, ob die Variable Nebenjob als Faktor vorliegt
+is.factor(zusatz$school)
+
+zusatz$school <- factor(zusatz$school, levels = 1:2, labels = c("öffentlich", "privat"))
+
+library(car)
+qqPlot(zusatz$intel[zusatz$school == "privat"])
+qqPlot(zusatz$intel[zusatz$school == "öffentlich"])
+shapiro.test(zusatz$intel[zusatz$school == "privat"])
+shapiro.test(zusatz$intel[zusatz$school == "öffentlich"])
+```
+Die Normalverteilungsannahme ist nicht erfüllt. Wir können also keinen t-Test durchführen. Wir überprüfen nun die Voraussetzungen des Wilcoxon-Tests.
+Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselben Verteilung folgen.
+
+```{r}
+hist(zusatz$intel[zusatz$school == "privat"])
+hist(zusatz$intel[zusatz$school == "öffentlich"])
+```
+Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
+
+```{r}
+leveneTest(zusatz$intel ~ zusatz$school)
+```
+
+Wir können von Varianzhomogenität ausgehen und somit einen Wilcoxon-Test durchführen.
+
+```{r}
+wilcox.test(zusatz$intel ~ zusatz$school)
+```
+Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = `r wilcox.test(zusatz$intel ~ zusatz$school)$statistic `, *p* = `r round(wilcox.test(zusatz$intel ~ zusatz$school)$p.value, 3)` ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Personen, die auf eine private Schule gegangen sind, und Personen, die eine öffentliche Schule besucht haben, nicht in ihrem Intellekt unterscheiden. 
+
+</details>
+
+
 
 ## Aufgabe 29
 
@@ -1022,6 +1411,54 @@ Der Effekt ist mit `r round(cohen.d(fb22$nerd, fb22$intel, paired = T, within = 
 
 </details>
 
+## Aufgabe 29.2
+
+Unterscheiden sich  Marchiavellismus (`M_ges`) und Narzissmus (`N_ges`) im Durchschnitt voneinander? Gehen Sie für die Beantwortung davon aus, dass die Skalen gleich genormt sind.
+
+* Stellen sie die Hypothesen auf.
+
+<details><summary>Lösung</summary>
+
+$H_0$: Der durchschnittliche Marchiavellismus in der Bevölkerung unterscheidet sich nicht von deren Narzissmus.
+
+$H_0$: $\mu_0$ $=$ $\mu_1$
+  
+$H_1$: Der durchschnittliche Marchiavellismus in der Bevölkerung unterscheidet sich von deren Narzissmus.
+
+$H_1$: $\mu_0$ $≠$ $\mu_1$
+
+</details>
+
+
+* Begründen Sie weshalb Sie welchen Test benutzen wollen.
+
+<details><summary>Lösung</summary>
+
+Da die Marchiavellismus- und Narzissmus-Werte, die verglichen werden sollen, immer von derselben Person stammen, sind die Werte voneinander abhängig. Daher wollen wir einen t-Test für abhängige Stichproben durchführen. Die Werte sind intervallskaliert, voneinander abhängig und die Differenzvariable ist normalverteilt, da wir bei einer Stichprobe von n ≥ 30 direkt davon ausgehen können. Somit sind alle Voraussetzungen für den t-Test erfüllt.
+
+</details>
+
+
+* Führen Sie den Test durch und berechnen Sie gegebenfalls eine Effektgröße.
+
+<details><summary>Lösung</summary>
+
+```{r}
+t.test(SD3$M_ges, SD3$N_ges, paired = T)
+```
+Der Gruppenunterschied ist signifikant ($t$(18190) = `r round(t.test(SD3$M_ges, SD3$N_ges, paired = T)$statistic, 2)` , *p* < .001), somit wird die Nullhypothese verworfen. Unter den getroffenen Annahmen weist die Bevölkerung unterschiedliche Werte auf der Skala Nerdiness und auf der Skala Intellekt auf.
+
+**Effektstärke:**
+
+```{r}
+library("effsize")
+cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)
+```
+
+Der Effekt ist mit `r round(cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)$estimate, 2)` als groß einzuschätzen.
+
+</details>
+
 
 ## Aufgabe 30
 
@@ -1065,6 +1502,41 @@ cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "gre
 Es besteht kein positiver Zusammenhang zwischen Gewissenhaftigkeit und der Anzahl an geschriebenen Wörter bei der Begründung für das Psychologiestudium.
 
 </details>
+
+
+## Aufgabe 30.2
+
+Hängt die Koffeinabhängigkeit (`caffeine`) positiv mit dem subjektiven Stressepfinden zusammen (`stress`) zusammen. Überprüfen Sie die Voraussetzungen für das gewählte Zusammenhangsmaß.
+
+
+<details><summary>Lösung</summary>
+
+Als erstes schauen wir uns den Zusammenhang der Variablen in einem Scatterplot an.
+
+```{r}
+plot(x = zusatz$caffeine, y = zusatz$stress)
+```
+
+Wir schließen einen nicht linearen Zusammenhang nicht aus und überprüfen nun die Normalverteilung der Variablen.
+
+```{r}
+library(car)
+qqPlot(zusatz$caffeine)
+qqPlot(zusatz$stress)
+
+shapiro.test(zusatz$caffeine)
+shapiro.test(zusatz$stress)
+```
+Die Normalverteilungsannahme ist nicht erfüllt. Daher können wir keine Pearson Produkt-Moment-Korrelation ermitteln und berechnen stattdessen die Rangkorrelation nach Spearman, die nicht an die Normalverteilungsannahme gebunden ist.
+
+```{r}
+cor.test(zusatz$caffeine, zusatz$stress, method = "spearman", alternative = "greater")
+```
+
+Es besteht ein positiver Zusammenhang zwischen der Koffeinahängigkeit und dem subjektivem Stressempfinden. 
+
+</details>
+
 
 ## Aufgabe 31
 
@@ -1142,7 +1614,6 @@ summary(fm)$r.squared
 
 
 
-
 Durch die Gewissenhaftigkeit können {{<math>}}$ `r round(summary(fm)$r.squared,4)*100`\%${{</math>}} der Varianz von Prokrastination erklärt werden.
 
 </details>
@@ -1159,11 +1630,89 @@ predict(fm, newdata = data.frame(gewis = 3.2))
 Das Modell sagt einen Prokrastinationswert von `r round(predict(fm, newdata = data.frame(gewis = 3.2)),2)` voraus.
 </details>
 
+## Aufgabe 31.2
+
+Lässt sich Empathie (`empathy`) durch das Selbstwertgefühl (`selfesteem`) vorhersagen? 
+
+
+* Stellen Sie die Regressionsgerade auf und prüfen sie die Voraussetzungen.
+
+<details><summary>Lösung</summary>
+
+Die einzige Voraussetzung, die wir vor der Aufstellung des Regressionsmodell prüfen können, ist der lineare Zusammenhang der Variablen mit Hilfe eines Scatterplot.
+
+```{r}
+plot(zusatz$selfesteem, zusatz$empathy, xlab = "Selbstwertgefühl", ylab = "Empathie", 
+     main = "Zusammenhang zwischen Selbstwertgefühl und Empathie", pch = 19)
+lines(loess.smooth(zusatz$selfesteem, zusatz$empathy), col = 'blue')
+```
+
+Die Voraussetzung ist erfüllt. Wir können nun also unser Regressionsmodell aufstellen.
+
+```{r}
+fm <- lm(empathy ~ 1 + selfesteem, data = zusatz)
+```
+
+Nun prüfen wir die anderen Voraussetungen.
+
+```{r}
+par(mfrow = c(2, 2)) #vier Abbildungen gleichzeitig
+plot(fm)
+```
+
+Der Q-Q-Plot oben rechts deutet auf Normalverteilung hin. Die rote Anpassungslinie des Scale-Location Plots unten links ist annähernd parallel zur x-Achse, sodass wir von Varianzhomogenität ausgehen können. Da auch der vierte Plot unten rechts nicht auf potentiell problematische, einflussreiche Datenpunkte hindeutet, sind alle Vorausetzungen erfüllt.
+
+```{r}
+fm
+```
+Die Regressionsgleichung lautet also $$ y_i = `r round(coef(fm)[1],3)` - `r abs(round(coef(fm)[2],3))`*x_i + e_i $$. 
+</details>
+
+
+* Prüfen Sie nun mit einem {{<math>}}$99\%${{</math>}}-Konfidenzintervall die Signifikanz der Koeffizienten.
+
+<details><summary>Lösung</summary>
+
+```{r}
+confint(fm, level = .99)
+```
+
+In keinem der Intervalle ist die Null enthalten, sodass wir davon ausgehen können, dass die beiden Koeffizienten tatsächlich von Null verschieden sind.
+
+</details>
+
+
+* Wie viel Prozent der Varianz der Empathie lassen sich durch das Selbstwertgefühl aufklären?
+
+<details><summary>Lösung</summary>
+
+```{r}
+summary(fm)
+summary(fm)$r.squared
+```
+
+
+
+Durch das Selbstwertgefühl können {{<math>}}$ `r round(summary(fm)$r.squared,4)*100`\%${{</math>}} der Varianz der Empathie erklärt werden.
+
+</details>
+
+* Eine Person hat ein Selbstwertgefühl von 3.2. Welchen Prokrastinationswert sagt das Modell für diese Person voraus?
+
+<details><summary>Lösung</summary>
+```{r}
+fm$coefficients[1] + 3.2*fm$coefficients[2]
+
+#Alternativ:
+predict(fm, newdata = data.frame(gewis = 3.2))
+```
+Das Modell sagt einen Empathiewert von `r round(predict(fm, newdata = data.frame(gewis = 3.2)),2)` voraus.
+</details>
 
 
 ## Aufgabe 32
 
-In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug $d=-0.56$. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
+In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug $d=$. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
 Nutzen Sie den Seed 4321 (`set.seed(4321)`).
 
 * Führen Sie eine Simulation durch, um die empirische Power des t-Tests zu bestimmen.
@@ -1200,11 +1749,65 @@ Die Wahrscheinlichkeit eines $\beta$-Fehlers beträgt `r (1 - mean(tH1 < .05))*1
 <details><summary>Lösung</summary>
 ```{r}
 set.seed(4321)
-tH1 <- replicate(n = 10^4, expr = {X <- rnorm(159) 
-                                   Y <- rnorm(159) + d 
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d 
                                    ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T)
                                    ttestH1$statistic})
 power <- c(mean(abs(tH1) > qt(p = 1- 0.001/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.01/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.025/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.05/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.1/2, df = N)))
+
+x <- c(.001, 0.01, 0.025, 0.05, 0.1)
+plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
+```
+
+Wir sehen: Je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 44 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
+
+</details>
+
+
+## Aufgabe 32.2
+
+In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Marchiavellismus und Narzissmus unterscheiden. Die gefundene Effektgröße betrug `r round(cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)$estimate, 2)`. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
+Nutzen Sie den Seed 4321 (`set.seed(4321)`).
+
+* Führen Sie eine Simulation durch, um die empirische Power des t-Tests zu bestimmen.
+
+<details><summary>Lösung</summary>
+```{r}
+d <- cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)$estimate #Effektstärke
+N <- nrow(SD3) #Anzahl der Teilnehmenden von SD3
+set.seed(4321)
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d #Normalverteilte Stichproben mit Mittelwertsunterschied von d Standardabweichungen
+                                   ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T) #Paired = T, da es sich um einen t-Test für abhängige Stichproben handelt
+                                   ttestH1$p.value})
+mean(tH1 < .05 )
+```
+
+Die Power des Tests beträgt `r mean(tH1 < .05 )*100`%.
+</details>
+
+* Wie hoch ist die Wahrscheinlichkeit eines $\beta$-Fehlers?
+
+<details><summary>Lösung</summary>
+```{r}
+1 - mean(tH1 < .05 )
+```
+
+Die Wahrscheinlichkeit eines $\beta$-Fehlers beträgt `r (1 - mean(tH1 < .05))*100`%.
+
+</details>
+
+
+* Angenommen wir wollen das $\alpha$-Niveau verändern. Wie würde sich das auf die Power des Tests auswirken? Simulieren sie diesmal den empirischen t-Wert und erstellen Sie einen Powerplot, in dem $\alpha$ = 0.001, $\alpha$ = 0.01, $\alpha$ = 0.025, $\alpha$ = 0.05, $\alpha$ = 0.1 abgetragen sind. 
+
+<details><summary>Lösung</summary>
+```{r}
+set.seed(4321)
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d 
+                                   ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T)
+                                   ttestH1$statistic})
+power <- c(mean(abs(tH1) > qt(p = 1- 0.001/2,  df  = N)), mean(abs(tH1) > qt(p = 1- 0.01/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.025/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.05/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.1/2, df = N)))
 
 x <- c(.001, 0.01, 0.025, 0.05, 0.1)
 plot(x = x, y = power, type = "b", main = "Power vs. Alpha")

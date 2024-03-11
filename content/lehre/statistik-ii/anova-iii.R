@@ -1,6 +1,3 @@
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-
 ## load("C:/Users/Musterfrau/Desktop/alc.rda")
 
 load(url("https://pandar.netlify.app/daten/alc.rda"))
@@ -147,11 +144,7 @@ ezANOVA(alc_long,
 
 heplots::boxM(alc[, c('alcuse.14', 'alcuse.15', 'alcuse.16')], group = alc$coa)
 
-ezANOVA(alc_long, 
-  dv = alcuse, 
-  wid = id, 
-  within = age, 
-  between = coa)
+
 
 
 set.seed(123) # für Vergleichbarkeit

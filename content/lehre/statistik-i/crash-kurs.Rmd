@@ -4,7 +4,7 @@ type: post
 date: '2019-10-18'
 slug: crash-kurs
 categories: ["Statistik I"]
-tags: ["Einführung", "Datenmanagement", "Grundlagen", "Hilfe"]
+tags: ["Grundlagen", "Datenmanagement", "Hilfe"]
 subtitle: ''
 summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
 authors: [schultze]
@@ -38,12 +38,12 @@ output:
     keep_md: true
 ---
 
-
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
-{{< spoiler text = "Kernfragen dieser Lehreinheit" >}}
+<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
+
 * Was ist [**R**](#R) und was ist [**RStudio**](#RStudio)?
 * Was ist die [**Konsole**](#Konsole_Syntax) und was ist die [**Syntax**?](#Konsole_Syntax)
 * Wie kann ich [**Syntax ausführen**](#Eingabe)?
@@ -57,7 +57,8 @@ output:
 * Welche [**mehrdimensionalen Datenstrukturen**](#Mehrdimensional) gibt es und worin unterscheiden sie sich?
 * Wie kann ich aus Datensätze einzelne Variablen oder Beobachtungen [**extrahieren**](#Extrahieren) und sie [**hinzufügen**](#Hinzu)?
 * Wie [**importiere**](#Speichern_Laden) und [**exportiere**](#Speichern_Laden) ich Daten?
-{{< /spoiler >}}
+
+</details>
 
 ***
 
@@ -262,7 +263,10 @@ Warnungen beginnen in R mit dem Wort `Warning`. In diesem Fall werden wir darauf
 
 Die letzte Art sind `Error`, die immer damit einhergehen, dass kein Ergebnis produziert wird. Für den Logarithmus erhalten wir einen Fehler wenn
 
-```{r, error = TRUE}
+```{r, eval = FALSE}
+log(argument = 10)
+```
+```{r, error = TRUE, purl = FALSE, echo = FALSE}
 log(argument = 10)
 ```
 
@@ -558,7 +562,14 @@ str(dat)
 
 Wie bereits geschildert, müssen alle Vektoren, die zu einem `data.frame` zusammengeführt werden die gleiche Länge haben. Wenn wir also einen Vektor erstellen, der nur 3 Einträge hat, können wir keinen gemeinsamen Datensatz erzeugen:
 
-```{r, error = TRUE}
+```{r, echo = F}
+three <- c(1, 2, 3)
+```
+```{r, eval = FALSE}
+three <- c(1, 2, 3)
+data.frame(color, text, cong, react, three)
+```
+```{r, error = TRUE, purl = F, echo = F}
 three <- c(1, 2, 3)
 data.frame(color, text, cong, react, three)
 ```
@@ -801,10 +812,10 @@ args(read.table)
 
 Das einzige Argument ohne Voreinstellung ist `file`, also der Dateiname. Wenn wir den Datensatz mit Voreinstellungen laden, erhalten wir folgenden Fehler:
 
-```{r, eval=FALSE}
+```{r, eval = FALSE}
 fb23 <- read.table('fb23.csv')
 ```
-```{r, echo=FALSE, error = TRUE, purl = FALSE}
+```{r, echo = FALSE, error = TRUE, purl = FALSE}
 fb23 <- read.table('../../daten/fb23.csv')
 ```
 
@@ -814,7 +825,7 @@ Das liegt in diesem Fall daran, dass `read.table()` als Voreinstellung annimmt, 
 ```{r, eval = FALSE}
 fb23 <- read.table('fb23.csv', header = TRUE)
 ```
-```{r, echo=FALSE, error = TRUE, purl = FALSE}
+```{r, echo = FALSE, error = TRUE, purl = FALSE}
 fb23 <- read.table('../../daten/fb23.csv', header = TRUE)
 ```
 
@@ -823,8 +834,12 @@ Wieder ergibt sich ein Fehler, der lamentiert, dass es mehr Spalten als Variable
 ```{r, eval = FALSE}
 fb23 <- read.table('fb23.csv', header = TRUE, sep = ",")
 ```
-```{r, echo=FALSE, purl = FALSE}
+```{r, echo = FALSE, purl = FALSE}
 fb23 <- read.table('../../daten/fb23.csv', header = TRUE, sep = ",")
+```
+
+```{r, echo = F}
+fb23 <- read.table('https://pandar.netlify.app/daten/fb23.csv', header = TRUE, sep = ",")
 ```
 
 Im Environment erscheint jetzt das Objekt `fb23`. Mit `head()` können wir uns den Kopf des Datensatzes (die ersten 6 Zeilen) anzeigen lassen:
@@ -836,7 +851,7 @@ str(fb23)     # Struktur des Datensatzes
 
 Wir können den Datensatz übrigens auch direkt von der Website in R laden. Der Dateiname nimmt auch direkt URLs entegegen:
 
-```{r, eval = FALSE}
+```{r, eval = F, purl = F}
 fb23 <- read.table('https://pandar.netlify.app/daten/fb23.csv', header = TRUE, sep = ",")
 ```
 

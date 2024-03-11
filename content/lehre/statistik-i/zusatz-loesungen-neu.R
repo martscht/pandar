@@ -93,17 +93,15 @@ mean(data$lz_ges)
 var(data$lz_ges) * (12 / 13)
 sum((data$lz_ges - mean(data$lz_ges))^2) / 13
 
-rm(list = ls())
+# rm(list = ls())
 load(url('https://pandar.netlify.app/daten/fb22.rda'))
 
 fb22$lerntyp <- factor(fb22$lerntyp, levels = 1:3, labels = c("alleine", "Gruppe", "Mischtyp"))
 
 str(fb22$lerntyp)
 
-## rm(list = ls())
-## load(url('https://pandar.netlify.app/daten/nature.rda'))
-
-load("/home/zarah/Documents/nature.rda")
+# rm(list = ls())
+source(url("https://pandar.netlify.app/daten/nature_zusatz_processing.R"))
 
 nature$urban <- factor(nature$urban, levels = 1:3, labels = c("laendlich", "vorstaedtisch", "staedtisch"))
 
@@ -165,6 +163,30 @@ mean(fb22$extra)
 var(fb22$gewis) * (158/159)
 var(fb22$extra) * (158/159)
 
+# rm(list = ls())
+source('/home/zarah/pandar.git/content/daten/SD3_zusatz_processing.R')
+# source(url("https://pandar.netlify.app/daten/SD3_zusatz_processing.R"))
+
+SD3$N2 <- -1 * (SD3$N2 - 6)
+SD3$N6 <- -1 * (SD3$N6 - 6)
+SD3$N8 <- -1 * (SD3$N8 - 6)
+
+SD3$P2 <- -1 * (SD3$P2 - 6)
+SD3$P7 <- -1 * (SD3$P7 - 6)
+
+sum(is.na(SD3))
+
+SD3$M_ges <- rowMeans(SD3[, 1:9])
+SD3$N_ges <- rowMeans(SD3[, 10:18])  
+SD3$P_ges <- rowMeans(SD3[, 19:27]) 
+
+mean(SD3$M_ges)
+mean(SD3$N_ges)
+
+n <- nrow(SD3)
+var(SD3$M_ges) * ((n-1)/n)
+var(SD3$N_ges) * ((n-1)/n)
+
 hist(fb22$vertr)
 
 fb22$vertr_z <- scale(fb22$vertr, scale = F)
@@ -172,6 +194,14 @@ hist(fb22$vertr_z)
 
 fb22$vertr_st <- scale(fb22$vertr, scale = T)
 hist(fb22$vertr_st)
+
+hist(SD3$P_ges)
+
+SD3$P_z <- scale(SD3$P_ges, scale = F)
+hist(SD3$P_z)
+
+SD3$P_st <- scale(SD3$P_ges, scale = T)
+hist(SD3$P_st)
 
 fb22_alleine <- subset(fb22, subset = lerntyp == "alleine")
 fb22_gruppe <- subset(fb22, subset = lerntyp == "Gruppe")
@@ -184,6 +214,15 @@ mean(fb22_gruppe$extra, na.rm = T)
 
 mean(fb22_alleine$nerd, na.rm = T)
 mean(fb22_gruppe$nerd, na.rm = T)
+
+nature_atheist <- subset(nature, subset = religion == 2)
+nature_hindu <- subset(nature, subset = religion == 8)
+
+## nature_atheist <- nature[nature$religion == 2,]
+## nature_hindu <- nature[nature$religion == 8,]
+
+mean(nature_atheist$Q_ges, na.rm = T)
+mean(nature_hindu$Q_ges, na.rm = T)
 
 dbinom(9, 15, 0.75)
 
@@ -291,11 +330,44 @@ leveneTest(fb22$intel ~ fb22$job)
 
 wilcox.test(fb22$lz ~ fb22$ort)
 
+#Wir überprüfen erst wieder, ob die Variable Nebenjob als Faktor vorliegt
+is.factor(nature$urban)
+
+nature$urban_neu <- nature$urban == "laendlich"
+nature$urban_neu <- as.numeric(nature$urban_neu) #Umwandlung in Numeric, da der Variablen Typ nun Logical ist
+nature$urban_neu <- factor(nature$urban_neu, 
+                           levels = 0:1, 
+                           labels = c("staedtisch oder vorstaedtisch", "laendlich"))
+
+boxplot(nature$Q_ges ~ nature$urban_neu, xlab = "Gegend", ylab = "Naturverbundenheit") 
+
+library(car)
+qqPlot(nature$Q_ges[nature$urban_neu == "laendlich"])
+qqPlot(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
+
+shapiro.test(nature$Q_ges[nature$urban_neu == "laendlich"])
+shapiro.test(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
+
+hist(nature$Q_ges[nature$urban_neu == "laendlich"])
+hist(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
+
+leveneTest(nature$Q_ges ~ nature$urban_neu)
+
+var(nature$Q_ges[nature$urban_neu == "laendlich"], na.rm =T)
+var(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"], na.rm = T)
+
+wilcox.test(nature$Q_ges ~ nature$urban_neu)
+
 t.test(fb22$nerd, fb22$intel, paired = T)
 
 
 library("effsize")
 cohen.d(fb22$nerd, fb22$intel, paired = T, within = F)
+
+t.test(SD3$M_ges, SD3$N_ges, paired = T)
+
+library("effsize")
+cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)
 
 library(stringr) #falls noch nicht installiert: install.packages("stringr")
 str_count("Wie viele Wörter hat dieser Satz?", "\\w+")
@@ -354,11 +426,32 @@ mean(tH1 < .05 )
 1 - mean(tH1 < .05 )
 
 set.seed(4321)
-tH1 <- replicate(n = 10^4, expr = {X <- rnorm(159) 
-                                   Y <- rnorm(159) + d 
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d 
                                    ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T)
                                    ttestH1$statistic})
 power <- c(mean(abs(tH1) > qt(p = 1- 0.001/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.01/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.025/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.05/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.1/2, df = N)))
+
+x <- c(.001, 0.01, 0.025, 0.05, 0.1)
+plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
+
+d <- cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)$estimate #Effektstärke
+N <- nrow(SD3) #Anzahl der Teilnehmenden von SD3
+set.seed(4321)
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d #Normalverteilte Stichproben mit Mittelwertsunterschied von d Standardabweichungen
+                                   ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T) #Paired = T, da es sich um einen t-Test für abhängige Stichproben handelt
+                                   ttestH1$p.value})
+mean(tH1 < .05 )
+
+1 - mean(tH1 < .05 )
+
+set.seed(4321)
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d 
+                                   ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T)
+                                   ttestH1$statistic})
+power <- c(mean(abs(tH1) > qt(p = 1- 0.001/2,  df  = N)), mean(abs(tH1) > qt(p = 1- 0.01/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.025/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.05/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.1/2, df = N)))
 
 x <- c(.001, 0.01, 0.025, 0.05, 0.1)
 plot(x = x, y = power, type = "b", main = "Power vs. Alpha")

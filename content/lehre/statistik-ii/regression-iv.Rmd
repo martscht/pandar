@@ -33,8 +33,8 @@ output:
 
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r setup, include=FALSE, purl=FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 
@@ -46,7 +46,7 @@ Diese Sitzung basiert zum Teil auf der Literatur aus [Eid et al. (2017)](https:/
 
 
 Dazu verwenden wir zunächst den Datensatz aus der Übung des letzten Themenblockes.
-Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichprobe der PISA-Erhebung in Deutschland aus dem Jahr 2009. Sie können den im Folgenden verwendeten  [<i class="fas fa-download"></i> Datensatz "PISA2009.rda" hier herunterladen](https://pandar.netlify.app/post/PISA2009.rda).
+Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichprobe der PISA-Erhebung in Deutschland aus dem Jahr 2009. Sie können den im Folgenden verwendeten  [<i class="fas fa-download"></i> Datensatz "PISA2009.rda" hier herunterladen](https://pandar.netlify.app/daten/PISA2009.rda).
 
 ### Daten laden
 Wir laden zunächst die Daten: Entweder lokal von Ihrem Rechner:
@@ -124,7 +124,7 @@ m1.b <- lm(Reading ~ HISEI + poly(MotherEdu, 2) + Books, data = PISA2009)
 summary(lm.beta(m1.b))
 ```
 
-`poly` bewirkt, dass der lineare und der quadratische Anteil von `MotherEdu` unkorreliert sind. Das ist sehr wichtig, da es sonst zu zu großen Standardfehlern kommen kann, wie wir in der [letzten Sitzung](regression-iii) im Themenblock der Kollinearität kennengelernt hatten.
+`poly` bewirkt, dass der lineare und der quadratische Anteil von `MotherEdu` unkorreliert sind. Das ist sehr wichtig, da es sonst zu zu großen Standardfehlern kommen kann, wie wir in der [letzten Sitzung](../regression-iii) im Themenblock der Kollinearität kennengelernt hatten.
 
 <details><summary> <b>Lineare und quadratische Funktionen von Variablen und deren Kovarianz/Korrelation</b> </summary>
 
@@ -166,7 +166,7 @@ residualPlots(m1.b, pch = 16)
 Was bedeutet nun dieser Effekt inhaltlich? Um dies genauer zu verstehen, stellen wir die um die anderen Variablen bereinigte Beziehung zwischen dem Bildungsabschluss der Mutter und der Leseleistung grafisch dar. 
 
 
-```{r, echo= F, fig.align="center", fig.height=6}
+```{r, echo= F, fig.align="center", fig.height=6, purl=FALSE}
 X <- scale(poly(PISA2009$MotherEdu, 2))
 std_par_ME <- c(0.1588, -0.1436)
 pred_effect_ME <- X %*% std_par_ME
@@ -200,17 +200,13 @@ Der Interaktionsterm ist in diesem Beispiel $X_iZ_i$ und trägt den Koeffiziente
 {{< math >}}$$Y_i=\underbrace{(\beta_0 + \beta_2Z_i)}_{\text{Interzept}(Z_i)} + \underbrace{(\beta_1 + \beta_3Z_i)}_{\text{Slope}(Z_i)}X_i + \varepsilon_i.$${{</ math >}}
 Hier ist eigentlich gar nichts passiert - wir haben lediglich die Gleichung umgestellt. Allerdings sieht dies nun so aus, als würde vorne ein Interzept $(\beta_0 + \beta_2Z_i)$ und vor $X_i$ ein Slope (Steigungskoeffizient) $(\beta_1 + \beta_3Z_i)$ stehen - beide abhängig von $Z_i$. Deshalb haben wir sie gleich mal $\text{Interzept}(Z_i)$ und $\text{Slope}(Z_i)$ genannt. Genauso könnten wir allerdings auch alles nach $X$ umstellen: $Y_i=(\beta_0 + \beta_1X_i) + (\beta_2 + \beta_3X_i)Z_i + \varepsilon_i.$ Somit ist ersichtlich, dass es keine mathematische Begründung gibt, welche der beiden Variablen der Prädiktor und welche der Moderator ist! Manche sagen auch, dass dieses Modell "symmetrisch" in den beiden Variablen ist, man sie also leicht hinsichtlich der inhaltlichen Interpretation austauschen kann. Sich das Ganze in `R` anzuschauen geht sehr einfach. Wir wollen dies am Datensatz `Schulleistungen.rda` durchführen, den wir bereits aus vorherigen Sitzungen kennen. Wie genau wir an den Datensatz herankommen, können Sie sich in der entsprechenden Sitzung ansehen. Wir laden den Datensatz wie folgt über die Website:
 
-```{r, eval = F, results="hide"}
-load(url("https://pandar.netlify.app/daten/alc.rda"))
+```{r}
+load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
 
 head(Schulleistungen)
 ```
 
-```{r, echo = F}
-load("../../daten/Schulleistungen.rda")
-```
-
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 knitr::kable(head(Schulleistungen))
 ```
 
@@ -242,7 +238,7 @@ Interessierte Lesende können sich bei Interesse, welches über diesen Kurs hina
 
 Die folgende Grafik stellt den Sachverhalt noch einmal als 3D Grafik (mit dem Paket `plot3D`) dar (ziemlich cool oder?). In dieser Grafik erkennen wir sehr deutlich, dass die Simple Slopes tatsächlich eine stark vereinfachte Darstellung sind und es tatsächlich unendlich viele bzw. so viele unterschiedliche Beziehungen zwischen Prädiktor (`IQ`) und Kriterium (`reading`) in Abhängigkeit des Moderators (`math`) gibt, wie dieser (`math`) Ausprägungen hat. Der Code zu den Grafiken lässt sich in [Appendix B](#AppendixB) nachlesen.
 
-```{r, echo = F, fig.align="center", fig.height=6, message=F, warning = F}
+```{r, echo = F, fig.align="center", fig.height=6, message=F, warning = F, purl=FALSE}
 library(plot3D)
 # x, y, z variables
 x <- Schulleistungen_std$IQ
@@ -269,7 +265,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
 
 Hier ist die x-Achse ($-links\longleftrightarrow rechts+$) des IQs dargestellt und in die Tiefe ist die Matheleistung (oft z-Achse: ($-vorne\longleftrightarrow hinten+$)). Die y-Achse (im Plot heißt diese blöderweise z-Achse) stellt die Leseleistung dar. ($-unten\longleftrightarrow oben+$). Wir erkennen in dieser Ansicht ein wenig die Simple-Slopes von zuvor, denn die Achse der Matheleistung läuft ins Negative "aus dem Bildschirm hinaus", während sie ins Positive "in den Bildschirm hinein" verläuft. Der nähere Teil der "Hyperebene" weißt eine geringere Beziehung zwischen dem IQ und der Leseleistung auf, während der Teil, der weiter entfernt liegt, eine stärkere Beziehung aufweist. Genau das haben wir auch in den Simple Slopes zuvor gesehen. Dort war für eine hohe Matheleistung die Beziehung zwischen dem IQ und der Leseleistung auch stärker. Wichtig ist, dass in diesem Plot die Beziehung zwischen dem IQ und der Leseleistung für eine fest gewählte Ausprägung der Matheleistung tatsächlich linear verläuft. Es ist also so, dass wir quasi ganz viele Linien aneinander kleben, um diese gewölbte Ebene zu erhalten. Die Ausprägung der Matheleistung ist im nächsten Plot noch besser zu erkennen, in der der Plot etwas gedreht dargestellt wird. Farblich ist außerdem die Ausprägung der Leseleistung dargestellt, damit die Werte leichter zu vergleichen sind. 
 
-```{r, echo =F, fig.align="center", fig.height=6, message=F, warning = F}
+```{r, echo =F, fig.align="center", fig.height=6, message=F, warning = F, purl=FALSE}
 scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2, 
           theta = 20, phi = 20, ticktype = "detailed",
           xlab = "IQ", ylab = "math", zlab = "reading",  
@@ -280,7 +276,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
 
 Diese Plots geben einen noch besseren Eindruck davon, was genau bei einer Interaktion passiert und wie "austauschbar" eigentlich der Moderator oder der Prädiktor sind. Außerdem kann man mit den Überlegungen aus diesem Abschnitt leicht einsehen, dass das quadratische Modell von oben tatsächlich ein Spezialfall dieses moderierten Modells ist, in welchem der Prädiktor mit sich selbst interagiert (sich selbst moderiert). Darüber, wie genau man moderierte Regressionen durchführt, gibt es viel Literatur. Einige Forschende sagen, dass man neben der Interaktion auch immer die quadratischen Effekte mit aufnehmen sollte, um auszuschließen, dass die Interaktion ein Artefakt ist, der nur auf quadratische Effekte zurückzuführen ist. Das stellt eine hervorragenden Übung dar, um sich dies einmal anzusehen! In [Appendix C](#AppendixC) sehen Sie die Simple Slopes sowie die 3D-Grafiken auch noch einmal für das "volle" quadratisch-Interaktionsmodell.
 
-Mithilfe der Funktion `I()` ("as is", führt dazu, das arithmetische Operatoren als solche interpretiert werden) lassen sich innerhalb des `lm` Befehls zu dem noch weitere Funktionale hinzufügen, ohne diese vorher erzeugen zu müssen. Beispielsweise ließe sich durch `lm(Y ~ X + I(sin(X))) + I(exp(sqrt(X))` folgendes Regressionsmodell schätzen: $Y = \beta_0+\beta_1X + \beta_2\sin(X) + \beta_3e^{\sqrt{X}} + \varepsilon$. Allerdings lassen sich so nicht die Wachstumsraten modellieren (z.B. exponentielles oder logarithmisches Wachstum). Hierzu müssten die Variablen tatsächlich transformiert werden. Dies wollen wir uns in der [nächsten Sitzung zur nichtlinearen Regression](regression-v) genauer ansehen.
+Mithilfe der Funktion `I()` ("as is", führt dazu, das arithmetische Operatoren als solche interpretiert werden) lassen sich innerhalb des `lm` Befehls zu dem noch weitere Funktionale hinzufügen, ohne diese vorher erzeugen zu müssen. Beispielsweise ließe sich durch `lm(Y ~ X + I(sin(X))) + I(exp(sqrt(X))` folgendes Regressionsmodell schätzen: $Y = \beta_0+\beta_1X + \beta_2\sin(X) + \beta_3e^{\sqrt{X}} + \varepsilon$. Allerdings lassen sich so nicht die Wachstumsraten modellieren (z.B. exponentielles oder logarithmisches Wachstum). Hierzu müssten die Variablen tatsächlich transformiert werden. Dies wollen wir uns in der [nächsten Sitzung zur nichtlinearen Regression](../regression-v) genauer ansehen.
 
 ## Literatur
 
@@ -387,6 +383,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
      labs(x = "x", y =  "f(x)",
           title = expression("f(x)="~-x^2))
 ```
+
 Diese invers-u-förmige Beziehung ist eine konkave Funktion. Als Eselsbrücke für das Wort *konkav*, welches fast das englische Wort *cave* enthält, können wir uns merken: Eine konkave Funktion stellt eine Art *Höhleneingang* dar.
 
 $c$ bewirkt eine vertikale Verschiebung der Parabel:
@@ -504,20 +501,24 @@ $$A := \mu_A + A_c$$
 
 So kann jede Variable zerlegt werden: in seinen Mittelwert (hier: $\mu_A$) und die Abweichung vom Mittelwert (hier: $A_c$). Nun bestimmen wir die Kovarianz zwischen den Variablen $A$ und $A^2$ und setzen in diesem Prozess $\mu_A+A_c$ für $A$ ein und wenden die binomische Formel an $(a+b)^2=a^2+2ab+b^2$.
 
+{{< math >}}
 \begin{align}
 \mathbb{C}ov[A, A^2] &= \mathbb{C}ov[\mu_A + A_c, (\mu_A + A_c)^2]\\
 &= \mathbb{C}ov[A_c, \mu_A^2 + 2\mu_AA_c + A_c^2]\\
 &=  \mathbb{C}ov[A_c, \mu_A^2] + \mathbb{C}ov[A_c, 2\mu_AA_c] + \mathbb{C}ov[A_c, A_c^2]
 \end{align}
+{{</ math >}}
 
 An dieser Stelle pausieren wir kurz und bemerken, dass wir diese beiden Ausdrücke schon kennen $\mathbb{C}ov[A_c, \mu_A^2]  = \mathbb{C}ov[A_c, A_c^2] = 0$. Ersteres ist die Kovarianz zwischen einer Konstanten und einer Variable, welche immer 0 ist und, dass die Kovarianz zwischen $A_c$ und $A_c^2$ 0 ist, hatten wir oben schon bemerkt! Diese Aussage, dass die Korrelation/Kovarianz zwischen $A_c$ und $A_c^2$ 0 ist, gilt insbesondere für die transformierten Daten mittels `poly` (hier bezeichnet $A_c^2$ quasi den quadratischen Anteil, der erstellt wird) und auch für einige Verteilungen (z.B. symmetrische Verteilungen, wie die Normalverteilung) ist so, dass die linearen Anteile und die quadratischen Anteile unkorreliert sind. _Im Allgemeinen gilt dies leider nicht._
 
 Folglich können wir sagen, dass 
 
+{{< math >}}
 \begin{align}
 \mathbb{C}ov[A, A^2] &= \mathbb{C}ov[A_c, 2\mu_AA_c] \\
 &= 2\mu_A\mathbb{C}ov[A_c,A_c]=2\mu_A\mathbb{V}ar[A],
 \end{align}
+{{</ math >}}
 
 wobei wir hier benutzen, dass die Kovarianz mit sich selbst die Varianz ist und dass die zentrierte Variable $A_c$ die gleiche Varianz wie $A$ hat  (im Allgemeinen, siehe weiter unten, bleibt auch noch die Kovarianz zwischen $A_c$ und $A_c^2$ erhalten). Dies können wir leicht prüfen:
 
@@ -647,11 +648,6 @@ Auch die 3D-Grafiken sind nicht länger aus "Geraden zusammengesetzt", sondern b
 
 </details>
 
-
-***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](../regression-iv.R).
 
 ***
 

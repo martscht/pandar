@@ -36,15 +36,14 @@ output:
     keep_md: true
 ---
 
-```{r setup, include=FALSE}
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r setup, include=FALSE, purl=FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 
 In den letzten beiden Sitzungen ging es darum Unterschiede *zwischen* Personen zu untersuchen, indem wir Mittelwertsunterschiede zwischen verschiedenen Gruppen von Personen geprüft haben (in englischsprachiger Literatur wird dies als *between subjects* ANOVA bezeichnet). In dieser Sitzung soll es darum gehen, Unterschiede *innerhalb* von Personen (im Englischen *within subjects* ANOVA) mithilfe der **ANOVA mit Messwiederholung** zu untersuchen. Diese Unterschiede können dabei z.B. dadurch entstehen, dass wir unterschiedliche Messzeitpunkte untersuchen. Die *Messwiederholung* muss nicht zwingend durch Zeit zustande kommen - andere Möglichkeiten der Messwiederholung sind z.B. unterschiedliche Tests oder Informationsquellen. Wir könnten z.B. Verhaltensauffälligkeiten von Kindern erheben, indem wir sie durch Psychotherapeutinnen und -therapeuten beobachten lassen und die Eltern sowie die Kita-Erzieher und -Erzieherinnen befragen. Auch so messen wir wiederholt das Gleiche und können untersuchen, inwiefern sich hierbei mittlere Unterschiede zeigen. Diese Analysen von Messwiederholungen lassen sich zudem mit den *Zwischen-Subjekt Analysen* kombinieren, die wir bereits behandelt haben. Mehr zur *ANOVA mit Messwiederholung* finden Sie in [`Eid, Gollwitzer und Schmitt (2017, Kapitel 14 und insb. 14.1 und folgend)`](https://ubffm.hds.hebis.de/Record/HEB366849158). 
 
-Für die heutige Sitzung wird der Datensatz  [<i class="fas fa-download"></i> "alc.rda"](../../daten/alc.rda) benötigt.
+Für die heutige Sitzung wird der Datensatz  [<i class="fas fa-download"></i> "alc.rda"](../../daten/alc.rda) benötigt. Dieser stammt aus einer längsschnittlichen Erhebung des Alkoholkonsums von Jugendlichen.
 
 ### Datensatz laden
 
@@ -56,7 +55,7 @@ load("C:/Users/Musterfrau/Desktop/alc.rda")
 
 oder wir laden sie direkt über die Website:
 
-```{r, eval = T}
+```{r}
 load(url("https://pandar.netlify.app/daten/alc.rda"))
 ```
 
@@ -224,7 +223,7 @@ ezPlot(alc_long, alcuse, id, within = age,
   x = age)
 ```
 
-Wie schon in der [letzten Sitzung](/post/anova2/) erklärt, sind die Intervalle um die Mittelwerte herum die *Fisher’s Least Significant Difference* (FLSD) - wenn sich zwei Mittelwerte um diesen Betrag unterscheiden, sollten sie auch statistisch bedeutsam sein.
+Wie schon in der [letzten Sitzung](../anova-ii) erklärt, sind die Intervalle um die Mittelwerte herum die *Fisher’s Least Significant Difference* (FLSD) - wenn sich zwei Mittelwerte um diesen Betrag unterscheiden, sollten sie auch statistisch bedeutsam sein.
 
 ### `ezANOVA` für Messwiederholungen
 
@@ -272,7 +271,7 @@ Der in diesem Fall relevante ICC-Typ (`type`) ist als `ICC1` gelistet. In diesem
 
 ## Kontraste {#Kontraste}
 
-Wie für eine [ANOVA ohne Messwiederholung](anova-ii), kann auch in diesem Fall mit dem `emmeans`-Paket die Kontrastanalyse durchgeführt werden.
+Wie für eine [ANOVA ohne Messwiederholung](../anova-ii), kann auch in diesem Fall mit dem `emmeans`-Paket die Kontrastanalyse durchgeführt werden.
 
 ```{r}
 library(emmeans)
@@ -299,7 +298,7 @@ em
 
 ### Polynomiale Kontraste und Trendanalysen
 
-In der [letzten Sitzung](anova-ii) hatten wir den `contrast`-Befehl genutzt, um beliebige Kontraste zu definieren. Bei *messwiederholten* Designs mit dem Ziel, Veränderung über die Zeit zu untersuchen, ist es meist sinnvoll zu prüfen, ob die Veränderung über die Zeit durch eine einfache Funktion der Zeit beschrieben werden kann. Für den Zeitverlauf werden häufig Polynome genutzt, wie Sie sie in der [4. Regressionssitzung](regression-iv) gesehen haben. Hierbei ist zu beachten, dass herkömmliche Kontraste immer so aufgestellt werden, dass das **Verwerfen der Null-Hypothese gegen den Kontrast spricht**. Bspw. wenn wir annehmen, dass zwei bestimmte Mittelwerte gleich sind, dann verwerfen wir diese Hypothese bei einem signifikanten Hypothesentest und einer entsprechend großen Teststatistik. 
+In der [letzten Sitzung](../anova-ii) hatten wir den `contrast`-Befehl genutzt, um beliebige Kontraste zu definieren. Bei *messwiederholten* Designs mit dem Ziel, Veränderung über die Zeit zu untersuchen, ist es meist sinnvoll zu prüfen, ob die Veränderung über die Zeit durch eine einfache Funktion der Zeit beschrieben werden kann. Für den Zeitverlauf werden häufig Polynome genutzt, wie Sie sie in der [4. Regressionssitzung](../regression-iv) gesehen haben. Hierbei ist zu beachten, dass herkömmliche Kontraste immer so aufgestellt werden, dass das **Verwerfen der Null-Hypothese gegen den Kontrast spricht**. Bspw. wenn wir annehmen, dass zwei bestimmte Mittelwerte gleich sind, dann verwerfen wir diese Hypothese bei einem signifikanten Hypothesentest und einer entsprechend großen Teststatistik. 
 
 Bei sogenannten **Trendanalysen**, bei denen wir Veränderungen über bspw. die Zeit bei Messwiederholungsdesigns untersuchen, ist dies anders. Hier wird in der Regel eine ganze Batterie an orthogonalen Kontrasten verwendet, die *sukzessive* verschiedene Verläufe testet, wobei hier die Null-Hypothese besagt, dass der jeweilige Verlauf _**nicht**_ gilt. Dies bedeutet im Umkehrschluss, dass bei Trendanalysen die Signifikanz einer Hypothese besagt, dass mindestens dieser Verlauf gilt (auf das _"mindestens"_ gehen wir noch näher ein). 
 
@@ -320,21 +319,21 @@ Die erste Funktion, die üblicherweise getestet wird, ist der **lineare Verlauf*
 
 $$\Lambda = K_1 \cdot \mu_1 + K_2 \cdot \mu_2 + \ldots + K_J \cdot \mu_J$$
 
-wobei $K_j$ die jeweiligen Kontrastkoeffizienten sind. Wie in der [letzten Sitzung](anova-ii) behandelt, wird für Kontrastkoeffizienten die Restriktion aufgestellt, dass $\sum_{j=1}^{J} K_j = 0$ (die Summe aller Kontrastkoeffizienten muss 0 sein). Im Kontext von Messwiederholungen müssen die $K_j$ jetzt so gewählt werden, dass sie mit den Zeitabständen zwischen den Wiederholungen korrespondieren. In unserem Fall geht es um 3 aufeinanderfolgende Jahre - die Abstände zwischen den Wiederholungen sind also gleich (jeweils 1 Jahr) praktischerweise gleich. Wie beschrieben wird für die Überprüfung auf linearen Trend in der H0 ein horizontaler Trend aufgeführt und für diesen die Kontrastkoeffizienten bestimmt.
+wobei $K_j$ die jeweiligen Kontrastkoeffizienten sind. Wie in der [letzten Sitzung](../anova-ii) behandelt, wird für Kontrastkoeffizienten die Restriktion aufgestellt, dass $\sum_{j=1}^{J} K_j = 0$ (die Summe aller Kontrastkoeffizienten muss 0 sein). Im Kontext von Messwiederholungen müssen die $K_j$ jetzt so gewählt werden, dass sie mit den Zeitabständen zwischen den Wiederholungen korrespondieren. In unserem Fall geht es um 3 aufeinanderfolgende Jahre - die Abstände zwischen den Wiederholungen sind also gleich (jeweils 1 Jahr) praktischerweise gleich. Wie beschrieben wird für die Überprüfung auf linearen Trend in der H0 ein horizontaler Trend aufgeführt und für diesen die Kontrastkoeffizienten bestimmt.
 
-Horizontaler Trend würde bedeuten, dass unsere Messwerte eine *horizontale Linie* bilden. Für die Bestimmung der Koeffizienten müssen wir zunächst einige mathematische (theoretische) Überlegungen anstellen. Eine horizontale Linie entsteht, wenn sich die Mittelwerte über die Zeit nicht verändern, also der Abstand vom Mittelpunkt in beide Richtungen gleich groß ist und sich das Vorzeichen nicht verändert: $\mu_2 - \mu_1 = \mu_2 - \mu_3$. Hier ist es extrem wichtig, dass wir das gleiche $\mu$ (hier $\mu_2$) zuerst nennen, da wir sonst fälschlicherweise andere Effekte testen würden. Wenn wir diese kleine Gleichung nun umformen und auf beiden Seiten $\mu_2$ abziehen und anschließend beide Seiten mit $\mu_3$ addieren, dann erhalten wir: $-\mu_1 + \mu_3 = 0$ also die Kontrastkoeffizienten (-1, 0, 1), wie wir sie oben schon aufgeschrieben hatten. Wie schon für die Kontraste in der [letzten Sitzung](anova-ii) wird hierbei die Nullhypothese getestet, dass $H_0 : -1 \cdot \mu_1 + 0 \cdot \mu_2 + 1 \cdot \mu_3 = 0$. Diese Koeffizienten müssen wir in einem eigenen Objekt ablegen. 
+Horizontaler Trend würde bedeuten, dass unsere Messwerte eine *horizontale Linie* bilden. Für die Bestimmung der Koeffizienten müssen wir zunächst einige mathematische (theoretische) Überlegungen anstellen. Eine horizontale Linie entsteht, wenn sich die Mittelwerte über die Zeit nicht verändern, also der Abstand vom Mittelpunkt in beide Richtungen gleich groß ist und sich das Vorzeichen nicht verändert: $\mu_2 - \mu_1 = \mu_2 - \mu_3$. Hier ist es extrem wichtig, dass wir das gleiche $\mu$ (hier $\mu_2$) zuerst nennen, da wir sonst fälschlicherweise andere Effekte testen würden. Wenn wir diese kleine Gleichung nun umformen und auf beiden Seiten $\mu_2$ abziehen und anschließend beide Seiten mit $\mu_3$ addieren, dann erhalten wir: $-\mu_1 + \mu_3 = 0$ also die Kontrastkoeffizienten (-1, 0, 1), wie wir sie oben schon aufgeschrieben hatten. Wie schon für die Kontraste in der [letzten Sitzung](../anova-ii) wird hierbei die Nullhypothese getestet, dass $H_0 : -1 \cdot \mu_1 + 0 \cdot \mu_2 + 1 \cdot \mu_3 = 0$. Diese Koeffizienten müssen wir in einem eigenen Objekt ablegen. 
 
 ```{r}
 lin_cont <- c(-1, 0, 1)
 ```
 
-Wir können uns erstmal rein deskriptiv anschauen, inwiefern der lineare Verlauf eine realistische Behauptung über den Mittelwertsverlauf ist. Wie in der [letzten Sitzung](anova-ii) behandelt, erstellen wir mit `ezPlot` automatisch einen `ggplot` mit der gleichen Snytax wie bei `ezANOVA`. Der Grund, aus dem `ggplot2` als Paket so beliebt ist, ist, dass es modular funktioniert und wir unsere Abbildungen schichten können (wie in der [2. Sitzung](grafiken-ggplot2) behandelt). Wenn Pakete also `ggplot2`-Abbildungen erstellen, können wir diese einfach durch andere `ggplot2`-Komponenten ergänzen (wenn wir vorher `ggplot2` geladen haben):
+Wir können uns erstmal rein deskriptiv anschauen, inwiefern der lineare Verlauf eine realistische Behauptung über den Mittelwertsverlauf ist. Wie in der [letzten Sitzung](../anova-ii) behandelt, erstellen wir mit `ezPlot` automatisch einen `ggplot` mit der gleichen Snytax wie bei `ezANOVA`. Der Grund, aus dem `ggplot2` als Paket so beliebt ist, ist, dass es modular funktioniert und wir unsere Abbildungen schichten können (wie in der [2. Sitzung](../grafiken-ggplot2) behandelt). Wenn Pakete also `ggplot2`-Abbildungen erstellen, können wir diese einfach durch andere `ggplot2`-Komponenten ergänzen (wenn wir vorher `ggplot2` geladen haben):
 
 ```{r}
 library(ggplot2)
 ```
 
-Zur Erinnerungen können Sie die Abbildung nach Ihren Wünschen umgestalten, wie in der [2. Sitzung](grafiken-ggplot2) besprochen:
+Zur Erinnerungen können Sie die Abbildung nach Ihren Wünschen umgestalten, wie in der [2. Sitzung](../grafiken-ggplot2) besprochen:
 
 ```{r ezplot_theme, exercise = TRUE, exercise.eval = FALSE}
 # ezPlot siehe oben
@@ -345,7 +344,7 @@ ezPlot(alc_long, alcuse, id, within = age,
   xlab('Alter')
 ```
 
-Um Verläufe darzustellen, hatten wir in der [2. Sitzung](grafiken-ggplot2) und der [8. Sitzung](regression-v) `geom_smooth()` kennen gelernt. Weil diese Geometrie als Schicht auf den ursprünglichen Plot gelegt werden kann, können wir den linearen Verlauf veranschaulichen:
+Um Verläufe darzustellen, hatten wir in der [2. Sitzung](../grafiken-ggplot2) und der [8. Sitzung](../regression-v) `geom_smooth()` kennen gelernt. Weil diese Geometrie als Schicht auf den ursprünglichen Plot gelegt werden kann, können wir den linearen Verlauf veranschaulichen:
 
 ```{r}
 ezPlot(alc_long, alcuse, id, within = age,
@@ -498,7 +497,7 @@ heplots::boxM(alc[, c('alcuse.14', 'alcuse.15', 'alcuse.16')], group = alc$coa)
 Auch in unserem Fall wird eine signifikante Verletzung der Annahme angezeigt. Nach [Eid et al. (2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 494) ist die ANOVA gegenüber der Verletzung der Homgenitätsannahme bezüglich der Kovarianzmatrizen dann robust, wenn die Sphärizitätsannahme nicht verworfen werden muss. In dem Output von der ANOVA haben wir aber gesehen, dass auch hier eine signifikante Verletzung vorliegt. Für die Interpretaion können nun die zuvor dargestellten Korrekturen oder eine "echte" robuste Variante (z.B. im `WRS2`-Paket) genutzt werden. Betrachten wir nun nochmal genauer den oben schon gezeigten Output.
 
 
-```{r, echo = FALSE, warning=FALSE}
+```{r, echo = FALSE, warning=FALSE, purl=FALSE}
 ezANOVA(alc_long, 
   dv = alcuse, 
   wid = id, 
@@ -641,12 +640,6 @@ Wir erkennen, dass sowohl der lineare als auch der quadratische Trend signifikan
 
 </details>
 
-
-***
-
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](../anova-iii.R).
 
 ***
 

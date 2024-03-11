@@ -1,6 +1,3 @@
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-
 ## load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
 
 load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
@@ -39,14 +36,7 @@ F_wert <- MQS_zw/MQS_inn
 
 pf(F_wert, nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$urban), lower.tail = FALSE)
 
-library(ggplot2)
-Fs <- data.frame(x = seq(0, 7, .1))
-Fs$y <- df(Fs$x,  nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$urban))
-Fs$p <- pf(Fs$x,  nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$urban))
-ggplot(Fs, aes(x = x, y = y)) +
-  geom_line() + theme_minimal() +
-  labs(x = expression(paste('F-Wert')), y = 'Dichte') +
-  geom_ribbon(data = subset(Fs, p > .95), aes(ymax = y), ymin = 0, fill = "darkblue")
+
 
 ## # Paket installieren
 ## install.packages("ez")

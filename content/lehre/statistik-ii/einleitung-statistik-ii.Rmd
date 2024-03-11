@@ -33,7 +33,7 @@ output:
 ---
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 ## Wiederholung von Grundlagen in R
@@ -624,11 +624,6 @@ Nun sind wir am Schluss des behandelten Codes in der Seminar-Sitzung angekommen.
 
 ***
 
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/lehre/statistik-ii/wiederholung-grundlagen.R).
-
-***
-
 ## Appendix
 
 ### Appendix A {#AppendixA}
@@ -698,7 +693,7 @@ group2 <- rnorm(20, mean = 12, sd = 2)
 t.test(group1, group2)
 ```
 
-Die Ergebnisse sind nicht die Gleichen, obwohl wir mit einem festen Seed gearbeitet haben. Wie wir in BSc2 [mehrmals](/lehre/statistik-i/verteilungen) [besprochen](/lehre/statistik-i/simulation/) haben, ist `set.seed` aber explizit dafür da, dass bei jeder Durchführung des Zufallsexperiments auch exakt die gleichen Ergebnisse erzeugt werden. Das ist auch ChatGPT "bewusst":
+Die Ergebnisse sind nicht die Gleichen, obwohl wir mit einem festen Seed gearbeitet haben. Wie wir in BSc2 [mehrmals](/lehre/statistik-i/verteilungen) [besprochen](/lehre/statistik-i/simulation-poweranalyse) haben, ist `set.seed` aber explizit dafür da, dass bei jeder Durchführung des Zufallsexperiments auch exakt die gleichen Ergebnisse erzeugt werden. Das ist auch ChatGPT "bewusst":
 
 {{<inline_image"/lehre/statistik-ii/chatGPT4.png">}}
 

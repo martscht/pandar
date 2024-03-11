@@ -32,12 +32,11 @@ output:
     keep_md: true
 ---
 
-```{r setup, include=FALSE}
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r setup, include=FALSE, purl=FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
-Bisher hatten wir mittels Regressionsanalysen lineare Beziehungen modelliert. In der Sitzung zur [quadratischen und moderierte Regresssion](regression-iv) kamen dann im Grunde quadratische Effekte mit hinzu. Wir können unser Wissen über Regressionen allerdings auch nutzen um nichtlineare Effekte zu modellieren. Wie das geht und was zu beachten ist, schauen wir uns im Folgenden an. Dazu laden wir zunächst altbekannte Pakete:
+Bisher hatten wir mittels Regressionsanalysen lineare Beziehungen modelliert. In der Sitzung zur [quadratischen und moderierte Regresssion](../regression-iv) kamen dann im Grunde quadratische Effekte mit hinzu. Wir können unser Wissen über Regressionen allerdings auch nutzen um nichtlineare Effekte zu modellieren. Wie das geht und was zu beachten ist, schauen wir uns im Folgenden an. Dazu laden wir zunächst altbekannte Pakete:
 
 ```{r, warning=F,message=F}
 library(ggplot2) # Grafiken
@@ -209,7 +208,7 @@ Schauen wir uns die Daten an:
 head(WorldPopulation)
 ```
 
-In der ersten Spalte steht das Jahr; in der 2. die Weltbevölkerungsgröße. Wir wollen uns dies grafisch ansehen. Dazu verwenden wir `ggplot`, um die Population (`Population`) gegen das Jahr (`Year`) abzutragen und zwar als Punkte mit `geom_point()`. Sie können Grafiken mit `ggplot2` in der [zugehörigen Sitzung](/post/grafiken-mit-ggplot2) wiederholen.
+In der ersten Spalte steht das Jahr; in der 2. die Weltbevölkerungsgröße. Wir wollen uns dies grafisch ansehen. Dazu verwenden wir `ggplot`, um die Population (`Population`) gegen das Jahr (`Year`) abzutragen und zwar als Punkte mit `geom_point()`. Sie können Grafiken mit `ggplot2` in der [zugehörigen Sitzung](../grafiken-ggplot2) wiederholen.
 
 ```{r}
 ggplot(data = WorldPopulation, aes(x = Year, y = Population))+geom_point()
@@ -242,7 +241,7 @@ ggplot(data = df_res, aes(x = res)) +
      labs(title = "Histogramm der Residuen mit Normalverteilungsdichte\n für das lineare Modell", x = "Residuen") # Füge eigenen Titel und Achsenbeschriftung hinzu
 ```
 
-Durch `+ geom_smooth(method="lm", formula = "y~x")`, kann mit `ggplot` ein linearer Trend inklusive Konfidenzintervall hinzugefügt werden. Obwohl ein linearer Verlauf sehr unwahrscheinlich erscheint, können mit dem linearen Modell bereits `r round(summary(m_l)$r.squared*100, 2)`% der Variation der Bevölkerungsdichte durch die Jahreszahl erklärt werden (entnommen aus der Summary des linearen Modells unter `Multiple R-squared:  0.7723`). Wie der Grafik deutlich zu entnehmen ist, sind die Residuen in dieser Regressionsanalyse stark abhängig von der Jahreszahl (negatives Residuum von ca. 1860-1970 und positive Residuen sonst; *Wiederholung*: $\varepsilon_i=Y_i-\hat{Y}_i$, wobei $\hat{Y}_i$ der vorhergesagte Wert ist, das Vorzeichen erhalten wir also, indem wir uns überlegen, wann die Daten oberhalb oder unterhalb der vorhergesagten Geraden liegen). Auch wenn wir uns das zugehörige Histogramm der Residuen ansehen, widerspricht dieses der Annahme auf Normalverteilung. In [Appendix A](#AppendixA) ist auch ein quadratische Trend hinzugefügt, da wir ja in der vergangenen Sitzung zu [quadratischer oder moderierter Regression](regression-iv) gesehen hatten, dass durch das Hinzufügen von quadratischen Effekten die Vorhersage des Kriteriums verbessert werden kann. Wir interessieren uns jetzt aber erstmal für das exponentielle Wachstum!
+Durch `+ geom_smooth(method="lm", formula = "y~x")`, kann mit `ggplot` ein linearer Trend inklusive Konfidenzintervall hinzugefügt werden. Obwohl ein linearer Verlauf sehr unwahrscheinlich erscheint, können mit dem linearen Modell bereits `r round(summary(m_l)$r.squared*100, 2)`% der Variation der Bevölkerungsdichte durch die Jahreszahl erklärt werden (entnommen aus der Summary des linearen Modells unter `Multiple R-squared:  0.7723`). Wie der Grafik deutlich zu entnehmen ist, sind die Residuen in dieser Regressionsanalyse stark abhängig von der Jahreszahl (negatives Residuum von ca. 1860-1970 und positive Residuen sonst; *Wiederholung*: $\varepsilon_i=Y_i-\hat{Y}_i$, wobei $\hat{Y}_i$ der vorhergesagte Wert ist, das Vorzeichen erhalten wir also, indem wir uns überlegen, wann die Daten oberhalb oder unterhalb der vorhergesagten Geraden liegen). Auch wenn wir uns das zugehörige Histogramm der Residuen ansehen, widerspricht dieses der Annahme auf Normalverteilung. In [Appendix A](#AppendixA) ist auch ein quadratische Trend hinzugefügt, da wir ja in der vergangenen Sitzung zu [quadratischer oder moderierter Regression](../regression-iv) gesehen hatten, dass durch das Hinzufügen von quadratischen Effekten die Vorhersage des Kriteriums verbessert werden kann. Wir interessieren uns jetzt aber erstmal für das exponentielle Wachstum!
 
 
 ### Exponentielles Modell für das Bevölkerungswachstum
@@ -260,7 +259,7 @@ m_log <- lm(log_Population ~ Year, data = WorldPopulation) # lineares Modell mit
 summary(m_log)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 m_q <- lm(Population ~ poly(Year,2), data = WorldPopulation) # quadratischer Verlauf
 ```
 
@@ -318,7 +317,7 @@ WorldPopulation$Post1950 <- as.numeric(WorldPopulation$Year > 1950)
 
 Im Datensatz erhalten wir dann also Folgendes:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 WorldPopulation[WorldPopulation$Year %in% seq(1947, 1953), ]
 ```
 
@@ -339,7 +338,7 @@ Für alle Jahre nach 1950 hingegen, sieht die umgestellte Gleichung so aus:
 $$
   \widehat{Pop_i} = e^{(\beta_0 + \beta_2) + (\beta_1 + \beta_3) \cdot Jahr_i}
 $$
-sodass wir einen neuen Interzept (verschoben um $\beta_2$) und einen neuen Effekt des Jahres (verändert um $\beta_3$) ab diesem Punkt haben. In `R` können wir das Ganze genauso ausdrücken, wie wir es für [andere Regressionen mit Interaktionen](regression-iv) schon gesehen hatten:
+sodass wir einen neuen Interzept (verschoben um $\beta_2$) und einen neuen Effekt des Jahres (verändert um $\beta_3$) ab diesem Punkt haben. In `R` können wir das Ganze genauso ausdrücken, wie wir es für [andere Regressionen mit Interaktionen](../regression-iv) schon gesehen hatten:
 
 ```{r}
 m_dis <- lm(I(log(Population)) ~ Year * Post1950, data = WorldPopulation)
@@ -357,13 +356,6 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
 ```
 
 ***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](../regression-v.R).
-
-
-***
-
 
 ## Appendix A {#AppendixA}
 
@@ -426,7 +418,7 @@ Die Vorhersage mit dem diskontinuierlichen Modell exponentiellen Wachstums ist i
 residualPlot(m_log, col = "red") # Residualplot
 ```
 
-Dem Residualplot ist zu entnehmen, dass ggf. sogar ein nicht-linearer Verlauf angemessen wäre (wobei wir uns hier auf die *logarithmische* Skala beziehen, die Ursprungsdaten werden natürlich bereits nicht-linear, nämlich exponentiell, modelliert). Wir gehen dieser Vermutung nach, indem wir dem Log-Plot  einen quadratischen Verlauf hinzufügen. Auch dem `geom_smooth` Befehl kann einfach das modifizierte Regressionsmodell übergeben werden. Dem Argument `formula` müssen wir dazu jediglich die Formel für die Regression übergeben, wobei `y` das Kriterium und `poly(x,2)` (dies hatten wir in der vergangen Sitzung zu [quadratischer oder moderierter Regression](regression-iv) kennengelernt) der Prädiktor mit linearem und quadratischen Anteil beschreibt.  Mit `col = "gold3"` wird die neue Linie auch extra eingefärbt.
+Dem Residualplot ist zu entnehmen, dass ggf. sogar ein nicht-linearer Verlauf angemessen wäre (wobei wir uns hier auf die *logarithmische* Skala beziehen, die Ursprungsdaten werden natürlich bereits nicht-linear, nämlich exponentiell, modelliert). Wir gehen dieser Vermutung nach, indem wir dem Log-Plot  einen quadratischen Verlauf hinzufügen. Auch dem `geom_smooth` Befehl kann einfach das modifizierte Regressionsmodell übergeben werden. Dem Argument `formula` müssen wir dazu jediglich die Formel für die Regression übergeben, wobei `y` das Kriterium und `poly(x,2)` (dies hatten wir in der vergangen Sitzung zu [quadratischer oder moderierter Regression](../regression-iv) kennengelernt) der Prädiktor mit linearem und quadratischen Anteil beschreibt.  Mit `col = "gold3"` wird die neue Linie auch extra eingefärbt.
 
 ```{r, fig.height=6, fig.align="center"}
 ggplot(data = WorldPopulation, aes(x = Year, y = log_Population))+

@@ -1,5 +1,3 @@
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-
 load(url("https://courageous-donut-84b9e9.netlify.app/post/mach.rda"))
 
 load(url("https://courageous-donut-84b9e9.netlify.app/post/PISA2009.rda"))

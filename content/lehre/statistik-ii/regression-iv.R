@@ -1,5 +1,3 @@
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-
 ## load("C:/Users/Musterfrau/Desktop/PISA2009.rda")
 
 load(url("https://pandar.netlify.app/daten/PISA2009.rda"))
@@ -46,14 +44,7 @@ anova(m1, m1.b)
 
 residualPlots(m1.b, pch = 16)
 
-X <- scale(poly(PISA2009$MotherEdu, 2))
-std_par_ME <- c(0.1588, -0.1436)
-pred_effect_ME <- X %*% std_par_ME
-std_ME <- X[,1]
-data_ME <- data.frame(std_ME, pred_effect_ME)
-ggplot(data = data_ME, aes(x = std_ME,  y = pred_effect_ME)) + geom_point(pch = 16, col = "blue", cex = 4)+
-     labs(y = "std. Leseleistung | Others", x =  "std. Bildungsabschluss der Mutter | Others",
-          title = "Standardisierte bedingte Beziehung zwischen\n Bildungsabschluss der Mutter und Leseleistung")
+
 
 linear <- .1588
 quadratisch <- -.1436
@@ -61,13 +52,11 @@ quadratisch <- -.1436
 curve(linear * x + quadratisch * x^2, 
       xlim = c(-2, 2))
 
-## load(url("https://pandar.netlify.app/daten/alc.rda"))
-## 
-## head(Schulleistungen)
+load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
 
-load("../../daten/Schulleistungen.rda")
+head(Schulleistungen)
 
-knitr::kable(head(Schulleistungen))
+
 
 Schulleistungen_std <- data.frame(scale(Schulleistungen)) # standardisierten Datensatz abspeichern als data.frame
 colMeans(Schulleistungen_std)     # Mittelwert pro Spalte ausgeben
@@ -79,35 +68,9 @@ summary(mod_reg)
 library(interactions)
 interact_plot(model = mod_reg, pred = IQ, modx = math)
 
-library(plot3D)
-# x, y, z variables
-x <- Schulleistungen_std$IQ
-y <- Schulleistungen_std$reading
-z <- Schulleistungen_std$math
-fit <- lm(y ~ x*z)
-# predict values on regular xy grid
-grid.lines = 26
-x.pred <- seq(min(x), max(x), length.out = grid.lines)
-z.pred <- seq(min(z), max(z), length.out = grid.lines)
-xz <- expand.grid( x = x.pred, z = z.pred)
-y.pred <- matrix(predict(fit, newdata = xz), 
-                 nrow = grid.lines, ncol = grid.lines)
-# fitted points for droplines to surface
-fitpoints <- predict(fit)
-# scatter plot with regression plane
-scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2, 
-          theta = 0, phi = 0, ticktype = "detailed",
-          xlab = "IQ", ylab = "math", zlab = "reading",  
-          surf = list(x = x.pred, y = z.pred, z = y.pred,  
-                      facets = NA, fit = fitpoints), 
-          main = "Moderierte Regression")
 
-scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2, 
-          theta = 20, phi = 20, ticktype = "detailed",
-          xlab = "IQ", ylab = "math", zlab = "reading",  
-          surf = list(x = x.pred, y = z.pred, z = y.pred,  
-                      facets = NA, fit = fitpoints), 
-          main = "Moderierte Regression")
+
+
 
 X <- 1:10   # Variable X
 X2 <- X^2   # Variable X hoch 2

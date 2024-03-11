@@ -8,7 +8,7 @@ tags: ["Daten"]
 subtitle: ''
 summary: 'Auf dieser Seite finden sich alle Datensätze für die Studienleistungen in PsyBSc2. Die Durchführung der Quiz findet auf der Lernplattform moodle für die Teilnehmenden des Moduls statt.'
 authors: [nehler, rouchi, irmer]
-lastmod: '2024-01-03'
+lastmod: '2024-03-08'
 featured: no
 banner:
   image: "/header/abstract_building.jpg"

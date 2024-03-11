@@ -1,6 +1,3 @@
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-load("../../daten/mdbf.rda")
-
 a <- 3 #Zunächst definieren wir eine Variable
 # mehrere Zeilen
 if (a == 3) {
@@ -191,8 +188,7 @@ Vari(mdbf[, 2], FALSE)
 
 ## Vari(mdbf[, 2])
 
-cat('Error in Vari(mdbf[, 2]) : 
-  argument "empirical" is missing, with no default')
+
 
 Vari <- function(x, empirical = TRUE) {
   n <- length(x)

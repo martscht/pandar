@@ -1,6 +1,3 @@
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-
 ## load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
 
 load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
@@ -15,7 +12,7 @@ conspiracy$id <- as.factor(1:nrow(conspiracy))
 
 ezANOVA(data = conspiracy, wid = id, dv = ET, between = urban)
 
-ezANOVA(conspiracy, wid = id, dv = ET, between = edu, white.adjust = TRUE)
+
 
 tapply(X = conspiracy$ET, INDEX = conspiracy$urban, FUN = mean)
 tapply(X = conspiracy$ET, INDEX = conspiracy$edu, FUN = mean)

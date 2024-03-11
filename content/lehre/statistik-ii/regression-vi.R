@@ -1,5 +1,3 @@
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-
 source("https://pandar.netlify.app/lehre/statistik-ii/Data_Processing_punish.R")
 
 head(punish)
@@ -77,7 +75,7 @@ pred_plot
 
 tab
 
-summary(mod3)$coefficients
+
 
 anova(mod1, mod2, mod3)
 

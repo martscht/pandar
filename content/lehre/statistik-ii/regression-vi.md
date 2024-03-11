@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schultze]
 weight: 13
-lastmod: '2024-02-08'
+lastmod: '2024-03-08'
 featured: no
 banner:
   image: "/header/transaction_50_euros.jpg"
@@ -56,20 +56,13 @@ head(punish)
 ```
 
 ```
-##   country      bribe   age gender gains difficult
-## 1   China individual 21-30 female   8.6       3.0
-## 2   China individual 31-40 female  10.0       3.8
-## 3   China individual 31-40   male   9.2       1.6
-## 4   China individual 31-40 female  10.0       1.2
-## 5   China individual 31-40 female   9.0       1.4
-## 6   China individual 31-40   male   9.0       8.0
-##   notice probable severe
-## 1    3.8      3.0    2.8
-## 2    1.6      1.0    1.2
-## 3    2.0      2.2    2.4
-## 4    0.8      2.4    4.6
-## 5    1.2      4.2    4.6
-## 6    6.0      7.8    8.6
+##   country      bribe   age gender gains difficult notice probable severe
+## 1   China individual 21-30 female   8.6       3.0    3.8      3.0    2.8
+## 2   China individual 31-40 female  10.0       3.8    1.6      1.0    1.2
+## 3   China individual 31-40   male   9.2       1.6    2.0      2.2    2.4
+## 4   China individual 31-40 female  10.0       1.2    0.8      2.4    4.6
+## 5   China individual 31-40 female   9.0       1.4    1.2      4.2    4.6
+## 6   China individual 31-40   male   9.0       8.0    6.0      7.8    8.6
 ```
 
 In der Studie, aus der diese Daten kommen, wurden kulturelle Unterschiede in der Einschätzung von und Reaktion auf Bestechung untersucht. Spezifisch ging es darum, wie sich Personen in China und den USA darin unterscheiden, wie sie individuelle und gruppenbezogene Bestechung wahrnehmen und für wie wahrscheinlich und schwer sie Bestrafungen für diese halten. Dabei wurden fünf verschiedene Situationen als Text dargestellt. In [Tabelle 1](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509#ajsp12509-tbl-0001) des Artikels von [Hong-Zhi et al. (2021)](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509) sind die fünf Situationen dargestellt. Der erste Text dreht sich um Bestechung im Gesundheitswesen, welche im individuellen Fall so aussieht:
@@ -122,8 +115,7 @@ summary(mod1)
 ## (Intercept)    4.5435     0.2378   19.11   <2e-16 ***
 ## countryChina   0.4468     0.3463    1.29    0.199    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.28 on 172 degrees of freedom
 ## Multiple R-squared:  0.009582,	Adjusted R-squared:  0.003824 
@@ -160,17 +152,21 @@ $$
 {{</ math >}}
 Dadurch, dass der Prädiktor den Wert 0 annimmt, wenn eine Person aus den USA kommt, vereinfacht sich die Gleichung:
 {{< math >}}
-$$
-  \hat{y}_{m} = b_0 + b_1 \cdot 0 \\
-  \hat{y}_{m} = b_0
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_{m} = b_0 + b_1 \cdot 0 \\
+  &\hat{y}_{m} = b_0
+\end{split}
+\end{equation}
 {{</ math >}}
 Heißt, das Intercept entspricht dem vorhergesagten Wert für Personen aus den USA. Weil keine weiteren Informationen in der Regression genutzt werden, sagen wir für Personen aus den USA den Mittelwert dieser Gruppe vorher. Für Personen aus China ist $x_m = 1$ also:
 {{< math >}}
-$$
-  \hat{y}_{m} = b_0 + b_1 \cdot 1 \\
-  \hat{y}_{m} = b_0 + b_1
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_{m} = b_0 + b_1 \cdot 1 \\
+  &\hat{y}_{m} = b_0 + b_1
+\end{split}
+\end{equation}
 {{</ math >}}
 Der vorhergesagte Wert ist auch in dieser Gruppe der Mittelwert. Er ergibt sich aus $b_0 + b_1$; $b_1$ ist also der _Mittelwertsunterschied_ zwischen den beiden Gruppen. Prüfen wir, ob ich nicht einfach unhaltbare Behauptungen in den Raum stelle:
 
@@ -272,8 +268,7 @@ summary(mod1b)
 ## (Intercept)   4.7669     0.1732   27.53   <2e-16 ***
 ## country1     -0.2234     0.1732   -1.29    0.199    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.28 on 172 degrees of freedom
 ## Multiple R-squared:  0.009582,	Adjusted R-squared:  0.003824 
@@ -312,7 +307,7 @@ tab <- data.frame(country = c('U.S', 'U.S', 'China', 'China'),
   bribe = c('group', 'individual', 'group', 'individual'))
 ```
 
-Wie wir schon [in der Sitzung zur Regression im 1. Semester gesehen haben](/../statistik-i/einfache-regression), können wir einen `data.frame` benutzen, um für alle Einträge darin aus unserem Modell eine Vorhersage generieren zu lassen. Gucken wir uns zunächst das Modell an, in dem wir das Ausmaß der Bestrafung nur durch das Land vorhergesagt haben:
+Wie wir schon [in der Sitzung zur Regression im 1. Semester gesehen haben](../../statistik-i/einfache-regression), können wir einen `data.frame` benutzen, um für alle Einträge darin aus unserem Modell eine Vorhersage generieren zu lassen. Gucken wir uns zunächst das Modell an, in dem wir das Ausmaß der Bestrafung nur durch das Land vorhergesagt haben:
 
 
 ```r
@@ -343,10 +338,10 @@ pred_plot <- ggplot(tab, aes(x = bribe,
 pred_plot
 ```
 
-<img src="/lehre/statistik-ii/regression-vi_files/figure-html/mod1-plot-1.png" style="display: block; margin: auto;" />
-Der Unterschied zwischen den Ländern (in [späteren Sitzungen](anova-ii) dann _Haupteffekt_ genannt) zeigt sich hier also im Niveauunterschied der beiden Linien (dieser Unterschied ist genau $b_1$).
+![](/lehre/statistik-ii/regression-vi_files/figure-html/mod1-plot-1.png)<!-- -->
+Der Unterschied zwischen den Ländern (in [späteren Sitzungen](../anova-ii) dann _Haupteffekt_ genannt) zeigt sich hier also im Niveauunterschied der beiden Linien (dieser Unterschied ist genau $b_1$).
 
-Wenn wir zusätzlich in einer multiple Regression die Art der Bestechung aufnehmen, erweitert sich unser Modell in [bekannter Manier](regression-i):
+Wenn wir zusätzlich in einer multiple Regression die Art der Bestechung aufnehmen, erweitert sich unser Modell in [bekannter Manier](../regression-i):
 
 
 ```r
@@ -364,17 +359,12 @@ summary(mod2)
 ## -3.8853 -1.9040 -0.0947  1.5573  5.3620 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error t value Pr(>|t|)
-## (Intercept)       4.4568     0.2903  15.351   <2e-16
-## countryChina      0.4472     0.3471   1.289    0.199
-## bribeindividual   0.1812     0.3469   0.523    0.602
-##                    
-## (Intercept)     ***
-## countryChina       
-## bribeindividual    
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)       4.4568     0.2903  15.351   <2e-16 ***
+## countryChina      0.4472     0.3471   1.289    0.199    
+## bribeindividual   0.1812     0.3469   0.523    0.602    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.285 on 171 degrees of freedom
 ## Multiple R-squared:  0.01116,	Adjusted R-squared:  -0.0004046 
@@ -392,7 +382,7 @@ pred_plot <- pred_plot +
 pred_plot
 ```
 
-<img src="/lehre/statistik-ii/regression-vi_files/figure-html/mod2-plot-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/regression-vi_files/figure-html/mod2-plot-1.png)<!-- -->
 Hierzu haben wir der Grafik die Datenpunkte des neuen Modells hinzugefügt und können diese gut mit der Vorhersage des alten Modells vergleichen (*wir mussten hier mit <code>tab$mod2</code> arbeiten und nicht einfach nur mit `mod2` in `geom_point` und `geom_line`, da sich die Daten geändert hatten und wir den Plot ansonsten nochmals hätten aufrufen müssen, was wir uns hier ersparen wollten*): Die beiden Linien haben jetzt einen Anstieg - dieser Anstieg entspricht dem Regressionsgewicht von `bribe`: $b_2 =$ 0.18 und somit dem Unterschied zwischen den Vorhersagen für Gruppenbestechung und individuelle Bestechung:
 
 
@@ -428,7 +418,7 @@ tab$mod2[4] - tab$mod2[3] # identisch
 
 Weil die Linien parallel sind, ist egal in welchem Land wir den Unterschied berechnen. Das Modell nimmt an, dass der Unterschied zwischen individueller und kollektiver Bestechung über die Länder hinweg gleich ist. 
 
-Die oben dargestellte Hypothese geht aber davon aus, dass die Länder sich im Ausmaß der Bestrafung unterscheiden, je nachdem um welche Art von Bestechung es sich handelt. Wir müssen also die Restriktion additiver Effekte aufheben, indem wir, [wie schon für intervallskalierte Prädiktoren besprochen](regression-iv), einen Interaktionsterm in das Modell aufnehmen. Weil die beiden Prädiktoren nominalskaliert sind, können wir sie nicht zentrieren (nominalskalierte Variablen haben kein arithmetisches Mittel) - das ist nicht weiter tragisch, weil wir bei diesen Variablen in geringerem Ausmaß skalierungsbedingte Probleme mit der Multikollinearität haben.
+Die oben dargestellte Hypothese geht aber davon aus, dass die Länder sich im Ausmaß der Bestrafung unterscheiden, je nachdem um welche Art von Bestechung es sich handelt. Wir müssen also die Restriktion additiver Effekte aufheben, indem wir, [wie schon für intervallskalierte Prädiktoren besprochen](../regression-iv), einen Interaktionsterm in das Modell aufnehmen. Weil die beiden Prädiktoren nominalskaliert sind, können wir sie nicht zentrieren (nominalskalierte Variablen haben kein arithmetisches Mittel) - das ist nicht weiter tragisch, weil wir bei diesen Variablen in geringerem Ausmaß skalierungsbedingte Probleme mit der Multikollinearität haben.
 
 
 ```r
@@ -446,19 +436,13 @@ summary(mod3)
 ## -4.1182 -1.7436  0.0564  1.5993  5.0564 
 ## 
 ## Coefficients:
-##                              Estimate Std. Error
-## (Intercept)                    4.0167     0.3231
-## countryChina                   1.3787     0.4700
-## bribeindividual                1.1015     0.4672
-## countryChina:bribeindividual  -1.9533     0.6806
-##                              t value Pr(>|t|)    
-## (Intercept)                   12.432  < 2e-16 ***
-## countryChina                   2.933  0.00382 ** 
-## bribeindividual                2.358  0.01952 *  
-## countryChina:bribeindividual  -2.870  0.00463 ** 
+##                              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                    4.0167     0.3231  12.432  < 2e-16 ***
+## countryChina                   1.3787     0.4700   2.933  0.00382 ** 
+## bribeindividual                1.1015     0.4672   2.358  0.01952 *  
+## countryChina:bribeindividual  -1.9533     0.6806  -2.870  0.00463 ** 
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.238 on 170 degrees of freedom
 ## Multiple R-squared:  0.05685,	Adjusted R-squared:  0.04021 
@@ -476,7 +460,7 @@ pred_plot <- pred_plot +
 pred_plot
 ```
 
-<img src="/lehre/statistik-ii/regression-vi_files/figure-html/mod3-plot-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/regression-vi_files/figure-html/mod3-plot-1.png)<!-- -->
 Die Regression mit Interaktion (gepunktete Linie, eingestellt via `lty = 3`) erlaubt jetzt, dass der Einfluss der Bestechungsart sich über die Länder hinweg unterscheiden kann (bzw. dass der Einfluss des Landes sich über die Bestechungsarten hinweg unterscheidet - weil es sich um Multiplikation handelt, ist dieser Effekt symmetrisch bzw. ungerichtet). Hier lohnt es sich noch einmal einen genaueren Blick in die Regressionsgleichung zu werfen:
 {{< math >}}
 $$
@@ -507,48 +491,49 @@ $$
 {{</ math >}}
 Das Intercept entspricht also dem Wert, der für diese _Referenzgruppe_ vorhergesagt wird. Wenn wir Personen betrachten, die aus China kommen  (`country = 1`), und ebenfalls kollektive Bestechung (`bribe = 0`) gesehen habe, ergibt sich Folgendes:
 {{< math >}}
-$$
-  \hat{y}_{m} = b_0 + b_1 \cdot 1 + b_2 \cdot 0 + b_3 \cdot (1 \cdot 0) \\
-  \hat{y}_{m} = b_0 + b_1\\
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_{m} = b_0 + b_1 \cdot 1 + b_2 \cdot 0 + b_3 \cdot (1 \cdot 0) \\
+  &\hat{y}_{m} = b_0 + b_1\\
+\end{split}
+\end{equation}
 {{</ math >}}
 Die Vorhersage für die Gruppe (in `tab`: 5.4) setzt sich also aus dem Wert für Amerikaner:innen, die kollektive Bestechung gesehen haben ($b_0$) und dem _Unterschied_ zwischen diesen und Personen aus China, die kollektive Bestechung gesehen haben ($b_1$) zusammen. Das heißt, dass das Regressionsgewicht diesen spezifischen Gruppenvergleich prüft.
 
 In gleicher Weise fungiert $b_2$ als der Vergleich zwischen der Referenzgruppe und Personen aus den USA, die individuelle Bestechung gesehen haben:
 {{< math >}}
-$$
-  \hat{y}_{m} = b_0 + b_1 \cdot 0 + b_2 \cdot 1 + b_3 \cdot (0 \cdot 1) \\
-  \hat{y}_{m} = b_0 + b_2\\
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_{m} = b_0 + b_1 \cdot 0 + b_2 \cdot 1 + b_3 \cdot (0 \cdot 1) \\
+  &\hat{y}_{m} = b_0 + b_2
+\end{split}
+\end{equation}
 {{</ math >}}
 Etwas komplexer wird das Problem, wenn wir die letzte Gruppe betrachten: Personen aus China, die individuelle Bestechung gesehen haben:
 {{< math >}}
-$$
-  \hat{y}_{m} = b_0 + b_1 \cdot 1 + b_2 \cdot 1 + b_3 \cdot (1 \cdot 1) \\
-  \hat{y}_{m} = b_0 + b_1 + b_2 + b_3 \\
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_{m} = b_0 + b_1 \cdot 1 + b_2 \cdot 1 + b_3 \cdot (1 \cdot 1) \\
+  &\hat{y}_{m} = b_0 + b_1 + b_2 + b_3 
+\end{split}
+\end{equation}
 {{</ math >}}
 Weil für diese Gruppe der Mittelwert nicht mehr aus dem Intercept und einem einfachen Vergleich bestimmt wird, ist auch die Interpretation des entsprechenden Regressionsgewichts ein bisschen schwieriger. Dieses Gewicht stellt den Unterschied dar zwischen dem Mittelwert der Gruppe und dem, was wir erwartet hätten, hätte es in der Chinesischen Gruppe den gleichen Effekte der Bestechungsart gegeben wie in den USA. Erneut: weil der Interaktionsterm einfache Multiplikation ist, ist es genauso zulässig diese Aussage umzudrehen: dieses Gewicht stellt den Unterschied dar zwischen dem Mittelwert der Gruppe und dem, was wir erwartet hätten, hätte es beim sehen individueller Bestechung den gleichen Länderunterschied gegeben, wie bei kollektiver Bestechung. Die Inferenzstatistik dieses _Interaktionseffekts_ prüft also, ob die Effekte gleich sind. Wie wir in der `summary` gesehen haben, ist dem nicht so:
 
 
 ```
-##                               Estimate Std. Error
-## (Intercept)                   4.016667  0.3230915
-## countryChina                  1.378682  0.4700153
-## bribeindividual               1.101515  0.4671896
-## countryChina:bribeindividual -1.953274  0.6806394
-##                                t value     Pr(>|t|)
-## (Intercept)                  12.431978 1.183591e-25
-## countryChina                  2.933271 3.817026e-03
-## bribeindividual               2.357748 1.952359e-02
-## countryChina:bribeindividual -2.869764 4.629547e-03
+##                               Estimate Std. Error   t value     Pr(>|t|)
+## (Intercept)                   4.016667  0.3230915 12.431978 1.183591e-25
+## countryChina                  1.378682  0.4700153  2.933271 3.817026e-03
+## bribeindividual               1.101515  0.4671896  2.357748 1.952359e-02
+## countryChina:bribeindividual -1.953274  0.6806394 -2.869764 4.629547e-03
 ```
 
 Dies bedeutet auch, dass es auf die spezifische Kombination aus Land und Art der Bestechung ankommt, für die Vorhersage der eingeschätzten Schwere der Bestrafung. Für die Grafik bedeutet die Signifikanz des Interaktionseffektes, dass die Geraden sich signifikant von der Parallelität unterscheiden.
 
 ### Modellvergleiche
 
-Wie wir in der [Sitzung zur Modelloptimierung](regression-ii) gesehen haben, können wir die drei Modelle über `anova()` vergleichen, um zu prüfen, ob sie sich hinsichtlich der Vorhersagekraft der eingeschätzten Schwere der Bestrafung unterscheiden. Die Modelle sind ineinander geschachtelt, weil wir in jedem Schritt lediglich einen weiteren Prädiktor aufgenommen haben. 
+Wie wir in der [Sitzung zur Modelloptimierung](../regression-ii) gesehen haben, können wir die drei Modelle über `anova()` vergleichen, um zu prüfen, ob sie sich hinsichtlich der Vorhersagekraft der eingeschätzten Schwere der Bestrafung unterscheiden. Die Modelle sind ineinander geschachtelt, weil wir in jedem Schritt lediglich einen weiteren Prädiktor aufgenommen haben. 
 
 
 ```r
@@ -566,8 +551,7 @@ anova(mod1, mod2, mod3)
 ## 2    171 893.07  1     1.426 0.2846 0.59441   
 ## 3    170 851.81  1    41.265 8.2355 0.00463 **
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 ```r
@@ -630,8 +614,7 @@ summary(mod4)
 ## age41-50     0.55628    0.52250   1.065  0.28855    
 ## ageover 50  -0.02331    0.62101  -0.038  0.97010    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.246 on 170 degrees of freedom
 ## Multiple R-squared:  0.05035,	Adjusted R-squared:  0.03359 
@@ -659,10 +642,12 @@ $$
 {{</ math >}}
 Dabei wird - wie oben dargelegt - $x_{2m} = 1$ immer dann, wenn die Person $m$ zwischen 41 und 50 Jahre alt ist:
 {{< math >}}
-$$
-  \hat{y}_m = b_0 + b_1 \cdot 0 + b_2 \cdot 1 + b_3 \cdot 0 \\
-  \hat{y}_m = b_0 + b_2
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_m = b_0 + b_1 \cdot 0 + b_2 \cdot 1 + b_3 \cdot 0 \\
+  &\hat{y}_m = b_0 + b_2
+\end{split}
+\end{equation}
 {{</ math >}}
 
 Wie wir in der 1. Sitzung des 1. Semesters gesehen hatten, ist eine zentrale Eigenschaft des Nominalskalenniveaus, dass Personen einer und nur einer Kategorie zugeordnet werden können. Das heißt für jede Person kann immer höchstens eine dieser drei Variablen den Wert 1 annehmen.
@@ -686,7 +671,7 @@ tab
 
 ## Kombination nominal- und intervallskalierter Prädiktoren
 
-Der Kombination von unabhängigen Variablen mit Nominal- und Intervallskalenniveau kommt in der Psychologie eine so große Bedeutung zu, dass wir diese z.B. im Rahmen der Methodenlehre im Master für klinische Psychologie und Psychotherapie [noch einmal sehr detailliert behandeln](/../klipps/ancova-und-moderierte-regression) werden. Diese Kombination ist deswegen so wichtig, weil wir in der Psychologie besonders Gruppenunterschiede untersuchen und dabei z.B. Interventions- vs. Kontrollgruppe als nominalskalierten Prädiktor nutzen. Gleichzeitig ist es aber auch wichtig, Interventionseffekte entweder um den Einfluss bestimmter psychologischer Eigenschaften zu bereinigen oder explizit den Effekt zu untersuchen, den Interventionen auf den Zusammenhang zwischen Variablen haben. 
+Der Kombination von unabhängigen Variablen mit Nominal- und Intervallskalenniveau kommt in der Psychologie eine so große Bedeutung zu, dass wir diese z.B. im Rahmen der Methodenlehre im Master für klinische Psychologie und Psychotherapie [noch einmal sehr detailliert behandeln](../../klipps/ancova-und-moderierte-regression) werden. Diese Kombination ist deswegen so wichtig, weil wir in der Psychologie besonders Gruppenunterschiede untersuchen und dabei z.B. Interventions- vs. Kontrollgruppe als nominalskalierten Prädiktor nutzen. Gleichzeitig ist es aber auch wichtig, Interventionseffekte entweder um den Einfluss bestimmter psychologischer Eigenschaften zu bereinigen oder explizit den Effekt zu untersuchen, den Interventionen auf den Zusammenhang zwischen Variablen haben. 
 
 Für unseren Fall hatten wir [schon gesehen](#kombination-mehrerer-dichotomer-praediktoren), dass es Unterschiede zwischen den USA und China in der Einschätzung darüber gibt, welche Art von Bestechung mehr oder weniger stark bestraft werden wird. Damit das Modell übersichtlich bleibt, nutzen wir hier erst einmal nur die Daten aus den USA weiter, aber das volle Modell findet sich in [Appendix A](#appendix-a).
 
@@ -717,8 +702,7 @@ summary(mod5)
 ## (Intercept)   4.4212     0.6766   6.534 3.74e-09 ***
 ## gains         0.0219     0.1138   0.192    0.848    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.224 on 90 degrees of freedom
 ## Multiple R-squared:  0.0004112,	Adjusted R-squared:  -0.0107 
@@ -742,17 +726,12 @@ summary(mod6)
 ## -4.2272 -1.5163  0.0983  1.5606  4.9696 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error t value Pr(>|t|)
-## (Intercept)      4.19277    0.66516   6.303 1.09e-08
-## gains           -0.03392    0.11311  -0.300   0.7650
-## bribeindividual  1.12940    0.46126   2.449   0.0163
-##                    
-## (Intercept)     ***
-## gains              
-## bribeindividual *  
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)      4.19277    0.66516   6.303 1.09e-08 ***
+## gains           -0.03392    0.11311  -0.300   0.7650    
+## bribeindividual  1.12940    0.46126   2.449   0.0163 *  
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.165 on 89 degrees of freedom
 ## Multiple R-squared:  0.0635,	Adjusted R-squared:  0.04245 
@@ -776,9 +755,9 @@ scatter +
     color = '#00BFC4')
 ```
 
-<img src="/lehre/statistik-ii/regression-vi_files/figure-html/ancova-plot-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/regression-vi_files/figure-html/ancova-plot-1.png)<!-- -->
 
-Um zu prüfen, ob der Zusammenhang zwischen dem Ausmaß erwarteter Bestrafung und dem Bestechungsgewinn wirklich über beide Arten der Bestechung hinweg gleich ist, können wir - für alle, die meine bisherigen Ausführungen gelesen haben wenig überraschend - einen Interaktionsterm in das Modell aufnehmen. Damit wird aus der ANCOVA eine _generalisierte_ ANCOVA. In diesem Fall _können_ wir `gains` zentrieren, aber im Gegensatz zum Fall mit der [Interaktion zwischen zwei intervallskalierten Prädiktoren](regression-iv) ist dies hier nicht zwingend erforderlich.
+Um zu prüfen, ob der Zusammenhang zwischen dem Ausmaß erwarteter Bestrafung und dem Bestechungsgewinn wirklich über beide Arten der Bestechung hinweg gleich ist, können wir - für alle, die meine bisherigen Ausführungen gelesen haben wenig überraschend - einen Interaktionsterm in das Modell aufnehmen. Damit wird aus der ANCOVA eine _generalisierte_ ANCOVA. In diesem Fall _können_ wir `gains` zentrieren, aber im Gegensatz zum Fall mit der [Interaktion zwischen zwei intervallskalierten Prädiktoren](../regression-iv) ist dies hier nicht zwingend erforderlich.
 
 
 ```r
@@ -796,19 +775,13 @@ summary(mod7)
 ## -4.2442 -1.2632 -0.0587  1.3676  4.2925 
 ## 
 ## Coefficients:
-##                       Estimate Std. Error t value
-## (Intercept)             5.6659     0.8784   6.450
-## gains                  -0.3177     0.1588  -2.001
-## bribeindividual        -1.9180     1.3089  -1.465
-## gains:bribeindividual   0.5455     0.2201   2.478
-##                       Pr(>|t|)    
-## (Intercept)           5.86e-09 ***
-## gains                   0.0485 *  
-## bribeindividual         0.1464    
-## gains:bribeindividual   0.0151 *  
+##                       Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)             5.6659     0.8784   6.450 5.86e-09 ***
+## gains                  -0.3177     0.1588  -2.001   0.0485 *  
+## bribeindividual        -1.9180     1.3089  -1.465   0.1464    
+## gains:bribeindividual   0.5455     0.2201   2.478   0.0151 *  
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.105 on 88 degrees of freedom
 ## Multiple R-squared:  0.1246,	Adjusted R-squared:  0.09475 
@@ -824,20 +797,26 @@ $$
 $x_{1m}$ ist jetzt unsere intervallskalierter Prädiktor (`gains`) und $x_{2m}$ unser dummykodierter Indikator für `bribe`. Diese Variable nimmt wieder dann den Wert 0 an, wenn die Person eine Gruppenbestechung gesehen hat. Also ergibt sich dann für die Regressionsgleichung:
 
 {{< math >}}
-$$
-  \hat{y}_m = b_0 + b_1 \cdot x_{1m} + b_2 \cdot 0 + b_3 \cdot (x_{1m} \cdot 0) \\
-  \hat{y}_m = b_0 + b_1 \cdot x_{1m} 
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_m = b_0 + b_1 \cdot x_{1m} + b_2 \cdot 0 + b_3 \cdot (x_{1m} \cdot 0) \\
+  &\hat{y}_m = b_0 + b_1 \cdot x_{1m} 
+\end{split}  
+\end{equation}
 {{</ math >}}
 $b_0$ ist also das Intercept für Personen, die eine Gruppenbestechung gesehen haben - der Wert den wir für Personen vorhersagen, die in dieser Gruppe sind und den Gewinn durch die Bestechung mit 0 einschätzen. Das Regressionsgewicht ist dementsprechend der Unterschied zwischen zwei Personen, _die beide die kollektive Bestechung_ gesehen haben und sich um eine Einheit in der Gewinneinschätzung unterscheiden. Ich weise an dieser Stelle noch einmal darauf hin, dass sich die Interpretation durch Interaktionsterme gegenüber "normalen" Regressionen ändert: es ist nun nicht erforderlich, dass zwei Personen die selbe Ausprägung haben, sondern der Steigungskoeffizient gilt nur für Leute, die eine bestimmte Ausprägung haben (in diesem Fall, dass sie aus der Gruppe "kollektive Bestechung" kommen).
 
 Für Personen aus der Gruppe, die individuelle Bestechung gesehen haben ergibt sich hingegen folgende Regressionsgleichung:
+
 {{< math >}}
-$$
-  \hat{y}_m = b_0 + b_1 \cdot x_{1m} + b_2 \cdot 1 + b_3 \cdot (x_{1m} \cdot 1) \\
-  \hat{y}_m = (b_0 + b_2) + (b_1 + b_3) \cdot x_{1m} 
-$$
+\begin{equation}
+\begin{split}
+  &\hat{y}_m = b_0 + b_1 \cdot x_{1m} + b_2 \cdot 1 + b_3 \cdot (x_{1m} \cdot 1) \\
+  &\hat{y}_m = (b_0 + b_2) + (b_1 + b_3) \cdot x_{1m}
+\end{split}  
+\end{equation}
 {{</ math >}}
+
 $b_2$ ist also der Unterschied zwischen den Intercepts, also der Unterschied zwischen zwei Personen, die beide den Wert 0 bei der Gewinneinschätzung angeben, aber unterschiedliche Formen der Bestechung (Gruppe vs. individuell) gesehen haben. $b_3$ ist der Unterschied in den Regressionsgewichten der intervallskalierten Variable zwischen den beiden Gruppen, also das Ausmaß an Unterschied im Zusammenhang zwischen $x_1$ und unserer AV, der durch die gesehene Art von Bestechung erklärt wird. Wir erhalten nun also zwei voneinander unterschiedliche Regressionsgerade - für jede der beiden Gruppen eine. Wir sehen, dass die Regressionsgleichung quasi identisch ist zu der einer moderierten Regression, mit dem einzigen Unterschied, dass $x_{2}$ ein nominaler Prädiktor ist:
 
 {{< math >}}$$  \hat{y}_m = (b_0 + b_2x_{2m}) + (b_1 + b_3x_{2m}) \cdot x_{1m} $${{</ math >}}
@@ -855,38 +834,24 @@ scatter +
     color = '#00BFC4')
 ```
 
-<img src="/lehre/statistik-ii/regression-vi_files/figure-html/gen-ancova-plot-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/regression-vi_files/figure-html/gen-ancova-plot-1.png)<!-- -->
 Die Abbildung zeigt den Unterschied im Zusammenhang zwischen erwartetem Profit von Bestechung und der Schwere der Bestrafung zwischen individueller und kollektiver Bestechung in den USA. Personen, die eine Gruppenbestechung als besonders profitabel einschätzen, schätzen das erwartete Ausmaß an Bestrafung als geringer ein, als Personen die die Bestechung als weniger profitabel ansehen. Anders ist es, wenn es um individuelle Bestechung geht: hier scheint dieser Zusammehang genau umgekehrt zu sein. Auch wenn diese Sätze sehr umständlich klingen, ist es wichtig an dieser Stelle darauf zu achten, dass wir _nicht verschiedene Bestechungssituationen_ sondern verschiedene _Personen und deren Einschätzungen_ vergleichen. 
 
-Im [Beitrag zu Interaktionen zwischen intervallskalierten Variablen](regression-iv) hatten wir Simple Slopes - also bestimmte einzelne Regressionsgeraden - kennengelernt, die wir mit dem Paket `interactions` grafisch veranschaulichen konnten und mit Hilfe welcher wir die Effekte in der moderierter Regression genauer inspizieren können. Wie so oft gibt es in `R` Pakete, die sehr ähnliches tun. So enthält das Paket `reghelper` auch Funktionen, mit welcher wir Simple Slopes betrachten können. Die `summary` unseres Modell hat uns zwar gezeigt, dass der negative Zusammenhang bei Gruppenbestechung bedeutsam ist (die Testung von $b_1$) und dass der Unterschied im Regressionsgewicht zwischen den beiden Gruppen bedeutsam ist (die Testung von $b_3$), aber nicht ob der positive Zusammenhang für individuelle Bestechung positiv ist. Dafür können wir uns die Simple Slopes näher angucken:
+Im [Beitrag zu Interaktionen zwischen intervallskalierten Variablen](../regression-iv) hatten wir Simple Slopes - also bestimmte einzelne Regressionsgeraden - kennengelernt, die wir mit dem Paket `interactions` grafisch veranschaulichen konnten und mit Hilfe welcher wir die Effekte in der moderierter Regression genauer inspizieren können. Wie so oft gibt es in `R` Pakete, die sehr ähnliches tun. So enthält das Paket `reghelper` auch Funktionen, mit welcher wir Simple Slopes betrachten können. Die `summary` unseres Modell hat uns zwar gezeigt, dass der negative Zusammenhang bei Gruppenbestechung bedeutsam ist (die Testung von $b_1$) und dass der Unterschied im Regressionsgewicht zwischen den beiden Gruppen bedeutsam ist (die Testung von $b_3$), aber nicht ob der positive Zusammenhang für individuelle Bestechung positiv ist. Dafür können wir uns die Simple Slopes näher angucken:
 
 
 ```r
 library(reghelper)
-```
-
-```
-## Warning: Paket 'reghelper' wurde unter R Version 4.3.2
-## erstellt
-```
-
-```r
 simple_slopes(mod7)
 ```
 
 ```
-##      gains      bribe Test Estimate Std. Error t value
-## 1 3.536522     sstest        0.0113     0.6362  0.0178
-## 2 5.584783     sstest        1.1287     0.4485  2.5167
-## 3 7.633043     sstest        2.2461     0.6357  3.5330
-## 4   sstest      group       -0.3177     0.1588 -2.0010
-## 5   sstest individual        0.2279     0.1525  1.4943
-##   df Pr(>|t|) Sig.
-## 1 88 0.985874     
-## 2 88 0.013660    *
-## 3 88 0.000657  ***
-## 4 88 0.048475    *
-## 5 88 0.138685
+##      gains      bribe Test Estimate Std. Error t value df Pr(>|t|) Sig.
+## 1 3.536522     sstest        0.0113     0.6362  0.0178 88 0.985874     
+## 2 5.584783     sstest        1.1287     0.4485  2.5167 88 0.013660    *
+## 3 7.633043     sstest        2.2461     0.6357  3.5330 88 0.000657  ***
+## 4   sstest      group       -0.3177     0.1588 -2.0010 88 0.048475    *
+## 5   sstest individual        0.2279     0.1525  1.4943 88 0.138685
 ```
 
 Die ersten drei Zeilen zeigen uns Gruppenunterschiede zwischen individueller und kollektiver Bestechung bei verschiedenen Ausprägungen von `gains` - per Voreinstellung eine Standardabweichung unter dem Mittelwert, dem Mittelwert und eine Standardabweichung darüber. Die letzten beiden Zeilen zeigen uns die gruppenspezifischen Regressionsgewichte. Für `bribe = 'group'` entspricht dies genau der Testung, die wir schon in der normalen `summary` gesehen haben. Nun erhalten wir auch das Gegenstück und sehen, dass der positive Effekt in der Gruppe, die individuelle Bestechung gesehen hat, nicht statistisch bedeutsam von 0 abweicht.
@@ -917,19 +882,13 @@ summary(mod8)
 ## -3.883 -1.878 -0.125  1.577  5.406 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error t value Pr(>|t|)
-## (Intercept)      4.54433    0.59165   7.681 1.19e-12
-## countryChina     0.47596    0.38691   1.230    0.220
-## bribeindividual  0.19243    0.35402   0.544    0.587
-## gains           -0.01663    0.09786  -0.170    0.865
-##                    
-## (Intercept)     ***
-## countryChina       
-## bribeindividual    
-## gains              
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)      4.54433    0.59165   7.681 1.19e-12 ***
+## countryChina     0.47596    0.38691   1.230    0.220    
+## bribeindividual  0.19243    0.35402   0.544    0.587    
+## gains           -0.01663    0.09786  -0.170    0.865    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.292 on 170 degrees of freedom
 ## Multiple R-squared:  0.01133,	Adjusted R-squared:  -0.006118 
@@ -972,7 +931,7 @@ scatter +
     color = country:bribe))
 ```
 
-<img src="/lehre/statistik-ii/regression-vi_files/figure-html/complex_plot_additive-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/regression-vi_files/figure-html/complex_plot_additive-1.png)<!-- -->
 Wie wir zuvor gesehen hatten, sind die Effekte der Bestechungsart in den beiden Ländern aber genau gegenläufig, sodass wir hier einen Interaktionsterm aufnehmen sollten:
 
 
@@ -991,7 +950,7 @@ scatter +
     color = country:bribe))
 ```
 
-<img src="/lehre/statistik-ii/regression-vi_files/figure-html/complex_plot_1interact-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/regression-vi_files/figure-html/complex_plot_1interact-1.png)<!-- -->
 In diesem Modell sind jetzt die spezifischen Effekte der Gruppen-Bestechungskonstellation _im Mittel_ aufgenommen. Es wird aber nachwievor angenommen, dass der Zusammenhang zwischen `gains` und `severe` in allen Bedingungen der Gleiche ist. Es handelt sich also auch hier um eine _klassische ANCOVA_.
 
 Es ist möglich, für jeden der dummykodierten Prädiktoren einzeln den Interaktionseffekt mit der intervallskalierten Variable in das Modell aufzunehmen. Hier die Schritte im Schnelldurchlauf mit anschließender Modellauswahl über das Informationskriterium $AIC$:
@@ -1040,7 +999,7 @@ scatter +
     color = country:bribe))
 ```
 
-<img src="/lehre/statistik-ii/regression-vi_files/figure-html/complex_plot_fullinteract-1.png" style="display: block; margin: auto;" />
+![](/lehre/statistik-ii/regression-vi_files/figure-html/complex_plot_fullinteract-1.png)<!-- -->
 Wir sehen also, dass die entgegengesetzten Effekte, die wir für Mittelwerte gesehen hatten auch für die Zusammenhänge zwischen `gains` und `severe` bestehen: in den USA geht mit größerem Gewinn bei Gruppenbestechung (rote Linie) eine _geringere_ Erwartung der Schwere der Bestrafung einher; in China hingegen eine _höhere_ (türkise Linie). Wir können wieder über `simple_slopes` die gruppenspezifischen Regressionsgewichte prüfen:
 
 
@@ -1049,16 +1008,11 @@ simple_slopes(mod13, levels = list(gains = 'sstest'))
 ```
 
 ```
-##   country      bribe  gains Test Estimate Std. Error
-## 1     U.S      group sstest       -0.3177     0.1676
-## 2   China      group sstest        0.1126     0.2177
-## 3     U.S individual sstest        0.2279     0.1610
-## 4   China individual sstest       -0.1968     0.2534
-##   t value  df Pr(>|t|) Sig.
-## 1 -1.8950 166  0.05983    .
-## 2  0.5172 166  0.60573     
-## 3  1.4151 166  0.15890     
-## 4 -0.7767 166  0.43844
+##   country      bribe  gains Test Estimate Std. Error t value  df Pr(>|t|) Sig.
+## 1     U.S      group sstest       -0.3177     0.1676 -1.8950 166  0.05983    .
+## 2   China      group sstest        0.1126     0.2177  0.5172 166  0.60573     
+## 3     U.S individual sstest        0.2279     0.1610  1.4151 166  0.15890     
+## 4   China individual sstest       -0.1968     0.2534 -0.7767 166  0.43844
 ```
 Wir sehen also, dass trotz der großen optischen Unterschiede in den Regressionsgewichten, keins der gruppenspezifischen Regressionsgewichte statistisch bedeutsam von 0 abweicht.
 

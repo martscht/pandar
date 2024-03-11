@@ -9,7 +9,7 @@ subtitle: 'Modelloptimierung'
 summary: ''
 authors: [irmer, hartig, schueller, nehler]
 weight: 5
-lastmod: '2024-01-03'
+lastmod: '2024-03-08'
 featured: no
 banner:
   image: "/header/gardening_tools.jpg"
@@ -292,10 +292,6 @@ Wie immer gibt es in `R` viele weitere Wege, zum selben Ziel zu kommen. Das Pake
 library(olsrr)
 ```
 
-```
-## Error in library(olsrr): there is no package called 'olsrr'
-```
-
 Die Funktion `ols_step_both_p()` beinhaltet die Auswahl auf Basis der Signifikanz des Inkrements oder Dekrements und führt in jedem Schritt Tests für Einschluss und Ausschluss durch. Sie nutzt also die Technik, die wir gerade für den theorigeleiteten Modellvergleich auch genommen haben. Dieses Vorgehen sollte nicht als Default angesehen werden, da einige Probleme bestehen, auf die wir nach der Demonstration eingehen. Aufgrund der Prävalenz des Vorgehens haben wir uns dazu entschieden, es auch zu präsentieren.
 
 Nun zu der Anwendung der `ols_step_both_p()`-Funktion: Der Input  ist ein Regressionsmodell, das mit der bekannten Funktion `lm` erstellt wurde. Über die zusätzlichen Argumente kann gesteuert werden, wie streng bei Aufnahme und Ausschluss getestet wird. Über das Argument `details` können Sie den gesamten Verlauf der schrittweisen Selektion (nicht nur das finale Ergebnis) anzeigen lassen. `pent` ist der p-Wert, der für das "entering" in das Modell zuständig ist. Also muss das Inkrement einen p-Wert von $p<.05$ haben, wenn wir `pent = .05` wählen.`prem` ist der p-Wert, der für das "removing" aus dem Modell zuständig ist. Also muss das Dekremnt einen p-Wert von $p>.10$ haben, wenn wir `pent = .10` wählen. `details = TRUE` fordert weitere Informationen an.
@@ -310,7 +306,98 @@ ols_step_both_p(m, pent = .05, prem = .10, details = TRUE)
 ```
 
 ```
-## Error in ols_step_both_p(m, pent = 0.05, prem = 0.1, details = TRUE): could not find function "ols_step_both_p"
+## Stepwise Selection Method   
+## ---------------------------
+## 
+## Candidate Terms: 
+## 
+## 1. reading 
+## 2. female 
+## 3. IQ 
+## 
+## We are selecting variables based on p value...
+## 
+## 
+## Stepwise Selection: Step 1 
+## 
+## + IQ 
+## 
+##                          Model Summary                           
+## ----------------------------------------------------------------
+## R                       0.698       RMSE                 84.105 
+## R-Squared               0.487       Coef. Var            14.980 
+## Adj. R-Squared          0.481       MSE                7073.620 
+## Pred R-Squared          0.468       MAE                  52.958 
+## ----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression     657075.570         1     657075.570    92.891    0.0000 
+## Residual       693214.751        98       7073.620                     
+## Total         1350290.321        99                                    
+## -----------------------------------------------------------------------
+## 
+##                                    Parameter Estimates                                    
+## -----------------------------------------------------------------------------------------
+##       model      Beta    Std. Error    Std. Beta      t       Sig       lower      upper 
+## -----------------------------------------------------------------------------------------
+## (Intercept)    53.901        53.330                 1.011    0.315    -51.931    159.733 
+##          IQ     5.172         0.537        0.698    9.638    0.000      4.107      6.237 
+## -----------------------------------------------------------------------------------------
+## 
+## 
+## 
+## No more variables to be added/removed.
+## 
+## 
+## Final Model Output 
+## ------------------
+## 
+##                          Model Summary                           
+## ----------------------------------------------------------------
+## R                       0.698       RMSE                 84.105 
+## R-Squared               0.487       Coef. Var            14.980 
+## Adj. R-Squared          0.481       MSE                7073.620 
+## Pred R-Squared          0.468       MAE                  52.958 
+## ----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                  ANOVA                                  
+## -----------------------------------------------------------------------
+##                    Sum of                                              
+##                   Squares        DF    Mean Square      F         Sig. 
+## -----------------------------------------------------------------------
+## Regression     657075.570         1     657075.570    92.891    0.0000 
+## Residual       693214.751        98       7073.620                     
+## Total         1350290.321        99                                    
+## -----------------------------------------------------------------------
+## 
+##                                    Parameter Estimates                                    
+## -----------------------------------------------------------------------------------------
+##       model      Beta    Std. Error    Std. Beta      t       Sig       lower      upper 
+## -----------------------------------------------------------------------------------------
+## (Intercept)    53.901        53.330                 1.011    0.315    -51.931    159.733 
+##          IQ     5.172         0.537        0.698    9.638    0.000      4.107      6.237 
+## -----------------------------------------------------------------------------------------
+```
+
+```
+## 
+##                               Stepwise Selection Summary                               
+## --------------------------------------------------------------------------------------
+##                      Added/                   Adj.                                        
+## Step    Variable    Removed     R-Square    R-Square     C(p)        AIC        RMSE      
+## --------------------------------------------------------------------------------------
+##    1       IQ       addition       0.487       0.481    2.4470    1174.1802    84.1048    
+## --------------------------------------------------------------------------------------
 ```
 
 Der Output ist extrem detailliert, wobei allerdings nicht aufgeführt wird, wie die jeweiligen Inkremente oder Dekremente der anderen Variablen ausgefallen waren, die nicht selektiert wurden. Mit der `ols_step_both_p` wählen wir nur den IQ als Prädiktor aus! Uns wird nach jedem Step zunächst gesagt, welcher Prädiktor gewählt wurde und wie sich verschiedene Fit-Maße verhalten (bspw. AIC oder $R^2$). Für uns ist an dieser Stelle besonders das $R^2$ (`R-Squared`) von Relevanz. Die ANOVA im Output beschreibt einfach eine ANOVA der zu vergleichenden Modelle, wobei zunächst mit dem Null-Modell, welches nur das Interzept enthält, begonnen wird. 
@@ -527,7 +614,7 @@ Um jetzt den Unterschied genau zu erkennen, müssen wir zunächst die **Loglikel
 
 ## Appendix A {#AppendixA}
 
-{{< spoiler text = "**Inferenzstatistik der Semipartialkorrelation und der Modellvergleich**" >}}
+<details><summary><b>Inferenzstatistik der Semipartialkorrelation und der Modellvergleich</b></summary>
 
 Wir arbeiten weiterhin mit dem Datensatz `Schulleistungen` und gehen davon aus, dass wir bereits `reading` und `female` zur Vorhersage von `math` nutzen. nun soll zusätzlich noch `IQ` aufgenommen werden. Den Modelltest erlangen wir über das eingeschränkte und uneingeschränkte Modell mit der Funktion `anova()`.
 
@@ -571,11 +658,11 @@ sp$p             # p-Wert der Semipartialkorrelation
 ```
 Weiterhin sehen wir, dass das Inkrement und die quadrierte Semipartialkorrelation derselbe Wert sind. Die $p$-Werte hingegen unterscheiden sich. Dies kommt daher, dass der Modelltest eigentlich die Partialkorrelation testet. Einschlägige Literatur begründet das damit, dass für diese der Standardfehler weniger komplex zu bestimmt wäre. Weiterhin sind sich die Nullhypothesen auch ähnlich, wodurch in den allermeisten Fällen der Modelltest und die Prüfung der Semipartialkorrelation zur selben Signifikanzentscheidung führen.
 
-{{< /spoiler >}}
+</details>
 
 ## Appendix B {#AppendixB}
 
-{{< spoiler text = "**Bestimmen von AIC und Vergleich zwischen `AIC` und `extractAIC`**" >}}
+<details><summary><b>Bestimmen von AIC und Vergleich zwischen `AIC` und `extractAIC`</b></summary>
 
 Wie bereits oben besprochen, benötigen wir für die Berechnung des AIC die Loglikelihood (Logarithmus der Likelihood) der Daten. Diese erhalten wir ganz einfach mit der `logLik` Funktion. 
 
@@ -600,7 +687,7 @@ $$-\frac{1}{2}\log(2\pi) -\frac{1}{2}\log(\sigma^2) - \frac{\varepsilon_i^2}{2\s
 
 Haben wir nun ganz viele Beobachtungen, müssen diese bzgl. der Likelihood multipliziert werden (unabhängige Ereignisse werden multipliziert - das folgt dem gleichen Konzept, wie als wenn wir zweimal einen Würfel würfeln, dann müssen  die Wahrscheinlichkeiten bspw. die 6 zu würfeln, multipliziert werden). Wenn wir dann logarithmieren, entsteht eine Summe, mit der relativ leicht umgegangen werden kann (deswegen wird auch zumeist die Loglikelihood genutzt, da diese genau dann wenn die Likelihood maximal ist, auch maximal ist, allerdings leichter zu "handlen" ist):
 
-$$\sum_{i=1}^n-\frac{1}{2}\log(2\pi) -\frac{1}{2}\log(\sigma^2) - \frac{\varepsilon_i^2}{2\sigma^2} = \frac{n}{2}\log(2\pi) -\frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2} \sum_{i=1}^n \varepsilon_i^2$$
+$$\tiny \sum_{i=1}^n-\frac{1}{2}\log(2\pi) -\frac{1}{2}\log(\sigma^2) - \frac{\varepsilon_i^2}{2\sigma^2} = \frac{n}{2}\log(2\pi) -\frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2} \sum_{i=1}^n \varepsilon_i^2$$
 
 den letzten Ausdruck kennen wir aber! Das ist die Fehlerquadratsumme! Es gilt $\sum_{i=1}^n \varepsilon_i^2 = n\sigma^2$. Wir können also $\frac{1}{2\sigma^2}\sum_{i=1}^n \varepsilon_i^2$ kürzen: $\frac{1}{2\sigma^2}\sum_{i=1}^n \varepsilon_i^2 = \frac{1}{2\sigma^2}n\sigma^2 = \frac{n}{2}$ ($\sigma^2$ fliegt raus). Also ist die Loglikelihood unserer Daten:
 
@@ -702,7 +789,7 @@ extractAIC(model1) - extractAIC(model2)
 
 Der Unterschied in den bestimmten AICs ist identisch. Somit sehen wir, dass die Unterschiede in den absoluten Werten keinen Einfluss auf die Auswahl der Modelle nimmt. Was für ein Aufwand. Wir hoffen, dass die Herleitung beim Verstehen des Sachverhalts hilft.
 
-{{< /spoiler >}}
+</details>
 
 ***
 

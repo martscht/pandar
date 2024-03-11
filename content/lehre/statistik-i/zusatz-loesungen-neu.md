@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [cezanne, mueller, nehler]
 weight:
-lastmod: '2024-01-22' 
+lastmod: '2024-02-26' 
 featured: no
 banner:
   image: "/header/mechanical_number_display.png"
@@ -589,7 +589,7 @@ Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres En
 
 
 ```r
-rm(list = ls())
+# rm(list = ls())
 load(url('https://pandar.netlify.app/daten/fb22.rda'))
 ```
 
@@ -611,16 +611,15 @@ str(fb22$lerntyp)
 
 ## Aufgabe 16.2
 
-Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `nature` in das Environment. Dies können sie lokal von ihrem PC, aber auch mittels der URL von der PandaR-Website machen. Der Datensatz sollte 1522 Versuchspersonen und 27 Variablen enthalten. 
+Legen wir die ausgedachten Werte nun beiseite. Löschen Sie die Inhalte Ihres Environments und laden Sie sich den Datensatz `nature` in das Environment. Dies können sie mittels der URL von der PandaR-Website machen. Der Datensatz sollte 1522 Versuchspersonen und 27 Variablen enthalten. 
 
 
 ```r
-rm(list = ls())
-load(url('https://pandar.netlify.app/daten/nature.rda'))
+# rm(list = ls())
+source(url("https://pandar.netlify.app/daten/nature_zusatz_processing.R"))
 ```
 
 
- 
 In der Variable `urban` ist festgehalten, in welcher Gegend jemand als Kind gelebt hat. Wandeln Sie diese Variable in einen Faktor um. Die Labels lauten: `c("laendlich", "vorstaedtisch", "staedtisch")`. Erstellen Sie dafür keine neuen Spalten, sondern überschreiben Sie die bereits bestehenden. Überprüfen Sie im Nachhinein die Umwandlung.
 
 <details><summary>Lösung</summary>
@@ -654,13 +653,13 @@ table_lerntyp <- table(fb22$lerntyp)
 barplot(table_lerntyp, main = "Lerntypen Jahrgang 2022", ylab = "Anzahl Studierende", col = colours)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
 
 ```r
 barplot(table_lerntyp, main = "Lerntypen Jahrgang 2022", ylab = "Anzahl Studierende", col = colours2)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-31-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-30-2.png)<!-- -->
 </details>
 
 ## Aufgabe 17.2
@@ -678,13 +677,13 @@ table_urban <- table(nature$urban)
 barplot(table_urban, main = "Wohngegend als Kind", ylab = "Anzahl ProbandInnen", col = colours)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
 
 ```r
 barplot(table_urban, main = "Wohngegend als Kind", ylab = "Anzahl ProbandInnen", col = colours2)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-32-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-31-2.png)<!-- -->
 </details>
   
 ## Aufgabe 18
@@ -797,13 +796,13 @@ quantile(fb22$prok10, c(.25, .75))
 boxplot(fb22$prok4)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
 ```r
 boxplot(fb22$prok10)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-36-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-35-2.png)<!-- -->
 
 </details>
 
@@ -862,14 +861,14 @@ quantile(nature$Q5, c(.25, .75))
 boxplot(nature$Q1)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 
 ```r
 boxplot(nature$Q5)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
 
 </details> 
 
@@ -933,6 +932,7 @@ mean(nature$age)
 * Die mittlere Ausprägung liegt bei 29.879.
 
 </details>
+
 
 ## Aufgabe 21 
 
@@ -998,6 +998,103 @@ Der Mittelwert von `gewis` liegt bei 3.884, der von `extra` bei 3.379. Unter den
 </details>
 
 
+## Aufgabe 21.2
+
+Schauen wir uns nun noch einen weiteren Datensatz an. Laden Sie sich den Datensatz `SD3` in das Environment. Dies können Sie mittels der URL von der PandaR-Website machen. Der Datensatz sollte 18192 Versuchspersonen und 29 Variablen enthalten. 
+
+
+
+```r
+# rm(list = ls())
+source('/home/zarah/pandar.git/content/daten/SD3_zusatz_processing.R')
+# source(url("https://pandar.netlify.app/daten/SD3_zusatz_processing.R"))
+```
+
+Dieser Datensatz enthält Daten, die mit einem Fragebogen zur Dunklen Triade (Short Dark Triad) erfasst wurden. Es lassen sich drei Subskalen berechnen. Die Items `M1` bis `M9` beziehen sich auf das Konstrukt des Machiavellismus, die Items `N1` bis `N9` erfassen Narzissmus und die Items `P1` bis `P9` Psychopathie. Die Items wurden anhand einer fünf-Punte-Skala von 1 (stimme nicht zu) bis 5 (stimme zu) beantwortet. Es ist zu beachten, dass die Items `N2`, `N6`, `N8`, `P2` und `P7` invertiert sind. 
+
+* Wandeln Sie also zunächst diese Items so um, dass hohe Werte für eine hohe Ausprägung in diesem Konstrukt stehen. Überschreiben Sie dafür wieder die Ursprungsvariable.
+
+* Erstellen Sie dann drei neue Variablen `M_ges`, `N_ges`, `P_ges`, die die Antworten auf den drei Subskalen jeweils zusammenfassen.
+
+<details><summary>Lösung</summary>
+
+Zunächst werden die Items invertiert.
+
+```r
+SD3$N2 <- -1 * (SD3$N2 - 6)
+SD3$N6 <- -1 * (SD3$N6 - 6)
+SD3$N8 <- -1 * (SD3$N8 - 6)
+
+SD3$P2 <- -1 * (SD3$P2 - 6)
+SD3$P7 <- -1 * (SD3$P7 - 6)
+```
+
+Überprüfen wir nun noch, ob `NAs` vorliegen.
+
+```r
+sum(is.na(SD3))
+```
+
+```
+## [1] 0
+```
+
+Jetzt können wir jeweils die Mittelwerte für die Items der verschiedenen Subskalen berechnen und in neuen Variablen festhalten.
+
+```r
+SD3$M_ges <- rowMeans(SD3[, 1:9])
+SD3$N_ges <- rowMeans(SD3[, 10:18])  
+SD3$P_ges <- rowMeans(SD3[, 19:27]) 
+```
+</details>
+
+
+## Aufgabe 21.3
+
+Erzielen die Proband:innen im Mittel, rein deskriptiv betrachtet, höhere Werte in Machiavellismus (`M_ges`) als in Narzissmus (`N_ges`) oder liegt genau der umgekehrte Fall vor? In welcher der beiden Variablen variieren die Angaben stärker? Gehen Sie für die Beantwortung davon aus, dass die Skalen gleich genormt sind.
+
+<details><summary>Lösung</summary>
+
+
+
+```r
+mean(SD3$M_ges)
+```
+
+```
+## [1] 3.60101
+```
+
+```r
+mean(SD3$N_ges)
+```
+
+```
+## [1] 3.050505
+```
+
+```r
+n <- nrow(SD3)
+var(SD3$M_ges) * ((n-1)/n)
+```
+
+```
+## [1] 0.5804255
+```
+
+```r
+var(SD3$N_ges) * ((n-1)/n)
+```
+
+```
+## [1] 0.5075502
+```
+
+Der Mittelwert von `M_ges` liegt bei 3.601, der von `N_ges` bei 3.051. Unter den getroffenen Annahmen sind die Proband:innen stärker machiavellistisch als narzisstisch. Die Streuung ist deskriptiv beim Machiavellismus größer. Hier liegt sie bei 0.58, während sie beim Narzismus bei 0.508 liegt.
+
+</details>
+
+
 ## Aufgabe 22
 
 Verträglichkeit ist in `vertr` abgelegt. 
@@ -1013,7 +1110,7 @@ Verträglichkeit ist in `vertr` abgelegt.
 hist(fb22$vertr)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
 
 Dieses Histogramm soll erstmal zum Vergleich dienen. Wir sehen die ursprünglichen Skalenwerte.
 
@@ -1023,7 +1120,7 @@ fb22$vertr_z <- scale(fb22$vertr, scale = F)
 hist(fb22$vertr_z)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
 
 Durch die Zentrierung verändert sich die Form erstmal nicht. Der Mittelwert der Werte wird auf 0 gesetzt. Optisch äußert sich das dadurch, dass die Werte auf der x-Achse nun andere sind.
 
@@ -1033,7 +1130,48 @@ fb22$vertr_st <- scale(fb22$vertr, scale = T)
 hist(fb22$vertr_st)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
+
+Die Standardisierung setzt die Standardabweichung auf 1. Aufgrund der neuen Wertestruktur wird natürlich auch die Kategorienanzahl geändert. 
+
+</details>
+
+## Aufgabe 22.2
+
+Schauen wir uns nun das Konstrukt der Psychopathie nochmal genauer an.
+
+* Lassen Sie sich das Histogramm der Variable `P_ges` ausgeben. 
+* Zentrieren Sie die Variable `P_ges`. Legen Sie dafür noch eine neue Spalte in `SD3` mit dem Namen `P_z` an und lassen Sie sich erneut ein Histogramm ausgeben. Was hat sich verändert? 
+* Standardisieren Sie die Variable `P_ges` und speichern Sie diese ebenfalls unter einer neuen Spalte mit dem Namen `P_st` ab. Was ist nun anders beim Histogramm?
+
+
+<details><summary>Lösung</summary>
+
+```r
+hist(SD3$P_ges)
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
+
+Dieses Histogramm soll erstmal zum Vergleich dienen. Wir sehen die ursprünglichen Skalenwerte.
+
+
+```r
+SD3$P_z <- scale(SD3$P_ges, scale = F)
+hist(SD3$P_z)
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
+
+Durch die Zentrierung verändert sich die Form erstmal nicht. Der Mittelwert der Werte wird auf 0 gesetzt. Optisch äußert sich das dadurch, dass die Werte auf der x-Achse nun andere sind.
+
+
+```r
+SD3$P_st <- scale(SD3$P_ges, scale = T)
+hist(SD3$P_st)
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
 
 Die Standardisierung setzt die Standardabweichung auf 1. Aufgrund der neuen Wertestruktur wird natürlich auch die Kategorienanzahl geändert. 
 
@@ -1101,6 +1239,60 @@ mean(fb22_gruppe$nerd, na.rm = T)
 Personen, die angaben gerne in Gruppen zu lernen, weisen einen Mittelwert von 4.125 auf. Sie sind rein deskriptiv extravertierter als Personen, die angaben lieber alleine zu lernen. Diese haben hier einen Mittelwert von 3.086. Umgekehrtes gilt in unserer Stichprobe hingegen für die Nerdiness. Hier haben Personen, die in Gruppen lernen, einen Wert von 2.75 und Personen, die lieber alleine lernen, einen Wert von 3.226.
 </details>
 
+
+## Aufgabe 23.2
+
+Die Items `Q1` bis `Q6` dienen zur Erfassung der 
+Naturverbundenheit. Keines der Items ist invers. In der Variable `Q_ges` ist der Mittelwert dieser Naturverbundenheits-Items für jede Person festgehalten.
+
+
+Vergleichen Sie deskriptiv das Maß der zentralen Tendenz in der Variable `Q_ges` zwischen den Teilnehmenden, die auf die Frage nach ihrer Religion (`religion`) Atheismus (kodiert mit `2`) und denjenigen, die Hinduismus (kodiert mit `8`) angegeben haben. Welche der beiden Gruppen hat die höhere Ausprägung? 
+
+<details><summary>Lösung</summary>
+
+Da wir zwei Analysen durchführen wollen, wäre es eine gute Möglichkeit, die Personen in reduzierten Datensätzen abzulegen. Dies kann mittels der Funktion `subset` gelöst werden.
+
+
+```r
+nature_atheist <- subset(nature, subset = religion == 2)
+nature_hindu <- subset(nature, subset = religion == 8)
+```
+
+Über das Argument `subset` geben wir an, in welcher Variable (`religion`) die Auswahl stattfindet und anschließend legen wir die Auswahl der einzelnen Gruppen über das bereits bekannte `==` fest. 
+
+Eine andere Möglichkeit wäre die Verwendung der logischen Auswahl anhand eckiger Klammern.
+
+
+```r
+nature_atheist <- nature[nature$religion == 2,]
+nature_hindu <- nature[nature$religion == 8,]
+```
+
+Nun können Mittelwerte für die beiden Gruppen bestimmt werden. Beachten Sie, dass die Ergänzung von `na.rm = T` nur auf dem zweiten demonstrierten Weg wichtig ist. Dort können Personen, die keinen Eintrag in der Auswahl-Variable haben, nicht richtig zugeordnet werden und sind daher in den beiden Datensätzen erhalten - allerdings nicht mit ihren richtigen Werten, stattdessen steht bei ihnen in jeder Spalte `NA`. Die Funktion `subset` nimmt diese Fälle hingegen nicht mit auf. 
+
+
+```r
+mean(nature_atheist$Q_ges, na.rm = T)
+```
+
+```
+## [1] 3.759091
+```
+
+```r
+mean(nature_hindu$Q_ges, na.rm = T)
+```
+
+```
+## [1] 4.318095
+```
+
+Personen, die angaben Atheist:innen zu sein, weisen einen Mittelwert von 3.759 auf. 
+Sie sind rein deskriptiv weniger naturverbunden als Personen, die angaben Hinduist:innen zu sein. 
+Diese haben hier einen Mittelwert von 4.318. 
+
+</details>
+
 ## Aufgabe 24
 
 Etwa 75% Prozent der Psychologiestudierenden in Deutschland sind weiblich. Sie treffen zufällig auf 15 Psychologiestudierende.
@@ -1153,7 +1345,7 @@ wk <- pbinom(X, 15, 0.75)
 plot(x = X, y = wk, typ = "h", xlab = "Anzahl Frauen", ylab = "kummulierte Wahrscheinlichkeit")
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-62-1.png)<!-- -->
 </details>
 
 
@@ -1286,7 +1478,7 @@ Jetzt können wir uns die Extraversion der Gruppen deskriptiv in einem Boxplot d
 boxplot(fb22$extra ~ fb22$lerntyp_neu, xlab = "Lerntyp", ylab = "Extraversion") 
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-60-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-70-1.png)<!-- -->
 
 Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir aber nun noch inferenzstatistisch überprüfen. Dafür überprüfen wir die Voraussetzungen eines t-Tests für unabhängige Stichproben. Wir können annehmen, dass die abhängige Variable intervallskaliert ist und dass die einzelnen Messwerte voneinander unabhängig sind. Wir müssen nun noch die Normalverteilung der Extraversion in den Gruppen und die Homoskedastizität überprüfen.
 
@@ -1297,10 +1489,17 @@ Wir nutzen dafür die `qqPlot`-Funktion aus dem `car`-Paket.
 
 ```r
 library(car)
+```
+
+```
+## Lade nötiges Paket: carData
+```
+
+```r
 qqPlot(fb22$extra[fb22$lerntyp_neu == "alleine"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-61-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-71-1.png)<!-- -->
 
 ```
 ## [1]  7 38
@@ -1310,7 +1509,7 @@ qqPlot(fb22$extra[fb22$lerntyp_neu == "alleine"])
 qqPlot(fb22$extra[fb22$lerntyp_neu == "Gruppe oder Mischtyp"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-61-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-71-2.png)<!-- -->
 
 ```
 ## [1] 12 32
@@ -1387,6 +1586,9 @@ Der deskriptive Unterschied der Mittelwerte lässt sich somit auch inferenzstati
 
 </details>
 
+## Aufgabe 26.2
+
+Unterscheiden sich Personen, die in einer ländlichen Gegend aufgewachsen sind, in ihrer Naturverbundenheit (`Q_ges`) von Personen, die in einer städtischen oder vorstädtischen Gegend aufgewachsen sind (`urban`)? Schauen Sich sich die Daten graphisch an und führen sie nach Voraussetzungsprüfung einen geeigneten Test durch.
 
 ## Aufgabe 27
 
@@ -1550,7 +1752,7 @@ library(car)
 qqPlot(fb22$intel[fb22$job == "nein"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-71-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-81-1.png)<!-- -->
 
 ```
 ## [1] 30 79
@@ -1560,7 +1762,7 @@ qqPlot(fb22$intel[fb22$job == "nein"])
 qqPlot(fb22$intel[fb22$job == "ja"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-71-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-81-2.png)<!-- -->
 
 ```
 ## [1] 49 46
@@ -1597,13 +1799,13 @@ Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselbe
 hist(fb22$intel[fb22$job == "ja"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-72-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-82-1.png)<!-- -->
 
 ```r
 hist(fb22$intel[fb22$job == "nein"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-72-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-82-2.png)<!-- -->
 Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
 
 
@@ -1636,6 +1838,174 @@ wilcox.test(fb22$lz ~ fb22$ort)
 Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = 2775, *p* = 0.303 ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Psychologiestudierende, die einen Nebenjob haben, und Psychologiestudierende, die keinen Nebenjob haben, nicht in ihrem Intellekt unterscheiden. 
 
 </details>
+
+
+## Aufgabe 28.2
+
+Weichen Personen, die in einer ländlichen Gegend aufgewachsen sind, in ihrer Naturverbundenheit (`Q_ges`) von Personen, die in einer städtischen oder vorstädtischen Gegend aufgewachsen sind (`urban`) ab?
+
+* Führen Sie nach Voraussetzungsprüfung einen geeigneten Test durch.
+
+<details><summary>Lösung</summary>
+Wir beginnen die Voraussetzungen des t-Tests für unabhängige Stichproben zu überprüfen. Die Voraussetzungen, dass die unabhängige Variable intervallskaliert ist und die einzelnen Messwerte unabhängig voneinander sind, sind per Untersuchungsdesign erfüllt. Wir wollen nun also die Normalverteilung des Merkmals in den Gruppen überprüfen.
+
+
+
+```r
+#Wir überprüfen erst wieder, ob die Variable Nebenjob als Faktor vorliegt
+is.factor(nature$urban)
+```
+
+```
+## [1] TRUE
+```
+
+############################
+Nun wollen wir eine neue Variable erstellen, in der die Personen, die in einer städtischen oder vorstädtischen Gegend aufgewachsen sind, zusammengefasst werden.
+
+
+```r
+nature$urban_neu <- nature$urban == "laendlich"
+nature$urban_neu <- as.numeric(nature$urban_neu) #Umwandlung in Numeric, da der Variablen Typ nun Logical ist
+nature$urban_neu <- factor(nature$urban_neu, 
+                           levels = 0:1, 
+                           labels = c("staedtisch oder vorstaedtisch", "laendlich"))
+```
+
+Jetzt können wir uns die Extraversion der Gruppen deskriptiv in einem Boxplot darstellen lassen.
+
+
+```r
+boxplot(nature$Q_ges ~ nature$urban_neu, xlab = "Gegend", ylab = "Naturverbundenheit") 
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-87-1.png)<!-- -->
+
+Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir aber nun noch inferenzstatistisch überprüfen. Dafür überprüfen wir die Voraussetzungen eines t-Tests für unabhängige Stichproben. Wir können annehmen, dass die abhängige Variable intervallskaliert ist und dass die einzelnen Messwerte voneinander unabhängig sind. Wir müssen nun noch die Normalverteilung der Extraversion in den Gruppen und die Homoskedastizität überprüfen.
+
+**Prüfung der Normalverteilung**
+
+Wir nutzen dafür die `qqPlot`-Funktion aus dem `car`-Paket.
+
+
+```r
+library(car)
+qqPlot(nature$Q_ges[nature$urban_neu == "laendlich"])
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-88-1.png)<!-- -->
+
+```
+## [1] 351   4
+```
+
+```r
+qqPlot(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-88-2.png)<!-- -->
+
+```
+## [1]  32 204
+```
+
+Die Abweichungen sind recht weit. Wir führen noch den Shapiro-Test durch.
+
+
+```r
+shapiro.test(nature$Q_ges[nature$urban_neu == "laendlich"])
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  nature$Q_ges[nature$urban_neu == "laendlich"]
+## W = 0.86118, p-value < 2.2e-16
+```
+
+```r
+shapiro.test(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"]
+## W = 0.89217, p-value < 2.2e-16
+```
+
+Keiner der Tests ist signifikant, sodass wir die Normalverteilungsannahme beibehalten.
+###########################
+
+ 
+Die Normalverteilungsannahme ist nicht erfüllt. Wir können also keinen t-Test durchführen. Wir überprüfen nun die Voraussetzungen des Wilcoxon-Tests.
+Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselben Verteilung folgen.
+
+
+```r
+hist(nature$Q_ges[nature$urban_neu == "laendlich"])
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-90-1.png)<!-- -->
+
+```r
+hist(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-90-2.png)<!-- -->
+Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
+
+
+```r
+leveneTest(nature$Q_ges ~ nature$urban_neu)
+```
+
+```
+## Levene's Test for Homogeneity of Variance (center = median)
+##         Df F value Pr(>F)  
+## group    1  3.9882  0.046 *
+##       1496                 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+```r
+var(nature$Q_ges[nature$urban_neu == "laendlich"], na.rm =T)
+```
+
+```
+## [1] 0.6599903
+```
+
+```r
+var(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"], na.rm = T)
+```
+
+```
+## [1] 0.7640496
+```
+
+Wir können von Varianzhomogenität ausgehen und somit einen Wilcoxon-Test durchführen.
+
+
+```r
+wilcox.test(nature$Q_ges ~ nature$urban_neu)
+```
+
+```
+## 
+## 	Wilcoxon rank sum test with continuity correction
+## 
+## data:  nature$Q_ges by nature$urban_neu
+## W = 192458, p-value = 0.009231
+## alternative hypothesis: true location shift is not equal to 0
+```
+Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = 1.924575\times 10^{5}, *p* = 0.009 ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Psychologiestudierende, die einen Nebenjob haben, und Psychologiestudierende, die keinen Nebenjob haben, nicht in ihrem Intellekt unterscheiden. 
+
+</details> 
+
 
 ## Aufgabe 29
 
@@ -1711,6 +2081,81 @@ Der Effekt ist mit -0.56 als mittel bis groß einzuschätzen.
 
 </details>
 
+## Aufgabe 29.2
+
+Unterscheiden sich  Marchiavellismus (`M_ges`) und Narzissmus (`N_ges`) im Durchschnitt voneinander? Gehen Sie für die Beantwortung davon aus, dass die Skalen gleich genormt sind.
+
+* Stellen sie die Hypothesen auf.
+
+<details><summary>Lösung</summary>
+
+$H_0$: Der durchschnittliche Marchiavellismus in der Bevölkerung unterscheidet sich nicht von deren Narzissmus.
+
+$H_0$: $\mu_0$ $=$ $\mu_1$
+  
+$H_1$: Der durchschnittliche Marchiavellismus in der Bevölkerung unterscheidet sich von deren Narzissmus.
+
+$H_1$: $\mu_0$ $≠$ $\mu_1$
+
+</details>
+
+
+* Begründen Sie weshalb Sie welchen Test benutzen wollen.
+
+<details><summary>Lösung</summary>
+
+Da die Marchiavellismus- und Narzissmus-Werte, die verglichen werden sollen, immer von derselben Person stammen, sind die Werte voneinander abhängig. Daher wollen wir einen t-Test für abhängige Stichproben durchführen. Die Werte sind intervallskaliert, voneinander abhängig und die Differenzvariable ist normalverteilt, da wir bei einer Stichprobe von n ≥ 30 direkt davon ausgehen können. Somit sind alle Voraussetzungen für den t-Test erfüllt.
+
+</details>
+
+
+* Führen Sie den Test durch und berechnen Sie gegebenfalls eine Effektgröße.
+
+<details><summary>Lösung</summary>
+
+
+```r
+t.test(SD3$M_ges, SD3$N_ges, paired = T)
+```
+
+```
+## 
+## 	Paired t-test
+## 
+## data:  SD3$M_ges and SD3$N_ges
+## t = 4.8118, df = 43, p-value = 1.87e-05
+## alternative hypothesis: true mean difference is not equal to 0
+## 95 percent confidence interval:
+##  0.3197814 0.7812287
+## sample estimates:
+## mean difference 
+##       0.5505051
+```
+Der Gruppenunterschied ist signifikant ($t$(18190) = 4.81 , *p* < .001), somit wird die Nullhypothese verworfen. Unter den getroffenen Annahmen weist die Bevölkerung unterschiedliche Werte auf der Skala Nerdiness und auf der Skala Intellekt auf.
+
+**Effektstärke:**
+
+
+```r
+library("effsize")
+cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)
+```
+
+```
+## 
+## Cohen's d
+## 
+## d estimate: 0.7254081 (medium)
+## 95 percent confidence interval:
+##     lower     upper 
+## 0.3885896 1.0622267
+```
+
+Der Effekt ist mit 0.73 als groß einzuschätzen.
+
+</details>
+
+
 
 ## Aufgabe 30
 
@@ -1745,7 +2190,7 @@ Nun schauen wir uns den Zusammenhang der Variablen in einem Scatterplot an.
 plot(x = fb22$woerter_grund, y = fb22$gewis)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-79-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-99-1.png)<!-- -->
 
 Wir schließen einen nicht linearen Zusammenhang nicht aus und überprüfen nun die Normalverteilung der Variablen.
 
@@ -1755,7 +2200,7 @@ library(car)
 qqPlot(fb22$gewis)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-80-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-100-1.png)<!-- -->
 
 ```
 ## [1] 54 80
@@ -1765,7 +2210,7 @@ qqPlot(fb22$gewis)
 qqPlot(fb22$woerter_grund)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-80-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-100-2.png)<!-- -->
 
 ```
 ## [1] 136  93
@@ -1778,7 +2223,8 @@ cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "gre
 ```
 
 ```
-## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot compute exact p-value with ties
+## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Kann exakten
+## p-Wert bei Bindungen nicht berechnen
 ```
 
 ```
@@ -1829,7 +2275,7 @@ plot(fb22$gewis, fb22$prok_ges, xlab = "Gewissenhaftigkeit", ylab = "Prokrastina
 lines(loess.smooth(fb22$gewis, fb22$prok_ges), col = 'blue')
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-83-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-103-1.png)<!-- -->
 
 Die Voraussetzung ist erfüllt. Wir können nun also unser Regressionsmodell aufstellen.
 
@@ -1846,7 +2292,7 @@ par(mfrow = c(2, 2)) #vier Abbildungen gleichzeitig
 plot(fm)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-85-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-105-1.png)<!-- -->
 
 Der Q-Q-Plot oben rechts deutet auf Normalverteilung hin. Die rote Anpassungslinie des Scale-Location Plots unten links ist annähernd parallel zur x-Achse, sodass wir von Varianzhomogenität ausgehen können. Da auch der vierte Plot unten rechts nicht auf potentiell problematische, einflussreiche Datenpunkte hindeutet, sind alle Vorausetzungen erfüllt.
 
@@ -1914,7 +2360,7 @@ summary(fm)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.4524 on 155 degrees of freedom
-##   (2 observations deleted due to missingness)
+##   (2 Beobachtungen als fehlend gelöscht)
 ## Multiple R-squared:  0.2478,	Adjusted R-squared:  0.243 
 ## F-statistic: 51.07 on 1 and 155 DF,  p-value: 3.273e-11
 ```
@@ -1926,7 +2372,6 @@ summary(fm)$r.squared
 ```
 ## [1] 0.2478399
 ```
-
 
 
 
@@ -1960,10 +2405,9 @@ Das Modell sagt einen Prokrastinationswert von 2.77 voraus.
 </details>
 
 
-
 ## Aufgabe 32
 
-In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug $d=-0.56$. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
+In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug $d=$. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
 Nutzen Sie den Seed 4321 (`set.seed(4321)`).
 
 * Führen Sie eine Simulation durch, um die empirische Power des t-Tests zu bestimmen.
@@ -2011,8 +2455,8 @@ Die Wahrscheinlichkeit eines $\beta$-Fehlers beträgt 0.11%.
 
 ```r
 set.seed(4321)
-tH1 <- replicate(n = 10^4, expr = {X <- rnorm(159) 
-                                   Y <- rnorm(159) + d 
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d 
                                    ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T)
                                    ttestH1$statistic})
 power <- c(mean(abs(tH1) > qt(p = 1- 0.001/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.01/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.025/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.05/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.1/2, df = N)))
@@ -2021,7 +2465,74 @@ x <- c(.001, 0.01, 0.025, 0.05, 0.1)
 plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-92-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-112-1.png)<!-- -->
+
+Wir sehen: Je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 44 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
+
+</details>
+
+
+## Aufgabe 32
+
+In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug 0.73. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
+Nutzen Sie den Seed 4321 (`set.seed(4321)`).
+
+* Führen Sie eine Simulation durch, um die empirische Power des t-Tests zu bestimmen.
+
+<details><summary>Lösung</summary>
+
+```r
+d <- cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)$estimate #Effektstärke
+N <- nrow(SD3) #Anzahl der Teilnehmenden von SD3
+set.seed(4321)
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d #Normalverteilte Stichproben mit Mittelwertsunterschied von d Standardabweichungen
+                                   ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T) #Paired = T, da es sich um einen t-Test für abhängige Stichproben handelt
+                                   ttestH1$p.value})
+mean(tH1 < .05 )
+```
+
+```
+## [1] 0.9142
+```
+
+Die Power des Tests beträgt 91.42%.
+</details>
+
+* Wie hoch ist die Wahrscheinlichkeit eines $\beta$-Fehlers?
+
+<details><summary>Lösung</summary>
+
+```r
+1 - mean(tH1 < .05 )
+```
+
+```
+## [1] 0.0858
+```
+
+Die Wahrscheinlichkeit eines $\beta$-Fehlers beträgt 8.58%.
+
+</details>
+
+
+* Angenommen wir wollen das $\alpha$-Niveau verändern. Wie würde sich das auf die Power des Tests auswirken? Simulieren sie diesmal den empirischen t-Wert und erstellen Sie einen Powerplot, in dem $\alpha$ = 0.001, $\alpha$ = 0.01, $\alpha$ = 0.025, $\alpha$ = 0.05, $\alpha$ = 0.1 abgetragen sind. 
+
+<details><summary>Lösung</summary>
+
+```r
+set.seed(4321)
+tH1 <- replicate(n = 10^4, expr = {X <- rnorm(N) 
+                                   Y <- rnorm(N) + d 
+                                   ttestH1 <- t.test(X, Y, var.equal = TRUE, paired = T)
+                                   ttestH1$statistic})
+power <- c(mean(abs(tH1) > qt(p = 1- 0.001/2,  df  = N)), mean(abs(tH1) > qt(p = 1- 0.01/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.025/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.05/2, df = N)), mean(abs(tH1) > qt(p = 1- 0.1/2, df = N)))
+
+x <- c(.001, 0.01, 0.025, 0.05, 0.1)
+plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-115-1.png)<!-- -->
 
 Wir sehen: Je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 159 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
 
