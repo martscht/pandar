@@ -38,8 +38,6 @@ output:
     keep_md: true
 ---
 
-{{< list_of_tags >}}
-
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
