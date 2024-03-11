@@ -38,8 +38,6 @@ output:
     keep_md: true
 ---
 
-{{< list_of_tags >}}
-
 
 
 <details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
@@ -386,7 +384,7 @@ log(-1)
 ```
 
 ```
-## Warning in log(-1): NaNs wurden erzeugt
+## Warning in log(-1): NaNs produced
 ```
 
 ```
@@ -403,7 +401,7 @@ log(argument = 10)
 ```
 
 ```
-## Error in eval(expr, envir, enclos): Argument "x" fehlt (ohne Standardwert)
+## Error in eval(expr, envir, enclos): argument "x" is missing, with no default
 ```
 
 In diesem Fall werden wir darauf hingewiesen, dass wir keine Einstellung für das Argument `x` vorgenommen haben, obwohl dieses keine Voreinstellung hat. Daher ist die Funktion unfähig ein Ergebnis zu produzieren. Bei Fehlern sollten Sie bedenken, dass diese das Ausführen mehrerer Zeilen nicht unterbrechen. Wenn Sie also eine komplette Syntax auf einmal ausführen, können aus Fehlern Folgefehler entstehen, weil ein Ergebnis nicht entstanden ist, mit dem Sie anschließend weiter rechnen wollten.
@@ -657,7 +655,7 @@ as.numeric(color)
 ```
 
 ```
-## Warning: NAs durch Umwandlung erzeugt
+## Warning: NAs introduced by coercion
 ```
 
 ```
@@ -929,7 +927,7 @@ data.frame(color, text, cong, react, three)
 ```
 
 ```
-## Error in data.frame(color, text, cong, react, three): Argumente implizieren unterschiedliche Anzahl Zeilen: 8, 3
+## Error in data.frame(color, text, cong, react, three): arguments imply differing number of rows: 8, 3
 ```
 
 Dazu gibt es jedoch eine, sehr spezifische, Ausnahme. Es ist möglich, dass Vektoren unterschiedliche Längen haben, wenn die längere Länge ein Vielfaches der kürzeren Länge ist. Wenn wir also einen Vektor mit 4 Elementen erstellen:
@@ -1434,7 +1432,7 @@ fb23 <- read.table('fb23.csv', header = TRUE)
 ```
 
 ```
-## Error in read.table("../../daten/fb23.csv", header = TRUE): mehr Spalten als Spaltennamen
+## Error in read.table("../../daten/fb23.csv", header = TRUE): more columns than column names
 ```
 
 Wieder ergibt sich ein Fehler, der lamentiert, dass es mehr Spalten als Variablennamen gibt. Das liegt daran, dass `read.table()` per Voreinstellung davon ausgeht, dass Variablen (bzw. Spalten des Datensatzes) durch Leerzeichen getrennt sind (`sep = ""`). In unserer Datei erfolgt das aber durch Kommata.
