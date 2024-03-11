@@ -1506,38 +1506,34 @@ Es besteht kein positiver Zusammenhang zwischen Gewissenhaftigkeit und der Anzah
 
 ## Aufgabe 30.2
 
-Hängt die Gewissenhaftigkeit (`gewis`) positiv mit der Anzahl an geschriebenen Wörtern zusammen, die als Begründung (`grund`) für die Wahl des Psychologiestudiums angegeben wurden? Überprüfen Sie die Voraussetzungen für das gewählte Zusammenhangsmaß.
-
+Hängt die Koffeinabhängigkeit (`caffeine`) positiv mit dem subjektiven Stressepfinden zusammen (`stress`) zusammen. Überprüfen Sie die Voraussetzungen für das gewählte Zusammenhangsmaß.
 
 
 <details><summary>Lösung</summary>
 
-Als erstes erstellen wir eine Variable mit der Anzahl an geschriebenen Wörtern.
+Als erstes schauen wir uns den Zusammenhang der Variablen in einem Scatterplot an.
 
 ```{r}
-fb22$woerter_grund <- str_count(fb22$grund, "\\w+")
-```
-
-Nun schauen wir uns den Zusammenhang der Variablen in einem Scatterplot an.
-
-```{r}
-plot(x = fb22$woerter_grund, y = fb22$gewis)
+plot(x = zusatz$caffeine, y = zusatz$stress)
 ```
 
 Wir schließen einen nicht linearen Zusammenhang nicht aus und überprüfen nun die Normalverteilung der Variablen.
 
 ```{r}
 library(car)
-qqPlot(fb22$gewis)
-qqPlot(fb22$woerter_grund)
+qqPlot(zusatz$caffeine)
+qqPlot(zusatz$stress)
+
+shapiro.test(zusatz$caffeine)
+shapiro.test(zusatz$stress)
 ```
 Die Normalverteilungsannahme ist nicht erfüllt. Daher können wir keine Pearson Produkt-Moment-Korrelation ermitteln und berechnen stattdessen die Rangkorrelation nach Spearman, die nicht an die Normalverteilungsannahme gebunden ist.
 
 ```{r}
-cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "greater")
+cor.test(zusatz$caffeine, zusatz$stress, method = "spearman", alternative = "greater")
 ```
 
-Es besteht kein positiver Zusammenhang zwischen Gewissenhaftigkeit und der Anzahl an geschriebenen Wörter bei der Begründung für das Psychologiestudium.
+Es besteht ein positiver Zusammenhang zwischen der Koffeinahängigkeit und dem subjektivem Stressempfinden. 
 
 </details>
 
@@ -1634,6 +1630,85 @@ predict(fm, newdata = data.frame(gewis = 3.2))
 Das Modell sagt einen Prokrastinationswert von `r round(predict(fm, newdata = data.frame(gewis = 3.2)),2)` voraus.
 </details>
 
+## Aufgabe 31.2
+
+Lässt sich Empathie (`empathy`) durch das Selbstwertgefühl (`selfesteem`) vorhersagen? 
+
+
+* Stellen Sie die Regressionsgerade auf und prüfen sie die Voraussetzungen.
+
+<details><summary>Lösung</summary>
+
+Die einzige Voraussetzung, die wir vor der Aufstellung des Regressionsmodell prüfen können, ist der lineare Zusammenhang der Variablen mit Hilfe eines Scatterplot.
+
+```{r}
+plot(zusatz$selfesteem, zusatz$empathy, xlab = "Selbstwertgefühl", ylab = "Empathie", 
+     main = "Zusammenhang zwischen Selbstwertgefühl und Empathie", pch = 19)
+lines(loess.smooth(zusatz$selfesteem, zusatz$empathy), col = 'blue')
+```
+
+Die Voraussetzung ist erfüllt. Wir können nun also unser Regressionsmodell aufstellen.
+
+```{r}
+fm <- lm(empathy ~ 1 + selfesteem, data = zusatz)
+```
+
+Nun prüfen wir die anderen Voraussetungen.
+
+```{r}
+par(mfrow = c(2, 2)) #vier Abbildungen gleichzeitig
+plot(fm)
+```
+
+Der Q-Q-Plot oben rechts deutet auf Normalverteilung hin. Die rote Anpassungslinie des Scale-Location Plots unten links ist annähernd parallel zur x-Achse, sodass wir von Varianzhomogenität ausgehen können. Da auch der vierte Plot unten rechts nicht auf potentiell problematische, einflussreiche Datenpunkte hindeutet, sind alle Vorausetzungen erfüllt.
+
+```{r}
+fm
+```
+Die Regressionsgleichung lautet also $$ y_i = `r round(coef(fm)[1],3)` - `r abs(round(coef(fm)[2],3))`*x_i + e_i $$. 
+</details>
+
+
+* Prüfen Sie nun mit einem {{<math>}}$99\%${{</math>}}-Konfidenzintervall die Signifikanz der Koeffizienten.
+
+<details><summary>Lösung</summary>
+
+```{r}
+confint(fm, level = .99)
+```
+
+In keinem der Intervalle ist die Null enthalten, sodass wir davon ausgehen können, dass die beiden Koeffizienten tatsächlich von Null verschieden sind.
+
+</details>
+
+
+* Wie viel Prozent der Varianz der Empathie lassen sich durch das Selbstwertgefühl aufklären?
+
+<details><summary>Lösung</summary>
+
+```{r}
+summary(fm)
+summary(fm)$r.squared
+```
+
+
+
+Durch das Selbstwertgefühl können {{<math>}}$ `r round(summary(fm)$r.squared,4)*100`\%${{</math>}} der Varianz der Empathie erklärt werden.
+
+</details>
+
+* Eine Person hat ein Selbstwertgefühl von 3.2. Welchen Prokrastinationswert sagt das Modell für diese Person voraus?
+
+<details><summary>Lösung</summary>
+```{r}
+fm$coefficients[1] + 3.2*fm$coefficients[2]
+
+#Alternativ:
+predict(fm, newdata = data.frame(gewis = 3.2))
+```
+Das Modell sagt einen Empathiewert von `r round(predict(fm, newdata = data.frame(gewis = 3.2)),2)` voraus.
+</details>
+
 
 ## Aufgabe 32
 
@@ -1689,9 +1764,9 @@ Wir sehen: Je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. M
 </details>
 
 
-## Aufgabe 32
+## Aufgabe 32.2
 
-In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug `r round(cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)$estimate, 2)`. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
+In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Marchiavellismus und Narzissmus unterscheiden. Die gefundene Effektgröße betrug `r round(cohen.d(SD3$M_ges, SD3$N_ges, paired = T, within = F)$estimate, 2)`. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
 Nutzen Sie den Seed 4321 (`set.seed(4321)`).
 
 * Führen Sie eine Simulation durch, um die empirische Power des t-Tests zu bestimmen.
