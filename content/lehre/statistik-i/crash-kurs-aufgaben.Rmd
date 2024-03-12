@@ -74,5 +74,5 @@ Die folgenden Aufgaben beziehen sich auf den Datensatz **fb23**, den Sie [{{< ic
 12. Erstellen Sie eine Variable `uni`, die darlegt, wie viele der Uniangebote eine Teilnehmerin oder ein Teilnehmer bereits in Anspruch genommen hat (aus den Variablen `uni1` bis `uni4`).
 13. Nutzen Sie die `subset`-Funktion um einen Datensatz zu erstellen, der nur die Personen enthält, die nach dem Abschluss in der Psychotherapie tätig sein wollen. Nennen Sie diesen `therapie`.
   + Nutzen Sie die Hilfe um herauszufinden, wie `subset` funktioniert.
-  + Sie können im [auf der Seite zum Crash-Kurs](/lehre/statistik-i/crash-kurs) nachschlagen, wie logische Operationen in `R` durchgeführt werden!
+  + Sie können [auf der Seite zum Crash-Kurs](/lehre/statistik-i/crash-kurs) nachschlagen, wie logische Operationen in `R` durchgeführt werden!
 14. Speichern Sie den neuen Datensatz als **therapie.rds** im RDS Format ab.
