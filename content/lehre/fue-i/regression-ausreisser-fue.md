@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer, hartig] 
 weight: 2
-lastmod: '2024-02-19'
+lastmod: '2024-03-12'
 featured: yes
 banner:
   image: "/header/frog_overencumbered.jpg"
@@ -39,7 +39,7 @@ output:
 
 
 ## Einleitung
-In der [Einführungssitzung](/post/einleitung-fue) hatten wir etwas über das Einlesen von Datensätzen, einfache Deskriptivstatistiken und den $t$-Test gelernt und in diesem Rahmen einige Grundlagen der Statistik wiederholt. Nun wollen wir mit etwas komplexeren, aber bereits bekannten, Methoden weitermachen und eine multiple Regression in `R` durchführen. Hierbei werden wir auch die zu diesem Verfahren notwendigen Voraussetzungen prüfen sowie das Vorliegen von Ausreißern untersuchen. 
+In der [Einführungssitzung](../einleitung-fue) hatten wir etwas über das Einlesen von Datensätzen, einfache Deskriptivstatistiken und den $t$-Test gelernt und in diesem Rahmen einige Grundlagen der Statistik wiederholt. Nun wollen wir mit etwas komplexeren, aber bereits bekannten, Methoden weitermachen und eine multiple Regression in `R` durchführen. Hierbei werden wir auch die zu diesem Verfahren notwendigen Voraussetzungen prüfen sowie das Vorliegen von Ausreißern untersuchen. 
 
 Bevor wir dazu die Daten einlesen, sollten wir als erstes die nötigen `R`-Pakete laden. Die `R`-Pakete, die wir im Folgenden brauchen, sind: das `car`-Paket, das `MASS`-Paket sowie das Paket mit dem Namen `lm.beta`. Diese Pakete müssen zunächst installiert werden. Dies können Sie via `install.packages` machen:
 
@@ -303,7 +303,7 @@ Nun kommen wir zum eigentlich Spannenden, nämlich der Übersicht über die Para
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-Insgesamt gibt es 6 Spalten, wobei die `Standardized`-Spalte extra durch das Paket `lm.beta` angefordert wurde (sie ist also nicht immer in der Summary enthalten). In der ersten Spalte stehen die Variablennamen, die selbsterklärend sein sollten. Die Spalte `Estimate` zeigt den unstandardisierten Parameter (hier Regressionsgewicht). Z.B. liegt das Interzept $b_0$ bei 88.2093. Das Partialregressionsgewicht vom Geschlecht $b_\text{female}$ liegt bei 38.4705. Da Mädchen mit `1` kodiert sind, bedeutet dies: Wenn Mädchen im Vergleich zu Jungen betrachtet werden, so steigt die Leseleistung durchschnittlich um 38.4705 Punkte ("durchschnittlich" in der Interpretation ist enorm wichtig, da es ja noch den Vorhersagefehler gibt). Folglich können wir das Interzept ebenfalls interpretieren: Ein Junge mit einem Intelligenzquotienten von 0 (dieser Wert ist leider unrealistisch, da der IQ hier nicht zentriert wurde - die Effekte von Zentrierung schauen wir uns in der Sitzung zu [Multi-Level-Modeling](/post/multi-level-modeling) genauer an!) hat eine durchschnittliche Leseleistung von 88.2093. 
+Insgesamt gibt es 6 Spalten, wobei die `Standardized`-Spalte extra durch das Paket `lm.beta` angefordert wurde (sie ist also nicht immer in der Summary enthalten). In der ersten Spalte stehen die Variablennamen, die selbsterklärend sein sollten. Die Spalte `Estimate` zeigt den unstandardisierten Parameter (hier Regressionsgewicht). Z.B. liegt das Interzept $b_0$ bei 88.2093. Das Partialregressionsgewicht vom Geschlecht $b_\text{female}$ liegt bei 38.4705. Da Mädchen mit `1` kodiert sind, bedeutet dies: Wenn Mädchen im Vergleich zu Jungen betrachtet werden, so steigt die Leseleistung durchschnittlich um 38.4705 Punkte ("durchschnittlich" in der Interpretation ist enorm wichtig, da es ja noch den Vorhersagefehler gibt). Folglich können wir das Interzept ebenfalls interpretieren: Ein Junge mit einem Intelligenzquotienten von 0 (dieser Wert ist leider unrealistisch, da der IQ hier nicht zentriert wurde - die Effekte von Zentrierung schauen wir uns in der Sitzung zu [Multi-Level-Modeling](../hierarchische-regression-schule) genauer an!) hat eine durchschnittliche Leseleistung von 88.2093. 
 
 In der Spalte `Standardized` stehen die standardisierten Regressionsgewichte. Hier werden die Daten so transformiert, dass sowohl die AV als auch die UVs jeweils Mittelwerte von 0 und Varianzen (bzw. Standardabweichungen) von 1 aufweisen. Das Interzept ist nun nicht länger interessant, da, wenn $y$ einen Mittelwert von 0 hat und auch die unabhängigen Variablen zentriert sind (also Mittelwerte von 0 haben), dann ist das Interzept gerade jener vorhergesagte Wert für $y$, der anfällt, wenn alle Prädiktoren den Wert 0 -also ihren Mittelwert - annehmen. Bei der Regression ist es aber so, dass an der Stelle, an der die Prädiktoren ihren Mittelwert annehmen, auch der Mittelwert von $y$ liegt; hier also der Wert 0. Folglich ist das Interzept im standardisierten Fall **_immer_** 0. 
 Das standardisierte Regressionsgewicht der Intelligenz $\beta_\text{IQ}$ liegt bei 0.5836, was bedeutet, dass bei einer Erhöhung der Intelligenz um eine Standardabweichung auch die Leseleistung im Mittel (im Durchschnitt) um 0.5836 Standardabweichungen ansteigt. Für die Interpretation des Geschlechts als Prädiktor bringt die Standardisierung eine Erschwerung mit sich. Die beiden Ausprägungen sind nun nicht mehr eine Einheit bzw. Standardabweichung voneinander entfernt. Daher kann man den Vergleich nicht mehr mit einbeziehen. Es lässt sich nur sagen: Steigt die Variable Geschlecht um eine Standardabweichung auf der Dimension zwischen Jungen und Mädchen, so steigt die Leseleistung um durchschnittlich 0.181 Standardabweichungen. Die Standardabweichung einer solchen dichotomen Variablen hängt von der Verteilung der beiden Ausprägungen ab. Sie ist am größten, wenn gleich viele Beobachtungen in den beiden Gruppen vorhanden sind.
@@ -346,8 +346,9 @@ names(summary_our_model)      # weitere mögliche Argumente, die wir erhalten k�
 ```
 
 ```
-##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"        
-##  [7] "df"            "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled"
+##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"      
+##  [6] "sigma"         "df"            "r.squared"     "adj.r.squared" "fstatistic"   
+## [11] "cov.unscaled"
 ```
 
 ```r
@@ -364,7 +365,7 @@ Wenn wir diese Siginfikanzentscheidungen nutzen wollen, um die Effekte in der Po
 
 
 ## Prüfen der Voraussetzungen
-Dieser Abschnitt fundiert auf der Bachelorsitzung zu [Regression III](/post/reg3). Die Voraussetzung der Unabhängigkeit und der Gleichverteiltheit ist und bleibt eine Annahme, die wir nicht prüfen können. Wir können jedoch durch das Studiendesign (Randomisierung, Repräsentativität) diese Annahme plausibilisieren. Wir schauen uns als nächstes die Linearitätsannahme an und machen danach mit der Verteilung der Residuen weiter. Zum Schluss schauen wir uns neben der Multikollinearität noch mögliche Ausreißer an:
+Dieser Abschnitt fundiert auf der Bachelorsitzung zu [Regression III](../../statistik-ii/regression-iii). Die Voraussetzung der Unabhängigkeit und der Gleichverteiltheit ist und bleibt eine Annahme, die wir nicht prüfen können. Wir können jedoch durch das Studiendesign (Randomisierung, Repräsentativität) diese Annahme plausibilisieren. Wir schauen uns als nächstes die Linearitätsannahme an und machen danach mit der Verteilung der Residuen weiter. Zum Schluss schauen wir uns neben der Multikollinearität noch mögliche Ausreißer an:
 
 * Linearität 
 * Homoskedastizität 
@@ -386,7 +387,7 @@ Eine grafische Prüfung der partiellen Linearität zwischen den einzelnen Prädi
 avPlots(model = our_model, pch = 16, lwd = 4) 
 ```
 
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
 Mit Hilfe der Argumente `pch=16` und `lwd=4` werden die Darstellung der Punkte (ausgefüllt anstatt leer) sowie die Dicke der Linie (vierfache Dicke) manipuliert (_für mehr zu Grafikparametern in `R` siehe [{{< icon name="graduation-cap" pack="fas" >}}  hier](https://www.statmethods.net/advgraphs/parameters.html)_). Den Achsenbeschriftungen ist zu entnehmen, dass auf der Y-Achse jeweils *reading | others* dargestellt ist. Die vertikale Linie *|* steht hierbei für den mathematischen Ausdruck *gegeben*. *Others* steht hierbei für alle weiteren (anderen) Prädiktoren im Modell. Dies bedeutet, dass es sich hierbei um die Residuen aus der Regression von *reading* auf alle anderen Prädiktoren handelt. Bei den unabhängigen Variablen (UV, *female*, *IQ*) steht *UV | others* also jeweils für die jeweilige UV gegeben der anderen UVs im Modell. Somit beschreiben die beiden Plots jeweils die Beziehungen, die die UVs über die anderen UVs im Modell hinaus mit dem Kriterium (AV, abhängige Variable) haben. Es ist zu beachten, dass die Variable Geschlecht hier nur zwei Ausprägungen hat.
 
@@ -405,7 +406,7 @@ Die Varianz der Residuen sollte unabhängig von den Ausprägungen der Prädiktor
 residualPlots(our_model, pch = 16)
 ```
 
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 ```
 ##            Test stat Pr(>|Test stat|)
@@ -435,7 +436,7 @@ xWerte <- seq(from = min(res), to = max(res), by = 0.01)
 lines(x = xWerte, y = dnorm(x = xWerte, mean = mean(res), sd = sd(res)), lwd = 3)
 ```
 
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 Das Histogramm zeigt keine großen Verstöße gegen die Normalverteilungsannahme.
 
@@ -446,7 +447,7 @@ Das Histogramm zeigt keine großen Verstöße gegen die Normalverteilungsannahme
 qqPlot(our_model, pch = 16, distribution = "norm")
 ```
 
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
 ```
 ## [1]  6 33
@@ -509,7 +510,7 @@ summary(quad_int_model)
 ## Multiple R-squared:  0.3928,	Adjusted R-squared:  0.3673 
 ## F-statistic: 15.37 on 4 and 95 DF,  p-value: 1.001e-09
 ```
-Mit Hilfe von `*` können wir sowohl die Haupteffekte als auch den Interaktionseffekt in das Modell aufnehmen. Es gilt also: `female*IQ = female + IQ + I(female*IQ)`. Außerdem nehmen wir mit `I(IQ^2)` noch den quadratischen Effekt des IQs auf. Die Funktion `I()` erlaubt es uns hier Funktionen unserer Variablen zu erstellen, ohne diese vorher tatsächlich dem Datensatz anhängen zu müssen. `R`-intern wird allerdings genau das gemacht! Da das Geschlecht 0-1 kodiert ist, trägt das Quadrat hier keine Information, weswegen es keinen Sinn macht, auch das Geschlecht quadratisch in das Modell aufzunehmen. Eigentlich müssten wir, um Multikollinearität der linearen und nichtlinearen Terme zu vermeiden, eigentlich die Prädiktoren zentrieren, worauf wir hier allerdings verzichten. Interessierte können in der Sitzung zur [moderierten Regression](/post/reg4) weitere Details nachlesen. 
+Mit Hilfe von `*` können wir sowohl die Haupteffekte als auch den Interaktionseffekt in das Modell aufnehmen. Es gilt also: `female*IQ = female + IQ + I(female*IQ)`. Außerdem nehmen wir mit `I(IQ^2)` noch den quadratischen Effekt des IQs auf. Die Funktion `I()` erlaubt es uns hier Funktionen unserer Variablen zu erstellen, ohne diese vorher tatsächlich dem Datensatz anhängen zu müssen. `R`-intern wird allerdings genau das gemacht! Da das Geschlecht 0-1 kodiert ist, trägt das Quadrat hier keine Information, weswegen es keinen Sinn macht, auch das Geschlecht quadratisch in das Modell aufzunehmen. Eigentlich müssten wir, um Multikollinearität der linearen und nichtlinearen Terme zu vermeiden, eigentlich die Prädiktoren zentrieren, worauf wir hier allerdings verzichten. Interessierte können in der Sitzung zur [moderierten Regression](../../statistik-ii/regression-iv) weitere Details nachlesen. 
 
 ## Multikollinearität
 
@@ -595,7 +596,7 @@ abline(v = 2*(2+1)/n, col = "red")  # Cut-off als große Stichprobe
 abline(v = 3*(2+1)/n, col = "blue")  # Cut-off als kleine Stichprobe
 ```
 
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 Hier eine kurze Beschreibung aller Argumente in der Grafik: Das Zusatzargument `breaks = 20` in `hist` gibt an, dass 20 Balken gezeichnet werden sollen. `abline` ist eine Funktion, die eine Gerade einem Plot hinzufügt. Dem Argument `v` wird hierbei der Punkt übergeben, an welchem eine **v**ertikale Linie eingezeichnet werden soll. `col = "red"` bzw. `col = "blue"` gibt an, dass diese Linie rot bzw. blau sein soll.
 
@@ -610,7 +611,7 @@ hist(CD, breaks  = 20)
 abline(v = 1, col = "red")  # Cut-off bei 1
 ```
 
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
 In diesem Plot ist die vertikale Linie nicht enthalten, da der Plot schon zu früh entlang der x-Achse aufhört. Wir können die Grenzen mit `xlim = c(0,1)` explizit von 0 bis 1 vorgeben:
 
 
@@ -620,7 +621,7 @@ hist(CD, breaks  = 20, xlim = c(0, 1))
 abline(v = 1, col = "red")  # Cut-off bei 1
 ```
 
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
 
 
 ### Blasendiagramm
@@ -634,7 +635,7 @@ Die Funktion `influencePlot` des `car`-Paketes erzeugt ein "Blasendiagramm" zur 
 InfPlot <- influencePlot(our_model)
 ```
 
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
 
 ```r
 IDs <- as.numeric(row.names(InfPlot))
@@ -699,7 +700,7 @@ Die Entscheidung, ob Ausreißer oder auffällige Datenpunkte aus Analysen ausges
 ### Einfluss von Hebelwert und Cook's Distanz
 Was wäre nun gewesen, wenn die Hebelwerte oder Cook's Distanz extreme Werte angezeigt hätten? Um dieser Frage auf den Grund zu gehen, schauen wir uns für eine Kombination der beiden Koeffizienten den Effekt auf eine Regressionsgerade an. Die vier Grafiken zeigen jeweils die Regressionsgerade in schwarz ohne den jeweiligen Ausreißer, während die Gerade in blau die Regressionsanalyse (`Y ~ 1 + X`) inklusive des Ausreißers symbolisiert.
 
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
 
 In `A)` ist die Regression ohne Ausreißer dargestellt. `B)` zeigt den Effekt, wenn nur der Hebelwert groß ist. Es ist kaum ein Einfluss auf die Regressionsgerade auszumachen. Der Mittelwert der Variable `X` wird stark nach rechts verschoben. Dies bedeutet, dass ein großer Hebelwert nur den Mittelwert dieser Variable in Richtung des Ausreißers "hebelt", nicht aber zwangsweise die Regressionsgerade! `C)` zeigt eine große Cook's Distanz bei gleichzeitig kleinem Hebelwert. die Gerade ist etwas nach oben verschoben und auch die Steigung hat sich leicht verändert. Insgesamt ist mit dem bloßen Auge allerdings noch kein extremer Effekt auf die Gerade auszumachen. Dieser Effekt wird nur in `D)` deutlich. Hier ist sowohl Cook's Distanz als auch der Hebelwert extrem. Dadurch verändert sich die Regressionsgerade stark. Hier könnten wir davon sprechen, dass die Gerade durch den Ausreißer nach unten "gehebelt" wird. Die hier dargestellte Erhebung hat auch auch die größte Mahalanobisdistanz, da sie sowohl in `X` als auch in `Y` Richtung extrem ist (siehe dazu nächsten Abschnitt). Insgesamt zeigt diese Grafik, dass nicht ein Koeffizient alleine ausreicht, um einen Effekt auf eine Regressionsanalyse zu untersuchen und dass Werte besonders dann extreme Auswirkungen haben, wenn mehrere Koeffizienten groß sind!
 
@@ -711,7 +712,7 @@ $$MD_i=(\mathbf{X}_i-\bar{\mathbf{X}})'\Sigma^{-1}(\mathbf{X}_i-\bar{\mathbf{X}}
 Der Vektor der Mittelwertsdifferenzen $\mathbf{X}_i-\bar{\mathbf{X}}$ wird durch die Kovarianzmatrix  der Daten $\Sigma$ gewichtet. Sind zwei Variablen $X_1$ und $X_2$ positiv korreliert, so treten große Werte (und auch kleine Werte) auf beiden Variablen gemeinsam häufig auf, allerdings sind große $X_1$ und kleine $X_2$-Werte (gleichzeitig und auch umgekehrt) unwahrscheinlich. Dies lässt sich anhand der Mahalanobisdistanz untersuchen. *Wann ist nun ein Mahalanobisdistanzwert extrem?* Dies können wir uns an einem zweidimensionalen Beispiel klarer machen. Dazu tragen wir in ein Diagramm die Ellipsen (Kurven) gleicher Mahalanobisdistanz ein, also jene Linien, welche laut Mahalanobisdistanz gleich weit vom Zentroiden entfernt liegen. Je dunkler die Kurven, desto weiter entfernt liegen diese Punkte vom Zentroiden (hier $(0,0)$) und desto unwahrscheinlicher sind diese Punkte in den Daten zu beobachten. In diesem Beispiel nehmen wir an, dass die Variablen positiv korreliert sind:
 
 
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
 Hier ist 
 {{< math >}}
 \begin{align*}
@@ -723,7 +724,7 @@ Der Zentroid ist hier in Hellgrün dargestellt. Außerdem sind zwei Punkte (in s
 
 Beschäftigen wir uns zunächst mit der Testung auf multivariate Normalverteilung. Wenn diese gegeben ist, sind die Daten der Mahalanobisdistanz $\chi^2(df=p)$ verteilt ist, wobei $p$ die Anzahl an Variablen ist. Der Vorteil hiervon ist, dass wir eine eindimensionale Verteilung untersuchen können, um ein Gefühl für multivariate Daten zu erhalten. Bspw. kann dann ein Histogramm oder ein Q-Q-Plot verwendet werden, um die Daten auf Normalverteilung zu untersuchen, bzw. es kann bspw. der Kolmogorov-Smirnov Test durchgeführt werden, um zu prüfen, ob die Mahalanobisdistanz $\chi^2(df=p)$ verteilt ist. 
 
-Der Befehl in `R` für die Mahalanobisdistanz ist `mahalanobis`. Wir nehmen einfach die Leseleistung und die Mathematikleistung via `Schulleistungen$...` als unsere zwei Variablen auf und fassen diese zusammen zu einer Datenmatrix `X` mit `cbind` (column-bind), welches die übergebenen Variablen als Spaltenvektoren zusammenfasst (siehe dazu auch [Appendix B in der Einführungssitzung](/post/einleitung-und-wiederholung/#AppendixB)).  `mahalanobis` braucht 3 Argumente: `x = X` die Daten, den gemeinsamen Mittelwert der Daten, den wir hier mit `colMeans` bestimmen (es wird jeweils der Mittelwert für die Spalten gebildet) sowie die Kovarianzmatrix der Daten mit `cov(X)` (`cor` gibt die Korrelationsmatrix aus; hier wird allerdings die Kovarianzmatrix gebraucht- anhand der Korrelationsmatrix lässt sich jedoch die Beziehung der Variablen besser einordnen), an welcher die Struktur relativiert werden soll:
+Der Befehl in `R` für die Mahalanobisdistanz ist `mahalanobis`. Wir nehmen einfach die Leseleistung und die Mathematikleistung via `Schulleistungen$...` als unsere zwei Variablen auf und fassen diese zusammen zu einer Datenmatrix `X` mit `cbind` (column-bind), welches die übergebenen Variablen als Spaltenvektoren zusammenfasst (siehe dazu auch [Appendix B in der Einführungssitzung](../einleitung-fue/#AppendixB)).  `mahalanobis` braucht 3 Argumente: `x = X` die Daten, den gemeinsamen Mittelwert der Daten, den wir hier mit `colMeans` bestimmen (es wird jeweils der Mittelwert für die Spalten gebildet) sowie die Kovarianzmatrix der Daten mit `cov(X)` (`cor` gibt die Korrelationsmatrix aus; hier wird allerdings die Kovarianzmatrix gebraucht- anhand der Korrelationsmatrix lässt sich jedoch die Beziehung der Variablen besser einordnen), an welcher die Struktur relativiert werden soll:
 
 ```r
 X <- cbind(Schulleistungen$reading, Schulleistungen$math) # Datenmatrix mit Leseleistung in Spalte 1 und Matheleistung in Spalte 2
@@ -767,13 +768,13 @@ xWerte <- seq(from = min(MD), to = max(MD), by = 0.01)
 lines(x = xWerte, y = dchisq(x = xWerte, df = 2), lwd = 3)
 ```
 
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
 ```r
 qqPlot(x = MD,distribution =  "chisq", df = 2, pch = 16)
 ```
 
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-33-2.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-33-2.png)<!-- -->
 
 ```
 ## [1] 16  9
@@ -808,19 +809,21 @@ MD
 ```
 
 ```
-##   [1]  0.88733518  0.21566377  2.41458442  0.13177919  1.27927630  4.28965128  0.03451167  0.33661264
-##   [9]  9.62502968  1.22925996  3.44404519  1.06648706  1.47842392  1.83106572  4.29879647 22.89143112
-##  [17]  0.21555167  0.49834275  2.65724843  1.81949191  2.12850866  1.31066833  0.14334729  0.15748576
-##  [25]  1.71430321  1.74615142  1.00646134  0.17988251  5.04513115  7.14678462  0.16464887  7.01861572
-##  [33]  4.85177478  1.19043337  2.72462931  4.34611563  0.52793945  0.80019408  0.74740206  0.57368396
-##  [41]  0.28016792  6.27035221  4.07657057  0.04345642  0.81076314  2.97056512  2.10323417  1.08103246
-##  [49]  0.60950451  2.90704907  0.10986424  6.09359260  0.94728160  2.35683503  0.03620534  0.40241153
-##  [57]  1.62654030  1.72697393  3.75760606  1.46629223  0.71323544  0.41142182  0.39965918  0.61656862
-##  [65]  0.37536805  0.22094404  3.04527077  0.27381745  0.79358572  3.86151524  3.19370574  0.19468438
-##  [73]  0.29354422  2.35326071  0.95634005  0.07240648  1.92700957  1.44365936  0.12899197  4.04487099
-##  [81]  0.42931176  0.05394028  4.83779128  0.15390664  2.20766936  1.27108100  0.37456784  0.20895062
-##  [89]  1.47329914  1.26292357  1.25364137  0.67270315  0.85951141  4.25348827  0.28156897  0.18421086
-##  [97]  0.47650958  0.13256756  8.26520343  0.18224578
+##   [1]  0.88733518  0.21566377  2.41458442  0.13177919  1.27927630  4.28965128  0.03451167
+##   [8]  0.33661264  9.62502968  1.22925996  3.44404519  1.06648706  1.47842392  1.83106572
+##  [15]  4.29879647 22.89143112  0.21555167  0.49834275  2.65724843  1.81949191  2.12850866
+##  [22]  1.31066833  0.14334729  0.15748576  1.71430321  1.74615142  1.00646134  0.17988251
+##  [29]  5.04513115  7.14678462  0.16464887  7.01861572  4.85177478  1.19043337  2.72462931
+##  [36]  4.34611563  0.52793945  0.80019408  0.74740206  0.57368396  0.28016792  6.27035221
+##  [43]  4.07657057  0.04345642  0.81076314  2.97056512  2.10323417  1.08103246  0.60950451
+##  [50]  2.90704907  0.10986424  6.09359260  0.94728160  2.35683503  0.03620534  0.40241153
+##  [57]  1.62654030  1.72697393  3.75760606  1.46629223  0.71323544  0.41142182  0.39965918
+##  [64]  0.61656862  0.37536805  0.22094404  3.04527077  0.27381745  0.79358572  3.86151524
+##  [71]  3.19370574  0.19468438  0.29354422  2.35326071  0.95634005  0.07240648  1.92700957
+##  [78]  1.44365936  0.12899197  4.04487099  0.42931176  0.05394028  4.83779128  0.15390664
+##  [85]  2.20766936  1.27108100  0.37456784  0.20895062  1.47329914  1.26292357  1.25364137
+##  [92]  0.67270315  0.85951141  4.25348827  0.28156897  0.18421086  0.47650958  0.13256756
+##  [99]  8.26520343  0.18224578
 ```
 
 Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Probandennummer der möglichen Ausreißer.
@@ -844,12 +847,6 @@ which(MD > qchisq(p = .01, lower.tail = F, df = 2))   # Pbn-Nr.
 
 Auf dem $\alpha$-Niveau von 1% gäbe es 2 Ausreißer (Pbn-Nr = 9, 16), auf dem von 0.1% nur noch einen (Pbn-Nr = 16). 
 ***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [{{< icon name="download" pack="fas" >}} hier herunterladen](/post/MSc1_R_Files/1_Regression_RCode.R).
-
-***
-
 
 ## Appendix
 ### Appendix A {#AppendixA}
@@ -989,6 +986,7 @@ Der Kreuzproduktsummenvektor (X'y) wird durch die Multiplikation der transponier
 
 {{< math >}}
 \begin{align}
+\tiny
 \dfrac{}{X'\begin{pmatrix}1 & 1 & 1 & 1 & ... & 1\\449,58 & 544,85 & 331,35 & 531,54 & ... & 487,22\\81,78 & 106,76 & 99,14 & 111,91 & ... & 106,13\end{pmatrix}}
 \dfrac{\begin{pmatrix}451,98\\589,65\\509,33\\560,43\\...\\603,18\end{pmatrix}y}
 {\begin{pmatrix}56146,45\\28313059,77\\5636931,00\end{pmatrix}X'y}
@@ -1015,6 +1013,7 @@ Die geschätzten Regressionsgewichte nach dem Kriterium der kleinsten Quadrate w
 
 {{< math >}}
 \begin{align}
+\tiny
 \dfrac{}{(X'X)^{-1}\begin{pmatrix}0,42 & -1,56e^{-04} & -3,39^{-03}\\-0,00 & 1,32e^{-06} & -5,06e^{-06}\\-0,00 & -5,06e^{-06} & 6,01e^{-05}\end{pmatrix}}
 \dfrac{\begin{pmatrix}56146,45\\28313059,77\\5636931,00\end{pmatrix}X'y}
 {\begin{pmatrix}58,17\\-0,04\\5,31\end{pmatrix}\hat{b}}
@@ -1139,7 +1138,7 @@ $p=0.00000000000000844$
 
 ### Appendix B {#AppendixB}
 
-{{< spoiler text="**Regressionsmodell**" >}}
+<details><summary><b>Regressionsmodell</b></summary>
 
 Folgende Befehle führen zum gleichen Ergebnis wie:
 
@@ -1278,12 +1277,12 @@ lm(AV ~ 1 + UV1 + UV2)
 
 Selbstverständlich gibt es auch noch weitere Befehle, die zum selben Ergebnis kommen. Sie sehen, dass Sie in `R` in vielen Bereichen mit leicht unterschiedlichem Code zum selben Ergebnis gelangen!
 
-{{</ spoiler >}}
+</details>
 
 
 ### Appendix C {#AppendixC}
 
-{{< spoiler text="**ggplot2**" >}}
+<details><summary><b>ggplot2</b></summary>
 
 Im folgenden Block sehen wir den Code für ein Histogramm in `ggplot2`-Notation (das Paket muss natürlich installiert sein: `install.packages(ggplot2)`). Hier sind einige Zusatzeinstellungen gewählt, die das Histogramm optisch aufbereiten. 
 
@@ -1300,14 +1299,7 @@ ggplot(data = df_res, aes(x = res)) +
      labs(title = "Histogramm der Residuen mit Normalverteilungsdichte", x = "Residuen") # Füge eigenen Titel und Achsenbeschriftung hinzu
 ```
 
-```
-## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
-## ℹ Please use `after_stat(density)` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
-```
-
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-53-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
 
 Nutzen wir nur die Defaulteinstellung des Histogramms (bis auf `bins = 15` *- für die Vergleichbarkeit der beiden Grafiken*), sieht es so aus:
 
@@ -1335,7 +1327,7 @@ ggplot(data = df_h, aes(x = h)) +
   geom_vline(xintercept = 4/n, col = "red") # Cut-off bei 4/n
 ```
 
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-55-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-55-1.png)<!-- -->
 
 #### Cooks-Distanz:
 
@@ -1349,9 +1341,9 @@ ggplot(data = df_CD, aes(x = CD)) +
   geom_vline(xintercept = 1, col = "red") # Cut-Off bei 1
 ```
 
-<img src="/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-56-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-56-1.png)<!-- -->
 
-{{</ spoiler >}}
+</details>
 
 ### Appendix D {#AppendixD}
 

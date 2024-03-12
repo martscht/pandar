@@ -52,11 +52,11 @@ load("C:/Users/Musterfrau/Desktop/StudentsInClasses.rda")
 
 Genauso können Sie die Daten direkt von der Website laden:
 
-```{r, eval = F}
+```{r}
 load(url("https://pandar.netlify.app/daten/StudentsInClasses.rda"))
 ```
 
-```{r, include=F}
+```{r, include=F, purl=FALSE}
 load(url("https://github.com/jpirmer/MSc1_FEI/blob/master/data/StudentsInClasses.rda?raw=true"))
 ```
 
@@ -183,7 +183,7 @@ summary(m0)
 
 Die Summary sieht der der normalen linearen Regression sehr ähnlich. Wir schauen uns diese im Detail an.
 
-```{r, echo=F}
+```{r, echo=F, purl=FALSE}
 cat('Linear mixed model fit by REML. t-tests use Satterthwaite\'s method [
 lmerModLmerTest]
 Formula: MatheL ~ 1 + (1 | schulklasse)
@@ -192,7 +192,7 @@ Formula: MatheL ~ 1 + (1 | schulklasse)
 ```
 zeigt uns, dass es sich um ein _Linear mixed model_ handelt (also ein Multi-Level-Modell/hierarchische Regression), welches mit der **RE**stricted **M**aximum **L**ikelihood Methode geschätzt wurde. Bei REML werden zunächst die Random Effects geschätzt und anschließend werden erst die fixed Effects bestimmt. Damit ist das Verfahren stabiler und oft auch statistisch effizienter (kleinere SE). Außerdem wird unsere Modellgleichung nochmals wiederholt.
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat('
 REML criterion at convergence: 6565.3
 
@@ -203,7 +203,7 @@ Scaled residuals:
 ```
 gibt uns Informationen über die Konvergenz (sozusagen den Log-Likelihood-Wert), sowie Auskunft über die Verteilung de Residuen (ähnlich wie bei der Regression). Diese scheinen hier recht symmetrisch verteilt zu sein.
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat('
 Random effects:
  Groups      Name        Variance Std.Dev.
@@ -249,7 +249,7 @@ names(summary(m0)) # alle Informationen, die wir der Summary entlocken können
 
 
 Nun weiter im Output:
-```{r, echo =F}
+```{r, echo =F, purl=FALSE}
 cat('
 Fixed effects:
             Estimate Std. Error      df t value Pr(>|t|)
@@ -408,7 +408,7 @@ anova(m1, m2, test = "LRT", refit = F)
 
 Die LRT-Teststatistik (empirischer $\chi^2$-Wert) liegt bei $\chi^2(df=2)=461.51$. Der Modellvergleichsoutput enthält folgende Informationen (dieser ist annähernd identisch aufgebaut und enthält jeweils unterschiedliche Teststatistiken, je nach dem welchen Test wir anfordern - bspw. bei der Regression würde Omnibustest/F-Test verwendet werden, entsprechend stünde dort die $F$-Statistik).
 
-```{r, echo=F}
+```{r, echo=F, purl=FALSE}
 cat('Data: StudentsInClasses
 Models:
 m1: MatheL ~ 1 + Motivation_c + (1 | schulklasse)
@@ -416,7 +416,7 @@ m2: MatheL ~ 1 + Motivation_c + (1 + Motivation_c | schulklasse)')
 ```
 gibt uns an, welche Daten verwendet werden und welche Modelle verglichen werden. Hier sollte das komplexere Modell an 2. Stelle stehen, da sonst die Likelihood-Differenz negativ sein könnte.
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat('    npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)    
  m1    4 6239.1 6258.1 -3115.6   6231.1                         
  m2    6 5781.6 5810.1 -2884.8   5769.6 461.51  2  < 2.2e-16 ***
@@ -432,7 +432,7 @@ gibt uns Kennwerte zum Modellvergleich an. Ganz vorne stehen die Namen der Model
 
 Diese Heterogenität lässt sich über ein Streudiagramm der klassenspezifischen Koeffizienten $\beta_{1j}$ veranschaulichen. Den Code zu den hier aufgeführten Grafiken können Interessierte in [Appendix A](#AppendixA) einsehen.
 
-```{r, echo = F}
+```{r, echo = F,purl=FALSE}
 # Histogramm der Klassenspezifischen Koeffizienten
 hist(coef(m2)$schulklasse[,2], breaks = 10, freq = F, col = "skyblue", border = "blue",
      main = "Verteilung der Steigungskoeffizienten der Motivation",
@@ -454,7 +454,7 @@ Dem Histogramm ist deutlich zu entnehmen, dass die Steigungskoeffizienten annäh
 
 Eine alternative Visualisierung ist der Plot der klassenspezifischen Regresssionsgeraden, wobei $\beta_{0j}$ und $\beta_{1j}$ klassenspezifisch variieren. Die blaue Linie stellt hierbei den durchschnittliche (fixed) Effekt dar, welcher auch als Formel nochmals in die Grafik geschrieben wurde. Auch entnehmen wir der Grafik, dass die Motivation kategoriell ist (vertikale Ansammlung der Punkte).
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 #### Das Modell zeichnen!
 model <- m2
 beta <- coef(model)$schulklasse   # Übergeben der Koeffizienten pro Klasse (Interzept und Steigungskoeffizent)
@@ -492,7 +492,7 @@ summary(m3)
 
 Der Output wird erweitert um den Effekt der Klassengröße $\gamma_{01}$. Außerdem wird uns noch die Korrelation zwischen den festen Effekte ausgegeben (zwischen $\gamma_{00},\gamma_{11},\gamma_{01}$):
 
-```{r, echo  = F}
+```{r, echo  = F, purl=FALSE}
 cat('Correlation of Fixed Effects:
             (Intr) KlssnG
 KlassenG    -0.971
@@ -538,7 +538,7 @@ summary(m4b)
 #### Grafische Veranschaulichung
 Die Wechselwirkung kann veranschaulicht werden, indem die Regressionsgeraden nach Klassengröße unterschieden werden (hier: über die Farbe). Die in der folgenden Grafik goldene/gelbe Geraden repräsentieren (überdurchschnittlich) große Klassen, die blauen kleine (unterdurchschnittlich große/ überdurchschnittlich kleine) Klassen. Die goldenen/gelben Linien sind steiler als die blauen Linien.
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 library(ggplot2); library(dplyr)
 StudentsInClasses %>%
   mutate(Leistung = fitted(m4)) %>% # Vorhergesagte Werte in den Datensatz

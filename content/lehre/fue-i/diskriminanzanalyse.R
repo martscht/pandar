@@ -1,8 +1,6 @@
 ## load("C:/Users/Musterfrau/Desktop/Therapy.rda")
 
-#load(url("https://pandar.netlify.app/daten/Therapy.rda"))
-load(url("https://courageous-donut-84b9e9.netlify.app/post/Therapy.rda"))
-
+load(url("https://pandar.netlify.app/daten/Therapy.rda"))
 
 head(Therapy)
 levels(Therapy$Intervention)
@@ -65,11 +63,11 @@ ggplot(data = Therapy, aes(x = DA1, y = DA2, color = Intervention)) + geom_point
 Therapy$predict_class <- predict(model_DA)$class
 table(Therapy$predict_class, Therapy$Intervention)
 
-knitr::kable(table(Therapy$predict_class, Therapy$Intervention))
+
 
 table(Therapy$predict_class, Therapy$Intervention)/30
 
-knitr::kable(table(Therapy$predict_class, Therapy$Intervention)/30)
+
 
 mean(Therapy$predict_class == Therapy$Intervention)*100
 
@@ -83,7 +81,7 @@ contour_data
 
 knitr::kable(contour_data[1:6,])
 
-knitr::kable(contour_data[(dim(contour_data)[1]-6):(dim(contour_data)[1]),])
+
 
 # Für das Koordinatensystem für jeden Punkt die Gruppenzugehörigkeit bestimmen
 contour_data$Intervention <- as.numeric(predict(object = model_DA2, newdata = contour_data)$class)

@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer] 
 weight: 3
-lastmod: '2024-02-19'
+lastmod: '2024-03-12'
 featured: no
 banner:
   image: "/header/books.jpg"
@@ -341,9 +341,10 @@ names(summary(m0)) # alle Informationen, die wir der Summary entlocken können
 ```
 
 ```
-##  [1] "methTitle"    "objClass"     "devcomp"      "isLmer"       "useScale"     "logLik"       "family"      
-##  [8] "link"         "ngrps"        "coefficients" "sigma"        "vcov"         "varcor"       "AICtab"      
-## [15] "call"         "residuals"    "fitMsgs"      "optinfo"
+##  [1] "methTitle"    "objClass"     "devcomp"      "isLmer"       "useScale"    
+##  [6] "logLik"       "family"       "link"         "ngrps"        "coefficients"
+## [11] "sigma"        "vcov"         "varcor"       "AICtab"       "call"        
+## [16] "residuals"    "fitMsgs"      "optinfo"
 ```
 
 **Inhaltliche Interpretation**: 16.2% der Varianz in der Mathematikleistung können durch die Klassenzugehörigkeit erklärt werden. Die Multi-Level-Struktur in den Daten muss somit unbedingt berücksichtigt werden.
@@ -799,7 +800,8 @@ summary(m4)
 
 ```
 ## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +      (1 | schulklasse)
+## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
+##     (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
 ## REML criterion at convergence: 6200.9
@@ -843,14 +845,6 @@ summary(m4b)
 
 #### Grafische Veranschaulichung
 Die Wechselwirkung kann veranschaulicht werden, indem die Regressionsgeraden nach Klassengröße unterschieden werden (hier: über die Farbe). Die in der folgenden Grafik goldene/gelbe Geraden repräsentieren (überdurchschnittlich) große Klassen, die blauen kleine (unterdurchschnittlich große/ überdurchschnittlich kleine) Klassen. Die goldenen/gelben Linien sind steiler als die blauen Linien.
-
-
-```
-## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## ℹ Please use `linewidth` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
-```
 
 ![](/lehre/fue-i/hierarchische-regression-schule_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
 
@@ -981,20 +975,20 @@ head(StudentsInClasses)
 ```
 
 ```
-##   MatheL Motivation KFT KlassenG schulklasse Motivation_c KlassenG_c Motivation_groupc Mot_groupmeans
-## 1  48.76          4  98       26           1   -0.2858824  -1.090588             -0.36           4.36
-## 2  46.01          3  96       26           1   -1.2858824  -1.090588             -1.36           4.36
-## 3  65.96          5 112       26           1    0.7141176  -1.090588              0.64           4.36
-## 4  42.08          4  94       26           1   -0.2858824  -1.090588             -0.36           4.36
-## 5   0.00          2  78       26           1   -2.2858824  -1.090588             -2.36           4.36
-## 6  56.52          5 104       26           1    0.7141176  -1.090588              0.64           4.36
-##   Mot_groupmeans_c
-## 1       0.07411765
-## 2       0.07411765
-## 3       0.07411765
-## 4       0.07411765
-## 5       0.07411765
-## 6       0.07411765
+##   MatheL Motivation KFT KlassenG schulklasse Motivation_c KlassenG_c Motivation_groupc
+## 1  48.76          4  98       26           1   -0.2858824  -1.090588             -0.36
+## 2  46.01          3  96       26           1   -1.2858824  -1.090588             -1.36
+## 3  65.96          5 112       26           1    0.7141176  -1.090588              0.64
+## 4  42.08          4  94       26           1   -0.2858824  -1.090588             -0.36
+## 5   0.00          2  78       26           1   -2.2858824  -1.090588             -2.36
+## 6  56.52          5 104       26           1    0.7141176  -1.090588              0.64
+##   Mot_groupmeans Mot_groupmeans_c
+## 1           4.36       0.07411765
+## 2           4.36       0.07411765
+## 3           4.36       0.07411765
+## 4           4.36       0.07411765
+## 5           4.36       0.07411765
+## 6           4.36       0.07411765
 ```
 
 ```r
@@ -1003,10 +997,12 @@ round(colMeans(StudentsInClasses), 10)
 ```
 
 ```
-##            MatheL        Motivation               KFT          KlassenG       schulklasse      Motivation_c 
-##         53.616047          4.285882        100.001176         27.090588         20.280000          0.000000 
-##        KlassenG_c Motivation_groupc    Mot_groupmeans  Mot_groupmeans_c 
-##          0.000000          0.000000          4.285882          0.000000
+##            MatheL        Motivation               KFT          KlassenG 
+##         53.616047          4.285882        100.001176         27.090588 
+##       schulklasse      Motivation_c        KlassenG_c Motivation_groupc 
+##         20.280000          0.000000          0.000000          0.000000 
+##    Mot_groupmeans  Mot_groupmeans_c 
+##          4.285882          0.000000
 ```
 
 Die Funktion `group.center` aus dem `robumeta`-Paket nimmt uns die Arbeit ab, die Daten händisch an den Gruppenmittelwerten zu zentrieren ($X_{ij}^{**}$). Sie nimmt 2 Argumente entgegen: `var` die Variable, die zentriert werden soll (hier die Motivation), und `grp` die Gruppierungsvariable (hier die Schulklasse). Die Funktion `group.mean` funktioniert analog zu `group.center` und gibt uns gruppenspezifische Mittelwerte aus. Zum Schluss wird noch die Gruppierungsvariable zentriert am Gesamtmittelwert: 

@@ -27,10 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/fue-i/manova.R
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/fue-i/manova-aufgaben
+  # - icon_pack: fas
+  #   icon: pen-to-square
+  #   name: Aufgaben
+  #   url: /lehre/fue-i/manova-aufgaben
 output:
   html_document:
     keep_md: true
@@ -40,7 +40,6 @@ output:
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 
 # Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
 ```
 
@@ -56,9 +55,9 @@ load("C:/Users/Musterfrau/Desktop/Therapy.rda")
 
 oder wir laden sie direkt über die Website:
 
+
 ```{r, eval = T}
-#load(url("https://pandar.netlify.app/daten/Therapy.rda"))
-load(url("https://courageous-donut-84b9e9.netlify.app/post/Therapy.rda"))
+load(url("https://pandar.netlify.app/daten/Therapy.rda"))
 ```
 
 Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik "Data" unser Datensatz mit dem Namen "_Therapy_" erscheinen. 
@@ -166,7 +165,7 @@ In Eid et al. (2017) wird auch Pillai's Spur empfohlen für die Signifikanztestu
 Wir wissen nun, dass es Unterschiede gibt. Allerdings wissen wir noch nicht auf welchen Variablen und zwischen welchen Gruppen diese vorliegen. Um eine Idee zu erhalten, schauen wir uns das ganze einmal grafisch an (der Code zur Grafik findet sich in [Appendix A](#AppendixA)). In dieser Grafik werden die SEs der Mittelwerte pro Variable dargestellt (nicht die Konfidenzintervalle). Die Fehlerbalken können also ein Indiz für mögliche signifikante Unterschiede liefern, allerdings können diese nicht die Signifikanzentscheidung ersetzen:
 
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 library(ggplot2)
 Therapy_long <- reshape(data = Therapy, varying = names(Therapy)[1:4],idvar = names(Therapy)[5:6],
          direction = "long", v.names = "AVs", timevar = "Variable", new.row.names = 1:360)
@@ -200,12 +199,12 @@ summary.aov(manova1) # post hoc anovas
 
 Der Output enthält folgende Informationen:
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat('  Response LZ :')
 ```
 gibt an, um welche AV es sich handelt: hier Lebenszufriedenheit (`LZ`).
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat('
               Df Sum Sq Mean Sq F value    Pr(>F)    
  Intervention  2   39.2 19.6000   9.891 0.0001347 ***
@@ -306,7 +305,7 @@ aggregate(cbind(LZ, AB, Dep, AZ) ~ Intervention + Geschlecht,
            FUN = mean)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 knitr::kable(aggregate(cbind(LZ, AB, Dep, AZ) ~ Intervention + Geschlecht, 
            data = Therapy,
            FUN = mean))
@@ -340,12 +339,6 @@ Die nächste Sitzung zeigt eine [Diskriminanzanalyse](/lehre/fue-i/diskriminanza
 
 
 ***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/lehre/fue-i/manova.R).
-
-***
-
 
 ## Appendix 
 
@@ -381,7 +374,7 @@ Dieser Exkurs soll zusätzliche Analysen mit Messwiederholung beschreiben. Das G
 
 Sowohl bei MANOVAs als auch bei ANOVAs besteht die Möglichkeit die Messwiederholung, bspw. von Probanden, mit zu berücksichtigen. So hätte auch der gesamte Verlauf der Studie und somit der Verlauf der Merkmale über die Zeit (z.B. Prä, Post und ein Follow-Up einige Wochen nach Beendigung der Therapie) abgebildet werden können. In einem solchen Datensatz würde es eine Variable geben müssen, welche anzeigt, welche Messungen alle zum selben Objekt (bspw. zur selben Person) gehören - ganz ähnlich wie die Cluster-Variable in der [hierarchischen Regression](/lehre/fue-i/multi-level-modeling). Außerdem würde dann die Möglichkeit bestehen auch within-Effekte zu modellieren, also Prädiktoren könnten untersucht werden, die den Verlauf über die Zeit einer Person weiter erklären. Hier könnte bspw. der Messzeitpunkt als Prädiktor mit in das Modell aufgenommen werden -- dann würde man untersuchen können, ob es Unterschiede über die Messzeitpunkte als Gruppierungsvariable gibt (auch kontinuierliche Variablen sind hier möglich - dann handelt es sich allerdings um eine MANCOVA, also eine multivariate Kovarianzanalyse bzw. ANCOVA also eine Kovarianzanalyse -- Würden wir dann den Messzeitpunkt als *1, 2, 3,...* modellieren, so würde die multivariate Kovarianzanalyse für den Messzeitpunkt eine lineare Veränderung annehmen, was für das vorgeschlagene Design wenig sinnvoll erscheint - in diesem ist es sinnvoller den Messzeitpunkt als Faktor mit aufzunehmen, um jegliche Unterschiede zwischen diesen abzubilden!). Der Output erweitert sich um eine Between und eine Within Ebene und Effekte werden auf beiden geprüft. Angenommen, wir hätten Daten, die an mehreren Tagen gemessen wurden und würden unsere Analysen "mit Messwiederholung" wiederholen. Dann könnte der Datensatz bspw. so aussehen:
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 set.seed(1)
 j <- 0
 d <- matrix(data = NA, nrow = 90*3, ncol = 8)
@@ -421,7 +414,7 @@ Therapy_repeated_wide <- reshape(data = Therapy_repeated, direction = "wide",
                                 idvar = "ID")
 ```
 
-```{r, echo = F}
+```{r, echo = F,purl=FALSE}
 knitr::kable(head(Therapy_repeated_wide, 6))
 
 ```
