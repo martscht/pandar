@@ -40,7 +40,6 @@ output:
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 
 # Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
 ```
 
@@ -57,8 +56,7 @@ load("C:/Users/Musterfrau/Desktop/Titanic.rda")
 oder wir laden sie direkt über die Website:
 
 ```{r, eval = T}
-#load(url("https://pandar.netlify.app/daten/Titanic.rda")) 
-load(url("https://courageous-donut-84b9e9.netlify.app/post/Titanic.rda"))
+load(url("https://pandar.netlify.app/daten/Titanic.rda")) 
 ```
 
 Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik "Data" unser Datensatz mit dem Namen "_Titanic_" erscheinen.
@@ -86,7 +84,7 @@ Während das Schiff sank, galt die Devise: *Frauen und Kinder zuerst!* Zumindest
 
 
 ## Modellspezifikation
-Um das Überleben zu modellieren, könnten wir eine [Regressionsanalyse](/lehre/fue-i/regression-und-ausreisserdiagnostik) heranziehen und das Überleben (`survived`) durch bspw. das Alter (`age`) vorhersagen:
+Um das Überleben zu modellieren, könnten wir eine [Regressionsanalyse](/lehre/fue-i/regression-ausreisser-fue) heranziehen und das Überleben (`survived`) durch bspw. das Alter (`age`) vorhersagen:
 
 * `lm(survived ~ 1 + age, data = Titanic)`
 
@@ -111,7 +109,7 @@ logit(p) &  = \ln\left(\frac{\mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)}{1-\mathbb
 \end{align*}
 </div>
 
-Hier ist $\ln$ der natürlich Logarithmus zur Basis $e$ ($e$ ist die Eulersche Zahl $\approx 2.718282$). Der $logit$ stellt hierbei die Link-Funktion dar, die den Erwartungswert den wir Untersuchen wollen, linear durch die Prädiktoren darstellen lässt. Die $odds$ und $p$ sind dann nur Retransformationen, die aus der Link-Funktion resultieren. Einige Wiederholungen zu Exponenten- oder Logarithmusregeln können Sie am Anfang der [Sitzung zu exponentiellem Wachstum aus dem Bachelor](/lehre/statistik-ii/nichtlineare-regression) nachlesen.
+Hier ist $\ln$ der natürlich Logarithmus zur Basis $e$ ($e$ ist die Eulersche Zahl $\approx 2.718282$). Der $logit$ stellt hierbei die Link-Funktion dar, die den Erwartungswert den wir Untersuchen wollen, linear durch die Prädiktoren darstellen lässt. Die $odds$ und $p$ sind dann nur Retransformationen, die aus der Link-Funktion resultieren. Einige Wiederholungen zu Exponenten- oder Logarithmusregeln können Sie am Anfang der [Sitzung zu exponentiellem Wachstum aus dem Bachelor](/lehre/statistik-ii/regression-v) nachlesen.
 
 
 Eine Schreibweise für die normale Regression ist $\mathbb{E}[Y | X_1 = x_1, X_2 = x_2]=\beta_0 + \beta_1x_1 + \beta_2x_2$. Gilt für $Y=0,1$, so ist $\mathbb{E}[Y | X_1 = x_1, X_2 = x_2] = \mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)=p$, also der (bedingte) Mittelwert über $Y$ ist die (bedingte) Wahrscheinlichkeit, dass $Y=1$ (wie wir oben am Münzwurfbeispiel gesehen haben). Somit ist ersichtlich, dass bei der logistischen Regression im Grunde nichts anderes als der (bedingte) Mittelwert/die (bedingte) Erwartung, dass $Y=1$ ist, modelliert wird. 
@@ -159,7 +157,7 @@ summary(m1)
 
 Der Output der Summary unterscheidet sich geringfügig von der der normalen Regressionsanalyse:
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat('
  Call:
  glm(formula = survived ~ 1 + age, family = "binomial", data = Titanic)
@@ -171,7 +169,7 @@ cat('
 
 zeigt uns, dass wir kein `lm`-Objekt sondern ein `glm`-Objekt vor uns haben. Außerdem werden uns dieses Mal `Deviance Residuals` angezeigt anstatt normale Residuen. Das Schätzverfahren ist ein anderes. Es wird nicht das Kleinste-Quadrate-Verfahren angewandt, sondern die Maximum-Likelihood-Schätzmethode (ML).
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat('
  Coefficients:
               Estimate Std. Error z value Pr(>|z|)
@@ -183,7 +181,7 @@ cat('
 
 Der Überblick über die (ML-)Parameterschätzung unterscheidet sich kaum von der normalen Regression. Lediglich die $t$-Werte werden durch $z$-Werte ersetzt. Die Idee hinter der Signifikanzentscheidung ist aber komplett identisch (außerdem geht die $t$-Verteilung für große $n$ in die $z$-(Standardnormal-)Verteilung über). Hier scheint sich ein signifikanter Effekt des Alters zu zeigen.
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat('     Null deviance: 964.52  on 713  degrees of freedom
  Residual deviance: 960.23  on 712  degrees of freedom
  AIC: 964.23
@@ -233,7 +231,7 @@ summary(m2)
 
 Das besondere an diesem Output ist, dass bei der Variable Geschlecht eine kleine `1` dahinter steht:
 
-```{r, echo = F}
+```{r, echo = F,purl=FALSE}
 cat(' Coefficients:
               Estimate Std. Error z value Pr(>|z|)
  (Intercept) -1.188647   0.222432  -5.344  9.1e-08 ***
@@ -281,7 +279,7 @@ Titanic$p_m2 <- p_m2
 head(Titanic)
 ```
 
-```{r, echo = F}
+```{r, echo = F,purl=FALSE}
 knitr::kable(head(Titanic))
 ```
 
@@ -307,7 +305,7 @@ ggplot(data = Titanic, mapping = aes(x = age, y = p_m2, col = sex)) +
         ggtitle("P vs Age and Sex")
 ```
 
-Einen drastischen Alterseffekt können wir in keiner der Grafiken erkennen. Dass sich Unterschiede über das Geschlecht abbilden, sehen wir allerdings recht deutlich! Weitere Informationen zu `ggplot2` erhalten Sie bspw. auf  [<i class="fa-solid fa-graduation-cap"></i> Tidyverse](https://ggplot2.tidyverse.org). Außerdem können Sie sich auch eine [<i class="fa-solid fa-graduation-cap"></i> Einführung in `ggplot2`](/post/grafiken-mit-ggplot2) auf dieser Website ansehen.
+Einen drastischen Alterseffekt können wir in keiner der Grafiken erkennen. Dass sich Unterschiede über das Geschlecht abbilden, sehen wir allerdings recht deutlich! Weitere Informationen zu `ggplot2` erhalten Sie bspw. auf  [<i class="fa-solid fa-graduation-cap"></i> Tidyverse](https://ggplot2.tidyverse.org). Außerdem können Sie sich auch eine [<i class="fa-solid fa-graduation-cap"></i> Einführung in `ggplot2`](/workshops/ggplotting/ggplotting-intro) auf dieser Website ansehen.
 
 ### Hypothese 3
 Nun wollen wir die Reiseklasse mit in unser Modell aufnehmen und somit Hypothese 3 untersuchen. Die Klasse ist auch ein Faktor, der 3 Ausprägungen hat. Wir schauen uns die Level an:
@@ -325,7 +323,7 @@ Dieses Mal sind alle Prädiktoren signifikant - auch das *Alter.* Bevor wir zur 
 
 
 #### Modellvergleich
-Diesen kennen wir bereits aus der [hierarchischen Regressionssitzung](/lehre/fue-i/multi-level-modeling). Da wir hier keine Varianzen prüfen, können wir die $p$-Werte so interpretieren, wie sie ausgegeben werden.
+Diesen kennen wir bereits aus der [hierarchischen Regressionssitzung](/lehre/fue-i/hierarchische-regression-schule). Da wir hier keine Varianzen prüfen, können wir die $p$-Werte so interpretieren, wie sie ausgegeben werden.
 
 ```{r}
 anova(m2, m3, test = "LRT")
@@ -358,7 +356,7 @@ Titanic$p_m3 <- p_m3
 head(Titanic)
 ```
 
-```{r, echo = F}
+```{r, echo = F,purl=FALSE}
 knitr::kable(head(Titanic))
 ```
 
@@ -389,18 +387,12 @@ Final können wir festhalten, dass wahrscheinlich alle drei Hypothesen erfüllt 
 
 ***
 
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/lehre/fue-1/logistische-regression.R).
-
-***
-
-
 ## Appendix
 ### Appendix A {#AppendixA}
 
 <details><summary><b>Parametereinflüsse</b></summary>
 
-Die folgende Funktion stellt vier Grafiken dar: den Logit, die Odds, die Wahrscheinlichkeit und die Wahrscheinlichkeit vs. eine Zufallserhebung. Sie können $\beta_0$ und $\beta_1$ dieses Modells so einstellen, wie Sie wünschen und können sich den Effekt auf die verschiedenen Darstellungsformen der logistischen Regression ansehen. In hellblau wird jeweils die Funktion mit $\beta_0 = 0$ und $\beta_1 = 1$ als Referenz dargestellt. Die gestrichelten Linien stellen jeweils die x- und die y-Achse dar. In roten Punkten werden Realisierungen von $Y=0,1$ dargestellt, die mit der angezeigten Wahrscheinlichkeit gezogen wurden. Um die Ergebnisse vergleichbar zu machen, wird `set.seed(1234)` verwendet (vgl. [Einführungssitzung](/lehre/fue-i/einleitung-und-wiederholung)).
+Die folgende Funktion stellt vier Grafiken dar: den Logit, die Odds, die Wahrscheinlichkeit und die Wahrscheinlichkeit vs. eine Zufallserhebung. Sie können $\beta_0$ und $\beta_1$ dieses Modells so einstellen, wie Sie wünschen und können sich den Effekt auf die verschiedenen Darstellungsformen der logistischen Regression ansehen. In hellblau wird jeweils die Funktion mit $\beta_0 = 0$ und $\beta_1 = 1$ als Referenz dargestellt. Die gestrichelten Linien stellen jeweils die x- und die y-Achse dar. In roten Punkten werden Realisierungen von $Y=0,1$ dargestellt, die mit der angezeigten Wahrscheinlichkeit gezogen wurden. Um die Ergebnisse vergleichbar zu machen, wird `set.seed(1234)` verwendet (vgl. [Einführungssitzung](/lehre/fue-i/einleitung-fue)).
 ```{r}
 Logistic_functions <- function(beta0 = 0, beta1 = 1)
 {

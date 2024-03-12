@@ -112,7 +112,7 @@ corrplot(R_UV)
 
 Wenn wir noch ein paar mehr Einstellungen an dieser Funktion vornehmen, erhalten wir eine Grafik, die auch die Koeffizienten enthält und noch etwas besser auf einen Blick interpretierbar ist. Wenn Sie sich für den Code interessieren, schauen Sie bitte im [Appendix A](#AppendixA) nach.
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE, purl=FALSE}
 corrplot(R_UV, method = "color",tl.col = "black", addCoef.col = "black",
          col=colorRampPalette(c("red","white","blue"))(100))
 ```
@@ -120,7 +120,7 @@ corrplot(R_UV, method = "color",tl.col = "black", addCoef.col = "black",
 Je dunkler die Farbe (blau oder rot), desto stärker betraglich die Korrelation zwischen den Variablen. Es scheinen sich zwei Gruppen von Variablen zu bilden, die besonders stark linear zusammenzuhängen scheinen. Wir färben mal alles Rote auch Blau ein, um nur noch die Stärke der Effekte der Grafik zu entnehmen.
 
 ### Grafische Veranschaulichung der absoluten Stärke der Zusammenhänge
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE, purl=FALSE}
 corrplot(R_UV, method = "color",tl.col = "black", addCoef.col = "black",
          col=colorRampPalette(c("blue","white","blue"))(100))
 ```
@@ -208,12 +208,12 @@ PCA1
 
 
 Im Output ganz oben erkennen wir, dass wir eine PCA durchgeführt haben.
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat('Principal Components Analysis')
 ```
 
 Außerdem zeigt
-```{r, echo = F}
+```{r, echo = F,purl=FALSE}
 cat('Call: principal(r = r, nfactors = nfactors, residuals = residuals,
     rotate = rotate, n.obs = n.obs, covar = covar, scores = scores,
     missing = missing, impute = impute, oblique.scores = oblique.scores,
@@ -223,7 +223,7 @@ welche Funktionseinstellungen aufgerufen wurden.
 
 Im nächsten Semester werden wir die Faktorenanalyse kennenlernen, welche einen ähnlichen Output, aber ein anderes zugrundeliegendes Modell aufweist. Aus diesem Grund heißen die Komponenten in diesem Output auch *PC1* ... *PC6*; für *Principal Component 1* ... *6*.
 
-```{r, echo = F}
+```{r, echo = F,purl=FALSE}
 cat('Standardized loadings (pattern matrix) based upon correlation matrix
      PC1   PC2   PC3   PC4   PC5   PC6 h2       u2 com
 x1  0.71  0.29  0.44  0.40 -0.19 -0.17  1 -4.4e-16 3.1
@@ -244,7 +244,7 @@ $\texttt{See also Pettersson and Turkheimer (2010).}$
 
 Wobei im Originaltext anstatt $\lambda$ gerade $a$ steht - es sind aber die Ladungen gemeint, weswegen ich das gleich mal angepasst habe! Insgesamt soll damit ein Kennwert angegeben werden, wie viele Komponenten im Schnitt nötig sind, um dieses Ergebnis zu erzeugen. Wir wollen diesem Koeffizienten allerdings nicht zu viel Bedeutung zuschreiben!
 
-```{r, echo = F}
+```{r, echo = F,purl=FALSE}
 cat('
                        PC1  PC2  PC3  PC4  PC5  PC6
 SS loadings           2.57 1.43 0.81 0.50 0.38 0.30
@@ -256,10 +256,10 @@ Cumulative Proportion 0.43 0.67 0.80 0.89 0.95 1.00')
 
 
 `SS loadings` steht für "Sum of Squares loadings", also die Quadratsumme der Ladungen. Diese ist gleich dem Eigenwert: $\theta_j = \Sigma_{i=1}^p\lambda_{ij}^2 = \lambda_{1j}^2+\dots+\lambda_{pj}^2$ (Spaltenquadratsumme der Komponentenladungen), mit $p=$ Anzahl an Variablen (hier $p=6$). `Proportion Var` betitelt den (relativen) Anteil der Variation, der durch die jeweiligen Komponenten erklärt werden kann. `Cumulative Var` kumuliert, also summiert, diese Anteile bis zur jeweiligen Komponente auf 
-( $\text{CumVar}_i = \sum_{j=1}^i\theta_j = \theta_1+\dots+\theta_i$, also $\text{CumVar}_1=\theta_1$ und $\text{CumVar}_2=\theta_1+\theta_2$, usw. ). `Proportion Explained` setzt die Variation, die durch die Komponenten erklärt wird, in Relation zur gesamten erklärten Varianz (d.h. hier summiert sich die erklärte Varianz immer zu 1, während sich die proportionale Varianz nur zu 1 aufsummiert, wenn die gesamte Variation im Datensatz auf die beiden Variablen zurückzuführen ist - da wir hier die Maximalanzahl extrahiert haben, geben beide die gleichen Zahlen wieder - dazu später mehr!). `Cumulative Proportion` beschreibt das gleiche wie `Cumulative Var`, nur bezieht sie sich hier auf die `Proportion Explained`.
+( {{< math >}}$\text{CumVar}_i = \sum_{j=1}^i\theta_j = \theta_1+\dots+\theta_i${{</ math >}}, also {{< math >}}$\text{CumVar}_1=\theta_1${{< math >}} und {{</ math >}}$\text{CumVar}_2=\theta_1+\theta_2${{</ math >}}, usw. ). `Proportion Explained` setzt die Variation, die durch die Komponenten erklärt wird, in Relation zur gesamten erklärten Varianz (d.h. hier summiert sich die erklärte Varianz immer zu 1, während sich die proportionale Varianz nur zu 1 aufsummiert, wenn die gesamte Variation im Datensatz auf die beiden Variablen zurückzuführen ist - da wir hier die Maximalanzahl extrahiert haben, geben beide die gleichen Zahlen wieder - dazu später mehr!). `Cumulative Proportion` beschreibt das gleiche wie `Cumulative Var`, nur bezieht sie sich hier auf die `Proportion Explained`.
 
 
-```{r, echo = F}
+```{r, echo = F,purl=FALSE}
 cat('Mean item complexity =  2.8
 Test of the hypothesis that 6 components are sufficient.
 
@@ -311,7 +311,7 @@ Wir erkennen, dass hier die Gewichte nicht in ihrer ursprünglichen Form angezei
 ```{r}
 round(t(PCA1$weights) %*% PCA1$weights %*% diag(PCA1$values), 10)
 ```
-Wobei mit `$values` gerade die Eigenwerte angesprochen werden und mit `diag` aus diesem Vektor aus Eigenwerten eine Diagonalmatrix erzeugt wird mit Eigenwerten auf der Diagonale und Nullen sonst (für eine Wiederholung der Matrixoperationen siehe in der [Einleitungssitzung](/lehre/fue-i/einleitung-und-wiederholung) im [Appendix B](/lehre/fue-i/einleitung-und-wiederholung/#AppendixB) nach).
+Wobei mit `$values` gerade die Eigenwerte angesprochen werden und mit `diag` aus diesem Vektor aus Eigenwerten eine Diagonalmatrix erzeugt wird mit Eigenwerten auf der Diagonale und Nullen sonst (für eine Wiederholung der Matrixoperationen siehe in der [Einleitungssitzung](/lehre/fue-i/einleitung-fue) im [Appendix B](/lehre/fue-i/einleitung-fue/#AppendixB) nach).
 
 
 ## Bestimmung der Komponentenzahl ##
@@ -329,7 +329,7 @@ Die blaue durchgezogene Linie stellt den Eigenwerteverlauf unserer Daten dar. Di
 
 Sowohl die Parallelanalyse als auch das Eigenwerte-Größer-1-Kriterium sprechen dafür, dass zwei Komponenten ausreichen, um die gemeinsame Varianz der Variablen zusammenzufassen. Die Funktion gibt die Entscheidung auf Basis der Parallelanalyse auch in der Konsole aus:
 
-```{r, echo = F}
+```{r, echo = F,purl=FALSE}
 cat("Parallel analysis suggests that the number of factors =  NA  and the number of components =  2")
 ```
 
@@ -352,7 +352,7 @@ Diesmal erkennen wir sehr deutlich, wie unterschiedlich der Output aussieht. die
 ### Grafische Veranschaulichungen des Ladungsmusters
 In einem Balkendiagramm dargestellt sehen wir die Ladungen auf den beiden Hauptkomponenten (PC1 und PC2). Es ist keine eindeutige Zuordnung zu den beiden Komponenten zu erkennen. Was wir allerdings sehen ist, dass auf der ersten Komponenten die Ladungen im Schnitt (betraglich) größer ausfallen. Dies ist wenig überraschend, da die erste Hauptkomponente so extrahiert wird, dass sie die größte Varianz und somit den größten Eigenwert hat. Der Code zur Grafik ist in [Appendix A](#AppendixA) abgedruckt.
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE,purl=FALSE}
 barplot(PCA2$loadings, beside = T, names.arg = rep(colnames(dataUV),2),
         xlab = "PC1                   -                    PC2",
         main  = "Ladungsmuster der Variablen \n auf den Hauptkomponenten")
@@ -380,7 +380,7 @@ Diesmal haben sich die Komponentenladungen geändert und zwar so, dass die Kompo
 
 Es wird eine stärkere Einfachstruktur sichtbar: sowohl im Barplot,
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE,purl=FALSE}
 barplot(PCA3$loadings, beside = T, names.arg = rep(colnames(dataUV),2),
         xlab = "PC1                   -                    PC2",
         main  = "Ladungsmuster der Variablen \n auf den Hauptkomponenten")
@@ -405,7 +405,7 @@ Gestrichelte Pfeile zeigen entgegengesetze Vorzeichen an. Hier wird zwar `x5` de
 ### Unrotierte und rotierte Ladungen in einem Plot
 Zu guter Letzt wollen wir den Rotationseffekt noch genauer erkennen und plotten die unrotierte und die rotierte Lösung in eine Grafik:
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE,purl=F}
 plot(PCA3, xlim = c(-1,1),ylim = c(-1,1), cex  = 2)
 par(new=TRUE)
 plot(PCA2, xaxt = "n", yaxt = "n", ylab = "", xlab = "", xlim = c(-1,1),ylim = c(-1,1), pch = 1)
@@ -593,7 +593,7 @@ install.packages("devtools")
 devtools::install_github("https://github.com/martscht/PCArt")
 ```
 
-```{r, echo = F, message=F}
+```{r, echo = F, message=F, purl=FALSE}
 devtools::install_github("https://github.com/martscht/PCArt")
 ```
 
@@ -614,7 +614,7 @@ library(PCArt)
 PCArtQuiz()
 ```
 
-```{r, message = F, echo = F}
+```{r, message = F, echo = F,purl=FALSE}
 data('database1', envir = environment(), package = 'PCArt')
 
 PCArt:::image_loop(pic2, max.tries = 2)

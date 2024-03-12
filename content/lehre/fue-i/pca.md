@@ -9,7 +9,7 @@ subtitle: 'Principal Component Analysis: PCA'
 summary: '' 
 authors: [irmer]
 weight: 5
-lastmod: '2023-12-02'
+lastmod: '2024-03-12'
 featured: no
 banner:
   image: "/header/birds_migration.jpg"
@@ -188,16 +188,16 @@ Um noch mehr auf einen Blick zu sehen, wollen wir uns die Korrelationsmatrix gra
 corrplot(R_UV)
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 Wenn wir noch ein paar mehr Einstellungen an dieser Funktion vornehmen, erhalten wir eine Grafik, die auch die Koeffizienten enthält und noch etwas besser auf einen Blick interpretierbar ist. Wenn Sie sich für den Code interessieren, schauen Sie bitte im [Appendix A](#AppendixA) nach.
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 Je dunkler die Farbe (blau oder rot), desto stärker betraglich die Korrelation zwischen den Variablen. Es scheinen sich zwei Gruppen von Variablen zu bilden, die besonders stark linear zusammenzuhängen scheinen. Wir färben mal alles Rote auch Blau ein, um nur noch die Stärke der Effekte der Grafik zu entnehmen.
 
 ### Grafische Veranschaulichung der absoluten Stärke der Zusammenhänge
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 Nun ist noch stärker ersichtlich, dass jeweils die Variablen `x1-x3` und die Variablen `x4-x6` eine Gruppe bilden, da sie deskriptiv gesehen untereinander stärker zusammenzuhängen scheinen als zwischen den Gruppen. Diese Gruppen an Variablen haben vielleicht mehr Gemeinsamkeiten untereinander (also innerhalb einer Gruppe) als zwischen den Gruppen. Mit Hilfe einer PCA können wir nun untersuchen, auf wie viele Hauptkomponenten sich die Daten reduzieren lassen. Unserer laienhafter Einschätzung nach sollten es 2 sein!
 
@@ -289,12 +289,12 @@ PCA1
 ##     method = method, use = use, cor = cor, correct = 0.5, weight = NULL)
 ## Standardized loadings (pattern matrix) based upon correlation matrix
 ##      PC1   PC2   PC3   PC4   PC5   PC6 h2       u2 com
-## x1  0.71  0.29  0.44  0.40 -0.19 -0.17  1  0.0e+00 3.1
+## x1  0.71  0.29  0.44  0.40 -0.19 -0.17  1 -4.4e-16 3.1
 ## x2  0.78  0.41  0.10 -0.02  0.27  0.37  1 -2.2e-15 2.3
-## x3 -0.78 -0.33  0.21  0.37 -0.10  0.32  1  2.2e-16 2.5
-## x4 -0.36  0.66 -0.55  0.35  0.08 -0.05  1 -2.2e-16 3.2
-## x5 -0.72  0.28  0.48 -0.02  0.38 -0.15  1  5.6e-16 2.8
-## x6  0.45 -0.75 -0.17  0.29  0.33 -0.10  1  2.2e-16 2.7
+## x3 -0.78 -0.33  0.21  0.37 -0.10  0.32  1  6.7e-16 2.5
+## x4 -0.36  0.66 -0.55  0.35  0.08 -0.05  1  5.6e-16 3.2
+## x5 -0.72  0.28  0.48 -0.02  0.38 -0.15  1  3.3e-16 2.8
+## x6  0.45 -0.75 -0.17  0.29  0.33 -0.10  1  8.9e-16 2.7
 ## 
 ##                        PC1  PC2  PC3  PC4  PC5  PC6
 ## SS loadings           2.57 1.43 0.81 0.50 0.38 0.30
@@ -365,7 +365,7 @@ Wobei im Originaltext anstatt $\lambda$ gerade $a$ steht - es sind aber die Ladu
 
 
 `SS loadings` steht für "Sum of Squares loadings", also die Quadratsumme der Ladungen. Diese ist gleich dem Eigenwert: $\theta_j = \Sigma_{i=1}^p\lambda_{ij}^2 = \lambda_{1j}^2+\dots+\lambda_{pj}^2$ (Spaltenquadratsumme der Komponentenladungen), mit $p=$ Anzahl an Variablen (hier $p=6$). `Proportion Var` betitelt den (relativen) Anteil der Variation, der durch die jeweiligen Komponenten erklärt werden kann. `Cumulative Var` kumuliert, also summiert, diese Anteile bis zur jeweiligen Komponente auf 
-( $\text{CumVar}_i = \sum_{j=1}^i\theta_j = \theta_1+\dots+\theta_i$, also $\text{CumVar}_1=\theta_1$ und $\text{CumVar}_2=\theta_1+\theta_2$, usw. ). `Proportion Explained` setzt die Variation, die durch die Komponenten erklärt wird, in Relation zur gesamten erklärten Varianz (d.h. hier summiert sich die erklärte Varianz immer zu 1, während sich die proportionale Varianz nur zu 1 aufsummiert, wenn die gesamte Variation im Datensatz auf die beiden Variablen zurückzuführen ist - da wir hier die Maximalanzahl extrahiert haben, geben beide die gleichen Zahlen wieder - dazu später mehr!). `Cumulative Proportion` beschreibt das gleiche wie `Cumulative Var`, nur bezieht sie sich hier auf die `Proportion Explained`.
+( {{< math >}}$\text{CumVar}_i = \sum_{j=1}^i\theta_j = \theta_1+\dots+\theta_i${{</ math >}}, also {{< math >}}$\text{CumVar}_1=\theta_1${{< math >}} und {{</ math >}}$\text{CumVar}_2=\theta_1+\theta_2${{</ math >}}, usw. ). `Proportion Explained` setzt die Variation, die durch die Komponenten erklärt wird, in Relation zur gesamten erklärten Varianz (d.h. hier summiert sich die erklärte Varianz immer zu 1, während sich die proportionale Varianz nur zu 1 aufsummiert, wenn die gesamte Variation im Datensatz auf die beiden Variablen zurückzuführen ist - da wir hier die Maximalanzahl extrahiert haben, geben beide die gleichen Zahlen wieder - dazu später mehr!). `Cumulative Proportion` beschreibt das gleiche wie `Cumulative Var`, nur bezieht sie sich hier auf die `Proportion Explained`.
 
 
 
@@ -388,10 +388,12 @@ names(PCA1)
 ```
 
 ```
-##  [1] "values"       "rotation"     "n.obs"        "communality"  "loadings"     "fit"          "fit.off"     
-##  [8] "fn"           "Call"         "uniquenesses" "complexity"   "valid"        "chi"          "EPVAL"       
-## [15] "R2"           "objective"    "residual"     "rms"          "factors"      "dof"          "null.dof"    
-## [22] "null.model"   "criteria"     "PVAL"         "weights"      "r.scores"     "Vaccounted"   "Structure"
+##  [1] "values"       "rotation"     "n.obs"        "communality"  "loadings"    
+##  [6] "fit"          "fit.off"      "fn"           "Call"         "uniquenesses"
+## [11] "complexity"   "chi"          "EPVAL"        "R2"           "objective"   
+## [16] "residual"     "rms"          "factors"      "dof"          "null.dof"    
+## [21] "null.model"   "criteria"     "PVAL"         "weights"      "r.scores"    
+## [26] "Vaccounted"   "Structure"
 ```
 
 Zum Beispiel stellt  `loadings` die Ladungen dar:
@@ -486,13 +488,13 @@ PCA1$weights
 ```
 
 ```
-##             PC1        PC2        PC3         PC4        PC5        PC6
-## [1,]  0.2744152  0.2008294  0.5456820  0.78999780 -0.5092729 -0.5592588
-## [2,]  0.3052760  0.2867514  0.1252498 -0.03342851  0.6989461  1.2126473
-## [3,] -0.3016287 -0.2269308  0.2585715  0.72837774 -0.2749175  1.0644632
-## [4,] -0.1391103  0.4610988 -0.6778108  0.70122444  0.2184792 -0.1591019
-## [5,] -0.2812890  0.1956702  0.5949131 -0.03202161  0.9965823 -0.5069606
-## [6,]  0.1762337 -0.5215478 -0.2095768  0.57683285  0.8748498 -0.3426445
+##           PC1        PC2        PC3         PC4        PC5        PC6
+## x1  0.2744152  0.2008294  0.5456820  0.78999780 -0.5092729 -0.5592588
+## x2  0.3052760  0.2867514  0.1252498 -0.03342851  0.6989461  1.2126473
+## x3 -0.3016287 -0.2269308  0.2585715  0.72837774 -0.2749175  1.0644632
+## x4 -0.1391103  0.4610988 -0.6778108  0.70122444  0.2184792 -0.1591019
+## x5 -0.2812890  0.1956702  0.5949131 -0.03202161  0.9965823 -0.5069606
+## x6  0.1762337 -0.5215478 -0.2095768  0.57683285  0.8748498 -0.3426445
 ```
 
 Die Nebenbedingung $\Gamma'\Gamma=I$ können wir leicht untersuchen:
@@ -526,7 +528,7 @@ round(t(PCA1$weights) %*% PCA1$weights %*% diag(PCA1$values), 10)
 ## PC5    0    0    0    0    1    0
 ## PC6    0    0    0    0    0    1
 ```
-Wobei mit `$values` gerade die Eigenwerte angesprochen werden und mit `diag` aus diesem Vektor aus Eigenwerten eine Diagonalmatrix erzeugt wird mit Eigenwerten auf der Diagonale und Nullen sonst (für eine Wiederholung der Matrixoperationen siehe in der [Einleitungssitzung](/lehre/fue-i/einleitung-und-wiederholung) im [Appendix B](/lehre/fue-i/einleitung-und-wiederholung/#AppendixB) nach).
+Wobei mit `$values` gerade die Eigenwerte angesprochen werden und mit `diag` aus diesem Vektor aus Eigenwerten eine Diagonalmatrix erzeugt wird mit Eigenwerten auf der Diagonale und Nullen sonst (für eine Wiederholung der Matrixoperationen siehe in der [Einleitungssitzung](/lehre/fue-i/einleitung-fue) im [Appendix B](/lehre/fue-i/einleitung-fue/#AppendixB) nach).
 
 
 ## Bestimmung der Komponentenzahl ##
@@ -548,7 +550,7 @@ fa.parallel(dataUV, fa = "pc", error.bars = T)
 abline(h = 1)
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 Die blaue durchgezogene Linie stellt den Eigenwerteverlauf unserer Daten dar. Die gepunktete Linie ist die Parallelanalyse auf Basis von simulierten Daten, während die gestrichelte Linie die Parallelanalyse auf Basis von Resampling darstellt.
 
@@ -609,7 +611,7 @@ Diesmal erkennen wir sehr deutlich, wie unterschiedlich der Output aussieht. die
 ### Grafische Veranschaulichungen des Ladungsmusters
 In einem Balkendiagramm dargestellt sehen wir die Ladungen auf den beiden Hauptkomponenten (PC1 und PC2). Es ist keine eindeutige Zuordnung zu den beiden Komponenten zu erkennen. Was wir allerdings sehen ist, dass auf der ersten Komponenten die Ladungen im Schnitt (betraglich) größer ausfallen. Dies ist wenig überraschend, da die erste Hauptkomponente so extrahiert wird, dass sie die größte Varianz und somit den größten Eigenwert hat. Der Code zur Grafik ist in [Appendix A](#AppendixA) abgedruckt.
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
 
 Da sich zwei Hauptkomponenten noch leicht gegeneinander abtragen lassen, können wir uns dies auch ansehen und zwar indem wir einfach `plot` auf das PCA-Objekt anwenden. Außerdem spezifizieren wir noch mit `pch = 1`, dass die Punkte anders als der Default dargestellt werden. Dies machen wir, um diese Punkte später besser von der rotierten Lösung unterscheiden zu können!
 
@@ -618,7 +620,7 @@ Da sich zwei Hauptkomponenten noch leicht gegeneinander abtragen lassen, können
 plot(PCA2, pch = 1)
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
 Auf der x-Achse werden die Ladungen auf der 1. Hauptkomponente abgetragen, während auf der y-Achse die Ladungen auf der 2. abgetragen werden. Würde Einfachstruktur vorliegen (also eindeutige Zuordnung einer Variable zu einer Hauptkomponente), so würden wir erwarten, dass ein Datenpunkt jeweils weit entfernt vom Ursprung (Punkt $(0,0)$), aber nah an einer der Achsen liegt. Die Zahlen stellen hierbei die Nummer der Variable dar (wobei die Spalten durchnummeriert werden). `x4` und `x6` liegen bspw. recht weit von beiden Achsen entfernt - sie werden keiner der beiden Hauptkomponenten eindeutig zugeordnet. Im nächsten Abschnitt erreichen wir Einfachstruktur, indem wir _"varimax"_ rotieren.
 
 
@@ -667,7 +669,7 @@ Diesmal haben sich die Komponentenladungen geändert und zwar so, dass die Kompo
 
 Es wird eine stärkere Einfachstruktur sichtbar: sowohl im Barplot,
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
 
 als auch in einem Plot, in welchen die Ladungen der Hauptkomponenten gegeneinander abgetragen werden (hier wählen wir mit `cex = 2`, dass die Punkte doppelt so groß eingezeichnet werden wie per Default, damit wir später noch stärker den Unterschied zur unrotierten Lösung sehen):
 
@@ -676,7 +678,7 @@ als auch in einem Plot, in welchen die Ladungen der Hauptkomponenten gegeneinand
 plot(PCA3, cex = 2)
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
 
 Auch hier lässt sich die Einfachstruktur dadurch erkennen, dass die Punkte mit den Zahlen (und entsprechend die Nummer der Variablen) 1-4 und 6 sehr nah an den Achsen liegen. Nur `x5` wird nicht eindeutig einer Komponente zugeordnet.
 
@@ -687,14 +689,14 @@ Diese lässt sich auch in einem stark vereinfachten Pfaddiagramm darstellen. Daz
 fa.diagram(PCA3)
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
 
 Gestrichelte Pfeile zeigen entgegengesetze Vorzeichen an. Hier wird zwar `x5` der 2. Hauptkomponente zugeordnet, aber es fällt schon etwas auf, dass dessen Koeffizient etwas geringer ausfällt als die der anderen. Außerdem ist hier noch zu vermerken, dass die PCA kein Erklärungsmodell liefert. Das bedeutet, dass wir den Hauptkomponenten keine inhaltliche Bedeutung unterstellen können a la: das ist die latente Variable, die die jeweilige Variation in den Daten erzeugt. Wie an den Pfeilen ersichtlich, sind die Hauptkomponenten Linearkombination der Variablen. Bei Erklärungsmodellen wäre es genau anders herum. Die Variablen würden sich aus den Hauptkomponenten zusammensetzen! Um Erklärungsmodelle anzusetzen, müssen Sie noch bis zum Kurs im Sommer warten, wenn es um latente Modellierung geht. Folglich stehen hohe Ladungen auf einer Hauptkomponenten nur für hohe Gemeinsamkeiten in der Variation der Items.
 
 ### Unrotierte und rotierte Ladungen in einem Plot
 Zu guter Letzt wollen wir den Rotationseffekt noch genauer erkennen und plotten die unrotierte und die rotierte Lösung in eine Grafik:
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
 
 Dieser Grafik ist zu entnehmen, dass de facto alle Punkte um ca 50° (so genau man dies eben mit dem Geodreieck am Bildschirm nachmessen kann) im Uhrzeigersinn rotiert wurden und somit näher den Achsen liegen (Einfachstruktur). Die Entfernung zum Ursprung (dem Punkt $(0,0)$) wurde nicht verändert! Jetzt haben wir zwei Hauptkomponenten, von denen wir ziemlich genau wissen, was in diese drin steckt. Die Frage ist nun, wie wir mit diesen weiterrechnen können und was der Nutzen davon ist.
 
@@ -744,7 +746,7 @@ Der folgende Plot zeigt die Verteilung der individuellen Werte auf den Hauptkomp
 plot(PCs)
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 Dies liegt ganz einfach daran, dass die Werte auf den Hauptkomponenten nach orthogonaler Rotation unkorreliert sind (Korrelationsmatrix gerundet auf die 10. Nachkommastelle):
 
@@ -844,7 +846,7 @@ summary(mx)
 ## 
 ## Coefficients:
 ##               Estimate Std. Error t value Pr(>|t|)  
-## (Intercept) -1.800e-16  1.757e-01   0.000   1.0000  
+## (Intercept) -2.693e-16  1.757e-01   0.000   1.0000  
 ## x1           3.317e-01  2.260e-01   1.468   0.1529  
 ## x2           1.727e-01  2.613e-01   0.661   0.5138  
 ## x3           2.835e-01  2.487e-01   1.140   0.2636  
@@ -878,7 +880,7 @@ summary(mpca)
 ## 
 ## Coefficients:
 ##               Estimate Std. Error t value Pr(>|t|)    
-## (Intercept) -1.077e-16  1.743e-01   0.000   1.0000    
+## (Intercept) -2.224e-16  1.743e-01   0.000   1.0000    
 ## PCs[, 1]     4.014e-01  1.768e-01   2.270   0.0298 *  
 ## PCs[, 2]    -7.937e-01  1.768e-01  -4.489 8.23e-05 ***
 ## ---
@@ -912,7 +914,7 @@ corrplot(R_UV, method = "color",tl.col = "black", addCoef.col = "black",
          col=colorRampPalette(c("red","white","blue"))(100))
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
 
 
 ```r
@@ -920,7 +922,7 @@ corrplot(R_UV, method = "color",tl.col = "black", addCoef.col = "black",
          col=colorRampPalette(c("blue","white","blue"))(100))
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
 
 
 ```r
@@ -929,7 +931,7 @@ barplot(PCA2$loadings, beside = T, names.arg = rep(colnames(dataUV),2),
         main  = "Ladungsmuster der Variablen \n auf den Hauptkomponenten")
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
 
 
 
@@ -939,7 +941,7 @@ barplot(PCA3$loadings, beside = T, names.arg = rep(colnames(dataUV),2),
         main  = "Ladungsmuster der Variablen \n auf den Hauptkomponenten")
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
 
 
 ```r
@@ -948,7 +950,7 @@ par(new=TRUE) # neuen Plot erzeugen, welcher über den bereits erzeugten geplott
 plot(PCA2, xaxt = "n", yaxt = "n", ylab = "", xlab = "", xlim = c(-1,1),ylim = c(-1,1), pch = 1)
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
 
 </details>
 
@@ -976,12 +978,12 @@ eigen(cor(dataUV))
 ## 
 ## $vectors
 ##            [,1]       [,2]       [,3]        [,4]       [,5]        [,6]
-## [1,] -0.4399744 -0.2405587  0.4905144  0.56125334  0.3140469 -0.30711389
-## [2,] -0.4894541 -0.3434783  0.1125872 -0.02374926 -0.4310103  0.66591857
-## [3,]  0.4836064  0.2718236  0.2324303  0.51747542  0.1695299  0.58454407
-## [4,]  0.2230379 -0.5523162 -0.6092852  0.49818438 -0.1347268 -0.08736991
-## [5,]  0.4509954 -0.2343788  0.5347683 -0.02274973 -0.6145498 -0.27839460
-## [6,] -0.2825585  0.6247235 -0.1883889  0.40981047 -0.5394826 -0.18816136
+## [1,] -0.4399744 -0.2405587 -0.4905144  0.56125334 -0.3140469  0.30711389
+## [2,] -0.4894541 -0.3434783 -0.1125872 -0.02374926  0.4310103 -0.66591857
+## [3,]  0.4836064  0.2718236 -0.2324303  0.51747542 -0.1695299 -0.58454407
+## [4,]  0.2230379 -0.5523162  0.6092852  0.49818438  0.1347268  0.08736991
+## [5,]  0.4509954 -0.2343788 -0.5347683 -0.02274973  0.6145498  0.27839460
+## [6,] -0.2825585  0.6247235  0.1883889  0.40981047  0.5394826  0.18816136
 ```
 
 Unter `values` stehen (der Größe nach sortiert) die Eigenwerte, welche auch den Varianzen der Hauptkomponenten entsprechen. Unter `vectors` stehen die zugehörigen Eigenvektoren. Die Matrix $\Gamma$ enthält genau diese Vektoren! Wenn wir die Eigenwerte nun plotten, erhalten wir den Screeplot.
@@ -995,7 +997,7 @@ theta <- eigen(R_UV)$values
 plot(theta, type="l", ylab = "Eigenwert", xlab = "Hauptkomponente")
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-54-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
 
 Durch die Funktion `eigen` können wir also leicht die Vektoren erzeugen und somit die Hauptkomponenten bestimmen - dazu müssen wir lediglich $\Gamma$ mit den Variablen (matrix-)multiplizieren. Die Rotation ist etwas schwieriger. Wir können für die unrotierte Lösung recht leicht die Ladungsmatrix `\Lambda` erstellen, indem wir $\Gamma$ mit der Wurzel aus den jeweiligen Eigenwerten multiplizieren:
 
@@ -1007,12 +1009,12 @@ Lambda
 
 ```
 ##            [,1]       [,2]       [,3]        [,4]        [,5]       [,6]
-## [1,] -0.7054183 -0.2881475  0.4409241  0.39874202  0.19365933 -0.1686499
-## [2,] -0.7847500 -0.4114272  0.1012048 -0.01687264 -0.26578568  0.3656855
-## [3,]  0.7753742  0.3255974  0.2089320  0.36764002  0.10454187  0.3209991
-## [4,]  0.3576004 -0.6615788 -0.5476874  0.35393472 -0.08308031 -0.0479787
-## [5,]  0.7230884 -0.2807451  0.4807040 -0.01616253 -0.37896671 -0.1528789
-## [6,] -0.4530308  0.7483101 -0.1693431  0.29114954 -0.33267595 -0.1033278
+## [1,] -0.7054183 -0.2881475 -0.4409241  0.39874202 -0.19365933  0.1686499
+## [2,] -0.7847500 -0.4114272 -0.1012048 -0.01687264  0.26578568 -0.3656855
+## [3,]  0.7753742  0.3255974 -0.2089320  0.36764002 -0.10454187 -0.3209991
+## [4,]  0.3576004 -0.6615788  0.5476874  0.35393472  0.08308031  0.0479787
+## [5,]  0.7230884 -0.2807451 -0.4807040 -0.01616253  0.37896671  0.1528789
+## [6,] -0.4530308  0.7483101  0.1693431  0.29114954  0.33267595  0.1033278
 ```
 
 ```r
@@ -1063,7 +1065,8 @@ eigen(R2)$values
 ```
 
 ```
-## [1]  2.575730e+00  1.782575e+00  1.172574e+00  7.596780e-01  4.057040e-01  3.037391e-01 -4.719143e-17
+## [1]  2.575730e+00  1.782575e+00  1.172574e+00  7.596780e-01  4.057040e-01  3.037391e-01
+## [7] -9.032073e-17
 ```
 
 ```r
@@ -1071,14 +1074,14 @@ plot(eigen(R2)$values, type="l", ylab = "Eigenwert", xlab = "Hauptkomponente")
 abline(h=0, col="red")
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-57-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
 
 ```r
 solve(R2)
 ```
 
 ```
-## Error in solve.default(R2): system is computationally singular: reciprocal condition number = 2.07817e-17
+## Error in solve.default(R2): system is computationally singular: reciprocal condition number = 1.817e-17
 ```
 
 Dies bedeutet, dass sehr kleine Eigenwerte auch für komplette lineare Abhängigkeit der Daten sprechen können. In anderen Modellierungen bekommt man manchmal die Fehlermeldung, dass eine Matrix nicht positiv (semi-)definit sei. Dies bedeutet also, dass es Null-Eigenwerte oder negative Eigenwerte gibt und es sich somit nicht länger um eine Korrelations-, oder Kovarianzmatrix handeln kann (es kommt zu Schätzproblemen!).
@@ -1146,14 +1149,14 @@ Wir schauen uns hier die Intensität für die ersten 25 Pixel (1 bis 5 horizonta
 PCArt::PCArtQuiz()
 
 # analog:
-libary(PCArt)
+library(PCArt)
 PCArtQuiz()
 ```
 
-![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-62-1.png)<!-- -->
+![](/lehre/fue-i/pca_files/figure-html/unnamed-chunk-58-1.png)<!-- -->
 
 ```
-## [1] 0
+## [1] 2
 ```
 
 

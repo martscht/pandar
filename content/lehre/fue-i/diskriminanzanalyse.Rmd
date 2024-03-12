@@ -27,10 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/fue-i/diskriminanzanalyse.R
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/fue-i/diskriminanzanalyse-aufgaben
+  # - icon_pack: fas
+  #   icon: pen-to-square
+  #   name: Aufgaben
+  #   url: /lehre/fue-i/diskriminanzanalyse-aufgaben
 output:
   html_document:
     keep_md: true
@@ -40,7 +40,6 @@ output:
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 
 # Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
 ```
 
@@ -57,9 +56,7 @@ load("C:/Users/Musterfrau/Desktop/Therapy.rda")
 oder wir laden sie direkt über die Website:
 
 ```{r, eval = T}
-#load(url("https://pandar.netlify.app/daten/Therapy.rda"))
-load(url("https://courageous-donut-84b9e9.netlify.app/post/Therapy.rda"))
-
+load(url("https://pandar.netlify.app/daten/Therapy.rda"))
 ```
 
 Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik "Data" unser Datensatz mit dem Namen "_Therapy_" erscheinen. 
@@ -190,7 +187,7 @@ Therapy$predict_class <- predict(model_DA)$class
 table(Therapy$predict_class, Therapy$Intervention)
 ```
 
-```{r, echo =F}
+```{r, echo =F, purl=FALSE}
 knitr::kable(table(Therapy$predict_class, Therapy$Intervention))
 ```
 
@@ -200,7 +197,7 @@ Die Diagonalelemente dieser Tabelle zeigen die richtig zugeordneten Werte. Wir k
 table(Therapy$predict_class, Therapy$Intervention)/30
 ```
 
-```{r, echo =F}
+```{r, echo =F, purl=FALSE}
 knitr::kable(table(Therapy$predict_class, Therapy$Intervention)/30)
 ```
 
@@ -236,7 +233,7 @@ knitr::kable(contour_data[1:6,])
 
 $\vdots$
 
-```{r, echo = F}
+```{r, echo = F,purl=FALSE}
 knitr::kable(contour_data[(dim(contour_data)[1]-6):(dim(contour_data)[1]),])
 ```
 
@@ -260,10 +257,6 @@ Wir sehen, dass die Trennlinien nicht rechtwinklig zueinander verlaufen. Dies li
 
 ***
 
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/lehre/fue-i/diskriminanzanalyse.R).
-
-***
 
 ## Literatur
 [Eid, M., Gollwitzer, M., & Schmitt, M. (2017).](https://ubffm.hds.hebis.de/Record/HEB366849158) *Statistik und Forschungsmethoden* (5. Auflage, 1. Auflage: 2010). Weinheim: Beltz.

@@ -1,7 +1,6 @@
 ## load("C:/Users/Musterfrau/Desktop/Titanic.rda")
 
-#load(url("https://pandar.netlify.app/daten/Titanic.rda")) 
-load(url("https://courageous-donut-84b9e9.netlify.app/post/Titanic.rda"))
+load(url("https://pandar.netlify.app/daten/Titanic.rda")) 
 
 head(Titanic)
 dim(Titanic) # Dimensionen des Datensatzes
@@ -27,27 +26,11 @@ lines(x = xWerte, y = dnorm(x = xWerte, mean = mean(res), sd = sd(res)), lwd = 3
 m1 <- glm(survived ~ 1 + age, family = "binomial", data = Titanic)
 summary(m1)
 
-cat('
- Call:
- glm(formula = survived ~ 1 + age, family = "binomial", data = Titanic)
 
- Deviance Residuals: 
-     Min       1Q   Median       3Q      Max  
- -1.1488  -1.0361  -0.9544   1.3159   1.5908')
 
-cat('
- Coefficients:
-              Estimate Std. Error z value Pr(>|z|)
- (Intercept) -0.05672    0.17358  -0.327   0.7438  
- age         -0.01096    0.00533  -2.057   0.0397 *
- ---
- Signif. codes:  0 \'***\' 0.001 \'**\' 0.01 \'*\' 0.05 \'.\' 0.1 \' \' 1')
 
-cat('     Null deviance: 964.52  on 713  degrees of freedom
- Residual deviance: 960.23  on 712  degrees of freedom
- AIC: 964.23
 
- Number of Fisher Scoring iterations: 4')
+
 
 AltersWerte <- seq(-500, 500, 0.1)
 logit <- m1$coefficients[1] + m1$coefficients[2]*AltersWerte 
@@ -66,11 +49,7 @@ table(Titanic$survived, Titanic$sex)
 m2 <-  glm(survived ~ 1 + age + sex, family = "binomial", data = Titanic)
 summary(m2)
 
-cat(' Coefficients:
-              Estimate Std. Error z value Pr(>|z|)
- (Intercept) -1.188647   0.222432  -5.344  9.1e-08 ***
- age         -0.005426   0.006310  -0.860     0.39    
- sex1         2.465920   0.185384  13.302  < 2e-16 ***')
+
 
 Titanic$sex
 levels(Titanic$sex)
@@ -90,7 +69,7 @@ Titanic$p_m2 <- p_m2
 
 head(Titanic)
 
-knitr::kable(head(Titanic))
+
 
 ggplot(data = Titanic, mapping = aes(x = age, y = logit_m2, col = sex)) +
         geom_line(lwd = 2) +
@@ -124,7 +103,7 @@ Titanic$p_m3 <- p_m3
 
 head(Titanic)
 
-knitr::kable(head(Titanic))
+
 
 ggplot(data = Titanic, mapping = aes(x = age, y = logit_m3, col = pclass, lty = sex)) +
      geom_line(lwd = 1) +
