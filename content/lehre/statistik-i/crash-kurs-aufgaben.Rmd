@@ -3,12 +3,12 @@ title: R Crash-Kurs - Aufgaben
 type: post
 date: '2020-10-01'
 slug: crash-kurs-aufgaben
-categories: []
-tags: ["Statistik I Übungen"]
+categories: ["Statistik I Übungen"]
+tags: []
 subtitle: ''
 summary: ''
 authors: [schultze]
-lastmod: '2023-06-15'
+lastmod: '`r Sys.Date()`'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"
@@ -39,7 +39,7 @@ output:
 ## R als Taschenrechner
 
 1. Bestimmen Sie das Ergebnis von $3 + 7 \cdot 12$
-2. Prüfen Sie mit logischen Operatoren, ob das Ergebnis aus der letzten Aufgabe das Selbe ist, wie $3 \cdot 29$
+2. Prüfen Sie mit logischen Operatoren, ob das Ergebnis aus der letzten Aufgabe dasselbe ist, wie $3 \cdot 29$
 3. Bestimmen Sie $\sqrt{115}$ und legen Sie das (ganzzahlig) gerundete Ergebnis in einem Objekt namens `zahl` ab.
 4. Folgende Syntax verursacht einen Fehler: `6 * 1,56`. Wodurch kommt dieser Fehler zustande?
 
@@ -72,7 +72,7 @@ Die folgenden Aufgaben beziehen sich auf den Datensatz **fb23**, den Sie [{{< ic
 
 11. Der [Variablenübersicht](/lehre/statistik-i/variablen.pdf) können Sie die Variablennamen, Variablenbedeutungen und die Kodierschemata entnehmen. Die Variable `ziel` kodiert die Arbeitsbranchen, in denen Sie und Ihre Kommilitoninnen und Kommilitonen nach dem Abschluss tätig sein wollen. Wandeln Sie diese Variable in einen Faktor um und vergeben Sie die entsprechenden Labels.
 12. Erstellen Sie eine Variable `uni`, die darlegt, wie viele der Uniangebote eine Teilnehmerin oder ein Teilnehmer bereits in Anspruch genommen hat (aus den Variablen `uni1` bis `uni4`).
-13. Nutzen Sie die `subset` Funktion um einen Datensatz zu erstellen, der nur die Personen enthält, die nach dem Abschluss in der Psychotherapie tätig sein wollen. Nennen Sie diesen `therapie`.
+13. Nutzen Sie die `subset`-Funktion um einen Datensatz zu erstellen, der nur die Personen enthält, die nach dem Abschluss in der Psychotherapie tätig sein wollen. Nennen Sie diesen `therapie`.
   + Nutzen Sie die Hilfe um herauszufinden, wie `subset` funktioniert.
-  + Sie können im [auf der Seite zum Crash-Kurs](/lehre/statistik-i/crash-kurs) nachschlagen, wie logische Operationen in `R` durchgeführt werden!
-14. Speichern Sie den neuen Datensatz als **therapie.rds** im RDS Format ab.
+  + Sie können [auf der Seite zum Crash-Kurs](/lehre/statistik-i/crash-kurs) nachschlagen, wie logische Operationen in `R` durchgeführt werden!
+14. Speichern Sie den neuen Datensatz als **therapie.rds** im RDS-Format ab.

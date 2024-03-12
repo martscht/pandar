@@ -26,7 +26,7 @@ output:
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+
 ```
 
 Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den verschiedenen Tutorials auf `pandaR` gearbeitet wird. Die Datensätze sind alphabetisch sortiert und können teilweise direkt über diese Seite heruntergeladen werden. Hier eine Übersicht:
@@ -709,7 +709,8 @@ Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Unters
 Auf `pandaR` wird der Datensatz in dem Tutorial [Logistische Regression](/post/logistische-regression-klipps) für PsyMSc5a verwendet.
 
 ### Datensatz laden
-```{r, results='hide'}
+
+```{r}
 library(haven)
 osf <- read_sav(file = url("https://osf.io/prc92/download"))
 ```
@@ -841,7 +842,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/post/metaan
 ### Datensatz laden
 ```{r, results="hide"}
 library(metafor)
-load(url('https://pandar.netlify.app/daten/preprocessing/reliabilites.molloy2014.rda'))
+load(url('https://pandar.netlify.app/daten/reliabilites.molloy2014.rda'))
 ```
 
 Im nächsten Schritt sollte der Datensatz mit den Reliabilitäten und der ursprüngliche Datensatz zusammen gefasst werden. Dafür gibt es einige Möglichkeiten. Hier ist ein Beispiel aufgeführt: 
@@ -910,6 +911,7 @@ Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Unters
 Auf `pandaR` wird der Datensatz in den Tutorials [ANOVA vs. Regression](/post/anova-vs-regression) und [ANCOVA und moderierte Regression](/post/ancova-und-moderierte-regression) für PsyMSc5a verwendet.
 
 ### Datensatz laden
+
 ```{r}
 osf <- read.csv(file = url("https://osf.io/zc8ut/download"))
 osf <- osf[, c("ID", "group", "stratum", "bsi_post", "swls_post", "pas_post")]
@@ -1030,6 +1032,7 @@ Epskamp, S., van Borkulo, C. D., van der Veen, D. C., Servaas, M., Isvoranu, A.-
 Auf `pandaR` wird der Datensatz in dem Tutorial [Dynamische Netzwerkanalyse](/post/dynamic-networks) für PsyMSc5a verwendet.
 
 ### Datensatz laden
+
 ```{r}
 data <- read.csv(url("https://osf.io/g6ya4/download"))
 ```
@@ -1069,6 +1072,7 @@ Beim Datensatz handelt es sich um eine Erhebung, die 2017 an der Freien Universi
 Auf `pandaR` wird der Datensatz in dem Tutorial [Loops und Funktionen](/post/loops-und-funktionen) für PsyBsc7 verwendet.
 
 ### Datensatz laden
+
 ```{r}
 load(url("https://pandar.netlify.app/daten/mdbf.rda"))
 ```
@@ -1113,9 +1117,11 @@ Fried, E. I., Papanikolaou, F., & Epskamp, S. (2021). Mental Health and Social C
 Auf `pandaR` wird der Datensatz [Block 5b](/post/msc5a-daten/#Block5b) der Quizze für PsyMSc5a verwendet.
 
 ### Datensatz laden
+
 ```{r, eval=FALSE}
-source(url("https://pandar.netlify.app/post/Preprocessing/Data_Processing_Quiz4b.R"))
+source(url("https://pandar.netlify.app/daten/Data_Processing_Quiz4b.R"))
 ```
+
 Sie erhalten einmal den Datensatz `data` und eine Aufzählung aller Variablen, die Knoten im Netzwerk sein sollen, mit `rel_vars`.
 
 ### Größe
@@ -1165,6 +1171,7 @@ Der Datensatz behandelt die Naturverbundenheit, welche anhand von 6 Items gemess
 Auf `pandaR` wird der Datensatz in dem [Quiz 5](/post/bsc7-daten/#Quiz5) für PsyBsc7 verwendet.
 
 ### Datensatz laden
+
 ```{r}
 load(url("https://pandar.netlify.app/daten/nature.rda"))
 ```
@@ -1196,6 +1203,7 @@ Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichpr
 Auf `pandaR` wird der Datensatz in dem Tutorial [Regression IV: quadratische und moderierte Regression](/post/quadratische-und-moderierte-regression), [Quiz 2](/post/bsc7-daten/#Quiz2) und [Quiz 3](/post/bsc7-daten/#Quiz3) für PsyBSc7 verwendet.
 
 ### Datensatz laden
+
 ```{r}
 load(url("https://pandar.netlify.app/daten/PISA2009.rda"))
 ```
@@ -1243,9 +1251,10 @@ In der Untersuchung wurden charakteristische Merkmale von *Parental Burnout* unt
 Auf `pandaR` wird der Datensatz in [Block 5b](/post/msc5a-daten/#Block5b) der Quizze für PsyMSc5a verwendet.
 
 ### Datensatz laden
+
 ```{r}
 burnout <- read.csv(file = url("https://osf.io/qev5n/download"))
-burnout <- burnout[2:8]
+burnout <- burnout[,2:8]
 ```
 
 ### Größe
@@ -1400,7 +1409,7 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Regression mit nominalskalierte
 Die Daten können direkt vom [{{< icon name="download" pack="fas" >}} OSF heruntergeladen ](https://osf.io/4wypx/download) werden. Allerdings werden einige Schritte durchlaufe, um die Daten auf die nötigen Variablen zu reduzieren, welche mit 
 
 ```{r}
-source("https://pandar.netlify.app/post/Preprocessing/Data_Processing_punish.R")
+source("https://pandar.netlify.app/daten/Data_Processing_punish.R")
 ```
 
 direkt durchgeführt werden können. Zur Nachvollziehbarkeit, hier noch einmal der Inhalt dieses Skripts:
@@ -1557,7 +1566,7 @@ Auf `pandaR` wird der Datensatz in [Block 2](/post/msc5a-daten/#Block2) der Quiz
 
 ### Datensatz laden
 ```{r}
-source(url("https://pandar.netlify.app/post/Preprocessing/Data_Processing_Quiz1.R"))
+source(url("https://pandar.netlify.app/daten/Data_Processing_Quiz1.R"))
 ```
 
 ### Größe
@@ -1602,7 +1611,7 @@ load(url("https://pandar.netlify.app/daten/Assessment.rda"))
 ```
 
 ### Größe
-Der Datensatz besteht aus `r dim(Assessment)[1]` Beobachtungen auf `r dim(Assessment[2]` Variablen.
+Der Datensatz besteht aus `r dim(Assessment)[1]` Beobachtungen auf `r dim(Assessment)[2]` Variablen.
 
 ### Variablen
 In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
@@ -1630,7 +1639,7 @@ load(url("https://pandar.netlify.app/daten/NerdData.rda"))
 ```
 
 ### Größe
-Der Datensatz besteht aus `r dim(NerdData)[1]` Beobachtungen auf `r dim(NerdData[2]` Variablen.
+Der Datensatz besteht aus `r dim(NerdData)[1]` Beobachtungen auf `r dim(NerdData)[2]` Variablen.
 
 ### Variablen
 In der folgenden Tabelle erfolgt eine Übersicht eines Teils der erhobenen Variablen und ihre Bedeutungen.
@@ -1696,7 +1705,7 @@ load(url("https://pandar.netlify.app/daten/StudentsInClasses.rda"))
 ```
 
 ### Größe
-Der Datensatz besteht aus `r dim(StudentsInClasses)[1]` Beobachtungen auf `r dim(StudentsInClasses[2]` Variablen.
+Der Datensatz besteht aus `r dim(StudentsInClasses)[1]` Beobachtungen auf `r dim(StudentsInClasses[2])` Variablen.
 
 ### Variablen
 In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
@@ -1730,7 +1739,7 @@ load(url("https://pandar.netlify.app/daten/Xmas.rda"))
 ```
 
 ### Größe
-Der Datensatz besteht aus `r dim(Xmas)[1]` Beobachtungen auf `r dim(Xmas[2]` Variablen.
+Der Datensatz besteht aus `r dim(Xmas)[1]` Beobachtungen auf `r dim(Xmas)[2]` Variablen.
 
 ### Variablen
 In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.

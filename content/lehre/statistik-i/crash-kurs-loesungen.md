@@ -8,16 +8,28 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [schultze] 
-lastmod: '2023-11-15'
+lastmod: '2024-03-12'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
+
 expiryDate: ''
 publishDate: ''
 reading_time: false
 share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/crash-kurs
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/crash-kurs-aufgaben
+
 _build:
   list: never
 output:
@@ -45,7 +57,7 @@ output:
 </details>
 
 
-2. Prüfen Sie mit logischen Operatoren, ob das Ergebnis aus der letzten Aufgabe das Selbe ist, wie $3 \cdot 29$
+2. Prüfen Sie mit logischen Operatoren, ob das Ergebnis aus der letzten Aufgabe dasselbe ist, wie $3 \cdot 29$
 
 <details><summary>Lösung</summary>
 
@@ -543,7 +555,7 @@ str(therapie)
 </details>
 
   
-14. Speichern Sie den neuen Datensatz als **therapie.rds** im RDS Format ab.
+14. Speichern Sie den neuen Datensatz als **therapie.rds** im RDS-Format ab.
 
 <details><summary>Lösung</summary>
 

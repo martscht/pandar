@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
 authors: [schultze]
 weight: 1
-lastmod: '2024-03-11'
+lastmod: '2024-03-12'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"
@@ -37,8 +37,6 @@ output:
   html_document:
     keep_md: true
 ---
-
-{{< list_of_tags >}}
 
 
 
@@ -73,7 +71,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 637507 mal heruntergeladen
+* Allein in den letzten 30 Tagen 617011 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
@@ -386,7 +384,7 @@ log(-1)
 ```
 
 ```
-## Warning in log(-1): NaNs wurden erzeugt
+## Warning in log(-1): NaNs produced
 ```
 
 ```
@@ -403,7 +401,7 @@ log(argument = 10)
 ```
 
 ```
-## Error in eval(expr, envir, enclos): Argument "x" fehlt (ohne Standardwert)
+## Error in eval(expr, envir, enclos): argument "x" is missing, with no default
 ```
 
 In diesem Fall werden wir darauf hingewiesen, dass wir keine Einstellung für das Argument `x` vorgenommen haben, obwohl dieses keine Voreinstellung hat. Daher ist die Funktion unfähig ein Ergebnis zu produzieren. Bei Fehlern sollten Sie bedenken, dass diese das Ausführen mehrerer Zeilen nicht unterbrechen. Wenn Sie also eine komplette Syntax auf einmal ausführen, können aus Fehlern Folgefehler entstehen, weil ein Ergebnis nicht entstanden ist, mit dem Sie anschließend weiter rechnen wollten.
@@ -657,7 +655,7 @@ as.numeric(color)
 ```
 
 ```
-## Warning: NAs durch Umwandlung erzeugt
+## Warning: NAs introduced by coercion
 ```
 
 ```
@@ -929,7 +927,7 @@ data.frame(color, text, cong, react, three)
 ```
 
 ```
-## Error in data.frame(color, text, cong, react, three): Argumente implizieren unterschiedliche Anzahl Zeilen: 8, 3
+## Error in data.frame(color, text, cong, react, three): arguments imply differing number of rows: 8, 3
 ```
 
 Dazu gibt es jedoch eine, sehr spezifische, Ausnahme. Es ist möglich, dass Vektoren unterschiedliche Längen haben, wenn die längere Länge ein Vielfaches der kürzeren Länge ist. Wenn wir also einen Vektor mit 4 Elementen erstellen:
@@ -1434,7 +1432,7 @@ fb23 <- read.table('fb23.csv', header = TRUE)
 ```
 
 ```
-## Error in read.table("../../daten/fb23.csv", header = TRUE): mehr Spalten als Spaltennamen
+## Error in read.table("../../daten/fb23.csv", header = TRUE): more columns than column names
 ```
 
 Wieder ergibt sich ein Fehler, der lamentiert, dass es mehr Spalten als Variablennamen gibt. Das liegt daran, dass `read.table()` per Voreinstellung davon ausgeht, dass Variablen (bzw. Spalten des Datensatzes) durch Leerzeichen getrennt sind (`sep = ""`). In unserer Datei erfolgt das aber durch Kommata.
