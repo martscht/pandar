@@ -1,32 +1,6 @@
-abbrev <- function(X, begin = 'Latent Variables', end = NULL, ellipses = 'both', shift = 2, group = 1, ...) {
-  
-  tmp <- capture.output(lavaan::summary(X,...))
-  
-  if (is.null(begin)) begin <- 1
-  else begin <- grep(begin, tmp, fixed = TRUE)[group]
-  if (is.null(end)) end <- length(tmp)-shift
-  else end <- grep(end, tmp, fixed = TRUE)[grep(end, tmp, fixed = TRUE) > begin][1]-shift
-  
-  if (ellipses == 'both') {
-    cat('[...]\n', paste(tmp[begin:end], collapse = '\n'), '\n[...]\n')
-  }
-  if (ellipses == 'top') {
-    cat('[...]\n', paste(tmp[begin:end], collapse = '\n'))
-  }
-  if (ellipses == 'bottom') {
-    cat(paste(tmp[begin:end], collapse = '\n'), '\n[...]\n')
-  }
-  if (ellipses == 'none') {
-    cat(paste(tmp[begin:end], collapse = '\n'))
-  }
-}
-
-d3 <- function(x) {formatC(as.numeric(x), format = 'f', digits = 3)}
-
 ## load("C:/Users/Musterfrau/Desktop/StressAtWork.rda")
 
-#load(url("https://pandar.netlify.app/post/StressAtWork.rda"))
-load(url("https://courageous-donut-84b9e9.netlify.app/post/StressAtWork.rda"))
+load(url("https://pandar.netlify.app/daten/StressAtWork.rda"))
 
 library(lavaan)
 library(semPlot)
@@ -52,13 +26,11 @@ semPaths(object = fit_sem,  what = "model", layout = "tree2",
 fit_sem_MSA <- sem(model_sem, data = StressAtWork, group = "sex")
 summary(fit_sem_MSA)
 
-abbrev(X = fit_sem_MSA, begin = "Number of observations per group", end = "Model Test User Model")
 
-abbrev(X = fit_sem_MSA, begin = "Model Test User Model", end = "Parameter Estimates")
 
-abbrev(X = fit_sem_MSA, begin = "Group 1", end = "Variances")
 
-abbrev(X = fit_sem_MSA, begin = "Group 2", end = "Variances")
+
+
 
 model_sem_IE_TE_MSA <- '
 # Messmodelle
@@ -79,11 +51,11 @@ TE2 := IE2 + c2
 fit_sem_IE_TE_MSA <- sem(model_sem_IE_TE_MSA, StressAtWork, group = "sex")
 summary(fit_sem_IE_TE_MSA)
 
-abbrev(X = fit_sem_IE_TE_MSA, begin = "Regressions", end = "Intercepts")
 
-abbrev(X = fit_sem_IE_TE_MSA, begin = "Regressions", end = "Intercepts", group = 2)
 
-abbrev(X = fit_sem_IE_TE_MSA, begin = "Defined Parameters", end = NULL, shift = 1)
+
+
+
 
 semPaths(object = fit_sem_IE_TE_MSA, what = "est", layout = "tree2",
          rotation = 2, curve = T, col = list(man = "skyblue", lat = "yellow"),
@@ -105,7 +77,7 @@ fit_sem_sex_konfigural <- sem(model_sem, data = StressAtWork,
                               group.partial = c("BFs~1", "BFs~~BFs"))
 summary(fit_sem_sex_konfigural, fit.measures = T)
 
-abbrev(X = fit_sem_sex_konfigural, begin = "Model Test User Model", end = "Parameter Estimates", fit.measures = T)
+
 
 fit_sem_sex_metrisch <- sem(model_sem, data = StressAtWork, 
                             group = "sex",
@@ -113,16 +85,13 @@ fit_sem_sex_metrisch <- sem(model_sem, data = StressAtWork,
                             group.partial = c("BFs~1", "BFs~~BFs"))
 summary(fit_sem_sex_metrisch, fit.measures = T)
 
-abbrev(X = fit_sem_sex_metrisch, begin = "Model Test User Model", end = "Parameter Estimates", fit.measures = T)
 
-abbrev(X = fit_sem_sex_metrisch, begin = "Group 1", end = "Intercepts")
 
-abbrev(X = fit_sem_sex_metrisch, begin = "Group 2", end = "Intercepts")
 
-## lavTestLRT(fit_sem_sex_metrisch, fit_sem_sex_konfigural)
 
-res_metrisch <- lavTestLRT(fit_sem_sex_metrisch, fit_sem_sex_konfigural)
-print(res_metrisch)
+lavTestLRT(fit_sem_sex_metrisch, fit_sem_sex_konfigural)
+
+
 
 fit_sem_sex_skalar <- sem(model_sem, data = StressAtWork, 
                           group = "sex",
@@ -130,24 +99,20 @@ fit_sem_sex_skalar <- sem(model_sem, data = StressAtWork,
                           group.partial = c("BFs~1", "BFs~~BFs"))
 summary(fit_sem_sex_skalar, fit.measures = T)
 
-abbrev(X = fit_sem_sex_skalar, begin = "Group 1", end = "Variances")
 
-abbrev(X = fit_sem_sex_skalar, begin = "Group 2", end = "Variances")
 
-## lavTestLRT(fit_sem_sex_skalar, fit_sem_sex_metrisch)
+lavTestLRT(fit_sem_sex_skalar, fit_sem_sex_metrisch)
 
-res_skalar <- lavTestLRT(fit_sem_sex_skalar, fit_sem_sex_metrisch)
-print(res_skalar)
+
 
 fit_sem_sex_strikt <- sem(model_sem, data = StressAtWork, 
                           group = "sex",
                           group.equal = c("loadings", "intercepts", "residuals"), 
                           group.partial = c("BFs~1", "BFs~~BFs"))
 
-## lavTestLRT(fit_sem_sex_strikt, fit_sem_sex_skalar)
+lavTestLRT(fit_sem_sex_strikt, fit_sem_sex_skalar)
 
-res_strikt <- lavTestLRT(fit_sem_sex_strikt, fit_sem_sex_skalar)
-print(res_strikt)
+
 
 fit_sem_sex_voll <- sem(model_sem, data = StressAtWork, 
                         group = "sex",
@@ -157,16 +122,13 @@ fit_sem_sex_voll <- sem(model_sem, data = StressAtWork,
                                         "lv.covariances", # latente Kovarianzen
                                         "regressions"))   # Strukturparameter (Regressionsgewichte)
 
-## lavTestLRT(fit_sem_sex_voll, fit_sem_sex_strikt)
+lavTestLRT(fit_sem_sex_voll, fit_sem_sex_strikt)
 
-res_voll <- lavTestLRT(fit_sem_sex_voll, fit_sem_sex_strikt)
-print(res_voll)
 
-## summary(fit_sem_sex_strikt)
 
-abbrev(X = fit_sem_sex_strikt, begin = "Group 1", end = "Variances")
+summary(fit_sem_sex_strikt)
 
-abbrev(X = fit_sem_sex_strikt, begin = "Group 2", end = "Variances")
+
 
 semPaths(object = fit_sem_sex_strikt, what = "est", layout = "tree2",
          rotation = 2, curve = T, col = list(man = "skyblue", lat = "yellow"),
@@ -178,9 +140,8 @@ model_pfad_msa <- 'BFs ~ ZDs'
 fit_pfad_msa <- sem(model_pfad_msa, StressAtWork,
   group = 'sex')
 
-## summary(fit_pfad_msa)
-abbrev(fit_pfad_msa, 'Regressions:', 'Variances:', group = 1)
-abbrev(fit_pfad_msa, 'Regressions:', 'Variances:', group = 2)
+summary(fit_pfad_msa)
+
 
 model_pfad_msa <- '
   # Regressionen
@@ -196,7 +157,7 @@ model_pfad_msa <- '
 fit_pfad_msa <- sem(model_pfad_msa, StressAtWork,
   group = 'sex')
 
-abbrev(fit_pfad_msa, 'Defined Parameters:', shift = 1)
+
 
 StressAtWork$sexDum <- StressAtWork$sex - 1
 StressAtWork$Int <- StressAtWork$ZDs * StressAtWork$sexDum
@@ -206,24 +167,14 @@ head(StressAtWork[, c('ZDs', 'sexDum', 'Int')])
 model_pfad_moderiert <- 'BFs ~ ZDs + sexDum + Int'
 fit_pfad_moderiert <- sem(model_pfad_moderiert, StressAtWork, meanstructure = T)
 
-abbrev(fit_pfad_moderiert, 'Regressions:', 'Variances:')
 
-tmp <- parameterestimates(fit_pfad_msa)
-tmp2 <- parameterestimates(fit_pfad_moderiert)
+
+
 
 reg <- lm(BFs ~ factor(sex)*ZDs, data = StressAtWork)
 summary(reg)
 
-library(ggplot2)
-coefs <- coef(reg)
-b0 <- cumsum(coefs[1:2])
-b1 <- cumsum(coefs[3:4])
-x <- c(-10,10); y <- c(-10,-10)
-sex <- factor(c("Männer", "Frauen"))
-df <- data.frame(b0, b1, sex, x, y)
-ggplot(data = df, mapping = aes(x=x,y=y, col = sex))+geom_line()+xlim(c(-5,5))+ylim(c(0.5,3))+theme_minimal()+
-  geom_abline(slope = b1, intercept = b0, col = c("blue", "gold3"), lwd = 2)+
-  xlab("Zeitdruck")+ylab("Psychosomatische Beschwerden")+scale_color_manual(values = c("blue", "gold3"))
+
 
 model_sem <- '
 # Messmodelle
@@ -243,10 +194,7 @@ fit_sem_sex_konfigural2 <- sem(model_sem, data = StressAtWork,  group = "sex")
 fitmeasures(fit_sem_sex_konfigural, c("chisq", 'df', "pvalue"))
 fitmeasures(fit_sem_sex_konfigural2, c("chisq", 'df', "pvalue"))
 
-cat("group.equal:")
-print(round(fitmeasures(fit_sem_sex_konfigural, c("chisq", 'df', "pvalue")), 3))
-cat("zu Fuß/händisch:")
-print(round(fitmeasures(fit_sem_sex_konfigural2, c("chisq", 'df', "pvalue")), 3))
+
 
 model_sem_metrisch <- '
 # Messmodelle
@@ -268,10 +216,7 @@ fit_sem_sex_metrisch2 <- sem(model_sem_metrisch, data = StressAtWork,
 fitmeasures(fit_sem_sex_metrisch, c("chisq", 'df', "pvalue"))
 fitmeasures(fit_sem_sex_metrisch2, c("chisq", 'df', "pvalue"))
 
-cat("group.equal:")
-print(round(fitmeasures(fit_sem_sex_metrisch, c("chisq", 'df', "pvalue")), 3))
-cat("zu Fuß/händisch:")
-print(round(fitmeasures(fit_sem_sex_metrisch2, c("chisq", 'df', "pvalue")), 3))
+
 
 model_sem_skalar <- '
 # Messmodelle
@@ -305,10 +250,7 @@ fit_sem_sex_skalar2 <- sem(model_sem_skalar, data = StressAtWork,  group = "sex"
 fitmeasures(fit_sem_sex_skalar, c("chisq", 'df', "pvalue"))
 fitmeasures(fit_sem_sex_skalar2, c("chisq", 'df', "pvalue"))
 
-cat("group.equal:")
-print(round(fitmeasures(fit_sem_sex_skalar, c("chisq", 'df', "pvalue")), 3))
-cat("zu Fuß/händisch:")
-print(round(fitmeasures(fit_sem_sex_skalar2, c("chisq", 'df', "pvalue")), 3))
+
 
 model_sem_strikt <- '
 # Messmodelle
@@ -351,10 +293,7 @@ fit_sem_sex_strikt2 <- sem(model_sem_strikt, data = StressAtWork,  group = "sex"
 fitmeasures(fit_sem_sex_strikt, c("chisq", 'df', "pvalue"))
 fitmeasures(fit_sem_sex_strikt2, c("chisq", 'df', "pvalue"))
 
-cat("group.equal:")
-print(round(fitmeasures(fit_sem_sex_strikt, c("chisq", 'df', "pvalue")), 3))
-cat("zu Fuß/händisch:")
-print(round(fitmeasures(fit_sem_sex_strikt2, c("chisq", 'df', "pvalue")), 3))
+
 
 model_sem_voll <- '
 # Messmodelle
@@ -405,8 +344,3 @@ fit_sem_sex_voll2 <- sem(model_sem_voll, data = StressAtWork,
 # chi^2, df, p-Wert
 fitmeasures(fit_sem_sex_voll, c("chisq", 'df', "pvalue"))
 fitmeasures(fit_sem_sex_voll2, c("chisq", 'df', "pvalue"))
-
-cat("group.equal:")
-print(round(fitmeasures(fit_sem_sex_voll, c("chisq", 'df', "pvalue")), 3))
-cat("zu Fuß/händisch:")
-print(round(fitmeasures(fit_sem_sex_voll2, c("chisq", 'df', "pvalue")), 3))

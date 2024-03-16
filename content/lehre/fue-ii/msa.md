@@ -9,7 +9,7 @@ subtitle: 'Multi Sample Analysis (MSA)'
 summary: '' 
 authors: [irmer, schultze] 
 weight: 5
-lastmod: '2024-03-03'
+lastmod: '2024-03-16'
 featured: no
 banner:
   image: "/header/work_desktop.jpg"
@@ -29,12 +29,15 @@ links:
     url: /lehre/fue-ii/msa.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/fue-ii/msa-aufgaben
+    name: Übungsdaten
+    url: /daten/StressAtWork.rda
 output:
   html_document:
     keep_md: true
 ---
+
+
+
 
 
 
@@ -53,8 +56,7 @@ oder wir laden sie direkt über die Website:
 
 
 ```r
-#load(url("https://pandar.netlify.app/post/StressAtWork.rda"))
-load(url("https://courageous-donut-84b9e9.netlify.app/post/StressAtWork.rda"))
+load(url("https://pandar.netlify.app/daten/StressAtWork.rda"))
 ```
 
 Als Paket brauchen wir erneut `lavaan` und `semPlot`:
@@ -136,64 +138,35 @@ Wenn wir uns jetzt die Ergebnisse des Modells etwas genauer ansehen, erhalten wi
 ##  Group 1 [1]:
 ## 
 ## Latent Variables:
-##                    Estimate
-##   ZD =~                    
-##     zd1               1.000
-##     zd2               0.861
-##     zd6               0.830
-##   BOEE =~                  
-##     bo1               1.000
-##     bo6               0.900
-##     bo12              0.936
-##     bo19              1.033
-##   Std.Err  z-value  P(>|z|)
-##                            
-##                            
-##     0.073   11.853    0.000
-##     0.068   12.214    0.000
-##                            
-##                            
-##     0.063   14.356    0.000
-##     0.067   14.011    0.000
-##     0.070   14.667    0.000
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   ZD =~                                               
+##     zd1               1.000                           
+##     zd2               0.861    0.073   11.853    0.000
+##     zd6               0.830    0.068   12.214    0.000
+##   BOEE =~                                             
+##     bo1               1.000                           
+##     bo6               0.900    0.063   14.356    0.000
+##     bo12              0.936    0.067   14.011    0.000
+##     bo19              1.033    0.070   14.667    0.000
 ## 
 ## Regressions:
-##                    Estimate
-##   BOEE ~                   
-##     ZD                0.499
-##   BFs ~                    
-##     BOEE              0.348
-##     ZD                0.049
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.087    5.751    0.000
-##                            
-##     0.041    8.548    0.000
-##     0.046    1.072    0.284
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BOEE ~                                              
+##     ZD                0.499    0.087    5.751    0.000
+##   BFs ~                                               
+##     BOEE              0.348    0.041    8.548    0.000
+##     ZD                0.049    0.046    1.072    0.284
 ## 
 ## Intercepts:
-##                    Estimate
-##    .zd1               3.622
-##    .zd2               3.093
-##    .zd6               3.849
-##    .bo1               2.991
-##    .bo6               2.258
-##    .bo12              2.262
-##    .bo19              2.582
-##    .BFs               2.486
-##     ZD                0.000
-##    .BOEE              0.000
-##   Std.Err  z-value  P(>|z|)
-##     0.083   43.758    0.000
-##     0.083   37.148    0.000
-##     0.078   49.598    0.000
-##     0.099   30.280    0.000
-##     0.095   23.659    0.000
-##     0.101   22.418    0.000
-##     0.108   23.905    0.000
-##     0.050   49.238    0.000
-##                            
-##                             
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##    .zd1               3.622    0.083   43.758    0.000
+##    .zd2               3.093    0.083   37.148    0.000
+##    .zd6               3.849    0.078   49.598    0.000
+##    .bo1               2.991    0.099   30.280    0.000
+##    .bo6               2.258    0.095   23.659    0.000
+##    .bo12              2.262    0.101   22.418    0.000
+##    .bo19              2.582    0.108   23.905    0.000
+##    .BFs               2.486    0.050   49.238    0.000 
 ## [...]
 ```
 
@@ -202,64 +175,35 @@ Wenn wir uns jetzt die Ergebnisse des Modells etwas genauer ansehen, erhalten wi
 ##  Group 2 [2]:
 ## 
 ## Latent Variables:
-##                    Estimate
-##   ZD =~                    
-##     zd1               1.000
-##     zd2               0.682
-##     zd6               0.725
-##   BOEE =~                  
-##     bo1               1.000
-##     bo6               0.941
-##     bo12              1.011
-##     bo19              1.082
-##   Std.Err  z-value  P(>|z|)
-##                            
-##                            
-##     0.123    5.555    0.000
-##     0.129    5.637    0.000
-##                            
-##                            
-##     0.099    9.472    0.000
-##     0.106    9.525    0.000
-##     0.108   10.041    0.000
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   ZD =~                                               
+##     zd1               1.000                           
+##     zd2               0.682    0.123    5.555    0.000
+##     zd6               0.725    0.129    5.637    0.000
+##   BOEE =~                                             
+##     bo1               1.000                           
+##     bo6               0.941    0.099    9.472    0.000
+##     bo12              1.011    0.106    9.525    0.000
+##     bo19              1.082    0.108   10.041    0.000
 ## 
 ## Regressions:
-##                    Estimate
-##   BOEE ~                   
-##     ZD                0.519
-##   BFs ~                    
-##     BOEE              0.418
-##     ZD                0.023
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.145    3.580    0.000
-##                            
-##     0.059    7.108    0.000
-##     0.062    0.367    0.714
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BOEE ~                                              
+##     ZD                0.519    0.145    3.580    0.000
+##   BFs ~                                               
+##     BOEE              0.418    0.059    7.108    0.000
+##     ZD                0.023    0.062    0.367    0.714
 ## 
 ## Intercepts:
-##                    Estimate
-##    .zd1               3.413
-##    .zd2               2.788
-##    .zd6               3.487
-##    .bo1               3.000
-##    .bo6               2.138
-##    .bo12              2.188
-##    .bo19              2.475
-##    .BFs               2.176
-##     ZD                0.000
-##    .BOEE              0.000
-##   Std.Err  z-value  P(>|z|)
-##     0.128   26.593    0.000
-##     0.122   22.833    0.000
-##     0.127   27.360    0.000
-##     0.157   19.093    0.000
-##     0.155   13.803    0.000
-##     0.166   13.184    0.000
-##     0.172   14.366    0.000
-##     0.078   28.072    0.000
-##                            
-##                             
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##    .zd1               3.413    0.128   26.593    0.000
+##    .zd2               2.788    0.122   22.833    0.000
+##    .zd6               3.487    0.127   27.360    0.000
+##    .bo1               3.000    0.157   19.093    0.000
+##    .bo6               2.138    0.155   13.803    0.000
+##    .bo12              2.188    0.166   13.184    0.000
+##    .bo19              2.475    0.172   14.366    0.000
+##    .BFs               2.176    0.078   28.072    0.000 
 ## [...]
 ```
 
@@ -297,18 +241,12 @@ Nun sind alle Pfadkoeffizienten benannt. In Gruppe 1 (Frauen):
 ```
 ## [...]
 ##  Regressions:
-##                    Estimate
-##   BOEE ~                   
-##     ZD        (a1)    0.499
-##   BFs ~                    
-##     BOEE      (b1)    0.348
-##     ZD        (c1)    0.049
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.087    5.751    0.000
-##                            
-##     0.041    8.548    0.000
-##     0.046    1.072    0.284 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BOEE ~                                              
+##     ZD        (a1)    0.499    0.087    5.751    0.000
+##   BFs ~                                               
+##     BOEE      (b1)    0.348    0.041    8.548    0.000
+##     ZD        (c1)    0.049    0.046    1.072    0.284 
 ## [...]
 ```
 
@@ -317,18 +255,12 @@ Und in Gruppe 2 (Männer):
 ```
 ## [...]
 ##  Regressions:
-##                    Estimate
-##   BOEE ~                   
-##     ZD        (a2)    0.519
-##   BFs ~                    
-##     BOEE      (b2)    0.418
-##     ZD        (c2)    0.023
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.145    3.580    0.000
-##                            
-##     0.059    7.108    0.000
-##     0.062    0.367    0.714 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BOEE ~                                              
+##     ZD        (a2)    0.519    0.145    3.580    0.000
+##   BFs ~                                               
+##     BOEE      (b2)    0.418    0.059    7.108    0.000
+##     ZD        (c2)    0.023    0.062    0.367    0.714 
 ## [...]
 ```
 
@@ -338,16 +270,11 @@ Bis auf die hinzukommenden indirekten und totalen Effekte:
 ```
 ## [...]
 ##  Defined Parameters:
-##                    Estimate
-##     IE1               0.174
-##     TE1               0.223
-##     IE2               0.217
-##     TE2               0.240
-##   Std.Err  z-value  P(>|z|)
-##     0.035    4.938    0.000
-##     0.048    4.611    0.000
-##     0.065    3.320    0.001
-##     0.077    3.114    0.002 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##     IE1               0.174    0.035    4.938    0.000
+##     TE1               0.223    0.048    4.611    0.000
+##     IE2               0.217    0.065    3.320    0.001
+##     TE2               0.240    0.077    3.114    0.002 
 ## [...]
 ```
 
@@ -360,8 +287,7 @@ semPaths(object = fit_sem_IE_TE_MSA, what = "est", layout = "tree2",
          curvePivot = T,  edge.label.cex=1, sizeMan = 5, sizeLat = 8, fade = F)
 ```
 
-<img src="/lehre/fue-ii/msa_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
-<img src="/lehre/fue-ii/msa_files/figure-html/unnamed-chunk-12-2.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-ii/msa_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /><img src="/lehre/fue-ii/msa_files/figure-html/unnamed-chunk-12-2.png" style="display: block; margin: auto;" />
 
 Die totalen und die indirekten Effekte müssten in einer wissenschaftlichen Untersuchung erneut mithilfe von Bootstrapping inferenzstatistisch geprüft werden. Diesen Schritt überlassen wir an dieser Stelle dem/der aufmerksamen Leser/in. Auch können die indirekten Effekte bspw. gegeneinander untersucht werden via Bootstrapping, indem die Differenz der Effekte als neuer Parameter definiert wird. Allerdings können wir auch mittels des $\chi^2$-Tests einen "richtigen" Invarianztest durchführen. Das schauen wir uns im Folgenden genauer an.
 
@@ -527,40 +453,24 @@ Wir entnehmen,
 ##  Group 1 [1]:
 ## 
 ## Latent Variables:
-##                    Estimate
-##   ZD =~                    
-##     zd1               1.000
-##     zd2     (.p2.)    0.826
-##     zd6     (.p3.)    0.813
-##   BOEE =~                  
-##     bo1               1.000
-##     bo6     (.p5.)    0.912
-##     bo12    (.p6.)    0.959
-##     bo19    (.p7.)    1.048
-##   Std.Err  z-value  P(>|z|)
-##                            
-##                            
-##     0.063   13.119    0.000
-##     0.060   13.496    0.000
-##                            
-##                            
-##     0.053   17.191    0.000
-##     0.057   16.955    0.000
-##     0.059   17.780    0.000
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   ZD =~                                               
+##     zd1               1.000                           
+##     zd2     (.p2.)    0.826    0.063   13.119    0.000
+##     zd6     (.p3.)    0.813    0.060   13.496    0.000
+##   BOEE =~                                             
+##     bo1               1.000                           
+##     bo6     (.p5.)    0.912    0.053   17.191    0.000
+##     bo12    (.p6.)    0.959    0.057   16.955    0.000
+##     bo19    (.p7.)    1.048    0.059   17.780    0.000
 ## 
 ## Regressions:
-##                    Estimate
-##   BOEE ~                   
-##     ZD                0.481
-##   BFs ~                    
-##     BOEE              0.353
-##     ZD                0.048
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.084    5.764    0.000
-##                            
-##     0.041    8.703    0.000
-##     0.045    1.073    0.283 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BOEE ~                                              
+##     ZD                0.481    0.084    5.764    0.000
+##   BFs ~                                               
+##     BOEE              0.353    0.041    8.703    0.000
+##     ZD                0.048    0.045    1.073    0.283 
 ## [...]
 ```
 
@@ -569,40 +479,24 @@ Wir entnehmen,
 ##  Group 2 [2]:
 ## 
 ## Latent Variables:
-##                    Estimate
-##   ZD =~                    
-##     zd1               1.000
-##     zd2     (.p2.)    0.826
-##     zd6     (.p3.)    0.813
-##   BOEE =~                  
-##     bo1               1.000
-##     bo6     (.p5.)    0.912
-##     bo12    (.p6.)    0.959
-##     bo19    (.p7.)    1.048
-##   Std.Err  z-value  P(>|z|)
-##                            
-##                            
-##     0.063   13.119    0.000
-##     0.060   13.496    0.000
-##                            
-##                            
-##     0.053   17.191    0.000
-##     0.057   16.955    0.000
-##     0.059   17.780    0.000
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   ZD =~                                               
+##     zd1               1.000                           
+##     zd2     (.p2.)    0.826    0.063   13.119    0.000
+##     zd6     (.p3.)    0.813    0.060   13.496    0.000
+##   BOEE =~                                             
+##     bo1               1.000                           
+##     bo6     (.p5.)    0.912    0.053   17.191    0.000
+##     bo12    (.p6.)    0.959    0.057   16.955    0.000
+##     bo19    (.p7.)    1.048    0.059   17.780    0.000
 ## 
 ## Regressions:
-##                    Estimate
-##   BOEE ~                   
-##     ZD                0.581
-##   BFs ~                    
-##     BOEE              0.412
-##     ZD                0.013
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.153    3.795    0.000
-##                            
-##     0.054    7.576    0.000
-##     0.069    0.193    0.847 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BOEE ~                                              
+##     ZD                0.581    0.153    3.795    0.000
+##   BFs ~                                               
+##     BOEE              0.412    0.054    7.576    0.000
+##     ZD                0.013    0.069    0.193    0.847 
 ## [...]
 ```
 
@@ -618,27 +512,9 @@ lavTestLRT(fit_sem_sex_metrisch, fit_sem_sex_konfigural)
 ## 
 ## Chi-Squared Difference Test
 ## 
-##                        Df    AIC
-## fit_sem_sex_konfigural 36 6858.6
-## fit_sem_sex_metrisch   41 6850.4
-##                           BIC
-## fit_sem_sex_konfigural 7052.1
-## fit_sem_sex_metrisch   7025.2
-##                         Chisq
-## fit_sem_sex_konfigural 35.803
-## fit_sem_sex_metrisch   37.543
-##                        Chisq diff
-## fit_sem_sex_konfigural           
-## fit_sem_sex_metrisch       1.7405
-##                        RMSEA
-## fit_sem_sex_konfigural      
-## fit_sem_sex_metrisch       0
-##                        Df diff
-## fit_sem_sex_konfigural        
-## fit_sem_sex_metrisch         5
-##                        Pr(>Chisq)
-## fit_sem_sex_konfigural           
-## fit_sem_sex_metrisch       0.8838
+##                        Df    AIC    BIC  Chisq Chisq diff RMSEA Df diff Pr(>Chisq)
+## fit_sem_sex_konfigural 36 6858.6 7052.1 35.803                                    
+## fit_sem_sex_metrisch   41 6850.4 7025.2 37.543     1.7405     0       5     0.8838
 ```
 
 Die $\chi^2$-Differenz liegt bei 1.7405 bei $\Delta df=$ 0 mit dem zugehörigen $p$-Wert von 5 (die Null-Hypothese war: $H_0: \Sigma_{konfigural}=\Sigma_{metrisch}$). Das metrische Modell ist hier das restriktivere, da Koeffizienten gleichgesetzt wurden. Weil es keine signifikanten Unterschiede zwischen den Modellen gibt, entscheiden wir uns --- Ockhams Rasiermesser folgend (siehe [Eid et al., 2017, p. 787](https://ubffm.hds.hebis.de/Record/HEB366849158)) --- für das sparsamere Modell, also jenes, welches weniger Parameter enthält und somit restriktiver ist, hier: das *metrisch-invariante* Modell. Somit können wir weiter von metrischer Invarianz ausgehen. Dies bedeutet, dass sich Unterschiede zwischen Frauen auf der latenten Variable in gleicher Weise in den beobachtbaren Variablen niederschlagen, wie sie es bei Männern tun.
@@ -662,64 +538,35 @@ summary(fit_sem_sex_skalar, fit.measures = T)
 ##  Group 1 [1]:
 ## 
 ## Latent Variables:
-##                    Estimate
-##   ZD =~                    
-##     zd1               1.000
-##     zd2     (.p2.)    0.841
-##     zd6     (.p3.)    0.829
-##   BOEE =~                  
-##     bo1               1.000
-##     bo6     (.p5.)    0.913
-##     bo12    (.p6.)    0.961
-##     bo19    (.p7.)    1.050
-##   Std.Err  z-value  P(>|z|)
-##                            
-##                            
-##     0.063   13.321    0.000
-##     0.061   13.682    0.000
-##                            
-##                            
-##     0.053   17.171    0.000
-##     0.057   16.943    0.000
-##     0.059   17.764    0.000
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   ZD =~                                               
+##     zd1               1.000                           
+##     zd2     (.p2.)    0.841    0.063   13.321    0.000
+##     zd6     (.p3.)    0.829    0.061   13.682    0.000
+##   BOEE =~                                             
+##     bo1               1.000                           
+##     bo6     (.p5.)    0.913    0.053   17.171    0.000
+##     bo12    (.p6.)    0.961    0.057   16.943    0.000
+##     bo19    (.p7.)    1.050    0.059   17.764    0.000
 ## 
 ## Regressions:
-##                    Estimate
-##   BOEE ~                   
-##     ZD                0.488
-##   BFs ~                    
-##     BOEE              0.353
-##     ZD                0.048
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.084    5.792    0.000
-##                            
-##     0.041    8.683    0.000
-##     0.045    1.070    0.284
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BOEE ~                                              
+##     ZD                0.488    0.084    5.792    0.000
+##   BFs ~                                               
+##     BOEE              0.353    0.041    8.683    0.000
+##     ZD                0.048    0.045    1.070    0.284
 ## 
 ## Intercepts:
-##                    Estimate
-##    .zd1     (.21.)    3.644
-##    .zd2     (.22.)    3.075
-##    .zd6     (.23.)    3.822
-##    .bo1     (.24.)    3.014
-##    .bo6     (.25.)    2.240
-##    .bo12    (.26.)    2.259
-##    .bo19    (.27.)    2.570
-##    .BFs               2.486
-##     ZD                0.000
-##    .BOEE              0.000
-##   Std.Err  z-value  P(>|z|)
-##     0.082   44.440    0.000
-##     0.079   39.155    0.000
-##     0.075   50.822    0.000
-##     0.095   31.582    0.000
-##     0.092   24.481    0.000
-##     0.097   23.304    0.000
-##     0.104   24.790    0.000
-##     0.050   49.238    0.000
-##                            
-##                             
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##    .zd1     (.21.)    3.644    0.082   44.440    0.000
+##    .zd2     (.22.)    3.075    0.079   39.155    0.000
+##    .zd6     (.23.)    3.822    0.075   50.822    0.000
+##    .bo1     (.24.)    3.014    0.095   31.582    0.000
+##    .bo6     (.25.)    2.240    0.092   24.481    0.000
+##    .bo12    (.26.)    2.259    0.097   23.304    0.000
+##    .bo19    (.27.)    2.570    0.104   24.790    0.000
+##    .BFs               2.486    0.050   49.238    0.000 
 ## [...]
 ```
 
@@ -728,64 +575,37 @@ summary(fit_sem_sex_skalar, fit.measures = T)
 ##  Group 2 [2]:
 ## 
 ## Latent Variables:
-##                    Estimate
-##   ZD =~                    
-##     zd1               1.000
-##     zd2     (.p2.)    0.841
-##     zd6     (.p3.)    0.829
-##   BOEE =~                  
-##     bo1               1.000
-##     bo6     (.p5.)    0.913
-##     bo12    (.p6.)    0.961
-##     bo19    (.p7.)    1.050
-##   Std.Err  z-value  P(>|z|)
-##                            
-##                            
-##     0.063   13.321    0.000
-##     0.061   13.682    0.000
-##                            
-##                            
-##     0.053   17.171    0.000
-##     0.057   16.943    0.000
-##     0.059   17.764    0.000
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   ZD =~                                               
+##     zd1               1.000                           
+##     zd2     (.p2.)    0.841    0.063   13.321    0.000
+##     zd6     (.p3.)    0.829    0.061   13.682    0.000
+##   BOEE =~                                             
+##     bo1               1.000                           
+##     bo6     (.p5.)    0.913    0.053   17.171    0.000
+##     bo12    (.p6.)    0.961    0.057   16.943    0.000
+##     bo19    (.p7.)    1.050    0.059   17.764    0.000
 ## 
 ## Regressions:
-##                    Estimate
-##   BOEE ~                   
-##     ZD                0.590
-##   BFs ~                    
-##     BOEE              0.413
-##     ZD                0.012
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.156    3.782    0.000
-##                            
-##     0.055    7.564    0.000
-##     0.071    0.166    0.868
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BOEE ~                                              
+##     ZD                0.590    0.156    3.782    0.000
+##   BFs ~                                               
+##     BOEE              0.413    0.055    7.564    0.000
+##     ZD                0.012    0.071    0.166    0.868
 ## 
 ## Intercepts:
-##                    Estimate
-##    .zd1     (.21.)    3.644
-##    .zd2     (.22.)    3.075
-##    .zd6     (.23.)    3.822
-##    .bo1     (.24.)    3.014
-##    .bo6     (.25.)    2.240
-##    .bo12    (.26.)    2.259
-##    .bo19    (.27.)    2.570
-##    .BFs               2.207
-##     ZD               -0.288
-##    .BOEE              0.103
-##   Std.Err  z-value  P(>|z|)
-##     0.082   44.440    0.000
-##     0.079   39.155    0.000
-##     0.075   50.822    0.000
-##     0.095   31.582    0.000
-##     0.092   24.481    0.000
-##     0.097   23.304    0.000
-##     0.104   24.790    0.000
-##     0.068   32.380    0.000
-##     0.143   -2.013    0.044
-##     0.165    0.624    0.533 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##    .zd1     (.21.)    3.644    0.082   44.440    0.000
+##    .zd2     (.22.)    3.075    0.079   39.155    0.000
+##    .zd6     (.23.)    3.822    0.075   50.822    0.000
+##    .bo1     (.24.)    3.014    0.095   31.582    0.000
+##    .bo6     (.25.)    2.240    0.092   24.481    0.000
+##    .bo12    (.26.)    2.259    0.097   23.304    0.000
+##    .bo19    (.27.)    2.570    0.104   24.790    0.000
+##    .BFs               2.207    0.068   32.380    0.000
+##     ZD               -0.288    0.143   -2.013    0.044
+##    .BOEE              0.103    0.165    0.624    0.533 
 ## [...]
 ```
 
@@ -805,27 +625,9 @@ lavTestLRT(fit_sem_sex_skalar, fit_sem_sex_metrisch)
 ## 
 ## Chi-Squared Difference Test
 ## 
-##                      Df    AIC
-## fit_sem_sex_metrisch 41 6850.4
-## fit_sem_sex_skalar   46 6844.5
-##                         BIC
-## fit_sem_sex_metrisch 7025.2
-## fit_sem_sex_skalar   7000.8
-##                       Chisq
-## fit_sem_sex_metrisch 37.543
-## fit_sem_sex_skalar   41.694
-##                      Chisq diff
-## fit_sem_sex_metrisch           
-## fit_sem_sex_skalar       4.1504
-##                      RMSEA
-## fit_sem_sex_metrisch      
-## fit_sem_sex_skalar       0
-##                      Df diff
-## fit_sem_sex_metrisch        
-## fit_sem_sex_skalar         5
-##                      Pr(>Chisq)
-## fit_sem_sex_metrisch           
-## fit_sem_sex_skalar        0.528
+##                      Df    AIC    BIC  Chisq Chisq diff RMSEA Df diff Pr(>Chisq)
+## fit_sem_sex_metrisch 41 6850.4 7025.2 37.543                                    
+## fit_sem_sex_skalar   46 6844.5 7000.8 41.694     4.1504     0       5      0.528
 ```
 
 Die $\chi^2$-Differenz ist erneut klein (4.15) und der p-Wert zeigt auch hier an, dass es sich um keine signifikante Verschlechterung des Modells handelt (p = 5). Die Null-Hypothese, dass die Interzepte über die Faktorladungen hinaus über das Geschlecht hinweg gleich sind, wird somit nicht verworfen (die Null-Hypothese war: $H_0: \Sigma_{metrisch}=\Sigma_{skalar}$). Dies bedeutet nun, dass Unterschiede im Mittelwert der Items zwischen den beiden Gruppen tatsächlich auch auf Unterschiede der Mittelwerte der latenten Variablen zurückzuführen sind. Das heißt, dass es erst ab dieser Invarianzstufe zulässig ist, Mittelwerte zwischen den Gruppen zu vergleichen.
@@ -852,21 +654,9 @@ lavTestLRT(fit_sem_sex_strikt, fit_sem_sex_skalar)
 ## 
 ## Chi-Squared Difference Test
 ## 
-##                    Df    AIC
-## fit_sem_sex_skalar 46 6844.5
-## fit_sem_sex_strikt 53 6836.7
-##                       BIC  Chisq
-## fit_sem_sex_skalar 7000.8 41.694
-## fit_sem_sex_strikt 6966.9 47.850
-##                    Chisq diff
-## fit_sem_sex_skalar           
-## fit_sem_sex_strikt     6.1563
-##                    RMSEA Df diff
-## fit_sem_sex_skalar              
-## fit_sem_sex_strikt     0       7
-##                    Pr(>Chisq)
-## fit_sem_sex_skalar           
-## fit_sem_sex_strikt     0.5216
+##                    Df    AIC    BIC  Chisq Chisq diff RMSEA Df diff Pr(>Chisq)
+## fit_sem_sex_skalar 46 6844.5 7000.8 41.694                                    
+## fit_sem_sex_strikt 53 6836.7 6966.9 47.850     6.1563     0       7     0.5216
 ```
 
 Die $\chi^2$-Differenz ist erneut klein (6.156) und der p-Wert zeigt auch hier an, dass es sich um keine signifikante Verschlechterung des Modells handelt (p = 7). Die Null-Hypothese, dass die Fehlervarianzen über die Faktorladungen und Interzepte hinaus über das Geschlecht hinweg gleich sind, wird somit nicht verworfen (die Null-Hypothese war: $H_0: \Sigma_{skalar}=\Sigma_{strikt}$).
@@ -898,28 +688,11 @@ lavTestLRT(fit_sem_sex_voll, fit_sem_sex_strikt)
 ## 
 ## Chi-Squared Difference Test
 ## 
-##                    Df    AIC
-## fit_sem_sex_strikt 53 6836.7
-## fit_sem_sex_voll   62 6844.0
-##                       BIC Chisq
-## fit_sem_sex_strikt 6966.9 47.85
-## fit_sem_sex_voll   6940.7 73.14
-##                    Chisq diff
-## fit_sem_sex_strikt           
-## fit_sem_sex_voll        25.29
-##                      RMSEA
-## fit_sem_sex_strikt        
-## fit_sem_sex_voll   0.10894
-##                    Df diff
-## fit_sem_sex_strikt        
-## fit_sem_sex_voll         9
-##                    Pr(>Chisq)   
-## fit_sem_sex_strikt              
-## fit_sem_sex_voll     0.002667 **
+##                    Df    AIC    BIC Chisq Chisq diff   RMSEA Df diff Pr(>Chisq)   
+## fit_sem_sex_strikt 53 6836.7 6966.9 47.85                                         
+## fit_sem_sex_voll   62 6844.0 6940.7 73.14      25.29 0.10894       9   0.002667 **
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*'
-##   0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 ... erhalten wir diesmal eine große $\chi^2$-Differenz  (25.29) und der p-Wert zeigt an, dass es sich um eine signifikante Verschlechterung des Modells handelt $p = 9 < 0.05$, wenn wir  die Restriktion der vollständigen Invarianz in das Modell aufnehmen. Die Null-Hypothese, dass alle Parameter im Modell über das Geschlecht hinweg gleich sind, wird somit verworfen (die Null-Hypothese war: $H_0: \Sigma_{strikt}=\Sigma_{vollständig}$). Dies bedeutet also, dass es Geschlechtsunterschiede in den Beziehungen zwischen den latenten Variablen gibt. 
@@ -937,64 +710,35 @@ summary(fit_sem_sex_strikt)
 ##  Group 1 [1]:
 ## 
 ## Latent Variables:
-##                    Estimate
-##   ZD =~                    
-##     zd1               1.000
-##     zd2     (.p2.)    0.842
-##     zd6     (.p3.)    0.828
-##   BOEE =~                  
-##     bo1               1.000
-##     bo6     (.p5.)    0.909
-##     bo12    (.p6.)    0.955
-##     bo19    (.p7.)    1.046
-##   Std.Err  z-value  P(>|z|)
-##                            
-##                            
-##     0.063   13.351    0.000
-##     0.061   13.632    0.000
-##                            
-##                            
-##     0.053   17.127    0.000
-##     0.057   16.871    0.000
-##     0.059   17.681    0.000
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   ZD =~                                               
+##     zd1               1.000                           
+##     zd2     (.p2.)    0.842    0.063   13.351    0.000
+##     zd6     (.p3.)    0.828    0.061   13.632    0.000
+##   BOEE =~                                             
+##     bo1               1.000                           
+##     bo6     (.p5.)    0.909    0.053   17.127    0.000
+##     bo12    (.p6.)    0.955    0.057   16.871    0.000
+##     bo19    (.p7.)    1.046    0.059   17.681    0.000
 ## 
 ## Regressions:
-##                    Estimate
-##   BOEE ~                   
-##     ZD                0.490
-##   BFs ~                    
-##     BOEE              0.349
-##     ZD                0.050
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.084    5.805    0.000
-##                            
-##     0.040    8.688    0.000
-##     0.045    1.115    0.265
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BOEE ~                                              
+##     ZD                0.490    0.084    5.805    0.000
+##   BFs ~                                               
+##     BOEE              0.349    0.040    8.688    0.000
+##     ZD                0.050    0.045    1.115    0.265
 ## 
 ## Intercepts:
-##                    Estimate
-##    .zd1     (.21.)    3.644
-##    .zd2     (.22.)    3.078
-##    .zd6     (.23.)    3.818
-##    .bo1     (.24.)    3.011
-##    .bo6     (.25.)    2.242
-##    .bo12    (.26.)    2.259
-##    .bo19    (.27.)    2.572
-##    .BFs               2.486
-##     ZD                0.000
-##    .BOEE              0.000
-##   Std.Err  z-value  P(>|z|)
-##     0.082   44.513    0.000
-##     0.078   39.236    0.000
-##     0.076   50.443    0.000
-##     0.096   31.468    0.000
-##     0.092   24.477    0.000
-##     0.097   23.306    0.000
-##     0.104   24.811    0.000
-##     0.050   49.238    0.000
-##                            
-##                             
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##    .zd1     (.21.)    3.644    0.082   44.513    0.000
+##    .zd2     (.22.)    3.078    0.078   39.236    0.000
+##    .zd6     (.23.)    3.818    0.076   50.443    0.000
+##    .bo1     (.24.)    3.011    0.096   31.468    0.000
+##    .bo6     (.25.)    2.242    0.092   24.477    0.000
+##    .bo12    (.26.)    2.259    0.097   23.306    0.000
+##    .bo19    (.27.)    2.572    0.104   24.811    0.000
+##    .BFs               2.486    0.050   49.238    0.000 
 ## [...]
 ```
 
@@ -1003,68 +747,41 @@ summary(fit_sem_sex_strikt)
 ##  Group 2 [2]:
 ## 
 ## Latent Variables:
-##                    Estimate
-##   ZD =~                    
-##     zd1               1.000
-##     zd2     (.p2.)    0.842
-##     zd6     (.p3.)    0.828
-##   BOEE =~                  
-##     bo1               1.000
-##     bo6     (.p5.)    0.909
-##     bo12    (.p6.)    0.955
-##     bo19    (.p7.)    1.046
-##   Std.Err  z-value  P(>|z|)
-##                            
-##                            
-##     0.063   13.351    0.000
-##     0.061   13.632    0.000
-##                            
-##                            
-##     0.053   17.127    0.000
-##     0.057   16.871    0.000
-##     0.059   17.681    0.000
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   ZD =~                                               
+##     zd1               1.000                           
+##     zd2     (.p2.)    0.842    0.063   13.351    0.000
+##     zd6     (.p3.)    0.828    0.061   13.632    0.000
+##   BOEE =~                                             
+##     bo1               1.000                           
+##     bo6     (.p5.)    0.909    0.053   17.127    0.000
+##     bo12    (.p6.)    0.955    0.057   16.871    0.000
+##     bo19    (.p7.)    1.046    0.059   17.681    0.000
 ## 
 ## Regressions:
-##                    Estimate
-##   BOEE ~                   
-##     ZD                0.583
-##   BFs ~                    
-##     BOEE              0.423
-##     ZD                0.004
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.155    3.752    0.000
-##                            
-##     0.056    7.606    0.000
-##     0.071    0.060    0.952
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BOEE ~                                              
+##     ZD                0.583    0.155    3.752    0.000
+##   BFs ~                                               
+##     BOEE              0.423    0.056    7.606    0.000
+##     ZD                0.004    0.071    0.060    0.952
 ## 
 ## Intercepts:
-##                    Estimate
-##    .zd1     (.21.)    3.644
-##    .zd2     (.22.)    3.078
-##    .zd6     (.23.)    3.818
-##    .bo1     (.24.)    3.011
-##    .bo6     (.25.)    2.242
-##    .bo12    (.26.)    2.259
-##    .bo19    (.27.)    2.572
-##    .BFs               2.206
-##     ZD               -0.292
-##    .BOEE              0.104
-##   Std.Err  z-value  P(>|z|)
-##     0.082   44.513    0.000
-##     0.078   39.236    0.000
-##     0.076   50.443    0.000
-##     0.096   31.468    0.000
-##     0.092   24.477    0.000
-##     0.097   23.306    0.000
-##     0.104   24.811    0.000
-##     0.069   32.084    0.000
-##     0.143   -2.038    0.042
-##     0.165    0.627    0.531 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##    .zd1     (.21.)    3.644    0.082   44.513    0.000
+##    .zd2     (.22.)    3.078    0.078   39.236    0.000
+##    .zd6     (.23.)    3.818    0.076   50.443    0.000
+##    .bo1     (.24.)    3.011    0.096   31.468    0.000
+##    .bo6     (.25.)    2.242    0.092   24.477    0.000
+##    .bo12    (.26.)    2.259    0.097   23.306    0.000
+##    .bo19    (.27.)    2.572    0.104   24.811    0.000
+##    .BFs               2.206    0.069   32.084    0.000
+##     ZD               -0.292    0.143   -2.038    0.042
+##    .BOEE              0.104    0.165    0.627    0.531 
 ## [...]
 ```
 
-Dem jeweiligen Unterpunkt `Regressions` in beiden Gruppen entnehmen wir, dass die Pfadkoeffizienten  recht ähnlich groß zu sein scheinen. Die Standardfehler der Koeffizienten in beiden Gruppen überlappen sich stark, wenn wir jeweils `Estimate` $\pm$ `Std.Err` für einen Koeffizienten rechnen (zur Erinnerung: ein 95% Konfidenzintervall würden wir mit $Est \pm 1.96SE$ erhalten, was noch viel größer wäre und sich diese also "noch stärker" überlappen würde). Schauen wir uns jeweils die Interzepte in den Unterpunkten `Intercepts` in den beiden Gruppen an, erkennen wir an der Effektkodierung für `ZD` und `BOEE`, dass die latenten Interzepte ($\kappa$) in der einen Gruppe auf 0 gesetzt und in der anderen Gruppe frei geschätzt wurden. Das Interzept in Gruppe 2 (den Männern) von Zeitdruck ist signifikant von 0 verschieden, das von emotionaler Erschöpfung nicht. Dies bedeutet, dass sich Männer und Frauen in ihrem latenten Mittelwert von Zeitdruck unterscheiden. Da der Mittelwert von Zeitdruck in der Gruppe der Frauen auf 0 gesetzt war und der Mittelwert von Zeitdruck der Männer signifikant von 0 abweicht (`Est` = -0.292, $p < .05$), verrät uns das negative Vorzeichen, dass Männer im Durchschnitt weniger Zeitdruck erleben. Auch wenn wir Konfidenzintervalle um die Interzeptschätzung von `BFs` legen, erhalten wir einen signifikanten Unterschied: die untere Grenze des Konfidenzintervalls in *Gruppe 1* liegt bei $2.486-1.96*0.05 \approx 2.38$ und und die obere Grenze in *Gruppe 2* liegt bei $2.206+1.96*0.069 \approx 2.35$; hier haben wir konservativer "gerundet", um den $\beta$-Fehler zu minimieren; --- die Konfidenzintervalle überlappen sich nicht! Diese signifikanten Unterschiede könnten der Grund gewesen sein, warum die vollständige Invarianz verworfen wurde. Um dies genauer zu prüfen, müssten wir sukzessive alle Parameter über die Gruppen gleichsetzen und schauen, für welchen Parameter diese Gleichsetzung zu einer signifikanten Verschlechterung des Modells führt.
+Dem jeweiligen Unterpunkt `Regressions` in beiden Gruppen entnehmen wir, dass die Pfadkoeffizienten  recht ähnlich groß zu sein scheinen. Die Standardfehler der Koeffizienten in beiden Gruppen überlappen sich stark, wenn wir jeweils `Estimate` $\pm$ `Std.Err` für einen Koeffizienten rechnen (zur Erinnerung: ein 95% Konfidenzintervall würden wir mit $Est \pm 1.96SE$ erhalten, was noch viel größer wäre und sich diese also "noch stärker" überlappen würde). Schauen wir uns jeweils die Interzepte in den Unterpunkten `Intercepts` in den beiden Gruppen an, erkennen wir an der Effektkodierung für `ZD` und `BOEE`, dass die latenten Interzepte ($\kappa$) in der einen Gruppe auf 0 gesetzt und in der anderen Gruppe frei geschätzt wurden. Das Interzept in Gruppe 2 (den Männern) von Zeitdruck ist signifikant von 0 verschieden, das von emotionaler Erschöpfung nicht. Dies bedeutet, dass sich Männer und Frauen in ihrem latenten Mittelwert von Zeitdruck unterscheiden. Da der Mittelwert von Zeitdruck in der Gruppe der Frauen auf 0 gesetzt war und der Mittelwert von Zeitdruck der Männer signifikant von 0 abweicht (`Est` = -0.292, $p < .05$), verrät uns das negative Vorzeichen, dass Männer im Durchschnitt weniger Zeitdruck erleben. Auch wenn wir Konfidenzintervalle um die Interzeptschätzung von `BFs` legen, erhalten wir einen signifikanten Unterschied: die untere Grenze des Konfidenzintervalls in *Gruppe 1* liegt bei {{< math >}}$2.486-1.96*0.05 \approx 2.38${{</ math >}} und und die obere Grenze in *Gruppe 2* liegt bei {{< math >}}$2.206+1.96*0.069 \approx 2.35${{</ math >}}; hier haben wir konservativer "gerundet", um den $\beta$-Fehler zu minimieren; --- die Konfidenzintervalle überlappen sich nicht! Diese signifikanten Unterschiede könnten der Grund gewesen sein, warum die vollständige Invarianz verworfen wurde. Um dies genauer zu prüfen, müssten wir sukzessive alle Parameter über die Gruppen gleichsetzen und schauen, für welchen Parameter diese Gleichsetzung zu einer signifikanten Verschlechterung des Modells führt.
 
 Zusammenfassend können wir also nur von strikter Invarianz des Modells über das Geschlecht ausgehen. Wie sieht nun unser finales Modell aus?
 
@@ -1076,8 +793,7 @@ semPaths(object = fit_sem_sex_strikt, what = "est", layout = "tree2",
          curvePivot = T,  edge.label.cex=1, sizeMan = 5, sizeLat = 8)
 ```
 
-<img src="/lehre/fue-ii/msa_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" />
-<img src="/lehre/fue-ii/msa_files/figure-html/unnamed-chunk-33-2.png" style="display: block; margin: auto;" />
+<img src="/lehre/fue-ii/msa_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" /><img src="/lehre/fue-ii/msa_files/figure-html/unnamed-chunk-33-2.png" style="display: block; margin: auto;" />
 
 Wir erkennen deutlich, dass einige Koeffizienten gleich sind und bspw. der Mittelwert von `ZD` in einer Gruppe auf 0 ist (kein Pfeil) und in der zweiten Gruppe bei -0.29 liegt. Wenn wir hier `what = "model"` wählen, können wir das Modell mit allen Gleichsetzungen betrachten.
 
@@ -1122,36 +838,26 @@ summary(fit_pfad_msa)
 ```
 ## [...]
 ##  Regressions:
-##                    Estimate
-##   BFs ~                    
-##     ZDs               0.220
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.045    4.885    0.000
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BFs ~                                               
+##     ZDs               0.220    0.045    4.885    0.000
 ## 
 ## Intercepts:
-##                    Estimate
-##    .BFs               1.710
-##   Std.Err  z-value  P(>|z|)
-##     0.166   10.310    0.000 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##    .BFs               1.710    0.166   10.310    0.000 
 ## [...]
 ```
 
 ```
 ## [...]
 ##  Regressions:
-##                    Estimate
-##   BFs ~                    
-##     ZDs               0.213
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.078    2.742    0.006
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BFs ~                                               
+##     ZDs               0.213    0.078    2.742    0.006
 ## 
 ## Intercepts:
-##                    Estimate
-##    .BFs               1.487
-##   Std.Err  z-value  P(>|z|)
-##     0.262    5.677    0.000 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##    .BFs               1.487    0.262    5.677    0.000 
 ## [...]
 ```
 
@@ -1178,12 +884,9 @@ fit_pfad_msa <- sem(model_pfad_msa, StressAtWork,
 ```
 ## [...]
 ##  Defined Parameters:
-##                    Estimate
-##     b0d              -0.223
-##     b1d              -0.007
-##   Std.Err  z-value  P(>|z|)
-##     0.310   -0.720    0.472
-##     0.090   -0.077    0.939 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##     b0d              -0.223    0.310   -0.720    0.472
+##     b1d              -0.007    0.090   -0.077    0.939 
 ## [...]
 ```
 Wir behalten diese Ergebnisse mal im Hinterkopf und gucken uns die moderierte Regression als Möglichkeit an, die gleiche Frage zu bearbeiten.
@@ -1231,22 +934,15 @@ Hier haben wir `meanstructure = T` gewählt, um auch das Interzept von `BFs` ang
 ```
 ## [...]
 ##  Regressions:
-##                    Estimate
-##   BFs ~                    
-##     ZDs               0.220
-##     sexDum           -0.223
-##     Int              -0.007
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.044    4.986    0.000
-##     0.323   -0.692    0.489
-##     0.094   -0.074    0.941
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BFs ~                                               
+##     ZDs               0.220    0.044    4.986    0.000
+##     sexDum           -0.223    0.323   -0.692    0.489
+##     Int              -0.007    0.094   -0.074    0.941
 ## 
 ## Intercepts:
-##                    Estimate
-##    .BFs               1.710
-##   Std.Err  z-value  P(>|z|)
-##     0.163   10.523    0.000 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##    .BFs               1.710    0.163   10.523    0.000 
 ## [...]
 ```
 
@@ -1295,36 +991,17 @@ summary(reg)
 ## lm(formula = BFs ~ factor(sex) * ZDs, data = StressAtWork)
 ## 
 ## Residuals:
-##      Min       1Q   Median 
-## -1.31507 -0.50409 -0.05418 
-##       3Q      Max 
-##  0.49895  2.58601 
+##      Min       1Q   Median       3Q      Max 
+## -1.31507 -0.50409 -0.05418  0.49895  2.58601 
 ## 
 ## Coefficients:
-##                   Estimate
-## (Intercept)       1.710453
-## factor(sex)2     -0.223201
-## ZDs               0.220296
-## factor(sex)2:ZDs -0.006929
-##                  Std. Error
-## (Intercept)        0.163628
-## factor(sex)2       0.324913
-## ZDs                0.044477
-## factor(sex)2:ZDs   0.094498
-##                  t value Pr(>|t|)
-## (Intercept)       10.453  < 2e-16
-## factor(sex)2      -0.687    0.493
-## ZDs                4.953 1.22e-06
-## factor(sex)2:ZDs  -0.073    0.942
-##                     
-## (Intercept)      ***
-## factor(sex)2        
-## ZDs              ***
-## factor(sex)2:ZDs    
+##                   Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)       1.710453   0.163628  10.453  < 2e-16 ***
+## factor(sex)2     -0.223201   0.324913  -0.687    0.493    
+## ZDs               0.220296   0.044477   4.953 1.22e-06 ***
+## factor(sex)2:ZDs -0.006929   0.094498  -0.073    0.942    
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*'
-##   0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.7103 on 301 degrees of freedom
 ## Multiple R-squared:  0.1233,	Adjusted R-squared:  0.1145 

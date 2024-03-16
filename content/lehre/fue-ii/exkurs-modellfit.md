@@ -9,7 +9,7 @@ subtitle: 'Ein Exkurs'
 summary: '' 
 authors: [irmer, schultze] 
 weight: 6
-lastmod: '2024-03-03'
+lastmod: '2024-03-16'
 featured: no
 banner:
   image: "/header/puzzle.jpg"
@@ -27,8 +27,6 @@ output:
   html_document:
     keep_md: true
 ---
-
-
 
 
 Der Likelihood-Ratio-Test ($\chi^2$-Differenzentest) vergleicht die Likelihoods zweier Modelle und somit implizit eigentlich die Kovarianzmatrizen (und Mittelwerte). In Lehrbüchern steht häufig *der $\chi^2$-Wert ist stichprobenabhängig und wächst mit der Stichprobengröße*, was ebenfalls als Grund für die Fit-Indizes genannt wird. Das ist allerdings nur teilweise richtig, denn der $\chi^2$-Wert ist nur für Modelle stichprobenabhängig, in welchen die $H_0$-Hypothese **nicht** gilt. In einigen Lehrbüchern steht zudem die Formel für den $\chi^2$-Wert wie folgt: Wir definieren zunächst die sogenannte Fit-Funktion $F_{ML}$ (diese wurde bereits in der [Sitzung zur CFA](/lehre/fue-ii/cfa) erwähnt), welche die Differenz zwischen der Kovarianzmatrix der Daten sowie der modellimplizierten Kovarianzmatrix quantifiziert (für die Formeln siehe gerne auch bspw. in Schermelleh-Engel, Moosbrugger & Müller, 2003):
@@ -82,34 +80,13 @@ head(data)
 
 
 ```
-##           x1          x2
-## 1 -0.5118338  1.11104804
-## 2  0.4893225 -0.03456975
-## 3 -0.4599010 -0.11154386
-## 4 -0.1563487 -1.94395700
-## 5 -3.9850494 -1.34148731
-## 6 -1.7981084 -0.66823365
-##           x3         y1
-## 1 -0.0729622 -2.2439826
-## 2 -0.2210260 -0.1614957
-## 3 -1.0774381  0.8126298
-## 4  0.5893962  0.2923347
-## 5 -3.8810032 -0.4478478
-## 6  0.6577428  1.4657190
-##            y2          y3
-## 1 -0.57866486 -1.74546084
-## 2  0.04591967  0.68927309
-## 3 -0.68456466  0.71829334
-## 4  0.38382322  0.08129874
-## 5 -0.43452292 -2.28563349
-## 6  0.13731687 -1.95109209
-##            y4
-## 1 -0.37273965
-## 2  0.47261383
-## 3  1.67739737
-## 4 -0.03750505
-## 5 -2.76810071
-## 6 -1.82901441
+##           x1          x2         x3          y1          y2         y3          y4
+## 1 -0.5118338  1.11104804 -0.0729622 -2.46234468 -0.30571231 -1.2051386 -0.97309774
+## 2  0.4893225 -0.03456975 -0.2210260 -0.09834857 -0.03301419  0.7306844  0.42660131
+## 3 -0.4599010 -0.11154386 -1.0774381  0.35941394 -0.11804480  0.3918804  2.04007846
+## 4 -0.1563487 -1.94395700  0.5893962  0.34173255  0.32207594  0.1185581 -0.07890436
+## 5 -3.9850494 -1.34148731 -3.8810032 -0.24632514 -0.68642627 -2.3917236 -2.65022281
+## 6 -1.7981084 -0.66823365  0.6577428  1.37194245  0.25453754 -2.3033950 -1.43756669
 ```
 
 
@@ -151,7 +128,7 @@ fit_H0
 
 
 ```
-## lavaan 0.6.16 ended normally after 44 iterations
+## lavaan 0.6.17 ended normally after 45 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
@@ -161,9 +138,9 @@ fit_H0
 ## 
 ## Model Test User Model:
 ##                                                       
-##   Test statistic                                10.722
+##   Test statistic                                 4.739
 ##   Degrees of freedom                                10
-##   P-value (Chi-square)                           0.380
+##   P-value (Chi-square)                           0.908
 ```
 
 Wie bereits im [Beitrag zur CFA](/lehre/fue-ii/cfa) besprochen, können wir den $\chi^2$-Wert, die $df$ und den zugehörigen $p$-Wert auch über die `fitmeasures`-Funktion erhhalten:
@@ -175,7 +152,7 @@ fitmeasures(fit_H0, c("chisq", 'df', "pvalue"))
 
 ```
 ##  chisq     df pvalue 
-## 10.722 10.000  0.380
+##  4.739 10.000  0.908
 ```
 
 Außerdem wollen wir zwei fehlspezifizierte Modelle betrachten. Unter `model_H1_kov` speichern wir ein Modell, welches, bis auf die fehlende Fehlerkovarianz, äquivalent zu `model_H0` ist.
@@ -248,7 +225,7 @@ fitmeasures(fit_H1_Struk, c("chisq", 'df', "pvalue"))
 
 ```
 ##  chisq     df pvalue 
-## 10.722 10.000  0.380
+##  4.739 10.000  0.908
 ```
 
 ```
@@ -257,7 +234,7 @@ fitmeasures(fit_H1_Struk, c("chisq", 'df', "pvalue"))
 
 ```
 ##  chisq     df pvalue 
-## 15.254 11.000  0.171
+##  9.474 11.000  0.578
 ```
 
 ```
@@ -266,7 +243,7 @@ fitmeasures(fit_H1_Struk, c("chisq", 'df', "pvalue"))
 
 ```
 ##  chisq     df pvalue 
-## 27.263 11.000  0.004
+## 23.174 11.000  0.017
 ```
 
 Nun wiederholen wir das ganze für eine größere Stichprobengröße von $n=1000$.
@@ -294,7 +271,7 @@ fitmeasures(fit_H1_Struk, c("chisq", 'df', "pvalue"))
 
 ```
 ##  chisq     df pvalue 
-## 10.436 10.000  0.403
+##  9.754 10.000  0.462
 ```
 
 ```
@@ -303,7 +280,7 @@ fitmeasures(fit_H1_Struk, c("chisq", 'df', "pvalue"))
 
 ```
 ##  chisq     df pvalue 
-## 22.704 11.000  0.019
+##  22.57  11.00   0.02
 ```
 
 ```
@@ -312,7 +289,7 @@ fitmeasures(fit_H1_Struk, c("chisq", 'df', "pvalue"))
 
 ```
 ##  chisq     df pvalue 
-##   62.1   11.0    0.0
+## 58.973 11.000  0.000
 ```
 
 Wir sehen, dass das Weglassen der gerichteten Beziehung zu einem größeren mittleren Fehler führt, also zu einem größeren mittleren $\chi^2$-Wert. Gilt die Null-Hypothese, so sollte der mittlere $\chi^2$-Wert bei der Anzahl der $df$ liegen. Nun wollen wir uns die mittleren $\chi^2$-Werte ansehen für verschiedene $n$. Da diese Simulation länger dauern würde, schauen wir uns nur die Ergebnisse an:

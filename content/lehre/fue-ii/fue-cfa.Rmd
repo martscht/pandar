@@ -29,18 +29,18 @@ links:
     url: /lehre/fue-ii/fue-cfa.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/fue-ii/fue-cfa-aufgaben
+    name: Übungsdaten
+    url: /daten/conspiracy.rda
 output:
   html_document:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
 
-```{r, echo = FALSE, results = 'hide', message=FALSE, warning=FALSE}
-load(url("https://courageous-donut-84b9e9.netlify.app/post/conspiracy_cfa.rda"))
-load(url("https://courageous-donut-84b9e9.netlify.app/post/stat_test.rda"))
-
+```{r, echo = FALSE, results = 'hide', message=FALSE, warning=FALSE, purl=FALSE}
 library(lavaan)
 library(fontawesome)
 library(dplyr)
@@ -52,7 +52,7 @@ source('cfa_startup.R')
 
 ## Einleitung
 
-In der [letzten Sitzung](/lehre/fue-ii/efa) wurden faktoranalytische Verfahren für Datenexploration behandelt. Die Ergebnisse der EFA sind datengesteuert: welche Items welchen Faktoren zugeordnet werden, wie viele Faktoren genutzt werden, wie stark der Zusammenhang zwischen Item und Faktor ist, das alles sind Dinge, die aus den Daten heraus entschieden werden. In dieser Sitzung betrachten wir das Vorgehen, wenn in der Faktorenanalyse von einem konkreten, theoretisch fundierten Modell ausgegangen wird und dieses anhand empirischer Daten geprüft werden soll. Ganz im Popper'schen Sinn lässt sich nur durch ein solches Vorgehen wissenschaftliche Erkenntnis gewinnen.
+In der [letzten Sitzung](/lehre/fue-ii/fue-efa) wurden faktoranalytische Verfahren für Datenexploration behandelt. Die Ergebnisse der EFA sind datengesteuert: welche Items welchen Faktoren zugeordnet werden, wie viele Faktoren genutzt werden, wie stark der Zusammenhang zwischen Item und Faktor ist, das alles sind Dinge, die aus den Daten heraus entschieden werden. In dieser Sitzung betrachten wir das Vorgehen, wenn in der Faktorenanalyse von einem konkreten, theoretisch fundierten Modell ausgegangen wird und dieses anhand empirischer Daten geprüft werden soll. Ganz im Popper'schen Sinn lässt sich nur durch ein solches Vorgehen wissenschaftliche Erkenntnis gewinnen.
 
 Für die Umsetzung der CFA nutzen wir erneut `lavaan`. In der [ersten Sitzung dieses Semesters](/lehre/fue-ii/lavaan-intro) hatten wir uns den Umgang mit `lavaan` schon detailliert angesehen. Grob gesagt gehen wir in drei Schritten vor:
 
@@ -109,8 +109,8 @@ In dieser Sitzung werden wir untersuchen, inwiefern diese theoretische Zuordnung
 
 Zunächst können wir den Datensatz laden und ein bisschen genauer betrachten. Wie schon für die letzten beiden Sitzungen, haben wir den Datensatz bereits im `.rda`-Format aufbereitet, sodass Sie Ihn direkt in R von dieser laden können:
 
-```{r, eval = FALSE}
-load(url("https://courageous-donut-84b9e9.netlify.app/post/conspiracy_cfa.rda"))
+```{r}
+load(url("https://pandar.netlify.app/daten/conspiracy_cfa.rda"))
 ```
 
 Alternativ können Sie den Datensatz natürlich auch für den lokalen Gebrauch [<i class="fas fa-download"></i> hier herunterladen](/daten/conspiracy_cfa.rda).
@@ -220,7 +220,7 @@ summary(fit1)
 
 Die folgende Zeile des Outputs zeigt uns, dass `lavaan` mit seiner Einschätzung vollkommen Recht hatte:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 abbrev(fit1, 'Degrees of freedom', 'P-value', shift = 1)
 ```
 
@@ -244,7 +244,7 @@ inspect(fit1, 'sampstat')
 
 Hier können wir einfach durchzählen:
   
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 tmp <- inspect(fit1, 'sampstat')
 tmp$cov[lower.tri(tmp$cov, diag = TRUE)] <- 1:6
 tmp
@@ -339,7 +339,7 @@ summary(fit1)
 
 Wir sehen, dass wir jetzt für alle Parameter Standardfehler erhalten und
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 abbrev(fit1, 'Degrees of freedom', 'Parameter Estimates', shift = 2)
 ```
 
@@ -347,7 +347,7 @@ das Modell jetzt 0 Freiheitsgrade hat. Es handelt sich also um ein *gerade ident
 
 Welche inhaltlichen Aussagen erlaubt uns diese Umformulierung jetzt? Gucken wir uns mal die Faktorladungen an:
   
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 abbrev(fit1, 'Latent Variables', 'Variances', shift = 2)
 ```
 
@@ -355,7 +355,7 @@ In der Ergebnisaufbereitung von `lavaan` hat sich gegenüber dem Regressionsmode
 
 Was bedeuten diese Ladungen aber inhaltlich? Glücklicherweise hält auch für die CFA das beinahe allgemeingültige Mantra der sozialwissenschaftlichen Auswertungsverfahren: "es ist alles nur Regression". Die Faktorladungen entsprechen hier also dem Regressionsgewicht der manifesten Variable, vorhergesagt durch die latente Variable. (Bitte beachten Sie die Richtung! Häufig wird diese Beziehung fälschlicherweise umgekehrt interpretiert - in der klassischen CFA ist aber die latente Variable die unabhängige Variable und die manifesten Variablen sind die abhängigen Variablen.) Ein Bild:
   
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 tmp <- inspect(fit1, 'est')
 plottable <- data.frame(GC = seq(0, 5, .01))
 plottable <- cbind(plottable, t(tmp$lambda %*% plottable$GC))
@@ -393,7 +393,7 @@ $$
   
 Das sind letztlich also einfache lineare Gleichungen mit einer unabhängigen Variable - wie einfache Regressionen. Weil unsere Vorhersage aber mit Fehlern behaftet ist, ist jede manifeste Variable mit einem Residuum $\delta$ behaftet, deren Varianzen in der `lavaan`-Zusammenfassung so dargestellt werden:
   
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 abbrev(fit1, 'Variances', shift = 1, ellipses = 'top')
 ```
 
@@ -415,10 +415,10 @@ inspect(fit1, 'rsquare')
 
 Weil $R^2$ und Reliabilitäten in vielen Fällen von Interesse sind, können wir auch die Modellzusammenfassung um diesen Abschnitt erweitern, indem wir in der `summary`-Funktion das Zusatzargument `rsq` auf `TRUE` setzen. Dann erhalten wir am Ende der Modellzusammenfassung die $R^2$-Schätzungen:
   
-```{r, eval = FALSE}
+```{r, results='hide'}
 summary(fit1, rsq = TRUE)
 ```
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 abbrev(fit1, 'R-Square', rsq = TRUE, shift = 1, ellipses = 'top')
 ```
 
@@ -457,16 +457,16 @@ fit2 <- lavaan(mod2, conspiracy)
 
 Mit dem `summary` Befehl können wir uns wieder die Modellzusammenfassung ansehen. Im Vergleich zum bisherigen `fit1` kommt ein Abschnitt dazu:
   
-```{r, eval = FALSE}
+```{r, results='hide'}
 summary(fit2)
 ```
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 abbrev(fit2, 'Intercepts', 'Variances')
 ```
 
 Wie bei der Regression und bei den Varianzen schon gesehen, markiert der `.` Variablen, die im Modell abhängige Variablen sind, sodass der dargestellte Wert als *Intercept* (sprich bedingter Mittelwert) und nicht als *Mittelwert* interpretiert werden sollte. Wie bei Intercepts in Regressionen auch, ist das hier dargestellte Intercept von Q7 der Wert, den wir erwarten, wenn eine Person auf dem Prädiktor (GC) den Wert 0 hat. Durch die Festlegung des Mittelwerts von GC auf 0 bedeutet das Intercept also, dass es der erwartete Wert einer durchschnittlichen Person ist. Genau genommen ist das dann in diesem Fall also lediglich eine sehr umständliche Variante, doch den Mittelwert von Q7 zu meinen. Wenn wir die Darstellung als Regression um diese Intercepts erweitern, ergibt sich folgendes Bild:
   
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 tmp <- inspect(fit2, 'est')
 
 plottable <- data.frame(GC = seq(-2.5, 2.5, .01))
@@ -589,7 +589,7 @@ Bisher haben wir hauptsächlich mit `inspect` gearbeitet, um uns die Ergebnisse 
 parameterEstimates(fit_two)
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 para <- parameterEstimates(fit_two)
 ```
 
@@ -614,10 +614,10 @@ Wenn Sie die Aufbereitung von `summary` eigentlich mögen, aber sich wünschen w
   
 Wenn wir die Ergebniszusammenfassung z.B. um Konfidenzintervalle erweitern, sieht der Abschnitt der Faktorladungen so aus:
     
-```{r, eval = FALSE}
+```{r, results='hide'}
 summary(fit_two, ci = TRUE)
 ```
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 abbrev(fit_two, 'Latent Variables', 'Covariances', ci = TRUE)
 ```
   
@@ -640,7 +640,7 @@ inspect(fit_two, 'cov.ov')
 
 ### $\chi^2$ Modeltest {#chisquare}
 
-Den meisten Fit-Statistiken liegt die Fitfunktion $F$ zugrunde. Üblicherweise werden CFAs mit dem Maximum-Likelihood Verfahren geschätzt, sodass diese Fitfunktion als $F_{ML}[\mathbf{\Sigma(\widehat{\vartheta})}, \mathbf{S}]$ notiert wird. Wie Sie an der Notation sehen, gehen in diese Fitfunktion die beiden oben aufgeführten Matrizen ein. Wie im [Beitrag zur EFA](/lehre/fue-ii/efa), spezifischer im Abschnitt ML-EFA, besprochen, ist das Ziel der Schätzung im Groben, dass die Wahrscheinlichkeit der Daten, gegeben unser Modell, maximiert wird. Um die Multiplikation, die notwendig ist, um die Wahrscheinlichkeiten unabhängiger Zufallsereignisse zu bestimmen, zu umgehen, wird in der Statstik lieber mit Logarithmen gearbeitet. Diese kann man einfach addieren, sodass das Problem vereinfacht wird, ohne es wirklich zu ändern. Der Logarithmus der Likelihood wird dann einfach als LogLikelihood bezeichnet.
+Den meisten Fit-Statistiken liegt die Fitfunktion $F$ zugrunde. Üblicherweise werden CFAs mit dem Maximum-Likelihood Verfahren geschätzt, sodass diese Fitfunktion als $F_{ML}[\mathbf{\Sigma(\widehat{\vartheta})}, \mathbf{S}]$ notiert wird. Wie Sie an der Notation sehen, gehen in diese Fitfunktion die beiden oben aufgeführten Matrizen ein. Wie im [Beitrag zur EFA](/lehre/fue-ii/fue-efa), spezifischer im Abschnitt ML-EFA, besprochen, ist das Ziel der Schätzung im Groben, dass die Wahrscheinlichkeit der Daten, gegeben unser Modell, maximiert wird. Um die Multiplikation, die notwendig ist, um die Wahrscheinlichkeiten unabhängiger Zufallsereignisse zu bestimmen, zu umgehen, wird in der Statstik lieber mit Logarithmen gearbeitet. Diese kann man einfach addieren, sodass das Problem vereinfacht wird, ohne es wirklich zu ändern. Der Logarithmus der Likelihood wird dann einfach als LogLikelihood bezeichnet.
 
 Um alle möglichen Fit-Statistiken für ein Modell zu bestimmen, können wir wieder mit `inspect` arbeiten. Weil hier ein ziemlicher Wust aus Zahlen entsteht, legen wir das Ergebnis erst einmal in einem Objekt ab:
 
@@ -673,7 +673,7 @@ modelfit['df']
 
 Die $\chi^2$-Verteilung mit `r modelfit['df']` Freiheitsgraden sieht so aus:
   
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 chi <- data.frame(x = seq(0, 40, .1))
 chi$y <- dchisq(chi$x, 8)
 chi$p <- pchisq(chi$x, 8)
@@ -737,11 +737,11 @@ Eine Möglichkeit ist es, für eine spezifische Situation einfach spezifische Cu
 library(ezCutoffs)
 cutoff <- ezCutoffs(mod_two, conspiracy)
 ```
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 load('../../daten/cutoff_cfa.rda')
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 cat('Data Generation
 
   |==================================================| 100% elapsed = 13s  ~  0s
@@ -797,7 +797,7 @@ Um ein bisschen besser zu verstehen, was diese Argumente bewirken, gucken wir un
 ```{r}
 modindices(fit_two, sort. = TRUE, minimum.value = 5)
 ```
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 modi <- modindices(fit_two, sort. = TRUE, minimum.value = 5)
 ```
 
@@ -839,7 +839,7 @@ Auffällig ist natürlich vor allem, dass die Faktorladungen sich verändert hab
 
 Wenn wir uns mit `inspect(fit_three, 'fitmeasures')` oder `fitmeasures(fit_three)` die Fitstatistiken dieses Modells ausgeben lassen, erhalten wir im direkten Vergleich mit dem Modell ohne Querladung folgendes Bild:
 
-```{r, echo = FALSE, results = 'asis'}
+```{r, echo = FALSE, results = 'asis', purl=FALSE}
 fitcomp <- rbind(fitmeasures(fit_three, c('logl', 'chisq', 'df', 'pvalue', 'rmsea', 'srmr', 'cfi', 'tli')),
 fitmeasures(fit_two, c('logl', 'chisq', 'df', 'pvalue', 'rmsea', 'srmr', 'cfi', 'tli')))
 fitcomp <- as.data.frame(fitcomp)
@@ -871,7 +871,7 @@ Außerdem müssen wir an dieser Stelle anmerken, dass wir unser Modell mit Hilfe
 
 ## Appendix A {#Residuals}
 
-<details><summary>Lokalisierung von Misfit in Kovarianzmatrizen</summary>
+<details><summary><b>Lokalisierung von Misfit in Kovarianzmatrizen</b></summary>
 
 Im [Abschnitt zur Lokalisierung von Misfit](#Lokal) haben wir die Residuen in Kovarianzmatrizen schon angeschnitten. Hier noch einmal die standardisierten Residuen:
 
@@ -924,7 +924,7 @@ Sowohl mit Q2 als auch mit Q12 scheint es höher zu korrelieren, als durch unser
 
 ## Appendix B {#AppendixA}
 
-<details><summary>Hierarchie der Messmodelle</summary>
+<details><summary><b>Hierarchie der Messmodelle</b></summary>
 
 In vielen Bereichen der Psychologie ist es wichtig, nicht nur festzuhalten, dass mehrere beobachtbare Variablen ein gemeinsames latentes Konstrukt erheben, sondern auch sicherzustellen, dass sie dies in gleicher Weise tun. Nehmen wir an, sie kämen in die Situation, für einen, nicht näher benannten, Statistik-lastigen Kurs im Master der Psychologie drei parallele Formen einer Modulprüfung entwickeln zu müssen. In dem Fall würden Sie im Interesse der Kursteilnehmer und -teilnehmerinnen versuchen, sicherzustellen, dass die drei Formen die statistischen Kompetenzen (das latente Konstrukt) auch in gleicher Weise erheben und sich nicht z.B. in der mittleren Schwierigkeit unterscheiden.
 
@@ -937,7 +937,7 @@ In der Abbildung sind die fünf typischen Messmodelle der klassischen Testtheori
 
 *Im Folgenden arbeiten wir mit ein paar fiktiven Daten zu dieser imaginären Prüfung.*
 
-```{r, eval = FALSE}
+```{r}
 #load(url("https://pandar.netlify.app/daten/stat_test.rda"))
 load(url("https://courageous-donut-84b9e9.netlify.app/post/stat_test.rda"))
 ```
@@ -952,7 +952,7 @@ Die Werte stellen auf einer Skala von ca. -3 bis 3 die geschätzte Fähigkeit in
 
 </details>
 
-<details><summary>$\tau$-kongenerisches Modell</summary>
+<details><summary><b>$\tau$-kongenerisches Modell</b></summary>
 
 Das am weitesten verbreitete Messmodell in der Psychologie ist das $\tau$-kongenerische Messmodell. Dieses haben wir z.B. auch in den anderen Abschnitten dieser Sitzung gesehen. Für unsere fiktive Statstikprüfung können wir es wie folgt anlegen:
 
@@ -967,17 +967,17 @@ fit1 <- cfa(mod1, stat_test,
 
 Der Abschnitt zu den Parametern sieht in der Zusammenfassung dann so aus:
 
-```{r, eval = FALSE}
+```{r, results='hide'}
 summary(fit1)
 ```
 
-```{r echo = FALSE}
+```{r echo = FALSE, purl=FALSE}
 abbrev(fit1, shift = 1)
 ```
 
 Oder etwas bildlicher ausgedrückt:
 
-```{r, fig = TRUE, echo = FALSE}
+```{r, fig = TRUE, echo = FALSE, purl=FALSE}
 tmp <- inspect(fit1, 'est')
 plottable <- data.frame(stat = seq(-.5, .5, .001))
 plottable <- cbind(plottable, t(tmp$lambda %*% plottable$stat + as.vector(tmp$nu)))
@@ -1004,7 +1004,7 @@ Mit den Restriktionen der Messmodelle können wir jetzt über Modellvergleiche p
 
 </details>
 
-<details><summary>Esentiell $\tau$-äquivalentes Modell</summary>
+<details><summary><b>Esentiell $\tau$-äquivalentes Modell</b></summary>
 
 Der erste Schritt, der bei der Restriktion von Messmodellen stets vorgenommen werden muss, ist die Gleichsetzung der Diskriminationsparameter. Nur so kann garantiert werden, dass andere Gleichsetzungen sinnvoll interpretierbar und von der Skala, mit der wir die Ergebnisse beschreiben, unabhängig sind.
 
@@ -1021,7 +1021,7 @@ fit2 <- cfa(mod2, stat_test,
 
 Der Abschnitt zu den Parametern sieht in der Zusammenfassung dann so aus:
 
-```{r, eval = FALSE}
+```{r, results='hide'}
 summary(fit2)
 ```
 
@@ -1032,7 +1032,7 @@ abbrev(fit2, shift = 1)
 Alle Faktorladungen sind nun identisch. Das heißt, dass die Linien der unterschiedlichen Tests im Bild parallel verlaufen sollten, weil wir jetzt den Einfluss der latenten Variable auf die manifesten Variablen gleichgesetzt haben:
 
 
-```{r, fig = TRUE, echo = FALSE}
+```{r, fig = TRUE, echo = FALSE, purl=FALSE}
 tmp <- inspect(fit2, 'est')
 plottable <- data.frame(stat = seq(-.5, .5, .001))
 plottable <- cbind(plottable, t(tmp$lambda %*% plottable$stat + as.vector(tmp$nu)))
@@ -1067,7 +1067,7 @@ Die Annahme der essentielle $\tau$-Äquivalenz spielt eine wichtige Rolle, wenn 
 
 </details>
 
-<details><summary>$\tau$-äquivalentes Modell</summary>
+<details><summary><b>$\tau$-äquivalentes Modell</b></summary>
 
 In der Hierarchie der Messmodelle haben wir zwei Möglichkeiten, vorzugehen: wir können im Anschluss an das essentiell $\tau$-äquivalente Messmodell entweder die Intercepts restringieren und so beim $\tau$-äquivalenten Messmodell ankommen, oder uns die Residualvarianzen vornehmen und so beim essentiell $\tau$-parallelen Messmodell angelangen. Wir entscheiden uns hier für den häufiger genutzten linken Weg der Abbildung und beziehen uns zunächst auf die Mittelwertsstruktur:
 
@@ -1086,11 +1086,11 @@ fit3 <- cfa(mod3, stat_test,
 
 Mit `(...)` wird in `lavaan` einem Parameter ein Label gegeben. Diese Labels können beliebig benannt sein, sie müssen nur mit einem Buchstaben beginnen. In der Zeile `test1 ~ (alp)*1` wird also das Intercept von `test1` angefordert und diesem Intercept der Name `alp` gegeben. In der nächsten Zeile machen wir für `test2` das Gleiche. Dadurch, dass wir hier den gleichen Namen nutzen werden die beiden Parameter zur Gleichheit gezwungen. In der Zusammenfassung tauchen diese Labels auch wieder auf, um zu verdeutlichen welche Parameter absichtlich gleich sind:
 
-```{r, eval = FALSE}
+```{r, results='hide'}
 summary(fit3)
 ```
 
-```{r echo = FALSE}
+```{r echo = FALSE, purl=FALSE}
 abbrev(fit3, shift = 1)
 ```
 
@@ -1106,7 +1106,7 @@ Inhaltlich heißt dieses Ergebnis, dass wir für zwei Personen, die die gleiche 
 
 Auch in der Abbildung zeigt sich jetzt, dass die Tests äquivalent sind:
 
-```{r, fig = TRUE, echo = FALSE}
+```{r, fig = TRUE, echo = FALSE, purl=FALSE}
 tmp <- inspect(fit3, 'est')
 plottable <- data.frame(stat = seq(-.5, .5, .001))
 plottable <- cbind(plottable, t(tmp$lambda %*% plottable$stat + as.vector(tmp$nu)))
@@ -1129,7 +1129,7 @@ ggplot(plottable, aes(x = stat, y = manifest, group = variable)) +
 
 </details>
 
-<details><summary>Essentiell $\tau$-paralleles Modell</summary>
+<details><summary><b>Essentiell $\tau$-paralleles Modell</b></summary>
 
 Im Essentiell $\tau$-parallelen Modell werden die Restriktionen bezüglich der Intercepts zunächst außer Acht gelassen. Stattdessen wird das essentiell $\tau$-äquivalente Modell bezüglich der Kovarianzstruktur so restringiert, dass die Varianzzerteilung aller manifester Variablen gleich ist. Das bewirkt inhaltlich, dass alle drei Tests jetzt die gleiche Reliabilität haben. 
 
@@ -1147,11 +1147,11 @@ fit4 <- cfa(mod4, stat_test,
 
 Das entstehende Ergebnis können wir uns wieder mit `summary` angucken. In diesem Fall nehmen wir mit `rsq = TRUE` die Reliabilitätsschätzungen auf, um meine Behauptung auf den Prüfstand zu stellen:
 
-```{r, eval = FALSE}
+```{r, results='hide'}
 summary(fit4, rsq = TRUE)
 ```
 
-```{r echo = FALSE}
+```{r echo = FALSE, purl=FALSE}
 abbrev(fit4, shift = 1, rsq = TRUE)
 ```
 
@@ -1164,7 +1164,7 @@ Wir sehen in diesem Fall, dass die Annahme gleicher Residualvarianzen (und somit
 
 </details>
 
-<details><summary>$\tau$-paralleles Modell</summary>
+<details><summary><b>$\tau$-paralleles Modell</b></summary>
 
 Das $\tau$-parallele Messmodell ist das restriktivste Messmodell. Hier sind Ladungen, Intercepts und Residualvarianzen über die drei Tests hinweg gleich gesetzt. Das bedeutet, dass die beiden Annahmen aus dem $\tau$-äquivalenten Messmodell und dem essentiell $\tau$-parallelen Messmodell zusammengeführt werden.
 

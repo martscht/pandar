@@ -29,15 +29,18 @@ links:
     url: /lehre/fue-ii/lavaan-intro.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/fue-ii/lavaan-intro-aufgaben
+    name: Übungsdaten
+    url: /daten/fairplayer.rda
 output:
   html_document:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
 
-```{r, echo = FALSE, results = 'hide', message=FALSE, warning=FALSE}
+```{r, echo = FALSE, results = 'hide', message=FALSE, warning=FALSE, purl=FALSE}
 library(lavaan)
 library(fontawesome)
 
@@ -91,8 +94,7 @@ load('fairplayer.rda')
 oder den Datensatz direkt von dieser Website in `R` laden:
 
 ```{r}
-#load(url('https://pandar.netlify.com/daten/fairplayer.rda'))
-load(url("https://courageous-donut-84b9e9.netlify.app/post/fairplayer.rda"))
+load(url("https://pandar.netlify.com/daten/fairplayer.rda"))
 ```
 
 
@@ -201,7 +203,7 @@ Einen Überblick über die Befehle für Matrix-Algebra in `R` finden Sie auf der
 
 ## Wiederholung: Regression {#Regression}
 
-[Im letzten Semester](/lehre/fue-i/regression-und-ausreisserdiagnostik) haben Sie die `lm`-Funktion kennengelernt, um lineare Modelle in `R` zu berechnen. Um diese Funktion zu verwenden, müssen meist zwei Argumente an `lm` weitergegeben werden:
+[Im letzten Semester](/lehre/fue-i/regression-ausreisser-fue) haben Sie die `lm`-Funktion kennengelernt, um lineare Modelle in `R` zu berechnen. Um diese Funktion zu verwenden, müssen meist zwei Argumente an `lm` weitergegeben werden:
 
   - `formula`: Das Modell in klassischer `R`-Formelschreibweise
   - `data`: Der Datensatz, auf den dieses Modell angewendet werden soll
@@ -379,7 +381,7 @@ Sofern keine Warn- oder Fehlermeldungen erzeugt werden, war die Schätzung des M
 ```{r, eval = FALSE}
 summary(fit)
 ```
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 lavaan::summary(fit)
 ```
 
@@ -395,13 +397,13 @@ Die nächste für uns relevante Information ist die `Number of observations`, we
 
 Dann springen wir direkt runter zu den Modellergebnissen, die mit der Zeile `Regressions:` beginnen. Wie diese Überschrift verrät, erhalten wir zuerst Informationen über die Regressionsparameter. Hier der relevante Ausschnitt:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 abbrev(fit, 'Regressions', 'Intercepts')
 ```
 
 Dieser Abschnitt beginnt mit der Zeile `rat1 ~`, was uns verdeutlichen soll, dass die folgenden Regressionsergebnisse sich auf eine Regression mit relationaler Aggression als abhängige Variable beziehen. Die anschließende Tabelle enthält die gleichen vier Spalten, die wir schon bei der [Wiederholung der Regression](#Regressionergebnisse) gesehen haben: das geschätzte Regressionsgewicht (`Estimate`), den Standardfehler (`Std.Err.`), den $z$-Wert (`z-value`) und den daraus resultierenden $p$-Wert (`P(>|z|)`). Wie Ihnen mit Sicherheit sofort aufgefallen ist, arbeitet `lavaan` nicht mit $t$-, sondern mit $z$-Werten. Das heißt, dass hier von vornherein eine größere Stichprobe angenommen wird, um korrekte inferenzstatistische Schlüsse ziehen zu können. Wir können diese Ergebnisse direkt noch einmal mit den Ergebnissen aus `lm` vergleichen:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE,purl=FALSE}
 summary(lm(rat1 ~ sit1 + emt1, fairplayer))$coef
 ```
 
@@ -417,7 +419,7 @@ Hier wird das Interzept von `rat1` ausgegeben. Der `.` vor dem Variablennamen ve
 
 Zu guter Letzt folgt ein Abschnitt mit Varianzen - in unserem Fall nur eine:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 abbrev(fit, 'Variances', ellipses = 'top', shift = 1)
 ```
 

@@ -9,7 +9,7 @@ subtitle: 'Das Instrument für die multivariate Datenanalyse'
 summary: '' 
 authors: [schultze, irmer] 
 weight: 1
-lastmod: '2024-03-02'
+lastmod: '2024-03-16'
 featured: no
 banner:
   image: "/header/guitars.jpg"
@@ -29,12 +29,13 @@ links:
     url: /lehre/fue-ii/lavaan-intro.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/fue-ii/lavaan-intro-aufgaben
+    name: Übungsdaten
+    url: /daten/fairplayer.rda
 output:
   html_document:
     keep_md: true
 ---
+
 
 
 
@@ -67,8 +68,7 @@ oder den Datensatz direkt von dieser Website in `R` laden:
 
 
 ```r
-#load(url('https://pandar.netlify.com/daten/fairplayer.rda'))
-load(url("https://courageous-donut-84b9e9.netlify.app/post/fairplayer.rda"))
+load(url("https://pandar.netlify.com/daten/fairplayer.rda"))
 ```
 
 
@@ -81,16 +81,9 @@ names(fairplayer)
 ```
 
 ```
-##  [1] "id"    "class" "grp"  
-##  [4] "sex"   "ra1t1" "ra2t1"
-##  [7] "ra3t1" "ra1t2" "ra2t2"
-## [10] "ra3t2" "ra1t3" "ra2t3"
-## [13] "ra3t3" "em1t1" "em2t1"
-## [16] "em3t1" "em1t2" "em2t2"
-## [19] "em3t2" "em1t3" "em2t3"
-## [22] "em3t3" "si1t1" "si2t1"
-## [25] "si3t1" "si1t2" "si2t2"
-## [28] "si3t2" "si1t3" "si2t3"
+##  [1] "id"    "class" "grp"   "sex"   "ra1t1" "ra2t1" "ra3t1" "ra1t2" "ra2t2" "ra3t2"
+## [11] "ra1t3" "ra2t3" "ra3t3" "em1t1" "em2t1" "em3t1" "em1t2" "em2t2" "em3t2" "em1t3"
+## [21] "em2t3" "em3t3" "si1t1" "si2t1" "si3t1" "si1t2" "si2t2" "si3t2" "si1t3" "si2t3"
 ## [31] "si3t3"
 ```
 
@@ -149,55 +142,20 @@ head(fairplayer)
 ```
 
 ```
-##   id class grp    sex ra1t1
-## 1  1     1 IGL female     2
-## 2  2     1 IGL   male     1
-## 3  3     1 IGL female     1
-## 4  4     1 IGL female     1
-## 5  5     1 IGL   male     2
-## 6  6     1 IGL   male     1
-##   ra2t1 ra3t1 ra1t2 ra2t2
-## 1     1     1     2     1
-## 2     3     1     1     1
-## 3     2     1     1     1
-## 4     1     1     1     1
-## 5     1     1     1     5
-## 6     3     1     1     2
-##   ra3t2 ra1t3 ra2t3 ra3t3
-## 1     1     1     1     1
-## 2     1     1     1     1
-## 3     1     1     2     1
-## 4     1     1     1     1
-## 5     1     1     2     1
-## 6     1     1     3     1
-##   em1t1 em2t1 em3t1 em1t2
-## 1     3     5     4     4
-## 2     4     4     3     4
-## 3     3     3     2     2
-## 4     5     5     5     4
-## 5     3     3     4     3
-## 6     4     3     4     3
-##   em2t2 em3t2 em1t3 em2t3
-## 1     4     3     3     4
-## 2     5     5     4     3
-## 3     2     1     3     2
-## 4     4     4     3     4
-## 5     4     3     3     4
-## 6     4     4     4     4
-##   em3t3 si1t1 si2t1 si3t1
-## 1     5     2     2     3
-## 2     3     2     1     3
-## 3     2     1     2     2
-## 4     5     4     1     5
-## 5     4     2     2     2
-## 6     4     2     2     3
-##   si1t2 si2t2 si3t2 si1t3
-## 1     3     2     3     2
-## 2     4     2     3     3
-## 3     1     1     2     1
-## 4     4     4     4     4
-## 5     2     3     2     3
-## 6     3     3     4     4
+##   id class grp    sex ra1t1 ra2t1 ra3t1 ra1t2 ra2t2 ra3t2 ra1t3 ra2t3 ra3t3 em1t1 em2t1
+## 1  1     1 IGL female     2     1     1     2     1     1     1     1     1     3     5
+## 2  2     1 IGL   male     1     3     1     1     1     1     1     1     1     4     4
+## 3  3     1 IGL female     1     2     1     1     1     1     1     2     1     3     3
+## 4  4     1 IGL female     1     1     1     1     1     1     1     1     1     5     5
+## 5  5     1 IGL   male     2     1     1     1     5     1     1     2     1     3     3
+## 6  6     1 IGL   male     1     3     1     1     2     1     1     3     1     4     3
+##   em3t1 em1t2 em2t2 em3t2 em1t3 em2t3 em3t3 si1t1 si2t1 si3t1 si1t2 si2t2 si3t2 si1t3
+## 1     4     4     4     3     3     4     5     2     2     3     3     2     3     2
+## 2     3     4     5     5     4     3     3     2     1     3     4     2     3     3
+## 3     2     2     2     1     3     2     2     1     2     2     1     1     2     1
+## 4     5     4     4     4     3     4     5     4     1     5     4     4     4     4
+## 5     4     3     4     3     3     4     4     2     2     2     2     3     2     3
+## 6     4     3     4     4     4     4     4     2     2     3     3     3     4     4
 ##   si2t3 si3t3
 ## 1     1     3
 ## 2     2     3
@@ -250,12 +208,8 @@ summary(fairplayer$rat1)
 ```
 
 ```
-##    Min. 1st Qu.  Median 
-##   1.000   1.000   1.000 
-##    Mean 3rd Qu.    Max. 
-##   1.363   1.667   3.667 
-##    NA's 
-##      30
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##   1.000   1.000   1.000   1.363   1.667   3.667      30
 ```
 
 Den Spitzfindigen unter Ihnen fällt auf, dass hier mehr als fünf Informationen ausgegeben werden. Die klassische Fünf-Punkt-Zusammenfassung besteht aus Minimum, Maximum und den drei Quartilen. In `R` wird zusätzlich noch das arithmetische Mittel und die Anzahl der fehlenden Werte ausgegeben.
@@ -312,14 +266,10 @@ cor(scales, use = 'complete')
 ```
 
 ```
-##             rat1        emt1
-## rat1  1.00000000 -0.09925784
-## emt1 -0.09925784  1.00000000
-## sit1  0.27273770  0.27696758
-##           sit1
-## rat1 0.2727377
-## emt1 0.2769676
-## sit1 1.0000000
+##             rat1        emt1      sit1
+## rat1  1.00000000 -0.09925784 0.2727377
+## emt1 -0.09925784  1.00000000 0.2769676
+## sit1  0.27273770  0.27696758 1.0000000
 ```
 
 Das Gleiche funktioniert natürlich auch mit der Kovarianzmatrix:
@@ -330,14 +280,10 @@ cov(scales, use = 'complete')
 ```
 
 ```
-##             rat1        emt1
-## rat1  0.29089810 -0.04138619
-## emt1 -0.04138619  0.59764111
-## sit1  0.13908923  0.20245432
-##           sit1
-## rat1 0.1390892
-## emt1 0.2024543
-## sit1 0.8940376
+##             rat1        emt1      sit1
+## rat1  0.29089810 -0.04138619 0.1390892
+## emt1 -0.04138619  0.59764111 0.2024543
+## sit1  0.13908923  0.20245432 0.8940376
 ```
 
 Letztere ist für viele Analysen, die wir in diesem Semester behandeln werden, zentral, weil sie in einer Matrix (beinahe) alle relevanten Informationen über interindividuelle Unterschiede (Varianzen) und deren Zusammenhänge (Kovarianzen) enthält. Die Verwendung von `use = 'complete'` bewirkt hier, dass nur Personen in die Berechnung aufgenommen werden, die auf keiner der drei Variablen fehlende Werte haben. In unserem Fall bleiben also von den ursprünglich 155 Personen noch 124 übrig.
@@ -358,7 +304,7 @@ Einen Überblick über die Befehle für Matrix-Algebra in `R` finden Sie auf der
 
 ## Wiederholung: Regression {#Regression}
 
-[Im letzten Semester](/lehre/fue-i/regression-und-ausreisserdiagnostik) haben Sie die `lm`-Funktion kennengelernt, um lineare Modelle in `R` zu berechnen. Um diese Funktion zu verwenden, müssen meist zwei Argumente an `lm` weitergegeben werden:
+[Im letzten Semester](/lehre/fue-i/regression-ausreisser-fue) haben Sie die `lm`-Funktion kennengelernt, um lineare Modelle in `R` zu berechnen. Um diese Funktion zu verwenden, müssen meist zwei Argumente an `lm` weitergegeben werden:
 
   - `formula`: Das Modell in klassischer `R`-Formelschreibweise
   - `data`: Der Datensatz, auf den dieses Modell angewendet werden soll
@@ -399,10 +345,8 @@ mod
 ## lm(formula = rat1 ~ 1 + sit1 + emt1, data = fairplayer)
 ## 
 ## Coefficients:
-## (Intercept)         sit1  
-##      1.3536       0.1855  
-##        emt1  
-##     -0.1321
+## (Intercept)         sit1         emt1  
+##      1.3536       0.1855      -0.1321
 ```
 
 Wir können uns die Koeffizienten mit `coef` auch als Vektor ausgeben lassen, was den Vorteil hat, dass wir sie in anderen Funktionen weiterverwenden können. Zum Beispiel in einem Scatterplot:
@@ -428,32 +372,16 @@ summary(mod)
 ## lm(formula = rat1 ~ 1 + sit1 + emt1, data = fairplayer)
 ## 
 ## Residuals:
-##     Min      1Q  Median 
-## -0.6469 -0.3633 -0.1401 
-##      3Q     Max 
-##  0.2825  2.1612 
+##     Min      1Q  Median      3Q     Max 
+## -0.6469 -0.3633 -0.1401  0.2825  2.1612 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept)  1.35364
-## sit1         0.18548
-## emt1        -0.13208
-##             Std. Error
-## (Intercept)    0.24299
-## sit1           0.05098
-## emt1           0.06236
-##             t value Pr(>|t|)
-## (Intercept)   5.571 1.56e-07
-## sit1          3.638 0.000405
-## emt1         -2.118 0.036211
-##                
-## (Intercept) ***
-## sit1        ***
-## emt1        *  
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  1.35364    0.24299   5.571 1.56e-07 ***
+## sit1         0.18548    0.05098   3.638 0.000405 ***
+## emt1        -0.13208    0.06236  -2.118 0.036211 *  
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.5137 on 121 degrees of freedom
 ##   (31 Beobachtungen als fehlend gelöscht)
@@ -469,22 +397,10 @@ summary(mod)$coef
 ```
 
 ```
-##               Estimate
-## (Intercept)  1.3536402
-## sit1         0.1854844
-## emt1        -0.1320831
-##             Std. Error
-## (Intercept) 0.24299389
-## sit1        0.05098476
-## emt1        0.06235884
-##               t value
-## (Intercept)  5.570676
-## sit1         3.638036
-## emt1        -2.118114
-##                 Pr(>|t|)
-## (Intercept) 1.560459e-07
-## sit1        4.050164e-04
-## emt1        3.621134e-02
+##               Estimate Std. Error   t value     Pr(>|t|)
+## (Intercept)  1.3536402 0.24299389  5.570676 1.560459e-07
+## sit1         0.1854844 0.05098476  3.638036 4.050164e-04
+## emt1        -0.1320831 0.06235884 -2.118114 3.621134e-02
 ```
 
 Die Zeilennamen dieser Tabelle ((Intercept), sit1, emt1) geben an, zu welchem Prädiktor das Regressiongewicht gehört. In der Spalte `Estimate` wird das Regressionsgewicht angegeben. Hier wird also für zwei Jugendliche, die sich um eine Einheit in sozialer Intelligenz (`sit1`) unterscheiden, aber das gleiche Ausmaß an Empathie (`emt1`) haben, ein Unterschied in der relationalen Aggression von 0.19 Einheiten vorhergesagt. Bei gleicher Empathie führt höhere soziale Intelligenz also zu *mehr* relationaler Aggression. Die nächste Spalte `Std. Error` gibt den Standardfehler an, welcher das Ausmaß an Unsicherheit quantifiziert, das wir in der Schätzung des Populationswertes dieses Regressionsgewichts aufgrund unserer Stichprobe haben. Das Verhältnis aus Regressionsgewicht und Standardfehler ($\frac{0.19}{0.05} = 3.64$) folgt - wenn die Voraussetzungen der Regressionsanalyse halten - einer $t$-Verteilung mit $n - k - 1$ Freiheitsgraden und wird deswegen in der Tabelle als `t Value` geführt. Bei der Bestimmung der Freiheitsgrade entspricht $n$ der Anzahl der Beobachtungen und $k$ der Anzahl der Prädiktoren. Bei ausreichend großer Anzahl von Freiheitsgraden ist die $t$-Verteilung nicht mehr von der Standardnormalverteilung unterscheidbar, sodass in anderer Software hier häufig der $z$-Test genutzt wird.
@@ -625,7 +541,7 @@ summary(fit)
 ```
 
 ```
-## lavaan 0.6.16 ended normally after 1 iteration
+## lavaan 0.6.17 ended normally after 1 iteration
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
@@ -646,26 +562,18 @@ summary(fit)
 ##   Information saturated (h1) model          Structured
 ## 
 ## Regressions:
-##                    Estimate
-##   rat1 ~                   
-##     sit1              0.185
-##     emt1             -0.132
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.050    3.683    0.000
-##     0.062   -2.144    0.032
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   rat1 ~                                              
+##     sit1              0.185    0.050    3.683    0.000
+##     emt1             -0.132    0.062   -2.144    0.032
 ## 
 ## Intercepts:
-##                    Estimate
-##    .rat1              1.354
-##   Std.Err  z-value  P(>|z|)
-##     0.240    5.639    0.000
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##    .rat1              1.354    0.240    5.639    0.000
 ## 
 ## Variances:
-##                    Estimate
-##    .rat1              0.258
-##   Std.Err  z-value  P(>|z|)
-##     0.033    7.874    0.000
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##    .rat1              0.258    0.033    7.874    0.000
 ```
 
 
@@ -684,14 +592,10 @@ Dann springen wir direkt runter zu den Modellergebnissen, die mit der Zeile `Reg
 ```
 ## [...]
 ##  Regressions:
-##                    Estimate
-##   rat1 ~                   
-##     sit1              0.185
-##     emt1             -0.132
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.050    3.683    0.000
-##     0.062   -2.144    0.032 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   rat1 ~                                              
+##     sit1              0.185    0.050    3.683    0.000
+##     emt1             -0.132    0.062   -2.144    0.032 
 ## [...]
 ```
 
@@ -699,22 +603,10 @@ Dieser Abschnitt beginnt mit der Zeile `rat1 ~`, was uns verdeutlichen soll, das
 
 
 ```
-##               Estimate
-## (Intercept)  1.3536402
-## sit1         0.1854844
-## emt1        -0.1320831
-##             Std. Error
-## (Intercept) 0.24299389
-## sit1        0.05098476
-## emt1        0.06235884
-##               t value
-## (Intercept)  5.570676
-## sit1         3.638036
-## emt1        -2.118114
-##                 Pr(>|t|)
-## (Intercept) 1.560459e-07
-## sit1        4.050164e-04
-## emt1        3.621134e-02
+##               Estimate Std. Error   t value     Pr(>|t|)
+## (Intercept)  1.3536402 0.24299389  5.570676 1.560459e-07
+## sit1         0.1854844 0.05098476  3.638036 4.050164e-04
+## emt1        -0.1320831 0.06235884 -2.118114 3.621134e-02
 ```
 
 Wie Sie sehen, sind die Parameter zwar identisch, die Inferenzstatistik unterscheidet sich zwischen beiden Herangehensweisen aber. Woher das kommt, werden wir im Verlauf des Semesters noch genauer untersuchen.
@@ -725,10 +617,8 @@ Anders als bei `lm` werden in `lavaan` die Interzepts von den Regressionsgewicht
 ```
 ## [...]
 ##  Intercepts:
-##                    Estimate
-##    .rat1              1.354
-##   Std.Err  z-value  P(>|z|)
-##     0.240    5.639    0.000 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##    .rat1              1.354    0.240    5.639    0.000 
 ## [...]
 ```
 
@@ -740,10 +630,8 @@ Zu guter Letzt folgt ein Abschnitt mit Varianzen - in unserem Fall nur eine:
 ```
 ## [...]
 ##  Variances:
-##                    Estimate
-##    .rat1              0.258
-##   Std.Err  z-value  P(>|z|)
-##     0.033    7.874    0.000
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##    .rat1              0.258    0.033    7.874    0.000
 ```
 
 Auch hier verrät uns der `.`, dass `rat1` irgendwo im Modell eine abhängige Variable ist, sodass es sich bei dieser Varianz um eine *Residual*varianz handelt.

@@ -29,7 +29,7 @@ pandarize <- function(x, purl = TRUE) {
   readLines(.md) |>
     sub(pattern = '![](', replacement = paste0('![](', .img_location), x = _, fixed = TRUE) |>
     sub(pattern = '](figure/', replacement = paste0('](', .img_location), x = _, fixed = TRUE) |>
-    sub(pattern = '<img src="', replacement = paste0('<img src="', .img_location)) |>
+    gsub(pattern = '<img src="', replacement = paste0('<img src="', .img_location)) |>
     writeLines(con = .md)
 
   # remove the created html because we do not need it
