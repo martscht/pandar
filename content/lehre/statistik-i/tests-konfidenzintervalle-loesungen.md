@@ -14,7 +14,7 @@ banner:
   image: "/header/angel_of_the_north.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)"
 projects: []
-expiryDate: '2024-10-10'
+expiryDate: ''
 
 links:
   - icon_pack: fas

@@ -116,9 +116,7 @@ dev.off()
 library(car)
 leveneTest(fb23$vertr ~ fb23$fach_klin)
 
-levene <- leveneTest(fb23$vertr ~ fb23$fach_klin)
-f <- round(levene$`F value`[1], 2)
-p <- round(levene$`Pr(>F)`[1], 3)
+
 
 t.test(fb23$vertr ~ fb23$fach_klin,     # abhängige Variable ~ unabhängige Variable
       paired = FALSE,                   # Stichproben sind unabhängig 
@@ -126,7 +124,7 @@ t.test(fb23$vertr ~ fb23$fach_klin,     # abhängige Variable ~ unabhängige Var
       var.equal = TRUE,                 # Homoskedastizität liegt vor (-> Levene-Test)
       conf.level = .95)                 # alpha = .05 (Default)
 
-ttest <- t.test(fb23$vertr ~ fb23$fach_klin, paired = FALSE, alternative = "two.sided", var.equal = TRUE, conf.level = .95)
+
 
 vertr_nichtKlinisch <- fb23[(fb23$fach_klin=="nicht klinisch"), "vertr"]
 mw_nichtKlinisch <- mean(vertr_nichtKlinisch, na.rm=T)
@@ -174,9 +172,7 @@ qqline(lz_klinisch, col="blue")
 
 leveneTest(fb23$lz ~ fb23$fach_klin)
 
-levene2 <- leveneTest(fb23$lz ~ fb23$fach_klin)
-f2 <- round(levene2$`F value`[1], 2)
-p2 <- round(levene2$`Pr(>F)`[1], 3)
+
 
 levels(fb23$fach_klin) # wichtig zu wissen: die erste der beiden Faktorstufen ist "nicht klinisch" 
 
@@ -186,9 +182,9 @@ wilcox.test(fb23$lz ~ fb23$fach_klin,     # abhängige Variable ~ unabhängige V
             conf.level = .95)             # alpha = .05
 
 
-wilcox <- wilcox.test(fb23$lz ~ fb23$fach_klin, paired = FALSE, alternative = "less", conf.level = .95, exact = TRUE)
 
-deskr <- describeBy(fb23$lz, fb23$fach_klin) # beide Gruppen im Vergleich
+
+
 
 is.factor(fb23$ort)
 is.factor(fb23$job)

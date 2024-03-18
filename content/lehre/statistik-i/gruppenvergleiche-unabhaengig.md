@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr Unterschiede zwischen zwei Gruppen zu veranschaulichen. Ihr erfahrt außerdem, wie ihr verschiedene Tests für unabhängige Stichproben in R durchführt und ihre Voraussetzungen prüft.' 
 authors: [koehler, buchholz, irmer, nehler, goldhammer, schultze] 
 weight: 6
-lastmod: '2023-12-07'
+lastmod: '2024-03-18'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -39,22 +39,22 @@ output:
   
 
 
-{{< spoiler text="Kernfragen dieser Lehreinheit über Gruppenvergleiche" >}}
+<details><summary><b>Kernfragen dieser Lehreinheit über Gruppenvergleiche</b></summary>
+
 * Wie fertige ich [Deskriptivstatistiken](#Statistiken) (Grafiken, Kennwerte) zur Veranschaulichung des Unterschieds zwischen zwei Gruppen an?
 * Was sind [Voraussetzungen](#Vorraussetzungen) des *t*-Tests und wie prüfe ich sie?
 * Wie führe ich einen [*t*-Test](#t-Test) in R durch?
 * Wie berechne ich die [Effektstärke](#Effektstärke) Cohen's *d*?
 * Wie führe ich den [Wilcoxon-Test](#Wilcox) (auch "Mann-Whitney-Test", "U-Test", "Mann-Whitney-U-Test", "Wilcoxon-Rangsummentest") in R durch?
-* Wie führe ich den [Vierfelder-Chi-Quadrat-Test](#Chi-Sq) in R durch?
-{{< /spoiler >}}
+
+</details>
 
 ***
 
 
-
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
+Den Datensatz `fb23` haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
 
 
 ```r
@@ -152,7 +152,7 @@ levels(fb23$fach_klin)
 
 Der Faktor hat also 2 Stufen.
 
-### Deskriptivstatistik
+### Deskriptivstatistik {#Statistiken}
 
 Im ersten Schritt wollen wir uns die Daten deskriptiv anschauen. Dazu können wir die Daten entweder visuell oder durch statistische Kennwerte aufbereiten. Wir werfen zunächst vorbereitend einen tabellarischen Blick auf die Variable klinisches Interesse:
 
@@ -202,8 +202,8 @@ dev.off()
 ```
 
 ```
-## null device 
-##           1
+## RStudioGD 
+##         2
 ```
 
 Wir können uns auch Deskriptivstatistiken ansehen. Bspw. könnten wir uns die Mittelwerte oder die SDs etc. ausgeben lassen. Dazu nehmen wir entweder die `summary()` und wählen die entsprechenden Fälle aus oder wir machen uns das `psych`-Paket zunutze. Wir hatten im [letzen Beitrag](/lehre/statisti-i/tests-konfidenzintervalle#pakete) detaillierter besprochen, was Pakete sind und wie sie funktionieren. Um `psych` nutzen zu können, muss es installiert sein (`install.packages()`). Falls dem so ist, kann das Paket mit `library()` eingeladen werden.  Die Funktion, die uns interessiert, heißt `describeBy()`, welche die Gruppenaufteilung bereits für uns übernimmt.
@@ -211,20 +211,6 @@ Wir können uns auch Deskriptivstatistiken ansehen. Bspw. könnten wir uns die M
 
 ```r
 library(psych)
-```
-
-```
-## 
-## Attaching package: 'psych'
-```
-
-```
-## The following objects are masked from 'package:ggplot2':
-## 
-##     %+%, alpha
-```
-
-```r
 describeBy(x = fb23$vertr, group = fb23$fach_klin)        # beide Gruppen im Vergleich 
 ```
 
@@ -232,16 +218,12 @@ describeBy(x = fb23$vertr, group = fb23$fach_klin)        # beide Gruppen im Ver
 ## 
 ##  Descriptive statistics by group 
 ## group: nicht klinisch
-##    vars  n mean  sd median trimmed  mad min max range  skew kurtosis
-## X1    1 84 3.43 0.8    3.5    3.46 0.74 1.5   5   3.5 -0.19    -0.58
-##      se
-## X1 0.09
-## ---------------------------------------------------- 
+##    vars  n mean  sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 84 3.43 0.8    3.5    3.46 0.74 1.5   5   3.5 -0.19    -0.58 0.09
+## --------------------------------------------------------------------------------------- 
 ## group: klinisch
-##    vars  n mean   sd median trimmed  mad min max range skew kurtosis
-## X1    1 82 3.47 0.85    3.5     3.5 0.74   1   5     4 -0.4      0.1
-##      se
-## X1 0.09
+##    vars  n mean   sd median trimmed  mad min max range skew kurtosis   se
+## X1    1 82 3.47 0.85    3.5     3.5 0.74   1   5     4 -0.4      0.1 0.09
 ```
 
 Achtung, bei den hier berichteten `sd` handelt es sich nicht um die Stichprobenkennwerte, sondern um die Populationsschätzer. Daher berechnen wir die Standardabweichung auch nochmals per Hand:
@@ -314,8 +296,8 @@ dev.off()
 ```
 
 ```
-## null device 
-##           1
+## RStudioGD 
+##         2
 ```
 
 Mithilfe von `curve()` kann eine Linie in eine Grafik eingezeichnet werden. Hierbei bezeichnet `x` die x-Koordinate. `dnorm()` hatten wir bereits kennen gelernt. Diese Funktion beschreibt die Dichte der Normalverteilung. Die Normalverteilung ist eindeutig durch ihren Mittelwert und durch ihre Standardabweichung definiert. Wir müssen `dnorm()` also jeweils den empirischen Mittelwert sowie die empirische Standardabweichung übergeben. Wenn man es sehr genau nehmen will, müsste man hier also eine Verrechnung der von R erzeugten Standardabweichung vornehmen. Wie im letzten Tutorial beschrieben nutzen wir aber einfach das Ergebnis von `sd()`. Dies wird auch in allen weiteren Tutorials ohne zusätzlichen Hinweis gemacht. Das Argument `add = T` ist nötig, da sonst ein neuer Plot für die Kurve erstellt wird. Durch `add = T` wird sie dem Histogramm hinzugefügt. Damit die Dichte sichtbar ist, muss im Histogramm zuvor das Argument `probability = T` gewählt werden. Ansonsten würden absolute Häufigkeiten anstatt der relativen Häufigkeiten abgetragen werden. Den `qqnorm()`-Befehl hatten wir auch bereits kennen gelernt. Mit `qqline()` erhalten wir die nötige Linie, auf welcher die Punkte einigermaßen liegen müssen, damit sie als normalverteilt einzustufen sind.
@@ -352,8 +334,8 @@ dev.off()
 ```
 
 ```
-## null device 
-##           1
+## RStudioGD 
+##         2
 ```
 
 In dieser Gruppe sehen wir eine etwas stärkere Schiefe, als in der ersten Gruppe. Das wird besonders im unteren Wertebereich deutlich, wo wir mehr Personen beobachten, als wir unter der Normalverteilung erwarten würden (wie im Histogramm zu sehen ist). In die Logik des QQ-Plots übersetzt heißt das, dass die untersten Personen in der Rangreihe von Werte niedrigere Werte haben, als wir unter der Normalverteilung erwarten würden - die Punkte links liegen *unter* der Gerade. Dennoch können wir auch hier - unter Berücksichtigung der Tatsache, dass wir 82 Personen in dieser Gruppe haben - davon ausgehen, dass die Teststatistik ausreichend gut der $t$-Verteilung folgen sollte.
@@ -368,24 +350,6 @@ Ein nicht-signifikantes Ergebnis (*p* \> .05) deutet also darauf hin, dass wir n
 
 ```r
 library(car)
-```
-
-```
-## Loading required package: carData
-```
-
-```
-## 
-## Attaching package: 'car'
-```
-
-```
-## The following object is masked from 'package:psych':
-## 
-##     logit
-```
-
-```r
 leveneTest(fb23$vertr ~ fb23$fach_klin)
 ```
 
@@ -510,17 +474,6 @@ Natürlich gibt es in `R` auch eine angenehmere Alternative:
 library("effsize")
 ```
 
-```
-## 
-## Attaching package: 'effsize'
-```
-
-```
-## The following object is masked from 'package:psych':
-## 
-##     cohen.d
-```
-
 
 ```r
 d2 <- cohen.d(fb23$vertr, fb23$fach_klin, na.rm=T)
@@ -577,16 +530,12 @@ describeBy(fb23$lz, fb23$fach_klin) # beide Gruppen im Vergleich
 ## 
 ##  Descriptive statistics by group 
 ## group: nicht klinisch
-##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis
-## X1    1 83 5.11 1.13    5.4    5.19 1.19 1.4   7   5.6 -0.87     0.91
-##      se
-## X1 0.12
-## ---------------------------------------------------- 
+##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 83 5.11 1.13    5.4    5.19 1.19 1.4   7   5.6 -0.87     0.91 0.12
+## --------------------------------------------------------------------------------------- 
 ## group: klinisch
-##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis
-## X1    1 82 5.12 0.96    5.2    5.17 0.89 2.6 6.8   4.2 -0.49    -0.38
-##      se
-## X1 0.11
+##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 82 5.12 0.96    5.2    5.17 0.89 2.6 6.8   4.2 -0.49    -0.38 0.11
 ```
 
 Auch hier sehen wir wieder, dass die Gruppe der nicht klinisch interessierten Studierenden einen etwas gößeren Median auf als die Gruppe der klinisch interessierten Studierenden. 
@@ -697,10 +646,7 @@ wilcox.test(fb23$lz ~ fb23$fach_klin,     # abhängige Variable ~ unabhängige V
 Per Voreinstellung wird in R der exakte $p$-Wert bestimmt, wenn die Stichprobe insgesamt weniger als 50 Personen umfasst und keine Rangbindungen vorliegen. Bei größeren Stichproben folgt die Rangsumme aufgrund des zentralen Grenzwertsatzes ausreichend gut der Normalverteilung und es wird ein $z$-Test der Rangsumme durchgeführt. Weil die Rangsumme allerdings nur ganze Zahlen annehmen kann ist diese Approximation ein wenig ungenau (insbesondere dann, wenn die Stichprobe noch relativ klein ist). Per Voreinstellung wird daher in R eine Kontinuitätskorrektur durchgeführt (mit dem Argument `correct = TRUE`), sodass Sie nicht den gleichen Wert erhalten, den Sie bekommen, wenn Sie den Test händisch durchführen würden. Wenn Sie diese Korrektur ausschalten (`correct = FALSE`) erhalten Sie den gleichen Wert.
 
 
-```
-## Warning in wilcox.test.default(x = DATA[[1L]], y = DATA[[2L]], ...):
-## cannot compute exact p-value with ties
-```
+
 
 ### Ergebnisinterpretation
 

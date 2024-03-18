@@ -41,22 +41,22 @@ output:
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
-{{< spoiler text="Kernfragen dieser Lehreinheit über Gruppenvergleiche" >}}
+<details><summary><b>Kernfragen dieser Lehreinheit über Gruppenvergleiche</b></summary>
+
 * Wie fertige ich [Deskriptivstatistiken](#Statistiken) (Grafiken, Kennwerte) zur Veranschaulichung des Unterschieds zwischen zwei Gruppen an?
 * Was sind [Voraussetzungen](#Vorraussetzungen) des *t*-Tests und wie prüfe ich sie?
 * Wie führe ich einen [*t*-Test](#t-Test) in R durch?
 * Wie berechne ich die [Effektstärke](#Effektstärke) Cohen's *d*?
 * Wie führe ich den [Wilcoxon-Test](#Wilcox) (auch "Mann-Whitney-Test", "U-Test", "Mann-Whitney-U-Test", "Wilcoxon-Rangsummentest") in R durch?
-* Wie führe ich den [Vierfelder-Chi-Quadrat-Test](#Chi-Sq) in R durch?
-{{< /spoiler >}}
+
+</details>
 
 ***
 
 
-
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
+Den Datensatz `fb23` haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
 
 ```{r}
 #### Was bisher geschah: ----
@@ -143,7 +143,7 @@ levels(fb23$fach_klin)
 
 Der Faktor hat also `r nlevels(fb23$fach_klin)` Stufen.
 
-### Deskriptivstatistik
+### Deskriptivstatistik {#Statistiken}
 
 Im ersten Schritt wollen wir uns die Daten deskriptiv anschauen. Dazu können wir die Daten entweder visuell oder durch statistische Kennwerte aufbereiten. Wir werfen zunächst vorbereitend einen tabellarischen Blick auf die Variable klinisches Interesse:
 
@@ -279,7 +279,7 @@ library(car)
 leveneTest(fb23$vertr ~ fb23$fach_klin)
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, purl = F}
 levene <- leveneTest(fb23$vertr ~ fb23$fach_klin)
 f <- round(levene$`F value`[1], 2)
 p <- round(levene$`Pr(>F)`[1], 3)
@@ -315,7 +315,7 @@ t.test(fb23$vertr ~ fb23$fach_klin,     # abhängige Variable ~ unabhängige Var
       conf.level = .95)                 # alpha = .05 (Default)
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, purl = F}
 ttest <- t.test(fb23$vertr ~ fb23$fach_klin, paired = FALSE, alternative = "two.sided", var.equal = TRUE, conf.level = .95)
 ```
 
@@ -454,7 +454,7 @@ Wir sehen hier die vermutete Schiefe der Verteilung in beiden Gruppen, auch wenn
 leveneTest(fb23$lz ~ fb23$fach_klin)
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, purl = F}
 levene2 <- leveneTest(fb23$lz ~ fb23$fach_klin)
 f2 <- round(levene2$`F value`[1], 2)
 p2 <- round(levene2$`Pr(>F)`[1], 3)
@@ -498,13 +498,14 @@ wilcox.test(fb23$lz ~ fb23$fach_klin,     # abhängige Variable ~ unabhängige V
 
 Per Voreinstellung wird in R der exakte $p$-Wert bestimmt, wenn die Stichprobe insgesamt weniger als 50 Personen umfasst und keine Rangbindungen vorliegen. Bei größeren Stichproben folgt die Rangsumme aufgrund des zentralen Grenzwertsatzes ausreichend gut der Normalverteilung und es wird ein $z$-Test der Rangsumme durchgeführt. Weil die Rangsumme allerdings nur ganze Zahlen annehmen kann ist diese Approximation ein wenig ungenau (insbesondere dann, wenn die Stichprobe noch relativ klein ist). Per Voreinstellung wird daher in R eine Kontinuitätskorrektur durchgeführt (mit dem Argument `correct = TRUE`), sodass Sie nicht den gleichen Wert erhalten, den Sie bekommen, wenn Sie den Test händisch durchführen würden. Wenn Sie diese Korrektur ausschalten (`correct = FALSE`) erhalten Sie den gleichen Wert.
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, purl = F, warning = F}
 wilcox <- wilcox.test(fb23$lz ~ fb23$fach_klin, paired = FALSE, alternative = "less", conf.level = .95, exact = TRUE)
 ```
 
+
 ### Ergebnisinterpretation
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, purl=F}
 deskr <- describeBy(fb23$lz, fb23$fach_klin) # beide Gruppen im Vergleich
 ```
 
