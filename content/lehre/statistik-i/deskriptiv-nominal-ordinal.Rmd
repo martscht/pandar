@@ -4,7 +4,7 @@ type: post
 date: '2020-09-24'
 slug: deskriptiv-nominal-ordinal
 categories: ["Statistik I"]
-tags: ["Deskriptivstatistik", "Grafiken", "Skalenniveau"]
+tags: ["Deskriptivstatistik", "Grafiken", "Median", "Quantile"]
 subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
 authors: [nehler, buchholz]

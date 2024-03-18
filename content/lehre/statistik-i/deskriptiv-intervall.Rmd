@@ -4,7 +4,7 @@ type: post
 date: '2020-09-24' 
 slug: deskriptiv-intervall 
 categories: ["Statistik I"] 
-tags: ["Deskriptivstatistik", "Intervallskalen", "Mittelwert", "Varianz"] 
+tags: ["Deskriptivstatistik", "Intervallskalen", "Mittelwerte", "Varianz"] 
 subtitle: ''
 summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte Variablen vorgestellt. Dabei wird zunächst die Berechnung des Mittelwerts, der Varianz sowie Standardabweichung behandelt. Dann wird gezeigt, wie Variablen zentriert bzw. standardisiert werden können. Abschließend geht es außerdem um das Rekodieren von Items und das Bilden von Skalenwerten.' 
 authors: [nehler, beitner, buchholz] 
@@ -35,6 +35,7 @@ output:
   html_document:
     keep_md: true
 ---
+
 
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
@@ -69,7 +70,7 @@ Absolut | absoluter Wert | Identität | ... | ... |
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz `fb23` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 ```{r}
 #### Was bisher geschah: ----
@@ -213,7 +214,7 @@ Achtung! Wir benötigen für die Varianzberechnung `n` (s. Formel)! Wir nutzen h
 
 **Kleiner Diskurs zu fehlenden Werten:**
 
-```{r echo=F,warning=F, fig.align='center',cache=FALSE}
+```{r echo=F,warning=F, fig.align='center',cache=FALSE, purl = F}
 library("RXKCD")
 invisible(getXKCD(851))
 ```
@@ -293,7 +294,6 @@ Auch bei der Standardabweichung bestimmt R den Populationsschätzer $\hat{\sigma
 \hat{\sigma}_{X} = \sqrt{\hat{\sigma}^2_{X}} = \sqrt{\frac{\sum_{m=1}^n (x_m - \bar{x})^2}{n - 1}}
 \end{equation}
 {{< /math >}}
-
 
 
 ```{r}
