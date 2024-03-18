@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [nehler, irmer, schueller, hartig]
 weight: 4
-lastmod: '2024-03-12'
+lastmod: '2024-03-18'
 featured: no
 banner:
   image: "/header/man_with_binoculars.jpg"
@@ -151,10 +151,10 @@ resid(mod)[1:10]
 ```
 
 ```
-##          1          2          3          4          5          6 
-## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730  1.5996231 
-##          7          8          9         10 
-## -0.9974955  0.8759748 -1.5887563  1.3260923
+##          1          2          3          4          5          6          7          8 
+## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730  1.5996231 -0.9974955  0.8759748 
+##          9         10 
+## -1.5887563  1.3260923
 ```
 
 ### Omnibustest der Multiplen Regression
@@ -285,6 +285,7 @@ y_hat - t * sigma_e * sqrt(1 + 1/n + (x - x_bar) %*% t((x - x_bar)) / sum((x_i -
 ```
 
 ```r
+# this is code according to formular from klein
 y_hat + t * sigma_e * sqrt(1 + x %*% solve(t(x_i) %*% x_i) %*% t(x))
 ```
 
@@ -293,8 +294,62 @@ y_hat + t * sigma_e * sqrt(1 + x %*% solve(t(x_i) %*% x_i) %*% t(x))
 ## [1,] 30.48015
 ```
 
+```r
+# or alternatively with the vector of ones 
+x_i_alt <- cbind(1, x_i)
+x_alt <- as.matrix(c(1, x)) |> t()
+
+# formula of klein is now equivalent to the predict function
+y_hat + t * sigma_e * sqrt(1 + x_alt %*% solve(t(x_i_alt) %*% x_i_alt) %*% t(x_alt))
+```
+
+```
+##          [,1]
+## [1,] 30.49253
+```
+
+```r
+# could this be incorporated in the notation from Eid? What would the mean of the intercept be? 1? would not anything then
+x_bar_alt <- c(1, x_bar)
+y_hat + t * sigma_e * sqrt(1 + 1/n + (x_alt - x_bar_alt) %*% t((x_alt - x_bar_alt)) / sum((x_i_alt - x_bar_alt) %*% t((x_i_alt - x_bar_alt))))
+```
+
+```
+##          [,1]
+## [1,] 30.48331
+```
+
 Alternativ ist natürlich eine Bestimmung anhand einer Funktion möglich. Dafür müssen wir nur optionale Argumente in der Funktion `predict()` nutzen. Diese umfassen erstmal die Art des Intervalls, das wir bestimmen wollen `interval = "prediction"` und das Konfidenzniveau `level = 0.95`. 
 
+
+```r
+# this is the code from the predict.lm function
+res.var <- sigma_e^2
+pred.var <- res.var
+qrX <- stats:::qr.lm(mod)
+
+X <- model.matrix(mod)
+X <- X[1,1:4, drop = F]
+X[2] <- 3
+X[3] <- 4
+X[4] <- 2
+piv <- p1 <- 1:4
+p <- 4
+XRinv <- X[, piv] %*% qr.solve(qr.R(qrX)[p1, p1])
+ip <- drop(XRinv^2 %*% rep(res.var, p))
+
+level <- 0.95
+df <- n-k-1
+tfrac <- qt((1 - level)/2, df)
+hwid <- tfrac * sqrt(ip + pred.var)
+
+y_hat - hwid
+```
+
+```
+##        1 
+## 30.49253
+```
 
 ```r
 predict(mod, newdata = predict_data, interval = "prediction", level = 0.95)

@@ -33,10 +33,45 @@ x_i <- as.matrix(burnout[, c("Exhaust", "Distan", "PartConfl")])
 y_hat + t * sigma_e * sqrt(1 + 1/n + (x - x_bar) %*% t((x - x_bar)) / sum((x_i - x_bar) %*% t((x_i - x_bar))))
 y_hat - t * sigma_e * sqrt(1 + 1/n + (x - x_bar) %*% t((x - x_bar)) / sum((x_i - x_bar) %*% t((x_i - x_bar))))
 
-
+# this is code according to formular from klein
 y_hat + t * sigma_e * sqrt(1 + x %*% solve(t(x_i) %*% x_i) %*% t(x))
 
+# or alternatively with the vector of ones 
+x_i_alt <- cbind(1, x_i)
+x_alt <- as.matrix(c(1, x)) |> t()
+
+# formula of klein is now equivalent to the predict function
+y_hat + t * sigma_e * sqrt(1 + x_alt %*% solve(t(x_i_alt) %*% x_i_alt) %*% t(x_alt))
+
+# could this be incorporated in the notation from Eid? What would the mean of the intercept be? 1? would not anything then
+x_bar_alt <- c(1, x_bar)
+y_hat + t * sigma_e * sqrt(1 + 1/n + (x_alt - x_bar_alt) %*% t((x_alt - x_bar_alt)) / sum((x_i_alt - x_bar_alt) %*% t((x_i_alt - x_bar_alt))))
+
+# this is the code from the predict.lm function
+res.var <- sigma_e^2
+pred.var <- res.var
+qrX <- stats:::qr.lm(mod)
+
+X <- model.matrix(mod)
+X <- X[1,1:4, drop = F]
+X[2] <- 3
+X[3] <- 4
+X[4] <- 2
+piv <- p1 <- 1:4
+p <- 4
+XRinv <- X[, piv] %*% qr.solve(qr.R(qrX)[p1, p1])
+ip <- drop(XRinv^2 %*% rep(res.var, p))
+
+level <- 0.95
+df <- n-k-1
+tfrac <- qt((1 - level)/2, df)
+hwid <- tfrac * sqrt(ip + pred.var)
+
+y_hat - hwid
+
 predict(mod, newdata = predict_data, interval = "prediction", level = 0.95)
+
+
 
 mod_unrestricted <- lm(Violence ~ Exhaust + Distan + 
                          PartConfl + Neglect + PartEstrang, data = burnout)
