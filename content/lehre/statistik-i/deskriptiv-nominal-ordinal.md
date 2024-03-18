@@ -9,7 +9,7 @@ subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
 authors: [nehler, buchholz]
 weight: 2
-lastmod: '2023-11-06'
+lastmod: '2024-03-18'
 featured: no
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
@@ -36,7 +36,6 @@ output:
   html_document:
     keep_md: true
 ---
-
 
 
 
@@ -71,7 +70,7 @@ Absolut | absoluter Wert | Identität | ... | ... |
 
 ## Vorbereitende Schritte
 
-Nachdem wir in der letzten Sitzung die Arbeit mit dem CSV Format kennen gelernt haben, nutzen wir jetzt die Datei im RDA Format für das Einlesen des Datensatzes. Die Datei können Sie [hier <i class="fas fa-download"></i> herunterladen](/daten/fb23.rda). Außerdem ist es prinzipiell ratsam, zu Beginn wieder das Arbeitsverzeichnis mit Hilfe von `setwd()` zu bestimmen. Dies stellt sicher, dass wenn Sie später Daten speichern (z.B. Datensätze oder Grafiken), diese auch am gewünschten Ort auf Ihrem Computer abgelegt werden. 
+Nachdem wir in der letzten Sitzung die Arbeit mit dem CSV Format kennen gelernt haben, nutzen wir jetzt die Datei im RDA Format für das Einlesen des Datensatzes. Den Datensatz `fb23` können Sie im RDA Format [hier <i class="fas fa-download"></i> herunterladen](/daten/fb23.rda). Außerdem ist es prinzipiell ratsam, zu Beginn wieder das Arbeitsverzeichnis mit Hilfe von `setwd()` zu bestimmen. Dies stellt sicher, dass wenn Sie später Daten speichern (z.B. Datensätze oder Grafiken), diese auch am gewünschten Ort auf Ihrem Computer abgelegt werden. 
 
 Eine alternative Variante ist, den Datensatz direkt mit dem folgenden Befehl aus dem Internet einzuladen. Dies ist immer dann möglich, wenn der Datensatz auch über eine URL aufrufbar ist. 
 
@@ -82,13 +81,11 @@ names(fb23)        # Namen der Variablen
 ```
 
 ```
-##  [1] "mdbf1_pre"   "mdbf2_pre"   "mdbf3_pre"   "mdbf4_pre"   "mdbf5_pre"   "mdbf6_pre"  
-##  [7] "mdbf7_pre"   "mdbf8_pre"   "mdbf9_pre"   "mdbf10_pre"  "mdbf11_pre"  "mdbf12_pre" 
-## [13] "lz"          "extra"       "vertr"       "gewis"       "neuro"       "offen"      
-## [19] "prok"        "nerd"        "grund"       "fach"        "ziel"        "wissen"     
-## [25] "therap"      "lerntyp"     "hand"        "job"         "ort"         "ort12"      
-## [31] "wohnen"      "uni1"        "uni2"        "uni3"        "uni4"        "attent_pre" 
-## [37] "gs_post"     "wm_post"     "ru_post"     "attent_post"
+##  [1] "mdbf1_pre"   "mdbf2_pre"   "mdbf3_pre"   "mdbf4_pre"   "mdbf5_pre"   "mdbf6_pre"   "mdbf7_pre"   "mdbf8_pre"  
+##  [9] "mdbf9_pre"   "mdbf10_pre"  "mdbf11_pre"  "mdbf12_pre"  "lz"          "extra"       "vertr"       "gewis"      
+## [17] "neuro"       "offen"       "prok"        "nerd"        "grund"       "fach"        "ziel"        "wissen"     
+## [25] "therap"      "lerntyp"     "hand"        "job"         "ort"         "ort12"       "wohnen"      "uni1"       
+## [33] "uni2"        "uni3"        "uni4"        "attent_pre"  "gs_post"     "wm_post"     "ru_post"     "attent_post"
 ```
 
 ```r
@@ -129,12 +126,11 @@ fb23$hand
 ```
 
 ```
-##   [1]  2  2  2  2  2  2 NA  2  1  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2 NA  2  2  2  2  2  2
-##  [32]  1  1  2  2  2  1  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  2  2  2
-##  [63]  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  2  2  2  2  2
-##  [94]  1  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  1  1  2  2  1  2  2  2  2  2  2  2  2  2
-## [125]  2  2  2  2  2  2  1  2  1  2  2  2  2  2 NA  2  2  2  2  2  2  2  2  2  1  2  2  2  2  2  2
-## [156]  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  2  1  2  2  2  1  2
+##   [1]  2  2  2  2  2  2 NA  2  1  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2 NA  2  2  2  2  2  2  1  1  2  2  2  1
+##  [38]  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2
+##  [75]  2  2  2  2  2  2  2  2  2  2  2  2  1  2  2  2  2  2  2  1  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  1
+## [112]  1  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  1  2  2  2  2  2 NA  2  2  2  2  2  2  2  2  2
+## [149]  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  2  1  2  2  2  1  2
 ```
 
 Die Variable `hand` liegt numerisch vor, es treten die Werte 1 und 2 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/lehre/statistik-i/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "links". Diese *Label* werden nun im Faktor hinterlegt.
@@ -181,12 +177,11 @@ fb23$fach
 ```
 
 ```
-##   [1]  4  4  4  4  4  4 NA  4  4 NA  4  4  2  3  4  4  4  4  1  4  1  3  4  2 NA  4  4  3  1  2  4
-##  [32] NA  3  1  2  4  4  3  1  4  4  3  2  2  4  3  5  3  4  1  3  4  1  1  4  2  4  2  2  4  2  4
-##  [63]  3  2  4  1  4  5  4  4  3  4  4  4  4  3  4  4  2  4  4 NA  4  4  4  4  4  1  1  3  2  4  5
-##  [94]  5  1  3  4  2  2  3  4 NA  3  2  4  2  2  4  2  4  5  4  4  1  4  4  2  4  4  2  4  1  1  1
-## [125]  4  2  2 NA  2  4  3  4  1  4  1  2 NA  4 NA  1  1  4  4  1  1  3  1  2  4  4  1  4  4 NA  1
-## [156] NA  4  4  4  4  4  4  2  4  4  2  2  4  2  1  1  4  4  1  1  3  2  1 NA
+##   [1]  4  4  4  4  4  4 NA  4  4 NA  4  4  2  3  4  4  4  4  1  4  1  3  4  2 NA  4  4  3  1  2  4 NA  3  1  2  4  4
+##  [38]  3  1  4  4  3  2  2  4  3  5  3  4  1  3  4  1  1  4  2  4  2  2  4  2  4  3  2  4  1  4  5  4  4  3  4  4  4
+##  [75]  4  3  4  4  2  4  4 NA  4  4  4  4  4  1  1  3  2  4  5  5  1  3  4  2  2  3  4 NA  3  2  4  2  2  4  2  4  5
+## [112]  4  4  1  4  4  2  4  4  2  4  1  1  1  4  2  2 NA  2  4  3  4  1  4  1  2 NA  4 NA  1  1  4  4  1  1  3  1  2
+## [149]  4  4  1  4  4 NA  1 NA  4  4  4  4  4  4  2  4  4  2  2  4  2  1  1  4  4  1  1  3  2  1 NA
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
@@ -387,10 +382,9 @@ colors()[1:20]
 ```
 
 ```
-##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1" "antiquewhite2" "antiquewhite3"
-##  [7] "antiquewhite4" "aquamarine"    "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"  
-## [13] "azure"         "azure1"        "azure2"        "azure3"        "azure4"        "beige"        
-## [19] "bisque"        "bisque1"
+##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1" "antiquewhite2" "antiquewhite3" "antiquewhite4"
+##  [8] "aquamarine"    "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"   "azure"         "azure1"       
+## [15] "azure2"        "azure3"        "azure4"        "beige"         "bisque"        "bisque1"
 ```
 
 Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [https://r-charts.com/colors/]( https://r-charts.com/colors/). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
@@ -587,12 +581,11 @@ fb23$wissen
 ```
 
 ```
-##   [1]  5  4  5  4  2  3 NA  4  3  3  3  3  4  4  4  4  4  4  2  4  4  3  2  4 NA  3  4  4  3  4  4
-##  [32]  5  4  4  4  4  3  5  4  4  4  3  4  5  5  3  3  5  3  3  3  4  5  5  5  5  5  4  3  3  4  3
-##  [63]  3  5  3  2  3  5  4  4  2  3  4  4  3  3  2  4  4  3  2  3  4  5  4  5  4  4  4  5  3  4  5
-##  [94]  3  4  2  4  4  4  3  3  3  5  4  3  3  3  4  4  4  5  5  2  3  4  3  5  3  2  5  2  2  3  4
-## [125]  3  3  4  2  4  5  2  4  3  3  3  4  3  2 NA  4  5  4  3  5  4  4  4  3  5  5  3  3  4  3  4
-## [156]  4  4  4  2  2  5  4  1  3  3  2  4  5  4  2  4  4  5  3  2  3  5  4  3
+##   [1]  5  4  5  4  2  3 NA  4  3  3  3  3  4  4  4  4  4  4  2  4  4  3  2  4 NA  3  4  4  3  4  4  5  4  4  4  4  3
+##  [38]  5  4  4  4  3  4  5  5  3  3  5  3  3  3  4  5  5  5  5  5  4  3  3  4  3  3  5  3  2  3  5  4  4  2  3  4  4
+##  [75]  3  3  2  4  4  3  2  3  4  5  4  5  4  4  4  5  3  4  5  3  4  2  4  4  4  3  3  3  5  4  3  3  3  4  4  4  5
+## [112]  5  2  3  4  3  5  3  2  5  2  2  3  4  3  3  4  2  4  5  2  4  3  3  3  4  3  2 NA  4  5  4  3  5  4  4  4  3
+## [149]  5  5  3  3  4  3  4  4  4  4  2  2  5  4  1  3  3  2  4  5  4  2  4  4  5  3  2  3  5  4  3
 ```
 
 Wiederholung:

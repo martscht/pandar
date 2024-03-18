@@ -38,7 +38,6 @@ output:
 ---
 
 
-
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
@@ -73,7 +72,7 @@ Absolut | absoluter Wert | Identität | ... | ... |
 
 ## Vorbereitende Schritte
 
-Nachdem wir in der letzten Sitzung die Arbeit mit dem CSV Format kennen gelernt haben, nutzen wir jetzt die Datei im RDA Format für das Einlesen des Datensatzes. Die Datei können Sie [hier <i class="fas fa-download"></i> herunterladen](/daten/fb23.rda). Außerdem ist es prinzipiell ratsam, zu Beginn wieder das Arbeitsverzeichnis mit Hilfe von `setwd()` zu bestimmen. Dies stellt sicher, dass wenn Sie später Daten speichern (z.B. Datensätze oder Grafiken), diese auch am gewünschten Ort auf Ihrem Computer abgelegt werden. 
+Nachdem wir in der letzten Sitzung die Arbeit mit dem CSV Format kennen gelernt haben, nutzen wir jetzt die Datei im RDA Format für das Einlesen des Datensatzes. Den Datensatz `fb23` können Sie im RDA Format [hier <i class="fas fa-download"></i> herunterladen](/daten/fb23.rda). Außerdem ist es prinzipiell ratsam, zu Beginn wieder das Arbeitsverzeichnis mit Hilfe von `setwd()` zu bestimmen. Dies stellt sicher, dass wenn Sie später Daten speichern (z.B. Datensätze oder Grafiken), diese auch am gewünschten Ort auf Ihrem Computer abgelegt werden. 
 
 Eine alternative Variante ist, den Datensatz direkt mit dem folgenden Befehl aus dem Internet einzuladen. Dies ist immer dann möglich, wenn der Datensatz auch über eine URL aufrufbar ist. 
 
@@ -222,7 +221,7 @@ Ungefähr `r round(prop.table(tab)[1]*100,2)`% Ihres Jahrgangs geben als Lieblin
 
 ## Grafiken in `R` {#Grafiken}
 
-```{r comic-barplot, echo=FALSE,warning=FALSE, fig.align='center',cache=FALSE, purl = FALSE}
+```{r comic-barplot, echo = FALSE,warning = FALSE, fig.align = 'center',cache = FALSE, purl = FALSE}
 library("RXKCD")
 invisible(getXKCD(373))
 ```
@@ -234,7 +233,7 @@ Die Darstellung als Tabelle wirkt häufig langweilig. Zu viele Tabellen in einem
 
 Die Erstellung ist mit der Funktion `barplot()` möglich. Diese braucht zunächst nur ein Tabellenobjekt als Input, dass die absoluten Häufigkeiten für die verschiedenen Kategorien einer Variable enthält.
 
-```{r,  eval=FALSE, purl = FALSE}
+```{r,  eval=FALSE, purl = F}
 barplot(tab)
 ```
 
@@ -535,7 +534,7 @@ boxplot(fb23$wissen,
 
 
 
-```{r comic-boxplot, echo=F, purl = F, warning=F, fig.align='center',cache=FALSE}
+```{r comic-boxplot, echo = F, purl = F, warning=F, fig.align='center',cache=FALSE}
 invisible(getXKCD(539))
 ```
 

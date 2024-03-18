@@ -3,13 +3,13 @@ title: "Deskriptivstatistik für Nominal- und Ordinalskalen - Aufgaben"
 type: post
 date: '2019-10-18' 
 slug: deskriptiv-nominal-ordinal-aufgaben
-categories: [] 
-tags: ["Statistik I Übungen"] 
+categories: ["Statistik I Übungen"] 
+tags: [] 
 subtitle: ''
 summary: '' 
 authors: [buchholz, nehler, sinn]
 weight: 
-lastmod: '2023-12-22'
+lastmod: '2024-03-18'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -53,11 +53,11 @@ Untersuchen Sie, welche Arbeitsbranche Sie und Ihre Kommiliton:innen nach dem St
 
 ## Aufgabe 2
 
-Die Variable `therap` enthält die Angaben über das Ausmaß, in dem sich Sie und Ihre Kommilitonen:innen für anwendungsbezogene Aspekte interessieren.
+Die Variable `therap` enthält die Angaben über das Ausmaß, in dem Sie und Ihre Kommilitonen:innen sich für anwendungsbezogene Aspekte interessieren.
 
 * Bestimmen Sie für diese Variable den Modus.     
 * Untersuchen Sie die Streuung für diese Variable optisch, indem Sie einen Boxplot erstellen.  
-* Bestimmen Sie die Quartile/ den Interquartilsbereich (IQB) und den Interquartilsabstand auch als Zahlen.
+* Bestimmen Sie die Quartile, den Interquartilsbereich (IQB) und den Interquartilsabstand auch als Zahlen.
 
 
 ## Aufgabe 3
