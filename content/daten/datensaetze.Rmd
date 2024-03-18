@@ -45,7 +45,8 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Depressivität](#depressivitat-Depression) | [{{< icon name="download" pack="fas" >}} `Depression` ](/daten/Depression.rda) |
 | [Effektivität der CBT bei Depression](#effektivität-der-cbt-bei-depression-f2f_cbt) | _Teil des Pakets `metafor`_ |
 |  [Entwicklung der Weltbevölkerung](#entwicklung-der-weltbevölkerung-worldpopulation) | [{{< icon name="download" pack="fas" >}} `WorldPopulation` ](/daten/WorldPopulation.rda) |
-| [Fragebogendaten aus dem ersten Semester](#fragebogendaten-aus-dem-ersten-semester-fb22) |  [{{< icon name="download" pack="fas" >}} `fb22` ](/daten/fb22.rda) |
+| [Fragebogendaten aus dem ersten Semester 22](#fragebogendaten-aus-dem-ersten-semester-fb22) |  [{{< icon name="download" pack="fas" >}} `fb22` ](/daten/fb22.rda) |
+| [Fragebogendaten aus dem ersten Semester 23](#fragebogendaten-aus-dem-ersten-semester-fb23) | [{{< icon name="download" pack="fas" >}} `fb23`](/daten/fb23.rda) |
 | [Gender, Drug, and Depression](#gender-drug-and-depression-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/prc92/download) |
 | [Skalenwerte der Generic Conspiracist Beliefs Scale](#skalenwerte-der-generic-conspiracist-beliefs-scale-conspiracy) | [{{< icon name="download" pack="fas" >}} `conspiracy` ](/daten/conspiracy.rda) |
 | [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa)) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa` ](/daten/conspiracy_cfa.rda) |
@@ -631,9 +632,9 @@ Im Datensatz liegen keine fehlenden Werte vor.
 <!-- <details><summary>Datensatz</summary> -->
 
 ### Beschreibung
-Der Datensatz `fb22` besteht aus Daten, die von den Studierenden selbst in den ersten Wochen der Veranstaltung PsyBSc2 erhoben wurden. Hierbei wurden eine Reihe von Variablen via eines Fragebogens auf `formr.org` erfragt und anschließend zu einem Datensatz zusammengefügt. Die Daten basieren somit auf wahren - anonymisierten - Werten der Studierenden. Der Fragebogen erfasst Daten zur Prokastinationstendenz, Naturverbundenheit, Persönlichkeit (gemessen an den Big5), dem Studium sowie demografische Daten.
+Der Datensatz `fb22` besteht aus Daten, die von den Studierenden selbst in den ersten Wochen der Veranstaltung PsyBSc2 erhoben wurden. Hierbei wurden eine Reihe von Variablen via eines Fragebogens auf `formr.org` erfragt und anschließend zu einem Datensatz zusammengefügt. Die Daten basieren somit auf wahren - anonymisierten - Werten der Studierenden. Der Fragebogen erfasst Daten zur Prokrastinationstendenz, Naturverbundenheit, Persönlichkeit (gemessen an den Big5), dem Studium sowie demografische Daten.
 
-Auf `pandaR` wird der Datensatz in fast allen Tutorials von [PsyBsc2](/lehre/#bsc2) verwendet. 
+Auf `pandaR` wird die aktuelleste Version dieses Datensatzes in fast allen Tutorials von [PsyBsc2](/lehre/#bsc2) verwendet. 
 
 ### Datensatz laden
 ```{r}
@@ -649,7 +650,7 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 | Variable | Inhalt | Kodierung |
 | ---- | ---- | ---- |
 | `prok1` - `prok10` | Items zur Prokrastinationstendenz *(Items 2,3,5,7 & 8 sind invertiert)* | 1 = "stimmt nicht", 4 = "stimmt genau" |
-| `nr1` - `nr6` | Items zur Naturverbundenheit | 1 = "stimme nicht zu", 5 = "stimme zu" |
+| `nr1` - `nr6` | Items zur Naturverbundenheit | 1 = stimme nicht zu, 5 = stimme zu |
 | `lz` | Lebenszufriedenheit | *Skalenwert* |
 | `extra` | Extraversion | *Skalenwert* |
 | `vertr` | Verträglichkeit | *Skalenwert* |
@@ -695,8 +696,86 @@ Insgesamt liegen im Datensatz `r sum(is.na(fb22))` fehlende Werte vor. Folgende 
 * `uni2`
 * `uni3`
 * `uni4`
+<!-- </details> -->
+
+---
+
+## Fragebogendaten aus dem ersten Semester `fb23`
+
+<!-- <details><summary>Datensatz</summary> -->
+
+### Beschreibung
+Der Datensatz `fb23` besteht aus Daten, die von den Studierenden selbst in den ersten Wochen der Veranstaltung PsyBSc2 erhoben wurden. Hierbei wurden eine Reihe von Variablen via eines Fragebogens auf `formr.org` erfragt und anschließend zu einem Datensatz zusammengefügt. Die Daten basieren somit auf wahren - anonymisierten - Werten der Studierenden. Der Fragebogen erfasst Daten zur aktuellen Stimmung, Persönlichkeit (gemessen an den Big5), dem Studium sowie demografische Daten.
+
+Auf `pandaR` wird die aktuelleste Version dieses Datensatzes in fast allen Tutorials von [PsyBsc2](/lehre/#bsc2) verwendet. 
+
+### Datensatz laden
+```{r}
+load(url('https://pandar.netlify.app/daten/fb23.rda'))
+```
+
+### Größe
+Der Datensatz besteht aus `r dim(fb23)[1]` Beobachtungen auf `r dim(fb23)[2]` Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+| Variable | Inhalt | Kodierung |
+| ---- | ---- | ---- |
+| `mdbf1` - `mdbf12` | Items zur aktuellen Stimmung | 1 = stimmt nicht, 4 = stimmt genau |
+| `lz` | Lebenszufriedenheit | *Skalenwert* |
+| `extra` | Extraversion | *Skalenwert* |
+| `vertr` | Verträglichkeit | *Skalenwert* |
+| `gewis` | Gewissenhaftigkeit | *Skalenwert* |
+| `neuro` | Neurotizismus | *Skalenwert* |
+| `offen` | Offenheit für neue Erfahrungen | *Skalenwert* |
+| `prok` | Prokrastinationstendenz | *Skalenwert* |
+| `nerd` | Nerdiness Personality Attributes | *Skalenwert* |
+| `grund` | Gründe für das Psychologiestudium | *Freitext* |
+| `fach` | Interessenfach | 1 = Allgemeine, 2 = Biologische, 3 = Entwicklung, 4 = Klinische, 5 = Diag./Meth. |
+| `ziel` | Arbeitsbranche nach Abschluss | 1 = Wirtschaft, 2 = Therapie, 3 = Forschung, 4 = Andere |
+| `wissen` | Interesse an wissenschaftlichen Grundlagen | 1 = überhaupt nicht, 5 = sehr |
+| `therap` | Interesse an anwendungsbezogenen Aspekten | 1 = überhaupt nicht, 5 = sehr |
+| `lerntyp` | Lerntyp | 1 = alleine, 2 = Gruppe, 3 = Mischtyp |
+| `hand` | Schreibhand | 1 = links, 2 = rechts |
+| `job` | Nebentätigkeit | 1 = nein, 2 = ja |
+| `ort` | Derzeitiger Wohnort | 1 = Frankfurt, 2 = anderer |
+| `ort12` | Wohnort vor 12 Monaten | 1 = Hessen, 2 = Deutschland, 3 = Ausland |
+| `wohnen` | Aktuelle Wohnsituation | 1 = WG, 2 = bei Eltern, 3 = alleine, 4 = sonstiges |
+| `uni1` - `uni4` | In Anspruch genommene Uni-Angebote (*Studienberatung, Orientierungswoche, Uniparties, Unisport*) | 0 = nein, 1 = ja |
+| `attent_pre` | Gewissenhafte Beantwortung (1. Befragung) | 1 = überhaupt nicht, 6 = voll und ganz |
+| `gs_post` | Gute vs. Schlechte Stimmung (2. Befragung) | *Skalenwert* |
+| `wm_post` | Wach vs. Müde (2. Befragung) | *Skalenwert* |
+| `ru_post` | Ruhig vs. Unruhig (2. Befragung) | *Skalenwert* |
+| `attent_post` | Gewissenhafte Beantwortung (2. Befragung) | 1 = überhaupt nicht, 6 = voll und ganz |
+
+### Fehlende Werte
+Insgesamt liegen im Datensatz `r sum(is.na(fb23))` fehlende Werte vor. Folgende Variablen enthalten keine fehlenden Werte:
+
+* `mdbf2`
+* `mdbf3`
+* `mdbf4`
+* `mdbf5`
+* `mdbf6`
+* `mdbf7`
+* `mdbf8`
+* `mdbf9`
+* `mdbf10`
+* `mdbf11`
+* `mdbf12`
+* `extra`
+* `gewis`
+* `neuro`
+* `offen`
+* `prok`
+* `nerd`
+* `uni1`
+* `uni2`
+* `uni3`
+* `uni4`
 
 <!-- </details> -->
+
 
 ---
 
