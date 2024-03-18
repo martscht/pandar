@@ -43,7 +43,7 @@ output:
 ```
 
 
-<details><summary>Kernfragen dieser Lehreinheit</summary>
+<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
 
 * Wie werden **Häufigkeitstabellen** erstellt?  
 * Wie können aus absoluten Häufigkeitstabellen **relative Häufigkeitstabellen** gemacht werden?  

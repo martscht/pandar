@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
 authors: [nehler, scheppa-lahyani] 
 weight: 5
-lastmod: '2024-01-09'
+lastmod: '2024-03-18'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -40,8 +40,7 @@ output:
 
 
   
-{{< spoiler text="Kernfragen dieser Lehreinheit" >}}
-<!-- Die divs sind wichtig, damit die Liste funktioniert! Innerhalb dieses Abschnitts ist HTML erlaubt (safeHTML) -->
+<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
 
 
 * Wann und wie rechne ich einen [**z-Test (Einstichproben-Gauss-Test)**](#z_Test)? Wie interpretiere ich die Ergebnisse?
@@ -50,7 +49,7 @@ output:
 * Was sind [**Pakete**](#Pakete) und wie kann ich sie installieren und laden?
 * Was ist [**Cohen's *d***](#Cohens_d) und wie berechne ich es? Wie interpretiere ich die Ergebnisse?
 
-{{< /spoiler >}}
+</details>
 
 ***
  
@@ -578,11 +577,11 @@ Auch für den Einstichproben-t-Test kann ein äquivalentes Konfidenzintervall be
 
 Die Gleichung für ein zweiseitiges Konfidenzintervall beim Einstichproben-t-Test sieht erstmal sehr ähnlich. Statt eines Wertes auf der z-Verteilung wird nun ein Wert aus der t-Verteilung abgelesen und für die Bestimmung der Grenzen verwendet. Außerdem wird der Standardfehler des Mittelwerts bzw. die Populationsvarianz hier nur geschätzt, da wir diese Informationen nicht gegeben haben. 
 
-{{< math >}}$$\mu = \bar{x} \pm t_{1-\frac{\alpha}{2}} * \hat{\sigma}_{\bar{x}} = \bar{x} \pm t_{1- \frac{\alpha}{2}}*\frac{\hat{\sigma}}{\sqrt{n}}$${{</ math >}}
+{{< math >}}$$\mu = \bar{x} \pm t_{1-\frac{\alpha}{2}} \cdot \hat{\sigma}_{\bar{x}} = \bar{x} \pm t_{1- \frac{\alpha}{2}} \cdot \frac{\hat{\sigma}}{\sqrt{n}}$${{</ math >}}
 
 Wenn wir nun einseitige Hypothesen haben brauchen wir nur eine der beiden Grenzen bestimmen. Wir gehen davon aus, dass unser Stichprobenmittelwert größer ist als der Populationsmittelwert. Wir legen das Konfidenzintervall um unseren Stichprobenmittelwert und können es daher nach oben offen lassen (größerer Populationsmittelwert würde sowieso immer die $H_0$ nach sich ziehen -- hier brauchen wir keine Grenze). Es muss also nur eine untere Grenze bestimmt werden und die obere kann als unendlich ($\infty$) angenommen werden. Die untere Grenze kann mit dem gesamten $\alpha$-Niveau bestimmt werden. Wir müssen dieses nicht mehr auf beide Bereiche aufteilen.
 
-{{< math >}}$$\mu = \bar{x} - t_{1-\alpha} * \hat{\sigma}_{\bar{x}} = \bar{x} - t_{1- \alpha}*\frac{\hat{\sigma}}{\sqrt{n}}$${{</ math >}}
+{{< math >}}$$\mu = \bar{x} - t_{1-\alpha} \cdot \hat{\sigma}_{\bar{x}} = \bar{x} - t_{1- \alpha} \cdot \frac{\hat{\sigma}}{\sqrt{n}}$${{</ math >}}
 
 Kleine Anmerkung: Natürlich könnten wir auch beim Einstichproben-z-Test ein einseitiges Konfidenzintervall berechnen, was äquivalent funktionieren würde.
 

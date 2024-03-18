@@ -43,8 +43,8 @@ output:
 ```
 
 
-<details><summary>Kernfragen dieser Lehreinheit</summary>
-
+<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
+ 
 * Was ist der Befehl um den [**Mittelwert**](#Mittelwert) zu bestimmen?
 * Wie kann die [**empirische Varianz**](#Varianz) bestimmt werden? Wie unterscheidet sich diese von der mit `var()` bestimmten Varianz?
 * Wie können Variablen [**zentriert und standardisiert**](#Zentrieren) werden?
