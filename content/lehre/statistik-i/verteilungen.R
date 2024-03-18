@@ -1,6 +1,3 @@
-library("RXKCD")
-invisible(getXKCD(483))
-
 wuerfel <- c(1:6)
 expand.grid(wuerfel,wuerfel)
 
@@ -48,9 +45,9 @@ x <- c(0:100)   # alle möglichen Werte für x in unserem Beispiel
 probs <- dbinom(x, size = 100, prob = 0.2) #Wahrscheinlichkeiten für alle möglichen Werte
 plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten des Ereignis Grün", ylab = "Wahrscheinlichkeit bei 100 Drehungen")
 
-plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten des Ereignis Grün", ylab = "Wahrscheinlichkeit bei 100 Drehungen", col = c(rep("black",20),"red", rep("black",79)))
 
-plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten des Ereignis Grün", ylab = "Wahrscheinlichkeit bei 100 Drehungen", col = c(rep("red",21), rep("black",79)))
+
+
 
 pbinom(q = 20, size = 100, prob = 0.2, lower.tail = TRUE)
 
@@ -62,21 +59,15 @@ plot(x = x, y = probs, type = "h",
      xlab = "Häufigkeiten für Ereignis Grün", 
      ylab = "kumulierte Wahrscheinlichkeit")
 
-plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten für Ereignis Grün", ylab = "kumulierte Wahrscheinlichkeit", col = c(rep("black",20),"red", rep("black",79)))
 
-plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten des Ereignis Grün", ylab = "Wahrscheinlichkeit bei 100 Drehungen")
-abline(h= 0.1, col = "red")
+
+
 
 qbinom(p = 0.1, size = 100, prob = 0.2, lower.tail = TRUE)
 
 rbinom(n = 1, size = 100, prob = 0.2)
 
-curve(expr = dnorm(x, mean = 100, sd = 15), 
-      from = 70, 
-      to = 130, 
-      main = "Normalverteilung", 
-      xlab = "IQ-Werte",
-      ylab = "Dichte f(x)")
+
 
 dnorm(x = 114.3, mean = 100, sd = 15) 
 
@@ -89,21 +80,9 @@ curve(expr = dnorm(x, mean = 100, sd = 15),
       xlab = "IQ-Werte",
       ylab = "Dichte f(x)")
 
-curve(expr = dnorm(x, mean = 100, sd = 15), 
-      from = 70, 
-      to = 130, 
-      main = "Normalverteilung", 
-      xlab = "IQ-Werte",
-      ylab = "Dichte f(x)")
-abline(v = 114.3, col = "red")
 
-x <- seq(70, 130, 0.5) 
-y <- dnorm(x,100,15)
-plot(x, y, type="l", 
-      main = "Normalverteilung", 
-      xlab = "IQ-Werte",
-      ylab = "Dichte f(x)")
-polygon(c(min(x), x[x<=114.3],  114.3), c(0, y[x<=114.3],  0), col="red")
+
+
 
 pnorm(114.3, mean = 100, sd = 15, lower.tail = TRUE)
 
@@ -116,23 +95,11 @@ curve(expr = pnorm(x, mean = 100, sd = 15, lower.tail = TRUE),
      xlab = "IQ-Werte",
      ylab = "F(x)")
 
-curve(expr = pnorm(x, mean = 100, sd = 15, lower.tail = TRUE),
-     from = 70,
-     to = 130,
-     main = "Verteilungsfunktion", 
-     xlab = "IQ-Werte",
-     ylab = "F(x)")
-abline(v = 114.3,col=  "red")
+
 
 qnorm(p = 0.5, mean = 100, sd = 15, lower.tail = TRUE)
 
-curve(expr = pnorm(x, mean = 100, sd = 15, lower.tail = TRUE),
-     from = 70,
-     to = 130,
-     main = "Verteilungsfunktion", 
-     xlab = "IQ-Werte",
-     ylab = "F(x)")
-abline(h = 0.5,col=  "red")
+
 
 set.seed(500)                   #zur Konstanthaltung der zufälligen Ergebnisse
 rnorm(10,mean = 100,sd = 15)
