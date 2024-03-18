@@ -36,6 +36,8 @@ output:
     keep_md: true
 ---
 
+
+
 Die Lösungen sind exemplarische Möglichkeiten. In `R` gibt es immer viele Wege, die zum Ziel führen. Wenn Sie einen anderen mit dem korrekten Ergebnis gewählt haben, kann dieser genauso richtig sein wie die hier präsentierten Ansätze.
 
 ### Vorbereitung

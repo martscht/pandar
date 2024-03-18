@@ -41,6 +41,7 @@ output:
 
 
 
+
 1. Bestimmen Sie das Ergebnis von $3 + 7 \cdot 12$
 
 <details><summary>Lösung</summary>

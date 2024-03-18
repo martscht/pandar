@@ -39,8 +39,9 @@ output:
 
 ## R als Taschenrechner
 
-```{r setup, cache = FALSE, echo = FALSE, purl = F}
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 1. Bestimmen Sie das Ergebnis von $3 + 7 \cdot 12$

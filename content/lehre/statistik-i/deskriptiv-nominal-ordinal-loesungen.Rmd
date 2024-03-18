@@ -36,6 +36,10 @@ output:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
 Die Lösungen sind exemplarische Möglichkeiten. In `R` gibt es immer viele Wege, die zum Ziel führen. Wenn Sie einen anderen mit dem korrekten Ergebnis gewählt haben, kann dieser genauso richtig sein wie die hier präsentierten Ansätze.
 
 ### Vorbereitung
