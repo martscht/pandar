@@ -40,18 +40,19 @@ Die Lösungen sind exemplarische Möglichkeiten. In `R` gibt es immer viele Wege
 
 ### Vorbereitung
 
+> Laden Sie die Daten aus [<i class="fas fa-download"></i> `fb23.rda`](/daten/fb23.rda) oder direkt von der Website über die gelernten Befehle. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+
 <details><summary>Lösung</summary>
 
-Laden Sie zunächst den Datensatz `fb23` von der pandar-Website herunter und dann ein.
+Daten laden:
 
 
 ```r
-load(url('https://pandar.netlify.app/daten/fb23.rda'))   # Daten laden
+load(url('https://pandar.netlify.app/daten/fb23.rda'))  
 ```
 
-Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
-Verschaffen Sie sich nun einen Überblick über den Datensatz:
+Überblick über den Datensatz verschaffen:
 
 
 ```r
