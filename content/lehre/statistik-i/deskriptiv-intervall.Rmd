@@ -394,7 +394,7 @@ head(fb23$mdbf4_pre_r)   # erste 6 Werte mit Transformation
 
 **Variante 2: Logische Filter**
 
-Mit Hilfe von logischen Filtern, die wir auch schon im [R-Intro](https://pandar.netlify.app/post/r-crash-kurs/) kennen gelernt haben, können wir uns auch alle Antworten einer Ausprägung (z.B. 1) anzeigen lassen und diesen dann den transformierten Wert zuweisen. Durch die Invertierung wissen wir, dass dem Wert 1 der Wert 4 zugeordnet werden muss. Also können wir eine Abfrage nach allen Teilnehmenden machen, die die Antwort 1 gegeben haben.
+Mit Hilfe von logischen Filtern, die wir auch schon im [R-Intro](/lehre/statistik-i/crash-kurs/) kennen gelernt haben, können wir uns auch alle Antworten einer Ausprägung (z.B. 1) anzeigen lassen und diesen dann den transformierten Wert zuweisen. Durch die Invertierung wissen wir, dass dem Wert 1 der Wert 4 zugeordnet werden muss. Also können wir eine Abfrage nach allen Teilnehmenden machen, die die Antwort 1 gegeben haben.
 
 ```{r}
 head(fb23$mdbf11_pre == 1, 15) #Zeige die ersten 15 Antworten
