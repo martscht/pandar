@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, zacharias] 
-lastmod: '2023-11-21'
+lastmod: '2024-03-18'
 featured: no
 banner:
   image: "/header/six_sided_dice.png"
@@ -20,10 +20,23 @@ _build:
   list: never
 reading_time: false
 share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/verteilungen
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/verteilungen-aufgaben
+
 output:
   html_document:
     keep_md: true
 ---
+
+
 
 ## Aufgabe 1
 
@@ -113,7 +126,7 @@ Natürlich wäre es auch möglich, erst die 5 Replikationen in einem Objekt abzu
 
 ## Aufgabe 3
 
-Sie wollen an einem Gewinnspiel mit Losen teilnehmen. Dafür hat der Veranstalter ein computerbasiertes Vorgehen, in dem in 70% der Fällen Nieten angezeigt werden.
+Sie wollen an einem Gewinnspiel mit Losen teilnehmen. Dafür hat der Veranstalter ein computerbasiertes Vorgehen, bei dem in 70% der Fälle Nieten angezeigt werden.
 
 * Wie wahrscheinlich ist es, dass Sie in 10 Versuchen genau 4 Mal einen Gewinn erhalten?
 

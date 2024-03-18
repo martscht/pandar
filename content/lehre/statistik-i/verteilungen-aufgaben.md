@@ -3,13 +3,13 @@ title: "Verteilungen - Aufgaben"
 type: post
 date: '2019-10-18' 
 slug: verteilungen-aufgaben 
-categories: []
-tags: ["Statistik I Übungen"] 
+categories: ["Statistik I Übungen"]
+tags: [] 
 subtitle: ''
 summary: '' 
 authors: [nehler, zacharias] 
 weight: 
-lastmod: '2023-11-21'
+lastmod: '2024-03-18'
 featured: no
 banner:
   image: "/header/six_sided_dice.png"
@@ -54,7 +54,7 @@ Eine typischer Münzwurf bietet die Optionen Kopf oder Zahl.
 
 ## Aufgabe 3
 
-Sie wollen an einem Gewinnspiel mit Losen teilnehmen. Dafür hat der Veranstalter ein computerbasiertes Vorgehen, in dem in 70% der Fälle Nieten angezeigt werden.
+Sie wollen an einem Gewinnspiel mit Losen teilnehmen. Dafür hat der Veranstalter ein computerbasiertes Vorgehen, bei dem in 70% der Fälle Nieten angezeigt werden.
 
 * Wie wahrscheinlich ist es, dass Sie in 10 Versuchen genau 4 Mal einen Gewinn erhalten?
 * Plotten Sie die Wahrscheinlichkeitsverteilung für die 10 Versuche!
