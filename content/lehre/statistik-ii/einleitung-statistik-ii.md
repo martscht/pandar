@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden nochmal die Grundlagen in R aus Statistik I aufgefrischt.' 
 authors: [nehler, schueller, schultze] 
 weight: 1
-lastmod: '2024-03-08'
+lastmod: '2024-03-25'
 featured: no
 banner:
   image: "/header/cat_with_glasses.jpg"
@@ -36,9 +36,7 @@ output:
 
 ## Wiederholung von Grundlagen in R
 
-Das Praktikum des Moduls PsyBSc 7 baut auf Grundlagen in `R` auf, die Sie im Modul PsyBSc2 erlernt haben. Damit wir alle vom gleichen Punkt aus in das Semester starten können, wiedehrolen wir an dieser Stelle einige Inhalte. Wenn Sie eigenständig eine umfassendere Auffrischung der Inhalte des letzten Semesters benötigen oder sich gerne auf die Datenanalyse in R einstimmen möchten, können Sie jederzeit über Pandar auf die Inhalte von [PsyBSc 2](/lehre/#statistik-i) zurückgreifen. 
-
-Wir befassen uns in diesem Tutorial erst mit den Grundlagen von `R` und einigen allgemeinen Arbeitshinweisen. Anschließend gehen wir die Grundfunktionen durch und betrachten ausgewählte Datenanalysen aus dem letzten Semester. Für interessierte Lesende gibt es im Anhang einführende Informationen dazu, wie man in `R` Dokumente mit Fließtext und Analyse in einer Datei erstellen kann.
+Für die Inhalte, die wir in diesem Semester behandeln setzen wir - naheliegenderweise - da an, wo wir im [letzten Semester](/category/statistik-i) aufgehört haben. Von besonderer Bedeutung, um direkt ins Semester starten zu können, ist es vor allem die [R Grundlagen](/lehre/statistik-i/crash-kurs) parat zu haben. Zum Einen gucken wir uns die wichtigsten Bestandteile hier an, zum Anderen können Sie aber auch [Otter](https://otter.uni-frankfurt.de) nutzen, um noch einmal aus einem anderen Blickwinkel die R Basics aufzuarbeiten. Neben diesen Grundlagen, betrachten wir hier auch ausgewählte Datenanalysen aus dem letzten Semester. Für interessierte Lesende gibt es im Anhang einführende Informationen dazu, wie man in `R` Dokumente mit Fließtext und Analyse in einer Datei - einem sogenannten R-Markdown - erstellen kann.
 
 Wenn Sie sich nur bestimmte Abschnitte angucken wollen, um Ihre Unsicherheiten zu beseitigen, bevor wir in der kommenden Woche mit neuen Inhalten in `R` loslegen, können Sie die folgende Übersicht nutzen, um direkt zu den einzelnen Abschnitten zu springen:
 
@@ -64,7 +62,7 @@ Wenn Sie sich nur bestimmte Abschnitte angucken wollen, um Ihre Unsicherheiten z
 
 Wir beginnen dieses Tutorial noch einmal mit der Installation von `R` und RStudio - das ist nicht nur nützlich, wenn Sie R in den Wochen seit dem ersten Semester deinstalliert haben sollten, sondern auch, um Ihre Version von R zu aktualisieren.
 
-Für den Verlauf dieses Modul benötigen Sie die Statistiksoftware `R` und für eine bessere Bedienbarkeit die Benutzeroberfläche `RStudio` auf Ihrem Rechner. Sie haben beide Programme natürlich schon im Modul PsyBSc2 heruntergeladen. Falls Sie aber ein neues Gerät verwenden oder die Programme schon gelöscht haben, können Sie auf den folgenden Seiten einen kostenlosen Download durchführen.
+Für den Verlauf dieses Modul benötigen Sie die Statistiksoftware `R` und für eine bessere Bedienbarkeit die Benutzeroberfläche `RStudio` auf Ihrem Rechner. Sie haben beide Programme vermutlich schon runtergeladen und installiert, aber falls Sie zum Beispiel ein neues Gerät verwenden oder die Programme schon gelöscht haben, können Sie auf den folgenden Seiten einen kostenlosen Download durchführen.
 
 **Downloadlinks:**
 
@@ -74,9 +72,7 @@ Für den Verlauf dieses Modul benötigen Sie die Statistiksoftware `R` und für 
 
 `RStudio`: [Download von der posit Seite](https://posit.co/download/rstudio-desktop/)
 
-Wie Sie eventuell feststellen, ist `RStudio` nun Teil der größeren Firma [posit](https://posit.co/). _Zunächst_ ändert das aber nichts an den Nutzungsbedingungen und den Features von RStudio.
-
-Es ist sehr sinnvoll `R` aktuell zu halten, weil Pakete nur für die derzeitige R-Version weiterentwickelt werden und es so passieren kann, dass Ihre R-Version von bestimmten Pakete nicht mehr unterstützt wird. Die Aktuelle Version von R ist 4.2.2. Welche Version Sie zur Zeit nutzen, können Sie so herausfinden:
+Es ist sehr sinnvoll `R` aktuell zu halten, weil Pakete nur für die derzeitige R-Version weiterentwickelt werden und es so passieren kann, dass Ihre R-Version von bestimmten Pakete nicht mehr unterstützt wird. Die Aktuelle Version von R ist 4.3.3. Welche Version Sie zur Zeit nutzen, können Sie so herausfinden:
 
 
 ```r
@@ -84,7 +80,7 @@ R.Version()$version.string
 ```
 
 ```
-## [1] "R version 4.2.2 (2022-10-31 ucrt)"
+## [1] "R version 4.3.3 (2024-02-29)"
 ```
 Wie Sie sehen, ist die Version relativ neu. Wenn Sie eine andere Version nutzen, ist nun der _perfekte_ Zeitpunkt für ein Update! Der typische Weg R auf Windows oder Mac zu aktualisieren ist es, die aktuelle Fassung herunterzuladen und ganz normal neu zu installieren. Die vorangegangene Version können Sie anschließend deinstallieren. Es ist möglich mehrere Versionen von R gleichzeitig installiert zu haben, um im Fall von größeren Updates Ergebnisse aus älteren Analyseskripten reproduzieren zu können.
 
@@ -94,7 +90,7 @@ Neben R selbst, sollten Sie auch Ihre Pakete auf dem aktuellen Stand halten. Es 
 
 
 ```r
-update.packaes(ask = FALSE)
+update.packages(ask = FALSE)
 ```
 
 Damit werden alle Pakete aktualisiert, für die es neuere Versionen gibt. Wenn Sie das Argument `ask = FALSE` weglassen, werden Sie bei jedem Paket einzeln gefragt, ob Sie es updaten möchten. Sollte Ihre letzte Aktualisierung ein wenig her sein, könnte dieser Prozess einen Moment dauern.
@@ -105,38 +101,79 @@ Damit werden alle Pakete aktualisiert, für die es neuere Versionen gibt. Wenn S
 
 Wir können Ihnen im Studium nur so viel beibringen, wie es unsere und Ihre Zeit zulässt. Diese Zeit schwankt von Person zu Person, wir können aber in jedem Fall mit Sicherheit behaupten, dass es nicht genug ist, um für jedes Problem, dem Sie im Laufe ihrer akademischen Karriere begegnen könnten, eine spezifische Lösung zu besprechen. Stattdessen versuchen wir (und Sie hoffentlich auch) Sie darauf vorzubereiten, diese Probleme selbst lösen zu können. Daher ist unser Ziel nicht nur, Ihnen alle für diesen Kurs relevanten Kompetenzen beizubringen, sondern Sie darüber hinaus zu *kompetenten Problemlöser:innen* in Statistik - unter Verwendung von `R` - zu machen. Nachfolgend wollen wir Ihnen daher einige Tipps & Ressourcen an die Hand geben, die wir Ihnen beim Erlernen, Vertiefen und Problemlösen empfehlen können.
 
-### Ressourcen
+### ChatGPT und andere KI-Tools
 
-**R ist eine Open-Source-Software.** 
-Dies bedeutet auch, dass es online eine Vielzahl von Ressourcen gibt, die Sie beim Lernen nutzen können und sollen. Zum Einen gibt es online sehr viele kostenlose Informationsangebote (z.B. die [Introduction to R vom R Core Team](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf), das [R-Cookbook](http://www.cookbook-r.com), das Buch [R for Data Science](https://r4ds.had.co.nz), oder hier eine [Einführung in R für Psychologie-Studierende](https://r-intro.tadaa-data.de/book/was-ist-r.html), sowie teilweise kostenlosen Übungsplattformen (z.B. [Datacamp](https://www.datacamp.com), [Codecademy](https://www.codecademy.com etc.)).
-Dazu kommen die sehr aktiven Foren bzw. Communities, wie vorallem [Stack Overflow](https://stackoverflow.com) für R-Programmierung und [Cross Validated](https://stats.stackexchange.com) für allgemeine Statistikfragen. Lernen Sie, diese Ressourcen für sich zu nutzen!
+Natürlich verschiebt sich der Umgang mit Programmiersprachen und die Herangehensweise an Datenaufbereitung und Auswertung im Moment. Insbesondere über [ChatGPT](https://chat.openai.com) in all seinen Formen, können Sie viele Bestandteile - mitunter ganze Auswertungsskripte - quasi automatisch generieren lassen. Allerdings ist der Code, den ChatGPT produziert meist nicht perfekt - produziert Fehler oder ist für dieses spezifische Beispiel nicht korrekt. Dennoch kann auf diese Weise sehr schnell das Skelett eines funktionierenden Codes erzeugt werden und auf den eigenen Anwendungsfall hin angepasst werden. Dies erfordert allerdings, dass Sie diese Diskrepanzen erkennen und Rückmeldungen korrekt interpretieren können. Im [Appendix B](#AppendixB) ist eine kurze Interaktion mit ChatGPT dargestellt, in der für einen einfach Fall Code generiert wird und für einen anderen Fall Fehler im Code gefunden werden.
 
-**Aus Fehlern lernt man** 
+Wenn Sie bereits einen ChatGPT Account mit API credentials haben, können Sie mit dem `air` Paket auch direkt über die R-Konsole mit ChatGPT interagieren (mehr dazu [hier](https://cran.r-project.org/web/packages/air/readme/README.html)). Wenn Sie einen einen GitHub Account haben, können Sie GitHubs [CoPilot](https://docs.github.com/en/copilot) nutzen, um direkt in RStudio Autoergänzungen und Syntax Vorschläge generieren zu lassen. Allerdings ist auch hier immense Vorsicht geboten, weil es dafür wichtig ist zu wissen, was Sie überhaupt erreichen wollen und ob der Code, der automatisch generiert wurde, Sie diesem Ziel näher bringt.
 
-Bei der Arbeit mit `R` sind Fehlermeldungen auch für langjährige Anwender:innen Alltag (wirklich!). Sie sollten also eine Frustrationstoleranz aufbauen und nicht erwarten, eine Aufgabe im ersten Anlauf perfekt und ohne Fehlermeldungen lösen zu können - das ist unrealistisch! Vielmehr sollten Sie lernen, Fehlermeldungen *zu verstehen* und daraus zu lernen. Versuchen Sie nachzuvollziehen, auf welches Element in Ihrem Code sich eine Fehlermeldung bezieht und was der Inhalt besagt. 
+### Offene Ressourcen
 
-Indem Sie Codeelemente separat ausführen, können Sie probieren, eine Fehlerquelle zu isolieren. Oder brechen Sie den Code auf eine einfache Einheit herunter, welche ohne Fehler funktioniert, und fügen Sie nacheinander Elemente hinzu. Testen Sie auch, ob alle Objekte (Datensätze, Vektoren, etc.), die Sie verwenden, das gewünschte Format haben, richtig eingelesen wurden, den richtigen Inhalt haben, versehentlich überschrieben wurden, etc.  Wenn Sie nicht weiterkommen, versuchen Sie den Text der Fehlermeldung im Internet zu suchen, denn häufig finden Sie Antworten auf Ihre Fragen in den oben genannten Online-Foren!
+Für R gibt es eine Vielzahl von online Ressourcen, die Sie beim Lernen nutzen können und sollten. Zum Einen gibt es online sehr viele kostenlose Informationsangebote (z.B. die [Introduction to R vom R Core Team](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf), das [R-Cookbook](http://www.cookbook-r.com), das Buch [R for Data Science](https://r4ds.had.co.nz), oder hier eine [Einführung in R für Psychologie-Studierende](https://r-intro.tadaa-data.de/book/was-ist-r.html), sowie teilweise kostenlosen Übungsplattformen (z.B. [Datacamp](https://www.datacamp.com), [Codecademy](https://www.codecademy.com) usw.). Von der Goethe Uni direkt produziert wurde hierfür z.B. auch [Otter](https://otter.uni-frankfurt.de), welches - anders als diese Seite - eine interaktive Oberfläche bietet (Sie den R-Code direkt auf der Seite ausführen können), aber nicht direkt auf die Inhalte des Psychologiestudiums angepasst ist. Für spezifische Aufgaben arbeiten wir (oder zumindest einige von uns) derzeit mit Hochdruck an neuen Aufgaben für [tigeR](https://tiger.uni-frankfurt.de/app/shinytigeR) - wenn Sie dafür gerne Zugangsdaten hätten, geben Sie uns Bescheid.
 
-**Hilfe zur Selbsthilfe**
+Dazu kommen die sehr aktiven Foren bzw. Communities, wie vor allem [Stack Overflow](https://stackoverflow.com) für R-Programmierung und [Cross Validated](https://stats.stackexchange.com) für allgemeine Statistikfragen. Lernen Sie, diese Ressourcen für sich zu nutzen!
 
-Lernen Sie, mit der `R`-internen Hilfefunktion zu arbeiten. Jede Funktion in `R` hat eine Hilfeseite, auf der die Anwendung dieser Funktion erklärt wird. Die Struktur ist immer ähnlich: Nach einer Beschreibung der Funktion folgen die *Argumente*, also Informationen, die Sie in die Funktion hineingeben können/müssen. Unter *Values* wird der Output aus einer Funktion beschrieben. Diese Informationen helfen Ihnen, die Ergebnisse zu interpretieren. Weiter unten werden meist Beispiele der Verwendung aufgezeigt. Auch wenn es zum Anfang noch schwer ist, versuchen Sie, die Informationen auf diesen Seiten zu verstehen. Irgendwann wird es leichter, versprochen!
+### Hilfe zur Selbsthilfe 
 
-Oft gibt es darüber hinaus online noch ausführlichere Informationen zur Anwendung. Beispielsweise gibt es [hier](https://personality-project.org/r/psych/vignettes/intro.pdf) eine ausführliche Anleitung zum `Psych`-Package, oder auch so genannte Cheatsheets, die eine Übersicht der wichtigsten Befehle zu bestimmten Themen erhalten (hier beispielsweise für [Basics in R](https://www.rstudio.com/wp-content/uploads/2016/05/base-r.pdf)). Lernen Sie, sich *selbstständig* Informationen zu beschaffen, denn auch nach langjähriger Erfahrung mit `R` wird das immer wieder notwendig sein. Häufig bedeutet die Arbeit an einer komplexen, neuen Fragestellung: Googeln, googeln, googeln... Wir können Ihnen in der Veranstaltung nicht alle vorhandenen Möglichkeiten vermitteln (weil das `R`-Universum so umfangreich ist), aber wir können Ihnen hoffentlich das Handwerkszeug geben, sich selbst zu helfen! Wenn Sie jedoch nicht weiterkommen, dann *fragen Sie sich untereinander* oder auch Ihre Dozierenden, denn es ist noch kein `R`-Genie vom Himmel gefallen... Generell ist es für Ihr Studium sehr hilfreich, sich frühzeitig ein gutes soziales Netz aufzubauen, in dem Sie sich gegenseitig helfen und unterstützen. Das ist ein wichtiger Prädiktor für Erfolg im Studium (Robbins et al., 2004), und das Studium macht außerdem mehr Spaß! 
+Bei der Arbeit mit `R` sind Fehlermeldungen auch für langjährige Anwender:innen Alltag. Sie sollten also eine Frustrationstoleranz aufbauen und nicht erwarten, eine Aufgabe im ersten Anlauf perfekt und ohne Fehlermeldungen lösen zu können. Vielmehr sollten Sie lernen, Fehlermeldungen *zu verstehen* und daraus zu lernen. Versuchen Sie nachzuvollziehen, auf welches Element in Ihrem Code sich eine Fehlermeldung bezieht und was der Inhalt besagt. 
 
-**Documentation is key**
+Lernen Sie außerdem, mit der `R`-internen Hilfefunktion zu arbeiten. Jede Funktion in `R` hat eine Hilfeseite, auf der die Anwendung dieser Funktion erklärt wird. Die Struktur ist immer ähnlich und wir hatten sie [hier](/lehre/statistik-i/crash-kurs#Hilfe) im Detail beschrieben. Oft gibt es darüber hinaus online noch ausführlichere Informationen zur Anwendung. Beispielsweise gibt es [hier](https://personality-project.org/r/psych/vignettes/intro.pdf) eine ausführliche Anleitung zum `Psych`-Package, oder auch so genannte Cheatsheets, die eine Übersicht der wichtigsten Befehle zu bestimmten Themen erhalten (hier beispielsweise für [Basics in R](https://www.rstudio.com/wp-content/uploads/2016/05/base-r.pdf)). Lernen Sie, sich *selbstständig* Informationen zu beschaffen, denn auch nach langjähriger Erfahrung mit `R` wird das immer wieder notwendig sein. Häufig bedeutet die Arbeit an einer komplexen, neuen Fragestellung, dass Sie eine Vielzahl verschiedener Ressourcen zu Rate ziehen müssen. Wir können Ihnen in der Veranstaltung nicht alle vorhandenen Möglichkeiten vermitteln (weil das `R`-Universum so umfangreich ist), aber wir können Ihnen hoffentlich das Handwerkszeug geben, sich selbst zu helfen!
 
-Dokumentieren Sie alle Schritte sorgfältig. Strukturieren Sie Ihren Code durch sinnvoll gewählte Überschriften (mittels Kommentarfunktion), sodass Sie auch später wieder verstehen, was Sie beim letzten Mal gemacht haben. Beginnen Sie ganz oben mit dem sogenannten "Set-Up": Titel der Analyse, ggf. Datum, Setzen des Working Directories, Laden der nötigen Pakete, Einlesen der Daten. Kommentieren Sie jeden Schritt sorgfältig und verständlich (spätestens nach zwei Monaten haben Sie sonst garantiert vergessen, was Sie gemeint haben...). Wenn Sie Korrekturen machen, löschen Sie überflüssige Code-Zeilen, um nicht die Übersicht zu verlieren. Achten Sie darauf, dass sich das Working Directory ändert, wenn Sie den Ort eines Ordner auf Ihrem Rechner ändern oder Ordner umbenennen, und passen Sie die Befehle entsprechend an. Zunächst ist die Dokumentation ein zeitaufwendiger Schritt mehr, aber Future-You wird es Ihnen danken. Über die einfachsten Strukturierungsmaßnahmen werden wir gleich in den `R`- Basics nochmal sprechen.
+### Dokumentation
+
+Dokumentieren Sie alle Schritte sorgfältig. Schreiben Sie dazu so viele Kommentare wie Sie für nötig halten (meistens mehr). In R werden Kommentare durch (beliebig viele) `#` begonnen und enden bei einem Zeilenumbruch. Mit Kommentaren kann Syntax auch in verschiedene Abschnitte gegliedert werden. Empfehlenswert ist es, solche Abschnittüberschriften mit `####` zu beginnen und mit `----` zu beenden. RStudio erkennt solche Kommentare automatisch als Überschriften und stellt über den {{< inline_image "/lehre/statistik-i/outline.png" >}} Button eine darauf basierende Gliederung zur Verfügung. Wenn Sie dazu tendieren, sehr viel Text zu schreiben, können Sie Ihren R-Code in RMarkdowns integrieren, wie wir im [Anhang A](#AppendixA) dargestellt haben. Zunächst ist die Dokumentation ein zeitaufwendiger Schritt mehr, aber Future-You wird es Ihnen danken.
 
 {{<inline_image"/lehre/statistik-ii/comments.jpg">}}
 <!-- https://i.redd.it/b9e4xbeg40151.jpg Ich habe keine Ahnung, ob das Bild urheberechtlich geschützt ist, und weiß nicht wie ich es herausfinden könnte-->
 
-**Ausprobieren!**
+### Struktrurierung
+
+Dinge gehen leichter von der Hand und sind im Nachhinein häufig leichter zu verstehen, wenn sie einer typischen Struktur folgen. Mein persönliches Template sieht dafür so aus:
+
+
+```r
+####   Titel des Skripts  ####
+#### Datum der Erstellung ####
+
+#### Vorbereitende Schritte ----
+
+# Pakete laden
+
+# Working directory setzen
+
+#### Daten importieren ----
+
+#### Daten aufbereiten ----
+
+# Skalenwerte erstellen
+
+# Fälle ausschließen
+
+# Auf relevante Daten reduzieren
+
+#### Deskriptivstatistik ----
+
+# Demografische Variablen
+
+# Outcomes und Kovariaten
+
+#### Voraussetzungsprüfung ----
+
+# Visuell
+
+# Tests
+
+#### Datenanalyse ----
+
+#### Grafische Aufbereitung ----
+```
+
+Ihr Template kann anders aussehen. Wichtig ist nur, dass Sie eine Struktur erzeugen und die relevanten Abschnitt wieder finden können. Insbesondere ist es immens wichtig, dass alle Pakete an einem gemeinsamen und sinnvollerweise sehr frühen Ort geladen werden, damit alle, die das Skript nutzen sofort sehen können, welche Pakete sie installieren müssen. Außerdem sollte die Datenaufbereitung immer gemeinsam an einem Ort erfolgen und nicht - je nach Analyse - über das Skript verteilt sein. So kann garantiert werden, dass nachvollziehbar ist, welche Personen ausgeschlossen werden und welche Variablen erstellt werden müssen.
+
+### Ausprobieren
 
 Scheuen Sie sich nicht, viel auszuprobieren. Oft gibt es viele Wege zum Ziel, und durch das Ausprobieren mehrerer Möglichkeiten lernen Sie umso mehr Vorgehensweisen kennen. Suchen Sie gerne nach alternativen Wegen, probieren Sie andere Funktionen aus, laden Packages herunter und probieren Sie, damit zu arbeiten! Haben Sie keine Angst, etwas falsch zu machen. Durch die Dokumentation (s.o.) können Sie jederzeit, wenn etwas schief gegangen ist, zum vorherigen Schritt zurückkehren, und es nochmal probieren (auch das ist Alltag für alle Anwender:innen!). Behalten Sie immer ein Kopie der Rohdaten, die Sie nicht verändert haben, so können Sie beim Ausprobieren nichts kaputt machen! 
 
-**ChatGPT nutzen können**
-
-Einer der größten Durchbrüche für die Gestaltung und Fehlerbehebung von Code (in vielen Sprachen, nicht nur in R) ist [ChatGPT](https://chat.openai.com). In einigen Programmiersprachen (z.B. python) ist die KI sehr versiert. Auch für R wurden unfassbare Mengen von Ressourcen im Training eingesetzt, sodass Sie sich hier Code und Hinweise direkt produzieren lassen können. Allerdings ist der Code, den ChatGPT produziert meist nicht perfekt - produziert Fehler oder ist für dieses spezifische Beispiel nicht korrekt. Dennoch kann auf diese Weise sehr schnell das Skelett eines funktionierenden Codes erzeugt werden und auf den eigenen Anwendungsfall hin angepasst werden. Dies erfordert allerdings, dass Sie diese Diskrepanzen erkennen und Rückmeldungen korrekt interpretieren können. Im [Appendix B](#AppendixB) ist eine kurze Interaktion mit ChatGPT dargestellt, in der für einen einfach Fall Code generiert wird und für einen anderen Fall Fehler im Code gefunden werden.
 
 ***
 
@@ -167,11 +204,9 @@ Oben rechts wird per Voreinstellung das *Environment* angezeigt, das wir gleich 
 
 Wenn Sie einmal etwas in der Konsole ausgeführt haben, anstatt es im Skript zu hinterlegen, können Sie anhand der **History** nachvollziehen, welche Schritte Sie durchlaufen haben. In dieser können Sie auch mehrere Zeilen bzw. Schritte markieren und diese über den {{<inline_image"/lehre/statistik-ii/tosource.png">}} Button in Ihre Syntax einfügen.
 
-### Strukturierung und einfache Operationen
+### Einfache Operationen
 
-Wir haben bereits eine Addition in unser Script geschrieben. Auch wenn wir dieses in zwei Jahren nochmal öffnen, werden wir uns wohl daran erinnern, was dieser Befehl macht. Das ist aber - wie wir bereits in den allgemeinen Hinweisen beschrieben haben - nicht immer so klar. Damit wir auch später noch wissen, weshalb wir eine Operation durchführen brauchen wir also *Kommentare*. In `R` werden sie durch (beliebig viele) `#` begonnen und enden bei einem Zeilenumbruch. Mit Kommentaren kann Syntax auch in verschiedene Abschnitte gegliedert werden. Wir empfehlen, Abschnittüberschriften mit `####` zu beginnen und mit `----` zu beenden. `RStudio` erkennt solche Kommentare automatisch als Überschriften und stellt über den {{<inline_image"/lehre/statistik-ii/outline.png">}} Button eine darauf basierende Gliederung zur Verfügung.
-
-Beispielsweise könnten wir also unser Skript nun folgendermaßen besser lesbar machen.
+Um direkt die guten Vorsätze umzusetzen, die ich mir selbst oben geschrieben habe, versehen wir den kommenden Abschnitt erst einmal mit einer strukturierenden Überschrift und einem Kommentar:
 
 
 ```r
@@ -274,7 +309,7 @@ Objekte dienen dazu, Ergebnisse abzulegen und diese in einer anderen Funktion zu
 my_num <- sum(3, 4, 1, 2) # Objekt zuweisen
 ```
 
-Anders als zuvor wird in diesem Fall in der Konsole kein Ergebnis ausgedruckt, sondern lediglich der Befehl gespiegelt. Das Ergebnis der Summen-Funktion ist im Objekt `my_num` abgelegt. Dieses Objekt sollte nun auch im Panel oben rechts - spezifischer im Tab *Environment* - aufgetaucht sein. Nun können wir den Inhalt des Objektes an eine Funktionen weiterreichen zu können. In diesem Beispiel nutzen wir `sqrt` - die Berechnung einer Wurzel.
+Anders als zuvor wird in diesem Fall in der Konsole kein Ergebnis ausgedruckt, sondern lediglich der Befehl gespiegelt. Das Ergebnis der Summen-Funktion ist im Objekt `my_num` abgelegt. Dieses Objekt sollte nun auch im Panel oben rechts - spezifischer im Tab *Environment* - aufgetaucht sein. Nun können wir den Inhalt des Objektes an eine Funktionen weiterreichen - z.B. um die Quadratqurzel der Zahl zu bestimmen: `sqrt`.
 
 
 ```r
@@ -317,7 +352,7 @@ Das hat den immensen Vorteil, dass wir dadurch unseren Code wieder in der, im we
 
 ### Vektoren 
 
-Vektoren sind ein spezieller Typ für Objekte, die in `R` durch den eben verwendeten Befehl `c()` erstellt werden können:
+Vektoren sind ein spezieller Typ für Objekte, die in `R` durch den Befehl `c()` erstellt werden können:
 
 
 ```r
@@ -328,7 +363,7 @@ Wird eine Rechenoperation auf einen Vektor angewandt, so wird die Operation elem
 
 
 ```r
-zahlen * 3 #Multiplikation der Elemente des Vektors
+zahlen * 3 # Multiplikation der Elemente des Vektors
 ```
 
 ```
@@ -344,7 +379,7 @@ Typ | Kurzform | Inhalt
 `character` | `char` | Kombinationen aus Zahlen und Buchstaben
 `factor` | `fac` | Faktor mit bestimmter Anzahl an Stufen
 
-Für einen vorhandenen Vektor kann die Klasse über die Funktion `str()` ermittelt werden. 
+Diese vier sind die häufigsten Arten von Vektoren, die Ihnen im Umgang mit psychologischen Daten begegnen werden. Allerdings sind sie weder alle Formen von Vektoren, noch wirklich unterschiedlich. Genau genommen ist das System [etwas komplizierter](https://r4ds.had.co.nz/vectors.html), aber generell reichen für unsere Anwendung diese vier aus. Für einen vorhandenen Vektor kann die Klasse über die Funktion `str()` ermittelt werden. 
 
 
 ```r
@@ -378,7 +413,17 @@ zeichen * 3
 ## Error in zeichen * 3: non-numeric argument to binary operator
 ```
 
-Nutzen Sie die Möglichkeit, die Klasse eines Objektes zu erfragen (`str()`) deshalb auch, wenn Sie eine Fehlermeldung erhalten, um zu prüfen, ob ein Vektor die richtige Klasse hat.
+Nutzen Sie die Möglichkeit, die Klasse eines Objektes zu erfragen deshalb auch, wenn Sie eine Fehlermeldung erhalten, um zu prüfen, ob ein Vektor die richtige Klasse hat. Wenn Sie ein spezifische Klasse erwarten, können Sie z.B. mit dem Cousin von `as.` arbeiten: `is.`:
+
+
+```r
+is.numeric(zeichen)
+```
+
+```
+## [1] FALSE
+```
+
 
 ### Matrizen
 
@@ -395,7 +440,7 @@ Sie können mit dem `matrix()`-Befehl angelegt werden:
 
 
 ```r
-mat<- matrix(c(7, 3, 9, 1, 4, 6), ncol = 2) #Matrixerstellung
+mat<- matrix(c(7, 3, 9, 1, 4, 6), ncol = 2) # Matrixerstellung
 ```
 
 Schauen Sie sich die erstellte Matrix an, in dem sie `mat` ausführen. Prüfen sie mit dem Befehl `str()`, von welcher Art die erstellte Matrix ist. 
@@ -421,6 +466,7 @@ str(mat)
 ```
 
 Auf die Elemente innerhalb von Matrizen kann man über die sogenannte Indizierung zugreifen, indem man Zeile und Spalte nach der folgenden Form ansteuert: `[Zeile, Spalte]`. Das Element in der dritten Zeile und der ersten Spalte erreichen wir also über:
+
 
 ```r
 mat[3, 1]
@@ -458,7 +504,7 @@ dim(mat) #alternativer Befehl
 
 ### Matrixoperationen
 
-In der Vorlesung wurden verschiedene Matrixoperationen besprochen. Alle diese Operationen sind auch in `R` implementiert und über einfache Befehle nutzbar. 
+Im letzten Semester hatten wir schon verschiedene [Matrixoperationen](/lehre/statistik-i/matrixalgebra) besprochen. Alle diese Operationen sind auch in `R` implementiert und über einfache Befehle nutzbar. 
 
 Hier ein Überblick über die in der Vorlesung behandelten Matrixoperationen und ihre Umsetzung in `R` (`m` steht dabei immer für eine beliebige Matrix):
 
@@ -500,7 +546,7 @@ Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hi
 load(url("https://pandar.netlify.app/daten/mach.rda"))
 ```
 
-Durch die Betrachtung dieses Link erkennen wir, dass Websiten im Grunde auch nur sehr anschaulich dargestellte Ordnerstrukturen sind. So liegt auf der Pandar-Seite, die auf *netlify.app* gehostet wird, ein Ordner namens *post*, in welchem wiederum das `mach.rda` liegt.
+Durch die Betrachtung dieses Link erkennen wir, dass Webseiten im Grunde auch nur sehr anschaulich dargestellte Ordnerstrukturen sind. So liegt auf der Pandar-Seite, die auf *netlify.app* gehostet wird, ein Ordner namens *daten*, in welchem wiederum das `mach.rda` liegt.
 
 Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"](https://openpsychometrics.org/_rawdata/), einer Online-Plattform, die eine Sammlung an Daten aus verschiedensten Persönlichkeitstests zur Verfügung stellt. Wir haben bereits eine kleine Aufbereitung der Daten durchgeführt, damit wir leichter in die Analysen starten können. Auf der genannten Seite kann man Fragebögen selbst ausfüllen, und so zum Datenpool beitragen. Der hier verwendete Datensatz enthält Items aus einem Machiavellismus-Fragebogen, den Sie bei Interesse [hier](https://openpsychometrics.org/tests/MACH-IV/) selbst ausfüllen können.
 
@@ -545,11 +591,12 @@ names(mach) # Namen der Variablen
 ```
 
 ```
-##  [1] "TIPI1"       "TIPI2"       "TIPI3"       "TIPI4"       "TIPI5"       "TIPI6"      
-##  [7] "TIPI7"       "TIPI8"       "TIPI9"       "TIPI10"      "education"   "urban"      
-## [13] "gender"      "engnat"      "age"         "hand"        "religion"    "orientation"
-## [19] "race"        "voted"       "married"     "familysize"  "nit"         "pit"        
-## [25] "cvhn"        "pvhn"
+##  [1] "TIPI1"       "TIPI2"       "TIPI3"       "TIPI4"       "TIPI5"      
+##  [6] "TIPI6"       "TIPI7"       "TIPI8"       "TIPI9"       "TIPI10"     
+## [11] "education"   "urban"       "gender"      "engnat"      "age"        
+## [16] "hand"        "religion"    "orientation" "race"        "voted"      
+## [21] "married"     "familysize"  "nit"         "pit"         "cvhn"       
+## [26] "pvhn"
 ```
 
 ```r
@@ -650,7 +697,6 @@ Sogenannte Pakete stellen zusätzliche Funktionen zur Verfügung, die in base `R
 
 
 ```r
-#Describe wird ohne Package ausgeführt um zu zeigen, dass es so einen Fehler wirft
 describe(mach$cvhn)
 ```
 
@@ -666,7 +712,7 @@ Pakete müssen vor der ersten Nutzung zunächst einmal heruntergeladen werden. F
 install.packages("psych")
 ```
 
-Danach muss man ein Package aus der library laden. Dies muss nach jedem Neustart von `R` erneut erfolgen, damit das Package genutzt werden kann. 
+Danach muss man ein Package aus der library laden. Dies muss nach jedem Neustart von `R` erneut erfolgen, damit das Package genutzt werden kann.
 
 
 ```r
@@ -679,6 +725,7 @@ describe(mach$cvhn)
 ## X1    1 65151 2.99 0.81      3    2.99 0.99   1   5     4 -0.09    -0.61  0
 ```
 
+Weil wir häufig dazu tendieren, aus sehr vielen unterschiedlichen Paketen Funktionen zu nutzen, kann es sehr schnell unübersichtlich werden. Daher ist es sinnvoll, wie oben bereits angesprochen, alle Pakete an einem Ort zu Beginn des Skripts alle gemeinsam zu laden.
 
 ### Zusammenhang und lineare Regression
 
@@ -691,7 +738,7 @@ Natürlich ist die Regressionsanalyse nicht ohne Voraussetzungen. Diese werden w
 plot(mach$pvhn, mach$cvhn, xlab = "Positive Sichtweise", ylab = "Negative Sichtweise")
 ```
 
-![](/lehre/statistik-ii/einleitung-statistik-ii_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](/lehre/statistik-ii/einleitung-statistik-ii_files/figure-html/unnamed-chunk-75-1.png)<!-- -->
 
 Gerade in diesem Plot sieht man, dass die Standardfunktionalität von `R` mit der Menge an Personen im Datensatz nicht zurechtkommt. Die Umsetzung der Parameterschätzung anhand der kleinsten Quadrate ist mit der Funktion `lm` möglich. Beachten Sie hierbei, dass angegeben wird, welche Variable durch welche Variable vorhergesagt wird. Das bedeutet, dass wir hier zuerst die zynische Sichtweise und dann das Alter nennen müssen.
 
@@ -751,7 +798,7 @@ Doch es gibt noch einige weitere Informationen, die von der Funktion `lm` abgele
 
 
 ```r
-names(model) #andere Inhalte der Liste
+names(model) # andere Inhalte der Liste
 ```
 
 ```
@@ -846,8 +893,8 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ```
 
 ```
-##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value" 
-##  [7] "stderr"      "alternative" "method"      "data.name"
+##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"   
+##  [6] "null.value"  "stderr"      "alternative" "method"      "data.name"
 ```
 
 ```r
@@ -929,7 +976,7 @@ Diese Interaktion verdeutlicht bereits die oben genannten zwei wichtigen Aspekte
   1. Sie müssen wissen, wie Sie diesen Code explizit auf Ihr Beispiel übertragen
   2. Sie müssen einschätzen können, ob das was hier passiert auch das ist, was Sie wollen. 
 
-Punkt 1 kann eventuell dadurch umgangen werden, dass Sie bessere Prompts schreiben als ich, aber wie ChatGPT selbst zugibt, kann hier kein Code evaluiert werden - es wird also darauf hinauslaufen, dass Sie den Code bei sich durchführen und ihn dafür entsprechend anpassen. Wir können uns das verdeutlichen, indem wir ChatGPT um ein Beispiel mit simulierten Fragen bitten (weil es ja keinen Zugriff auf unsere Daten hat):
+Punkt 1 kann eventuell dadurch umgangen werden, dass Sie bessere Prompts schreiben als ich, aber mit ChatGPT 3.5, kann hier kein Code evaluiert werden - es wird also darauf hinauslaufen, dass Sie den Code bei sich durchführen und ihn dafür entsprechend anpassen. Wir können uns das verdeutlichen, indem wir ChatGPT um ein Beispiel mit simulierten Fragen bitten (weil es ja keinen Zugriff auf unsere Daten hat):
 
 {{<inline_image"/lehre/statistik-ii/chatGPT3.png">}}
 
@@ -964,7 +1011,7 @@ Die Ergebnisse sind nicht die Gleichen, obwohl wir mit einem festen Seed gearbei
 {{<inline_image"/lehre/statistik-ii/chatGPT4.png">}}
 
 
-Was der KI hingegen an dieser Stelle nicht bewusst ist, ist dass Sie den Code nicht selbst ausgeführt hat, sondern es sich um eine (sehr komplexe) Zusammenstückelung von Informationen ist, die online auffindbar sind. Sie können sich an dieser Stelle länger mit ChatGPT darüber streiten, wo dieser Unterschied herkommt, wenn Sie möchten (ich habe es probiert und irgendwann entnervt aufgegeben).
+Was der KI hingegen an dieser Stelle nicht bewusst ist, ist dass Sie den Code nicht selbst ausgeführt hat, sondern es sich um eine (sehr komplexe) Zusammenstückelung von Informationen handelt, die online auffindbar sind. Sie können sich an dieser Stelle länger mit ChatGPT darüber streiten, wo dieser Unterschied herkommt, wenn Sie möchten (ich habe es probiert und irgendwann aufgegeben).
 
 Den Aufmerksamen unter Ihnen ist auch direkt aufgefallen, was den 2. Punkt bekräftigt: ChatGPT hat ins in der ursprünglichen Anfrage nicht den R-Code für einen $t$-Test, sondern für einen Welch-Test präsentiert:
 
