@@ -95,8 +95,7 @@ t.test(x = fb23$ru_post, y = fb23$ru_pre, # die beiden abhaengigen Variablen
       conf.level = .95)   
 
 
-ttest <- t.test(x = fb23$ru_post, y = fb23$ru_pre,
-       paired = T, conf.level = .95)
+
 
 mean_d <- mean(difference, na.rm = T)
 sd.d.est <- sd(difference, na.rm = T)
@@ -147,5 +146,3 @@ wilcox.test(x = CBTdata$BDI_pre,
             alternative = "greater", # gerichtete Hypothese
             exact = F,               # Approximation?
             conf.level = .95)        # alpha = .05
-
-wilcox <- wilcox.test(x = CBTdata$BDI_pre, y  = CBTdata$BDI_post, paired = T, alternative = "greater", conf.level = .95)

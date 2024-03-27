@@ -6,10 +6,10 @@ slug: gruppenvergleiche-abhaengig
 categories: ["Statistik I"] 
 tags: ["Abhängige Stichproben", "t-Test", "Wilcoxon-Test", "Voraussetzungsprüfung"] 
 subtitle: ''
-summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es um vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
+summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [nehler, koehler, buchholz, irmer, liu] 
 weight: 7
-lastmod: '2024-02-06'
+lastmod: '2024-03-27'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -40,21 +40,22 @@ output:
 
 
 
-     
-{{< spoiler text="Kernfragen der Lehreinheiten über Gruppenvergleiche" >}}
+<details><summary><b>Kernfragen dieser Lehreinheit über Gruppenvergleiche</b></summary>
+
 * Wie fertige ich [Deskriptivstatistiken](#Statistiken) (Grafiken, Kennwerte) zur Veranschaulichung des Unterschieds zwischen zwei Gruppen an?  
 * Was sind [Voraussetzungen](#Vorraussetzungen) des abhängigen *t*-Tests und wie prüfe ich sie?
 * Wie führe ich einen [abhängigen *t*-Test](#t-Test) in R durch?
 * Wie berechne ich den [standardisierten Populationseffekt](#Populationseffekt) für abhängige Stichproben?  
 * Wie führe ich einen [abhängigen Wilcoxon-Test](#Wilcox) in R durch?
 * Wie [berichte](#Bericht) ich statistische Ergebnisse formal? 
-{{< /spoiler >}}
+
+</details>
 
 ***
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
+Den Datensatz `fb23` haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
 
 
 ```r
@@ -330,6 +331,7 @@ Zusammenfassend lässt sich sagen: Der standardisierte Populationseffekt beträg
 
 
 ### Ergebnisinterpretation
+
 Zunächst findet sich deskriptiv ein Unterschied: 
 Der Mittelwert der Differenzen zwischen ruhig und unruhig beträgt 0.21. Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Unterschied zwischen den beiden Messzeitpunkten ist signifikant ($t$(146) = 4.35, $p < .01$), somit wird die Nullhypothese verworfen. Dieser Unterschied ist nach dem standardisierten Populationseffekt von $d_2''$ = 0.36 klein bis mittel.
 
@@ -376,7 +378,7 @@ CBTdata <- CBTdata[CBTdata$Treatment == "CBT" &
 
 Der resultierende Datensatz sollte 60 Zeilen enthalten. Die Fragestellung soll nun spezfisch sein: Ist der Depressionscore nach der Intervention durch kognitiv-behaviorale Therapie niedriger als davor?
 
-### Deskriptivstatistik
+### Deskriptivstatistik {#Statistiken}
 
 Wie immer beginnen wir mit der deskriptivstatistischen Analyse unserer Daten. Einige Informationen können wir beispielsweise durch den `summary()`-Befehl erhalten 
 
@@ -497,6 +499,6 @@ wilcox.test(x = CBTdata$BDI_pre,
 Durch das Argument `exact` kann angegeben werden, ob man einen exakten p-Wert oder eine Approximation ausgeben lassen will -- in spezifischen Konstellationen kann man diese Wahl trffen. Für Fälle mit Rangbindungen und Differenzen von 0 wird eine Approximation genutzt, die wir hier auch uns anzeigen lassen. Auch unsere Stichprobengröße führt dazu, dass die Approximation genutzt wird. Trotzdem steuern wir mit `exact = FALSE` auch bewusst an. Die Signifikanzentscheidung kann mit diesem Output direkt getroffen werden. Der empirische Wert liegt bei V = 1640 und für den zugehörigen p-Wert gilt: $p < .01$. Wir würden die H0 also verwerfen. Am Output fällt uns in Unterschied zum $t$-Test auf, dass kein Konfidenzintervall ausgegeben wird, was uns aber nicht weiter stört, da wir unsere Hypothesen prüfen konnten.
 
 
-### Ergebnisinterpretation  
+### Ergebnisinterpretation {#Bericht}
 
 Da der Mittelwert für die Depressionsscores kein sinnvolles Maß für die zentrale Tendenz darstellt, wurde ein Wilcoxon-Vorzeichen-Rangtest für abhängige Stichproben durchgeführt, um die Medien zu vergleichen. Zunächst findet sich deskriptiv ein Unterschied: Vor der Therapie ist der Median des Depressionsscores größer 22 als nach der Therapie 18. Der Unterschied wurde bei einem Signifikanzniveau von alpha = .05 signifikant (_V_ = 1640, $p$ < .01). Somit wird die Nullhypothese verworfen und es wird angenommen, dass der Depressionsscore nach der Therapie niedriger ist als davor.
