@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [zacharias]
 weight:
-lastmod: '2024-01-22'
+lastmod: '2024-03-28'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -21,11 +21,23 @@ _build:
   list: never
 reading_time: false
 share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/matrixalgebra
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/matrixalgebra-aufgaben
 output:
   html_document:
     keep_md: true
 
 ---
+
+
 
 ## Aufgabe 1
 ### Vektoren

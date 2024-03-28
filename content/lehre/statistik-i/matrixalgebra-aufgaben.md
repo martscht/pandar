@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [zacharias]
 weight:
-lastmod: '2024-01-22'
+lastmod: '2024-03-28'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -33,7 +33,7 @@ output:
 
 ---
 
----
+
 
 ## Aufgabe 1
 ### Vektoren
