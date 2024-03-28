@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer] 
 weight: 10.5
-lastmod: '2024-01-18'
+lastmod: '2024-03-28'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -104,8 +104,12 @@ y[c(1,3)]
 Die Addition von Vektoren funktioniert elementenweise. Das bedeutet, dass das 1. Element des 1. Vektors und das 1. Element des 2. Vektors miteinander addiert werden und das 2. Element des 1. Vektors mit dem 2. Element des 2. Vektors miteinander addiert werden, etc. 
 
 {{< math >}}
-$$x+y=\begin{pmatrix}x_1\\x_2\\x_3 \end{pmatrix}+\begin{pmatrix}y_1\\y_2\\y_3 \end{pmatrix}=\begin{pmatrix}x_1+y_1\\x_2+y_2\\x_3+y_3 \end{pmatrix}=\begin{pmatrix}1\\2\\3 \end{pmatrix}+\begin{pmatrix}10\\8\\6 \end{pmatrix}=\begin{pmatrix}1+10\\2+8\\3+6 \end{pmatrix}=\begin{pmatrix}11\\10\\9 \end{pmatrix}.$$
+\begin{equation}
+\small
+x+y=\begin{pmatrix}x_1\\x_2\\x_3 \end{pmatrix}+\begin{pmatrix}y_1\\y_2\\y_3 \end{pmatrix}=\begin{pmatrix}x_1+y_1\\x_2+y_2\\x_3+y_3 \end{pmatrix}=\begin{pmatrix}1\\2\\3 \end{pmatrix}+\begin{pmatrix}10\\8\\6 \end{pmatrix}=\begin{pmatrix}1+10\\2+8\\3+6 \end{pmatrix}=\begin{pmatrix}11\\10\\9 \end{pmatrix}.
+\end{equation}
 {{</ math >}}
+
 
 Elementeweise Additionen funktionieren super simpel, indem wir `x` und `y` einfach mit `+` verknüpfen. 
 
@@ -155,7 +159,7 @@ In `R` sieht das so aus
 ## [1] 3 6 9
 ```
 
-Genauso können wir auch jedes Element durch 2 teilen, indem wir mit $\frac{1}{2}$ also 0.5 multiplizieren.
+Genauso können wir auch jedes Element durch 2 Teilen, indem wir mit $\frac{1}{2}$ also 0.5 multiplizieren.
 
 
 ```r
@@ -613,7 +617,7 @@ det(C)
 ```
 
 ```
-## [1] -9.516197e-16
+## [1] 6.661338e-16
 ```
 
 ```r
@@ -899,7 +903,7 @@ Nun aber genug von Obst, wir sind hier um Statistik zu betreiben. Im letzten Abs
 
 ```r
 # Daten laden
-load(url('https://courageous-donut-84b9e9.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb22.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb22$geschl_faktor <- factor(fb22$geschl,
