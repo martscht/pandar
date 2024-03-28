@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer, sinn] 
 weight:
-lastmod: '2024-01-11'
+lastmod: '2024-03-28'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -21,6 +21,17 @@ _build:
   list: never
 reading_time: false
 share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/simulation-poweranalyse
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/simulation-poweranalyse-aufgaben
+
 output:
   html_document:
     keep_md: true
@@ -32,11 +43,11 @@ output:
 
 ## Aufgabe 1
 ### Lineare Beziehungen zwischen Variablen: Korrelationstest unter $H_1$
-Wir wollen uns ebenfalls die Power für den Korrelationstest ansehen. Dazu müssen wir allerdings korrelierte Variablen generieren. Um das hinzubekommen, müssen wir einige Eigenschaften der Normalverteilung ausnutzen: bspw. dass die Summe zweier normalverteilter Zufallsvariablen wieder normalverteilt ist. Für zwei unabhängige (unkorrelierte) standard-normalverteilte Zufallsvariablen $X$ und $Z$, ist die Zufallsvariable $Y$, die folgendermaßen gebildet wird:
+Wir wollen uns ebenfalls die Power für den Korrelationstest ansehen. Dazu müssen wir allerdings korrelierte Variablen generieren. Um das hinzubekommen, müssen wir einige Eigenschaften der Normalverteilung ausnutzen: bspw. dass die Summe zweier normalverteilter Zufallsvariablen wieder normalverteilt ist. Für zwei unabhängige (unkorrelierte) standardnormalverteilte Zufallsvariablen $X$ und $Z$, ist die Zufallsvariable $Y$, die folgendermaßen gebildet wird:
 
 $$Y:= \rho X + \sqrt{1-\rho^2}Z,$$
 
-wieder standard-normalverteilt und um den Korrelationskoeffizienten $\rho$ korreliert mit $X$. Wir können also relativ einfach zwei korrelierte Variablen generieren. Wie in der Sitzung verwenden wir $N=20$:
+wieder standardnormalverteilt und um den Korrelationskoeffizienten $\rho$ korreliert mit $X$. Wir können also relativ einfach zwei korrelierte Variablen generieren. Wie in der Sitzung verwenden wir $N=20$:
 
 
 ```r
@@ -255,7 +266,7 @@ library(WebPower)
 ```
 </details>
 
-* Nehmen Sie an, dass Sie eine Gruppe von $N=50$ Personen untersucht haben. Sie möchten nun wissen, wie groß der Korrelationskoeffizient theoretisch sein müsste damit eine Power von $95\\%$ erreicht werden kann. Das $\alpha$-Fehleriveau soll dabei bei $0.05$ liegen.
+* Nehmen Sie an, dass Sie eine Gruppe von $N=50$ Personen untersucht haben. Sie möchten nun wissen, wie groß der Korrelationskoeffizient theoretisch sein müsste, damit eine Power von $95\\%$ erreicht werden kann. Das $\alpha$-Fehleriveau soll dabei bei $0.05$ liegen.
 
 <details><summary>Lösung</summary>
 
@@ -338,7 +349,7 @@ Sie können sich die Power auch für andere Irrtumswahrscheinlichkeiten anschaue
 ## Aufgabe 5
 ### Power-Plots für den $t$-Test
 
-Wir wollen nun die Power des $t$-Tests für unterschiedliche Effektgrößen untersuchen. In den beiden Gruppen soll jeweils eine Varianz von 1 herrschen. Verändern Sie also den Code der Sitzung nur hinsichtlich der Effektgröße. Das $\alpha$-Fehlerniveau soll wieder bei $5\%$ liegen.
+Wir wollen nun die Power des $t$-Tests für unterschiedliche Effektgrößen untersuchen. In den beiden Gruppen soll jeweils eine Varianz von 1 herrschen. Verändern Sie also den Code der Sitzung nur hinsichtlich der Effektgröße. Das $\alpha$-Fehlerniveau soll wieder bei $0.05$ liegen.
 
 Nutzen Sie den Seed 12345 (`set.seed(12345)`).
 
