@@ -242,7 +242,7 @@ Wenn man den genauen Namen einer Funktion nicht kennt, ist `help()` meistens nur
 
 ![](search.png)
 
-Dadurch öffnet sich im Hilfefenster eine Auflistung aller Befehle, die diesen Suchbegriff enthalten. Die Notation ist dabei immer `paket::funktion()` - also das Bündel von Funktionen, in dem wir diese spezifische Funktion gefunden haben und dann deren Name. Was genau Pakete sind, werden wir uns [später](../tests-und-konfidenzintervalle#pakete) noch einmal vertieft angucken. Sie können einfach links auf den Namen klicken um zur Hilfe der Funktion zu gelangen.
+Dadurch öffnet sich im Hilfefenster eine Auflistung aller Befehle, die diesen Suchbegriff enthalten. Die Notation ist dabei immer `paket::funktion()` - also das Bündel von Funktionen, in dem wir diese spezifische Funktion gefunden haben und dann deren Name. Was genau Pakete sind, werden wir uns [später](../tests-konfidenzintervalle#pakete) noch einmal vertieft angucken. Sie können einfach links auf den Namen klicken um zur Hilfe der Funktion zu gelangen.
 
 
 ***
