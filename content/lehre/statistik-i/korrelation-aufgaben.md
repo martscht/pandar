@@ -3,13 +3,13 @@ title: "Korrelation - Aufgaben"
 type: post
 date: '2019-10-18' 
 slug: korrelation-aufgaben
-categories: [] 
-tags: ["Statistik I Übungen"] 
+categories: ["Statistik I Übungen"] 
+tags: [] 
 subtitle: ''
 summary: '' 
 authors: [nehler, winkler, vogler, schroeder]
 weight:
-lastmod: '2024-01-16'
+lastmod: '2024-03-28'
 featured: no
 banner:
   image: "/header/storch_with_baby.jpg"
@@ -31,6 +31,7 @@ output:
   html_document:
     keep_md: true
 ---
+
 
 
 ## Vorbereitung
@@ -55,24 +56,14 @@ names(fb23)
 ```
 
 ```
-##  [1] "mdbf1_pre"    "mdbf2_pre"    "mdbf3_pre"   
-##  [4] "mdbf4_pre"    "mdbf5_pre"    "mdbf6_pre"   
-##  [7] "mdbf7_pre"    "mdbf8_pre"    "mdbf9_pre"   
-## [10] "mdbf10_pre"   "mdbf11_pre"   "mdbf12_pre"  
-## [13] "lz"           "extra"        "vertr"       
-## [16] "gewis"        "neuro"        "offen"       
-## [19] "prok"         "nerd"         "grund"       
-## [22] "fach"         "ziel"         "wissen"      
-## [25] "therap"       "lerntyp"      "hand"        
-## [28] "job"          "ort"          "ort12"       
-## [31] "wohnen"       "uni1"         "uni2"        
-## [34] "uni3"         "uni4"         "attent_pre"  
-## [37] "gs_post"      "wm_post"      "ru_post"     
-## [40] "attent_post"  "hand_factor"  "fach_klin"   
-## [43] "unipartys"    "mdbf4_pre_r"  "mdbf11_pre_r"
-## [46] "mdbf3_pre_r"  "mdbf9_pre_r"  "mdbf5_pre_r" 
-## [49] "mdbf7_pre_r"  "wm_pre"       "gs_pre"      
-## [52] "ru_pre"       "ru_pre_zstd"
+##  [1] "mdbf1_pre"    "mdbf2_pre"    "mdbf3_pre"    "mdbf4_pre"    "mdbf5_pre"    "mdbf6_pre"    "mdbf7_pre"   
+##  [8] "mdbf8_pre"    "mdbf9_pre"    "mdbf10_pre"   "mdbf11_pre"   "mdbf12_pre"   "lz"           "extra"       
+## [15] "vertr"        "gewis"        "neuro"        "offen"        "prok"         "nerd"         "grund"       
+## [22] "fach"         "ziel"         "wissen"       "therap"       "lerntyp"      "hand"         "job"         
+## [29] "ort"          "ort12"        "wohnen"       "uni1"         "uni2"         "uni3"         "uni4"        
+## [36] "attent_pre"   "gs_post"      "wm_post"      "ru_post"      "attent_post"  "hand_factor"  "fach_klin"   
+## [43] "unipartys"    "mdbf4_pre_r"  "mdbf11_pre_r" "mdbf3_pre_r"  "mdbf9_pre_r"  "mdbf5_pre_r"  "mdbf7_pre_r" 
+## [50] "wm_pre"       "gs_pre"       "ru_pre"       "ru_pre_zstd"
 ```
 
 Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 53 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.

@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler, winkler, vogler, schroeder] 
 weight: 
-lastmod: '2024-01-25'
+lastmod: '2024-03-28'
 featured: no
 banner:
   image: "/header/storch_with_baby.jpg"
@@ -21,10 +21,23 @@ _build:
   list: never
 reading_time: false
 share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/korrelation
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/korrelation-aufgaben
+
 output:
   html_document:
     keep_md: true
 ---
+
+
 
 ## Vorbereitung
 
@@ -48,15 +61,14 @@ names(fb23)
 ```
 
 ```
-##  [1] "mdbf1_pre"    "mdbf2_pre"    "mdbf3_pre"    "mdbf4_pre"    "mdbf5_pre"    "mdbf6_pre"   
-##  [7] "mdbf7_pre"    "mdbf8_pre"    "mdbf9_pre"    "mdbf10_pre"   "mdbf11_pre"   "mdbf12_pre"  
-## [13] "lz"           "extra"        "vertr"        "gewis"        "neuro"        "offen"       
-## [19] "prok"         "nerd"         "grund"        "fach"         "ziel"         "wissen"      
-## [25] "therap"       "lerntyp"      "hand"         "job"          "ort"          "ort12"       
-## [31] "wohnen"       "uni1"         "uni2"         "uni3"         "uni4"         "attent_pre"  
-## [37] "gs_post"      "wm_post"      "ru_post"      "attent_post"  "hand_factor"  "fach_klin"   
-## [43] "unipartys"    "mdbf4_pre_r"  "mdbf11_pre_r" "mdbf3_pre_r"  "mdbf9_pre_r"  "mdbf5_pre_r" 
-## [49] "mdbf7_pre_r"  "wm_pre"       "gs_pre"       "ru_pre"       "ru_pre_zstd"
+##  [1] "mdbf1_pre"    "mdbf2_pre"    "mdbf3_pre"    "mdbf4_pre"    "mdbf5_pre"    "mdbf6_pre"    "mdbf7_pre"   
+##  [8] "mdbf8_pre"    "mdbf9_pre"    "mdbf10_pre"   "mdbf11_pre"   "mdbf12_pre"   "lz"           "extra"       
+## [15] "vertr"        "gewis"        "neuro"        "offen"        "prok"         "nerd"         "grund"       
+## [22] "fach"         "ziel"         "wissen"       "therap"       "lerntyp"      "hand"         "job"         
+## [29] "ort"          "ort12"        "wohnen"       "uni1"         "uni2"         "uni3"         "uni4"        
+## [36] "attent_pre"   "gs_post"      "wm_post"      "ru_post"      "attent_post"  "hand_factor"  "fach_klin"   
+## [43] "unipartys"    "mdbf4_pre_r"  "mdbf11_pre_r" "mdbf3_pre_r"  "mdbf9_pre_r"  "mdbf5_pre_r"  "mdbf7_pre_r" 
+## [50] "wm_pre"       "gs_pre"       "ru_pre"       "ru_pre_zstd"
 ```
 
 Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 53 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
@@ -70,8 +82,6 @@ Das Paket `psych` enthält vielerlei Funktionen, die für die Analyse von Datens
 
   * Installieren (falls noch nicht geschehen) und laden Sie das Paket `psych`.
   * Nutzen Sie den neugewonnen Befehl `describe()`, um sich gleichzeitig die verschiedenen Deskriptivstatistiken für Lebenszufriedenheit (`lz`) ausgeben zu lassen.
-  * Die Funktion `describeBy()` ermöglicht außerdem Deskriptivstatistiken in Abhängigkeit einer gruppierenden Variable auszugeben. Machen Sie sich diesen Befehl zunutze, um sich die Lebenszufriedenheit (`lz`) abhängig von der derzeitigen Wohnsituation (`wohnen`) anzeigen zu lassen.
-  * `describe()` kann auch genutzt werden, um gleichzeitig Deskriptivstatistiken für verschiedene Variablen zu berechnen. Nutzen Sie diese Funktionalität, um sich gleichzeitg die univariaten Deskriptivstatistiken für die fünf Persönlichkeitsdimensionen ausgeben zu lassen.
 
 <details>
 
@@ -109,7 +119,7 @@ describe(fb23$lz)
 
 </details>
 
--   `describeBy()` ermöglicht die Ausgabe von Deskriptivstatistiken in Abhängigkeit einer gruppierenden Variable.
+  * Die Funktion `describeBy()` ermöglicht außerdem Deskriptivstatistiken in Abhängigkeit einer gruppierenden Variable auszugeben. Machen Sie sich diesen Befehl zunutze, um sich die Lebenszufriedenheit (`lz`) abhängig von der derzeitigen Wohnsituation (`wohnen`) anzeigen zu lassen.
 
 <details>
 
@@ -126,15 +136,15 @@ describeBy(fb23$lz, group = fb23$wohnen)
 ## group: WG
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 55 5.11 1.09    5.2    5.19 0.89 1.4   7   5.6 -0.83     0.94 0.15
-## ------------------------------------------------------------------------- 
+## -------------------------------------------------------------------------------------- 
 ## group: bei Eltern
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 40 5.04 1.03    5.2    5.14 0.89 1.6   7   5.4 -1.01     1.52 0.16
-## ------------------------------------------------------------------------- 
+## -------------------------------------------------------------------------------------- 
 ## group: alleine
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 44  5.2 0.99    5.2    5.22 1.19 2.6 6.8   4.2 -0.24    -0.41 0.15
-## ------------------------------------------------------------------------- 
+## -------------------------------------------------------------------------------------- 
 ## group: sonstiges
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 25 5.07 1.08    5.4    5.16 0.89 2.6 6.4   3.8 -0.81    -0.65 0.22
@@ -171,10 +181,6 @@ describe(fb23[,c("extra","vertr","gewis","neuro","offen")])
 In der Befragung am Anfang des Semesters wurde gefragt, ob Sie neben der Uni einen Nebenjob (`job`) ausüben und mit welcher Hand sie primär schreiben (`hand`). Erstellen Sie für diese beiden Variablen eine Kreuztabelle mit Randsummen.
 
   * Stellen Sie zunächst sicher, dass die Variablen als Faktoren vorliegen und die Kategorien beider Variablen korrekt bezeichnet sind. 
-  * Wie viele Personen sind Linkshänder und haben keinen Nebenjob? 
-  * Was ist der relative Anteil aller Teilnehmenden, die einem Nebenjob nachgehen?
-
-  * Berechnen Sie nun mit Hilfe des `psych`-Pakets die Korrelationskoeffizienten Phi ($\phi$) und Yules Q für das oben genannte Beispiel.
   
 <details>
 
@@ -288,7 +294,7 @@ addmargins(prop.table(tab))
 
 </details>
 
--   Berechnung der Korrelationskoeffizienten Phi ($\phi$) und Yules Q mit Hilfe des `psych`-Pakets.
+-   Berechnen Sie nun mit Hilfe des `psych`-Pakets die Korrelationskoeffizienten Phi ($\phi$) und Yules Q für das oben genannte Beispiel.
 
 <details>
 
@@ -321,12 +327,7 @@ Beide Koeffizienten sprechen für eine wenn überhaupt schwache Korrelation.
 Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglichkeit (`vertr`), Gewissenhaftigkeit (`gewis`), Neurotizismus (`neuro`) und Offenheit für neue Erfahrungen (`offen`) ist am stärksten mit der Lebenszufriedenheit korreliert (`lz`)?
 
   * Überprüfen Sie die Voraussetzungen für die Pearson-Korrelation.
-  * Erstellen Sie für diese Frage eine Korrelationsmatrix, die alle Korrelationen enthält. Verwenden Sie die Funktion `round()` (unter Betrachtung der Hilfe), um die Werte auf zwei Nachkommastellen zu runden und die Tabelle dadurch übersichtlicher darzustellen.
-  * Wie würden Sie das Ausmaß der betragsmäßig größten Korrelation mit der Lebenszufiredenheit nach den Richtlinien von Cohen (1988) einschätzen?
-  * Ist der Korrelationskoeffizient von Neurotizismus und Lebenszufriedenheit statistisch bedeutsam?
 
-
-Voraussetzungsprüfung:
 
 <details>
 
@@ -375,12 +376,6 @@ plot(fb23$offen, fb23$lz,
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-15-5.png)<!-- -->
 
 Die fünf Scatterplots lassen allesamt auf einen linearen Zusammenhang zwischen den Variablen schließen.
-
-</details>
-
-<details>
-
-<summary>Lösung</summary>
 
 3.  Normalverteilung $\rightarrow$ QQ-Plot, Histogramm oder Shapiro-Wilk-Test
 
@@ -600,8 +595,8 @@ cor.test(fb23$lz, fb23$neuro,
 ```
 
 ```
-## Warning in cor.test.default(fb23$lz, fb23$neuro, alternative = "two.sided", : Cannot compute
-## exact p-value with ties
+## Warning in cor.test.default(fb23$lz, fb23$neuro, alternative = "two.sided", : Cannot compute exact p-value with
+## ties
 ```
 
 ```
@@ -751,8 +746,8 @@ cor.test(fb23$nerd, fb23$prok,
 ```
 
 ```
-## Warning in cor.test.default(fb23$nerd, fb23$prok, alternative = "two.sided", : Cannot compute
-## exact p-value with ties
+## Warning in cor.test.default(fb23$nerd, fb23$prok, alternative = "two.sided", : Cannot compute exact p-value with
+## ties
 ```
 
 ```
@@ -769,8 +764,8 @@ cor.test(fb23$nerd, fb23$prok,
 
 
 ```
-## Warning in cor.test.default(fb23$nerd, fb23$prok, alternative = "two.sided", : Cannot compute
-## exact p-value with ties
+## Warning in cor.test.default(fb23$nerd, fb23$prok, alternative = "two.sided", : Cannot compute exact p-value with
+## ties
 ```
 
 Sowohl die Pearson-Korrelation (p = 0.8451798) als auch Spearman-Rangkorrelation (p = 0.4976397) sind nicht signifikant von 0 verschieden. 
@@ -818,7 +813,7 @@ wp.correlation(n = nrow(fb23),
 
 
 
-Gegeben es gibt eine von null verschiedene (signifikante) Pearson-Korrelation muss diese mindestens 0.208 groß sein, damit wir diese mit einer Power von 80%, auf einem $alpha$-Fehlerniveau von 5% in unserem Datensatz, mit n = 179 finden könnten.
+Gegeben es gibt eine von null verschiedene (signifikante) Pearson-Korrelation muss diese mindestens 0.208 groß sein, damit wir diese mit einer Power von 80%, auf einem $\alpha$-Fehlerniveau von 5% in unserem Datensatz, mit n = 179 finden könnten.
 
 </details>
 

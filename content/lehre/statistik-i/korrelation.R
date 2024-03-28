@@ -181,5 +181,3 @@ library(rococo)                     #laden
 rococo(fb23$mdbf2_pre, fb23$mdbf3_pre)
 
 rococo.test(fb23$mdbf2_pre, fb23$mdbf3_pre)
-
-roc.test <- rococo.test(fb23$mdbf2_pre, fb23$mdbf3_pre)

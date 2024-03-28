@@ -21,10 +21,26 @@ _build:
   list: never
 reading_time: false
 share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/korrelation
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/korrelation-aufgaben
+
 output:
   html_document:
     keep_md: true
 ---
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+library(knitr)
+```
 
 ## Vorbereitung
 
@@ -97,8 +113,6 @@ Das Paket `psych` enthält vielerlei Funktionen, die für die Analyse von Datens
 
   * Installieren (falls noch nicht geschehen) und laden Sie das Paket `psych`.
   * Nutzen Sie den neugewonnen Befehl `describe()`, um sich gleichzeitig die verschiedenen Deskriptivstatistiken für Lebenszufriedenheit (`lz`) ausgeben zu lassen.
-  * Die Funktion `describeBy()` ermöglicht außerdem Deskriptivstatistiken in Abhängigkeit einer gruppierenden Variable auszugeben. Machen Sie sich diesen Befehl zunutze, um sich die Lebenszufriedenheit (`lz`) abhängig von der derzeitigen Wohnsituation (`wohnen`) anzeigen zu lassen.
-  * `describe()` kann auch genutzt werden, um gleichzeitig Deskriptivstatistiken für verschiedene Variablen zu berechnen. Nutzen Sie diese Funktionalität, um sich gleichzeitg die univariaten Deskriptivstatistiken für die fünf Persönlichkeitsdimensionen ausgeben zu lassen.
 
 <details>
 
@@ -128,7 +142,7 @@ describe(fb23$lz)
 
 </details>
 
--   `describeBy()` ermöglicht die Ausgabe von Deskriptivstatistiken in Abhängigkeit einer gruppierenden Variable.
+  * Die Funktion `describeBy()` ermöglicht außerdem Deskriptivstatistiken in Abhängigkeit einer gruppierenden Variable auszugeben. Machen Sie sich diesen Befehl zunutze, um sich die Lebenszufriedenheit (`lz`) abhängig von der derzeitigen Wohnsituation (`wohnen`) anzeigen zu lassen.
 
 <details>
 
@@ -159,10 +173,6 @@ describe(fb23[,c("extra","vertr","gewis","neuro","offen")])
 In der Befragung am Anfang des Semesters wurde gefragt, ob Sie neben der Uni einen Nebenjob (`job`) ausüben und mit welcher Hand sie primär schreiben (`hand`). Erstellen Sie für diese beiden Variablen eine Kreuztabelle mit Randsummen.
 
   * Stellen Sie zunächst sicher, dass die Variablen als Faktoren vorliegen und die Kategorien beider Variablen korrekt bezeichnet sind. 
-  * Wie viele Personen sind Linkshänder und haben keinen Nebenjob? 
-  * Was ist der relative Anteil aller Teilnehmenden, die einem Nebenjob nachgehen?
-
-  * Berechnen Sie nun mit Hilfe des `psych`-Pakets die Korrelationskoeffizienten Phi ($\phi$) und Yules Q für das oben genannte Beispiel.
   
 <details>
 
@@ -233,7 +243,7 @@ addmargins(prop.table(tab))
 
 </details>
 
--   Berechnung der Korrelationskoeffizienten Phi ($\phi$) und Yules Q mit Hilfe des `psych`-Pakets.
+-   Berechnen Sie nun mit Hilfe des `psych`-Pakets die Korrelationskoeffizienten Phi ($\phi$) und Yules Q für das oben genannte Beispiel.
 
 <details>
 
@@ -255,12 +265,7 @@ Beide Koeffizienten sprechen für eine wenn überhaupt schwache Korrelation.
 Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglichkeit (`vertr`), Gewissenhaftigkeit (`gewis`), Neurotizismus (`neuro`) und Offenheit für neue Erfahrungen (`offen`) ist am stärksten mit der Lebenszufriedenheit korreliert (`lz`)?
 
   * Überprüfen Sie die Voraussetzungen für die Pearson-Korrelation.
-  * Erstellen Sie für diese Frage eine Korrelationsmatrix, die alle Korrelationen enthält. Verwenden Sie die Funktion `round()` (unter Betrachtung der Hilfe), um die Werte auf zwei Nachkommastellen zu runden und die Tabelle dadurch übersichtlicher darzustellen.
-  * Wie würden Sie das Ausmaß der betragsmäßig größten Korrelation mit der Lebenszufiredenheit nach den Richtlinien von Cohen (1988) einschätzen?
-  * Ist der Korrelationskoeffizient von Neurotizismus und Lebenszufriedenheit statistisch bedeutsam?
 
-
-Voraussetzungsprüfung:
 
 <details>
 
@@ -290,12 +295,6 @@ plot(fb23$offen, fb23$lz,
 ```
 
 Die fünf Scatterplots lassen allesamt auf einen linearen Zusammenhang zwischen den Variablen schließen.
-
-</details>
-
-<details>
-
-<summary>Lösung</summary>
 
 3.  Normalverteilung $\rightarrow$ QQ-Plot, Histogramm oder Shapiro-Wilk-Test
 
@@ -517,7 +516,7 @@ pa <- wp.correlation(n = nrow(fb23),
                      alternative = "two.sided")
 ```
 
-Gegeben es gibt eine von null verschiedene (signifikante) Pearson-Korrelation muss diese mindestens `r round(pa$r, 3)` groß sein, damit wir diese mit einer Power von 80%, auf einem $alpha$-Fehlerniveau von 5% in unserem Datensatz, mit n = `r nrow(fb23)` finden könnten.
+Gegeben es gibt eine von null verschiedene (signifikante) Pearson-Korrelation muss diese mindestens `r round(pa$r, 3)` groß sein, damit wir diese mit einer Power von 80%, auf einem $\alpha$-Fehlerniveau von 5% in unserem Datensatz, mit n = `r nrow(fb23)` finden könnten.
 
 </details>
 
