@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es um vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [cezanne, mueller, nehler] 
 weight: 13
-lastmod: '2024-02-01'
+lastmod: '2024-04-02'
 featured: no 
 banner:
   image: "/header/mechanical_number_display.png"

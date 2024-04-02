@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [cezanne, mueller, nehler]
 weight:
-lastmod: '2024-02-01' 
+lastmod: '2024-04-02' 
 featured: no
 banner:
   image: "/header/mechanical_number_display.png"
@@ -18,10 +18,18 @@ projects: []
 reading_time: false
 share: false
 
+links:
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/zusatz-aufgaben
+
 output:
   html_document:
     keep_md: true
 ---
+
+
 
 Hier finden Sie die Lösungen zu den Zusatzaufgaben!
 
@@ -1515,20 +1523,6 @@ Der Gruppenunterschied ist signifikant ($t$(158) = -7.06 , *p* < .001), somit wi
 
 ```r
 library("effsize")
-```
-
-```
-## 
-## Attaching package: 'effsize'
-```
-
-```
-## The following object is masked from 'package:psych':
-## 
-##     cohen.d
-```
-
-```r
 cohen.d(fb22$nerd, fb22$intel, paired = T, within = F)
 ```
 
@@ -1613,8 +1607,8 @@ cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "gre
 ```
 
 ```
-## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot
-## compute exact p-value with ties
+## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot compute exact p-value
+## with ties
 ```
 
 ```
