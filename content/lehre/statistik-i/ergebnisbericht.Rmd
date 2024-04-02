@@ -28,6 +28,10 @@ links:
     url: /lehre/statistik-i/ergebnisbericht
   - icon_pack: fas
     icon: pen-to-square
+    name: Gruppenprojekt
+    url: /lehre/statistik-i/gruppenprojekt
+  - icon_pack: fas
+    icon: pen-to-square
     name: LIFOS
     url: /lehre/statistik-i/quickguide-lifos
 
@@ -37,6 +41,9 @@ output:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
 
 # Allgemeine Hinweise
 
