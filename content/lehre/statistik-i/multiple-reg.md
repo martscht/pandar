@@ -516,7 +516,7 @@ Der Einfluss der Extraversion wurde also durch die anderen Big Five Dimensionen 
 
 ## Voraussetzungen der multiplen Regression
 
-In besagtem Lehrbuch finden Sie auf S.720 auch eine Übersicht über die fünf zentralen Voraussetzungen der multiplen Regression. Diese sind:
+In besagtem Lehrbuch finden Sie auf S.720 auch eine Übersicht über die fünf zentralen Voraussetzungen der multiplen Regression (diese gelten in etwas simplerer Form auch für die einfache lineare Regression). Diese sind:
 
   1. Korrekte Spezifikation des Modells
   2. Messfehlerfreiheit der unabhängigen Variablen
