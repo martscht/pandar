@@ -80,7 +80,8 @@ predict(lin_mod, newdata = extra_neu)
 
 #Konfidenzintervalle der Regressionskoeffizienten
 confint(lin_mod)
-confint <- confint(lin_mod)
+
+
 
 #Detaillierte Modellergebnisse
 summary(lin_mod)
@@ -98,7 +99,7 @@ summary(lin_mod)
 
 summary(lin_mod)$r.squared
 
-r2 <- summary(lin_mod)$r.squared*100
+
 
 s_lin_mod <- lm(scale(nerd) ~ scale(extra), fb23) # standardisierte Regression
 s_lin_mod
