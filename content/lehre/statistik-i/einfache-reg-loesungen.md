@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [winkler, neubauer, walter] 
 weight: 
-lastmod: '2024-01-26'
+lastmod: '2024-04-02'
 featured: no
 banner:
   image: "/header/modern_buildings.jpg"
@@ -21,11 +21,21 @@ _build:
   list: never
 reading_time: false
 share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/einfache-reg
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/einfache-reg-aufgaben
+
 output:
   html_document:
     keep_md: true
 ---
-
 
 
 
@@ -167,6 +177,7 @@ Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglic
   * Erstellen Sie für jeden Zusammenhang je ein Streudiagramm.
 
 <details><summary>Lösung</summary>
+
 **`extra`:**
 
 ```r
@@ -206,12 +217,13 @@ plot(fb23$offen, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 ![](/lehre/statistik-i/einfache-reg-loesungen_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+
 </details>
 
-<p>
   * Schätzen Sie für jeden Zusammenhang je ein Modell.
 
 <details><summary>Lösung</summary>
+
 **`extra`:**
 
 ```r
@@ -357,9 +369,9 @@ summary(fmo)
 ## F-statistic: 0.3036 on 1 and 175 DF,  p-value: 0.5823
 ```
 Wenn wir die Koeffizienten der Modelle vergleichen, sehen wir, dass `extra` den stärksten linearen Zusammenhang mit `lz` aufweist (Hinweis: für den Vergleich der Modelle vergleichen wir den Determinationskoeffizienten der fünf Modelle = Multiple R-squared im R-Output! Dieser ist für das Modell mit dem Prädiktor Extraversion am höchsten)
+
 </details>
 
-<p>
   * Interpretieren Sie den standardisierten Koeffizienten des linearen Zusammenhangs zwischen Extraversion und Lebenszufriedenheit. Wie verändert sich `lz`, wenn sich `extra` um eine Standardabweichung erhöht?
  
 <details><summary>Lösung</summary>
@@ -434,11 +446,12 @@ Wenn sich die Variable `extra` um eine Standardabweichung verändert, verändert
 
 ## Aufgabe 2
 
-Betrachten Sie nun den Zusammenhang von Neurotizismus und Lebenszufriedenheit etwas genauer:
+Betrachten Sie nun den Zusammenhang von Neurotizismus (`neuro`) und Lebenszufriedenheit (`lz`) etwas genauer:
 
   * Erstellen Sie ein Streu-Punkt-Diagramm  mit Regressionsgerade für den linearen Zusammenhang zwischen Neurotizismus und Lebenszufriedenheit.
 
 <details><summary>Lösung</summary>
+
 
 ```r
 plot(fb23$neuro, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
@@ -446,12 +459,13 @@ abline(fmn, col = "red")
 ```
 
 ![](/lehre/statistik-i/einfache-reg-loesungen_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+
 </details>
 
-<p>
   * Wie viel Prozent der Varianz werden durch das Modell erklärt?
 
 <details><summary>Lösung</summary>
+
 
 ```r
 summary(fmn)
@@ -480,12 +494,13 @@ summary(fmn)
 ```
 
 $\rightarrow$ Das Modell erklärt 7.08% der Varianz in Lebenszufriedenheit durch Neurotizismus.
+
 </details>
 
-<p>
   * Ein paar Studierende wurden nachträglich zum Studiengang Psychologie zugelassen und befinden sich daher nicht im Datensatz. Die neuen Studierenden wurden nachträglich befragt und weisen auf der Skala Neurotizismus folgende Werte auf: 1.25; 2.75; 3.5; 4.25; 3.75; 2.15. Machen Sie eine Vorhersage für die Lebenszufriedenheit für die neuen Studierenden.
 
 <details><summary>Lösung</summary>
+
 
 ```r
 new <- data.frame(neuro = c(1.25, 2.75, 3.5, 4.25, 3.75, 2.15))
@@ -496,4 +511,5 @@ predict(fmn, newdata = new)
 ##        1        2        3        4        5        6 
 ## 5.720154 5.291599 5.077322 4.863045 5.005896 5.463021
 ```
+
 </details> 
