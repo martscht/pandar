@@ -6,7 +6,7 @@ slug: multiple-reg
 categories: ["Statistik I"] 
 tags: ["Regression", "Determinationskoeffizient", "Voraussetzungen"] 
 subtitle: ''
-summary: '' 
+summary: 'In diesem Beitrag wird die einfache lineare Regression zur multiplen Regression erweitert, indem mehrere Prädiktoren genuzt werden. Deskriptiv werden die einzelnen Parameter der Regression dargestellt und  die gemeinsam erklärte Varianz erläutert. Aus inferenzstatistischer Sicht beschäftigen wir uns mit einem globalen Modelltest und Modellvergleichstests. Auch die Annahmen der multiplen Regression werden besprochen.' 
 authors: [schultze]
 weight: 12
 lastmod: '2024-04-02'
