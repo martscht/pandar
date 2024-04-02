@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [vogler] 
 weight: 
-lastmod: '2024-02-19'
+lastmod: '2024-04-02'
 featured: no
 banner:
   image: "/header/stormies.jpg"
@@ -183,8 +183,8 @@ dev.off()
 ```
 
 ```
-## null device 
-##           1
+## RStudioGD 
+##         2
 ```
 
 Bei der **Messfehlerfreiheit der unabhängigen Variablen** geht man davon aus, dass der Fragebogen den ich nutze fehlerfrei misst, insbesondere unsere unabhängigen Variablen. Wie bereits im Kapitel [Multiple Regression](/lehre/statistik-i/multiple-regression) besprochen ist das selten der Fall und wir können uns Reliabilitätsmaßen wie Cronbachs Alpha und McDonalds Omega bedienen um das Ausmaß des Fehlers zu quantifizieren.

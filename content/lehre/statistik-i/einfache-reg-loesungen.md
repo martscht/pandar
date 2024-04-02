@@ -3,8 +3,8 @@ title: "Einfache Lineare Regression - Lösungen"
 type: post
 date: '2021-01-04' 
 slug: einfache-reg-loesungen 
-categories: [] 
-tags: ["Statistik I Übungen"] 
+categories: ["Statistik I Übungen"] 
+tags: [] 
 subtitle: ''
 summary: '' 
 authors: [winkler, neubauer, walter] 
@@ -31,6 +31,7 @@ links:
     icon: pen-to-square
     name: Aufgaben
     url: /lehre/statistik-i/einfache-reg-aufgaben
+
 
 output:
   html_document:

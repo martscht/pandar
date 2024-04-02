@@ -3,13 +3,13 @@ title: "Matrixalgebra - Aufgaben"
 type: post
 date: '2024-01-15' 
 slug: matrixalgebra-aufgaben
-categories: [] 
-tags: ["Statistik I Übungen"] 
+categories: ["Statistik I Übungen"] 
+tags: [] 
 subtitle: ''
 summary: '' 
 authors: [zacharias]
 weight:
-lastmod: '2024-03-28'
+lastmod: '2024-04-02'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
