@@ -4,7 +4,7 @@ type: post
 date: '2021-11-29'
 slug: zusatz-loesungen
 categories: ["Statistik I Übungen"]
-tags: ["R Deskriptivstatistik"]
+tags: []
 subtitle: ''
 summary: ''
 authors: [cezanne, mueller, nehler]
