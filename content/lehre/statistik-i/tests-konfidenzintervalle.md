@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
 authors: [nehler, scheppa-lahyani] 
 weight: 5
-lastmod: '2024-03-18'
+lastmod: '2024-04-02'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -362,7 +362,7 @@ Um eine weitere Modifikation unseres Vorgehens im Vergleich zum letzten Test zu 
 
 Bevor wir in die inferenzstatistische Analyse einsteigen, ist es immer gut, sich einen Überblick über die deskriptiven Werte zu verschaffen. Wir können nun natürlich einfach die bereits gelernten Funktionen zu Mittelwert, Varianz, Minimum, etc. nutzen. Doch gibt es einen schnelleren Weg? Die Basisinstallation von `R` bietet uns keine Alternative. Jedoch gibt es zusätzliche *Pakete*, die den Pool an möglichen Funktionen erweitern. Die Logik wird im Folgenden erläutert.
 
-### Wie können andere Funktionen in R genutzt werden? - Library und Pakete {#pakete}
+### Wie können andere Funktionen in R genutzt werden? - Library und Pakete {#Pakete} 
 
 R ist in einer Pakete-Logik aufgebaut. Das liegt daran, dass es immer mehr Funktionen in R gibt, die aber nie jemand alle gleichzeitig brauchen wird. Zur Schonung der Kapazität sind diese Funktionalitäten also in Pakete aufgeteilt. In *Basispaketen*, die standardmäßig geladen werden (also vorinstalliert sind und aktiviert werden beim Öffnen von R / RStudio), sind grundlegende Befehle und Analysen implementiert. Beispiele für solche Basispakete sind `base`, `stats` und `graphics`, aus denen wir unwissentlich schon einige Funktionen verwendet haben - bspw. `mean()`, `median()` und `barplot()`. 
 

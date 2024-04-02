@@ -177,7 +177,7 @@ Damit von nun an nicht immer zwei Grafiken in einem Plot dargestellt werden, kö
 dev.off()
 ```
 
-Wir können uns auch Deskriptivstatistiken ansehen. Bspw. könnten wir uns die Mittelwerte oder die SDs etc. ausgeben lassen. Dazu nehmen wir entweder die `summary()` und wählen die entsprechenden Fälle aus oder wir machen uns das `psych`-Paket zunutze. Wir hatten im [letzen Beitrag](/lehre/statisti-i/tests-konfidenzintervalle#pakete) detaillierter besprochen, was Pakete sind und wie sie funktionieren. Um `psych` nutzen zu können, muss es installiert sein (`install.packages()`). Falls dem so ist, kann das Paket mit `library()` eingeladen werden.  Die Funktion, die uns interessiert, heißt `describeBy()`, welche die Gruppenaufteilung bereits für uns übernimmt.
+Wir können uns auch Deskriptivstatistiken ansehen. Bspw. könnten wir uns die Mittelwerte oder die SDs etc. ausgeben lassen. Dazu nehmen wir entweder die `summary()` und wählen die entsprechenden Fälle aus oder wir machen uns das `psych`-Paket zunutze. Wir hatten im [letzen Beitrag](/lehre/statistik-i/tests-konfidenzintervalle/#Pakete) detaillierter besprochen, was Pakete sind und wie sie funktionieren. Um `psych` nutzen zu können, muss es installiert sein (`install.packages()`). Falls dem so ist, kann das Paket mit `library()` eingeladen werden.  Die Funktion, die uns interessiert, heißt `describeBy()`, welche die Gruppenaufteilung bereits für uns übernimmt.
 
 ```{r}
 library(psych)

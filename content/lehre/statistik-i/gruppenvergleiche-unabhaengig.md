@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr Unterschiede zwischen zwei Gruppen zu veranschaulichen. Ihr erfahrt außerdem, wie ihr verschiedene Tests für unabhängige Stichproben in R durchführt und ihre Voraussetzungen prüft.' 
 authors: [koehler, buchholz, irmer, nehler, goldhammer, schultze] 
 weight: 6
-lastmod: '2024-03-18'
+lastmod: '2024-04-02'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -202,11 +202,11 @@ dev.off()
 ```
 
 ```
-## RStudioGD 
-##         2
+## null device 
+##           1
 ```
 
-Wir können uns auch Deskriptivstatistiken ansehen. Bspw. könnten wir uns die Mittelwerte oder die SDs etc. ausgeben lassen. Dazu nehmen wir entweder die `summary()` und wählen die entsprechenden Fälle aus oder wir machen uns das `psych`-Paket zunutze. Wir hatten im [letzen Beitrag](/lehre/statisti-i/tests-konfidenzintervalle#pakete) detaillierter besprochen, was Pakete sind und wie sie funktionieren. Um `psych` nutzen zu können, muss es installiert sein (`install.packages()`). Falls dem so ist, kann das Paket mit `library()` eingeladen werden.  Die Funktion, die uns interessiert, heißt `describeBy()`, welche die Gruppenaufteilung bereits für uns übernimmt.
+Wir können uns auch Deskriptivstatistiken ansehen. Bspw. könnten wir uns die Mittelwerte oder die SDs etc. ausgeben lassen. Dazu nehmen wir entweder die `summary()` und wählen die entsprechenden Fälle aus oder wir machen uns das `psych`-Paket zunutze. Wir hatten im [letzen Beitrag](/lehre/statistik-i/tests-konfidenzintervalle/#Pakete) detaillierter besprochen, was Pakete sind und wie sie funktionieren. Um `psych` nutzen zu können, muss es installiert sein (`install.packages()`). Falls dem so ist, kann das Paket mit `library()` eingeladen werden.  Die Funktion, die uns interessiert, heißt `describeBy()`, welche die Gruppenaufteilung bereits für uns übernimmt.
 
 
 ```r
@@ -220,7 +220,7 @@ describeBy(x = fb23$vertr, group = fb23$fach_klin)        # beide Gruppen im Ver
 ## group: nicht klinisch
 ##    vars  n mean  sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 84 3.43 0.8    3.5    3.46 0.74 1.5   5   3.5 -0.19    -0.58 0.09
-## --------------------------------------------------------------------------------------- 
+## -------------------------------------------------------------------------------------- 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 82 3.47 0.85    3.5     3.5 0.74   1   5     4 -0.4      0.1 0.09
@@ -296,8 +296,8 @@ dev.off()
 ```
 
 ```
-## RStudioGD 
-##         2
+## null device 
+##           1
 ```
 
 Mithilfe von `curve()` kann eine Linie in eine Grafik eingezeichnet werden. Hierbei bezeichnet `x` die x-Koordinate. `dnorm()` hatten wir bereits kennen gelernt. Diese Funktion beschreibt die Dichte der Normalverteilung. Die Normalverteilung ist eindeutig durch ihren Mittelwert und durch ihre Standardabweichung definiert. Wir müssen `dnorm()` also jeweils den empirischen Mittelwert sowie die empirische Standardabweichung übergeben. Wenn man es sehr genau nehmen will, müsste man hier also eine Verrechnung der von R erzeugten Standardabweichung vornehmen. Wie im letzten Tutorial beschrieben nutzen wir aber einfach das Ergebnis von `sd()`. Dies wird auch in allen weiteren Tutorials ohne zusätzlichen Hinweis gemacht. Das Argument `add = T` ist nötig, da sonst ein neuer Plot für die Kurve erstellt wird. Durch `add = T` wird sie dem Histogramm hinzugefügt. Damit die Dichte sichtbar ist, muss im Histogramm zuvor das Argument `probability = T` gewählt werden. Ansonsten würden absolute Häufigkeiten anstatt der relativen Häufigkeiten abgetragen werden. Den `qqnorm()`-Befehl hatten wir auch bereits kennen gelernt. Mit `qqline()` erhalten wir die nötige Linie, auf welcher die Punkte einigermaßen liegen müssen, damit sie als normalverteilt einzustufen sind.
@@ -334,8 +334,8 @@ dev.off()
 ```
 
 ```
-## RStudioGD 
-##         2
+## null device 
+##           1
 ```
 
 In dieser Gruppe sehen wir eine etwas stärkere Schiefe, als in der ersten Gruppe. Das wird besonders im unteren Wertebereich deutlich, wo wir mehr Personen beobachten, als wir unter der Normalverteilung erwarten würden (wie im Histogramm zu sehen ist). In die Logik des QQ-Plots übersetzt heißt das, dass die untersten Personen in der Rangreihe von Werte niedrigere Werte haben, als wir unter der Normalverteilung erwarten würden - die Punkte links liegen *unter* der Gerade. Dennoch können wir auch hier - unter Berücksichtigung der Tatsache, dass wir 82 Personen in dieser Gruppe haben - davon ausgehen, dass die Teststatistik ausreichend gut der $t$-Verteilung folgen sollte.
@@ -532,7 +532,7 @@ describeBy(fb23$lz, fb23$fach_klin) # beide Gruppen im Vergleich
 ## group: nicht klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 83 5.11 1.13    5.4    5.19 1.19 1.4   7   5.6 -0.87     0.91 0.12
-## --------------------------------------------------------------------------------------- 
+## -------------------------------------------------------------------------------------- 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 82 5.12 0.96    5.2    5.17 0.89 2.6 6.8   4.2 -0.49    -0.38 0.11
