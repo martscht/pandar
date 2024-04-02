@@ -67,19 +67,21 @@ abbrev <- function(X, begin = NULL, end = NULL, ellipses = 'both',...) {
 ```
 
 
-{{< spoiler text = "Kernfragen dieser Lehreinheit" >}}
+<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
+
 - Wie wird [multiple Regression in `R`](#multiple-regression) umgesetzt?
 - Was bedeuten die [Regressionsgewichte](#interpretation-der-gewichte) und der [Determinationskoeffizient](#determinationskoeffizient) inhaltlich?
 - Wie kann der Mehrwert von [zusätzlichen Prädiktoren](#modellvergleiche) untersucht werden?
 - Welche [Annahmen](#voraussetzungen-der-multiplen-regression) werden in der Regression gemacht?
 - Wie können z.B. die [Homoskedastizität](#homoskedastizitaet) und die [Normalverteilung](#normalverteilung) der Residuen geprüft werden?
-{{< /spoiler >}}
+
+</details>
 
 ***
 
 ## Vorbereitende Schritte {#prep}
 
-Wie bei jedem Beitrag, fangen wir damit an, dass wir den Datensatz so aufbereiten, dass wir alle notwendigen Variablen vorliegen haben. 
+Den Datensatz `fb23` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 ```{r}
 #### Was bisher geschah: ----
@@ -127,13 +129,15 @@ fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r',
                         'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
 fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
                          "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+
+# z-Standardisierung
+fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
 ```
 
-Wie immer gilt: wenn Sie direkt vorher einen anderen Beitrag gelesen haben und der Datensatz noch im Environment liegt, dann können Sie den Abschnitt getrost überspringen.
 
 ## Einfache lineare Regression
 
-Im [letzten Beitrag](/lehre/statistik-i/einfache-regression) haben wir uns die einfache lineare Regression angesehen. Konkret ging es dabei darum, dass wir eine abhängige Variable (AV) durch genau eine unabhängige Variable vorhergesagt haben. Oder als Gleichung ausgedrückt:
+Im [letzten Beitrag](/lehre/statistik-i/einfache-reg) haben wir uns die einfache lineare Regression angesehen. Konkret ging es dabei darum, dass wir eine abhängige Variable (AV) durch genau eine unabhängige Variable vorhergesagt haben. Oder als Gleichung ausgedrückt:
 
 $$
 y_m = b_0 + b_1 x_m + e_m
@@ -149,13 +153,13 @@ mod1 <- lm(nerd ~ 1 + extra, data = fb23)
 summary(mod1)
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl = F}
 r2 <- summary(mod1)$r.squared
 b0 <- coef(mod1)[1]
 b1 <- coef(mod1)[2]
 ```
 
-Bei dieser Regression haben wir gesehen, dass die Extraversion ein bedeutsamer Prädiktor für die Nerdiness ist. Dabei geht mit einem Unterschied von einer Einheit in der Extraversion ein Unterschied von `r round(b1, 2)` Einheiten in der Nerdiness einher. Der Determinationskoeffizient beträgt `r round(r2, 2)`, was bedeutet, dass `r round(r2 * 100, 2)`% der Varianz in der Nerdiness durch die Extraversion erklärt wird. Wie wir auch schon gesehen hatten, entspricht dies der quadrierten Korrelation zwischen Extraversion und Nerdiness und die Tests beider gegen 0 sind äquivalent:
+Bei dieser Regression haben wir gesehen, dass die Extraversion ein bedeutsamer Prädiktor für die Nerdiness ist. Dabei geht mit einem Unterschied von einer Einheit in der Extraversion ein Unterschied von `r round(b1, 2)` Einheiten in der Nerdiness einher. Der Determinationskoeffizient beträgt `r round(r2, 2)`, was bedeutet, dass `r round(r2 * 100, 2)`% der Varianz in der Nerdiness durch die Extraversion erklärt werden. Wie wir auch schon gesehen hatten, entspricht dies der quadrierten Korrelation zwischen Extraversion und Nerdiness und die Tests beider gegen 0 sind äquivalent:
 
 ```{r}
 cor.test(fb23$nerd, fb23$extra)
@@ -181,7 +185,7 @@ summary(mod2)
 ```
 ### Interpretation der Gewichte
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl = F}
 mod_tmp <- lm(neuro ~ extra, fb23)
 b1_tmp <- coef(mod_tmp)[2]
 ```
@@ -235,7 +239,7 @@ a <- coef(mod2) %*% X
 abline(a = a, b = b1, col = "darkgreen")
 ```
 
-```{r, echo = FALSE, fig = TRUE}
+```{r, echo = FALSE, fig = TRUE, purl = F}
 # Scatterplot
 plot(fb23$nerd ~ fb23$extra, 
      xlab = "Extraversion", 
@@ -325,10 +329,17 @@ R2u - R2e
 
 In diesem Inkrement wird der Teil der Varianz dargestellt, den die anderen vier Big Five Merkmale _zusätzlich_ zur Extraversion aufklären können. Dabei ist es wichtig zu bedenken, dass der Anteil der durch Gemeinsamkeiten zwischen Extraversion und den anderen vier Merkmalen aufgeklärt wird, im ersten Schritt nur der Extraversion zugute geschrieben wurde (das zweite Venn-Diagramm). Dieses Inkrement können wir natürlich aus testen:
 
-```{r, error = TRUE}
+```{r, eval = F}
 # Test des inkrementellen R2
 anova(mod1, mod2)
 ```
+
+```{r, error = TRUE, echo = F, purl = F}
+# Test des inkrementellen R2
+anova(mod1, mod2)
+```
+
+Den hier auftretenden Fehler behandeln wir nun in einem Intermezzo zur Datenaufbereitung.
 
 ### Intermezzo: Datenaufbereitung
 
@@ -418,7 +429,7 @@ abline(mod1_new, col = "blue")
 ```
 Das können wir natürlich auch für die anderen vier Prädiktoren untersuchen:
 
-```{r, fig = TRUE, echo=FALSE}
+```{r, fig = TRUE, echo=FALSE, purl = F}
 par(mfrow = c(2, 2))
 for (i in 3:6) {
   plot(mr_dat$nerd ~ mr_dat[, i], 
@@ -443,7 +454,7 @@ In der Praxis wird eine Einschätzung bezüglich des Ausmaß des Messfehlers dur
 
 Wie auch bei vielen anderen inferenzstatistischen Verfahren, die wir schon besprochen hatten, ist bei der Regression eine Voraussetzung, dass die Beobachtungen voneinander unabhängig sind. Spezifischer gesagt, sollen die Beobachtungen über die Variablen, die wir berücksichtigen hinaus unabhängig voneinander sein (also die Residuen). Wie schon [bei den t-Tests](/lehre/statistik-i/gruppenvergleiche-unabhaengig) gesehen, ist auch das häufig eine Annahme, die sich nicht ausschließlich statistisch prüfen lässt, sondern durch das Studiendesign und die Art der Datenerhebung beeinflusst wird. Generell wird bei der Bestimmung von Standardfehlern davon ausgegangen, dass alle Werte die Ausprägungen von Zufallsvariablen sind. Wenn dieser Zufallsprozess aber systematische Verzerrungen enthält (z.B. dadurch, dass wir die gleichen Personen mehrmals erhoben haben), wird das Ausmaß der Unterschiede zwischen Personen unterschätzt. Die Standardabweichung des Merkmals in der Population war z.B. beim $t$-Test direkt in die Berechnung des Standardfehlers eingegangen, was verdeutlichen sollte, warum eine Verschätzung dieser Unterschiede sich in Verzerrung der Standardfehler und somit auch der $p$-Werte niederschlägt.
 
-Häufig kommt es in der Psychologie zur Verletzung dieser Annahme, wenn wir Gruppen von Personen erheben (z.B. Schüler:innen in Schulklassen, Patient:innen in Kliniken, usw.). Wenn wir die Quelle der Abhängigkeit aufgrund unseres Studiendesigns identifizieren können, können wir sog. Mehrebenenmodelle nutzen. Eine Einführung in die Grundideen und Umsetzungen, finden Sie z.B. in den Beiträgen aus dem [KliPPs](/lehre/klipps/hierarchische-regression) und dem [Psychologie Master](/lehre/fue-i/multi-level-modelling).
+Häufig kommt es in der Psychologie zur Verletzung dieser Annahme, wenn wir Gruppen von Personen erheben (z.B. Schüler:innen in Schulklassen, Patient:innen in Kliniken, usw.). Wenn wir die Quelle der Abhängigkeit aufgrund unseres Studiendesigns identifizieren können, können wir sog. Mehrebenenmodelle nutzen. Eine Einführung in die Grundideen und Umsetzungen, finden Sie z.B. in den Beiträgen aus dem [KliPPs](/lehre/klipps/hierarchische-regression-klinisch) und dem [Psychologie Master](/lehre/fue-i/hierarchische-regression-schule).
 
 ### Homoskedastizität der Residuen {#homoskedastizitaet}
 
@@ -506,7 +517,7 @@ shapiro.test(resid(mod2_new))
 
 Beide deuten darauf hin, dass wir in diesem Fall nicht von einer Verletzung der Annahme ausgehen müssen.
 
-In Fällen, in denen wir leichte Verletzungen von der Normalverteilungsannahme feststellen, können wir verschiedene Wege nutzen, um unsere Schätzer ein wenig robuster zu machen. In Fällen, in denen wir von vornherein davon ausgehen müssen, dass die Residuen gar nicht normalverteilt sein können (z.B. weil die abhängige Variable nur zwei Ausprägungen hat), können wir andere Verteilungen annehmen. Ein klassisches Beispiel dafür ist die [logistiche Regression](/lehre/klipps/logistische-regression-klinische/), welche in den beiden Masterstudiengängen noch einmal aufgegriffen werden wird.
+In Fällen, in denen wir leichte Verletzungen von der Normalverteilungsannahme feststellen, können wir verschiedene Wege nutzen, um unsere Schätzer ein wenig robuster zu machen. In Fällen, in denen wir von vornherein davon ausgehen müssen, dass die Residuen gar nicht normalverteilt sein können (z.B. weil die abhängige Variable nur zwei Ausprägungen hat), können wir andere Verteilungen annehmen. Ein klassisches Beispiel dafür ist die [logistische Regression](/lehre/klipps/logistische-regression-klinische/), welche in den beiden Masterstudiengängen noch einmal aufgegriffen werden wird.
 
 ## Abschluss
 
