@@ -44,15 +44,16 @@ fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r',
 fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
                          "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
 
+# z-Standardisierung
+fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
+
 # Einfache Regression
 mod1 <- lm(nerd ~ 1 + extra, data = fb23)
 
 # Ergebnisse
 summary(mod1)
 
-r2 <- summary(mod1)$r.squared
-b0 <- coef(mod1)[1]
-b1 <- coef(mod1)[2]
+
 
 cor.test(fb23$nerd, fb23$extra)
 
@@ -63,8 +64,7 @@ mod2 <- lm(nerd ~ 1 + extra + vertr + gewis + neuro + offen,
 # Ergebnisse
 summary(mod2)
 
-mod_tmp <- lm(neuro ~ extra, fb23)
-b1_tmp <- coef(mod_tmp)[2]
+
 
 # Gewichte aus der multiple Regression
 b0 <- coef(mod2)[1]
@@ -95,16 +95,7 @@ a <- coef(mod2) %*% X
 
 ## abline(a = a, b = b1, col = "darkgreen")
 
-# Scatterplot
-plot(fb23$nerd ~ fb23$extra, 
-     xlab = "Extraversion", 
-     ylab = "Nerdiness")
 
-abline(mod1, col = "blue")
-abline(a = b0, b = b1, col = "orange")
-abline(a = a, b = b1, col = "darkgreen")
-
-legend("topright", legend = c("Einfache Reg.", "Multiple Reg.", "Multiple Reg. (MW)"), col = c("blue", "orange", "darkgreen"), lty = 1)
 
 summary(mod2)$coefficients
 
@@ -126,8 +117,10 @@ R2u
 # Inkrementelles R2 der vier anderen
 R2u - R2e
 
-# Test des inkrementellen R2
-anova(mod1, mod2)
+## # Test des inkrementellen R2
+## anova(mod1, mod2)
+
+
 
 mr_dat <- na.omit(fb23[, c("nerd", "extra", "vertr", "gewis", "neuro", "offen")])
 
@@ -157,14 +150,7 @@ plot(mr_dat$nerd ~ mr_dat$extra,
 lines(lowess(mr_dat$extra, mr_dat$nerd), col = "red")
 abline(mod1_new, col = "blue")
 
-par(mfrow = c(2, 2))
-for (i in 3:6) {
-  plot(mr_dat$nerd ~ mr_dat[, i], 
-       xlab = names(mr_dat)[i], 
-       ylab = "Nerdiness")
-  lines(lowess(mr_dat[, i], mr_dat$nerd), col = "red")
-  abline(lm(nerd ~ 1 + mr_dat[, i], data = mr_dat), col = "blue")
-}
+
 
 pred <- predict(mod2_new)
 res <- resid(mod2_new)

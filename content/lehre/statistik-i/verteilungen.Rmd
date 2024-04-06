@@ -47,7 +47,7 @@ output:
 * Wie können [**Wahrscheinlichkeitsverteilung**](#Binomial) und [**Verteilungsfunktion**](#Verteilung) erstellt werden?
 * Welchem Muster folgt die Arbeit mit [**Verteilungen**](#Muster) in `R`?  
 * Mit welchen Befehlen erstellt man die [**Dichte- und Verteilungsfunktion**](#Dichte)?
-* Wie kann eine empirisch erhobene Variable [**gegen die Normalverteilung abgetragen**](#Normalverteilung) werden?
+
 
 </details>
 

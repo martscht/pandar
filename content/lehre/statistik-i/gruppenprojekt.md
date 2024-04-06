@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag finden Sie noch einmal alle Informationen, die das Gruppenprojekt betreffen, das Sie im Rahmen des Statistik-Praktikums durchführen. Dabei wird ausführlich auf die Generierung und Operationalisierung von Hypothesen eingegangen, außerdem gibt es Informationen zur Präregistrierung und zu der Erstellung des Ergebnisbericht, den Sie im Sinne von Open Science auf einer Übungsplattform bereitstellen sollen.' 
 authors: [nehler, beitner, schueller, schultze]
 weight: 14
-lastmod: '2024-01-24'
+lastmod: '2024-04-02'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"
@@ -46,7 +46,8 @@ Wie wir bereits im Praktikum besprochen haben, ist Teil der Studienleistung des 
 Bestandteile der Gruppenarbeit sind das Generieren und auch (mit Unterstützung) Operationalisieren von Hypothesen. Weiterhin sollen Sie die Untersuchung präregistrieren, die Daten auswerten, einen Bericht schreiben und im Sinne von Open Science alle Bestandteile auf einer Übungsplattform bereitstellen. Gehen wir die verschiedenen Schritte nun der Reihe nach durch und starten mit Hypothesen.
 
 
-{{< spoiler text = "Kernfragen der Lehreinheit" >}}
+<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
+
 - Wie können geeignete [**Hypothesen generiert**](#Hypothesengenerierung) werden?
 - Wie können diese [**Hypothesen operationalisiert**](#Operationalisierung) werden?
 - Was ist [**Präregistrierung**](#Präregistrierung) und wie können Sie Ihr Projekt präregistrieren?
@@ -54,7 +55,8 @@ Bestandteile der Gruppenarbeit sind das Generieren und auch (mit Unterstützung)
 - Wie wird die [**Datenanalyse**](#Auswertung) ablaufen?
 - Was sind die Bestandteile ihres [**Ergebnisberichts**](#Bericht)?
 - Was müssen Sie bei der [**Abgabe**](#Abgabe) Ihrer Studienleistung beachten?
-{{< /spoiler >}}
+
+</details>
 
 ***
 
@@ -218,12 +220,12 @@ Auch bei der Abgabe Ihrer Studienleistung legen wir auf das Üben von Open Scien
 
 Bitte beachten Sie zusammenfassend: 
 * jeweils eine Unterschieds- und Zusammenhangshypothese -- stimmen Sie die entwickelten Hypothesen mit dem/der Dozent:in Ihres Kurses ab
-* Operationalisierung für zusätzliche Variablen im Rahmen Ihrer Hypothesen muss mit Praktikumsleitung abgesprochen werden (**Stichtag 26.11.2023**)
-* Präregistrierung Ihres Forschungsvorhabens ist Pflicht (**Stichtag für erste Abgabe 15.12.2023** -- **(eventuell) final nach Einarbeitung von Feedback bis zum 22.12.2023**)
+* Operationalisierung für zusätzliche Variablen im Rahmen Ihrer Hypothesen muss mit Praktikumsleitung abgesprochen werden $\rightarrow$ **Stichtag 26.11.2023**
+* Präregistrierung Ihres Forschungsvorhabens ist Pflicht $\rightarrow$ **Stichtag für erste Abgabe 15.12.2023** -- **(eventuell) final nach Einarbeitung von Feedback bis zum 22.12.2023**
 * Bewerben Sie die Umfrage aus Ihrem Praktikum in Gruppen -- Teilnahme an den Studien bringt Versuchspersonenminuten
 * Auswertung wird in einem Präsenztermin gestartet, muss dann aber als Gruppe weitergeführt werden
-* Anschlussbericht muss verfasst werden [hier](/lehre/statistik-i/hinweise-zum-ergebnisbericht)
-* Dokumente (Bericht, Material, kommentierte Code, Datensatz) müssen auf der Open Science Übungsplattform LIFOS hochgeladen werden (**Stichtag 04.02.2024**)
+* Anschlussbericht muss verfasst werden [hier](/lehre/statistik-i/ergebnisbericht)
+* Dokumente (Bericht, Material, kommentierte Code, Datensatz) müssen auf der Open Science Übungsplattform LIFOS hochgeladen werden $\rightarrow$ **Stichtag 04.02.2024**
 
 <!-- #### Alte Infos -->
 
