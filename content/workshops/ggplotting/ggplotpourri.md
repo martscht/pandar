@@ -9,10 +9,10 @@ subtitle: ''
 summary: '' 
 authors: [buchholz, schultze] 
 weight: 6
-lastmod: '`r Sys.Date()`'
+lastmod: '2024-04-08'
 featured: no
 banner:
-  image: "/header/gjar_potpourri.jpg"
+  image: "/header/jar_potpourri.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/34132)"
 projects: []
 reading_time: false
@@ -33,20 +33,9 @@ output:
 ---
 
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
-```
 
-```{r, echo = FALSE, results = 'hide', message=FALSE, warning=FALSE, include=FALSE}
-library(ggplot2)
-load(url('https://pandar.netlify.com/daten/edu_exp.rda'))
-library(maps)
-# source('./ggplotting-theme-source.R')
-library(knitr)
-library(ggplot2)
-library(magick)
-library(cowplot)
-```
+
+
 
 In diesem Beitrag geben wir eine kurze Übersicht über einige gängige Plotarten mit den Beispielen, die wir schon behandelt haben oder noch behandeln werden. Um die Navigation ein wenig zu vereinfachen, hier eine Tabelle:
 
@@ -82,7 +71,8 @@ Diese Ergebnisse lassen sich mit einem Balkendiagramm visualiseren.
 
 Da uns hier bereits die Ergebnisse so vorliegen, wie sie abgebildet werden sollen (als Höhe der Balken), verwenden wir die Funktion `geom_col()`. (Lägen uns Rohdaten vor, deren Häufigkeit zunächst ausgezählt werden muss, um sie als Höhe der Balken darzustellen, würde man `geom_bar()` verwenden.)
 
-```{r}
+
+```r
 # Pakete laden
 library(ggplot2)
 
@@ -96,18 +86,52 @@ ggplot(df, aes(x=software, y=count)) +
   geom_col() 
 ```
 
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+
 Diese Darstellung lässt sich noch optimieren. Statt der Achsenbeschriftung beschriften wir die Balken selbst mit dem Logo der Software! Zum Einlesen der Bilddateien nutzen wir das Paket `magick`, zur Integration von Bilddateien in ggplots kann das Paket `cowplot` verwendet werden.
 
-```{r}
+
+```r
 library(magick)
 library(cowplot)
 
 # Software-Logos herunterladen und einlesen (Funktion aus dem Paket magick)
 r <- image_read("https://www.r-project.org/logo/Rlogo.svg")
-excel <- image_read("https://upload.wikimedia.org/wikipedia/commons/8/8d/Microsoft_Excel_Logo_%282013-2019%29.svg")
-python <- image_read("https://upload.wikimedia.org/wikipedia/commons/f/f8/Python_logo_and_wordmark.svg")
-stata <- image_read("https://upload.wikimedia.org/wikipedia/commons/5/5c/Stata_Logo.svg")
+```
 
+```
+## Warning: ImageMagick was built without librsvg which causes poor qualty of SVG rendering.
+## For better results use image_read_svg() which uses the rsvg package.
+```
+
+```r
+excel <- image_read("https://upload.wikimedia.org/wikipedia/commons/8/8d/Microsoft_Excel_Logo_%282013-2019%29.svg")
+```
+
+```
+## Warning: ImageMagick was built without librsvg which causes poor qualty of SVG rendering.
+## For better results use image_read_svg() which uses the rsvg package.
+```
+
+```r
+python <- image_read("https://upload.wikimedia.org/wikipedia/commons/f/f8/Python_logo_and_wordmark.svg")
+```
+
+```
+## Warning: ImageMagick was built without librsvg which causes poor qualty of SVG rendering.
+## For better results use image_read_svg() which uses the rsvg package.
+```
+
+```r
+stata <- image_read("https://upload.wikimedia.org/wikipedia/commons/5/5c/Stata_Logo.svg")
+```
+
+```
+## Warning: ImageMagick was built without librsvg which causes poor qualty of SVG rendering.
+## For better results use image_read_svg() which uses the rsvg package.
+```
+
+```r
 # ggplot-Befehl zur Erstellung der "nackten" Grafik 
 ggplot(df, aes(x=software, y=count)) +
   geom_col() +
@@ -128,17 +152,27 @@ ggdraw(plot) +
   draw_plot(plot)
 ```
 
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
 
 ## Noch ein Balkendiagramm {#balken2}
 
 Es soll ein Vergleich angestellt werden, wie hoch die Ausgaben in Deutschland im  Jahr 2016 für die unterschiedlichen Bildungsbereiche (Primar, Sekundar, Tertiär) waren. Dafür eignet sich ein Balkendiagramm. Die Daten müssen jedoch noch umstrukturiert werden, bevor sie mit ggplot dargestellt werden können, da sie aktuell im Datensatz "nebeneinander" stehen - es handelt sich ja um drei verschiedene Variablen - der Densatz ist *wide*. Er muss zunächst in eine saubere (*tidy*) Form gebracht werden, sodass alle Werte, die dargestellt werden, in einer einzigen Variable stehen. Dafür bringen wir den Datensatz in die "Lang-Version" (*long*): 
 
-```{r}
+
+```r
 # original-Datensatz mit relevanten Variablen: wide
 edu_exp |>
   subset(edu_exp$Country == "Germany" & edu_exp$Year == 2016,
          select = c("Country", "Year", "Primary", "Secondary", "Tertiary")) 
+```
 
+```
+##     Country Year  Primary Secondary Tertiary
+## 944 Germany 2016 17.44257  22.95939 33.58129
+```
+
+```r
 # Umstrukturierung in die long-Form 
 edu_exp_long <- edu_exp |>
   subset(edu_exp$Country == "Germany" & edu_exp$Year == 2016, 
@@ -151,9 +185,17 @@ edu_exp_long <- edu_exp |>
 edu_exp_long
 ```
 
+```
+##             Country Year       exp    value id
+## 1.Primary   Germany 2016   Primary 17.44257  1
+## 1.Secondary Germany 2016 Secondary 22.95939  1
+## 1.Tertiary  Germany 2016  Tertiary 33.58129  1
+```
+
 Hat geklappt. Die Daten liegen uns nun also wieder genau so vor, wie sie dargestellt werden sollen (als Höhe der Balken). In diesem Fall kann `geom_col()` verwendet werden (siehe Beispiel oben). Es kann aber auch `geom_bar()` in Kombination mit dem Argument `stat="idendity"` verwendet werden - so weiß ggplot, dass die Daten nicht (wie per Default in `geom_bar()`) ausgezählt, sondern direkt übernommen werden können.
 
-```{r, warning = FALSE}
+
+```r
 edu_exp_long |>
   ggplot(aes(x=exp, y=value)) +
   geom_bar(stat = "identity", fill = rgb(102, 153, 204, max=255)) +
@@ -164,14 +206,30 @@ edu_exp_long |>
   theme_classic()
 ```
 
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
 
 ## Histogramm {#histogramm}
 
 Die Verteilung des Einkommens (GDP/Person) soll für das Jahr 2016 dargestellt werden. Es handelt sich um eine kontinuierliche Variable, so bietet sich ein Histogramm an. Für Histogramme kann die Funktion `geom_histogram()` verwendet werden. Wir kombinieren sie mit dem Theme `theme_economist` aus dem Paket `ggthemes`.
 
-```{r, warning = FALSE}
-library(ggthemes)
 
+```r
+library(ggthemes)
+```
+
+```
+## 
+## Attaching package: 'ggthemes'
+```
+
+```
+## The following object is masked from 'package:cowplot':
+## 
+##     theme_map
+```
+
+```r
 edu_exp |>
   subset(edu_exp$Year == 2016) |>
   ggplot(aes(x = Income)) +
@@ -184,13 +242,20 @@ edu_exp |>
   theme(plot.margin = unit(c(0.5,1,0.5,0.5), "cm"))
 ```
 
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+
 ## Boxplot {#boxplot}
 
 Erneut soll die Verteilung des Einkommens (GDP/Person) für das Jahr 2016 dargestellt werden - diesmal jedoch separat nach Weltregion. Eine alternative Darstellung für Verteilungen ist das Boxplot. Es lässt sich per `geom_boxplot()` anfordern. Wir hinterlegen über `aes(x=Region)`, dass eine Box pro Weltregion erzeugt wird. Diese Boxen werden dann nebeneinander dargestellt und ein Vergleich ist leicht möglich. 
 
 Die Grafik wird mit dem Theme `theme_fivethirtyeight` aus dem Paket `ggthemes` angepasst.
 
-```{r, warning = FALSE}
+
+```r
 library(ggthemes)
 
 edu_exp |>
@@ -205,6 +270,8 @@ edu_exp |>
   theme_fivethirtyeight()
 ```
 
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+
 ## Violin Plot {#violin}
 
 Für das gleiche Datenbeispiel wie im Boxplot oben (Verteilung des Einkommens (GDP/Person) für das Jahr 2016 separat nach Weltregion) fordern wir nun ein sog. Violin Plot an. Anstelle der Quartile wird die Dichte der Verteilung direkt dargestellt. Auch hier sind die Weltregionen nebeneinander dargestellt (`aes(x=Region)`), sodass ein Vergleich sehr leicht möglich ist. Das entsprechende Layer wird mit `geom_violin` angefordert. Zusätzlich werden schmale Boxplots eingezeichnet.
@@ -212,7 +279,8 @@ Für das gleiche Datenbeispiel wie im Boxplot oben (Verteilung des Einkommens (G
 Die Grafik wird ebenfalls mit dem Theme `theme_fivethirtyeight` aus dem Paket `ggthemes` angepasst.
 
 
-```{r, warning = FALSE}
+
+```r
 library(ggthemes)
 
 edu_exp |>
@@ -229,13 +297,16 @@ edu_exp |>
   theme_fivethirtyeight()
 ```
 
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+
 ## Ridgeline Plot {#ridgeline}
 
 Für das gleiche Datenbeispiel wie im Boxplot und Violin Plot oben (Verteilung des Einkommens (GDP/Person) für das Jahr 2016 separat nach Weltregion) fordern wir nun ein sog. Ridgleline Plot mit `geom_density_ridges()` aus dem Paket `ggridges` an. Auch hier wird die Dichte der Verteilung dargestellt. Die Gruppen sind nun übereinander dargestellt (`aes(y=Region`). Auch dadurch ist ein Vergleich leicht möglich.
 
 Die Grafik wird mit dem Theme `theme_tufte` aus dem Paket `ggthemes` angepasst.
 
-```{r, warning = FALSE}
+
+```r
 library(ggthemes)
 library(ggridges)
 
@@ -252,6 +323,12 @@ edu_exp |>
   theme_tufte()
 ```
 
+```
+## Picking joint bandwidth of 5090
+```
+
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+
 
 ## Torten und Donuts {#torten}
 
@@ -259,7 +336,8 @@ Bevor wir uns damit befassen, *wie* man in `ggplot2` ein Torten-Diagramm erstell
 
 Generell werden Tortendiagramme nur dann empfohlen, wenn man Anteile von einem Gesamten darstellen möchte. Leider haben wir keine dafür direkt geeignete Variable in [unserem Datensatz](/post/ggplotting-daten), aber wir können uns etwas erstellen. Wir betrachten im Folgenden die Ausgaben für die drei unterschiedlichen Bildungsbreiche und wie diese in unterschiedlichen Ländern aussehen. Dafür erstellen wir zunächst Proportionen:
 
-```{r}
+
+```r
 edu_exp$Total <- subset(edu_exp, select = c('Primary', 'Secondary', 'Tertiary')) |>
   rowSums()
 tmp <- edu_exp[, c('Primary', 'Secondary', 'Tertiary')] / edu_exp$Total
@@ -269,7 +347,8 @@ edu_exp <- cbind(edu_exp, tmp)
 
 Wie immer, nehmen wir 2013 und beschränken uns auf die Länder, die in diesem Jahr für alle drei Ausgaben Daten vorhanden haben. Wie wir schon [im ersten Beitrag gesehen haben](/post/ggplotting-intro), müssen wir die Daten mehrerer Variablen für die ordentliche Darstellung ins lange Format übertragen.
 
-```{r}
+
+```r
 prop_long <- subset(edu_exp, Year == 2013 & !is.na(Total), 
   select = c('Country', 'Year',  
     'PrimaryProp', 'SecondaryProp', 'TertiaryProp')) |>
@@ -282,7 +361,8 @@ prop_long <- subset(edu_exp, Year == 2013 & !is.na(Total),
 
 `geom_rect()` ist der Umweg über den wir uns in `ggplot2` an das Kreisdiagramm heranpirschen müssen. Dafür benötigen wir klare Enden unserer Rechtecke, also bei welchen y-Werten die Balken anfangen und aufhören sollen. Weil die Balken ja bündig einen Kreis ergeben sollen, brauchen wir erstmal auch einen bündigen Balken, das heißt jede Kategorie muss das aufhören, wo die nächste beginnt. Damit wir das nicht gleichzeitig und unübersichtlich für alle Länder gleicheztig machen, beschränken wir uns wieder auf Spanien:
 
-```{r}
+
+```r
 spain <- subset(prop_long, Country == 'Spain')
 spain$Max <- cumsum(spain$Proportion)
 spain$Min <- c(0, head(spain$Max, n = -1))
@@ -290,37 +370,61 @@ spain$Min <- c(0, head(spain$Max, n = -1))
 spain
 ```
 
+```
+##              Country Year      Type Proportion id       Max       Min
+## 26.Primary     Spain 2013   Primary  0.2966316 26 0.2966316 0.0000000
+## 26.Secondary   Spain 2013 Secondary  0.3113845 26 0.6080161 0.2966316
+## 26.Tertiary    Spain 2013  Tertiary  0.3919839 26 1.0000000 0.6080161
+```
+
 Mit `geom_rect()` können wir jetzt einen Balken erstellen, der genau bündig von einem Bildungstyp in den nächsten übergeht:
 
-```{r stacked-bar, fig = TRUE}
+
+```r
 bar <- ggplot(spain, 
   aes(ymin = Min, ymax = Max, 
     xmin = 2, xmax = 3,
     fill = Type)) +
   geom_rect(color = 'white') +
-  theme_void() + scale_fill_pander()
+  theme_void() + scale_fill_pandar()
+```
+
+```
+## Warning: The `scale_name` argument of `discrete_scale()` is deprecated as of ggplot2 3.5.0.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+```
+
+```r
 bar
 ```
+
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/stacked-bar-1.png)<!-- -->
 
 Wir nutzen statt des `theme_pandar()` hier `theme_void()`, um den Plot von Achsen und anderen Kennzeichnungen zu befreien. `color = 'white'` setze ich hier, um eine sauber aussehende Grenze zwischen den Abschnitten herzustellen.
 
 Jetzt müssen wir aus diesem Türmchen nur noch einen Kreis formen. Dafür transformieren wir die Koordinaten ins polare System, sodass (0, 0) in der Mitte liegt und sich die Datenpunkte von dort entfernen:
 
-```{r simple-pie, fig=TRUE}
+
+```r
 pie <- bar + coord_polar("y")
 pie
 ```
 
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/simple-pie-1.png)<!-- -->
+
 Jetzt können wir über `geom_text` noch die Prozente in die Abschnitte eintragen. Dabei müssen wir nur ordentliche Positionen für die Labels bestimmen. Ich setze diese einfach mal in die Mitte. Danach erzeugen wir noch die Prozentzahlen und `paste`n sie mit dem Prozentzeichen zusammen. Das sollte für unsere Label genügen.
 
-```{r}
+
+```r
 spain$Position <- (spain$Max + spain$Min) / 2
 spain$Percent <- paste0(round(spain$Proportion * 100, 1), '%')
 ```
 
 Weil wir Änderungen an den Daten vorgenommen haben, müssen wir den neuen Datensatz direkt über das `data`-Argument ansprechen (sonst wüsste `geom_text()` nichts von den neuen Variablen)
 
-```{r fancy-pie, fig = TRUE}
+
+```r
 pie <- pie +
   geom_text(data = spain, x = 2.5,
     aes(y = Position, label = Percent), 
@@ -330,32 +434,41 @@ pie <- pie +
 pie
 ```
 
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/fancy-pie-1.png)<!-- -->
+
 Um aus diesem Kuchen jetzt einen Donut zu machen, müssen wir nur das mittlere Stück herausnehmen, indem wir die x-Achse in eine Region erweitern, in die unser `geom_rect()` nicht reicht.
 
-```{r donut, fig = TRUE}
+
+```r
 pie + xlim(c(1, 3))
 ```
+
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/donut-1.png)<!-- -->
 
 
 ## Bubble Chart {#bubble}
 
 In Übung 1 sollten Sie [diese](https://www.gapminder.org/tools/#$model$markers$bubble$encoding$frame$value=2015;;;;;&chart-type=bubbles&url=v1) auf [gapminder.org](https://www.gapminder.org) erzeugte Grafik nachbasteln:
 
-![](/post/ggplotting-gapminder-original.png)
+![](/workshops/ggplotting/ggplotting-gapminder-original.png)
 
 
 Die Variablen liegen alle im `edu_exp`-Datensatz vor. Allerdings sieht die ggplot-Grafik ohne Anpassungen wie folgt aus: 
 
-```{r, warning=FALSE}
+
+```r
 edu_exp |>
   subset(Year == 2015) |> 
   ggplot(aes(x=Income, y=Expectancy)) +
   geom_point() 
 ```
 
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+
 Zunächst wird der Datensatz noch so sortiert, dass kleine Länder "hinten" stehen und "zuletzt" ins Plot kommen, also vorne (unverdeckt) zu sehen sind. Außerdem hinterlege ich schon mal die vier Farben als rgb-Vektor, nachdem ich sie mit gimp "gemessen" hatte.   
 
-```{r, warning=FALSE}
+
+```r
 # Datensatz sortieren
 edu_exp <- edu_exp[order(edu_exp$Population, decreasing = T),]
 
@@ -368,7 +481,8 @@ gelb <- rgb(255,231,0, max=255)
 
 Im nachfolgenden Code sind alle Schritte kommentiert:
 
-```{r, warning=FALSE, fig.width = 10, fig.height=5}
+
+```r
 edu_exp |>
   # Auswahl der Daten von 2015:
   subset(Year == 2015) |> 
@@ -411,13 +525,12 @@ edu_exp |>
 
 Die Grafik ohne Legende sieht nun so aus: 
 
-```{r, echo=FALSE, warning=FALSE, fig.width = 10, fig.height=5}
-plot_ohne_Legende
-```
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 Um die Legende für die Farben (Weltregionen) anzufügen, habe ich einen Screenshot der Weltkarte von der gapminder-Webseite gemacht und als Bilddatei gespeichert ("5_gapminder-map.png"). Diese lese ich nun mit der `image_read()`-Funktion aus dem Paket `magick` ein. Anschließend füge ich sie "oben rechts" (x = 1, y = .95) in das zuvor erzeugte ggplot ein. Dafür verwende ich wieder die Funktion `draw_image()` aus dem Paket `cowplot`.
 
-```{r, warning=FALSE, fig.width = 10, fig.height=5}
+
+```r
 library(magick)
 library(cowplot)
 
@@ -428,13 +541,16 @@ ggdraw(plot_ohne_Legende) +
   draw_image(weltkarte, x = 1, y = .95, hjust = 1, vjust = 1, halign = 1, valign = 1, width = .2)
 ```
 
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+
 Und schließlich können wir die Grafik auch noch animieren, sodass sie dem Vorbild auf [www.gapminder.org]() sogar noch ähnlicher wird. Leider scheinen sich `cowplot` und `gganimate` nicht so gut zu vertragen - daher muss ich die Farblegende rechts weglassen. Ansonsten kann ich den Code der statischen Grafik oben weitgehend übernehmen; lediglich die folgenden Dinge musste ich entfernen: 
 
 * Fallauswahl für das Jahr 2015 `subset()`)  
 * Textbox mit "2015" im Hintergrund der Grafik (`annotate()`)  
 * der große Rand rechts (`plot.margin`), weil es ja nun keine Legende gibt  
 
-```{r}
+
+```r
 edu_exp |>
   ggplot(aes(x=Income, y=Expectancy)) +
   theme_classic() + 
@@ -458,7 +574,8 @@ edu_exp |>
         panel.grid.major = element_line(colour = "azure2")) -> plot_ohne_Legende
 ```
 
-```{r, eval = FALSE}
+
+```r
 library(gganimate)
 
 anim <- plot_ohne_Legende +
@@ -470,7 +587,7 @@ animate(anim, start_pause = 20, end_pause = 20,
         height = 15, width = 30, units = "cm", res = 300)
 ```
 
-![](/post/ggplotting-Bubble-Chart.gif)
+![](/workshops/ggplotting/ggplotting-Bubble-Chart.gif)
 
 
 ## Karten {#karten}
@@ -479,42 +596,117 @@ Bei psychologischen Daten eher selten, aber mit dem [Gapminder Datensatz](/post/
 
 Karten benötigen eine sehr eigene Art der Datenaufbereitung, die häufig nicht gerade platzsparend ist. Daher sind die meisten Karten in R nicht als Datensätze vorhanden, sondern müssen erst einmal in solche überführt werden. Dafür gibt es die `map_data` Funktion. Um die Weltkarte in einen Datensatz zu übertragen, z.B.:
 
-```{r}
+
+```r
 welt <- map_data('world')
 head(welt)
 ```
 
+```
+##        long      lat group order region subregion
+## 1 -69.89912 12.45200     1     1  Aruba      <NA>
+## 2 -69.89571 12.42300     1     2  Aruba      <NA>
+## 3 -69.94219 12.43853     1     3  Aruba      <NA>
+## 4 -70.00415 12.50049     1     4  Aruba      <NA>
+## 5 -70.06612 12.54697     1     5  Aruba      <NA>
+## 6 -70.05088 12.59707     1     6  Aruba      <NA>
+```
+
 Was man in den Daten sieht sind Länge- und Breitengrade von Landesgrenzen. Außerdem bestimmt die Variable `group` das Land (anhand dessen die Landesgrenzen gruppiert werden sollten). Damit Linie der Grenzen nicht hin und her springt gibt es außerdem die Variable `order` die angibt, welcher Punkt in der Grenze als nächstes kommt. Anhand dieser Punkte werden in `ggplot2` mit der allgemeinen `geom_polygon` Funktion Karten gezeichnet. Um eine leere Weltkarte zu erzeugen reicht Folgendes aus:
 
-```{r}
+
+```r
 ggplot(welt, aes(x = long, y = lat, group = group)) +
   geom_polygon()
 ```
 
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+
 Wie man sieht, hat dieser Plot die gleichen Eigenschaften wie normale `ggplot`s - weil es ein ganz normaler Plot ist. Um einzelne Länder erkennen zu können, sollten wir z.B. die Länder weiß und nicht schwarz füllen. Außerdem brauchen wir nicht unbedingt x- und y-Achse, sodass wir das komplett leere Theme `theme_void` nutzen können:
 
-```{r}
+
+```r
 ggplot(welt, aes(x = long, y = lat, group = group)) +
   geom_polygon(fill = 'white', color = 'black', lwd = .25) +
   theme_void()
 ```
 
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+
 Um die Karten-Daten mit den Daten in Verbindung zu bringen steht uns leider - wie so häufig - im Weg, dass die Daten nicht einheitlich kodiert wurden. In diesem Fall sind es die Benennungen der Länder, die uneinheitlich sind. Um herauszufinden, wo Unterschiede bestehen, können wir die normalen Operatoren der Mengenvergleiche in R nutzen:
 
-```{r}
+
+```r
 setdiff(unique(welt$region), unique(edu_exp$Country))
+```
+
+```
+##  [1] "Aruba"                               "Anguilla"                           
+##  [3] "American Samoa"                      "Antarctica"                         
+##  [5] "French Southern and Antarctic Lands" "Antigua"                            
+##  [7] "Barbuda"                             "Saint Barthelemy"                   
+##  [9] "Bermuda"                             "Ivory Coast"                        
+## [11] "Democratic Republic of the Congo"    "Republic of Congo"                  
+## [13] "Cook Islands"                        "Curacao"                            
+## [15] "Cayman Islands"                      "Canary Islands"                     
+## [17] "Falkland Islands"                    "Reunion"                            
+## [19] "Mayotte"                             "French Guiana"                      
+## [21] "Martinique"                          "Guadeloupe"                         
+## [23] "Faroe Islands"                       "Micronesia"                         
+## [25] "UK"                                  "Guernsey"                           
+## [27] "Greenland"                           "Guam"                               
+## [29] "Heard Island"                        "Isle of Man"                        
+## [31] "Cocos Islands"                       "Christmas Island"                   
+## [33] "Chagos Archipelago"                  "Jersey"                             
+## [35] "Siachen Glacier"                     "Kyrgyzstan"                         
+## [37] "Nevis"                               "Saint Kitts"                        
+## [39] "Kosovo"                              "Laos"                               
+## [41] "Saint Lucia"                         "Saint Martin"                       
+## [43] "Northern Mariana Islands"            "Montserrat"                         
+## [45] "New Caledonia"                       "Norfolk Island"                     
+## [47] "Niue"                                "Bonaire"                            
+## [49] "Sint Eustatius"                      "Saba"                               
+## [51] "Pitcairn Islands"                    "Puerto Rico"                        
+## [53] "Madeira Islands"                     "Azores"                             
+## [55] "French Polynesia"                    "Western Sahara"                     
+## [57] "South Sandwich Islands"              "South Georgia"                      
+## [59] "Saint Helena"                        "Ascension Island"                   
+## [61] "Saint Pierre and Miquelon"           "Slovakia"                           
+## [63] "Swaziland"                           "Sint Maarten"                       
+## [65] "Turks and Caicos Islands"            "Trinidad"                           
+## [67] "Tobago"                              "USA"                                
+## [69] "Vatican"                             "Grenadines"                         
+## [71] "Saint Vincent"                       "Virgin Islands"                     
+## [73] "Wallis and Futuna"
+```
+
+```r
 setdiff(unique(edu_exp$Country), unique(welt$region))
+```
+
+```
+##  [1] "United States"                  "Congo, Dem. Rep."              
+##  [3] "United Kingdom"                 "Cote d'Ivoire"                 
+##  [5] "Hong Kong, China"               "Lao"                           
+##  [7] "Kyrgyz Republic"                "Slovak Republic"               
+##  [9] "Congo, Rep."                    "Trinidad and Tobago"           
+## [11] "Eswatini"                       "St. Lucia"                     
+## [13] "Micronesia, Fed. Sts."          "St. Vincent and the Grenadines"
+## [15] "Antigua and Barbuda"            "St. Kitts and Nevis"           
+## [17] "Tuvalu"                         "Holy See"
 ```
 
 Im Folgenden werden die Namen der Länder mit dem `recode` Befehl des `car`-Pakets umkodiert. Leider gibt es schon vorab ein Land, nach dem man in Datenaufbereitungen immer vorab schauen sollte: wie auch hier ist es häufiger der Fall, dass die Elfenbeiküste als `Cote d'Ivoire` kodiert ist. Leider bewirkt das `'` in diesem Namen bei Umkodierungen immer einiges an Problemen, sodass wir es vorab direkt umstellen:
 
-```{r}
+
+```r
 edu_exp[grepl('Cote', edu_exp$Country), 'Country'] <- 'Ivory Coast'
 ```
 
 die verbleindenden Ländern können dann umkodiert werden:
 
-```{r}
+
+```r
 # Recodes
 edu_exp$Country <- car::recode(edu_exp$Country,
   "'Antigua and Barbuda' = 'Antigua';
@@ -539,13 +731,15 @@ Diese Umkodierung ist nicht auf andere Datensätze übertragbar - wir müssen im
 
 Wir können den Datensatz auf das letzte Jahr beschränken, das wir vorliegen haben (2017):
 
-```{r}
+
+```r
 edu_2017 <- subset(edu_exp, Year == 2017)
 ```
 
 Anschließend können wir den Datensatz mit der Weltkarte zusammenführen. Dafür verwenden wir wieder den `merge` Befehl. Damit nach dem `merge` die Grenzen richtig gezeichnet werden, müssen wieder die Reihenfolge der Daten wiederherstellen. Dazu wird mit `order` nach Land (`group`) und dann nach Reihenfolge der Grenzpunkte (`order`) sortiert.
 
-```{r}
+
+```r
 edu_map <- merge(welt, edu_2017, 
   by.x = 'region', by.y = 'Country', 
   all.x = TRUE, all.y = FALSE)
@@ -554,13 +748,16 @@ edu_map <- edu_map[order(edu_map$group, edu_map$order), ]
 
 Mit den neuen Daten können wir unsere vorherige Karte jetzt so ergänzen, dass wir die Länder nach der Anzahl der Fälle einfärben:
 
-```{r, fig = TRUE, fig.height=3.5}
-# ggplot(edu_map, aes(x = long, y = lat, group = group)) +
-#  geom_polygon(color = 'black', lwd = .25, 
-#    aes(fill = Index)) +
-#  theme_void() + 
-#  scale_fill_pander(discrete = FALSE, na.value = 'grey95')
+
+```r
+ggplot(edu_map, aes(x = long, y = lat, group = group)) +
+geom_polygon(color = 'black', lwd = .25, 
+  aes(fill = Index)) + 
+  theme_void() + 
+  scale_fill_pandar(discrete = FALSE, na.value = 'grey95')
 ```
+
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
 
 
 ## Wordcloud {#wordcloud}
@@ -571,7 +768,8 @@ Zur Illustration lese ich zunächst die Texte aller [pandaR](https://pandar.netl
 
 Zum Auslesen der Texte verwende ich Funktionen aus `rvest`, mit dem sich prima Webscraping betreiben lässt. Außerdem habe ich herausgefunden, dass der relevante CSS-Selektor "p" heißt, in dem die Fließtexte stehen.
 
-```{r Error}
+
+```r
 library(rvest)
 
 # Funktion zum Einlesen der Texte von Websites
@@ -584,21 +782,33 @@ make.text <- function(website){
 
 # Anwenden der Funktion auf die relevanten pandaR-Seiten:
 texte <- paste(
-  make.text('https://pandar.netlify.app/lehre/ggplotting-intro'),
-  make.text('https://pandar.netlify.app/post/ggplotting-daten'),
-  make.text('https://pandar.netlify.app/post/ggplotting-themes/'),
-  make.text('https://pandar.netlify.app/post/ggplotting-ggplotpourri/'),
-  make.text('https://pandar.netlify.app/post/ggplotting-gganimate/'),
-  make.text('https://pandar.netlify.app/post/ggplotting-plotly/'),
-  make.text('https://pandar.netlify.app/post/ggplotting-exploration/'),
+  make.text('https://pandar.netlify.app/lehre/statistik-ii/grafiken-ggplot2'),
   collapse = "")
 ```
 
 Nun liegt ein sehr langer Fließtext vor, der sich aus den Texten der einzelnen Seiten zusammensetzt. Als nächstes muss dieser Text bereinigt werden, d.h., alle Großbuchstaben ersetzen, Sonderzeichen, Zahlen und stopwords entfernen, Satzzeichen entfernen, ... Dafür bietet sich das Paket `tm` an.
 
-```{r, warning=FALSE}
-library(tm)
 
+```r
+library(tm)
+```
+
+```
+## Loading required package: NLP
+```
+
+```
+## 
+## Attaching package: 'NLP'
+```
+
+```
+## The following object is masked from 'package:ggplot2':
+## 
+##     annotate
+```
+
+```r
 # Erstellen der Wort-Häufigkeitstabelle
 docs <- Corpus(VectorSource(texte))
 toSpace <- content_transformer(function (x , pattern ) gsub(pattern, " ", x))
@@ -616,24 +826,36 @@ table <- data.frame(word = names(vec), freq = vec)
 
 Die ersten Zeilen der resultierenden Häufigkeitstabelle sehen nun so aus:
 
-```{r}
-# head(table)
+
+```r
+head(table)
+```
+
+```
+##                    word freq
+## ggplot           ggplot   26
+## abbildung     abbildung   24
+## daten             daten   19
+## variablen     variablen   14
+## ästhetik       ästhetik   12
+## abbildungen abbildungen   11
 ```
 
 Diese Tabelle bildet nun die Grundlage für die Wordcloud. Zur Erstellung der Wordcloud nutze ich das Paket `ggwordcloud`. Es enthält eine Funktion für die entsprechende Geometrie, und es lassen sich alle sonstigen ggplot-Funktionen damit kombinieren. So kann ich beispielsweise über `theme` die Hintergrundfarbe spezifizieren.
 
-```{r, eval=FALSE}
+
+```r
 # Erstellen der wordcloud
 library(ggwordcloud)
 
 table$angle <- 90 * sample(c(0, 1), nrow(table), replace = TRUE, prob = c(60, 40))
-ggplot(table[1:200,],) +
+ggplot(table[1:50,],) +
   geom_text_wordcloud(aes(label = word, size = freq,
-                          color = factor(sample.int(10, 200, replace = TRUE)),
+                          color = factor(sample.int(10, 50, replace = TRUE)),
                           angle = angle)) +
   scale_size(range = c(1, 20)) +
   theme(panel.background = element_rect(fill = "grey90"))
 ```
 
-{{<inline_image“/lehre/statistik-ii/run.png“>}}
+![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
 
