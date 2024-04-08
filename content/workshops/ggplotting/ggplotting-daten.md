@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [schultze] 
 weight: 0
-lastmod: '`r Sys.Date()`'
+lastmod: '2024-04-08'
 featured: no
 banner:
   image: "/header/disc_reader.jpg"
@@ -33,9 +33,7 @@ output:
 ---
 
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
-```
+
 
 An dieser Stelle beschreiben wir kurz, wie die Daten für die ggplotting-Inhalte zustande gekommen sind. Den [{{< icon name="download" pack="fas" >}} fertigen Datesatz zum Download](/daten/edu_exp.rda) stellen wir auch direkt bereit, aber mit den hier dargestellten Befehlen kann dieser komplett ohne irgendwelche Schritte außerhalb R erzeugt werden. 
 
@@ -45,13 +43,15 @@ An dieser Stelle beschreiben wir kurz, wie die Daten für die ggplotting-Inhalte
 
 Um mir die Arbeit mit den Daten ein wenig zu erleichtern, nutze ich an dieser Stelle `dplyr` - ein weit verbreitetes Paket für das Datenmanagement in R. Das Paket ist wie `ggplot2` auch Teil des [tidyverse](https://www.tidyverse.org/). Es ist nicht zwingend erforderlich das Paket zu nutzen, aber es enthält ein paar Funktionen, die besonders das zusammenführen verschiedener Datensätze erheblich vereinfachen.
 
-```{r}
+
+```r
 library(dplyr)
 ```
 
 Die Datensätze, die wir benutzen werden können größtenteils über das [github-Repository von Gapminder](https://github.com/open-numbers/ddf--gapminder--systema_globalis) bezogen werden. Die Dateinamen sind dabei zwar gut strukturiert, aber nicht unbedingt kurz, wodurch die folgenden paar Zeilen R code etwas unübersichtlich wirken können. 
 
-```{r}
+
+```r
 # Geografische Informationen
 raw_geo <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/ddf--entities--geo--country.csv')
 
@@ -74,7 +74,8 @@ Zuerst benötigen wir ein paar Informationen über die Länder, die wir später 
 
 Ein letzter Datensatz stammt vom [United Nations Development Programme](http://www.undp.org/), welches in den Human Development Reports unter anderem Indizes zum Entwicklungsstand von Ländern berichtet. Der bekannteste ist wahrscheinlich der [Human Development Index](https://hdr.undp.org/data-center/human-development-index#/indicies/HDI), welcher sich aus den drei Komponenten Lebenserwartung, Bildung und Einkommen zusammensetzt. Hier benutzen wir den Education Index, den wir zunächst noch händisch berechnen müssen. Erst einmal muss der Datensatz geladen und die Ländercodes angeglichen werden, damit wir die Datensätze später zusammenführen können:
 
-```{r}
+
+```r
 hdr <- read.csv('https://hdr.undp.org/sites/default/files/2023-24_HDR/HDR23-24_Composite_indices_complete_time_series.csv')
 names(hdr)[1] <- 'geo'
 hdr$geo <- tolower(hdr$geo)
@@ -82,21 +83,39 @@ hdr$geo <- tolower(hdr$geo)
 
 Dieser (relativ umfangreiche) Datensatz enthält pro Land eine Zeile, in der verschiedene globale Indizes gelistet sind (z.B. ist `le_1994` die _Life Expectancy_ im Jahr 1994). Für uns sind die _Expected Years of Schooling_ (`eys`) und die _Mean Years of Schooling_ (`mys`) von Bedeutung. Diese ziehen wir im nächsten Schritten (einzeln) aus dem Gesamtdatensatz und wandeln den Datensatz dann vom breiten ins lange Format um:
 
-```{r}
+
+```r
 eys <- select(hdr, geo, starts_with('eys_')) |> 
   pivot_longer(cols = -geo, names_to = 'year', values_to = 'eys',
     names_prefix = 'eys_') |> 
   mutate(year = as.integer(year))
+```
 
+```
+## Warning: There was 1 warning in `mutate()`.
+## ℹ In argument: `year = as.integer(year)`.
+## Caused by warning:
+## ! NAs introduced by coercion
+```
+
+```r
 mys <- select(hdr, geo, starts_with('mys_')) |> 
   pivot_longer(cols = -geo, names_to = 'year', values_to = 'mys',
     names_prefix = 'mys_') |> 
   mutate(year = as.integer(year))
 ```
 
+```
+## Warning: There was 1 warning in `mutate()`.
+## ℹ In argument: `year = as.integer(year)`.
+## Caused by warning:
+## ! NAs introduced by coercion
+```
+
 Zu guter Letzt werden diese beiden Informationen zusammen geführt und der Education Index (`index`) berechnet:
 
-```{r}
+
+```r
 edx <- merge(eys, mys, by = c('geo', 'year')) |> 
   mutate(index = round((mys/15 + eys/18)/2,2)) |>
   select(-eys, -mys) |> rename(time = year)
@@ -106,20 +125,27 @@ edx <- merge(eys, mys, by = c('geo', 'year')) |>
 
 Diese Quellen an Information müssen wir in einen Datensatz zusammenführen, bevor wir sie in einer gemeinsamen Grafik darstellen können. Dazu möchte ich zunächst die geografischen Daten auf den Umfang notwendiger Informationen herunter reduzieren:
 
-```{r}
+
+```r
 geo <- transmute(raw_geo, geo = country, Country = name, Wealth = income_groups, Region = world_4region)
 ```
 
 Hier kommt die `transmute`-Funktion aus dem `dplyr`-Paket zum Einsatz, die einen Datensatz (`raw_geo`) entgegennimmt und einen neuen Datensatz mit erstellten Variablen ausgibt. Hier benutze ich den Datensatz nur dazu, Variablen umzubenennen und gleichzeitig alle anderen Variablen wegzuwerfen. Im neuen Datensatz sind also nur noch vier Variablen übrig:
 
-```{r}
+
+```r
 names(geo)
+```
+
+```
+## [1] "geo"     "Country" "Wealth"  "Region"
 ```
 
 
 Diese geschrumpften Informationen müssen jetzt zunächst mit den Informationen zum den Ländern zusammengeführt werden.
 
-```{r Error}
+
+```r
 geo <- right_join(geo, pop, by = 'geo') |>
   full_join(expect, by = c('geo', 'time')) |>
   full_join(income, by = c('geo', 'time')) 
@@ -131,7 +157,8 @@ Dieser Datensatz aus geografischen Daten und Bevölkerungszahlen wird dann mit d
 
 Die globalen Informationen über Länder sollen jetzt noch mit den spezifischen Bildungsinvestitionen zusammengeführt werden. Dazu kombinieren wir erst alle Bildungsinformationen in einen Datensatz:
 
-```{r}
+
+```r
 edu <- full_join(primary, secondary, by = c('geo', 'time')) |>
   full_join(tertiary, by = c('geo', 'time')) |>
   full_join(edx, by = c('geo', 'time'))
@@ -139,13 +166,15 @@ edu <- full_join(primary, secondary, by = c('geo', 'time')) |>
 
 Hier benutzen wir `full_join` weil alle Datenpunkte aus beiden Datensätzen einbezogen werden sollen. Wenn die Ausgaben für Primär- und Sekundärbildung zusammengeführt sind, werden sie mit der Pipe `|>` an `full_join` weitergegeben und dort mit der Tertiärbildung zusammengeführt. Zu guter Letzt verbinden wir die geografischen und die bildungsbezogenen Informationen noch:
 
-```{r}
+
+```r
 edu_exp <- full_join(geo, edu, by = c('geo', 'time'))
 ```
 
 Weil die uns hauptsächlich interessierenden Daten zu den Bildungsausgaben erst ab 1997 zuverlässig erhoben wurden, Lebenserwartung und Bevölkerungszahlen aber von 1800 bis 2100 geschätzt bzw. aufgezeichnet wurden, schränken wir den Datensatz noch auf die Spanne von 1997 bis 2017 ein und entfernen die Datenpunkte, die nicht eindeutig einem Land zugewiesen werden konnten:
 
-```{r}
+
+```r
 edu_exp <- filter(edu_exp, time < 2018 & time > 1996) |>
   filter(!is.na(Country))
 ```
@@ -153,13 +182,30 @@ edu_exp <- filter(edu_exp, time < 2018 & time > 1996) |>
 
 Die Namen der Variablen im Datensatz sind jetzt immmernoch alles andere als schön:
 
-```{r}
+
+```r
 names(edu_exp)
+```
+
+```
+##  [1] "geo"                                                        
+##  [2] "Country"                                                    
+##  [3] "Wealth"                                                     
+##  [4] "Region"                                                     
+##  [5] "time"                                                       
+##  [6] "total_population_with_projections"                          
+##  [7] "life_expectancy_at_birth_data_from_ihme"                    
+##  [8] "gdppercapita_us_inflation_adjusted"                         
+##  [9] "expenditure_per_student_primary_percent_of_gdp_per_person"  
+## [10] "expenditure_per_student_secondary_percent_of_gdp_per_person"
+## [11] "expenditure_per_student_tertiary_percent_of_gdp_per_person" 
+## [12] "index"
 ```
 
 Weil wir die Variablen immer und immer wieder im Code ansprechen müssen, machen sich besonders prägnante, kurze Variablennamen gut. Die aktuellen Namen sind leider keins von beidem, daher müssen neue her:
 
-```{r}
+
+```r
 names(edu_exp)[-c(1:4)] <- c('Year', 'Population', 'Expectancy', 'Income', 'Primary', 'Secondary', 'Tertiary', 'Index')
 ```
 
@@ -167,8 +213,26 @@ names(edu_exp)[-c(1:4)] <- c('Year', 'Population', 'Expectancy', 'Income', 'Prim
 
 Der Datensatz mit dem wir weiter arbeiten sieht also so aus:
 
-```{r}
+
+```r
 head(edu_exp)
+```
+
+```
+##   geo Country      Wealth   Region Year Population Expectancy   Income  Primary
+## 1 abw   Aruba high_income americas 1997      85160         NA 30074.41       NA
+## 2 abw   Aruba high_income americas 1998      86830         NA 29765.51       NA
+## 3 abw   Aruba high_income americas 1999      88440         NA 29262.62 11.59103
+## 4 abw   Aruba high_income americas 2000      90270         NA 30703.66 13.06282
+## 5 abw   Aruba high_income americas 2001      92360         NA 31426.88 12.19509
+## 6 abw   Aruba high_income americas 2002      94600         NA 30760.21 13.78319
+##   Secondary Tertiary Index
+## 1        NA       NA    NA
+## 2        NA       NA    NA
+## 3  18.56215 31.49001    NA
+## 4  19.20419 28.73253    NA
+## 5  20.24258 32.89536    NA
+## 6  19.38926 34.78445    NA
 ```
 
 Eine kurze Erläuterung der Variablenbedeutungen:
