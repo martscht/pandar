@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr, Daten in R mit Hilfe des Pakets "ggplot2" zu visualisieren. Das Tutorial startet mit den Grundprinzipien des Pakets, wie Daten in Schichten dargestellt werden, die Geometrie und Ästhetik der Grafiken sowie die Verwendung von Themes und Farbpaletten zur Anpassung der Abbildungen. Außerdem werden Methoden zur Beschriftung und Anpassung von Grafiken für eine übersichtlichere Darstellung von Daten erläutert.'
 authors: [schultze]
 weight: 2
-lastmod: '2024-04-08'
+lastmod: '2024-04-09'
 featured: no
 banner:
   image: "/header/colorful_bubbles.jpg"
@@ -27,10 +27,6 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/grafiken-ggplot2.R
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Quizdaten
-    url: /lehre/statistik-ii/quizdaten-bsc7#Quiz1
 output:
   html_document:
     keep_md: true
@@ -39,10 +35,6 @@ output:
 
 
 
-```r
-# Pandar theming der Abbildungen überschreiben
-ggplot2::theme_set(ggplot2::theme_grey())
-```
 
 
 
@@ -52,7 +44,15 @@ Das Paket `ggplot2` ist das umfangreichste und am weitesten verbreitete Paket zu
 
 Weil `ggplot2` so beliebt ist, gibt es online tausende von Quellen mit Tutorials, Beispielen und innovativen Ansätzen zur Datenvisualisierung. Vom Autor des Pakets selbst gibt es ein [Überblickswerk über Data-Science als e-Book](https://r4ds.hadley.nz/), in dem sich auch [ein Kapitel](https://r4ds.hadley.nz/data-visualize.html) mit `ggplot2` befasst.
 
-## Beispieldaten {#Beispieldaten}
+<details><summary>Abschnitte in diesem Beitrag</summary>
+
+- Eine kurze Beschreibung der [Beispieldaten](#beispieldaten)
+- Die [Grundprinzipien](#grundprinzipien) von `ggplot2` - [Schichten](#schichten), [Plots als Objekte](#plots-als-objekte) und [Gruppierung von Daten](#gruppierte-abbildungen)
+- Wie Abbildungen [angepasst werden](#abbildungen-anpassen) können: mit [Themes](#themes), [Beschriftungen](#beschriftung) und [Farbpaletten](#farbpaletten)
+
+</details>
+
+## Beispieldaten
 
 Wir benutzen für unsere Interaktion mit `ggplot2` öffentlich zugängliche Daten aus verschiedenen Quellen, die ich in einem Anflug von Selbstlosigkeit bereits für Sie zusammengetragen habe. Alle, die daran interessiert sind, wie diese Daten bezogen und für die Weiterverwendung aufbereitet werden, können das Ganze [im kurzen Beitrag zur Datenaufbereitung](/workshops/ggplotting/ggplotting-daten) noch genauer nachlesen. In den Daten geht es im Wesentlichen um die Ausgaben für Bildung, die Länder weltweit so tätigen. Für alle, die das überspringen und einfach Bilder machen wollen, gibt es auch schon den [{{< icon name="download" pack="fas" >}} fertigen Datensatz zum Download](/daten/edu_exp.rda). Auch den kann man aber direkt in `R` laden, ohne erst die Datei herunterladen und speichern zu müssen:
 
@@ -104,7 +104,7 @@ head(edu_exp)
 ```
 
 
-## `ggplot2` Grundprinzipien {#Grundprinzipien}
+## `ggplot2` Grundprinzipien {#grundprinzipien}
 
 In `ggplot2` werden immer Daten aus **einem** `data.frame` dargestellt. Das heißt, dass wir nicht, wie bei `plot` oder `hist` aus `R` selbst Vektoren oder Matrizen nutzen können. Daten müssen immer so aufbereitet sein, dass der grundlegende Datensatz sinnvoll benannte Variablen enthält und in dem Format vorliegt, in welchem wir die Daten visualisieren wollen. Das hat zwar den Nachteil, dass wir Datensätze umbauen müssen, wenn wir Dinge anders darstellen wollen, aber hat auch den Vorteil, dass wir alle Kenntnisse über Datenmanagement im Allgemeinen auf den Umgang mit `ggplot2` übertragen können. 
 
@@ -285,11 +285,11 @@ Per Voreinstellung wird in `ggplot` ein sogenannter "stacked" Barplot erstellt, 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/grouped-barplot-1.png)<!-- -->
 
 
-## Abbildungen anpassen {#Anpassen}
+## Abbildungen anpassen
 
 Die Abbildungen, die wir bisher erstellt haben, nutzen alle das in `ggplot2` voreingestellte Design. Auch wenn es sicherlich einen theoretisch sehr gut fundierten Grund gibt, dass der Hintergrund der Abbildung in einem demotivierenden Grauton gehalten sein sollte, gibt es Designs, die man schöner finden kann. Im folgenden gucken wir uns an, wie man seine Abbildungen nach seinen eigenen Vorlieben anpassen kann.
 
-### Themes {#Themes}
+### Themes
 
 In `ggplot2` werden die Grundeigenschaften von Abbildungen in "Themes" zusammengefasst. Mit `?theme_test` erhält man eine Auflistung aller Themes, die von `ggplot2` direkt zur Verfügung gestellt werden. Diese 10 Themes sind erst einmal sehr konservative Einstellungen für die Eigenschaften von Grafiken. Sehen wir uns meinen persönlichen Favoriten, das sehr dezente `theme_minimal()` an. Dazu legen wir die Grundanleitung der Abbildung für 2014 zunächst in einem Objekt ab (das ist nicht notwendig, soll nur im Folgenden den Fokus auf die Themes legen):
 
