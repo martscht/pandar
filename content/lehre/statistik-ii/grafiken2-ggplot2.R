@@ -37,7 +37,12 @@ ggplot(edu_2014, aes(x = Primary, y = Index)) +
 # Reskalierung Bevölkerungszahl
 edu_2014$Population <- edu_2014$Population / 1e6
 
-# Scatterplot mit nominaler Farbästhetik
+# Scatterplot mit nominaler Farbästhetik und intervallskalierter Punktgröße
+ggplot(edu_2014, aes(x = Primary, y = Index)) +
+  geom_point(aes(color = Region, size = Population)) +
+  scale_color_pandar()
+
+# Anpassung der Benennung einer Ästhetik
 ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population)) +
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)')
@@ -46,7 +51,7 @@ ggplot(edu_2014, aes(x = Primary, y = Index)) +
 edu_sel <- subset(edu_exp,  Year %in% c(1999, 2004, 2009, 2014))
 edu_sel$Year <- as.factor(edu_sel$Year)
 
-# Daten reduktion
+# Datenreduktion auf Zeilen, bei denen sowohl Primary als auch Index vorhanden sind
 edu_sel <- subset(edu_sel, !is.na(Primary) & !is.na(Index))
 
 # Population reskalieren
@@ -67,6 +72,8 @@ ggplot(edu_sel, aes(x = Primary, y = Index)) +
 static <- ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population)) +
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)')
+
+## install.packages('plotly')
 
 library(plotly)
 

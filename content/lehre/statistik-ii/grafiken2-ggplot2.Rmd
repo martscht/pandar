@@ -1,12 +1,12 @@
 ---
-title: "Scatterplots und interaktiven Grafiken" 
+title: "Scatterplots und interaktiven Grafiken mit ggplot2" 
 type: post
 date: '2024-04-09' 
 slug: grafiken2-ggplot2 
 categories: ["Statistik II"] 
 tags: ["ggplot", "interaktiv", "Grafiken"] 
 subtitle: ''
-summary: 'Im zweiten Teil der Einführung von ggplot2 gucken wir uns neben den klassischen Gestaltungsmöglichkeiten für Scatterplots auch an, wie man Grafiken mit plotly interaktiv gestalten kann.'
+summary: 'Im zweiten Teil der Einführung von ggplot2 betrachten wir neben den klassischen Gestaltungsmöglichkeiten für Scatterplots auch, wie man Grafiken mit plotly interaktiv gestalten kann.'
 authors: [schultze]
 weight: 3
 lastmod: '`r Sys.Date()`'
@@ -38,7 +38,6 @@ output:
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
-library(knitr)
 ```
 
 ```{r, purl = FALSE, echo = FALSE}
@@ -50,6 +49,10 @@ Im [letzten Beitrag](/lehre/statistik-ii/grafiken-ggplot2) haben wir uns mit den
 
 <details><summary>Abschnitte in diesem Beitrag</summary>
 
+- Kurze Beschreibung der [Beispieldaten](#beispieldaten)
+- [Erstellen](#scatterplots) von von Scatterplots mit verschiedenen Ästhetiken
+- [Faceting](#faceting) von Plots
+- [Erstellen](#plotly) und [Anpassen](#plotly-anpassung) von interaktiven Graphiken
 
 </details>
 
@@ -88,7 +91,7 @@ Die Daten sind die selben wie auch im letzten Beitrag - eine Sammlung von versch
   - `Tertiary`: Staatliche Ausgaben pro Schüler:in oder Student:in in der tertiären Bildung als Prozent des `income` (GDP pro Person)
   - `Index`: Education Index des United Nations Development Programme
 
-Der `Index` berechnet sich aus erwarteter ($EYS$) und tatsächlicher $MYS$ Bildungsdauer einer Person in einem Land:
+Der `Index` berechnet sich aus erwarteter ($EYS$) und tatsächlicher ($MYS$) Bildungsdauer einer Person in einem Land:
 
 $$
 Index = \frac{1}{2} \left( \frac{EYS}{18} + \frac{MYS}{15} \right)
@@ -98,7 +101,7 @@ Länder, in denen das Bildungssystem eine lange Ausbildungsdauer vorsieht (als R
 
 ### Theme
 
-Im letzten Beitrag hatten wir damit aufgehört, dass wir Plots nach unserem (also eigentlich meinem) Geschmack angepasst hatten - dafür hatten wir vor allem [Themes](/lehre/statistik-ii/grafiken-ggplot2/#themes) und [Farbpaletten](/lehre/statistik-ii/grafiken-ggplot2/#farbpaletten) genutzt. Sie können sich eine Kombination aussuchen, die Ihnen gefällt - aber um diese Website in einem kohärenten Design zu halten und von der Corporate Design Abteilung meines Arbeitgebers keine unnötigen Emails zu erhalten, haben wir für pandaR ein spezifisches Theme und eine Farbpalette erstellt. Wir können diese direkt laden, indem wir das R-Skript ausführen, in dem sie definiert wurden:
+Im letzten Beitrag hatten wir als letzten Punkt besprochen, wie wir Plots nach unserem (also eigentlich meinem) Geschmack angepasst hatten - dafür hatten wir vor allem [Themes](/lehre/statistik-ii/grafiken-ggplot2/#themes) und [Farbpaletten](/lehre/statistik-ii/grafiken-ggplot2/#farbpaletten) genutzt. Sie können sich eine Kombination aussuchen, die Ihnen gefällt - aber um diese Website in einem kohärenten Design zu halten und von der Corporate Design Abteilung meines Arbeitgebers keine unnötigen Emails zu erhalten, haben wir für pandaR ein spezifisches Theme und eine Farbpalette erstellt. Wir können diese direkt laden, indem wir das R-Skript ausführen, in dem sie definiert wurden:
 
 ```{r, eval = FALSE, purl = TRUE, echo = -1}
 # Laden des pandaR Themes
@@ -133,14 +136,14 @@ Wie schon im letzten Beitrag schränken wir unsere Daten zunächst auf das Jahr 
 edu_2014 <- subset(edu_exp, Year == 2014)
 ```
 
-Zunächst interessiert mich hier der Zusammenhang zwischen der Bildungsinvestition in die Primärbildung (also z.B. Grundschulen) und dem tatsächlichen Bildungsindex, wie er vom UNDP genutzt wird:
+Zunächst interessiert uns der Zusammenhang zwischen der Bildungsinvestition in die Primärbildung (also z.B. Grundschulen) und dem tatsächlichen Bildungsindex, wie er vom UNDP genutzt wird. Deksriptivstatistische Informationen zu den Variablen können wir mit der Funktion `describe()` aus dem Paket `psych` erhalten:
 
 ```{r, echo = -1}
 # Deskriptivstatistik 
 psych::describe(edu_2014[, c('Primary', 'Index')])
 ```
 
-Wie wir sehen, liegen für die Investitionen in die Primärbildung nur Werte aus `r sum(!is.na(edu_2014$Primary))` Ländern vor, was unsere Abbildung positiv ausgedrückt zumindest übersichtlicher macht. Wir können diese Datenpunkte im Datensatz lassen und `ggplot` würde sie jedes Mal, wenn wir eine Abbildung erstellen, mit einer Warnmeldung automatisch entfernen. Allerdings wirkt sich das z.B. auf die Skalierung unserer Ästhetiken aus - z.B. würde bei der Bevölkerungszahl (die benutzen wir gleich) die Skalierung anhand das Maximums (China) festgelegt. Im Datensatz haben wir aber keine Informationen auf `Primary` von China und Indien, sodass die Skala gar nicht bis in die Milliarden gehen muss, sondern wir mit einer eingeschränkten Skala zufrieden wären. Um die Skalierung an Daten, die gar nicht genutzt werden zu verhindern, können wir - wie im letzten Beitrag betont - die Daten anpassen, bevor wir Abbildungen erstellen:
+Wie wir sehen, liegen für die Investitionen in die Primärbildung nur Werte aus `r sum(!is.na(edu_2014$Primary))` Ländern vor, was unsere Abbildung positiv ausgedrückt zumindest übersichtlicher macht. Wir können diese Datenpunkte im Datensatz lassen und `ggplot2` würde sie jedes Mal, wenn wir eine Abbildung erstellen, mit einer Warnmeldung automatisch entfernen. Allerdings wirkt sich das z.B. auf die Skalierung unserer Ästhetiken aus - z.B. würde bei der Bevölkerungszahl (die benutzen wir gleich) die Skalierung anhand das Maximums (China) festgelegt. Im Datensatz haben wir aber keine Informationen auf `Primary` von China und Indien, sodass die Skala gar nicht bis in die Milliarden gehen muss, sondern wir mit einer eingeschränkten Skala zufrieden wären. Um die Skalierung an Daten, die gar nicht genutzt werden zu verhindern, können wir - wie im letzten Beitrag betont - die Daten anpassen, bevor wir Abbildungen erstellen:
 
 ```{r, echo = -1}
 # Daten reduktion
@@ -169,14 +172,22 @@ Gerade für Punkte lassen sich noch einige andere Ästhetiken definieren, um wei
 # Reskalierung Bevölkerungszahl
 edu_2014$Population <- edu_2014$Population / 1e6
 
-# Scatterplot mit nominaler Farbästhetik
+# Scatterplot mit nominaler Farbästhetik und intervallskalierter Punktgröße
+ggplot(edu_2014, aes(x = Primary, y = Index)) +
+  geom_point(aes(color = Region, size = Population)) +
+  scale_color_pandar()
+```
+
+Wenn uns die Benennung einer Ästhetik nicht gefällt (per Voreinstellung einfach der Variablenname), können wir in der dazugehörigen Skala (`scale_...`) das `name`-Argument benutzen, um etwas deskriptiveres auszusuchen. In diesem Fall wollen wir hinzufügen, dass die Bevölkerungszahl in Millionen zu verstehen ist. Das `\n` steht für "new line" und fügt einfach einen Zeilenumbruch ein.
+
+```{r scatterplot-sized-rename, fig = TRUE}
+# Anpassung der Benennung einer Ästhetik
 ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population)) +
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)')
 ```
-Wenn uns die Benennung einer Ästhetik nicht gefällt (per Voreinstellung einfach der Variablenname), können wir in der dazugehörigen Skala (`scale_...`) das `name`-Argument benutzen, um etwas deskriptiveres auszusuchen. In diesem Fall haben wir hinzugefügt, dass die Bevölkerungszahl in Millionen zu verstehen ist. Das `\n` steht für "new line" und fügt einfach einen Zeilenumbruch ein.
 
-In der neuen Abbildung lassen sich einige Datenpunkte schon ziemlich leicht direkt identifizieren: der große (viele Leute) grüne (Amerika) Punkt mit hohem Bildungsindex ist vermutlich die USA. 
+In der neuen Abbildung lassen sich einige Datenpunkte schon ziemlich leicht direkt identifizieren: der große (viele Leute) grüne (Amerikas) Punkt mit hohem Bildungsindex ist vermutlich die USA. 
 
 ### Faceting
 
@@ -187,14 +198,14 @@ Sehr viele Datenpunkte in der gleichen Abbildung darzustellen, kann mitunter seh
 edu_sel <- subset(edu_exp,  Year %in% c(1999, 2004, 2009, 2014))
 edu_sel$Year <- as.factor(edu_sel$Year)
 
-# Daten reduktion
+# Datenreduktion auf Zeilen, bei denen sowohl Primary als auch Index vorhanden sind
 edu_sel <- subset(edu_sel, !is.na(Primary) & !is.na(Index))
 
 # Population reskalieren
 edu_sel$Population <- edu_sel$Population / 1e6
 ```
 
-Beim Versuch, das alles in einer Abbildung darzustellen, wird es etwas chaotisch, selbst wenn wir über die Ästhetik der Punkt-Form (`pch` für Pointcharacter) versuchen, verschiedene Jahre kenntlich zu machen:
+Beim Versuch, das alles in einer Abbildung darzustellen, wird es etwas chaotisch. Hier werden die verschiedenen Jahre über die Ästhetik der Punkt-Form (`pch` für Pointcharacter) "kenntlich" gemacht:
 
 ```{r chaotic-neutral, fig=TRUE, echo=-1}
 # Beispiel einer etwas chaotischen Darstellung all dieser Jahresdaten zur selben Zeit
@@ -229,18 +240,24 @@ static <- ggplot(edu_2014, aes(x = Primary, y = Index)) +
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)')
 ```
 
-Wir legen Sie hier zunächst in einem Objekt ab, statt sie einfach direkt ausgeben zu lassen, weil wir dieses Objekt direkt benutzen können, um eine interaktive Grafik daraus zu machen. Dafür brauchen wir aber zuerst noch das Paket `plotly`:
+Wir legen Sie hier zunächst in einem Objekt ab, statt sie einfach direkt ausgeben zu lassen, weil wir dieses Objekt direkt benutzen können, um eine interaktive Grafik daraus zu machen. Dafür brauchen wir aber zuerst noch das Paket `plotly`, dass wir zunächst installieren müssen:
 
-```{r, echo = -1}
+```{r, eval = FALSE}
+install.packages('plotly')
+```
+
+Anschließend können wir es mit der `library()`-Funktion laden:
+
+```{r}
 library(plotly)
 ```
 
 Plotly ist ein [kommerzieller Anbieter für Datenvisualisierung](https://plotly.com/) in jedweder Form. Weil ich hier nicht mehr Werbung für kommerzielle Plattformen machen will, als zwingend erfoderlich, bedanke mich einfach für das gratis Paket und wir arbeiten damit weiter.
 
-In `plotly` kann man über die Funktion `plot_ly` interaktive Plots erstellen. Aber anstatt uns zu zwingen etwas komplett neues lernen zu müssen, erlaubt uns das Paket auch, mit `ggplot()` erstellte Grafiken in interaktive Grafiken zu übersetzen! Dafür gibt es die Funktion `ggplotly()`:
+In `plotly` kann man über die Funktion `plot_ly()` interaktive Plots erstellen. Aber anstatt uns zu zwingen etwas komplett neues lernen zu müssen, erlaubt uns das Paket auch, mit `ggplot()` erstellte Grafiken in interaktive Grafiken zu übersetzen! Dafür gibt es die Funktion `ggplotly()`:
 
 
-```{r, eval = FALSE, echo = -1}
+```{r, eval = FALSE}
 ggplotly(static)
 ```
 
@@ -266,7 +283,7 @@ Wenn sie mit dem Cursor über einen Datenpunkt hovern, erhalten Sie genauere Inf
   
 Wie man sieht, sind das per Voreinstellung ziemlich viele Optionen, die bei weitem nicht immer alle nötig oder sinnvoll sind. Aber besonders zu Beginn können sie dabei helfen, die Daten genauer unter die Lupe zu nehmen.
 
-### Doppelte Legenden entfernen
+### Doppelte Legenden entfernen {#plotly-anpassung}
 
 In der Abbildung fallen direkt (nach dem kurzen Innehalten über die Wunder moderner Technik) zwei Probleme auf: Plotly scheint nicht sonderlich gut mit doppelten Legenden umzugehen und die Informationen, die wir bekommen, wenn wir mit dem Cursor einen Punkt markieren sind weder schön noch informativ. 
 
