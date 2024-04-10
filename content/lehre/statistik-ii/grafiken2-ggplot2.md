@@ -47,7 +47,7 @@ Im [letzten Beitrag](/lehre/statistik-ii/grafiken-ggplot2) haben wir uns mit den
 - Kurze Beschreibung der [Beispieldaten](#beispieldaten)
 - [Erstellen](#scatterplots) von von Scatterplots mit verschiedenen Ästhetiken
 - [Faceting](#faceting) von Plots
-- [Erstellen](#plotly) und [Anpassen](#plotly-anpassung) von interaktiven Graphiken
+- [Erstellen](#plotly) und [Anpassen](#doppelte-legenden-entfernen) von interaktiven Graphiken
 
 </details>
 
@@ -176,14 +176,15 @@ Gerade für Punkte lassen sich noch einige andere Ästhetiken definieren, um wei
 
 ```r
 edu_2014$Population <- edu_2014$Population / 1e6
+```
 
+
+```r
 # Scatterplot mit nominaler Farbästhetik und intervallskalierter Punktgröße
 ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population)) +
   scale_color_pandar()
 ```
-
-![](/lehre/statistik-ii/grafiken2-ggplot2_files/figure-html/scatterplot-sized-1.png)<!-- -->
 
 Wenn uns die Benennung einer Ästhetik nicht gefällt (per Voreinstellung einfach der Variablenname), können wir in der dazugehörigen Skala (`scale_...`) das `name`-Argument benutzen, um etwas deskriptiveres auszusuchen. In diesem Fall wollen wir hinzufügen, dass die Bevölkerungszahl in Millionen zu verstehen ist. Das `\n` steht für "new line" und fügt einfach einen Zeilenumbruch ein.
 
@@ -195,7 +196,7 @@ ggplot(edu_2014, aes(x = Primary, y = Index)) +
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)')
 ```
 
-![](/lehre/statistik-ii/grafiken2-ggplot2_files/figure-html/scatterplot-sized-rename-1.png)<!-- -->
+![](/lehre/statistik-ii/grafiken2-ggplot2_files/figure-html/scatterplot-sized-1.png)<!-- -->
 
 In der neuen Abbildung lassen sich einige Datenpunkte schon ziemlich leicht direkt identifizieren: der große (viele Leute) grüne (Amerikas) Punkt mit hohem Bildungsindex ist vermutlich die USA. 
 
@@ -301,7 +302,7 @@ Wenn sie mit dem Cursor über einen Datenpunkt hovern, erhalten Sie genauere Inf
   
 Wie man sieht, sind das per Voreinstellung ziemlich viele Optionen, die bei weitem nicht immer alle nötig oder sinnvoll sind. Aber besonders zu Beginn können sie dabei helfen, die Daten genauer unter die Lupe zu nehmen.
 
-### Doppelte Legenden entfernen {#plotly-anpassung}
+### Doppelte Legenden entfernen
 
 In der Abbildung fallen direkt (nach dem kurzen Innehalten über die Wunder moderner Technik) zwei Probleme auf: Plotly scheint nicht sonderlich gut mit doppelten Legenden umzugehen und die Informationen, die wir bekommen, wenn wir mit dem Cursor einen Punkt markieren sind weder schön noch informativ. 
 
@@ -369,7 +370,7 @@ static <- ggplot(edu_2014, aes(x = Primary, y = Index,
   scale_color_pandar() + guides(size = 'none')
 ```
 
-So erstellen wir jetzt also den neuen ggplot. In dessen Anzeige hat sich überhaupt nichts geändert, weil `text` keine offizielle Ästhetik von `ggplot` ist. Wenn wir `ggplotly` darauf hinweisen, dass in dieser Ästhetik aber wichtige Information enthalten ist, wird diese im interaktiven Plot berücksichtigt. Als neue Grafik, mit neuer Hoverinfo ergibt sich dann:
+So erstellen wir jetzt also den neuen ggplot. In dessen Anzeige hat sich überhaupt nichts geändert, weil `text` keine offizielle Ästhetik von `ggplot` ist. Wie wir es schon im letzten Abschnitt besprochen hatten, können wir mit dem `tooltip`-Argument jetzt noch angeben, welche Ästhetiken `ggplotly` in der Hoverinfo präsentieren soll. Per Voreinstellung würden hier alle (`"all"`) angezeigt werden. Wie schon erwähnt sind x, y und Farbe ja eigentlich in den Achsenbeschriftungen und der Legende schon deutlich dargestellt, sodass wir die Informationen nicht noch einmal zusätzlich brauchen. Deswegen nutzen wir hier nur die Informationen, die wir in der `text`-Ästhetik abgelegt hatten. Als neue Grafik, mit neuer Hoverinfo ergibt sich dann:
 
 
 ```r

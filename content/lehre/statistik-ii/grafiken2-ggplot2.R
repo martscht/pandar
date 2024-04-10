@@ -37,10 +37,10 @@ ggplot(edu_2014, aes(x = Primary, y = Index)) +
 # Reskalierung Bevölkerungszahl
 edu_2014$Population <- edu_2014$Population / 1e6
 
-# Scatterplot mit nominaler Farbästhetik und intervallskalierter Punktgröße
-ggplot(edu_2014, aes(x = Primary, y = Index)) +
-  geom_point(aes(color = Region, size = Population)) +
-  scale_color_pandar()
+## # Scatterplot mit nominaler Farbästhetik und intervallskalierter Punktgröße
+## ggplot(edu_2014, aes(x = Primary, y = Index)) +
+##   geom_point(aes(color = Region, size = Population)) +
+##   scale_color_pandar()
 
 # Anpassung der Benennung einer Ästhetik
 ggplot(edu_2014, aes(x = Primary, y = Index)) +
@@ -62,7 +62,7 @@ ggplot(edu_sel, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population, pch = Year)) + 
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)')
 
-# Übersichtlichkeit durch faceting, trennt in einzelne Abbildungn nach Jahr
+# Übersichtlichkeit durch faceting, trennt in einzelne Abbildungen nach Jahr
 ggplot(edu_sel, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population)) + 
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)') +
