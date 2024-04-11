@@ -43,8 +43,16 @@ mod <- lm(rat1 ~ 1 + sit1 + emt1, fairplayer)
 
 mod
 
-plot(fairplayer$rat1 ~ fairplayer$sit1)
-abline(coef(mod)[1], coef(mod)[2])
+# Koeffizienten als Objekt ablegen
+b <- coef(mod)
+
+# Scatterplot mit Regressionslinie
+library(ggplot2)
+ggplot(fairplayer, aes(x = sit1, y = rat1)) +
+  geom_point() +
+  geom_abline(intercept = b['(Intercept)'], slope = b['sit1'],
+    color = '#00618f', lwd = 1.5) +
+  labs(x = 'Soziale Intelligenz', y = 'Relationale Aggression')
 
 summary(mod)
 
@@ -79,4 +87,12 @@ abbrev(fit, 'Intercept', 'Variances')
 
 
 
+summary(fit, standardized = TRUE)
+
 inspect(fit, 'rsquare')
+
+# Unstandardisierte Parameter
+parameterEstimates(fit)
+
+## # Standardisierte Parameter
+## standardizedSolution(fit)

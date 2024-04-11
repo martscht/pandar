@@ -9,7 +9,7 @@ subtitle: 'Das Instrument für die multivariate Datenanalyse'
 summary: '' 
 authors: [schultze, irmer] 
 weight: 1
-lastmod: '2024-04-10'
+lastmod: '2024-04-11'
 featured: no
 banner:
   image: "/header/guitars.jpg"
@@ -57,7 +57,7 @@ In diesem Abschnitt gucken wir uns zur Wiederholung noch einmal ein paar Grundz�
 
 ### Beispieldatensatz
 
-Der Datensatz, den wir in dieser Sitzung benutzen, stammt aus einer Studie von Bull, Schultze & Scheithauer (2009), in der die Effektivität eines Interventionsprogramms zur Bullyingprävention bei Jugendlichen untersucht wurde. Der Datensatz liegt bereits im `R`-eigenen `.rda`-Format vor, sodass uns ein Import der Daten erspart bleibt. Sie können den Datensatz entweder [<i class="fas fa-download"></i> hier herunterladen](/daten/fairplayer.rda) und mit einfach mit `load` arbeiten, um die Daten zu laden:
+Der Datensatz, den wir in dieser Sitzung benutzen, stammt aus einer Studie von Bull, Schultze & Scheithauer (2009), in der die Effektivität eines Interventionsprogramms zur Bullyingprävention bei Jugendlichen untersucht wurde. Der Datensatz liegt bereits im `R`-eigenen `.rda`-Format vor, sodass uns ein Import der Daten erspart bleibt. Sie können den Datensatz entweder [<i class="fas fa-download"></i> hier herunterladen](/daten/fairplayer.rda) und mit `load` arbeiten, um die Daten zu laden:
 
 
 ```r
@@ -81,8 +81,10 @@ names(fairplayer)
 ```
 
 ```
-##  [1] "id"    "class" "grp"   "sex"   "ra1t1" "ra2t1" "ra3t1" "ra1t2" "ra2t2" "ra3t2" "ra1t3" "ra2t3" "ra3t3" "em1t1" "em2t1" "em3t1"
-## [17] "em1t2" "em2t2" "em3t2" "em1t3" "em2t3" "em3t3" "si1t1" "si2t1" "si3t1" "si1t2" "si2t2" "si3t2" "si1t3" "si2t3" "si3t3"
+##  [1] "id"    "class" "grp"   "sex"   "ra1t1" "ra2t1" "ra3t1" "ra1t2" "ra2t2" "ra3t2"
+## [11] "ra1t3" "ra2t3" "ra3t3" "em1t1" "em2t1" "em3t1" "em1t2" "em2t2" "em3t2" "em1t3"
+## [21] "em2t3" "em3t3" "si1t1" "si2t1" "si3t1" "si1t2" "si2t2" "si3t2" "si1t3" "si2t3"
+## [31] "si3t3"
 ```
 
 ```r
@@ -140,23 +142,32 @@ head(fairplayer)
 ```
 
 ```
-##   id class grp    sex ra1t1 ra2t1 ra3t1 ra1t2 ra2t2 ra3t2 ra1t3 ra2t3 ra3t3 em1t1 em2t1 em3t1 em1t2 em2t2 em3t2 em1t3 em2t3 em3t3
-## 1  1     1 IGL female     2     1     1     2     1     1     1     1     1     3     5     4     4     4     3     3     4     5
-## 2  2     1 IGL   male     1     3     1     1     1     1     1     1     1     4     4     3     4     5     5     4     3     3
-## 3  3     1 IGL female     1     2     1     1     1     1     1     2     1     3     3     2     2     2     1     3     2     2
-## 4  4     1 IGL female     1     1     1     1     1     1     1     1     1     5     5     5     4     4     4     3     4     5
-## 5  5     1 IGL   male     2     1     1     1     5     1     1     2     1     3     3     4     3     4     3     3     4     4
-## 6  6     1 IGL   male     1     3     1     1     2     1     1     3     1     4     3     4     3     4     4     4     4     4
-##   si1t1 si2t1 si3t1 si1t2 si2t2 si3t2 si1t3 si2t3 si3t3
-## 1     2     2     3     3     2     3     2     1     3
-## 2     2     1     3     4     2     3     3     2     3
-## 3     1     2     2     1     1     2     1     1     2
-## 4     4     1     5     4     4     4     4     1     4
-## 5     2     2     2     2     3     2     3     5     3
-## 6     2     2     3     3     3     4     4     3     4
+##   id class grp    sex ra1t1 ra2t1 ra3t1 ra1t2 ra2t2 ra3t2 ra1t3 ra2t3 ra3t3 em1t1
+## 1  1     1 IGL female     2     1     1     2     1     1     1     1     1     3
+## 2  2     1 IGL   male     1     3     1     1     1     1     1     1     1     4
+## 3  3     1 IGL female     1     2     1     1     1     1     1     2     1     3
+## 4  4     1 IGL female     1     1     1     1     1     1     1     1     1     5
+## 5  5     1 IGL   male     2     1     1     1     5     1     1     2     1     3
+## 6  6     1 IGL   male     1     3     1     1     2     1     1     3     1     4
+##   em2t1 em3t1 em1t2 em2t2 em3t2 em1t3 em2t3 em3t3 si1t1 si2t1 si3t1 si1t2 si2t2 si3t2
+## 1     5     4     4     4     3     3     4     5     2     2     3     3     2     3
+## 2     4     3     4     5     5     4     3     3     2     1     3     4     2     3
+## 3     3     2     2     2     1     3     2     2     1     2     2     1     1     2
+## 4     5     5     4     4     4     3     4     5     4     1     5     4     4     4
+## 5     3     4     3     4     3     3     4     4     2     2     2     2     3     2
+## 6     3     4     3     4     4     4     4     4     2     2     3     3     3     4
+##   si1t3 si2t3 si3t3
+## 1     2     1     3
+## 2     3     2     3
+## 3     1     1     2
+## 4     4     1     4
+## 5     3     5     3
+## 6     4     3     4
 ```
 
 Der Datensatz, den wir hier betrachten, enthält verhaltensbezogene Selbstberichte auf jeweils drei Items zur relationalen Aggression (`ra`), Empathie (`em`) und sozialen Intelligenz (`si`). Diese insgesamt 9 Indikatoren liegen zu drei Messzeitpunkten (`t1`, `t2` und `t3`) vor. Die über den Befehl `str` angeforderte Struktur verrät uns außerdem, dass diese Variablen allesamt integer (`int`), also ganzzahlig, sind. Über die Items hinaus sind vier weitere Variablen im Datensatz enthalten, die den Personenidentifikator (`id`), die Klasse (`class`), die Interventionsgruppe (`grp`) und das Geschlecht (`sex`) der Jugendlichen kodieren.
+
+Die Items sind jeweils eine Auswahl aus den gesamten Skalen, die genutzt wurden, um die drei Konstrukte zu erheben. Fur Empathie ist eines der Items z.B. "Ich kann mich über die Erfolge anderer Freuen.", für die relationale Aggression z.B. "Ich habe versucht, andere dazu zu bringen, einen bestimmten Mitschüler auszuschließen, indem ich Gerüchte verbreitet habe".
 
 ### Datenmanagement
 
@@ -340,15 +351,29 @@ mod
 ##      1.3536       0.1855      -0.1321
 ```
 
-Wir können uns die Koeffizienten mit `coef` auch als Vektor ausgeben lassen, was den Vorteil hat, dass wir sie in anderen Funktionen weiterverwenden können. Zum Beispiel in einem Scatterplot:
+Wir können uns die Koeffizienten mit `coef` auch als Vektor ausgeben lassen, was den Vorteil hat, dass wir sie in anderen Funktionen weiterverwenden können. Wenn wir uns z.B. die Ergebnisse grafisch darstellen lassen wollen, können wir die Ergebnisse einfach an `ggplot` weitergeben (zur Erinnerung an `ggplot2` gibt es z.B. [hier eine Einführung](/lehre/statistik-ii/grafiken-ggplot2)):
 
 
 ```r
-plot(fairplayer$rat1 ~ fairplayer$sit1)
-abline(coef(mod)[1], coef(mod)[2])
+# Koeffizienten als Objekt ablegen
+b <- coef(mod)
+
+# Scatterplot mit Regressionslinie
+library(ggplot2)
+ggplot(fairplayer, aes(x = sit1, y = rat1)) +
+  geom_point() +
+  geom_abline(intercept = b['(Intercept)'], slope = b['sit1'],
+    color = '#00618f', lwd = 1.5) +
+  labs(x = 'Soziale Intelligenz', y = 'Relationale Aggression')
+```
+
+```
+## Warning: Removed 31 rows containing missing values or values outside the scale range
+## (`geom_point()`).
 ```
 
 ![](/lehre/fue-ii/lavaan-intro_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+Statt den Weg über `geom_line` zu gehen, könnten wir auch mit `geom_smooth(method = 'lm')` eine Regressionsgerade von `ggplot` erzeugen lassen - dann hätte ich allerdings kein Beispiel mehr dafür, warum die Ausgabe der Koeffizienten als Objekt so super praktisch ist.
 
 Üblicherweise wird aber auch bei `lm`-Objekten der `summary`-Befehl genutzt, um die Ergebnisse genauer zu inspizieren. Diese enthält z.B. auch die inferenzstatistische Prüfung der Regressionsgewichte und den Determinationskoeffizient $R^2$.
 
@@ -394,7 +419,7 @@ summary(mod)$coef
 ## emt1        -0.1320831 0.06235884 -2.118114 3.621134e-02
 ```
 
-Die Zeilennamen dieser Tabelle ((Intercept), sit1, emt1) geben an, zu welchem Prädiktor das Regressiongewicht gehört. In der Spalte `Estimate` wird das Regressionsgewicht angegeben. Hier wird also für zwei Jugendliche, die sich um eine Einheit in sozialer Intelligenz (`sit1`) unterscheiden, aber das gleiche Ausmaß an Empathie (`emt1`) haben, ein Unterschied in der relationalen Aggression von 0.19 Einheiten vorhergesagt. Bei gleicher Empathie führt höhere soziale Intelligenz also zu *mehr* relationaler Aggression. Die nächste Spalte `Std. Error` gibt den Standardfehler an, welcher das Ausmaß an Unsicherheit quantifiziert, das wir in der Schätzung des Populationswertes dieses Regressionsgewichts aufgrund unserer Stichprobe haben. Das Verhältnis aus Regressionsgewicht und Standardfehler ($\frac{0.19}{0.05} = 3.64$) folgt - wenn die Voraussetzungen der Regressionsanalyse halten - einer $t$-Verteilung mit $n - k - 1$ Freiheitsgraden und wird deswegen in der Tabelle als `t Value` geführt. Bei der Bestimmung der Freiheitsgrade entspricht $n$ der Anzahl der Beobachtungen und $k$ der Anzahl der Prädiktoren. Bei ausreichend großer Anzahl von Freiheitsgraden ist die $t$-Verteilung nicht mehr von der Standardnormalverteilung unterscheidbar, sodass in anderer Software hier häufig der $z$-Test genutzt wird.
+Die Zeilennamen dieser Tabelle (`(Intercept)`, `sit1`, `emt1`) geben an, zu welchem Prädiktor das Regressiongewicht gehört. In der Spalte `Estimate` wird das Regressionsgewicht angegeben. Hier wird also für zwei Jugendliche, die sich um eine Einheit in sozialer Intelligenz (`sit1`) unterscheiden, aber das gleiche Ausmaß an Empathie (`emt1`) haben, ein Unterschied in der relationalen Aggression von 0.19 Einheiten vorhergesagt. Bei gleicher Empathie führt höhere soziale Intelligenz also zu *mehr* relationaler Aggression. Die nächste Spalte `Std. Error` gibt den Standardfehler an, welcher das Ausmaß an Unsicherheit quantifiziert, das wir in der Schätzung des Populationswertes dieses Regressionsgewichts aufgrund unserer Stichprobe haben. Das Verhältnis aus Regressionsgewicht und Standardfehler ($\frac{0.19}{0.05} = 3.64$) folgt - wenn die Voraussetzungen der Regressionsanalyse halten - einer $t$-Verteilung mit $n - k - 1$ Freiheitsgraden und wird deswegen in der Tabelle als `t Value` geführt. Bei der Bestimmung der Freiheitsgrade entspricht $n$ der Anzahl der Beobachtungen und $k$ der Anzahl der Prädiktoren. Bei ausreichend großer Anzahl von Freiheitsgraden ist die $t$-Verteilung nicht mehr von der Standardnormalverteilung unterscheidbar, sodass in anderer Software hier häufig der $z$-Test genutzt wird.
 
 Weil wir wissen, wie wahrscheinlich es ist, unter der $t$-Verteilung mit 121 Freiheitsgraden einen Wert von 3.64 zu beobachten, können wir (in der letzten Spalte) einen $p$-Wert bestimmen. In diesem Fall heißt es also, dass, wenn in der Population der wahre Wert dieses Regressionsgewichts 0 wäre, die Wahrscheinlichkeit, in unserer Stichprobe ein Regressionsgewicht von 0.19 oder extremer zu finden, 0.00041 ist. "Extremer" heißt hierbei, dass das Regressionsgewicht vom Betrag her größer sein müsste.
 
@@ -428,35 +453,58 @@ Im 1. Schritt schreiben wir ein Modell als Text und legen es in einem Objekt (z.
 
 Die Model-Syntax von `lavaan` ist eine grafische Sprache. Das heißt, dass die Syntax so gedacht ist, dass man dabei das Pfaddiagramm in Worten beschreibt. Im Verlauf des Semesters werden wir noch diverse Modelle mit Pfaddiagrammen darstellen und dabei immer mal wieder neue Komponenten kennenlernen. Im Wesentlichen bilden Pfaddiagramme aber die beiden möglichen Beziehungen zwischen drei Typen von "Variablen" ab.
 
-<!-- <img src="/lehre/fue-ii/https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/intro/images/shapes.png" width="65%"/> -->
-{{< figure src=“../FEII_shapes.png“ >}}
+<img src="/lehre/fue-ii/FEII_shapes.png" width="65%"/>
+<!-- shortcode declines width scaling -->
+<!--
+  {{< figure src="../FEII_shapes.png" >}}
+-->
 
 Mit diesen fünf sehr grundlegenden Elementen lassen sich erstaunlich viele Modelle darstellen, die in der psychologischen Forschung genutzt werden. Wir können z.B. eine einfache Regression zur Vorhersage eines Kriteriums $Y$ durch einen Prädiktor $X$ aufstellen. Wir haben also zwei manifeste Variablen (in Rechtecken) und eine gerichtete Verbindung zwischen den beiden (die Regression). Wie üblich, benennen wir die Regression mit $\beta$:
 
-<!-- <img src="/lehre/fue-ii/https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/intro/images/step1.png" width="50%"/> -->
+<img src="/lehre/fue-ii/FEII_step1.png" width="50%"/>
+<!--
 {{< figure src="../FEII_step1.png" >}}
+-->
 
 Was diese Abbildung also darstellt, ist $Y = \beta \cdot X$. Für eine vollständige Regressionsgleichung fehlen allerdings noch ein paar Dinge. Als erstes nehmen wir das Interzept hinzu - also den Wert, der für $Y$ bei $X = 0$ vorhergesagt wird. Wie in der Übersicht oben dargestellt, fügen wir Konstanten hinzu, indem wir das Dreieick nutzen:
 
-<!-- <img src="/lehre/fue-ii/https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/intro/images/step2.png" width="50%"/> -->
-{{< figure src="../FEII_step2.png" >}}
+<img src="/lehre/fue-ii/FEII_step2.png" width="50%"/>
+
+<!--
+  {{< figure src="../FEII_step2.png" >}}
+-->
 
 Wir fügen also eine zweite Regression hinzu (der Pfeil), in der $Y$ auf 1 regressiert wird. In der Regressionsgleichung sieht das so aus: $Y = \alpha \cdot 1 + \beta \cdot X$. Wir nutzen hier $\alpha$ und nicht $\beta_0$ für das Interzept, weil das die von `lavaan` verwendete Notation ist. An der Bedeutung ändert sich dadurch aber nichts. Weil $\alpha \cdot 1 = \alpha$ ergibt, können wir die Regressionsgleichung auf $Y = \alpha + \beta \cdot X$ kürzen. Jetzt fehlt noch das Residuum, also die Komponenten in $Y$, die nicht durch $X$ vorhergesagt werden können. Bei diesem Residuum handelt es sich um eine nicht-beobachtbare, bzw. latente Variable. Diese Variable entsteht durch unsere Berechnung, sie existiert ohne das Modell nicht im Datensatz. In der Abbildung fügen wir also eine Ellipse hinzu und nutzen diese zur Vorhersage von $Y$:
 
-<!-- <img src="/lehre/fue-ii/https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/intro/images/step3.png" width="65%"/> -->
+<img src="/lehre/fue-ii/FEII_step3.png" width="65%"/>
+
+<!--
 {{< figure src="../FEII_step3.png" >}}
+-->
 
 In der Regressionsgleichung ergibt sich dadurch $Y = \alpha + \beta \cdot X + 1 \cdot \epsilon$. Nach dem gleichen Prinzip wie eben kürzt sich das auf die traditionelle Regressionsgleichung: $Y = \alpha + \beta \cdot X + \epsilon$. 
 
 Nehmen wir das bisherige Beispiel der Regression, in der wir relationale Aggression zum 1. Zeitpunkt ($RA_1$) durch soziale Intelligenz ($SI_1$) und Empathie ($EM_1$) vorhersagen. In diesem Fall haben wir drei beobachtbare Variablen: die drei Skalenwerte, die wir erzeugt haben. Die Beziehung zwischen $RA_1$ und $SI_1$ ($\beta_1$) bzw. $EM_1$ ($\beta_2$) ist regressiv. Zusätzlich regressieren wir die relationale Aggression auf die Konstante 1, um so eine Schätzung für das Interzept $\alpha$ zu erhalten.
 
-<!-- <img src="/lehre/fue-ii/https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/intro/images/regression.png" width="65%"/> -->
+<img src="/lehre/fue-ii/FEII_regression.png" width="65%"/>
+
+<!--
 {{< figure src="../FEII_regression.png" >}}
+-->
 
 In dieser Abbildung wird die Regression $RA_1 = \alpha + \beta_1 SI_1 + \beta_2EM_1 + \epsilon$ dargestellt. Häufig wird natürlich auf die detaillierte Beschriftung in solchen Abbildungen verzichtet, sodass eine typische Abbildung dieser Regression so aussehen würde:
 
-<!-- <img src="/lehre/fue-ii/https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/intro/images/regression_short.png" width="65%"/> -->
+<img src="/lehre/fue-ii/FEII_regression_short.png" width="65%"/>
+
+<!--
 {{< figure src="../FEII_regression_short.png" >}}
+-->
+
+In vielen Fällen wird von dieser (sehr rigiden) Auslegung der Darstellungsregeln abgewichen und stattdessen Folgendes Schema verwendet:
+
+<img src="/lehre/fue-ii/FEII_step3b.png" width="65%"/>
+
+Hier wird das Residuum nicht als latente Variable eingezeichnet, sondern als Kovarianz der abhängigen Variable mit sich selbst. So soll verdeutlicht werden, dass diese Varianz geschätzt werden muss (weil es meist das Einzige ist, was uns an Residuen interessiert). Leider ist diese Darstellungsform etwas uneinheitlich mit der klassichen Notation der Regressionsgleichungen, aber sie ist so weit verbreitet, dass sie auch die Variante ist, mit der `lavaan` in seiner Syntax arbeitet. 
 
 ### Modell-Syntax
 
@@ -469,7 +517,7 @@ Wie oben erwähnt, wird in der Modell-Syntax von `lavaan` das Pfaddiagramm eines
 | Interzept | `~1` | wird auf 1 regressiert |
 | Faktorladung | `=~` | wird gemessen durch |
 | Formative Faktoren | `<~` | wird konstruiert durch |
-| Schwellenparameter | `|t...` | Schwelle Nummer ... |
+| Schwellenparameter | `\|t...` | Schwelle Nummer ... |
 
 In `lavaan`, wie in beinahe jeder Statistik-Software, wird bei `~~` nicht die Korrelation, sondern stets die Kovarianz angesprochen. Von diesen sechs Befehlen sind für uns zunächst nur drei relevant: die Regression, die Kovarianz und das Interzept. Wie auch in der [R-internen Formelnotation](#Regression) wird die Tilde genutzt, um Regressionen darzustellen.
 
@@ -532,7 +580,7 @@ summary(fit)
 ```
 
 ```
-## lavaan 0.6.16 ended normally after 1 iteration
+## lavaan 0.6.17 ended normally after 1 iteration
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
@@ -627,12 +675,68 @@ Zu guter Letzt folgt ein Abschnitt mit Varianzen - in unserem Fall nur eine:
 
 Auch hier verrät uns der `.`, dass `rat1` irgendwo im Modell eine abhängige Variable ist, sodass es sich bei dieser Varianz um eine *Residual*varianz handelt.
 
-Weil der Output der `summary` Funktion sehr schnell sehr lang wird und es nicht erlaubt, einzelne Ergebnisse direkt als Objekte weiterzuverwenden, gibt es für `lavaan` die Funktion `inspect`. Diese nimmt zwei Argumente entgegen:
+Wir können die `summary` in `lavaan` auch noch um diverse Aspekte erweitern. Für Regressionsmodelle ist es z.B. üblich, dass wir uns standardisierte Ergebnisse ansehen:
+
+
+```r
+summary(fit, standardized = TRUE)
+```
+
+```
+## lavaan 0.6.17 ended normally after 1 iteration
+## 
+##   Estimator                                         ML
+##   Optimization method                           NLMINB
+##   Number of model parameters                         4
+## 
+##                                                   Used       Total
+##   Number of observations                           124         155
+## 
+## Model Test User Model:
+##                                                       
+##   Test statistic                                 0.000
+##   Degrees of freedom                                 0
+## 
+## Parameter Estimates:
+## 
+##   Standard errors                             Standard
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+## 
+## Regressions:
+##                    Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all
+##   rat1 ~                                                                
+##     sit1              0.185    0.050    3.683    0.000    0.185    0.325
+##     emt1             -0.132    0.062   -2.144    0.032   -0.132   -0.189
+## 
+## Intercepts:
+##                    Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all
+##    .rat1              1.354    0.240    5.639    0.000    1.354    2.520
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all
+##    .rat1              0.258    0.033    7.874    0.000    0.258    0.893
+```
+In diesem Fall tauchen im Output zwei zusätzliche Spalten auf: `std.lv` und `std.all`. Die erste liefert die Ergebnisse, wenn alle latenten Variablen standardisiert wurden. In unserem Modell gibt es nur eine manifeste AV und zwei manifeste UVs, sodass dieser Ergebnisse exakt die gleichen sind, wie die unstandardisierten Regressionsgewichte. In `std.all` hingegen stehen die Parameter, wenn alle Variablen im Modell standardisiert werden - in diesem Fall also die standardisierten Regressionsgewichte. Zusätzlich ist außerdem die standardisierte Residualvarianz interessant - diese gibt den Anteil an Varianz an, der _nicht_ durch die Prädiktoren erklärt wird (also den Indeterminationskoeffizienten). Das $R^2$ lässt sich also hier als $ 1 - .893 = .107$ berechnen.
+
+Zusätzlich zur Standardisierung, kann in der `summary` noch ein breites Bouquet an Zusatzinformationen angefordert werden. Ein paar Möglichkeiten (die uns auch in den späteren Sitzungen noch begegnen werden) sind:
+
+| Argument | Output |
+| --- | ------ |
+| `standardized` | Standardisierte Parameter |
+| `ci` | Konfidenzintervalle |
+| `fitmeasures` | Informationen zur Modellgüte |
+| `rsquare` | $R^2$-Werte |
+
+
+### Gezielter Informationen finden
+
+Weil der Output der `summary` Funktion sehr schnell sehr lang wird und es nicht erlaubt, einzelne Ergebnisse direkt als Objekte weiterzuverwenden, gibt es in `lavaan` ein paar Möglichkeiten, gezielter an Ergebnisse zu kommen. Die allgemeinste Fassung ist die Funktion `inspect`. Diese nimmt zwei Argumente entgegen:
 
   - `object`: Das Ergebnisobjekt (bei uns also `fit`)
   - `what`: Was inspiziert werden soll
   
-Die Liste mögicher `what`s ist mehrere Seiten lang. Sie finden Sie bei `?inspect`. Eine Sache, die uns schon bei der `lm`-Regression interessiert hat, war das $R^2$. Hierfür können wir `inspect` nutzen:
+Die Liste möglicher `what`s ist mehrere Seiten lang. Sie finden Sie bei `?inspect`. Eine Sache, die uns schon bei der `lm`-Regression interessiert hat, war das $R^2$. Hierfür können wir `inspect` nutzen:
 
 
 ```r
@@ -646,12 +750,41 @@ inspect(fit, 'rsquare')
 
 Dieser Befehl wird im Verlauf des Semesters noch sehr praktisch, weil wir uns so nicht immer durch den gesamten Output wühlen müssen, sondern uns stets auf das beschränken können, was gerade relevant ist. 
 
+Darüber hinaus gibt es noch die Abkürzung zur Parametertabelle in unstandardisierte und standardisierter Form:
+
+
+```r
+# Unstandardisierte Parameter
+parameterEstimates(fit)
+```
+
+```
+##    lhs op  rhs    est    se      z pvalue ci.lower ci.upper
+## 1 rat1 ~1       1.354 0.240  5.639  0.000    0.883    1.824
+## 2 rat1  ~ sit1  0.185 0.050  3.683  0.000    0.087    0.284
+## 3 rat1  ~ emt1 -0.132 0.062 -2.144  0.032   -0.253   -0.011
+## 4 rat1 ~~ rat1  0.258 0.033  7.874  0.000    0.193    0.322
+## 5 sit1 ~~ sit1  0.887 0.000     NA     NA    0.887    0.887
+## 6 sit1 ~~ emt1  0.201 0.000     NA     NA    0.201    0.201
+## 7 emt1 ~~ emt1  0.593 0.000     NA     NA    0.593    0.593
+## 8 sit1 ~1       2.743 0.000     NA     NA    2.743    2.743
+## 9 emt1 ~1       3.782 0.000     NA     NA    3.782    3.782
+```
+
+
+```r
+# Standardisierte Parameter
+standardizedSolution(fit)
+```
+
+Letztere habe ich uns hier erspart - Sie können sie Sich sicherlich vorstellen. Im restlichen Semester werden für uns noch ein paar weitere relevant werden, die wir dann aber einfach genauer besprechen.
+
 
 ***
 
 ## Literatur
 [Eid, M., Gollwitzer, M., & Schmitt, M. (2017).](https://ubffm.hds.hebis.de/Record/HEB366849158) *Statistik und Forschungsmethoden* (5. Auflage, 1. Auflage: 2010). Weinheim: Beltz. 
 
-Rosseel, Y. (2012). [lavaan](http://lavaan.org/): [An R Package for Structural Equation Modeling]. Journal of Statistical Software, 48(2), 1 - 36. [doi:http://dx.doi.org/10.18637/jss.v048.i02](https://www.jstatsoft.org/article/view/v048i02)
+Rosseel, Y. (2012). [lavaan](http://lavaan.org/): An R Package for Structural Equation Modeling. Journal of Statistical Software, 48(2), 1 - 36. [doi:http://dx.doi.org/10.18637/jss.v048.i02](https://www.jstatsoft.org/article/view/v048i02)
 
 <small> *Blau hinterlegte Autor:innenangaben führen Sie direkt zur universitätsinternen Ressource.* </small>
