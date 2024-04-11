@@ -169,81 +169,15 @@ Anschließend können wir die Funktion `predict()` auf unser Modell anwenden.
 predict(mod, newdata = predict_data)
 ```
 
-Wir haben für die Person nun eine Punktschätzung von `r round(predict(mod, newdata = predict_data), 2)` für die Gewalttätigkeit. Gleichzeitig wissen wir aber auch, dass dies keine perfekte Vorhersage ist. Schließlich sagen die Prädiktoren nicht 100% der Varianz der abhängigen Variable vorher. Wir sollten also ein Intervall um unsere Punktschätzung legen. Dieses wird in der Regression als Prognoseintervall bezeichnet und berechnet sich wie folgt:
+Wir haben für die Person nun eine Punktschätzung von `r round(predict(mod, newdata = predict_data), 2)` für die Gewalttätigkeit. Gleichzeitig wissen wir aber auch, dass dies keine perfekte Vorhersage ist. Schließlich sagen die Prädiktoren nicht 100% der Varianz der abhängigen Variable vorher. Wir sollten also ein Intervall um unsere Punktschätzung legen. Dieses wird in der Regression als Prognoseintervall bezeichnet.
 
-<math>
-$$PI = \hat{y} \pm t_{(1-\alpha/2, n-k-1)} \cdot \hat{\sigma}_{e} \cdot \sqrt{1 + \frac{1}{n} + \frac{(x - \bar{x})^2}{\sum_{i=1}^{n}(X_i - \bar{x})^2}}$$
-</math>
-
-Viele Bestandteile dieser Formel haben wir bereits kennengelernt. $\hat{y}$ ist unsere Punktschätzung, $\hat{\sigma_{e}}$ ist der geschätzte Populationsstandardfehler der Residuen. Dieser wurde uns schon im `summary()` Output angezeigt und ist mit `$sigma` ansprechbar. $t_{(1-\alpha/2, n-k-1)}$ ist ein Wert aus der t-Verteilung ($n$ Anzahl an Personen, $k$ Anzahl an Prädiktoren). 
+Für die Bestimmung müssen wir nur optionale Argumente in der Funktion `predict()` nutzen. Diese umfassen erstmal die Art des Intervalls, das wir bestimmen wollen `interval = "prediction"` und das Konfidenzniveau `level = 0.95`.
 
 ```{r}
-y_hat <- predict(mod, newdata = predict_data)
-sigma_e <- summary(mod)$sigma
-n <- nrow(burnout)                             # da keine fehlenden Werte
-k <- ncol(predict_data)                        # da in diesem Datensatz nur Werte der Prädiktoren
-t <- qt(1 - 0.05/2, n - k - 1)                      # alpha von 0.05 üblich 
-``` 
-
-Der Rest der Formel ist ein wenig komplizierter. $\bar{x}$ ist ein Vektor mit allen Mittelwerten der Prädiktoren und $x$ ist ein Vektor mit den Werten der Prädiktoren, für den wir die Vorhersage machen wollen. $X_i$ repräsentiert die Werte der Prädiktoren für alle Personen aus der ursprünglichen Modellierung.
-
-```{r}
-x <- as.matrix(predict_data)
-x_bar <- colMeans(burnout[, c("Exhaust", "Distan", "PartConfl")])
-x_i <- as.matrix(burnout[, c("Exhaust", "Distan", "PartConfl")])
-```
-
-Übertragen wir die Formel per Hand in R Code ergibt sich folgendes:
-
-```{r}
-y_hat + t * sigma_e * sqrt(1 + 1/n + (x - x_bar) %*% t((x - x_bar)) / sum((x_i - x_bar) %*% t((x_i - x_bar))))
-y_hat - t * sigma_e * sqrt(1 + 1/n + (x - x_bar) %*% t((x - x_bar)) / sum((x_i - x_bar) %*% t((x_i - x_bar))))
-
-# this is code according to formular from klein
-y_hat + t * sigma_e * sqrt(1 + x %*% solve(t(x_i) %*% x_i) %*% t(x))
-
-# or alternatively with the vector of ones 
-x_i_alt <- cbind(1, x_i)
-x_alt <- as.matrix(c(1, x)) |> t()
-
-# formula of klein is now equivalent to the predict function
-y_hat + t * sigma_e * sqrt(1 + x_alt %*% solve(t(x_i_alt) %*% x_i_alt) %*% t(x_alt))
-
-# could this be incorporated in the notation from Eid? What would the mean of the intercept be? 1? would not anything then
-x_bar_alt <- c(1, x_bar)
-y_hat + t * sigma_e * sqrt(1 + 1/n + (x_alt - x_bar_alt) %*% t((x_alt - x_bar_alt)) / sum((x_i_alt - x_bar_alt) %*% t((x_i_alt - x_bar_alt))))
-```
-
-Alternativ ist natürlich eine Bestimmung anhand einer Funktion möglich. Dafür müssen wir nur optionale Argumente in der Funktion `predict()` nutzen. Diese umfassen erstmal die Art des Intervalls, das wir bestimmen wollen `interval = "prediction"` und das Konfidenzniveau `level = 0.95`. 
-
-```{r}
-# this is the code from the predict.lm function
-res.var <- sigma_e^2
-pred.var <- res.var
-qrX <- stats:::qr.lm(mod)
-
-X <- model.matrix(mod)
-X <- X[1,1:4, drop = F]
-X[2] <- 3
-X[3] <- 4
-X[4] <- 2
-piv <- p1 <- 1:4
-p <- 4
-XRinv <- X[, piv] %*% qr.solve(qr.R(qrX)[p1, p1])
-ip <- drop(XRinv^2 %*% rep(res.var, p))
-
-level <- 0.95
-df <- n-k-1
-tfrac <- qt((1 - level)/2, df)
-hwid <- tfrac * sqrt(ip + pred.var)
-
-y_hat - hwid
-
 predict(mod, newdata = predict_data, interval = "prediction", level = 0.95)
-
-
 ```
 
+Das berechnete Intervall enthält nun zu 95\% den wahren Wert der Person. Die breite des Intervalls hängt in erster Linie von der Varianz der Fehler ab, da diese die Sicherheit unserer Regression repräsentiert. Ein Vergleich mit der Berechnung "per Hand" und warum sich dort Unterschiede ergeben können, findet sich in [Appendix A](#appendix-a). 
 
 ## Modellvergleiche bzw. Modelloptimierung
 
@@ -451,16 +385,71 @@ extractAIC(mod_all) # erstes Argument ist die Anzahl der Parameter (p)
 
 Die `AIC()`-Funktion gibt den "vollständigen" AIC an, während `extractAIC()` eine korrigierte Version heranzieht, aus der sämtlichen irrelevanten Konstanten entfernt wurden. Da der AIC immer nur für Vergleiche auf dem selben Datensatz herangezogen werden sollte, können Konstanten in der Berechnung getrost ignoriert werden, da sie nicht vom betrachteten Modell abhängen. Dazu ein Gedankenexperiment: Für zwei Zahlen $a$ und $b$ (welche bspw. zwei AICs repräsentieren können) gilt: $a>b \Longrightarrow a + c > b + c$ für eine dritte Zahl $c$. Sie sehen also, dass Konstanten, die überall "draufaddiert" werden, den Modellvergleich nicht beeinflussen. 
 
-Um jetzt den Unterschied genau zu erkennen, müssen wir zunächst die **Loglikelihood** (den Logarithmus der Likelihood) unseres Modells bestimmen. Dies geht über den Kurs an dieser Stelle hinaus. Wer sich allerdings für die Überführung des `extractAIC()` zum AIC sowie die Berechnung beider interessiert, kann gerne im [Appendix A](#AppendixA) vorbeischauen.
+Um jetzt den Unterschied genau zu erkennen, müssen wir zunächst die **Loglikelihood** (den Logarithmus der Likelihood) unseres Modells bestimmen. Dies geht über den Kurs an dieser Stelle hinaus. Wer sich allerdings für die Überführung des `extractAIC()` zum AIC sowie die Berechnung beider interessiert, kann gerne im [Appendix B](#Appendix-B) vorbeischauen.
 
 
 
 ***
 
 
+
+## Appendix A 
+
+<details><summary><b>Händische Berechnung des Prognoseintervalls</b></summary>
+
+In der Vorlesung haben Sie zur Berechnung des Prognoseintervalls gelernt, dass dies über den Standardfehler geschehen kann. Dafür wurde folgende Gleichung als approximativ gültig beschrieben:
+
+<math>
+$$PI = \hat{y} \pm t_{(1-\alpha/2, n-k-1)} \cdot \hat{\sigma}_{e}$$
+</math>
+
+Viele Bestandteile dieser Formel haben wir bereits kennengelernt. $\hat{y}$ ist unsere Punktschätzung, $\hat{\sigma_{e}}$ ist der geschätzte Populationsstandardfehler der Residuen. Dieser wurde uns schon im `summary()` Output angezeigt und ist mit `$sigma` ansprechbar. $t_{(1-\alpha/2, n-k-1)}$ ist ein Wert aus der t-Verteilung ($n$ Anzahl an Personen, $k$ Anzahl an Prädiktoren). 
+
+```{r, purl = FALSE}
+y_hat <- predict(mod, newdata = predict_data)
+sigma_e <- summary(mod)$sigma
+n <- nrow(burnout)                             # da keine fehlenden Werte
+k <- ncol(predict_data)                        # da in diesem Datensatz nur Werte der Prädiktoren
+t <- qt(1 - 0.05/2, n - k - 1)                 # alpha von 0.05 üblich 
+``` 
+
+Wenn wir die Werte in die Formel einsetzen, erhalten wir das Prognoseintervall. 
+
+```{r, purl = FALSE}
+# Prognoseintervall händische, approximative Bestimmung
+y_hat + t * sigma_e
+y_hat - t * sigma_e
+# Prognoseintervall - Bestimmung durch Funktion
+predict(mod, newdata = predict_data, interval = "prediction", level = 0.95)
+```
+ 
+Wir sehen, dass ähnliche Ergebnisse - jedoch nicht exakt gleiche ausgegeben werden. Das liegt daran, dass die angegebene Formel eben nur approximativ gültig ist. Sie lässt einen Teil der eigentlichen Berechnung weg, da sich dieseer bei einer großen Anzahl an Beobachtungen der 0 annähert. Die komplette Formel wäre die folgende:
+
+<math>
+$$PI = \hat{y} \pm t_{(1-\alpha/2, n-k-1)} \cdot \hat{\sigma}_{e} \cdot \sqrt{1 + x_i'(X'X)x_i}$$
+</math>
+
+In dieser Formel sind die Werte $x_i$ die Werte, für die wir das Prognoseintervall bestimmen wollen. $X$ ist die Matrix der ursprünglichen Werte von den Personen auf den Prädiktoren in dem. Damit wir auf dasselbe Ergebnis kommen, dürfen wir nicht vergessen, den Einsenvektor für den Achsenabschnitt hinzuzufügen. Damit wir Multiplikation mit `R` durchführen können, müssen wir Objekte in Matrizen umwandeln.
+
+```{r, purl = FALSE}
+# Eine 1 für den Achsenabschnitt und die Werte auf den Prädiktoren für die neue Person
+x_i <- cbind(1, predict_data) |> as.matrix()
+# Ein 1en Vektor und die Werte auf den Prädiktoren für die Personen im ursprünglichen Datensatz
+X <- cbind(1, as.matrix(burnout[, c("Exhaust", "Distan", "PartConfl")])) |> as.matrix()
+```
+
+Die Formel geht davon aus, dass `x_i` als Spaltenvektor vorliegt. Hier ist es jedoch ein Zeilenvektor. Daher müssen wir die Transponierung anhand der Funktion `t()` genau andersrum als in der Formel machen. Die Inverse von `X` können wir wie gewohnt mit `solve()` aufrufen.
+
+```{r, purl = FALSE}
+y_hat + t * sigma_e * sqrt(1 + x_i %*% solve(t(X) %*% X) %*% t(x_i))
+y_hat - t * sigma_e * sqrt(1 + x_i %*% solve(t(X) %*% X) %*% t(x_i))
+```
+
+Nun finden wir auch per Hand (glücklicherweise) dieselben Ergebnisse wie in der Durchführung anhand der Funktion `predict()`.
+
 </details>
 
-## Appendix A {#AppendixA}
+## Appendix B 
 
 <details><summary><b>Bestimmen von AIC und Vergleich zwischen <code>AIC()</code> und <code>extractAIC()</code></b></summary>
 
