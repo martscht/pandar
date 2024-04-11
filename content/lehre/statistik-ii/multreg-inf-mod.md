@@ -3,13 +3,13 @@ title: "Inferenz und Modellauswahl in der Multiplen Regression"
 type: post
 date: '2021-04-22' 
 slug: multreg-inf-mod
-categories: [] 
+categories: ['Statistik II'] 
 tags: ["Regression", "Modelltest", "Modelloptimierung"] 
 subtitle: ''
 summary: ''
 authors: [nehler, irmer, schueller, hartig]
 weight: 4
-lastmod: '2024-03-18'
+lastmod: '2024-04-11'
 featured: no
 banner:
   image: "/header/man_with_binoculars.jpg"
@@ -77,17 +77,20 @@ str(burnout)
 ##  $ PartConfl  : int  12 4 4 4 4 3 2 3 5 7 ...
 ```
 
-Die Variablen scheinen alle Fragebogenscores zu sein, die wir im weiteren Verlauf als Intervallskaliert behandeln werden. In der Tabelle ist nochmal eine Übersicht über die genauere Bedeutung der einzelnen Variablen gegeben.
+Zu diesen Variablen hier zunächst noch eine inhaltliche Zuordnung: 
 
-| Variable | Bedeutung |
-| --- | ---- | 
-| `Exhaust` | *Emotional exhaustion* | 
-| `Distan` | *Emotional distancing* | 
-| `Ineffic` | *Parental accomplishment and efficacy* | 
-| `Neglect` | *Neglectful behaviors toward children* |
-| `Violence` | *Violent behaviors toward children* |
-| `PartEstrang` | *Partner Estrangement* |
-| `PartConfl` | *Conflicts with partner* |
+| Variable | Bedeutung | Kodierung | Beispielitem |
+| --- | ---- | --- | ----- |
+| `Exhaust` | *Emotional exhaustion* | 0 - 48 | "I feel emotionally drained by my parental role" |
+| `Distan` | *Emotional distancing* | 0 - 48 | "I sometimes feel as though I am taking care of my children on autopilot" | 
+| `Ineffic` | *Parental accomplishment and efficacy* | 0 - 36 | "I accomplish many worthwhile things as a parent" (invertiert) |
+| `Neglect` | *Neglectful behaviors toward children* | 17 - 136 | "I sometimes don’t take my child to the doctor when I think it would be a good idea." |
+| `Violence` | *Violent behaviors toward children* | 15 - 120 | "I sometimes tell my child that I will abandon him/her if s/he is not good." |
+| `PartEstrang` | *Partner Estrangement* | 5 - 40 | "I sometimes think of leaving my partner" |
+| `PartConfl` | *Conflicts with partner* | 2 - 14 | "How often do you quarrel with your partner?" |
+
+Wie dem, zu den Daten gehörenden Artikel zu entnehmen ist, sind die Variablen alle Summenwerte von mehreren Items aus entsprechenden Fragebögen, weswegen sie sehr unterschiedliche Werte annehmen können. Im weiteren Verlauf werden wir (wie auch im ursprünglichen Artikel) annehmen, dass diese Skalenwerte intervallskaliert sind.
+
 
 ## Multiple Regression - Betrachtung eines spezifische Modells.
 
@@ -141,7 +144,7 @@ summary(mod)
 ## Multiple R-squared:  0.2889,	Adjusted R-squared:  0.2875 
 ## F-statistic: 209.5 on 3 and 1547 DF,  p-value: < 2.2e-16
 ```
-Wir haben bereits gelernt, dass die Punktschätzer für die Regressionsgewichte in der Spalte `Estimate` im Abschnitt `Coefficients`zu finden sind. Der Achsenabschnitt unseres Modells beträgt also $b_0$ = 15.25. Dies bedeutet, dass wir einer Person mit einem Wert von 0 in allen Prädiktoren eine Gewalttätigkeit von 15.25 vorhersagen. Die Regressionsgewichte für die Prädiktoren sind $b_{1}$ = 0.107 für Emotionale Erschöpfung, $b_{2}$ = 0.302 für Emotionale Distanz und $b_{3}$ = 0.574 für Konflikte mit dem Partner. Die Interpretaion nochmal am Beispiel der Emotionalen Erschöpfung: Wenn sich die Emotionale Erschöpfung um eine Einheit erhöht und alle anderen Prädiktoren konstant gehalten werden, so erhöht sich die Gewalttätigkeit um 0.107 Einheiten. 
+Wir haben bereits gelernt, dass die Punktschätzer für die Regressionsgewichte in der Spalte `Estimate` im Abschnitt `Coefficients` zu finden sind. Der Achsenabschnitt unseres Modells beträgt also $b_0$ = 15.25. Dies bedeutet, dass wir einer Person mit einem Wert von 0 in allen Prädiktoren eine Gewalttätigkeit von 15.25 vorhersagen. Die Regressionsgewichte für die Prädiktoren sind $b_{1}$ = 0.107 für Emotionale Erschöpfung, $b_{2}$ = 0.302 für Emotionale Distanz und $b_{3}$ = 0.574 für Konflikte mit dem Partner. Die Interpretaion nochmal am Beispiel der Emotionalen Erschöpfung: Wenn sich die Emotionale Erschöpfung um eine Einheit erhöht und alle anderen Prädiktoren konstant gehalten werden, so erhöht sich die Gewalttätigkeit um 0.107 Einheiten. 
 
 Der letzte Teil des Regressionsmodells beinhaltet die Fehler $e_i$, die (wie durch den Index $i$ gekennzeichnet) für jede Person individuell sind. Die Fehler können wir beispielsweise anzeigen, indem wir die Funktion `resid()` auf unser Objekt anwenden. Wir zeigen hier nur die ersten zehn Fehlerwerte, da der Output sonst sehr lange wäre.
 
@@ -151,10 +154,10 @@ resid(mod)[1:10]
 ```
 
 ```
-##          1          2          3          4          5          6          7          8 
-## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730  1.5996231 -0.9974955  0.8759748 
-##          9         10 
-## -1.5887563  1.3260923
+##          1          2          3          4          5          6          7 
+## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730  1.5996231 -0.9974955 
+##          8          9         10 
+##  0.8759748 -1.5887563  1.3260923
 ```
 
 ### Omnibustest der Multiplen Regression
@@ -195,7 +198,7 @@ Auch für die Testung der einzelnen Prädiktoren liefert uns die `summary()` Fun
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-Für Emotionale Erschöpfung ergibt sich ein empirischer Wert von 5.77 und ein p-Wert von kleiner 0.001. Dieser ist kleiner als das übliche $\alpha$-Niveau von 0.05, was ein signifikantes Ergebnis anzeigt. Was bedeutet dies jetzt? Wie in den Hypothesen festgehalten wird damit angezeigt, dass das Regressionsgewicht der Emotionalen Erschöpfung verschieden von 0 ist. Nun könnte man argumentieren, dass man dies ja bereits an dem Wert für den Regressionsparameter sehen konnte, da dieser eindeutig verschieden von 0 ist, jedoch handelt es sich auch hier nur um einen deskriptivstatistischen Wert. Der t-Test zeigt uns, dass dieser in der Population von 0 verschieden. Wenn wir nun in unserem Ergebnisbericht nicht nur die Punktschätzung für den Regressionsparameter angeben wollen, können wir ein Konfidenzintervall um den Wert legen (Konfidenzintervalle haben wir [hier](/lehre/statistik-i/tests-konfidenzintervalle/#KonfInt) beim Testen eines Mittelwerts sehr detailliert besprochen). Die Formel nutzt dabei den Standardfehler des Regressionsgewichts, der in der Übersicht enthalten ist. Zusätzlich wird ein Wert aus der t-Verteilung benötigt (wobei $k$ hier für die Anzahl an Prädiktoren - also 3 - steht).
+Für Emotionale Erschöpfung ergibt sich ein empirischer Wert von 5.77 und ein p-Wert von kleiner 0.001. Dieser ist kleiner als das übliche $\alpha$-Niveau von 0.05, was ein signifikantes Ergebnis anzeigt. Was bedeutet dies jetzt? Wie in den Hypothesen festgehalten wird damit angezeigt, dass das Regressionsgewicht der Emotionalen Erschöpfung verschieden von 0 ist. Nun könnte man argumentieren, dass man dies ja bereits an dem Wert für den Regressionsparameter sehen konnte, da dieser eindeutig verschieden von 0 ist, jedoch handelt es sich auch hier nur um einen deskriptivstatistischen Wert. Der t-Test zeigt uns, dass dieser in der Population von 0 verschieden. Wenn wir nun in unserem Ergebnisbericht nicht nur die Punktschätzung für den Regressionsparameter angeben wollen, können wir ein Konfidenzintervall um den Wert legen (Konfidenzintervalle haben wir [hier](/lehre/statistik-i/tests-konfidenzintervalle/#KonfInt) beim Testen eines Mittelwerts sehr detailliert besprochen). Die Formel nutzt dabei den Standardfehler des Regressionsgewichts, der in der Übersicht enthalten ist. Zusätzlich wird der kritische Wert aus der t-Verteilung benötigt (wobei mit $\alpha$ das Fehlerniveau festgelegt wird und $k$ hier für die Anzahl an Prädiktoren - also 3 - steht).
 
 $$CI = b_m \pm t_{(1-\alpha/2, n-k-1)} \cdot \hat{\sigma}_{b_m}$$
 
@@ -214,7 +217,7 @@ confint(mod, level = 0.95)
 ## PartConfl    0.43971116  0.7073143
 ```
 
-Betrachten wir erneut den Prädiktore Emotionale Erschöpfung. Als Konfidenzintervall erhalten wir die untere Grenze von 0.0705117 und die obere Grenze von 0.1431443. Dies bedeutet, dass wir zu 95% sicher sind, dass dieses Intervall den wahren Wert für das Gewicht $b_1$ enthält. Es wird auch nochmal deutlich, dass die 0 nicht in diesem Intervall enthalten ist. Wenn wir dies in Bezug zu den formulierten Hypothesen für die inferenzstatistische Testung eines einzelnen Prädiktors betrachtet, widerspricht dies also der $H0$. Wir würden uns also mit einem $\alpha$ von 0.05 auch bei Betrachtung des Konfidenzintervalls gegen die Beibehaltung der $H0$ entscheiden. Die beiden Wege (Durchführung des t-Tests und Betrachtung des Konfidenzintervalls) müssen immer zum selben Ergebnis führen.
+Betrachten wir erneut den Prädiktore Emotionale Erschöpfung. Als Konfidenzintervall erhalten wir die untere Grenze von 0.0705117 und die obere Grenze von 0.1431443. Dies bedeutet, dass wir zu 95% sicher sind, dass dieses Intervall den wahren Wert für das Gewicht $b_1$ enthält. Es wird auch nochmal deutlich, dass die 0 nicht in diesem Intervall enthalten ist. Wenn wir dies in Bezug zu den formulierten Hypothesen für die inferenzstatistische Testung eines einzelnen Prädiktors betrachtet, widerspricht dies also der $H_0$. Wir würden uns also mit einem $\alpha$ von 0.05 auch bei Betrachtung des Konfidenzintervalls gegen die Beibehaltung der $H_0$ entscheiden. Die beiden Wege (Durchführung des t-Tests und Betrachtung des Konfidenzintervalls) müssen immer zum selben Ergebnis führen.
 
 Abschließend noch ein essentieller Punkt zur Testung einzelner Prädiktoren: Von enormer Wichtigkeit ist sich dabei bewusst zu machen, dass die eben besprochenen Ergebnisse für den Prädiktor Emotionale Erschöpfung nur für dieses Set an Prädiktoren gelten. Sobald wir weitere Prädiktoren hinzufügen, Prädiktoren entfernen oder diese auswechseln, können sich die Ergebnisse ändern.
 
@@ -241,9 +244,11 @@ predict(mod, newdata = predict_data)
 
 Wir haben für die Person nun eine Punktschätzung von 17.92 für die Gewalttätigkeit. Gleichzeitig wissen wir aber auch, dass dies keine perfekte Vorhersage ist. Schließlich sagen die Prädiktoren nicht 100% der Varianz der abhängigen Variable vorher. Wir sollten also ein Intervall um unsere Punktschätzung legen. Dieses wird in der Regression als Prognoseintervall bezeichnet und berechnet sich wie folgt:
 
+<math>
 $$PI = \hat{y} \pm t_{(1-\alpha/2, n-k-1)} \cdot \hat{\sigma}_{e} \cdot \sqrt{1 + \frac{1}{n} + \frac{(x - \bar{x})^2}{\sum_{i=1}^{n}(X_i - \bar{x})^2}}$$
+</math>
 
-Viele Bestandteile dieser Formel haben wir bereits kennengelernt. $\hat{y}$ ist unsere Punktschätzung, $\hat{\sigma}_{e}$ ist der geschätzte Populationsstandardfehler der Residuen. Dieser wurde uns schon im `summary()` Output angezeigt und ist mit `$sigma` ansprechbar. $t_{(1-\alpha/2, n-k-1)}$ ist ein Wert aus der t-Verteilung ($n$ Anzahl an Personen, $k$ Anzahl an Prädiktoren). 
+Viele Bestandteile dieser Formel haben wir bereits kennengelernt. $\hat{y}$ ist unsere Punktschätzung, $\hat{\sigma_{e}}$ ist der geschätzte Populationsstandardfehler der Residuen. Dieser wurde uns schon im `summary()` Output angezeigt und ist mit `$sigma` ansprechbar. $t_{(1-\alpha/2, n-k-1)}$ ist ein Wert aus der t-Verteilung ($n$ Anzahl an Personen, $k$ Anzahl an Prädiktoren). 
 
 
 ```r
@@ -375,10 +380,10 @@ Bei der Regressionsanalyse hat die Modelloptimierung zum Ziel, ein Regresionsmod
 * jeder enthaltene Prädiktor einen Beitrag zur Varianzaufklärung des Kriteriums leistet und
 * kein wichtiger (= vorhersagestarker) Prädiktor vergessen wurde.
 
-In diesem Kontext sind zwei unterschiedliche Fragestellungen von Interesse:
+In diesem Kontext sind zwei der drei unterschiedlichen _Erkenntnisinteressen_ relevant, die Sie im ersten Semester in BSc1 kennengelernt haben:
 
-1. Die theoriegeleitete Arbeit: Aus der Literatur werden Modelle abgeleitet, die von Interesse sind. Diese unterscheiden sich in der Anzahl der Prädiktoren und können mittels Modellvergleich gegeneinander getestet werden. Hier geht es also um die Testung von spezfisichen Hypothesen.
-2. Die schrittweise, “explorative” Auswahl von Prädiktoren aus einer größeren Menge möglicher Prädiktoren: Explorativ bedeutet hier, dass wir keiner zuvor hergeleiteter Theorie folgen, sondern die Daten möglichst genau untersuchen wollen. Hier kann es dann zum sogenannten Overfitting kommen, also zu einer zu starken Anpassung unseres Modells an die Daten. In weiteren (unabhängigen / mit neuen Daten) Studien könnte dann das neu herausgearbeitete Modell konfirmatorisch (also von einer vor Analyse bestehenden Theorie abgeleitet/ theoriebestätigend) untersucht werden. 
+1. In explanativen Studien: Aus bisheriger Forschungs werden relevante Prädiktoren identifiziert und es soll geprüft werden, ob diese theoretisch relevanten Prädiktoren auch empirisch relevant (also statistisch bedeutsam) sind. Hier geht es also um die Testung von spezfisichen Hypothesen.
+2. In explorativen Studien: In der Studie gibt es eine größere Menge möglicher Prädiktoren und es soll herausgefunden werden, welche davon statistisch bedeutsam sind und welche sich als irrelevant erweisen. Hier werden die Erkenntnisse allerdings an _einem_ Datensatz gewonnen, sodass es zum sogenannten Overfitting kommen kann - einer zu starken Anpassung des Modells an die Daten. Grund dafür können z.B. einfache $\alpha$- und $\beta$-Fehler sein, die dazu führen dass wir irrelevant Prädiktoren aufgenommen ($\alpha$) oder bedeutende Prädiktoren ($\beta$) übersehen haben. Außerdem ist es natürlich möglich, dass die Stichprobe nicht zu 100% repräsentativ ist - die Inferenzpopulation also nicht deckungsgleihc mit der Zielpopulaiton ist. Daher müssen so gewonnene Erkenntnisse immer in weiteren explanativen Studien überprüft werden.
 
 ### Hypothesengeleitete Modellvergleiche
 
@@ -386,7 +391,7 @@ Wie bereits beschrieben werden in der theoriegeleiteten Testung Modelle aus den 
 
 Erstellen wir uns ein praktisches Beispiel. Wir haben bereits unser Modell, in dem wir die Gewalttätigkeit durch die Emotionale Erschöpfung, die Emotionale Distanz und die Konflikte mit dem Partner / der Partnerin vorhergesagt haben. Nun gibt es eine andere Gruppe von Forscher*innen, die theoretisch herleiten und anschließend aufzeigen wollen, dass die zusätzliche Aufnahme der Vernachlässigung der Kinder (`Neglect`) und Entfremdung des Partners / der Partnerin (`PartEstrang`) die Varianz der Gewalttätigkeit besser erklären kann. Dies ist ein typisches Beispiel für einen hypothesengeleiteten Modellvergleich in dem ein Inkrement getestet wird. 
 
-Die Modelle, die im Vergleich getestet werden, müssen geschachtelt sein. Das bedeutet, dass das Modell mit weniger Prädiktoren in dem Modell mit mehr Prädiktoren enthalten ist. Dies ist in unserem Fall gegeben, da das Modell mit 5 Prädiktoren (Emotionale Erschöpfung, Emotionale Distanz, Konflikte mit dem Partner / der Partnerin, Vernachlässigung der Kinder und Entfremdung des Partners / der Partnerin) das Modell mit 3 Prädiktoren (Emotionale Erschöpfung, Emotionale Distanz und Konflikte mit dem Partner / der Partnerin) enthält. Um die Modelle auch sprachlisch zu unterscheiden, haben sich die Bezeichungen unrestricted bzw. unconstrained (auf deutsch uneingeschränkt) und restricted bzw. constrained (auf deutsch eingeschränkt) etabliert. Das unrestricted Modell enthält also alle Prädiktoren, während das restricted Modell nur eine Teilmenge der Prädiktoren enthält.
+Die Modelle, die im Vergleich getestet werden, müssen geschachtelt sein. Das bedeutet, dass das Modell mit weniger Prädiktoren in dem Modell mit mehr Prädiktoren enthalten ist. Dies ist in unserem Fall gegeben, da das Modell mit 5 Prädiktoren (Emotionale Erschöpfung, Emotionale Distanz, Konflikte mit dem Partner / der Partnerin, Vernachlässigung der Kinder und Entfremdung des Partners / der Partnerin) das Modell mit 3 Prädiktoren (Emotionale Erschöpfung, Emotionale Distanz und Konflikte mit dem Partner / der Partnerin) enthält. Um die Modelle auch sprachlich zu unterscheiden, haben sich die Bezeichungen unrestricted bzw. unconstrained (auf deutsch uneingeschränkt) und restricted bzw. constrained (auf deutsch eingeschränkt) etabliert. Das unrestricted Modell enthält also alle Prädiktoren, während das restricted Modell nur eine Teilmenge der Prädiktoren enthält.
 
 In `R` können wir das Modell mit allen Prädiktoren wie folgt erstellen:
 
@@ -435,9 +440,9 @@ summary(mod_unrestricted)$r.squared - summary(mod_restricted)$r.squared
 ## [1] 0.1281288
 ```
 
-Der Anteil der hinzugenommenen Varianz beträgt also 12.8%. Dies ist also das Inkrement der beiden aufgenommenen Variablen bezeichnet. Wie es bereits mehrfach in diesem Tutorial der Fall war, handelt es sich aber erstaml um einen deskriptivstatistischen Wert. Um sicherzugehen, dass dieser Wert in der Population von 0 verschieden ist, führen wir einen F-Test durch. 
+Der Anteil der hinzugenommenen Varianz beträgt also 12.8%. Dies ist also das Inkrement der beiden aufgenommenen Variablen bezeichnet. Wie es bereits mehrfach in diesem Tutorial der Fall war, handelt es sich aber erstmal um einen deskriptivstatistischen Wert. Um sicherzugehen, dass dieser Wert in der Population von 0 verschieden ist, führen wir einen F-Test durch. 
 
-Die Umsetzung in `R` geschieht mit der Funktion `anova()` (,was im weiteren Verlauf des Semesters zu Verwirrungen führen könnte).
+Die Umsetzung in `R` geschieht mit der Funktion `anova()` (was im weiteren Verlauf des Semesters zu Verwirrungen führen könnte).
 
 
 ```r
@@ -463,7 +468,7 @@ Das Inkrement der beiden Prädiktoren ist auf einem Alpha-Fehlerniveau von 0.05 
 
 ### Automatisierte Modellsuche
 
-Inkremente und Dekremente können theoriegeleitet auf Signifikanz getestet werden. In manchen Untersuchungen gibt es für die Modelle aber noch keine Hypothesen und mögliche Prädiktoren sollen erstmal exploriert werden. Wir versetzen uns also in ein neues Anwendungsszenario, in dem wir keine Hypothesen dazu haben, wie die Gewalttätigkeit vorhergesagt werden kann. Wir haben also eine größere Menge an möglichen Prädiktoren und wollen nun diejenigen finden, die die Varianz der Gewalttätigkeit in unserem Datensatz am besten erklären.
+Inkremente und Dekremente können theoriegeleitet getestet werden. In manchen Untersuchungen gibt es für die Modelle aber noch keine Hypothesen und mögliche Prädiktoren sollen erstmal exploriert werden. Wir versetzen uns also in ein neues Anwendungsszenario, in dem wir keine Hypothesen dazu haben, wie die Gewalttätigkeit vorhergesagt werden kann. Wir haben also eine größere Menge an möglichen Prädiktoren und wollen nun diejenigen finden, die die Varianz der Gewalttätigkeit in unserem Datensatz am besten erklären.
 
 Es gibt verschiedene Vorgehensweisen bei der explorativen Suche nach einem Modell. Es kann variiert werden, ob vorwärts, rückwärts oder in beide Richtungen gesucht wird. Weiterhin kann das Kriterium für den Einschluss und Ausschluss von Prädiktoren variiert werden. Wir betrachten im folgenden zwei Beispiele aus diesem weiten Raum an Möglichkeiten - einmal machen wir uns die inferenzstatistische Testung von Inkrementen und Dekrementen zu Nutze und einmal sogenannte Informationskriterien.
 
@@ -479,17 +484,6 @@ Für die Nutzung ist die Aktivierung mit `library()` notwendig.
 
 ```r
 library(olsrr)
-```
-
-```
-## 
-## Attaching package: 'olsrr'
-```
-
-```
-## The following object is masked from 'package:datasets':
-## 
-##     rivers
 ```
 
 #### Nutzung der Testung von Inkrementen und Dekrementen
