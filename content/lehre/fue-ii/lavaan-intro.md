@@ -9,7 +9,7 @@ subtitle: 'Das Instrument für die multivariate Datenanalyse'
 summary: '' 
 authors: [schultze, irmer] 
 weight: 1
-lastmod: '2024-03-16'
+lastmod: '2024-04-10'
 featured: no
 banner:
   image: "/header/guitars.jpg"
@@ -42,13 +42,13 @@ output:
 
 ## Einleitung
 
-Im Verlauf dieses Seminars soll neben der Einführung in die Theorie und die Hintergründe multivariater Verfahren auch eine Einführung in deren Umsetzung gegeben werden, sodass Sie in der Lage sind, diese Verfahren in Ihrem zukünftigen akademischen und beruflichen Werdegang zu nutzen. Diese Umsetzung möchten wir Ihnen mit `lavaan` zeigen - dem meistverbreiteten Paket für multivariate Verfahren wie z.B. konfirmatorische Faktorenanalyse (CFA), Pfadanalyse oder Strukturgleichungsmodellierung (SEM) in `R`. Allein im März 2021 wurde `lavaan` über 50 000 Mal heruntergeladen; es wird in allen Bereichen der psychologischen Forschung genutzt und wurde in über 7 500 sozialwissenschaftflichen Veröffentlichungen zitiert.
+Im Verlauf dieses Seminars soll neben der Einführung in die Theorie und die Hintergründe multivariater Verfahren auch eine Einführung in deren Umsetzung gegeben werden, sodass Sie in der Lage sind, diese Verfahren in Ihrem zukünftigen akademischen und beruflichen Werdegang zu nutzen. Diese Umsetzung möchten wir Ihnen mit `lavaan` zeigen - dem meistverbreiteten Paket für multivariate Verfahren wie z.B. konfirmatorische Faktorenanalyse (CFA), Pfadanalyse oder Strukturgleichungsmodellierung (SEM) in `R`. Das Paket wird derzeit pro Woche [ca. 12500 mal herunter geladen](https://ipub.com/dev-corner/apps/r-package-downloads/); es wird in allen Bereichen der psychologischen Forschung genutzt und wurde in über 23 000 wissenschaftlichen Veröffentlichungen zitiert.
 
-Dieses Tutorial bietet eine Einführung in `lavaan`. Im Zentrum stehen dabei die Grundgedanken und die typische Vorgehensweise, in der man in `lavaan` bei Analysen vorgeht. Um diese Ideen und Vorgehensweisen zu erkunden, betrachten wir ein Beispiel aus dem letzten Semester mal aus dieser neuen Perspektive.
+Dieses Tutorial bietet eine Einführung in `lavaan`. Im Zentrum stehen dabei die Grundgedanken und die typische Vorgehensweise, in der man in `lavaan` arbeitet. Um diese Ideen und Vorgehensweisen zu erkunden, betrachten wir ein Beispiel aus dem letzten Semester mal aus dieser neuen Perspektive.
 
 Wir beginnen das Tutorial aber zunächst mit einer [Auffrischung Ihrer R-Fähigkeiten](#Wiederbelebung). Auch wenn Sie im Umgang mit `R` sehr geübt sind, nehmen Sie sich bitte trotzdem ein paar Minuten Zeit, um sich noch einmal intensiv mit den Befehlen auseinanderzusetzen, die für dieses Semester von zentraler Bedeutung sind. Sollten Sie wenig Übung im Umgang mit `R` haben, oder wenn Sie einfach noch einmal eine etwas detaillierte Einführung in `R` lesen möchten, finden Sie [hier auch die R-Einführung aus dem Bachelorstudiengang](/lehre/statistik-i/crash-kurs/).
 
-Nach dem Ende der Übung finden Sie im [OLAT Kurs](https://olat-ce.server.uni-frankfurt.de/olat/auth/RepositoryEntry/11412111381) ein kurzes Quiz mit Bezug zu den Inhalten dieser Sitzung.
+Nach dem Ende der Übung finden Sie im Moodle-Kurs ein kurzes Quiz mit Bezug zu den Inhalten dieser Sitzung.
 
 
 ## `R`-Grundlagen Wiederbelebung {#Wiederbelebung}
@@ -81,10 +81,8 @@ names(fairplayer)
 ```
 
 ```
-##  [1] "id"    "class" "grp"   "sex"   "ra1t1" "ra2t1" "ra3t1" "ra1t2" "ra2t2" "ra3t2"
-## [11] "ra1t3" "ra2t3" "ra3t3" "em1t1" "em2t1" "em3t1" "em1t2" "em2t2" "em3t2" "em1t3"
-## [21] "em2t3" "em3t3" "si1t1" "si2t1" "si3t1" "si1t2" "si2t2" "si3t2" "si1t3" "si2t3"
-## [31] "si3t3"
+##  [1] "id"    "class" "grp"   "sex"   "ra1t1" "ra2t1" "ra3t1" "ra1t2" "ra2t2" "ra3t2" "ra1t3" "ra2t3" "ra3t3" "em1t1" "em2t1" "em3t1"
+## [17] "em1t2" "em2t2" "em3t2" "em1t3" "em2t3" "em3t3" "si1t1" "si2t1" "si3t1" "si1t2" "si2t2" "si3t2" "si1t3" "si2t3" "si3t3"
 ```
 
 ```r
@@ -142,27 +140,20 @@ head(fairplayer)
 ```
 
 ```
-##   id class grp    sex ra1t1 ra2t1 ra3t1 ra1t2 ra2t2 ra3t2 ra1t3 ra2t3 ra3t3 em1t1 em2t1
-## 1  1     1 IGL female     2     1     1     2     1     1     1     1     1     3     5
-## 2  2     1 IGL   male     1     3     1     1     1     1     1     1     1     4     4
-## 3  3     1 IGL female     1     2     1     1     1     1     1     2     1     3     3
-## 4  4     1 IGL female     1     1     1     1     1     1     1     1     1     5     5
-## 5  5     1 IGL   male     2     1     1     1     5     1     1     2     1     3     3
-## 6  6     1 IGL   male     1     3     1     1     2     1     1     3     1     4     3
-##   em3t1 em1t2 em2t2 em3t2 em1t3 em2t3 em3t3 si1t1 si2t1 si3t1 si1t2 si2t2 si3t2 si1t3
-## 1     4     4     4     3     3     4     5     2     2     3     3     2     3     2
-## 2     3     4     5     5     4     3     3     2     1     3     4     2     3     3
-## 3     2     2     2     1     3     2     2     1     2     2     1     1     2     1
-## 4     5     4     4     4     3     4     5     4     1     5     4     4     4     4
-## 5     4     3     4     3     3     4     4     2     2     2     2     3     2     3
-## 6     4     3     4     4     4     4     4     2     2     3     3     3     4     4
-##   si2t3 si3t3
-## 1     1     3
-## 2     2     3
-## 3     1     2
-## 4     1     4
-## 5     5     3
-## 6     3     4
+##   id class grp    sex ra1t1 ra2t1 ra3t1 ra1t2 ra2t2 ra3t2 ra1t3 ra2t3 ra3t3 em1t1 em2t1 em3t1 em1t2 em2t2 em3t2 em1t3 em2t3 em3t3
+## 1  1     1 IGL female     2     1     1     2     1     1     1     1     1     3     5     4     4     4     3     3     4     5
+## 2  2     1 IGL   male     1     3     1     1     1     1     1     1     1     4     4     3     4     5     5     4     3     3
+## 3  3     1 IGL female     1     2     1     1     1     1     1     2     1     3     3     2     2     2     1     3     2     2
+## 4  4     1 IGL female     1     1     1     1     1     1     1     1     1     5     5     5     4     4     4     3     4     5
+## 5  5     1 IGL   male     2     1     1     1     5     1     1     2     1     3     3     4     3     4     3     3     4     4
+## 6  6     1 IGL   male     1     3     1     1     2     1     1     3     1     4     3     4     3     4     4     4     4     4
+##   si1t1 si2t1 si3t1 si1t2 si2t2 si3t2 si1t3 si2t3 si3t3
+## 1     2     2     3     3     2     3     2     1     3
+## 2     2     1     3     4     2     3     3     2     3
+## 3     1     2     2     1     1     2     1     1     2
+## 4     4     1     5     4     4     4     4     1     4
+## 5     2     2     2     2     3     2     3     5     3
+## 6     2     2     3     3     3     4     4     3     4
 ```
 
 Der Datensatz, den wir hier betrachten, enthält verhaltensbezogene Selbstberichte auf jeweils drei Items zur relationalen Aggression (`ra`), Empathie (`em`) und sozialen Intelligenz (`si`). Diese insgesamt 9 Indikatoren liegen zu drei Messzeitpunkten (`t1`, `t2` und `t3`) vor. Die über den Befehl `str` angeforderte Struktur verrät uns außerdem, dass diese Variablen allesamt integer (`int`), also ganzzahlig, sind. Über die Items hinaus sind vier weitere Variablen im Datensatz enthalten, die den Personenidentifikator (`id`), die Klasse (`class`), die Interventionsgruppe (`grp`) und das Geschlecht (`sex`) der Jugendlichen kodieren.
@@ -384,7 +375,7 @@ summary(mod)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.5137 on 121 degrees of freedom
-##   (31 Beobachtungen als fehlend gelöscht)
+##   (31 observations deleted due to missingness)
 ## Multiple R-squared:  0.1075,	Adjusted R-squared:  0.09273 
 ## F-statistic: 7.285 on 2 and 121 DF,  p-value: 0.001029
 ```
@@ -541,7 +532,7 @@ summary(fit)
 ```
 
 ```
-## lavaan 0.6.17 ended normally after 1 iteration
+## lavaan 0.6.16 ended normally after 1 iteration
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
