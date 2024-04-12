@@ -1,5 +1,5 @@
 ---
-title: "ANOVA I: einfaktorielle ANOVA"
+title: "Einfaktorielle ANOVA"
 type: post
 date: '2021-05-20'
 slug: anova-i
@@ -9,7 +9,7 @@ subtitle: '1-fakt. ANOVA'
 summary: ''
 authors: [scheppa-lahyani, irmer, wallot, nehler]
 weight: 7
-lastmod: '2024-03-08'
+lastmod: '2024-04-12'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"

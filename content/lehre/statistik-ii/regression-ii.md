@@ -3,13 +3,13 @@ title: "Regressionsanalyse II"
 type: post
 date: '2021-04-28' 
 slug: regression-ii 
-categories: ["Statistik II"] 
+categories: ["Deprecated"] 
 tags: ["Regression", "Zusammenhangsanalyse", "Erklärte Varianz", "Modelloptimierung"] 
 subtitle: 'Modelloptimierung'
 summary: ''
 authors: [irmer, hartig, schueller, nehler]
-weight: 5
-lastmod: '2024-03-08'
+weight: 
+lastmod: '2024-04-12'
 featured: no
 banner:
   image: "/header/gardening_tools.jpg"

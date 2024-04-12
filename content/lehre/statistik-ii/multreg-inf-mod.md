@@ -1,5 +1,5 @@
 ---
-title: "Inferenz und Modellauswahl in der Multiplen Regression" 
+title: "Inferenz und Modellauswahl in der multiplen Regression" 
 type: post
 date: '2021-04-22' 
 slug: multreg-inf-mod
@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [nehler, irmer, schueller, hartig]
 weight: 4
-lastmod: '2024-04-11'
+lastmod: '2024-04-12'
 featured: no
 banner:
   image: "/header/man_with_binoculars.jpg"
@@ -27,10 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/multreg-inf-mod.R
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Quizdaten
-    url: /lehre/statistik-ii/quizdaten-bsc7#Quiz2 
+  # - icon_pack: fas
+  #   icon: pen-to-square
+  #   name: Quizdaten
+  #   url: /lehre/statistik-ii/quizdaten-bsc7#Quiz2 
 output:
   html_document:
     keep_md: true
@@ -154,8 +154,10 @@ resid(mod)[1:10]
 ```
 
 ```
-##          1          2          3          4          5          6          7          8          9         10 
-## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730  1.5996231 -0.9974955  0.8759748 -1.5887563  1.3260923
+##          1          2          3          4          5          6          7 
+## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730  1.5996231 -0.9974955 
+##          8          9         10 
+##  0.8759748 -1.5887563  1.3260923
 ```
 
 ### Omnibustest der Multiplen Regression

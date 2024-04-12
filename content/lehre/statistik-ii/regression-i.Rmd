@@ -3,7 +3,7 @@ title: "Regressionsanalyse I"
 type: post
 date: '2021-04-22' 
 slug: regression-i 
-categories: ["Statistik II"] 
+categories: ["Deprecated"] 
 tags: ["Regression", "Zusammenhangsanalyse", "Gerichtete Zusammenhänge"] 
 subtitle: 'Multiple Regression'
 summary: ''

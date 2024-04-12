@@ -3,13 +3,13 @@ title: "Regressionsanalyse III"
 type: post
 date: '2019-10-18' 
 slug: regression-iii 
-categories: ["Statistik II"] 
+categories: ["Deprecated"] 
 tags: ["Regression", "Zusammenhangsanalyse", "Erklärte Varianz", "Voraussetzungsprüfung"] 
 subtitle: ''
 summary: '' 
 authors: [irmer, hartig, nehler]
-weight: 6
-lastmod: '2024-03-08'
+weight: 
+lastmod: '2024-04-12'
 featured: no
 banner:
   image: "/header/glider.jpg"
@@ -155,7 +155,30 @@ Eine grafische Prüfung der partiellen Linearität zwischen den einzelnen Prädi
 
 ```r
 library(car) # Paket mit einigen Funktionen zur Regressionsdiagnostik
+```
 
+```
+## Loading required package: carData
+```
+
+```
+## 
+## Attaching package: 'car'
+```
+
+```
+## The following object is masked from 'package:dplyr':
+## 
+##     recode
+```
+
+```
+## The following object is masked from 'package:metafor':
+## 
+##     vif
+```
+
+```r
 # partielle Regressionsplots
 avPlots(model = mod, pch = 16, lwd = 4)
 ```
@@ -751,6 +774,11 @@ ggplot(data = df, mapping = aes(x = X, y = Y)) + geom_point() +
   geom_smooth(method = "lm", formula = "y~x") + 
   theme_minimal()+
   geom_point(mapping = aes(x = Xmax, y = Y_pred_Xmax), cex = 4, col = "gold3")
+```
+
+```
+## Warning in geom_point(mapping = aes(x = Xmax, y = Y_pred_Xmax), cex = 4, : All aesthetics have length 1, but the data has 20 rows.
+## ℹ Did you mean to use `annotate()`?
 ```
 
 ![](/lehre/statistik-ii/regression-iii_files/figure-html/unnamed-chunk-25-1.png)<!-- -->

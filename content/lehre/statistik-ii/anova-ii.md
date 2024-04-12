@@ -1,5 +1,5 @@
 ---
-title: "ANOVA II: zweifaktorielle ANOVA"
+title: "Zweifaktorielle ANOVA"
 type: post
 date: '2021-03-30' 
 slug: anova-ii
@@ -9,7 +9,7 @@ subtitle: '2-fakt. ANOVA'
 summary: ''
 authors: [irmer,scheppa-lahyani,schultze]
 weight: 8
-lastmod: '2024-03-08'
+lastmod: '2024-04-12'
 featured: no
 banner:
   image: "/header/heart_alien.jpg"
@@ -226,6 +226,26 @@ aggregate(conspiracy$ET, list(conspiracy$edu), mean)
 ```r
 # Mithilfe des describeBy-Befehls aus dem psych-Paket
 library(psych)
+```
+
+```
+## 
+## Attaching package: 'psych'
+```
+
+```
+## The following object is masked from 'package:car':
+## 
+##     logit
+```
+
+```
+## The following objects are masked from 'package:ggplot2':
+## 
+##     %+%, alpha
+```
+
+```r
 describeBy(conspiracy$ET, conspiracy$urban)
 ```
 
@@ -235,11 +255,11 @@ describeBy(conspiracy$ET, conspiracy$urban)
 ## group: rural
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 475 2.19 1.32   1.67    2.02 0.99   1   5     4 0.74    -0.81 0.06
-## ------------------------------------------------------------------ 
+## ---------------------------------------------------------------- 
 ## group: suburban
 ##    vars    n mean  sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 1125 2.15 1.3   1.67    1.97 0.99   1   5     4 0.81    -0.65 0.04
-## ------------------------------------------------------------------ 
+## ---------------------------------------------------------------- 
 ## group: urban
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 851 2.31 1.36      2    2.15 1.48   1   5     4 0.62    -0.98 0.05
@@ -255,11 +275,11 @@ describeBy(conspiracy$ET, conspiracy$edu)
 ## group: not highschool
 ##    vars    n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 1060 2.37 1.36      2    2.23 1.48   1   5     4 0.54    -1.07 0.04
-## ------------------------------------------------------------------ 
+## ---------------------------------------------------------------- 
 ## group: highschool
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 433 2.44 1.36   2.33    2.32 1.98   1   5     4 0.48    -1.11 0.07
-## ------------------------------------------------------------------ 
+## ---------------------------------------------------------------- 
 ## group: college
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 958 1.94 1.22   1.33    1.72 0.49   1   5     4 1.11    -0.01 0.04
@@ -310,8 +330,8 @@ ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu))
 ```
 
 ```
-## Warning in ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu)): Unbalanced
-## groups. Mean N will be used in computation of FLSD
+## Warning in ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu)):
+## Unbalanced groups. Mean N will be used in computation of FLSD
 ```
 
 ```

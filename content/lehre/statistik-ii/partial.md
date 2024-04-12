@@ -8,8 +8,8 @@ tags: ["Partialkorrelation", "Korrelation", "Zusammenhangsanalyse", "geteilte Va
 subtitle: ''
 summary: 'In diesem Beitrag zur Partial- und Semipartialkorrelation lernst du den Einfluss von Drittvariablen zu kontrollieren und so Scheinkorrelationen zu entlarven. Das Beispiel mit Schulleistungen zeigt, dass der ursprüngliche Zusammenhang zwischen der Lese- und Mathematikleistung verschwindet, wenn der Einfluss des IQ berücksichtigt wird. Die Semipartialkorrelation spezifisch aufzeigt, wie der IQ die Mathematikleistung beeinflusst. Diese Werkzeuge sind entscheidend, um versteckte Muster in statistischen Daten zu entwirren und Kausalitätsannahmen zu überprüfen.'
 authors: [schroeder, gruetzmacher, nehler, irmer]
-weight: 3
-lastmod: '2024-03-08'
+weight: 5
+lastmod: '2024-04-12'
 featured: no
 banner:
   image: "/header/prism_colors.jpg"

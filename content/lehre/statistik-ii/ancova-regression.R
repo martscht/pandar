@@ -37,8 +37,6 @@ tab <- data.frame(country = c('U.S', 'U.S', 'China', 'China'),
 tab$mod1 <- predict(mod1, tab)
 tab
 
-library(ggplot2)
-
 pred_plot <- ggplot(tab, aes(x = bribe, 
   group = country, color = country)) + 
   geom_point(aes(y = mod1)) + geom_line(aes(y = mod1)) +
@@ -110,10 +108,10 @@ scatter <- ggplot(usa, aes(x = gains, y = severe, color = bribe)) +
 scatter + 
   # Kollektive Bestechung
   geom_abline(intercept = coef(mod6)[1], slope = coef(mod6)[2], 
-    color = '#F8766D') +
+    color = '#00618F') +
   # Individuelle Bestechung
   geom_abline(intercept = coef(mod6)[1] + coef(mod6)[3], slope = coef(mod6)[2], 
-    color = '#00BFC4')
+    color = '#ad3b76')
 
 mod7 <- lm(severe ~ gains + bribe + gains:bribe, usa)
 summary(mod7)
@@ -121,10 +119,10 @@ summary(mod7)
 scatter + 
   # Kollektive Bestechung
   geom_abline(intercept = coef(mod7)[1], slope = coef(mod7)[2], 
-    color = '#F8766D') +
+    color = '#00618f') +
   # Individuelle Bestechung
   geom_abline(intercept = coef(mod7)[1] + coef(mod7)[3], slope = coef(mod7)[2] + coef(mod7)[4], 
-    color = '#00BFC4')
+    color = '#ad3b76')
 
 library(reghelper)
 simple_slopes(mod7)
