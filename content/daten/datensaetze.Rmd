@@ -9,7 +9,6 @@ tags:
 subtitle: 'Übersicht über alle verwendeten Datensätze auf pandaR'
 summary: ''
 authors: [rouchi, schultze]
-lastmod: '2023-06-15'
 featured: no
 banner:
   image: "/header/fire_exit.jpg"
@@ -43,6 +42,7 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Bullyingprävention bei Jugendlichen](#bullyingprävention-bei-jugendlichen-fairplayer) | [{{< icon name="download" pack="fas" >}} `fairplayer` ](/daten/faiplayer.rda) |
 | [Quasi-Experimentelle Therapiestudie](#quasi-experimentelle-therapiestudie-cbtdata) | [{{< icon name="download" pack="fas" >}} `CBTdata` ](/daten/CBTdata.rda) |
 | [Depressivität](#depressivitat-Depression) | [{{< icon name="download" pack="fas" >}} `Depression` ](/daten/Depression.rda) |
+| [Distorted News](#distorted-news) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/k4xcv/) |
 | [Effektivität der CBT bei Depression](#effektivität-der-cbt-bei-depression-f2f_cbt) | _Teil des Pakets `metafor`_ |
 |  [Entwicklung der Weltbevölkerung](#entwicklung-der-weltbevölkerung-worldpopulation) | [{{< icon name="download" pack="fas" >}} `WorldPopulation` ](/daten/WorldPopulation.rda) |
 | [Fragebogendaten aus dem ersten Semester 22](#fragebogendaten-aus-dem-ersten-semester-fb22) |  [{{< icon name="download" pack="fas" >}} `fb22` ](/daten/fb22.rda) |
@@ -530,6 +530,60 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
+
+---
+
+## Distorted News
+
+#### Beschreibung
+Im Datensatz sind die Daten aus der 3. Teilstudie von Firschlich et al. (2021) enthalten. Dabei wurde in einem experimentellen Design untersucht, welche Auswirkung neutrale vs. ideologisch geladene Berichterstattung auf Wahrnehmung und Glaubhaftigkeitseinschätzung eines Nachrichtenbeitrags über einen deutschen Politiker hat. Der experimentelle Effekt soll dabei durch verschiedene Einstellungen moderiert werden. Distales outcome ist die Einschätzung des Politikers, von dem der Artikel handelt.
+
+Frischlich, L., Hellmann, J.H., Brinkschulte, F., Becker, M., & Back, M.D. (2021). Right-wing authoritarianism, conspiracy mentality, and susceptibility to distorted alternative news. _Social Influence, 16_(1), 24-64, DOI: 10.1080/15534510.2021.1966499.
+
+#### Datensatz laden
+
+Der Datensatz wird in einem Skript reduziert und Variablen umbenannt. Dieses Skript kann mit folgendem Befehl ausgeführt werden:
+
+```{r, eval = FALSE}
+source("https://pandar.netlify.app/daten/Data_Processing_distort.R")
+```
+```{r, echo = FALSE}
+source('./Data_Processing_distort.R')
+```
+
+
+Im Environment erscheint dadurch der Datensatz `distort`.
+
+### Größe
+Der Datensatz besteht aus `r dim(distort)[1]` Beobachtungen auf `r dim(distort)[2]` Variablen.
+
+### Variablen
+
+In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und ihrer Bedeutungen.
+
+| Variable | Bedeutung | Kodierung |
+| --- | ---- | ---- |
+| `id` | Teilnehmer:innen-ID |  |
+| `sex` | Geschlecht | 1 = weiblich, 2 = männlich, 3 = divers |
+| `age` | Alter |  |
+| `stud` | Student:innenstatus | 0 = nein, 1 = ja |
+| `east` | Wohnort in Ostdeutschland | 0 = nein, 1 = ja |
+| `state` | Bundesland |  |
+| `type` | Artikeltyp | 1 = verzerrt, 2 = neutral |
+| `ideology` | Ideologie des Artikels | 1 = links, 2 = rechts |
+| `leaning` | Politische Tendenz | 1 = extrem links, 5 = moderat, 9 = extrem rechts  |
+| `attitude` | Einstellung zum Politiker | _Skalenwert_ |
+| `attention` | Aufmerksamkeit für Politik | _Skalenwert_ |
+| `rwa` | Rechtsextreme Autoritarismus | _Skalenwert_ |
+| `cm` | Verschwörungsmentalität | _Skalenwert_ |
+| `credibility` | Glaubwürdigkeit des Artikels | _Skalenwert_ |
+| `perception` | Wahrnehmung des Politikers | _Skalenwert_ |
+| `threat` | Bedrohung durch Geflüchtete | _Skalenwert_ |
+| `marginal` | Gefühl der Marginalisierung | _Skalenwert_ |
+
+### Fehlende Werte
+
+Dieser Datensatz wurde zuvor mit einfacher Imputation ergänzt und enthält daher keine fehlenden Werte.
 
 ---
 
