@@ -4,12 +4,12 @@ type: post
 date: '2020-09-24' 
 slug: deskriptiv-intervall 
 categories: ["Statistik I"] 
-tags: ["Deskriptivstatistik", "Intervallskalen", "Mittelwert", "Varianz"] 
+tags: ["Deskriptivstatistik", "Intervallskalen", "Mittelwerte", "Varianz"] 
 subtitle: ''
 summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte Variablen vorgestellt. Dabei wird zunächst die Berechnung des Mittelwerts, der Varianz sowie Standardabweichung behandelt. Dann wird gezeigt, wie Variablen zentriert bzw. standardisiert werden können. Abschließend geht es außerdem um das Rekodieren von Items und das Bilden von Skalenwerten.' 
 authors: [nehler, beitner, buchholz] 
 weight: 3
-lastmod: '2024-02-19'
+lastmod: '2024-03-18'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -40,8 +40,9 @@ output:
 
 
 
-<details><summary>Kernfragen dieser Lehreinheit</summary>
 
+<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
+ 
 * Was ist der Befehl um den [**Mittelwert**](#Mittelwert) zu bestimmen?
 * Wie kann die [**empirische Varianz**](#Varianz) bestimmt werden? Wie unterscheidet sich diese von der mit `var()` bestimmten Varianz?
 * Wie können Variablen [**zentriert und standardisiert**](#Zentrieren) werden?
@@ -67,7 +68,7 @@ Absolut | absoluter Wert | Identität | ... | ... |
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz `fb23` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 
 ```r
@@ -136,13 +137,13 @@ fb23$lz
 ```
 
 ```
-##   [1] 5.4 3.4 4.4 4.4 6.4 5.6 5.4 5.0 4.8 6.0 5.4 5.4 5.8 2.6 4.8 5.2 5.4 4.4 1.4 4.8 6.6  NA 5.0 4.8 7.0 5.0
-##  [27] 4.8 5.8 5.4 5.2 6.4 5.8 5.2 5.4 3.4 6.8 6.0 6.2 5.6 5.8 5.2 4.6  NA 5.2 3.6 4.8 5.8 3.2 5.4 5.6 4.6 4.6
-##  [53] 5.0 6.8 5.8 5.8 6.2 4.2 4.4 4.8 5.0 6.6 6.6 4.6 6.0 5.6 6.0 4.0 2.6 4.0 3.8 4.8 4.0 6.2 6.0 4.0 5.2 5.4
-##  [79] 2.8 4.6 4.6 5.0 4.0 6.0 5.6 4.2 4.8 6.0 4.2 6.2 6.2 3.2 4.2 5.6 4.6 6.6 4.2 1.6 4.6 5.4 5.8 6.0 5.8 5.0
-## [105] 3.6 7.0 6.2 6.0 6.4 5.0 5.4 5.8 5.8 3.8 6.0 5.8 4.8 6.8 3.6 6.2 3.2 5.6 5.4 5.6 4.6 4.8 5.6 3.2 6.2 5.4
-## [131] 4.4 5.6 5.4 4.2 4.4 4.4 2.8 6.4 5.4 5.6 5.0 6.4 5.0 5.2 6.0 5.4 6.8 4.2 2.8 5.2 6.2 5.6 5.6 5.6 7.0 5.0
-## [157] 4.0 5.2 6.4 5.6 5.0 3.6 5.2 6.6 5.8 3.8 3.6 4.0 3.8 5.6 5.2 5.8 5.4 3.6 6.2 6.0 6.2 6.0 5.4
+##   [1] 5.4 3.4 4.4 4.4 6.4 5.6 5.4 5.0 4.8 6.0 5.4 5.4 5.8 2.6 4.8 5.2 5.4 4.4 1.4 4.8 6.6  NA 5.0 4.8 7.0 5.0 4.8
+##  [28] 5.8 5.4 5.2 6.4 5.8 5.2 5.4 3.4 6.8 6.0 6.2 5.6 5.8 5.2 4.6  NA 5.2 3.6 4.8 5.8 3.2 5.4 5.6 4.6 4.6 5.0 6.8
+##  [55] 5.8 5.8 6.2 4.2 4.4 4.8 5.0 6.6 6.6 4.6 6.0 5.6 6.0 4.0 2.6 4.0 3.8 4.8 4.0 6.2 6.0 4.0 5.2 5.4 2.8 4.6 4.6
+##  [82] 5.0 4.0 6.0 5.6 4.2 4.8 6.0 4.2 6.2 6.2 3.2 4.2 5.6 4.6 6.6 4.2 1.6 4.6 5.4 5.8 6.0 5.8 5.0 3.6 7.0 6.2 6.0
+## [109] 6.4 5.0 5.4 5.8 5.8 3.8 6.0 5.8 4.8 6.8 3.6 6.2 3.2 5.6 5.4 5.6 4.6 4.8 5.6 3.2 6.2 5.4 4.4 5.6 5.4 4.2 4.4
+## [136] 4.4 2.8 6.4 5.4 5.6 5.0 6.4 5.0 5.2 6.0 5.4 6.8 4.2 2.8 5.2 6.2 5.6 5.6 5.6 7.0 5.0 4.0 5.2 6.4 5.6 5.0 3.6
+## [163] 5.2 6.6 5.8 3.8 3.6 4.0 3.8 5.6 5.2 5.8 5.4 3.6 6.2 6.0 6.2 6.0 5.4
 ```
 
 Auf den ersten Blick ist es schwer, aus so einer großen Menge an unterschiedlichen Werten ein Fazit zu ziehen. Um eine Stichprobe zusammenzufassen, lernen wir heute deskriptive Maße kennen. Zunächst lässt sich aber feststellen, dass wir es auch auf dem Skalenwert mit fehlenden Werten (`NA`) zu tun haben. 
@@ -384,7 +385,6 @@ Auch bei der Standardabweichung bestimmt R den Populationsschätzer $\hat{\sigma
 
 
 
-
 ```r
 # Standardabweichung in R
 sd(fb23$lz, na.rm = TRUE) # Populationsschaetzer
@@ -521,7 +521,7 @@ head(fb23$mdbf4_pre_r)   # erste 6 Werte mit Transformation
 
 **Variante 2: Logische Filter**
 
-Mit Hilfe von logischen Filtern, die wir auch schon im [R-Intro](https://pandar.netlify.app/post/r-crash-kurs/) kennen gelernt haben, können wir uns auch alle Antworten einer Ausprägung (z.B. 1) anzeigen lassen und diesen dann den transformierten Wert zuweisen. Durch die Invertierung wissen wir, dass dem Wert 1 der Wert 4 zugeordnet werden muss. Also können wir eine Abfrage nach allen Teilnehmenden machen, die die Antwort 1 gegeben haben.
+Mit Hilfe von logischen Filtern, die wir auch schon im [R-Intro](/lehre/statistik-i/crash-kurs/) kennen gelernt haben, können wir uns auch alle Antworten einer Ausprägung (z.B. 1) anzeigen lassen und diesen dann den transformierten Wert zuweisen. Durch die Invertierung wissen wir, dass dem Wert 1 der Wert 4 zugeordnet werden muss. Also können wir eine Abfrage nach allen Teilnehmenden machen, die die Antwort 1 gegeben haben.
 
 
 ```r

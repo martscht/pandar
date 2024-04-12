@@ -48,8 +48,7 @@ mean(fb23$lz, na.rm = TRUE)
 # Händische Varianzberechnung
 sum((fb23$lz - mean(fb23$lz, na.rm = TRUE))^2, na.rm = TRUE) / (nrow(fb23)-2)
 
-library("RXKCD")
-invisible(getXKCD(851))
+
 
 is.na(fb23$lz) |> sum()
 

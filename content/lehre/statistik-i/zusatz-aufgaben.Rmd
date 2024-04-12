@@ -3,8 +3,8 @@ title: "Freiwillige Übungsaufgaben (alle Abschnitte)"
 type: post
 date: '2021-11-29' 
 slug: zusatz-aufgaben
-categories: ["Statistik I", "Statisik I Übungen"] 
-tags: ["Deskriptivstatistik", "Regression"] 
+categories: [Statisik I Übungen"] 
+tags: [] 
 subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es um vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [cezanne, mueller, nehler] 
@@ -33,7 +33,7 @@ output:
 ---
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-knitr::opts_chunk$set(error = TRUE,warning = FALSE, message = FALSE)
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 library(knitr)
 ```
 

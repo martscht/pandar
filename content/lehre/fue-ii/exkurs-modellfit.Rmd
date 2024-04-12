@@ -27,12 +27,11 @@ output:
   html_document:
     keep_md: true
 ---
-
-```{r setup, echo = FALSE, results = 'hide', message=FALSE, warning=FALSE}
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 library(lavaan)
 library(semPlot)
 ```
-
 
 Der Likelihood-Ratio-Test ($\chi^2$-Differenzentest) vergleicht die Likelihoods zweier Modelle und somit implizit eigentlich die Kovarianzmatrizen (und Mittelwerte). In Lehrbüchern steht häufig *der $\chi^2$-Wert ist stichprobenabhängig und wächst mit der Stichprobengröße*, was ebenfalls als Grund für die Fit-Indizes genannt wird. Das ist allerdings nur teilweise richtig, denn der $\chi^2$-Wert ist nur für Modelle stichprobenabhängig, in welchen die $H_0$-Hypothese **nicht** gilt. In einigen Lehrbüchern steht zudem die Formel für den $\chi^2$-Wert wie folgt: Wir definieren zunächst die sogenannte Fit-Funktion $F_{ML}$ (diese wurde bereits in der [Sitzung zur CFA](/lehre/fue-ii/cfa) erwähnt), welche die Differenz zwischen der Kovarianzmatrix der Daten sowie der modellimplizierten Kovarianzmatrix quantifiziert (für die Formeln siehe gerne auch bspw. in Schermelleh-Engel, Moosbrugger & Müller, 2003):
 {{< math >}}
@@ -53,7 +52,7 @@ $$H_1:S\neq\Sigma_M$$
 {{</ math >}}
 dann konvergiert {{< math >}}$F_{ML}(\hat{\Sigma}_M,S)${{</ math >}} im Mittel nicht mehr gegen Null; es gilt also  ({{< math >}}$n\to\infty${{</ math >}}) {{< math >}}$F_{ML}(\hat{\Sigma}_M,S)\nrightarrow0${{</ math >}}, sondern {{< math >}}$F_{ML}(\hat{\Sigma}_M,S)\to d${{</ math >}}, wobei $d>0$ gerade die wahre Differenz zwischen den beiden Modellen quantifiziert. Das bedeutet gleichzeitig, dass für den zugehörigen mittleren $\chi^2$-Wert unter $H_1$ gilt: {{< math >}}$\chi^2_{H_1}\to dn \to \infty${{</ math >}}, der $\chi^2$-Wert also mit der Stichprobengröße wächst (da $dn$ gerade proportional zu $n$ wächst)! Wir wollen uns dies an folgendem Modell klar machen:
 
-```{r, fig.align="center", fig.height=6, echo=F}
+```{r, fig.align="center", fig.height=6, echo=F, purl=FALSE}
 ## Example of a Full LISREL model path diagram with the same number of
 ## exgenous and endogenous variables:
 
@@ -124,7 +123,7 @@ Wenn ein Modell in dieser Form vorliegt, so kann die `simulateData` Funktion in 
 head(data)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 print(head(data))
 ```
 
@@ -160,7 +159,7 @@ fit_H0 <- sem(model = model_H0, data = data)
 fit_H0
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 fit_H0
 ```
 
@@ -215,7 +214,7 @@ semPaths(sem(model_H1_Struk, data))
 Hierbei ist das Weglassen der Fehlerkovarianz ein "kleiner" Fehler, während die Annahme einer vollständigen Mediation hier zu einem deutlichen Fehler führen sollte, da in die Fehlervarianz nur zwei Variablen involviert sind, während die gerichtete Beziehung zwischen den beiden latenten Variablen $\xi_1$ und $\eta_2$ mindestens alle manifesten Variablen, die Messungen von  $\xi_1$ und $\eta_2$ sind, betrifft. Wir gucken uns den Modellfit für alle drei Modelle an:
 
 
-```{r, eval = F}
+```{r, results='hide'}
 fit_H1_kov <- sem(model_H1_kov, data)
 fit_H1_Struk <- sem(model_H1_Struk, data)
 
@@ -224,7 +223,7 @@ fitmeasures(fit_H1_kov, c("chisq", 'df', "pvalue"))
 fitmeasures(fit_H1_Struk, c("chisq", 'df', "pvalue"))
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 fit_H1_kov <- sem(model_H1_kov, data)
 fit_H1_Struk <- sem(model_H1_Struk, data)
 
@@ -246,13 +245,13 @@ fit_H1_kov <- sem(model_H1_kov, data)
 fit_H1_Struk <- sem(model_H1_Struk, data)
 ```
 
-```{r, eval = F}
+```{r, results='hide'}
 fitmeasures(fit_H0, c("chisq", 'df', "pvalue"))
 fitmeasures(fit_H1_kov, c("chisq", 'df', "pvalue"))
 fitmeasures(fit_H1_Struk, c("chisq", 'df', "pvalue"))
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat("H0:")
 print(round(fitmeasures(fit_H0, c("chisq", 'df', "pvalue")), 3))
 cat("H1: Fehlerkovarianz")

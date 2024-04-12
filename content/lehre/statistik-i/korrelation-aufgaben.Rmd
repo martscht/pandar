@@ -3,8 +3,8 @@ title: "Korrelation - Aufgaben"
 type: post
 date: '2019-10-18' 
 slug: korrelation-aufgaben
-categories: [] 
-tags: ["Statistik I Übungen"] 
+categories: ["Statistik I Übungen"] 
+tags: [] 
 subtitle: ''
 summary: '' 
 authors: [nehler, winkler, vogler, schroeder]
@@ -32,6 +32,10 @@ output:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+library(knitr)
+```
 
 ## Vorbereitung
 

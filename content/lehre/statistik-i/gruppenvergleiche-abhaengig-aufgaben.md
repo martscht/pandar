@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [walter, nehler]
 weight:
-lastmod: '2023-12-05'
+lastmod: '2024-03-27'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"

@@ -39,15 +39,17 @@ output:
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
+ 
+<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
 
-{{< spoiler text = "Kernfragen dieser Lehreinheit" >}}
 * Wie können [**Zufallsexperimente**](#Zufall) und [**Bernoulli-Experimente**](#Zufall) simuliert werden?  
 * Wie lässt sich die [**Binomialverteilung darstellen**](#Binomial)?  
 * Wie können [**Wahrscheinlichkeitsverteilung**](#Binomial) und [**Verteilungsfunktion**](#Verteilung) erstellt werden?
 * Welchem Muster folgt die Arbeit mit [**Verteilungen**](#Muster) in `R`?  
 * Mit welchen Befehlen erstellt man die [**Dichte- und Verteilungsfunktion**](#Dichte)?
-* Wie kann eine empirisch erhobene Variable [**gegen die Normalverteilung abgetragen**](#Normalverteilung) werden?
-{{< /spoiler >}}
+
+
+</details>
 
 ***
 
@@ -61,7 +63,7 @@ Der Datensatz wird in diesem Tutorial nicht genutzt, weshalb wir ihn nicht einla
 
 In der psychologischen Forschung werden nur Stichproben gezogen. Für die Übertragung der Ergebnisse auf die Grundgesamtheit (Population), aus der die Stichprobe stammt, ist eine Betrachtung der Wahrscheinlichkeitsverteilungen essentiell. Die Grundlagen der Wahrscheinlichkeitsverteilungen haben Sie in der Vorlesung vermittelt bekommen. Hier geht es nun um die praktische Anwendung in `R`. Im weiteren Verlauf werden zuerst Zufallsexperimente und empirische Häufigkeitsverteilungen betrachtet. Anschließend werden verschiedene Verteilungen dargestellt.
 
-```{r echo=F,warning=F, fig.align='center',cache=FALSE}
+```{r echo=F,warning=F, fig.align='center',cache=FALSE, purl = F}
 library("RXKCD")
 invisible(getXKCD(483))
 ```
@@ -199,7 +201,7 @@ Die Funktion `plot()` gibt uns die Möglichkeit, eigene `x` und `y` Werte zu def
 
 Im folgenden Plot ist nochmal abgebildet, was wir mit der Funktion `dbinom()` für den Wert 20 erreicht haben: Wir konnten die "Höhe" seines Balkens bestimmen - also die Wahrscheinlichkeit für genau 20 Erfolge. 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten des Ereignis Grün", ylab = "Wahrscheinlichkeit bei 100 Drehungen", col = c(rep("black",20),"red", rep("black",79)))
 ```
 
@@ -207,7 +209,7 @@ Anmerkung: Grafiken mit gefärbten Bestandteilen werden hier zu didaktischen Zwe
 
 Neben der genauen Erfolgszahl gibt es auch häufig Fragestellungen, die sich mit Bereichen befassen: Wie wahrscheinlich ist es, dass höchstens 20 Mal grün gedreht wird bei 100 Versuchen? In unserem Plot der Wahrscheinlichkeitsverteilung würde der erfragte Wert die Summe der Werte vieler Balken sein. 
 
-```{r, echo = F, fig.height = 4}
+```{r, echo = F, fig.height = 4, purl = F}
 plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten des Ereignis Grün", ylab = "Wahrscheinlichkeit bei 100 Drehungen", col = c(rep("red",21), rep("black",79)))
 ```
 
@@ -243,7 +245,7 @@ plot(x = x, y = probs, type = "h",
 
 Im Endeffekt haben wir mit `pbinom()` also wieder einen Wert aus dieser Verteilung ablesen können. 
 
-```{r, fig.height = 4, echo = F}
+```{r, fig.height = 4, echo = F, purl = F}
 plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten für Ereignis Grün", ylab = "kumulierte Wahrscheinlichkeit", col = c(rep("black",20),"red", rep("black",79)))
 ```
 
@@ -251,7 +253,7 @@ Es ist bereits ein Muster zu erkennen: Der Buchstabe vor dem Funktionsname `"bin
 
 Gehen wir nun einmal umgekehrt an unser Experiment heran. Wir wollen hier herausfinden, welche Anzahl an Treffern in den unteren 10 Prozent der Verteilung liegen. Auch hier werden die einzelnen Wahrscheinlichkeiten wieder aufaddiert / kumuliert. Optisch gesehen suchen wir also nach dem Ort in unserer Verteilungsfunktion, wo die 10 Prozent liegen.
 
-```{r, echo = F, fig.height = 4}
+```{r, echo = F, fig.height = 4, purl = F}
 plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten des Ereignis Grün", ylab = "Wahrscheinlichkeit bei 100 Drehungen")
 abline(h= 0.1, col = "red")
 ```
@@ -303,7 +305,7 @@ Die Fläche unter dieser Funktion ergibt einen Wert von 1 - genauso wie die Addi
 * Erwartungswert = Median = Maximum bei $\mu$
 * 68.27% der Verteilung liegen zwischen $\mu$ $\pm$ $\sigma$
 
-```{r, echo = F, fig.height = 4}
+```{r, echo = F, fig.height = 4, purl = F}
 curve(expr = dnorm(x, mean = 100, sd = 15), 
       from = 70, 
       to = 130, 
@@ -340,7 +342,7 @@ curve(expr = dnorm(x, mean = 100, sd = 15),
 
 Mit `dnorm()` konnten wir also einen bestimmten y-Wert aus dieser Verteilung ablesen.
 
-```{r, echo = F, fig.height = 4}
+```{r, echo = F, fig.height = 4, purl = F}
 curve(expr = dnorm(x, mean = 100, sd = 15), 
       from = 70, 
       to = 130, 
@@ -352,7 +354,7 @@ abline(v = 114.3, col = "red")
 
 Um für einen bestimmten Wert eine hilfreiche Aussage treffen zu können, wird die Fläche unter der Kurve betrachtet - also die Verteilungsfunktion. Diese ist das Integral (Integrale fungieren zur Flächenbestimmung) der Dichtefunktion. Wie bereits erwähnt ist die Fläche unter der Kurve 1. Nun kann man betrachten, wie groß die Fläche zwischen -$\infty$ und dem Wert einer Person ist, um die Leistung einordnen zu können.
 
-```{r, echo = F, fig.height = 4}
+```{r, echo = F, fig.height = 4, purl = F}
 x <- seq(70, 130, 0.5) 
 y <- dnorm(x,100,15)
 plot(x, y, type="l", 
@@ -392,7 +394,7 @@ curve(expr = pnorm(x, mean = 100, sd = 15, lower.tail = TRUE),
 
 Hier ist schön zu sehen, dass sich die Verteilungsfunktion mit steigendem IQ-Wert der 1 annähert, da dies die Fläche unter der Dichtefunktion ist. Aus der Verteilung haben wir mit `pnorm()` den y-Wert bei 114.3 ablesen können.
 
-```{r, echo = F, fig.height = 4}
+```{r, echo = F, fig.height = 4, purl = F}
 curve(expr = pnorm(x, mean = 100, sd = 15, lower.tail = TRUE),
      from = 70,
      to = 130,
@@ -410,7 +412,7 @@ qnorm(p = 0.5, mean = 100, sd = 15, lower.tail = TRUE)
 
 Aufgrund der Symmetrie der Normalverteilung wird hier wie erwartet die Verteilung durch genau ihren Mittelwert (in diesem Fall 100) in 2 Hälften geteilt.
 
-```{r, echo = F, fig.height = 4}
+```{r, echo = F, fig.height = 4, purl = F}
 curve(expr = pnorm(x, mean = 100, sd = 15, lower.tail = TRUE),
      from = 70,
      to = 130,

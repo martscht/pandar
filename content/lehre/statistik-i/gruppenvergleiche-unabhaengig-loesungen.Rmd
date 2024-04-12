@@ -20,6 +20,17 @@ _build:
   list: never
 reading_time: false
 share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/gruppenvergleiche-unabhaengig
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/gruppenvergleiche-unabhaengig-aufgaben
+    
 output:
   html_document:
     keep_md: true
@@ -135,13 +146,14 @@ sd_K <- sigma_K * sqrt((n_K-1) / n_K)
 sd_K
 ```
 
-Mittelwert der Allgemeinen Psychologen ($M = `r round(mean(offen_A), 2)`$, $SD_ = `r round(sd_A, 2)`$ unterscheidet sich deskriptivstatistisch vom Mittelwert der Klinischen ($M = `r round(mean(offen_K), 2)`$, $SD = `r round(sd_K, 2)`$).
+Mittelwert der Allgemeinen Psychologen ($M = `r round(mean(offen_A), 2)`$, $SD = `r round(sd_A, 2)`$ unterscheidet sich deskriptivstatistisch vom Mittelwert der Klinischen ($M = `r round(mean(offen_K), 2)`$, $SD = `r round(sd_K, 2)`$).
 
 </details>
 
 * Formulieren Sie die Hypothesen basierend auf der Aufgabenstellung inhaltlich und statistisch.
 
 <details><summary>Lösung</summary>
+
 **Hypothesen**
 
 * Art des Effekts: Unterschiedshypothese  
@@ -236,7 +248,7 @@ Es wurde untersucht, ob sich Studierende, die sich für Allgemeine Psychologie i
 
 In dieser Aufgabe soll untersucht werden, ob sich Studierende mit Wohnort in Frankfut, sich selbst zu Beginn der Praktikumsstizung als wacher eingestuft haben als Studierende, die nicht in Frankfurt wohnen. Für die Untersuchung soll der Mittelwert der beiden Gruppen betrachtet werden.
 
-* Zunächst geht es an die Datenvorbereitung. Verwandeln Sie die Variable Ort in einen Faktor, bei dem eine `1` für `FFM` und eine `2` für `anderer` steht. **ACHTUNG**: Wenn Sie den Appendix des Tutorials durchgearbeitet haben, ist dieser Schritt nicht nötig
+* Zunächst geht es an die Datenvorbereitung. Verwandeln Sie die Variable Ort in einen Faktor, bei dem eine `1` für `FFM` und eine `2` für `anderer` steht. **ACHTUNG**: Wenn Sie den Appendix des Tutorials durchgearbeitet haben, ist dieser Schritt nicht nötig.
 
 <details><summary>Lösung</summary>
 
@@ -298,7 +310,7 @@ t.test(fb23$wm_pre ~ fb23$ort,           # abhängige Variable ~ unabhängige Va
        conf.level = .99)             # alpha = .05 
 ```
 
-In der inferenzstatistischen Testung zeigt sich kein signifikanter Unterschied. Wir würden also die $H0$ beibehalten, auch wenn der Mittelwert der Gruppe FFM deskriptiv ein wenig größer ist.
+In der inferenzstatistischen Testung zeigt sich kein signifikanter Unterschied. Wir würden also die $H_0$ beibehalten, auch wenn der Mittelwert der Gruppe FFM deskriptiv ein wenig größer ist.
 
 </details>
 
@@ -308,7 +320,7 @@ In der inferenzstatistischen Testung zeigt sich kein signifikanter Unterschied. 
 
 In dieser Aufgabe wollen wir die Frage beantworten, ob Studierende die auf Unipartys gehen (`uni3`), sich in Ihrer Lebenszufriedenheit von denen unterscheiden (`lz`), die dies nicht tun. Im Tutorial haben Sie bereits gelernt, dass Lebenszufriedenheit als schiefverteilt angenommen werden kann. Wählen Sie also einen Test, der diese Schiefe berücksichtigt.
 
-* Welcher Test wäre an dieser Stelle geeignet. Leiten Sie aus der Fragestellung die passenden Hypothesen für diesen Test auf.
+* Welcher Test wäre an dieser Stelle geeignet. Leiten Sie aus der Fragestellung die passenden Hypothesen für diesen Test ab.
 
 <details><summary>Lösung</summary>
 
@@ -441,6 +453,7 @@ Es wurde untersucht, ob Studierende, die auf Unipartys gehen, sich in der Lebens
 Hier finden Sie noch eine Aufgabe, die den im Appendix des Tutorials behandelten Test abfragt.
 
 <details><summary> Aufgabe zum Appendix </summary>
+
 Ist die Wahrscheinlichkeit dafür, neben dem Studium einen Job (`job`) zu haben, die gleiche für Erstsemesterstudierende der Psychologie die in einer Wohngemeinschaft wohnen wie für Studierenden die bei ihren Eltern wohnen (`wohnen`)? Führen Sie die Testung mit $\alpha = 0.05$ durch.
 
 <details><summary>Lösung</summary>

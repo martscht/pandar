@@ -36,6 +36,10 @@ output:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
 ## R als Taschenrechner
 
 1. Bestimmen Sie das Ergebnis von $3 + 7 \cdot 12$

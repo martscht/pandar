@@ -37,7 +37,7 @@ output:
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
-An dieser Stelle beschreiben wir kurz, wie die Daten für die ggplotting-Inhalte zustande gekommen sind. Den [`r fontawesome::fa('download')` fertigen Datesatz zum Download](/daten/edu_exp.rda) stellen wir auch direkt bereit, aber mit den hier dargestellten Befehlen kann dieser komplett ohne irgendwelche Schritte außerhalb R erzeugt werden. 
+An dieser Stelle beschreiben wir kurz, wie die Daten für die ggplotting-Inhalte zustande gekommen sind. Den [{{< icon name="download" pack="fas" >}} fertigen Datesatz zum Download](/daten/edu_exp.rda) stellen wir auch direkt bereit, aber mit den hier dargestellten Befehlen kann dieser komplett ohne irgendwelche Schritte außerhalb R erzeugt werden. 
 
 ## Daten von Gapminder
 
@@ -53,16 +53,16 @@ Die Datensätze, die wir benutzen werden können größtenteils über das [githu
 
 ```{r}
 # Geografische Informationen
-raw_geo <- read.csv('https://github.com/open-numbers/ddf--gapminder--systema_globalis/raw/master/ddf--entities--geo--country.csv')
+raw_geo <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/ddf--entities--geo--country.csv')
 
 # Populationsdaten
-#pop <- read.csv('https://github.com/open-numbers/ddf--gapminder--systema_globalis/raw/master/countries-etc-datapoints/ddf--datapoints--population_total--by--geo--time.csv')
+pop <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/countries-etc-datapoints/ddf--datapoints--total_population_with_projections--by--geo--time.csv')
 
 # Lebenserwartung
-# expect <- read.csv('https://github.com/open-numbers/ddf--gapminder--systema_globalis/raw/master/countries-etc-datapoints/ddf--datapoints--life_expectancy_at_birth_with_projections--by--geo--time.csv')
+expect <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/countries-etc-datapoints/ddf--datapoints--life_expectancy_at_birth_data_from_ihme--by--geo--time.csv')
 
 # Einkommen (GDP / Person)
-# income <- read.csv('https://github.com/open-numbers/ddf--gapminder--systema_globalis/raw/master/countries-etc-datapoints/ddf--datapoints--income_per_person_gdppercapita_ppp_inflation_adjusted--by--geo--time.csv')
+income <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/countries-etc-datapoints/ddf--datapoints--gdppercapita_us_inflation_adjusted--by--geo--time.csv')
 
 # Investition in Bildung (nach Bildungsstufe getrennt)
 primary <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/countries-etc-datapoints/ddf--datapoints--expenditure_per_student_primary_percent_of_gdp_per_person--by--geo--time.csv')
@@ -72,12 +72,34 @@ tertiary <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapmin
 
 Zuerst benötigen wir ein paar Informationen über die Länder, die wir später vielleicht noch gebrauchen können. Dazu benutzen wir hier mal ein paar grundlegende geografische Informationen (`raw_geo`), die Bevölkerungsgröße (`pop`), die Lebenserwartung (`expect`) und das skalierte Bruttoinlandsprodukt (GDP / Person, `income`). Als Bildungsindikatoren haben wir außerdem die Investitionen ins Bildungssystem durch die jeweiligen Nationen in Prozent der jährlichen Wirtschaftsleistung einer Person (GDP / Person). Diese werden bei der Weltbank in drei Sektoren unterteilt: primary (in Deutschland z.B. die Grundschule), secondary (in Deutschland z.B. Sekundarschulen, Gymnasien und Berufsschulen) und tertiary (in Deutschland z.B. Universitäten und Berufsakademien). 
 
-Ein letzter Datensatz stammt auch von Gapminder, ist allerdings ein berechneter Index, sodass er in [einem anderen GitHub Repository](https://github.com/open-numbers/ddf--gapminder--fasttrack) zu finden ist. Hier handelt es sich um den Education Index, der von [United Nations Development Programme](http://www.undp.org/) veröffentlicht wird. Leider ist in diesem Datensatz die Benennung des Länder-Code anders, als in den Datensätzen aus dem Rohdaten-Repository, sodass wir diesen noch schnell den einheitlichen Namen geben:
+Ein letzter Datensatz stammt vom [United Nations Development Programme](http://www.undp.org/), welches in den Human Development Reports unter anderem Indizes zum Entwicklungsstand von Ländern berichtet. Der bekannteste ist wahrscheinlich der [Human Development Index](https://hdr.undp.org/data-center/human-development-index#/indicies/HDI), welcher sich aus den drei Komponenten Lebenserwartung, Bildung und Einkommen zusammensetzt. Hier benutzen wir den Education Index, den wir zunächst noch händisch berechnen müssen. Erst einmal muss der Datensatz geladen und die Ländercodes angeglichen werden, damit wir die Datensätze später zusammenführen können:
 
 ```{r}
-# Education Index
-index <- read.csv('https://github.com/open-numbers/ddf--gapminder--fasttrack/raw/master/ddf--datapoints--owid_education_idx--by--country--time.csv')
-names(index)[1] <- 'geo'
+hdr <- read.csv('https://hdr.undp.org/sites/default/files/2023-24_HDR/HDR23-24_Composite_indices_complete_time_series.csv')
+names(hdr)[1] <- 'geo'
+hdr$geo <- tolower(hdr$geo)
+```
+
+Dieser (relativ umfangreiche) Datensatz enthält pro Land eine Zeile, in der verschiedene globale Indizes gelistet sind (z.B. ist `le_1994` die _Life Expectancy_ im Jahr 1994). Für uns sind die _Expected Years of Schooling_ (`eys`) und die _Mean Years of Schooling_ (`mys`) von Bedeutung. Diese ziehen wir im nächsten Schritten (einzeln) aus dem Gesamtdatensatz und wandeln den Datensatz dann vom breiten ins lange Format um:
+
+```{r}
+eys <- select(hdr, geo, starts_with('eys_')) |> 
+  pivot_longer(cols = -geo, names_to = 'year', values_to = 'eys',
+    names_prefix = 'eys_') |> 
+  mutate(year = as.integer(year))
+
+mys <- select(hdr, geo, starts_with('mys_')) |> 
+  pivot_longer(cols = -geo, names_to = 'year', values_to = 'mys',
+    names_prefix = 'mys_') |> 
+  mutate(year = as.integer(year))
+```
+
+Zu guter Letzt werden diese beiden Informationen zusammen geführt und der Education Index (`index`) berechnet:
+
+```{r}
+edx <- merge(eys, mys, by = c('geo', 'year')) |> 
+  mutate(index = round((mys/15 + eys/18)/2,2)) |>
+  select(-eys, -mys) |> rename(time = year)
 ```
 
 ## Verschiedene Informationen zusammenführen
@@ -112,7 +134,7 @@ Die globalen Informationen über Länder sollen jetzt noch mit den spezifischen 
 ```{r}
 edu <- full_join(primary, secondary, by = c('geo', 'time')) |>
   full_join(tertiary, by = c('geo', 'time')) |>
-  full_join(index, by = c('geo', 'time'))
+  full_join(edx, by = c('geo', 'time'))
 ```
 
 Hier benutzen wir `full_join` weil alle Datenpunkte aus beiden Datensätzen einbezogen werden sollen. Wenn die Ausgaben für Primär- und Sekundärbildung zusammengeführt sind, werden sie mit der Pipe `|>` an `full_join` weitergegeben und dort mit der Tertiärbildung zusammengeführt. Zu guter Letzt verbinden wir die geografischen und die bildungsbezogenen Informationen noch:
@@ -138,7 +160,7 @@ names(edu_exp)
 Weil wir die Variablen immer und immer wieder im Code ansprechen müssen, machen sich besonders prägnante, kurze Variablennamen gut. Die aktuellen Namen sind leider keins von beidem, daher müssen neue her:
 
 ```{r}
-names(edu_exp)[-c(1:4)] <- c('Year', 'Population', 'Expectancy', 'Income', 'Primary', 'Secondary', 'Tertiary')
+names(edu_exp)[-c(1:4)] <- c('Year', 'Population', 'Expectancy', 'Income', 'Primary', 'Secondary', 'Tertiary', 'Index')
 ```
 
 ## Überblick über die finalen Daten

@@ -29,14 +29,19 @@ links:
     url: /lehre/fue-ii/msa.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/fue-ii/msa-aufgaben
+    name: Übungsdaten
+    url: /daten/StressAtWork.rda
 output:
   html_document:
     keep_md: true
 ---
 
-```{r setup, echo=F}
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
+
+```{r prep, echo=F, purl=FALSE}
 abbrev <- function(X, begin = 'Latent Variables', end = NULL, ellipses = 'both', shift = 2, group = 1, ...) {
   
   tmp <- capture.output(lavaan::summary(X,...))
@@ -76,8 +81,7 @@ load("C:/Users/Musterfrau/Desktop/StressAtWork.rda")
 oder wir laden sie direkt über die Website:
 
 ```{r, eval = T}
-#load(url("https://pandar.netlify.app/post/StressAtWork.rda"))
-load(url("https://courageous-donut-84b9e9.netlify.app/post/StressAtWork.rda"))
+load(url("https://pandar.netlify.app/daten/StressAtWork.rda"))
 ```
 
 Als Paket brauchen wir erneut `lavaan` und `semPlot`:
@@ -118,14 +122,14 @@ summary(fit_sem_MSA)
 
 Wir sehen, dass im Output nun für jede Gruppe das Modell einzeln geschätzt wurde. Alle Parameter werden sowohl für Frauen, als auch für Männer geschätzt. Wir entnehmen,
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_sem_MSA, begin = "Number of observations per group", end = "Model Test User Model")
 ```
 
 ... dass insgesamt `r sum(StressAtWork$sex == 1)` der Probanden Frauen und `r sum(StressAtWork$sex == 2)` Männer waren. Auch erhalten wir einen globalen sowie einen substichprobenspezifischen Modellfitwert:
 
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_sem_MSA, begin = "Model Test User Model", end = "Parameter Estimates")
 ```
 
@@ -133,7 +137,7 @@ Der $\chi^2$-Wert für das gesamte Modell liegt bei `r round(fitmeasures(fit_sem
 $$\chi^2=\chi^2_{1}+\chi^2_{2}.$$
 Wenn wir uns jetzt die Ergebnisse des Modells etwas genauer ansehen, erhalten wir für jede Gruppe eine detaillierte Ausgabe: 
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_sem_MSA, begin = "Group 1", end = "Variances")
 
 abbrev(X = fit_sem_MSA, begin = "Group 2", end = "Variances")
@@ -168,18 +172,18 @@ summary(fit_sem_IE_TE_MSA)
 
 Nun sind alle Pfadkoeffizienten benannt. In Gruppe 1 (Frauen):
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_sem_IE_TE_MSA, begin = "Regressions", end = "Intercepts")
 ```
 
 Und in Gruppe 2 (Männer):
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_sem_IE_TE_MSA, begin = "Regressions", end = "Intercepts", group = 2)
 ```
 
 Bis auf die hinzukommenden indirekten und totalen Effekte:
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_sem_IE_TE_MSA, begin = "Defined Parameters", end = NULL, shift = 1)
 ```
 
@@ -237,7 +241,7 @@ summary(fit_sem_sex_konfigural, fit.measures = T)
 ```
 
 Dem Modell-Fit Teil der Summary entnehmen wir, dass das Modell gut zu den Daten passt:
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_sem_sex_konfigural, begin = "Model Test User Model", end = "Parameter Estimates", fit.measures = T)
 ```
 Der $\chi^2$-Wert ist nicht signifikant und auch die Fit-Indizes CFI, TLI, RMSEA und SRMR sind unauffällig und deuten auf guten Modell-Fit hin. Dies bedeutet, dass wir frohen Mutes das Modell einschränken können, um zu prüfen, welche Invarianz über das Geschlecht hinweg gilt.
@@ -256,13 +260,13 @@ summary(fit_sem_sex_metrisch, fit.measures = T)
 ```
 
 Wir entnehmen,
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_sem_sex_metrisch, begin = "Model Test User Model", end = "Parameter Estimates", fit.measures = T)
 ```
 ... dass das Modell immer noch gut zu den Daten passt. Die Frage ist nur, ob das metrisch-invariante Modell nicht doch vielleicht signifikant schlechter zu den Daten passt als das konfigural-invariante Modell. Bevor wir dieser Frage nachgehen, schauen wir uns noch schnell an, wie Parameter hier per Default benannt werden:
 
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_sem_sex_metrisch, begin = "Group 1", end = "Intercepts")
 
 abbrev(X = fit_sem_sex_metrisch, begin = "Group 2", end = "Intercepts")
@@ -270,11 +274,11 @@ abbrev(X = fit_sem_sex_metrisch, begin = "Group 2", end = "Intercepts")
 
 Wir erkennen, dass "einfach" nur die Parameter durchnummeriert werden, wobei Parameter, die auf 1 restringiert sind, mitgezählt werden, aber nicht ihr eigenes Label erhalten. So heißt $\lambda_{21}^x$, der Ladungskoeffizient von `zd2`, hier `.p2.`, wobei das `p` für Parameter steht und die Punkte andeuten, dass es sich hierbei um ein intern vergebenes (also ein durch die Funktion selbst vergebenes) Label handelt. Wollen wir nun wissen, ob sich die Modelle statistisch signifikant voneinander unterscheiden, können wir wieder den Likelihood-Ratio-Test ($\chi^2$-Differenzentest) heranziehen.
 
-```{r, eval = F}
+```{r, results='hide'}
 lavTestLRT(fit_sem_sex_metrisch, fit_sem_sex_konfigural)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 res_metrisch <- lavTestLRT(fit_sem_sex_metrisch, fit_sem_sex_konfigural)
 print(res_metrisch)
 ```
@@ -293,7 +297,7 @@ fit_sem_sex_skalar <- sem(model_sem, data = StressAtWork,
 summary(fit_sem_sex_skalar, fit.measures = T)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_sem_sex_skalar, begin = "Group 1", end = "Variances")
 
 abbrev(X = fit_sem_sex_skalar, begin = "Group 2", end = "Variances")
@@ -305,11 +309,11 @@ Hier greift nun tatsächlich die Einstellung `"BFs~1"` in `group.partial`. `BFs`
 
 Nun wollen wir untersuchen, ob das metrisch- und das skalar-invariante Modell sich signifikant in der Modellbeschreibung unterscheiden.
 
-```{r, eval = F}
+```{r, results='hide'}
 lavTestLRT(fit_sem_sex_skalar, fit_sem_sex_metrisch)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 res_skalar <- lavTestLRT(fit_sem_sex_skalar, fit_sem_sex_metrisch)
 print(res_skalar)
 ```
@@ -327,11 +331,11 @@ fit_sem_sex_strikt <- sem(model_sem, data = StressAtWork,
                           group.partial = c("BFs~1", "BFs~~BFs"))
 ```
 Hier greift nun tatsächlich die Einstellung `"BFs~~BFs"` in `group.partial`. Wir vergleichen das skalar- und das strikt-invariante Modell hinsichtlich der Modellbeschreibung.
-```{r, eval = F}
+```{r, results='hide'}
 lavTestLRT(fit_sem_sex_strikt, fit_sem_sex_skalar)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 res_strikt <- lavTestLRT(fit_sem_sex_strikt, fit_sem_sex_skalar)
 print(res_strikt)
 ```
@@ -354,11 +358,11 @@ fit_sem_sex_voll <- sem(model_sem, data = StressAtWork,
 ```
 
 Wenn wir nun den Modellvergleich zwischen dem strikt invarianten und dem vollständig invarianten Modell durchführen,
-```{r, eval = F}
+```{r, results='hide'}
 lavTestLRT(fit_sem_sex_voll, fit_sem_sex_strikt)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 res_voll <- lavTestLRT(fit_sem_sex_voll, fit_sem_sex_strikt)
 print(res_voll)
 ```
@@ -367,17 +371,17 @@ print(res_voll)
 
 Natürlich ist es nun interessant, wo diese Unterschiede liegen. Deshalb schauen wir uns dies an, indem wir uns den Output der Summary des strikt-invarianten Modells ansehen, da sich hier Pfadkoeffizienten, sowie die Mittelwerte und Varianzen der latenten Variablen (bzw. von `BFs`, was wir als latente Variable mitführen) noch unterscheiden:
 
-```{r, eval = F}
+```{r, results='hide'}
 summary(fit_sem_sex_strikt)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_sem_sex_strikt, begin = "Group 1", end = "Variances")
 
 abbrev(X = fit_sem_sex_strikt, begin = "Group 2", end = "Variances")
 ```
 
-Dem jeweiligen Unterpunkt `Regressions` in beiden Gruppen entnehmen wir, dass die Pfadkoeffizienten  recht ähnlich groß zu sein scheinen. Die Standardfehler der Koeffizienten in beiden Gruppen überlappen sich stark, wenn wir jeweils `Estimate` $\pm$ `Std.Err` für einen Koeffizienten rechnen (zur Erinnerung: ein 95% Konfidenzintervall würden wir mit $Est \pm 1.96SE$ erhalten, was noch viel größer wäre und sich diese also "noch stärker" überlappen würde). Schauen wir uns jeweils die Interzepte in den Unterpunkten `Intercepts` in den beiden Gruppen an, erkennen wir an der Effektkodierung für `ZD` und `BOEE`, dass die latenten Interzepte ($\kappa$) in der einen Gruppe auf 0 gesetzt und in der anderen Gruppe frei geschätzt wurden. Das Interzept in Gruppe 2 (den Männern) von Zeitdruck ist signifikant von 0 verschieden, das von emotionaler Erschöpfung nicht. Dies bedeutet, dass sich Männer und Frauen in ihrem latenten Mittelwert von Zeitdruck unterscheiden. Da der Mittelwert von Zeitdruck in der Gruppe der Frauen auf 0 gesetzt war und der Mittelwert von Zeitdruck der Männer signifikant von 0 abweicht (`Est` = `r round(parameterEstimates(fit_sem_sex_strikt)[59,7], 3)`, $p < .05$), verrät uns das negative Vorzeichen, dass Männer im Durchschnitt weniger Zeitdruck erleben. Auch wenn wir Konfidenzintervalle um die Interzeptschätzung von `BFs` legen, erhalten wir einen signifikanten Unterschied: die untere Grenze des Konfidenzintervalls in *Gruppe 1* liegt bei $2.486-1.96*0.05 \approx 2.38$ und und die obere Grenze in *Gruppe 2* liegt bei $2.206+1.96*0.069 \approx 2.35$; hier haben wir konservativer "gerundet", um den $\beta$-Fehler zu minimieren; --- die Konfidenzintervalle überlappen sich nicht! Diese signifikanten Unterschiede könnten der Grund gewesen sein, warum die vollständige Invarianz verworfen wurde. Um dies genauer zu prüfen, müssten wir sukzessive alle Parameter über die Gruppen gleichsetzen und schauen, für welchen Parameter diese Gleichsetzung zu einer signifikanten Verschlechterung des Modells führt.
+Dem jeweiligen Unterpunkt `Regressions` in beiden Gruppen entnehmen wir, dass die Pfadkoeffizienten  recht ähnlich groß zu sein scheinen. Die Standardfehler der Koeffizienten in beiden Gruppen überlappen sich stark, wenn wir jeweils `Estimate` $\pm$ `Std.Err` für einen Koeffizienten rechnen (zur Erinnerung: ein 95% Konfidenzintervall würden wir mit $Est \pm 1.96SE$ erhalten, was noch viel größer wäre und sich diese also "noch stärker" überlappen würde). Schauen wir uns jeweils die Interzepte in den Unterpunkten `Intercepts` in den beiden Gruppen an, erkennen wir an der Effektkodierung für `ZD` und `BOEE`, dass die latenten Interzepte ($\kappa$) in der einen Gruppe auf 0 gesetzt und in der anderen Gruppe frei geschätzt wurden. Das Interzept in Gruppe 2 (den Männern) von Zeitdruck ist signifikant von 0 verschieden, das von emotionaler Erschöpfung nicht. Dies bedeutet, dass sich Männer und Frauen in ihrem latenten Mittelwert von Zeitdruck unterscheiden. Da der Mittelwert von Zeitdruck in der Gruppe der Frauen auf 0 gesetzt war und der Mittelwert von Zeitdruck der Männer signifikant von 0 abweicht (`Est` = `r round(parameterEstimates(fit_sem_sex_strikt)[59,7], 3)`, $p < .05$), verrät uns das negative Vorzeichen, dass Männer im Durchschnitt weniger Zeitdruck erleben. Auch wenn wir Konfidenzintervalle um die Interzeptschätzung von `BFs` legen, erhalten wir einen signifikanten Unterschied: die untere Grenze des Konfidenzintervalls in *Gruppe 1* liegt bei {{< math >}}$2.486-1.96*0.05 \approx 2.38${{</ math >}} und und die obere Grenze in *Gruppe 2* liegt bei {{< math >}}$2.206+1.96*0.069 \approx 2.35${{</ math >}}; hier haben wir konservativer "gerundet", um den $\beta$-Fehler zu minimieren; --- die Konfidenzintervalle überlappen sich nicht! Diese signifikanten Unterschiede könnten der Grund gewesen sein, warum die vollständige Invarianz verworfen wurde. Um dies genauer zu prüfen, müssten wir sukzessive alle Parameter über die Gruppen gleichsetzen und schauen, für welchen Parameter diese Gleichsetzung zu einer signifikanten Verschlechterung des Modells führt.
 
 Zusammenfassend können wir also nur von strikter Invarianz des Modells über das Geschlecht ausgehen. Wie sieht nun unser finales Modell aus?
 
@@ -421,10 +425,10 @@ Als Ergebnis erhalten wir zwei gruppenspezifische Regressionen, die so notiert w
 
 Auf die Daten angepasst erhalten wir folgende Parameterschätzungen:
 
-```{r, eval = FALSE}
+```{r, results='hide'}
 summary(fit_pfad_msa)
 ```
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 abbrev(fit_pfad_msa, 'Regressions:', 'Variances:', group = 1)
 abbrev(fit_pfad_msa, 'Regressions:', 'Variances:', group = 2)
 ```
@@ -447,7 +451,7 @@ fit_pfad_msa <- sem(model_pfad_msa, StressAtWork,
   group = 'sex')
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 abbrev(fit_pfad_msa, 'Defined Parameters:', shift = 1)
 ```
 Wir behalten diese Ergebnisse mal im Hinterkopf und gucken uns die moderierte Regression als Möglichkeit an, die gleiche Frage zu bearbeiten.
@@ -478,7 +482,7 @@ fit_pfad_moderiert <- sem(model_pfad_moderiert, StressAtWork, meanstructure = T)
 
 Hier haben wir `meanstructure = T` gewählt, um auch das Interzept von `BFs` angezeigt zu bekommen. Als Ergebnis dieser moderierten Regression ergibt sich dann:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 abbrev(fit_pfad_moderiert, 'Regressions:', 'Variances:')
 ```
 
@@ -502,7 +506,7 @@ und für die Gruppe der Männer ($sex = 1$):
 
 Zusammengefasst ergibt sich also:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl=FALSE}
 tmp <- parameterestimates(fit_pfad_msa)
 tmp2 <- parameterestimates(fit_pfad_moderiert)
 ```
@@ -525,7 +529,7 @@ summary(reg)
 
 Grafisch sehen wir, dass sich die Regressionsgerade über die Gruppen hinweg nur geringfügig unterscheiden (signifikant war der Unterschied nicht!). Allerdings ist dies eine gängige Form eine solche Interaktion darzustellen:
 
-```{r, echo = F, fig.height=4,error=F,message=F,warning=F}
+```{r, echo = F, fig.height=4,error=F,message=F,warning=F, purl=FALSE}
 library(ggplot2)
 coefs <- coef(reg)
 b0 <- cumsum(coefs[1:2])
@@ -579,7 +583,7 @@ fitmeasures(fit_sem_sex_konfigural, c("chisq", 'df', "pvalue"))
 fitmeasures(fit_sem_sex_konfigural2, c("chisq", 'df', "pvalue"))
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat("group.equal:")
 print(round(fitmeasures(fit_sem_sex_konfigural, c("chisq", 'df', "pvalue")), 3))
 cat("zu Fuß/händisch:")
@@ -616,7 +620,7 @@ fitmeasures(fit_sem_sex_metrisch, c("chisq", 'df', "pvalue"))
 fitmeasures(fit_sem_sex_metrisch2, c("chisq", 'df', "pvalue"))
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat("group.equal:")
 print(round(fitmeasures(fit_sem_sex_metrisch, c("chisq", 'df', "pvalue")), 3))
 cat("zu Fuß/händisch:")
@@ -666,7 +670,7 @@ fitmeasures(fit_sem_sex_skalar, c("chisq", 'df', "pvalue"))
 fitmeasures(fit_sem_sex_skalar2, c("chisq", 'df', "pvalue"))
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat("group.equal:")
 print(round(fitmeasures(fit_sem_sex_skalar, c("chisq", 'df', "pvalue")), 3))
 cat("zu Fuß/händisch:")
@@ -724,7 +728,7 @@ fitmeasures(fit_sem_sex_strikt, c("chisq", 'df', "pvalue"))
 fitmeasures(fit_sem_sex_strikt2, c("chisq", 'df', "pvalue"))
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat("group.equal:")
 print(round(fitmeasures(fit_sem_sex_strikt, c("chisq", 'df', "pvalue")), 3))
 cat("zu Fuß/händisch:")
@@ -792,7 +796,7 @@ fitmeasures(fit_sem_sex_voll, c("chisq", 'df', "pvalue"))
 fitmeasures(fit_sem_sex_voll2, c("chisq", 'df', "pvalue"))
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat("group.equal:")
 print(round(fitmeasures(fit_sem_sex_voll, c("chisq", 'df', "pvalue")), 3))
 cat("zu Fuß/händisch:")

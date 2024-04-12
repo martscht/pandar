@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [nehler, schloter, rouchi]  
 weight: 4
-lastmod: '2023-12-18'
+lastmod: '2024-03-30'
 featured: no
 banner:
   image: "/header/diver.png" 
@@ -238,7 +238,7 @@ Wie ihr sicherlich gesehen habt, sind <span style="color: darkred;">**Git**</spa
 
 ## Appendix A 
 
-<details><summary> **Discard - Terminal** </summary>
+<details><summary> <b>Discard - Terminal</b> </summary>
 
 Ihr wechselt im Terminal auf euer <span style="color: darkred;">**Git**</span>-Repository. 
 Mit `git status` könnt ihr euch die Änderungen in eurem Repository anschauen. Wir gehen hier wieder davon aus, dass wir in der Datenauswertung einfach eine Zeile hinzugefügt haben.
@@ -267,7 +267,7 @@ und dann
 
 ***
 
-<details><summary> **Revert - Terminal** </summary>
+<details><summary> <b>Revert - Terminal</b> </summary>
 
 Hierzu öffnen wir über das Terminal unser <span style="color: darkred;">**Git**</span>-Repository und führen den Befehl `git revert HEAD` mit "Strg" + Entertaste aus. Danach gibt euch <span style="color: darkred;">**Git**</span> folgendes aus: 
 
@@ -283,7 +283,7 @@ Deswegen heißt der neuste `Commit` auch: Revert "Add ungewollte Änderung".
 
 ***
 
-<details><summary> **Reset - Terminal** </summary>
+<details><summary> <b>Reset - Terminal</b> </summary>
 
 Wenn ihr den Befehl `$git reset --hard [Commit]` in eurem <span style="color: darkred;">**Git**</span>-Repository ausführt, wird der Verlauf auf diesen ausgewählten `Commit` zurückgesetzt. Im Gegensatz zu oben bei `git discard` stehen hier vor dem `hard` zwei "- -". Das liegt daran, dass die "-" - Option nur den Index im Working Directory ersetzt und die "- -"- Option direkt zum ausgewählten `Commit` springt.  Die ungewollten `Commits` kann man im Log nicht mehr sehen (wie es oben der Fall ist). Das Log könnt ihr euch mit `git log` anzeigen lassen, mit "q" (quit) könnt ihr es wieder verlassen. es sieht so aus: 
 

@@ -3,13 +3,13 @@ title: "Matrixalgebra - Lösungen"
 type: post
 date: '2024-01-15' 
 slug: matrixalgebra-loesungen
-categories: [] 
-tags: ["Statistik I Übungen"] 
+categories: ["Statistik I Übungen"] 
+tags: [] 
 subtitle: ''
 summary: '' 
 authors: [zacharias]
 weight:
-lastmod: '2024-01-22'
+lastmod: '2024-04-02'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -21,11 +21,23 @@ _build:
   list: never
 reading_time: false
 share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/matrixalgebra
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/matrixalgebra-aufgaben
 output:
   html_document:
     keep_md: true
 
 ---
+
+
 
 ## Aufgabe 1
 ### Vektoren

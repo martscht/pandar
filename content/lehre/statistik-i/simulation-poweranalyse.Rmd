@@ -341,7 +341,7 @@ Genauso könnten wir uns fragen, wie groß ein Effekt sein muss, damit mit der v
 
 Wenn man dies auf die Spitze treibt, dann landet man vielleicht bei diesem schönen Plot:
 
-```{r, fig = TRUE, echo = F,fig.align="center", fig.height=10, fig.width=10, warning=FALSE, message=FALSE}
+```{r, fig = TRUE, echo = F, purl = F, fig.align="center", fig.height=10, fig.width=10, warning=FALSE, message=FALSE}
 library(pwr)
 Erg <- c()
 for(n in c(2, seq(5, 500, 5)))
@@ -369,7 +369,7 @@ ggplot(data = Erg, aes(x = d, y = Power, col = n, group = n))+
 Auf der x-Achse ist die Mittelwertsdifferenz dargestellt, $N$ ist farblich kodiert. Dieser Plot enthält also sowohl Informationen über die Asymptotik (Verhalten mit steigender Stichprobengröße) und über die Auswirkung der Effektstärke. Die gestrichelte Linien symbolisiert die gewünschten $80\\%$, die gepunktete Linie zeigt das $\alpha$-Fehlerniveau von $5\\%$. Hier wurden allerdings keine Simulationen durchgeführt (sonst wären die Linien nicht so "smooth"), denn für den $t$-Test lässt sich die Power auch noch leicht über Formeln bestimmen. Wie das funktioniert schauen wir uns im nächsten Abschnitt an. Zuvor tauschen wir nochmal in den Power-Plot die Achsen und schreiben $n$ auf die x-Achse und kodieren die Effektgröße farbig. So sieht das Ganze unserem anderen Plot etwas ähnlicher!
 
 
-```{r, fig = TRUE, echo = F,fig.align="center", fig.height=10, fig.width=10, warning=FALSE, message=FALSE}
+```{r, fig = TRUE, echo = F, purl = F, fig.align="center", fig.height=10, fig.width=10, warning=FALSE, message=FALSE}
 library(papaja)
 library(ggplot2)
 ggplot(data = Erg, aes(x = n, y = Power, col = d, group = d))+
@@ -443,16 +443,25 @@ wp.t(d = .5, power = .8, type = "two.sample", alternative = "greater")
 
 Wenn wir aber annehmen, dass der Effekt umgedreht ist, bei $d$ aber den Betrag nutzen passiert Folgendes:
 
-```{r, error = TRUE}
+```{r, eval = F}
 wp.t(d = .5, power = .8, type = "two.sample", alternative = "less")
 ```
+```{r, error = TRUE, purl = F, echo = F}
+wp.t(d = .5, power = .8, type = "two.sample", alternative = "less")
+```
+
+
 Die Funktion ist nicht in der Lage, das nötige $n$ zu bestimmen, weil die Alternativ-Hypothese, dass der Mittelwert in der ersten Gruppe kleiner ist (`alternative = "less"`) nicht zuverlässig aufgedeckt werden kann, wenn $d$ in der Population positiv ist.
 
 Dazu hier ein Warnhinweis, bezüglich eines Bugs in WebPower: wenn Sie Sensitivitätsanalyse betreiben, funktioniert das derzeit nur für "größer als" Aussagen. Für die Gegenrichtung erhalten Sie immer eine Fehlermeldung:
 
-```{r, error = TRUE}
+```{r, eval = FALSE}
 wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "less")
 ```
+```{r, error = TRUE, purl = F, echo = F}
+wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "less")
+```
+
 ```{r}
 wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "greater")
 ```

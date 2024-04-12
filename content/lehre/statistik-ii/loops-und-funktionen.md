@@ -8,8 +8,8 @@ tags: ["Regression", "Funktionen", "Loops"]
 subtitle: ''
 summary: ''
 authors: [irmer, schueller, wallot]
-weight: 11
-lastmod: '2024-03-08'
+weight: 10
+lastmod: '2024-04-12'
 featured: no
 banner:
   image: "/header/sprinkled_lollipops.jpg"
@@ -324,7 +324,7 @@ x
 ```
 
 ```
-## [1] 6
+## [1] 3
 ```
 
 ```r
@@ -332,7 +332,7 @@ y
 ```
 
 ```
-## [1] 1
+## [1] 0
 ```
 
 Wenn Sie diesen Code mehrfach ausführen, bekommen Sie immer wieder unterschiedliche Paare an `x` und `y`. Auch der erste Versuch muss nicht mit den hier auf `PandaR` zu findenden Ergebnissen übereinstimmen, da wir keinen Seed verwenden. Probieren Sie dies gerne aus!
@@ -749,12 +749,12 @@ replicate(n = 10, expr = mySim2(N = 20))
 ```
 
 ```
-##          [,1]        [,2]      [,3]       [,4]      [,5]      [,6]      [,7]       [,8]
-## p   0.2635244  0.03081077 0.2128503  0.2742967 0.5320166 0.7923286 0.9397631  0.4386299
-## t.t 1.1349024 -2.24295556 1.2670437 -1.1092419 0.6306927 0.2651479 0.0760693 -0.7827414
-##            [,9]     [,10]
-## p    0.96766599 0.6886556
-## t.t -0.04080374 0.4037557
+##          [,1]        [,2]      [,3]       [,4]      [,5]      [,6]      [,7]
+## p   0.2635244  0.03081077 0.2128503  0.2742967 0.5320166 0.7923286 0.9397631
+## t.t 1.1349024 -2.24295556 1.2670437 -1.1092419 0.6306927 0.2651479 0.0760693
+##           [,8]        [,9]     [,10]
+## p    0.4386299  0.96766599 0.6886556
+## t.t -0.7827414 -0.04080374 0.4037557
 ```
 
 Wir sehen, dass die `p`-Werte und die `t`-Werte nun gleichzeitig ausgegeben werden und zwar in zwei Zeilen untereinander, da wir den Output als Vektor gewählt haben! In diesem Semester hatten wir uns bisher mit der Regressionsanalyse beschäftigt. Aus diesem Grund wollen wir an dieser Stelle noch kurz anschneiden, wie eine Simulationsstudie für eine Regression durchgeführt werden könnte. Zunächst brauchen wir dazu Prädiktoren. Mit Hilfe der `rmvnorm` Funktion aus dem `mvtnorm`-Paket lassen sich leicht multivariat-normalverteilte Zufallsvariablen simulieren, deren Mittelwerte und Kovarianz bekannt ist:
@@ -912,8 +912,8 @@ toss
 ```
 
 ```
-##  [1] "Zahl" "Kopf" "Kopf" "Zahl" "Zahl" "Zahl" "Kopf" "Kopf" "Zahl" "Kopf" "Kopf" "Kopf"
-## [13] "Zahl" "Kopf" "Kopf" "Kopf"
+##  [1] "Zahl" "Kopf" "Kopf" "Zahl" "Zahl" "Zahl" "Kopf" "Kopf" "Zahl" "Kopf" "Kopf"
+## [12] "Kopf" "Zahl" "Kopf" "Kopf" "Kopf"
 ```
 
 ### `repeat`-Loops 
@@ -941,7 +941,8 @@ fibo
 ```
 
 ```
-##  [1]    1    1    2    3    5    8   13   21   34   55   89  144  233  377  610  987 1597
+##  [1]    1    1    2    3    5    8   13   21   34   55   89  144  233  377  610  987
+## [17] 1597
 ```
 
 Loops können mit `break` unterbrochen werden - das gilt nicht nur für `repeat`, sondern auch für die anderen beiden Formen von Loops. Hier wurde eine `if`-Bedingung in den Loop geschachtelt. In jedem einzelnen Durchlauf des Loops wird geprüft, ob die Bedingung erfüllt ist, und die Durchführung wird beendet (`break`), sobald dies der Fall ist. 
@@ -1021,7 +1022,7 @@ Sys.time() - t1 # bestimmte die Laufzeit durch aktuelle Zeit minus Startzeit
 ```
 
 ```
-## Time difference of 0.02241206 secs
+## Time difference of 0.02942395 secs
 ```
 
 ```r
@@ -1031,7 +1032,7 @@ Sys.time() - t2 # bestimmte die Laufzeit durch aktuelle Zeit minus Startzeit
 ```
 
 ```
-## Time difference of 0.002121925 secs
+## Time difference of 0.001965284 secs
 ```
 
 Loops sind in diesem Beispiel fast um den Faktor 10 langsamer (zumindest, wenn Sie den Code für `10^6` Beobachtungen durchführen, die Maske, die für diese Website genutzt wird, ist deutlich langsamer, weswegen hier auf `10^3` ausgewichen wurde...). Es gibt jedoch viele Anwendungsgebiete, wo Loops das Mittel der Wahl sind!

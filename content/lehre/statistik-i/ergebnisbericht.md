@@ -10,7 +10,7 @@ subtitle: ''
 summary: 'In diesem Bericht erhalten Sie Informationen zu dem Ergebnisbericht, den Sie im Rahmen des Statistik-Praktikums erstellen. Neben allgemeinen Hinweisen zu der Berichtgestaltung wird Ihnen der Aufbau eines Ergebnisbericht vorgestellt. Auf jeden Abschnitt, den Ihr Ergebnisbericht haben soll, wird dann noch einmal genauer eingegangen. Unter anderem wird die sogenannte CRediT Taxonomy erläutert, mit der Sie die konkreten Beiträge der einzelnen Gruppenmitglieder deutlich machen sollen. Zuletzt werden Ihnen einige Hinweise dazu gegeben, wie Sie Tabellen und Abbildungen APA-konform gestalten.'
 authors: [schueller, beitner, schreiner, nehler]
 weight: 12
-lastmod: '2023-11-15'
+lastmod: '2024-04-02'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"
@@ -28,6 +28,10 @@ links:
     url: /lehre/statistik-i/ergebnisbericht
   - icon_pack: fas
     icon: pen-to-square
+    name: Gruppenprojekt
+    url: /lehre/statistik-i/gruppenprojekt
+  - icon_pack: fas
+    icon: pen-to-square
     name: LIFOS
     url: /lehre/statistik-i/quickguide-lifos
 
@@ -36,6 +40,7 @@ output:
   html_document:
     keep_md: true
 ---
+
 
 
 # Allgemeine Hinweise

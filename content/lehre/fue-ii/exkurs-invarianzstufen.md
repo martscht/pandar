@@ -9,7 +9,7 @@ subtitle: 'Ein Exkurs'
 summary: '' 
 authors: [irmer, schultze] 
 weight: 7
-lastmod: '2024-03-03'
+lastmod: '2024-03-16'
 featured: no
 banner:
   image: "/header/milwaukee_art_museum.jpg"
@@ -27,6 +27,7 @@ output:
   html_document:
     keep_md: true
 ---
+
 
 
 
@@ -114,7 +115,7 @@ Wir schätzen das strikt-invariante Modell durch `group.equal = c("loadings", "i
 
 Gehen wir von **vollständiger Invarianz** aus, so sind alle Parameter über die Gruppen hinweg gleich. Es gibt also keinerlei Unterschiede mehr zwischen den Gruppen. Die $\phi$s und auch die $\kappa$s müssen wieder auf den gleichen Wert über die Gruppen hinweg gesetzt werden. Die Variablen selbst ($X$, $\xi$ und $\delta$) bleiben farbig, da wir nur Parameter über die Gruppen hinweg gleichsetzen. Die Grafik der vollständigen Invarianz sieht folgendermaßen aus:
 
-<center> <img src="/lehre/fue-ii/https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/SEM/images/5_Invarianz_Grafiken.png" width="100%"/> </center>
+<center> <img src = "https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/SEM/images/5_Invarianz_Grafiken.png" width="100%"/> </center>
 
 Das vollständig-invariante Modell erhalten wir mit `group.equal = c("loadings", "intercepts", "residuals",` ` "means", "lv.variances", "lv.covariances", "regressions")`. Hierbei restringiert `"means"` die latenten Mittelwerte ($\kappa$), `"lv.variances"` die latenten (Residual-)Varianzen ($\phi$s und $\psi$s exogen und endogen) und `"regressions"` die Strukturpfadkoeffizienten ($\gamma$s und $\beta$s). Hätten wir Residualkovarianzen bei den manifesten oder latenten Variablen gehabt, so müssten wir diese auch mit `"residual.covariances"` sowie mit `"lv.covariances"` restringieren.
 

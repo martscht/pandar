@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [buchholz, nehler, sinn] 
-lastmod: '2023-12-22'
+lastmod: '2024-03-18'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -20,27 +20,41 @@ _build:
   list: never
 reading_time: false
 share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/deskriptiv-nominal-ordinal
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/deskriptiv-nominal-ordinal-aufgaben
+
 output:
   html_document:
     keep_md: true
 ---
 
-Die Lösungen sind exemplarische Möglichkeiten. In `R` gibt es immer viele Wege ans Ziel. Wenn Sie einen anderen mit dem korrekten Ergebnis gewählt haben, kann dieser genauso richtig sein wie die hier präsentierten Ansätze.
+
+
+Die Lösungen sind exemplarische Möglichkeiten. In `R` gibt es immer viele Wege, die zum Ziel führen. Wenn Sie einen anderen mit dem korrekten Ergebnis gewählt haben, kann dieser genauso richtig sein wie die hier präsentierten Ansätze.
 
 ### Vorbereitung
 
+> Laden Sie die Daten aus [<i class="fas fa-download"></i> `fb23.rda`](/daten/fb23.rda) oder direkt von der Website über die gelernten Befehle. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+
 <details><summary>Lösung</summary>
 
-Laden Sie zunächst den Datensatz `fb23` von der pandar-Website herunter und dann ein.
+Daten laden:
 
 
 ```r
-load(url('https://pandar.netlify.app/daten/fb23.rda'))   # Daten laden
+load(url('https://pandar.netlify.app/daten/fb23.rda'))  
 ```
 
-Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
-Verschaffen Sie sich nun einen Überblick über den Datensatz:
+Überblick über den Datensatz verschaffen:
 
 
 ```r
@@ -194,7 +208,7 @@ Die Variable `therap` enthält die Angaben über das Ausmaß, in dem sich Sie un
 
 * Bestimmen Sie für diese Variable den Modus.     
 * Untersuchen Sie die Streuung für diese Variable optisch, indem Sie einen Boxplot erstellen.  
-* Bestimmen Sie die Quartile und den Interquartilsbereich (IQB) auch als Zahlen.
+* Bestimmen Sie die Quartile, den Interquartilsbereich (IQB) und den Interquartilsabstand auch als Zahlen.
 
 <details><summary>Lösung</summary>
 

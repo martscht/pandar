@@ -9,7 +9,7 @@ subtitle: 'Analysen von komplexen gerichteten Beziehungen'
 summary: '' 
 authors: [irmer, schultze] 
 weight: 4
-lastmod: '2024-03-03'
+lastmod: '2024-03-16'
 featured: no
 banner:
   image: "/header/chocolate_construction.jpg"
@@ -29,12 +29,14 @@ links:
     url: /lehre/fue-ii/sem.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/fue-ii/sem-aufgaben
+    name: Übungsdaten
+    url: /daten/StressAtWork.rda
 output:
   html_document:
     keep_md: true
 ---
+
+
 
 
 
@@ -46,7 +48,7 @@ Pfadanalysen sind im Grunde genommen mehrere Regressionsanalysen, welche simulta
 
 Mit SEM können ganz verschiedene Modelle spezifiziert werden, was im Grunde ein Wissenschaft für sich darstellt. Wir wollen uns die Grundlagen der SEM-Modellierung ansehen und einige wichtige Modelle kennenlernen!
 
-In dieser Sitzung erweitern wir dafür unsere Kenntnisse mit dem `R`-Paket `lavaan` um gerichtete Abhängigkeiten. Möchten Sie die Grundlagen im Umgang damit wiederholen, so empfiehlt es sich, die erste Sitzung nochmals anzusehen ([Einführungssitzung zu `lavaan`](/lehre/fue-ii/lavaan-intro)). Auch baut diese Sitzung auf der vergangenen [Sitzung zur CFA](/lehre/fue-ii/cfa) auf.
+In dieser Sitzung erweitern wir dafür unsere Kenntnisse mit dem `R`-Paket `lavaan` um gerichtete Abhängigkeiten. Möchten Sie die Grundlagen im Umgang damit wiederholen, so empfiehlt es sich, die erste Sitzung nochmals anzusehen ([Einführungssitzung zu `lavaan`](/lehre/fue-ii/lavaan-intro)). Auch baut diese Sitzung auf der vergangenen [Sitzung zur CFA](/lehre/fue-ii/fue-cfa) auf.
 
 Bevor wir mit den Analysen beginnen können, laden wir zunächst alle Pakete, welche wir im Folgenden benötigen werden.
 
@@ -71,8 +73,7 @@ oder wir laden sie direkt über die Website:
 
 
 ```r
-#load(url("https://pandar.netlify.app/post/StressAtWork.rda"))
-load(url("https://courageous-donut-84b9e9.netlify.app/post/StressAtWork.rda"))
+load(url("https://pandar.netlify.app/daten/StressAtWork.rda"))
 ```
 Verschaffen wir uns einen Überblick über die Datenlage:
 
@@ -82,48 +83,20 @@ head(StressAtWork)
 ```
 
 ```
-##   sex zd1 zd2 zd6 aop3 aop4
-## 1   1   2   2   4    5    3
-## 2   1   4   3   4    5    3
-## 3   1   2   2   3    3    1
-## 4   2   3   2   2    2    4
-## 5   1   4   3   3    4    2
-## 6   1   3   4   4    2    1
-##   aop8 bf1 bf2 bf3 bf4 bf5
-## 1    4   2   1   1   1   1
-## 2    4   5   4   4   1   2
-## 3    3   3   3   4   1   3
-## 4    5   3   3   2   1   4
-## 5    4   4   4   3   1   1
-## 6    1   4   4   4   1   1
-##   bf6 bf7 bf8 bf9 bf10 bf11
-## 1   1   1   1   1    1    1
-## 2   5   3   5   5    2    3
-## 3   1   1   3   2    2    2
-## 4   4   2   3   3    2    2
-## 5   2   2   2   2    2    1
-## 6   2   3   2   1    1    1
-##   bf12 bf13 bf14 bf15 bf16
-## 1    2    2    2    1    1
-## 2    4    4    3    2    3
-## 3    2    3    3    1    2
-## 4    3    3    3    5    3
-## 5    2    2    2    1    3
-## 6    4    3    2    2    3
-##   bf17 bf18 bf19 bf20 bo1 bo6
-## 1    1    1    2    2   2   1
-## 2    2    1    4    2   3   1
-## 3    1    2    4    1   4   3
-## 4    3    1    3    3   4   2
-## 5    3    2    3    4   3   1
-## 6    1    3    3    1   2   3
-##   bo12 bo19 bo7 bo8 bo21
-## 1    1    1   4   5    7
-## 2    2    2   2   2    2
-## 3    1    2   3   3    4
-## 4    2    1   6   6    4
-## 5    1    2   5   4    6
-## 6    1    2   5   3    6
+##   sex zd1 zd2 zd6 aop3 aop4 aop8 bf1 bf2 bf3 bf4 bf5 bf6 bf7 bf8 bf9 bf10 bf11 bf12 bf13
+## 1   1   2   2   4    5    3    4   2   1   1   1   1   1   1   1   1    1    1    2    2
+## 2   1   4   3   4    5    3    4   5   4   4   1   2   5   3   5   5    2    3    4    4
+## 3   1   2   2   3    3    1    3   3   3   4   1   3   1   1   3   2    2    2    2    3
+## 4   2   3   2   2    2    4    5   3   3   2   1   4   4   2   3   3    2    2    3    3
+## 5   1   4   3   3    4    2    4   4   4   3   1   1   2   2   2   2    2    1    2    2
+## 6   1   3   4   4    2    1    1   4   4   4   1   1   2   3   2   1    1    1    4    3
+##   bf14 bf15 bf16 bf17 bf18 bf19 bf20 bo1 bo6 bo12 bo19 bo7 bo8 bo21
+## 1    2    1    1    1    1    2    2   2   1    1    1   4   5    7
+## 2    3    2    3    2    1    4    2   3   1    2    2   2   2    2
+## 3    3    1    2    1    2    4    1   4   3    1    2   3   3    4
+## 4    3    5    3    3    1    3    3   4   2    2    1   6   6    4
+## 5    2    1    3    3    2    3    4   3   1    1    2   5   4    6
+## 6    2    2    3    1    3    3    1   2   3    1    2   5   3    6
 ```
 
 ```r
@@ -131,18 +104,9 @@ names(StressAtWork)
 ```
 
 ```
-##  [1] "sex"  "zd1"  "zd2" 
-##  [4] "zd6"  "aop3" "aop4"
-##  [7] "aop8" "bf1"  "bf2" 
-## [10] "bf3"  "bf4"  "bf5" 
-## [13] "bf6"  "bf7"  "bf8" 
-## [16] "bf9"  "bf10" "bf11"
-## [19] "bf12" "bf13" "bf14"
-## [22] "bf15" "bf16" "bf17"
-## [25] "bf18" "bf19" "bf20"
-## [28] "bo1"  "bo6"  "bo12"
-## [31] "bo19" "bo7"  "bo8" 
-## [34] "bo21"
+##  [1] "sex"  "zd1"  "zd2"  "zd6"  "aop3" "aop4" "aop8" "bf1"  "bf2"  "bf3"  "bf4"  "bf5" 
+## [13] "bf6"  "bf7"  "bf8"  "bf9"  "bf10" "bf11" "bf12" "bf13" "bf14" "bf15" "bf16" "bf17"
+## [25] "bf18" "bf19" "bf20" "bo1"  "bo6"  "bo12" "bo19" "bo7"  "bo8"  "bo21"
 ```
 
 ```r
@@ -186,7 +150,7 @@ StressAtWork$BFs <- rowMeans(StressAtWork[,paste0("bf",1:20)])
 
 Hierbei hilft uns `paste0` die Schreibweise abzukürzen: wir müssen nicht alle Itemnamen einzeln tippen, sondern die "Strings" werden automatisch erzeugt. Um dies genauer zu verstehen, könnten wir bspw. `paste0("zd",c(1, 2, 6))` einmal ausführen. Dies kommt zum gleichen Ergebnis, wie wenn wir `c("zd1", "zd2", "zd6")` getippt hätten. Das Modell wird nun, ähnlich dem Regressionsmodell aus der ersten Sitzung, aufgestellt. In `lavaan` werden gerichtete Beziehungen zwischen Variablen mit `~` dargestellt, wobei links der *Tilde* die abhängige Variable (das Kriterium) und rechts der *Tilde* die unabhängige Variable (der Prädiktor) steht. Für unser angenommenes Modell gibt es folgende Beziehung: Zeitdruck wirkt auf emotionale Erschöpfung und auf psychosomatische Beschwerden. Emotionale Erschöpfung wirkt auf psychosomatische Beschwerden. In diesem Modell wird Zeitdruck die **unabhängige Variable** genannt, emotionale Erschöpfung ist der **Mediator**, der die Beziehung der unabhängigen auf die **abhängige Variable** psychosomatische Beschwerden mediiert. Hier hat Zeitdruck eine direkte Beziehung mit emotionaler Erschöpfung. Emotionale Erschöpfung hat eine direkte Beziehung mit psychosomatischen Beschwerden und Zeitdruck hat eine direkte und eine indirekte (über emotionale Erschöpfung) Beziehung mit psychosomatischen Beschwerden.
 
-Es muss folglich zwei Gleichungen geben: in einer Gleichung ist `BOEEs` die abhängige Variable und wird durch `ZDs` vorhergesagt. In der zweiten Gleichung ist `BFs` die abhängige Variable und wird  durch `BOEEs` und `ZDs` vorhergesagt. Nun hängt es außerdem von der Schätzfunktion ab, welche weiteren Beziehungen wir in unserem Modell spezifizieren müssen.  Wir wollen die `sem` Funktion verwenden, um das Modell zu schätzen: `sem` ist,  wie `cfa` (diese kennen Sie aus dem Themenblock [CFA](/lehre/fue-ii/cfa), um CFAs zu schätzen) auch eine "Convenience"-Funktion, die gewisse Voreinstellungen verwendet und diese an die `lavaan`-Funktion, die Sie in der ersten Sitzung kennengelernt hatten, übergibt. Sie hatten damals eine Regression mit `lavaan` geschätzt und mussten dabei bspw. mit `Y ~ 1 + X` die Regression anfordern, mit welcher durch `X` die abhängige Variable `Y` vorhergesagt wurde. Sie mussten hierbei explizit das Interzept (also den durch X bedingten Mittelwert von Y) sowie die Residualvarianz von `Y` anfordern via `Y ~~ Y` (für eine Wiederholung schauen Sie gerne in der [Einführungssitzung](/lehre/fue-ii/) vorbei). Wie auch die `cfa`-Funktion übernimmt die `sem` Funktion einige dieser Einstellungen für uns. So müssen wir bspw. Residualvarianzen nicht explizit anfragen. Die Mittelwertsstruktur wird in `sem` per Default nicht mitmodelliert. Wenn wir Mittelwerte betrachten wollen, können wir allerdings der `sem`-Funktion die Zusatzeinstellung `meanstructure = TRUE` übergeben. Die Default-Einstellungen für Messmodelle sind identisch mit jenen der Funktion `cfa`. Wir wiederholen diese, wenn es soweit ist. Somit landen wir bei dieser sehr effizienten Schreibweise für unser Modell:
+Es muss folglich zwei Gleichungen geben: in einer Gleichung ist `BOEEs` die abhängige Variable und wird durch `ZDs` vorhergesagt. In der zweiten Gleichung ist `BFs` die abhängige Variable und wird  durch `BOEEs` und `ZDs` vorhergesagt. Nun hängt es außerdem von der Schätzfunktion ab, welche weiteren Beziehungen wir in unserem Modell spezifizieren müssen.  Wir wollen die `sem` Funktion verwenden, um das Modell zu schätzen: `sem` ist,  wie `cfa` (diese kennen Sie aus dem Themenblock [CFA](/lehre/fue-ii/fue-cfa), um CFAs zu schätzen) auch eine "Convenience"-Funktion, die gewisse Voreinstellungen verwendet und diese an die `lavaan`-Funktion, die Sie in der ersten Sitzung kennengelernt hatten, übergibt. Sie hatten damals eine Regression mit `lavaan` geschätzt und mussten dabei bspw. mit `Y ~ 1 + X` die Regression anfordern, mit welcher durch `X` die abhängige Variable `Y` vorhergesagt wurde. Sie mussten hierbei explizit das Interzept (also den durch X bedingten Mittelwert von Y) sowie die Residualvarianz von `Y` anfordern via `Y ~~ Y` (für eine Wiederholung schauen Sie gerne in der [Einführungssitzung](/lehre/fue-ii/lavaan-intro) vorbei). Wie auch die `cfa`-Funktion übernimmt die `sem` Funktion einige dieser Einstellungen für uns. So müssen wir bspw. Residualvarianzen nicht explizit anfragen. Die Mittelwertsstruktur wird in `sem` per Default nicht mitmodelliert. Wenn wir Mittelwerte betrachten wollen, können wir allerdings der `sem`-Funktion die Zusatzeinstellung `meanstructure = TRUE` übergeben. Die Default-Einstellungen für Messmodelle sind identisch mit jenen der Funktion `cfa`. Wir wiederholen diese, wenn es soweit ist. Somit landen wir bei dieser sehr effizienten Schreibweise für unser Modell:
 
 
 ```r
@@ -220,7 +184,7 @@ summary(fit_paths, rsq = T, fit.measures = T)
 
 
 ```
-## lavaan 0.6.16 ended normally after 1 iteration
+## lavaan 0.6.17 ended normally after 1 iteration
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
@@ -272,26 +236,17 @@ summary(fit_paths, rsq = T, fit.measures = T)
 ##   Information saturated (h1) model          Structured
 ## 
 ## Regressions:
-##                    Estimate
-##   BOEEs ~                  
-##     ZDs               0.481
-##   BFs ~                    
-##     BOEEs             0.329
-##     ZDs               0.073
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.066    7.271    0.000
-##                            
-##     0.028   11.682    0.000
-##     0.035    2.081    0.037
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BOEEs ~                                             
+##     ZDs               0.481    0.066    7.271    0.000
+##   BFs ~                                               
+##     BOEEs             0.329    0.028   11.682    0.000
+##     ZDs               0.073    0.035    2.081    0.037
 ## 
 ## Variances:
-##                    Estimate
-##    .BOEEs             1.455
-##    .BFs               0.352
-##   Std.Err  z-value  P(>|z|)
-##     0.118   12.349    0.000
-##     0.029   12.349    0.000
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##    .BOEEs             1.455    0.118   12.349    0.000
+##    .BFs               0.352    0.029   12.349    0.000
 ## 
 ## R-Square:
 ##                    Estimate
@@ -350,18 +305,12 @@ Alle Fit-Indizes zeigen perfekten Fit an (CFI = 1, TLI = 1, RMSEA = 0, SRMR = 0)
 ```
 ## [...]
 ##  Regressions:
-##                    Estimate
-##   BOEEs ~                  
-##     ZDs               0.481
-##   BFs ~                    
-##     BOEEs             0.329
-##     ZDs               0.073
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.066    7.271    0.000
-##                            
-##     0.028   11.682    0.000
-##     0.035    2.081    0.037 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BOEEs ~                                             
+##     ZDs               0.481    0.066    7.271    0.000
+##   BFs ~                                               
+##     BOEEs             0.329    0.028   11.682    0.000
+##     ZDs               0.073    0.035    2.081    0.037 
 ## [...]
 ```
 Im Gegensatz zur CFA wird uns nun ein Block in der Summary gezeigt, welcher die Regressionskoeffizienten unseres Modells enthält (ohne Interzept). Hier ist zu erkennen, dass alle Koeffizienten auf dem 5% Niveau signifikant von 0 verschieden sind. Es kann sich also maximal um eine partielle Mediation handeln, da die direkte Beziehung zwischen Zeitdruck und psychsomatischen Beschwerden laut dieser Signifikanzentscheidung mit einer Irrtumswahrscheinlichkeit von 5% auch in der Population besteht und somit der Effekt von Zeitdruck auf die Psychosomatischen Beschwerden nicht vollständig über die emotionale Erschöpfung mediiert wird.
@@ -443,7 +392,7 @@ BF_i &= c_0 + b(a_0 + aZD_i + \varepsilon_{BOEE,i}) + cZD_i + \varepsilon_{BF,i}
 
 Der totale Effekt von Zeitdruck auf die psychosomatischen Beschwerden ergibt sich als $TE:=IE + DE = ab+c$. Da wir bisher in `lavaan` die Mittelwertstruktur nicht mitmodelliert hatten, haben wir $a_0$ und $c_0$ auch noch nicht untersucht. Für weitere inhaltliche Informationen zu Pfadanalysen, direkten, indirekten und totalen Effekten lesen Sie gerne in [Werner et al. (2016, pp. 952-)](https://ubffm.hds.hebis.de/Record/HEB36808809X) oder [Eid et al. (2017, pp. 952-)](https://ubffm.hds.hebis.de/Record/HEB366849158). _Man bemerke den unfassbaren Zufall, dass beide Bücher an der gleichen Seitenzahl beginnend über Mediationen etc. sprechen!_
 
-In `lavaan` Koeffizienten zu benennen, ist ganz einfach. Sie haben es vielleicht schon im Appendix der letzten Sitzung zur [CFA](/lehre/fue-ii/cfa) gesehen: der Variable wird der Koeffizientenname gefolgt von dem Multiplikationszeichen `*` vorangestellt. Also wird die Beziehung zwischen `BOEEs` und `ZDs` um das Präfix `a*` ergänzt zu: `BOEEs ~ a*ZDs`, usw.:
+In `lavaan` Koeffizienten zu benennen, ist ganz einfach. Sie haben es vielleicht schon im Appendix der letzten Sitzung zur [CFA](/lehre/fue-ii/fue-cfa) gesehen: der Variable wird der Koeffizientenname gefolgt von dem Multiplikationszeichen `*` vorangestellt. Also wird die Beziehung zwischen `BOEEs` und `ZDs` um das Präfix `a*` ergänzt zu: `BOEEs ~ a*ZDs`, usw.:
 
 
 ```r
@@ -464,18 +413,12 @@ summary(fit_paths_abc)
 ```
 ## [...]
 ##  Regressions:
-##                    Estimate
-##   BOEEs ~                  
-##     ZDs        (a)    0.481
-##   BFs ~                    
-##     BOEEs      (b)    0.329
-##     ZDs        (c)    0.073
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.066    7.271    0.000
-##                            
-##     0.028   11.682    0.000
-##     0.035    2.081    0.037 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BOEEs ~                                             
+##     ZDs        (a)    0.481    0.066    7.271    0.000
+##   BFs ~                                               
+##     BOEEs      (b)    0.329    0.028   11.682    0.000
+##     ZDs        (c)    0.073    0.035    2.081    0.037 
 ## [...]
 ```
 
@@ -505,12 +448,9 @@ summary(fit_paths_IE_TE)
 ```
 ## [...]
 ##  Defined Parameters:
-##                    Estimate
-##     IE                0.158
-##     TE                0.232
-##   Std.Err  z-value  P(>|z|)
-##     0.026    6.173    0.000
-##     0.039    5.916    0.000 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##     IE                0.158    0.026    6.173    0.000
+##     TE                0.232    0.039    5.916    0.000 
 ## [...]
 ```
 
@@ -533,15 +473,9 @@ parameterEstimates(fit_paths_IE_TE_boot, ci = TRUE)
 ```
 
 ```
-##   lhs op  rhs label   est
-## 7  IE :=  a*b    IE 0.158
-## 8  TE := IE+c    TE 0.232
-##      se     z pvalue ci.lower
-## 7 0.026 6.123      0    0.108
-## 8 0.040 5.717      0    0.145
-##   ci.upper
-## 7    0.208
-## 8    0.304
+##   lhs op  rhs label   est    se     z pvalue ci.lower ci.upper
+## 7  IE :=  a*b    IE 0.158 0.026 6.123      0    0.108    0.208
+## 8  TE := IE+c    TE 0.232 0.040 5.717      0    0.145    0.304
 ```
 
 ```
@@ -562,7 +496,7 @@ semPaths(object = fit_paths_IE_TE, what = "model", layout = "tree2", rotation = 
 
 <img src="/lehre/fue-ii/sem_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
-Die hier durchgeführten Analysen unterliegen leider einigen Einschränkungen. Bspw. wird beim Mitteln zu Skalenwerten davon ausgegangen, dass jede Messung (jede Variable pro Skala) gleichermaßen aus der dahinterliegenden latenten Variable besteht. Dies hatten wir in der [letzten Sitzung im Anhang](/lehre/fue-ii/cfa) unter essentieller $\tau$-Äquivalenz kennengelernt (gleiche $\lambda$s in einem [CFA-] Messmodell). Essentielle $\tau$-Äquivalenz ist eine strenge Annahme, welche wir prüfen müssten, um den Analysen mit Skalenwerten komplett vertrauen zu können. Außerdem werden durch das Mitteln die Messfehler nicht vollständig modelliert, auch wenn die Analysen somit reliabler als *Einzelitemanalysen* (z.B. hätten wir auch jeweils ein Item pro Skala verwenden können) sind.
+Die hier durchgeführten Analysen unterliegen leider einigen Einschränkungen. Bspw. wird beim Mitteln zu Skalenwerten davon ausgegangen, dass jede Messung (jede Variable pro Skala) gleichermaßen aus der dahinterliegenden latenten Variable besteht. Dies hatten wir in der [letzten Sitzung im Anhang](/lehre/fue-ii/fue-cfa) unter essentieller $\tau$-Äquivalenz kennengelernt (gleiche $\lambda$s in einem [CFA-] Messmodell). Essentielle $\tau$-Äquivalenz ist eine strenge Annahme, welche wir prüfen müssten, um den Analysen mit Skalenwerten komplett vertrauen zu können. Außerdem werden durch das Mitteln die Messfehler nicht vollständig modelliert, auch wenn die Analysen somit reliabler als *Einzelitemanalysen* (z.B. hätten wir auch jeweils ein Item pro Skala verwenden können) sind.
 Hierbei ist es nun so, dass Effekte stochastischer Regressoren konsistent unterschätzt werden, wenn diese messfehlerbehaftet sind. Wären die Variablen messfehlerfrei, würden die Effekte (die Regressionsparameter) größer ausfallen. Leider können wir nicht davon ausgehen, dass unsere beobachteten Variablen messfehlerfrei sind, wenn wir sie mit Fragebögen erheben! Aus diesem Grund ist in der multiplen Regression bspw. auch eine der Voraussetzungen die Messfehlerfreiheit der (stochastischen) Regressoren (siehe [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 19.13).
 
 Wir können die Analysen auf die latente Ebene heben und Messmodelle für die latenten Variablen aufstellen, welche dann die unterschiedlichen Messgenauigkeiten pro Messung berücksichtigen und die Beziehung zwischen den latenten Variablen um die Ungenauigkeit der Einzelitems bereinigen.
@@ -571,7 +505,7 @@ Wir können die Analysen auf die latente Ebene heben und Messmodelle für die la
 Strukturgleichungsmodelle (SEM) kombinieren Pfadanalysen mit Messmodellen, also CFAs. Wir können mit SEM in unseren Analysen Messfehler berücksichtigen, aber dennoch gerichtete Beziehungen zwischen den latenten Variablen untersuchen. Bevor wir Messmodelle für unsere latenten Variablen aufstellen, müssen wir uns überlegen, ob dies denn für alle Variablen sinnvoll ist.
 
 ### Reflexive vs. formative Messmodelle {#formvsreflMessmodell}
-Wenn es um Messmodelle geht, kann zwischen **reflexiven** und **formativen** Messmodellen unterschieden werden. Reflexive Messmodelle sind die Messmodelle, die wir in der [letzten Sitzung zur CFA](/lehre/fue-ii/cfa) detailliert besprochen haben. Darin sind z.B. Eigenschaften von Personen latente Variablen, die sich nicht direkt beobachten lassen, sich aber in Verhalten und Aussagen niederschlagen. "Konservativismus" ist eine Einstellung von Personen (latente Variable), die sich z.B. darin äußert, dass Personen einer Aussage wie "Ein noch so geschulter und kritischer Verstand kann letzten Endes doch keine echte innere Befriedigung geben." eher zustimmen (Item 36 der [Machiavellismus-Konservatismus Skala](https://zis.gesis.org/skala/Cloetta-Machiavellismus-Konservatismus); Cloetta, 2014). Die Annahme ist also, dass die latente Variable ursächlich für die Ausprägung bestimmter beobachtbarer (manifester) Variablen ist. Wie wir in der [Sitzung zur CFA](/lehre/fue-ii/cfa) gesehen haben, sieht ein entsprechendes Pfaddiagramm so aus:
+Wenn es um Messmodelle geht, kann zwischen **reflexiven** und **formativen** Messmodellen unterschieden werden. Reflexive Messmodelle sind die Messmodelle, die wir in der [letzten Sitzung zur CFA](/lehre/fue-ii/fue-cfa) detailliert besprochen haben. Darin sind z.B. Eigenschaften von Personen latente Variablen, die sich nicht direkt beobachten lassen, sich aber in Verhalten und Aussagen niederschlagen. "Konservativismus" ist eine Einstellung von Personen (latente Variable), die sich z.B. darin äußert, dass Personen einer Aussage wie "Ein noch so geschulter und kritischer Verstand kann letzten Endes doch keine echte innere Befriedigung geben." eher zustimmen (Item 36 der [Machiavellismus-Konservatismus Skala](https://zis.gesis.org/skala/Cloetta-Machiavellismus-Konservatismus); Cloetta, 2014). Die Annahme ist also, dass die latente Variable ursächlich für die Ausprägung bestimmter beobachtbarer (manifester) Variablen ist. Wie wir in der [Sitzung zur CFA](/lehre/fue-ii/fue-cfa) gesehen haben, sieht ein entsprechendes Pfaddiagramm so aus:
 
 <center> <img src = "https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/SEM/images/Reflexiv.png" width="40%"/> </center>
 
@@ -584,7 +518,7 @@ Bei formativen Messmodellen ist es so, dass die latente Variable erst "geformt" 
 
 Es können keine Messfehler berücksichtigt werden und die "Kompositvariable" (deshalb auch die Benennung $\mathcal{C}$, engl. composite) ist eine Linearkombination der Items: $\mathcal{C}=X_1+X_2+X_3$ oder $\mathcal{C}=\lambda_1^\mathcal{C}X_1+\lambda_2^\mathcal{C}X_2+\lambda_3^\mathcal{C}X_3$ (also auch: $\mathcal{C}=\frac{X_1+X_2+X_3}{3}$)). Somit wirken sich Unterschiede zwischen Personen in bspw. $X_1$ (und gleichen $X_2$ und $X_3$) auf Unterschiede in $\mathcal{C}$ aus. Es lassen sich also Unterschiede in der latenten Variable auf unterschiedliche Kombinationen von Ausprägungen  der Beobachtungen zurückführen. Gerade in den Wirtschaftswissenschaften und der Soziologie sind solche formativen Variablen sehr verbreitet. Ein bekanntes Beispiel ist der [Human Development Index](http://hdr.undp.org/en/content/human-development-index-hdi), der aus verschiedenen Komponenten wie Lebenserwartung, Schulbildung und Bruttoinlandsprodukt eine Kennzahl für den Entwicklungsstand eines Landes ermittelt. Ein psychologisches Beispiel für ein formatives Messmodell ist die Variable _Umgebungsbelastung_, welche auch mit dem ISTA erhoben werden kann (Semmer, et al., 1999). Mit dieser Variable sollen Umwelteinflüsse erfasst werden, die die Arbeit erschweren. Dies könnten z.B. schlechte Lichtverhältnisse oder Lärmbelästigung sein, welche durch längeres Auftreten Stress zur Folge haben können. Allerdings ist es in der Regel nicht so, dass an einem Arbeitsplatz immer dann Lärm auftritt, wenn auch die Lichtverhältnisse schlecht sind. Wenn jedoch beides auftritt, so ist die Umgebungsbelastung an diesem Arbeitsplatz besonders ausgeprägt. Demnach müssen beide Aspekte berücksichtigt werden, um eine gute Schätzung für die Umgebungsbelastung eines Arbeitsplatzes zu erhalten. Würden wir von einem reflexiven Messmodell ausgehen, würde eine hohe Ausprägung auf der latenten Variable _Umgebungsbelastung_ auch zu einer erhöhten Antworttendenz auf beiden Items (Licht- und Lärmverhältnisse) führen.
 
-_Wem dieses Konzept bekannt vorkommt, hat sich wahrscheinlich an die Unterscheidung zwischen [EFA](/lehre/fue-ii/efa) und [PCA](/lehre/fue-ii/pca) zurückerinnert: Hier war es so, dass bei der PCA die Hauptkomponenten Linearkombinationen, also gewichtete Summen, der beobachteten Items waren, während bei EFA ein Messmodell mit dahinterliegenden latenten Variablen formuliert wurde und somit Messfehler modeliert werden konnten._
+_Wem dieses Konzept bekannt vorkommt, hat sich wahrscheinlich an die Unterscheidung zwischen [EFA](/lehre/fue-ii/fue-efa) und [PCA](/lehre/fue-i/pca) zurückerinnert: Hier war es so, dass bei der PCA die Hauptkomponenten Linearkombinationen, also gewichtete Summen, der beobachteten Items waren, während bei EFA ein Messmodell mit dahinterliegenden latenten Variablen formuliert wurde und somit Messfehler modeliert werden konnten._
 
 
 Bei Zeitdruck und emotionaler Erschöpfung handelt es sich um reflexive Messmodelle. Bei psychosomatischen Beschwerden werden unterschiedliche Beschwerden wie bspw. Kopfschmerzen und Rückenschmerzen abgefragt. Demnach handelt es sich bei dieser Variable eher um ein ein formatives Messmodell. Entsprechend könnten wir die Kompositformulierung in `lavaan` (`<~`) nutzen, um eine latente Kompositvariable zu erzeugen, oder wir behalten der Einfachheit halber unseren Skalenmittelwert `BFs` bei.
@@ -711,26 +645,16 @@ Für die Messmodelle ergibt sich Folgendes:
 ```
 ## [...]
 ##  Latent Variables:
-##                    Estimate
-##   ZD =~                    
-##     zd1               1.000
-##     zd2               0.836
-##     zd6               0.823
-##   BOEE =~                  
-##     bo1               1.000
-##     bo6               0.915
-##     bo12              0.960
-##     bo19              1.051
-##   Std.Err  z-value  P(>|z|)
-##                            
-##                            
-##     0.063   13.273    0.000
-##     0.061   13.568    0.000
-##                            
-##                            
-##     0.054   17.068    0.000
-##     0.057   16.806    0.000
-##     0.060   17.574    0.000 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   ZD =~                                               
+##     zd1               1.000                           
+##     zd2               0.836    0.063   13.273    0.000
+##     zd6               0.823    0.061   13.568    0.000
+##   BOEE =~                                             
+##     bo1               1.000                           
+##     bo6               0.915    0.054   17.068    0.000
+##     bo12              0.960    0.057   16.806    0.000
+##     bo19              1.051    0.060   17.574    0.000 
 ## [...]
 ```
 
@@ -761,18 +685,12 @@ Nun wollen wir die Ergebnisse mit den Ergebnissen der Pfadanalyse vergleichen. D
 ```
 ## [...]
 ##  Regressions:
-##                    Estimate
-##   BOEE ~                   
-##     ZD         (a)    0.500
-##   BFs ~                    
-##     BOEE       (b)    0.365
-##     ZD         (c)    0.055
-##   Std.Err  z-value  P(>|z|)
-##                            
-##     0.075    6.717    0.000
-##                            
-##     0.035   10.536    0.000
-##     0.039    1.432    0.152 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   BOEE ~                                              
+##     ZD         (a)    0.500    0.075    6.717    0.000
+##   BFs ~                                               
+##     BOEE       (b)    0.365    0.035   10.536    0.000
+##     ZD         (c)    0.055    0.039    1.432    0.152 
 ## [...]
 ```
 
@@ -806,12 +724,9 @@ Der indirekte und der totale Effekt liegen bei:
 ```
 ## [...]
 ##  Defined Parameters:
-##                    Estimate
-##     IE                0.183
-##     TE                0.238
-##   Std.Err  z-value  P(>|z|)
-##     0.031    5.878    0.000
-##     0.042    5.694    0.000 
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##     IE                0.183    0.031    5.878    0.000
+##     TE                0.238    0.042    5.694    0.000 
 ## [...]
 ```
 
@@ -826,15 +741,9 @@ parameterEstimates(fit_sem_IE_TE_boot, ci = TRUE)
 
 
 ```
-##    lhs op  rhs label   est
-## 21  IE :=  a*b    IE 0.198
-## 22  TE := IE+c    TE 0.258
-##       se     z pvalue
-## 21 0.033 5.965      0
-## 22 0.043 6.028      0
-##    ci.lower ci.upper
-## 21    0.135    0.267
-## 22    0.171    0.340
+##    lhs op  rhs label   est    se     z pvalue ci.lower ci.upper
+## 21  IE :=  a*b    IE 0.198 0.033 5.965      0    0.135    0.267
+## 22  TE := IE+c    TE 0.258 0.043 6.028      0    0.171    0.340
 ```
 
 Die Nummern `21` und `22` am Anfang der Zeilen zeigen an, dass hier insgesamt 22 Zeilen ausgegeben werden, wir uns aber nur die 21. und die 22. ansehen. Auch hier ist zu sehen, dass der indirekte Effekt signifikant von 0 abweicht. Da der direkte Effekt von Zeitdruck auf die psychosomatischen Beschwerden nicht signifikant ist, handelt es sich in diesem Zusammenhang um eine vollständige Mediation. Die vollständige lineare Beziehung zwischen Zeitdruck und psychosomatischen Beschwerden "fließt" über die emotionale Erschöpfung.  Die Frage ist nun, warum es hier zu Unterschieden zwischen der Pfadanalyse und SEM kommt. Naiverweise würden wir zunächst erwarten, dass alle Effekte eher signifikant werden, wenn für Messfehler kontrolliert wird. So hatten wir zuvor mit messfehlerbehaften Regressoren in einer Regressionsanalyse argumentiert. Demnach würden wir eher erwarten, dass der direkte Effekt mit SEM signifikant ist. Allerdings haben wir in der Pfadanalyse die Daten unter der Annahme der essentiellen $\tau$-Äquivalenz zusammengefasst: wir haben einfach Mittelwerte ohne bestimmte Gewichtung verwendet. Im SEM haben wir die Faktorladungen frei schätzen lassen - wir haben also statt eines gleichgewichteten formativen Konstrukts ein reflexives Konstrukt aus den Beziehungen in den Daten schätzen lassen. Zusammenfassend gehen wir also von einer vollständigen Mediation aus.
@@ -864,7 +773,7 @@ _`curve = T` und `curvePivot = T` haben in diesem Modell **keinen Effekt**, da e
 
 `BFs` wird hier als Viereck dargestellt, da wir hier Werte gemittelt und diesen Skalenwert als direkt beobachtbare Variable in das Modell aufgenommen haben.
 
-Konkurrierende Modelle können, wie auch in der Sitzung zur [CFA](/lehre/fue-ii/cfa), mit Hilfe des Likelihood-Ratio Tests ($\chi^2$-Differenzen-Test/ Likelihood-Ratio-Test, LRT) gegeneinander getestest werden mit der Funktion `lavTestLRT`.
+Konkurrierende Modelle können, wie auch in der Sitzung zur [CFA](/lehre/fue-ii/fue-cfa), mit Hilfe des Likelihood-Ratio Tests ($\chi^2$-Differenzen-Test/ Likelihood-Ratio-Test, LRT) gegeneinander getestest werden mit der Funktion `lavTestLRT`.
 
 
 ### Modellpassung
@@ -898,7 +807,7 @@ ezCutoffs(model = model_sem_IE_TE, data = StressAtWork)
 
 `Emprircal fit` ist hier gerade der Modelfit, den wir auch in unseren Daten beobachtet haben. Der $\chi^2$-Wert von 18.444 kommt uns auch sehr bekannt vor! In der Spalte `Cutoff (alpha = 0.05)` steht der zugehörige Cut-Off-Wert, ab welchem von keinem guten Fit mehr zu sprechen wäre. Hierbei ist zu beachten, dass für $TLI$ und $CFI$ kleine Werte (also kleiner als der Cut-Off-Wert) für einen schlechten Fit sprechen, während für $RMSEA$ und $SRMR$ große Werte (also größer als der Cut-Off-Wert) für einen schlechten Fit sprechen.
 
-Wer davon noch nicht genug hat, ist herzlich eingeladen, sich im [Appendix A](#AppendixA) mit dem Test auf essentielle $\tau$-Äquivalenz vertraut zu machen. Die Annahme der essentiellen $\tau$-Äquivalenz wurde in der [Sitzung zur CFA](/lehre/fue-ii/cfa) bereits angesprochen und unterliegt implizit dem Zusammenfassen zu Skalenmittelwerten.
+Wer davon noch nicht genug hat, ist herzlich eingeladen, sich im [Appendix A](#AppendixA) mit dem Test auf essentielle $\tau$-Äquivalenz vertraut zu machen. Die Annahme der essentiellen $\tau$-Äquivalenz wurde in der [Sitzung zur CFA](/lehre/fue-ii/fue-cfa) bereits angesprochen und unterliegt implizit dem Zusammenfassen zu Skalenmittelwerten.
 
 ***
 
@@ -998,26 +907,16 @@ Sowie folgende Ergebnisse für die Messmodelle:
 ```
 ## [...]
 ##  Latent Variables:
-##                    Estimate
-##   ZD =~                    
-##     zd1       (l1)    1.000
-##     zd2       (l1)    1.000
-##     zd6       (l1)    1.000
-##   BOEE =~                  
-##     bo1       (l2)    1.000
-##     bo6       (l2)    1.000
-##     bo12      (l2)    1.000
-##     bo19      (l2)    1.000
-##   Std.Err  z-value  P(>|z|)
-##                            
-##                            
-##                            
-##                            
-##                            
-##                            
-##                            
-##                            
-##                             
+##                    Estimate  Std.Err  z-value  P(>|z|)
+##   ZD =~                                               
+##     zd1       (l1)    1.000                           
+##     zd2       (l1)    1.000                           
+##     zd6       (l1)    1.000                           
+##   BOEE =~                                             
+##     bo1       (l2)    1.000                           
+##     bo6       (l2)    1.000                           
+##     bo12      (l2)    1.000                           
+##     bo19      (l2)    1.000                            
 ## [...]
 ```
 
@@ -1036,34 +935,11 @@ lavTestLRT(fit_sem_IE_TE_tau, fit_sem_IE_TE)
 ## 
 ## Chi-Squared Difference Test
 ## 
-##                   Df    AIC
-## fit_sem_IE_TE     18 6828.0
-## fit_sem_IE_TE_tau 23 6832.5
-##                      BIC
-## fit_sem_IE_TE     6894.9
-## fit_sem_IE_TE_tau 6880.9
-##                    Chisq
-## fit_sem_IE_TE     18.444
-## fit_sem_IE_TE_tau 33.002
-##                   Chisq diff
-## fit_sem_IE_TE               
-## fit_sem_IE_TE_tau     14.558
-##                      RMSEA
-## fit_sem_IE_TE             
-## fit_sem_IE_TE_tau 0.079168
-##                   Df diff
-## fit_sem_IE_TE            
-## fit_sem_IE_TE_tau       5
-##                   Pr(>Chisq)
-## fit_sem_IE_TE               
-## fit_sem_IE_TE_tau    0.01243
-##                    
-## fit_sem_IE_TE      
-## fit_sem_IE_TE_tau *
+##                   Df    AIC    BIC  Chisq Chisq diff    RMSEA Df diff Pr(>Chisq)  
+## fit_sem_IE_TE     18 6828.0 6894.9 18.444                                         
+## fit_sem_IE_TE_tau 23 6832.5 6880.9 33.002     14.558 0.079168       5    0.01243 *
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 

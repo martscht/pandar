@@ -3,12 +3,12 @@ title: "Regressionsanalyse III"
 type: post
 date: '2019-10-18' 
 slug: regression-iii 
-categories: ["Statistik II"] 
+categories: ["Deprecated"] 
 tags: ["Regression", "Zusammenhangsanalyse", "Erklärte Varianz", "Voraussetzungsprüfung"] 
 subtitle: ''
 summary: '' 
 authors: [irmer, hartig, nehler]
-weight: 6
+weight: 
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:

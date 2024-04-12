@@ -42,8 +42,7 @@ output:
 ```
 
   
-{{< spoiler text="Kernfragen dieser Lehreinheit" >}}
-<!-- Die divs sind wichtig, damit die Liste funktioniert! Innerhalb dieses Abschnitts ist HTML erlaubt (safeHTML) -->
+<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
 
 
 * Wann und wie rechne ich einen [**z-Test (Einstichproben-Gauss-Test)**](#z_Test)? Wie interpretiere ich die Ergebnisse?
@@ -52,15 +51,13 @@ output:
 * Was sind [**Pakete**](#Pakete) und wie kann ich sie installieren und laden?
 * Was ist [**Cohen's *d***](#Cohens_d) und wie berechne ich es? Wie interpretiere ich die Ergebnisse?
 
-{{< /spoiler >}}
+</details>
 
 ***
  
-
-
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz haben wir bereits unter diesem [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz `fb23` haben wir bereits unter diesem [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 ```{r}
 #### Was bisher geschah: ----
@@ -113,7 +110,7 @@ Für die Einstichprobentests ist es essentiell, dass gewisse Populationsinformat
 
 Im Endeffekt befinden wir also bei einem ähnlichen Setting wie im vorhergehenden Tutorial zu Verteilungen. Die Population kann hier durch die Kurve dargestellt werden, während der Mittelwert unserer Stichprobe mit einem roten Strich eingezeichnet ist. Wir haben gelernt, dass man für den spezifischen Wert einer gezogenen Person aus dieser Population nun sagen könnte, wie viel Prozent der Verteilung kleiner (und auch größer) als dieser Wert sind.
 
-```{r, echo = F, fig.height = 4}
+```{r, echo = F, purl = F, fig.height = 4}
 curve(expr = dnorm(x, mean = 2.5, sd = 3.1),
      from = -0.5,
      to = 5.5,
@@ -229,7 +226,7 @@ z_emp
 Der beobachtete Stichprobenmittelwert weicht demnach um $z_{emp}$ = `r round(z_emp,2)` *SE* (nach oben) vom Mittelwert der Grundgesamtheit ab.  
 Um entscheiden zu können, ob es sich um eine signifikante Abweichung handelt, muss nun bestimmt werden wie wahrscheinlich ein solcher oder noch extremerer Unterschied ist. Dafür können wir den p-Wert bestimmen. Dieser ist im Endeffekt eine Aussage über die Fläche der Verteilung, die außerhalb unseres gefunden Werts liegt.
 
-```{r, echo = F, fig.height = 4}
+```{r, echo = F, purl = F, fig.height = 4}
 x <- seq(-0.5, 5.5, 0.1) 
 y <- dnorm(x, 2.5, 3.1/sqrt(nrow(fb23)))
 plot(x, y, type="l", 
@@ -347,7 +344,7 @@ Um eine weitere Modifikation unseres Vorgehens im Vergleich zum letzten Test zu 
 
 Bevor wir in die inferenzstatistische Analyse einsteigen, ist es immer gut, sich einen Überblick über die deskriptiven Werte zu verschaffen. Wir können nun natürlich einfach die bereits gelernten Funktionen zu Mittelwert, Varianz, Minimum, etc. nutzen. Doch gibt es einen schnelleren Weg? Die Basisinstallation von `R` bietet uns keine Alternative. Jedoch gibt es zusätzliche *Pakete*, die den Pool an möglichen Funktionen erweitern. Die Logik wird im Folgenden erläutert.
 
-### Wie können andere Funktionen in R genutzt werden? - Library und Pakete {#pakete}
+### Wie können andere Funktionen in R genutzt werden? - Library und Pakete {#Pakete} 
 
 R ist in einer Pakete-Logik aufgebaut. Das liegt daran, dass es immer mehr Funktionen in R gibt, die aber nie jemand alle gleichzeitig brauchen wird. Zur Schonung der Kapazität sind diese Funktionalitäten also in Pakete aufgeteilt. In *Basispaketen*, die standardmäßig geladen werden (also vorinstalliert sind und aktiviert werden beim Öffnen von R / RStudio), sind grundlegende Befehle und Analysen implementiert. Beispiele für solche Basispakete sind `base`, `stats` und `graphics`, aus denen wir unwissentlich schon einige Funktionen verwendet haben - bspw. `mean()`, `median()` und `barplot()`. 
 
@@ -421,7 +418,7 @@ Wir sehen bereits, dass der Gipfel unserer empirischen Werte für eine Normalver
 curve(dnorm(x, mean = mean(fb23$neuro), sd = sd(fb23$neuro)), add = T)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 hist(fb23$neuro, xlim=c(0,6), main = "Histogramm",
      xlab = "Score", ylab= "Dichte", freq = FALSE)
 curve(dnorm(x, 
@@ -517,11 +514,11 @@ Auch für den Einstichproben-t-Test kann ein äquivalentes Konfidenzintervall be
 
 Die Gleichung für ein zweiseitiges Konfidenzintervall beim Einstichproben-t-Test sieht erstmal sehr ähnlich. Statt eines Wertes auf der z-Verteilung wird nun ein Wert aus der t-Verteilung abgelesen und für die Bestimmung der Grenzen verwendet. Außerdem wird der Standardfehler des Mittelwerts bzw. die Populationsvarianz hier nur geschätzt, da wir diese Informationen nicht gegeben haben. 
 
-{{< math >}}$$\mu = \bar{x} \pm t_{1-\frac{\alpha}{2}} * \hat{\sigma}_{\bar{x}} = \bar{x} \pm t_{1- \frac{\alpha}{2}}*\frac{\hat{\sigma}}{\sqrt{n}}$${{</ math >}}
+{{< math >}}$$\mu = \bar{x} \pm t_{1-\frac{\alpha}{2}} \cdot \hat{\sigma}_{\bar{x}} = \bar{x} \pm t_{1- \frac{\alpha}{2}} \cdot \frac{\hat{\sigma}}{\sqrt{n}}$${{</ math >}}
 
 Wenn wir nun einseitige Hypothesen haben brauchen wir nur eine der beiden Grenzen bestimmen. Wir gehen davon aus, dass unser Stichprobenmittelwert größer ist als der Populationsmittelwert. Wir legen das Konfidenzintervall um unseren Stichprobenmittelwert und können es daher nach oben offen lassen (größerer Populationsmittelwert würde sowieso immer die $H_0$ nach sich ziehen -- hier brauchen wir keine Grenze). Es muss also nur eine untere Grenze bestimmt werden und die obere kann als unendlich ($\infty$) angenommen werden. Die untere Grenze kann mit dem gesamten $\alpha$-Niveau bestimmt werden. Wir müssen dieses nicht mehr auf beide Bereiche aufteilen.
 
-{{< math >}}$$\mu = \bar{x} - t_{1-\alpha} * \hat{\sigma}_{\bar{x}} = \bar{x} - t_{1- \alpha}*\frac{\hat{\sigma}}{\sqrt{n}}$${{</ math >}}
+{{< math >}}$$\mu = \bar{x} - t_{1-\alpha} \cdot \hat{\sigma}_{\bar{x}} = \bar{x} - t_{1- \alpha} \cdot \frac{\hat{\sigma}}{\sqrt{n}}$${{</ math >}}
 
 Kleine Anmerkung: Natürlich könnten wir auch beim Einstichproben-z-Test ein einseitiges Konfidenzintervall berechnen, was äquivalent funktionieren würde.
 

@@ -3,13 +3,13 @@ title: "Regression IV: quadratische und moderierte Regression"
 type: post
 date: '2021-03-30'
 slug: regression-iv
-categories: ["Statistik II"] 
+categories: ["Deprecated"] 
 tags: ["Regression", "Zusammenhangsanalyse", "Interaktion", "Moderation"] 
 subtitle: ''
 summary: ''
 authors: [irmer, hartig]
-weight: 10
-lastmod: '2024-03-08'
+weight: 
+lastmod: '2024-04-12'
 featured: no
 banner:
   image: "/header/schoolbus.jpg"
@@ -144,6 +144,13 @@ ggplot(data = df_res, aes(x = res)) +
                     fill = "skyblue") +           # Wie sollen die Balken gefüllt sein?
      stat_function(fun = dnorm, args = list(mean = mean(res), sd = sd(res)), col = "darkblue") + # Füge die Normalverteilungsdiche "dnorm" hinzu und nutze den empirischen Mittelwert und die empirische Standardabweichung "args = list(mean = mean(res), sd = sd(res))", wähle dunkelblau als Linienfarbe
      labs(title = "Histogramm der Residuen mit Normalverteilungsdichte", x = "Residuen") # Füge eigenen Titel und Achsenbeschriftung hinzu
+```
+
+```
+## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+## ℹ Please use `after_stat(density)` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
 ```
 
 <img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />

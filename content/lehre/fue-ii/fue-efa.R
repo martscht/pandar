@@ -1,35 +1,12 @@
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
-
 library(corrplot) # Korrelationsmatrix grafisch darstellen
 library(psych) # EFA durchführen
 library(GPArotation) # EFA Lösung rotieren
 
-library(htmlTable)
-output <- c(c("E1", "I am the life of the party.",
-"E2", "I don't talk a lot.",
-"E3", "I feel comfortable around people.",
-"N1", "I get stressed out easily.",
-"N2", "I am relaxed most of the time.",
-"N3", "I worry about things.",
-"A1", "I feel little concern for others.",
-"A2", "I am interested in people.",
-"A3", "I insult people.",
-"C1", "I am always prepared.",
-"C2", "I leave my belongings around.",
-"C3", "I pay attention to details.",
-"O1", "I have a rich vocabulary.",
-"O2", "I have difficulty understanding abstract ideas.",
-"O3", "I have a vivid imagination."))
-output <- matrix(output, ncol = 2, nrow = 3*5, byrow = T)
-htmlTable(output, header =  paste(c("Item Nr.", "Item")),
-         caption="Itemwortlaut", align = "cl")
+
 
 ## load("C:/Users/Musterfrau/Desktop/Big5_EFA.rda")
 
 load(url("https://pandar.netlify.app/daten/Big5_EFA.rda"))
-load("../../daten/Big5_EFA.rda")
 
 head(Big5, n = 10) # gebe die ersten 10 Zeilen aus
 
@@ -80,7 +57,7 @@ two_factor_oblimin$Vaccounted
 
 two_factor_oblimin$loadings[,] # Ladungsmatrix
 
-two_factor_oblimin$Phi
+
 
 two_factor_oblimin$loadings[,]
 two_factor_oblimin$Structure[,]
@@ -95,18 +72,18 @@ one_factor_ML <- fa(dataFR2, nfactors = 1, rotate = "oblimin", fm = "ml")
 one_factor_ML$STATISTIC # Chi²-Wert
 one_factor_ML$PVAL # p-Wert
 
-## anova(one_factor_ML, two_factor_ML)
+anova(one_factor_ML, two_factor_ML)
 
-knitr::kable(anova(one_factor_ML, two_factor_ML), row.names = T)
+
 
 # Passt auch eines mit 3 Faktor?
 three_factor_ML <- fa(dataFR2, nfactors = 3, rotate = "oblimin", fm = "ml")
 three_factor_ML$STATISTIC # Chi²-Wert
 three_factor_ML$PVAL # p-Wert
 
-## anova(two_factor_ML, three_factor_ML)
+anova(two_factor_ML, three_factor_ML)
 
-knitr::kable(anova(two_factor_ML, three_factor_ML), row.names = T)
+
 
 ## data_full <- read.table("BIG5/data.csv", header = T, sep = "\t") # nach entpacken des .zip liegen die Daten in einem Ordner namens Big5
 ## 
@@ -145,7 +122,7 @@ four_factor_ML$PVAL
 
 ## anova(four_factor_ML, five_factor_ML)
 
-knitr::kable(anova(four_factor_ML, five_factor_ML), row.names = T)
+
 
 six_factor_ML <- fa(dataFR, nfactors = 6, rotate = "oblimin", fm = "ml")
 six_factor_ML$STATISTIC
@@ -153,11 +130,11 @@ six_factor_ML$PVAL # Modell wird durch die Daten nicht verworfen
 
 ## anova(five_factor_ML, six_factor_ML)
 
-knitr::kable(anova(five_factor_ML, six_factor_ML), row.names = T)
+
 
 ## anova(four_factor_ML, five_factor_ML, six_factor_ML)
 
-knitr::kable(anova(four_factor_ML, five_factor_ML, six_factor_ML), row.names = T)
+
 
 two_factor$loadings[1, 1] # volle Formel für ersten Eintrag in Strukutrmatrix, da Kovarianz der Faktoren = 0
 two_factor$Structure[1, 1] # erster Eintrag in der Strukturmatrix
@@ -190,10 +167,3 @@ colMeans(dataFR)
 
 library(MVN)
 mvn(data = dataFR, mvnTest = "mardia")
-
-cat('## $multivariateNormality
-##              Test        Statistic              p value Result
-## 1 Mardia Skewness 814.236119391994 0.000288124299329737     NO
-## 2 Mardia Kurtosis 1.53049602635342    0.125893996300673    YES
-## 3             MVN             <NA>                 <NA>     NO
-## ')

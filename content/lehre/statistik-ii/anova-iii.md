@@ -1,5 +1,5 @@
 ---
-title: "ANOVA III: Varianzanalyse mit Messwiederholung"
+title: "Varianzanalyse mit Messwiederholung"
 type: post
 date: '2021-05-20'
 slug: anova-iii
@@ -9,7 +9,7 @@ subtitle: 'ANOVA mit Messwiederholung'
 summary: ''
 authors: [scheppa-lahyani,irmer,nehler,schultze]
 weight: 9
-lastmod: '2024-03-08'
+lastmod: '2024-04-12'
 featured: no
 banner:
   image: "/header/tree_flooded_lake_sunset.jpg"
@@ -118,12 +118,12 @@ table(alc$id)
 
 ```
 ## 
-##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
-## 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
-## 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
 ```
 
 Wie bereits geschildert benötigt das `ez`-Paket für die ANOVA mit Messwiederholung allerdings einen Datensatz im langen Format. Für die Transformation der Daten aus einem in das andere Format gibt es die `reshape`-Funktion, welche unterschiedliche Argumente benötigt, je nachdem, in welche Richtung die Daten transformiert werden sollen. Hier wollen wir aus dem breiten Format ins lange Format transformieren, um die Daten hinterher für die Varianzanalyse mit Messwiederholung nutzen zu können.
@@ -303,8 +303,8 @@ ezStats(alc_long, alcuse, id, within = age)
 ```
 
 ```
-## Warning: There is at least one numeric within variable, therefore aov() will be used for
-## computation and no assumption checks will be obtained.
+## Warning: There is at least one numeric within variable, therefore aov() will be used
+## for computation and no assumption checks will be obtained.
 ```
 
 ```

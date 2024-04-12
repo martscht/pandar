@@ -201,7 +201,7 @@ Wie ihr seht, sind **Branches** in <span style="color: darkred;">**Git**</span> 
 
 ## Appendix A
 
-<details><summary> **Wie funktioniert die Datenspeicherung?** </summary> 
+<details><summary> <b>Wie funktioniert die Datenspeicherung?</b> </summary> 
 
 Ihr kennt bereits das grobe Konzept von **Branches**, widmen wir uns mal der etwas technischeren Erklärung von **Branches**. Wir müssen zunächst verstehen wie <span style="color: darkred;">**Git**</span> Daten speichert. Zunächst erstmal eine grobe Erklärung.  
 

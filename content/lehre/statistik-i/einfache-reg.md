@@ -6,10 +6,10 @@ slug: einfache-reg
 categories: ["Statistik I"] 
 tags: ["Regression", "Lineare Regression", "Streudiagramm", "Determinationskoeffizient"]
 subtitle: ''
-summary: 'In diesem Beitrag werden die einfache lineare Regression vorgestellt. Außerdem soll der Unterschied zwischen standardisierten und nicht-standardisierten Regressionsgewichten deutlich werden sowie die Berechnung des Determinationskoeffizienten R^2 und dessen Bedeutung geklärt werden.' 
+summary: 'In diesem Beitrag werden die einfache lineare Regression vorgestellt. Außerdem soll der Unterschied zwischen standardisierten und nicht-standardisierten Regressionsgewichten deutlich werden sowie die Berechnung des Determinationskoeffizienten R² und dessen Bedeutung geklärt werden.' 
 authors: [winkler, neubauer, nehler, beitner]
 weight: 11
-lastmod: '2024-02-09'
+lastmod: '2024-04-02'
 featured: no
 banner:
   image: "/header/modern_buildings.jpg"
@@ -39,19 +39,21 @@ output:
 
 
 
-{{< spoiler text = "Kernfragen dieser Lehreinheit" >}}
+<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
+
 * Wie kann ein [Modell für den Zusammenhang](#Modell) von zwei Variablen erstellt werden?
 * Wie können [Streudiagramme](#Streudiagramm) in R erstellt werden? Wie kann die Regressionsgerade in den Plot eingefügt werden?
 * Wie können [standardisierte Regressionsgewichte](#Standardgewichte) geschätzt werden? Was ist der Unterschied zu nicht-standardisierten Regressionsgewichten?
 * Wie wird der [Determinationskoeffizient $R^2$](#DetKoef) berechnet und was sagt er aus?
 * Wie werden der [Determinationskoeffizient $R^2$](#Effekt) und der [Regressionsparameter _b_](#Inferenz) inferenzstatistisch überprüft?
-{{< /spoiler >}}
+
+</details>
 
 ***
 
 ## Vorbereitende Schritte {#prep}
 
-Zu Beginn laden wir wie gewohnt den Datensatz und verteilen die relevanten Labels. Beachten Sie, dass diese Befehle bereits angewendet wurden. Wenn Sie die veränderten Daten abgespeichert oder noch aktiv haben, sind die folgenden Befehle natürlich nicht nötig.
+Den Datensatz `fb23` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 
 ```r
@@ -141,7 +143,7 @@ Um nun eine einfache Regression an unserem Datensatz durchführen zu können, be
 
 * Zeigt die Extraversion (*extra*) aus dem Selbstbericht einen linearen Zusammenhang mit der selbst eingeschätzten "Nerdiness" (*nerd*)?
 
-Für gewöhnlich würden Sie nun zuerst einmal die Voraussetzungen überprüfen. Diese werden wir in der kommenden [Sitzung](https://pandar.netlify.app//lehre/statistik-i/regression-ii/) ausführlich besprechen. Jetzt schauen wir uns die Daten erst einmal nur an. Dies tun wir mithilfe eines Scatterplots. Wenn wir darin den beobachteten lokalen Zusammenhang abbilden, können wir auch schon visuell beurteilen, ob der Zusammenhang denn auch linear ist.
+Für gewöhnlich würden Sie nun zuerst einmal die Voraussetzungen überprüfen. Diese werden wir in der kommenden [Sitzung](/lehre/statistik-i/multiple-reg/) ausführlich besprechen. Jetzt schauen wir uns die Daten erst einmal nur an. Dies tun wir mithilfe eines Scatterplots. Wenn wir darin den beobachteten lokalen Zusammenhang abbilden, können wir auch schon visuell beurteilen, ob der Zusammenhang denn auch linear ist.
 
 
 
@@ -257,58 +259,52 @@ residuals(lin_mod)
 ```
 
 ```
-##            1            2            3            4            5            7            8 
-##  1.182835060 -0.088981917 -0.545347963 -0.255648584  0.954652037  0.559802347  0.182835060 
-##            9           10           11           12           13           14           15 
-##  0.349501727  0.472534439 -0.088981917  0.893135681 -0.606864319  0.244351416 -0.176249825 
-##           16           17           18           19           20           21           22 
-##  0.472534439 -0.694132227  0.744351416  0.682835060  0.762233819  0.349501727 -0.360798894 
-##           23           24           25           26           27           28           29 
-##  0.139201106 -0.545347963  0.016168393  1.911018083 -0.088981917  0.121318704  0.411018083 
-##           30           31           32           33           34           35           36 
-##  0.121318704 -0.088981917  0.244351416 -0.273530986 -0.194132227  0.164952658  0.472534439 
-##           37           38           39           40           41           42           43 
-## -0.465949204 -0.299282537 -0.878681296 -0.001714009  0.393135681  0.639201106 -0.045347963 
-##           44           45           46           47           48           49           50 
-##  0.577684750  0.411018083  0.331619324 -0.712014630 -0.799282537  1.139201106 -0.045347963 
-##           51           52           53           54           55           56           57 
-##  0.059802347  0.305867773 -0.360798894  0.516168393  0.226469014 -0.273530986  1.349501727 
-##           58           59           60           61           62           63           64 
-## -1.106864319  0.516168393 -0.922315250 -0.422315250  0.393135681  0.559802347 -0.606864319 
-##           65           66           67           68           69           70           71 
-##  0.595567152  0.454652037  0.621318704  0.972534439  0.621318704  0.428900486 -0.799282537 
-##           72           73           74           75           76           77           78 
-## -0.545347963 -0.588981917  0.244351416 -1.817164940 -0.335047342 -0.817164940 -0.360798894 
-##           79           80           81           82           83           84           85 
-## -0.255648584  0.077684750 -0.650498273 -1.483831607 -0.317164940 -0.378681296 -0.360798894 
-##           86           87           88           89           90           91           92 
-##  0.121318704  0.244351416 -0.027465561  0.516168393  0.182835060  0.911018083  0.534050796 
-##           93           94           95           96           97           98           99 
-## -0.299282537  0.867384129  0.595567152 -0.378681296 -0.440197653  0.639201106  0.305867773 
-##          101          102          103          104          105          106          107 
-##  0.182835060 -0.650498273 -0.255648584 -0.588981917 -0.440197653 -0.527465561 -0.755648584 
-##          108          109          110          111          112          113          114 
-## -0.212014630  0.287985370 -0.150498273  0.744351416 -0.527465561  0.516168393  0.182835060 
-##          115          116          117          118          119          120          121 
-## -0.694132227  0.305867773 -0.212014630  0.621318704 -0.422315250  0.393135681 -0.237766181 
-##          122          123          124          126          127          128          129 
-## -0.106864319 -1.465949204 -0.483831607 -0.299282537  0.349501727  0.700717463  0.639201106 
-##          130          131          132          133          134          135          136 
-##  0.454652037 -0.799282537 -0.360798894  0.787985370  0.077684750  0.077684750  0.305867773 
-##          137          138          139          140          141          142          143 
-## -0.527465561 -0.194132227 -0.071099514 -0.027465561 -1.255648584 -0.273530986  0.034050796 
-##          144          145          146          147          148          149          150 
-##  0.831619324 -1.045347963  0.016168393  0.182835060  0.016168393  0.244351416 -0.422315250 
-##          151          152          153          154          155          156          157 
-## -0.299282537  0.972534439 -0.212014630 -0.378681296  1.139201106  0.287985370 -0.860798894 
-##          158          159          160          161          162          163          164 
-## -0.001714009 -0.527465561 -0.045347963  0.287985370 -0.835047342  1.516168393  0.059802347 
-##          165          166          167          168          169          170          171 
-##  0.121318704 -0.440197653  0.182835060 -0.878681296 -0.755648584 -0.588981917  0.244351416 
-##          172          173          174          175          176          177          178 
-## -0.422315250 -0.360798894  0.831619324  0.657083509  0.954652037 -0.527465561 -0.378681296 
-##          179          180          181          182 
-## -0.817164940 -0.212014630  0.472534439 -1.132615871
+##            1            2            3            4            5            7            8            9 
+##  1.182835060 -0.088981917 -0.545347963 -0.255648584  0.954652037  0.559802347  0.182835060  0.349501727 
+##           10           11           12           13           14           15           16           17 
+##  0.472534439 -0.088981917  0.893135681 -0.606864319  0.244351416 -0.176249825  0.472534439 -0.694132227 
+##           18           19           20           21           22           23           24           25 
+##  0.744351416  0.682835060  0.762233819  0.349501727 -0.360798894  0.139201106 -0.545347963  0.016168393 
+##           26           27           28           29           30           31           32           33 
+##  1.911018083 -0.088981917  0.121318704  0.411018083  0.121318704 -0.088981917  0.244351416 -0.273530986 
+##           34           35           36           37           38           39           40           41 
+## -0.194132227  0.164952658  0.472534439 -0.465949204 -0.299282537 -0.878681296 -0.001714009  0.393135681 
+##           42           43           44           45           46           47           48           49 
+##  0.639201106 -0.045347963  0.577684750  0.411018083  0.331619324 -0.712014630 -0.799282537  1.139201106 
+##           50           51           52           53           54           55           56           57 
+## -0.045347963  0.059802347  0.305867773 -0.360798894  0.516168393  0.226469014 -0.273530986  1.349501727 
+##           58           59           60           61           62           63           64           65 
+## -1.106864319  0.516168393 -0.922315250 -0.422315250  0.393135681  0.559802347 -0.606864319  0.595567152 
+##           66           67           68           69           70           71           72           73 
+##  0.454652037  0.621318704  0.972534439  0.621318704  0.428900486 -0.799282537 -0.545347963 -0.588981917 
+##           74           75           76           77           78           79           80           81 
+##  0.244351416 -1.817164940 -0.335047342 -0.817164940 -0.360798894 -0.255648584  0.077684750 -0.650498273 
+##           82           83           84           85           86           87           88           89 
+## -1.483831607 -0.317164940 -0.378681296 -0.360798894  0.121318704  0.244351416 -0.027465561  0.516168393 
+##           90           91           92           93           94           95           96           97 
+##  0.182835060  0.911018083  0.534050796 -0.299282537  0.867384129  0.595567152 -0.378681296 -0.440197653 
+##           98           99          101          102          103          104          105          106 
+##  0.639201106  0.305867773  0.182835060 -0.650498273 -0.255648584 -0.588981917 -0.440197653 -0.527465561 
+##          107          108          109          110          111          112          113          114 
+## -0.755648584 -0.212014630  0.287985370 -0.150498273  0.744351416 -0.527465561  0.516168393  0.182835060 
+##          115          116          117          118          119          120          121          122 
+## -0.694132227  0.305867773 -0.212014630  0.621318704 -0.422315250  0.393135681 -0.237766181 -0.106864319 
+##          123          124          126          127          128          129          130          131 
+## -1.465949204 -0.483831607 -0.299282537  0.349501727  0.700717463  0.639201106  0.454652037 -0.799282537 
+##          132          133          134          135          136          137          138          139 
+## -0.360798894  0.787985370  0.077684750  0.077684750  0.305867773 -0.527465561 -0.194132227 -0.071099514 
+##          140          141          142          143          144          145          146          147 
+## -0.027465561 -1.255648584 -0.273530986  0.034050796  0.831619324 -1.045347963  0.016168393  0.182835060 
+##          148          149          150          151          152          153          154          155 
+##  0.016168393  0.244351416 -0.422315250 -0.299282537  0.972534439 -0.212014630 -0.378681296  1.139201106 
+##          156          157          158          159          160          161          162          163 
+##  0.287985370 -0.860798894 -0.001714009 -0.527465561 -0.045347963  0.287985370 -0.835047342  1.516168393 
+##          164          165          166          167          168          169          170          171 
+##  0.059802347  0.121318704 -0.440197653  0.182835060 -0.878681296 -0.755648584 -0.588981917  0.244351416 
+##          172          173          174          175          176          177          178          179 
+## -0.422315250 -0.360798894  0.831619324  0.657083509  0.954652037 -0.527465561 -0.378681296 -0.817164940 
+##          180          181          182 
+## -0.212014630  0.472534439 -1.132615871
 ```
 
 Die Residuen haben die Bedeutung des "Ausmaßes an Nerdiness, das nicht durch Extraversion vorhergesagt werden kann" - also die Differenz aus vorhergesagtem und tatsächlich beobachtetem Wert der y-Variable (Nerdiness).
@@ -323,42 +319,36 @@ predict(lin_mod)
 ```
 
 ```
-##        1        2        3        4        5        7        8        9       10       11 
-## 2.983832 3.088982 2.878681 3.088982 2.878681 2.773531 2.983832 2.983832 3.194132 3.088982 
-##       12       13       14       15       16       17       18       19       20       21 
-## 2.773531 2.773531 3.088982 3.509583 3.194132 3.194132 3.088982 2.983832 3.404433 2.983832 
-##       22       23       24       25       26       27       28       29       30       31 
-## 3.194132 3.194132 2.878681 2.983832 3.088982 3.088982 2.878681 3.088982 2.878681 3.088982 
-##       32       33       34       35       36       37       38       39       40       41 
-## 3.088982 2.773531 3.194132 2.668381 3.194132 3.299283 3.299283 2.878681 2.668381 2.773531 
-##       42       43       44       45       46       47       48       49       50       51 
-## 3.194132 2.878681 3.088982 3.088982 2.668381 2.878681 3.299283 3.194132 2.878681 2.773531 
-##       52       53       54       55       56       57       58       59       60       61 
-## 3.194132 3.194132 2.983832 2.773531 2.773531 2.983832 2.773531 2.983832 3.088982 3.088982 
-##       62       63       64       65       66       67       68       69       70       71 
-## 2.773531 2.773531 2.773531 3.404433 2.878681 2.878681 3.194132 2.878681 3.404433 3.299283 
-##       72       73       74       75       76       77       78       79       80       81 
-## 2.878681 3.088982 3.088982 2.983832 2.668381 2.983832 3.194132 3.088982 3.088982 2.983832 
-##       82       83       84       85       86       87       88       89       90       91 
-## 2.983832 2.983832 2.878681 3.194132 2.878681 3.088982 3.194132 2.983832 2.983832 3.088982 
-##       92       93       94       95       96       97       98       99      101      102 
-## 3.299283 3.299283 3.299283 3.404433 2.878681 2.773531 3.194132 3.194132 2.983832 2.983832 
-##      103      104      105      106      107      108      109      110      111      112 
-## 3.088982 3.088982 2.773531 3.194132 3.088982 2.878681 2.878681 2.983832 3.088982 3.194132 
-##      113      114      115      116      117      118      119      120      121      122 
-## 2.983832 2.983832 3.194132 3.194132 2.878681 2.878681 3.088982 2.773531 3.404433 2.773531 
-##      123      124      126      127      128      129      130      131      132      133 
-## 3.299283 2.983832 3.299283 2.983832 3.299283 3.194132 2.878681 3.299283 3.194132 2.878681 
-##      134      135      136      137      138      139      140      141      142      143 
-## 3.088982 3.088982 3.194132 3.194132 3.194132 3.404433 3.194132 3.088982 2.773531 3.299283 
-##      144      145      146      147      148      149      150      151      152      153 
-## 2.668381 2.878681 2.983832 2.983832 2.983832 3.088982 3.088982 3.299283 3.194132 2.878681 
-##      154      155      156      157      158      159      160      161      162      163 
-## 2.878681 3.194132 2.878681 3.194132 2.668381 3.194132 2.878681 2.878681 2.668381 2.983832 
-##      164      165      166      167      168      169      170      171      172      173 
-## 2.773531 2.878681 2.773531 2.983832 2.878681 3.088982 3.088982 3.088982 3.088982 3.194132 
-##      174      175      176      177      178      179      180      181      182 
-## 2.668381 3.509583 2.878681 3.194132 2.878681 2.983832 2.878681 3.194132 3.299283
+##        1        2        3        4        5        7        8        9       10       11       12       13 
+## 2.983832 3.088982 2.878681 3.088982 2.878681 2.773531 2.983832 2.983832 3.194132 3.088982 2.773531 2.773531 
+##       14       15       16       17       18       19       20       21       22       23       24       25 
+## 3.088982 3.509583 3.194132 3.194132 3.088982 2.983832 3.404433 2.983832 3.194132 3.194132 2.878681 2.983832 
+##       26       27       28       29       30       31       32       33       34       35       36       37 
+## 3.088982 3.088982 2.878681 3.088982 2.878681 3.088982 3.088982 2.773531 3.194132 2.668381 3.194132 3.299283 
+##       38       39       40       41       42       43       44       45       46       47       48       49 
+## 3.299283 2.878681 2.668381 2.773531 3.194132 2.878681 3.088982 3.088982 2.668381 2.878681 3.299283 3.194132 
+##       50       51       52       53       54       55       56       57       58       59       60       61 
+## 2.878681 2.773531 3.194132 3.194132 2.983832 2.773531 2.773531 2.983832 2.773531 2.983832 3.088982 3.088982 
+##       62       63       64       65       66       67       68       69       70       71       72       73 
+## 2.773531 2.773531 2.773531 3.404433 2.878681 2.878681 3.194132 2.878681 3.404433 3.299283 2.878681 3.088982 
+##       74       75       76       77       78       79       80       81       82       83       84       85 
+## 3.088982 2.983832 2.668381 2.983832 3.194132 3.088982 3.088982 2.983832 2.983832 2.983832 2.878681 3.194132 
+##       86       87       88       89       90       91       92       93       94       95       96       97 
+## 2.878681 3.088982 3.194132 2.983832 2.983832 3.088982 3.299283 3.299283 3.299283 3.404433 2.878681 2.773531 
+##       98       99      101      102      103      104      105      106      107      108      109      110 
+## 3.194132 3.194132 2.983832 2.983832 3.088982 3.088982 2.773531 3.194132 3.088982 2.878681 2.878681 2.983832 
+##      111      112      113      114      115      116      117      118      119      120      121      122 
+## 3.088982 3.194132 2.983832 2.983832 3.194132 3.194132 2.878681 2.878681 3.088982 2.773531 3.404433 2.773531 
+##      123      124      126      127      128      129      130      131      132      133      134      135 
+## 3.299283 2.983832 3.299283 2.983832 3.299283 3.194132 2.878681 3.299283 3.194132 2.878681 3.088982 3.088982 
+##      136      137      138      139      140      141      142      143      144      145      146      147 
+## 3.194132 3.194132 3.194132 3.404433 3.194132 3.088982 2.773531 3.299283 2.668381 2.878681 2.983832 2.983832 
+##      148      149      150      151      152      153      154      155      156      157      158      159 
+## 2.983832 3.088982 3.088982 3.299283 3.194132 2.878681 2.878681 3.194132 2.878681 3.194132 2.668381 3.194132 
+##      160      161      162      163      164      165      166      167      168      169      170      171 
+## 2.878681 2.878681 2.668381 2.983832 2.773531 2.878681 2.773531 2.983832 2.878681 3.088982 3.088982 3.088982 
+##      172      173      174      175      176      177      178      179      180      181      182 
+## 3.088982 3.194132 2.668381 3.509583 2.878681 3.194132 2.878681 2.983832 2.878681 3.194132 3.299283
 ```
 
 Per Voreinstellung werden hier die vorhergesagten Werte aus unserem ursprünglichen Datensatz dargestellt. `predict()` erlaubt uns aber auch Werte von "neuen" Beobachtungen vorherzusagen. Nehmen wir an, wir würden die Extraversion von 5 neuen Personen beobachten (sie haben - vollkommen zufällig - die Werte 1, 2, 3, 4 und 5) und diese Beobachtungen in einem neuem Datensatz `extra_neu` festhalten:
@@ -401,6 +391,7 @@ confint(lin_mod)
 ## (Intercept)  3.3859075  4.0538600
 ## extra       -0.3087968 -0.1118044
 ```
+
 
 
 Das Konfidenzintervall von -0.309 und -0.112 ist der Bereich, in dem wir den wahren Wert vermuten können. Zur Erinnerung: das 95% Konfidenzintervall  besagt, dass, wenn wir diese Studie mit der selben Stichprobengröße sehr oft wiederholen, 95% aller realisierten Konfidenzintervalle den wahren Wert für $b_1$ enthalten werden. Da die 0 nicht in diesem Intervall enthalten ist, ist 0 ein eher unwahrscheinlicher wahrer Wert für $b_1$.
@@ -541,7 +532,7 @@ Konventionen sind, wie bereits besprochen, heranzuziehen, wenn keine vorherigen 
 
 ### Standardisierte Regressionsgewichte {#Standardgewichte}
 
-Bei einer Regression (besonders wenn mehr als ein Prädiktor in das Modell aufgenommen wird wie in der nächsten [Sitzung](/lehre/statistik-i/einfache-reg-ii/)) kann es sinnvoll sein, die standardisierten Regressionskoeffizienten zu betrachten, um die Erklärungs- oder Prognosebeiträge der einzelnen unabhängigen Variablen (unabhängig von den bei der Messung der Variablen gewählten Einheiten) miteinander vergleichen zu können, z. B. um zu sehen, welche Variable den größten Beitrag zur Prognose der abhängigen Variable leistet. Außerdem ist es hierdurch möglich, die Ergebnisse zwischen verschiedenen Studien zu vergleichen, die `nerd` und `extra` gemessen haben, jedoch in unterschiedlichen Einheiten. Durch die Standardisierung werden die Regressionskoeffizienten vergleichbar.
+Bei einer Regression (besonders wenn mehr als ein Prädiktor in das Modell aufgenommen wird wie in der nächsten [Sitzung](/lehre/statistik-i/multiple-reg/)) kann es sinnvoll sein, die standardisierten Regressionskoeffizienten zu betrachten, um die Erklärungs- oder Prognosebeiträge der einzelnen unabhängigen Variablen (unabhängig von den bei der Messung der Variablen gewählten Einheiten) miteinander vergleichen zu können, z. B. um zu sehen, welche Variable den größten Beitrag zur Prognose der abhängigen Variable leistet. Außerdem ist es hierdurch möglich, die Ergebnisse zwischen verschiedenen Studien zu vergleichen, die `nerd` und `extra` gemessen haben, jedoch in unterschiedlichen Einheiten. Durch die Standardisierung werden die Regressionskoeffizienten vergleichbar.
 Die Variablen werden mit `scale()` standardisiert (z-Transformation; Erwartungswert gleich Null und die Varianz gleich Eins gesetzt). Mit `lm()` wird das Modell berechnet.
 
 

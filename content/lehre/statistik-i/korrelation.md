@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler, winkler, schroeder, neubauer, goldhammer]
 weight: 9
-lastmod: '2024-01-16'
+lastmod: '2024-03-28'
 featured: yes
 banner:
   image: "/header/storch_with_baby.jpg"
@@ -39,21 +39,24 @@ output:
 
 
 
-{{< spoiler text = "Kernfragen dieses Beitrags" >}}
+
+<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
+
 * Wie können [Kreuztabellen](#Kreuztabellen) in R erstellt werden? Welche Varianten gibt es, [relative Häufigkeitstabellen](#Relativtabelle) zu erstellen?
 * Wie kann ein gemeinsames [Balkendiagramm](#Balkendiagramm) für zwei Variablen erstellt werden?
 * Welche zwei Varianten gibt es, [Varianzen und Kovarianzen](#Ko_Varianz) zu bestimmen?
 * Wie kann die [Produkt-Moment-Korrelation](#PMK), die [Rang-Korrelation nach Spearman](#Rs) und [Kendalls $\tau$](#tau) bestimmt werden?
 * Wie wird bei der Berechnung von [Korrelationen mit fehlenden Werten](#NA) umgegangen?
 * Wie lässt sich der Zusammenhang zweier [dichotomer (nominaler) Variablen](#Dichotome_var) berechnen?
-{{< /spoiler >}}
+
+</details>
 
 ***
 
 
 ## Vorbereitende Schritte {#prep}
 
-Zu Beginn laden wir wie gewohnt den Datensatz und verteilen die relevanten Labels. Beachten Sie, dass diese Befehle bereits angewendet wurden. Wenn Sie die veränderten Daten abgespeichert oder noch aktiv haben, sind die folgenden Befehle natürlich nicht nötig.
+Den Datensatz `fb23` haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
 
 
 ```r
@@ -182,19 +185,12 @@ prop.table(tab)                       #Relative Häufigkeiten
 
 ```
 ##              
-##                Wirtschaft    Therapie   Forschung
-##   Allgemeine  0.042424242 0.072727273 0.042424242
-##   Biologische 0.030303030 0.060606061 0.078787879
-##   Entwicklung 0.006060606 0.054545455 0.018181818
-##   Klinische   0.006060606 0.436363636 0.018181818
-##   Diag./Meth. 0.006060606 0.000000000 0.018181818
-##              
-##                    Andere
-##   Allgemeine  0.024242424
-##   Biologische 0.018181818
-##   Entwicklung 0.036363636
-##   Klinische   0.024242424
-##   Diag./Meth. 0.006060606
+##                Wirtschaft    Therapie   Forschung      Andere
+##   Allgemeine  0.042424242 0.072727273 0.042424242 0.024242424
+##   Biologische 0.030303030 0.060606061 0.078787879 0.018181818
+##   Entwicklung 0.006060606 0.054545455 0.018181818 0.036363636
+##   Klinische   0.006060606 0.436363636 0.018181818 0.024242424
+##   Diag./Meth. 0.006060606 0.000000000 0.018181818 0.006060606
 ```
 
 72 von insgesamt 165 (43.64%)  wollen therapeutisch arbeiten *und* interessieren sich bisher am meisten für die klinische Psychologie.
@@ -248,21 +244,13 @@ addmargins(prop.table(tab))      # als geschachtelte Funktion
 
 ```
 ##              
-##                Wirtschaft    Therapie   Forschung
-##   Allgemeine  0.042424242 0.072727273 0.042424242
-##   Biologische 0.030303030 0.060606061 0.078787879
-##   Entwicklung 0.006060606 0.054545455 0.018181818
-##   Klinische   0.006060606 0.436363636 0.018181818
-##   Diag./Meth. 0.006060606 0.000000000 0.018181818
-##   Sum         0.090909091 0.624242424 0.175757576
-##              
-##                    Andere         Sum
-##   Allgemeine  0.024242424 0.181818182
-##   Biologische 0.018181818 0.187878788
-##   Entwicklung 0.036363636 0.115151515
-##   Klinische   0.024242424 0.484848485
-##   Diag./Meth. 0.006060606 0.030303030
-##   Sum         0.109090909 1.000000000
+##                Wirtschaft    Therapie   Forschung      Andere         Sum
+##   Allgemeine  0.042424242 0.072727273 0.042424242 0.024242424 0.181818182
+##   Biologische 0.030303030 0.060606061 0.078787879 0.018181818 0.187878788
+##   Entwicklung 0.006060606 0.054545455 0.018181818 0.036363636 0.115151515
+##   Klinische   0.006060606 0.436363636 0.018181818 0.024242424 0.484848485
+##   Diag./Meth. 0.006060606 0.000000000 0.018181818 0.006060606 0.030303030
+##   Sum         0.090909091 0.624242424 0.175757576 0.109090909 1.000000000
 ```
 
 ```r
@@ -271,21 +259,13 @@ prop.table(tab) |> addmargins()  # als Pipe
 
 ```
 ##              
-##                Wirtschaft    Therapie   Forschung
-##   Allgemeine  0.042424242 0.072727273 0.042424242
-##   Biologische 0.030303030 0.060606061 0.078787879
-##   Entwicklung 0.006060606 0.054545455 0.018181818
-##   Klinische   0.006060606 0.436363636 0.018181818
-##   Diag./Meth. 0.006060606 0.000000000 0.018181818
-##   Sum         0.090909091 0.624242424 0.175757576
-##              
-##                    Andere         Sum
-##   Allgemeine  0.024242424 0.181818182
-##   Biologische 0.018181818 0.187878788
-##   Entwicklung 0.036363636 0.115151515
-##   Klinische   0.024242424 0.484848485
-##   Diag./Meth. 0.006060606 0.030303030
-##   Sum         0.109090909 1.000000000
+##                Wirtschaft    Therapie   Forschung      Andere         Sum
+##   Allgemeine  0.042424242 0.072727273 0.042424242 0.024242424 0.181818182
+##   Biologische 0.030303030 0.060606061 0.078787879 0.018181818 0.187878788
+##   Entwicklung 0.006060606 0.054545455 0.018181818 0.036363636 0.115151515
+##   Klinische   0.006060606 0.436363636 0.018181818 0.024242424 0.484848485
+##   Diag./Meth. 0.006060606 0.000000000 0.018181818 0.006060606 0.030303030
+##   Sum         0.090909091 0.624242424 0.175757576 0.109090909 1.000000000
 ```
 
 ****
@@ -308,30 +288,26 @@ barplot (tab,
 
 ## Varianz, Kovarianz und Korrelation {#Ko_Varianz .anchorheader}
 
-In der Vorlesung haben Sie gelernt, dass es für *Kovarianzen* und *Varianzen* empirische und geschätzte Werte gibt. R berechnet standardmäßig für die Varianz und Kovarianz die *Populationsschätzer*, verwendet also folgende Formeln für Varianz
+In der Vorlesung haben Sie gelernt, dass es für *Kovarianzen* und *Varianzen* empirische und geschätzte Werte gibt. R berechnet standardmäßig für die Varianz und Kovarianz die *Populationsschätzer*, verwendet also folgende Formeln für Varianz 
 
 {{< math >}}
-<div class="big-maths">
 \begin{equation}
 \small
 \hat{\sigma}^2_{X} = \frac{\sum_{m=1}^n (y_m - \bar{y})^2}{n-1}
 \end{equation}
-</div>
 {{< /math >}}
 
 
 und Kovarianz.
 
 {{< math >}}
-<div class="big-maths">
 \begin{equation}
 \small
 \hat{\sigma}_{XY} = \frac{\sum_{m=1}^n (x_m - \bar{x}) \cdot (y_m - \bar{y})}{n-1}
 \end{equation}
-</div>
 {{< /math >}}
 
-### Funktionen und Behandlung fehlender Werte
+### Funktionen und Behandlung fehlender Werte {#fehlende-werte}
 
 Die Funktionen für die Varianz ist dabei `var()`. Im Folgenden wird diese für die Variablen `neuro` (Neurotizismus) und `gewis` (Gewissenhaftigkeit) aus dem Datensatz bestimmt. Als Argumente müssen jeweils die Variablennamen verwendet werden.
 Wie bereits in vergangenen Sitzungen gesehen, führen fehlende Werte zu der Ausgabe `NA`. Um dies vorzubeugen, wird im univariaten Fall `na.rm = TRUE` zum Ausschluss verwendet. 
@@ -479,7 +455,7 @@ cor(x = fb23$neuro, y = fb23$gewis, use = 'pairwise')
 ## [1] -0.0295697
 ```
 
-Bei einer positiven Korrelation gilt „je mehr Variable x... desto mehr Variable y" bzw. umgekehrt, bei einer negativen Korrelation „je mehr Variable x... desto weniger Variable y" bzw. umgekehrt. Korrelationen sind immer ungerichtet, das heißt, sie enthalten keine Information darüber, welche Variable eine andere vorhersagt - beide Variablen sind gleichberechtigt. Korrelationen (und Regressionen, die wir später [in einem Tutorial](/lehre/statistik-i/regression) kennen lernen werden) liefern *keine* Hinweise auf Kausalitäten. Sie sagen beide etwas über den (linearen) Zusammenhang zweier Variablen aus.
+Bei einer positiven Korrelation gilt „je mehr Variable x... desto mehr Variable y" bzw. umgekehrt, bei einer negativen Korrelation „je mehr Variable x... desto weniger Variable y" bzw. umgekehrt. Korrelationen sind immer ungerichtet, das heißt, sie enthalten keine Information darüber, welche Variable eine andere vorhersagt - beide Variablen sind gleichberechtigt. Korrelationen (und Regressionen, die wir später [in einem Tutorial](/lehre/statistik-i/einfache-reg) kennen lernen werden) liefern *keine* Hinweise auf Kausalitäten. Sie sagen beide etwas über den (linearen) Zusammenhang zweier Variablen aus.
 
 In R können wir uns auch eine *Korrelationsmatrix* ausgeben lassen. Dies geschieht äquivalent zu der Kovarianzmatrix mit dem Datensatz als Argument in der `cor()` Funktion. In der Diagonale stehen die Korrelationen der Variable mit sich selbst - also 1 - und in den restlichen Feldern die Korrelationen der Variablen untereinander.
 
@@ -637,9 +613,8 @@ cor <- cor.test(fb23$neuro, fb23$gewis,
 ```
 
 ```
-## Warning in cor.test.default(fb23$neuro, fb23$gewis,
-## alternative = "two.sided", : Cannot compute exact p-value
-## with ties
+## Warning in cor.test.default(fb23$neuro, fb23$gewis, alternative = "two.sided", : Cannot compute exact p-value with
+## ties
 ```
 
 ```r

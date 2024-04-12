@@ -9,7 +9,7 @@ subtitle: 'Deskriptive lineare Diskriminanzanalyse'
 summary: '' 
 authors: [irmer] 
 weight: 7
-lastmod: '2023-12-02'
+lastmod: '2024-03-12'
 featured: no
 banner:
   image: "/header/three_boats.jpg"
@@ -27,10 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/fue-i/diskriminanzanalyse.R
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/fue-i/diskriminanzanalyse-aufgaben
+  # - icon_pack: fas
+  #   icon: pen-to-square
+  #   name: Aufgaben
+  #   url: /lehre/fue-i/diskriminanzanalyse-aufgaben
 output:
   html_document:
     keep_md: true
@@ -53,8 +53,7 @@ oder wir laden sie direkt über die Website:
 
 
 ```r
-#load(url("https://pandar.netlify.app/daten/Therapy.rda"))
-load(url("https://courageous-donut-84b9e9.netlify.app/post/Therapy.rda"))
+load(url("https://pandar.netlify.app/daten/Therapy.rda"))
 ```
 
 Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik "Data" unser Datensatz mit dem Namen "_Therapy_" erscheinen. 
@@ -216,9 +215,8 @@ head(predict(model_DA)$class)     # Vorhergesagte Klasse
 ```
 
 ```
-## [1] Kontrollgruppe              Kontrollgruppe             
-## [3] VT Coaching + Gruppenuebung Kontrollgruppe             
-## [5] Kontrollgruppe              Kontrollgruppe             
+## [1] Kontrollgruppe              Kontrollgruppe              VT Coaching + Gruppenuebung
+## [4] Kontrollgruppe              Kontrollgruppe              Kontrollgruppe             
 ## Levels: Kontrollgruppe VT Coaching VT Coaching + Gruppenuebung
 ```
 
@@ -256,7 +254,7 @@ ggplot(data = Therapy, aes(x = DA1, y = DA2, color = Intervention)) +
   ggtitle(label = "Diskriminanzachsen", subtitle = "mit Trennlinien")
 ```
 
-<img src="/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 Was wir nun sehen, ist, dass entlang der x-Achse besonders zwischen blau/grün vs rot unterschieden wird. D.h. die erste Diskriminanzachse hilft uns, zwischen den Interventionsgruppen und der Kontrollgruppe zu unterscheiden. Die zweite Achse trennt eher zwischen den beiden Interventionsgruppen, wobei diese Trennung nicht sehr eindeutig ist.
 
@@ -267,7 +265,7 @@ Wir hätten auch einfach die `plot`-Funktion auf das `model_DA`-Objekt anwenden 
 plot(model_DA)
 ```
 
-<img src="/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 Wenn wir diesem noch Farben zuordnen (hier jeweils 30 mal die selbe Farbe, da die Gruppen so häufig hintereinander im Datensatz standen...), dann sieht diese Grafik der mit `ggplot` erzeugten Grafik recht ähnlich. Natürlich können wir auch hier die Nullpunkte einfügen:
 
@@ -278,7 +276,7 @@ abline(v = 0, lty = 3)
 abline(h = 0, lty = 3)
 ```
 
-<img src="/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 Zu guter Letzt fügen wir noch die Trennlinien, die zwischen den Gruppen unterscheiden, in die erste Grafik ein. Diese liegen immer auf halbem Weg (durchgezogenen schwarzen Linien, hier für *Kontrollgruppe* vs. *VT-Coaching + Gruppenübung*) zwischen zwei Mittelwerten pro Gruppe (gestrichelten Linien) auf den jeweiligen Achsen:
 
@@ -309,7 +307,7 @@ ggplot(data = Therapy, aes(x = DA1, y = DA2, color = Intervention)) + geom_point
         ggtitle(label = "Diskriminanzachsen", subtitle = "mit Mittelwerten pro Gruppe")
 ```
 
-<img src="/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 
 
@@ -459,22 +457,17 @@ ggplot(data = Therapy, mapping = aes(x = LZ, y = AZ, color = Intervention))+
 
 ```
 ## Warning: The following aesthetics were dropped during statistical transformation: colour
-## ℹ This can happen when ggplot fails to infer the correct grouping structure in the
-##   data.
-## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical variable
-##   into a factor?
+## ℹ This can happen when ggplot fails to infer the correct grouping structure in the data.
+## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical variable into
+##   a factor?
 ```
 
-<img src="/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
+![](/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
  
 Wir sehen, dass die Trennlinien nicht rechtwinklig zueinander verlaufen. Dies liegt daran, dass die Achsen hier in die Originalskala retransformiert wurden. Die Gruppen werden wie folgt zugeordnet: *oben links* = `VT Coaching`, *oben rechts* = `VT Coaching + Gruppenuebung` und *unten rechts/unten* = `Kontrollgruppe`. Allerdings ist diese Zuordnung nicht sehr genau...
 
 ***
 
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [<i class="fas fa-download"></i> hier herunterladen](/lehre/fue-i/diskriminanzanalyse.R).
-
-***
 
 ## Literatur
 [Eid, M., Gollwitzer, M., & Schmitt, M. (2017).](https://ubffm.hds.hebis.de/Record/HEB366849158) *Statistik und Forschungsmethoden* (5. Auflage, 1. Auflage: 2010). Weinheim: Beltz.

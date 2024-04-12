@@ -3,13 +3,13 @@ title: "Einfache Lineare Regression - Aufgaben"
 type: post
 date: '2019-10-18' 
 slug: einfache-reg-aufgaben 
-categories: [] 
-tags: ["Statistik I Übungen"] 
+categories: ["Statistik I Übungen"] 
+tags: [] 
 subtitle: ''
 summary: '' 
 authors: [winkler, neubauer, walter]
 weight:
-lastmod: '2024-01-26'
+lastmod: '2024-04-02'
 featured: no
 banner:
   image: "/header/modern_buildings.jpg"

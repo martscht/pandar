@@ -1,5 +1,3 @@
-# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
-
 x <- c(1, 2, 3)
 y <- c(10, 8, 6)
 
@@ -47,7 +45,7 @@ B
 
 ## A + B
 
-cat("Error in A + B : non-conformable arrays")
+
 
 t(A) + B
 
@@ -85,8 +83,7 @@ diag(C)
 
 ## solve(C)
 
-cat("Error in solve.default(C) : 
-  system is computationally singular: reciprocal condition number = 2.59052e-18")
+
 
 det(C)
 round(det(C), 14)
@@ -137,7 +134,7 @@ P %*% x
 b
 
 # Daten laden
-load(url('https://courageous-donut-84b9e9.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb22.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb22$geschl_faktor <- factor(fb22$geschl,

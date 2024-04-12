@@ -20,11 +20,25 @@ reading_time: false
 share: false
 _build:
   list: never
+  
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/deskriptiv-intervall
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/deskriptiv-intervall-aufgaben
+  
 output:
   html_document:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
 
 ### Vorbereitung
 

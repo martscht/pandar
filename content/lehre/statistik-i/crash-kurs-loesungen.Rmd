@@ -39,8 +39,9 @@ output:
 
 ## R als Taschenrechner
 
-```{r setup, cache = FALSE, echo = FALSE}
-knitr::opts_chunk$set(error = TRUE)
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 1. Bestimmen Sie das Ergebnis von $3 + 7 \cdot 12$
@@ -80,7 +81,7 @@ zahl <- round(sqrt(115))
 
 <details><summary>Lösung</summary>
 
-```{r}
+```{r, error = T}
 6 * 1,56
 ```
 
@@ -216,7 +217,7 @@ olymp
 
 *Hinweis*: Die Summe des Objekts `zeit` ist hier nicht mehr angebracht, weil die 6. Sprinterin direkt dem Datensatz hinzugefügt wurde. Dadurch hat sich das Verhalten unseres Datensatzes geändert:
 
-```{r}
+```{r, error = T}
 sum(olymp$zeit)
 str(olymp)
 ```

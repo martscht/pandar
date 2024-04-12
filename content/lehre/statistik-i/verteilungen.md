@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr, Zufallsexperimente und Bernoulli-Experimente zu simulieren, eine Binomialverteilung darzustellen sowie Wahrscheinlichkeitverteilungen und Verteilungsfunktionen zu erstellen. Außerdem erfahrt ihr, wie man Dichte- und Verteilungsfunktionen erstellt und wie man eine empirisch erhobene Variable gegen die Normalverteilung abtragen kann.' 
 authors: [nehler, liu] 
 weight: 4
-lastmod: '2023-11-28'
+lastmod: '2024-04-02'
 featured: no
 banner:
   image: "/header/six_sided_dice.png"
@@ -37,15 +37,17 @@ output:
 ---
 
 
+ 
+<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
 
-{{< spoiler text = "Kernfragen dieser Lehreinheit" >}}
 * Wie können [**Zufallsexperimente**](#Zufall) und [**Bernoulli-Experimente**](#Zufall) simuliert werden?  
 * Wie lässt sich die [**Binomialverteilung darstellen**](#Binomial)?  
 * Wie können [**Wahrscheinlichkeitsverteilung**](#Binomial) und [**Verteilungsfunktion**](#Verteilung) erstellt werden?
 * Welchem Muster folgt die Arbeit mit [**Verteilungen**](#Muster) in `R`?  
 * Mit welchen Befehlen erstellt man die [**Dichte- und Verteilungsfunktion**](#Dichte)?
-* Wie kann eine empirisch erhobene Variable [**gegen die Normalverteilung abgetragen**](#Normalverteilung) werden?
-{{< /spoiler >}}
+
+
+</details>
 
 ***
 
@@ -566,8 +568,7 @@ rnorm(10,mean = 100,sd = 15)
 ```
 
 ```
-##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336  91.34905 110.82285 109.28648 100.31509
-## [10] 104.12275
+##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336  91.34905 110.82285 109.28648 100.31509 104.12275
 ```
 
 ***

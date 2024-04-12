@@ -1,21 +1,4 @@
-# Hier kann der Fragebogen geladen werden, muss auskommentiert werden!
-
 load(url('https://pandar.netlify.com/daten/edu_exp.rda'))
-
-#### Variablenerklärung ----
-
-# - `geo`: Länderkürzel, das zur Identifikation der Länder über verschiedene Datenquellen hinweg genutzt wird
-# - `Country`: der Ländername im Englischen
-# - `Wealth`: Wohlstandseinschätzung des Landes, unterteilt in fünf Gruppen 
-# - `Region`: Einteilung der Länder in die vier groben Regionen `africa`, `americas`, `asia` und `europe`
-# - `Year`: Jahreszahl
-# - `Population`: Bevölkerung
-# - `Expectancy`: Lebenserwartung eines Neugeborenen, sollten die Lebensumstände stabil bleiben.
-# - `Income`: Stetiger Wohlstandsindikator für das Land (GDP pro Person)
-# - `Primary`: Staatliche Ausgaben pro Schüler:in in der primären Bildung als Prozent des `income` (GDP pro Person)
-# - `Secondary`: Staatliche Ausgaben pro Schüler:in in der sekundären Bildung als Prozent des `income` (GDP pro Person)
-# - `Tertiary`: Staatliche Ausgaben pro Schüler:in oder Student:in in der tertiären Bildung als Prozent des `income` (GDP pro Person)
-# - `Index`: Education Index des United Nations Development Programme
 
 # Anschauen der ersten Zeilen
 head(edu_exp)
@@ -23,68 +6,67 @@ head(edu_exp)
 # ggplot2 laden, muss unter Umständen noch installiert werden, siehe prompt von RStudio
 library(ggplot2)
 
-# Nur die Daten des Jahr 2013 in Subset anlegen
-edu_2013 <- subset(edu_exp, Year == 2013)
+# Nur die Daten des Jahr 2014 in Subset anlegen
+edu_2014 <- subset(edu_exp, Year == 2014)
 
 # Daten für ggplot angeben, erstmal leere Fläche da aes und geom noch fehlen
-ggplot(edu_2013)
+ggplot(edu_2014)
 
-# Aes wird hier mit einer IV/DV angeben für einen Scatter-Plot, Plot steht schon, aber Daten fehlen, da geom fehlt
-ggplot(edu_2013, aes(x = Primary, y = Index))
+# Erste Ästhetik (x-Achse) festlegen
+ggplot(edu_2014, aes(x = Wealth))
+
+# Ausprägungen der Variable
+unique(edu_2014$Wealth)
+
+# Variable in einen factor mit labels überführen
+edu_2014$Wealth <- factor(edu_2014$Wealth, levels = c('low_income', 'lower_middle_income', 'upper_middle_income', 'high_income'),
+  labels = c('Low', 'Lower Mid', 'Upper Mid', 'High'))
+
+# Labels ausgeben lassen
+levels(edu_2014$Wealth)
+
+# Erste Ästhetik (x-Achse) festlegen
+ggplot(edu_2014, aes(x = Wealth))
 
 # Nun wird der fertige Scatter Plot zwischen Grundschulbildung und Education Index dargestellt
-ggplot(edu_2013, aes(x = Primary, y = Index)) +
-  geom_point()
+ggplot(edu_2014, aes(x = Wealth)) +
+  geom_bar()
 
-# Da Plot einen positiv linearen Zusammenhang vermuten lässt, wird nun die Korrelation getestet
-cor.test(edu_2013$Index, edu_2013$Primary)
+# Nur die Länder ohne NA in Wealth
+edu_2014 <- subset(edu_2014, !is.na(Wealth))
 
 # Speichert eine Grundlagenschicht in ggplot, basierend auf data und aes, diese gilt als Basis für die danach erstellten Grafiken
-basic <- ggplot(edu_2013, aes(x = Primary, y = Index))
+basic <- ggplot(edu_2014, aes(x = Wealth))
 
-# Grundschema wird zusammen mit Punkten für Datenpunkte aufgerufen
-basic + geom_point()
+# Grundschema wird zusammen mit der Geometrie "Balken" aufgerufen
+basic + geom_bar()
 
-# Es wird dargestellt, dass die geometrischen Formen der Datenpunkte gefärbt werden können, hier blau; Zeigt das Farbe nicht exklusiv bei aes geändert wird
-ggplot(edu_2013, aes(x = Primary, y = Index)) +
-  geom_point(color = 'blue')
+# Balken einfärben
+ggplot(edu_2014, aes(x = Wealth)) +
+  geom_bar(fill = 'blue', color = 'grey40')
 
 # Farbverlauf durch Werte von x über aes
-ggplot(edu_2013, aes(x = Primary, y = Index)) +
-  geom_point(aes(color = Primary))
+ggplot(edu_2014, aes(x = Wealth)) +
+  geom_bar(aes(fill = Wealth), color = 'grey40')
 
 # Tabelle der vier "Kontinent", die sich im Datensatz befinden, Amerikas zusammengefasst, kein Australien
-table(edu_2013$Region)
+table(edu_2014$Region)
 
-# Scatterplot mit Kontinenten als IV
-ggplot(edu_2013, aes(x = Primary, y = Index)) +
-  geom_point(aes(color = Region))
+edu_2014$Region <- factor(edu_2014$Region, levels = c('africa', 'americas', 'asia', 'europe'),
+  labels = c('Africa', 'Americas', 'Asia', 'Europe'))
 
-## # Verschiebt Farbgruppierung in allgemeinen Plot, damit diese an sich auf alle Geometrie-Elemente angewandt werden würde, wird nicht ausgewertet!
-## ggplot(edu_2013, aes(x = Primary, y = Index, color = Region)) +
-##   geom_point()
+ggplot(edu_2014, aes(x = Wealth, group = Region)) +
+  geom_bar(aes(fill = Region), color = 'grey40')
 
-# Datensatz mit mehreren Jahren
-edu_sel <- subset(edu_exp,  Year %in% c(1998, 2003, 2008, 2013))
-edu_sel$Year <- as.factor(edu_sel$Year)
-
-# Beispiel einer etwas chaotischen Darstellung all dieser Jahresdaten zur selben Zeit
-ggplot(edu_sel, aes(x = Primary, y = Index, 
-  color = Region, pch = Year)) +
-  geom_point()
-
-# Übersichtlichkeit durch faceting, trennt in einzelne Abbildungn nach Jahreszeit
-ggplot(edu_sel, aes(x = Primary, y = Index, 
-  color = Region)) +
-  geom_point() +
-  facet_wrap(~ Year)
+ggplot(edu_2014, aes(x = Wealth, group = Region)) +
+  geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge')
 
 # Speichern des Grundmodells des scatter-plots, um es danach mit versch. Themes darzustellen
-scatter <- ggplot(edu_2013, aes(x = Primary, y = Index, color = Region)) +
-  geom_point()
+bars <- ggplot(edu_2014, aes(x = Wealth, group = Region)) +
+  geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge')
 
 # Minimal theme
-scatter + theme_minimal()
+bars + theme_minimal()
 
 ## # Package für weitere ggplot-themes, kann man durch auskommentieren installieren
 ## install.packages('ggthemes')
@@ -93,10 +75,10 @@ scatter + theme_minimal()
 
 
 # maximal Data, minimal Ink - Theme
-scatter + theme_tufte()
+bars + theme_tufte()
 
-# Komplexeres Theme basierend auf Prinzipien von Nate Silvers Website https://fivethirtyeight.com/
-scatter + theme_fivethirtyeight()
+# Komplexeres Theme
+bars + theme_excel()
 
 # Beispielhaft minimal als default-theme setzen
 theme_set(theme_minimal())
@@ -105,47 +87,26 @@ theme_set(theme_minimal())
 ## theme_set(theme_grey())
 
 # Einfügen von Beschriftungen für die einzelnen Bestandteile und Achsen
-ggplot(edu_2013, aes(x = Primary, y = Index, color = Region)) +
-  geom_point() +
-  labs(x = 'Spending on Primary Eduction',
-    y = 'UNDP Education Index',
+ggplot(edu_2014, aes(x = Wealth, group = Region)) +
+  geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge') +
+  labs(x = 'Country Wealth (GDP per Capita)',
+    y = 'Count',
     color = 'World Region') +
-  ggtitle('Impact of Primary Education Investments', '(Data for 2013)')
+  ggtitle('Categorization of Countries in GapMinder Data', '(Data for 2014)')
 
-# Ändert die Faktornamen der Regionen, damit diese am Anfang großgeschrieben sind
-edu_2013$Region <- factor(edu_2013$Region, levels = c('africa', 'americas', 'asia', 'europe'),
-  labels = c('Africa', 'Americas', 'Asia', 'Europe'))
-
-# Erneute Abbildung nun da die Faktoren geändert sind, dieses Mal wird sie auch wieder als Objekt hinterlegt damit man sie erneut aufrufen kann
-scatter <- ggplot(edu_2013, aes(x = Primary, y = Index, color = Region)) +
-  geom_point() +
-  labs(x = 'Spending on Primary Eduction',
-    y = 'UNDP Education Index',
+# Abbildung in Objekt ablegen
+bars <- ggplot(edu_2014, aes(x = Wealth, group = Region)) +
+  geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge') +
+  labs(x = 'Country Wealth (GDP per Capita)',
+    y = 'Count',
     color = 'World Region') +
-  ggtitle('Impact of Primary Education Investments', '(Data for 2013)')
-
-scatter
+  ggtitle('Categorization of Countries in GapMinder Data', '(Data for 2014)')
 
 # Ändert Farbe zu Grautönen, für Druckfreundlichkeit
-scatter + scale_color_grey()
+bars + scale_fill_grey()
 
 # Definiren einer custom Farbpalette basierend auf der Corporate Goethe Universität Palette
 gu_colors <- c('#00618f', '#e3ba0f', '#ad3b76', '#737c45', '#c96215')
 
-# Zuweisung der händisch erstellten Farbpalette zum Scatterplot
-scatter + scale_color_manual(values = gu_colors)
-
-# Generellen Trend der Datenlage über geom_smooth abbilden
-scatter + geom_smooth()
-
-# Globaler Trend, schattierte Fläche um Linie ist Standardschätzfehler,
-ggplot(edu_2013, aes(x = Primary, y = Index)) +
-  geom_point(aes(color = Region)) +
-  geom_smooth() +
-  labs(x = 'Spending on Primary Eduction',
-    y = 'UNDP Education Index',
-    color = 'World Region') +
-  ggtitle('Impact of Primary Education Investments', '(Data for 2013)')
-
-# Regression, regionsspezifisch, ohne Standardfehler
-scatter + geom_smooth(method = 'lm', se = FALSE)
+# Zuweisung der händisch erstellten Farbpalette zum Barplot
+bars + scale_fill_manual(values = gu_colors)

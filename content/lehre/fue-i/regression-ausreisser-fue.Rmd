@@ -36,12 +36,12 @@ output:
     keep_md: true
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 ## Einleitung
-In der [Einführungssitzung](/post/einleitung-fue) hatten wir etwas über das Einlesen von Datensätzen, einfache Deskriptivstatistiken und den $t$-Test gelernt und in diesem Rahmen einige Grundlagen der Statistik wiederholt. Nun wollen wir mit etwas komplexeren, aber bereits bekannten, Methoden weitermachen und eine multiple Regression in `R` durchführen. Hierbei werden wir auch die zu diesem Verfahren notwendigen Voraussetzungen prüfen sowie das Vorliegen von Ausreißern untersuchen. 
+In der [Einführungssitzung](../einleitung-fue) hatten wir etwas über das Einlesen von Datensätzen, einfache Deskriptivstatistiken und den $t$-Test gelernt und in diesem Rahmen einige Grundlagen der Statistik wiederholt. Nun wollen wir mit etwas komplexeren, aber bereits bekannten, Methoden weitermachen und eine multiple Regression in `R` durchführen. Hierbei werden wir auch die zu diesem Verfahren notwendigen Voraussetzungen prüfen sowie das Vorliegen von Ausreißern untersuchen. 
 
 Bevor wir dazu die Daten einlesen, sollten wir als erstes die nötigen `R`-Pakete laden. Die `R`-Pakete, die wir im Folgenden brauchen, sind: das `car`-Paket, das `MASS`-Paket sowie das Paket mit dem Namen `lm.beta`. Diese Pakete müssen zunächst installiert werden. Dies können Sie via `install.packages` machen:
 
@@ -155,7 +155,7 @@ Der Pipe-Operator übergibt immer das resultiernde Objekt des vorherigen Befehls
 
 Die Summary ist eine weiterverbreitete Funktion, die Objekte zusammenfasst und interessante Informationen für uns auf einmal bereitstellt. `R` Outputs sehen fast immer so aus, weswegen es von unabdingbarer Wichtigkeit ist, dass wir uns mit diesem Output vertraut machen. Im Grunde werden uns alle nötigen Informationen, was in dieser Zusammenfassung steht, durch die Überschrift und Spaltenüberschriften gegeben. Was können wir diesem nun Schritt für Schritt entnehmen?
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat('
  Call:
  lm(formula = reading ~ 1 + female + IQ, data = Schulleistungen)')
@@ -163,7 +163,7 @@ cat('
 Fasst noch einmal zusammen, welches Objekt "zusammengefasst" wird. Hier steht sozusagen das zuvor untersuchte `lm`-Objekt (`our_model`, bzw. `lm.beta(our_model)`).
 
 
-```{r, echo = F}
+```{r, echo = F,purl=FALSE}
 cat('
 Residuals:
     Min       1Q   Median       3Q      Max 
@@ -184,7 +184,7 @@ Die Zahl, die beim Mittelwert ausgegeben wird, ist folgendermaßen zu lesen: `e-
 Nun kommen wir zum eigentlich Spannenden, nämlich der Übersicht über die Parameterschätzung (`Coefficients`). Diese sieht in sehr vielen Analysen sehr ähnlich aus (z.B. logistische Regression oder Multi-Level-Analysen/hierarchische Regression aus diesem Kurs oder konfirmatorische Faktorenanalyse und Strukturgleichungsmodelle aus dem Folgekurs im Sommersemester).
 
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat('
 Coefficients:
            Estimate Standardized Std. Error t value Pr(>|t|)    
@@ -195,7 +195,7 @@ IQ            3.9444       0.5836     0.5529   7.134 1.77e-10 ***
 Signif. codes:  0 \'***\' 0.001 \'**\' 0.01 \'*\' 0.05 \'.\' 0.1 \' \' 1')
 ```
 
-Insgesamt gibt es 6 Spalten, wobei die `Standardized`-Spalte extra durch das Paket `lm.beta` angefordert wurde (sie ist also nicht immer in der Summary enthalten). In der ersten Spalte stehen die Variablennamen, die selbsterklärend sein sollten. Die Spalte `Estimate` zeigt den unstandardisierten Parameter (hier Regressionsgewicht). Z.B. liegt das Interzept $b_0$ bei `r round(coef(our_model)[1], 4)`. Das Partialregressionsgewicht vom Geschlecht $b_\text{female}$ liegt bei `r round(coef(our_model)[2], 4)`. Da Mädchen mit `1` kodiert sind, bedeutet dies: Wenn Mädchen im Vergleich zu Jungen betrachtet werden, so steigt die Leseleistung durchschnittlich um `r round(coef(our_model)[2], 4)` Punkte ("durchschnittlich" in der Interpretation ist enorm wichtig, da es ja noch den Vorhersagefehler gibt). Folglich können wir das Interzept ebenfalls interpretieren: Ein Junge mit einem Intelligenzquotienten von 0 (dieser Wert ist leider unrealistisch, da der IQ hier nicht zentriert wurde - die Effekte von Zentrierung schauen wir uns in der Sitzung zu [Multi-Level-Modeling](/post/multi-level-modeling) genauer an!) hat eine durchschnittliche Leseleistung von `r round(coef(our_model)[1], 4)`. 
+Insgesamt gibt es 6 Spalten, wobei die `Standardized`-Spalte extra durch das Paket `lm.beta` angefordert wurde (sie ist also nicht immer in der Summary enthalten). In der ersten Spalte stehen die Variablennamen, die selbsterklärend sein sollten. Die Spalte `Estimate` zeigt den unstandardisierten Parameter (hier Regressionsgewicht). Z.B. liegt das Interzept $b_0$ bei `r round(coef(our_model)[1], 4)`. Das Partialregressionsgewicht vom Geschlecht $b_\text{female}$ liegt bei `r round(coef(our_model)[2], 4)`. Da Mädchen mit `1` kodiert sind, bedeutet dies: Wenn Mädchen im Vergleich zu Jungen betrachtet werden, so steigt die Leseleistung durchschnittlich um `r round(coef(our_model)[2], 4)` Punkte ("durchschnittlich" in der Interpretation ist enorm wichtig, da es ja noch den Vorhersagefehler gibt). Folglich können wir das Interzept ebenfalls interpretieren: Ein Junge mit einem Intelligenzquotienten von 0 (dieser Wert ist leider unrealistisch, da der IQ hier nicht zentriert wurde - die Effekte von Zentrierung schauen wir uns in der Sitzung zu [Multi-Level-Modeling](../hierarchische-regression-schule) genauer an!) hat eine durchschnittliche Leseleistung von `r round(coef(our_model)[1], 4)`. 
 
 In der Spalte `Standardized` stehen die standardisierten Regressionsgewichte. Hier werden die Daten so transformiert, dass sowohl die AV als auch die UVs jeweils Mittelwerte von 0 und Varianzen (bzw. Standardabweichungen) von 1 aufweisen. Das Interzept ist nun nicht länger interessant, da, wenn $y$ einen Mittelwert von 0 hat und auch die unabhängigen Variablen zentriert sind (also Mittelwerte von 0 haben), dann ist das Interzept gerade jener vorhergesagte Wert für $y$, der anfällt, wenn alle Prädiktoren den Wert 0 -also ihren Mittelwert - annehmen. Bei der Regression ist es aber so, dass an der Stelle, an der die Prädiktoren ihren Mittelwert annehmen, auch der Mittelwert von $y$ liegt; hier also der Wert 0. Folglich ist das Interzept im standardisierten Fall **_immer_** 0. 
 Das standardisierte Regressionsgewicht der Intelligenz $\beta_\text{IQ}$ liegt bei `r round(coef(lm.beta(our_model))[3], 4)`, was bedeutet, dass bei einer Erhöhung der Intelligenz um eine Standardabweichung auch die Leseleistung im Mittel (im Durchschnitt) um `r round(coef(lm.beta(our_model))[3], 4)` Standardabweichungen ansteigt. Für die Interpretation des Geschlechts als Prädiktor bringt die Standardisierung eine Erschwerung mit sich. Die beiden Ausprägungen sind nun nicht mehr eine Einheit bzw. Standardabweichung voneinander entfernt. Daher kann man den Vergleich nicht mehr mit einbeziehen. Es lässt sich nur sagen: Steigt die Variable Geschlecht um eine Standardabweichung auf der Dimension zwischen Jungen und Mädchen, so steigt die Leseleistung um durchschnittlich `r round(coef(lm.beta(our_model))[2], 4)` Standardabweichungen. Die Standardabweichung einer solchen dichotomen Variablen hängt von der Verteilung der beiden Ausprägungen ab. Sie ist am größten, wenn gleich viele Beobachtungen in den beiden Gruppen vorhanden sind.
@@ -209,7 +209,7 @@ Zusammenfassend entnehmen wir dem Output, dass das Interzept nicht bedeutsam von
 
 Regressionskoeffizienten können einzeln signifikant sein, ohne, dass signifikante Anteile der Variation der abhängigen Variable erklärt werden. 
  
-```{r, echo = F}
+```{r, echo = F,purl=FALSE}
 cat('
 Residual standard error: 86.34 on 97 degrees of freedom
 Multiple R-squared:  0.3555, Adjusted R-squared:  0.3422 
@@ -233,7 +233,7 @@ Wenn wir diese Siginfikanzentscheidungen nutzen wollen, um die Effekte in der Po
 
 
 ## Prüfen der Voraussetzungen
-Dieser Abschnitt fundiert auf der Bachelorsitzung zu [Regression III](/post/reg3). Die Voraussetzung der Unabhängigkeit und der Gleichverteiltheit ist und bleibt eine Annahme, die wir nicht prüfen können. Wir können jedoch durch das Studiendesign (Randomisierung, Repräsentativität) diese Annahme plausibilisieren. Wir schauen uns als nächstes die Linearitätsannahme an und machen danach mit der Verteilung der Residuen weiter. Zum Schluss schauen wir uns neben der Multikollinearität noch mögliche Ausreißer an:
+Dieser Abschnitt fundiert auf der Bachelorsitzung zu [Regression III](../../statistik-ii/regression-iii). Die Voraussetzung der Unabhängigkeit und der Gleichverteiltheit ist und bleibt eine Annahme, die wir nicht prüfen können. Wir können jedoch durch das Studiendesign (Randomisierung, Repräsentativität) diese Annahme plausibilisieren. Wir schauen uns als nächstes die Linearitätsannahme an und machen danach mit der Verteilung der Residuen weiter. Zum Schluss schauen wir uns neben der Multikollinearität noch mögliche Ausreißer an:
 
 * Linearität 
 * Homoskedastizität 
@@ -321,7 +321,7 @@ Bspw. könnten quadratische und Interaktionseffekte in das Modell aufgenommen we
 quad_int_model <- lm(reading ~ 1 + female*IQ   + I(IQ^2), data = Schulleistungen)
 summary(quad_int_model)
 ```
-Mit Hilfe von `*` können wir sowohl die Haupteffekte als auch den Interaktionseffekt in das Modell aufnehmen. Es gilt also: `female*IQ = female + IQ + I(female*IQ)`. Außerdem nehmen wir mit `I(IQ^2)` noch den quadratischen Effekt des IQs auf. Die Funktion `I()` erlaubt es uns hier Funktionen unserer Variablen zu erstellen, ohne diese vorher tatsächlich dem Datensatz anhängen zu müssen. `R`-intern wird allerdings genau das gemacht! Da das Geschlecht 0-1 kodiert ist, trägt das Quadrat hier keine Information, weswegen es keinen Sinn macht, auch das Geschlecht quadratisch in das Modell aufzunehmen. Eigentlich müssten wir, um Multikollinearität der linearen und nichtlinearen Terme zu vermeiden, eigentlich die Prädiktoren zentrieren, worauf wir hier allerdings verzichten. Interessierte können in der Sitzung zur [moderierten Regression](/post/reg4) weitere Details nachlesen. 
+Mit Hilfe von `*` können wir sowohl die Haupteffekte als auch den Interaktionseffekt in das Modell aufnehmen. Es gilt also: `female*IQ = female + IQ + I(female*IQ)`. Außerdem nehmen wir mit `I(IQ^2)` noch den quadratischen Effekt des IQs auf. Die Funktion `I()` erlaubt es uns hier Funktionen unserer Variablen zu erstellen, ohne diese vorher tatsächlich dem Datensatz anhängen zu müssen. `R`-intern wird allerdings genau das gemacht! Da das Geschlecht 0-1 kodiert ist, trägt das Quadrat hier keine Information, weswegen es keinen Sinn macht, auch das Geschlecht quadratisch in das Modell aufzunehmen. Eigentlich müssten wir, um Multikollinearität der linearen und nichtlinearen Terme zu vermeiden, eigentlich die Prädiktoren zentrieren, worauf wir hier allerdings verzichten. Interessierte können in der Sitzung zur [moderierten Regression](../../statistik-ii/regression-iv) weitere Details nachlesen. 
 
 ## Multikollinearität
 
@@ -434,7 +434,7 @@ Die Entscheidung, ob Ausreißer oder auffällige Datenpunkte aus Analysen ausges
 ### Einfluss von Hebelwert und Cook's Distanz
 Was wäre nun gewesen, wenn die Hebelwerte oder Cook's Distanz extreme Werte angezeigt hätten? Um dieser Frage auf den Grund zu gehen, schauen wir uns für eine Kombination der beiden Koeffizienten den Effekt auf eine Regressionsgerade an. Die vier Grafiken zeigen jeweils die Regressionsgerade in schwarz ohne den jeweiligen Ausreißer, während die Gerade in blau die Regressionsanalyse (`Y ~ 1 + X`) inklusive des Ausreißers symbolisiert.
 
-```{r, message = F, echo = F}
+```{r, message = F, echo = F, purl=FALSE}
 par(mfrow=c(2,2),cex.axis = 1.1, cex.lab= 1.2, cex.main = 1.3, mar = c(5, 5, 2, 1),
     bty="n",bg="white", mgp=c(2, 0.8, 0))
 
@@ -501,7 +501,7 @@ $$MD_i=(\mathbf{X}_i-\bar{\mathbf{X}})'\Sigma^{-1}(\mathbf{X}_i-\bar{\mathbf{X}}
 Der Vektor der Mittelwertsdifferenzen $\mathbf{X}_i-\bar{\mathbf{X}}$ wird durch die Kovarianzmatrix  der Daten $\Sigma$ gewichtet. Sind zwei Variablen $X_1$ und $X_2$ positiv korreliert, so treten große Werte (und auch kleine Werte) auf beiden Variablen gemeinsam häufig auf, allerdings sind große $X_1$ und kleine $X_2$-Werte (gleichzeitig und auch umgekehrt) unwahrscheinlich. Dies lässt sich anhand der Mahalanobisdistanz untersuchen. *Wann ist nun ein Mahalanobisdistanzwert extrem?* Dies können wir uns an einem zweidimensionalen Beispiel klarer machen. Dazu tragen wir in ein Diagramm die Ellipsen (Kurven) gleicher Mahalanobisdistanz ein, also jene Linien, welche laut Mahalanobisdistanz gleich weit vom Zentroiden entfernt liegen. Je dunkler die Kurven, desto weiter entfernt liegen diese Punkte vom Zentroiden (hier $(0,0)$) und desto unwahrscheinlicher sind diese Punkte in den Daten zu beobachten. In diesem Beispiel nehmen wir an, dass die Variablen positiv korreliert sind:
 
 
-```{r, message = F, echo = F}
+```{r, message = F, echo = F, purl=FALSE}
 library(ellipse)
 mu1 <- c(0,0)
 mu2 <- c(1,0)
@@ -551,7 +551,7 @@ Der Zentroid ist hier in Hellgrün dargestellt. Außerdem sind zwei Punkte (in s
 
 Beschäftigen wir uns zunächst mit der Testung auf multivariate Normalverteilung. Wenn diese gegeben ist, sind die Daten der Mahalanobisdistanz $\chi^2(df=p)$ verteilt ist, wobei $p$ die Anzahl an Variablen ist. Der Vorteil hiervon ist, dass wir eine eindimensionale Verteilung untersuchen können, um ein Gefühl für multivariate Daten zu erhalten. Bspw. kann dann ein Histogramm oder ein Q-Q-Plot verwendet werden, um die Daten auf Normalverteilung zu untersuchen, bzw. es kann bspw. der Kolmogorov-Smirnov Test durchgeführt werden, um zu prüfen, ob die Mahalanobisdistanz $\chi^2(df=p)$ verteilt ist. 
 
-Der Befehl in `R` für die Mahalanobisdistanz ist `mahalanobis`. Wir nehmen einfach die Leseleistung und die Mathematikleistung via `Schulleistungen$...` als unsere zwei Variablen auf und fassen diese zusammen zu einer Datenmatrix `X` mit `cbind` (column-bind), welches die übergebenen Variablen als Spaltenvektoren zusammenfasst (siehe dazu auch [Appendix B in der Einführungssitzung](/post/einleitung-und-wiederholung/#AppendixB)).  `mahalanobis` braucht 3 Argumente: `x = X` die Daten, den gemeinsamen Mittelwert der Daten, den wir hier mit `colMeans` bestimmen (es wird jeweils der Mittelwert für die Spalten gebildet) sowie die Kovarianzmatrix der Daten mit `cov(X)` (`cor` gibt die Korrelationsmatrix aus; hier wird allerdings die Kovarianzmatrix gebraucht- anhand der Korrelationsmatrix lässt sich jedoch die Beziehung der Variablen besser einordnen), an welcher die Struktur relativiert werden soll:
+Der Befehl in `R` für die Mahalanobisdistanz ist `mahalanobis`. Wir nehmen einfach die Leseleistung und die Mathematikleistung via `Schulleistungen$...` als unsere zwei Variablen auf und fassen diese zusammen zu einer Datenmatrix `X` mit `cbind` (column-bind), welches die übergebenen Variablen als Spaltenvektoren zusammenfasst (siehe dazu auch [Appendix B in der Einführungssitzung](../einleitung-fue/#AppendixB)).  `mahalanobis` braucht 3 Argumente: `x = X` die Daten, den gemeinsamen Mittelwert der Daten, den wir hier mit `colMeans` bestimmen (es wird jeweils der Mittelwert für die Spalten gebildet) sowie die Kovarianzmatrix der Daten mit `cov(X)` (`cor` gibt die Korrelationsmatrix aus; hier wird allerdings die Kovarianzmatrix gebraucht- anhand der Korrelationsmatrix lässt sich jedoch die Beziehung der Variablen besser einordnen), an welcher die Struktur relativiert werden soll:
 ```{r}
 X <- cbind(Schulleistungen$reading, Schulleistungen$math) # Datenmatrix mit Leseleistung in Spalte 1 und Matheleistung in Spalte 2
 colMeans(X)  # Spaltenmittelwerte (1. Zahl = Mittelwert der Leseleistung, 2. Zahl = Mittelwert der Matheleistung)
@@ -593,12 +593,6 @@ which(MD > qchisq(p = .01, lower.tail = F, df = 2))   # Pbn-Nr.
 
 Auf dem $\alpha$-Niveau von 1% gäbe es 2 Ausreißer (Pbn-Nr = `r which(MD > qchisq(p = .01, lower.tail = F, df = 2))`), auf dem von 0.1% nur noch einen (Pbn-Nr = `r which(MD > qchisq(p = .001, lower.tail = F, df = 2))`). 
 ***
-
-## R-Skript
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie [{{< icon name="download" pack="fas" >}} hier herunterladen](/post/MSc1_R_Files/1_Regression_RCode.R).
-
-***
-
 
 ## Appendix
 ### Appendix A {#AppendixA}
@@ -693,6 +687,7 @@ Der Kreuzproduktsummenvektor (X'y) wird durch die Multiplikation der transponier
 
 {{< math >}}
 \begin{align}
+\tiny
 \dfrac{}{X'\begin{pmatrix}1 & 1 & 1 & 1 & ... & 1\\449,58 & 544,85 & 331,35 & 531,54 & ... & 487,22\\81,78 & 106,76 & 99,14 & 111,91 & ... & 106,13\end{pmatrix}}
 \dfrac{\begin{pmatrix}451,98\\589,65\\509,33\\560,43\\...\\603,18\end{pmatrix}y}
 {\begin{pmatrix}56146,45\\28313059,77\\5636931,00\end{pmatrix}X'y}
@@ -711,6 +706,7 @@ Die geschätzten Regressionsgewichte nach dem Kriterium der kleinsten Quadrate w
 
 {{< math >}}
 \begin{align}
+\tiny
 \dfrac{}{(X'X)^{-1}\begin{pmatrix}0,42 & -1,56e^{-04} & -3,39^{-03}\\-0,00 & 1,32e^{-06} & -5,06e^{-06}\\-0,00 & -5,06e^{-06} & 6,01e^{-05}\end{pmatrix}}
 \dfrac{\begin{pmatrix}56146,45\\28313059,77\\5636931,00\end{pmatrix}X'y}
 {\begin{pmatrix}58,17\\-0,04\\5,31\end{pmatrix}\hat{b}}
@@ -799,7 +795,7 @@ $p=`r sprintf(format(1-pf(F_omn, m, n-m-1), digits = 3, trim = TRUE, scientific 
 
 ### Appendix B {#AppendixB}
 
-{{< spoiler text="**Regressionsmodell**" >}}
+<details><summary><b>Regressionsmodell</b></summary>
 
 Folgende Befehle führen zum gleichen Ergebnis wie:
 
@@ -849,12 +845,12 @@ lm(AV ~ 1 + UV1 + UV2)
 
 Selbstverständlich gibt es auch noch weitere Befehle, die zum selben Ergebnis kommen. Sie sehen, dass Sie in `R` in vielen Bereichen mit leicht unterschiedlichem Code zum selben Ergebnis gelangen!
 
-{{</ spoiler >}}
+</details>
 
 
 ### Appendix C {#AppendixC}
 
-{{< spoiler text="**ggplot2**" >}}
+<details><summary><b>ggplot2</b></summary>
 
 Im folgenden Block sehen wir den Code für ein Histogramm in `ggplot2`-Notation (das Paket muss natürlich installiert sein: `install.packages(ggplot2)`). Hier sind einige Zusatzeinstellungen gewählt, die das Histogramm optisch aufbereiten. 
 
@@ -903,7 +899,7 @@ ggplot(data = df_CD, aes(x = CD)) +
   geom_vline(xintercept = 1, col = "red") # Cut-Off bei 1
 ```
 
-{{</ spoiler >}}
+</details>
 
 ### Appendix D {#AppendixD}
 

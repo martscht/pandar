@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer, nehler] 
 weight: 8
-lastmod: '2024-01-16'
+lastmod: '2024-03-27'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -573,6 +573,8 @@ wp.t(d = .5, power = .8, type = "two.sample", alternative = "less")
 ```
 ## Error in uniroot(function(n) eval(p.body) - power, c(2 + 1e-10, 1e+07), : no sign change found in 1000 iterations
 ```
+
+
 Die Funktion ist nicht in der Lage, das nötige $n$ zu bestimmen, weil die Alternativ-Hypothese, dass der Mittelwert in der ersten Gruppe kleiner ist (`alternative = "less"`) nicht zuverlässig aufgedeckt werden kann, wenn $d$ in der Population positiv ist.
 
 Dazu hier ein Warnhinweis, bezüglich eines Bugs in WebPower: wenn Sie Sensitivitätsanalyse betreiben, funktioniert das derzeit nur für "größer als" Aussagen. Für die Gegenrichtung erhalten Sie immer eine Fehlermeldung:
@@ -585,6 +587,7 @@ wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "less")
 ```
 ## Error in uniroot(function(d) eval(p.body) - power, c(-10, 5), tol = tol, : no sign change found in 1000 iterations
 ```
+
 
 ```r
 wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "greater")
@@ -654,7 +657,7 @@ Die $p$-Werte sind wieder einigermaßen uniform auf [0,1] verteilt:
 hist(pcor_H0, breaks = 20) 
 ```
 
-![](/lehre/statistik-i/simulation-poweranalyse_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](/lehre/statistik-i/simulation-poweranalyse_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
 
 Das empirische $\alpha$-Niveau liegt bei:
 

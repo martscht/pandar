@@ -101,35 +101,9 @@ Ns <- seq(20, 100, 20)
 plot(x = Ns, y = t_power, type = "b",
      main = "Power vs. N", xlab = "n", ylab = "Power des t-Tests mit d = .5")
 
-library(pwr)
-Erg <- c()
-for(n in c(2, seq(5, 500, 5)))
-{
-     d = seq(-1,1,0.02)   
-     temp <- pwr.t.test(n = n, d = d)
-     Erg <- rbind(Erg, cbind(temp$power, d, n))
-     
-}
-Erg <- data.frame(Erg)
-names(Erg) <- c("Power", "d", "n")
 
-library(papaja)
-library(ggplot2)
-ggplot(data = Erg, aes(x = d, y = Power, col = n, group = n))+
-     geom_line(lwd=1)+
-     geom_abline(slope = 0,intercept = .05, lty = 3)+
-     geom_abline(slope = 0,intercept = .8, lty = 2) + 
-     scale_colour_gradientn(colours=rainbow(4))+
-     ggtitle("Power vs. d and n", subtitle = " Using formulas instead of simulation")+ theme_apa(base_size = 20)
 
-library(papaja)
-library(ggplot2)
-ggplot(data = Erg, aes(x = n, y = Power, col = d, group = d))+
-     geom_line(lwd=1)+
-     geom_abline(slope = 0,intercept = .05, lty = 3)+
-     geom_abline(slope = 0,intercept = .8, lty = 2) + 
-     scale_colour_gradientn(colours=rainbow(4))+
-     ggtitle("Power vs. n and d", subtitle = " Using formulas instead of simulation")+ theme_apa(base_size = 20)
+
 
 library(WebPower)
 
@@ -143,9 +117,12 @@ wp.t(d = .5, power = .8, type = "two.sample", alternative = "two.sided")
 
 wp.t(d = .5, power = .8, type = "two.sample", alternative = "greater")
 
-wp.t(d = .5, power = .8, type = "two.sample", alternative = "less")
+## wp.t(d = .5, power = .8, type = "two.sample", alternative = "less")
 
-wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "less")
+
+## wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "less")
+
+
 wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "greater")
 
 set.seed(1234)

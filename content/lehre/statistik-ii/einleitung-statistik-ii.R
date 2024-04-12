@@ -1,10 +1,46 @@
 # Aktuelle R-Version kontrollieren
 R.Version()$version.string
 
-## #Updated Packages, nur Ausklammern falls man dies durchführen will!
-## update.packaes(ask = FALSE)
+## # Updated Packages - auskommentiert, damit es nicht direkt ausgeführt wird
+## update.packages(ask = FALSE)
 
-#Ein Additionsbeispiel, dass in der Konsole demonstriert wird
+####   Titel des Skripts  ####
+#### Datum der Erstellung ####
+
+#### Vorbereitende Schritte ----
+
+# Pakete laden
+
+# Working directory setzen
+
+#### Daten importieren ----
+
+#### Daten aufbereiten ----
+
+# Skalenwerte erstellen
+
+# Fälle ausschließen
+
+# Auf relevante Daten reduzieren
+
+#### Deskriptivstatistik ----
+
+# Demografische Variablen
+
+# Outcomes und Kovariaten
+
+#### Voraussetzungsprüfung ----
+
+# Visuell
+
+# Tests
+
+#### Datenanalyse ----
+
+#### Grafische Aufbereitung ----
+
+
+# Ein Additionsbeispiel, dass in der Konsole ausgeführt wird
 2 + 1
 
 #### Wiederholung in R ----
@@ -41,31 +77,34 @@ sum(3, 4, 1, 2) |> sqrt() # Nutzung Pipe
 
 zahlen <- c(8, 3, 4) #Vektorerstellung
 
-zahlen * 3 #Multiplikation der Elemente des Vektors
+zahlen * 3 # Multiplikation der Elemente des Vektors
 
 #Vier Typen von Vektor, logical/numeric/character/factor
 #str() ermittelt die Klasse
 str(zahlen)
 
-#Umwandlung des Vektors in character
+# Umwandlung des Vektors in character
 zeichen <- as.character(zahlen)
 str(zeichen)
 
-#Beispiel einer fehlerhaften Operation
+# Beispiel einer fehlerhaften Operation
 zeichen * 3
+
+# Check, ob Vektor numerisch ist
+is.numeric(zeichen)
 
 #### Matrizen ----
 
-mat<- matrix(c(7, 3, 9, 1, 4, 6), ncol = 2) #Matrixerstellung
+mat<- matrix(c(7, 3, 9, 1, 4, 6), ncol = 2) # Matrixerstellung
 
-#Erstelle Matrize anschauen, Typ der Matrize anschauen
+# Erstellte Matrix anschauen, Typ der Matrix anschauen
 mat
 str(mat)
 
-#Zugriff auf Eintrag in [Zeile, Spalte]
+# Zugriff auf Eintrag in [Zeile, Spalte]
 mat[3, 1]
 
-#Bestimmung der Dimensionen, einzeln oder in einem
+# Bestimmung der Dimensionen, einzeln oder in einem
 nrow(mat)
 ncol(mat)
 dim(mat) #alternativer Befehl
@@ -90,7 +129,7 @@ dim(mach) # Anzahl der Zeilen und Spalten
 mean(mach$cvhn)    # Mittelwert
 var(mach$cvhn)     # geschätzte Populationsvarianz
 
-## #Beispiel der Indizierung über eckige Klammern statt Variablenname
+## # Beispiel der Indizierung über eckige Klammern statt Variablenname
 ## mach[, 25] #Alle Zeilen, Spalte 25
 
 
@@ -106,13 +145,13 @@ mach$engnat <- factor(mach$engnat,                # Ausgangsvariable
 
 str(mach$engnat)                                  # Test der Umwandlung
 
-#Describe wird ohne Package ausgeführt um zu zeigen, dass es so einen Fehler wirft
+# Describe wird ohne Package ausgeführt um zu zeigen, dass es so einen Fehler wirft
 describe(mach$cvhn)
 
-## #Package kann nun installiert werden, wenn nicht bereits vorhanden
+## # Package installieren, falls nicht schon vorhanden
 ## install.packages("psych")
 
-#Package wird aus der Library geladen und danach erneut describe () ausgeführt, sollte jetzt funktionieren
+# Package wird aus der Library geladen und danach erneut describe () ausgeführt, sollte jetzt funktionieren
 library(psych)
 describe(mach$cvhn)
 
@@ -127,8 +166,8 @@ model <- lm(cvhn ~ pvhn, mach)  # Objektzuweisung
 
 summary(model) #Ergebniszusammenfassung
 
-#names() enthält unter anderem die 'residuals' für Voraussetzungsprüfung, als auch vorgehesagte Werte, 'fitted.values'
-names(model) #andere Inhalte der Liste
+# names() enthält unter anderem die 'residuals' für Voraussetzungsprüfung, als auch vorgehesagte Werte, 'fitted.values'
+names(model) # andere Inhalte der Liste
 
 
 

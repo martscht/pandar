@@ -29,15 +29,19 @@ links:
     url: /lehre/fue-ii/sem.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/fue-ii/sem-aufgaben
+    name: Übungsdaten
+    url: /daten/StressAtWork.rda
 output:
   html_document:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
 
-```{r setup, echo = FALSE, results = 'hide', message=FALSE, warning=FALSE}
+
+```{r prep, echo = FALSE, results = 'hide', message=FALSE, warning=FALSE, purl=FALSE}
 abbrev <- function(X, begin = 'Latent Variables', end = NULL, ellipses = 'both', shift = 2, ...) {
 
   tmp <- capture.output(lavaan::summary(X,...))
@@ -70,7 +74,7 @@ Pfadanalysen sind im Grunde genommen mehrere Regressionsanalysen, welche simulta
 
 Mit SEM können ganz verschiedene Modelle spezifiziert werden, was im Grunde ein Wissenschaft für sich darstellt. Wir wollen uns die Grundlagen der SEM-Modellierung ansehen und einige wichtige Modelle kennenlernen!
 
-In dieser Sitzung erweitern wir dafür unsere Kenntnisse mit dem `R`-Paket `lavaan` um gerichtete Abhängigkeiten. Möchten Sie die Grundlagen im Umgang damit wiederholen, so empfiehlt es sich, die erste Sitzung nochmals anzusehen ([Einführungssitzung zu `lavaan`](/lehre/fue-ii/lavaan-intro)). Auch baut diese Sitzung auf der vergangenen [Sitzung zur CFA](/lehre/fue-ii/cfa) auf.
+In dieser Sitzung erweitern wir dafür unsere Kenntnisse mit dem `R`-Paket `lavaan` um gerichtete Abhängigkeiten. Möchten Sie die Grundlagen im Umgang damit wiederholen, so empfiehlt es sich, die erste Sitzung nochmals anzusehen ([Einführungssitzung zu `lavaan`](/lehre/fue-ii/lavaan-intro)). Auch baut diese Sitzung auf der vergangenen [Sitzung zur CFA](/lehre/fue-ii/fue-cfa) auf.
 
 Bevor wir mit den Analysen beginnen können, laden wir zunächst alle Pakete, welche wir im Folgenden benötigen werden.
 ```{r, eval = T, message=F,warning=F}
@@ -92,8 +96,7 @@ load("C:/Users/Musterfrau/Desktop/StressAtWork.rda")
 oder wir laden sie direkt über die Website:
 
 ```{r, eval = T}
-#load(url("https://pandar.netlify.app/post/StressAtWork.rda"))
-load(url("https://courageous-donut-84b9e9.netlify.app/post/StressAtWork.rda"))
+load(url("https://pandar.netlify.app/daten/StressAtWork.rda"))
 ```
 Verschaffen wir uns einen Überblick über die Datenlage:
 
@@ -135,7 +138,7 @@ StressAtWork$BFs <- rowMeans(StressAtWork[,paste0("bf",1:20)])
 
 Hierbei hilft uns `paste0` die Schreibweise abzukürzen: wir müssen nicht alle Itemnamen einzeln tippen, sondern die "Strings" werden automatisch erzeugt. Um dies genauer zu verstehen, könnten wir bspw. `paste0("zd",c(1, 2, 6))` einmal ausführen. Dies kommt zum gleichen Ergebnis, wie wenn wir `c("zd1", "zd2", "zd6")` getippt hätten. Das Modell wird nun, ähnlich dem Regressionsmodell aus der ersten Sitzung, aufgestellt. In `lavaan` werden gerichtete Beziehungen zwischen Variablen mit `~` dargestellt, wobei links der *Tilde* die abhängige Variable (das Kriterium) und rechts der *Tilde* die unabhängige Variable (der Prädiktor) steht. Für unser angenommenes Modell gibt es folgende Beziehung: Zeitdruck wirkt auf emotionale Erschöpfung und auf psychosomatische Beschwerden. Emotionale Erschöpfung wirkt auf psychosomatische Beschwerden. In diesem Modell wird Zeitdruck die **unabhängige Variable** genannt, emotionale Erschöpfung ist der **Mediator**, der die Beziehung der unabhängigen auf die **abhängige Variable** psychosomatische Beschwerden mediiert. Hier hat Zeitdruck eine direkte Beziehung mit emotionaler Erschöpfung. Emotionale Erschöpfung hat eine direkte Beziehung mit psychosomatischen Beschwerden und Zeitdruck hat eine direkte und eine indirekte (über emotionale Erschöpfung) Beziehung mit psychosomatischen Beschwerden.
 
-Es muss folglich zwei Gleichungen geben: in einer Gleichung ist `BOEEs` die abhängige Variable und wird durch `ZDs` vorhergesagt. In der zweiten Gleichung ist `BFs` die abhängige Variable und wird  durch `BOEEs` und `ZDs` vorhergesagt. Nun hängt es außerdem von der Schätzfunktion ab, welche weiteren Beziehungen wir in unserem Modell spezifizieren müssen.  Wir wollen die `sem` Funktion verwenden, um das Modell zu schätzen: `sem` ist,  wie `cfa` (diese kennen Sie aus dem Themenblock [CFA](/lehre/fue-ii/cfa), um CFAs zu schätzen) auch eine "Convenience"-Funktion, die gewisse Voreinstellungen verwendet und diese an die `lavaan`-Funktion, die Sie in der ersten Sitzung kennengelernt hatten, übergibt. Sie hatten damals eine Regression mit `lavaan` geschätzt und mussten dabei bspw. mit `Y ~ 1 + X` die Regression anfordern, mit welcher durch `X` die abhängige Variable `Y` vorhergesagt wurde. Sie mussten hierbei explizit das Interzept (also den durch X bedingten Mittelwert von Y) sowie die Residualvarianz von `Y` anfordern via `Y ~~ Y` (für eine Wiederholung schauen Sie gerne in der [Einführungssitzung](/lehre/fue-ii/) vorbei). Wie auch die `cfa`-Funktion übernimmt die `sem` Funktion einige dieser Einstellungen für uns. So müssen wir bspw. Residualvarianzen nicht explizit anfragen. Die Mittelwertsstruktur wird in `sem` per Default nicht mitmodelliert. Wenn wir Mittelwerte betrachten wollen, können wir allerdings der `sem`-Funktion die Zusatzeinstellung `meanstructure = TRUE` übergeben. Die Default-Einstellungen für Messmodelle sind identisch mit jenen der Funktion `cfa`. Wir wiederholen diese, wenn es soweit ist. Somit landen wir bei dieser sehr effizienten Schreibweise für unser Modell:
+Es muss folglich zwei Gleichungen geben: in einer Gleichung ist `BOEEs` die abhängige Variable und wird durch `ZDs` vorhergesagt. In der zweiten Gleichung ist `BFs` die abhängige Variable und wird  durch `BOEEs` und `ZDs` vorhergesagt. Nun hängt es außerdem von der Schätzfunktion ab, welche weiteren Beziehungen wir in unserem Modell spezifizieren müssen.  Wir wollen die `sem` Funktion verwenden, um das Modell zu schätzen: `sem` ist,  wie `cfa` (diese kennen Sie aus dem Themenblock [CFA](/lehre/fue-ii/fue-cfa), um CFAs zu schätzen) auch eine "Convenience"-Funktion, die gewisse Voreinstellungen verwendet und diese an die `lavaan`-Funktion, die Sie in der ersten Sitzung kennengelernt hatten, übergibt. Sie hatten damals eine Regression mit `lavaan` geschätzt und mussten dabei bspw. mit `Y ~ 1 + X` die Regression anfordern, mit welcher durch `X` die abhängige Variable `Y` vorhergesagt wurde. Sie mussten hierbei explizit das Interzept (also den durch X bedingten Mittelwert von Y) sowie die Residualvarianz von `Y` anfordern via `Y ~~ Y` (für eine Wiederholung schauen Sie gerne in der [Einführungssitzung](/lehre/fue-ii/lavaan-intro) vorbei). Wie auch die `cfa`-Funktion übernimmt die `sem` Funktion einige dieser Einstellungen für uns. So müssen wir bspw. Residualvarianzen nicht explizit anfragen. Die Mittelwertsstruktur wird in `sem` per Default nicht mitmodelliert. Wenn wir Mittelwerte betrachten wollen, können wir allerdings der `sem`-Funktion die Zusatzeinstellung `meanstructure = TRUE` übergeben. Die Default-Einstellungen für Messmodelle sind identisch mit jenen der Funktion `cfa`. Wir wiederholen diese, wenn es soweit ist. Somit landen wir bei dieser sehr effizienten Schreibweise für unser Modell:
 
 ```{r}
 model_paths <- '
@@ -164,32 +167,32 @@ fit_paths <- sem(model_paths, data = StressAtWork)
 summary(fit_paths, rsq = T, fit.measures = T)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 lavaan::summary(fit_paths, rsq = T, fit.measures = T)
 ```
 
 Wie oben beschrieben kommt `sem(model_paths, data = StressAtWork)` und `lavaan(model_paths_lavaan, data = StressAtWork)` zum selben Ergebnis. Schauen Sie sich das doch einmal selbst an!
 
 Nun zum Output der Summary: An
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_paths, begin = "Model Test User Model", end = "Model Test Baseline Model", fit.measures = T)
 ```
 erkennen wir, dass es sich hier um das saturierte Modell handelt (df = 0, $\chi^2=0$). Die Korrelationen zwischen den Skalenmittelwerten sind also nur retransformiert, um unser Modell abzubilden. Ein Modellfit-Test ist nicht möglich.
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_paths, begin = "User Model versus Baseline Model", end = "Parameter Estimates", fit.measures = T)
 ```
 Alle Fit-Indizes zeigen perfekten Fit an (CFI = 1, TLI = 1, RMSEA = 0, SRMR = 0). Das ist auch nicht verwunderlich, da es keine Diskrepanz (ausgedrückt durch den $\chi^2$-Wert) zwischen modellimplizierter und beobachteter Kovarianzmatrix der Daten (also keine Abweichung zwischen unserem Modell und den beobachteten Daten) gibt.
 
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_paths, begin = "Regressions", end = "Variances", fit.measures = T)
 ```
 Im Gegensatz zur CFA wird uns nun ein Block in der Summary gezeigt, welcher die Regressionskoeffizienten unseres Modells enthält (ohne Interzept). Hier ist zu erkennen, dass alle Koeffizienten auf dem 5% Niveau signifikant von 0 verschieden sind. Es kann sich also maximal um eine partielle Mediation handeln, da die direkte Beziehung zwischen Zeitdruck und psychsomatischen Beschwerden laut dieser Signifikanzentscheidung mit einer Irrtumswahrscheinlichkeit von 5% auch in der Population besteht und somit der Effekt von Zeitdruck auf die Psychosomatischen Beschwerden nicht vollständig über die emotionale Erschöpfung mediiert wird.
 
 Von einer vollständigen Mediation würden wir sprechen, wenn die direkte Beziehung zwischen Zeitdruck und psychosomatischen Beschwerden (also zwischen unabhängiger und abhängiger Variable) nicht bedeutsam von 0 verschieden ist und der indirekte Effekt von Zeitdruck über emotionale Erschöpfung auf psychsomatische Beschwerden signifikant von Null verschieden ist (dies war unsere Hypothese, die wir im [vorherigen Abschnitt](#Hypothesen) postuliert hatten). Für die Population würden wir also bei einer vollständigen Mediation davon ausgehen, dass die unabhängige Variable nur über den Mediator mit der abhängigen Variable zusammenhängt, also jegliche Veränderung in der unabhängigen Variable mit Veränderungen im Mediator zusammenhängt und durch diese Beziehung auch mit der abhängigen Variable kovariiert.
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(X = fit_paths, begin = "R-Square", end = NULL, shift = 1, rsq = T)
 ```
 Insgsamt ist die Vorhersage der emotionalen Erschöpfung und der psychosomatischen Beschwerden zwar statistisch signifikant, allerdings werden "nur" ca. `r round(inspect(fit_paths, "r2")[1], 3)*100`% der Variation von `BOEEs` erklärt sowie ca. `r round(inspect(fit_paths, "r2")[2], 3)*100`% der Variation von
@@ -246,7 +249,7 @@ BF_i &= c_0 + b(a_0 + aZD_i + \varepsilon_{BOEE,i}) + cZD_i + \varepsilon_{BF,i}
 
 Der totale Effekt von Zeitdruck auf die psychosomatischen Beschwerden ergibt sich als $TE:=IE + DE = ab+c$. Da wir bisher in `lavaan` die Mittelwertstruktur nicht mitmodelliert hatten, haben wir $a_0$ und $c_0$ auch noch nicht untersucht. Für weitere inhaltliche Informationen zu Pfadanalysen, direkten, indirekten und totalen Effekten lesen Sie gerne in [Werner et al. (2016, pp. 952-)](https://ubffm.hds.hebis.de/Record/HEB36808809X) oder [Eid et al. (2017, pp. 952-)](https://ubffm.hds.hebis.de/Record/HEB366849158). _Man bemerke den unfassbaren Zufall, dass beide Bücher an der gleichen Seitenzahl beginnend über Mediationen etc. sprechen!_
 
-In `lavaan` Koeffizienten zu benennen, ist ganz einfach. Sie haben es vielleicht schon im Appendix der letzten Sitzung zur [CFA](/lehre/fue-ii/cfa) gesehen: der Variable wird der Koeffizientenname gefolgt von dem Multiplikationszeichen `*` vorangestellt. Also wird die Beziehung zwischen `BOEEs` und `ZDs` um das Präfix `a*` ergänzt zu: `BOEEs ~ a*ZDs`, usw.:
+In `lavaan` Koeffizienten zu benennen, ist ganz einfach. Sie haben es vielleicht schon im Appendix der letzten Sitzung zur [CFA](/lehre/fue-ii/fue-cfa) gesehen: der Variable wird der Koeffizientenname gefolgt von dem Multiplikationszeichen `*` vorangestellt. Also wird die Beziehung zwischen `BOEEs` und `ZDs` um das Präfix `a*` ergänzt zu: `BOEEs ~ a*ZDs`, usw.:
 
 ```{r}
 model_paths_abc <- '
@@ -261,7 +264,7 @@ fit_paths_abc <- sem(model_paths_abc, data = StressAtWork)
 summary(fit_paths_abc)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(fit_paths_abc, begin = "Regressions", end = "Variances")
 ```
 
@@ -285,7 +288,7 @@ fit_paths_IE_TE <- sem(model_paths_IE_TE, data = StressAtWork)
 summary(fit_paths_IE_TE)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(fit_paths_IE_TE, begin = "Defined Parameters", shift = 1)
 ```
 
@@ -295,13 +298,13 @@ abbrev(fit_paths_IE_TE, begin = "Defined Parameters", shift = 1)
 
 **Bootstrapping** ist das wiederholte Ziehen *mit Zurücklegen* aus unserer Stichprobe, solange, bis wir eine neue Stichprobe erhalten, die genauso groß ist, wie die ursprünglich Beobachtete. In dieser neuen, gezogenen Stichprobe schätzen wir erneut unser Modell und notieren uns den indirekten Effekt. Dieses Vorgehen wiederholen wir sehr häufig (es hat sich irgendwie so ergeben, dass in der Statistik sehr häufig bei ungefähr und ziemlich genau *1000* liegt), sodass wir die Verteilung des indirekten Effektes und den wahren Standardfehler (also die Streuung des indirekten Effekts) annähern können. Dieses Vorgehen sollte, wenn unsere Stichprobe unabhängig gezogene Personen enthält und repräsentativ für die Gesamtpopulation ist, eine gute Schätzung der Verteilung des indirekten Effektes liefern, welcher Schlüsse auf die Gesamtpopulation zulässt. Wir können dann einfach den 2.5-ten und den 97.5-ten Prozentrang dieser Verteilung verwenden und erhalten ein 95%-Konfidenzintervall für den indirekten Effekt (dieses muss nicht immer symmetrisch sein, da der indirekte Effekt ja nicht unbedingt normalverteilt, bzw. symmetrisch verteilt ist!). Zum Glück müssen wir dies nicht per Hand programmieren, sondern können einfach unserere Parameterschätzung mit `sem` die Zusatzargumente `se = "boot"` und `bootstrap = 1000` hinzufügen. Es empfiehlt sich, dieses Objekt anschließend anders zu nennen. Wir lassen unserer Phantasie freien Lauf und nennen die neue "gebootstrapte" Schätzung `fit_paths_IE_TE_boot`. Wenn wir dann auf das geschätzte (neue) Objekt die Funktion `parameterEstimates` mit der Zusatzeinstellung `ci = TRUE` anwenden, so werden uns alle Parameter inklusive Konfidenzintervall zurückgegeben. Da es sich hierbei um einen Zufallsprozess handelt, werden die Werte bei mehrmaligem Wiederholen (leicht) unterschiedlich sein. Möchten wir das Ergebnis replizierbar machen, so können wir `set.seed()` verwenden, wir müssen dieser Funktion lediglich eine beliebige natürliche Zahl übergeben (wie wäre es bspw. mit 1234? _Wenn Sie die gleiche R-Version haben, sollte der folgende Code zum **selben** Ergebnis kommen!_).
 
-```{r, eval = F}
+```{r, results='hide'}
 set.seed(1234)
 fit_paths_IE_TE_boot  <- sem(model_paths_IE_TE, data = StressAtWork, se = "boot", bootstrap = 1000)
 parameterEstimates(fit_paths_IE_TE_boot, ci = TRUE)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 #load(url("https://pandar.netlify.app/daten/fit_paths_IE_TE_boot.RData"))
 load(url("https://courageous-donut-84b9e9.netlify.app/post/fit_paths_IE_TE_boot.RData"))
 cat("[...]")
@@ -320,7 +323,7 @@ semPaths(object = fit_paths_IE_TE, what = "model", layout = "tree2", rotation = 
          col = list(man = "skyblue"),  edge.label.cex=1)
 ```
 
-Die hier durchgeführten Analysen unterliegen leider einigen Einschränkungen. Bspw. wird beim Mitteln zu Skalenwerten davon ausgegangen, dass jede Messung (jede Variable pro Skala) gleichermaßen aus der dahinterliegenden latenten Variable besteht. Dies hatten wir in der [letzten Sitzung im Anhang](/lehre/fue-ii/cfa) unter essentieller $\tau$-Äquivalenz kennengelernt (gleiche $\lambda$s in einem [CFA-] Messmodell). Essentielle $\tau$-Äquivalenz ist eine strenge Annahme, welche wir prüfen müssten, um den Analysen mit Skalenwerten komplett vertrauen zu können. Außerdem werden durch das Mitteln die Messfehler nicht vollständig modelliert, auch wenn die Analysen somit reliabler als *Einzelitemanalysen* (z.B. hätten wir auch jeweils ein Item pro Skala verwenden können) sind.
+Die hier durchgeführten Analysen unterliegen leider einigen Einschränkungen. Bspw. wird beim Mitteln zu Skalenwerten davon ausgegangen, dass jede Messung (jede Variable pro Skala) gleichermaßen aus der dahinterliegenden latenten Variable besteht. Dies hatten wir in der [letzten Sitzung im Anhang](/lehre/fue-ii/fue-cfa) unter essentieller $\tau$-Äquivalenz kennengelernt (gleiche $\lambda$s in einem [CFA-] Messmodell). Essentielle $\tau$-Äquivalenz ist eine strenge Annahme, welche wir prüfen müssten, um den Analysen mit Skalenwerten komplett vertrauen zu können. Außerdem werden durch das Mitteln die Messfehler nicht vollständig modelliert, auch wenn die Analysen somit reliabler als *Einzelitemanalysen* (z.B. hätten wir auch jeweils ein Item pro Skala verwenden können) sind.
 Hierbei ist es nun so, dass Effekte stochastischer Regressoren konsistent unterschätzt werden, wenn diese messfehlerbehaftet sind. Wären die Variablen messfehlerfrei, würden die Effekte (die Regressionsparameter) größer ausfallen. Leider können wir nicht davon ausgehen, dass unsere beobachteten Variablen messfehlerfrei sind, wenn wir sie mit Fragebögen erheben! Aus diesem Grund ist in der multiplen Regression bspw. auch eine der Voraussetzungen die Messfehlerfreiheit der (stochastischen) Regressoren (siehe [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 19.13).
 
 Wir können die Analysen auf die latente Ebene heben und Messmodelle für die latenten Variablen aufstellen, welche dann die unterschiedlichen Messgenauigkeiten pro Messung berücksichtigen und die Beziehung zwischen den latenten Variablen um die Ungenauigkeit der Einzelitems bereinigen.
@@ -329,7 +332,7 @@ Wir können die Analysen auf die latente Ebene heben und Messmodelle für die la
 Strukturgleichungsmodelle (SEM) kombinieren Pfadanalysen mit Messmodellen, also CFAs. Wir können mit SEM in unseren Analysen Messfehler berücksichtigen, aber dennoch gerichtete Beziehungen zwischen den latenten Variablen untersuchen. Bevor wir Messmodelle für unsere latenten Variablen aufstellen, müssen wir uns überlegen, ob dies denn für alle Variablen sinnvoll ist.
 
 ### Reflexive vs. formative Messmodelle {#formvsreflMessmodell}
-Wenn es um Messmodelle geht, kann zwischen **reflexiven** und **formativen** Messmodellen unterschieden werden. Reflexive Messmodelle sind die Messmodelle, die wir in der [letzten Sitzung zur CFA](/lehre/fue-ii/cfa) detailliert besprochen haben. Darin sind z.B. Eigenschaften von Personen latente Variablen, die sich nicht direkt beobachten lassen, sich aber in Verhalten und Aussagen niederschlagen. "Konservativismus" ist eine Einstellung von Personen (latente Variable), die sich z.B. darin äußert, dass Personen einer Aussage wie "Ein noch so geschulter und kritischer Verstand kann letzten Endes doch keine echte innere Befriedigung geben." eher zustimmen (Item 36 der [Machiavellismus-Konservatismus Skala](https://zis.gesis.org/skala/Cloetta-Machiavellismus-Konservatismus); Cloetta, 2014). Die Annahme ist also, dass die latente Variable ursächlich für die Ausprägung bestimmter beobachtbarer (manifester) Variablen ist. Wie wir in der [Sitzung zur CFA](/lehre/fue-ii/cfa) gesehen haben, sieht ein entsprechendes Pfaddiagramm so aus:
+Wenn es um Messmodelle geht, kann zwischen **reflexiven** und **formativen** Messmodellen unterschieden werden. Reflexive Messmodelle sind die Messmodelle, die wir in der [letzten Sitzung zur CFA](/lehre/fue-ii/fue-cfa) detailliert besprochen haben. Darin sind z.B. Eigenschaften von Personen latente Variablen, die sich nicht direkt beobachten lassen, sich aber in Verhalten und Aussagen niederschlagen. "Konservativismus" ist eine Einstellung von Personen (latente Variable), die sich z.B. darin äußert, dass Personen einer Aussage wie "Ein noch so geschulter und kritischer Verstand kann letzten Endes doch keine echte innere Befriedigung geben." eher zustimmen (Item 36 der [Machiavellismus-Konservatismus Skala](https://zis.gesis.org/skala/Cloetta-Machiavellismus-Konservatismus); Cloetta, 2014). Die Annahme ist also, dass die latente Variable ursächlich für die Ausprägung bestimmter beobachtbarer (manifester) Variablen ist. Wie wir in der [Sitzung zur CFA](/lehre/fue-ii/fue-cfa) gesehen haben, sieht ein entsprechendes Pfaddiagramm so aus:
 
 <center> <img src = "https://raw.githubusercontent.com/martscht/PsyMSc1/master/inst/tutorials/SEM/images/Reflexiv.png" width="40%"/> </center>
 
@@ -342,7 +345,7 @@ Bei formativen Messmodellen ist es so, dass die latente Variable erst "geformt" 
 
 Es können keine Messfehler berücksichtigt werden und die "Kompositvariable" (deshalb auch die Benennung $\mathcal{C}$, engl. composite) ist eine Linearkombination der Items: $\mathcal{C}=X_1+X_2+X_3$ oder $\mathcal{C}=\lambda_1^\mathcal{C}X_1+\lambda_2^\mathcal{C}X_2+\lambda_3^\mathcal{C}X_3$ (also auch: $\mathcal{C}=\frac{X_1+X_2+X_3}{3}$)). Somit wirken sich Unterschiede zwischen Personen in bspw. $X_1$ (und gleichen $X_2$ und $X_3$) auf Unterschiede in $\mathcal{C}$ aus. Es lassen sich also Unterschiede in der latenten Variable auf unterschiedliche Kombinationen von Ausprägungen  der Beobachtungen zurückführen. Gerade in den Wirtschaftswissenschaften und der Soziologie sind solche formativen Variablen sehr verbreitet. Ein bekanntes Beispiel ist der [Human Development Index](http://hdr.undp.org/en/content/human-development-index-hdi), der aus verschiedenen Komponenten wie Lebenserwartung, Schulbildung und Bruttoinlandsprodukt eine Kennzahl für den Entwicklungsstand eines Landes ermittelt. Ein psychologisches Beispiel für ein formatives Messmodell ist die Variable _Umgebungsbelastung_, welche auch mit dem ISTA erhoben werden kann (Semmer, et al., 1999). Mit dieser Variable sollen Umwelteinflüsse erfasst werden, die die Arbeit erschweren. Dies könnten z.B. schlechte Lichtverhältnisse oder Lärmbelästigung sein, welche durch längeres Auftreten Stress zur Folge haben können. Allerdings ist es in der Regel nicht so, dass an einem Arbeitsplatz immer dann Lärm auftritt, wenn auch die Lichtverhältnisse schlecht sind. Wenn jedoch beides auftritt, so ist die Umgebungsbelastung an diesem Arbeitsplatz besonders ausgeprägt. Demnach müssen beide Aspekte berücksichtigt werden, um eine gute Schätzung für die Umgebungsbelastung eines Arbeitsplatzes zu erhalten. Würden wir von einem reflexiven Messmodell ausgehen, würde eine hohe Ausprägung auf der latenten Variable _Umgebungsbelastung_ auch zu einer erhöhten Antworttendenz auf beiden Items (Licht- und Lärmverhältnisse) führen.
 
-_Wem dieses Konzept bekannt vorkommt, hat sich wahrscheinlich an die Unterscheidung zwischen [EFA](/lehre/fue-ii/efa) und [PCA](/lehre/fue-ii/pca) zurückerinnert: Hier war es so, dass bei der PCA die Hauptkomponenten Linearkombinationen, also gewichtete Summen, der beobachteten Items waren, während bei EFA ein Messmodell mit dahinterliegenden latenten Variablen formuliert wurde und somit Messfehler modeliert werden konnten._
+_Wem dieses Konzept bekannt vorkommt, hat sich wahrscheinlich an die Unterscheidung zwischen [EFA](/lehre/fue-ii/fue-efa) und [PCA](/lehre/fue-i/pca) zurückerinnert: Hier war es so, dass bei der PCA die Hauptkomponenten Linearkombinationen, also gewichtete Summen, der beobachteten Items waren, während bei EFA ein Messmodell mit dahinterliegenden latenten Variablen formuliert wurde und somit Messfehler modeliert werden konnten._
 
 
 Bei Zeitdruck und emotionaler Erschöpfung handelt es sich um reflexive Messmodelle. Bei psychosomatischen Beschwerden werden unterschiedliche Beschwerden wie bspw. Kopfschmerzen und Rückenschmerzen abgefragt. Demnach handelt es sich bei dieser Variable eher um ein ein formatives Messmodell. Entsprechend könnten wir die Kompositformulierung in `lavaan` (`<~`) nutzen, um eine latente Kompositvariable zu erzeugen, oder wir behalten der Einfachheit halber unseren Skalenmittelwert `BFs` bei.
@@ -412,7 +415,7 @@ fit_sem_IE_TE <- sem(model_sem_IE_TE, StressAtWork)
 
 Falls Sie diese Analysen an Ihrem Rechner nachprogrammieren, so sollten Sie folgenden Modellfit erhalten:
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(fit_sem_IE_TE, begin = "Model Test User Model", end = "Parameter Estimates", fit.measures = T, rsq = T)
 ```
 
@@ -424,13 +427,13 @@ Die Fit-Indizes zeigen hier allesamt einen guten Fit des Modells an. Dies war Au
 
 Für die Messmodelle ergibt sich Folgendes:
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(fit_sem_IE_TE, begin = "Latent Variables", end = "Regressions")
 ```
 
 Diesen entnehmen wir, dass die Variablen auf der latenten Dimension ähnlich stark differenzieren (ähnlich große Faktorladungen). Wir sehen außerdem, dass die ersten Faktorladungen jeweils auf 1 gesetzt sind und hier entsprechend keine Signifikanzentscheidung vonnöten ist (wir haben den Wert hier "ohne Unsicherheit" aus Skalierungsgründen vorgegeben). Um die (Item-)Reliabilität beurteilen zu können, schauen wir uns die erklärten Varianzanateile an:
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(fit_sem_IE_TE, begin = "R-Square", end = "Defined Parameters", rsq = T)
 ```
 
@@ -438,14 +441,14 @@ Die beobachteten Variablen zeigen Reliabilitäten zwischen `r round(min(inspect(
 
 Nun wollen wir die Ergebnisse mit den Ergebnissen der Pfadanalyse vergleichen. Dazu schauen wir uns die gerichteten Beziehungen zwischen den latenten Variablen an:
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(fit_sem_IE_TE, begin = "Regressions", end = "Variances")
 ```
 
 Hier werden uns erneut die Label "(a)", "(b)" und "(c)" angezeigt. Der direkte Effekt (c) von Zeitdruck auf psychosomatische Beschwerden scheint, im Gegensatz zu den Ergebnissen der Pfadanalyse im Abschnitt zuvor, nicht signifikant von 0 verschieden zu sein. Die beiden anderen Pfade sind statistisch signifikant:
 
 Auch für diese Analysen ist der $R^2$-Output interessant:
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(fit_sem_IE_TE, begin = "R-Square", end = "Defined Parameters", rsq = T)
 ```
 
@@ -461,13 +464,13 @@ abbrev(fit_sem_IE_TE, begin = "Defined Parameters", end = NULL, shift = 1)
 
 Der indirekte Effekt aus dem Pfadanalysemodell lag bei `r round(parameterEstimates(fit_paths_IE_TE)[7,5], 3)` und der totale bei `r round(parameterEstimates(fit_paths_IE_TE)[8,5], 3)`. Somit liegen auch diese beiden Werte (deskriptiv gesehen) etwas höher, wenn wir latente Modellierung nutzen im Vergleich zu ausschließlich Skalenmittelwerten! Um den indirekten Effekt auf Signifikanz zu prüfen, benutzten wir wieder die Bootstrap-Methode (`set.seed` soll die Analyse replizierbar machen; schauen Sie dazu noch einmal im Abschnitt zur [Pfadanalyse](#Pfadanalyse) nach):
 
-```{r, eval = F}
+```{r, results='hide'}
 set.seed(12345)
 fit_sem_IE_TE_boot  <- sem(model_sem_IE_TE, data = StressAtWork, se = "boot", bootstrap = 1000)
 parameterEstimates(fit_sem_IE_TE_boot, ci = TRUE)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 #load(url("https://pandar.netlify.app/post/fit_sem_IE_TE_boot.RData"))
 load(url("https://courageous-donut-84b9e9.netlify.app/post/fit_sem_IE_TE_boot.RData"))
 print(parameterEstimates(fit_sem_IE_TE_boot, ci = TRUE)[21:22,])
@@ -494,7 +497,7 @@ _`curve = T` und `curvePivot = T` haben in diesem Modell **keinen Effekt**, da e
 
 `BFs` wird hier als Viereck dargestellt, da wir hier Werte gemittelt und diesen Skalenwert als direkt beobachtbare Variable in das Modell aufgenommen haben.
 
-Konkurrierende Modelle können, wie auch in der Sitzung zur [CFA](/lehre/fue-ii/cfa), mit Hilfe des Likelihood-Ratio Tests ($\chi^2$-Differenzen-Test/ Likelihood-Ratio-Test, LRT) gegeneinander getestest werden mit der Funktion `lavTestLRT`.
+Konkurrierende Modelle können, wie auch in der Sitzung zur [CFA](/lehre/fue-ii/fue-cfa), mit Hilfe des Likelihood-Ratio Tests ($\chi^2$-Differenzen-Test/ Likelihood-Ratio-Test, LRT) gegeneinander getestest werden mit der Funktion `lavTestLRT`.
 
 
 ### Modellpassung
@@ -506,7 +509,7 @@ library(ezCutoffs)
 ezCutoffs(model = model_sem_IE_TE, data = StressAtWork)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 cat("Data Generation
 
   |==================================================| 100% elapsed = 11s  ~  0s
@@ -526,7 +529,7 @@ srmr    0.027500985            0.04021870")
 
 `Emprircal fit` ist hier gerade der Modelfit, den wir auch in unseren Daten beobachtet haben. Der $\chi^2$-Wert von 18.444 kommt uns auch sehr bekannt vor! In der Spalte `Cutoff (alpha = 0.05)` steht der zugehörige Cut-Off-Wert, ab welchem von keinem guten Fit mehr zu sprechen wäre. Hierbei ist zu beachten, dass für $TLI$ und $CFI$ kleine Werte (also kleiner als der Cut-Off-Wert) für einen schlechten Fit sprechen, während für $RMSEA$ und $SRMR$ große Werte (also größer als der Cut-Off-Wert) für einen schlechten Fit sprechen.
 
-Wer davon noch nicht genug hat, ist herzlich eingeladen, sich im [Appendix A](#AppendixA) mit dem Test auf essentielle $\tau$-Äquivalenz vertraut zu machen. Die Annahme der essentiellen $\tau$-Äquivalenz wurde in der [Sitzung zur CFA](/lehre/fue-ii/cfa) bereits angesprochen und unterliegt implizit dem Zusammenfassen zu Skalenmittelwerten.
+Wer davon noch nicht genug hat, ist herzlich eingeladen, sich im [Appendix A](#AppendixA) mit dem Test auf essentielle $\tau$-Äquivalenz vertraut zu machen. Die Annahme der essentiellen $\tau$-Äquivalenz wurde in der [Sitzung zur CFA](/lehre/fue-ii/fue-cfa) bereits angesprochen und unterliegt implizit dem Zusammenfassen zu Skalenmittelwerten.
 
 ***
 
@@ -575,13 +578,13 @@ summary(fit_sem_IE_TE_tau, fit.measures = T, rsq = T)
 
 Als Modellfit erhalten wir:
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(fit_sem_IE_TE_tau, begin = "Model Test User Model", end = "Parameter Estimates", fit.measures = T, rsq = T)
 ```
 
 Sowie folgende Ergebnisse für die Messmodelle:
 
-```{r, echo = F}
+```{r, echo = F, purl=FALSE}
 abbrev(fit_sem_IE_TE_tau, begin = "Latent Variables", end = "Regressions")
 ```
 

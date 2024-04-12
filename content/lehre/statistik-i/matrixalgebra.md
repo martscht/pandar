@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer] 
 weight: 10.5
-lastmod: '2024-01-18'
+lastmod: '2024-04-02'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -38,13 +38,24 @@ output:
 
 
 
+<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
+
+* Wie definiere ich [**Vektoren**](#Vektoren) und wie kann ich mit ihnen [**Rechenoperationen**](#VekRechOp) durchführen?  
+* Wie definiere ich [**Matrizen**](#Matrizen) und wie kann ich mit ihnen [**Rechenoperationen**](#MatRechOp) mit ihnen durchführen?
+* Wie bestimme ich [**Determinante und Inverse**](#DetInv) einer Matrix?
+* Wie nutze ich Matrixoperationen um [**Deskriptivstatistiken**](#Deskriptiv) zu bestimmen?
+
+</details>
+
+***
+
 Bisher haben wir gelernt, dass viele statistische Größen durch Summen, Mittelwerte, Quadrate, Abweichungen und weitere recht einfache Rechenoperationen bestimmt werden können. Diese lassen sich oft noch einfacher durch Matrizen und Vektoren ausdrücken. Vielleicht kennen Sie Matrizen aus der Schule. Falls nicht, ist das gar kein Problem, denn dieser Post wird sich mit Vektoren und Matrizen ausführlicher beschäftigen. Matrixalgebra wird bspw. auch in Eid, et al. (2017) im _Anhang B: Matrixalgebra_ ab Seite 1051 behandelt.
 
 Vektoren kennen wir bereits aus den ersten Datensätzen, die wir kennengelernt haben. Bspw. enthält ein Variablenvektor einer Person einfach nur die Einträge der Variablen aus dem Datensatz dieser spezifischen Person. Matrizen haben wir im Grunde auch schon kennengelernt. Ein Datensatz ist sehr stark verwandt mit einer Matrix. Genauso wie ein Datensatz, besteht auch eine Matrix aus Zeilen und Spalten. Der Hauptunterschied ist, dass bei einer Matrix nur numerische Inhalte, also Zahlen, erlaubt sind. Wenn wir Daten in `R` verarbeiten wollen, wird der Datensatz oft in Matrizen umtransformiert (falls er vorher nicht-numerische Inhalte enthielt) und dann mit geeigneten Operationen, sogenannten Matrixoperationen, verarbeitet.
 
 `R` ist eine vektorbasierte Programmiersprache, was bedeutet, dass möglichst viel mit Vektor- oder Matrixoperationen durchgeführt werden soll, da diese besonders optimiert (und damit besonders schnell) sind. Um davon Gebrauch zu machen, müssen wir uns mit diesen Operationen vertraut machen: 
 
-##### Vektoren
+##### Vektoren {#Vektoren}
 Vektoren werden häufig (aber nicht immer, Ausnahmen bestätigen die Regel) in Kleinbuchstaben dargestellt. 
 Seien `x` und `y` zwei Vektoren, die wir mit dem Zuordnungspfeil `<-` und mit der Vektorfunktion `c()` erstellen:
 
@@ -101,11 +112,16 @@ y[c(1,3)]
 ## [1] 10  6
 ```
 
+{{<intext_anchor VekRechOp>}}
 Die Addition von Vektoren funktioniert elementenweise. Das bedeutet, dass das 1. Element des 1. Vektors und das 1. Element des 2. Vektors miteinander addiert werden und das 2. Element des 1. Vektors mit dem 2. Element des 2. Vektors miteinander addiert werden, etc. 
 
 {{< math >}}
-$$x+y=\begin{pmatrix}x_1\\x_2\\x_3 \end{pmatrix}+\begin{pmatrix}y_1\\y_2\\y_3 \end{pmatrix}=\begin{pmatrix}x_1+y_1\\x_2+y_2\\x_3+y_3 \end{pmatrix}=\begin{pmatrix}1\\2\\3 \end{pmatrix}+\begin{pmatrix}10\\8\\6 \end{pmatrix}=\begin{pmatrix}1+10\\2+8\\3+6 \end{pmatrix}=\begin{pmatrix}11\\10\\9 \end{pmatrix}.$$
+\begin{equation}
+\small
+x+y=\begin{pmatrix}x_1\\x_2\\x_3 \end{pmatrix}+\begin{pmatrix}y_1\\y_2\\y_3 \end{pmatrix}=\begin{pmatrix}x_1+y_1\\x_2+y_2\\x_3+y_3 \end{pmatrix}=\begin{pmatrix}1\\2\\3 \end{pmatrix}+\begin{pmatrix}10\\8\\6 \end{pmatrix}=\begin{pmatrix}1+10\\2+8\\3+6 \end{pmatrix}=\begin{pmatrix}11\\10\\9 \end{pmatrix}.
+\end{equation}
 {{</ math >}}
+
 
 Elementeweise Additionen funktionieren super simpel, indem wir `x` und `y` einfach mit `+` verknüpfen. 
 
@@ -155,7 +171,7 @@ In `R` sieht das so aus
 ## [1] 3 6 9
 ```
 
-Genauso können wir auch jedes Element durch 2 teilen, indem wir mit $\frac{1}{2}$ also 0.5 multiplizieren.
+Genauso können wir auch jedes Element durch 2 Teilen, indem wir mit $\frac{1}{2}$ also 0.5 multiplizieren.
 
 
 ```r
@@ -230,7 +246,7 @@ length(x)
 ## [1] 3
 ```
 
-#### Matrizen
+#### Matrizen {#Matrizen}
 
 Ein Vektor ist eine eindimensionale Auflistung von Zahlen. Die Elemente werden einfach durchnummeriert. Eine Matrix ist ein zweidimensionales Objekt, welches aus einer Vielzahl von Vektoren gleicher Länge besteht, welche aneinander "geklebt" werden. Matrizen werden oft in Großbuchstaben beschrieben. Elemente von Matrizen hingegen in Kleinbuchstaben. Auch hier ist das nicht wirklich einheitlich geregelt. 
 
@@ -361,6 +377,7 @@ B
 
 Wir erkennen, dass die Matrix `B` gerade die Transponierte von `A` ist! Die Matrixaddition funktioniert genauso wie die von Vektoren, sie wird elementenweise durchgeführt. Allerdings müssen dafür die Matrizen vom selben Format, also der gleichen Dimension, sein, also gleich viele Zeilen und Spalten haben. Das Format wird üblicherweise $z \times s$ angegeben, wobei $z$ die Anzahl an Zeilen und $s$ die Anzahl an Spalten ist.
 
+{{<intext_anchor MatRechOp>}}
 Die beiden Matrizen `A` und `B` lassen sich nicht addieren, da sie nicht das richtige Format haben:
 
 
@@ -591,7 +608,7 @@ diag(C)
 ```
 
 
-##### Determinanten und Invertierung
+##### Determinanten und Invertierung {#DetInv}
 Die Inverse, also jenes Element, mit welchem wir (matrix-)multiplizieren müssen, um die Einheitsmatrix zu erhalten, lässt sich in `R` mit dem `solve` Befehl erhalten (dies geht nur bei quadratischen Matrizen):
 
 
@@ -613,7 +630,7 @@ det(C)
 ```
 
 ```
-## [1] -9.516197e-16
+## [1] 6.661338e-16
 ```
 
 ```r
@@ -894,12 +911,12 @@ Wir sehen also, dass die Inverse einer Matrix essentiell ist, um Gleichungssyste
 
 Nun aber genug von Obst, wir sind hier um Statistik zu betreiben. Im letzten Abschnitt schauen wir uns an, wie man einfache Statistiken mit Hilfe von Matrixoperationen bestimmt.
 
-##### Statistiken mit Matrixoperationen bestimmen
+##### Statistiken mit Matrixoperationen bestimmen {#Deskriptiv}
 
 
 ```r
 # Daten laden
-load(url('https://courageous-donut-84b9e9.netlify.app/post/fb22.rda'))  
+load(url('https://pandar.netlify.app/daten/fb22.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb22$geschl_faktor <- factor(fb22$geschl,

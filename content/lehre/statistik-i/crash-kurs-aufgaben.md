@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: ''
 authors: [schultze]
-lastmod: '2024-03-12'
+lastmod: '2024-03-18'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"
@@ -35,6 +35,8 @@ output:
   html_document:
     keep_md: true
 ---
+
+
 
 ## R als Taschenrechner
 

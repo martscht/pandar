@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, buchholz, zacharias, pommeranz] 
-lastmod: '2024-02-19'
+lastmod: '2024-03-18'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -20,10 +20,22 @@ reading_time: false
 share: false
 _build:
   list: never
+  
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/deskriptiv-intervall
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/deskriptiv-intervall-aufgaben
+  
 output:
   html_document:
     keep_md: true
 ---
+
 
 
 ### Vorbereitung

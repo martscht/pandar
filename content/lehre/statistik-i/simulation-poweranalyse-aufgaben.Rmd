@@ -39,11 +39,11 @@ output:
 
 ## Aufgabe 1
 ### Lineare Beziehungen zwischen Variablen: Korrelationstest unter $H_1$
-Wir wollen uns ebenfalls die Power für den Korrelationstest ansehen. Dazu müssen wir allerdings korrelierte Variablen generieren. Um das hinzubekommen, müssen wir einige Eigenschaften der Normalverteilung ausnutzen: bspw. dass die Summe zweier normalverteilter Zufallsvariablen wieder normalverteilt ist. Für zwei unabhängige (unkorrelierte) standard-normalverteilte Zufallsvariablen $X$ und $Z$, ist die Zufallsvariable $Y$, die folgendermaßen gebildet wird:
+Wir wollen uns ebenfalls die Power für den Korrelationstest ansehen. Dazu müssen wir allerdings korrelierte Variablen generieren. Um das hinzubekommen, müssen wir einige Eigenschaften der Normalverteilung ausnutzen: bspw. dass die Summe zweier normalverteilter Zufallsvariablen wieder normalverteilt ist. Für zwei unabhängige (unkorrelierte) standardnormalverteilte Zufallsvariablen $X$ und $Z$, ist die Zufallsvariable $Y$, die folgendermaßen gebildet wird:
 
 $$Y:= \rho X + \sqrt{1-\rho^2}Z,$$
 
-wieder standard-normalverteilt und um den Korrelationskoeffizienten $\rho$ korreliert mit $X$. Wir können also relativ einfach zwei korrelierte Variablen generieren. Wie in der Sitzung verwenden wir $N=20$:
+wieder standardnormalverteilt und um den Korrelationskoeffizienten $\rho$ korreliert mit $X$. Wir können also relativ einfach zwei korrelierte Variablen generieren. Wie in der Sitzung verwenden wir $N=20$:
 
 ```{r}
 N <- 20
@@ -79,7 +79,7 @@ Wiederholen Sie die Analyse. Verändern Sie diesmal die Varianz der beiden Varia
 In den [Inhalten](/lehre/statistik-i/simulation-poweranalyse/) zu dieser Sitzung haben Sie neben der Poweranalyse auch die Sensitivitätsanalyse für den $t$-Test kennengelernt. Diese lässt sich mithilfe des Pakets `WebPower` auch für die Korrelation durchführen.
 
 * Laden Sie zunächst das Paket `WebPower` und schauen Sie sich die Funktion für die Poweranalyse bei einer Korrelation an.
-* Nehmen Sie an, dass Sie eine Gruppe von $N=50$ Personen untersucht haben. Sie möchten nun wissen, wie groß der Korrelationskoeffizient theoretisch sein müsste damit eine Power von $95\\%$ erreicht werden kann. Das $\alpha$-Fehleriveau soll dabei bei $0.05$ liegen.
+* Nehmen Sie an, dass Sie eine Gruppe von $N=50$ Personen untersucht haben. Sie möchten nun wissen, wie groß der Korrelationskoeffizient theoretisch sein müsste, damit eine Power von $95\\%$ erreicht werden kann. Das $\alpha$-Fehleriveau soll dabei bei $0.05$ liegen.
 
 ## Aufgabe 4
 ### Type I-Error und Power zu einem $\alpha$-Niveau von $0.1$ des $t$-Test
@@ -99,6 +99,8 @@ Wir wollen nun die Power des $t$-Tests für unterschiedliche Effektgrößen unte
 Nutzen Sie den Seed 12345 (`set.seed(12345)`).
 
 * Erstellen Sie einen Power-Plot für die folgenden Effekte $d = 0, 0.25, 0.5, 0.75, 1,$ und $1.25$ bei einer Stichprobengröße von $N = 20$. Stellen Sie die Effektgröße auf der x-Achse dar.
+
+* Welcher Effekt muss mindestens bestehen, damit die Power bei $80\%$ liegt?
 
 ## Aufgabe 6
 ### Powervergleich: $t$-Test vs. Wilcoxon-Test

@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [koehler, buchholz, goldhammer, walter, nehler] 
-lastmod: '2024-02-06'
+lastmod: '2024-03-27'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -20,6 +20,17 @@ _build:
   list: never
 reading_time: false
 share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/gruppenvergleiche-unabhaengig
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/gruppenvergleiche-unabhaengig-aufgaben
+    
 output:
   html_document:
     keep_md: true
@@ -110,20 +121,6 @@ Die `describeBy()` Funktion aus dem Paket `psych` kann uns helfen, direkt die de
 
 ```r
 library(psych)
-```
-
-```
-## 
-## Attaching package: 'psych'
-```
-
-```
-## The following object is masked from 'package:effsize':
-## 
-##     cohen.d
-```
-
-```r
 describeBy(x = data1$offen, group = data1$fach)
 ```
 
@@ -133,7 +130,7 @@ describeBy(x = data1$offen, group = data1$fach)
 ## group: Allgemeine
 ##    vars  n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 30 3.67 0.82    3.5    3.67 0.74   2   5     3 0.11       -1 0.15
-## --------------------------------------------------------------- 
+## -------------------------------------------------------------------------------------- 
 ## group: Klinische
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 82 3.77 0.98      4    3.86 0.74 1.5   5   3.5 -0.58    -0.59 0.11
@@ -165,13 +162,14 @@ sd_K
 ## [1] 0.9759146
 ```
 
-Mittelwert der Allgemeinen Psychologen ($M = 3.67$, $SD_ = 0.81$ unterscheidet sich deskriptivstatistisch vom Mittelwert der Klinischen ($M = 3.77$, $SD = 0.98$).
+Mittelwert der Allgemeinen Psychologen ($M = 3.67$, $SD = 0.81$ unterscheidet sich deskriptivstatistisch vom Mittelwert der Klinischen ($M = 3.77$, $SD = 0.98$).
 
 </details>
 
 * Formulieren Sie die Hypothesen basierend auf der Aufgabenstellung inhaltlich und statistisch.
 
 <details><summary>Lösung</summary>
+
 **Hypothesen**
 
 * Art des Effekts: Unterschiedshypothese  
@@ -234,24 +232,6 @@ Wir sehen anhand der Abbildungen, dass unsere empirischen Verteilungen nicht den
 
 ```r
 library(car)
-```
-
-```
-## Loading required package: carData
-```
-
-```
-## 
-## Attaching package: 'car'
-```
-
-```
-## The following object is masked from 'package:psych':
-## 
-##     logit
-```
-
-```r
 leveneTest(data1$offen ~ data1$fach)
 ```
 
@@ -307,7 +287,7 @@ Es wurde untersucht, ob sich Studierende, die sich für Allgemeine Psychologie i
 
 In dieser Aufgabe soll untersucht werden, ob sich Studierende mit Wohnort in Frankfut, sich selbst zu Beginn der Praktikumsstizung als wacher eingestuft haben als Studierende, die nicht in Frankfurt wohnen. Für die Untersuchung soll der Mittelwert der beiden Gruppen betrachtet werden.
 
-* Zunächst geht es an die Datenvorbereitung. Verwandeln Sie die Variable Ort in einen Faktor, bei dem eine `1` für `FFM` und eine `2` für `anderer` steht. **ACHTUNG**: Wenn Sie den Appendix des Tutorials durchgearbeitet haben, ist dieser Schritt nicht nötig
+* Zunächst geht es an die Datenvorbereitung. Verwandeln Sie die Variable Ort in einen Faktor, bei dem eine `1` für `FFM` und eine `2` für `anderer` steht. **ACHTUNG**: Wenn Sie den Appendix des Tutorials durchgearbeitet haben, ist dieser Schritt nicht nötig.
 
 <details><summary>Lösung</summary>
 
@@ -386,7 +366,7 @@ t.test(fb23$wm_pre ~ fb23$ort,           # abhängige Variable ~ unabhängige Va
 ##              2.673246              2.637500
 ```
 
-In der inferenzstatistischen Testung zeigt sich kein signifikanter Unterschied. Wir würden also die $H0$ beibehalten, auch wenn der Mittelwert der Gruppe FFM deskriptiv ein wenig größer ist.
+In der inferenzstatistischen Testung zeigt sich kein signifikanter Unterschied. Wir würden also die $H_0$ beibehalten, auch wenn der Mittelwert der Gruppe FFM deskriptiv ein wenig größer ist.
 
 </details>
 
@@ -396,7 +376,7 @@ In der inferenzstatistischen Testung zeigt sich kein signifikanter Unterschied. 
 
 In dieser Aufgabe wollen wir die Frage beantworten, ob Studierende die auf Unipartys gehen (`uni3`), sich in Ihrer Lebenszufriedenheit von denen unterscheiden (`lz`), die dies nicht tun. Im Tutorial haben Sie bereits gelernt, dass Lebenszufriedenheit als schiefverteilt angenommen werden kann. Wählen Sie also einen Test, der diese Schiefe berücksichtigt.
 
-* Welcher Test wäre an dieser Stelle geeignet. Leiten Sie aus der Fragestellung die passenden Hypothesen für diesen Test auf.
+* Welcher Test wäre an dieser Stelle geeignet. Leiten Sie aus der Fragestellung die passenden Hypothesen für diesen Test ab.
 
 <details><summary>Lösung</summary>
 
@@ -462,7 +442,7 @@ describeBy(fb23$lz, fb23$unipartys)
 ## group: nein
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 94 4.96 1.12    5.2    5.05 0.89 1.4   7   5.6 -0.84     0.69 0.12
-## --------------------------------------------------------------- 
+## -------------------------------------------------------------------------------------- 
 ## group: ja
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 83  5.3 0.96    5.4    5.35 1.19 2.8   7   4.2 -0.45    -0.55 0.11
@@ -564,6 +544,7 @@ Es wurde untersucht, ob Studierende, die auf Unipartys gehen, sich in der Lebens
 Hier finden Sie noch eine Aufgabe, die den im Appendix des Tutorials behandelten Test abfragt.
 
 <details><summary> Aufgabe zum Appendix </summary>
+
 Ist die Wahrscheinlichkeit dafür, neben dem Studium einen Job (`job`) zu haben, die gleiche für Erstsemesterstudierende der Psychologie die in einer Wohngemeinschaft wohnen wie für Studierenden die bei ihren Eltern wohnen (`wohnen`)? Führen Sie die Testung mit $\alpha = 0.05$ durch.
 
 <details><summary>Lösung</summary>

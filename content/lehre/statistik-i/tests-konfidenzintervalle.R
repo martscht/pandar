@@ -33,13 +33,7 @@ fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre",
 fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
 
 
-curve(expr = dnorm(x, mean = 2.5, sd = 3.1),
-     from = -0.5,
-     to = 5.5,
-     main = "Population", 
-     xlab = "Nerdiness-Werte",
-     ylab = "Dichte")
-abline(v = mean(fb23$nerd),col=  "red")
+
 
 anyNA(fb23$nerd)
 
@@ -61,14 +55,7 @@ se_nerd <- pop_sd_nerd/sqrt(sample_size) # Standardfehler des Mittelwerts
 z_emp <- (sample_mean_nerd - pop_mean_nerd)/ se_nerd
 z_emp
 
-x <- seq(-0.5, 5.5, 0.1) 
-y <- dnorm(x, 2.5, 3.1/sqrt(nrow(fb23)))
-plot(x, y, type="l", 
-      main = "SKV des MW für Nerdiness Population mit unserer Stichprobengröße", 
-      xlab = "Nerdiness-Werte",
-      ylab = "Dichte f(x)")
-polygon(c(min(x), x[x<=mean(fb23$nerd)],  mean(fb23$nerd)), c(0, y[x<=mean(fb23$nerd)],  0), col="red")
-abline(v = mean(fb23$nerd),col=  "red")
+
 
 pnorm(z_emp, lower.tail = FALSE)
 
@@ -104,12 +91,7 @@ describe(fb23$neuro)
 
 
 
-hist(fb23$neuro, xlim=c(0,6), main = "Histogramm",
-     xlab = "Score", ylab= "Dichte", freq = FALSE)
-curve(dnorm(x, 
-            mean = mean(fb23$neuro), 
-            sd = sd(fb23$neuro)), 
-      add = T)
+
 
 fb23$neuro_std <- scale(fb23$neuro, center = T, scale = T)
 qqnorm(fb23$neuro_std)

@@ -3,13 +3,13 @@ title: "Regression V: nichtlineare Regression - exponentielles Wachstum"
 type: post
 date: '2021-03-30'
 slug: regression-v
-categories: ["Statistik II"] 
+categories: ["Deprecated"] 
 tags: ["Regression", "Zusammenhangsanalyse", "exponentiell", "nichtlinear"] 
 subtitle: 'nichtlineare Regression'
 summary: ''
 authors: [irmer, schultze]
 weight: 12
-lastmod: '2024-03-08'
+lastmod: '2024-04-12'
 featured: no
 banner:
   image: "/header/penguins_on_ice.jpg"

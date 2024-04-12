@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird Ihnen eine kurze Einführung in LIFOS (Lokale Infrastruktur für Open Science) gegeben. Hierbei handelt es sich um eine universitätsinterne Übungsplattform für Psychologie-Studierende der Goethe Universität, die es Ihnen ermöglichen soll, Open Science Praktikem in einem geschützten Raum zu üben. In diesem Quickguide wird Ihnen erklärt, wie Sie sich bei LIFOS anmelden und Ihr Projekt am richtigen Ort anlegen. Außerdem wird erläutert, welche Schritte Sie im Rahmen Ihres Praktikums auf LIFOS durchführen sollen.' 
 authors: [beitner, nehler]
 weight: 12
-lastmod: '2023-11-15'
+lastmod: '2024-04-02'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"
@@ -22,6 +22,10 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
+    url: /lehre/statistik-i/gruppenprojekt
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Gruppenprojekt
     url: /lehre/statistik-i/gruppenprojekt
   - icon_pack: fas
     icon: pen-to-square
@@ -39,7 +43,8 @@ output:
 Wie wir bereits besprochen haben, sollen Sie im Rahmen des Praktikums eine erste eigene Studie konzipieren. Hierfür wird Ihnen von Ihren Dozent:innen ein Datensatz zur Verfügung gestellt, an dem Sie Ihre Hypothesen inferenzstatistisch testen können. Dabei sollen Sie direkt die Praktiken guter, transparenter Wissenschaft mit Hilfe unserer Plattform [LIFOS](https://lifos.uni-frankfurt.de) kennen lernen und anwenden. Wir haben alle wichtigen Informationen hier in diesem Beitrag nochmals für Sie zusammengefasst. Sollten in der Zusammenarbeit in Ihrer Kleingruppe noch Fragen auftreten, wenden Sie sich bitte an Ihre/n Dozent:in.
 
 
-{{< spoiler text = "Kernfragen der Lehreinheit" >}}
+<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
+
 - Was müssen Sie auf [**LIFOS**](#firststeps) tun, um loslegen zu können?
 - Wie legt man auf LIFOS ein [**Projekt**](#projektstart) an?
 - Wie [**bearbeitet**](#bearbeitung) man ein Projekt auf LIFOS?
@@ -48,7 +53,7 @@ Wie wir bereits besprochen haben, sollen Sie im Rahmen des Praktikums eine erste
 - Wie schließen Sie ein Projekt auf LIFOS ab?
 - Wie kann man einen Commit [**korrigieren**](#Hilfe), den man auf dem falschen Branch ausgeführt hat?
 
-{{< /spoiler >}}
+</details>
 
 ***
 

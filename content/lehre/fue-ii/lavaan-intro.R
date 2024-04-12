@@ -1,33 +1,6 @@
-library(lavaan)
-library(fontawesome)
-
-abbrev <- function(X, begin = 'Latent Variables', end = NULL, ellipses = 'both', shift = 2, ...) {
-  
-  tmp <- capture.output(lavaan::summary(X,...))
-  
-  if (is.null(begin)) begin <- 1
-  else begin <- grep(begin, tmp, fixed = TRUE)[1]
-  if (is.null(end)) end <- length(tmp)-shift
-  else end <- grep(end, tmp, fixed = TRUE)[grep(end, tmp, fixed = TRUE) > begin][1]-shift
-  
-  if (ellipses == 'both') {
-    cat('[...]\n', paste(tmp[begin:end], collapse = '\n'), '\n[...]\n')
-  }
-  if (ellipses == 'top') {
-    cat('[...]\n', paste(tmp[begin:end], collapse = '\n'))
-  }
-  if (ellipses == 'bottom') {
-    cat(paste(tmp[begin:end], collapse = '\n'), '\n[...]\n')
-  }
-  if (ellipses == 'none') {
-    cat(paste(tmp[begin:end], collapse = '\n'))
-  }
-}
-
 ## load('fairplayer.rda')
 
-#load(url('https://pandar.netlify.com/daten/fairplayer.rda'))
-load(url("https://courageous-donut-84b9e9.netlify.app/post/fairplayer.rda"))
+load(url("https://pandar.netlify.com/daten/fairplayer.rda"))
 
 # Namen der Variablen abfragen
 names(fairplayer)
@@ -70,8 +43,16 @@ mod <- lm(rat1 ~ 1 + sit1 + emt1, fairplayer)
 
 mod
 
-plot(fairplayer$rat1 ~ fairplayer$sit1)
-abline(coef(mod)[1], coef(mod)[2])
+# Koeffizienten als Objekt ablegen
+b <- coef(mod)
+
+# Scatterplot mit Regressionslinie
+library(ggplot2)
+ggplot(fairplayer, aes(x = sit1, y = rat1)) +
+  geom_point() +
+  geom_abline(intercept = b['(Intercept)'], slope = b['sit1'],
+    color = '#00618f', lwd = 1.5) +
+  labs(x = 'Soziale Intelligenz', y = 'Relationale Aggression')
 
 summary(mod)
 
@@ -96,14 +77,22 @@ mod <- 'rat1 ~ 1 + sit1 + emt1
 fit <- lavaan(mod, fairplayer)
 
 ## summary(fit)
-lavaan::summary(fit)
 
-abbrev(fit, 'Regressions', 'Intercepts')
 
-summary(lm(rat1 ~ sit1 + emt1, fairplayer))$coef
+
+
+
 
 abbrev(fit, 'Intercept', 'Variances')
 
-abbrev(fit, 'Variances', ellipses = 'top', shift = 1)
+
+
+summary(fit, standardized = TRUE)
 
 inspect(fit, 'rsquare')
+
+# Unstandardisierte Parameter
+parameterEstimates(fit)
+
+## # Standardisierte Parameter
+## standardizedSolution(fit)

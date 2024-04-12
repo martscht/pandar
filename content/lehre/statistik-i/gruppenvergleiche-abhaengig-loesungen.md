@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [walter, nehler] 
-lastmod: '2023-12-05'
+lastmod: '2024-03-27'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -20,6 +20,17 @@ _build:
   list: never
 reading_time: false
 share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/gruppenvergleiche-abhaengig
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /lehre/statistik-i/gruppenvergleiche-abhaengig-aufgaben
+    
 output:
   html_document:
     keep_md: true
@@ -72,7 +83,7 @@ $\alpha = .05$
 
 **Bevor es weiter geht:**
 
-Ein Blick in den fb23-Datensatz verrät, dass auf dem Skalenwert `wm_post`, der Messung des Wachempfindens zum zweiten Zeitpunkt, Werte fehlen. Diese fehlenden Werte werden als *NA* abgebildet.
+Ein Blick in den `fb23`-Datensatz verrät, dass auf dem Skalenwert `wm_post`, der Messung des Wachempfindens zum zweiten Zeitpunkt, Werte fehlen. Diese fehlenden Werte werden als *NA* abgebildet.
 
 Um verfälschte deskriptiv- und inferenzstatistische Ergebnisse zu vermeiden, werden alle Personen aus der weiteren Berechung ausgeschlossen, die einen fehlenden Wert auf `wm_post` (oder `wm_pre`) aufweisen. Damit wir den Datensatz `fb23` aber nicht generell verändern, legen wir estmal einen neuen Datesatz an, der nur die beiden interessierenden Variablen enthält.
 
@@ -146,10 +157,8 @@ describe(wach[, "wm_pre"])
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis
-## X1    1 146 2.63 0.59   2.75    2.64 0.74   1   4     3 -0.19    -0.29
-##      se
-## X1 0.05
+##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 146 2.63 0.59   2.75    2.64 0.74   1   4     3 -0.19    -0.29 0.05
 ```
 
 ```r
@@ -157,10 +166,8 @@ describe(wach[, "wm_post"])
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis
-## X1    1 146 2.58 0.69    2.5    2.59 0.74   1   4     3 -0.15    -0.41
-##      se
-## X1 0.06
+##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 146 2.58 0.69    2.5    2.59 0.74   1   4     3 -0.15    -0.41 0.06
 ```
 
 Der Mittelwert vorher ($M$ = 2.63, $SD$ = 0.59) ist deskriptiv niedriger als Mittelwert nachher ($M$ = 2.58, $SD$ = 0.69).
