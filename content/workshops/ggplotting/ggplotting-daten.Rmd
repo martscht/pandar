@@ -47,6 +47,7 @@ Um mir die Arbeit mit den Daten ein wenig zu erleichtern, nutze ich an dieser St
 
 ```{r}
 library(dplyr)
+library(tidyr)
 ```
 
 Die Datensätze, die wir benutzen werden können größtenteils über das [github-Repository von Gapminder](https://github.com/open-numbers/ddf--gapminder--systema_globalis) bezogen werden. Die Dateinamen sind dabei zwar gut strukturiert, aber nicht unbedingt kurz, wodurch die folgenden paar Zeilen R code etwas unübersichtlich wirken können. 
@@ -56,7 +57,7 @@ Die Datensätze, die wir benutzen werden können größtenteils über das [githu
 raw_geo <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/ddf--entities--geo--country.csv')
 
 # Populationsdaten
-pop <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/countries-etc-datapoints/ddf--datapoints--total_population_with_projections--by--geo--time.csv')
+pop <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--fasttrack/master/countries_etc_datapoints/ddf--datapoints--pop--by--country--time.csv')
 
 # Lebenserwartung
 expect <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/countries-etc-datapoints/ddf--datapoints--life_expectancy_at_birth_data_from_ihme--by--geo--time.csv')
@@ -117,9 +118,15 @@ names(geo)
 ```
 
 
-Diese geschrumpften Informationen müssen jetzt zunächst mit den Informationen zum den Ländern zusammengeführt werden.
+Diese geschrumpften Informationen müssen jetzt zunächst mit den Informationen zum den Ländern zusammengeführt werden. Dafür müssen wir wieder sicherstellen, dass die Variable, die das Land kodiert, in alle Datensätzen den gleichen Namen hat:
 
-```{r Error}
+```{r}
+names(pop)
+names(pop)[1] <- 'geo' 
+```
+
+
+```{r}
 geo <- right_join(geo, pop, by = 'geo') |>
   full_join(expect, by = c('geo', 'time')) |>
   full_join(income, by = c('geo', 'time')) 
@@ -146,7 +153,7 @@ edu_exp <- full_join(geo, edu, by = c('geo', 'time'))
 Weil die uns hauptsächlich interessierenden Daten zu den Bildungsausgaben erst ab 1997 zuverlässig erhoben wurden, Lebenserwartung und Bevölkerungszahlen aber von 1800 bis 2100 geschätzt bzw. aufgezeichnet wurden, schränken wir den Datensatz noch auf die Spanne von 1997 bis 2017 ein und entfernen die Datenpunkte, die nicht eindeutig einem Land zugewiesen werden konnten:
 
 ```{r}
-edu_exp <- filter(edu_exp, time < 2018 & time > 1996) |>
+edu_exp <- filter(edu_exp, time <= 2018 & time > 1996) |>
   filter(!is.na(Country))
 ```
 

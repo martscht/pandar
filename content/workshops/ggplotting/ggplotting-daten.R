@@ -1,10 +1,11 @@
 library(dplyr)
+library(tidyr)
 
 # Geografische Informationen
 raw_geo <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/ddf--entities--geo--country.csv')
 
 # Populationsdaten
-pop <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/countries-etc-datapoints/ddf--datapoints--total_population_with_projections--by--geo--time.csv')
+pop <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--fasttrack/master/countries_etc_datapoints/ddf--datapoints--pop--by--country--time.csv')
 
 # Lebenserwartung
 expect <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/countries-etc-datapoints/ddf--datapoints--life_expectancy_at_birth_data_from_ihme--by--geo--time.csv')
@@ -39,6 +40,9 @@ geo <- transmute(raw_geo, geo = country, Country = name, Wealth = income_groups,
 
 names(geo)
 
+names(pop)
+names(pop)[1] <- 'geo' 
+
 geo <- right_join(geo, pop, by = 'geo') |>
   full_join(expect, by = c('geo', 'time')) |>
   full_join(income, by = c('geo', 'time')) 
@@ -49,7 +53,7 @@ edu <- full_join(primary, secondary, by = c('geo', 'time')) |>
 
 edu_exp <- full_join(geo, edu, by = c('geo', 'time'))
 
-edu_exp <- filter(edu_exp, time < 2018 & time > 1996) |>
+edu_exp <- filter(edu_exp, time <= 2018 & time > 1996) |>
   filter(!is.na(Country))
 
 names(edu_exp)
