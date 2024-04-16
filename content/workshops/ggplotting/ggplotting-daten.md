@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [schultze] 
 weight: 0
-lastmod: '2024-04-08'
+lastmod: '2024-04-16'
 featured: no
 banner:
   image: "/header/disc_reader.jpg"
@@ -48,6 +48,27 @@ Um mir die Arbeit mit den Daten ein wenig zu erleichtern, nutze ich an dieser St
 library(dplyr)
 ```
 
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
+library(tidyr)
+```
+
 Die Datensätze, die wir benutzen werden können größtenteils über das [github-Repository von Gapminder](https://github.com/open-numbers/ddf--gapminder--systema_globalis) bezogen werden. Die Dateinamen sind dabei zwar gut strukturiert, aber nicht unbedingt kurz, wodurch die folgenden paar Zeilen R code etwas unübersichtlich wirken können. 
 
 
@@ -56,7 +77,7 @@ Die Datensätze, die wir benutzen werden können größtenteils über das [githu
 raw_geo <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/ddf--entities--geo--country.csv')
 
 # Populationsdaten
-pop <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/countries-etc-datapoints/ddf--datapoints--total_population_with_projections--by--geo--time.csv')
+pop <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--fasttrack/master/countries_etc_datapoints/ddf--datapoints--pop--by--country--time.csv')
 
 # Lebenserwartung
 expect <- read.csv('https://raw.githubusercontent.com/open-numbers/ddf--gapminder--systema_globalis/master/countries-etc-datapoints/ddf--datapoints--life_expectancy_at_birth_data_from_ihme--by--geo--time.csv')
@@ -142,7 +163,21 @@ names(geo)
 ```
 
 
-Diese geschrumpften Informationen müssen jetzt zunächst mit den Informationen zum den Ländern zusammengeführt werden.
+Diese geschrumpften Informationen müssen jetzt zunächst mit den Informationen zum den Ländern zusammengeführt werden. Dafür müssen wir wieder sicherstellen, dass die Variable, die das Land kodiert, in alle Datensätzen den gleichen Namen hat:
+
+
+```r
+names(pop)
+```
+
+```
+## [1] "country" "time"    "pop"
+```
+
+```r
+names(pop)[1] <- 'geo' 
+```
+
 
 
 ```r
@@ -175,7 +210,7 @@ Weil die uns hauptsächlich interessierenden Daten zu den Bildungsausgaben erst 
 
 
 ```r
-edu_exp <- filter(edu_exp, time < 2018 & time > 1996) |>
+edu_exp <- filter(edu_exp, time <= 2018 & time > 1996) |>
   filter(!is.na(Country))
 ```
 
@@ -193,7 +228,7 @@ names(edu_exp)
 ##  [3] "Wealth"                                                     
 ##  [4] "Region"                                                     
 ##  [5] "time"                                                       
-##  [6] "total_population_with_projections"                          
+##  [6] "pop"                                                        
 ##  [7] "life_expectancy_at_birth_data_from_ihme"                    
 ##  [8] "gdppercapita_us_inflation_adjusted"                         
 ##  [9] "expenditure_per_student_primary_percent_of_gdp_per_person"  
@@ -219,20 +254,20 @@ head(edu_exp)
 ```
 
 ```
-##   geo Country      Wealth   Region Year Population Expectancy   Income  Primary
-## 1 abw   Aruba high_income americas 1997      85160         NA 30074.41       NA
-## 2 abw   Aruba high_income americas 1998      86830         NA 29765.51       NA
-## 3 abw   Aruba high_income americas 1999      88440         NA 29262.62 11.59103
-## 4 abw   Aruba high_income americas 2000      90270         NA 30703.66 13.06282
-## 5 abw   Aruba high_income americas 2001      92360         NA 31426.88 12.19509
-## 6 abw   Aruba high_income americas 2002      94600         NA 30760.21 13.78319
-##   Secondary Tertiary Index
-## 1        NA       NA    NA
-## 2        NA       NA    NA
-## 3  18.56215 31.49001    NA
-## 4  19.20419 28.73253    NA
-## 5  20.24258 32.89536    NA
-## 6  19.38926 34.78445    NA
+##   geo     Country     Wealth Region Year Population Expectancy   Income Primary Secondary Tertiary
+## 1 afg Afghanistan low_income   asia 1997   17788819       50.7       NA      NA        NA       NA
+## 2 afg Afghanistan low_income   asia 1998   18493132       50.0       NA      NA        NA       NA
+## 3 afg Afghanistan low_income   asia 1999   19262847       50.8       NA      NA        NA       NA
+## 4 afg Afghanistan low_income   asia 2000   19542982       51.0       NA      NA        NA       NA
+## 5 afg Afghanistan low_income   asia 2001   19688632       51.1       NA      NA        NA       NA
+## 6 afg Afghanistan low_income   asia 2002   21000256       51.6 344.2242      NA        NA       NA
+##   Index
+## 1  0.18
+## 2  0.19
+## 3  0.20
+## 4  0.20
+## 5  0.21
+## 6  0.22
 ```
 
 Eine kurze Erläuterung der Variablenbedeutungen:
