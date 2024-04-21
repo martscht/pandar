@@ -39,6 +39,7 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Die Big Five Persönlichkeitsdimensionen](#die-big-five-persönlichkeitsdimensionen-big5) | [{{< icon name="download" pack="fas" >}} `Big5` ](/daten/Big5_EFA.rda) |
 | [Interozeptive Aufmerksamkeit und Genauigkeit](#interozeptive-aufmerksamkeit-und-genauigkeit-body) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/j6ef3/download) |
 | [Bildungsinvestitionen auf der Welt](#bildungsinvestitionen-auf-der-welt-edu_exp) | [{{< icon name="download" pack="fas" >}} `edu_exp` ](/daten/edu_exp.rda) 
+| [Erfahrung in Beziehungen](#erfahrungen-in-beziehungen) | [{{< icon name="download" pack="fas" >}} `ecr` ](/daten/ecr.rda)
 | [Bullyingprävention bei Jugendlichen](#bullyingprävention-bei-jugendlichen-fairplayer) | [{{< icon name="download" pack="fas" >}} `fairplayer` ](/daten/faiplayer.rda) |
 | [Quasi-Experimentelle Therapiestudie](#quasi-experimentelle-therapiestudie-cbtdata) | [{{< icon name="download" pack="fas" >}} `CBTdata` ](/daten/CBTdata.rda) |
 | [Depressivität](#depressivitat-Depression) | [{{< icon name="download" pack="fas" >}} `Depression` ](/daten/Depression.rda) |
@@ -415,6 +416,69 @@ Insgesamt liegen im Datensatz `r sum(is.na(edu_exp))` fehlende Werte vor. Folgen
 <!-- </details> -->
 
 ---
+
+## Erfahrungen in Beziehungen (`ecr`)
+
+### Beschreibung
+Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"](https://openpsychometrics.org/_rawdata/), einer Online-Plattform, die eine Sammlung an Daten aus verschiedensten Persönlichkeitstests zur Verfügung stellt. Bei den hier bereitgestellten Daten handelt es sich um eine Auswahl von Daten, die ausschließlich aus Deutschland stammt. Im Zentrum stehen die 36 Items der "Experiences in Close Relationships" Skala von Brennan et al. (1998).
+
+### Datensatz laden
+```{r, eval = FALSE}
+load(url('https://pandar.netlify.com/daten/ecr.rda'))
+```
+```{r, echo = FALSE}
+load('./ecr.rda')
+```
+
+### Größe
+Der Datensatz besteht aus `r dim(ecr)[1]` Beobachtungen auf `r dim(ecr)[2]` Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+| Variable | Inhalt | Kodierung |
+| --- | ---- | ---- |
+| `gender` | Geschlecht | 1 = male, 2 = female, 3 = nonbinare |
+| `age` | Alter |  |
+| `Q1` | I prefer not to show a partner how I feel deep down. | 1 = strongly disagree; 5 = strongly agree |
+| `Q2` | I worry about being abandoned. | 1 = strongly disagree; 5 = strongly agree |
+| `Q3` | I am very comfortable being close to romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q4` | I worry a lot about my relationships. | 1 = strongly disagree; 5 = strongly agree |
+| `Q5` | Just when my partner starts to get close to me I find myself pulling away. | 1 = strongly disagree; 5 = strongly agree |
+| `Q6` | I worry that romantic partners wont care about me as much as I care about them. | 1 = strongly disagree; 5 = strongly agree |
+| `Q7` | I get uncomfortable when a romantic partner wants to be very close. | 1 = strongly disagree; 5 = strongly agree |
+| `Q8` | I worry a fair amount about losing my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q9` | I don't feel comfortable opening up to romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q10` | I often wish that my partner's feelings for me were as strong as my feelings for him/her. | 1 = strongly disagree; 5 = strongly agree |
+| `Q11` | I want to get close to my partner, but I keep pulling back. | 1 = strongly disagree; 5 = strongly agree |
+| `Q12` | I often want to merge completely with romantic partners, and this sometimes scares them away. | 1 = strongly disagree; 5 = strongly agree |
+| `Q13` | I am nervous when partners get too close to me. | 1 = strongly disagree; 5 = strongly agree |
+| `Q14` | I worry about being alone. | 1 = strongly disagree; 5 = strongly agree |
+| `Q15` | I feel comfortable sharing my private thoughts and feelings with my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q16` | My desire to be very close sometimes scares people away. | 1 = strongly disagree; 5 = strongly agree |
+| `Q17` | I try to avoid getting too close to my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q18` | I need a lot of reassurance that I am loved by my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q19` | I find it relatively easy to get close to my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q20` | Sometimes I feel that I force my partners to show more feeling, more commitment. | 1 = strongly disagree; 5 = strongly agree |
+| `Q21` | I find it difficult to allow myself to depend on romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q22` | I do not often worry about being abandoned. | 1 = strongly disagree; 5 = strongly agree |
+| `Q23` | I prefer not to be too close to romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q24` | If I can't get my partner to show interest in me, I get upset or angry. | 1 = strongly disagree; 5 = strongly agree |
+| `Q25` | I tell my partner just about everything. | 1 = strongly disagree; 5 = strongly agree |
+| `Q26` | I find that my partner(s) don't want to get as close as I would like. | 1 = strongly disagree; 5 = strongly agree |
+| `Q27` | I usually discuss my problems and concerns with my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q28` | When I'm not involved in a relationship, I feel somewhat anxious and insecure. | 1 = strongly disagree; 5 = strongly agree |
+| `Q29` | I feel comfortable depending on romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q30` | I get frustrated when my partner is not around as much as I would like. | 1 = strongly disagree; 5 = strongly agree |
+| `Q31` | I don't mind asking romantic partners for comfort, advice, or help. | 1 = strongly disagree; 5 = strongly agree |
+| `Q32` | I get frustrated if romantic partners are not available when I need them. | 1 = strongly disagree; 5 = strongly agree |
+| `Q33` | It helps to turn to my romantic partner in times of need. | 1 = strongly disagree; 5 = strongly agree |
+| `Q34` | When romantic partners disapprove of me, I feel really bad about myself. | 1 = strongly disagree; 5 = strongly agree |
+| `Q35` | I turn to my partner for many things, including comfort and reassurance. | 1 = strongly disagree; 5 = strongly agree |
+| `Q36` | I resent it when my partner spends time away from me. | 1 = strongly disagree; 5 = strongly agree |
+
+### Fehlende Werte
+Im Datensatz liegen `r sum(is.na(ecr))` fehlenden Werte vor. Fehlende Werte sind dabei ausschließlich auf der Variable `gender` zu finden.
 
 ## Bullyingprävention bei Jugendlichen (`fairplayer`)
 
@@ -1135,7 +1199,7 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 | `gender` | *What is your gender?*  | 1 = Male, 2 = Female, 3 = Other |
 | `engnat` | *Is English your native language?*  | 1 = Yes, 2 = No |
 | `age` | *How many years old are you?*  | *Freitext* |
-| `hand` | *What hand do you use to write with?*  | 1 = Left, 2 = Right, 3 = Both |
+| `hand` | *What hand do you use to write with?*  | 1 = Right, 2 = Left, 3 = Both |
 | `religion` | *What is your religion?* | 1 = Agnostic, 2 = Atheist, 3 = Buddhist, 4 = Christian(Catholic), 5 = Christian(Mormon), 6 = Christian(Protestant), 7 = Christian(Other), 8 = Hindu, 9 = Jewish, 10 = Muslim, 11 = Sikh, 12 = Other |
 | `orientation` | *What is your sexual orientation?*  | 1 = Heterosexual, 2 = Bisexual, 3 = Homosexual, 4 = Asexual, 5 = Other|
 | `race` | *What is your race?*  | 1 = Asian, 2 = Arab, 3 = Black, 4 = Indigenous Australian, 5 = Native American, 6 = White/European, 7 = Other |
