@@ -37,6 +37,7 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Die Big Five Persönlichkeitsdimensionen](#die-big-five-persönlichkeitsdimensionen-big5) | [{{< icon name="download" pack="fas" >}} `Big5` ](/daten/Big5_EFA.rda) |
 | [Interozeptive Aufmerksamkeit und Genauigkeit](#interozeptive-aufmerksamkeit-und-genauigkeit-body) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/j6ef3/download) |
 | [Bildungsinvestitionen auf der Welt](#bildungsinvestitionen-auf-der-welt-edu_exp) | [{{< icon name="download" pack="fas" >}} `edu_exp` ](/daten/edu_exp.rda) 
+| [Erfahrung in Beziehungen](#erfahrungen-in-beziehungen) | [{{< icon name="download" pack="fas" >}} `ecr` ](/daten/ecr.rda)
 | [Bullyingprävention bei Jugendlichen](#bullyingprävention-bei-jugendlichen-fairplayer) | [{{< icon name="download" pack="fas" >}} `fairplayer` ](/daten/faiplayer.rda) |
 | [Quasi-Experimentelle Therapiestudie](#quasi-experimentelle-therapiestudie-cbtdata) | [{{< icon name="download" pack="fas" >}} `CBTdata` ](/daten/CBTdata.rda) |
 | [Depressivität](#depressivitat-Depression) | [{{< icon name="download" pack="fas" >}} `Depression` ](/daten/Depression.rda) |
@@ -390,7 +391,7 @@ load(url('https://pandar.netlify.com/daten/edu_exp.rda'))
 ```
 
 ### Größe
-Der Datensatz besteht aus 4137 Beobachtungen auf 12 Variablen.
+Der Datensatz besteht aus 4316 Beobachtungen auf 12 Variablen.
 
 ### Variablen
 In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
@@ -411,7 +412,7 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 | `Index` | Education Index des United Nations Development Programme |
 
 ### Fehlende Werte
-Insgesamt liegen im Datensatz 8714 fehlende Werte vor. Folgende Variablen enthalten keine fehlenden Werte:
+Insgesamt liegen im Datensatz 10147 fehlende Werte vor. Folgende Variablen enthalten keine fehlenden Werte:
 
 * `geo`
 * `Country`
@@ -423,6 +424,68 @@ Insgesamt liegen im Datensatz 8714 fehlende Werte vor. Folgende Variablen enthal
 <!-- </details> -->
 
 ---
+
+## Erfahrungen in Beziehungen (`ecr`)
+
+### Beschreibung
+Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"](https://openpsychometrics.org/_rawdata/), einer Online-Plattform, die eine Sammlung an Daten aus verschiedensten Persönlichkeitstests zur Verfügung stellt. Bei den hier bereitgestellten Daten handelt es sich um eine Auswahl von Daten, die ausschließlich aus Deutschland stammt. Im Zentrum stehen die 36 Items der "Experiences in Close Relationships" Skala von Brennan et al. (1998).
+
+### Datensatz laden
+
+```r
+load(url('https://pandar.netlify.com/daten/ecr.rda'))
+```
+
+
+### Größe
+Der Datensatz besteht aus 554 Beobachtungen auf 38 Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+| Variable | Inhalt | Kodierung |
+| --- | ---- | ---- |
+| `gender` | Geschlecht | 1 = male, 2 = female, 3 = nonbinare |
+| `age` | Alter |  |
+| `Q1` | I prefer not to show a partner how I feel deep down. | 1 = strongly disagree; 5 = strongly agree |
+| `Q2` | I worry about being abandoned. | 1 = strongly disagree; 5 = strongly agree |
+| `Q3` | I am very comfortable being close to romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q4` | I worry a lot about my relationships. | 1 = strongly disagree; 5 = strongly agree |
+| `Q5` | Just when my partner starts to get close to me I find myself pulling away. | 1 = strongly disagree; 5 = strongly agree |
+| `Q6` | I worry that romantic partners wont care about me as much as I care about them. | 1 = strongly disagree; 5 = strongly agree |
+| `Q7` | I get uncomfortable when a romantic partner wants to be very close. | 1 = strongly disagree; 5 = strongly agree |
+| `Q8` | I worry a fair amount about losing my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q9` | I don't feel comfortable opening up to romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q10` | I often wish that my partner's feelings for me were as strong as my feelings for him/her. | 1 = strongly disagree; 5 = strongly agree |
+| `Q11` | I want to get close to my partner, but I keep pulling back. | 1 = strongly disagree; 5 = strongly agree |
+| `Q12` | I often want to merge completely with romantic partners, and this sometimes scares them away. | 1 = strongly disagree; 5 = strongly agree |
+| `Q13` | I am nervous when partners get too close to me. | 1 = strongly disagree; 5 = strongly agree |
+| `Q14` | I worry about being alone. | 1 = strongly disagree; 5 = strongly agree |
+| `Q15` | I feel comfortable sharing my private thoughts and feelings with my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q16` | My desire to be very close sometimes scares people away. | 1 = strongly disagree; 5 = strongly agree |
+| `Q17` | I try to avoid getting too close to my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q18` | I need a lot of reassurance that I am loved by my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q19` | I find it relatively easy to get close to my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q20` | Sometimes I feel that I force my partners to show more feeling, more commitment. | 1 = strongly disagree; 5 = strongly agree |
+| `Q21` | I find it difficult to allow myself to depend on romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q22` | I do not often worry about being abandoned. | 1 = strongly disagree; 5 = strongly agree |
+| `Q23` | I prefer not to be too close to romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q24` | If I can't get my partner to show interest in me, I get upset or angry. | 1 = strongly disagree; 5 = strongly agree |
+| `Q25` | I tell my partner just about everything. | 1 = strongly disagree; 5 = strongly agree |
+| `Q26` | I find that my partner(s) don't want to get as close as I would like. | 1 = strongly disagree; 5 = strongly agree |
+| `Q27` | I usually discuss my problems and concerns with my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q28` | When I'm not involved in a relationship, I feel somewhat anxious and insecure. | 1 = strongly disagree; 5 = strongly agree |
+| `Q29` | I feel comfortable depending on romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q30` | I get frustrated when my partner is not around as much as I would like. | 1 = strongly disagree; 5 = strongly agree |
+| `Q31` | I don't mind asking romantic partners for comfort, advice, or help. | 1 = strongly disagree; 5 = strongly agree |
+| `Q32` | I get frustrated if romantic partners are not available when I need them. | 1 = strongly disagree; 5 = strongly agree |
+| `Q33` | It helps to turn to my romantic partner in times of need. | 1 = strongly disagree; 5 = strongly agree |
+| `Q34` | When romantic partners disapprove of me, I feel really bad about myself. | 1 = strongly disagree; 5 = strongly agree |
+| `Q35` | I turn to my partner for many things, including comfort and reassurance. | 1 = strongly disagree; 5 = strongly agree |
+| `Q36` | I resent it when my partner spends time away from me. | 1 = strongly disagree; 5 = strongly agree |
+
+### Fehlende Werte
+Im Datensatz liegen 2 fehlenden Werte vor. Fehlende Werte sind dabei ausschließlich auf der Variable `gender` zu finden.
 
 ## Bullyingprävention bei Jugendlichen (`fairplayer`)
 
@@ -609,6 +672,27 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/post/metaan
 
 ```r
 library(metafor)
+```
+
+```
+## Loading required package: Matrix
+```
+
+```
+## Loading required package: metadat
+```
+
+```
+## Loading required package: numDeriv
+```
+
+```
+## 
+## Loading the 'metafor' package (version 4.6-0). For an
+## introduction to the package please type: help(metafor)
+```
+
+```r
 F2F_CBT <- dat.lopez2019[dat.lopez2019$treatment == "F2F CBT",] # wähle nur Fälle mit F2F CBT
 ```
 
@@ -1489,6 +1573,26 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Hierarchische Regression](/post
 
 ```r
 library(dplyr)
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
 library(ICC)
 library(lme4)
 library(interactions)
