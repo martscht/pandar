@@ -164,7 +164,7 @@ In diesem Schritt wird noch einmal deutlich, was ich gerade bereits angesprochen
 
 > Daten müssen immer so aufbereitet sein, dass der grundlegende Datensatz sinnvoll benannte Variablen enthält und in dem Format vorliegt, in welchem wir die Daten visualisieren wollen.
 >
-> - ich, vor wenigen Minuten
+> -- ich, vor wenigen Minuten
 
 Wenn uns also etwas in unserer Abbildung nicht gefällt, ist der Ansatz in `ggplot` immer, die Daten anzupassen, weil Plots lediglich eine Darstellung dieser Daten sind. 
 
@@ -178,13 +178,7 @@ ggplot(edu_2014, aes(x = Wealth)) +
 
 Der immense Vorteil des Schichtens besteht darin, dass wir gleichzeitig mehrere Visualisierungsformen nutzen können. Das Prinzip bleibt das gleiche wie vorher: wir fügen Schichten mit dem `+` hinzu. Wir können also z.B. für Zeitverläufe einfach Punkte und Linien direkt miteinander kombinieren, oder für Abbildungen die Fehlerbalken direkt hinzufügen.
 
-In der Abbildung sieht es zunächst ganz danach aus, als hätten hauptsächlich reiche Länder Daten bereitgestellt. Weil die `NA` Kategorie uns nicht besonders viel Information liefert, schließen wir diese für die kommenden Abbildungen mal aus:
-
-```{r, echo=-1}
-# Nur die Länder ohne NA in Wealth
-edu_2014 <- subset(edu_2014, !is.na(Wealth))
-```
-
+In der Abbildung sieht es zunächst ganz danach aus, als hätten hauptsächlich reiche Länder Daten bereitgestellt.
 
 ### Plots als Objekte
 
@@ -330,7 +324,7 @@ ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge') +
   labs(x = 'Country Wealth (GDP per Capita)',
     y = 'Count',
-    color = 'World Region') +
+    fill = 'World Region') +
   ggtitle('Categorization of Countries in GapMinder Data', '(Data for 2014)')
 ```
 
@@ -344,7 +338,7 @@ bars <- ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge') +
   labs(x = 'Country Wealth (GDP per Capita)',
     y = 'Count',
-    color = 'World Region') +
+    fill = 'World Region') +
   ggtitle('Categorization of Countries in GapMinder Data', '(Data for 2014)')
 ```
 
@@ -355,7 +349,7 @@ Bisher haben wir gesehen, wie die "Rahmenbedingungen" der Grafik mit unserem The
 
 In `ggplot2` wird die Vergabe von Farben in der Ästhetik anhand von zwei Dingen unterschieden: der Geometrie und dem Skalenniveau der Variable, die die Färbung vorgibt. Kontinuierliche Variablen (Variablen, die in `R` als `numeric` definiert sind) werden anhand eines Blau-Farbverlaufs dargestellt, diskrete Variablen (Variablen, die in `R` als `factor` definiert sind) anhand eines vordefinierten Schemas unterschiedlicher Farben. Dieses Schema ist das [Brewer Farbschema](http://colorbrewer2.org/), welches ursprünglich für Kartendarstellungen entwickelt wurde. 
 
-Nehmen wir an, dass wir unsere Abbildung irgendwo drucken möchten - Farbdruck ist wahnsinnig teuer. Um mit Grautönen zu arbeiten, können wir z.B. `scale_color_grey` benutzen:
+Nehmen wir an, dass wir unsere Abbildung irgendwo drucken möchten - Farbdruck ist wahnsinnig teuer. Um mit Grautönen zu arbeiten, können wir z.B. `scale_fill_grey` benutzen:
 
 ```{r, echo=-1}
 # Ändert Farbe zu Grautönen, für Druckfreundlichkeit
@@ -371,7 +365,7 @@ Für diese Palette können wir zunächst in einem Objekt die Farben festhalten, 
 gu_colors <- c('#00618f', '#e3ba0f', '#ad3b76', '#737c45', '#c96215')
 ```
 
-Dieses Objekt können wir dann nutzen, um mit `scale_color_manual` selbstständig Farben zuzuweisen:
+Dieses Objekt können wir dann nutzen, um mit `scale_fill_manual` selbstständig Farben zuzuweisen:
 
 ```{r, echo=-1}
 # Zuweisung der händisch erstellten Farbpalette zum Barplot
