@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr, Daten in R mit Hilfe des Pakets "ggplot2" zu visualisieren. Das Tutorial startet mit den Grundprinzipien des Pakets, wie Daten in Schichten dargestellt werden, die Geometrie und Ästhetik der Grafiken sowie die Verwendung von Themes und Farbpaletten zur Anpassung der Abbildungen. Außerdem werden Methoden zur Beschriftung und Anpassung von Grafiken für eine übersichtlichere Darstellung von Daten erläutert.'
 authors: [schultze]
 weight: 2
-lastmod: '2024-04-09'
+lastmod: '2024-04-22'
 featured: no
 banner:
   image: "/header/colorful_bubbles.jpg"
@@ -87,20 +87,20 @@ head(edu_exp)
 ```
 
 ```
-##   geo     Country     Wealth Region Year Population Expectancy Income Primary
-## 1 afg Afghanistan low_income   asia 1997   19357126      53.74    865      NA
-## 2 afg Afghanistan low_income   asia 1998   19737770      52.80    800      NA
-## 3 afg Afghanistan low_income   asia 1999   20170847      54.43    735      NA
-## 4 afg Afghanistan low_income   asia 2000   20779957      54.63    687      NA
-## 5 afg Afghanistan low_income   asia 2001   21606992      54.76    646      NA
-## 6 afg Afghanistan low_income   asia 2002   22600774      55.65   1016      NA
-##   Secondary Tertiary    Index
-## 1        NA       NA 13.33333
-## 2        NA       NA 13.33333
-## 3        NA       NA 14.00000
-## 4        NA       NA 14.66667
-## 5        NA       NA 14.66667
-## 6        NA       NA 15.33333
+##   geo     Country     Wealth Region Year Population Expectancy   Income Primary Secondary Tertiary
+## 1 afg Afghanistan low_income   asia 1997   17788819       50.7       NA      NA        NA       NA
+## 2 afg Afghanistan low_income   asia 1998   18493132       50.0       NA      NA        NA       NA
+## 3 afg Afghanistan low_income   asia 1999   19262847       50.8       NA      NA        NA       NA
+## 4 afg Afghanistan low_income   asia 2000   19542982       51.0       NA      NA        NA       NA
+## 5 afg Afghanistan low_income   asia 2001   19688632       51.1       NA      NA        NA       NA
+## 6 afg Afghanistan low_income   asia 2002   21000256       51.6 344.2242      NA        NA       NA
+##   Index
+## 1  0.18
+## 2  0.19
+## 3  0.20
+## 4  0.20
+## 5  0.21
+## 6  0.22
 ```
 
 
@@ -160,8 +160,7 @@ unique(edu_2014$Wealth)
 ```
 
 ```
-## [1] "low_income"          "lower_middle_income" "upper_middle_income"
-## [4] "high_income"         ""
+## [1] "low_income"          "lower_middle_income" "upper_middle_income" "high_income"
 ```
 Die sind zum einen etwas unübersichtlich und zum anderen (besonders wichtig) nicht sonderlich schön. Deswegen sollten wir die Variable in einen Faktor umwandeln und etwas leserlichere Labels vergeben:
 
@@ -265,6 +264,7 @@ Die Balken der Abbildung zeigen uns jetzt erst einmal an, wie viele arme, mittle
 
 
 ```r
+# Tabelle der vier "Kontinent", die sich im Datensatz befinden, Amerikas zusammengefasst, kein Australien
 table(edu_2014$Region)
 ```
 
@@ -276,11 +276,27 @@ table(edu_2014$Region)
 Wie wir sehen, sind die beiden Amerikas zusammengefasst, aber im Wesentlichen haben wir eine relativ gleichmäßige Aufteilung der Länder in diese vier großen Regionen. Die Variable ist als `character` im Datensatz abgelegt, was `ggplot` leider überhaupt nicht mag. Deswegen sollten wir sie zunächst in einen Faktor umwandeln:
 
 
+```r
+edu_2014$Region <- factor(edu_2014$Region, levels = c('africa', 'americas', 'asia', 'europe'),
+  labels = c('Africa', 'Americas', 'Asia', 'Europe'))
+```
 
 Jetzt können wir die Balken nach Regionen gruppieren:
 
+
+```r
+ggplot(edu_2014, aes(x = Wealth, group = Region)) +
+  geom_bar(aes(fill = Region), color = 'grey40')
+```
+
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/stacked-barplot-1.png)<!-- -->
 Per Voreinstellung wird in `ggplot` ein sogenannter "stacked" Barplot erstellt, bei dem die Balken übereinander gestapelt werden. Üblicher ist aber häufig die Darstellung nebeneinander. Dafür können wir z.B. das `position`-Argument anpassen:
+
+
+```r
+ggplot(edu_2014, aes(x = Wealth, group = Region)) +
+  geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge')
+```
 
 ![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/grouped-barplot-1.png)<!-- -->
 

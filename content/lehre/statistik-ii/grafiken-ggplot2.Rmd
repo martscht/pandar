@@ -228,26 +228,26 @@ ggplot(edu_2014, aes(x = Wealth)) +
 
 Die Balken der Abbildung zeigen uns jetzt erst einmal an, wie viele arme, mittlere und reiche Länder im Datensatz enthalten sind. Interessant wird es aber vor allem dann, wenn wir verschiedene Variablen zueinander in Beziehung setzen - z.B. könnten wir den "Reichtum" der Länder mit deren geografischer Lage in Verbindung setzen. Diese ist sehr grob in der Variable `Region` abgebildet: 
 
-```{r, echo=-1}
+```{r}
 # Tabelle der vier "Kontinent", die sich im Datensatz befinden, Amerikas zusammengefasst, kein Australien
 table(edu_2014$Region)
 ```
 Wie wir sehen, sind die beiden Amerikas zusammengefasst, aber im Wesentlichen haben wir eine relativ gleichmäßige Aufteilung der Länder in diese vier großen Regionen. Die Variable ist als `character` im Datensatz abgelegt, was `ggplot` leider überhaupt nicht mag. Deswegen sollten wir sie zunächst in einen Faktor umwandeln:
 
-```{r, echo=-1}
+```{r}
 edu_2014$Region <- factor(edu_2014$Region, levels = c('africa', 'americas', 'asia', 'europe'),
   labels = c('Africa', 'Americas', 'Asia', 'Europe'))
 ```
 
 Jetzt können wir die Balken nach Regionen gruppieren:
 
-```{r stacked-barplot, fig=TRUE, echo=-1}
+```{r stacked-barplot, fig=TRUE}
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40')
 ```
 Per Voreinstellung wird in `ggplot` ein sogenannter "stacked" Barplot erstellt, bei dem die Balken übereinander gestapelt werden. Üblicher ist aber häufig die Darstellung nebeneinander. Dafür können wir z.B. das `position`-Argument anpassen:
 
-```{r grouped-barplot, fig=TRUE, echo=-1}
+```{r grouped-barplot, fig=TRUE}
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge')
 ```
