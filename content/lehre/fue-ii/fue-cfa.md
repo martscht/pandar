@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [schultze, irmer] 
 weight: 3
-lastmod: '2024-03-16'
+lastmod: '2024-05-03'
 featured: no
 banner:
   image: "/header/plane.jpg"
@@ -171,7 +171,7 @@ Es wird also behauptet, dass es eine grundlegende Eigenschaft von Personen gibt,
 
 Als Pfadmodell dargestellt sieht das zunächst so aus:
 
-![](/lehre/fue-ii/cfa1.png)
+<img src="/lehre/fue-ii/cfa1.png" width="65%"/>
 
 Hier stellen wir das Modell zunächst ohne Gewichtungen dar - es werden lediglich die Beziehungen/Zusammensetzungen zwischen den Variablen verdeutlicht: die Messungen Q2, Q7 und Q12 setzen sich alle aus der zugrundeliegenden latenten Variable GC und dem itemspezifischen Messfehler zusammen.
 
@@ -259,7 +259,7 @@ summary(fit1)
 ```
 
 ```
-## lavaan 0.6.17 ended normally after 17 iterations
+## lavaan 0.6.16 ended normally after 17 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
@@ -349,7 +349,7 @@ Hier können wir einfach durchzählen:
 
 Die zu schätzenden Parameter ($t$) können wir im Pfaddiagramm abzählen:
 
-![](/lehre/fue-ii/cfa2.png)
+<img src="/lehre/fue-ii/cfa2.png" width="65%"/>
 
 Wenn wir uns nicht unnötig damit belasten möchten die Parameter selbst zu zählen, können wir die Anzahl natürlich auch einfach von `lavaan` bekommen:
   
@@ -490,7 +490,7 @@ summary(fit1)
 ```
 
 ```
-## lavaan 0.6.17 ended normally after 19 iterations
+## lavaan 0.6.16 ended normally after 19 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
@@ -561,7 +561,8 @@ Die Ausprägung der manifesten Variable wird vorhergesagt durch die Ausprägung 
 Das heißt, dass zwei Personen, die sich in der latenten Variable um eine Einheit unterscheiden, im *vorhergesagten* Ausmaß der Zustimmung zur Aussage "The power held by heads of state is second to that of small unknown groups who really control world politics" (Q2) ebenfalls um eine Einheit unterscheiden. Bezüglich der Aussage "A small, secret group of people is responsible for making all major world decisions, such as going to war" (Q7) unterscheiden sich die gleichen beiden Personen im vorhergesagten Wert aber um 1.062 Einheiten. Weil der Unterschied auf dem latenten Konstrukt GC sich also stärker in Q7 manifestiert als in Q2 (gleiche Unterschiede in GC führen zu stärkeren Unterschieden in Q7 als in Q2), spricht man davon, dass Q7 stärker auf der latenten Dimension *diskriminiert*. Daher wird die Faktorladung häufig als *Diskriminationsparameter* bezeichnet. Durch die Festlegung von $\lambda_2 = 1$ sind die "Einheiten", von denen hier gesprochen wird, die Einheiten der Skala, die genutzt wurde, um Q2 zu erheben - in unserem Fall also eine 5-Punkt Likert-Skala.
 
 Wie Sie in der Theorie-Sitzung gesehen haben, sind die einzelnen Messgleichungen:
-  
+
+<math>
 $$
 \begin{align}
   Q2 &= \tau_2 + \lambda_2 \cdot GC + \delta_2 \\
@@ -569,6 +570,7 @@ $$
   Q12 &= \tau_{12} + \lambda_{12} \cdot GC + \delta_{12} \\
 \end{align}
 $$
+</math>
   
 Das sind letztlich also einfache lineare Gleichungen mit einer unabhängigen Variable - wie einfache Regressionen. Weil unsere Vorhersage aber mit Fehlern behaftet ist, ist jede manifeste Variable mit einem Residuum $\delta$ behaftet, deren Varianzen in der `lavaan`-Zusammenfassung so dargestellt werden:
   
@@ -587,11 +589,13 @@ Wie schon [bei der Regression in Sitzung 1](/lehre/fue-ii/lavaan-intro) wird mit
 
 Was bringt uns das Wissen um die latente Varianz und die Residualvarianzen inhaltlich? Ein Kernkonzept der klassischen Messtheorie (KTT; auch, **k**lassische **T**est**t**heorie) ist die *Reliabilität*, also das Ausmaß in dem unser Instrument wahre Unterschiede zwischen Personen misst. Für unser Modell lässt sie sich einfach ausdrücken, für Q7 z.B.:
   
+<math>
 \begin{align}
   Rel[Q7] &= \frac{\lambda_7^2 \mathbb{V}ar[GC]}{\mathbb{V}ar[Q7]} \\
   &= \frac{\lambda_7^2 \mathbb{V}ar[GC]}{\lambda_7^2 \mathbb{V}ar[GC] + \mathbb{V}ar[\delta_7]} \\
   &= 1 - \frac{\mathbb{V}ar[\delta_7]}{\lambda_7^2 \mathbb{V}ar[GC] + \mathbb{V}ar[\delta_7]}
 \end{align}
+</math>
   
 Besonders die erste Version der Reliabilitätsbestimmung sieht dem klassischen $R^2$ einer Regression sehr ähnlich - was daran liegt, dass es das Gleiche ist. Wenn wir also die Reliabilität einer unserer manifesten Variablen bestimmen wollen, können wir entweder händisch die Paramater verrechnen, oder uns das $R^2$ von `lavaan` ausgeben lassen, so wie wir es in der [1. Sitzung](/lehre/fue-ii/lavaan-intro) für die Regression gemacht haben:
   
@@ -669,7 +673,8 @@ summary(fit2)
 ##                    Estimate  Std.Err  z-value  P(>|z|)
 ##    .Q2                2.979    0.030   99.880    0.000
 ##    .Q7                2.673    0.030   88.235    0.000
-##    .Q12               2.656    0.030   88.102    0.000 
+##    .Q12               2.656    0.030   88.102    0.000
+##     GC                0.000                            
 ## [...]
 ```
 
@@ -766,7 +771,7 @@ summary(fit_two)
 ```
 
 ```
-## lavaan 0.6.17 ended normally after 32 iterations
+## lavaan 0.6.16 ended normally after 32 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
@@ -811,6 +816,8 @@ summary(fit_two)
 ##    .Q5                3.270    0.029  111.062    0.000
 ##    .Q10               3.504    0.028  125.013    0.000
 ##    .Q15               4.232    0.022  191.248    0.000
+##     GC                0.000                           
+##     CI                0.000                           
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
@@ -999,21 +1006,15 @@ names(modelfit)
 ```
 
 ```
-##  [1] "npar"                  "fmin"                  "chisq"                
-##  [4] "df"                    "pvalue"                "baseline.chisq"       
-##  [7] "baseline.df"           "baseline.pvalue"       "cfi"                  
-## [10] "tli"                   "nnfi"                  "rfi"                  
-## [13] "nfi"                   "pnfi"                  "ifi"                  
-## [16] "rni"                   "logl"                  "unrestricted.logl"    
-## [19] "aic"                   "bic"                   "ntotal"               
-## [22] "bic2"                  "rmsea"                 "rmsea.ci.lower"       
-## [25] "rmsea.ci.upper"        "rmsea.ci.level"        "rmsea.pvalue"         
-## [28] "rmsea.close.h0"        "rmsea.notclose.pvalue" "rmsea.notclose.h0"    
-## [31] "rmr"                   "rmr_nomean"            "srmr"                 
-## [34] "srmr_bentler"          "srmr_bentler_nomean"   "crmr"                 
-## [37] "crmr_nomean"           "srmr_mplus"            "srmr_mplus_nomean"    
-## [40] "cn_05"                 "cn_01"                 "gfi"                  
-## [43] "agfi"                  "pgfi"                  "mfi"                  
+##  [1] "npar"                  "fmin"                  "chisq"                 "df"                    "pvalue"               
+##  [6] "baseline.chisq"        "baseline.df"           "baseline.pvalue"       "cfi"                   "tli"                  
+## [11] "nnfi"                  "rfi"                   "nfi"                   "pnfi"                  "ifi"                  
+## [16] "rni"                   "logl"                  "unrestricted.logl"     "aic"                   "bic"                  
+## [21] "ntotal"                "bic2"                  "rmsea"                 "rmsea.ci.lower"        "rmsea.ci.upper"       
+## [26] "rmsea.ci.level"        "rmsea.pvalue"          "rmsea.close.h0"        "rmsea.notclose.pvalue" "rmsea.notclose.h0"    
+## [31] "rmr"                   "rmr_nomean"            "srmr"                  "srmr_bentler"          "srmr_bentler_nomean"  
+## [36] "crmr"                  "crmr_nomean"           "srmr_mplus"            "srmr_mplus_nomean"     "cn_05"                
+## [41] "cn_01"                 "gfi"                   "agfi"                  "pgfi"                  "mfi"                  
 ## [46] "ecvi"
 ```
 
@@ -1099,7 +1100,7 @@ fit_two
 ```
 
 ```
-## lavaan 0.6.17 ended normally after 32 iterations
+## lavaan 0.6.16 ended normally after 32 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
@@ -1302,7 +1303,7 @@ summary(fit_three)
 ```
 
 ```
-## lavaan 0.6.17 ended normally after 35 iterations
+## lavaan 0.6.16 ended normally after 35 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
@@ -1348,6 +1349,8 @@ summary(fit_three)
 ##    .Q5                3.270    0.029  111.062    0.000
 ##    .Q10               3.504    0.028  125.013    0.000
 ##    .Q15               4.232    0.022  191.248    0.000
+##     GC                0.000                           
+##     CI                0.000                           
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
@@ -1576,6 +1579,7 @@ summary(fit1)
 ##    .test1             0.787    0.064   12.306    0.000
 ##    .test2             0.819    0.077   10.707    0.000
 ##    .test3             0.903    0.071   12.724    0.000
+##     stat              0.000                           
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
@@ -1634,6 +1638,7 @@ summary(fit2)
 ##    .test1             0.787    0.067   11.756    0.000
 ##    .test2             0.819    0.077   10.605    0.000
 ##    .test3             0.903    0.068   13.368    0.000
+##     stat              0.000                           
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
@@ -1715,6 +1720,7 @@ summary(fit3)
 ##    .test1    (alp)    0.838    0.062   13.564    0.000
 ##    .test2    (alp)    0.838    0.062   13.564    0.000
 ##    .test3    (alp)    0.838    0.062   13.564    0.000
+##     stat              0.000                           
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
@@ -1792,6 +1798,7 @@ summary(fit4, rsq = TRUE)
 ##    .test1             0.787    0.071   11.132    0.000
 ##    .test2             0.819    0.071   11.593    0.000
 ##    .test3             0.903    0.071   12.783    0.000
+##     stat              0.000                           
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
