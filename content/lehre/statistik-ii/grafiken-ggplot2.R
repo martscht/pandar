@@ -32,9 +32,6 @@ ggplot(edu_2014, aes(x = Wealth))
 ggplot(edu_2014, aes(x = Wealth)) +
   geom_bar()
 
-# Nur die Länder ohne NA in Wealth
-edu_2014 <- subset(edu_2014, !is.na(Wealth))
-
 # Speichert eine Grundlagenschicht in ggplot, basierend auf data und aes, diese gilt als Basis für die danach erstellten Grafiken
 basic <- ggplot(edu_2014, aes(x = Wealth))
 
@@ -91,7 +88,7 @@ ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge') +
   labs(x = 'Country Wealth (GDP per Capita)',
     y = 'Count',
-    color = 'World Region') +
+    fill = 'World Region') +
   ggtitle('Categorization of Countries in GapMinder Data', '(Data for 2014)')
 
 # Abbildung in Objekt ablegen
@@ -99,7 +96,7 @@ bars <- ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge') +
   labs(x = 'Country Wealth (GDP per Capita)',
     y = 'Count',
-    color = 'World Region') +
+    fill = 'World Region') +
   ggtitle('Categorization of Countries in GapMinder Data', '(Data for 2014)')
 
 # Ändert Farbe zu Grautönen, für Druckfreundlichkeit

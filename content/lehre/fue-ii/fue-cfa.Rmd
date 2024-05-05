@@ -144,7 +144,7 @@ Es wird also behauptet, dass es eine grundlegende Eigenschaft von Personen gibt,
 
 Als Pfadmodell dargestellt sieht das zunächst so aus:
 
-![](cfa1.png)
+<img src="cfa1.png" width="65%"/>
 
 Hier stellen wir das Modell zunächst ohne Gewichtungen dar - es werden lediglich die Beziehungen/Zusammensetzungen zwischen den Variablen verdeutlicht: die Messungen Q2, Q7 und Q12 setzen sich alle aus der zugrundeliegenden latenten Variable GC und dem itemspezifischen Messfehler zusammen.
 
@@ -252,7 +252,7 @@ tmp
 
 Die zu schätzenden Parameter ($t$) können wir im Pfaddiagramm abzählen:
 
-![](cfa2.png)
+<img src="cfa2.png" width="65%"/>
 
 Wenn wir uns nicht unnötig damit belasten möchten die Parameter selbst zu zählen, können wir die Anzahl natürlich auch einfach von `lavaan` bekommen:
   
@@ -382,7 +382,8 @@ Die Ausprägung der manifesten Variable wird vorhergesagt durch die Ausprägung 
 Das heißt, dass zwei Personen, die sich in der latenten Variable um eine Einheit unterscheiden, im *vorhergesagten* Ausmaß der Zustimmung zur Aussage "The power held by heads of state is second to that of small unknown groups who really control world politics" (Q2) ebenfalls um eine Einheit unterscheiden. Bezüglich der Aussage "A small, secret group of people is responsible for making all major world decisions, such as going to war" (Q7) unterscheiden sich die gleichen beiden Personen im vorhergesagten Wert aber um `r round(coef(fit1)[1], 3)` Einheiten. Weil der Unterschied auf dem latenten Konstrukt GC sich also stärker in Q7 manifestiert als in Q2 (gleiche Unterschiede in GC führen zu stärkeren Unterschieden in Q7 als in Q2), spricht man davon, dass Q7 stärker auf der latenten Dimension *diskriminiert*. Daher wird die Faktorladung häufig als *Diskriminationsparameter* bezeichnet. Durch die Festlegung von $\lambda_2 = 1$ sind die "Einheiten", von denen hier gesprochen wird, die Einheiten der Skala, die genutzt wurde, um Q2 zu erheben - in unserem Fall also eine 5-Punkt Likert-Skala.
 
 Wie Sie in der Theorie-Sitzung gesehen haben, sind die einzelnen Messgleichungen:
-  
+
+<math>
 $$
 \begin{align}
   Q2 &= \tau_2 + \lambda_2 \cdot GC + \delta_2 \\
@@ -390,6 +391,7 @@ $$
   Q12 &= \tau_{12} + \lambda_{12} \cdot GC + \delta_{12} \\
 \end{align}
 $$
+</math>
   
 Das sind letztlich also einfache lineare Gleichungen mit einer unabhängigen Variable - wie einfache Regressionen. Weil unsere Vorhersage aber mit Fehlern behaftet ist, ist jede manifeste Variable mit einem Residuum $\delta$ behaftet, deren Varianzen in der `lavaan`-Zusammenfassung so dargestellt werden:
   
@@ -401,11 +403,13 @@ Wie schon [bei der Regression in Sitzung 1](/lehre/fue-ii/lavaan-intro) wird mit
 
 Was bringt uns das Wissen um die latente Varianz und die Residualvarianzen inhaltlich? Ein Kernkonzept der klassischen Messtheorie (KTT; auch, **k**lassische **T**est**t**heorie) ist die *Reliabilität*, also das Ausmaß in dem unser Instrument wahre Unterschiede zwischen Personen misst. Für unser Modell lässt sie sich einfach ausdrücken, für Q7 z.B.:
   
+<math>
 \begin{align}
   Rel[Q7] &= \frac{\lambda_7^2 \mathbb{V}ar[GC]}{\mathbb{V}ar[Q7]} \\
   &= \frac{\lambda_7^2 \mathbb{V}ar[GC]}{\lambda_7^2 \mathbb{V}ar[GC] + \mathbb{V}ar[\delta_7]} \\
   &= 1 - \frac{\mathbb{V}ar[\delta_7]}{\lambda_7^2 \mathbb{V}ar[GC] + \mathbb{V}ar[\delta_7]}
 \end{align}
+</math>
   
 Besonders die erste Version der Reliabilitätsbestimmung sieht dem klassischen $R^2$ einer Regression sehr ähnlich - was daran liegt, dass es das Gleiche ist. Wenn wir also die Reliabilität einer unserer manifesten Variablen bestimmen wollen, können wir entweder händisch die Paramater verrechnen, oder uns das $R^2$ von `lavaan` ausgeben lassen, so wie wir es in der [1. Sitzung](/lehre/fue-ii/lavaan-intro) für die Regression gemacht haben:
   
@@ -977,7 +981,7 @@ abbrev(fit1, shift = 1)
 
 Oder etwas bildlicher ausgedrückt:
 
-```{r, fig = TRUE, echo = FALSE, purl=FALSE}
+```{r, fig = TRUE, echo = FALSE, purl=FALSE, height = 3, width = 4}
 tmp <- inspect(fit1, 'est')
 plottable <- data.frame(stat = seq(-.5, .5, .001))
 plottable <- cbind(plottable, t(tmp$lambda %*% plottable$stat + as.vector(tmp$nu)))
@@ -1032,7 +1036,7 @@ abbrev(fit2, shift = 1)
 Alle Faktorladungen sind nun identisch. Das heißt, dass die Linien der unterschiedlichen Tests im Bild parallel verlaufen sollten, weil wir jetzt den Einfluss der latenten Variable auf die manifesten Variablen gleichgesetzt haben:
 
 
-```{r, fig = TRUE, echo = FALSE, purl=FALSE}
+```{r, fig = TRUE, echo = FALSE, purl=FALSE, height = 3, width = 4}
 tmp <- inspect(fit2, 'est')
 plottable <- data.frame(stat = seq(-.5, .5, .001))
 plottable <- cbind(plottable, t(tmp$lambda %*% plottable$stat + as.vector(tmp$nu)))

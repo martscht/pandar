@@ -9,7 +9,7 @@ subtitle: '1-fakt. ANOVA'
 summary: ''
 authors: [scheppa-lahyani, irmer, wallot, nehler]
 weight: 7
-lastmod: '2024-04-12'
+lastmod: '2024-05-03'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"
@@ -99,7 +99,7 @@ Bei der Alternativhypothese wird angenommen, dass sich **mindestens zwei dieser 
 
 $H_1: \mu_j \neq \mu_k$ für mindestens ein Paar $(j, k)$ mit $j \neq k$
 
-Wir benutzen hier die Indizes $j$ und $k$, um den Vergleich der Mittelwerte von zwei unterschiedlichen Subgruppen darzustellen. Für $j = 1$ und $k = 2$ könnte dies z. B. den Vergleich der Subgruppen "rural" und "suburban" anzeigen. Die Ungleichung $j \neq k$ bedeutet in diesem Zusammenhang, dass wir in der Formulierung der Alternativhypothese immer nur unterschiedliche Gruppen miteinander vergleichen, nie aber eine Subgruppe mit sich selbst, was im Übrigen auch ein aussageloser Vergleich wäre, da wir nur einen Datenpunkt für jede Person haben. Dies wäre nur sinnvoll, wenn wir die gleiche Stichprobe mehrfach gemessen hätten. Wie dies dann mitmodelliert wird, erfahren wir im Rahmen der ANOVA mit Messwiederholung.
+Wir benutzen hier die Indizes $j$ und $k$, um den Vergleich der Mittelwerte von zwei unterschiedlichen Subgruppen darzustellen. Für $j = 1$ und $k = 2$ könnte dies z. B. den Vergleich der Subgruppen "rural" und "suburban" anzeigen.
 
 
 ## Voraussetzungsprüfung
@@ -121,6 +121,24 @@ Die Homoskedastizitätsannahme besagt, dass die Varianzen jeder Gruppe über die
 
 ```r
 library(car)
+```
+
+```
+## Loading required package: carData
+```
+
+```
+## 
+## Attaching package: 'car'
+```
+
+```
+## The following object is masked from 'package:dplyr':
+## 
+##     recode
+```
+
+```r
 leveneTest(conspiracy$ET ~ conspiracy$urban)
 ```
 
@@ -195,8 +213,7 @@ names(temp)
 ```
 
 ```
-##  [1] "urban"   "edu"     "gender"  "age"     "GM"      "MG"      "ET"      "PW"     
-##  [9] "CI"      "ET_mu_k"
+##  [1] "urban"   "edu"     "gender"  "age"     "GM"      "MG"      "ET"      "PW"      "CI"      "ET_mu_k"
 ```
 
 Anhand der Dimensionen können wir sehen, dass unser neuer Datensatz nun eine Variable mehr hat als `conspiracy`. Diese zusätzliche Spalte ist genau die, die die Mittelwerte pro Gruppe enthält (`ET_mu_k`).
@@ -310,8 +327,8 @@ ezANOVA(conspiracy, wid = id, dv = ET, between = urban)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -342,8 +359,8 @@ ezANOVA(conspiracy, wid = id, dv = ET, between = urban, detailed = TRUE)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -462,8 +479,8 @@ aov_t <- ezANOVA(conspiracy, wid = id, dv = ET, between = urban, return_aov = T)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -475,8 +492,7 @@ names(aov_t)
 ```
 
 ```
-## [1] "ANOVA"                                    
-## [2] "Levene's Test for Homogeneity of Variance"
+## [1] "ANOVA"                                     "Levene's Test for Homogeneity of Variance"
 ## [3] "aov"
 ```
 

@@ -190,7 +190,7 @@ In diesem Schritt wird noch einmal deutlich, was ich gerade bereits angesprochen
 
 > Daten müssen immer so aufbereitet sein, dass der grundlegende Datensatz sinnvoll benannte Variablen enthält und in dem Format vorliegt, in welchem wir die Daten visualisieren wollen.
 >
-> - ich, vor wenigen Minuten
+> -- ich, vor wenigen Minuten
 
 Wenn uns also etwas in unserer Abbildung nicht gefällt, ist der Ansatz in `ggplot` immer, die Daten anzupassen, weil Plots lediglich eine Darstellung dieser Daten sind. 
 
@@ -206,13 +206,7 @@ ggplot(edu_2014, aes(x = Wealth)) +
 
 Der immense Vorteil des Schichtens besteht darin, dass wir gleichzeitig mehrere Visualisierungsformen nutzen können. Das Prinzip bleibt das gleiche wie vorher: wir fügen Schichten mit dem `+` hinzu. Wir können also z.B. für Zeitverläufe einfach Punkte und Linien direkt miteinander kombinieren, oder für Abbildungen die Fehlerbalken direkt hinzufügen.
 
-In der Abbildung sieht es zunächst ganz danach aus, als hätten hauptsächlich reiche Länder Daten bereitgestellt. Weil die `NA` Kategorie uns nicht besonders viel Information liefert, schließen wir diese für die kommenden Abbildungen mal aus:
-
-
-```r
-edu_2014 <- subset(edu_2014, !is.na(Wealth))
-```
-
+In der Abbildung sieht es zunächst ganz danach aus, als hätten hauptsächlich reiche Länder Daten bereitgestellt.
 
 ### Plots als Objekte
 
@@ -245,7 +239,7 @@ ggplot(edu_2014, aes(x = Wealth)) +
   geom_bar(fill = 'blue', color = 'grey40')
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 Bei Balken wird die Farbe des Balkens durch das Argument `fill` bestimmt - das Argument `color` bestimmt hingegen nur die Farbe des Rands. In diesem Fall haben alle Balken die Farbe geändert. Eine _Ästhetik_ im Sinne der `ggplot`-Grammatik ist immer abhängig von den Daten. Die globale Vergabe von Farbe ist also keine Ästhetik. Sie ist es nur, wenn wir sie von Ausprägungen der Daten abhängig machen. Das funktioniert z.B. so:
 
 
@@ -254,7 +248,7 @@ ggplot(edu_2014, aes(x = Wealth)) +
   geom_bar(aes(fill = Wealth), color = 'grey40')
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 Über den Befehl `aes` definieren wir eine Ästhetik und sagen `ggplot`, dass die Farbe der Balken von der Ausprägung auf der Variable `Wealth` abhängen soll. Die Farbe kann aber natürlich auch von jeder anderen Variable im Datensatz abhängen - dadurch können wir die Farbe als dritte Dimension in der Darstellung unserer Daten nutzen.
 
@@ -382,7 +376,7 @@ ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge') +
   labs(x = 'Country Wealth (GDP per Capita)',
     y = 'Count',
-    color = 'World Region') +
+    fill = 'World Region') +
   ggtitle('Categorization of Countries in GapMinder Data', '(Data for 2014)')
 ```
 
@@ -398,7 +392,7 @@ bars <- ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge') +
   labs(x = 'Country Wealth (GDP per Capita)',
     y = 'Count',
-    color = 'World Region') +
+    fill = 'World Region') +
   ggtitle('Categorization of Countries in GapMinder Data', '(Data for 2014)')
 ```
 
@@ -409,14 +403,14 @@ Bisher haben wir gesehen, wie die "Rahmenbedingungen" der Grafik mit unserem The
 
 In `ggplot2` wird die Vergabe von Farben in der Ästhetik anhand von zwei Dingen unterschieden: der Geometrie und dem Skalenniveau der Variable, die die Färbung vorgibt. Kontinuierliche Variablen (Variablen, die in `R` als `numeric` definiert sind) werden anhand eines Blau-Farbverlaufs dargestellt, diskrete Variablen (Variablen, die in `R` als `factor` definiert sind) anhand eines vordefinierten Schemas unterschiedlicher Farben. Dieses Schema ist das [Brewer Farbschema](http://colorbrewer2.org/), welches ursprünglich für Kartendarstellungen entwickelt wurde. 
 
-Nehmen wir an, dass wir unsere Abbildung irgendwo drucken möchten - Farbdruck ist wahnsinnig teuer. Um mit Grautönen zu arbeiten, können wir z.B. `scale_color_grey` benutzen:
+Nehmen wir an, dass wir unsere Abbildung irgendwo drucken möchten - Farbdruck ist wahnsinnig teuer. Um mit Grautönen zu arbeiten, können wir z.B. `scale_fill_grey` benutzen:
 
 
 ```r
 bars + scale_fill_grey()
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
 Das bei den [Themes](#Themes) erwähnte Paket `ggthemes` enthält auch weitere Farbpaletten, die Sie nutzen können, um Ihren Plot nach Ihren Vorlieben zu gestalten. Wichtig ist beispielsweise, dass es eine Palette namens `colorblind` hat, die Farben so auswählt, dass sie auch von Personen mit Farbblindheit differenziert werden können. Darüber hinaus gibt es für Fans der Filme von Wes Anderson z.B. das Paket `wesanderson`, welches für jeden seiner Filme die Farbpalette parat hat. Wir können aber natürlich auch unsere ganz eigene Farbpalette definieren - z.B. die offizielle Farbpalette des Corporate Designs der Goethe Universität, die Sie auf den Folien von PsyBSc 1 und 2 im letzten Semester kennen (und lieben!) gelernt haben.
 
@@ -427,14 +421,14 @@ Für diese Palette können wir zunächst in einem Objekt die Farben festhalten, 
 gu_colors <- c('#00618f', '#e3ba0f', '#ad3b76', '#737c45', '#c96215')
 ```
 
-Dieses Objekt können wir dann nutzen, um mit `scale_color_manual` selbstständig Farben zuzuweisen:
+Dieses Objekt können wir dann nutzen, um mit `scale_fill_manual` selbstständig Farben zuzuweisen:
 
 
 ```r
 bars + scale_fill_manual(values = gu_colors)
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 Die Zuordnung der Farben erfolgt anhand der Reihenfolge in `gu_colors` und der Reihenfolge der Ausprägungen von `Region`. Letztere ist - wie sie bestimmt festgestellt haben - alphabetisch. Wie häufig in `ggplot2` können Sie die Daten ändern (also mit `relevel` die Reihenfolge der Ausprägungen ändern) um Veränderungen in der Darstellung zu bewirken.
 
