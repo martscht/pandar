@@ -73,12 +73,7 @@ summary(model)
 
 names(model) #andere Inhalte der Liste
 
-ttest <- t.test(Depressivitaet ~ Geschlecht,  # abhängige Variable ~ unabhängige Variable
-       data = Depression, # Datensatz
-       paired = FALSE, # Stichproben sind unabhängig 
-      alternative = "two.sided",        # zweiseitige Testung (Default)
-      var.equal = TRUE,                 # Homoskedastizität liegt vor (-> Levene-Test)
-      conf.level = .95)                 # alpha = .05 (Default)
+
 
 t.test(Depressivitaet ~ Geschlecht,  # abhängige Variable ~ unabhängige Variable
        data = Depression, # Datensatz
@@ -87,19 +82,11 @@ t.test(Depressivitaet ~ Geschlecht,  # abhängige Variable ~ unabhängige Variab
       var.equal = TRUE,                 # Homoskedastizität liegt vor (-> Levene-Test)
       conf.level = .95)                 # alpha = .05 (Default)
 
-output <- capture.output(
-  t.test(Depressivitaet ~ Geschlecht, 
-       data = Depression, 
-       paired = FALSE,
-       alternative = "two.sided",
-      var.equal = TRUE,
-      conf.level = .95))
 
-cat(paste(output[1:3], collapse = "\n"))
 
-cat(paste(output[4:5], collapse = "\n"))
 
-cat(paste(output[6:12], collapse = "\n"))
+
+
 
 ttest <- t.test(Depressivitaet ~ Geschlecht,  # abhängige Variable ~ unabhängige Variable
        data = Depression, # Datensatz
@@ -111,83 +98,19 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ttest$statistic # (empirischer) t-Wert
 ttest$p.value   # zugehöriger p-Wert
 
-set.seed(1234567) # für Replizierbarkeit (bei gleicher R Version, kommen Sie mit diesem Seed zum selben Ergebnis!)
-group1 <- rnorm(n = 1000, mean = 0, sd = 1) # Standardnormalverteilung mit n = 1000
-hist(group1)
-mean(group1)
-sd(group1)
 
-set.seed(2)
-group2 <- rnorm(n = 1000, mean = 0, sd = 1)
-ttest <- t.test(group1, group2, var.equal = T)
-ttest
 
-ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
-for(i in 1:10000)
-{
-    group1 <- rnorm(n = 1000, mean = 0, sd = 1)
-    group2 <- rnorm(n = 1000, mean = 0, sd = 1)
-    ttest <- t.test(group1, group2, var.equal = T)
-    ts <- c(ts, ttest$statistic) # nehme den Vektor ts und verlängere ihn um den neuen t-Wert
-    ps <- c(ps, ttest$p.value)   # nehme den Vektor ps und verlängere ihn um den neuen p-Wert
-}
 
-hist(ts, main = "(empirische) t-Werte nach 10000 Replikationen unter H0", xlab = expression("t"[emp]), freq = F)
-lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
-hist(ps, main = "p-Werte nach 10000 Replikationen unter H0", xlab = "p", freq = F)
-abline(a = 1, b = 0, lwd = 3)
 
-ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
-for(i in 1:10000)
-{
-    group1 <- rnorm(n = 1000, mean = 0, sd = 1)
-    group2 <- -0.1 + rnorm(n = 1000, mean = 0, sd = 1) # Mittelwertsdifferenz ist 0.1
-    ttest <- t.test(group1, group2, var.equal = T)
-    ts <- c(ts, ttest$statistic) # nehme den Vektor ts und verlängere ihn um den neuen t-Wert
-    ps <- c(ps, ttest$p.value)   # nehme den Vektor ps und verlängere ihn um den neuen p-Wert
-}
 
-hist(ts, main = "(empirische) t-Werte nach 10000 Replikationen unter H1", xlab = expression("t"[emp]), freq = F)
-lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
-hist(ps, main = "p-Werte nach 10000 Replikationen unter H1", xlab = "p", freq = F)
-abline(a = 1, b = 0, lwd = 3)
 
-load(url("https://github.com/jpirmer/MSc1_FEI/blob/master/data/Erg.RData?raw=true"))
-library(ggplot2)
-library(papaja)
-ggplot(data = Erg, aes(x = d, y = Power, col = n, group = n))+
-  geom_line(lwd=1)+
-  geom_abline(slope = 0,intercept = .05, lty = 3)+
-  geom_abline(slope = 0,intercept = .8, lty = 2) + 
-  scale_colour_gradientn(colours=rainbow(4))+
-  ggtitle("Power vs. d and n")+ theme_apa(base_size = 20)
 
-set.seed(1)
-par(mfrow = c(1,2))
 
-group1 <- -rexp(1000, 1)
-group1 <- group1 + 1
-group2 <- rexp(1000, 2)
-group2 <- group2 - 1/2
-hist(group1); hist(group2)
 
-set.seed(1)
-ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
-for(i in 1:10000)
-{
-        group1 <- -rexp(5, 1)
-        group1 <- group1 + 1
-        group2 <- rexp(5, 2)#rnorm(n = 1000, mean = 0, sd = 1000)
-        group2 <- group2 - 1/2
-        ttest <- t.test(group1, group2, var.equal = T)
-        ts <- c(ts, ttest$statistic) # nehme den Vektor ts und verlängere ihn um den neuen t-Wert
-        ps <- c(ps, ttest$p.value)   # nehme den Vektor ps und verlängere ihn um den neuen p-Wert
-}
 
-hist(ts, main = "t-Werte nach 10000 Replikationen unter Modellverstöße\n für kleine Stichproben", xlab = expression("t"[emp]), freq = F, breaks = 50)
-lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
-hist(ps, main = "p-Werte nach 10000 Replikationen unter Modellverstößen\n für kleine Stichproben", xlab = "p", freq = F)
-abline(a = 1, b = 0, lwd = 3)
+
+
+
 
 set.seed(1234567) # für Replizierbarkeit (bei gleicher R Version, kommen Sie mit diesem Seed zum selben Ergebnis!)
 group1 <- rnorm(n = 1000, mean = 0, sd = 1) # Standardnormalverteilung mit n = 1000

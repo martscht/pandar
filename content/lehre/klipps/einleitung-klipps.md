@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'Dieser Beitrag stellt eine Einführung in `R` dar. Neben grundlegenden Funktionen werden das Einlesen und die Verarbeitung von Daten behandelt, außerdem werden einfache Datenanalysen durchgeführt. Besonderes Augenmerk liegt dabei auf den Grundlagen zur linearen Regression, die als Vorbereitung für die Regressionssitzung dienen. Zudem gibt es eine kleine Wiederholung einiger wichtiger inferenzstatistischer Begriffe.'
 authors: [nehler, irmer, schultze]
 weight: 1
-lastmod: '2023-10-23'
+lastmod: '2024-05-06'
 featured: no
 banner:
   image: "/header/chalkboard_equation.jpg"
@@ -279,8 +279,8 @@ names(Depression) # Namen der Variablen
 ```
 
 ```
-## [1] "Lebenszufriedenheit" "Episodenanzahl"      "Depressivitaet"      "Neurotizismus"      
-## [5] "Intervention"        "Geschlecht"
+## [1] "Lebenszufriedenheit" "Episodenanzahl"      "Depressivitaet"      "Neurotizismus"       "Intervention"       
+## [6] "Geschlecht"
 ```
 
 ```r
@@ -422,16 +422,15 @@ Depression[, 6]                    # Alle Geschlechter abfragen
 ```
 
 ```
-##  [1] maennlich weiblich  maennlich weiblich  maennlich weiblich  weiblich  maennlich weiblich 
-## [10] maennlich weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich
-## [19] weiblich  maennlich weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich 
-## [28] maennlich weiblich  weiblich  weiblich  maennlich weiblich  weiblich  weiblich  maennlich
-## [37] maennlich maennlich weiblich  maennlich maennlich maennlich maennlich maennlich maennlich
-## [46] maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich  maennlich
-## [55] maennlich maennlich weiblich  maennlich maennlich maennlich maennlich maennlich maennlich
-## [64] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
-## [73] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
-## [82] maennlich maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich 
+##  [1] maennlich weiblich  maennlich weiblich  maennlich weiblich  weiblich  maennlich weiblich  maennlich weiblich 
+## [12] weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich weiblich  maennlich weiblich  weiblich 
+## [23] weiblich  weiblich  weiblich  weiblich  weiblich  maennlich weiblich  weiblich  weiblich  maennlich weiblich 
+## [34] weiblich  weiblich  maennlich maennlich maennlich weiblich  maennlich maennlich maennlich maennlich maennlich
+## [45] maennlich maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich  maennlich maennlich
+## [56] maennlich weiblich  maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
+## [67] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
+## [78] maennlich maennlich maennlich maennlich maennlich maennlich weiblich  maennlich maennlich weiblich  maennlich
+## [89] weiblich  weiblich 
 ## Levels: maennlich weiblich
 ```
 
@@ -504,7 +503,7 @@ Natürlich ist die Analyse nicht ohne Voraussetzungen. Diese sind im folgenden d
 3. Normalverteilung der Fehlervariablen  
 4. Unabhängigkeit der Fehler 
 
-Eine simple Darstellung des Zusammenhangs kann man über die `plot`-Funktion abbilden. Schönere Grafiken erhält man mittels des Befehls `ggplot`, zu dem Sie sich [hier](/lehre/statistik-ii/grafiken-mit-ggplot2) nochmal genauer informieren können. 
+Eine simple Darstellung des Zusammenhangs kann man über die `plot`-Funktion abbilden. Schönere Grafiken erhält man mittels des Befehls `ggplot`, zu dem Sie sich [hier](/lehre/statistik-ii/grafiken-ggplot2) nochmal genauer informieren können. 
 
 
 ```r
@@ -575,9 +574,8 @@ names(model) #andere Inhalte der Liste
 ```
 
 ```
-##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values"
-##  [6] "assign"        "qr"            "df.residual"   "xlevels"       "call"         
-## [11] "terms"         "model"
+##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"        "qr"           
+##  [8] "df.residual"   "xlevels"       "call"          "terms"         "model"
 ```
 
 Die weiteren Inhalte umfassen unter anderem die `residuals`, die für das Prüfen der Voraussetzungen wichtig wären, aber auch die vorhergesagten Werte.
@@ -668,8 +666,8 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ```
 
 ```
-##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value" 
-##  [7] "stderr"      "alternative" "method"      "data.name"
+##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value"  "stderr"      "alternative"
+##  [9] "method"      "data.name"
 ```
 
 ```r
@@ -776,7 +774,9 @@ Diese Sitzung sollte als Einführung in `R`, Vorbereitung für die Regressionssi
 ## Appendix
 
 ### Appendix A {#AppendixA}
-{{< spoiler text = "Code für Grundlagen der Inferenzstatistik" >}}
+
+<details><summary><b>Code für Grundlagen der Inferenzstatistik</b></summary>
+
 Hier ist der Code für einige Grafiken und Simulationen dargestellt. Dies geht natürlich über den Stoff des Seminars hinaus und ist nur für Interessierte bestimmt.
 
 
@@ -993,7 +993,7 @@ abline(a = 1, b = 0, lwd = 3)
 
 Für jeweils 100 Erhebungen pro Gruppe ist der Verstoß gegen die Normalverteilungsannahme bei ungleichen Varianzen für den Welch-Test fast zu vernachlässigen.
 
-{{< /spoiler >}}
+</details>
 
 
 ## Literatur
