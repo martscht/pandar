@@ -33,10 +33,10 @@ output:
     keep_md: true
 ---
 
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
+
 
 ## Einleitung
 In dieser Sitzung schauen wir uns die Unterschiede und Gemeinsamkeiten von ANOVA und Regression an. Vielleicht ist es Ihnen auch schon einmal untergekommen, dass Ihnen gesagt wurde: ANOVA und Regression ist doch alles dasselbe --- alles nur das allgemeine lineare Modell (ALM). Diese Aussage ist im Grunde auch richtig und wir schauen uns diesen Sachverhalt im Folgenden genauer an. 
@@ -144,7 +144,7 @@ Somit gehen `r round(summary(reg_dummy1)$r.squared*100,2)`% der Variation auf di
 ## Einfaktorielle ANOVA und $t$-Test
 Mithilfe der ANOVA können wir unsere Daten auf Mittelwertsunterschiede über Gruppen hinweg untersuchen. Im Bachelorstudium hatten wir hier die `ezANOVA` Funktion kennengelernt. Diese kommt aus dem `ez`-Paket, welches zunächst geladen werden muss.
 
-(Das Folgende ist zum Teil auch in der [Sitzung ANOVA I](/lehre/statistik-ii/anova1) aus dem Bachelor zu finden, *natürlich mit einem anderen Datensatz*.)
+(Das Folgende ist zum Teil auch in der [Sitzung ANOVA I](/lehre/statistik-ii/anova-i) aus dem Bachelor zu finden, *natürlich mit einem anderen Datensatz*.)
 
 ```{r loadlib, exercise=FALSE, exercise.lines = 3}
 # Paket laden (ggf. vorher installieren mit install.packages)
@@ -252,8 +252,8 @@ ezANOVA1 <- ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid 
                     detailed = T, type = 1)
 ezANOVA1
 ```
-Wir erhalten direkt zwei Warnungen. Einmal wird uns mitgeteilt, dass das Design nicht balanciert ist und somit nicht gleich viele Beobachtungen pro Gruppe vorliegen. Die zweite Meldung bezieht sich auf die Quadratsumme vom Typ I:
-```{r, echo = F}
+Wir erhalten direkt zwei Warnungen. Einmal wird uns mitgeteilt, dass das Design nicht balanciert ist und somit nicht gleich viele Beobachtungen pro Gruppe vorliegen. Die zweite Meldung bezieht sich auf die Quadratsumme vom Typ I: 
+```{r, echo = F, purl = F}
 cat('## Warning: Using \"type==1\" is highly questionable when data are unbalanced and
 ## there is more than one variable. Hopefully you are doing this for demonstration
 ## purposes only!')
@@ -370,7 +370,7 @@ Insgesamt kamen alle Analysen zum selben Ergebnis: Die Intervention zeigt einen 
 ## Appendix
 ### Appendix A {#AppendixA}
 
-<details><summary>**PLATZHALTER**</summary>
+<details><summary><b>PLATZHALTER</b></summary>
 
 
 </details>

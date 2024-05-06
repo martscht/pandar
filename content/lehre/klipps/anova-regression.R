@@ -1,5 +1,3 @@
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-
 osf <- read.csv(file = url("https://osf.io/zc8ut/download"))
 names(osf)
 
@@ -70,9 +68,7 @@ ezANOVA1 <- ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid 
                     detailed = T, type = 1)
 ezANOVA1
 
-cat('## Warning: Using \"type==1\" is highly questionable when data are unbalanced and
-## there is more than one variable. Hopefully you are doing this for demonstration
-## purposes only!')
+
 
 ezPlot(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID, x = stratum, split = group)
 
