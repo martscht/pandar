@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird eine multiple Regression in `R` exemplarisch durchgeführt. Dabei wird erläutert, wie ein Regressionsmodell in `R` erstellt und der entsprechende `R`-Output interpretiert werden kann. Außerdem werden die Voraussetzungen für die multiple Regression behandelt. Der Fokus liegt dabei auf der Prüfung der Multikollinearität sowie der Identifikation möglicher Ausreißern und einflussreicher Datenpunkte. '
 authors: [nehler, irmer, hartig]
 weight: 2
-lastmod: '2024-02-19'
+lastmod: '2024-05-06'
 featured: no
 banner:
   image: "/header/frog_overencumbered.jpg"
@@ -133,7 +133,7 @@ $$y_i = b_0 +b_{1}x_{i1} + ... +b_{m}x_{im} + e_i$$
 `R` kann natürlich die Schätzung der Regressionskoeffizienten für Sie übernehmen. Für eine händische Berechnung würde die folgende Gleichung zur Kleinste-Quadrate-Schätzung verwendet, die wir aber nicht präziser besprechen werden: 
 $$\hat{\mathbf{b}}=(X'X)^{-1}X'y$$
 (Die Matrix X umfasst die Werte in den Prädiktoren, der Vektor y umfasst die Werte in der abhängigen Variable.)
-Falls Sie sich über die mathematischen Operationen hinter der Bestimmung von verschiedenen Kennwerten in der Regression (bspw. $R^2$) informieren wollen, können Sie im [Appendix A des PsyMSc Studiengangs](/lehre/multivariat/regression-und-ausreisserdiagnostik/#AppendixA) nachlesen.
+Falls Sie sich über die mathematischen Operationen hinter der Bestimmung von verschiedenen Kennwerten in der Regression (bspw. $R^2$) informieren wollen, können Sie im [Appendix A des PsyMSc Studiengangs](/lehre/fue-i/regression-ausreisser-fue/#AppendixA) nachlesen.
 
 
 ### Unser Modell und das Lesen von `R`-Outputs
@@ -161,8 +161,8 @@ Im Output sehen wir die Parameterschätzungen unseres Regressionsmodells, das fo
 
 {{< math >}}
 \begin{align}
-\text{Depressivitaet}_i=b_0+b_1\text{Geschlecht}_i \\ 
-+b_2\text{Lebenszufriedenheit}_i+\varepsilon_i, 
+\text{Depressivitaet}_i=b_0+b_1 \cdot \text{Geschlecht}_i \\ 
++b_2 \cdot \text{Lebenszufriedenheit}_i+\varepsilon_i, 
 \end{align}
 {{< /math >}}
 
@@ -307,7 +307,7 @@ Nun kommen wir zum eigentlich spannenden Teil, nämlich der Übersicht über die
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-Insgesamt gibt es 6 Spalten, wobei die `Standardized`-Spalte extra durch das Paket `lm.beta` angefordert wurde (sie ist also nicht immer in der Summary enthalten). In der ersten Spalte stehen die Variablennamen, die selbsterklärend sein sollten. Die Spalte `Estimate` zeigt den unstandardisierten Parameter (hier Regressionsgewicht). Z.B. liegt das Interzept $b_0$ bei 7.2353. Das Partialregressionsgewicht vom Geschlecht $b_\text{Geschlecht}$ liegt bei 1.9117. Da Frauen mit `1` kodiert sind, bedeutet dies: Wenn Frauen im Vergleich zu Männern betrachtet werden, so steigt die Depressivitaet durchschnittlich um 1.9117 Punkte ("durchschnittlich" in der Interpretation ist enorm wichtig, da es ja noch den Vorhersagefehler für individuelle Vergleiche gibt). Ensprechend können wir auch das Interzept interpretieren: Ein Mann mit einer Lebenszufriedenheit von 0 hat einen durchschnittlichen Depressivitaetswert von 7.2353. (Anmerkung: Ein Wert von 0 in der Lebenszufriedenheit ist leider unrealistisch, da die Skala hier nicht zentriert wurde - die Effekte von Zentrierung schauen wir uns in der Sitzung zur [Hierarchischen Regression](/lehre/klipps/hierarchische-regression) genauer an!)
+Insgesamt gibt es 6 Spalten, wobei die `Standardized`-Spalte extra durch das Paket `lm.beta` angefordert wurde (sie ist also nicht immer in der Summary enthalten). In der ersten Spalte stehen die Variablennamen, die selbsterklärend sein sollten. Die Spalte `Estimate` zeigt den unstandardisierten Parameter (hier Regressionsgewicht). Z.B. liegt das Interzept $b_0$ bei 7.2353. Das Partialregressionsgewicht vom Geschlecht $b_\text{Geschlecht}$ liegt bei 1.9117. Da Frauen mit `1` kodiert sind, bedeutet dies: Wenn Frauen im Vergleich zu Männern betrachtet werden, so steigt die Depressivitaet durchschnittlich um 1.9117 Punkte ("durchschnittlich" in der Interpretation ist enorm wichtig, da es ja noch den Vorhersagefehler für individuelle Vergleiche gibt). Ensprechend können wir auch das Interzept interpretieren: Ein Mann mit einer Lebenszufriedenheit von 0 hat einen durchschnittlichen Depressivitaetswert von 7.2353. (Anmerkung: Ein Wert von 0 in der Lebenszufriedenheit ist leider unrealistisch, da die Skala hier nicht zentriert wurde - die Effekte von Zentrierung schauen wir uns in der Sitzung zur [Hierarchischen Regression](/lehre/klipps/hierarchische-regression-klinisch) genauer an!)
 
 In der Spalte `Standardized` stehen die standardisierten Regressionsgewichte. Hier werden die Daten so transformiert, dass sowohl die AV als auch die UVs jeweils Mittelwerte von 0 und Varianzen (bzw. Standardabweichungen) von 1 aufweisen. Das Interzept ist nun nicht länger interessant. Denn das Interzept ist gerade jener vorhergesagte Wert für $y$, der anfällt, wenn alle Prädiktoren den Wert 0 annehmen. Durch die Zentrierung haben $y$ und auch die unabhängigen Variablen alle einen Mittelwert von 0. Demnach entspricht in diesem Fall das Interzept genau dem y-Wert, der auftritt, wenn alle Prädiktoren ihren Mittelwert annehmen. Bei der Regression ist es nun aber so, dass an der Stelle, an der alle Prädiktoren ihren Mittelwert annehmen, auch der Mittelwert von $y$ liegt; hier also 0. Folglich ist das Interzept im zentrierten bzw. standardisierten Fall **_immer_** 0. Das standardisierte Regressionsgewicht der Lebenszufriedenheit $\beta_\text{Lebenszufriedenheit}$ liegt bei -0.3194, was bedeutet, dass bei einer Erhöhung der Lebenszufriedenheit um eine Standardabweichung die Depressivitaet im Mittel um -0.3194 Standardabweichungen fällt. 
 
@@ -359,8 +359,8 @@ names(summary_model) # weitere mögliche Argumente, die wir erhalten können
 ```
 
 ```
-##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"        
-##  [7] "df"            "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled"
+##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"         "df"           
+##  [8] "r.squared"     "adj.r.squared" "fstatistic"    "cov.unscaled"
 ```
 
 Gleiches können wir mit allen Summary-Objekten auch in späteren Sitzungen machen!
@@ -369,7 +369,7 @@ Wenn wir diese Signifikanzentscheidungen nutzen wollen, um die Effekte in der Po
 
 
 ## Prüfen der Voraussetzungen
-Dieser Abschnitt stellt nur in einem Auszug die Prüfung der Voraussetzungen bereit. Wenn Sie alle Prüfungen wiederholen wollen, können Sie in der  Bachelorsitzung zu [Regression III](/lehre/statistik-ii/regression3) nachlesen. Die Voraussetzung der Unabhängigkeit und der Gleichverteiltheit ist und bleibt eine Annahme, die wir nicht prüfen können. Wir können jedoch durch das Studiendesign (Randomisierung, Repräsentativität) diese Annahme plausibilisieren. Die Linearitätsannahme und die Voraussetzungen der Residuen werden wir hier nicht genauer betrachten. Fokus legen wir auf die Multikollinearität und mögliche Ausreißer. Nochmal aufgezählt alle Voraussetzungen:
+Dieser Abschnitt stellt nur in einem Auszug die Prüfung der Voraussetzungen bereit. Wenn Sie alle Prüfungen wiederholen wollen, können Sie in der  Bachelorsitzung zu [Multipler Regression](/lehre/statistik-i/multiple-reg) nachlesen. Die Voraussetzung der Unabhängigkeit und der Gleichverteiltheit ist und bleibt eine Annahme, die wir nicht prüfen können. Wir können jedoch durch das Studiendesign (Randomisierung, Repräsentativität) diese Annahme plausibilisieren. Die Linearitätsannahme und die Voraussetzungen der Residuen werden wir hier nicht genauer betrachten. Fokus legen wir auf die Multikollinearität und mögliche Ausreißer. Nochmal aufgezählt alle Voraussetzungen:
 
 * korrekte Spezifikation des Modells
 * Unabhängigkeit der Residuen
@@ -393,7 +393,7 @@ Multikollinearität ist ein potenzielles Problem der multiplen Regressionsanalys
 * schränkt die mögliche multiple Korrelation ein, da die Prädiktoren redundant sind und überlappende Varianzanteile in $y$ erklären.
 * erschwert die Identifikation von bedeutsamen Prädiktoren, da deren Effekte untereinander konfundiert sind (die Effekte können schwer voneinander getrennt werden).
 * bewirkt eine Erhöhung der Standardfehler der Regressionskoeffizienten *(der Standardfehler ist die Standardabweichung der Verteilung der Regressionskoeffizienten bei wiederholter Stichprobenziehung und Schätzung)*. Dies bedeutet, dass die Schätzungen der Regressionsparameter instabil, und damit weniger verlässlich werden. 
-Weitere Informationen zur Instabilität und zu Standardfehlern kann der/die interessierte Leser*in in [Appendix D](/lehre/multivariat/regression-und-ausreisserdiagnostik/#AppendixD) des Beitrags in PsyMSc1 nachlesen. Beachten Sie dabei, dass hier mit Matrixnotationsweise gearbeitet wird.
+Weitere Informationen zur Instabilität und zu Standardfehlern kann der/die interessierte Leser*in in [Appendix D des Beitrags in PsyMSc1](/lehre/fue-i/regression-ausreisser-fue/#AppendixD) nachlesen. Beachten Sie dabei, dass hier mit Matrixnotationsweise gearbeitet wird.
 
 Multikollinearität kann durch Inspektion der *bivariaten Zusammenhänge* (Korrelationsmatrix) der Prädiktoren $x_j$ untersucht werden. 
 
@@ -595,7 +595,7 @@ Diese Sitzung war eine Wiederholung der multiplen Regression und einiger Konzept
 
 ### Appendix A {#AppendixA}
 
-<details><summary>**Regressionsmodell**</summary>
+<details><summary><b>Regressionsmodell</b></summary>
 
 Folgende Befehle führen zum gleichen Ergebnis wie:
 
@@ -745,7 +745,7 @@ Selbstverständlich gibt es auch noch weitere Befehle, die zum selben Ergebnis k
 
 ### Appendix B {#AppendixB}
 
-<details><summary>**Grafiken und ggplot2**</summary>
+<details><summary><b>Grafiken und ggplot2</b></summary>
 
 
 Im folgenden Block sehen wir den Code für ein Histogramm in `ggplot2`-Notation (das Paket muss natürlich installiert sein: `install.packages(ggplot2)`). Hier sind einige Zusatzeinstellungen gewählt, die das Histogramm optisch aufbereiten.
@@ -852,7 +852,7 @@ points(X_[length(X)+1], y_[length(X)+1], pch = 16, cex = 2, col = "darkblue")
 
 ### Appendix C {#AppendixC}
 
-<details><summary>**Mahalanobisdistanz**</summary>
+<details><summary><b>Mahalanobisdistanz</b></summary>
 
 Die Mahalanobisdistanz (siehe z.B. [Eid et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) ab Seite 707) ist ein Werkzeug, das zur Testung multivariater Normalverteilungen und zur Identifikation von multidimensionalen Ausreißern verwendet werden kann. Mit Hilfe der Mahalanobisdistanz wird die Entfernung vom zentralen Zentroiden bestimmt und mit Hilfe der Kovarianzmatrix gewichtet. Im Grunde kann man sagen, dass die Entfernung vom gemeinsamen Mittelwert über alle Variablen an der Variation in den Daten relativiert wird. Im **eindimensionalen Fall** ist die Mahalanobisdistanz nichts anderes als der quadrierte $z$-Wert, denn wir bestimmen dann die Mahalanobisdistanz einer Person $i$ via
 $$MD_i=\frac{(X_i-\bar{X})^2}{\sigma_X^2}=\left(\frac{X_i-\bar{X}}{\sigma_X}\right)^2=z^2.$$
@@ -994,18 +994,16 @@ MD
 ```
 
 ```
-##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173  1.29835776  0.89484803
-##  [9]  5.31999173  0.07401952  1.85988286  0.96581665  2.87179069  1.29835776  3.08398338  6.11730810
-## [17]  0.96581665  0.33582974  1.93061376  3.99622396  0.96581665  1.85988286  1.93061376  3.57704668
-## [25]  0.07401952  0.96581665  1.68027868  0.88006651  1.85988286  1.85988286  0.96581665  0.19639932
-## [33]  0.07401952  2.79831527  0.19639932  1.64697702  2.42350418  0.89484803  0.96581665  0.19639932
-## [41]  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651  0.19639932  0.07401952  0.38036881
-## [49]  8.84194961  1.64697702  0.19639932  1.29835776  2.87179069  4.92199266  7.18339325  0.19639932
-## [57]  0.33582974  0.38036881  3.46236019  0.07401952  0.33582974  0.38036881  3.48368968  8.46422112
-## [65]  0.19639932  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570  0.38036881  0.07401952
-## [73]  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429  3.08398338  2.86848429  1.09506856
-## [81]  2.39394112  1.50981570  1.09506856  2.42350418 10.28690861  1.33295604  0.19639932  0.88006651
-## [89]  1.68027868  1.09506856
+##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173  1.29835776  0.89484803  5.31999173
+## [10]  0.07401952  1.85988286  0.96581665  2.87179069  1.29835776  3.08398338  6.11730810  0.96581665  0.33582974
+## [19]  1.93061376  3.99622396  0.96581665  1.85988286  1.93061376  3.57704668  0.07401952  0.96581665  1.68027868
+## [28]  0.88006651  1.85988286  1.85988286  0.96581665  0.19639932  0.07401952  2.79831527  0.19639932  1.64697702
+## [37]  2.42350418  0.89484803  0.96581665  0.19639932  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651
+## [46]  0.19639932  0.07401952  0.38036881  8.84194961  1.64697702  0.19639932  1.29835776  2.87179069  4.92199266
+## [55]  7.18339325  0.19639932  0.33582974  0.38036881  3.46236019  0.07401952  0.33582974  0.38036881  3.48368968
+## [64]  8.46422112  0.19639932  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570  0.38036881  0.07401952
+## [73]  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429  3.08398338  2.86848429  1.09506856  2.39394112
+## [82]  1.50981570  1.09506856  2.42350418 10.28690861  1.33295604  0.19639932  0.88006651  1.68027868  1.09506856
 ```
 
 Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Fallnummer (Pbn-Nr) der möglichen Ausreißer.

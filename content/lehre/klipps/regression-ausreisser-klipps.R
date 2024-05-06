@@ -23,16 +23,15 @@ summary(model)
 lm.beta(model) |> summary()
 model |> lm.beta() |> summary() # alternativ 
 
-output <- capture.output(summary(lm.beta(model)))
-cat(paste(output[1:4], collapse = "\n"))
 
-cat(paste(output[5:8], collapse = "\n"))
+
+
 
 mean(x = resid(model)) # Mittelwert mit Referenzierung aus dem lm Objekt "model"
 
-cat(paste(output[9:17], collapse = "\n"))
 
-cat(paste(output[16:21], collapse = "\n"))
+
+
 
 summary_model <- summary(lm.beta(model))
 summary_model$coefficients # Koeffiziententabelle
@@ -76,60 +75,7 @@ Depression[IDs,]
 # z-standardisierte Werte der auffälligen Fälle
 scale(Depression[,1:4])[IDs,]
 
-par(mfrow=c(2,2),cex.axis = 1.1, cex.lab= 1.2, cex.main = 1.3, mar = c(5, 5, 2, 1),
-    bty="n",bg="white", mgp=c(2, 0.8, 0))
 
-library(car)
-X <- sort(rnorm(25))
-y <- X + rnorm(25, sd = 0.3) 
-reg <- lm(y~X)
-
-
-X_ <- c(X, 0)
-y_ <- c(y, 0 + 0 + rnorm(1, sd = 0.3))
-reg1 <- lm(y_ ~ X_)
-
-plot(X_,y_, pch = 16, main = "A)  kleine CD, kleiner Hebelwert", xlab = "X", ylab = "Y", xlim = c(-2,4), ylim = c(-2, 4))
-abline(reg = reg, lwd = 3)
-legend(x="topleft", legend = c("normal", "outlier"), col = c("black", "darkblue"), pch = 16, cex = 1.1, box.col = "grey")
-
-
-
-X_ <- c(X, 4)
-y_ <- c(y, 3.7 + rnorm(1, sd = 0.3))
-reg1 <- lm(y_ ~ X_)
-
-plot(X_,y_, pch = 16, main = "B)  kleine CD, großer Hebelwert", xlab = "X", ylab = "Y", xlim = c(-2,4), ylim = c(-2, 4))
-abline(reg = reg, lwd = 3)
-abline(reg = reg1, lwd = 5, col = "blue")
-points(X_[length(X)+1], y_[length(X)+1], pch = 15, cex = 2.8, col = "gold")
-points(X_[length(X)+1], y_[length(X)+1], pch = 16, cex = 2, col = "darkblue")
-
-legend(x="topleft", legend = c("normal", "outlier"), col = c("black", "darkblue"), pch = 16, cex = 1.1, box.col = "grey")
-
-
-X_ <- c(X, 0)
-y_ <- c(y, 0 + 3.7 + rnorm(1, sd = 0.3))
-reg1 <- lm(y_ ~ X_)
-
-plot(X_,y_, pch = 16, main = "C)  große CD, kleiner Hebelwert", xlab = "X", ylab = "Y", xlim = c(-2,4), ylim = c(-2, 4))
-abline(reg = reg, lwd = 3)
-abline(reg = reg1, lwd = 5, col = "blue")
-legend(x="topleft", legend = c("normal", "outlier"), col = c("black", "darkblue"), pch = 16, cex = 1.1, box.col = "grey")
-points(X_[length(X)+1], y_[length(X)+1], pch = 15, cex = 2.8, col = "gold")
-points(X_[length(X)+1], y_[length(X)+1], pch = 16, cex = 2, col = "darkblue")
-
-
-X_ <- c(X, 4)
-y_ <- c(y, 0  + rnorm(1, sd = 0.3))
-reg1 <- lm(y_ ~ X_)
-
-plot(X_,y_, pch = 16, main = "D)  große CD, großer Hebelwert", xlab = "X", ylab = "Y", xlim = c(-2,4), ylim = c(-2, 4))
-abline(reg = reg, lwd = 3)
-abline(reg = reg1, lwd = 5, col = "blue")
-legend(x="topleft", legend = c("normal", "outlier"), col = c("black", "darkblue"), pch = 16, cex = 1.1, box.col = "grey")
-points(X_[length(X)+1], y_[length(X)+1], pch = 15, cex = 2.8, col = "gold")
-points(X_[length(X)+1], y_[length(X)+1], pch = 16, cex = 2, col = "darkblue")
 
 lm(Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression)
 

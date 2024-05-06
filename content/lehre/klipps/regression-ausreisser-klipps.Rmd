@@ -119,7 +119,7 @@ $$y_i = b_0 +b_{1}x_{i1} + ... +b_{m}x_{im} + e_i$$
 `R` kann natürlich die Schätzung der Regressionskoeffizienten für Sie übernehmen. Für eine händische Berechnung würde die folgende Gleichung zur Kleinste-Quadrate-Schätzung verwendet, die wir aber nicht präziser besprechen werden: 
 $$\hat{\mathbf{b}}=(X'X)^{-1}X'y$$
 (Die Matrix X umfasst die Werte in den Prädiktoren, der Vektor y umfasst die Werte in der abhängigen Variable.)
-Falls Sie sich über die mathematischen Operationen hinter der Bestimmung von verschiedenen Kennwerten in der Regression (bspw. $R^2$) informieren wollen, können Sie im [Appendix A des PsyMSc Studiengangs](/lehre/multivariat/regression-und-ausreisserdiagnostik/#AppendixA) nachlesen.
+Falls Sie sich über die mathematischen Operationen hinter der Bestimmung von verschiedenen Kennwerten in der Regression (bspw. $R^2$) informieren wollen, können Sie im [Appendix A des PsyMSc Studiengangs](/lehre/fue-i/regression-ausreisser-fue/#AppendixA) nachlesen.
 
 
 ### Unser Modell und das Lesen von `R`-Outputs
@@ -135,8 +135,8 @@ Im Output sehen wir die Parameterschätzungen unseres Regressionsmodells, das fo
 
 {{< math >}}
 \begin{align}
-\text{Depressivitaet}_i=b_0+b_1\text{Geschlecht}_i \\ 
-+b_2\text{Lebenszufriedenheit}_i+\varepsilon_i, 
+\text{Depressivitaet}_i=b_0+b_1 \cdot \text{Geschlecht}_i \\ 
++b_2 \cdot \text{Lebenszufriedenheit}_i+\varepsilon_i, 
 \end{align}
 {{< /math >}}
 
@@ -159,14 +159,14 @@ Nochmal zur Wiederholung: Der Pipe-Operator übergibt immer das resultiernde Obj
 
 `summary` ist eine weit verbreitete Funktion, die Objekte zusammenfasst und interessante Informationen für uns auf einmal bereitstellt. `R`-Outputs sehen fast immer so aus, weswegen es von unabdingbarer Wichtigkeit ist, dass wir uns mit diesem Output vertraut machen. Im Grunde werden uns alle erforderlichen Informationen über den Inhalt dieser Zusammenfassung durch die Überschriften und Spaltenüberschriften vermittelt. Was können wir dem Output nun Schritt für Schritt entnehmen?
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 output <- capture.output(summary(lm.beta(model)))
 cat(paste(output[1:4], collapse = "\n"))
 ```
 Fasst noch einmal zusammen, welches Objekt "zusammengefasst" wird. Hier steht das zuvor untersuchte `lm`-Objekt (`model`, bzw. `lm.beta(model)`).
 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat(paste(output[5:8], collapse = "\n"))
 ```
 
@@ -183,11 +183,11 @@ Die Zahl, die beim Mittelwert ausgegeben wird, ist folgendermaßen zu lesen: `e-
 Nun kommen wir zum eigentlich spannenden Teil, nämlich der Übersicht über die Parameterschätzung (`Coefficients`). Diese sieht in sehr vielen Analysen sehr ähnlich aus (z.B. logistische Regression oder Multi-Level-Analysen/hierarchische Regression aus diesem Kurs).
 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat(paste(output[9:17], collapse = "\n"))
 ```
 
-Insgesamt gibt es 6 Spalten, wobei die `Standardized`-Spalte extra durch das Paket `lm.beta` angefordert wurde (sie ist also nicht immer in der Summary enthalten). In der ersten Spalte stehen die Variablennamen, die selbsterklärend sein sollten. Die Spalte `Estimate` zeigt den unstandardisierten Parameter (hier Regressionsgewicht). Z.B. liegt das Interzept $b_0$ bei `r round(coef(model)[1], 4)`. Das Partialregressionsgewicht vom Geschlecht $b_\text{Geschlecht}$ liegt bei `r round(coef(model)[2], 4)`. Da Frauen mit `1` kodiert sind, bedeutet dies: Wenn Frauen im Vergleich zu Männern betrachtet werden, so steigt die Depressivitaet durchschnittlich um `r round(coef(model)[2], 4)` Punkte ("durchschnittlich" in der Interpretation ist enorm wichtig, da es ja noch den Vorhersagefehler für individuelle Vergleiche gibt). Ensprechend können wir auch das Interzept interpretieren: Ein Mann mit einer Lebenszufriedenheit von 0 hat einen durchschnittlichen Depressivitaetswert von `r round(coef(model)[1], 4)`. (Anmerkung: Ein Wert von 0 in der Lebenszufriedenheit ist leider unrealistisch, da die Skala hier nicht zentriert wurde - die Effekte von Zentrierung schauen wir uns in der Sitzung zur [Hierarchischen Regression](/lehre/klipps/hierarchische-regression) genauer an!)
+Insgesamt gibt es 6 Spalten, wobei die `Standardized`-Spalte extra durch das Paket `lm.beta` angefordert wurde (sie ist also nicht immer in der Summary enthalten). In der ersten Spalte stehen die Variablennamen, die selbsterklärend sein sollten. Die Spalte `Estimate` zeigt den unstandardisierten Parameter (hier Regressionsgewicht). Z.B. liegt das Interzept $b_0$ bei `r round(coef(model)[1], 4)`. Das Partialregressionsgewicht vom Geschlecht $b_\text{Geschlecht}$ liegt bei `r round(coef(model)[2], 4)`. Da Frauen mit `1` kodiert sind, bedeutet dies: Wenn Frauen im Vergleich zu Männern betrachtet werden, so steigt die Depressivitaet durchschnittlich um `r round(coef(model)[2], 4)` Punkte ("durchschnittlich" in der Interpretation ist enorm wichtig, da es ja noch den Vorhersagefehler für individuelle Vergleiche gibt). Ensprechend können wir auch das Interzept interpretieren: Ein Mann mit einer Lebenszufriedenheit von 0 hat einen durchschnittlichen Depressivitaetswert von `r round(coef(model)[1], 4)`. (Anmerkung: Ein Wert von 0 in der Lebenszufriedenheit ist leider unrealistisch, da die Skala hier nicht zentriert wurde - die Effekte von Zentrierung schauen wir uns in der Sitzung zur [Hierarchischen Regression](/lehre/klipps/hierarchische-regression-klinisch) genauer an!)
 
 In der Spalte `Standardized` stehen die standardisierten Regressionsgewichte. Hier werden die Daten so transformiert, dass sowohl die AV als auch die UVs jeweils Mittelwerte von 0 und Varianzen (bzw. Standardabweichungen) von 1 aufweisen. Das Interzept ist nun nicht länger interessant. Denn das Interzept ist gerade jener vorhergesagte Wert für $y$, der anfällt, wenn alle Prädiktoren den Wert 0 annehmen. Durch die Zentrierung haben $y$ und auch die unabhängigen Variablen alle einen Mittelwert von 0. Demnach entspricht in diesem Fall das Interzept genau dem y-Wert, der auftritt, wenn alle Prädiktoren ihren Mittelwert annehmen. Bei der Regression ist es nun aber so, dass an der Stelle, an der alle Prädiktoren ihren Mittelwert annehmen, auch der Mittelwert von $y$ liegt; hier also 0. Folglich ist das Interzept im zentrierten bzw. standardisierten Fall **_immer_** 0. Das standardisierte Regressionsgewicht der Lebenszufriedenheit $\beta_\text{Lebenszufriedenheit}$ liegt bei `r round(coef(lm.beta(model))[3], 4)`, was bedeutet, dass bei einer Erhöhung der Lebenszufriedenheit um eine Standardabweichung die Depressivitaet im Mittel um `r round(coef(lm.beta(model))[3], 4)` Standardabweichungen fällt. 
 
@@ -201,7 +201,7 @@ Zusammenfassend entnehmen wir dem Output, dass das Interzept bedeutsam von 0 ver
 
 Regressionskoeffizienten können einzeln signifikant sein, ohne dass signifikante Anteile der Variation der abhängigen Variable erklärt werden. 
  
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat(paste(output[16:21], collapse = "\n"))
 ```
 Dazu entnehmen wir dem letzten Block den Standardfehler der Residuen (`Residual standard error`), der im Grunde die Fehlervariation von $y$ beschreibt, sowie das multiple $R^2$ (`Multiple R-squared`), welches anzeigt, dass ca. `r round(summary(lm.beta(model))$r.squared, 3)*100`% der Variation der Depressivitaet auf die Prädiktoren Geschlecht und Lebenszufriedenheit zurückgeführt werden kann. Dieses Varianzinkrement ist statistisch signifikant, was wir am $F$-Test in der letzten Zeile ablesen können. Der $F$-Wert (`F-statistic`) liegt bei `r round(summary(lm.beta(model))$fstatistic[1], 2)`, wobei die Hypothesenfreiheitsgrade hier gerade `r summary(lm.beta(model))$fstatistic[2]` sind ($df_h$) und die Residualfreiheitsgrade bei `r summary(lm.beta(model))$fstatistic[3]` ($df_e$) liegen. Der zugehörige $p$-Wert ist deutlich kleiner als 5% und liegt bei $3.362*10^{-13}$. Dies bedeutet, dass mit einer Irrtumswahrscheinlichkeit von 5% auch in der Population eine Vorhersage der Depressivitaet durch Geschlecht und Intelligenz gemeinsam angenommen werden kann ($R^2\neq0$). In einem Artikel (oder einer Abschlussarbeit) würden wir zur Untermauerung *F*(`r summary(lm.beta(model))$fstatistic[2]`, `r summary(lm.beta(model))$fstatistic[3]`) $=$ `r round(summary(lm.beta(model))$fstatistic[1], 2)`, p<.001 in den Fließtext schreiben.
@@ -221,7 +221,7 @@ Wenn wir diese Signifikanzentscheidungen nutzen wollen, um die Effekte in der Po
 
 
 ## Prüfen der Voraussetzungen
-Dieser Abschnitt stellt nur in einem Auszug die Prüfung der Voraussetzungen bereit. Wenn Sie alle Prüfungen wiederholen wollen, können Sie in der  Bachelorsitzung zu [Regression III](/lehre/statistik-ii/regression3) nachlesen. Die Voraussetzung der Unabhängigkeit und der Gleichverteiltheit ist und bleibt eine Annahme, die wir nicht prüfen können. Wir können jedoch durch das Studiendesign (Randomisierung, Repräsentativität) diese Annahme plausibilisieren. Die Linearitätsannahme und die Voraussetzungen der Residuen werden wir hier nicht genauer betrachten. Fokus legen wir auf die Multikollinearität und mögliche Ausreißer. Nochmal aufgezählt alle Voraussetzungen:
+Dieser Abschnitt stellt nur in einem Auszug die Prüfung der Voraussetzungen bereit. Wenn Sie alle Prüfungen wiederholen wollen, können Sie in der  Bachelorsitzung zu [Multipler Regression](/lehre/statistik-i/multiple-reg) nachlesen. Die Voraussetzung der Unabhängigkeit und der Gleichverteiltheit ist und bleibt eine Annahme, die wir nicht prüfen können. Wir können jedoch durch das Studiendesign (Randomisierung, Repräsentativität) diese Annahme plausibilisieren. Die Linearitätsannahme und die Voraussetzungen der Residuen werden wir hier nicht genauer betrachten. Fokus legen wir auf die Multikollinearität und mögliche Ausreißer. Nochmal aufgezählt alle Voraussetzungen:
 
 * korrekte Spezifikation des Modells
 * Unabhängigkeit der Residuen
@@ -245,7 +245,7 @@ Multikollinearität ist ein potenzielles Problem der multiplen Regressionsanalys
 * schränkt die mögliche multiple Korrelation ein, da die Prädiktoren redundant sind und überlappende Varianzanteile in $y$ erklären.
 * erschwert die Identifikation von bedeutsamen Prädiktoren, da deren Effekte untereinander konfundiert sind (die Effekte können schwer voneinander getrennt werden).
 * bewirkt eine Erhöhung der Standardfehler der Regressionskoeffizienten *(der Standardfehler ist die Standardabweichung der Verteilung der Regressionskoeffizienten bei wiederholter Stichprobenziehung und Schätzung)*. Dies bedeutet, dass die Schätzungen der Regressionsparameter instabil, und damit weniger verlässlich werden. 
-Weitere Informationen zur Instabilität und zu Standardfehlern kann der/die interessierte Leser*in in [Appendix D](/lehre/multivariat/regression-und-ausreisserdiagnostik/#AppendixD) des Beitrags in PsyMSc1 nachlesen. Beachten Sie dabei, dass hier mit Matrixnotationsweise gearbeitet wird.
+Weitere Informationen zur Instabilität und zu Standardfehlern kann der/die interessierte Leser*in in [Appendix D des Beitrags in PsyMSc1](/lehre/fue-i/regression-ausreisser-fue/#AppendixD) nachlesen. Beachten Sie dabei, dass hier mit Matrixnotationsweise gearbeitet wird.
 
 Multikollinearität kann durch Inspektion der *bivariaten Zusammenhänge* (Korrelationsmatrix) der Prädiktoren $x_j$ untersucht werden. 
 
@@ -351,7 +351,7 @@ Die Entscheidung, ob Ausreißer oder auffällige Datenpunkte aus Analysen ausges
 ### Einfluss von Hebelwert und Cook's Distanz
 Was wäre nun gewesen, wenn die Hebelwerte oder Cook's Distanz extreme Werte angezeigt hätten? Um dieser Frage auf den Grund zu gehen, schauen wir uns für eine Kombination der beiden Koeffizienten den Effekt auf eine Regressionsgerade an. Die vier Grafiken zeigen jeweils die Regressionsgerade in schwarz ohne den jeweiligen Ausreißer, während die Gerade in blau die Regressionsanalyse (`Y ~ 1 + X`) inklusive des Ausreißers symbolisiert. Falls Sie die Grafik selbst bauen wollen, finden Sie sie in [Appendix B](#AppendixB).
 
-```{r, message = F, echo = F}
+```{r, message = F, echo = F, purl = F}
 par(mfrow=c(2,2),cex.axis = 1.1, cex.lab= 1.2, cex.main = 1.3, mar = c(5, 5, 2, 1),
     bty="n",bg="white", mgp=c(2, 0.8, 0))
 
@@ -422,7 +422,7 @@ Diese Sitzung war eine Wiederholung der multiplen Regression und einiger Konzept
 
 ### Appendix A {#AppendixA}
 
-<details><summary>**Regressionsmodell**</summary>
+<details><summary><b>Regressionsmodell</b></summary>
 
 Folgende Befehle führen zum gleichen Ergebnis wie:
 
@@ -477,7 +477,7 @@ Selbstverständlich gibt es auch noch weitere Befehle, die zum selben Ergebnis k
 
 ### Appendix B {#AppendixB}
 
-<details><summary>**Grafiken und ggplot2**</summary>
+<details><summary><b>Grafiken und ggplot2</b></summary>
 
 
 Im folgenden Block sehen wir den Code für ein Histogramm in `ggplot2`-Notation (das Paket muss natürlich installiert sein: `install.packages(ggplot2)`). Hier sind einige Zusatzeinstellungen gewählt, die das Histogramm optisch aufbereiten.
@@ -575,7 +575,7 @@ points(X_[length(X)+1], y_[length(X)+1], pch = 16, cex = 2, col = "darkblue")
 
 ### Appendix C {#AppendixC}
 
-<details><summary>**Mahalanobisdistanz**</summary>
+<details><summary><b>Mahalanobisdistanz</b></summary>
 
 Die Mahalanobisdistanz (siehe z.B. [Eid et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) ab Seite 707) ist ein Werkzeug, das zur Testung multivariater Normalverteilungen und zur Identifikation von multidimensionalen Ausreißern verwendet werden kann. Mit Hilfe der Mahalanobisdistanz wird die Entfernung vom zentralen Zentroiden bestimmt und mit Hilfe der Kovarianzmatrix gewichtet. Im Grunde kann man sagen, dass die Entfernung vom gemeinsamen Mittelwert über alle Variablen an der Variation in den Daten relativiert wird. Im **eindimensionalen Fall** ist die Mahalanobisdistanz nichts anderes als der quadrierte $z$-Wert, denn wir bestimmen dann die Mahalanobisdistanz einer Person $i$ via
 $$MD_i=\frac{(X_i-\bar{X})^2}{\sigma_X^2}=\left(\frac{X_i-\bar{X}}{\sigma_X}\right)^2=z^2.$$
