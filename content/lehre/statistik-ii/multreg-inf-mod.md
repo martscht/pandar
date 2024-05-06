@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [nehler, irmer, schueller, hartig]
 weight: 4
-lastmod: '2024-04-12'
+lastmod: '2024-05-06'
 featured: no
 banner:
   image: "/header/man_with_binoculars.jpg"
@@ -154,10 +154,10 @@ resid(mod)[1:10]
 ```
 
 ```
-##          1          2          3          4          5          6          7 
-## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730  1.5996231 -0.9974955 
-##          8          9         10 
-##  0.8759748 -1.5887563  1.3260923
+##          1          2          3          4          5          6          7          8 
+## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730  1.5996231 -0.9974955  0.8759748 
+##          9         10 
+## -1.5887563  1.3260923
 ```
 
 ### Omnibustest der Multiplen Regression
@@ -390,17 +390,17 @@ Für die Anwendung der Funktion `ols_step_both_p()` benötigen wir zunächst ein
 mod_all <- lm(Violence ~ ., data = burnout)
 ```
 
-Nun zu der Anwendung der `ols_step_both_p()`-Funktion: Der erste Input ist das eben aufgestellte Regressionsmodell. Über die zusätzlichen Argumente kann gesteuert werden, wie streng bei Aufnahme und Ausschluss getestet wird. Über das Argument `details` können Sie den gesamten Verlauf der schrittweisen Selektion (nicht nur das finale Ergebnis) anzeigen lassen. `pent` ist der p-Wert, der für das "entering" in das Modell zuständig ist. Also muss das Inkrement einen p-Wert von $p<.05$ haben, wenn wir `pent = .05` wählen.`prem` ist der p-Wert, der für das "removing" aus dem Modell zuständig ist. Also muss das Dekremnt einen p-Wert von $p>.10$ haben, wenn wir `pent = .10` wählen. `details = TRUE` fordert weitere Informationen an.
+Nun zu der Anwendung der `ols_step_both_p()`-Funktion: Der erste Input ist das eben aufgestellte Regressionsmodell. Über die zusätzlichen Argumente kann gesteuert werden, wie streng bei Aufnahme und Ausschluss getestet wird. Über das Argument `details` können Sie den gesamten Verlauf der schrittweisen Selektion (nicht nur das finale Ergebnis) anzeigen lassen. `p_enter` ist der p-Wert, der für das "entering" in das Modell zuständig ist. Also muss das Inkrement einen p-Wert von $p<.05$ haben, wenn wir `p_enter = .05` wählen.`p_remove` ist der p-Wert, der für das "removing" aus dem Modell zuständig ist. Also muss das Dekremnt einen p-Wert von $p>.10$ haben, wenn wir `p_remove = .10` wählen. `details = TRUE` fordert weitere Informationen an.
 
 
 ```r
 # Anwendung der iterativen Modellbildung
-ols_step_both_p(mod_all, pent = .05, prem = .10, details = TRUE)
+ols_step_both_p(mod_all, p_enter = .05, p_remove = .10, details = TRUE)
 ```
 
 ```
-## Stepwise Selection Method   
-## ---------------------------
+## Stepwise Selection Method 
+## -------------------------
 ## 
 ## Candidate Terms: 
 ## 
@@ -411,270 +411,67 @@ ols_step_both_p(mod_all, pent = .05, prem = .10, details = TRUE)
 ## 5. PartEstrang 
 ## 6. PartConfl 
 ## 
-## We are selecting variables based on p value...
+## 
+## Step   => 0 
+## Model  => Violence ~ 1 
+## R2     => 0 
+## 
+## Initiating stepwise selection... 
+## 
+## Step      => 1 
+## Selected  => Neglect 
+## Model     => Violence ~ Neglect 
+## R2        => 0.351 
+## 
+## Step      => 2 
+## Selected  => Exhaust 
+## Model     => Violence ~ Neglect + Exhaust 
+## R2        => 0.399 
+## 
+## Step      => 3 
+## Selected  => Ineffic 
+## Model     => Violence ~ Neglect + Exhaust + Ineffic 
+## R2        => 0.417 
+## 
+## Step      => 4 
+## Selected  => PartConfl 
+## Model     => Violence ~ Neglect + Exhaust + Ineffic + PartConfl 
+## R2        => 0.432 
 ## 
 ## 
-## Stepwise Selection: Step 1 
-## 
-## + Neglect 
-## 
-##                         Model Summary                          
-## --------------------------------------------------------------
-## R                       0.592       RMSE                6.113 
-## R-Squared               0.351       Coef. Var          26.871 
-## Adj. R-Squared          0.350       MSE                37.369 
-## Pred R-Squared          0.347       MAE                 4.276 
-## --------------------------------------------------------------
-##  RMSE: Root Mean Square Error 
-##  MSE: Mean Square Error 
-##  MAE: Mean Absolute Error 
-## 
-##                                  ANOVA                                   
-## ------------------------------------------------------------------------
-##                  Sum of                                                 
-##                 Squares          DF    Mean Square       F         Sig. 
-## ------------------------------------------------------------------------
-## Regression    31290.496           1      31290.496     837.34    0.0000 
-## Residual      57884.442        1549         37.369                      
-## Total         89174.937        1550                                     
-## ------------------------------------------------------------------------
-## 
-##                                  Parameter Estimates                                   
-## --------------------------------------------------------------------------------------
-##       model     Beta    Std. Error    Std. Beta      t        Sig     lower     upper 
-## --------------------------------------------------------------------------------------
-## (Intercept)    9.567         0.481                 19.879    0.000    8.623    10.512 
-##     Neglect    0.490         0.017        0.592    28.937    0.000    0.457     0.523 
-## --------------------------------------------------------------------------------------
+## No more variables to be added or removed.
+```
+
+```
 ## 
 ## 
-## 
-## Stepwise Selection: Step 2 
-## 
-## + Exhaust 
-## 
-##                         Model Summary                          
-## --------------------------------------------------------------
-## R                       0.631       RMSE                5.885 
-## R-Squared               0.399       Coef. Var          25.870 
-## Adj. R-Squared          0.398       MSE                34.639 
-## Pred R-Squared          0.393       MAE                 4.108 
-## --------------------------------------------------------------
-##  RMSE: Root Mean Square Error 
-##  MSE: Mean Square Error 
-##  MAE: Mean Absolute Error 
-## 
-##                                  ANOVA                                   
-## ------------------------------------------------------------------------
-##                  Sum of                                                 
-##                 Squares          DF    Mean Square       F         Sig. 
-## ------------------------------------------------------------------------
-## Regression    35554.170           2      17777.085    513.214    0.0000 
-## Residual      53620.768        1548         34.639                      
-## Total         89174.937        1550                                     
-## ------------------------------------------------------------------------
-## 
-##                                  Parameter Estimates                                   
-## --------------------------------------------------------------------------------------
-##       model     Beta    Std. Error    Std. Beta      t        Sig     lower     upper 
-## --------------------------------------------------------------------------------------
-## (Intercept)    9.184         0.465                 19.766    0.000    8.273    10.096 
-##     Neglect    0.417         0.018        0.504    23.699    0.000    0.382     0.451 
-##     Exhaust    0.157         0.014        0.236    11.095    0.000    0.129     0.185 
-## --------------------------------------------------------------------------------------
-## 
-## 
-## 
-##                         Model Summary                          
-## --------------------------------------------------------------
-## R                       0.631       RMSE                5.885 
-## R-Squared               0.399       Coef. Var          25.870 
-## Adj. R-Squared          0.398       MSE                34.639 
-## Pred R-Squared          0.393       MAE                 4.108 
-## --------------------------------------------------------------
-##  RMSE: Root Mean Square Error 
-##  MSE: Mean Square Error 
-##  MAE: Mean Absolute Error 
-## 
-##                                  ANOVA                                   
-## ------------------------------------------------------------------------
-##                  Sum of                                                 
-##                 Squares          DF    Mean Square       F         Sig. 
-## ------------------------------------------------------------------------
-## Regression    35554.170           2      17777.085    513.214    0.0000 
-## Residual      53620.768        1548         34.639                      
-## Total         89174.937        1550                                     
-## ------------------------------------------------------------------------
-## 
-##                                  Parameter Estimates                                   
-## --------------------------------------------------------------------------------------
-##       model     Beta    Std. Error    Std. Beta      t        Sig     lower     upper 
-## --------------------------------------------------------------------------------------
-## (Intercept)    9.184         0.465                 19.766    0.000    8.273    10.096 
-##     Neglect    0.417         0.018        0.504    23.699    0.000    0.382     0.451 
-##     Exhaust    0.157         0.014        0.236    11.095    0.000    0.129     0.185 
-## --------------------------------------------------------------------------------------
-## 
-## 
-## 
-## Stepwise Selection: Step 3 
-## 
-## + Ineffic 
-## 
-##                         Model Summary                          
-## --------------------------------------------------------------
-## R                       0.645       RMSE                5.799 
-## R-Squared               0.417       Coef. Var          25.489 
-## Adj. R-Squared          0.416       MSE                33.626 
-## Pred R-Squared          0.411       MAE                 4.071 
-## --------------------------------------------------------------
-##  RMSE: Root Mean Square Error 
-##  MSE: Mean Square Error 
-##  MAE: Mean Absolute Error 
-## 
-##                                  ANOVA                                   
-## ------------------------------------------------------------------------
-##                  Sum of                                                 
-##                 Squares          DF    Mean Square       F         Sig. 
-## ------------------------------------------------------------------------
-## Regression    37155.147           3      12385.049    368.315    0.0000 
-## Residual      52019.791        1547         33.626                      
-## Total         89174.937        1550                                     
-## ------------------------------------------------------------------------
-## 
-##                                  Parameter Estimates                                  
-## -------------------------------------------------------------------------------------
-##       model     Beta    Std. Error    Std. Beta      t        Sig     lower    upper 
-## -------------------------------------------------------------------------------------
-## (Intercept)    8.930         0.459                 19.444    0.000    8.029    9.831 
-##     Neglect    0.385         0.018        0.466    21.495    0.000    0.350    0.420 
-##     Exhaust    0.145         0.014        0.217    10.299    0.000    0.117    0.172 
-##     Ineffic    0.156         0.023        0.142     6.900    0.000    0.112    0.201 
-## -------------------------------------------------------------------------------------
-## 
-## 
-## 
-##                         Model Summary                          
-## --------------------------------------------------------------
-## R                       0.645       RMSE                5.799 
-## R-Squared               0.417       Coef. Var          25.489 
-## Adj. R-Squared          0.416       MSE                33.626 
-## Pred R-Squared          0.411       MAE                 4.071 
-## --------------------------------------------------------------
-##  RMSE: Root Mean Square Error 
-##  MSE: Mean Square Error 
-##  MAE: Mean Absolute Error 
-## 
-##                                  ANOVA                                   
-## ------------------------------------------------------------------------
-##                  Sum of                                                 
-##                 Squares          DF    Mean Square       F         Sig. 
-## ------------------------------------------------------------------------
-## Regression    37155.147           3      12385.049    368.315    0.0000 
-## Residual      52019.791        1547         33.626                      
-## Total         89174.937        1550                                     
-## ------------------------------------------------------------------------
-## 
-##                                  Parameter Estimates                                  
-## -------------------------------------------------------------------------------------
-##       model     Beta    Std. Error    Std. Beta      t        Sig     lower    upper 
-## -------------------------------------------------------------------------------------
-## (Intercept)    8.930         0.459                 19.444    0.000    8.029    9.831 
-##     Neglect    0.385         0.018        0.466    21.495    0.000    0.350    0.420 
-##     Exhaust    0.145         0.014        0.217    10.299    0.000    0.117    0.172 
-##     Ineffic    0.156         0.023        0.142     6.900    0.000    0.112    0.201 
-## -------------------------------------------------------------------------------------
-## 
-## 
-## 
-## Stepwise Selection: Step 4 
-## 
-## + PartConfl 
-## 
-##                         Model Summary                          
-## --------------------------------------------------------------
-## R                       0.657       RMSE                5.726 
-## R-Squared               0.432       Coef. Var          25.168 
-## Adj. R-Squared          0.430       MSE                32.784 
-## Pred R-Squared          0.425       MAE                 4.031 
-## --------------------------------------------------------------
-##  RMSE: Root Mean Square Error 
-##  MSE: Mean Square Error 
-##  MAE: Mean Absolute Error 
-## 
-##                                  ANOVA                                   
-## ------------------------------------------------------------------------
-##                  Sum of                                                 
-##                 Squares          DF    Mean Square       F         Sig. 
-## ------------------------------------------------------------------------
-## Regression    38491.144           4       9622.786    293.522    0.0000 
-## Residual      50683.794        1546         32.784                      
-## Total         89174.937        1550                                     
-## ------------------------------------------------------------------------
-## 
-##                                  Parameter Estimates                                  
-## -------------------------------------------------------------------------------------
-##       model     Beta    Std. Error    Std. Beta      t        Sig     lower    upper 
-## -------------------------------------------------------------------------------------
-## (Intercept)    7.584         0.500                 15.162    0.000    6.602    8.565 
-##     Neglect    0.368         0.018        0.445    20.585    0.000    0.333    0.403 
-##     Exhaust    0.124         0.014        0.186     8.666    0.000    0.096    0.152 
-##     Ineffic    0.156         0.022        0.142     6.988    0.000    0.113    0.200 
-##   PartConfl    0.394         0.062        0.130     6.384    0.000    0.273    0.515 
-## -------------------------------------------------------------------------------------
-## 
-## 
-## 
-##                         Model Summary                          
-## --------------------------------------------------------------
-## R                       0.657       RMSE                5.726 
-## R-Squared               0.432       Coef. Var          25.168 
-## Adj. R-Squared          0.430       MSE                32.784 
-## Pred R-Squared          0.425       MAE                 4.031 
-## --------------------------------------------------------------
-##  RMSE: Root Mean Square Error 
-##  MSE: Mean Square Error 
-##  MAE: Mean Absolute Error 
-## 
-##                                  ANOVA                                   
-## ------------------------------------------------------------------------
-##                  Sum of                                                 
-##                 Squares          DF    Mean Square       F         Sig. 
-## ------------------------------------------------------------------------
-## Regression    38491.144           4       9622.786    293.522    0.0000 
-## Residual      50683.794        1546         32.784                      
-## Total         89174.937        1550                                     
-## ------------------------------------------------------------------------
-## 
-##                                  Parameter Estimates                                  
-## -------------------------------------------------------------------------------------
-##       model     Beta    Std. Error    Std. Beta      t        Sig     lower    upper 
-## -------------------------------------------------------------------------------------
-## (Intercept)    7.584         0.500                 15.162    0.000    6.602    8.565 
-##     Neglect    0.368         0.018        0.445    20.585    0.000    0.333    0.403 
-##     Exhaust    0.124         0.014        0.186     8.666    0.000    0.096    0.152 
-##     Ineffic    0.156         0.022        0.142     6.988    0.000    0.113    0.200 
-##   PartConfl    0.394         0.062        0.130     6.384    0.000    0.273    0.515 
-## -------------------------------------------------------------------------------------
-## 
-## 
-## 
-## No more variables to be added/removed.
-## 
+##                                  Stepwise Summary                                  
+## ---------------------------------------------------------------------------------
+## Step    Variable            AIC          SBC         SBIC        R2       Adj. R2 
+## ---------------------------------------------------------------------------------
+##  0      Base Model       10689.734    10700.428    6286.957    0.00000    0.00000 
+##  1      Neglect (+)      10021.467    10037.507    5619.403    0.35089    0.35047 
+##  2      Exhaust (+)       9904.797     9926.184    5502.932    0.39870    0.39792 
+##  3      Ineffic (+)       9859.783     9886.516    5458.052    0.41665    0.41552 
+##  4      PartConfl (+)     9821.429     9853.509    5419.911    0.43164    0.43017 
+## ---------------------------------------------------------------------------------
 ## 
 ## Final Model Output 
 ## ------------------
 ## 
-##                         Model Summary                          
-## --------------------------------------------------------------
-## R                       0.657       RMSE                5.726 
-## R-Squared               0.432       Coef. Var          25.168 
-## Adj. R-Squared          0.430       MSE                32.784 
-## Pred R-Squared          0.425       MAE                 4.031 
-## --------------------------------------------------------------
+##                          Model Summary                           
+## ----------------------------------------------------------------
+## R                       0.657       RMSE                  5.716 
+## R-Squared               0.432       MSE                  32.784 
+## Adj. R-Squared          0.430       Coef. Var            25.168 
+## Pred R-Squared          0.425       AIC                9821.429 
+## MAE                     4.031       SBC                9853.509 
+## ----------------------------------------------------------------
 ##  RMSE: Root Mean Square Error 
 ##  MSE: Mean Square Error 
 ##  MAE: Mean Absolute Error 
+##  AIC: Akaike Information Criteria 
+##  SBC: Schwarz Bayesian Criteria 
 ## 
 ##                                  ANOVA                                   
 ## ------------------------------------------------------------------------
@@ -698,23 +495,9 @@ ols_step_both_p(mod_all, pent = .05, prem = .10, details = TRUE)
 ## -------------------------------------------------------------------------------------
 ```
 
-```
-## 
-##                                Stepwise Selection Summary                                 
-## -----------------------------------------------------------------------------------------
-##                       Added/                   Adj.                                          
-## Step    Variable     Removed     R-Square    R-Square      C(p)         AIC         RMSE     
-## -----------------------------------------------------------------------------------------
-##    1     Neglect     addition       0.351       0.350    219.1960    10021.4675    6.1130    
-##    2     Exhaust     addition       0.399       0.398     91.1010     9904.7970    5.8855    
-##    3     Ineffic     addition       0.417       0.416     44.2510     9859.7828    5.7988    
-##    4    PartConfl    addition       0.432       0.430      5.4860     9821.4288    5.7257    
-## -----------------------------------------------------------------------------------------
-```
+Der Output ist extrem detailliert. Uns wird nach jedem Step zunächst gesagt, welcher Prädiktor gewählt wurde und wie sich das $R^2$ (`R-Squared`) verändert. Allerdings wird nicht aufgeführt wird, wie die jeweiligen Inkremente oder Dekremente der anderen Variablen ausgefallen waren, die nicht selektiert wurden. 
 
-Der Output ist extrem detailliert. Uns wird nach jedem Step zunächst gesagt, welcher Prädiktor gewählt wurde und wie sich verschiedene Fit-Maße verhalten (bspw. AIC oder $R^2$). Für uns ist an dieser Stelle besonders das $R^2$ (`R-Squared`) von Relevanz. Die ANOVA im Output beschreibt einfach eine ANOVA der zu vergleichenden Modelle, wobei zunächst mit dem Null-Modell, welches nur das Interzept enthält, begonnen wird. Allerdings wird nicht aufgeführt wird, wie die jeweiligen Inkremente oder Dekremente der anderen Variablen ausgefallen waren, die nicht selektiert wurden.
-
-Mit `ols_step_both_p()` wählen wir ein Modell mit vier Prädiktoren aus (siehe `Final Model Output`). Unter `Parameter Estimates` finden wir die Koeffizienten des final geschätzten Modells. `Stepwise Selection Summary` zeigt uns nochmal eine Übersicht über das Vorgehen des Auswahlalgorithmus. Insgesamt wurden 4 Schritte benötigt, bei denen Prädiktoren hinzugefügt wurden (`addition`). Zur Entfernung von Prädiktoren kam es nicht.
+Anschließend werden nochmal spezifische Fit-Kriterien für jeden Schritt aufgezeigt (siehe `Stepwise Summary`), deren Werte wir im nächsten Abschnitt zum Teil nochmal besprechen werden. Insgesamt wurden 4 Schritte benötigt, bei denen Prädiktoren hinzugefügt wurden (`addition`). Zur Entfernung von Prädiktoren kam es nicht, weshalb unser Modell vier Prädiktoren enthält. In `Final Model Output` erhalten wir, wie der Name sagt, Informationen über das finale Modell. Bspw. testet der Abschnitt `ANOVA` das Gesamtmodell auf Signifikanz. Der Abschnitt `Parameter Estimates` die Koeffizienten des final geschätzten Modells. 
 
 Wie bereits angekündigt, kann man die Nutzung der Testung von Inkrementen und Dekrementen im explorative Fall in Frage stellen. Durch das sehr häufige Testen, besonders bei einer großen Menge an möglichen Prädiktoren, kann das $\alpha$-Fehlerniveau nicht eingehalten werden kann. Eigentlich müsste dann nämlich bspw. Bonferroni korrigiert werden, was wiederum schwierig ist, wenn wir die Anzahl der Tests im Vorhinein kennen. Sie erkennen, das ganze Thema ist eine Wissenschaft für sich! Weiterhin ist es auch aus forschungstheoretischer Sicht fraglich, Inferenzstatistik an dieser Stelle zu benutzen, da diese mit Hypothesen einhergeht. Im explorativen Fall haben wir aber gerade keine Hypothesen. Wir empfehlen daher ein anderes Vorgehen bei der explorativen Suche, das wir im folgenden Abschnitt beschreiben.
 

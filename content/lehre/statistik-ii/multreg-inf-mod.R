@@ -42,7 +42,7 @@ library(olsrr)
 mod_all <- lm(Violence ~ ., data = burnout)
 
 # Anwendung der iterativen Modellbildung
-ols_step_both_p(mod_all, pent = .05, prem = .10, details = TRUE)
+ols_step_both_p(mod_all, p_enter = .05, p_remove = .10, details = TRUE)
 
 # Optimierung des Modells nach AIC
 step(mod_all, direction = "both")
