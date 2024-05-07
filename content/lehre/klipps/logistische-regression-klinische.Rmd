@@ -37,12 +37,11 @@ output:
     keep_md: true
 ---
 
-
-```{r setup, include=FALSE}
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
 ```
+
 
 ## Einleitung
 In dieser Sitzung wollen wir dichotome abhängige Variablen mit der logistischen Regression  (vgl. bspw. [Eid, Gollwitzer & Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 22 und [Pituch und Stevens, 2016,](https://ubffm.hds.hebis.de/Record/HEB371183324) Kapitel 11) analysieren. Diese Daten sind dahingehend speziell, dass die abhängige Variable nur zwei Ausprägungen hat, welche in der Regel mit $0$ und $1$ kodiert werden. Dies führt zu verschiedenen Problemen in der linearen Regression, die wir gleich betrachten wollen. Wir wollen uns ein reales Datenbeispiel ansehen, in welchem die Wahrscheinlichkeit der Drogenabhängigkeit durch einen Depressionsscore und das Geschlecht vorhergesagt werden soll. Der Datensatz ist öffentlich zugänglich auf dem [Open-Science-Framework](https://osf.io/prc92/) zu finden. 
@@ -114,12 +113,12 @@ Laut der einfachen Regressionsanalyse scheint es, dass der Depressionsscore sehr
 Betrachten wir nun exemplarisch zwei Voraussetzungen der Regression. Der Code für die Grafiken ist in [Appendix B](#AppendixB) zu finden.
 
 
-```{r, echo = F, fig = T, message=F, warning=F}
+```{r, echo = F, purl = F, fig = T, message=F, warning=F}
 library(car) # nötiges Paket laden
 avPlots(model = reg_model, pch = 16)
 ```
 
-```{r, echo = F, fig = T, message=F, warning=F}
+```{r, echo = F, purl = F, fig = T, message=F, warning=F}
 library(MASS)# nötiges Paket laden
 res <- studres(reg_model) # Studentisierte Residuen als Objekt speichern
 hist(res, freq = F)
@@ -154,7 +153,7 @@ summary(glm_model)
 
 Der Output der Summary unterscheidet sich geringfügig von dem der normalen Regressionsanalyse:
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 output <- capture.output(summary(glm_model))
 
 cat(paste(output[1:4], collapse = "\n"))
@@ -162,14 +161,14 @@ cat(paste(output[1:4], collapse = "\n"))
 
 Er zeigt uns, dass wir kein `lm`-Objekt, sondern ein `glm`-Objekt vor uns haben. Die Residuen werden an dieser Stelle nicht mehr automatisch mit ausgegeben. Es wird aber auch nicht das Kleinste-Quadrate-Verfahren angewandt, sondern die Maximum-Likelihood-Schätzmethode (ML).
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat(paste(output[6:13], collapse = "\n"))
 ```
 
 
 Der Überblick über die (ML-)Parameterschätzung unterscheidet sich kaum von der der normalen Regression. Lediglich die $t$-Werte werden durch $z$-Werte ersetzt. Die Idee hinter der Signifikanzentscheidung ist aber komplett identisch (außerdem geht die $t$-Verteilung für große $n$ in die $z$-(Standardnormal-)Verteilung über). Hier scheint sich ein signifikanter Effekt des Depressionsscores zu zeigen.
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat(paste(output[15:19], collapse = "\n"))
 ```
 
@@ -185,7 +184,7 @@ install.packages("lmtest")
 library(lmtest)
 ```
 
-```{r, echo = F, warning = F, message=F}
+```{r, echo = F, purl = F, warning = F, message=F}
 library(lmtest)
 ```
 
@@ -195,7 +194,7 @@ Im theoretischen Teil haben wir gelernt, dass für den Modellvergleich der Likel
 lrtest(glm_model)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 glm_model0 <- glm(ANYDUMMY ~ 1, data = osf)
 lrtest(glm_model, glm_model0)
 ```
@@ -241,7 +240,7 @@ summary(glm_model2)
 
 Das Besondere an diesem Output ist, dass bei der Variable Geschlecht noch `maennlich` dahinter steht:
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 output <- capture.output(summary(glm_model2))
 cat(paste(output[9:19], collapse = "\n"))
 ```
@@ -264,7 +263,7 @@ Beschäftigen wir uns nun mit der Geschlechtervariable: Wird ein Mann im Verglei
 #### Grafische Veranschaulichung
 Wir können uns dieses Modell auch grafisch ansehen und damit die oben aufgezeigten Effekte verdeutlichen. Den Code können Sie im [Appendix B](#AppendixB) finden. Dieser geht über den Inhalt des Moduls hinaus.
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 logit_glm2 <- predict(glm_model2)           # Logit unter Modell m2 bestimmen
 odds_glm2 <- exp(logit_glm2)          # Logit unter Modell m2 in Odds transformieren
 p_glm2 <- odds_glm2/(1 + odds_glm2)     # Odds in Wahrscheinlichkeiten transformieren
@@ -277,7 +276,7 @@ osf$p_glm2 <- p_glm2
 
 
 
-```{r, echo = F, fig = T}
+```{r, echo = F, purl = F, fig = T}
 library(ggplot2)
 ggplot(data = osf, mapping = aes(x = Depression_lvl,
                                  y = logit_glm2,
@@ -290,7 +289,7 @@ ggplot(data = osf, mapping = aes(x = Depression_lvl,
 
 In dem Plot sind die vorhergesagten Logits für alle Personen im Datensatz zu sehen. Dabei ist der Logit natürlich vom Depressionsscore abhängig und das Geschlecht wird als Gruppierungsvariable für zwei verschiedene Geraden verwendet. Die Logik lässt sich auch auf die Odds und die Wahrscheinlichkeit der Drogenabhängigkeit übertragen.
 
-```{r, echo = F, fig = T}
+```{r, echo = F, purl = F, fig = T}
 ggplot(data = osf, mapping = aes(x = Depression_lvl,
                                  y = odds_glm2, 
                                  col = GENDER_R)) +
@@ -300,7 +299,7 @@ ggplot(data = osf, mapping = aes(x = Depression_lvl,
   ylab("Odds")
 ```
 
-```{r, echo = F, fig = T}
+```{r, echo = F, purl = F, fig = T}
 ggplot(data = osf, mapping = aes(x = Depression_lvl, 
                                  y = p_glm2, 
                                  col = GENDER_R)) +
@@ -324,7 +323,7 @@ Zunächst testen wir das neu erstellte Gesamtmodell gegen das Null-Modell, wie w
 lrtest(glm_model2)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 lrtest(glm_model2, glm_model0)
 ```
 
@@ -347,9 +346,9 @@ Final können wir festhalten, dass sowohl der Depressionsscore als auch das Gesc
 ## Appendix
 ### Appendix A {#AppendixA}
 
-<details><summary>**Parametereinflüsse**</summary>
+<details><summary><b>Parametereinflüsse</b></summary>
 
-Die folgende Funktion stellt vier Grafiken dar: den Logit, die Odds, die Wahrscheinlichkeit und die Wahrscheinlichkeit vs. eine Zufallserhebung. Sie können $\beta_0$ und $\beta_1$ dieses Modells so einstellen, wie Sie wünschen und sich den Effekt auf die verschiedenen Darstellungsformen der logistischen Regression ansehen. In hellblau wird jeweils die Funktion mit $\beta_0 = 0$ und $\beta_1 = 1$ als Referenz dargestellt. Die gestrichelten Linien stellen jeweils die x- und die y-Achse dar. In roten Punkten werden Realisierungen von $Y=0,1$ dargestellt, die mit der angezeigten Wahrscheinlichkeit gezogen wurden. Um die Ergebnisse vergleichbar zu machen, wird `set.seed(1234)` verwendet (vgl. [Simulation](/lehre/statistik-i/simulation)).
+Die folgende Funktion stellt vier Grafiken dar: den Logit, die Odds, die Wahrscheinlichkeit und die Wahrscheinlichkeit vs. eine Zufallserhebung. Sie können $\beta_0$ und $\beta_1$ dieses Modells so einstellen, wie Sie wünschen und sich den Effekt auf die verschiedenen Darstellungsformen der logistischen Regression ansehen. In hellblau wird jeweils die Funktion mit $\beta_0 = 0$ und $\beta_1 = 1$ als Referenz dargestellt. Die gestrichelten Linien stellen jeweils die x- und die y-Achse dar. In roten Punkten werden Realisierungen von $Y=0,1$ dargestellt, die mit der angezeigten Wahrscheinlichkeit gezogen wurden. Um die Ergebnisse vergleichbar zu machen, wird `set.seed(1234)` verwendet (vgl. [Simulation und Poweranalyse](/lehre/statistik-i/simulation-poweranalyse)).
 ```{r}
 Logistic_functions <- function(beta0 = 0, beta1 = 1)
 {
@@ -392,7 +391,7 @@ Logistic_functions(beta0 = 1, beta1 = -.5)
 
 ### Appendix B {#AppendixB}
 
-<details><summary>**Fortgeschrittene Grafiken**</summary>
+<details><summary><b>Fortgeschrittene Grafiken</b></summary>
 
 Zunächst beschäftigen wir uns mit den beiden Grafiken, die die Residuen der linearen Regression zwischen Depressionsscore und Drogenabhängigkeit betrachten. Für den ersten Plot benötigen wir das Paket `car`.
 ```{r, message=F, warning=F}
@@ -412,7 +411,7 @@ lines(x = xWerte, y = dnorm(x = xWerte, mean = mean(res), sd = sd(res)), lwd = 3
 
 Um die Normalverteilunskurve auch noch einzuzeichnen, erstellen wir einen Vektor mit x Variablen vom Minimum bis zum Maximum der Residuen-Werte. Anschließend legen wir über `lines` und `dnorm` die Kurve auf unser Histogramm. `dnorm` bestimmt dabei die Werte, die die Normalverteilung an der Stelle x mit dem Mittelwert und der Standardabweichung der Residuen hätte.
 
-Die beschriebenen Plots sind mit einem Paket und einer Basis-Funktion von `R` erstellt. Für die Erstellung von individuellen Plots ist `ggplot2` das richtige Paket. Dieses wurde bereits häufiger im Appendix als Möglichkeit zum Erzeugen von Plots beschrieben. Weitere Informationen zu `ggplot2` erhalten Sie bspw. auf  [{{< icon name="graduation-cap" pack="fas" >}} Tidyverse](https://ggplot2.tidyverse.org). Außerdem können Sie sich auch eine [{{< icon name="graduation-cap" pack="fas" >}} Einführung in `ggplot2`](/lehre/statistik-ii/grafiken-mit-ggplot2) auf dieser Website ansehen.
+Die beschriebenen Plots sind mit einem Paket und einer Basis-Funktion von `R` erstellt. Für die Erstellung von individuellen Plots ist `ggplot2` das richtige Paket. Dieses wurde bereits häufiger im Appendix als Möglichkeit zum Erzeugen von Plots beschrieben. Weitere Informationen zu `ggplot2` erhalten Sie bspw. auf  [{{< icon name="graduation-cap" pack="fas" >}} Tidyverse](https://ggplot2.tidyverse.org). Außerdem können Sie sich auch eine [Einführung in `ggplot2`](/lehre/statistik-ii/grafiken-ggplot2) auf dieser Website ansehen.
 
 ```{r}
 library(ggplot2)

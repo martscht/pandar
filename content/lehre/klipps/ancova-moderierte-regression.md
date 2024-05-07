@@ -8,7 +8,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden die Kovarianzanalayse (ANCOVA) und die moderierte Regressionsanalyse behandelt. Zuerst wird die ANCOVA vorgeführt, bei der eine nominalskalierte Gruppierungsvariable in ein einfaches Regressionsmodell einbezogen wird, um Gruppenunterschiede zu berücksichtigen. Dann wird die moderierte Regression erläutert, bei der ein zusätzlicher kontinuierlicher Prädiktor, der Moderator genannt wird, in ein Regressionsmodell aufgenommen wird, um zu untersuchen, ob er die Beziehung zwischen Prädiktor und Kriterium beeinflusst. Zuletzt wird gezeigt, wie man sich gegen quadratische Effekte und Multikollinearität absichert.'
 authors: [irmer]
 weight: 4
-lastmod: '2024-02-19'
+lastmod: '2024-05-06'
 featured: no
 banner:
   image: "/header/daily_report_bw.jpg"
@@ -36,12 +36,13 @@ output:
 
 
 
+
 ## Einleitung
 In dieser Sitzung schauen wir uns die Kovarianzanalyse, auch **AN**alysis **O**f **COVA**riance (ANCOVA), als Erweiterung der ANOVA an und nutzen diese als Überleitung zur moderierten Regressionsanalyse.
 Diese Sitzung basiert auf Literatur aus [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel  19 (insbesondere 19.9-19.12).
 
 ### Daten laden
-Wir verwenden wieder den Datensatz von [Schaeuffele et al. (2020)](https://psyarxiv.com/528tw/), die das Unified Protocol (UP) als Internetintervention für bestimmte psychische Störungen durchgeführt haben. Wir laden den Datensatz ein und kürzen diesen (mehr Informationen zum Datensatz sowie zum Einladen und Kürzen erhalten Sie in der vorherigen Sitzung zu [ANOVA vs. Regression](/lehre/klipps/anova-vs-regression)):
+Wir verwenden wieder den Datensatz von [Schaeuffele et al. (2020)](https://psyarxiv.com/528tw/), die das Unified Protocol (UP) als Internetintervention für bestimmte psychische Störungen durchgeführt haben. Wir laden den Datensatz ein und kürzen diesen (mehr Informationen zum Datensatz sowie zum Einladen und Kürzen erhalten Sie in der vorherigen Sitzung zu [ANOVA vs. Regression](/lehre/klipps/anova-regression)):
 
 
 ```r
@@ -97,7 +98,7 @@ Die Kovarianzanalyse kann nun sowohl im ANOVA- als auch im Regressionssetting be
 ### Einfache ANCOVA
 Wir betrachten die ANCOVA im Regressionssetting. Wir verwenden also wieder die `lm`-Funktion, um das Modell aufzustellen und wenden auf das resultierende Objekt wieder die `Anova`-Funktion aus dem `car`-Paket an. Wir verwenden hier nicht `ezANOVA`, da wir die Gleichungsnotation der Regression verwenden wollen und weil `ezANOVA` für ANCOVAs erstmal nur eine *Betaversion* enthält.
 
-An dieser Stelle sei gesagt, dass wir im Grunde eine ANCOVA schon in der Sitzung zur [Regression](/lehre/klipps/regression-ausreisser) durchgeführt haben, ohne dies genau zu erläutern. Dort hatten wir die Depressivität durch das Geschlecht sowie die Lebenszufriedenheit vorhergesagt. Das Geschlecht war hier dichotom und die Lebenszufriedenheit wurde als kontinuierlich angesehen.
+An dieser Stelle sei gesagt, dass wir im Grunde eine ANCOVA schon in der Sitzung zur [Regression](/lehre/klipps/regression-ausreisser-klipps) durchgeführt haben, ohne dies genau zu erläutern. Dort hatten wir die Depressivität durch das Geschlecht sowie die Lebenszufriedenheit vorhergesagt. Das Geschlecht war hier dichotom und die Lebenszufriedenheit wurde als kontinuierlich angesehen.
 
 Wir möchten nun für unseren Datensatz `osf` wissen, ob sich die Symptomschwere durch die Lebenszufriedenheit vorhersagen lässt. Dazu hatten wir am Anfang der vergangenen Sitzung bereits eine Untersuchung vorgenommen. Allerdings hatten wir neben der Lebenszufriedenheit auch die Ausprägung der Panikstörung mit oder ohne Agoraphobie mit in das Modell aufgenommen. Beide Prädiktoren hatten signifikante Varianzanteile an der Symptomschwere erklärt. Wir beschränken uns jetzt allerdings auf die Lebenszufriedenheit:
 
@@ -138,7 +139,7 @@ Nun ist es aber so, dass einige der Proband:innen das Onlinetreatment erhalten h
 ![](/lehre/klipps/ancova-moderierte-regression_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 
-Dass sich das Treatment positiv auf die Symptomschwere auswirkt, hatten wir in der Sitzung zur [ANOVA vs. Regression](/lehre/klipps/anova-vs-regression) bereits festgestellt. Wir färben die Gruppen unterschiedlich ein und fügen so die Gruppierung in die Regression von zuvor ein:
+Dass sich das Treatment positiv auf die Symptomschwere auswirkt, hatten wir in der Sitzung zur [ANOVA vs. Regression](/lehre/klipps/anova-regression) bereits festgestellt. Wir färben die Gruppen unterschiedlich ein und fügen so die Gruppierung in die Regression von zuvor ein:
 
 ![](/lehre/klipps/ancova-moderierte-regression_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 Die Frage ist nun, ob dieser Unterschied auch statistisch bedeutsam ist. Dazu nehmen wir jetzt die Gruppierungsvariable in das Regressionsmodell auf. Was wir damit erreichen ist, dass wir durchschnittliche Unterschiede zwischen den beiden Gruppen mit in das Modell aufnehmen --- und zwar für eine gegebene (feste) Ausprägung. Wenn wir also die Gruppierungsvariable aufnehmen, dann fügen wir ein gruppenspezifisches Interzept hinzu. So können wir die Gruppenunterschiede bereinigt um die Kovariate Lebenszufriedenheit interpretieren und genauso können wir den Zusammenhang zwischen Lebenszufriedenheit und Symptomschwere bereinigt um Unterschiede durch die Behandlung interpretieren. 
@@ -201,7 +202,7 @@ Anova(reg_ancova)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-Was wir sofort sehen ist, dass die $p$-Werte in der `summary` und im `Anova`-Output identisch sind. Das liegt an der Verwandtschaft zwischen Regression und ANOVA (ANCOVA), welche wir in der vorangegangenen Sitzung diskutiert hatten und daran, dass wir hier nur eine Gruppierungsvariable mit zwei Gruppen verwendet haben (siehe [ANOVA vs. Regression](/lehre/klipps/anova-vs-regression)).
+Was wir sofort sehen ist, dass die $p$-Werte in der `summary` und im `Anova`-Output identisch sind. Das liegt an der Verwandtschaft zwischen Regression und ANOVA (ANCOVA), welche wir in der vorangegangenen Sitzung diskutiert hatten und daran, dass wir hier nur eine Gruppierungsvariable mit zwei Gruppen verwendet haben (siehe [ANOVA vs. Regression](/lehre/klipps/anova-regression)).
 
 Grafisch sieht das so aus:
 
@@ -456,9 +457,9 @@ Wir haben mit der "generalisierten" ANCOVA und der moderierten Regressionsanalys
 ## Appendix
 ### Appendix A {#AppendixA}
 
-<details><summary>**Code zu den Grafiken zur ANCOVA**</summary>
+<details><summary><b>Code zu den Grafiken zur ANCOVA</b></summary>
 
-Wir verwenden für diese Sitzung das `ggplot2`-Paket, welches nachdem es installiert wurde (`install.packages`) geladen werden muss. Für eine Einführung in `ggplot` können Sie gerne in den Unterlagen zu den Veranstaltungen im [Bachelor](/lehre/main/#statistik-ii) vorbeischauen. Für noch mehr Grafiken siehe [Unterlagen zu `ggplotting`](/lehre/extras/#ggplotting).
+Wir verwenden für diese Sitzung das `ggplot2`-Paket, welches nachdem es installiert wurde (`install.packages`) geladen werden muss. Für eine Einführung in `ggplot` können Sie gerne in den Unterlagen zu den Veranstaltungen im [Bachelor](/lehre/main/#statistik-ii) vorbeischauen.
 
 ```r
 library(ggplot2) # ggplot2-Paket laden
@@ -535,7 +536,7 @@ Der letzte Plot zum ANCOVA Block wird in [Appendix B](#AppendixB) erläutert.
 
 ### Appendix B {#AppendixB}
 
-<details><summary>**Weitere ANCOVA Modelle**</summary>
+<details><summary><b>Weitere ANCOVA Modelle</b></summary>
 
 Mit dem `*` können wir sowohl die Haupteffekte als auch die Interaktionseffekte in ein Modell aufnehmen.
 ` group*stratum*swls_post` steht für `group + stratum + group:stratum + swls_post + group:swls_post + stratum:swls_post`. Insgesamt gibt es also 6 Interzept und 6 Steigungskoeffizienten:
@@ -616,7 +617,7 @@ Es kommen keine neuen Effekte hinzu. Nur das Treatment und die Lebenszufriedenhe
 
 ### Appendix C {#AppendixC}
 
-<details><summary>**Plots zur moderierten Regression**</summary>
+<details><summary><b>Plots zur moderierten Regression</b></summary>
 
 
 
@@ -676,9 +677,9 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
 ### Appendix D
 
 
-<details><summary> **Exkurs: Effekte der Zentrierung** </summary>
+<details><summary><b>Exkurs: Effekte der Zentrierung</b></summary>
 
-In diesem Abschnitt schauen wir uns den Effekt der Zentrierung an einem vereinfachten Beispiel an. Dieser Abschnitt fundiert auf dem [Appendix A in der Sitzung zu moderierter Regression aus dem Bachelor](/lehre/statistik-ii/quadratische-und-moderierte-regression#AppendixA). 
+In diesem Abschnitt schauen wir uns den Effekt der Zentrierung an einem vereinfachten Beispiel an.
 
 Um den Sachverhalt zu vereinfachen, erstellen wir einen Vektor (also eine Variable) $A$ der die Zahlen von 0 bis 10 enthält in 0.1 Schritten:
 

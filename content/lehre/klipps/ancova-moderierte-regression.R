@@ -16,18 +16,11 @@ osf$pas_post <- scale(osf$pas_post, center = T, scale = F)
 reg_swl <- lm(bsi_post ~ 1 + swls_post, data = osf)
 summary(reg_swl)
 
-library(ggplot2)
-ggplot(data = osf,  mapping = aes(x = swls_post, y = bsi_post))+geom_point()+
-   geom_line(mapping = aes(x = swls_post, y = predict(reg_swl)))+
-   theme_minimal()
 
-ggplot(data = osf,  mapping = aes(x = group, y = bsi_post, col = group, group = group))+geom_point()+
-     theme_minimal()
 
-library(ggplot2)
-ggplot(data = osf,  mapping = aes(x = swls_post, y = bsi_post, col = group))+geom_point()+
-   geom_line(mapping = aes(x = swls_post, y = predict(reg_swl)), col = "black")+
-   theme_minimal()
+
+
+
 
 reg_ancova <- lm(bsi_post  ~  1 + group + swls_post, data = osf)
 summary(reg_ancova)
@@ -35,10 +28,7 @@ summary(reg_ancova)
 library(car)
 Anova(reg_ancova)
 
-library(ggplot2)
-ggplot(data = osf,  mapping = aes(x = swls_post, y = bsi_post, col = group))+geom_point()+
-   geom_line(mapping = aes(x = swls_post, y = predict(reg_ancova)))+
-   theme_minimal()
+
 
 reg_gen_ancova <- lm(bsi_post  ~  1 + group + swls_post  + group:swls_post, 
                      data = osf)
@@ -46,24 +36,14 @@ summary(reg_gen_ancova)
 
 Anova(reg_gen_ancova, type = 2)
 
-ggplot(data = osf,  mapping = aes(x = swls_post, y = bsi_post,  col = group))+
-   geom_point()+
-  geom_line(mapping = aes(x = swls_post, y = predict(reg_gen_ancova)))+
-  theme_minimal()
+
 
 reg_gen_ancova_s <- lm(bsi_post ~ stratum + swls_post + stratum:swls_post, data = osf)
 Anova(reg_gen_ancova_s)
 
-ggplot(data = osf,  mapping = aes(x = swls_post, y = bsi_post,  col = stratum))+
-   geom_point()+
-  geom_line(mapping = aes(x = swls_post, y = predict(reg_gen_ancova_s)))+
-  theme_minimal()
 
-reg_gen_ancova_gs <- lm(bsi_post ~ group*stratum*swls_post, data = osf)
-ggplot(data = osf,  mapping = aes(x = swls_post, y = bsi_post,  col = stratum, lty = group, pch = group))+
-   geom_point()+
-   geom_line(mapping = aes(x = swls_post, y = predict(reg_gen_ancova_gs)))+
-   theme_minimal()
+
+
 
 mod_reg <- lm(bsi_post ~ swls_post + pas_post + swls_post:pas_post, data = osf)
 summary(mod_reg)
@@ -71,54 +51,14 @@ summary(mod_reg)
 library(interactions)
 interact_plot(model = mod_reg, pred = pas_post, modx = swls_post)
 
-library(plot3D)
-# Übersichtlicher: Vorbereitung
-x <- c(osf$pas_post)
-y <- c(osf$bsi_post)
-z <- c(osf$swls_post)
-fit <- lm(y ~ x*z)
-grid.lines = 26
-x.pred <- seq(min(x), max(x), length.out = grid.lines)
-z.pred <- seq(min(z), max(z), length.out = grid.lines)
-xz <- expand.grid(x = x.pred, z = z.pred)
-y.pred <- matrix(predict(fit, newdata = data.frame(xz)), 
-                 nrow = grid.lines, ncol = grid.lines)
-fitpoints <- predict(fit)
 
-# Plot:
-scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2, 
-          theta = -20, phi = 30, ticktype = "detailed",
-          xlab = "Panikstörungs- und Agoraphobiesymptomatik", ylab = "Lebenszufriedenheit", zlab = "Symptomschwere",  
-          surf = list(x = x.pred, y = z.pred, z = y.pred,  
-                      facets = NA, fit = fitpoints), 
-          main = "Moderierte Regression")
 
 mod_quad_reg <- lm(bsi_post ~ swls_post + pas_post + swls_post:pas_post + I(swls_post^2) + I(pas_post^2), data = osf)
 summary(mod_quad_reg)
 
 interact_plot(model = mod_quad_reg, pred = pas_post, modx = swls_post)
 
-library(plot3D)
-# Übersichtlicher: Vorbereitung
-x <- c(osf$pas_post)
-y <- c(osf$bsi_post)
-z <- c(osf$swls_post)
-fit <- lm(y ~ x*z + I(x^2) + I(z^2))
-grid.lines = 26
-x.pred <- seq(min(x), max(x), length.out = grid.lines)
-z.pred <- seq(min(z), max(z), length.out = grid.lines)
-xz <- expand.grid(x = x.pred, z = z.pred)
-y.pred <- matrix(predict(fit, newdata = data.frame(xz)), 
-                 nrow = grid.lines, ncol = grid.lines)
-fitpoints <- predict(fit)
 
-# Plot:
-scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2, 
-          theta = -20, phi = 30, ticktype = "detailed",
-          xlab = "Panikstörungs- und Agoraphobiesymptomatik", ylab = "Lebenszufriedenheit", zlab = "Symptomschwere",  
-          surf = list(x = x.pred, y = z.pred, z = y.pred,  
-                      facets = NA, fit = fitpoints), 
-          main = "Moderierte Regression\nmit quadratischen Effekten")
 
 quad_reg <-  lm(bsi_post ~ swls_post + pas_post  + I(swls_post^2) + I(pas_post^2), data = osf)
 anova(quad_reg, mod_quad_reg)

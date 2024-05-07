@@ -34,16 +34,17 @@ output:
 ---
 
 
-```{r setup, include=FALSE, purl = FALSE}
-
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
+
 
 ## Einleitung
 In dieser Sitzung schauen wir uns die Kovarianzanalyse, auch **AN**alysis **O**f **COVA**riance (ANCOVA), als Erweiterung der ANOVA an und nutzen diese als Überleitung zur moderierten Regressionsanalyse.
 Diese Sitzung basiert auf Literatur aus [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel  19 (insbesondere 19.9-19.12).
 
 ### Daten laden
-Wir verwenden wieder den Datensatz von [Schaeuffele et al. (2020)](https://psyarxiv.com/528tw/), die das Unified Protocol (UP) als Internetintervention für bestimmte psychische Störungen durchgeführt haben. Wir laden den Datensatz ein und kürzen diesen (mehr Informationen zum Datensatz sowie zum Einladen und Kürzen erhalten Sie in der vorherigen Sitzung zu [ANOVA vs. Regression](/lehre/klipps/anova-vs-regression)):
+Wir verwenden wieder den Datensatz von [Schaeuffele et al. (2020)](https://psyarxiv.com/528tw/), die das Unified Protocol (UP) als Internetintervention für bestimmte psychische Störungen durchgeführt haben. Wir laden den Datensatz ein und kürzen diesen (mehr Informationen zum Datensatz sowie zum Einladen und Kürzen erhalten Sie in der vorherigen Sitzung zu [ANOVA vs. Regression](/lehre/klipps/anova-regression)):
 
 ```{r}
 osf <- read.csv(file = url("https://osf.io/zc8ut/download"))
@@ -86,7 +87,7 @@ Die Kovarianzanalyse kann nun sowohl im ANOVA- als auch im Regressionssetting be
 ### Einfache ANCOVA
 Wir betrachten die ANCOVA im Regressionssetting. Wir verwenden also wieder die `lm`-Funktion, um das Modell aufzustellen und wenden auf das resultierende Objekt wieder die `Anova`-Funktion aus dem `car`-Paket an. Wir verwenden hier nicht `ezANOVA`, da wir die Gleichungsnotation der Regression verwenden wollen und weil `ezANOVA` für ANCOVAs erstmal nur eine *Betaversion* enthält.
 
-An dieser Stelle sei gesagt, dass wir im Grunde eine ANCOVA schon in der Sitzung zur [Regression](/lehre/klipps/regression-ausreisser) durchgeführt haben, ohne dies genau zu erläutern. Dort hatten wir die Depressivität durch das Geschlecht sowie die Lebenszufriedenheit vorhergesagt. Das Geschlecht war hier dichotom und die Lebenszufriedenheit wurde als kontinuierlich angesehen.
+An dieser Stelle sei gesagt, dass wir im Grunde eine ANCOVA schon in der Sitzung zur [Regression](/lehre/klipps/regression-ausreisser-klipps) durchgeführt haben, ohne dies genau zu erläutern. Dort hatten wir die Depressivität durch das Geschlecht sowie die Lebenszufriedenheit vorhergesagt. Das Geschlecht war hier dichotom und die Lebenszufriedenheit wurde als kontinuierlich angesehen.
 
 Wir möchten nun für unseren Datensatz `osf` wissen, ob sich die Symptomschwere durch die Lebenszufriedenheit vorhersagen lässt. Dazu hatten wir am Anfang der vergangenen Sitzung bereits eine Untersuchung vorgenommen. Allerdings hatten wir neben der Lebenszufriedenheit auch die Ausprägung der Panikstörung mit oder ohne Agoraphobie mit in das Modell aufgenommen. Beide Prädiktoren hatten signifikante Varianzanteile an der Symptomschwere erklärt. Wir beschränken uns jetzt allerdings auf die Lebenszufriedenheit:
 
@@ -96,7 +97,7 @@ summary(reg_swl)
 ```
 Der Zusammenhang zwischen Lebenszufriedenheit und Symptomschwere ist negativ und signifikant. Das bedeutet, dass die Symptomschwere geringer ausfällt für höhere Lebenszufriedenheit. Grafisch sieht das so aus (der Code zu den Grafiken ist für unsere inhaltlichen Überlegungen nicht so relevant und kann daher bei Interesse in [Appendix A](#AppendixA) nachgelesen werden):
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 library(ggplot2)
 ggplot(data = osf,  mapping = aes(x = swls_post, y = bsi_post))+geom_point()+
    geom_line(mapping = aes(x = swls_post, y = predict(reg_swl)))+
@@ -107,15 +108,15 @@ Die Zentrierung der Lebenszufriedenheit ist leicht zu erkennen. Die Werte streue
 
 Nun ist es aber so, dass einige der Proband:innen das Onlinetreatment erhalten haben und andere noch auf der Warteliste stehen. Wenn wir nun die Gruppierungsvariable mit in das Modell aufnehmen, so sehen wir mit bloßem Auge, dass sich die beiden Gruppen leicht im Mittel unterscheiden. 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 ggplot(data = osf,  mapping = aes(x = group, y = bsi_post, col = group, group = group))+geom_point()+
      theme_minimal()
 ```
 
 
-Dass sich das Treatment positiv auf die Symptomschwere auswirkt, hatten wir in der Sitzung zur [ANOVA vs. Regression](/lehre/klipps/anova-vs-regression) bereits festgestellt. Wir färben die Gruppen unterschiedlich ein und fügen so die Gruppierung in die Regression von zuvor ein:
+Dass sich das Treatment positiv auf die Symptomschwere auswirkt, hatten wir in der Sitzung zur [ANOVA vs. Regression](/lehre/klipps/anova-regression) bereits festgestellt. Wir färben die Gruppen unterschiedlich ein und fügen so die Gruppierung in die Regression von zuvor ein:
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 library(ggplot2)
 ggplot(data = osf,  mapping = aes(x = swls_post, y = bsi_post, col = group))+geom_point()+
    geom_line(mapping = aes(x = swls_post, y = predict(reg_swl)), col = "black")+
@@ -145,11 +146,11 @@ library(car)
 Anova(reg_ancova)
 ```
 
-Was wir sofort sehen ist, dass die $p$-Werte in der `summary` und im `Anova`-Output identisch sind. Das liegt an der Verwandtschaft zwischen Regression und ANOVA (ANCOVA), welche wir in der vorangegangenen Sitzung diskutiert hatten und daran, dass wir hier nur eine Gruppierungsvariable mit zwei Gruppen verwendet haben (siehe [ANOVA vs. Regression](/lehre/klipps/anova-vs-regression)).
+Was wir sofort sehen ist, dass die $p$-Werte in der `summary` und im `Anova`-Output identisch sind. Das liegt an der Verwandtschaft zwischen Regression und ANOVA (ANCOVA), welche wir in der vorangegangenen Sitzung diskutiert hatten und daran, dass wir hier nur eine Gruppierungsvariable mit zwei Gruppen verwendet haben (siehe [ANOVA vs. Regression](/lehre/klipps/anova-regression)).
 
 Grafisch sieht das so aus:
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 library(ggplot2)
 ggplot(data = osf,  mapping = aes(x = swls_post, y = bsi_post, col = group))+geom_point()+
    geom_line(mapping = aes(x = swls_post, y = predict(reg_ancova)))+
@@ -186,7 +187,7 @@ Anova(reg_gen_ancova, type = 2)
 
 Da die Interaktion nicht signifikant ist, bleiben wir bei Quadratsummen vom Typ II. Es gibt also keine gruppenspezifische Steigung der Lebenszufriedenheit. Das bedeutet, dass sich die Lebenszufriedenheit in beiden Gruppen gleich auf die Symptomschwere auswirkt. Grafisch sieht dies so aus:
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 ggplot(data = osf,  mapping = aes(x = swls_post, y = bsi_post,  col = group))+
    geom_point()+
   geom_line(mapping = aes(x = swls_post, y = predict(reg_gen_ancova)))+
@@ -202,7 +203,7 @@ Anova(reg_gen_ancova_s)
 ```
 Die Diagnose scheint keinen Einfluss auf die Symptomschwere zu haben. Weder die Interzept noch die Slopes unterscheiden sich über die Gruppen. Wir wollen uns trotzdem die Grafik ansehen:
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 ggplot(data = osf,  mapping = aes(x = swls_post, y = bsi_post,  col = stratum))+
    geom_point()+
   geom_line(mapping = aes(x = swls_post, y = predict(reg_gen_ancova_s)))+
@@ -213,7 +214,7 @@ Hier erkennen wir zwar unterschiedliche Steigungen und Interzepts, allerdings is
 
 Genauso wären auch noch kompliziertere Modelle möglich. Bspw. könnten wir für jede Kombination aus Gruppierung und Diagnose ein eigenes Regressionsmodell einführen. Grafisch sieht das so aus  (für mehr dazu siehe [Appendix B](#AppendixB)):
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 reg_gen_ancova_gs <- lm(bsi_post ~ group*stratum*swls_post, data = osf)
 ggplot(data = osf,  mapping = aes(x = swls_post, y = bsi_post,  col = stratum, lty = group, pch = group))+
    geom_point()+
@@ -257,7 +258,7 @@ Wir bekommen eine Grafik mit Symptomschwere auf der y-Achse und Panikstörungs- 
 
 Im Gegensatz zur ANCOVA, die wir weiter oben kennengelernt hatten, gibt es natürlich nicht nur diese drei Linien. Der Moderator kann jede beliebige Ausprägung annehmen. Dies kann in folgender Grafik abgelesen werden (für den Code zur Grafik siehe [Appendix C](#AppendixC)).
 
-```{r, echo = F, message=F, warning = F, fig.height=6, fig.width=6}
+```{r, echo = F, purl = F, message=F, warning = F, fig.height=6, fig.width=6}
 library(plot3D)
 # Übersichtlicher: Vorbereitung
 x <- c(osf$pas_post)
@@ -298,7 +299,7 @@ interact_plot(model = mod_quad_reg, pred = pas_post, modx = swls_post)
 
 Die Simple-Slopes sind keine einfachen Steigungen mehr, sondern gleichen "einfachen" Parabeln. Die Interpretation ist immer ähnlich zu den Simple-Slopes von zuvor. Die Beziehung zwischen Symptomschwere und Panikstörungs- und Agoraphobiesymptomatik fällt geringer aus für höhere Lebenszufriedenheit. Außerdem lässt sich ein Plateau vermuten für große Panikstörungs- und Agoraphobiesymptomatik-Werte. Der 3D-Plot (dessen Code wieder in [Appendix C](#AppendixC) zu finden ist) zeigt uns, dass es diesmal nicht aneinander geklebte Linien, sondern Parabeln sind:
 
-```{r, echo = F, message=F, warning = F, fig.height=6, fig.width=6, fig.height=6, fig.width=6}
+```{r, echo = F, purl = F, message=F, warning = F, fig.height=6, fig.width=6, fig.height=6, fig.width=6}
 library(plot3D)
 # Übersichtlicher: Vorbereitung
 x <- c(osf$pas_post)
@@ -342,9 +343,9 @@ Wir haben mit der "generalisierten" ANCOVA und der moderierten Regressionsanalys
 ## Appendix
 ### Appendix A {#AppendixA}
 
-<details><summary>**Code zu den Grafiken zur ANCOVA**</summary>
+<details><summary><b>Code zu den Grafiken zur ANCOVA</b></summary>
 
-Wir verwenden für diese Sitzung das `ggplot2`-Paket, welches nachdem es installiert wurde (`install.packages`) geladen werden muss. Für eine Einführung in `ggplot` können Sie gerne in den Unterlagen zu den Veranstaltungen im [Bachelor](/lehre/main/#statistik-ii) vorbeischauen. Für noch mehr Grafiken siehe [Unterlagen zu `ggplotting`](/lehre/extras/#ggplotting).
+Wir verwenden für diese Sitzung das `ggplot2`-Paket, welches nachdem es installiert wurde (`install.packages`) geladen werden muss. Für eine Einführung in `ggplot` können Sie gerne in den Unterlagen zu den Veranstaltungen im [Bachelor](/lehre/main/#statistik-ii) vorbeischauen.
 ```{r, echo = T}
 library(ggplot2) # ggplot2-Paket laden
 ggplot(data = osf,  mapping = aes(x = swls_post, y = bsi_post))+
@@ -403,7 +404,7 @@ Der letzte Plot zum ANCOVA Block wird in [Appendix B](#AppendixB) erläutert.
 
 ### Appendix B {#AppendixB}
 
-<details><summary>**Weitere ANCOVA Modelle**</summary>
+<details><summary><b>Weitere ANCOVA Modelle</b></summary>
 
 Mit dem `*` können wir sowohl die Haupteffekte als auch die Interaktionseffekte in ein Modell aufnehmen.
 ` group*stratum*swls_post` steht für `group + stratum + group:stratum + swls_post + group:swls_post + stratum:swls_post`. Insgesamt gibt es also 6 Interzept und 6 Steigungskoeffizienten:
@@ -429,7 +430,7 @@ Es kommen keine neuen Effekte hinzu. Nur das Treatment und die Lebenszufriedenhe
 
 ### Appendix C {#AppendixC}
 
-<details><summary>**Plots zur moderierten Regression**</summary>
+<details><summary><b>Plots zur moderierten Regression</b></summary>
 
 
 ```{r, echo = T, message=F, warning = F, fig.height=6, fig.width=6}
@@ -483,9 +484,9 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
 ### Appendix D
 
 
-<details><summary> **Exkurs: Effekte der Zentrierung** </summary>
+<details><summary><b>Exkurs: Effekte der Zentrierung</b></summary>
 
-In diesem Abschnitt schauen wir uns den Effekt der Zentrierung an einem vereinfachten Beispiel an. Dieser Abschnitt fundiert auf dem [Appendix A in der Sitzung zu moderierter Regression aus dem Bachelor](/lehre/statistik-ii/quadratische-und-moderierte-regression#AppendixA). 
+In diesem Abschnitt schauen wir uns den Effekt der Zentrierung an einem vereinfachten Beispiel an.
 
 Um den Sachverhalt zu vereinfachen, erstellen wir einen Vektor (also eine Variable) $A$ der die Zahlen von 0 bis 10 enthält in 0.1 Schritten:
 
