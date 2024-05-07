@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'Im zweiten Teil der Einführung von ggplot2 betrachten wir neben den klassischen Gestaltungsmöglichkeiten für Scatterplots auch, wie man Grafiken mit plotly interaktiv gestalten kann.'
 authors: [schultze]
 weight: 3
-lastmod: '2024-04-10'
+lastmod: '2024-05-07'
 featured: no
 banner:
   image: "/header/colorful_tiles.jpg"
@@ -61,7 +61,7 @@ Wie immer laden wir erstmal die benötigten Pakete und Daten:
 library(ggplot2)
 
 # Daten laden
-load(url('https://pandar.netlify.com/daten/edu_exp.rda'))
+load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 
 # Datenaufbereitung
 edu_exp$Wealth <- factor(edu_exp$Wealth, levels = c('low_income', 'lower_middle_income', 'upper_middle_income', 'high_income'),
@@ -139,9 +139,9 @@ psych::describe(edu_2014[, c('Primary', 'Index')])
 ```
 
 ```
-##         vars   n  mean    sd median trimmed   mad  min   max range  skew kurtosis   se
-## Primary    1  90 16.37  6.57  15.26   16.03  6.89 3.48 36.54 33.06  0.49    -0.09 0.69
-## Index      2 186 55.95 20.76  57.67   56.83 24.71 9.33 93.33 84.00 -0.30    -1.01 1.52
+##         vars   n  mean   sd median trimmed  mad  min   max range  skew kurtosis   se
+## Primary    1  90 16.37 6.57  15.26   16.03 6.89 3.48 36.54 33.06  0.49    -0.09 0.69
+## Index      2 192  0.65 0.18   0.68    0.66 0.21 0.21  1.05  0.84 -0.28    -0.77 0.01
 ```
 
 Wie wir sehen, liegen für die Investitionen in die Primärbildung nur Werte aus 90 Ländern vor, was unsere Abbildung positiv ausgedrückt zumindest übersichtlicher macht. Wir können diese Datenpunkte im Datensatz lassen und `ggplot2` würde sie jedes Mal, wenn wir eine Abbildung erstellen, mit einer Warnmeldung automatisch entfernen. Allerdings wirkt sich das z.B. auf die Skalierung unserer Ästhetiken aus - z.B. würde bei der Bevölkerungszahl (die benutzen wir gleich) die Skalierung anhand das Maximums (China) festgelegt. Im Datensatz haben wir aber keine Informationen auf `Primary` von China und Indien, sodass die Skala gar nicht bis in die Milliarden gehen muss, sondern wir mit einer eingeschränkten Skala zufrieden wären. Um die Skalierung an Daten, die gar nicht genutzt werden zu verhindern, können wir - wie im letzten Beitrag betont - die Daten anpassen, bevor wir Abbildungen erstellen:
@@ -270,6 +270,29 @@ Anschließend können wir es mit der `library()`-Funktion laden:
 library(plotly)
 ```
 
+```
+## 
+## Attaching package: 'plotly'
+```
+
+```
+## The following object is masked from 'package:ggplot2':
+## 
+##     last_plot
+```
+
+```
+## The following object is masked from 'package:stats':
+## 
+##     filter
+```
+
+```
+## The following object is masked from 'package:graphics':
+## 
+##     layout
+```
+
 Plotly ist ein [kommerzieller Anbieter für Datenvisualisierung](https://plotly.com/) in jedweder Form. Weil ich hier nicht mehr Werbung für kommerzielle Plattformen machen will, als zwingend erfoderlich, bedanke mich einfach für das gratis Paket und wir arbeiten damit weiter.
 
 In `plotly` kann man über die Funktion `plot_ly()` interaktive Plots erstellen. Aber anstatt uns zu zwingen etwas komplett neues lernen zu müssen, erlaubt uns das Paket auch, mit `ggplot()` erstellte Grafiken in interaktive Grafiken zu übersetzen! Dafür gibt es die Funktion `ggplotly()`:
@@ -345,7 +368,7 @@ Die neue Ästhetik `text` kann genau das enthalten, was sie verspricht: Text. Da
 ```
 ## Spain 
 ## Region: Europe 
-## Population (in mio): 46.78
+## Population (in mio): 46.46
 ```
 (Die Kategorie von `Wealth` wird durch die Färbung ausgegeben und  `Primary` und `Index` sind bereits in der Position des Punktes kodiert, sodass wir diese aus der Hoverinfo raus lassen können.) `paste()` klebt Textbausteine und Variablenausprägungen in einen `character` Vektor zusammen. Für die oben dargestellte Kombination benötigen wir also:
 

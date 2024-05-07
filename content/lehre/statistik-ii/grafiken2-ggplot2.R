@@ -2,7 +2,7 @@
 library(ggplot2)
 
 # Daten laden
-load(url('https://pandar.netlify.com/daten/edu_exp.rda'))
+load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 
 # Datenaufbereitung
 edu_exp$Wealth <- factor(edu_exp$Wealth, levels = c('low_income', 'lower_middle_income', 'upper_middle_income', 'high_income'),
