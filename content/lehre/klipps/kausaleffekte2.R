@@ -11,7 +11,7 @@ library(questionr)    # Für gewichtete Tabellen
 load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 head(CBTdata)
 
-knitr::kable(head(CBTdata))
+
 
 BDI.PFE <- lm(BDI_post ~ Treatment, data = CBTdata)
 BDI.adj <- lm(BDI_post ~ Treatment + Disorder + BDI_pre + SWL_pre, data = CBTdata)
@@ -119,11 +119,11 @@ df.full <- df.full[order(df.full$subclass, df.full$Treatment),]
 
 head(df.optimal)
 
-kable_styling(kable(head(df.optimal)))
+
 
 df.full[df.full$subclass %in% c(5,6),]
 
-kable_styling(kable(df.full[df.full$subclass %in% c(5,6),]))
+
 
 # Auszug as dem Datensatz
 demo.df <- subset(df.full, as.numeric(subclass) < 10)
@@ -134,8 +134,8 @@ table(demo.df$Treatment, demo.df$subclass)
 round(wtd.table(y = demo.df$subclass, 
                 x = demo.df$Treatment, weights = demo.df$weights), 2)
 
-plot(summary(m.optimal), xlim=c(-0.1,1.5), main="Optimal Pair")
-plot(summary(m.full), xlim=c(-0.1,1.5), main = "Full Optimal")
+
+
 
 lm.PFE <- lm(BDI_post ~ Treatment, data = CBTdata)
 lm.optimal <- lm(BDI_post ~ Treatment, data = df.optimal)
