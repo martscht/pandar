@@ -34,12 +34,9 @@ output:
 ---
 
 
-
-```{r setup, include=FALSE}
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
-
 
 
 ## Einführung
@@ -76,7 +73,7 @@ df <- data.frame("Studie" = c("Studie 1", "Studie 2"),
 df
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 knitr::kable(df)
 ```
 
@@ -88,7 +85,7 @@ escalc(measure = "SMD", m1i = X1, m2i = X2, sd1i = SD1, sd2i = SD2,
        data = df)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 knitr::kable(escalc(measure = "SMD", m1i = X1, m2i = X2, sd1i = SD1, sd2i = SD2,
        n1i = n1, n2i = n2,
        data = df))
@@ -105,7 +102,7 @@ head(dat.lopez2019)
 ```
 
 <div class="big-maths">
-```{r, echo = F}
+```{r, echo = F, purl = F}
 knitr::kable(head(dat.lopez2019))
 ```
 </div>
@@ -166,13 +163,13 @@ Die `summary` gibt uns, wie immer, eine Übersicht über die Ergebnisse.
 
 In der Summary sehen wir Folgendes:
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('Fixed-Effects Model (k = 71)')
 ```
 
 zeigt uns, dass ein Fixed Effects Modell mit $k$=71 Studien gerechnet wurde.
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('    logLik    deviance         AIC         BIC        AICc 
 -1561.4161   3206.6098   3124.8321   3127.0948   3124.8901   
 ')
@@ -180,7 +177,7 @@ cat('    logLik    deviance         AIC         BIC        AICc
 
 sind Modell-Fit Ergebnisse. Das Modell wurde mit der Maximum-Likelihood (ML)-Methode geschätzt, weswegen uns die Log-Liklihood (`logLik`), die Devianz (`deviance`), sowie weitere Informationskriterien (`AIC`, `BIC`, `AICc`) ausgegeben werden. Das zeigt uns, dass bei der Schätzung von Modellen mit ML auch Modellvergleiche möglich sind.
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('I^2 (total heterogeneity / total variability):   97.82%
 H^2 (total variability / sampling variability):  45.81
 ')
@@ -190,7 +187,7 @@ sind Heterogenitätsmaße. Sie beschreiben, wie viel der Variation der Studiener
 
 Diese Heterogenität wird hier auf Signifikanz geprüft mithilfe von Cochran's $Q$.
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('Test for Heterogeneity:
 Q(df = 70) = 3206.6098, p-val < .0001
 ')
@@ -200,7 +197,7 @@ Das signifikante Ergebnis zeigt uns, dass die Heterogenität statistisch bedeuts
 
 Wie immer wird unter `Model Results` eine Übersicht über die Parameterschätzung gegeben (`estimate` = Schätzung, `se` = SE, `zval` = zugehöriger $z$-Wert, `pval` = zugehöriger $p$-Wert). Da wir hier nur einen einzigen Parameter schätzen, wird hier nicht viel angezeigt. `ci.lb` und `ci.ub` sind das Konfidenzintervall der Schätzung, wobei `lb` für lower-bound (untere Grenze) und `ub` für upper-bound (obere Grenze) steht.
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('Model Results:
 
 estimate      se      zval    pval    ci.lb    ci.ub 
@@ -250,7 +247,7 @@ summary(REM)
 
 Der Output des Random-Effects-Modells unterscheidet sich kaum vom Fixed-Effects-Modell. Gleich am Anfang der `summary` fällt uns auf, dass das Modell mit REML anstatt mit ML geschätzt wurde. Dies ist wichtig für die folgenden Modellvergleiche! Außerdem wird uns jetzt ein Maß für die Heterogenitätsvarianz $\tau^2$ (`tau^2`) angegeben. In Klammern dahinter steht ihr Standardfehler.
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('Random-Effects Model (k = 71; tau^2 estimator: REML)
 
    logLik   deviance        AIC        BIC       AICc 
@@ -275,7 +272,7 @@ power <- 1 - pchisq(q = qchisq(p = .95, df = REM$k.all - 1), df = REM$k.all - 1,
 power
 ```
 
-`ncp` ist der Non-centrality-parameter der $\chi^2$-Verteilung. Er beschreibt im Grunde die $\chi^2$-Verteilung unter einer spezifischen Alternativ-Hypothese. In diesem Beispiel liegt die Power bei 1 (also bei $100\%$). Das ist wenig verwunderlich, da viele Studien eingegangen sind und der Q-Wert sehr groß ausfällt. Die Power sollte bei mindestens $0.8$, also ($80\%$) liegen (bei mehr Interesse an Power-Analysen, finden sich in der Sitzung zu [Simulation und Poweranalysen](/lehre/statistik-i/simulation) aus dem Bachelor weitere Informationen, die mit dem folgenden allerdings nichts zu tun haben).
+`ncp` ist der Non-centrality-parameter der $\chi^2$-Verteilung. Er beschreibt im Grunde die $\chi^2$-Verteilung unter einer spezifischen Alternativ-Hypothese. In diesem Beispiel liegt die Power bei 1 (also bei $100\%$). Das ist wenig verwunderlich, da viele Studien eingegangen sind und der Q-Wert sehr groß ausfällt. Die Power sollte bei mindestens $0.8$, also ($80\%$) liegen (bei mehr Interesse an Power-Analysen, finden sich in der Sitzung zu [Simulation und Poweranalysen](/lehre/statistik-i/simulation-poweranalyse) aus dem Bachelor weitere Informationen, die mit dem folgenden allerdings nichts zu tun haben).
 
 ## Analyse Plots
 Das `metafor`-Paket bietet außerdem noch einige grafische Veranschaulichungen der Daten. Beispielsweise lässt sich ganz leicht ein Funnel-Plot erstellen mit der `funnel`-Funktion, welche lediglich unser Metaanalyse-Objekt `REM` entgegen nehmen muss. 
@@ -297,7 +294,7 @@ Die Trim-and-Fill Methode wird verwendet, um zu bestimmen, wie viel Studien hinz
 trimfill(REM, estimator = "R0")
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 fit_trimfill <- trimfill(REM, estimator = "R0")
 out_trimfill <- capture.output(fit_trimfill)
 cat(paste0(out_trimfill, sep = "\n"))
@@ -305,7 +302,7 @@ cat(paste0(out_trimfill, sep = "\n"))
 
 Die Funktion bestimmt selbst, auf welcher Seite mögliche fehlende (nicht publizierte) Werte ergänzt werden sollten. Der Output sieht dem `REM` sehr ähnlich. In den ersten beiden Zeilen steht:
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat(paste0(out_trimfill, sep = "\n")[1:4])
 ```
 
@@ -377,20 +374,20 @@ Uns wird eine "Warning" ausgegeben: `Warning: Studies with NAs omitted from mode
 
 Die `summary` wird um einen erklärten Varianzanteil  
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat("R^2 (amount of heterogeneity accounted for):            3.05%")
 ```
 
 sowie um einen Omnibustest der Moderatoren erweitert (quasi F-Test des gesamten Modells aus der Regression, nur dass $Q_M$ hier $\chi^2$-verteilt ist). 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('Test of Moderators (coefficient 2):
 QM(df = 1) = 1.6842, p-val = 0.1944')
 ```
 
 Der Moderator scheint keinen signifikanten Heterogenitätsvarianzanteil zu erklären ($Q_M(df=1)=$ `r round(MEM1$QM, 2)`, $p=$, `r round(MEM1$QMp, 4)`). Insgesamt werden nur {{< math >}}$3.05\%${{< /math >}} Heterogenitätsvariation durch die Intensität erklärt. Unter 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat("Model Results:")
 ```
 
