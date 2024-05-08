@@ -8,7 +8,7 @@ subtitle: 'Generalisiertes lineares Modell: dichotome abhängige Variablen'
 summary: 'In diesem Beitrag wird die logistische Regression behandelt, die sich im Falle einer dichotomen abhängigen Variable eignet. Dabei werden der Logit (die Linkfunktion), die Erfolgswahrscheinlichkeit und die Odds erläutert. Es erfolgt ein Vergleich zwischen logistischer Regression und normaler Regressionsanalyse sowie eine Demonstration der logistischen Regressionsanalyse, bei der die Beiträge einzelner Prädiktoren zur Vorhersage untersucht werden.'
 authors: [nehler, irmer]
 weight: 5
-lastmod: '2024-05-06'
+lastmod: '2024-05-08'
 featured: yes
 banner:
   image: "/header/meds.jpg"
@@ -130,7 +130,7 @@ levels(osf$GENDER_R) <- c("weiblich", "maennlich")
 Für unser Beispiel wollen wir die Drogenabhängigkeit als abhängige Variable benutzen. Dabei wollen wir untersuchen, ob der Depressionswert oder das Geschlecht eine Vorhersage leisten können.
 
 ### Warum keine lineare Regression?
-Um die Drogenabhängigkeit zu modellieren, könnten wir eine [Regressionsanalyse](/lehre/klipps/regression-ausreisser/) heranziehen und die Drogenabhängigkeit (`ANYDUMMY`) durch bspw. den Depressionswert  (`Depression_lvl`) vorhersagen. Wir nennen unser Modell zur Modellierung der Drogenabhängigkeit `reg_model`.
+Um die Drogenabhängigkeit zu modellieren, könnten wir eine [Regressionsanalyse](/lehre/klipps/regression-ausreisser-klipps/) heranziehen und die Drogenabhängigkeit (`ANYDUMMY`) durch bspw. den Depressionswert  (`Depression_lvl`) vorhersagen. Wir nennen unser Modell zur Modellierung der Drogenabhängigkeit `reg_model`.
 
 
 ```r
@@ -180,7 +180,7 @@ logit(p) &  = \ln\left(\frac{\mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)}{1-\mathbb
 \end{align*}
 </div>
 
-Hier ist $\ln$ der natürliche Logarithmus zur Basis $e$ ($e$ ist die Eulersche Zahl $\approx 2.718282$). Der $logit$ stellt hierbei die Link-Funktion dar, die eine transformierte Version der interessierenden Wahrscheinlichkeit, linear durch die Prädiktoren darstellen lässt. Die $odds$ und $p$ sind dann nur Retransformationen, die aus der Link-Funktion resultieren. Einige Wiederholungen zu Exponenten- oder Logarithmusregeln können Sie am Anfang der [Sitzung zu exponentiellem Wachstum aus dem Bachelor](/lehre/klipps/nichtlineare-regression) nachlesen.
+Hier ist $\ln$ der natürliche Logarithmus zur Basis $e$ ($e$ ist die Eulersche Zahl $\approx 2.718282$). Der $logit$ stellt hierbei die Link-Funktion dar, die eine transformierte Version der interessierenden Wahrscheinlichkeit, linear durch die Prädiktoren darstellen lässt. Die $odds$ und $p$ sind dann nur Retransformationen, die aus der Link-Funktion resultieren.
 
 
 ### Generalisiertes Lineares Modell: Logistische Regressionsanalyse
