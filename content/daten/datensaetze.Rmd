@@ -1034,7 +1034,7 @@ Der Datensatz stammt aus dem `R`-eigenen Paket `metafor` von Viechtbauer (2010) 
 
 Molloy, G. J., O'Carroll, R. E., & Ferguson, E. (2014). Conscientiousness and medication adherence: A meta-analysis. Annals of Behavioral Medicine, 47(1), 92–101. [https://doi.org/10.1007/s12160-013-9524-4](https://doi.org/10.1007/s12160-013-9524-4)
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/post/metaanalysen-mw/) und [Block 4](/post/msc5a-daten/#Block4) der Quizze für PsyMSc5a verwendet.
+Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/lehre/klipps/metaanalysen-cor/) und [Block 4](/post/msc5a-daten/#Block4) der Quizze für PsyMSc5a verwendet.
 
 ### Datensatz laden
 ```{r, results="hide"}
