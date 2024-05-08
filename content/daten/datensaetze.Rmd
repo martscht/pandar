@@ -531,7 +531,7 @@ In dem Datensatz liegen `r sum(is.na(fairplayer))` fehlende Werte vor. Folgende 
 ### Beschreibung
 Beim Datensatz handelt es sich um ein fiktives Datenbeispiel, bei dem Patient:innen, die an einer Depression oder einer Angststörung leiden, entweder mit einer kognitiven Verhaltenstherapie (CBT) behandelt oder in einer Wartekontrollgruppe belassen wurden. Eine zufällige Zuordnung war nicht vollständig möglich, da die Zuordnung von überweisenden Hausarzt-Praxen der Patient:innen mit beeinflusst werden konnte (z.B. durch Geltendmachung einer besonderen Dringlichkeit der Therapie).
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Schätzung von Kausaleffekten 1](/post/kausal) und [Schätzung von Kausaleffekten 2](/post/kausal2) für PsyMSc5a verwendet.
+Auf `pandaR` wird der Datensatz in dem Tutorial [Schätzung von Kausaleffekten 1](/lehre/klipps/kausaleffekte1) und [Schätzung von Kausaleffekten 2](/lehre/klipps/kausaleffekte2) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 ```{r}

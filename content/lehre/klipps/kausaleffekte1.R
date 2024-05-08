@@ -6,7 +6,7 @@ library(car)          # Quadratsummen in Anova-Output
 load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 head(CBTdata)
 
-knitr::kable(head(CBTdata))
+
 
 table(CBTdata$Treatment) 
 
@@ -66,47 +66,3 @@ BDI.EL <- effectLite(y="BDI_post", x="Treatment", z=c("BDI_pre_c", "SWL_pre_c"),
 # 'lm' als Methode für eine Schätzung per ANCOVA
 effectLite(y="BDI_post", x="Treatment", z=c("BDI_pre_c", "SWL_pre_c"), k=c("Disorder"), data = CBTdata, method = "lm")
 
-
-cat('## --------------------- Variables  ---------------------')
-
-cat('## Levels of Treatment Variable X 
-##    X   Treatment (original)   Indicator
-##    0                     WL       I_X=0
-##    1                    CBT       I_X=1')
-
-cat('## Cells 
-##     Treatment (original)   K   Cell
-## 1                     WL   0     00
-## 2                     WL   1     01
-## 3                    CBT   0     10
-## 4                    CBT   1     11')
-
-cat('##  --------------------- Regression Model --------------------- ')
-
-cat('##  E(Y|X,K,Z) = g0(K,Z) + g1(K,Z)*I_X=1 ')
-
-cat('##   g0(K,Z) = g000 + g001 * Z1 + g002 * Z2 + g010 * I_K=1 + g011 * I_K=1 * Z1 + 
-##             + g012 * I_K=1 * Z2
-##   g1(K,Z) = g100 + g101 * Z1 + g102 * Z2 + g110 * I_K=1 + g111 * I_K=1 * Z1 + 
-##             + g112 * I_K=1 * Z2')
-
-cat('## --------------------- Cell Counts  ---------------------')
-
-cat('## --------------------- Main Hypotheses ---------------------')
-
-cat('## H0: No average effects: E[g1(K,Z)] = 0
-## H0: No covariate effects in control group: g0(K,Z) = constant
-## H0: No treatment*covariate interaction: g1(K,Z) = constant
-## H0: No treatment effects: g1(K,Z) = 0')
-
-cat('##  --------------------- Adjusted Means ---------------------')
-
-cat('##  --------------------- Average Effects ---------------------')
-
-cat('##  --------------------- Effects given a Treatment Condition ---------------------')
-
-cat('##  --------------------- Effects given K=k ---------------------')
-
-cat('##  --------------------- Effects given X=x, K=k ---------------------')
-
-cat('## --------------------- Hypotheses given K=k ---------------------')

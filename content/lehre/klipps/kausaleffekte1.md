@@ -8,7 +8,7 @@ subtitle: 'ANCOVA Modelle'
 summary: 'Dieser Beitrag behandelt die Bestimmung kausaler Effekte insbesondere in der klinisch-psychologischen Forschung. Ein Beispiel wird vorgestellt, bei dem ein Treatment nicht randomisiert zugeordnet werden konnte, weshalb es vorab bestehende Gruppenunterschiede gibt. Zunächst wird darauf hingedeutet, dass aus diesem Grund augenscheinliche Effekte des Treatments konfundiert sein können. Dann wird der Effekt des Treatments mit einer klassischen ANOVA unter Einbezug von Kovariaten geschätzt, die mutmaßlich die Selektion ins Treatment erklären. Daraufhin wird eine generalisierte ANCOVA durchgeführt, bei der zusätzlich die Wechselwirkungen zwischen den Kovariaten und dem Treatment hinzugenommen werden. Zuletzt wird der adjustierte Effekt mittels EffectLiteR geschätzt.'
 authors: [hartig, irmer]
 weight: 9
-lastmod: '2024-02-01'
+lastmod: '2024-05-08'
 featured: no
 banner:
      image: "/header/pendulum_chain.jpg"
@@ -32,6 +32,8 @@ output:
   html_document:
     keep_md: true
 ---
+
+
 
 ### Inhalte
 
@@ -106,7 +108,7 @@ describeBy(CBTdata[, c("Age", "BDI_pre", "SWL_pre")], group = CBTdata$Treatment,
 ## Age        1 150 48.15 15.41 -0.16    -1.27 1.26
 ## BDI_pre    2 150 19.95  4.10  0.08     0.04 0.33
 ## SWL_pre    3 150 18.13  4.04 -0.08     0.31 0.33
-## -------------------------------------------------------------------- 
+## --------------------------------------------------------------------------------------- 
 ## group: CBT
 ##         vars   n  mean    sd  skew kurtosis   se
 ## Age        1 176 45.47 15.94  0.02    -1.36 1.20
@@ -190,14 +192,14 @@ Der `table`-Befehl erzeugt hierbei die jeweiligen Vierfeldertafeln. Mit `prop.ta
 
 ## Prima-Facie-Effekt{#PFE}
 
-Ungeachtet der fraglichen Vergleichbarkeit schauen wir uns den augenscheinlichen Effekt der Therapie auf depressive Symptome an, grafisch als Boxplot und inferenzstatistisch mittels t-Test/Regressionsanalyse (das war ja beides das Gleiche! - siehe [ANOVA vs. Regression](/lehre/klipps/anova-vs-regression)).
+Ungeachtet der fraglichen Vergleichbarkeit schauen wir uns den augenscheinlichen Effekt der Therapie auf depressive Symptome an, grafisch als Boxplot und inferenzstatistisch mittels t-Test/Regressionsanalyse (das war ja beides das Gleiche! - siehe [ANOVA vs. Regression](/lehre/klipps/anova-regression)).
 
 
 ```r
 boxplot(CBTdata$BDI_post ~ CBTdata$Treatment)
 ```
 
-![](/lehre/klipps/kausaleffekte1_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/lehre/klipps/kausaleffekte1_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 ```r
 BDI.PFE <- lm(BDI_post ~ Treatment, data = CBTdata)
