@@ -8,7 +8,7 @@ subtitle: ''
 summary: 'Dieser Beitrag behandelt die hierarchische Regression als Verfahren für hierarchischen Strukturen. Zunächst wird die sogenannte Intraklassenkorrelation erläutert. Weiterhin wird die Einbindung von festen Effekten und Zufallseffekten in ein Regressionsmodell vorgeführt. Schließlich wird demonstriert, wie Ebene-1 und Ebene-2 Prädiktoren sowie deren Interaktion in ein Modell integriert werden können.'
 authors: [hartig, irmer]
 weight: 6
-lastmod: '2024-02-19'
+lastmod: '2024-05-08'
 featured: no
 banner:
      image: "/header/color_coded_bees.jpg"
@@ -36,6 +36,7 @@ output:
   html_document:
     keep_md: true
 ---
+
 
 
 #### Pakete laden
@@ -177,7 +178,7 @@ ggplot(lockdown, aes(x=Wave, y=PWB, color=ID)) +
   geom_line()
 ```
 
-![](/lehre/klipps/hierarchische-regression-klinisch_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](/lehre/klipps/hierarchische-regression-klinisch_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 Für die grafische Veranschaulichung wählen wir hier daher eine kleine Zahl von Fällen, die zudem Daten zu allen sechs Zeitpunkten haben:
 
@@ -191,7 +192,7 @@ ggplot(lockdown[lockdown$ID %in% IDs.subset,], aes(x=Wave, y=PWB, color=ID)) +
   geom_line()
 ```
 
-![](/lehre/klipps/hierarchische-regression-klinisch_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](/lehre/klipps/hierarchische-regression-klinisch_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 
 
@@ -207,7 +208,7 @@ ggplot(lockdown[lockdown$ID %in% IDs.subset,], aes(x=Time, y=PWB, color=ID)) +
   geom_line()
 ```
 
-![](/lehre/klipps/hierarchische-regression-klinisch_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](/lehre/klipps/hierarchische-regression-klinisch_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 ### Nullmodell
 
@@ -225,7 +226,7 @@ summary(m0)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Linear mixed model fit by REML ['lmerMod']
 ## Formula: PWB ~ 1 + (1 | ID)
 ##    Data: lockdown
 ## 
@@ -242,8 +243,8 @@ summary(m0)
 ## Number of obs: 2188, groups:  ID, 485
 ## 
 ## Fixed effects:
-##               Estimate Std. Error         df t value Pr(>|t|)
-## (Intercept)  -0.006756   0.041994 483.441887  -0.161    0.872
+##              Estimate Std. Error t value
+## (Intercept) -0.006756   0.041994  -0.161
 ```
 
 ## 2. Effekte der Zeit{#Zeiteffekte}
@@ -271,7 +272,7 @@ summary(PWB.time.fixed)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Linear mixed model fit by REML ['lmerMod']
 ## Formula: PWB ~ 1 + Time + (1 | ID)
 ##    Data: lockdown
 ## 
@@ -288,11 +289,9 @@ summary(PWB.time.fixed)
 ## Number of obs: 2188, groups:  ID, 485
 ## 
 ## Fixed effects:
-##               Estimate Std. Error         df t value Pr(>|t|)    
-## (Intercept)  1.763e-01  4.653e-02  7.141e+02   3.788 0.000164 ***
-## Time        -3.578e-02  3.889e-03  1.727e+03  -9.199  < 2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+##              Estimate Std. Error t value
+## (Intercept)  0.176279   0.046532   3.788
+## Time        -0.035775   0.003889  -9.199
 ## 
 ## Correlation of Fixed Effects:
 ##      (Intr)
@@ -313,7 +312,7 @@ ggplot(lockdown[lockdown$ID %in% IDs.subset,], aes(x=Time, y=pred, color=ID)) +
   geom_line()
 ```
 
-![](/lehre/klipps/hierarchische-regression-klinisch_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](/lehre/klipps/hierarchische-regression-klinisch_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 ### Zufallseffekt (*random slope*)
 
@@ -331,8 +330,8 @@ PWB.time.random <- lmer(PWB ~ 1 + Time + (1 + Time | ID), data = lockdown)
 ```
 
 ```
-## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : Model failed to
-## converge with max|grad| = 0.00460588 (tol = 0.002, component 1)
+## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : Model failed to converge with
+## max|grad| = 0.00460588 (tol = 0.002, component 1)
 ```
 
 ```r
@@ -340,7 +339,7 @@ summary(PWB.time.random)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Linear mixed model fit by REML ['lmerMod']
 ## Formula: PWB ~ 1 + Time + (1 + Time | ID)
 ##    Data: lockdown
 ## 
@@ -358,11 +357,9 @@ summary(PWB.time.random)
 ## Number of obs: 2188, groups:  ID, 485
 ## 
 ## Fixed effects:
-##               Estimate Std. Error         df t value Pr(>|t|)    
-## (Intercept)   0.177654   0.047118 482.530574   3.770 0.000183 ***
-## Time         -0.036000   0.004693 410.622668  -7.671 1.25e-13 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+##              Estimate Std. Error t value
+## (Intercept)  0.177654   0.047118   3.770
+## Time        -0.036000   0.004693  -7.671
 ## 
 ## Correlation of Fixed Effects:
 ##      (Intr)
@@ -377,8 +374,8 @@ Nun sind wir in eine etwas ungünstige Lage gekommen. Wir bekommen nämlich eine
 
 
 ```
-##      (Intr)
-## Time -0.454
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## Model failed to converge with max|grad| = 0.00460588 (tol = 0.002, component 1)
 ```
 
 Die Konvergenz bezieht sich auf den numerischen Algorithmus der im Hintergrund die Likelihood maximiert: Es handelt sich hierbei um ein iteratives Verfahren, bei welchem in jedem Schritt geschaut wird, wie stark sich die Likelihood noch verändert. Ist diese Veränderung klein, so spricht dies für Konvergenz. Hier wird nun gesagt, dass die letzte Änderung ca. `.004` war, die Toleranz (also die größte akzeptierte Änderung) aber bei `tol = .002` liegt. Durch diese Diskrepanz wird die Warnung ausgelöst. Weitere Evaluationsmechanismen der Lösungen zeigen jedoch an, dass die Lösung prinzipiell `"OK"` ist. Wir wollen es aber "richtig" machen und ändern deshalb den Optimierungsalgorithmus:
@@ -391,7 +388,7 @@ summary(PWB.time.random)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Linear mixed model fit by REML ['lmerMod']
 ## Formula: PWB ~ 1 + Time + (1 + Time | ID)
 ##    Data: lockdown
 ## Control: lmerControl(optimizer = "Nelder_Mead")
@@ -410,11 +407,9 @@ summary(PWB.time.random)
 ## Number of obs: 2188, groups:  ID, 485
 ## 
 ## Fixed effects:
-##               Estimate Std. Error         df t value Pr(>|t|)    
-## (Intercept)   0.177654   0.047121 482.470379   3.770 0.000183 ***
-## Time         -0.035999   0.004693 410.591198  -7.671 1.26e-13 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+##              Estimate Std. Error t value
+## (Intercept)  0.177654   0.047121   3.770
+## Time        -0.035999   0.004693  -7.671
 ## 
 ## Correlation of Fixed Effects:
 ##      (Intr)
@@ -457,7 +452,7 @@ ggplot(lockdown[lockdown$ID %in% IDs.subset,], aes(x=Time, y=pred, color=ID)) +
   geom_line()
 ```
 
-![](/lehre/klipps/hierarchische-regression-klinisch_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+![](/lehre/klipps/hierarchische-regression-klinisch_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 Eine weitere Art, sich die Streuung des Zufallseffekts grafisch zu veranschaulichen, ist ein Histogramm. Mit der Funktion `fixef` lassen sich die festen Effekte des Modells auslesen, mit `randef` die Zufallseffekte für jede Ebene-2-Einheit, hier also Personen. Die Verteilung der geschätzen individuellen Zeiteffekte $\beta_{1j}$ ergibt sich aus der Verteilung des festen Effekts plus den Ebene-2-Residuen: $\gamma_{10}+u_{1j}$. Wir sehen, dass ein großer Teil der Slopes im negativen Bereich liegt, einige jedoch auch im positiven, was einer leichten Verbesserung des Wohlbefindens mit zunehmender Zeit im Lockdown entsprechen würde.
 
@@ -470,7 +465,7 @@ hist(fixef(PWB.time.random)["Time"] + ranef(PWB.time.random)$ID$Time,
 abline(v=fixef(PWB.time.random)["Time"], col="blue") # Lage des festen Effektes kennzeichnen
 ```
 
-![](/lehre/klipps/hierarchische-regression-klinisch_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](/lehre/klipps/hierarchische-regression-klinisch_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 ## 3. Effekte des Alters als Prädiktor auf Personen-Ebene{#Alterseffekte}
 
@@ -494,7 +489,7 @@ summary(PWB.Age)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Linear mixed model fit by REML ['lmerMod']
 ## Formula: PWB ~ 1 + Age + (1 | ID)
 ##    Data: lockdown
 ## 
@@ -511,11 +506,9 @@ summary(PWB.Age)
 ## Number of obs: 2188, groups:  ID, 485
 ## 
 ## Fixed effects:
-##              Estimate Std. Error        df t value Pr(>|t|)    
-## (Intercept) 8.183e-04  4.132e-02 4.823e+02   0.020    0.984    
-## Age         1.270e-02  3.001e-03 4.815e+02   4.231 2.79e-05 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+##              Estimate Std. Error t value
+## (Intercept) 0.0008183  0.0413217   0.020
+## Age         0.0126956  0.0030009   4.231
 ## 
 ## Correlation of Fixed Effects:
 ##     (Intr)
@@ -555,8 +548,8 @@ PWB.Age.Time <- lmer(PWB ~ 1 + Age + Time + Age:Time + (1 + Time | ID), data = l
 ```
 
 ```
-## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : Model failed to
-## converge with max|grad| = 0.00644566 (tol = 0.002, component 1)
+## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : Model failed to converge with
+## max|grad| = 0.00644567 (tol = 0.002, component 1)
 ```
 
 ```r
@@ -564,7 +557,7 @@ summary(PWB.Age.Time)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Linear mixed model fit by REML ['lmerMod']
 ## Formula: PWB ~ 1 + Age + Time + Age:Time + (1 + Time | ID)
 ##    Data: lockdown
 ## 
@@ -582,13 +575,11 @@ summary(PWB.Age.Time)
 ## Number of obs: 2188, groups:  ID, 485
 ## 
 ## Fixed effects:
-##               Estimate Std. Error         df t value Pr(>|t|)    
-## (Intercept) -6.730e-03  4.145e-02  4.820e+02  -0.162    0.871    
-## Age          1.303e-02  3.010e-03  4.812e+02   4.329 1.82e-05 ***
-## Time        -3.616e-02  4.695e-03  4.099e+02  -7.702 1.02e-13 ***
-## Age:Time    -2.951e-04  3.412e-04  4.106e+02  -0.865    0.388    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+##               Estimate Std. Error t value
+## (Intercept) -0.0067297  0.0414505  -0.162
+## Age          0.0130309  0.0030103   4.329
+## Time        -0.0361607  0.0046951  -7.702
+## Age:Time    -0.0002951  0.0003412  -0.865
 ## 
 ## Correlation of Fixed Effects:
 ##          (Intr) Age    Time  
@@ -596,7 +587,7 @@ summary(PWB.Age.Time)
 ## Time      0.098 -0.011       
 ## Age:Time -0.012  0.096 -0.014
 ## optimizer (nloptwrap) convergence code: 0 (OK)
-## Model failed to converge with max|grad| = 0.00644566 (tol = 0.002, component 1)
+## Model failed to converge with max|grad| = 0.00644567 (tol = 0.002, component 1)
 ```
 
 Da wir wieder eine Warnung über Konvergenzprobleme bekommen, ändern wir wieder den Maximierungsalgorithmus:
@@ -609,7 +600,7 @@ summary(PWB.Age.Time)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Linear mixed model fit by REML ['lmerMod']
 ## Formula: PWB ~ 1 + Age + Time + Age:Time + (1 + Time | ID)
 ##    Data: lockdown
 ## Control: lmerControl(optimizer = "Nelder_Mead")
@@ -628,13 +619,11 @@ summary(PWB.Age.Time)
 ## Number of obs: 2188, groups:  ID, 485
 ## 
 ## Fixed effects:
-##               Estimate Std. Error         df t value Pr(>|t|)    
-## (Intercept) -6.730e-03  4.145e-02  4.820e+02  -0.162    0.871    
-## Age          1.303e-02  3.010e-03  4.812e+02   4.329 1.82e-05 ***
-## Time        -3.616e-02  4.695e-03  4.099e+02  -7.702 1.01e-13 ***
-## Age:Time    -2.951e-04  3.412e-04  4.107e+02  -0.865    0.388    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+##               Estimate Std. Error t value
+## (Intercept) -0.0067297  0.0414488  -0.162
+## Age          0.0130309  0.0030101   4.329
+## Time        -0.0361606  0.0046948  -7.702
+## Age:Time    -0.0002951  0.0003412  -0.865
 ## 
 ## Correlation of Fixed Effects:
 ##          (Intr) Age    Time  
@@ -652,7 +641,7 @@ Zur grafischen Veranschaulichung der Wechselwirkung kann wie bei der moderierten
 interact_plot(model = PWB.Age.Time, pred = Time, modx = Age)
 ```
 
-![](/lehre/klipps/hierarchische-regression-klinisch_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
+![](/lehre/klipps/hierarchische-regression-klinisch_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 *** 
 

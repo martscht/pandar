@@ -89,8 +89,7 @@ ggplot(lockdown[lockdown$ID %in% IDs.subset,], aes(x=Time, y=pred, color=ID)) +
 PWB.time.random <- lmer(PWB ~ 1 + Time + (1 + Time | ID), data = lockdown)
 summary(PWB.time.random)
 
-sumout <- capture.output(summary(PWB.time.random))
-cat(paste(sumout[26:27], collapse = "\n"))
+
 
 PWB.time.random <- lmer(PWB ~ 1 + Time + (1 + Time | ID), data = lockdown,
                         control = lmerControl(optimizer ="Nelder_Mead"))
