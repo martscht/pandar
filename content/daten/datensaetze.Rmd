@@ -657,7 +657,7 @@ Dieser Datensatz wurde zuvor mit einfacher Imputation ergänzt und enthält dahe
 ### Beschreibung
 Der Datensatz ist `R`-eigenen Paket `metafor` von Viechtbauer (2010) enthalten und stammt von einer Studie von López-López et al. (2019). Die Autor:innen haben die Effektivität der CBT (cognitive behavioural therapy [kognitive Verhaltenstherapie]) bei Depression untersucht und diese mit verschiedenen Kontrollbedingungen und unterschiedlichen Arten der CBT verglichen.
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/post/metaanalysen-cor/) für PsyMSc5a verwendet.
+Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/lehre/klipps/metaanalysen-mw/) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 ```{r, results="hide"}
