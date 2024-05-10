@@ -33,20 +33,16 @@ output:
     keep_md: true
 ---
 
-
-
-```{r setup, include=FALSE}
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
-
 
 
 ## Einführung
 
 Netzwerkanalyse kommt aus einem eher technischen Feld. Sie wurde dafür genutzt, Systeme darzustellen, bei denen verschiedene Einheiten miteinander verbunden sind. Beispielsweise wurden Computer als Knotenpunkte gesehen und dann über Kanten deren Verbindung (oder eben auch Nicht-Verbindung) dargestellt. Den vermutlich ersten Einzug in die Psychologie hatten Netzwerke in Gruppenanalysen. Dabei sind nun nicht mehr Computer die Knotenpunkte, sondern eben Menschen aus einer spezifischen Gruppe. Bestimmte Arten der Beziehung werden dabei durch eine Verbindung zwischen zwei Personen abgebildet.
 
-```{r, echo = F, figure = T}
+```{r, echo = F, purl = F, figure = T}
 library(qgraph)
 people <- matrix(data =
                    c(0,1,0,0,1,0,0,0,0,1,
@@ -71,7 +67,7 @@ qgraph(people,layout = "spring",color = "yellow", label.cex = c(1,1,1,1,0.9,1,1,
 
 In der neueren Literatur werden Netzwerke aber auch zur Darstellung von psychologischen Konstrukten genutzt. Beispielsweise können die einzelnen Symptome der Depression (wie in der nächsten Grafik abgebildet) die Knotenpunkte darstellen und die Kanten deren Zusammenhang. Dies hat gegenüber einem globalen Skalenwert, der die Erkankung nur als homogene Masse betrachtet, den Vorteil, dass die Dynamik zwischen verschiedenen Symptomen aufgezeigt werden kann. Vielfalt und Komplexität der psychischen Erkankungen werden deutlich. Die ursprüngliche Idee war, dass so auch zentrale Punkte identifiziert werden können, die bei einer Intervention angesteuert werden sollten. Hierüber gibt es aber aktuell eine Diskussion in der (methodischen) Literatur. Generell lässt sich aber festhalten, dass das Wissen über die Idee der Netzwerkanalyse in der modernen klinischen Forschung ein hilfreiches Tool ist. Zunächst befassen wir uns mit grundlegenden Begriffen und der Berechnung der Netzwerkstruktur.
    
-```{r,  message = F,results = "hide", fig.keep='all', warning = F, echo  = F}
+```{r,  message = F,results = "hide", fig.keep='all', warning = F, echo  = F, purl = F}
 raw_data <- readRDS(url("https://osf.io/awz3d/download"))
 names(raw_data) <- c("observe", "describe", "awaren.",
                      "nonjudg.",
@@ -90,7 +86,7 @@ Betrachten wir an dieser Stelle nochmal zwei grundlegende Begriffe der Netzwerka
 
 Kanten können sowohl **gerichtet** als auch **ungerichtet** sein, wobei gerichtete Kanten durch einen Pfeil gekennzeichnet werden, der einen einseitigen Effekt andeutet (siehe nächste Grafik). Ungerichtete Kanten hingegen haben wir bereits bei dem sozialen und psychologischen Netzwerk gesehen. Sie werden durch eine einfache Linie zwischen zwei Knoten abgebildet. Ein Netzwerk, das nur gerichtete Kanten enthält, bezeichnet man als **gerichtetes Netzwerk**. Ein Netzwerk aus ungerichteten Kanten nennt man hingegen **ungerichtetes Netzwerk**. Im Querschnitt sind keine zeitlichen Abfolgen bekannt, weshalb wir heute zunächst nur ungerichtete Netzwerke betrachten werden.
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 input <- matrix(c(
   0,1,1,1,
   0,0,1,0,
@@ -363,7 +359,7 @@ Friedman, J., Hastie, T., & Tibshirani, R. (2008). Sparse inverse covariance est
 
 ## Appendix
 
-<details><summary>Appendix A: Weitere (veraltete) Zentralitätsindizes</summary>    
+<details><summary><b>Weitere (veraltete) Zentralitätsindizes</b></summary>    
 
 Wie im Haupttext des Tutorials angesprochen, wurden auch andere Kennwerte für die Zentralität aus den technischen Netzwerken in die Psychologie übernommen. Es konnte allerdings gezeigt werden, dass die Stabilität von diesen sehr schlecht ist und auch ihre theoretische Fundierung wurde im psychologischen Kontext in Frage gestellt. Wir wollen mit diesem Abschnitt nicht ihre Nutzung empfehlen, sondern über die Hintergründe aufklären (und auch nochmal die Instabilität aufzeigen).
 
