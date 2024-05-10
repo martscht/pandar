@@ -37,6 +37,10 @@ output:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
 ```{r include=FALSE}
 library(knitr)
 library(kableExtra)
@@ -62,7 +66,7 @@ head(CBTdata)
 ```
 
 <div class = "big-maths">
-```{r,echo=FALSE}
+```{r,echo=FALSE, purl = F}
 knitr::kable(head(CBTdata))
 ```
 </div>
@@ -112,7 +116,7 @@ plot(CBTdata$PS_logit, CBTdata$PS_P)
 CBTdata <- subset(CBTdata, select = -c(BDI_pre_c, SWL_pre_c))
 ```
 
-Der Plot zeigt uns nun den Zusammenhang zwischen dem vorhergesagtem Propensity Score `PS_logit` in der Logit-Skala und dem zugehörigen Propensity Score in der in Wahrscheinlichkeiten transformierten Skala `PS_P`. Wir erkennen wieder die Ogive (S-Form), die wir bereits in der Sitzung zur logistischen Regression kennengelernt haben [(Sitzung zur logistischen Regression)](/lehre/klipps/logistische-regression).
+Der Plot zeigt uns nun den Zusammenhang zwischen dem vorhergesagtem Propensity Score `PS_logit` in der Logit-Skala und dem zugehörigen Propensity Score in der in Wahrscheinlichkeiten transformierten Skala `PS_P`. Wir erkennen wieder die Ogive (S-Form), die wir bereits in der Sitzung zur logistischen Regression kennengelernt haben [(Sitzung zur logistischen Regression)](/lehre/klipps/logistische-regression-klinische).
 
 ### Prüfung des Overlap
 
@@ -267,7 +271,7 @@ head(df.optimal)
 ```
 
 <div class = "big-maths">
-```{r echo=FALSE}
+```{r echo=FALSE, purl = F}
 kable_styling(kable(head(df.optimal)))
 ```
 </div>
@@ -280,7 +284,7 @@ df.full[df.full$subclass %in% c(5,6),]
 ```
 
 <div class = "big-maths">
-```{r echo=FALSE}
+```{r echo=FALSE, purl = F}
 kable_styling(kable(df.full[df.full$subclass %in% c(5,6),]))
 ```
 </div>
@@ -307,10 +311,10 @@ round(wtd.table(y = demo.df$subclass,
 Die mit beiden Methoden erzielte Balance der Kovariaten lassen wir uns mit `plot(summary())` anzeigen. In diesen Plots wird die absolute ("ohne Vorzeichen") standardisierte Mittelwertsdifferenz (x-Achse) zwischen den beiden Gruppen auf den Kovariaten (y-Achse) für den vollen Datensatz ("All") und den gematchten Datensatz ("Matched") dargestellt. Je näher die Punkte an der Null liegen, desto besser. Die vertikalen Linien zeigen einen Bereich an, der als erstrebenswert gilt. Hier sind die Unterschiede zwischen den Gruppen nur minimal (i.d.R. nicht signifikant).
 
 
-```{r echo=FALSE, fig.width = 5, fig.height = 5, fig.show = "hold", out.width  =  "50%"}
+```{r echo=FALSE, purl = F, fig.width = 5, fig.height = 5, fig.show = "hold", out.width  =  "50%"}
 plot(summary(m.optimal), xlim=c(-0.1,1.5), main="Optimal Pair")
 ```
-```{r echo=FALSE, fig.width = 5, fig.height = 5, fig.show = "hold", out.width  =  "50%"}
+```{r echo=FALSE, purl = F, fig.width = 5, fig.height = 5, fig.show = "hold", out.width  =  "50%"}
 plot(summary(m.full), xlim=c(-0.1,1.5), main = "Full Optimal")
 ```
 
@@ -445,7 +449,7 @@ Wir sehen, dass alle Korrekturen zu ähnlichen Ergebnissen kommen. Der Treatment
 ## Appendix A {#AppendixA} 
 
 
-<details><summary>**Kurze Grafiken**</summary>
+<details><summary><b>Kurze Grafiken</b></summary>
 
 Mit `density` kann man die Dichte (also die Häufigkeitsverteilung) einer Variable bestimmen. Diese kann man recht leicht plotten:
 
@@ -475,7 +479,7 @@ legend(legend = c("CBT", "WL"), lwd = 2,
 
 ## Appendix B {#Gewichtung}
 
-<details><summary>**Bildung der Gewichte**</summary>
+<details><summary><b>Bildung der Gewichte</b></summary>
 
 
 Die Gewichte zur Schätzung des ATT, mit denen die relativen Häufigkeiten der Kovariaten-Subklassen der Treatment-Gruppe an die Kontrollgruppe angeglichen werden, werden wie folgt gebildet:
@@ -496,7 +500,7 @@ $$\sum^S_{s=1}{w_{Cs}}=N_C$$
 
 ## Appendix C {#AppendixC}
 
-<details><summary>**Effektschätzung bei Stratifizierung per Hand**</summary>
+<details><summary><b>Effektschätzung bei Stratifizierung per Hand</b></summary>
 
 
 ```{r include=FALSE}

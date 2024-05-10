@@ -83,7 +83,7 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 
 Beim Datensatz stammt von Rubin (2020) und ist auf dem `Open Science Framework` zu finden. Er beschäftigt sich mit der Untersuchung von Variablen, die den Zusammenhang zwischen Achtsamkeit und Depression mithilfe einer Netzwerkanalyse untersuchen wollen.
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Netzwerkanalyse im Querschnitt](/post/cross-sectional-networks/) für PsyMSc5a verwendet.
+Auf `pandaR` wird der Datensatz in dem Tutorial [Netzwerkanalyse im Querschnitt](/lehre/klipps/querschnittliche-netzwerke/) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 
@@ -531,7 +531,7 @@ In dem Datensatz liegen `r sum(is.na(fairplayer))` fehlende Werte vor. Folgende 
 ### Beschreibung
 Beim Datensatz handelt es sich um ein fiktives Datenbeispiel, bei dem Patient:innen, die an einer Depression oder einer Angststörung leiden, entweder mit einer kognitiven Verhaltenstherapie (CBT) behandelt oder in einer Wartekontrollgruppe belassen wurden. Eine zufällige Zuordnung war nicht vollständig möglich, da die Zuordnung von überweisenden Hausarzt-Praxen der Patient:innen mit beeinflusst werden konnte (z.B. durch Geltendmachung einer besonderen Dringlichkeit der Therapie).
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Schätzung von Kausaleffekten 1](/post/kausal) und [Schätzung von Kausaleffekten 2](/post/kausal2) für PsyMSc5a verwendet.
+Auf `pandaR` wird der Datensatz in dem Tutorial [Schätzung von Kausaleffekten 1](/lehre/klipps/kausaleffekte1) und [Schätzung von Kausaleffekten 2](/lehre/klipps/kausaleffekte2) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 ```{r}
@@ -657,7 +657,7 @@ Dieser Datensatz wurde zuvor mit einfacher Imputation ergänzt und enthält dahe
 ### Beschreibung
 Der Datensatz ist `R`-eigenen Paket `metafor` von Viechtbauer (2010) enthalten und stammt von einer Studie von López-López et al. (2019). Die Autor:innen haben die Effektivität der CBT (cognitive behavioural therapy [kognitive Verhaltenstherapie]) bei Depression untersucht und diese mit verschiedenen Kontrollbedingungen und unterschiedlichen Arten der CBT verglichen.
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/post/metaanalysen-cor/) für PsyMSc5a verwendet.
+Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/lehre/klipps/metaanalysen-mw/) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 ```{r, results="hide"}
@@ -1034,7 +1034,7 @@ Der Datensatz stammt aus dem `R`-eigenen Paket `metafor` von Viechtbauer (2010) 
 
 Molloy, G. J., O'Carroll, R. E., & Ferguson, E. (2014). Conscientiousness and medication adherence: A meta-analysis. Annals of Behavioral Medicine, 47(1), 92–101. [https://doi.org/10.1007/s12160-013-9524-4](https://doi.org/10.1007/s12160-013-9524-4)
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/post/metaanalysen-mw/) und [Block 4](/post/msc5a-daten/#Block4) der Quizze für PsyMSc5a verwendet.
+Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/lehre/klipps/metaanalysen-cor/) und [Block 4](/post/msc5a-daten/#Block4) der Quizze für PsyMSc5a verwendet.
 
 ### Datensatz laden
 ```{r, results="hide"}
@@ -1226,7 +1226,7 @@ Der Datensatz stammt aus einer Erhebung von Epskamp et al. (2018a), welche auf d
 
 Epskamp, S., van Borkulo, C. D., van der Veen, D. C., Servaas, M., Isvoranu, A.-M., Riese, H., & Cramer, A. O. J. (2020, September 21). Personalized Network Modeling in Psychopathology: The Importance of Contemporaneous and Temporal Connections. [https://doi.org/10.17605/OSF.IO/C8WJZ](https://doi.org/10.17605/OSF.IO/C8WJZ)
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Dynamische Netzwerkanalyse](/post/dynamic-networks) für PsyMSc5a verwendet.
+Auf `pandaR` wird der Datensatz in dem Tutorial [Dynamische Netzwerkanalyse](/lehre/klipps/dynamische-netzwerke/) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 

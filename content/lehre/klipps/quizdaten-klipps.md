@@ -6,9 +6,9 @@ slug: quizdaten-klipps
 categories: [""]
 tags: ["Daten"]
 subtitle: ''
-summary: 'Auf dieser Seite finden sich alle Datensätze für die Studienleistungen in KliPPsMSc5a. Die Durchführung der Quiz findet auf der Lernplattform moodle für die Teilnehmenden des Moduls statt.'
+summary: 'Auf dieser Seite finden sich alle Datensätze für die Studienleistungen in KliPPsMSc5a. Die Quizze finden sich auf der Lernplattform moodle und sind nur für die Teilnehmenden des Moduls zugänglich.'
 authors: [nehler, irmer, hartig]
-lastmod: '2023-07-31'
+lastmod: '2024-05-10'
 featured: no 
 banner:
   image: "/header/dog_with_glasses.jpg"
@@ -78,7 +78,7 @@ Nun wollen wir noch die Inhalte des modifizierten Datensatzes beschreiben. In di
 
 ## Block 3: Hierarchische Regression {#Block3}
 
-Im `R`-Teil des Quiz arbeiten Sie mit denselben Daten, die auch in der [PandaR-Einheit zur Hierarchischen Regression](/lehre/klipps/hierarchische-regression) verwendet wurden.
+Im `R`-Teil des Quiz arbeiten Sie mit denselben Daten, die auch in der [PandaR-Einheit zur Hierarchischen Regression](/lehre/klipps/hierarchische-regression-klinisch) verwendet wurden.
 
 Rufen Sie zunächst die folgenden Pakete auf (und installieren Sie diese mit `install.packages` falls nötig).
 

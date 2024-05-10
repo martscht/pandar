@@ -8,7 +8,7 @@ subtitle: 'Propensity Scores'
 summary: 'Dieser Beitrag behandelt erneut die Abschätzung von Kauseffekten anhand eines Datensatzes mit Patient:innen, die entweder sofort ein Treatment erhielten oder in der Wartekontrollgruppe verblieben. Zuerst wird ein sogenannter Propensity Score für beide Gruppen geschätzt, der die Treatment-Wahrscheinlichkeit vorhersagt. Fälle, die außerhalb des Überlappungsbereichs beider Gruppen (common support region) liegen, werden ausgeschlossen. Anschließend kann der Propensity Score als Kontrollvariable verwendet werden, um eine Schätzung des Treatmenteffekts vorzunehmen. Im Weiteren werden das Optimal Pair Matching, das Full Optimal Matching sowie die Stratifizierung gezeigt. Es erfolgt erneut eine Effektschätzung unter Verwendung der entsprechenden Datensätze.'
 authors: [hartig]
 weight: 10
-lastmod: '2024-01-03'
+lastmod: '2024-05-08'
 featured: no
 banner:
      image: "/header/dusk_or_dawn.jpg"
@@ -36,6 +36,8 @@ output:
   html_document:
     keep_md: true
 ---
+
+
 
 
 
@@ -236,7 +238,7 @@ plot(CBTdata$PS_logit, CBTdata$PS_P)
 
 
 
-Der Plot zeigt uns nun den Zusammenhang zwischen dem vorhergesagtem Propensity Score `PS_logit` in der Logit-Skala und dem zugehörigen Propensity Score in der in Wahrscheinlichkeiten transformierten Skala `PS_P`. Wir erkennen wieder die Ogive (S-Form), die wir bereits in der Sitzung zur logistischen Regression kennengelernt haben [(Sitzung zur logistischen Regression)](/lehre/klipps/logistische-regression).
+Der Plot zeigt uns nun den Zusammenhang zwischen dem vorhergesagtem Propensity Score `PS_logit` in der Logit-Skala und dem zugehörigen Propensity Score in der in Wahrscheinlichkeiten transformierten Skala `PS_P`. Wir erkennen wieder die Ogive (S-Form), die wir bereits in der Sitzung zur logistischen Regression kennengelernt haben [(Sitzung zur logistischen Regression)](/lehre/klipps/logistische-regression-klinische).
 
 ### Prüfung des Overlap
 
@@ -983,7 +985,7 @@ Wir sehen, dass alle Korrekturen zu ähnlichen Ergebnissen kommen. Der Treatment
 ## Appendix A {#AppendixA} 
 
 
-<details><summary>**Kurze Grafiken**</summary>
+<details><summary><b>Kurze Grafiken</b></summary>
 
 Mit `density` kann man die Dichte (also die Häufigkeitsverteilung) einer Variable bestimmen. Diese kann man recht leicht plotten:
 
@@ -1018,7 +1020,7 @@ legend(legend = c("CBT", "WL"), lwd = 2,
 
 ## Appendix B {#Gewichtung}
 
-<details><summary>**Bildung der Gewichte**</summary>
+<details><summary><b>Bildung der Gewichte</b></summary>
 
 
 Die Gewichte zur Schätzung des ATT, mit denen die relativen Häufigkeiten der Kovariaten-Subklassen der Treatment-Gruppe an die Kontrollgruppe angeglichen werden, werden wie folgt gebildet:
@@ -1039,7 +1041,7 @@ $$\sum^S_{s=1}{w_{Cs}}=N_C$$
 
 ## Appendix C {#AppendixC}
 
-<details><summary>**Effektschätzung bei Stratifizierung per Hand**</summary>
+<details><summary><b>Effektschätzung bei Stratifizierung per Hand</b></summary>
 
 
 

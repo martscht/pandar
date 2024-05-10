@@ -38,11 +38,9 @@ output:
 ---
 
 
-```{r setup, include=FALSE}
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
-
 
 
 ## Einführung
@@ -63,7 +61,7 @@ head(dat.molloy2014)
 ```
 
 <div class="big-maths">
-```{r, echo = F}
+```{r, echo = F, purl = F}
 knitr::kable(head(dat.molloy2014))
 ```
 </div>
@@ -112,7 +110,7 @@ Das {{< math >}}$80\%${{< /math >}}-CRI erstreckt sich also von `r quantile(dat.
 
 Wir wollen uns außerdem die Unterschiedlichkeit der Korrelationskoeffizienten als Darstellung der verschiedenen Einfach-Regressionen von Gewissenhaftigkeit und Medikamenteneinnahme ansehen. Hierzu plotten wir quasi eine standardisierte Regressionsgerade ($\beta_0=0$ und $\beta_1=r_i$, wobei $r_i:=$ Korrelationskoeffizient von Studie $i$) pro Studie. Um den zugrundeliegenden Code anzusehen, können Sie [Appendix A](#AppendixA) nachschlagen.
 
-```{r,echo=FALSE, fig.height=6, fig.align="center"}
+```{r,echo=FALSE, purl = F, fig.height=6, fig.align="center"}
 plot(NA, xlim = c(-1,1), ylim = c(-1,1), xlab = "Gewissenhaftigkeit", ylab = "Medikamenteneinnahme",
      main = "Empirische Korrelationen zwischen\n Medikamenteneinnahme und Gewissenhaftigkeit")
 for(i in 1:length(dat.molloy2014$ri))
@@ -233,7 +231,7 @@ Wir sehen, dass der mittlere $z$-Wert sich kaum vom mittleren Korrelationskoeffi
 ### Finales Ergebnis des Random Effects Modells
 Schauen wir uns die Ergebnisse nun grafisch an:
 
-```{r, fig.align="center", fig.height=6, echo = F}
+```{r, fig.align="center", fig.height=6, echo = F, purl = F}
 plot(NA, xlim = c(-1,1), ylim = c(-1,1), xlab = "Gewissenhaftigkeit", ylab = "Medikamenteneinnahme",
      main = "Empirische Korrelationen zwischen\n Medikamenteneinnahme und Gewissenhaftigkeit")
 for(i in 1:length(dat.molloy2014$ri))
@@ -289,7 +287,7 @@ Die psychometrische Metaanalyse von Irmer, Kern, Schermelleh-Engel, Semmer und Z
 
 
 ## Appendix A {#AppendixA}
-<details><summary> **Codes** </summary>
+<details><summary><b>Codes</b></summary>
 
 In diesem Appendix finden Sie die Codes, die zum Erstellen der Grafiken verwendet wurden.
 
@@ -322,7 +320,7 @@ legend(x = "bottomright", col = c("black", "blue", "gold3", "grey60"), pch = NA,
 </details>
 
 ## Appendix B {#AppendixB}
-<details><summary> **Analyse Plots** </summary>
+<details><summary><b>Analyse Plots</b></summary>
 
 In diesem Appendix finden Sie Analyse-Plots, die in der vergangenen Sitzung bereits besprochen wurden.
 

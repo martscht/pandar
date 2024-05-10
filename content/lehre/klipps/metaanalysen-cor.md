@@ -8,7 +8,7 @@ subtitle: 'Mittlere Korrelationen'
 summary: 'In diesem Beitrag wird untersucht, wie Korrelationen metaanalytisch zusammengefasst werden können. Beispielhaft wird vorgeführt, wie untersucht werden kann, ob ein Zusammenhang zwischen zwei Variablen besteht. Zur Veranschaulichung der Unterschiedlichkeit der Korrelationskoeffizienten aus den verschiedenen Studien werden Regressionen betrachet. Um eine durchschnittliche Regressionsgerade zu bestimmen, werden alle Korrelationskoeffizienten in z-Werte transfomiert und unterschiedlich stark gewichtet. Dann wird das Random Effects Modell genauer betrachtet und darauf hingewiesen, dass der hier vorhergesagte z-Wert erst wieder in eine Korrelation retransformiert werden muss. Zuletzt wird gezeigt, wie Korrelationen mittels der Minderungskorrektur um deren Reliabilität korrigiert werden.'
 authors: [irmer]
 weight: 8
-lastmod: '2024-01-03'
+lastmod: '2024-05-08'
 featured: no
 banner:
   image: "/header/meds_and_ampules.jpg"
@@ -36,7 +36,6 @@ output:
   html_document:
     keep_md: true
 ---
-
 
 
 
@@ -282,16 +281,17 @@ names(REM)
 ```
 
 ```
-##  [1] "b"            "beta"         "se"           "zval"         "pval"         "ci.lb"        "ci.ub"        "vb"          
-##  [9] "tau2"         "se.tau2"      "tau2.fix"     "tau2.f"       "I2"           "H2"           "R2"           "vt"          
-## [17] "QE"           "QEp"          "QM"           "QMdf"         "QMp"          "k"            "k.f"          "k.eff"       
-## [25] "k.all"        "p"            "p.eff"        "parms"        "int.only"     "int.incl"     "intercept"    "allvipos"    
-## [33] "coef.na"      "yi"           "vi"           "X"            "weights"      "yi.f"         "vi.f"         "X.f"         
-## [41] "weights.f"    "M"            "outdat.f"     "ni"           "ni.f"         "ids"          "not.na"       "subset"      
-## [49] "slab"         "slab.null"    "measure"      "method"       "model"        "weighted"     "test"         "dfs"         
-## [57] "ddf"          "s2w"          "btt"          "m"            "digits"       "level"        "control"      "verbose"     
-## [65] "add"          "to"           "drop00"       "fit.stats"    "data"         "formula.yi"   "formula.mods" "version"     
-## [73] "call"         "time"
+##  [1] "b"            "beta"         "se"           "zval"         "pval"         "ci.lb"        "ci.ub"       
+##  [8] "vb"           "tau2"         "se.tau2"      "tau2.fix"     "tau2.f"       "I2"           "H2"          
+## [15] "R2"           "vt"           "QE"           "QEp"          "QM"           "QMdf"         "QMp"         
+## [22] "k"            "k.f"          "k.eff"        "k.all"        "p"            "p.eff"        "parms"       
+## [29] "int.only"     "int.incl"     "intercept"    "allvipos"     "coef.na"      "yi"           "vi"          
+## [36] "X"            "weights"      "yi.f"         "vi.f"         "X.f"          "weights.f"    "M"           
+## [43] "outdat.f"     "ni"           "ni.f"         "ids"          "not.na"       "subset"       "slab"        
+## [50] "slab.null"    "measure"      "method"       "model"        "weighted"     "test"         "dfs"         
+## [57] "ddf"          "s2w"          "btt"          "m"            "digits"       "level"        "control"     
+## [64] "verbose"      "add"          "to"           "drop00"       "fit.stats"    "data"         "formula.yi"  
+## [71] "formula.mods" "version"      "call"         "time"
 ```
 
 Beispielsweise können wir dem Objekt so auch die mittlere Schätzung (`$b`) oder $\tau^2$ (`$tau2`) entlocken.
@@ -338,8 +338,8 @@ names(pred_REM)
 ```
 
 ```
-##  [1] "pred"      "se"        "ci.lb"     "ci.ub"     "pi.lb"     "pi.ub"     "cr.lb"     "cr.ub"     "slab"      "digits"   
-## [11] "method"    "transf"    "pred.type"
+##  [1] "pred"      "se"        "ci.lb"     "ci.ub"     "pi.lb"     "pi.ub"     "cr.lb"     "cr.ub"     "slab"     
+## [10] "digits"    "method"    "transf"    "pred.type"
 ```
 
 ```r
@@ -415,7 +415,7 @@ Die psychometrische Metaanalyse von Irmer, Kern, Schermelleh-Engel, Semmer und Z
 
 
 ## Appendix A {#AppendixA}
-<details><summary> **Codes** </summary>
+<details><summary><b>Codes</b></summary>
 
 In diesem Appendix finden Sie die Codes, die zum Erstellen der Grafiken verwendet wurden.
 
@@ -454,7 +454,7 @@ legend(x = "bottomright", col = c("black", "blue", "gold3", "grey60"), pch = NA,
 </details>
 
 ## Appendix B {#AppendixB}
-<details><summary> **Analyse Plots** </summary>
+<details><summary><b>Analyse Plots</b></summary>
 
 In diesem Appendix finden Sie Analyse-Plots, die in der vergangenen Sitzung bereits besprochen wurden.
 
@@ -510,7 +510,7 @@ Die Funktion bestimmt selbst, auf welcher Seite mögliche fehlende (nicht publiz
 funnel(trimfill(REM, estimator = "R0"))
 ```
 
-<img src="/lehre/klipps/metaanalysen-cor_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+![](/lehre/klipps/metaanalysen-cor_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 Wir gehen somit insgesamt davon aus, dass kein Publication Bias vorliegt und verwerfen die eben betrachteten Trim-and-Fill-Ergebnisse.
 

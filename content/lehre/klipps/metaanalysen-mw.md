@@ -8,7 +8,7 @@ subtitle: 'Mittelwertsunterschiede'
 summary: 'In diesem Beitrag geht es um die Durchführung einer Metaanalyse im Kontext von Mittelwertsunterschieden. Zunächst wird das Fixed-Effects-Modell erläutert, das besagt, dass Effektstärken zufällig um einen wahren Wert streuen. Anschließend wird das Random-Effects-Modell eingeführt, dass zusätzlich eine Variable einschließt, die die Heterogenität zwischen den Studien beschreibt. Darüber hinaus wird das Moderatormodell präsentiert, dass zur Anwendung kommt, wenn erhebliche Heterogenität in den Daten vorliegt. Zusätzlich werden einige Anaylse-Plots zur grafischen Veranschaulichung der Streuung der Effektstärken vorgestellt.'
 authors: [irmer]
 weight: 7
-lastmod: '2023-08-30'
+lastmod: '2024-05-08'
 featured: no
 banner:
   image: "/header/model_planets_and_aliens.jpg"
@@ -32,8 +32,6 @@ output:
   html_document:
     keep_md: true
 ---
-
-
 
 
 
@@ -394,7 +392,7 @@ power
 ## [1] 1
 ```
 
-`ncp` ist der Non-centrality-parameter der $\chi^2$-Verteilung. Er beschreibt im Grunde die $\chi^2$-Verteilung unter einer spezifischen Alternativ-Hypothese. In diesem Beispiel liegt die Power bei 1 (also bei $100\%$). Das ist wenig verwunderlich, da viele Studien eingegangen sind und der Q-Wert sehr groß ausfällt. Die Power sollte bei mindestens $0.8$, also ($80\%$) liegen (bei mehr Interesse an Power-Analysen, finden sich in der Sitzung zu [Simulation und Poweranalysen](/lehre/statistik-i/simulation) aus dem Bachelor weitere Informationen, die mit dem folgenden allerdings nichts zu tun haben).
+`ncp` ist der Non-centrality-parameter der $\chi^2$-Verteilung. Er beschreibt im Grunde die $\chi^2$-Verteilung unter einer spezifischen Alternativ-Hypothese. In diesem Beispiel liegt die Power bei 1 (also bei $100\%$). Das ist wenig verwunderlich, da viele Studien eingegangen sind und der Q-Wert sehr groß ausfällt. Die Power sollte bei mindestens $0.8$, also ($80\%$) liegen (bei mehr Interesse an Power-Analysen, finden sich in der Sitzung zu [Simulation und Poweranalysen](/lehre/statistik-i/simulation-poweranalyse) aus dem Bachelor weitere Informationen, die mit dem folgenden allerdings nichts zu tun haben).
 
 ## Analyse Plots
 Das `metafor`-Paket bietet außerdem noch einige grafische Veranschaulichungen der Daten. Beispielsweise lässt sich ganz leicht ein Funnel-Plot erstellen mit der `funnel`-Funktion, welche lediglich unser Metaanalyse-Objekt `REM` entgegen nehmen muss. 
@@ -465,7 +463,7 @@ Der weitere Output hat sich deutlich verändert. Der mittlere Effekt ist etwas w
 funnel(trimfill(REM, estimator = "R0"))
 ```
 
-<img src="/lehre/klipps/metaanalysen-mw_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+![](/lehre/klipps/metaanalysen-mw_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
 
 Wir sehen, dass die 6 Studien ziemlich weit auf der rechten Seite eingefügt wurden, was auch erklärt, warum sich die mittleren Effekte unterscheiden. Der geschätzte Effekt mittels Trim-and-Fill ist kleiner geworden! Wir gehen somit insgesamt davon aus, dass kein Publication Bias vorliegt und verwerfen die eben betrachteten Trim-and-Fill-Ergebnisse. Es könnte nun mit diesem Modell weitergerechnet werden. Wir verbleiben aber beim nicht befüllten Modell.
 

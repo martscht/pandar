@@ -1,11 +1,8 @@
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-
 library(metafor)
 
 head(dat.molloy2014)
 
-knitr::kable(head(dat.molloy2014))
+
 
 summary(dat.molloy2014$ri)
 
@@ -15,12 +12,7 @@ boxplot_cors <- boxplot(dat.molloy2014$ri)
 
 quantile(dat.molloy2014$ri, probs = c(0.1, 0.9))
 
-plot(NA, xlim = c(-1,1), ylim = c(-1,1), xlab = "Gewissenhaftigkeit", ylab = "Medikamenteneinnahme",
-     main = "Empirische Korrelationen zwischen\n Medikamenteneinnahme und Gewissenhaftigkeit")
-for(i in 1:length(dat.molloy2014$ri))
-{
-     abline(a = 0, b = dat.molloy2014$ri[i], col = "grey80")
-}
+
 
 data_transformed <- escalc(measure="ZCOR", ri=ri, ni=ni,
                            data=dat.molloy2014, 
@@ -53,19 +45,7 @@ pred_REM <- predict(REM, transf=transf.ztor)
 names(pred_REM)
 pred_REM$pred # retransformierter gepoolter Korrelationskoeffizient
 
-plot(NA, xlim = c(-1,1), ylim = c(-1,1), xlab = "Gewissenhaftigkeit", ylab = "Medikamenteneinnahme",
-     main = "Empirische Korrelationen zwischen\n Medikamenteneinnahme und Gewissenhaftigkeit")
-for(i in 1:length(dat.molloy2014$ri))
-{
-     abline(a = 0, b = dat.molloy2014$ri[i], col = "grey80")
-}
-abline(a = 0, b = pred_REM$ci.lb, col = "blue", lwd = 5)
-abline(a = 0, b = pred_REM$ci.ub, col = "blue", lwd = 5)
-abline(a = 0, b = pred_REM$cr.lb, col = "gold3", lwd = 5)
-abline(a = 0, b = pred_REM$cr.ub, col = "gold3", lwd = 5)
-abline(a = 0, b = pred_REM$pred, col = "black", lwd = 5)
-legend(x = "bottomright", col = c("black", "blue", "gold3", "grey60"), pch = NA, lwd = c(5,5,5,2),
-       legend = c("Mittlere Korr.", "95% KI-Korr.", "Credibility Interval", "Emp. Korr."))
+
 
 df <- data.frame(r = c(0.3, 0.3, 0.5, 0.4), 
                  RelX = c(0.6, 0.8, 1, 1), 

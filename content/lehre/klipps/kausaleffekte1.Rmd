@@ -33,6 +33,10 @@ output:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
 ### Inhalte
 
 * [Einleitung und Datenbeispiel](#Einleitung)
@@ -62,7 +66,7 @@ head(CBTdata)
 ```
 
 <div class = "big-maths">
-```{r, echo = F}
+```{r, echo = F, purl = F}
 knitr::kable(head(CBTdata))
 ```
 </div>
@@ -119,7 +123,7 @@ Der `table`-Befehl erzeugt hierbei die jeweiligen Vierfeldertafeln. Mit `prop.ta
 
 ## Prima-Facie-Effekt{#PFE}
 
-Ungeachtet der fraglichen Vergleichbarkeit schauen wir uns den augenscheinlichen Effekt der Therapie auf depressive Symptome an, grafisch als Boxplot und inferenzstatistisch mittels t-Test/Regressionsanalyse (das war ja beides das Gleiche! - siehe [ANOVA vs. Regression](/lehre/klipps/anova-vs-regression)).
+Ungeachtet der fraglichen Vergleichbarkeit schauen wir uns den augenscheinlichen Effekt der Therapie auf depressive Symptome an, grafisch als Boxplot und inferenzstatistisch mittels t-Test/Regressionsanalyse (das war ja beides das Gleiche! - siehe [ANOVA vs. Regression](/lehre/klipps/anova-regression)).
 
 ```{r}
 boxplot(CBTdata$BDI_post ~ CBTdata$Treatment)
@@ -201,13 +205,13 @@ effectLite(y="BDI_post", x="Treatment", z=c("BDI_pre_c", "SWL_pre_c"), k=c("Diso
 
 Unter
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('## --------------------- Variables  ---------------------')
 ```
 
 finden wir eine Zusammenfassung der Variablen, die wir als Input verwendet haben. Hier werden die  kategorialen Variablen hinsichtlich ihrer Kodierung aufgedröselt. Bspw. bedeutet
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('## Levels of Treatment Variable X 
 ##    X   Treatment (original)   Indicator
 ##    0                     WL       I_X=0
@@ -216,7 +220,7 @@ cat('## Levels of Treatment Variable X
 
 dass die Gruppierungsvariable (of interest) mit X betitelt wird und aus den Ausprägungen des Treatments besteht. Dabei ist `X=0` die Wartelistenkontrolle (WL) und `X=1` die Treatmentgruppe (CBT). Dahinter wird noch der Indikator `I_X` definiert, der entsprechend die Werte 0 und 1 annimmt. Unter `## Levels of Unfolded Categorical Covariate K` steht Gleiches nochmals für die kategoriale Kovariate `Disorder`. Eine Übersicht über die Kombination der Gruppen steht in 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('## Cells 
 ##     Treatment (original)   K   Cell
 ## 1                     WL   0     00
@@ -227,19 +231,19 @@ cat('## Cells
 
 Es handelt sich also um ein vollgekreuztes Design (alle Zellen sind vorhanden). Unter
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('##  --------------------- Regression Model --------------------- ')
 ```
 
 wird dann das Regressionsmodell definiert. Dabei wird das Modell mit Hilfe der bedingten Erwartungswert-Schreibweise dargestellt. 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('##  E(Y|X,K,Z) = g0(K,Z) + g1(K,Z)*I_X=1 ')
 ```
 
 bedeutet dabei nichts anderes, als dass der Mittelwert von `Y` auf `X` (UV), `K` und `Z` (kategoriale und kontinuierliche Kovariaten) bedingt wird. Bedingter Mittelwert heißt wiederum nur, dass eine Art Regression durchgeführt wird. Dahinter sehen wir die Schreibweise, die wir auch aus den Folien kennen. `g0` ist hierbei die Interzeptfunktion, die von `K` und `Z` abhängt. `g1` ist die Slopefunktion, die von `K` und `Z` abhängt und den Effekt des `Treatments` darstellt.  
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('##   g0(K,Z) = g000 + g001 * Z1 + g002 * Z2 + g010 * I_K=1 + g011 * I_K=1 * Z1 + 
 ##             + g012 * I_K=1 * Z2
 ##   g1(K,Z) = g100 + g101 * Z1 + g102 * Z2 + g110 * I_K=1 + g111 * I_K=1 * Z1 + 
@@ -250,7 +254,7 @@ beschreibt explizit die Regressionsdarstellung der Interzeptfunktion (Hautpeffek
 
 Unter 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('## --------------------- Cell Counts  ---------------------')
 ```
 
@@ -258,13 +262,13 @@ finden wir eine Übersicht über die Häufigkeitsverteilung innerhalb der versch
 
 Unter 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('## --------------------- Main Hypotheses ---------------------')
 ```
 
 finden wir endlich die Schätzung mit zugehöriger Signifikanzentscheidung unserer Haupthypothesen. 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('## H0: No average effects: E[g1(K,Z)] = 0
 ## H0: No covariate effects in control group: g0(K,Z) = constant
 ## H0: No treatment*covariate interaction: g1(K,Z) = constant
@@ -273,13 +277,13 @@ cat('## H0: No average effects: E[g1(K,Z)] = 0
 
 beschreibt nochmals die Hypothesen, die getestet werden sollen. Die erste Hypothese bezieht sich auf den ATE (Average Treatment Effect). Wir erkennen die $H_0$ als `E[g1(K,Z)] = 0`. Der ATE ist also der Durchschnitt der Slopefunktion `g1(K,Z)`. Die zweite Hypothese behandelt, ob die Kovariaten Mittelwertsunterschiede bewirken. Die dritte Hypothese untersucht, ob die Kovariaten den Effekt des Treatments beeinflussen. Die letzte Hypothese testet alle Parameter innerhalb der Slopefunktion `g1(K,Z)` gemeinsam. Sie wird signifikant, wenn es einen Haupteffekt oder einen Interaktionseffekt (oder beides) mit dem `Treatment` gibt. Der Output ist ein normaler ANOVA/ANCOVA-Output. Uns werden $F$-Werte angezeigt. Hypothese 1,2, und 4 werden durch die Daten gestützt. Die Hypothese, dass sich das `Treatment` je nach Ausprägung der Kovariaten unterschiedlich ausgewirkt hat, wird durch die Daten nicht gestützt. Unter 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('##  --------------------- Adjusted Means ---------------------')
 ```
 
 finden wir die adjustierten Mittelwerte, mit welchen dann der ATE bestimmt wird. Dieser ist unter 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('##  --------------------- Average Effects ---------------------')
 ```
 
@@ -288,20 +292,20 @@ zu finden und beträgt `r round(BDI.EL@results@Egx[1],2)`. Der Wert liegt nicht 
 
 In den folgenden Blöcken werden jeweils bedingte Effekte dargestellt. Es beginnt mit dem ATT, dahinter folgen ATEs bedingt auf die kategorialen Prädiktoren (`K`) sowie eine Kombination aus beiden.
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('##  --------------------- Effects given a Treatment Condition ---------------------')
 ```
 
 beschreibt die ATT (Average Treatment of the Treated) Effekte (also Effekte bedingt auf die `Treatment`-Bedingungen). `E[g1(K,Z)|X=0]` beschreibt den $ATT^0$ und `E[g1(K,Z)|X=1]` den $ATT^1$ Effekt (`r paste("ATT", 0:1, " = ", round(BDI.EL@results@Egxgx[,1], 2), collapse = " und ", sep = "")`). Beide sind statistisch bedeutsam. Auch hier werden Effektstärken angegeben. Die Effektstärke in der `Treatment`-Gruppe ist etwas höher als die der Wartekontrollgruppe (`r paste(round(BDI.EL@results@Egxgx[,5], 2), collapse = " vs. ")`). 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('##  --------------------- Effects given K=k ---------------------')
 ```
 
 beschreibt die bedingten Effekte bedingt auf `Disorder`. Hier wird also im Grunde der Haupteffekt der `Disorder` untersucht. `E[g1(K,Z)|K=0]` beschreibt hierbei den $ATE|$`ANX` und `E[g1(K,Z)|K=1]` den $ATE|$`DEP`. Patient:innen mit Angstsymptomatik zeigten also eine deskriptiv größere Verbesserung durch das `Treatment`.
 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('##  --------------------- Effects given X=x, K=k ---------------------')
 ```
 
@@ -309,7 +313,7 @@ Zeigt uns die $ATT$s in den unterschiedlichen Gruppen. `E[g1(K,Z)|X=0, K=0]` bes
 
 Zum Schluss wird noch der bedingte ATE auf Signifikanz mittels ANOVA geprüft
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat('## --------------------- Hypotheses given K=k ---------------------')
 ```
 

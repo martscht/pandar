@@ -37,6 +37,9 @@ output:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
 
 #### Pakete laden
 ```{r, message=FALSE, warning = FALSE}
@@ -257,7 +260,7 @@ summary(PWB.time.random)
 
 Nun sind wir in eine etwas ungünstige Lage gekommen. Wir bekommen nämlich eine Warning ausgegeben, die wir nicht ignorieren sollten. Diese wird beim Schätzen ausgegeben und steht auch in der Summary ganz unten: 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 sumout <- capture.output(summary(PWB.time.random))
 cat(paste(sumout[26:27], collapse = "\n"))
 ```

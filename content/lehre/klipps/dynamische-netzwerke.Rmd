@@ -37,14 +37,9 @@ output:
     keep_md: true
 ---
 
-
-
-```{r setup, include=FALSE}
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
-
-
 
 ## Einführung
 
@@ -90,7 +85,7 @@ Das in diesem Tutorial beschriebene Modell zur Repräsentation personenbezogener
 
 Den ersten Teil der Modellierung stellt ein sogenanntes Vektorautoregressives Modell dar, in welchem die Daten eines Messzeitpunkts auf die Daten eines vorherigen Messzeitpunktes regressiert werden. Dieser Teil der Modellierung wird deshalb auch als **temporal** bezeichnet. Die Ausprägung auf einer Variable hängt dabei von vergangenen Ausprägungen dieser Variable und aller anderen Variablen im Modell ab, wobei der sogenannte **lag** ausdrückt, wie viele Messzeitpunkt man in die Vergangenheit schaut. Ein Lag 1 würde also etwa bedeuten, dass man den vorherigen Messzeitpunkt zur Modellierung verwendet. Dies stellt auch das aktuelle Standardvorgehen in der Psychologie dar, wobei auch größere Lags modelliert werden könnten. Wenn wir lediglich einen Lag 1 modellieren, gehen wir davon aus, dass sich alle Zusammenhänge zwischen den Variablen in diesem Zeitraum abspielen, bzw. andere Zusammenhänge stets durch dieses Zusammenspiel erklärt werden können. Andere (größere) Zeiträume werden also in der Modellierung in der Psychologie meist außer Acht gelassen. Der Bezug einer Variable auf sich selbst vom letzten Messzeitpunkt wird auch **auto-regressiv** genannt. Dadurch entstehen in der optischen Repräsentation des Netzwerks **self-loops**. Doch auch die anderen Variablen vom vorherigen Messzeitpunkt werden im Modell verwendet, woher auch der Name **vektor**autoregressiv stammt, da statt einer Variable ein ganzer Vektor von Variablen verwendet wird, um zeitliche Zusammenhänge zu modellieren. Der Zusammenhang einer Variable mit einer anderen wird als **cross-lagged** bezeichnet. Dadurch, dass alle Variablen wie in einer normalen multiplen Regression simultan in die Schätzung aufgenommen werden, repräsentiert ein gefundenes Gewicht zwischen zwei Knoten einen Einfluss, der über den Einfluss aller anderen Knoten hinaus existiert.
 
-```{r, echo = F, results = 'hide', fig.keep='all', warning = FALSE, message = F}
+```{r, echo = F, purl = F, results = 'hide', fig.keep='all', warning = FALSE, message = F}
 library(qgraph)
 library(bootnet)
 rel_vars <- c("relaxed","sad","nervous","concentration","tired","rumination","bodily.discomfort")
@@ -109,7 +104,7 @@ qgraph::qgraph(net_temp)
 
 Diese Methode, zeitliche Zusammenhänge zwischen Variablen darzustellen, existiert schon sehr lange. Es lässt sich jedoch feststellen, dass (wie in jedem statistischen Modell) Residuen bei dieser Modellierung zurückbleiben, die noch weitere Informationen liefern können (Epskamp et al., 2018a). Eine potentiell sehr wichtige Information fehlt uns nämlich noch: Wie hängen die Variablen an einem bestimmten Messzeitpunkt gleichzeitig zusammen? Da zu jedem einzelnen Zeitpunkt Residuen auf jeder Variable existent bleiben, können diese zur Bestimmung von Partialkorrelationen verwendet werden. Diese zeigen an, wie stark die Ausprägung von zwei Knoten zu einem gleichzeitigen Messzeitpunkt zusammenhängt. Dieser Teil der Modellierung wird auch als **contemporaneous** (also gleichzeitiges Netzwerk) bezeichnet. Die Idee der Modellierung sollte uns durch das Tutorial zu den querschnittlichen Netzwerken sehr bekannt vorkommen. Die Logik und Berechnung ist dabei auch sehr ähnlich, jedoch wird in dem vorliegenden Fall nur auf Grundlage der Residuen die Struktur des Netzwerks bestimmt, wodurch für den Einfluss des Messzeitpunkts davor kontrolliert werden kann. Eine Trennung von Effekten über Zeitfenster hinweg und innerhalb eines Zeitfensters wird damit ermöglicht.
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 net_cont <- qgraph::wi2net(res$results$allResults[[19]]$kappa)
 
 qgraph::qgraph(net_cont)
