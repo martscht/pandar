@@ -1,6 +1,3 @@
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-
 data <- read.csv(url("https://osf.io/g6ya4/download"))
 
 names(data)
@@ -10,24 +7,9 @@ data$time
 data$time <- as.POSIXct(data$time, tz = "Europe/Amsterdam")
 data$time[1:8]
 
-library(qgraph)
-library(bootnet)
-rel_vars <- c("relaxed","sad","nervous","concentration","tired","rumination","bodily.discomfort")
-data$date <- as.Date(data$time, tz = "Europe/Amsterdam")
-res <- bootnet::estimateNetwork(data = data,
-                                default = "graphicalVAR",   # verwendetes Package
-                                vars = rel_vars,            # Variablennamen
-                                dayvar = "date",             # Tagesvariable
-                                tuning = 0,                 # EBIC Tuningparameter
-                                nLambda  = 25)              # Anzahl getesteter LASSO Tuningparameter (hier niedrig um Zeit zu sparen, default ist 100)
 
-net_temp <- graphicalVAR:::computePDC(res$results$allResults[[400]]$beta, res$results$allResults[[400]]$kappa)
 
-qgraph::qgraph(net_temp)
 
-net_cont <- qgraph::wi2net(res$results$allResults[[19]]$kappa)
-
-qgraph::qgraph(net_cont)
 
 lm_tired <- lm(tired ~ time, data = data)
 

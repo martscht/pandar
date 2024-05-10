@@ -8,7 +8,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um Netzwerke mit Zeitverlaufsmessung, genauer gesagt, um sogenannte idiographische Netzwerke, die sich auf einzelne Personen beziehen. Das hier beschriebene Modell zur Repräsentation personenbezogener Längsschnittdaten setzt sich aus zwei Bestandteilen zusammen, die als temporal und contemporaneous bezeichnet werden. Die Modellschätzung und Visualisierung in R werden vorgeführt. Zuletzt werden Problematiken der Modellschätzung, aber auch praktische Anwendungen solcher Modelle besprochen.'
 authors: [siepe, nehler]
 weight: 12
-lastmod: '2024-01-03'
+lastmod: '2024-05-10'
 featured: no
 banner:
   image: "/header/wooden_bridge.jpg"
@@ -36,10 +36,6 @@ output:
   html_document:
     keep_md: true
 ---
-
-
-
-
 
 
 
@@ -72,8 +68,8 @@ names(data)
 ```
 
 ```
-## [1] "relaxed"           "sad"               "nervous"           "concentration"     "tired"             "rumination"       
-## [7] "bodily.discomfort" "time"
+## [1] "relaxed"           "sad"               "nervous"           "concentration"     "tired"            
+## [6] "rumination"        "bodily.discomfort" "time"
 ```
 Die eingeladenen Daten befassen sich mit einer einzelnen Person. Dabei handelt es sich laut der Autor:innen um eine Person, die sich nach einer Major Depression-Diagnose schon in der Behandlung befand. Die Fragen wurden von der teilnehmenden Person 5 Mal am Tag über 14 Tage hinweg ausgefüllt. Dies wird uns auch angezeigt, wenn wir uns die Spalte `time` ausgeben lassen.
 
@@ -118,11 +114,11 @@ Das in diesem Tutorial beschriebene Modell zur Repräsentation personenbezogener
 
 Den ersten Teil der Modellierung stellt ein sogenanntes Vektorautoregressives Modell dar, in welchem die Daten eines Messzeitpunkts auf die Daten eines vorherigen Messzeitpunktes regressiert werden. Dieser Teil der Modellierung wird deshalb auch als **temporal** bezeichnet. Die Ausprägung auf einer Variable hängt dabei von vergangenen Ausprägungen dieser Variable und aller anderen Variablen im Modell ab, wobei der sogenannte **lag** ausdrückt, wie viele Messzeitpunkt man in die Vergangenheit schaut. Ein Lag 1 würde also etwa bedeuten, dass man den vorherigen Messzeitpunkt zur Modellierung verwendet. Dies stellt auch das aktuelle Standardvorgehen in der Psychologie dar, wobei auch größere Lags modelliert werden könnten. Wenn wir lediglich einen Lag 1 modellieren, gehen wir davon aus, dass sich alle Zusammenhänge zwischen den Variablen in diesem Zeitraum abspielen, bzw. andere Zusammenhänge stets durch dieses Zusammenspiel erklärt werden können. Andere (größere) Zeiträume werden also in der Modellierung in der Psychologie meist außer Acht gelassen. Der Bezug einer Variable auf sich selbst vom letzten Messzeitpunkt wird auch **auto-regressiv** genannt. Dadurch entstehen in der optischen Repräsentation des Netzwerks **self-loops**. Doch auch die anderen Variablen vom vorherigen Messzeitpunkt werden im Modell verwendet, woher auch der Name **vektor**autoregressiv stammt, da statt einer Variable ein ganzer Vektor von Variablen verwendet wird, um zeitliche Zusammenhänge zu modellieren. Der Zusammenhang einer Variable mit einer anderen wird als **cross-lagged** bezeichnet. Dadurch, dass alle Variablen wie in einer normalen multiplen Regression simultan in die Schätzung aufgenommen werden, repräsentiert ein gefundenes Gewicht zwischen zwei Knoten einen Einfluss, der über den Einfluss aller anderen Knoten hinaus existiert.
 
-<img src="/lehre/klipps/dynamische-netzwerke_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+![](/lehre/klipps/dynamische-netzwerke_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 Diese Methode, zeitliche Zusammenhänge zwischen Variablen darzustellen, existiert schon sehr lange. Es lässt sich jedoch feststellen, dass (wie in jedem statistischen Modell) Residuen bei dieser Modellierung zurückbleiben, die noch weitere Informationen liefern können (Epskamp et al., 2018a). Eine potentiell sehr wichtige Information fehlt uns nämlich noch: Wie hängen die Variablen an einem bestimmten Messzeitpunkt gleichzeitig zusammen? Da zu jedem einzelnen Zeitpunkt Residuen auf jeder Variable existent bleiben, können diese zur Bestimmung von Partialkorrelationen verwendet werden. Diese zeigen an, wie stark die Ausprägung von zwei Knoten zu einem gleichzeitigen Messzeitpunkt zusammenhängt. Dieser Teil der Modellierung wird auch als **contemporaneous** (also gleichzeitiges Netzwerk) bezeichnet. Die Idee der Modellierung sollte uns durch das Tutorial zu den querschnittlichen Netzwerken sehr bekannt vorkommen. Die Logik und Berechnung ist dabei auch sehr ähnlich, jedoch wird in dem vorliegenden Fall nur auf Grundlage der Residuen die Struktur des Netzwerks bestimmt, wodurch für den Einfluss des Messzeitpunkts davor kontrolliert werden kann. Eine Trennung von Effekten über Zeitfenster hinweg und innerhalb eines Zeitfensters wird damit ermöglicht.
 
-<img src="/lehre/klipps/dynamische-netzwerke_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+![](/lehre/klipps/dynamische-netzwerke_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 Die Kombination der beiden Modelle wird von Epskamp et al. (2018a) als **graphicalVAR** bezeichnet und ist auch im bereits verwendeten Paket unter diesem Namen ansprechbar. Um die Schätzung mit einem Lag von 1 nochmal zusammenzufassen: Jeder Knoten wird zum Zeitpunkt *t`* mittels Maximum-Likelihood-Schätzung auf sich selbst und alle anderen Knoten zum Zeitpunkt *t-1* regressiert. Bei dieser Schätzung entstehen nicht nur Zusammenhangsgewichte, sondern auch Residuen, also Anteile, die nicht durch die Knoten am Zeitpunkt *t-1* erklärt werden können. Die Kovarianz dieser Residuen über alle Messungen hinweg  dient dann dazu, den gleichzeitigen Zusammenhang zu *t* darzustellen. Wie auch bei den querschnittlichen Netzwerken lässt sich hier sowohl bei den temporalen, als auch bei den gleichzeitigen Netzwerken der lasso benutzen, um die Schätzungen zu regularisieren und falsch-positive Kanten zu vermeiden. Die resultierenden Zusammenhänge werden dann in der Regel in eine Partialkorrelationsmatrix umgewandelt, welche letztendlich zur Visualisierung der Netzwerke verwendet wird. Es werden dabei sowohl für die temporalen als auch die gleichzeitigen Aspekte Bestrafungsparameter genutzt. Aus den vielen resultierenden Netzwerken wird wieder das Informationskriteriuem BIC bzw. EBIC (bei einem Hyperparameter größer als 0) zur Selektion der besten Modellierung verwendet. 
 
@@ -311,14 +307,14 @@ plot(res, graph = "temporal", layout = Layout,
      title = "Temporal")
 ```
 
-<img src="/lehre/klipps/dynamische-netzwerke_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" />
+![](/lehre/klipps/dynamische-netzwerke_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 ```r
 plot(res, graph = "contemporaneous", layout = Layout, 
      title = "Contemporaneous")
 ```
 
-<img src="/lehre/klipps/dynamische-netzwerke_files/figure-html/unnamed-chunk-18-2.png" style="display: block; margin: auto;" />
+![](/lehre/klipps/dynamische-netzwerke_files/figure-html/unnamed-chunk-18-2.png)<!-- -->
 
 Im temporalen Teil des Netzwerkes sind zwei `self`-loops zu verzeichnen - also Variablen, die auf sich selbst wirken. Weiterhin sieht man auch eine Wechselwirkung zwischen `rumination` und `bodily_discomfort`. Das gleichzeitige Netzwerk ist stärker verbunden. Man sieht recht deutlich, dass `relaxed` viele negative Zusammenhänge zu symptomähnlichen Knoten hat. Wenn die Person sich ausgeruht fühlte, war sie gleichzeitig also weniger müde, traurig oder auch nervös.
 
