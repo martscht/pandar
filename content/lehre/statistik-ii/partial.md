@@ -100,7 +100,15 @@ dat$Neurotizismus <- 11 - (dat$Neurotizismus)
 
 Wie Sie bereits aus [Statistik 1](/lehre/statistik-i/korrelation) wissen, misst der Korrelationskoeffizient $r_{xy}$ die Stärke und Richtung einer linearen Beziehung zwischen zwei Variablen $X$ und $Y$:
 
-$$r_{xy} = corr(X,Y) = \dfrac {\sum\limits_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum\limits_{i=1}^n (X_i - \bar{X})^2 \cdot \sum\limits_{i=1}^n (Y_i - \bar{Y})^2}}\hat{=}\frac{\mathbb{C}ov[X,Y]}{\sqrt{\mathbb{V}ar[X]\mathbb{V}ar[Y]}}$$
+<math>
+  $$
+  \begin{align}
+  r_{xy} = corr(X,Y) &= \dfrac {\sum\limits_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum\limits_{i=1}^n (X_i - \bar{X})^2 \cdot \sum\limits_{i=1}^n (Y_i - \bar{Y})^2}} \\
+  &\hat{=}\frac{\mathbb{C}ov[X,Y]}{\sqrt{\mathbb{V}ar[X]\mathbb{V}ar[Y]}}
+  \end{align}
+  $$
+</math>
+
 Der Wert von $r_{xy}$ liegt dabei immer im Wertebereich zwischen +1 und -1. Man kann auch sagen, dass die Kovarianz "skaliert" wird, um diese besser interpretieren zu können, deshalb steht in obiger Formel auch, $\mathbb{C}ov[X,Y]$ (Kovarianz zwischen $X$ und $Y$) geteilt durch das Produkt aus der Wurzel der Varianzen $\mathbb{V}ar[X]$ und $\mathbb{V}ar[Y]$. Je höher der absolute Wert einer Korrelation zweier Variablen ist, desto mehr Varianz teilen die beiden Variablen miteinander.
 
 
@@ -163,7 +171,7 @@ Der Zusammenhang zwischen zwei Variablen $X$ und $Y$ kann aber auch durch eine D
 
 {{<inline_image"/lehre/statistik-ii/Partial1.png">}}
 
-In unserem Datensatz wollen wir uns als eine solche Drittvariable `Neurotizismus`unter die Lupe nehmen. Während Lebenszufriedenheit und Depressivität in diesem Datensatz Zustände bezeichnen, die potenziell vorübergehend und zeitlich veränderlich sind (*states*). Im Gegensatz dazu ist Neurotizismus eine Persönlichkeitseigenschaft (*trait*), die eine stabile, langfristige Tendenz einer Person beschreibt, negative Emotionen wie Angst, Ärger und Traurigkeit zu erleben (vgl. Big-Five-Persönlichkeitsmodell nach Costa & McCrae, 1999).
+In unserem Datensatz wollen wir uns als eine solche Drittvariable `Neurotizismus` unter die Lupe nehmen. Während Lebenszufriedenheit und Depressivität in diesem Datensatz Zustände bezeichnen, die potenziell vorübergehend und zeitlich veränderlich sind (*states*). Im Gegensatz dazu ist Neurotizismus eine Persönlichkeitseigenschaft (*trait*), die eine stabile, langfristige Tendenz einer Person beschreibt, negative Emotionen wie Angst, Ärger und Traurigkeit zu erleben (vgl. Big-Five-Persönlichkeitsmodell nach Costa & McCrae, 1999).
 
 Daher liegt es nahe, dass Neurotizismus im Zusammenhang mit Lebenszufriedenheit und Depressivität stehen könnte. Testen wir den vermuteten Zusammenhang in zwei einzelnen Korrelationstests:
 
@@ -205,9 +213,9 @@ cor.test(dat$Neurotizismus, dat$Depressivitaet)
 ## 0.7948675
 ```
 
-In der Tat zeigen die Ergebnisse, dass der Neurotizismus sowohl mit der Lebenszufriedenheit (-0.66) als auch mit Depressivität (0.79) statistisch signifikant korreliert.
+In der Tat zeigen die Ergebnisse, dass der Neurotizismus sowohl mit der Lebenszufriedenheit (-0.66) als auch mit Depressivität (0.79) statistisch bedeutsam korreliert.
 
-Ist der Zusammenhang zwischen Lebenszufriedenheit und Depressivität alsoallein auf den Neurotizismus zurückzuführen? Oder besteht noch ein Zusammenhang zwischen den beiden, wenn man den Einfluss der Neurotizismus kontrolliert? Um dies zu überprüfen, müssen wir auf Methoden zur Kontrolle von Drittvariablen und zur Aufdeckung von Scheinkorrelationen, redundanten oder maskierten Zusammenhängen zurückgreifen: Die Partial- und Semipartialkorrelation.
+Ist der Zusammenhang zwischen Lebenszufriedenheit und Depressivität also allein auf den Neurotizismus zurückzuführen? Oder besteht noch ein Zusammenhang zwischen den beiden, wenn man den Einfluss der Neurotizismus kontrolliert? Um dies zu überprüfen, müssen wir auf Methoden zur Kontrolle von Drittvariablen und zur Aufdeckung von Scheinkorrelationen, redundanten oder maskierten Zusammenhängen zurückgreifen: Die Partial- und Semipartialkorrelation.
 
 
 ## Partialkorrelation
@@ -216,16 +224,16 @@ Die Partialkorrelation ist die bivariate Korrelation zweier Variablen $X$ und $Y
 
 {{<inline_image"/lehre/statistik-ii/Partial2.png">}}
 
-Denken wir nun an die Regression zurück, können wir die Partialkorrelation konzeptuell als etwas damit sehr verwandtes verstehen: Die Partialkorrelation $r_{xy.z}$ (dargestellt als Überlappung zwischen $X$ und $Y$ Abbildung, minus die Überlappung mit $Z$) kann auch als Korrelation der Regressionsresiduen von $X$ undvon $Y$ verstanden werden, die nicht durch einen Prädiktor $Z$ erklärt werden. Ausführlichere Infos dazu gibt es in [Appendix A](#AppendixA).
+Denken wir nun an die Regression zurück, können wir die Partialkorrelation konzeptuell als etwas damit sehr verwandtes verstehen: Die Partialkorrelation $r_{xy.z}$ (dargestellt als Überlappung zwischen $X$ und $Y$ Abbildung, minus die Überlappung mit $Z$) kann auch als Korrelation der Regressionsresiduen von $X$ und von $Y$ verstanden werden, die nicht durch einen Prädiktor $Z$ erklärt werden. Ausführlichere Infos dazu gibt es in [Appendix A](#AppendixA).
 
 An unserem empirischen Beispiel werden wir das praktisch veranschaulichen.
 
 
 ### Beispiel: Zusammenhang von Neurotizismus mit Lebenszufriedenheit und Depressivität
 
-Nun heißt es näher zu betrachten, ob Neurotizismus eine mögliche konfundierende Variable in der Beziehung zwischen Lebenszufriedenheit und Depressivität darstellt. Diese Vermutung können wir nun mit einer Partialkorrelation überprüfen, für die wir die Residuen heranziehen. Diese bekommen wir aus einer einfachen Regression.
+Nun heißt es näher zu betrachten, ob Neurotizismus eine mögliche konfundierende Variable in der Beziehung zwischen Lebenszufriedenheit und Depressivität darstellt. Diese Vermutung können wir mit einer Partialkorrelation überprüfen, für die wir die Residuen heranziehen. Diese bekommen wir aus einer einfachen Regression.
 
-Erstmal stellen wir zwei einfache Regressionsmodelle mit `Neurotizismus`als demjenigen Prädiktor auf, dessen Einfluss wir aus `Depressivitaet`und `Lebenszufriedenheit` isolieren möchten.
+Erstmal stellen wir zwei einfache Regressionsmodelle mit `Neurotizismus` als demjenigen Prädiktor auf, dessen Einfluss wir aus `Depressivitaet` und `Lebenszufriedenheit` isolieren möchten.
 
 
 ```r
@@ -334,7 +342,7 @@ Wenn wir eine Drittvariable berücksichtigen und sich daraufhin die ursprünglic
 
 1)  **Scheinkorrelation**: Die Partialkorrelation wird (betraglich) kleiner als die ursprüngliche Korrelation ($|r_{xy.z}| < |r_{xy}|$)
 
-Wie in unserem Bespiel teilen alle drei Variablen miteinander Varianz. Partialisiert man nun eine Variable aus dem Zusammenhang der beiden anderen Variablen heraus, wird die geteilte Varianz weniger, womit die Korrelation betraglich sinkt (beachten Sie, dass es sich nur um die absolute Größe, d.h. den Betrag der KOrrelation handelt, und nicht um die Vorzeichen!). Dieser Fall ist der am häufigsten eintretende, da in der Forschung oft Variablen auspartialisiert werden, weil es theoretische Annahme gibt, warum die Variablen Varianz teilen sollten, man aber eine isolierte Assoziation (Beziehung) zwischen $X$ auf $Y$ betrachten möchte. Der im Tutorial dargestellte Effekt ist die deutlichste Form dieser Klasse an Veränderung, bei der die Partialkorrelation dann nicht mehr statistisch signifikant wird.
+Wie in unserem Bespiel teilen alle drei Variablen miteinander Varianz. Partialisiert man nun eine Variable aus dem Zusammenhang der beiden anderen Variablen heraus, wird die geteilte Varianz weniger, womit die Korrelation betraglich sinkt (beachten Sie, dass es sich nur um die absolute Größe, d.h. den Betrag der Korrelation handelt, und nicht um die Vorzeichen!). Dieser Fall ist der am häufigsten eintretende, da in der Forschung oft Variablen auspartialisiert werden, weil es theoretische Annahme gibt, warum die Variablen Varianz teilen sollten, man aber eine isolierte Assoziation (Beziehung) zwischen $X$ auf $Y$ betrachten möchte. Der im Tutorial dargestellte Effekt ist die deutlichste Form dieser Klasse an Veränderung, bei der die Partialkorrelation dann nicht mehr statistisch signifikant wird.
 
 2)  **Suppressoreffekt**: Partialkorrelation ist (betraglich) größer als die ursprüngliche Korrelation ($|r_{xy.z}| >  |r_{xy}|$)
 
@@ -384,7 +392,7 @@ spcor.test(x = dat$Depressivitaet,        # Outcome
 ## 1 0.06902416 0.5203964 0.6453536 90  1 pearson
 ```
 
-Der Koeffizient der Semipartialkorrelation $r_{x(y.z)}$ beträgt 0.07 und ist nicht signifikant ($p$ = 0.52). Es zeigt sich also, dass der ursprüngliche Zusammenhang zwischen Depressivität und Lebenszufriedenheit ($r_{xz}$ = -0.47) verschwindet, wenn der Einfluss des Neurozitismus auf die Lebenszufriedenheit kontrolliert wird.
+Der Koeffizient der Semipartialkorrelation $r_{x(y.z)}$ beträgt 0.07 und ist nicht signifikant ($p$ = 0.52). Es zeigt sich also, dass der ursprüngliche Zusammenhang zwischen Depressivität und Lebenszufriedenheit ($r_{xz}$ = -0.47) verschwindet, wenn der Einfluss des Neurotizismus auf die Lebenszufriedenheit kontrolliert wird.
 
 
 ## Wann brauche ich die Partial- und wann die Semipartialkorrelation?
@@ -436,7 +444,7 @@ Wir zeigen nun am Beispiel eines Modells mit zwei Prädiktoren -- die in diesem 
 
 Bei multipler Regression ist der Determinationskoeffizient so definiert, dass für jeden weiteren Prädiktor das Quadrat einer Semipartialkorrelation aufaddiert wird, um den multiplen Determinationskoeffizienten zu bestimmen. Dabei wird der schon aufgenommene Prädiktor aus dem neuen herauspartialisiert und der Rest dann mit dem Kriterium korreliert (also die Semipartialkorrelation bestimmt):
 
-$R2 = r^2_{yx1} + r^2_{y(x2.x1)} + r^2_{y(x3.x2x1)}$
+$R^2 = r^2_{yx1} + r^2_{y(x2.x1)} + r^2_{y(x3.x2x1)}$
 
 In unserem Fall haben wir lediglich zwei Prädiktoren, wobei wir als $x_2$ diesmal die `Episodenanzahl` wählen. Für diese lassen wir uns direkt die standardisierten $\beta$-Koeffizienten ausgeben:
 
@@ -479,7 +487,7 @@ Wir legen den Determinationskoeffizienzen in ein Objekt ab:
 R2_mod2 <- summary(mod2)$r.squared
 ```
 
-...und berechnen auch die Korrelation zwischen $y$ = Depression und $x_1$, sowie die Semipartialkorrelation zwischen $y$ und $x_2$ = Episodenanzahl, wenn der Einfluss von $x_1$ = Neurotizismus herausgerechnet wird. Zur leichteren Bearbeitung legen wir sie im Objekt `corrs`(Korrelationen) ab.
+...und berechnen auch die Korrelation zwischen $y$ = Depression und $x_1$, sowie die Semipartialkorrelation zwischen $y$ und $x_2$ = Episodenanzahl, wenn der Einfluss von $x_1$ = Neurotizismus herausgerechnet wird. Zur leichteren Bearbeitung legen wir sie im Objekt `corrs` (Korrelationen) ab.
 
 
 ```r
@@ -497,7 +505,7 @@ corrs
 ## 1 0.7948675 0.3947031
 ```
 
-Wie in der obigen Formel abstrakt dargestellt, entspricht auch in unserem konkreten Fall $R^2$ entspricht der Summe der quadrierten Korrelationen:
+Wie in der obigen Formel abstrakt dargestellt, entspricht auch in unserem konkreten Fall $R^2$ der Summe der quadrierten Korrelationen:
 
 
 ```r
