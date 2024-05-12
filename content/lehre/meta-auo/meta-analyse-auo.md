@@ -9,7 +9,7 @@ subtitle: 'Die Kunst des Zusammenfassens von Studien und das `metafor`-Paket'
 summary: '' 
 authors: [irmer]
 weight: 1
-lastmod: '2024-01-18'
+lastmod: '2024-05-12'
 featured: no
 banner:
   image: "/header/galaxy_centered.jpg"
@@ -107,20 +107,26 @@ dat.mcdaniel1994$ri
 ```
 
 ```
-##   [1]  0.00  0.06  0.36  0.15  0.14  0.06  0.09  0.40  0.39  0.14  0.36  0.28
-##  [13]  0.62  0.07  0.18  0.42  0.08  0.18  0.43  0.04 -0.04  0.05 -0.14  0.05
-##  [25]  0.35 -0.08  0.24  0.16  0.25  0.68  0.61  0.81  0.99  0.66  0.45  0.71
-##  [37]  0.27 -0.02  0.29  0.13  0.03  0.00  0.09 -0.03  0.46  0.30  0.33  0.24
-##  [49]  0.64  0.12  0.15  0.44  0.00  0.16  0.21  0.29  0.19  0.04  0.56  0.14
-##  [61]  0.44  0.36  0.34  0.11  0.40  0.23  0.22  0.44  0.27  0.11  0.27 -0.07
-##  [73]  0.32  0.05  0.20  0.18  0.34  0.03  0.45  0.34  0.51  0.41  0.37  0.25
-##  [85] -0.17  0.47  0.32 -0.09  0.33  0.22  0.27  0.00  0.41  0.16  0.00  0.03
-##  [97]  0.01  0.03  0.14  0.11  0.08 -0.13  0.13  0.36  0.06  0.19  0.27  0.17
-## [109]  0.34  0.28  0.11  0.07 -0.13  0.12  0.12  0.37  0.26  0.42  0.37  0.17
-## [121]  0.19  0.32  0.33  0.24  0.09  0.36  0.26  0.42  0.62  0.87 -0.07  0.65
-## [133]  0.17  0.30  0.45  0.24  0.02  0.23  0.17  0.32  0.36  0.09  0.13  0.29
-## [145]  0.49  0.40  0.23  0.31  0.46 -0.12  0.22  0.59  0.21  0.02 -0.03  0.28
-## [157] -0.04  0.19  0.23  0.30
+##   [1]  0.00  0.06  0.36  0.15  0.14  0.06  0.09  0.40
+##   [9]  0.39  0.14  0.36  0.28  0.62  0.07  0.18  0.42
+##  [17]  0.08  0.18  0.43  0.04 -0.04  0.05 -0.14  0.05
+##  [25]  0.35 -0.08  0.24  0.16  0.25  0.68  0.61  0.81
+##  [33]  0.99  0.66  0.45  0.71  0.27 -0.02  0.29  0.13
+##  [41]  0.03  0.00  0.09 -0.03  0.46  0.30  0.33  0.24
+##  [49]  0.64  0.12  0.15  0.44  0.00  0.16  0.21  0.29
+##  [57]  0.19  0.04  0.56  0.14  0.44  0.36  0.34  0.11
+##  [65]  0.40  0.23  0.22  0.44  0.27  0.11  0.27 -0.07
+##  [73]  0.32  0.05  0.20  0.18  0.34  0.03  0.45  0.34
+##  [81]  0.51  0.41  0.37  0.25 -0.17  0.47  0.32 -0.09
+##  [89]  0.33  0.22  0.27  0.00  0.41  0.16  0.00  0.03
+##  [97]  0.01  0.03  0.14  0.11  0.08 -0.13  0.13  0.36
+## [105]  0.06  0.19  0.27  0.17  0.34  0.28  0.11  0.07
+## [113] -0.13  0.12  0.12  0.37  0.26  0.42  0.37  0.17
+## [121]  0.19  0.32  0.33  0.24  0.09  0.36  0.26  0.42
+## [129]  0.62  0.87 -0.07  0.65  0.17  0.30  0.45  0.24
+## [137]  0.02  0.23  0.17  0.32  0.36  0.09  0.13  0.29
+## [145]  0.49  0.40  0.23  0.31  0.46 -0.12  0.22  0.59
+## [153]  0.21  0.02 -0.03  0.28 -0.04  0.19  0.23  0.30
 ```
 
 Die Variable heißt hier `ri`, da auch im zugehörigen Paper von Viechtbauer (2010) die Korrelation für die $i$-te Studie mit $r_i$ bezeichnet wird. Insgesamt gibt es 160 Studien (und somit Korrelationskoeffizienten) in diesem Datensatz. Einen Überblick über solch einen Wust von Daten in diesem Vektor erhalten wir mit der `R`-internen `summary` Funktion.
@@ -308,7 +314,7 @@ REM
 
 Diesem Output können wir nun einige wichtige Informationen entnehmen. Als Überschrift lesen wir `Random-Effects Model`, wobei `k` die Anzahl der Studien angibt (hier `k`=160). Außerdem wird uns das Schätzverfahren für die Heterogenitätsvarianz $\tau^2$ angegeben unter `tau^2 estimator:` (hier REML). 
 
-In den darunter liegenden Zeilen können wir die Heterogenitätsvarianz ablesen, welche bei 0.0293 liegt. Der Standardfehler (SE = 0.0049) gibt uns an, dass diese Heterogenitätsvarianz wahrscheinlich signifikant von 0 verschieden ist. In der Zeile von `I^2` wird die $I^2$-Statistik ausgegeben, welche ein Maß für die Heterogenität in den Daten sein soll. Diese liegt hier bei 81.29% und deutet somit auf Heterogenität der Korrelationskoeffizienten hin. Allerdings ist $I^2$ nicht so ein absolutes Maß, wie der Determinationskoeffizient $R^2$ in der linearen Regression (für lineare Regression in `R` siehe  [Regressionssitzung aus PsyMSc1](/post/regression-und-ausreisserdiagnostik)).
+In den darunter liegenden Zeilen können wir die Heterogenitätsvarianz ablesen, welche bei 0.0293 liegt. Der Standardfehler (SE = 0.0049) gibt uns an, dass diese Heterogenitätsvarianz wahrscheinlich signifikant von 0 verschieden ist. In der Zeile von `I^2` wird die $I^2$-Statistik ausgegeben, welche ein Maß für die Heterogenität in den Daten sein soll. Diese liegt hier bei 81.29% und deutet somit auf Heterogenität der Korrelationskoeffizienten hin. Allerdings ist $I^2$ nicht so ein absolutes Maß, wie der Determinationskoeffizient $R^2$ in der linearen Regression (für lineare Regression in `R` siehe  [Regressionssitzung aus PsyMSc1](/lehre/fue-i/regression-ausreisser-fue)).
 
 Auch wird die Heterogenitätsvarianz mit einem Signifikanztest auf Verschiedenheit von 0 geprüft. Die Ergebnisse hierzu entnehmen wir `Test for Heterogeneity`. Hier zeigt der p-Wert ein signifikantes ($p<0.05$) Ergebnis an: für die Population wird folglich die Null-Hypothese, dass es im Mittel keine Beziehung zwischen Interview und Job-Performanz gibt verworfen. 
 
@@ -319,24 +325,30 @@ names(REM)
 ```
 
 ```
-##  [1] "b"            "beta"         "se"           "zval"        
-##  [5] "pval"         "ci.lb"        "ci.ub"        "vb"          
-##  [9] "tau2"         "se.tau2"      "tau2.fix"     "tau2.f"      
-## [13] "I2"           "H2"           "R2"           "vt"          
-## [17] "QE"           "QEp"          "QM"           "QMdf"        
-## [21] "QMp"          "k"            "k.f"          "k.eff"       
-## [25] "k.all"        "p"            "p.eff"        "parms"       
-## [29] "int.only"     "int.incl"     "intercept"    "allvipos"    
-## [33] "coef.na"      "yi"           "vi"           "X"           
-## [37] "weights"      "yi.f"         "vi.f"         "X.f"         
-## [41] "weights.f"    "M"            "outdat.f"     "ni"          
-## [45] "ni.f"         "ids"          "not.na"       "subset"      
-## [49] "slab"         "slab.null"    "measure"      "method"      
-## [53] "model"        "weighted"     "test"         "dfs"         
-## [57] "ddf"          "s2w"          "btt"          "m"           
-## [61] "digits"       "level"        "control"      "verbose"     
-## [65] "add"          "to"           "drop00"       "fit.stats"   
-## [69] "data"         "formula.yi"   "formula.mods" "version"     
+##  [1] "b"            "beta"         "se"          
+##  [4] "zval"         "pval"         "ci.lb"       
+##  [7] "ci.ub"        "vb"           "tau2"        
+## [10] "se.tau2"      "tau2.fix"     "tau2.f"      
+## [13] "I2"           "H2"           "R2"          
+## [16] "vt"           "QE"           "QEp"         
+## [19] "QM"           "QMdf"         "QMp"         
+## [22] "k"            "k.f"          "k.eff"       
+## [25] "k.all"        "p"            "p.eff"       
+## [28] "parms"        "int.only"     "int.incl"    
+## [31] "intercept"    "allvipos"     "coef.na"     
+## [34] "yi"           "vi"           "X"           
+## [37] "weights"      "yi.f"         "vi.f"        
+## [40] "X.f"          "weights.f"    "M"           
+## [43] "outdat.f"     "ni"           "ni.f"        
+## [46] "ids"          "not.na"       "subset"      
+## [49] "slab"         "slab.null"    "measure"     
+## [52] "method"       "model"        "weighted"    
+## [55] "test"         "dfs"          "ddf"         
+## [58] "s2w"          "btt"          "m"           
+## [61] "digits"       "level"        "control"     
+## [64] "verbose"      "add"          "to"          
+## [67] "drop00"       "fit.stats"    "data"        
+## [70] "formula.yi"   "formula.mods" "version"     
 ## [73] "call"         "time"
 ```
 
@@ -384,8 +396,9 @@ names(pred_REM)
 ```
 
 ```
-##  [1] "pred"      "se"        "ci.lb"     "ci.ub"     "pi.lb"     "pi.ub"    
-##  [7] "cr.lb"     "cr.ub"     "slab"      "digits"    "method"    "transf"   
+##  [1] "pred"      "se"        "ci.lb"     "ci.ub"    
+##  [5] "pi.lb"     "pi.ub"     "cr.lb"     "cr.ub"    
+##  [9] "slab"      "digits"    "method"    "transf"   
 ## [13] "pred.type"
 ```
 
@@ -470,15 +483,20 @@ data_transformed$type
 ```
 
 ```
-##   [1] "j" "p" "j" "j" "j" "j" "j" "j" "s" "s" "s" "j" "j" "j" "j" "j" "j" "p"
-##  [19] "j" "j" "p" "p" "p" "j" "j" "p" "p" "p" "j" "j" "j" "j" "j" "j" "j" "j"
-##  [37] "j" "j" "j" "j" "j" "j" "j" "j" "s" "s" "s" "p" "j" "j" "j" "j" "j" "j"
-##  [55] "p" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j"
-##  [73] "j" "j" "j" "j" "j" "j" "s" "j" "j" "s" "s" "s" "j" "j" "j" "s" "j" "j"
-##  [91] "s" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j"
-## [109] "j" "s" "j" "j" NA  "j" "j" "j" "p" "j" "j" "j" "j" "s" NA  "j" NA  "j"
-## [127] "s" "j" "j" "j" "j" "j" "j" "j" "s" "p" "p" "j" "j" "j" "j" "p" "j" "j"
-## [145] "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j"
+##   [1] "j" "p" "j" "j" "j" "j" "j" "j" "s" "s" "s" "j"
+##  [13] "j" "j" "j" "j" "j" "p" "j" "j" "p" "p" "p" "j"
+##  [25] "j" "p" "p" "p" "j" "j" "j" "j" "j" "j" "j" "j"
+##  [37] "j" "j" "j" "j" "j" "j" "j" "j" "s" "s" "s" "p"
+##  [49] "j" "j" "j" "j" "j" "j" "p" "j" "j" "j" "j" "j"
+##  [61] "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j"
+##  [73] "j" "j" "j" "j" "j" "j" "s" "j" "j" "s" "s" "s"
+##  [85] "j" "j" "j" "s" "j" "j" "s" "j" "j" "j" "j" "j"
+##  [97] "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j"
+## [109] "j" "s" "j" "j" NA  "j" "j" "j" "p" "j" "j" "j"
+## [121] "j" "s" NA  "j" NA  "j" "s" "j" "j" "j" "j" "j"
+## [133] "j" "j" "s" "p" "p" "j" "j" "j" "j" "p" "j" "j"
+## [145] "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j"
+## [157] "j" "j" "j" "j"
 ```
 
 ```r
@@ -500,13 +518,6 @@ Ein Mixed Effects Model (MEM) können wir wieder mit der `rma` Funktion schätze
 
 ```r
 MEM_type <- rma(yi = z_ri, vi = v_ri, mods = ~ factor(type), data = data_transformed)
-```
-
-```
-## Warning: 3 studies with NAs omitted from model fitting.
-```
-
-```r
 MEM_type
 ```
 
@@ -528,10 +539,14 @@ MEM_type
 ## 
 ## Model Results:
 ## 
-##                estimate      se     zval    pval    ci.lb    ci.ub      
-## intrcpt          0.2474  0.0187  13.2089  <.0001   0.2107   0.2841  *** 
-## factor(type)p   -0.1228  0.0582  -2.1115  0.0347  -0.2368  -0.0088    * 
-## factor(type)s    0.0573  0.0598   0.9587  0.3377  -0.0599   0.1745      
+##                estimate      se     zval    pval 
+## intrcpt          0.2474  0.0187  13.2089  <.0001 
+## factor(type)p   -0.1228  0.0582  -2.1115  0.0347 
+## factor(type)s    0.0573  0.0598   0.9587  0.3377 
+##                  ci.lb    ci.ub      
+## intrcpt         0.2107   0.2841  *** 
+## factor(type)p  -0.2368  -0.0088    * 
+## factor(type)s  -0.0599   0.1745      
 ## 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -563,20 +578,26 @@ is.na(data_transformed$type)        # fehlt ein Wert = TRUE
 ```
 
 ```
-##   [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [13] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [25] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [37] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [49] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [61] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [73] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [85] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [97] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [109] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [121] FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [133] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [145] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [157] FALSE FALSE FALSE FALSE
+##   [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##   [9] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [17] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [25] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [33] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [41] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [49] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [57] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [65] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [73] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [81] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [89] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [97] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [105] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [113]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [121] FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE
+## [129] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [137] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [145] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [153] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ```
 
 ```r
@@ -650,7 +671,7 @@ Auch hier erkennen wir eine Warnung, weswegen wir uns die Ergebnisse noch nicht 
 ##  effects. REML comparisons are not meaningful.
 ```
 
-Wenn wir eine andere Schätzmethoden wählen, wird dieses Problem umgangen. Wir können bespielsweise die "ML" (Maximum Likelihood) anstatt der "REML" (Restricted ML) Schätzmethode verwenden. Dazu müssen wir allerdings die Modelle erneut schätzen und müssen dem Argument `method` die Methode `"ML"` zuweisen. Der zugehörige Test, den wir anschließend mit `anova` durchführen wollen, ist unter Verwendung der "ML"-Schätzmethode der Likelihood-Ratio-Test (LRT), welcher auch häufig $\chi^2$-Differenzen-Test genannt wird. Diesen kennen wir bereits aus einigen weiteren Statistikveranstaltungen (siehe bspw. [Multi-Level-Modeling](/post/multi-level-modeling) oder [logistische Regression](/post/logistische-regression)). Die Freiheitsgrade des $\chi^2$-Tests sind in diesem Fall die Parameter, die durch die Hinzunahme der Moderatoren zusätzlich geschätzt werden müssen. Hier sind dies also die beiden Effekte der Vergleiche zwischen `p` vs. `j` und `s` vs. `j`, also 2. 
+Wenn wir eine andere Schätzmethoden wählen, wird dieses Problem umgangen. Wir können bespielsweise die "ML" (Maximum Likelihood) anstatt der "REML" (Restricted ML) Schätzmethode verwenden. Dazu müssen wir allerdings die Modelle erneut schätzen und müssen dem Argument `method` die Methode `"ML"` zuweisen. Der zugehörige Test, den wir anschließend mit `anova` durchführen wollen, ist unter Verwendung der "ML"-Schätzmethode der Likelihood-Ratio-Test (LRT), welcher auch häufig $\chi^2$-Differenzen-Test genannt wird. Diesen kennen wir bereits aus einigen weiteren Statistikveranstaltungen (siehe bspw. [Multi-Level-Modeling](/lehre/fue-i/hierarchische-regression-schule) oder [logistische Regression](/lehre/fue-i/logistische-regression-titanic)). Die Freiheitsgrade des $\chi^2$-Tests sind in diesem Fall die Parameter, die durch die Hinzunahme der Moderatoren zusätzlich geschätzt werden müssen. Hier sind dies also die beiden Effekte der Vergleiche zwischen `p` vs. `j` und `s` vs. `j`, also 2. 
 
 
 ```r
@@ -661,12 +682,12 @@ anova(REM_reduced_type_ML, MEM_type_ML)
 
 ```
 ## 
-##         df      AIC     BIC     AICc logLik    LRT   pval       QE  tau^2 
-## Full     4 -11.0523  1.1727 -10.7892 9.5262               738.4411 0.0274 
-## Reduced  2  -9.1793 -3.0668  -9.1014 6.5896 5.8730 0.0530 747.1489 0.0285 
-##             R^2 
-## Full            
-## Reduced 3.8338%
+##         df      AIC     BIC     AICc logLik    LRT 
+## Full     4 -11.0523  1.1727 -10.7892 9.5262        
+## Reduced  2  -9.1793 -3.0668  -9.1014 6.5896 5.8730 
+##           pval       QE  tau^2     R^2 
+## Full           738.4411 0.0274         
+## Reduced 0.0530 747.1489 0.0285 3.8338%
 ```
 
 Unter `LRT` erkennen wir die Log-Likelihood-Differenz, welche die Loglikelihoods verechnet, welche wir unter `logLik` ablesen können (es gilt: $LRT = -2*(LL_{\text{Reduced}}-LL_{\text{Full}}) = -2*(6.589-9.526)=5.873$). Der angegeben p-Wert des Modellvergleichs liegt bei 0.053 und zeigt somit keine signifikante Reduktion der Heterogenitätsvarianz durch den Moderator Interviewtyp an (dies ist im Übrigen fast identisch zum p-Wert des Omnibustest, der durch das Objekt `MEM_type_ML` selbst ausgegeben würde). 
@@ -694,10 +715,14 @@ MEM_type_ML
 ## 
 ## Model Results:
 ## 
-##                estimate      se     zval    pval    ci.lb    ci.ub      
-## intrcpt          0.2472  0.0185  13.3381  <.0001   0.2109   0.2836  *** 
-## factor(type)p   -0.1223  0.0576  -2.1253  0.0336  -0.2352  -0.0095    * 
-## factor(type)s    0.0572  0.0592   0.9658  0.3341  -0.0589   0.1733      
+##                estimate      se     zval    pval 
+## intrcpt          0.2472  0.0185  13.3381  <.0001 
+## factor(type)p   -0.1223  0.0576  -2.1253  0.0336 
+## factor(type)s    0.0572  0.0592   0.9658  0.3341 
+##                  ci.lb    ci.ub      
+## intrcpt         0.2109   0.2836  *** 
+## factor(type)p  -0.2352  -0.0095    * 
+## factor(type)s  -0.0589   0.1733      
 ## 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -710,7 +735,9 @@ Wie wir bspw. Mittelwerte meta-analytisch verrechnen oder wie genau sich das "Fi
 Die Meta-Analyse von Irmer, Kern, Schermelleh-Engel, Semmer und Zapf (2019) wurde mit diesem `R`-Paket durchgeführt. Sie behandelt die Validierung des Instrument zur stressbezogenen Tätigkeitsanalyse (ISTA) von Semmer, Zapf und Dunckel (1995, 1999), indem die linearen Beziehungen der Skalen des Instrument untereinander sowie mit Kriteriumsvariablen untersucht wurden. Außerdem wurden die Mittelwerte und und Standardabweichungen (meta-analytisch) gemittelt. Alle Koeffizienten (Mittelwerte, Standardabweichungen und Korrelationen) wurden hinsichtlich systematischer Unterschiede über das Geschlecht (% Frauen), der Publikationsstatus (publiziert vs. nicht publiziert), die ISTA-Version sowie die Branche (des Arbeitsplatzes) untersucht. Das genaue meta-analytische Vorgehen ist dem Appendix des Artikels zu entnehmen.
 
 ## Appendix A {#AppendixA}
-### Codes
+
+<details><summary><b>Codes</b></summary>
+
 
 ```r
 plot(NA, xlim = c(-2,2), ylim = c(-2,2), xlab = "Interview Performanz", ylab = "Job-Performanz",
@@ -743,8 +770,13 @@ legend(x = "bottomright", col = c("black", "blue", "gold3", "grey60"), pch = NA,
 
 <img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-38-1.png" style="display: block; margin: auto;" />
 
+</details>
+
+
 ## Appendix B {#AppendixB}
-### Andere Parameter zusammenfassen: Mittelwerte
+
+<details><summary><b>Andere Parameter zusammenfassen: Mittelwerte</b></summary>
+
 Genauso wie Korrelationskoeffizienten können auch Mittelwerte meta-analytisch zusammengefasst werden. Das Vorgehen bleibt weitgehend das Gleiche. Wir müssen jedoch keine Transformation der Daten durchführen, um sie sinnvoll zu mitteln. Dazu verwenden wir diesmal den Datensatz `dat.bangertdrowns2004`. Mit `?dat.bangertdrowns2004` erhalten Sie weitere Informationen zu dieser Studie. Es geht in diesem Datensatz um die Wirksamkeit einer "Writing-to-Learn Intervention". `yi` (Zugriff via `dat.bangertdrowns2004$yi`) enthält die standardisierte Mittelwertsdifferenz (*d*), `ni` ist die Stichprobengröße und `vi` ist die Varianz der Mittelwertsdifferenz (also $SE_i^2$).
 
 
@@ -754,20 +786,20 @@ head(dat.bangertdrowns2004)
 
 ```
 ## 
-##   id   author year grade length minutes wic feedback info pers imag meta 
-## 1  1 Ashworth 1992     4     15      NA   1        1    1    1    0    1 
-## 2  2    Ayers 1993     2     10      NA   1       NA    1    1    1    0 
-## 3  3   Baisch 1990     2      2      NA   1        0    1    1    0    1 
-## 4  4    Baker 1994     4      9      10   1        1    1    0    0    0 
-## 5  5   Bauman 1992     1     14      10   1        1    1    1    0    1 
-## 6  6   Becker 1996     4      1      20   1        0    0    1    0    0 
-##         subject  ni     yi    vi 
-## 1       Nursing  60  0.650 0.070 
-## 2 Earth Science  34 -0.750 0.126 
-## 3          Math  95 -0.210 0.042 
-## 4       Algebra 209 -0.040 0.019 
-## 5          Math 182  0.230 0.022 
-## 6    Literature 462  0.030 0.009
+##   id   author year grade length minutes wic feedback 
+## 1  1 Ashworth 1992     4     15      NA   1        1 
+## 2  2    Ayers 1993     2     10      NA   1       NA 
+## 3  3   Baisch 1990     2      2      NA   1        0 
+## 4  4    Baker 1994     4      9      10   1        1 
+## 5  5   Bauman 1992     1     14      10   1        1 
+## 6  6   Becker 1996     4      1      20   1        0 
+##   info pers imag meta       subject  ni     yi    vi 
+## 1    1    1    0    1       Nursing  60  0.650 0.070 
+## 2    1    1    1    0 Earth Science  34 -0.750 0.126 
+## 3    1    1    0    1          Math  95 -0.210 0.042 
+## 4    1    0    0    0       Algebra 209 -0.040 0.019 
+## 5    1    1    0    1          Math 182  0.230 0.022 
+## 6    0    1    0    0    Literature 462  0.030 0.009
 ```
 
 ```r
@@ -775,15 +807,18 @@ dat.bangertdrowns2004$yi # std. Mittelwertsdiff.
 ```
 
 ```
-##  [1]  0.65 -0.75 -0.21 -0.04  0.23  0.03  0.26  0.06  0.06  0.12  0.77  0.00
-## [13]  0.52  0.54  0.20  0.20 -0.16  0.42  0.60  0.51  0.58  0.54  0.09  0.37
-## [25] -0.01 -0.13  0.18  0.27 -0.02  0.33  0.59  0.84 -0.32  0.12  1.12 -0.12
-## [37] -0.44 -0.07  0.70  0.49  0.20  0.58  0.15  0.63  0.04  1.46  0.04  0.25
+##  [1]  0.65 -0.75 -0.21 -0.04  0.23  0.03  0.26  0.06
+##  [9]  0.06  0.12  0.77  0.00  0.52  0.54  0.20  0.20
+## [17] -0.16  0.42  0.60  0.51  0.58  0.54  0.09  0.37
+## [25] -0.01 -0.13  0.18  0.27 -0.02  0.33  0.59  0.84
+## [33] -0.32  0.12  1.12 -0.12 -0.44 -0.07  0.70  0.49
+## [41]  0.20  0.58  0.15  0.63  0.04  1.46  0.04  0.25
 ## attr(,"measure")
 ## [1] "SMD"
 ## attr(,"ni")
-##  [1]  60  34  95 209 182 462  38 542  99  77  40 190 113  50  47  44  24  78
-## [19]  46  64  57  68  40  68  48 107  58 225 446  77 243  39  67  91  36 177
+##  [1]  60  34  95 209 182 462  38 542  99  77  40 190
+## [13] 113  50  47  44  24  78  46  64  57  68  40  68
+## [25]  48 107  58 225 446  77 243  39  67  91  36 177
 ## [37]  20 120  16 105 195  62 289  25 250  51  46  56
 ```
 
@@ -792,8 +827,9 @@ dat.bangertdrowns2004$ni # n
 ```
 
 ```
-##  [1]  60  34  95 209 182 462  38 542  99  77  40 190 113  50  47  44  24  78
-## [19]  46  64  57  68  40  68  48 107  58 225 446  77 243  39  67  91  36 177
+##  [1]  60  34  95 209 182 462  38 542  99  77  40 190
+## [13] 113  50  47  44  24  78  46  64  57  68  40  68
+## [25]  48 107  58 225 446  77 243  39  67  91  36 177
 ## [37]  20 120  16 105 195  62 289  25 250  51  46  56
 ```
 
@@ -802,10 +838,12 @@ dat.bangertdrowns2004$vi # Varianz
 ```
 
 ```
-##  [1] 0.070 0.126 0.042 0.019 0.022 0.009 0.106 0.007 0.040 0.052 0.107 0.021
-## [13] 0.037 0.083 0.086 0.091 0.167 0.052 0.091 0.065 0.073 0.061 0.100 0.060
-## [25] 0.083 0.037 0.069 0.018 0.009 0.053 0.017 0.112 0.060 0.044 0.129 0.023
-## [37] 0.205 0.033 0.265 0.039 0.021 0.067 0.014 0.168 0.016 0.099 0.087 0.072
+##  [1] 0.070 0.126 0.042 0.019 0.022 0.009 0.106 0.007
+##  [9] 0.040 0.052 0.107 0.021 0.037 0.083 0.086 0.091
+## [17] 0.167 0.052 0.091 0.065 0.073 0.061 0.100 0.060
+## [25] 0.083 0.037 0.069 0.018 0.009 0.053 0.017 0.112
+## [33] 0.060 0.044 0.129 0.023 0.205 0.033 0.265 0.039
+## [41] 0.021 0.067 0.014 0.168 0.016 0.099 0.087 0.072
 ```
 
 Wir können nun einfach eine Meta-Analyse mit Stichprobengewichtung durchführen. Wir mitteln (gewichtet) zunächst händisch via:
@@ -922,6 +960,8 @@ Dass es sich wirklich um den $SE^2_i$ handelt, ist folgender Grafik zu entnehmen
 Offensichtlich fällt $v_i$ mit steigendem $n_i$ gleich der Funktion $\frac{1}{x}$ ab, was nur der $SE$ tut. Die Varianz einer Skala (Stichprobenvarianz) würde sich für steigende Stichprobengröße bei einem Wert "einpendeln".
 
 Würden wir Skalenmittelwerte mitteln wollen, so könnten wir dies anhand der Stichprobengröße $n_i$ machen oder wir berechnen den Standardfehler des Mittelwerts via $\frac{V_i}{n_i}$, wobei $V_i$ die Varianz der Skala ist (diese oder die Standardabweichung $SD_i=\sqrt{V_i}$ sollten in den Studien berichtet werden). Denn es gilt $$\sqrt{\frac{V_i}{n_i}}=\frac{SD_i}{\sqrt{n_i}}=SE_i.$$ Somit würden wir dem Argument `vi` in der Funktion `rma` gerade $SE^2=\frac{V_i}{n_i}=\frac{SD_i^2}{n_i}$ übergeben.
+
+</details>
 
 ## Literatur
 

@@ -1,7 +1,3 @@
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
-
 ## install.packages("metafor")
 
 library(metafor)
@@ -17,19 +13,13 @@ dat.mcdaniel1994$ri
 
 summary(dat.mcdaniel1994$ri)
 
-plot(rep(1,length(dat.mcdaniel1994$ri)), dat.mcdaniel1994$ri, xaxt = "n", xlab = "Korrelationskoeffizient", ylab = "Korrelation pro Studie",
-     main = "Empirische Korrelationen zwischen\n Interview Performanz und Job-Performanz")
+
 
 boxplot(dat.mcdaniel1994$ri, main = "Empirische Korrelationen zwischen\n Interview Performanz und Job-Performanz")
 
 boxplot_cors <- boxplot(dat.mcdaniel1994$ri, main = "Empirische Korrelationen zwischen\n Interview Performanz und Job-Performanz")
 
-plot(NA, xlim = c(-2,2), ylim = c(-2,2), xlab = "Interview Performanz", ylab = "Job-Performanz",
-     main = "Empirische Korrelationen zwischen\n Interview Performanz und Job-Performanz")
-for(i in 1:length(dat.mcdaniel1994$ri))
-{
-     abline(a = 0, b = dat.mcdaniel1994$ri[i], col = "grey80")
-}
+
 
 data_transformed <- escalc(measure="ZCOR", ri=ri, ni=ni, data=dat.mcdaniel1994, var.names = c("z_ri", "v_ri"))
 head(data_transformed)
@@ -58,19 +48,7 @@ pred_REM <- predict(REM, transf=transf.ztor)
 names(pred_REM)
 pred_REM$pred # retransformierter gepoolter Korrelationskoeffizient
 
-plot(NA, xlim = c(-2,2), ylim = c(-2,2), xlab = "Interview Performanz", ylab = "Job-Performanz",
-     main = "Empirische Korrelationen zwischen\n Interview Performanz und Job-Performanz")
-for(i in 1:length(dat.mcdaniel1994$ri))
-{
-     abline(a = 0, b = dat.mcdaniel1994$ri[i], col = "grey80")
-}
-abline(a = 0, b = pred_REM$ci.lb, col = "blue", lwd = 5)
-abline(a = 0, b = pred_REM$ci.ub, col = "blue", lwd = 5)
-abline(a = 0, b = pred_REM$cr.lb, col = "gold3", lwd = 5)
-abline(a = 0, b = pred_REM$cr.ub, col = "gold3", lwd = 5)
-abline(a = 0, b = pred_REM$pred, col = "black", lwd = 5)
-legend(x = "bottomright", col = c("black", "blue", "gold3", "grey60"), pch = NA, lwd = c(5,5,5,2),
-       legend = c("Mittlere Korr.", "95% KI-Korr.", "Credibility Interval", "Emp. Korr."))
+
 
 # funnel plot
 funnel(REM)
@@ -98,8 +76,7 @@ MEM_type
 
 ## anova(REM, MEM_type)
 
-cat("Error in anova.rma(REM, MEM_type) : Observed outcomes and/or sampling 
- variances not equal in the full and reduced model.")
+
 
 is.na(data_transformed$type)        # fehlt ein Wert = TRUE
 which(is.na(data_transformed$type)) # welche Werte fehlen?
@@ -113,8 +90,7 @@ REM_reduced_type
 
 ## anova(REM_reduced_type, MEM_type)
 
-cat("Warning in anova.rma(REM_reduced_type, MEM_type): Models with different fixed
- effects. REML comparisons are not meaningful.")
+
 
 REM_reduced_type_ML <- rma(yi = z_ri, vi = v_ri, data = data_transformed_clean_type, method = "ML")
 MEM_type_ML <- rma(yi = z_ri, vi = v_ri, mods = ~ factor(type), data=data_transformed_clean_type, method = "ML")
@@ -158,5 +134,3 @@ summary(rma_n_RE)
 
 rma_vi_RE <- rma(yi = yi, vi =  vi, data = dat.bangertdrowns2004)
 summary(rma_vi_RE)
-
-plot(dat.bangertdrowns2004$ni, dat.bangertdrowns2004$vi, pch = 16, col = "blue", cex = 1.5, xlab = expression(n[i]), ylab = expression(v[i]), main = expression(v[i]~"v.s."~n[i]))

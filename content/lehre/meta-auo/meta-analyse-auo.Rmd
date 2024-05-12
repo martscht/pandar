@@ -35,7 +35,7 @@ output:
 
 
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, purl =F}
 # Vorbereitungen
 knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
@@ -99,7 +99,7 @@ Die Korrelationskoeffizienten liegen also zwischen `r min(dat.mcdaniel1994$ri)` 
 
 Wir wollen uns die Daten zunächst noch etwas genauer ansehen. Plotten wir zunächst die Korrelationskoeffizienten.
 
-```{r,echo=FALSE, fig.height=6, fig.align="center"}
+```{r,echo=FALSE, purl = F, fig.height=6, fig.align="center"}
 plot(rep(1,length(dat.mcdaniel1994$ri)), dat.mcdaniel1994$ri, xaxt = "n", xlab = "Korrelationskoeffizient", ylab = "Korrelation pro Studie",
      main = "Empirische Korrelationen zwischen\n Interview Performanz und Job-Performanz")
 ```
@@ -118,7 +118,7 @@ Wir sehen, dass die meisten Korrelationen zwischen  `r boxplot_cors$stats[1]` un
 
 Wir wollen uns außerdem die Unterschiedlichkeit der Korrelationskoeffizienten als Darstellung der verschiedenen Einfach-Regressionen von Job-Performanz auf die Interview-Performanz anschauen. Hierzu plotten wir quasi eine standardisierte Regressionsgerade ($\beta_0=0$ und $\beta_1=r_i$, wobei $r_i:=$ Korrelationskoeffizient von Studie $i$) pro Studie. Um den zu Grunde liegenden Code anzusehen, können Sie [Appendix A](#AppendixA) nachschlagen.
 
-```{r,echo=FALSE, fig.height=6, fig.align="center"}
+```{r,echo=FALSE, purl = F, fig.height=6, fig.align="center"}
 plot(NA, xlim = c(-2,2), ylim = c(-2,2), xlab = "Interview Performanz", ylab = "Job-Performanz",
      main = "Empirische Korrelationen zwischen\n Interview Performanz und Job-Performanz")
 for(i in 1:length(dat.mcdaniel1994$ri))
@@ -207,7 +207,7 @@ REM
 
 Diesem Output können wir nun einige wichtige Informationen entnehmen. Als Überschrift lesen wir `Random-Effects Model`, wobei `k` die Anzahl der Studien angibt (hier `k`=`r REM$k.all`). Außerdem wird uns das Schätzverfahren für die Heterogenitätsvarianz $\tau^2$ angegeben unter `tau^2 estimator:` (hier `r REM$method`). 
 
-In den darunter liegenden Zeilen können wir die Heterogenitätsvarianz ablesen, welche bei `r round(REM$tau2, 4)` liegt. Der Standardfehler (SE = `r round(REM$se.tau2, 4)`) gibt uns an, dass diese Heterogenitätsvarianz wahrscheinlich `r ifelse(REM$tau2 - 2*REM$se.tau2 > 0, "signifikant von 0 verschieden", "nicht signifikant von 0 verschieden")` ist. In der Zeile von `I^2` wird die $I^2$-Statistik ausgegeben, welche ein Maß für die Heterogenität in den Daten sein soll. Diese liegt hier bei `r round(REM$I2, 2)`% und deutet somit auf Heterogenität der Korrelationskoeffizienten hin. Allerdings ist $I^2$ nicht so ein absolutes Maß, wie der Determinationskoeffizient $R^2$ in der linearen Regression (für lineare Regression in `R` siehe  [Regressionssitzung aus PsyMSc1](/post/regression-und-ausreisserdiagnostik)).
+In den darunter liegenden Zeilen können wir die Heterogenitätsvarianz ablesen, welche bei `r round(REM$tau2, 4)` liegt. Der Standardfehler (SE = `r round(REM$se.tau2, 4)`) gibt uns an, dass diese Heterogenitätsvarianz wahrscheinlich `r ifelse(REM$tau2 - 2*REM$se.tau2 > 0, "signifikant von 0 verschieden", "nicht signifikant von 0 verschieden")` ist. In der Zeile von `I^2` wird die $I^2$-Statistik ausgegeben, welche ein Maß für die Heterogenität in den Daten sein soll. Diese liegt hier bei `r round(REM$I2, 2)`% und deutet somit auf Heterogenität der Korrelationskoeffizienten hin. Allerdings ist $I^2$ nicht so ein absolutes Maß, wie der Determinationskoeffizient $R^2$ in der linearen Regression (für lineare Regression in `R` siehe  [Regressionssitzung aus PsyMSc1](/lehre/fue-i/regression-ausreisser-fue)).
 
 Auch wird die Heterogenitätsvarianz mit einem Signifikanztest auf Verschiedenheit von 0 geprüft. Die Ergebnisse hierzu entnehmen wir `Test for Heterogeneity`. Hier zeigt der p-Wert ein `r ifelse(REM$QEp < 0.05, "signifikantes ($p<0.05$)", "nicht signifikantes")` Ergebnis an: für die Population wird folglich die Null-Hypothese, dass es im Mittel keine Beziehung zwischen Interview und Job-Performanz gibt verworfen. 
 
@@ -244,7 +244,7 @@ Wir sehen, dass der mittlere $z$-Wert sich kaum vom mittleren Korrelationskoeffi
 ### Finales Ergebnis des Random Effects Modells
 Schauen wir uns die Ergebnisse nun grafisch an:
 
-```{r, fig.align="center", fig.height=6, echo = F}
+```{r, fig.align="center", fig.height=6, echo = F, purl = F}
 plot(NA, xlim = c(-2,2), ylim = c(-2,2), xlab = "Interview Performanz", ylab = "Job-Performanz",
      main = "Empirische Korrelationen zwischen\n Interview Performanz und Job-Performanz")
 for(i in 1:length(dat.mcdaniel1994$ri))
@@ -329,7 +329,7 @@ anova(REM, MEM_type)
 
 Wenn wir diesen Befehl einfach so durchführen, bekommen wir eine Fehlermeldung: 
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat("Error in anova.rma(REM, MEM_type) : Observed outcomes and/or sampling 
  variances not equal in the full and reduced model.")
 ```
@@ -363,12 +363,12 @@ anova(REM_reduced_type, MEM_type)
 
 Auch hier erkennen wir eine Warnung, weswegen wir uns die Ergebnisse noch nicht ansehen wollen:
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 cat("Warning in anova.rma(REM_reduced_type, MEM_type): Models with different fixed
  effects. REML comparisons are not meaningful.")
 ```
 
-Wenn wir eine andere Schätzmethoden wählen, wird dieses Problem umgangen. Wir können bespielsweise die "ML" (Maximum Likelihood) anstatt der "REML" (Restricted ML) Schätzmethode verwenden. Dazu müssen wir allerdings die Modelle erneut schätzen und müssen dem Argument `method` die Methode `"ML"` zuweisen. Der zugehörige Test, den wir anschließend mit `anova` durchführen wollen, ist unter Verwendung der "ML"-Schätzmethode der Likelihood-Ratio-Test (LRT), welcher auch häufig $\chi^2$-Differenzen-Test genannt wird. Diesen kennen wir bereits aus einigen weiteren Statistikveranstaltungen (siehe bspw. [Multi-Level-Modeling](/post/multi-level-modeling) oder [logistische Regression](/post/logistische-regression)). Die Freiheitsgrade des $\chi^2$-Tests sind in diesem Fall die Parameter, die durch die Hinzunahme der Moderatoren zusätzlich geschätzt werden müssen. Hier sind dies also die beiden Effekte der Vergleiche zwischen `p` vs. `j` und `s` vs. `j`, also 2. 
+Wenn wir eine andere Schätzmethoden wählen, wird dieses Problem umgangen. Wir können bespielsweise die "ML" (Maximum Likelihood) anstatt der "REML" (Restricted ML) Schätzmethode verwenden. Dazu müssen wir allerdings die Modelle erneut schätzen und müssen dem Argument `method` die Methode `"ML"` zuweisen. Der zugehörige Test, den wir anschließend mit `anova` durchführen wollen, ist unter Verwendung der "ML"-Schätzmethode der Likelihood-Ratio-Test (LRT), welcher auch häufig $\chi^2$-Differenzen-Test genannt wird. Diesen kennen wir bereits aus einigen weiteren Statistikveranstaltungen (siehe bspw. [Multi-Level-Modeling](/lehre/fue-i/hierarchische-regression-schule) oder [logistische Regression](/lehre/fue-i/logistische-regression-titanic)). Die Freiheitsgrade des $\chi^2$-Tests sind in diesem Fall die Parameter, die durch die Hinzunahme der Moderatoren zusätzlich geschätzt werden müssen. Hier sind dies also die beiden Effekte der Vergleiche zwischen `p` vs. `j` und `s` vs. `j`, also 2. 
 
 ```{r}
 REM_reduced_type_ML <- rma(yi = z_ri, vi = v_ri, data = data_transformed_clean_type, method = "ML")
@@ -389,7 +389,9 @@ Wie wir bspw. Mittelwerte meta-analytisch verrechnen oder wie genau sich das "Fi
 Die Meta-Analyse von Irmer, Kern, Schermelleh-Engel, Semmer und Zapf (2019) wurde mit diesem `R`-Paket durchgeführt. Sie behandelt die Validierung des Instrument zur stressbezogenen Tätigkeitsanalyse (ISTA) von Semmer, Zapf und Dunckel (1995, 1999), indem die linearen Beziehungen der Skalen des Instrument untereinander sowie mit Kriteriumsvariablen untersucht wurden. Außerdem wurden die Mittelwerte und und Standardabweichungen (meta-analytisch) gemittelt. Alle Koeffizienten (Mittelwerte, Standardabweichungen und Korrelationen) wurden hinsichtlich systematischer Unterschiede über das Geschlecht (% Frauen), der Publikationsstatus (publiziert vs. nicht publiziert), die ISTA-Version sowie die Branche (des Arbeitsplatzes) untersucht. Das genaue meta-analytische Vorgehen ist dem Appendix des Artikels zu entnehmen.
 
 ## Appendix A {#AppendixA}
-### Codes
+
+<details><summary><b>Codes</b></summary>
+
 ```{r,echo=T, fig.height=6, fig.align="center"}
 plot(NA, xlim = c(-2,2), ylim = c(-2,2), xlab = "Interview Performanz", ylab = "Job-Performanz",
      main = "Empirische Korrelationen zwischen\n Interview Performanz und Job-Performanz") # erzeuge einen leeren Plot mit vorgegbenen Achsenabschnitten
@@ -416,8 +418,13 @@ legend(x = "bottomright", col = c("black", "blue", "gold3", "grey60"), pch = NA,
        legend = c("Mittlere Korr.", "95% KI-Korr.", "Credibility Interval", "Emp. Korr.")) # Legende für Farbzuordnung
 ```
 
+</details>
+
+
 ## Appendix B {#AppendixB}
-### Andere Parameter zusammenfassen: Mittelwerte
+
+<details><summary><b>Andere Parameter zusammenfassen: Mittelwerte</b></summary>
+
 Genauso wie Korrelationskoeffizienten können auch Mittelwerte meta-analytisch zusammengefasst werden. Das Vorgehen bleibt weitgehend das Gleiche. Wir müssen jedoch keine Transformation der Daten durchführen, um sie sinnvoll zu mitteln. Dazu verwenden wir diesmal den Datensatz `dat.bangertdrowns2004`. Mit `?dat.bangertdrowns2004` erhalten Sie weitere Informationen zu dieser Studie. Es geht in diesem Datensatz um die Wirksamkeit einer "Writing-to-Learn Intervention". `yi` (Zugriff via `dat.bangertdrowns2004$yi`) enthält die standardisierte Mittelwertsdifferenz (*d*), `ni` ist die Stichprobengröße und `vi` ist die Varianz der Mittelwertsdifferenz (also $SE_i^2$).
 
 ```{r}
@@ -458,13 +465,15 @@ In allen drei Analysen ist die mittlere Differenz positiv und signifikant von 0 
 
 Dass es sich wirklich um den $SE^2_i$ handelt, ist folgender Grafik zu entnehmen:
 
-```{r, fig.align="center", echo = F}
+```{r, fig.align="center", echo = F, purl = F}
 plot(dat.bangertdrowns2004$ni, dat.bangertdrowns2004$vi, pch = 16, col = "blue", cex = 1.5, xlab = expression(n[i]), ylab = expression(v[i]), main = expression(v[i]~"v.s."~n[i]))
 ```
 
 Offensichtlich fällt $v_i$ mit steigendem $n_i$ gleich der Funktion $\frac{1}{x}$ ab, was nur der $SE$ tut. Die Varianz einer Skala (Stichprobenvarianz) würde sich für steigende Stichprobengröße bei einem Wert "einpendeln".
 
 Würden wir Skalenmittelwerte mitteln wollen, so könnten wir dies anhand der Stichprobengröße $n_i$ machen oder wir berechnen den Standardfehler des Mittelwerts via $\frac{V_i}{n_i}$, wobei $V_i$ die Varianz der Skala ist (diese oder die Standardabweichung $SD_i=\sqrt{V_i}$ sollten in den Studien berichtet werden). Denn es gilt $$\sqrt{\frac{V_i}{n_i}}=\frac{SD_i}{\sqrt{n_i}}=SE_i.$$ Somit würden wir dem Argument `vi` in der Funktion `rma` gerade $SE^2=\frac{V_i}{n_i}=\frac{SD_i^2}{n_i}$ übergeben.
+
+</details>
 
 ## Literatur
 
