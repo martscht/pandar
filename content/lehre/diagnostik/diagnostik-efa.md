@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schnatz, farugie]
 weight: 2
-lastmod: '2024-01-15'
+lastmod: '2024-05-12'
 featured: no
 banner:
   image: "/header/coastal_sailing.jpg"
@@ -47,23 +47,23 @@ glimpse(data_gis_final)
 ```
 ## Rows: 300
 ## Columns: 17
-## $ GIS1  <int> 4, 4, 4, 4, 3,…
-## $ GIS2  <int> 3, 3, 3, 3, 4,…
-## $ GIS3  <int> 3, 3, 4, 0, 4,…
-## $ GIS4  <int> 3, 4, 4, 3, 3,…
-## $ GIS5  <int> 3, 4, 3, 3, 3,…
-## $ GIS6  <int> 3, 4, 3, 4, 4,…
-## $ GIS7  <int> 4, 4, 3, 4, 4,…
-## $ GIS8  <int> 4, 4, 4, 4, 4,…
-## $ GIS10 <int> 4, 4, 4, 3, 3,…
-## $ GIS11 <int> 3, 3, 3, 3, 4,…
-## $ GIS12 <int> 4, 4, 4, 3, 3,…
-## $ GIS13 <int> 4, 4, 4, 3, 4,…
-## $ GIS14 <int> 3, 4, 3, 3, 4,…
-## $ GIS15 <int> 3, 4, 3, 3, 4,…
-## $ GIS19 <int> 4, 4, 4, 3, 4,…
-## $ GIS20 <int> 3, 4, 4, 3, 4,…
-## $ GIS21 <int> 3, 4, 4, 3, 4,…
+## $ GIS1  <int> 4, 4, 4, 4, 3, 4, 4, 3, 4, 4, 3, 3, 4, …
+## $ GIS2  <int> 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 3, 3, 4, …
+## $ GIS3  <int> 3, 3, 4, 0, 4, 3, 3, 4, 3, 3, 3, 3, 4, …
+## $ GIS4  <int> 3, 4, 4, 3, 3, 4, 3, 4, 3, 3, 3, 3, 3, …
+## $ GIS5  <int> 3, 4, 3, 3, 3, 4, 3, 3, 3, 1, 3, 3, 3, …
+## $ GIS6  <int> 3, 4, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, …
+## $ GIS7  <int> 4, 4, 3, 4, 4, 3, 4, 3, 3, 3, 4, 4, 4, …
+## $ GIS8  <int> 4, 4, 4, 4, 4, 3, 3, 4, 4, 3, 3, 3, 4, …
+## $ GIS10 <int> 4, 4, 4, 3, 3, 3, 3, 1, 3, 3, 3, 3, 4, …
+## $ GIS11 <int> 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 4, …
+## $ GIS12 <int> 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 3, 4, 4, …
+## $ GIS13 <int> 4, 4, 4, 3, 4, 3, 3, 3, 4, 3, 3, 4, 3, …
+## $ GIS14 <int> 3, 4, 3, 3, 4, 3, 4, 3, 3, 4, 3, 3, 3, …
+## $ GIS15 <int> 3, 4, 3, 3, 4, 3, 3, 3, 3, 4, 3, 3, 3, …
+## $ GIS19 <int> 4, 4, 4, 3, 4, 3, 4, 4, 4, 4, 4, 3, 4, …
+## $ GIS20 <int> 3, 4, 4, 3, 4, 3, 3, 3, 3, 3, 4, 3, 4, …
+## $ GIS21 <int> 3, 4, 4, 3, 4, 3, 3, 3, 3, 3, 4, 3, 3, …
 ```
 
 Als Erinnerung können wir uns nochmal die psychometrische Eigenschaften der beibehaltenen Items anschauen. Wir benutzen dafür wieder die Funktion aus dem `sjPlot` Package, die wir letztes Skript kennengelernt haben.
@@ -115,7 +115,7 @@ sjt.itemanalysis(
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.89</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">-1.25</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.81</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.64</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.65</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col8">0.93</td>
 </tr>
 <tr>
@@ -271,7 +271,6 @@ Zur Bestimmung der Anzahl der Faktoren in der exploratorischen Faktorenanalyse g
 
 Das Eigenwertkriterium bzw. Kaiser-Kriterium ist das liberalste Maß der Entscheidung, weswegen tendeziell dadurch viele Faktoren entstehen. Zur Bestimmung werden die Eigenwerte errechnet und alle Faktoren beibehalten, deren Eigenwert >= 1 ist. Es gibt zwei Möglichkeiten, den Eigenwerteverlauf mittels R zu bestimmen. 
 
-::: panel-tabset
 
 #### 1. Weg: Base-R Funktion `eigen()`
 
@@ -282,15 +281,10 @@ eigen(cor(data_gis_final))$values
 ```
 
 ```
-##  [1] 8.5991430 1.2760151
-##  [3] 0.8990121 0.7701418
-##  [5] 0.7212324 0.6443391
-##  [7] 0.5840884 0.4867182
-##  [9] 0.4715973 0.4470492
-## [11] 0.4315886 0.3538997
-## [13] 0.3248867 0.2850224
-## [15] 0.2738591 0.2365159
-## [17] 0.1948910
+##  [1] 8.5991430 1.2760151 0.8990121 0.7701418 0.7212324
+##  [6] 0.6443391 0.5840884 0.4867182 0.4715973 0.4470492
+## [11] 0.4315886 0.3538997 0.3248867 0.2850224 0.2738591
+## [16] 0.2365159 0.1948910
 ```
 
 ```r
@@ -301,15 +295,10 @@ cor(data_gis_final) %>%
 ```
 
 ```
-##  [1] 8.5991430 1.2760151
-##  [3] 0.8990121 0.7701418
-##  [5] 0.7212324 0.6443391
-##  [7] 0.5840884 0.4867182
-##  [9] 0.4715973 0.4470492
-## [11] 0.4315886 0.3538997
-## [13] 0.3248867 0.2850224
-## [15] 0.2738591 0.2365159
-## [17] 0.1948910
+##  [1] 8.5991430 1.2760151 0.8990121 0.7701418 0.7212324
+##  [6] 0.6443391 0.5840884 0.4867182 0.4715973 0.4470492
+## [11] 0.4315886 0.3538997 0.3248867 0.2850224 0.2738591
+## [16] 0.2365159 0.1948910
 ```
 
 ```r
@@ -533,7 +522,6 @@ tab_df(
 </tr>
 </table>
 
-:::
 
 Wie anhand der Ergebnisse erkennbar ist, wird durch das Eigenwertkriterium ein Modell mit 2 Faktoren vorgeschlagen.
 
@@ -541,9 +529,8 @@ Wie anhand der Ergebnisse erkennbar ist, wird durch das Eigenwertkriterium ein M
 
 Der Scree-Plot ist ein visuell deskriptives Kriterium zur Entscheidung der Faktoren. Dabei ist das Kriterium konservativer als das Eigenwertkriterium.Wie in dem Lernbar-Video beschrieben wird der optische Knick herangezogen, um die Entscheidung über die Faktorenanzahl zu treffen. Alle Faktoren, die sich "über" dem Knick befinden, werden beibehalten.  
 
-Um in R einen Scree-Plot zu generieren, könnnen wir entweder die Base-R Plotting Funktionen verwenden oder das sehr erfolgreiche `ggplot2` Package der tidyverse Familie benutzen. Dabei können zwar mit Base R Plotting Funktionen zwar in nur wenigen Zeilen ein Plot erstellt werden, bieten dafür aber nicht so viele Anpassungsmöglichkeiten und folgen keiner klaren Struktur im Vergleich zu ggplot2. Wem es also wichtig sein sollte, schöne Plots zu generieren, sollte eher das ggplot2 Package nutzen. Wer nochmal eine ggplot2 Auffrischung brauchen sollte, findet hier ein paar nützliche Links: [PandaR](https://pandar.netlify.app/post/ggplotting-intro/), [R for Data Science](https://r4ds.had.co.nz/data-visualisation.html).
+Um in R einen Scree-Plot zu generieren, könnnen wir entweder die Base-R Plotting Funktionen verwenden oder das sehr erfolgreiche `ggplot2` Package der tidyverse Familie benutzen. Dabei können zwar mit Base R Plotting Funktionen zwar in nur wenigen Zeilen ein Plot erstellt werden, bieten dafür aber nicht so viele Anpassungsmöglichkeiten und folgen keiner klaren Struktur im Vergleich zu ggplot2. Wem es also wichtig sein sollte, schöne Plots zu generieren, sollte eher das ggplot2 Package nutzen. Wer nochmal eine ggplot2 Auffrischung brauchen sollte, findet hier einen nützlichen Link: [R for Data Science](https://r4ds.had.co.nz/data-visualisation.html).
 
-::: panel-tabset
 
 #### 1. Weg: Base-R
 
@@ -602,7 +589,6 @@ ggplot(data = data_eigen, aes(x = Faktor, y = Eigenwert)) +
 
 ![](/lehre/diagnostik/diagnostik-efa_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
-:::
 
 Die Ergebnisse der Scree-Plots suggerieren ein Modell mit nur einem Faktor. Dementsprechend wäre die Entscheidung im Vergleich zum Kaiser-Kriterium deutlich konservativer.
 
@@ -610,7 +596,6 @@ Die Ergebnisse der Scree-Plots suggerieren ein Modell mit nur einem Faktor. Deme
 
 Die letzte vorgestellte Möglichkeit ist die Parallelanalyse. Hierbei werden die empirischen Eigenwerte einer Faktorenanalyse mit den Eigenwerten eines simulierten Datensatzen mit normalverteilten Daten verglichen (Klopp, 2010). Es werden dabei Faktoren beibehalten, bei denen der empirische Eigenwerte größer als der simulierte Eigenwert ist. Anders formuliert werden Faktoren beibehalten, die mehr Varianz aufklären als rein zufällig simulierte Daten. Von den drei vorgestellten Kriterien ist diese das konservativste Kriterium
 
-::: panel-tabset
 
 #### Möglichkeit 1
 
@@ -697,7 +682,6 @@ tibble(
 
 ![](/lehre/diagnostik/diagnostik-efa_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
-:::
 
 Die Ergebnisse der Parallelanalyse suggerieren ein Modell mit drei Faktoren. Da dies das konservativste Vorgehen ist, entscheiden wir uns für ein dreifaktorielles Modell für die weitere Analyse.
 
@@ -1089,7 +1073,7 @@ sjt.itemanalysis(
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.91</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">-0.82</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.74</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.76</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.77</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col8">0.80</td>
 </tr>
 <tr>
