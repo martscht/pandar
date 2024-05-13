@@ -155,7 +155,8 @@ apropos('anova')
 ```
 
 ```
-## [1] "anova"            "manova"           "power.anova.test" "stat.anova"       "summary.manova"
+## [1] "anova"            "Anova"            "ezANOVA"          "manova"           "Manova"          
+## [6] "power.anova.test" "ranova"           "stat.anova"       "summary.manova"
 ```
 
 Use `example(<topic>)` if you want to see an example. 
@@ -288,7 +289,7 @@ all_groups <- rbind(all_groups, my_data)
   
   **Tip 2 for using loops**: Use a meaningful term for the value that changes at each iteration. "val" or "i" are not meaningful, but "i_group" or "i_participant" are. This will help you to keep track of what you are actually doing, especially in nested loops.
   
-  If you are interested in finding out more about loops and the (literally) endless possibilites that they offer, you can check out the [tutorial](/lehre/statistik-ii/loops-und-funktionen/) on them on `pandaR`.
+  If you are interested in finding out more about loops and the (literally) endless possibilites that they offer, you can check out the [tutorial](/lehre/statistik-ii/loops-funktionen/) on them on `pandaR`.
   
 * In some cases, multiple files are generated per participant and you may want to merge the different files. For example, in a memory study, you have one file for a memory encoding session and one file for a memory retrieval session. It can be useful to have the two sessions organized as different columns and each line referring to a specific stimulus. In this case, check out a "merge" function (I like the one from the package "data.table") in these cases.
 
@@ -690,9 +691,9 @@ example4
 ## 1           5 exp            0.5   0.2
 ## 2           5 sur            0.6   0.3
 ## 3           5 new            0.7   0.4
-## 4           6 exp            0.7   0.6
-## 5           6 sur            0.8   0.7
-## 6           6 new            0.9   0.8
+## 4           6 exp            0.7   0.4
+## 5           6 sur            0.8   0.5
+## 6           6 new            0.9   0.6
 ```
 
 **Pr** values for new items do not make any sense, remove values, so let us remove them.
@@ -710,8 +711,8 @@ example4
 ## 1           5 exp            0.5   0.2
 ## 2           5 sur            0.6   0.3
 ## 3           5 new            0.7  NA  
-## 4           6 exp            0.7   0.6
-## 5           6 sur            0.8   0.7
+## 4           6 exp            0.7   0.4
+## 5           6 sur            0.8   0.5
 ## 6           6 new            0.9  NA
 ```
 
@@ -729,8 +730,8 @@ example4
 ##         <dbl> <chr>        <dbl> <dbl>
 ## 1           5 exp            0.5   0.2
 ## 2           5 sur            0.6   0.3
-## 3           6 exp            0.7   0.6
-## 4           6 sur            0.8   0.7
+## 3           6 exp            0.7   0.4
+## 4           6 sur            0.8   0.5
 ```
 
 At this point, it is also good to check participants' performance. Do you want to exclude participants with low performance?  
@@ -1612,20 +1613,6 @@ In order to do this, we need to work on a "wide-dataset", where every row repres
 
 ```r
 library(reshape2)
-```
-
-```
-## 
-## Attaching package: 'reshape2'
-```
-
-```
-## The following object is masked from 'package:tidyr':
-## 
-##     smiths
-```
-
-```r
 # Create a wide dataset by aggregating performance on the participant level.
 # In order to do that, we can use the reshape function. 
 # We need to specify the grouping variables ("idvar"), i.e. the variables that vary between participants. Those are participants' id, group, and wm. The condition that varies within participant ("timevar") is "condition". 
@@ -3068,7 +3055,7 @@ for (i in 1:m){
 ## [1] "This number is greater than 5."
 ```
 
-For a detailed introduction into `if` statements and loops, check out the [tutorial](/lehre/statistik-ii/loops-und-funktionen/) on `pandaR`!
+For a detailed introduction into `if` statements and loops, check out the [tutorial](/lehre/statistik-ii/loops-funktionen/) on `pandaR`!
 
 
 ***

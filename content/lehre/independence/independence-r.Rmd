@@ -264,7 +264,7 @@ all_groups <- rbind(all_groups, my_data)
   
   **Tip 2 for using loops**: Use a meaningful term for the value that changes at each iteration. "val" or "i" are not meaningful, but "i_group" or "i_participant" are. This will help you to keep track of what you are actually doing, especially in nested loops.
   
-  If you are interested in finding out more about loops and the (literally) endless possibilites that they offer, you can check out the [tutorial](/lehre/statistik-ii/loops-und-funktionen/) on them on `pandaR`.
+  If you are interested in finding out more about loops and the (literally) endless possibilites that they offer, you can check out the [tutorial](/lehre/statistik-ii/loops-funktionen/) on them on `pandaR`.
   
 * In some cases, multiple files are generated per participant and you may want to merge the different files. For example, in a memory study, you have one file for a memory encoding session and one file for a memory retrieval session. It can be useful to have the two sessions organized as different columns and each line referring to a specific stimulus. In this case, check out a "merge" function (I like the one from the package "data.table") in these cases.
 
@@ -1596,7 +1596,7 @@ for (i in 1:m){
 }
 ```
 
-For a detailed introduction into `if` statements and loops, check out the [tutorial](/lehre/statistik-ii/loops-und-funktionen/) on `pandaR`!
+For a detailed introduction into `if` statements and loops, check out the [tutorial](/lehre/statistik-ii/loops-funktionen/) on `pandaR`!
 
 
 ***
