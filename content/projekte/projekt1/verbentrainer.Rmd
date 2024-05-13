@@ -46,7 +46,7 @@ In diesem Projekt soll es darum gehen, solch ein Programm zu entwerfen, dass das
 
 Wir wollen uns hierbei auf die Sprache [Spanisch](https://de.wikipedia.org/wiki/Spanische_Sprache) fokussieren. Spanisch ist eine iberoromanische Sprache und nimmt den vierten Platz der meistgesprochenen Sprachen auf der Welt ein - nach Englisch, Mandarin und Hindi. Im Spanischen werden [Verben](https://de.wikipedia.org/wiki/Spanische_Grammatik#Verb) nach Person, Numerus, Aspekt, Aktionsart, Tempus und Modus konjugiert - ganz schön viel zu beachten also. In der Regel weisen sie eine der folgenden Verbendungen auf: *-ar*, *-ir* und *-er*. Es gibt auch reflexive Verben, die ein *-se* an ihrem Infinitiv angehängt haben, welches die Reflexivität des Verben aufzeigen soll (Beispiel: llevar*se* (mitnehmen)).
 
-Die weiteren Einzelheiten werden wir im Laufe des Projekts nach und nach kennenlernen. Ziel soll es sein, bei einem ganz grundlegenden Verbentrainer in `R` zu beginnen und diesen dann Stück für Stück zu erweitern und anhand dessen verschiedene grundlegende Funktionen von `R` kennenzulernen. Die folgenden Abschnitte gehen die verschiedenen Stufen des Trainers der Reihe nach durch. Jeder Abschnitt ist unterteilt in eine **Aufgabenstellung**, ein paar **Tipps**, die weiterhelfen sollen, wenn dir die Ideen ausgehen, und eine mögliche **Lösung** für die Umsetzung der Aufgabenstellung. Super wäre es natürlich, wenn du so viel wie möglich alleine schaffst. Falls du jedoch nicht weiterkommen solltest, kannst du jederzeit im Internet nachschauen, dort gibt es die besten Hilfestellungen (beispielsweise auf Seiten wie [stackoverflow.com](https://stackoverflow.com/)). Auch wir müssen oftmals im Internet nach dem richtigen Code suchen. Falls du noch nichts oder nur sehr wenig mit `R` zu tun haben solltest (oder wenn du dich unsicher fühlst), kannst du jederzeit auf den pandaR-Seiten zur [Lehre](https://pandar.netlify.app/lehre/) vorbeischauen. Dort gibt es neben vielen statistischen Themen auch ein übersichtliches [R-Intro](/post/r-crash-kurs/), welches dich in die Welt von `R` einführt.
+Die weiteren Einzelheiten werden wir im Laufe des Projekts nach und nach kennenlernen. Ziel soll es sein, bei einem ganz grundlegenden Verbentrainer in `R` zu beginnen und diesen dann Stück für Stück zu erweitern und anhand dessen verschiedene grundlegende Funktionen von `R` kennenzulernen. Die folgenden Abschnitte gehen die verschiedenen Stufen des Trainers der Reihe nach durch. Jeder Abschnitt ist unterteilt in eine **Aufgabenstellung**, ein paar **Tipps**, die weiterhelfen sollen, wenn dir die Ideen ausgehen, und eine mögliche **Lösung** für die Umsetzung der Aufgabenstellung. Super wäre es natürlich, wenn du so viel wie möglich alleine schaffst. Falls du jedoch nicht weiterkommen solltest, kannst du jederzeit im Internet nachschauen, dort gibt es die besten Hilfestellungen (beispielsweise auf Seiten wie [stackoverflow.com](https://stackoverflow.com/)). Auch wir müssen oftmals im Internet nach dem richtigen Code suchen. Falls du noch nichts oder nur sehr wenig mit `R` zu tun haben solltest (oder wenn du dich unsicher fühlst), kannst du jederzeit auf den pandaR-Seiten zur [Lehre](/lehre/main) vorbeischauen. Dort gibt es neben vielen statistischen Themen auch ein übersichtliches [R-Intro](/lehre/statistik-i/crash-kurs/), welches dich in die Welt von `R` einführt.
 
 Viel Spaß beim Programmieren!
 
@@ -138,7 +138,7 @@ Tabelle <- data.frame(verben)
 Tabelle$person <- print(sample(person, 197, replace = T))
 ```
 
-```{r, echo=F, include=FALSE}
+```{r, echo=F, purl =F, include=FALSE}
 Tabelle$person <- print(sample(person, 197, replace = T))
 ```
 
@@ -228,7 +228,7 @@ Jetzt können wir unsere Tabelle ganz einfach (zumindest ist es ganz einfach, we
 Tabelle$tempus <- print(sample(tempus, 197, replace = T))
 ```
 
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=FALSE, purl =F, include=FALSE}
 Tabelle$tempus <- print(sample(tempus, 197, replace = T))
 ```
 
@@ -236,7 +236,7 @@ Wieder legen wir hiermit fest, dass aus unserem Vektor "tempus" 197 mal ein zuf�
 
 Am Besten kombinieren wir die Befehle für die Zufallsziehung der Tabelle an dieser Stelle, damit wir sie immer zusammenstehen haben und wir beide gleichzeitig ausführen können, damit bei jedem neuen Run sowohl die Personen, als auch die Zeitformen durchgemischt werden:
 
-```{r, echo=FALSE, include=FALSE}
+```{r, echo=FALSE, purl = F, include=FALSE}
 Tabelle$person <- print(sample(person, 197, replace = T))
 Tabelle$tempus <- print(sample(tempus, 197, replace = T))
 ```

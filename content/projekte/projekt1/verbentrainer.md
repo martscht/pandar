@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Projekt lernen wir, wie man einen Verbentrainer erstellen kann. Wir erstellen dafür einerseits eine Liste unkonjugierter Verben, sowie die Konjugationsformen, und kombinieren diese zufällig. So kann das konjugieren durch das Aufrufen zufälliger Listeneinträge geübt werden. Dies wird an einem spanischen Beispiel illustriert.'
 authors: [rouchi]
 weight: 1
-lastmod: '2024-02-19'
+lastmod: '2024-05-13'
 featured: no
 banner:
   image: "/header/architecture_valencia.jpg"
@@ -44,7 +44,7 @@ In diesem Projekt soll es darum gehen, solch ein Programm zu entwerfen, dass das
 
 Wir wollen uns hierbei auf die Sprache [Spanisch](https://de.wikipedia.org/wiki/Spanische_Sprache) fokussieren. Spanisch ist eine iberoromanische Sprache und nimmt den vierten Platz der meistgesprochenen Sprachen auf der Welt ein - nach Englisch, Mandarin und Hindi. Im Spanischen werden [Verben](https://de.wikipedia.org/wiki/Spanische_Grammatik#Verb) nach Person, Numerus, Aspekt, Aktionsart, Tempus und Modus konjugiert - ganz schön viel zu beachten also. In der Regel weisen sie eine der folgenden Verbendungen auf: *-ar*, *-ir* und *-er*. Es gibt auch reflexive Verben, die ein *-se* an ihrem Infinitiv angehängt haben, welches die Reflexivität des Verben aufzeigen soll (Beispiel: llevar*se* (mitnehmen)).
 
-Die weiteren Einzelheiten werden wir im Laufe des Projekts nach und nach kennenlernen. Ziel soll es sein, bei einem ganz grundlegenden Verbentrainer in `R` zu beginnen und diesen dann Stück für Stück zu erweitern und anhand dessen verschiedene grundlegende Funktionen von `R` kennenzulernen. Die folgenden Abschnitte gehen die verschiedenen Stufen des Trainers der Reihe nach durch. Jeder Abschnitt ist unterteilt in eine **Aufgabenstellung**, ein paar **Tipps**, die weiterhelfen sollen, wenn dir die Ideen ausgehen, und eine mögliche **Lösung** für die Umsetzung der Aufgabenstellung. Super wäre es natürlich, wenn du so viel wie möglich alleine schaffst. Falls du jedoch nicht weiterkommen solltest, kannst du jederzeit im Internet nachschauen, dort gibt es die besten Hilfestellungen (beispielsweise auf Seiten wie [stackoverflow.com](https://stackoverflow.com/)). Auch wir müssen oftmals im Internet nach dem richtigen Code suchen. Falls du noch nichts oder nur sehr wenig mit `R` zu tun haben solltest (oder wenn du dich unsicher fühlst), kannst du jederzeit auf den pandaR-Seiten zur [Lehre](https://pandar.netlify.app/lehre/) vorbeischauen. Dort gibt es neben vielen statistischen Themen auch ein übersichtliches [R-Intro](/post/r-crash-kurs/), welches dich in die Welt von `R` einführt.
+Die weiteren Einzelheiten werden wir im Laufe des Projekts nach und nach kennenlernen. Ziel soll es sein, bei einem ganz grundlegenden Verbentrainer in `R` zu beginnen und diesen dann Stück für Stück zu erweitern und anhand dessen verschiedene grundlegende Funktionen von `R` kennenzulernen. Die folgenden Abschnitte gehen die verschiedenen Stufen des Trainers der Reihe nach durch. Jeder Abschnitt ist unterteilt in eine **Aufgabenstellung**, ein paar **Tipps**, die weiterhelfen sollen, wenn dir die Ideen ausgehen, und eine mögliche **Lösung** für die Umsetzung der Aufgabenstellung. Super wäre es natürlich, wenn du so viel wie möglich alleine schaffst. Falls du jedoch nicht weiterkommen solltest, kannst du jederzeit im Internet nachschauen, dort gibt es die besten Hilfestellungen (beispielsweise auf Seiten wie [stackoverflow.com](https://stackoverflow.com/)). Auch wir müssen oftmals im Internet nach dem richtigen Code suchen. Falls du noch nichts oder nur sehr wenig mit `R` zu tun haben solltest (oder wenn du dich unsicher fühlst), kannst du jederzeit auf den pandaR-Seiten zur [Lehre](/lehre/main) vorbeischauen. Dort gibt es neben vielen statistischen Themen auch ein übersichtliches [R-Intro](/lehre/statistik-i/crash-kurs/), welches dich in die Welt von `R` einführt.
 
 Viel Spaß beim Programmieren!
 
@@ -158,13 +158,13 @@ head(Tabelle)
 ```
 
 ```
-##      verben  person
-## 1     abrir   elles
-## 2    acabar   elles
-## 3   acercar él/ella
-## 4 aconsejar   elles
-## 5   acordar   elles
-## 6      amar      yo
+##      verben   person
+## 1     abrir       yo
+## 2    acabar nosotres
+## 3   acercar nosotres
+## 4 aconsejar vosotres
+## 5   acordar       tú
+## 6      amar    elles
 ```
 
 </details>
@@ -270,12 +270,12 @@ head(Tabelle)
 
 ```
 ##      verben   person                   tempus
-## 1     abrir  él/ella Pretérito imperfecto (I)
-## 2    acabar    elles            Futuro simple
-## 3   acercar nosotres               Imperativo
-## 4 aconsejar  él/ella       Condicional simple
-## 5   acordar  él/ella             Presente (S)
-## 6      amar  él/ella       Condicional simple
+## 1     abrir nosotres Pretérito imperfecto (S)
+## 2    acabar  él/ella             Presente (S)
+## 3   acercar vosotres Pretérito imperfecto (S)
+## 4 aconsejar vosotres             Presente (S)
+## 5   acordar vosotres            Futuro simple
+## 6      amar    elles             Presente (S)
 ```
 
 Jetzt kann der Reihe nach jedes Verb für eine bestimmte Person in einer bestimmten Zeitform konjugiert werden.
