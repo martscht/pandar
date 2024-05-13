@@ -2,7 +2,7 @@
 title: "Loops und Funktionen"
 type: post
 date: '2021-03-30'
-slug: loops-und-funktionen
+slug: loops-funktionen
 categories: ["Statistik II"] 
 tags: ["Regression", "Funktionen", "Loops"] 
 subtitle: ''
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-ii/loops-und-funktionen
+    url: /lehre/statistik-ii/loops-funktionen
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/statistik-ii/loops-und-funktionen.R
+    url: /lehre/statistik-ii/loops-funktionen.R
   - icon_pack: fas
     icon: pen-to-square
     name: Quizdaten
@@ -190,9 +190,10 @@ Das gilt sowohl für `if`, als auch für `else`. Die einzige Bedingung ist, dass
 
 ### `else if`-Bedingungen
 
-Häufig werden mehrere Abfragen ineinander geschachtelt, sodass die Ausdrücke schnell sehr kompliziert werden können. Falls in mehreren Schritten verschiedene Bedingungen abgefragt werden, und verschiedene Konsequenzen folgen sollen, kann auch das `else if` verwendet werden. Hierbei werden verschiedene Möglichkeiten abgefragt, für die verschiedene Befehle ausgeführt werden sollen. Wenn die erste Bedingung nicht zutrifft, wird die zweite Bedingung (nach dem `else if`) geprüft, wenn diese auch nicht zutrifft, wird das nächste `else if` geprüft. Der Befehl nach dem `else` wird dann nur ausgeführt, wenn keine der vorherigen Bedingungen zutrifft. 
+Häufig werden mehrere Abfragen ineinander geschachtelt, sodass die Ausdrücke schnell sehr kompliziert werden können. Falls in mehreren Schritten verschiedene Bedingungen abgefragt werden, und verschiedene Konsequenzen folgen sollen, kann auch das `else if` verwendet werden. Hierbei werden verschiedene Möglichkeiten abgefragt, für die verschiedene Befehle ausgeführt werden sollen. Wenn die erste Bedingung nicht zutrifft, wird die zweite Bedingung (nach dem `else if`) geprüft, wenn diese auch nicht zutrifft, wird das nächste `else if` geprüft. Der Befehl nach dem `else` wird dann nur ausgeführt, wenn keine der vorherigen Bedingungen zutrifft.  
 
-![](../date.jpg)
+{{<inline_image"/lehre/statistik-ii/date.jpg">}}
+
 
 Hier sehen Sie ein Beispiel für eine if-else-Abfrage, die Sie jeden Morgen nutzen können, um herauszufinden, wie Sie sich heute fühlen sollten. 
 
