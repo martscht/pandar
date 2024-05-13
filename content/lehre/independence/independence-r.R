@@ -566,9 +566,9 @@ library(car)
 
 Anova(LMM_mixed, type = "III")
 
-#install.packages("dplyr") # Do not forget the "".
 
-library(dplyr) # Now we use the term library. No "".
+
+
 
 rm(list = ls())
 
@@ -576,7 +576,7 @@ r <- c(1:10) # Creates a vector containing the numbers 1:10 (from 1 to 10). The 
 r # When we type in the name of the object, we can see its contents.
 # Assignments are usually done with <-
 
-help(c) # Check out the help for this function.
+
 
 s = c(1.2, 18) # Assignments also possible with = . Use , to separate the elements.
 s
@@ -584,7 +584,7 @@ s
 assign("t", c(r, 7, 9, 11, 13)) # Or assign. You can also put an object into an object.
 t
 
-help(assign) # Check out the help for this function.
+
 
 c(21, 8, 22.5, 3) -> u # Or you use the other arrow -> and the name of the new object on the right side. That's actually confusing, I would not recommend it.
 u
@@ -647,7 +647,7 @@ b
 c
 d
 
-help(array)
+
 
 arr_3_dim <- array(1:24, dim=c(3,4,2)) # Check how it looks like.
 arr_3_dim
@@ -667,7 +667,7 @@ arr3
 arr4 <- t(arr3) # Transpose function.
 arr4
 
-help(t)
+
 
 arr[2,1,3]
 
@@ -676,7 +676,7 @@ arr[,,1]
 arr[,,c(1,3)]
 
 
-help(matrix)
+
 
 mat1 <- cbind(r,r)
 mat1

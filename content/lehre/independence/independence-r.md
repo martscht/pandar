@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [nolden]
 weight: 5
-lastmod: '2024-01-18'
+lastmod: '2024-05-13'
 featured: no
 banner:
   image: "/header/sunny_coastal.jpg"
@@ -21,11 +21,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/independence-r/independence-r
+    url: /lehre/independence/independence-r
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/independence-r/independence-r.R
+    url: /lehre/independence/independence-r.R
 output:
   html_document:
     keep_md: true
@@ -33,44 +33,41 @@ output:
 
 # Contents
 
+* 1\. [Introduction](#intro)
+* 2\. [How do I get started?](#start) 
+* 3\. [Common analysis steps](#analysis) 
+    * 3.1\. [I. Reading raw data](#rawdata) 
+        * 3.1.1\. [An aside about file paths](#filepaths) 
+    * 3.2\. [II. Cleaning up and preprocessing raw data](#cleaningup)
+    * 3.3\. [III. Aggregate raw data](#aggregate) 
+    * 3.4\. [IV. Descriptive analysis and plots](#descriptive) 
+        * 3.4.1\. [Descriptive stastics: Getting a sense of your data](#data) 
+        * 3.4.2\. [Confidence intervals](#ci) 
+        * 3.4.3\. [Data visualisation magic](#visualization)
+            * 3.4.3.1\. [Boxplots](#boxplot)
+            * 3.4.3.2\. [Adding titles and labels](#titles)
+            * 3.4.3.3\. [Spaghetti plots](#spaghetti)
+            * 3.4.3.4\. [Fancy Barplots](#fancybarplots)
+            * 3.4.3.5\. [Visualizing correlations with scatter plots](#scatterplot)
+    * 3.5\. [V. Inferential analysis](#inferential) 
+        * 3.5.1\. [Normality assumption](#normality)
+        * 3.5.2\. [Homogeneity of variance assumption](#homogeneity)
+        * 3.5.3\. [Correlation](#correlation)
+        * 3.5.4\. [Regression](#regression)
+        * 3.5.5\. [t-test](#ttest)
+        * 3.5.6\. [One-way ANOVA](#oneanova)
+        * 3.5.7\. [Repeated measures ANOVA](#twoanova)
+        * 3.5.8\. [Mixed designs (within/between factors)](#mixeddesign)
+* 4\. [General notes on `R`](#notes) |
+    * 4.1\. [Interface](#interface)
+    * 4.2\. [Install and import packages](#packages)
+    * 4.3\. [Let's start and create a few objects](#objects)
+        * 4.3.1\. [First objects in `R`](#firstobjects)
+        * 4.3.2\. [Arithmetic operations](#arithmetic)
+        * 4.3.3\. [Let's turn to somewhat more advanced stuff](#advanced)
+    * 4.4\. [What are `if` statements?](#if)
+    * 4.5\. [And what about `loops`?](#loops)
 
-| | |
-| - | --- |
-| 1 | [Introduction](#intro}) |
-| 2 | [How do I get started?](#start) |
-| 3 | [Common analysis steps](#analysis}) |
-| 3.1 | [I. Reading raw data](#rawdata) |
-| 3.1.1 | [An aside about file paths](#filepaths) |
-| 3.2 | [II. Cleaning up and preprocessing raw data](#cleaningup) |
-| 3.3 | [III. Aggregate raw data](#aggregate) |
-| 3.4 | [IV. Descriptive analysis and plots](#descriptive) |
-| 3.4.1 | [Descriptive stastics: Getting a sense of your data](#data) |
-| 3.4.2 | [Confidence intervals](#ci) |
-| 3.4.3 | [Data visualisation magic](#visualization)
-| 3.4.3.1 | [Boxplots](#boxplot)
-| 3.4.3.2 | [Adding titles and labels](#titles)
-| 3.4.3.3 | [Spaghetti plots](#spaghetti)
-| 3.4.3.4 | [Fancy Barplots](#fancybarplots)
-| 3.4.3.5 | [Visualizing correlations with scatter plots](#scatterplot)
-| 3.5 | [V. Inferential analysis](#inferential) |
-| 3.5.1 | [Normality assumption](#normality)
-| 3.5.2 | [Homogeneity of variance assumption](#homogeneity)
-| 3.5.3 | [Correlation](#correlation)
-| 3.5.4 | [Regression](#regression)
-| 3.5.5 | [t-test](#ttest)
-| 3.5.6 | [One-way ANOVA](#oneanova)
-| 3.5.7 | [Repeated measures ANOVA](#twoanova)
-| 3.5.8 | [Mixed designs (within/between factors)](#mixeddesign)
-| 4 | [General notes on `R`](#notes) |
-| 4.1 | [Interface](#interface)
-| 4.2 | [Install and import packages](#packages)
-| 4.3 | [Let's start and create a few objects](#objects)
-| 4.3.1 | [First objects in `R`](#firstobjects)
-| 4.3.2 | [Arithmetic operations](#arithmetic)
-| 4.3.3 | [Let's turn to somewhat more advanced stuff](#advanced)
-| 4.4 | [What are `if` statements?](#if)
-| 4.5 | [And what about `loops`?](#notes)
-| | |
 
 
 # Introduction {#intro}
@@ -79,7 +76,7 @@ Dear students,
 
 This tutorial was developed for thesis students at `LISCO lab` (Lifespan Brain and Cognitive Development lab, Goethe-University Frankfurt am Main) and may also be useful in other contexts.
 
-In this tutorial, I - [Dr. Sophie Nolden](/authors/nolden) - will provide some tips that are meant to help you to use `R` independently. This implies that you find own solutions for your analyses, with operations and functions that are new to you. If you are students at Goethe-University, most of you have already worked with `R` in the **Expra** or other courses, and things may have seemed very clear to you back then. However, when you have to create your own analysis script from scratch, you may sometimes be a little lost. I thus summarized a few key points that can help you to find your way in the jungle!  
+In this tutorial, I - [Dr. Sophie Nolden](/authors/sophie-nolden) - will provide some tips that are meant to help you to use `R` independently. This implies that you find own solutions for your analyses, with operations and functions that are new to you. If you are students at Goethe-University, most of you have already worked with `R` in the **Expra** or other courses, and things may have seemed very clear to you back then. However, when you have to create your own analysis script from scratch, you may sometimes be a little lost. I thus summarized a few key points that can help you to find your way in the jungle!  
 
 Please make sure that you always try to figure out the solution yourself first. If you are stuck, ask your peers (or your supervisor if your peers cannot help you), and make sure that you provide all the information needed to understand both your question and your first approach to solve the problem.  
 
@@ -91,7 +88,7 @@ If you need more input, I suggest to work with an online tutorial of your choice
 
 You may also want to checkout the documentation on [R Markdown](https://rmarkdown.rstudio.com/index.html).
 
-The Department of Psychological Methodology at the Psychology Faculty of Goethe-University has also created `pandaR` - the very site you are reading this tutorial on. `pandaR` was first created in order to present projects to deepen your skills in `R` and to experiment around with the contents of the module `PsyBSc2` that aims to teach students the statistical basics in `R`. Since then, the team has worked on uploading detailed tutorials on various statistical measures and applications. Have a look at the page [Lehre](/lehre/main) where you can find an overview of all the topics that are dealt with in the statistics lectures.
+The Department of Psychological Methodology at the Psychology Faculty of Goethe-University has also created `pandaR` - the very site you are reading this tutorial on. `pandaR` was first created in order to present projects to deepen your skills in `R` and to experiment around with the contents of the module `PsyBSc2` that aims to teach students the statistical basics in `R`. Since then, the team has worked on uploading detailed tutorials on various statistical measures and applications. Have a look at the page [Lehre](/lehre/main/) where you can find an overview of all the topics that are dealt with in the statistics lectures.
 
 On `pandaR` you'll find a general introduction to `R` that offers a very detailed explanation of the most important functions of the software (in German). Feel free to [take a look](/lehre/statistik-i/crash-kurs), if you are new to `R`!
 
@@ -137,7 +134,7 @@ Here are four main sources of help for your script:
 1. Recycle elements from previous scripts. Create functions for recurring problems. This is actually quite useful because you have already figured it out once before. **Remember to always provide comments on what you are doing in the script, in order to be able to recycle stuff in the future.**
 2. Use a search engine of your choice and look up your question in the internet. The community is huge and usually very friendly, and chances are quite high that somebody else has encountered your problem before. (You can also post questions yourself if nobody has asked your questions before, but this will most likely not be the case.) Search in English. I like pages such as `stackoverflow` and `github` for helpful discussions. It will take some time until you know how to ask your questions properly. Your first search term should of course be "R". Use key words from `R` and psychology, such as "data frame", "columns", "outlier"... If you put too many terms into the search window, you will probably get a lot of results that are not related to your question, so try to be precise. When you realize that the answers you get are rather remote from what you actually want, change your search terms.
 3. Use the help function in `R`. This requires some practice and may not always help you when you are new to it. I find it most useful for the list of input arguments and the examples provided in the end.
-4. As mentioned before, you will find many detailed tutorials on specific statistical topics on [pandaR](/lehre).
+4. As mentioned before, you will find many detailed tutorials on specific statistical topics on [pandaR](/lehre/main/).
 
 This is how you deal with the `help` function.  
 
@@ -158,9 +155,7 @@ apropos('anova')
 ```
 
 ```
-## [1] "anova"            "Anova"            "ezANOVA"         
-## [4] "manova"           "Manova"           "power.anova.test"
-## [7] "ranova"           "stat.anova"       "summary.manova"
+## [1] "anova"            "manova"           "power.anova.test" "stat.anova"       "summary.manova"
 ```
 
 Use `example(<topic>)` if you want to see an example. 
@@ -293,7 +288,7 @@ all_groups <- rbind(all_groups, my_data)
   
   **Tip 2 for using loops**: Use a meaningful term for the value that changes at each iteration. "val" or "i" are not meaningful, but "i_group" or "i_participant" are. This will help you to keep track of what you are actually doing, especially in nested loops.
   
-  If you are interested in finding out more about loops and the (literally) endless possibilites that they offer, you can check out the [tutorial](/post/loops-und-funktionen) on them on `pandaR`.
+  If you are interested in finding out more about loops and the (literally) endless possibilites that they offer, you can check out the [tutorial](/lehre/statistik-ii/loops-und-funktionen/) on them on `pandaR`.
   
 * In some cases, multiple files are generated per participant and you may want to merge the different files. For example, in a memory study, you have one file for a memory encoding session and one file for a memory retrieval session. It can be useful to have the two sessions organized as different columns and each line referring to a specific stimulus. In this case, check out a "merge" function (I like the one from the package "data.table") in these cases.
 
@@ -695,9 +690,9 @@ example4
 ## 1           5 exp            0.5   0.2
 ## 2           5 sur            0.6   0.3
 ## 3           5 new            0.7   0.4
-## 4           6 exp            0.7   0.4
-## 5           6 sur            0.8   0.5
-## 6           6 new            0.9   0.6
+## 4           6 exp            0.7   0.6
+## 5           6 sur            0.8   0.7
+## 6           6 new            0.9   0.8
 ```
 
 **Pr** values for new items do not make any sense, remove values, so let us remove them.
@@ -715,8 +710,8 @@ example4
 ## 1           5 exp            0.5   0.2
 ## 2           5 sur            0.6   0.3
 ## 3           5 new            0.7  NA  
-## 4           6 exp            0.7   0.4
-## 5           6 sur            0.8   0.5
+## 4           6 exp            0.7   0.6
+## 5           6 sur            0.8   0.7
 ## 6           6 new            0.9  NA
 ```
 
@@ -734,8 +729,8 @@ example4
 ##         <dbl> <chr>        <dbl> <dbl>
 ## 1           5 exp            0.5   0.2
 ## 2           5 sur            0.6   0.3
-## 3           6 exp            0.7   0.4
-## 4           6 sur            0.8   0.5
+## 3           6 exp            0.7   0.6
+## 4           6 sur            0.8   0.7
 ```
 
 At this point, it is also good to check participants' performance. Do you want to exclude participants with low performance?  
@@ -813,7 +808,7 @@ by(example5, example5$stim_type, summary) # It's nice to have both steps in just
 ##  Mean   : 7.50                      Mean   :0.1167  
 ##  3rd Qu.: 8.75                      3rd Qu.:0.1375  
 ##  Max.   :10.00                      Max.   :0.2100  
-## --------------------------------------------------------- 
+## --------------------------------------------------------------------------- 
 ## example5$stim_type: sur
 ##   participant     stim_type               Pr        
 ##  Min.   : 5.00   Length:6           Min.   :0.3000  
@@ -992,7 +987,9 @@ plotmeans(Pr ~ stim_type, data = example5)
 **Within-subjects Design**  
 One way to construct CIs in within-subjects designs was proposed by [Cousineau (2005)](https://www.tqmp.org/RegularArticles/vol01-1/p042/) and was advanced by [Morey (2005)](https://www.tqmp.org/RegularArticles/vol04-2/p061/). His approach suggests to **normalize** the data by subtracting the participant's mean from each observation. Then, the normalized data should be used to build confidence intervals with a similar method as for between subjects which also takes the number of observations into account.   
   
-A handy way to calculate the within-subjects CI based on Cousineau is using the function `cm.ci` from the package `tkmisc`. The only requirement here is that your data are in a wide format and contain only the values of the two conditions. In this example we can use the data frame `example5_wide`:      
+A handy way to calculate the within-subjects CI based on Cousineau is using the function `cm.ci` from the package `tkmisc`. The only requirement here is that your data are in a wide format and contain only the values of the two conditions. In this example we can use the data frame `example5_wide`:   
+
+
 
 ```r
 # install.packages("remotes")
@@ -1033,7 +1030,7 @@ ggplot(CI_within, aes(x=stim_type, y=Pr, colour=stim_type)) +
 
 ### Data visualisation magic {#visualization}
 
-For plotting I recommend the package [ggplot2](https://raw.githubusercontent.com/rstudio/cheatsheets/master/pngs/thumbnails/data-visualization-cheatsheet-thumbs.png) which has many helpful functions for data visualization and it also gives you the freedom to individualize the plots and to change the  parameters the way you want. There is also a seperate [tutorial](/extras/#ggplotting) on `pandaR` that gives an in-depth description of the `ggplot2` package and many of its functions.
+For plotting I recommend the package [ggplot2](https://raw.githubusercontent.com/rstudio/cheatsheets/master/pngs/thumbnails/data-visualization-cheatsheet-thumbs.png) which has many helpful functions for data visualization and it also gives you the freedom to individualize the plots and to change the  parameters the way you want. 
 
 
 #### Boxplots {#boxplot}
@@ -1615,6 +1612,20 @@ In order to do this, we need to work on a "wide-dataset", where every row repres
 
 ```r
 library(reshape2)
+```
+
+```
+## 
+## Attaching package: 'reshape2'
+```
+
+```
+## The following object is masked from 'package:tidyr':
+## 
+##     smiths
+```
+
+```r
 # Create a wide dataset by aggregating performance on the participant level.
 # In order to do that, we can use the reshape function. 
 # We need to specify the grouping variables ("idvar"), i.e. the variables that vary between participants. Those are participants' id, group, and wm. The condition that varies within participant ("timevar") is "condition". 
@@ -1688,7 +1699,7 @@ There is a significant correlation between participants' working memory and thei
 
 ### Regression {#regression}
 With regression we also explore relationships between variables. Unlike correlation, regression assumes that there are a response variable (or dependent variable, or outcome) and one or several predictors (or independent variables). It also allows to make prediction, thanks to the coefficients that it returns. 
-A more detailed tutorial on regression analysis can also be found on `pandaR`, where there's a special [tutorial](/lehre/statistik-i/einfache-regression) on it.
+A more detailed tutorial on regression analysis can also be found on `pandaR`, where there's a special [tutorial](/lehre/statistik-i/einfache-reg/) on it.
 Let's consider our working memory - recognition relationship as a regression. 
 
 ```r
@@ -1833,7 +1844,7 @@ by(data_food$recog_perf, data_food$condition, FUN = mean)
 ```
 ## data_food$condition: cold
 ## [1] 0.5574449
-## --------------------------------------------------------- 
+## --------------------------------------------------------------------------- 
 ## data_food$condition: warm
 ## [1] 0.6964455
 ```
@@ -1841,7 +1852,7 @@ Warm food is remembered better than cold food.
 We could also consider the paired-sample t-test as a regression, but in this case would be a bit more difficult. In fact, in this case we have to take into account the dependency in the data, and this is usually done by adding random effects to the normal regression. But we can look into it later on. 
 
 ### One-way ANOVA {#oneanova}
-Now that we know how to compare two means, we can consider cases in which we have more than two. This is usually done with an ANOVA. To find out more about ANOVAs and contrasts, have a look at the [pandaR tutorial](/post/anova1/)!    
+Now that we know how to compare two means, we can consider cases in which we have more than two. This is usually done with an ANOVA. To find out more about ANOVAs and contrasts, have a look at the [pandaR tutorial](/lehre/statistik-ii/anova-i/)!    
 
 (!! Nerd Alert !!) We need to create a third group in our data. The following section is not important and can be skipped, unless you are really interested. 
 
@@ -1895,20 +1906,13 @@ head(data_food_wide)
 ```
 
 ```
-##   participant  group        wm recog_perf.cold recog_perf.warm
-## 1           1 hungry 0.6630468       0.3701675       0.6795923
-## 2           2 hungry 0.8260525       0.6779541       0.7617480
-## 3           3 hungry 0.8002971       0.6066051       0.8200754
-## 4           4 hungry 0.6848700       0.4540464       0.7102183
-## 5           5 hungry 0.6968984       0.4525917       0.8072747
-## 6           6 hungry 0.7940126       0.7107697       0.7325580
-##   recog_perf_avg
-## 1      0.5248799
-## 2      0.7198511
-## 3      0.7133403
-## 4      0.5821324
-## 5      0.6299332
-## 6      0.7216639
+##   participant  group        wm recog_perf.cold recog_perf.warm recog_perf_avg
+## 1           1 hungry 0.6630468       0.3701675       0.6795923      0.5248799
+## 2           2 hungry 0.8260525       0.6779541       0.7617480      0.7198511
+## 3           3 hungry 0.8002971       0.6066051       0.8200754      0.7133403
+## 4           4 hungry 0.6848700       0.4540464       0.7102183      0.5821324
+## 5           5 hungry 0.6968984       0.4525917       0.8072747      0.6299332
+## 6           6 hungry 0.7940126       0.7107697       0.7325580      0.7216639
 ```
 Okay, now let's compare the three groups (hungry, not hungry, super hungry) in our wide format dataset (data_food_wide). We can use the `aov()` function. Another popular way to run ANOVAs is by using the `ez()` package.
 
@@ -1918,8 +1922,8 @@ leveneTest(data_food_wide$recog_perf_avg, data_food_wide$group, center = mean)
 ```
 
 ```
-## Warning in leveneTest.default(data_food_wide$recog_perf_avg,
-## data_food_wide$group, : data_food_wide$group coerced to factor.
+## Warning in leveneTest.default(data_food_wide$recog_perf_avg, data_food_wide$group, :
+## data_food_wide$group coerced to factor.
 ```
 
 ```
@@ -2012,7 +2016,7 @@ You could also use different contrasts (repeated, helmert, etc.) or make your ow
 
 ### Repeated measures ANOVA {#twoanova}
 We have seen how to run an ANOVA when our dependent variable varies between participants. But what about within-participants variables?
-There is also a [tutorial](/post/anova3/) on `pandaR` on this topic, including contrasts, how convenient!
+There is also a [tutorial](/lehre/statistik-ii/anova-iii/) on `pandaR` on this topic, including contrasts, how convenient!
 
 First, we need to create a third condition. Let's imagine that we are also showing images of frozen food. 
 
@@ -2086,22 +2090,17 @@ anova_within
 
 ```
 ## $ANOVA
-##        Effect DFn DFd       SSn      SSd          F            p p<.05
-## 1 (Intercept)   1  89 68.997174 4.181903 1468.41017 4.211490e-57     *
-## 2   condition   2 178  2.295248 3.100315   65.88912 3.835747e-22     *
-##         ges
-## 1 0.9045323
-## 2 0.2396508
+##        Effect DFn DFd       SSn      SSd          F            p p<.05       ges
+## 1 (Intercept)   1  89 68.997174 4.181903 1468.41017 4.211490e-57     * 0.9045323
+## 2   condition   2 178  2.295248 3.100315   65.88912 3.835747e-22     * 0.2396508
 ## 
 ## $`Mauchly's Test for Sphericity`
 ##      Effect         W         p p<.05
 ## 2 condition 0.9633512 0.1934302      
 ## 
 ## $`Sphericity Corrections`
-##      Effect       GGe        p[GG] p[GG]<.05       HFe        p[HF]
-## 2 condition 0.9646468 1.888423e-21         * 0.9856153 7.336609e-22
-##   p[HF]<.05
-## 2         *
+##      Effect       GGe        p[GG] p[GG]<.05       HFe        p[HF] p[HF]<.05
+## 2 condition 0.9646468 1.888423e-21         * 0.9856153 7.336609e-22         *
 ```
 The results show that recognition performance significantly differed across conditions. 
 The `ezAnova()` function also runs a "Mauchly test for Sphericity", and corrected results in case it turns out to be significant. 
@@ -2147,8 +2146,7 @@ summary(LLM_within)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
-## lmerModLmerTest]
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
 ## Formula: recog_perf ~ condition + (1 | participant)
 ##    Data: data_food
 ## 
@@ -2210,16 +2208,11 @@ anova_mixed
 
 ```
 ## $ANOVA
-##            Effect DFn DFd         SSn      SSd            F            p
-## 1     (Intercept)   1  87 68.99717449 1.525775 3934.2324078 3.273691e-74
-## 2           group   2  87  2.65612758 1.525775   75.7264574 8.955150e-20
-## 3       condition   2 174  2.29524759 3.065667   65.1364028 7.654054e-22
-## 4 group:condition   4 174  0.03464792 3.065667    0.4916335 7.418838e-01
-##   p<.05         ges
-## 1     * 0.937606621
-## 2     * 0.366485257
-## 3     * 0.333287481
-## 4       0.007489677
+##            Effect DFn DFd         SSn      SSd            F            p p<.05         ges
+## 1     (Intercept)   1  87 68.99717449 1.525775 3934.2324078 3.273691e-74     * 0.937606621
+## 2           group   2  87  2.65612758 1.525775   75.7264574 8.955150e-20     * 0.366485257
+## 3       condition   2 174  2.29524759 3.065667   65.1364028 7.654054e-22     * 0.333287481
+## 4 group:condition   4 174  0.03464792 3.065667    0.4916335 7.418838e-01       0.007489677
 ## 
 ## $`Mauchly's Test for Sphericity`
 ##            Effect         W         p p<.05
@@ -2227,12 +2220,9 @@ anova_mixed
 ## 4 group:condition 0.9653122 0.2191369      
 ## 
 ## $`Sphericity Corrections`
-##            Effect       GGe        p[GG] p[GG]<.05       HFe        p[HF]
-## 3       condition 0.9664751 3.392430e-21         * 0.9880419 1.301719e-21
+##            Effect       GGe        p[GG] p[GG]<.05       HFe        p[HF] p[HF]<.05
+## 3       condition 0.9664751 3.392430e-21         * 0.9880419 1.301719e-21         *
 ## 4 group:condition 0.9664751 7.356234e-01           0.9880419 7.396770e-01
-##   p[HF]<.05
-## 3         *
-## 4
 ```
 As we can see, the effects of group and condition are significant, but the interaction between the two is not. Let's try the LMM analysis. 
 
@@ -2247,10 +2237,8 @@ summary(LMM_mixed)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
-## lmerModLmerTest]
-## Formula: 
-## recog_perf ~ condition + group + condition:group + (1 | participant)
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Formula: recog_perf ~ condition + group + condition:group + (1 | participant)
 ##    Data: data_food
 ## 
 ## REML criterion at convergence: -283.2
@@ -2266,48 +2254,29 @@ summary(LMM_mixed)
 ## Number of obs: 270, groups:  participant, 90
 ## 
 ## Fixed effects:
-##                                    Estimate Std. Error        df t value
-## (Intercept)                         0.59385    0.02422 261.00000  24.524
-## conditionfrozen                    -0.09283    0.03425 261.00000  -2.711
-## conditionwarm                       0.16135    0.03425 261.00000   4.711
-## groupnot hungry                    -0.07281    0.03425 261.00000  -2.126
-## groupsuper hungry                  -0.22615    0.03425 261.00000  -6.604
-## conditionfrozen:groupnot hungry    -0.01495    0.04843 261.00000  -0.309
-## conditionwarm:groupnot hungry      -0.04470    0.04843 261.00000  -0.923
-## conditionfrozen:groupsuper hungry   0.00688    0.04843 261.00000   0.142
-## conditionwarm:groupsuper hungry    -0.05094    0.04843 261.00000  -1.052
-##                                   Pr(>|t|)    
-## (Intercept)                        < 2e-16 ***
-## conditionfrozen                    0.00716 ** 
-## conditionwarm                     4.00e-06 ***
-## groupnot hungry                    0.03443 *  
-## groupsuper hungry                 2.23e-10 ***
-## conditionfrozen:groupnot hungry    0.75775    
-## conditionwarm:groupnot hungry      0.35690    
-## conditionfrozen:groupsuper hungry  0.88714    
-## conditionwarm:groupsuper hungry    0.29390    
+##                                    Estimate Std. Error        df t value Pr(>|t|)    
+## (Intercept)                         0.59385    0.02422 261.00000  24.524  < 2e-16 ***
+## conditionfrozen                    -0.09283    0.03425 261.00000  -2.711  0.00716 ** 
+## conditionwarm                       0.16135    0.03425 261.00000   4.711 4.00e-06 ***
+## groupnot hungry                    -0.07281    0.03425 261.00000  -2.126  0.03443 *  
+## groupsuper hungry                  -0.22615    0.03425 261.00000  -6.604 2.23e-10 ***
+## conditionfrozen:groupnot hungry    -0.01495    0.04843 261.00000  -0.309  0.75775    
+## conditionwarm:groupnot hungry      -0.04470    0.04843 261.00000  -0.923  0.35690    
+## conditionfrozen:groupsuper hungry   0.00688    0.04843 261.00000   0.142  0.88714    
+## conditionwarm:groupsuper hungry    -0.05094    0.04843 261.00000  -1.052  0.29390    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
-##                 (Intr) cndtnf cndtnw grpnth grpsph cndtnfrzn:grpnh
-## conditnfrzn     -0.707                                            
-## conditinwrm     -0.707  0.500                                     
-## gropnthngry     -0.707  0.500  0.500                              
-## grpsprhngry     -0.707  0.500  0.500  0.500                       
-## cndtnfrzn:grpnh  0.500 -0.707 -0.354 -0.707 -0.354                
-## cndtnwrm:grpnh   0.500 -0.354 -0.707 -0.707 -0.354  0.500         
-## cndtnfrzn:grpsh  0.500 -0.707 -0.354 -0.354 -0.707  0.500         
-## cndtnwrm:grpsh   0.500 -0.354 -0.707 -0.354 -0.707  0.250         
-##                 cndtnwrm:grpnh cndtnfrzn:grpsh
-## conditnfrzn                                   
-## conditinwrm                                   
-## gropnthngry                                   
-## grpsprhngry                                   
-## cndtnfrzn:grpnh                               
-## cndtnwrm:grpnh                                
-## cndtnfrzn:grpsh  0.250                        
-## cndtnwrm:grpsh   0.500          0.500         
+##                 (Intr) cndtnf cndtnw grpnth grpsph cndtnfrzn:grpnh cndtnwrm:grpnh cndtnfrzn:grpsh
+## conditnfrzn     -0.707                                                                           
+## conditinwrm     -0.707  0.500                                                                    
+## gropnthngry     -0.707  0.500  0.500                                                             
+## grpsprhngry     -0.707  0.500  0.500  0.500                                                      
+## cndtnfrzn:grpnh  0.500 -0.707 -0.354 -0.707 -0.354                                               
+## cndtnwrm:grpnh   0.500 -0.354 -0.707 -0.707 -0.354  0.500                                        
+## cndtnfrzn:grpsh  0.500 -0.707 -0.354 -0.354 -0.707  0.500           0.250                        
+## cndtnwrm:grpsh   0.500 -0.354 -0.707 -0.354 -0.707  0.250           0.500          0.500         
 ## optimizer (nloptwrap) convergence code: 0 (OK)
 ## boundary (singular) fit: see help('isSingular')
 ```
@@ -2333,7 +2302,7 @@ Anova(LMM_mixed, type = "III")
 ```
 As before, after using LMM we found that that participants remember differently the images depending on whether they depict warm, cold, or frozen food. In addition, participants' hunger affect image recognition. However, the effect of food condition on image recognition does not change depending on participants' hunger. 
 
-To find out more about Linear Mixed Models, check out the [tutorial](/lehre/fue-i/multi-level-modeling) on `pandaR`!
+To find out more about Linear Mixed Models, check out the [tutorial](/lehre/fue-i/hierarchische-regression-schule/) on `pandaR`!
 
 
 # General notes on `R` {#notes}
@@ -2718,8 +2687,7 @@ c
 ```
 
 ```
-##  [1]  2.0  1.8  1.6  1.4  1.2  1.0  0.8  0.6  0.4  0.2  0.0 -0.2 -0.4 -0.6
-## [15] -0.8 -1.0
+##  [1]  2.0  1.8  1.6  1.4  1.2  1.0  0.8  0.6  0.4  0.2  0.0 -0.2 -0.4 -0.6 -0.8 -1.0
 ```
 
 ```r
@@ -3010,7 +2978,7 @@ This is a list of useful logical operators:
 * `&` (and)  
 * `isTRUE(x)` (test if x is true)  
 
-## And what about `loops`? {#notes}
+## And what about `loops`? {#loops}
 
 Loops are not used very often in `R` because they may take a little longer as if you solved the problem in a different way. However, they do the job, and as long as you do not use them extensively, you will be fine.
 
@@ -3100,7 +3068,7 @@ for (i in 1:m){
 ## [1] "This number is greater than 5."
 ```
 
-For a detailed introduction into `if` statements and loops, check out the [tutorial](/post/loops-und-funktionen/) on `pandaR`!
+For a detailed introduction into `if` statements and loops, check out the [tutorial](/lehre/statistik-ii/loops-und-funktionen/) on `pandaR`!
 
 
 ***
