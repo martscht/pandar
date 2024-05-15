@@ -7,7 +7,7 @@ categories: []
 tags: ["Projekt3"]
 subtitle: ''
 summary: 'In diesem Projekt versuchen wir, uns den Weg ins Casino zu ersparen, indem wir selbst ein vollständiges Roulette in R programmieren. Das heißt, dass wir uns mit Zufallsziehungen, Schleifen und Funktionen auseinandersetzen müssen. Aber Vorsicht, Glücksspiel kann süchtig machen!'
-authors: [mehler, rouchi]
+authors: [mehler, schreiner, rouchi]
 weight: 1
 lastmod: '`r Sys.Date()`'
 featured: no
@@ -32,7 +32,12 @@ output:
     keep_md: true
 ---
 
-```{r,echo=F}
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
+```{r,echo=F, purl = F}
 set.seed(999)
 ```
 
@@ -44,7 +49,7 @@ In diesem Projekt soll es um den Umgang mit Funktionen in `R`, den Umgang mit We
 
 ## Vorbereitung
 
-Für die Bearbeitung dieses Projektes solltest du dich zunächst mit Funktionen in `R` beschäftigen. Dazu kannst du dich entweder selbst im Internet informieren oder du nutzt diesen [R-Blog](https://r-coding.de/blog/if-else/) zu `if` und `else` - Bedingungen in `R`. In der statistischen Lehre an der Goethe Universität werden diese Arten von Funktionen in dem Tutorial [Loops und Funktionen](/post/loops-und-funktionen) für PsyBSc7 näher behandelt. 
+Für die Bearbeitung dieses Projektes solltest du dich zunächst mit Funktionen in `R` beschäftigen. Dazu kannst du dich entweder selbst im Internet informieren oder du nutzt diesen [R-Blog](https://r-coding.de/blog/if-else/) zu `if` und `else` - Bedingungen in `R`. In der statistischen Lehre an der Goethe Universität werden diese Arten von Funktionen in dem Tutorial [Loops und Funktionen](/lehre/statistik-ii/loops-funktionen/) für PsyBSc7 näher behandelt. 
 
 Desweiteren solltest du dich ein wenig mit dem Spiel Roulette auseinandersetzen. Auf [SpielBank.com.de](https://www.spielbank.com.de/online-casinos/roulette/regeln/) kannst du dir die Regeln und den Ablauf des französischen Roulettes durchlesen, um mögliche Wetten und die dazugehörigen Wettquoten kennenzulernen. Kurz zusammengefasst wird eine Roulettekugel in den Roulettekessel geworfen, welcher mit 37 Fächern (für die Zahlen 0-36) in abwechselnd roter und schwarzer Farbe - oder grün im Falle der 0 - bestückt ist. **Ziel des Spieles ist es, die Zahl oder die Farbe vorherzusagen, auf welcher die Kugel in der folgenden Spielrunde liegenbleiben wird.**
 
@@ -108,7 +113,7 @@ View(Monopoly_Gefaengnis)     # Datensatz anschauen
 Mit dieser Funktion "würfelt" man also 50 Mal, speichert die Augenzahlen jeweils ab und fügt `Bedeutung` und die daraus folgende `Konsequenz` für das Spiel hinzu. Am Ende liegen in allen 4 Variablen (`Ergebnis1`, `Ergebnis2`, `Bedeutung` und `Konsequenz`) 50 zusammengehörige Ausprägungen vor. Diese kann man dann in einen Datensatz zusammenfügen und erhält folgende Tabelle:
 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, purl = F}
 knitr::kable(Monopoly_Gefaengnis[1:10, ], "html")
 ```
 
@@ -236,7 +241,7 @@ Die `ifelse`-Funktion ist folgendermaßen aufgebaut:
 
 Wenn also eine 9 herausgekommen ist, soll ein Gewinn von `180` eingesetzt werden; ansonsten der Gewinn von `-5` (= Verlust). Der dadurch bestimmte Vektor sieht dann folgendermaßen aus:
 
-```{r, echo = F}
+```{r, echo = F, purl = F}
 Gewinne
 ```
 
@@ -610,7 +615,7 @@ In diesem Abschnitt beschäftigen wir uns mit dem Erstellen von eigenen Funktion
 
 <details> <summary> Teil 1 </summary>    
 
-Als allererstes solltest du dir diesen [PandaR Beitrag](/post/loops-und-funktionen/#function) oder diesen [Wikipedia Artikel](https://de.wikibooks.org/wiki/GNU_R:_Eigene_Funktionen_programmieren) zu der `function`-Funktion in `R` durchlesen, falls du dich damit noch nicht auskennst. Hierin wird erklärt, wie diese Funktion in `R` funktioniert. Sobald du das verstanden hast, kannst du mit dem Erstellen der Funktion beginnen.
+Als allererstes solltest du dir diesen [PandaR Beitrag](/lehre/statistik-ii/loops-funktionen/#function) oder diesen [Wikipedia Artikel](https://de.wikibooks.org/wiki/GNU_R:_Eigene_Funktionen_programmieren) zu der `function`-Funktion in `R` durchlesen, falls du dich damit noch nicht auskennst. Hierin wird erklärt, wie diese Funktion in `R` funktioniert. Sobald du das verstanden hast, kannst du mit dem Erstellen der Funktion beginnen.
 
 Ein wichtiger Bestandteil der Funktion sind die Parameter in der normalen Klammer. Hier stellt sich die Frage: Wie viele "Unbekannte" wird meine Funktion haben? Welche Information braucht meine Funktion? - In unserem Fall handelt es sich nur um zwei Unbekannte, die man als Spieler im vorhinein angeben muss:
 
@@ -648,7 +653,7 @@ Wuerfeln2 ()
  
 <details> <summary> Teil 2 </summary>
 
-Diese Funktion gestaltet sich etwas komplexer als die vorherige Funktion. Hier werden wir mit dem `repeat`-Befehl und `if (condition) break` arbeiten. Schau dir die Funktionsweise davon im Internet oder im [Appendix A dieses PandaR Beitrag](/post/loops-und-funktionen/#AppendixA) an. An sich funktioniert dieser Befehl genauso wie eine `for`- oder `while`-Schleife, nur dass wir die Schleife hier erst dann stoppen wollen, wenn ein explizites Ereignis eintritt.
+Diese Funktion gestaltet sich etwas komplexer als die vorherige Funktion. Hier werden wir mit dem `repeat`-Befehl und `if (condition) break` arbeiten. Schau dir die Funktionsweise davon im Internet oder im [Appendix A dieses PandaR Beitrag](/lehre/statistik-ii/loops-funktionen/#AppendixA) an. An sich funktioniert dieser Befehl genauso wie eine `for`- oder `while`-Schleife, nur dass wir die Schleife hier erst dann stoppen wollen, wenn ein explizites Ereignis eintritt.
 
 Wie bereits in allen anderen Aufgaben solltest du auch hier auf den bereits vorhandenen Operationen aufbauen. Für diese Funktion eignet sich logischerweise die Funktion aus Teil 1 dieses Abschnitts. Es kommt nur eine weitere Variable - neben Einsatz und Wette - hinzu und zwar die Rundenzahl. Das ist die erste Ergänzung, die du vornehmen kannst: Erstelle eine neue Variable für die Rundenzahl in der normalen Klammer. (Außerdem solltest du dieser Funktion einen neuen Namen geben, um die erste Funktion nicht zu überschreiben.)
 

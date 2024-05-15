@@ -7,9 +7,9 @@ categories: []
 tags: ["Projekt3"]
 subtitle: ''
 summary: 'In diesem Projekt versuchen wir, uns den Weg ins Casino zu ersparen, indem wir selbst ein vollständiges Roulette in R programmieren. Das heißt, dass wir uns mit Zufallsziehungen, Schleifen und Funktionen auseinandersetzen müssen. Aber Vorsicht, Glücksspiel kann süchtig machen!'
-authors: [mehler, rouchi]
+authors: [mehler, schreiner, rouchi]
 weight: 1
-lastmod: '2024-02-19'
+lastmod: '2024-05-15'
 featured: no
 banner:
   image: "/header/roulette.jpg"
@@ -34,6 +34,9 @@ output:
 
 
 
+
+
+
 Dieses Projekt befasst sich mit dem Thema Glücksspiel. Es existieren zahlreiche Glücksspiele, beispielsweise Glücksspielautomaten (z.B. der "Einarmige Bandit"), Roulette, Kartenspiele (z.B. Blackjack und Poker), Würfelspiele, Sportwetten, Lotto, Rubbellose und Bingo sowie im weiteren Sinne auch die Börsenspekulation. In diesem Projekt möchten wir uns auf das Roulette konzentrieren. Roulette ist ein weltweit verbreitetes, traditionelles Glücksspiel, bei dem es darum geht, auf bestimmte Zahlen oder Eigenschaften von Zahlen zu setzen, die durch den zufälligen Lauf einer Kugel in einem Kessel bestimmt werden. ([Klicke hier für weitere Informationen](https://de.wikipedia.org/wiki/Roulette).) Ziel ist in diesem Projekt, dass du dir am Ende den Weg ins Casino sparen kannst, weil du dir in `R` ein Roulette nachgebaut hast!
 
 ## Zielsetzung
@@ -42,7 +45,7 @@ In diesem Projekt soll es um den Umgang mit Funktionen in `R`, den Umgang mit We
 
 ## Vorbereitung
 
-Für die Bearbeitung dieses Projektes solltest du dich zunächst mit Funktionen in `R` beschäftigen. Dazu kannst du dich entweder selbst im Internet informieren oder du nutzt diesen [R-Blog](https://r-coding.de/blog/if-else/) zu `if` und `else` - Bedingungen in `R`. In der statistischen Lehre an der Goethe Universität werden diese Arten von Funktionen in dem Tutorial [Loops und Funktionen](/post/loops-und-funktionen) für PsyBSc7 näher behandelt. 
+Für die Bearbeitung dieses Projektes solltest du dich zunächst mit Funktionen in `R` beschäftigen. Dazu kannst du dich entweder selbst im Internet informieren oder du nutzt diesen [R-Blog](https://r-coding.de/blog/if-else/) zu `if` und `else` - Bedingungen in `R`. In der statistischen Lehre an der Goethe Universität werden diese Arten von Funktionen in dem Tutorial [Loops und Funktionen](/lehre/statistik-ii/loops-funktionen/) für PsyBSc7 näher behandelt. 
 
 Desweiteren solltest du dich ein wenig mit dem Spiel Roulette auseinandersetzen. Auf [SpielBank.com.de](https://www.spielbank.com.de/online-casinos/roulette/regeln/) kannst du dir die Regeln und den Ablauf des französischen Roulettes durchlesen, um mögliche Wetten und die dazugehörigen Wettquoten kennenzulernen. Kurz zusammengefasst wird eine Roulettekugel in den Roulettekessel geworfen, welcher mit 37 Fächern (für die Zahlen 0-36) in abwechselnd roter und schwarzer Farbe - oder grün im Falle der 0 - bestückt ist. **Ziel des Spieles ist es, die Zahl oder die Farbe vorherzusagen, auf welcher die Kugel in der folgenden Spielrunde liegenbleiben wird.**
 
@@ -269,8 +272,8 @@ sample(0:36)
 ```
 
 ```
-##  [1]  0 27  8 24 22 23 19 15  2 17 33  1 36  7 20  5  4 18 21 34 29  3 11  9 16 28 13 32 30 14 31 35 12 25  6
-## [36] 26 10
+##  [1]  0 27  8 24 22 23 19 15  2 17 33  1 36  7 20  5  4 18 21 34 29  3 11  9 16 28 13 32 30 14 31 35
+## [33] 12 25  6 26 10
 ```
  
 Was hier nun passiert, ist eine Urnenziehung "ohne Zurücklegen" bis alle Nummern gezogen wurden. Das entspricht jedoch nicht der Zufallsziehung beim Roulette. Dort wird jeweils "mit Zurücklegen" gespielt. Das kann man nun auf zwei Wegen erreichen: 
@@ -308,8 +311,8 @@ Ziehungen
 ```
 
 ```
-##  [1] 31 35  5  5  3  9 17 16 28 31  5 35 14  3 13  1 29 24 12 32 17 34 18 18  0 19 12 15 34  6  9 16  8 25 34
-## [36] 22 12 17 34 16  8  7 25 20 36 31  9 17 27 23
+##  [1] 31 35  5  5  3  9 17 16 28 31  5 35 14  3 13  1 29 24 12 32 17 34 18 18  0 19 12 15 34  6  9 16
+## [33]  8 25 34 22 12 17 34 16  8  7 25 20 36 31  9 17 27 23
 ```
 
 Oder man geht einen etwas schwierigeren Weg über eine `for`-Schleife. Dafür erstellt man zuerst ein leeres Objekt, in dem man dann im Folgenden die einzelnen Ziehungen speichern kann, und führt dann die Schleife aus.
@@ -324,8 +327,8 @@ Ziehungen
 ```
 
 ```
-##  [1] 10 33  9 21 14 36 32 10 21 24 29  6 27 29 33 14 30  7 26 21 26 33 36 15 20 10  6 25 35  6  2  9 21 28 30
-## [36]  4 20 22  6 35 35 35 21  2  5 25  2  2 13 17
+##  [1] 10 33  9 21 14 36 32 10 21 24 29  6 27 29 33 14 30  7 26 21 26 33 36 15 20 10  6 25 35  6  2  9
+## [33] 21 28 30  4 20 22  6 35 35 35 21  2  5 25  2  2 13 17
 ```
 
 Die erste Variante ist zwar wesentlich einfacher zu schreiben (und für `R` auch wesentlich einfacher und schneller auszuführen), aber die zweite erlaubt es uns, nach dem Rollen jeder einzelnen Kugel noch andere Dinge zu tun.
@@ -353,8 +356,9 @@ Wenn also eine 9 herausgekommen ist, soll ein Gewinn von `180` eingesetzt werden
 
 
 ```
-##  [1]  -5  -5 180  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5
-## [27]  -5  -5  -5  -5  -5 180  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5
+##  [1]  -5  -5 180  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5
+## [25]  -5  -5  -5  -5  -5  -5  -5 180  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5  -5
+## [49]  -5  -5
 ```
 
 Jetzt kann man zu jeder Runde den Gewinn ablesen. Insgesamt ergibt das eine Ausbeute von:
@@ -551,8 +555,8 @@ Ziehungen
 ```
 
 ```
-##  [1] 15 13 15 10 34 30 33  7 23 18 23 16 25 22 34  8 24  6 22  2  9 30  1 24 35 17 16 35 30  6 30  2 27 17 22
-## [36]  9 13 20 36 12 25 35 12 17 10 20 21  2  8  0
+##  [1] 15 13 15 10 34 30 33  7 23 18 23 16 25 22 34  8 24  6 22  2  9 30  1 24 35 17 16 35 30  6 30  2
+## [33] 27 17 22  9 13 20 36 12 25 35 12 17 10 20 21  2  8  0
 ```
 
 ```r
@@ -560,8 +564,9 @@ Gewinne
 ```
 
 ```
-##  [1]  10  10  10 -10 -10 -10  10  10  10 -10  10 -10  10 -10 -10 -10 -10 -10 -10 -10  10 -10  10 -10  10  10
-## [27] -10  10 -10 -10 -10 -10  10  10 -10  10  10 -10 -10 -10  10  10 -10  10 -10 -10  10 -10 -10 -10
+##  [1]  10  10  10 -10 -10 -10  10  10  10 -10  10 -10  10 -10 -10 -10 -10 -10 -10 -10  10 -10  10 -10
+## [25]  10  10 -10  10 -10 -10 -10 -10  10  10 -10  10  10 -10 -10 -10  10  10 -10  10 -10 -10  10 -10
+## [49] -10 -10
 ```
 
 
@@ -588,8 +593,9 @@ cumsum(Gewinne)
 ```
 
 ```
-##  [1]  10  20  30  20  10   0  10  20  30  20  30  20  30  20  10   0 -10 -20 -30 -40 -30 -40 -30 -40 -30 -20
-## [27] -30 -20 -30 -40 -50 -60 -50 -40 -50 -40 -30 -40 -50 -60 -50 -40 -50 -40 -50 -60 -50 -60 -70 -80
+##  [1]  10  20  30  20  10   0  10  20  30  20  30  20  30  20  10   0 -10 -20 -30 -40 -30 -40 -30 -40
+## [25] -30 -20 -30 -20 -30 -40 -50 -60 -50 -40 -50 -40 -30 -40 -50 -60 -50 -40 -50 -40 -50 -60 -50 -60
+## [49] -70 -80
 ```
 
 ```r
@@ -795,7 +801,7 @@ In diesem Abschnitt beschäftigen wir uns mit dem Erstellen von eigenen Funktion
 
 <details> <summary> Teil 1 </summary>    
 
-Als allererstes solltest du dir diesen [PandaR Beitrag](/post/loops-und-funktionen/#function) oder diesen [Wikipedia Artikel](https://de.wikibooks.org/wiki/GNU_R:_Eigene_Funktionen_programmieren) zu der `function`-Funktion in `R` durchlesen, falls du dich damit noch nicht auskennst. Hierin wird erklärt, wie diese Funktion in `R` funktioniert. Sobald du das verstanden hast, kannst du mit dem Erstellen der Funktion beginnen.
+Als allererstes solltest du dir diesen [PandaR Beitrag](/lehre/statistik-ii/loops-funktionen/#function) oder diesen [Wikipedia Artikel](https://de.wikibooks.org/wiki/GNU_R:_Eigene_Funktionen_programmieren) zu der `function`-Funktion in `R` durchlesen, falls du dich damit noch nicht auskennst. Hierin wird erklärt, wie diese Funktion in `R` funktioniert. Sobald du das verstanden hast, kannst du mit dem Erstellen der Funktion beginnen.
 
 Ein wichtiger Bestandteil der Funktion sind die Parameter in der normalen Klammer. Hier stellt sich die Frage: Wie viele "Unbekannte" wird meine Funktion haben? Welche Information braucht meine Funktion? - In unserem Fall handelt es sich nur um zwei Unbekannte, die man als Spieler im vorhinein angeben muss:
 
@@ -851,7 +857,7 @@ Wuerfeln2 ()
  
 <details> <summary> Teil 2 </summary>
 
-Diese Funktion gestaltet sich etwas komplexer als die vorherige Funktion. Hier werden wir mit dem `repeat`-Befehl und `if (condition) break` arbeiten. Schau dir die Funktionsweise davon im Internet oder im [Appendix A dieses PandaR Beitrag](/post/loops-und-funktionen/#AppendixA) an. An sich funktioniert dieser Befehl genauso wie eine `for`- oder `while`-Schleife, nur dass wir die Schleife hier erst dann stoppen wollen, wenn ein explizites Ereignis eintritt.
+Diese Funktion gestaltet sich etwas komplexer als die vorherige Funktion. Hier werden wir mit dem `repeat`-Befehl und `if (condition) break` arbeiten. Schau dir die Funktionsweise davon im Internet oder im [Appendix A dieses PandaR Beitrag](/lehre/statistik-ii/loops-funktionen/#AppendixA) an. An sich funktioniert dieser Befehl genauso wie eine `for`- oder `while`-Schleife, nur dass wir die Schleife hier erst dann stoppen wollen, wenn ein explizites Ereignis eintritt.
 
 Wie bereits in allen anderen Aufgaben solltest du auch hier auf den bereits vorhandenen Operationen aufbauen. Für diese Funktion eignet sich logischerweise die Funktion aus Teil 1 dieses Abschnitts. Es kommt nur eine weitere Variable - neben Einsatz und Wette - hinzu und zwar die Rundenzahl. Das ist die erste Ergänzung, die du vornehmen kannst: Erstelle eine neue Variable für die Rundenzahl in der normalen Klammer. (Außerdem solltest du dieser Funktion einen neuen Namen geben, um die erste Funktion nicht zu überschreiben.)
 
