@@ -32,8 +32,8 @@ output:
     keep_md: true
 ---
 
-```{r setup, include=FALSE, purl=FALSE}
-
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 # Übersicht
@@ -124,7 +124,11 @@ person <- c("yo", "tú", "él/ella", "nosotres", "vosotres", "elles")
 
 Wenn wir jetzt die Tabelle mit dem `data.frame`-Befehl aus den beiden Vektoren zusammenbauen wöllten, stoßen wir auf folgende Fehlermeldung:
 
-```{r, error=TRUE}
+```{r, eval=F}
+Tabelle <- data.frame(verben, person)
+```
+
+```{r, error=TRUE, purl = F, echo = F}
 Tabelle <- data.frame(verben, person)
 ```
 

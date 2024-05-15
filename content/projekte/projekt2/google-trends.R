@@ -1,6 +1,3 @@
-wide <- readRDS('p1_wide.rds')
-long <- readRDS('p1_long.rds')
-
 ## install.packages('ggplot2')
 ## library(ggplot2)
 

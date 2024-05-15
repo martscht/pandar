@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Projekt lernen wir, wie man einen Verbentrainer erstellen kann. Wir erstellen dafür einerseits eine Liste unkonjugierter Verben, sowie die Konjugationsformen, und kombinieren diese zufällig. So kann das konjugieren durch das Aufrufen zufälliger Listeneinträge geübt werden. Dies wird an einem spanischen Beispiel illustriert.'
 authors: [rouchi]
 weight: 1
-lastmod: '2024-05-13'
+lastmod: '2024-05-15'
 featured: no
 banner:
   image: "/header/architecture_valencia.jpg"
@@ -130,6 +130,7 @@ Wenn wir jetzt die Tabelle mit dem `data.frame`-Befehl aus den beiden Vektoren z
 Tabelle <- data.frame(verben, person)
 ```
 
+
 ```
 ## Error in data.frame(verben, person): arguments imply differing number of rows: 197, 6
 ```
@@ -159,12 +160,12 @@ head(Tabelle)
 
 ```
 ##      verben   person
-## 1     abrir       yo
+## 1     abrir    elles
 ## 2    acabar nosotres
 ## 3   acercar nosotres
-## 4 aconsejar vosotres
+## 4 aconsejar nosotres
 ## 5   acordar       tú
-## 6      amar    elles
+## 6      amar  él/ella
 ```
 
 </details>
@@ -270,12 +271,12 @@ head(Tabelle)
 
 ```
 ##      verben   person                   tempus
-## 1     abrir nosotres Pretérito imperfecto (S)
-## 2    acabar  él/ella             Presente (S)
-## 3   acercar vosotres Pretérito imperfecto (S)
-## 4 aconsejar vosotres             Presente (S)
-## 5   acordar vosotres            Futuro simple
-## 6      amar    elles             Presente (S)
+## 1     abrir nosotres             Presente (S)
+## 2    acabar nosotres       Condicional simple
+## 3   acercar  él/ella       Condicional simple
+## 4 aconsejar    elles Pretérito imperfecto (I)
+## 5   acordar  él/ella Pretérito imperfecto (S)
+## 6      amar  él/ella             Presente (S)
 ```
 
 Jetzt kann der Reihe nach jedes Verb für eine bestimmte Person in einer bestimmten Zeitform konjugiert werden.

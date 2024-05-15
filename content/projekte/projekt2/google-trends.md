@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Projekt untersuchen wir die Häufigkeit, mit der politische Parteien auf Google gesucht werden. Das heißt, dass wir uns die Entwicklung der Google-Suchanfragen seit 2004 anschauen, die von [Google Trends](https://trends.google.de/trends/?geo=DE) abgerufen werden kann. Daraus wollen wir eine Überblicksdarstellung generieren. Es wird also notwendig sein, diese Daten in R zu importieren, sie nach Bedarf umzustellen und abschließend mit dem Paket `ggplot2` darzustellen.'
 authors: [berger, mehler, rouchi]
 weight: 1
-lastmod: '2023-12-07'
+lastmod: '2024-05-15'
 featured: no
 banner:
   image: "/header/google_frogs.jpg"
@@ -62,7 +62,7 @@ Das heißt also, dass bei uns der Suchbegriff *Affe* in der Woche vom 23. zum 29
 
 Die verschiedenen Datensätze kannst du über das Downloadzeichen <i class="fas fa-download"></i> oben rechts an jeder Abbildung herunterladen und in Excel öffnen. Speichere sie bitte immer in dem Ordner, in dem sich auch dein `R`-Skript befindet.
 
-Zur grafischen Darstellung empfehlen wir, dass du mit `ggplot2` arbeitest. Falls du noch nicht mit dem Paket gearbeitet hast oder eine Auffrischung haben möchtest, kannst du dir [unseren Crash-Kurs](/post/grafiken-mit-ggplot2/) dazu durchlesen. Einen deutschsprachigen Überblick über die Befehle von ggplot2 findest du [in diesem PDF](https://rstudio.com/wp-content/uploads/2015/06/ggplot2-german.pdf) oder [auf dieser Website der Allgemeinen Psychologie von der Uni Basel](https://mmi.psycho.unibas.ch/r-toolbox/formatierungswerkzeuge.html). Eine englischsprachige Einführung vom Autor und Erfinder von `ggplot2` - Hadley Wickham - findest du [in seinem Online-Buch "R for Data Science"](https://r4ds.had.co.nz/data-visualisation.html).
+Zur grafischen Darstellung empfehlen wir, dass du mit `ggplot2` arbeitest. Falls du noch nicht mit dem Paket gearbeitet hast oder eine Auffrischung haben möchtest, kannst du dir [unseren Crash-Kurs](/lehre/statistik-ii/grafiken-ggplot2/) dazu durchlesen. Einen deutschsprachigen Überblick über die Befehle von ggplot2 findest du [in diesem PDF](https://rstudio.com/wp-content/uploads/2015/06/ggplot2-german.pdf) oder [auf dieser Website der Allgemeinen Psychologie von der Uni Basel](https://mmi.psycho.unibas.ch/r-toolbox/formatierungswerkzeuge.html). Eine englischsprachige Einführung vom Autor und Erfinder von `ggplot2` - Hadley Wickham - findest du [in seinem Online-Buch "R for Data Science"](https://r4ds.had.co.nz/data-visualisation.html).
 
 Um ggplot benutzen zu können, musst du dir das passende Paket (`ggplot2`) herunterladen und es in deine `R`-Sitzung laden:
 
@@ -72,7 +72,7 @@ install.packages('ggplot2')
 library(ggplot2)
 ```
 
-Jeder Abschnitt des folgenden Projekts ist unterteilt in eine **Aufgabenstellung**, ein paar **Tipps**, die weiterhelfen sollen, wenn dir die Ideen ausgehen, und eine mögliche **Lösung** für die Umsetzung der Aufgabenstellung. Super wäre es natürlich, wenn du so viel wie möglich alleine schaffst. Falls du jedoch nicht weiterkommen solltest, kannst du jederzeit im Internet nachschauen, dort gibt es die besten Hilfestellungen (beispielsweise auf Seiten wie [stackoverflow.com](https://stackoverflow.com/)). Auch wir müssen oftmals im Internet nach dem richtigen Code suchen. Falls du noch nichts oder nur sehr wenig mit `R` zu tun haben solltest (oder wenn du dich unsicher fühlst), kannst du jederzeit auf den `pandaR`-Seiten zur [Lehre](https://pandar.netlify.app/lehre/) vorbeischauen. Dort gibt es neben vielen statistischen Themen auch ein übersichtliches [R-Intro](/post/r-crash-kurs/), welches dich in die Welt von `R` einführt.
+Jeder Abschnitt des folgenden Projekts ist unterteilt in eine **Aufgabenstellung**, ein paar **Tipps**, die weiterhelfen sollen, wenn dir die Ideen ausgehen, und eine mögliche **Lösung** für die Umsetzung der Aufgabenstellung. Super wäre es natürlich, wenn du so viel wie möglich alleine schaffst. Falls du jedoch nicht weiterkommen solltest, kannst du jederzeit im Internet nachschauen, dort gibt es die besten Hilfestellungen (beispielsweise auf Seiten wie [stackoverflow.com](https://stackoverflow.com/)). Auch wir müssen oftmals im Internet nach dem richtigen Code suchen. Falls du noch nichts oder nur sehr wenig mit `R` zu tun haben solltest (oder wenn du dich unsicher fühlst), kannst du jederzeit auf den `pandaR`-Seiten zur [Lehre](/lehre/main/) vorbeischauen. Dort gibt es neben vielen statistischen Themen auch ein übersichtliches [R-Intro](/lehre/statistik-i/crash-kurs/), welches dich in die Welt von `R` einführt.
 
 Und jetzt kann es losgehen - viel Spaß beim Bearbeiten dieses Projekts.
 
@@ -120,48 +120,27 @@ head(a)
 ```
 
 ```
-##     Monat
-## 1 2004-01
-## 2 2004-02
-## 3 2004-03
-## 4 2004-04
-## 5 2004-05
-## 6 2004-06
-##   Alternative.für.Deutschland...Deutschland.
-## 1                                         <1
-## 2                                         <1
-## 3                                         <1
-## 4                                         <1
-## 5                                         <1
-## 6                                         <1
-##   Sozialdemokratische.Partei.Deutschlands...Deutschland.
-## 1                                                     10
-## 2                                                     13
-## 3                                                     13
-## 4                                                     11
-## 5                                                     12
-## 6                                                     16
-##   Freie.Demokratische.Partei...Deutschland.
-## 1                                         4
-## 2                                         4
-## 3                                         4
-## 4                                         3
-## 5                                         5
-## 6                                         7
-##   Bündnis.90.Die.Grünen...Deutschland.
-## 1                                    4
-## 2                                    4
-## 3                                    4
-## 4                                    3
-## 5                                    4
-## 6                                    8
-##   Die.Linke...Deutschland.
-## 1                       <1
-## 2                       <1
-## 3                        1
-## 4                       <1
-## 5                       <1
-## 6                       <1
+##     Monat Alternative.für.Deutschland...Deutschland.
+## 1 2004-01                                         <1
+## 2 2004-02                                         <1
+## 3 2004-03                                         <1
+## 4 2004-04                                         <1
+## 5 2004-05                                         <1
+## 6 2004-06                                         <1
+##   Sozialdemokratische.Partei.Deutschlands...Deutschland. Freie.Demokratische.Partei...Deutschland.
+## 1                                                     10                                         4
+## 2                                                     13                                         4
+## 3                                                     13                                         4
+## 4                                                     11                                         3
+## 5                                                     12                                         5
+## 6                                                     16                                         7
+##   Bündnis.90.Die.Grünen...Deutschland. Die.Linke...Deutschland.
+## 1                                    4                       <1
+## 2                                    4                       <1
+## 3                                    4                        1
+## 4                                    3                       <1
+## 5                                    4                       <1
+## 6                                    8                       <1
 ```
 
 ```r
@@ -169,27 +148,13 @@ head(b)
 ```
 
 ```
-##     Monat
-## 1 2004-01
-## 2 2004-02
-## 3 2004-03
-## 4 2004-04
-## 5 2004-05
-## 6 2004-06
-##   Alternative.für.Deutschland...Deutschland.
-## 1                                         <1
-## 2                                         <1
-## 3                                         <1
-## 4                                         <1
-## 5                                         <1
-## 6                                         <1
-##   Partei.Mensch.Umwelt.Tierschutz...Deutschland.
-## 1                                              0
-## 2                                              0
-## 3                                             <1
-## 4                                             <1
-## 5                                             <1
-## 6                                              1
+##     Monat Alternative.für.Deutschland...Deutschland. Partei.Mensch.Umwelt.Tierschutz...Deutschland.
+## 1 2004-01                                         <1                                              0
+## 2 2004-02                                         <1                                              0
+## 3 2004-03                                         <1                                             <1
+## 4 2004-04                                         <1                                             <1
+## 5 2004-05                                         <1                                             <1
+## 6 2004-06                                         <1                                              1
 ##   Christlich.Demokratische.Union.Deutschlands...Deutschland.
 ## 1                                                          8
 ## 2                                                         10
@@ -264,7 +229,7 @@ Die Variablenart jeder Variable (Spalte) lässt sich mit folgendem Befehl abfrag
 class(Variablenname)
 ```
 
-Hier bekommt man also eine Angabe zum Typ der Variablen. Wie du im [R Crash Kurs](/post/r-crash-kurs/) nachlesen kannst, sind Zahlen zum Beispiel als `numeric` (oder abgekürzt `num`) abgelegt. Im besonderen Fall, dass eine numerische Variable nur ganze Zahlen enthält, wird sie als `integer` (kurz: `int`) abgelegt. Es handelt sich aber nach wie vor um eine Zahl. Unser Ziel ist, dass alle Variablen im Typ `int` oder `num` vorliegen, sodass `R` diese auch als Zahlenwerte erkennt.
+Hier bekommt man also eine Angabe zum Typ der Variablen. Wie du im [R Crash Kurs](/lehre/statistik-i/crash-kurs/) nachlesen kannst, sind Zahlen zum Beispiel als `numeric` (oder abgekürzt `num`) abgelegt. Im besonderen Fall, dass eine numerische Variable nur ganze Zahlen enthält, wird sie als `integer` (kurz: `int`) abgelegt. Es handelt sich aber nach wie vor um eine Zahl. Unser Ziel ist, dass alle Variablen im Typ `int` oder `num` vorliegen, sodass `R` diese auch als Zahlenwerte erkennt.
 
 Überprüfe dafür jede Variable und überlege dir, welche Werte ein Problem darstellen. Falls du nicht weiterkommst, nutze Teil 2 des Tipps.
 
@@ -427,7 +392,7 @@ names(c) <- c('Monat', 'AfD', 'SPD', 'FDP', 'DieGrüne', 'DieLinke', 'Tierschutz
 
 ## Aufgabe 3: Abbildungen erstellen
 
-Zu guter Letzt fehlt noch das eigentliche Diagramm. Denk daran, dass du zunächst einen Befehl brauchst, der den Hintergrund erstellt und mit '+' immer neue Ebenen hinzufügen kannst - wenn du es noch nicht getan hast, kannst du dafür auf [unserem `ggplot` Crash-Kurs](/post/grafiken-mit-ggplot2/) nachschauen. Gestalte das Diagramm so, dass es für jeden verständlich ist. Hierfür benötigst du unter Anderem
+Zu guter Letzt fehlt noch das eigentliche Diagramm. Denk daran, dass du zunächst einen Befehl brauchst, der den Hintergrund erstellt und mit '+' immer neue Ebenen hinzufügen kannst - wenn du es noch nicht getan hast, kannst du dafür auf [unserem `ggplot` Crash-Kurs](/lehre/statistik-ii/grafiken-ggplot2/) nachschauen. Gestalte das Diagramm so, dass es für jeden verständlich ist. Hierfür benötigst du unter Anderem
 
 * verschiedene Farben,
 * eine eingängige Achsenbeschriftung,
@@ -503,13 +468,7 @@ Zunächst müssen wir das Paket `ggplot2` laden:
 library(ggplot2)
 ```
 
-```
-## Warning: Paket 'ggplot2'
-## wurde unter R Version 4.3.2
-## erstellt
-```
-
-Wie bei den [Tipps](/post/tipps1) oder auch bei der [Kurzeinführung in ggplot2](/post/grafiken-mit-ggplot2) besprochen, erwartet der `ggplot`-Befehl einen Datensatz mit Variablen, die wir auf x- und y-Achse darstellen wollen und eventuell eine Gruppierungsvariable. Die x-Achse ist in unserem Fall sehr einfach: es ist die Zeit. Das Problem stellt die y-Achse dar: hierfür haben wir zur Zeit nicht 1 sondern 9 Variablen. Darüber hinaus sind diese 9 Variablen eine Mischung aus unserer y-Achse und der Gruppierungsvariable! Was wir benötigen, um eine klare Abbildung in `ggplot2` zu erzeugen, ist ein Datensatz, der die drei "klassischen" Variablen enthält (x, y, Gruppe). Dafür können wir den `reshape`-Befehl nutzen:
+Wie bei den Tipps oder auch bei der [Kurzeinführung in ggplot2](/lehre/statistik-ii/grafiken-ggplot2/) besprochen, erwartet der `ggplot`-Befehl einen Datensatz mit Variablen, die wir auf x- und y-Achse darstellen wollen und eventuell eine Gruppierungsvariable. Die x-Achse ist in unserem Fall sehr einfach: es ist die Zeit. Das Problem stellt die y-Achse dar: hierfür haben wir zur Zeit nicht 1 sondern 9 Variablen. Darüber hinaus sind diese 9 Variablen eine Mischung aus unserer y-Achse und der Gruppierungsvariable! Was wir benötigen, um eine klare Abbildung in `ggplot2` zu erzeugen, ist ein Datensatz, der die drei "klassischen" Variablen enthält (x, y, Gruppe). Dafür können wir den `reshape`-Befehl nutzen:
 
 
 ```r
@@ -640,9 +599,7 @@ head(c_long$nMonat)
 ```
 
 ```
-## [1] "2004-01-01" "2004-02-01"
-## [3] "2004-03-01" "2004-04-01"
-## [5] "2004-05-01" "2004-06-01"
+## [1] "2004-01-01" "2004-02-01" "2004-03-01" "2004-04-01" "2004-05-01" "2004-06-01"
 ```
 
 So hat die neue `nMonat`-Variable ein typisches Zeitformat: Jahr-Monat-Tag. Dieses Format erkennt `strptime` leider nicht automatisch, also müssen wir via `format`-Argument ansagen, wie unsere Daten aussehen:

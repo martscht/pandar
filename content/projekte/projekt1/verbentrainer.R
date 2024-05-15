@@ -4,7 +4,9 @@ verben <- c("abrir", "acabar", "acercar", "aconsejar", "acordar", "amar", "andar
 
 person <- c("yo", "tú", "él/ella", "nosotres", "vosotres", "elles")
 
-Tabelle <- data.frame(verben, person)
+## Tabelle <- data.frame(verben, person)
+
+
 
 Tabelle <- data.frame(verben)
 
