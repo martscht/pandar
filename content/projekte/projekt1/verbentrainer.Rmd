@@ -3,8 +3,8 @@ title: Verbentrainer
 type: post
 date: '2022-07-24T23:00:00'
 slug: verbentrainer
-categories: []
-tags: ["Projekt1"]
+categories: ["Projekte"]
+tags: []
 subtitle: ''
 summary: 'In diesem Projekt lernen wir, wie man einen Verbentrainer erstellen kann. Wir erstellen dafür einerseits eine Liste unkonjugierter Verben, sowie die Konjugationsformen, und kombinieren diese zufällig. So kann das konjugieren durch das Aufrufen zufälliger Listeneinträge geübt werden. Dies wird an einem spanischen Beispiel illustriert.'
 authors: [rouchi]
