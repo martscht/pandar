@@ -3,11 +3,11 @@ title: WhatsApp Chats
 type: post
 date: '2020-01-30T23:15:00'
 slug: whatsappchats
-categories: []
-tags: ["Projekt4"]
+categories: ["Projekte"]
+tags: ["Projekt4", "textanalyse", "loops", "ggplot"]
 subtitle: ''
 summary: 'In diesem Projekt zeigen wir dir, wie du deine Whatsapp-Chats analysieren kannst. Wer schreibt im Gruppenchat am häufigsten? Wie lange dauert es, bis dir jemand antwortet? Und wer schreibt immer besonders negative oder positive Dinge? Hier kannst du herausfinden, wer deine wahren Freunde sind.'
-authors: [berger]
+authors: [berger, schreiner]
 weight: 1
 lastmod: '`r Sys.Date()`'
 featured: no
@@ -32,8 +32,8 @@ output:
     keep_md: true
 ---
 
-```{r setup, include=FALSE, purl=FALSE}
-
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
 
@@ -44,7 +44,7 @@ Als Psychologe wird man oft von anderen Menschen mit Laienpsychologie konfrontie
 
 ## Zielsetzung 
 
-In dieser Aufgabe sollst du lernen, Texte zu analysieren; und zwar nicht mehr wie im Deutschunterricht auf Stilmittel, sondern z.B. auf Stimmungen. R kann dir dabei helfen, auffällige Häufigkeiten von Wörtern, Uhrzeiten und auch Stimmungen zu entdecken. Dafür wirst du weiterführende Kenntnisse zur Textanalyse mithilfe von `udpipe` lernen. Außerdem wirst du deine neu erlernten Fähigkeiten für `ggplot` aus [Projekt 1](/post/uebersicht1) und für Loops aus [Projekt 2](/post/uebersicht2) anwenden können.
+In dieser Aufgabe sollst du lernen, Texte zu analysieren; und zwar nicht mehr wie im Deutschunterricht auf Stilmittel, sondern z.B. auf Stimmungen. R kann dir dabei helfen, auffällige Häufigkeiten von Wörtern, Uhrzeiten und auch Stimmungen zu entdecken. Dafür wirst du weiterführende Kenntnisse zur Textanalyse mithilfe von `udpipe` lernen. Außerdem wirst du deine neu erlernten Fähigkeiten für `ggplot` aus [Projekt 2](/projekte/projekt2/google-trends/) und für Loops aus [Projekt 3](/projekte/projekt3/casino/) anwenden können.
 
 ## Vorbereitung
 
@@ -193,7 +193,7 @@ Bei dem Diagramm über die gesamte Zeit und über die Tageszeit hast du eine int
 Wenn du fertig mit der Bearbeitung der Aufgabenstellung sein solltest, kannst du dein Ergebnis jetzt mit der Lösung vergleichen:
 <details><summary>Lösung </summary>
 
-Falls du `ggplot2` noch nicht geladen hast, solltest du es jetzt tun. Falls du dich noch nicht damit beschäftigt hast, wie man mit diesem Paket Grafiken erzeugt, kannst du das z.B. in unserem Crashkurs zu [Grafiken mit ggplot2](/post/grafiken-mit-ggplot2/) nachholen.
+Falls du `ggplot2` noch nicht geladen hast, solltest du es jetzt tun. Falls du dich noch nicht damit beschäftigt hast, wie man mit diesem Paket Grafiken erzeugt, kannst du das z.B. in unserem Crashkurs zu [Grafiken mit ggplot2](/lehre/statistik-ii/grafiken-ggplot2/) nachholen.
 
 ```{r}
 library('ggplot2')

@@ -4,7 +4,7 @@ type: post
 date: '2019-12-14T23:00:00'
 slug: casino
 categories: ["Projekte"]
-tags: []
+tags: ["Projekt3", "loops"]
 subtitle: ''
 summary: 'In diesem Projekt versuchen wir, uns den Weg ins Casino zu ersparen, indem wir selbst ein vollständiges Roulette in R programmieren. Das heißt, dass wir uns mit Zufallsziehungen, Schleifen und Funktionen auseinandersetzen müssen. Aber Vorsicht, Glücksspiel kann süchtig machen!'
 authors: [mehler, schreiner, rouchi]

@@ -4,7 +4,7 @@ type: post
 date: '2022-07-24T23:00:00'
 slug: verbentrainer
 categories: ["Projekte"]
-tags: []
+tags: ["Projekt1"]
 subtitle: ''
 summary: 'In diesem Projekt lernen wir, wie man einen Verbentrainer erstellen kann. Wir erstellen dafür einerseits eine Liste unkonjugierter Verben, sowie die Konjugationsformen, und kombinieren diese zufällig. So kann das konjugieren durch das Aufrufen zufälliger Listeneinträge geübt werden. Dies wird an einem spanischen Beispiel illustriert.'
 authors: [rouchi]
@@ -160,12 +160,12 @@ head(Tabelle)
 
 ```
 ##      verben   person
-## 1     abrir  él/ella
+## 1     abrir       tú
 ## 2    acabar vosotres
-## 3   acercar       tú
-## 4 aconsejar       yo
-## 5   acordar       yo
-## 6      amar    elles
+## 3   acercar  él/ella
+## 4 aconsejar vosotres
+## 5   acordar vosotres
+## 6      amar nosotres
 ```
 
 </details>
@@ -271,12 +271,12 @@ head(Tabelle)
 
 ```
 ##      verben   person                   tempus
-## 1     abrir  él/ella Pretérito indefinido (I)
-## 2    acabar nosotres       Condicional simple
-## 3   acercar       tú       Condicional simple
-## 4 aconsejar       yo            Futuro simple
-## 5   acordar nosotres             Presente (I)
-## 6      amar  él/ella Pretérito indefinido (I)
+## 1     abrir  él/ella Pretérito imperfecto (S)
+## 2    acabar vosotres Pretérito imperfecto (I)
+## 3   acercar       tú Pretérito indefinido (I)
+## 4 aconsejar nosotres Pretérito indefinido (I)
+## 5   acordar    elles             Presente (I)
+## 6      amar       tú Pretérito indefinido (I)
 ```
 
 Jetzt kann der Reihe nach jedes Verb für eine bestimmte Person in einer bestimmten Zeitform konjugiert werden.
