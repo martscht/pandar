@@ -106,6 +106,12 @@ main:
     url: '/extras/main#git'
     parent: "Extras"
     weight: 501
+ 
+  - name: "Bayes"
+    pre: "<i class='fas fa-mug-hot'></i>&ensp;"
+    url: '/extras/main#bayes'
+    parent: "Extras"
+    weight: 502
 
   - name: "tigeR"
     pre: "<i class='fas fa-paw'></i>&ensp;"

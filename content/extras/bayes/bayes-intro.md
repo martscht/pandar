@@ -9,6 +9,7 @@ tags: ["Bayes", "Einführung", "Likelihood", "Verteilungen"]
 subtitle: 'An einem fiktiven klinischen Beispiel mit viel zu kleinem $n$'
 summary: 'Klassische inferenzstatistische Prüfung beginnt jedes Mal mit naiven Annahmen. Insbesondere für den kumulativen Wissenschaftsfortschritt ist das ein wenig überzeugendes System. In diesem Beitrag behandeln wir deshalb die Grundideen Bayesianischer Statistik und welche Möglichkeit es gibt, vorherige Erkenntnisse direkt in unsere Tests einfließen zu lassen.'
 authors: [schultze]
+weight: 1
 featured: no
 banner: 
   image: "/header/baby_toy.jpg"
@@ -274,12 +275,11 @@ In der `R`-Syntax benutze ich hier jetzt `dbinom` statt die komplette Binomialve
 
 
 ```r
-likeli_plot <- ggplot(d, aes(x = pi, y = L)) + xlim(0, 1) + geom_function(fun = dbinom, args = list(x = 7,
-    size = 10)) + labs(x = expression(pi), y = "Likelihood")
+likeli_plot <- ggplot(d, aes(x = pi, y = L)) + xlim(0, 1) + geom_function(fun = dbinom, args = list(x = 7, size = 10)) +
+    labs(x = expression(pi), y = "Likelihood")
 
-likeli_plot + geom_vline(xintercept = 0.5, lty = 2) + annotate("text", x = 0.48, y = 0.02, label = "H[0]",
-    parse = TRUE) + geom_vline(xintercept = 0.7, lty = 2) + annotate("text", x = 0.68, y = 0.02, label = "H[1]",
-    parse = TRUE)
+likeli_plot + geom_vline(xintercept = 0.5, lty = 2) + annotate("text", x = 0.48, y = 0.02, label = "H[0]", parse = TRUE) +
+    geom_vline(xintercept = 0.7, lty = 2) + annotate("text", x = 0.68, y = 0.02, label = "H[1]", parse = TRUE)
 ```
 
 ![](/extras/bayes/bayes-intro_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
@@ -308,12 +308,6 @@ Der Posterior ist also _propotional_ zu der Mischung aus Prior (unseren Vorannah
 Wenn das Vorwissen, das wir über den Gegenstand unserer Untersuchung haben quasi Null ist, können wir Prior setzen, die keine Information enthalten. In solchen Fällen sollen alle Möglichkeiten (also in unserem Fall alle Werte der Grundrate $\pi$) gleich wahrscheinlich sein - dass immer alle Personen rückfällig werden ist genauso wahrscheinlich, wie der totale Erfolg des Programms und alles dazwischen.
 
 
-
-
-```
-## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## ℹ Please use `linewidth` instead.
-```
 
 ![](/extras/bayes/bayes-intro_files/figure-html/density1-1.png)<!-- -->
 
@@ -401,7 +395,7 @@ Der Bayes-Factor ist eine Aussage über die _relative Evidenz_ für eine Hypothe
 
 ***
 
-Hier beenden wir erst einmal die generelle Einführung in Bayes. In den kommenden Abschnitten werden wir an diesem gleichen Beispiel noch zeigen, wie man mit `R` händisch Bayesianische Analysen rechnen kann, wenn man [Verteilungen kennt](/extras/bayes/conjugate) oder sich selbst eine [Verteilung sampeln muss](/extras/bayes/metropolis), weil man Verteilungen nicht kennt. Für die praktische Umsetzung mit echten Daten, gucken wir uns auch noch an, wie man mit dem `R`-Paket `brms` [Bayesianisch Regressionen](/extras/bayes/brms) rechnen kann. 
+Hier beenden wir erst einmal die generelle Einführung in Bayes. In den kommenden Abschnitten werden wir an diesem gleichen Beispiel noch zeigen, wie man mit `R` händisch Bayesianische Analysen rechnen kann, wenn man [Verteilungen kennt](/extras/bayes/conjugate) oder sich selbst eine [Verteilung sampeln muss](/extras/bayes/metropolis), weil man Verteilungen nicht kennt. Für die praktische Umsetzung mit echten Daten, gucken wir uns auch noch an, wie man mit dem `R`-Paket `brms` [Bayesianisch Regressionen](/extras/bayes/brms-under-construction) rechnen kann. 
 
 
 ***

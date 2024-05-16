@@ -9,6 +9,7 @@ tags: ["Verteilungen", "Prior", "Beta-Verteilung", "Hyperparameter", "Bayes", "P
 subtitle: 'Wie man Bayes betreibt, wenn man _wirklich_ Ahnung hat'
 summary: ''
 authors: [schultze]
+weight: 2
 featured: no
 banner: 
   image: "/header/spoons_and_spices.jpg"
