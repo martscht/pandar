@@ -69,10 +69,9 @@ Etwas formaler ausgedrückt: wir wollen jetzt prüfen, ob die Erfolgsquote Ihres
 
 ## Frequentistische Ansätze
 
+<details><summary><b>Parametrischer Ansatz: $\chi^2$-Test</b></summary>
 
-{{< spoiler text="Parametrischer Ansatz: $\chi^2$-Test" >}}
-
-Gucken wir uns zunächst die Möglichkeiten an, zu prüfen, ob Ihr System besser ist als das Ihrer Kolleg:innen. Ein klassischer Ansatz (den Sie [hier in Fragestellung C](/lehre/statistik-i/gruppenvergleiche-unabhaengig/#fragestellung-c) nachlesen können) ist der $\chi^2$-Test. In unserem Fall haben wir zwar nicht vier sondern nur zwei Felder, aber das macht das Ganze einfach nur einfacher:
+Gucken wir uns zunächst die Möglichkeiten an, zu prüfen, ob Ihr System besser ist als das Ihrer Kolleg:innen. Ein klassischer Ansatz (den Sie [hier im Appendix](/lehre/statistik-i/gruppenvergleiche-unabhaengig/#Appendix) nachlesen können) ist der $\chi^2$-Test. In unserem Fall haben wir zwar nicht vier sondern nur zwei Felder, aber das macht das Ganze einfach nur einfacher:
 
 ```{r}
 # Häufigkeitstabelle der Erfolge
@@ -90,11 +89,11 @@ chisq.test(tab)$expected
 
 In diesem Fall erhalten wir ein nicht bedeutsames Ergebnis - wir behalten die Nullhypothese also bei. 
 
-Den Aufmerksamen unter Ihnen ist vielleicht aufgefallen, dass der $\chi^2$-Test, den wir hier nutzen, mit ein paar Annahmen einhergeht. Das liegt daran, dass wir [die Diskrepanz zwischen Erwartung und Beobachtung zu einer Zahl verrechnen](/lehre/statistik-i/gruppenvergleiche-unabhaengig/#Chi-Sq) und die erzeugte Zahl dann mit einer bekannten Verteilung (der $\chi^2$-Verteilung) abgleichen, um festzustellen wie wahrscheinlich unser Ergebnis wäre, wenn die Nullhypothese wahr wäre. Die Übertragung funktioniert nur unter bestimmten Annahmen, vor allem aber funktioniert Sie _immer_ besser, je größer $n$ ist. Das gilt nicht nur für den $\chi^2$-Test, sondern für alle parametrischen Tests - also Tests, die sich darauf verlassen, eine Prüfgröße zu erstellen und diese mit einer bekannten Verteilung abzugleichen.
+Den Aufmerksamen unter Ihnen ist vielleicht aufgefallen, dass der $\chi^2$-Test, den wir hier nutzen, mit ein paar Annahmen einhergeht. Das liegt daran, dass wir [die Diskrepanz zwischen Erwartung und Beobachtung zu einer Zahl verrechnen](/lehre/statistik-i/gruppenvergleiche-unabhaengig/#Appendix) und die erzeugte Zahl dann mit einer bekannten Verteilung (der $\chi^2$-Verteilung) abgleichen, um festzustellen wie wahrscheinlich unser Ergebnis wäre, wenn die Nullhypothese wahr wäre. Die Übertragung funktioniert nur unter bestimmten Annahmen, vor allem aber funktioniert Sie _immer_ besser, je größer $n$ ist. Das gilt nicht nur für den $\chi^2$-Test, sondern für alle parametrischen Tests - also Tests, die sich darauf verlassen, eine Prüfgröße zu erstellen und diese mit einer bekannten Verteilung abzugleichen.
 
 Diese Tatsache führt dazu, dass insbesondere in klinischen Studien häufig gefordert wird, stattdessen mit Tests zu arbeiten, die sich nicht auf asymptotische Eigenschaften verlassen - sogenannte non-parametrische Tests. Für unser Beispiel gibt es da zum Glück eine recht einfache Möglichkeit!
 
-{{< /spoiler >}}
+</details>
 
 
 Wenn Ihre Statistik I Vorlesung noch nicht allzu lange her ist, erinnern Sie sich vielleicht, dass die Anzahl von Erfolgen $x$ aus $n$ unabhängigen Versuchen [binomialverteilt](/lehre/statistik-i/verteilungen/#Binomial) ist. Das ist, im Gegensatz zu dem was in parametrischen Tests wie z.B. dem $\chi^2$-Test vorausgesetzt wird, keine Annahme, sondern einfach eine Realität der Welt in der wir leben. Wir können also mit einer Gleichung direkt bestimmen, wie wahrscheinlich es ist, dass sieben Ihrer zehn Patient:innen aus dem Ausgang zurückkommen ohne rückfällig geworden zu sein, wenn ihr Ausgangsprinzip genauso gut funktioniert, wie das Ihrer Kolleg:innen ($H_0: \pi = .5$).
@@ -131,13 +130,13 @@ binom.test(7, 10, .5)
 
 Auch hier also keine statistische Bedeutsamkeit. 
 
-{{< spoiler text="Power in unseren frequentistischen Möglichkeiten" >}}
+<details><summary><b>Power in unseren frequentistischen Möglichkeiten</b></summary>
 
 Wir haben jetzt also zwei Ansätze gesehen die einfache Frage zu prüfen, ob Ihr Ausgangssystem zu anderen Erfolgsquoten führt, als das Ihrer Kolleg:innen. Dabei hatten wir zunächst den klassischen, parametrischen Weg gewählt und einen $\chi^2$-Test durchgeführt. Allerdings fällt es uns bei kleinen Stichproben häufig schwer uns auf die asymptotischen Eigenschaften von Tests zu verlassen. Bei anderen parametrischen Tests - wie z.B. $t$-Tests oder ANOVAs - kann es bei kleinen Stichproben auch quasi unmöglich werden überhaupt zu prüfen, ob die Annahmen haltbar sind, die diese Verfahren voraussetzen.
 
-Also sind wir auf einen non-parametrischen Test ausgewichen (den Binomialtest). Das Problem dabei ist, dass wir die Power unsere Inferenzstatistik sogar noch verringern. In parametrischen Tests "gewinnen" wir ein wenig Power dadurch, dass wir Annahmen machen. Wenn wir weniger Annahmen machen, brauchen wir mehr Daten, um zur gleichen Sicherheit zu kommen. Mehr zur Poweranalyse in frequentistischen Analysen finden Sie [hier](/post/simulation).
+Also sind wir auf einen non-parametrischen Test ausgewichen (den Binomialtest). Das Problem dabei ist, dass wir die Power unsere Inferenzstatistik sogar noch verringern. In parametrischen Tests "gewinnen" wir ein wenig Power dadurch, dass wir Annahmen machen. Wenn wir weniger Annahmen machen, brauchen wir mehr Daten, um zur gleichen Sicherheit zu kommen. Mehr zur Poweranalyse in frequentistischen Analysen finden Sie [hier](/lehre/statistik-i/simulation-poweranalyse/).
 
-{{< /spoiler >}}
+</details>
 
 ## Neyman-Pearson Nullhypothesentests
 
@@ -149,7 +148,8 @@ Um uns noch einmal kurz zu verdeutlichen, warum das ist, gucken wir uns noch ein
 
 Der $p$-Wert, den wir erzeugt haben ist die Wahrscheinlichkeit dieses - oder ein extremeres - Ergebnis zu finden, wenn die Nullhypothese wahr wäre. Also, wenn die Grundrate mit der Leute nach Ihrem Schema rückfällig werden, tatsächlich $\pi = .5$ wäre, könnte es per Zufall passieren, dass sie nur 3 Rückfälle finden, wenn Sie nur 10 Personen untersuchen. Etwas formaler könnte man notieren $P(X = x|H_0)$: die Wahrscheinlichkeit des empirischen Ergebnisses, gegeben die Nullhypothese. Wenn dieses Ergebnis unwahrscheinlich genug wäre (also $p < .05$), hätten wir abgeleitet, dass wir die Nullhypothese verwerfen und uns stattdessen für die Alternativhypothese entscheiden sollten. Das Problem dabei ist, dass wir nichts Neues wissen, wenn $p > .05$, weil dieses Ergebnis eine Aussage über die Daten, nicht über die Nullyhypothese ist: $P(X = x|H_0) \neq P(H_0|X = x)$. Darüber hinaus ist $P(X = x|H_0) \neq 1-P(x|H_1)$ - das Ergebnis ist also auch keine Aussage über die Alternativhypothese.
 
-{{< spoiler text="Ein kurzer Einschub zur klassischen Wissenschaftstheorie" >}}
+
+<details><summary><b>Ein kurzer Einschub zur klassischen Wissenschaftstheorie</b></summary>
 
 Das klassische Nullhypothesentesten ist konzeptuell sehr nah an Karl Poppers _naivem Falsifikationismus_. Dieses Konzept haben Sie im Verlauf des Studiums bestimmt schon etliche Male gehört: wir haben eine Theorie, leiten aus dieser eine Hypothese (hier die $H_0$) ab und prüfen diese. Wenn wir die Hypothese verwerfen, verwerfen wir die generierende Theorie. Wenn wir die Hypothese nicht verwerfen (korroborieren), behalten wir die Theorie bei, generieren eine neue Hypothese und bleiben in dieser Schleife, bis wir die Theorie irgendwann verwerfen werden. Das Neyman-Pearson Nullhypothesentesten (mit $H_0$ _und_ $H_1$) ist konzeptuell eng mit Poppers _raffiniertem Falsifikationismus_ verwandt, in dem Theorien unter Konkurrenzdruck stehen und wir uns beim Test einer Hypothese dann zwischen Theorien entscheiden können. 
 
@@ -157,7 +157,7 @@ In den 60er und 70er Jahren wurde diese Ansicht des wissenschaftlichen Erkenntni
 
 Wenn Sie eine etwas detaillierte Betrachtung des Nullhypothesentestens und bayesianischer Alternativen aus wissenschaftstheoretischer Sicht interessiert, ist das Buch von Dienes (2008) sehr empfehlenswert.
 
-{{< /spoiler >}}
+</details>
 
 ## Likelihood
 
@@ -220,6 +220,7 @@ Für einen Beitrag, der eigentlich "Grundideen Bayesianischer Analysen" betitelt
 Die Grundidee der Bayesianischen Analysen lässt sich eigentlich in folgender Gleichung zusammenfassen:
 
 ![](bayes-formel.png)
+
 Auf der linken Seite steht also die uns eigentlich interessierende Aussage - wie wahrscheinlich ist unsere Hypothese $H$, wenn wir unsere Daten $X$ berücksichtigen? Diese Information wird _Posterior_ genannt - weil es unseren Wissensstand _nach_ der Studie darstellt. 
 
 Das Gegenstück ist die Wahrscheinlichkeit, die Daten $X$ zu beobachten, wenn die Theorie $H$ wahr wäre. Dies entspricht - wie gerade im Detail gesehen - der Likelihood $L(H|X)$. Die Inferenzstatistik, die wir in den klassischen Varianten oben betrieben haben, betrachtet ausschließlich die Daten - wir nehmen an, dass wir keinerlei Vorwissen über unsere Hypothesen und deren Beziehung zu den Daten haben. Jedes Mal, wenn wir unseren Arbeitsalltag damit erschweren, dass wir irgendwie wieder zehn Personen erheben, um festzustellen, ob Ihr Ausgangsplan besser ist als die altmodischen Varianten, tun wir so, als ob es das allererste Mal wäre, dass wir auf diese Idee kommen. Und wir tun so, als hätten wir niemals zuvor Ergebnisse zu diesem Thema gesehen. Etwas vereinfacht ausgedrückt, basiert unsere Entscheidung ausschließlich auf der Likelihood bzw. dem $p$-Wert, den wir erzeugen können $P(X | H)$. 

@@ -23,7 +23,7 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /extras/bayes/under-construction
+    url: /extras/bayes/brms-under-construction
 
 
 output:

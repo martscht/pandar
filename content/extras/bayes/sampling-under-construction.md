@@ -3,7 +3,7 @@ title: 'Bayesian Sampling'
 subtitle: 'Hier wird noch gebaut...'
 type: post
 date: '2019-11-07'
-lastmod: '2024-05-16'
+lastmod: '2024-05-17'
 slug: sampling-under-construction
 categories: ["Bayes"]
 tags: ["Bayes"]
@@ -23,7 +23,7 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /extras/bayes/under-construction
+    url: /extras/bayes/sampling-under-construction
 
 
 output:

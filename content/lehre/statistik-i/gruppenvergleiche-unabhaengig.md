@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr Unterschiede zwischen zwei Gruppen zu veranschaulichen. Ihr erfahrt außerdem, wie ihr verschiedene Tests für unabhängige Stichproben in R durchführt und ihre Voraussetzungen prüft.' 
 authors: [koehler, buchholz, irmer, nehler, goldhammer, schultze] 
 weight: 6
-lastmod: '2024-04-02'
+lastmod: '2024-05-17'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -211,6 +211,20 @@ Wir können uns auch Deskriptivstatistiken ansehen. Bspw. könnten wir uns die M
 
 ```r
 library(psych)
+```
+
+```
+## 
+## Attaching package: 'psych'
+```
+
+```
+## The following objects are masked from 'package:ggplot2':
+## 
+##     %+%, alpha
+```
+
+```r
 describeBy(x = fb23$vertr, group = fb23$fach_klin)        # beide Gruppen im Vergleich 
 ```
 
@@ -350,6 +364,24 @@ Ein nicht-signifikantes Ergebnis (*p* \> .05) deutet also darauf hin, dass wir n
 
 ```r
 library(car)
+```
+
+```
+## Loading required package: carData
+```
+
+```
+## 
+## Attaching package: 'car'
+```
+
+```
+## The following object is masked from 'package:psych':
+## 
+##     logit
+```
+
+```r
 leveneTest(fb23$vertr ~ fb23$fach_klin)
 ```
 
@@ -472,6 +504,17 @@ Natürlich gibt es in `R` auch eine angenehmere Alternative:
 ```r
 # install.packages("effsize")
 library("effsize")
+```
+
+```
+## 
+## Attaching package: 'effsize'
+```
+
+```
+## The following object is masked from 'package:psych':
+## 
+##     cohen.d
 ```
 
 
@@ -661,7 +704,7 @@ In diesem Beitrag haben wir gesehen, wie wir die zentrale Tendenz (Mittelwert od
 
 ***
 
-## Appendix 
+## Appendix {#Appendix}
 
 <details><summary>Vierfelder-$\chi^2$-Test</summary>
 
