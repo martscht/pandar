@@ -3,13 +3,13 @@ title: WhatsApp Chats
 type: post
 date: '2020-01-30T23:15:00'
 slug: whatsappchats
-categories: []
-tags: ["Projekt4"]
+categories: ["Projekte"]
+tags: ["Projekt4", "textanalyse", "loops", "ggplot"]
 subtitle: ''
 summary: 'In diesem Projekt zeigen wir dir, wie du deine Whatsapp-Chats analysieren kannst. Wer schreibt im Gruppenchat am häufigsten? Wie lange dauert es, bis dir jemand antwortet? Und wer schreibt immer besonders negative oder positive Dinge? Hier kannst du herausfinden, wer deine wahren Freunde sind.'
-authors: [berger]
+authors: [berger, schreiner]
 weight: 1
-lastmod: '2024-02-19'
+lastmod: '2024-05-15'
 featured: no
 banner:
   image: "/header/people_on_phones.jpg"
@@ -42,7 +42,7 @@ Als Psychologe wird man oft von anderen Menschen mit Laienpsychologie konfrontie
 
 ## Zielsetzung 
 
-In dieser Aufgabe sollst du lernen, Texte zu analysieren; und zwar nicht mehr wie im Deutschunterricht auf Stilmittel, sondern z.B. auf Stimmungen. R kann dir dabei helfen, auffällige Häufigkeiten von Wörtern, Uhrzeiten und auch Stimmungen zu entdecken. Dafür wirst du weiterführende Kenntnisse zur Textanalyse mithilfe von `udpipe` lernen. Außerdem wirst du deine neu erlernten Fähigkeiten für `ggplot` aus [Projekt 1](/post/uebersicht1) und für Loops aus [Projekt 2](/post/uebersicht2) anwenden können.
+In dieser Aufgabe sollst du lernen, Texte zu analysieren; und zwar nicht mehr wie im Deutschunterricht auf Stilmittel, sondern z.B. auf Stimmungen. R kann dir dabei helfen, auffällige Häufigkeiten von Wörtern, Uhrzeiten und auch Stimmungen zu entdecken. Dafür wirst du weiterführende Kenntnisse zur Textanalyse mithilfe von `udpipe` lernen. Außerdem wirst du deine neu erlernten Fähigkeiten für `ggplot` aus [Projekt 2](/projekte/projekt2/google-trends/) und für Loops aus [Projekt 3](/projekte/projekt3/casino/) anwenden können.
 
 ## Vorbereitung
 
@@ -140,14 +140,14 @@ Wenn du dir nun den Datensatz anschaust (z.B. über `View`) sollten die ersten s
 
 ```
 ## # A tibble: 6 × 6
-##   time                author text                                                      source emoji  emoji_name
-##   <dttm>              <fct>  <chr>                                                     <chr>  <list> <list>    
-## 1 2019-06-23 18:21:41 <NA>   "Du hast die Gruppe \"Meine Gruppe\" erstellt."           Meine… <NULL> <NULL>    
-## 2 2019-06-26 11:49:41 Frank  "Wer hat Lust so gegen viertel nach 1 Lust auf Mittagess… Meine… <NULL> <NULL>    
-## 3 2019-06-26 12:05:41 Marie  "Bin raus:/"                                              Meine… <NULL> <NULL>    
-## 4 2019-06-26 12:05:41 Hans   " Ich bin jetzt schon essen, hab nachher noch Boxen"      Meine… <NULL> <NULL>    
-## 5 2019-06-26 12:06:41 Georg  " Yess, am Cafe dann?"                                    Meine… <NULL> <NULL>    
-## 6 2019-06-26 12:09:41 Petra  "Ich esse Zuhause"                                        Meine… <NULL> <NULL>
+##   time                author text                                            source emoji  emoji_name
+##   <dttm>              <fct>  <chr>                                           <chr>  <list> <list>    
+## 1 2019-06-23 18:21:51 <NA>   "Du hast die Gruppe \"Meine Gruppe\" erstellt." Meine… <NULL> <NULL>    
+## 2 2019-06-26 11:49:51 Frank  "Wer hat Lust so gegen viertel nach 1 Lust auf… Meine… <NULL> <NULL>    
+## 3 2019-06-26 12:05:51 Marie  "Bin raus:/"                                    Meine… <NULL> <NULL>    
+## 4 2019-06-26 12:05:51 Hans   " Ich bin jetzt schon essen, hab nachher noch … Meine… <NULL> <NULL>    
+## 5 2019-06-26 12:06:51 Georg  " Yess, am Cafe dann?"                          Meine… <NULL> <NULL>    
+## 6 2019-06-26 12:09:51 Petra  "Ich esse Zuhause"                              Meine… <NULL> <NULL>
 ```
 
 Wenn es bei dir einige Zeilen gibt, die keinen Absender und keine Uhrzeit haben, liegt das daran, dass jemand einen Absatz in seiner Nachricht hatte. 
@@ -206,7 +206,7 @@ Bei dem Diagramm über die gesamte Zeit und über die Tageszeit hast du eine int
 Wenn du fertig mit der Bearbeitung der Aufgabenstellung sein solltest, kannst du dein Ergebnis jetzt mit der Lösung vergleichen:
 <details><summary>Lösung </summary>
 
-Falls du `ggplot2` noch nicht geladen hast, solltest du es jetzt tun. Falls du dich noch nicht damit beschäftigt hast, wie man mit diesem Paket Grafiken erzeugt, kannst du das z.B. in unserem Crashkurs zu [Grafiken mit ggplot2](/post/grafiken-mit-ggplot2/) nachholen.
+Falls du `ggplot2` noch nicht geladen hast, solltest du es jetzt tun. Falls du dich noch nicht damit beschäftigt hast, wie man mit diesem Paket Grafiken erzeugt, kannst du das z.B. in unserem Crashkurs zu [Grafiken mit ggplot2](/lehre/statistik-ii/grafiken-ggplot2/) nachholen.
 
 
 ```r
@@ -639,22 +639,30 @@ senti_all$overall
 ```
 
 ```
-##    doc_id sentiment_polarity sentences terms                                           terms_positive
-## 1:   doc1               40.6        23  1176 danke, gern, gut, mögen, ok, spaß, super, süß, zufrieden
-## 2:   doc2                2.0        17   284                                        gern, gratis, gut
-## 3:   doc3               29.6        41   666        danke, gern, gut, inspirieren, okay, super, süßen
-## 4:   doc4               15.6        24   700                              gut, hoffentlich, mag, okay
-## 5:   doc5               -3.0        21   525                                      gern, gut, ok, okay
-## 6:   doc6               14.2        42   870                                    gern, gut, super, süß
-## 7:   doc7               -1.0        30  1130                                      gern, gut, ok, okay
-##                  terms_negative   terms_negation                                       terms_amplification
-## 1:                leider, sorry      kein, nicht                                 bißchen, echt, sehr, voll
-## 2:                       leider            nicht                                      echt, komplett, sehr
-## 3:                       leider      kein, nicht bestimmt, bißchen, definitiv, echt, sehr, wenig, wirklich
-## 4:                leider, sorry kein, nicht, nie                                          echt, sehr, voll
-## 5:                leider, sorry      kein, nicht                                             bißchen, voll
-## 6: blöd, kriegen, leider, sorry            nicht                                       bißchen, echt, voll
-## 7:    leider, schade, vermissen      kein, nicht                  echt, unglaublich, voll, wirklich, würde
+##    doc_id sentiment_polarity sentences terms
+## 1:   doc1               40.6        23  1176
+## 2:   doc2                2.0        17   284
+## 3:   doc3               29.6        41   666
+## 4:   doc4               15.6        24   700
+## 5:   doc5               -3.0        21   525
+## 6:   doc6               14.2        42   870
+## 7:   doc7               -1.0        30  1130
+##                                              terms_positive               terms_negative
+## 1: danke, gern, gut, mögen, ok, spaß, super, süß, zufrieden                leider, sorry
+## 2:                                        gern, gratis, gut                       leider
+## 3:        danke, gern, gut, inspirieren, okay, super, süßen                       leider
+## 4:                              gut, hoffentlich, mag, okay                leider, sorry
+## 5:                                      gern, gut, ok, okay                leider, sorry
+## 6:                                    gern, gut, super, süß blöd, kriegen, leider, sorry
+## 7:                                      gern, gut, ok, okay    leider, schade, vermissen
+##      terms_negation                                       terms_amplification
+## 1:      kein, nicht                                 bißchen, echt, sehr, voll
+## 2:            nicht                                      echt, komplett, sehr
+## 3:      kein, nicht bestimmt, bißchen, definitiv, echt, sehr, wenig, wirklich
+## 4: kein, nicht, nie                                          echt, sehr, voll
+## 5:      kein, nicht                                             bißchen, voll
+## 6:            nicht                                       bißchen, echt, voll
+## 7:      kein, nicht                  echt, unglaublich, voll, wirklich, würde
 ```
 Nun kann man jedoch nicht erkennen, welche Daten zu welcher Person gehören, da der `overall` Befehl nur Nummern und keine Namen anzeigt. Das Problem können wir aber lösen, indem wir die Autorennamen in einem weiteren Schritt zuweisen.
 
@@ -670,22 +678,30 @@ senti[order(senti$sentiment_polarity, decreasing = TRUE), ]
 ```
 
 ```
-##       doc_id sentiment_polarity sentences terms                                           terms_positive
-## 1:      Anna               40.6        23  1176 danke, gern, gut, mögen, ok, spaß, super, süß, zufrieden
-## 2:     Frank               29.6        41   666        danke, gern, gut, inspirieren, okay, super, süßen
-## 3:     Georg               15.6        24   700                              gut, hoffentlich, mag, okay
-## 4:     Marie               14.2        42   870                                    gern, gut, super, süß
-## 5: Anne-Lisa                2.0        17   284                                        gern, gratis, gut
-## 6:     Petra               -1.0        30  1130                                      gern, gut, ok, okay
-## 7:      Hans               -3.0        21   525                                      gern, gut, ok, okay
-##                  terms_negative   terms_negation                                       terms_amplification
-## 1:                leider, sorry      kein, nicht                                 bißchen, echt, sehr, voll
-## 2:                       leider      kein, nicht bestimmt, bißchen, definitiv, echt, sehr, wenig, wirklich
-## 3:                leider, sorry kein, nicht, nie                                          echt, sehr, voll
-## 4: blöd, kriegen, leider, sorry            nicht                                       bißchen, echt, voll
-## 5:                       leider            nicht                                      echt, komplett, sehr
-## 6:    leider, schade, vermissen      kein, nicht                  echt, unglaublich, voll, wirklich, würde
-## 7:                leider, sorry      kein, nicht                                             bißchen, voll
+##       doc_id sentiment_polarity sentences terms
+## 1:      Anna               40.6        23  1176
+## 2:     Frank               29.6        41   666
+## 3:     Georg               15.6        24   700
+## 4:     Marie               14.2        42   870
+## 5: Anne-Lisa                2.0        17   284
+## 6:     Petra               -1.0        30  1130
+## 7:      Hans               -3.0        21   525
+##                                              terms_positive               terms_negative
+## 1: danke, gern, gut, mögen, ok, spaß, super, süß, zufrieden                leider, sorry
+## 2:        danke, gern, gut, inspirieren, okay, super, süßen                       leider
+## 3:                              gut, hoffentlich, mag, okay                leider, sorry
+## 4:                                    gern, gut, super, süß blöd, kriegen, leider, sorry
+## 5:                                        gern, gratis, gut                       leider
+## 6:                                      gern, gut, ok, okay    leider, schade, vermissen
+## 7:                                      gern, gut, ok, okay                leider, sorry
+##      terms_negation                                       terms_amplification
+## 1:      kein, nicht                                 bißchen, echt, sehr, voll
+## 2:      kein, nicht bestimmt, bißchen, definitiv, echt, sehr, wenig, wirklich
+## 3: kein, nicht, nie                                          echt, sehr, voll
+## 4:            nicht                                       bißchen, echt, voll
+## 5:            nicht                                      echt, komplett, sehr
+## 6:      kein, nicht                  echt, unglaublich, voll, wirklich, würde
+## 7:      kein, nicht                                             bißchen, voll
 ```
 
 Für unseren Test müssen wir nun wieder Punkte verteilen. Dafür solltest du erst den 'Positivitätswert' in der Tabelle speichern und dann wie bei der Zeitanalyse Punkte vergeben. Hier muss du aber ein Minus vorschreiben, weil die höchste Zahl hier am besten ist, und nicht die niedrigste.

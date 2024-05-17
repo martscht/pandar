@@ -4,13 +4,15 @@ verben <- c("abrir", "acabar", "acercar", "aconsejar", "acordar", "amar", "andar
 
 person <- c("yo", "tú", "él/ella", "nosotres", "vosotres", "elles")
 
-Tabelle <- data.frame(verben, person)
+## Tabelle <- data.frame(verben, person)
+
+
 
 Tabelle <- data.frame(verben)
 
 ## Tabelle$person <- print(sample(person, 197, replace = T))
 
-Tabelle$person <- print(sample(person, 197, replace = T))
+
 
 head(Tabelle)
 
@@ -18,10 +20,9 @@ tempus <- c("Presente (I)", "Pretérito indefinido (I)", "Pretérito imperfecto 
 
 ## Tabelle$tempus <- print(sample(tempus, 197, replace = T))
 
-Tabelle$tempus <- print(sample(tempus, 197, replace = T))
 
-Tabelle$person <- print(sample(person, 197, replace = T))
-Tabelle$tempus <- print(sample(tempus, 197, replace = T))
+
+
 
 ## Tabelle$person <- print(sample(person, 197, replace = T))
 ## Tabelle$tempus <- print(sample(zeit, 197, replace = T))

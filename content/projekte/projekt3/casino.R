@@ -1,5 +1,3 @@
-set.seed(999)
-
 Ergebnis1 <- NULL
 Ergebnis2 <- NULL
 Bedeutung <- NULL
@@ -23,7 +21,7 @@ Monopoly_Gefaengnis <- data.frame(Ergebnis1, Ergebnis2, Bedeutung, Konsequenz) #
 
 ## View(Monopoly_Gefaengnis)     # Datensatz anschauen
 
-knitr::kable(Monopoly_Gefaengnis[1:10, ], "html")
+
 
 wuerfel1 <- 0    # Würfel 1
 wuerfel2 <- 1    # Würfel 2
@@ -55,7 +53,7 @@ Ziehungen
 
 Gewinne <- ifelse(Ziehungen == 9, 180, -5)
 
-Gewinne
+
 
 Gesamtgewinn <- sum(Gewinne)
 Gesamtgewinn

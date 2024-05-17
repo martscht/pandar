@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schnatz, farugie]
 weight: 1
-lastmod: '2024-01-15'
+lastmod: '2024-05-12'
 featured: no
 banner:
   image: "/header/business_meeting.jpg"
@@ -32,6 +32,7 @@ output:
 
 
 
+
 ## Daten laden 
 
 Bevor wir mit der Analyse beginnen können, muss der Datensatz eingelesen werden. Hierfür gibt es mehrere Packages, die diesen ersten Schritt erleichtern. Mit dem Package `foreign` können besonders gut SPSS-Dateien (.sav) geladen werden. Mit dem Package `readr` (aus der Familie des `tidyverse`) können ansonsten die typischsten  Datenformate (wie unter anderem .csv, .tsv und .txt) geladen werden. Schließlich gibt es noch das `readxl` Package, mit dem Excel-Dateien (.xls und .xlsx) eingelesen werden können. Für unseren Beispieldatensatz benötigen wir das Package `readr`. Wir laden hierbei das komplette tidyvere-package, welches im Hintergrund das readr-Package sowie noch andere relevante Packages läd (z.B. `dplyr`).
@@ -46,20 +47,16 @@ head(data_gis_raw)
 
 ```
 ## # A tibble: 6 × 28
-##      id   sex   ses marital profession education  GIS1  GIS2
-##   <dbl> <dbl> <dbl>   <dbl>      <dbl>     <dbl> <dbl> <dbl>
-## 1     1     1     2       1          3         5     4     3
-## 2     2     1     2       1          1         3     4     3
-## 3     3     1     2       3          1         3     4     3
-## 4     4     1     2       1          1         3     4     3
-## 5     5     0     1       1          5         5     3     4
-## 6     6     1     1       2          2         5     4     3
-## # ℹ 20 more variables: GIS3 <dbl>, GIS4 <dbl>, GIS5 <dbl>,
-## #   GIS6 <dbl>, GIS7 <dbl>, GIS8 <dbl>, GIS9 <dbl>,
-## #   GIS10 <dbl>, GIS11 <dbl>, GIS12 <dbl>, GIS13 <dbl>,
-## #   GIS14 <dbl>, GIS15 <dbl>, GIS16 <dbl>, GIS17 <dbl>,
-## #   GIS18 <dbl>, GIS19 <dbl>, GIS20 <dbl>, GIS21 <dbl>,
-## #   Age <dbl>
+##      id   sex   ses marital profession education  GIS1  GIS2  GIS3  GIS4  GIS5  GIS6  GIS7  GIS8  GIS9 GIS10 GIS11
+##   <dbl> <dbl> <dbl>   <dbl>      <dbl>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+## 1     1     1     2       1          3         5     4     3     3     3     3     3     4     4     3     4     3
+## 2     2     1     2       1          1         3     4     3     3     4     4     4     4     4     4     4     3
+## 3     3     1     2       3          1         3     4     3     4     4     3     3     3     4     4     4     3
+## 4     4     1     2       1          1         3     4     3     0     3     3     4     4     4     0     3     3
+## 5     5     0     1       1          5         5     3     4     4     3     3     4     4     4     4     3     4
+## 6     6     1     1       2          2         5     4     3     3     4     4     4     3     3     4     3     3
+## # ℹ 11 more variables: GIS12 <dbl>, GIS13 <dbl>, GIS14 <dbl>, GIS15 <dbl>, GIS16 <dbl>, GIS17 <dbl>, GIS18 <dbl>,
+## #   GIS19 <dbl>, GIS20 <dbl>, GIS21 <dbl>, Age <dbl>
 ```
 
 
@@ -75,8 +72,7 @@ colnames(data_gis_item) # Ausgabe der Spalten des Datensatzes
 ```
 
 ```
-##  [1] "GIS1"  "GIS2"  "GIS3"  "GIS4"  "GIS5"  "GIS6"  "GIS7" 
-##  [8] "GIS8"  "GIS9"  "GIS10" "GIS11" "GIS12" "GIS13" "GIS14"
+##  [1] "GIS1"  "GIS2"  "GIS3"  "GIS4"  "GIS5"  "GIS6"  "GIS7"  "GIS8"  "GIS9"  "GIS10" "GIS11" "GIS12" "GIS13" "GIS14"
 ## [15] "GIS15" "GIS16" "GIS17" "GIS18" "GIS19" "GIS20" "GIS21"
 ```
 
@@ -120,50 +116,28 @@ describe(data_gis_item)
 ```
 
 ```
-##       vars   n mean   sd median trimmed  mad min max range
-## GIS1     1 300 3.44 0.74      4    3.55 0.00   0   4     4
-## GIS2     2 300 3.29 0.79      3    3.42 1.48   0   4     4
-## GIS3     3 300 3.25 0.89      3    3.40 1.48   0   4     4
-## GIS4     4 300 3.39 0.73      4    3.52 0.00   0   4     4
-## GIS5     5 300 3.23 0.68      3    3.31 0.00   1   4     3
-## GIS6     6 300 3.11 0.82      3    3.19 1.48   0   4     4
-## GIS7     7 300 3.27 0.90      3    3.44 1.48   0   4     4
-## GIS8     8 300 3.26 0.97      3    3.46 1.48   0   4     4
-## GIS9     9 300 3.15 1.03      3    3.35 1.48   0   4     4
-## GIS10   10 300 2.98 0.88      3    3.08 1.48   0   4     4
-## GIS11   11 300 3.27 0.73      3    3.37 0.00   0   4     4
-## GIS12   12 300 3.41 0.81      4    3.56 0.00   0   4     4
-## GIS13   13 300 3.29 0.82      3    3.43 1.48   0   4     4
-## GIS14   14 300 3.13 0.92      3    3.28 1.48   0   4     4
-## GIS15   15 300 3.16 0.75      3    3.26 0.00   1   4     3
-## GIS16   16 300 3.22 0.96      3    3.42 1.48   0   4     4
-## GIS17   17 300 3.11 0.93      3    3.26 1.48   0   4     4
-## GIS18   18 300 2.57 1.23      3    2.71 1.48   0   4     4
-## GIS19   19 300 3.22 0.87      3    3.35 1.48   0   4     4
-## GIS20   20 300 2.96 0.91      3    3.06 1.48   0   4     4
-## GIS21   21 300 3.03 0.92      3    3.15 1.48   0   4     4
-##        skew kurtosis   se
-## GIS1  -1.78     4.54 0.04
-## GIS2  -1.49     3.30 0.05
-## GIS3  -1.23     1.30 0.05
-## GIS4  -1.21     1.68 0.04
-## GIS5  -0.76     1.02 0.04
-## GIS6  -0.79     0.63 0.05
-## GIS7  -1.52     2.34 0.05
-## GIS8  -1.56     2.12 0.06
-## GIS9  -1.37     1.42 0.06
-## GIS10 -0.88     0.84 0.05
-## GIS11 -1.14     2.18 0.04
-## GIS12 -1.62     2.89 0.05
-## GIS13 -1.64     3.73 0.05
-## GIS14 -1.20     1.41 0.05
-## GIS15 -0.90     1.03 0.04
-## GIS16 -1.64     2.70 0.06
-## GIS17 -1.31     1.84 0.05
-## GIS18 -0.87    -0.31 0.07
-## GIS19 -1.26     1.76 0.05
-## GIS20 -0.81     0.38 0.05
-## GIS21 -1.00     0.88 0.05
+##       vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## GIS1     1 300 3.44 0.74      4    3.55 0.00   0   4     4 -1.78     4.54 0.04
+## GIS2     2 300 3.29 0.79      3    3.42 1.48   0   4     4 -1.49     3.30 0.05
+## GIS3     3 300 3.25 0.89      3    3.40 1.48   0   4     4 -1.23     1.30 0.05
+## GIS4     4 300 3.39 0.73      4    3.52 0.00   0   4     4 -1.21     1.68 0.04
+## GIS5     5 300 3.23 0.68      3    3.31 0.00   1   4     3 -0.76     1.02 0.04
+## GIS6     6 300 3.11 0.82      3    3.19 1.48   0   4     4 -0.79     0.63 0.05
+## GIS7     7 300 3.27 0.90      3    3.44 1.48   0   4     4 -1.52     2.34 0.05
+## GIS8     8 300 3.26 0.97      3    3.46 1.48   0   4     4 -1.56     2.12 0.06
+## GIS9     9 300 3.15 1.03      3    3.35 1.48   0   4     4 -1.37     1.42 0.06
+## GIS10   10 300 2.98 0.88      3    3.08 1.48   0   4     4 -0.88     0.84 0.05
+## GIS11   11 300 3.27 0.73      3    3.37 0.00   0   4     4 -1.14     2.18 0.04
+## GIS12   12 300 3.41 0.81      4    3.56 0.00   0   4     4 -1.62     2.89 0.05
+## GIS13   13 300 3.29 0.82      3    3.43 1.48   0   4     4 -1.64     3.73 0.05
+## GIS14   14 300 3.13 0.92      3    3.28 1.48   0   4     4 -1.20     1.41 0.05
+## GIS15   15 300 3.16 0.75      3    3.26 0.00   1   4     3 -0.90     1.03 0.04
+## GIS16   16 300 3.22 0.96      3    3.42 1.48   0   4     4 -1.64     2.70 0.06
+## GIS17   17 300 3.11 0.93      3    3.26 1.48   0   4     4 -1.31     1.84 0.05
+## GIS18   18 300 2.57 1.23      3    2.71 1.48   0   4     4 -0.87    -0.31 0.07
+## GIS19   19 300 3.22 0.87      3    3.35 1.48   0   4     4 -1.26     1.76 0.05
+## GIS20   20 300 2.96 0.91      3    3.06 1.48   0   4     4 -0.81     0.38 0.05
+## GIS21   21 300 3.03 0.92      3    3.15 1.48   0   4     4 -1.00     0.88 0.05
 ```
 
 Wenn wir nur eine spezifische Variable deskriptiv betrachten wollen (z.B. das Alter), kann in der gleichen Funktion die Variable direkt angesteuert werden.
@@ -174,10 +148,8 @@ describe(data_gis_raw$Age)
 ```
 
 ```
-##    vars   n  mean   sd median trimmed  mad min max range skew
-## X1    1 300 66.53 6.17     65   65.77 5.93  55  90    35  1.2
-##    kurtosis   se
-## X1     1.58 0.36
+##    vars   n  mean   sd median trimmed  mad min max range skew kurtosis   se
+## X1    1 300 66.53 6.17     65   65.77 5.93  55  90    35  1.2     1.58 0.36
 ```
 
 Für alle kategoriellen Daten (z.B. Geschlecht, SÖS, Bildung) benötigen keine Mittelwerte oder Standardabweichungen, sondern nutzen Häufigkeitsverteilung zur deskriptiven Beschreibung. Hier kommt jetzt das janitor-Package zum Einsatz.
@@ -296,16 +268,12 @@ print(descr_age_by_sex)
 ## 
 ##  Descriptive statistics by group 
 ## group: 0
-##    vars   n  mean   sd median trimmed  mad min max range skew
-## X1    1 104 66.88 6.67     65   66.01 5.93  55  90    35 1.25
-##    kurtosis   se
-## X1     1.76 0.65
-## ------------------------------------------------ 
+##    vars   n  mean   sd median trimmed  mad min max range skew kurtosis   se
+## X1    1 104 66.88 6.67     65   66.01 5.93  55  90    35 1.25     1.76 0.65
+## --------------------------------------------------------------------------------------- 
 ## group: 1
-##    vars   n  mean  sd median trimmed  mad min max range skew
-## X1    1 196 66.35 5.9     65   65.67 5.93  55  89    34 1.12
-##    kurtosis   se
-## X1     1.16 0.42
+##    vars   n  mean  sd median trimmed  mad min max range skew kurtosis   se
+## X1    1 196 66.35 5.9     65   65.67 5.93  55  89    34 1.12     1.16 0.42
 ```
 
 ```r
@@ -477,10 +445,8 @@ colnames(data_gis_rec)
 ```
 
 ```
-##  [1] "GIS1"    "GIS2"    "GIS3"    "GIS4"    "GIS5"    "GIS6"   
-##  [7] "GIS7"    "GIS8"    "GIS10"   "GIS11"   "GIS12"   "GIS13"  
-## [13] "GIS14"   "GIS15"   "GIS19"   "GIS20"   "GIS21"   "GIS9_r" 
-## [19] "GIS16_r" "GIS17_r" "GIS18_r"
+##  [1] "GIS1"    "GIS2"    "GIS3"    "GIS4"    "GIS5"    "GIS6"    "GIS7"    "GIS8"    "GIS10"   "GIS11"   "GIS12"  
+## [12] "GIS13"   "GIS14"   "GIS15"   "GIS19"   "GIS20"   "GIS21"   "GIS9_r"  "GIS16_r" "GIS17_r" "GIS18_r"
 ```
  
  Jetzt können wir die Itemanalyse durchführen. Wir verwenden dafür eine Funktion aus dem sjPlot Package.
@@ -612,7 +578,7 @@ sjt.itemanalysis(
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.81</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">-1.64</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.85</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.66</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.67</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col8">0.83</td>
 </tr>
 <tr>
@@ -866,7 +832,7 @@ sjt.itemanalysis(
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; ">0.81</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; ">-1.64</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; ">0.85</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; col7">0.66</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; col7">0.67</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; col8">0.83</td>
 </tr>
 <tr>
@@ -1022,7 +988,7 @@ sjt.itemanalysis(
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.89</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">-1.25</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.81</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.64</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.65</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col8">0.93</td>
 </tr>
 <tr>

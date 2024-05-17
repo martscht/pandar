@@ -63,7 +63,6 @@ Zur Bestimmung der Anzahl der Faktoren in der exploratorischen Faktorenanalyse g
 
 Das Eigenwertkriterium bzw. Kaiser-Kriterium ist das liberalste Maß der Entscheidung, weswegen tendeziell dadurch viele Faktoren entstehen. Zur Bestimmung werden die Eigenwerte errechnet und alle Faktoren beibehalten, deren Eigenwert >= 1 ist. Es gibt zwei Möglichkeiten, den Eigenwerteverlauf mittels R zu bestimmen. 
 
-::: panel-tabset
 
 #### 1. Weg: Base-R Funktion `eigen()`
 
@@ -105,7 +104,6 @@ tab_df(
   ) 
 ```
 
-:::
 
 Wie anhand der Ergebnisse erkennbar ist, wird durch das Eigenwertkriterium ein Modell mit 2 Faktoren vorgeschlagen.
 
@@ -113,9 +111,8 @@ Wie anhand der Ergebnisse erkennbar ist, wird durch das Eigenwertkriterium ein M
 
 Der Scree-Plot ist ein visuell deskriptives Kriterium zur Entscheidung der Faktoren. Dabei ist das Kriterium konservativer als das Eigenwertkriterium.Wie in dem Lernbar-Video beschrieben wird der optische Knick herangezogen, um die Entscheidung über die Faktorenanzahl zu treffen. Alle Faktoren, die sich "über" dem Knick befinden, werden beibehalten.  
 
-Um in R einen Scree-Plot zu generieren, könnnen wir entweder die Base-R Plotting Funktionen verwenden oder das sehr erfolgreiche `ggplot2` Package der tidyverse Familie benutzen. Dabei können zwar mit Base R Plotting Funktionen zwar in nur wenigen Zeilen ein Plot erstellt werden, bieten dafür aber nicht so viele Anpassungsmöglichkeiten und folgen keiner klaren Struktur im Vergleich zu ggplot2. Wem es also wichtig sein sollte, schöne Plots zu generieren, sollte eher das ggplot2 Package nutzen. Wer nochmal eine ggplot2 Auffrischung brauchen sollte, findet hier ein paar nützliche Links: [PandaR](https://pandar.netlify.app/post/ggplotting-intro/), [R for Data Science](https://r4ds.had.co.nz/data-visualisation.html).
+Um in R einen Scree-Plot zu generieren, könnnen wir entweder die Base-R Plotting Funktionen verwenden oder das sehr erfolgreiche `ggplot2` Package der tidyverse Familie benutzen. Dabei können zwar mit Base R Plotting Funktionen zwar in nur wenigen Zeilen ein Plot erstellt werden, bieten dafür aber nicht so viele Anpassungsmöglichkeiten und folgen keiner klaren Struktur im Vergleich zu ggplot2. Wem es also wichtig sein sollte, schöne Plots zu generieren, sollte eher das ggplot2 Package nutzen. Wer nochmal eine ggplot2 Auffrischung brauchen sollte, findet hier einen nützlichen Link: [R for Data Science](https://r4ds.had.co.nz/data-visualisation.html).
 
-::: panel-tabset
 
 #### 1. Weg: Base-R
 
@@ -168,7 +165,6 @@ ggplot(data = data_eigen, aes(x = Faktor, y = Eigenwert)) +
   theme(axis.title = element_text(face = "bold"))
 ```
 
-:::
 
 Die Ergebnisse der Scree-Plots suggerieren ein Modell mit nur einem Faktor. Dementsprechend wäre die Entscheidung im Vergleich zum Kaiser-Kriterium deutlich konservativer.
 
@@ -176,7 +172,6 @@ Die Ergebnisse der Scree-Plots suggerieren ein Modell mit nur einem Faktor. Deme
 
 Die letzte vorgestellte Möglichkeit ist die Parallelanalyse. Hierbei werden die empirischen Eigenwerte einer Faktorenanalyse mit den Eigenwerten eines simulierten Datensatzen mit normalverteilten Daten verglichen (Klopp, 2010). Es werden dabei Faktoren beibehalten, bei denen der empirische Eigenwerte größer als der simulierte Eigenwert ist. Anders formuliert werden Faktoren beibehalten, die mehr Varianz aufklären als rein zufällig simulierte Daten. Von den drei vorgestellten Kriterien ist diese das konservativste Kriterium
 
-::: panel-tabset
 
 #### Möglichkeit 1
 
@@ -247,7 +242,6 @@ tibble(
   
 ```
 
-:::
 
 Die Ergebnisse der Parallelanalyse suggerieren ein Modell mit drei Faktoren. Da dies das konservativste Vorgehen ist, entscheiden wir uns für ein dreifaktorielles Modell für die weitere Analyse.
 

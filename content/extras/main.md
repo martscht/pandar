@@ -34,19 +34,19 @@ sections:
     design:
       columns: 2
       
-  #           
-  #  
-  #     
-  # - block: markdown
-  #   id: bayes
-  #   content:
-  #     title: Bayes Intro
-  #     subtitle:  Eine imperfekte Einführung für absolute Beginner
-  #     text: Haben Sie es satt in Ihren Analysen immer nur in die letzte Spalte (auf den p-Wert) zu gucken und wollen endlich erfahren, wie Sie auch dann Ergebnisse Ihrer Untersuchung interpretieren können, wenn absolut nichts raus kommt oder die Stichprobe viel zu klein ist? Für genau solche Fälle bieten wir hier eine kurze Einführung in Bayesianische Statistik. Auch diejenigen, die daran interessiert sind, auch in ihren Auswertung tatsächlich kumulativen Erkenntnisfortschritt zu praktizieren oder klassisches Nullhypothesen-Testen aus ethischen Gründen ablehnen, sind herzlich willkommen!
-  #       {{< category_list "bayes" 4 >}}
-  # 
-  #   design:
-  #     columns: 2
+
+
+
+  - block: markdown
+    id: bayes
+    content:
+      title: Bayes Intro
+      subtitle:  Eine imperfekte Einführung für absolute Beginner
+      text: Haben Sie es satt in Ihren Analysen immer nur in die letzte Spalte (auf den p-Wert) zu gucken und wollen endlich erfahren, wie Sie auch dann Ergebnisse Ihrer Untersuchung interpretieren können, wenn absolut nichts raus kommt oder die Stichprobe viel zu klein ist? Für genau solche Fälle bieten wir hier eine kurze Einführung in Bayesianische Statistik. Auch diejenigen, die daran interessiert sind, auch in ihren Auswertung tatsächlich kumulativen Erkenntnisfortschritt zu praktizieren oder klassisches Nullhypothesen-Testen aus ethischen Gründen ablehnen, sind herzlich willkommen!
+        {{< category_list "bayes" 4 >}}
+
+    design:
+      columns: 2
   # 
   # 
   # 

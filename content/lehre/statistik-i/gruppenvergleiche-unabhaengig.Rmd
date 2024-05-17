@@ -518,7 +518,7 @@ In diesem Beitrag haben wir gesehen, wie wir die zentrale Tendenz (Mittelwert od
 
 ***
 
-## Appendix 
+## Appendix {#Appendix}
 
 <details><summary>Vierfelder-$\chi^2$-Test</summary>
 

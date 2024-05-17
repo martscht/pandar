@@ -1,5 +1,5 @@
 library(ggplot2)
-source('https://pandar.netlify.app/post/ggplotting-theme-source.R')
+source('ggplotting-theme-source.R')
 theme_set(theme_pandar())
 
 # Beobachtungen

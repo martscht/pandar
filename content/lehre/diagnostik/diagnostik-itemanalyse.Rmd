@@ -34,6 +34,7 @@ output:
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 ```
 
+
 ## Daten laden 
 
 Bevor wir mit der Analyse beginnen können, muss der Datensatz eingelesen werden. Hierfür gibt es mehrere Packages, die diesen ersten Schritt erleichtern. Mit dem Package `foreign` können besonders gut SPSS-Dateien (.sav) geladen werden. Mit dem Package `readr` (aus der Familie des `tidyverse`) können ansonsten die typischsten  Datenformate (wie unter anderem .csv, .tsv und .txt) geladen werden. Schließlich gibt es noch das `readxl` Package, mit dem Excel-Dateien (.xls und .xlsx) eingelesen werden können. Für unseren Beispieldatensatz benötigen wir das Package `readr`. Wir laden hierbei das komplette tidyvere-package, welches im Hintergrund das readr-Package sowie noch andere relevante Packages läd (z.B. `dplyr`).
