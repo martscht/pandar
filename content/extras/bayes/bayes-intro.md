@@ -72,7 +72,7 @@ Jede `1` stellt eine Person dar, die erfolgreich aus dem Ausgang zurückkam, ohn
 
 Etwas formaler ausgedrückt: wir wollen jetzt prüfen, ob die Erfolgsquote Ihres Systems sich von der Quote Ihrer Kolleg:innen unterscheidet. Die Nullhypothese ist also, dass wir vermuten, dass auch Ihr System eine Erfolgsquote von 50% produziert: $H_0: \pi = .5$. $\pi$ stellt hierbei die Wahrscheinlichkeit des "erfolgreichen" Ausgangs in der Population aller Personen dar, die jemals an diesem System teilnehmen könnten.
 
-## Frequentistische Ansätze
+## Frequentistische Ansätze {#frequentistische-ansaetze}
 
 <details><summary><b>Parametrischer Ansatz: $\chi^2$-Test</b></summary>
 

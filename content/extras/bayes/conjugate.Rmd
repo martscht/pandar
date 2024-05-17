@@ -60,7 +60,7 @@ length(obs)
 mean(obs)
 ```
 
-Wie wir [schon gesehen haben](/extras/bayes/bayes-intro/#frequentistische-ansatze), brachten uns die klassischen Analyseanstäze hier keine statistisch bedeutsamen Ergebnisse und demzufolge auch nur wenig Erkenntnisgewinn.
+Wie wir [schon gesehen haben](/extras/bayes/bayes-intro/#frequentistische-ansaetze), brachten uns die klassischen Analyseanstäze hier keine statistisch bedeutsamen Ergebnisse und demzufolge auch nur wenig Erkenntnisgewinn.
 
 ## Die Binomialverteilung
 
@@ -71,7 +71,7 @@ Bei jeder Untersuchung versuchen wir dann möglichst voneinander unabhängige Be
 $$
   P(X = x | n, \pi) = {n \choose x} \cdot \pi^x \cdot (1 - \pi)^{n-x}
 $$
-Dabei ist $x$ die Anzahl der von uns beobachteten Erfolge, $n$ die Anzahl der Beobachtungen, die wir insgesamt durchgeführt haben und $\pi$ die Grundrate in der Population. Eine super detaillierte Darstellung der Binomialverteilung haben wir z.B. in [diesem Beitrag](/lehre/statistik-i/verteilungen/#binomialverteilung) aufgeschrieben. Wie wir schon im letzten Bayes-Beitrag besprochen haben, können wir diese Formel einfach nutzen, um die _Likelihood_ zu bestimmen:
+Dabei ist $x$ die Anzahl der von uns beobachteten Erfolge, $n$ die Anzahl der Beobachtungen, die wir insgesamt durchgeführt haben und $\pi$ die Grundrate in der Population. Eine super detaillierte Darstellung der Binomialverteilung haben wir z.B. in [diesem Beitrag](/lehre/statistik-i/verteilungen/#Binomial) aufgeschrieben. Wie wir schon im letzten Bayes-Beitrag besprochen haben, können wir diese Formel einfach nutzen, um die _Likelihood_ zu bestimmen:
 
 $$
     L(P = \pi | N = n, X = x) = {n \choose x} \cdot \pi^x \cdot (1 - \pi)^{n-x}
@@ -91,7 +91,7 @@ d <- data.frame(pi, likelihood)
 d
 ```
 
-Statt immer die ganze Gleichung aufschreiben zu müssen, können wir natürlich auch die in `R` integrierte Verteilungsfunktionalität nutzen. Dazu gibt es ein [allgemeines Muster](/lehre/statistik-i/verteilungen/#allgemeines-muster), nach dem Verteilungsfunktionen aufgebaut sind. Für die Binomialverteilun können wir also `dbinom` benutzen, um uns die _Dichtefunktion_  ausgeben zu lassen:
+Statt immer die ganze Gleichung aufschreiben zu müssen, können wir natürlich auch die in `R` integrierte Verteilungsfunktionalität nutzen. Dazu gibt es ein [allgemeines Muster](/lehre/statistik-i/verteilungen/#Muster), nach dem Verteilungsfunktionen aufgebaut sind. Für die Binomialverteilun können wir also `dbinom` benutzen, um uns die _Dichtefunktion_  ausgeben zu lassen:
 
 ```{r}
 dbinom(7, 10, .2)
@@ -113,7 +113,7 @@ Wie wir im [Bayes-Intro](/extras/bayes/bayes-intro) besprochen haben, ist das Zi
 
 Im [ersten Bayes-Beitrag](/extras/bayes/bayes-intro#basic-bayes) hatten wir bereits gesehen, wie drei unterschiedliche Prior aussehen können. Jetzt geht es darum zu bestimmen, wie wir unsere Annahmen so in eine konkrete Verteilung übersetzen können, dass sie wirklich als Prior fungieren kann. Die Verteilung einer Wahrscheinlichkeit muss bestimmte Eigenschaften haben - z.B. können Wahrscheinlichkeiten nur zwischen 0 und 1 liegen. Es hängt also von dem Parameter ab, über den wir Aussagen treffen wollen, welche Verteilung wir nutzen können. 
 
-Zum Glück haben sich Generationen von Statisker:innen bereits darüber den Kopf zerbrochen, welche Verteilungen für welche Parameter geeignet sind. Ein System hat sich dabei als besonders vielversprechend erwiesen: Prior-Verteilungen so zu gestalten, dass die Posterior-Verteilung der gleichen Verteilungsklasse angehört. Wenn das gelingt, spricht man von einem _conjugate Prior_. Dieser Ansatz hat den immensen Vorteil, dass wir die Posterior-Verteilung direkt berechnen können (in anderen Fällen, müssen wir auf ein simulationsbasiertes Verfahren zurückgreifen, wie im [nächsten Beitrag](/extras/bayes/metropolis) noch genauer besprochen wird). Das Problem dabei ist nur, dass man herleiten muss, welche Verteilungen genau diese Eigenschaften aufweisen. Erneut haben wir wahnsinniges Glück, dass wir im 21. Jahrhundert leben: [Fink (1997)](https://www.johndcook.com/CompendiumOfConjugatePriors.pdf) hat bereits eine sehr ausführliche Übersicht über solche Verteilungen erstellt. Auch [Wikipedia](https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions) kann uns hier sehr übersichtlich weiterhelfen.
+Zum Glück haben sich Generationen von Statisker:innen bereits darüber den Kopf zerbrochen, welche Verteilungen für welche Parameter geeignet sind. Ein System hat sich dabei als besonders vielversprechend erwiesen: Prior-Verteilungen so zu gestalten, dass die Posterior-Verteilung der gleichen Verteilungsklasse angehört. Wenn das gelingt, spricht man von einem _conjugate Prior_. Dieser Ansatz hat den immensen Vorteil, dass wir die Posterior-Verteilung direkt berechnen können (in anderen Fällen, müssen wir auf ein simulationsbasiertes Verfahren zurückgreifen, wie im [nächsten Beitrag](/extras/bayes/sampling-under-construction) noch genauer besprochen wird). Das Problem dabei ist nur, dass man herleiten muss, welche Verteilungen genau diese Eigenschaften aufweisen. Erneut haben wir wahnsinniges Glück, dass wir im 21. Jahrhundert leben: [Fink (1997)](https://www.johndcook.com/CompendiumOfConjugatePriors.pdf) hat bereits eine sehr ausführliche Übersicht über solche Verteilungen erstellt. Auch [Wikipedia](https://en.wikipedia.org/wiki/Conjugate_prior#Table_of_conjugate_distributions) kann uns hier sehr übersichtlich weiterhelfen.
 
 In beiden Quellen sehen wir, dass der conjugate Prior für unsere Binomialverteilung die Beta-Verteilung ist, welche genutzt werden kann, um die Verteilung von $\pi$ darzustellen. Notiert wird sie als $\text{Beta}(\alpha, \beta)$. So wie jede Normalverteilung durch Mittelwert $\mu$ und Standardabweichung $\sigma$ festgelegt ist, wird die Form der Beta-Verteilung durch die beiden Parameter $\alpha$ und $\beta$ festgelegt:
 
@@ -191,7 +191,7 @@ d$weak_post <- dbeta(d$pi, 9, 5)
 d
 ```
 
-Als [starker Prior](/extra/bayes/bayes-intro#starke-prior) hatte im Beispiel $\text{Beta}(6, 6)$ hergehalten.
+Als [starker Prior](/extras/bayes/bayes-intro#starke-prior) hatte im Beispiel $\text{Beta}(6, 6)$ hergehalten.
 
 ```{r}
 d$strong_prior <- dbeta(d$pi, 6, 6)
@@ -266,4 +266,4 @@ In diesem Bereich findet sich also eher wenig Evidenz. Wie genau diese Informati
 
 ***
 
-In diesem Beitrag haben wir uns angesehen, wie man Bayesianische Analysen "per Hand" durchführen kann. Was dies erfordert ist Kenntnis von Verteilungen: zum Einen müssen wir wissen, welche Verteilung unser Parameter in der Population folgt und zum Anderen benötigen wir Informationen darüber, welche Verteilung dazu einen _conjugate Prior_ darstellt. Wenn beides gegeben ist, können wir unsere Analysen sehr einfach durchführen. Wenn wir die Verteilungen nicht kennen oder sie zu komplex sind, um einen einfachen conjugate Prior zuzulassen, müssen wir uns einer simulationsbasierten Strategie bedienen, die wir [im dritten Beitrag](/extras/bayes/metropolis) kennenlernen werden.
+In diesem Beitrag haben wir uns angesehen, wie man Bayesianische Analysen "per Hand" durchführen kann. Was dies erfordert ist Kenntnis von Verteilungen: zum Einen müssen wir wissen, welche Verteilung unser Parameter in der Population folgt und zum Anderen benötigen wir Informationen darüber, welche Verteilung dazu einen _conjugate Prior_ darstellt. Wenn beides gegeben ist, können wir unsere Analysen sehr einfach durchführen. Wenn wir die Verteilungen nicht kennen oder sie zu komplex sind, um einen einfachen conjugate Prior zuzulassen, müssen wir uns einer simulationsbasierten Strategie bedienen, die wir [im dritten Beitrag](/extras/bayes/sampling-under-construction) kennenlernen werden.
