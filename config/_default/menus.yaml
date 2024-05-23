@@ -113,6 +113,12 @@ main:
     parent: "Extras"
     weight: 502
 
+  - name: "ChatGPT"
+    pre: "<i class='fas fa-brain'></i>&ensp;"
+    url: '/extras/main#chatgpt'
+    parent: "Extras"
+    weight: 503
+
   - name: "tigeR"
     pre: "<i class='fas fa-paw'></i>&ensp;"
     url: 'https://tiger.uni-frankfurt.de/app/shinytigeR'

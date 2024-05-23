@@ -29,6 +29,8 @@ sections:
       subtitle:  
       text: 
         Git kann der Versionskontrolle dienen. In Kombination mit einem Cloud-Service wie beispielsweise GitHub kann die Kollaboration an Coding-Projekten vereinfacht werden. Für erhöhte Anwendungsfreundlichkeit wurde bspw. SmartGit entwickelt. In den nächsten Wochen werden hier verschiedene Einführungen in diese Programme veröffentlicht.
+        
+        
         {{< category_list "git" 5 >}}
 
     design:
@@ -43,7 +45,22 @@ sections:
       title: Bayes Intro
       subtitle:  Eine imperfekte Einführung für absolute Beginner
       text: Haben Sie es satt in Ihren Analysen immer nur in die letzte Spalte (auf den p-Wert) zu gucken und wollen endlich erfahren, wie Sie auch dann Ergebnisse Ihrer Untersuchung interpretieren können, wenn absolut nichts raus kommt oder die Stichprobe viel zu klein ist? Für genau solche Fälle bieten wir hier eine kurze Einführung in Bayesianische Statistik. Auch diejenigen, die daran interessiert sind, auch in ihren Auswertung tatsächlich kumulativen Erkenntnisfortschritt zu praktizieren oder klassisches Nullhypothesen-Testen aus ethischen Gründen ablehnen, sind herzlich willkommen!
+      
+      
         {{< category_list "bayes" 4 >}}
+
+    design:
+      columns: 2
+
+  - block: markdown
+    id: chatgpt
+    content:
+      title: ChatGPT
+      subtitle: Datenauswertung mit KI-Assistenz in der Psychologie
+      text: Hier könnte demnächst eine kurze, prägnante, vielleicht sogar unterhaltsame Einleitung für die ChatGPT Tutorials stehen.
+      
+      
+        {{< category_list "chatgpt" 3 >}}
 
     design:
       columns: 2
