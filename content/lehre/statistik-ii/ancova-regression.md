@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schultze]
 weight: 11
-lastmod: '2024-04-12'
+lastmod: '2024-05-24'
 featured: no
 banner:
   image: "/header/transaction_50_euros.jpg"

@@ -8,7 +8,7 @@ tags: ["ANOVA", "Post-Hoc", "Einfaktoriell"]
 subtitle: '1-fakt. ANOVA'
 summary: ''
 authors: [scheppa-lahyani, irmer, wallot, nehler]
-weight: 7
+weight: 8
 lastmod: '2024-05-24'
 featured: no
 banner:
