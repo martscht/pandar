@@ -8,7 +8,7 @@ tags: ["ggplotting"]
 subtitle: 'Animierte Grafiken in ggplot'
 summary: '' 
 authors: [schultze] 
-weight: 7
+weight: 4
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:

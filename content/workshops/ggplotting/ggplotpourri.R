@@ -1,5 +1,5 @@
 library(ggplot2)
-load(url('https://pandar.netlify.com/daten/edu_exp.rda'))
+load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 library(maps)
 source('./ggplotting-theme-source.R')
 library(knitr)

@@ -8,7 +8,7 @@ tags: ["ggplotting"]
 subtitle: ''
 summary: '' 
 authors: [buchholz] 
-weight: 9
+weight: 6
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
@@ -239,15 +239,15 @@ for(c in 1:length(countries)){
 }
 ```
 
-![](/post/ggplotting_print_progress.png)
+![](ggplotting_print_progress.png)
 
 Nachdem die Schleife fertig durchgelaufen ist, liegen alle 197 Grafiken im Ordner:
 
-![](/post/ggplotting_ordner.png)
+![](ggplotting_ordner.png)
 
 Durch diese kann man sich nun durcharbeiten - auffällige Muster fallen dann schnell auf:
 
-![](/post/ggplotting_gapminder_plots.gif)
+![](ggplotting_gapminder_plots.gif)
 
 
 

@@ -8,8 +8,8 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [schultze] 
-weight: 4
-lastmod: '2023-12-22'
+weight: 2
+lastmod: '2024-05-24'
 featured: no
 banner:
   image: "/header/colouring_pencils_smoke.jpg"
@@ -61,8 +61,7 @@ ggplot(edu_2013, aes(x = Primary, y = Index, color = Wealth)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/simple-scatter-1.png)<!-- -->
@@ -79,11 +78,7 @@ unique(edu_2013$Wealth)
 ```
 
 ```
-## [1] "low_income"         
-## [2] "lower_middle_income"
-## [3] "upper_middle_income"
-## [4] "high_income"        
-## [5] ""
+## [1] "low_income"          "lower_middle_income" "upper_middle_income" "high_income"
 ```
 
 Es gibt zwar fünf einzigartige Ausprägungen, aber eine davon ist leer. Außerdem können wir sehen, dass es sich bei dieser Variable um einen `character`-Vektor handelt, nicht um einen `factor` wie für nominal-skalierte Gruppenvariablen üblich. Das hat zur Folge, dass `ggplot` die Ausprägungen automatisch alphabetisch sortiert. Wie schon in der [ggplot Einführung](/post/ggplotting-intro) besprochen ist der Kerngedanke bei solchen Problemen, dass wir jetzt nicht an der Grafik herumbasteln, sondern stattdessen die zugrundeliegenden Daten so anpassen, dass sie am Ende eine adäquate Abbildung ermöglichen. Das heißt für uns, dass wir die Variable "Wealth" so umwandeln sollten, dass sie am Ende ordentlich sortierte und angemessen benannte Ausprägungen enthält.
@@ -111,8 +106,7 @@ ggplot(edu_2013, aes(x = Primary, y = Index, color = Wealth)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/nice-legend-1.png)<!-- -->
@@ -127,8 +121,7 @@ subset(edu_2013, !is.na(Wealth)) |>
 ```
 
 ```
-## Warning: Removed 100 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/no-na-legend-1.png)<!-- -->
@@ -152,8 +145,7 @@ scatter
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/labeled-1.png)<!-- -->
@@ -171,8 +163,7 @@ scatter + theme_minimal()
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/theme-minimal-1.png)<!-- -->
@@ -187,10 +178,6 @@ library(ggthemes)
 ```
 
 
-```
-## Warning: Paket 'ggthemes' wurde
-## unter R Version 4.3.2 erstellt
-```
 
 Dieses Paket liefert (neben anderen optischen Erweiterungen) über 20 neue Themes, die häufig den Visualisierungen in kommerzieller Software oder in bestimmten Publikationen nachempfunden sind. In Anlehnung an den Theorieteil nutzen wir als allererstes natürlich das nach Tuftes "maximal Data, minimal Ink" Prinzip erstellte Theme:
 
@@ -200,8 +187,7 @@ scatter + theme_tufte()
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/tufte-1.png)<!-- -->
@@ -214,8 +200,7 @@ scatter + theme_fivethirtyeight()
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/gdocs-1.png)<!-- -->
@@ -283,8 +268,7 @@ scatter +
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/adjusted-title-1.png)<!-- -->
@@ -299,8 +283,7 @@ scatter +
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/adjusted-subtitle-1.png)<!-- -->
@@ -316,8 +299,7 @@ scatter +
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/added-axes-1.png)<!-- -->
@@ -341,8 +323,7 @@ scatter
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/themed-scatter-1.png)<!-- -->
@@ -373,8 +354,7 @@ scatter + theme_grey()
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/grey-themed-1.png)<!-- -->
@@ -387,8 +367,7 @@ scatter + theme_pandar()
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/custom-theme-1.png)<!-- -->
@@ -414,8 +393,7 @@ ggplot(edu_2013, aes(x = Primary, y = Index, color = log(Income))) +
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/continuous-wealth-1.png)<!-- -->
@@ -430,8 +408,7 @@ scatter + scale_color_grey()
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/scatter-grey-1.png)<!-- -->
@@ -454,8 +431,7 @@ scatter +
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/manual-colors-1.png)<!-- -->
@@ -490,8 +466,13 @@ scatter + scale_color_pandar()
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: The `scale_name` argument of `discrete_scale()` is deprecated as of ggplot2 3.5.0.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+```
+
+```
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/own-palette-1.png)<!-- -->
@@ -515,8 +496,7 @@ ggplot(edu_2013, aes(x = Primary, y = Index, color = Wealth_bin)) +
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/binary-palette-1.png)<!-- -->
@@ -531,8 +511,7 @@ ggplot(edu_2013, aes(x = Primary, y = Index, color = log(Income))) +
 ```
 
 ```
-## Warning: Removed 101 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-themes_files/figure-html/continous-palette-1.png)<!-- -->

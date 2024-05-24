@@ -8,8 +8,8 @@ tags: ["ggplotting"]
 subtitle: ''
 summary: '' 
 authors: [schultze, buchholz] 
-weight: 2
-lastmod: '2023-12-22'
+weight: 1
+lastmod: '2024-05-24'
 featured: no
 banner:
   image: "/header/splattered_paint.jpg"
@@ -79,34 +79,13 @@ head(edu_exp)
 ```
 
 ```
-##   geo     Country     Wealth
-## 1 afg Afghanistan low_income
-## 2 afg Afghanistan low_income
-## 3 afg Afghanistan low_income
-## 4 afg Afghanistan low_income
-## 5 afg Afghanistan low_income
-## 6 afg Afghanistan low_income
-##   Region Year Population
-## 1   asia 1997   19357126
-## 2   asia 1998   19737770
-## 3   asia 1999   20170847
-## 4   asia 2000   20779957
-## 5   asia 2001   21606992
-## 6   asia 2002   22600774
-##   Expectancy Income Primary
-## 1      53.74    865      NA
-## 2      52.80    800      NA
-## 3      54.43    735      NA
-## 4      54.63    687      NA
-## 5      54.76    646      NA
-## 6      55.65   1016      NA
-##   Secondary Tertiary    Index
-## 1        NA       NA 13.33333
-## 2        NA       NA 13.33333
-## 3        NA       NA 14.00000
-## 4        NA       NA 14.66667
-## 5        NA       NA 14.66667
-## 6        NA       NA 15.33333
+##   geo     Country     Wealth Region Year Population Expectancy   Income Primary Secondary Tertiary Index
+## 1 afg Afghanistan low_income   asia 1997   17788819       50.7       NA      NA        NA       NA  0.18
+## 2 afg Afghanistan low_income   asia 1998   18493132       50.0       NA      NA        NA       NA  0.19
+## 3 afg Afghanistan low_income   asia 1999   19262847       50.8       NA      NA        NA       NA  0.20
+## 4 afg Afghanistan low_income   asia 2000   19542982       51.0       NA      NA        NA       NA  0.20
+## 5 afg Afghanistan low_income   asia 2001   19688632       51.1       NA      NA        NA       NA  0.21
+## 6 afg Afghanistan low_income   asia 2002   21000256       51.6 344.2242      NA        NA       NA  0.22
 ```
 
 
@@ -119,11 +98,6 @@ Bevor wir loslegen können, muss natürlich `ggplot2` installiert sein und gelad
 
 ```r
 library(ggplot2)
-```
-
-```
-## Warning: Paket 'ggplot2' wurde
-## unter R Version 4.3.2 erstellt
 ```
 
 Im Kern bestehen Abbildungen in der Grammatik von `ggplot2` immer aus drei Komponenten:
@@ -171,8 +145,7 @@ ggplot(esp, aes(x = Year, y = Primary)) +
 ```
 
 ```
-## Warning: Removed 2 rows containing
-## missing values (`geom_line()`).
+## Warning: Removed 3 rows containing missing values or values outside the scale range (`geom_line()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-intro_files/figure-html/simple-line-1.png)<!-- -->
@@ -187,13 +160,11 @@ ggplot(esp, aes(x = Year, y = Primary)) +
 ```
 
 ```
-## Warning: Removed 2 rows containing
-## missing values (`geom_line()`).
+## Warning: Removed 3 rows containing missing values or values outside the scale range (`geom_line()`).
 ```
 
 ```
-## Warning: Removed 2 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 3 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-intro_files/figure-html/simple-dot-lines-1.png)<!-- -->
@@ -216,8 +187,7 @@ basic + geom_point()
 ```
 
 ```
-## Warning: Removed 2 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 3 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-intro_files/figure-html/object_combos-1.png)<!-- -->
@@ -235,8 +205,7 @@ ggplot(esp, aes(x = Year, y = Primary)) +
 ```
 
 ```
-## Warning: Removed 2 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 3 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-intro_files/figure-html/simple-blue-1.png)<!-- -->
@@ -250,8 +219,7 @@ ggplot(esp, aes(x = Year, y = Primary)) +
 ```
 
 ```
-## Warning: Removed 2 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 3 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-intro_files/figure-html/gradient-tertiary-1.png)<!-- -->
@@ -276,8 +244,7 @@ ggplot(sel, aes(x = Year, y = Primary)) +
 ```
 
 ```
-## Warning: Removed 18 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 23 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-intro_files/figure-html/grouped-chaos-1.png)<!-- -->
@@ -291,8 +258,7 @@ ggplot(sel, aes(x = Year, y = Primary)) +
 ```
 
 ```
-## Warning: Removed 18 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 23 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-intro_files/figure-html/grouped-points-1.png)<!-- -->
@@ -307,13 +273,11 @@ ggplot(sel, aes(x = Year, y = Primary)) +
 ```
 
 ```
-## Warning: Removed 18 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 23 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ```
-## Warning: Removed 15 rows containing
-## missing values (`geom_line()`).
+## Warning: Removed 20 rows containing missing values or values outside the scale range (`geom_line()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-intro_files/figure-html/grouped-dot-lines-1.png)<!-- -->
@@ -339,12 +303,9 @@ ggplot(esp, aes(x = Year)) +
 ```
 
 ```
-## Warning: Removed 2 rows containing
-## missing values (`geom_line()`).
-## Removed 2 rows containing
-## missing values (`geom_line()`).
-## Removed 2 rows containing
-## missing values (`geom_line()`).
+## Warning: Removed 3 rows containing missing values or values outside the scale range (`geom_line()`).
+## Removed 3 rows containing missing values or values outside the scale range (`geom_line()`).
+## Removed 3 rows containing missing values or values outside the scale range (`geom_line()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-intro_files/figure-html/multivar-1.png)<!-- -->
@@ -390,48 +351,13 @@ head(sel_long)
 ```
 
 ```
-##           geo Country
-## 1.Primary esp   Spain
-## 2.Primary esp   Spain
-## 3.Primary esp   Spain
-## 4.Primary esp   Spain
-## 5.Primary esp   Spain
-## 6.Primary esp   Spain
-##                Wealth Region
-## 1.Primary high_income europe
-## 2.Primary high_income europe
-## 3.Primary high_income europe
-## 4.Primary high_income europe
-## 5.Primary high_income europe
-## 6.Primary high_income europe
-##           Year Population
-## 1.Primary 1997   40035286
-## 2.Primary 1998   40201561
-## 3.Primary 1999   40454472
-## 4.Primary 2000   40824745
-## 5.Primary 2001   41319431
-## 6.Primary 2002   41919593
-##           Expectancy Income
-## 1.Primary      78.72  26448
-## 2.Primary      78.90  27473
-## 3.Primary      78.91  28589
-## 4.Primary      79.39  29967
-## 5.Primary      79.66  30951
-## 6.Primary      79.82  31395
-##              Index    Type
-## 1.Primary 53.33333 Primary
-## 2.Primary 54.00000 Primary
-## 3.Primary 54.66667 Primary
-## 4.Primary 56.00000 Primary
-## 5.Primary 56.66667 Primary
-## 6.Primary 56.66667 Primary
-##            Expense id
-## 1.Primary       NA  1
-## 2.Primary 16.97009  2
-## 3.Primary 17.73268  3
-## 4.Primary 17.22694  4
-## 5.Primary 17.52693  5
-## 6.Primary 17.76286  6
+##           geo Country      Wealth Region Year Population Expectancy   Income Index    Type  Expense id
+## 1.Primary esp   Spain high_income europe 1997   40180050       78.7 21117.02  0.68 Primary       NA  1
+## 2.Primary esp   Spain high_income europe 1998   40362357       79.0 21953.67  0.69 Primary 16.97009  2
+## 3.Primary esp   Spain high_income europe 1999   40542232       79.1 22846.72  0.69 Primary 17.73268  3
+## 4.Primary esp   Spain high_income europe 2000   40741651       79.3 23937.97  0.70 Primary 17.22694  4
+## 5.Primary esp   Spain high_income europe 2001   40966450       79.5 24707.37  0.71 Primary 17.52693  5
+## 6.Primary esp   Spain high_income europe 2002   41477655       79.6 25026.09  0.72 Primary 17.76286  6
 ```
 
 Damit können wir jetzt die drei verschiedenen Variablen als gruppierte Beobachtungen darstellen und das gleiche Schema wie schon oben benutzen. Dafür wählen wir aber Spanien aus unserem Langen Datensatz aus und geben nur diese Daten mit der Pipe `|>` an `ggplot` weiter:
@@ -444,13 +370,11 @@ subset(sel_long, geo == 'esp') |>
 ```
 
 ```
-## Warning: Removed 6 rows containing
-## missing values (`geom_line()`).
+## Warning: Removed 9 rows containing missing values or values outside the scale range (`geom_line()`).
 ```
 
 ```
-## Warning: Removed 6 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 9 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-intro_files/figure-html/multivar-grouped-1.png)<!-- -->
@@ -468,13 +392,11 @@ ggplot(sel_long, aes(x = Year, y = Expense, color = Country)) +
 ```
 
 ```
-## Warning: Removed 50 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 65 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ```
-## Warning: Removed 15 rows containing
-## missing values (`geom_line()`).
+## Warning: Removed 20 rows containing missing values or values outside the scale range (`geom_line()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-intro_files/figure-html/multivar-faceted-1.png)<!-- -->
@@ -489,13 +411,11 @@ ggplot(sel_long, aes(x = Year, y = Expense, color = Country)) +
 ```
 
 ```
-## Warning: Removed 50 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 65 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ```
-## Warning: Removed 15 rows containing
-## missing values (`geom_line()`).
+## Warning: Removed 20 rows containing missing values or values outside the scale range (`geom_line()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-intro_files/figure-html/multivar-gridded-1.png)<!-- -->
@@ -510,13 +430,11 @@ ggplot(sel_long, aes(x = Year, y = Expense, color = Country)) +
 ```
 
 ```
-## Warning: Removed 50 rows containing
-## missing values (`geom_point()`).
+## Warning: Removed 65 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ```
-## Warning: Removed 15 rows containing
-## missing values (`geom_line()`).
+## Warning: Removed 20 rows containing missing values or values outside the scale range (`geom_line()`).
 ```
 
 ![](/workshops/ggplotting/ggplotting-intro_files/figure-html/multivar-scaled-1.png)<!-- -->

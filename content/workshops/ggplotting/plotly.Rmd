@@ -8,7 +8,7 @@ tags: ["ggplotting"]
 subtitle: 'Interaktive Grafiken aus ggplotly'
 summary: '' 
 authors: [schultze] 
-weight: 8
+weight: 5
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
@@ -61,7 +61,7 @@ Dieses Paket bietet uns die Möglichkeit, über die `plot_ly`-Funktion interakti
 Wie in den bisherigen Abschnitten, nutzen wir den Ausschnitt zu Investitionen in die Bildung und den von [UNDP](https://www.undp.org/) ermittelten Bildungsindex. Die Daten können wir erneut direkt in R von dieser Seite beziehen:
 
 ```{r, eval = FALSE}
-load(url('https://pandar.netlify.com/post/edu_exp.rda'))
+load(url('https://pandar.netlify.com/daten/edu_exp.rda'))
 ```
 ```{r, echo = FALSE}
 load('../../daten/edu_exp.rda')
@@ -107,9 +107,12 @@ Hier gibt es direkt einige Dinge, die durch Interaktivität ein besseres Verstä
 
 Wie schon erwähnt, können wir unsere ggplots direkt in interaktive Plots umwandeln lassen, indem wir unser `ggplot`-Objekt an die Funktion `ggplotly()` übergeben. Das hat gegenüber der plotly-eigenen `plot_ly` den Nachteil, dass wir ein bisschen Flexibilität in der späteren Anpassung der interaktiven Optionen einbüßen, aber hat den immensen Vorteil, dass alle Dinge, die wir uns für den Umgang mit ggplot aneignen auch hier direkt anwendbar sind. So werden z.B. auch alle Farb- und Theme-Anpassungen direkt von plotly übernommen:
 
-```{r}
+```{r, eval = FALSE}
 ggplotly(scatter2013)
 ```
+
+<!-- definitely make this more pretty at some point in the future --> 
+<iframe src="plotly1.html" width="100%" height="500"></iframe>
 
 Schon so erhöht sich das Ausmaß in dem man sich mit der Grafik auseinandersetzen kann, für Nutzer*innen deutlich. Sie können an dieser Stelle weiterlesen, um eine Beschreibung der interaktiven Funktionen dieses Plots zu lesen, oder es einfach ausprobieren! Für die Wenigen, die sich für Ersteres entscheiden, hier eine Erläuterung der Funktionen:
 
@@ -148,6 +151,7 @@ Dieses Argument erlaubt uns also die angezeigte Hoverinfo auszuwählen, indem wi
 ggplotly(scatter2013, 
   tooltip = c('colour', 'x', 'y'))
 ```
+
 
 nutzen, um im Tooltip erste Informationen zur farbgebenden Variable (`Wealth`), dann zur x-Achse (`Primary`) und dann zur y-Achse (`Index`) anzeigen zu lassen. Leider werden wir hier von der Hilfe angelogen. Es ist ein [seit 4 Jahren bekannter Bug](https://github.com/ropensci/plotly/issues/849), dass diese Sortierung nicht für die Übersetzung von ggplots funktioniert (wenn wir in Plotlys eigener Sprache schreiben würden, würde es funktionieren). Darüber hinaus ist es besonders bei färbenden Ästhetiken wichtig darauf zu achten, dass Plotly (anders als ggplot) *nicht* die Amerikanische Schreibweise des Arguments als `color` akzeptiert, sondern ausschließlich die überall anders genutzte Schreibweise `colour`. 
 
@@ -215,10 +219,13 @@ scatter2013 <- subset(edu_exp, Year == 2013) |>
 
 So erstellen wir jetzt also den neuen ggplot. In dessen Anzeige hat sich überhaupt nichts geändert, weil `text` keine offizielle Ästhetik von `ggplot` ist. Wenn wir `ggplotly` darauf hinweisen, dass in dieser Ästhetik aber wichtige Information enthalten ist, wird diese im interaktiven Plot berücksichtigt. Als neue Grafik, mit neuer Hoverinfo ergibt sich als:
 
-```{r}
+```{r, eval = FALSE}
 ggplotly(scatter2013,
   tooltip = 'text')
 ```
+
+<!-- definitely make this more pretty at some point in the future --> 
+<iframe src="plotly2.html" width="100%" height="500"></iframe>
 
 ## Navigierbare Animation
 
@@ -251,11 +258,14 @@ args(animation_opts)
 
 Das `easing` Argument ist extrem eng verwandt mit `ease_aes()`, was wir [bereits für `gganimate` besprochen hatten](/post/ggplotting-gganimate). Kurzgesagt geht es hierbei um die Art und Weise, in der der Übergang zwischen Zeiten interpoliert wird. Die beiden Ansätze sind sogar so eng verwandt, dass die in `?ease_aes()` aufgeführten Kombinationen aus Easing-Functions und Modifiers auch hier angewendet werden können. Das ist sogar außerordentlich praktisch, weil auch hier die `plotly`-eigene Dokumentation etwas dürftig ist. Für unseren Fall belassen wir es erst einmal beim linearen Übergang zwischen Zuständen, sodass wir bei folgendem Plot landen:
 
-```{r}
+```{r, eval = FALSE}
 ggplotly(scatter, 
   tooltip = 'text') |>
   animation_opts(transition = 200)
 ```
+
+<!-- definitely make this more pretty at some point in the future --> 
+<iframe src="plotly3.html" width="100%" height="500"></iframe>
 
 Zunächst erhalten wir bei der Erstellung eine Warnung, die dadurch zustande kommt, dass im 1. Frame (`Year == 1997`) nicht alle Datenpunkte besetzt sind. Das ist ungünstig, aber leider in Fällen wie unseren, in dem wir auf erhobene und nicht geschätzte Informationen angewiesen sind, unvermeidlich. Wenn wir eine solche Animation mit `Income` und `Expectancy` duchführen würden, wäre das kein Problem, weil hier immer alle Daten vollständig sind.
 
@@ -323,8 +333,14 @@ interact <- ggplotly(scatter, tooltip = 'text') |>
   animation_opts(transition = 200) |>
   layout(legend = list(x = 100, y = .5, 
         title = list(text = 'Country Wealth</br></br>(GDP per Capita)')))
+```
+```{r, eval = FALSE}
 interact
 ```
+
+
+<!-- definitely make this more pretty at some point in the future --> 
+<iframe src="plotly4.html" width="100%" height="500"></iframe>
 
 In ähnlicher Weise funktionieren auch `style()` und `config()` für detaillierte Anpassungen der Grafiken. Mit `config()` können wir z.B. anpassen, welche der Buttons oben rechts angzeigt werden sollen. Z.B. könnten wir Zoom-In, Zoom-Out und das Lasso entfernen:
 
@@ -406,7 +422,7 @@ Wir wollen in diesem Fall "Obeflächeneigenschaften" verändern, weil wir ledigl
 
 Das Ganze können wir mit unseren schon oben besprochenen `layout()`-Optionen kombinieren, sodass wir folgende, finale Abbildung erhalten:
 
-```{r}
+```{r, eval=FALSE}
 smoothly <- ggplotly(smooth, tooltip = 'text') |>
   animation_opts(transition = 200) |>
   layout(legend = list(x = 100, y = .5,
@@ -414,6 +430,9 @@ smoothly <- ggplotly(smooth, tooltip = 'text') |>
     updatemenus = menus)
 smoothly
 ```
+
+<!-- definitely make this more pretty at some point in the future --> 
+<iframe src="plotly5.html" width="100%" height="500"></iframe>
 
 ***
 

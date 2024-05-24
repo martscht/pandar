@@ -1,7 +1,7 @@
 ## install.packages('plotly')
 library('plotly')
 
-## load(url('https://pandar.netlify.com/post/edu_exp.rda'))
+## load(url('https://pandar.netlify.com/daten/edu_exp.rda'))
 load('../../daten/edu_exp.rda')
 
 edu_exp$Wealth <- factor(edu_exp$Wealth,
@@ -24,7 +24,7 @@ scatter2013 <- subset(edu_exp, Year == 2013) |>
     theme_pandar() + scale_color_pandar()
 scatter2013
 
-ggplotly(scatter2013)
+## ggplotly(scatter2013)
 
 ## ggplotly(scatter2013,
 ##   tooltip = c('colour', 'x', 'y'))
@@ -63,8 +63,8 @@ scatter2013 <- subset(edu_exp, Year == 2013) |>
       subtitle = 'Data for 2013') +
     theme_pandar() + scale_color_pandar()
 
-ggplotly(scatter2013,
-  tooltip = 'text')
+## ggplotly(scatter2013,
+##   tooltip = 'text')
 
 scatter <- ggplot(edu_exp, aes(x = Primary, y = Index, color = Wealth,
   frame = Year, group = Country,
@@ -81,9 +81,9 @@ scatter <- ggplot(edu_exp, aes(x = Primary, y = Index, color = Wealth,
 
 args(animation_opts)
 
-ggplotly(scatter, 
-  tooltip = 'text') |>
-  animation_opts(transition = 200)
+## ggplotly(scatter,
+##   tooltip = 'text') |>
+##   animation_opts(transition = 200)
 
 cat("'layout' objects don't have these attributes: 'something.wrong'
 Valid attributes include:
@@ -118,7 +118,7 @@ interact <- ggplotly(scatter, tooltip = 'text') |>
   animation_opts(transition = 200) |>
   layout(legend = list(x = 100, y = .5, 
         title = list(text = 'Country Wealth</br></br>(GDP per Capita)')))
-interact
+## interact
 
 ## interact |>
 ##   config(modeBarButtonsToRemove = c('lasso2d', 'zoomIn2d', 'zoomOut2d'))
@@ -160,9 +160,9 @@ menus <- list(
     ))
 )
 
-smoothly <- ggplotly(smooth, tooltip = 'text') |>
-  animation_opts(transition = 200) |>
-  layout(legend = list(x = 100, y = .5,
-    title = list(text = 'Country Wealth</br></br>(GDP per Capita)')),
-    updatemenus = menus)
-smoothly
+## smoothly <- ggplotly(smooth, tooltip = 'text') |>
+##   animation_opts(transition = 200) |>
+##   layout(legend = list(x = 100, y = .5,
+##     title = list(text = 'Country Wealth</br></br>(GDP per Capita)')),
+##     updatemenus = menus)
+## smoothly

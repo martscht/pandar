@@ -8,7 +8,7 @@ tags: ["ggplotting"]
 subtitle: ''
 summary: '' 
 authors: [buchholz, schultze] 
-weight: 6
+weight: 3
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
@@ -39,7 +39,7 @@ output:
 
 ```{r, echo = FALSE, results = 'hide', message=FALSE, warning=FALSE, include=FALSE}
 library(ggplot2)
-load(url('https://pandar.netlify.com/daten/edu_exp.rda'))
+load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 library(maps)
 source('./ggplotting-theme-source.R')
 library(knitr)
