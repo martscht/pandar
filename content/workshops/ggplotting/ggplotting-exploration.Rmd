@@ -8,7 +8,7 @@ tags: ["ggplotting"]
 subtitle: ''
 summary: '' 
 authors: [buchholz] 
-weight: 9
+weight: 6
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
@@ -56,7 +56,7 @@ Der Fokus des Workshops lag bisher stark auf explanativen Grafiken. In diesem Ab
 Auch in diesem Abschnitt arbeiten wir wieder mit dem `edu_exp`-Datensatz. Außerdem muss noch `ggplot2` geladen werden.
 
 ```{r, warning=FALSE}
-load(url('https://pandar.netlify.com/post/edu_exp.rda'))
+load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 library(ggplot2)
 ```
 
@@ -239,15 +239,15 @@ for(c in 1:length(countries)){
 }
 ```
 
-![](/post/ggplotting_print_progress.png)
+![](ggplotting_print_progress.png)
 
 Nachdem die Schleife fertig durchgelaufen ist, liegen alle 197 Grafiken im Ordner:
 
-![](/post/ggplotting_ordner.png)
+![](ggplotting_ordner.png)
 
 Durch diese kann man sich nun durcharbeiten - auffällige Muster fallen dann schnell auf:
 
-![](/post/ggplotting_gapminder_plots.gif)
+![](ggplotting_gapminder_plots.gif)
 
 
 

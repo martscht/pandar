@@ -8,8 +8,8 @@ tags: ["ggplotting"]
 subtitle: 'Animierte Grafiken in ggplot'
 summary: '' 
 authors: [schultze] 
-weight: 7
-lastmod: '2023-12-22'
+weight: 4
+lastmod: '2024-05-24'
 featured: no
 banner:
   image: "/header/streetlights_timelapse.jpg"
@@ -101,8 +101,7 @@ subset(edu_exp, Year == 2013) |>
 ```
 
 ```
-## Warning: Removed 101 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/gganimate_files/figure-html/og-scatter-1.png)<!-- -->
@@ -124,8 +123,7 @@ static
 ```
 
 ```
-## Warning: Removed 2641 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 2789 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/gganimate_files/figure-html/static-scatter-1.png)<!-- -->
@@ -138,8 +136,7 @@ static + facet_wrap(~ Year, scales = 'free')
 ```
 
 ```
-## Warning: Removed 2641 rows containing missing values
-## (`geom_point()`).
+## Warning: Removed 2789 rows containing missing values or values outside the scale range (`geom_point()`).
 ```
 
 ![](/workshops/ggplotting/gganimate_files/figure-html/faceted-scatter-1.png)<!-- -->
@@ -173,12 +170,9 @@ subset(trimmed, Year %in% c(2008, 2009) & geo == 'esp')
 ```
 
 ```
-##      geo Country Wealth Region Year Population Expectancy Income
-## 1125 esp   Spain   High europe 2008   46068811      81.25  34164
-## 1126 esp   Spain   High europe 2009   46583566      81.66  32653
-##       Primary Secondary Tertiary    Index
-## 1125 20.00129  25.37782 26.80364 61.33333
-## 1126 21.27594  27.61234 28.60976 62.00000
+##      geo Country Wealth Region Year Population Expectancy   Income  Primary Secondary Tertiary Index
+## 1178 esp   Spain   High europe 2008   45966538       81.1 27025.29 20.00129  25.37782 26.80364  0.75
+## 1179 esp   Spain   High europe 2009   46367772       81.4 25778.96 21.27594  27.61234 28.60976  0.75
 ```
 
 `transition_`-Befehle steuern, wie zwischen diesen Daten der Pfad interpoliert werden soll. `enter_` und `exit_` funktionieren im Grunde identisch zueinander, weswegen sie auch in einer gemeinsamen Hilfe dokumentiert sind, die mit `?enter_exit` angesprochen werden kann. Das hat den Vorteil, dass wir dort alle Möglichkeiten auf einen Blick sehen. In den allermeisten Fällen werden mit diesen beiden Animationsarten aber Feinheiten geregelt, während der Kern der Animation über die Darstellung von Übergängen passiert.
@@ -238,29 +232,29 @@ subset(trimmed, geo == 'ind', select = c('Country', 'Wealth', 'Year', 'Primary',
 ```
 
 ```
-##      Country     Wealth Year  Primary    Index
-## 1661   India Lower Mid. 1998       NA 26.66667
-## 1662   India Lower Mid. 1999 12.18634 28.00000
-## 1663   India Lower Mid. 2000 14.84075 29.33333
-## 1664   India Lower Mid. 2001 13.73107 30.00000
-## 1665   India Lower Mid. 2002       NA 30.66667
-## 1666   India Lower Mid. 2003 11.35044 31.33333
-## 1667   India Lower Mid. 2004       NA 31.33333
-## 1668   India Lower Mid. 2005       NA 32.00000
-## 1669   India Lower Mid. 2006       NA 32.66667
-## 1670   India Lower Mid. 2007       NA 33.33333
-## 1671   India Lower Mid. 2008       NA 34.66667
-## 1672   India Lower Mid. 2009  7.58993 35.33333
-## 1673   India Lower Mid. 2010  7.49038 36.00000
-## 1674   India Lower Mid. 2011  9.03030 36.00000
-## 1675   India Lower Mid. 2012  9.40785 37.33333
-## 1676   India Lower Mid. 2013  9.79172 38.66667
-## 1677   India Lower Mid. 2014       NA 40.66667
-## 1678   India Lower Mid. 2015       NA 42.00000
-## 1679   India Lower Mid. 2016       NA 42.66667
+##      Country     Wealth Year  Primary Index
+## 1722   India Lower Mid. 1998       NA  0.35
+## 1723   India Lower Mid. 1999 12.18634  0.36
+## 1724   India Lower Mid. 2000 14.84075  0.37
+## 1725   India Lower Mid. 2001 13.73107  0.37
+## 1726   India Lower Mid. 2002       NA  0.38
+## 1727   India Lower Mid. 2003 11.35044  0.40
+## 1728   India Lower Mid. 2004       NA  0.41
+## 1729   India Lower Mid. 2005       NA  0.41
+## 1730   India Lower Mid. 2006       NA  0.43
+## 1731   India Lower Mid. 2007       NA  0.44
+## 1732   India Lower Mid. 2008       NA  0.45
+## 1733   India Lower Mid. 2009  7.58993  0.45
+## 1734   India Lower Mid. 2010  7.49038  0.46
+## 1735   India Lower Mid. 2011  9.03030  0.48
+## 1736   India Lower Mid. 2012  9.40785  0.49
+## 1737   India Lower Mid. 2013  9.79172  0.50
+## 1738   India Lower Mid. 2014       NA  0.51
+## 1739   India Lower Mid. 2015       NA  0.52
+## 1740   India Lower Mid. 2016       NA  0.53
 ```
 
-Wie wir schon für `ggplot2` gesehen haben, ist die Grundüberzeugung auch in der Umsetzung von `gganimate`, dass es leichter ist hier direkt Daten anzupassen, statt Veränderungen an der Darstellung vorzunehmen. Für unseren Fall heißt das, dass wir die Zeilen mit fehlenden Werten entfernen müssen. Dadurch werden die Übergänge zwischen den verbleibenden Jahren animiert, statt die Daten auszublenden. So würde für Indien dann der Übergang von 2003 zu 2009 als langsamer Verlauf zwischen (11.35, 31.33) und (7.59, 35.33) angezeigt werden.
+Wie wir schon für `ggplot2` gesehen haben, ist die Grundüberzeugung auch in der Umsetzung von `gganimate`, dass es leichter ist hier direkt Daten anzupassen, statt Veränderungen an der Darstellung vorzunehmen. Für unseren Fall heißt das, dass wir die Zeilen mit fehlenden Werten entfernen müssen. Dadurch werden die Übergänge zwischen den verbleibenden Jahren animiert, statt die Daten auszublenden. So würde für Indien dann der Übergang von 2003 zu 2009 als langsamer Verlauf zwischen (11.35, 0.4) und (7.59, 0.45) angezeigt werden.
 
 
 ```r
@@ -270,16 +264,16 @@ subset(nomiss, geo == 'ind', select = c('Country', 'Wealth', 'Year', 'Primary', 
 ```
 
 ```
-##      Country     Wealth Year  Primary    Index
-## 1662   India Lower Mid. 1999 12.18634 28.00000
-## 1663   India Lower Mid. 2000 14.84075 29.33333
-## 1664   India Lower Mid. 2001 13.73107 30.00000
-## 1666   India Lower Mid. 2003 11.35044 31.33333
-## 1672   India Lower Mid. 2009  7.58993 35.33333
-## 1673   India Lower Mid. 2010  7.49038 36.00000
-## 1674   India Lower Mid. 2011  9.03030 36.00000
-## 1675   India Lower Mid. 2012  9.40785 37.33333
-## 1676   India Lower Mid. 2013  9.79172 38.66667
+##      Country     Wealth Year  Primary Index
+## 1723   India Lower Mid. 1999 12.18634  0.36
+## 1724   India Lower Mid. 2000 14.84075  0.37
+## 1725   India Lower Mid. 2001 13.73107  0.37
+## 1727   India Lower Mid. 2003 11.35044  0.40
+## 1733   India Lower Mid. 2009  7.58993  0.45
+## 1734   India Lower Mid. 2010  7.49038  0.46
+## 1735   India Lower Mid. 2011  9.03030  0.48
+## 1736   India Lower Mid. 2012  9.40785  0.49
+## 1737   India Lower Mid. 2013  9.79172  0.50
 ```
 
 Z.B. die Daten für Indien sind jetzt auf die wenigen Zeilen reduziert, in denen beide Variablen vorliegen, die wir auf x- und y-Achse abtragen. 
@@ -440,39 +434,17 @@ subset(edu_exp, Index_Rank < 11 & Year == 1997)
 ```
 
 ```
-##      geo        Country Wealth   Region Year Population
-## 169  aus      Australia   High     asia 1997   18387205
-## 1135 est        Estonia   High   europe 1997    1409678
-## 1282 gbr United Kingdom   High   europe 1997   58307320
-## 1765 isr         Israel   High     asia 1997    5566551
-## 2752 nor         Norway   High   europe 1997    4420266
-## 2815 nzl    New Zealand   High     asia 1997    3752355
-## 2941 plw          Palau   High     asia 1997      18016
-## 3466 svn       Slovenia   High   europe 1997    1987457
-## 3487 swe         Sweden   High   europe 1997    8868857
-## 3907 usa  United States   High americas 1997  271713634
-##      Expectancy Income  Primary Secondary Tertiary    Index
-## 169       78.63  32055       NA        NA       NA 78.66667
-## 1135      70.17  13733 18.12812        NA 38.25692 73.33333
-## 1282      77.24  30340       NA        NA       NA 76.66667
-## 1765      78.11  25054       NA        NA       NA 78.66667
-## 2752      78.27  54769 37.94443  18.13375 46.01137 79.33333
-## 2815      77.19  26212 17.44218  21.57709       NA 77.33333
-## 2941         NA  13722       NA        NA       NA 74.00000
-## 3466      75.15  20094       NA        NA       NA 76.00000
-## 3487      79.37  32441       NA        NA       NA 74.00000
-## 3907      76.58  41463       NA        NA       NA 84.66667
-##      Index_Rank
-## 169           3
-## 1135         10
-## 1282          6
-## 1765          4
-## 2752          2
-## 2815          5
-## 2941          8
-## 3466          7
-## 3487          9
-## 3907          1
+##      geo     Country Wealth   Region Year Population Expectancy   Income  Primary Secondary Tertiary Index Index_Rank
+## 177  aus   Australia   High     asia 1997   18410250       78.9 41463.65       NA        NA       NA  0.94          1
+## 265  bel     Belgium   High   europe 1997   10154872       77.3 32804.36       NA        NA       NA  0.83          9
+## 639  can      Canada   High americas 1997   29882752       78.7 33861.15       NA        NA       NA  0.85          4
+## 969  deu     Germany   High   europe 1997   81436087       77.3 32313.30       NA        NA       NA  0.84          6
+## 1035 dnk     Denmark   High   europe 1997    5277382       76.2 45570.08       NA        NA       NA  0.83         10
+## 2843 nld Netherlands   High   europe 1997   15629905       78.0 36032.04       NA        NA       NA  0.85          5
+## 2865 nor      Norway   High   europe 1997    4405333       78.2 63882.48 37.94443  18.13375 46.01137  0.84          7
+## 2931 nzl New Zealand   High     asia 1997    3775852       77.4 28764.40 17.44218  21.57709       NA  0.88          2
+## 3635 swe      Sweden   High   europe 1997    8807869       79.3 36197.63       NA        NA       NA  0.84          8
+## 4075 usa         USA   High americas 1997  272395438       76.8 44267.91       NA        NA       NA  0.87          3
 ```
 
 Damit wir unserer Abbildung auch die Information aus den Farben nicht ungenutzt lassen, können wir in dieser die Regionen kodieren. Dafür müssen wir diese, wie schon mit `Wealth` passiert, in einen schön gelabelten `factor` umwandeln:

@@ -21,18 +21,18 @@ sections:
         text_color_light: true
       columns: 2
       
-  # - block: markdown
-  #   id: ggplotting
-  #   content:
-  #     title: ggplotting
-  #     subtitle:  Teil der [digiGEBF21](https://www.digigebf21.de/frontend/index.php)
-  #     text:
-  #       Ein Bild sagt mehr als tausend Zahlen! Mit einer guten Grafik lassen sich viele Informationen übersichtlich darstellen, Sachverhalten schnell erkennen und auch an Laien komplizierte Datenlagen verständlich kommunizieren. Dabei ist eine gute Visualisierung nicht einfach. Komplexe Inhalte müssen klar, präzise und effizient dargestellt werden und sollen idealerweise auch noch hübsch aussehen. ggplot ist die R-Antwort auf diese Probleme und kann um diverse Aspekte - z.B. Animationen mit gganimate - erweitert werden!
-  #       {{< category_list "ggplotting" 12 >}}
-  #       Den [Foliensatz zum Workshop gibt es hier](/workshops/ggplotting/ggplotting-folien.pdf).
-  # 
-  #   design:
-  #     columns: 2
+  - block: markdown
+    id: ggplotting
+    content:
+      title: ggplotting
+      subtitle:  Teil der [digiGEBF21](https://www.digigebf21.de/frontend/index.php)
+      text:
+        Ein Bild sagt mehr als tausend Zahlen! Mit einer guten Grafik lassen sich viele Informationen übersichtlich darstellen, Sachverhalten schnell erkennen und auch an Laien komplizierte Datenlagen verständlich kommunizieren. Dabei ist eine gute Visualisierung nicht einfach. Komplexe Inhalte müssen klar, präzise und effizient dargestellt werden und sollen idealerweise auch noch hübsch aussehen. ggplot ist die R-Antwort auf diese Probleme und kann um diverse Aspekte - z.B. Animationen mit gganimate - erweitert werden!
+        {{< category_list "ggplotting" 6 >}}
+        Den [Foliensatz zum Workshop gibt es hier](/workshops/ggplotting/ggplotting-folien.pdf).
+
+    design:
+      columns: 2
 
 
   - block: markdown

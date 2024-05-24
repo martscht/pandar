@@ -9,10 +9,7 @@ sections:
     id: welcome
     content:
       title: 'Willkommen bei pandaR!'
-      text: 'Auf dieser Seite stellen wir Material aus der R-bezogenen Lehre im Psychologie-Studium zur Verfügung! Außerdem haben wir einige Projekte erstellt, in denen du deine R-Kenntnisse auch ganz unabhängig von den Inhalten im Studium ausprobieren, vertiefen und erweitern kannst.
-      
-      
-      Im Moment ziehen wir um, sodass noch nicht alle Abschnitte der Seite schon wieder aktiv sind. Alles was die aktuelle Lehre betrifft ist zugänglich - nur mit den Extras und den Projekten bitten wir noch um etwas Geduld. Falls etwas fehlen sollte, gibt es solange [hier](https://courageous-donut-84b9e9.netlify.app/) noch die alte Seite.'
+      text: 'Auf dieser Seite stellen wir Material aus der R-bezogenen Lehre im Psychologie-Studium zur Verfügung! Außerdem haben wir einige Projekte erstellt, in denen du deine R-Kenntnisse auch ganz unabhängig von den Inhalten im Studium ausprobieren, vertiefen und erweitern kannst.'
     design:
       background:
         color: '#00618f' 
@@ -46,10 +43,10 @@ sections:
     id: lehre-features
     content:
       title: 'R in der Psychologie'
-      subtitle: 'Die aktuellen Beiträge für die Methodenlehre im Bachelor und Master'
-      text: 'Hier findest du die Beiträge, die für die aktuelle Woche in unseren Lehrveranstaltungen relevant sind. Einen Überblick über alle Lehrinhalte findest du [hier](/lehre/main)! <br><br>'
+      subtitle: 'Die neuesten Beiträge für die Methodenlehre im Bachelor und Master'
+      text: 'Hier findest du ein paar Beiträge aus der Lehre - falls es nicht per Zufall das sein sollte, was du suchst, gibt es [hier eine Seite](/lehre/main) auf der alle Lehrinhalte findest! <br><br>'
       # Choose how many pages you would like to display (0 = all pages)
-      count: 4
+      count: 3
       # Filter on criteria
       filters:
         folders:
@@ -57,14 +54,20 @@ sections:
         author: ""
         tag: ""
         exclude_featured: false
-        featured_only: true
+        featured_only: false
         exclude_future: false
         exclude_past: false
         publication_type: ""
       # Choose how many pages you would like to offset by
       offset: 0
       # Page order: descending (desc) or ascending (asc) date.
-      order: asc
+      order: desc
+      # Sort pages by: date, title, or weight
+      sort_by: 'Params.lastmod'
+      archive:
+        enable: true
+        text: 'Alles aus der Lehre'
+        link: /lehre/main
     design:
       # Choose a layout view
       view: compact

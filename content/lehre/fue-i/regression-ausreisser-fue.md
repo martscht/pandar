@@ -9,8 +9,8 @@ subtitle: ''
 summary: '' 
 authors: [irmer, hartig] 
 weight: 2
-lastmod: '2024-03-12'
-featured: yes
+lastmod: '2024-05-24'
+featured: no
 banner:
   image: "/header/frog_overencumbered.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/806441)"
@@ -282,7 +282,7 @@ mean(x = our_model$residuals) # Mittelwert mit Referenzierung aus dem lm Objekt 
 ```
 
 ```
-## [1] 1.048103e-15
+## [1] 2.18485e-15
 ```
 Mit Hilfe der `quantile` Funktion können wir beliebige Prozentränge eines Vektors anfordern. Hierbei gibt `resid(our_model)` (genauso wie `our_model$residuals`) einen Vektor mit Residuen aus. Indem wir `probs` z.B. auf `.01` setzen, würden wir den 1. Prozentrang (1%) erhalten.
 
@@ -346,9 +346,8 @@ names(summary_our_model)      # weitere mögliche Argumente, die wir erhalten k�
 ```
 
 ```
-##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"      
-##  [6] "sigma"         "df"            "r.squared"     "adj.r.squared" "fstatistic"   
-## [11] "cov.unscaled"
+##  [1] "call"          "terms"         "residuals"     "coefficients"  "aliased"       "sigma"         "df"            "r.squared"    
+##  [9] "adj.r.squared" "fstatistic"    "cov.unscaled"
 ```
 
 ```r
@@ -410,7 +409,7 @@ residualPlots(our_model, pch = 16)
 
 ```
 ##            Test stat Pr(>|Test stat|)
-## female        0.0207           0.9835
+## female        0.0340           0.9730
 ## IQ            1.4015           0.1643
 ## Tukey test    0.5234           0.6007
 ```
@@ -809,21 +808,16 @@ MD
 ```
 
 ```
-##   [1]  0.88733518  0.21566377  2.41458442  0.13177919  1.27927630  4.28965128  0.03451167
-##   [8]  0.33661264  9.62502968  1.22925996  3.44404519  1.06648706  1.47842392  1.83106572
-##  [15]  4.29879647 22.89143112  0.21555167  0.49834275  2.65724843  1.81949191  2.12850866
-##  [22]  1.31066833  0.14334729  0.15748576  1.71430321  1.74615142  1.00646134  0.17988251
-##  [29]  5.04513115  7.14678462  0.16464887  7.01861572  4.85177478  1.19043337  2.72462931
-##  [36]  4.34611563  0.52793945  0.80019408  0.74740206  0.57368396  0.28016792  6.27035221
-##  [43]  4.07657057  0.04345642  0.81076314  2.97056512  2.10323417  1.08103246  0.60950451
-##  [50]  2.90704907  0.10986424  6.09359260  0.94728160  2.35683503  0.03620534  0.40241153
-##  [57]  1.62654030  1.72697393  3.75760606  1.46629223  0.71323544  0.41142182  0.39965918
-##  [64]  0.61656862  0.37536805  0.22094404  3.04527077  0.27381745  0.79358572  3.86151524
-##  [71]  3.19370574  0.19468438  0.29354422  2.35326071  0.95634005  0.07240648  1.92700957
-##  [78]  1.44365936  0.12899197  4.04487099  0.42931176  0.05394028  4.83779128  0.15390664
-##  [85]  2.20766936  1.27108100  0.37456784  0.20895062  1.47329914  1.26292357  1.25364137
-##  [92]  0.67270315  0.85951141  4.25348827  0.28156897  0.18421086  0.47650958  0.13256756
-##  [99]  8.26520343  0.18224578
+##   [1]  0.88733518  0.21566377  2.41458442  0.13177919  1.27927630  4.28965128  0.03451167  0.33661264  9.62502968  1.22925996
+##  [11]  3.44404519  1.06648706  1.47842392  1.83106572  4.29879647 22.89143112  0.21555167  0.49834275  2.65724843  1.81949191
+##  [21]  2.12850866  1.31066833  0.14334729  0.15748576  1.71430321  1.74615142  1.00646134  0.17988251  5.04513115  7.14678462
+##  [31]  0.16464887  7.01861572  4.85177478  1.19043337  2.72462931  4.34611563  0.52793945  0.80019408  0.74740206  0.57368396
+##  [41]  0.28016792  6.27035221  4.07657057  0.04345642  0.81076314  2.97056512  2.10323417  1.08103246  0.60950451  2.90704907
+##  [51]  0.10986424  6.09359260  0.94728160  2.35683503  0.03620534  0.40241153  1.62654030  1.72697393  3.75760606  1.46629223
+##  [61]  0.71323544  0.41142182  0.39965918  0.61656862  0.37536805  0.22094404  3.04527077  0.27381745  0.79358572  3.86151524
+##  [71]  3.19370574  0.19468438  0.29354422  2.35326071  0.95634005  0.07240648  1.92700957  1.44365936  0.12899197  4.04487099
+##  [81]  0.42931176  0.05394028  4.83779128  0.15390664  2.20766936  1.27108100  0.37456784  0.20895062  1.47329914  1.26292357
+##  [91]  1.25364137  0.67270315  0.85951141  4.25348827  0.28156897  0.18421086  0.47650958  0.13256756  8.26520343  0.18224578
 ```
 
 Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Probandennummer der möglichen Ausreißer.
@@ -1289,6 +1283,20 @@ Im folgenden Block sehen wir den Code für ein Histogramm in `ggplot2`-Notation 
 
 ```r
 library(ggplot2)
+```
+
+```
+## 
+## Attaching package: 'ggplot2'
+```
+
+```
+## The following objects are masked from 'package:psych':
+## 
+##     %+%, alpha
+```
+
+```r
 df_res <- data.frame(res) # als Data.Frame für ggplot
 ggplot(data = df_res, aes(x = res)) + 
      geom_histogram(aes(y =..density..),
@@ -1297,6 +1305,13 @@ ggplot(data = df_res, aes(x = res)) +
                     fill = "skyblue") +           # Wie sollen die Balken gefüllt sein?
      stat_function(fun = dnorm, args = list(mean = mean(res), sd = sd(res)), col = "darkblue") + # Füge die Normalverteilungsdiche "dnorm" hinzu und nutze den empirischen Mittelwert und die empirische Standardabweichung "args = list(mean = mean(res), sd = sd(res))", wähle dunkelblau als Linienfarbe
      labs(title = "Histogramm der Residuen mit Normalverteilungsdichte", x = "Residuen") # Füge eigenen Titel und Achsenbeschriftung hinzu
+```
+
+```
+## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
+## ℹ Please use `after_stat(density)` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
 ```
 
 ![](/lehre/fue-i/regression-ausreisser-fue_files/figure-html/unnamed-chunk-53-1.png)<!-- -->

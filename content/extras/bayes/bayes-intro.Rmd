@@ -219,7 +219,7 @@ Für einen Beitrag, der eigentlich "Grundideen Bayesianischer Analysen" betitelt
 
 Die Grundidee der Bayesianischen Analysen lässt sich eigentlich in folgender Gleichung zusammenfassen:
 
-![](bayes-formel.png)
+<img src="bayes-formel.png" width="400" height="400" />
 
 Auf der linken Seite steht also die uns eigentlich interessierende Aussage - wie wahrscheinlich ist unsere Hypothese $H$, wenn wir unsere Daten $X$ berücksichtigen? Diese Information wird _Posterior_ genannt - weil es unseren Wissensstand _nach_ der Studie darstellt. 
 
@@ -229,7 +229,8 @@ Warum dann überhaupt so Forschung betreiben und diese klassischen $p$-Werte bet
 
 Als letzte Information benötigen wir noch die Wahrscheinlichkeit der Daten, die wir gefunden haben. Diese Wahrscheinlichkeit kann sehr schwierig zu bestimmen sein und hat letztlich nur einen konkreten Zweck: sie relativiert das Produkt aus Likelihood und Prior so, dass wir am Ende auch wirklich eine _Wahrscheinlichkeit_  (also einen Wert zwischen 0 und 1) erhalten. Deswegen wird die Grundformel Bayesianischer Statistik häufig von dieser Komponente befreit und so notiert:
 
-![](bayes-formel2.png)
+<img src="bayes-formel2.png" width="400" height="400" />
+
 
 Der Posterior ist also _propotional_ zu der Mischung aus Prior (unseren Vorannahmen) und den, in dieser Studie neu gewonnenen Daten. Wir "updaten" unsere Annahmen bzw. Theorien also anhand der Daten (die wir in Form der Likelihood berücksichtigen).
 

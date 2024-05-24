@@ -9,8 +9,8 @@ subtitle: ''
 summary: '' 
 authors: [nehler, winkler, schroeder, neubauer, goldhammer]
 weight: 9
-lastmod: '2024-03-28'
-featured: yes
+lastmod: '2024-05-24'
+featured: no
 banner:
   image: "/header/storch_with_baby.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
@@ -613,8 +613,7 @@ cor <- cor.test(fb23$neuro, fb23$gewis,
 ```
 
 ```
-## Warning in cor.test.default(fb23$neuro, fb23$gewis, alternative = "two.sided", : Cannot compute exact p-value with
-## ties
+## Warning in cor.test.default(fb23$neuro, fb23$gewis, alternative = "two.sided", : Cannot compute exact p-value with ties
 ```
 
 ```r

@@ -8,8 +8,8 @@ tags: ["ggplotting"]
 subtitle: ''
 summary: '' 
 authors: [buchholz, schultze] 
-weight: 6
-lastmod: '2024-04-08'
+weight: 3
+lastmod: '2024-05-24'
 featured: no
 banner:
   image: "/header/jar_potpourri.jpg"
@@ -169,7 +169,7 @@ edu_exp |>
 
 ```
 ##     Country Year  Primary Secondary Tertiary
-## 944 Germany 2016 17.44257  22.95939 33.58129
+## 988 Germany 2016 17.44257  22.95939 33.58129
 ```
 
 ```r
@@ -216,20 +216,7 @@ Die Verteilung des Einkommens (GDP/Person) soll für das Jahr 2016 dargestellt w
 
 ```r
 library(ggthemes)
-```
 
-```
-## 
-## Attaching package: 'ggthemes'
-```
-
-```
-## The following object is masked from 'package:cowplot':
-## 
-##     theme_map
-```
-
-```r
 edu_exp |>
   subset(edu_exp$Year == 2016) |>
   ggplot(aes(x = Income)) +
@@ -324,7 +311,7 @@ edu_exp |>
 ```
 
 ```
-## Picking joint bandwidth of 5090
+## Picking joint bandwidth of 4590
 ```
 
 ![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
@@ -387,15 +374,6 @@ bar <- ggplot(spain,
     fill = Type)) +
   geom_rect(color = 'white') +
   theme_void() + scale_fill_pandar()
-```
-
-```
-## Warning: The `scale_name` argument of `discrete_scale()` is deprecated as of ggplot2 3.5.0.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
-```
-
-```r
 bar
 ```
 
@@ -641,43 +619,30 @@ setdiff(unique(welt$region), unique(edu_exp$Country))
 ```
 
 ```
-##  [1] "Aruba"                               "Anguilla"                           
-##  [3] "American Samoa"                      "Antarctica"                         
-##  [5] "French Southern and Antarctic Lands" "Antigua"                            
-##  [7] "Barbuda"                             "Saint Barthelemy"                   
-##  [9] "Bermuda"                             "Ivory Coast"                        
-## [11] "Democratic Republic of the Congo"    "Republic of Congo"                  
-## [13] "Cook Islands"                        "Curacao"                            
-## [15] "Cayman Islands"                      "Canary Islands"                     
-## [17] "Falkland Islands"                    "Reunion"                            
-## [19] "Mayotte"                             "French Guiana"                      
-## [21] "Martinique"                          "Guadeloupe"                         
-## [23] "Faroe Islands"                       "Micronesia"                         
-## [25] "UK"                                  "Guernsey"                           
-## [27] "Greenland"                           "Guam"                               
-## [29] "Heard Island"                        "Isle of Man"                        
-## [31] "Cocos Islands"                       "Christmas Island"                   
-## [33] "Chagos Archipelago"                  "Jersey"                             
-## [35] "Siachen Glacier"                     "Kyrgyzstan"                         
-## [37] "Nevis"                               "Saint Kitts"                        
-## [39] "Kosovo"                              "Laos"                               
-## [41] "Saint Lucia"                         "Saint Martin"                       
-## [43] "Northern Mariana Islands"            "Montserrat"                         
-## [45] "New Caledonia"                       "Norfolk Island"                     
-## [47] "Niue"                                "Bonaire"                            
-## [49] "Sint Eustatius"                      "Saba"                               
-## [51] "Pitcairn Islands"                    "Puerto Rico"                        
-## [53] "Madeira Islands"                     "Azores"                             
-## [55] "French Polynesia"                    "Western Sahara"                     
-## [57] "South Sandwich Islands"              "South Georgia"                      
-## [59] "Saint Helena"                        "Ascension Island"                   
-## [61] "Saint Pierre and Miquelon"           "Slovakia"                           
-## [63] "Swaziland"                           "Sint Maarten"                       
-## [65] "Turks and Caicos Islands"            "Trinidad"                           
-## [67] "Tobago"                              "USA"                                
-## [69] "Vatican"                             "Grenadines"                         
-## [71] "Saint Vincent"                       "Virgin Islands"                     
-## [73] "Wallis and Futuna"
+##  [1] "Aruba"                               "Anguilla"                            "United Arab Emirates"               
+##  [4] "American Samoa"                      "Antarctica"                          "French Southern and Antarctic Lands"
+##  [7] "Antigua"                             "Barbuda"                             "Saint Barthelemy"                   
+## [10] "Bermuda"                             "Ivory Coast"                         "Democratic Republic of the Congo"   
+## [13] "Republic of Congo"                   "Cook Islands"                        "Curacao"                            
+## [16] "Cayman Islands"                      "Canary Islands"                      "Falkland Islands"                   
+## [19] "Reunion"                             "Mayotte"                             "French Guiana"                      
+## [22] "Martinique"                          "Guadeloupe"                          "Faroe Islands"                      
+## [25] "Micronesia"                          "Guernsey"                            "Greenland"                          
+## [28] "Guam"                                "Heard Island"                        "Isle of Man"                        
+## [31] "Cocos Islands"                       "Christmas Island"                    "Chagos Archipelago"                 
+## [34] "Jersey"                              "Siachen Glacier"                     "Kyrgyzstan"                         
+## [37] "Nevis"                               "Saint Kitts"                         "Kosovo"                             
+## [40] "Laos"                                "Saint Lucia"                         "Saint Martin"                       
+## [43] "Northern Mariana Islands"            "Montserrat"                          "New Caledonia"                      
+## [46] "Norfolk Island"                      "Niue"                                "Bonaire"                            
+## [49] "Sint Eustatius"                      "Saba"                                "Pitcairn Islands"                   
+## [52] "Puerto Rico"                         "Madeira Islands"                     "Azores"                             
+## [55] "French Polynesia"                    "Western Sahara"                      "South Sandwich Islands"             
+## [58] "South Georgia"                       "Saint Helena"                        "Ascension Island"                   
+## [61] "Saint Pierre and Miquelon"           "Slovakia"                            "Swaziland"                          
+## [64] "Sint Maarten"                        "Turks and Caicos Islands"            "Trinidad"                           
+## [67] "Tobago"                              "Vatican"                             "Grenadines"                         
+## [70] "Saint Vincent"                       "Virgin Islands"                      "Wallis and Futuna"
 ```
 
 ```r
@@ -685,15 +650,12 @@ setdiff(unique(edu_exp$Country), unique(welt$region))
 ```
 
 ```
-##  [1] "United States"                  "Congo, Dem. Rep."              
-##  [3] "United Kingdom"                 "Cote d'Ivoire"                 
-##  [5] "Hong Kong, China"               "Lao"                           
-##  [7] "Kyrgyz Republic"                "Slovak Republic"               
-##  [9] "Congo, Rep."                    "Trinidad and Tobago"           
-## [11] "Eswatini"                       "St. Lucia"                     
-## [13] "Micronesia, Fed. Sts."          "St. Vincent and the Grenadines"
-## [15] "Antigua and Barbuda"            "St. Kitts and Nevis"           
-## [17] "Tuvalu"                         "Holy See"
+##  [1] "Congo, Dem. Rep."               "Cote d'Ivoire"                  "UAE"                           
+##  [4] "Hong Kong, China"               "Lao"                            "Kyrgyz Republic"               
+##  [7] "Slovak Republic"                "Congo, Rep."                    "Trinidad and Tobago"           
+## [10] "Eswatini"                       "St. Lucia"                      "St. Vincent and the Grenadines"
+## [13] "Micronesia, Fed. Sts."          "Antigua and Barbuda"            "St. Kitts and Nevis"           
+## [16] "Tuvalu"                         "Holy See"
 ```
 
 Im Folgenden werden die Namen der Länder mit dem `recode` Befehl des `car`-Pakets umkodiert. Leider gibt es schon vorab ein Land, nach dem man in Datenaufbereitungen immer vorab schauen sollte: wie auch hier ist es häufiger der Fall, dass die Elfenbeiküste als `Cote d'Ivoire` kodiert ist. Leider bewirkt das `'` in diesem Namen bei Umkodierungen immer einiges an Problemen, sodass wir es vorab direkt umstellen:
@@ -834,11 +796,11 @@ head(table)
 ```
 ##                    word freq
 ## ggplot           ggplot   26
-## abbildung     abbildung   24
-## daten             daten   19
-## variablen     variablen   14
-## ästhetik       ästhetik   12
-## abbildungen abbildungen   11
+## daten             daten   22
+## abbildung     abbildung   15
+## immer             immer   12
+## variablen     variablen   11
+## abbildungen abbildungen   10
 ```
 
 Diese Tabelle bildet nun die Grundlage für die Wordcloud. Zur Erstellung der Wordcloud nutze ich das Paket `ggwordcloud`. Es enthält eine Funktion für die entsprechende Geometrie, und es lassen sich alle sonstigen ggplot-Funktionen damit kombinieren. So kann ich beispielsweise über `theme` die Hintergrundfarbe spezifizieren.

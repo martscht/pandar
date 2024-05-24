@@ -8,8 +8,8 @@ tags: ["ANOVA", "Post-Hoc", "Einfaktoriell"]
 subtitle: '1-fakt. ANOVA'
 summary: ''
 authors: [scheppa-lahyani, irmer, wallot, nehler]
-weight: 7
-lastmod: '2024-05-03'
+weight: 8
+lastmod: '2024-05-24'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"
@@ -121,24 +121,6 @@ Die Homoskedastizitätsannahme besagt, dass die Varianzen jeder Gruppe über die
 
 ```r
 library(car)
-```
-
-```
-## Loading required package: carData
-```
-
-```
-## 
-## Attaching package: 'car'
-```
-
-```
-## The following object is masked from 'package:dplyr':
-## 
-##     recode
-```
-
-```r
 leveneTest(conspiracy$ET ~ conspiracy$urban)
 ```
 

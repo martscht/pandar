@@ -8,8 +8,8 @@ subtitle: 'Generalisiertes lineares Modell: dichotome abhängige Variablen'
 summary: 'In diesem Beitrag wird die logistische Regression behandelt, die sich im Falle einer dichotomen abhängigen Variable eignet. Dabei werden der Logit (die Linkfunktion), die Erfolgswahrscheinlichkeit und die Odds erläutert. Es erfolgt ein Vergleich zwischen logistischer Regression und normaler Regressionsanalyse sowie eine Demonstration der logistischen Regressionsanalyse, bei der die Beiträge einzelner Prädiktoren zur Vorhersage untersucht werden.'
 authors: [nehler, irmer]
 weight: 5
-lastmod: '2024-05-08'
-featured: yes
+lastmod: '2024-05-24'
+featured: no
 banner:
   image: "/header/meds.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/565804)"
@@ -72,14 +72,13 @@ names(osf)  # Variablennamen im Datensatz
 ```
 
 ```
-##  [1] "CASEID"           "QUESTID"          "GENDER_R"         "WHITENH"          "BLACKNH"         
-##  [6] "NATAMNH"          "PACISL"           "ASIAN"            "MIXED"            "HISPANIC"        
-## [11] "TOTFAMINCOME"     "MJANDCOKE"        "MDELASTYR"        "MARJLTYR"         "COCCRKLY"        
-## [16] "FEMALE"           "COCINDEX"         "MRJINDEX"         "ANYINDEX"         "COCDUMMY"        
-## [21] "MRJDUMMY"         "ANYDUMMY"         "DEPRESSIONINDEX"  "DEPRESSIONINDEX2" "Sex"             
-## [26] "EverUse_MarCoc"   "LY_MDE"           "LY_Marijuana"     "LY_CocaineCrack"  "Deplvl_Cocaine"  
-## [31] "Deplvl_Marijuana" "Deplvl_Anydrug"   "CocaineDep"       "MarijuanaDep"     "AnydrugDeg"      
-## [36] "Depression_lvl1"  "Depression_lvl"   "AnydrugDep"
+##  [1] "CASEID"           "QUESTID"          "GENDER_R"         "WHITENH"          "BLACKNH"          "NATAMNH"         
+##  [7] "PACISL"           "ASIAN"            "MIXED"            "HISPANIC"         "TOTFAMINCOME"     "MJANDCOKE"       
+## [13] "MDELASTYR"        "MARJLTYR"         "COCCRKLY"         "FEMALE"           "COCINDEX"         "MRJINDEX"        
+## [19] "ANYINDEX"         "COCDUMMY"         "MRJDUMMY"         "ANYDUMMY"         "DEPRESSIONINDEX"  "DEPRESSIONINDEX2"
+## [25] "Sex"              "EverUse_MarCoc"   "LY_MDE"           "LY_Marijuana"     "LY_CocaineCrack"  "Deplvl_Cocaine"  
+## [31] "Deplvl_Marijuana" "Deplvl_Anydrug"   "CocaineDep"       "MarijuanaDep"     "AnydrugDeg"       "Depression_lvl1" 
+## [37] "Depression_lvl"   "AnydrugDep"
 ```
 
 ```r

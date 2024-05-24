@@ -8,7 +8,7 @@ tags: ["ANOVA","Zweifaktoriell", "Kontraste"]
 subtitle: '2-fakt. ANOVA'
 summary: ''
 authors: [irmer,scheppa-lahyani,schultze]
-weight: 8
+weight: 9
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:

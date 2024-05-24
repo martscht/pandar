@@ -8,8 +8,8 @@ tags: ["ANOVA","Zweifaktoriell", "Kontraste"]
 subtitle: '2-fakt. ANOVA'
 summary: ''
 authors: [irmer,scheppa-lahyani,schultze]
-weight: 8
-lastmod: '2024-04-12'
+weight: 9
+lastmod: '2024-05-24'
 featured: no
 banner:
   image: "/header/heart_alien.jpg"
@@ -111,8 +111,8 @@ ezANOVA(data = conspiracy, wid = id, dv = ET, between = urban)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -135,8 +135,8 @@ Die Ergebnisse aus den Übungsaufgaben ergaben bezüglich des Bildungabschlusses
 
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -255,11 +255,11 @@ describeBy(conspiracy$ET, conspiracy$urban)
 ## group: rural
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 475 2.19 1.32   1.67    2.02 0.99   1   5     4 0.74    -0.81 0.06
-## ---------------------------------------------------------------- 
+## --------------------------------------------------------------------------------------------------- 
 ## group: suburban
 ##    vars    n mean  sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 1125 2.15 1.3   1.67    1.97 0.99   1   5     4 0.81    -0.65 0.04
-## ---------------------------------------------------------------- 
+## --------------------------------------------------------------------------------------------------- 
 ## group: urban
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 851 2.31 1.36      2    2.15 1.48   1   5     4 0.62    -0.98 0.05
@@ -275,11 +275,11 @@ describeBy(conspiracy$ET, conspiracy$edu)
 ## group: not highschool
 ##    vars    n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 1060 2.37 1.36      2    2.23 1.48   1   5     4 0.54    -1.07 0.04
-## ---------------------------------------------------------------- 
+## --------------------------------------------------------------------------------------------------- 
 ## group: highschool
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 433 2.44 1.36   2.33    2.32 1.98   1   5     4 0.48    -1.11 0.07
-## ---------------------------------------------------------------- 
+## --------------------------------------------------------------------------------------------------- 
 ## group: college
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 958 1.94 1.22   1.33    1.72 0.49   1   5     4 1.11    -0.01 0.04
@@ -321,8 +321,8 @@ ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu))
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -330,8 +330,8 @@ ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu))
 ```
 
 ```
-## Warning in ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu)):
-## Unbalanced groups. Mean N will be used in computation of FLSD
+## Warning in ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu)): Unbalanced groups. Mean N will be used in computation of
+## FLSD
 ```
 
 ```
@@ -358,8 +358,8 @@ ezPlot(conspiracy, dv = ET, wid = id, between = c(urban, edu),
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -367,8 +367,8 @@ ezPlot(conspiracy, dv = ET, wid = id, between = c(urban, edu),
 ```
 
 ```
-## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full =
-## within_full, : Unbalanced groups. Mean N will be used in computation of FLSD
+## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, : Unbalanced groups. Mean N will be
+## used in computation of FLSD
 ```
 
 ![](/lehre/statistik-ii/anova-ii_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
@@ -422,8 +422,8 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), detailed = TRUE)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -452,8 +452,8 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), detailed = TRUE,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -509,80 +509,43 @@ TukeyHSD(aov(ET ~ urban*edu, conspiracy))
 ## college-highschool        -0.51587078 -0.69327810 -0.3384635 0.000000
 ## 
 ## $`urban:edu`
-##                                                      diff         lwr         upr
-## suburban:not highschool-rural:not highschool -0.158029879 -0.49075525  0.17469549
-## urban:not highschool-rural:not highschool     0.108091787 -0.23953951  0.45572308
-## rural:highschool-rural:not highschool        -0.069444444 -0.63658691  0.49769802
-## suburban:highschool-rural:not highschool     -0.019875479 -0.40334545  0.36359449
-## urban:highschool-rural:not highschool         0.199212272 -0.24677039  0.64519493
-## rural:college-rural:not highschool           -0.491319444 -0.89358775 -0.08905114
-## suburban:college-rural:not highschool        -0.487909672 -0.82790283 -0.14791651
-## urban:college-rural:not highschool           -0.423312639 -0.77442641 -0.07219887
-## urban:not highschool-suburban:not highschool  0.266121666 -0.01539691  0.54764025
-## rural:highschool-suburban:not highschool      0.088585434 -0.44061752  0.61778839
-## suburban:highschool-suburban:not highschool   0.138154400 -0.18658306  0.46289186
-## urban:highschool-suburban:not highschool      0.357242151 -0.03937571  0.75386001
-## rural:college-suburban:not highschool        -0.333289566 -0.68002431  0.01344518
-## suburban:college-suburban:not highschool     -0.329879794 -0.60191020 -0.05784939
-## urban:college-suburban:not highschool        -0.265282761 -0.55109052  0.02052499
-## rural:highschool-urban:not highschool        -0.177536232 -0.71623569  0.36116323
-## suburban:highschool-urban:not highschool     -0.127967266 -0.46796103  0.21202650
-## urban:highschool-urban:not highschool         0.091120485 -0.31808248  0.50032345
-## rural:college-urban:not highschool           -0.599411232 -0.96047401 -0.23834846
-## suburban:college-urban:not highschool        -0.596001460 -0.88607366 -0.30592925
-## urban:college-urban:not highschool           -0.531404427 -0.83443481 -0.22837404
-## suburban:highschool-rural:highschool          0.049568966 -0.51292443  0.61206236
-## urban:highschool-rural:highschool             0.268656716 -0.33817945  0.87549288
-## rural:college-rural:highschool               -0.421875000 -0.99734818  0.15359818
-## suburban:college-rural:highschool            -0.418465228 -0.95226757  0.11533712
-## urban:college-rural:highschool               -0.353868195 -0.89482150  0.18708511
-## urban:highschool-suburban:highschool          0.219087751 -0.22096767  0.65914317
-## rural:college-suburban:highschool            -0.471443966 -0.86713075 -0.07575718
-## suburban:college-suburban:highschool         -0.468034193 -0.80021425 -0.13585414
-## urban:college-suburban:highschool            -0.403437160 -0.74699082 -0.05988350
-## rural:college-urban:highschool               -0.690531716 -1.14706139 -0.23400204
-## suburban:college-urban:highschool            -0.687121944 -1.08985622 -0.28438766
-## urban:college-urban:highschool               -0.622524911 -1.03469045 -0.21035937
-## suburban:college-rural:college                0.003409772 -0.35030503  0.35712457
-## urban:college-rural:college                   0.068006805 -0.29641011  0.43242372
-## urban:college-suburban:college                0.064597033 -0.22963969  0.35883375
-##                                                  p adj
-## suburban:not highschool-rural:not highschool 0.8674832
-## urban:not highschool-rural:not highschool    0.9888501
-## rural:highschool-rural:not highschool        0.9999880
-## suburban:highschool-rural:not highschool     1.0000000
-## urban:highschool-rural:not highschool        0.9030684
-## rural:college-rural:not highschool           0.0048260
-## suburban:college-rural:not highschool        0.0003000
-## urban:college-rural:not highschool           0.0058080
-## urban:not highschool-suburban:not highschool 0.0811231
-## rural:highschool-suburban:not highschool     0.9998677
-## suburban:highschool-suburban:not highschool  0.9253454
-## urban:highschool-suburban:not highschool     0.1168434
-## rural:college-suburban:not highschool        0.0707540
-## suburban:college-suburban:not highschool     0.0053488
-## urban:college-suburban:not highschool        0.0936241
-## rural:highschool-urban:not highschool        0.9837367
-## suburban:highschool-urban:not highschool     0.9629765
-## urban:highschool-urban:not highschool        0.9989009
-## rural:college-urban:not highschool           0.0000098
-## suburban:college-urban:not highschool        0.0000000
-## urban:college-urban:not highschool           0.0000020
-## suburban:highschool-rural:highschool         0.9999991
-## urban:highschool-rural:highschool            0.9075139
-## rural:college-rural:highschool               0.3572013
-## suburban:college-rural:highschool            0.2659691
-## urban:college-rural:highschool               0.5217326
-## urban:highschool-suburban:highschool         0.8337309
-## rural:college-suburban:highschool            0.0068453
-## suburban:college-suburban:highschool         0.0004320
-## urban:college-suburban:highschool            0.0083262
-## rural:college-urban:highschool               0.0000975
-## suburban:college-urban:highschool            0.0000046
-## urban:college-urban:highschool               0.0001008
-## suburban:college-rural:college               1.0000000
-## urban:college-rural:college                  0.9997005
-## urban:college-suburban:college               0.9990084
+##                                                      diff         lwr         upr     p adj
+## suburban:not highschool-rural:not highschool -0.158029879 -0.49075525  0.17469549 0.8674832
+## urban:not highschool-rural:not highschool     0.108091787 -0.23953951  0.45572308 0.9888501
+## rural:highschool-rural:not highschool        -0.069444444 -0.63658691  0.49769802 0.9999880
+## suburban:highschool-rural:not highschool     -0.019875479 -0.40334545  0.36359449 1.0000000
+## urban:highschool-rural:not highschool         0.199212272 -0.24677039  0.64519493 0.9030684
+## rural:college-rural:not highschool           -0.491319444 -0.89358775 -0.08905114 0.0048260
+## suburban:college-rural:not highschool        -0.487909672 -0.82790283 -0.14791651 0.0003000
+## urban:college-rural:not highschool           -0.423312639 -0.77442641 -0.07219887 0.0058080
+## urban:not highschool-suburban:not highschool  0.266121666 -0.01539691  0.54764025 0.0811231
+## rural:highschool-suburban:not highschool      0.088585434 -0.44061752  0.61778839 0.9998677
+## suburban:highschool-suburban:not highschool   0.138154400 -0.18658306  0.46289186 0.9253454
+## urban:highschool-suburban:not highschool      0.357242151 -0.03937571  0.75386001 0.1168434
+## rural:college-suburban:not highschool        -0.333289566 -0.68002431  0.01344518 0.0707540
+## suburban:college-suburban:not highschool     -0.329879794 -0.60191020 -0.05784939 0.0053488
+## urban:college-suburban:not highschool        -0.265282761 -0.55109052  0.02052499 0.0936241
+## rural:highschool-urban:not highschool        -0.177536232 -0.71623569  0.36116323 0.9837367
+## suburban:highschool-urban:not highschool     -0.127967266 -0.46796103  0.21202650 0.9629765
+## urban:highschool-urban:not highschool         0.091120485 -0.31808248  0.50032345 0.9989009
+## rural:college-urban:not highschool           -0.599411232 -0.96047401 -0.23834846 0.0000098
+## suburban:college-urban:not highschool        -0.596001460 -0.88607366 -0.30592925 0.0000000
+## urban:college-urban:not highschool           -0.531404427 -0.83443481 -0.22837404 0.0000020
+## suburban:highschool-rural:highschool          0.049568966 -0.51292443  0.61206236 0.9999991
+## urban:highschool-rural:highschool             0.268656716 -0.33817945  0.87549288 0.9075139
+## rural:college-rural:highschool               -0.421875000 -0.99734818  0.15359818 0.3572013
+## suburban:college-rural:highschool            -0.418465228 -0.95226757  0.11533712 0.2659691
+## urban:college-rural:highschool               -0.353868195 -0.89482150  0.18708511 0.5217326
+## urban:highschool-suburban:highschool          0.219087751 -0.22096767  0.65914317 0.8337309
+## rural:college-suburban:highschool            -0.471443966 -0.86713075 -0.07575718 0.0068453
+## suburban:college-suburban:highschool         -0.468034193 -0.80021425 -0.13585414 0.0004320
+## urban:college-suburban:highschool            -0.403437160 -0.74699082 -0.05988350 0.0083262
+## rural:college-urban:highschool               -0.690531716 -1.14706139 -0.23400204 0.0000975
+## suburban:college-urban:highschool            -0.687121944 -1.08985622 -0.28438766 0.0000046
+## urban:college-urban:highschool               -0.622524911 -1.03469045 -0.21035937 0.0001008
+## suburban:college-rural:college                0.003409772 -0.35030503  0.35712457 1.0000000
+## urban:college-rural:college                   0.068006805 -0.29641011  0.43242372 0.9997005
+## urban:college-suburban:college                0.064597033 -0.22963969  0.35883375 0.9990084
 ```
 
 Leider ist das Ergebnis etwas unübersichtlich, weil sich in diesem Fall 36 Vergleiche ergeben. Mit ein paar Funktionen aus dem `emmeans`-Paket können wir versuchen, das optisch etwas aufzubereiten. Dafür müssen wir zunächst das Paket laden:
@@ -590,6 +553,12 @@ Leider ist das Ergebnis etwas unübersichtlich, weil sich in diesem Fall 36 Verg
 
 ```r
 library(emmeans)
+```
+
+```
+## Welcome to emmeans.
+## Caution: You lose important information if you filter this package's results.
+## See '? untidy'
 ```
 
 In diesem Paket gibt es die wenig überraschend benannte `emmeans`-Funktion, mit der wir alle weiteren Analysen vorbereiten müssen:
@@ -790,13 +759,13 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 1)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
-## Warning: Using "type==1" is highly questionable when data are unbalanced and there is
-## more than one variable. Hopefully you are doing this for demonstration purposes only!
+## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable. Hopefully you are
+## doing this for demonstration purposes only!
 ```
 
 ```
@@ -813,11 +782,10 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(edu, urban), type = 1)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
-
-## Warning: Using "type==1" is highly questionable when data are unbalanced and there is
-## more than one variable. Hopefully you are doing this for demonstration purposes only!
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
+## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable. Hopefully you are
+## doing this for demonstration purposes only!
 ```
 
 ```
@@ -914,8 +882,8 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 2)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -992,8 +960,8 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 3)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
-## well-considered value for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
