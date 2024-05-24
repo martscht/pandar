@@ -10,7 +10,7 @@ summary: 'In diesem Beitrag wird die einfache lineare Regression zur multiplen R
 authors: [schultze]
 weight: 12
 lastmod: '`r Sys.Date()`'
-featured: yes
+featured: no
 banner:
   image: "/header/stormies.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/89134)"

@@ -56,7 +56,7 @@ Der Fokus des Workshops lag bisher stark auf explanativen Grafiken. In diesem Ab
 Auch in diesem Abschnitt arbeiten wir wieder mit dem `edu_exp`-Datensatz. Außerdem muss noch `ggplot2` geladen werden.
 
 ```{r, warning=FALSE}
-load(url('https://pandar.netlify.com/post/edu_exp.rda'))
+load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 library(ggplot2)
 ```
 
