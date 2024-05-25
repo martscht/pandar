@@ -12,11 +12,11 @@ sections:
     content:
       title: "LIFOS"
       subtitle: Lokale Infrastruktur für Open Science
-      text: "Auf dieser Seite finden sich alle unterstützenden Infos zur Nutzung der [Plattform LIFOS](https://lifos.uni-frankfurt.de/users/sign_in), die im Rahmen des Projekts “Lokale Infrastruktur für Open Science” entstanden ist."
+      text: "Auf dieser Seite finden sich alle unterstützenden Infos zur Nutzung der [Plattform LIFOS](https://lifos.uni-frankfurt.de/users/sign_in), die im Rahmen des Projekts “Lokale Infrastruktur für Open Science” entstanden ist. <br><br><br>"
     design:
       background:
         image:
-          filename: header/node_junctions.jpg
+          filename: header/blossom.jpg
         text_color_light: true
       columns: 2
       
