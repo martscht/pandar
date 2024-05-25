@@ -17,7 +17,7 @@ sections:
     design:
       background:
         image:
-          filename: header/macarons.jpg
+          filename: header/pink-sparkle.jpg
         text_color_light: true
       columns: 2
       
