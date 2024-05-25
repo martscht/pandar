@@ -53,7 +53,7 @@ sections:
       title: ""
       subtitle:
       text: 
-         "![](header/hochschulstiftung_innovation.png) ![](header/digitell.jpg) Das Projekt wurde ermöglicht durch die Stiftung [Innovation in der Hochschullehre](https://stiftung-hochschullehre.de/) und das [Projekt DigiTell](https://www.uni-frankfurt.de/106198465/Digital_Teaching_and_Learning_Lab___DigiTeLL)."
+         "![](header/hochschulstiftung_logo.png) ![](header/digitell.jpg) Das Projekt wurde ermöglicht durch die Stiftung [Innovation in der Hochschullehre](https://stiftung-hochschullehre.de/) und das [Projekt DigiTell](https://www.uni-frankfurt.de/106198465/Digital_Teaching_and_Learning_Lab___DigiTeLL)."
         
     design:
       columns: 1     
