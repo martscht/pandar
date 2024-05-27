@@ -69,6 +69,7 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Einstellungsentscheidungen](#assessment) | [{{< icon name="download" pack="fas" >}} `Assessment` ](/daten/Assessment.rda) |
 | [Nerdiness](#nerd) | [{{< icon name="download" pack="fas" >}} `NerdData` ](/daten/NerdData.rda) |
 | [Students in Classes](#studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
+| [Vegan](#vegan) | {{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/rctkf/)
 | [Xmas](#xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
 
 ---
@@ -81,7 +82,7 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 
 Beim Datensatz stammt von Rubin (2020) und ist auf dem `Open Science Framework` zu finden. Er beschäftigt sich mit der Untersuchung von Variablen, die den Zusammenhang zwischen Achtsamkeit und Depression mithilfe einer Netzwerkanalyse untersuchen wollen.
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Netzwerkanalyse im Querschnitt](/post/cross-sectional-networks/) für PsyMSc5a verwendet.
+Auf `pandaR` wird der Datensatz in dem Tutorial [Netzwerkanalyse im Querschnitt](/lehre/klipps/querschnittliche-netzwerke/) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 
@@ -387,7 +388,7 @@ Auf `pandaR` wird der Datensatz für den [DigiGEBF Workshop ggplotting](/extras/
 ### Datensatz laden
 
 ```r
-load(url('https://pandar.netlify.com/daten/edu_exp.rda'))
+load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 ```
 
 ### Größe
@@ -539,7 +540,7 @@ In dem Datensatz liegen 830 fehlende Werte vor. Folgende Variablen enthalten kei
 ### Beschreibung
 Beim Datensatz handelt es sich um ein fiktives Datenbeispiel, bei dem Patient:innen, die an einer Depression oder einer Angststörung leiden, entweder mit einer kognitiven Verhaltenstherapie (CBT) behandelt oder in einer Wartekontrollgruppe belassen wurden. Eine zufällige Zuordnung war nicht vollständig möglich, da die Zuordnung von überweisenden Hausarzt-Praxen der Patient:innen mit beeinflusst werden konnte (z.B. durch Geltendmachung einer besonderen Dringlichkeit der Therapie).
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Schätzung von Kausaleffekten 1](/post/kausal) und [Schätzung von Kausaleffekten 2](/post/kausal2) für PsyMSc5a verwendet.
+Auf `pandaR` wird der Datensatz in dem Tutorial [Schätzung von Kausaleffekten 1](/lehre/klipps/kausaleffekte1) und [Schätzung von Kausaleffekten 2](/lehre/klipps/kausaleffekte2) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 
@@ -666,7 +667,7 @@ Dieser Datensatz wurde zuvor mit einfacher Imputation ergänzt und enthält dahe
 ### Beschreibung
 Der Datensatz ist `R`-eigenen Paket `metafor` von Viechtbauer (2010) enthalten und stammt von einer Studie von López-López et al. (2019). Die Autor:innen haben die Effektivität der CBT (cognitive behavioural therapy [kognitive Verhaltenstherapie]) bei Depression untersucht und diese mit verschiedenen Kontrollbedingungen und unterschiedlichen Arten der CBT verglichen.
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/post/metaanalysen-cor/) für PsyMSc5a verwendet.
+Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/lehre/klipps/metaanalysen-mw/) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 
@@ -1071,7 +1072,7 @@ Der Datensatz stammt aus dem `R`-eigenen Paket `metafor` von Viechtbauer (2010) 
 
 Molloy, G. J., O'Carroll, R. E., & Ferguson, E. (2014). Conscientiousness and medication adherence: A meta-analysis. Annals of Behavioral Medicine, 47(1), 92–101. [https://doi.org/10.1007/s12160-013-9524-4](https://doi.org/10.1007/s12160-013-9524-4)
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/post/metaanalysen-mw/) und [Block 4](/post/msc5a-daten/#Block4) der Quizze für PsyMSc5a verwendet.
+Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/lehre/klipps/metaanalysen-cor/) und [Block 4](/post/msc5a-daten/#Block4) der Quizze für PsyMSc5a verwendet.
 
 ### Datensatz laden
 
@@ -1241,7 +1242,7 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 | `gender` | *What is your gender?*  | 1 = Male, 2 = Female, 3 = Other |
 | `engnat` | *Is English your native language?*  | 1 = Yes, 2 = No |
 | `age` | *How many years old are you?*  | *Freitext* |
-| `hand` | *What hand do you use to write with?*  | 1 = Left, 2 = Right, 3 = Both |
+| `hand` | *What hand do you use to write with?*  | 1 = Right, 2 = Left, 3 = Both |
 | `religion` | *What is your religion?* | 1 = Agnostic, 2 = Atheist, 3 = Buddhist, 4 = Christian(Catholic), 5 = Christian(Mormon), 6 = Christian(Protestant), 7 = Christian(Other), 8 = Hindu, 9 = Jewish, 10 = Muslim, 11 = Sikh, 12 = Other |
 | `orientation` | *What is your sexual orientation?*  | 1 = Heterosexual, 2 = Bisexual, 3 = Homosexual, 4 = Asexual, 5 = Other|
 | `race` | *What is your race?*  | 1 = Asian, 2 = Arab, 3 = Black, 4 = Indigenous Australian, 5 = Native American, 6 = White/European, 7 = Other |
@@ -1268,7 +1269,7 @@ Der Datensatz stammt aus einer Erhebung von Epskamp et al. (2018a), welche auf d
 
 Epskamp, S., van Borkulo, C. D., van der Veen, D. C., Servaas, M., Isvoranu, A.-M., Riese, H., & Cramer, A. O. J. (2020, September 21). Personalized Network Modeling in Psychopathology: The Importance of Contemporaneous and Temporal Connections. [https://doi.org/10.17605/OSF.IO/C8WJZ](https://doi.org/10.17605/OSF.IO/C8WJZ)
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Dynamische Netzwerkanalyse](/post/dynamic-networks) für PsyMSc5a verwendet.
+Auf `pandaR` wird der Datensatz in dem Tutorial [Dynamische Netzwerkanalyse](/lehre/klipps/dynamische-netzwerke/) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 
@@ -2003,6 +2004,47 @@ Ebene 2 (between-level)
 ### Fehlende Werte
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+---
+
+## Vegan
+
+Im Datensatz ist ein Ausschnitt aus den Daten zu einer Validierungsstudie des "Vegetarian Eating Motives Inventory Plus (VEMI+)" von Hopwoods und Stahlmann (2024) enthalten. Die hier getroffene Auswahl beschränkt die Daten auf sechs Dimensionen der Skala, ein paar demografische Angaben und das selbst eingeschätzte Commitment zur veganen Ernährung (die Daten sind ausschließlich von Personen, die sich vegan ernähren). Mehr Informationen finden sich im dazugehörigen [OSF Repo](https://osf.io/ga5rt/).
+
+### Datensatz laden
+
+Der Datensatz wird in einem Skript reduziert und Variablen umbenannt. Dieses Skript kann mit folgendem Befehl ausgeführt werden:
+
+
+```r
+source("https://pandar.netlify.app/daten/Data_Processing_vegan.R")
+```
+
+
+Im Environment erscheint dadruch der Datensatz `vegan`.
+
+### Größe
+
+Der Datensatz besteht aus 987 Beobachtungen auf 10 Variablen.
+
+### Variablen
+
+In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und ihrer Bedeutungen. Die letzten sechs Skalen beziehen sich alle auf selbstberichtete Gründe für die vegane Ernährung (von 1 "nicht wichtig" bis 7 "sehr wichtig").
+
+| Variable | Bedeutung | Kodierung |
+| --- | --- | --- |
+| `age` | Alter | |
+| `gender` | Geschlecht | 1 = männlich, 2 = weiblich, 3 = divers |
+| `race` | Selbst zugeschriebene Ethnie | _7 Stufen mit Label_ |
+| `commitment` | Commitment zur veganen Ernährung | _Skalenwert_ |
+| `health` | Gesundheit | _Skalenwert_ |
+| `environment` | Umwelt | _Skalenwert_ |
+| `animals` | Tierschutz / Tierrechte | _Skalenwert_ |
+| `social` | Passung zur sozialen Norm | _Skalenwert_ |
+| `workers` | Schutz von Mitarbeitenden in Tierhaltung | _Skalenwert_ |
+| `disgust` | Ekel vor Fleischkonsum | _Skalenwert_ |
+
+---
 
 ## Xmas {#xmas}
 ### Beschreibung
