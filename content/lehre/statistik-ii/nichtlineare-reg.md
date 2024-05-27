@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [irmer, hartig, schultze, sajjad]
 weight: 7
-lastmod: '2024-05-24'
+lastmod: '2024-05-27'
 featured: no
 banner:
   image: "/header/schoolbus.jpg"
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-ii/nichtlineare-regression
+    url: /lehre/statistik-ii/nichtlineare-reg
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/statistik-ii/nichtlineare-regression.R
+    url: /lehre/statistik-ii/nichtlineare-reg.R
 output:
   html_document:
     keep_md: true
@@ -1095,9 +1095,9 @@ cor(poly(A, 2))
 ```
 
 ```
-##              1            2
-## 1 1.000000e+00 9.847944e-17
-## 2 9.847944e-17 1.000000e+00
+##             1           2
+## 1 1.00000e+00 1.92988e-17
+## 2 1.92988e-17 1.00000e+00
 ```
 
 ```r
