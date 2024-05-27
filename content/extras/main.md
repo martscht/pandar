@@ -13,11 +13,11 @@ sections:
     content:
       title: Extras
       subtitle: 
-      text: "Auf dieser Überblicksseite findest du alle Extras, die wir bisher erstellt haben. Diese betreffen nicht nur die direkte Arbeit mit R, sondern erleichtern auch das generelle Coding und die Kollaboration."
+      text: "Auf dieser Überblicksseite findest du alle Extras, die wir bisher erstellt haben. Diese betreffen nicht nur die direkte Arbeit mit R, sondern erleichtern auch das generelle Coding und die Kollaboration. <br><br>"
     design:
       background:
         image:
-          filename: header/lights.jpg
+          filename: header/pink-sparkle.jpg
         text_color_light: true
       columns: 2
       

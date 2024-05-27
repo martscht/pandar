@@ -13,11 +13,11 @@ sections:
     content:
       title: Workshops
       subtitle: 
-      text: "Auf dieser Überblicksseite findest du alle Workshops, die wir bereits gehalten haben. Diese betreffen nicht nur vertiefende Inhalte zu R, sondern auch zu Informationen zu den verschiedenen Anwendungsbereichen der Psychologie."
+      text: "Auf dieser Überblicksseite findest du alle Workshops, die wir bereits gehalten haben. Diese betreffen nicht nur vertiefende Inhalte zu R, sondern auch zu Informationen zu den verschiedenen Anwendungsbereichen der Psychologie. <br><br>"
     design:
       background:
         image:
-          filename: header/lights.jpg
+          filename: header/underwater.jpg
         text_color_light: true
       columns: 2
       

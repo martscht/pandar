@@ -14,12 +14,13 @@ sections:
     content:
       title: Überblick
       subtitle: 
-      text: "Auf dieser Überblicksseite findest du alle Projekte, die wir bisher erstellt haben. Jedes Projekt ist in vier Abschnitte gegliedert: Übersicht, Problemstellung, Tipps und Lösungen. Die ersten beiden stellen das jeweilige Projekt inhaltlich vor und schildern die Probleme, die in der Bewältigung auftreten könnten. Bei den Tipps gibt es kleine Hilfestellungen, wenn du an irgendeiner Stelle nicht weiterkommen solltest. Die Lösungen zeigen dann letztlich, wie wir dieses Projekt bearbeitet haben.
+      text: "Hier sind alle Projekte zu finden. Jedes Projekt enthält eine inhaltliche Einführung, eine Darstellung der Probleme (mit Tipps zur Lösung, falls nötig) und unsere Lösungen. <br>
 
-Wenn du dir die Projekte anschaust, dann ist es nicht zwingend notwendig, sie in der präsentierten Reihenfolge durchzugehen. Generell werden die Projekte zwar nach unten hin etwas schwieriger, aber keines erfordert explizit die Bearbeitung eines vorhergehenden Projekts, weshalb alle weitestgehend unabhängig voneinander bearbeitet werden können. Falls du erst noch einen Blick in die Auffrischung werfen willst, findest du [hier](/lehre/statistik-i/crash-kurs/) ein paar zusätzliche Inhalte."
+Die Projekte müssen nicht in der präsentierten Reihenfolge bearbeitet werden. Sie werden zwar nach unten hin schwieriger, bauen aber nicht aufeinander auf."
     design:
       background:
-        color: "#01628f"
+        image:
+          filename: header/paper.jpg
         text_color_light: true
       columns: 2
       

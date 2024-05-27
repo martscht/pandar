@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-ii/nichtlineare-regression
+    url: /lehre/statistik-ii/nichtlineare-reg
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/statistik-ii/nichtlineare-regression.R
+    url: /lehre/statistik-ii/nichtlineare-reg.R
 output:
   html_document:
     keep_md: true
