@@ -71,6 +71,7 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Einstellungsentscheidungen](#assessment) | [{{< icon name="download" pack="fas" >}} `Assessment` ](/daten/Assessment.rda) |
 | [Nerdiness](#nerd) | [{{< icon name="download" pack="fas" >}} `NerdData` ](/daten/NerdData.rda) |
 | [Students in Classes](#studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
+| [Vegan](#vegan) | {{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/rctkf/)
 | [Xmas](#xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
 
 ---
@@ -379,7 +380,7 @@ Auf `pandaR` wird der Datensatz für den [DigiGEBF Workshop ggplotting](/extras/
 
 ### Datensatz laden
 ```{r}
-load(url('https://pandar.netlify.com/daten/edu_exp.rda'))
+load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 ```
 
 ### Größe
@@ -1923,6 +1924,48 @@ Ebene 2 (between-level)
 ### Fehlende Werte
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+---
+
+## Vegan
+
+Im Datensatz ist ein Ausschnitt aus den Daten zu einer Validierungsstudie des "Vegetarian Eating Motives Inventory Plus (VEMI+)" von Hopwoods und Stahlmann (2024) enthalten. Die hier getroffene Auswahl beschränkt die Daten auf sechs Dimensionen der Skala, ein paar demografische Angaben und das selbst eingeschätzte Commitment zur veganen Ernährung (die Daten sind ausschließlich von Personen, die sich vegan ernähren). Mehr Informationen finden sich im dazugehörigen [OSF Repo](https://osf.io/ga5rt/).
+
+### Datensatz laden
+
+Der Datensatz wird in einem Skript reduziert und Variablen umbenannt. Dieses Skript kann mit folgendem Befehl ausgeführt werden:
+
+```{r, eval = FALSE}
+source("https://pandar.netlify.app/daten/Data_Processing_vegan.R")
+```
+```{r, echo = FALSE}
+source('./Data_Processing_vegan.R')
+```
+
+Im Environment erscheint dadruch der Datensatz `vegan`.
+
+### Größe
+
+Der Datensatz besteht aus `r nrow(vegan)` Beobachtungen auf `r ncol(vegan)` Variablen.
+
+### Variablen
+
+In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und ihrer Bedeutungen. Die letzten sechs Skalen beziehen sich alle auf selbstberichtete Gründe für die vegane Ernährung (von 1 "nicht wichtig" bis 7 "sehr wichtig").
+
+| Variable | Bedeutung | Kodierung |
+| --- | --- | --- |
+| `age` | Alter | |
+| `gender` | Geschlecht | 1 = männlich, 2 = weiblich, 3 = divers |
+| `race` | Selbst zugeschriebene Ethnie | _7 Stufen mit Label_ |
+| `commitment` | Commitment zur veganen Ernährung | _Skalenwert_ |
+| `health` | Gesundheit | _Skalenwert_ |
+| `environment` | Umwelt | _Skalenwert_ |
+| `animals` | Tierschutz / Tierrechte | _Skalenwert_ |
+| `social` | Passung zur sozialen Norm | _Skalenwert_ |
+| `workers` | Schutz von Mitarbeitenden in Tierhaltung | _Skalenwert_ |
+| `disgust` | Ekel vor Fleischkonsum | _Skalenwert_ |
+
+---
 
 ## Xmas {#xmas}
 ### Beschreibung
