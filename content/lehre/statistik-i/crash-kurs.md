@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
 authors: [schultze]
 weight: 1
-lastmod: '2024-03-28'
+lastmod: '2024-05-28'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"
@@ -62,7 +62,7 @@ output:
 
 ## Warum R nutzen? {#R}
 
-Ziel dieses gesamten R-Praktikums ist es, dass Sie am Ende des Semester geübt im Umgang mit R sind, die Grundfunktionalität beherrschen und die Analyseverfahren durchführen können, die in der Vorlesung behandelt werden. Damit wir - oder genauer genommen, eigentlich Sie - dieses Ziel erreichen, legen wir hier mit einer "kurzen" Einführung in die Grundprinzipien von und den Umgang mit R los. Viele Dinge, die hier besprochen werden, sind auch in den [anderen Sitzungen zu dieser Veranstaltung](/category/statistik-i) relevant und werden dort immer wieder vorkommen. Deswegen ist es das Beste, einfach nebenbei RStudio auf zu haben und die hier beschriebenen Schritte auch direkt selbst mit zu machen.
+Das Ziel dieses gesamten R-Praktikums ist es, dass Sie am Ende des Semester geübt im Umgang mit R sind, die Grundfunktionalität beherrschen und die Analyseverfahren durchführen können, die in der Vorlesung behandelt werden. Damit wir - oder genauer genommen, eigentlich Sie - dieses Ziel erreichen, legen wir hier mit einer "kurzen" Einführung in die Grundprinzipien von und den Umgang mit R los. Viele Dinge, die hier besprochen werden, sind auch in den [anderen Sitzungen zu dieser Veranstaltung](/category/statistik-i) relevant und werden dort immer wieder vorkommen. Deswegen ist es das Beste, einfach nebenbei RStudio auf zu haben und die hier beschriebenen Schritte auch direkt selbst mit zu machen.
 
 Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe von Programmen ausgewählt, weil es ein paar hervorragende Eigenschaften hat:
 
@@ -71,7 +71,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 648677 mal heruntergeladen
+* Allein in den letzten 30 Tagen 735010 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
