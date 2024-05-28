@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag zur Partial- und Semipartialkorrelation lernst du den Einfluss von Drittvariablen zu kontrollieren und so Scheinkorrelationen zu entlarven. Das Beispiel mit Schulleistungen zeigt, dass der ursprüngliche Zusammenhang zwischen der Lese- und Mathematikleistung verschwindet, wenn der Einfluss des IQ berücksichtigt wird. Die Semipartialkorrelation spezifisch aufzeigt, wie der IQ die Mathematikleistung beeinflusst. Diese Werkzeuge sind entscheidend, um versteckte Muster in statistischen Daten zu entwirren und Kausalitätsannahmen zu überprüfen.'
 authors: [kvetnaya, schroeder, gruetzmacher, nehler, irmer]
 weight: 5
-lastmod: '2024-05-10'
+lastmod: '2024-05-28'
 featured: no
 banner:
   image: "/header/prism_colors.jpg"
@@ -27,6 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/partial.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Quizdaten
+    url: /lehre/statistik-ii/quizdaten-bsc7#Quiz3
 output:
   html_document:
     keep_md: true
@@ -284,6 +288,10 @@ install.packages("ppcor")
 
 ```r
 library(ppcor)
+```
+
+```
+## Loading required package: MASS
 ```
 
 Mit der Funktion `pcor.test()` lässt sich die Partialkorrelation direkt ermitteln:
