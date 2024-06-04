@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [irmer, hartig, nehler, sajjad]
 weight: 6
-lastmod: '2024-05-24'
+lastmod: '2024-05-28'
 featured: no
 banner:
   image: "/header/glider.jpg"
@@ -27,10 +27,6 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/regressionsdiagnostik.R
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Quizdaten
-    url: /lehre/statistik-ii/quizdaten-bsc7#Quiz3
 output:
   html_document:
     keep_md: true
@@ -195,7 +191,7 @@ residualPlots(mod, pch = 16)
 
 ```
 ##            Test stat Pr(>|Test stat|)
-## female        0.0340           0.9730
+## female        0.0207           0.9835
 ## IQ            1.4015           0.1643
 ## Tukey test    0.5234           0.6007
 ```
@@ -511,18 +507,18 @@ summary(lm(Lebenszufriedenheit~Depressivitaet)) # Ohne Messfehler
 ## 
 ## Residuals:
 ##        Min         1Q     Median         3Q        Max 
-## -1.592e-16 -1.811e-17 -3.960e-18  1.391e-17  8.235e-16 
+## -2.795e-16 -2.730e-17 -1.670e-17 -6.800e-18  4.276e-15 
 ## 
 ## Coefficients:
-##                  Estimate Std. Error    t value Pr(>|t|)    
-## (Intercept)    -1.755e-18  4.049e-18 -4.340e-01    0.665    
-## Depressivitaet -5.000e-01  4.214e-18 -1.187e+17   <2e-16 ***
+##                  Estimate Std. Error   t value Pr(>|t|)    
+## (Intercept)    -7.022e-18  1.741e-17 -4.03e-01    0.687    
+## Depressivitaet -5.000e-01  1.812e-17 -2.76e+16   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 6.4e-17 on 248 degrees of freedom
+## Residual standard error: 2.752e-16 on 248 degrees of freedom
 ## Multiple R-squared:      1,	Adjusted R-squared:      1 
-## F-statistic: 1.408e+34 on 1 and 248 DF,  p-value: < 2.2e-16
+## F-statistic: 7.618e+32 on 1 and 248 DF,  p-value: < 2.2e-16
 ```
 
 ```r
@@ -556,9 +552,9 @@ confint(lm(Lebenszufriedenheit~Depressivitaet))  # Ohne Messfehler
 ```
 
 ```
-##                        2.5 %       97.5 %
-## (Intercept)    -9.730364e-18  6.21953e-18
-## Depressivitaet -5.000000e-01 -5.00000e-01
+##                        2.5 %        97.5 %
+## (Intercept)    -4.130616e-17  2.726283e-17
+## Depressivitaet -5.000000e-01 -5.000000e-01
 ```
 
 ```r
@@ -895,11 +891,6 @@ Um zu prüfen, ob wir uns verrechnet haben, zeichnen wir den vorhergesagten $Y$-
 ggplot(data = df, mapping = aes(x = X, y = Y)) + geom_point() +
   geom_smooth(method = "lm", formula = "y~x") +
   geom_point(mapping = aes(x = Xmax, y = Y_pred_Xmax), cex = 4, col = "gold3")
-```
-
-```
-## Warning in geom_point(mapping = aes(x = Xmax, y = Y_pred_Xmax), cex = 4, : All aesthetics have length 1, but the data has 20 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.
 ```
 
 ![](/lehre/statistik-ii/regressionsdiagnostik_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
