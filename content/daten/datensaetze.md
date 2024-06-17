@@ -37,7 +37,7 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Die Big Five Persönlichkeitsdimensionen](#die-big-five-persönlichkeitsdimensionen-big5) | [{{< icon name="download" pack="fas" >}} `Big5` ](/daten/Big5_EFA.rda) |
 | [Interozeptive Aufmerksamkeit und Genauigkeit](#interozeptive-aufmerksamkeit-und-genauigkeit-body) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/j6ef3/download) |
 | [Bildungsinvestitionen auf der Welt](#bildungsinvestitionen-auf-der-welt-edu_exp) | [{{< icon name="download" pack="fas" >}} `edu_exp` ](/daten/edu_exp.rda) 
-| [Erfahrung in Beziehungen](#erfahrungen-in-beziehungen) | [{{< icon name="download" pack="fas" >}} `ecr` ](/daten/ecr.rda)
+| [Erfahrung in Beziehungen](#erfahrung-in-beziehungen-ecr) | [{{< icon name="download" pack="fas" >}} `ecr` ](/daten/ecr.rda)
 | [Bullyingprävention bei Jugendlichen](#bullyingprävention-bei-jugendlichen-fairplayer) | [{{< icon name="download" pack="fas" >}} `fairplayer` ](/daten/faiplayer.rda) |
 | [Quasi-Experimentelle Therapiestudie](#quasi-experimentelle-therapiestudie-cbtdata) | [{{< icon name="download" pack="fas" >}} `CBTdata` ](/daten/CBTdata.rda) |
 | [Depressivität](#depressivitat-Depression) | [{{< icon name="download" pack="fas" >}} `Depression` ](/daten/Depression.rda) |
@@ -69,7 +69,7 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Einstellungsentscheidungen](#assessment) | [{{< icon name="download" pack="fas" >}} `Assessment` ](/daten/Assessment.rda) |
 | [Nerdiness](#nerd) | [{{< icon name="download" pack="fas" >}} `NerdData` ](/daten/NerdData.rda) |
 | [Students in Classes](#studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
-| [Vegan](#vegan) | {{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/rctkf/)
+| [Vegan](#vegan) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/rctkf/)
 | [Xmas](#xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
 
 ---
@@ -673,27 +673,6 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/lehre/klipp
 
 ```r
 library(metafor)
-```
-
-```
-## Loading required package: Matrix
-```
-
-```
-## Loading required package: metadat
-```
-
-```
-## Loading required package: numDeriv
-```
-
-```
-## 
-## Loading the 'metafor' package (version 4.6-0). For an
-## introduction to the package please type: help(metafor)
-```
-
-```r
 F2F_CBT <- dat.lopez2019[dat.lopez2019$treatment == "F2F CBT",] # wähle nur Fälle mit F2F CBT
 ```
 
@@ -1574,26 +1553,6 @@ Auf `pandaR` wird der Datensatz in dem Tutorial [Hierarchische Regression](/post
 
 ```r
 library(dplyr)
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-```
-
-```
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 library(ICC)
 library(lme4)
 library(interactions)
