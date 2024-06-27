@@ -10,17 +10,17 @@ sections:
   - block: markdown
     id: header
     content:
-      title: "LIFOS"
-      subtitle: Lokale Infrastruktur für Open Science
+      title: "LIFOS <br><small><small><small> Lokale Infrastruktur für Open Science </small></small></small>"
+      subtitle: 
       text: "Auf dieser Seite finden sich alle unterstützenden Infos zur Nutzung der [Plattform LIFOS](https://lifos.uni-frankfurt.de/users/sign_in), die im Rahmen des Projekts “Lokale Infrastruktur für Open Science” entstanden ist. <br><br><br>"
     design:
       background:
         image:
-          filename: header/blossom.jpg
+          filename: header/green_leave.jpg
         text_color_light: true
       columns: 2
       
-  - block: markdown
+  - block: markdown 
     id: lifos-grundlagen
     content:
       title: Grundlagen
