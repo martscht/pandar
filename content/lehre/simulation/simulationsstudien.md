@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [irmer]
 weight: 
-lastmod: '2024-06-27'
+lastmod: '2024-07-01'
 featured: no
 banner:
   image: "/header/colorful_waves.jpg"
@@ -24,6 +24,10 @@ links:
     icon: book
     name: Inhalte
     url: /lehre/simulation/simulationsstudien
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /lehre/simulation/simulationsstudien.R
 
 output:
   html_document:
@@ -33,12 +37,11 @@ output:
 
 
 
-
 ## Einleitung
-Simulationsstudien können Aufschluss darüber liefern, wie gut ein statistisches Verfahren oder auch ein Schätzer funktioniert. Diese werden auch sehr häufig Monte-Carlo Simulationen oder MC-Simulationen genannt. Diese Methode wird neben der Untersuchung von statistischen Verfahren auch für die numerische Berechnung verwendet (bspw. können wir $\pi$ mit Hilfe von MC-Methoden bestimmen). Wir wollen uns eine einfache Simulationsstudie ansehen, mit welcher wir das Schätzen der Erwartung (des Mittelwerts der Population) der Normalverteilung untersuchen wollen. Dazu schauen wir uns einfache Simulationstechniken und Wiederholungssfunktionen, wie etwa die `for`-Schleife, in `R` an. Bevor wir uns mit Simulationsstudien in `R` beschäftigen, sollten Sie sich etwas mit `R` vertraut gemacht sowie die nötige Software (`R` als Programmiersprache und `R`-Studio als schöneres Interface) installiert haben. Hierzu eignet sich hervorragend der ebenfalls auf [Pandar](https://pandar.netlify.com/) zu findende [`R`-Crash Kurs](/post/r-crash-kurs). Auch in der [ersten Sitzung aus dem Masterstudium der Psychologie](/post/einleitung-und-wiederholung) wurden einige Begriffe, die für Simulationsstudien von Relevanz sind, wiederholt und es wurde auch eine kleine Simulation zum Untersuchen des $t$-Tests durchgeführt.
+Simulationsstudien können Aufschluss darüber liefern, wie gut ein statistisches Verfahren oder auch ein Schätzer funktioniert. Diese werden auch sehr häufig Monte-Carlo Simulationen oder MC-Simulationen genannt. Diese Methode wird neben der Untersuchung von statistischen Verfahren auch für die numerische Berechnung verwendet (bspw. können wir $\pi$ mit Hilfe von MC-Methoden bestimmen). Wir wollen uns eine einfache Simulationsstudie ansehen, mit welcher wir das Schätzen der Erwartung (des Mittelwerts der Population) der Normalverteilung untersuchen wollen. Dazu schauen wir uns einfache Simulationstechniken und Wiederholungssfunktionen, wie etwa die `for`-Schleife, in `R` an. Bevor wir uns mit Simulationsstudien in `R` beschäftigen, sollten Sie sich etwas mit `R` vertraut gemacht sowie die nötige Software (`R` als Programmiersprache und `R`-Studio als schöneres Interface) installiert haben. Hierzu eignet sich hervorragend der ebenfalls auf [Pandar](https://pandar.netlify.app/) zu findende [`R`-Crash Kurs](/lehre/statistik-i/crash-kurs). Auch in der [ersten Sitzung aus dem Masterstudium der Psychologie](/lehre/fue-i/einleitung-fue) wurden einige Begriffe, die für Simulationsstudien von Relevanz sind, wiederholt und es wurde auch eine kleine Simulation zum Untersuchen des $t$-Tests durchgeführt.
 
 ## Daten simulieren
-Wir können in `R` verschiedene Verteilungen simulieren. Bspw. erzeugt der Befehl `rnorm` normalverteilte Zufallsvariablen. Für weitere Informationen und Verteilungen siehe bspw. [`R`-Verteilungen auf Wiki](https://en.wikibooks.org/wiki/R_Programming/Probability_Distributions). Wir müssen  diesem Befehl lediglich übergeben wie viele Replikationen wir wünschen und welchen Mittelwert und Standardabweichung die Zufallsvariablen haben sollen. Wir wollen eine Normalverteilung mit Mittelwert 4 und Standardabweichung 5 $\mathcal{N}(4,5^2)$ simulieren und legen die generierte (realisierte) Zufallsvariable in einem Objekt mit dem Namen `X` ab, um später gezeigte Informationen wie den Mittelwert oder die Standardabweichung abrufen zu können - dies machen wir mit dem "Zuordnungspfeil" `<-` (zur Erinnerung: links davon steht der Name, den wir uns ausdenken; hier: `X`; rechts steht das zugeordnete Objekt). Wir wollen zunächst 10 Replikationen generieren und setzen einen Seed, der für die Replizierbarkeit von Simulationen gemacht wird. Auf diese Weise erhalten wir immer die gleichen Zufallszahlen:
+Wir können in `R` verschiedene Verteilungen simulieren. Beispielsweise erzeugt der Befehl `rnorm` normalverteilte Zufallsvariablen. Für weitere Informationen und Verteilungen siehe zum Beispiel [`R`-Verteilungen auf Wiki](https://en.wikibooks.org/wiki/R_Programming/Probability_Distributions). Wir müssen  diesem Befehl lediglich übergeben, wie viele Replikationen wir wünschen und welchen Mittelwert und welche Standardabweichung die Zufallsvariablen haben sollen. Wir wollen eine Normalverteilung mit Mittelwert 4 und Standardabweichung 5 $\mathcal{N}(4,5^2)$ simulieren und legen die generierte (realisierte) Zufallsvariable in einem Objekt mit dem Namen `X` ab, um später gezeigte Informationen wie den Mittelwert oder die Standardabweichung abrufen zu können - dies machen wir mit dem "Zuordnungspfeil" `<-` (zur Erinnerung: links davon steht der Name, den wir uns ausdenken, hier: `X`; rechts steht das zugeordnete Objekt). Wir wollen zunächst 10 Replikationen generieren und setzen einen Seed, der für die Replizierbarkeit von Simulationen gemacht wird. Auf diese Weise erhalten wir immer die gleichen Zufallszahlen:
 
 
 ```r
@@ -138,7 +141,7 @@ sd(X)/sqrt(n)  # SE
 ## [1] 1.574478
 ```
 
-`length` bestimmt die Länge eines Vektors und `sqrt` ist die Quadratwurzel. In unserer Stichprobe liegen wir mit dem Mittelwert also um ca. 1.9158 neben der Erwartung. Die Standardabweichung liegt sehr nah an der vorgegebenen dran. Die Streuung des Mittelwerts ($SE$) ist recht groß. Dies liegt natürlich an der sehr geringen Stichprobengröße. Folglich ist es auch nicht verwunderlich, dass wir so weit neben der Erwartung hinsichtlich des Mittelwerts gelandet sind. 
+`length` bestimmt die Länge eines Vektors und `sqrt` ist die Quadratwurzel. In unserer Stichprobe liegen wir mit dem Mittelwert also um circa 1.9158 neben der Erwartung. Die Standardabweichung liegt sehr nah an der vorgegebenen dran. Die Streuung des Mittelwerts ($SE$) ist recht groß. Dies liegt natürlich an der sehr geringen Stichprobengröße. Folglich ist es auch nicht verwunderlich, dass wir so weit neben der Erwartung hinsichtlich des Mittelwerts gelandet sind. 
 
 
 ## Schleifen und andere Wege in `R` Operationen zu wiederholen
@@ -155,7 +158,7 @@ for(Schleifen_internes_Argument in Schleifen_externes_Argument)
 }
 ```
 
-Das `Schleifen_interne_Argument` (i.d.R. ein eindimensionales Symbol/Zahl/String) ist ein Platzhalter, der über das `Schleifen_externes_Argument` (i.d.R. ein Vektor) iteriert, also nach und nach die Elemente im externen Argument durchgeht. Die beiden sind durch den Ausdruck `in` getrennt: rechts davon steht das Symbol, das über die Ausprägungen im rechten Symbol iterieren soll. Zum Beispiel könnten wir über verschiedene Stichprobengrößen `N` iterieren. Dazu können wir zunächst `N` festlegen und anschließend `n` als das interne Argument verwenden:
+Das `Schleifen_interne_Argument` (i.d.R. ein eindimensionales Symbol/Zahl/String) ist ein Platzhalter, der über das `Schleifen_externes_Argument` (i.d.R. ein Vektor) iteriert, also nach und nach die Elemente im externen Argument durchgeht. Die beiden sind durch den Ausdruck `in` getrennt: links davon steht das Symbol, das über die Ausprägungen im rechten Symbol iterieren soll. Zum Beispiel könnten wir über verschiedene Stichprobengrößen `N` iterieren. Dazu können wir zunächst `N` festlegen und anschließend `n` als das interne Argument verwenden:
 
 
 ```r
@@ -399,7 +402,7 @@ X_data[[3]] # 3. Replikation
 ## [10]  5.23537996
 ```
 
-Nun könnten wir natürlich über die Listeneinträge mit einer `for`-Schleife iterieren, aber das ist nicht das Ziel dieses Abschnitts. Stattdessen erstellen wir eine Funktion, die wir `calculate_mean_SE` nennen wollen und welche den Mittelwert und den SE eines Vektors bestimmt und diesen als Liste ausgibt. Eine Funktion wird in `R` erzeugt, indem wir den Namen gefolgt vom Zuordnungspfeil `<-` und `fuction` schreiben. Die Funktion `function` erstellt dann eine Funktion mit unserem vorgegebenen Namen und nimmt als Argumente entgegen, was wir in die Funktion hineingeben wollen:
+Nun könnten wir natürlich über die Listeneinträge mit einer `for`-Schleife iterieren, aber das ist nicht das Ziel dieses Abschnitts. Stattdessen erstellen wir eine Funktion, die wir `calculate_mean_SE` nennen wollen und welche den Mittelwert und den SE eines Vektors bestimmt und diesen als Liste ausgibt. Eine Funktion wird in `R` erzeugt, indem wir den Namen gefolgt vom Zuordnungspfeil `<-` und `function` schreiben. Die Funktion `function` erstellt dann eine Funktion mit unserem vorgegebenen Namen und nimmt als Argumente entgegen, was wir in die Funktion hineingeben wollen:
 
 
 ```r
@@ -412,7 +415,7 @@ calculate_mean_SE <- function(X)
 }
 ```
 
-`calculate_mean_SE` ist der Name unserer Funktion (siehe [Appendix A](#AppendixA) für eine Kurzschreibweise dieser Funktion). Das Argument, welches wir in die Funktion übergeben heißt hier `X`. Es ist immer so, dass wir Elemente einer Funktion übergeben und Elemente, die in einer Funktion erstellt werden, sind dann auch nur in dieser verfügbar. Innerhalb der Funktion wird dann der Mittelwert in `M` und der $SE$ in `SE` abgespeichert. Diese beiden Argumente werden anschließend in einer Liste übergeben, wobei in Anführungszeichen die Namen der Argumente angegeben werden. Da jedoch Elemente innerhalb einer Funktion nur dort verfügbar sind, müssen wir diese Liste wieder aus der Funktion herausbekommen. Dies geht ganz einfach mit `return`, was bestimmt, was aus der Funktion herausgegeben wird und gleichzeitig auch die Funktion beendet. Dies zeigt auch, wieso wir `M` und `SE` nicht einzeln ausgegeben haben, da sobald `return`  das erste mal ausgeführt wird, die Funktion zu Ende ist! Durch die Liste haben wir die Möglichkeit mit beiden Argumenten weiterzumachen. Wenn wir die gesamte Funktion von `calculate_mean_SE <- function(X){` bis `}` markieren und ausführen, dann sollte die Funktion oben rechts in Ihrem `R`-Studiofenser unter der Rubrik **Functions** zu finden sein. Wir können die Funktion nun bspw. auf `X_data[[3]]` anwenden:
+`calculate_mean_SE` ist der Name unserer Funktion (siehe [Appendix A](#AppendixA) für eine Kurzschreibweise dieser Funktion). Das Argument, welches wir in die Funktion übergeben heißt hier `X`. Es ist immer so, dass wir Elemente einer Funktion übergeben und Elemente, die in einer Funktion erstellt werden, sind dann auch nur in dieser verfügbar. Innerhalb der Funktion wird dann der Mittelwert in `M` und der $SE$ in `SE` abgespeichert. Diese beiden Argumente werden anschließend in eine Liste übergeben, wobei in Anführungszeichen die Namen der Argumente angegeben werden. Da jedoch Elemente innerhalb einer Funktion nur dort verfügbar sind, müssen wir diese Liste wieder aus der Funktion herausbekommen. Dies geht ganz einfach mit `return`, was bestimmt, was aus der Funktion herausgegeben wird und gleichzeitig auch die Funktion beendet. Dies zeigt auch, wieso wir `M` und `SE` nicht einzeln ausgegeben haben, da sobald `return`  das erste mal ausgeführt wird, die Funktion zu Ende ist! Durch die Liste haben wir die Möglichkeit mit beiden Argumenten weiterzumachen. Wenn wir die gesamte Funktion von `calculate_mean_SE <- function(X){` bis `}` markieren und ausführen, dann sollte die Funktion oben rechts in Ihrem `R`-Studiofenster unter der Rubrik **Functions** zu finden sein. Wir können die Funktion nun bspw. auf `X_data[[3]]` anwenden:
 
 
 ```r
@@ -455,7 +458,7 @@ Erg3$StdError
 ## [1] 1.067786
 ```
 
-Diese Funktion können wir nun immer wieder auf `X_data` anwenden. Dies geht ganz einfach mit `lapply` (das `l` steht für list-wise):
+Diese Funktion können wir nun immer wieder auf `X_data` anwenden. Dies geht ganz einfach mit `lapply` (das `l` steht für listwise):
 
 
 ```r
@@ -471,7 +474,7 @@ Results[[3]] # 3. Listeneintrag
 ## [1] 1.067786
 ```
 
-Dem Argument `X` übergeben wir die Liste, auf welche wir unsere Funktion anwenden wollen. Dem Argument `FUN` übergeben wir die Funktion, die angewendet werden soll. Das Ergebnis speichern wir unter dem Namen `Result` ab. Es liegt als Liste vor. Wir haben uns mit `Results[[3]]` den 3. Listeneintrag ausgeben. Eine weitere Variante wäre `sapply` (`s` für simplified). Diese Funktion macht genau das gleiche wie `lapply` nur gibt sie eine Matrix aus (für weiter Information siehe bspw. auf [r-Bloggers](https://www.r-bloggers.com/2016/03/apply-lapply-rapply-sapply-functions-in-r-2/)):
+Dem Argument `X` übergeben wir die Liste, auf welche wir unsere Funktion anwenden wollen. Dem Argument `FUN` übergeben wir die Funktion, die angewendet werden soll. Das Ergebnis speichern wir unter dem Namen `Result` ab. Es liegt als Liste vor. Wir haben uns mit `Results[[3]]` den 3. Listeneintrag ausgeben. Eine weitere Variante wäre `sapply` (`s` für simplified). Diese Funktion macht genau das gleiche wie `lapply` nur gibt sie eine Matrix aus (für weitere Information siehe bspw. auf [r-Bloggers](https://www.r-bloggers.com/2016/03/apply-lapply-rapply-sapply-functions-in-r-2/)):
 
 
 ```r
@@ -488,16 +491,18 @@ sResults
 ## Simulationsstudien evaluieren
 Wir haben zwei Wege kennengelernt eine einfache Simulationsstudie in `R` durchzuführen. Nun müssen wir eine Aussage über die Güte des Mittelwertschätzers treffen. Dazu müssen wir den Parameterbias sowie den relativen Parameterbias bestimmen und somit eine Aussage über die Konsistenz der Schätzung zu treffen. Ein Schätzer ist konsistent, wenn er für größer werdende Stichproben gegen den wahren Wert strebt (*mathematisch bzgl. Mittelwert*: $\bar{X}_n\underset{n\to\infty}{\longrightarrow}\mathbb{E}[X]$ [mindestens] in Wahrscheinlichkeit; hier ist $\bar{X}_n$ der Mittelwert einer Stichprobe der Größe $n$/ eines Datenvektors der Länge $n$; dieser Ausdruck wird auch das [schwache] [Gesetz der großen Zahlen](https://de.wikipedia.org/wiki/Gesetz_der_großen_Zahlen) genannt). 
 
-Außerdem variiert ein Schätzer und hat somit eine Varianz $\mathbb{V}ar\left[\hat{\theta_j}\right]$. Wird ein statistisches Verfahren angewandt, so kann dieses in der Regel nur einmalig durchgeführt werden. Somit haben wir keinerlei Idee, wie stark der Schätzer durch Zufall variieren kann. Die Variation eines Schätzer kann glücklicherweise theoretisch hergeleitet werden - nämlich durch den Standardfehler eines Schätzers: diese Variation wollen wir mit dem $SE(\hat{\theta_j})$ beschreiben. Der Standardfehler gibt also eine modelltheoretische Schätzung ab, wie stark der jeweilige Schätzer gegeben diesem Modell variiert. Allerdings muss der theoretische $SE$ nicht immer die Variation der Schätzer ideal abbilden, was an Verstößen im Modell, kleinen Stichproben o.ä. liegen kann. Folglich müssen wir die Variation des Schätzers auch noch auf andere Art und Weise in der Simulation untersuchen - glücklicherweise können wir dies in einer Simulationsstudie recht einfach machen: damit wir den SE gut vergleichen können, bestimmen wir die Standardabweichung des Schätzers $SD(\hat{\theta_j})=\sqrt{\mathbb{V}ar\left[\hat{\theta_j}\right]}$, denn diese quantifiziert die Variation des Schätzers in unserer Simulation und gibt damit eine Schätzung für Streuung des Schätzers durch Zufall ab - genau diese Streuung wollen wir immer mit den Standardfehlern von Schätzern beschreiben! Somit vergleichen wir den mittleren $SE$ (auch MC**SE** für Monte-Carlo-**SE**) mit der Standardabweichung über alle Schätzungen (auch MC**SD** für Monte-Carlo-**SD**) und erhalten so eine Aussage darüber: 1) wie groß ist die Streuung der Schätzer und 2) wie genau können wir diese durch den $SE$ beschreiben, denn in einer Studie können wir eine Analyse in er Regel nur einmalig durchführen und müssen dann mit dem $SE$ eine Schätzung für die Streuung des Parameters erhalten -- dieser muss folglich möglichst nah an der $SD$ liegen! Ein Verfahren ist effizient, wenn seine (modellimplizierten) $SE$ klein sind und genau geschätzt werden, also nah an der wahren erwarteten Variation dran liegen (also MCSE und MCSD übereinstimmen). 
+Außerdem variiert ein Schätzer und hat somit eine Varianz $\mathbb{V}ar\left[\hat{\theta_j}\right]$. Wird ein statistisches Verfahren angewandt, so kann dieses in der Regel nur einmalig durchgeführt werden. Somit haben wir keinerlei Idee, wie stark der Schätzer durch Zufall variieren kann. Die Variation eines Schätzer kann glücklicherweise theoretisch hergeleitet werden - nämlich durch den Standardfehler eines Schätzers: diese Variation wollen wir mit dem $SE(\hat{\theta_j})$ beschreiben. Der Standardfehler gibt also eine modelltheoretische Schätzung ab, wie stark der jeweilige Schätzer gegeben diesem Modell variiert. Allerdings muss der theoretische $SE$ nicht immer die Variation der Schätzer ideal abbilden, was an Verstößen im Modell, kleinen Stichproben oder Ähnlichem liegen kann. Folglich müssen wir die Variation des Schätzers auch noch auf andere Art und Weise in der Simulation untersuchen - glücklicherweise können wir dies in einer Simulationsstudie recht einfach machen: Damit wir den SE gut vergleichen können, bestimmen wir die Standardabweichung des Schätzers $SD(\hat{\theta_j})=\sqrt{\mathbb{V}ar\left[\hat{\theta_j}\right]}$, denn diese quantifiziert die Variation des Schätzers in unserer Simulation und gibt damit eine Schätzung für die Streuung des Schätzers durch Zufall ab - genau diese Streuung wollen wir immer mit den Standardfehlern von Schätzern beschreiben! Somit vergleichen wir den mittleren $SE$ (auch MC**SE** für Monte-Carlo-**SE**) mit der Standardabweichung über alle Schätzungen (auch MC**SD** für Monte-Carlo-**SD**) und erhalten so eine Aussage darüber: 1) wie groß ist die Streuung der Schätzer und 2) wie genau wir diese durch den $SE$ beschreiben können, denn in einer Studie können wir eine Analyse in der Regel nur einmalig durchführen und müssen dann mit dem $SE$ eine Schätzung für die Streuung des Parameters erhalten -- dieser muss folglich möglichst nah an der $SD$ liegen! Ein Verfahren ist effizient, wenn seine (modellimplizierten) $SE$ klein sind und genau geschätzt werden, also nah an der wahren erwarteten Variation dran liegen (also MCSE und MCSD übereinstimmen). 
 
 Sei dazu $\hat{\theta}_j$ die Schätzung (hier der Mittelwert) der $j$-ten Studie ($j=1,\dots,k$, $k$ ist die Anzahl an Replikationen, in unserem Beispiel ist $k=10$) für den wahren Wert $\theta$ und $SE(\hat{\theta}_j)$ der zugehörige Standardfehler. Dann können wir (absoluten) Bias, relativen Bias, MCSD und MCSE wie folgt definieren:
 
+<div class = "big-maths">
 \begin{align}
 \text{Bias}&=\bar{\hat{\theta}}-\theta\\
 \text{Rel-Bias}&=\frac{\bar{\hat{\theta}}-\theta}{\theta}\\
 \text{MCSD}&=SD(\hat{\theta_j})\\
 \text{MCSE}&=\overline{SE(\hat{\theta}_j)},
 \end{align}
+</div>
 
 wobei der Strich über den Variablen jeweils den Mittelwert symbolisiert. Der Hut \^ symbolisiert, dass hier etwas geschätzt wird. 
 
@@ -514,25 +519,27 @@ $$MSE(\hat{\theta},\theta)=\mathbb{E}\left[(\hat{\theta}-\theta)^2\right]=\mathb
 er hängt also von der Streuung des Schätzers $\mathbb{V}ar\left[\hat{\theta}\right]$ sowie vom Bias $Bias(\hat{\theta},\theta)$ im Quadrat ab. Wir erwarten also einen großen $MSE$, wenn der Schätzer stark streut, wenn der Bias groß ist oder wenn beide stark ausgeprägt sind. Der $RMSE$ ist nun nichts Weiteres als die Wurzel aus dem $MSE$, damit man diesen wieder in der Skala des Schätzers interpretieren kann:
 
 $$RMSE=\sqrt{MSE}.$$
-Unter Konstanthaltung alles weiterem in der Simulationsstudie, sollte der Bias und die Streuung mit der Stichprobengröße kleiner werden. Dies liegt an der Konvergenz des Schätzers $\hat{\theta}$ gegen den wahren Wert $\theta$ (falls er denn Konsistent ist, falls nicht, so pendelt sich dennoch der Bias um einen festen Wert ein, wenn das Verfahren denn auf einen festen Wert konvergiert - ansonsten macht das Verfahren in der Regel auch keinen Sinn!). Die kleiner werdende Streuung macht sich im kleiner werdenden $MCSD$ und $MCSE$ bemerkbar. Folglich wird auch der $RMSE$ mit steigender Stichprobengröße kleiner!
+Unter Konstanthaltung alles weiterem in der Simulationsstudie, sollte der Bias und die Streuung mit der Stichprobengröße kleiner werden. Dies liegt an der Konvergenz des Schätzers $\hat{\theta}$ gegen den wahren Wert $\theta$ (falls er denn konsistent ist, falls nicht, so pendelt sich dennoch der Bias um einen festen Wert ein, wenn das Verfahren denn auf einen festen Wert konvergiert - ansonsten macht das Verfahren in der Regel auch keinen Sinn!). Die kleiner werdende Streuung macht sich im kleiner werdenden $MCSD$ und $MCSE$ bemerkbar. Folglich wird auch der $RMSE$ mit steigender Stichprobengröße kleiner!
 
-Führen wir einen Signifikanztest durch, so können wir die Power oder den Type I-Error eines Tests bestimmen (siehe auch [Einführungssitzung zu PsyMSc1](/post/einleitung-und-wiederholung), wo diese Begriffe bereits behandelt werden). Der Type I-Error ist der Fehler erster Art oder $\alpha$-Fehler. Wir messen ihn in Wahrscheinlichkeiten. Wir begehen einen $\alpha$-Fehler, wenn wir die $H_0$ verwerfen, obwohl diese gilt. Diese Wahrscheinlichkeit des $\alpha$-Fehlers sollte beim vorgegebenen $\alpha$-Niveau (i.d.R. $\alpha=5\%$) liegen. Gilt die $H_0$ nicht, so möchten wir, dass ein Test dies uns mit möglichst großer Wahrscheinlichkeit anzeigt. Die Wahrscheinlichkeit richtigerweise die $H_0$ zu verwerfen wird als *Power* bezeichnet. Hier können wir bspw. die Wahrscheinlichkeit bestimmen, dass das Konfidenzintervall nicht die 0 einschließt (somit der Effekt signifikant von 0 verschieden ist) - gleiches erreichen wir, indem wir einfach den Effekt durch seinen $SE$ teilen ($\left|\frac{Est}{SE}\right|$ und vergleiche bspw. mit 1.96). Untersuchen wir einen "richtigen" Test (z.B. ANOVA), so schauen wir uns die relative Häufigkeit eines signifikanten Ergebnisses an (also die relative Häufigkeit von $p<0.05$).  Die Power sollte möglichst groß sein (z.B. hätten Methodiker gerne, dass Power $\ge 80\%$ gilt). Liegt kein Effekt vor (was wir durch Vorgaben im Modell so entscheiden), so beschreibt die Power (so wie eben beschrieben) gerade den Type I-Error, also den Fehler erster Art. Dieser sollte gerade mit Wahrscheinlichkeit des $\alpha$-Niveaus auftreten. Somit sollte der Type I-Error möglichst nah an der $5\%$-Marke liegen:
+Führen wir einen Signifikanztest durch, so können wir die Power oder den Type I-Error eines Tests bestimmen (siehe auch [Einführungssitzung zu PsyMSc1](/fue-i/einleitung-fue), wo diese Begriffe bereits behandelt werden). Der Type I-Error ist der Fehler erster Art oder $\alpha$-Fehler. Wir messen ihn in Wahrscheinlichkeiten. Wir begehen einen $\alpha$-Fehler, wenn wir die $H_0$ verwerfen, obwohl diese gilt. Diese Wahrscheinlichkeit des $\alpha$-Fehlers sollte beim vorgegebenen $\alpha$-Niveau (i.d.R. $\alpha =$ {{<math>}}$5\%${{</math>}}) liegen. Gilt die $H_0$ nicht, so möchten wir, dass ein Test dies uns mit möglichst großer Wahrscheinlichkeit anzeigt. Die Wahrscheinlichkeit richtigerweise die $H_0$ zu verwerfen wird als *Power* bezeichnet. Hier können wir bspw. die Wahrscheinlichkeit bestimmen, dass das Konfidenzintervall nicht die 0 einschließt (somit der Effekt signifikant von 0 verschieden ist) - gleiches erreichen wir, indem wir einfach den Effekt durch seinen $SE$ teilen ($\left|\frac{Est}{SE}\right|$ und vergleiche bspw. mit 1.96). Untersuchen wir einen "richtigen" Test (z.B. ANOVA), so schauen wir uns die relative Häufigkeit eines signifikanten Ergebnisses an (also die relative Häufigkeit von $p<0.05$).  Die Power sollte möglichst groß sein (z.B. hätten Methodiker gerne, dass Power {{<math>}}$\ge 80\%${{</math>}} gilt). Liegt kein Effekt vor (was wir durch Vorgaben im Modell so entscheiden), so beschreibt die Power (so wie eben beschrieben) gerade den Type I-Error, also den Fehler erster Art. Dieser sollte gerade mit Wahrscheinlichkeit des $\alpha$-Niveaus auftreten. Somit sollte der Type I-Error möglichst nah an der {{<math>}}$5\%${{</math>}}-Marke liegen:
 
+<div class = "big-maths">
 \begin{align}
 \text{Type I-Error}&=\mathbb{P}\left(H_0 \text{ verwerfen } | H_0 \text{ gilt}\right)\\
 \text{Power}&=\mathbb{P}\left(H_0 \text{ verwerfen } | H_1 \text{ gilt}\right).
 \end{align}
+</div>
 
-Außerdem können wir mit Hilfe der SEs von Effektparametern ein Konfidenzintervall bestimmen und dann untersuchen, wie wahrscheinlich es ist, den wahren Wert in diesem Konfidenzintervall einzuschließen. Es ergibt sich das symmetrische Konfidenzintervall (unter asymptotischer Normalverteilungsannahme des Schätzers) zu einem $\alpha$-Niveau von $5\%$ (dieses kennen Sie vielleicht noch aus dem ersten Semester):
+Außerdem können wir mit Hilfe der SEs von Effektparametern ein Konfidenzintervall bestimmen und dann untersuchen, wie wahrscheinlich es ist, den wahren Wert in diesem Konfidenzintervall einzuschließen. Es ergibt sich das symmetrische Konfidenzintervall (unter asymptotischer Normalverteilungsannahme des Schätzers) zu einem $\alpha$-Niveau von {{<math>}}$5\%${{</math>}} (dieses kennen Sie vielleicht noch aus dem ersten Semester):
 $$\Big[\hat{\theta}_j - 1.96SE(\theta_j);\ \ \hat{\theta}_j + 1.96SE(\theta_j)\Big]$$
 
-Die Wahrscheinlichkeit, dass der wahre Werte in diesem Konfidenzintervall liegt, wird die "Coverage" genannt (im Grunde engl. für die Überdeckungswahrscheinlichkeit des wahren Wertes mit einem Konfidenzintervall) und sollte bei $95\%$ liegen (sofern $\alpha=5\%$ gewählt wurde). Folglich sollte sich die Schätzung nur in 5% der Fälle zufällig vom wahren Wert unterscheiden!
+Die Wahrscheinlichkeit, dass der wahre Werte in diesem Konfidenzintervall liegt, wird die "Coverage" genannt (im Grunde engl. für die Überdeckungswahrscheinlichkeit des wahren Wertes mit einem Konfidenzintervall) und sollte bei {{<math>}}$95\%${{</math>}} liegen (sofern $\alpha=$ {{<math>}}$5\%${{</math>}} gewählt wurde). Folglich sollte sich die Schätzung nur in {{<math>}}$5\%${{</math>}} der Fälle zufällig vom wahren Wert unterscheiden!
 
 \begin{align}
 \text{Coverage}&=\mathbb{P}\left(\theta \in \left[\hat{\theta}_j - 1.96SE(\hat{\theta_j});\ \ \hat{\theta}_j + 1.96SE(\hat{\theta_j})\right]\right).
 \end{align}
 
-Der Type I-Error sollte sich mit steigender Stichprobengröße bei dem vorgegebenem $\alpha$-Niveau einpendeln (i.d.R. $\alpha=5\%$). Die Power sollte mit steigender Stichprobengröße steigen und irgendwann bei $100\%$ liegen; die Coverage sollte sich bei $95\%$ einpendeln.
+Der Type I-Error sollte sich mit steigender Stichprobengröße bei dem vorgegebenem $\alpha$-Niveau einpendeln (i.d.R. $\alpha =$ {{<math>}}$5\%${{</math>}}). Die Power sollte mit steigender Stichprobengröße steigen und irgendwann bei {{<math>}}$100\%${{</math>}} liegen; die Coverage sollte sich bei {{<math>}}$95\%${{</math>}} einpendeln.
 
 ### Konsistenz und Bias
 Wir bestimmen zunächst den Mittelwert über alle Mittelwertschätzungen (also $\bar{\hat{\theta}}$).
@@ -589,10 +596,10 @@ Rel_Bias * 100 # in Prozent
 ## [1] 0.3640703
 ```
 
-Der relative Bias liegt bei 0.36 $\%$ und ist damit sehr gering. Der Mittelwert scheint bereits für kleine Stichproben konsistent für den Erwartungswert (den Populationsmittelwert) zu sein.
+Der relative Bias liegt bei $0.36$ {{<math>}}$\%${{</math>}} und ist damit sehr gering. Der Mittelwert scheint bereits für kleine Stichproben konsistent für den Erwartungswert (den Populationsmittelwert) zu sein.
 
 ### Effizienz und der Vergleich von MCSE und MCSD
-Damit ein Verfahren gut funktioniert, bzw. ein Schätzer gut funktioniert, so muss der Standardfehler vertrauenerweckend sein, also die Variation des Schätzers gut abbilden. Entsprechend müssen wir den mittleren $SE$ mit der SD über die Schätzungen vergleichen (da beide Methoden der Simulation zum selben Ergebnis gekommen sind, konzentrieren wir uns auf die Erste): 
+Damit ein Verfahren gut funktioniert bzw. ein Schätzer gut funktioniert, muss der Standardfehler vertrauenerweckend sein, also die Variation des Schätzers gut abbilden. Entsprechend müssen wir den mittleren $SE$ mit der SD über die Schätzungen vergleichen (da beide Methoden der Simulation zum selben Ergebnis gekommen sind, konzentrieren wir uns auf die erste): 
 
 
 ```r
@@ -638,7 +645,7 @@ Rel_Bias_SE
 ## [1] 0.468704
 ```
 
-Oft wird auch einfach MCSE durch MCSD geteilt, um den relativen Bias direkt ablesen zu können. Insgesamt liegt der relative Bias der Streuung der Mittelwertsschätzung bei ca 46.87 $\%$, was enorm groß ist. Allerdings ist die Schätzung der MCSD bei einer so geringen Replikationszahl nicht sehr genau. MCSE hingegen funktioniert bereits recht gut. Dies können wir in diesem spezifischen Beispiel auch daran erkennen, dass wir wissen, wie groß die wahre Streuung in den Daten ist, denn wir haben die Standardabweichung mit 5 vorgegeben. Anschließend müssen wir diese durch die Wurzel an Ziehungen teilen und erhalten so den wahren SE (nämlich $\frac{5}{\sqrt{10}}$):
+Oft wird auch einfach MCSE durch MCSD geteilt, um den relativen Bias direkt ablesen zu können. Insgesamt liegt der relative Bias der Streuung der Mittelwertsschätzung bei circa 46.87 {{<math>}}$\%${{</math>}}, was enorm groß ist. Allerdings ist die Schätzung der MCSD bei einer so geringen Replikationszahl nicht sehr genau. MCSE hingegen funktioniert bereits recht gut. Dies können wir in diesem spezifischen Beispiel auch daran erkennen, dass wir wissen, wie groß die wahre Streuung in den Daten ist, denn wir haben die Standardabweichung mit 5 vorgegeben. Anschließend müssen wir diese durch die Wurzel an Ziehungen teilen und erhalten so den wahren SE (nämlich $\frac{5}{\sqrt{10}}$):
 
 
 ```r
@@ -657,7 +664,7 @@ MCSE - 5/sqrt(10)                   # Bias zum wahren SE
 ## [1] 0.007194755
 ```
 
-Hier sehen wir nun, dass die $SE$s bereits gut funktionieren für eine Stichprobengröße von 10. Der relative Bias liegt bei unter $1\%$. Wenn wir gleiche Simulation mit wesentlich mehr Replikationen bei gleicher niedriger Stichprobengröße von 10 durchführen würden, dann sollte sich der MCSD ebenfalls bei $\frac{5}{\sqrt{10}}$ einpendeln! Insgesamt ist zu sagen, dass der Schätzer "Mittelwert" effizient ist. Das ist allerdings kein Wundernis, da dies bereits seit zahlreichen Jahrzehnten bekannt ist.
+Hier sehen wir nun, dass die $SE$s bereits gut funktionieren für eine Stichprobengröße von 10. Der relative Bias liegt bei unter {{<math>}}$1\%${{</math>}}. Wenn wir gleiche Simulation mit wesentlich mehr Replikationen bei gleicher niedriger Stichprobengröße von 10 durchführen würden, dann sollte sich der MCSD ebenfalls bei $\frac{5}{\sqrt{10}}$ einpendeln! Insgesamt ist zu sagen, dass der Schätzer "Mittelwert" effizient ist. Das ist allerdings kein Wundernis, da dies bereits seit zahlreichen Jahrzehnten bekannt ist.
 
 ### RMSE
 Um nun sowohl Bias als auch Streuung des Schätzers in Einem beurteilen zu können, bestimmen wir den $RMSE$. Dazu bestimmen wir den Bias pro Replikation (also die Differenz vom wahren Wert) und berechnen davon dann die Standardabweichung:
@@ -750,10 +757,10 @@ Der $RMSE$ sagt uns, dass die Standardabweichung um den wahren Wert bei 1.03 lie
 
 
 ### Coverage, Power und Type I-Error
-Die Coverage kann für jeden Koeffizienten eines Modells bestimmt werden. Jedoch hängt es von der Ausprägung des Populationsparameters ab, ob wir die Power oder den Type I-Error bestimmen. Dies ist jedoch nur eine Namensentscheidung. Beides wir gleich bestimmt. 
+Die Coverage kann für jeden Koeffizienten eines Modells bestimmt werden. Jedoch hängt es von der Ausprägung des Populationsparameters ab, ob wir die Power oder den Type I-Error bestimmen. Dies ist jedoch nur eine Namensentscheidung. Beides wird gleich bestimmt. 
 
 #### Power und Type I-Error bestimmen
-In unserer kleinen Simulation haben wir den Mittelwert von normalverteilten Zufallsvariablen untersucht. Wir könnten uns also die Frage stellen, ob dieser Mittelwert von 0 verschieden ist. Dazu könnten wir einen Test durchführen (z.B. Einstichproben-$z$-Test) oder wir teilen den Mittelwert durch seinen modellimplizierten $SE$ (was in diesem spezifischen Beispiel gerade das selbe ist). Da wir bereits wissen, dass der wahre Mittelwert bei 4 liegt, bestimmen wir auf diese Weise die Power dieses Koeffizienten. Wir müssen zunächst prüfen, wann $\left|\frac{Est}{SE}\right|>1.96$ gilt (bzw. $\left|\frac{\bar{\hat{\theta}}}{SE(\hat{\theta}_j)}\right|>1.96$)-  wir müssen hierbei den Absolutbetrag beachten, da dieser Bruch durchaus auch negativ sein kann, wir wollen aber keine gerichtete Hypothese untersuchen. Die Funktion in `R` heißt `abs`:
+In unserer kleinen Simulation haben wir den Mittelwert von normalverteilten Zufallsvariablen untersucht. Wir könnten uns also die Frage stellen, ob dieser Mittelwert von 0 verschieden ist. Dazu könnten wir einen Test durchführen (z.B. Einstichproben-$z$-Test) oder wir teilen den Mittelwert durch seinen modellimplizierten $SE$ (was in diesem spezifischen Beispiel gerade das selbe ist). Da wir bereits wissen, dass der wahre Mittelwert bei 4 liegt, bestimmen wir auf diese Weise die Power dieses Koeffizienten. Wir müssen zunächst prüfen, wann $\left|\frac{Est}{SE}\right|>1.96$ gilt (bzw. $\left|\frac{\bar{\hat{\theta}}}{SE(\hat{\theta}_j)}\right|>1.96$). Wir müssen hierbei den Absolutbetrag beachten, da dieser Bruch durchaus auch negativ sein kann, wir wollen aber keine gerichtete Hypothese untersuchen. Die Funktion in `R` heißt `abs`:
 
 
 ```r
@@ -785,7 +792,7 @@ abs(M/SE) > 1.96
 ##  [1]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE
 ```
 
-An `TRUE` und `FALSE` erkennen wir, wann der Ausdruck größer als 1.96 ist. Wenn wir nun den Mittelwert auf diesen Vektor aus `TRUE` und `FALSE` anwenden, dann erhalten wir die relative Häufigkeit für Erfolg (`TRUE`). Die `mean` Funktion bestimmt die relative Häufigkeit von `TRUE` da `TRUE` `R`-intern als 1 und `FALSE`  `R`-intern als 0 verstanden wird (siehe auch [Sitzung zur logistischen Regression](/post/logistische-regression) um relative Häufigkeiten von 01-Folgen zu wiederholen!).
+An `TRUE` und `FALSE` erkennen wir, wann der Ausdruck größer als 1.96 ist. Wenn wir nun den Mittelwert auf diesen Vektor aus `TRUE` und `FALSE` anwenden, dann erhalten wir die relative Häufigkeit für Erfolg (`TRUE`). Die `mean` Funktion bestimmt die relative Häufigkeit von `TRUE` da `TRUE` `R`-intern als 1 und `FALSE`  `R`-intern als 0 verstanden wird (siehe auch [Sitzung zur logistischen Regression](/fue-i/logistische-regression-titanic) um relative Häufigkeiten von 01-Folgen zu wiederholen!).
 
 
 
@@ -797,13 +804,13 @@ mean(abs(M/SE) > 1.96)
 ## [1] 0.7
 ```
 
-Die Power liegt hier bei 0.7, was 70% entspricht! Die Power können wir außerdem auch in der Grafik zur Coverage im nächsten Abschnitt ablesen. Dort wird das Konfidenzintervall jeder Schätzung dargestellt. Die Power ist hier somit die Wahrscheinlichkeit, dass diese Konfidenzintervall nicht die 0 einschließt. Da in der Grafik die 0 nur in Trial 6, 8 und 10 eingeschlossen wird, bedeutet dies, dass die H0 nur in 3 von 10 Fällen nicht verworfen wird. Gleichzeitig bedeutet dies, dass sie in 7 von 10 Fällen verworfen wird, denn in Trial 1, 2, 3, 4, 5, 7 und 9 wird die 0 nicht durch das Konfidenzintervall des Schätzer mit eingeschlossen. Somit ist die $Power = \frac{7}{10}=.7$, was den eben erwähnten $70\%$ entspricht.
+Die Power liegt hier bei 0.7, was {{<math>}}$70\%${{</math>}} entspricht! Die Power können wir außerdem auch in der Grafik zur Coverage im nächsten Abschnitt ablesen. Dort wird das Konfidenzintervall jeder Schätzung dargestellt. Die Power ist hier somit die Wahrscheinlichkeit, dass dieses Konfidenzintervall nicht die 0 einschließt. Da in der Grafik die 0 nur in Trial 6, 8 und 10 eingeschlossen wird, bedeutet dies, dass die $H_0$ nur in 3 von 10 Fällen nicht verworfen wird. Gleichzeitig bedeutet dies, dass sie in 7 von 10 Fällen verworfen wird, denn in Trial 1, 2, 3, 4, 5, 7 und 9 wird die 0 nicht durch das Konfidenzintervall des Schätzer mit eingeschlossen. Somit ist die $Power = \frac{7}{10}=.7$, was den eben erwähnten {{<math>}}$70\%${{</math>}} entspricht.
 
 #### Coverage bestimmen
-Um die Coverage zu bestimmen, müssen wir uns das Konfidenzintervall ansehen, denn wir wollen untersuchen, ob sich die Schätzung signifikant vom wahren Wert unterscheidet (das wäre nämlich nicht gewünscht!). Für unsere 10 Trials sieht das ganze so aus (Grafik-Code können Sie [Appendix B](AppendixB) entnehmen):
-<img src="/lehre/simulation/simulationsstudien_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" />
+Um die Coverage zu bestimmen, müssen wir uns das Konfidenzintervall ansehen, denn wir wollen untersuchen, ob sich die Schätzung signifikant vom wahren Wert unterscheidet (das wäre nämlich nicht gewünscht!). Für unsere 10 Trials sieht das ganze so aus (Grafik-Code können Sie [Appendix B](#AppendixB) entnehmen):
+![](/lehre/simulation/simulationsstudien_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
 
-Wir sehen, dass die Konfidenzintervalle hier immer (in 100% der Fälle) den wahren Wert (hier die horizontale gestrichelte Linie) enthält und somit die Schätzung sich nicht signifikant vom wahren Wert unterscheidet. Somit liegt die Coverage bei 100% (für große Stichproben und viele Replikationen sollte sie bei 95% liegen, bzw. allgemein bei $1-\alpha$ für beliebiges $\alpha$). In `R` müssen wir prüfen, ob der wahre Wert oberhalb der unteren Grenze und unterhalb der oberen Grenze des Konfidenzintervalls liegt. Wir können mehrere `TRUE` oder `FALSE` Abfragen mit `&` (*and*-Verknüpfung) verketten (es müssen beide `TRUE` sein, damit insgesamt `TRUE` entsteht). Die Coverage ergibt sich als:
+Wir sehen, dass die Konfidenzintervalle hier immer (in {{<math>}}$100\%${{</math>}} der Fälle) den wahren Wert (hier die horizontale gestrichelte Linie) enthält und somit die Schätzung sich nicht signifikant vom wahren Wert unterscheidet. Somit liegt die Coverage bei {{<math>}}$100\%${{</math>}} (für große Stichproben und viele Replikationen sollte sie bei {{<math>}}$95\%${{</math>}} liegen, bzw. allgemein bei $1-\alpha$ für beliebiges $\alpha$). In `R` müssen wir prüfen, ob der wahre Wert oberhalb der unteren Grenze und unterhalb der oberen Grenze des Konfidenzintervalls liegt. Wir können mehrere `TRUE` oder `FALSE` Abfragen mit `&` (*and*-Verknüpfung) verketten (es müssen beide `TRUE` sein, damit insgesamt `TRUE` entsteht). Die Coverage ergibt sich als:
 
 
 ```r
@@ -816,19 +823,21 @@ mean(M - 1.96 * SE <= 4 & M + 1.96 * SE >= 4)
 
 wobei links vom `&` abgefragt wird, ob der wahre Wert (hier = 4) oberhalb (oder genau auf) der unteren Grenze (`M - 1.96 * SE`) liegt und rechts vom `&` wird abgefragt, ob der wahre Wert unterhalb (oder genau auf) der oberen Grenze (`M + 1.96 * SE`) liegt. Wenn wir uns ein paar Gedanken darüber machen, so erkennen wir, dass wir auch vom Mittelwert und von den Grenzen jeweils den wahren Wert abziehen können und anschließend prüfen können, ob die Null in diesem neuen Intervall liegt. 
 
-<img src="/lehre/simulation/simulationsstudien_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" />
+![](/lehre/simulation/simulationsstudien_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 Dies ist das Gleiche, wie zu prüfen, ob der absolute Bias pro Trial geteilt durch den jeweiligen $SE$ kleiner als/gleich 1.96 (und damit nicht signifikant von Null verschieden) ist: 
 
 $$\frac{|\hat{\theta}_j-\theta|}{SE(\hat{\theta_j})}\le1.96$$
 
-Damit ist ersichtlich, dass Bias, MCSE, MCSD und Coverage nicht unabhängig sind, denn ist der Bias groß und die Streuung klein, so sollte die Coverage ebenfalls klein sein. Bei erwartungstreuen Schätzern (jenen Schätzern, die [für große Stichproben] im Mittel beim wahren Wert rauskommen), sollte der Bias gerade nur in 5% der Fälle zufällig von 0 signifikant sein, ist das Verfahren jedoch verzerrt, so ist diese Wahrscheinlichkeit deutlich größer und die Coverage entsprechend klein. Genauso können Verzerrungen der Streuung Einflüsse auf die Coverage nehmen. Ist bspw. der SE zu klein, so ist die Coverage ebenfalls kleiner als 95% (in beiden Fällen ist jeweils angenommen, dass $\alpha = 5\%$ gewählt wurde). Es sollte folglich im Idealfall gelten:
+Damit ist ersichtlich, dass Bias, MCSE, MCSD und Coverage nicht unabhängig sind, denn ist der Bias groß und die Streuung klein, so sollte die Coverage ebenfalls klein sein. Bei erwartungstreuen Schätzern (jenen Schätzern, die [für große Stichproben] im Mittel beim wahren Wert rauskommen), sollte der Bias gerade nur in {{<math>}}$5\%${{</math>}} der Fälle zufällig von 0 signifikant sein, ist das Verfahren jedoch verzerrt, so ist diese Wahrscheinlichkeit deutlich größer und die Coverage entsprechend klein. Genauso können Verzerrungen der Streuung Einflüsse auf die Coverage nehmen. Ist bspw. der SE zu klein, so ist die Coverage ebenfalls kleiner als {{<math>}}$95\%${{</math>}} (in beiden Fällen ist jeweils angenommen, dass $\alpha =$ {{<math>}}$5\%${{</math>}} gewählt wurde). Es sollte folglich im Idealfall gelten:
 
+<div class = "big-maths">
 \begin{align}
 \text{Coverage}&=\mathbb{P}\left(\theta \in \left[\hat{\theta}_j - 1.96SE(\hat{\theta_j});\ \ \hat{\theta}_j + 1.96SE(\hat{\theta_j})\right]\right)\\
 &=\mathbb{P}\left(\frac{|\hat{\theta}_j-\theta|}{SE(\hat{\theta_j})}\le1.96\right)\\
 &=0.95.
 \end{align}
+</div>
 
 
 
@@ -854,7 +863,8 @@ Andere Modelle, wie bspw. ein Regressionsmodell, simulieren Sie, indem Sie mehre
 
 Interessante weitere Informationen bspw. zum Simulieren von SEM oder Multi-Level-Daten finden Sie bspw. in dem Online Buch [Monte Carlo Simulation Examples](https://bookdown.org/marklhc/notes/simulating-means-and-medians.html).
 
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie {{<icon name = "download" pack = "fas">}}[hier](https://raw.githubusercontent.com/jpirmer/MSc1_FEI/master/R-Scripts/1_Simulationsstudien_RCode.R) herunterladen.
+
+<!-- Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie {{<icon name = "download" pack = "fas">}}[hier](https://raw.githubusercontent.com/jpirmer/MSc1_FEI/master/R-Scripts/1_Simulationsstudien_RCode.R) herunterladen. -->
 
 
 
@@ -906,7 +916,7 @@ my_coverage_function(Est = M, SE = SE, truth = 4)
 </details>
 
 
-### Appendix B
+### Appendix B {#AppendixB}
 
 <details><summary><b>Grafik-Code</b></summary>
 
@@ -919,7 +929,7 @@ library(ggplot2)
 ggplot(data = MSE,mapping = aes(x = Trial, y = M)) + geom_point(cex = 4)+geom_hline(yintercept = 4, lty = 3)+geom_errorbar(mapping = aes(ymin = M - 1.96*SE, ymax = M + 1.96*SE))+ggtitle("Konfidenzintervalle", subtitle = "Coverage ist die Wahrscheinlichkeit den wahren Wert einzuschließen")
 ```
 
-<img src="/lehre/simulation/simulationsstudien_files/figure-html/unnamed-chunk-41-1.png" style="display: block; margin: auto;" />
+![](/lehre/simulation/simulationsstudien_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
 
 
 ```r
@@ -931,7 +941,7 @@ library(ggplot2)
 ggplot(data = MSE, mapping = aes(x = Trial, y = M_transformed)) + geom_point(cex = 4)+geom_hline(yintercept = 0, lty = 3)+geom_errorbar(mapping = aes(ymin = M_transformed - 1.96*SE, ymax = M_transformed + 1.96*SE))+ggtitle("Konfidenzintervalle um den wahren Wert verschoben", subtitle = "Coverage ist die Wahrscheinlichkeit den wahren Wert einzuschließen")
 ```
 
-<img src="/lehre/simulation/simulationsstudien_files/figure-html/unnamed-chunk-42-1.png" style="display: block; margin: auto;" />
+![](/lehre/simulation/simulationsstudien_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
 
 </details>
 
@@ -993,7 +1003,7 @@ sResults <- pbsapply(X = X_data, FUN = calculate_mean_SE)
 
 Hier ist nun auch deutlich zu sehen, dass `apply` schneller als die `for`-Schleife ist, wobei wir hier beachten müssen, dass bereits in `replicate` die Daten erzeugt werden, was auch sehr viel Zeit kostet - allerdings nicht so viel wie die `for`-Schleife. Dies liegt ganz einfach daran, dass `R` nicht für Schleifen optimiert ist, sondern für vektorbasierte Verfahren und Operationen.
 
-Wir müssen allerdings auch beachten, dass die Progressbar natürlich auch leichte Einflüsse auf die Performanz nimmt und die Funktionen so ganz leicht langsamer werden! Wenn solche Funktionen sehr lange dauern, dann besteht die Möglichkeit die Prozesse auf mehrere Kerne der CPU zu verteilen und so gleichzeitig mehrere Replikationen zu verrechnen. Bei Interesse wenden Sie sich an [Julien Irmer](/authors/irmer).
+Wir müssen allerdings auch beachten, dass die Progressbar natürlich auch leichte Einflüsse auf die Performanz nimmt und die Funktionen so ganz leicht langsamer werden! Wenn solche Funktionen sehr lange dauern, dann besteht die Möglichkeit die Prozesse auf mehrere Kerne der CPU zu verteilen und so gleichzeitig mehrere Replikationen zu verrechnen. Bei Interesse wenden Sie sich an [Julien Irmer](/authors/julien-p.-irmer).
 
 </details>
 
@@ -1080,7 +1090,7 @@ pi # aus R
 ## [1] 3.141593
 ```
 
-Uns fallen 2 Dinge auf: die Simulation braucht extrem lang und ist nur auf 2 Nachkommastellen genau, denn in `R` liefert `pi` auch $\pi$ auf einige Nachkommastellen. Die lange Dauer liegt daran, dass dies umständlich programmiert ist. Wir können das Ganze stark verkürzen, indem wir mit Vektoren arbeiten: 
+Uns fallen 2 Dinge auf: Die Simulation braucht extrem lang und ist nur auf 2 Nachkommastellen genau, denn in `R` liefert `pi` auch $\pi$ auf einige Nachkommastellen. Die lange Dauer liegt daran, dass dies umständlich programmiert ist. Wir können das Ganze stark verkürzen, indem wir mit Vektoren arbeiten: 
 
 
 ```r

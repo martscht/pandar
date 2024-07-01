@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [irmer]
 weight: 
-lastmod: '2024-06-27'
+lastmod: '2024-07-01'
 featured: no
 banner:
   image: "/header/apples.jpg"
@@ -24,6 +24,10 @@ links:
     icon: book
     name: Inhalte
     url: /lehre/simulation/simulationsstudien
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /lehre/simulation/selektionseffekte.R
 
 output:
   html_document:
@@ -33,15 +37,14 @@ output:
 
 
 
-
 ## Einleitung
-Selektionseffekte können drastische Auswirkungen auf Datenanalysen haben. Sie treten auf, wenn die Stichprobe nicht repräsentativ für die Grundgesamtheit ist, da nur ein ganz bestimmter Teil beobachtbar war. Hängt die Selektion von einer Variable ab, die wir erhoben haben, so können wir diesen Effekt herausrechnen. Einer der Ersten denen dies gelang war der Ökonom James J. Heckman ([Heckman, 1979](https://ubffm.hds.hebis.de/EBSCO/Record?id=edsjsr.10.2307.1912352|edsjsr), siehe auch [Briggs, 2004](https://ubffm.hds.hebis.de/EBSCO/Record?id=ED478203|eric)). 
+Selektionseffekte können drastische Auswirkungen auf Datenanalysen haben. Sie treten auf, wenn die Stichprobe nicht repräsentativ für die Grundgesamtheit ist, da nur ein ganz bestimmter Teil beobachtbar war. Hängt die Selektion von einer Variable ab, die wir erhoben haben, so können wir diesen Effekt herausrechnen. Einer der Ersten denen dies gelang war der Ökonom James J. Heckman (Heckman, 1979; siehe auch Briggs, 2004). 
 
 ## Selektionsbias am Heckman Modell
 Entsprechend wollen wir den Selektionsbias an dem einfachsten "Heckman"-Modell untersuchen. Dazu schauen wir uns ein Modell mit einer Prädiktorvariable an.
 
 $$Y_i = b_0 + b_1X_i + \underbrace{e_i}_{rZ_i+\varepsilon_i}$$
-$b_0$ und $b_1$ sind hier die Regressionskoeffizienten in der Population, welche es zu schätzen gilt. $X_i$ ist der Prädiktor und $e_i$ ist das Regressionsresiduum der Person/Erhebung $i$ ($i=1,\dots,n$, wobei $n$ die Gesamtstichprobengröße ist). Das allgemeine Modell wird natürlich für beliebig viele Prädiktoren formuliert. Die Idee von Heckman war nun, dass, wenn sich bspw. nur bestimmte Personen (das Ganze kann natürlich auch für den nicht-psychologischen Kontext formuliert werden) bereiterklären an der Studie teilzunehmen, dann werden die Regressionsgewichte verschätzt. Wenn nun die Selektion auf eine ganz bestimmte Weise abläuft, dann lässt sich dieser Bias wieder herausrechnen. Heckman nahm dazu an, dass die Selektion dem sogenannten Probit-Modell folgt. Das Probit-Modell ist, ähnlich wie das logistische Modell (siehe bspw. [logistische Regressionssitzung in `R`](/post/logistische-regression)), ein Regressionsmodell zur Modellierung dichotomer abhängiger Variablen. 
+$b_0$ und $b_1$ sind hier die Regressionskoeffizienten in der Population, welche es zu schätzen gilt. $X_i$ ist der Prädiktor und $e_i$ ist das Regressionsresiduum der Person/Erhebung $i$ ($i=1,\dots,n$, wobei $n$ die Gesamtstichprobengröße ist). Das allgemeine Modell wird natürlich für beliebig viele Prädiktoren formuliert. Die Idee von Heckman war nun, dass, wenn sich bspw. nur bestimmte Personen (das Ganze kann natürlich auch für den nicht-psychologischen Kontext formuliert werden) bereiterklären an der Studie teilzunehmen, dann werden die Regressionsgewichte verschätzt. Wenn nun die Selektion auf eine ganz bestimmte Weise abläuft, dann lässt sich dieser Bias wieder herausrechnen. Heckman nahm dazu an, dass die Selektion dem sogenannten Probit-Modell folgt. Das Probit-Modell ist, ähnlich wie das logistische Modell (siehe bspw. [logistische Regressionssitzung in `R`](/lehre/fue-i/logistische-regression-titanic)), ein Regressionsmodell zur Modellierung dichotomer abhängiger Variablen. 
 
 ### Probit-Modell: der Selektionsmechanismus
 Und zwar ist im Probit-Modell die Wahrscheinlichkeit selektiert zu werden (Erfolg zu haben) nicht die logistische (Ogiven)-Funktion, wie in der logistischen Regression, sondern die Verteilungsfunktion der Standardnormalverteilung $\Phi$. Dies hört sich zunächst sehr kompliziert an, ist es aber eigentlich nicht. Wir schauen uns  den *Selektionsmechanismus* an, um dieser Sache auf den Grund zu gehen. Eine Person nimmt an der Studie teil, wenn sie sich selbst in diese hinein selektiert, da sie bspw. ein bestimmtes Mindset hat und somit eine bestimmte Variablenkonstellation aufweist, die sie mit erhöhter Wahrscheinlichkeit an der Studie teilnehmen lässt. 
@@ -49,15 +52,15 @@ Und zwar ist im Probit-Modell die Wahrscheinlichkeit selektiert zu werden (Erfol
 $$s_i = 1 \Longleftrightarrow Z_i \le \beta_0 + \beta_1X_i$$
 und $$s_i=0 \text{ sonst}$$
 
-$\Longleftrightarrow$ bedeutet "*genau dann wenn*". Ist $s_i=1$, so wird selegiert (die Person nimmt teil). $Z_i$ ist standardnormal-verteilt und $\beta_0$ und $\beta_1$ sind die Regressionsgewichte der Selektion. Die Variable (hier $X$), die für die Selektion zuständig ist, ist beliebig. Sie muss nur bekannt und beobachtet sein! Wir schauen uns den (speziellen) Fall an, in welchem auch der Prädiktor aus der Regression für die Selektion zuständig ist. Dies könnte zum Beispiel der Fall sein, wenn wir den Therapieeffekt einer langwierigen Therapieform untersuchen wollen (Symptomstärke nach vollendeter Therapie = $Y$) und diese durch das Commitment ($X$) vorhersagen. Menschen, die mehr Commitment zur Therapie zeigen, ziehen die Therapie wahrscheinlicher bis zum Ende durch und werden somit mit höherer Wahrscheinlichkeit in den Pool der beobachteten Stichprobe selegiert. Der Ausdruck $Z_i \le \beta_0 + \beta_1X_i$ beschreibt diese Phänomen nochmals. Wir wissen aus früheren Semestern, dass die Standardnormalverteilung einen Mittelwert von 0 hat und eine Standardabweichung von 1. Somit ist $Z_i$ genau dann mit hoher Wahrscheinlichkeit kleiner oder gleich groß wie $\beta_0 + \beta_1X_i$ (und damit würde $s_i=1$ ausfallen), wenn dieser Ausdruck groß ist. Schauen wir uns dies einmal an: Angenommen $\beta_0 + \beta_1X_i = -1$ (kleiner Wert), dann ist $Z_i$ sehr häufig größer als $-1$.
+$\Longleftrightarrow$ bedeutet "*genau dann, wenn*". Ist $s_i=1$, so wird selegiert (die Person nimmt teil). $Z_i$ ist standardnormalverteilt und $\beta_0$ und $\beta_1$ sind die Regressionsgewichte der Selektion. Die Variable (hier $X$), die für die Selektion zuständig ist, ist beliebig. Sie muss nur bekannt und beobachtet sein! Wir schauen uns den (speziellen) Fall an, in welchem auch der Prädiktor aus der Regression für die Selektion zuständig ist. Dies könnte zum Beispiel der Fall sein, wenn wir den Therapieeffekt einer langwierigen Therapieform untersuchen wollen (Symptomstärke nach vollendeter Therapie = $Y$) und diese durch das Commitment ($X$) vorhersagen. Menschen, die mehr Commitment zur Therapie zeigen, ziehen die Therapie wahrscheinlicher bis zum Ende durch und werden somit mit höherer Wahrscheinlichkeit in den Pool der beobachteten Stichprobe selegiert. Der Ausdruck $Z_i \le \beta_0 + \beta_1X_i$ beschreibt diese Phänomen nochmals. Wir wissen aus früheren Semestern, dass die Standardnormalverteilung einen Mittelwert von 0 hat und eine Standardabweichung von 1. Somit ist $Z_i$ genau dann mit hoher Wahrscheinlichkeit kleiner oder gleich groß wie $\beta_0 + \beta_1X_i$ (und damit würde $s_i=1$ ausfallen), wenn dieser Ausdruck groß ist. Schauen wir uns dies einmal an: Angenommen $\beta_0 + \beta_1X_i = -1$ (kleiner Wert), dann ist $Z_i$ sehr häufig größer als $-1$.
 
-<img src="/lehre/simulation/selektionseffekte_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" />
+![](/lehre/simulation/selektionseffekte_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
 
-In schwarz sehen wir den Bereich, in welchem $Z_i$ kleiner als $-1$ ausfällt und somit selegiert werden würde. Sie erinnern sich vielleicht, dass bei einer Standardnormalverteilung gerade der Wert -1 bedeutet, dass die Variable eine Standardabweichung kleiner als der Mittelwert (0) ausfällt. In blau sehen wir außerdem die Dichte der Standardnormalverteilung. Die vertikale gestrichelte Linie repräsentiert hier den Wert -1. Nehmen wir nun an, dass $\beta_0 + \beta_1X_i = 2$ (großer Wert), dann ist $Z_i$ sehr häufig kleiner als $2$. 
+In schwarz sehen wir den Bereich, in welchem $Z_i$ kleiner als -1 ausfällt und somit selegiert werden würde. Sie erinnern sich vielleicht, dass bei einer Standardnormalverteilung gerade der Wert -1 bedeutet, dass die Variable eine Standardabweichung kleiner als der Mittelwert (0) ausfällt. In blau sehen wir außerdem die Dichte der Standardnormalverteilung. Die vertikale gestrichelte Linie repräsentiert hier den Wert -1. Nehmen wir nun an, dass $\beta_0 + \beta_1X_i = 2$ (großer Wert), dann ist $Z_i$ sehr häufig kleiner als $2$. 
 
-<img src="/lehre/simulation/selektionseffekte_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
+![](/lehre/simulation/selektionseffekte_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
-Für den Code der Grafiken, siehe in [Appendix A](#AppendixA) nach. Die schwarze Fläche ist genau die Wahrscheinlichkeit, dass die Standardnormalverteilung einen Wert kleiner der oberen Grenze annimmt: also $\mathbb{P}(Z_i\le\beta_0+\beta_1X_i)=\Phi(\beta_0+\beta_1X_i)$. Diese fällt für einen Wert von 2 deutlich größer als für einen Wert von -1 aus! In `R` lässt sich diese Wahrscheinlichkeit sehr leicht bestimmen:
+Für den Code der Grafiken, siehe in [Appendix A](#AppendixA) nach. Die schwarze Fläche ist genau die Wahrscheinlichkeit, dass die Standardnormalverteilung einen Wert kleiner der oberen Grenze annimmt: also $\mathbb{P}(Z_i\le\beta_0+\beta_1X_i)=\Phi(\beta_0+\beta_1X_i)$. Diese fällt für einen Wert von 2 deutlich größer aus als für einen Wert von -1! In `R` lässt sich diese Wahrscheinlichkeit sehr leicht bestimmen:
 
 
 ```r
@@ -93,7 +96,7 @@ mean(Z <= 2)                     # Empirische (beoabachtete) Wahrscheinlichkeit,
 ```
 ## [1] 0.9745
 ```
-Die beobachtete Wahrscheinlichkeit, dass die generierte Variable `Z` kleiner oder gleich groß wie -1 bzw. wie 2 ist, liegt sehr nah an der theoretischen dran (`Z <= -1` bzw. `Z <= 2` wandeln den Vektor `Z` in `TRUE` und `FALSE` um, was dann mit der `mean` Funktion in die relative Häufigkeit von `TRUE`, was `R`-intern als 1 verstanden wird, bestimmt; `FALSE` wird `R`-intern als 0 verstanden; siehe auch [Sitzung zur logistischen Regression](/post/logistische-regression) um relative Häufigkeiten von 01-Folgen zu wiederholen oder in der [Sitzung zu Simulationsstudien in `R`](/post/simulationsstudien-in-r), in welcher dies zur Berechnung der Power etc. verwendet wurde). Analog zur logistischen Regression wählen wir $p=\mathbb{P}(s_i=1|X_i)=\mathbb{P}(Z_i\le\beta_0+\beta_1X_i)=\Phi(\beta_0+\beta_1X_i)$ und bestimmen die Gewichte mit der Maximum Likelihood Methode. Dies geschieht in der `glm`-Funktion, die wir [Sitzung zur logistischen Regression](/post/logistische-regression) behandelt haben. Hier muss lediglich das `family`-Argument angepasst werden: `family = binomial(link = "probit")`:
+Die beobachtete Wahrscheinlichkeit, dass die generierte Variable `Z` kleiner oder gleich groß wie -1 bzw. wie 2 ist, liegt sehr nah an der theoretischen dran (`Z <= -1` bzw. `Z <= 2` wandeln den Vektor `Z` in `TRUE` und `FALSE` um, mit der `mean` Funktion wird dann die relative Häufigkeit von `TRUE`, was `R`-intern als 1 verstanden wird, bestimmt; `FALSE` wird `R`-intern als 0 verstanden; siehe auch [Sitzung zur logistischen Regression](/lehre/fue-i/logistische-regression-titanic) um relative Häufigkeiten von 01-Folgen zu wiederholen oder in der [Sitzung zu Simulationsstudien in `R`](/lehre/simulation/simulationsstudien), in welcher dies zur Berechnung der Power etc. verwendet wurde). Analog zur logistischen Regression wählen wir $p=\mathbb{P}(s_i=1|X_i)=\mathbb{P}(Z_i\le\beta_0+\beta_1X_i)=\Phi(\beta_0+\beta_1X_i)$ und bestimmen die Gewichte mit der Maximum Likelihood Methode. Dies geschieht in der `glm`-Funktion, die wir in der [Sitzung zur logistischen Regression](/lehre/fue-i/logistische-regression-titanic) behandelt haben. Hier muss lediglich das `family`-Argument angepasst werden: `family = binomial(link = "probit")`:
 
 <a id="glmProbit"></a>
 
@@ -135,10 +138,10 @@ summary(probit_model)
 Der Output gleicht fast vollkommen dem der logistischen Regression. Lediglich die `family`-Spezifikation ist eine andere. Der Output ist analog zum logistischen Modell (Logit-Modell) zu interpretieren. Wir sehen, dass die Schätzungen von $\beta_0$ und $\beta_1$ recht nah an den vorgegebenen wahren Werten -2 und 0.5 dran liegen! Dies bedeutet also, dass wir mit der Probit-Regression die Koeffizienten $\beta_0$ und $\beta_1$ schätzen können. 
 
 ### Die Populationsregressionsgleichung
-Selegieren wir unsere Stichprobe anhand des eben vorgestellten Selektionsmechanismus, so folgt, dass die Residuum der Regressionsanalyse nicht länger unabhnängig von den Prädiktoren ist. Dies können wir in der Populationsgleichung auch explizit vermerken, indem wir $Z$ in die Gleichung mit aufnehmen. Im Endeffekt ist dies nur eine Umformulierung des Residuums, welche auf Grund der Normalverteilung der Residuuen geschieht (genaue Begründungen gehen über das nötige Wissen für diese Sitzung hinaus, aber im Grunde ist die Kovarianz zwischen $e_i$ und $X_i$ in Gruppe $s_i=1$ gegeben durch den Parameter $r$ sowie den Selektionsparameter $\beta_1$):
+Selegieren wir unsere Stichprobe anhand des eben vorgestellten Selektionsmechanismus, so folgt, dass das Residuum der Regressionsanalyse nicht länger unabhnängig von den Prädiktoren ist. Dies können wir in der Populationsgleichung auch explizit vermerken, indem wir $Z$ in die Gleichung mit aufnehmen. Im Endeffekt ist dies nur eine Umformulierung des Residuums, welche auf Grund der Normalverteilung der Residuuen geschieht (genaue Begründungen gehen über das nötige Wissen für diese Sitzung hinaus, aber im Grunde ist die Kovarianz zwischen $e_i$ und $X_i$ in Gruppe $s_i=1$ gegeben durch den Parameter $r$ sowie den Selektionsparameter $\beta_1$):
 
 $$Y_i = b_0+b_1X_i +rZ_i+\varepsilon_i,$$
-wobei das Residuum zuvor $e_i=rZ_i+\varepsilon_i$ war. $Z$ ist hier das $Z$ von der Selektion - diese ist auf Populationsebene allerdings eine latente (nicht beobachtbare) Variable. Wäre die Stichprobe repräsentativ, so wäre $X$ und $Z$ unkorreliert und wir hätten kein Problem. Würden jedoch nur bspw. im Vergleich zu $Z$ große $X$ mit erhöhter Wahrscheinlichkeit in die Stichprobe gewählt, so resultiert eine Korrelation zwischen $X$ und $Z$, die die Parameterschätzung  verzerrt. Damit kommt es zu einem Parameterbias, falls die Selektion tatsächlich von anderen Variablen (hier $X$) abhängt (hier also $\beta_1\neq0$). Um dennoch sinnvolle Schätzungen für $b_0$ und $b_1$ abgegeben zu können, müssen wir das $Z$ in der Populationsgleichung durch dessen (bedingte) Erwartung annähern. Glücklicherweise müssen wir das nicht mehr nachrechnen. Das haben andere bereits für uns erledigt. Die (bedingte) Erwartung für $Z_i$ ist gerade das inverse von Mills-Ratio ($\lambda$), welches von $\beta_0, \beta_1$ und $X$ abhängt:
+wobei das Residuum zuvor $e_i=rZ_i+\varepsilon_i$ war. $Z$ ist hier das $Z$ von der Selektion - diese ist auf Populationsebene allerdings eine latente (nicht beobachtbare) Variable. Wäre die Stichprobe repräsentativ, so wären $X$ und $Z$ unkorreliert und wir hätten kein Problem. Würden jedoch bspw. nur im Vergleich zu $Z$ große $X$ mit erhöhter Wahrscheinlichkeit in die Stichprobe gewählt, so resultierte eine Korrelation zwischen $X$ und $Z$, die die Parameterschätzung  verzerrt. Damit kommt es zu einem Parameterbias, falls die Selektion tatsächlich von anderen Variablen (hier $X$) abhängt (hier also $\beta_1\neq0$). Um dennoch sinnvolle Schätzungen für $b_0$ und $b_1$ abgegeben zu können, müssen wir das $Z$ in der Populationsgleichung durch dessen (bedingte) Erwartung annähern. Glücklicherweise müssen wir das nicht mehr nachrechnen. Das haben andere bereits für uns erledigt. Die (bedingte) Erwartung für $Z_i$ ist gerade das Inverse von Mills-Ratio ($\lambda$), welches von $\beta_0, \beta_1$ und $X$ abhängt:
 $$\lambda(X)=\frac{\phi(\beta_0+\beta_1X)}{\Phi(\beta_0+\beta_1X)},$$
 wobei $\phi$ die Dichte- (in `R`: `dnorm(x = ?, mean = 0, sd = 1)`) und $\Phi$ die Verteilungsfunktion (in `R`: `pnorm(q = ?, mean = 0, sd = 1)`) der Standardnormalverteilung ist. 
 
@@ -171,7 +174,7 @@ Y_obs <-rep(NA, length(Y))
 Y_obs[s == 1] <- Y[ s== 1]     # beobachtbares Y
 ```
 
-Nachdem wir $Y$ simuliert haben (als gäbe es keinen Selektionseffekt), fügen wir die Selektion nachträglich hinzu. Dafür erstellen wir zunächst einen leeren Vektor `Y_obs` mit dem `reps` Befehl, den wir aus der letzten [Sitzung zu Simulationsstudien in `R`](/post/simulationsstudien-in-r) kennen. Anschließend füllen wir alle Stellen des Vektors an denen $s$ gleich 1 ist, also an dem selegiert wurde (in `R`: `s == 1`), mit den entsprechenden Werten aus $Y$ auf. Wenn wir nun eine Regression rechnen und nur die beobachteten Werte verwenden (`R` führt per Default list-wise deletion: listenweisen Fallausschluss) durch, so erkennen wir, dass die Regressionsparameter deutlich verschätzt sind. Das Modell dazu nennen wir `reg_obs` für Regressionsobjekt observed. Führen wir hingegen eine Regression auf Populationsebene durch, indem wir `Y` anstatt `Y_obs` verwenden, so liegen die Regressionsschätzer hier sehr nah an den wahren Werten. Hierbei müssen wir unbedingt beachten, dass `Z` in beiden Gleichungen nicht auftaucht (die wahren Werte sind: $b_0 = 0.5$ und $b_1 = 1.2$):
+Nachdem wir $Y$ simuliert haben (als gäbe es keinen Selektionseffekt), fügen wir die Selektion nachträglich hinzu. Dafür erstellen wir zunächst einen leeren Vektor `Y_obs` mit dem `reps` Befehl, den wir aus der letzten [Sitzung zu Simulationsstudien in `R`](/lehre/simulation/simulationsstudien) kennen. Anschließend füllen wir alle Stellen des Vektors an denen $s$ gleich 1 ist, also an dem selegiert wurde (in `R`: `s == 1`), mit den entsprechenden Werten aus $Y$ auf. Wenn wir nun eine Regression rechnen und nur die beobachteten Werte verwenden (`R` führt per Default listwise deletion: listenweisen Fallausschluss) durch, so erkennen wir, dass die Regressionsparameter deutlich verschätzt sind. Das Modell dazu nennen wir `reg_obs` für Regressionsobjekt observed. Führen wir hingegen eine Regression auf Populationsebene durch, indem wir `Y` anstatt `Y_obs` verwenden, so liegen die Regressionsschätzer hier sehr nah an den wahren Werten. Hierbei müssen wir unbedingt beachten, dass `Z` in beiden Gleichungen nicht auftaucht (die wahren Werte sind: $b_0 = 0.5$ und $b_1 = 1.2$):
 
 
 ```r
@@ -269,21 +272,23 @@ Nur im repräsentativen Fall ist die Korrelation nicht signifikant von 0 verschi
 
 Diese Phänomen lässt sich auch sehr gut in einer Grafik veranschaulichen:
 
-<img src="/lehre/simulation/selektionseffekte_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+![](/lehre/simulation/selektionseffekte_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
-Hier repräsentieren die hellblauen Punkte die repräsentative Stichprobe. Die schwarzen Punkte hingegen stellen die selegierte/verzerrte Stichprobe (biased sample) dar. Genauso zeigt die blaue Linie die korrekte Regressionsgerade, während die goldene Linie die verzerrte darstellt (für den Code der Grafik, siehe [Appendix A](#AppendixA)). Wir erkennen deutlich die Verzerrung der Ergebnisse. Sie können sich die Verzerrung wie folgt erklären: die Regression wird unter der Annahme der Unabhängigkeit der Residuuen von den Prädiktoren in der Regressionsgleich geschätzt. Da aber $e_i=rZ_i+\varepsilon_i$ gilt und wir weiter oben gesehen haben, dass $X$ und $Z$ in der Selektionsgruppe korreliert sind, bedeutet dies, dass das Residuum nicht länger unabhängig vom Prädiktor ist. Da dies aber eine Annahme ist und das Verfahren nur so geschätzt werden kann, werden die Parameter so verzerrt, damit die Residuen möglichst unsystematisch sind. Insbesondere der Mittelwert der Residuen muss 0 sein für jede Ausprägung von X. Es muss also gelten $\mathbb{E}[e_i|X_i]=0$. Allerdings ist dies nicht der Fall in der Selektionsgruppe: 
+Hier repräsentieren die hellblauen Punkte die repräsentative Stichprobe. Die schwarzen Punkte hingegen stellen die selegierte/verzerrte Stichprobe (biased sample) dar. Genauso zeigt die blaue Linie die korrekte Regressionsgerade, während die goldene Linie die verzerrte darstellt (für den Code der Grafik, siehe [Appendix A](#AppendixA)). Wir erkennen deutlich die Verzerrung der Ergebnisse. Sie können sich die Verzerrung wie folgt erklären: Die Regression wird unter der Annahme der Unabhängigkeit der Residuuen von den Prädiktoren in der Regressionsgleichung geschätzt. Da aber $e_i=rZ_i+\varepsilon_i$ gilt und wir weiter oben gesehen haben, dass $X$ und $Z$ in der Selektionsgruppe korreliert sind, bedeutet dies, dass das Residuum nicht länger unabhängig vom Prädiktor ist. Da dies aber eine Annahme ist und das Verfahren nur so geschätzt werden kann, werden die Parameter so verzerrt, damit die Residuen möglichst unsystematisch sind. Insbesondere der Mittelwert der Residuen muss 0 sein für jede Ausprägung von X. Es muss also gelten $\mathbb{E}[e_i|X_i]=0$. Allerdings ist dies nicht der Fall in der Selektionsgruppe: 
 
+<div class = "big-maths">
 \begin{align}
 \mathbb{E}[e_i|X_i, s_i = 1]&=\mathbb{E}[rZ+\varepsilon_i|X_i]&& \\
 &= r\mathbb{E}[Z|X_i, s_i = 1] &&| \text{da }\varepsilon_i\text{ den unsystematischen Anteil enthält}\\
 &=r\lambda(X_i) &&| \text{mit } \lambda(X_i)=\frac{\phi(\beta_0+\beta_1X_i)}{\Phi(\beta_0+\beta_1X_i)}, \text{ wie oben motiviert}\\
 &\neq0.&& | \text{ falls } r\neq0 \text{ und }\beta_1\neq0
 \end{align}
+</div>
 
 Die Umformung und Herleitung gehen über den Stoff dieses Kurses hinaus und dienen nur zu Illustrationszwecken. Dennoch hebt dies hervor, welchen fatalen Fehler wir begehen können, wenn unsere Stichproben verzerrt sind und wie enorm wichtig es ist, dass die Daten unabhängig gezogen werden und repräsentativ sind!
 
 ### Heckman Ansatz zum Schätzen der Regressionskoeffizienten in `R`
-Nun wollen wir allerdings noch die Methode von Heckman verwenden, um doch noch zu den richtigen Regressionsparameter zu kommen. Die Idee ist hierbei, dass wir zunächst die Probit-Regression verwenden, um den Selektionseffekt zu schätzt, damit dann das inverse von Mills-Ratio bestimmen und dieses dann in die Regression von den tatsächlich beobachteten $Y$-Werten mit aufnehmen und somit den Effekt von $Z$ herausrechnen können. Glücklicherweise müssen wir dies nicht selbst programmieren, sondern können einfach auf  die Funktion `heckit` (abgeleitet vom Namensgeber Heckman) des `sampleSelection` Pakets von [Toomet und Henningsen (2008)](https://ubffm.hds.hebis.de/EBSCO/Record?id=edsbas.C30BA3A7|edsbas) zurückgreifen (dieses muss zuvor installiert werden: `install.packages("sampleSelection")`): Der Funktion `heckit` müssen wir zwei Argumente übergeben: die Selektionsgleichung (`selection = s ~ 1 + X`) sowie die Regressionsgleichung (`outcome = Y_obs ~ 1 + X`). Wir speichern das Ganze als Objekt `heckman` ab und schauen uns die Summary an:
+Nun wollen wir allerdings noch die Methode von Heckman verwenden, um doch noch zu den richtigen Regressionsparameter zu kommen. Die Idee ist hierbei, dass wir zunächst die Probit-Regression verwenden, um den Selektionseffekt zu schätzen, damit dann das Inverse von Mills-Ratio bestimmen und dieses dann in die Regression von den tatsächlich beobachteten $Y$-Werten mit aufnehmen und somit den Effekt von $Z$ herausrechnen können. Glücklicherweise müssen wir dies nicht selbst programmieren, sondern können einfach auf  die Funktion `heckit` (abgeleitet vom Namensgeber Heckman) des `sampleSelection` Pakets von Toomet und Henningsen (2008) zurückgreifen (dieses muss zuvor installiert werden: `install.packages("sampleSelection")`). Der Funktion `heckit` müssen wir zwei Argumente übergeben: die Selektionsgleichung (`selection = s ~ 1 + X`) sowie die Regressionsgleichung (`outcome = Y_obs ~ 1 + X`). Wir speichern das Ganze als Objekt `heckman` ab und schauen uns die Summary an:
 
 
 ```r
@@ -314,7 +319,7 @@ summary(heckman)
 ## rho             0.9197         NA      NA       NA
 ## --------------------------------------------
 ```
-Die Summary sagt uns:
+Die Summary sagt uns,
 
 
 ```
@@ -324,7 +329,7 @@ Die Summary sagt uns:
 ##  1000 observations (770 censored and 230 observed)
 ##  7 free parameters (df = 994)
 ```
-dass hier das 2-Stufige Heckman-Modell angesetzt wurde (es gibt auch eine simultane Maximum-Liklihood [ML] Methode, die wir uns etwas später auch ansehen). Insgesamt von den 1000 Beoachtungen waren 770 zensiert (nicht beobachtet) und nur 230 konnten beobachtet werden. Insgesamt wurden 7 Parameter geschätzt ($\beta_0, \beta_1, b_0, b_1, r, \sigma$ und $\rho$, wobei $\rho$ eine Schätzung für die Korrelation zwischen den Residuen der Selektionsgleichung und der Regressionsgleichung ist - diesen Parameter haben wir bisher nicht benutzt).
+dass hier das 2-Stufige Heckman-Modell angesetzt wurde (es gibt auch eine simultane Maximum-Liklihood [ML] Methode, die wir uns etwas später auch ansehen werden). Insgesamt von den 1000 Beoachtungen waren 770 zensiert (nicht beobachtet) und nur 230 konnten beobachtet werden. Insgesamt wurden 7 Parameter geschätzt ($\beta_0, \beta_1, b_0, b_1, r, \sigma$ und $\rho$, wobei $\rho$ eine Schätzung für die Korrelation zwischen den Residuen der Selektionsgleichung und der Regressionsgleichung ist - diesen Parameter haben wir bisher nicht benutzt).
 
 
 ```
@@ -382,7 +387,7 @@ So können die Koeffizienten auf leichte Weise weiterverwendet werden (bspw. fü
 
 Wiederholen Sie doch einmal gleiches Modell für eine Stichprobengröße von $n=10^5$ (Achtung: unter Umständen müssen Sie hier eine Weile auf das Ergebnis warten!). Sie können auch gerne die in [Appendix B](#AppendixB) zu findende Funktion nutzen, mit welcher Sie das Heckman-Modell direkt als `data.frame` simulieren können und anschließend mit den oben besprochenen Mitteln auswerten können. 
 
-Wenn Sie die ML-Variante verwenden wollen, in der alle Parameter simultan geschätzt werden, dann müssen Sie die `selection` Funktion aus dem gleichen Paket verwenden. Das interessante hier ist nun, dass auch `rho` und `sigma` eine Signifikanzentscheidung erhalten. Ansonsten sind die beiden Varianten sehr ähnlich. Die ML-Variante ist numerisch aufwendiger (der PC hat mehr zu tun), ist allerdings, wenn alle Annahmen erfüllt, dann hat die ML-Variante kleiner Standardfehler. Sie die Annahmen nicht erfüllt, dann ist die zweistufige Variante etwas robuster, da nicht so viele Parameter gleichzeitig geschätzt werden müssen:
+Wenn Sie die ML-Variante verwenden wollen, in der alle Parameter simultan geschätzt werden, dann müssen Sie die `selection` Funktion aus dem gleichen Paket verwenden. Das interessante hier ist nun, dass auch `rho` und `sigma` eine Signifikanzentscheidung erhalten. Ansonsten sind die beiden Varianten sehr ähnlich. Die ML-Variante ist numerisch aufwendiger (der PC hat mehr zu tun). Allerdings, wenn alle Annahmen erfüllt sind, hat die ML-Variante kleiner Standardfehler. Sind die Annahmen nicht erfüllt, dann ist die zweistufige Variante etwas robuster, da nicht so viele Parameter gleichzeitig geschätzt werden müssen:
 
 
 ```r
@@ -433,14 +438,14 @@ coef(summary(heckman_ML))
 ## rho          0.81231960 0.09426220   8.61766038 2.655787e-17
 ```
 
-Wenn Sie erstmal einen vorgefertigten Datensatz untersuchen wollen, so laden Sie sich doch diesen herunter: {{<icon name = "download" pack = "fas">}}[Datensatz `HeckData.rda`](/post/HeckData.rda). Sie können `HeckData.rda` auch analog herunterladen und direkt einladen:
+Wenn Sie erstmal einen vorgefertigten Datensatz untersuchen wollen, so laden Sie sich doch diesen herunter: {{<icon name = "download" pack = "fas">}}[Datensatz `HeckData.rda`](/daten/HeckData.rda). Sie können `HeckData.rda` auch analog herunterladen und direkt einladen:
 
 ```r
 load(url("https://pandar.netlify.app/post/HeckData.rda"))
 ```
-In diesem Datensatz sind zu in dieser Sitzung präsentierten Parametern ($\beta_0=-2,\beta_1=0.5, b_0 = 0.5, b_1=1.2, r= 2,\sigma=2$) die Variablen $X,Y_{obs}$ und $s$ enthalten, sowie - zu Demonstrationszwecken - $Z$ und $Y$.
+In diesem Datensatz sind neben in dieser Sitzung präsentierten Parametern ($\beta_0=-2,\beta_1=0.5, b_0 = 0.5, b_1=1.2, r= 2,\sigma=2$) die Variablen $X,Y_{obs}$ und $s$ enthalten, sowie zu Demonstrationszwecken $Z$ und $Y$.
 
-Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie {{<icon name = "download" pack = "fas">}}[hier](https://raw.githubusercontent.com/jpirmer/MSc1_FEI/master/R-Scripts/2_Sample_Selection_Bias-RCode.R) herunterladen.
+<!-- Den gesamten `R`-Code, der in dieser Sitzung genutzt wird, können Sie {{<icon name = "download" pack = "fas">}}[hier](https://raw.githubusercontent.com/jpirmer/MSc1_FEI/master/R-Scripts/2_Sample_Selection_Bias-RCode.R) herunterladen. -->
 
 
 ## Appendix
@@ -460,7 +465,7 @@ lines(x = seq(-4,4,0.01), dnorm(seq(-4,4,0.01)), col = "blue", lwd = 3)
 abline(v = -1, lwd = 3, lty = 3, col = "gold3")
 ```
 
-<img src="/lehre/simulation/selektionseffekte_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
+![](/lehre/simulation/selektionseffekte_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
 
 ```r
@@ -471,7 +476,7 @@ lines(x = seq(-4,4,0.01), dnorm(seq(-4,4,0.01)), col = "blue", lwd = 3)
 abline(v = 2, lwd = 3, lty = 3, col = "gold3")
 ```
 
-<img src="/lehre/simulation/selektionseffekte_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
+![](/lehre/simulation/selektionseffekte_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 
 
@@ -483,7 +488,7 @@ abline(reg_obs, col = "gold3", lwd = 5)
 legend(x = "bottomright", legend = c("all", "observed", "regression: all", "regression: observed"), col = c("skyblue", "black", "blue", "gold3"), lwd = c(NA, NA, 5, 5), pch = c(16, 16, NA, NA))
 ```
 
-<img src="/lehre/simulation/selektionseffekte_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
+![](/lehre/simulation/selektionseffekte_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
 
 </details>
 

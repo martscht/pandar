@@ -1,7 +1,3 @@
-# Vorbereitungen
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
-library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
-
 set.seed(1234) # Vergleichbarkeit
 # (Pseudo-)Zufallsvariablen simulieren
 X <- rnorm(n = 10, mean = 4, sd = 5)
@@ -184,20 +180,11 @@ abs(M/SE) > 1.96
 
 mean(abs(M/SE) > 1.96)
 
-Trial <- 1:length(M) # Trial-Nr.
-MSE <- data.frame(cbind(Trial, M, SE))
 
-library(ggplot2)
-ggplot(data = MSE,mapping = aes(x = Trial, y = M)) + geom_point(cex = 4)+geom_hline(yintercept = 4, lty = 3)+geom_errorbar(mapping = aes(ymin = M - 1.96*SE, ymax = M + 1.96*SE))+ggtitle("Konfidenzintervalle", subtitle = "Coverage ist die Wahrscheinlichkeit den wahren Wert einzuschließen")
 
 mean(M - 1.96 * SE <= 4 & M + 1.96 * SE >= 4)
 
-Trial <- 1:length(M) # Trial-Nr.
-M_transformed <- M - 4
-MSE <- data.frame(cbind(Trial, M_transformed, SE))
 
-library(ggplot2)
-ggplot(data = MSE, mapping = aes(x = Trial, y = M_transformed)) + geom_point(cex = 4)+geom_hline(yintercept = 0, lty = 3)+geom_errorbar(mapping = aes(ymin = M_transformed - 1.96*SE, ymax = M_transformed + 1.96*SE))+ggtitle("Konfidenzintervalle um den wahren Wert verschoben", subtitle = "Coverage ist die Wahrscheinlichkeit den wahren Wert einzuschließen")
 
 mean(abs(M-4)/SE <= 1.96)
 
@@ -244,17 +231,17 @@ ggplot(data = MSE, mapping = aes(x = Trial, y = M_transformed)) + geom_point(cex
 ##      pb$tick() # Progress ausführen in der Schleife
 ## }
 
-message("|=====>--------------------------------------------|  12% elapsed =  4s  ~ 26s")
+
 
 ## Reps <- 10^6 # entspricht 1000000
 ## set.seed(100) # Vergleichbarkeit
 ## X_data <- pbreplicate(n = Reps, expr = rnorm(n = 10, mean = 4, sd = 5), simplify = F)
 
-message("|++++++++++++++++++++                              | 39% ~03s")      
+
 
 ## sResults <- pbsapply(X = X_data, FUN = calculate_mean_SE)
 
-message("|+++++++++++++++++++                               | 38% ~10s")
+
 
 plot(x = c(1,1,-1,-1,1), y = c(1,-1,-1,1,1), type = "l", 
      ylim = c(-1.2, 1.2), xlim = c(-1.2, 1.2), ylab = "Y", 
@@ -283,12 +270,7 @@ points(x[!in_circle], y[!in_circle], col = "red", pch = 16) # Punkte außerhalb 
 ## }
 ## in_circle <- pbapply(X = data, MARGIN = 1, FUN = inner_circle, r = 1)
 
-message("|+++++                                             | 10% ~01m 50s")
-# in short
-data <- matrix(runif(n = 2*10^6, min = -1, max = 1), nrow = 10^6)
-x <- data[,1]; y <- data[,2]
-in_circle <- x^2+y^2<=1
-mean(in_circle)*4
+
 
 mean(in_circle)*4 # pi
 pi # aus R
