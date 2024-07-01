@@ -8,7 +8,7 @@ tags: ["Simulationen", "Power", "Type I-Error", "Coverage", "Bias", "Signifikanz
 subtitle: ''
 summary: ''
 authors: [irmer]
-weight: 
+weight: 10
 lastmod: '2024-07-01'
 featured: no
 banner:

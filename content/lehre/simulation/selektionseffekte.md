@@ -8,7 +8,7 @@ tags: ["Selektion", "Heckman", "Bias", "lineares Modell", "Normalverteilung"]
 subtitle: ''
 summary: ''
 authors: [irmer]
-weight: 
+weight: 20
 lastmod: '2024-07-01'
 featured: no
 banner:

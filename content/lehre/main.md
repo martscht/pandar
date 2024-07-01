@@ -94,6 +94,12 @@ sections:
 
         {{< category_list "diagnostik" 2 >}}
         <br>
+        
+        <h3>Forschungsmethoden und Evaluation</h3>
+        Das Modul PsyBSc5 - Forschungsmethoden und Evaluation I beschäftigt sich mit vertiefenden Analysen und Simulationsstudien und gibt dadurch Einblicke in die Welt der Analyse von statistischen Methoden.
+        {{< category_list "simulation" 2 >}}
+        <br>
+        
         <h3>Meta-Analyse im A&O-Kontext</h3>
         
         Die hier präsentierten Unterlagen sind während des Forschungsmoduls A&O (SoSe 2020 und WiSe 2020/21) entstanden. Eine ergänzende Ressource zu Meta-Analysen im nicht-klinischen Bereich.
