@@ -357,7 +357,7 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
-Der Originaldatensatz ist ein Onlinedatensatz, wird seit 2012 erfasst und ist auf [`r fontawesome::fa("download")` openpsychometrics.org](https://openpsychometrics.org/_rawdata/) als *.zip* downloadbar. Bisher haben über **19700** Probanden aus der ganzen Welt teilgenommen. Zu jeder der fünf Facetten gibt es 10 Fragen. Der Fragebogen ist auf [personality-testing.info](http://personality-testing.info/tests/BIG5.php) einzusehen.
+Der Originaldatensatz ist ein Onlinedatensatz, wird seit 2012 erfasst und ist auf [openpsychometrics.org](https://openpsychometrics.org/_rawdata/) als *.zip* downloadbar. Bisher haben über **19700** Probanden aus der ganzen Welt teilgenommen. Zu jeder der fünf Facetten gibt es 10 Fragen. Der Fragebogen ist auf [personality-testing.info](http://personality-testing.info/tests/BIG5.php) einzusehen.
 Um das Ganze etwas übersichtlicher zu gestalten, betrachten wir einen gekürzten Datensatz. Im Datensatz *Big5_EFA.rda* befinden sich 15 Items aus dem Big-5 Persönlichkeitsfragebogen. Hier werden von den 10 Items pro Facette jeweils die ersten drei verwendet.
 
 Auf `pandaR` wird der Datensatz in dem Tutorial [Exploratorische Faktorenanalyse](/post/efa) für PsyMSc1 verwendet.
