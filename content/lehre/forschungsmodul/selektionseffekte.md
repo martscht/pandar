@@ -578,13 +578,13 @@ summary(heckman_model)
 
 ## Literatur
 
-[Briggs, D. C. (2004).](https://ubffm.hds.hebis.de/EBSCO/Record?id=ED478203|eric) Causal inference and the Heckman model. *Journal of Educational and Behavioral Statistics, 29*(4), 397--420.
+Briggs, D. C. (2004). Causal inference and the Heckman model. *Journal of Educational and Behavioral Statistics, 29*(4), 397--420. [https://doi.org/10.3102/10769986029004397](https://doi.org/10.3102/10769986029004397)
 
-[Heckman, J. (1979).](https://ubffm.hds.hebis.de/EBSCO/Record?id=edsjsr.10.2307.1912352|edsjsr)  Sample selection bias as a specification error.*Econometrica*, 47, 153–161.
+Heckman, J. (1979). Sample selection bias as a specification error.*Econometrica*, 47, 153–161. [https://doi.org/10.2307/1912352](https://doi.org/10.2307/1912352)
 
-[Heckman, J. (1976).](https://ubffm.hds.hebis.de/EBSCO/Record?id=0164441|eoh) The common structure of statistical models of truncation, sample selection and limited dependent variables and a simple estimator for such models. *Annals of Economic and Social Measurement, 5*(4). 
+Heckman, J. (1976). The common structure of statistical models of truncation, sample selection and limited dependent variables and a simple estimator for such models. *Annals of Economic and Social Measurement, 5*(4). [http://www.nber.org/chapters/c10491](http://www.nber.org/chapters/c10491)
 
-[Toomet, O., & Henningsen, A. (2008).](https://ubffm.hds.hebis.de/EBSCO/Record?id=edsbas.C30BA3A7|edsbas)  Sample selection models in R: Package sampleSelection.*Journal of Statistical Software, 27*(7), 1-23.
+Toomet, O., & Henningsen, A. (2008). Sample selection models in R: Package sampleSelection.*Journal of Statistical Software, 27*(7), 1-23. [https://doi.org/10.18637/jss.v027.i07]( https://doi.org/10.18637/jss.v027.i07)
 
 
 
