@@ -3,12 +3,12 @@ title: Simulationsstudien in R
 type: post
 date: '2020-11-06'
 slug: simulationsstudien
-categories: ["Simulation"]
+categories: ["Forschungsmodul"]
 tags: ["Simulationen", "Power", "Type I-Error", "Coverage", "Bias", "Signifikanztestung", "Verteilungen", "Monte-Carlo", "MC", "Pi"]
 subtitle: ''
 summary: ''
 authors: [irmer]
-weight: 10
+weight: 1
 lastmod: '2024-07-02'
 featured: no
 banner:

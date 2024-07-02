@@ -3,12 +3,12 @@ title: Selektionseffekte
 type: post
 date: '2020-11-06'
 slug: selektionseffekte
-categories: ["Simulation"]
+categories: ["Forschungsmodul"]
 tags: ["Selektion", "Heckman", "Bias", "lineares Modell", "Normalverteilung"]
 subtitle: ''
 summary: ''
 authors: [irmer]
-weight: 20
+weight: 2
 lastmod: '2024-07-02'
 featured: no
 banner:
@@ -23,7 +23,7 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/forschungsmodul/simulationsstudien
+    url: /lehre/forschungsmodul/selektionseffekte
   - icon_pack: fas
     icon: terminal
     name: Code
@@ -452,7 +452,7 @@ In diesem Datensatz sind neben in dieser Sitzung präsentierten Parametern ($\be
 
 ### Appendix A {#AppendixA}
 
-<details><summary><b>Code zu `R` Grafiken</b></summary>
+<details><summary><b>Code zu R Grafiken</b></summary>
 
 
 ```r

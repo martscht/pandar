@@ -3,7 +3,7 @@ title: "The student's guide to independence in R"
 type: post
 date: '2022-11-29'
 slug: independence-r
-categories: []
+categories: ["Independence"]
 tags: ["Datenmanagement","Bonus"]
 subtitle: ''
 summary: ''

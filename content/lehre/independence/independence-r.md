@@ -3,13 +3,13 @@ title: "The student's guide to independence in R"
 type: post
 date: '2022-11-29'
 slug: independence-r
-categories: []
+categories: ["Independence"]
 tags: ["Datenmanagement","Bonus"]
 subtitle: ''
 summary: ''
 authors: [nolden]
 weight: 5
-lastmod: '2024-05-13'
+lastmod: '2024-07-02'
 featured: no
 banner:
   image: "/header/sunny_coastal.jpg"
@@ -155,8 +155,7 @@ apropos('anova')
 ```
 
 ```
-## [1] "anova"            "Anova"            "ezANOVA"          "manova"           "Manova"          
-## [6] "power.anova.test" "ranova"           "stat.anova"       "summary.manova"
+## [1] "anova"            "manova"           "power.anova.test" "stat.anova"       "summary.manova"
 ```
 
 Use `example(<topic>)` if you want to see an example. 
@@ -691,9 +690,9 @@ example4
 ## 1           5 exp            0.5   0.2
 ## 2           5 sur            0.6   0.3
 ## 3           5 new            0.7   0.4
-## 4           6 exp            0.7   0.4
-## 5           6 sur            0.8   0.5
-## 6           6 new            0.9   0.6
+## 4           6 exp            0.7   0.6
+## 5           6 sur            0.8   0.7
+## 6           6 new            0.9   0.8
 ```
 
 **Pr** values for new items do not make any sense, remove values, so let us remove them.
@@ -711,8 +710,8 @@ example4
 ## 1           5 exp            0.5   0.2
 ## 2           5 sur            0.6   0.3
 ## 3           5 new            0.7  NA  
-## 4           6 exp            0.7   0.4
-## 5           6 sur            0.8   0.5
+## 4           6 exp            0.7   0.6
+## 5           6 sur            0.8   0.7
 ## 6           6 new            0.9  NA
 ```
 
@@ -730,8 +729,8 @@ example4
 ##         <dbl> <chr>        <dbl> <dbl>
 ## 1           5 exp            0.5   0.2
 ## 2           5 sur            0.6   0.3
-## 3           6 exp            0.7   0.4
-## 4           6 sur            0.8   0.5
+## 3           6 exp            0.7   0.6
+## 4           6 sur            0.8   0.7
 ```
 
 At this point, it is also good to check participants' performance. Do you want to exclude participants with low performance?  
@@ -809,7 +808,7 @@ by(example5, example5$stim_type, summary) # It's nice to have both steps in just
 ##  Mean   : 7.50                      Mean   :0.1167  
 ##  3rd Qu.: 8.75                      3rd Qu.:0.1375  
 ##  Max.   :10.00                      Max.   :0.2100  
-## --------------------------------------------------------------------------- 
+## -------------------------------------------------------------------------------------- 
 ## example5$stim_type: sur
 ##   participant     stim_type               Pr        
 ##  Min.   : 5.00   Length:6           Min.   :0.3000  
@@ -1613,6 +1612,20 @@ In order to do this, we need to work on a "wide-dataset", where every row repres
 
 ```r
 library(reshape2)
+```
+
+```
+## 
+## Attaching package: 'reshape2'
+```
+
+```
+## The following object is masked from 'package:tidyr':
+## 
+##     smiths
+```
+
+```r
 # Create a wide dataset by aggregating performance on the participant level.
 # In order to do that, we can use the reshape function. 
 # We need to specify the grouping variables ("idvar"), i.e. the variables that vary between participants. Those are participants' id, group, and wm. The condition that varies within participant ("timevar") is "condition". 
@@ -1831,7 +1844,7 @@ by(data_food$recog_perf, data_food$condition, FUN = mean)
 ```
 ## data_food$condition: cold
 ## [1] 0.5574449
-## --------------------------------------------------------------------------- 
+## -------------------------------------------------------------------------------------- 
 ## data_food$condition: warm
 ## [1] 0.6964455
 ```
@@ -1909,8 +1922,8 @@ leveneTest(data_food_wide$recog_perf_avg, data_food_wide$group, center = mean)
 ```
 
 ```
-## Warning in leveneTest.default(data_food_wide$recog_perf_avg, data_food_wide$group, :
-## data_food_wide$group coerced to factor.
+## Warning in leveneTest.default(data_food_wide$recog_perf_avg, data_food_wide$group, : data_food_wide$group coerced
+## to factor.
 ```
 
 ```
