@@ -588,5 +588,3 @@ Toomet, O., & Henningsen, A. (2008). Sample selection models in R: Package sampl
 
 
 
-
-* <small> *Blau hinterlegte Autor:innenangaben führen Sie direkt zur universitätsinternen Ressource.* </small>
