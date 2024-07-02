@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [cezanne, mueller, nehler]
 weight:
-lastmod: '2024-02-26' 
+lastmod: '2024-07-02' 
 featured: no
 banner:
   image: "/header/mechanical_number_display.png"
@@ -1489,13 +1489,6 @@ Wir nutzen dafür die `qqPlot`-Funktion aus dem `car`-Paket.
 
 ```r
 library(car)
-```
-
-```
-## Lade nötiges Paket: carData
-```
-
-```r
 qqPlot(fb22$extra[fb22$lerntyp_neu == "alleine"])
 ```
 
@@ -1588,7 +1581,156 @@ Der deskriptive Unterschied der Mittelwerte lässt sich somit auch inferenzstati
 
 ## Aufgabe 26.2
 
-Unterscheiden sich Personen, die in einer ländlichen Gegend aufgewachsen sind, in ihrer Naturverbundenheit (`Q_ges`) von Personen, die in einer städtischen oder vorstädtischen Gegend aufgewachsen sind (`urban`)? Schauen Sich sich die Daten graphisch an und führen sie nach Voraussetzungsprüfung einen geeigneten Test durch.
+Laden Sie sich nun einen weiteren Datensatz `zusatz` in ihr Environment. 
+
+
+```r
+# load(url('https://pandar.netlify.app/daten/zusatz.rda'))
+load('/home/zarah/pandar.git/content/daten/zusatz.rda')
+```
+
+Dieser enthält simulierte Daten, aber wir stellen uns einfach mal vor, dass wir Daten aus einer bestimmten Stichprobe vorliegen haben. In der Spalte `diet` ist dann eine Information darüber enthalten, wie sich jemand ernährt. Dabei werden drei Ernährungsweisen unterschieden: nicht-vegetarisch (und damit auch nicht vegan; 1), vegetarisch (2) und vegan (3). Unterscheiden sich Personen, die sich vegan oder vegetarisch ernähren, in ihrer Happiness (`happiness`) von Personen, die sich nicht vegetarisch/vegan ernähren?
+
+Schauen Sich sich die Daten graphisch an und führen sie nach Voraussetzungsprüfung einen geeigneten Test durch.
+
+<details><summary>Lösung</summary>
+
+Zuerst schauen wir uns an, ob die Variable `diet` bereits als Faktor vorliegt und wandeln sie gegebenenfalls um.
+
+
+```r
+is.factor(zusatz$diet)
+```
+
+```
+## [1] FALSE
+```
+
+```r
+zusatz$diet <- factor(zusatz$diet, 
+                       levels = 1:3, 
+                       labels = c("nicht-vegetarisch", "vegetarisch", "vegan"))
+```
+
+Nun wollen wir eine neue Variable erstellen, in der die Personen, die sich vegetarisch oder vegan ernähren, zusammengefasst werden.
+
+
+```r
+zusatz$diet_neu <- zusatz$diet == "nicht-vegetarisch"
+zusatz$diet_neu <- as.numeric(zusatz$diet_neu) #Umwandlung in Numeric, da der Variablen Typ nun Logical ist
+zusatz$diet_neu <- factor(zusatz$diet_neu, 
+                           levels = 0:1, 
+                           labels = c("vegetarisch oder vegan", "nicht-vegetarisch"))
+```
+
+Jetzt können wir uns die Happiness der Gruppen deskriptiv in einem Boxplot darstellen lassen.
+
+
+```r
+boxplot(zusatz$happiness ~ zusatz$diet_neu, xlab = "Diet", ylab = "Happiness") 
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-78-1.png)<!-- -->
+
+Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir aber nun noch inferenzstatistisch überprüfen. Dafür überprüfen wir die Voraussetzungen eines t-Tests für unabhängige Stichproben. Wir können annehmen, dass die abhängige Variable intervallskaliert ist und dass die einzelnen Messwerte voneinander unabhängig sind. Wir müssen nun noch die Normalverteilung der Extraversion in den Gruppen und die Homoskedastizität überprüfen.
+
+**Prüfung der Normalverteilung**
+
+Wir nutzen dafür die `qqPlot`-Funktion aus dem `car`-Paket.
+
+
+```r
+library(car)
+qqPlot(zusatz$happiness[zusatz$diet_neu == "nicht-vegetarisch"])
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-79-1.png)<!-- -->
+
+```
+## [1] 49  1
+```
+
+```r
+qqPlot(zusatz$happiness[zusatz$diet_neu == "vegetarisch oder vegan"])
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-79-2.png)<!-- -->
+
+```
+## [1] 34 27
+```
+
+Die Abweichungen sind nicht zu weit. Trotzdem führen wir zur weiteren Absicherung noch den Shapiro-Test durch.
+
+
+```r
+shapiro.test(zusatz$happiness[zusatz$diet_neu == "nicht-vegetarisch"])
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  zusatz$happiness[zusatz$diet_neu == "nicht-vegetarisch"]
+## W = 0.96333, p-value = 0.09168
+```
+
+```r
+shapiro.test(zusatz$happiness[zusatz$diet_neu == "vegetarisch oder vegan"])
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  zusatz$happiness[zusatz$diet_neu == "vegetarisch oder vegan"]
+## W = 0.97032, p-value = 0.1444
+```
+
+Keiner der Tests ist signifikant, sodass wir die Normalverteilungsannahme beibehalten.
+
+**Homoskedastizität**
+
+Diese überprüfen wir mittels Levene-Test.
+
+
+```r
+leveneTest(zusatz$happiness ~ zusatz$diet_neu)
+```
+
+```
+## Levene's Test for Homogeneity of Variance (center = median)
+##        Df F value Pr(>F)
+## group   1   1e-04 0.9909
+##       114
+```
+
+Das Ergebnis ist nicht signifikant, sodass wir die $H_0$ nicht ablehnen und die Homoskedastizität der Varianzen annehmen können.
+Damit sind alle Voraussetzungen eines t-Tests erfüllt.
+
+
+```r
+t.test(zusatz$happiness ~ zusatz$diet_neu, var.equal = T)
+```
+
+```
+## 
+## 	Two Sample t-test
+## 
+## data:  zusatz$happiness by zusatz$diet_neu
+## t = 3.4439, df = 114, p-value = 0.0008032
+## alternative hypothesis: true difference in means between group vegetarisch oder vegan and group nicht-vegetarisch is not equal to 0
+## 95 percent confidence interval:
+##  0.3730266 1.3833254
+## sample estimates:
+## mean in group vegetarisch oder vegan      mean in group nicht-vegetarisch 
+##                             3.543648                             2.665472
+```
+
+Der deskriptive Unterschied der Mittelwerte lässt sich somit auch inferenzstatistisch feststellen, denn mit einer Irrtumswahrscheinlichkeit von {{<math>}}$5\%${{</math>}} kann die $H_0$ verworfen und die $H_1$ angenommen werden. Die Teilnehmenden, die sich nicht-vegetarisch ernähren, unterscheiden sich von den Teilnehmenden, die sich vegetarisch oder vegan ernähren, in ihrer Happiness ($t$(*df* = 114, zweis.) = 3.44, *p* = <.001).
+
+</details>
+
 
 ## Aufgabe 27
 
@@ -1727,6 +1869,144 @@ chisq.test(tab, correct = F)
 
 </details>
 
+## Aufgabe 27.2
+
+In der Variable `living` ist dokumentiert, ob jemand nicht-alleine (1) oder alleine (2) lebt. In der Variable `pet` steht drin, ob jemand kein Haustier besitzt (1), eine Katze (2) hält, einen Hund (3) hat oder irgendein anderes Haustier (4) besitzt.
+Haben Personen, die alleine leben mit gleicher Wahrscheinlichkeit ein Haustier wie Personen, die nicht alleine leben?
+
+* Prüfen Sie die Voraussetungen für einen Chi-Quadrat-Test.
+
+<details><summary>Lösung</summary>
+
+Als erstes müssen wir den Datensatz aufbereiten.
+
+
+```r
+is.factor(zusatz$living)
+```
+
+```
+## [1] FALSE
+```
+
+```r
+is.factor(zusatz$pet)
+```
+
+```
+## [1] FALSE
+```
+
+```r
+zusatz$living <- factor(zusatz$living, levels = 1:2, labels = c("nicht-alleine", "alleine"))
+zusatz$pet <- factor(zusatz$pet, levels = 1:4, labels = c("keins", "Katze", "Hund", "anderes"))
+
+zusatz$pet_owner <- zusatz$pet %in% c("Katze", "Hund", "anderes")  #wir erstellen eine Variable, die angibt, ob eine Personen bei den Eltern wohnt oder nicht
+```
+
+Die Voraussetzungen, dass die einzelnen Beobachtungen voneinander unabhängig sind und jede Person eindeutig einer Merkmalskombination zuordbar ist, ist durch das Studiendesign erfüllt. Wir müssen aber noch prüfen, ob jede Zelle mit mehr als fünf Personen gefüllt ist.
+
+
+```r
+tab <- table(zusatz$pet_owner, zusatz$living)
+tab
+```
+
+```
+##        
+##         nicht-alleine alleine
+##   FALSE            39      39
+##   TRUE             11      27
+```
+
+Die Voraussetzungen für einen Chi-Quadrat-Test sind erfüllt.
+
+</details>
+
+
+* Berechnen Sie die erwarteten Häufigkeiten der Zellen und treffen Sie eine Signifikanzentscheidung.
+
+<details><summary>Lösung</summary>
+
+Für die erwarteten Häufigkeiten brauchen wir die Randsummen. Diese erhalten wir mit dem Befehl `addmargins`.
+
+
+```r
+tab_mar <- addmargins(tab)
+tab_mar
+```
+
+```
+##        
+##         nicht-alleine alleine Sum
+##   FALSE            39      39  78
+##   TRUE             11      27  38
+##   Sum              50      66 116
+```
+
+Die erwarteten Häufigkeiten der Zellen erhalten wir wie folgt:
+
+
+```r
+n <- tab_mar[3,3]
+
+erwartet_11 <- (tab_mar[1,3]*tab_mar[3,1])/n
+erwartet_12 <- (tab_mar[1,3]*tab_mar[3,2])/n
+erwartet_21 <- (tab_mar[2,3]*tab_mar[3,1])/n
+erwartet_22 <- (tab_mar[2,3]*tab_mar[3,2])/n
+
+erwartet <- data.frame(nein = c(erwartet_11, erwartet_21), ja = c(erwartet_12, erwartet_22))
+erwartet
+```
+
+```
+##       nein       ja
+## 1 33.62069 44.37931
+## 2 16.37931 21.62069
+```
+
+Für die Signifikanzentscheidung berechnen wir den empirischen Chi-Quadrat-Wert und den zugehörigen p-Wert.
+
+
+```r
+chi_quadrat_Wert <- (tab[1,1]-erwartet[1,1])^2/erwartet[1,1]+
+  (tab[1,2]-erwartet[1,2])^2/erwartet[1,2]+
+  (tab[2,1]-erwartet[2,1])^2/erwartet[2,1]+
+  (tab[2,2]-erwartet[2,2])^2/erwartet[2,2]
+
+chi_quadrat_Wert
+```
+
+```
+## [1] 4.617799
+```
+
+```r
+pchisq(chi_quadrat_Wert, 1, lower.tail = F) #Freiheitsgrad beträgt 1
+```
+
+```
+## [1] 0.03164181
+```
+Somit ist der Test signifikant und es lässt sich feststellen, dass das Alleine-Wohnen damit zusammen hängt, ob jemand ein Haustier besitzt oder nicht.
+
+Wir können unser Ergebnis auch noch mit dem Befehl `chisq.test()` überprüfen und sehen, dass dieser das gleiche Ergebnis liefert.
+
+
+```r
+chisq.test(tab, correct = F)
+```
+
+```
+## 
+## 	Pearson's Chi-squared test
+## 
+## data:  tab
+## X-squared = 4.6178, df = 1, p-value = 0.03164
+```
+
+</details>
+
 ## Aufgabe 28
 
 Weichen Psychologiestudierende, die einen Nebenjob haben, in ihrem Intellekt (`intel`) von Psychologiestudierenden, die keinen Nebenjob haben, ab.
@@ -1752,7 +2032,7 @@ library(car)
 qqPlot(fb22$intel[fb22$job == "nein"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-81-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-95-1.png)<!-- -->
 
 ```
 ## [1] 30 79
@@ -1762,7 +2042,7 @@ qqPlot(fb22$intel[fb22$job == "nein"])
 qqPlot(fb22$intel[fb22$job == "ja"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-81-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-95-2.png)<!-- -->
 
 ```
 ## [1] 49 46
@@ -1799,13 +2079,13 @@ Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselbe
 hist(fb22$intel[fb22$job == "ja"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-82-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-96-1.png)<!-- -->
 
 ```r
 hist(fb22$intel[fb22$job == "nein"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-82-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-96-2.png)<!-- -->
 Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
 
 
@@ -1842,7 +2122,9 @@ Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = 2775, 
 
 ## Aufgabe 28.2
 
-Weichen Personen, die in einer ländlichen Gegend aufgewachsen sind, in ihrer Naturverbundenheit (`Q_ges`) von Personen, die in einer städtischen oder vorstädtischen Gegend aufgewachsen sind (`urban`) ab?
+In der Variable `school` ist enthalten, ob jemand eine öffentliche (1) oder eine private (2) Schule besucht hat.  
+Unterscheiden sich Personen, die auf eine private Schule gegangen sind, in ihrem Intellekt (`intel`) von Personen, die eine öffentliche Schule besucht haben. 
+
 
 * Führen Sie nach Voraussetzungsprüfung einen geeigneten Test durch.
 
@@ -1850,161 +2132,225 @@ Weichen Personen, die in einer ländlichen Gegend aufgewachsen sind, in ihrer Na
 Wir beginnen die Voraussetzungen des t-Tests für unabhängige Stichproben zu überprüfen. Die Voraussetzungen, dass die unabhängige Variable intervallskaliert ist und die einzelnen Messwerte unabhängig voneinander sind, sind per Untersuchungsdesign erfüllt. Wir wollen nun also die Normalverteilung des Merkmals in den Gruppen überprüfen.
 
 
-
 ```r
 #Wir überprüfen erst wieder, ob die Variable Nebenjob als Faktor vorliegt
-is.factor(nature$urban)
+is.factor(zusatz$school)
 ```
 
 ```
-## [1] TRUE
+## [1] FALSE
 ```
-
-############################
-Nun wollen wir eine neue Variable erstellen, in der die Personen, die in einer städtischen oder vorstädtischen Gegend aufgewachsen sind, zusammengefasst werden.
-
 
 ```r
-nature$urban_neu <- nature$urban == "laendlich"
-nature$urban_neu <- as.numeric(nature$urban_neu) #Umwandlung in Numeric, da der Variablen Typ nun Logical ist
-nature$urban_neu <- factor(nature$urban_neu, 
-                           levels = 0:1, 
-                           labels = c("staedtisch oder vorstaedtisch", "laendlich"))
-```
+zusatz$school <- factor(zusatz$school, levels = 1:2, labels = c("öffentlich", "privat"))
 
-Jetzt können wir uns die Extraversion der Gruppen deskriptiv in einem Boxplot darstellen lassen.
-
-
-```r
-boxplot(nature$Q_ges ~ nature$urban_neu, xlab = "Gegend", ylab = "Naturverbundenheit") 
-```
-
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-87-1.png)<!-- -->
-
-Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir aber nun noch inferenzstatistisch überprüfen. Dafür überprüfen wir die Voraussetzungen eines t-Tests für unabhängige Stichproben. Wir können annehmen, dass die abhängige Variable intervallskaliert ist und dass die einzelnen Messwerte voneinander unabhängig sind. Wir müssen nun noch die Normalverteilung der Extraversion in den Gruppen und die Homoskedastizität überprüfen.
-
-**Prüfung der Normalverteilung**
-
-Wir nutzen dafür die `qqPlot`-Funktion aus dem `car`-Paket.
-
-
-```r
 library(car)
-qqPlot(nature$Q_ges[nature$urban_neu == "laendlich"])
+qqPlot(zusatz$intel[zusatz$school == "privat"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-88-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-99-1.png)<!-- -->
 
 ```
-## [1] 351   4
+## [1] 21 34
 ```
 
 ```r
-qqPlot(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
+qqPlot(zusatz$intel[zusatz$school == "öffentlich"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-88-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-99-2.png)<!-- -->
 
 ```
-## [1]  32 204
+## [1] 67 38
 ```
-
-Die Abweichungen sind recht weit. Wir führen noch den Shapiro-Test durch.
-
 
 ```r
-shapiro.test(nature$Q_ges[nature$urban_neu == "laendlich"])
+shapiro.test(zusatz$intel[zusatz$school == "privat"])
 ```
 
 ```
 ## 
 ## 	Shapiro-Wilk normality test
 ## 
-## data:  nature$Q_ges[nature$urban_neu == "laendlich"]
-## W = 0.86118, p-value < 2.2e-16
+## data:  zusatz$intel[zusatz$school == "privat"]
+## W = 0.9432, p-value = 0.02822
 ```
 
 ```r
-shapiro.test(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
+shapiro.test(zusatz$intel[zusatz$school == "öffentlich"])
 ```
 
 ```
 ## 
 ## 	Shapiro-Wilk normality test
 ## 
-## data:  nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"]
-## W = 0.89217, p-value < 2.2e-16
+## data:  zusatz$intel[zusatz$school == "öffentlich"]
+## W = 0.94364, p-value = 0.003146
 ```
-
-Keiner der Tests ist signifikant, sodass wir die Normalverteilungsannahme beibehalten.
-###########################
-
- 
 Die Normalverteilungsannahme ist nicht erfüllt. Wir können also keinen t-Test durchführen. Wir überprüfen nun die Voraussetzungen des Wilcoxon-Tests.
 Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselben Verteilung folgen.
 
 
 ```r
-hist(nature$Q_ges[nature$urban_neu == "laendlich"])
+hist(zusatz$intel[zusatz$school == "privat"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-90-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-100-1.png)<!-- -->
 
 ```r
-hist(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"])
+hist(zusatz$intel[zusatz$school == "öffentlich"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-90-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-100-2.png)<!-- -->
 Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
 
 
 ```r
-leveneTest(nature$Q_ges ~ nature$urban_neu)
+leveneTest(zusatz$intel ~ zusatz$school)
 ```
 
 ```
 ## Levene's Test for Homogeneity of Variance (center = median)
-##         Df F value Pr(>F)  
-## group    1  3.9882  0.046 *
-##       1496                 
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-```
-
-```r
-var(nature$Q_ges[nature$urban_neu == "laendlich"], na.rm =T)
-```
-
-```
-## [1] 0.6599903
-```
-
-```r
-var(nature$Q_ges[nature$urban_neu == "staedtisch oder vorstaedtisch"], na.rm = T)
-```
-
-```
-## [1] 0.7640496
+##        Df F value Pr(>F)
+## group   1  0.0045 0.9464
+##       114
 ```
 
 Wir können von Varianzhomogenität ausgehen und somit einen Wilcoxon-Test durchführen.
 
 
 ```r
-wilcox.test(nature$Q_ges ~ nature$urban_neu)
+wilcox.test(zusatz$intel ~ zusatz$school)
 ```
 
 ```
 ## 
 ## 	Wilcoxon rank sum test with continuity correction
 ## 
-## data:  nature$Q_ges by nature$urban_neu
-## W = 192458, p-value = 0.009231
+## data:  zusatz$intel by zusatz$school
+## W = 1755.5, p-value = 0.3598
 ## alternative hypothesis: true location shift is not equal to 0
 ```
-Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = 1.924575\times 10^{5}, *p* = 0.009 ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Psychologiestudierende, die einen Nebenjob haben, und Psychologiestudierende, die keinen Nebenjob haben, nicht in ihrem Intellekt unterscheiden. 
+Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = 1755.5, *p* = 0.36 ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Personen, die auf eine private Schule gegangen sind, und Personen, die eine öffentliche Schule besucht haben, nicht in ihrem Intellekt unterscheiden. 
 
-</details> 
+</details>
+
+
+## Aufgabe 28.3
+
+In der Variable `school` ist enthalten, ob jemand eine öffentliche (1) oder eine private (2) Schule besucht hat.  
+Unterscheiden sich Personen, die auf eine private Schule gegangen sind, in ihrem Intellekt (`intel`) von Personen, die eine öffentliche Schule besucht haben. 
+
+
+* Führen Sie nach Voraussetzungsprüfung einen geeigneten Test durch.
+
+<details><summary>Lösung</summary>
+Wir beginnen die Voraussetzungen des t-Tests für unabhängige Stichproben zu überprüfen. Die Voraussetzungen, dass die unabhängige Variable intervallskaliert ist und die einzelnen Messwerte unabhängig voneinander sind, sind per Untersuchungsdesign erfüllt. Wir wollen nun also die Normalverteilung des Merkmals in den Gruppen überprüfen.
+
+
+```r
+#Wir überprüfen erst wieder, ob die Variable Nebenjob als Faktor vorliegt
+is.factor(zusatz$school)
+```
+
+```
+## [1] TRUE
+```
+
+```r
+# zusatz$school <- factor(zusatz$school, levels = 1:2, labels = c("öffentlich", "privat"))
+
+library(car)
+qqPlot(zusatz$intel[zusatz$school == "privat"])
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-103-1.png)<!-- -->
+
+```
+## [1] 21 34
+```
+
+```r
+qqPlot(zusatz$intel[zusatz$school == "öffentlich"])
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-103-2.png)<!-- -->
+
+```
+## [1] 67 38
+```
+
+```r
+shapiro.test(zusatz$intel[zusatz$school == "privat"])
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  zusatz$intel[zusatz$school == "privat"]
+## W = 0.9432, p-value = 0.02822
+```
+
+```r
+shapiro.test(zusatz$intel[zusatz$school == "öffentlich"])
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  zusatz$intel[zusatz$school == "öffentlich"]
+## W = 0.94364, p-value = 0.003146
+```
+Die Normalverteilungsannahme ist nicht erfüllt. Wir können also keinen t-Test durchführen. Wir überprüfen nun die Voraussetzungen des Wilcoxon-Tests.
+Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselben Verteilung folgen.
+
+
+```r
+hist(zusatz$intel[zusatz$school == "privat"])
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-104-1.png)<!-- -->
+
+```r
+hist(zusatz$intel[zusatz$school == "öffentlich"])
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-104-2.png)<!-- -->
+Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
+
+
+```r
+leveneTest(zusatz$intel ~ zusatz$school)
+```
+
+```
+## Levene's Test for Homogeneity of Variance (center = median)
+##        Df F value Pr(>F)
+## group   1  0.0045 0.9464
+##       114
+```
+
+Wir können von Varianzhomogenität ausgehen und somit einen Wilcoxon-Test durchführen.
+
+
+```r
+wilcox.test(zusatz$intel ~ zusatz$school)
+```
+
+```
+## 
+## 	Wilcoxon rank sum test with continuity correction
+## 
+## data:  zusatz$intel by zusatz$school
+## W = 1755.5, p-value = 0.3598
+## alternative hypothesis: true location shift is not equal to 0
+```
+Das Ergebnis des zweiseitigen Wilcoxon-Tests ist nicht signifikant (*W* = 1755.5, *p* = 0.36 ). Die Nullhypothese konnte nicht verworfen werden und wird beibehalten. Wir gehen also davon aus, dass sich Personen, die auf eine private Schule gegangen sind, und Personen, die eine öffentliche Schule besucht haben, nicht in ihrem Intellekt unterscheiden. 
+
+</details>
+
 
 
 ## Aufgabe 29
@@ -2156,7 +2502,6 @@ Der Effekt ist mit 0.73 als groß einzuschätzen.
 </details>
 
 
-
 ## Aufgabe 30
 
 Hängt die Gewissenhaftigkeit (`gewis`) positiv mit der Anzahl an geschriebenen Wörtern zusammen, die als Begründung (`grund`) für die Wahl des Psychologiestudiums angegeben wurden? Überprüfen Sie die Voraussetzungen für das gewählte Zusammenhangsmaß.
@@ -2190,7 +2535,7 @@ Nun schauen wir uns den Zusammenhang der Variablen in einem Scatterplot an.
 plot(x = fb22$woerter_grund, y = fb22$gewis)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-99-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-113-1.png)<!-- -->
 
 Wir schließen einen nicht linearen Zusammenhang nicht aus und überprüfen nun die Normalverteilung der Variablen.
 
@@ -2200,7 +2545,7 @@ library(car)
 qqPlot(fb22$gewis)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-100-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-114-1.png)<!-- -->
 
 ```
 ## [1] 54 80
@@ -2210,7 +2555,7 @@ qqPlot(fb22$gewis)
 qqPlot(fb22$woerter_grund)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-100-2.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-114-2.png)<!-- -->
 
 ```
 ## [1] 136  93
@@ -2223,8 +2568,8 @@ cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "gre
 ```
 
 ```
-## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Kann exakten
-## p-Wert bei Bindungen nicht berechnen
+## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot compute exact p-value
+## with ties
 ```
 
 ```
@@ -2242,6 +2587,94 @@ cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "gre
 Es besteht kein positiver Zusammenhang zwischen Gewissenhaftigkeit und der Anzahl an geschriebenen Wörter bei der Begründung für das Psychologiestudium.
 
 </details>
+
+
+## Aufgabe 30.2
+
+Hängt die Koffeinabhängigkeit (`caffeine`) positiv mit dem subjektiven Stressepfinden zusammen (`stress`) zusammen. Überprüfen Sie die Voraussetzungen für das gewählte Zusammenhangsmaß.
+
+
+<details><summary>Lösung</summary>
+
+Als erstes schauen wir uns den Zusammenhang der Variablen in einem Scatterplot an.
+
+
+```r
+plot(x = zusatz$caffeine, y = zusatz$stress)
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-116-1.png)<!-- -->
+
+Wir schließen einen nicht linearen Zusammenhang nicht aus und überprüfen nun die Normalverteilung der Variablen.
+
+
+```r
+library(car)
+qqPlot(zusatz$caffeine)
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-117-1.png)<!-- -->
+
+```
+## [1] 102  18
+```
+
+```r
+qqPlot(zusatz$stress)
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-117-2.png)<!-- -->
+
+```
+## [1]  92 110
+```
+
+```r
+shapiro.test(zusatz$caffeine)
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  zusatz$caffeine
+## W = 0.96989, p-value = 0.0103
+```
+
+```r
+shapiro.test(zusatz$stress)
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  zusatz$stress
+## W = 0.97731, p-value = 0.04623
+```
+Die Normalverteilungsannahme ist nicht erfüllt. Daher können wir keine Pearson Produkt-Moment-Korrelation ermitteln und berechnen stattdessen die Rangkorrelation nach Spearman, die nicht an die Normalverteilungsannahme gebunden ist.
+
+
+```r
+cor.test(zusatz$caffeine, zusatz$stress, method = "spearman", alternative = "greater")
+```
+
+```
+## 
+## 	Spearman's rank correlation rho
+## 
+## data:  zusatz$caffeine and zusatz$stress
+## S = 187888, p-value = 0.001313
+## alternative hypothesis: true rho is greater than 0
+## sample estimates:
+##      rho 
+## 0.277715
+```
+
+Es besteht ein positiver Zusammenhang zwischen der Koffeinahängigkeit und dem subjektivem Stressempfinden. 
+
+</details>
+
 
 ## Aufgabe 31
 
@@ -2275,7 +2708,7 @@ plot(fb22$gewis, fb22$prok_ges, xlab = "Gewissenhaftigkeit", ylab = "Prokrastina
 lines(loess.smooth(fb22$gewis, fb22$prok_ges), col = 'blue')
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-103-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-120-1.png)<!-- -->
 
 Die Voraussetzung ist erfüllt. Wir können nun also unser Regressionsmodell aufstellen.
 
@@ -2292,7 +2725,7 @@ par(mfrow = c(2, 2)) #vier Abbildungen gleichzeitig
 plot(fm)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-105-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-122-1.png)<!-- -->
 
 Der Q-Q-Plot oben rechts deutet auf Normalverteilung hin. Die rote Anpassungslinie des Scale-Location Plots unten links ist annähernd parallel zur x-Achse, sodass wir von Varianzhomogenität ausgehen können. Da auch der vierte Plot unten rechts nicht auf potentiell problematische, einflussreiche Datenpunkte hindeutet, sind alle Vorausetzungen erfüllt.
 
@@ -2360,7 +2793,7 @@ summary(fm)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.4524 on 155 degrees of freedom
-##   (2 Beobachtungen als fehlend gelöscht)
+##   (2 observations deleted due to missingness)
 ## Multiple R-squared:  0.2478,	Adjusted R-squared:  0.243 
 ## F-statistic: 51.07 on 1 and 155 DF,  p-value: 3.273e-11
 ```
@@ -2402,6 +2835,153 @@ predict(fm, newdata = data.frame(gewis = 3.2))
 ## 2.773317
 ```
 Das Modell sagt einen Prokrastinationswert von 2.77 voraus.
+</details>
+
+## Aufgabe 31.2
+
+Lässt sich Empathie (`empathy`) durch das Selbstwertgefühl (`selfesteem`) vorhersagen? 
+
+
+* Stellen Sie die Regressionsgerade auf und prüfen sie die Voraussetzungen.
+
+<details><summary>Lösung</summary>
+
+Die einzige Voraussetzung, die wir vor der Aufstellung des Regressionsmodell prüfen können, ist der lineare Zusammenhang der Variablen mit Hilfe eines Scatterplot.
+
+
+```r
+plot(zusatz$selfesteem, zusatz$empathy, xlab = "Selbstwertgefühl", ylab = "Empathie", 
+     main = "Zusammenhang zwischen Selbstwertgefühl und Empathie", pch = 19)
+lines(loess.smooth(zusatz$selfesteem, zusatz$empathy), col = 'blue')
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-127-1.png)<!-- -->
+
+Die Voraussetzung ist erfüllt. Wir können nun also unser Regressionsmodell aufstellen.
+
+
+```r
+fm <- lm(empathy ~ 1 + selfesteem, data = zusatz)
+```
+
+Nun prüfen wir die anderen Voraussetungen.
+
+
+```r
+par(mfrow = c(2, 2)) #vier Abbildungen gleichzeitig
+plot(fm)
+```
+
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-129-1.png)<!-- -->
+
+Der Q-Q-Plot oben rechts deutet auf Normalverteilung hin. Die rote Anpassungslinie des Scale-Location Plots unten links ist annähernd parallel zur x-Achse, sodass wir von Varianzhomogenität ausgehen können. Da auch der vierte Plot unten rechts nicht auf potentiell problematische, einflussreiche Datenpunkte hindeutet, sind alle Vorausetzungen erfüllt.
+
+
+```r
+fm
+```
+
+```
+## 
+## Call:
+## lm(formula = empathy ~ 1 + selfesteem, data = zusatz)
+## 
+## Coefficients:
+## (Intercept)   selfesteem  
+##      2.0608       0.3915
+```
+Die Regressionsgleichung lautet also $$ y_i = 2.061 - 0.392*x_i + e_i $$. 
+</details>
+
+
+* Prüfen Sie nun mit einem {{<math>}}$99\%${{</math>}}-Konfidenzintervall die Signifikanz der Koeffizienten.
+
+<details><summary>Lösung</summary>
+
+
+```r
+confint(fm, level = .99)
+```
+
+```
+##                 0.5 %    99.5 %
+## (Intercept) 1.8483403 2.2733401
+## selfesteem  0.2296862 0.5533776
+```
+
+In keinem der Intervalle ist die Null enthalten, sodass wir davon ausgehen können, dass die beiden Koeffizienten tatsächlich von Null verschieden sind.
+
+</details>
+
+
+* Wie viel Prozent der Varianz der Empathie lassen sich durch das Selbstwertgefühl aufklären?
+
+<details><summary>Lösung</summary>
+
+
+```r
+summary(fm)
+```
+
+```
+## 
+## Call:
+## lm(formula = empathy ~ 1 + selfesteem, data = zusatz)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.23967 -0.25661 -0.04814  0.30186  1.05186 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  2.06084    0.08111  25.409  < 2e-16 ***
+## selfesteem   0.39153    0.06177   6.338 4.91e-09 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.4472 on 113 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.2623,	Adjusted R-squared:  0.2557 
+## F-statistic: 40.17 on 1 and 113 DF,  p-value: 4.908e-09
+```
+
+```r
+summary(fm)$r.squared
+```
+
+```
+## [1] 0.262278
+```
+
+
+
+Durch das Selbstwertgefühl können {{<math>}}$ 26.23\%${{</math>}} der Varianz der Empathie erklärt werden.
+
+</details>
+
+* Eine Person hat ein Selbstwertgefühl von 3.2. Welchen Prokrastinationswert sagt das Modell für diese Person voraus?
+
+<details><summary>Lösung</summary>
+
+```r
+fm$coefficients[1] + 3.2*fm$coefficients[2]
+```
+
+```
+## (Intercept) 
+##    3.313742
+```
+
+```r
+#Alternativ:
+predict(fm, newdata = data.frame(selfesteem = 3.2))
+```
+
+```
+##        1 
+## 3.313742
+```
+Das Modell sagt einen Empathiewert von 3.31 voraus.
 </details>
 
 
@@ -2465,16 +3045,16 @@ x <- c(.001, 0.01, 0.025, 0.05, 0.1)
 plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-112-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-136-1.png)<!-- -->
 
 Wir sehen: Je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 44 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
 
 </details>
 
 
-## Aufgabe 32
+## Aufgabe 32.2
 
-In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Nerdiness und Intellekt von Psychologiestudierenden unterscheiden. Die gefundene Effektgröße betrug 0.73. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
+In Aufgabe 29 haben wir herausgefunden, dass sich die Werte von Marchiavellismus und Narzissmus unterscheiden. Die gefundene Effektgröße betrug 0.73. Wir wollen nun eine Poweranalyse durchführen, indem wir die Studie $10^4$ mal wiederholen.
 Nutzen Sie den Seed 4321 (`set.seed(4321)`).
 
 * Führen Sie eine Simulation durch, um die empirische Power des t-Tests zu bestimmen.
@@ -2532,7 +3112,7 @@ x <- c(.001, 0.01, 0.025, 0.05, 0.1)
 plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-115-1.png)<!-- -->
+![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-139-1.png)<!-- -->
 
 Wir sehen: Je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 159 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
 
