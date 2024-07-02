@@ -23,11 +23,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/simulation/simulationsstudien
+    url: /lehre/forschungsmodul/simulationsstudien
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/simulation/selektionseffekte.R
+    url: /lehre/forschungsmodul/selektionseffekte.R
 
 output:
   html_document:
@@ -88,7 +88,7 @@ mean(Z <= -1)                    # Empirische (beoabachtete) Wahrscheinlichkeit,
 pnorm(q = 2, mean = 0, sd = 1)   # Theoretische Wahrscheinlichkeit, dass Z <= 2
 mean(Z <= 2)                     # Empirische (beoabachtete) Wahrscheinlichkeit, dass Z <= 2
 ```
-Die beobachtete Wahrscheinlichkeit, dass die generierte Variable `Z` kleiner oder gleich groß wie -1 bzw. wie 2 ist, liegt sehr nah an der theoretischen dran (`Z <= -1` bzw. `Z <= 2` wandeln den Vektor `Z` in `TRUE` und `FALSE` um, mit der `mean` Funktion wird dann die relative Häufigkeit von `TRUE`, was `R`-intern als 1 verstanden wird, bestimmt; `FALSE` wird `R`-intern als 0 verstanden; siehe auch [Sitzung zur logistischen Regression](/lehre/fue-i/logistische-regression-titanic) um relative Häufigkeiten von 01-Folgen zu wiederholen oder in der [Sitzung zu Simulationsstudien in `R`](/lehre/simulation/simulationsstudien), in welcher dies zur Berechnung der Power etc. verwendet wurde). Analog zur logistischen Regression wählen wir $p=\mathbb{P}(s_i=1|X_i)=\mathbb{P}(Z_i\le\beta_0+\beta_1X_i)=\Phi(\beta_0+\beta_1X_i)$ und bestimmen die Gewichte mit der Maximum Likelihood Methode. Dies geschieht in der `glm`-Funktion, die wir in der [Sitzung zur logistischen Regression](/lehre/fue-i/logistische-regression-titanic) behandelt haben. Hier muss lediglich das `family`-Argument angepasst werden: `family = binomial(link = "probit")`:
+Die beobachtete Wahrscheinlichkeit, dass die generierte Variable `Z` kleiner oder gleich groß wie -1 bzw. wie 2 ist, liegt sehr nah an der theoretischen dran (`Z <= -1` bzw. `Z <= 2` wandeln den Vektor `Z` in `TRUE` und `FALSE` um, mit der `mean` Funktion wird dann die relative Häufigkeit von `TRUE`, was `R`-intern als 1 verstanden wird, bestimmt; `FALSE` wird `R`-intern als 0 verstanden; siehe auch [Sitzung zur logistischen Regression](/lehre/fue-i/logistische-regression-titanic) um relative Häufigkeiten von 01-Folgen zu wiederholen oder in der [Sitzung zu Simulationsstudien in `R`](/lehre/forschungsmodul/simulationsstudien), in welcher dies zur Berechnung der Power etc. verwendet wurde). Analog zur logistischen Regression wählen wir $p=\mathbb{P}(s_i=1|X_i)=\mathbb{P}(Z_i\le\beta_0+\beta_1X_i)=\Phi(\beta_0+\beta_1X_i)$ und bestimmen die Gewichte mit der Maximum Likelihood Methode. Dies geschieht in der `glm`-Funktion, die wir in der [Sitzung zur logistischen Regression](/lehre/fue-i/logistische-regression-titanic) behandelt haben. Hier muss lediglich das `family`-Argument angepasst werden: `family = binomial(link = "probit")`:
 
 <a id="glmProbit"></a>
 ```{r, warning = F}
@@ -143,7 +143,7 @@ Y_obs <-rep(NA, length(Y))
 Y_obs[s == 1] <- Y[ s== 1]     # beobachtbares Y
 ```
 
-Nachdem wir $Y$ simuliert haben (als gäbe es keinen Selektionseffekt), fügen wir die Selektion nachträglich hinzu. Dafür erstellen wir zunächst einen leeren Vektor `Y_obs` mit dem `reps` Befehl, den wir aus der letzten [Sitzung zu Simulationsstudien in `R`](/lehre/simulation/simulationsstudien) kennen. Anschließend füllen wir alle Stellen des Vektors an denen $s$ gleich 1 ist, also an dem selegiert wurde (in `R`: `s == 1`), mit den entsprechenden Werten aus $Y$ auf. Wenn wir nun eine Regression rechnen und nur die beobachteten Werte verwenden (`R` führt per Default listwise deletion: listenweisen Fallausschluss) durch, so erkennen wir, dass die Regressionsparameter deutlich verschätzt sind. Das Modell dazu nennen wir `reg_obs` für Regressionsobjekt observed. Führen wir hingegen eine Regression auf Populationsebene durch, indem wir `Y` anstatt `Y_obs` verwenden, so liegen die Regressionsschätzer hier sehr nah an den wahren Werten. Hierbei müssen wir unbedingt beachten, dass `Z` in beiden Gleichungen nicht auftaucht (die wahren Werte sind: $b_0 = 0.5$ und $b_1 = 1.2$):
+Nachdem wir $Y$ simuliert haben (als gäbe es keinen Selektionseffekt), fügen wir die Selektion nachträglich hinzu. Dafür erstellen wir zunächst einen leeren Vektor `Y_obs` mit dem `reps` Befehl, den wir aus der letzten [Sitzung zu Simulationsstudien in `R`](/lehre/forschungsmodul/simulationsstudien) kennen. Anschließend füllen wir alle Stellen des Vektors an denen $s$ gleich 1 ist, also an dem selegiert wurde (in `R`: `s == 1`), mit den entsprechenden Werten aus $Y$ auf. Wenn wir nun eine Regression rechnen und nur die beobachteten Werte verwenden (`R` führt per Default listwise deletion: listenweisen Fallausschluss) durch, so erkennen wir, dass die Regressionsparameter deutlich verschätzt sind. Das Modell dazu nennen wir `reg_obs` für Regressionsobjekt observed. Führen wir hingegen eine Regression auf Populationsebene durch, indem wir `Y` anstatt `Y_obs` verwenden, so liegen die Regressionsschätzer hier sehr nah an den wahren Werten. Hierbei müssen wir unbedingt beachten, dass `Z` in beiden Gleichungen nicht auftaucht (die wahren Werte sind: $b_0 = 0.5$ und $b_1 = 1.2$):
 
 ```{r}
 reg_obs <- lm(Y_obs ~ X)

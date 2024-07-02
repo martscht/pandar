@@ -95,8 +95,8 @@ sections:
         {{< category_list "diagnostik" 2 >}}
         <br>
         
-        <h3>Forschungsmethoden und Evaluation</h3>
-        Das Modul PsyBSc5 - Forschungsmethoden und Evaluation I beschäftigt sich mit vertiefenden Analysen und Simulationsstudien und gibt dadurch Einblicke in die Welt der Analyse von statistischen Methoden.
+        <h3>Forschungsmodul Methoden</h3>
+        Das Forschungsmodul Methoden beschäftigt sich mit vertiefenden Analysen und Simulationsstudien und gibt dadurch Einblicke in die Welt der Analyse von statistischen Methoden.
         {{< category_list "simulation" 2 >}}
         <br>
         
