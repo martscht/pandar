@@ -94,6 +94,13 @@ sections:
 
         {{< category_list "diagnostik" 2 >}}
         <br>
+        
+        <h3>Forschungsmodul Methoden</h3>
+        Das Forschungsmodul Methoden beschäftigt sich mit vertiefenden Analysen und Simulationsstudien und gibt dadurch Einblicke in die Welt der Analyse von statistischen Methoden.
+          
+        {{< category_list "forschungsmodul" 2 >}}
+        <br>
+        
         <h3>Meta-Analyse im A&O-Kontext</h3>
         
         Die hier präsentierten Unterlagen sind während des Forschungsmoduls A&O (SoSe 2020 und WiSe 2020/21) entstanden. Eine ergänzende Ressource zu Meta-Analysen im nicht-klinischen Bereich.
@@ -104,9 +111,8 @@ sections:
         <h3>Independence in R</h3>
         
         This is a guide, specifically designed for students, to help with your handling of R - especially when working with your own data. Here you will find detailed examples for working with R, data aggregation, descriptive and inferential statistics and much more.
-        <br>
-        <br>
-        <a href="../independence/independence-r">A student’s guide to independence in R</a>
+        
+        {{< category_list "independence" 1 >}}
   
     design:
       columns: 2

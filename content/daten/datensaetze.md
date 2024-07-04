@@ -33,43 +33,44 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Achtsamkeit und Depression](#achtsamkeit-und-depression-raw_data) |  [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/awz3d/download) |
 | [Alkoholkonsum von Jugendlichen](#alkoholkonsum-von-jugendlichen-alc) | [{{< icon name="download" pack="fas" >}} `alc` ](/daten/alc.rda) |
 [Arbeitsstress bei Call-Center-Mitarbeiter:innen](#arbeitsstress-bei-call-center-mitarbeiterinnen-stressatwork) | [{{< icon name="download" pack="fas" >}} `StressAtWork` ](/daten/StressAtWork.rda) |
-| [Vergleich von Behandlungsformen](#vergleich-von-behandlungsformen-behandlungsform) | [{{< icon name="download" pack="fas" >}} `Behandlungsform` ](daten/Behandlungsform.rda)
-| [Die Big Five Persönlichkeitsdimensionen](#die-big-five-persönlichkeitsdimensionen-big5) | [{{< icon name="download" pack="fas" >}} `Big5` ](/daten/Big5_EFA.rda) |
-| [Interozeptive Aufmerksamkeit und Genauigkeit](#interozeptive-aufmerksamkeit-und-genauigkeit-body) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/j6ef3/download) |
 | [Bildungsinvestitionen auf der Welt](#bildungsinvestitionen-auf-der-welt-edu_exp) | [{{< icon name="download" pack="fas" >}} `edu_exp` ](/daten/edu_exp.rda) 
-| [Erfahrung in Beziehungen](#erfahrung-in-beziehungen-ecr) | [{{< icon name="download" pack="fas" >}} `ecr` ](/daten/ecr.rda)
 | [Bullyingprävention bei Jugendlichen](#bullyingprävention-bei-jugendlichen-fairplayer) | [{{< icon name="download" pack="fas" >}} `fairplayer` ](/daten/faiplayer.rda) |
-| [Quasi-Experimentelle Therapiestudie](#quasi-experimentelle-therapiestudie-cbtdata) | [{{< icon name="download" pack="fas" >}} `CBTdata` ](/daten/CBTdata.rda) |
 | [Depressivität](#depressivitat-Depression) | [{{< icon name="download" pack="fas" >}} `Depression` ](/daten/Depression.rda) |
+| [Die Big Five Persönlichkeitsdimensionen](#die-big-five-persönlichkeitsdimensionen-big5) | [{{< icon name="download" pack="fas" >}} `Big5` ](/daten/Big5_EFA.rda) |
 | [Distorted News](#distorted-news) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/k4xcv/) |
 | [Effektivität der CBT bei Depression](#effektivität-der-cbt-bei-depression-f2f_cbt) | _Teil des Pakets `metafor`_ |
+| [Einstellungsentscheidungen](#assessment) | [{{< icon name="download" pack="fas" >}} `Assessment` ](/daten/Assessment.rda) |
 |  [Entwicklung der Weltbevölkerung](#entwicklung-der-weltbevölkerung-worldpopulation) | [{{< icon name="download" pack="fas" >}} `WorldPopulation` ](/daten/WorldPopulation.rda) |
+| [Erfahrung in Beziehungen](#erfahrung-in-beziehungen-ecr) | [{{< icon name="download" pack="fas" >}} `ecr` ](/daten/ecr.rda)
 | [Fragebogendaten aus dem ersten Semester 22](#fragebogendaten-aus-dem-ersten-semester-fb22) |  [{{< icon name="download" pack="fas" >}} `fb22` ](/daten/fb22.rda) |
 | [Fragebogendaten aus dem ersten Semester 23](#fragebogendaten-aus-dem-ersten-semester-fb23) | [{{< icon name="download" pack="fas" >}} `fb23`](/daten/fb23.rda) |
 | [Gender, Drug, and Depression](#gender-drug-and-depression-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/prc92/download) |
-| [Skalenwerte der Generic Conspiracist Beliefs Scale](#skalenwerte-der-generic-conspiracist-beliefs-scale-conspiracy) | [{{< icon name="download" pack="fas" >}} `conspiracy` ](/daten/conspiracy.rda) |
-| [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa)) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa` ](/daten/conspiracy_cfa.rda) |
 | [Gewissenhaftigkeit und Medikamenteneinnahme](#gewissenhaftigkeit-und-medikamenteneinnahme-data_combined) |  _Teil des Pakets `metafor`_ |
+| [Hauptkomponentenanalyse](#hauptkomponentenanalyse-pca) | [{{< icon name="download" pack="fas" >}} `PCA` ](/daten/PCA.RData) |
+| [HeckData (keine Ahnung, worum es bei diesem Datensatz eigentlich geht)](#heckdata) | [{{< icon name="download" pack="fas" >}} `HeckData` ](/daten/HeckData.rda) |
 | [Internetintervention für psychische Störungen](#internetintervention-für-psychische-störungen-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/zc8ut/download) |
+| [Interozeptive Aufmerksamkeit und Genauigkeit](#interozeptive-aufmerksamkeit-und-genauigkeit-body) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/j6ef3/download) |
+| [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa)) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa` ](/daten/conspiracy_cfa.rda) |
 | [Kooperationsbereitschaft von Geschwistern](#kooperationsbereitschaft-von-geschwistern-datakooperation) | _via Syntax erstellt_ |
+| [Kulturelle Unterschiede in Korruptionsbestrafung](#kulturelle-unterschiede-in-korruptionsbestrafung-punish) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/4wypx/download)
+| [Lesekompetenz in der PISA-Erhebung](#lesekompetenz-in-der-pisa-erhebung-pisa2009) | [{{< icon name="download" pack="fas" >}} `PISA2009` ](/daten/PISA2009.rda) |
 | [Machiavellismus-Fragebogen](#machiavellismus-fragebogen-mach) | [{{< icon name="download" pack="fas" >}} `mach` ](/daten/mach.rda) |
 | [Major Depression](#major-depression-data) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/g6ya4/download) |
 | [Mehrdimensionaler Befindlichkeitsfragebogen](#mehrdimensionaler-befindlichkeitsfragebogen-mdbf) | [{{< icon name="download" pack="fas" >}} `mdbf` ](/daten/mdbf.rda) |
 | [Mental Health and Social Contact During the COVID-19 Pandemic](#mental-health-and-social-contact-during-the-covid-19-pandemic-data) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/qev5n/download) |
 | [Naturverbundenheit](#naturverbundenheit-nature) | [{{< icon name="download" pack="fas" >}} `nature` ](/daten/nature.rda) |
-| [Lesekompetenz in der PISA-Erhebung](#lesekompetenz-in-der-pisa-erhebung-pisa2009) | [{{< icon name="download" pack="fas" >}} `PISA2009` ](/daten/PISA2009.rda) |
+| [Nerdiness](#nerd) | [{{< icon name="download" pack="fas" >}} `NerdData` ](/daten/NerdData.rda) |
 | [Parental Burnout](#parental-burnout-burnout) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/qev5n/download) |
-| [Hauptkomponentenanalyse](#hauptkomponentenanalyse-pca) | [{{< icon name="download" pack="fas" >}} `PCA` ](/daten/PCA.RData) |
 | [Psychisches Wohlbefinden von Individuen während des Lockdowns in Frankreich](#psychisches-wohlbefinden-von-individuen-während-des-lockdowns-in-frankreich-lockdown) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/dc6me/download)
-| [Kulturelle Unterschiede in Korruptionsbestrafung](#kulturelle-unterschiede-in-korruptionsbestrafung-punish) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/4wypx/download)
+| [Quasi-Experimentelle Therapiestudie](#quasi-experimentelle-therapiestudie-cbtdata) | [{{< icon name="download" pack="fas" >}} `CBTdata` ](/daten/CBTdata.rda) |
 | [Schulleistungen](#schulleistungen) | [{{< icon name="download" pack="fas" >}} `Schulleistungen` ](/daten/Schulleistungen.rda) |
+| [Skalenwerte der Generic Conspiracist Beliefs Scale](#skalenwerte-der-generic-conspiracist-beliefs-scale-conspiracy) | [{{< icon name="download" pack="fas" >}} `conspiracy` ](/daten/conspiracy.rda) |
+| [Students in Classes](#studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
 | [Therapieerfolg](#therapieerfolg-therapy) | [{{< icon name="download" pack="fas" >}} `Therapy` ](/daten/Therapy.rda) |
 | [Titanic](#titanic) |  [{{< icon name="download" pack="fas" >}} `Titanic` ](/daten/Titanic.rda) |
 | [Traumatische Erlebnisse und psychische Störungen](#traumatische-erlebnisse-und-psychische-störungen-trauma) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/a9vun/download) |
-| [Einstellungsentscheidungen](#assessment) | [{{< icon name="download" pack="fas" >}} `Assessment` ](/daten/Assessment.rda) |
-| [Nerdiness](#nerd) | [{{< icon name="download" pack="fas" >}} `NerdData` ](/daten/NerdData.rda) |
-| [Students in Classes](#studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
 | [Vegan](#vegan) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/rctkf/)
+| [Vergleich von Behandlungsformen](#vergleich-von-behandlungsformen-behandlungsform) | [{{< icon name="download" pack="fas" >}} `Behandlungsform` ](daten/Behandlungsform.rda)
 | [Xmas](#xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
 
 ---
@@ -227,156 +228,6 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Vergleich von Behandlungsformen `Behandlungsform`
-
-<!-- <details><summary>Datensatz</summary> -->
-
-### Beschreibung
-Der Datensatz enthält Ausprägungen von Patient:innen auf verschiedenen psychotherapeutischen Variablen sowie demografische Informationen. Dabei gibt es zwei kategoriale Variablen: Auf Geschlecht gibt es hier die Ausprägungen männlich und weiblich, während die Therapieform zwischen Kontrollgruppe, KVT und einer Kombination auf KVT und Blended Care unterscheidet. Alle anderen Variablen können als intervallskaliert angenommen werden.
-
-Auf `pandaR` wird der Datensatz in dem [Quiz 5](/post/bsc7-daten/#Quiz5) für PsyBsc7 und in [Block 1](/post/msc5a-daten/#Block1) der Quizze für PsyMSc5a verwendet.
-
-### Datensatz laden
-
-```r
-load(url("https://pandar.netlify.app/daten/Behandlungsform.rda"))
-```
-
-### Größe
-Der Datensatz besteht aus 100 Beobachtungen auf 6 Variablen.
-
-### Variablen
-In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
-
-| Variable | Kodierung |
-| --- | ---- |
-| `Depression` | *Skalenwert* |
-| `Therapeutische_Allianz` | *Skalenwert* |
-| `Gesundheitszustand` | *Skalenwert* |
-| `Interpersonelle_Probleme` | *Skalenwert* |
-| `Therapieform` | 1 = Kontrolle, 2 = KVT, 3 = blended Care KVT |
-| `Geschlecht` | 1 = männlich, 2 = weiblich |
-
-### Fehlende Werte
-Im Datensatz liegen keine fehlenden Werte vor.
-
-<!-- </details> -->
-
----
-
-## Die Big Five Persönlichkeitsdimensionen `Big5`
-
-<!-- <details><summary>Datensatz</summary> -->
-### Beschreibung
-Der Originaldatensatz ist ein Onlinedatensatz, wird seit 2012 erfasst und ist auf [`<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg>`{=html} openpsychometrics.org](https://openpsychometrics.org/_rawdata/) als *.zip* downloadbar. Bisher haben über **19700** Probanden aus der ganzen Welt teilgenommen. Zu jeder der fünf Facetten gibt es 10 Fragen. Der Fragebogen ist auf [personality-testing.info](http://personality-testing.info/tests/BIG5.php) einzusehen.
-Um das Ganze etwas übersichtlicher zu gestalten, betrachten wir einen gekürzten Datensatz. Im Datensatz *Big5_EFA.rda* befinden sich 15 Items aus dem Big-5 Persönlichkeitsfragebogen. Hier werden von den 10 Items pro Facette jeweils die ersten drei verwendet.
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Exploratorische Faktorenanalyse](/post/efa) für PsyMSc1 verwendet.
-
-### Datensatz laden
-
-```r
-load(url("https://pandar.netlify.app/daten/Big5_EFA.rda"))
-```
-
-### Größe
-Der Datensatz besteht aus 19711 Beobachtungen auf 19 Variablen.
-
-### Variablen
-In der folgenden Tabelle erfolgt eine Übersicht der wichtigsten Variablen und ihre Bedeutungen. Die jeweiligen Items sind von 1 bis 5 skaliert.
-
-| Variable | Itemwortlaut |
-| --- | ---- |
-| `E1` | "I am the life of the party." |
-| `E2` | "I don't talk a lot." |
-| `E3` | "I feel comfortable around people." |
-| `N1` | "I get stressed out easily." |
-| `N2` | "I am relaxed most of the time." |
-| `N3` | "I worry about things." |
-| `A1` | "I feel little concern for others." |
-| `A2` | "I am interested in people." |
-| `A3` | "I insult people." |
-| `C1` | "I am always prepared." |
-| `C2` | "I leave my belongings around." |
-| `C3` | "I pay attention to details." |
-| `O1` | "I have a rich vocabulary." |
-| `O2` | "I have difficulty understanding abstract ideas." |
-| `O3` | "I have a vivid imagination." |
-
-### Fehlende Werte
-Im Datensatz liegen keine fehlenden Werte vor.
-
-<!-- </details> -->
-
----
-
-## Interozeptive Aufmerksamkeit und Genauigkeit `body`
-
-### Beschreibung
-
-Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Untersuchung von [Campos, Barbosa Rocha und Barbosa (2022)](https://osf.io/hmtz9), in der es um die Abgrenzung von interozeptiver (die Wahrnehmung der vegetativen Prozesse des eigenen Körpers) Aufmerksamkeit und Genauigkeit geht.
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Regression mit nominalskalierten Prädiktoren](/post/nominalskalierte-praediktoren) für PsyBSc7 verwendet.
-
-### Datensatz laden
-
-Der Datensatz liegt im OSF im `.sav` Dateiformat (dem Datenformat in dem SPSS seine Daten abspeichert) vor. Daher müssen die Daten mithilfe einer der vielen verschiedenen Import-Funktionen eingelesen werden. Hier nutzen wir dafür die Funktion `read_sav` aus dem Paket `haven`, welches R-Studio primär nutzt, um Daten zu importieren und daher bereits installiert sein sollte.
-
-
-```r
-library(haven)
-body <- haven::read_sav(file = url('https://osf.io/43xv5/download'))
-```
-
-Der Datensatz enthält neben den zusammengefassten Skalenwerten auch die einzelnen Items der beiden zentralen Skalen (IAS und BPQ), welche wir für diese Anwendung entfernen, um die Daten etwas übersichtlicher zu gestalten. Wir beschränken uns also auf die ersten 27 Variablen im Datensatz:
-
-
-```r
-body <- body[, 1:27]
-```
-
-### Größe
-Der eingeschränkte Datensatz besteht aus 134 Beobachtungen auf 27 Variablen.
-
-### Variablen
-In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
-
-| Variable | Inhalt | Kodierung |
-| --- | ---- | ---- |
-| `id` | Probanden-ID |  |
-| `Age` | Alter | Alter in Jahren |
-| `Sex` | Geschlecht | 0 = weiblich, 1 = männlich |
-| `Nationality` | Nationalität | 0 = andere, 1 = Portugiesisch |
-| `PortugueseFirstLanguage` | Muttersprache | 0 = andere, 1 = Portugiesisch |
-| `EducationCategorical` | Höchster Bildungsabschluss | 0 = kein Abschluss, 1 = Grundschule, 2 = mittlere Reife, 3 = Abitur/High School, 4 = Bachelor, 5 = Master, 6 = Doktorgrad |
-| `EducationYears` | Jahre im Bildungssystem | 
-| `Student` | Schüler\*in oder Student\*in? | 0 = nein, 1 = ja 
-| `Employed` | Angestelltenverhältnis? | 0 = nein, 1 = ja
-| `Unemployed` | Arbeitslos? | 0 = nein, 1 = ja
-| `StayAtHome` | Hausfrau/-mann? | 0 = nein, 1 = ja
-| `Retired` | Im Ruhestand? | 0 = nein, 1 = ja
-| `OccupationalStatusOther` | Anderes Beschäftigungsverhältnis? | 0 = nein, 1 = ja
-| `UniversityStudent` | Student*in? | 0 = nein, 1 = ja ( _fehlerhafte Kopie der Variable `Student`_ ) 
-| `PsychiatricHistory` | Psychische Störung in der Vergangenheit? | 0 = nein, 1 = ja
-| `NeurologicalHistory` | Neurologische Störung in der Vergangenheit? | 0 = nein, 1 = ja
-| `ChronicCondition` | Chronische Krankheiten? | 0 = nein, 1 = ja 
-| `Medication` | Aktuell Medikamenteneinnahme? | 0 = nein, 1 = ja
-| `Device` | Gerät an dem Fragebogen ausgefüllt wird | 0 = Computer, 1 = Smartphone, 2 = Tablet, 3 = anderes
-| `IAS_TotalScore` | _Interoceptive Accuracy Scale_ | _Skalenwert_
-| `IAS_TotalScore_Retest` | _Interoceptive Accuracy Scale_, 2. Erhebung | _Skalenwert_
-| `BPQ_BodyAwareness` | _Body Perception Questionnaire_, Aufmerksamkeits-Dimension | _Skalenwert_
-| `BPQ_BodyAwareness_Retest` | _Body Perception Questionnaire_, Aufmerksamkeits-Dimension, 2. Erhebung | _Skalenwert_
-| `BPQ_AutonomicReactivity` | _Body Perception Questionnaire_, Reaktivitäts-Dimension | _Skalenwert_
-| `BPQ_AutonomicReactivity_Retest` | _Body Perception Questionnaire_, Reaktivitäts-Dimension, 2. Erhebung | _Skalenwert_
-| `BPQ_Time_Retest` | Zeit um BPQ auszufüllen, 2. Erhebung | in Sekunden
-| `IAS_Time_Retest` | Zeit um IAS auszufüllen, 2. Erhebung | in Sekunden
-
-### Fehlende Werte
-
-In dem Datensatz liegen 92 fehlende Werte vor. Diese sind allesamt auf der fehlerhaft kodierten Variablen `UniversityStudent` zu finden.
-
----
-
 ## Bildungsinvestitionen auf der Welt (`edu_exp`)
 
 <!-- <details><summary>Datensatz</summary> -->
@@ -426,68 +277,6 @@ Insgesamt liegen im Datensatz 10147 fehlende Werte vor. Folgende Variablen entha
 
 ---
 
-## Erfahrungen in Beziehungen (`ecr`)
-
-### Beschreibung
-Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"](https://openpsychometrics.org/_rawdata/), einer Online-Plattform, die eine Sammlung an Daten aus verschiedensten Persönlichkeitstests zur Verfügung stellt. Bei den hier bereitgestellten Daten handelt es sich um eine Auswahl von Daten, die ausschließlich aus Deutschland stammt. Im Zentrum stehen die 36 Items der "Experiences in Close Relationships" Skala von Brennan et al. (1998).
-
-### Datensatz laden
-
-```r
-load(url('https://pandar.netlify.com/daten/ecr.rda'))
-```
-
-
-### Größe
-Der Datensatz besteht aus 554 Beobachtungen auf 38 Variablen.
-
-### Variablen
-In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
-
-| Variable | Inhalt | Kodierung |
-| --- | ---- | ---- |
-| `gender` | Geschlecht | 1 = male, 2 = female, 3 = nonbinare |
-| `age` | Alter |  |
-| `Q1` | I prefer not to show a partner how I feel deep down. | 1 = strongly disagree; 5 = strongly agree |
-| `Q2` | I worry about being abandoned. | 1 = strongly disagree; 5 = strongly agree |
-| `Q3` | I am very comfortable being close to romantic partners. | 1 = strongly disagree; 5 = strongly agree |
-| `Q4` | I worry a lot about my relationships. | 1 = strongly disagree; 5 = strongly agree |
-| `Q5` | Just when my partner starts to get close to me I find myself pulling away. | 1 = strongly disagree; 5 = strongly agree |
-| `Q6` | I worry that romantic partners wont care about me as much as I care about them. | 1 = strongly disagree; 5 = strongly agree |
-| `Q7` | I get uncomfortable when a romantic partner wants to be very close. | 1 = strongly disagree; 5 = strongly agree |
-| `Q8` | I worry a fair amount about losing my partner. | 1 = strongly disagree; 5 = strongly agree |
-| `Q9` | I don't feel comfortable opening up to romantic partners. | 1 = strongly disagree; 5 = strongly agree |
-| `Q10` | I often wish that my partner's feelings for me were as strong as my feelings for him/her. | 1 = strongly disagree; 5 = strongly agree |
-| `Q11` | I want to get close to my partner, but I keep pulling back. | 1 = strongly disagree; 5 = strongly agree |
-| `Q12` | I often want to merge completely with romantic partners, and this sometimes scares them away. | 1 = strongly disagree; 5 = strongly agree |
-| `Q13` | I am nervous when partners get too close to me. | 1 = strongly disagree; 5 = strongly agree |
-| `Q14` | I worry about being alone. | 1 = strongly disagree; 5 = strongly agree |
-| `Q15` | I feel comfortable sharing my private thoughts and feelings with my partner. | 1 = strongly disagree; 5 = strongly agree |
-| `Q16` | My desire to be very close sometimes scares people away. | 1 = strongly disagree; 5 = strongly agree |
-| `Q17` | I try to avoid getting too close to my partner. | 1 = strongly disagree; 5 = strongly agree |
-| `Q18` | I need a lot of reassurance that I am loved by my partner. | 1 = strongly disagree; 5 = strongly agree |
-| `Q19` | I find it relatively easy to get close to my partner. | 1 = strongly disagree; 5 = strongly agree |
-| `Q20` | Sometimes I feel that I force my partners to show more feeling, more commitment. | 1 = strongly disagree; 5 = strongly agree |
-| `Q21` | I find it difficult to allow myself to depend on romantic partners. | 1 = strongly disagree; 5 = strongly agree |
-| `Q22` | I do not often worry about being abandoned. | 1 = strongly disagree; 5 = strongly agree |
-| `Q23` | I prefer not to be too close to romantic partners. | 1 = strongly disagree; 5 = strongly agree |
-| `Q24` | If I can't get my partner to show interest in me, I get upset or angry. | 1 = strongly disagree; 5 = strongly agree |
-| `Q25` | I tell my partner just about everything. | 1 = strongly disagree; 5 = strongly agree |
-| `Q26` | I find that my partner(s) don't want to get as close as I would like. | 1 = strongly disagree; 5 = strongly agree |
-| `Q27` | I usually discuss my problems and concerns with my partner. | 1 = strongly disagree; 5 = strongly agree |
-| `Q28` | When I'm not involved in a relationship, I feel somewhat anxious and insecure. | 1 = strongly disagree; 5 = strongly agree |
-| `Q29` | I feel comfortable depending on romantic partners. | 1 = strongly disagree; 5 = strongly agree |
-| `Q30` | I get frustrated when my partner is not around as much as I would like. | 1 = strongly disagree; 5 = strongly agree |
-| `Q31` | I don't mind asking romantic partners for comfort, advice, or help. | 1 = strongly disagree; 5 = strongly agree |
-| `Q32` | I get frustrated if romantic partners are not available when I need them. | 1 = strongly disagree; 5 = strongly agree |
-| `Q33` | It helps to turn to my romantic partner in times of need. | 1 = strongly disagree; 5 = strongly agree |
-| `Q34` | When romantic partners disapprove of me, I feel really bad about myself. | 1 = strongly disagree; 5 = strongly agree |
-| `Q35` | I turn to my partner for many things, including comfort and reassurance. | 1 = strongly disagree; 5 = strongly agree |
-| `Q36` | I resent it when my partner spends time away from me. | 1 = strongly disagree; 5 = strongly agree |
-
-### Fehlende Werte
-Im Datensatz liegen 2 fehlenden Werte vor. Fehlende Werte sind dabei ausschließlich auf der Variable `gender` zu finden.
-
 ## Bullyingprävention bei Jugendlichen (`fairplayer`)
 
 <!-- <details><summary>Datensatz</summary> -->
@@ -533,44 +322,6 @@ In dem Datensatz liegen 830 fehlende Werte vor. Folgende Variablen enthalten kei
 
 ---
 
-## Quasi-Experimentelle Therapiestudie `CBTdata`
-
-<!-- <details><summary>Datensatz</summary> -->
-
-### Beschreibung
-Beim Datensatz handelt es sich um ein fiktives Datenbeispiel, bei dem Patient:innen, die an einer Depression oder einer Angststörung leiden, entweder mit einer kognitiven Verhaltenstherapie (CBT) behandelt oder in einer Wartekontrollgruppe belassen wurden. Eine zufällige Zuordnung war nicht vollständig möglich, da die Zuordnung von überweisenden Hausarzt-Praxen der Patient:innen mit beeinflusst werden konnte (z.B. durch Geltendmachung einer besonderen Dringlichkeit der Therapie).
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Schätzung von Kausaleffekten 1](/lehre/klipps/kausaleffekte1) und [Schätzung von Kausaleffekten 2](/lehre/klipps/kausaleffekte2) für PsyMSc5a verwendet.
-
-### Datensatz laden
-
-```r
-load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
-```
-
-### Größe
-Der Datensatz besteht aus 326 Beobachtungen auf 8 Variablen.
-
-### Variablen
-In der folgenden Tabelle erfolgt eine Übersicht der wichtigsten Variablen und ihre Bedeutungen.
-
-| Variable | Inhalt | Kodierung |
-| --- | ----- | ---- |
-| `Age` | Alter | *Alter* |
-| `Gender` | Geschlecht | female = weiblich, male = männlich |
-| `Treatment` | Behandlungsgruppenzugehörigkeit | CBT = kognitive Verhaltenstherapie, WL = Wartekontrolle |
-| `Disorder` | psychische Störung | ANX = Angststörung, DEP = Depression |
-| `BDI_pre` | Depressionswert gemessen mit Beck Depressions-Inventar vor Therapie | 0 - 63 |
-| `SWL_pre` | Lebenszufriedenheit gemessen mit Satisfaction With Life Screening vor Therapie | 5 - 35 |
-| `BDI_post` | Depressionswert gemessen mit Beck Depressions-Inventar nach Therapie | 0 - 63 |
-| `SWL_post` | Lebenszufriedenheit gemessen mit Satisfaction With Life Screening nach Therapie | 5 - 35 |
-
-### Fehlende Werte
-Im Datensatz liegen keine fehlenden Werte vor.
-<!-- </details> -->
-
----
-
 ## Depressivität `Depression`
 
 <!-- <details><summary>Datensatz</summary> -->
@@ -603,6 +354,52 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 
 ### Fehlende Werte
 In dem Datensatz liegen keine fehlenden Werte vor.
+
+<!-- </details> -->
+
+---
+
+## Die Big Five Persönlichkeitsdimensionen `Big5`
+
+<!-- <details><summary>Datensatz</summary> -->
+### Beschreibung
+Der Originaldatensatz ist ein Onlinedatensatz, wird seit 2012 erfasst und ist auf [openpsychometrics.org](https://openpsychometrics.org/_rawdata/) als *.zip* downloadbar. Bisher haben über **19700** Probanden aus der ganzen Welt teilgenommen. Zu jeder der fünf Facetten gibt es 10 Fragen. Der Fragebogen ist auf [personality-testing.info](http://personality-testing.info/tests/BIG5.php) einzusehen.
+Um das Ganze etwas übersichtlicher zu gestalten, betrachten wir einen gekürzten Datensatz. Im Datensatz *Big5_EFA.rda* befinden sich 15 Items aus dem Big-5 Persönlichkeitsfragebogen. Hier werden von den 10 Items pro Facette jeweils die ersten drei verwendet.
+
+Auf `pandaR` wird der Datensatz in dem Tutorial [Exploratorische Faktorenanalyse](/post/efa) für PsyMSc1 verwendet.
+
+### Datensatz laden
+
+```r
+load(url("https://pandar.netlify.app/daten/Big5_EFA.rda"))
+```
+
+### Größe
+Der Datensatz besteht aus 19711 Beobachtungen auf 19 Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der wichtigsten Variablen und ihre Bedeutungen. Die jeweiligen Items sind von 1 bis 5 skaliert.
+
+| Variable | Itemwortlaut |
+| --- | ---- |
+| `E1` | "I am the life of the party." |
+| `E2` | "I don't talk a lot." |
+| `E3` | "I feel comfortable around people." |
+| `N1` | "I get stressed out easily." |
+| `N2` | "I am relaxed most of the time." |
+| `N3` | "I worry about things." |
+| `A1` | "I feel little concern for others." |
+| `A2` | "I am interested in people." |
+| `A3` | "I insult people." |
+| `C1` | "I am always prepared." |
+| `C2` | "I leave my belongings around." |
+| `C3` | "I pay attention to details." |
+| `O1` | "I have a rich vocabulary." |
+| `O2` | "I have difficulty understanding abstract ideas." |
+| `O3` | "I have a vivid imagination." |
+
+### Fehlende Werte
+Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
@@ -726,6 +523,37 @@ Im Datensatz liegen 20 fehlende Werte vor. Auf folgenden Variablen liegen keine 
 
 ---
 
+## Einstellungsentscheidungen/Assessment {#assessment}
+### Beschreibung
+Bei dem Datensatz handelt es sich um ein simuliertes Datenbeispiel zu Einstellungsentscheidungen in jungen Start-Ups.
+
+Auf `pandaR` wird der Datensatz in den [Übungsaufgaben](/lehre/fue-i/msc1-daten) für PsyMSc1 verwendet.
+
+### Datensatz laden
+
+```r
+load(url("https://pandar.netlify.app/daten/Assessment.rda"))
+```
+
+### Größe
+Der Datensatz besteht aus 1672 Beobachtungen auf 4 Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+| Variable | Inhalt |
+| --- | ---- |
+| `Hired` | gibt an, ob die jeweilige Person eingestellt wurde |
+| `Age` | ist das Alter in Jahren |
+| `Expertise` | ist die Expertise der jeweiligen Person als Selbsteinschätzung auf einer 7-stufigen Likert-Skala |
+| `Party` | gibt die politische Orientierung der Person in 3 Abstufungen an (Elected, right, left) |
+
+### Fehlende Werte
+In dem Datensatz liegen keine fehlenden Werte vor.
+<!-- </details> -->
+
+---
+
 ## Entwicklung der Weltbevölkerung (`WorldPopulation`)
 
 <!-- <details><summary>Datensatz</summary> -->
@@ -754,6 +582,70 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+---
+
+## Erfahrungen in Beziehungen (`ecr`)
+
+### Beschreibung
+Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"](https://openpsychometrics.org/_rawdata/), einer Online-Plattform, die eine Sammlung an Daten aus verschiedensten Persönlichkeitstests zur Verfügung stellt. Bei den hier bereitgestellten Daten handelt es sich um eine Auswahl von Daten, die ausschließlich aus Deutschland stammt. Im Zentrum stehen die 36 Items der "Experiences in Close Relationships" Skala von Brennan et al. (1998).
+
+### Datensatz laden
+
+```r
+load(url('https://pandar.netlify.com/daten/ecr.rda'))
+```
+
+
+### Größe
+Der Datensatz besteht aus 554 Beobachtungen auf 38 Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+| Variable | Inhalt | Kodierung |
+| --- | ---- | ---- |
+| `gender` | Geschlecht | 1 = male, 2 = female, 3 = nonbinare |
+| `age` | Alter |  |
+| `Q1` | I prefer not to show a partner how I feel deep down. | 1 = strongly disagree; 5 = strongly agree |
+| `Q2` | I worry about being abandoned. | 1 = strongly disagree; 5 = strongly agree |
+| `Q3` | I am very comfortable being close to romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q4` | I worry a lot about my relationships. | 1 = strongly disagree; 5 = strongly agree |
+| `Q5` | Just when my partner starts to get close to me I find myself pulling away. | 1 = strongly disagree; 5 = strongly agree |
+| `Q6` | I worry that romantic partners wont care about me as much as I care about them. | 1 = strongly disagree; 5 = strongly agree |
+| `Q7` | I get uncomfortable when a romantic partner wants to be very close. | 1 = strongly disagree; 5 = strongly agree |
+| `Q8` | I worry a fair amount about losing my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q9` | I don't feel comfortable opening up to romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q10` | I often wish that my partner's feelings for me were as strong as my feelings for him/her. | 1 = strongly disagree; 5 = strongly agree |
+| `Q11` | I want to get close to my partner, but I keep pulling back. | 1 = strongly disagree; 5 = strongly agree |
+| `Q12` | I often want to merge completely with romantic partners, and this sometimes scares them away. | 1 = strongly disagree; 5 = strongly agree |
+| `Q13` | I am nervous when partners get too close to me. | 1 = strongly disagree; 5 = strongly agree |
+| `Q14` | I worry about being alone. | 1 = strongly disagree; 5 = strongly agree |
+| `Q15` | I feel comfortable sharing my private thoughts and feelings with my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q16` | My desire to be very close sometimes scares people away. | 1 = strongly disagree; 5 = strongly agree |
+| `Q17` | I try to avoid getting too close to my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q18` | I need a lot of reassurance that I am loved by my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q19` | I find it relatively easy to get close to my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q20` | Sometimes I feel that I force my partners to show more feeling, more commitment. | 1 = strongly disagree; 5 = strongly agree |
+| `Q21` | I find it difficult to allow myself to depend on romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q22` | I do not often worry about being abandoned. | 1 = strongly disagree; 5 = strongly agree |
+| `Q23` | I prefer not to be too close to romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q24` | If I can't get my partner to show interest in me, I get upset or angry. | 1 = strongly disagree; 5 = strongly agree |
+| `Q25` | I tell my partner just about everything. | 1 = strongly disagree; 5 = strongly agree |
+| `Q26` | I find that my partner(s) don't want to get as close as I would like. | 1 = strongly disagree; 5 = strongly agree |
+| `Q27` | I usually discuss my problems and concerns with my partner. | 1 = strongly disagree; 5 = strongly agree |
+| `Q28` | When I'm not involved in a relationship, I feel somewhat anxious and insecure. | 1 = strongly disagree; 5 = strongly agree |
+| `Q29` | I feel comfortable depending on romantic partners. | 1 = strongly disagree; 5 = strongly agree |
+| `Q30` | I get frustrated when my partner is not around as much as I would like. | 1 = strongly disagree; 5 = strongly agree |
+| `Q31` | I don't mind asking romantic partners for comfort, advice, or help. | 1 = strongly disagree; 5 = strongly agree |
+| `Q32` | I get frustrated if romantic partners are not available when I need them. | 1 = strongly disagree; 5 = strongly agree |
+| `Q33` | It helps to turn to my romantic partner in times of need. | 1 = strongly disagree; 5 = strongly agree |
+| `Q34` | When romantic partners disapprove of me, I feel really bad about myself. | 1 = strongly disagree; 5 = strongly agree |
+| `Q35` | I turn to my partner for many things, including comfort and reassurance. | 1 = strongly disagree; 5 = strongly agree |
+| `Q36` | I resent it when my partner spends time away from me. | 1 = strongly disagree; 5 = strongly agree |
+
+### Fehlende Werte
+Im Datensatz liegen 2 fehlenden Werte vor. Fehlende Werte sind dabei ausschließlich auf der Variable `gender` zu finden.
 
 ---
 
@@ -946,100 +838,6 @@ In dem Datensatz liegen 184784 fehlende Werte vor. Auf folgenden der für die Un
 
 <!-- </details> -->
 
----
-
-## Skalenwerte der Generic Conspiracist Beliefs Scale (`conspiracy`)
-
-<!-- <details><summary>Datensatz</summary> -->
-### Beschreibung
-Die Daten stammen aus der Erhebung zur Validierung der *Generic Conspiracist Beliefs Scale* (GCBS; Brotherton, French, & Pickering, 2013). Die Daten finden Sie öffentlich zugänglich auf der [Open Psychometrics Website](http://openpsychometrics.org/_rawdata/GCBS.zip). Der Fragebogen besteht aus insgesamt 15 Aussagen, die die Proband:innen jeweils von 1 ("definitely not true") bis 5 ("definitely true") hinsichtlich ihres Wahrheitsgehalts einschätzen sollen. Bei dieser Version des Datensatzes wurden die verschiedenen Items bereits zu Skalenwerten zusammengerechnet.
-
-Auf `pandaR` wird der Datensatz in den Tutorials [ANOVA I](/post/anova1) und [ANOVA II](/post/anova2) für PsyBSc7 verwendet.
-
-### Datensatz laden
-
-```r
-load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
-```
-
-### Größe
-Der Datensatz besteht aus 2451 Beobachtungen auf 9 Variablen.
-
-### Variablen
-In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
-
-| Variable | Bedeutung | Kodierung
-| --- | ---- | ---- |
-| `edu` | höchster Bildungsabschluss | 1 = not highschool, 2 = highschool, 3 = college |
-| `urban` | Typ des Wohnortes | 1 = rural, 2 = suburban, 3 = urban |
-| `gender` | Geschlecht | 1 = male, 2 = female, 3 = other |
-| `age` | Alter | *Freitext* |
-| `GM` | *Government malfeasance* | *Skalenwert* |
-| `MG` | *Malevolent global conspiracies* | *Skalenwert* |
-| `ET` | *Extraterrestrial cover-up* | *Skalenwert* |
-| `PW` | *Personal well-being* | *Skalenwert* |
-| `CI` | *Control of information* | *Skalenwert* |
-
-### Fehlende Werte
-Im Datensatz liegen keine fehlenden Werte vor.
-<!-- </details> -->
-
----
-
-## Items der Generic Conspiracist Beliefs Scale (`conspiracy`)
-
-<!-- <details><summary>Datensatz</summary> -->
-### Beschreibung
-Die Daten stammen aus der Erhebung zur Validierung der *Generic Conspiracist Beliefs Scale* (GCBS; Brotherton, French, & Pickering, 2013). Die Daten finden Sie öffentlich zugänglich auf der [Open Psychometrics Website](http://openpsychometrics.org/_rawdata/GCBS.zip). Der Fragebogen besteht aus insgesamt 15 Aussagen, die die Proband:innen jeweils von 1 ("definitely not true") bis 5 ("definitely true") hinsichtlich ihres Wahrheitsgehalts einschätzen sollen. 
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Konfirmatorische Faktorenanalyse](/post/cfa) für PsyMSc1 verwendet.
-
-### Datensatz laden
-
-```r
-load(url("https://pandar.netlify.app/daten/conspiracy_cfa.rda"))
-```
-
-### Größe
-Der Datensatz besteht aus 2451 Beobachtungen auf 9 Variablen.
-
-### Variablen
-In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
-
-| Variable | Bedeutung | Kodierung |
-| --- | ---- | ---- |
-| `edu` | höchster Bildungsabschluss | 1 = not highschool, 2 = highschool, 3 = college |
-| `urban` | Typ des Wohnortes | 1 = rural, 2 = suburban, 3 = urban |
-| `gender` | Geschlecht | 1 = male, 2 = female, 3 = other |
-| `age` | Alter | *Freitext* |
-
-| Variable | Facette | Itemwortlaut |
-| --- | --- | ------ |
-| `Q1` | `GM` | The government is involved in the murder of innocent citizens and/or well-known public figures, and keeps this a secret |
-| `Q2` | `GC` | The power held by heads of state is second to that of small unknown groups who really control world politics |
-| `Q3` | `EC` | Secret organizations communicate with extraterrestrials, but keep this fact from the public |
-| `Q4` | `PW` | The spread of certain viruses and/or diseases is the result of the deliberate, concealed efforts of some organization |
-| `Q5` | `CI` | Groups of scientists manipulate, fabricate, or suppress evidence in order to deceive the public |
-| `Q6` | `GM` | The government permits or perpetrates acts of terrorism on its own soil, disguising its involvement |
-| `Q7` | `GC` | A small, secret group of people is responsible for making all major world decisions, such as going to war |
-| `Q8` | `EC` | Evidence of alien contact is being concealed from the public |
-| `Q9` | `PW` | Technology with mind-control capacities is used on people without their knowledge |
-| `Q10` | `CI` | New and advanced technology which would harm current industry is being suppressed |
-| `Q11` | `GM` | The government uses people as patsies to hide its involvement in criminal activity |
-| `Q12` | `GC` | Certain significant events have been the result of the activity of a small group who secretly manipulate world events |
-| `Q13` | `EC` | Some UFO sightings and rumors are planned or staged in order to distract the public from real alien contact |
-| `Q14` | `PW` | Experiments involving new drugs or technologies are routinely carried out on the public without their knowledge or consent |
-| `Q15` | `CI` | A lot of important information is deliberately concealed from the public out of self-interest |
-
-
-### Fehlende Werte
-Im Datensatz liegen 186 fehlende Werte vor. Die folgenden Variablen enthalten keine fehlenden Werte:
-
-* `edu`
-* `age`
-* `Q10`
-
-<!-- </details> -->
 
 ---
 
@@ -1118,6 +916,76 @@ Im Datensatz liegen 4 fehlende Werte vor. Auf folgenden Variablen liegen keine f
 
 ---
 
+## Hauptkomponentenanalyse (`PCA`)
+
+<!-- <details><summary>Datensatz</summary> -->
+### Beschreibung
+Der Beispieldatensatz enthält simulierte Daten zu unbekannten Variablen. Eine abhängige und sechs unabhängige Variablen liegen vor.
+
+Auf `pandaR` wird der Datensatz in dem Tutorial [Hauptkomponentenanalyse](/post/pca) für PsyMSc1 verwendet.
+
+### Datensatz laden
+
+```r
+load(url("https://pandar.netlify.app/daten/PCA.RData"))
+```
+
+### Größe
+Der Datensatz besteht aus 36 Beobachtungen auf 7 Variablen.
+
+### Variablen
+Die Namen der Variablen sind nichtssagend, um Untersuchereffekte bei der Analyse auszuschließen.
+
+| Variable | Kodierung |
+| --- | --- |
+| `x1` | *Standardisierter Skalenwert* |
+| `x2` | *Standardisierter Skalenwert* |
+| `x3` | *Standardisierter Skalenwert* |
+| `x4` | *Standardisierter Skalenwert* |
+| `x5` | *Standardisierter Skalenwert* |
+| `x6` | *Standardisierter Skalenwert* |
+| `y` | *Standardisierter Skalenwert* |
+
+### Fehlende Werte
+Im Datensatz liegen keine fehlenden Werte vor.
+
+<!-- </details> -->
+
+---
+
+## HeckData (`HeckData`)
+
+<!-- <details><summary>Datensatz</summary> -->
+### Beschreibung
+Der Beispieldatensatz enthält Daten zu ... .
+
+Auf `pandaR` wird der Datensatz in dem Tutorial [Hauptkomponentenanalyse](/lehre/simulation/selektionseffekte) in Weitere Lehrinhalte (ehemals Forschungsmethoden & Evaluation I) verwendet.
+
+### Datensatz laden
+
+```r
+load(url("https://pandar.netlify.app/daten/HeckData.rda"))
+```
+
+### Größe
+Der Datensatz besteht aus ... Beobachtungen auf ... Variablen.
+
+### Variablen
+Die Namen der Variablen...
+
+| Variable | Kodierung |
+| --- | --- |
+| `Platzhalter` | *Platzhalter* |
+
+
+### Fehlende Werte
+Im Datensatz liegen ...
+
+<!-- </details> -->
+
+
+---
+
 ## Internetintervention für psychische Störungen (`osf`)
 
 <!-- <details><summary>Datensatz</summary> -->
@@ -1158,6 +1026,136 @@ In dem Datensatz liegen 96 fehlende Werte vor. Auf folgenden Variablen liegen ke
 
 <!-- </details> -->
 
+
+---
+
+## Interozeptive Aufmerksamkeit und Genauigkeit `body`
+
+### Beschreibung
+
+Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Untersuchung von [Campos, Barbosa Rocha und Barbosa (2022)](https://osf.io/hmtz9), in der es um die Abgrenzung von interozeptiver (die Wahrnehmung der vegetativen Prozesse des eigenen Körpers) Aufmerksamkeit und Genauigkeit geht.
+
+Auf `pandaR` wird der Datensatz in dem Tutorial [Regression mit nominalskalierten Prädiktoren](/post/nominalskalierte-praediktoren) für PsyBSc7 verwendet.
+
+### Datensatz laden
+
+Der Datensatz liegt im OSF im `.sav` Dateiformat (dem Datenformat in dem SPSS seine Daten abspeichert) vor. Daher müssen die Daten mithilfe einer der vielen verschiedenen Import-Funktionen eingelesen werden. Hier nutzen wir dafür die Funktion `read_sav` aus dem Paket `haven`, welches R-Studio primär nutzt, um Daten zu importieren und daher bereits installiert sein sollte.
+
+
+```r
+library(haven)
+body <- haven::read_sav(file = url('https://osf.io/43xv5/download'))
+```
+
+Der Datensatz enthält neben den zusammengefassten Skalenwerten auch die einzelnen Items der beiden zentralen Skalen (IAS und BPQ), welche wir für diese Anwendung entfernen, um die Daten etwas übersichtlicher zu gestalten. Wir beschränken uns also auf die ersten 27 Variablen im Datensatz:
+
+
+```r
+body <- body[, 1:27]
+```
+
+### Größe
+Der eingeschränkte Datensatz besteht aus 134 Beobachtungen auf 27 Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+| Variable | Inhalt | Kodierung |
+| --- | ---- | ---- |
+| `id` | Probanden-ID |  |
+| `Age` | Alter | Alter in Jahren |
+| `Sex` | Geschlecht | 0 = weiblich, 1 = männlich |
+| `Nationality` | Nationalität | 0 = andere, 1 = Portugiesisch |
+| `PortugueseFirstLanguage` | Muttersprache | 0 = andere, 1 = Portugiesisch |
+| `EducationCategorical` | Höchster Bildungsabschluss | 0 = kein Abschluss, 1 = Grundschule, 2 = mittlere Reife, 3 = Abitur/High School, 4 = Bachelor, 5 = Master, 6 = Doktorgrad |
+| `EducationYears` | Jahre im Bildungssystem | 
+| `Student` | Schüler\*in oder Student\*in? | 0 = nein, 1 = ja 
+| `Employed` | Angestelltenverhältnis? | 0 = nein, 1 = ja
+| `Unemployed` | Arbeitslos? | 0 = nein, 1 = ja
+| `StayAtHome` | Hausfrau/-mann? | 0 = nein, 1 = ja
+| `Retired` | Im Ruhestand? | 0 = nein, 1 = ja
+| `OccupationalStatusOther` | Anderes Beschäftigungsverhältnis? | 0 = nein, 1 = ja
+| `UniversityStudent` | Student*in? | 0 = nein, 1 = ja ( _fehlerhafte Kopie der Variable `Student`_ ) 
+| `PsychiatricHistory` | Psychische Störung in der Vergangenheit? | 0 = nein, 1 = ja
+| `NeurologicalHistory` | Neurologische Störung in der Vergangenheit? | 0 = nein, 1 = ja
+| `ChronicCondition` | Chronische Krankheiten? | 0 = nein, 1 = ja 
+| `Medication` | Aktuell Medikamenteneinnahme? | 0 = nein, 1 = ja
+| `Device` | Gerät an dem Fragebogen ausgefüllt wird | 0 = Computer, 1 = Smartphone, 2 = Tablet, 3 = anderes
+| `IAS_TotalScore` | _Interoceptive Accuracy Scale_ | _Skalenwert_
+| `IAS_TotalScore_Retest` | _Interoceptive Accuracy Scale_, 2. Erhebung | _Skalenwert_
+| `BPQ_BodyAwareness` | _Body Perception Questionnaire_, Aufmerksamkeits-Dimension | _Skalenwert_
+| `BPQ_BodyAwareness_Retest` | _Body Perception Questionnaire_, Aufmerksamkeits-Dimension, 2. Erhebung | _Skalenwert_
+| `BPQ_AutonomicReactivity` | _Body Perception Questionnaire_, Reaktivitäts-Dimension | _Skalenwert_
+| `BPQ_AutonomicReactivity_Retest` | _Body Perception Questionnaire_, Reaktivitäts-Dimension, 2. Erhebung | _Skalenwert_
+| `BPQ_Time_Retest` | Zeit um BPQ auszufüllen, 2. Erhebung | in Sekunden
+| `IAS_Time_Retest` | Zeit um IAS auszufüllen, 2. Erhebung | in Sekunden
+
+### Fehlende Werte
+
+In dem Datensatz liegen 92 fehlende Werte vor. Diese sind allesamt auf der fehlerhaft kodierten Variablen `UniversityStudent` zu finden.
+
+
+---
+
+## Items der Generic Conspiracist Beliefs Scale (`conspiracy`)
+
+<!-- <details><summary>Datensatz</summary> -->
+### Beschreibung
+Die Daten stammen aus der Erhebung zur Validierung der *Generic Conspiracist Beliefs Scale* (GCBS; Brotherton, French, & Pickering, 2013). Die Daten finden Sie öffentlich zugänglich auf der [Open Psychometrics Website](http://openpsychometrics.org/_rawdata/GCBS.zip). Der Fragebogen besteht aus insgesamt 15 Aussagen, die die Proband:innen jeweils von 1 ("definitely not true") bis 5 ("definitely true") hinsichtlich ihres Wahrheitsgehalts einschätzen sollen. 
+
+Auf `pandaR` wird der Datensatz in dem Tutorial [Konfirmatorische Faktorenanalyse](/post/cfa) für PsyMSc1 verwendet.
+
+### Datensatz laden
+
+```r
+load(url("https://pandar.netlify.app/daten/conspiracy_cfa.rda"))
+```
+
+
+### Größe
+Der Datensatz besteht aus ... Beobachtungen auf ... Variablen. 
+
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+| Variable | Bedeutung | Kodierung |
+| --- | ---- | ---- |
+| `edu` | höchster Bildungsabschluss | 1 = not highschool, 2 = highschool, 3 = college |
+| `urban` | Typ des Wohnortes | 1 = rural, 2 = suburban, 3 = urban |
+| `gender` | Geschlecht | 1 = male, 2 = female, 3 = other |
+| `age` | Alter | *Freitext* |
+
+| Variable | Facette | Itemwortlaut |
+| --- | --- | ------ |
+| `Q1` | `GM` | The government is involved in the murder of innocent citizens and/or well-known public figures, and keeps this a secret |
+| `Q2` | `GC` | The power held by heads of state is second to that of small unknown groups who really control world politics |
+| `Q3` | `EC` | Secret organizations communicate with extraterrestrials, but keep this fact from the public |
+| `Q4` | `PW` | The spread of certain viruses and/or diseases is the result of the deliberate, concealed efforts of some organization |
+| `Q5` | `CI` | Groups of scientists manipulate, fabricate, or suppress evidence in order to deceive the public |
+| `Q6` | `GM` | The government permits or perpetrates acts of terrorism on its own soil, disguising its involvement |
+| `Q7` | `GC` | A small, secret group of people is responsible for making all major world decisions, such as going to war |
+| `Q8` | `EC` | Evidence of alien contact is being concealed from the public |
+| `Q9` | `PW` | Technology with mind-control capacities is used on people without their knowledge |
+| `Q10` | `CI` | New and advanced technology which would harm current industry is being suppressed |
+| `Q11` | `GM` | The government uses people as patsies to hide its involvement in criminal activity |
+| `Q12` | `GC` | Certain significant events have been the result of the activity of a small group who secretly manipulate world events |
+| `Q13` | `EC` | Some UFO sightings and rumors are planned or staged in order to distract the public from real alien contact |
+| `Q14` | `PW` | Experiments involving new drugs or technologies are routinely carried out on the public without their knowledge or consent |
+| `Q15` | `CI` | A lot of important information is deliberately concealed from the public out of self-interest |
+
+
+### Fehlende Werte
+Im Datensatz liegen 186 fehlende Werte vor. Die folgenden Variablen enthalten keine fehlenden Werte:
+
+* `edu`
+* `age`
+* `Q10`
+
+<!-- </details> -->
+
+
+
 ---
 
 ## Kooperationsbereitschaft von Geschwistern (`dataKooperation`)
@@ -1185,6 +1183,117 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 | `Paar` | Nummer des Geschwisterpaares  |
 | `Juenger` | Kooperationsbereitschaft des jüngeren Geschwisterteils  |
 | `Aelter` | Kooperationsbereitschaft des älteren Geschwisterteils  |
+
+### Fehlende Werte
+Im Datensatz liegen keine fehlenden Werte vor.
+<!-- </details> -->
+
+
+---
+
+## Kulturelle Unterschiede in Korruptionsbestrafung `punish`
+
+### Beschreibung
+Die Daten stammen aus einer [kuturellen Unterschieden in der Einschätzung von verschiedenen Aspekten der Bestechung](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509){target="_blank"}. Die hier genutzten Daten sind ein Auszug aus den im [Artikel von Hong-Zhi et al., 2021](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509) für Studie 1 genutzten Daten.
+
+Auf `pandaR` wird der Datensatz in dem Tutorial [Regression mit nominalskalierten Prädiktoren](/post/nominalskalierte-praediktoren) für PsyBSc7 verwendet.
+
+
+### Datensatz laden
+
+Die Daten können direkt vom [{{< icon name="download" pack="fas" >}} OSF heruntergeladen ](https://osf.io/4wypx/download) werden. Allerdings werden einige Schritte durchlaufe, um die Daten auf die nötigen Variablen zu reduzieren, welche mit 
+
+
+```r
+source("https://pandar.netlify.app/daten/Data_Processing_punish.R")
+```
+
+direkt durchgeführt werden können. Zur Nachvollziehbarkeit, hier noch einmal der Inhalt dieses Skripts:
+
+
+```r
+#### Data preparation file for punishment severity evaluation ----
+# for the paper see: https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509
+
+punish <- foreign::read.spss('https://osf.io/4wypx/download', use.value.labels = TRUE,
+  to.data.frame = TRUE)
+
+punish <- punish[, c('culture_group', 'bribery_type', 'age', 'gender',
+  'gains_everage', 'difficulties_everage', 'noticed_probability_everage',
+  'punishment_probability_everage', 'punishment_severity_everage')]
+names(punish) <- c('country', 'bribe', 'age', 'gender', 'gains', 'difficult', 
+  'notice', 'probable', 'severe')
+
+levels(punish$age) <- c(levels(punish$age), 'over 50')
+punish$age[punish$age %in% c('51-60', '61-70', 'over 70')] <- 'over 50'
+punish$age <- droplevels(punish$age)
+```
+
+### Größe
+Der Datensatz besteht aus 174 Beobachtungen auf 9 Variablen.
+
+### Variablen
+
+Der Datensatz enthält (in reduzierter Fassung) folgende Variablen:
+
+| Variable | Inhalt | Kodierung |
+| --- | ---- | ---- |
+| `country` | Land  | 1 = China, 2 = U.S |
+| `bribe` | Ebene der beurteilten Bestechungssituation (experimentelle Kondition)
+| `age` | Alter in vier Kategorien | 1 = 21 - 30, 2 = 31 - 40, 3 = 41 - 50, 4 = over 50 |
+| `gender` | Geschlecht | 1 = female, 2 = male |
+| `gains` | Gewinn durch Bestechung | _Mittelwert über fünf Situationen_ (1 bis 10) |
+| `difficult` | Schwierigkeit in der Umsetzung der Handlung, die durch Bestechung erwirkt werden soll | _Mittelwert über fünf Situationen_ (1 bis 10) |
+| `notice` | Wahrscheinlichkeit mit der Bestechung entdeckt wird | _Mittelwert über fünf Situationen_ (1 bis 10) |
+| `probable` | Wahrscheinlichkeit mit der es zur Bestrafung kommt | _Mittelwert über fünf Situationen_ (1 bis 10) |
+| `severe` | Schweregrad der erwarteten Bestrafung | _Mittelwert über fünf Situationen_ (1 bis 10) |
+
+Bei den Variablen `gains` bis `severe` handelt es sich um individuelle Einschätzungen, die für fünf verschiedene schriftlich dargestellte Situationen eingeschätzt werden sollten. Hier werden die Mittelwerte über die fünf Situationen genutzt.
+
+### Fehlende Werte
+Im Datensatz liegen keine fehlenden Werte vor.
+
+
+---
+
+## Lesekompetenz in der PISA-Erhebung (`PISA2009`)
+
+<!-- <details><summary>Datensatz</summary> -->
+### Beschreibung
+Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichprobe der PISA-Erhebung in Deutschland 2009. Im Datensatz sind viele Variablen der pädagogischen Forschung enthalten, die im Folgenden erklärt werden.
+
+Auf `pandaR` wird der Datensatz in dem Tutorial [Regression IV: quadratische und moderierte Regression](/post/quadratische-und-moderierte-regression), [Quiz 2](/post/bsc7-daten/#Quiz2) und [Quiz 3](/post/bsc7-daten/#Quiz3) für PsyBSc7 verwendet.
+
+### Datensatz laden
+
+
+```r
+load(url("https://pandar.netlify.app/daten/PISA2009.rda"))
+```
+
+### Größe
+Der Datensatz besteht aus 150 Beobachtungen auf 15 Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+| Variable | Bedeutung |
+| --- | ----- |
+| `Grade` | Klassenstufe |
+| `Age` | Alter in Jahren |
+| `Female` | Geschlecht (0 = m, 1 = w) |
+| `Reading` | Lesekompetenz |
+| `JoyRead` | Lesefreude |
+| `LearnMins` | Lernzeit in Minuten für Deutsch |
+| `HISEI` | Sozialstatus (*Highest International Socio-Economic Index of occupational status*) |
+| `CultPoss` | Fragebogen-Score für kulturelle Besitztümer zu Hause (z. B. klassische Literatur, Kunstwerke) |
+| `Books` | Anzahl Bücher zu Hause |
+| `TVs` | Anzahl Fernseher zu Hause |
+| `Computers` | Anzahl Computer zu Hause |
+| `Cars` | Anzahl Autos zu Hause |
+| `MigHintergrund` | Migrationshintergrund (0 = beide Eltern in D geboren, 1 = min. 1 Elternteil im Ausland geboren) |
+| `FatherEdu` | Bildungsabschluss des Vaters (*International Standard Classification of Education*) |
+| `MotherEdu` | Bildungsabschluss der Mutter (*International Standard Classification of Education*) |
 
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
@@ -1417,48 +1526,73 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Lesekompetenz in der PISA-Erhebung (`PISA2009`)
-
-<!-- <details><summary>Datensatz</summary> -->
+## Nerdiness {#nerd}
 ### Beschreibung
-Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichprobe der PISA-Erhebung in Deutschland 2009. Im Datensatz sind viele Variablen der pädagogischen Forschung enthalten, die im Folgenden erklärt werden.
+Bei dem Datensatz handelt es sich eine gekürzte Version von Daten zur "Nerdy Personality Attributes Scale", die auf der [Open Psychometrics Website](https://openpsychometrics.org/) erfasst wurden
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Regression IV: quadratische und moderierte Regression](/post/quadratische-und-moderierte-regression), [Quiz 2](/post/bsc7-daten/#Quiz2) und [Quiz 3](/post/bsc7-daten/#Quiz3) für PsyBSc7 verwendet.
+Auf `pandaR` wird der Datensatz in den [Übungsaufgaben](/lehre/fue-i/msc1-daten) für PsyMSc1 verwendet.
 
 ### Datensatz laden
 
-
 ```r
-load(url("https://pandar.netlify.app/daten/PISA2009.rda"))
+load(url("https://pandar.netlify.app/daten/NerdData.rda"))
 ```
 
 ### Größe
-Der Datensatz besteht aus 150 Beobachtungen auf 15 Variablen.
+Der Datensatz besteht aus 300 Beobachtungen auf 80 Variablen.
 
 ### Variablen
-In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+In der folgenden Tabelle erfolgt eine Übersicht eines Teils der erhobenen Variablen und ihre Bedeutungen.
 
-| Variable | Bedeutung |
-| --- | ----- |
-| `Grade` | Klassenstufe |
-| `Age` | Alter in Jahren |
-| `Female` | Geschlecht (0 = m, 1 = w) |
-| `Reading` | Lesekompetenz |
-| `JoyRead` | Lesefreude |
-| `LearnMins` | Lernzeit in Minuten für Deutsch |
-| `HISEI` | Sozialstatus (*Highest International Socio-Economic Index of occupational status*) |
-| `CultPoss` | Fragebogen-Score für kulturelle Besitztümer zu Hause (z. B. klassische Literatur, Kunstwerke) |
-| `Books` | Anzahl Bücher zu Hause |
-| `TVs` | Anzahl Fernseher zu Hause |
-| `Computers` | Anzahl Computer zu Hause |
-| `Cars` | Anzahl Autos zu Hause |
-| `MigHintergrund` | Migrationshintergrund (0 = beide Eltern in D geboren, 1 = min. 1 Elternteil im Ausland geboren) |
-| `FatherEdu` | Bildungsabschluss des Vaters (*International Standard Classification of Education*) |
-| `MotherEdu` | Bildungsabschluss der Mutter (*International Standard Classification of Education*) |
+NPAS-Items
+| Variable | Inhalt |
+| --- | ---- |
+| `Q1`	 | I am interested in science. |
+| `Q2`	 | I was in advanced classes. |
+| `Q3`	 | I like to play RPGs. (Ex. D&D) |
+| `Q4`	 | My appearance is not as important as my intelligence. |
+| `Q5`	 | I collect books. |
+| `Q6`	 | I prefer academic success to social success. |
+| `Q7`	 | I watch science related shows. |
+| `Q8`	 | I spend recreational time researching topics others might find dry or overly rigorous. 
+| `Q9`	 | I like science fiction. |
+| `Q10` | I would rather read a book than go to a party. |
+| `Q11` | I am more comfortable with my hobbies than  | I am with other people. | 		
+| `Q12` | I spend more time at the library than any other public place. |
+| `Q13` | I would describe my smarts as bookish. |
+| `Q14` | I like to read technology news reports. |
+| `Q15` | I have started writing a novel. |
+| `Q16` | I gravitate towards introspection. |
+| `Q17` | I am more comfortable interacting online than in person. |
+| `Q18` | I love to read challenging material. |
+| `Q19` | I have played a lot of video games. |
+| `Q20` | I was a very odd child. |
+| `Q21` | I sometimes prefer fictional people to real ones. |
+| `Q22` | I enjoy learning more than I need to. |
+| `Q23` | I get excited about my ideas and research. |
+| `Q24` | I am a strange person. |
+| `Q25` | I care about super heroes. |
+| `Q26` | I can be socially awkward at times. |
+
+Ten Item Personality Inventory (TIPI) Items + "nerdy"
+| Variable | Inhalt |
+| --- | ---- |
+| `TIPI1` | 	Extraverted, enthusiastic. | Extraversion |
+| `TIPI2` | 	Critical, quarrelsome. | Agreeableness* |
+| `TIPI3` | 	Dependable, self-disciplined. | Conscientiousness |
+| `TIPI4` | 	Anxious, easily upset. | Neuroticism |
+| `TIPI5` | 	Open to new experiences, complex. | Openness |
+| `TIPI6` | 	Reserved, quiet. | Extraversion* |
+| `TIPI7` | 	Sympathetic, warm. |  Agreeableness |
+| `TIPI8` | 	Disorganized, careless. | Conscientiousness* |
+| `TIPI9` | 	Calm, emotionally stable. | Neuroticism* |
+| `TIPI10` | 	Conventional, uncreative. | Openness* |
+| `nerdy` |      Nerdy. | Nerdiness |
 
 ### Fehlende Werte
-Im Datensatz liegen keine fehlenden Werte vor.
+In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
 
 ---
 
@@ -1502,42 +1636,6 @@ In der folgenden Tabelle erfolgt eine Übersicht der wichtigsten Variablen und i
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
----
-
-## Hauptkomponentenanalyse (`PCA`)
-
-<!-- <details><summary>Datensatz</summary> -->
-### Beschreibung
-Der Beispieldatensatz enthält simulierte Daten zu unbekannten Variablen. Eine abhängige und sechs unabhängige Variablen liegen vor.
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Hauptkomponentenanalyse](/post/pca) für PsyMSc1 verwendet.
-
-### Datensatz laden
-
-```r
-load(url("https://pandar.netlify.app/daten/PCA.RData"))
-```
-
-### Größe
-Der Datensatz besteht aus 36 Beobachtungen auf 7 Variablen.
-
-### Variablen
-Die Namen der Variablen sind nichtssagend, um Untersuchereffekte bei der Analyse auszuschließen.
-
-| Variable | Kodierung |
-| --- | --- |
-| `x1` | *Standardisierter Skalenwert* |
-| `x2` | *Standardisierter Skalenwert* |
-| `x3` | *Standardisierter Skalenwert* |
-| `x4` | *Standardisierter Skalenwert* |
-| `x5` | *Standardisierter Skalenwert* |
-| `x6` | *Standardisierter Skalenwert* |
-| `y` | *Standardisierter Skalenwert* |
-
-### Fehlende Werte
-Im Datensatz liegen keine fehlenden Werte vor.
-
-<!-- </details> -->
 
 ---
 
@@ -1622,69 +1720,44 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+
 ---
 
-## Kulturelle Unterschiede in Korruptionsbestrafung `punish`
+## Quasi-Experimentelle Therapiestudie `CBTdata`
+
+<!-- <details><summary>Datensatz</summary> -->
 
 ### Beschreibung
-Die Daten stammen aus einer [kuturellen Unterschieden in der Einschätzung von verschiedenen Aspekten der Bestechung](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509){target="_blank"}. Die hier genutzten Daten sind ein Auszug aus den im [Artikel von Hong-Zhi et al., 2021](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509) für Studie 1 genutzten Daten.
+Beim Datensatz handelt es sich um ein fiktives Datenbeispiel, bei dem Patient:innen, die an einer Depression oder einer Angststörung leiden, entweder mit einer kognitiven Verhaltenstherapie (CBT) behandelt oder in einer Wartekontrollgruppe belassen wurden. Eine zufällige Zuordnung war nicht vollständig möglich, da die Zuordnung von überweisenden Hausarzt-Praxen der Patient:innen mit beeinflusst werden konnte (z.B. durch Geltendmachung einer besonderen Dringlichkeit der Therapie).
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Regression mit nominalskalierten Prädiktoren](/post/nominalskalierte-praediktoren) für PsyBSc7 verwendet.
-
+Auf `pandaR` wird der Datensatz in dem Tutorial [Schätzung von Kausaleffekten 1](/lehre/klipps/kausaleffekte1) und [Schätzung von Kausaleffekten 2](/lehre/klipps/kausaleffekte2) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 
-Die Daten können direkt vom [{{< icon name="download" pack="fas" >}} OSF heruntergeladen ](https://osf.io/4wypx/download) werden. Allerdings werden einige Schritte durchlaufe, um die Daten auf die nötigen Variablen zu reduzieren, welche mit 
-
-
 ```r
-source("https://pandar.netlify.app/daten/Data_Processing_punish.R")
-```
-
-direkt durchgeführt werden können. Zur Nachvollziehbarkeit, hier noch einmal der Inhalt dieses Skripts:
-
-
-```r
-#### Data preparation file for punishment severity evaluation ----
-# for the paper see: https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509
-
-punish <- foreign::read.spss('https://osf.io/4wypx/download', use.value.labels = TRUE,
-  to.data.frame = TRUE)
-
-punish <- punish[, c('culture_group', 'bribery_type', 'age', 'gender',
-  'gains_everage', 'difficulties_everage', 'noticed_probability_everage',
-  'punishment_probability_everage', 'punishment_severity_everage')]
-names(punish) <- c('country', 'bribe', 'age', 'gender', 'gains', 'difficult', 
-  'notice', 'probable', 'severe')
-
-levels(punish$age) <- c(levels(punish$age), 'over 50')
-punish$age[punish$age %in% c('51-60', '61-70', 'over 70')] <- 'over 50'
-punish$age <- droplevels(punish$age)
+load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 ```
 
 ### Größe
-Der Datensatz besteht aus 174 Beobachtungen auf 9 Variablen.
+Der Datensatz besteht aus 326 Beobachtungen auf 8 Variablen.
 
 ### Variablen
-
-Der Datensatz enthält (in reduzierter Fassung) folgende Variablen:
+In der folgenden Tabelle erfolgt eine Übersicht der wichtigsten Variablen und ihre Bedeutungen.
 
 | Variable | Inhalt | Kodierung |
-| --- | ---- | ---- |
-| `country` | Land  | 1 = China, 2 = U.S |
-| `bribe` | Ebene der beurteilten Bestechungssituation (experimentelle Kondition)
-| `age` | Alter in vier Kategorien | 1 = 21 - 30, 2 = 31 - 40, 3 = 41 - 50, 4 = over 50 |
-| `gender` | Geschlecht | 1 = female, 2 = male |
-| `gains` | Gewinn durch Bestechung | _Mittelwert über fünf Situationen_ (1 bis 10) |
-| `difficult` | Schwierigkeit in der Umsetzung der Handlung, die durch Bestechung erwirkt werden soll | _Mittelwert über fünf Situationen_ (1 bis 10) |
-| `notice` | Wahrscheinlichkeit mit der Bestechung entdeckt wird | _Mittelwert über fünf Situationen_ (1 bis 10) |
-| `probable` | Wahrscheinlichkeit mit der es zur Bestrafung kommt | _Mittelwert über fünf Situationen_ (1 bis 10) |
-| `severe` | Schweregrad der erwarteten Bestrafung | _Mittelwert über fünf Situationen_ (1 bis 10) |
-
-Bei den Variablen `gains` bis `severe` handelt es sich um individuelle Einschätzungen, die für fünf verschiedene schriftlich dargestellte Situationen eingeschätzt werden sollten. Hier werden die Mittelwerte über die fünf Situationen genutzt.
+| --- | ----- | ---- |
+| `Age` | Alter | *Alter* |
+| `Gender` | Geschlecht | female = weiblich, male = männlich |
+| `Treatment` | Behandlungsgruppenzugehörigkeit | CBT = kognitive Verhaltenstherapie, WL = Wartekontrolle |
+| `Disorder` | psychische Störung | ANX = Angststörung, DEP = Depression |
+| `BDI_pre` | Depressionswert gemessen mit Beck Depressions-Inventar vor Therapie | 0 - 63 |
+| `SWL_pre` | Lebenszufriedenheit gemessen mit Satisfaction With Life Screening vor Therapie | 5 - 35 |
+| `BDI_post` | Depressionswert gemessen mit Beck Depressions-Inventar nach Therapie | 0 - 63 |
+| `SWL_post` | Lebenszufriedenheit gemessen mit Satisfaction With Life Screening nach Therapie | 5 - 35 |
 
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
+<!-- </details> -->
 
 ---
 
@@ -1717,6 +1790,85 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 In dem Datensatz liegen keine fehlenden Werte vor.
 
+<!-- </details> -->
+
+
+
+---
+
+## Skalenwerte der Generic Conspiracist Beliefs Scale (`conspiracy`)
+
+<!-- <details><summary>Datensatz</summary> -->
+### Beschreibung
+Die Daten stammen aus der Erhebung zur Validierung der *Generic Conspiracist Beliefs Scale* (GCBS; Brotherton, French, & Pickering, 2013). Die Daten finden Sie öffentlich zugänglich auf der [Open Psychometrics Website](http://openpsychometrics.org/_rawdata/GCBS.zip). Der Fragebogen besteht aus insgesamt 15 Aussagen, die die Proband:innen jeweils von 1 ("definitely not true") bis 5 ("definitely true") hinsichtlich ihres Wahrheitsgehalts einschätzen sollen. Bei dieser Version des Datensatzes wurden die verschiedenen Items bereits zu Skalenwerten zusammengerechnet.
+
+Auf `pandaR` wird der Datensatz in den Tutorials [ANOVA I](/post/anova1) und [ANOVA II](/post/anova2) für PsyBSc7 verwendet.
+
+### Datensatz laden
+
+```r
+load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
+```
+
+### Größe
+Der Datensatz besteht aus 2451 Beobachtungen auf 9 Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+| Variable | Bedeutung | Kodierung
+| --- | ---- | ---- |
+| `edu` | höchster Bildungsabschluss | 1 = not highschool, 2 = highschool, 3 = college |
+| `urban` | Typ des Wohnortes | 1 = rural, 2 = suburban, 3 = urban |
+| `gender` | Geschlecht | 1 = male, 2 = female, 3 = other |
+| `age` | Alter | *Freitext* |
+| `GM` | *Government malfeasance* | *Skalenwert* |
+| `MG` | *Malevolent global conspiracies* | *Skalenwert* |
+| `ET` | *Extraterrestrial cover-up* | *Skalenwert* |
+| `PW` | *Personal well-being* | *Skalenwert* |
+| `CI` | *Control of information* | *Skalenwert* |
+
+### Fehlende Werte
+Im Datensatz liegen keine fehlenden Werte vor.
+<!-- </details> -->
+
+
+
+---
+
+## Students in Classes {#studentsinclasses}
+### Beschreibung
+Bei dem Datensatz handelt es sich um ein fiktives Datenbeispiel mit Multilevel-Daten.
+
+Auf `pandaR` wird der Datensatz in den [Übungsaufgaben](/lehre/fue-i/msc1-daten) für PsyMSc1 verwendet, sowie in der Hierarchischen Regression in PsyMsc1.
+
+### Datensatz laden
+
+```r
+load(url("https://pandar.netlify.app/daten/StudentsInClasses.rda"))
+```
+
+### Größe
+Der Datensatz besteht aus 850 Beobachtungen auf 850, 1 Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+Ebene 1 (within)
+| Variable | Inhalt |
+| --- | ---- |
+| `MatheL` | Mathematikleistung als AV |
+| `Motivation` | Motivation der Schüler*innen als Prädiktor |
+| `KFT` | Intelligenz der Schüler*innen als Prädiktor (Kognitiver Fähigkeitstest) |
+
+Ebene 2 (between-level)
+| Variable | Inhalt |
+| --- | ---- |
+| `KlassenG` | Klassengröße als Prädiktor |
+| `schulklasse` | Klassenzugehörigkeit als Gruppierungsvariable |
+
+### Fehlende Werte
+In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 ---
@@ -1833,136 +1985,7 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 | [Students in Classes](#studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
 | [Xmas](#xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
 
-## Assessment {#assessment}
-### Beschreibung
-Bei dem Datensatz handelt es sich um ein simuliertes Datenbeispiel zu Einstellungsentscheidungen in jungen Start-Ups.
 
-Auf `pandaR` wird der Datensatz in den [Übungsaufgaben](/lehre/fue-i/msc1-daten) für PsyMSc1 verwendet.
-
-### Datensatz laden
-
-```r
-load(url("https://pandar.netlify.app/daten/Assessment.rda"))
-```
-
-### Größe
-Der Datensatz besteht aus 1672 Beobachtungen auf 4 Variablen.
-
-### Variablen
-In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
-
-| Variable | Inhalt |
-| --- | ---- |
-| `Hired` | gibt an, ob die jeweilige Person eingestellt wurde |
-| `Age` | ist das Alter in Jahren |
-| `Expertise` | ist die Expertise der jeweiligen Person als Selbsteinschätzung auf einer 7-stufigen Likert-Skala |
-| `Party` | gibt die politische Orientierung der Person in 3 Abstufungen an (Elected, right, left) |
-
-### Fehlende Werte
-In dem Datensatz liegen keine fehlenden Werte vor.
-<!-- </details> -->
-
-## Nerdiness {#nerd}
-### Beschreibung
-Bei dem Datensatz handelt es sich eine gekürzte Version von Daten zur "Nerdy Personality Attributes Scale", die auf der [Open Psychometrics Website](https://openpsychometrics.org/) erfasst wurden
-
-Auf `pandaR` wird der Datensatz in den [Übungsaufgaben](/lehre/fue-i/msc1-daten) für PsyMSc1 verwendet.
-
-### Datensatz laden
-
-```r
-load(url("https://pandar.netlify.app/daten/NerdData.rda"))
-```
-
-### Größe
-Der Datensatz besteht aus 300 Beobachtungen auf 80 Variablen.
-
-### Variablen
-In der folgenden Tabelle erfolgt eine Übersicht eines Teils der erhobenen Variablen und ihre Bedeutungen.
-
-NPAS-Items
-| Variable | Inhalt |
-| --- | ---- |
-| `Q1`	 | I am interested in science. |
-| `Q2`	 | I was in advanced classes. |
-| `Q3`	 | I like to play RPGs. (Ex. D&D) |
-| `Q4`	 | My appearance is not as important as my intelligence. |
-| `Q5`	 | I collect books. |
-| `Q6`	 | I prefer academic success to social success. |
-| `Q7`	 | I watch science related shows. |
-| `Q8`	 | I spend recreational time researching topics others might find dry or overly rigorous. 
-| `Q9`	 | I like science fiction. |
-| `Q10` | I would rather read a book than go to a party. |
-| `Q11` | I am more comfortable with my hobbies than  | I am with other people. | 		
-| `Q12` | I spend more time at the library than any other public place. |
-| `Q13` | I would describe my smarts as bookish. |
-| `Q14` | I like to read technology news reports. |
-| `Q15` | I have started writing a novel. |
-| `Q16` | I gravitate towards introspection. |
-| `Q17` | I am more comfortable interacting online than in person. |
-| `Q18` | I love to read challenging material. |
-| `Q19` | I have played a lot of video games. |
-| `Q20` | I was a very odd child. |
-| `Q21` | I sometimes prefer fictional people to real ones. |
-| `Q22` | I enjoy learning more than I need to. |
-| `Q23` | I get excited about my ideas and research. |
-| `Q24` | I am a strange person. |
-| `Q25` | I care about super heroes. |
-| `Q26` | I can be socially awkward at times. |
-
-Ten Item Personality Inventory (TIPI) Items + "nerdy"
-| Variable | Inhalt |
-| --- | ---- |
-| `TIPI1` | 	Extraverted, enthusiastic. | Extraversion |
-| `TIPI2` | 	Critical, quarrelsome. | Agreeableness* |
-| `TIPI3` | 	Dependable, self-disciplined. | Conscientiousness |
-| `TIPI4` | 	Anxious, easily upset. | Neuroticism |
-| `TIPI5` | 	Open to new experiences, complex. | Openness |
-| `TIPI6` | 	Reserved, quiet. | Extraversion* |
-| `TIPI7` | 	Sympathetic, warm. |  Agreeableness |
-| `TIPI8` | 	Disorganized, careless. | Conscientiousness* |
-| `TIPI9` | 	Calm, emotionally stable. | Neuroticism* |
-| `TIPI10` | 	Conventional, uncreative. | Openness* |
-| `nerdy` |      Nerdy. | Nerdiness |
-
-### Fehlende Werte
-In dem Datensatz liegen keine fehlenden Werte vor.
-<!-- </details> -->
-
-## Students in Classes {#studentsinclasses}
-### Beschreibung
-Bei dem Datensatz handelt es sich um ein fiktives Datenbeispiel mit Multilevel-Daten.
-
-Auf `pandaR` wird der Datensatz in den [Übungsaufgaben](/lehre/fue-i/msc1-daten) für PsyMSc1 verwendet, sowie in der Hierarchischen Regression in PsyMsc1.
-
-### Datensatz laden
-
-```r
-load(url("https://pandar.netlify.app/daten/StudentsInClasses.rda"))
-```
-
-### Größe
-Der Datensatz besteht aus 850 Beobachtungen auf 850, 1 Variablen.
-
-### Variablen
-In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
-
-Ebene 1 (within)
-| Variable | Inhalt |
-| --- | ---- |
-| `MatheL` | Mathematikleistung als AV |
-| `Motivation` | Motivation der Schüler*innen als Prädiktor |
-| `KFT` | Intelligenz der Schüler*innen als Prädiktor (Kognitiver Fähigkeitstest) |
-
-Ebene 2 (between-level)
-| Variable | Inhalt |
-| --- | ---- |
-| `KlassenG` | Klassengröße als Prädiktor |
-| `schulklasse` | Klassenzugehörigkeit als Gruppierungsvariable |
-
-### Fehlende Werte
-In dem Datensatz liegen keine fehlenden Werte vor.
-<!-- </details> -->
 
 ---
 
@@ -2002,6 +2025,46 @@ In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und
 | `social` | Passung zur sozialen Norm | _Skalenwert_ |
 | `workers` | Schutz von Mitarbeitenden in Tierhaltung | _Skalenwert_ |
 | `disgust` | Ekel vor Fleischkonsum | _Skalenwert_ |
+
+
+---
+
+## Vergleich von Behandlungsformen `Behandlungsform`
+
+<!-- <details><summary>Datensatz</summary> -->
+
+### Beschreibung
+Der Datensatz enthält Ausprägungen von Patient:innen auf verschiedenen psychotherapeutischen Variablen sowie demografische Informationen. Dabei gibt es zwei kategoriale Variablen: Auf Geschlecht gibt es hier die Ausprägungen männlich und weiblich, während die Therapieform zwischen Kontrollgruppe, KVT und einer Kombination auf KVT und Blended Care unterscheidet. Alle anderen Variablen können als intervallskaliert angenommen werden.
+
+Auf `pandaR` wird der Datensatz in dem [Quiz 5](/post/bsc7-daten/#Quiz5) für PsyBsc7 und in [Block 1](/post/msc5a-daten/#Block1) der Quizze für PsyMSc5a verwendet.
+
+### Datensatz laden
+
+```r
+load(url("https://pandar.netlify.app/daten/Behandlungsform.rda"))
+```
+
+### Größe
+Der Datensatz besteht aus 100 Beobachtungen auf 6 Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+| Variable | Kodierung |
+| --- | ---- |
+| `Depression` | *Skalenwert* |
+| `Therapeutische_Allianz` | *Skalenwert* |
+| `Gesundheitszustand` | *Skalenwert* |
+| `Interpersonelle_Probleme` | *Skalenwert* |
+| `Therapieform` | 1 = Kontrolle, 2 = KVT, 3 = blended Care KVT |
+| `Geschlecht` | 1 = männlich, 2 = weiblich |
+
+### Fehlende Werte
+Im Datensatz liegen keine fehlenden Werte vor.
+
+<!-- </details> -->
+
+
 
 ---
 
