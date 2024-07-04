@@ -74,8 +74,11 @@ Das ist auch der Grund, wieso die obige Regressionsgleichung der Gleichung der g
 
 Wenn wir nun die Gleichung so umstellen, dass wir X (unseren Prädiktor) ausklammern...
 
-$$\begin{align} Y_i &= \beta_0 + \beta_2Z_i + \beta_1X_i + \beta_3ZX_i+e_i,\\[1.5ex] &= \underbrace{\beta_0 + \beta_2Z_i}_{g_{Intercept}(Z_i)} + \underbrace{(\beta_1 + \beta_3Z_i)}_{g_{Slope}(Z_i)}X_i+e_i. \end{align}$$
-
+{{< math >}}
+$$
+\begin{align} Y_i &= \beta_0 + \beta_2Z_i + \beta_1X_i + \beta_3ZX_i+e_i,\\[1.5ex] &= \underbrace{\beta_0 + \beta_2Z_i}_{g_{Intercept}(Z_i)} + \underbrace{(\beta_1 + \beta_3Z_i)}_{g_{Slope}(Z_i)}X_i+e_i. \end{align}
+$$
+{{</ math >}}
 ...erkennen wir, dass in dieser Gleichung der Form nach ein Interzept und ein Slope enthalten sind, welche jeweils abhängig von der Ausprägung des Moderators Z sind.
 
 Jedoch ist hier zu beachten, dass wir allerdings auch $Z$ stattdessen ausklammern könnten: $Y_i = (\beta_0 + \beta_1X_i) + (\beta_2 + \beta_3X_i)Z_i+e_i$. Somit wird ersichtlich, dass $X$ und $Z$ in dieser Gleichung austauschbar sind und es damit keine mathematische Begründung gibt, welche der beiden Variablen der Prädiktor und welche der Moderator ist! Manche sagen auch, dass dieses Modell “symmetrisch” in den beiden Variablen ist, man sie also leicht hinsichtlich der inhaltlichen Interpretation austauschen kann. Den theoretischen Annahmen, die durch Forschende bei der Auswahl der Variablen und Moderatoren getroffen werden, kommt hier also eine entscheidende Bedeutung zu (vgl. Appendix A für ein Beispiel).
