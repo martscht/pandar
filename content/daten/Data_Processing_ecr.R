@@ -50,10 +50,10 @@ ecr <- ecr[, c('id', paste0('y', 1:8, 'pub'),
   paste0('y7kre', 1:10),
   paste0('y8kre', 1:10))]
 
-for (i in 1:8) {
-  ecr[, paste0('y', i, 'pub')] <- factor(ecr[, paste0('y', i, 'pub')], levels = c(1, 2),
+for (iterator in 1:8) {
+  ecr[, paste0('y', iterator, 'pub')] <- factor(ecr[, paste0('y', iterator, 'pub')], levels = c(1, 2),
     labels = c('Yes', 'No'))
 }
 
 # remove temporary data
-rm(yr1, yr2, yr3, yr4, yr5, yr6, yr7, yr8)
+rm(yr1, yr2, yr3, yr4, yr5, yr6, yr7, yr8, iterator)
