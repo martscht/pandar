@@ -35,22 +35,22 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 [Arbeitsstress bei Call-Center-Mitarbeiter:innen](#arbeitsstress-bei-call-center-mitarbeiterinnen-stressatwork) | [{{< icon name="download" pack="fas" >}} `StressAtWork` ](/daten/StressAtWork.rda) |
 | [Bildungsinvestitionen auf der Welt](#bildungsinvestitionen-auf-der-welt-edu_exp) | [{{< icon name="download" pack="fas" >}} `edu_exp` ](/daten/edu_exp.rda) 
 | [Bullyingprävention bei Jugendlichen](#bullyingprävention-bei-jugendlichen-fairplayer) | [{{< icon name="download" pack="fas" >}} `fairplayer` ](/daten/faiplayer.rda) |
-| [Depressivität](#depressivität-Depression) | [{{< icon name="download" pack="fas" >}} `Depression` ](/daten/Depression.rda) |
+| [Depressivität](#depressivität-depression) | [{{< icon name="download" pack="fas" >}} `Depression` ](/daten/Depression.rda) |
 | [Die Big Five Persönlichkeitsdimensionen](#die-big-five-persönlichkeitsdimensionen-big5) | [{{< icon name="download" pack="fas" >}} `Big5` ](/daten/Big5_EFA.rda) |
-| [Distorted News](#distorted-news) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/k4xcv/) |
+| [Distorted News](#distorted-news-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/k4xcv/) |
 | [Effektivität der CBT bei Depression](#effektivität-der-cbt-bei-depression-f2f_cbt) | _Teil des Pakets `metafor`_ |
-| [Einstellungsentscheidungen](#assessment) | [{{< icon name="download" pack="fas" >}} `Assessment` ](/daten/Assessment.rda) |
+| [Einstellungsentscheidungen](#einstellungsentscheidungen-assessment) | [{{< icon name="download" pack="fas" >}} `Assessment` ](/daten/Assessment.rda) |
 |  [Entwicklung der Weltbevölkerung](#entwicklung-der-weltbevölkerung-worldpopulation) | [{{< icon name="download" pack="fas" >}} `WorldPopulation` ](/daten/WorldPopulation.rda) |
-| [Erfahrung in Beziehungen](#erfahrung-in-beziehungen-ecr) | [{{< icon name="download" pack="fas" >}} `ecr` ](/daten/ecr.rda)
+| [Erfahrungen in Beziehungen](#erfahrungen-in-beziehungen-ecr) | [{{< icon name="download" pack="fas" >}} `ecr` ](/daten/ecr.rda)
 | [Fragebogendaten aus dem ersten Semester 22](#fragebogendaten-aus-dem-ersten-semester-fb22) |  [{{< icon name="download" pack="fas" >}} `fb22` ](/daten/fb22.rda) |
 | [Fragebogendaten aus dem ersten Semester 23](#fragebogendaten-aus-dem-ersten-semester-fb23) | [{{< icon name="download" pack="fas" >}} `fb23`](/daten/fb23.rda) |
 | [Gender, Drug, and Depression](#gender-drug-and-depression-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/prc92/download) |
 | [Gewissenhaftigkeit und Medikamenteneinnahme](#gewissenhaftigkeit-und-medikamenteneinnahme-data_combined) |  _Teil des Pakets `metafor`_ |
 | [Hauptkomponentenanalyse](#hauptkomponentenanalyse-pca) | [{{< icon name="download" pack="fas" >}} `PCA` ](/daten/PCA.RData) |
-| [HeckData (keine Ahnung, worum es bei diesem Datensatz eigentlich geht)](#heckdata) | [{{< icon name="download" pack="fas" >}} `HeckData` ](/daten/HeckData.rda) |
+| [HeckData (keine Ahnung, worum es bei diesem Datensatz eigentlich geht)](#heckdata-heckdata) | [{{< icon name="download" pack="fas" >}} `HeckData` ](/daten/HeckData.rda) |
 | [Internetintervention für psychische Störungen](#internetintervention-für-psychische-störungen-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/zc8ut/download) |
 | [Interozeptive Aufmerksamkeit und Genauigkeit](#interozeptive-aufmerksamkeit-und-genauigkeit-body) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/j6ef3/download) |
-| [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa)) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa` ](/daten/conspiracy_cfa.rda) |
+| [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa` ](/daten/conspiracy_cfa.rda) |
 | [Kooperationsbereitschaft von Geschwistern](#kooperationsbereitschaft-von-geschwistern-datakooperation) | _via Syntax erstellt_ |
 | [Kulturelle Unterschiede in Korruptionsbestrafung](#kulturelle-unterschiede-in-korruptionsbestrafung-punish) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/4wypx/download)
 | [Lesekompetenz in der PISA-Erhebung](#lesekompetenz-in-der-pisa-erhebung-pisa2009) | [{{< icon name="download" pack="fas" >}} `PISA2009` ](/daten/PISA2009.rda) |
@@ -312,7 +312,7 @@ In dem Datensatz liegen 830 fehlende Werte vor. Folgende Variablen enthalten kei
 
 ---
 
-## Depressivität `Depression` 
+## Depressivität (`Depression`)
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
@@ -347,7 +347,7 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Die Big Five Persönlichkeitsdimensionen `Big5`
+## Die Big Five Persönlichkeitsdimensionen (`Big5`)
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
@@ -392,7 +392,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Distorted News
+## Distorted News (`OSF`)
 
 #### Beschreibung
 Im Datensatz sind die Daten aus der 3. Teilstudie von Firschlich et al. (2021) enthalten. Dabei wurde in einem experimentellen Design untersucht, welche Auswirkung neutrale vs. ideologisch geladene Berichterstattung auf Wahrnehmung und Glaubhaftigkeitseinschätzung eines Nachrichtenbeitrags über einen deutschen Politiker hat. Der experimentelle Effekt soll dabei durch verschiedene Einstellungen moderiert werden. Distales outcome ist die Einschätzung des Politikers, von dem der Artikel handelt.
@@ -508,7 +508,7 @@ Im Datensatz liegen 20 fehlende Werte vor. Auf folgenden Variablen liegen keine 
 
 ---
 
-## Einstellungsentscheidungen/Assessment {#assessment}
+## Einstellungsentscheidungen (`Assessment`)
 ### Beschreibung
 Bei dem Datensatz handelt es sich um ein simuliertes Datenbeispiel zu Einstellungsentscheidungen in jungen Start-Ups.
 
@@ -630,7 +630,7 @@ Im Datensatz liegen 2 fehlenden Werte vor. Fehlende Werte sind dabei ausschließ
 
 ---
 
-## Fragebogendaten aus dem ersten Semester `fb22`
+## Fragebogendaten aus dem ersten Semester (`fb22`)
 
 <!-- <details><summary>Datensatz</summary> -->
 
@@ -702,7 +702,7 @@ Insgesamt liegen im Datensatz 102 fehlende Werte vor. Folgende Variablen enthalt
 
 ---
 
-## Fragebogendaten aus dem ersten Semester `fb23`
+## Fragebogendaten aus dem ersten Semester (`fb23`)
 
 <!-- <details><summary>Datensatz</summary> -->
 
@@ -996,7 +996,7 @@ In dem Datensatz liegen 96 fehlende Werte vor. Auf folgenden Variablen liegen ke
 
 ---
 
-## Interozeptive Aufmerksamkeit und Genauigkeit `body`
+## Interozeptive Aufmerksamkeit und Genauigkeit (`body`)
 
 ### Beschreibung
 
@@ -1062,7 +1062,7 @@ In dem Datensatz liegen 92 fehlende Werte vor. Diese sind allesamt auf der fehle
 
 ---
 
-## Items der Generic Conspiracist Beliefs Scale (`conspiracy`)
+## Items der Generic Conspiracist Beliefs Scale (`conspiracy_cfa`)
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
