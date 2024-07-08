@@ -59,19 +59,19 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Mehrdimensionaler Befindlichkeitsfragebogen](#mehrdimensionaler-befindlichkeitsfragebogen-mdbf) | [{{< icon name="download" pack="fas" >}} `mdbf` ](/daten/mdbf.rda) |
 | [Mental Health and Social Contact During the COVID-19 Pandemic](#mental-health-and-social-contact-during-the-covid-19-pandemic-data) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/qev5n/download) |
 | [Naturverbundenheit](#naturverbundenheit-nature) | [{{< icon name="download" pack="fas" >}} `nature` ](/daten/nature.rda) |
-| [Nerdiness](#nerd) | [{{< icon name="download" pack="fas" >}} `NerdData` ](/daten/NerdData.rda) |
+| [Nerdiness](#nerdiness-nerddata) | [{{< icon name="download" pack="fas" >}} `NerdData` ](/daten/NerdData.rda) |
 | [Parental Burnout](#parental-burnout-burnout) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/qev5n/download) |
 | [Psychisches Wohlbefinden von Individuen während des Lockdowns in Frankreich](#psychisches-wohlbefinden-von-individuen-während-des-lockdowns-in-frankreich-lockdown) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/dc6me/download)
 | [Quasi-Experimentelle Therapiestudie](#quasi-experimentelle-therapiestudie-cbtdata) | [{{< icon name="download" pack="fas" >}} `CBTdata` ](/daten/CBTdata.rda) |
-| [Schulleistungen](#schulleistungen) | [{{< icon name="download" pack="fas" >}} `Schulleistungen` ](/daten/Schulleistungen.rda) |
+| [Schulleistungen](#schulleistungen-schulleistungen) | [{{< icon name="download" pack="fas" >}} `Schulleistungen` ](/daten/Schulleistungen.rda) |
 | [Skalenwerte der Generic Conspiracist Beliefs Scale](#skalenwerte-der-generic-conspiracist-beliefs-scale-conspiracy) | [{{< icon name="download" pack="fas" >}} `conspiracy` ](/daten/conspiracy.rda) |
-| [Students in Classes](#studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
+| [Students in Classes](#students-in-classes-studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
 | [Therapieerfolg](#therapieerfolg-therapy) | [{{< icon name="download" pack="fas" >}} `Therapy` ](/daten/Therapy.rda) |
-| [Titanic](#titanic) |  [{{< icon name="download" pack="fas" >}} `Titanic` ](/daten/Titanic.rda) |
+| [Titanic](#titanic-titanic) |  [{{< icon name="download" pack="fas" >}} `Titanic` ](/daten/Titanic.rda) |
 | [Traumatische Erlebnisse und psychische Störungen](#traumatische-erlebnisse-und-psychische-störungen-trauma) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/a9vun/download) |
-| [Vegan](#vegan) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/rctkf/)
+| [Vegan](#vegan-vegan) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/rctkf/)
 | [Vergleich von Behandlungsformen](#vergleich-von-behandlungsformen-behandlungsform) | [{{< icon name="download" pack="fas" >}} `Behandlungsform` ](daten/Behandlungsform.rda)
-| [Xmas](#xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
+| [Xmas](#xmas-xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
 
 ---
 
@@ -455,6 +455,30 @@ Der Datensatz ist `R`-eigenen Paket `metafor` von Viechtbauer (2010) enthalten u
 
 ```r
 library(metafor)
+```
+
+```
+## Loading required package: Matrix
+```
+
+```
+## Loading required package: metadat
+```
+
+```
+## Loading required package: numDeriv
+```
+
+```
+## 
+## Loading the 'metafor' package (version 4.2-0). For an
+## introduction to the package please type: help(metafor)
+## 
+## An updated version of the package (version 4.6-0) is available!
+## To update to this version type: install.packages("metafor")
+```
+
+```r
 F2F_CBT <- dat.lopez2019[dat.lopez2019$treatment == "F2F CBT",] # wähle nur Fälle mit F2F CBT
 ```
 
@@ -1152,7 +1176,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Kulturelle Unterschiede in Korruptionsbestrafung `punish`
+## Kulturelle Unterschiede in Korruptionsbestrafung (`punish`)
 
 ### Beschreibung
 Die Daten stammen aus einer [kuturellen Unterschieden in der Einschätzung von verschiedenen Aspekten der Bestechung](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509){target="_blank"}. Die hier genutzten Daten sind ein Auszug aus den im [Artikel von Hong-Zhi et al., 2021](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509) für Studie 1 genutzten Daten.
@@ -1475,7 +1499,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Nerdiness {#nerd}
+## Nerdiness (`NerdData`)
 ### Beschreibung
 Bei dem Datensatz handelt es sich eine gekürzte Version von Daten zur "Nerdy Personality Attributes Scale", die auf der [Open Psychometrics Website](https://openpsychometrics.org/) erfasst wurden
 
@@ -1588,12 +1612,33 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
-Die Daten stammen aus einer [Studie zum psychischen Wohlbefinden von Individuen während des pandemie-bedingten Lockdowns in Frankreich](https://www.frontiersin.org/articles/10.3389/fpsyg.2020.590276/full){target="_blank"}. Es handelt sich um hierarchische Daten mit Messzeitpunkten auf Ebene 1 und Individuen auf Ebene 2.
+Die Daten stammen aus einer [Studie zum psychischen Wohlbefinden von Individuen während des pandemie-bedingten Lockdowns in Frankreich](https://www.frontiersin.org/articles/10.3389/fpsyg.2020.590276/full). 
+Es handelt sich um hierarchische Daten mit Messzeitpunkten auf Ebene 1 und Individuen auf Ebene 2.
 
 ### Datensatz laden
 
 ```r
 library(dplyr)
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
 library(ICC)
 library(lme4)
 library(interactions)
@@ -1666,7 +1711,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Quasi-Experimentelle Therapiestudie `CBTdata`
+## Quasi-Experimentelle Therapiestudie (`CBTdata`)
 
 <!-- <details><summary>Datensatz</summary> -->
 
@@ -1702,7 +1747,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## `Schulleistungen`
+## Schulleistungen (`Schulleistungen`)
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
@@ -1773,7 +1818,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Students in Classes {#studentsinclasses}
+## Students in Classes (`StudentsInClasses`)
 ### Beschreibung
 Bei dem Datensatz handelt es sich um ein fiktives Datenbeispiel mit Multilevel-Daten.
 
@@ -1841,7 +1886,7 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## `Titanic`
+## Titanic (`Titanic`)
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
@@ -1910,7 +1955,7 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Vegan
+## Vegan (`vegan`)
 
 Im Datensatz ist ein Ausschnitt aus den Daten zu einer Validierungsstudie des "Vegetarian Eating Motives Inventory Plus (VEMI+)" von Hopwoods und Stahlmann (2024) enthalten. Die hier getroffene Auswahl beschränkt die Daten auf sechs Dimensionen der Skala, ein paar demografische Angaben und das selbst eingeschätzte Commitment zur veganen Ernährung (die Daten sind ausschließlich von Personen, die sich vegan ernähren). Mehr Informationen finden sich im dazugehörigen [OSF Repo](https://osf.io/ga5rt/).
 
@@ -1950,7 +1995,7 @@ In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und
 
 ---
 
-## Vergleich von Behandlungsformen `Behandlungsform`
+## Vergleich von Behandlungsformen (`Behandlungsform`)
 
 <!-- <details><summary>Datensatz</summary> -->
 
@@ -1985,7 +2030,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Xmas {#xmas}
+## Xmas (`Xmas`)
 
 ### Beschreibung
 Bis zum 25.11.2020 konnten Studierende des Masterkurses MSc1 zu folgenden Weihnachtssongs einschätzen, wie gut diese Ihnen gefallen sowie Auskunft darüber geben, welche Aspekte der Weihnachtszeit ihnen besonders am Herzen liegen. 
