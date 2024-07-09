@@ -44,7 +44,7 @@ sections:
         In Statistik II werden naheliegenderweise die Inhalte aus Statistik I vertieft. Behandelt werden u.a. Matrixalgebra, multiple Regression und Varianzanalysen. Außerdem gucken wir uns ein paar R-spezifische Dinge wie `ggplot2` oder das Schreiben eigener Funktionen an.
         
         
-        {{< category_list "statistik-ii" 12 "">}}
+        {{< category_list "statistik-ii" 13 "">}}
     design:
       columns: 2
 

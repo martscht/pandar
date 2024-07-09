@@ -8,7 +8,7 @@ tags: ["Regression", "Funktionen", "Loops"]
 subtitle: ''
 summary: ''
 authors: [irmer, schueller, wallot]
-weight: 13
+weight: 14
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
