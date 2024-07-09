@@ -12,8 +12,8 @@ weight: 12
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/man_with_binoculars.jpg"
-  caption: "[Courtesy of pxhere](https://www.pexels.com/photo/man-looking-in-binoculars-during-sunset-802412/)"
+  image: "/header/abstract_black_hole_light.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/763765)"
 projects: []
 reading_time: false
 share: false
