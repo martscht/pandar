@@ -182,7 +182,9 @@ Außerdem können auch Interaktionen zwischen Variablen in ein Regressionsmodell
 $$Y_i=\beta_0 + \beta_1X_i + \beta_2Z_i + \beta_3X_iZ_i + \varepsilon_i.$$
 Der Interaktionsterm ist in diesem Beispiel $X_iZ_i$ und trägt den Koeffizienten $\beta_3$. Um sich das Ganze leichter vorstellen zu können, stellen wir diese Gleichung um und stellen die Beziehung zwischen $X$ und $Y$ mit Hilfe von $Z$ dar. Das wird auch manchmal "simple slopes" also einfache Steigungen genannt, da wir im Grunde mehrere Geraden für $X$ in Abhängigkeit von $Z$ annehmen wollen:
 
+{{< math >}}
 $$Y_i=\underbrace{(\beta_0 + \beta_2Z_i)}_{\text{Interzept}(Z_i)} + \underbrace{(\beta_1 + \beta_3Z_i)}_{\text{Slope}(Z_i)}X_i + \varepsilon_i.$$
+{{</ math >}}
 
 Hier ist eigentlich gar nichts passiert - wir haben lediglich die Gleichung umgestellt. Allerdings sieht dies nun so aus, als würde vorne ein Interzept $(\beta_0 + \beta_2Z_i)$ und vor $X_i$ ein Slope (Steigungskoeffizient) $(\beta_1 + \beta_3Z_i)$ stehen - beide abhängig von $Z_i$. Deshalb haben wir sie gleich mal $\text{Interzept}(Z_i)$ und $\text{Slope}(Z_i)$ genannt. Genauso könnten wir allerdings auch alles nach $X$ umstellen: $Y_i=(\beta_0 + \beta_1X_i) + (\beta_2 + \beta_3X_i)Z_i + \varepsilon_i.$ Somit ist ersichtlich, dass es keine mathematische Begründung gibt, welche der beiden Variablen der Prädiktor und welche der Moderator ist! Manche sagen auch, dass dieses Modell "symmetrisch" in den beiden Variablen ist, man sie also leicht hinsichtlich der inhaltlichen Interpretation austauschen kann. Sich das Ganze in `R` anzuschauen geht sehr einfach. Wir wollen dies am Datensatz `Schulleistungen.rda` durchführen, den wir bereits aus vorherigen Sitzungen kennen. Wie genau wir an den Datensatz herankommen, können Sie sich in der entsprechenden Sitzung ansehen. Wir laden den Datensatz wie folgt über die Website:
 
@@ -748,7 +750,7 @@ Welche der folgenden Aussagen ist richtig?
 
 In fett, kursiv und mit einem <i class="fas fa-face-smile"></i> werden Ihnen die richtigen Antworten angezeigt: 
 
-* **_Die Gleichung $10^x = 100$ können wir bspw. mit dem 10er-Logarithmus $log_{10}(100)$ berechnen. Die Antwort ist 2._** <i class="fas fa-face-smile"></i>
+* **_Die Gleichung $10^x = 100$ können wir bspw. mit dem 10er-Logarithmus {{< math >}}$log_{10}(100)${{</ math >}} berechnen. Die Antwort ist 2._**  <i class="fas fa-face-smile"></i>
 * Die Gleichung $10^x = 100$ können wir bspw. mit dem 10er-Logarithmus $log_{10}(100)$ berechnen. Die Antwort ist 3.
 * Logarithmen können NICHT in einander umgerechnet werden.
 * Es gilt: $log(a+b)=log(a)log(b)$.
