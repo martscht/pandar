@@ -1,13 +1,13 @@
 ---
-title: Netzwerkanalyse im Querschnitt
+title: Netzwerk-Meta-Analysen
 date: '2024-09-26'
-slug: querschnittliche-netzwerke
+slug: netzwerk-meta-analyse
 categories: ["KliPPs"]
-tags: ["Querschnitt", "Regularisierung", "Zentralität", "Bootstrap" ]
-subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
+tags: []
+subtitle: ''
 summary: ''
-authors: [nehler, liu]
-weight: 7
+authors: [schultze]
+weight: 12
 lastmod: '2024-09-26'
 featured: no
 banner:

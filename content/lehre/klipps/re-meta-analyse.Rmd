@@ -1,13 +1,13 @@
 ---
-title: Netzwerkanalyse im Querschnitt
+title: Meta-Analysen mit Zufallseffekten
 date: '2024-09-26'
-slug: querschnittliche-netzwerke
+slug: re-meta-analyse
 categories: ["KliPPs"]
-tags: ["Querschnitt", "Regularisierung", "Zentralität", "Bootstrap" ]
-subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
+tags: []
+subtitle: ''
 summary: ''
-authors: [nehler, liu]
-weight: 7
+authors: [schultze]
+weight: 11
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:

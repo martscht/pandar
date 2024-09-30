@@ -1,14 +1,14 @@
 ---
-title: Netzwerkanalyse im Querschnitt
+title: Idiografische Netzwerkmodellierung
 date: '2024-09-26'
-slug: querschnittliche-netzwerke
+slug: idiografische-netzwerke
 categories: ["KliPPs"]
-tags: ["Querschnitt", "Regularisierung", "Zentralität", "Bootstrap" ]
+tags: []
 subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
 summary: ''
-authors: [nehler, liu]
-weight: 7
-lastmod: '`r Sys.Date()`'
+authors: [liu]
+weight: 8
+lastmod: '2024-09-26'
 featured: no
 banner:
   image: "/header/under_construction.jpg"

@@ -70,16 +70,17 @@ sections:
   - block: markdown
     id: klipps
     content:
-      title: Vertiefung der Forschungs- methodik für Psychotherapeut*innen
+      title: Methoden für Psychothera-peut*innen
       subtitle: KliPPsMSc5a
       text: 
-        Das Modul KliPPsMSc5 ist in zwei Teile untergliedert. Im ersten Semester besuchen Sie ein Seminar, im zweiten Semester eine Vorlesung. Die hier bereitgestellten Inhalte beziehen sich auf die Seminare im ersten Semester - also den Teil 5a des Moduls. Dabei geht es in allen Seminaren um multivariate Vorhersagemodelle, die als (multivariate) Erweiterung des Allgemeinen Linearen Modells angesehen werden können. Beispielsweise wird die Regressionsanalyse erweitert, um auch bestimmte Abhängigkeiten in den Daten modellieren zu können. Weiterhin werden in jedem Seminar zwei von drei Ergänzungsmodulen behandelt - diese werden von Dozierenden zu Beginn des Semesters vorgestellt. Die inhaltlichen Teile in den Seminaren werden durch die Umsetzung in R unterstützt, die hier jeweils in einem Tutorial vorgestellt wird.
+        Das Modul KliPPsMSc5 ist in zwei Teile untergliedert. Im ersten Semester besuchen Sie ein Seminar, im zweiten Semester eine Vorlesung. Die hier bereitgestellten Inhalte beziehen sich auf die Seminare im ersten Semester - also den Teil 5a des Moduls. In diesem Seminar werden wir die Analysen aus verschiedenen Artikeln aus der klinischen Forschung nachvollziehen und reproduzieren. Dabei unterteilen wir das Ganze in vier Blöcke -  Regression, gemischte Modelle, Netzwerkanalyse und Meta-Analyse. Die Beiträge befassen sich vor allem mit der Umsetzung in R - theoretische Grundlagen vertiefen wir in der Sitzungen vor Ort.
         
+
+        {{< category_list "klipps" 12 "I,I,I,II,II,II,III,III,III,IV,IV,IV">}}
         
-        {{< category_list "klipps" 12 "I,I,II,II,II,III,IV,IV,Va,Va,Vb,Vb">}}
     design:
       columns: 2
-      
+        
       
   - block: markdown
     id: add-ons

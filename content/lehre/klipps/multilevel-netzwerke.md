@@ -1,13 +1,13 @@
 ---
-title: Netzwerkanalyse im Querschnitt
+title: Netzwerkmodelle für Panel-Daten
 date: '2024-09-26'
-slug: querschnittliche-netzwerke
+slug: multilevel-netzwerke
 categories: ["KliPPs"]
-tags: ["Querschnitt", "Regularisierung", "Zentralität", "Bootstrap" ]
-subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
+tags: []
+subtitle: ''
 summary: ''
-authors: [nehler, liu]
-weight: 7
+authors: [liu]
+weight: 9
 lastmod: '2024-09-26'
 featured: no
 banner:

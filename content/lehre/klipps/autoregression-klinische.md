@@ -1,14 +1,14 @@
 ---
-title: Netzwerkanalyse im Querschnitt
+title: Autoregressive Effekte
 date: '2024-09-26'
-slug: querschnittliche-netzwerke
+slug: autoregression-klinische
 categories: ["KliPPs"]
-tags: ["Querschnitt", "Regularisierung", "Zentralität", "Bootstrap" ]
+tags: ["Mehrebenenmodelle", "Längsschnitt", "Mixed Models"]
 subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
 summary: ''
-authors: [nehler, liu]
-weight: 7
-lastmod: '`r Sys.Date()`'
+authors: [liu]
+weight: 6
+lastmod: '2024-09-26'
 featured: no
 banner:
   image: "/header/under_construction.jpg"

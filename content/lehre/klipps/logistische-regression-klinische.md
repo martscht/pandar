@@ -1,18 +1,18 @@
 ---
 title: Logistische Regression
-date: '2021-10-18'
+date: '2024-09-26'
 slug: logistische-regression-klinische
 categories: ["KliPPs"]
 tags: ["dichotom", "generalisiertes lineares Modell", "Linkfunktion", "Likelihood"]
-subtitle: 'Generalisiertes lineares Modell: dichotome abhängige Variablen'
-summary: 'In diesem Beitrag wird die logistische Regression behandelt, die sich im Falle einer dichotomen abhängigen Variable eignet. Dabei werden der Logit (die Linkfunktion), die Erfolgswahrscheinlichkeit und die Odds erläutert. Es erfolgt ein Vergleich zwischen logistischer Regression und normaler Regressionsanalyse sowie eine Demonstration der logistischen Regressionsanalyse, bei der die Beiträge einzelner Prädiktoren zur Vorhersage untersucht werden.'
-authors: [nehler, irmer]
-weight: 5
-lastmod: '2024-05-24'
+subtitle: 'Vorhersage von Gruppenzugehörigkeiten'
+summary: ''
+authors: [schultze]
+weight: 3
+lastmod: '2024-09-30'
 featured: no
 banner:
-  image: "/header/meds.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/565804)"
+  image: "/header/talking_beach.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/657502)"
 projects: []
 
 reading_time: false 
@@ -28,10 +28,10 @@ links:
     name: Code
     url: /lehre/klipps/logistische-regression-klinische.R
   - icon_pack: fas
-    icon: pen-to-square
-    name: Quizdaten
-    url: /lehre/klipps/quizdaten-klipps#Block2
-
+    icon: newspaper
+    name: Artikel
+    url: https://doi.org/10.1016/j.jad.2023.02.148
+    
 output:
   html_document:
     keep_md: true
@@ -41,588 +41,1234 @@ output:
 
 
 ## Einleitung
-In dieser Sitzung wollen wir dichotome abhängige Variablen mit der logistischen Regression  (vgl. bspw. [Eid, Gollwitzer & Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 22 und [Pituch und Stevens, 2016,](https://ubffm.hds.hebis.de/Record/HEB371183324) Kapitel 11) analysieren. Diese Daten sind dahingehend speziell, dass die abhängige Variable nur zwei Ausprägungen hat, welche in der Regel mit $0$ und $1$ kodiert werden. Dies führt zu verschiedenen Problemen in der linearen Regression, die wir gleich betrachten wollen. Wir wollen uns ein reales Datenbeispiel ansehen, in welchem die Wahrscheinlichkeit der Drogenabhängigkeit durch einen Depressionsscore und das Geschlecht vorhergesagt werden soll. Der Datensatz ist öffentlich zugänglich auf dem [Open-Science-Framework](https://osf.io/prc92/) zu finden. 
 
-### Daten laden
-Wir laden zunächst die Daten. Dies können Sie lokal von Ihrem Rechner machen. Falls Sie den Datensatz lokal einladen wollen, müssen Sie ihn natürlich zunächst von der bereits angegebenen Seite herunterladen. Beachten Sie, dass dieser Datensatz im Format von SPSS vorliegt. Um diesen in `R` einzulesen, kann das Paket `haven` installiert und die Funktion `read_sav` genutzt werden. Der Rest des verwendeten Codes entspricht dem Code, den wir auch bei `load` verwendet haben. Wir weisen den Datensatz aber direkt einem Objekt zu, da er sonst nur in der Konsole angezeigt werden würde. 
+In diesem Beitrag geht es darum, wie wir die Prinzipien der [Regression](/multiple-regression-klinische) nutzen können, um Vorhersagen auch dann zu ermöglichen, wenn die abhängige Variable nominalskaliert ist. Solche Konstellationen sind insbesondere in der klinischen Forschung sehr verbreitet - die Vorhersage eines Rezidivs, einer potentiellen Diagnose oder eines Therapieerfolgs stellen allesamt häufig zentrale Fragen von Psychotherapieforschung dar.
+
+### Suizidgedanken und -versuche
+
+Wie in den vergangenen Beiträgen auch, werden wir versuchen, die Auswertung und Ergebnisse einer Studie aus der klinischen Forschung nachzuvollziehen. In diesem Beitrag geht es um eine Studie von [Lin, O'Connell und Law (2023)](https://doi.org/10.1016/j.jad.2023.02.148), in welcher die Autorinnen untersuchen, inwiefern Kontrollüberzeugungen und Durchhaltevermögen (Grit) die negativen Konsequenzen von Rumination auf Suizidgedanken und -versuche abschwächen oder verstärken. Da es sich bei der Studie um eine Querschnittuntersuchung handelt, werden die Wirkmechanismen hier allerdings ungerichtet untersuchte, sodass untersucht wird, inwiefern sich drei Gruppen unterscheiden: Personen, die in der Vergangenheit Suizidgedanken hatten, Personen, die in der Vergangenheit Suizidversuche unternommen haben und Personen, auf die keines von beiden zutrifft. 
+
+Genauer konzentrieren wir uns auf folgende Hypothesen bzw. Forschungsfragen der Studie:
+
+> Given findings from past research, we hypothesize grit to be protective against the development of suicidal ideation, but associated with facilitating suicidal behaviors in the presence of ideation.
+
+> Further, we hypothesize ILOC [internal locus of control] to amplify the self-directed negative emotions of rumination, allowing one to believe their life outcomes are the result of self-determination, and increase risks of suicide.
+
+> In contrast, ELOC [external locus of control] would be protective against rumination by displacing the contents of rumination externally, thereby decreasing vulnerability to suicide.
+
+Schauen wir uns an, wie diese Hypothesen geprüft werden können. 
+
+### Daten
+
+Die Daten wurden von den Autorinnen der Studie über das [OSF zur Verfügung](https://osf.io/y7dse/) gestellt. Sie stellen außerdem auch eine .Rmd-Datei zur Verfügung, in der die Datenaufbereitung für den Artikel dargestellt wird. Ich habe dieses Skript ein wenig gekürzt und damit wir schnell zu den interessanten Punkten kommen können, können wir dieses Skript einfach direkt ausführen, um die Daten in R zu laden:
 
 
-```r
-install.packages("haven")
-library(haven)
-osf <- read_sav("C:/Users/Musterfrau/Desktop/Raw SubdataSet.sav")
+``` r
+source('https://pandar.netlify.app/daten/Data_Processing_grit.R')
 ```
 
-Sie können den Datensatz aber auch direkt über die Website in das Environment einladen. Dafür verwenden Sie den folgendenen Befehl:
+
+_Anmerkung: Leider wurde der Datensatz aus dem OSF entfernt, nachdem ich mit den Autorinnen des Artikels Kontakt aufgenommen habe (mehr dazu später). Die Daten erhalten Sie daher derzeit nur, wenn Sie am Kurs teilnehmen._
+
+Der Datensatz besteht aus ein paar Skalenwerten, demografischen Variablen und der für uns entscheidenen Angabe, ob Personen schon einmal Suizidgedanken oder -versuche durchlebt haben (`Suicide`). Eine detaillierte Darstellung der Variablen findet sich im Artikel von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148), hier nur noch ein kurzer Überblick:
+
+<details><summary><b>Variablenübersicht</b></summary>
+
+Variable | Beschreibung | Ausprägungen
+--- | ------ | ----- 
+`Suicide` | Suizidgedanken und -versuche | `None`, `Ideator`, `Attempter`
+`ARS` | Anger Rumination Scale | *Skalenwert*, 0-76
+`RSS` | Rumination on Sadness Scale | *Skalenwert*, 0-65
+`ILOC` | Internal Locus of Control | *Skalenwert*, 0-48
+`ELOC` | External Locus of Control | *Skalenwert*, 0-96
+`Grit` | Grit Scale | *Skalenmittelwert*, 0-4
+`Age` | Alter | in Jahren
+`Sex` | Geschlecht | `Female`, `Male`, `Other`
+`Employment` | Beschäftigungsverhältnis | `Unemployed`, `Part-Time`, `Full-Time`
+`Marital` | Familienstand | `Never Married`, `Actively Married`, `Not Actively Married`, `Divorced`, `Widowed`
+`SES` | Sozioökonomischer Status | *Einkommensbänder*
+`Orientation` | Sexuelle Orientierung | `Heterosexual`, `Homosexual`, `Bisexual`, `Other/Missing`
+
+</details>
+
+### Stichprobenbeschreibung
+
+Die Deskriptivstatistiken der Variablen, die für uns relevant sind, werden in Tabelle 1 des Aritkels von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) dargestellt. Wir können relativ einfach prüfen, ob wir diese reproduzieren können. Weil die Tabelle die Ergebnisse nach den drei Gruppen `None`, `Ideator` und `Attempter` aufteilt, können wir den `describeBy`-Befehl aus dem `psych`-Paket nutzen, um diese Unterteilung direkt mitzumachen. Weil die ausgegebenen Statistiken für nominalskalierte Variablen nicht sinnvoll sind, schließen wir diese aus dem Datensatz aus, bevor wir ihn mit der Pipe `|>` an die Funktion weitergeben.
 
 
-```r
-library(haven)
-osf <- read_sav(file = url("https://osf.io/prc92/download"))
-```
-
-Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik _Data_ unser Datensatz mit dem Namen _osf_ erscheinen.
-
-### Übersicht über die Daten
-Wir wollen uns einen Überblick über die Daten verschaffen:
-
-
-```r
-names(osf)  # Variablennamen im Datensatz
-```
-
-```
-##  [1] "CASEID"           "QUESTID"          "GENDER_R"         "WHITENH"          "BLACKNH"          "NATAMNH"         
-##  [7] "PACISL"           "ASIAN"            "MIXED"            "HISPANIC"         "TOTFAMINCOME"     "MJANDCOKE"       
-## [13] "MDELASTYR"        "MARJLTYR"         "COCCRKLY"         "FEMALE"           "COCINDEX"         "MRJINDEX"        
-## [19] "ANYINDEX"         "COCDUMMY"         "MRJDUMMY"         "ANYDUMMY"         "DEPRESSIONINDEX"  "DEPRESSIONINDEX2"
-## [25] "Sex"              "EverUse_MarCoc"   "LY_MDE"           "LY_Marijuana"     "LY_CocaineCrack"  "Deplvl_Cocaine"  
-## [31] "Deplvl_Marijuana" "Deplvl_Anydrug"   "CocaineDep"       "MarijuanaDep"     "AnydrugDeg"       "Depression_lvl1" 
-## [37] "Depression_lvl"   "AnydrugDep"
-```
-
-```r
-dim(osf)    # Dimensionen des Datensatzes
-```
-
-```
-## [1] 55602    38
-```
-
-Es gibt insgesamt 38 Variablen. Viele Variablen sind hier auch doppelt in verschiedener Kodierung enthalten. Wir wollen uns auf 3 Variablen fokussieren. Die Variable `ANYDUMMY` gibt dabei an, ob eine Person irgendeine Drogenabhängigkeit hat. Diese Fälle sind mit 1 kodiert. Die Variable `Gender_R` enthält eine Dummykodierung für das Geschlecht (in diesem Fall dichotom aufgeführt), wobei `0` für weiblich und `1` für männlich steht. Die Variable `Depression_lvl` enthält eine Likert-Skala, auf der zwischen 0 und 9 die Depressionswerte der Personen abgetragen sind. 
-
-Auch in diesem Datensatz gibt es natürlich fehlende Werte. Zur Illustration werden wir Personen entfernen, wenn sie auf einer der relevanten Variablen einen fehlenden Wert haben. Beachten Sie, dass dieses Vorgehen in einer normalen Analyse weitreichende Probleme mit sich bringen würde und nur zur Vereinfachung für Lehrzwecke eingesetzt wird.
-
-
-```r
-missings_id <- which(is.na(osf$ANYDUMMY) |
-                        is.na(osf$GENDER_R) |
-                        is.na(osf$Depression_lvl))
-length(missings_id)
-```
-
-```
-## [1] 18659
-```
-
-Durch die Kombination aus `which` und `is.na` werden alle Zeilennummern identifiziert, in denen eine der drei Variablen fehlend ist. Der vertikale Strich steht dabei für eine Verknüpfung mit "oder". Es reicht also ein fehlender Wert auf einer der Variablen, um in dem Objekt `missings_id` getracked zu werden. Insgesamt sind von unserem Ausschluss 18659 Personen betroffen. Nun müssen wir die Fälle noch ausschließen:
-
-
-```r
-osf <- osf[-missings_id, ]
-dim(osf) # nach Fallausschluss
+``` r
+library(psych)
+subset(grit, select = c(ARS, RSS, ELOC, ILOC, Grit, Age)) |>
+  describeBy(grit$Suicide)
 ```
 
 ```
-## [1] 36943    38
+## 
+##  Descriptive statistics by group 
+## group: None
+##      vars   n  mean    sd median trimmed   mad   min max range  skew kurtosis   se
+## ARS     1 145 33.10 12.41  29.00   31.86 11.86 19.00  75 56.00  0.81    -0.05 1.03
+## RSS     2 145 27.01 12.45  25.00   25.54 13.34 13.00  65 52.00  0.88     0.09 1.03
+## ELOC    3 145 35.26 17.60  35.00   34.73 19.27  1.00  89 88.00  0.32    -0.17 1.46
+## ILOC    4 145 35.90  7.48  38.00   36.62  5.93  9.00  48 39.00 -0.99     0.65 0.62
+## Grit    5 145  2.76  0.67   2.83    2.79  0.74  0.92   4  3.08 -0.34    -0.55 0.06
+## Age     6 145 37.34 11.15  35.00   36.57 11.86 20.00  66 46.00  0.57    -0.53 0.93
+## ------------------------------------------------------------------------- 
+## group: Ideator
+##      vars  n  mean    sd median trimmed   mad   min   max range  skew kurtosis   se
+## ARS     1 83 42.57 15.32   44.0   41.99 19.27 19.00 76.00 57.00  0.16    -1.12 1.68
+## RSS     2 83 35.24 13.81   37.0   35.22 16.31  2.00 61.00 59.00 -0.09    -0.91 1.52
+## ELOC    3 83 46.01 18.51   47.0   46.03 22.24  2.00 84.00 82.00 -0.04    -0.89 2.03
+## ILOC    4 83 31.34  9.68   32.0   32.24  8.90  7.00 48.00 41.00 -0.78    -0.11 1.06
+## Grit    5 83  2.42  0.66    2.5    2.45  0.74  0.92  3.83  2.92 -0.32    -0.74 0.07
+## Age     6 83 35.78 10.86   33.0   34.49 10.38 21.00 68.00 47.00  1.03     0.69 1.19
+## ------------------------------------------------------------------------- 
+## group: Attempter
+##      vars  n  mean    sd median trimmed   mad   min   max range  skew kurtosis   se
+## ARS     1 94 42.80 13.85  44.50   42.80 17.05 19.00 70.00 51.00 -0.08    -1.18 1.43
+## RSS     2 94 39.06 13.24  40.00   39.51 13.34 12.00 65.00 53.00 -0.33    -0.65 1.37
+## ELOC    3 94 44.19 18.39  45.50   44.72 18.53  2.00 80.00 78.00 -0.22    -0.65 1.90
+## ILOC    4 94 33.46  7.53  35.00   34.13  7.41 14.00 47.00 33.00 -0.76    -0.05 0.78
+## Grit    5 94  2.42  0.60   2.42    2.40  0.74  1.33  3.92  2.58  0.31    -0.61 0.06
+## Age     6 94 35.24  9.52  33.00   34.25  8.90 21.00 66.00 45.00  1.00     0.76 0.98
 ```
-Die Anzahl an Personen hat sich drastisch reduziert. Dennoch können wir mit der vorhanden Stichprobe die Funktionsweise der logistischen Regression gut erläutern. Dazu wollen wir auch noch das Geschlecht als Variable des Typs `factor` hinterlegen. Dabei steht `0` für weiblich und `1` für männlich. 
+
+Insgesamt scheinen die Ergebnisse mit den Angaben im Artikel weitestgehend übereinzustimmen, lediglich bei der Gruppe `None` scheinen sich bei den Angaben zu den Variablen `ARS` und `RSS` Unstimmigkeiten eingeschlichen zu haben (die ich auch durche eine Nachfrage bei den Autorinnen nicht klären konnte). Die Verteilungen der nominalskalierten Variablen hingegen scheinen zu passen.
 
 
-```r
-osf$GENDER_R <- as.factor(osf$GENDER_R)
-levels(osf$GENDER_R) <- c("weiblich", "maennlich")
+
+``` r
+table(grit$Suicide, grit$Sex) |> addmargins()
+table(grit$Suicide, grit$Employment) |> addmargins()
+table(grit$Suicide, grit$Marital) |> addmargins()
+table(grit$Suicide, grit$SES) |> addmargins()
+table(grit$Suicide, grit$Orientation) |> addmargins()
 ```
 
-### Fragestellungen
+(Die Ausgabe habe ich an dieser Stelle mal ausgespart, Sie können Sie aber einfach direkt bei sich mit dem dargestellten Code ausgeben lassen.)
 
-Für unser Beispiel wollen wir die Drogenabhängigkeit als abhängige Variable benutzen. Dabei wollen wir untersuchen, ob der Depressionswert oder das Geschlecht eine Vorhersage leisten können.
+## Logistische Regression
+
+In der (normalen) logistischen Regression geht es uns darum, eine dichotome abhängige Variable in einer Regression vorherzusagen. Wenn wir uns auf die erste Hypothese der Autorinnen zuückbesinnen:
+
+> [...] we hypothesize grit to be protective against the development of suicidal ideation [...]
+
+können wir uns also erst einmal damit befassen, Unterschiede zwischen Personen, die Suizidgedanken hatten und Personen, die weder Suizidgedanken hatten noch Suizidversuche unternommen haben zu untersuchen. Dazu erstellen wir erst einmal einen Datensatz, der nur diese Personen enhält:
+
+
+``` r
+idea <- subset(grit, grit$Suicide %in% c('None', 'Ideator'))
+idea$Suicide <- droplevels(idea$Suicide)
+```
+
+In diesem Datensatz sind nun nur noch 228 der ursprünglichen 322 Personen enthalten, weil wir nur die beiden Gruppen betrachten. Wir führen aber später, wenn wir uns die [multinomiale logistische Regression angucken](#multinomiale-logistische-regression) angucken, wieder alle Personen zusammen und betrachten die gesamte Stichprobe.
 
 ### Warum keine lineare Regression?
-Um die Drogenabhängigkeit zu modellieren, könnten wir eine [Regressionsanalyse](/lehre/klipps/regression-ausreisser-klipps/) heranziehen und die Drogenabhängigkeit (`ANYDUMMY`) durch bspw. den Depressionswert  (`Depression_lvl`) vorhersagen. Wir nennen unser Modell zur Modellierung der Drogenabhängigkeit `reg_model`.
+
+Bevor wir uns angucken, wie man es richtig macht, gucken wir uns zunächst an, warum die normale Regression in diesem Fall ungeeignet ist. Wie Sie vielleicht in Erinnerung haben, treffen wir in der multiplen Regression im wesentlichen fünf Annahmen (die Sie in ausuferndem Detail im Beitrag zur [Multiplen Regression](/lehre/statistik-i/multiple-reg#voraussetzungen-der-multiplen-regression) nochmal nachlesen können). Eine davon ist die Normalverteilung der Residuen - eine vielleicht etwas optimistische Annahme, angesichts der Tatsache, dass unsere AV nur zwei Ausprägungen hat, aber probieren wir es aus:
 
 
-```r
-reg_model <- lm(ANYDUMMY ~ 1 + Depression_lvl, data = osf)
-summary(reg_model)
+``` r
+# Lineare Regression
+mod0 <- lm(Suicide ~ 1 + Grit, idea)
+```
+
+```
+## Warning in model.response(mf, "numeric"): using type = "numeric" with a factor response will be
+## ignored
+```
+
+```
+## Warning in Ops.factor(y, z$residuals): '-' not meaningful for factors
+```
+
+Wir sehen direkt, dass R sich weigert unser unlauteres Vorhaben zu unterstützen; wir müssen die Variable also zunächst in eine numerische Variable überführen:
+
+
+``` r
+# Lineare Regression
+mod0 <- lm(as.numeric(Suicide) ~ 1 + Grit, idea)
+
+# Ergebnisübersicht
+summary(mod0)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = ANYDUMMY ~ 1 + Depression_lvl, data = osf)
+## lm(formula = as.numeric(Suicide) ~ 1 + Grit, data = idea)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -0.09351 -0.02512 -0.02512 -0.02512  0.97488 
+##     Min      1Q  Median      3Q     Max 
+## -0.6523 -0.3732 -0.2476  0.5431  0.8361 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)    0.0251208  0.0010294   24.40   <2e-16 ***
-## Depression_lvl 0.0075993  0.0003446   22.05   <2e-16 ***
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  1.80581    0.12437  14.520  < 2e-16 ***
+## Grit        -0.16746    0.04565  -3.669 0.000304 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.1809 on 36941 degrees of freedom
-## Multiple R-squared:  0.01299,	Adjusted R-squared:  0.01297 
-## F-statistic: 486.3 on 1 and 36941 DF,  p-value: < 2.2e-16
+## Residual standard error: 0.4695 on 226 degrees of freedom
+## Multiple R-squared:  0.05621,	Adjusted R-squared:  0.05203 
+## F-statistic: 13.46 on 1 and 226 DF,  p-value: 0.0003041
+```
+Das Ergebnis zeigt uns zunächst an, dass Personen mit mehr Grit weniger Suizidgedanken haben. Betrachten wir das Ganze mal als Abbildung:
+
+![](/lehre/klipps/logistische-regression-klinische_files/figure-html/Abbildung-Lineare-Regression-1.png)<!-- -->
+Wie man sieht, ist die von der Regression angenommene lineare Beziehung keine besonders gute Abbildung des wahren Zusammenhangs. Vorhergesagt werden ausschließlich Wrte, die nicht vorkommen können (weil sie weder `1` noch `2` sind). Noch deutlicher wird die Unzulänglichkeit der linearen Regression, wenn wir uns die Verteilung der Residuen angucken:
+
+
+``` r
+residuals(mod0) |> hist()
 ```
 
-Laut der einfachen Regressionsanalyse scheint es, dass der Depressionsscore sehr gering mit dem Drogenkonsum zusammenhängt. Lassen Sie sich dabei von der Signifikanz nicht täuschen. Der Zusammenhang würde zwar für die Population angenommen werden, aber das heißt nicht, dass es ein starker Zusammenhang ist. Die erklärte Varianz wäre aber bei einem Prozent.
+![](/lehre/klipps/logistische-regression-klinische_files/figure-html/Residuen-Lineare-Regression-1.png)<!-- -->
 
-Betrachten wir nun exemplarisch zwei Voraussetzungen der Regression. Der Code für die Grafiken ist in [Appendix B](#AppendixB) zu finden.
+Wie bereits erwähnt, sollten diese Residuen normalverteilt sein, damit die Inferenzstatistik des Regressionsgewichts vertrauenswürdig ist. Den `shapiro.test` erspare ich uns angesichts dieser sehr deutlichen Lage.
+
+### Grundidee der logistischen Regression
+
+Im Grunde ist das Problem im Fall von dichotomen abhängigen Variablen lediglich, dass Ausprägungen nicht einfach mit $Y = \widehat{Y} + e$ in zwei Teile zerlegt werden können, weil eine Annäherung des echten Wertes einer Person mit mehr oder weniger Genauigkeit etwas ungelenk scheint, wenn wir von vornherein wissen, dass die Variable nur zwei Ausprägungen haben kann. Daher wird bei der logistischen Regression die Wahrscheinlichkeit einer Kategorie (im Kontrast zu einer exklusiven anderen Kategorie) modelliert. So wird die Eigenschaft beibehalten, dass wir in der Regression Unsicherheit quantifizieren, statt im Residuum nun darüber, dass wir _Wahrscheinlichkeiten_ statt Werte modellieren. Diese Wahrscheinlichkeit ist dabei eine Funktion der unabhängigen Variablen. Der so entstandene Ansatz ist eine Generalisierung des linearen Modells (`lm`) der Regression und wird daher _generalisiertes lineares Modell_ (`glm`) genannt. 
+
+Wenn wir wieder auf die Annahme zurückkommen, dass Grit ein protektiver Faktor gegenüber Suizidgedanken ist, heißt das, dass die Wahrscheinlichkeit, dass eine Person Suizidgedanken hatte, ein Funktion Ihrer Werte auf der `Grit` Variable sein sollte. Etwas formaler ausgedrückt, wollen wir die bedingte Wahrscheinlichkeit von $Y = 1$ (also, dass es in der Vergangenheit zu Suizidgedanken kam) gegeben $X = x$ (also, dass eine Person einen bestimmten Wert $x$ auf der `Grit` Variable $X$ hat) modellieren. Worum es uns geht, ist in welcher Form sich Unterschiede in $X$ in Unterschiede in der Wahrscheinlichkeit übersetzen.
+
+Weil die Wahrscheinlichkeit einen beschränkten Wertebereich hat (0 bis 1), können wir auch diese nicht einfach mit der linearen Regression vorhersagen, weil die Vorhersage sonst relativ schnell den Bereich zulässiger Werte verlassen würden. Daher ist eine Funktion von nöten, die im Wertebereich ebenfalls auf $[0; 1]$ eingeschränkt ist. Eine einfache Lösung ist dafür die Exponentialfunktion nach dem Schema
+
+$$
+  \mathbb{P}(Y = 1 | X = x) = \frac{e^{\beta_0 + \beta_1x}}{1 + e^{\beta_0 + \beta_1x}}
+$$
+zu nutzen. Hier ist der Exponent die alte bekannte Regressionsgleichung aus $\beta_0$ und $\beta_1$. Im Seminar und bei Eid, Gollwitzer und Schmitt (2017, Kap. 22.1) wird genauer besprochen, was die einzelnen Werte in diesem Fall bedeuten und warum es eigentlich drei verschiedene Formen gibt, die logistische Regression darzustellen. In den Sozialwissenschaften wird meistens der sogenannte _Logit_ als Link-Funktion verwendet, um die Gleichung eine Form umzuwandeln, die unserer klassischen Regression entspricht:
+
+$$
+  \text{logit}(p) = \ln\left(\frac{\mathbb{P}(Y = 1 | X = x)}{1 - \mathbb{P}(Y = 1 | X = x)}\right) = \beta_0 + \beta_1x
+$$
+In der Regression, wie wir sie anwenden werden wird also das logarithmierte Verhältnis der Wahrscheinlichkeit einer Kategorie und der Gegenwahrscheinlichkeit (Odds) modelliert. Gucken wir uns am Besten am Beispiel an, was das genau bedeutet.
+
+### Einfache Logistische Regression
+
+Wie schon angedeutet, ist der Befehl den wir nutzen werden der `glm` Befehl (für _generalized linear model_). Der Funktioniert eigentlich genau so, wie der `lm`-Befehl funktioniert. Als erstes Brauchen wir die Formel, in der wir festhalten, von welchen Variablen die Wahrscheinlichkeit abhängt, dass Personen in der Vergangenheit Suizidgedanken hatten. Nach [Lin et al. (2023, S. 251)](https://doi.org/10.1016/j.jad.2023.02.148) sollte dabei `Grit` eine wesentliche Rolle spielen, da
+
+> Some have also suggested grit to be protective of [suicidal thoughts and behaviors] (Marie et al., 2019), buffering against suicidal ideation by maintaining life goals and promoting a sense of purpose (Kleiman et al., 2013), as well as decreasing the impact of hopelessness (Pennings et al., 2015), negative life events (Blalock et al., 2015), and depression (Kim, 2015).
+
+Als einfache logistische Regression ausgedrückt also:
 
 
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+``` r
+# Logistische Regression
+mod1 <- glm(Suicide ~ 1 + Grit, data = idea, family = 'binomial')
+```
 
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+Da der Oberbegriff _generalisiertes lineares Modell_ eine Vielzahl von verschiedenen Möglichkeiten umfasst, müssen wir im `glm`-Befehl mit dem Argument `family = 'binomial'` festlegen, dass unser Modell eine Binomialverteilung annimmt - unser abhängige Variable also binär bzw. dichotom ist.
 
-In dieser Analyse sind einige Annahmen der Regressionsanalyse verletzt: Normalverteilung der Residuen, Homoskedastizität und auch Unabhängigkeit der Residuen. Den Verteilungen der Residuen können wir deutlich entnehmen, dass diese systematisch ausfallen (mit steigender Depression steigen die Residuen linear an) und auch die Normalverteilungsannahme ist deutlich verletzt. Eine Regression erscheint nicht sinnvoll. Den Ergebnisse der Signifikanzentscheidungen kann nicht getraut werden. Zusätzlich würde eine Vorhersage der abhängigen Variable viele Werte außerhalb der beiden sinnvollen Ausprägungen `0` und `1` ergeben. Wir müssen uns also irgendwie anders mit den Daten auseinandersetzen! Aus diesem Grund wollen wir die logistische Regression heranziehen. 
-
-Im Grunde wird bei der logistischen Regression die Wahrscheinlichkeit des "Erfolgs" (was auch immer der Erfolg ist: erkrankt ja/nein, genesen ja/nein etc.) modelliert. Der Trick dabei ist, dass sich diese Wahrscheinlichkeit auf unterschiedlichen Ausprägungen der Prädiktoren unterschiedlich verhalten kann. Sie wird also durch die Prädiktoren _bedingt_. Die Funktion in `R` hierzu heißt `glm`, was für **G**eneralized **L**inear **M**odel steht. Um den Wertebereich der AV einzuhalten, wird die Erfolgswahrscheinlichkeit so transformiert, dass sie linear durch die UVs vorhergesagt werden kann, aber die Wahrscheinlichkeit trotzdem zwischen 0 und 1 liegt. Gehen wir bspw. von zwei Prädiktoren $X_1$ und $X_2$ aus:
-
-<div class = "big-maths">
-\begin{align*}
-p &= \mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2) = \frac{e^{\beta_0 + \beta_1x_1 + \beta_2x_2}}{1 + e^{\beta_0 + \beta_1x_1 + \beta_2x_2}}\\[2ex]
-odds(p) & = \frac{\mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)}{1-\mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)} = e^{\beta_0 + \beta_1x_1 + \beta_2x_2}\\[2ex]
-logit(p) &  = \ln\left(\frac{\mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)}{1-\mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)}\right) = \beta_0 + \beta_1x_1 + \beta_2x_2
-\end{align*}
-</div>
-
-Hier ist $\ln$ der natürliche Logarithmus zur Basis $e$ ($e$ ist die Eulersche Zahl $\approx 2.718282$). Der $logit$ stellt hierbei die Link-Funktion dar, die eine transformierte Version der interessierenden Wahrscheinlichkeit, linear durch die Prädiktoren darstellen lässt. Die $odds$ und $p$ sind dann nur Retransformationen, die aus der Link-Funktion resultieren.
+Der Output dieser Prozedur sieht der einfachen Regression erstaunlich ähnlich:
 
 
-### Generalisiertes Lineares Modell: Logistische Regressionsanalyse
-
-#### Fragestellung 1: Depression als Prädiktor
-Für die erste Hypothese müssen wir den Einfluss des Depressionsscores auf die Wahrscheinlichkeit der Drogenabhängigkeit bestimmen. Dafür wollen wir eine logistische Regressionsanalyse durchführen. In dieser werden die Residuen nicht länger als normalverteilt angenommen, sondern die AV wird als (bedingt) binomialverteilt modelliert. Wir nennen das Modell `glm_model`, da wir uns im Generalisierten Linearen Model bewegen. Die Funktion `glm` übernimmt für uns die richtige Transformation, nämlich den Logit als Link-Funktion, indem wir noch das Zusatzargument `family = "binomial"` festlegen. Die Binomialverteilung ist gerade jene Verteilung, die beschreibt, wie häufig bei $n$ Versuchen Erfolg eintritt (also genau die richtige Verteilung für unser Modell!).
-
-
-```r
-glm_model <- glm(ANYDUMMY ~ 1 + Depression_lvl, family = "binomial", data = osf)
-summary(glm_model)
+``` r
+# Ergebnisausgabe
+summary(mod1)
 ```
 
 ```
 ## 
 ## Call:
-## glm(formula = ANYDUMMY ~ 1 + Depression_lvl, family = "binomial", 
-##     data = osf)
+## glm(formula = Suicide ~ 1 + Grit, family = "binomial", data = idea)
 ## 
 ## Coefficients:
-##                 Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)    -3.648086   0.035940 -101.50   <2e-16 ***
-## Depression_lvl  0.162463   0.007836   20.73   <2e-16 ***
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)   1.3752     0.5639   2.439 0.014745 *  
+## Grit         -0.7446     0.2132  -3.492 0.000479 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
-##     Null deviance: 11043  on 36942  degrees of freedom
-## Residual deviance: 10671  on 36941  degrees of freedom
-## AIC: 10675
+##     Null deviance: 299.00  on 227  degrees of freedom
+## Residual deviance: 286.05  on 226  degrees of freedom
+## AIC: 290.05
 ## 
-## Number of Fisher Scoring iterations: 6
+## Number of Fisher Scoring iterations: 4
 ```
+Konzentrieren wir uns erstmal auf die Koeffizienten. Intercept und Regressionsgewicht sind analog zur einfachen linearen Regression interpretierbar:
 
-Der Output der Summary unterscheidet sich geringfügig von dem der normalen Regressionsanalyse:
-
-
-```
-## 
-## Call:
-## glm(formula = ANYDUMMY ~ 1 + Depression_lvl, family = "binomial", 
-##     data = osf)
-```
-
-Er zeigt uns, dass wir kein `lm`-Objekt, sondern ein `glm`-Objekt vor uns haben. Die Residuen werden an dieser Stelle nicht mehr automatisch mit ausgegeben. Es wird aber auch nicht das Kleinste-Quadrate-Verfahren angewandt, sondern die Maximum-Likelihood-Schätzmethode (ML).
-
-
-```
-## Coefficients:
-##                 Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)    -3.648086   0.035940 -101.50   <2e-16 ***
-## Depression_lvl  0.162463   0.007836   20.73   <2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-```
-
-
-Der Überblick über die (ML-)Parameterschätzung unterscheidet sich kaum von der der normalen Regression. Lediglich die $t$-Werte werden durch $z$-Werte ersetzt. Die Idee hinter der Signifikanzentscheidung ist aber komplett identisch (außerdem geht die $t$-Verteilung für große $n$ in die $z$-(Standardnormal-)Verteilung über). Hier scheint sich ein signifikanter Effekt des Depressionsscores zu zeigen.
-
-
-```
-##     Null deviance: 11043  on 36942  degrees of freedom
-## Residual deviance: 10671  on 36941  degrees of freedom
-## AIC: 10675
-## 
-## Number of Fisher Scoring iterations: 6
-```
-
-In diesem Abschnitt werden die Devianzen angezeigt. Die Gleichung haben wir im theoretischen Teil schon kennen gelernt:
-
-$$D_{model} = -2[ln(l_{model}) - ln(l_{perfekt})]$$
-
-Die Devianz beschreibt die Log-Likelihooddifferenz eines beliebigen Modells zum saturierten Modell (einem Modell, das genau perfekt zu den Daten passt). Diese Logik werden wir bei mehreren Verfahren sehen, die mittels ML-Schätzung bestimmt werden. Bei der logistischen Regression kann ein saturiertes Modell die Daten perfekt vorhersagen, weshalb die likelihood ($l_{perfekt}$) 1 und ihr Logarithmus ($ln(l_{perfekt})$) dann 0 ist. De facto beschreibt die Devianz für ein spezifisches Modell also die Abweichung zu den wirklichen Daten. Die `Null deviance` beschreibt hier den Unterschied eines Modells ohne Prädiktoren zu den Daten. Dieses hat hier 36942 Freiheitsgrade. Unter `Residual deviance` wird nun die Devianz unseres angenommenen Modells verstanden. Da wir in unserem interessierenden Modell einen Prädiktor aufgenommen haben (Depressionsscore), geht ein Freiheitsgrad für diesen Parameter verloren, weswegen die Residualdevianz hier 36941 Freiheitsgrade hat (siehe bspw. [Eid, et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) Kapitel 22.8 und insbesondere Seiten 823-824). Der AIC (Akaike's Information Criterion) unseres Modells liegt bei 10675. Mit Hilfe dieses AICs können auch nicht-geschachtelte Modelle sowie Modelle mit unterschiedlichen Annahmen verglichen werden. Eine Signifikanzentscheidung ist allerdings nicht möglich (siehe bspw. [Eid, et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) Seite 750). Die letzte Zeile gibt an, wie lange der Fisher-Scoring-Algorithmus gebraucht hat, um die Standardfehler zu bestimmen. Dies kann Auskunft über mögliche Konvergenzschwierigkeiten liefern, also Schwierigkeiten des Algorithmus bei einer guten Lösung anzukommen. Hier ist ein Wert von 6 aber sehr niedrig!
-
-Wir haben bereits anhand des Tests des Steigungsparameters gesehen, dass ein signifikanter Einfluss des Depressionsscores auf die Wahrscheinlichkeit der Drogenabhängigkeit für die Population angenommen werden kann. Trotzdem wollen wir uns nochmal damit auseinandersetzen, wie ein gesamtes Modell (mit allen Prädiktoren) gegen das Nullmodell (also ohne jeglichen Prädiktor) getestet werden kann. Natürlich könnte man sich diese Funktion schnell selbst schreiben und den kritischen Wert raus suchen, aber es gibt ein Paket, welches diese Arbeit für uns übernhemen kann. Dafür müssen wir `lmtest` installieren. Bei der Installation sollte auch die Abhängigkeit `zoo` mit installiert werden. 
-
-```r
-install.packages("lmtest")
-library(lmtest)
-```
-
-
-
-Im theoretischen Teil haben wir gelernt, dass für den Modellvergleich der Likelihood-Ratio-Test verwendet wird, in dem die Likelihood des Modells mit Prädiktoren in Verhältnis zu der Likelihood des Modells ohne Prädiktoren gesetzt wird. Ist der Gewinn in der Likelihood durch die Prädiktoren groß genug, resultiert ein signifikantes Ergebnis. Die zugehörige Funktion in `R` heißt `lrtest`. Diese braucht als einziges Argument das Modell mit Prädiktoren und kann dieses mit dem Modell ohne Prädiktoren vergleichen.
-
-
-```r
-lrtest(glm_model)
-```
-
-
-```
-## Likelihood ratio test
-## 
-## Model 1: ANYDUMMY ~ 1 + Depression_lvl
-## Model 2: ANYDUMMY ~ 1
-##   #Df  LogLik Df Chisq Pr(>Chisq)    
-## 1   2 -5335.4                        
-## 2   2 10510.0  0 31691  < 2.2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-```
-
-Der Output zeigt uns zunächst nochmal an, welche Modelle verglichen werden. In `Model 1` ist die Variable `Depression_lvl` als Prädiktor enthalten, während bei `Model 2` kein Prädiktor vorhanden ist. In der kleinen Tabelle sehen wir dann die Likelihoods der beiden Modelle, ihren Unterschied in Freiheitsgraden und den empirischen $\chi^2$-Wert. Dabei wird auch angezeigt, dass der Test signifikant ausfällt - das Modell leistet einen signifikanten Beitrag zur Vorhersage über das Null-Modell hinaus. Beachten Sie, dass die Funktion automatisch das leere Modell als zweites Modell in die Testung aufnimmt. Daraus resultiert ein negativer Wert in der Spalte der Freiheitsgrade für den Test. Da dieser Wert nur von der Reihenfolge der Modelle in der Funktion abhängig ist, hat das auf unsere Interpretation keinen Einfluss. 
-
-#### Fazit der Analyse
-Der Effekt des Despressionsscores ist statistisch signifikant. Wir haben dieses Mal ein sinnvolleres Modell eingesetzt, was bedeutet, dass wir den Ergebnissen eher trauen können. Insgesamt stützen die Daten unsere erste Hypothese. Allerdings ist dieser Effekt sehr klein (dazu später mehr, wenn wir zur Ergebnisinterpretation und zur Einordnung der Koeffizienten kommen). Wenn wir den Wertebereich entlang der x-Achse sehr/unrealistisch groß wählen und den Depressionsscore von -20 bis 60 laufen lassen, so können wir uns die linearen und nichtlinearen Beziehungen zwischen Depressionsscore - Logit, Depressionsscore - Odds und Depressionsscore - Wahrscheinlichkeit ansehen, andernfalls ist der Effekt so klein, dass wir kaum etwas erkennen. `glm_model$coefficients[1] + glm_model$coefficients[2]*Depressionswerte` ist hierbei die Formel für den Logit, da die Parameterschätzungen einfach die $\beta$-Koeffizienten sind, welche linear verknüpft den Logit ergeben. 
-
-
-```r
-Depressionswerte <- seq(-20, 60, 0.1)
-logit <- glm_model$coefficients[1] + glm_model$coefficients[2]*Depressionswerte 
-plot(x = Depressionswerte, y = logit, type = "l", col = "blue", lwd = 3)
-```
-
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
-
-`type = "l"` fordert eine Linie anstatt von Punkten an, `lwd = 3` sagt, dass diese Linie dreimal so dick wie der Default sein soll und `col = "blue"` sagt, dass die Linie blau sein soll.
-
-Glücklicherweise sind Logit, Odds und Wahrscheinlichkeit sehr leicht ineinander überführbar. Für die Berechnung der Odds muss nur die Funktion `exp` auf die Logit-Werte angewendet werden, während die Wahrscheinlichkeit die Odds geteilt durch eins plus Odds ist.
-
-
-```r
-odds <- exp(logit)
-plot(x = Depressionswerte, y = odds, type = "l", col = "blue", lwd = 3)
-```
-
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
-
-```r
-p <- odds/(1 + odds)
-plot(x = Depressionswerte, y = p, type = "l", col = "blue", lwd = 3)
-```
-
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/unnamed-chunk-19-2.png)<!-- -->
-
-Wir erkennen in allen drei Plots die positive Beziehung zwischen Drogenabhängigkeit und Depressionsscore. Der Logit ist eine lineare Funktion (Wertebereich [$-\infty$,$\infty$]). Somit steigt (bzw. sinkt) der Logit um $\beta_1$, wenn der Prädiktor (hier Depressionsscore) um eine Einheit erhöht wird. Die Odds sind eine Exponentialfunktion (Wertebereich [0,$\infty$]) und bei der Wahrscheinlichkeit handelt es sich um eine sogenannte Ogive (Wertebereich [0,1]). Die Odds steigen (bzw. sinken) um den Faktor $e^{\beta_1}$ (auch Odds-Ratio genannt), wenn der Prädiktor (hier Depressionsscore) um eine Einheit erhöht wird - die Beziehung zwischen Odds und Prädiktor ist somit multiplikativ! Wir schauen uns die Parameterinterpretation der Odds im nächsten Abschnitt genauer an. Wie sich die Wahrscheinlichkeit verändert, ist nicht pauschal zu sagen. Diese Veränderung hängt von der Ausprägung des Prädiktors ab und lässt sich nicht durch eine einzige Zahl quantifizieren. Wir erkennen aber, dass die Ogive erst nach einem Depressionsscore von Null nach links laufend flacher gegen 0 geht. Im Intervall von 0 bis 9 (also möglichen Depressionsscores) ist die Wahrscheinlichkeit der Drogenabhängigkeit kleiner als 20% und steigend mit dem Depressionsscore. In [Appendix A](#AppendixA) haben Sie die Möglichkeit, spielerisch die Einflüsse der Parameter in der logistischen Regression kennen zu lernen.
-
-### Fragestellung 2: Geschlecht als Prädiktor
-Nun wollen wir das Geschlecht mit in unser Modell aufnehmen und somit Hypothese 2 untersuchen. Da das Geschlecht hier auch nur 2 Ausprägungen hat, kann dieser Effekt als Vergleich zwischen Gruppen verstanden werden. Diese Dummy-Variable haben wir zu Beginn schon als Faktor festgelegt. Mit der Funktion `table` erhalten wir einen Überblick über die Kombination an Drogenabhängigkeit und dem Geschlecht.
-
-
-```r
-table(osf$GENDER_R, osf$ANYDUMMY)
-```
-
-```
-##            
-##                 0     1
-##   weiblich  18381   600
-##   maennlich 17294   668
-```
-
-In der Tabelle wird entlang der Spalten die Drogenabhängigkeit vs. das Geschlecht in den Zeilen abgetragen. Dieser Tabelle ist zu entnehmen, dass der relative Anteil an Männern, die unter einer Abhängigkeit leiden, höher ist als der der Frauen: 668 vs. 17294 für die Männer und 600 vs. 18381 für die Frauen. Auch absolut gesehen leiden mehr Männer unter einer Abhängigkeit. Da die Unterschiede aber recht klein sind, ist ein Geschlechtereffekt erstmal fraglich. Diese 4-Feldertafel könnten wir auch heranziehen, um einen $\chi^2$-Unabhängigkeitstest durchzuführen. Wir wollen aber den Effekt des Geschlechts über den Depressionsscore hinaus auf die Wahrscheinlichkeit der Drogenabhängigkeit modellieren:
-
-
-```r
-glm_model2 <-  glm(ANYDUMMY ~ 1 + Depression_lvl + GENDER_R, family = "binomial", data = osf)
-summary(glm_model2)
-```
-
-```
-## 
-## Call:
-## glm(formula = ANYDUMMY ~ 1 + Depression_lvl + GENDER_R, family = "binomial", 
-##     data = osf)
-## 
-## Coefficients:
-##                    Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)       -3.862029   0.050888 -75.893  < 2e-16 ***
-## Depression_lvl     0.173445   0.008049  21.549  < 2e-16 ***
-## GENDER_Rmaennlich  0.378801   0.059125   6.407 1.49e-10 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 11043  on 36942  degrees of freedom
-## Residual deviance: 10630  on 36940  degrees of freedom
-## AIC: 10636
-## 
-## Number of Fisher Scoring iterations: 6
-```
-
-Das Besondere an diesem Output ist, dass bei der Variable Geschlecht noch `maennlich` dahinter steht:
-
-
-```
-## Depression_lvl     0.173445   0.008049  21.549  < 2e-16 ***
-## GENDER_Rmaennlich  0.378801   0.059125   6.407 1.49e-10 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 11043  on 36942  degrees of freedom
-## Residual deviance: 10630  on 36940  degrees of freedom
-## AIC: 10636
-```
-
-Dies gibt an, dass hier dummy-kodiert wurde und der Effekt von 1 (maennlich) im Vergleich zur Referenzgruppe (also 0, weiblich) dargestellt ist. Bei der Betrachtung der Signifikanztestungen der einzelnen Prädiktoren erhalten wir für beide signifikante Ergebnisse.
-
-#### Ergebnisinterpretation
-Die $\beta$-Gewichte zu interpretieren, hat wenig inhaltliche Aussagekraft. Wir könnten bspw. für das Geschlecht lediglich die Aussage treffen, dass (unter Konstanthaltung aller weiteren Prädiktoren im Modell), wenn Männer im Vergleich zu Frauen betrachtet werden, der Logit (der Wahrscheinlichkeit der Drogenabhängigkeit) um 0.379 steigt. Wenn wir allerdings anstatt des Logits die Odds heranziehen, so können wir mit Hilfe des Odds-Ratio doch eine Aussage über die Wahrscheinlichkeit der Drogenabhängigkeit treffen. Dazu müssen wir die $\beta$-Gewichte transformieren via $e^\beta$:
-
-
-```r
-exp(glm_model2$coefficients) # Odds-Ratios
-```
-
-```
-##       (Intercept)    Depression_lvl GENDER_Rmaennlich 
-##        0.02102529        1.18939523        1.46053194
-```
-
-Nun können wir die Ergebnisse (einigermaßen) sinnvoll interpretieren. Das Interzept wird an der Stelle interpretiert, wo alle Prädiktoren den Wert 0 annehmen. Für den Depressionsscore würde das natürlich eine Person ohne Punkte im Fragebogen darstellen. Außerdem ist noch die Variable `GENDER_R` im Modell. Dies ist eine Dummy-Variable, die den Wert 1 annimmt, wenn das Geschlecht den Wert 1 (im Vergleich zu 0; der Referenzkategorie) annimmt; also wenn wir einen Mann im Vergleich zu einer Frau betrachten. Folglich hat diese Dummy-Variable gerade den Wert 0, wenn eine Frau betrachtet wird. Wir interpretieren das Interzept bzgl. der Odds wie folgt: Eine weibliche Person mit einem Depressionsscore von 0 hat einen  Drogenabahängigkeits-Odds von 0.021. Dies bedeutet, es ist für sie 0.021-mal so wahrscheinlich eine Drogenabhängigkeit zu haben als sie nicht zu haben. 
-
-Der Effekt der Depression lässt sich wie folgt interpretieren: Steigt der Depressionsscore um 1 an (unter Konstanthaltung aller weiteren Prädiktoren im Modell), so verändern sich die Odds zur Drogenabhängigkeit um den Faktor (multiplikativ) 1.189. Insgesamt steigen die Odds und damit die Wahrscheinlichkeit einer Drogenabhängigkeit mit dem Depressionsscore, denn das Odds-Ratio ist genau dann größer 1, wenn der $\beta$-Koeffizient des Logit größer als 0 ist und es sich somit um eine positive/steigende Beziehung handelt! 
-
-Beschäftigen wir uns nun mit der Geschlechtervariable: Wird ein Mann im Vergleich zu einem Frau betrachtet, so steigen die Odds für eine Drogenabhängigkeit um den Faktor 1.461. Somit haben (unter Konstanthaltung aller weiteren Prädiktoren im Modell) Männer eine 1.461 mal so hohe Wahrscheinlichkeit für eine Drogenabhängigkeit wie die Frauen. Hier ist extrem wichtig, zu beachten, dass die Odds sich multiplikativ ändern und nicht additiv, wie wir es von der linearen Regression (und im Übrigen auch vom Logit) gewohnt sind.
-
-#### Grafische Veranschaulichung
-Wir können uns dieses Modell auch grafisch ansehen und damit die oben aufgezeigten Effekte verdeutlichen. Den Code können Sie im [Appendix B](#AppendixB) finden. Dieser geht über den Inhalt des Moduls hinaus.
-
-
-
-
-
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
-
-In dem Plot sind die vorhergesagten Logits für alle Personen im Datensatz zu sehen. Dabei ist der Logit natürlich vom Depressionsscore abhängig und das Geschlecht wird als Gruppierungsvariable für zwei verschiedene Geraden verwendet. Die Logik lässt sich auch auf die Odds und die Wahrscheinlichkeit der Drogenabhängigkeit übertragen.
-
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
-
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
-
-Die Verläufe der Odds und der Wahrscheinlichkeit sehen in diesem Beispiel recht ähnlich aus. Das liegt daran, dass wir nun den realistischen Bereich der Daten betrachten. Wenn wir den Bereich der x-Achse erweitern würden, würden die Odds gegen $\infty$ gehen, während die Wahrscheinlichkeit die ogive Form zeigen und sich damit der 1 annähern würde.
-
-Wie bereits in der ersten Analyse festgestellt, scheint ein höherer Depressionscore mit einer erhöhten Wahrscheinlichkeit des Drogenkonsums einherzugehen.  Auch das Geschlecht scheint einen Einfluss auf diese Wahrscheinlichkeit zu haben. 
-
-### Modellvergleich
-
-Zum Abschluss wollen wir uns jetzt mittels Modellvergleichen nochmal der Frage widmen, ob das Geschlecht über den Depressionsscore hinaus einen signifikanten Beitrag zur Vorhersage leistet.
-
-Zunächst testen wir das neu erstellte Gesamtmodell gegen das Null-Modell, wie wir es bereits mit dem `glm_model` getan haben.
-
-
-```r
-lrtest(glm_model2)
-```
-
-
-```
-## Likelihood ratio test
-## 
-## Model 1: ANYDUMMY ~ 1 + Depression_lvl + GENDER_R
-## Model 2: ANYDUMMY ~ 1
-##   #Df  LogLik Df Chisq Pr(>Chisq)    
-## 1   3 -5314.8                        
-## 2   2 10510.0 -1 31650  < 2.2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-```
-
-
-Wenig überraschend erzeugt auch dieser Test ein signifikantes Ergebnis. Spannender ist jetzt, ob die Hinzunahme des Geschlechts auch einen signifikanten Mehrwert bringt. Wie immer in `R` gibt es für den Vergleich zwischen zwei Modellen mehrere Wege, wir bleiben aber bei der verwendeten `lrtest` Funktion. Diese kann nämlich auch zwei Modelle als Argumente annehmen und vegleichen.
-
-
-```r
-lrtest(glm_model, glm_model2)
-```
-
-```
-## Likelihood ratio test
-## 
-## Model 1: ANYDUMMY ~ 1 + Depression_lvl
-## Model 2: ANYDUMMY ~ 1 + Depression_lvl + GENDER_R
-##   #Df  LogLik Df  Chisq Pr(>Chisq)    
-## 1   2 -5335.4                         
-## 2   3 -5314.8  1 41.232  1.352e-10 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-```
-Der Output ist für uns nicht mehr neu. Statt dem Nullmodell sind jetzt zwei Modelle mit Prädiktoren aufgeführt. `Model 1` enthält allerdings nur einen Prädiktor und wird deshalb auch als _eingeschränkt_ bezeichnet. `Model 2` hingegen ist das _uneingeschränkte_ Modell. Da wir ein signifikantes Ergebnis erhalten, würden wir uns für das uneingeschränkte Modell entscheiden. 
-
-### Fazit
-
-Final können wir festhalten, dass sowohl der Depressionsscore als auch das Geschlecht als Prädiktoren für die Wahrscheinlichkeit der Drogenabhängigkeit fungieren können.
-
-
-***
-
-
-## Appendix
-### Appendix A {#AppendixA}
-
-<details><summary><b>Parametereinflüsse</b></summary>
-
-Die folgende Funktion stellt vier Grafiken dar: den Logit, die Odds, die Wahrscheinlichkeit und die Wahrscheinlichkeit vs. eine Zufallserhebung. Sie können $\beta_0$ und $\beta_1$ dieses Modells so einstellen, wie Sie wünschen und sich den Effekt auf die verschiedenen Darstellungsformen der logistischen Regression ansehen. In hellblau wird jeweils die Funktion mit $\beta_0 = 0$ und $\beta_1 = 1$ als Referenz dargestellt. Die gestrichelten Linien stellen jeweils die x- und die y-Achse dar. In roten Punkten werden Realisierungen von $Y=0,1$ dargestellt, die mit der angezeigten Wahrscheinlichkeit gezogen wurden. Um die Ergebnisse vergleichbar zu machen, wird `set.seed(1234)` verwendet (vgl. [Simulation und Poweranalyse](/lehre/statistik-i/simulation-poweranalyse)).
-
-```r
-Logistic_functions <- function(beta0 = 0, beta1 = 1)
-{
-        par(mfrow=c(2,2)) # 4 Grafiken in einer
-
-        xWerte <- seq(-5, 5, 0.1)
-        logit <- beta0 + beta1*xWerte
-        plot(x = xWerte, y = logit, type = "l", col = "blue", lwd = 3, main = "Logit vs X", xlab = "X")
-        lines(xWerte, xWerte, col = "skyblue")
-        abline(h = 0, lty = 3); abline(v = 0, lty = 3)
-
-        odds <- exp(logit)
-        plot(x = xWerte, y = odds, type = "l", col = "blue", lwd = 3, main = "Odds vs X", xlab = "X")
-        abline(h = 0, lty = 3); abline(v = 0, lty = 3)
-        lines(xWerte, exp(xWerte), col = "skyblue")
-
-        p <- odds/(1 + odds)
-        plot(x = xWerte, y = p, type = "l", col = "blue", lwd = 3, main = "P vs X", ylim = c(0,1), xlab = "X")
-        lines(xWerte, exp(xWerte)/(1 + exp(xWerte)), col = "skyblue")
-        abline(h = 0, lty = 3); abline(v = 0, lty = 3)
-
-        set.seed(1234) # Vergleichbarkeit
-        Y <- rbinom(n = length(xWerte), size = 1, prob = p)
-        plot(x = xWerte, y = p, type = "l", col = "blue", lwd = 3, main = "P vs X und zufällige Realisierungen",
-             ylim = c(0,1), xlab = "X", ylab = "P und Y")
-        abline(h = 0, lty = 3); abline(v = 0, lty = 3)
-        points(x = xWerte, y = Y, pch = 16, cex = .5, col = "red")
-}
-```
-
-Sie führen diese Funktion aus, indem Sie alles von `Logistic_functions <- function(beta0 = 0, beta1 = 1){` bis `}` kopieren und in Ihrem `R`-Studio Fenster ausführen, sodass in der Rubrik oben rechts (dort wo auch immer _Data_ erscheint) unter _Functions_ `Logistic_functions` als Funktion aufgeführt wird. Sie können sich bspw. die Konstellation für $\beta_0 = 1$ und $\beta_1 = -0.5$ im Vergleich zu $\beta_0 = 0$ und $\beta_1 = 1$ ansehen:
-
-
-```r
-Logistic_functions(beta0 = 1, beta1 = -.5)
-```
-
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
-
-</details>
-
-### Appendix B {#AppendixB}
-
-<details><summary><b>Fortgeschrittene Grafiken</b></summary>
-
-Zunächst beschäftigen wir uns mit den beiden Grafiken, die die Residuen der linearen Regression zwischen Depressionsscore und Drogenabhängigkeit betrachten. Für den ersten Plot benötigen wir das Paket `car`.
-
-```r
-library(car) # nötiges Paket laden
-avPlots(model = reg_model, pch = 16)
-```
-
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
-
-Für die Erstellung des zweiten Plots muss das Paket `MASS` aktiviert sein. Zunächst werden die studentisierten Residuen als Objekt abgelegt. Dafür kann die Funktion `studres` verwendet werden. Diese werden in einem Histogramm abgebildet.
-
-
-```r
-library(MASS)# nötiges Paket laden
-res <- studres(reg_model) # Studentisierte Residuen als Objekt speichern
-hist(res, freq = F)
-xWerte <- seq(from = min(res), to = max(res), by = 0.01)
-lines(x = xWerte, y = dnorm(x = xWerte, mean = mean(res), sd = sd(res)), lwd = 3)
-```
-
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
-
-Um die Normalverteilunskurve auch noch einzuzeichnen, erstellen wir einen Vektor mit x Variablen vom Minimum bis zum Maximum der Residuen-Werte. Anschließend legen wir über `lines` und `dnorm` die Kurve auf unser Histogramm. `dnorm` bestimmt dabei die Werte, die die Normalverteilung an der Stelle x mit dem Mittelwert und der Standardabweichung der Residuen hätte.
-
-Die beschriebenen Plots sind mit einem Paket und einer Basis-Funktion von `R` erstellt. Für die Erstellung von individuellen Plots ist `ggplot2` das richtige Paket. Dieses wurde bereits häufiger im Appendix als Möglichkeit zum Erzeugen von Plots beschrieben. Weitere Informationen zu `ggplot2` erhalten Sie bspw. auf  [{{< icon name="graduation-cap" pack="fas" >}} Tidyverse](https://ggplot2.tidyverse.org). Außerdem können Sie sich auch eine [Einführung in `ggplot2`](/lehre/statistik-ii/grafiken-ggplot2) auf dieser Website ansehen.
-
-
-```r
-library(ggplot2)
-```
-
-Wir können hier sehr leicht Gruppierungen in Grafiken darstellen. Zunächst müssen wir allerdings die Prädiktionen unseres Modells bestimmen, denn wir wollen uns die Vorhersage/Erwartung unseres Modells ansehen. Die Funktion, mit der wir dies machen können, heißt genauso wie die Funktion die sie ausführt: `predict`. Wir sagen damit den Logit für alle Konstellationen von Depressionsscore und Geschlecht in unseren Daten vorher, indem wir der Funktion das Modell übergeben. Wir bestimmen also für jede Personen die erwartete Wahrscheinlichkeit der Drogenabhängigkeit unter diesem Modell (der Prädiktion durch Geschlecht und Depressionsscore). Anschließend können wir den Logit so transformieren, dass wir die Odds oder die Wahrscheinlichkeit erhalten. Um dies leichter nachvollziehbar zu machen, führen wir die Transformationen mit neu erstellten Variablen durch, ehe wir diese dem Datensatz anhängen (denn `ggplot` hat es am liebsten, wenn wir mit `data.frames`, also ganzen Datensätzen arbeiten).
-
-
-```r
-logit_glm2 <- predict(glm_model2)           # Logit unter Modell glm2 bestimmen
-odds_glm2 <- exp(logit_glm2)          # Logit unter Modell glm2 in Odds transformieren
-p_glm2 <- odds_glm2/(1 + odds_glm2)     # Odds in Wahrscheinlichkeiten transformieren
+  - $\beta_0$: Vorhergesagter Logit für Personen mit einem `Grit`-Wert von 0
+  - $\beta_1$: Vorhergesagter Unterschied im Logit zwischen zwei Personen, die sich um eine Einheit im `Grit` unterscheiden
   
-# dem Datensatz anhängen:
-osf$logit_glm2 <- logit_glm2
-osf$odds_glm2 <- odds_glm2
-osf$p_glm2 <- p_glm2
+Das Problem bei dieser Interpretation ist nur, dass der Logit nicht wirklich intuitiv interpretierbar ist. Daher werden die Ergebnisse der Regression häufig in Odds umgerechnet (zur [Erinnerung an Odds und Odds-Ratios können Sie in diesem Beitrag](/lehre/statistik-i/korrelation/#odds-wettquotient-und-odds-ratio) nachgucken). Weil der Logit einfach der logarithmierte Odds ist, können wir durch exponieren auch den Odds erhalten:
+
+
+``` r
+# Odds
+exp(coef(mod1))
 ```
 
-Eine Grafik erhalten wir nun mit `ggplot` sehr einfach:
-
-
-```r
-ggplot(data = osf, mapping = aes(x =
-                                   as.numeric(Depression_lvl),
-                                 y = logit_glm2, col =
-                                   GENDER_R)) +
-  geom_line(lwd = 2) +
-  ggtitle("Logit vs Depression and Sex") +
-  xlab("Depressionsscore") + 
-  ylab("Logit")
+```
+## (Intercept)        Grit 
+##   3.9557456   0.4749213
 ```
 
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+Bei einem `Grit`-Wert von 0 ist es also knapp 3.96-mal so wahrscheinlich in der Vergangenheit Suizidgedanken gehabt zu haben, wie es ist, sie nicht gehabt zu haben. Wenn sich zwei Personen auf der `Grit`-Skala um eine Einheit unterscheiden, ist die Wahrscheinlichkeit der Suizidgedanken der Person mit dem höheren Wert nur ungefähr das 0.47-fache der Person mit dem niedrigeren Wert.
 
-`ggplot` arbeitet etwas anders als die Basisfunktion `plot`. Zunächst übergeben wir ihr die Daten `data = osf`. Dem `mapping` übergeben wir sozusagen das Achsenkreuz und Gruppenzugehörigkeiten und Farbkodierungen innerhalb  von `aes(x = Depression_lvl, y = logit_glm2, col = GENDER_R)`. Hier wird gesagt, dass der Depressionsscore auf die x-Achse soll und wir den Logit entlang der y-Achse plotten wollen. Außerdem soll für das Geschlecht eine separate Linie eingezeichnet werden und diese soll farblich kodiert sein. Damit dies funktioniert, müssen natürlich die Variablen im richtigen Format vorliegen. Bspw. müssen Gruppierungen, wie etwa das Geschlecht, als Faktor vorliegen. Anschließend fügen wir mit `+` hinzu, was genau geplottet werden soll. In diesem Beispiel wollen wir Linien haben. Deshalb verwenden wir die Funktion `geom_line` mit dem Argument `lwd = 2` für zweifache Liniendicke. Würden wir hier bspw. `geom_point` verwenden, so würden Punkte gezeichnet werden. Wieder mit dem `+` fügen wir außerdem mit der Funktion `ggtitle` einen Titel hinzu. `xlab` und `ylab` lassen uns die Achsentitel modifizieren. Gleiches können wir auch für die Odds oder die Wahrscheinlichkeit durchführen:
+Für jeden einzelnen Wert können wir außerdem die Wahrscheinlichkeit berechnen, dass Person Suizidgedanken hatten. Dafür können wir zunächst, wie bei der normalen Regression, die vorhergesagten Logits bestimmen und diese dann in Wahrscheinlichkeiten umrechnen:
 
 
-```r
-ggplot(data = osf, mapping = aes(x = Depression_lvl,
-                                 y = odds_glm2, 
-                                 col = GENDER_R)) +
-  geom_line(lwd = 2) +
-  ggtitle("Odds vs Depression and Sex")+
-  xlab("Depressionsscore") + 
-  ylab("Odds")
+``` r
+# Ganze Werte auf der Grit Skala
+new_data <- data.frame(Grit = 0:4)
+
+# Vorhersage
+new_data$Logits <- predict(mod1, newdata = new_data)
+
+# Umrechnung in Wahrscheinlichkeit
+new_data$Probability <- exp(new_data$Logits) / (1 + exp(new_data$Logits))
+
+# Ausgabe
+new_data
 ```
 
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+```
+##   Grit     Logits Probability
+## 1    0  1.3751691   0.7982140
+## 2    1  0.6305630   0.6526171
+## 3    2 -0.1140431   0.4715201
+## 4    3 -0.8586492   0.2976217
+## 5    4 -1.6032553   0.1675271
+```
+Zum Glück, können wir das Ganze in `predict` auch abkürzen, wenn wir direkt die Wahrscheinlichkeiten anfordern:
 
 
-```r
-ggplot(data = osf, mapping = aes(x = Depression_lvl, 
-                                 y = p_glm2, 
-                                 col = GENDER_R)) +
-  geom_line(lwd = 2) +
-  ggtitle("P vs Depression and Sex") +  
-  xlab("Depressionsscore") + 
-  ylab("Logit")
+``` r
+new_data$Probability <- predict(mod1, newdata = new_data, type = 'response')
 ```
 
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
 
-</details>
+Die Ergebnisse können wir natürlich auch bildlich veranschaulichen (den entsprechenden R-Code dazu finden Sie im oben verlinkten R-Skript für diesen Beitrag):
+
+![](/lehre/klipps/logistische-regression-klinische_files/figure-html/Abbildung-Logistische-Regression-1.png)<!-- -->
+Sowohl die Ergebnisse der Regression als auch die Abbildung scheinen den Annahmen von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) also Recht zu geben: mehr Grit scheint mit bedeutsam weniger Suizidgedanken einherzugehen.
+
+Von der APA wird empfohlen, für Ergebnisse der logistischen Regression Odds und deren Konfidenzintervalle zu präsentieren. Da wir schon wissen, wie wir die Regressiongewichte in Odds umrechnen, brauchen wir nur noch die Konfidenzintervalle. Die `confint`-Funktion gibt diese natürlich auch in Logits aus, aber sie sind nach dem gleichen Prinzip in Odds umrechenbar, wie die Koeffizienten selbst:
+
+
+``` r
+# Konfidenzintervalle
+ci <- confint(mod1)
+```
+
+```
+## Waiting for profiling to be done...
+```
+
+``` r
+# Ergebnisse
+results <- data.frame(
+  Odds = exp(coef(mod1)),
+  Lower = exp(ci[, 1]),
+  Upper = exp(ci[, 2])
+)
+
+# Ausgabe
+results
+```
+
+```
+##                  Odds     Lower      Upper
+## (Intercept) 3.9557456 1.3279710 12.2213299
+## Grit        0.4749213 0.3092452  0.7155088
+```
+
+Im Einklang mit den Ergebnissen der $p$-Werte aus der `summary` sagen uns die Konfidenzintervalle hier, dass sowohl das Intercept als auch der Regressionskoeffizient für `Grit` signifikant von 1 (gleicher Wahrscheinlichkeit) verschieden sind.
+
+### Mehrere Prädiktoren und Modellvergleiche
+
+Die Erweiterung der logistischen Regression auf mehrere Prädiktoren funktionier eigentlich genauso, wie bei der linearen Regression. Wenn wir Tabelle 3 in [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) betrachten, sehen wir die Ergebnisse verschiedener Modelle, mit jeweils sequentiell aufgenommenen Blöcken von Prädiktoren. In unserem eingeschränkten `idea` Datensatz befinden sich derzeit alle Personen, die als `Ideator` oder `None` klassifiziert wurden. Wir können also versuchen, die Ergebnisse aus der zweiten Spalte des _Model 1_ zu reproduzieren. Dafür brauchen wir vier Modelle:
+
+  - **Block 1**: Nur eine dichotomisierte `Orientation`-Variable
+  - **Block 2**: Zusätzlich `ARS`, `ILOC` und `Grit`
+  - **Block 3**: Zusätzlich die paarweisen Interaktionen zwischen `ARS`, `ILOC` und `Grit`
+  - **Block 4**: Zusätzlich die dreifach-Interaktion zwischen `ARS`, `ILOC` und `Grit`
+
+Die Grundideen, die wir in den letzten beiden Beiträgen hinsichtlich der [moderierten Regression](/lehre/klipps/multiple-regression-klinische) und der [generalisierten ANCOVA](/lehre/klipps/ancova-klinische) besprochen hatten halten auch hier (wir haben ja nur ausgetauscht, wie wir unsere abhängige Variable behandeln). Deswegen müssen wir auch hier die Variablen zentrieren, um nicht-essentielle Multikollinearität zu vermeiden:
+
+
+``` r
+# Zentrierung
+idea$ARS_c <- scale(idea$ARS, scale = FALSE)
+idea$ILOC_c <- scale(idea$ILOC, scale = FALSE)
+idea$Grit_c <- scale(idea$Grit, scale = FALSE)
+```
+
+Außerdem müssen wir - im Einklang mit dem Vorgehen von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) - die `Orientation` Variable so umkodieren, dass sie den dichotomen Kontrast zwischen heterosexuellen und nicht-heterosexuellen Personen abbildet:
+
+
+``` r
+# dichotome Orientierung
+idea$Orientation_bin <- factor(idea$Orientation, 
+  labels = c('Hetero', 'LGBTQ', 'LGBTQ', 'LGBTQ'))
+```
+
+
+Stellen wir direkt alle vier Modell auf:
+
+
+``` r
+# Modelle aus Tabelle 3, Model 1, Spalte 2
+block1 <- glm(Suicide ~ 1 + Orientation_bin, 
+  idea, family = 'binomial')
+block2 <- glm(Suicide ~ 1 + Orientation_bin + ARS_c + ILOC_c + Grit_c,
+  idea, family = 'binomial')
+block3 <- glm(Suicide ~ 1 + Orientation_bin + ARS_c + ILOC_c + Grit_c +
+    ARS_c:ILOC_c + ARS_c:Grit_c + ILOC_c:Grit_c,
+  idea, family = 'binomial')
+block4 <- glm(Suicide ~ 1 + Orientation_bin + ARS_c + ILOC_c + Grit_c +
+    ARS_c:ILOC_c + ARS_c:Grit_c + ILOC_c:Grit_c +
+    ARS_c:ILOC_c:Grit_c,
+  idea, family = 'binomial')
+```
+
+Wie in der linearen multiple Regression, macht es auch hier Sinn erst zu beurteilen, welches Modell das Beste ist, bevor wir in die Interpretation der einzelnen Ergebnisse übergehen. In der linearen Regression hatten wir Modelle anhand der Differenz der Varianzaufklärung $R^2$ bzw. Quadratsummen verglichen. Leider funktioniert beides hier nicht mehr, da es weder Varianzaufklärung noch Residualquadratsummen gibt, wenn es keine Residuen gibt. Da die logistische Regression aber mittels _Maximum-Likelihood Schätzverfahren_ geschätzt wird, können wir die Likelihood der beiden Modelle direkt miteinander vergleichen. 
+
+Sehr vereinfacht gesagt, stellt die Likelihood jedes Modells dar, wie wahrscheinlich die beobachteten Daten sind, wenn dieses Modell das wahre Modell wäre. Für den direkten Vergleich zwischen zwei Modellen können wir uns dies zunutze machen, weil wir das Modell bevorzugen wollen, bei dem die Daten wahrscheinlicher sind, die wir beobachtet haben. Weil mehr Parameter dabei die Daten immer wahrscheinlicher machen, müssen wir darauf achten, dass das Modell in größerem Ausmaß besser wird, als wir durch mehr Parameter unser Modell komplexer machen. Wenn die Annahmen der logistischen Regression erfüllt sind, folgt die Differenz der Log-Likelihoods von zwei Modellen einer $\chi^2$-Verteilung mit der Differenz der Parameteranzahl als Freiheitsgrade.
+
+
+``` r
+# Modellvergleich
+anova(block1, block2, block3, block4)
+```
+
+```
+## Analysis of Deviance Table
+## 
+## Model 1: Suicide ~ 1 + Orientation_bin
+## Model 2: Suicide ~ 1 + Orientation_bin + ARS_c + ILOC_c + Grit_c
+## Model 3: Suicide ~ 1 + Orientation_bin + ARS_c + ILOC_c + Grit_c + ARS_c:ILOC_c + 
+##     ARS_c:Grit_c + ILOC_c:Grit_c
+## Model 4: Suicide ~ 1 + Orientation_bin + ARS_c + ILOC_c + Grit_c + ARS_c:ILOC_c + 
+##     ARS_c:Grit_c + ILOC_c:Grit_c + ARS_c:ILOC_c:Grit_c
+##   Resid. Df Resid. Dev Df Deviance  Pr(>Chi)    
+## 1       226     293.96                          
+## 2       223     259.75  3   34.211 1.788e-07 ***
+## 3       220     256.43  3    3.324    0.3443    
+## 4       219     256.26  1    0.160    0.6887    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+Wir stellen an dieser Stelle also fest, dass die Aufnahme der Interaktionsterme in Block 3 und 4 nicht notwendig sind. Das Modell aus Block 2 ist nicht bedeutsam schlechter, als diese komplexeren Modelle. Die aufgestellten Hypothesen bezüglich der verstärkenden Effekte von ILOC bzw. schützenden Effekte von ELOC auf die Beziehung zwischen Rumination und Suizidalität scheinen also hier hinsichtlich der Ärger-Rumination keine Unterstützung zu finden. Betrachten wir aber das ausgewählte Modell (Block 2) genauer:
+
+
+``` r
+# Ergebnisse
+summary(block2)
+```
+
+```
+## 
+## Call:
+## glm(formula = Suicide ~ 1 + Orientation_bin + ARS_c + ILOC_c + 
+##     Grit_c, family = "binomial", data = idea)
+## 
+## Coefficients:
+##                      Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)          -0.75683    0.16147  -4.687 2.77e-06 ***
+## Orientation_binLGBTQ  1.34943    0.53062   2.543  0.01099 *  
+## ARS_c                 0.03590    0.01146   3.133  0.00173 ** 
+## ILOC_c               -0.04310    0.01881  -2.291  0.02194 *  
+## Grit_c               -0.44773    0.23785  -1.882  0.05978 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 299.00  on 227  degrees of freedom
+## Residual deviance: 259.75  on 223  degrees of freedom
+## AIC: 269.75
+## 
+## Number of Fisher Scoring iterations: 3
+```
+Zur besseren Interpretierbarkeit ergänzen wir noch die Odds und deren Konfidenzintervalle:
+
+
+``` r
+# Odds
+results <- data.frame(Odds = exp(coef(block2)),
+  Lower = exp(confint(block2)[, 1]),
+  Upper = exp(confint(block2)[, 2])
+)
+```
+
+```
+## Waiting for profiling to be done...
+## Waiting for profiling to be done...
+```
+
+``` r
+# Ausgabe
+results
+```
+
+```
+##                           Odds     Lower     Upper
+## (Intercept)          0.4691500 0.3390869  0.639702
+## Orientation_binLGBTQ 3.8552457 1.3813956 11.326587
+## ARS_c                1.0365503 1.0138161  1.060593
+## ILOC_c               0.9578181 0.9225228  0.993481
+## Grit_c               0.6390767 0.3982674  1.015907
+```
+Wir sehen anhand dieser Ergebnisse also, dass (jeweils bei Konstanthaltung der anderen Prädiktoren):
+
+  1. Personen, die sich als nicht-heterosexuell identifizieren, eine um den Faktor 3.86 höhere Wahrscheinlichkeit haben, in der Vergangenheit Suizidgedanken gehabt zu haben, als heterosexuelle Personen.
+  2. Sich für jede Einheit Unterschied in der Ärger-Rumination die Wahrscheinlichkeit, Suizidgedanken gehabt zu haben, um den Faktor 1.04 erhöht.
+  3. Sich für jede Einheit Unterschied in der internalen Kontrollüberzeugung die Wahrscheinlichkeit, Suizidgedanken gehabt zu haben, um den Faktor 0.96 verringert.
+  4. Der Grit einer Personen keinen bedeutsamen Einfluss auf die Wahrscheinlichkeit hat, Suizidgedanken gehabt zu haben.
+
+Anhand der Modellvergleiche hatten wir schon gesehen, dass der Grit (anders als ursprünglich in den Hypothsen angenommen) keine moderierende Wirkung auf diese Einflüsse hat. Wenngleich die numerischen Ergebnisse von denen in [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) abweichen, scheinen die Ergebnisse inhaltlich im Einklang zu sein.
+
+### Klassifikationsgüte
+
+Trotz diverser Vorschläge hat sich bislang kein generelles Effektstärkemaß im Sinne eines pseudo-$R^2$ zufriedenstellend durchsetzen können. Was sich hingegen, insbesondere aufgrund des rasanten Anstiegs von Machine-Learning-Verfahren, immer größerer Beliebtheit erfreut, sind Maße für die Klassifikations bzw. Vorhersagegüte. Eines der übersichtlichsten Konzepte ist dabei wahrscheinlich die treffend benannte _Confusion Matrix_. 
+
+Für die Beurteilung der Klassifikationsgüte müssen wir zunächst die konkreten Vorhersagen aus dem Modell ableiten. Das hatten wir schon für die Darstellung der Wahrscheinlichkeiten gemacht, nur dass wir jetzt definitive Aussagen haben wollen. Dafür müssen wir festhalten, welche Wahrscheinlichkeit als welche Vorhersage klassifiziert wird. Im Normalfall können wir dabei so vorgehen, dass alle Vorhersagen $> .5$ als $\widehat{Y} = 1$ klassifiziert werden (und natürlich andersrum). Diese Vorhersagen stellen wir dann einfach den tatsächlich beobachteten Kategorien gegenüber:
+
+
+``` r
+# Vorhersagen
+idea$Prediction <- predict(block2, type = 'response') > .5
+idea$Prediction <- factor(idea$Prediction, labels = c('None', 'Ideator'))
+
+# Confusion
+table(idea$Prediction, idea$Suicide)
+```
+
+```
+##          
+##           None Ideator
+##   None     124      44
+##   Ideator   21      39
+```
+Auf den ersten Blick scheint das nicht sonderlich zufriedenstellend. Das `caret` Paket bietet uns mit dem `confusionMatrix`-Befehl eine Möglichkeit dieses diffuse Gefühl der Unzufriedenheit numerisch auszudrücken:
+
+
+``` r
+library(caret)
+confusionMatrix(idea$Prediction, idea$Suicide)
+```
+
+```
+## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction None Ideator
+##    None     124      44
+##    Ideator   21      39
+##                                           
+##                Accuracy : 0.7149          
+##                  95% CI : (0.6516, 0.7726)
+##     No Information Rate : 0.636           
+##     P-Value [Acc > NIR] : 0.007248        
+##                                           
+##                   Kappa : 0.3455          
+##                                           
+##  Mcnemar's Test P-Value : 0.006357        
+##                                           
+##             Sensitivity : 0.8552          
+##             Specificity : 0.4699          
+##          Pos Pred Value : 0.7381          
+##          Neg Pred Value : 0.6500          
+##              Prevalence : 0.6360          
+##          Detection Rate : 0.5439          
+##    Detection Prevalence : 0.7368          
+##       Balanced Accuracy : 0.6625          
+##                                           
+##        'Positive' Class : None            
+## 
+```
+
+
+``` r
+confuse <- table(idea$Prediction, idea$Suicide)
+```
+
+Im Fall der Vierfelder-Tafel sind die hier dargestellten Indikatoren relativ leicht rekonstruierbar. Die _Accuracy_ ist der relative Anteil der korrekt klassifizierten Personen (also $(124 + 39) / 228 = 0.715$ ). Die Accuracy wird allerdings ein schlechtes Maß, wenn die Kategorien sehr ungleich groß sind - etwas das bei der Vorhersage von Störungen sehr häufig vorkommt. Wenn z.B. nur 10% der Personen Suizidgedanken gehabt hätten, könnten wir bei jeder Person einfach raten, dass sie keine Suizidgedanken hatte und würden eine Accuracy von $.9$ erreichen. Um die Accuracy also ein bisschen zu relativieren erhalten wir z.B. die Aussage `No Information Rate` - also was unsere Accuracy gewesen wäre, hätten wir immer die häufigste Kategorie geraten (also die relative Häufigkeit der häufigsten Kategorie in den Daten). 
+
+Für uns sind daher zunächst noch `Sensitivity` und `Specificity` von Interesse. Die Sensitivität ist in unserem Fall die relative Häufigkeit, mit der wir Personen, die keine Suizidgedanken hatten, auch korrekt als solche klassifizieren. Die `'Positive' Class: None` zeigt uns im Output, welche Kategorie hier als Referenz genutzt wird. Die Spezifität ist dann, im Gegenzug, die relative Häufigkeit mit der wir Personen, die Suizidgedanken hatten, als solche identifizieren können. Hier ist die Güte mit 0.47 sogar unter 50%. Wir können anhand unseres Modells also in weniger als der Hälfte der Fälle Personen mit Suizidgedanken korrekt identifizieren. Für die Prävention also eventuell noch kein optimales Modell.
+
+
+## Multinomiale Logistische Regression
+
+In der Studie von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) wird nicht nur zwischen Personen mit Suizidgedanken und Personen ohne Suizidgedanken unterschieden, sondern auch zusätzlich explizit Überlegungen zu den Unterschieden zwischen Personen mit Suizidgedanken (`Ideator`) und Personen mit Suizidversuchen (`Attempter`) angestellt. Insbesondere hinsichtlich des Grit, wird folgendes gesagt (S. 251):
+
+> Grit is commonly viewed as a character strength in overcoming challenging circumstances.
+
+Das wird zum Einen damit in Verbindung gebracht, dass Personen mit stärkerem Grit seltener Suizidgedanken hegen sollten (weil sie besser in Lage sind auf zukünftige Ziele zu fokussieren und diese auch gegen stärkeren Widerstand aufrecht zu erhalten). Zum Anderen findet sich aber eine gegensätzliche Überlegung hinsichtlich eines tatsächlichen Suizidversuchs:
+
+> On the flip side, the ability to pursue death in the face of pain requires considerable persistence.
+
+Daraus wird also zusammengenommen die erste Hypothese abgeleitet, die wir zu Beginn dieses Beitrags gesehen hatten:
+
+> Given findings from past research, we hypothesize grit to be protective against the development of suicidal ideation, but associated with facilitating suicidal behaviors in the presence of ideation.
+
+Um diese Hypothese untersuchen zu können, benötigen wir also eine Methode, mit der wir gleichzeitig alle drei Gruppen untersuchen können. Das erreichen wir durch die Erweiterung der logitischen Regression in die _multinomiale logistische Regression_. Diese Erweiterung geht zwar technisch gesehen mit einer sehr viel komplizierteren Rechnung einher als die bisher betrachtete Regression (weswegen wir sie auch nicht mehr über den `glm`-Befehl anstellen können), aber inhaltlich und konzeptuell ist sie eigentlich nur ein Zusatzschritt.
+
+### Vorbereitung
+
+Um die drei Gruppen unterscheiden zu können, müssen wir unsere Prädiktoren aus im gesamten Datensatz zentrieren und für die sexuelle Orientierung eine dichotomisierte Variable erstellen:
+
+
+``` r
+# Zentrierung
+grit$ARS_c <- scale(grit$ARS, scale = FALSE)
+grit$ILOC_c <- scale(grit$ILOC, scale = FALSE)
+grit$Grit_c <- scale(grit$Grit, scale = FALSE)
+
+# dichotome Orientierung
+grit$Orientation_bin <- factor(grit$Orientation, 
+  labels = c('Hetero', 'LGBTQ', 'LGBTQ', 'LGBTQ'))
+```
+
+Um später einen Fehler in der `predict`-Funktion zu vermeiden, müssen wir unseren zentrierten Variablen hier noch ihre besonderen Fähigkeiten entziehen (der Fehler taucht immer mal wieder bei verschiedenen Paketen auf, wenn man zentrierte Variablen in `predict`-Funktionen verwendet, weswegen wir ihn hier direkt vermeiden):
+
+
+``` r
+# Umwandlung in "numeric"
+grit$ARS_c <- as.numeric(grit$ARS_c)
+grit$ILOC_c <- as.numeric(grit$ILOC_c)
+grit$Grit_c <- as.numeric(grit$Grit_c)
+```
+
+
+Außerdem müssen wir uns noch ein Paket besorgen, welches die multinomiale logistische Regression auch rechnen kann. Dafür gibt es zum Beispiel die funktion `multinom` im Paket `nnet`. Das Paket, wurde eigentlich dafür entwickelt, neuronale Netze zu rechnen. Aber in unserem Fall machen wir einfach nach dem ersten Schritt schluss (und verknüpfen unsere Regression nicht auch noch in einem Netz weiter).
+
+
+``` r
+# Paket installieren
+install.packages('nnet')
+```
+
+
+``` r
+# Paket laden
+library(nnet)
+```
+
+### Modell
+
+Wie schon im Abschnitt zur [einfachen logistischen Regression](#einfache-logistische-regression) getan, konzentrieren wir uns zunächst auf die explizite Hypothese, dass Grit die Wahrscheinlich von Suizidgedanken verringern, die von Suizidversuchen aber erhöhen sollte. Die `multinom`-Funktion kann man im Wesentlichen genauso benutzen wie die `lm`- oder `glm`-Funktionen:
+
+
+``` r
+# Multinomiale logistische Regression
+mod2 <- multinom(Suicide ~ 1 + Grit_c, grit)
+```
+
+```
+## # weights:  9 (4 variable)
+## initial  value 353.753157 
+## final  value 333.365834 
+## converged
+```
+
+Die Ausgabe unterscheidet sich allerdings ein wenig:
+
+
+``` r
+# Ergebnisse aus multinom
+summary(mod2)
+```
+
+```
+## Call:
+## multinom(formula = Suicide ~ 1 + Grit_c, data = grit)
+## 
+## Coefficients:
+##           (Intercept)     Grit_c
+## Ideator    -0.5417195 -0.7994254
+## Attempter  -0.4191781 -0.8119500
+## 
+## Std. Errors:
+##           (Intercept)    Grit_c
+## Ideator     0.1420315 0.2193857
+## Attempter   0.1368580 0.2119803
+## 
+## Residual Deviance: 666.7317 
+## AIC: 674.7317
+```
+
+Aus Gewohnheit des Lesens psychologischer, wissenschaftlicher Artikel fällt Ihnen eventuell als Erstes auf, dass hier kein $p$-Wert generiert wird. Aber auch die Gesamtstruktur unterscheidet sich ein wenig. Wir erhalten zwei Matrizen, eine enthält die Parameterschätzer (wieder im Logit-Format) und eine enthält die Standardfehler. In diesen beiden Matrizen zeigen die Zeilen die jeweilige Kategorie an, die vorhergesagt wird (in unserem Fall `Ideator` und `Attempter`). Die Spalten zeigen die Gewichte (bzw. Standardfehler) der jeweiligen Prädiktoren (hier nur das Intercept und `Grit_c`). 
+
+Wenn wir die Ergebnisse wieder in Odds überführen, können wir mit der Interpretation genauso verfahren, wie schon bei der "normalen" logistischen Regression:
+
+
+``` r
+# Odds
+odds <- exp(coef(mod2))
+
+odds
+```
+
+```
+##           (Intercept)    Grit_c
+## Ideator     0.5817471 0.4495872
+## Attempter   0.6575870 0.4439914
+```
+
+Im ersten Intercept wird hier also festgehalten, wie viel wahrscheinlicher es ist, dass eine Person ein `Ideator` ist, als dass sie bislang weder Suizidgedanken noch -versuche hatte (`none` ist unsere Referenzkategorie), wenn sie durchschnittlichen Grit vorweisen kann (wir haben `Grit` zentriert). Im zweiten Intercept steht das Gleiche, aber für die Wahrscheinlichkeit, dass eine Person ein `Attempter` ist. Bezüglich des Grit können wir sagen, dass für jede zusätzliche Einheit in Grit, eine um das 0.45-fache geringere Wahrscheinlichkeit erwartet wird, dass eine Person schon einmal Suizidgedanken hatte.
+
+### Vorhesagen und Abbildungen
+
+Wie schon bei der logistischen Regression, kann es immens hilfreiche sein, sich konkrete Vorhersagen anzusehen und eventuell eine Abbildung zu erstellen. Erneut können wir mit `predict` direkt Wahrscheinlichkeiten erzeugen lassen:
+
+
+``` r
+# Mittlerer Grit +/- 1 und 2 SD
+new_data <- data.frame(Grit_c = c(-2*sd(grit$Grit), -sd(grit$Grit), 0, sd(grit$Grit), 2*sd(grit$Grit)))
+
+# Vorhegesagte Wahrscheinlichkeiten
+new_data$Probability <- predict(mod2, newdata = new_data, type = 'probs')
+
+# Ausgabe
+new_data
+```
+
+```
+##       Grit_c Probability.None Probability.Ideator Probability.Attempter
+## 1 -1.3346695        0.2157771           0.3648532             0.4193697
+## 2 -0.6673347        0.3202764           0.3176497             0.3620740
+## 3  0.0000000        0.4465613           0.2597857             0.2936529
+## 4  0.6673347        0.5801371           0.1979591             0.2219038
+## 5  1.3346695        0.7029174           0.1406889             0.1563937
+```
+
+Wir sehen hier also, dass jetzt die Wahrscheinlichkeit für alle drei Kategorien bestimmt wird. Etwas bildlicher (der Code für die Abbildung ist wieder in der begleitenden R-Datei enthalten):
+
+![](/lehre/klipps/logistische-regression-klinische_files/figure-html/Abbildung-Multinomiale-Logistische-Regression-1.png)<!-- -->
+Wie man sieht steigt mit mehr Grit die Wahrscheinlichkeit, als `None` klassifiziert zu werden, während die Wahrscheinlichkeiten für die beiden anderen Kategorien sinkt. Bisher sprechen die Ergebnisse also nur für die erste Hälfte der Hypothese.
+
+### Inferenzstatistik
+
+Die Ergebnisse des `multinom`-Befehls liefern Parameterschätzer und Standardfehler. Die Konfidenzintervall der Parameter können wir allerdings - wie bei allen anderen Regressionen - mit dem `confint`-Befehl bestimmen:
+
+
+``` r
+confint(mod2)
+```
+
+```
+## , , Ideator
+## 
+##                  2.5 %     97.5 %
+## (Intercept) -0.8200962 -0.2633429
+## Grit_c      -1.2294134 -0.3694374
+## 
+## , , Attempter
+## 
+##                  2.5 %     97.5 %
+## (Intercept) -0.6874149 -0.1509413
+## Grit_c      -1.2274238 -0.3964762
+```
+
+Weil die Ergebnisse im Logit-Format sind, müssen wir hier gegen 0 prüfen. In beiden Fällen ist die 0 nicht im Konfidenzintervall enthalten - mehr Grit geht also mit einer _statistisch bedeutsam_ geringeren Wahrscheinlichkeit einher, Suizidgedanken und -versuche durchlebt zu haben.
+
+Um einen $p$-Wert zu erzeugen, müssen wir den $z$-Test händisch durchführen. Wie im [allersten Test](/lehre/statistik-i/tests-konfidenzintervalle), den Sie im Bachelorstudium kennengelernt haben, ergibt sich die Teststatistik aus dem Verhältnis aus Parameter zum Standardfehler
+
+$$
+z = \frac{\beta}{\mathbb{SE}(\beta)}
+$$
+Wenn die Annahmen der multinomialen logistischen Regression halten, folgt dieser Wert asymptotisch einer Standardnormalverteilung, also können wir den $p$-Wert direkt bestimmen. Sowohl Parameter als auch Standardfehler können wir aus der `summary` des Modells ziehen:
+
+
+``` r
+# Parameter
+beta <- summary(mod2)$coefficients
+
+# Standardfehler
+se <- summary(mod2)$standard.errors
+
+
+# z-Werte
+z <- beta/se
+
+# p-Werte (zweiseitig)
+p <- 2 * pnorm(abs(z), lower.tail = FALSE)
+```
+
+### Volle Modelle
+
+Um die, im Artikel von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) gezeigten Ergebnisse zu reproduzieren, müssen wir wieder die vier separaten Blöcke aufstellen und vergleichen. Im Artikel werden dann die Odds und deren Konfidenzintervalle aus dem vollen Modell berichtet.
+
+
+``` r
+# Blöcke aufstellen
+block1 <- multinom(Suicide ~ 1 + Orientation_bin, 
+  grit)
+```
+
+```
+## # weights:  9 (4 variable)
+## initial  value 353.753157 
+## final  value 339.293561 
+## converged
+```
+
+``` r
+block2 <- multinom(Suicide ~ 1 + Orientation_bin + ARS_c + ILOC_c + Grit_c,
+  grit)
+```
+
+```
+## # weights:  18 (10 variable)
+## initial  value 353.753157 
+## iter  10 value 320.636615
+## final  value 314.487424 
+## converged
+```
+
+``` r
+block3 <- multinom(Suicide ~ 1 + Orientation_bin + ARS_c + ILOC_c + Grit_c +
+    ARS_c:ILOC_c + ARS_c:Grit_c + ILOC_c:Grit_c,
+  grit)
+```
+
+```
+## # weights:  27 (16 variable)
+## initial  value 353.753157 
+## iter  10 value 324.553596
+## iter  20 value 311.606052
+## final  value 311.601616 
+## converged
+```
+
+``` r
+block4 <- multinom(Suicide ~ 1 + Orientation_bin + ARS_c + ILOC_c + Grit_c +
+    ARS_c:ILOC_c + ARS_c:Grit_c + ILOC_c:Grit_c +
+    ARS_c:ILOC_c:Grit_c,
+  grit)
+```
+
+```
+## # weights:  30 (18 variable)
+## initial  value 353.753157 
+## iter  10 value 328.731857
+## iter  20 value 311.995891
+## final  value 311.082859 
+## converged
+```
+
+``` r
+# Modellvergleiche
+anova(block1, block2, block3, block4)
+```
+
+```
+## Likelihood ratio tests of Multinomial Models
+## 
+## Response: Suicide
+##                                                                                                               Model
+## 1                                                                                               1 + Orientation_bin
+## 2                                                                     1 + Orientation_bin + ARS_c + ILOC_c + Grit_c
+## 3                       1 + Orientation_bin + ARS_c + ILOC_c + Grit_c + ARS_c:ILOC_c + ARS_c:Grit_c + ILOC_c:Grit_c
+## 4 1 + Orientation_bin + ARS_c + ILOC_c + Grit_c + ARS_c:ILOC_c + ARS_c:Grit_c + ILOC_c:Grit_c + ARS_c:ILOC_c:Grit_c
+##   Resid. df Resid. Dev   Test    Df  LR stat.      Pr(Chi)
+## 1       640   678.5871                                    
+## 2       634   628.9748 1 vs 2     6 49.612275 5.622105e-09
+## 3       628   623.2032 2 vs 3     6  5.771616 4.492540e-01
+## 4       626   622.1657 3 vs 4     2  1.037514 5.952600e-01
+```
+Die Vergleiche zeigen, dass zumindest die Hypothesen hinsichtlich der moderierenden Effekte keine Unterstüzung finden. Im Artikel werden dennoch die Ergebnisse des vollen Modells berichtet, welche wir hier kurz rekonstruieren können. 
+
+Wie in den letzten beiden Sitzungen gesehen, bietet das Paket sjPlot eine breite Palette an Möglichkeiten, Ergebnisse schnell in die üblichen Tabellenformate für Artikel zu übertragen. Das gilt auch für die Ergebnisse aus `multinom`.
+
+
+``` r
+library(sjPlot)
+
+tab_model(block4, show.r2 = FALSE, show.aic = TRUE)
+```
+
+<table style="border-collapse:collapse; border:none;">
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Suicide</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Odds Ratios</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Response</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.49</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.36&nbsp;&ndash;&nbsp;0.69</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Orientation bin [LGBTQ]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">2.71</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.99&nbsp;&ndash;&nbsp;7.44</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.053</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ARS c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.04</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.01&nbsp;&ndash;&nbsp;1.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.002</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ILOC c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.96</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.92&nbsp;&ndash;&nbsp;1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.050</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.70</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.42&nbsp;&ndash;&nbsp;1.14</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.149</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ARS c × ILOC c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00&nbsp;&ndash;&nbsp;1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.484</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ARS c × Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.98</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.95&nbsp;&ndash;&nbsp;1.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.351</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ILOC c × Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.03</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.97&nbsp;&ndash;&nbsp;1.10</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.332</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(ARS c × ILOC c) × Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00&nbsp;&ndash;&nbsp;1.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.562</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.61</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.45&nbsp;&ndash;&nbsp;0.83</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.002</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Attempter</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Orientation bin [LGBTQ]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">3.51</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.34&nbsp;&ndash;&nbsp;9.17</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.011</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Attempter</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ARS c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.04</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.02&nbsp;&ndash;&nbsp;1.07</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Attempter</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ILOC c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.98</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.94&nbsp;&ndash;&nbsp;1.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.274</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Attempter</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.59</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.37&nbsp;&ndash;&nbsp;0.94</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.028</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Attempter</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ARS c × ILOC c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00&nbsp;&ndash;&nbsp;1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.688</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Attempter</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ARS c × Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.96&nbsp;&ndash;&nbsp;1.03</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.870</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Attempter</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ILOC c × Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.95&nbsp;&ndash;&nbsp;1.07</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.894</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Attempter</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(ARS c × ILOC c) × Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00&nbsp;&ndash;&nbsp;1.01</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.314</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Attempter</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="4">322</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">AIC</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">658.166</td>
+</tr>
+
+</table>
+Wir haben in dieser Tabelle also die Ergebnisse, die in Tabelle 3, Model 1 in den ersten beiden Spalten dargestellt sind. Weil sich die Wahrscheinlichkeit der dritten Kategorie direkt aus den Wahrscheinlichkeiten für die ersten beiden Gruppen ergibt, werden hier nur die Vergleiche von `Ideator` und `Attempter` mit der Referenz `none` dargestellt. Um einen direkten Vergleich der beiden Gruppen zu erhalten, können wir das Referenzlevel einfach mit dem `relevel`-Befehl ändern:
+
+
+``` r
+# Referenzlevel ändern
+grit$Suicide_r <- relevel(grit$Suicide, ref = 'Attempter')
+
+# Modell
+block4b <- multinom(Suicide_r ~ 1 + Orientation_bin + ARS_c + ILOC_c + Grit_c +
+    ARS_c:ILOC_c + ARS_c:Grit_c + ILOC_c:Grit_c +
+    ARS_c:ILOC_c:Grit_c,
+  grit)
+```
+
+```
+## # weights:  30 (18 variable)
+## initial  value 353.753157 
+## iter  10 value 324.713090
+## iter  20 value 311.525627
+## final  value 311.082859 
+## converged
+```
+
+``` r
+# Tabelle
+tab_model(block4b, show.r2 = FALSE, show.aic = TRUE)
+```
+
+<table style="border-collapse:collapse; border:none;">
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Suicide_r</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Odds Ratios</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">CI</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Response</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.65</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.21&nbsp;&ndash;&nbsp;2.24</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.002</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">None</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Orientation bin [LGBTQ]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.29</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.11&nbsp;&ndash;&nbsp;0.75</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.011</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">None</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ARS c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.96</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.94&nbsp;&ndash;&nbsp;0.98</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>&lt;0.001</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">None</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ILOC c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.98&nbsp;&ndash;&nbsp;1.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.274</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">None</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.69</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.06&nbsp;&ndash;&nbsp;2.69</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.028</strong></td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">None</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ARS c × ILOC c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00&nbsp;&ndash;&nbsp;1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.688</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">None</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ARS c × Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.97&nbsp;&ndash;&nbsp;1.04</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.870</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">None</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ILOC c × Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.94&nbsp;&ndash;&nbsp;1.06</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.894</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">None</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(ARS c × ILOC c) × Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.99&nbsp;&ndash;&nbsp;1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.314</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">None</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.81</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.57&nbsp;&ndash;&nbsp;1.16</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.255</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Orientation bin [LGBTQ]</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.77</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.33&nbsp;&ndash;&nbsp;1.81</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.551</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ARS c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.99</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.97&nbsp;&ndash;&nbsp;1.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.613</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ILOC c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.98</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.94&nbsp;&ndash;&nbsp;1.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.381</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.17</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.70&nbsp;&ndash;&nbsp;1.98</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.548</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ARS c × ILOC c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00&nbsp;&ndash;&nbsp;1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.254</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ARS c × Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.99</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.95&nbsp;&ndash;&nbsp;1.02</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.447</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">ILOC c × Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.03</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.96&nbsp;&ndash;&nbsp;1.09</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.412</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(ARS c × ILOC c) × Grit c</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">1.00&nbsp;&ndash;&nbsp;1.00</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.649</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">Ideator</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="4">322</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">AIC</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">658.166</td>
+</tr>
+
+</table>
+
+Am AIC können wir sehen, dass beide Modelle identische Passung zu den Daten aufweisen - also einfach Umformulierungen voneinander sind. 
+
+Im Artikel zwar nicht dargestellt, aber auch für multinomiale logistische Regression interessant ist die Klassifikationsgüte, welche wir für die reguläre logistische Regression anhand der Confusion Matrix untersucht hatten. Das gleiche Vorgehen können wir auch hier nutzen. Wenn wir `predict` auf ein `multinom`-Ergebnis anwenden, erhalten wir direkt die vorhergesagte Kategorie:
+
+
+``` r
+# Vorgesagte Kateogrien
+grit$Prediction <- predict(block4)
+
+# Confusion Matrix
+confusionMatrix(grit$Prediction, grit$Suicide)
+```
+
+```
+## Confusion Matrix and Statistics
+## 
+##            Reference
+## Prediction  None Ideator Attempter
+##   None       120      39        52
+##   Ideator      8      18        14
+##   Attempter   17      26        28
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.5155          
+##                  95% CI : (0.4595, 0.5713)
+##     No Information Rate : 0.4503          
+##     P-Value [Acc > NIR] : 0.01099         
+##                                           
+##                   Kappa : 0.2039          
+##                                           
+##  Mcnemar's Test P-Value : 4.423e-09       
+## 
+## Statistics by Class:
+## 
+##                      Class: None Class: Ideator Class: Attempter
+## Sensitivity               0.8276         0.2169          0.29787
+## Specificity               0.4859         0.9079          0.81140
+## Pos Pred Value            0.5687         0.4500          0.39437
+## Neg Pred Value            0.7748         0.7695          0.73705
+## Prevalence                0.4503         0.2578          0.29193
+## Detection Rate            0.3727         0.0559          0.08696
+## Detection Prevalence      0.6553         0.1242          0.22050
+## Balanced Accuracy         0.6567         0.5624          0.55464
+```
+
+
+Erneut gibt die `Accuracy` den relativen Anteil der korrekt klassifzierten Personen an. In unserem Fall also $(120 + 18 + 28) / 322 = 0.52$. Senisitivtät und Spezifität werden jetzt ein wenig anders interpretiert als im Fall der binären logistischen Regression. Für die Klasse der `Ideator`, zum Beispiel, wurden 18 der insgesamt 83 Personen korrekt als Personen mit Suizidgedanken identifiziert (21.7%). So _sensitiv_ ist unser Modell also in der Detektion dieser Gruppe. Auf der anderen Seite sind 18 der insgesamt 40 (45%) der Personen, für die `Ideator` vorhergesagt wurde auch tatsächlich Personen, die Suizidgedanken berichtet haben. So _spezifisch_ ist unsere Vorhersage also für diese Gruppe.
+
+## Abschluss
+
+Mit den gezeigten Schritten (und einer zusätzlichen Korrelationstablle via `corr.test`) können wir also versuchen alle Ergebnisse aus dem Artikel von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) zu reproduzieren. Wie Sie (als aufmerksame Lerser*innen) bestimmt mitbekommen haben, sind dieser Ergebnisse allerdings nicht identisch. Zwar zweigen die Ergebnisse für das "Model 1" aus dem Artikel die gleichen Muster an bedeutsamen und nicht-bedeutsamen Prädiktoren, die tatsächlichen Zahlen weichen allerdings ab. Ich habe die Autorinnen des Papers kontaktiert, um über die Diskrepranzen zu sprechen. Meine Vermutung ist dabei, dass die Unterschiede auf den Ausschluss von Ausreißern und Extremwerten zurückgehen, welche im Paper (und dem ursprünglichen Skript auf dem OSF) nicht dokumentiert sind. Leider hat diese Kontaktaufnahme dazu geführt, dass der Beitrag im OSF verschwunden ist, bis diese Diskrepanzen geklärt werden können, sodass es mir zum Zeitpunkt, zu dem ich diesen Beitrag schreibe nicht möglich ist, eine definitive Aussage dazu zu treffen, woher diese Unterschiede kommen. Dennoch sind Sie jetzt in der Lage, für die anderen drei berichteten Modelle zu prüfen, ob es auch dort zu solchen Diskrepanzen kommt und ob sich die Interpretation im Artikel dadurch verändern würden.
+
 
 ***
 
 ## Literatur
 [Eid, M., Gollwitzer, M., & Schmitt, M. (2017).](https://ubffm.hds.hebis.de/Record/HEB366849158) *Statistik und Forschungsmethoden* (5. Auflage, 1. Auflage: 2010). Weinheim: Beltz.
+
+[Lin, Y.-C., O'Connell, K.L., & Law, K.C. (2023).](https://doi.org/10.1016/j.jad.2023.02.148) Moderating roles of grit and locus of control on rumination and suicidality. *Journal of Affective Disorders, 330*, 250-258. doi: 10.1016/j.jad.2023.02.148.
 
 [Pituch, K. A. & Stevens, J. P. (2016).](https://ubffm.hds.hebis.de/Record/HEB371183324) *Applied Multivariate Statistics for the Social Sciences* (6th ed.). New York: Taylor & Francis.
 

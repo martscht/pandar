@@ -1,13 +1,13 @@
 ---
-title: Netzwerkanalyse im Querschnitt
+title: Multiple Regression
 date: '2024-09-26'
-slug: querschnittliche-netzwerke
+slug: multiple-regression-klinische
 categories: ["KliPPs"]
-tags: ["Querschnitt", "Regularisierung", "Zentralität", "Bootstrap" ]
-subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
+tags: ["Regression", "Voraussetzungen", "Grundlagen"]
+subtitle: 'Grundlagen, Annahmen und ein paar Erweiterungen'
 summary: ''
-authors: [nehler, liu]
-weight: 7
+authors: [schultze, nehler, irmer]
+weight: 1
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:

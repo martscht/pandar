@@ -1,14 +1,14 @@
 ---
-title: Netzwerkanalyse im Querschnitt
+title: Wachstumskurvenmodelle
 date: '2024-09-26'
-slug: querschnittliche-netzwerke
+slug: gcm-klinische
 categories: ["KliPPs"]
-tags: ["Querschnitt", "Regularisierung", "Zentralität", "Bootstrap" ]
+tags: ["Mehrebenenmodelle", "Längsschnitt", "Mixed Models"]
 subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
 summary: ''
-authors: [nehler, liu]
-weight: 7
-lastmod: '`r Sys.Date()`'
+authors: [schultze]
+weight: 5
+lastmod: '2024-09-26'
 featured: no
 banner:
   image: "/header/under_construction.jpg"

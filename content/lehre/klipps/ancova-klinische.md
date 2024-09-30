@@ -1,13 +1,13 @@
 ---
-title: Netzwerkanalyse im Querschnitt
+title: ANCOVA und moderierte Regression
 date: '2024-09-26'
-slug: querschnittliche-netzwerke
+slug: ancova-klinische
 categories: ["KliPPs"]
-tags: ["Querschnitt", "Regularisierung", "Zentralität", "Bootstrap" ]
-subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
+tags: ["Regression", "ANCOVA", "Moderation", "Interaktion"]
+subtitle: ''
 summary: ''
-authors: [nehler, liu]
-weight: 7
+authors: [schultze, nehler, irmer]
+weight: 2
 lastmod: '2024-09-26'
 featured: no
 banner:
