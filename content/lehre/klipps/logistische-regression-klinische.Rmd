@@ -7,7 +7,7 @@ tags: ["dichotom", "generalisiertes lineares Modell", "Linkfunktion", "Likelihoo
 subtitle: 'Vorhersage von Gruppenzugehörigkeiten'
 summary: ''
 authors: [schultze]
-weight: 3
+weight: 2
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:

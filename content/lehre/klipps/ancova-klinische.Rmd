@@ -7,7 +7,7 @@ tags: ["Regression", "ANCOVA", "Moderation", "Interaktion"]
 subtitle: ''
 summary: ''
 authors: [schultze, nehler, irmer]
-weight: 2
+weight: 3
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
