@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
 authors: [schultze]
 weight: 1
-lastmod: '2024-05-28'
+lastmod: '2024-10-09'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"
@@ -40,7 +40,7 @@ output:
 
 
 
-<details><summary><b>Kernfragen dieser Lehreinheit</b></summary>
+<details><summary><b>Kernfragen dieses Beitrags</b></summary>
 
 * Was ist [**R**](#R) und was ist [**RStudio**](#RStudio)?
 * Was ist die [**Konsole**](#Konsole_Syntax) und was ist die [**Syntax**?](#Konsole_Syntax)
@@ -62,7 +62,7 @@ output:
 
 ## Warum R nutzen? {#R}
 
-Ziel dieses gesamten R-Praktikums ist es, dass Sie am Ende des Semester geübt im Umgang mit R sind, die Grundfunktionalität beherrschen und die Analyseverfahren durchführen können, die in der Vorlesung behandelt werden. Damit wir - oder genauer genommen, eigentlich Sie - dieses Ziel erreichen, legen wir hier mit einer "kurzen" Einführung in die Grundprinzipien von und den Umgang mit R los. Viele Dinge, die hier besprochen werden, sind auch in den [anderen Sitzungen zu dieser Veranstaltung](/category/statistik-i) relevant und werden dort immer wieder vorkommen. Deswegen ist es das Beste, einfach nebenbei RStudio auf zu haben und die hier beschriebenen Schritte auch direkt selbst mit zu machen.
+Ziel dieses gesamten R-Praktikums ist es, dass Sie am Ende des Semesters geübt im Umgang mit R sind, die Grundfunktionalität beherrschen und die Analyseverfahren durchführen können, die in der Vorlesung behandelt werden. Damit wir - oder genauer genommen, eigentlich Sie - dieses Ziel erreichen, legen wir hier mit einer "kurzen" Einführung in die Grundprinzipien von und den Umgang mit R los. Viele Dinge, die hier besprochen werden, sind auch in den [anderen Sitzungen zu dieser Veranstaltung](/category/statistik-i) relevant und werden dort immer wieder vorkommen. Deswegen ist es das Beste, einfach nebenbei RStudio auf zu haben und die hier beschriebenen Schritte auch direkt selbst mit zu machen.
 
 Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe von Programmen ausgewählt, weil es ein paar hervorragende Eigenschaften hat:
 
@@ -71,7 +71,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 735010 mal heruntergeladen
+* Allein in den letzten 30 Tagen 811759 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
@@ -83,7 +83,7 @@ Ein paar nützliche Links für R sind die [R Main Page](https://www.r-project.or
 
 ## RStudio {#RStudio}
 
-Weil die traditionelle R Nutzeroberfläche extrem spartanisch ist, werden wir auf dieser Seite mit RStudio arbeiten. RStudio ist eine zusätzliche Nutzeroberfläche, die den Umgang durch diverse convenience features mit R ein wenig erleichtert. Es muss separat installiert werden, ist aber, genau wie R selbst, gratis erhältlich. Um RStudio herunterzuladen besuchen Sie am einfachsten [https://posit.co/](https://posit.co/), wo Sie oben rechts direkt von einem großen "Download RStudio"-Button begrüßt werden sollten.
+Weil die traditionelle R Nutzeroberfläche extrem spartanisch ist, werden wir auf dieser Seite mit RStudio arbeiten. RStudio ist eine zusätzliche Nutzeroberfläche, die den Umgang mit R durch diverse convenience features ein wenig erleichtert. Es muss separat installiert werden, ist aber, genau wie R selbst, gratis erhältlich. Um RStudio herunterzuladen besuchen Sie am einfachsten [https://posit.co/](https://posit.co/), wo Sie oben rechts direkt von einem großen "Download RStudio"-Button begrüßt werden sollten.
 
 ![](/lehre/statistik-i/rstudio.png)
 {{< intext_anchor Konsole_Syntax >}}
@@ -93,7 +93,7 @@ R ist syntaxbasiert - genau genommen ist R eigentlich eine Programmiersprache un
 Damit etwas passiert, muss die Syntax mit **Strg+Return** (OS X: **cmd+Return**) oder mit dem {{< inline_image "/lehre/statistik-i/run.png" >}} Button ausgeführt werden. Wenn Sie z.B. `3 + 4` in die Syntax schreiben und so ausführen, erscheint in der Konsole:
 
 
-```r
+``` r
 3 + 4
 ```
 
@@ -115,10 +115,10 @@ Die beiden verbleibenden Panels stellen jeweils als Tabs verschiedene Dinge dar.
 Eine wichtige Funktionalität jeder Programmiersprache sind *Kommentare*, die dazu dienen sollen das Vorgehen in einer Syntax zu gliedern und leichter verständlich zu machen. In R werden sie durch (beliebig viele) `#` begonnen und enden bei einem Zeilenumbruch. Mit Kommentaren kann Syntax auch in verschiedene Abschnitte gegliedert werden. Empfehlenswert ist es, solche Abschnittüberschriften mit `####` zu beginnen und mit `----` zu beenden. RStudio erkennt solche Kommentare automatisch als Überschriften und stellt über den {{< inline_image "/lehre/statistik-i/outline.png" >}} Button eine darauf basierende Gliederung zur Verfügung.
 
 {{< intext_anchor Taschenrechner >}}
-Wir können diese Funktionalität der Kommentare am Beispiel der Nutzung von R als Taschenrechner ausprobieren:
+Wir können das direkt einfach ausprobieren:
 
 
-```r
+``` r
 #### R als Taschenrechner ----
 
 3 + 4   # Addition
@@ -128,7 +128,7 @@ Wir können diese Funktionalität der Kommentare am Beispiel der Nutzung von R a
 ## [1] 7
 ```
 
-```r
+``` r
 3 - 4   # Subtraktion
 ```
 
@@ -136,7 +136,7 @@ Wir können diese Funktionalität der Kommentare am Beispiel der Nutzung von R a
 ## [1] -1
 ```
 
-```r
+``` r
 3 * 4   # Multiplikation
 ```
 
@@ -144,7 +144,7 @@ Wir können diese Funktionalität der Kommentare am Beispiel der Nutzung von R a
 ## [1] 12
 ```
 
-```r
+``` r
 3 / 4   # Division
 ```
 
@@ -152,7 +152,7 @@ Wir können diese Funktionalität der Kommentare am Beispiel der Nutzung von R a
 ## [1] 0.75
 ```
 
-```r
+``` r
 3 ^ 4   # Potenz
 ```
 
@@ -162,13 +162,13 @@ Wir können diese Funktionalität der Kommentare am Beispiel der Nutzung von R a
 
 In der Gliederung sollte in RStudio jetzt die Überschrift "R als Taschenrechner" auftauchen.
 
-In diesem Beispiel sind zwischen den Zahlen und Operatoren immer Leerzeichen. Leerzeichen spielen für R keine Rolle - sie werden bei der Ausführung ignoriert. Daher können Leerzeichen und Einschübe zu Beginn von Zeilen genutzt werden um der Syntax noch mehr Struktur zu geben. Generell wird empfohlen, R Syntax wie normale Sätze zu schreiben und Leerzeichen zu nutzen um die Lesbarkeit der Syntax zu gewährleisten. Einige weitere Empfehlungen zur Gestaltung von R Syntax finden Sie im [Online Buch von Hadley Wichkam](http://adv-r.had.co.nz/Style.html) und im [Styleguide, der von Google Programmier*innen genutzt wird](https://google.github.io/styleguide/Rguide.html).
+In diesem Beispiel sind zwischen den Zahlen und Operatoren immer Leerzeichen. Leerzeichen spielen für R keine Rolle - sie werden bei der Ausführung ignoriert. Daher können Leerzeichen und Einschübe zu Beginn von Zeilen genutzt werden um der Syntax noch mehr Struktur zu geben. Generell wird empfohlen, R Syntax wie normale Sätze zu schreiben und Leerzeichen zu nutzen, um die Lesbarkeit der Syntax zu gewährleisten. Einige weitere Empfehlungen zur Gestaltung von R Syntax finden Sie im [Online Buch von Hadley Wichkam](http://adv-r.had.co.nz/Style.html) und im [Styleguide, der von Google Programmier*innen genutzt wird](https://google.github.io/styleguide/Rguide.html).
 
 {{< intext_anchor Logik >}}
 Neben einfachen Taschenrechner-Funktionen mit *numerischen Ergebnissen* kann R auch logische Abfragen und Vergleiche durchführen:
 
 
-```r
+``` r
 #### Logische Abfragen ----
 
 3 == 4   # Ist gleich?
@@ -178,7 +178,7 @@ Neben einfachen Taschenrechner-Funktionen mit *numerischen Ergebnissen* kann R a
 ## [1] FALSE
 ```
 
-```r
+``` r
 3 != 4   # Ist ungleich?
 ```
 
@@ -186,7 +186,7 @@ Neben einfachen Taschenrechner-Funktionen mit *numerischen Ergebnissen* kann R a
 ## [1] TRUE
 ```
 
-```r
+``` r
 3 > 4    # Ist größer?
 ```
 
@@ -194,7 +194,7 @@ Neben einfachen Taschenrechner-Funktionen mit *numerischen Ergebnissen* kann R a
 ## [1] FALSE
 ```
 
-```r
+``` r
 3 < 4    # Ist kleiner?
 ```
 
@@ -202,7 +202,7 @@ Neben einfachen Taschenrechner-Funktionen mit *numerischen Ergebnissen* kann R a
 ## [1] TRUE
 ```
 
-```r
+``` r
 3 >= 4   # Ist größer/gleich?
 ```
 
@@ -210,7 +210,7 @@ Neben einfachen Taschenrechner-Funktionen mit *numerischen Ergebnissen* kann R a
 ## [1] FALSE
 ```
 
-```r
+``` r
 3 <= 4   # Ist kleiner/gleich?
 ```
 
@@ -221,7 +221,7 @@ Neben einfachen Taschenrechner-Funktionen mit *numerischen Ergebnissen* kann R a
 Die Ergebnisse dieser Abfragen sind *boolesch* - also immer entweder wahr (`TRUE`) oder falsch (`FALSE`). Wie in vielen anderen Programmiersprachen wird in R das `!` genutzt um eine Aussage zu negieren. Wir könnten also die "ist ungleich" Relation `!=` auch als "nicht (ist gleich)" umformulieren:
 
 
-```r
+``` r
 !(3 == 4)
 ```
 
@@ -238,7 +238,7 @@ Wie in der Mathematik üblich, wird der Inhalt von Klammern als erstes evaluiert
 Das Nutzen von R als Taschenrechner ist - streng genommen - ein Sonderfall, der vom "üblichen Weg" abweicht, mit dem Dinge in R umgesetzt werden. Mithilfe der einfachen Addition können wir eine Summe bilden:
 
 
-```r
+``` r
 3 + 4 + 1 + 2
 ```
 
@@ -249,7 +249,7 @@ Das Nutzen von R als Taschenrechner ist - streng genommen - ein Sonderfall, der 
 Für R typischer wäre aber die Umsetzung mit
 
 
-```r
+``` r
 sum(3, 4, 1, 2)
 ```
 
@@ -266,7 +266,7 @@ funktion(argument1, argument2, argument3, ...)
 In R werden Funktionen namentlich aufgerufen und alle Argumente, die diese Funktion entgegennehmen kann, folgen in Klammern. Die `sum()`-Funktion ist dabei sogar wieder ein Sonderfall, weil sie unendlich viele Argumente entgegennehmen kann. Eine eher typische Funktion ist z.B. der Logarithmus:
 
 
-```r
+``` r
 log(100)
 ```
 
@@ -277,7 +277,7 @@ log(100)
 Wie zu erkennen ist, wird mit `log()` der natürliche Logarithmus einer Zahl bestimmt. Es ist aber mit der gleichen Funktion auch möglich Logarithmen mit jeder anderen Basis zu bilden:
 
 
-```r
+``` r
 log(100, 10)
 ```
 
@@ -290,7 +290,7 @@ Um zu verstehen, wie das in R funktioniert, können wir die grundlegende Struktu
 Weil es bei der beinahe unendliche Mengen von Funktionen in R unmöglich ist, sich die korrekte Reihenfolge aller Argumente zu merken, können Argumente auch direkt benannt werden:
 
 
-```r
+``` r
 log(x = 100, base = 10)
 ```
 
@@ -301,7 +301,7 @@ log(x = 100, base = 10)
 In diesem Fall muss man nicht mehr die Reihenfolge der Argumente, sondern lediglich deren Namen kennen. Wenn Argumente so benannt werden, können sie in einer beliebigen Reihenfolge in der Funktion genutzt werden:
 
 
-```r
+``` r
 log(base = 10, x = 100)
 ```
 
@@ -312,7 +312,7 @@ log(base = 10, x = 100)
 Weil es nur geringfügig einfacher ist, sich alle Namen von Argumente statt deren Reihenfolge zu merken, bietet R diverse Möglichkeiten sich diesbezüglich helfen zu lassen. Um z.B. die Namen und Reihenfolge von Argumenten einer Funktion in Erfahrung zu bringen kann die Funktion `args()` auf jede R-Funktion angewendet werden:
 
 
-```r
+``` r
 args(log)
 ```
 
@@ -324,7 +324,7 @@ args(log)
 Dieses Ergebnis bedeutet, dass `log()` zwei mögliche Argumente hat: `x` und `base`. Darüber hinaus besagt `base = exp(1)`, dass es für das zweite Argument eine Voreinstellung gibt, nämlich die Zahl `exp(1)`, also die Euler'sche Zahl $e$. Diese Zahl wird dabei als Ergebnis der Funktion `exp()` gewonnen:
 
 
-```r
+``` r
 exp(1)
 ```
 
@@ -345,7 +345,7 @@ R bietet ein sehr detailliertes und gutes integriertes Hilfesystem. Wie Ihnen be
 Auch R-intern gibt es diverse Unterstützungsmöglichkeiten. Wenn man mehr Informationen bezüglich einer spezifischen Funktion benötigt, kann man `help()` auf jede beliebige Funktion anwenden (bzw. `?` vor den Namen einer Funktion schreiben). Sie sollten - besonders zum Einstieg in R - häufig und gezielt diese Hilfe in Anspruch nehmen.
 
 
-```r
+``` r
 help(log)
 ```
 
@@ -379,7 +379,7 @@ Eine `Message` liefert Informationen und dient ausschließlich der Kommunikation
 Eine `Warning` deutet darauf hin, dass höchstwahrscheinlich etwas nicht so gelaufen ist, wie geplant, aber dennoch ein Ergebnis produziert wurde. Für den Logarithmus erscheint beispielsweise eine Warnung:
 
 
-```r
+``` r
 log(-1)
 ```
 
@@ -396,7 +396,7 @@ Warnungen beginnen in R mit dem Wort `Warning`. In diesem Fall werden wir darauf
 Die letzte Art sind `Error`, die immer damit einhergehen, dass kein Ergebnis produziert wird. Für den Logarithmus erhalten wir einen Fehler wenn
 
 
-```r
+``` r
 log(argument = 10)
 ```
 
@@ -413,7 +413,7 @@ In diesem Fall werden wir darauf hingewiesen, dass wir keine Einstellung für da
 Einer der großen Vorteile von R gegenüber anderen Ansätzen zur statistischen Datenanalyse ist die Möglichkeit Ergebnisse in Objekten abzulegen und diese als Argumente in anderen Funktionen weiter zu verwenden. Dadurch ergibt sich in R die Möglichkeit sehr große Teile von Auswertungen und Ergebnisdarstellung mit generell gehaltenen Skripten zu automatisieren. Die Zuweisung eines Ergebnisses zu einem Objekt erfolgt über den sog. Zuweisungspfeil `<-`.
 
 
-```r
+``` r
 my_num <- sum(3, 4, 1, 2)
 ```
 
@@ -422,7 +422,7 @@ Anders als zuvor wird in diesem Fall in der Konsole kein Ergebnis ausgedruckt, s
 Objekte können beliebige Namen tragen - ausgeschlossen ist lediglich, dass die Namen mit einer Zahl beginnen. Generell wird empfohlen, Objekte im sog. *snake case* zu bezeichnen - also in der Form: `name_des_objekts`. Die Benennung sollte dabei so kurz und prägnant wie möglich sein. Zwei Objekte können aber niemals den gleichen Namen tragen. Wenn Sie ein zweites Objekt erstellen, dass den gleichen Namen trägt, wird das erste Objekt - ohne Warnung - überschrieben. Um den Inhalt eines Objektes abzurufen, müssen Sie lediglich den Namen des Objektes ausführen:
 
 
-```r
+``` r
 my_num
 ```
 
@@ -433,7 +433,7 @@ my_num
 Das ist die Kurzfassung von `print(my_num)`. Das eigentliche Ziel von Objektzuweisungen ist aber, den Inhalt von Objekten an weitere Funktionen weiterreichen zu können.
 
 
-```r
+``` r
 sqrt(my_num)
 ```
 
@@ -444,7 +444,7 @@ sqrt(my_num)
 Der Inhalt des Objektes wird so als Argument in die Funktion `sqrt()` übergeben. Das ist letztlich das Gleiche wie
 
 
-```r
+``` r
 sqrt(sum(3, 4, 1, 2))
 ```
 
@@ -457,7 +457,7 @@ wo das Ergebnis nicht explizit in einem Objekt gespeichert wird, sondern direkt 
 Bei der Pipe `|>` wird ein links stehendes Objekt oder Ergebnis genommen und als *erstes Argument* der rechts stehenden Funktion eingesetzt. Für unser Wurzelbeispiel also:
 
 
-```r
+``` r
 sum(3, 4, 1, 2) |> sqrt()
 ```
 
@@ -468,7 +468,7 @@ sum(3, 4, 1, 2) |> sqrt()
 Das hat den immensen Vorteil, dass wir dadurch unseren Code wieder in der, im westlichen Kulturkreis üblichen Variante wie Text von links nach rechts lesen können. Dabei ist das was als erstes passiert links, das Ergebnis wird nach rechts weitergereicht und irgendetwas passiert damit. Auch dieses System ist theoretisch unendlich fortsetzbar:
 
 
-```r
+``` r
 sum(3, 4, 1, 2) |> sqrt() |> log()
 ```
 
@@ -479,7 +479,7 @@ sum(3, 4, 1, 2) |> sqrt() |> log()
 Wenn wir unser Ergebnis an ein *spezifisches* Argument weiterreichen wollen, können wir dafür den Platzhalter `_` nutzen:
 
 
-```r
+``` r
 sum(3, 4, 1, 2) |> sqrt() |> log(x = _)
 ```
 
@@ -505,25 +505,27 @@ Wann benutzt man am besten welches dieser drei Systeme? Wie so häufig in R ist 
 Wenn wir das Ergebnis unseres zweiten Schritts (also wenn wir die Wurzel ziehen), direkt wieder einem Objekt zuweisen, passiert Folgendes:
 
 
-```r
+``` r
 my_root <- sqrt(my_num)
 ```
 
 Im Environment (oben rechts) sollten jetzt zwei Objekte zu erkennen sein. R-intern kann das Environment über den `ls()`-Befehl betrachtet werden:
 
 
-```r
+
+
+``` r
 ls()
 ```
 
 ```
-## [1] "my_num"    "my_root"   "pandarize"
+## [1] "my_num"  "my_root"
 ```
 
 Wenn das Environment sehr voll ist, kann die Ausgabe mit dem Argument `pattern = ` auf spezifische Objekte eingeschränkt werden:
 
 
-```r
+``` r
 ls(pattern = 'num')
 ```
 
@@ -534,19 +536,19 @@ ls(pattern = 'num')
 Objekte können auch einfach aus dem Environment entfernt werden:
 
 
-```r
+``` r
 rm(my_num)
 ls()
 ```
 
 ```
-## [1] "my_root"   "pandarize"
+## [1] "my_root"
 ```
 
 Beachten Sie wieder, dass R ihnen keinerlei Warnung oder Nachfrage gibt, wenn Sie Objekte entfernen. Sollten Sie also Objekte haben, deren Erstellung lange dauert, gehen Sie vorsichtig mit `rm()` um. Um das Environment gänzlich zu leeren können Sie entweder in RStudio den {{< inline_image "/lehre/statistik-i/clear_environment.png" >}} Button (im Tab *Environment*) nutzen oder direkt über die Syntax arbeiten:
 
 
-```r
+``` r
 rm(list = ls())
 ```
 
@@ -555,7 +557,7 @@ Es empfiehlt sich auch hier idealerweise alle Arbeitsschritte mittels Syntax dur
 Natürlich können wir die Objekterstellung auch mit der Schachtelung von Befehlen und der Pipe nach Belieben kombinieren. Wenn wir z.B. in drei Schritten ein Ergebnis erzeugen wollen, was wir später noch brauchen könnten, können wir das Ergebnis durch eine Pipe erstellen und dann als Objekt ablegen:
 
 
-```r
+``` r
 my_num <- sum(3, 4, 1, 2) |> sqrt() |> log()
 my_num
 ```
@@ -585,14 +587,14 @@ Der Stroop-Effekt ist der Unterschied zwischen der durchschnittlichen Zeit, die 
 Nehmen wir an, Sie hätten für dieses einfache Beispiel die acht Reaktionszeiten gemessen und diese wären (in Millisekunden): 510, 897, 647, 891, 925, 805, 443 und 778. Um diese Daten in R aufzunehmen können Sie folgendes machen:
 
 
-```r
+``` r
 react <- c(510, 897, 647, 891, 925, 805, 443, 778)
 ```
 
 `c()` ist eine Funktion mit der alle Argumente (in diesem Fall acht Reaktionszeiten) in ein gemeinsames Objekt zusammengeführt werden. Dieses Objekt ist ein Vektor - eine eindimensionale Datenreihe. Daten können unterschiedliche Formate haben - welches Format vorliegt erfahren wir mit
 
 
-```r
+``` r
 class(react)
 ```
 
@@ -603,7 +605,7 @@ class(react)
 Wir erfahren also, dass es sich um ein numerisches Objekt handelt. Um ein wenig detailliertere Information zu erhalten können wir `str` nutzen:
 
 
-```r
+``` r
 str(react)
 ```
 
@@ -624,14 +626,14 @@ Typ | Kurzform | Inhalt
 Um die Reaktionszeiten in `react` interpretieren zu können, müssen sie mit der jeweiligen Farbe, in der ein Wort abgebildet ist, in Verbindung gebracht werden. Dafür bietet sich ein `character` Vektor an:
 
 
-```r
+``` r
 color <- c('gruen', 'gelb', 'blau', 'gruen', 'gelb', 'blau', 'rot', 'rot')
 ```
 
 Um zu prüfen, ob ein Objekt einen erwarteten Typ hat, können wir vor den Typ-Namen `is.` schreiben und das als Funktion anwenden:
 
 
-```r
+``` r
 is.character(color)
 ```
 
@@ -642,7 +644,7 @@ is.character(color)
 Das Präfix `as.` wandelt dann Vektoren von ihrem bisherigen Typ in den angegebenen Typ um:
 
 
-```r
+``` r
 as.character(react)
 ```
 
@@ -650,7 +652,7 @@ as.character(react)
 ## [1] "510" "897" "647" "891" "925" "805" "443" "778"
 ```
 
-```r
+``` r
 as.numeric(color)
 ```
 
@@ -667,14 +669,14 @@ Wie man sieht funktionieren Umwandlungen aber nicht beliebig - in diesem Fall gi
 Als dritte Information benötigen wir in unserem Experiment den Text des Wortes:
 
 
-```r
+``` r
 text <- c('gruen', 'blau', 'blau', 'rot', 'gelb', 'gruen', 'rot', 'gelb')
 ```
 
 Die Kernaussage des Stroop-Effekts ist, dass Reaktionszeiten langsamer sind, wenn Farbe und Wort inkongruent sind (also wenn `color` und `text` ungleich sind) als wenn sie kongruent sind (wenn `color` und `text` gleich sind). Wie zuvor gesehen, können wir logische Operatoren nutzen um diesen Abgleich durchzuführen. Eine der großen Stärken von R ist, dass diese Abgleiche nicht nur funktionieren, wenn wir einzelne Elemente vergleichen, sondern auch, wenn wir ganze Vektoren vergleichen:
 
 
-```r
+``` r
 cong <- color == text
 cong
 ```
@@ -686,7 +688,7 @@ cong
 In `cong` ist das Ergebnis des elementenweisen Vergleichs von `color` und `text` enthalten. Wir sehen also, dass das erste Wort kongruent war (`gruen == gruen`), das zweite Wort inkongruent (`gelb != blau`) usw. Wir können einfach zeigen, dass es sich hier um einen logischen Vektor handelt:
 
 
-```r
+``` r
 is.logical(cong)
 ```
 
@@ -697,7 +699,7 @@ is.logical(cong)
 Eine Sonderform eines Vektors in R ist der `factor`. Diese Form wird genutzt um nominal- und ordinalskalierte Variablen (mehr dazu in der Vorlesung!) sinnvoll zu speichern. Das wird dadurch erreicht, dass ein `factor` eigentlich numerisch ist, aber gleichzeitig für jede Zahl ein sog. "Label" vergibt. Den `color` Vektor, beispielsweise, können wir mit `as.factor` von einem `character` in einen `factor` umwandeln:
 
 
-```r
+``` r
 color_fac <- as.factor(color)
 str(color_fac)
 ```
@@ -709,7 +711,7 @@ str(color_fac)
 In diesem Fall werden die ursprünglichen Farben in Zahlenwerte übertragen und es wird anhand des Labels (`"blau", "gelb", ...`) verdeutlicht welche Zahl welche Farbe repräsentiert. Um alle möglichen Ausprägungen (Engl. _levels_) der Variable zu sehen:
 
 
-```r
+``` r
 levels(color_fac)
 ```
 
@@ -720,7 +722,7 @@ levels(color_fac)
 Wir sehen also, dass die Variable vier mögliche Ausprägungen hat. Die Zahlen werden entsprechend der Reihenfolge dieser `levels` vergeben. Bei der Umwandlung eines `character` Vektors in einen `factor` werden die `levels` dabei einfach alphabetisch sortiert. Um diese Abfolge zu ändern, können wir mit `relevel()` bestimmen, welche Ausprägung den Wert `1` erhalten soll:
 
 
-```r
+``` r
 relevel(color_fac, 'gruen')
 ```
 
@@ -734,7 +736,7 @@ Beachten Sie, dass hier - wie immer in R - durch das ausführen der Funktion kei
 Durch die duale Zuordnung von Zahlen und Labels zum Vektor können `factor` sehr einfach sowohl in numerische Vektoren, als auch `character` Vektoren umgewandelt werden:
 
 
-```r
+``` r
 as.numeric(color_fac)
 ```
 
@@ -742,7 +744,7 @@ as.numeric(color_fac)
 ## [1] 3 2 1 3 2 1 4 4
 ```
 
-```r
+``` r
 as.character(color_fac)
 ```
 
@@ -759,7 +761,7 @@ Wie wir im Verlauf des Semesters sehen werden, haben beide Umwandlungen Konseque
 Im Environment liegen jetzt fünf Vektoren (und unsere Zahl, die wir vor einiger Zeit einzeln abgelegt hatten):
 
 
-```r
+``` r
 ls()
 ```
 
@@ -783,7 +785,7 @@ Aus der Tabelle lässt sich leicht schließen, dass eine `matrix` ein Sonderfall
 Wir können damit beginnen, eine `matrix` zu erstellen. Dafür können wir zwei Vektoren des gleichen Typs kombinieren. Im Stroop Beispiel sind `color` und `text` beide vom Typ `character`:
 
 
-```r
+``` r
 class(color)
 ```
 
@@ -791,7 +793,7 @@ class(color)
 ## [1] "character"
 ```
 
-```r
+``` r
 class(text)
 ```
 
@@ -799,7 +801,7 @@ class(text)
 ## [1] "character"
 ```
 
-```r
+``` r
 class(color) == class(text)
 ```
 
@@ -810,7 +812,7 @@ class(color) == class(text)
 Um die Matrix zu erstellen, können wir entweder direkt den `matrix`-Befehl nutzen oder eine der beiden `bind()`-Funktionen benutzen. Um Vektoren als Spalten (Engl. *columns*) zusammenzuführen, steht `cbind()` zur Verfügung. Um Vektoren hingegen als Zeilen (Engl. *rows*) zusammenzuführen, können wir `rbind()` nutzen. Typischerweise werden psychologische Daten so gehandhabt, dass verschiedene Beobachtungen (z.B. unterschiedliche Personen) in Zeilen und verschiedene Variablen in Spalten abgetragen werden. In unserem Fall haben wir acht Beobachtungen (jeder Vektor ist acht Einträge lang) und zwei Variablen (`color` und `text`). Daher sollten wir in diesem Fall mit `cbind()` arbeiten:
 
 
-```r
+``` r
 mat <- cbind(color, text)
 mat
 ```
@@ -830,7 +832,7 @@ mat
 Das resultierende Objekt ist eine Matrix:
 
 
-```r
+``` r
 class(mat)
 ```
 
@@ -841,7 +843,7 @@ class(mat)
 Weil Matrizen aber Sonderfälle von Arrays sind, ist dieses Objekt auch ein Array! Was es hingegen nicht ist, ist ein `data.frame` oder eine `list`.
 
 
-```r
+``` r
 is.array(mat)
 ```
 
@@ -849,7 +851,7 @@ is.array(mat)
 ## [1] TRUE
 ```
 
-```r
+``` r
 is.data.frame(mat)
 ```
 
@@ -857,7 +859,7 @@ is.data.frame(mat)
 ## [1] FALSE
 ```
 
-```r
+``` r
 is.list(mat)
 ```
 
@@ -868,7 +870,7 @@ is.list(mat)
 Weil in einer `matrix` nur Vektoren des gleichen Typs kombiniert werden können, führt `cbind()` dazu, dass Vektoren in den allgemeinsten, gemeinsamen Fall umgewandelt werden, bevor sie als Matrix zusammengeführt werden. Wie wir bereits gesehen haben, sind die "klassischen" Typen von Vektoren in R von spezifisch zu allgemein `logical` -> `numeric` -> `character`. In diesem Fall ist werden also alle Vektoren in `character` umgewandelt:
 
 
-```r
+``` r
 mat <- cbind(color, text, cong, react)
 mat
 ```
@@ -888,7 +890,7 @@ mat
 Dadurch verlieren wir aber die Möglichkeit, `react` als numerische Variable zu nutzen. Das bedeutet, dass wir nach der Umwandlung keine mathematischen Berechnungen (und demzufolge auch nur noch limitierte statistische Analysen) mit der neuen Variable durchführen können. Um die Typen von Vektoren zu erhalten und so Unterschiede im Messniveau zwischen Variablen in den gespeicherten Daten zu berücksichtigen, wird meistens `data.frame()` genutzt:
 
 
-```r
+``` r
 dat <- data.frame(color, text, cong, react)
 dat
 ```
@@ -905,7 +907,7 @@ dat
 ## 8   rot  gelb FALSE   778
 ```
 
-```r
+``` r
 str(dat)
 ```
 
@@ -921,7 +923,7 @@ Wie bereits geschildert, müssen alle Vektoren, die zu einem `data.frame` zusamm
 
 
 
-```r
+``` r
 three <- c(1, 2, 3)
 data.frame(color, text, cong, react, three)
 ```
@@ -933,7 +935,7 @@ data.frame(color, text, cong, react, three)
 Dazu gibt es jedoch eine, sehr spezifische, Ausnahme. Es ist möglich, dass Vektoren unterschiedliche Längen haben, wenn die längere Länge ein Vielfaches der kürzeren Länge ist. Wenn wir also einen Vektor mit 4 Elementen erstellen:
 
 
-```r
+``` r
 four <- c(three, 4)
 data.frame(color, text, cong, react, four)
 ```
@@ -961,7 +963,7 @@ Bisher haben wir uns mit dem Zusammenführen von Daten befasst, wie es bei der D
 Der einfachste Fall in R ist die Extraktion eines Elements aus einem Vektor. Dazu können wir noch einmal die Struktur eines Vektors inspizieren:
 
 
-```r
+``` r
 str(react)
 ```
 
@@ -972,7 +974,7 @@ str(react)
 Die `[1:8]` zeigt uns, wie viele Elemente im Vektor enthalten sind und die Klammern zeigen uns, wie diese Elemente angesprochen werden können:
 
 
-```r
+``` r
 react[5]
 ```
 
@@ -983,7 +985,7 @@ react[5]
 So erhalten wir das fünfte Element aus dem Vektor. Mit einzelnen Zahlen in den eckigen Klammern können also direkt einzelne Elemente ausgewählt werden. Umgekehrt können auch einzelne Elemente ausgeschlossen werden:
 
 
-```r
+``` r
 react[-5]
 ```
 
@@ -994,7 +996,7 @@ react[-5]
 In den Klammern müssen aber nicht nur einzelne Elemente stehen. Wie beinahe Alles in R, lässt sich eine Funktionsweise einzelner Elemente auch auf ganze Vektoren übertragen. Wir können also einen Selektionsvektor nutzen, um mehrere Elemente auszuwählen:
 
 
-```r
+``` r
 sel <- c(1, 3, 5)
 react[sel]
 ```
@@ -1006,7 +1008,7 @@ react[sel]
 Wie bei allen Dingen, brauchen wir nicht zwingend das Objekt `sel` anlegen, sondern können Funktionen schachteln:
 
 
-```r
+``` r
 react[c(1, 3, 5)]
 ```
 
@@ -1017,7 +1019,7 @@ react[c(1, 3, 5)]
 Weil es bei großen Datensätzen oder über unterschiedliche Datensätze hinweg selten vorkommt, dass wir spezifische Positionen von relevanten Elementen kennen, können Vektoren auch logisch gefiltert werden. Das bedeutet, dass wir anhand eines logischen Vektors mit der gleichen Länge wie unser Zielvektor über `TRUE` und `FALSE` Elemente auswählen können. Einen solchen Vektor haben wir bereits erstellt, nämlich `cong` der kongruente Farbe-Wort Paare kennzeichnet. Um also alle kongruenten Reaktionszeiten auszuwählen:
 
 
-```r
+``` r
 react[cong]
 ```
 
@@ -1028,7 +1030,7 @@ react[cong]
 Oder auch das Gegenteil:
 
 
-```r
+``` r
 react[!cong]
 ```
 
@@ -1039,7 +1041,7 @@ react[!cong]
 Weil Vektoren eindimensional sind, benötigen wir zur Auswahl von Elementen nur eine Information. Bei `matrix` und `data.frame` sieht das natürlich anders aus. Hier nochmal der zuvor erstellte `data.frame`:
 
 
-```r
+``` r
 dat
 ```
 
@@ -1058,7 +1060,7 @@ dat
 Er hat also 8 Zeilen und 4 Spalten. Um z.B. die 5. Reaktionszeit auszuwählen, müssen wir das Element in der 5. Zeile und 4. Spalte ansprechen. Bei mehrdimensionalen Objekten werden in R die Dimensionen in eckigen Klammern einfach durch Kommata getrennt:
 
 
-```r
+``` r
 dat[5, 4]
 ```
 
@@ -1069,7 +1071,7 @@ dat[5, 4]
 In R-Termini nimmt die Auswahlfunktion (die eckigen Klammern) in diesem Fall zwei Argumente entgegen: Zeile und Spalte. Wenn ein Argument ausgelassen wird, ist die Voreinstellung, dass alle Elemente dieser Dimension ausgegeben werden:
 
 
-```r
+``` r
 dat[1, ]   # 1. Zeile, alle Spalten
 ```
 
@@ -1078,7 +1080,7 @@ dat[1, ]   # 1. Zeile, alle Spalten
 ## 1 gruen gruen TRUE   510
 ```
 
-```r
+``` r
 dat[, 1]   # Alle Zeilen, 1. Spalte
 ```
 
@@ -1089,7 +1091,7 @@ dat[, 1]   # Alle Zeilen, 1. Spalte
 Wie bei Vektoren, kann die Auswahl wieder über verschiedene Kombinationen aus Auswahlvektoren und einzelnen Elementen erfolgen:
 
 
-```r
+``` r
 dat[c(2, 3), 3]   # 2. und 3. Zeile, 3. Spalte
 ```
 
@@ -1097,7 +1099,7 @@ dat[c(2, 3), 3]   # 2. und 3. Zeile, 3. Spalte
 ## [1] FALSE  TRUE
 ```
 
-```r
+``` r
 dat[cong, ]       # Alle kongruenten Zeilen, alle Spalten
 ```
 
@@ -1112,7 +1114,7 @@ dat[cong, ]       # Alle kongruenten Zeilen, alle Spalten
 Um herauszufinden, wie viele Zeilen und Spalten ein Datensatz hat, gibt es die beiden Funktionen:
 
 
-```r
+``` r
 nrow(dat)    # Anzahl der Zeilen
 ```
 
@@ -1120,7 +1122,7 @@ nrow(dat)    # Anzahl der Zeilen
 ## [1] 8
 ```
 
-```r
+``` r
 ncol(dat)    # Anzahl der Spalten
 ```
 
@@ -1128,7 +1130,7 @@ ncol(dat)    # Anzahl der Spalten
 ## [1] 4
 ```
 
-```r
+``` r
 dim(dat)     # Alle Dimensionen
 ```
 
@@ -1140,7 +1142,7 @@ dim(dat)     # Alle Dimensionen
 In `data.frame` sind die einzelnen Spalten üblicherweise benannt, weil es sinnvoll ist Variablen spezifische Namen zu geben. Um diese Namen abfragen zu können, gibt es die `names()` Funktion:
 
 
-```r
+``` r
 names(dat)
 ```
 
@@ -1151,7 +1153,7 @@ names(dat)
 Wenn wir also spezifische Variablen aus einem Datensatz auswählen möchten, können wir diese auch über ihren Namen ansprechen:
 
 
-```r
+``` r
 dat[, 'react']                # Einzelne Variable auswählen
 ```
 
@@ -1159,7 +1161,7 @@ dat[, 'react']                # Einzelne Variable auswählen
 ## [1] 510 897 647 891 925 805 443 778
 ```
 
-```r
+``` r
 dat[, c('react', 'cong')]     # Mehrere Variable auswählen
 ```
 
@@ -1178,7 +1180,7 @@ dat[, c('react', 'cong')]     # Mehrere Variable auswählen
 Beachten Sie hierbei, dass die Variablennamen in Anführungszeichen stehen müssen, da die Variable sonst als Filtervektor genutzt wird! Als Kurzform für die Auswahl einzelner Variable wird in R häufig das `$` genutzt:
 
 
-```r
+``` r
 dat$react
 ```
 
@@ -1193,7 +1195,7 @@ dat$react
 Der Zuweisungspfeil funktioniert auch für Elemente größerer Objekte. Nehmen wir an, wir hätten uns bei der Eingabe der 5. Reaktionszeit vertippt und diese sei eigentlich 725 ms gewesen. Um die vorhandenen Daten zu überschreiben, können wir neue Werte direkt zuweisen. Auch hier sollte beachtet werden, dass es dabei keinerlei Warnung und Absicherung gibt. Sobald die Zuweisung ausgeführt ist, sind die Daten überschrieben und die vorherigen Daten verloren.
 
 
-```r
+``` r
 dat[5, 'react']           # Aktuellen Inhalt abfragen
 ```
 
@@ -1201,7 +1203,7 @@ dat[5, 'react']           # Aktuellen Inhalt abfragen
 ## [1] 925
 ```
 
-```r
+``` r
 dat[5, 'react'] <- 725    # Aktuellen Inhalt überschreiben
 dat[, 'react']            # Alle Reaktionszeiten abfragen
 ```
@@ -1213,7 +1215,7 @@ dat[, 'react']            # Alle Reaktionszeiten abfragen
 Mit eckigen Klammern und `$` können auch Zeilen und Spalten angesprochen werden, die noch nicht existieren. Dieser Ansatz kann z.B. genutzt werden um eine neue Variable zu erstellen. Wenn wir, beispielsweise auch Inkongruenz explizit als Variable im Datensatz aufnehmen wollen, können wir diese Variable direkt erzeugen.
 
 
-```r
+``` r
 dat$incong <- !dat$cong
 dat
 ```
@@ -1233,7 +1235,7 @@ dat
 Per Voreinstellung werden neue Variablen an die letzte Stelle des Datensatzes aufgenommen. Das Gleiche können wir auch mit neuen Zeilen machen. Hierfür müssen wir eine komplette Zeile mit den korrekten Variablen eingeben.
 
 
-```r
+``` r
 dat[9, ] <- c('gelb', 'gruen', FALSE, 824, TRUE)
 dat
 ```
@@ -1254,7 +1256,7 @@ dat
 Um Zeilen oder Spalten aus einem `data.frame` zu "entfernen" muss eine Kopie des `data.frame` angelegt werden, in dem dieser Inhalt nicht vorhanden ist. Diese Kopie kann auch genutzt werden um den ursprünglichen `data.frame` zu überschreiben und so Dinge zu entfernen:
 
 
-```r
+``` r
 dat <- dat[-9, ]    # Datensatz ohne die 9. Zeile
 dat
 ```
@@ -1280,14 +1282,14 @@ Alle Objekte, die bisher erstellt wurden liegen im Environment - sobald wir R sc
 Um Daten zu laden und zu speichern muss R wissen an welchem Ort nach diesen Daten zu suchen ist. In den meisten Fällen macht es Sinn, für Projekte einen Ordner anzulegen in dem alle relevanten Dateien (z.B. Daten und Syntax) enthalten sind. Dieser Ordner kann R als *Working Directory* mitgeteilt werden. Das aktuelle Working Directory kann man einfach abrufen:
 
 
-```r
+``` r
 getwd()
 ```
 
 Als Ergebnis sollte ein Ordnerpfad ausgeben werden. Unter Windows hat dieser wahrscheinlich das Format `C:/Users/Name/Documents`. Um manuell einen anderen Ordner zu nutzen, kann dieser mit `setwd()` festgelegt werden:
 
 
-```r
+``` r
 setwd('Pfad/Zum/Ordner')
 ```
 
@@ -1296,7 +1298,7 @@ Windows nutzt `\` statt `/` um Ordner zu strukturieren. Wenn Sie also ihren Ziel
 Um sich den Inhalt eines Ordners anzeigen zu lassen (z.B. um zu prüfen, welche Dateien bereits in dem Ordner vorhanden sind):
 
 
-```r
+``` r
 dir()
 ```
 
@@ -1315,14 +1317,14 @@ Generell ist RDS dann zu präferieren, wenn einzelne Objekte (z.B. Datensätze) 
 Dieses Verhalten können wir uns im Folgenden anschauen. Zunächst speichern wir den Stroop Datensatz:
 
 
-```r
+``` r
 save(dat, file = 'dat.rda')
 ```
 
 Dann leeren wir das gesamte Environment:
 
 
-```r
+``` r
 rm(list = ls())
 ls()
 ```
@@ -1334,7 +1336,7 @@ ls()
 Wenn wir jetzt den Datensatz laden, wird er mit seiner Originalbenennung (`dat`) wiederhergestellt:
 
 
-```r
+``` r
 load('dat.rda')
 ls()
 ```
@@ -1346,7 +1348,7 @@ ls()
 Jetzt durchlaufen wir die gleichen Schritte mit dem RDS Format:
 
 
-```r
+``` r
 saveRDS(dat, 'dat.rds')
 rm(list = ls())
 ls()
@@ -1359,7 +1361,7 @@ ls()
 Beim Laden des Datensatzes können wir diesen jetzt einem beliebigen Objekt zuweisen:
 
 
-```r
+``` r
 stroop <- readRDS('dat.rds')
 stroop
 ```
@@ -1396,7 +1398,7 @@ Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [
 Die Art in der dieser Datensatz aufbereitet ist, muss R mitgeteilt werden, damit wir ihn ordentlich einlesen können. Es empfiehlt sich dafür mit `help(read.table)` die Hilfe zu öffnen. Was diese Hilfe verrät sind unter Anderem die Argumente, die die Funktion entgegennimmt:
 
 
-```r
+``` r
 args(read.table)
 ```
 
@@ -1415,7 +1417,7 @@ args(read.table)
 Das einzige Argument ohne Voreinstellung ist `file`, also der Dateiname. Wenn wir den Datensatz mit Voreinstellungen laden, erhalten wir folgenden Fehler:
 
 
-```r
+``` r
 fb23 <- read.table('fb23.csv')
 ```
 
@@ -1427,7 +1429,7 @@ fb23 <- read.table('fb23.csv')
 Das liegt in diesem Fall daran, dass `read.table()` als Voreinstellung annimmt, dass die erste Zeile der Datei nicht besonders ist (`header = FALSE`). In unserem Fall enthält diese Zeile aber die Namen der Variablen, sodass wir diese Einstellung ändern müssen:
 
 
-```r
+``` r
 fb23 <- read.table('fb23.csv', header = TRUE)
 ```
 
@@ -1438,7 +1440,7 @@ fb23 <- read.table('fb23.csv', header = TRUE)
 Wieder ergibt sich ein Fehler, der lamentiert, dass es mehr Spalten als Variablennamen gibt. Das liegt daran, dass `read.table()` per Voreinstellung davon ausgeht, dass Variablen (bzw. Spalten des Datensatzes) durch Leerzeichen getrennt sind (`sep = ""`). In unserer Datei erfolgt das aber durch Kommata.
 
 
-```r
+``` r
 fb23 <- read.table('fb23.csv', header = TRUE, sep = ",")
 ```
 
@@ -1448,25 +1450,32 @@ fb23 <- read.table('fb23.csv', header = TRUE, sep = ",")
 Im Environment erscheint jetzt das Objekt `fb23`. Mit `head()` können wir uns den Kopf des Datensatzes (die ersten 6 Zeilen) anzeigen lassen:
 
 
-```r
+``` r
 head(fb23)    # Kopfzeilen
 ```
 
 ```
-##   mdbf1_pre mdbf2_pre mdbf3_pre mdbf4_pre mdbf5_pre mdbf6_pre mdbf7_pre mdbf8_pre mdbf9_pre
-## 1         4         2         3         2         3         2         4         3         2
-## 2         2         2         4         2         2         1         3         2         4
-## 3         4         3         2         1         3         2         3         3         1
-## 4        NA         3         2         2         2         2         1         2         2
-## 5         3         3         2         1         2         2         1         3         3
-## 6         3         2         3         1         1         2         2         3         3
-##   mdbf10_pre mdbf11_pre mdbf12_pre  lz extra vertr gewis neuro offen prok     nerd
-## 1          3          3          1 5.4   3.5   1.5   4.5   5.0   5.0  1.8 4.166667
-## 2          2          2          1 3.4   3.0   3.0   4.0   5.0   5.0  3.1 3.000000
-## 3          3          1          2 4.4   4.0   3.5   5.0   2.0   4.5  1.5 2.333333
-## 4          3          2          3 4.4   3.0   4.0   3.5   4.0   3.5  1.6 2.833333
-## 5          2          2          2 6.4   4.0   4.0   3.5   3.5   4.0  2.7 3.833333
-## 6          4          1          2 5.6   4.5   4.5   4.0   4.5   4.0  3.3 3.333333
+##   mdbf1_pre mdbf2_pre mdbf3_pre mdbf4_pre mdbf5_pre mdbf6_pre mdbf7_pre
+## 1         4         2         3         2         3         2         4
+## 2         2         2         4         2         2         1         3
+## 3         4         3         2         1         3         2         3
+## 4        NA         3         2         2         2         2         1
+## 5         3         3         2         1         2         2         1
+## 6         3         2         3         1         1         2         2
+##   mdbf8_pre mdbf9_pre mdbf10_pre mdbf11_pre mdbf12_pre  lz extra vertr
+## 1         3         2          3          3          1 5.4   3.5   1.5
+## 2         2         4          2          2          1 3.4   3.0   3.0
+## 3         3         1          3          1          2 4.4   4.0   3.5
+## 4         2         2          3          2          3 4.4   3.0   4.0
+## 5         3         3          2          2          2 6.4   4.0   4.0
+## 6         3         3          4          1          2 5.6   4.5   4.5
+##   gewis neuro offen prok     nerd
+## 1   4.5   5.0   5.0  1.8 4.166667
+## 2   4.0   5.0   5.0  3.1 3.000000
+## 3   5.0   2.0   4.5  1.5 2.333333
+## 4   3.5   4.0   3.5  1.6 2.833333
+## 5   3.5   3.5   4.0  2.7 3.833333
+## 6   4.0   4.5   4.0  3.3 3.333333
 ##                                                                                                                                                          grund
 ## 1                                                                                                                                                   Berufsziel
 ## 2                                                                                                                                        Interesse am Menschen
@@ -1474,23 +1483,23 @@ head(fb23)    # Kopfzeilen
 ## 4 Wissenschaftliche Ergänzung zu meinen bisherigen Tätigkeiten (Arbeit in der psychiatrischen Akutpflege, Gestalttherapieausbildung), Psychotherapieausbildung
 ## 5                                                                                                                                       Passt am besten zu mir
 ## 6                                                                                                   Weil ich mich schon seit ich klein bin dafür interessiere.
-##   fach ziel wissen therap lerntyp hand job ort ort12 wohnen uni1 uni2 uni3 uni4 attent_pre gs_post
-## 1    4    2      5      5       3    2   1   2     2      4    0    1    0    0          6    3.00
-## 2    4    2      4      5       3    2   1   1     1      1    1    1    1    1          6    2.75
-## 3    4    2      5      5       1    2   1   1     2      1    0    1    0    0          6    4.00
-## 4    4    2      4      5       3    2   1   1     2      1    1    1    0    1          6    2.50
-## 5    4    2      2      4       3    2   2   1     2      1    0    1    1    0          6    3.75
-## 6    4    2      3      5       1    2   2   2     1      2    0    1    0    0          6      NA
-##   wm_post ru_post attent_post
-## 1    2.00    2.25           6
-## 2    1.00    1.50           5
-## 3    3.75    3.75           6
-## 4    2.75    3.50           6
-## 5    3.00    3.00           6
-## 6      NA      NA          NA
+##   fach ziel wissen therap lerntyp hand job ort ort12 wohnen uni1 uni2 uni3
+## 1    4    2      5      5       3    2   1   2     2      4    0    1    0
+## 2    4    2      4      5       3    2   1   1     1      1    1    1    1
+## 3    4    2      5      5       1    2   1   1     2      1    0    1    0
+## 4    4    2      4      5       3    2   1   1     2      1    1    1    0
+## 5    4    2      2      4       3    2   2   1     2      1    0    1    1
+## 6    4    2      3      5       1    2   2   2     1      2    0    1    0
+##   uni4 attent_pre gs_post wm_post ru_post attent_post
+## 1    0          6    3.00    2.00    2.25           6
+## 2    1          6    2.75    1.00    1.50           5
+## 3    0          6    4.00    3.75    3.75           6
+## 4    1          6    2.50    2.75    3.50           6
+## 5    0          6    3.75    3.00    3.00           6
+## 6    0          6      NA      NA      NA          NA
 ```
 
-```r
+``` r
 str(fb23)     # Struktur des Datensatzes
 ```
 
@@ -1541,7 +1550,7 @@ str(fb23)     # Struktur des Datensatzes
 Wir können den Datensatz übrigens auch direkt von der Website in R laden. Der Dateiname nimmt auch direkt URLs entegegen:
 
 
-```r
+``` r
 fb23 <- read.table('https://pandar.netlify.app/daten/fb23.csv', header = TRUE, sep = ",")
 ```
 
@@ -1550,7 +1559,7 @@ so kann umgangen werden, dass wir die gleiche Datei immer und überall lokal spe
 Gegenspieler von `read.table()` ist `write.table()` mit dem Daten im Klartextformat gespeichert werden können. Um den Datensatz als .txt-Datei abzuspeichern können wir Folgendes nutzen:
 
 
-```r
+``` r
 write.table(fb23,     # zu speichernder Datensatz
   'fb23.txt'          # Dateiname
   )

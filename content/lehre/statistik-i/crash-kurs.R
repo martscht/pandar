@@ -58,6 +58,8 @@ sum(3, 4, 1, 2) |> sqrt() |> log(x = _)
 
 my_root <- sqrt(my_num)
 
+
+
 ls()
 
 ls(pattern = 'num')

@@ -9,11 +9,11 @@ subtitle: ''
 summary: ''
 authors: [kvetnaya, sajjad, irmer]
 weight: 12
-lastmod: '2024-07-04'
+lastmod: '2024-07-09'
 featured: no
 banner:
-  image: "/header/man_with_binoculars.jpg"
-  caption: "[Courtesy of pxhere](https://www.pexels.com/photo/man-looking-in-binoculars-during-sunset-802412/)"
+  image: "/header/abstract_black_hole_light.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/763765)"
 projects: []
 reading_time: false
 share: false
@@ -215,6 +215,13 @@ Es gibt ein R-Paket, dass eine solche Interaktion grafisch darstellt: `interacti
 
 ```r
 library(interactions)
+```
+
+```
+## Warning: Paket 'interactions' wurde unter R Version 4.3.1 erstellt
+```
+
+```r
 interact_plot(model = mod_reg, 
               pred = IQ, 
               modx = math)
@@ -229,6 +236,24 @@ Wie im Beitrag zur [ANCOVA]() gezeigt, können wir hier mithilfe des Pakets `reg
 
 ```r
 library(reghelper)
+```
+
+```
+## Warning: Paket 'reghelper' wurde unter R Version 4.3.2 erstellt
+```
+
+```
+## 
+## Attache Paket: 'reghelper'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:base':
+## 
+##     beta
+```
+
+```r
 simple_slopes(mod_reg)
 ```
 
@@ -263,9 +288,13 @@ Bei der Moderationsanalyse gilt es, darauf zu achten, dass es rechnerisch keinen
 
 Dies zeigt sich einerseits an der analog zum Beitrag dargestellten Formelgleichung, aus der wir sowohl $X$, als auch $Z$ ausklammern können:
 
-$$\begin{align} Y_i &= \beta_0 + \beta_1X_i + \beta_2Z_i + \beta_3XZ_i+e_i,\\[1.5ex] &= \underbrace{\beta_0 + \beta_1X_i}_{Intercept(X_i)} + \underbrace{(\beta_2 + \beta_3X_i)}_{Slope(X_i)}Z_i+e_i. \end{align}$$
+{{<math>}}
+$$
+\begin{align} Y_i &= \beta_0 + \beta_1X_i + \beta_2Z_i + \beta_3XZ_i+e_i,\\[1.5ex] &= \underbrace{\beta_0 + \beta_1X_i}_{Intercept(X_i)} + \underbrace{(\beta_2 + \beta_3X_i)}_{Slope(X_i)}Z_i+e_i. \end{align}
+$$
+{{</math>}}
 
-Andererseits wird auch durch die R-Syntax des Modell-Calls `lm(formula = reading ~ IQ + math + IQ:math, data = Schulleistungen_std)` für unser Regressionsmodell deutlich, dass die Reihenfolge der Variablennamen `math`und `IQ` ebenfalls keinen Unterschied macht. Dies wird auch daran deutlich, dass wir unter Zugrundelegung des gleichen Modellobjekts ebenso einen Zusammenhang zwischen `math`als Prädiktor, und `IQ`als Moderator visualisieren könnten:
+Andererseits wird auch durch die R-Syntax des Modell-Calls `lm(formula = reading ~ IQ + math + IQ:math, data = Schulleistungen_std)` für unser Regressionsmodell deutlich, dass die Reihenfolge der Variablennamen `math` und `IQ` ebenfalls keinen Unterschied macht. Dies wird auch daran deutlich, dass wir unter Zugrundelegung des gleichen Modellobjekts ebenso einen Zusammenhang zwischen `math` als Prädiktor, und `IQ` als Moderator visualisieren könnten:
 
 
 ```r
@@ -292,6 +321,13 @@ Es liegt daher in der Verantwortung der Forschenden, die Auswahl der Moderatorva
 
 ```r
 library(plot3D)
+```
+
+```
+## Warning: Paket 'plot3D' wurde unter R Version 4.3.1 erstellt
+```
+
+```r
 # Übersichtlicher: Vorbereitung
 x <- Schulleistungen_std$IQ
 y <- Schulleistungen_std$reading

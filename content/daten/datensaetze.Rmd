@@ -37,22 +37,22 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 [Arbeitsstress bei Call-Center-Mitarbeiter:innen](#arbeitsstress-bei-call-center-mitarbeiterinnen-stressatwork) | [{{< icon name="download" pack="fas" >}} `StressAtWork` ](/daten/StressAtWork.rda) |
 | [Bildungsinvestitionen auf der Welt](#bildungsinvestitionen-auf-der-welt-edu_exp) | [{{< icon name="download" pack="fas" >}} `edu_exp` ](/daten/edu_exp.rda) 
 | [Bullyingprävention bei Jugendlichen](#bullyingprävention-bei-jugendlichen-fairplayer) | [{{< icon name="download" pack="fas" >}} `fairplayer` ](/daten/faiplayer.rda) |
-| [Depressivität](#depressivitat-Depression) | [{{< icon name="download" pack="fas" >}} `Depression` ](/daten/Depression.rda) |
+| [Depressivität](#depressivität-depression) | [{{< icon name="download" pack="fas" >}} `Depression` ](/daten/Depression.rda) |
 | [Die Big Five Persönlichkeitsdimensionen](#die-big-five-persönlichkeitsdimensionen-big5) | [{{< icon name="download" pack="fas" >}} `Big5` ](/daten/Big5_EFA.rda) |
-| [Distorted News](#distorted-news) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/k4xcv/) |
+| [Distorted News](#distorted-news-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/k4xcv/) |
 | [Effektivität der CBT bei Depression](#effektivität-der-cbt-bei-depression-f2f_cbt) | _Teil des Pakets `metafor`_ |
-| [Einstellungsentscheidungen](#assessment) | [{{< icon name="download" pack="fas" >}} `Assessment` ](/daten/Assessment.rda) |
+| [Einstellungsentscheidungen](#einstellungsentscheidungen-assessment) | [{{< icon name="download" pack="fas" >}} `Assessment` ](/daten/Assessment.rda) |
 |  [Entwicklung der Weltbevölkerung](#entwicklung-der-weltbevölkerung-worldpopulation) | [{{< icon name="download" pack="fas" >}} `WorldPopulation` ](/daten/WorldPopulation.rda) |
-| [Erfahrung in Beziehungen](#erfahrung-in-beziehungen-ecr) | [{{< icon name="download" pack="fas" >}} `ecr` ](/daten/ecr.rda)
+| [Erfahrungen in Beziehungen](#erfahrungen-in-beziehungen-ecr) | [{{< icon name="download" pack="fas" >}} `ecr` ](/daten/ecr.rda)
 | [Fragebogendaten aus dem ersten Semester 22](#fragebogendaten-aus-dem-ersten-semester-fb22) |  [{{< icon name="download" pack="fas" >}} `fb22` ](/daten/fb22.rda) |
 | [Fragebogendaten aus dem ersten Semester 23](#fragebogendaten-aus-dem-ersten-semester-fb23) | [{{< icon name="download" pack="fas" >}} `fb23`](/daten/fb23.rda) |
 | [Gender, Drug, and Depression](#gender-drug-and-depression-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/prc92/download) |
 | [Gewissenhaftigkeit und Medikamenteneinnahme](#gewissenhaftigkeit-und-medikamenteneinnahme-data_combined) |  _Teil des Pakets `metafor`_ |
 | [Hauptkomponentenanalyse](#hauptkomponentenanalyse-pca) | [{{< icon name="download" pack="fas" >}} `PCA` ](/daten/PCA.RData) |
-| [HeckData (keine Ahnung, worum es bei diesem Datensatz eigentlich geht)](#heckdata) | [{{< icon name="download" pack="fas" >}} `HeckData` ](/daten/HeckData.rda) |
+| [HeckData (keine Ahnung, worum es bei diesem Datensatz eigentlich geht)](#heckdata-heckdata) | [{{< icon name="download" pack="fas" >}} `HeckData` ](/daten/HeckData.rda) |
 | [Internetintervention für psychische Störungen](#internetintervention-für-psychische-störungen-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/zc8ut/download) |
 | [Interozeptive Aufmerksamkeit und Genauigkeit](#interozeptive-aufmerksamkeit-und-genauigkeit-body) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/j6ef3/download) |
-| [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa)) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa` ](/daten/conspiracy_cfa.rda) |
+| [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa` ](/daten/conspiracy_cfa.rda) |
 | [Kooperationsbereitschaft von Geschwistern](#kooperationsbereitschaft-von-geschwistern-datakooperation) | _via Syntax erstellt_ |
 | [Kulturelle Unterschiede in Korruptionsbestrafung](#kulturelle-unterschiede-in-korruptionsbestrafung-punish) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/4wypx/download)
 | [Lesekompetenz in der PISA-Erhebung](#lesekompetenz-in-der-pisa-erhebung-pisa2009) | [{{< icon name="download" pack="fas" >}} `PISA2009` ](/daten/PISA2009.rda) |
@@ -61,19 +61,19 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Mehrdimensionaler Befindlichkeitsfragebogen](#mehrdimensionaler-befindlichkeitsfragebogen-mdbf) | [{{< icon name="download" pack="fas" >}} `mdbf` ](/daten/mdbf.rda) |
 | [Mental Health and Social Contact During the COVID-19 Pandemic](#mental-health-and-social-contact-during-the-covid-19-pandemic-data) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/qev5n/download) |
 | [Naturverbundenheit](#naturverbundenheit-nature) | [{{< icon name="download" pack="fas" >}} `nature` ](/daten/nature.rda) |
-| [Nerdiness](#nerd) | [{{< icon name="download" pack="fas" >}} `NerdData` ](/daten/NerdData.rda) |
+| [Nerdiness](#nerdiness-nerddata) | [{{< icon name="download" pack="fas" >}} `NerdData` ](/daten/NerdData.rda) |
 | [Parental Burnout](#parental-burnout-burnout) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/qev5n/download) |
 | [Psychisches Wohlbefinden von Individuen während des Lockdowns in Frankreich](#psychisches-wohlbefinden-von-individuen-während-des-lockdowns-in-frankreich-lockdown) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/dc6me/download)
 | [Quasi-Experimentelle Therapiestudie](#quasi-experimentelle-therapiestudie-cbtdata) | [{{< icon name="download" pack="fas" >}} `CBTdata` ](/daten/CBTdata.rda) |
-| [Schulleistungen](#schulleistungen) | [{{< icon name="download" pack="fas" >}} `Schulleistungen` ](/daten/Schulleistungen.rda) |
+| [Schulleistungen](#schulleistungen-schulleistungen) | [{{< icon name="download" pack="fas" >}} `Schulleistungen` ](/daten/Schulleistungen.rda) |
 | [Skalenwerte der Generic Conspiracist Beliefs Scale](#skalenwerte-der-generic-conspiracist-beliefs-scale-conspiracy) | [{{< icon name="download" pack="fas" >}} `conspiracy` ](/daten/conspiracy.rda) |
-| [Students in Classes](#studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
+| [Students in Classes](#students-in-classes-studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
 | [Therapieerfolg](#therapieerfolg-therapy) | [{{< icon name="download" pack="fas" >}} `Therapy` ](/daten/Therapy.rda) |
-| [Titanic](#titanic) |  [{{< icon name="download" pack="fas" >}} `Titanic` ](/daten/Titanic.rda) |
+| [Titanic](#titanic-titanic) |  [{{< icon name="download" pack="fas" >}} `Titanic` ](/daten/Titanic.rda) |
 | [Traumatische Erlebnisse und psychische Störungen](#traumatische-erlebnisse-und-psychische-störungen-trauma) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/a9vun/download) |
-| [Vegan](#vegan) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/rctkf/)
+| [Vegan](#vegan-vegan) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/rctkf/)
 | [Vergleich von Behandlungsformen](#vergleich-von-behandlungsformen-behandlungsform) | [{{< icon name="download" pack="fas" >}} `Behandlungsform` ](daten/Behandlungsform.rda)
-| [Xmas](#xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
+| [Xmas](#xmas-xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
 
 ---
 
@@ -84,8 +84,6 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 ### Beschreibung
 
 Beim Datensatz stammt von Rubin (2020) und ist auf dem `Open Science Framework` zu finden. Er beschäftigt sich mit der Untersuchung von Variablen, die den Zusammenhang zwischen Achtsamkeit und Depression mithilfe einer Netzwerkanalyse untersuchen wollen.
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Netzwerkanalyse im Querschnitt](/lehre/klipps/querschnittliche-netzwerke/) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 
@@ -141,8 +139,6 @@ Im Datensatz liegen keine fehlenden Werte vor.
 ### Beschreibung
 Der Datensatz stammt aus einer Erhebung von Curran, Stice und Chassin (1997) in der der **Alkoholkonsum von Jugendlichen** längsschnittlich untersucht wurde. Dazu wurde der Selbstbericht über den eigenen Alkoholkonsum mit 14, 15 und 16 Jahren, sowie die Trinkgewohnheiten der Eltern und Peers erfragt. Zusätzlich wurden demografische Variablen erhoben.
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [ANOVA III](/post/anova3) und [Quiz 6](/post/bsc7-daten/#Quiz6) für PsyBsc7 verwendet.
-
 ### Datensatz laden
 ```{r}
 load(url("https://pandar.netlify.app/daten/alc.rda"))
@@ -196,8 +192,6 @@ Hier folgt nochmal eine genauere Aufstellung der simulierten Variablen.
 ### Beschreibung
 Der Datensatz ist eine Zusammenstellung aus mehreren Studien der Arbeits- und Organisationspsychologie-Abteilung der Goethe-Universität, in welchem Call-Center-Mitarbeiter:innen untersucht wurden. Der Datensatz enthält das Geschlecht der Proband:innen, sowie ausgewählte Messungen der Variablen Zeitdruck und Arbeitsorganisationale Probleme aus dem Instrument zur stressbezogenen Tätigkeitsanalyse (ISTA) von Semmer, Zapf und Dunckel (1999), Psychosomatische Beschwerden (auch "Befindlichkeit") aus der Psychosomatischen Beschwerdenliste von Mohr (1986), sowie Messungen zu Subskalen von Burnout: Emotionale Erschöpfung und Leistungserfüllung aus Maslachs Burnout-Inventar (Maslach & Jackson, 1986) in der deutschen Übersetzung von Büssing und Perrar (1992).
 
-Auf `pandaR` wird der Datensatz in den Tutorials [Pfadanalysen und Strukturgleichungsmodelle](/post/sem) und [Modelle für Gruppenvergleiche](/post/msa) für PsyMSc1 verwendet.
-
 ### Datensatz laden
 ```{r}
 load(url("https://pandar.netlify.app/daten/StressAtWork.rda"))
@@ -230,8 +224,6 @@ Im Datensatz liegen keine fehlenden Werte vor.
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
 Wir benutzen für unsere Interaktion mit `ggplot2` öffentlich zugängliche Daten aus verschiedenen Quellen, die dankenswerterweise von [Gapminder](https://www.gapminder.org/) zusammengetragen werden. Für diesen Abschnitt gucken wir uns dafür mal an, wie viele verschiedene Länder in die Bildung investieren - diese Daten stammen ursprünglich von der [Weltbank](https://data.worldbank.org).
-
-Auf `pandaR` wird der Datensatz für den [DigiGEBF Workshop ggplotting](/extras/#ggplotting) und in dem Tutorial [Grafiken mit ggplot2](/post/grafiken-mit-ggplot2) für PsyBSc7 verwendet.
 
 ### Datensatz laden
 ```{r}
@@ -279,8 +271,6 @@ Insgesamt liegen im Datensatz `r sum(is.na(edu_exp))` fehlende Werte vor. Folgen
 ### Beschreibung
 Der Datensatz stammt aus einer Studie von Bull, Schultze & Scheithauer (2009), in der die Effektivität eines Interventionsprogramms zur Bullyingprävention bei Jugendlichen untersucht wurde.
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Einführung in lavaan](/post/lavaan-intro) für PsyMSc1 verwendet.
-
 ### Datensatz laden
 ```{r}
 load(url("https://pandar.netlify.app/daten/fairplayer.rda"))
@@ -317,13 +307,11 @@ In dem Datensatz liegen `r sum(is.na(fairplayer))` fehlende Werte vor. Folgende 
 
 ---
 
-## Depressivität `Depression`
+## Depressivität (`Depression`)
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
 Beim Datensatz handelt es sich um fiktive Daten bezüglich Depressionswerten in Beziehung zu einigen weiteren Variablen.
-
-Auf `pandaR` wird der Datensatz in den Tutorials [Einleitung und Wiederholung KliPPs](/post/einleitung-klipps) und [Multiple Regression und Ausreißerdiagnostik](/post/regression-aussreisser-klipps) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 ```{r}
@@ -353,14 +341,13 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Die Big Five Persönlichkeitsdimensionen `Big5`
+## Die Big Five Persönlichkeitsdimensionen (`Big5`)
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
 Der Originaldatensatz ist ein Onlinedatensatz, wird seit 2012 erfasst und ist auf [openpsychometrics.org](https://openpsychometrics.org/_rawdata/) als *.zip* downloadbar. Bisher haben über **19700** Probanden aus der ganzen Welt teilgenommen. Zu jeder der fünf Facetten gibt es 10 Fragen. Der Fragebogen ist auf [personality-testing.info](http://personality-testing.info/tests/BIG5.php) einzusehen.
 Um das Ganze etwas übersichtlicher zu gestalten, betrachten wir einen gekürzten Datensatz. Im Datensatz *Big5_EFA.rda* befinden sich 15 Items aus dem Big-5 Persönlichkeitsfragebogen. Hier werden von den 10 Items pro Facette jeweils die ersten drei verwendet.
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Exploratorische Faktorenanalyse](/post/efa) für PsyMSc1 verwendet.
 
 ### Datensatz laden
 ```{r}
@@ -398,7 +385,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Distorted News
+## Distorted News (`OSF`)
 
 #### Beschreibung
 Im Datensatz sind die Daten aus der 3. Teilstudie von Firschlich et al. (2021) enthalten. Dabei wurde in einem experimentellen Design untersucht, welche Auswirkung neutrale vs. ideologisch geladene Berichterstattung auf Wahrnehmung und Glaubhaftigkeitseinschätzung eines Nachrichtenbeitrags über einen deutschen Politiker hat. Der experimentelle Effekt soll dabei durch verschiedene Einstellungen moderiert werden. Distales outcome ist die Einschätzung des Politikers, von dem der Artikel handelt.
@@ -458,8 +445,6 @@ Dieser Datensatz wurde zuvor mit einfacher Imputation ergänzt und enthält dahe
 ### Beschreibung
 Der Datensatz ist `R`-eigenen Paket `metafor` von Viechtbauer (2010) enthalten und stammt von einer Studie von López-López et al. (2019). Die Autor:innen haben die Effektivität der CBT (cognitive behavioural therapy [kognitive Verhaltenstherapie]) bei Depression untersucht und diese mit verschiedenen Kontrollbedingungen und unterschiedlichen Arten der CBT verglichen.
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/lehre/klipps/metaanalysen-mw/) für PsyMSc5a verwendet.
-
 ### Datensatz laden
 ```{r, results="hide"}
 library(metafor)
@@ -516,11 +501,9 @@ Im Datensatz liegen `r sum(is.na(F2F_CBT))` fehlende Werte vor. Auf folgenden Va
 
 ---
 
-## Einstellungsentscheidungen/Assessment {#assessment}
+## Einstellungsentscheidungen (`Assessment`)
 ### Beschreibung
 Bei dem Datensatz handelt es sich um ein simuliertes Datenbeispiel zu Einstellungsentscheidungen in jungen Start-Ups.
-
-Auf `pandaR` wird der Datensatz in den [Übungsaufgaben](/lehre/fue-i/msc1-daten) für PsyMSc1 verwendet.
 
 ### Datensatz laden
 ```{r}
@@ -551,8 +534,6 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
 Der Datensatz stammt von `Gapminder` und enthält Daten zur Entwicklung der Weltbevölkerung. Die Dokumentation des Datensatzes sowie seine Datenquellen sind hier einzusehen: [gapminder.org-Dokumentationen](https://www.gapminder.org/data/documentation/gd003/).
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Regression V](/post/nichtlineare-regression) und dem [Zusatzquiz für nichtlineare Regression](/post/bsc7-daten/#QuizZusatz) für PsyBsc7 verwendet.
 
 ### Datensatz laden
 ```{r}
@@ -641,14 +622,12 @@ Im Datensatz liegen `r sum(is.na(ecr))` fehlenden Werte vor. Fehlende Werte sind
 
 ---
 
-## Fragebogendaten aus dem ersten Semester `fb22`
+## Fragebogendaten aus dem ersten Semester (`fb22`)
 
 <!-- <details><summary>Datensatz</summary> -->
 
 ### Beschreibung
 Der Datensatz `fb22` besteht aus Daten, die von den Studierenden selbst in den ersten Wochen der Veranstaltung PsyBSc2 erhoben wurden. Hierbei wurden eine Reihe von Variablen via eines Fragebogens auf `formr.org` erfragt und anschließend zu einem Datensatz zusammengefügt. Die Daten basieren somit auf wahren - anonymisierten - Werten der Studierenden. Der Fragebogen erfasst Daten zur Prokrastinationstendenz, Naturverbundenheit, Persönlichkeit (gemessen an den Big5), dem Studium sowie demografische Daten.
-
-Auf `pandaR` wird die aktuelleste Version dieses Datensatzes in fast allen Tutorials von [PsyBsc2](/lehre/#bsc2) verwendet. 
 
 ### Datensatz laden
 ```{r}
@@ -714,14 +693,12 @@ Insgesamt liegen im Datensatz `r sum(is.na(fb22))` fehlende Werte vor. Folgende 
 
 ---
 
-## Fragebogendaten aus dem ersten Semester `fb23`
+## Fragebogendaten aus dem ersten Semester (`fb23`)
 
 <!-- <details><summary>Datensatz</summary> -->
 
 ### Beschreibung
 Der Datensatz `fb23` besteht aus Daten, die von den Studierenden selbst in den ersten Wochen der Veranstaltung PsyBSc2 erhoben wurden. Hierbei wurden eine Reihe von Variablen via eines Fragebogens auf `formr.org` erfragt und anschließend zu einem Datensatz zusammengefügt. Die Daten basieren somit auf wahren - anonymisierten - Werten der Studierenden. Der Fragebogen erfasst Daten zur aktuellen Stimmung, Persönlichkeit (gemessen an den Big5), dem Studium sowie demografische Daten.
-
-Auf `pandaR` wird die aktuelleste Version dieses Datensatzes in fast allen Tutorials von [PsyBsc2](/lehre/#bsc2) verwendet. 
 
 ### Datensatz laden
 ```{r}
@@ -799,8 +776,6 @@ Insgesamt liegen im Datensatz `r sum(is.na(fb23))` fehlende Werte vor. Folgende 
 ### Beschreibung
 Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Untersuchung von [Jing, Page-Gould & Iankilevitch (2019)](https://osf.io/kabxn), die den Effekt einer Drogenabhängigkeit auf das individuelle Depressionslevel einer Person untersucht haben.
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Logistische Regression](/post/logistische-regression-klipps) für PsyMSc5a verwendet.
-
 ### Datensatz laden
 
 ```{r}
@@ -837,8 +812,6 @@ In dem Datensatz liegen `r sum(is.na(osf))` fehlende Werte vor. Auf folgenden de
 Der Datensatz stammt aus dem `R`-eigenen Paket `metafor` von Viechtbauer (2010) und beinhaltet Variablen, die im Zusammenhang mit Gewissenhaftigkeit und der Einnahme von Medikamenten stehen. Es handelt sich hierbei um eine Meta-Analyse mehrerer Studien:
 
 Molloy, G. J., O'Carroll, R. E., & Ferguson, E. (2014). Conscientiousness and medication adherence: A meta-analysis. Annals of Behavioral Medicine, 47(1), 92–101. [https://doi.org/10.1007/s12160-013-9524-4](https://doi.org/10.1007/s12160-013-9524-4)
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Metaanalysen in R](/lehre/klipps/metaanalysen-cor/) und [Block 4](/post/msc5a-daten/#Block4) der Quizze für PsyMSc5a verwendet.
 
 ### Datensatz laden
 ```{r, results="hide"}
@@ -909,8 +882,6 @@ Im Datensatz liegen `r sum(is.na(data_combined))` fehlende Werte vor. Auf folgen
 ### Beschreibung
 Der Beispieldatensatz enthält simulierte Daten zu unbekannten Variablen. Eine abhängige und sechs unabhängige Variablen liegen vor.
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Hauptkomponentenanalyse](/post/pca) für PsyMSc1 verwendet.
-
 ### Datensatz laden
 ```{r}
 load(url("https://pandar.netlify.app/daten/PCA.RData"))
@@ -943,9 +914,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
-Der Beispieldatensatz enthält Daten zu ... .
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Hauptkomponentenanalyse](/lehre/simulation/selektionseffekte) in Weitere Lehrinhalte (ehemals Forschungsmethoden & Evaluation I) verwendet.
+Keine Ahnung, zu welcher Thematik dieser Beispieldatensatz Daten enthält. Falls irgendwann jemand ambitioniert ist, das herauszufinden, sollte sich diese Person wahrscheinlich an Julian Irmer wenden, der den Datensatz in seinem Tutorial zu Selektionseffekten (/lehre/simulation/selektionseffekte) erwähnt hat. 
 
 ### Datensatz laden
 ```{r, eval = F}
@@ -976,8 +945,6 @@ Im Datensatz liegen ...
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
 Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Untersuchung von [Schaeuffele et al. (2020)](https://psyarxiv.com/528tw/), die den Effekt des Unified Protocol (UP) als Internetintervention für bestimmte psychische Störungen untersucht haben. In der Untersuchung wurden psychopathologische Symptome und therapiebezogene Variablen über einen Zeitraum von 6 Monaten erhoben.
-
-Auf `pandaR` wird der Datensatz in den Tutorials [ANOVA vs. Regression](/post/anova-vs-regression) und [ANCOVA und moderierte Regression](/post/ancova-und-moderierte-regression) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 
@@ -1013,13 +980,11 @@ In dem Datensatz liegen `r sum(is.na(osf))` fehlende Werte vor. Auf folgenden Va
 
 ---
 
-## Interozeptive Aufmerksamkeit und Genauigkeit `body`
+## Interozeptive Aufmerksamkeit und Genauigkeit (`body`)
 
 ### Beschreibung
 
 Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Untersuchung von [Campos, Barbosa Rocha und Barbosa (2022)](https://osf.io/hmtz9), in der es um die Abgrenzung von interozeptiver (die Wahrnehmung der vegetativen Prozesse des eigenen Körpers) Aufmerksamkeit und Genauigkeit geht.
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Regression mit nominalskalierten Prädiktoren](/post/nominalskalierte-praediktoren) für PsyBSc7 verwendet.
 
 ### Datensatz laden
 
@@ -1079,13 +1044,11 @@ In dem Datensatz liegen `r sum(is.na(body))` fehlende Werte vor. Diese sind alle
 
 ---
 
-## Items der Generic Conspiracist Beliefs Scale (`conspiracy`)
+## Items der Generic Conspiracist Beliefs Scale (`conspiracy_cfa`)
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
 Die Daten stammen aus der Erhebung zur Validierung der *Generic Conspiracist Beliefs Scale* (GCBS; Brotherton, French, & Pickering, 2013). Die Daten finden Sie öffentlich zugänglich auf der [Open Psychometrics Website](http://openpsychometrics.org/_rawdata/GCBS.zip). Der Fragebogen besteht aus insgesamt 15 Aussagen, die die Proband:innen jeweils von 1 ("definitely not true") bis 5 ("definitely true") hinsichtlich ihres Wahrheitsgehalts einschätzen sollen. 
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Konfirmatorische Faktorenanalyse](/post/cfa) für PsyMSc1 verwendet.
 
 ### Datensatz laden
 ```{r, eval=FALSE}
@@ -1145,8 +1108,6 @@ Im Datensatz liegen 186 fehlende Werte vor. Die folgenden Variablen enthalten ke
 ### Beschreibung
 Der Datensatz stammt aus [Eid, Gollwitzer & Schmitt: "Statistik und Forschungsmethoden" (4. Auflage, S.370)](https://ubffm.hds.hebis.de/Record/HEB366849158). Es wurde die Kooperationsbereitschaft von verschiedenen Geschwisterteilen innerhalb einer Familie erhoben. Die Paare bestehen hierbei aus beiden Geschwisterteilen, von denen jeweils die Kooperationsbereitschaft gemessen wurde.
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Tests für abhängige Stichproben](/post/gruppenvergleiche-abhaengig) für PsyBsc2 verwendet.
-
 ### Datensatz laden
 ```{r}
 dataKooperation <- data.frame(Paar = 1:10, Juenger = c(0.49,0.25,0.51,0.55,0.35,0.54,0.24,0.49,0.38,0.50), Aelter = c(0.4,0.25,0.31,0.44,0.25,0.33,0.26,0.38,0.23,0.35))
@@ -1171,12 +1132,10 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Kulturelle Unterschiede in Korruptionsbestrafung `punish`
+## Kulturelle Unterschiede in Korruptionsbestrafung (`punish`)
 
 ### Beschreibung
 Die Daten stammen aus einer [kuturellen Unterschieden in der Einschätzung von verschiedenen Aspekten der Bestechung](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509){target="_blank"}. Die hier genutzten Daten sind ein Auszug aus den im [Artikel von Hong-Zhi et al., 2021](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509) für Studie 1 genutzten Daten.
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Regression mit nominalskalierten Prädiktoren](/post/nominalskalierte-praediktoren) für PsyBSc7 verwendet.
 
 
 ### Datensatz laden
@@ -1240,7 +1199,6 @@ Im Datensatz liegen keine fehlenden Werte vor.
 ### Beschreibung
 Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichprobe der PISA-Erhebung in Deutschland 2009. Im Datensatz sind viele Variablen der pädagogischen Forschung enthalten, die im Folgenden erklärt werden.
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Regression IV: quadratische und moderierte Regression](/post/quadratische-und-moderierte-regression), [Quiz 2](/post/bsc7-daten/#Quiz2) und [Quiz 3](/post/bsc7-daten/#Quiz3) für PsyBSc7 verwendet.
 
 ### Datensatz laden
 
@@ -1284,8 +1242,6 @@ Im Datensatz liegen keine fehlenden Werte vor.
 ### Beschreibung
 Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"](https://openpsychometrics.org/_rawdata/), einer Online-Plattform, die eine Sammlung an Daten aus verschiedensten Persönlichkeitstests zur Verfügung stellt. Wir haben bereits eine kleine Aufbereitung der Daten durchgeführt, damit wir leichter in die Analysen starten können. Auf der genannten Seite kann man Fragebögen selbst ausfüllen, und so zum Datenpool beitragen. Der hier verwendete Datensatz enthält Items aus einem Machiavellismus-Fragebogen, den Sie bei Interesse [hier](https://openpsychometrics.org/tests/MACH-IV/) selbst ausfüllen können. 
 Der Datensatz erhält viele Angaben zur Persönlichkeit und demografischen Daten. Kern ist aber der 20 Items umfassende Machiavellismusfragebogen von Christie und Geis (1970) und daraus ableitbare 4-faktorielle Struktur des Konzepts (Corral & Calvete, 2000). Die Skalenwerte dieser vier Faktoren haben wir bereits im Datensatz angelegt.
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Wiederholung von Grundlagen in R](/post/wiederholung-grundlagen) und [Quiz 1](/post/bsc7-daten/#Quiz1) für PsyBSc7 verwendet.
 
 ### Datensatz laden
 ```{r}
@@ -1333,8 +1289,6 @@ Der Datensatz stammt aus einer Erhebung von Epskamp et al. (2018a), welche auf d
 
 Epskamp, S., van Borkulo, C. D., van der Veen, D. C., Servaas, M., Isvoranu, A.-M., Riese, H., & Cramer, A. O. J. (2020, September 21). Personalized Network Modeling in Psychopathology: The Importance of Contemporaneous and Temporal Connections. [https://doi.org/10.17605/OSF.IO/C8WJZ](https://doi.org/10.17605/OSF.IO/C8WJZ)
 
-Auf `pandaR` wird der Datensatz in dem Tutorial [Dynamische Netzwerkanalyse](/lehre/klipps/dynamische-netzwerke/) für PsyMSc5a verwendet.
-
 ### Datensatz laden
 
 ```{r}
@@ -1372,8 +1326,6 @@ In dem Datensatz liegen `r sum(is.na(data))` fehlende Werte vor. Folgende Variab
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
 Beim Datensatz handelt es sich um eine Erhebung, die 2017 an der Freien Universität Berlin durchgeführt wurde. Die Items stammten dabei aus dem Mehrdimensionalen Befindlichkeitsfragebogen von Steyer et al. (1997). In diesem Fragebogen werden Adjektive zur Beschreibung der aktuellen Stimmung genutzt, um die drei Dimensionen der Stimmung - Gut vs. Schlecht, Wach vs. Müde und Ruhig vs. Unruhig - zu erheben.
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Loops und Funktionen](/post/loops-und-funktionen) für PsyBsc7 verwendet.
 
 ### Datensatz laden
 
@@ -1418,7 +1370,6 @@ Beim Datensatz handelt es sich um längsschnittliche Daten bezüglich psychische
 
 Fried, E. I., Papanikolaou, F., & Epskamp, S. (2021). Mental Health and Social Contact During the COVID-19 Pandemic: An Ecological Momentary Assessment Study. _Clinical Psychological Science_. [https://doi.org/10.1177/21677026211017839](https://doi.org/10.1177/21677026211017839)
  
-Auf `pandaR` wird der Datensatz [Block 5b](/post/msc5a-daten/#Block5b) der Quizze für PsyMSc5a verwendet.
 
 ### Datensatz laden
 
@@ -1472,8 +1423,6 @@ Im Datensatz liegen 42 fehlende Werte vor. Die folgenden Variablen enthalten kei
 ### Beschreibung
 Der Datensatz behandelt die Naturverbundenheit, welche anhand von 6 Items gemessen wurde. Weiterhin sind Informationen hinsichtlich des Wohnortes vorhanden.
 
-Auf `pandaR` wird der Datensatz in dem [Quiz 5](/post/bsc7-daten/#Quiz5) für PsyBsc7 verwendet.
-
 ### Datensatz laden
 
 ```{r}
@@ -1498,11 +1447,9 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Nerdiness {#nerd}
+## Nerdiness (`NerdData`)
 ### Beschreibung
 Bei dem Datensatz handelt es sich eine gekürzte Version von Daten zur "Nerdy Personality Attributes Scale", die auf der [Open Psychometrics Website](https://openpsychometrics.org/) erfasst wurden
-
-Auf `pandaR` wird der Datensatz in den [Übungsaufgaben](/lehre/fue-i/msc1-daten) für PsyMSc1 verwendet.
 
 ### Datensatz laden
 ```{r}
@@ -1577,8 +1524,6 @@ Blanchard, M. A., Roskam, I., Mikolajczak, M., & Heeren, A. (2021). A network ap
 
 In der Untersuchung wurden charakteristische Merkmale von *Parental Burnout* untersucht und anhand einer Netzwerkanalyse ihre Zusammenhänge untersucht.
 
-Auf `pandaR` wird der Datensatz in [Block 5b](/post/msc5a-daten/#Block5b) der Quizze für PsyMSc5a verwendet.
-
 ### Datensatz laden
 
 ```{r}
@@ -1613,9 +1558,8 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
-Die Daten stammen aus einer [Studie zum psychischen Wohlbefinden von Individuen während des pandemie-bedingten Lockdowns in Frankreich](https://www.frontiersin.org/articles/10.3389/fpsyg.2020.590276/full){target="_blank"}. Es handelt sich um hierarchische Daten mit Messzeitpunkten auf Ebene 1 und Individuen auf Ebene 2.
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Hierarchische Regression](/post/hlm) sowie in [Block 3](/post/msc5a-daten/#Block3) der Quizze für PsyMSc5a verwendet.
+Die Daten stammen aus einer [Studie zum psychischen Wohlbefinden von Individuen während des pandemie-bedingten Lockdowns in Frankreich](https://www.frontiersin.org/articles/10.3389/fpsyg.2020.590276/full). 
+Es handelt sich um hierarchische Daten mit Messzeitpunkten auf Ebene 1 und Individuen auf Ebene 2.
 
 ### Datensatz laden
 ```{r, results='hide'}
@@ -1691,14 +1635,12 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## Quasi-Experimentelle Therapiestudie `CBTdata`
+## Quasi-Experimentelle Therapiestudie (`CBTdata`)
 
 <!-- <details><summary>Datensatz</summary> -->
 
 ### Beschreibung
 Beim Datensatz handelt es sich um ein fiktives Datenbeispiel, bei dem Patient:innen, die an einer Depression oder einer Angststörung leiden, entweder mit einer kognitiven Verhaltenstherapie (CBT) behandelt oder in einer Wartekontrollgruppe belassen wurden. Eine zufällige Zuordnung war nicht vollständig möglich, da die Zuordnung von überweisenden Hausarzt-Praxen der Patient:innen mit beeinflusst werden konnte (z.B. durch Geltendmachung einer besonderen Dringlichkeit der Therapie).
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Schätzung von Kausaleffekten 1](/lehre/klipps/kausaleffekte1) und [Schätzung von Kausaleffekten 2](/lehre/klipps/kausaleffekte2) für PsyMSc5a verwendet.
 
 ### Datensatz laden
 ```{r}
@@ -1728,12 +1670,12 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## `Schulleistungen`
+## Schulleistungen (`Schulleistungen`)
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
 
-Auf `pandaR` wird der Datensatz in den Tutorials [Partial- & Semipartialkorrelation](/post/partial), [Regressionsanalyse I](/post/reg1), [Regressionsanalyse II](/post/reg2) und [Regressionsanalyse III](/post/reg3) für PsyBSc7 sowie in den Tutorials [Einleitung und Wiederholung](/post/einleitung-und-wiederholung) und [Regression und Ausreißerdiagnostik](/post/regression-und-ausreisserdiagnostik) für PsyMSc1 verwendet.
+Der Datensatz erhält die Ergebnisse von 100 Schüler:innen, die einen Lese- (`reading`) und einen Mathematiktest (`math`) sowie einen allgemeinen Intelligenztest absolviert haben. Der Datensatz enthält zusätzlich die Variable `female` (0 = männlich, 1 = weiblich), die das Geschlecht der Schüler:innen angibt.  
 
 ### Datensatz laden
 ```{r}
@@ -1768,8 +1710,6 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 ### Beschreibung
 Die Daten stammen aus der Erhebung zur Validierung der *Generic Conspiracist Beliefs Scale* (GCBS; Brotherton, French, & Pickering, 2013). Die Daten finden Sie öffentlich zugänglich auf der [Open Psychometrics Website](http://openpsychometrics.org/_rawdata/GCBS.zip). Der Fragebogen besteht aus insgesamt 15 Aussagen, die die Proband:innen jeweils von 1 ("definitely not true") bis 5 ("definitely true") hinsichtlich ihres Wahrheitsgehalts einschätzen sollen. Bei dieser Version des Datensatzes wurden die verschiedenen Items bereits zu Skalenwerten zusammengerechnet.
 
-Auf `pandaR` wird der Datensatz in den Tutorials [ANOVA I](/post/anova1) und [ANOVA II](/post/anova2) für PsyBSc7 verwendet.
-
 ### Datensatz laden
 ```{r}
 load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
@@ -1797,15 +1737,11 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
-
-
 ---
 
-## Students in Classes {#studentsinclasses}
+## Students in Classes (`StudentsInClasses`)
 ### Beschreibung
 Bei dem Datensatz handelt es sich um ein fiktives Datenbeispiel mit Multilevel-Daten.
-
-Auf `pandaR` wird der Datensatz in den [Übungsaufgaben](/lehre/fue-i/msc1-daten) für PsyMSc1 verwendet, sowie in der Hierarchischen Regression in PsyMsc1.
 
 ### Datensatz laden
 ```{r}
@@ -1843,8 +1779,6 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 ### Beschreibung
 Beim Datensatz handelt es sich um ein fiktives Datenbeispiel mit simulierten Daten, in welchem der Therapieerfolg auf mehreren abhängigen Variablen untersucht werden sollen.
 
-Auf `pandaR` wird der Datensatz in den Tutorials [Multivariate Varianzanalyse](/post/manova) und [Diskriminanzanalyse](/post/diskriminanzanalyse) für PsyMSc1 verwendet.
-
 ### Datensatz laden
 ```{r}
 load(url("https://pandar.netlify.app/daten/Therapy.rda"))
@@ -1871,13 +1805,11 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 
 ---
 
-## `Titanic`
+## Titanic (`Titanic`)
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
 Bei dem Datensatz handelt es sich um ein reales Beispiel des Titanicunglücks, in welchem demografische Variablen der Personen erfasst wurden, die sich 1912 an Bord der Titanic befanden. Er ist öffentlich zugänglich auf [Open-Daten-Soft](https://public.opendatasoft.com) zu finden. Der vollständige Datensatz kann [hier](https://public.opendatasoft.com/explore/dataset/titanic-passengers) angesehen werden.
-
-Auf `pandaR` wird der Datensatz in dem Tutorial [Logistische Regressionsanalyse](/post/logistische-regression) für PsyMSc1 verwendet.
 
 ### Datensatz laden
 ```{r}
@@ -1909,8 +1841,6 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 ### Beschreibung
 Die Daten stammen aus einer echten Untersuchung, deren Datensatz [hier](https://osf.io/a9vun/) im `Open Science Framework` abgelegt ist. In dem Datensatz wurde bspw. erhoben, was für potenziell traumatischen Erlebnissen eine Person ausgesetzt war und zu welchem Grad mittels der Live Event Checklist (LEC). Weiterhin wurden die Depressionswerte anhand des Becks-Depression-Inventar (BDI) und die Anxiety-Werte durch die Zung Self-Rating Anxiety Scale (SAS) erhoben. Für unsere Berechnungen brauchen wir nur einen Ausschnitt der Vielzahl an Variablen. Diesen extrahieren wir aus dem originalen Datensatz und erstellen damit einen neuen. Da das Processing in diesem Fall sehr komplex ist, haben wir das für Sie übernommen.
 
-Auf `pandaR` wird der Datensatz in [Block 2](/post/msc5a-daten/#Block2) der Quizze für PsyMSc5a verwendet.
-
 ### Datensatz laden
 ```{r}
 source(url("https://pandar.netlify.app/daten/Data_Processing_Quiz1.R"))
@@ -1940,17 +1870,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
-
-| [Einstellungsentscheidungen](#assessment) | [{{< icon name="download" pack="fas" >}} `Assessment` ](/daten/Assessment.rda) |
-| [Nerdiness](#nerd) | [{{< icon name="download" pack="fas" >}} `NerdData` ](/daten/NerdData.rda) |
-| [Students in Classes](#studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
-| [Xmas](#xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
-
-
-
 ---
 
-## Vegan
+## Vegan (`vegan`)
 
 Im Datensatz ist ein Ausschnitt aus den Daten zu einer Validierungsstudie des "Vegetarian Eating Motives Inventory Plus (VEMI+)" von Hopwoods und Stahlmann (2024) enthalten. Die hier getroffene Auswahl beschränkt die Daten auf sechs Dimensionen der Skala, ein paar demografische Angaben und das selbst eingeschätzte Commitment zur veganen Ernährung (die Daten sind ausschließlich von Personen, die sich vegan ernähren). Mehr Informationen finden sich im dazugehörigen [OSF Repo](https://osf.io/ga5rt/).
 
@@ -1991,14 +1913,12 @@ In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und
 
 ---
 
-## Vergleich von Behandlungsformen `Behandlungsform`
+## Vergleich von Behandlungsformen (`Behandlungsform`)
 
 <!-- <details><summary>Datensatz</summary> -->
 
 ### Beschreibung
 Der Datensatz enthält Ausprägungen von Patient:innen auf verschiedenen psychotherapeutischen Variablen sowie demografische Informationen. Dabei gibt es zwei kategoriale Variablen: Auf Geschlecht gibt es hier die Ausprägungen männlich und weiblich, während die Therapieform zwischen Kontrollgruppe, KVT und einer Kombination auf KVT und Blended Care unterscheidet. Alle anderen Variablen können als intervallskaliert angenommen werden.
-
-Auf `pandaR` wird der Datensatz in dem [Quiz 5](/post/bsc7-daten/#Quiz5) für PsyBsc7 und in [Block 1](/post/msc5a-daten/#Block1) der Quizze für PsyMSc5a verwendet.
 
 ### Datensatz laden
 ```{r}
@@ -2025,15 +1945,12 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
-
-
 ---
 
-## Xmas {#xmas}
+## Xmas (`Xmas`)
+
 ### Beschreibung
 Bis zum 25.11.2020 konnten Studierende des Masterkurses MSc1 zu folgenden Weihnachtssongs einschätzen, wie gut diese Ihnen gefallen sowie Auskunft darüber geben, welche Aspekte der Weihnachtszeit ihnen besonders am Herzen liegen. 
-
-Auf `pandaR` wird der Datensatz in den [Übungsaufgaben](/lehre/fue-i/msc1-daten) für PsyMSc1 verwendet.
 
 ### Datensatz laden
 ```{r}
