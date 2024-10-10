@@ -90,11 +90,17 @@ main:
     parent: "Workshops"
     weight: 401
 
+  - name: "RefresheR"
+    pre: "<i class='fas fa-champagne-glasses'></i>&ensp;"
+    url: '/workshops/main#refresher'
+    parent: "Workshops"
+    weight: 402
+
   - name: "KiJu"
     pre: "<i class='fas fa-baby'></i>&ensp;"
     url: '/workshops/main#kiju'
     parent: "Workshops"
-    weight: 402
+    weight: 403
 
   - name: "Extras"
     pre: "<i class='fas fa-rocket'></i>&ensp;"
