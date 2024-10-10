@@ -55,7 +55,7 @@ source('https://pandar.netlify.app/daten/Data_Processing_coercion.R')
 ```
 
 ```{r, echo = FALSE, purl = FALSE}
-load('/home/martin/projects/klipps/coercion.rda')
+load('/home/martin/projects/klipps/datasets/coercion.rda')
 ```
 
 Die abhängige Variable, die in der Studie im Zentrum steht ist `coerce`, ein Skalenwert aus der "Tactics to Obtain Sex Scale" (Camilleri et al., 2009), welcher abfragt, wie wahrscheinlich es ist, dass man bestimmte Verhaltensweisen an den Tag legen würde, wenn die Person von Interesse deutlich gemacht hat, dass sie heute keinen Sex möchte. Dazu gehören Aussagen wie z.B. "Try to make them feel bad about not having sex" oder "Provide them with alcohol". Mehr Details zu den restlichen Variablen finden Sie in der...
