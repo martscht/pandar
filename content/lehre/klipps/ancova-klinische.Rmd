@@ -1,9 +1,9 @@
 ---
-title: ANCOVA und moderierte Regression
+title: ANCOVA und kausale Effektschätzer
 date: '2024-09-26'
 slug: ancova-klinische
 categories: ["KliPPs"]
-tags: ["Regression", "ANCOVA", "Moderation", "Interaktion"]
+tags: ["Regression", "ANCOVA", "Kausalität", "Effektschätzer"]
 subtitle: ''
 summary: ''
 authors: [schultze, nehler, irmer]
