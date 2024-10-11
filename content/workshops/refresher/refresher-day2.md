@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [stephan, gruetzner, vogler] 
 weight: 2
-lastmod: '2024-10-10'
+lastmod: '2024-10-11'
 featured: no
 banner:
   image: "/header/rice-field.jpg"
@@ -717,7 +717,20 @@ Letztlich wollen wir uns nur kurz dem Effektstärkemaß des t-Tests widmen, Cohe
 
 ``` r
 library(effsize)
+```
 
+```
+## 
+## Attaching package: 'effsize'
+```
+
+```
+## The following object is masked from 'package:psych':
+## 
+##     cohen.d
+```
+
+``` r
 effsize::cohen.d(distort$cm,
                  f = NA,
                  mu = 5.4,
@@ -1007,5 +1020,931 @@ effsize::cohen.d(fb23$gs_post, fb23$gs_pre, # Messzeitpunkte
 ##      lower      upper 
 ## -0.0340734  0.2930646
 ```
+
+***
+
+## Regression {#reg}
+
+### Vorbereitende Schritte {#prep}
+
+Den Datensatz `fb23` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+
+
+``` r
+#### Was bisher geschah: ----
+
+# Daten laden
+load(url('https://pandar.netlify.app/daten/fb23.rda'))  
+
+# Nominalskalierte Variablen in Faktoren verwandeln
+fb23$hand_factor <- factor(fb23$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
+fb23$fach <- factor(fb23$fach,
+                    levels = 1:5,
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
+fb23$ziel <- factor(fb23$ziel,
+                        levels = 1:4,
+                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
+
+fb23$wohnen <- factor(fb23$wohnen, 
+                      levels = 1:4, 
+                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+
+fb23$fach_klin <- factor(as.numeric(fb23$fach == "Klinische"),
+                         levels = 0:1,
+                         labels = c("nicht klinisch", "klinisch"))
+
+fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+
+fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
+
+
+# Rekodierung invertierter Items
+fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
+fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
+fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
+fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
+fb23$mdbf5_pre_r <- -1 * (fb23$mdbf5_pre - 4 - 1)
+fb23$mdbf7_pre_r <- -1 * (fb23$mdbf7_pre - 4 - 1)
+
+
+# Berechnung von Skalenwerten
+fb23$wm_pre  <- fb23[, c('mdbf1_pre', 'mdbf5_pre_r', 
+                        'mdbf7_pre_r', 'mdbf10_pre')] |> rowMeans()
+fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
+                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
+fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
+                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+
+# z-Standardisierung
+fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
+```
+
+
+***
+
+### Einfache lineare Regression
+
+#### Modellschätzung {#Modell}
+
+Die Modellgleichung für die lineare Regression lautet: $y_m = b_0 + b_1 x_m + e_m$
+
+In R gibt es eine interne Schreibweise, die sehr eng an diese Form der Notation angelehnt ist. Mit `?formula` können Sie sich detailliert ansehen, welche Modelle in welcher Weise mit dieser Notation dargestellt werden können. R verwendet diese Notation für (beinahe) alle Modelle, sodass es sich lohnt, sich mit dieser Schreibweise vertraut zu machen. Die Kernelemente sind im Fall der linearen einfachen Regression:
+
+
+``` r
+y ~ 1 + x
+```
+
+Diese Notation enthält fünf Elemente:
+
+*  `y`: die abhängige Variable
+*  `~`: die Notation für "regrediert auf" oder "vorhergesagt durch"
+*  `1`: die Konstante 1
+*  `+`: eine additive Verknüpfung der Elemente auf der rechten Seite der Gleichung
+*  `x`: eine unabhängige Variable
+
+Die Notation beschreibt also die Aussage "$y$ wird regrediert auf die Konstante $1$ und die Variable $x$". Die zu schätzenden Parameter $b_0$ und $b_1$ werden in dieser Notation nicht erwähnt, weil sie uns unbekannt sind.
+
+R geht generell davon aus, dass immer auch der Achsenabschnitt $b_0$ geschätzt werden soll, sodass `y ~ x` ausreichend ist, um eine Regression mit einem Achsenabschnitt zu beschreiben. Wenn das Intercept unterdrückt werden soll, muss das mit `y ~ 0 + x` explizit gemacht werden.
+
+
+Um nun eine einfache Regression an unserem Datensatz durchführen zu können, betrachten wir folgende Fragestellung:
+
+* Zeigt die Extraversion (*extra*) aus dem Selbstbericht einen linearen Zusammenhang mit der selbst eingeschätzten "Nerdiness" (*nerd*)?
+
+Für gewöhnlich würden Sie nun zuerst einmal die Voraussetzungen überprüfen. Diese werden wir in der kommenden [Sitzung](/lehre/statistik-i/multiple-reg/) ausführlich besprechen. Jetzt schauen wir uns die Daten erst einmal nur an. Dies tun wir mithilfe eines Scatterplots. Wenn wir darin den beobachteten lokalen Zusammenhang abbilden, können wir auch schon visuell beurteilen, ob der Zusammenhang denn auch linear ist.
+
+
+
+``` r
+plot(fb23$extra, fb23$nerd, xlab = "Extraversion", ylab = "Nerdiness", 
+     main = "Zusammenhang zwischen Extraversion und Nerdiness", xlim = c(0, 6), ylim = c(1, 5), pch = 19)
+lines(loess.smooth(fb23$extra, fb23$nerd), col = 'blue')    #beobachteter, lokaler Zusammenhang
+```
+
+![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
+ 
+ * `pch` verändert die Darstellung der Datenpunkte
+ * `xlim` und `ylim` veränderen die X- bzw. Y-Achse 
+ * mit `cex` könnte man noch die Größe der Datenpunkte anpassen
+
+<b>Interpretation</b>: Eine lineare Beziehung scheint den Zusammenhang aus `extra` und `nerd` akkurat zu beschreiben. Ein bspw. u-förmiger Zusammenhang ist nicht zu erkennen.
+
+
+In unserem Beispiel ist $x$ die Extraversion (`extra`) und $y$ die Nerdiness (`nerd`). Um das Modell zu schätzen, wird dann der `lm()` (für *linear model*) Befehl genutzt:
+
+
+``` r
+lm(formula = nerd ~ 1 + extra, data = fb23)
+```
+
+```
+## 
+## Call:
+## lm(formula = nerd ~ 1 + extra, data = fb23)
+## 
+## Coefficients:
+## (Intercept)        extra  
+##      3.7199      -0.2103
+```
+
+So werden die Koeffizienten direkt ausgegeben. Wenn wir mit dem Modell jedoch weitere Analysen durchführen möchten, müssen wir es einem Objekt im Environment zuweisen. Dafür legen wir es im Objekt `lin_mod` (steht für *lineares Modell*) ab. Hier in verkürzter Schreibweise (wir lassen die 1 als Repräsentant für den Achsenabschnitt weg):
+
+
+
+``` r
+lin_mod <- lm(nerd ~ extra, fb23)                  #Modell erstellen und Ergebnisse im Objekt lin_mod ablegen
+```
+
+Aus diesem Objekt können mit `coef()` oder auch `lin_mod$coefficients` die geschätzten Koeffizienten extrahiert werden:
+
+
+``` r
+coef(lin_mod) 
+```
+
+```
+## (Intercept)       extra 
+##   3.7198838  -0.2103006
+```
+
+``` r
+lin_mod$coefficients
+```
+
+```
+## (Intercept)       extra 
+##   3.7198838  -0.2103006
+```
+
+Falls man sich unsicher ist, wie dieses Modell zustande gekommen ist, kann man dies ausdrücklich erfragen:
+
+
+``` r
+formula(lin_mod)
+```
+
+```
+## nerd ~ extra
+```
+
+#### Streu-Punktdiagramm mit Regressionsgerade {#Streudiagramm}
+
+Das Streudiagramm haben wir zu Beginn schon abbilden lassen. Hier kann nun zusätzlich noch der geschätzte Zusammenhang zwischen den beiden Variablen als Regressiongerade eingefügt werden. Hierzu wird der Befehl `plot()` durch `abline()` ergänzt:
+
+
+``` r
+# Scatterplot zuvor im Skript beschrieben
+plot(fb23$extra, fb23$nerd, 
+  xlim = c(0, 6), ylim = c(1, 5), pch = 19)
+lines(loess.smooth(fb23$extra, fb23$nerd), col = 'blue')    #beobachteter, lokaler Zusammenhang
+# Ergebnisse der Regression als Gerade aufnehmen
+abline(lin_mod, col = 'red')
+```
+
+![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
+
+
+In `lin_mod$coefficients` stehen die Regressionskoeffizienten $b_0$ unter `(Intercept)` zur Konstanten gehörend und $b_1$ unter dem Namen der Variable, die wir als Prädiktor nutzen. In diesem Fall also `extra`. Die Regressionsgleichung hat daher die folgende Gestalt: $y_i = 3.72 + -0.21 \cdot x + e_i$. 
+
+Regressionsgleichung (unstandardisiert): 
+
+$$\hat{y} = b_0 + b_1*x_m$$
+$$\hat{y} = 3.72 + (-0.21)*x_m$$
+
+**Interpretation der Regressionskoeffizienten:**  
+
+* *$b_0$ (Achsenabschnitt)*: beträgt die Extraversion 0, wird eine Nerdiness von 3.72 vorhergesagt  
+* *$b_1$ (Regressionsgewicht)*: mit jeder Steigerung der Extraversion um 1 Einheit wird eine um 0.21 Einheiten niedrigere (!) Nerdiness vorhergesagt
+
+
+#### Residuen Werte
+
+Mit dem Befehl `lm()` werden auch automatisch immer die Residuen ($e_m$) geschätzt, die mit `residuals()` (oder alternativ: `resid()`) abgefragt werden können. Die Residuen betragen die Differenzen zu den vorhergesagten Werten bzw. zur Regressionsgeraden.
+
+
+``` r
+residuals(lin_mod)
+```
+
+```
+##            1            2            3            4            5 
+##  1.182835060 -0.088981917 -0.545347963 -0.255648584  0.954652037 
+##            7            8            9           10           11 
+##  0.559802347  0.182835060  0.349501727  0.472534439 -0.088981917 
+##           12           13           14           15           16 
+##  0.893135681 -0.606864319  0.244351416 -0.176249825  0.472534439 
+##           17           18           19           20           21 
+## -0.694132227  0.744351416  0.682835060  0.762233819  0.349501727 
+##           22           23           24           25           26 
+## -0.360798894  0.139201106 -0.545347963  0.016168393  1.911018083 
+##           27           28           29           30           31 
+## -0.088981917  0.121318704  0.411018083  0.121318704 -0.088981917 
+##           32           33           34           35           36 
+##  0.244351416 -0.273530986 -0.194132227  0.164952658  0.472534439 
+##           37           38           39           40           41 
+## -0.465949204 -0.299282537 -0.878681296 -0.001714009  0.393135681 
+##           42           43           44           45           46 
+##  0.639201106 -0.045347963  0.577684750  0.411018083  0.331619324 
+##           47           48           49           50           51 
+## -0.712014630 -0.799282537  1.139201106 -0.045347963  0.059802347 
+##           52           53           54           55           56 
+##  0.305867773 -0.360798894  0.516168393  0.226469014 -0.273530986 
+##           57           58           59           60           61 
+##  1.349501727 -1.106864319  0.516168393 -0.922315250 -0.422315250 
+##           62           63           64           65           66 
+##  0.393135681  0.559802347 -0.606864319  0.595567152  0.454652037 
+##           67           68           69           70           71 
+##  0.621318704  0.972534439  0.621318704  0.428900486 -0.799282537 
+##           72           73           74           75           76 
+## -0.545347963 -0.588981917  0.244351416 -1.817164940 -0.335047342 
+##           77           78           79           80           81 
+## -0.817164940 -0.360798894 -0.255648584  0.077684750 -0.650498273 
+##           82           83           84           85           86 
+## -1.483831607 -0.317164940 -0.378681296 -0.360798894  0.121318704 
+##           87           88           89           90           91 
+##  0.244351416 -0.027465561  0.516168393  0.182835060  0.911018083 
+##           92           93           94           95           96 
+##  0.534050796 -0.299282537  0.867384129  0.595567152 -0.378681296 
+##           97           98           99          101          102 
+## -0.440197653  0.639201106  0.305867773  0.182835060 -0.650498273 
+##          103          104          105          106          107 
+## -0.255648584 -0.588981917 -0.440197653 -0.527465561 -0.755648584 
+##          108          109          110          111          112 
+## -0.212014630  0.287985370 -0.150498273  0.744351416 -0.527465561 
+##          113          114          115          116          117 
+##  0.516168393  0.182835060 -0.694132227  0.305867773 -0.212014630 
+##          118          119          120          121          122 
+##  0.621318704 -0.422315250  0.393135681 -0.237766181 -0.106864319 
+##          123          124          126          127          128 
+## -1.465949204 -0.483831607 -0.299282537  0.349501727  0.700717463 
+##          129          130          131          132          133 
+##  0.639201106  0.454652037 -0.799282537 -0.360798894  0.787985370 
+##          134          135          136          137          138 
+##  0.077684750  0.077684750  0.305867773 -0.527465561 -0.194132227 
+##          139          140          141          142          143 
+## -0.071099514 -0.027465561 -1.255648584 -0.273530986  0.034050796 
+##          144          145          146          147          148 
+##  0.831619324 -1.045347963  0.016168393  0.182835060  0.016168393 
+##          149          150          151          152          153 
+##  0.244351416 -0.422315250 -0.299282537  0.972534439 -0.212014630 
+##          154          155          156          157          158 
+## -0.378681296  1.139201106  0.287985370 -0.860798894 -0.001714009 
+##          159          160          161          162          163 
+## -0.527465561 -0.045347963  0.287985370 -0.835047342  1.516168393 
+##          164          165          166          167          168 
+##  0.059802347  0.121318704 -0.440197653  0.182835060 -0.878681296 
+##          169          170          171          172          173 
+## -0.755648584 -0.588981917  0.244351416 -0.422315250 -0.360798894 
+##          174          175          176          177          178 
+##  0.831619324  0.657083509  0.954652037 -0.527465561 -0.378681296 
+##          179          180          181          182 
+## -0.817164940 -0.212014630  0.472534439 -1.132615871
+```
+
+Die Residuen haben die Bedeutung des "Ausmaßes an Nerdiness, das nicht durch Extraversion vorhergesagt werden kann" - also die Differenz aus vorhergesagtem und tatsächlich beobachtetem Wert der y-Variable (Nerdiness).
+
+#### Vorhergesagte Werte
+
+Die vorhergesagten Werte $\hat{y}$ können mit `predict()` ermittelt werden:
+
+
+``` r
+predict(lin_mod)
+```
+
+```
+##        1        2        3        4        5        7        8        9 
+## 2.983832 3.088982 2.878681 3.088982 2.878681 2.773531 2.983832 2.983832 
+##       10       11       12       13       14       15       16       17 
+## 3.194132 3.088982 2.773531 2.773531 3.088982 3.509583 3.194132 3.194132 
+##       18       19       20       21       22       23       24       25 
+## 3.088982 2.983832 3.404433 2.983832 3.194132 3.194132 2.878681 2.983832 
+##       26       27       28       29       30       31       32       33 
+## 3.088982 3.088982 2.878681 3.088982 2.878681 3.088982 3.088982 2.773531 
+##       34       35       36       37       38       39       40       41 
+## 3.194132 2.668381 3.194132 3.299283 3.299283 2.878681 2.668381 2.773531 
+##       42       43       44       45       46       47       48       49 
+## 3.194132 2.878681 3.088982 3.088982 2.668381 2.878681 3.299283 3.194132 
+##       50       51       52       53       54       55       56       57 
+## 2.878681 2.773531 3.194132 3.194132 2.983832 2.773531 2.773531 2.983832 
+##       58       59       60       61       62       63       64       65 
+## 2.773531 2.983832 3.088982 3.088982 2.773531 2.773531 2.773531 3.404433 
+##       66       67       68       69       70       71       72       73 
+## 2.878681 2.878681 3.194132 2.878681 3.404433 3.299283 2.878681 3.088982 
+##       74       75       76       77       78       79       80       81 
+## 3.088982 2.983832 2.668381 2.983832 3.194132 3.088982 3.088982 2.983832 
+##       82       83       84       85       86       87       88       89 
+## 2.983832 2.983832 2.878681 3.194132 2.878681 3.088982 3.194132 2.983832 
+##       90       91       92       93       94       95       96       97 
+## 2.983832 3.088982 3.299283 3.299283 3.299283 3.404433 2.878681 2.773531 
+##       98       99      101      102      103      104      105      106 
+## 3.194132 3.194132 2.983832 2.983832 3.088982 3.088982 2.773531 3.194132 
+##      107      108      109      110      111      112      113      114 
+## 3.088982 2.878681 2.878681 2.983832 3.088982 3.194132 2.983832 2.983832 
+##      115      116      117      118      119      120      121      122 
+## 3.194132 3.194132 2.878681 2.878681 3.088982 2.773531 3.404433 2.773531 
+##      123      124      126      127      128      129      130      131 
+## 3.299283 2.983832 3.299283 2.983832 3.299283 3.194132 2.878681 3.299283 
+##      132      133      134      135      136      137      138      139 
+## 3.194132 2.878681 3.088982 3.088982 3.194132 3.194132 3.194132 3.404433 
+##      140      141      142      143      144      145      146      147 
+## 3.194132 3.088982 2.773531 3.299283 2.668381 2.878681 2.983832 2.983832 
+##      148      149      150      151      152      153      154      155 
+## 2.983832 3.088982 3.088982 3.299283 3.194132 2.878681 2.878681 3.194132 
+##      156      157      158      159      160      161      162      163 
+## 2.878681 3.194132 2.668381 3.194132 2.878681 2.878681 2.668381 2.983832 
+##      164      165      166      167      168      169      170      171 
+## 2.773531 2.878681 2.773531 2.983832 2.878681 3.088982 3.088982 3.088982 
+##      172      173      174      175      176      177      178      179 
+## 3.088982 3.194132 2.668381 3.509583 2.878681 3.194132 2.878681 2.983832 
+##      180      181      182 
+## 2.878681 3.194132 3.299283
+```
+
+Per Voreinstellung werden hier die vorhergesagten Werte aus unserem ursprünglichen Datensatz dargestellt. `predict()` erlaubt uns aber auch Werte von "neuen" Beobachtungen vorherzusagen. Nehmen wir an, wir würden die Extraversion von 5 neuen Personen beobachten (sie haben - vollkommen zufällig - die Werte 1, 2, 3, 4 und 5) und diese Beobachtungen in einem neuem Datensatz `extra_neu` festhalten:
+
+
+``` r
+extra_neu <- data.frame(extra = c(1, 2, 3, 4, 5))
+```
+
+Anhand unseres Modells können wir für diese Personen auch ihre Nerdiness vorhersagen, obwohl wir diese nicht beobachtet haben:
+
+
+``` r
+predict(lin_mod, newdata = extra_neu)
+```
+
+```
+##        1        2        3        4        5 
+## 3.509583 3.299283 3.088982 2.878681 2.668381
+```
+
+Damit diese Vorhersage funktioniert, muss im neuen Datensatz eine Variable mit dem Namen `extra` vorliegen. Vorhergesagte Werte liegen immer auf der Regressionsgeraden.
+
+***
+
+### Inferenzstatistische Überprüfung der Regressionsparameter _b_ {#Inferenz}
+
+#### Signifikanztestung der Regressionskoeffizienten
+
+Nun möchten wir aber vielleicht wissen, ob der beobachtete Zusammenhang auch statistisch bedeutsam ist oder vielleicht nur durch Zufallen zustande gekommen ist. Zuerst kann die Betrachtung der Konfidenzintervalle helfen. Der Befehl `confint()` berechnet die Konfidenzintervalle der Regressionsgewichte.
+
+
+``` r
+#Konfidenzintervalle der Regressionskoeffizienten
+confint(lin_mod)
+```
+
+```
+##                  2.5 %     97.5 %
+## (Intercept)  3.3859075  4.0538600
+## extra       -0.3087968 -0.1118044
+```
+
+
+
+Das Konfidenzintervall von -0.309 und -0.112 ist der Bereich, in dem wir den wahren Wert vermuten können. Da die 0 nicht in diesem Intervall enthalten ist, ist 0 ein eher unwahrscheinlicher wahrer Wert für $b_1$.
+
+* $b_1$  
+    + H0: $b_1 = 0$, das Regressionsgewicht ist nicht von 0 verschieden.  
+    + H1: $b_1 \neq 0$, das Regressionsgewicht ist von 0 verschieden. 
+    
+* $b_0$ (häufig nicht von Interesse)  
+    + H0: $b_0 = 0$, der y-Achsenabschnitt ist nicht von 0 verschieden.  
+    + H1: $b_0 \neq 0$, der y-Achsenabschnitt ist von 0 verschieden.  
+
+Für beide Parameter ($b_1$ uns $b_0$) wird die H0 auf einem alpha-Fehler-Niveau von 5% verworfen, da die 0 nicht im jeweiligen 95% Konfidenzintervall enthalten ist.
+
+Eine andere Möglichkeit zur interferenzstatistischen Überprüfung ergibt sich über die p-Werte der Regressionskoeffizienten. Diese werden über die `summary()`-Funktion ausgegeben. `summary()` fasst verschiedene Ergebnisse eines Modells zusammen und berichtet unter anderem auch Signifikanzwerte.
+
+
+``` r
+#Detaillierte Modellergebnisse
+summary(lin_mod)
+```
+
+```
+## 
+## Call:
+## lm(formula = nerd ~ extra, data = fb23)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.81716 -0.42232 -0.00171  0.41996  1.91102 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  3.71988    0.16923  21.981   <2e-16 ***
+## extra       -0.21030    0.04991  -4.214    4e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.6033 on 177 degrees of freedom
+## Multiple R-squared:  0.09116,	Adjusted R-squared:  0.08603 
+## F-statistic: 17.75 on 1 and 177 DF,  p-value: 3.999e-05
+```
+
+Aus `summary()`: $p < \alpha$ $\rightarrow$ H1: Das Regressionsgewicht für den Prädiktor Extraversion ist signifikant von 0 verschieden. Der Zusammenhang von Extraversion und Nerdiness ist statistisch bedeutsam. 
+
+Aus `summary()`: $p < \alpha$ $\rightarrow$ H1: der Achsenabschnitt ist signifikant von 0 verschieden. Beträgt die Extraversion 0 wird eine von 0 verschiedene Nerdiness vorhergesagt. 
+
+Konfidenzinteralle und p-Werte für Regressionskoeffizienten kommen immer zu denselben Schlussfolgerungen in Bezug darauf, ob die H0 beibehalten oder verworfen wird!
+
+***
+
+#### Determinationskoeffizient $R^2$ {#DetKoef}
+
+Darüber hinaus können wir uns auch anschauen, wie gut unser aufgestelltes Modell generell zu den Daten passt und Varianz erklärt. $R^2$ gibt an, wie viel Streuung in den Daten durch das vorliegende lineare Regressionsmodell „erklärt“ werden kann. Bei einer einfachen Regression entspricht $R^2$ dem Quadrat des Korrelationskoeffizienten, wie wir später noch sehen werden.
+
+Auch dies lässt sich mit der Funktion `summary()` betrachten. Anhand des p-Werts kann hier auch die Signifikanz des $R^2$ überprüft werden.
+
+
+``` r
+#Detaillierte Modellergebnisse
+summary(lin_mod)
+```
+
+```
+## 
+## Call:
+## lm(formula = nerd ~ extra, data = fb23)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.81716 -0.42232 -0.00171  0.41996  1.91102 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  3.71988    0.16923  21.981   <2e-16 ***
+## extra       -0.21030    0.04991  -4.214    4e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.6033 on 177 degrees of freedom
+## Multiple R-squared:  0.09116,	Adjusted R-squared:  0.08603 
+## F-statistic: 17.75 on 1 and 177 DF,  p-value: 3.999e-05
+```
+
+Determinationskoeffizient $R^2$ ist signifikant, da $p < \alpha$.
+
+Der Determinationskoeffizient $R^2$ kann auch direkt über den Befehl `summary(lin_mod)$r.squared` ausgegeben werden:
+
+
+``` r
+summary(lin_mod)$r.squared
+```
+
+```
+## [1] 0.09116145
+```
+
+
+
+9.12% der Varianz von `nerd` können durch `extra` erklärt werden. Dieser Effekt ist nach Cohens (1988) Konvention als mittelstark zu bewerten, wenn keine Erkenntnisse in dem spezifischen Bereich vorliegen.
+
+{{< intext_anchor Effekt >}}
+
+**Cohens (1988) Konvention zur Interpretation von $R^2$:**  
+
+Konventionen sind, wie bereits besprochen, heranzuziehen, wenn keine vorherigen Untersuchungen der Fragestellung oder zumindest in dem Forschungsbereich vorliegen. Die vorgeschlagenen Werte von $R^2$ entsprechen dabei dem Quadrat der in der [letzten Sitzung](/lehre/statistik-i/korrelation) genannten Konventionen für $r$.
+
+* ~ .01: schwacher Effekt  
+* ~ .09: mittlerer Effekt  
+* ~ .25: starker Effekt  
+
+***
+
+#### Standardisierte Regressionsgewichte {#Standardgewichte}
+
+Bei einer Regression kann es sinnvoll sein, die standardisierten Regressionskoeffizienten zu betrachten, um die Erklärungs- oder Prognosebeiträge der einzelnen unabhängigen Variablen (unabhängig von den bei der Messung der Variablen gewählten Einheiten) miteinander vergleichen zu können, z. B. um zu sehen, welche Variable den größten Beitrag zur Prognose der abhängigen Variable leistet. Außerdem ist es hierdurch möglich, die Ergebnisse zwischen verschiedenen Studien zu vergleichen, die `nerd` und `extra` gemessen haben, jedoch in unterschiedlichen Einheiten. Durch die Standardisierung werden die Regressionskoeffizienten vergleichbar.
+
+
+``` r
+# Paket erst installieren (wenn nötig): install.packages("lm.beta")
+library(lm.beta)
+```
+
+Die Funktion `lm.beta()` muss auf ein Ergebnis der normalen `lm()`-Funktion angewendet werden. Wir haben dieses Ergebnis im Objekt `lin_mod` hinterlegt. Anschließend wollen wir uns für die Interpretation wieder das `summary()` ausgeben lassen. Natürlich kann man diese Schritte auch mit der Pipe lösen, was als Kommentar noch aufgeführt ist.
+
+
+``` r
+lin_model_beta <- lm.beta(lin_mod)
+summary(lin_model_beta) # lin_mod |> lm.beta() |> summary()
+```
+
+```
+## 
+## Call:
+## lm(formula = nerd ~ extra, data = fb23)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.81716 -0.42232 -0.00171  0.41996  1.91102 
+## 
+## Coefficients:
+##             Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)  3.71988           NA    0.16923  21.981   <2e-16 ***
+## extra       -0.21030     -0.30193    0.04991  -4.214    4e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.6033 on 177 degrees of freedom
+## Multiple R-squared:  0.09116,	Adjusted R-squared:  0.08603 
+## F-statistic: 17.75 on 1 and 177 DF,  p-value: 3.999e-05
+```
+
+Wir sehen, dass die ursprüngliche Ausgabe um die Spalte `standardized` erweitert wurde. An der standardisierten Lösung fällt auf, dass das Intercept als `NA` angezeigt wird. Dies liegt wie bereits besprochen daran, dass beim Standardisieren die Mittelwerte aller Variablen (Prädiktoren und Kriterium, bzw. unabhängige und abhängige Variable) auf 0 und die Standardabweichungen auf 1 gesetzt werden. Somit muss das Intercept hier genau 0 betragen, weshalb auf eine Schätzung verzichtet werden kann. 
+
+Die Interpretation standardisierter Regressionsgewichte weicht leicht von der Interpration unstandardisierter Regressionsgewichte ab. Der Achsenabschnitt ist 0, da die Regressionsgerade durch den Mittelwert beider Variablen geht, die beide auch 0 sind. Das Regressionsgewicht hingegen beinhaltet die erwartete Veränderung von -0.21 Standardabweichungen in Nerdiness bei einer Standardabweichung mehr in Extraversion.
+
+#### Grafische Darstellung:
+Unser Ziel ist es natürlich auch das Regressionsmodell, also den Zusammenhang der Variablen, grafisch darzustellen. Dies gelingt einfach mit der bereits bekannten GGPlot-Syntax:
+
+``` r
+# Möglichkeit A:
+ggplot(data = fb23, aes(x = extra, y = nerd))+ #Grund-Ästhetik auswählen
+     geom_point() + # Darstellung der Testwerte als Punkte
+  geom_abline(intercept = coef(lin_mod)[1], slope = coef(lin_mod)[2], color = 'red') # Hinzufügen der Regressionsgerade
+```
+
+![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-65-1.png)<!-- -->
+
+``` r
+# Möglichkeit B: Vorteil = Anzeige des Konfidenzintervalls
+ggplot(data = fb23, aes(x = extra, y = nerd))+
+     geom_point() +
+  geom_smooth(method="lm", formula = "y~x", color = 'red')
+```
+
+![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-65-2.png)<!-- -->
+### Multiple Regression
+#### Einleitung
+
+Bisher haben wir uns bereits mit der Analyse von Zusammenhängen anhand von einfachen linearen Regressionen beschäftigt. Nun wollen wir uns mit der multiplen Regression beschäftigen. Wir überspringen den Einleitungsteil (kann in Statistik 1 nachgelesen werden) und starten gleich mit der Verteifung, indem wir Interaktionen aufnehmen und die Linearitätsannahme aufweichen.
+
+#### Einladen des Datensatzes
+
+Für das vorliegende Tutorial laden wir einen Datensatz aus dem [Open Scniece Framework (OSF)](https://osf.io/) ein, der aus einer [Studie](https://doi.org/10.1016/j.chiabu.2020.104826) stammt, die sich mit Parental Burnout (Elterlichem Burnout) befasst. Die Studie können wir mit folgendem Befehl direkt einladen. Die erste Spalte benötigen wir nicht, da diese sich mit der Zeilennummer doppelt.
+
+
+``` r
+burnout <- read.csv(file = url("https://osf.io/qev5n/download"))
+burnout <- burnout[,2:8]
+dim(burnout)
+```
+
+```
+## [1] 1551    7
+```
+
+Insgesamt besteht der restliche Datensatz also aus 1551 Zeilen und 7 Spalten. Betrachten wir nun die Variablen noch genauer. 
+
+
+``` r
+str(burnout)
+```
+
+```
+## 'data.frame':	1551 obs. of  7 variables:
+##  $ Exhaust    : int  44 23 0 13 21 40 0 8 34 15 ...
+##  $ Distan     : int  31 10 1 18 11 37 2 1 26 6 ...
+##  $ Ineffic    : int  29 7 1 19 9 31 1 0 11 9 ...
+##  $ Neglect    : int  38 27 18 28 25 29 19 39 31 25 ...
+##  $ Violence   : int  76 26 15 20 22 34 16 19 28 24 ...
+##  $ PartEstrang: int  17 8 5 5 8 6 5 5 5 7 ...
+##  $ PartConfl  : int  12 4 4 4 4 3 2 3 5 7 ...
+```
+
+Zu diesen Variablen hier zunächst noch eine inhaltliche Zuordnung: 
+
+| Variable | Bedeutung | Kodierung | Beispielitem |
+| --- | ---- | --- | ----- |
+| `Exhaust` | *Emotional exhaustion* | 0 - 48 | "I feel emotionally drained by my parental role" |
+| `Distan` | *Emotional distancing* | 0 - 48 | "I sometimes feel as though I am taking care of my children on autopilot" | 
+| `Ineffic` | *Parental accomplishment and efficacy* | 0 - 36 | "I accomplish many worthwhile things as a parent" (invertiert) |
+| `Neglect` | *Neglectful behaviors toward children* | 17 - 136 | "I sometimes don’t take my child to the doctor when I think it would be a good idea." |
+| `Violence` | *Violent behaviors toward children* | 15 - 120 | "I sometimes tell my child that I will abandon him/her if s/he is not good." |
+| `PartEstrang` | *Partner Estrangement* | 5 - 40 | "I sometimes think of leaving my partner" |
+| `PartConfl` | *Conflicts with partner* | 2 - 14 | "How often do you quarrel with your partner?" |
+
+Wie dem, zu den Daten gehörenden Artikel zu entnehmen ist, sind die Variablen alle Summenwerte von mehreren Items aus entsprechenden Fragebögen, weswegen sie sehr unterschiedliche Werte annehmen können. Im weiteren Verlauf werden wir (wie auch im ursprünglichen Artikel) annehmen, dass diese Skalenwerte intervallskaliert sind.
+
+
+### Multiple Regression - Betrachtung eines spezifischen Modells.
+
+Das Ziel einer Regression besteht darin, eine Variable durch eine oder mehrere andere Variablen vorherzusagen (Prognose). Die vorhergesagte Variable wird als Kriterium, Regressand oder auch abhängige Variable (AV) bezeichnet. Die Variablen zur Vorhersage der abhängigen Variablen werden als Prädiktoren, Regressoren oder unabhängige Variablen (UV) bezeichnet. Als Anwendungsbeispiel wollen wir die Gewalttätigkeit gegenüber Kindern (`Violent`) durch die Emotionale Erschöpfung (`Exhaust`), die Emotionale Distanz (`Distan`) und die Konflikte mit dem Partner / der Partnerin (`PartConfl`) vorhersagen.
+
+#### Exkurs: Voraussetzungen:
+Die Voraussetzungen einer multiplen Regression können ebenfalls mit R überprüft werden. Diese lauten: 
+- Korrekte Spezifikation des Modells
+- Messfehlerfreiheit der unabhängigen Variablen
+- Unabhängigkeit der Residuen
+- Homoskedastizität der Residuen
+- Normalverteilung der Residuen
+Die Umsetzung in R findet ihr in [Statistik I](https://pandar.netlify.app/lehre/statistik-i/multiple-reg/)
+
+#### Bestimmung der Koeffizienten der Multiplen Regression
+Zuerst definieren wir unser Regressionsmodell für die multiple Regression.
+
+``` r
+mod <- lm(Violence ~ Exhaust + Distan + PartConfl, data = burnout)
+```
+    
+Um die berechneten Parameter des Modells anzuzeigen, nutzen wir die Funktion `summary`. 
+
+
+``` r
+summary(mod)
+```
+
+```
+## 
+## Call:
+## lm(formula = Violence ~ Exhaust + Distan + PartConfl, data = burnout)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -14.252  -3.688  -1.057   2.454  50.151 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 15.24726    0.40437  37.706  < 2e-16 ***
+## Exhaust      0.10683    0.01851   5.770 9.56e-09 ***
+## Distan       0.30161    0.02421  12.460  < 2e-16 ***
+## PartConfl    0.57351    0.06821   8.408  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 6.402 on 1547 degrees of freedom
+## Multiple R-squared:  0.2889,	Adjusted R-squared:  0.2875 
+## F-statistic: 209.5 on 3 and 1547 DF,  p-value: < 2.2e-16
+```
+Wir haben bereits gelernt, dass die Punktschätzer für die Regressionsgewichte in der Spalte `Estimate` im Abschnitt `Coefficients` zu finden sind. Der Achsenabschnitt unseres Modells beträgt also $b_0$ = 15.25. Dies bedeutet, dass wir einer Person mit einem Wert von 0 in allen Prädiktoren eine Gewalttätigkeit von 15.25 vorhersagen. Die Regressionsgewichte für die Prädiktoren sind $b_{1}$ = 0.107 für Emotionale Erschöpfung, $b_{2}$ = 0.302 für Emotionale Distanz und $b_{3}$ = 0.574 für Konflikte mit dem Partner. Die Interpretaion nochmal am Beispiel der Emotionalen Erschöpfung: Wenn sich die Emotionale Erschöpfung um eine Einheit erhöht und alle anderen Prädiktoren konstant gehalten werden, so erhöht sich die Gewalttätigkeit um 0.107 Einheiten. 
+
+Der letzte Teil des Regressionsmodells beinhaltet die Fehler $e_i$, die (wie durch den Index $i$ gekennzeichnet) für jede Person individuell sind. Die Fehler können wir beispielsweise anzeigen, indem wir die Funktion `resid()` auf unser Objekt anwenden. Wir zeigen hier nur die ersten zehn Fehlerwerte, da der Output sonst sehr lange wäre.
+
+
+``` r
+resid(mod)[1:10]
+```
+
+```
+##          1          2          3          4          5          6          7 
+## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730  1.5996231 -0.9974955 
+##          8          9         10 
+##  0.8759748 -1.5887563  1.3260923
+```
+
+#### Omnibustest der Multiplen Regression
+
+Einschätzungen zur Güte unseres Modells finden wir wie in [Statistik 1 besprochen](/lehre/statistik-i/multiple-reg/#determinationskoeffizient) im letzten Teil des Outputs der `summary()` Funktion. Wir blenden die spezifischen Ergebnisse an dieser Stelle nochmal ein:
+
+
+```
+## Residual standard error: 6.402 on 1547 degrees of freedom
+## Multiple R-squared:  0.2889,	Adjusted R-squared:  0.2875 
+## F-statistic: 209.5 on 3 and 1547 DF,  p-value: < 2.2e-16
+```
+
+In unserem Fall hat der Omnibustest einen empirischen Wert von 209.524 bei Freiheitsgraden von 3 und 1547. Der Test prüft, ob die Prädiktoren in der Modellgleichung gemeinsam signifikant zur Vorhersage der abhängigen Variable beitragen, was in diesem Fall gegeben ist, da der p-Wert kleiner als 0.05 ist, was üblicherweise als $\alpha$-Niveau verwendet wird.
+
+#### Testung einzelner Prädiktoren
+
+Neben der gemeinsamen Testung aller Prädiktoren ist es bei der multiplen Regression auch möglich, die einzelnen Prädiktoren auf ihre Signifikanz zu testen. Dies geschieht durch die Anwendung des t-Tests auf die einzelnen Regressionsgewichte. Führen wir eine solche Testung anhand des Prädiktors Emotionale Erschöpfung durch Die Nullhypothese des t-Tests lautet, dass das Regressionsgewicht des Prädiktors Emotionale Erschöpfung 0 ist. Die Alternativhypothese ist, dass das Regressionsgewicht ungleich 0 ist.
+
+$H_0$: $b_1 = 0$ und $H_1$: $b_1 \neq 0$
+
+Auch für die Testung der einzelnen Prädiktoren liefert uns die `summary()` Funktion die nötigen Informationen. Wir blenden den spezifischen Teil des Outputs an dieser Stelle nochmal ein.
+
+
+```
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 15.24726    0.40437  37.706  < 2e-16 ***
+## Exhaust      0.10683    0.01851   5.770 9.56e-09 ***
+## Distan       0.30161    0.02421  12.460  < 2e-16 ***
+## PartConfl    0.57351    0.06821   8.408  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+Für Emotionale Erschöpfung ergibt sich ein empirischer Wert von 5.77 und ein p-Wert von kleiner 0.001. Dieser ist kleiner als das übliche $\alpha$-Niveau von 0.05, was ein signifikantes Ergebnis anzeigt. Was bedeutet dies jetzt? Wie in den Hypothesen festgehalten wird damit angezeigt, dass das Regressionsgewicht der Emotionalen Erschöpfung verschieden von 0 ist. Nun könnte man argumentieren, dass man dies ja bereits an dem Wert für den Regressionsparameter sehen konnte, da dieser eindeutig verschieden von 0 ist, jedoch handelt es sich auch hier nur um einen deskriptivstatistischen Wert. Der t-Test zeigt uns, dass dieser in der Population von 0 verschieden. Wenn wir nun in unserem Ergebnisbericht nicht nur die Punktschätzung für den Regressionsparameter angeben wollen, können wir ein Konfidenzintervall um den Wert legen (Konfidenzintervalle haben wir [hier](/lehre/statistik-i/tests-konfidenzintervalle/#KonfInt) beim Testen eines Mittelwerts sehr detailliert besprochen). Die Formel nutzt dabei den Standardfehler des Regressionsgewichts, der in der Übersicht enthalten ist. Zusätzlich wird der kritische Wert aus der t-Verteilung benötigt (wobei mit $\alpha$ das Fehlerniveau festgelegt wird und $k$ hier für die Anzahl an Prädiktoren - also 3 - steht).
+
+$$CI = b_m \pm t_{(1-\alpha/2, n-k-1)} \cdot \hat{\sigma}_{b_m}$$
+
+Wir könnten also per Hand das Intervall bestimmen. Jedoch ist in `R` die Erstellung des Konfidenzintervalls sehr simpel mit der Funktion `confint()` möglich. Diese muss nur auf das Objekt angwendet werden, das unser Regressionsmodell enthält. Mit dem Argument `level` kann das Konfidenzniveau festgelegt werden, das sich aus $1 - \alpha$ bestimmt. In unserem Fall wäre dieses also 0.95.
+
+
+``` r
+confint(mod, level = 0.95)
+```
+
+```
+##                   2.5 %     97.5 %
+## (Intercept) 14.45408609 16.0404255
+## Exhaust      0.07051175  0.1431443
+## Distan       0.25412861  0.3490856
+## PartConfl    0.43971116  0.7073143
+```
+
+Betrachten wir erneut den Prädiktore Emotionale Erschöpfung. Als Konfidenzintervall erhalten wir die untere Grenze von 0.0705117 und die obere Grenze von 0.1431443. Dies bedeutet, dass wir zu 95% sicher sind, dass dieses Intervall den wahren Wert für das Gewicht $b_1$ enthält. Es wird auch nochmal deutlich, dass die 0 nicht in diesem Intervall enthalten ist. Wenn wir dies in Bezug zu den formulierten Hypothesen für die inferenzstatistische Testung eines einzelnen Prädiktors betrachtet, widerspricht dies also der $H_0$. Wir würden uns also mit einem $\alpha$ von 0.05 auch bei Betrachtung des Konfidenzintervalls gegen die Beibehaltung der $H_0$ entscheiden. Die beiden Wege (Durchführung des t-Tests und Betrachtung des Konfidenzintervalls) müssen immer zum selben Ergebnis führen.
+
+Abschließend noch ein essentieller Punkt zur Testung einzelner Prädiktoren: Von enormer Wichtigkeit ist sich dabei bewusst zu machen, dass die eben besprochenen Ergebnisse für den Prädiktor Emotionale Erschöpfung nur für dieses Set an Prädiktoren gelten. Sobald wir weitere Prädiktoren hinzufügen, Prädiktoren entfernen oder diese auswechseln, können sich die Ergebnisse ändern.
+
+#### Vorhersage der abhängigen Variable
+
+Wie auch in der einfachen Regression haben wir nun die Möglichkeit, einer Person einen Wert für die abhängige Variable vorherzusagen. Dies geschieht durch die Anwendung der Regressionsgewichte auf die Werte der Prädiktoren. In unserem Fall wollen wir die Gewalttätigkeit gegenüber Kindern vorhersagen. Stellen wir uns vor, dass die neue Person einen Wert von 3 für Emotionale Erschöpfung, 4 für Emotionale Distanz und 2 für Konflikte mit dem Partner hat. Hier gibt es wieder viele Wege zum Ziel. Wir legen zuerst einen neuen Datensatz an, der die Werte der Prädiktoren enthält. 
+
+
+``` r
+predict_data <- data.frame(Exhaust = 3, Distan = 4, PartConfl = 2)
+```
+
+Anschließend können wir die Funktion `predict()` auf unser Modell anwenden. 
+
+
+``` r
+predict(mod, newdata = predict_data)
+```
+
+```
+##        1 
+## 17.92119
+```
+
+Wir haben für die Person nun eine Punktschätzung von 17.92 für die Gewalttätigkeit. Gleichzeitig wissen wir aber auch, dass dies keine perfekte Vorhersage ist. Schließlich sagen die Prädiktoren nicht 100% der Varianz der abhängigen Variable vorher. Wir sollten also ein Intervall um unsere Punktschätzung legen. Dieses wird in der Regression als Prognoseintervall bezeichnet.
+
+Für die Bestimmung müssen wir nur optionale Argumente in der Funktion `predict()` nutzen. Diese umfassen erstmal die Art des Intervalls, das wir bestimmen wollen `interval = "prediction"` und das Konfidenzniveau `level = 0.95`.
+
+
+``` r
+predict(mod, newdata = predict_data, interval = "prediction", level = 0.95)
+```
+
+```
+##        fit      lwr      upr
+## 1 17.92119 5.349854 30.49253
+```
+
+Das berechnete Intervall enthält nun zu 95\% den wahren Wert der Person. Die breite des Intervalls hängt in erster Linie von der Varianz der Fehler ab, da diese die Sicherheit unserer Regression repräsentiert.
+
+### Möglichkeiten in der Arbeit mit Regressionsmodellen in R
+Hier soll noch ein kleiner Ausblick gegeben werden über Themen, die im Bezug auf Regression relevant werden könnten, aber aufgrund der Zeit nicht mehr in unseren R-Vorkurs gepasst haben. Jedes dieser Themen ist allerdings optimal auf Pandar aufgearbeitet und kann von euch nachgelesen werden.
+
+#### Modellvergleiche bzw. Modelloptimierung
+
+Bei der Regressionsanalyse hat die Modelloptimierung zum Ziel, ein Regresionsmodell zu verbessern - das heißt, möglichst viel Varianz der abhängigen Variable zu erklären. Dadurch wird die "Vorhersage" der abhängigen Variable genauer (die Streuung der Werte um die Regressionsgerade/-hyperebene ist kleiner).
+
+**Modelloptimierung** bedeutet, ein Modell zu verbessern, durch: 
+
+* Aufnehmen zusätzlicher, bedeutsamer Prädiktoren
+* Ausschließen von Prädiktoren, die nicht zur Varianzaufklärung beitragen
+
+**Ziel** ist ein *sparsames Modell*, in dem 
+
+* jeder enthaltene Prädiktor einen Beitrag zur Varianzaufklärung des Kriteriums leistet und
+* kein wichtiger (= vorhersagestarker) Prädiktor vergessen wurde.
+
+Dies kann entweder in Form eines hypothesengeleiteten Modellvergleichs oder in Form einer automatisierten Modellsuche geschehen. Das Vorgehen wird in [Statistik II](/lehre/statistik-ii/multreg-inf-mod/) detailliert beschrieben. Was hier nur erwähnt werden soll: Achtet darauf, dass Modellvergleiche nur dann möglich sind, wenn beide Modelle auf den gleichen Daten beruhen.
+
+#### Aufnahme nichtlinearer Effekte:
+Die Regressionssyntax, die wir nun kennengelernt haben, macht es uns einfach nichtlineare Effekten in das Regressionsmodel aufzunehmen, bspw. sind das (1) quadratischen Verläufen, (2) Interaktionseffekten und (3) exponentiellen Verläufen. Genauer werden diese Inhalte in [Statistik II](/lehre/statistik-ii/nichtlineare-reg/) erklärt. 
+
+Beispielsweise könnten wir im Scatterplot einen quadratischen Zusammenhang zwischen den Variablen aufgedeckt haben. Dies kann ganz leicht mit der `poly`Funktion gemacht werden, was bewirkt, dass der lineare und der quadratische Anteil des Prädiktors unkorreliert sind. (Partnerkonflikte sind hier zufällig ausgewählt, es gibt keine Anhaltspunkte für einen quadratischen Effekt).
+
+``` r
+mod_quad <- lm(Violence ~ Exhaust + Distan + poly(PartConfl, 2), data = burnout)
+summary(mod_quad)
+```
+
+```
+## 
+## Call:
+## lm(formula = Violence ~ Exhaust + Distan + poly(PartConfl, 2), 
+##     data = burnout)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -14.094  -3.690  -1.061   2.464  50.105 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)         18.33085    0.28425  64.489  < 2e-16 ***
+## Exhaust              0.10630    0.01853   5.738 1.15e-08 ***
+## Distan               0.30264    0.02424  12.487  < 2e-16 ***
+## poly(PartConfl, 2)1 56.53636    6.72550   8.406  < 2e-16 ***
+## poly(PartConfl, 2)2 -5.59433    6.41044  -0.873    0.383    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 6.403 on 1546 degrees of freedom
+## Multiple R-squared:  0.2893,	Adjusted R-squared:  0.2874 
+## F-statistic: 157.3 on 4 and 1546 DF,  p-value: < 2.2e-16
+```
+Diese beiden Modelle können wir nun auch gegeneinander testen, um zu gucken, ob es zu einem Varianzinkrement durch die Zunahme des quadratischen Effekts von Partnerkonflikten, gekommen ist:
+
+
+``` r
+# Vergleich mit Modell ohne quadratischen Trend
+summary(mod)$r.squared - summary(mod_quad)$r.squared # Inkrement
+```
+
+```
+## [1] -0.0003501168
+```
+
+``` r
+anova(mod, mod_quad) # Signifikanztestung des Inkrements
+```
+
+```
+## Analysis of Variance Table
+## 
+## Model 1: Violence ~ Exhaust + Distan + PartConfl
+## Model 2: Violence ~ Exhaust + Distan + poly(PartConfl, 2)
+##   Res.Df   RSS Df Sum of Sq      F Pr(>F)
+## 1   1547 63410                           
+## 2   1546 63379  1    31.222 0.7616  0.383
+```
+Das Inkrement ist somit nicht signifikant.
+
+#### Grafische Darstellung der multiplen Regression:
+Passend zu Interaktionseffekten, wollen wir uns diese mal grafisch anschauen. Den Scatter-Plot und die lineare Trendlinie haben wir bereits bei der einfachen Regression kennengelernt. Nun erweiteren wir dies durch ein multiples Regressionsmodell, welches den Effekt eines kontinuerlichen (Neurotizismus) und eines kategorialen (Fachausrichtung: klinisch oder nicht) auf die Lebenszufriedenheit überprüfen will.
+
+``` r
+# Regressionsmodell erstellen:
+mod_g <- lm(lz ~ neuro + fach_klin, data = fb23)
+summary(mod_g)
+```
+
+```
+## 
+## Call:
+## lm(formula = lz ~ neuro + fach_klin, data = fb23)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.2678 -0.6238  0.1169  0.7541  1.9059 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)        5.96464    0.29117  20.485  < 2e-16 ***
+## neuro             -0.25936    0.08136  -3.188  0.00172 ** 
+## fach_klinklinisch  0.02626    0.15960   0.165  0.86949    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.025 on 162 degrees of freedom
+##   (14 observations deleted due to missingness)
+## Multiple R-squared:  0.05906,	Adjusted R-squared:  0.04744 
+## F-statistic: 5.084 on 2 and 162 DF,  p-value: 0.00722
+```
+
+``` r
+# Scatterplot erstellen
+scatter <- ggplot(fb23, aes(x = neuro, y = lz, color = fach_klin)) + 
+  geom_point()
+scatter
+```
+
+```
+## Warning: Removed 2 rows containing missing values or values outside the scale range
+## (`geom_point()`).
+```
+
+![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-79-1.png)<!-- -->
+
+``` r
+# Regressionsgerade aus mod_g hinzufügen
+scatter + 
+  geom_abline(intercept = coef(mod_g)[1], slope = coef(mod_g)[2], 
+    color = '#00618F') # Regressionsgerade für klinische Fachrichtung
+```
+
+```
+## Warning: Removed 2 rows containing missing values or values outside the scale range
+## (`geom_point()`).
+```
+
+![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-79-2.png)<!-- -->
+
+``` r
+scatter + 
+  geom_abline(intercept = coef(mod_g)[1], slope = coef(mod_g)[2], 
+    color = '#00618F') + # Regressionsgerade für klinische Fachrichtung
+  geom_abline(intercept = coef(mod_g)[1] + coef(mod_g)[3], slope = coef(mod_g)[2], 
+    color = '#ad3b76') # Regressionsgerade für nicht klinische Fachrichtung
+```
+
+```
+## Warning: Removed 2 rows containing missing values or values outside the scale range
+## (`geom_point()`).
+```
+
+![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-79-3.png)<!-- -->
+Wie man hier sowohl in der Summary des Regressionsmodell sowie im Plot erkennt, findet sich kein signifikanter Einfluss der Fachausrichtung auf die Lebenszufriedenheit. Die Interaktion zwischen den beiden Prädiktoren haben wir hier allerdings noch nicht aufgenommen. Damit startet ihr dann in der ersten Mastersitzung...
 
 ***
