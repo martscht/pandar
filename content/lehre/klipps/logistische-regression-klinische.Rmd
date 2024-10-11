@@ -43,6 +43,7 @@ library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
 source('https://pandar.netlify.app/lehre/statistik-ii/pandar_theme.R')
 ```
 
+{{< toc >}}
 
 ## Einleitung
 
@@ -71,7 +72,7 @@ source('https://pandar.netlify.app/daten/Data_Processing_grit.R')
 ```
 
 ```{r, echo = FALSE, purl = FALSE}
-load('/home/martin/PowerFolders/Lehre/2024/KliPPs/grit.rda')
+load('/home/martin/projects/klipps/datasets/grit.rda')
 ```
 _Anmerkung: Leider wurde der Datensatz aus dem OSF entfernt, nachdem ich mit den Autorinnen des Artikels Kontakt aufgenommen habe (mehr dazu später). Die Daten erhalten Sie daher derzeit nur, wenn Sie am Kurs teilnehmen._
 
