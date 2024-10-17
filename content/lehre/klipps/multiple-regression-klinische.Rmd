@@ -28,6 +28,11 @@ links:
     icon: newspaper
     name: Artikel
     url: https://doi.org/10.1177/10790632231205799
+  - icon_pack: fas
+    icon: folder-open
+    name: OSF
+    url: https://osf.io/xkcah/
+    
     
 output:
   html_document:
