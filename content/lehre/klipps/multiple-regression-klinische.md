@@ -8,7 +8,7 @@ subtitle: 'Grundlagen, Annahmen und ein paar Erweiterungen'
 summary: ''
 authors: [schultze]
 weight: 1
-lastmod: '2024-10-11'
+lastmod: '2024-10-17'
 featured: no
 banner:
   image: "/header/whip.jpg"
@@ -28,6 +28,11 @@ links:
     icon: newspaper
     name: Artikel
     url: https://doi.org/10.1177/10790632231205799
+  - icon_pack: fas
+    icon: folder-open
+    name: OSF
+    url: https://osf.io/xkcah/
+    
     
 output:
   html_document:
@@ -88,18 +93,12 @@ subset(coercion, select = c('drive', 'sadi', 'maso', 'f1', 'coerce')) |>
 ```
 
 ```
-##        vars   n  mean   sd median trimmed  mad min max range  skew kurtosis
-## drive     1 405 15.51 4.04     16   15.64 2.97   4  26    22 -0.33    -0.10
-## sadi      2 405  5.35 7.86      3    3.62 4.45   0  56    56  2.73     9.28
-## maso      3 405  7.41 9.31      4    5.54 4.45   0  61    61  2.12     5.35
-## f1        4 405 26.49 8.26     26   25.97 8.90  14  53    39  0.48    -0.35
-## coerce    5 405 23.87 6.53     22   22.58 4.45  19  68    49  2.84    11.55
-##          se
-## drive  0.20
-## sadi   0.39
-## maso   0.46
-## f1     0.41
-## coerce 0.32
+##        vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
+## drive     1 405 15.51 4.04     16   15.64 2.97   4  26    22 -0.33    -0.10 0.20
+## sadi      2 405  5.35 7.86      3    3.62 4.45   0  56    56  2.73     9.28 0.39
+## maso      3 405  7.41 9.31      4    5.54 4.45   0  61    61  2.12     5.35 0.46
+## f1        4 405 26.49 8.26     26   25.97 8.90  14  53    39  0.48    -0.35 0.41
+## coerce    5 405 23.87 6.53     22   22.58 4.45  19  68    49  2.84    11.55 0.32
 ```
 Mittelwerte und Standardabweichungen stimmen beruhigenderweise schon einmal mit dem überein, was in Tabelle 1 für die Gesamtstichprobe berichtet wird. Das Vorgehen mit `psych` hat den Vorteil, dass wir auch extrem leicht Deskriptivstatistik für einzelne Gruppen erstellen können:
 
@@ -114,32 +113,20 @@ subset(coercion, select = c('drive', 'sadi', 'maso', 'f1', 'coerce')) |>
 ## 
 ##  Descriptive statistics by group 
 ## group: Male
-##        vars   n  mean   sd median trimmed  mad min max range  skew kurtosis
-## drive     1 173 17.45 3.34     18   17.53 2.97   5  26    21 -0.32     0.44
-## sadi      2 173  7.16 9.60      4    5.06 5.93   0  56    56  2.31     6.03
-## maso      3 173  5.62 8.32      3    3.75 4.45   0  51    51  2.71     8.59
-## f1        4 173 29.72 8.25     29   29.49 8.90  14  53    39  0.25    -0.47
-## coerce    5 173 24.41 6.92     23   23.08 4.45  19  63    44  2.79    10.22
-##          se
-## drive  0.25
-## sadi   0.73
-## maso   0.63
-## f1     0.63
-## coerce 0.53
-## --------------------------------------------------------- 
+##        vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
+## drive     1 173 17.45 3.34     18   17.53 2.97   5  26    21 -0.32     0.44 0.25
+## sadi      2 173  7.16 9.60      4    5.06 5.93   0  56    56  2.31     6.03 0.73
+## maso      3 173  5.62 8.32      3    3.75 4.45   0  51    51  2.71     8.59 0.63
+## f1        4 173 29.72 8.25     29   29.49 8.90  14  53    39  0.25    -0.47 0.63
+## coerce    5 173 24.41 6.92     23   23.08 4.45  19  63    44  2.79    10.22 0.53
+## --------------------------------------------------------------------- 
 ## group: Female
-##        vars   n  mean   sd median trimmed  mad min max range  skew kurtosis
-## drive     1 232 14.06 3.92     14   14.16 4.45   4  24    20 -0.22    -0.32
-## sadi      2 232  4.00 5.93      2    2.68 2.97   0  41    41  2.67     9.01
-## maso      3 232  8.75 9.80      5    7.04 5.93   0  61    61  1.83     4.10
-## f1        4 232 24.08 7.42     23   23.47 8.90  14  48    34  0.64    -0.12
-## coerce    5 232 23.46 6.21     21   22.22 2.97  19  68    49  2.84    12.54
-##          se
-## drive  0.26
-## sadi   0.39
-## maso   0.64
-## f1     0.49
-## coerce 0.41
+##        vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
+## drive     1 232 14.06 3.92     14   14.16 4.45   4  24    20 -0.22    -0.32 0.26
+## sadi      2 232  4.00 5.93      2    2.68 2.97   0  41    41  2.67     9.01 0.39
+## maso      3 232  8.75 9.80      5    7.04 5.93   0  61    61  1.83     4.10 0.64
+## f1        4 232 24.08 7.42     23   23.47 8.90  14  48    34  0.64    -0.12 0.49
+## coerce    5 232 23.46 6.21     21   22.22 2.97  19  68    49  2.84    12.54 0.41
 ```
 Um mit der statistischen Auswertung wieder etwas in die Gänge zu kommen, können wir auch den $t$-Test für die einzelnen Skalenwerte nachbauen. Hier mal exemplarisch für das Outcome `coerce`:
 
@@ -669,8 +656,7 @@ sim_slopes(mod1m_c, pred = drive_c, modx = f1_c, robust = 'HC3')
 ```
 ## JOHNSON-NEYMAN INTERVAL
 ## 
-## When f1_c is OUTSIDE the interval [-12.34, 4.18], the slope of drive_c
-## is p < .05.
+## When f1_c is OUTSIDE the interval [-12.34, 4.18], the slope of drive_c is p < .05.
 ## 
 ## Note: The range of observed values of f1_c is [-15.72, 23.28]
 ## 

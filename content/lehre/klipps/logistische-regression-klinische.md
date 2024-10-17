@@ -8,7 +8,7 @@ subtitle: 'Vorhersage von Gruppenzugehörigkeiten'
 summary: ''
 authors: [schultze]
 weight: 2
-lastmod: '2024-10-11'
+lastmod: '2024-10-17'
 featured: no
 banner:
   image: "/header/talking_beach.jpg"
@@ -31,6 +31,10 @@ links:
     icon: newspaper
     name: Artikel
     url: https://doi.org/10.1016/j.jad.2023.02.148
+  - icon_pack: fas
+    icon: folder-open
+    name: OSF
+    url: https://osf.io/y7dse/
     
 output:
   html_document:
@@ -107,52 +111,31 @@ subset(grit, select = c(ARS, RSS, ELOC, ILOC, Grit, Age)) |>
 ## 
 ##  Descriptive statistics by group 
 ## group: None
-##      vars   n  mean    sd median trimmed   mad   min max range  skew
-## ARS     1 145 33.10 12.41  29.00   31.86 11.86 19.00  75 56.00  0.81
-## RSS     2 145 27.01 12.45  25.00   25.54 13.34 13.00  65 52.00  0.88
-## ELOC    3 145 35.26 17.60  35.00   34.73 19.27  1.00  89 88.00  0.32
-## ILOC    4 145 35.90  7.48  38.00   36.62  5.93  9.00  48 39.00 -0.99
-## Grit    5 145  2.76  0.67   2.83    2.79  0.74  0.92   4  3.08 -0.34
-## Age     6 145 37.34 11.15  35.00   36.57 11.86 20.00  66 46.00  0.57
-##      kurtosis   se
-## ARS     -0.05 1.03
-## RSS      0.09 1.03
-## ELOC    -0.17 1.46
-## ILOC     0.65 0.62
-## Grit    -0.55 0.06
-## Age     -0.53 0.93
-## --------------------------------------------------------- 
+##      vars   n  mean    sd median trimmed   mad   min max range  skew kurtosis   se
+## ARS     1 145 33.10 12.41  29.00   31.86 11.86 19.00  75 56.00  0.81    -0.05 1.03
+## RSS     2 145 27.01 12.45  25.00   25.54 13.34 13.00  65 52.00  0.88     0.09 1.03
+## ELOC    3 145 35.26 17.60  35.00   34.73 19.27  1.00  89 88.00  0.32    -0.17 1.46
+## ILOC    4 145 35.90  7.48  38.00   36.62  5.93  9.00  48 39.00 -0.99     0.65 0.62
+## Grit    5 145  2.76  0.67   2.83    2.79  0.74  0.92   4  3.08 -0.34    -0.55 0.06
+## Age     6 145 37.34 11.15  35.00   36.57 11.86 20.00  66 46.00  0.57    -0.53 0.93
+## --------------------------------------------------------------------- 
 ## group: Ideator
-##      vars  n  mean    sd median trimmed   mad   min   max range  skew
-## ARS     1 83 42.57 15.32   44.0   41.99 19.27 19.00 76.00 57.00  0.16
-## RSS     2 83 35.24 13.81   37.0   35.22 16.31  2.00 61.00 59.00 -0.09
-## ELOC    3 83 46.01 18.51   47.0   46.03 22.24  2.00 84.00 82.00 -0.04
-## ILOC    4 83 31.34  9.68   32.0   32.24  8.90  7.00 48.00 41.00 -0.78
-## Grit    5 83  2.42  0.66    2.5    2.45  0.74  0.92  3.83  2.92 -0.32
-## Age     6 83 35.78 10.86   33.0   34.49 10.38 21.00 68.00 47.00  1.03
-##      kurtosis   se
-## ARS     -1.12 1.68
-## RSS     -0.91 1.52
-## ELOC    -0.89 2.03
-## ILOC    -0.11 1.06
-## Grit    -0.74 0.07
-## Age      0.69 1.19
-## --------------------------------------------------------- 
+##      vars  n  mean    sd median trimmed   mad   min   max range  skew kurtosis   se
+## ARS     1 83 42.57 15.32   44.0   41.99 19.27 19.00 76.00 57.00  0.16    -1.12 1.68
+## RSS     2 83 35.24 13.81   37.0   35.22 16.31  2.00 61.00 59.00 -0.09    -0.91 1.52
+## ELOC    3 83 46.01 18.51   47.0   46.03 22.24  2.00 84.00 82.00 -0.04    -0.89 2.03
+## ILOC    4 83 31.34  9.68   32.0   32.24  8.90  7.00 48.00 41.00 -0.78    -0.11 1.06
+## Grit    5 83  2.42  0.66    2.5    2.45  0.74  0.92  3.83  2.92 -0.32    -0.74 0.07
+## Age     6 83 35.78 10.86   33.0   34.49 10.38 21.00 68.00 47.00  1.03     0.69 1.19
+## --------------------------------------------------------------------- 
 ## group: Attempter
-##      vars  n  mean    sd median trimmed   mad   min   max range  skew
-## ARS     1 94 42.80 13.85  44.50   42.80 17.05 19.00 70.00 51.00 -0.08
-## RSS     2 94 39.06 13.24  40.00   39.51 13.34 12.00 65.00 53.00 -0.33
-## ELOC    3 94 44.19 18.39  45.50   44.72 18.53  2.00 80.00 78.00 -0.22
-## ILOC    4 94 33.46  7.53  35.00   34.13  7.41 14.00 47.00 33.00 -0.76
-## Grit    5 94  2.42  0.60   2.42    2.40  0.74  1.33  3.92  2.58  0.31
-## Age     6 94 35.24  9.52  33.00   34.25  8.90 21.00 66.00 45.00  1.00
-##      kurtosis   se
-## ARS     -1.18 1.43
-## RSS     -0.65 1.37
-## ELOC    -0.65 1.90
-## ILOC    -0.05 0.78
-## Grit    -0.61 0.06
-## Age      0.76 0.98
+##      vars  n  mean    sd median trimmed   mad   min   max range  skew kurtosis   se
+## ARS     1 94 42.80 13.85  44.50   42.80 17.05 19.00 70.00 51.00 -0.08    -1.18 1.43
+## RSS     2 94 39.06 13.24  40.00   39.51 13.34 12.00 65.00 53.00 -0.33    -0.65 1.37
+## ELOC    3 94 44.19 18.39  45.50   44.72 18.53  2.00 80.00 78.00 -0.22    -0.65 1.90
+## ILOC    4 94 33.46  7.53  35.00   34.13  7.41 14.00 47.00 33.00 -0.76    -0.05 0.78
+## Grit    5 94  2.42  0.60   2.42    2.40  0.74  1.33  3.92  2.58  0.31    -0.61 0.06
+## Age     6 94 35.24  9.52  33.00   34.25  8.90 21.00 66.00 45.00  1.00     0.76 0.98
 ```
 
 Insgesamt scheinen die Ergebnisse mit den Angaben im Artikel weitestgehend übereinzustimmen, lediglich bei der Gruppe `None` scheinen sich bei den Angaben zu den Variablen `ARS` und `RSS` Unstimmigkeiten eingeschlichen zu haben (die ich auch durche eine Nachfrage bei den Autorinnen nicht klären konnte). Die Verteilungen der nominalskalierten Variablen hingegen scheinen zu passen.
@@ -196,8 +179,8 @@ mod0 <- lm(Suicide ~ 1 + Grit, idea)
 ```
 
 ```
-## Warning in model.response(mf, "numeric"): using type = "numeric" with a
-## factor response will be ignored
+## Warning in model.response(mf, "numeric"): using type = "numeric" with a factor response
+## will be ignored
 ```
 
 ```
@@ -909,7 +892,13 @@ Wie in den letzten beiden Sitzungen gesehen, bietet das Paket sjPlot eine breite
 
 ``` r
 library(sjPlot)
+```
 
+```
+## #refugeeswelcome
+```
+
+``` r
 tab_model(block4, show.r2 = FALSE, show.aic = TRUE)
 ```
 

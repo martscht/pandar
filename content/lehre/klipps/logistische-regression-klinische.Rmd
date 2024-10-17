@@ -31,6 +31,10 @@ links:
     icon: newspaper
     name: Artikel
     url: https://doi.org/10.1016/j.jad.2023.02.148
+  - icon_pack: fas
+    icon: folder-open
+    name: OSF
+    url: https://osf.io/y7dse/
     
 output:
   html_document:
