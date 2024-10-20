@@ -44,6 +44,7 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Erfahrungen in Beziehungen](#erfahrungen-in-beziehungen-ecr) | [{{< icon name="download" pack="fas" >}} `ecr` ](/daten/ecr.rda)
 | [Fragebogendaten aus dem ersten Semester 22](#fragebogendaten-aus-dem-ersten-semester-fb22) |  [{{< icon name="download" pack="fas" >}} `fb22` ](/daten/fb22.rda) |
 | [Fragebogendaten aus dem ersten Semester 23](#fragebogendaten-aus-dem-ersten-semester-fb23) | [{{< icon name="download" pack="fas" >}} `fb23`](/daten/fb23.rda) |
+| [Fragebogendaten aus dem ersten Semester 24](#fragebogendaten-aus-dem-ersten-semester-fb24) | [{{< icon name="download" pack="fas" >}} `fb24`](/daten/fb24.rda) |
 | [Gender, Drug, and Depression](#gender-drug-and-depression-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/prc92/download) |
 | [Gewissenhaftigkeit und Medikamenteneinnahme](#gewissenhaftigkeit-und-medikamenteneinnahme-data_combined) |  _Teil des Pakets `metafor`_ |
 | [Hauptkomponentenanalyse](#hauptkomponentenanalyse-pca) | [{{< icon name="download" pack="fas" >}} `PCA` ](/daten/PCA.RData) |
@@ -86,12 +87,12 @@ Beim Datensatz stammt von Rubin (2020) und ist auf dem `Open Science Framework` 
 ### Datensatz laden
 
 
-```r
+``` r
 raw_data <- readRDS(url("https://osf.io/awz3d/download"))
 ```
 
 
-```r
+``` r
 names(raw_data) <- c("observe", "describe", "awaren.", "nonjudg.",
                      "nonreact.", "interest",  "emotions",  "sleep",
                      "tired",  "appetite", "selfim.",
@@ -141,7 +142,7 @@ Der Datensatz stammt aus einer Erhebung von Curran, Stice und Chassin (1997) in 
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/alc.rda"))
 ```
 
@@ -169,7 +170,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 Für das Quiz ANOVA III in PsyBSc7 wurde der Datensatz nochmal in zwei getrennten Formaten erweitert. Die erweiterten Daten sind simulationsbasiert. Die Daten können mit folgendem Befehl eingeladen werden:
 
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/alc_extended.rda"))
 ```
 
@@ -196,7 +197,7 @@ Der Datensatz ist eine Zusammenstellung aus mehreren Studien der Arbeits- und Or
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/StressAtWork.rda"))
 ```
 
@@ -230,7 +231,7 @@ Wir benutzen für unsere Interaktion mit `ggplot2` öffentlich zugängliche Date
 
 ### Datensatz laden
 
-```r
+``` r
 load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 ```
 
@@ -277,7 +278,7 @@ Der Datensatz stammt aus einer Studie von Bull, Schultze & Scheithauer (2009), i
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/fairplayer.rda"))
 ```
 
@@ -320,7 +321,7 @@ Beim Datensatz handelt es sich um fiktive Daten bezüglich Depressionswerten in 
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/Depression.rda"))
 ```
 
@@ -357,7 +358,7 @@ Um das Ganze etwas übersichtlicher zu gestalten, betrachten wir einen gekürzte
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/Big5_EFA.rda"))
 ```
 
@@ -404,7 +405,7 @@ Frischlich, L., Hellmann, J.H., Brinkschulte, F., Becker, M., & Back, M.D. (2021
 Der Datensatz wird in einem Skript reduziert und Variablen umbenannt. Dieses Skript kann mit folgendem Befehl ausgeführt werden:
 
 
-```r
+``` r
 source("https://pandar.netlify.app/daten/Data_Processing_distort.R")
 ```
 
@@ -453,32 +454,8 @@ Der Datensatz ist `R`-eigenen Paket `metafor` von Viechtbauer (2010) enthalten u
 
 ### Datensatz laden
 
-```r
+``` r
 library(metafor)
-```
-
-```
-## Loading required package: Matrix
-```
-
-```
-## Loading required package: metadat
-```
-
-```
-## Loading required package: numDeriv
-```
-
-```
-## 
-## Loading the 'metafor' package (version 4.2-0). For an
-## introduction to the package please type: help(metafor)
-## 
-## An updated version of the package (version 4.6-0) is available!
-## To update to this version type: install.packages("metafor")
-```
-
-```r
 F2F_CBT <- dat.lopez2019[dat.lopez2019$treatment == "F2F CBT",] # wähle nur Fälle mit F2F CBT
 ```
 
@@ -538,7 +515,7 @@ Bei dem Datensatz handelt es sich um ein simuliertes Datenbeispiel zu Einstellun
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/Assessment.rda"))
 ```
 
@@ -569,7 +546,7 @@ Der Datensatz stammt von `Gapminder` und enthält Daten zur Entwicklung der Welt
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/WorldPopulation.rda"))
 ```
 
@@ -597,7 +574,7 @@ Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"]
 
 ### Datensatz laden
 
-```r
+``` r
 load(url('https://pandar.netlify.com/daten/ecr.rda'))
 ```
 
@@ -663,7 +640,7 @@ Der Datensatz `fb22` besteht aus Daten, die von den Studierenden selbst in den e
 
 ### Datensatz laden
 
-```r
+``` r
 load(url('https://pandar.netlify.app/daten/fb22.rda'))
 ```
 
@@ -735,7 +712,7 @@ Der Datensatz `fb23` besteht aus Daten, die von den Studierenden selbst in den e
 
 ### Datensatz laden
 
-```r
+``` r
 load(url('https://pandar.netlify.app/daten/fb23.rda'))
 ```
 
@@ -804,6 +781,89 @@ Insgesamt liegen im Datensatz 222 fehlende Werte vor. Folgende Variablen enthalt
 
 ---
 
+## Fragebogendaten aus dem ersten Semester (`fb24`)
+
+<!-- <details><summary>Datensatz</summary> -->
+
+### Beschreibung
+Der Datensatz `fb24` besteht aus Daten, die von den Studierenden selbst in den ersten Wochen der Veranstaltung PsyBSc2 erhoben wurden. Hierbei wurden eine Reihe von Variablen via eines Fragebogens auf SoSciSurvey erfragt und anschließend zu einem Datensatz zusammengefügt. Die Daten basieren somit auf wahren - anonymisierten - Werten der Studierenden. Der Fragebogen erfasst Daten zur aktuellen Stimmung, Persönlichkeit (gemessen an den Big5), dem Studium sowie demografische Daten.
+
+### Datensatz laden
+
+``` r
+load(url('https://pandar.netlify.app/daten/fb24.rda'))
+```
+
+
+
+### Größe
+Der Datensatz besteht aus 179 Beobachtungen auf 40 Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+| Variable | Inhalt | Kodierung |
+| ---- | ---- | ---- |
+| `mdbf1` - `mdbf12` | Items zur aktuellen Stimmung | 1 = stimmt nicht, 4 = stimmt genau |
+| `time_pre` | Bearbeitungszeit des MDBF | *Zeit in Sekunden* |
+| `lz` | Lebenszufriedenheit | *Skalenwert* |
+| `extra` | Extraversion | *Skalenwert* |
+| `vertr` | Verträglichkeit | *Skalenwert* |
+| `gewis` | Gewissenhaftigkeit | *Skalenwert* |
+| `neuro` | Neurotizismus | *Skalenwert* |
+| `offen` | Offenheit für neue Erfahrungen | *Skalenwert* |
+| `prok` | Prokrastinationstendenz | *Skalenwert* |
+| `nerd` | Nerdiness Personality Attributes | *Skalenwert* |
+| `grund` | Gründe für das Psychologiestudium | *Freitext* |
+| `fach` | Interessenfach | 1 = Allgemeine, 2 = Biologische, 3 = Entwicklung, 4 = Klinische, 5 = Diag./Meth. |
+| `ziel` | Arbeitsbranche nach Abschluss | 1 = Wirtschaft, 2 = Therapie, 3 = Forschung, 4 = Andere |
+| `wissen` | Interesse an wissenschaftlichen Grundlagen | 1 = überhaupt nicht, 5 = sehr |
+| `therap` | Interesse an anwendungsbezogenen Aspekten | 1 = überhaupt nicht, 5 = sehr |
+| `lerntyp` | Lerntyp | 1 = alleine, 2 = Gruppe, 3 = Mischtyp |
+| `hand` | Schreibhand | 1 = links, 2 = rechts |
+| `job` | Nebentätigkeit | 1 = nein, 2 = ja |
+| `ort` | Derzeitiger Wohnort | 1 = Frankfurt, 2 = anderer |
+| `ort12` | Wohnort vor 12 Monaten | 1 = Hessen, 2 = Deutschland, 3 = Ausland |
+| `wohnen` | Aktuelle Wohnsituation | 1 = WG, 2 = bei Eltern, 3 = alleine, 4 = sonstiges |
+| `uni1` - `uni4` | In Anspruch genommene Uni-Angebote (*Studienberatung, Orientierungswoche, Uniparties, Unisport*) | 0 = nein, 1 = ja |
+| `attent_pre` | Gewissenhafte Beantwortung (1. Befragung) | 1 = überhaupt nicht, 6 = voll und ganz |
+| `gs_post` | Gute vs. Schlechte Stimmung (2. Befragung) | *Skalenwert* |
+| `wm_post` | Wach vs. Müde (2. Befragung) | *Skalenwert* |
+| `ru_post` | Ruhig vs. Unruhig (2. Befragung) | *Skalenwert* |
+| `time_post` | Bearbeitungszeit des MDBF | *Zeit in Sekunden* |
+| `attent_post` | Gewissenhafte Beantwortung (2. Befragung) | 1 = überhaupt nicht, 6 = voll und ganz |
+
+### Fehlende Werte
+Insgesamt liegen im Datensatz 370 fehlende Werte vor. Folgende Variablen enthalten keine fehlenden Werte:
+
+* `mdbf2`
+* `mdbf3`
+* `mdbf4`
+* `mdbf5`
+* `mdbf6`
+* `mdbf7`
+* `mdbf8`
+* `mdbf9`
+* `mdbf10`
+* `mdbf11`
+* `mdbf12`
+* `extra`
+* `gewis`
+* `neuro`
+* `offen`
+* `prok`
+* `nerd`
+* `uni1`
+* `uni2`
+* `uni3`
+* `uni4`
+
+<!-- </details> -->
+
+
+---
+
+
 ## Gender, Drug, and Depression (`osf`)
 
 <!-- <details><summary>Datensatz</summary> -->
@@ -813,7 +873,7 @@ Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Unters
 ### Datensatz laden
 
 
-```r
+``` r
 library(haven)
 osf <- read_sav(file = url("https://osf.io/prc92/download"))
 ```
@@ -850,7 +910,7 @@ Molloy, G. J., O'Carroll, R. E., & Ferguson, E. (2014). Conscientiousness and me
 
 ### Datensatz laden
 
-```r
+``` r
 library(metafor)
 load(url('https://pandar.netlify.app/daten/reliabilites.molloy2014.rda'))
 ```
@@ -858,7 +918,7 @@ load(url('https://pandar.netlify.app/daten/reliabilites.molloy2014.rda'))
 Im nächsten Schritt sollte der Datensatz mit den Reliabilitäten und der ursprüngliche Datensatz zusammen gefasst werden. Dafür gibt es einige Möglichkeiten. Hier ist ein Beispiel aufgeführt: 
 
 
-```r
+``` r
 data_combined <- dat.molloy2014
 data_combined$rel1 <- reliabilites.molloy2014$RelGewissenhaftigkeit
 data_combined$rel2 <- reliabilites.molloy2014$RelCondition
@@ -921,7 +981,7 @@ Der Beispieldatensatz enthält simulierte Daten zu unbekannten Variablen. Eine a
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/PCA.RData"))
 ```
 
@@ -956,7 +1016,7 @@ Keine Ahnung, zu welcher Thematik dieser Beispieldatensatz Daten enthält. Falls
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/HeckData.rda"))
 ```
 
@@ -988,7 +1048,7 @@ Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Unters
 ### Datensatz laden
 
 
-```r
+``` r
 osf <- read.csv(file = url("https://osf.io/zc8ut/download"))
 osf <- osf[, c("ID", "group", "stratum", "bsi_post", "swls_post", "pas_post")]
 ```
@@ -1031,7 +1091,7 @@ Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Unters
 Der Datensatz liegt im OSF im `.sav` Dateiformat (dem Datenformat in dem SPSS seine Daten abspeichert) vor. Daher müssen die Daten mithilfe einer der vielen verschiedenen Import-Funktionen eingelesen werden. Hier nutzen wir dafür die Funktion `read_sav` aus dem Paket `haven`, welches R-Studio primär nutzt, um Daten zu importieren und daher bereits installiert sein sollte.
 
 
-```r
+``` r
 library(haven)
 body <- haven::read_sav(file = url('https://osf.io/43xv5/download'))
 ```
@@ -1039,7 +1099,7 @@ body <- haven::read_sav(file = url('https://osf.io/43xv5/download'))
 Der Datensatz enthält neben den zusammengefassten Skalenwerten auch die einzelnen Items der beiden zentralen Skalen (IAS und BPQ), welche wir für diese Anwendung entfernen, um die Daten etwas übersichtlicher zu gestalten. Wir beschränken uns also auf die ersten 27 Variablen im Datensatz:
 
 
-```r
+``` r
 body <- body[, 1:27]
 ```
 
@@ -1094,7 +1154,7 @@ Die Daten stammen aus der Erhebung zur Validierung der *Generic Conspiracist Bel
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/conspiracy_cfa.rda"))
 ```
 
@@ -1153,7 +1213,7 @@ Der Datensatz stammt aus [Eid, Gollwitzer & Schmitt: "Statistik und Forschungsme
 
 ### Datensatz laden
 
-```r
+``` r
 dataKooperation <- data.frame(Paar = 1:10, Juenger = c(0.49,0.25,0.51,0.55,0.35,0.54,0.24,0.49,0.38,0.50), Aelter = c(0.4,0.25,0.31,0.44,0.25,0.33,0.26,0.38,0.23,0.35))
 ```
 
@@ -1187,14 +1247,14 @@ Die Daten stammen aus einer [kuturellen Unterschieden in der Einschätzung von v
 Die Daten können direkt vom [{{< icon name="download" pack="fas" >}} OSF heruntergeladen ](https://osf.io/4wypx/download) werden. Allerdings werden einige Schritte durchlaufe, um die Daten auf die nötigen Variablen zu reduzieren, welche mit 
 
 
-```r
+``` r
 source("https://pandar.netlify.app/daten/Data_Processing_punish.R")
 ```
 
 direkt durchgeführt werden können. Zur Nachvollziehbarkeit, hier noch einmal der Inhalt dieses Skripts:
 
 
-```r
+``` r
 #### Data preparation file for punishment severity evaluation ----
 # for the paper see: https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509
 
@@ -1249,7 +1309,7 @@ Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichpr
 ### Datensatz laden
 
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/PISA2009.rda"))
 ```
 
@@ -1292,7 +1352,7 @@ Der Datensatz erhält viele Angaben zur Persönlichkeit und demografischen Daten
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/mach.rda"))
 ```
 
@@ -1340,7 +1400,7 @@ Epskamp, S., van Borkulo, C. D., van der Veen, D. C., Servaas, M., Isvoranu, A.-
 ### Datensatz laden
 
 
-```r
+``` r
 data <- read.csv(url("https://osf.io/g6ya4/download"))
 ```
 
@@ -1379,7 +1439,7 @@ Beim Datensatz handelt es sich um eine Erhebung, die 2017 an der Freien Universi
 ### Datensatz laden
 
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/mdbf.rda"))
 ```
 
@@ -1424,7 +1484,7 @@ Fried, E. I., Papanikolaou, F., & Epskamp, S. (2021). Mental Health and Social C
 ### Datensatz laden
 
 
-```r
+``` r
 source(url("https://pandar.netlify.app/daten/Data_Processing_Quiz4b.R"))
 ```
 
@@ -1477,7 +1537,7 @@ Der Datensatz behandelt die Naturverbundenheit, welche anhand von 6 Items gemess
 ### Datensatz laden
 
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/nature.rda"))
 ```
 
@@ -1505,7 +1565,7 @@ Bei dem Datensatz handelt es sich eine gekürzte Version von Daten zur "Nerdy Pe
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/NerdData.rda"))
 ```
 
@@ -1580,7 +1640,7 @@ In der Untersuchung wurden charakteristische Merkmale von *Parental Burnout* unt
 ### Datensatz laden
 
 
-```r
+``` r
 burnout <- read.csv(file = url("https://osf.io/qev5n/download"))
 burnout <- burnout[,2:8]
 ```
@@ -1617,7 +1677,7 @@ Es handelt sich um hierarchische Daten mit Messzeitpunkten auf Ebene 1 und Indiv
 
 ### Datensatz laden
 
-```r
+``` r
 library(dplyr)
 ```
 
@@ -1638,14 +1698,14 @@ library(dplyr)
 ##     intersect, setdiff, setequal, union
 ```
 
-```r
+``` r
 library(ICC)
 library(lme4)
 library(interactions)
 ```
 
 
-```r
+``` r
 # Daten einlesen und vorbereiten ----
 lockdown <- read.csv(url("https://osf.io/dc6me/download"))
 
@@ -1720,7 +1780,7 @@ Beim Datensatz handelt es sich um ein fiktives Datenbeispiel, bei dem Patient:in
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 ```
 
@@ -1756,7 +1816,7 @@ Der Datensatz erhält die Ergebnisse von 100 Schüler:innen, die einen Lese- (`r
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
 ```
 
@@ -1790,7 +1850,7 @@ Die Daten stammen aus der Erhebung zur Validierung der *Generic Conspiracist Bel
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
 ```
 
@@ -1824,7 +1884,7 @@ Bei dem Datensatz handelt es sich um ein fiktives Datenbeispiel mit Multilevel-D
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/StudentsInClasses.rda"))
 ```
 
@@ -1861,7 +1921,7 @@ Beim Datensatz handelt es sich um ein fiktives Datenbeispiel mit simulierten Dat
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/Therapy.rda"))
 ```
 
@@ -1894,7 +1954,7 @@ Bei dem Datensatz handelt es sich um ein reales Beispiel des Titanicunglücks, i
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/Titanic.rda"))
 ```
 
@@ -1925,7 +1985,7 @@ Die Daten stammen aus einer echten Untersuchung, deren Datensatz [hier](https://
 
 ### Datensatz laden
 
-```r
+``` r
 source(url("https://pandar.netlify.app/daten/Data_Processing_Quiz1.R"))
 ```
 
@@ -1964,7 +2024,7 @@ Im Datensatz ist ein Ausschnitt aus den Daten zu einer Validierungsstudie des "V
 Der Datensatz wird in einem Skript reduziert und Variablen umbenannt. Dieses Skript kann mit folgendem Befehl ausgeführt werden:
 
 
-```r
+``` r
 source("https://pandar.netlify.app/daten/Data_Processing_vegan.R")
 ```
 
@@ -2004,7 +2064,7 @@ Der Datensatz enthält Ausprägungen von Patient:innen auf verschiedenen psychot
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/Behandlungsform.rda"))
 ```
 
@@ -2037,7 +2097,7 @@ Bis zum 25.11.2020 konnten Studierende des Masterkurses MSc1 zu folgenden Weihna
 
 ### Datensatz laden
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/Xmas.rda"))
 ```
 

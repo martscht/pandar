@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
 authors: [schultze]
 weight: 1
-lastmod: '2024-10-09'
+lastmod: '2024-10-20'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"
@@ -71,7 +71,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 811759 mal heruntergeladen
+* Allein in den letzten 30 Tagen 826310 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
@@ -401,7 +401,7 @@ log(argument = 10)
 ```
 
 ```
-## Error in eval(expr, envir, enclos): argument "x" is missing, with no default
+## Error: argument "x" is missing, with no default
 ```
 
 In diesem Fall werden wir darauf hingewiesen, dass wir keine Einstellung für das Argument `x` vorgenommen haben, obwohl dieses keine Voreinstellung hat. Daher ist die Funktion unfähig ein Ergebnis zu produzieren. Bei Fehlern sollten Sie bedenken, dass diese das Ausführen mehrerer Zeilen nicht unterbrechen. Wenn Sie also eine komplette Syntax auf einmal ausführen, können aus Fehlern Folgefehler entstehen, weil ein Ergebnis nicht entstanden ist, mit dem Sie anschließend weiter rechnen wollten.
@@ -1384,15 +1384,15 @@ Dieses Verhalten ist konsistent mit dem Verhalten von anderen Funktionen zum Dat
 
 ## Daten aus dem Fragebogen
 
-Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [{{< icon name="download" pack="fas" >}} hier](/daten/fb23.csv). Diese liegen im CSV Format vor und die Datei heißt **fb23.csv**. Beachten Sie, dass der Datensatz durch die Befragung anhand von **formr** eigentlich auch im R-Datenformat `.rda` vorliegt. Da Sie sich jedoch nicht sicher sein können, ob Sie in Zukunft immer eine Datei mit diesem Format verwenden werden, lernen wir auch das Einlesen von anderen Formaten kennen. Mit `read.table()` können wir den CSV Datensatz laden, müssen aber bestimmte Eigenheiten des Datensatzes bedenken. Wenn Sie den Datensatz mit einem Text-Editor öffnen sehen die ersten 5 Zeilen folgendermaßen aus:
+Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [{{< icon name="download" pack="fas" >}} hier](/daten/fb24.csv). Diese liegen im CSV Format vor und die Datei heißt **fb24.csv**. Beachten Sie, dass der Datensatz durch die Befragung anhand von **SoSciSurvey** eigentlich auch im R-Datenformat `.rda` vorliegt. Da Sie sich jedoch nicht sicher sein können, ob Sie in Zukunft immer eine Datei mit diesem Format verwenden werden, lernen wir auch das Einlesen von anderen Formaten kennen. Mit `read.table()` können wir den CSV Datensatz laden, müssen aber bestimmte Eigenheiten des Datensatzes bedenken. Wenn Sie den Datensatz mit einem Text-Editor öffnen sehen die ersten 5 Zeilen folgendermaßen aus:
 
 
 ```
-## "mdbf1_pre","mdbf2_pre","mdbf3_pre","mdbf4_pre","mdbf5_pre","mdbf6_pre","mdbf7_pre","mdbf8_pre","mdbf9_pre","mdbf10_pre","mdbf11_pre","mdbf12_pre","lz","extra","vertr","gewis","neuro","offen","prok","nerd","grund","fach","ziel","wissen","therap","lerntyp","hand","job","ort","ort12","wohnen","uni1","uni2","uni3","uni4","attent_pre","gs_post","wm_post","ru_post","attent_post"
-## 4,2,3,2,3,2,4,3,2,3,3,1,5.4,3.5,1.5,4.5,5,5,1.8,4.16666666666667,"Berufsziel",4,2,5,5,3,2,1,2,2,4,0,1,0,0,6,3,2,2.25,6
-## 2,2,4,2,2,1,3,2,4,2,2,1,3.4,3,3,4,5,5,3.1,3,"Interesse am Menschen",4,2,4,5,3,2,1,1,1,1,1,1,1,1,6,2.75,1,1.5,5
-## 4,3,2,1,3,2,3,3,1,3,1,2,4.4,4,3.5,5,2,4.5,1.5,2.33333333333333,"Interesse und Berufsaussichten",4,2,5,5,1,2,1,1,2,1,0,1,0,0,6,4,3.75,3.75,6
-## NA,3,2,2,2,2,1,2,2,3,2,3,4.4,3,4,3.5,4,3.5,1.6,2.83333333333333,"Wissenschaftliche Ergänzung zu meinen bisherigen Tätigkeiten (Arbeit in der psychiatrischen Akutpflege, Gestalttherapieausbildung), Psychotherapieausbildung",4,2,4,5,3,2,1,1,2,1,1,1,0,1,6,2.5,2.75,3.5,6
+## "mdbf1","mdbf2","mdbf3","mdbf4","mdbf5","mdbf6","mdbf7","mdbf8","mdbf9","mdbf10","mdbf11","mdbf12","time_pre","lz","extra","vertr","gewis","neuro","offen","prok","nerd","uni1","uni2","uni3","uni4","grund","fach","ziel","wissen","therap","lerntyp","hand","job","ort","ort12","wohnen","attent","gs_post","wm_post","ru_post","time_post","attent_post"
+## 4,3,1,1,3,3,3,4,1,3,1,3,49,6.6,5,4,4,1.5,4,2.7,2.5,0,1,0,0,"Interesse an Menschen, Verhalten und Sozialdynamiken",1,3,4,5,3,1,2,2,1,2,5,NA,NA,NA,NA,NA
+## 3,2,1,1,1,3,3,4,2,3,1,4,68,4,4,3,4.5,3,4,2.5,2.33333333333333,0,1,0,0,"Ich will die Menschliche Psyche und menschliches Handeln, Denken verstehen.",3,2,3,4,1,2,1,2,2,3,4,3,2.25,2.25,34,5
+## 3,3,1,1,3,3,2,3,1,3,1,3,107,5.2,3,3,4,3.5,4,2.9,2.83333333333333,0,1,1,1,NA,1,3,5,5,1,2,2,1,1,3,5,3.5,3,2.25,37,5
+## 3,1,2,2,3,2,3,3,2,3,2,3,38,4,1.5,3,3.5,3.5,3.5,2.8,4,0,1,0,0,"Um Therapeutin zu werden und Menschen aus meiner früheren Situatuon zu helfen ",4,2,5,5,1,2,1,1,1,3,5,2.75,2.25,2.25,37,5
 ```
 
 Die Art in der dieser Datensatz aufbereitet ist, muss R mitgeteilt werden, damit wir ihn ordentlich einlesen können. Es empfiehlt sich dafür mit `help(read.table)` die Hilfe zu öffnen. Was diese Hilfe verrät sind unter Anderem die Argumente, die die Funktion entgegennimmt:
@@ -1418,11 +1418,11 @@ Das einzige Argument ohne Voreinstellung ist `file`, also der Dateiname. Wenn wi
 
 
 ``` r
-fb23 <- read.table('fb23.csv')
+fb24 <- read.table('fb24.csv')
 ```
 
 ```
-## Error in scan(file = file, what = what, sep = sep, quote = quote, dec = dec, : line 1 did not have 13 elements
+## Error in scan(file = file, what = what, sep = sep, quote = quote, dec = dec, : line 1 did not have 20 elements
 ```
 
 
@@ -1430,128 +1430,123 @@ Das liegt in diesem Fall daran, dass `read.table()` als Voreinstellung annimmt, 
 
 
 ``` r
-fb23 <- read.table('fb23.csv', header = TRUE)
+fb24 <- read.table('fb24.csv', header = TRUE)
 ```
 
 ```
-## Error in read.table("../../daten/fb23.csv", header = TRUE): more columns than column names
+## Error in read.table("../../daten/fb24.csv", header = TRUE): more columns than column names
 ```
 
 Wieder ergibt sich ein Fehler, der lamentiert, dass es mehr Spalten als Variablennamen gibt. Das liegt daran, dass `read.table()` per Voreinstellung davon ausgeht, dass Variablen (bzw. Spalten des Datensatzes) durch Leerzeichen getrennt sind (`sep = ""`). In unserer Datei erfolgt das aber durch Kommata.
 
 
 ``` r
-fb23 <- read.table('fb23.csv', header = TRUE, sep = ",")
+fb24 <- read.table('fb24.csv', header = TRUE, sep = ",")
 ```
 
 
 
 
-Im Environment erscheint jetzt das Objekt `fb23`. Mit `head()` können wir uns den Kopf des Datensatzes (die ersten 6 Zeilen) anzeigen lassen:
+Im Environment erscheint jetzt das Objekt `fb24`. Mit `head()` können wir uns den Kopf des Datensatzes (die ersten 6 Zeilen) anzeigen lassen:
 
 
 ``` r
-head(fb23)    # Kopfzeilen
+head(fb24)    # Kopfzeilen
 ```
 
 ```
-##   mdbf1_pre mdbf2_pre mdbf3_pre mdbf4_pre mdbf5_pre mdbf6_pre mdbf7_pre
-## 1         4         2         3         2         3         2         4
-## 2         2         2         4         2         2         1         3
-## 3         4         3         2         1         3         2         3
-## 4        NA         3         2         2         2         2         1
-## 5         3         3         2         1         2         2         1
-## 6         3         2         3         1         1         2         2
-##   mdbf8_pre mdbf9_pre mdbf10_pre mdbf11_pre mdbf12_pre  lz extra vertr
-## 1         3         2          3          3          1 5.4   3.5   1.5
-## 2         2         4          2          2          1 3.4   3.0   3.0
-## 3         3         1          3          1          2 4.4   4.0   3.5
-## 4         2         2          3          2          3 4.4   3.0   4.0
-## 5         3         3          2          2          2 6.4   4.0   4.0
-## 6         3         3          4          1          2 5.6   4.5   4.5
-##   gewis neuro offen prok     nerd
-## 1   4.5   5.0   5.0  1.8 4.166667
-## 2   4.0   5.0   5.0  3.1 3.000000
-## 3   5.0   2.0   4.5  1.5 2.333333
-## 4   3.5   4.0   3.5  1.6 2.833333
-## 5   3.5   3.5   4.0  2.7 3.833333
-## 6   4.0   4.5   4.0  3.3 3.333333
-##                                                                                                                                                          grund
-## 1                                                                                                                                                   Berufsziel
-## 2                                                                                                                                        Interesse am Menschen
-## 3                                                                                                                               Interesse und Berufsaussichten
-## 4 Wissenschaftliche Ergänzung zu meinen bisherigen Tätigkeiten (Arbeit in der psychiatrischen Akutpflege, Gestalttherapieausbildung), Psychotherapieausbildung
-## 5                                                                                                                                       Passt am besten zu mir
-## 6                                                                                                   Weil ich mich schon seit ich klein bin dafür interessiere.
-##   fach ziel wissen therap lerntyp hand job ort ort12 wohnen uni1 uni2 uni3
-## 1    4    2      5      5       3    2   1   2     2      4    0    1    0
-## 2    4    2      4      5       3    2   1   1     1      1    1    1    1
-## 3    4    2      5      5       1    2   1   1     2      1    0    1    0
-## 4    4    2      4      5       3    2   1   1     2      1    1    1    0
-## 5    4    2      2      4       3    2   2   1     2      1    0    1    1
-## 6    4    2      3      5       1    2   2   2     1      2    0    1    0
-##   uni4 attent_pre gs_post wm_post ru_post attent_post
-## 1    0          6    3.00    2.00    2.25           6
-## 2    1          6    2.75    1.00    1.50           5
-## 3    0          6    4.00    3.75    3.75           6
-## 4    1          6    2.50    2.75    3.50           6
-## 5    0          6    3.75    3.00    3.00           6
-## 6    0          6      NA      NA      NA          NA
+##   mdbf1 mdbf2 mdbf3 mdbf4 mdbf5 mdbf6 mdbf7 mdbf8 mdbf9 mdbf10 mdbf11 mdbf12
+## 1     4     3     1     1     3     3     3     4     1      3      1      3
+## 2     3     2     1     1     1     3     3     4     2      3      1      4
+## 3     3     3     1     1     3     3     2     3     1      3      1      3
+## 4     3     1     2     2     3     2     3     3     2      3      2      3
+## 5     3     2     3     1     2     2     2     3     3      3      3      2
+## 6     2     2     1     3     4     3     4     2     2      2      2      2
+##   time_pre  lz extra vertr gewis neuro offen prok     nerd uni1 uni2 uni3 uni4
+## 1       49 6.6   5.0   4.0   4.0   1.5   4.0  2.7 2.500000    0    1    0    0
+## 2       68 4.0   4.0   3.0   4.5   3.0   4.0  2.5 2.333333    0    1    0    0
+## 3      107 5.2   3.0   3.0   4.0   3.5   4.0  2.9 2.833333    0    1    1    1
+## 4       38 4.0   1.5   3.0   3.5   3.5   3.5  2.8 4.000000    0    1    0    0
+## 5       45 5.0   2.5   3.5   2.5   4.5   4.5  2.9 3.666667    0    1    0    0
+## 6      100 4.4   4.5   2.5   4.0   3.5   4.0  2.7 2.666667    0    1    1    0
+##                                                                            grund
+## 1                           Interesse an Menschen, Verhalten und Sozialdynamiken
+## 2    Ich will die Menschliche Psyche und menschliches Handeln, Denken verstehen.
+## 3                                                                           <NA>
+## 4 Um Therapeutin zu werden und Menschen aus meiner früheren Situatuon zu helfen 
+## 5                           Interesse an menschlichem Denken, Fühlen und Handeln
+## 6                     persönliches Interesse, viele spätere Berufsfelder möglich
+##   fach ziel wissen therap lerntyp hand job ort ort12 wohnen attent gs_post wm_post
+## 1    1    3      4      5       3    1   2   2     1      2      5      NA      NA
+## 2    3    2      3      4       1    2   1   2     2      3      4    3.00    2.25
+## 3    1    3      5      5       1    2   2   1     1      3      5    3.50    3.00
+## 4    4    2      5      5       1    2   1   1     1      3      5    2.75    2.25
+## 5    4    2      4      5       1    2   1   1     2      3      5    2.50    2.50
+## 6    3    3      3      5       1    2   1   1     2      3      5    3.00    2.25
+##   ru_post time_post attent_post
+## 1      NA        NA          NA
+## 2    2.25        34           5
+## 3    2.25        37           5
+## 4    2.25        37           5
+## 5    2.00        51           5
+## 6    2.25        40           5
 ```
 
 ``` r
-str(fb23)     # Struktur des Datensatzes
+str(fb24)     # Struktur des Datensatzes
 ```
 
 ```
-## 'data.frame':	179 obs. of  40 variables:
-##  $ mdbf1_pre  : int  4 2 4 NA 3 3 2 3 3 2 ...
-##  $ mdbf2_pre  : int  2 2 3 3 3 2 3 2 2 1 ...
-##  $ mdbf3_pre  : int  3 4 2 2 2 3 3 1 2 2 ...
-##  $ mdbf4_pre  : int  2 2 1 2 1 1 3 2 3 3 ...
-##  $ mdbf5_pre  : int  3 2 3 2 2 1 3 3 2 4 ...
-##  $ mdbf6_pre  : int  2 1 2 2 2 2 2 3 2 2 ...
-##  $ mdbf7_pre  : int  4 3 3 1 1 2 2 3 3 3 ...
-##  $ mdbf8_pre  : int  3 2 3 2 3 3 2 3 3 2 ...
-##  $ mdbf9_pre  : int  2 4 1 2 3 3 4 2 2 3 ...
-##  $ mdbf10_pre : int  3 2 3 3 2 4 2 2 2 2 ...
-##  $ mdbf11_pre : int  3 2 1 2 2 1 3 1 2 4 ...
-##  $ mdbf12_pre : int  1 1 2 3 2 2 2 3 3 2 ...
-##  $ lz         : num  5.4 3.4 4.4 4.4 6.4 5.6 5.4 5 4.8 6 ...
-##  $ extra      : num  3.5 3 4 3 4 4.5 3.5 3.5 2.5 3 ...
-##  $ vertr      : num  1.5 3 3.5 4 4 4.5 4 4 3 3.5 ...
-##  $ gewis      : num  4.5 4 5 3.5 3.5 4 4.5 2.5 3.5 4 ...
-##  $ neuro      : num  5 5 2 4 3.5 4.5 3 2.5 4.5 4 ...
-##  $ offen      : num  5 5 4.5 3.5 4 4 5 4.5 4 3 ...
-##  $ prok       : num  1.8 3.1 1.5 1.6 2.7 3.3 2.2 3.4 2.4 3.1 ...
-##  $ nerd       : num  4.17 3 2.33 2.83 3.83 ...
-##  $ grund      : chr  "Berufsziel" "Interesse am Menschen" "Interesse und Berufsaussichten" "Wissenschaftliche Ergänzung zu meinen bisherigen Tätigkeiten (Arbeit in der psychiatrischen Akutpflege, Gestalt"| __truncated__ ...
-##  $ fach       : int  4 4 4 4 4 4 NA 4 4 NA ...
-##  $ ziel       : int  2 2 2 2 2 2 NA 4 2 2 ...
-##  $ wissen     : int  5 4 5 4 2 3 NA 4 3 3 ...
-##  $ therap     : int  5 5 5 5 4 5 NA 3 5 5 ...
-##  $ lerntyp    : int  3 3 1 3 3 1 NA 1 3 3 ...
-##  $ hand       : int  2 2 2 2 2 2 NA 2 1 2 ...
-##  $ job        : int  1 1 1 1 2 2 NA 2 1 2 ...
-##  $ ort        : int  2 1 1 1 1 2 NA 1 1 2 ...
-##  $ ort12      : int  2 1 2 2 2 1 NA 2 2 1 ...
-##  $ wohnen     : int  4 1 1 1 1 2 NA 3 3 2 ...
-##  $ uni1       : int  0 1 0 1 0 0 0 0 0 0 ...
-##  $ uni2       : int  1 1 1 1 1 1 0 1 1 1 ...
-##  $ uni3       : int  0 1 0 0 1 0 0 1 1 0 ...
-##  $ uni4       : int  0 1 0 1 0 0 0 0 0 0 ...
-##  $ attent_pre : int  6 6 6 6 6 6 NA 4 5 5 ...
-##  $ gs_post    : num  3 2.75 4 2.5 3.75 NA 4 2.75 3.75 2.5 ...
-##  $ wm_post    : num  2 1 3.75 2.75 3 NA 3.25 2 3.25 2 ...
-##  $ ru_post    : num  2.25 1.5 3.75 3.5 3 NA 3.5 2.75 2.75 2.75 ...
-##  $ attent_post: int  6 5 6 6 6 NA 6 4 5 3 ...
+## 'data.frame':	192 obs. of  42 variables:
+##  $ mdbf1      : int  4 3 3 3 3 2 4 2 3 4 ...
+##  $ mdbf2      : int  3 2 3 1 2 2 4 3 3 4 ...
+##  $ mdbf3      : int  1 1 1 2 3 1 1 2 2 1 ...
+##  $ mdbf4      : int  1 1 1 2 1 3 1 1 1 1 ...
+##  $ mdbf5      : int  3 1 3 3 2 4 1 2 1 1 ...
+##  $ mdbf6      : int  3 3 3 2 2 3 3 3 3 4 ...
+##  $ mdbf7      : int  3 3 2 3 2 4 1 4 1 1 ...
+##  $ mdbf8      : int  4 4 3 3 3 2 4 3 4 4 ...
+##  $ mdbf9      : int  1 2 1 2 3 2 3 3 2 1 ...
+##  $ mdbf10     : int  3 3 3 3 3 2 3 2 4 4 ...
+##  $ mdbf11     : int  1 1 1 2 3 2 2 1 2 1 ...
+##  $ mdbf12     : int  3 4 3 3 2 2 3 2 3 4 ...
+##  $ time_pre   : int  49 68 107 38 45 100 61 40 36 40 ...
+##  $ lz         : num  6.6 4 5.2 4 5 4.4 6.4 4 4.6 6 ...
+##  $ extra      : num  5 4 3 1.5 2.5 4.5 4 2.5 4 3 ...
+##  $ vertr      : num  4 3 3 3 3.5 2.5 4 2.5 4.5 3 ...
+##  $ gewis      : num  4 4.5 4 3.5 2.5 4 3.5 3.5 4 5 ...
+##  $ neuro      : num  1.5 3 3.5 3.5 4.5 3.5 2.5 3.5 5 2.5 ...
+##  $ offen      : num  4 4 4 3.5 4.5 4 4 4 4.5 3 ...
+##  $ prok       : num  2.7 2.5 2.9 2.8 2.9 2.7 2.4 2.5 2.7 2.6 ...
+##  $ nerd       : num  2.5 2.33 2.83 4 3.67 ...
+##  $ uni1       : int  0 0 0 0 0 0 0 0 1 0 ...
+##  $ uni2       : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ uni3       : int  0 0 1 0 0 1 0 1 1 1 ...
+##  $ uni4       : int  0 0 1 0 0 0 0 0 1 0 ...
+##  $ grund      : chr  "Interesse an Menschen, Verhalten und Sozialdynamiken" "Ich will die Menschliche Psyche und menschliches Handeln, Denken verstehen." NA "Um Therapeutin zu werden und Menschen aus meiner früheren Situatuon zu helfen " ...
+##  $ fach       : int  1 3 1 4 4 3 1 3 1 4 ...
+##  $ ziel       : int  3 2 3 2 2 3 1 4 4 2 ...
+##  $ wissen     : int  4 3 5 5 4 3 3 4 5 3 ...
+##  $ therap     : int  5 4 5 5 5 5 4 5 4 5 ...
+##  $ lerntyp    : int  3 1 1 1 1 1 3 3 3 1 ...
+##  $ hand       : int  1 2 2 2 2 2 2 2 1 2 ...
+##  $ job        : int  2 1 2 1 1 1 1 1 2 2 ...
+##  $ ort        : int  2 2 1 1 1 1 1 2 1 1 ...
+##  $ ort12      : int  1 2 1 1 2 2 2 1 2 2 ...
+##  $ wohnen     : int  2 3 3 3 3 3 1 2 1 1 ...
+##  $ attent     : int  5 4 5 5 5 5 5 4 4 5 ...
+##  $ gs_post    : num  NA 3 3.5 2.75 2.5 3 NA 3.25 3 3.25 ...
+##  $ wm_post    : num  NA 2.25 3 2.25 2.5 2.25 NA 2.5 3 3.25 ...
+##  $ ru_post    : num  NA 2.25 2.25 2.25 2 2.25 NA 2.25 2.75 1.75 ...
+##  $ time_post  : int  NA 34 37 37 51 40 NA 40 30 27 ...
+##  $ attent_post: int  NA 5 5 5 5 5 NA 5 5 5 ...
 ```
 
 Wir können den Datensatz übrigens auch direkt von der Website in R laden. Der Dateiname nimmt auch direkt URLs entegegen:
 
 
 ``` r
-fb23 <- read.table('https://pandar.netlify.app/daten/fb23.csv', header = TRUE, sep = ",")
+fb24 <- read.table('https://pandar.netlify.app/daten/fb24.csv', header = TRUE, sep = ",")
 ```
 
 so kann umgangen werden, dass wir die gleiche Datei immer und überall lokal speichern müssen, obwohl wir eine zentrale, online verfügbare Datei nutzen.
@@ -1560,8 +1555,8 @@ Gegenspieler von `read.table()` ist `write.table()` mit dem Daten im Klartextfor
 
 
 ``` r
-write.table(fb23,     # zu speichernder Datensatz
-  'fb23.txt'          # Dateiname
+write.table(fb24,     # zu speichernder Datensatz
+  'fb24.txt'          # Dateiname
   )
 ```
 
@@ -1569,11 +1564,11 @@ Diese Datei entspricht den Voreinstellungen von `write.table()`. Daher sehen die
 
 
 ```
-## "mdbf1_pre" "mdbf2_pre" "mdbf3_pre" "mdbf4_pre" "mdbf5_pre" "mdbf6_pre" "mdbf7_pre" "mdbf8_pre" "mdbf9_pre" "mdbf10_pre" "mdbf11_pre" "mdbf12_pre" "lz" "extra" "vertr" "gewis" "neuro" "offen" "prok" "nerd" "grund" "fach" "ziel" "wissen" "therap" "lerntyp" "hand" "job" "ort" "ort12" "wohnen" "uni1" "uni2" "uni3" "uni4" "attent_pre" "gs_post" "wm_post" "ru_post" "attent_post"
-## "1" 4 2 3 2 3 2 4 3 2 3 3 1 5.4 3.5 1.5 4.5 5 5 1.8 4.16666666666667 "Berufsziel" 4 2 5 5 3 2 1 2 2 4 0 1 0 0 6 3 2 2.25 6
-## "2" 2 2 4 2 2 1 3 2 4 2 2 1 3.4 3 3 4 5 5 3.1 3 "Interesse am Menschen" 4 2 4 5 3 2 1 1 1 1 1 1 1 1 6 2.75 1 1.5 5
-## "3" 4 3 2 1 3 2 3 3 1 3 1 2 4.4 4 3.5 5 2 4.5 1.5 2.33333333333333 "Interesse und Berufsaussichten" 4 2 5 5 1 2 1 1 2 1 0 1 0 0 6 4 3.75 3.75 6
-## "4" NA 3 2 2 2 2 1 2 2 3 2 3 4.4 3 4 3.5 4 3.5 1.6 2.83333333333333 "Wissenschaftliche Ergänzung zu meinen bisherigen Tätigkeiten (Arbeit in der psychiatrischen Akutpflege, Gestalttherapieausbildung), Psychotherapieausbildung" 4 2 4 5 3 2 1 1 2 1 1 1 0 1 6 2.5 2.75 3.5 6
+## "mdbf1" "mdbf2" "mdbf3" "mdbf4" "mdbf5" "mdbf6" "mdbf7" "mdbf8" "mdbf9" "mdbf10" "mdbf11" "mdbf12" "time_pre" "lz" "extra" "vertr" "gewis" "neuro" "offen" "prok" "nerd" "uni1" "uni2" "uni3" "uni4" "grund" "fach" "ziel" "wissen" "therap" "lerntyp" "hand" "job" "ort" "ort12" "wohnen" "attent" "gs_post" "wm_post" "ru_post" "time_post" "attent_post"
+## "1" 4 3 1 1 3 3 3 4 1 3 1 3 49 6.6 5 4 4 1.5 4 2.7 2.5 0 1 0 0 "Interesse an Menschen, Verhalten und Sozialdynamiken" 1 3 4 5 3 1 2 2 1 2 5 NA NA NA NA NA
+## "2" 3 2 1 1 1 3 3 4 2 3 1 4 68 4 4 3 4.5 3 4 2.5 2.33333333333333 0 1 0 0 "Ich will die Menschliche Psyche und menschliches Handeln, Denken verstehen." 3 2 3 4 1 2 1 2 2 3 4 3 2.25 2.25 34 5
+## "3" 3 3 1 1 3 3 2 3 1 3 1 3 107 5.2 3 3 4 3.5 4 2.9 2.83333333333333 0 1 1 1 NA 1 3 5 5 1 2 2 1 1 3 5 3.5 3 2.25 37 5
+## "4" 3 1 2 2 3 2 3 3 2 3 2 3 38 4 1.5 3 3.5 3.5 3.5 2.8 4 0 1 0 0 "Um Therapeutin zu werden und Menschen aus meiner früheren Situatuon zu helfen " 4 2 5 5 1 2 1 1 1 3 5 2.75 2.25 2.25 37 5
 ```
 
 
