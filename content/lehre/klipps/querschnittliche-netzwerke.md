@@ -7,8 +7,8 @@ tags: ["Querschnitt", "Regularisierung", "Zentralität", "Bootstrap" ]
 subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
 summary: ''
 authors: [nehler, liu]
-weight: 7
-lastmod: '2024-09-26'
+weight: 6
+lastmod: '2024-10-23'
 featured: no
 banner:
   image: "/header/under_construction.jpg"

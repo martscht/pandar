@@ -8,6 +8,10 @@ pandarize <- function(x, purl = TRUE) {
   try(expr = {
   # first lines define the names for files for a certain post
   .rmd <- dir(getwd(), pattern = paste0(x, '.Rmd'), recursive = TRUE)
+  if (length(.rmd) > 1) {
+    .rmd <- .rmd[1]
+    warning(paste0('Multiple RMarkdown files found containing ', x, '. Only ', .rmd, ' will be rendered.'))
+  }
   .location <- gsub(paste0(x, '.Rmd'), '', .rmd)
   .img_location <- gsub('content', '', .location)
   .md <- gsub('.Rmd', '.md', .rmd)
