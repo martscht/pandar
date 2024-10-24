@@ -7,7 +7,7 @@ tags: []
 subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
 summary: ''
 authors: [liu]
-weight: 8
+weight: 7
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:

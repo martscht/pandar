@@ -7,7 +7,7 @@ tags: ["Mehrebenenmodelle", "Längsschnitt", "Mixed Models"]
 subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
 summary: ''
 authors: [liu]
-weight: 6
+weight: 5
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
