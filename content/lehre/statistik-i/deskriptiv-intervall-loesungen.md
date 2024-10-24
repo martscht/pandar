@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, buchholz, zacharias, pommeranz] 
-lastmod: '2024-03-18'
+lastmod: '2024-10-24'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -40,27 +40,27 @@ output:
 
 ### Vorbereitung
 
-> Laden Sie zunächst den Datensatz `fb23` von der pandaR-Website durch die bekannten Befehle direkt ins Environment. Alternativ ist die Datei unter diesem [<i class="fas fa-download"></i> Link](/daten/fb23.rda) zum Download verfügbar. Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/deskriptiv-intervall/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb24` von der pandaR-Website durch die bekannten Befehle direkt ins Environment. Alternativ ist die Datei unter diesem [<i class="fas fa-download"></i> Link](/daten/fb24.rda) zum Download verfügbar. Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/deskriptiv-intervall/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 <details><summary>R-Code für die Vorbereitung</summary>
 
-```r
+``` r
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb23.rda'))
+load(url('https://pandar.netlify.app/daten/fb24.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb23$hand_factor <- factor(fb23$hand,
+fb24$hand_factor <- factor(fb24$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb23$fach <- factor(fb23$fach,
+fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb23$ziel <- factor(fb23$ziel,
+fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb23$wohnen <- factor(fb23$wohnen, 
+fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 ```
@@ -68,15 +68,15 @@ fb23$wohnen <- factor(fb23$wohnen,
 Falls Sie nochmal sicher gehen wollen, ob alles korrekt funktioniert hat, könnte die Anzahl der Zeilen und Spalten einen Hinweis geben:
 
 
-```r
-dim(fb23)
+``` r
+dim(fb24)
 ```
 
 ```
-## [1] 179  41
+## [1] 192  43
 ```
 
-Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 41 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und 43 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 </details>
@@ -84,7 +84,7 @@ Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 41 Spalten (Variablen).
 
 ## Aufgabe 1
 
-Erstellen Sie im Datensatz `fb23` die Skalenwerte für die Subskala ruhig/unruhig der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. mdbf3 und mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `ru_pre` im Datensatz `fb23` ab.
+Erstellen Sie im Datensatz `fb24` die Skalenwerte für die Subskala ruhig/unruhig der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. mdbf3 und mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `ru_pre` im Datensatz `fb24` ab.
 
 * Erstellen Sie den Skalenwert als Mittelwert der vier Items.
 
@@ -92,29 +92,29 @@ Erstellen Sie im Datensatz `fb23` die Skalenwerte für die Subskala ruhig/unruhi
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 # Invertieren
-fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 5)
-fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 5)
+fb24$mdbf3_r <-  -1 * (fb24$mdbf3 - 5)
+fb24$mdbf9_r <-  -1 * (fb24$mdbf9 - 5)
 ```
 
 
-```r
+``` r
 # Skalenwert
 
-ru_pre <- fb23[, c("mdbf3_pre_r", "mdbf6_pre", "mdbf9_pre_r", "mdbf12_pre")]
+ru_pre <- fb24[, c("mdbf3_r", "mdbf6", "mdbf9_r", "mdbf12")]
 
-fb23$ru_pre <- rowMeans(ru_pre)
+fb24$ru_pre <- rowMeans(ru_pre)
 ```
 
 Oder in einem Schritt mit der Pipe:
 
 
-```r
+``` r
 # Skalenwert
 
-fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
-                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+                         "mdbf9_r", "mdbf12")] |> rowMeans()
 ```
 
 </details>
@@ -131,36 +131,36 @@ Bestimmen Sie für die Skala den gesamten Mittelwert und Median.
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 # Median und Mittelwert
-median(fb23$ru_pre, na.rm = TRUE)
+median(fb24$ru_pre, na.rm = TRUE)
 ```
 
 ```
-## [1] 3
+## [1] 2.75
 ```
 
-```r
-mean(fb23$ru_pre, na.rm = TRUE)
+``` r
+mean(fb24$ru_pre, na.rm = TRUE)
 ```
 
 ```
-## [1] 2.730447
+## [1] 2.77474
 ```
 
-Der Median ist größer als der Mittelwert, was eine linksschiefe Verteilung vermuten lässt.
+Der Median ist fast gleich dem Mittelwert, was eine symmetrische Verteilung vermuten lässt.
 
 
 **Prüfen der Vermutung anhand eines Histogramms!**
 
 
-```r
-hist(fb23$ru_pre, breaks = 6) # Histogramm
+``` r
+hist(fb24$ru_pre, breaks = 6) # Histogramm
 ```
 
 ![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
-Unser Histogramm zeigt uns, dass die Verteilung tatsächlich einigermaßen linksschief verläuft.
+Unser Histogramm zeigt uns, dass die Verteilung tatsächlich einigermaßen symmetrisch ist.
 </details>
 
 
@@ -177,11 +177,11 @@ Bestimmen Sie für den Skalenwert `ru_pre` die empirische Varianz und Standardab
 * Empirische Varianz: $s^2_{X} = \frac{\sum_{m=1}^n (x_m - \bar{x})^2}{n}$  
 * Schätzer der Populationsvarianz: $\hat{\sigma}^2_{X} = \frac{\sum_{m=1}^n (x_m - \bar{x})^2}{n - 1}$  
 
-Zur Berechnung der Varianz gemäß Formel benötigen wir $n$. Wir könnten mit `nrow(fb23)` die Länge des Datensatzes für `n` heranziehen. Dies ist jedoch nur dann sinnvoll, wenn auf der Variable `ru_pre`` keine fehlenden Werte vorhanden sind!
+Zur Berechnung der Varianz gemäß Formel benötigen wir $n$. Wir könnten mit `nrow(fb24)` die Länge des Datensatzes für `n` heranziehen. Dies ist jedoch nur dann sinnvoll, wenn auf der Variable `ru_pre`` keine fehlenden Werte vorhanden sind!
 
 
-```r
-is.na(fb23$ru_pre) |> sum()
+``` r
+is.na(fb24$ru_pre) |> sum()
 ```
 
 ```
@@ -191,32 +191,32 @@ is.na(fb23$ru_pre) |> sum()
 Hier gibt es tatsächlich keinen fehlenden Wert.
 
 
-```r
+``` r
 # empirische Varianz
 # per Hand
-sum((fb23$ru_pre - mean(fb23$ru_pre, na.rm = T))^2, na.rm = T) / (length(na.omit(fb23$ru_pre)))
+sum((fb24$ru_pre - mean(fb24$ru_pre, na.rm = T))^2, na.rm = T) / (length(na.omit(fb24$ru_pre)))
 ```
 
 ```
-## [1] 0.5582769
+## [1] 0.4652083
 ```
 
-```r
+``` r
 # durch Umrechnung 
-var(fb23$ru_pre, na.rm = T) * (length(na.omit(fb23$ru_pre))-1) / length(na.omit(fb23$ru_pre))
+var(fb24$ru_pre, na.rm = T) * (length(na.omit(fb24$ru_pre))-1) / length(na.omit(fb24$ru_pre))
 ```
 
 ```
-## [1] 0.5582769
+## [1] 0.4652083
 ```
 
-```r
+``` r
 # Populationsschätzer
-var(fb23$ru_pre, na.rm = T)
+var(fb24$ru_pre, na.rm = T)
 ```
 
 ```
-## [1] 0.5614133
+## [1] 0.4676439
 ```
 
 Die empirische Varianz ist kleiner als der Populationsschätzer.
@@ -224,22 +224,22 @@ Die empirische Varianz ist kleiner als der Populationsschätzer.
 Nun fehlt noch die Betrachtung der Standardabweichung. Als einfachste Möglichkeit für die Berechnung der empirischen Standardabweichung haben wir gelernt, dass man die Wurzel aus der empirischen Varianz ziehen kann.
 
 
-```r
+``` r
 # empirische Standardabweichung (na.omit / na.rm kann auch ausgelassen werden!)
-(sum((fb23$ru_pre - mean(fb23$ru_pre, na.rm = T))^2, na.rm = T) / length(na.omit(fb23$ru_pre))) |> sqrt()
+(sum((fb24$ru_pre - mean(fb24$ru_pre, na.rm = T))^2, na.rm = T) / length(na.omit(fb24$ru_pre))) |> sqrt()
 ```
 
 ```
-## [1] 0.7471793
+## [1] 0.6820618
 ```
 
-```r
+``` r
 # Populationsschätzer
-sd(fb23$ru_pre, na.rm = T)
+sd(fb24$ru_pre, na.rm = T)
 ```
 
 ```
-## [1] 0.7492752
+## [1] 0.6838449
 ```
 
 Auch hier ist der empirische Wert kleiner als der Schätzer.
@@ -261,15 +261,15 @@ Erstellen Sie eine z-standardisierte Variante der Skala ruhig/unruhig und legen 
 Um die Vergleichbarkeit zu erhöhen, wird im folgenden Code ein kleiner Trick angewendet. Die beiden Histogramme sollten am besten gleichzeitig unter **Plots** angezeigt werden. Durch die verwendete Funktion `par()` kann man verschiedene Plots gemeinsam in einem Fenster zeichnen. Das Argument bestimmt dabei, dass es eine Zeile und zwei Spalten für die Plots gibt.
 
 
-```r
+``` r
 par(mfrow=c(1,2))
 
 # z-Standardisierung
-fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
+fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
 
 # Histogramme
-hist(fb23$ru_pre_zstd)
-hist(fb23$ru_pre)
+hist(fb24$ru_pre_zstd)
+hist(fb24$ru_pre)
 ```
 
 ![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
@@ -277,15 +277,22 @@ hist(fb23$ru_pre)
 Beim Vergleich der beiden Histogrammen fällt auf, dass sich - aufgrund der R-Voreinstellungen - das Erscheinungsbild fälschlicherweise unterscheidet (vor allem, wenn wir die y-Achse betrachten!) - eigentlich sollte sich durch die z-Transformation nur Skalierung der x-Achsen-Variable verändern. Tatsächlich aber bestimmt R hier eine unterschiedliche Anzahl von Kategorien. Wir erhalten eine konstantere Darstellung durch das `breaks`-Argument:
 
 
-```r
+``` r
 # Histogramme mit jeweils 5/6 Breaks
 par(mfrow=c(1,2))
-hist(fb23$ru_pre_zstd, breaks = 5)
-hist(fb23$ru_pre, breaks = 6)
+hist(fb24$ru_pre_zstd, breaks = 5)
+hist(fb24$ru_pre, breaks = 6)
 ```
 
 ![](/lehre/statistik-i/deskriptiv-intervall-loesungen_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 Die Verteilungen sehen nun tatsächlich vergleichbar aus. Da die Breaks ein weicher Befehl sind, kann hier keine komplette Gleichheit gegeben werden.
+
+Zum Abschluss sollte noch der Grafik-Bereich wieder so eingestellt werden, dass nur eine Grafik gleichzeitig angezeigt wird.
+
+
+``` r
+par(mfrow=c(1,1))
+```
 
 </details>
