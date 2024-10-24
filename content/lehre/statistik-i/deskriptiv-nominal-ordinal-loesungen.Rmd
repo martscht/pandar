@@ -44,25 +44,25 @@ Die Lösungen sind exemplarische Möglichkeiten. In `R` gibt es immer viele Wege
 
 ### Vorbereitung
 
-> Laden Sie die Daten aus [<i class="fas fa-download"></i> `fb23.rda`](/daten/fb23.rda) oder direkt von der Website über die gelernten Befehle. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie die Daten aus [<i class="fas fa-download"></i> `fb24.rda`](/daten/fb24.rda) oder direkt von der Website über die gelernten Befehle. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 <details><summary>Lösung</summary>
 
 Daten laden:
 
 ```{r}
-load(url('https://pandar.netlify.app/daten/fb23.rda'))  
+load(url('https://pandar.netlify.app/daten/fb24.rda'))  
 ```
 
 
 Überblick über den Datensatz verschaffen:
 
 ```{r}
-dim(fb23)
-str(fb23)
+dim(fb24)
+str(fb24)
 ```
 
-Der Datensatz besteht aus `r nrow(fb23)` Zeilen (Beobachtungen) und `r ncol(fb23)` Spalten (Variablen).
+Der Datensatz besteht aus `r nrow(fb24)` Zeilen (Beobachtungen) und `r ncol(fb24)` Spalten (Variablen).
 
 </details>
 
@@ -82,29 +82,29 @@ Untersuchen Sie, welche Arbeitsbranche Sie und Ihre Kommiliton:innen nach dem St
 **Faktor erstellen**
 
 ```{r}
-fb23$ziel <- factor(fb23$ziel,
+fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-levels(fb23$ziel)
+levels(fb24$ziel)
 ```
 
 **Absolute und relative Häufigkeiten anfordern**  
 
 ```{r}
-table(fb23$ziel)              # absolut
-prop.table(table(fb23$ziel))  # relativ
+table(fb24$ziel)              # absolut
+prop.table(table(fb24$ziel))  # relativ
 ```
 
 **Zentrale Tendenz und Dispersion für nominalskalierte Variablen: Modus, relativer Informationsgehalt**
 
 ```{r}
 # Modus
-which.max(table(fb23$ziel))
+which.max(table(fb24$ziel))
 ```
 
 ```{r}
 #relativer Informationsgehalt
-hj <- prop.table(table(fb23$ziel))  # hj erstellen
+hj <- prop.table(table(fb24$ziel))  # hj erstellen
 ln_hj <- log(hj)                    # Logarithmus bestimmen
 summand <- ln_hj * hj               # Berechnung fuer jede Kategorie
 summe <- sum(summand)               # Gesamtsumme
@@ -113,7 +113,7 @@ relInf <- -1/log(k) * summe         # Relativer Informationsgehalt
 relInf
 ```
 
-Der Modus der Variable lautet `r names(which.max(table(fb23$ziel)))` - die meisten Ihres Jahrgangs (*n* = `r max(table(fb23$ziel))` bzw. `r round(max(prop.table(table(fb23$ziel)))*100,2)`%) streben einen Job in diesem Bereich an. Der relative Informationsgehalt der Variable beträgt `r round(relInf, 2)`. Sie sehen hier, dass wir im Code einen kleinen Unterschied zum Tutorial eingebaut haben. Die Anzahl der Kategorien wird nicht mehr durch `dim(tab)` sondern durch `length(hj)` bestimmt. Das Resultat ist nicht verschieden - die Anzahl der Kategorien wird gezählt. Wir wollen somit aber nochmal deutlich machen, dass es in `R` immer sehr viele Wege zu einem Ziel geben kann.
+Der Modus der Variable lautet `r names(which.max(table(fb24$ziel)))` - die meisten Ihres Jahrgangs (*n* = `r max(table(fb24$ziel))` bzw. `r round(max(prop.table(table(fb24$ziel)))*100,2)`%) streben einen Job in diesem Bereich an. Der relative Informationsgehalt der Variable beträgt `r round(relInf, 2)`. Sie sehen hier, dass wir im Code einen kleinen Unterschied zum Tutorial eingebaut haben. Die Anzahl der Kategorien wird nicht mehr durch `dim(tab)` sondern durch `length(hj)` bestimmt. Das Resultat ist nicht verschieden - die Anzahl der Kategorien wird gezählt. Wir wollen somit aber nochmal deutlich machen, dass es in `R` immer sehr viele Wege zu einem Ziel geben kann.
 
 </details>
 
@@ -132,31 +132,31 @@ Die Variable `therap` enthält die Angaben über das Ausmaß, in dem sich Sie un
 **Modus**
 
 ```{r}
-which.max(table(fb23$therap))
+which.max(table(fb24$therap))
 ```
 
 **Häufigkeiten**
 
 ```{r}
-table(fb23$therap)
-prop.table(table(fb23$therap))
+table(fb24$therap)
+prop.table(table(fb24$therap))
 ```
 
-Der Modus der Variable `therap` beträgt `r which.max(table(fb23$therap))`, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = `r max(table(fb23$therap))` bzw. `r round(max(prop.table(table(fb23$therap)))*100,2)`%).
+Der Modus der Variable `therap` beträgt `r which.max(table(fb24$therap))`, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = `r max(table(fb24$therap))` bzw. `r round(max(prop.table(table(fb24$therap)))*100,2)`%).
 
 **Boxplot**
 
 ```{r}
-boxplot(fb23$therap)
+boxplot(fb24$therap)
 ```
 
 **Quartile**
 
 ```{r}
-quantile(fb23$therap, c(.25,.5,.75), na.rm=T)
+quantile(fb24$therap, c(.25,.5,.75), na.rm=T)
 ```
 
-Der Median beträgt `r quantile(fb23$therap, .5, na.rm=T)`. Das 1. und 3. Quartil betragen `r quantile(fb23$therap, .25, na.rm=T)` bzw. `r quantile(fb23$therap, .75, na.rm=T)`. Folglich sind die Grenzen des Interquartilsbereich (IQB) `r quantile(fb23$therap, .25, na.rm=T)` und `r  quantile(fb23$therap, .75, na.rm=T)`. Der Interquartilsabstand (IQA) beträgt `r  quantile(fb23$therap, .75, na.rm=T)-quantile(fb23$therap, .25, na.rm=T)`.
+Der Median beträgt `r quantile(fb24$therap, .5, na.rm=T)`. Das 1. und 3. Quartil betragen `r quantile(fb24$therap, .25, na.rm=T)` bzw. `r quantile(fb24$therap, .75, na.rm=T)`. Folglich sind die Grenzen des Interquartilsbereich (IQB) `r quantile(fb24$therap, .25, na.rm=T)` und `r  quantile(fb24$therap, .75, na.rm=T)`. Der Interquartilsabstand (IQA) beträgt `r  quantile(fb24$therap, .75, na.rm=T)-quantile(fb24$therap, .25, na.rm=T)`.
 
 </details>
 
@@ -167,34 +167,29 @@ Erstellen Sie für die Variable `wohnen` eine geeignete Abbildung.
 
 * Stellen Sie sicher, dass die einzelnen Ausprägungen der Variable in der Darstellung interpretierbar benannt sind!  
 * Dekorieren Sie diese Abbildung nach eigenen Wünschen (z.B. mit einer Farbpalette und Achsenbeschriftungen).
-* Speichern Sie die Grafik per Syntax als .jpg-Datei mit dem Namen "Befragung-fb23.jpg" ab.
+* Speichern Sie die Grafik per Syntax als .jpg-Datei mit dem Namen "Befragung-fb24.jpg" ab.
 
 <details><summary>Lösung</summary>
 
 **Faktor erstellen**
 
 ```{r}
-fb23$wohnen <- factor(fb23$wohnen, 
+fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 ```
 
-**Default Darstellung und überarbeitete Grafik**
+**Ansprechende Grafik erstellen**
 
-Um die Vergleichbarkeit zu erhöhen, wird im folgenden Code ein kleiner Trick angewendet. Die beiden Histogramme sollten am besten gleichzeitig unter **Plots** angezeigt werden. Durch die verwendete Funktion `par()` kann man verschiedene Plots gemeinsam in einem Fenster zeichnen. Das Argument bestimmt dabei, dass es eine Zeile und zwei Spalten für die Plots gibt.
+Um eine ansprechende Grafik zu erhalten, können wir einige Argumente anpassen. Hier ist natürlich nur eine beispielhafte Lösung abgebildet.
 
 ```{r}
-par(mfrow=c(1,2))
-
-# Default
-barplot(table(fb23$wohnen))
-
-# Überarbeitet
+# Ansprechende Darstellung
 barplot(
   # wichtig: Funktion auf Häufigkeitstabelle, nicht die Variable selbst anwenden:
-  table(fb23$wohnen),                               
+  table(fb24$wohnen),                               
   # aussagekräftiger Titel, inkl. Zeilenumbruch ("\n") 
-  main = "Befragung Erstis im WS 23/24:\nAktuelle Wohnsituation", 
+  main = "Befragung Erstis im WS 24/25:\nAktuelle Wohnsituation", 
   # y-Achsen-Beschriftung:
   ylab = "Häufigkeit",
   # Farben aus einer Farbpalette:
@@ -216,9 +211,9 @@ barplot(
 **Speichern (per Syntax)**
 
 ```{r, results = "hide"}
-jpeg("Befragung-fb23.jpg", width=20, height=10, units="cm", res=200)
+jpeg("Befragung-fb24.jpg", width=20, height=10, units="cm", res=200)
 barplot(
-  table(fb23$wohnen),                               
+  table(fb24$wohnen),                               
   main = "Befragung Erstis im WS 23/24:\nAktuelle Wohnsituation", 
   ylab = "Häufigkeit",
   col = rainbow(10),
@@ -232,6 +227,7 @@ dev.off()
 ```
 
 Im Arbeitsverzeichnis sollte die Datei nun vorliegen.
+
 
 </details>
 
