@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [buchholz, nehler, sinn] 
-lastmod: '2024-03-18'
+lastmod: '2024-10-24'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -42,78 +42,80 @@ Die Lösungen sind exemplarische Möglichkeiten. In `R` gibt es immer viele Wege
 
 ### Vorbereitung
 
-> Laden Sie die Daten aus [<i class="fas fa-download"></i> `fb23.rda`](/daten/fb23.rda) oder direkt von der Website über die gelernten Befehle. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie die Daten aus [<i class="fas fa-download"></i> `fb24.rda`](/daten/fb24.rda) oder direkt von der Website über die gelernten Befehle. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 <details><summary>Lösung</summary>
 
 Daten laden:
 
 
-```r
-load(url('https://pandar.netlify.app/daten/fb23.rda'))  
+``` r
+load(url('https://pandar.netlify.app/daten/fb24.rda'))  
 ```
 
 
 Überblick über den Datensatz verschaffen:
 
 
-```r
-dim(fb23)
+``` r
+dim(fb24)
 ```
 
 ```
-## [1] 179  40
+## [1] 192  42
 ```
 
-```r
-str(fb23)
+``` r
+str(fb24)
 ```
 
 ```
-## 'data.frame':	179 obs. of  40 variables:
-##  $ mdbf1_pre  : int  4 2 4 NA 3 3 2 3 3 2 ...
-##  $ mdbf2_pre  : int  2 2 3 3 3 2 3 2 2 1 ...
-##  $ mdbf3_pre  : int  3 4 2 2 2 3 3 1 2 2 ...
-##  $ mdbf4_pre  : int  2 2 1 2 1 1 3 2 3 3 ...
-##  $ mdbf5_pre  : int  3 2 3 2 2 1 3 3 2 4 ...
-##  $ mdbf6_pre  : int  2 1 2 2 2 2 2 3 2 2 ...
-##  $ mdbf7_pre  : int  4 3 3 1 1 2 2 3 3 3 ...
-##  $ mdbf8_pre  : int  3 2 3 2 3 3 2 3 3 2 ...
-##  $ mdbf9_pre  : int  2 4 1 2 3 3 4 2 2 3 ...
-##  $ mdbf10_pre : int  3 2 3 3 2 4 2 2 2 2 ...
-##  $ mdbf11_pre : int  3 2 1 2 2 1 3 1 2 4 ...
-##  $ mdbf12_pre : int  1 1 2 3 2 2 2 3 3 2 ...
-##  $ lz         : num  5.4 3.4 4.4 4.4 6.4 5.6 5.4 5 4.8 6 ...
-##  $ extra      : num  3.5 3 4 3 4 4.5 3.5 3.5 2.5 3 ...
-##  $ vertr      : num  1.5 3 3.5 4 4 4.5 4 4 3 3.5 ...
-##  $ gewis      : num  4.5 4 5 3.5 3.5 4 4.5 2.5 3.5 4 ...
-##  $ neuro      : num  5 5 2 4 3.5 4.5 3 2.5 4.5 4 ...
-##  $ offen      : num  5 5 4.5 3.5 4 4 5 4.5 4 3 ...
-##  $ prok       : num  1.8 3.1 1.5 1.6 2.7 3.3 2.2 3.4 2.4 3.1 ...
-##  $ nerd       : num  4.17 3 2.33 2.83 3.83 ...
-##  $ grund      : chr  "Berufsziel" "Interesse am Menschen" "Interesse und Berufsaussichten" "Wissenschaftliche Ergänzung zu meinen bisherigen Tätigkeiten (Arbeit in der psychiatrischen Akutpflege, Gestalt"| __truncated__ ...
-##  $ fach       : num  4 4 4 4 4 4 NA 4 4 NA ...
-##  $ ziel       : num  2 2 2 2 2 2 NA 4 2 2 ...
-##  $ wissen     : int  5 4 5 4 2 3 NA 4 3 3 ...
-##  $ therap     : int  5 5 5 5 4 5 NA 3 5 5 ...
-##  $ lerntyp    : num  3 3 1 3 3 1 NA 1 3 3 ...
-##  $ hand       : int  2 2 2 2 2 2 NA 2 1 2 ...
-##  $ job        : int  1 1 1 1 2 2 NA 2 1 2 ...
-##  $ ort        : int  2 1 1 1 1 2 NA 1 1 2 ...
-##  $ ort12      : int  2 1 2 2 2 1 NA 2 2 1 ...
-##  $ wohnen     : num  4 1 1 1 1 2 NA 3 3 2 ...
-##  $ uni1       : num  0 1 0 1 0 0 0 0 0 0 ...
-##  $ uni2       : num  1 1 1 1 1 1 0 1 1 1 ...
-##  $ uni3       : num  0 1 0 0 1 0 0 1 1 0 ...
-##  $ uni4       : num  0 1 0 1 0 0 0 0 0 0 ...
-##  $ attent_pre : int  6 6 6 6 6 6 NA 4 5 5 ...
-##  $ gs_post    : num  3 2.75 4 2.5 3.75 NA 4 2.75 3.75 2.5 ...
-##  $ wm_post    : num  2 1 3.75 2.75 3 NA 3.25 2 3.25 2 ...
-##  $ ru_post    : num  2.25 1.5 3.75 3.5 3 NA 3.5 2.75 2.75 2.75 ...
-##  $ attent_post: int  6 5 6 6 6 NA 6 4 5 3 ...
+## 'data.frame':	192 obs. of  42 variables:
+##  $ mdbf1      : num  4 3 3 3 3 2 4 2 3 4 ...
+##  $ mdbf2      : num  3 2 3 1 2 2 4 3 3 4 ...
+##  $ mdbf3      : num  1 1 1 2 3 1 1 2 2 1 ...
+##  $ mdbf4      : num  1 1 1 2 1 3 1 1 1 1 ...
+##  $ mdbf5      : num  3 1 3 3 2 4 1 2 1 1 ...
+##  $ mdbf6      : num  3 3 3 2 2 3 3 3 3 4 ...
+##  $ mdbf7      : num  3 3 2 3 2 4 1 4 1 1 ...
+##  $ mdbf8      : num  4 4 3 3 3 2 4 3 4 4 ...
+##  $ mdbf9      : num  1 2 1 2 3 2 3 3 2 1 ...
+##  $ mdbf10     : num  3 3 3 3 3 2 3 2 4 4 ...
+##  $ mdbf11     : num  1 1 1 2 3 2 2 1 2 1 ...
+##  $ mdbf12     : num  3 4 3 3 2 2 3 2 3 4 ...
+##  $ time_pre   : num  49 68 107 38 45 100 61 40 36 40 ...
+##  $ lz         : num  6.6 4 5.2 4 5 4.4 6.4 4 4.6 6 ...
+##  $ extra      : num  5 4 3 1.5 2.5 4.5 4 2.5 4 3 ...
+##  $ vertr      : num  4 3 3 3 3.5 2.5 4 2.5 4.5 3 ...
+##  $ gewis      : num  4 4.5 4 3.5 2.5 4 3.5 3.5 4 5 ...
+##  $ neuro      : num  1.5 3 3.5 3.5 4.5 3.5 2.5 3.5 5 2.5 ...
+##  $ offen      : num  4 4 4 3.5 4.5 4 4 4 4.5 3 ...
+##  $ prok       : num  2.7 2.5 2.9 2.8 2.9 2.7 2.4 2.5 2.7 2.6 ...
+##  $ nerd       : num  2.5 2.33 2.83 4 3.67 ...
+##  $ uni1       : num  0 0 0 0 0 0 0 0 1 0 ...
+##  $ uni2       : num  1 1 1 1 1 1 1 1 1 1 ...
+##  $ uni3       : num  0 0 1 0 0 1 0 1 1 1 ...
+##  $ uni4       : num  0 0 1 0 0 0 0 0 1 0 ...
+##  $ grund      : chr  "Interesse an Menschen, Verhalten und Sozialdynamiken" "Ich will die Menschliche Psyche und menschliches Handeln, Denken verstehen." NA "Um Therapeutin zu werden und Menschen aus meiner früheren Situatuon zu helfen " ...
+##  $ fach       : num  1 3 1 4 4 3 1 3 1 4 ...
+##  $ ziel       : num  3 2 3 2 2 3 1 4 4 2 ...
+##  $ wissen     : int  4 3 5 5 4 3 3 4 5 3 ...
+##  $ therap     : int  5 4 5 5 5 5 4 5 4 5 ...
+##  $ lerntyp    : num  3 1 1 1 1 1 3 3 3 1 ...
+##  $ hand       : num  1 2 2 2 2 2 2 2 1 2 ...
+##  $ job        : num  2 1 2 1 1 1 1 1 2 2 ...
+##  $ ort        : num  2 2 1 1 1 1 1 2 1 1 ...
+##  $ ort12      : num  1 2 1 1 2 2 2 1 2 2 ...
+##  $ wohnen     : num  2 3 3 3 3 3 1 2 1 1 ...
+##  $ attent     : num  5 4 5 5 5 5 5 4 4 5 ...
+##  $ gs_post    : num  NA 3 3.5 2.75 2.5 3 NA 3.25 3 3.25 ...
+##  $ wm_post    : num  NA 2.25 3 2.25 2.5 2.25 NA 2.5 3 3.25 ...
+##  $ ru_post    : num  NA 2.25 2.25 2.25 2 2.25 NA 2.25 2.75 1.75 ...
+##  $ time_post  : num  NA 34 37 37 51 40 NA 40 30 27 ...
+##  $ attent_post: num  NA 5 5 5 5 5 NA 5 5 5 ...
 ```
 
-Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 40 Spalten (Variablen).
+Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und 42 Spalten (Variablen).
 
 </details>
 
@@ -133,11 +135,11 @@ Untersuchen Sie, welche Arbeitsbranche Sie und Ihre Kommiliton:innen nach dem St
 **Faktor erstellen**
 
 
-```r
-fb23$ziel <- factor(fb23$ziel,
+``` r
+fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-levels(fb23$ziel)
+levels(fb24$ziel)
 ```
 
 ```
@@ -147,32 +149,32 @@ levels(fb23$ziel)
 **Absolute und relative Häufigkeiten anfordern**  
 
 
-```r
-table(fb23$ziel)              # absolut
+``` r
+table(fb24$ziel)              # absolut
 ```
 
 ```
 ## 
 ## Wirtschaft   Therapie  Forschung     Andere 
-##         15        106         29         19
+##         24        108         27         29
 ```
 
-```r
-prop.table(table(fb23$ziel))  # relativ
+``` r
+prop.table(table(fb24$ziel))  # relativ
 ```
 
 ```
 ## 
 ## Wirtschaft   Therapie  Forschung     Andere 
-##  0.0887574  0.6272189  0.1715976  0.1124260
+##  0.1276596  0.5744681  0.1436170  0.1542553
 ```
 
 **Zentrale Tendenz und Dispersion für nominalskalierte Variablen: Modus, relativer Informationsgehalt**
 
 
-```r
+``` r
 # Modus
-which.max(table(fb23$ziel))
+which.max(table(fb24$ziel))
 ```
 
 ```
@@ -181,9 +183,9 @@ which.max(table(fb23$ziel))
 ```
 
 
-```r
+``` r
 #relativer Informationsgehalt
-hj <- prop.table(table(fb23$ziel))  # hj erstellen
+hj <- prop.table(table(fb24$ziel))  # hj erstellen
 ln_hj <- log(hj)                    # Logarithmus bestimmen
 summand <- ln_hj * hj               # Berechnung fuer jede Kategorie
 summe <- sum(summand)               # Gesamtsumme
@@ -193,10 +195,10 @@ relInf
 ```
 
 ```
-## [1] 0.7615196
+## [1] 0.8282775
 ```
 
-Der Modus der Variable lautet Therapie - die meisten Ihres Jahrgangs (*n* = 106 bzw. 62.72%) streben einen Job in diesem Bereich an. Der relative Informationsgehalt der Variable beträgt 0.76. Sie sehen hier, dass wir im Code einen kleinen Unterschied zum Tutorial eingebaut haben. Die Anzahl der Kategorien wird nicht mehr durch `dim(tab)` sondern durch `length(hj)` bestimmt. Das Resultat ist nicht verschieden - die Anzahl der Kategorien wird gezählt. Wir wollen somit aber nochmal deutlich machen, dass es in `R` immer sehr viele Wege zu einem Ziel geben kann.
+Der Modus der Variable lautet Therapie - die meisten Ihres Jahrgangs (*n* = 108 bzw. 57.45%) streben einen Job in diesem Bereich an. Der relative Informationsgehalt der Variable beträgt 0.83. Sie sehen hier, dass wir im Code einen kleinen Unterschied zum Tutorial eingebaut haben. Die Anzahl der Kategorien wird nicht mehr durch `dim(tab)` sondern durch `length(hj)` bestimmt. Das Resultat ist nicht verschieden - die Anzahl der Kategorien wird gezählt. Wir wollen somit aber nochmal deutlich machen, dass es in `R` immer sehr viele Wege zu einem Ziel geben kann.
 
 </details>
 
@@ -215,45 +217,45 @@ Die Variable `therap` enthält die Angaben über das Ausmaß, in dem sich Sie un
 **Modus**
 
 
-```r
-which.max(table(fb23$therap))
+``` r
+which.max(table(fb24$therap))
 ```
 
 ```
 ## 5 
-## 4
+## 5
 ```
 
 **Häufigkeiten**
 
 
-```r
-table(fb23$therap)
+``` r
+table(fb24$therap)
 ```
 
 ```
 ## 
-##  2  3  4  5 
-##  3 11 65 97
+##   0   2   3   4   5 
+##   1   2  10  57 119
 ```
 
-```r
-prop.table(table(fb23$therap))
+``` r
+prop.table(table(fb24$therap))
 ```
 
 ```
 ## 
-##          2          3          4          5 
-## 0.01704545 0.06250000 0.36931818 0.55113636
+##           0           2           3           4           5 
+## 0.005291005 0.010582011 0.052910053 0.301587302 0.629629630
 ```
 
-Der Modus der Variable `therap` beträgt 4, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = 97 bzw. 55.11%).
+Der Modus der Variable `therap` beträgt 5, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = 119 bzw. 62.96%).
 
 **Boxplot**
 
 
-```r
-boxplot(fb23$therap)
+``` r
+boxplot(fb24$therap)
 ```
 
 ![](/lehre/statistik-i/deskriptiv-nominal-ordinal-loesungen_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
@@ -261,8 +263,8 @@ boxplot(fb23$therap)
 **Quartile**
 
 
-```r
-quantile(fb23$therap, c(.25,.5,.75), na.rm=T)
+``` r
+quantile(fb24$therap, c(.25,.5,.75), na.rm=T)
 ```
 
 ```
@@ -281,36 +283,31 @@ Erstellen Sie für die Variable `wohnen` eine geeignete Abbildung.
 
 * Stellen Sie sicher, dass die einzelnen Ausprägungen der Variable in der Darstellung interpretierbar benannt sind!  
 * Dekorieren Sie diese Abbildung nach eigenen Wünschen (z.B. mit einer Farbpalette und Achsenbeschriftungen).
-* Speichern Sie die Grafik per Syntax als .jpg-Datei mit dem Namen "Befragung-fb23.jpg" ab.
+* Speichern Sie die Grafik per Syntax als .jpg-Datei mit dem Namen "Befragung-fb24.jpg" ab.
 
 <details><summary>Lösung</summary>
 
 **Faktor erstellen**
 
 
-```r
-fb23$wohnen <- factor(fb23$wohnen, 
+``` r
+fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 ```
 
-**Default Darstellung und überarbeitete Grafik**
+**Ansprechende Grafik erstellen**
 
-Um die Vergleichbarkeit zu erhöhen, wird im folgenden Code ein kleiner Trick angewendet. Die beiden Histogramme sollten am besten gleichzeitig unter **Plots** angezeigt werden. Durch die verwendete Funktion `par()` kann man verschiedene Plots gemeinsam in einem Fenster zeichnen. Das Argument bestimmt dabei, dass es eine Zeile und zwei Spalten für die Plots gibt.
+Um eine ansprechende Grafik zu erhalten, können wir einige Argumente anpassen. Hier ist natürlich nur eine beispielhafte Lösung abgebildet.
 
 
-```r
-par(mfrow=c(1,2))
-
-# Default
-barplot(table(fb23$wohnen))
-
-# Überarbeitet
+``` r
+# Ansprechende Darstellung
 barplot(
   # wichtig: Funktion auf Häufigkeitstabelle, nicht die Variable selbst anwenden:
-  table(fb23$wohnen),                               
+  table(fb24$wohnen),                               
   # aussagekräftiger Titel, inkl. Zeilenumbruch ("\n") 
-  main = "Befragung Erstis im WS 23/24:\nAktuelle Wohnsituation", 
+  main = "Befragung Erstis im WS 24/25:\nAktuelle Wohnsituation", 
   # y-Achsen-Beschriftung:
   ylab = "Häufigkeit",
   # Farben aus einer Farbpalette:
@@ -334,10 +331,10 @@ barplot(
 **Speichern (per Syntax)**
 
 
-```r
-jpeg("Befragung-fb23.jpg", width=20, height=10, units="cm", res=200)
+``` r
+jpeg("Befragung-fb24.jpg", width=20, height=10, units="cm", res=200)
 barplot(
-  table(fb23$wohnen),                               
+  table(fb24$wohnen),                               
   main = "Befragung Erstis im WS 23/24:\nAktuelle Wohnsituation", 
   ylab = "Häufigkeit",
   col = rainbow(10),
@@ -351,6 +348,7 @@ dev.off()
 ```
 
 Im Arbeitsverzeichnis sollte die Datei nun vorliegen.
+
 
 </details>
 

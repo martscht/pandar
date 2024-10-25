@@ -72,17 +72,17 @@ Absolut | absoluter Wert | Identität | ... | ... |
 
 ## Vorbereitende Schritte
 
-Nachdem wir in der letzten Sitzung die Arbeit mit dem CSV Format kennen gelernt haben, nutzen wir jetzt die Datei im RDA Format für das Einlesen des Datensatzes. Den Datensatz `fb23` können Sie im RDA Format [hier <i class="fas fa-download"></i> herunterladen](/daten/fb23.rda). Außerdem ist es prinzipiell ratsam, zu Beginn wieder das Arbeitsverzeichnis mit Hilfe von `setwd()` zu bestimmen. Dies stellt sicher, dass wenn Sie später Daten speichern (z.B. Datensätze oder Grafiken), diese auch am gewünschten Ort auf Ihrem Computer abgelegt werden. 
+Nachdem wir in der letzten Sitzung die Arbeit mit dem CSV Format kennen gelernt haben, nutzen wir jetzt die Datei im RDA Format für das Einlesen des Datensatzes. Den Datensatz `fb24` können Sie im RDA Format [hier <i class="fas fa-download"></i> herunterladen](/daten/fb24.rda). Außerdem ist es prinzipiell ratsam, zu Beginn wieder das Arbeitsverzeichnis mit Hilfe von `setwd()` zu bestimmen. Dies stellt sicher, dass wenn Sie später Daten speichern (z.B. Datensätze oder Grafiken), diese auch am gewünschten Ort auf Ihrem Computer abgelegt werden. 
 
 Eine alternative Variante ist, den Datensatz direkt mit dem folgenden Befehl aus dem Internet einzuladen. Dies ist immer dann möglich, wenn der Datensatz auch über eine URL aufrufbar ist. 
 
 ```{r}
-load(url('https://pandar.netlify.app/daten/fb23.rda'))   # Daten laden
-names(fb23)        # Namen der Variablen
-dim(fb23)          # Anzahl Zeile und Spalten
+load(url('https://pandar.netlify.app/daten/fb24.rda'))   # Daten laden
+names(fb24)        # Namen der Variablen
+dim(fb24)          # Anzahl Zeile und Spalten
 ```
 
-In der letzten Sitzung haben wir schon einige Befehle für das Screening eines Datensatzes kennen gelernt. Dabei zeigt `names()` alle Variablennamen an, während `dim()` uns Zeilen und Spalten ausgibt. Der Datensatz hat also `r nrow(fb23)` Beobachtungen auf `r ncol(fb23)` Variablen.
+In der letzten Sitzung haben wir schon einige Befehle für das Screening eines Datensatzes kennen gelernt. Dabei zeigt `names()` alle Variablennamen an, während `dim()` uns Zeilen und Spalten ausgibt. Der Datensatz hat also `r nrow(fb24)` Beobachtungen auf `r ncol(fb24)` Variablen.
 
 
 ***
@@ -99,8 +99,8 @@ Jeder numerischen Faktorstufe (level) kann ein Label zugewiesen werden. Faktorst
 **Beispiel 1: Die (numerische) Variable `hand` als Faktor aufbereiten**
 
 ```{r}
-str(fb23$hand)
-fb23$hand
+str(fb24$hand)
+fb24$hand
 ```
 
 Die Variable `hand` liegt numerisch vor, es treten die Werte 1 und 2 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/lehre/statistik-i/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "links". Diese *Label* werden nun im Faktor hinterlegt.
@@ -113,11 +113,11 @@ Vorgehensweise:
 * Spezifikation des Arguments `labels`, also die Label für die in `levels` hinterlegten numerischen Stufen (hier: "links", "rechts"; unbedingt auf gleiche Reihenfolge achten!)
 
 ```{r}
-fb23$hand_factor <- factor(fb23$hand,                                   # Ausgangsvariable
+fb24$hand_factor <- factor(fb24$hand,                                   # Ausgangsvariable
                              levels = 1:2,                                  # Faktorstufen
                              labels = c("links", "rechts")) # Label für Faktorstufen
-str(fb23$hand_factor)
-head(fb23$hand_factor)
+str(fb24$hand_factor)
+head(fb24$hand_factor)
 ```
 
 
@@ -129,16 +129,16 @@ Analog dazu wird nachfolgend die ebenfalls numerische Variable `fach` in einen F
 
 
 ```{r}
-fb23$fach
+fb24$fach
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
 
 ```{r}
-fb23$fach <- factor(fb23$fach,
+fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-str(fb23$fach)
+str(fb24$fach)
 ```
 
 Hinweis: In Beispiel 2 wurde die Ursprungsvariable mit dem Faktor überschrieben. Sie ist nun verschwunden, der Datensatz enthält nur noch den Faktor, nicht mehr die numerische Variable.
@@ -151,13 +151,13 @@ Um einen character-Vektor in einen Faktor umzukodieren, kann die Funktion `as.fa
 Nachfolgend wird zur Illustration die offene Freitextantwort zum Grund für das Psychologiestudium (Variable `grund`) in einen Faktor umgewandelt. 
 
 ```{r}
-str(fb23$grund)                            # Ursprungsvariable: Character
-fb23$grund_faktor <- as.factor(fb23$grund) # Umwandlung in Faktor
-str(fb23$grund_faktor)                     # neue Variable: Faktor
+str(fb24$grund)                            # Ursprungsvariable: Character
+fb24$grund_faktor <- as.factor(fb24$grund) # Umwandlung in Faktor
+str(fb24$grund_faktor)                     # neue Variable: Faktor
 ```
 
 
-Die neue Variable ist nun ein Faktor mit `r length(levels(fb23$grund_faktor))` Stufen. Das Vorgehen ist nur zur Anschauung gedacht und in diesem speziellen Fall nicht sinnvoll, da jede einzelne Freitextantwort vermutlich nur genau einmal vorkommt und später sowieso nicht (ohne zusätzliche Kodierung) in statistischen Analysen weiterverwendet werden kann.
+Die neue Variable ist nun ein Faktor mit `r length(levels(fb24$grund_faktor))` Stufen. Das Vorgehen ist nur zur Anschauung gedacht und in diesem speziellen Fall nicht sinnvoll, da jede einzelne Freitextantwort vermutlich nur genau einmal vorkommt und später sowieso nicht (ohne zusätzliche Kodierung) in statistischen Analysen weiterverwendet werden kann.
 
 Wir haben nun also gelernt, dass Faktoren auf verschiedene Weisen erstellt werden können. Wir benutzen nun die Funktion `factor()`, wenn unsere Variable zunächst nur `numerisch` vorlag (Beispiele 1 und 2) und wir eine Bedeutung zuordnen wollen. Wenn die Variable als `character` (Beispiel 3 und Intro-Sitzung), nutzen wir die Funktion `as.factor()`.
 
@@ -171,10 +171,10 @@ Die Reihenfolge von Levels und Labels ergibt sich während der Faktorerstellung:
 Die Labels eines Faktors können mit der Funktion `levels()` abgerufen werden. Die Reihenfolge kann mithilfe der `relevel()`-Funktion geändert werden. Dafür muss dasjenige Label angesprochen werden, das die erste Position einnehmen soll (hier: 'Diag./Meth.').
 
 ```{r}
-levels(fb23$fach)         # Abruf
+levels(fb24$fach)         # Abruf
 
-fb23$fach <- relevel(
-  fb23$fach,              # Bezugskategorie wechseln
+fb24$fach <- relevel(
+  fb24$fach,              # Bezugskategorie wechseln
   'Diag./Meth.')          # Neue Bezugskategorie
 ```
 
@@ -188,7 +188,7 @@ Eine deskriptivstatistische Möglichkeit zur Darstellung diskreter (zählbarer) 
 **Absolute Häufigkeiten**
 
 ```{r}
-table(fb23$fach)
+table(fb24$fach)
 ```
 
 Häufig sind relative Häufigkeiten informativer. Nachfolgend werden zwei Möglichkeiten zur Erstellung von relativen Häufigkeitstabellen in `R` gezeigt.
@@ -201,7 +201,7 @@ Relative Häufigkeiten können aus absoluten Häufigkeiten abgeleitet werden: $h
 Diese einfache Rechenvorschrift (Kategorienhäufigkeit geteilt durch Gesamthäufigkeit) kann auf das gesamte Tabellenobjekt angewendet werden. So wird jede einzelne absolute Kategorienhäufigkeit am Gesamtwert relativiert, es resultiert eine Tabelle der relativen Häufigkeiten.
 
 ```{r}
-tab <- table(fb23$fach) # Absolute Haeufigkeiten
+tab <- table(fb24$fach) # Absolute Haeufigkeiten
 sum(tab)                # Gesamtzahl
 tab / sum(tab)          # Relative Haeufigkeiten
 ```
@@ -211,7 +211,7 @@ tab / sum(tab)          # Relative Haeufigkeiten
 Alternativ kann die Funktion `prop.table()` auf das Tabellenobjekt mit den absoluten Häufigkeiten angewendet werden.
 
 ```{r}
-tab <- table(fb23$fach) # Absolute
+tab <- table(fb24$fach) # Absolute
 prop.table(tab)         # Relative
 ```
 
@@ -388,7 +388,7 @@ relinf
 Eine alternative Schreibweise, die ohne Zwischenschritte auskommt, dafür aber in Form von vielen Klammern stark verschachtelt ist, lautet:
 
 ```{r}
-- 1/log(dim(table(fb23$fach))) * sum(prop.table(table(fb23$fach)) * log(prop.table(table(fb23$fach))))
+- 1/log(dim(table(fb24$fach))) * sum(prop.table(table(fb24$fach)) * log(prop.table(table(fb24$fach))))
 ```
 
 Wie man hier sieht, stößt die Schachtelung ohne das Speichern von Zwischenergebnissen oder das nutzen der Pipe schnell an die Grenzen der Übersichtlichkeit. 
@@ -408,18 +408,18 @@ Nachfolgend soll mit dem Item zum interesse an wissenschaftlichen Grundlagen gea
 
 ![](interests.png)
 
-Es treten die Werte `r min(fb23$wissen,na.rm=TRUE)` bis  `r max(fb23$wissen,na.rm=TRUE)` empirisch auf, außerdem gibt es  `r sum(is.na(fb23$wissen))` fehlende Werte (dargestellt als `NA`):
+Es treten die Werte `r min(fb24$wissen,na.rm=TRUE)` bis  `r max(fb24$wissen,na.rm=TRUE)` empirisch auf, außerdem gibt es  `r sum(is.na(fb24$wissen))` fehlende Werte (dargestellt als `NA`):
 
 ```{r}
-fb23$wissen
+fb24$wissen
 ```
 
 Wiederholung:
 
 ```{r}
-table(fb23$wissen)               # Absolute Haeufigkeiten
-prop.table(table(fb23$wissen))   # Relative Haeufigkeiten
-which.max(table(fb23$wissen))    # Modus
+table(fb24$wissen)               # Absolute Haeufigkeiten
+prop.table(table(fb24$wissen))   # Relative Haeufigkeiten
+which.max(table(fb24$wissen))    # Modus
 ```
 
 
@@ -459,11 +459,11 @@ Fehlende Werte sind ein ganz eigenes Forschungsgebiet der Methodik und man könn
 Wir können uns den Einfluss fehlender Werte auf die Arbeit mit `R` mit der Betrachtung der Funktion für den Median, die praktischerweise `median()` heißt, veranschaulichen, indem wir einmal ein extra Argument benennen.
 
 ```{r}
-median(fb23$wissen)                 # Ohne Argument für NA: funktioniert nicht
-median(fb23$wissen, na.rm = TRUE)   # Expliziter Ausschluss: funktioniert
+median(fb24$wissen)                 # Ohne Argument für NA: funktioniert nicht
+median(fb24$wissen, na.rm = TRUE)   # Expliziter Ausschluss: funktioniert
 ```
 
-Ohne Argument für die Behandlung der fehlenden Werte wird `NA` auch als Ergebnis ausgegeben. Mit passendem Argument erhalten wir ein numerisches Ergebnis: Der Median für die Variable `wissen` beträgt also `r median(fb23$wissen, na.rm = TRUE)`.
+Ohne Argument für die Behandlung der fehlenden Werte wird `NA` auch als Ergebnis ausgegeben. Mit passendem Argument erhalten wir ein numerisches Ergebnis: Der Median für die Variable `wissen` beträgt also `r median(fb24$wissen, na.rm = TRUE)`.
 
 **Quantile, IQB und IQA**
 
@@ -472,12 +472,12 @@ Für eine Beschreibung der Dispersion wird häufig der Interquartilsbereich (IQB
 Um die Quartile oder jedes beliebige andere Quantil einer Verteilung zu erhalten, kann die Funktion `quantile()` verwendet werden. Beispielsweise können wir die Grenzen des IQB und den Median mit folgender Eingabe gleichzeitig abfragen.
 
 ```{r}
-quantile(fb23$wissen,
+quantile(fb24$wissen,
          c(.25, .5, .75),                   # Quartile anfordern
          na.rm = TRUE)
 ```
 
-Der Interquartilsbereich liegt also zwischen `r quantile(fb23$wissen, .25, na.rm=TRUE)` und `r quantile(fb23$wissen, .75, na.rm=TRUE)`.
+Der Interquartilsbereich liegt also zwischen `r quantile(fb24$wissen, .25, na.rm=TRUE)` und `r quantile(fb24$wissen, .75, na.rm=TRUE)`.
 
 Den Interquartilsabstand (IQA) können wir nun bestimmen, indem wir das Ergebnis für das dritte und das erste Quartil subtrahieren. 
 
@@ -486,13 +486,13 @@ $$IQA = Q_3 - Q_1$$
 Mit `quantile()` ist die Umsetzung in `R` etwas umständlich, da wir die Funktion zwei Mal aufrufen und die Differenz daraus bilden müssen.
 
 ```{r}
-quantile(fb23$wissen, .75, na.rm=TRUE) - quantile(fb23$wissen, .25, na.rm=TRUE)
+quantile(fb24$wissen, .75, na.rm=TRUE) - quantile(fb24$wissen, .25, na.rm=TRUE)
 ```
 
-Dabei ist in der Ausgabe besonders die Überschrift verwirrend (75%), die hier nichts mit der Bedeutung des Wertes zu tun hat. Der IQA der Variable `wissen` beträgt `r quantile(fb23$wissen, .75, na.rm=TRUE) - quantile(fb23$wissen, .25, na.rm=TRUE)`. Für die Berechnung des IQA gibt es auch die direkte Funktion `IQR()`, die uns das ganze einfacher macht.
+Dabei ist in der Ausgabe besonders die Überschrift verwirrend (75%), die hier nichts mit der Bedeutung des Wertes zu tun hat. Der IQA der Variable `wissen` beträgt `r quantile(fb24$wissen, .75, na.rm=TRUE) - quantile(fb24$wissen, .25, na.rm=TRUE)`. Für die Berechnung des IQA gibt es auch die direkte Funktion `IQR()`, die uns das ganze einfacher macht.
 
 ```{r}
-IQR(fb23$wissen, na.rm = TRUE)
+IQR(fb24$wissen, na.rm = TRUE)
 ```
 
 ***
@@ -512,7 +512,7 @@ Die Box liegt zwischen dem ersten (`r quantile(variable, .25)`) und dritten Quar
 In der Praxis wird diese Idealform aber nicht immer erreicht. Wir wollen für unsere Variable `wissen` diesen Plot erstellen. Er kann über die Funktion `boxplot()` angefordert werden:
 
 ```{r, basic-boxplot-one}
-boxplot(fb23$wissen)
+boxplot(fb24$wissen)
 ```
 
 
@@ -522,9 +522,9 @@ In diesem Beispiel betragen Median und Q3 jeweils 4, sodass sich die entsprechen
 Auch ein Boxplot kann grafisch angepasst werden. Nachfolgend sehen Sie ein Beispiel, in dem möglichst viel verändert wurde, um die verschiedenen Möglichkeiten aufzuzeigen. Nicht alle Veränderungen sind unbedingt sinnvoll in diesem Fall.
 
 ```{r, colored-boxplot}
-boxplot(fb23$wissen,
+boxplot(fb24$wissen,
         horizontal = TRUE,                # Ausrichtung des Boxplots
-        main = "WS 2023/2024: Interesse an der Wissenschaft",  # Überschrift der Grafik
+        main = "WS 2024/2025: Interesse an der Wissenschaft",  # Überschrift der Grafik
         xlab = "Ausprägung",              # x-Achse Bezeichnung 
         las = 1,                          # Ausrichtung der Labels
         border = "red",                   # Farbe der Linien im Boxplot

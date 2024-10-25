@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler, buchholz, zacharias, pommeranz]
 weight:
-lastmod: '2024-02-19'
+lastmod: '2024-10-24'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -38,12 +38,12 @@ output:
 
 ### Vorbereitung
 
-> Laden Sie zunächst den Datensatz `fb23` von der pandaR-Website durch die bekannten Befehle direkt ins Environment. Alternativ ist die Datei unter diesem [<i class="fas fa-download"></i> Link](/daten/fb23.rda) zum Download verfügbar. Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/deskriptiv-intervall/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb24` von der pandaR-Website durch die bekannten Befehle direkt ins Environment. Alternativ ist die Datei unter diesem [<i class="fas fa-download"></i> Link](/daten/fb24.rda) zum Download verfügbar. Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/deskriptiv-intervall/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 
 ## Aufgabe 1
 
-Erstellen Sie im Datensatz `fb23` die Skalenwerte für die Subskala ruhig/unruhig der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. mdbf3 und mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `ru_pre` im Datensatz `fb23` ab.
+Erstellen Sie im Datensatz `fb24` die Skalenwerte für die Subskala ruhig/unruhig der aktuellen Stimmung, die mit den Items mdbf3, mdbf6, mdbf9 und mdbf12 gemessen wurde. mdbf3 und mdbf9 sind invertiert und müssen rekodiert werden. Speichern sie diese als `ru_pre` im Datensatz `fb24` ab.
 
 * Erstellen Sie den Skalenwert als Mittelwert der vier Items.
 

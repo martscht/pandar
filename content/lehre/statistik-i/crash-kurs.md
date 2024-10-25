@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
 authors: [schultze]
 weight: 1
-lastmod: '2024-10-20'
+lastmod: '2024-10-24'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"
@@ -71,7 +71,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 826310 mal heruntergeladen
+* Allein in den letzten 30 Tagen 848240 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
@@ -1455,41 +1455,41 @@ head(fb24)    # Kopfzeilen
 ```
 
 ```
-##   mdbf1 mdbf2 mdbf3 mdbf4 mdbf5 mdbf6 mdbf7 mdbf8 mdbf9 mdbf10 mdbf11 mdbf12
-## 1     4     3     1     1     3     3     3     4     1      3      1      3
-## 2     3     2     1     1     1     3     3     4     2      3      1      4
-## 3     3     3     1     1     3     3     2     3     1      3      1      3
-## 4     3     1     2     2     3     2     3     3     2      3      2      3
-## 5     3     2     3     1     2     2     2     3     3      3      3      2
-## 6     2     2     1     3     4     3     4     2     2      2      2      2
-##   time_pre  lz extra vertr gewis neuro offen prok     nerd uni1 uni2 uni3 uni4
-## 1       49 6.6   5.0   4.0   4.0   1.5   4.0  2.7 2.500000    0    1    0    0
-## 2       68 4.0   4.0   3.0   4.5   3.0   4.0  2.5 2.333333    0    1    0    0
-## 3      107 5.2   3.0   3.0   4.0   3.5   4.0  2.9 2.833333    0    1    1    1
-## 4       38 4.0   1.5   3.0   3.5   3.5   3.5  2.8 4.000000    0    1    0    0
-## 5       45 5.0   2.5   3.5   2.5   4.5   4.5  2.9 3.666667    0    1    0    0
-## 6      100 4.4   4.5   2.5   4.0   3.5   4.0  2.7 2.666667    0    1    1    0
-##                                                                            grund
-## 1                           Interesse an Menschen, Verhalten und Sozialdynamiken
-## 2    Ich will die Menschliche Psyche und menschliches Handeln, Denken verstehen.
-## 3                                                                           <NA>
-## 4 Um Therapeutin zu werden und Menschen aus meiner früheren Situatuon zu helfen 
-## 5                           Interesse an menschlichem Denken, Fühlen und Handeln
-## 6                     persönliches Interesse, viele spätere Berufsfelder möglich
-##   fach ziel wissen therap lerntyp hand job ort ort12 wohnen attent gs_post wm_post
-## 1    1    3      4      5       3    1   2   2     1      2      5      NA      NA
-## 2    3    2      3      4       1    2   1   2     2      3      4    3.00    2.25
-## 3    1    3      5      5       1    2   2   1     1      3      5    3.50    3.00
-## 4    4    2      5      5       1    2   1   1     1      3      5    2.75    2.25
-## 5    4    2      4      5       1    2   1   1     2      3      5    2.50    2.50
-## 6    3    3      3      5       1    2   1   1     2      3      5    3.00    2.25
-##   ru_post time_post attent_post
-## 1      NA        NA          NA
-## 2    2.25        34           5
-## 3    2.25        37           5
-## 4    2.25        37           5
-## 5    2.00        51           5
-## 6    2.25        40           5
+##   mdbf1 mdbf2 mdbf3 mdbf4 mdbf5 mdbf6 mdbf7 mdbf8 mdbf9 mdbf10 mdbf11 mdbf12 time_pre  lz
+## 1     4     3     1     1     3     3     3     4     1      3      1      3       49 6.6
+## 2     3     2     1     1     1     3     3     4     2      3      1      4       68 4.0
+## 3     3     3     1     1     3     3     2     3     1      3      1      3      107 5.2
+## 4     3     1     2     2     3     2     3     3     2      3      2      3       38 4.0
+## 5     3     2     3     1     2     2     2     3     3      3      3      2       45 5.0
+## 6     2     2     1     3     4     3     4     2     2      2      2      2      100 4.4
+##   extra vertr gewis neuro offen prok     nerd uni1 uni2 uni3 uni4
+## 1   5.0   4.0   4.0   1.5   4.0  2.7 2.500000    0    1    0    0
+## 2   4.0   3.0   4.5   3.0   4.0  2.5 2.333333    0    1    0    0
+## 3   3.0   3.0   4.0   3.5   4.0  2.9 2.833333    0    1    1    1
+## 4   1.5   3.0   3.5   3.5   3.5  2.8 4.000000    0    1    0    0
+## 5   2.5   3.5   2.5   4.5   4.5  2.9 3.666667    0    1    0    0
+## 6   4.5   2.5   4.0   3.5   4.0  2.7 2.666667    0    1    1    0
+##                                                                            grund fach ziel
+## 1                           Interesse an Menschen, Verhalten und Sozialdynamiken    1    3
+## 2    Ich will die Menschliche Psyche und menschliches Handeln, Denken verstehen.    3    2
+## 3                                                                           <NA>    1    3
+## 4 Um Therapeutin zu werden und Menschen aus meiner früheren Situatuon zu helfen     4    2
+## 5                           Interesse an menschlichem Denken, Fühlen und Handeln    4    2
+## 6                     persönliches Interesse, viele spätere Berufsfelder möglich    3    3
+##   wissen therap lerntyp hand job ort ort12 wohnen attent gs_post wm_post ru_post time_post
+## 1      4      5       3    1   2   2     1      2      5      NA      NA      NA        NA
+## 2      3      4       1    2   1   2     2      3      4    3.00    2.25    2.25        34
+## 3      5      5       1    2   2   1     1      3      5    3.50    3.00    2.25        37
+## 4      5      5       1    2   1   1     1      3      5    2.75    2.25    2.25        37
+## 5      4      5       1    2   1   1     2      3      5    2.50    2.50    2.00        51
+## 6      3      5       1    2   1   1     2      3      5    3.00    2.25    2.25        40
+##   attent_post
+## 1          NA
+## 2           5
+## 3           5
+## 4           5
+## 5           5
+## 6           5
 ```
 
 ``` r

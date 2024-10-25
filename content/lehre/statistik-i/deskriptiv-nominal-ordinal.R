@@ -1,40 +1,40 @@
-load(url('https://pandar.netlify.app/daten/fb23.rda'))   # Daten laden
-names(fb23)        # Namen der Variablen
-dim(fb23)          # Anzahl Zeile und Spalten
+load(url('https://pandar.netlify.app/daten/fb24.rda'))   # Daten laden
+names(fb24)        # Namen der Variablen
+dim(fb24)          # Anzahl Zeile und Spalten
 
-str(fb23$hand)
-fb23$hand
+str(fb24$hand)
+fb24$hand
 
-fb23$hand_factor <- factor(fb23$hand,                                   # Ausgangsvariable
+fb24$hand_factor <- factor(fb24$hand,                                   # Ausgangsvariable
                              levels = 1:2,                                  # Faktorstufen
                              labels = c("links", "rechts")) # Label für Faktorstufen
-str(fb23$hand_factor)
-head(fb23$hand_factor)
+str(fb24$hand_factor)
+head(fb24$hand_factor)
 
-fb23$fach
+fb24$fach
 
-fb23$fach <- factor(fb23$fach,
+fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-str(fb23$fach)
+str(fb24$fach)
 
-str(fb23$grund)                            # Ursprungsvariable: Character
-fb23$grund_faktor <- as.factor(fb23$grund) # Umwandlung in Faktor
-str(fb23$grund_faktor)                     # neue Variable: Faktor
+str(fb24$grund)                            # Ursprungsvariable: Character
+fb24$grund_faktor <- as.factor(fb24$grund) # Umwandlung in Faktor
+str(fb24$grund_faktor)                     # neue Variable: Faktor
 
-levels(fb23$fach)         # Abruf
+levels(fb24$fach)         # Abruf
 
-fb23$fach <- relevel(
-  fb23$fach,              # Bezugskategorie wechseln
+fb24$fach <- relevel(
+  fb24$fach,              # Bezugskategorie wechseln
   'Diag./Meth.')          # Neue Bezugskategorie
 
-table(fb23$fach)
+table(fb24$fach)
 
-tab <- table(fb23$fach) # Absolute Haeufigkeiten
+tab <- table(fb24$fach) # Absolute Haeufigkeiten
 sum(tab)                # Gesamtzahl
 tab / sum(tab)          # Relative Haeufigkeiten
 
-tab <- table(fb23$fach) # Absolute
+tab <- table(fb24$fach) # Absolute
 prop.table(tab)         # Relative
 
 
@@ -81,32 +81,32 @@ relinf
 relinf <- (ln_hj * hj) |> sum() * (-1/log(k))  # Relativer Informationsgehalt
 relinf
 
-- 1/log(dim(table(fb23$fach))) * sum(prop.table(table(fb23$fach)) * log(prop.table(table(fb23$fach))))
+- 1/log(dim(table(fb24$fach))) * sum(prop.table(table(fb24$fach)) * log(prop.table(table(fb24$fach))))
 
-fb23$wissen
+fb24$wissen
 
-table(fb23$wissen)               # Absolute Haeufigkeiten
-prop.table(table(fb23$wissen))   # Relative Haeufigkeiten
-which.max(table(fb23$wissen))    # Modus
+table(fb24$wissen)               # Absolute Haeufigkeiten
+prop.table(table(fb24$wissen))   # Relative Haeufigkeiten
+which.max(table(fb24$wissen))    # Modus
 
-median(fb23$wissen)                 # Ohne Argument für NA: funktioniert nicht
-median(fb23$wissen, na.rm = TRUE)   # Expliziter Ausschluss: funktioniert
+median(fb24$wissen)                 # Ohne Argument für NA: funktioniert nicht
+median(fb24$wissen, na.rm = TRUE)   # Expliziter Ausschluss: funktioniert
 
-quantile(fb23$wissen,
+quantile(fb24$wissen,
          c(.25, .5, .75),                   # Quartile anfordern
          na.rm = TRUE)
 
-quantile(fb23$wissen, .75, na.rm=TRUE) - quantile(fb23$wissen, .25, na.rm=TRUE)
+quantile(fb24$wissen, .75, na.rm=TRUE) - quantile(fb24$wissen, .25, na.rm=TRUE)
 
-IQR(fb23$wissen, na.rm = TRUE)
+IQR(fb24$wissen, na.rm = TRUE)
 
 
 
-boxplot(fb23$wissen)
+boxplot(fb24$wissen)
 
-boxplot(fb23$wissen,
+boxplot(fb24$wissen,
         horizontal = TRUE,                # Ausrichtung des Boxplots
-        main = "WS 2023/2024: Interesse an der Wissenschaft",  # Überschrift der Grafik
+        main = "WS 2024/2025: Interesse an der Wissenschaft",  # Überschrift der Grafik
         xlab = "Ausprägung",              # x-Achse Bezeichnung 
         las = 1,                          # Ausrichtung der Labels
         border = "red",                   # Farbe der Linien im Boxplot
