@@ -9,7 +9,7 @@ subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
 authors: [nehler, buchholz]
 weight: 2
-lastmod: '2024-10-24'
+lastmod: '2024-10-25'
 featured: no
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
@@ -81,15 +81,13 @@ names(fb24)        # Namen der Variablen
 ```
 
 ```
-##  [1] "mdbf1"       "mdbf2"       "mdbf3"       "mdbf4"       "mdbf5"      
-##  [6] "mdbf6"       "mdbf7"       "mdbf8"       "mdbf9"       "mdbf10"     
-## [11] "mdbf11"      "mdbf12"      "time_pre"    "lz"          "extra"      
-## [16] "vertr"       "gewis"       "neuro"       "offen"       "prok"       
-## [21] "nerd"        "uni1"        "uni2"        "uni3"        "uni4"       
-## [26] "grund"       "fach"        "ziel"        "wissen"      "therap"     
-## [31] "lerntyp"     "hand"        "job"         "ort"         "ort12"      
-## [36] "wohnen"      "attent"      "gs_post"     "wm_post"     "ru_post"    
-## [41] "time_post"   "attent_post"
+##  [1] "mdbf1"       "mdbf2"       "mdbf3"       "mdbf4"       "mdbf5"       "mdbf6"      
+##  [7] "mdbf7"       "mdbf8"       "mdbf9"       "mdbf10"      "mdbf11"      "mdbf12"     
+## [13] "time_pre"    "lz"          "extra"       "vertr"       "gewis"       "neuro"      
+## [19] "offen"       "prok"        "nerd"        "uni1"        "uni2"        "uni3"       
+## [25] "uni4"        "grund"       "fach"        "ziel"        "wissen"      "therap"     
+## [31] "lerntyp"     "hand"        "job"         "ort"         "ort12"       "wohnen"     
+## [37] "attent"      "gs_post"     "wm_post"     "ru_post"     "time_post"   "attent_post"
 ```
 
 ``` r
@@ -130,14 +128,14 @@ fb24$hand
 ```
 
 ```
-##   [1]  1  2  2  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  1  2  2  2  1  1
-##  [27]  2  2  1  1  2  2  2 NA  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  1  1
-##  [53]  2  2  2  2 NA  2  2  2  2  2  2  1  2  2  2  1  2  2  2  2  2  2  2  2  2  2
-##  [79]  2  2  2  2  2  1 NA  1  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2
-## [105]  2  2  2  1  2  2  2  2 NA  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2
-## [131]  2  2  2  2  2  2  2  1  2  2  2  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2
-## [157]  2  2  2  1  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2
-## [183]  2  2  2  2  2  1  2  2  2  1
+##   [1]  1  2  2  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  1  2  2  2  1  1  2
+##  [28]  2  1  1  2  2  2 NA  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  1  1  2  2
+##  [55]  2  2 NA  2  2  2  2  2  2  1  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2
+##  [82]  2  2  1 NA  1  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1
+## [109]  2  2  2  2 NA  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2
+## [136]  2  2  1  2  2  2  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  1  2  2
+## [163]  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2
+## [190]  2  2  1
 ```
 
 Die Variable `hand` liegt numerisch vor, es treten die Werte 1 und 2 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/lehre/statistik-i/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "links". Diese *Label* werden nun im Faktor hinterlegt.
@@ -184,14 +182,14 @@ fb24$fach
 ```
 
 ```
-##   [1]  1  3  1  4  4  3  1  3  1  4  4  3  2  4  1  3  3  4  4  4  3  4  4  4  4  4
-##  [27]  3  4  3  3 NA  3  4 NA  3  4  4  3  4  4  2  1  4  4  3  4  3  1  4  4  1  2
-##  [53]  3  4  4  3 NA  1  2  1  2  4  3  4  1  4 NA  4  1  4  3  1  3  4  4  1  3  1
-##  [79]  3  1  2  2  4  3 NA  5  4  4  2  4  3  3  1  4  1  4  3  3  4  4  4  2  1  2
-## [105]  4  1  4  3  4  2  4  4  4  4  1  4  5  1  2  4  4  4  3  4  1  1  4  1  4  4
-## [131]  1  3  4  4  3  1  4  4  4  4  4  5  4  3  4  1  4  4  1  4  1  4  4  1  4  2
-## [157]  3  2  1  4  1  4  3  4  3  4  3  4  4  1  1  4  4  4  4  3  4  1  1  4  1  3
-## [183]  3  4  2  4  4  3  4  1  1  1
+##   [1]  1  3  1  4  4  3  1  3  1  4  4  3  2  4  1  3  3  4  4  4  3  4  4  4  4  4  3
+##  [28]  4  3  3 NA  3  4 NA  3  4  4  3  4  4  2  1  4  4  3  4  3  1  4  4  1  2  3  4
+##  [55]  4  3 NA  1  2  1  2  4  3  4  1  4 NA  4  1  4  3  1  3  4  4  1  3  1  3  1  2
+##  [82]  2  4  3 NA  5  4  4  2  4  3  3  1  4  1  4  3  3  4  4  4  2  1  2  4  1  4  3
+## [109]  4  2  4  4  4  4  1  4  5  1  2  4  4  4  3  4  1  1  4  1  4  4  1  3  4  4  3
+## [136]  1  4  4  4  4  4  5  4  3  4  1  4  4  1  4  1  4  4  1  4  2  3  2  1  4  1  4
+## [163]  3  4  3  4  3  4  4  1  1  4  4  4  4  3  4  1  1  4  1  3  3  4  2  4  4  3  4
+## [190]  1  1  1
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
@@ -392,11 +390,10 @@ colors()[1:20]
 ```
 
 ```
-##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1"
-##  [5] "antiquewhite2" "antiquewhite3" "antiquewhite4" "aquamarine"   
-##  [9] "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"  
-## [13] "azure"         "azure1"        "azure2"        "azure3"       
-## [17] "azure4"        "beige"         "bisque"        "bisque1"
+##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1" "antiquewhite2"
+##  [6] "antiquewhite3" "antiquewhite4" "aquamarine"    "aquamarine1"   "aquamarine2"  
+## [11] "aquamarine3"   "aquamarine4"   "azure"         "azure1"        "azure2"       
+## [16] "azure3"        "azure4"        "beige"         "bisque"        "bisque1"
 ```
 
 Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [https://r-charts.com/colors/]( https://r-charts.com/colors/). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
@@ -585,7 +582,7 @@ Nachfolgend soll mit dem Item zum interesse an wissenschaftlichen Grundlagen gea
 
 ![](/lehre/statistik-i/interests.png)
 
-Es treten die Werte 0 bis  5 empirisch auf, außerdem gibt es  3 fehlende Werte (dargestellt als `NA`):
+Es treten die Werte 1 bis  5 empirisch auf, außerdem gibt es  4 fehlende Werte (dargestellt als `NA`):
 
 
 ``` r
@@ -593,14 +590,14 @@ fb24$wissen
 ```
 
 ```
-##   [1]  4  3  5  5  4  3  3  4  5  3  4  4  2  4  5  3  3  5  5  4  4  4  5  3  5  1
-##  [27]  5  3  3  2  4  5  4 NA  5  4  3  5  4  5  4  4  4  3  4  5  3  4  4  4  5  5
-##  [53]  2  5  5  3 NA  4  5  3  4  5  4  3  4  4  5  5  3  2  3  4  3  3  5  4  3  3
-##  [79]  4  4  3  5  3  2 NA  4  4  3  5  2  2  4  3  4  4  4  4  4  3  3  3  5  4  5
-## [105]  4  5  5  4  0  5  4  5  2  4  2  4  4  4  4  4  4  4  2  4  4  4  2  4  2  3
-## [131]  5  3  2  4  3  3  3  5  4  3  4  5  3  4  4  4  3  2  3  5  5  4  3  3  3  3
-## [157]  5  5  4  1  5  3  3  2  4  2  3  3  5  4  3  5  3  3  3  4  4  2  4  3  2  4
-## [183]  3  3  3  5  5  4  4  5  5  4
+##   [1]  4  3  5  5  4  3  3  4  5  3  4  4  2  4  5  3  3  5  5  4  4  4  5  3  5  1  5
+##  [28]  3  3  2  4  5  4 NA  5  4  3  5  4  5  4  4  4  3  4  5  3  4  4  4  5  5  2  5
+##  [55]  5  3 NA  4  5  3  4  5  4  3  4  4  5  5  3  2  3  4  3  3  5  4  3  3  4  4  3
+##  [82]  5  3  2 NA  4  4  3  5  2  2  4  3  4  4  4  4  4  3  3  3  5  4  5  4  5  5  4
+## [109] NA  5  4  5  2  4  2  4  4  4  4  4  4  4  2  4  4  4  2  4  2  3  5  3  2  4  3
+## [136]  3  3  5  4  3  4  5  3  4  4  4  3  2  3  5  5  4  3  3  3  3  5  5  4  1  5  3
+## [163]  3  2  4  2  3  3  5  4  3  5  3  3  3  4  4  2  4  3  2  4  3  3  3  5  5  4  4
+## [190]  5  5  4
 ```
 
 Wiederholung:
@@ -612,8 +609,8 @@ table(fb24$wissen)               # Absolute Haeufigkeiten
 
 ```
 ## 
-##  0  1  2  3  4  5 
-##  1  2 18 53 70 45
+##  1  2  3  4  5 
+##  2 18 53 70 45
 ```
 
 ``` r
@@ -622,8 +619,8 @@ prop.table(table(fb24$wissen))   # Relative Haeufigkeiten
 
 ```
 ## 
-##           0           1           2           3           4           5 
-## 0.005291005 0.010582011 0.095238095 0.280423280 0.370370370 0.238095238
+##          1          2          3          4          5 
+## 0.01063830 0.09574468 0.28191489 0.37234043 0.23936170
 ```
 
 ``` r
@@ -632,7 +629,7 @@ which.max(table(fb24$wissen))    # Modus
 
 ```
 ## 4 
-## 5
+## 4
 ```
 
 

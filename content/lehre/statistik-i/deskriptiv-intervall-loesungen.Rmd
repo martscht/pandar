@@ -164,7 +164,7 @@ Zur Berechnung der Varianz gemäß Formel benötigen wir $n$. Wir könnten mit `
 is.na(fb24$ru_pre) |> sum()
 ```
 
-Hier gibt es tatsächlich keinen fehlenden Wert.
+Ein fehlender Wert wird uns angezeigt, weshalb im Folgenden die Umrechnung der Varianz mit `na.omit()` in der Bestimmung der Stichprobengröße erfolgt. 
 
 ```{r}
 # empirische Varianz

@@ -214,7 +214,7 @@ barplot(
 jpeg("Befragung-fb24.jpg", width=20, height=10, units="cm", res=200)
 barplot(
   table(fb24$wohnen),                               
-  main = "Befragung Erstis im WS 23/24:\nAktuelle Wohnsituation", 
+  main = "Befragung Erstis im WS 24/25:\nAktuelle Wohnsituation", 
   ylab = "Häufigkeit",
   col = rainbow(10),
   space = 0.1,
