@@ -68,13 +68,13 @@ var(fb24$lz, na.rm = TRUE) * (nrow(fb24) - 1) / nrow(fb24)
 var(fb24$lz, na.rm = TRUE) * (length(na.omit(fb24$lz)) - 1) / (length(na.omit(fb24$lz)))
 
 # Umrechnung der Varianzen
-var(fb24$lz, na.rm = TRUE) * (192 - 1) / 192
+var(fb24$lz, na.rm = TRUE) * (191 - 1) / 191
 
 # Standardabweichung in R
 sd(fb24$lz, na.rm = TRUE) # Populationsschaetzer
 
 # Umrechnung der Standardabweichung
-sd(fb24$lz, na.rm = TRUE) * sqrt((192 - 1) / 192)
+sd(fb24$lz, na.rm = TRUE) * sqrt((191 - 1) / 191)
 
 # Händische Berechnung der empirischen Standardabweichung
 (sum((fb24$lz - mean(fb24$lz, na.rm = TRUE))^2,

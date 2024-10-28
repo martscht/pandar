@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, buchholz, zacharias, pommeranz] 
-lastmod: '2024-10-24'
+lastmod: '2024-10-25'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -145,7 +145,7 @@ mean(fb24$ru_pre, na.rm = TRUE)
 ```
 
 ```
-## [1] 2.77474
+## [1] 2.777487
 ```
 
 Der Median ist fast gleich dem Mittelwert, was eine symmetrische Verteilung vermuten lässt.
@@ -185,10 +185,10 @@ is.na(fb24$ru_pre) |> sum()
 ```
 
 ```
-## [1] 0
+## [1] 1
 ```
 
-Hier gibt es tatsächlich keinen fehlenden Wert.
+Ein fehlender Wert wird uns angezeigt, weshalb im Folgenden die Umrechnung der Varianz mit `na.omit()` in der Bestimmung der Stichprobengröße erfolgt. 
 
 
 ``` r
@@ -198,7 +198,7 @@ sum((fb24$ru_pre - mean(fb24$ru_pre, na.rm = T))^2, na.rm = T) / (length(na.omit
 ```
 
 ```
-## [1] 0.4652083
+## [1] 0.4661947
 ```
 
 ``` r
@@ -207,7 +207,7 @@ var(fb24$ru_pre, na.rm = T) * (length(na.omit(fb24$ru_pre))-1) / length(na.omit(
 ```
 
 ```
-## [1] 0.4652083
+## [1] 0.4661947
 ```
 
 ``` r
@@ -216,7 +216,7 @@ var(fb24$ru_pre, na.rm = T)
 ```
 
 ```
-## [1] 0.4676439
+## [1] 0.4686484
 ```
 
 Die empirische Varianz ist kleiner als der Populationsschätzer.
@@ -230,7 +230,7 @@ Nun fehlt noch die Betrachtung der Standardabweichung. Als einfachste Möglichke
 ```
 
 ```
-## [1] 0.6820618
+## [1] 0.6827845
 ```
 
 ``` r
@@ -239,7 +239,7 @@ sd(fb24$ru_pre, na.rm = T)
 ```
 
 ```
-## [1] 0.6838449
+## [1] 0.684579
 ```
 
 Auch hier ist der empirische Wert kleiner als der Schätzer.

@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte Variablen vorgestellt. Dabei wird zunächst die Berechnung des Mittelwerts, der Varianz sowie Standardabweichung behandelt. Dann wird gezeigt, wie Variablen zentriert bzw. standardisiert werden können. Abschließend geht es außerdem um das Rekodieren von Items und das Bilden von Skalenwerten.' 
 authors: [nehler, beitner, buchholz] 
 weight: 3
-lastmod: '2024-10-24'
+lastmod: '2024-10-25'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -141,7 +141,7 @@ fb24$lz
 ##  [20] 5.2 4.0 6.4 4.8 5.0 6.8 2.6 4.6 4.4 5.6 5.6 3.0 4.8 3.8 5.5 5.4 5.8 5.8 4.6
 ##  [39] 4.6 4.2 4.8 4.2 5.0 4.8 6.0 3.2 6.0 6.0 5.6 5.2 2.8 5.4 5.0 5.6 3.8 4.8 4.2
 ##  [58] 4.0 3.0 4.6 5.8 5.8 5.0 5.8 5.2 5.4 5.8 4.0 2.6 6.0 5.8 6.6 4.4 4.4 7.0 6.0
-##  [77] 4.4 5.4 5.8 5.2 4.8 4.4 2.6 4.4 NaN 6.6 5.0 5.2 7.0 4.6 4.0 3.8 6.6 3.8 6.4
+##  [77] 4.4 5.4 5.8 5.2 4.8 4.4 2.6 4.4  NA 6.6 5.0 5.2 7.0 4.6 4.0 3.8 6.6 3.8 6.4
 ##  [96] 4.4 5.6 5.6 6.8 3.2 3.2 5.4 5.0 6.0 5.8 2.8 3.6 5.4 6.6 3.6 3.8 6.4 5.0 2.4
 ## [115] 5.4 4.8 4.4 3.6 5.2 4.4 4.8 4.8 5.8 5.4 5.6 3.6 5.0 3.2 6.0 4.8 4.4 5.4 4.4
 ## [134] 3.8 6.2 2.2 5.8 6.2 4.0 5.6 5.4 6.2 2.4 6.4 3.0 6.2 5.4 6.4 5.2 4.8 6.8 5.6
@@ -182,7 +182,7 @@ quantile(fb24$lz, c(.25, .5, .75), na.rm=T)
 boxplot(fb24$lz)
 ```
 
-![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 Die Betrachtung zeigt uns, dass die meisten Werte Ihrer selbstberichteten Lebenszufriedenheit im oberen Bereich der Skala liegen. Personen mit sehr niedrigen Skalenwerten werden als mögliche Ausreißer getestet.
 
@@ -196,7 +196,7 @@ Um die Verteilung der Werte für eine mindestens intervallskalierte noch besser 
 hist(fb24$lz)
 ```
 
-![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 Natürlich kann man auch hier zusätzliche Argumente nutzen, die die Optik des Histogramms verändern. Dabei können beispielsweise Farbe, Achsenbeschriftungen oder auch der Titel verändert werden. Damit haben wir uns aber bereits auseinandergesetzt und wiederholen es deswegen an dieser Stelle nicht nochmal. Eine neue Bearbeitungsoption für den Plot ist aber das Argument `breaks`. Hierin wird beschrieben, an welchem Ort eine Kategorie anfängt und wieder aufhört. bspw. startet die erste Kategorie bei 1 und geht bis 3, die zweite dann bei 3 bis 5 und die vierte von 5 bis 7. Die Anzahl der Breakpoints wäre in diesem Beispiel 4 (`c(1, 3, 5, 7)`). Ohne eigenen Input bestimmt `R` dieses komplett selbst. Wir können aber auch einen Wert zuordnen - bspw. eine ganze Zahl. 
 
@@ -207,7 +207,7 @@ hist(fb24$lz,
      breaks = 20)
 ```
 
-![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 Das Argument ist eine weiche Einstellung. `R` weiß jetzt, dass wir 20 Kategorien bevorzugen. Im Hintergrund laufen aber Funktionen ab, die einen optisch ansprechenden Code produzieren. Deshalb erhalten wir mehr als 20 Breakpoints. Eine weiche Einstellung bedeutet also, dass `R` das Argument nicht als Pflicht übernimmt. Dieses Phänomen werden wir relativ selten im Verlauf des Semesters sehen. Es wird aber in der Hilfe `?hist` im Unterpunkt `breaks` beschrieben. 
 
@@ -222,7 +222,7 @@ hist(fb24$lz,
      breaks = c(1, 3, 3.3, 3.6, 3.9, 4.5, 5, 7))
 ```
 
-![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 Für die eigene Bestimmung der Grenzen muss also anstatt einer ganzen Zahl dem Befehl ein Vektor `c()` mit allen Breakpoints übergeben werden.
 
@@ -267,7 +267,7 @@ Achtung! Wir benötigen für die Varianzberechnung `n` (s. Formel)! Wir nutzen h
 
 **Kleiner Diskurs zu fehlenden Werten:**
 
-<img src="/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+<img src="/lehre/statistik-i/deskriptiv-intervall_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 Um zu prüfen, ob und wie viele fehlende Werte eine Variable hat, lässt sich z. B. folgende Syntax verwenden:
 
@@ -368,11 +368,11 @@ Alternativ, wenn man die fehlenden Werte händisch abzieht:
 
 ``` r
 # Umrechnung der Varianzen
-var(fb24$lz, na.rm = TRUE) * (192 - 1) / 192
+var(fb24$lz, na.rm = TRUE) * (191 - 1) / 191
 ```
 
 ```
-## [1] 1.314928
+## [1] 1.314892
 ```
 
 
@@ -408,11 +408,11 @@ Wir müssten das Ergebnis also wieder mit einem Faktor ($\sqrt{\frac{n - 1}{n}}$
 
 ``` r
 # Umrechnung der Standardabweichung
-sd(fb24$lz, na.rm = TRUE) * sqrt((192 - 1) / 192)
+sd(fb24$lz, na.rm = TRUE) * sqrt((191 - 1) / 191)
 ```
 
 ```
-## [1] 1.146703
+## [1] 1.146687
 ```
 
 Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafür können wir einfach den bereits geschriebenen Code für die empirische Varianz nehmen und aus dem Ergebnis die Wurzel ziehen.
@@ -533,8 +533,8 @@ head(fb24$mdbf11 == 1, 15) #Zeige die ersten 15 Antworten
 ```
 
 ```
-##  [1]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE  TRUE  TRUE
-## [14]  TRUE  TRUE
+##  [1]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE  TRUE
+## [13]  TRUE  TRUE  TRUE
 ```
 
 Wir erhalten einen booleschen Vektor, der uns sagt, wo der Wert 1 auftaucht (`TRUE`) und wo nicht (`FALSE`).

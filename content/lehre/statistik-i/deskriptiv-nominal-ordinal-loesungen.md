@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [buchholz, nehler, sinn] 
-lastmod: '2024-10-24'
+lastmod: '2024-10-25'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -223,7 +223,7 @@ which.max(table(fb24$therap))
 
 ```
 ## 5 
-## 5
+## 4
 ```
 
 **Häufigkeiten**
@@ -235,8 +235,8 @@ table(fb24$therap)
 
 ```
 ## 
-##   0   2   3   4   5 
-##   1   2  10  57 119
+##   2   3   4   5 
+##   2  10  57 119
 ```
 
 ``` r
@@ -245,11 +245,11 @@ prop.table(table(fb24$therap))
 
 ```
 ## 
-##           0           2           3           4           5 
-## 0.005291005 0.010582011 0.052910053 0.301587302 0.629629630
+##          2          3          4          5 
+## 0.01063830 0.05319149 0.30319149 0.63297872
 ```
 
-Der Modus der Variable `therap` beträgt 5, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = 119 bzw. 62.96%).
+Der Modus der Variable `therap` beträgt 4, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = 119 bzw. 63.3%).
 
 **Boxplot**
 
@@ -335,7 +335,7 @@ barplot(
 jpeg("Befragung-fb24.jpg", width=20, height=10, units="cm", res=200)
 barplot(
   table(fb24$wohnen),                               
-  main = "Befragung Erstis im WS 23/24:\nAktuelle Wohnsituation", 
+  main = "Befragung Erstis im WS 24/25:\nAktuelle Wohnsituation", 
   ylab = "Häufigkeit",
   col = rainbow(10),
   space = 0.1,
