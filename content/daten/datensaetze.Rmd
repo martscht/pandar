@@ -10,9 +10,9 @@ subtitle: 'Übersicht über alle verwendeten Datensätze auf pandaR'
 summary: ''
 authors: [rouchi, schultze]
 featured: no
-banner:
-  image: "/header/fire_exit.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/126532)"
+# banner:
+#   image: "/header/fire_exit.jpg"
+#   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/126532)"
 projects: []
 
 reading_time: false

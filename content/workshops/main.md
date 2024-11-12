@@ -16,8 +16,9 @@ sections:
       text: "Auf dieser Überblicksseite findest du alle Workshops, die wir bereits gehalten haben. Diese betreffen nicht nur vertiefende Inhalte zu R, sondern auch zu Informationen zu den verschiedenen Anwendungsbereichen der Psychologie. <br><br>"
     design:
       background:
-        image:
-          filename: header/underwater.jpg
+        # image:
+        #   filename: header/underwater.jpg
+        color: '#00618f'
         text_color_light: true
       columns: 2
       
@@ -31,7 +32,7 @@ sections:
         
         
         {{< category_list "ggplotting" 6 >}}
-        Den [Foliensatz zum Workshop gibt es hier](/workshops/ggplotting/ggplotting-folien.pdf).
+        # Den [Foliensatz zum Workshop gibt es hier](/workshops/ggplotting/ggplotting-folien.pdf).
 
     design:
       columns: 2

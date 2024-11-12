@@ -16,8 +16,10 @@ sections:
       text: '<br><br><br><br>'
     design:
       background:
-        image:
-          filename: header/chalkboard_goethe.jpg
+        # image:
+        #   filename: header/chalkboard_goethe.jpg
+        # text_color_light: true
+        color: '#00618f' 
         text_color_light: true
       columns: 2
   - block: markdown

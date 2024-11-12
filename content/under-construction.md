@@ -9,9 +9,9 @@ subtitle: ''
 summary: ''
 authors: []
 featured: no
-banner:
-  image: "/header/under_construction.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/724752)"
+# banner:
+#   image: "/header/under_construction.jpg"
+#   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/724752)"
 projects: []
 reading_time: false
 share: false

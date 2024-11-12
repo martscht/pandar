@@ -9,21 +9,24 @@ sections:
     id: welcome
     content:
       title: 'Willkommen bei pandaR!'
-      text: 'Auf dieser Seite stellen wir Material aus der R-bezogenen Lehre im Psychologie-Studium zur Verfügung! Außerdem haben wir einige Projekte erstellt, in denen du deine R-Kenntnisse auch ganz unabhängig von den Inhalten im Studium ausprobieren, vertiefen und erweitern kannst.'
+      text: 'Auf dieser Seite stellen wir Material aus der R-bezogenen Lehre im Psychologie-Studium zur Verfügung! Außerdem haben wir einige Projekte erstellt, in denen du deine R-Kenntnisse auch ganz unabhängig von den Inhalten im Studium ausprobieren, vertiefen und erweitern kannst.
+      
+      
+      _Leider steht derzeit wegen technischer Probleme nur eine sehr abgespeckte Version von pandaR zur Verfügung. Wir hoffen, dass wir die Probleme bald beheben können._'
     design:
       background:
         color: '#00618f' 
         text_color_light: true
-  - block: markdown
-    id: panda
-    content:
-      title: 
-      subtitle:
-      text: '<br><br><br><br><br><br><br><br>'
-    design:
-      background:
-        image:
-          filename: panda.jpg
+  # - block: markdown
+  #   id: panda
+  #   content:
+  #     title: 
+  #     subtitle:
+  #     text: '<br><br><br><br><br><br><br><br>'
+  #   design:
+  #     background:
+  #       image:
+  #         filename: panda.jpg
 #   - block: markdown
 #     id: pandar-overview
 #     content:

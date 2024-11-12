@@ -19,8 +19,9 @@ sections:
 Die Projekte müssen nicht in der präsentierten Reihenfolge bearbeitet werden. Sie werden zwar nach unten hin schwieriger, bauen aber nicht aufeinander auf."
     design:
       background:
-        image:
-          filename: header/paper.jpg
+        # image:
+        #   filename: header/paper.jpg
+        color: '#00618f'
         text_color_light: true
       columns: 2
       
