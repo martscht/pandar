@@ -379,7 +379,7 @@ tab$mod4 <- predict(mod4, tab)
 tab
 ```
 
-## Kombination nominal- und intervallskalierter Prädiktoren
+## Kombination nominal- und intervallskalierter Prädiktoren {#ancova}
 
 Der Kombination von unabhängigen Variablen mit Nominal- und Intervallskalenniveau kommt in der Psychologie eine so große Bedeutung zu, dass wir diese z.B. im Rahmen der Methodenlehre im Master für klinische Psychologie und Psychotherapie [noch einmal sehr detailliert behandeln](/lehre/klipps/ancova-moderierte-regression) werden. Diese Kombination ist deswegen so wichtig, weil wir in der Psychologie besonders Gruppenunterschiede untersuchen und dabei z.B. Interventions- vs. Kontrollgruppe als nominalskalierten Prädiktor nutzen. Gleichzeitig ist es aber auch wichtig, Interventionseffekte entweder um den Einfluss bestimmter psychologischer Eigenschaften zu bereinigen oder explizit den Effekt zu untersuchen, den Interventionen auf den Zusammenhang zwischen Variablen haben. 
 
