@@ -22,7 +22,7 @@ psych::describeBy(cope$CDI1*12, cope$condition)
 
 # Akzeptanz
 pfs <- subset(cope, select = c('condition', grep('pfs_', names(cope), value = TRUE))) |> na.omit()
-describeBy(pfs, pfs$condition)
+psych::describeBy(pfs, pfs$condition)
 
 
 dropouts <- table(cope$condition, cope$dropout1)
@@ -64,11 +64,113 @@ locf$BHS3 <- ifelse(is.na(locf$BHS3), locf$BHS2, locf$BHS3)
 locf$DRS3 <- ifelse(is.na(locf$DRS3), locf$DRS1, locf$DRS3)
 
 # ANOVA model
-mod1a <- lm(CDI3 ~ condition, cope)
-
-# Einfache ANCOVA, Primäres Outcome
-mod1b <- lm(CDI3 ~ CDI1 + condition, cope)
+mod1 <- lm(CDI3 ~ condition, cope)
 
 # Ergebniszusammenfassung
-summary(mod1a)$coef
-summary(mod1b)$coef
+summary(mod1)
+
+# Gruppenmittelwerte zur Baseline
+tapply(cope$CDI1, cope$condition, mean)
+
+# Einfache ANCOVA
+mod2 <- lm(CDI3 ~ CDI1 + condition, cope)
+
+# Ergebniszusammenfassung
+summary(mod2)
+
+# Regressionsergebnisse zusammenführen
+lines <- data.frame(condition = c("Placebo Control", "Project Personality", "Project ABC"), 
+  int1 = coef(mod1)[1] + c(0,coef(mod1)[2:3]),
+  slo1 = 0,
+  int2 = coef(mod2)[1] + c(0,coef(mod2)[3:4]),
+  slo2 = coef(mod2)[2],
+  mns = tapply(cope$CDI1, cope$condition, mean))
+
+# Grafische Darstellung
+scatter <- ggplot(cope, aes(x = CDI1, y = CDI3, color = condition)) + 
+  theme_pandar() + scale_color_pandar() + geom_point(alpha = 0) + xlim(0.75, 1.25) + ylim(.6, 1.2) 
+
+# Regressionsgeraden
+scatter +
+  geom_abline(data = lines, aes(intercept = int2, slope = slo2, color = condition), linetype = 'solid') +
+  geom_point(data = lines, aes(x = mns, y = mns*slo2+int2))
+
+# Modell mit Last-Observation-Carried-Forward
+mod2_locf <- lm(CDI3 ~ CDI1 + condition, locf)
+
+# Ergebniszusammenfassung
+summary(mod2_locf)
+
+# Regressionsergebnisse zusammenführen
+lines$int3 <- coef(mod2_locf)[1] + c(0,coef(mod2_locf)[3:4])
+lines$slo3 <- coef(mod2_locf)[2]
+
+# Grafische Darstellung
+scatter +
+  geom_abline(data = lines, aes(intercept = int2, slope = slo2, color = condition), linetype = 'solid') +
+  geom_abline(data = lines, aes(intercept = int3, slope = slo3, color = condition), linetype = 'dashed') 
+
+
+# Seed festlegen
+set.seed(123)
+
+# Werte Frauen
+y1f <- rnorm(100, 70, 10)
+y2f <- 5 + .5*y1f + rnorm(100, 35, sqrt(75))
+
+# Werte Männer
+y1m <- rnorm(100, 80, 10)
+y2m <- 5 + .5*y1m + rnorm(100, 40, sqrt(75))
+
+# Datensatz
+d <- data.frame(y1 = c(y1f, y1m), y2 = c(y2f, y2m),
+  g = rep(c('f', 'm'), each = 100))
+
+# ANCOVA
+lord_ancova <- lm(y2 ~ y1 + g, d)
+summary(lord_ancova)
+
+# Change-Modell
+lord_change <- lm(y2 - y1 ~ g, d)
+summary(lord_change)
+
+# Change-Modell
+mod3 <- lm(CDI3 - CDI1 ~ condition, cope)
+
+# Ergebniszusammenfassung
+summary(mod3)
+
+# Change zur ANOVA
+anova(mod3)
+
+# Zenrierung der Kovariate
+cope$CDI1_c <- scale(cope$CDI1, scale = FALSE)
+
+# Generalisierte ANCOVA
+mod4 <- lm(CDI3 ~ CDI1_c * condition, cope)
+
+# Ergebniszusammenfassung
+summary(mod4)
+
+# ANCOVA mit zentriertem Prädiktor aufstellen (zum Vergleich)
+mod2b <- lm(CDI3 ~ CDI1_c + condition, cope)
+
+# Regressionsergebnisse zusammenführen
+lines <- data.frame(condition = c("Placebo Control", "Project Personality", "Project ABC"), 
+  int1 = coef(mod2b)[1] + c(0, coef(mod2b)[3:4]),
+  slo1 = coef(mod2b)[2],
+  int2 = coef(mod4)[1] + c(0, coef(mod4)[3:4]),
+  slo2 = coef(mod4)[2] + c(0, coef(mod4)[5:6]))
+
+# Grafische Darstellung
+scatter <- ggplot(cope, aes(x = CDI1_c, y = CDI3, color = condition)) + 
+  theme_pandar() + scale_color_pandar() + geom_point(alpha = 0) + xlim(-.25, .25) + ylim(.75, 1.25)
+
+scatter +
+  geom_abline(data = lines, aes(intercept = int1, slope = slo1, color = condition), linetype = 'solid') +
+  geom_abline(data = lines, aes(intercept = int2, slope = slo2, color = condition), linetype = 'dashed') 
+
+
+# Simple Slopes
+library(interactions)
+sim_slopes(mod4, pred = condition, modx = CDI1_c)
