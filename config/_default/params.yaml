@@ -60,6 +60,7 @@ locale:
 # Site features
 
 features:
+  sharing: false
   syntax_highlighter:
     theme_light: pandarcode
     # theme_dark: dracula

@@ -8,12 +8,13 @@ subtitle: ''
 summary: ''
 authors: [schultze, nehler, irmer]
 weight: 3
-lastmod: '2024-11-11'
+lastmod: '2024-11-12'
 featured: no
 banner:
   image: "/header/canceled.jpg"
   caption: "[Courtesy of pexels](https://www.pexels.com/photo/concrete-building-under-blue-sky-4004291/)"
 projects: []
+share: false
 
 links:
   - icon_pack: fas
@@ -46,7 +47,7 @@ output:
 
 Die **AN**alysis of **COVA**riance hatten wir bereits im [2. Semester der Bachelorstudiengangs behandelt](lehre/statistik-ii/ancova-regression/#ancova) und dabei schon vorausahnen lassen, dass wir uns das Ganze im Rahmen des KliPPs-Masters noch einmal detaillierter angucken werden. Dieser Spannungsbogen soll nun hier abgeschlossen werden. 
 
-Im Allgemeinenen wird die ANCOVA in der Psychotherapieforschung immer dann genutzt, wenn wir Interventionsgruppen betrachten werden, die sich zum ersten Zeitpunkt hinsichtlich des Outcomes oder beliebiger Kovariaten unterscheiden *können*. Hierbei ist besonders wichtig zu unterscheiden, ob es sich um randomisierte Studien (üblicherweise "Randomized Controlled Trial", kurz RCT, genannt) handelt oder nicht. Üblicherweise sollten sich die Gruppen im ersten Fall nicht systematisch unterscheiden, aber wir werden im Abschnitt zum [Dropout](#dropout) noch genauer darauf eingehen, wie so etwas trotzdem entstehen kann. Darüber hinaus werden wir einige kritische Entscheidungen und Abgrenzungen besprechen, z.B. in welchen Fällen statt der hier vorgestellten ANCOVA eher die klassische [ANOVA mit Messwiederholung](/lehre/statistik-ii/anova-iii/) empfohlen wird.
+Im Allgemeinenen wird die ANCOVA in der Psychotherapieforschung immer dann genutzt, wenn wir Interventionsgruppen betrachten werden, die sich zum ersten Zeitpunkt hinsichtlich des Outcomes oder beliebiger Kovariaten unterscheiden *können*. Hierbei ist besonders wichtig zu unterscheiden, ob es sich um randomisierte Studien (üblicherweise "Randomized Controlled Trial", kurz RCT, genannt) handelt oder nicht. Üblicherweise sollten sich die Gruppen im ersten Fall nicht systematisch unterscheiden, aber wir werden im Abschnitt zum [Dropout](#dropout) noch genauer darauf eingehen, wie so etwas trotzdem entstehen kann. Darüber hinaus werden wir einige kritische Entscheidungen und Abgrenzungen besprechen, z.B. wann es empfehlenswert ist als abhängige Variable die Differenz aus den zwei Messzeitpunkten (also den Indikator der Veränderung) statt des Messwerts zum 2. Zeitpunkt zu nutzen.
 
 ### Interventionsstudie zur Depression während der COVID Pandemie
 
@@ -222,7 +223,7 @@ Im Artikel präsentieren [Schleider et al. (2022)](https://doi.org/10.1038/s4156
 ``` r
 # Akzeptanz
 pfs <- subset(cope, select = c('condition', grep('pfs_', names(cope), value = TRUE))) |> na.omit()
-describeBy(pfs, pfs$condition)
+psych::describeBy(pfs, pfs$condition)
 ```
 
 ```
@@ -366,7 +367,7 @@ drop_dat <- cope[, c('dropout1', grep('^gender', names(cope), value = TRUE),
 drop_mod <- glm(dropout1 ~ ., drop_dat, family = 'binomial')
 ```
 
-<details><summary><b>Die etwas lange Ergebnistablle</b></summary>
+<details><summary><b>Die etwas lange Ergebnistabelle</b></summary>
 
 ``` r
 summary(drop_mod)
@@ -502,6 +503,7 @@ caret::confusionMatrix(cope$dropout_pred, cope$dropout1)
 ##        'Positive' Class : remain          
 ## 
 ```
+
 ### Umgang mit Dropouts 
 
 Dass sich Abbrecher*innen hinsichtlich ihrer Baselineeigenschaften kaum von Personen unterscheiden, die zum 2. Zeitpunkt teilgenommen haben, bietet jedoch keine Sicherheit, dass die Dropouts tatsächlich MCAR sind. Genausogut könnten die fehlenden Werte davon abhängen, dass die Personen die Intervention nicht gut fanden (und dementsprechend andere Effekte der Interventionen für sie gelten) oder durch andere Baseline-Kovariaten gesteuert sein, die einfach nicht erhoben wurden (z.B. Gewissenhaftigkeit). Üblicherweise werden daher in der Psychotherapieforschung mehrere Schätzer der Effekte bestimmt, welche eine Einengung des tatsächlichen Effekts erlauben sollen. Als "Obergrenze" wird dabei die Schätzung angesehen, die aus der Analyse der vollständigen Beobachtungen (sogenannte _Complete Case Analysis_, CCA) hervorgeht. Die Annahme ist dabei, dass Personen deren Outcomes besonders gut sind, dem Treatment treu bleiben. Dem gegenüber kann als "Untergrenze" die Analyse aller Personen angesehen werden, die mit dem Treatment begonnen haben (sogennantes _Intent-to-Treat_, ITT). Dabei stellt sich natürlich die Frage, welche Werte genutzt werden sollen, um die fehlenden Werte zu ersetzen. Eine der klassischen Methoden ist es, die zuletzt gemachte Beobachtung zu kopieren und somit für die Personen, die abgebrochen haben, anzunehmen, dass sie sich nicht verändert hätten. In der Psychotherapieforschung wird diese Methode oft als _Last Observation Carried Forward_ (LOCF) bezeichnet. Neben diesen eher klassischen Methoden gibt es außerdem eine Vielzahl von modernen statistischen Verfahren, welche verwendet werden können, um bessere Schätzungen dieser fehlenden Werte zu erhalten. Im Artikel von [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) wird die multiple Imputation verwendet, die in R zum Beispiel im Paket `Amelia` oder `mice` implementiert ist. Andere Methoden sind zum Beispiel die Nutzung von Propensity scores (wie sie im [dazugehörigen Beitrag](/lehre/klipps-legacy/kausaleffekte2-legacy/) vorgestellt werden) oder generalized estimating equations.
@@ -538,31 +540,363 @@ Im Artikel wird die ANCOVA genutzt, um sicherzustellen, dass die Unterschiede zw
 
 ``` r
 # ANOVA model
-mod1a <- lm(CDI3 ~ condition, cope)
-
-# Einfache ANCOVA, Primäres Outcome
-mod1b <- lm(CDI3 ~ CDI1 + condition, cope)
+mod1 <- lm(CDI3 ~ condition, cope)
 
 # Ergebniszusammenfassung
-summary(mod1a)$coef
+summary(mod1)
 ```
 
 ```
-##                                 Estimate Std. Error   t value    Pr(>|t|)
-## (Intercept)                   1.02153189 0.01858446 54.966995 0.000000000
-## conditionProject Personality -0.06423590 0.02662101 -2.412977 0.015942071
-## conditionProject ABC         -0.08573422 0.02619276 -3.273203 0.001087564
+## 
+## Call:
+## lm(formula = CDI3 ~ condition, data = cope)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.02153 -0.28108 -0.01913  0.31180  1.06420 
+## 
+## Coefficients:
+##                              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                   1.02153    0.01858  54.967  < 2e-16 ***
+## conditionProject Personality -0.06424    0.02662  -2.413  0.01594 *  
+## conditionProject ABC         -0.08573    0.02619  -3.273  0.00109 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.4185 on 1500 degrees of freedom
+##   (949 observations deleted due to missingness)
+## Multiple R-squared:  0.007637,	Adjusted R-squared:  0.006314 
+## F-statistic: 5.772 on 2 and 1500 DF,  p-value: 0.003183
 ```
+Im klassischen ANOVA-Modell als Prädiktor genutzt, um die abhängige Variable vorherzusagen. Die jeweilige Regressionsgewichte sind also die _mittleren_ Gruppenunterschiede (zur Äquivalenz von ANOVA und Regression gibt es [hier noch einen expliziten Beitrag](/lehre/klipps-legacy/anova-regression-legacy)). Das heißt, wenn wir die Gruppenmittelwerte des CDI zur Baseline betrachten:
+
 
 ``` r
-summary(mod1b)$coef
+# Gruppenmittelwerte zur Baseline
+tapply(cope$CDI1, cope$condition, mean)
 ```
 
 ```
-##                                 Estimate Std. Error   t value      Pr(>|t|)
-## (Intercept)                   0.28877000 0.03473185  8.314271  2.045693e-16
-## CDI1                          0.63253736 0.02667575 23.712071 8.236480e-106
-## conditionProject Personality -0.07184018 0.02271155 -3.163156  1.591992e-03
-## conditionProject ABC         -0.08560924 0.02234397 -3.831425  1.326652e-04
+##     Placebo Control Project Personality         Project ABC 
+##            1.192274            1.184912            1.178755
 ```
-Wie immer in der 
+dass wir Personen aus der Kontrollgruppe nutzen, die einen `CDI1`-Wert von $1.19$ hatten, wärend die Personen aus Project ABC einen Wert von $1.18$ hatten. Dieser Unterschied mag numerisch klein wirken, aber wir vergleichen eben (aufgrund des Dropouts) _leicht_ unterschiedliche Personen miteinander. In der ANCOVA ziehen wir zusätzlich den CDI-Wert aus der Baselinebefragung als Prädiktor heran:
+
+
+``` r
+# Einfache ANCOVA
+mod2 <- lm(CDI3 ~ CDI1 + condition, cope)
+
+# Ergebniszusammenfassung
+summary(mod2)
+```
+
+```
+## 
+## Call:
+## lm(formula = CDI3 ~ CDI1 + condition, data = cope)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.1849 -0.2145  0.0147  0.2341  1.0395 
+## 
+## Coefficients:
+##                              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                   0.28877    0.03473   8.314  < 2e-16 ***
+## CDI1                          0.63254    0.02668  23.712  < 2e-16 ***
+## conditionProject Personality -0.07184    0.02271  -3.163 0.001592 ** 
+## conditionProject ABC         -0.08561    0.02234  -3.831 0.000133 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.357 on 1499 degrees of freedom
+##   (949 observations deleted due to missingness)
+## Multiple R-squared:  0.2783,	Adjusted R-squared:  0.2769 
+## F-statistic: 192.7 on 3 and 1499 DF,  p-value: < 2.2e-16
+```
+Der deutliche Sprung im $R^2$ weist darauf hin, dass die Depressionsymptomatik über die Zeit deutlich korreliert ist. Wie immer in der multiplen Regression ist der Effekt der Prädiktoren jetzt unter der Bedingungen zu interpretieren, dass die Werte auf den anderen Prädiktoren konstant sind. Heißt in unserem Fall, dass wir hier nun im Regressionsgewicht von `Project Personality` den Unterschied zwischen Personen aus den beiden Gruppen sehen, die mit dem gleichen BDI zur Baseline gestartet sind. Als Bild ausgedrückt:
+
+![](/lehre/klipps/ancova-klinische_files/figure-html/anova-vs-ancova-1.png)<!-- -->
+In der ANCOVA ist der Abstand zwischen den _bedingten_ Gruppenmittelwerten über alle Ausprägungen von `CDI1` der Gleiche - wir können den Abstand der Linien an jeden Punkt bestimmen und es sind immer die Regressionsgewichte aus `mod2`. In der ANOVA hingegen haben wir konkret die drei eingezeichneten Punkte verglichen, die sich nicht nur deswegen unterscheiden, weil die Linien (die bedingten Gruppenmittelwerte) um $b_2$ bzw. $b_3$ versetzt sind, sondern auch, weil wir an unterschiedlichen Stellen der x-Achse nachgucken. In diesem Fall ist der Unterschied zwischen beiden zwar minimal (weil es sich um einen immens großen RCT handelt), aber prinzipiell könnten wir so auf diese Unterschiede kontrollieren.
+
+Im Abgleich der Wege die fehlenden Werte zu behandeln, können wir die ANCOVA auch noch einmal für den `locf` Datensatz durchführen:
+
+
+``` r
+# Modell mit Last-Observation-Carried-Forward
+mod2_locf <- lm(CDI3 ~ CDI1 + condition, locf)
+
+# Ergebniszusammenfassung
+summary(mod2_locf)
+```
+
+```
+## 
+## Call:
+## lm(formula = CDI3 ~ CDI1 + condition, data = locf)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.30808 -0.13580  0.07954  0.17221  1.05887 
+## 
+## Coefficients:
+##                              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                   0.16312    0.02383   6.846 9.55e-12 ***
+## CDI1                          0.79201    0.01790  44.249  < 2e-16 ***
+## conditionProject Personality -0.04305    0.01501  -2.869 0.004159 ** 
+## conditionProject ABC         -0.05722    0.01497  -3.821 0.000136 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.3031 on 2448 degrees of freedom
+## Multiple R-squared:  0.4471,	Adjusted R-squared:  0.4465 
+## F-statistic:   660 on 3 and 2448 DF,  p-value: < 2.2e-16
+```
+Oder für die optischeren unter uns:
+
+![](/lehre/klipps/ancova-klinische_files/figure-html/ancova-locf-1.png)<!-- -->
+Es lässt sich sofort erkennen, dass im LOCF-Ansatz der Zusammenhang zwischen `CDI1` und `CDI3` deutlich größer wird. Das überrascht wenig, wenn man bedenkt, dass wir für einige Personen den Werte aus der ersten einfach in die zweite Variable kopiert haben. Eine Überschätzung der Stabilität liegt also in der Natur der Sache. Es wird außerdem deutlich, dass der Effekt der Interventionen deutlich kleiner geworden ist, weil wir für die fehlenden Personen eine Veränderung von 0 angenommen haben. Die Schlussfolgerungen bleiben dennoch erhalten: beide Interventionen haben einen statistisch bedeutsamen Effekt über die Plazebo-Kontrollbedingung hinaus.
+
+### Change-Modelle
+
+Eine naheliegende Alternative zu den ANCOVA Modellen ist es, statt des zweiten Zeitpunkts die Veränderung zwischen den Zeitpunkten $Y_2 - Y_1$ durch Kovariaten vorherzusagen. Mit dem Vergleich dieser, sogenannten "Change-Modelle" mit der ANCOVA haben sich diverse Studien und methodische Arbeiten befasst. Ein klassisches Argument gegen die ANCOVA ist [Lord's Paradox](https://arxiv.org/pdf/2302.01822), in dem es zu unterschiedlichen Ergebnissen kommt, je nachdem ob man eine Veränderung mit einer ANCOVA oder einem Veränderungsmodell analysiert, wenn die Gruppen sich zum 1. Messzeitpunkt unterscheiden.
+
+<details><summary><b>Lord's Paradox</b></summary>
+
+Im ursprünglichen Kommentar von [Lord (1967)](https://psycnet.apa.org/doi/10.1037/h0025105) wird eine Situation beschrieben, in der eine Universität ihr Mensa-Essen evaluieren möchte. Dazu wird das Gewicht von Männern und Frauen zu Beginn des Wintersemesters und zum Ende des folgenden Sommersemesters erhoben. Nehmen wir als extremes Beispiel, dass beide Gruppen im Mittel 5kg zugelegt hätten:
+
+
+``` r
+# Seed festlegen
+set.seed(123)
+
+# Werte Frauen
+y1f <- rnorm(100, 70, 10)
+y2f <- 5 + .5*y1f + rnorm(100, 35, sqrt(75))
+
+# Werte Männer
+y1m <- rnorm(100, 80, 10)
+y2m <- 5 + .5*y1m + rnorm(100, 40, sqrt(75))
+
+# Datensatz
+d <- data.frame(y1 = c(y1f, y1m), y2 = c(y2f, y2m),
+  g = rep(c('f', 'm'), each = 100))
+```
+
+In den Termini des bisherigen Beitrags ist das Geschlecht die Gruppen-Zuweisung. Wenn wir also untersuchen wollen, ob es einen Effekt der Variable Geschlecht gibt und dabei eventuelle Unterschiede in der Baseline berücksichtigen wollen (die es ja gibt), finden wir einen signifikanten Effekt:
+
+
+``` r
+# ANCOVA
+lord_ancova <- lm(y2 ~ y1 + g, d)
+summary(lord_ancova)
+```
+
+```
+## 
+## Call:
+## lm(formula = y2 ~ y1 + g, data = d)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -21.144  -5.735  -0.255   5.707  28.513 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  42.1819     4.7876   8.811 6.48e-16 ***
+## y1            0.4561     0.0664   6.869 8.26e-11 ***
+## gm            6.0700     1.4081   4.311 2.57e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 8.703 on 197 degrees of freedom
+## Multiple R-squared:  0.3858,	Adjusted R-squared:  0.3795 
+## F-statistic: 61.86 on 2 and 197 DF,  p-value: < 2.2e-16
+```
+Die ANCOVA würde uns also zurückmelden, dass das Geschlecht selbst nach Kontrolle auf die Baselineunterschiede einen signifikanten Effekt auf die Gewichtszunahme hat. Wenn wir aber die Veränderung zwischen den Zeitpunkten betrachten, finden wir keinen signifikanten Effekt:
+
+
+``` r
+# Change-Modell
+lord_change <- lm(y2 - y1 ~ g, d)
+summary(lord_change)
+```
+
+```
+## 
+## Call:
+## lm(formula = y2 - y1 ~ g, data = d)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -23.779  -6.559   0.180   6.187  34.545 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   3.6166     1.0052   3.598 0.000405 ***
+## gm            0.4674     1.4215   0.329 0.742656    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 10.05 on 198 degrees of freedom
+## Multiple R-squared:  0.0005457,	Adjusted R-squared:  -0.004502 
+## F-statistic: 0.1081 on 1 and 198 DF,  p-value: 0.7427
+```
+Frauen verändern sich bedeutsam (im Intercept dargestellt) und die Veränderung der Männer unterscheidet sich nicht bedeutsam (im Regressionsgewicht dargestellt). Dieses Artefakt wird seither als Lord's Paradox bezeichnet.
+
+</details>
+
+Wenn wir einen Change-Ansatz nutzen möchten, um die Effekte der Interventionen auf das primäre Outcome (den CDI Depressionsscore) zu untersuchen, sieht das relativ einfach so aus:
+
+
+``` r
+# Change-Modell
+mod3 <- lm(CDI3 - CDI1 ~ condition, cope)
+
+# Ergebniszusammenfassung
+summary(mod3)
+```
+
+```
+## 
+## Call:
+## lm(formula = CDI3 - CDI1 ~ condition, data = cope)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.28683 -0.19642  0.04651  0.22245  1.22025 
+## 
+## Coefficients:
+##                              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                  -0.13692    0.01682  -8.139 8.26e-16 ***
+## conditionProject Personality -0.07626    0.02410  -3.165 0.001583 ** 
+## conditionProject ABC         -0.08554    0.02371  -3.608 0.000319 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.3788 on 1500 degrees of freedom
+##   (949 observations deleted due to missingness)
+## Multiple R-squared:  0.01025,	Adjusted R-squared:  0.008929 
+## F-statistic: 7.766 on 2 and 1500 DF,  p-value: 0.0004412
+```
+Numerisch sind die Effekte der beiden Gruppen beinahe identisch. Allerdings ist die inhaltliche Interpretation ein wenig unterschiedlich: in der ANCOVA war die Bedeutung des Regressionsgewichts von `Project Personality`, dass es den Unterschied zwischen Personen aus der Kontrollgruppe und dieser Gruppe zum zweiten Zeitpunkt beschreibt, wenn sie zum ersten Zeitpunkt den gleichen CDI Wert hatten. Im Change-Modell beschreibt das Regressionsgewicht hingegen den Unterschied zwischen zwei Personen aus den beiden Gruppen hinsichtlich ihrer Veränderung zwischen dem 1. und dem 2. Messzeitpunkt. Wenn wir dieses Modell jetzt in eine ANOVA überführen:
+
+
+``` r
+# Change zur ANOVA
+anova(mod3)
+```
+
+```
+## Analysis of Variance Table
+## 
+## Response: CDI3 - CDI1
+##             Df  Sum Sq Mean Sq F value    Pr(>F)    
+## condition    2   2.228 1.11414   7.766 0.0004412 ***
+## Residuals 1500 215.195 0.14346                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+Entspricht der Test der `condition` genau dem Test, den wir für den Interaktionseffekt in der Messwiederholten ANOVA erhalten hätten. (Probieren Sie es gerne mit der [Messwiederholten ANOVA](/lehre/statistik-ii/anova-iii) aus!) Letztlich ist die Entscheidung zwischen Change-Model oder ANCOVA also die gleiche wie die zwischen Messwiederholter ANOVA und ANCOVA.
+
+Wenn Sie eine Interventionsstudie durchführen, für welchen der beiden Ansätze sollten Sie sich jetzt also Entscheiden? Generell gibt es ein paar handfeste Empfehlungen: [van Breukelen (2013)](https://www.tandfonline.com/doi/abs/10.1080/00273171.2013.831743) konnte zeigen, dass beide Ansätze zu den gleichen Ergebnissen führen, wenn die Gruppen randomisiert zugewiesen werden, in solchen Fällen aber die ANCOVA mehr Power hat. Wenn "natürliche" Gruppen verglichen werden, die sich in der Variable vor der Intervention unterscheiden können und die Kovariaten mit Messfehler behaftet sind, wird generell empfohlen den Change-Ansatz zu verwenden. [Lüdtke und Robitzsch (2023)](https://doi.org/10.1080/00220973.2023.2246187) zeigen darüber hinaus, dass der Change-Ansatz dann genutzt werden sollte, wenn nicht alle potentiellen Kovariaten erhoben wurden, weil es in diesem Ansatz (unter der Annahme, dass die Konfundierung zu allen Zeitpunkten identisch ist) durch die Bildung der Differenz nicht notwendig ist, alle Kovariaten in das Modell aufzunehmen. Allerdings wird dabei Vorausgesetzt, dass das Outcome zum 1. Messzeipunkt keine Auswirkung auf die Gruppenzuordnung hat. In Fällen, in denen vorab eine sinnvolle und stichhaltige Erhebung potentieller Störvariablen geplant wurde, ist die Nutzung der ANCOVA empfehlenswert, sofern sie nicht aufgrund von Baselineunterschieden in Variablen mit fehlenden Werte zu potentiellen Problemen des Lord's Paradox führt.
+
+## Generalisierte ANCOVA
+
+Die oben vorgestellte ANCOVA lässt sich nach Belieben um mehr Kovariaten erweitern. Das sollte (wie gerade besprochen) auch passieren, da sie besonders dann gut geeignet ist, wenn auf viele relevante Störvariablen kontrolliert werden kann. Dabei gehen wir bereits etwas über die ursprüngliche Auswertung von [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) hinaus, die nur die Baselinevariable als Kovariate genutzt hatten. Das Besondere an der ANCOVA ist darüber hinaus aber, dass wir sie in den Fall der _generalisierten ANCOVA_ erweitern können. 
+
+Im vorherigen Abschnitt zur ANCOVA hatten wir angenommen, dass Kovariaten den Effekt eventuell verzerren könnten und sie daher aufgenommen, um einen "bereinigten" Effektschätzer der Intervention zu erhalten. Dabei wird allerdings (wie an den parallelen Linien zu sehen war) davon ausgegangen, dass der Interventionseffekt bei allen Ausprägungen der Kovariate der Gleiche ist. Diese Annahme lässt sich prüfen, indem wir einen Interaktionseffekt in die ANCOVA aufnehmen. Dafür gilt, wie schon im [Beitrag zur moderierten Regression](/lehre/klipps/moderierte-regression-klinische), dass wir kontinuierliche Variablen unbedingt zentrieren sollten. Das hilft zum Einen bei der Interpretaion, aber kann auch Multikollinearität verringern.
+
+
+``` r
+# Zenrierung der Kovariate
+cope$CDI1_c <- scale(cope$CDI1, scale = FALSE)
+
+# Generalisierte ANCOVA
+mod4 <- lm(CDI3 ~ CDI1_c * condition, cope)
+
+# Ergebniszusammenfassung
+summary(mod4)
+```
+
+```
+## 
+## Call:
+## lm(formula = CDI3 ~ CDI1_c * condition, data = cope)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.18191 -0.21888  0.01634  0.23083  1.03391 
+## 
+## Coefficients:
+##                                     Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                          1.03821    0.01591  65.270  < 2e-16 ***
+## CDI1_c                               0.62109    0.04581  13.557  < 2e-16 ***
+## conditionProject Personality        -0.07191    0.02276  -3.160 0.001612 ** 
+## conditionProject ABC                -0.08427    0.02242  -3.759 0.000178 ***
+## CDI1_c:conditionProject Personality -0.01406    0.06499  -0.216 0.828708    
+## CDI1_c:conditionProject ABC          0.04964    0.06546   0.758 0.448373    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.3571 on 1497 degrees of freedom
+##   (949 observations deleted due to missingness)
+## Multiple R-squared:  0.2788,	Adjusted R-squared:  0.2764 
+## F-statistic: 115.8 on 5 and 1497 DF,  p-value: < 2.2e-16
+```
+Die Ergebnisse zeigen keine bedeutsamen Interaktionseffekte. Das bedeutet also, dass die Interventionen in ihrer Wirksamkeit nicht statistisch bedeutsam davon abhängen, mit welchem Depressionsscore die Personen die Studie gestartet haben. 
+
+![](/lehre/klipps/ancova-klinische_files/figure-html/ancova-generalized-1.png)<!-- -->
+
+Erneut sind sowohl optisch als auch numerisch die Unterschiede zwischen den Interventionsansätzen minimal. Dennoch sehen wir, dass im Bereich der unterdurchschnittlichen `CDI1`-Werte Teilnehmende des Project ABC niedrigere Depressionswerte zum Follow-Up aufweisen, während sich dieser Effekt bei überdurchschnittlichen Werten zugunsten von Project Personality verschiebt. Das können wir erneut (wie schon bei der moderierten Regression) mit Simple Slopes testen:
+
+
+``` r
+# Simple Slopes
+library(interactions)
+sim_slopes(mod4, pred = condition, modx = CDI1_c)
+```
+
+```
+## Warning: Johnson-Neyman intervals are not available for factor predictors or
+## moderators.
+```
+
+```
+## SIMPLE SLOPES ANALYSIS
+## 
+## When CDI1_c = -0.36840443 (- 1 SD): 
+## 
+##                                                Est.   S.E.   t val.      p
+## ------------------------------------------- ------- ------ -------- ------
+## Slope of conditionProject Personality         -0.07   0.03    -2.08   0.04
+## Slope of conditionProject ABC                 -0.10   0.03    -3.24   0.00
+## 
+## When CDI1_c = -0.02307023 (Mean): 
+## 
+##                                                Est.   S.E.   t val.      p
+## ------------------------------------------- ------- ------ -------- ------
+## Slope of conditionProject Personality         -0.07   0.02    -3.15   0.00
+## Slope of conditionProject ABC                 -0.09   0.02    -3.82   0.00
+## 
+## When CDI1_c =  0.32226396 (+ 1 SD): 
+## 
+##                                                Est.   S.E.   t val.      p
+## ------------------------------------------- ------- ------ -------- ------
+## Slope of conditionProject Personality         -0.08   0.03    -2.40   0.02
+## Slope of conditionProject ABC                 -0.07   0.03    -2.14   0.03
+```
+In Fällen, in denen solche Effekte deutlicher ausfallen, könnten wir diese Ergebnisse heranziehen, um z.B. für Patient\*innen mit hoher Belastung eine Intervention zu empfehlen, für Patient\*innen mit niedrigerer Belastung aber eine Andere.
+
+***
+
+## Literatur
+
+Lord, F. M. (1967). A Paradox in the Interpretation of Group Comparisons. _Psychological Bulletin 68_(5), 304-305. https://doi.org/10.1037/h0025105.
+
+Lüdtke, O. & Robitzsch, A. (2023). ANCOVA versus Change Score for the Analysis of Two-Wave Data. _The Journal of Experimental Education_, 1–33. https://doi.org/10.1080/00220973.2023.2246187
+
+Schleider, J.L., Mullarkey, M.C., Fox, K.R., Dobias, M. L., Shroff, A., Hart, E. A. & Roulston, C. A. (2022). A randomized trial of online single-session interventions for adolescent depression during COVID-19. _Nature Human Behavior, 6_, 258–268. https://doi.org/10.1038/s41562-021-01235-0
+
+van Breukelen, G. J. P. (2013). ANCOVA Versus CHANGE From Baseline in Nonrandomized Studies: The Difference. _Multivariate Behavioral Research, 48_(6), 895–922. https://doi.org/10.1080/00273171.2013.831743
