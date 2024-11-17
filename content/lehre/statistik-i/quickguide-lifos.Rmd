@@ -66,16 +66,18 @@ Wie wir bereits besprochen haben, sollen Sie im Rahmen des Praktikums eine erste
 <ol><li><p><b>Loggen Sie sich auf LIFOS ein</b></p> 
 Hierfür benötigen Sie lediglich die Zugangsdaten Ihres HRZ-Kontos.</li> 
 
-<li><p><b>Finden Sie Ihre Praktikums-Gruppe und beantragen Sie Zugang</b></p>
-Projekte auf LIFOS müssen in den jeweiligen Abteilungen/Kursen angelegt werden, um auch diesen zugeordnet werden zu können. Das heißt, Sie müssen erst Mitglied Ihrer PsyBSc2 Praktikumsgruppe auf LIFOS werden, um dann in ebenjener Gruppe ein Projekt anzulegen. Um die Gruppe auf LIFOS zu finden, klicken Sie oben links auf die drei Striche, dann auf *Groups*, dann auf *View all groups*. </li></ol>
+<li><p><b>Gruppenübersicht anzeigen</b></p>
+Projekte auf LIFOS müssen in den jeweiligen Abteilungen/Kursen angelegt werden, um auch diesen zugeordnet werden zu können. Das heißt, Sie müssen erst Mitglied Ihrer PsyBSc2 Praktikumsgruppe auf LIFOS werden, um dann in ebenjener Gruppe ein Projekt anzulegen. Um die Gruppe auf LIFOS zu finden, klicken Sie im Steuerungsmenü auf der linken Seite auf <b>Groups</b>, dann im Hauptfenster auf <b>Explore groups</b> (direkt neben <b>New Group</b>). </li>
 
 ![](quickguide-lifos01.png)
 
-Danach müssen Sie noch oben auf *Explore public groups* klicken. Nun können Sie alle öffentlichen Gruppen auf LIFOS sehen. Schauen Sie nach der Gruppe **PsyBSc2 Statistik I Praktikum WS 23-24**. Nach einem Klick ins freie Feld werden Ihnen alle neun Praktikumsgruppen angezeigt. 
+<li><p><b> Zur Gruppe navigieren </b></p> 
+Nun können Sie alle öffentlichen Gruppen auf LIFOS sehen. Zunächst müssen Sie auf die Gruppe <b>Psychologische Methoden mit interdisziplinärer Ausrichtung</b>, dann wiederum auf <b>PsyBSc 2 Statistik I (Praktikum)</b>, dann auf <b>WiSe 2024-25</b> klicken. Jetzt sollten Ihnen alle neun Praktikumsgruppen angezeigt werden. </li>
 
 ![](quickguide-lifos02.png)
 
-Klicken Sie auf Ihre Gruppe. Oben steht nun blau hinterlegt *Request access*. Klicken Sie drauf und bestätigen Sie. Gratulation! Sie haben so eben einen wichtigen Schritt gemeistert und Zugriff zu Ihrer Praktikumsgruppe beantragt. Sobald Ihr Dozent/Ihre Dozentin Ihre Anfrage bestätigt hat, können Sie und Ihre Gruppe loslegen.
+<li><p><b> Zugang beantragen </b></p>
+Klicken Sie auf Ihre Gruppe. Oben steht nun blau hinterlegt <b>Request access</b>. Klicken Sie drauf und bestätigen Sie. Gratulation! Sie haben so eben einen wichtigen Schritt gemeistert und Zugriff zu Ihrer Praktikumsgruppe beantragt. Sobald Ihr Dozent/Ihre Dozentin Ihre Anfrage bestätigt hat, können Sie und Ihre Gruppe loslegen.</li></ol>
 
 
 # Auf LIFOS ein Projekt anlegen {#projektstart}
@@ -89,7 +91,7 @@ Dadurch können andere später leichter nachvollziehen, wer an dem Projekt mitge
 ![](quickguide-lifos03.png)
 
 Alright, klicken Sie den *Create project* Knopf und schon steht Ihr Projekt!
-Dadurch, dass Sie das Projekt basierend auf dem PsyBSc2 Template initialisiert haben, werden Ihnen bereits wichtige Strukturen vorgegeben (die sich aber auch bei Bedarf ändern und anpassen lassen). Alle weiteren Schritte werden von nun auch im README eures Projekts angezeigt, der Vollständigkeit halber aber auch nochmal hier. Für tiefergehende Informationen über LIFOS können wir euch unsere [generellen Tutorials auf pandaR](https://pandar.netlify.app/lifos/main/) ans Herz legen.
+Dadurch, dass Sie das Projekt basierend auf dem PsyBSc2 Template initialisiert haben, werden Ihnen bereits wichtige Strukturen vorgegeben (die sich aber auch bei Bedarf ändern und anpassen lassen). Alle weiteren Schritte werden von nun auch im README eures Projekts angezeigt, der Vollständigkeit halber aber auch nochmal hier. Für tiefergehende Informationen über LIFOS können wir euch unsere [generellen Tutorials auf pandaR](/lifos/main/) ans Herz legen.
 
 
 # Bearbeitung von Projekten auf LIFOS {#bearbeitung}
@@ -103,7 +105,9 @@ Auf LIFOS kann man Projekte bearbeiten, indem man Dateien und Ordner hinzufügt,
 
 Eine Präregistrierung ist ein Dokument mit einem Zeitstempel, dass Informationen über die Studie beinhaltet, die bereits vor der Datenerhebung festliegen und so transparent festgehalten werden. Dazu zählen insbesondere Informationen über die Hypothesen und die statistische Auswertung, wie zum Beispiel welche Konstrukte erhoben werden, welche Fragebögen dafür verwendet werden, und welche Methoden man verwendet, um die Hypothese zu testen. Außerdem hilft eine Präregistrierung dabei, das Projekt schon vor Durchführung ausführlich zu durchdenken und so Fehler oder Probleme noch vor dem Auftreten entdecken und beheben zu können. 
 
-In Ihrem Projekt auf LIFOS finden Sie im Ordner *1_Präregistrierung* ein Word-Dokument namens *PsyBsc2_preregistration.docx*. Laden Sie dieses herunter und füllen Sie es aus. Auch hier reicht es aus, wenn Sie gemeinsam als Gruppe *eins* ausfüllen. Schicken Sie es dann Ihrem Dozenten/Ihrer Dozentin, um Feedback zu erhalten. Nachdem Sie das Feedback eingearbeitet haben und Ihre Präregistrierung abgesegnet wurde, können Sie Ihre Präregistrierung als PDF-Dokument wieder hochladen. Die Zeit, zu der das Dokument hochgeladen wird, wird als Zeitstempel für die Präregistrierung verwendet. Die Word-Datei können Sie dann aus Ihrem Projekt entfernen.
+In Ihrem Projekt auf LIFOS finden Sie im Ordner *1_Präregistrierung* eine Datei namens *PsyBsc2_preregistration.md*. Die Datei im Markdown-Format geschrieben. Der Vorteil an dem Format ist, dass diese Datei in jedem beliebigen Texteditor geöffnet und bearbeitet werden kann. Neben der lokalen Bearbeiter auf Ihrem Computer nach einem Download kann die Datei auch direkt auf LIFOS im Editor bearbeitet werden. Wie man Markdown verwendet, können Sie [hier](/lifos/grundlagen/eigenesprojekt/), [hier](/lifos/extras/basic-markdown-uebung/) und [hier](https://www.markdownguide.org/basic-syntax/) erfahren.
+
+Pro Gruppe muss nur eine Präregistrierung erstellt werden. Laden Sie das ausgefüllte Dokument hoch (falls Sie die Bearbeitung nicht direkt auf LIFOS gemacht haben) und sagen Sie Ihrer Praktikumsleitung Bescheid, um Feedback zu erhalten. Nachdem Sie das Feedback eingearbeitet haben und Ihre Präregistrierung abgesegnet wurde, können Sie diese erneut hochladen. Die Zeit, zu der das Dokument hochgeladen wird, wird als Zeitstempel für die Präregistrierung verwendet. 
 
 
 # Analysecode {#analysen}
@@ -119,7 +123,7 @@ Dies gilt ebenso für das Datenset, welches in *4_Daten* hochgeladen werden soll
 # Projektabschluss {#projektabschluss}
 
 Wenn Sie mit Ihrem Gruppenbericht fertig sind, laden Sie die finale PDF-Version Ihres Berichts im Ordner *5_Bericht* hoch.
-Zu guter Letzt, gibt es dann noch das *README.md*-Dokument. Das README ist eine Markdown-Textdatei, die Informationen über Ihr Projekt enthalten soll, einschließlich Zweck, Inhalt und weitere Details. Sie befindet sich normalerweise im Stammverzeichnis. Die README-Datei dient als Schnellreferenz für jeden, der versucht, euer Projekt zu verstehen oder zu verwenden, und ist eine wichtige Ressource für jeden, der auf sie stößt. Die Datei ist mit der Sprache Markdown formatiert. Wie man Markdown verwendet, können Sie [hier](https://pandar.netlify.app/lifos/grundlagen/eigenesprojekt/), [hier](https://pandar.netlify.app/lifos/extras/basic-markdown-uebung/) und [hier](https://www.markdownguide.org/basic-syntax/) erfahren. Wenn Sie die README-Datei angepasst haben und alle Dateien wie beschrieben hochgeladen haben, sind Sie mit Ihrem Projekt auf LIFOS fertig :)
+Zu guter Letzt, gibt es dann noch das *README.md*-Dokument. Das README ist - wie auch die Präregistrierung - eine Markdown-Textdatei. Sie soll Informationen über Ihr Projekt enthalten soll, einschließlich Zweck, Inhalt und weitere Details. Sie befindet sich normalerweise im Stammverzeichnis. Die README-Datei dient als Schnellreferenz für jeden, der versucht, euer Projekt zu verstehen oder zu verwenden, und ist eine wichtige Ressource für jeden, der auf sie stößt. Wenn Sie die README-Datei angepasst haben und alle Dateien wie beschrieben hochgeladen haben, sind Sie mit Ihrem Projekt auf LIFOS fertig :)
 
 ## Hilfestellung{#Hilfe}
 

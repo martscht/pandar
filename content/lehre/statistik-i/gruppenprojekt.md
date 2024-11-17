@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag finden Sie noch einmal alle Informationen, die das Gruppenprojekt betreffen, das Sie im Rahmen des Statistik-Praktikums durchführen. Dabei wird ausführlich auf die Generierung und Operationalisierung von Hypothesen eingegangen, außerdem gibt es Informationen zur Präregistrierung und zu der Erstellung des Ergebnisbericht, den Sie im Sinne von Open Science auf einer Übungsplattform bereitstellen sollen.' 
 authors: [nehler, beitner, schueller, schultze]
 weight: 14
-lastmod: '2024-04-02'
+lastmod: '2024-11-15'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"
@@ -50,7 +50,7 @@ Bestandteile der Gruppenarbeit sind das Generieren und auch (mit Unterstützung)
 
 - Wie können geeignete [**Hypothesen generiert**](#Hypothesengenerierung) werden?
 - Wie können diese [**Hypothesen operationalisiert**](#Operationalisierung) werden?
-- Was ist [**Präregistrierung**](#Präregistrierung) und wie können Sie Ihr Projekt präregistrieren?
+- Was ist eine [**Präregistrierung**](#Präregistrierung) und wie können Sie Ihr Projekt präregistrieren?
 - Wie wird der [**Online-Fragebogen**](#Online-Fragebogen) umgesetzt?
 - Wie wird die [**Datenanalyse**](#Auswertung) ablaufen?
 - Was sind die Bestandteile ihres [**Ergebnisberichts**](#Bericht)?
@@ -187,6 +187,80 @@ Eine Präregistrierung hat zudem den positiven Nebeneffekt, dass Sie als Forsche
 
 Den ersten Kontakt mit Aspekten von Open Science sollen Sie in einem geschützten Umfeld haben, weshalb wir die Übungsplattform LIFOS erstellt haben. Eine ausführliche Beschreibung zur Navigation auf LIFOS im Rahmen des Praktikums finden Sie [hier](/lehre/statistik-i/quickguide-lifos).
 
+## Fragen der Präregistrierung
+
+In dem Dokument werden Sie zu 10 Bereichen befragt. Im Vergleich zu anderen Vorlagen ist das Dokument reduziert, enthält jedoch die wichtigsten Informationen.
+
+### 1) Autor:innen und Betreuungspersonen
+
+Hier tragen Sie bitte die Namen aller Gruppenmitglieder ein. Die Betreuungsperson ist in diesem Fall die Praktikumsleitung.
+
+
+### 2) Name
+
+Hier müssen Sie Ihrem Projekt einen aussagekräftigen Namen geben. Dieser kann auch englisch sein.
+
+
+### 3) Datenerhebung
+
+Hier wird danach gefragt, ob Sie für diese Untersuchung bereits Daten erhoben haben. Wenn dem so sein sollte, handelt es sich um eine *Sekundäranalyse* bereits bestehender Daten (mehr dazu in PsyBSc 1). Solche Studien sind zwar vollkommen legitime Möglichkeiten des Forschens, aber nicht für diese spezifische Präregistrierungsvorlage geeignet. Darüber hinaus geht es in diesem Modul darum, dass Sie erste Erfahrungen mit einer empirischen *Primäranalyse* sammeln. Letztlich ist es also nur legitim, Daten zu nutzen, die zum Zeitpunkt der Präregistrierung noch nicht gesammelt wurden und bei diesem Punkt wahrheitsgemäß "Nein" zu wählen.
+
+
+
+
+### 4) Hypothesen {#hypo}
+
+Hier geht es darum, dass Sie die Forschungsfragen und Hypothesen klar und eindeutig ausformulieren. Dazu können Sie z.B. nochmal in den [Abschnitt zur Hypothesengenerierung](#Hypothesengenerierung) rein gucken. Darüber hinaus sollten Sie diese Hypothesen aber unbedingt vor der Präregistrierung schon mit Ihrem/Ihrer Dozent:in besprochen haben. Für das Projekt in diesem Semester sollten Sie hier mindestens zwei Hypothesen aufstellen - eine Unterschieds- und eine Zusammenhangshypothese.
+
+
+
+<!-- ### 5) Variablen -->
+
+Hier geht es darum, die Variablen zu beschreiben, die in Ihren Hypothesen vorkommen. In den meisten Fällen psychologischer Forschung handelt es sich hier um psychische Konstrukte oder Eigenschaften von Personen, sodass es auch relevant ist hier klar zu machen, wie diese gemessen werden sollen - im Praktikum also die dafür verwendeten, vorher validierten Fragebögen.
+
+Weiterhin müssen Sie auch die demografischen Variablen aufführen und spezifizieren, wie diese erhoben werden sollen. Geben Sie vor allem auch die möglichen Antwortoptionen, bzw. das zugrundeliegende Skalenniveau an.
+
+### 6) Analysen
+
+An dieser Stelle geht es darum, klar darzulegen welche Analysen durchgeführt werden um die unter [Punkt 4](#hypo) dargelegten Hypothesen zu prüfen. Das heißt Ihnen sollte schon vor der Studie klar sein, welche Hypothese Sie mit welchem Verfahren prüfen können. Weil sich hier wahrscheinlich Tests und Verfahren eignen, die wir weder in der Vorlesung noch im Praktikum besprochen haben, wenn Sie die Präregistrierung abschließen, macht es hier sehr viel Sinn, Rücksprache mit Ihrem/Ihrer Dozent:in zu halten.
+
+
+### 7) Ausreißer und Ausschlüsse
+
+Einer der Schritte im Auswertungsprozess an dem es am häufigsten zu "Irregularitäten" kommt, ist der Ausschluss von Daten. Dieser Schritt soll dazu dienen, Daten von Personen auszuschließen die aus verschiedenen Gründe die wissenschaftliche Integrität der Untersuchung gefährden, z.B. durch:
+
+* Abbruch der Befragung
+* Absichtliches Fehlverhalten der Befragten, mit dem Ziel die Untersuchung zu stören
+* "Musterkreuzen", um die Befragung schnellstmöglich abzuschließen
+* Missverständnis der Aufgabenstellung
+
+Solche Fälle sollen identifiziert und möglichst ausgeschlossen werden. Aber auch Personen, die nicht zur *Zielpopulation* gehören, sollen idealerweise nicht in die Auswertung aufgenommen werden. Wenn Sie z.B. die aktuelle Stimmung von Studierenden untersuchen möchten, sollten Personen ausgeschlossen werden, die keine Studierenden sind. Wenn Sie sich darüber hinaus auf die gesunde Grundgesamtheit Psychologiestudierender beziehen wollen, sollten Sie diejenigen Personen ausschließen können, die an einer diagnostizierten affektiven Störung (z.B. einer Depression) leiden. All diese möglichen Gründe, Personen auszuschließen, sollten vorab bedacht werden und es sollten klar Regeln dazu aufgestellt werden, wann Daten aus der Analyse ausgeschlossen werden. Durch Willkür in diesem Punkt können sich Ergebnisse sehr leicht manipulieren lassen, wodurch die Vertrauenswürdigkeit der Studie verloren geht.
+
+Ausreißerdiagnostik beschäftigt sich mit Personen, die ungewöhnliche Werte oder Wertkonstellationen aufweisen. Dabei wird häufig geschaut, ob sie einen überproportionalen Einfluss auf die Ergebnisse haben und sich durch ihre Anwesenheit die Ergebnisse verzerren. Auch hier sollten klare Regeln aufgestellt werden, wann Personen als Ausreißer identifiziert und ausgeschlossen werden. Damit werden wir uns allerdings erst im nächsten Semester näher beschäftigen.
+
+
+
+### 8) Stichprobengröße und -erhebung
+
+Wie viele Personen möchten Sie erheben? In den meisten Fällen kann vorab mittels einer sog. *Poweranalyse* bestimmt werden, wie viele Personen Sie erheben müssen, um mit adäquater Irrtumswahrscheinlichkeit Ihre Hypothesen prüfen zu können. Wichtig ist hier, dass Sie sich durch die hier angegeben Zahl verpflichten, die Erhebung dieser Anzahl von Personen mit allen Ihnen zur Verfügung stehenden Mitteln zu versuchen.
+
+Die Poweranalyse lernen wir erst im Laufe des Semesters kennen und können Sie deshalb jetzt noch nicht durchführen. Die Zielgröße für unsere Studien legen wir deshalb pauschal auf 40 Versuchspersonen fest.
+
+Auch der Zeitraum der Erhebung wird in diesem Punkt festgelegt. Hier sollten Sie sich überlegen, wie lange Sie brauchen, um die gewünschte Anzahl an Personen zu erheben. Auch hier sollten Sie sich durch die Angabe verpflichten, die Erhebung in diesem Zeitraum durchzuführen. Im Rahmen des Praktikums wird dieser Zeitraum von der Praktikumsleitung festgelegt.
+
+
+### 9) Kontext
+
+Hier muss angegeben werden, in welchem Kontext die Studie durchgeführt wird. Das kann z.B. ein Praktikum, eine Abschlussarbeit oder eine Studie im Rahmen eines Seminars sein. Weiterhin ist auch interessant, ob die präregistrieten Vorhaben eine alleinige Studie darstellen, oder, ob sie in einem größeren Forschungsvorhaben bzw. in einger größeren Befragung eingebettet sind. 
+
+### 10) Sonstiges
+
+In diesem Feld geht es vor allem darum, zusätzliche Untersuchungsschritte festzuhalten, die nicht an klare Hypothesen gebunden sind. Das betrifft vor allem *explorative Analysen*, also Analysen, die sich auf Forschungsfragen beziehen, zu denen Sie noch keine konkreten Annahmen generieren konnten. Ziel solcher Exploration ist es, eine empirische Grundlage für die Theoriebildung für zukünftige Studien zu entwickeln.
+
+
+
+
+
 # 4. Erstellung des Fragebogens {#Online-Fragebogen}
 Fragebögen können in Papierform oder auch online durchgeführt werden. In diesem Praktikum wird die Datenerhebung über einen Online-Fragebogen durchgeführt. Sie müssen den Fragebogen nicht selber erstellen -- dies wird von der Praktikumsleitung übernommen. Der erstellte Fragebogen umfasst dann alle Fragestellungen aus Ihrer Praktikumsgruppe. Damit genug Personen erhoben werden können, bewerben Sie den Fragebogen (besonders bei anderen Psychologie-Studierenden, denn es können Versuchspersonenminuten gesammelt werden).
 
@@ -220,12 +294,12 @@ Auch bei der Abgabe Ihrer Studienleistung legen wir auf das Üben von Open Scien
 
 Bitte beachten Sie zusammenfassend: 
 * jeweils eine Unterschieds- und Zusammenhangshypothese -- stimmen Sie die entwickelten Hypothesen mit dem/der Dozent:in Ihres Kurses ab
-* Operationalisierung für zusätzliche Variablen im Rahmen Ihrer Hypothesen muss mit Praktikumsleitung abgesprochen werden $\rightarrow$ **Stichtag 26.11.2023**
-* Präregistrierung Ihres Forschungsvorhabens ist Pflicht $\rightarrow$ **Stichtag für erste Abgabe 15.12.2023** -- **(eventuell) final nach Einarbeitung von Feedback bis zum 22.12.2023**
+* Operationalisierung für zusätzliche Variablen im Rahmen Ihrer Hypothesen muss mit Praktikumsleitung abgesprochen werden 
+* Präregistrierung Ihres Forschungsvorhabens ist Pflicht 
 * Bewerben Sie die Umfrage aus Ihrem Praktikum in Gruppen -- Teilnahme an den Studien bringt Versuchspersonenminuten
 * Auswertung wird in einem Präsenztermin gestartet, muss dann aber als Gruppe weitergeführt werden
 * Anschlussbericht muss verfasst werden [hier](/lehre/statistik-i/ergebnisbericht)
-* Dokumente (Bericht, Material, kommentierte Code, Datensatz) müssen auf der Open Science Übungsplattform LIFOS hochgeladen werden $\rightarrow$ **Stichtag 04.02.2024**
+* Dokumente (Bericht, Material, kommentierte Code, Datensatz) müssen auf der Open Science Übungsplattform LIFOS hochgeladen werden
 
 <!-- #### Alte Infos -->
 
