@@ -1,0 +1,66 @@
+---
+title: Daten für die Quizze
+type: post
+date: '2024-11-14'
+slug: quizdaten-klinisiche
+categories: ["KliPPs"]
+tags: ["Daten"]
+subtitle: ''
+summary: 'Auf dieser Seite finden sich alle Datensätze für die Studienleistungen in KliPPsMSc5a. Die Quizze finden sich auf der Lernplattform moodle und sind nur für die Teilnehmenden des Moduls zugänglich.'
+authors: [nehler, irmer, hartig]
+lastmod: '2024-11-14'
+featured: no 
+banner:
+  image: "/header/dog_with_glasses.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/734854)"
+projects: []
+
+reading_time: false 
+share: false
+
+links:
+  # - icon_pack: fas
+  #   icon: book
+  #   name: Inhalte
+  #   url: /lehre/klipps/regression-ausreisser
+  # - icon_pack: fas
+  #   icon: terminal
+  #   name: Code
+  #   url: /lehre/klipps/regression-ausreisser.R
+  # - icon_pack: fas
+  #   icon: pen-to-square
+  #   name: Quizdaten
+  #   url: /lehre/klipps/regression-ausreisser-quizdaten
+
+output:
+  html_document:
+    keep_md: true
+---
+
+
+
+
+
+
+## Block 1: Generalisiertes lineares Modell {#Block1}
+
+Das Quiz zu diesem Block beruht auf einer echten Untersuchung, deren Datensatz [hier](https://osf.io/a9vun/) im Open Science Framework abgelegt ist. In dem Datensatz wurde bspw. erhoben, was für potenziell traumatischen Erlebnissen eine Person ausgesetzt war und mittels der Live Event Checklist (LEC) zu welchem Grad. Weiterhin wurden die Depressionswerte anhand des Becks-Depression-Inventar (BDI) und die Anxiety-Werte durch die Zung Self-Rating Anxiety Scale (SAS) erhoben. Für unsere Berechnung brauchen wir nur einen Ausschnitt der Vielzahl an Variablen. Diesen extrahieren wir aus dem originalen Datensatz und erstellen damit einen Neuen für unsere Aufgaben. Da das Processing in diesem Fall sehr komplex ist, haben wir das für Sie übernommen. Dafür brauchten wir ein paar Pakete, sodass Sie mit
+
+
+``` r
+install.packages('dplyr')
+install.packages('haven')
+```
+
+zunächst die notwendigen Pakete installieren müssten. Mit folgendem Befehl laden Sie sich die modifizierte Version des Datensatzes in ihr Working Directory ein.
+
+
+``` r
+source(url("https://pandar.netlify.app/daten/Data_Processing_KliPPsQuiz1.R"))
+```
+
+Falls Sie Interesse am Processing haben, können Sie den kommentierten File [{{<icon name = "download" pack = "fas">}} hier herunterladen](/daten/Data_Processing_KliPPsQuiz1.R).
+
+Nun wollen wir noch die Inhalte des modifizierten Datensatzes beschreiben. In diesem ist die Variable Geschlecht (`gender`) in `m` und `w` unterteilt, wobei `m` Männer und `w` Frauen beschreibt. Die Variable mit den Anxiety Werten (`sas`) erfasst die kumulierten Werte aller Fragen aus der SAS, die eine 4-Punkt Likert-Skala benutzt. Die Variable mit den Depressionswerten (`bdi`) erfasst die kumulierten Werte aller Fragen aus dem BDI, das Antwortmöglichkeiten von 0 bis 3 anhand der Schwere der Symptomatik bewertet. Sowohl die Anxiety Werte als auch die Depressionswerte wurden ihrer Intensität nach gruppiert von 1 bis 4, wobei `1` keine auffällige Symptomatik beschreibt, `2` milde bis moderate Symptome, `3` moderate bis schwere Symptome und `4` schwere Symptome. Diese Werte sind in den Variablen `bdi_group` und `sas_group` zu finden. In der Variable `sexual_assault` wurde allen Personen, die sexuelle Gewalt direkt erfahren haben, eine `1` zugeteilt, während allen anderen Fällen eine `0` zugewiesen wurde. Die Variable `trauma_exp_form` beschreibt die Form des Trauma-Erlebnisses, ob dieses direkt erlebt wurde (markiert durch `direct experience`), also der Person selbst passiert ist oder indirekt (`indirect experience`), so dass sie es gesehen / mitbekommen hat. Die Variable `trauma_exp_kind` beschreibt dagegen, welcher Art das Trauma-Erlebnis war. Dabei wurden die verschiedenen LEC Fragen fünf verschiedenen Gruppen zugeteilt. Im Datensatz liegt diese Variable als Faktor mit 6 Abstufungen vor. Mit diesen 6 Abstufungen können die 5 verschiedene Arten von Traumata aus dem LEC und "kein Trauma" kodiert werden: Stufe `1` steht für Personen, die keine Art eines Traumas erlebt haben. Stufe `2` steht für schwere Krankheiten, `3` für sexuelle Gewalt, `4` für schwere Unfälle, `5` für körperliche Gewalt und `6` für Krieg oder Naturkatastrophen. In der Variable `future` wird anhand des Zimbardo Time Perspective Inventory (ZTPI) die Einstellung gegenüber der Zukunft erfasst, also ob es für diese klare Vorstellungen, Pläne und Ziele gibt oder nicht. Die Skala Past Negative des ZTPI wird in der Variable `past_neg` festgehalten und beschreibt wie oft eine Person negativ über die Vergangenheit denkt. Beide Skalen wurden durch 5-Punkt Likert-Skalen bewertet, deren Durchschnitt festgehalten wurde. Zuletzt wurde noch der Gesamtwert der Dissociative Experiences Scale in der Variable `dissociation` festgehalten. Diese Skala erhebt das Dissoziationserleben einer Person mit 28 Items in einer 11 Punkt Likert-Skala.
+
+**Zum Abschluss noch ein Disclaimer zum Processing:** Bei der Erstellung der Variable `trauma_exp_art` wurde das Erleben mehrerer potentiell traumatischer Live Events ignoriert und die Personen dem jeweils ersten abgefragten traumatischen Erlebnis zugeteilt. Der Effekt mehrerer traumatischer Erlebnisse ist hiermit also nicht mehr erfassbar und kann dadurch die Ergebnisse verzerren. Ebenso wurden die Gruppen nur auf Basis von Item-Ähnlichkeit gebildet und nicht basierend auf empirischen Erkenntnissen. Das ist keine Grundlage für empirisch valide Forschung, sondern gilt einzig der Vereinfachung für die Übungsrechnung.
