@@ -77,8 +77,9 @@ Nun können Sie alle öffentlichen Gruppen auf LIFOS sehen. Zunächst müssen Si
 ![](quickguide-lifos02.png)
 
 <li><p><b> Zugang beantragen </b></p>
-Klicken Sie auf Ihre Gruppe. Oben steht nun blau hinterlegt <b>Request access</b>. Klicken Sie drauf und bestätigen Sie. Gratulation! Sie haben so eben einen wichtigen Schritt gemeistert und Zugriff zu Ihrer Praktikumsgruppe beantragt. Sobald Ihr Dozent/Ihre Dozentin Ihre Anfrage bestätigt hat, können Sie und Ihre Gruppe loslegen.</li></ol>
+Klicken Sie auf Ihre Gruppe. Oben rechts sind nun drei Punkte zu sehen, unter denen nach einem Klick die Option <b>Request access</b> erscheint. Klicken Sie drauf und bestätigen Sie. Gratulation! Sie haben so eben einen wichtigen Schritt gemeistert und Zugriff zu Ihrer Praktikumsgruppe beantragt. Sobald Ihr Dozent/Ihre Dozentin Ihre Anfrage bestätigt hat, können Sie und Ihre Gruppe loslegen.</li></ol>
 
+![](quickguide-lifos-request.png)
 
 # Auf LIFOS ein Projekt anlegen {#projektstart}
 
