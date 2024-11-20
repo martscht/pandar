@@ -1,14 +1,14 @@
 ---
-title: Wachstumskurvenmodelle
+title: Gemischte Modelle
 date: '2024-09-26'
-slug: gcm-klinische
+slug: lmm-klinische
 categories: ["KliPPs"]
 tags: ["Mehrebenenmodelle", "Längsschnitt", "Mixed Models"]
 subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
 summary: ''
 authors: [schultze]
 weight: 4
-lastmod: '`r Sys.Date()`'
+lastmod: '2024-11-20'
 featured: no
 banner:
   image: "/header/under_construction.jpg"
@@ -20,11 +20,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/klipps/gcm-klinische
+    url: /lehre/klipps/lmm-klinische
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/klipps/gcm-klinische.R
+    url: /lehre/klipps/lmm-klinische.R
   - icon_pack: fas
     icon: newspaper
     name: Artikel
@@ -39,10 +39,4 @@ output:
     keep_md: true
 ---
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
-library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
-source('https://pandar.netlify.app/lehre/statistik-ii/pandar_theme.R')
-```
-
-{{< toc >}}
+Dieser Abschnitt wird (hoffentlich bald) fertig sein... bitten haben Sie ein bisschen Geduld.
