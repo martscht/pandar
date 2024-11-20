@@ -216,7 +216,7 @@ Hier geht es darum, dass Sie die Forschungsfragen und Hypothesen klar und eindeu
 
 
 
-<!-- ### 5) Variablen -->
+### 5) Variablen
 
 Hier geht es darum, die Variablen zu beschreiben, die in Ihren Hypothesen vorkommen. In den meisten Fällen psychologischer Forschung handelt es sich hier um psychische Konstrukte oder Eigenschaften von Personen, sodass es auch relevant ist hier klar zu machen, wie diese gemessen werden sollen - im Praktikum also die dafür verwendeten, vorher validierten Fragebögen.
 
