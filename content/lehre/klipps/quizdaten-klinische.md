@@ -2,13 +2,13 @@
 title: Daten für die Quizze
 type: post
 date: '2024-11-14'
-slug: quizdaten-klinisiche
+slug: quizdaten-klinische
 categories: ["KliPPs"]
 tags: ["Daten"]
 subtitle: ''
 summary: 'Auf dieser Seite finden sich alle Datensätze für die Studienleistungen in KliPPsMSc5a. Die Quizze finden sich auf der Lernplattform moodle und sind nur für die Teilnehmenden des Moduls zugänglich.'
 authors: [nehler, irmer, hartig]
-lastmod: '2024-11-14'
+lastmod: '2024-11-20'
 featured: no 
 banner:
   image: "/header/dog_with_glasses.jpg"
@@ -19,18 +19,10 @@ reading_time: false
 share: false
 
 links:
-  # - icon_pack: fas
-  #   icon: book
-  #   name: Inhalte
-  #   url: /lehre/klipps/regression-ausreisser
-  # - icon_pack: fas
-  #   icon: terminal
-  #   name: Code
-  #   url: /lehre/klipps/regression-ausreisser.R
-  # - icon_pack: fas
-  #   icon: pen-to-square
-  #   name: Quizdaten
-  #   url: /lehre/klipps/regression-ausreisser-quizdaten
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/klipps/quizdaten-klinische
 
 output:
   html_document:
