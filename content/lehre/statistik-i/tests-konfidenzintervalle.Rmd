@@ -119,7 +119,7 @@ curve(expr = dnorm(x, mean = 2.5, sd = 3.1),
 abline(v = mean(fb24$nerd, na.rm = TRUE),col=  "red")
 ```
 
-Hier geht es jedoch nicht um die Einordnung einer einzelnen Person, sondern darum, was wir aus den Werten einer Stichprobe *schließen* (inferieren) können. Hierbei spielen Mittelwert und Streuung der Population eine Rolle, hinzu kommt aber noch die Verteilung der Stichprobenmittelwerte, die wir uns gleich anschauen werden. Zunächst gehen wir auf die Grundlagen des zugehörigen Tests ein.
+Die Wahrscheinlichkeit für den Mittelwert der Stichproben einfach auch aus dieser Verteilung abzulesen, um daraus Schlüsse zu ziehen (zu inferieren), wäre jedoch nicht angebracht. Schließlich ist es viel unwahrscheinlicher, zwei Personen mit einem Mittelwert von in unserem Beispiel 5 zu ziehen, als nur eine Person. Wir müssen die Wahrscheinlichkeit also in einer anderen Verteilung ablesen. Diese Verteilung ist die Stichprobenkennwerteverteilung (SKV) des Mittelwerts, die wir gleich näher betrachten werden. Zunächst gehen wir auf die Grundlagen des zugehörigen Tests ein.
 
 Für den **Einstichproben-z-Test** (auch Einstichproben-Gauß-Test genannt) benötigen wir neben dem Mittelwert der Stichprobe auch den Mittelwert der Population und (im Unterschied zu dem später betrachteten Einstichproben-t-Test) auch die Populationsstandardabweichung. Da wir diese drei Informationen haben, ist er die richtige Wahl. Bevor wir mit einer inferenzstatistischen Testung starten, sollten allerdings Hypothesen vorliegen. Diese leitet man in der Praxis aus der Literatur ab. Wir gehen hier jetzt erstmal davon aus, dass wir den Mittelwert der Stichprobe auf einen Unterschied zum Mittelwert der Population testen wollen, ohne eine Richtung anzunehmen. 
 
