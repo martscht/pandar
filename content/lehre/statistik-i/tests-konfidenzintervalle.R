@@ -1,43 +1,43 @@
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb23.rda'))
+load(url('https://pandar.netlify.app/daten/fb24.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb23$hand_factor <- factor(fb23$hand,
+fb24$hand_factor <- factor(fb24$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb23$fach <- factor(fb23$fach,
+fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb23$ziel <- factor(fb23$ziel,
+fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb23$wohnen <- factor(fb23$wohnen, 
+fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
 # Rekodierung invertierter Items
-fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
-fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
-fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
-fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 5)
+fb24$mdbf11_r <- -1 * (fb24$mdbf4 - 5)
+fb24$mdbf3_r <- -1 * (fb24$mdbf4 - 5)
+fb24$mdbf9_r <- -1 * (fb24$mdbf4 - 5)
 
 # Berechnung von Skalenwerten
-fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
-                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
-fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
-                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+                        'mdbf8', 'mdbf11_r')] |> rowMeans()
+fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+                         "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
+fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
 
 
 
 
-anyNA(fb23$nerd)
+anyNA(fb24$nerd)
 
-mean(fb23$nerd)
+mean(fb24$nerd, na.rm = TRUE)
 
 
 
@@ -46,9 +46,11 @@ mean(fb23$nerd)
 
 
 pop_mean_nerd <- 2.5                 # Mittelwert Grundgesamtheit
-pop_sd_nerd <- 3.1                 # SD der Grundgesamtheit
-sample_mean_nerd <- mean(fb23$nerd)  # Stichprobenmittelwert
-sample_size <- nrow(fb23)            # Stichprobengröße (da keine NA)
+pop_sd_nerd <- 3.1                   # SD der Grundgesamtheit
+sample_mean_nerd <- 
+  mean(fb24$nerd, na.rm = TRUE)      # Stichprobenmittelwert
+sample_size <- 
+  nrow(fb24) - sum(is.na(fb24$nerd)) # Stichprobengröße (Anzahl NA von Stichprobengröße abziehen)
 
 se_nerd <- pop_sd_nerd/sqrt(sample_size) # Standardfehler des Mittelwerts
 
@@ -79,32 +81,17 @@ lo_conf_nerd
 conf_nerd <- c(lo_conf_nerd, up_conf_nerd)
 conf_nerd
 
-## install.packages('psych')          # installieren
+library(psych)
+describe(fb24$neuro)
 
-library(psych)                     # laden
-
-## ??psych                          # Hilfe
-
-describe(fb23$neuro)
-
-
-
-
-
-
-
-fb23$neuro_std <- scale(fb23$neuro, center = T, scale = T)
-qqnorm(fb23$neuro_std)
-qqline(fb23$neuro_std)
-
-anyNA(fb23$neuro)
-sample_mean_neuro <- mean(fb23$neuro)
+anyNA(fb24$neuro)
+sample_mean_neuro <- mean(fb24$neuro, na.rm = TRUE)
 pop_mean_neuro <- 3.1
 
-sample_sd_neuro <- sd(fb23$neuro)
+sample_sd_neuro <- sd(fb24$neuro, na.rm = TRUE)
 sample_sd_neuro
 
-sample_size <- nrow(fb23)
+sample_size <- nrow(fb24) - sum(is.na(fb24$neuro))
 se_neuro <- sample_sd_neuro/sqrt(sample_size)
 
 t_emp <- (sample_mean_neuro - pop_mean_neuro) / se_neuro
@@ -124,10 +111,26 @@ sample_mean_neuro - t_quantil_einseitig *(sample_sd_neuro / sqrt(sample_size))
 
 
 
-t.test(x = fb23$neuro, mu = 3.1, alternative = "greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
+t.test(x = fb24$neuro, mu = 3.1, alternative = "greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
 
 dz <- abs((sample_mean_nerd - pop_mean_nerd)/ pop_sd_nerd) 
 dz
 
 dt <- abs((sample_mean_neuro - pop_mean_neuro)/ sample_sd_neuro)
 dt
+
+## install.packages('psych')          # installieren
+
+library(psych)                     # laden
+
+## ??psych                          # Hilfe
+
+
+
+
+
+
+
+fb24$neuro_std <- scale(fb24$neuro, center = T, scale = T)
+qqnorm(fb24$neuro_std)
+qqline(fb24$neuro_std)
