@@ -81,6 +81,8 @@ lo_conf_nerd
 conf_nerd <- c(lo_conf_nerd, up_conf_nerd)
 conf_nerd
 
+## install.packages("psych")
+
 library(psych)
 describe(fb24$neuro)
 

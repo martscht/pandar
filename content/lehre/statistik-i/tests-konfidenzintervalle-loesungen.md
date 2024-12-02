@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, scheppa-lahyani, vogler, pommeranz] 
-lastmod: '2024-11-27'
+lastmod: '2024-12-02'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -531,16 +531,17 @@ mean_gewis_smpl1 <- 3.6 #Mittelwert der Stichprobe
 
 Weiterhin brauchen wir den Standardfehler. Dieser erechnet sich bei einem z-Test über die Standardabweichung der Population.
 
+Da unser Datensatz nun die Population ist, können wir einfach die Standardabweichung der Werte im Datensatz bestimmen. Wir müssen hier aber nicht schätzen, da wir davon ausgehen, dass die ganze Population im Datensatz vorliegt. Deshalb muss die `sd()`-Funktion, die von Natur aus die geschätzte Standardabweichung berechnet, noch korrigiert werden mit dem Faktor $\sqrt\frac{n-1}{n}$. Anschließend kann der Standardfehler des Mittelwerts berechnet werden.
+
 
 ``` r
 sd_gewis_pop <- sd(fb24$gewis, na.rm = TRUE) * sqrt((length(na.omit(fb24$gewis)) - 1) / length(na.omit(fb24$gewis))) #empirische Standardabweichung der Population
 
-se_gewis <- sd_gewis_pop / sqrt(42) #Standardfehler
+se_gewis <- sd_gewis_pop / sqrt(42) #Standardfehler des Mittelwerts 
 ```
 
-Da die `sd()`-Funktion von Natur aus die geschätzte Standardabweichung berechnet, wir aber die empirische Standardabweichung benötigen müssen wir diese noch mit $\sqrt\frac{n-1}{n}$ verrechnen.
 
-Weiter geht es mit:
+Die Teststatistik bestimmt sich mit:
 
 
 ``` r
@@ -560,16 +561,18 @@ abs(z_gewis1) > z_krit #nicht signifikant
 ## [1] FALSE
 ```
 
-Zusätzlich lässt sich auch noch der p-Wert über folgende Formel berechnen:
+Alternativ lässt sich auch noch der p-Wert über folgende Formel berechnen:
 
 
 ``` r
-2 * pnorm(z_gewis1, lower.tail = FALSE) #p > .05, nicht signifikant
+2 * pnorm(z_gewis1, lower.tail = FALSE) #p Wert
 ```
 
 ```
 ## [1] 0.4214418
 ```
+
+Da dieser größer ist als unser $alpha = 0.05$ können wir die Nullhypothese nicht verwerfen.
 
 **Konfidenzintervall:**
 
@@ -593,14 +596,15 @@ Das 95%-ige Konfidenzintervall liegt zwischen 3.33 und 3.87.
 </details>
 
 
-**4.2** Ziehen Sie nun selbst eine Stichprobe mit $n$ = 31 aus dem Datensatz. Nutzen Sie hierfür die `set.seed(1234)`-Funktion. Versuchen Sie zunächst selbst mit Hilfe der `sample()`-Funktion eine Stichprobe ($n$ = 31) zu ziehen. Falls Sie hier von alleine nicht weiterkommen, ist das kein Problem. Nutzen Sie dann für die weitere Aufgabenstellung folgenden Code:
+**4.2** Ziehen Sie nun selbst eine Stichprobe mit $n$ = 31 aus dem Datensatz (aber nur aus den Personen, die auch Beobachtungen für die Variable `gewis` haben. Nutzen Sie hierfür die `set.seed(1234)`-Funktion. Versuchen Sie zunächst selbst mit Hilfe der `sample()`-Funktion eine Stichprobe ($n$ = 31) zu ziehen. Falls Sie hier von alleine nicht weiterkommen, ist das kein Problem. Nutzen Sie dann für die weitere Aufgabenstellung folgenden Code:
 
 <details><summary>Code</summary>
 
 
 ``` r
+fb24_red <- fb24[!is.na(fb24$gewis),] #NA's entfernen
 set.seed(1234) #erlaubt Reproduzierbarkeit
-fb24_sample <- fb24[sample(nrow(fb24), size = 31), ] #zieht eine Stichprobe mit n = 31
+fb24_sample <- fb24_red[sample(nrow(fb24_red), size = 31), ] #zieht eine Stichprobe mit n = 31
 ```
 
 </details>
@@ -625,14 +629,14 @@ $H_1$: $\mu_0$ $\neq$ $\mu_1$
 
 
 ``` r
-fb24 <- fb24[!is.na(fb24$gewis),] #NA's entfernen
+fb24_red <- fb24[!is.na(fb24$gewis),] #NA's entfernen
 
 set.seed(1234) #erlaubt Reproduzierbarkeit
-fb24_sample <- fb24[sample(nrow(fb24), size = 31), ] #zieht eine Stichprobe mit n = 31
+fb24_sample <- fb24_red[sample(nrow(fb24_red), size = 31), ] #zieht eine Stichprobe mit n = 31
 ```
 
 Mit der `set.seed()`-Funktion haben wir uns bereits im vorherigen Kapitel zu [Verteilungen](/lehre/statistik-i/verteilungen/) beschäftigt. Sie erlaubt uns die Ergebnisse eines Zufallsvorgangs konstant zu halten.
-Die `sample()`-Funktion nimmt als erstes Argument **keinen** Datensatz entgegen sondern ausschließlich einen Vektor. Daher nutzen wir die Funktion um uns wahllos 31 Zahlen zwischen 1 und `nrow(fb24)` auszugeben. Der äußere Teil gibt uns dann die Zeilen (Personen) die mit den besagten 31 Zahlen übereinstimmen wieder. 
+Die `sample()`-Funktion nimmt als erstes Argument **keinen** Datensatz entgegen sondern ausschließlich einen Vektor. Daher nutzen wir die Funktion um uns wahllos 31 Zahlen zwischen 1 und `nrow(fb24_red)` auszugeben. Der äußere Teil gibt uns dann die Zeilen (Personen) die mit den besagten 31 Zahlen übereinstimmen wieder. 
 
 **z-Test:**
 
@@ -644,13 +648,13 @@ anyNA(fb24$gewis) #NA's vorhanden
 ```
 
 ```
-## [1] FALSE
+## [1] TRUE
 ```
 
 ``` r
-mean_gewis_pop <- mean(fb24$gewis) #Mittelwert der Population
+mean_gewis_pop <- mean(fb24_red$gewis) #Mittelwert der Population
 
-sd_gewis_pop <- sd(fb24$gewis) * sqrt((length(na.omit(fb24$gewis)) - 1) / length(na.omit(fb24$gewis))) #empirische Standardabweichung der Population
+sd_gewis_pop <- sd(fb24_red$gewis) * sqrt((length(na.omit(fb24_red$gewis)) - 1) / length(na.omit(fb24_red$gewis))) #empirische Standardabweichung der Population
 
 se_gewis <- sd_gewis_pop / sqrt(length(na.omit(fb24_sample))) #Standardfehler
 

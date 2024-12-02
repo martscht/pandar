@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
 authors: [nehler, scheppa-lahyani, hartig] 
 weight: 5
-lastmod: '2024-11-25'
+lastmod: '2024-12-02'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -153,9 +153,9 @@ Wir sehen hier bereits, dass ich der Wert der Stichprobe von dem der Population 
   
 **Nein**. Erst mit Hilfe der Inferenzstatistik kann herausgefunden werden, wie (un)wahrscheinlich die beobachtete Diskrepanz unter Annahme der $H_0$ (also dass es eigentlich keinen Unterschied gibt) ist.
 
-Der Einstichproben-z-Test setzt voraus, dass das Merkmal in der Population, auf die sich die Nullhypothese ($H_0$) bezieht, normalverteilt ist und (wie bereits erwähnt) der Mittelwert sowie die Standardabweichung der Population bekannt sind. Des Weiteren verwendet der Einstichproben-z-Test grundsätzlich die Standardnormalverteilung als Stichprobenkennwerteverteilung (SKV), weswegen er für kleine Stichproben nicht gut geeignet ist.  
+Der Einstichproben-z-Test setzt voraus, dass das Merkmal in der Population, auf die sich die Nullhypothese ($H_0$) bezieht, normalverteilt ist und (wie bereits erwähnt) der Mittelwert sowie die Standardabweichung der Population bekannt sind. Des Weiteren verwendet der Einstichproben-z-Test grundsätzlich die Standardnormalverteilung als Verteilung für die Teststatistik, weswegen er für kleine Stichproben nicht gut geeignet ist.  
 
-Der Einstichproben-z-Test prüft anhand des arithmetischen Mittels einer Stichprobe, ob der Erwartungswert der zugehörigen Grundgesamtheit (also hier der Psychologiestudierenden des ersten Semesters) ungleich (bzw. kleiner oder größer) als ein vorgegebener Wert ist. Wir müssen also bestimmen, wie wahrscheinlich der empirisch gefundene Mittelwert unter der in der $H_0$ angenommen Voraussetzung ist, dass er aus der Population (der deutschen Wohnbevölkerung) mit ihrem Mittelwert und dessen Standardabweichung stammt. Zu Beginn haben wir bereits überlegt, dass sowohl die Standardabweichung als auch die Stichprobengröße einen Einfluss auf die Wahrscheinlichkeit von verschiedenen Mittelwerten haben sollten. Wir stellen hier den Einfluss der Stichprobengröße nochmal bildlich da. Gehen wir davon aus, dass wir nur 2 Personen untersuchen, dann ist das Auffinden eines Wertes, vom eigentlichen Mittelwert der Population entfernt ist, nicht unwahrscheinlich. Im Gegensatz dazu sollte sich bei 1000 Personen in einer Stichprobe auch der Mittelwert der Population wiederfinden und Abweichungen seltener sein, wenn die $H_0$ zutrifft. Die Gegenüberstellung ist in den nächsten 2 Plots nochmal dargestellt. Bei beiden wurde unendlich oft aus unserer Population der Nerdiness eine Stichprobe gezogen. Jeweils wird ein Mittelwert berechnet, in der Grafik abgetragen und dadurch eine Übersicht über die Häufigkeit erstellt. Bei der ersten Grafik werden pro Wiederholung jeweils nur 2 Personen, während es bei der zweiten 1000 sind. Diese Verteilungen ist nun Stichprobenkennwerteverteilung des Mittelwerts. Unsere Annahmen zeigen sich bestätigt - die Mittelwerte streuen stärker mit weniger Personen. 
+Der Einstichproben-z-Test prüft anhand des arithmetischen Mittels einer Stichprobe, ob der Erwartungswert der zugehörigen Grundgesamtheit (also hier der Psychologiestudierenden des ersten Semesters) ungleich (bzw. kleiner oder größer) als ein vorgegebener Wert ist. Wir müssen also bestimmen, wie wahrscheinlich der empirisch gefundene Mittelwert unter der in der $H_0$ angenommen Voraussetzung ist, dass er aus der Population (der deutschen Wohnbevölkerung) mit ihrem Mittelwert und dessen Standardabweichung stammt. Zu Beginn haben wir bereits beschrieben, dass es sich um SKV des Mittelwertes handelt - doch wovon hängt diese ab? Der erste Einfluss ist die Stichprobengröße. Gehen wir davon aus, dass wir nur 2 Personen untersuchen, dann ist das Auffinden eines Wertes, vom eigentlichen Mittelwert der Population entfernt ist, nicht unwahrscheinlich. Im Gegensatz dazu sollte sich bei 1000 Personen in einer Stichprobe auch der Mittelwert der Population wiederfinden und Abweichungen seltener sein, wenn die $H_0$ zutrifft. Die Gegenüberstellung ist in den nächsten 2 Plots nochmal dargestellt. Bei beiden wurde unendlich oft aus unserer Population der Nerdiness eine Stichprobe gezogen. Jeweils wird ein Mittelwert berechnet, in der Grafik abgetragen und dadurch eine Übersicht über die Häufigkeit erstellt. Bei der ersten Grafik werden pro Wiederholung jeweils nur 2 Personen, während es bei der zweiten 1000 sind. Diese Verteilungen ist nun SKV des Mittelwerts. Unsere Annahmen zeigen sich bestätigt - die Mittelwerte streuen stärker mit weniger Personen. 
 
 ![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
@@ -166,7 +166,7 @@ In unserer Stichproben haben wir nicht so einen extremen Fall - die Stichprobeng
 
 ![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
-Nochmal soll hier erwähnt sein, dass die Streuung der SKV des Mittelwerts (neben der Stichprobengröße) auch positiv von der Populationsvarianz abhängt, jedoch wollen wir nun zum praktischen Teil übergehen.
+Der zweite Einflussfaktor auf die Streuung der SKV des Mittelwerts, ist die Populationsvarianz. Umso höher diese ist, umso größer streuen natürlich auch unsere gezogenen Mittelwerte. Gehen wir nun zu dem praktischen Teil über.
 
 Um die theoretischen Überlegungen mathematisch umzusetzen, werden wir zuerst den **empirischen z-Wert** bestimmen -- also den Wert auf der x-Achse auf dem Bild. Zu diesem können wir dann bestimmen, wie unwahrscheinlich er ist.
 
@@ -242,7 +242,7 @@ Insgesamt 1.51% der Werte extremer als unserer. Wir erkennen, dass der Wert klei
 
 ### Weitere Möglichkeit: Vergleich mit kritischem Wert
 
-Neben der Verwendung des *p*-Werts ist in der Literatur auch noch häufig die Sprache von einem **kritischen *z-*Werts** $z_{krit}$. Hier wird das Herangehen etwas modifiziert. Statt den *p*-Wert für unser $z_{emp}$ zu bestimmen, wird sich im Vorhinein überlegt, welcher z-Wert 5% der Verteilung abschneiden würde. Wir können diese Frage mit dem Wissen aus dem Tutorial zu Verteilungen beantworten, indem wir `qnorm()` benutzen. In unserem Fall suchen wir aufgrund der zweitseitigen Hypothese nach der Hälfte der akzeptierten Irrtumswahrscheinlichkeit. 
+Neben der Verwendung des *p*-Werts ist in der Literatur auch noch häufig die Sprache von einem **kritischen** z-Wert $z_{krit}$. Hier wird das Herangehen etwas modifiziert. Statt den *p*-Wert für unser $z_{emp}$ zu bestimmen, wird sich im Vorhinein überlegt, welcher z-Wert 5% der Verteilung abschneiden würde. Wir können diese Frage mit dem Wissen aus dem Tutorial zu Verteilungen beantworten, indem wir `qnorm()` benutzen. In unserem Fall suchen wir aufgrund der zweitseitigen Hypothese nach der Hälfte der akzeptierten Irrtumswahrscheinlichkeit. 
 
 
 ``` r
@@ -272,7 +272,7 @@ Das Ergebnis `TRUE` zeigt uns, dass unser Wert extremer ist und es sich um einen
 
 ## Konfidenzintervalle {#KonfInt}
 
-Alternativ (oder auch ergänzend) können wir ein Konfidenzintervall bestimmen, um unsere Hypothese zu testen. In der Literatur wird häufig folgende Definition benutzt: Das (1 − α)-Konfidenzintervall bezeichnet den Bereich um einen geschätzten Populationsparameter (also den Wert aus der Stichprobe), für den gilt, dass er mit einer Wahrscheinlichkeit von 1 − α den Populationsparameter (bei Mittelwerten $\mu$) überdeckt. Eine etwas technischere Formulierung wäre: Die Wahl von 5% Irrtumswahrscheinlichkeit bei der Bildung eines Konfidenzintervalles heißt, dass das Intervall mit 5%-iger Wahrscheinlichkeit zu den Intervallen gehört, die den Populationsparameter (bei Mittelwerten $\mu$) nicht enthalten.
+Alternativ (oder auch ergänzend) können wir ein Konfidenzintervall bestimmen, um unsere Hypothese zu testen. In der Literatur wird häufig folgende Definition benutzt: Das (1 − α)-Konfidenzintervall bezeichnet den Bereich um einen geschätzten Populationsparameter (also den Wert aus der Stichprobe), für den gilt, dass er mit einer Wahrscheinlichkeit von 1 − α den Populationsparameter (bei Mittelwerten $\mu$) überdeckt. Eine etwas technischere Formulierung wäre: Die Wahl von 5% Irrtumswahrscheinlichkeit bei der Bildung eines Konfidenzintervalles heißt, dass das Intervall bei unendlich häufiger Durchführung mit 5%-iger Wahrscheinlichkeit zu den Intervallen gehört, die den Populationsparameter (bei Mittelwerten $\mu$) nicht enthalten.
 
 Die Idee für die Absicherung bleibt bei beiden Definitionen dieselbe - einfach gesagt: Wir legen einen Bereich um unserern Stichprobenwert, dessen Breite wir anhand einer Irrtumswahrscheinlichkeit bestimmen. Wenn der uns bekannte Populationsparameter (bei Mittelwerten $\mu$) nun nicht in diesem Bereich liegt, gehen wir davon aus, dass unsere Stichprobe nicht zu dieser Population gehört. Denn wir sind uns ja zu (1- $\alpha$ )% sicher, dass unser Konfidenzintervall den Populationswert, der zu unserer Stichprobe gehört, überdecken sollte. Damit würden wir im Fall von Mittelwerten vermuten, dass $\mu_0 \neq \mu_1$, was genau der $H_1$ Hypothese unserer vorangegangen Testung entspricht.
 
@@ -360,7 +360,14 @@ $$H_0: \mu_0 \geq \mu_1$$
 $$H_1: \mu_0 < \mu_1$$
 Um eine weitere Modifikation unseres Vorgehens im Vergleich zum letzten Test zu haben, ändern wir auch unser Signifikanzniveau. Wir wollen diesmal auf der sehr sicheren Seite sein und wählen daher im weiteren Vorgehen $\alpha = 1$\%.
 
-Bevor wir in die inferenzstatistische Analyse einsteigen, ist es immer gut, sich einen Überblick über die deskriptiven Werte zu verschaffen. Wir können nun natürlich einfach die bereits gelernten Funktionen zu Mittelwert, Varianz, Minimum, etc. nutzen. Doch gibt es einen schnelleren Weg? Die Basisinstallation von `R` bietet uns keine Alternative. Jedoch gibt es zusätzliche *Pakete*, die den Pool an möglichen Funktionen erweitern. Diese Pakete müssen zusätzlich installiert und für die Verwendung mit dem Befehl `library()` aufgerufen werden, diese Logik wird in [der Ergänzung unten](#Pakete) genauer erläutert. Wir verwenden für eine Übersicht über deskriptive Maße der Variable `neuro` die Funktion `describe()` aus dem Paket `psych` (Revelle, 2024). 
+Bevor wir in die inferenzstatistische Analyse einsteigen, ist es immer gut, sich einen Überblick über die deskriptiven Werte zu verschaffen. Wir können nun natürlich einfach die bereits gelernten Funktionen zu Mittelwert, Varianz, Minimum, etc. nutzen. Doch gibt es einen schnelleren Weg? Die Basisinstallation von `R` bietet uns keine Alternative. Jedoch gibt es zusätzliche *Pakete*, die den Pool an möglichen Funktionen erweitern. Diese Pakete müssen zusätzlich installiert und für die Verwendung mit dem Befehl `library()` aufgerufen werden, diese Logik wird in [der Ergänzung unten](#Pakete) genauer erläutert. Wir verwenden für eine Übersicht über deskriptive Maße der Variable `neuro` die Funktion `describe()` aus dem Paket `psych` (Revelle, 2024). Hierfür muss einmal die Installation durchgeführt werden.
+
+
+``` r
+install.packages("psych")
+```
+
+Danach funktioniert folgender Code:
 
 
 ``` r
@@ -386,7 +393,7 @@ Inferenzstatistische Tests haben für ihre Durchführung immer Voraussetzungen. 
   
 Die erste Voraussetzung lässt sich nicht mathematisch sondern theoretisch prüfen. Sie ist natürlich essentiell, da wir hier mit Mittelwerten und Varianzen rechnen und wir bereits gelernt haben, dass diese erst ab dem Intervallskalenniveau genutzt werden sollten. Wir haben außerdem gelernt, dass Skalenwerte häufig als intervallskaliert angenommen werden. Da wir in `fb24$neuro` solche Skalenwerte haben, können wir diese Voraussetzung als gegeben annehmen. 
 
-Kommen wir zu der zweiten Voraussetzung. Für die inferenzstatistische Testung bestimmen wir die Position unseres empirischen Mittelwerts in der Stichprobenkennwerteverteilung der Mittelwerte. Für diese nehmen wir eine spezifische Form an - sie soll der $t$-Verteilung (übergehend bei $n \rightarrow \infty$ in eine $z$-Verteilung) folgen. Für diese Annahme ist die Normalverteilung der Variablen in unserer Stichprobe eine hinreichende Voraussetzung. Das heißt, wenn diese gegeben ist, folgt die Stichprobenkennwerteverteilung der von uns angenommenen Form. Die Normalverteilung ist aber keine notwendige Voraussetzung. Sie darf verletzt sein, wenn die Stichprobe mindestens 30 Personen umfasst. In diesen Fällen wird das inferenzstatistische Ergebnis nicht verzerrt. Dann gilt der *zentrale Grenzwertsatz*: Die Stichprobenkennwertverteilung der Mittelwerte nähert sich einer Normalverteilung an, unabhängig davon wie das Merkmal selbst in der Population verteilt ist. Die Stichprobengröße von 30 ist allerdings nur eine Daumenregel - bei starken Verletzungen sollte man sich auch überlegen, ob der Mittelwert der beste Repräsentant für die mittlere Ausprägung der Variable darstellt. Auf Möglichkeiten, das Vorliegen einer Normalverteilung grafisch zu prüfen, wird in [Ergänzung 2](#Pruefung_NV) eingegangen.
+Kommen wir zu der zweiten Voraussetzung. Für die inferenzstatistische Testung bestimmen wir die Position der Teststatistik in einer Verteilung. Für diese nehmen wir eine spezifische Form an - sie soll der $t$-Verteilung (übergehend bei $n \rightarrow \infty$ in eine $z$-Verteilung) folgen. Für diese Annahme ist die Normalverteilung der Variablen in unserer Stichprobe eine hinreichende Voraussetzung. Das heißt, wenn diese gegeben ist, folgt die SKV der von uns angenommenen Form. Die Normalverteilung der Stichprobenwerte ist aber keine notwendige Voraussetzung. Sie darf verletzt sein, wenn die Stichprobe mindestens 30 Personen umfasst. In diesen Fällen wird das inferenzstatistische Ergebnis nicht verzerrt. Dann gilt der *zentrale Grenzwertsatz*: Die SKV der Mittelwerte nähert sich einer Normalverteilung an, unabhängig davon wie das Merkmal selbst in der Population verteilt ist. Dies führt auch dazu, dass die Verteilung der Teststatistik unserer angenommenen $t$-Verteilung folgt. Die Stichprobengröße von 30 ist allerdings nur eine Daumenregel - bei starken Verletzungen sollte man sich auch überlegen, ob der Mittelwert der beste Repräsentant für die mittlere Ausprägung der Variable darstellt. Auf Möglichkeiten, das Vorliegen einer Normalverteilung grafisch zu prüfen, wird in [Ergänzung 2](#Pruefung_NV) eingegangen.
 
 
 #### Signifikanz bestimmen
@@ -414,7 +421,7 @@ wobei sich der Standardfehler (*SE*)  des Mittelwerts wie folgt zusammensetzt:
   
 $$\hat\sigma_{\bar{x}} = {\frac{{\hat\sigma}}{\sqrt{n}}}$$
 
-Da die Standardabweichung in der Population nicht bekannt ist, muss diese mittels Nutzung der Standardabweichung der Stichprobe geschätzt werden. Dies funktioniert über die Funktion `sd()`.
+Da die Standardabweichung in der Population nicht bekannt ist, muss diese mittels Nutzung der Standardabweichung der Stichprobe geschätzt werden. Dies funktioniert, wie bekannt, über die Funktion `sd()`.
 
 
 ``` r
@@ -434,7 +441,7 @@ sample_size <- nrow(fb24) - sum(is.na(fb24$neuro))
 se_neuro <- sample_sd_neuro/sqrt(sample_size)
 ```
 
-Nun haben wir alle Informationen gegeben, um den empirischen *t-*Wert $t_{emp}$ zu bestimmen:
+Nun haben wir alle Informationen gegeben, um den empirischen $t$-Wert $t_{emp}$ zu bestimmen:
   
 
 ``` r
@@ -446,9 +453,9 @@ t_emp
 ## [1] 4.503641
 ```
 
-Die Bezeichnung der empirischen Prüfgröße (wie auch der Name des Tests) weist bereits darauf hin, dass wir uns bei der Hypothesenprüfung nicht mehr im Rahmen der Standardnormalverteilung bewegen. Dies liegt daran, dass sich durch das Schätzen der Populationsvarianz keine exakte Standardnormalverteilung mehr ergibt. Stattdessen wird mit einer t-Verteilung gearbeitet, deren genaue Form von der Anzahl der *Freiheitsgrade* abhängt. Als Freiheitsgrade wird in der Statistik die Anzahl unabhängiger Informationen, die in die Schätzung eines Parameters einfließen, bezeichnet. Im Rahmen des t-Testes im Einstichproben-Fall bestimmen sich die Freiheitsgrade mittels $n - 1$. Die Unterscheidung zwischen Standardnormalverteilung und der t-Verteilung liegt besonders in den Extrembereichen. Da genau diese jedoch für die inferenzstatistische Testung von Interesse sind, ist die Nutzung der richtigen Verteilung wichtig.
+Die Bezeichnung der empirischen Prüfgröße (wie auch der Name des Tests) weist bereits darauf hin, dass wir uns bei der Hypothesenprüfung nicht mehr im Rahmen der Standardnormalverteilung bewegen. Dies liegt daran, dass sich durch das Schätzen der Populationsvarianz keine exakte Standardnormalverteilung mehr ergibt. Stattdessen wird mit einer $t$-Verteilung gearbeitet, deren genaue Form von der Anzahl der *Freiheitsgrade* abhängt. Als Freiheitsgrade wird in der Statistik die Anzahl unabhängiger Informationen, die in die Schätzung eines Parameters einfließen, bezeichnet. Im Rahmen des t-Testes im Einstichproben-Fall bestimmen sich die Freiheitsgrade mittels $n - 1$. Die Unterscheidung zwischen Standardnormalverteilung und der t-Verteilung liegt besonders in den Extrembereichen. Da genau diese jedoch für die inferenzstatistische Testung von Interesse sind, ist die Nutzung der richtigen Verteilung wichtig.
 
-Wenn wir den $p$-Wert in einer t-Verteilung bestimmen wollen, nutzen wir `pt()` statt `pnorm()`. Als zusätzliches Argument neben dem empirischen Wert und `lower.tail` benötigen wir hier noch die Anzahl der Freiheitsgrade $n - 1$. 
+Wenn wir den $p$-Wert in einer $t$-Verteilung bestimmen wollen, nutzen wir `pt()` statt `pnorm()`. Als zusätzliches Argument neben dem empirischen Wert und `lower.tail` benötigen wir hier noch die Anzahl der Freiheitsgrade $n - 1$. 
 
 
 ``` r
@@ -464,7 +471,7 @@ Der *p*-Wert ist kleiner .01 ($p < \alpha$) (R gibt sehr kleine oder große Wert
 
 ### Weitere Möglichkeit: Vergleich mit kritischem Wert
 
-Auch bei diesem Test kann statt des *p*-Werts der kritische t-Wert $t_{krit}$ bestimmt werden. Statt `qnorm()` nutzen wir hier dann natürlich `qt()` und geben wieder die Freiheitsgrade an.
+Auch bei diesem Test kann statt des $p$-Werts der kritische t-Wert $t_{krit}$ bestimmt werden. Statt `qnorm()` nutzen wir hier dann natürlich `qt()` und geben wieder die Freiheitsgrade an.
 
 
 ``` r
@@ -476,7 +483,7 @@ t_krit
 ## [1] 2.346134
 ```
 
-Der kritische *t-*Wert ($t_{krit}$) wird hier so bestimmt, dass er das den Wert sucht, der die unteren 99% abtrennt. Dies entspricht dann 1% der Verteilung nach oben und damit genau unserem $\alpha$-Niveau. Zur Entscheidung bezüglich der Hypothesen müssen wir nun den empirischen und kritischen $t$-Wert vergleichen.
+Der kritische $t$-Wert ($t_{krit}$) wird hier so bestimmt, dass er das den Wert sucht, der die unteren 99% abtrennt. Dies entspricht dann 1% der Verteilung nach oben und damit genau unserem $\alpha$-Niveau. Zur Entscheidung bezüglich der Hypothesen müssen wir nun den empirischen und kritischen $t$-Wert vergleichen.
   
 
 ``` r
@@ -494,7 +501,7 @@ Der empirische t-Wert ist größer als der kritische ($t_{emp} > t_{krit}$), wod
 
 Auch für den Einstichproben-t-Test kann ein äquivalentes Konfidenzintervall bestimmt werden. Dies funktioniert sehr ähnlich zu dem vorherigen Vorgehen beim Einstichproben-z-Test, jedoch brauchen wir aufgrund unserer Hypothesen ein einseitiges Konfidenzintervall. Gleichzeitig müssen wir das $\alpha$-Niveau anpassen.
 
-Die Gleichung für ein zweiseitiges Konfidenzintervall beim Einstichproben-t-Test sieht erstmal sehr ähnlich. Statt eines Wertes auf der z-Verteilung wird nun ein Wert aus der t-Verteilung abgelesen und für die Bestimmung der Grenzen verwendet. Außerdem wird der Standardfehler des Mittelwerts bzw. die Populationsvarianz hier nur geschätzt, da wir diese Informationen nicht gegeben haben. 
+Die Gleichung für ein zweiseitiges Konfidenzintervall beim Einstichproben-t-Test sieht erstmal sehr ähnlich. Statt eines Wertes aus der z-Verteilung wird nun ein Wert aus der t-Verteilung abgelesen und für die Bestimmung der Grenzen verwendet. Außerdem wird der Standardfehler des Mittelwerts bzw. die Populationsvarianz hier nur geschätzt, da wir diese Informationen nicht gegeben haben. 
 
 {{< math >}}
 $$\mu = \bar{x} \pm t_{1-\frac{\alpha}{2}} \cdot \hat{\sigma}_{\bar{x}} = \bar{x} \pm t_{1- \frac{\alpha}{2}} \cdot \frac{\hat{\sigma}}{\sqrt{n}}$$
@@ -563,7 +570,7 @@ Im Output sind bereits die wichtigsten Informationen enthalten. Wir erhalten den
 
 Die Ergebnisse entsprechen natürlich denen, die wir auch per Hand bestimmt haben. Demnach wird die $H_0$ verworfen und die $H_0$ angenommen.
 
-Das 99%ige Konfidenzintervall wird uns ebenfalls ausgegeben. Beachten Sie, dass es sich aufgrund unserer Hypothese um ein einseitiges Intervall handelt (nach oben offen). Dies wird in R durch `Inf` gekennzeichnet, was für unendlich auf Englisch (infinity) steht).
+Das 99%ige Konfidenzintervall wird uns ebenfalls ausgegeben. Beachten Sie, dass es sich aufgrund unserer Hypothese um ein einseitiges Intervall handelt (nach oben offen). Dies wird in R durch `Inf` gekennzeichnet, was für unendlich (auf Englisch infinity) steht.
 
 ***
 
@@ -666,7 +673,7 @@ Eine kleine Suche nach Hilfe zu Pakete kann man mit `??` erhalten.
 
 Da das Paket `psych` nun geladen ist, können wir Funktionen aus diesem nutzen. Falls Sie für diese Ergänzung nach unten gesprungen sind, geht [es hier wieder zurück](#statistisch). 
 
-## Ergänzung 2: Prüfung des Vorliegens einer Normalverteilunv {#Pruefung_NV}
+## Ergänzung 2: Prüfung des Vorliegens einer Normalverteilung {#Pruefung_NV}
 
 In diesem Tutorial lernen wir zunächst die optische Prüfung der Normalverteilung kennen -- im weiteren Verlauf des Studiums werden auch inferenzstatistische Testungen dazu kommen. Die einfachste optische Prüfung ist das Zeichnen eines Histogramms. Wir haben bereits gelernt, dass das mit dem Befehl `hist()` erreicht werden kann. Statt absoluten Häufigkeiten sollen hier die Dichten angezeigt werden, was wir durch die Eingabe von `freq = FALSE` bestimmen.
 
@@ -676,7 +683,7 @@ hist(fb24$neuro, xlim=c(0,6), main = "Histogramm",
      xlab = "Score", ylab= "Dichte", freq = FALSE)
 ```
 
-![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
+![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 Wir sehen bereits, dass unsere Verteilung verglichen mit einer Normalverteilung etwas schief aussieht, die Verteilung ist auf der linken seite flacher und auf der rechten Seite steiler. Für eine bessere Einordnung wäre es hilfreich, die theoretisch angenommene Normalverteilung noch zusätzlich zu unseren empirischen Werten einzuzeichnen. Hiefür nutzen wir die `curve()` Funktion. Da wir bereits einen Plot (das Histogramm) gezeichnet haben, können wir mit dem Argument `add` dafür sorgen, dass die Kurve in das bestehende Bild integriert wird. Daher müssen wir keine Angaben für `from`, `to` und Ähnliches machen. Lediglich die Form der Verteilung als Dichtefunktion der theoretischen Normalverteilung `dnorm()` und die dazu gehörigen beschreibenden Maße Mittelwert und Standardabweichung (hervorgehend aus unserer Nerdiness Variable) werden benötigt. Genau genommen sollte man hier die empirische Standardabweichung nutzen, weil im Histogramm ja auch die Werte aus der Stichprobe dargestellt werden. Da bei einer steigenden Stichprobengröße aber die empirische Varianz und das Ergebnis von `sd()` sehr ähnlich sind und wir hier nur eine optische Einordnung vornehmen, nutzen wir einfach die Funktion, damit der Code nicht zu unübersichtlich wird.
 
@@ -685,7 +692,7 @@ Wir sehen bereits, dass unsere Verteilung verglichen mit einer Normalverteilung 
 curve(dnorm(x, mean = mean(fb24$neuro, na.rm = TRUE), sd = sd(fb24$neuro, na.rm = TRUE)), add = T)
 ```
 
-![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
 
 Im Plot sieht man recht gut, dass es kleine Abweichungen der wirklichen empirischen Verteilung von der theoretische, perfekten Form der Normalverteilung gibt. Links liegen mehr Werte, als bei einer Normalverteilung zu erwarten wären, rechts weniger. Kleinere Abweichungen sind jedoch zu erwarten und sollten nicht zu hoch eingestuft werden. Leider wird es bei der optischen Prüfung keine perfekt objektive Lösung geben, doch je mehr Plots man im Laufe der Forschungskarriere betrachtet, umso besser kann man auch diese Verläufe einordnen. 
 
@@ -698,7 +705,7 @@ qqnorm(fb24$neuro_std)
 qqline(fb24$neuro_std)
 ```
 
-![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
+![](/lehre/statistik-i/tests-konfidenzintervalle_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
 
 Entspricht nun unsere empirische Datenmenge der angenommenen Normalverteilung perfekt, würden alle Punkte auf der Geraden in der Mitte liegen. Auch hier gilt natürlich, dass die Bewertung letztlich eine gewisse Subjektivität hat. Die Punkte sollten nicht zu weit von der Geraden entfernt liegen. 
 
@@ -707,4 +714,5 @@ Nach dem Plot zu urteilen liegt eine Verletzung der Normalverteilungsannahme vor
 ## Literatur
 
 Cohen, J. (1988). *Statistical power analysis for the Behavioral Sciences*. Routledge.
+
 Revelle, W. (2024). *psych: Procedures for Psychological, Psychometric, and Personality Research*. R package version 2.4.6. [https://doi.org/10.32614/CRAN.package.psych](https://doi.org/10.32614/CRAN.package.psych)
