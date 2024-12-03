@@ -6,13 +6,13 @@ categories: ["KliPPs"]
 tags: ["Mehrebenenmodelle", "Längsschnitt", "Mixed Models"]
 subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
 summary: ''
-authors: [schultze]
+authors: [schultze, hartig, irmer]
 weight: 4
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/under_construction.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/724752)"
+  image: "/header/couple-bench.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/99059)"
 projects: []
 share: false
 
@@ -39,4 +39,359 @@ output:
     keep_md: true
 ---
 
-Dieser Abschnitt wird (hoffentlich bald) fertig sein... bitten haben Sie ein bisschen Geduld.
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
+source('https://pandar.netlify.app/lehre/statistik-ii/pandar_theme.R')
+```
+
+
+{{< toc >}}
+
+## Einleitung
+
+Daten in der klinisch-psychologischen Forschung haben häufig eine sogenannte *hierarchische Struktur* oder *Mehrebenen-Struktur*, in der Beobachtungen auf einer ersten Ebene in Beobachtungseinheiten auf einer übergeordneten Ebene gruppiert sind. Typische Strukturen sind Individuen in Gruppen (z. B. Patient*innen in Therapiepraxen oder in Kliniken) oder Messzeitpunkte in Personen (z. B. Befragungszeitpunkte im Verlauf einer Therapiestudie).
+
+Ziel der Analyse ist es in solchen Fällen zum Einen die Verzerrung der Inferenzstatistik, die aus diesen Abhängigkeiten in den Daten resultieren kann, zu korrigieren, zum Anderen aber auch die unterschiedlichen Ebene explizit zu berücksichtigen, um so Effekte besser lokalisieren zu können. Wie immer, versuchen wir uns das Ganze an einem relativ aktuellen Artikel aus der klinischen Forschung zu veranschaulichen.
+
+### Studie zur Interpersonellen Emotionsregulation
+
+In den letzten Jahren haben Experience Sampling Methoden (ESM) in der klinischen Forschung immer mehr an Relevanz gewonnen. Dabei ist das Ziel durch sehr häufige, kleine Befragungen oder Erhebungen, Personen in alltäglichen Situationen zu erfassen, um so die ökologische Validität der Schlüsse zu maximieren. Darüber hinaus können so relevante, detaillierte Informationen über Veränderungen (auch innerhalb eines Tages) gewonnen werden. 
+
+Auch bei der Studie, die wir hier betrachten, handelt es sich um eine solche ESM Studie. [Liu et al. (2024)](https://doi.org/10.1037/abn0000877) haben in ihrer Studie die Prozesse der interpersonellen Emotionsregulation (IER) untersucht und dabei besonderen Fokus darauf gelegt, inwiefern diese durch eine Major Depression (MD) gestört sind. Interpersonelle Emotionsregulation beschreiben sie dabei relativ direkt als "goal-directed process of regulating emotion through social interactions" ([Liu et al. (2024, S. 62)](https://doi.org/10.1037/abn0000877)). Für den Erfolg dieses Vorhabens sind dabei zwei wesentliche Komponenten relevant: _intrinsische_ Zielsetzungen - was möchte die Person erreichen, die hier versucht ihre Emotionen zu regulieren? - und _extrinsische_ Strategien - welche Verhaltensweisen legt die andere Person an den Tag? 
+
+Um eine möglichst unverzerrte, direkte und spontane Einschätzung solcher sozialer Verhaltensweisen zu erhalten, haben sich [Liu et al. (2024)](https://doi.org/10.1037/abn0000877) eines ESM Ansatzes bedient und insgesamt 215 Personen über 14 Tage hinweg fünf mal am Tag befragt, ob eine solche Situation aufgetreten ist, welche Ziele sie dabei verfolgt haben und welche Strategien der bzw. die Gegenüber an den Tag gelegt haben.
+
+Den Kern der Studie machen drei wesentliche Forschungsfragen aus: 
+
+  1. Geht MD mit seltenerer IER einher? 
+  2. Geht MD mit spezifischen Strategien des Gegenüber einher?
+  3. Wird die Beziehung von Strategien und Outcomes durch MD moderiert?
+  
+Wie zu sehen ist, befassen sich alle drei Forschungsfragen mit Konzepten auf unterschiedlichen Ebenen. MD ist eine (für die Zwecke dieser ESM-Untersuchung) "stabile" Personeneigenschaft. Die genutzten Strategien des Gegenübers und der erlebte Erfolg von IER sind hingegen sehr variabel - beziehen sich also in der Regel nur auf _eine spezifische_ Situation.
+
+### Überblick über die Daten
+
+Wie auch schon in den letzten Beiträgen, wurden die Rohdaten zur Studie über das [OSF](https://osf.io/ycfuw/) bereitgestellt. Sie können direkt eine aufbereitete Fassung der Daten laden, indem Sie das Skript ausführen, dass ich dafür vorbereitet habe:
+
+```{r}
+source('https://pandar.netlify.app/daten/Data_Processing_esm.R')
+```
+
+Die Daten liegen im _long-format_ vor - jede Zeile stellt also eine Beobachtung dar, nicht eine Person. Über die Grundkonzepte von _long_ und _wide_ Formaten haben wir im [Beitrag zur ANOVA mit Messwiederholung](lehre/statistik-ii/anova-iii/#datenformat-und-reshape) schon einmal geschrieben - dort können Sie auch herausfinden, wie man in R zwischen den beiden Formaten hin und her transponieren kann. Eine Übersicht über die Variablen finden Sie wieder hier:
+
+<details><summary> <b>Übersicht über die Variablen</b> </summary>
+
+Variable | Beschreibung | Ausprägungen
+--- | ------ | ----- 
+`id` | Eindeutige ID der Person | _Code_
+`daynumber` | Tag der Erhebung | 1 - 14
+`index1` | Fortlaufender Index des Messzeitpunkts | 1 - 70
+`group` | Erhebungsgruppe | `current in MDE`, `healthy control`, `remitted MDD`
+`occurance` | IER seit der letzten Erhebung? | `no`, `yes`
+`close` | Bezug zum Gegenüber | `close` (Familie, Partner\*in, Freunde), `non-close` (Kolleg\*innen, Fremde, Bekannte)
+`goal` | Ziel der IER | `advice only`, `both`, `empathy only`
+`reappraisal` | Reappraisal-Strategie des/der Gegenübers | 0 = nein, 1 = ja
+`solving` | Lösungsvorschläge des/der Gegenübers | 0 = nein, 1 = ja
+`invalidation` | Invalidierung des Problems durch den/die Gegenüber | 0 = nein, 1 = ja
+`blaming` | Schuldzuweisung durch den/die Gegenüber | 0 = nein, 1 = ja
+`sharing` | Bekräftigung der Hilfesuche durch den/die Gegenüber | 0 = nein, 1 = ja
+`affection` | Demonstration der Zuneigung durch den/die Gegenüber | 0 = nein, 1 = ja
+`other` | Andere Strategien des/der Gegenübers | 0 = nein, 1 = ja
+`warmth` | Wie Einfühlsam wird Gegenüber erlebt | -5 bis 5
+`problem` | Hat IER zu Lösung des Problems beigetragen | -5 bis 5
+`interpersonal` | Hat IER zu Verbesserung der emotionalen Zustands beigetragen | -5 bis 5
+`gender` | Geschlecht | `female`, `male`
+`age` | Alter in Jahren | _Zahl_
+`race` | Ethnie | _character Vektor_
+`education` | Bildungsabschluss | _character Vektor_
+`relationshipstatus` | Derzeitiger Familienstand | _character Vektor_
+
+</details>
+
+Für diesen Beitrag wird der Fokus auf dem Outcome `problem` liegen, bei dem die befragten Personen angeben sollten, inwiefern sich ihre Einschätzung des ursprünglichen Problems durch die Interaktion verändert hat (von -5 "much worse" bis 5 "much better"). Im Artikel von [Liu et al. (2024)](https://doi.org/10.1037/abn0000877) werden die Analysen, die wir hier durchführen, auch für `interpersonal`, also die Veränderung der Beziehung zum Gegenüber durch die Interaktion, berichtet.
+
+## Nullmodell
+
+Im ersten Schritt können wir zunächst versuchen das Outcome in stabile und situative Komponenten zu unterteilen. Die Idee, die diesem Schritt zugrunde liegt ist, dass es Eigenschaften der spezifichen Interaktion geben wird, die beeinflussen, ob eine Person sich bezüglich des ursprünglich berichteten Problems besser fühlt oder nicht. Gleichzeitig sind Personen aber auch in Ihrer "Grundtendenz" unterschiedlich, aus der IER für sich positive Outcomes herausziehen zu können. Genau genommen zielen die Kernfragen dieser Studie auf genau diese Unterschiede ab, weil die Behauptung untersucht wird, dass sich Personen in diesen Tendenzen aufgrund ihrer MD von gesunden Personen unterscheiden.
+
+Um das Outcome $y_{ti}$ (hier `problem`) so zu unterteilen nutzen wir das Nullmodell. Beachtenswert ist, dass diese Variable zwei Indizes hat: $t$ (für time) kennzeichnet den Zeitpunkt der Erhebung und $i$ (für individual) die Person, die erhoben wurde. Die Kombination aus beiden Indizes teilt uns mit, in welcher Zeile im Datensatz wir diesen Wert nachschlagen können, wobei die Variable `index1` unser $t$ und die Variable `id` unser $i$ ist. Dabei ergibt sich also schon anhand der Daten die Zweiteilung der Effekte: stabile Eigenschaften der einzelnen Personen ($\beta_{0i}$) und situative Eigenschaften der einzelnen Messung dieser Person ($r_{ti}$). Dieser Unterteilung passiert _innerhalb_ der Messungen einer Person, also auf dem 1. Level:
+
+$$
+\text{Level 1:} \qquad y_{ti} = \beta_{0i} + r_{ti}
+$$
+Die Eigenschaften der Person können dann noch weiter zerlegt werden, in den mittleren Effekt von IER über alle Personen und Situationen hinweg ($\gamma_{00}$) und die Abweichung einer Person von diesem globalen Effekt ($u_{0i}$). Diese Zerlegung passiert _zwischen_ den Personen, also auf dem 2. Level:
+
+$$
+\text{Level 2:} \qquad \beta_{0i} = \gamma_{00} + u_{0i}
+$$
+Wenn wir die zweite Gleichung in die erste einsetzen, erhalten wir die gesamte Zerlegung des Effektes:
+
+$$
+\text{Gesamt:} \qquad y_{ti} = \gamma_{00} + u_{0i} + r_{ti}
+$$
+Da $\gamma_{00}$ den Erwartungswert aller Beobachtungen darstellt, sind $u_{0i}$ und $r_{ti}$ als _Residuen_ zu verstehen. Sie sollten also die üblichen Eigenschaften haben, die wir in unserer bisherigen Modellierung auch immer von Residuen erwartet haben: sie sollten unabhängig, heteroskedastisch und normalverteilt sein und dabei einen Mittelwert von 0 haben.
+
+<details><summary> <b>Die Erklärung nochmal als Bild</b> </summary>
+
+Im folgenden Bild habe ich den Versuch unternommen, diese einzelnen Komponenten noch einmal alle zu verdeutlichen:
+
+```{r fig-nullmodell, fig=TRUE, echo=FALSE, warning=FALSE, error=FALSE, height = 3, width = 2, purl = FALSE}
+# Create a data frame
+dats <- data.frame(
+  y = c(1, 1.5, 2.5),
+  t = 1:3,
+  i = 1
+)
+
+ggplot(dats, aes(x = 0, y = y)) +
+  geom_point(color = pandar_colors[1]) + 
+  theme_pandar() +
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.title.x = element_blank()) +
+  geom_hline(yintercept = 2, color = 'black', lty = 2) +
+  annotate("text", x = -0.03, y = 2.03,
+    label = "paste(gamma[0*0])", parse = TRUE) +
+  annotate("text", x = -0.03, y = 1.78,
+    label = "paste(beta[0*i])", parse = TRUE) +  
+  annotate("text", x = -0.03, y = 1.5,
+    label = "paste(y[t*i])", parse = TRUE) +  
+  geom_hline(yintercept = 1.75, color = pandar_colors[1], lty = 2) +
+  xlim(-.1, .1) + 
+  geom_segment(aes(x = .05, xend = .05, y = 2, yend = 1.75), color = pandar_colors[1]) +
+  annotate("text", x = 0.06, y = 1.875, 
+    label = "paste(u[0*i])", 
+    parse = TRUE) +
+  geom_segment(aes(x = .025, xend = .025, y = 1.75, yend = 1.5), color = pandar_colors[4]) +
+  annotate("text", x = 0.035, y = 1.625, 
+    label = "paste(r[t*i])", 
+    parse = TRUE)
+```
+Auf der linken Seite sind die jeweiligen Werte abgebildet, auf der rechten die Zufallsvariablen, die wir im Modell berücksichtigen. Hier wird angenommen, dass der globale Erwartungswert über alle Personen hinweg 2 ist ($\gamma_{00}$, schwarze, gestrichelte Linie). Der Erwartungswert der Person ($\beta_{0i}$, blaue, gestrichelte Linie) ist hier 1.75 - weicht also um $u_{0i} = -0.25$ von $\gamma_{00}$ ab. Eine der drei eingezeichneten Beobachtung ist mit $y_{ti}$ gelabelt und weicht wiederum um $r_{ti} = -0.25$ von $\beta_{0i}$ ab.
+
+</details>
+
+### Umsetzung in R
+
+In `R` gibt es eine ganze Reihe an Paketen, mit denen gemischte Modelle und (beinahe) jede Abwandlungsform davon umgesetzt werden können. Am weitesten hat sich das Paket `lme4` verbreitet, das sowohl Modelle für kontinuierliche Variablen, als auch diverse Formen der _generalisierten_ gemischten Modelle erlaubt. Für Fälle, in denen wir mit kontinuierlichen Variablen und der Annahme normalverteilter Residuen arbeiten bietet `lme4` per Voreinstellung allerdings keine $p$-Werte an - zum Glück können wir diese Lücke aber mit `lmerTest` schließen. Daher benötigen wir zunächst die beiden Pakete:
+
+```{r, eval = FALSE}
+# Pakete installieren
+install.packages("lme4")
+install.packages("lmerTest")
+```
+
+
+```{r}
+# Pakete laden
+library(lme4)
+library(lmerTest)
+```
+
+Die Grundfunktion von `lme4` ist `lmer()` und folgt den gleichen Grundprinzipien wie die `lm`-Funktion zur Schätzung von Regressionen. Wir müssen lediglich zusätzlich deutlich machen, anhand welcher Variable die Beobachtungen in unserem Datensatz gruppiert sind. In unserem Fall ist das die `id`-Variable, die kenntlich macht, dass mehrere Messungen zur gleichen Person gehören.
+
+```{r}
+# Nullmodell in lme4
+mod0 <- lmer(problem ~ 1 + (1 | id), data = esm)
+```
+
+Die Modellgleichung enthält auf der linken Seite, wie immer, unsere AV (hier das Ausmaß, in dem die Einstellung zum Problem als verändert wahrgenommen wird). Hinter der `~` kommen die unabhängigen Variablen, im Nullmodell also keine, hier deklariert die `1` lediglich das Intercept. Der Ausdruck `(1 | id)` gibt an, dass dieses Intercept sich dann wiederum über Personen hinweg unterscheiden darf. Gucken wir uns die Ergebnisse mal an:
+
+```{r}
+# Modellzusammenfassung
+summary(mod0)
+```
+
+Gegenüber der Zusammenfassung eines Regressionsergebnisses ist vor allem der Abschnitt `Random effects` neu. Hier wird die Unterschiedlichkeit der Personen im Intercept (Zeile `id` - `(Intercept)`) und die Unterschiedlichkeit der Beobachtungen innerhalb der Personen (Zeile `Residual`) dargestellt angegeben. Dass wir für Letztere nur eine Zahl erhalten macht eine weitere Annahme deutlich: das Ausmaß an Unterschiedlichkeit der situativen Komponenten wird alle Personen hinweg als gleich angenommen. Weil diese beiden Komponenten - wie oben erwähnt - Residuen in Bezug auf die fixed effects (hier $\gamma_{00}$) sind, sind deren Mittelwerte 0 und werden hier nirgendwo angegeben. Darüber hinaus wird angenommen, dass die Effekte normalverteilt sind, sodass die Varianz bzw. Standardabweichung ausreicht, um die Verteilung der Effekte zu beschreiben.
+
+Zusätzlich finden wir im Abschnitt `Fixed effects` die Schätzung des globalen Effektes $\gamma_{00}$, der hier als `(Intercept)` bezeichnet wird. Die Ergebnisse dieses Modells werden auch von [Liu et al. (2024, S. 67)](https://doi.org/10.1037/abn0000877) berichtet:
+
+> According to estimates of unconditional (i.e., intercept-only) models, on average, participants [...] reported somewhat improved problem outcome, $b = 1.43$, $SE = 0.09$, $p < .001$
+
+Die Ergebnisse können wir soweit schon einmal reproduzieren. 
+
+
+### Intraklassenkorrelationskoeffizient (ICC)
+
+Im letzten Abschnitt haben wir die beiden random effects, das random intercept $u_{0i}$ und das Residuum $r_{ti}$ Anhand ihrer Varianz bzw. Standardabweichung beschrieben, dabei stellt $\mathbb{V}ar(u_{0i})$ die Unterschiede zwischen Personen $\mathbb{V}ar(r_{ti})$ und Unterschiede zwischen Situationen dar. Weil Varianzen meist schwierig zu interpretieren sind, können wir die beiden Komponenten in Anteile übersetzen und der Anteil der Varianz, der auf Unterschiede zwischen Personen (oder im Allgemeinen auf die Cluster) zurückzuführen ist, wird als _Intraklassenkorrelationskoeffizient_ bezeichnet:
+
+$$
+ICC = \frac{\mathbb{V}ar(u_{0i})}{\mathbb{V}ar(u_{0i}) + \mathbb{V}ar(r_{ti})}
+$$
+
+Wir könnten diesen zwar aus den Ergebnissen des Modells händisch berechnen, aber zum Glück liefert uns hier die `icc`-Funktion des `performance`-Pakets eine kürzere Fassung, das ganze zu bestimmen:
+
+```{r}
+# Paket laden
+library(performance)
+
+# ICC berechnen
+icc(mod0)
+```
+
+Ungefähr 20% der Unterschiede zwischen allen Beobachtungen, die wir hinsichtlich der Einschätzung der Veränderung der Probleminterpretation gemacht haben gehen also auf _stabile Eigenschaften der Personen_ zurück. Die restlichen 80% sind situative Komponenten, die z.B. durch Eigenschaften oder Verhalten des Interaktionspartners, das eigentliche Problem oder auch die aktuelle Stimmung beeinflusst werden könnten.
+
+## Random Intercept Modell
+
+Das Nullmodell hat uns zwar eine Einschätzung dazu gegeben, in welchem Ausmaß wir unterschiede in der Problemeinschätung auf die situativen bzw. individuellen Komponenten attribuieren können, aber es hat noch keinen Versuch der Erklärung oder Vorhersage enthalten. Im "Aim 3" des Artikels von [Liu et al. (2024)](https://doi.org/10.1037/abn0000877) stehen zunächst die an den Tag gelegten Verhaltensweisen des Gegenübers im Zentrum der Aufmerksamkeit. Auf S. 66 berichten die Autor\*innen ihr Vorgehen dabei wie folgt:
+
+> For each outcome, we ﬁrst entered the six (uncentered) IER strategy variables at Level 1 to examine associations between each strategy and the outcome (Step 1)
+
+Da die Strategien sich über Situationen hinweg unterscheiden können, stellen sie sogenannte _time varying covariates_ dar. Diese müssen wir also auf Level 1 in unser Modell aufnehmen. Mal beispielhaft für den Fall mit einem Prädiktor:
+
+<math>
+$$
+ \begin{align}
+    \text{Level 1:} &\qquad y_{ti} = \beta_{0i} + \beta_{1i} \cdot x_{ti} + r_{ti} \\
+    \text{Level 2:} &\qquad \beta_{0i} = \gamma_{00} + u_{0i} \\
+     &\qquad \beta_{1i} = \gamma_{10} \\
+    \text{Gesamt:} &\qquad y_{ti} = \gamma_{00} + \gamma_{10} \cdot x_{ti} + u_{0i} + r_{ti}
+  \end{align}
+$$
+</math>
+
+Wir haben unser Modell also um den Term $\beta_{1i} \cdot x_{ti}$ erweitert und so einen Prädiktor auf Level 1 hinzugenommen (das Konzept lässt sich, analog zur Regression, um beliebig viele Prädiktoren erweitern). Wie in den Zeilen 2 und 3 der Gleichungen zu erkennen ist, nehmen wir hier zunächst an, dass es zufällige Effekte für die Intercepts gibt ($u_{0i}$), für die Regressionsgewichte nehmen wir aber nur _einen_ globalen Effekt ($\gamma_{10}$) ohne personenspezifische Abweichungen an.
+
+Konzeptuell lässt sich das Ganze so verbildlichen: 
+
+```{r random-intercept, fig = TRUE, echo = FALSE, purl = FALSE, height = 3, width = 4, warning = FALSE, message = FALSE}
+mod0 <- lmer(problem ~ 1 + (1 | id), esm)
+mod1 <- lmer(problem ~ 1 + warmth + (1 | id), esm)
+
+three <- subset(esm, id %in% unique(esm$id)[c(3, 10, 14)])
+three$id <- as.factor(three$id)
+
+nd <- data.frame(expand.grid(warmth = min(three$warmth, na.rm = TRUE):max(three$warmth, na.rm = TRUE), id = unique(three$id)))
+nd$pred <- predict(mod1, newdata = nd)
+nd$id <- as.factor(nd$id)
+
+ggplot(three, aes(x = warmth, y = problem, color = id)) + 
+  geom_point() + scale_color_pandar() + theme_pandar() +
+  geom_line(data = nd, aes(y = pred)) + 
+  geom_abline(intercept = fixef(mod1)[1], slope = fixef(mod1)[2], linetype = 2) +
+  theme(legend.position = 'none') + 
+  labs(x = expression(x[t*i]), y = expression(y[t*i]))
+```
+
+Hier haben wir drei Personen mit unterschiedlichen Beobachtungen auf $x_{ti}$ und $y_{ti}$. Die gestrichelte Linie beschreibt den globalen Effekt, den wir anhand der fixed effects beschreiben - diese Regressionsgerade hat also das Intercept $\gamma_{00}$ und die Steigung $\gamma_{10}$. Jeder der Linien ist personenspezifisch und daher um den Zufallseffekt im Intercept ($u_{0i}$) nach oben oder unten versetzt.
+
+Im Modell von [Liu et al. (2024, Table 6)](https://doi.org/10.1037/abn0000877) werden hier zunächst die Effekte der Verhaltensweisen des Gegenübers als Prädiktoren aufgenommen. Diese sind dummy-kodiert, liegen also als 0 (wurde nicht genutzt) und 1 (wurde genutzt) vor. Wir können das Modell also wie folgt aufstellen:
+
+```{r}
+# Random Intercept Modell
+mod1 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming + (1 | id), data = esm)
+
+# Ergebniszusammenfassung
+summary(mod1)
+```
+Wieder erhaltenn wir zwei random effects (Intercept und Residuum). Diese haben allerdings ihre Bedeutung gegenüber dem Nullmodell verändert, da das Intercept nun der Wert ist, der vorhergesagt wird, wenn keine der Verhaltensweisen an den Tag gelegt wurde. Das Residuum $r_{ti}$ ist hingegen die Abweichung von der Vorhersage, die wir aufgrund der gezeigten Verhaltensweisen des Gegenübers gemacht haben.
+
+Hinsichtlich der fixed effects zeigen sich die erwarteten Ergebnisse: die generell als "positiv" klassifizierten Vehraltensweise (reappaisal, solving, sharing, affection) gehen mit einer wahrgenommenen Verbesserung der Problemeinschätzung einher, während die als "negativ" klassifizierten Verhaltensweisen (invalidation, blaming) mit einer Verschlechterung der Problemeinschätzung einhergehen. Die letzte Tabelle (`Correlation of Fixed Effects`) dient hauptsächlich der Modelldiagnostik, da sehr hohe Korrelationen zwischen den fixed effects auf Probleme in der Trennbarkeit von Prädiktoren oder Vermischung von Effekten hindeuten können.
+
+### Modellvergleiche
+
+In der Regression war es üblich, die Relevanz von einer ganzen Menge von Prädiktoren mittels $\Delta R^2$ und dazugehörigem $F$-Test zu überprüfen. In gemischten Modellen ist dieses Vorgehen leider nicht mehr möglich, weil die Lokalisierung der Varianzen und deren Aufklärung nicht mehr ganz trivial ist. Stattdessen wird hier meist mit dem sogenannten Devianzentest gearbeitet. Dieser ist letztlich das Gleiche wie der Likelihood-Ratio-Test, den wir schon im Rahmen des [Beitrags zur logistischen Regression](lehre/klipps/logistische-regression-klinische/#mehrere-prädiktoren-und-modellvergleiche)
+besprochen haben. Auch hier gilt wieder das Prinzip, dass wir statt der Varianzen nun die Wahrscheinlichkeit der Daten gegeben des Modells miteinander vergleichen müssen. Probieren wir einfach mal aus, das dort vorgestellte Prinzip zum Vergleich von Nullmodell und Random-Intercept-Modell einzusetzen:
+
+```{r, error = TRUE, purl = FALSE}
+# Modellvergleich
+anova(mod0, mod1)
+```
+Der entstehende Fehler zeigt, dass die Datensätze sich in ihrer Größe unterscheiden. Das kommt daher, dass Beobachtungen immer dann aus Modellierung ausgeschlossen werden, wenn auf den Prädiktoren fehlende Werte vorliegen. Das ursprüngliche Nullmodell wurde auf insgesamt `r nrow(mod0@frame)` Beobachtungen angepasst (alle Beobachtungen, die Werte auf der `id` und `problem`-Variable hatten), während im Random-Intercept-Modell nur noch `r nrow(mod1@frame)` Beobachtungen genutzt werden konnten, weil in einigen Fällen auf mindestens einem der Prädiktoren ein fehlender Wert vorlag. Weil die Behandlung von Verfahren wie Multipler Imputation an dieser Stelle den Rahmen "ein wenig" sprengen würden, beschränken wir unsere Modelle statdessen auf alle _vollständigen_ Beobachtungen. Dazu können wir beide Modelle einfach nochmal auf den Datensatz anwenden, der in `mod1` genutzt wurde (dieser ist im Objekt als `frame` hinterlegt):
+
+```{r}
+# Modelle auf vollständige Beobachtungen anwenden
+mod0b <- update(mod0, data = mod1@frame)
+mod1b <- update(mod1, data = mod1@frame)
+
+# Modellvergleich
+anova(mod0b, mod1b)
+```
+Wie zu erwarten war, ist das Nullmodell deutlich schlechter als das Random-Intercept-Modell, sodass wir zunächst mit letzterem weiter arbeiten können. 
+
+Die erste Zeiles des Outputs weist uns direkt noch auf eine Besonderheit dieses Verfahrens hin. In der gemischten Modellierung wird der Modellvergleich dadurch erschwert, dass sich zwei unterschiedliche Formen der Modellschätzung etabliert haben: _Restricted Maximum Likelihood_ (REML) und _Full Maximum Likelihood_ (FML). Während das ML-Verfahren die Varianzen der random effects so schätzt, dass die Wahrscheinlichkeit der Daten insgesamt maximiert wird, schätzt das REML-Verfahren die Varianzen so, dass die Wahrscheinlichkeit der Daten bedingt auf die fixed effects maximiert wird. Generell wird dabei REML zugeschrieben, präzisere Schätzungen der Effekte zu ermöglichen, weswegen es auch in `lme4` die Voreinstellung ist. Allerdings ist es mit diesem Ansatz nicht möglich Modelle zu vergleichen, welche sich in den fixed effects unterscheiden - dafür müssen wir FML heranziehen. Der Modellvergleich, den wir mit `anova` angefordert haben schätzt daher automatisch beide Modelle noch einmal mit FML, um den Vergleich durchführen zu können.
+
+Über die inferenzstatistische Prüfung hinaus, interessiert uns auch häufig ein Effektschätzer dafür, wie gut unsere Prädiktoren insgesamt in der Vorhersage der Outcomes sind. Wie gesehen, haben wir leider unterschiedliche Quellen der Varianz, die wir im Modell berücksichtigen, sodass auch hier die Bestimmung des Pseudo-$R^2$ nicht super einfach ist. Zum Glück haben wir aber (was ein Zufall) das `performance`-Paket schon geladen, dass den praktischen `r2`-Befehl enthält:
+
+```{r}
+# Bestimmung des Pseudo-R^2
+r2(mod1b)
+```
+Hier werden in Anlehnung an Nakagawa et al. (2017) zwei unterschiedliche Varianten des $R^2$ unterschieden. Das _conditional_ $R^2$ beschreibt die Varianzaufklärung durch _alle_ Effekte im Modell, währen das _marginal_ $R^2$ nur die Varianzaufklärung durch die fixed effects berichtet. Das conditional $R^2$ ist also eine Aussage darüber, wie viel Residualvarianz noch in den Werten der einzelnen Situationen übrig ist, wenn wir auf die genutzten Strategien des Gegenübers (fixed effects) und die individuellen Zufallseffekte im Intercept (random effects) kontrollieren. Es ist also eine Güteschätzung für das gesamte Modell. Im _marginal_ $R^2$ wird hingegen auch der Zufallseffekt der Intercepts als "nicht erklärt" eingestuft und nur die Varianzaufklärung durch die genutzten Strategien des Gegenübers betrachtet.
+
+## Level 2 Prädiktoren
+
+Im Fokus des Papers von [Liu et al. (2024)](https://doi.org/10.1037/abn0000877) steht die MD Diagnose und ihre Auswirkungen auf IER. Die MD Diagnose ist eine _personenbezogene_ Eigenschaft, die sich im Verlauf der 14-tägigen Erhebung vermutlich nicht ändert, sodass wir diese als Prädiktor auf Level 2 in unser Modell aufnehmen können. [Liu et al. (2024, S. 66)](https://doi.org/10.1037/abn0000877) beschreiben diesen Schritt wie folgt:
+
+> We then added the group variables at Level 2 to examine strategy-group interactions (Step 2).
+
+Zu den Interaktionen kommen wir später noch, aber zunächst erweitern wir unser Modell um den neuen Prädiktor (wieder schematisch mit nur einem Prädiktor):
+
+<!-- Die im letzten Abschnitt bestimmten Ergebnisse sind nicht identisch mit denen von [Liu et al. (2024)](https://doi.org/10.1037/abn0000877). Das kommt daher, dass im Panel 1 von Tabelle 6 zusätzlich zu den eingesetzten Strategien _in dieser Situation_ auch die _üblicherweise eingesetzten Strategien_ im Modell aufgenommen sind. Hier werden also als Prädiktoren auf Eben der Personen noch deren habituelle Erfahrungen eingebunden. In gemischten Modellen können sowohl solche _Aggregatvariablen_ als auch genuine Eigenschaften der Personen (wie z.B. gleich die MD Gruppe) auf der 2. Ebene als Prädiktoren aufgenommen werden. Unsere Modellgleichungen verändern sich dabei im Abschnitt zur Modellierung des Intercepts: -->
+
+<math>
+$$
+ \begin{align}
+    \text{Level 1:} &\qquad y_{ti} = \beta_{0i} + \beta_{1i} \cdot x_{ti} + r_{ti} \\
+    \text{Level 2:} &\qquad \beta_{0i} = \gamma_{00} + \gamma_{01} \cdot w_{i} + u_{0i} \\
+     &\qquad \beta_{1i} = \gamma_{10} \\
+    \text{Gesamt:} &\qquad y_{ti} = \gamma_{00} + \gamma_{01} \cdot w_{i} + \gamma_{10} \cdot x_{ti} + u_{0i} + r_{ti}
+  \end{align}
+$$
+</math>
+
+Um deutlich zu machen, welche Prädiktoren auf welcher Ebene angesiedelt sind, benennen wird die Prädiktoren üblicherweise unterschiedlich - hier nutzen wir $w_i$, wenn wir einen Prädiktor auf Level 2 meinen. 
+
+In diesem Schritt geht es uns also zunächst darum das Intercept vorherzusagen - wir nehmen also an, dass die Gruppenunterschiede sich _gleichmäßig_ in einer anderen Einschätzung des Problems niederschlagen - zunächst kontrolliert auf die unterschiedlichen Strategien aber ohne Moderation (zu der kommen wir gleich). In der Umsetzung in R wird zwischen den Leveln der Prädiktoren nicht unterschieden, sondern die Verortung wird anhand der Daten festgelegt. Variablen, die innerhalb einer Person unterschiedliche Ausprägungen annehmen können, müssen per Definition situative Variablen sein. Variablen, die für jede Beobachtung (also Zeile im Datensatz) der gleichen Person auch den gleichen Wert annehmen, wrrden als personenspezifische Variablen angenommen. Daher erweitern wir unser Random-Intercept-Modell einfach um den neuen Prädiktor:
+
+```{r}
+# Random Intercept Modell mit Level 2 Prädiktor
+mod2 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming +
+    group + (1 | id), data = esm)
+
+# Ergebniszusammenfassung
+summary(mod2)
+```
+
+Hier zeigt sich zunächst, dass die Strategien weiterhin bedeutsamen Einfluss auf die Problemeinschätzung haben, ein globaler Effekt der Gruppenzugehörigkeit aber nicht zu finden ist. Wir können natürlich per Modellvergleich auch noch einmal die Gruppenvariable als Ganzes testen:
+
+```{r}
+# Modelle aktualisieren (gleicher Datensatz)
+mod1b <- update(mod1, data = mod2@frame)
+mod2b <- update(mod2, data = mod2@frame)
+
+# Modellvergleich
+anova(mod1b, mod2b)
+```
+Und, wenn wir immer noch nicht von der Bedeutungslosigkeit der Gruppenzugehörigkeit in diesem Modell überzeugt sind, können wir noch einmal den Pseudo-$R^2$-Wert betrachten:
+
+```{r}
+# Bestimmung des Pseudo-R^2
+r2(mod2b)
+```
+
+Gegenüber dem Random-Intercept-Modell hat sich hier lediglich das Conditional $R^2$ in der 3. Nachkommastelle verändert.
+
+<!-- In Tabelle 6 von [Liu et al. (2024)](https://doi.org/10.1037/abn0000877) werden hier "Mean reappraisal", "Mean problem-solving" usw. angegeben. Diese liegen im Datensatz noch nicht vor und müssen daher erst erstellt werden: -->
+
+<!-- ```{r} -->
+<!-- # Personen-Mittelwerte berechnen (Aggregatvariablen) -->
+<!-- w <- aggregate(esm[, c("reappraisal", "solving", "sharing", "affection", "invalidation", "blaming")], by = list(esm$id), mean, na.rm = TRUE) -->
+
+<!-- # Spaltennamen anpassen -->
+<!-- names(w) <- c("id", "mean_reappraisal", "mean_solving", "mean_sharing", "mean_affection", "mean_invalidation", "mean_blaming") -->
+
+<!-- # Daten zusammenführen -->
+<!-- esm <- merge(esm, w, by = "id") -->
+<!-- ``` -->
+
+<!-- Die neuen Variablen enthalten nun den personenspezifischen relativen Anteil der IER, in denen die jeweiligen Strategien vom Gegenüber an den Tag gelegt wurden. Die Annahme  -->
+
+***
+
+## Literatur
+
+Liu, D. Y., Strube, M. J., & Thompson, R. J. (2024). Do emotion regulation difficulties in depression extend to social context? Everyday interpersonal emotion regulation in current and remitted major depressive disorder. _Journal of Psychopathology and Clinical Science, 133_(1), 61–75. https://doi.org/10.1037/abn0000877
+
+Nakagawa, S., Johnson, P. C. D., & Schielzeth, H. (2017). The coefficient of determination R2 and intra-class correlation coefficient from generalized linear mixed-effects models revisited and expanded. _Journal of The Royal Society Interface, 14_(134), 20170213. https://doi.org/10.1098/rsif.2017.0213
