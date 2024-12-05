@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [koehler, buchholz]
 weight: 1
-lastmod: '2024-12-02'
+lastmod: '2024-12-05'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -34,6 +34,11 @@ output:
 
 
 
+
+
+## Vorbereitung
+
+> Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-unabhaengig/#prep) vorausgesetzt werden, teils inklusive derer, die erst im Beitrag vorgenommen werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 
 **Untersuchen Sie folgende Fragestellungen anhand des fb24-Datensatzes**
