@@ -471,8 +471,8 @@ Zur Erinnerung, hier die Fragestellung, die wir untersuchen wollten:
 
 Wir müssen aus dieser Fragestellung also eine *gerichtete* Hypothese ableiten:
 
--   $H_0$: Nicht klinisch interessierte Studierende erreichen im Mittel niedrigere oder genauso hohe Werte der Lebenszufriedenheit wie klinisch interessierte Studierende.
--   $H_1$: Nicht klinisch interessierte Studierende erreichen  im Mittel höhere Werte der Lebenszufriedenheit als klinisch interessierte Studierende.
+-   $H_0$: Nicht klinisch interessierte Studierende erreichen sind im Mittel schlechter oder genauso gut gelaunt wie klinisch interessierte Studierende.
+-   $H_1$: Nicht klinisch interessierte Studierende erreichen sind im Mittel besser gelaunt als klinisch interessierte Studierende.
 
 Wieder etwas formaler ausgedrückt: 
 
