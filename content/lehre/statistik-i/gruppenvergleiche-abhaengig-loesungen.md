@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [walter, nehler] 
-lastmod: '2024-03-27'
+lastmod: '2024-12-05'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -40,7 +40,7 @@ output:
 
 ## Vorbereitung
 
-> Laden Sie zunächst den Datensatz `fb23` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb23.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-abhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-abhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 
 
@@ -83,13 +83,13 @@ $\alpha = .05$
 
 **Bevor es weiter geht:**
 
-Ein Blick in den `fb23`-Datensatz verrät, dass auf dem Skalenwert `wm_post`, der Messung des Wachempfindens zum zweiten Zeitpunkt, Werte fehlen. Diese fehlenden Werte werden als *NA* abgebildet.
+Ein Blick in den `fb24`-Datensatz verrät, dass auf dem Skalenwert `wm_post`, der Messung des Wachempfindens zum zweiten Zeitpunkt, Werte fehlen. Diese fehlenden Werte werden als *NA* abgebildet.
 
-Um verfälschte deskriptiv- und inferenzstatistische Ergebnisse zu vermeiden, werden alle Personen aus der weiteren Berechung ausgeschlossen, die einen fehlenden Wert auf `wm_post` (oder `wm_pre`) aufweisen. Damit wir den Datensatz `fb23` aber nicht generell verändern, legen wir estmal einen neuen Datesatz an, der nur die beiden interessierenden Variablen enthält.
+Um verfälschte deskriptiv- und inferenzstatistische Ergebnisse zu vermeiden, werden alle Personen aus der weiteren Berechung ausgeschlossen, die einen fehlenden Wert auf `wm_post` (oder `wm_pre`) aufweisen. Damit wir den Datensatz `fb24` aber nicht generell verändern, legen wir estmal einen neuen Datesatz an, der nur die beiden interessierenden Variablen enthält.
 
 
 ```r
-wach <- fb23[, c("wm_pre", "wm_post")] #Erstellung eines neuen Datensatzes, welcher nur die für uns wichtigen Variablen enthält
+wach <- fb24[, c("wm_pre", "wm_post")] #Erstellung eines neuen Datensatzes, welcher nur die für uns wichtigen Variablen enthält
 
 wach <- na.omit(wach) #Entfernt alle Beobachtungen, die auf einer der beiden Variable einen fehlenden Wert haben
 
@@ -97,11 +97,11 @@ str(wach) #Ablesen der finalen Stichprobengröße
 ```
 
 ```
-## 'data.frame':	146 obs. of  2 variables:
-##  $ wm_pre : num  2.5 2.25 2.75 3 2.25 2.25 2.5 1.75 3.25 2.5 ...
-##  $ wm_post: num  2 1 3.75 3 3.25 2 3.25 2 1.5 3 ...
-##  - attr(*, "na.action")= 'omit' Named int [1:33] 4 6 14 15 17 24 25 28 44 47 ...
-##   ..- attr(*, "names")= chr [1:33] "4" "7" "15" "16" ...
+## 'data.frame':	134 obs. of  2 variables:
+##  $ wm_pre : num  3 2.75 2.5 3 1.5 2 3.75 4 2.75 3 ...
+##  $ wm_post: num  2.25 3 2.25 2.5 2.25 2.5 3 3.25 2.75 1.5 ...
+##  - attr(*, "na.action")= 'omit' Named int [1:58] 1 7 11 16 18 20 22 23 24 29 ...
+##   ..- attr(*, "names")= chr [1:58] "1" "7" "11" "16" ...
 ```
 
 Nach dem Entfernen der fehlenden Werte haben wir eine Stichprobengröße von $n = 147$.
@@ -138,7 +138,7 @@ summary(wach[, "wm_pre"])
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    1.00    2.25    2.75    2.63    3.00    4.00
+##   1.250   2.250   2.750   2.731   3.250   4.000
 ```
 
 ```r
@@ -147,7 +147,7 @@ summary(wach[, "wm_post"])
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    1.00    2.00    2.50    2.58    3.00    4.00
+##   1.000   2.250   2.500   2.517   2.750   3.500
 ```
 
 ```r
@@ -157,8 +157,10 @@ describe(wach[, "wm_pre"])
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 146 2.63 0.59   2.75    2.64 0.74   1   4     3 -0.19    -0.29 0.05
+##    vars   n mean   sd median trimmed  mad  min max
+## X1    1 134 2.73 0.61   2.75    2.74 0.74 1.25   4
+##    range  skew kurtosis   se
+## X1  2.75 -0.15    -0.82 0.05
 ```
 
 ```r
@@ -166,11 +168,13 @@ describe(wach[, "wm_post"])
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 146 2.58 0.69    2.5    2.59 0.74   1   4     3 -0.15    -0.41 0.06
+##    vars   n mean  sd median trimmed  mad min max range
+## X1    1 134 2.52 0.5    2.5    2.53 0.37   1 3.5   2.5
+##     skew kurtosis   se
+## X1 -0.26    -0.33 0.04
 ```
 
-Der Mittelwert vorher ($M$ = 2.63, $SD$ = 0.59) ist deskriptiv niedriger als Mittelwert nachher ($M$ = 2.58, $SD$ = 0.69).
+Der Mittelwert vorher ($M$ = 2.73, $SD$ = 0.61) ist deskriptiv niedriger als Mittelwert nachher ($M$ = 2.52, $SD$ = 0.5).
 
 Die deskriptivstatistischen Maße unterscheiden sich. 
 
@@ -229,13 +233,13 @@ t.test(x = wach[, "wm_pre"], y  = wach[, "wm_post"], # die Werte vorher und nach
 ## 	Paired t-test
 ## 
 ## data:  wach[, "wm_pre"] and wach[, "wm_post"]
-## t = 1.0791, df = 145, p-value = 0.2823
+## t = 4.3171, df = 133, p-value = 3.065e-05
 ## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
-##  -0.04129183  0.14060690
+##  0.1162507 0.3128538
 ## sample estimates:
 ## mean difference 
-##      0.04965753
+##       0.2145522
 ```
 
 
@@ -250,7 +254,7 @@ t.test(x = wach$wm_pre, y = wach$wm_post,
 
 
 * Zur Erinnerung: $df$ bei $t$-test mit abhängigen Stichproben: $n - 1$ (wobei $n$ die Anzahl der Paare darstellt)
-* _t_(145) = 1.079, $p =$ 0.282 $\rightarrow$ nicht signifikant, H0 wird beibehalten.
+* _t_(133) = 4.317, $p =$ 0 $\rightarrow$ nicht signifikant, H0 wird beibehalten.
 
 </details>
 
@@ -269,10 +273,10 @@ d
 ```
 
 ```
-## [1] 0.08930936
+## [1] 0.3729393
 ```
 
-$\Rightarrow$ Der standardisierte Populationseffekt beträgt _d2''_ = 0.09 und ist laut Konventionen nach Cohen (1988) klein. 
+$\Rightarrow$ Der standardisierte Populationseffekt beträgt _d2''_ = 0.37 und ist laut Konventionen nach Cohen (1988) klein. 
 
 Zu beachten ist, dass der standardisierte Populationseffekt auf der vorher berechneten Differenzvariable basiert. Aus diesem Grund hat der Effekt ein negatives Vorzeichen.
 
@@ -286,10 +290,10 @@ Zur Berechnung der Differenzvariable wurden von den Prä-Messungen die Post-Mess
 
 **Formales Berichten des Ergebnisses**
 
-Es wurde in einer Wiederholungsmessung untersucht, ob sich die Teilnahme am Statistikpraktikum  auf das Wachempfinden auswirkt. Zunächst findet sich deskriptiv folgender Unterschied: Vor der Praktikumssitzung liegt der durchschnittliche Zufriedenheitswert bei 2.63 (_SD_ = 0.59), während er nach der Praktikumssitzung bei 2.58 (_SD_ = 0.69) liegt. 
+Es wurde in einer Wiederholungsmessung untersucht, ob sich die Teilnahme am Statistikpraktikum  auf das Wachempfinden auswirkt. Zunächst findet sich deskriptiv folgender Unterschied: Vor der Praktikumssitzung liegt der durchschnittliche Zufriedenheitswert bei 2.73 (_SD_ = 0.61), während er nach der Praktikumssitzung bei 2.52 (_SD_ = 0.5) liegt. 
 
-Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Gruppenunterschied ist nicht signifikant ($t$(145) = 1.079, $p =$ 0.282), somit wird die Nullhypothese beibehalten. Wir gehen davon aus, dass sich die Teilnahme am Statistikpraktikum nicht auf das Wachempfinden auswirkt.
+Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Gruppenunterschied ist nicht signifikant ($t$(133) = 4.317, $p =$ 0), somit wird die Nullhypothese beibehalten. Wir gehen davon aus, dass sich die Teilnahme am Statistikpraktikum nicht auf das Wachempfinden auswirkt.
 
-Der standardisierte Populationseffekt von _d''_ = 0.09 ist laut Konventionen nach Cohen (1988) klein.
+Der standardisierte Populationseffekt von _d''_ = 0.37 ist laut Konventionen nach Cohen (1988) klein.
 
 </details>

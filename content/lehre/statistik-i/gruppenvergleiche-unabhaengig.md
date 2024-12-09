@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr Unterschiede zwischen zwei Gruppen zu veranschaulichen. Ihr erfahrt außerdem, wie ihr verschiedene Tests für unabhängige Stichproben in R durchführt und ihre Voraussetzungen prüft.' 
 authors: [koehler, buchholz, irmer, nehler, goldhammer, schultze] 
 weight: 6
-lastmod: '2024-12-02'
+lastmod: '2024-12-06'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -220,7 +220,7 @@ describeBy(x = fb24$lz, group = fb24$fach_klin)        # beide Gruppen im Vergle
 ## group: nicht klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 99 5.07 1.15    5.2    5.15 1.19   2   7     5 -0.57    -0.22 0.12
-## ------------------------------------------------------------ 
+## --------------------------------------------------------------- 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 88 4.76 1.14    4.8     4.8 1.19   2   7     5 -0.3    -0.51 0.12
@@ -273,7 +273,24 @@ Für den QQ-Plot gibt es in der Basis-Funktionalität von `R` zwar einen integri
 
 ``` r
 library(car)
+```
 
+```
+## Loading required package: carData
+```
+
+```
+## 
+## Attaching package: 'car'
+```
+
+```
+## The following object is masked from 'package:psych':
+## 
+##     logit
+```
+
+``` r
 # Gruppe 1 (nichtKlinisch) 
 par(mfrow=c(1,2))
 
@@ -483,6 +500,17 @@ Natürlich gibt es in `R` auch eine angenehmere Alternative:
 library("effsize")
 ```
 
+```
+## 
+## Attaching package: 'effsize'
+```
+
+```
+## The following object is masked from 'package:psych':
+## 
+##     cohen.d
+```
+
 
 ``` r
 d2 <- cohen.d(fb24$lz, fb24$fach_klin, na.rm=T)
@@ -541,7 +569,7 @@ describeBy(fb24$gs_pre, fb24$fach_klin) # beide Gruppen im Vergleich
 ## group: nicht klinisch
 ##    vars  n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 99 3.34 0.59    3.5    3.42 0.74   1   4     3 -1.2     1.54 0.06
-## ------------------------------------------------------------ 
+## --------------------------------------------------------------- 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 88 3.14 0.65   3.25    3.19 0.74   1   4     3 -0.71    -0.06 0.07
@@ -619,8 +647,8 @@ Zur Erinnerung, hier die Fragestellung, die wir untersuchen wollten:
 
 Wir müssen aus dieser Fragestellung also eine *gerichtete* Hypothese ableiten:
 
--   $H_0$: Nicht klinisch interessierte Studierende erreichen im Mittel niedrigere oder genauso hohe Werte der Lebenszufriedenheit wie klinisch interessierte Studierende.
--   $H_1$: Nicht klinisch interessierte Studierende erreichen  im Mittel höhere Werte der Lebenszufriedenheit als klinisch interessierte Studierende.
+-   $H_0$: Nicht klinisch interessierte Studierende erreichen sind im Mittel schlechter oder genauso gut gelaunt wie klinisch interessierte Studierende.
+-   $H_1$: Nicht klinisch interessierte Studierende erreichen sind im Mittel besser gelaunt als klinisch interessierte Studierende.
 
 Wieder etwas formaler ausgedrückt: 
 
