@@ -6,9 +6,9 @@ categories: ["KliPPs"]
 tags: ["Mehrebenenmodelle", "Längsschnitt", "Mixed Models"]
 subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
 summary: ''
-authors: [schultze, hartig, irmer]
+authors: [schultze]
 weight: 4
-lastmod: '2024-12-03'
+lastmod: '2024-12-10'
 featured: no
 banner:
   image: "/header/couple-bench.jpg"
@@ -497,25 +497,671 @@ r2(mod2b)
 
 Gegenüber dem Random-Intercept-Modell hat sich hier lediglich das Conditional $R^2$ in der 3. Nachkommastelle verändert.
 
-<!-- In Tabelle 6 von [Liu et al. (2024)](https://doi.org/10.1037/abn0000877) werden hier "Mean reappraisal", "Mean problem-solving" usw. angegeben. Diese liegen im Datensatz noch nicht vor und müssen daher erst erstellt werden: -->
+## Kontexteffekte und Zentrierung
 
-<!-- ```{r} -->
-<!-- # Personen-Mittelwerte berechnen (Aggregatvariablen) -->
-<!-- w <- aggregate(esm[, c("reappraisal", "solving", "sharing", "affection", "invalidation", "blaming")], by = list(esm$id), mean, na.rm = TRUE) -->
+Das Vorgehen, zur Modellierung von situativen Effekten Level-1 Prädiktoren in Rohfassung in das Modell aufzunehmen ist wiederholt heftig kritisiert worden (sowohl für kontinuierliche als auch für kategoriale Level-1 Prädiktoren). Insbesondere [Yaremych et al. (2021)](https://doi.org/10.1037/met0000434)  liefern zum Grund dieser Kritik sehr detaillierte, statistische und mathematische Argumente. Inhaltlich zusammengefasst läuft das Problem darauf hinaus, dass diese Form der Modellierung zur Vermischung von Effekte innerhalb und zwischen Personen führt. Wenn die betrachteten Prädiktoren über die Situationen hinweg unterschiedlich sein können und gleichzeitig in ihren Mittelwerten über Personen hinweg variieren, kann im UN-Modell nicht zwischen diesen beiden Effektquellen getrennt werden, weil nur ein Regressionsgewicht geschätzt wird.
 
-<!-- # Spaltennamen anpassen -->
-<!-- names(w) <- c("id", "mean_reappraisal", "mean_solving", "mean_sharing", "mean_affection", "mean_invalidation", "mean_blaming") -->
+In Tabelle 6 von [Liu et al. (2024)](https://doi.org/10.1037/abn0000877) werden daher in einem UN(M)-Modell (_uncentored with group-means_) neben den Effekten der Verhaltensweisen des Gegenübers auch die "habituellen" Effekte dieser Verhaltensweisen berücksichtigt. Die Überlegung dahinter ist hier, dass Personen, die insgesamt häufiger z.B. von ihren Gegenüber Schuldzuweisung als Reaktion im IER erhalten, eventuell andere grundlegende Verhaltenstendenzen haben. Um diese globalen Effekte von den lokalen Effekten zu trennen, können die Einflüsse von situativen (also Level-1) Variablen in ihre Bestandteile zerlegt werden. Dabei machen wir uns die gleiche Annahme zunutze, die wir auch schon bei der abhängigen Variable als Argument benutzt haben: stabile Komponenten sollten sich über alle Wiederholungen der Messungen zeigen, situative Komponenten als Abweichung von dieser generellen Tendenz. 
 
-<!-- # Daten zusammenführen -->
-<!-- esm <- merge(esm, w, by = "id") -->
-<!-- ``` -->
+Als "stabile Komponente" können wir den Mittelwert aller Beobachtungen für eine Person nutzen, als "situative Komponenten" dann wiederum die Abweichungen der Variable von diesem Mittelwert in einer spezifischen Situation. Die Personenmittelwerte können wir einfach mit `aggregate` erzeugen:
 
-<!-- Die neuen Variablen enthalten nun den personenspezifischen relativen Anteil der IER, in denen die jeweiligen Strategien vom Gegenüber an den Tag gelegt wurden. Die Annahme  -->
+
+``` r
+# Personen-Mittelwerte berechnen (Aggregatvariablen)
+w <- aggregate(esm[, c("reappraisal", "solving", "sharing", "affection", "invalidation", "blaming")], by = list(esm$id), mean, na.rm = TRUE)
+
+# Spaltennamen anpassen
+names(w) <- c("id", "mean_reappraisal", "mean_solving", "mean_sharing", "mean_affection", "mean_invalidation", "mean_blaming")
+
+# Daten zusammenführen
+esm <- merge(esm, w, by = "id")
+```
+
+Da unsere Prädiktoren ursprünglich dummy-kodierte Indikatoren waren, enthält dieser Personenmittelwert jetzt einfach den _relativen Anteil_ der IER Situationen, in denen vom Gegenüber diese spezifische Verhaltensweise an den Tag gelegt wurde.
+
+### UN(M)-Modell
+
+Im Modell in Tabelle 6, Panel 1 [(Liu et al., 2024)](https://doi.org/10.1037/abn0000877) werden diese Mittelwerte dann als Prädiktoren auf Level 2 aufgenommen (allerdings werden hier die MD-Gruppen nicht im Modell berücksichtigt, sodass auch wir diese wieder entfernen):
+
+
+``` r
+# Random Intercept Modell mit Kontext-Effekten
+mod3 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming +
+    mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming + 
+    (1 | id), data = esm)
+
+# Ergebniszusammenfassung
+summary(mod3)
+```
+
+```
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Formula: problem ~ 1 + reappraisal + solving + sharing + affection + invalidation +  
+##     blaming + mean_reappraisal + mean_solving + mean_sharing +  
+##     mean_affection + mean_invalidation + mean_blaming + (1 |      id)
+##    Data: esm
+## 
+## REML criterion at convergence: 6549.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.6870 -0.5914  0.0285  0.5872  2.8966 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.7345   0.857   
+##  Residual             2.9701   1.723   
+## Number of obs: 1617, groups:  id, 198
+## 
+## Fixed effects:
+##                     Estimate Std. Error         df t value Pr(>|t|)    
+## (Intercept)        8.051e-01  1.908e-01  1.900e+02   4.220 3.79e-05 ***
+## reappraisal        1.017e+00  1.188e-01  1.427e+03   8.559  < 2e-16 ***
+## solving            8.862e-01  1.057e-01  1.427e+03   8.383  < 2e-16 ***
+## sharing            3.933e-01  1.144e-01  1.426e+03   3.437 0.000605 ***
+## affection          9.633e-01  1.079e-01  1.426e+03   8.924  < 2e-16 ***
+## invalidation      -9.778e-01  1.787e-01  1.426e+03  -5.472 5.25e-08 ***
+## blaming           -7.357e-01  2.003e-01  1.426e+03  -3.673 0.000249 ***
+## mean_reappraisal   5.452e-02  3.367e-01  2.776e+02   0.162 0.871485    
+## mean_solving      -7.150e-01  3.648e-01  2.977e+02  -1.960 0.050965 .  
+## mean_sharing       1.288e-03  3.589e-01  2.395e+02   0.004 0.997139    
+## mean_affection     4.790e-02  3.475e-01  2.561e+02   0.138 0.890472    
+## mean_invalidation  8.079e-01  6.663e-01  2.746e+02   1.212 0.226413    
+## mean_blaming      -1.820e+00  8.167e-01  2.423e+02  -2.228 0.026796 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+```
+## 
+## Correlation matrix not shown by default, as p = 13 > 12.
+## Use print(x, correlation=TRUE)  or
+##     vcov(x)        if you need it
+```
+Auch hier sind wir wieder in der Lage, die Ergebnisse des Artikel exakt zu reproduzieren. Gegenüber dem vorherigen Modell ändern sich nicht nur die Werte der Regressionsgewichte, sondern auch deren Bedeutung. Die fixed effects der Level-1 Prädiktoren sind jetzt die _reinen_ situativen Komponenten - also der Effekt, den das Zeigen einer Verhaltensweise in einer spezifischen Situation hat, wenn ich die stabilen Personenkomponenten auspartialisiere. 
+
+Die Personenkomponenten auf Level-2, die aus dieser Form der Modellierung resultieren werden häufig als _Kontexteffekte_ bezeichnet. Um die Interpretation der Effekte zu verdeutlichen, ist es hilfreich sich auch noch eine weitere Parameterisierung dieser Effekt anzusehen.
+
+### CWC(M)-Modell
+
+Im gerade beschriebenen, und bei [Liu et al. (2024)](https://doi.org/10.1037/abn0000877) genutzten UN(M)-Modell wurden auf Level-1 die dummy-kodierten Variablen als Prädiktoren beibhalten. Insbesondere in Fällen, in denen die Prädiktoren auf Level-1 kontinuierlich sind, hat sich aber ein anderes Vorgehen etabliert: die _within-cluster_-zentrierteten Werte aufzunehmen. Dafür werden die Personenmittelwerte, die wir gerade erzeugt haben noch von den ursprünglichen Werten abgezogen, sodass wir als neue Prädiktoren die situative Abweichung auf einem Prädiktor von der generellen Personentendenz nutzen:
+
+
+``` r
+# CWC Werte berechnen
+esm$cwc_reappraisal <- esm$reappraisal - esm$mean_reappraisal
+esm$cwc_solving <- esm$solving - esm$mean_solving
+esm$cwc_sharing <- esm$sharing - esm$mean_sharing
+esm$cwc_affection <- esm$affection - esm$mean_affection
+esm$cwc_invalidation <- esm$invalidation - esm$mean_invalidation
+esm$cwc_blaming <- esm$blaming - esm$mean_blaming
+
+# Random Intercept Modell mit zentrierten Prädiktoren
+mod4 <- lmer(problem ~ 1 + cwc_reappraisal + cwc_solving + cwc_sharing + cwc_affection + cwc_invalidation + cwc_blaming +
+    mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming + 
+    (1 | id), data = esm)
+```
+
+### Interpretation der Modellansätze
+
+Gucken wir uns kurz alle drei Ansätze gemeinsam an: 
+
+
+|                | UN Modell| UN(M) Modell| CWC(M) Modell|
+|:---------------|---------:|------------:|-------------:|
+|intercept       |     0.607|        0.805|         0.805|
+|L1_reappraisal  |     1.015|        1.017|         1.017|
+|L1_solving      |     0.828|        0.886|         0.886|
+|L1_sharing      |     0.388|        0.393|         0.393|
+|L1_affection    |     0.957|        0.963|         0.963|
+|L1_invalidation |    -0.965|       -0.978|        -0.978|
+|L1_blaming      |    -0.839|       -0.736|        -0.736|
+|L2_reappraisal  |        NA|        0.055|         1.072|
+|L2_solving      |        NA|       -0.715|         0.171|
+|L2_sharing      |        NA|        0.001|         0.395|
+|L2_affection    |        NA|        0.048|         1.011|
+|L2_invalidation |        NA|        0.808|        -0.170|
+|L2_blaming      |        NA|       -1.820|        -2.555|
+
+In dieser Tabelle sind die festen Effekte aus den drei bisherigen Modellen zur Untersuchung der Verhaltensweisen des Gegenübers zusammengetragen (UN Modell: `mod1`, UN(M) Modell: `mod3`, CWC(M)-Modell: `mod4`). Für das "einfache" UN Modell hatten wir festgehalten, dass z.B. der Effekt von blaming bedeutet, dass über alle Personen und Situationen hinweg, Schuldzuweisungen durch den Gegenüber mit einer Verschlechterung der Problemeinschätzung einhergehen. Leider ist dieser Effekt aber gemischt aus Effekten der Personen und Situationen, weswegen wir das UN(M) Modell aufgestellt haben. Dort ist der _reine situative_ Effekt der Schuldzuweisung -0.736. Sowohl der Wert als auch die Interpretation ist im CWC(M) Modell identisch. Unterschiede ergeben sich erst auf Level-2. Im CWC(M) Modell ist der Effekt der habituellen Schuldzuweisung -2.555 - hierbei handelt es sich um den _stabilen Personeneffekt_. Wie vielleicht aus der Tabelle ersichtlich wird, ist der Effekt im UN(M) Modell dieser _stabile Personeneffekt_ abzüglich der _situativen Effekte_ von Level-1: 
+
+$\gamma_{06}^{\text{UN(M)}} = \gamma_{06}^{\text{CWC(M)}} - \gamma_{60} = -2.555 - -0.736 = -1.819$
+
+<details><summary><b>Ein paar Gleichungen zur Verdeutlichung</b></summary>
+
+Nehmen wir zwei Personen, die an den extremen liegen und vereinfachen wir das Modell auf den Fall, in dem wir nur Schuldzuweisungen betrachten. Person A erfährt in jeder IER Situation Schuldzuweisung ($w_A = 1$) und Person B niemals ($w_B = 0$). Wenn beide jetzt mit einer Situation konfrontiert werden, in der Schuldzuweisen stattfindet ($x_{ti} = 1$) ergibt sich im UM(M) Modell:
+
+
+
+
+<math>
+  \begin{align*}
+    \text{Person A:} & \qquad  \hat{y}_{ti} = \gamma_{00} + \gamma_{06} \cdot 1 + \gamma_{60} \cdot 1 + u_{0i} + r_{ti} \\
+    & \qquad -1.751 = 0.805 + -1.82 + -0.736 + u_{0i} + r_{ti} \\
+    \text{Person B:} & \qquad  \hat{y}_{ti} = \gamma_{00} + \gamma_{06} \cdot 0 + \gamma_{60} \cdot 1 + u_{0i} + r_{ti} \\
+    & \qquad 0.069 = 0.805 + 0 + -0.736 + u_{0i} + r_{ti} \\
+  \end{align*}
+</math>
+
+Im CWC(M) Modell ergibt sich hingegen:
+
+
+
+<math>
+  \begin{align*}
+    \text{Person A:} & \qquad  \hat{y}_{ti} = \gamma_{00} + \gamma_{06} \cdot 1 + \gamma_{60} \cdot 0 + u_{0i} + r_{ti} \\
+    & \qquad -1.75 = 0.805 + -2.555 + 0 + u_{0i} + r_{ti} \\
+    \text{Person B:} & \qquad  \hat{y}_{ti} = \gamma_{00} + \gamma_{06} \cdot 0 + \gamma_{60} \cdot 1 + u_{0i} + r_{ti} \\
+    & \qquad 0.069 = 0.805 + 0 + -0.736 + u_{0i} + r_{ti} \\
+  \end{align*}
+</math>
+
+Die vorhergesagten Werte sind (abgesehen vom Rundungsfehler) identisch, aber die Bedeutung der Werte unterscheidet sich. Für die Person A ist die Situation, dass Schuldzuweisung stattfindet "normal": $x_{ti} = 0$, weil die Situation sicht nicht von der durchschnittlichen Situation unterscheidet. Für Person B hingegen, ist das Erleben der Schuldzuweisung etwas besonderes und weicht um eine Einheit von der durchschnittlichen Situation ab ($x_{ti} = 1$). Das wird darin abgebildet, dass hier die situative Komponente hinzugerechnet werden muss.
+
+</details>
+
+Etwas zusammenfassend ausgedrückt: im UN(M) Modell ist der Level-2 Effekt der erwartete Unterschied zwischen zwei Personen, die sich in der stabilen Tendenz um eine Unterscheiden, wenn wir sie _in einer gleichen_ Situation beobachten. Im CWC(M) Modell ist der Level-2 Effekt der erwartete Unterschied zwischen zwei Personen, die sich in der stabilen Tendenz um eine Unterscheiden, wenn wir sie _in einer für sie typischen_ Situation beobachten.
+
+## Random Slopes Modelle
+
+Bisher hatten wir angenommen, dass die Auswirkungen der Verhaltensweisen des Gegenübers für alle Personen gleich sind. [Liu et al. (2024, S. 64)](https://doi.org/10.1037/abn0000877) haben allerdings als eine der zentralen Hypothesen genau darin Unterschiede postuliert:
+
+> We hypothesized that reappraisal, problem-solving, encouraging sharing, and affection would be more strongly associated with improved IER outcomes for the current-MDD group than for the control group, with the remitted-MDD group falling in between (Hypothesis 3a [H3a]). We hypothesized that invalidation and blaming would be more strongly associated with worsened problem and relationship outcomes for the current-MDD group than for the remitted-MDD and control groups, who were not expected to differ (Hypothesis 3b [H3b]).
+
+Wenn eine Hypothese lautet, dass es Unterschiede zwischen Personen gibt, die sich anhand der MD Gruppe aufklären lassen, muss es zunächst irgendwelche Unterschiede geben. Im Random Slopes Modell werden zunächst unsystematische Unterschiede in den Effekten der Level-1 Prädiktoren zugelassen, welche wir dann zu einem späteren Zeitpunkt aufklären könnten. Um das ganze wieder in Form unserer vereinfachten Modellgleichung auszudrücken:
+
+<math>
+$$
+ \begin{align}
+    \text{Level 1:} &\qquad y_{ti} = \beta_{0i} + \beta_{1i} \cdot x_{ti} + r_{ti} \\
+    \text{Level 2:} &\qquad \beta_{0i} = \gamma_{00} + \gamma_{01} \cdot w_i + u_{0i} \\
+     &\qquad \beta_{1i} = \gamma_{10} + u_{1i} \\
+    \text{Gesamt:} &\qquad y_{ti} = \gamma_{00} + \gamma_{01} \cdot w_i + \gamma_{10} \cdot x_{ti} + u_{1i} \cdot x_{ti} + u_{0i} + r_{ti}
+  \end{align}
+$$
+</math>
+
+Hier haben wir das Random Intercept Modell (zunächst ohne L2-Prädiktoren) um die Zufallskomponente $u_{1i}$ erweitert. Diese erlaubt es nun, dass für jede Person $i$ der Zusammenhang zwischen $x_{ti}$ und $y_{ti}$ neben dem globalen Effekt $\gamma_{10}$ auch einen individuellen Effekt $u_{1i}$ enthält. Im Kontext der Studie heißt es also z.B., dass der Effekt der Schuldzuweisung auf die Problemeinschätzung für manche Personen stärker ist, als für andere. 
+
+Derzeit gibt es sehr viel Diskussion über die korrekte Vorgehensweise in der Aufnahme von Zufallseffekten. [Barr et al., 2013](https://doi.org/10.1016/j.jml.2013.02.002) empfehlen, dass für die Modellierung von Zufallseffekten mit dem komplexest möglichen Modell angefangen werden, welches unter den theoretischen Annahmen sinnvoll ist. Das bedeutet in unserem Fall, dass wir - weil wir annehmen, dass es individuelle Effekte der Verhaltensweisen des Gegenübers geben kann - für alle Prädiktoren annehmen, dass sie random slopes haben. 
+
+### Umgang mit Schätzproblemen
+
+Wie Sie dem Titel dieses Abschnitts vielleicht entnehmen können, funktioniert das Random Slopes Modell nicht problemlos, wenn wir es auf unseren Fall anwenden. Weil die hier auftretenden Probleme insbesondere für Modelle mit komplexer Zufallsstruktur sehr häufig sind, habe ich hier das gesamte Vorgehen detailliert dargestellt. Wenn Sie einfach nur sehen wollen, wie das finale Modell aussieht und interpretiert wird, können Sie einfach zum [fertigen Modell](#finales-random-slopes-modell) springen.
+
+Wenn wir unsere Modell auftreten, springt uns direkt ein Warnhinweis ins Gesicht: 
+
+
+``` r
+mod5 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming +
+    mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming + 
+    (1 + reappraisal + solving + sharing + affection + invalidation + blaming | id), data = esm)
+```
+
+```
+## boundary (singular) fit: see help('isSingular')
+```
+
+```
+## Warning: Model failed to converge with 1 negative eigenvalue: -2.0e+01
+```
+
+Genau genommen bekommen wir zwei unterschiedliche Probleme. Das Zweite sagt, dass das Modell nicht konvergiert - der Schätzalgorithmus kommt also nicht zu einer Lösung, die den Anforderungen entspricht. Wir sollten uns zunächst damit befassen. 
+
+In der Hilfe von `lme4` findet man unter `?convergence` ein paar hilfreiche Aussagen zu diesen Problemen und potentiellen Auswegen:
+
+1. *Check des Modells und der Daten.* Generell können Fehler passieren, bevor wir den Aufwand betreiben, den gesamten Schätzprozess auseinander zu nehmen, sollten wir gucken, ob (a) die Daten die richtige Struktur haben und (b) das Modell nur Zufallseffekte für Level-1 Prädiktoren enthält.
+2. *Reskalierung der Prädiktoren.* Wenn Prädiktoren im Modell sind, die dramtisch unterschiedliche Skalierung verwenden (z.B. Fragebögen mit Werten von 1 bis 4 und Reaktionszeiten in ms), kann der numerische Unterschied zwischen z.B. Varianzschätzern zu Problemen führen. Dann macht es Sinn zu checken, dass alle Variablen ungefähr im gleichen Wertebereich liegen.
+3. *Mit anderen Startwerten beginnen.* Manchmal verläuft sich ein Algorithmus - wo anders anzufangen kann helfen.
+4. *Das Modell mit anderen Schätzalgorithmen nochmal schätzen.* Dafür bietet `lme4` die immens praktische `allFit`-Funktion - damit können wir das selbe Modell mit allen verfügbaren Schätzern ausprobieren.
+5. *Das Konvergenzkriterium herabsetzen.* Letztlich könnte es auch einfach sein, dass wir zu streng darin waren, was denn wirklich "nötig" ist, damit wir das Modell als okay einordnen können.
+6. *Das Modell vereinfachen.* Manchmal ist das Modell für die Datenlage einfach zu komplex - bestimmte Effekte unterscheiden sich z.B. einfach nicht über Personen oder kodieren Beobachtungen, die so selten sind, dass kaum Varianz vorhanden ist.
+
+
+Leider sind die Probleme 1 und 2 in unserem Fall nicht die Ursache. Sowohl die Daten sind mehrfach von unterschiedlichen Autor*innen gecheckt und die Prädiktoren sind alle in ihren Werten auf den Bereich 0 bis 1 beschränkt. Wenn Sie am Ausprobieren der technischen Schritte interessiert sind, können Sie den nächsten Abschnitt einfach aufklappen.
+
+<details><summary><b>Technische Schritte zur Lösung der Schätzprobleme</b></summary>
+
+Zunächst versuchen wir das Modell nochmal mit anderen Schätzwerte zu starten. Dafür können wir z.B. die ausgegebenen Werte des letzten Versuchs als Startwerte einsetzen:
+
+
+``` r
+# Letzte Schätzung extrahieren
+vals <- getME(mod5, c("theta"))
+
+# Werte als Startwerte einsetzen
+mod5b <- update(mod5, start = vals)
+```
+
+```
+## boundary (singular) fit: see help('isSingular')
+```
+
+```
+## Warning: Model failed to converge with 1 negative eigenvalue: -1.4e+00
+```
+ Das behebt unser Problem leider nicht. Wir können auch andere Startwertkonstellationen ausprobieren, aber vielleicht gucken wir erst einmal, ob andere Schätzer das gleiche Problem haben. Dafür nutzen wir die bereits erwähnte `allFit`-Funktion:
+ 
+
+``` r
+allFit(mod5)
+```
+
+
+
+```
+## 
+## bobyqa : boundary (singular) fit: see help('isSingular')
+## Warning: Model failed to converge with 1 negative eigenvalue: -2.7e-01[OK]
+## Nelder_Mead : Warning: unable to evaluate scaled gradientWarning: Model failed to converge: degenerate  Hessian with 3 negative eigenvaluesWarning: Model failed to converge with 3 negative eigenvalues: -4.8e+00 -8.3e+00 -1.1e+01[OK]
+## nlminbwrap : Warning: convergence code 1 from nlminbwrap: iteration limit reached without convergence (10)boundary (singular) fit: see help('isSingular')
+## Warning: Model failed to converge with 1 negative eigenvalue: -4.1e+00[OK]
+## optimx.L-BFGS-B : Warning: Parameters or bounds appear to have different scalings.
+##   This can cause poor performance in optimization. 
+##   It is important for derivative free methods like BOBYQA, UOBYQA, NEWUOA.boundary (singular) fit: see help('isSingular')
+## [OK]
+## nloptwrap.NLOPT_LN_NELDERMEAD : Warning: Model failed to converge with max|grad| = 0.0831441 (tol = 0.002, component 1)[OK]
+## nloptwrap.NLOPT_LN_BOBYQA : Warning: Model failed to converge with max|grad| = 0.016041 (tol = 0.002, component 1)[OK]
+## original model:
+## problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + bl... 
+## data:  esm 
+## optimizers (6): bobyqa, Nelder_Mead, nlminbwrap, optimx.L-BFGS-B, nloptwrap.NLOPT_LN_NELDERME...
+## differences in negative log-likelihoods:
+## max= 17.9 ; std dev= 7.3
+```
+
+Leider resultieren alle sechs Schätzer in einem Problem. Wenn hier ein Schätzer in der Lage gewesen wäre das Problem zu umgehen, hätten uns dessen Ergenisse ausgereicht. Es ist nicht notwendig, dass alle Schätzer ein zulässiges Ergebnis produzieren.
+
+Zu guter Letzt können wir noch das Konvergenzkriterium herabsetzen, um so unsere Qualitätskriterien weniger strikt auszulegen:
+
+
+``` r
+# Modell mit herabgesetztem Konvergenzkriterium
+mod5c <- update(mod5, control = lmerControl(optCtrl = list(ftol_abs = 1e3)))
+```
+
+```
+## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : unable to
+## evaluate scaled gradient
+```
+
+```
+## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : Model failed to
+## converge: degenerate Hessian with 1 negative eigenvalues
+```
+
+```
+## Warning: Model failed to converge with 1 negative eigenvalue: -7.1e+01
+```
+Leider sind wir auch hier erfolglos und es scheint wirklich ein Problem unseres Modells zu sein.
+
+</details>
+
+Letztlich bleibt uns also leider nur Ansatz 6: wir müssen das Modell vereinfachen. [Park et al. (2020)](https://doi.org/10.5964/meth.2809) empfehlen bei solchen Problemen, die Korrelationen der Zufallseffekte auf 0 zu setzen, um so die potentiellen Problem besser identifizieren zu können.
+
+### Korrelationen zwischen Zufallseffekten
+
+Wie in der Sitzung vor Ort besprochen, sind Zufallseffekte in gemischten Modellen üblicheweise korreliert. Rein inhaltlich würde das im Kontext der Studie bedeuten, dass z.B. Personen, die in Situationen, in denen keine der genannten Strategien vom Gegenüber an den Tag gelegt wird, besonders wenig Problemverbesserung wahrnehmen ($u_{0i} < 0$), auch Personen sind, die an negativem Feedback, wie z.B. Schuldzuweisungen besonders leiden ($u_{6i} < 0$). Diese Konstellatoon würde sich als $\mathbb{C}ov(u_{0i}, u_{6i}) > 0$ in den Modellergebnissen wiederfinden lassen.
+
+Generell kann es aber jede Form des Zusammenhangs zwischen Zufallseffekten geben:
+
+  - $\mathbb{C}ov(u_{0i}, u_{6i}) > 0$ hatte ich als Beispiel gerade dargestellt
+  - $\mathbb{C}ov(u_{0i}, u_{6i}) = 0$ hieße, dass der Impact von Schuldzuweisungen nicht mit dem Niveau der Problemverbesserung in Situationen ohne konkretes IER Verhalten des Gegenüber in Verbindung steht
+  - $\mathbb{C}ov(u_{0i}, u_{6i}) < 0$, würde bedeuten, dass Personen die besonders viel Problemverbesserung ohne IER Strategie des Gegenübers wahrnehmen, diejenigen sind, die durch Schuldzuweisungen starken negativen Impact erfahren
+  
+In Fällen, in denen wir (anders als hier) auch als unabhängige Variablen Werte aus Fragebögen nutzen, haben wir aufgrund der Einschränkung des Wertebereichs häufig eine negative Korrelation zwischen Intercept und Slope. Das liegt einfach daran, dass Personen die mit hohen Werten starten nicht mehr so viel Platz nach oben haben (die Skala hat ein Maximum) und daher der Einfluss potentieller Prädiktoren nach unten verzerrt wird. Das gilt natürlich auch in die Gegenrichtung für negative Werte.
+
+In unserem Fall hatten wir gerade festgehalten, dass wir keine vertrauenswürdigen Modellergebnisse bekommen, wenn wir annehmen, dass alle Zufallseffekte beliebig zusammenhängen dürfen. Die Ergebnisse können wir trotzdem inspizieren, um einen Eindruck davon zu bekommen, wo potentiell Probleme liegen könnten:
+
+
+``` r
+# Korrelationsmatrix der Zufallseffekte
+VarCorr(mod5)
+```
+
+```
+##  Groups   Name         Std.Dev. Corr                                     
+##  id       (Intercept)  0.95009                                           
+##           reappraisal  0.77925  -0.666                                   
+##           solving      0.49768   0.017  0.565                            
+##           sharing      0.55330  -0.441  0.334  0.584                     
+##           affection    0.37401  -0.659  0.567  0.334  0.437              
+##           invalidation 1.12435  -0.060 -0.501 -0.575 -0.191  0.355       
+##           blaming      0.23711   0.548 -0.776 -0.560 -0.603 -0.148  0.774
+##  Residual              1.63135
+```
+
+(Diese Korrelationsmatrix ist auch in der `summary` enthalten.) Auf den ersten Blick scheint hier nichts eindeutig Bedenkliches vorzuliegen: alle Standardabweichungen sind deutliche größer als 0 (also gibt es individuelle Unterschiede in den Effekten) und keine der Korrelationen ist in der Nähe von 1 oder -1 (was hieße, dass sich die Effekte nicht trennen lassen). Wenn wir diese Korrelationen aber in [Partialkorrelationen](/lehre/statistik-ii/partial) überführen, sehen wir, dass sich das gesamte System sehr nah an Singularität bewegt:
+
+
+``` r
+# Partialkorrelationen
+attr(VarCorr(mod5)$id, 'correlation') |> corpcor::cor2pcor() |> round(3)
+```
+
+```
+##        [,1]   [,2]   [,3]   [,4]   [,5]   [,6]   [,7]
+## [1,]  1.000 -0.969  0.987 -0.925  0.886 -0.986  0.531
+## [2,] -0.969  1.000  0.996 -0.990  0.973 -0.916  0.306
+## [3,]  0.987  0.996  1.000  0.974 -0.949  0.948 -0.389
+## [4,] -0.925 -0.990  0.974  1.000  0.996 -0.850  0.170
+## [5,]  0.886  0.973 -0.949  0.996  1.000  0.798 -0.078
+## [6,] -0.986 -0.916  0.948 -0.850  0.798  1.000  0.663
+## [7,]  0.531  0.306 -0.389  0.170 -0.078  0.663  1.000
+```
+Was genau Singularität bedeutet und wo sie herkommt, hatten wir in Statistik I im [Rahmen der Matrixalgebra](/lehre/statistik-i/matrixalgebra/#DetInv) genauer besprochen. Hier ist hauptsächlich relevant, dass es bedeutet, dass einige der Zufallseffekte quasi linear von Kombinationen anderer Zufallseffekte abhängen, was das Konzept des "Zufalls" in Zufallseffekte etwas in Frage zieht. Wie im letzten Abschnitt angerissen, wir bei persistenten Schätzproblemen empfohlen, die Korrelationen der Zufallseffekte zunächst auf 0 zu fixieren. Dazu können wir in `lme4` die Kurzform `|| id` benutzen, statt händisch einzelne Korrelationen unterdrücken zu müssen.
+
+
+``` r
+# Modell mit unkorrelierten Zufallseffekten
+mod6 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming +
+    mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming + 
+    (1 + reappraisal + solving + sharing + affection + invalidation + blaming || id), data = esm)
+```
+
+```
+## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : Model failed to
+## converge with max|grad| = 0.00564595 (tol = 0.002, component 1)
+```
+Wie wir sehen, behebt auch das unser Problem nicht. Allerdings können wir hier durch die Nutzung von `allFit` feststellen, dass es nur der voreingestellte Algorithmus ist, der Konvergenzprobleme verursacht. Wenn wir z.B. `bobyqa` nutzen konvergiert das Modell:
+
+
+``` r
+# bobyqa als Schätzer nutzen
+mod6b <- update(mod6, control = lmerControl(optimizer = "bobyqa"))
+```
+
+```
+## boundary (singular) fit: see help('isSingular')
+```
+
+Nun sind wir endlich an dem Punkt, dass wir uns um unser zweites Problem kümmern können: die singuläre Kovarianzmatrix der Zufallseffekte. Wenn wir uns die Ergebnisses des Modells angucken, finden wir direkt eindeutige Hinweise für mögliche Ursachen:
+
+
+``` r
+# Korrelationsmatrix der Zufallseffekte
+VarCorr(mod6b)
+```
+
+```
+##  Groups   Name         Std.Dev.
+##  id       (Intercept)  0.78422 
+##  id.1     reappraisal  0.54615 
+##  id.2     solving      0.45914 
+##  id.3     sharing      0.47974 
+##  id.4     affection    0.00000 
+##  id.5     invalidation 1.13506 
+##  id.6     blaming      0.00000 
+##  Residual              1.65885
+```
+Wir sehen hier nur 0 bei den Standardabweichungen in den Slopes der `affection` und `blaming`. Entfernen wir also auch diese aus unserem Modell.
+
+### Finales Random Slopes Modell
+
+Das finale Modell enthält jetzt nur noch die Zufallseffekte für das Intercept und vier der Prädiktoren. Zusammenhänge zwischen den Zufallseffekten hatten wir hier ausgeschlossen:
+
+
+``` r
+# Modellschätzung
+mod7  <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming +
+    mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming + 
+    (1 + reappraisal + solving + sharing + invalidation || id), data = esm)
+
+# Ergebniszusammenfassung
+summary(mod7)
+```
+
+```
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Formula: problem ~ 1 + reappraisal + solving + sharing + affection + invalidation +  
+##     blaming + mean_reappraisal + mean_solving + mean_sharing +  
+##     mean_affection + mean_invalidation + mean_blaming + (1 +  
+##     reappraisal + solving + sharing + invalidation || id)
+##    Data: esm
+## 
+## REML criterion at convergence: 6523
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.2041 -0.5549  0.0324  0.5792  2.9462 
+## 
+## Random effects:
+##  Groups   Name         Variance Std.Dev.
+##  id       (Intercept)  0.6150   0.7842  
+##  id.1     reappraisal  0.2983   0.5462  
+##  id.2     solving      0.2108   0.4592  
+##  id.3     sharing      0.2301   0.4797  
+##  id.4     invalidation 1.2883   1.1350  
+##  Residual              2.7518   1.6588  
+## Number of obs: 1617, groups:  id, 198
+## 
+## Fixed effects:
+##                     Estimate Std. Error         df t value Pr(>|t|)    
+## (Intercept)        8.030e-01  1.876e-01  1.859e+02   4.280 2.99e-05 ***
+## reappraisal        1.007e+00  1.304e-01  1.349e+02   7.728 2.24e-12 ***
+## solving            9.232e-01  1.138e-01  1.354e+02   8.113 2.65e-13 ***
+## sharing            4.110e-01  1.241e-01  1.533e+02   3.313 0.001151 ** 
+## affection          9.622e-01  1.070e-01  1.407e+03   8.996  < 2e-16 ***
+## invalidation      -1.018e+00  2.261e-01  9.755e+01  -4.501 1.87e-05 ***
+## blaming           -6.849e-01  2.041e-01  1.289e+03  -3.355 0.000816 ***
+## mean_reappraisal   8.185e-02  3.369e-01  2.518e+02   0.243 0.808235    
+## mean_solving      -7.726e-01  3.669e-01  2.935e+02  -2.106 0.036096 *  
+## mean_sharing      -3.302e-03  3.530e-01  2.320e+02  -0.009 0.992544    
+## mean_affection     1.309e-01  3.400e-01  2.498e+02   0.385 0.700618    
+## mean_invalidation  5.516e-01  6.762e-01  2.769e+02   0.816 0.415346    
+## mean_blaming      -1.987e+00  8.025e-01  2.407e+02  -2.476 0.013983 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+```
+## 
+## Correlation matrix not shown by default, as p = 13 > 12.
+## Use print(x, correlation=TRUE)  or
+##     vcov(x)        if you need it
+```
+Bezüglich der fixed effects egibt sich im Wesentlichen das gleiche Muster, dass wir schon im random intercept Modell gesehen hatten, nur dass die Gewichte auf Level-1 hier jetzt Aussagen über z.B. den durchschnittlichen Einfluss des reappraisal sind und die Effekte je nach Person, um diesen mittleren Effekte herum schwanken können.
+
+<details><summary><b>Spezifische vorhergesagte Werte</b></summary>
+
+Um den Effekt der random slopes zu verdeutlichen, können wir uns zwei Personen herausgreifen, die sich im Effekt der Lösungsvorschläge unterscheiden. Dafür bieten - wie schon beim random intercept Modell - die `ranef` einen Überblick über alle Zufallseffekte:
+
+
+``` r
+# Ausgabe der individuellen Zufallseffekte
+# wegen head() nur die top 6 Zeilen
+ranef(mod7)$id |> head()
+```
+
+```
+##      (Intercept) reappraisal    solving    sharing invalidation
+## 2001 -0.07444811   0.0000000  0.1937274  0.1199613     0.000000
+## 2009 -0.56470141  -0.2785829 -0.1968954 -0.2149273     0.000000
+## 2010  1.12450917   0.0000000  0.0000000  0.0000000     1.394993
+## 2016 -0.31310890   0.0000000  0.0000000  0.0000000     0.000000
+## 2018  1.64828914   0.0000000  0.1248062  0.0000000     0.000000
+## 2019 -0.45056091  -0.1360385  0.0000000  0.0000000     0.000000
+```
+
+Wie zu sehen ist, haben die beiden ersten Personen direkt gegenläufige Zufallseffekte. Gucken wir also, was passiert, wenn die beiden Personen jeweils mit einer IER Situation konfrontiert werden, in der _nur_ solving vom Gegenüber gezeigt wird, und mit einer Situation, in der keine der Strategien gezeigt wird (ein dankbar einfacher Vergleichspunkt). Dafür können wir einen neuen Datensatz erstellen, in dem wir zwei hypothetische Situationen für diese beiden Personen erzeugen:
+
+
+``` r
+# Daten für die beiden Personen
+new <- esm[esm$id %in% c(2001, 2009) & esm$index1 == 3, ]
+new <- rbind(new, new)
+rownames(new) <- c('2001:solving', '2009:solving', '2001:none', '2009:none')
+```
+Die hier ausgewählten beiden Zeilen enthalten praktischerweise schon alle Personenvariablen und wir müssen nur noch sicherstellen, dass die situativen Level-1 Prädiktoren die richtigen Werte annehmen.
+
+
+``` r
+# Künstliche Situationen erzeugen
+new$reappraisal <- c(0, 0, 0, 0)
+new$solving <- c(1, 1, 0, 0)
+new$sharing <- c(0, 0, 0, 0)
+new$affection <- c(0, 0, 0, 0)
+new$invalidation <- c(0, 0, 0, 0)
+new$blaming <- c(0, 0, 0, 0)
+```
+
+Jetzt können wir die vorhergesagten Werte für die beiden Personen in den beiden Situationen berechnen:
+
+
+``` r
+# Vorhersagen für die beiden Personen
+predict(mod7, new) |> round(3)
+```
+
+```
+## 2001:solving 2009:solving    2001:none    2009:none 
+##        1.358        0.683        0.241       -0.043
+```
+
+Die beiden Situationen der Person 2001 unterscheiden sich hier um den Effekt des Lösungsvorschlags, bestehend aus _generellen Effekten_ ($\gamma_{10}$) und _individuellen Effekten_ ($u_{1i}$):
+
+
+
+
+<math>
+  \begin{align}
+    \hat{y}_{ti} &= \gamma_{00} + u_{0i} + \gamma_{10} \cdot 1 + u_{1i} \cdot 1 + \ldots \\
+    \hat{y}_{ti'} &= \gamma_{00} + u_{0i} + \gamma_{10} \cdot 0 + u_{1i} \cdot 0 + \ldots \\
+  \end{align}
+</math>
+
+</details>
+
+## Cross-Level-Interaktionen
+
+Nachwievor ist die eigentlich Hypothese von [Liu et al. (2024)](https://doi.org/10.1037/abn0000877), dass sich die individuellen Effekte der Verhaltensweisen anhand der MD Gruppe unterscheiden sollten. In Formeln ausgedrückt, wird hier also behauptet, dass die random effects der slopes durch die Gruppe aufgeklärt werden können:
+
+<math>
+ \begin{align}
+    \text{Level 1:} &\qquad y_{ti} = \beta_{0i} + \beta_{1i} \cdot x_{ti} + r_{ti} \\
+    \text{Level 2:} &\qquad \beta_{0i} = \gamma_{00} + \gamma_{01} \cdot w_i + u_{0i} \\
+     &\qquad \beta_{1i} = \gamma_{10} + \gamma_{11} \cdot w_i + u_{1i} \\
+    \text{Gesamt:} &\qquad y_{ti} = \gamma_{00} + \gamma_{01} \cdot w_i + \gamma_{10} \cdot x_{ti} + \gamma_{11} \cdot w_i \cdot x_{ti} + u_{1i} \cdot x_{ti} + u_{0i} + r_{ti}
+  \end{align}
+</math>
+
+Neu dazu ist an dieser Stelle als der Term $\gamma_{11} \cdot w_i$ auf Level-2 gekommen. Hier wird also gesagt, dass wie Ausprägung des Slopes von einem Prädiktor abhängt. Wenn wir diese Gleichung dann in die Level-1 Gleichung einsetzen wird deutlich, warum dieser Effekt Cross-Level-Interaktion genannt wird: hier ergibt sich als neuer Term $\gamma_{11} \cdot w_i \cdot x_{ti}$.
+
+In `lme4` werden diese Interaktionen genauso aufgenommen, wie alle anderen Interaktionen. Ich formuliere an dieser Stelle die Interaktionen explizit mit `:` aus, auch wenn sich der Schreibaufwand mit der `*`-Notation erheblich verringern ließe:
+
+
+``` r
+# Modell mit allen Cross-Level Interaktionen
+mod8 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming +
+    mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming +
+    group + 
+    reappraisal:group + solving:group + sharing:group + affection:group + invalidation:group + blaming:group +
+    (1 + reappraisal + solving + sharing + invalidation || id), data = esm)
+```
+
+Die Ergebnisse des Modells könnten wir uns dann wie gewohnt mit `summary` ausgeben lassen. Allerdings macht es zunächst Sinn, auch die Interaktionen der Kontexteffekte mit in das Modell aufzunehmen, da für diese eigentlich in stärkerem Ausmaß als für die situativen Komponenten ein Unterschied aufgrund der Major Depression zu erwarten wäre:
+
+
+``` r
+# Modell mit allen Interaktionen
+mod9 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming +
+    mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming +
+    reappraisal:group + solving:group + sharing:group + affection:group + invalidation:group + blaming:group +
+    group +
+    mean_reappraisal:group + mean_solving:group + mean_sharing:group + mean_affection:group + mean_invalidation:group + mean_blaming:group +
+    (1 + reappraisal + solving + sharing + invalidation || id), data = esm)
+```
+Bevor nun aber den _erheblichen_ Aufwand betreiben die Ergebnisse eines Modells mit so vielen Effekten zu interpretieren, macht es Sinn per Modellvergleich festzustellen, ob diese Modellkomplexität überhaupt gerechtfertigt ist. Dafür können wir erneut den Devianzentest heranziehen:
+
+
+``` r
+# Modellvergleiche
+anova(mod7, mod8, mod9)
+```
+
+```
+## refitting model(s) with ML (instead of REML)
+```
+
+```
+## Data: esm
+## Models:
+## mod7: problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming + mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming + (1 + reappraisal + solving + sharing + invalidation || id)
+## mod8: problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming + mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming + group + reappraisal:group + solving:group + sharing:group + affection:group + invalidation:group + blaming:group + (1 + reappraisal + solving + sharing + invalidation || id)
+## mod9: problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming + mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming + reappraisal:group + solving:group + sharing:group + affection:group + invalidation:group + blaming:group + group + mean_reappraisal:group + mean_solving:group + mean_sharing:group + mean_affection:group + mean_invalidation:group + mean_blaming:group + (1 + reappraisal + solving + sharing + invalidation || id)
+##      npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)  
+## mod7   19 6545.6 6648.0 -3253.8   6507.6                       
+## mod8   33 6552.2 6730.1 -3243.1   6486.2 21.371 14    0.09249 .
+## mod9   45 6561.7 6804.2 -3235.9   6471.7 14.500 12    0.26991  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+Im Vergleich von `mod7` zu `mod8` wird der Einfluss der Gruppe auf das Intercept (zwei Gruppen, jeweils ein Effekt) und die Slopes (zwei Gruppen, jeweils sechs Effekte) getestet. Dabei fällt der Vergleich nicht statistisch bedeutsam aus, sodass wir hier davon ausgehen können, dass die MD keinen Einfluss auf die Problemwahrnehmung in IER hat. Der Vergleich von `mod8` zu `mod9` testet dann, ob die Interaktionen der Kontexteffekte mit der Gruppe (zwei Gruppen, jeweils sechs Effekte) einen signifikanten Einfluss auf die Problemwahrnehmung haben. Auch hier fällt der Test nicht signifikant aus, sodass wir davon ausgehen können, dass auch die habituellen IER Erfahrungen in ihrer Wirkung auf die Problemwahrnehmung nicht von der MD moderiert werden.
+
+Auch im Pseudo-$R^2$ zeigen die Modelle nur geringfügige Unterschiede:
+
+
+``` r
+performance::r2(mod7)
+```
+
+```
+## # R2 for Mixed Models
+## 
+##   Conditional R2: 0.377
+##      Marginal R2: 0.237
+```
+
+``` r
+performance::r2(mod8)
+```
+
+```
+## # R2 for Mixed Models
+## 
+##   Conditional R2: 0.384
+##      Marginal R2: 0.244
+```
+
+``` r
+performance::r2(mod9)
+```
+
+```
+## # R2 for Mixed Models
+## 
+##   Conditional R2: 0.392
+##      Marginal R2: 0.255
+```
+
+[Liu et al. (2024, S. 68)](https://doi.org/10.1037/abn0000877) berichten in ihrer Studie die Ergebnisse eines annähernd identischen Modells zu `mod8` (wobei sie `warmth` noch als Kovariate aufnehmen). In beiden Modelle, sowohl `mod8` als auch `mod9`, zeigt sich mit ihren Befunden konsistent, dass die situativen Effekte von `reapparaisal` (current MDD $\approx$ control $>$ remitted MDD) und `affection` (current MDD $>$ remitted MDD $\approx$ control) moderiert werden. Inhaltlich könnte man daraus schließen, dass diese beiden positiven Strategien des IER für Personen mit akuter Depression hilfreich sein können, um den Einschränkungen der traditionellen Emotionsregulation entgegenzuwirken.
+
+An dieser Stelle ist vielleicht bereits aufgefallen, dass wir auch für die Verhaltensweisen Interaktionen aufgenommen haben, die in `mod7` keinen random slope hatten. So etwas kann gemacht werden, wenn die Varianzen über alle Personen hinweg sehr klein sind, aber dennoch auf globale Effekte getestet werden soll, wobei einige Autor*innen wehement davon abraten (z.B. [Bell et al., 2019](https://doi.org/10.1007/s11135-018-0802-x)). Auch ich würde dazu raten für diese Komponenten die Hypothese als falsch anzusehen, sobald sich herausstellt, dass es hinsichtlich dieser Level-1 Effekte keine relevanten random effects gibt, da dann keine Varianz existiert, welche durch unsere Prädiktoren aufgeklärt werden muss. Dennoch hat gerade aufgrund der Schätzprobleme, die auftreten wenn viele Zufallseffekte modelliert werden, ein inferenzstatistischer Test in den fixed effects etwas Beruhigendes (wobei diese Tests überproportional häufig signifikant werden).
+
+
+## Zusammenfassung
+
+In diesem Beitrag haben wir in extremen Detail die Modellierung von ESM Daten mit gemischten Modellen gesehen. Dabei waren wir in der Lage die Ergebnisse von [Liu et al. (2024)](https://doi.org/10.1037/abn0000877) zu reproduzieren und konnten anhand der komplexeren Modelle auch einen Eindruck gewinnen, wie in Situationen vorgegangen werden sollte, in denen nicht alles reibungslos funktioniert. 
+
 
 ***
 
 ## Literatur
 
+Barr, D. J., Levy, R., Scheepers, C., & Tily, H. J. (2013). Random effects structure for confirmatory
+hypothesis testing: Keep it maximal. _Journal of Memory and Language, 68_(3), 255–278.
+https://doi.org/10.1016/j.jml.2012.11.001
+
+Bell, A., Fairbrother, M. & Jones, K. Fixed and random effects models: making an informed choice. _Quality and Quantity, 53_, 1051–1074 (2019). https://doi.org/10.1007/s11135-018-0802-x
+
 Liu, D. Y., Strube, M. J., & Thompson, R. J. (2024). Do emotion regulation difficulties in depression extend to social context? Everyday interpersonal emotion regulation in current and remitted major depressive disorder. _Journal of Psychopathology and Clinical Science, 133_(1), 61–75. https://doi.org/10.1037/abn0000877
 
 Nakagawa, S., Johnson, P. C. D., & Schielzeth, H. (2017). The coefficient of determination R2 and intra-class correlation coefficient from generalized linear mixed-effects models revisited and expanded. _Journal of The Royal Society Interface, 14_(134), 20170213. https://doi.org/10.1098/rsif.2017.0213
+
+Park, J., Cardwell, R., & Yu, H.-T. (2020).Specifying the Random Effect Structure in Linear Mixed Effect
+Models for Analyzing Psycholinguistic Data. _Methodology, 16_(2), 92–111.
+https://doi.org/10.5964/meth.2809
+
+Yaremych, H. E., Preacher, K. J., & Hedeker, D. (2021). Centering Categorical Predictors in Multilevel
+Models: Best Practices and Interpretation. _Psychological Methods, 28_(3), 613-630.
+https://doi.org/10.1037/met0000434
