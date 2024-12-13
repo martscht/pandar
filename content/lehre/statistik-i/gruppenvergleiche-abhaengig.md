@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [nehler, koehler, buchholz, irmer, liu, sajjad] 
 weight: 7
-lastmod: '2024-12-09'
+lastmod: '2024-12-13'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -80,9 +80,9 @@ fb24$wohnen <- factor(fb24$wohnen,
 
 # Rekodierung invertierter Items
 fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 5)
-fb24$mdbf11_r <- -1 * (fb24$mdbf4 - 5)
-fb24$mdbf3_r <- -1 * (fb24$mdbf4 - 5)
-fb24$mdbf9_r <- -1 * (fb24$mdbf4 - 5)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 5)
+fb24$mdbf3_r <- -1 * (fb24$mdbf3 - 5)
+fb24$mdbf9_r <- -1 * (fb24$mdbf9 - 5)
 
 # Berechnung von Skalenwerten
 fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
@@ -117,7 +117,7 @@ summary(fb24$ru_pre)
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##   1.000   2.750   3.000   3.043   3.500   4.000       1
+##   1.000   2.250   2.750   2.777   3.250   4.000       1
 ```
 
 ``` r
@@ -241,18 +241,18 @@ t.test(x = fb24$ru_post, y = fb24$ru_pre, # die beiden abhaengigen Variablen
 ## 	Paired t-test
 ## 
 ## data:  fb24$ru_post and fb24$ru_pre
-## t = -7.6049, df = 133, p-value = 4.611e-12
+## t = -3.5338, df = 133, p-value = 0.000564
 ## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
-##  -0.7076257 -0.4155086
+##  -0.4481323 -0.1264946
 ## sample estimates:
 ## mean difference 
-##      -0.5615672
+##      -0.2873134
 ```
 
 
 
-Auf den ursprünglichen Variablen sind immer noch die Personen mit fehlenden Werten enthalten. Trotzdem meldet die Funktion `t.test()` kein Problem. Was passiert hier also? Ein Indiz können uns die Freiheitsgrade bieten, die mit $n-1$ bestimmt werden. Hier wird deutlich, dass Personen mit fehlenden Werten auf einer der beiden Variablen einfach ignoriert werden. Aber man bekommt (außer der überraschend kleinen Freiheitsgrade im Vergleich zur Größe des Datensatzes) keine Warnung oder Fehlermeldung dazu. Hinsichtlich der Interpretation können wir aus dem Befehl folgende Ergebnisse entnehmen: $t$(133) = -7.6 mit einem zugehörigen p-Wert ($p < .01$). Da unser p-Wert unter dem festgelegten $\alpha$-Fehlerniveau liegt, verwerfen wir die $H_0$ und nehmen die $H_1$ an.
+Auf den ursprünglichen Variablen sind immer noch die Personen mit fehlenden Werten enthalten. Trotzdem meldet die Funktion `t.test()` kein Problem. Was passiert hier also? Ein Indiz können uns die Freiheitsgrade bieten, die mit $n-1$ bestimmt werden. Hier wird deutlich, dass Personen mit fehlenden Werten auf einer der beiden Variablen einfach ignoriert werden. Aber man bekommt (außer der überraschend kleinen Freiheitsgrade im Vergleich zur Größe des Datensatzes) keine Warnung oder Fehlermeldung dazu. Hinsichtlich der Interpretation können wir aus dem Befehl folgende Ergebnisse entnehmen: $t$(133) = -3.53 mit einem zugehörigen p-Wert ($p < .01$). Da unser p-Wert unter dem festgelegten $\alpha$-Fehlerniveau liegt, verwerfen wir die $H_0$ und nehmen die $H_1$ an.
 
 
 
@@ -275,7 +275,7 @@ d_Wert
 ```
 
 ```
-## [1] -0.6569617
+## [1] -0.3052702
 ```
 
 **Berechnung mit Funktion `cohen.d()`**
@@ -299,10 +299,10 @@ d2
 ## 
 ## Cohen's d
 ## 
-## d estimate: -0.6569617 (medium)
+## d estimate: -0.3052702 (small)
 ## 95 percent confidence interval:
 ##      lower      upper 
-## -0.8445074 -0.4694160
+## -0.4792767 -0.1312636
 ```
 
 Mit dem Argument `within = T`, was der Default ist, wird für die Varianzberechnung die Varianz innerhalb der Gruppen herangezogen (vergleiche Formel Cohen's $d$ für unanghängige Stichproben). Neben der Punktschätzung der Effektstärke erhalten wir auch eine Einordnung über die Größe (`medium`) und ein Konfidenzintervall. 
@@ -315,13 +315,13 @@ _d''_ | Interpretation |
 ~ .35 | mittlerer Effekt |
 ~ .57 | großer Effekt |
 
-Zusammenfassend lässt sich sagen: Der standardisierte Populationseffekt beträgt $d_2''$ = -0.66 und ist laut Konventionen groß, laut der Aussage des Paketes aber `medium`. 
+Zusammenfassend lässt sich sagen: Der standardisierte Populationseffekt beträgt $d_2''$ = -0.31 und ist laut Konventionen groß, laut der Aussage des Paketes aber `medium`. 
 
 
 ### Ergebnisinterpretation
 
 Bereits auf deskriptivstatistischer Ebene stellen wir einen Unterschied fest: 
-Der Mittelwert der Differenzen zwischen ruhig und unruhig beträgt -0.56. Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Unterschied zwischen den beiden Messzeitpunkten ist signifikant ($t$(133) = -7.6, $p < .01$), somit wird die Nullhypothese verworfen. Dieser Unterschied ist nach dem standardisierten Populationseffekt von $d_2''$ = -0.66 mittel bis groß.
+Der Mittelwert der Differenzen zwischen ruhig und unruhig beträgt -0.29. Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Unterschied zwischen den beiden Messzeitpunkten ist signifikant ($t$(133) = -3.53, $p < .01$), somit wird die Nullhypothese verworfen. Dieser Unterschied ist nach dem standardisierten Populationseffekt von $d_2''$ = -0.31 mittel bis groß.
 
 ***
 
