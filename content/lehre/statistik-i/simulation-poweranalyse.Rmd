@@ -60,7 +60,7 @@ Nachdem wir uns jetzt viel mit der Durchführung der inferenzstatistischen Testu
 
 In den vergangenen Sitzungen haben wir verschiedene Tests für unterschiedliche Fragestellungen kennengelernt: z.B. den $t$-Test und den Wilcoxon-Test für Mittelwertsvergleiche zweier Gruppen. Wie fast alle statistischen Tests folgen die erwähnten Tests einer gewissen Logik. Unter der Annahme der Nullhypothese $H_0$ und einiger weiterer Zusatzannahmen (z.B. bezüglich der Verteilung des Merkmals in der Population) folgt die jeweilige Teststatistik einer (mathematisch) herleitbaren Verteilung. Für den $t$-Test für unabhängige Stichproben ist es z.B. die $t$-Verteilung mit $n - 2$ Freiheitsgraden. Anhand der entsprechenden Verteilungsfunktion können wir die Wahrscheinlichkeit der empirischen Daten gegeben der Annahmen bestimmen und so darüber entscheiden, ob die Nullhypothese verworfen wird. 
 
-Dazu können wir ein $\alpha$-Fehlerniveau festlegen und die Nullhypothese verwerfen, wenn das Zustandekommen unserer Daten unter diesen Annahmen unwahrscheinlicher ist, als diese "akzeptierte Irrturmswahrscheinlichkeit". Wenn dem nicht so ist, behalten wir die Nullhypothese bei. Etwas formaler:
+Dazu können wir ein $\alpha$-Fehlerniveau festlegen und die Nullhypothese verwerfen, wenn das Zustandekommen unserer Daten unter diesen Annahmen unwahrscheinlicher ist, als diese "akzeptierte Irrtumswahrscheinlichkeit". Wenn dem nicht so ist, behalten wir die Nullhypothese bei. Etwas formaler:
 
 {{< math >}}
 $$
@@ -89,11 +89,11 @@ Gilt die Null-Hypothese, so sollte der Test in nur höchstens $\alpha=5\\%$ der 
 
 > Wenn wir das gleiche Experiment unendlich häufig und unabhängig voneinander wiederholen könnten und dabei unendlich häufig aus einer Population ziehen würden, in welcher es *keinen* Effekt gibt, dann sollte in höchstens $5\\%$ der Wiederholungen (auch Replikationen genannt) rein durch Zufall ein signifikantes Ergebnis beim Durchführen des inferenzstatistischen Test herauskommen. 
 
-Andersherum sollte ein inferenzstatistischer Test die $H_0$ möglichst häufig verwerfen, wenn die $H_0$ tatsächlich nicht in der Population gilt und es somit einen bedeutsamen Effekt gibt. Die Wahrscheinlichkeit, dass wird die $H_0$ nicht verwerfen, obwohl sie falsch ist, wird $\beta$-Fehler genannt. Die Gegenwahrscheinlichkeit $1-\beta$ (also die Wahrscheinlichkeit, die $H_0$ korrekterweise zu verwerfen, weil in Wahrheit $H_1$ gilt) nennen wir die Power oder Teststärke. Sie sollte möglichst hoch sein. Es gibt verschiedene Richtlinien dazu, was "ausreichend" Power darstellt - immer in Abhängigkeit davon, welche Art von Fehlern ($\alpha$ oder $\beta$) schlimmer ist. In vielen psychologischen Studien wird eine Power von $80\\%$ als Richtwert genutzt. 
+Andersherum sollte ein inferenzstatistischer Test die $H_0$ möglichst häufig verwerfen, wenn die $H_0$ tatsächlich nicht in der Population gilt und es somit einen bedeutsamen Effekt gibt. Die Wahrscheinlichkeit, dass wir die $H_0$ nicht verwerfen, obwohl sie falsch ist, wird $\beta$-Fehler genannt. Die Gegenwahrscheinlichkeit $1-\beta$ (also die Wahrscheinlichkeit, die $H_0$ korrekterweise zu verwerfen, weil in Wahrheit $H_1$ gilt) nennen wir die Power oder Teststärke. Sie sollte möglichst hoch sein. Es gibt verschiedene Richtlinien dazu, was "ausreichend" Power darstellt - immer in Abhängigkeit davon, welche Art von Fehlern ($\alpha$ oder $\beta$) schlimmer ist. In vielen psychologischen Studien wird eine Power von $80\\%$ als Richtwert genutzt. 
 
 Zurück zu unserem Gedankenexperiment: 
 
-> Eine Power von $1-\beta = 80\\%$ bedeutet, wenn wir das gleiche Experiment unendlich häufig und unabhängig von einander wiederholen könnten und dabei unendlich häufig aus einer Population ziehen würden, in welcher es einen Effekt gibt, dann sollte in mindestens $80\\%$ der Fälle ein signifikantes Ergebnis beim Durchführen des inferenzstatistischen Test herauskommen, um von hinreichender Power zu sprechen.
+> Eine Power von $1-\beta = 80\\%$ bedeutet, wenn wir das gleiche Experiment unendlich häufig und unabhängig voneinander wiederholen könnten und dabei unendlich häufig aus einer Population ziehen würden, in welcher es einen Effekt gibt, dann sollte in mindestens $80\\%$ der Fälle ein signifikantes Ergebnis beim Durchführen des inferenzstatistischen Test herauskommen, um von hinreichender Power zu sprechen.
 
 Im Folgenden wollen wir dieses Gedankenexperiment in die Tat umsetzen und unsere Kenntnisse über das Simulieren von Zufallszahlen verwenden, um die Power und den Fehler 1. Art ($\alpha$-Fehler) empirisch zu prüfen. Hierbei beschränken wir uns auf den $t$-Test (mit der Funktion `t.test()`). Als Zusatz gibt es für die Korrelation als ein Zusammenhangsmaß auch ein Beispiel zum Korrelationstest in [Appendix A](#AppendixA) (mit der Funktion `cor.test()`, welche erst in späteren Sitzungen genauer vorgestellt wird). Da wir nun also Daten simulieren brauchen wir in diesem Tutorial den Datensatz nicht.
 
@@ -101,7 +101,7 @@ Im Folgenden wollen wir dieses Gedankenexperiment in die Tat umsetzen und unsere
 Sie haben nun die Möglichkeit, in einen möglichen Forschungsbereich von Methodiker:innen hineinzublicken: Simulationsstudien. Um das beschriebene Gedankenexperiment umzusetzen, müssen wir sehr häufig Stichproben aus der Population ziehen und unseren Test (z.B. einen Mittelwertsvergleich) durchführen. Die Realität hat dabei zwei grundlegende Probleme: 
 
 1. Wir wissen nicht, ob in der Realität die $H_0$ oder $H_1$ gilt.
-2. Um zuverlässige Wahrscheinlichkeitsaussagen zu machen müssen wir die Untersuchung _sehr häufig_ wiederholen, was in den allermeisten Fällen (in echten empirischen) nicht praktikabel ist.
+2. Um zuverlässige Wahrscheinlichkeitsaussagen zu machen müssen wir die Untersuchung _sehr häufig_ wiederholen, was in den allermeisten tatsächlich empirischen Fällen nicht praktikabel ist.
 
 Daher behelfen wir uns in methodologischer Forschung mit Simulationsstudien.
 
@@ -161,7 +161,7 @@ ttestH0 <- t.test(X_1, X_2, var.equal = TRUE)
 ttestH0$p.value
 ```
 
-`N` hatten wir oben bereits als `r N` festegelegt. Mit `replicate()` können  wir den Code beliebig häufig durchführen. Z.B. zunächst 10 mal:
+`N` hatten wir oben bereits als `r N` festgelegt. Mit `replicate()` können  wir den Code beliebig häufig durchführen. Z.B. zunächst 10 mal:
 
 ```{r}
 set.seed(1234)
@@ -171,7 +171,7 @@ replicate(n = 10, expr = {X_1 <- rnorm(N)
                           ttestH0$p.value})
 ```
 
-Uns werden insgesamt 10 $p$-Werte übergeben. Wenn wir genau hinsehen, dann erkennen wir den ersten $p$-Wert wieder. Dies ist der $p$-Wert unseres Experiments weiter oben. Wiederholen wir nun das Experiment nicht nur 10 Mal, sondern 10000 Mal, dann erhalten wir eine gute Übersicht über das Verhalten der $p$-Werte unter den Bedingungen, die wir vorgegeben haben: Gültigkeit der Nullhypothese und Standardnormalverteilung der beiden von einander unabhängigen Variablen. Damit uns die 10000 Werte nicht einfach in die Konsole gedruckt werden, legen wir sie im Objekt `pt_H0` ab (für $p$-Werte für den $t$-Test unter der $H_0$-Hypothese):
+Uns werden insgesamt 10 $p$-Werte übergeben. Wenn wir genau hinsehen, dann erkennen wir den ersten $p$-Wert wieder. Dies ist der $p$-Wert unseres Experiments weiter oben. Wiederholen wir nun das Experiment nicht nur 10 Mal, sondern 10000 Mal, dann erhalten wir eine gute Übersicht über das Verhalten der $p$-Werte unter den Bedingungen, die wir vorgegeben haben: Gültigkeit der Nullhypothese und Standardnormalverteilung der beiden voneinander unabhängigen Variablen. Damit uns die 10000 Werte nicht einfach in die Konsole gedruckt werden, legen wir sie im Objekt `pt_H0` ab (für $p$-Werte für den $t$-Test unter der $H_0$-Hypothese):
 
 ```{r}
 set.seed(1234)
@@ -403,7 +403,7 @@ Mit `help(wp.t)` erhalten wir zu jedem dieser Argumente auch noch weitere Inform
 $$d:=\frac{\mu_{X_1}-\mu_{X_2}}{\sigma}.$$
 {{</ math >}}
 
-sie nimmt also an, dass die Variablen standardisiert sind. `alpha` ist das zugehörige $\alpha$-Fehlerniveau. `power` können wir einen Zielwert für die Power übergeben. `type` gibt an, welche Art von $t$-Test durchgeführt werden soll: `"two.sample"`, `"one.sample"`, `"paired"` und `"two.sample.2n"`. Dies steht für also 2 unabhängige Stichproben (gleiche Stichprobengröße, `"two.sample"`), 1-Stichprobentest (`"one.sample"`), geparter $t$-Test (`"paired"`) und $t$-Test mit 2 unabhängigen Stichproben aber unterschiedlichen Stichprobengrößen (`"two.sample.2n"`). Bei $n_1=n_2=20$ hatten wir vorhin bei einer Mittelwertsdifferenz von 0.5 eine simulierte Power von `r mean(pt_H1_20 < .05)` heraus. Dies untersuchen wir nun analytisch:
+sie nimmt also an, dass die Variablen standardisiert sind. `alpha` ist das zugehörige $\alpha$-Fehlerniveau. `power` können wir einen Zielwert für die Power übergeben. `type` gibt an, welche Art von $t$-Test durchgeführt werden soll: `"two.sample"`, `"one.sample"`, `"paired"` und `"two.sample.2n"`. Dies steht für also 2 unabhängige Stichproben (gleiche Stichprobengröße, `"two.sample"`), 1-Stichprobentest (`"one.sample"`), gepaarter $t$-Test (`"paired"`) und $t$-Test mit 2 unabhängigen Stichproben aber unterschiedlichen Stichprobengrößen (`"two.sample.2n"`). Bei $n_1=n_2=20$ hatten wir vorhin bei einer Mittelwertsdifferenz von 0.5 eine simulierte Power von `r mean(pt_H1_20 < .05)` heraus. Dies untersuchen wir nun analytisch:
 
 ```{r}
 wp.t(n1 = 20, d = .5, type = "two.sample", alternative = "two.sided")
@@ -519,4 +519,3 @@ Die Power für den Korrelationstest zu bestimmen, ist für diese Sitzung als Üb
 Auch für Korrelationen können wir mit `WebPower` vorgehen. Die Funktion hierzu heißt `wp.correlation`.
 
 </details>
-

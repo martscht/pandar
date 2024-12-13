@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer, nehler] 
 weight: 8
-lastmod: '2024-03-27'
+lastmod: '2024-12-13'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -58,7 +58,7 @@ Nachdem wir uns jetzt viel mit der Durchführung der inferenzstatistischen Testu
 
 In den vergangenen Sitzungen haben wir verschiedene Tests für unterschiedliche Fragestellungen kennengelernt: z.B. den $t$-Test und den Wilcoxon-Test für Mittelwertsvergleiche zweier Gruppen. Wie fast alle statistischen Tests folgen die erwähnten Tests einer gewissen Logik. Unter der Annahme der Nullhypothese $H_0$ und einiger weiterer Zusatzannahmen (z.B. bezüglich der Verteilung des Merkmals in der Population) folgt die jeweilige Teststatistik einer (mathematisch) herleitbaren Verteilung. Für den $t$-Test für unabhängige Stichproben ist es z.B. die $t$-Verteilung mit $n - 2$ Freiheitsgraden. Anhand der entsprechenden Verteilungsfunktion können wir die Wahrscheinlichkeit der empirischen Daten gegeben der Annahmen bestimmen und so darüber entscheiden, ob die Nullhypothese verworfen wird. 
 
-Dazu können wir ein $\alpha$-Fehlerniveau festlegen und die Nullhypothese verwerfen, wenn das Zustandekommen unserer Daten unter diesen Annahmen unwahrscheinlicher ist, als diese "akzeptierte Irrturmswahrscheinlichkeit". Wenn dem nicht so ist, behalten wir die Nullhypothese bei. Etwas formaler:
+Dazu können wir ein $\alpha$-Fehlerniveau festlegen und die Nullhypothese verwerfen, wenn das Zustandekommen unserer Daten unter diesen Annahmen unwahrscheinlicher ist, als diese "akzeptierte Irrtumswahrscheinlichkeit". Wenn dem nicht so ist, behalten wir die Nullhypothese bei. Etwas formaler:
 
 {{< math >}}
 $$
@@ -87,11 +87,11 @@ Gilt die Null-Hypothese, so sollte der Test in nur höchstens $\alpha=5\\%$ der 
 
 > Wenn wir das gleiche Experiment unendlich häufig und unabhängig voneinander wiederholen könnten und dabei unendlich häufig aus einer Population ziehen würden, in welcher es *keinen* Effekt gibt, dann sollte in höchstens $5\\%$ der Wiederholungen (auch Replikationen genannt) rein durch Zufall ein signifikantes Ergebnis beim Durchführen des inferenzstatistischen Test herauskommen. 
 
-Andersherum sollte ein inferenzstatistischer Test die $H_0$ möglichst häufig verwerfen, wenn die $H_0$ tatsächlich nicht in der Population gilt und es somit einen bedeutsamen Effekt gibt. Die Wahrscheinlichkeit, dass wird die $H_0$ nicht verwerfen, obwohl sie falsch ist, wird $\beta$-Fehler genannt. Die Gegenwahrscheinlichkeit $1-\beta$ (also die Wahrscheinlichkeit, die $H_0$ korrekterweise zu verwerfen, weil in Wahrheit $H_1$ gilt) nennen wir die Power oder Teststärke. Sie sollte möglichst hoch sein. Es gibt verschiedene Richtlinien dazu, was "ausreichend" Power darstellt - immer in Abhängigkeit davon, welche Art von Fehlern ($\alpha$ oder $\beta$) schlimmer ist. In vielen psychologischen Studien wird eine Power von $80\\%$ als Richtwert genutzt. 
+Andersherum sollte ein inferenzstatistischer Test die $H_0$ möglichst häufig verwerfen, wenn die $H_0$ tatsächlich nicht in der Population gilt und es somit einen bedeutsamen Effekt gibt. Die Wahrscheinlichkeit, dass wir die $H_0$ nicht verwerfen, obwohl sie falsch ist, wird $\beta$-Fehler genannt. Die Gegenwahrscheinlichkeit $1-\beta$ (also die Wahrscheinlichkeit, die $H_0$ korrekterweise zu verwerfen, weil in Wahrheit $H_1$ gilt) nennen wir die Power oder Teststärke. Sie sollte möglichst hoch sein. Es gibt verschiedene Richtlinien dazu, was "ausreichend" Power darstellt - immer in Abhängigkeit davon, welche Art von Fehlern ($\alpha$ oder $\beta$) schlimmer ist. In vielen psychologischen Studien wird eine Power von $80\\%$ als Richtwert genutzt. 
 
 Zurück zu unserem Gedankenexperiment: 
 
-> Eine Power von $1-\beta = 80\\%$ bedeutet, wenn wir das gleiche Experiment unendlich häufig und unabhängig von einander wiederholen könnten und dabei unendlich häufig aus einer Population ziehen würden, in welcher es einen Effekt gibt, dann sollte in mindestens $80\\%$ der Fälle ein signifikantes Ergebnis beim Durchführen des inferenzstatistischen Test herauskommen, um von hinreichender Power zu sprechen.
+> Eine Power von $1-\beta = 80\\%$ bedeutet, wenn wir das gleiche Experiment unendlich häufig und unabhängig voneinander wiederholen könnten und dabei unendlich häufig aus einer Population ziehen würden, in welcher es einen Effekt gibt, dann sollte in mindestens $80\\%$ der Fälle ein signifikantes Ergebnis beim Durchführen des inferenzstatistischen Test herauskommen, um von hinreichender Power zu sprechen.
 
 Im Folgenden wollen wir dieses Gedankenexperiment in die Tat umsetzen und unsere Kenntnisse über das Simulieren von Zufallszahlen verwenden, um die Power und den Fehler 1. Art ($\alpha$-Fehler) empirisch zu prüfen. Hierbei beschränken wir uns auf den $t$-Test (mit der Funktion `t.test()`). Als Zusatz gibt es für die Korrelation als ein Zusammenhangsmaß auch ein Beispiel zum Korrelationstest in [Appendix A](#AppendixA) (mit der Funktion `cor.test()`, welche erst in späteren Sitzungen genauer vorgestellt wird). Da wir nun also Daten simulieren brauchen wir in diesem Tutorial den Datensatz nicht.
 
@@ -99,7 +99,7 @@ Im Folgenden wollen wir dieses Gedankenexperiment in die Tat umsetzen und unsere
 Sie haben nun die Möglichkeit, in einen möglichen Forschungsbereich von Methodiker:innen hineinzublicken: Simulationsstudien. Um das beschriebene Gedankenexperiment umzusetzen, müssen wir sehr häufig Stichproben aus der Population ziehen und unseren Test (z.B. einen Mittelwertsvergleich) durchführen. Die Realität hat dabei zwei grundlegende Probleme: 
 
 1. Wir wissen nicht, ob in der Realität die $H_0$ oder $H_1$ gilt.
-2. Um zuverlässige Wahrscheinlichkeitsaussagen zu machen müssen wir die Untersuchung _sehr häufig_ wiederholen, was in den allermeisten Fällen (in echten empirischen) nicht praktikabel ist.
+2. Um zuverlässige Wahrscheinlichkeitsaussagen zu machen müssen wir die Untersuchung _sehr häufig_ wiederholen, was in den allermeisten tatsächlich empirischen Fällen nicht praktikabel ist.
 
 Daher behelfen wir uns in methodologischer Forschung mit Simulationsstudien.
 
@@ -113,7 +113,7 @@ Der (klassische) $t$-Test hat folgende Voraussetzungen:
 Wir simulieren nun eine Variable $X$ für zwei Gruppen mit jeweils $N=20$. Dabei nehmen wir an, dass in beiden Gruppen die Werte standardnormalverteilt sind (also einer Normalverteilung mit einem Mittelwert von 0 und einer Standardabweichung von 1 folgen). Für die Simulation von normalverteilten Werten haben wir die Funktion `rnorm()` kennengelernt. Wie im [Beitrag zu Verteilungen](/lehre/statistik-i/verteilungen/) besprochen, können wir mit `set.seed()` die Analysen replizierbar machen. Das bedeutet, dass eure Werte mit den hier stehenden Werten übereinstimmen sollten.
 
 
-```r
+``` r
 N <- 20
 set.seed(1234)
 X_1 <- rnorm(N)
@@ -125,7 +125,7 @@ Die Werte der ersten Gruppe legen wir in dem Objekt `X_1` ab, die Werte der zwei
 Zusätzlich haben wir in beiden Fällen auch die Voreinstellung `mean = 0` für den Mittelwert benutzt. Dadurch gilt  $\mu_{X_1}=\mu_{X_2} = 0$ für die Verteilungen aus denen beide Stichproben gezogen wurden. Da es sich hier allerdings um eine Zufallsziehung handelt, sind die Mittelwerte der beiden Gruppen natürlich nicht exakt 0:
 
 
-```r
+``` r
 mean(X_1)
 ```
 
@@ -133,7 +133,7 @@ mean(X_1)
 ## [1] -0.2506641
 ```
 
-```r
+``` r
 mean(X_2)
 ```
 
@@ -148,7 +148,7 @@ Die Frage, die wir uns in der Inferenzstatistik nun stellen ist, ob der Untersch
 Wir können nun mithilfe des $t$-Tests untersuchen, ob die beiden Variablen den gleichen Mittelwert haben (da wir den $t$-Test unter Annahme der Varianzhomogenität durchführen wollen, müssen wir `var.equal = TRUE` wählen, da sonst die Variante mit Welch-Korrektur gerechnet wird): 
 
 
-```r
+``` r
 ttestH0 <- t.test(X_1, X_2, var.equal = TRUE)
 ttestH0
 ```
@@ -167,7 +167,7 @@ ttestH0
 ## -0.2506641 -0.5770699
 ```
 
-```r
+``` r
 ttestH0$statistic # t-Wert
 ```
 
@@ -176,7 +176,7 @@ ttestH0$statistic # t-Wert
 ## 1.134902
 ```
 
-```r
+``` r
 ttestH0$p.value   # zugehöriger p-Wert
 ```
 
@@ -191,7 +191,7 @@ Wir sind an dieser Stelle aber nicht daran interessiert, wie der $p$-Wert in die
 Deshalb wollen wir hier bspw. die `replicate()`-Funktion verwenden. Mit dieser Funktion wird irgendein Stück *R*-Code (eine "Expression", daher der Namen des Arguments: `expr`) `n`-mal wiederholt. Wenn wir z.B. 5 mal drei Werte aus einer Normalverteilung ziehen wollen, kann das Ganze so aussehen:
 
 
-```r
+``` r
 replicate(n = 5, expr = rnorm(3))
 ```
 
@@ -204,17 +204,17 @@ replicate(n = 5, expr = rnorm(3))
 `replicate()` kann aber nicht nur einzelne Funktionen, sondern auch mehrere Zeilen *R*-Code entgegennehmen, solange diese in geschwungenen Klammern `{ ... }` angegeben werden. Wenn wir zwei unabhängige Variablen erstellen, mit einem $t$-Test auf Mittelwertsgleichheit prüfen und uns den $p$-Wert ausgeben lassen wollen, brauchen wir die folgenden vier Zeilen:
 
 
-```r
+``` r
 X_1 <- rnorm(N)
 X_2 <- rnorm(N)
 ttestH0 <- t.test(X_1, X_2, var.equal = TRUE)
 ttestH0$p.value
 ```
 
-`N` hatten wir oben bereits als 20 festegelegt. Mit `replicate()` können  wir den Code beliebig häufig durchführen. Z.B. zunächst 10 mal:
+`N` hatten wir oben bereits als 20 festgelegt. Mit `replicate()` können  wir den Code beliebig häufig durchführen. Z.B. zunächst 10 mal:
 
 
-```r
+``` r
 set.seed(1234)
 replicate(n = 10, expr = {X_1 <- rnorm(N)
                           X_2 <- rnorm(N)
@@ -226,10 +226,10 @@ replicate(n = 10, expr = {X_1 <- rnorm(N)
 ##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306 0.43862992 0.96766599 0.68865560
 ```
 
-Uns werden insgesamt 10 $p$-Werte übergeben. Wenn wir genau hinsehen, dann erkennen wir den ersten $p$-Wert wieder. Dies ist der $p$-Wert unseres Experiments weiter oben. Wiederholen wir nun das Experiment nicht nur 10 Mal, sondern 10000 Mal, dann erhalten wir eine gute Übersicht über das Verhalten der $p$-Werte unter den Bedingungen, die wir vorgegeben haben: Gültigkeit der Nullhypothese und Standardnormalverteilung der beiden von einander unabhängigen Variablen. Damit uns die 10000 Werte nicht einfach in die Konsole gedruckt werden, legen wir sie im Objekt `pt_H0` ab (für $p$-Werte für den $t$-Test unter der $H_0$-Hypothese):
+Uns werden insgesamt 10 $p$-Werte übergeben. Wenn wir genau hinsehen, dann erkennen wir den ersten $p$-Wert wieder. Dies ist der $p$-Wert unseres Experiments weiter oben. Wiederholen wir nun das Experiment nicht nur 10 Mal, sondern 10000 Mal, dann erhalten wir eine gute Übersicht über das Verhalten der $p$-Werte unter den Bedingungen, die wir vorgegeben haben: Gültigkeit der Nullhypothese und Standardnormalverteilung der beiden voneinander unabhängigen Variablen. Damit uns die 10000 Werte nicht einfach in die Konsole gedruckt werden, legen wir sie im Objekt `pt_H0` ab (für $p$-Werte für den $t$-Test unter der $H_0$-Hypothese):
 
 
-```r
+``` r
 set.seed(1234)
 pt_H0 <- replicate(n = 10000, expr = {X_1 <- rnorm(N)
                                       X_2 <- rnorm(N)
@@ -240,7 +240,7 @@ pt_H0 <- replicate(n = 10000, expr = {X_1 <- rnorm(N)
 Schauen wir uns doch mal die Verteilung der $p$-Werte an:
 
 
-```r
+``` r
 hist(pt_H0, breaks = 20) 
 ```
 
@@ -251,7 +251,7 @@ hist(pt_H0, breaks = 20)
 Die $p$-Werte erscheinen einigermaßen gleichverteilt auf dem Intervall [0,1], also alle Ausprägungen erscheinen gleich wahrscheinlich. Dies ist auch genau gewünscht. Unter der $H_0$-Hypothese ist der $p$-Wert uniform (gleichverteilt) auf dem Intervall [0,1]. Somit tritt jeder Wert mit der selben Wahrscheinlichkeit auf. Dies bedeutet gleichzeitig, dass in dem Intervall [0, 0.05] gerade $5\\%$ der Fälle landen sollten. Dies ist gerade das Intervall, in dem die signifikanten Ergebnisse landen. Somit erkennen wir, dass unter $H_0$ die Nullhypothese nur in $5\\%$ verworfen werden sollte, wenn wir uns ein $\alpha$-Niveau von $5\\%$ vorgeben. Wir können prüfen, ob dem so ist, indem wir den relativen Anteil bestimmen, in welchem die $H_0$ verworfen wird. Dies ist genau dann der Fall, wenn der $p$-Wert kleiner als $0.05$ ist (siehe [Einleitung](#Einleitung)). Die relative Häufigkeit bestimmen wir so:
 
 
-```r
+``` r
 mean(pt_H0 < 0.05)
 ```
 
@@ -266,7 +266,7 @@ Somit wird die Nullhypothese hier in 4.84% der Fälle verworfen. Dies zeigt uns,
 Im Übrigen hätten wir auch die ganze Prozedur mithilfe der empirischen $t$-Werte durchführen können (diese sind als `statistic` im Test-Objekt angelegt):
 
 
-```r
+``` r
 set.seed(1234)
 tt_H0 <- replicate(n = 10000, expr = {X_1 <- rnorm(N)
                                       X_2 <- rnorm(N)
@@ -278,7 +278,7 @@ tt_H0 <- replicate(n = 10000, expr = {X_1 <- rnorm(N)
 Wir können uns die Verteilung dieser Werte ansehen, um zu prüfen, ob die Werte annähernd $t$-verteilt sind. Die Dichte erhalten wir mit `dt(x = x, df = 38)`, wobei `x` die gewünschte x-Koordinate ist:
 
 
-```r
+``` r
 hist(tt_H0, breaks = 50, freq = FALSE) # freq = FALSE, damit relative Häufigkeiten eingetragen werden!
 x <- seq(-4, 4, 0.01) # Sequenz von -4 bis 4 in 0.01 Schritten
 lines(x = x, y = dt(x = x, df = 38), lwd = 2) # lwd = Liniendicke
@@ -289,7 +289,7 @@ lines(x = x, y = dt(x = x, df = 38), lwd = 2) # lwd = Liniendicke
 Die empirischen $t$-Werte können wir auch mit dem kritischen Wert abgleichen. Weil die $t$-Verteilung symmetrisch ist, können wir hier zweiseitig testen, indem wir einfach die Beträge (`abs()`) der empirischen $t$-Werte nutzen.
 
 
-```r
+``` r
 t_krit <- qt(p = .975, df = 38)
 mean(abs(tt_H0) > t_krit) # empirischer Alpha-Fehler
 ```
@@ -320,7 +320,7 @@ $$H_1: d =  \mu_{X1}-\mu_{X2} \neq 0.$$
 Hier wird $d$ als eine feste Zahl angenommen (z.B. 0.5, $-\sqrt{2}$, $\pi$, 123.456). Je größer der Effekt, desto größer ist die Wahrscheinlichkeit, dass dieser auch identifiziert wird. Hierbei wird die Größe des Effekts relativ zur zufälligen Streuung genommen. Da wir standardisierte (standardnormalverteilte) Variablen verwendet hatten, ist es so, dass die Mittelwertsdifferenz $d$ gerade in Vielfachen der Standardabweichung zu interpretieren ist (also Cohen's $d'_2$ darstellt). Bspw. wäre $d=0.5$ eine halbe Standardabweichung. Wir erhalten eine Mittelwertsdifferenz von 0.5, indem wir zu dem zuvorigen Code einfach 0.5 zur 2. Variable $X_2$ dazuaddieren. "In der Population unterscheiden sich nun `X_1` und `X_2` um 0.5 im Mittelwert, da `X_1` einen Mittelwert von 0 hat und `X_2` einen Mittelwert von 0 + 0.5 = 0.5."
 
 
-```r
+``` r
 set.seed(12345)
 X_1 <- rnorm(N)
 X_2 <- rnorm(N) + 0.5 
@@ -335,7 +335,7 @@ ttestH1$p.value
 Der empirische $p$-Wert ist diesmal kleiner als $0.05$. Die Frage ist nun, wie häufig das für eine Stichprobengröße von $N=20$ pro Gruppe vorkommt. Wir führen wieder eine Simulation dazu durch:
 
 
-```r
+``` r
 set.seed(12345)
 pt_H1 <- replicate(n = 10000, expr = {X_1 <- rnorm(N)
                                       X_2 <- rnorm(N) + 0.5 
@@ -348,7 +348,7 @@ mean(pt_H1 < 0.05) # empirische Power
 ## [1] 0.335
 ```
 
-```r
+``` r
 hist(pt_H1, breaks = 20)
 ```
 
@@ -359,7 +359,7 @@ Die empirische Power (die Wahrscheinlichkeit in unserer Simulation, dass die $H_
 Woran liegt nun dieses schiefe Histogramm? Wir schauen uns dazu noch schnell die $t$-Werte an:
 
 
-```r
+``` r
 set.seed(12345)
 tt_H1 <- replicate(n = 10000, expr = {X_1 <- rnorm(N)
                                       X_2 <- rnorm(N) + 0.5 
@@ -386,7 +386,7 @@ Mit einem einzelnen Power-Wert lässt sich in der Regel nicht so viel anfangen. 
 Wir schauen uns die Power-Plots diesmal nur für die Mittelwertsunterschiede an. Zunächst beginnen wir mit der Asymptotik. Wir wiederholen im einfachsten Fall das Experiment von oben für 5 Stichprobengrößen: $N=20, 40, 60, 80, 100$ (wobei wir das Ergebnis für $N=20$ bereits bestimmt haben). Dazu kopieren wir jeweils den Code von oben und ändern die Stichprobengröße ab:
 
 
-```r
+``` r
 set.seed(12345)
 pt_H1_20 <- pt_H1
 pt_H1_40 <- replicate(n = 10000, expr = {X_1 <- rnorm(40)
@@ -410,7 +410,7 @@ pt_H1_100 <- replicate(n = 10000, expr = {X_1 <- rnorm(100)
 Nun haben wir eine ganze Menge an $p$-Werten abgespeichert. Jetzt müssen wir nur noch die Power für jede Bedingung bestimmen. Diese schreiben wir direkt in einen Vektor:
 
 
-```r
+``` r
 t_power <- c(mean(pt_H1_20 < 0.05),
              mean(pt_H1_40 < 0.05),
              mean(pt_H1_60 < 0.05),
@@ -426,7 +426,7 @@ t_power
 Wir sehen sehr gut, dass die Power ansteigt. Der zugehörige Power-Plot sieht nun so aus (zunächst legen wir die Stichproben in `Ns` ab):
 
 
-```r
+``` r
 Ns <- seq(20, 100, 20)
 plot(x = Ns, y = t_power, type = "b",
      main = "Power vs. N", xlab = "n", ylab = "Power des t-Tests mit d = .5")
@@ -457,14 +457,14 @@ Wir sehen, dass die Power stets mit der Stichprobengröße wächst (es sei denn,
 Nun wollen wir die Power von Tests "analytisch" bestimmen, also durch formeln. Dazu nutzen wir das `WebPower`-Paket. Dieses ist eines von vielen Paketen, mit welchen die Power unterschiedlicher statistischer Tests bestimmt werden können. Wir beginnen damit das Paket zu laden (nach dem es installiert wurde mit `install.packages`):
 
 
-```r
+``` r
 library(WebPower)
 ```
 
 Nun wollen wir die Power eines $t$-Tests für unabhängige Stichproben durchführen. Die nötige Funktion heißt `wp.t`. Das `wp` kürzel steht hierbei einfach nur für `WebPower`. Die Argumente der Funktion erhalten wir so:
 
 
-```r
+``` r
 args(wp.t)
 ```
 
@@ -481,10 +481,10 @@ Mit `help(wp.t)` erhalten wir zu jedem dieser Argumente auch noch weitere Inform
 $$d:=\frac{\mu_{X_1}-\mu_{X_2}}{\sigma}.$$
 {{</ math >}}
 
-sie nimmt also an, dass die Variablen standardisiert sind. `alpha` ist das zugehörige $\alpha$-Fehlerniveau. `power` können wir einen Zielwert für die Power übergeben. `type` gibt an, welche Art von $t$-Test durchgeführt werden soll: `"two.sample"`, `"one.sample"`, `"paired"` und `"two.sample.2n"`. Dies steht für also 2 unabhängige Stichproben (gleiche Stichprobengröße, `"two.sample"`), 1-Stichprobentest (`"one.sample"`), geparter $t$-Test (`"paired"`) und $t$-Test mit 2 unabhängigen Stichproben aber unterschiedlichen Stichprobengrößen (`"two.sample.2n"`). Bei $n_1=n_2=20$ hatten wir vorhin bei einer Mittelwertsdifferenz von 0.5 eine simulierte Power von 0.335 heraus. Dies untersuchen wir nun analytisch:
+sie nimmt also an, dass die Variablen standardisiert sind. `alpha` ist das zugehörige $\alpha$-Fehlerniveau. `power` können wir einen Zielwert für die Power übergeben. `type` gibt an, welche Art von $t$-Test durchgeführt werden soll: `"two.sample"`, `"one.sample"`, `"paired"` und `"two.sample.2n"`. Dies steht für also 2 unabhängige Stichproben (gleiche Stichprobengröße, `"two.sample"`), 1-Stichprobentest (`"one.sample"`), gepaarter $t$-Test (`"paired"`) und $t$-Test mit 2 unabhängigen Stichproben aber unterschiedlichen Stichprobengrößen (`"two.sample.2n"`). Bei $n_1=n_2=20$ hatten wir vorhin bei einer Mittelwertsdifferenz von 0.5 eine simulierte Power von 0.335 heraus. Dies untersuchen wir nun analytisch:
 
 
-```r
+``` r
 wp.t(n1 = 20, d = .5, type = "two.sample", alternative = "two.sided")
 ```
 
@@ -507,7 +507,7 @@ Haben wir nun nur 20 Personen pro Gruppe untersucht, können wir uns fragen, wie
 
 
 
-```r
+``` r
 wp.t(n1 = 20, power = .8, type = "two.sample", alternative = "two.sided")
 ```
 
@@ -528,7 +528,7 @@ Wir bräuchten also eine Mittelwertsdifferenz von 0.9091587.
 Um eine Studie sinnvoll zu planen, können wir mit Hilfe des `WebPower`-Pakets auch nach der nötigen Stichprobengröße fragen. Das funktioniert ähnlich wie bei der Sensitivitätsanalyse, indem wir `n1` und `n2` frei lassen und dafür `power` und `d` vorgeben:
 
 
-```r
+``` r
 wp.t(d = .5, power = .8, type = "two.sample", alternative = "two.sided")
 ```
 
@@ -549,7 +549,7 @@ Für eine standardisierte Mittelwertsdifferenz von .5 brauchen wir also eine Sti
 Eine wichtige Ergänzung sollte an dieser Stelle für gerichtete Hypothesen erwähnt werden: wenn Sie die Hypothese richten, müssen Sie gleichzeitig auf das Vorzeichen von `d` achten. Wenn wir für unseren $t$-Test eine a-priori Power-Analyse durchführen wollen, um das $n$ zu bestimmen, dann könnte das z.B. so aussehen:
 
 
-```r
+``` r
 wp.t(d = .5, power = .8, type = "two.sample", alternative = "greater")
 ```
 
@@ -566,7 +566,7 @@ wp.t(d = .5, power = .8, type = "two.sample", alternative = "greater")
 Wenn wir aber annehmen, dass der Effekt umgedreht ist, bei $d$ aber den Betrag nutzen passiert Folgendes:
 
 
-```r
+``` r
 wp.t(d = .5, power = .8, type = "two.sample", alternative = "less")
 ```
 
@@ -580,7 +580,7 @@ Die Funktion ist nicht in der Lage, das nötige $n$ zu bestimmen, weil die Alter
 Dazu hier ein Warnhinweis, bezüglich eines Bugs in WebPower: wenn Sie Sensitivitätsanalyse betreiben, funktioniert das derzeit nur für "größer als" Aussagen. Für die Gegenrichtung erhalten Sie immer eine Fehlermeldung:
 
 
-```r
+``` r
 wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "less")
 ```
 
@@ -589,7 +589,7 @@ wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "less")
 ```
 
 
-```r
+``` r
 wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "greater")
 ```
 
@@ -619,7 +619,7 @@ Der (klassische) Korrelationstest hat fast die identischen Voraussetzungen wie d
 Wie bei den vorherigen Berechnungen des t-Tests simulieren wirs uns wieder Daten. Die beiden Variablen, die wir gleich korrelieren wollen, nennen wir `Y` und `Z`.
 
 
-```r
+``` r
 set.seed(1234)
 Y <- rnorm(N)
 Z <- rnorm(N)
@@ -630,7 +630,7 @@ cor(Y, Z) # empirische Korrelation
 ## [1] -0.2765719
 ```
 
-```r
+``` r
 cortestH0 <- cor.test(Y, Z)
 cortestH0$p.value # empirischer p-Wert
 ```
@@ -642,7 +642,7 @@ cortestH0$p.value # empirischer p-Wert
 Die empirische Korrelation liegt bei -0.28. Die wahre Korrelation liegt bei 0, da *R* Zufallsvektoren unabhängig voneinander simuliert. Der $p$-Wert des Korrelationstests liegt bei 0.2378. Damit ist das Ergebnis nicht statistisch bedeutsam. Die Korrelation von -0.28 ist zufällig aufgetreten. Wir wiederholen nun auch dieses Experiment:
 
 
-```r
+``` r
 set.seed(1234)
 pcor_H0 <- replicate(n = 10000, expr = {Y <- rnorm(N)
                                         Z <- rnorm(N)
@@ -653,7 +653,7 @@ pcor_H0 <- replicate(n = 10000, expr = {Y <- rnorm(N)
 Die $p$-Werte sind wieder einigermaßen uniform auf [0,1] verteilt:
 
 
-```r
+``` r
 hist(pcor_H0, breaks = 20) 
 ```
 
@@ -662,7 +662,7 @@ hist(pcor_H0, breaks = 20)
 Das empirische $\alpha$-Niveau liegt bei:
 
 
-```r
+``` r
 mean(pcor_H0 < 0.05)
 ```
 
@@ -677,4 +677,3 @@ Die Power für den Korrelationstest zu bestimmen, ist für diese Sitzung als Üb
 Auch für Korrelationen können wir mit `WebPower` vorgehen. Die Funktion hierzu heißt `wp.correlation`.
 
 </details>
-
