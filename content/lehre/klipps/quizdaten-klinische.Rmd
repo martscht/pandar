@@ -56,3 +56,36 @@ Falls Sie Interesse am Processing haben, können Sie den kommentierten File [{{<
 Nun wollen wir noch die Inhalte des modifizierten Datensatzes beschreiben. In diesem ist die Variable Geschlecht (`gender`) in `m` und `w` unterteilt, wobei `m` Männer und `w` Frauen beschreibt. Die Variable mit den Anxiety Werten (`sas`) erfasst die kumulierten Werte aller Fragen aus der SAS, die eine 4-Punkt Likert-Skala benutzt. Die Variable mit den Depressionswerten (`bdi`) erfasst die kumulierten Werte aller Fragen aus dem BDI, das Antwortmöglichkeiten von 0 bis 3 anhand der Schwere der Symptomatik bewertet. Sowohl die Anxiety Werte als auch die Depressionswerte wurden ihrer Intensität nach gruppiert von 1 bis 4, wobei `1` keine auffällige Symptomatik beschreibt, `2` milde bis moderate Symptome, `3` moderate bis schwere Symptome und `4` schwere Symptome. Diese Werte sind in den Variablen `bdi_group` und `sas_group` zu finden. In der Variable `sexual_assault` wurde allen Personen, die sexuelle Gewalt direkt erfahren haben, eine `1` zugeteilt, während allen anderen Fällen eine `0` zugewiesen wurde. Die Variable `trauma_exp_form` beschreibt die Form des Trauma-Erlebnisses, ob dieses direkt erlebt wurde (markiert durch `direct experience`), also der Person selbst passiert ist oder indirekt (`indirect experience`), so dass sie es gesehen / mitbekommen hat. Die Variable `trauma_exp_kind` beschreibt dagegen, welcher Art das Trauma-Erlebnis war. Dabei wurden die verschiedenen LEC Fragen fünf verschiedenen Gruppen zugeteilt. Im Datensatz liegt diese Variable als Faktor mit 6 Abstufungen vor. Mit diesen 6 Abstufungen können die 5 verschiedene Arten von Traumata aus dem LEC und "kein Trauma" kodiert werden: Stufe `1` steht für Personen, die keine Art eines Traumas erlebt haben. Stufe `2` steht für schwere Krankheiten, `3` für sexuelle Gewalt, `4` für schwere Unfälle, `5` für körperliche Gewalt und `6` für Krieg oder Naturkatastrophen. In der Variable `future` wird anhand des Zimbardo Time Perspective Inventory (ZTPI) die Einstellung gegenüber der Zukunft erfasst, also ob es für diese klare Vorstellungen, Pläne und Ziele gibt oder nicht. Die Skala Past Negative des ZTPI wird in der Variable `past_neg` festgehalten und beschreibt wie oft eine Person negativ über die Vergangenheit denkt. Beide Skalen wurden durch 5-Punkt Likert-Skalen bewertet, deren Durchschnitt festgehalten wurde. Zuletzt wurde noch der Gesamtwert der Dissociative Experiences Scale in der Variable `dissociation` festgehalten. Diese Skala erhebt das Dissoziationserleben einer Person mit 28 Items in einer 11 Punkt Likert-Skala.
 
 **Zum Abschluss noch ein Disclaimer zum Processing:** Bei der Erstellung der Variable `trauma_exp_art` wurde das Erleben mehrerer potentiell traumatischer Live Events ignoriert und die Personen dem jeweils ersten abgefragten traumatischen Erlebnis zugeteilt. Der Effekt mehrerer traumatischer Erlebnisse ist hiermit also nicht mehr erfassbar und kann dadurch die Ergebnisse verzerren. Ebenso wurden die Gruppen nur auf Basis von Item-Ähnlichkeit gebildet und nicht basierend auf empirischen Erkenntnissen. Das ist keine Grundlage für empirisch valide Forschung, sondern gilt einzig der Vereinfachung für die Übungsrechnung.
+
+
+## Block 2: Hierarchische Regression {#Block2}
+
+Im Rahmen des Quiz nutzen wir die Daten aus der Studie von [Pellerin und Raufaste (2020)](https://doi.org/10.3389/fpsyg.2020.590276), in der die protektive Wirkung verschiedener psychologischer Ressourcen auf die psychische Gesundheit während der COVID-19-Pandemie untersucht wurde. Die Daten sind [hier](https://osf.io/45aq3) verfügbar.
+
+Um die Daten zu laden können Sie wieder das vorbereitete Datenaufbereitungsskript ausführen:
+
+```{r}
+source(url("https://pandar.netlify.app/daten/Data_Processing_KliPPsQuiz2.R"))
+```
+
+In diesem Datensatz sind Personen (`id`) zu mehreren Messzeitpunkten (`wave`) während des Lockdowns in Frankreich befragt worden. In der Variable `time` wird zusätzlich kodiert, wie lange die Person zu diesem Zeitpunkt schon im Lockdown war. Außerdem wurden vier verschiedene Wohlbefindensvariablen als abhängige Variablen erfasst:
+
+- `EWB`: Emotional Wellbeing
+- `PWB`: Psychological Wellbeing
+- `SWB`: Social Wellbeing
+- `IWB`: Inner Wellbeing
+
+Eine detailliertere Darstellung der Konstrukte, die sich hinter diesen Variablen verbergen finden Sie im Artikel von [Pellerin und Raufaste (2020)](https://doi.org/10.3389/fpsyg.2020.590276). 
+
+Auf Personenebene (Level-2) sind außerdem Variablen als Prädiktoren enthalten, welche zum 1. Zeitpunkt als "Ausgangsniveau" erhoben wurden. Dies sind Personenvariablen wie Alter und Geschlecht, zudem verschiedene psychologischen Ressourcen wie Optimismus (`Optimism`), Selbstwirksamkeit (`Self-efficacy`), Hoffnung (`Hope`), Weisheit (`P.Wisdom` & `ST.Wisdom`), Dankbarkeit gegenüber der eigenen Existenz und der Welt (`Grat.being` & `Grat.world`) und Akzeptanz (`Acceptance`). Als Prädiktoren auf Ebene 1 können Variablen verwendet werden, die mehrfach erfragt wurden und über die Zeit variieren. Dies ist die o.g. im Lockdown verbrachte Zeit (`Time`) sowie die wahrgenommene ökonomische Bedrohung, also Jobgefahr, Geldnot, etc. (`E.threat`) und die wahrgenommene gesundheitliche Bedrohung, also die Wahrscheinlichkeit einer Erkrankung und deren Folgen (`H.threat`).
+
+
+Im Rahmen des Quiz sollen außerdem Fragen zu einer Studie, die das statistische Modell in der klinischen Forschung einsetzt, beantwortet werden. Eine groß angelegte Studie von [Goldberg et al. (2016)](https://doi.org/10.1037/cou0000131) untersuchte, ob Psychotherapeut*innen mit zunehmender Berufserfahrung bessere Therapieergebnisse erzielen. 
+
+***
+
+## Literatur
+
+Goldberg, S. B., Rousmaniere, T., Miller, S. D., Whipple, J., Nielsen, S. L., Hoyt, W. T., & Wampold, B. E. (2016). Do psychotherapists improve with time and experience? A longitudinal analysis of outcomes in a clinical setting. *Journal of counseling psychology, 63*, 1-11. https://doi.org/10.1037/cou0000131
+
+Pellerin, N., & Raufaste, E. (2020). Psychological resources protect well-being during the COVID-19 pandemic: A longitudinal study during the French lockdown. Frontiers in Psychology, 11, 590276. https://doi.org/10.3389/fpsyg.2020.590276

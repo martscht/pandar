@@ -81,9 +81,9 @@ fb24$wohnen <- factor(fb24$wohnen,
 
 # Rekodierung invertierter Items
 fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 5)
-fb24$mdbf11_r <- -1 * (fb24$mdbf4 - 5)
-fb24$mdbf3_r <- -1 * (fb24$mdbf4 - 5)
-fb24$mdbf9_r <- -1 * (fb24$mdbf4 - 5)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 5)
+fb24$mdbf3_r <- -1 * (fb24$mdbf3 - 5)
+fb24$mdbf9_r <- -1 * (fb24$mdbf9 - 5)
 
 # Berechnung von Skalenwerten
 fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 

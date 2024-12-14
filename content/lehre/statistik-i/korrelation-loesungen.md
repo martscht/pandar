@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler, winkler, vogler, schroeder] 
 weight: 
-lastmod: '2024-03-28'
+lastmod: '2024-12-11'
 featured: no
 banner:
   image: "/header/storch_with_baby.jpg"
@@ -43,35 +43,82 @@ output:
 
 
 
-> Laden Sie zunächst den Datensatz `fb23` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb23.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/korrelation/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/korrelation/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
 ```r
-dim(fb23)
+dim(fb24)
 ```
 
 ```
-## [1] 179  53
+## [1] 192  55
 ```
 
 ```r
-names(fb23)
+names(fb24)
 ```
 
 ```
-##  [1] "mdbf1_pre"    "mdbf2_pre"    "mdbf3_pre"    "mdbf4_pre"    "mdbf5_pre"    "mdbf6_pre"    "mdbf7_pre"   
-##  [8] "mdbf8_pre"    "mdbf9_pre"    "mdbf10_pre"   "mdbf11_pre"   "mdbf12_pre"   "lz"           "extra"       
-## [15] "vertr"        "gewis"        "neuro"        "offen"        "prok"         "nerd"         "grund"       
-## [22] "fach"         "ziel"         "wissen"       "therap"       "lerntyp"      "hand"         "job"         
-## [29] "ort"          "ort12"        "wohnen"       "uni1"         "uni2"         "uni3"         "uni4"        
-## [36] "attent_pre"   "gs_post"      "wm_post"      "ru_post"      "attent_post"  "hand_factor"  "fach_klin"   
-## [43] "unipartys"    "mdbf4_pre_r"  "mdbf11_pre_r" "mdbf3_pre_r"  "mdbf9_pre_r"  "mdbf5_pre_r"  "mdbf7_pre_r" 
-## [50] "wm_pre"       "gs_pre"       "ru_pre"       "ru_pre_zstd"
+##  [1] "mdbf1"      
+##  [2] "mdbf2"      
+##  [3] "mdbf3"      
+##  [4] "mdbf4"      
+##  [5] "mdbf5"      
+##  [6] "mdbf6"      
+##  [7] "mdbf7"      
+##  [8] "mdbf8"      
+##  [9] "mdbf9"      
+## [10] "mdbf10"     
+## [11] "mdbf11"     
+## [12] "mdbf12"     
+## [13] "time_pre"   
+## [14] "lz"         
+## [15] "extra"      
+## [16] "vertr"      
+## [17] "gewis"      
+## [18] "neuro"      
+## [19] "offen"      
+## [20] "prok"       
+## [21] "nerd"       
+## [22] "uni1"       
+## [23] "uni2"       
+## [24] "uni3"       
+## [25] "uni4"       
+## [26] "grund"      
+## [27] "fach"       
+## [28] "ziel"       
+## [29] "wissen"     
+## [30] "therap"     
+## [31] "lerntyp"    
+## [32] "hand"       
+## [33] "job"        
+## [34] "ort"        
+## [35] "ort12"      
+## [36] "wohnen"     
+## [37] "attent"     
+## [38] "gs_post"    
+## [39] "wm_post"    
+## [40] "ru_post"    
+## [41] "time_post"  
+## [42] "attent_post"
+## [43] "hand_factor"
+## [44] "fach_klin"  
+## [45] "unipartys"  
+## [46] "mdbf4_r"    
+## [47] "mdbf11_r"   
+## [48] "mdbf3_r"    
+## [49] "mdbf9_r"    
+## [50] "mdbf5_r"    
+## [51] "mdbf7_r"    
+## [52] "wm_pre"     
+## [53] "gs_pre"     
+## [54] "ru_pre"     
+## [55] "ru_pre_zstd"
 ```
 
-Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 53 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und 55 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ***
@@ -109,12 +156,16 @@ library(psych)
 
 
 ```r
-describe(fb23$lz)
+describe(fb24$lz)
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 177 5.12 1.05    5.4    5.19 0.89 1.4   7   5.6 -0.75     0.58 0.08
+##    vars   n mean   sd median
+## X1    1 191 4.92 1.15      5
+##    trimmed  mad min max range
+## X1    4.98 1.19   2   7     5
+##     skew kurtosis   se
+## X1 -0.43    -0.41 0.08
 ```
 
 </details>
@@ -127,27 +178,43 @@ describe(fb23$lz)
 
 
 ```r
-describeBy(fb23$lz, group = fb23$wohnen)
+describeBy(fb24$lz, group = fb24$wohnen)
 ```
 
 ```
 ## 
 ##  Descriptive statistics by group 
 ## group: WG
-##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 55 5.11 1.09    5.2    5.19 0.89 1.4   7   5.6 -0.83     0.94 0.15
-## -------------------------------------------------------------------------------------- 
+##    vars  n mean   sd median
+## X1    1 62 5.03 1.09      5
+##    trimmed  mad min max range
+## X1    5.06 1.19 2.4   7   4.6
+##     skew kurtosis   se
+## X1 -0.21    -0.55 0.14
+## ---------------------- 
 ## group: bei Eltern
-##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 40 5.04 1.03    5.2    5.14 0.89 1.6   7   5.4 -1.01     1.52 0.16
-## -------------------------------------------------------------------------------------- 
+##    vars  n mean   sd median
+## X1    1 60 5.06 1.14    5.3
+##    trimmed  mad min max range
+## X1    5.15 1.19   2   7     5
+##     skew kurtosis   se
+## X1 -0.67    -0.28 0.15
+## ---------------------- 
 ## group: alleine
-##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 44  5.2 0.99    5.2    5.22 1.19 2.6 6.8   4.2 -0.24    -0.41 0.15
-## -------------------------------------------------------------------------------------- 
+##    vars  n mean   sd median
+## X1    1 45 4.48 1.27    4.6
+##    trimmed  mad min max range
+## X1    4.51 1.48   2 6.8   4.8
+##     skew kurtosis   se
+## X1 -0.17    -0.95 0.19
+## ---------------------- 
 ## group: sonstiges
-##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 25 5.07 1.08    5.4    5.16 0.89 2.6 6.4   3.8 -0.81    -0.65 0.22
+##    vars  n mean   sd median
+## X1    1 22 5.14 0.95      5
+##    trimmed  mad min max range
+## X1    5.16 0.89 2.8 6.8     4
+##     skew kurtosis  se
+## X1 -0.23    -0.27 0.2
 ```
 
 </details>
@@ -160,16 +227,34 @@ describeBy(fb23$lz, group = fb23$wohnen)
 
 
 ```r
-describe(fb23[,c("extra","vertr","gewis","neuro","offen")])
+describe(fb24[,c("extra","vertr","gewis","neuro","offen")])
 ```
 
 ```
-##       vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## extra    1 179 3.27 0.91    3.0    3.28 0.74 1.0   5   4.0 -0.08    -0.64 0.07
-## vertr    2 178 3.46 0.82    3.5    3.49 0.74 1.0   5   4.0 -0.26    -0.18 0.06
-## gewis    3 179 3.53 0.77    3.5    3.54 0.74 1.5   5   3.5 -0.13    -0.51 0.06
-## neuro    4 179 3.35 0.98    3.5    3.37 0.74 1.0   5   4.0 -0.19    -0.68 0.07
-## offen    5 179 3.74 0.93    4.0    3.79 1.48 1.5   5   3.5 -0.34    -0.79 0.07
+##       vars   n mean   sd
+## extra    1 191 3.28 1.02
+## vertr    2 191 3.48 0.82
+## gewis    3 191 3.49 0.89
+## neuro    4 191 3.41 0.95
+## offen    5 191 3.81 0.98
+##       median trimmed  mad min
+## extra    3.5    3.31 1.48 1.0
+## vertr    3.5    3.51 0.74 1.0
+## gewis    3.5    3.50 0.74 1.5
+## neuro    3.5    3.43 0.74 1.0
+## offen    4.0    3.91 0.74 1.0
+##       max range  skew
+## extra   5   4.0 -0.28
+## vertr   5   4.0 -0.38
+## gewis   5   3.5 -0.13
+## neuro   5   4.0 -0.25
+## offen   5   4.0 -0.80
+##       kurtosis   se
+## extra    -0.79 0.07
+## vertr     0.11 0.06
+## gewis    -0.80 0.06
+## neuro    -0.53 0.07
+## offen    -0.07 0.07
 ```
 
 </details>
@@ -191,7 +276,7 @@ Zunächst können wir überprüfen, ob die Variablen als Faktor vorliegen.
 
 ```r
 #Labels
-is.factor(fb23$job)
+is.factor(fb24$job)
 ```
 
 ```
@@ -199,7 +284,7 @@ is.factor(fb23$job)
 ```
 
 ```r
-is.factor(fb23$hand)
+is.factor(fb24$hand)
 ```
 
 ```
@@ -211,7 +296,7 @@ Die Variable `hand` jedoch nicht. Dies müssen wir ändern.
 
 
 ```r
-fb23$hand <- factor(fb23$hand,
+fb24$hand <- factor(fb24$hand,
                     levels = c(1, 2),
                     labels = c("links", "rechts"))
 ```
@@ -220,7 +305,7 @@ Für den Fall, dass die Variable `job` noch nicht als Faktor im Datensatz vorlie
 
 
 ```r
-fb23$job <- factor(fb23$job, levels = c(1, 2),
+fb24$job <- factor(fb24$job, levels = c(1, 2),
   labels = c('nein', 'ja'))
 ```
 
@@ -228,19 +313,19 @@ Die Variablen sehen dann folgendermaßen aus.
 
 
 ```r
-str(fb23$job)
+str(fb24$job)
 ```
 
 ```
-##  Factor w/ 2 levels "nein","ja": 1 1 1 1 2 2 NA 2 1 2 ...
+##  Factor w/ 2 levels "nein","ja": 2 1 2 1 1 1 1 1 2 2 ...
 ```
 
 ```r
-str(fb23$hand)
+str(fb24$hand)
 ```
 
 ```
-##  Factor w/ 2 levels "links","rechts": 2 2 2 2 2 2 NA 2 1 2 ...
+##  Factor w/ 2 levels "links","rechts": 1 2 2 2 2 2 2 2 1 2 ...
 ```
 
 </details>
@@ -254,19 +339,19 @@ str(fb23$hand)
 
 ```r
 # Kreuztabelle absolut
-tab <- table(fb23$hand, fb23$job)
+tab <- table(fb24$hand, fb24$job)
 addmargins(tab)
 ```
 
 ```
 ##         
 ##          nein  ja Sum
-##   links    12   7  19
-##   rechts   84  73 157
-##   Sum      96  80 176
+##   links    13  10  23
+##   rechts  108  56 164
+##   Sum     121  66 187
 ```
 
-12 Personen schreiben primär mit der linken Hand und haben keinen Nebenjob.
+13 Personen schreiben primär mit der linken Hand und haben keinen Nebenjob.
 
 </details>
 
@@ -284,13 +369,23 @@ addmargins(prop.table(tab))
 
 ```
 ##         
-##                nein         ja        Sum
-##   links  0.06818182 0.03977273 0.10795455
-##   rechts 0.47727273 0.41477273 0.89204545
-##   Sum    0.54545455 0.45454545 1.00000000
+##                nein
+##   links  0.06951872
+##   rechts 0.57754011
+##   Sum    0.64705882
+##         
+##                  ja
+##   links  0.05347594
+##   rechts 0.29946524
+##   Sum    0.35294118
+##         
+##                 Sum
+##   links  0.12299465
+##   rechts 0.87700535
+##   Sum    1.00000000
 ```
 
-45.45% aller Teilnehmenden gehen keiner Nebentätigkeit nach.
+35.29% aller Teilnehmenden gehen einer Nebentätigkeit nach.
 
 </details>
 
@@ -306,7 +401,7 @@ phi(tab, digits = 3)
 ```
 
 ```
-## [1] 0.06
+## [1] -0.064
 ```
 
 ```r
@@ -314,7 +409,7 @@ Yule(tab) |> round(digits = 3) #da die Yule()-Funktion nicht direkt runden kann 
 ```
 
 ```
-## [1] 0.197
+## [1] -0.195
 ```
 
 Beide Koeffizienten sprechen für eine wenn überhaupt schwache Korrelation.
@@ -341,35 +436,35 @@ Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglic
 
 ```r
 # Scatterplot
-plot(fb23$extra, fb23$lz, 
+plot(fb24$extra, fb24$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
 ```r
-plot(fb23$vertr, fb23$lz, 
+plot(fb24$vertr, fb24$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-15-2.png)<!-- -->
 
 ```r
-plot(fb23$gewis, fb23$lz, 
+plot(fb24$gewis, fb24$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-15-3.png)<!-- -->
 
 ```r
-plot(fb23$neuro, fb23$lz, 
+plot(fb24$neuro, fb24$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-15-4.png)<!-- -->
 
 ```r
-plot(fb23$offen, fb23$lz, 
+plot(fb24$offen, fb24$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
@@ -382,161 +477,173 @@ Die fünf Scatterplots lassen allesamt auf einen linearen Zusammenhang zwischen 
 
 ```r
 #QQ
-qqnorm(fb23$extra)
-qqline(fb23$extra)
+qqnorm(fb24$extra)
+qqline(fb24$extra)
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
 ```r
-qqnorm(fb23$vertr)
-qqline(fb23$vertr)
+qqnorm(fb24$vertr)
+qqline(fb24$vertr)
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-16-2.png)<!-- -->
 
 ```r
-qqnorm(fb23$gewis)
-qqline(fb23$gewis)
+qqnorm(fb24$gewis)
+qqline(fb24$gewis)
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-16-3.png)<!-- -->
 
 ```r
-qqnorm(fb23$neuro)
-qqline(fb23$neuro)
+qqnorm(fb24$neuro)
+qqline(fb24$neuro)
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-16-4.png)<!-- -->
 
 ```r
-qqnorm(fb23$offen)
-qqline(fb23$offen)
+qqnorm(fb24$offen)
+qqline(fb24$offen)
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-16-5.png)<!-- -->
 
 ```r
-qqnorm(fb23$lz)
-qqline(fb23$lz)
+qqnorm(fb24$lz)
+qqline(fb24$lz)
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-16-6.png)<!-- -->
 
 ```r
 #Histogramm
-hist(fb23$extra, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb23$extra, na.rm = TRUE), sd = sd(fb23$extra, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+hist(fb24$extra, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb24$extra, na.rm = TRUE), sd = sd(fb24$extra, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-16-7.png)<!-- -->
 
 ```r
-hist(fb23$vertr, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb23$vertr, na.rm = TRUE), sd = sd(fb23$vertr, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+hist(fb24$vertr, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb24$vertr, na.rm = TRUE), sd = sd(fb24$vertr, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-16-8.png)<!-- -->
 
 ```r
-hist(fb23$gewis, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb23$gewis, na.rm = TRUE), sd = sd(fb23$gewis, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+hist(fb24$gewis, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb24$gewis, na.rm = TRUE), sd = sd(fb24$gewis, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-16-9.png)<!-- -->
 
 ```r
-hist(fb23$neuro, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb23$neuro, na.rm = TRUE), sd = sd(fb23$neuro, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+hist(fb24$neuro, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb24$neuro, na.rm = TRUE), sd = sd(fb24$neuro, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-16-10.png)<!-- -->
 
 ```r
-hist(fb23$offen, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb23$offen, na.rm = TRUE), sd = sd(fb23$offen, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+hist(fb24$offen, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb24$offen, na.rm = TRUE), sd = sd(fb24$offen, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-16-11.png)<!-- -->
 
 ```r
-hist(fb23$lz, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb23$lz, na.rm = TRUE), sd = sd(fb23$lz, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+hist(fb24$lz, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb24$lz, na.rm = TRUE), sd = sd(fb24$lz, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-16-12.png)<!-- -->
 
 ```r
 #Shapiro
-shapiro.test(fb23$extra)
+shapiro.test(fb24$extra)
 ```
 
 ```
 ## 
-## 	Shapiro-Wilk normality test
+## 	Shapiro-Wilk normality
+## 	test
 ## 
-## data:  fb23$extra
-## W = 0.96277, p-value = 0.0001067
-```
-
-```r
-shapiro.test(fb23$vertr)
-```
-
-```
-## 
-## 	Shapiro-Wilk normality test
-## 
-## data:  fb23$vertr
-## W = 0.95626, p-value = 2.466e-05
+## data:  fb24$extra
+## W = 0.9514, p-value =
+## 4.187e-06
 ```
 
 ```r
-shapiro.test(fb23$gewis)
+shapiro.test(fb24$vertr)
 ```
 
 ```
 ## 
-## 	Shapiro-Wilk normality test
+## 	Shapiro-Wilk normality
+## 	test
 ## 
-## data:  fb23$gewis
-## W = 0.95577, p-value = 2.097e-05
-```
-
-```r
-shapiro.test(fb23$neuro)
-```
-
-```
-## 
-## 	Shapiro-Wilk normality test
-## 
-## data:  fb23$neuro
-## W = 0.9603, p-value = 5.928e-05
+## data:  fb24$vertr
+## W = 0.95457, p-value =
+## 8.51e-06
 ```
 
 ```r
-shapiro.test(fb23$offen)
+shapiro.test(fb24$gewis)
 ```
 
 ```
 ## 
-## 	Shapiro-Wilk normality test
+## 	Shapiro-Wilk normality
+## 	test
 ## 
-## data:  fb23$offen
-## W = 0.93418, p-value = 2.776e-07
+## data:  fb24$gewis
+## W = 0.95223, p-value =
+## 5.029e-06
 ```
 
 ```r
-shapiro.test(fb23$lz)
+shapiro.test(fb24$neuro)
 ```
 
 ```
 ## 
-## 	Shapiro-Wilk normality test
+## 	Shapiro-Wilk normality
+## 	test
 ## 
-## data:  fb23$lz
-## W = 0.96084, p-value = 7.429e-05
+## data:  fb24$neuro
+## W = 0.95921, p-value =
+## 2.523e-05
+```
+
+```r
+shapiro.test(fb24$offen)
+```
+
+```
+## 
+## 	Shapiro-Wilk normality
+## 	test
+## 
+## data:  fb24$offen
+## W = 0.90621, p-value =
+## 1.225e-09
+```
+
+```r
+shapiro.test(fb24$lz)
+```
+
+```
+## 
+## 	Shapiro-Wilk normality
+## 	test
+## 
+## data:  fb24$lz
+## W = 0.97398, p-value =
+## 0.001257
 ```
 
 $p < \alpha$ $\rightarrow$ H1: Normalverteilung kann für alle Variablen nicht angenommen werden. Somit ist diese Voraussetzung für alle Variablen verletzt. Daher sollten wir fortlaufend die Rangkorrelation nach Spearman nutzen.
@@ -551,20 +658,27 @@ $p < \alpha$ $\rightarrow$ H1: Normalverteilung kann für alle Variablen nicht a
 
 ```r
 # Korrelationstabelle erstellen und runden
-cor_mat <- round(cor(fb23[,c('lz', 'extra', 'vertr', 'gewis', 'neuro', 'offen')],
+cor_mat <- round(cor(fb24[,c('lz', 'extra', 'vertr', 'gewis', 'neuro', 'offen')],
                      use = 'pairwise',
-                     method = 'spearman'),2)
+                     method = 'spearman'),3)
 cor_mat
 ```
 
 ```
-##          lz extra vertr gewis neuro offen
-## lz     1.00  0.33  0.15  0.16 -0.23 -0.04
-## extra  0.33  1.00 -0.02  0.08 -0.36  0.12
-## vertr  0.15 -0.02  1.00 -0.01  0.15 -0.13
-## gewis  0.16  0.08 -0.01  1.00 -0.02  0.11
-## neuro -0.23 -0.36  0.15 -0.02  1.00 -0.02
-## offen -0.04  0.12 -0.13  0.11 -0.02  1.00
+##           lz  extra  vertr
+## lz     1.000  0.408  0.168
+## extra  0.408  1.000  0.147
+## vertr  0.168  0.147  1.000
+## gewis  0.270  0.067 -0.012
+## neuro -0.412 -0.337 -0.099
+## offen  0.080  0.047  0.086
+##        gewis  neuro  offen
+## lz     0.270 -0.412  0.080
+## extra  0.067 -0.337  0.047
+## vertr -0.012 -0.099  0.086
+## gewis  1.000 -0.115 -0.083
+## neuro -0.115  1.000  0.028
+## offen -0.083  0.028  1.000
 ```
 
 
@@ -576,7 +690,7 @@ cor_mat
 
 <summary>Lösung</summary>
 
-Die betragsmäßig größte Korrelation mit der Lebenszufriedenheit hat die Extraversion. Nach den Richtlinien ist diese mit 0.33 einem positiven mittleren Effekt, der ungefähr 0.3 beträgt, zuzuordnen.
+Die betragsmäßig größte Korrelation mit der Lebenszufriedenheit hat der Neurotizismus. Nach den Richtlinien ist dieser mit 0.27 einem negativen mittleren Effekt, der ungefähr 0.3 beträgt, zuzuordnen.
 
 </details>
 
@@ -588,27 +702,33 @@ Die betragsmäßig größte Korrelation mit der Lebenszufriedenheit hat die Extr
 
 
 ```r
-cor.test(fb23$lz, fb23$neuro, 
+cor.test(fb24$lz, fb24$neuro, 
          alternative = "two.sided", 
          method = "spearman",       
          use = "pairwise") 
 ```
 
 ```
-## Warning in cor.test.default(fb23$lz, fb23$neuro, alternative = "two.sided", : Cannot compute exact p-value with
-## ties
+## Warning in
+## cor.test.default(fb24$lz,
+## fb24$neuro, alternative =
+## "two.sided", : Kann exakten
+## p-Wert bei Bindungen nicht
+## berechnen
 ```
 
 ```
 ## 
-## 	Spearman's rank correlation rho
+## 	Spearman's rank
+## 	correlation rho
 ## 
-## data:  fb23$lz and fb23$neuro
-## S = 1136540, p-value = 0.002093
+## data:  fb24$lz and fb24$neuro
+## S = 1640303, p-value =
+## 3.038e-09
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
 ##        rho 
-## -0.2297879
+## -0.4124959
 ```
 
 $p < \alpha$ $\rightarrow$ H1. Die Korrelation ist mit einer Irrtumswahrscheinlichkeit von 5% signifikant von 0 verschieden.
@@ -631,7 +751,7 @@ Um das geeignete Korrelationsmaß zu bestimmen überprüfen wir zunächst die Vo
 
 ```r
 # Scatterplot
-plot(fb23$nerd, fb23$prok, 
+plot(fb24$nerd, fb24$prok, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
@@ -651,131 +771,123 @@ library(car)
 
 ```r
 #QQ-Plot
-qqPlot(fb23$nerd)
+qqPlot(fb24$nerd)
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 ```
-## [1] 25 74
+## [1] 148 192
 ```
 
 ```r
-qqPlot(fb23$prok)
+qqPlot(fb24$prok)
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-21-2.png)<!-- -->
 
 ```
-## [1] 91 19
+## [1] 109 169
 ```
 
 ```r
 #Histogramm
-hist(fb23$nerd, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb23$nerd, na.rm = TRUE), sd = sd(fb23$nerd, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+hist(fb24$nerd, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb24$nerd, na.rm = TRUE), sd = sd(fb24$nerd, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-21-3.png)<!-- -->
 
 ```r
-hist(fb23$prok, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb23$prok, na.rm = TRUE), sd = sd(fb23$prok, na.rm = TRUE)), col = "#00618F", add = TRUE)
+hist(fb24$prok, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb24$prok, na.rm = TRUE), sd = sd(fb24$prok, na.rm = TRUE)), col = "#00618F", add = TRUE)
 ```
 
 ![](/lehre/statistik-i/korrelation-loesungen_files/figure-html/unnamed-chunk-21-4.png)<!-- -->
 
 ```r
 #Shapiro-Wilk Test
-shapiro.test(fb23$nerd) #nicht signifikant
+shapiro.test(fb24$nerd) #signifikant
 ```
 
 ```
 ## 
-## 	Shapiro-Wilk normality test
+## 	Shapiro-Wilk normality
+## 	test
 ## 
-## data:  fb23$nerd
-## W = 0.99184, p-value = 0.4097
+## data:  fb24$nerd
+## W = 0.98363, p-value =
+## 0.02579
 ```
 
 ```r
-shapiro.test(fb23$prok) #knapp signifikant
+shapiro.test(fb24$prok) #signifikant
 ```
 
 ```
 ## 
-## 	Shapiro-Wilk normality test
+## 	Shapiro-Wilk normality
+## 	test
 ## 
-## data:  fb23$prok
-## W = 0.98435, p-value = 0.04279
+## data:  fb24$prok
+## W = 0.97531, p-value =
+## 0.001926
 ```
 
-Auf Basis der zwei graphischen und dem inferenzstatistischen Verfahren kommen wir zum Schluss das beide Variablen normalverteilt vorliegen, auch wenn der Shapiro-Wilk Test für `prok` signifikant ausfällt. 
-Hier lässt sich auch mit dem *zentralen Grenzwertsatz* argumentieren. Als Faustregel gilt hiernach $n > 30 \rightarrow$ normalverteilt.
+Auf Basis der zwei graphischen und dem inferenzstatistischen Verfahren kommen wir zum Schluss das beide Variablen nicht normalverteilt vorliegen.
 
-Somit kommen wir zum Schluss das die Pearson-Korrelation hier das richtige Korrelationsmaß ist.
-Falls Sie für ihre Berechnung jedoch die Normalverteilungsannahme verworfen haben und mit Spearman gerechnet haben ist dies auch ok.
+Somit kommen wir zum Schluss das die Spearman-Rangkorrelation hier das richtige Korrelationsmaß ist.
+
 
 
 ```r
-cor.test(fb23$nerd, fb23$prok,
-         alternative = "two.sided",
-         method = "pearson",
-         use = "pairwise")
-```
-
-```
-## 
-## 	Pearson's product-moment correlation
-## 
-## data:  fb23$nerd and fb23$prok
-## t = 0.19556, df = 177, p-value = 0.8452
-## alternative hypothesis: true correlation is not equal to 0
-## 95 percent confidence interval:
-##  -0.1322599  0.1610227
-## sample estimates:
-##        cor 
-## 0.01469751
-```
-
-```r
-cor.test(fb23$nerd, fb23$prok,
+cor.test(fb24$nerd, fb24$prok,
                         alternative = "two.sided",
                         method = "spearman",
                         use = "pairwise")
 ```
 
 ```
-## Warning in cor.test.default(fb23$nerd, fb23$prok, alternative = "two.sided", : Cannot compute exact p-value with
-## ties
+## Warning in
+## cor.test.default(fb24$nerd,
+## fb24$prok, alternative =
+## "two.sided", : Kann exakten
+## p-Wert bei Bindungen nicht
+## berechnen
 ```
 
 ```
 ## 
-## 	Spearman's rank correlation rho
+## 	Spearman's rank
+## 	correlation rho
 ## 
-## data:  fb23$nerd and fb23$prok
-## S = 907096, p-value = 0.4976
+## data:  fb24$nerd and fb24$prok
+## S = 1118997, p-value =
+## 0.7724
 ## alternative hypothesis: true rho is not equal to 0
 ## sample estimates:
 ##        rho 
-## 0.05101605
+## 0.02111588
 ```
 
 
 ```
-## Warning in cor.test.default(fb23$nerd, fb23$prok, alternative = "two.sided", : Cannot compute exact p-value with
-## ties
+## Warning in
+## cor.test.default(fb24$nerd,
+## fb24$prok, alternative =
+## "two.sided", : Kann exakten
+## p-Wert bei Bindungen nicht
+## berechnen
 ```
 
-Sowohl die Pearson-Korrelation (p = 0.8451798) als auch Spearman-Rangkorrelation (p = 0.4976397) sind nicht signifikant von 0 verschieden. 
+Die Spearman-Rangkorrelation (p = 0.7724483) ist nicht signifikant von 0 verschieden. 
 
 </details>
 
 ## Aufgabe 5 Bonus
 
 Im vorherigen Kapitel haben wir die Poweranalyse behandelt. Solche Analysen kann man auch für Korrelationen vornehmen. Frischen Sie gerne Ihren Wissensstand [hier](/lehre/statistik-i/simulation-poweranalyse/) noch einmal auf.
-Daher, führen sie mit Hilfe des Pakets `WebPower` eine Sensitivitätsanalyse für den Datensatz `fb23` unter folgenden Parametern durch:
+Daher, führen sie mit Hilfe des Pakets `WebPower` eine Sensitivitätsanalyse für den Datensatz `fb24` unter folgenden Parametern durch:
 
   * Fehler 1. Art ($\alpha = 5\%$)
   * Fehler 2. Art ($\beta = 20\%$)
@@ -796,7 +908,7 @@ library(WebPower)
 
 
 ```r
-wp.correlation(n = nrow(fb23),            
+wp.correlation(n = nrow(fb24),            
                r = NULL,                  #gesucht
                power = 0.8,               #Power = 1 - Beta
                alternative = "two.sided") #leitet sich aus der H1 ab
@@ -806,14 +918,14 @@ wp.correlation(n = nrow(fb23),
 ## Power for correlation
 ## 
 ##       n         r alpha power
-##     179 0.2075271  0.05   0.8
+##     192 0.2005028  0.05   0.8
 ## 
 ## URL: http://psychstat.org/correlation
 ```
 
 
 
-Gegeben es gibt eine von null verschiedene (signifikante) Pearson-Korrelation muss diese mindestens 0.208 groß sein, damit wir diese mit einer Power von 80%, auf einem $\alpha$-Fehlerniveau von 5% in unserem Datensatz, mit n = 179 finden könnten.
+Gegeben es gibt eine von null verschiedene (signifikante) Pearson-Korrelation muss diese mindestens 0.201 groß sein, damit wir diese mit einer Power von 80%, auf einem $\alpha$-Fehlerniveau von 5% in unserem Datensatz, mit n = 192 finden könnten.
 
 </details>
 
