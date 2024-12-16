@@ -45,39 +45,39 @@ output:
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb23.rda')) 
+load(url('https://pandar.netlify.app/daten/fb24.rda')) 
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 
-fb23$fach <- factor(fb23$fach,
+fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb23$ziel <- factor(fb23$ziel,
+fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
 
-fb23$wohnen <- factor(fb23$wohnen, 
+fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
-fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
 
-fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
+fb24$job <- factor(fb24$job, levels=c(1,2), labels=c("nein", "ja"))
 
 # Weitere Standardisierungen
-fb23$nerd_std <- scale(fb23$nerd)
-fb23$neuro_std <- scale(fb23$neuro)
+fb24$nerd_std <- scale(fb24$nerd)
+fb24$neuro_std <- scale(fb24$neuro)
 ```
 
-> Laden Sie zunächst den Datensatz `fb23` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb23.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/multiple-reg/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/multiple-reg/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 ```{r}
-dim(fb23)
+dim(fb24)
 ```
 
-Der Datensatz besteht aus `r nrow(fb23)` Zeilen (Beobachtungen) und `r ncol(fb23)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus `r nrow(fb24)` Zeilen (Beobachtungen) und `r ncol(fb24)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ***
@@ -91,9 +91,9 @@ Sie vermuten, dass bestimmte Persönlichkeitsmerkmale die Prokrastinationstenden
 Dafür reduzieren Sie zunächst Ihren Datensatz auf die relevanten Variablen und entfernen sämtliche fehlende Werte:
 
 ```{r}
-fb23_short <- subset(fb23, select = c("extra", "vertr", "gewis", "neuro", "offen", "prok"))
+fb24_short <- subset(fb24, select = c("extra", "vertr", "gewis", "neuro", "offen", "prok"))
 
-fb23_short <- na.omit(fb23_short)
+fb24_short <- na.omit(fb24_short)
 ```
 
 <details>
@@ -106,10 +106,10 @@ Da wir im Folgenden erneut mit den Big Five Variablen arbeiten, gehen wir dieser
 
 ```{r}
 #Gibt es mindestens ein fehlenden Wert auf den 6 Variablen?
-anyNA(fb23[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
+anyNA(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 
 #Auf welcher Variable und wie viele NA's gibt es?
-summary(fb23[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
+summary(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 #ein NA auf vertr
 ```
 
@@ -123,7 +123,7 @@ summary(fb23[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 <summary>Lösung</summary>
 
 ```{r}
-mod_base <- lm(prok ~ neuro + gewis, data = fb23_short)
+mod_base <- lm(prok ~ neuro + gewis, data = fb24_short)
 ```
 
 </details>
@@ -152,24 +152,24 @@ mod_base <- lm(prok ~ neuro + gewis, data = fb23_short)
 # Korrekte Spezifikation des Modells --> Linearität
 
 #Einfache Regressionsmodelle aufstellen
-mod_neuro <- lm(prok ~ neuro, data = fb23_short)
+mod_neuro <- lm(prok ~ neuro, data = fb24_short)
 
-mod_gewis <- lm(prok ~ gewis, data = fb23_short)
+mod_gewis <- lm(prok ~ gewis, data = fb24_short)
 
 #Überprüfung der Linearität
 par(mfrow = c(1, 2))
 
-plot(fb23_short$prok ~ fb23_short$neuro, 
+plot(fb24_short$prok ~ fb24_short$neuro, 
      xlab = "Neurotizismus", 
      ylab = "Prokrastinationstendenz")
-lines(lowess(fb23_short$neuro, fb23_short$prok), col = "red")
+lines(lowess(fb24_short$neuro, fb24_short$prok), col = "red")
 abline(mod_neuro, col = "blue")
 
 
-plot(fb23_short$prok ~ fb23_short$gewis, 
+plot(fb24_short$prok ~ fb24_short$gewis, 
      xlab = "Gewissenhaftigkeit",
      ylab = "Prokrastinationstendenz")
-lines(lowess(fb23_short$gewis, fb23_short$prok), col = "red")
+lines(lowess(fb24_short$gewis, fb24_short$prok), col = "red")
 abline(mod_gewis, col = "blue")
 ```
 
@@ -180,7 +180,7 @@ Für beide Variablen sind klare lineare Verläufe erkennbar.
 dev.off()
 ```
 
-Bei der **Messfehlerfreiheit der unabhängigen Variablen** geht man davon aus, dass der Fragebogen den ich nutze fehlerfrei misst, insbesondere unsere unabhängigen Variablen. Wie bereits im Kapitel [Multiple Regression](/lehre/statistik-i/multiple-regression) besprochen ist das selten der Fall und wir können uns Reliabilitätsmaßen wie Cronbachs Alpha und McDonalds Omega bedienen um das Ausmaß des Fehlers zu quantifizieren.
+Bei der **Messfehlerfreiheit der unabhängigen Variablen** geht man davon aus, dass der Fragebogen den man nutzt fehlerfrei misst, insbesondere unsere unabhängigen Variablen. Wie bereits im Kapitel [Multiple Regression](/lehre/statistik-i/multiple-regression) besprochen ist das selten der Fall und wir können uns Reliabilitätsmaßen wie Cronbachs Alpha und McDonalds Omega bedienen um das Ausmaß des Fehlers zu quantifizieren.
 Bei der Nennung dieser belassen wir es aber für diese Aufgabe mal und nehmen an dass diese Voraussetzung **nicht** verletzt ist.
 
 Auch die Voraussetzung der **Unabhängigkeit der Residuen** ist inhaltlicher Natur. In diesem Fall gehen wir davon aus, dass Sie den Fragebogen am Anfang des Semesters weitgehend unabhängig voneinander bearbeitet haben. Somit ist auch diese Voraussetzung erfüllt.
@@ -213,17 +213,17 @@ Dies ist selbst dann zu empfehlen wenn man die Pakete bereits geladen hat da so 
 
 ```{r}
 #Extraversion
-mod_base_extra <- lm(prok ~ neuro + gewis + extra, data = fb23_short)
+mod_base_extra <- lm(prok ~ neuro + gewis + extra, data = fb24_short)
 
-anova(mod_base, mod_base_extra) #signifikant
+anova(mod_base, mod_base_extra) #nicht signifikant
 
 #Verträglichkeit
-mod_base_vertr <- lm(prok ~ neuro + gewis + vertr, data = fb23_short)
+mod_base_vertr <- lm(prok ~ neuro + gewis + vertr, data = fb24_short)
 
 anova(mod_base, mod_base_vertr) #nicht signifikant
 
 #Offenheit für neue Erfahrungen
-mod_base_offen <- lm(prok ~ neuro + gewis + offen, data = fb23_short)
+mod_base_offen <- lm(prok ~ neuro + gewis + offen, data = fb24_short)
 
 anova(mod_base, mod_base_offen) #nicht signifikant
 ```
@@ -239,13 +239,12 @@ extra_anova <- anova(mod_base, mod_base_extra)
 ink_extra <- summary(mod_base_extra)$r.squared - summary(mod_base)$r.squared
 ```
 
-Extraversion lässt sich als einzige weitere Dimension der Big Five als signifikanter Prädiktor ($F = `r round(extra_anova[2, "F"], 2)`, p = `r round(extra_anova[2, "Pr(>F)"], 3)`$) für Prokrastinationstendenz in unser Modell aufnehmen. 
-Dabei kann Extraversion zusätzlich `r round(100 * ink_extra, 2)`% Varianz erklären.
+Keine weitere Dimension der Big Five  kommt als weiterer signifikanter Prädiktor für Prokrastinationstendenz bei unserem Modell in Frage. 
 
-Somit lautet unser finales Modell wie folgt:
+Somit lautet unser finales Modell weiterhin wie folgt:
 
 ```{r}
-mod_final <- lm(prok ~ neuro + gewis + extra, data = fb23_short)
+mod_final <- lm(prok ~ neuro + gewis, data = fb24_short)
 
 summary(mod_final)
 ```
@@ -265,7 +264,7 @@ mod_final_summary <- summary(mod_final)
 
 <summary>Lösung</summary>
 
-Zwei Personen die den **gleichen** Neurotizismus- sowie Extraversions-Wert haben, sich aber um eine Einheit in der Gewissenhaftigkeit unterscheiden, unterscheiden sich um $\pm `r round(abs(mod_final[["coefficients"]][["gewis"]]), 2)`$ Einheiten in der Prokrastinationstendenz.
+Zwei Personen die den **gleichen** Neurotizismus-Wert haben, sich aber um eine Einheit in der Gewissenhaftigkeit unterscheiden, unterscheiden sich um $\pm `r round(abs(mod_final[["coefficients"]][["gewis"]]), 2)`$ Einheiten in der Prokrastinationstendenz.
 
 </details>
 
@@ -280,7 +279,7 @@ Zwei Personen die den **gleichen** Neurotizismus- sowie Extraversions-Wert haben
 summary(mod_final)$r.squared
 ```
 
-Der Determinationskoeffizient ($R^2 =$ `r round(summary(mod_final)$r.squared, 4)`) besagt das `r round(100 * summary(mod_final)$r.squared, 2)`% der Varianz in der Prokrastinationstendenz durch unser Modell aus drei Prädiktoren (`neuro`, `gewis`, `extra`) erklärt wird.  
+Der Determinationskoeffizient ($R^2 =$ `r round(summary(mod_final)$r.squared, 4)`) besagt das `r round(100 * summary(mod_final)$r.squared, 2)`% der Varianz in der Prokrastinationstendenz durch unser Modell aus zwei Prädiktoren (`neuro`, `gewis`) erklärt wird.  
 
 </details>
 
@@ -297,7 +296,7 @@ Falls Sie dort Schwierigkeiten hatten, benutzen Sie das Kontrollergebnis.
 <summary>Kontrollergebnis</summary>
 
 ```{r eval=FALSE}
-mod_final <- lm(prok ~ neuro + gewis + extra, data = fb23_short)
+mod_final <- lm(prok ~ neuro + gewis, data = fb24_short)
 ```
 
 </details>
@@ -328,13 +327,13 @@ mod_final_std <- lm.beta(mod_final)
 summary(mod_final_std)
 ```
 
-Das betragsmäßig größte standardisierte Regressionsgewicht hat Gewissenhaftigkeit mit `r round(mod_final_std[["standardized.coefficients"]][["gewis"]], 3)`.
-Somit lässt sich die Aussage treffen das Gewissenhaftigkeit im Vergleich zu Neurotizismus und Extraversion am meisten zu der Vorhersage der Prokrastinationstendenz beiträgt.
+Das betragsmäßig größte standardisierte Regressionsgewicht hat der Neurotizismus mit `r round(mod_final_std[["standardized.coefficients"]][["neuro"]], 3)`.
+Somit lässt sich die Aussage treffen, das Neurotizismus im Vergleich zu Gewissenhaftigkeit am meisten zu der Vorhersage der Prokrastinationstendenz beiträgt.
 
 </details>
 
 
--   Welche Prokrastinationstendenz (`prok`) sagt das finale Modell für eine Person hervor, die auf allen inkludierten Prädiktoren genau in der Mitte der Stichprobe (`fb23`) liegt (Mittelwerte)?
+-   Welche Prokrastinationstendenz (`prok`) sagt das finale Modell für eine Person hervor, die auf allen inkludierten Prädiktoren genau in der Mitte der Stichprobe (`fb24`) liegt (Mittelwerte)?
 
 <details>
 
@@ -344,9 +343,8 @@ Im Folgenden werden drei Lösungsansätze gezeigt, die sich in ihrer Komplexitä
 
 ```{r}
 #1. Ansatz
-means <- data.frame(neuro = mean(fb23_short$neuro),
-                    gewis = mean(fb23_short$gewis),
-                    extra = mean(fb23_short$extra))
+means <- data.frame(neuro = mean(fb24_short$neuro),
+                    gewis = mean(fb24_short$gewis))
 
 predict(mod_final, newdata = means)
 ```
@@ -357,7 +355,7 @@ Hierbei handelt es sich um den standard Ansatz wenn es darum geht für eine neue
 
 ```{r}
 #2. Ansatz
-mod_final_sc <- lm(prok ~ scale(neuro) + scale(gewis) + scale(extra), data = fb23_short)
+mod_final_sc <- lm(prok ~ scale(neuro) + scale(gewis), data = fb24_short)
 
 mod_final_sc$coefficients[1]
 ```
@@ -367,7 +365,7 @@ mod_final_sc$coefficients[1]
 Schematisch können wir für unser Modell folgende Formel aufstellen:
 
 \begin{align}
-\hat{y} = b_1 * x_1 + b_2 * x_2 + b_3 * x_3 + b_0
+\hat{y} = b_1 * x_1 + b_2 * x_2 + b_0
 \end{align}
 
 
@@ -380,11 +378,11 @@ x_{std} = \frac{x - \bar{x}}{\hat{\sigma}}
 Setzen wir die zweite Formel in die Erste ein erhalten wir:
 
 \begin{align}
-\hat{y} = b_1 * \frac{x_1 - \bar{x_1}}{\hat{\sigma_1}} + b_2 * \frac{x_2 - \bar{x_2}}{\hat{\sigma_2}} + b_3 * \frac{x_3 - \bar{x_3}}{\hat{\sigma_3}} + b_0
+\hat{y} = b_1 * \frac{x_1 - \bar{x_1}}{\hat{\sigma_1}} + b_2 * \frac{x_2 - \bar{x_2}}{\hat{\sigma_2}} + b_0
 \end{align}
 
-Nun interessiert uns die vorhergesagte Prokrastinationstendenz ($\hat{y}$) für eine Person die auf allen drei Variablen ($x_1, x_2, x_3$) genau den Mittelwert dieser Variable ($\bar{x_1}, \bar{x_2}, \bar{x_3}$) aufweist.
-Setzen wir für $x_1, x_2, x_3$ die Mittelwerte ein sehen wir das in den Zählern nur noch Nullen übrigbleiben.
+Nun interessiert uns die vorhergesagte Prokrastinationstendenz ($\hat{y}$) für eine Person die auf beiden Variablen ($x_1, x_2$) genau den Mittelwert dieser Variable ($\bar{x_1}, \bar{x_2}$) aufweist.
+Setzen wir für $x_1, x_2$ die Mittelwerte ein sehen wir das in den Zählern nur noch Nullen übrigbleiben.
 
 
 Unsere Formel reduziert sich dann auf:
@@ -397,7 +395,7 @@ $\rightarrow$ Für eine Person, die auf allen standardisierten Prädiktoren gena
 
 ```{r}
 #3. Ansatz
-mean(fb23_short$prok)
+mean(fb24_short$prok)
 ```
 
 **Erklärung:**
