@@ -31,6 +31,8 @@ module:
 ############################
 
 enableGitInfo: false
+staticDir:
+  - static
 summaryLength: 30
 paginate: 100
 enableEmoji: true
