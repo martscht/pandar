@@ -1,65 +1,50 @@
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb23.rda'))  
+load(url('https://pandar.netlify.app/daten/fb24.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb23$hand_factor <- factor(fb23$hand,
+fb24$hand_factor <- factor(fb24$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb23$fach <- factor(fb23$fach,
+fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb23$ziel <- factor(fb23$ziel,
+fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-
-fb23$wohnen <- factor(fb23$wohnen, 
+fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
-fb23$fach_klin <- factor(as.numeric(fb23$fach == "Klinische"),
-                         levels = 0:1,
-                         labels = c("nicht klinisch", "klinisch"))
-
-fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-
-fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
-
-
 # Rekodierung invertierter Items
-fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
-fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
-fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
-fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
-fb23$mdbf5_pre_r <- -1 * (fb23$mdbf5_pre - 4 - 1)
-fb23$mdbf7_pre_r <- -1 * (fb23$mdbf7_pre - 4 - 1)
-
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 5)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 5)
+fb24$mdbf3_r <- -1 * (fb24$mdbf3 - 5)
+fb24$mdbf9_r <- -1 * (fb24$mdbf9 - 5)
 
 # Berechnung von Skalenwerten
-fb23$wm_pre  <- fb23[, c('mdbf1_pre', 'mdbf5_pre_r', 
-                        'mdbf7_pre_r', 'mdbf10_pre')] |> rowMeans()
-fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
-                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
-fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
-                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+                        'mdbf8', 'mdbf11_r')] |> rowMeans()
+fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+                         "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
+fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
 
 # Einfache Regression
-mod1 <- lm(nerd ~ 1 + extra, data = fb23)
+mod1 <- lm(nerd ~ 1 + extra, data = fb24)
 
 # Ergebnisse
 summary(mod1)
 
 
 
-cor.test(fb23$nerd, fb23$extra)
+cor.test(fb24$nerd, fb24$extra)
 
 # Multiple Regression
 mod2 <- lm(nerd ~ 1 + extra + vertr + gewis + neuro + offen, 
-  data = fb23)
+  data = fb24)
 
 # Ergebnisse
 summary(mod2)
@@ -71,7 +56,7 @@ b0 <- coef(mod2)[1]
 b1 <- coef(mod2)[2]
 
 # Scatterplot
-plot(fb23$nerd ~ fb23$extra, 
+plot(fb24$nerd ~ fb24$extra, 
      xlab = "Extraversion", 
      ylab = "Nerdiness")
 
@@ -86,10 +71,10 @@ legend("topright", legend = c("Einfache Reg.", "Multiple Reg."), col = c("blue",
 
 # Achsenabschnitt bestimmen
 X <- matrix(c(1, 0, 
-  mean(fb23$vertr, na.rm = TRUE), 
-  mean(fb23$gewis, na.rm = TRUE), 
-  mean(fb23$neuro, na.rm = TRUE), 
-  mean(fb23$offen, na.rm = TRUE)))
+  mean(fb24$vertr, na.rm = TRUE), 
+  mean(fb24$gewis, na.rm = TRUE), 
+  mean(fb24$neuro, na.rm = TRUE), 
+  mean(fb24$offen, na.rm = TRUE)))
 
 a <- coef(mod2) %*% X
 
@@ -122,7 +107,7 @@ R2u - R2e
 
 
 
-mr_dat <- na.omit(fb23[, c("nerd", "extra", "vertr", "gewis", "neuro", "offen")])
+mr_dat <- na.omit(fb24[, c("nerd", "extra", "vertr", "gewis", "neuro", "offen")])
 
 # Modell 1, updated
 mod1_new <- update(mod1, data = mr_dat)
@@ -142,8 +127,6 @@ anova(mod3, mod2_new)
 # Inkrementelles R2
 summary(mod2_new)$r.squared - summary(mod3)$r.squared
 
-summary(mod1_new)$r.squared
-
 plot(mr_dat$nerd ~ mr_dat$extra, 
      xlab = "Extraversion", 
      ylab = "Nerdiness")
@@ -161,7 +144,7 @@ plot(pred, res,
 
 plot(mod2_new, which = 3)
 
-mod4 <- lm(lz ~ 1 + extra, fb23)
+mod4 <- lm(time_pre ~ 1 + vertr, fb24)
 plot(mod4, which = 3)
 
 car::ncvTest(mod2_new)
