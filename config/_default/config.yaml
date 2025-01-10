@@ -34,7 +34,6 @@ enableGitInfo: false
 ## New, to add multiple static directories - you can technically define them here but somehow they work even without being defined here
 staticDir:
   - static
-  #- /content/lehre/statistik-i/ just an example, does not seem necessary
 summaryLength: 30
 paginate: 100
 enableEmoji: true
