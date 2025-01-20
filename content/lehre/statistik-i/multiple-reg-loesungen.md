@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [vogler] 
 weight: 
-lastmod: '2024-04-02'
+lastmod: '2024-12-16'
 featured: no
 banner:
   image: "/header/stormies.jpg"
@@ -41,20 +41,20 @@ output:
 
 
 
-> Laden Sie zunächst den Datensatz `fb23` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb23.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/multiple-reg/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/multiple-reg/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
 ```r
-dim(fb23)
+dim(fb24)
 ```
 
 ```
-## [1] 179  42
+## [1] 192  44
 ```
 
-Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 42 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und 44 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ***
@@ -69,9 +69,9 @@ Dafür reduzieren Sie zunächst Ihren Datensatz auf die relevanten Variablen und
 
 
 ```r
-fb23_short <- subset(fb23, select = c("extra", "vertr", "gewis", "neuro", "offen", "prok"))
+fb24_short <- subset(fb24, select = c("extra", "vertr", "gewis", "neuro", "offen", "prok"))
 
-fb23_short <- na.omit(fb23_short)
+fb24_short <- na.omit(fb24_short)
 ```
 
 <details>
@@ -85,7 +85,7 @@ Da wir im Folgenden erneut mit den Big Five Variablen arbeiten, gehen wir dieser
 
 ```r
 #Gibt es mindestens ein fehlenden Wert auf den 6 Variablen?
-anyNA(fb23[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
+anyNA(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ```
 
 ```
@@ -94,18 +94,58 @@ anyNA(fb23[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 
 ```r
 #Auf welcher Variable und wie viele NA's gibt es?
-summary(fb23[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
+summary(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ```
 
 ```
-##      extra           vertr           gewis           neuro           offen           prok      
-##  Min.   :1.000   Min.   :1.000   Min.   :1.500   Min.   :1.000   Min.   :1.50   Min.   :1.500  
-##  1st Qu.:2.500   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:2.500   1st Qu.:3.00   1st Qu.:2.200  
-##  Median :3.000   Median :3.500   Median :3.500   Median :3.500   Median :4.00   Median :2.500  
-##  Mean   :3.268   Mean   :3.463   Mean   :3.531   Mean   :3.355   Mean   :3.74   Mean   :2.545  
-##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.50   3rd Qu.:2.950  
-##  Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.00   Max.   :3.800  
-##                  NA's   :1
+##      extra      
+##  Min.   :1.000  
+##  1st Qu.:2.500  
+##  Median :3.500  
+##  Mean   :3.277  
+##  3rd Qu.:4.000  
+##  Max.   :5.000  
+##  NA's   :1      
+##      vertr      
+##  Min.   :1.000  
+##  1st Qu.:3.000  
+##  Median :3.500  
+##  Mean   :3.484  
+##  3rd Qu.:4.000  
+##  Max.   :5.000  
+##  NA's   :1      
+##      gewis     
+##  Min.   :1.50  
+##  1st Qu.:3.00  
+##  Median :3.50  
+##  Mean   :3.49  
+##  3rd Qu.:4.00  
+##  Max.   :5.00  
+##  NA's   :1     
+##      neuro      
+##  Min.   :1.000  
+##  1st Qu.:3.000  
+##  Median :3.500  
+##  Mean   :3.408  
+##  3rd Qu.:4.000  
+##  Max.   :5.000  
+##  NA's   :1      
+##      offen      
+##  Min.   :1.000  
+##  1st Qu.:3.000  
+##  Median :4.000  
+##  Mean   :3.809  
+##  3rd Qu.:4.500  
+##  Max.   :5.000  
+##  NA's   :1      
+##       prok      
+##  Min.   :2.100  
+##  1st Qu.:2.500  
+##  Median :2.700  
+##  Mean   :2.685  
+##  3rd Qu.:2.900  
+##  Max.   :3.200  
+##  NA's   :2
 ```
 
 ```r
@@ -123,7 +163,7 @@ summary(fb23[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 
 
 ```r
-mod_base <- lm(prok ~ neuro + gewis, data = fb23_short)
+mod_base <- lm(prok ~ neuro + gewis, data = fb24_short)
 ```
 
 </details>
@@ -153,24 +193,24 @@ mod_base <- lm(prok ~ neuro + gewis, data = fb23_short)
 # Korrekte Spezifikation des Modells --> Linearität
 
 #Einfache Regressionsmodelle aufstellen
-mod_neuro <- lm(prok ~ neuro, data = fb23_short)
+mod_neuro <- lm(prok ~ neuro, data = fb24_short)
 
-mod_gewis <- lm(prok ~ gewis, data = fb23_short)
+mod_gewis <- lm(prok ~ gewis, data = fb24_short)
 
 #Überprüfung der Linearität
 par(mfrow = c(1, 2))
 
-plot(fb23_short$prok ~ fb23_short$neuro, 
+plot(fb24_short$prok ~ fb24_short$neuro, 
      xlab = "Neurotizismus", 
      ylab = "Prokrastinationstendenz")
-lines(lowess(fb23_short$neuro, fb23_short$prok), col = "red")
+lines(lowess(fb24_short$neuro, fb24_short$prok), col = "red")
 abline(mod_neuro, col = "blue")
 
 
-plot(fb23_short$prok ~ fb23_short$gewis, 
+plot(fb24_short$prok ~ fb24_short$gewis, 
      xlab = "Gewissenhaftigkeit",
      ylab = "Prokrastinationstendenz")
-lines(lowess(fb23_short$gewis, fb23_short$prok), col = "red")
+lines(lowess(fb24_short$gewis, fb24_short$prok), col = "red")
 abline(mod_gewis, col = "blue")
 ```
 
@@ -185,11 +225,11 @@ dev.off()
 ```
 
 ```
-## RStudioGD 
-##         2
+## null device 
+##           1
 ```
 
-Bei der **Messfehlerfreiheit der unabhängigen Variablen** geht man davon aus, dass der Fragebogen den ich nutze fehlerfrei misst, insbesondere unsere unabhängigen Variablen. Wie bereits im Kapitel [Multiple Regression](/lehre/statistik-i/multiple-regression) besprochen ist das selten der Fall und wir können uns Reliabilitätsmaßen wie Cronbachs Alpha und McDonalds Omega bedienen um das Ausmaß des Fehlers zu quantifizieren.
+Bei der **Messfehlerfreiheit der unabhängigen Variablen** geht man davon aus, dass der Fragebogen den man nutzt fehlerfrei misst, insbesondere unsere unabhängigen Variablen. Wie bereits im Kapitel [Multiple Regression](/lehre/statistik-i/multiple-regression) besprochen ist das selten der Fall und wir können uns Reliabilitätsmaßen wie Cronbachs Alpha und McDonalds Omega bedienen um das Ausmaß des Fehlers zu quantifizieren.
 Bei der Nennung dieser belassen wir es aber für diese Aufgabe mal und nehmen an dass diese Voraussetzung **nicht** verletzt ist.
 
 Auch die Voraussetzung der **Unabhängigkeit der Residuen** ist inhaltlicher Natur. In diesem Fall gehen wir davon aus, dass Sie den Fragebogen am Anfang des Semesters weitgehend unabhängig voneinander bearbeitet haben. Somit ist auch diese Voraussetzung erfüllt.
@@ -209,7 +249,7 @@ car::ncvTest(mod_base) #nicht signifikant --> Homoskedastizität wird angenommen
 ```
 ## Non-constant Variance Score Test 
 ## Variance formula: ~ fitted.values 
-## Chisquare = 1.538691, Df = 1, p = 0.21481
+## Chisquare = 0.8027976, Df = 1, p = 0.37026
 ```
 
 
@@ -221,8 +261,8 @@ car::qqPlot(mod_base)
 ![](/lehre/statistik-i/multiple-reg-loesungen_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 ```
-## 144 170 
-## 140 166
+## 109 169 
+## 107 167
 ```
 
 ```r
@@ -231,10 +271,12 @@ shapiro.test(mod_base$residuals) #nicht signifikant --> Normalverteilung wird an
 
 ```
 ## 
-## 	Shapiro-Wilk normality test
+## 	Shapiro-Wilk normality
+## 	test
 ## 
 ## data:  mod_base$residuals
-## W = 0.99419, p-value = 0.7113
+## W = 0.9892, p-value =
+## 0.1608
 ```
 
 *Anmerkung:* Sowohl bei der Überprüfung der Homoskedastizität als auch der Normalverteilung bedienen wir uns Funktionen des `car`-Pakets. Dieses müssen wir nicht explizit mit dem `library()`-Befehl laden wenn wir zunächst den Namen des Pakets nennen, dann zwei Doppelpunkte und die Funktion folgen.
@@ -252,9 +294,9 @@ Dies ist selbst dann zu empfehlen wenn man die Pakete bereits geladen hat da so 
 
 ```r
 #Extraversion
-mod_base_extra <- lm(prok ~ neuro + gewis + extra, data = fb23_short)
+mod_base_extra <- lm(prok ~ neuro + gewis + extra, data = fb24_short)
 
-anova(mod_base, mod_base_extra) #signifikant
+anova(mod_base, mod_base_extra) #nicht signifikant
 ```
 
 ```
@@ -262,16 +304,17 @@ anova(mod_base, mod_base_extra) #signifikant
 ## 
 ## Model 1: prok ~ neuro + gewis
 ## Model 2: prok ~ neuro + gewis + extra
-##   Res.Df    RSS Df Sum of Sq      F  Pr(>F)  
-## 1    175 28.240                              
-## 2    174 27.409  1   0.83086 5.2745 0.02283 *
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+##   Res.Df    RSS Df  Sum of Sq
+## 1    187 10.056              
+## 2    186 10.056  1 0.00032934
+##        F Pr(>F)
+## 1              
+## 2 0.0061 0.9379
 ```
 
 ```r
 #Verträglichkeit
-mod_base_vertr <- lm(prok ~ neuro + gewis + vertr, data = fb23_short)
+mod_base_vertr <- lm(prok ~ neuro + gewis + vertr, data = fb24_short)
 
 anova(mod_base, mod_base_vertr) #nicht signifikant
 ```
@@ -281,14 +324,17 @@ anova(mod_base, mod_base_vertr) #nicht signifikant
 ## 
 ## Model 1: prok ~ neuro + gewis
 ## Model 2: prok ~ neuro + gewis + vertr
-##   Res.Df    RSS Df Sum of Sq      F Pr(>F)
-## 1    175 28.240                           
-## 2    174 28.231  1 0.0084482 0.0521 0.8198
+##   Res.Df    RSS Df Sum of Sq
+## 1    187 10.056             
+## 2    186 10.030  1  0.025336
+##        F Pr(>F)
+## 1              
+## 2 0.4698 0.4939
 ```
 
 ```r
 #Offenheit für neue Erfahrungen
-mod_base_offen <- lm(prok ~ neuro + gewis + offen, data = fb23_short)
+mod_base_offen <- lm(prok ~ neuro + gewis + offen, data = fb24_short)
 
 anova(mod_base, mod_base_offen) #nicht signifikant
 ```
@@ -298,9 +344,12 @@ anova(mod_base, mod_base_offen) #nicht signifikant
 ## 
 ## Model 1: prok ~ neuro + gewis
 ## Model 2: prok ~ neuro + gewis + offen
-##   Res.Df    RSS Df Sum of Sq      F Pr(>F)
-## 1    175 28.240                           
-## 2    174 28.183  1   0.05707 0.3524 0.5536
+##   Res.Df    RSS Df Sum of Sq
+## 1    187 10.056             
+## 2    186 10.019  1  0.036619
+##        F Pr(>F)
+## 1              
+## 2 0.6798 0.4107
 ```
 
 
@@ -310,19 +359,18 @@ summary(mod_base_extra)$r.squared - summary(mod_base)$r.squared
 ```
 
 ```
-## [1] 0.01747554
+## [1] 3.19783e-05
 ```
 
 
 
-Extraversion lässt sich als einzige weitere Dimension der Big Five als signifikanter Prädiktor ($F = 5.27, p = 0.023$) für Prokrastinationstendenz in unser Modell aufnehmen. 
-Dabei kann Extraversion zusätzlich 1.75% Varianz erklären.
+Keine weitere Dimension der Big Five  kommt als weiterer signifikanter Prädiktor für Prokrastinationstendenz bei unserem Modell in Frage. 
 
-Somit lautet unser finales Modell wie folgt:
+Somit lautet unser finales Modell weiterhin wie folgt:
 
 
 ```r
-mod_final <- lm(prok ~ neuro + gewis + extra, data = fb23_short)
+mod_final <- lm(prok ~ neuro + gewis, data = fb24_short)
 
 summary(mod_final)
 ```
@@ -330,24 +378,39 @@ summary(mod_final)
 ```
 ## 
 ## Call:
-## lm(formula = prok ~ neuro + gewis + extra, data = fb23_short)
+## lm(formula = prok ~ neuro + gewis, data = fb24_short)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.12466 -0.25241 -0.02128  0.26635  1.00898 
+##      Min       1Q   Median 
+## -0.64691 -0.16143  0.01391 
+##       3Q      Max 
+##  0.16999  0.50266 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  3.04935    0.22818  13.364  < 2e-16 ***
-## neuro        0.17663    0.03266   5.408 2.08e-07 ***
-## gewis       -0.38529    0.03892  -9.900  < 2e-16 ***
-## extra        0.08124    0.03537   2.297   0.0228 *  
+##              Estimate
+## (Intercept)  2.593601
+## neuro        0.036029
+## gewis       -0.008946
+##             Std. Error
+## (Intercept)   0.097272
+## neuro         0.017932
+## gewis         0.019212
+##             t value Pr(>|t|)
+## (Intercept)  26.663   <2e-16
+## neuro         2.009   0.0459
+## gewis        -0.466   0.6420
+##                
+## (Intercept) ***
+## neuro       *  
+## gewis          
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.3969 on 174 degrees of freedom
-## Multiple R-squared:  0.4235,	Adjusted R-squared:  0.4136 
-## F-statistic: 42.61 on 3 and 174 DF,  p-value: < 2.2e-16
+## Residual standard error: 0.2319 on 187 degrees of freedom
+## Multiple R-squared:  0.02358,	Adjusted R-squared:  0.01314 
+## F-statistic: 2.258 on 2 and 187 DF,  p-value: 0.1074
 ```
 
 
@@ -361,7 +424,7 @@ summary(mod_final)
 
 <summary>Lösung</summary>
 
-Zwei Personen die den **gleichen** Neurotizismus- sowie Extraversions-Wert haben, sich aber um eine Einheit in der Gewissenhaftigkeit unterscheiden, unterscheiden sich um $\pm 0.39$ Einheiten in der Prokrastinationstendenz.
+Zwei Personen die den **gleichen** Neurotizismus-Wert haben, sich aber um eine Einheit in der Gewissenhaftigkeit unterscheiden, unterscheiden sich um $\pm 0.01$ Einheiten in der Prokrastinationstendenz.
 
 </details>
 
@@ -378,10 +441,10 @@ summary(mod_final)$r.squared
 ```
 
 ```
-## [1] 0.4235057
+## [1] 0.02358257
 ```
 
-Der Determinationskoeffizient ($R^2 =$ 0.4235) besagt das 42.35% der Varianz in der Prokrastinationstendenz durch unser Modell aus drei Prädiktoren (`neuro`, `gewis`, `extra`) erklärt wird.  
+Der Determinationskoeffizient ($R^2 =$ 0.0236) besagt das 2.36% der Varianz in der Prokrastinationstendenz durch unser Modell aus zwei Prädiktoren (`neuro`, `gewis`) erklärt wird.  
 
 </details>
 
@@ -399,7 +462,7 @@ Falls Sie dort Schwierigkeiten hatten, benutzen Sie das Kontrollergebnis.
 
 
 ```r
-mod_final <- lm(prok ~ neuro + gewis + extra, data = fb23_short)
+mod_final <- lm(prok ~ neuro + gewis, data = fb24_short)
 ```
 
 </details>
@@ -419,8 +482,10 @@ mod_final$coefficients
 ```
 
 ```
-## (Intercept)       neuro       gewis       extra 
-##  3.04934935  0.17662562 -0.38529030  0.08124088
+##  (Intercept)        neuro 
+##  2.593601258  0.036028798 
+##        gewis 
+## -0.008945736
 ```
 
 Diese sind jedoch noch von der benutzten Skala abhängig weswegen wir noch keine Aussage darüber treffen können welches das "beste" Regressionsgewicht ist. Daher standardisieren wir unser Modell, um uns von der Skalenabhängigkeit zu befreien.
@@ -441,33 +506,52 @@ summary(mod_final_std)
 ```
 ## 
 ## Call:
-## lm(formula = prok ~ neuro + gewis + extra, data = fb23_short)
+## lm(formula = prok ~ neuro + gewis, data = fb24_short)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.12466 -0.25241 -0.02128  0.26635  1.00898 
+##      Min       1Q   Median 
+## -0.64691 -0.16143  0.01391 
+##       3Q      Max 
+##  0.16999  0.50266 
 ## 
 ## Coefficients:
-##             Estimate Standardized Std. Error t value Pr(>|t|)    
-## (Intercept)  3.04935           NA    0.22818  13.364  < 2e-16 ***
-## neuro        0.17663      0.33288    0.03266   5.408 2.08e-07 ***
-## gewis       -0.38529     -0.57143    0.03892  -9.900  < 2e-16 ***
-## extra        0.08124      0.14168    0.03537   2.297   0.0228 *  
+##              Estimate
+## (Intercept)  2.593601
+## neuro        0.036029
+## gewis       -0.008946
+##             Standardized
+## (Intercept)           NA
+## neuro           0.146086
+## gewis          -0.033855
+##             Std. Error
+## (Intercept)   0.097272
+## neuro         0.017932
+## gewis         0.019212
+##             t value Pr(>|t|)
+## (Intercept)  26.663   <2e-16
+## neuro         2.009   0.0459
+## gewis        -0.466   0.6420
+##                
+## (Intercept) ***
+## neuro       *  
+## gewis          
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.3969 on 174 degrees of freedom
-## Multiple R-squared:  0.4235,	Adjusted R-squared:  0.4136 
-## F-statistic: 42.61 on 3 and 174 DF,  p-value: < 2.2e-16
+## Residual standard error: 0.2319 on 187 degrees of freedom
+## Multiple R-squared:  0.02358,	Adjusted R-squared:  0.01314 
+## F-statistic: 2.258 on 2 and 187 DF,  p-value: 0.1074
 ```
 
-Das betragsmäßig größte standardisierte Regressionsgewicht hat Gewissenhaftigkeit mit -0.571.
-Somit lässt sich die Aussage treffen das Gewissenhaftigkeit im Vergleich zu Neurotizismus und Extraversion am meisten zu der Vorhersage der Prokrastinationstendenz beiträgt.
+Das betragsmäßig größte standardisierte Regressionsgewicht hat der Neurotizismus mit 0.146.
+Somit lässt sich die Aussage treffen, das Neurotizismus im Vergleich zu Gewissenhaftigkeit am meisten zu der Vorhersage der Prokrastinationstendenz beiträgt.
 
 </details>
 
 
--   Welche Prokrastinationstendenz (`prok`) sagt das finale Modell für eine Person hervor, die auf allen inkludierten Prädiktoren genau in der Mitte der Stichprobe (`fb23`) liegt (Mittelwerte)?
+-   Welche Prokrastinationstendenz (`prok`) sagt das finale Modell für eine Person hervor, die auf allen inkludierten Prädiktoren genau in der Mitte der Stichprobe (`fb24`) liegt (Mittelwerte)?
 
 <details>
 
@@ -478,16 +562,15 @@ Im Folgenden werden drei Lösungsansätze gezeigt, die sich in ihrer Komplexitä
 
 ```r
 #1. Ansatz
-means <- data.frame(neuro = mean(fb23_short$neuro),
-                    gewis = mean(fb23_short$gewis),
-                    extra = mean(fb23_short$extra))
+means <- data.frame(neuro = mean(fb24_short$neuro),
+                    gewis = mean(fb24_short$gewis))
 
 predict(mod_final, newdata = means)
 ```
 
 ```
 ##        1 
-## 2.547753
+## 2.685263
 ```
 
 **Erklärung:**
@@ -497,14 +580,14 @@ Hierbei handelt es sich um den standard Ansatz wenn es darum geht für eine neue
 
 ```r
 #2. Ansatz
-mod_final_sc <- lm(prok ~ scale(neuro) + scale(gewis) + scale(extra), data = fb23_short)
+mod_final_sc <- lm(prok ~ scale(neuro) + scale(gewis), data = fb24_short)
 
 mod_final_sc$coefficients[1]
 ```
 
 ```
 ## (Intercept) 
-##    2.547753
+##    2.685263
 ```
 
 **Erklärung:**
@@ -512,7 +595,7 @@ mod_final_sc$coefficients[1]
 Schematisch können wir für unser Modell folgende Formel aufstellen:
 
 \begin{align}
-\hat{y} = b_1 * x_1 + b_2 * x_2 + b_3 * x_3 + b_0
+\hat{y} = b_1 * x_1 + b_2 * x_2 + b_0
 \end{align}
 
 
@@ -525,11 +608,11 @@ x_{std} = \frac{x - \bar{x}}{\hat{\sigma}}
 Setzen wir die zweite Formel in die Erste ein erhalten wir:
 
 \begin{align}
-\hat{y} = b_1 * \frac{x_1 - \bar{x_1}}{\hat{\sigma_1}} + b_2 * \frac{x_2 - \bar{x_2}}{\hat{\sigma_2}} + b_3 * \frac{x_3 - \bar{x_3}}{\hat{\sigma_3}} + b_0
+\hat{y} = b_1 * \frac{x_1 - \bar{x_1}}{\hat{\sigma_1}} + b_2 * \frac{x_2 - \bar{x_2}}{\hat{\sigma_2}} + b_0
 \end{align}
 
-Nun interessiert uns die vorhergesagte Prokrastinationstendenz ($\hat{y}$) für eine Person die auf allen drei Variablen ($x_1, x_2, x_3$) genau den Mittelwert dieser Variable ($\bar{x_1}, \bar{x_2}, \bar{x_3}$) aufweist.
-Setzen wir für $x_1, x_2, x_3$ die Mittelwerte ein sehen wir das in den Zählern nur noch Nullen übrigbleiben.
+Nun interessiert uns die vorhergesagte Prokrastinationstendenz ($\hat{y}$) für eine Person die auf beiden Variablen ($x_1, x_2$) genau den Mittelwert dieser Variable ($\bar{x_1}, \bar{x_2}$) aufweist.
+Setzen wir für $x_1, x_2$ die Mittelwerte ein sehen wir das in den Zählern nur noch Nullen übrigbleiben.
 
 
 Unsere Formel reduziert sich dann auf:
@@ -543,11 +626,11 @@ $\rightarrow$ Für eine Person, die auf allen standardisierten Prädiktoren gena
 
 ```r
 #3. Ansatz
-mean(fb23_short$prok)
+mean(fb24_short$prok)
 ```
 
 ```
-## [1] 2.547753
+## [1] 2.685263
 ```
 
 **Erklärung:**

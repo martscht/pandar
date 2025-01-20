@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [winkler, neubauer, walter] 
 weight: 
-lastmod: '2024-04-02'
+lastmod: '2024-12-16'
 featured: no
 banner:
   image: "/header/modern_buildings.jpg"
@@ -42,132 +42,134 @@ output:
 
 ## Vorbereitung
 
-Laden Sie zunächst den Datensatz `fb23` von der pandar-Website und führen Sie die Ergänzungen vor, die in zurückliegenden Tutorials vorgenommen wurden. 
+Laden Sie zunächst den Datensatz `fb24` von der pandar-Website und führen Sie die Ergänzungen vor, die in zurückliegenden Tutorials vorgenommen wurden. 
 
 
 ```r
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb23.rda'))  
+load(url('https://pandar.netlify.app/daten/fb24.rda'))  
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb23$hand_factor <- factor(fb23$hand,
+fb24$hand_factor <- factor(fb24$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb23$fach <- factor(fb23$fach,
+fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb23$ziel <- factor(fb23$ziel,
+fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb23$wohnen <- factor(fb23$wohnen, 
+fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-fb23$fach_klin <- factor(as.numeric(fb23$fach == "Klinische"),
+fb24$fach_klin <- factor(as.numeric(fb24$fach == "Klinische"),
                          levels = 0:1,
                          labels = c("nicht klinisch", "klinisch"))
-fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
-fb23$unipartys <- factor(fb23$uni3,
+fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb24$job <- factor(fb24$job, levels=c(1,2), labels=c("nein", "ja"))
+fb24$unipartys <- factor(fb24$uni3,
                              levels = 0:1,
                              labels = c("nein", "ja"))
 
 # Rekodierung invertierter Items
-fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
-fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
-fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
-fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
-fb23$mdbf5_pre_r <- -1 * (fb23$mdbf5_pre - 4 - 1)
-fb23$mdbf7_pre_r <- -1 * (fb23$mdbf7_pre - 4 - 1)
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 4 - 1)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 4 - 1)
+fb24$mdbf3_r <-  -1 * (fb24$mdbf3 - 4 - 1)
+fb24$mdbf9_r <-  -1 * (fb24$mdbf9 - 4 - 1)
+fb24$mdbf5_r <- -1 * (fb24$mdbf5 - 4 - 1)
+fb24$mdbf7_r <- -1 * (fb24$mdbf7 - 4 - 1)
 
 # Berechnung von Skalenwerten
-fb23$wm_pre  <- fb23[, c('mdbf1_pre', 'mdbf5_pre_r', 
-                        'mdbf7_pre_r', 'mdbf10_pre')] |> rowMeans()
-fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
-                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
-fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
-                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+fb24$wm_pre  <- fb24[, c('mdbf1', 'mdbf5_r', 
+                        'mdbf7_r', 'mdbf10')] |> rowMeans()
+fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+                        'mdbf8', 'mdbf11_r')] |> rowMeans()
+fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+                         "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
+fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
 ```
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
 ```r
-dim(fb23)
+dim(fb24)
 ```
 
 ```
-## [1] 179  53
+## [1] 192  55
 ```
 
 ```r
-str(fb23)
+str(fb24)
 ```
 
 ```
-## 'data.frame':	179 obs. of  53 variables:
-##  $ mdbf1_pre   : int  4 2 4 NA 3 3 2 3 3 2 ...
-##  $ mdbf2_pre   : int  2 2 3 3 3 2 3 2 2 1 ...
-##  $ mdbf3_pre   : int  3 4 2 2 2 3 3 1 2 2 ...
-##  $ mdbf4_pre   : int  2 2 1 2 1 1 3 2 3 3 ...
-##  $ mdbf5_pre   : int  3 2 3 2 2 1 3 3 2 4 ...
-##  $ mdbf6_pre   : int  2 1 2 2 2 2 2 3 2 2 ...
-##  $ mdbf7_pre   : int  4 3 3 1 1 2 2 3 3 3 ...
-##  $ mdbf8_pre   : int  3 2 3 2 3 3 2 3 3 2 ...
-##  $ mdbf9_pre   : int  2 4 1 2 3 3 4 2 2 3 ...
-##  $ mdbf10_pre  : int  3 2 3 3 2 4 2 2 2 2 ...
-##  $ mdbf11_pre  : int  3 2 1 2 2 1 3 1 2 4 ...
-##  $ mdbf12_pre  : int  1 1 2 3 2 2 2 3 3 2 ...
-##  $ lz          : num  5.4 3.4 4.4 4.4 6.4 5.6 5.4 5 4.8 6 ...
-##  $ extra       : num  3.5 3 4 3 4 4.5 3.5 3.5 2.5 3 ...
-##  $ vertr       : num  1.5 3 3.5 4 4 4.5 4 4 3 3.5 ...
-##  $ gewis       : num  4.5 4 5 3.5 3.5 4 4.5 2.5 3.5 4 ...
-##  $ neuro       : num  5 5 2 4 3.5 4.5 3 2.5 4.5 4 ...
-##  $ offen       : num  5 5 4.5 3.5 4 4 5 4.5 4 3 ...
-##  $ prok        : num  1.8 3.1 1.5 1.6 2.7 3.3 2.2 3.4 2.4 3.1 ...
-##  $ nerd        : num  4.17 3 2.33 2.83 3.83 ...
-##  $ grund       : chr  "Berufsziel" "Interesse am Menschen" "Interesse und Berufsaussichten" "Wissenschaftliche Ergänzung zu meinen bisherigen Tätigkeiten (Arbeit in der psychiatrischen Akutpflege, Gestalt"| __truncated__ ...
-##  $ fach        : Factor w/ 5 levels "Allgemeine","Biologische",..: 4 4 4 4 4 4 NA 4 4 NA ...
-##  $ ziel        : Factor w/ 4 levels "Wirtschaft","Therapie",..: 2 2 2 2 2 2 NA 4 2 2 ...
-##  $ wissen      : int  5 4 5 4 2 3 NA 4 3 3 ...
-##  $ therap      : int  5 5 5 5 4 5 NA 3 5 5 ...
-##  $ lerntyp     : num  3 3 1 3 3 1 NA 1 3 3 ...
-##  $ hand        : int  2 2 2 2 2 2 NA 2 1 2 ...
-##  $ job         : Factor w/ 2 levels "nein","ja": 1 1 1 1 2 2 NA 2 1 2 ...
-##  $ ort         : Factor w/ 2 levels "FFM","anderer": 2 1 1 1 1 2 NA 1 1 2 ...
-##  $ ort12       : int  2 1 2 2 2 1 NA 2 2 1 ...
-##  $ wohnen      : Factor w/ 4 levels "WG","bei Eltern",..: 4 1 1 1 1 2 NA 3 3 2 ...
-##  $ uni1        : num  0 1 0 1 0 0 0 0 0 0 ...
-##  $ uni2        : num  1 1 1 1 1 1 0 1 1 1 ...
-##  $ uni3        : num  0 1 0 0 1 0 0 1 1 0 ...
-##  $ uni4        : num  0 1 0 1 0 0 0 0 0 0 ...
-##  $ attent_pre  : int  6 6 6 6 6 6 NA 4 5 5 ...
-##  $ gs_post     : num  3 2.75 4 2.5 3.75 NA 4 2.75 3.75 2.5 ...
-##  $ wm_post     : num  2 1 3.75 2.75 3 NA 3.25 2 3.25 2 ...
-##  $ ru_post     : num  2.25 1.5 3.75 3.5 3 NA 3.5 2.75 2.75 2.75 ...
-##  $ attent_post : int  6 5 6 6 6 NA 6 4 5 3 ...
-##  $ hand_factor : Factor w/ 2 levels "links","rechts": 2 2 2 2 2 2 NA 2 1 2 ...
-##  $ fach_klin   : Factor w/ 2 levels "nicht klinisch",..: 2 2 2 2 2 2 NA 2 2 NA ...
-##  $ unipartys   : Factor w/ 2 levels "nein","ja": 1 2 1 1 2 1 1 2 2 1 ...
-##  $ mdbf4_pre_r : num  3 3 4 3 4 4 2 3 2 2 ...
-##  $ mdbf11_pre_r: num  2 3 4 3 3 4 2 4 3 1 ...
-##  $ mdbf3_pre_r : num  2 1 3 3 3 2 2 4 3 3 ...
-##  $ mdbf9_pre_r : num  3 1 4 3 2 2 1 3 3 2 ...
-##  $ mdbf5_pre_r : num  2 3 2 3 3 4 2 2 3 1 ...
-##  $ mdbf7_pre_r : num  1 2 2 4 4 3 3 2 2 2 ...
-##  $ wm_pre      : num  2.5 2.25 2.75 NA 3 3.5 2.25 2.25 2.5 1.75 ...
-##  $ gs_pre      : num  3 2.5 3.75 NA 3.25 3.5 2 3.25 2.75 1.75 ...
-##  $ ru_pre      : num  2 1 2.75 2.75 2.25 2 1.75 3.25 2.75 2.25 ...
-##  $ ru_pre_zstd : num [1:179, 1] -0.9749 -2.3095 0.0261 0.0261 -0.6412 ...
-##   ..- attr(*, "scaled:center")= num 2.73
-##   ..- attr(*, "scaled:scale")= num 0.749
+## 'data.frame':	192 obs. of  55 variables:
+##  $ mdbf1      : num  4 3 3 3 3 2 4 2 3 4 ...
+##  $ mdbf2      : num  3 2 3 1 2 2 4 3 3 4 ...
+##  $ mdbf3      : num  1 1 1 2 3 1 1 2 2 1 ...
+##  $ mdbf4      : num  1 1 1 2 1 3 1 1 1 1 ...
+##  $ mdbf5      : num  3 1 3 3 2 4 1 2 1 1 ...
+##  $ mdbf6      : num  3 3 3 2 2 3 3 3 3 4 ...
+##  $ mdbf7      : num  3 3 2 3 2 4 1 4 1 1 ...
+##  $ mdbf8      : num  4 4 3 3 3 2 4 3 4 4 ...
+##  $ mdbf9      : num  1 2 1 2 3 2 3 3 2 1 ...
+##  $ mdbf10     : num  3 3 3 3 3 2 3 2 4 4 ...
+##  $ mdbf11     : num  1 1 1 2 3 2 2 1 2 1 ...
+##  $ mdbf12     : num  3 4 3 3 2 2 3 2 3 4 ...
+##  $ time_pre   : num  49 68 107 38 45 100 61 40 36 40 ...
+##  $ lz         : num  6.6 4 5.2 4 5 4.4 6.4 4 4.6 6 ...
+##  $ extra      : num  5 4 3 1.5 2.5 4.5 4 2.5 4 3 ...
+##  $ vertr      : num  4 3 3 3 3.5 2.5 4 2.5 4.5 3 ...
+##  $ gewis      : num  4 4.5 4 3.5 2.5 4 3.5 3.5 4 5 ...
+##  $ neuro      : num  1.5 3 3.5 3.5 4.5 3.5 2.5 3.5 5 2.5 ...
+##  $ offen      : num  4 4 4 3.5 4.5 4 4 4 4.5 3 ...
+##  $ prok       : num  2.7 2.5 2.9 2.8 2.9 2.7 2.4 2.5 2.7 2.6 ...
+##  $ nerd       : num  2.5 2.33 2.83 4 3.67 ...
+##  $ uni1       : num  0 0 0 0 0 0 0 0 1 0 ...
+##  $ uni2       : num  1 1 1 1 1 1 1 1 1 1 ...
+##  $ uni3       : num  0 0 1 0 0 1 0 1 1 1 ...
+##  $ uni4       : num  0 0 1 0 0 0 0 0 1 0 ...
+##  $ grund      : chr  "Interesse an Menschen, Verhalten und Sozialdynamiken" "Ich will die Menschliche Psyche und menschliches Handeln, Denken verstehen." NA "Um Therapeutin zu werden und Menschen aus meiner früheren Situatuon zu helfen " ...
+##  $ fach       : Factor w/ 5 levels "Allgemeine","Biologische",..: 1 3 1 4 4 3 1 3 1 4 ...
+##  $ ziel       : Factor w/ 4 levels "Wirtschaft","Therapie",..: 3 2 3 2 2 3 1 4 4 2 ...
+##  $ wissen     : int  4 3 5 5 4 3 3 4 5 3 ...
+##  $ therap     : int  5 4 5 5 5 5 4 5 4 5 ...
+##  $ lerntyp    : num  3 1 1 1 1 1 3 3 3 1 ...
+##  $ hand       : num  1 2 2 2 2 2 2 2 1 2 ...
+##  $ job        : Factor w/ 2 levels "nein","ja": 2 1 2 1 1 1 1 1 2 2 ...
+##  $ ort        : Factor w/ 2 levels "FFM","anderer": 2 2 1 1 1 1 1 2 1 1 ...
+##  $ ort12      : num  1 2 1 1 2 2 2 1 2 2 ...
+##  $ wohnen     : Factor w/ 4 levels "WG","bei Eltern",..: 2 3 3 3 3 3 1 2 1 1 ...
+##  $ attent     : num  5 4 5 5 5 5 5 4 4 5 ...
+##  $ gs_post    : num  NA 3 3.5 2.75 2.5 3 NA 3.25 3 3.25 ...
+##  $ wm_post    : num  NA 2.25 3 2.25 2.5 2.25 NA 2.5 3 3.25 ...
+##  $ ru_post    : num  NA 2.25 2.25 2.25 2 2.25 NA 2.25 2.75 1.75 ...
+##  $ time_post  : num  NA 34 37 37 51 40 NA 40 30 27 ...
+##  $ attent_post: num  NA 5 5 5 5 5 NA 5 5 5 ...
+##  $ hand_factor: Factor w/ 2 levels "links","rechts": 1 2 2 2 2 2 2 2 1 2 ...
+##  $ fach_klin  : Factor w/ 2 levels "nicht klinisch",..: 1 1 1 2 2 1 1 1 1 2 ...
+##  $ unipartys  : Factor w/ 2 levels "nein","ja": 1 1 2 1 1 2 1 2 2 2 ...
+##  $ mdbf4_r    : num  4 4 4 3 4 2 4 4 4 4 ...
+##  $ mdbf11_r   : num  4 4 4 3 2 3 3 4 3 4 ...
+##  $ mdbf3_r    : num  4 4 4 3 2 4 4 3 3 4 ...
+##  $ mdbf9_r    : num  4 3 4 3 2 3 2 2 3 4 ...
+##  $ mdbf5_r    : num  2 4 2 2 3 1 4 3 4 4 ...
+##  $ mdbf7_r    : num  2 2 3 2 3 1 4 1 4 4 ...
+##  $ wm_pre     : num  2.75 3 2.75 2.5 3 1.5 3.75 2 3.75 4 ...
+##  $ gs_pre     : num  4 3.75 3.5 3 3 2.25 3.75 3.25 3.5 4 ...
+##  $ ru_pre     : num  3.5 3.5 3.5 2.75 2 3 3 2.5 3 4 ...
+##  $ ru_pre_zstd: num [1:192, 1] 1.0554 1.0554 1.0554 -0.0402 -1.1357 ...
+##   ..- attr(*, "scaled:center")= num 2.78
+##   ..- attr(*, "scaled:scale")= num 0.685
 ```
 
-Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 53 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und 55 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 ***
     
@@ -182,7 +184,7 @@ Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglic
 **`extra`:**
 
 ```r
-plot(fb23$extra, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+plot(fb24$extra, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 ![](/lehre/statistik-i/einfache-reg-loesungen_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
@@ -190,7 +192,7 @@ plot(fb23$extra, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 **`vertr`:**
 
 ```r
-plot(fb23$vertr, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+plot(fb24$vertr, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 ![](/lehre/statistik-i/einfache-reg-loesungen_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
@@ -198,7 +200,7 @@ plot(fb23$vertr, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 **`gewis`:**
 
 ```r
-plot(fb23$gewis, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+plot(fb24$gewis, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 ![](/lehre/statistik-i/einfache-reg-loesungen_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
@@ -206,7 +208,7 @@ plot(fb23$gewis, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 **`neuro`:**
 
 ```r
-plot(fb23$neuro, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+plot(fb24$neuro, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 ![](/lehre/statistik-i/einfache-reg-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
@@ -214,7 +216,7 @@ plot(fb23$neuro, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 **`intel`:**
 
 ```r
-plot(fb23$offen, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+plot(fb24$offen, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 ![](/lehre/statistik-i/einfache-reg-loesungen_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
@@ -228,146 +230,211 @@ plot(fb23$offen, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 **`extra`:**
 
 ```r
-fme <- lm(lz ~ extra, fb23)
+fme <- lm(lz ~ extra, fb24)
 summary(fme)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = lz ~ extra, data = fb23)
+## lm(formula = lz ~ extra, data = fb24)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.1828 -0.6196  0.1252  0.7620  2.2356 
+##     Min      1Q  Median 
+## -3.0204 -0.6463  0.1537 
+##      3Q     Max 
+##  0.7408  2.0572 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  3.69084    0.27607  13.369  < 2e-16 ***
-## extra        0.43679    0.08126   5.375 2.42e-07 ***
+##             Estimate
+## (Intercept)  3.43939
+## extra        0.45172
+##             Std. Error
+## (Intercept)    0.25842
+## extra          0.07532
+##             t value Pr(>|t|)
+## (Intercept)  13.309  < 2e-16
+## extra         5.998 9.99e-09
+##                
+## (Intercept) ***
+## extra       ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.9801 on 175 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.1417,	Adjusted R-squared:  0.1368 
-## F-statistic: 28.89 on 1 and 175 DF,  p-value: 2.42e-07
+## Residual standard error: 1.057 on 189 degrees of freedom
+##   (1 Beobachtung als fehlend gelöscht)
+## Multiple R-squared:  0.1599,	Adjusted R-squared:  0.1554 
+## F-statistic: 35.97 on 1 and 189 DF,  p-value: 9.992e-09
 ```
 
 **`vertr`:**
 
 ```r
-fmv <- lm(lz ~ vertr, fb23)
+fmv <- lm(lz ~ vertr, fb24)
 summary(fmv)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = lz ~ vertr, data = fb23)
+## lm(formula = lz ~ vertr, data = fb24)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.5247 -0.6459  0.1612  0.7612  1.9895 
+##      Min       1Q   Median 
+## -3.04951 -0.67250  0.07616 
+##       3Q      Max 
+##  0.85049  2.12750 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  4.32567    0.34356   12.59   <2e-16 ***
-## vertr        0.22828    0.09633    2.37   0.0189 *  
+##             Estimate
+## (Intercept)   4.0442
+## vertr         0.2513
+##             Std. Error
+## (Intercept)     0.3588
+## vertr           0.1003
+##             t value Pr(>|t|)
+## (Intercept)  11.271   <2e-16
+## vertr         2.507    0.013
+##                
+## (Intercept) ***
+## vertr       *  
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.044 on 174 degrees of freedom
-##   (3 observations deleted due to missingness)
-## Multiple R-squared:  0.03126,	Adjusted R-squared:  0.0257 
-## F-statistic: 5.616 on 1 and 174 DF,  p-value: 0.0189
+## Residual standard error: 1.134 on 189 degrees of freedom
+##   (1 Beobachtung als fehlend gelöscht)
+## Multiple R-squared:  0.03218,	Adjusted R-squared:  0.02706 
+## F-statistic: 6.285 on 1 and 189 DF,  p-value: 0.01302
 ```
 
 **`gewis`:**
 
 ```r
-fmg <- lm(lz ~ gewis, fb23)
+fmg <- lm(lz ~ gewis, fb24)
 summary(fmg)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = lz ~ gewis, data = fb23)
+## lm(formula = lz ~ gewis, data = fb24)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.6219 -0.5908  0.1937  0.7781  2.1625 
+##     Min      1Q  Median 
+## -3.0219 -0.6895  0.1105 
+##      3Q     Max 
+##  0.8766  2.2090 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   4.4686     0.3755  11.900   <2e-16 ***
-## gewis         0.1844     0.1038   1.777   0.0774 .  
+##             Estimate
+## (Intercept)  3.76025
+## gewis        0.33232
+##             Std. Error
+## (Intercept)    0.32588
+## gewis          0.09049
+##             t value Pr(>|t|)
+## (Intercept)  11.539  < 2e-16
+## gewis         3.673 0.000312
+##                
+## (Intercept) ***
+## gewis       ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.048 on 175 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.01772,	Adjusted R-squared:  0.0121 
-## F-statistic: 3.156 on 1 and 175 DF,  p-value: 0.07737
+## Residual standard error: 1.114 on 189 degrees of freedom
+##   (1 Beobachtung als fehlend gelöscht)
+## Multiple R-squared:  0.06661,	Adjusted R-squared:  0.06167 
+## F-statistic: 13.49 on 1 and 189 DF,  p-value: 0.0003125
 ```
 
 **`neuro`:**
 
 ```r
-fmn <- lm(lz ~ neuro, fb23)
+fmn <- lm(lz ~ neuro, fb24)
 summary(fmn)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = lz ~ neuro, data = fb23)
+## lm(formula = lz ~ neuro, data = fb24)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.2488 -0.6202  0.1227  0.7512  1.9512 
+##     Min      1Q  Median 
+## -2.7780 -0.7258  0.1699 
+##      3Q     Max 
+##  0.7481  2.2827 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  6.07728    0.27289  22.270  < 2e-16 ***
-## neuro       -0.28570    0.07824  -3.652 0.000344 ***
+##             Estimate
+## (Intercept)   6.6387
+## neuro        -0.5043
+##             Std. Error
+## (Intercept)     0.2843
+## neuro           0.0804
+##             t value Pr(>|t|)
+## (Intercept)  23.347  < 2e-16
+## neuro        -6.272 2.37e-09
+##                
+## (Intercept) ***
+## neuro       ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.02 on 175 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.0708,	Adjusted R-squared:  0.06549 
-## F-statistic: 13.33 on 1 and 175 DF,  p-value: 0.000344
+## Residual standard error: 1.049 on 189 degrees of freedom
+##   (1 Beobachtung als fehlend gelöscht)
+## Multiple R-squared:  0.1723,	Adjusted R-squared:  0.1679 
+## F-statistic: 39.34 on 1 and 189 DF,  p-value: 2.368e-09
 ```
 
 **`intel`:**
 
 ```r
-fmo <- lm(lz ~ offen, fb23)
+fmo <- lm(lz ~ offen, fb24)
 summary(fmo)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = lz ~ offen, data = fb23)
+## lm(formula = lz ~ offen, data = fb24)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.7082 -0.5793  0.2207  0.7155  1.9392 
+##      Min       1Q   Median 
+## -3.02651 -0.71322  0.01824 
+##       3Q      Max 
+##  0.81824  2.01824 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  5.29777    0.33066  16.022   <2e-16 ***
-## offen       -0.04740    0.08602  -0.551    0.582    
+##             Estimate
+## (Intercept)  4.57896
+## offen        0.08951
+##             Std. Error
+## (Intercept)    0.33563
+## offen          0.08537
+##             t value Pr(>|t|)
+## (Intercept)  13.643   <2e-16
+## offen         1.049    0.296
+##                
+## (Intercept) ***
+## offen          
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.057 on 175 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.001732,	Adjusted R-squared:  -0.003972 
-## F-statistic: 0.3036 on 1 and 175 DF,  p-value: 0.5823
+## Residual standard error: 1.149 on 189 degrees of freedom
+##   (1 Beobachtung als fehlend gelöscht)
+## Multiple R-squared:  0.005783,	Adjusted R-squared:  0.0005228 
+## F-statistic: 1.099 on 1 and 189 DF,  p-value: 0.2957
 ```
 Wenn wir die Koeffizienten der Modelle vergleichen, sehen wir, dass `extra` den stärksten linearen Zusammenhang mit `lz` aufweist (Hinweis: für den Vergleich der Modelle vergleichen wir den Determinationskoeffizienten der fünf Modelle = Multiple R-squared im R-Output! Dieser ist für das Modell mit dem Prädiktor Extraversion am höchsten)
 
@@ -391,18 +458,18 @@ Dies ist der Fall, weil bei der standardisierten Regression mithilfe der lm()- u
 Zu 1:
 
 ```r
-sfme <- lm(scale(lz) ~ scale(extra), fb23)
+sfme <- lm(scale(lz) ~ scale(extra), fb24)
 sfme
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = scale(lz) ~ scale(extra), data = fb23)
+## lm(formula = scale(lz) ~ scale(extra), data = fb24)
 ## 
 ## Coefficients:
 ##  (Intercept)  scale(extra)  
-##    -0.002424      0.375167
+##   -5.044e-16     3.999e-01
 ```
 
 
@@ -420,28 +487,44 @@ summary(sfme2)         # reg |> lm.beta() |> summary()
 ```
 ## 
 ## Call:
-## lm(formula = lz ~ extra, data = fb23)
+## lm(formula = lz ~ extra, data = fb24)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.1828 -0.6196  0.1252  0.7620  2.2356 
+##     Min      1Q  Median 
+## -3.0204 -0.6463  0.1537 
+##      3Q     Max 
+##  0.7408  2.0572 
 ## 
 ## Coefficients:
-##             Estimate Standardized Std. Error t value Pr(>|t|)    
-## (Intercept)  3.69084           NA    0.27607  13.369  < 2e-16 ***
-## extra        0.43679      0.37643    0.08126   5.375 2.42e-07 ***
+##             Estimate
+## (Intercept)  3.43939
+## extra        0.45172
+##             Standardized
+## (Intercept)           NA
+## extra            0.39986
+##             Std. Error
+## (Intercept)    0.25842
+## extra          0.07532
+##             t value Pr(>|t|)
+## (Intercept)  13.309  < 2e-16
+## extra         5.998 9.99e-09
+##                
+## (Intercept) ***
+## extra       ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.9801 on 175 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.1417,	Adjusted R-squared:  0.1368 
-## F-statistic: 28.89 on 1 and 175 DF,  p-value: 2.42e-07
+## Residual standard error: 1.057 on 189 degrees of freedom
+##   (1 Beobachtung als fehlend gelöscht)
+## Multiple R-squared:  0.1599,	Adjusted R-squared:  0.1554 
+## F-statistic: 35.97 on 1 and 189 DF,  p-value: 9.992e-09
 ```
 
 lm.beta()  ergänzt den Output der lm()-Funktion an der Stelle der Koeffizienten um die Spalte "Standardized". Dieser können wir den standardisierten Koeffizienten des linearen Zusammenhangs zwischen Extraversion und Lebenszufriedenheit entnehmen.
 
-Wenn sich die Variable `extra` um eine Standardabweichung verändert, verändert sich das Kriterium `lz` um 0.38 Standardabweichungen.
+Wenn sich die Variable `extra` um eine Standardabweichung verändert, verändert sich das Kriterium `lz` um 0.4 Standardabweichungen.
 
 </details>
 
@@ -455,7 +538,7 @@ Betrachten Sie nun den Zusammenhang von Neurotizismus (`neuro`) und Lebenszufrie
 
 
 ```r
-plot(fb23$neuro, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+plot(fb24$neuro, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 abline(fmn, col = "red")
 ```
 
@@ -475,26 +558,39 @@ summary(fmn)
 ```
 ## 
 ## Call:
-## lm(formula = lz ~ neuro, data = fb23)
+## lm(formula = lz ~ neuro, data = fb24)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.2488 -0.6202  0.1227  0.7512  1.9512 
+##     Min      1Q  Median 
+## -2.7780 -0.7258  0.1699 
+##      3Q     Max 
+##  0.7481  2.2827 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  6.07728    0.27289  22.270  < 2e-16 ***
-## neuro       -0.28570    0.07824  -3.652 0.000344 ***
+##             Estimate
+## (Intercept)   6.6387
+## neuro        -0.5043
+##             Std. Error
+## (Intercept)     0.2843
+## neuro           0.0804
+##             t value Pr(>|t|)
+## (Intercept)  23.347  < 2e-16
+## neuro        -6.272 2.37e-09
+##                
+## (Intercept) ***
+## neuro       ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.02 on 175 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.0708,	Adjusted R-squared:  0.06549 
-## F-statistic: 13.33 on 1 and 175 DF,  p-value: 0.000344
+## Residual standard error: 1.049 on 189 degrees of freedom
+##   (1 Beobachtung als fehlend gelöscht)
+## Multiple R-squared:  0.1723,	Adjusted R-squared:  0.1679 
+## F-statistic: 39.34 on 1 and 189 DF,  p-value: 2.368e-09
 ```
 
-$\rightarrow$ Das Modell erklärt 7.08% der Varianz in Lebenszufriedenheit durch Neurotizismus.
+$\rightarrow$ Das Modell erklärt 17.23% der Varianz in Lebenszufriedenheit durch Neurotizismus.
 
 </details>
 
@@ -509,8 +605,10 @@ predict(fmn, newdata = new)
 ```
 
 ```
-##        1        2        3        4        5        6 
-## 5.720154 5.291599 5.077322 4.863045 5.005896 5.463021
+##        1        2        3 
+## 6.008326 5.251903 4.873691 
+##        4        5        6 
+## 4.495480 4.747621 5.554472
 ```
 
 </details> 

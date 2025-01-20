@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [vogler]
 weight:
-lastmod: '2024-04-02'
+lastmod: '2024-12-16'
 featured: no
 banner:
   image: "/header/stormies.jpg"
@@ -38,20 +38,20 @@ output:
 
 
 
-> Laden Sie zunächst den Datensatz `fb23` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb23.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/multiple-reg/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/multiple-reg/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
 ```r
-dim(fb23)
+dim(fb24)
 ```
 
 ```
-## [1] 179  42
+## [1] 192  44
 ```
 
-Der Datensatz besteht aus 179 Zeilen (Beobachtungen) und 42 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und 44 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ***
@@ -66,9 +66,9 @@ Dafür reduzieren Sie zunächst Ihren Datensatz auf die relevanten Variablen und
 
 
 ```r
-fb23_short <- subset(fb23, select = c("extra", "vertr", "gewis", "neuro", "offen", "prok"))
+fb24_short <- subset(fb24, select = c("extra", "vertr", "gewis", "neuro", "offen", "prok"))
 
-fb23_short <- na.omit(fb23_short)
+fb24_short <- na.omit(fb24_short)
 ```
 
 <details>
@@ -82,7 +82,7 @@ Da wir im Folgenden erneut mit den Big Five Variablen arbeiten, gehen wir dieser
 
 ```r
 #Gibt es mindestens ein fehlenden Wert auf den 6 Variablen?
-anyNA(fb23[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
+anyNA(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ```
 
 ```
@@ -91,18 +91,58 @@ anyNA(fb23[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 
 ```r
 #Auf welcher Variable und wie viele NA's gibt es?
-summary(fb23[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
+summary(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ```
 
 ```
-##      extra           vertr           gewis           neuro           offen           prok      
-##  Min.   :1.000   Min.   :1.000   Min.   :1.500   Min.   :1.000   Min.   :1.50   Min.   :1.500  
-##  1st Qu.:2.500   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:2.500   1st Qu.:3.00   1st Qu.:2.200  
-##  Median :3.000   Median :3.500   Median :3.500   Median :3.500   Median :4.00   Median :2.500  
-##  Mean   :3.268   Mean   :3.463   Mean   :3.531   Mean   :3.355   Mean   :3.74   Mean   :2.545  
-##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.50   3rd Qu.:2.950  
-##  Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.00   Max.   :3.800  
-##                  NA's   :1
+##      extra      
+##  Min.   :1.000  
+##  1st Qu.:2.500  
+##  Median :3.500  
+##  Mean   :3.277  
+##  3rd Qu.:4.000  
+##  Max.   :5.000  
+##  NA's   :1      
+##      vertr      
+##  Min.   :1.000  
+##  1st Qu.:3.000  
+##  Median :3.500  
+##  Mean   :3.484  
+##  3rd Qu.:4.000  
+##  Max.   :5.000  
+##  NA's   :1      
+##      gewis     
+##  Min.   :1.50  
+##  1st Qu.:3.00  
+##  Median :3.50  
+##  Mean   :3.49  
+##  3rd Qu.:4.00  
+##  Max.   :5.00  
+##  NA's   :1     
+##      neuro      
+##  Min.   :1.000  
+##  1st Qu.:3.000  
+##  Median :3.500  
+##  Mean   :3.408  
+##  3rd Qu.:4.000  
+##  Max.   :5.000  
+##  NA's   :1      
+##      offen      
+##  Min.   :1.000  
+##  1st Qu.:3.000  
+##  Median :4.000  
+##  Mean   :3.809  
+##  3rd Qu.:4.500  
+##  Max.   :5.000  
+##  NA's   :1      
+##       prok      
+##  Min.   :2.100  
+##  1st Qu.:2.500  
+##  Median :2.700  
+##  Mean   :2.685  
+##  3rd Qu.:2.900  
+##  Max.   :3.200  
+##  NA's   :2
 ```
 
 ```r
@@ -134,14 +174,14 @@ Falls Sie dort Schwierigkeiten hatten, benutzen Sie das Kontrollergebnis.
 
 
 ```r
-mod_final <- lm(prok ~ neuro + gewis + extra, data = fb23_short)
+mod_final <- lm(prok ~ neuro + gewis + extra, data = fb24_short)
 ```
 
 </details>
 
 *   Welcher Prädiktor trägt am meisten zur Prognose der Prokrastinationstendenz (`prok`) bei?
 
-*   Welche Prokrastinationstendenz (`prok`) sagt das finale Modell für eine Person hervor, die auf allen inkludierten Prädiktoren genau in der Mitte der Stichprobe (`fb23`) liegt (Mittelwerte)?
+*   Welche Prokrastinationstendenz (`prok`) sagt das finale Modell für eine Person hervor, die auf allen inkludierten Prädiktoren genau in der Mitte der Stichprobe (`fb24`) liegt (Mittelwerte)?
 
 
 ***

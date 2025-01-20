@@ -1,7 +1,7 @@
 ---
 title: "Korrelation" 
 type: post
-date: '2021-01-04'
+date: '2025-01-09'
 slug: korrelation 
 categories: ["Statistik I"] 
 tags: ["Korrelation", "Grundlagen", "Hilfe"] 
@@ -59,54 +59,47 @@ library(knitr)
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz `fb23` haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
+Den Datensatz `fb24` haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
 
 ```{r}
+
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb23.rda'))
+load(url('https://pandar.netlify.app/daten/fb24.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb23$hand_factor <- factor(fb23$hand,
+fb24$hand_factor <- factor(fb24$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb23$fach <- factor(fb23$fach,
+fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb23$ziel <- factor(fb23$ziel,
+fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb23$wohnen <- factor(fb23$wohnen, 
+fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-fb23$fach_klin <- factor(as.numeric(fb23$fach == "Klinische"),
-                         levels = 0:1,
-                         labels = c("nicht klinisch", "klinisch"))
-fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
-fb23$unipartys <- factor(fb23$uni3,
-                             levels = 0:1,
-                             labels = c("nein", "ja"))
+
+fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb24$job <- factor(fb24$job, levels=c(1,2), labels=c("nein", "ja"))
 
 # Rekodierung invertierter Items
-fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
-fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
-fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
-fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
-fb23$mdbf5_pre_r <- -1 * (fb23$mdbf5_pre - 4 - 1)
-fb23$mdbf7_pre_r <- -1 * (fb23$mdbf7_pre - 4 - 1)
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 5)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 5)
+fb24$mdbf3_r <- -1 * (fb24$mdbf3 - 5)
+fb24$mdbf9_r <- -1 * (fb24$mdbf9 - 5)
 
 # Berechnung von Skalenwerten
-fb23$wm_pre  <- fb23[, c('mdbf1_pre', 'mdbf5_pre_r', 
-                        'mdbf7_pre_r', 'mdbf10_pre')] |> rowMeans()
-fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
-                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
-fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
-                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+                        'mdbf8', 'mdbf11_r')] |> rowMeans()
+fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+                         "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
+fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
+
 ```
 
 ****
@@ -117,7 +110,7 @@ Die Erstellung von *Häufigkeitstabellen* zur Darstellung univariater Häufigkei
 
 
 ```{r}
-tab <- table(fb23$fach)               #Absolut
+tab <- table(fb24$fach)               #Absolut
 tab
 
 prop.table(tab)                       #Relativ
@@ -128,7 +121,7 @@ prop.table(tab)                       #Relativ
 Die Erweiterung für den bivariaten Fall ist dabei nicht schwierig und wird als *Kreuztabelle* bezeichnet. Sie liefert die Häufigkeit von Kombinationen von Ausprägungen in mehreren Variablen. In den Zeilen wird die erste Variable abgetragen und in den Spalten die zweite. Im Unterschied zum univariaten Fall muss im `table()`-Befehl nur die zweite interessierende Variable zusätzlich genannt werden. Tabellen können beliebig viele Dimensionen haben, werden dann aber sehr unübersichtlich.
 
 ```{r}
-tab<-table(fb23$fach,fb23$ziel)       #Kreuztabelle
+tab<-table(fb24$fach,fb24$ziel)       #Kreuztabelle
 tab
 ```
 
@@ -215,46 +208,44 @@ Die Funktionen für die Varianz ist dabei `var()`. Im Folgenden wird diese für 
 Wie bereits in vergangenen Sitzungen gesehen, führen fehlende Werte zu der Ausgabe `NA`. Um dies vorzubeugen, wird im univariaten Fall `na.rm = TRUE` zum Ausschluss verwendet. 
 
 ```{r}
-var(fb23$neuro, na.rm = TRUE)            #Varianz Neurotizismus
+var(fb24$neuro, na.rm = TRUE)            #Varianz Neurotizismus
 
-var(fb23$gewis, na.rm = TRUE)            #Varianz Gewissenhaftigkeit
+var(fb24$gewis, na.rm = TRUE)            #Varianz Gewissenhaftigkeit
 ```
 
 
 Die Funktion `cov()` wird für die Kovarianz verwendet und benötigt als Argumente die Variablen. 
 
-```{r}
-cov(fb23$neuro, fb23$gewis)              #Kovarianz Neurotizismus und Gewissenhaftigkeit
-```
-Da Kovarianzen unstandardisierte Kennzahlen sind, können wir Kovarianzen nicht pauschal nach ihrer Höhe beurteilen. Die Höhe hängt beispielsweise von der Antwortskala ab. 
-
 {{<intext_anchor NA>}}
 
-Natürlich können auch bei der Kovarianzberechnung fehlende Werte zu einem Problem werden. Hier demonstriert am Beispiel der Lebenszufriedenheit (`lz`) und der Verträglichkeit (`vertr`).
-
 ```{r}
-cov(fb23$vertr, fb23$lz)              #Kovarianz Verträglichkeit und Lebenszufriedenheit
+cov(fb24$neuro, fb24$gewis)              #Kovarianz Neurotizismus und Gewissenhaftigkeit
 ```
 
-Zur Bewältigung des Problems gibt es das Argument `use`, das mehr Flexibilität bietet, als `na.rm` bei der univariaten Betrachtung. Diese Flexibilität setzt aber nur deutlich ein, wenn mehr als zwei Variablen gleichzeitig betrachtet werden. Wir werden gleich also alle vier bisher betrachteten Variablen in eine Analyse zusammenlegen. Zunächst aber eine kurze Zusammenfassung von den drei häufigsten Optionen:
+Natürlich können auch bei der Kovarianzberechnung fehlende Werte zu einem Problem werden. Zur Bewältigung des Problems gibt es das Argument `use`, das mehr Flexibilität bietet, als `na.rm` bei der univariaten Betrachtung. Diese Flexibilität setzt aber nur deutlich ein, wenn mehr als zwei Variablen gleichzeitig betrachtet werden. Wir werden gleich also alle fünf der Big 5 Persönlichkeitsdimensionen betrachten. Zunächst aber eine kurze Zusammenfassung von den drei häufigsten Optionen:
 
 * *Nutzung aller Beobachtungen*: Alle Zeilen (also Personen) gehen in die Berechnung aller Werte mit ein.
 * *Listenweiser Fallausschluss*: Personen, die auf (mindestens) einer von **allen** Variablen `NA` haben, werden von der Berechnung ausgeschlossen.
 * *Paarweiser Fallausschluss*: Personen, die auf (mindestens) einer von **zwei** Variablen `NA` haben, werden von der Berechnung ausgeschlossen.
 
-Am besten lässt sich der Unterschied in einer *Kovarianzmatrix* veranschaulichen. Hier werden alle Varianzen und Kovarianzen von einer Menge an Variablen berechnet und in einer Tabelle darstellt. Dafür kann ein Datensatz erstellt werden, der nur die interessierenden Variablen enthält. Wir nehmen alle vier Variablen aus unseren Beispielen zur Kovarianzen auf.
+Am besten lässt sich der Unterschied in einer *Kovarianzmatrix* veranschaulichen. Hier werden alle Varianzen und Kovarianzen von einer Menge an Variablen berechnet und in einer Tabelle darstellt. Dafür kann ein Datensatz erstellt werden, der nur die interessierenden Variablen enthält. Wir nehmen alle vier Variablen aus unseren Beispielen zur Kovarianzen auf. Außerdem müssen wir zu Veranschaulichungszwecken noch das Vorkommen fehlender Werte (willkürlich) anpassen.
 
 ```{r}
-na_test <- fb23[, c('vertr','gewis',"neuro",'lz')] #Datensatzreduktion
-cov(na_test)                                       #Kovarianzmatrix   
+big5 <- fb24[,c('extra', 'vertr', 'gewis', 'neuro', 'offen')] #Datensatzreduktion
+cov(big5)                                       #Kovarianzmatrix   
 ```
 
-Hier können wir ein deutliches Muster erkennen. Da sowohl `gewis` als auch `neuro` keine fehlenden Werte enthalten, wird die Kovarianz und die Varianz (auf der Diagonalen, da die Kovarianz einer Variable mit sich selbst die Varianz ist) ausgegeben. Für die Variablen mit fehlenden Werten (`lz` und `vertr`) bekommen wir jedoch nur `NA` zurück. 
-
-Das Argument `use` haben wir innerhalb unserer `cov()` Funktion gar nicht angegeben. Das deutet darauf hin, dass es hier einen Default gibt. Nach dem Muster können wir uns erschließen, dass dieser `"everything"` entsprechen muss. Da alle Zeilen einfach in die Berechnung eingehen, werden `NA`-Werte nicht ausgeschlossen und für manche Zusammenhänge daher keine Kennwerte erzeugt. Wir können diese Schlussfolgerug auch nochmal überprüfen.
+Auch hier bekommen wir zunächst die wenig zufriedenstellende Aussage, dass keine der Kovarianzen bestimmt werden kann, weil fehlende Werte vorliegen. Anhand der `summary` können wir auch schnell ermitteln, wie viele fehlende Werte das pro Variable sind:
 
 ```{r}
-cov(na_test, use = "everything")         # Kovarianzmatrix mit Argument   
+summary(big5)
+```
+
+
+Um trotz dieser fehlenden Werte Kovarianzen berechnen zu können, können wir mit dem Argument `use` arbeiten. Per Voreinstellung wird die erste der drei Optionen genutzt, welche ausgeschrieben `"everything"` heißt. Da dabei alle Zeilen einfach in die Berechnung eingehen, werden `NA`-Werte nicht ausgeschlossen und für die Zusammenhänge daher keine Kennwerte erzeugt. Wir können diese Schlussfolgerug auch nochmal überprüfen.
+
+```{r}
+cov(big5, use = "everything")         # Kovarianzmatrix mit Argument   
 ```
 
 Die Ergebnisse sind exakt gleich mit den vorherigen - `"everything"` ist also der Default für diese Funktion. Nach dieser ersten Erkenntnis können wir die verschiedenen Argumente für die Behandlung von `NA` in der `cov()` Funktion ausprobieren. 
@@ -262,34 +253,47 @@ Die Ergebnisse sind exakt gleich mit den vorherigen - `"everything"` ist also de
 Beginnen wir mit dem *paarweisem Fallausschluss*, der mit `"pairwise"` angesprochen werden kann. 
 
 ```{r}
-cov(na_test, use = 'pairwise')             #Paarweiser Fallausschluss
+cov(big5, use = 'pairwise')             #Paarweiser Fallausschluss
 ```
 
 Wie wir sehen, werden nun die Personen mit fehlenden Werten auf einer Variable ignoriert, wenn für die Variable mit fehlendem Wert ein Zusammenhangsmaß berechnet wird. Ansonsten werden Personen aber nicht aus der Berechnung ausgeschlossen, was man vor allem daran sieht, dass sich die Kovarianzen (und Varianzen) von Variablen ohne fehlende Werte (`gewis` und `neuro`) nicht verändert haben. 
 
 Vergleichen wir nun dieses Ergebnis noch mit dem Ergebnis des *listenweisem Fallausschluss*.
 ```{r}
-cov(na_test, use = 'complete')             #Listenweiser Fallausschluss
+cov(big5, use = 'complete')             #Listenweiser Fallausschluss
 ```
 
-Wie wir sehen, unterscheiden sich die Werte von dem paarweise Fallausschluss. Das liegt daran, dass hier Personen mit fehlenden Werten aus der kompletten Berechnung ausgeschlossen werden. Selbst wenn sie nur auf der Lebenszufriedenheit (`lz`) einen fehlenden Wert haben, gehen sie nicht in die Berechnung des Zusammenhangs zwischen bspw. Verträglichkeit und Neurotizismus (`vertr` und `neuro`) ein. 
+Wie wir sehen, sind die Werte in diesem Fall gleich. Das liegt allerdings nur daran, dass es anscheinend _die selbe_ Person war, die auf allen fünf Variablen fehlende Werte hatte. Wenn wir händisch einen fehlenden Wert hinzufügen:
 
-Nochmal deutlicher wird das Verhalten, wenn wir uns die Werte für die eigentlich komplett beobachteten Variablen Gewissenhaftigkeit und Neurotizismus (`gewis` und `neuro`) anschauen. Auch hier verändern sich die Werte im Vergleich zu den beiden bisherigen Ergebnissen, denn die Regel sagt nunmal, dass Personen mit einem fehlenden Wert auf irgendeiner der interessierenden Variablen ausgeschlossen werden - also natürlich auch an dieser Stelle. 
+```{r}
+big5[1, 1] <- NA
+```
+
+unterscheiden sich die Werte zwischen `pairwise` und `complete` für die Kovarianzen aller Kombinationen außer der mit der ersten Variable:
+
+```{r}
+cov(big5, use = 'complete')             #Listenweiser Fallausschluss
+cov(big5, use = 'pairwise')             #Paarweiser Fallausschluss
+```
+
+Das liegt daran, dass `complete` Personen mit fehlenden Werten aus der kompletten Berechnung ausgeschlossen werden. Selbst wenn sie nur auf der Extraversion (`extra`) einen fehlenden Wert haben, gehen sie nicht in die Berechnung des Zusammenhangs zwischen bspw. Verträglichkeit und Neurotizismus (`vertr` und `neuro`) ein. 
 
 ### Grafische Darstellung
 
 Der Zusammenhang zwischen zwei Variablen kann in einem *Scatterplot* bzw. *Streupunktdiagramm* dargestellt werden. Dafür kann man die `plot()` Funktion nutzen. Als Argumente können dabei `x` für die Variable auf der x-Achse, `y` für die Variable auf der y-Achse, `xlim`, `ylim` für eventuelle Begrenzungen der Achsen und `pch` für die Punktart angegeben werden.
 
 ```{r}
-plot(x = fb23$neuro, y = fb23$gewis, xlim = c(1,5) , ylim = c(1,5))
+plot(x = fb24$neuro, y = fb24$gewis, xlim = c(1,5) , ylim = c(1,5))
 ```
+
+### Produkt-Moment-Korrelation (Pearson Korrelation)
 
 {{<intext_anchor PMK>}}
 
 Wie in der Vorlesung besprochen, sind für verschiedene Skalenniveaus verschiedene Zusammenhangsmaße verfügbar, die im Gegensatz zur Kovarianz auch eine Vergleichbarkeit zwischen zwei Zusammenhangswerten sicherstellen. Für zwei metrisch skalierte Variablen gibt es dabei die *Produkt-Moment-Korrelation*. In der Funktion `cor()` werden dabei die Argumente `x` und `y` für die beiden betrachteten Variablen benötigt. `use` beschreibt weiterhin den Umgang mit fehlenden Werten.
 
 ```{r}
-cor(x = fb23$neuro, y = fb23$gewis, use = 'pairwise')
+cor(x = fb24$neuro, y = fb24$gewis, use = 'pairwise')
 ```
 
 Bei einer positiven Korrelation gilt „je mehr Variable x... desto mehr Variable y" bzw. umgekehrt, bei einer negativen Korrelation „je mehr Variable x... desto weniger Variable y" bzw. umgekehrt. Korrelationen sind immer ungerichtet, das heißt, sie enthalten keine Information darüber, welche Variable eine andere vorhersagt - beide Variablen sind gleichberechtigt. Korrelationen (und Regressionen, die wir später [in einem Tutorial](/lehre/statistik-i/einfache-reg) kennen lernen werden) liefern *keine* Hinweise auf Kausalitäten. Sie sagen beide etwas über den (linearen) Zusammenhang zweier Variablen aus.
@@ -297,7 +301,7 @@ Bei einer positiven Korrelation gilt „je mehr Variable x... desto mehr Variabl
 In R können wir uns auch eine *Korrelationsmatrix* ausgeben lassen. Dies geschieht äquivalent zu der Kovarianzmatrix mit dem Datensatz als Argument in der `cor()` Funktion. In der Diagonale stehen die Korrelationen der Variable mit sich selbst - also 1 - und in den restlichen Feldern die Korrelationen der Variablen untereinander.
 
 ```{r}
-cor(na_test, use = 'pairwise')
+cor(big5, use = 'pairwise')
 ```
 
 
@@ -305,7 +309,7 @@ Die Stärke des korrelativen Zusammenhangs wird mit dem Korrelationskoeffiziente
 Die default-Einstellung bei `cor()`ist die *Produkt-Moment-Korrelation*, also die Pearson-Korrelation.
 
 ```{r}
-cor(fb23$neuro, fb23$gewis, use = "pairwise", method = "pearson")
+cor(fb24$neuro, fb24$gewis, use = "pairwise", method = "pearson")
 ```
 
 
@@ -322,23 +326,23 @@ Achtung! Die inferenzstatistische Testung der Pearson-Korrelation hat gewisse Vo
 $\rightarrow$ QQ-Plot, Histogramm & Shapiro-Wilk-Test
 
 ```{r}
-#QQ
-qqnorm(fb23$neuro)
-qqline(fb23$neuro)
+# car-Paket laden
+library(car)
 
-qqnorm(fb23$gewis)
-qqline(fb23$gewis)
+#QQ
+qqPlot(fb24$neuro)
+qqPlot(fb24$gewis)
 
 #Histogramm
 
-hist(fb23$neuro, prob = T, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb23$neuro, na.rm = T), sd = sd(fb23$neuro, na.rm = T)), col = "blue", add = T)  
-hist(fb23$gewis, prob = T, ylim = c(0,1))
-curve(dnorm(x, mean = mean(fb23$gewis, na.rm = T), sd = sd(fb23$gewis, na.rm = T)), col = "blue", add = T)
+hist(fb24$neuro, prob = T, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb24$neuro, na.rm = T), sd = sd(fb24$neuro, na.rm = T)), col = "blue", add = T)  
+hist(fb24$gewis, prob = T, ylim = c(0,1))
+curve(dnorm(x, mean = mean(fb24$gewis, na.rm = T), sd = sd(fb24$gewis, na.rm = T)), col = "blue", add = T)
 
 #Shapiro
-shapiro.test(fb23$neuro)
-shapiro.test(fb23$gewis)
+shapiro.test(fb24$neuro)
+shapiro.test(fb24$gewis)
 ```
 
 $p < \alpha$ $\rightarrow$ $H_1$: Normalverteilung kann nicht angenommen werden. Somit ist diese Voraussetzung verletzt. Eine Möglichkeit damit umzugehen, ist die Rangkorrelation nach Spearman. Diese ist nicht an die Voraussetzung der Normalverteilung gebunden. Das Verfahren kann über `method = "spearman"` angewendet werden.
@@ -348,7 +352,7 @@ $p < \alpha$ $\rightarrow$ $H_1$: Normalverteilung kann nicht angenommen werden.
 #### Rangkorrelation in R
 
 ```{r}
-r1 <- cor(fb23$neuro,fb23$gewis,
+r1 <- cor(fb24$neuro,fb24$gewis,
           method = "spearman",     #Pearson ist default
           use = "complete") 
 
@@ -357,7 +361,8 @@ r1
 ```
 
 
-#### Interpretation des deskriptiven Zusammenhangs:
+#### Interpretation des deskriptiven Zusammenhangs
+
 Es handelt sich um eine schwache negative Korrelation von _r_ = `r round(r1, digits = 2)`. Der Effekt ist nach Cohens (1988) Konvention als vernachlässigbar bis schwach zu bewerten. D.h. es gibt keinen nennenswerten Zusammenhang zwischen der Ausprägung in Neurotizismus und der Ausprägung in der Gewissenhaftigkeit. 
 
 #### Cohens (1988) Konvention zur Interpretation von $|r|$
@@ -366,12 +371,12 @@ Es handelt sich um eine schwache negative Korrelation von _r_ = `r round(r1, dig
 * ~ .30: mittlerer Effekt  
 * ~ .50: starker Effekt 
 
-{{<intext_anchor tau>}}
+### Kendalls $\tau$ {{<intext_anchor tau>}}
 
 Als weitere Variante der Rangkorrelation gibt es noch Kendalls $\tau$. Diese kann man mit `method = "kendall"` angesprochen werden.
 
 ```{r}
-cor(fb23$neuro, fb23$gewis, use = 'complete', method = 'kendall')
+cor(fb24$neuro, fb24$gewis, use = 'complete', method = 'kendall')
 ```
 Die Interpretation erfolgt wie bei Spearman's Rangkorrelation. 
 
@@ -382,7 +387,7 @@ Nachdem der Korrelationskoeffizient berechnet wurde, kann dieser noch auf Signif
 * $H_1$: $\rho \neq 0$ $\rightarrow$  es gibt einen Zusammenhang zwischen Neurotizismus und Gewissenhaftigkeit
 
 ```{r}
-cor <- cor.test(fb23$neuro, fb23$gewis, 
+cor <- cor.test(fb24$neuro, fb24$gewis, 
          alternative = "two.sided", 
          method = "spearman",      #Da Voraussetzungen für Pearson verletzt
          use = "complete")
@@ -398,7 +403,7 @@ Es wurde untersucht, ob Neurotizismus und Gewissenhaftigkeit miteinander zusamme
 Wir haben in der Funktion `cor.test()` als Argument `method = "spearman"` eingegeben, da die Voraussetzungen für die Pearson-Korrelation nicht erfüllt waren. Wenn dies der Fall gewesen wäre, müsste man stattdessen `method = "pearson"` angeben:
 
 ```{r}
-cor.test(fb23$neuro, fb23$gewis, 
+cor.test(fb24$neuro, fb24$gewis, 
          alternative = "two.sided", 
          method = "pearson",       
          use = "complete")
@@ -412,12 +417,12 @@ Abschließend lernen wir Zusammenhangsmaße für dichotome nominalskalierte Vari
 Wir analysieren aus unserem Datensatz die beiden dichotomen Variablen `job` (ja [`ja`] vs. nein [`nein`]) und `ort` (Frankfurt [`FFM`] vs. außerhalb [`andere`]). Die Variablen `ort` und `job` liegen nach den vorbereitenden Schritten bereits als Faktor-Variablen mit entsprechende Labels vor. Dies wird durch die folgende Prüfung bestätigt:
 
 ```{r}
-is.factor(fb23$ort)
-is.factor(fb23$job)
+is.factor(fb24$ort)
+is.factor(fb24$job)
 ```
 Erstellen der Kreuztabelle als Datenbasis:
 ```{r}
-tab <- table(fb23$ort, fb23$job)
+tab <- table(fb24$ort, fb24$job)
 tab
 ```
 
@@ -440,8 +445,8 @@ Durch ein mathematisches Wunder (dass Sie gerne anhand der Formeln für Kovarian
 
 ```{r}
 # Numerische Variablen erstellen
-ort_num <- as.numeric(fb23$ort)
-job_num <- as.numeric(fb23$job)
+ort_num <- as.numeric(fb24$ort)
+job_num <- as.numeric(fb24$job)
 
 cor(ort_num, job_num, use = 'pairwise')
 ```
@@ -562,22 +567,22 @@ Die Funktion heißt hier zufälligerweise genau gleich wie das Paket. Wenn man n
 ?rococo
 ```
 
-Dank des neuen Pakets können wir nun den Koeffizienten $\hat{\gamma}$ berechnen und damit den Zusammenhang zwischen Items betrachten. Schauen wir uns nun mal den Zusammenhang der beiden Prokrastinationsitems `fb23$mdbf2_pre` und `fb23$mdbf3_pre` an, um zu überprüfen, ob die beiden Items auch (wie beabsichtigt) etwas Ähnliches messen (nähmlich die aktuelle Stimmung). Die beiden Variablen wurden ursprünglich auf einer Skala von 1 (*stimmt gar nicht*) bis 4 (*stimmt vollkommen*) (also auf Ordinalskalenniveau) erfasst. 
+Dank des neuen Pakets können wir nun den Koeffizienten $\hat{\gamma}$ berechnen und damit den Zusammenhang zwischen Items betrachten. Schauen wir uns nun mal den Zusammenhang der beiden Prokrastinationsitems `fb24$mdbf2` und `fb24$mdbf3` an, um zu überprüfen, ob die beiden Items auch (wie beabsichtigt) etwas Ähnliches messen (nähmlich die aktuelle Stimmung). Die beiden Variablen wurden ursprünglich auf einer Skala von 1 (*stimmt gar nicht*) bis 4 (*stimmt vollkommen*) (also auf Ordinalskalenniveau) erfasst. 
 
 ```{r}
-rococo(fb23$mdbf2_pre, fb23$mdbf3_pre)
+rococo(fb24$mdbf2, fb24$mdbf3)
 ```
 
 Um zu überprüfen, ob zwei ordinalskalierte Variablen signifikant miteinander zusammenhängen, können wir die `rococo.test()`-Funktion anwenden.
 
 ```{r}
-rococo.test(fb23$mdbf2_pre, fb23$mdbf3_pre)
+rococo.test(fb24$mdbf2, fb24$mdbf3)
 ```
 
 ```{r, echo = F, purl = F}
-roc.test <- rococo.test(fb23$mdbf2_pre, fb23$mdbf3_pre)
+roc.test <- rococo.test(fb24$mdbf2, fb24$mdbf3)
 ```
-Der Koeffizient von `r round(roc.test@sample.gamma, 2)` zeigt uns, dass die Items zwar miteinander korrelieren, allerdings negativ. Ist hier etwas schief gelaufen? Nein, `mdbf2_pre` und `mdbf3_pre` repräsentieren gegenläufige Stimmungsaspekte. Mit der rekodierten Variante einer der beiden Variablen würde das `-` nicht da stehen, aber die Höhe der Korrelation bliebe gleich. Wir sehen daher, dass `mdbf2_pre` mit `mdbf3_pre` signifikant zusammenhängt. Die beiden Items messen demnach ein ähnliches zugrundeliegendes Konstrukt (aktuelle Stimmung).
+Der Koeffizient von `r round(roc.test@sample.gamma, 2)` zeigt uns, dass die Items zwar miteinander korrelieren, allerdings negativ. Ist hier etwas schief gelaufen? Nein, `mdbf2_pre` und `mdbf3_pre` repräsentieren gegenläufige Stimmungsaspekte. Mit der rekodierten Variante einer der beiden Variablen würde das `-` nicht da stehen, aber die Höhe der Korrelation bliebe gleich. Wir sehen daher, dass `mdbf2` mit `mdbf3` signifikant zusammenhängt. Die beiden Items messen demnach ein ähnliches zugrundeliegendes Konstrukt (aktuelle Stimmung).
 
 
 </details>

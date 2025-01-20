@@ -45,65 +45,65 @@ library(lm.beta)
 
 ## Vorbereitung
 
-Laden Sie zunächst den Datensatz `fb23` von der pandar-Website und führen Sie die Ergänzungen vor, die in zurückliegenden Tutorials vorgenommen wurden. 
+Laden Sie zunächst den Datensatz `fb24` von der pandar-Website und führen Sie die Ergänzungen vor, die in zurückliegenden Tutorials vorgenommen wurden. 
 
 ```{r}
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb23.rda'))  
+load(url('https://pandar.netlify.app/daten/fb24.rda'))  
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb23$hand_factor <- factor(fb23$hand,
+fb24$hand_factor <- factor(fb24$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb23$fach <- factor(fb23$fach,
+fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb23$ziel <- factor(fb23$ziel,
+fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb23$wohnen <- factor(fb23$wohnen, 
+fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-fb23$fach_klin <- factor(as.numeric(fb23$fach == "Klinische"),
+fb24$fach_klin <- factor(as.numeric(fb24$fach == "Klinische"),
                          levels = 0:1,
                          labels = c("nicht klinisch", "klinisch"))
-fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
-fb23$unipartys <- factor(fb23$uni3,
+fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb24$job <- factor(fb24$job, levels=c(1,2), labels=c("nein", "ja"))
+fb24$unipartys <- factor(fb24$uni3,
                              levels = 0:1,
                              labels = c("nein", "ja"))
 
 # Rekodierung invertierter Items
-fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
-fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
-fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
-fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
-fb23$mdbf5_pre_r <- -1 * (fb23$mdbf5_pre - 4 - 1)
-fb23$mdbf7_pre_r <- -1 * (fb23$mdbf7_pre - 4 - 1)
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 4 - 1)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 4 - 1)
+fb24$mdbf3_r <-  -1 * (fb24$mdbf3 - 4 - 1)
+fb24$mdbf9_r <-  -1 * (fb24$mdbf9 - 4 - 1)
+fb24$mdbf5_r <- -1 * (fb24$mdbf5 - 4 - 1)
+fb24$mdbf7_r <- -1 * (fb24$mdbf7 - 4 - 1)
 
 # Berechnung von Skalenwerten
-fb23$wm_pre  <- fb23[, c('mdbf1_pre', 'mdbf5_pre_r', 
-                        'mdbf7_pre_r', 'mdbf10_pre')] |> rowMeans()
-fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
-                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
-fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
-                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+fb24$wm_pre  <- fb24[, c('mdbf1', 'mdbf5_r', 
+                        'mdbf7_r', 'mdbf10')] |> rowMeans()
+fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+                        'mdbf8', 'mdbf11_r')] |> rowMeans()
+fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+                         "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
+fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
 
 ```
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 ```{r}
-dim(fb23)
-str(fb23)
+dim(fb24)
+str(fb24)
 ```
 
-Der Datensatz besteht aus `r nrow(fb23)` Zeilen (Beobachtungen) und `r ncol(fb23)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus `r nrow(fb24)` Zeilen (Beobachtungen) und `r ncol(fb24)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 ***
     
@@ -117,27 +117,27 @@ Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglic
 
 **`extra`:**
 ```{r}
-plot(fb23$extra, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+plot(fb24$extra, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 **`vertr`:**
 ```{r}
-plot(fb23$vertr, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+plot(fb24$vertr, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 **`gewis`:**
 ```{r}
-plot(fb23$gewis, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+plot(fb24$gewis, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 **`neuro`:**
 ```{r}
-plot(fb23$neuro, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+plot(fb24$neuro, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 **`intel`:**
 ```{r}
-plot(fb23$offen, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+plot(fb24$offen, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 </details>
@@ -148,31 +148,31 @@ plot(fb23$offen, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 
 **`extra`:**
 ```{r}
-fme <- lm(lz ~ extra, fb23)
+fme <- lm(lz ~ extra, fb24)
 summary(fme)
 ```
 
 **`vertr`:**
 ```{r}
-fmv <- lm(lz ~ vertr, fb23)
+fmv <- lm(lz ~ vertr, fb24)
 summary(fmv)
 ```
 
 **`gewis`:**
 ```{r}
-fmg <- lm(lz ~ gewis, fb23)
+fmg <- lm(lz ~ gewis, fb24)
 summary(fmg)
 ```
 
 **`neuro`:**
 ```{r}
-fmn <- lm(lz ~ neuro, fb23)
+fmn <- lm(lz ~ neuro, fb24)
 summary(fmn)
 ```
 
 **`intel`:**
 ```{r}
-fmo <- lm(lz ~ offen, fb23)
+fmo <- lm(lz ~ offen, fb24)
 summary(fmo)
 ```
 Wenn wir die Koeffizienten der Modelle vergleichen, sehen wir, dass `extra` den stärksten linearen Zusammenhang mit `lz` aufweist (Hinweis: für den Vergleich der Modelle vergleichen wir den Determinationskoeffizienten der fünf Modelle = Multiple R-squared im R-Output! Dieser ist für das Modell mit dem Prädiktor Extraversion am höchsten)
@@ -196,7 +196,7 @@ Dies ist der Fall, weil bei der standardisierten Regression mithilfe der lm()- u
 
 Zu 1:
 ```{r}
-sfme <- lm(scale(lz) ~ scale(extra), fb23)
+sfme <- lm(scale(lz) ~ scale(extra), fb24)
 sfme
 ```
 
@@ -229,7 +229,7 @@ Betrachten Sie nun den Zusammenhang von Neurotizismus (`neuro`) und Lebenszufrie
 <details><summary>Lösung</summary>
 
 ```{r}
-plot(fb23$neuro, fb23$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
+plot(fb24$neuro, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 abline(fmn, col = "red")
 ```
 
