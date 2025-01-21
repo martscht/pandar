@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, scheppa-lahyani, vogler, pommeranz] 
-lastmod: '2024-12-02'
+lastmod: '2025-01-21'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -118,21 +118,6 @@ library(psych)
 library(car)
 ```
 
-```
-## Loading required package: carData
-```
-
-```
-## 
-## Attaching package: 'car'
-```
-
-```
-## The following object is masked from 'package:psych':
-## 
-##     logit
-```
-
 </details>
 
 
@@ -207,7 +192,7 @@ hist(fb24$lz, xlim = c(1,7), main = "Histogramm", xlab = "Score", ylab = "Dichte
 curve(dnorm(x, mean = mean(fb24$lz, na.rm = TRUE), sd = sd(fb24$lz, na.rm = TRUE)), add = TRUE)
 ```
 
-![](/lehre/statistik-i/tests-konfidenzintervalle-loesungen_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](/lehre/statistik-i/tests-konfidenzintervalle-loesungen_files/figure-html/unnamed-chunk-123-1.png)<!-- -->
 
 ``` r
 #geeigneter Plot: QQ-Plot. Alle Punkte sollten auf einer Linie liegen.
@@ -215,14 +200,14 @@ qqnorm(fb24$lz)
 qqline(fb24$lz)
 ```
 
-![](/lehre/statistik-i/tests-konfidenzintervalle-loesungen_files/figure-html/unnamed-chunk-7-2.png)<!-- -->
+![](/lehre/statistik-i/tests-konfidenzintervalle-loesungen_files/figure-html/unnamed-chunk-123-2.png)<!-- -->
 
 ``` r
 #Die qqPlot-Funktion zeichnet ein Konfidenzintervall in den QQ-Plot. Dies macht es für Betrachter:innen einfacher zu entscheiden, ob alle Punkte in etwa auf einer Linie liegen. Die Punkte sollten nicht außerhalb der blauen Linien liegen.
 qqPlot(fb24$lz)
 ```
 
-![](/lehre/statistik-i/tests-konfidenzintervalle-loesungen_files/figure-html/unnamed-chunk-7-3.png)<!-- -->
+![](/lehre/statistik-i/tests-konfidenzintervalle-loesungen_files/figure-html/unnamed-chunk-123-3.png)<!-- -->
 
 ```
 ## [1]  18 181
@@ -640,11 +625,11 @@ Die `sample()`-Funktion nimmt als erstes Argument **keinen** Datensatz entgegen 
 
 **z-Test:**
 
-Nachdem wir unsere Stichprobe gezogen haben ist die Berechnung analog zu Aufgabe 4.1. Für eine detailierte Beschreibung der Rechenschritte verweisen wir Sie auf die Lösung der vorherigen Aufgabe.
+Nachdem wir unsere Stichprobe gezogen haben ist die Berechnung analog zu Aufgabe 4.1. Für eine detailierte Beschreibung der Rechenschritte verweisen wir Sie auf die Lösung der vorherigen Aufgabe. Es ist allerdings wichtig zu erwähnen, das wir hier nicht mit fehlenden Werten arbeiten müssen, weshalb wir die Anzahl der genutzten Funktionen und Argumente reduzieren können, indem wir die Behandlung fehlender Werte weglassen.
 
 
 ``` r
-anyNA(fb24$gewis) #NA's vorhanden
+anyNA(fb24$gewis) # NA's vorhanden
 ```
 
 ```
@@ -652,19 +637,7 @@ anyNA(fb24$gewis) #NA's vorhanden
 ```
 
 ``` r
-mean_gewis_pop <- mean(fb24_red$gewis) #Mittelwert der Population
-
-sd_gewis_pop <- sd(fb24_red$gewis) * sqrt((length(na.omit(fb24_red$gewis)) - 1) / length(na.omit(fb24_red$gewis))) #empirische Standardabweichung der Population
-
-se_gewis <- sd_gewis_pop / sqrt(length(na.omit(fb24_sample))) #Standardfehler
-
-mean_gewis_smpl2 <- mean(fb24_sample$gewis, na.rm = TRUE) #Mittelwert der Stichprobe
-
-z_gewis2 <- (mean_gewis_smpl2 - mean_gewis_pop) / se_gewis #empirischer z-Wert
-
-z_krit <- qnorm(1 - 0.05/2) #kritischer z-Wert, zweiseitig
-
-abs(z_gewis2) > z_krit #nicht signifikant
+anyNA(fb24_red$gewis) # keine NA's vorhanden durch Reduzierung
 ```
 
 ```
@@ -672,11 +645,39 @@ abs(z_gewis2) > z_krit #nicht signifikant
 ```
 
 ``` r
-2 * pnorm(z_gewis2) #p > .05, nicht signifikant
+anyNA(fb24_sample$gewis) # keine NA's vorhanden da Stichprobe aus fb24_red
 ```
 
 ```
-## [1] 1.894753
+## [1] FALSE
+```
+
+``` r
+mean_gewis_pop <- mean(fb24_red$gewis) # Mittelwert der Population
+
+sd_gewis_pop <- sd(fb24_red$gewis) * sqrt((length(fb24_red$gewis) - 1) / length(fb24_red$gewis)) # empirische Standardabweichung der Population - ist also die Populationsvarianz
+
+se_gewis <- sd_gewis_pop / sqrt(length(fb24_sample$gewis)) # Standardfehler des Mittelwerts
+
+mean_gewis_smpl2 <- mean(fb24_sample$gewis) # Mittelwert der Stichprobe
+
+z_gewis2 <- (mean_gewis_smpl2 - mean_gewis_pop) / se_gewis #empirischer z-Wert
+
+z_krit <- qnorm(1 - 0.05/2) # kritischer z-Wert, zweiseitig
+
+abs(z_gewis2) > z_krit # nicht signifikant
+```
+
+```
+## [1] FALSE
+```
+
+``` r
+2 * pnorm(z_gewis2, lower.tail = FALSE) #p > .05, nicht signifikant
+```
+
+```
+## [1] 0.2021192
 ```
 
 Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ **nicht** verworfen werden. Die Psychologie-Studierenden der Stichprobe unterscheiden sich in ihrer Gewissenhaftigkeit nicht von der Grundgesamtheit (Datensatz). 
