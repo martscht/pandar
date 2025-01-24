@@ -57,7 +57,7 @@ sections:
     content:
       title: ChatGPT
       subtitle: Datenauswertung mit KI-Assistenz in der Psychologie
-      text: Hier könnte demnächst eine kurze, prägnante, vielleicht sogar unterhaltsame Einleitung für die ChatGPT Tutorials stehen.
+      text: Hier befinden sich Beiträge von Student*innen, die sich mit der Anwendung von KI wie ChatGPT in der psychologischen Datenanalyse. Die Beiträge umfassen Themen wie Promptgenerierung, eine Wahl von KI-Tools sowie berichtete Datenreplikationsversuche mit KI.
       
       
         {{< category_list "chatgpt" 3 >}}
