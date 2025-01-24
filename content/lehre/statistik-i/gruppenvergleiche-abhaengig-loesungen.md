@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [walter, nehler] 
-lastmod: '2024-12-05'
+lastmod: '2025-01-24'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -88,7 +88,7 @@ Ein Blick in den `fb24`-Datensatz verrät, dass auf dem Skalenwert `wm_post`, de
 Um verfälschte deskriptiv- und inferenzstatistische Ergebnisse zu vermeiden, werden alle Personen aus der weiteren Berechung ausgeschlossen, die einen fehlenden Wert auf `wm_post` (oder `wm_pre`) aufweisen. Damit wir den Datensatz `fb24` aber nicht generell verändern, legen wir estmal einen neuen Datesatz an, der nur die beiden interessierenden Variablen enthält.
 
 
-```r
+``` r
 wach <- fb24[, c("wm_pre", "wm_post")] #Erstellung eines neuen Datensatzes, welcher nur die für uns wichtigen Variablen enthält
 
 wach <- na.omit(wach) #Entfernt alle Beobachtungen, die auf einer der beiden Variable einen fehlenden Wert haben
@@ -112,7 +112,7 @@ Histogramme (weil die Skalenwerte Intervallskalenqualität haben):
 Je ein Histogramm pro Gruppe, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert.
 
 
-```r
+``` r
 par(mfrow=c(2,1), mar=c(3,2,2,0)) # Zusammenfügen der zwei Histogramme in eine Plot-Datei und ändern der Ränder (margins) des Plot-Fensters
 
 hist(wach[, "wm_pre"], xlim=c(0,5), ylim=c(1,50), main="Wachempfinden vor der Sitzung", xlab="", ylab="", las=1)
@@ -124,7 +124,7 @@ abline(v=mean(wach[, "wm_post"]), lty=2, lwd=2)
 
 ![](/lehre/statistik-i/gruppenvergleiche-abhaengig-loesungen_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
-```r
+``` r
 par(mfrow=c(1,1)) #Zurücksetzen auf default
 ```
 
@@ -132,7 +132,7 @@ par(mfrow=c(1,1)) #Zurücksetzen auf default
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
 
 
-```r
+``` r
 summary(wach[, "wm_pre"])
 ```
 
@@ -141,7 +141,7 @@ summary(wach[, "wm_pre"])
 ##   1.250   2.250   2.750   2.731   3.250   4.000
 ```
 
-```r
+``` r
 summary(wach[, "wm_post"])
 ```
 
@@ -150,31 +150,27 @@ summary(wach[, "wm_post"])
 ##   1.000   2.250   2.500   2.517   2.750   3.500
 ```
 
-```r
+``` r
 # aus dem Paket psych, das wir bereits installiert haben
 library(psych)
 describe(wach[, "wm_pre"])
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad  min max
-## X1    1 134 2.73 0.61   2.75    2.74 0.74 1.25   4
-##    range  skew kurtosis   se
-## X1  2.75 -0.15    -0.82 0.05
+##    vars   n mean   sd median trimmed  mad  min max range  skew kurtosis   se
+## X1    1 134 2.73 0.61   2.75    2.74 0.74 1.25   4  2.75 -0.15    -0.82 0.05
 ```
 
-```r
+``` r
 describe(wach[, "wm_post"])
 ```
 
 ```
-##    vars   n mean  sd median trimmed  mad min max range
-## X1    1 134 2.52 0.5    2.5    2.53 0.37   1 3.5   2.5
-##     skew kurtosis   se
-## X1 -0.26    -0.33 0.04
+##    vars   n mean  sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 134 2.52 0.5    2.5    2.53 0.37   1 3.5   2.5 -0.26    -0.33 0.04
 ```
 
-Der Mittelwert vorher ($M$ = 2.73, $SD$ = 0.61) ist deskriptiv niedriger als Mittelwert nachher ($M$ = 2.52, $SD$ = 0.5).
+Der Mittelwert vorher ($M$ = 2.73, $SD$ = 0.61) ist deskriptiv höher als Mittelwert nachher ($M$ = 2.52, $SD$ = 0.5).
 
 Die deskriptivstatistischen Maße unterscheiden sich. 
 
@@ -194,7 +190,7 @@ Die deskriptivstatistischen Maße unterscheiden sich.
 
 **Grafische Voraussetzungsprüfung: Normalverteilung von _d_**
 
-```r
+``` r
 par(mar=c(3,3,3,0)) #ändern der Ränder (margins) des Plot-Fensters
 difference <- wach[, "wm_pre"]-wach[, "wm_post"]
 hist(difference, xlim=c(-4,4), main="Verteilung der Differenzen", xlab="Differenzen", ylab="", las=1,freq=F)
@@ -203,7 +199,7 @@ curve(dnorm(x, mean=mean(difference), sd=sd(difference)), col="blue", lwd=2, add
 
 ![](/lehre/statistik-i/gruppenvergleiche-abhaengig-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
-```r
+``` r
 par(mfrow=c(1,1)) #Zurücksetzen auf default
 qqnorm(difference,las=1)
 qqline(difference, col="blue")
@@ -211,7 +207,7 @@ qqline(difference, col="blue")
 
 ![](/lehre/statistik-i/gruppenvergleiche-abhaengig-loesungen_files/figure-html/unnamed-chunk-6-2.png)<!-- -->
 
-$\Rightarrow$ Differenzen weisen leichte bis mittlere Abweichungen zur Normalverteilung auf. Symmetrie trotzdem gegeben und auf Grund des zentralen Grenzwertsatzes und der Stichprobengröße $\Rightarrow$ Durchführung des t-Tests für abhängige Stichproben
+$\Rightarrow$ Differenzen weisen leichte Abweichungen zur Normalverteilung auf. Symmetrie trotzdem gegeben und auf Grund des zentralen Grenzwertsatzes und der Stichprobengröße $\Rightarrow$ Durchführung des t-Tests für abhängige Stichproben
 </details>
 
 * Führen Sie die inferenzstatistische Testung durch.
@@ -221,7 +217,7 @@ $\Rightarrow$ Differenzen weisen leichte bis mittlere Abweichungen zur Normalver
 **Durchführung des _t_-Tests für abhängige Stichproben in R**
 
 
-```r
+``` r
 t.test(x = wach[, "wm_pre"], y  = wach[, "wm_post"], # die Werte vorher und nachher
        paired = T,                                   # Stichproben sind abhängig
        alternative = "two.sided",                    # unggerichtete Hypothese -> zweiseitig Testung
@@ -243,7 +239,7 @@ t.test(x = wach[, "wm_pre"], y  = wach[, "wm_post"], # die Werte vorher und nach
 ```
 
 
-```r
+``` r
 # Alternative Schreibweise
 t.test(x = wach$wm_pre, y = wach$wm_post, 
        paired = T,
@@ -254,7 +250,7 @@ t.test(x = wach$wm_pre, y = wach$wm_post,
 
 
 * Zur Erinnerung: $df$ bei $t$-test mit abhängigen Stichproben: $n - 1$ (wobei $n$ die Anzahl der Paare darstellt)
-* _t_(133) = 4.317, $p =$ 0 $\rightarrow$ nicht signifikant, H0 wird beibehalten.
+* _t_(133) = 4.317, $p =$ 3\times 10^{-5} $\rightarrow$ ist signifikant, H0 wird verworfen.
 
 </details>
 
@@ -265,7 +261,7 @@ t.test(x = wach$wm_pre, y = wach$wm_post,
 **Schätzung des standardisierten Populationseffekts**
 
 
-```r
+``` r
 mean_d <- mean(difference) # Mittelwert der Differenzen
 sd.d.est <- sd(difference) # geschätzte Populationsstandardabweichung der Differenzen
 d <- mean_d/sd.d.est
@@ -276,11 +272,9 @@ d
 ## [1] 0.3729393
 ```
 
-$\Rightarrow$ Der standardisierte Populationseffekt beträgt _d2''_ = 0.37 und ist laut Konventionen nach Cohen (1988) klein. 
+$\Rightarrow$ Der standardisierte Populationseffekt beträgt _d2''_ = 0.37 und ist laut Konventionen nach Cohen (1988) ein mittlerer Effekt. 
 
-Zu beachten ist, dass der standardisierte Populationseffekt auf der vorher berechneten Differenzvariable basiert. Aus diesem Grund hat der Effekt ein negatives Vorzeichen.
-
-Zur Berechnung der Differenzvariable wurden von den Prä-Messungen die Post-Messungen abgezogen. Ein negatives Vorzeichen des standardisierten Populationseffektes deutet also, wie auch unsere deskriptivstatistischen Ergebnisse, darauf hin, dass die Teilnahme am Statistikpraktikum einen positiven Effekt auf das Wachempfinden haben könnte. Dies könnte man in einer weiteren Studie inferenzstatistisch überprüfen.
+Zur Berechnung der Differenzvariable wurden von den Prä-Messungen die Post-Messungen abgezogen. Ein positives Vorzeichen des standardisierten Populationseffektes deutet also, wie auch unsere deskriptivstatistischen Ergebnisse, darauf hin, dass die Teilnahme am Statistikpraktikum einen negativen Effekt auf das Wachempfinden haben könnte. Dies könnte man in einer weiteren Studie inferenzstatistisch überprüfen.
 
 </details>
 
@@ -292,7 +286,7 @@ Zur Berechnung der Differenzvariable wurden von den Prä-Messungen die Post-Mess
 
 Es wurde in einer Wiederholungsmessung untersucht, ob sich die Teilnahme am Statistikpraktikum  auf das Wachempfinden auswirkt. Zunächst findet sich deskriptiv folgender Unterschied: Vor der Praktikumssitzung liegt der durchschnittliche Zufriedenheitswert bei 2.73 (_SD_ = 0.61), während er nach der Praktikumssitzung bei 2.52 (_SD_ = 0.5) liegt. 
 
-Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Gruppenunterschied ist nicht signifikant ($t$(133) = 4.317, $p =$ 0), somit wird die Nullhypothese beibehalten. Wir gehen davon aus, dass sich die Teilnahme am Statistikpraktikum nicht auf das Wachempfinden auswirkt.
+Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Gruppenunterschied ist signifikant ($t$(133) = 4.317, $p =$ 0), somit wird die Nullhypothese verworfen und wir gehen davon aus, dass sich die Teilnahme am Statistikpraktikum die Wachheit verändert.
 
 Der standardisierte Populationseffekt von _d''_ = 0.37 ist laut Konventionen nach Cohen (1988) klein.
 
