@@ -76,7 +76,7 @@ sections:
         Das Modul KliPPsMSc5 ist in zwei Teile untergliedert. Im ersten Semester besuchen Sie ein Seminar, im zweiten Semester eine Vorlesung. Die hier bereitgestellten Inhalte beziehen sich auf die Seminare im ersten Semester - also den Teil 5a des Moduls. In diesem Seminar werden wir die Analysen aus verschiedenen Artikeln aus der klinischen Forschung nachvollziehen und reproduzieren. Dabei unterteilen wir das Ganze in vier Blöcke -  Regression, gemischte Modelle, Netzwerkanalyse und Meta-Analyse. Die Beiträge befassen sich vor allem mit der Umsetzung in R - theoretische Grundlagen vertiefen wir in der Sitzungen vor Ort.
 
 
-        {{< category_list "klipps" 9 "I,I,I,II,II,III,III,IV,IV">}}
+        {{< category_list "klipps" 7 "I,I,I,II,III,III,IV">}}
         *Sollten Sie Unterlagen aus den vergangenen Semestern des Kurses suchen, werden Sie [hier](/category/klipps-legacy/) fündig.*
   
         
