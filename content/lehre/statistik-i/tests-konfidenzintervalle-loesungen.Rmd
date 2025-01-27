@@ -490,26 +490,28 @@ Die `sample()`-Funktion nimmt als erstes Argument **keinen** Datensatz entgegen 
 
 **z-Test:**
 
-Nachdem wir unsere Stichprobe gezogen haben ist die Berechnung analog zu Aufgabe 4.1. Für eine detailierte Beschreibung der Rechenschritte verweisen wir Sie auf die Lösung der vorherigen Aufgabe.
+Nachdem wir unsere Stichprobe gezogen haben ist die Berechnung analog zu Aufgabe 4.1. Für eine detailierte Beschreibung der Rechenschritte verweisen wir Sie auf die Lösung der vorherigen Aufgabe. Es ist allerdings wichtig zu erwähnen, das wir hier nicht mit fehlenden Werten arbeiten müssen, weshalb wir die Anzahl der genutzten Funktionen und Argumente reduzieren können, indem wir die Behandlung fehlender Werte weglassen.
 
 ```{r}
-anyNA(fb24$gewis) #NA's vorhanden
+anyNA(fb24$gewis) # NA's vorhanden
+anyNA(fb24_red$gewis) # keine NA's vorhanden durch Reduzierung
+anyNA(fb24_sample$gewis) # keine NA's vorhanden da Stichprobe aus fb24_red
 
-mean_gewis_pop <- mean(fb24_red$gewis) #Mittelwert der Population
+mean_gewis_pop <- mean(fb24_red$gewis) # Mittelwert der Population
 
-sd_gewis_pop <- sd(fb24_red$gewis) * sqrt((length(na.omit(fb24_red$gewis)) - 1) / length(na.omit(fb24_red$gewis))) #empirische Standardabweichung der Population
+sd_gewis_pop <- sd(fb24_red$gewis) * sqrt((length(fb24_red$gewis) - 1) / length(fb24_red$gewis)) # empirische Standardabweichung der Population - ist also die Populationsvarianz
 
-se_gewis <- sd_gewis_pop / sqrt(length(na.omit(fb24_sample))) #Standardfehler
+se_gewis <- sd_gewis_pop / sqrt(length(fb24_sample$gewis)) # Standardfehler des Mittelwerts
 
-mean_gewis_smpl2 <- mean(fb24_sample$gewis, na.rm = TRUE) #Mittelwert der Stichprobe
+mean_gewis_smpl2 <- mean(fb24_sample$gewis) # Mittelwert der Stichprobe
 
 z_gewis2 <- (mean_gewis_smpl2 - mean_gewis_pop) / se_gewis #empirischer z-Wert
 
-z_krit <- qnorm(1 - 0.05/2) #kritischer z-Wert, zweiseitig
+z_krit <- qnorm(1 - 0.05/2) # kritischer z-Wert, zweiseitig
 
-abs(z_gewis2) > z_krit #nicht signifikant
+abs(z_gewis2) > z_krit # nicht signifikant
 
-2 * pnorm(z_gewis2) #p > .05, nicht signifikant
+2 * pnorm(z_gewis2, lower.tail = FALSE) #p > .05, nicht signifikant
 ```
 
 Mit einer Irrtumswahrscheinlichkeit von 5% kann die $H_0$ **nicht** verworfen werden. Die Psychologie-Studierenden der Stichprobe unterscheiden sich in ihrer Gewissenhaftigkeit nicht von der Grundgesamtheit (Datensatz). 
