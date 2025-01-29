@@ -22,8 +22,17 @@ pandarize <- function(x, purl = TRUE) {
   generated_images_folder_path <- paste0(.location, x, "_files")
   unlink(generated_images_folder_path, recursive = TRUE)
   
+  # change directory for figures to inside a static folder in the given folder globally
+  figure_path = paste0("static/", x, "_files/")
+  knitr::opts_chunk$set(fig.path = figure_path)
+  
+  # debug for figures and images
+  print(getwd())
+  print(.img_location)
+  print(paste0("Setting fig.path to: ", figure_path))
 
   # render the RMarkdown, use the global environment
+  figure_path <<- figure_path
   rmarkdown::render(.rmd, envir = globalenv())
   
   # only purl the R code from the RMarkdown if the argument is TRUE
