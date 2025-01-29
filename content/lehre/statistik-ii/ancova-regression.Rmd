@@ -33,6 +33,7 @@ output:
 ---
 
 ```{r setup, include=FALSE, purl=FALSE}
+knitr::opts_chunk$set(fig.path = figure_path)
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 library(ggplot2)
 source('pandar_theme.R')

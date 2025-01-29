@@ -25,6 +25,7 @@ output:
 
 
 ```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.path = figure_path)
 
 ```
 

@@ -145,6 +145,7 @@ kable(data4)
 Die Nutzung von Vektoren wird im Folgenden am Flanker Test verdeutlicht. Dieser Test prüft die selektive Aufmerksamkeit indem Probanden auf einen Zielreiz in der Mitte einer Reizreihe reagieren, während sie irrelevante, ablenkende Reize (die sogenannten "Flanker") ignorieren.
 
 ```{r setup2, include=FALSE}
+knitr::opts_chunk$set(fig.path = figure_path)
 knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(gridExtra)

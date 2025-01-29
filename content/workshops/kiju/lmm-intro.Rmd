@@ -35,6 +35,7 @@ output:
 ---
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+knitr::opts_chunk$set(fig.path = figure_path)
 options(width="60")
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```

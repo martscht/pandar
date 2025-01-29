@@ -33,6 +33,7 @@ output:
 ---
 
 ```{r setup, cache = FALSE, include=FALSE, purl=FALSE}
+knitr::opts_chunk$set(fig.path = figure_path)
 
 ```
 

@@ -27,6 +27,7 @@ output:
 
 
 ```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.path = figure_path)
 knitr::opts_chunk$set(error = TRUE)
 library(psych)
 library(car)
