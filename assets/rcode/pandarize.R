@@ -18,9 +18,18 @@ pandarize <- function(x, purl = TRUE) {
   .R <- gsub('.Rmd', '.R', .rmd)
   .html <- gsub('.Rmd', '.html', .rmd)
   
-  # next two lines delete previously created images for the post (if they exist)
+  # next two lines delete previously created images for the post (if they exist) - old
   generated_images_folder_path <- paste0(.location, x, "_files")
-  unlink(generated_images_folder_path, recursive = TRUE)
+  if (dir.exists(generated_images_folder_path)) {
+    unlink(generated_images_folder_path, recursive = TRUE)
+  }
+  
+  # next two lines delete previously created images for the post (if they exist) - new, best keep both for legacy articles
+  generated_images_folder_path <- paste0(.location, "static/", x, "_files")
+  if (dir.exists(generated_images_folder_path)) {
+    unlink(generated_images_folder_path, recursive = TRUE)
+  }
+  
   
   # change directory for figures to inside a static folder in the given folder globally
   figure_path = paste0("static/", x, "_files/")
@@ -33,20 +42,44 @@ pandarize <- function(x, purl = TRUE) {
 
   # render the RMarkdown, use the global environment
   figure_path <<- figure_path
-  rmarkdown::render(.rmd, envir = globalenv())
+  tryCatch({
+    rmarkdown::render(.rmd, envir = globalenv())
+  }, error = function(e){
+    message("Error rendering ", .rmd, ": ", e$message)
+  })
+  
   
   # only purl the R code from the RMarkdown if the argument is TRUE
   if (purl) knitr::purl(.rmd, .R, documentation = 0)
   
   # rename figures and images links in the markdown so they are found and displayed aferwards
-  readLines(.md) |>
+  
+  # old method
+  # readLines(.md) |>
+  #   sub(pattern = '![](', replacement = paste0('![](', .img_location), x = _, fixed = TRUE) |>
+  #   sub(pattern = '](figure/', replacement = paste0('](', .img_location), x = _, fixed = TRUE) |>
+  #   gsub(pattern = '<img src="', replacement = paste0('<img src="', .img_location)) |>
+  #   writeLines(con = .md)
+  # 
+  
+  # new (might be better at closing connections correctly)
+  lines <- readLines(.md) |>
     sub(pattern = '![](', replacement = paste0('![](', .img_location), x = _, fixed = TRUE) |>
     sub(pattern = '](figure/', replacement = paste0('](', .img_location), x = _, fixed = TRUE) |>
-    gsub(pattern = '<img src="', replacement = paste0('<img src="', .img_location)) |>
-    writeLines(con = .md)
+    gsub(pattern = '<img src="', replacement = paste0('<img src="', .img_location))
+  
+  con <- file(.md, "w")  # Open file connection for writing
+  writeLines(lines, con)  # Write updated lines to the file
+  close(con)  # Ensure the connection is closed
 
   # remove the created html because we do not need it
-  file.remove(.html)  
+  if (file.exists(.html)){
+    tryCatch({
+      file.remove(.html)  
+    }, error = function(e) {
+      message("Could not remove ", .html, ": ", e$message)
+    })
+  }
   }
   )
   
@@ -54,5 +87,8 @@ pandarize <- function(x, purl = TRUE) {
   rm(list = setdiff(ls(.GlobalEnv), "pandarize"), envir = .GlobalEnv)
   
   # reload the global environment from the temporary/session R folder
-  load(file = file.path(tempdir(), "env.RData"), envir = .GlobalEnv)
+  env_file <- file.path(tempdir(), "env.RData")
+  if (file.exists(env_file)){
+    load(file = env_file, envir = .GlobalEnv)
+  }
 }
