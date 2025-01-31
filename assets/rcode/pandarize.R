@@ -13,7 +13,7 @@ pandarize <- function(x, purl = TRUE) {
       warning(paste0('Multiple RMarkdown files found containing ', x, '. Only ', .rmd, ' will be rendered.'))
     }
     .location <- gsub(paste0(x, '.Rmd'), '', .rmd)
-    .img_location <- gsub('content', '', .location)
+    .img_location <- gsub('content', '', .location) # old img_location
     .md <- gsub('.Rmd', '.md', .rmd)
     .R <- gsub('.Rmd', '.R', .rmd)
     .html <- gsub('.Rmd', '.html', .rmd)
@@ -25,13 +25,8 @@ pandarize <- function(x, purl = TRUE) {
     }
     
     # change directory for figures to inside a static folder in the given folder globally
-    figure_path = file.path(getwd(), "static", paste0(x, "_files/")) # puts everything into a base level static folder with an absolute path that is individually constructed
+    figure_path = paste0(file.path(getwd(), "static", paste0(x, "_files")),"/") # puts everything into a base level static folder with an absolute path that is individually constructed
     knitr::opts_chunk$set(fig.path = figure_path)
-    
-    # next two lines delete previously created images for the post (if they exist) - new, best keep both for legacy articles for now
-    if (dir.exists(figure_path)) {
-      unlink(generated_images_folder_path, recursive = TRUE)
-    }
     
     # debug for figures and images
     # print(getwd())
@@ -39,7 +34,7 @@ pandarize <- function(x, purl = TRUE) {
     print(paste0("Setting fig.path to: ", figure_path))
     
     # render the RMarkdown, use the global environment
-    figure_path <<- figure_path
+    figure_path <<- figure_path # to pass param to rmarkdown, doing with params didnt work due to globalenv
     tryCatch({
       rmarkdown::render(.rmd, envir = globalenv())
     }, error = function(e){
@@ -62,9 +57,12 @@ pandarize <- function(x, purl = TRUE) {
     
     # new (might be better at closing connections correctly)
     lines <- readLines(.md) |>
-      sub(pattern = '![](', replacement = paste0('![](', .img_location), x = _, fixed = TRUE) |>
-      sub(pattern = '](figure/', replacement = paste0('](', .img_location), x = _, fixed = TRUE) |>
-      gsub(pattern = '<img src="', replacement = paste0('<img src="', .img_location))
+      sub(pattern = paste0('![](', gsub("\\\\", "/", figure_path)), 
+          replacement = paste0('![](', sub(".*?/static/", "/", figure_path)), x = _, fixed = TRUE) |>
+      sub(pattern = paste0('](', gsub("\\\\", "/", figure_path)), 
+          replacement = paste0('](', sub(".*?/static/", "/", figure_path)), x = _, fixed = TRUE) |>
+      gsub(pattern = paste0('<img src="', gsub("\\\\", "/", figure_path)), 
+           replacement = paste0('<img src="', sub(".*?/static/", "/", figure_path)), x = _)
     
     con <- file(.md, "w")  # Open file connection for writing
     writeLines(lines, con)  # Write updated lines to the file
