@@ -7,12 +7,16 @@ apply_function_to_rmds <- function(base_folder) {
   
   # Set the log file to be saved in the script's directory
   log_file <- file.path(script_dir, "process_log.txt")
+  log_con <- file(log_file, open = "wt")
   
   # Start saving the console output to a file
-  sink(log_file, append = TRUE)  # `append = TRUE` ensures logs are added to the file
+  sink(log_con, append = TRUE, type = "message")  # `append = TRUE` ensures logs are added to the file, message captures messages and errors
   
-  # Ensure sink is closed even if there is an error
-  on.exit(sink())
+  # Ensure all connections are closed on exit
+  on.exit({
+    sink(type = "message")
+    close(log_con)
+  }, add = TRUE)
   
   cat("Starting the processing...\n")
   
@@ -32,13 +36,11 @@ apply_function_to_rmds <- function(base_folder) {
       # Call pandarize with filename and Purl boolean
       pandarize(rmd_name, r_file_exists)
     }, error = function(e) {
-      # Catch errors and log them
-      cat("Error in processing file:", rmd_name, "\n")
-      cat("Error message:", e$message, "\n")
+      # catch errors and log them
+      message("Error in processing file: ", rmd_name, " - ", e$message)
     }, warning = function(w) {
-      # Catch warnings and log them
-      cat("Warning while processing file:", rmd_name, "\n")
-      cat("Warning message:", w$message, "\n")
+      # catch warnings and log them
+      message("Warning in processing file: ", rmd_name, " - ", w$message)
     })
   }
   
