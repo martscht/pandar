@@ -35,8 +35,8 @@ game$tr_group <-
     "Therapeutic camp + Parental program",
     "Brain stimulation", "Pharmacological",
     "physical exercise", "therapeutic camp"),
-    labels = c('behavioral', rep('prevention', 2),
-      rep('psychotherapy', 3),
+    labels = c('behavioral', rep('prevention', 3),
+      rep('psychotherapy', 2),
       rep('other', 6)))
 
 game$dv_group <- 
@@ -58,8 +58,19 @@ game$dv_group <-
       rep("DSM-5", 6),
       rep("Other", 13)))
 
-# retype Woelfling
+# pretty up citations
+game$short_citation[game$id %in% c(1, 2)] <- 'Apisitwasana et al. (2018)'
+game$short_citation[game$id %in% c(3)] <- 'Bonnaire et al. (2019)'
+game$short_citation[game$id %in% c(9)] <- 'Deng et al. (2017)'
+game$short_citation[game$id %in% c(27, 28)] <- 'Li et al. (2019)'
+game$short_citation[game$id %in% c(29, 30)] <- 'Li et al. (2017)'
+game$short_citation[game$id %in% c(31, 32, 33)] <- 'Lindenberg et al. (2022)'
+game$short_citation[game$id %in% c(38)] <- 'Mumcu et al. (2021)'
+game$short_citation[game$id %in% c(56, 76)] <- 'Walther et al. (2014)'
+game$short_citation[game$id %in% c(60, 61)] <- 'Zamanian et al. (2020)'
+game$short_citation[game$id %in% 63:68] <- 'Zheng et al. (2022)'
 game$short_citation[game$id %in% c(73, 74)] <- 'Woelfling et al. (2019)'
+game$short_citation[game$id %in% c(75)] <- 'Evans et al. (2018)'
 
 game <- data.frame(cite = game$short_citation,
   study = game$id_of_study,
