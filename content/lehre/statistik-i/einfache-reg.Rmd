@@ -37,7 +37,6 @@ output:
 ---
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-knitr::opts_chunk$set(fig.path = figure_path)
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
@@ -56,57 +55,42 @@ knitr::opts_chunk$set(fig.path = figure_path)
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz `fb23` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz `fb24` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 ```{r}
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb23.rda'))  
+load(url('https://pandar.netlify.app/daten/fb24.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb23$hand_factor <- factor(fb23$hand,
+fb24$hand_factor <- factor(fb24$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb23$fach <- factor(fb23$fach,
+fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb23$ziel <- factor(fb23$ziel,
+fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-
-fb23$wohnen <- factor(fb23$wohnen, 
+fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
-fb23$fach_klin <- factor(as.numeric(fb23$fach == "Klinische"),
-                         levels = 0:1,
-                         labels = c("nicht klinisch", "klinisch"))
-
-fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-
-fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
-
-
 # Rekodierung invertierter Items
-fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
-fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
-fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
-fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
-fb23$mdbf5_pre_r <- -1 * (fb23$mdbf5_pre - 4 - 1)
-fb23$mdbf7_pre_r <- -1 * (fb23$mdbf7_pre - 4 - 1)
-
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 5)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 5)
+fb24$mdbf3_r <- -1 * (fb24$mdbf3 - 5)
+fb24$mdbf9_r <- -1 * (fb24$mdbf9 - 5)
 
 # Berechnung von Skalenwerten
-fb23$wm_pre  <- fb23[, c('mdbf1_pre', 'mdbf5_pre_r', 
-                        'mdbf7_pre_r', 'mdbf10_pre')] |> rowMeans()
-fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
-                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
-fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
-                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+                        'mdbf8', 'mdbf11_r')] |> rowMeans()
+fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+                         "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
+fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
 
 ```
 
@@ -149,9 +133,9 @@ Für gewöhnlich würden Sie nun zuerst einmal die Voraussetzungen überprüfen.
 
 
 ```{r, fig = TRUE}
-plot(fb23$extra, fb23$nerd, xlab = "Extraversion", ylab = "Nerdiness", 
+plot(fb24$extra, fb24$nerd, xlab = "Extraversion", ylab = "Nerdiness", 
      main = "Zusammenhang zwischen Extraversion und Nerdiness", xlim = c(0, 6), ylim = c(1, 5), pch = 19)
-lines(loess.smooth(fb23$extra, fb23$nerd), col = 'blue')    #beobachteter, lokaler Zusammenhang
+lines(loess.smooth(fb24$extra, fb24$nerd), col = 'blue')    #beobachteter, lokaler Zusammenhang
 ```
  
  * `pch` verändert die Darstellung der Datenpunkte
@@ -164,14 +148,14 @@ lines(loess.smooth(fb23$extra, fb23$nerd), col = 'blue')    #beobachteter, lokal
 In unserem Beispiel ist $x$ die Extraversion (`extra`) und $y$ die Nerdiness (`nerd`). Um das Modell zu schätzen, wird dann der `lm()` (für *linear model*) Befehl genutzt:
 
 ```{r}
-lm(formula = nerd ~ 1 + extra, data = fb23)
+lm(formula = nerd ~ 1 + extra, data = fb24)
 ```
 
 So werden die Koeffizienten direkt ausgegeben. Wenn wir mit dem Modell jedoch weitere Analysen durchführen möchten, müssen wir es einem Objekt im Environment zuweisen. Dafür legen wir es im Objekt `lin_mod` (steht für *lineares Modell*) ab. Hier in verkürzter Schreibweise (wir lassen die 1 als Repräsentant für den Achsenabschnitt weg):
 
 
 ```{r}
-lin_mod <- lm(nerd ~ extra, fb23)                  #Modell erstellen und Ergebnisse im Objekt lin_mod ablegen
+lin_mod <- lm(nerd ~ extra, fb24)                  #Modell erstellen und Ergebnisse im Objekt lin_mod ablegen
 ```
 
 Aus diesem Objekt können mit `coef()` oder auch `lin_mod$coefficients` die geschätzten Koeffizienten extrahiert werden:
@@ -193,9 +177,9 @@ Das Streudiagramm haben wir zu Beginn schon abbilden lassen. Hier kann nun zusä
 
 ```{r, fig = TRUE}
 # Scatterplot zuvor im Skript beschrieben
-plot(fb23$extra, fb23$nerd, 
+plot(fb24$extra, fb24$nerd, 
   xlim = c(0, 6), ylim = c(1, 5), pch = 19)
-lines(loess.smooth(fb23$extra, fb23$nerd), col = 'blue')    #beobachteter, lokaler Zusammenhang
+lines(loess.smooth(fb24$extra, fb24$nerd), col = 'blue')    #beobachteter, lokaler Zusammenhang
 # Ergebnisse der Regression als Gerade aufnehmen
 abline(lin_mod, col = 'red')
 ```
@@ -303,7 +287,7 @@ $R^2 = \frac{s^2_{\hat{Y}}}{s^2_{Y}} = \frac{s^2_{\hat{Y}}}{s^2_{\hat{Y}} + s^2_
 
 ```{r}
 # Anhand der Varianz von lz
-var(predict(lin_mod)) / var(fb23$nerd, use = "na.or.complete")
+var(predict(lin_mod)) / var(fb24$nerd, use = "na.or.complete")
 
 # Anhand der Summe der Varianzen
 var(predict(lin_mod)) / (var(predict(lin_mod)) + var(resid(lin_mod)))
@@ -349,9 +333,11 @@ Bei einer Regression (besonders wenn mehr als ein Prädiktor in das Modell aufge
 Die Variablen werden mit `scale()` standardisiert (z-Transformation; Erwartungswert gleich Null und die Varianz gleich Eins gesetzt). Mit `lm()` wird das Modell berechnet.
 
 ```{r}
-s_lin_mod <- lm(scale(nerd) ~ scale(extra), fb23) # standardisierte Regression
+s_lin_mod <- lm(scale(nerd) ~ scale(extra), fb24) # standardisierte Regression
 s_lin_mod
 ```
+Gut zu wissen: `scale()` verwendet zur Standardisierung alle vorliegenden Werte der Variable. In unserem Datensatz hat allerdings eine Person einen  Wert auf `extra`, jedoch einen fehlenden Wert auf `nerd`. Die Standardisierung findet daher nicht an exakt den gleichen Personen statt.
+
 Eine andere Variante, bei der die z-Standardisierung automatisch im Hintergrund passiert und nicht von uns manuell durch `scale()` erfolgen muss, liefert die Funktion `lm.beta()` aus dem gleichnamigen Paket `lm.beta`.   
 
 Nach der (ggf. nötigen) Installation müssen wir das Paket für die Bearbeitung laden.
@@ -381,25 +367,26 @@ Wie bereits weiter oben angesprochen, gibt es bei der einfachen linearen Regress
 In diesem Falle ist nämlich das standardisierte Regressionsgewicht identisch zur Produkt-Moment-Korrelation aus Prädiktor (`extra`) und Kriterium (`nerd`).
 
 ```{r}
-cor(fb23$nerd, fb23$extra)   # Korrelation
+cor(fb24$nerd, fb24$extra, use = "pairwise")   # Korrelation
 coef(s_lin_mod)["scale(extra)"] # Regressionsgewicht
-round(coef(s_lin_mod)["scale(extra)"],3) == round(cor(fb23$nerd, fb23$extra),3)
+round(coef(s_lin_mod)["scale(extra)"],2) == round(cor(fb24$nerd, fb24$extra,use = "pairwise"),2)
 ```
+Hier unterscheiden sich die Koeffizienten jedoch an der dritten Nachkommastlle. Das liegt daran, dass bei der Standardisierung von `extra` und `nerd` lediglich fehlende Werte auf der jeweiligen Variable ausgeschlossen werden mussten. Bei `cor()` müssen jedoch beide Variablen auf ihre fehlenden Werte hin betrachtet werden. Wie zuvor erwähnt, liegt in unserem Datensatz eine Person vor, die einen Wert auf `extra`, jedoch einen fehlenden Wert auf `nerd` aufweist. Der unterschiedliche Umgang mit fehlenden Werten führt hier daher zu einer kleinen Abweichung. Diese ist jedoch inhaltlich nicht relevant. Wir umgehen das Problem daher, indem wir uns lediglich die ersten beiden Nachkommastellen ausgebelen lassen.
 
 Entsprechend ist das Quadrat der Korrelation identisch zum Determinationskoeffizienten des Modells mit standardisierten Variablen...
 
 ```{r}
-cor(fb23$nerd, fb23$extra)^2   # Quadrierte Korrelation
+cor(fb24$nerd, fb24$extra,  use = "pairwise")^2   # Quadrierte Korrelation
 summary(s_lin_mod)$r.squared  # Det-Koeffizient Modell mit standardisierten Variablen
-round((cor(fb23$nerd, fb23$extra)^2),3) == round(summary(s_lin_mod)$r.squared, 3)
+round((cor(fb24$nerd, fb24$extra, use = "pairwise")^2),3) == round(summary(s_lin_mod)$r.squared, 3)
 ```
 
 ... und unstandardisierten Variablen.
 
 ```{r}
-cor(fb23$nerd, fb23$extra)^2   # Quadrierte Korrelation
+cor(fb24$nerd, fb24$extra,  use = "pairwise")^2   # Quadrierte Korrelation
 summary(lin_mod)$r.squared  # Det-Koeffizient Modell mit unstandardisierten Variablen
-round((cor(fb23$nerd, fb23$extra)^2),3) == round(summary(lin_mod)$r.squared, 3)
+round((cor(fb24$nerd, fb24$extra,  use = "pairwise")^2),3) == round(summary(lin_mod)$r.squared, 3)
 ```
 
 Der standardisierte Korrelationskoeffizient in einer einfachen linearen Regression liefert also dieselben Informationen wie eine Produkt-Moment-Korrelation. Daraus wird auch ersichtlich, dass ein Regressionskoeffizient (genau wie eine Korrelation) nicht zulässt, auf die Richtung des Effekts (Kausalität) zu schließen. 

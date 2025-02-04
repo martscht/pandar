@@ -1,55 +1,48 @@
+
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb23.rda'))
+load(url('https://pandar.netlify.app/daten/fb24.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb23$hand_factor <- factor(fb23$hand,
+fb24$hand_factor <- factor(fb24$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb23$fach <- factor(fb23$fach,
+fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb23$ziel <- factor(fb23$ziel,
+fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb23$wohnen <- factor(fb23$wohnen, 
+fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-fb23$fach_klin <- factor(as.numeric(fb23$fach == "Klinische"),
-                         levels = 0:1,
-                         labels = c("nicht klinisch", "klinisch"))
-fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
-fb23$unipartys <- factor(fb23$uni3,
-                             levels = 0:1,
-                             labels = c("nein", "ja"))
+
+fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb24$job <- factor(fb24$job, levels=c(1,2), labels=c("nein", "ja"))
 
 # Rekodierung invertierter Items
-fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
-fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
-fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
-fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
-fb23$mdbf5_pre_r <- -1 * (fb23$mdbf5_pre - 4 - 1)
-fb23$mdbf7_pre_r <- -1 * (fb23$mdbf7_pre - 4 - 1)
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 5)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 5)
+fb24$mdbf3_r <- -1 * (fb24$mdbf3 - 5)
+fb24$mdbf9_r <- -1 * (fb24$mdbf9 - 5)
 
 # Berechnung von Skalenwerten
-fb23$wm_pre  <- fb23[, c('mdbf1_pre', 'mdbf5_pre_r', 
-                        'mdbf7_pre_r', 'mdbf10_pre')] |> rowMeans()
-fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
-                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
-fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
-                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+                        'mdbf8', 'mdbf11_r')] |> rowMeans()
+fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+                         "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
+fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
 
-tab <- table(fb23$fach)               #Absolut
+
+tab <- table(fb24$fach)               #Absolut
 tab
 
 prop.table(tab)                       #Relativ
 
-tab<-table(fb23$fach,fb23$ziel)       #Kreuztabelle
+tab<-table(fb24$fach,fb24$ziel)       #Kreuztabelle
 tab
 
 addmargins(tab)                       #Randsummen hinzufügen
@@ -68,74 +61,79 @@ barplot (tab,
          col = c('mintcream','olivedrab','peachpuff','steelblue','maroon'),
          legend = rownames(tab))
 
-var(fb23$neuro, na.rm = TRUE)            #Varianz Neurotizismus
+var(fb24$neuro, na.rm = TRUE)            #Varianz Neurotizismus
 
-var(fb23$gewis, na.rm = TRUE)            #Varianz Gewissenhaftigkeit
+var(fb24$gewis, na.rm = TRUE)            #Varianz Gewissenhaftigkeit
 
-cov(fb23$neuro, fb23$gewis)              #Kovarianz Neurotizismus und Gewissenhaftigkeit
+cov(fb24$neuro, fb24$gewis)              #Kovarianz Neurotizismus und Gewissenhaftigkeit
 
-cov(fb23$vertr, fb23$lz)              #Kovarianz Verträglichkeit und Lebenszufriedenheit
+big5 <- fb24[,c('extra', 'vertr', 'gewis', 'neuro', 'offen')] #Datensatzreduktion
+cov(big5)                                       #Kovarianzmatrix   
 
-na_test <- fb23[, c('vertr','gewis',"neuro",'lz')] #Datensatzreduktion
-cov(na_test)                                       #Kovarianzmatrix   
+summary(big5)
 
-cov(na_test, use = "everything")         # Kovarianzmatrix mit Argument   
+cov(big5, use = "everything")         # Kovarianzmatrix mit Argument   
 
-cov(na_test, use = 'pairwise')             #Paarweiser Fallausschluss
+cov(big5, use = 'pairwise')             #Paarweiser Fallausschluss
 
-cov(na_test, use = 'complete')             #Listenweiser Fallausschluss
+cov(big5, use = 'complete')             #Listenweiser Fallausschluss
 
-plot(x = fb23$neuro, y = fb23$gewis, xlim = c(1,5) , ylim = c(1,5))
+big5[1, 1] <- NA
 
-cor(x = fb23$neuro, y = fb23$gewis, use = 'pairwise')
+cov(big5, use = 'complete')             #Listenweiser Fallausschluss
+cov(big5, use = 'pairwise')             #Paarweiser Fallausschluss
 
-cor(na_test, use = 'pairwise')
+plot(x = fb24$neuro, y = fb24$gewis, xlim = c(1,5) , ylim = c(1,5))
 
-cor(fb23$neuro, fb23$gewis, use = "pairwise", method = "pearson")
+cor(x = fb24$neuro, y = fb24$gewis, use = 'pairwise')
+
+cor(big5, use = 'pairwise')
+
+cor(fb24$neuro, fb24$gewis, use = "pairwise", method = "pearson")
+
+# car-Paket laden
+library(car)
 
 #QQ
-qqnorm(fb23$neuro)
-qqline(fb23$neuro)
-
-qqnorm(fb23$gewis)
-qqline(fb23$gewis)
+qqPlot(fb24$neuro)
+qqPlot(fb24$gewis)
 
 #Histogramm
 
-hist(fb23$neuro, prob = T, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb23$neuro, na.rm = T), sd = sd(fb23$neuro, na.rm = T)), col = "blue", add = T)  
-hist(fb23$gewis, prob = T, ylim = c(0,1))
-curve(dnorm(x, mean = mean(fb23$gewis, na.rm = T), sd = sd(fb23$gewis, na.rm = T)), col = "blue", add = T)
+hist(fb24$neuro, prob = T, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb24$neuro, na.rm = T), sd = sd(fb24$neuro, na.rm = T)), col = "blue", add = T)  
+hist(fb24$gewis, prob = T, ylim = c(0,1))
+curve(dnorm(x, mean = mean(fb24$gewis, na.rm = T), sd = sd(fb24$gewis, na.rm = T)), col = "blue", add = T)
 
 #Shapiro
-shapiro.test(fb23$neuro)
-shapiro.test(fb23$gewis)
+shapiro.test(fb24$neuro)
+shapiro.test(fb24$gewis)
 
-r1 <- cor(fb23$neuro,fb23$gewis,
+r1 <- cor(fb24$neuro,fb24$gewis,
           method = "spearman",     #Pearson ist default
           use = "complete") 
 
 r1
 
 
-cor(fb23$neuro, fb23$gewis, use = 'complete', method = 'kendall')
+cor(fb24$neuro, fb24$gewis, use = 'complete', method = 'kendall')
 
-cor <- cor.test(fb23$neuro, fb23$gewis, 
+cor <- cor.test(fb24$neuro, fb24$gewis, 
          alternative = "two.sided", 
          method = "spearman",      #Da Voraussetzungen für Pearson verletzt
          use = "complete")
 cor$p.value      #Gibt den p-Wert aus
 
-cor.test(fb23$neuro, fb23$gewis, 
+cor.test(fb24$neuro, fb24$gewis, 
          alternative = "two.sided", 
          method = "pearson",       
          use = "complete")
 
 
-is.factor(fb23$ort)
-is.factor(fb23$job)
+is.factor(fb24$ort)
+is.factor(fb24$job)
 
-tab <- table(fb23$ort, fb23$job)
+tab <- table(fb24$ort, fb24$job)
 tab
 
 korr_phi <- (tab[1,1]*tab[2,2]-tab[1,2]*tab[2,1])/
@@ -143,8 +141,8 @@ korr_phi <- (tab[1,1]*tab[2,2]-tab[1,2]*tab[2,1])/
 korr_phi
 
 # Numerische Variablen erstellen
-ort_num <- as.numeric(fb23$ort)
-job_num <- as.numeric(fb23$job)
+ort_num <- as.numeric(fb24$ort)
+job_num <- as.numeric(fb24$job)
 
 cor(ort_num, job_num, use = 'pairwise')
 
@@ -178,6 +176,6 @@ library(rococo)                     #laden
 
 ## ?rococo
 
-rococo(fb23$mdbf2_pre, fb23$mdbf3_pre)
+rococo(fb24$mdbf2, fb24$mdbf3)
 
-rococo.test(fb23$mdbf2_pre, fb23$mdbf3_pre)
+rococo.test(fb24$mdbf2, fb24$mdbf3)

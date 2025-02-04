@@ -1,7 +1,7 @@
 ---
-title: Idiografische Netzwerkmodellierung
+title: Multilevel Netzwerkmodellierung
 date: '2024-09-26'
-slug: idiografische-netzwerke
+slug: multilevel-netzwerke
 categories: ["KliPPs"]
 tags: []
 subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'

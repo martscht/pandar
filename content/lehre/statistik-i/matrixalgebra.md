@@ -1,15 +1,15 @@
 ---
 title: "Matrixalgebra" 
 type: post
-date: '2023-10-31' 
+date: '2025-01-15' 
 slug: matrixalgebra
 categories: ["Statistik I"] 
 tags: ["Grundlagen", "Matrix"] 
 subtitle: ''
 summary: '' 
-authors: [irmer] 
+authors: [irmer, liu] 
 weight: 10.5
-lastmod: '2024-04-02'
+lastmod: '2025-01-27'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -49,9 +49,9 @@ output:
 
 ***
 
-Bisher haben wir gelernt, dass viele statistische Größen durch Summen, Mittelwerte, Quadrate, Abweichungen und weitere recht einfache Rechenoperationen bestimmt werden können. Diese lassen sich oft noch einfacher durch Matrizen und Vektoren ausdrücken. Vielleicht kennen Sie Matrizen aus der Schule. Falls nicht, ist das gar kein Problem, denn dieser Post wird sich mit Vektoren und Matrizen ausführlicher beschäftigen. Matrixalgebra wird bspw. auch in Eid, et al. (2017) im _Anhang B: Matrixalgebra_ ab Seite 1051 behandelt.
+Bisher haben wir gelernt, dass viele statistische Größen mithilfe von Summen, Mittelwerten, Quadraten, Abweichungen und weiteren recht einfachen Rechenoperationen bestimmt werden können. Diese können oft noch einfacher mithilfe von Matrizen und Vektoren dargestellt werden. Vielleicht sind Ihnen Matrizen aus der Schule bekannt. Falls nicht, ist das kein Problem, denn dieser Beitrag wird Vektoren und Matrizen ausführlich erklären. Matrixalgebra wird bspw. auch in Eid, et al. (2017) im _Anhang B: Matrixalgebra_ ab Seite 1051 behandelt.
 
-Vektoren kennen wir bereits aus den ersten Datensätzen, die wir kennengelernt haben. Bspw. enthält ein Variablenvektor einer Person einfach nur die Einträge der Variablen aus dem Datensatz dieser spezifischen Person. Matrizen haben wir im Grunde auch schon kennengelernt. Ein Datensatz ist sehr stark verwandt mit einer Matrix. Genauso wie ein Datensatz, besteht auch eine Matrix aus Zeilen und Spalten. Der Hauptunterschied ist, dass bei einer Matrix nur numerische Inhalte, also Zahlen, erlaubt sind. Wenn wir Daten in `R` verarbeiten wollen, wird der Datensatz oft in Matrizen umtransformiert (falls er vorher nicht-numerische Inhalte enthielt) und dann mit geeigneten Operationen, sogenannten Matrixoperationen, verarbeitet.
+Vektoren kennen wir bereits aus den ersten Datensätzen, die wir kennengelernt haben. Bspw. enthält ein Variablenvektor einer Person einfach nur die Einträge der Variablen aus dem Datensatz dieser spezifischen Person. Matrizen haben wir im Grunde auch schon kennengelernt. Ein Datensatz ist eng mit einer Matrix verwandt. Genauso wie ein Datensatz, besteht auch eine Matrix aus Zeilen und Spalten. Der Hauptunterschied ist, dass bei einer Matrix nur numerische Inhalte, also Zahlen, erlaubt sind. Wenn wir Daten in `R` verarbeiten wollen, wird der Datensatz oft in Matrizen umtransformiert (falls er vorher nicht-numerische Inhalte enthielt) und dann mit geeigneten Operationen, sogenannten Matrixoperationen, verarbeitet.
 
 `R` ist eine vektorbasierte Programmiersprache, was bedeutet, dass möglichst viel mit Vektor- oder Matrixoperationen durchgeführt werden soll, da diese besonders optimiert (und damit besonders schnell) sind. Um davon Gebrauch zu machen, müssen wir uns mit diesen Operationen vertraut machen: 
 
@@ -60,18 +60,18 @@ Vektoren werden häufig (aber nicht immer, Ausnahmen bestätigen die Regel) in K
 Seien `x` und `y` zwei Vektoren, die wir mit dem Zuordnungspfeil `<-` und mit der Vektorfunktion `c()` erstellen:
 
 
-```r
+``` r
 x <- c(1, 2, 3)
 y <- c(10, 8, 6)
 ```
 
-Meistens werden Vektoren als sogenannte Spaltenvektoren (dazu später mehr) dargestellt. `x` und `y` sehen also so aus
+Vektoren werden Meistens als sogenannte Spaltenvektoren (dazu später mehr) dargestellt. `x` und `y` sehen also so aus
 
 {{< math >}}
 $$x=\begin{pmatrix}1\\2\\3 \end{pmatrix}, \qquad y=\begin{pmatrix}10\\8\\6 \end{pmatrix}.$$
 {{</ math >}}
 
-Die Elemente werden werden dann mit der jeweiligen Stelle im Vektor durchgezählt. Das Element $x_1$ ist also das 1. Element von $x$, also die 1. Dies kann auch so dargestellt werden:
+Die Elemente werden mit der jeweiligen Position im Vektor nummeriert. Das Element $x_1$ ist also das 1. Element von $x$, also die 1. Dies kann auch so dargestellt werden:
 
 {{< math >}}
 $$x=\begin{pmatrix}x_1\\x_2\\x_3 \end{pmatrix}=\begin{pmatrix}1\\2\\3 \end{pmatrix}, \qquad y=\begin{pmatrix}y_1\\y_2\\y_3 \end{pmatrix}=\begin{pmatrix}10\\8\\6 \end{pmatrix}.$$
@@ -82,7 +82,7 @@ Wir erkennen, dass den Elementen $x_1, x_2, x_3$ die Zahlen 1, 2, und 3 und den 
 Wir können auf Elemente eines Vektor mit eckigen Klammern zugreifen. Bspw. erhalten wir das 2. Element von Y (also quasi $y_2$) mit
 
 
-```r
+``` r
 y[2]
 ```
 
@@ -93,7 +93,7 @@ y[2]
 Auch mehrere Elemente lassen sich auf diese Weise ausgeben. Sind wir bspw. am 2. bis 3. Element interessiert, können wir 
 
 
-```r
+``` r
 y[2:3]
 ```
 
@@ -104,7 +104,7 @@ y[2:3]
 schreiben. Interessiert uns hingegen das 1. und 3. Element, brauchen wir erneut einen Vektor, der die Position auswählt:
 
 
-```r
+``` r
 y[c(1,3)]
 ```
 
@@ -126,7 +126,7 @@ x+y=\begin{pmatrix}x_1\\x_2\\x_3 \end{pmatrix}+\begin{pmatrix}y_1\\y_2\\y_3 \end
 Elementeweise Additionen funktionieren super simpel, indem wir `x` und `y` einfach mit `+` verknüpfen. 
 
 
-```r
+``` r
 x + y  # Addition
 ```
 
@@ -137,7 +137,7 @@ x + y  # Addition
 Wenn `x` und `y` nicht die selbe Länge haben, ist es in `R` oft so, dass die Vektoren künstlich verlängert werden, um verrechnet zu werden. Dies sollten wir immer im Hinterkopf behalten.
 
 
-```r
+``` r
 z <- c(1:6) # Zahlen 1 bis 6
 z + y
 ```
@@ -163,7 +163,7 @@ $$kx=3\begin{pmatrix}1\\2\\3 \end{pmatrix}=\begin{pmatrix}3\cdot1\\3\cdot2\\3\cd
 In `R` sieht das so aus
 
 
-```r
+``` r
 3*x
 ```
 
@@ -174,7 +174,7 @@ In `R` sieht das so aus
 Genauso können wir auch jedes Element durch 2 Teilen, indem wir mit $\frac{1}{2}$ also 0.5 multiplizieren.
 
 
-```r
+``` r
 1/2*x
 ```
 
@@ -185,7 +185,7 @@ Genauso können wir auch jedes Element durch 2 Teilen, indem wir mit $\frac{1}{2
 Wenn wir mit $-1$ multiplizieren erhalten wir
 
 
-```r
+``` r
 -1*x
 ```
 
@@ -204,7 +204,7 @@ Zwei Vektoren der gleichen Länge können in `R` auch miteinander multipliziert 
 
 
 
-```r
+``` r
 x*y 
 ```
 
@@ -215,7 +215,7 @@ x*y
 In `R` können den Elementen von Vektoren auch Namen vergeben werden. Bspw. könnten `x` und `y` die Anzahl von Obst auf der Einkaufsliste von Xavian und Yvonne repräsentieren. In `R` geht das so
 
 
-```r
+``` r
 names(x) <- c("Orangen", "Äpfel", "Bananen")
 names(y) <- c("Orangen", "Äpfel", "Bananen")
 x
@@ -226,7 +226,7 @@ x
 ##       1       2       3
 ```
 
-```r
+``` r
 y
 ```
 
@@ -238,7 +238,7 @@ y
 Die Länge eines Vektors und damit die maximale Anzahl an Elementen erhalten wir mit 
 
 
-```r
+``` r
 length(x)
 ```
 
@@ -248,7 +248,7 @@ length(x)
 
 #### Matrizen {#Matrizen}
 
-Ein Vektor ist eine eindimensionale Auflistung von Zahlen. Die Elemente werden einfach durchnummeriert. Eine Matrix ist ein zweidimensionales Objekt, welches aus einer Vielzahl von Vektoren gleicher Länge besteht, welche aneinander "geklebt" werden. Matrizen werden oft in Großbuchstaben beschrieben. Elemente von Matrizen hingegen in Kleinbuchstaben. Auch hier ist das nicht wirklich einheitlich geregelt. 
+Ein Vektor ist eine eindimensionale Sammlung von Zahlen. Die Elemente werden einfach durchnummeriert. Eine Matrix ist ein zweidimensionales Objekt, welches aus einer Vielzahl von Vektoren gleicher Länge besteht, welche aneinander "geklebt" werden. Matrizen werden oft in Großbuchstaben beschrieben. Elemente von Matrizen hingegen in Kleinbuchstaben. Auch hier ist das nicht wirklich einheitlich geregelt. 
 
 Eine Matrix $A$, welche 3 Zeilen und 2 Spalten enthält, besteht somit aus 3 Zeilenvektoren der Länge 2 oder aus 2 Spaltenvektoren der Länge 3. 
 
@@ -266,7 +266,7 @@ Wir bemerken, dass die Indizes der Elemente uns die Position in der Matrix angeb
 Die gerade behandelten Vektoren  können wir ganz leicht zu einer Matrix machen, indem wir den Befehl `as.matrix` bspw. auf `x` anwenden. Dieser Befehl erzeugt  eine 3x1 Matrix - also aus mathematischer Sicht eigentlich einen Spaltenvektor.
 
 
-```r
+``` r
 as.matrix(x)
 ```
 
@@ -280,7 +280,7 @@ as.matrix(x)
 Wir können die beiden Vektoren auch zu einer Matrix kombinieren, indem wir sie bspw. als zwei Zeilenvektoren mit dem Befehl `cbind` (was für column binding steht) zusammenfügen - genauso geht dies auch mit `rbind` (was für row binding steht):
 
 
-```r
+``` r
 A <- cbind(x, y)
 A
 ```
@@ -292,7 +292,7 @@ A
 ## Bananen 3  6
 ```
 
-```r
+``` r
 B <- rbind(x, y)
 B
 ```
@@ -303,12 +303,12 @@ B
 ## y      10     8       6
 ```
 
-Die Matrix $B$ ist nun im Grunde eine Datenmatrix. In den Zeilen stehen die Personen (Xavian und Yvonne) und in den Spalten die Variablen (Obstart, welches gekauft werden soll). 
+Die Matrix $B$ kann im Grunde als Datenmatrix interpretiert werden. In den Zeilen stehen die Personen (Xavian und Yvonne) und in den Spalten die Variablen (Obstart, welches gekauft werden soll). 
 
 Wir können nun bspw. den Eintrag $B_{12}$ herauslesen via `[1, 2]`, wobei der 1. Eintrag immer für die Zeile und der 2. für die Spalte steht:
 
 
-```r
+``` r
 B[1, 2] 
 ```
 
@@ -316,12 +316,12 @@ B[1, 2]
 ## [1] 2
 ```
 
-Dies entspricht der Anzahl an Äpfel von Xavian.
+Dies entspricht der Anzahl der Äpfel, die Xavian gekauft hat.
 
 Eine ganze Zeile oder Spalte erhalten wir, indem wir eines der Elemente in der Indizierung frei lassen:
 
 
-```r
+``` r
 B[1, ] # 1. Zeile
 ```
 
@@ -330,7 +330,7 @@ B[1, ] # 1. Zeile
 ##       1       2       3
 ```
 
-```r
+``` r
 B[, 2] # 2. Spalte
 ```
 
@@ -344,7 +344,7 @@ B[, 2] # 2. Spalte
 So wie `A` und `B` erzeugt wurden, ist ersichtlich, dass die Spalten von `A` die Zeilen von `B` sind. Wir können Zeilen und Spalten auch vertauschen, indem wir die Matrix transponieren, indem wir den Befehl `t()` auf die Matrix anwenden:
 
 
-```r
+``` r
 A
 ```
 
@@ -355,7 +355,7 @@ A
 ## Bananen 3  6
 ```
 
-```r
+``` r
 t(A)
 ```
 
@@ -365,7 +365,7 @@ t(A)
 ## y      10     8       6
 ```
 
-```r
+``` r
 B
 ```
 
@@ -375,13 +375,13 @@ B
 ## y      10     8       6
 ```
 
-Wir erkennen, dass die Matrix `B` gerade die Transponierte von `A` ist! Die Matrixaddition funktioniert genauso wie die von Vektoren, sie wird elementenweise durchgeführt. Allerdings müssen dafür die Matrizen vom selben Format, also der gleichen Dimension, sein, also gleich viele Zeilen und Spalten haben. Das Format wird üblicherweise $z \times s$ angegeben, wobei $z$ die Anzahl an Zeilen und $s$ die Anzahl an Spalten ist.
+Wir erkennen, dass die Matrix `B` gerade die Transponierte von `A` ist! Die Matrixaddition funktioniert genauso wie die von Vektoren. Sie wird elementenweise durchgeführt. Allerdings müssen dafür die Matrizen dasselbe Format haben, also gleich viele Zeilen und Spalten besitzen. Das Format wird üblicherweise $z \times s$ angegeben, wobei $z$ die Anzahl an Zeilen und $s$ die Anzahl an Spalten ist.
 
 {{<intext_anchor MatRechOp>}}
 Die beiden Matrizen `A` und `B` lassen sich nicht addieren, da sie nicht das richtige Format haben:
 
 
-```r
+``` r
 A + B
 ```
 
@@ -393,7 +393,7 @@ A + B
 Eine $3\times 2$ Matrix lässt sich nicht mit einer $2\times 3$ Matrix addieren. Wird eine Matrix transponiert, so ändert sich damit auch die Dimension. Die Zeilen werden zu Spalten und umgekehrt. Die Transponierte von $A$ ist also eine $2\times 3$ Matrix und lässt sich damit mit $B$ addieren:
 
 
-```r
+``` r
 t(A) + B
 ```
 
@@ -406,7 +406,7 @@ t(A) + B
 Dies kommt zum selben Ergebnis, wie als hätten wir jeden Eintrag von $B$ mit 2 multipliziert, also die skalare Multiplikation, die wir bereits von Vektoren kennen, durchgeführt. 
 
 
-```r
+``` r
 B * 2 # skalare Multiplikation
 ```
 
@@ -419,7 +419,7 @@ B * 2 # skalare Multiplikation
 Matrizen lassen sich in `R` auch elementenweise multiplizieren. Dafür müssen sie, wie bei der Addition auch, das gleiche  Format haben. 
 
 
-```r
+``` r
 t(A) * B
 ```
 
@@ -432,7 +432,7 @@ t(A) * B
 ergibt das selbe, wie als wenn wir jeden Eintrag von $B$ quadriert hätten. Dies kann auch so geschrieben werden:
 
 
-```r
+``` r
 B^2
 ```
 
@@ -444,7 +444,7 @@ B^2
 
 $A'*B$ hat in der Mathematik allerdings keine wirklich Bedeutung. Es gibt jedoch auch die Matrixmultiplikation. Hier werden die Zeilen der ersten Matrix $A$ mit den Spalten der zweiten Matrix $B$ elementenweise multipliziert und diese Elemente werden anschließend addiert. Dies funktioniert nur genau dann, wenn die Anzahl an Spalten der ersten Matrix der Anzahl an Zeilen der zweiten Matrix entspricht.
 $p \times q$ ist kompatibel mit $q \times r$.
-Die resultierende Matrix hat dann so viele Zeilen wie die erste Matrix und so viele Spalten wie die zweite. Das resultierende Format ist also $p\times r$.
+Die resultierende Matrix hat dann so viele Zeilen wie die erste Matrix und so viele Spalten wie die zweite. Das resultierende Format der neuen Matrix ist also $p\times r$.
 
 {{< math >}}
 \begin{align*}
@@ -482,7 +482,7 @@ Hier entsteht eine Matrix vom Format $2\times 2$. Wir sehen deutlich, dass Matri
 Der Operator in `R` hierfür heißt `%*%` (verwenden wir stattdessen `*`, so wird eine elementenweise Multiplikation durchgeführt, was etwas komplett anderes ist!):
 
 
-```r
+``` r
 A %*% B # Matrixprodukt A*B
 ```
 
@@ -493,7 +493,7 @@ A %*% B # Matrixprodukt A*B
 ## Bananen      63    54      45
 ```
 
-```r
+``` r
 B %*% A # Matrixprodukt B*A
 ```
 
@@ -508,7 +508,7 @@ An den Ergebnissen erkennen wir auch, dass Matrixprodukte nicht kommutativ sind,
 So wirklich eine Bedeutung können wir diesen Matrixprodukten nicht zuordnen. Erstellen wir jedoch eine zweite Matrix $P$, in welcher wir die Preise für Orangen, Äpfel und Banenen ablegen, dann können wir mit Hilfe der Matrixmultiplikation bestimmen, wie viel Geld Xavian und Yvonne mitbringen müssen, um ihr Obst zu kaufen. Wir wollen das Matrixprodukt wie folgt bestimmen: $BP$. Damit muss $P$ die Dimension $3\times 1$ haben, damit die beiden Matrizen verrechnet werden können. $P$ ist also ein Spaltenvektor. Angenommen eine Orange kostet 0.50€, ein Apfel 0.30€ und eine Banane 0.20€. Wir bennen die Zeilen entsprechend und nennen die Spalte den Preis.
 
 
-```r
+``` r
 P <- matrix(c(.5, .3, .2))
 rownames(P) <- c("Orange", "Äpfel", "Banane")
 colnames(P) <- "Preis"
@@ -525,7 +525,7 @@ P
 Nun führen wir Matrixmultiplikation durch:
 
 
-```r
+``` r
 B %*% P
 ```
 
@@ -538,7 +538,7 @@ B %*% P
 Wir erkennen, dass Xavian 1.7€ und Yvonne 8.6€ ausgeben muss. Angenommen es gäbe einen Konkurrenzladen, der andere Preise für das Obst angibt. Wir können dies in unsere Matrix $P$ aufnehmen und so bestimmen, wie viel die beiden in den jeweiligen Läden ausgeben müssten. Wir verwenden diesmal den `matrix`-Befehl, um direkt eine Matrix zu erzeugen. Dieser Befehl nimmt zunächst einen Vektor mit den Elementen entgegen. Hier empfiehlt es sich durch Zeilenumbrüche Ordnung hereinzubringen. Anschließend sagen wir noch wie viele Zeilen (`nrow`) und Spalten (`ncol`) wir benötigen. Mit `byrow = TRUE` geben wir an, dass die Matrix zeilenweise befüllt werden soll. In *Laden A* kosten Orangen 0.50€, Äpfel 0.30€ und Bananen 0.20€. In *Laden B* sind Bananen super teuer und kosten 1.00€. Hingegen sind Orangen und Äpfel extrem billig und kosten nur 0.05€. Wenn wir die Zeilen und Spalten der Preismatrix $P$ entsprechend bennen, sagt uns das Matrixprodukt nun, wie viel Xavian und Yvonne in den Beiden Läden bezahlen müssen.
 
 
-```r
+``` r
 P <- matrix(c(.5, .05,
               .3, .05,
               .2, 1), nrow = 3, ncol = 2,
@@ -556,10 +556,10 @@ B %*% P
 Obwohl die Bananen so teuer sind, macht es für Yvonne mehr Sinn in Laden B einzukaufen, während Xavian besser beraten ist bei Laden A zu bleiben (unter der etwas seltsamen Annahme, dass man alles in einem Laden kaufen muss).
 
 #### Spezielle Matrizen
-Eine quadratische Matrix hat genauso viele Zeilen wie Spalten. Eine wichtige quadratische Matrix ist die Einheitsmatrix $I$, welche nur 1en auf der Diagonalen und sonst 0en hat. Diese ist gerade das Element, mit welchem wir getrost multiplizieren können (falls die Dimensionen stimmen), weil dann nichts passiert (wie Multiplikation mit 1 bei Zahlen). Wir erhalten sie mit `diag`, was eigentlich eine (quadratische) Diagonalmatrix erzeugt mit beliebigen Elementen auf der Diagonalen:
+Eine quadratische Matrix ist eine Matrix mit gleich vielen Zeilen wie Spalten. Eine wichtige quadratische Matrix ist die Einheitsmatrix $I$, welche nur 1en auf der Diagonalen und sonst 0en hat. Diese ist gerade das Element, mit welchem wir getrost multiplizieren können (falls die Dimensionen stimmen), weil dann nichts passiert (wie Multiplikation mit 1 bei Zahlen). Wir erhalten sie mit `diag`, was eigentlich eine (quadratische) Diagonalmatrix erzeugt mit beliebigen Elementen auf der Diagonalen:
 
 
-```r
+``` r
 diag(3) # Einheitsmatrix 3x3
 ```
 
@@ -570,7 +570,7 @@ diag(3) # Einheitsmatrix 3x3
 ## [3,]    0    0    1
 ```
 
-```r
+``` r
 diag(1:3) # Diagonalmatrix mit Elementen 1,2,3 auf der Diagonalen
 ```
 
@@ -584,7 +584,7 @@ diag(1:3) # Diagonalmatrix mit Elementen 1,2,3 auf der Diagonalen
 Wir können eine Matrix mit dem `matrix` Befehl auch mit Hand füllen. Diesem übergeben wir einen Vektor und die Dimensionen der Matrix (`data` werden die Daten, die wir in die Matrix schreiben wollen übergeben, `nrow` und `ncol` bestimmen die Anzahl der Zeilen und Spalten und mit `byrow = T` zeigen wir an, dass wir die Matrix zeilenweise gefüllt bekommen möchten):
 
 
-```r
+``` r
 C <- matrix(data = c(1:9), nrow = 3, ncol = 3, byrow = T)
 C
 ```
@@ -599,7 +599,7 @@ C
 Wir können mit `diag` auch wieder die Diagonalelemente einer Matrix erfahren:
 
 
-```r
+``` r
 diag(C)
 ```
 
@@ -612,7 +612,7 @@ diag(C)
 Die Inverse, also jenes Element, mit welchem wir (matrix-)multiplizieren müssen, um die Einheitsmatrix zu erhalten, lässt sich in `R` mit dem `solve` Befehl erhalten (dies geht nur bei quadratischen Matrizen):
 
 
-```r
+``` r
 solve(C)
 ```
 
@@ -625,7 +625,7 @@ solve(C)
 Die Matrix `C` lässt sich nicht invertieren, da sie singulär ist und damit nicht invertierbar. Dies bedeutet, dass es lineare Abhängigkeiten der Zeilen bzw. Spalten gibt. Wir können dies explizit prüfen, indem wir die Determinante bestimmen mit `det`:
 
 
-```r
+``` r
 det(C)
 ```
 
@@ -633,17 +633,17 @@ det(C)
 ## [1] 6.661338e-16
 ```
 
-```r
+``` r
 round(det(C), 14)
 ```
 
 ```
 ## [1] 0
 ```
-Mit `round` runden wir das Ergebnis auf die 14. Nachkommastelle. Eine Matrix ist genau dann invertierbar (also regulär im Vergleich zu singulär), wenn die Determinante dieser (quadratischen) Matrix **nicht** Null ist. Lineare Abhängigkeit bedeutet, dass die Zeilen oder Spalten durch Addition, Subtraktion und skalare Multiplikationen auseinander hervorgehen. Wir erkennen die lineare Abhängigkeit zwischen den Spalten, indem wir von der 2. Spalte die 1. Spalte abziehen und anschließend dies auf die 2. Spalte addieren - also de facto $2*2.Spalte - 1. Spalte$  rechnen:
+Mit `round` runden wir das Ergebnis auf die 14. Nachkommastelle. Eine Matrix ist genau dann invertierbar (also regulär im Vergleich zu singulär), wenn die Determinante dieser (quadratischen) Matrix **nicht Null** ist. Lineare Abhängigkeit bedeutet, dass die Zeilen oder Spalten durch Addition, Subtraktion und skalare Multiplikationen auseinander hervorgehen. Die lineare Abhängigkeit zwischen den Spalten wird ersichtlich, wenn wir von der 2. Spalte die 1. Spalte abziehen und das Ergebnis zur 3. Spalte addieren - also de facto $2*2.Spalte - 1. Spalte$  rechnen:
 
 
-```r
+``` r
 2*C[, 2] - C[, 1]     # 2*2.Spalte - 1. Spalte rechnen ist gleich
 ```
 
@@ -651,7 +651,7 @@ Mit `round` runden wir das Ergebnis auf die 14. Nachkommastelle. Eine Matrix ist
 ## [1] 3 6 9
 ```
 
-```r
+``` r
 C[, 3]               # 3. Spalte
 ```
 
@@ -662,7 +662,7 @@ C[, 3]               # 3. Spalte
 Hätten wir `C^-1` gerechnet, so hätten wir eine elementeweise Invertierung durchgeführt:
 
 
-```r
+``` r
 C^-1
 ```
 
@@ -673,7 +673,7 @@ C^-1
 ## [3,] 0.1428571 0.125 0.1111111
 ```
 
-```r
+``` r
 C^-1 %*% C # ist nicht die Einheitsmatrix
 ```
 
@@ -684,7 +684,7 @@ C^-1 %*% C # ist nicht die Einheitsmatrix
 ## [3,] 1.420635 1.799603 2.178571
 ```
 
-```r
+``` r
 C^-1 * C   # elementeweise ergibt überall 1 - ist immer noch nicht die Einheitsmatrix!
 ```
 
@@ -700,7 +700,7 @@ Dies bedeutet, dass `C^-1` in `R` nicht die Invertierung betitelt sondern `solve
 Betrachten wir nun eine invertierbare Matrix `D`:
 
 
-```r
+``` r
 D <- matrix(c(1, 0, 0,
               1, 1, 1,
               2, 4, 5), 3, 3, byrow = T)
@@ -714,7 +714,7 @@ det(D)
 Die Determinante von `D` ist 1. Somit können wir `D` invertieren. Das Produkt aus `D` mit seiner Inversen ergibt gerade die 3x3 Einheitsmatrix:
 
 
-```r
+``` r
 solve(D)
 ```
 
@@ -725,7 +725,7 @@ solve(D)
 ## [3,]    2   -4    1
 ```
 
-```r
+``` r
 D %*% solve(D)
 ```
 
@@ -736,7 +736,7 @@ D %*% solve(D)
 ## [3,]    0    0    1
 ```
 
-```r
+``` r
 solve(D) %*% D
 ```
 
@@ -747,7 +747,7 @@ solve(D) %*% D
 ## [3,]    0    0    1
 ```
 
-Das Produkt zwischen $D$ und $D^{-1}$ ist (ausnahmsweise) kommutativ: $DD^{-1}=D^{-1}D=I$. Die Inverse einer Matrix ist im Allgemeinen recht schwer zu bestimmen. Zum Glück gibt es Computer! Die einzige Ausnahme ist die $2\times 2$ Matrix. Eine $2\times 2$ Matrix 
+Das Produkt von $D$ und $D^{-1}$ ist (ausnahmsweise) kommutativ: $DD^{-1}=D^{-1}D=I$. Im Allgemeinen ist die Bestimmung der Inversen einer Matrix komplex. Für eine $2 \times 2$-Matrix gibt es jedoch eine einfache Lösung. Eine $2\times 2$ Matrix 
 $$M=\begin{pmatrix}a&b\\ c&d \end{pmatrix}$$ 
 lässt sich invertieren, genau dann wenn die Determinante nicht 0 ist, also wenn keine lineare Abhängigkeit innerhalb der Zeilen oder der Spalten besteht. Die Determinante von $M$ bestimmen wir als 
 $$\text{det}[M] = ad-bc.$$
@@ -756,7 +756,7 @@ Ist diese nicht 0, so erhalten wir die Inverse von $M$ durch
 Wir müssen also die Diagonalelemente von $M$ vertauschen und die Nebendiagonalelemente mit einem Minus versehen. Anschließend müssen wir jeden Eintrag durch die Determinante teilen (oder wir nehmen einfach `solve`).
 
 
-```r
+``` r
 M <- matrix(c(2, 2, 3, 4), ncol = 2, nrow = 2, byrow = TRUE)
 M
 ```
@@ -767,7 +767,7 @@ M
 ## [2,]    3    4
 ```
 
-```r
+``` r
 det(M)
 ```
 
@@ -775,7 +775,7 @@ det(M)
 ## [1] 2
 ```
 
-```r
+``` r
 M[1,1]*M[2,2] - M[1,2]*M[2,1] # Determinante mit Hand
 ```
 
@@ -783,7 +783,7 @@ M[1,1]*M[2,2] - M[1,2]*M[2,1] # Determinante mit Hand
 ## [1] 2
 ```
 
-```r
+``` r
 K <- matrix(c(M[2,2], -M[1,2], M[2,1], M[1,1]), byrow = TRUE, ncol = 2, nrow = 2)
 K # Kofaktorenmatrix
 ```
@@ -794,7 +794,7 @@ K # Kofaktorenmatrix
 ## [2,]    3    2
 ```
 
-```r
+``` r
 1/(M[1,1]*M[2,2] - M[1,2]*M[2,1])*K # Inverse von M
 ```
 
@@ -804,7 +804,7 @@ K # Kofaktorenmatrix
 ## [2,]  1.5    1
 ```
 
-```r
+``` r
 solve(M) # Inverse von M
 ```
 
@@ -817,7 +817,7 @@ solve(M) # Inverse von M
 Wozu können wir die Matrixinvertierung benutzen? Sei $P$ wieder eine Preismatrix. Wir vertauschen diesmal Zeilen und Spalten
 
 
-```r
+``` r
 P <- matrix(c(.5, .1, 2,
               .3, .05, 2.5,
               .2, 1, 3), nrow = 3, ncol = 3,
@@ -837,7 +837,7 @@ P
 Bananen sind nun überall teuer. In Laden A kostet das Obst bspw.:
 
 
-```r
+``` r
 P[1,]
 ```
 
@@ -851,7 +851,7 @@ Angenommen Sie wüssten nun, dass Xavian in Laden A 15.40€, in Laden B 18.30�
 Es entsteht ein Gleichungssystem $Px = b$, wobei $x$ die Anzahl an Obst enthält und $b$ die Gesamtpreise pro Laden. 
 
 
-```r
+``` r
 b <- as.matrix(c(15.4, 18.3, 25.4))
 rownames(b) <- c("Laden A", "Laden B", "Laden C")
 b
@@ -870,7 +870,7 @@ Wenn wir nun $P$ invertieren und von Links auf beiden Seiten "dranmultiplizieren
 Da $P^{-1}P=I$, die Einheitsmatrix ergibt, muss also $x=P^{-1}b$ sein. Wir prüfen dies:
 
 
-```r
+``` r
 x <- solve(P) %*% b
 x
 ```
@@ -885,7 +885,7 @@ x
 Xavian hat 2 Orangen, 4 Äpfel und 7 Bananen in den Läden gekauft. Hier die Probe:
 
 
-```r
+``` r
 P %*% x
 ```
 
@@ -896,7 +896,7 @@ P %*% x
 ## Laden C 25.4
 ```
 
-```r
+``` r
 b
 ```
 
@@ -914,72 +914,59 @@ Nun aber genug von Obst, wir sind hier um Statistik zu betreiben. Im letzten Abs
 ##### Statistiken mit Matrixoperationen bestimmen {#Deskriptiv}
 
 
-```r
+``` r
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb22.rda'))
+load(url('https://pandar.netlify.app/daten/fb24.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb22$geschl_faktor <- factor(fb22$geschl,
-                             levels = 1:3,
-                             labels = c("weiblich", "männlich", "anderes"))
-fb22$fach <- factor(fb22$fach,
+fb24$geschl_faktor <- factor(fb24$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
+fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb22$ziel <- factor(fb22$ziel,
+fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
 
-fb22$wohnen <- factor(fb22$wohnen, 
+fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
-fb22$ort <- factor(fb22$ort, levels=c(1,2), labels=c("FFM", "anderer"))
 
-fb22$job <- factor(fb22$job, levels=c(1,2), labels=c("nein", "ja"))
-# Skalenbildung
+# Rekodierung invertierter Items
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 5)
+fb24$mdbf11_r <- -1 * (fb24$mdbf4 - 5)
+fb24$mdbf3_r <- -1 * (fb24$mdbf4 - 5)
+fb24$mdbf9_r <- -1 * (fb24$mdbf4 - 5)
 
-fb22$prok2_r <- -1 * (fb22$prok2 - 5)
-fb22$prok3_r <- -1 * (fb22$prok3 - 5)
-fb22$prok5_r <- -1 * (fb22$prok5 - 5)
-fb22$prok7_r <- -1 * (fb22$prok7 - 5)
-fb22$prok8_r <- -1 * (fb22$prok8 - 5)
-
-# Prokrastination
-fb22$prok_ges <- fb22[, c('prok1', 'prok2_r', 'prok3_r',
-                          'prok4', 'prok5_r', 'prok6',
-                          'prok7_r', 'prok8_r', 'prok9', 
-                          'prok10')] |> rowMeans()
-# Naturverbundenheit
-fb22$nr_ges <-  fb22[, c('nr1', 'nr2', 'nr3', 'nr4', 'nr5',  'nr6')] |> rowMeans()
-fb22$nr_ges_z <- scale(fb22$nr_ges) # Standardisiert
-
-# Weitere Standardisierungen
-fb22$nerd_std <- scale(fb22$nerd)
-fb22$neuro_std <- scale(fb22$neuro)
+# Berechnung von Skalenwerten
+fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+                        'mdbf8', 'mdbf11_r')] |> rowMeans()
 ```
 
-Summen lassen sich sehr leicht auch durch ein Matrixprodukt darstellen. Nehmen wir beispielsweise die ersten 3 Spalten des `fb23` Datensatzes her und nennen diese `X`. Wenn wir einen Zeilenvektor der Dimension $1\times n$ wobei $n$ die Anzahl an Zeilen von `X` ist, dann können wir die Summe der Elemente pro Spalte von `X` durch ein Matrixprodukt ausdrücken:
+Summen lassen sich sehr leicht auch durch ein Matrixprodukt darstellen. Nehmen wir beispielsweise die ersten 3 Spalten des `fb24` Datensatzes her und nennen diese `X`. Wenn wir einen Zeilenvektor der Dimension $1\times n$ wobei $n$ die Anzahl an Zeilen von `X` ist, dann können wir die Summe der Elemente pro Spalte von `X` durch ein Matrixprodukt ausdrücken:
 
 
-```r
-X <- as.matrix(fb22[, 1:3])
+``` r
+X <- as.matrix(fb24[, 1:3])
 n <- nrow(X)
 z <- t(rep(1, n)) # 1en-Zeilenvektor der Länge n
 z %*% X
 ```
 
 ```
-##      prok1 prok2 prok3
-## [1,]   424   411   357
+##      mdbf1 mdbf2 mdbf3
+## [1,]   575   501   394
 ```
 
-```r
+``` r
 colSums(X)
 ```
 
 ```
-## prok1 prok2 prok3 
-##   424   411   357
+## mdbf1 mdbf2 mdbf3 
+##   575   501   394
 ```
 
 Die Kovarianz zweier Variablen $X$ und $Y$ ist definiert durch 
@@ -1005,113 +992,113 @@ $$\frac{1}{n-1}\sum_{i=1}^n x_iy_i - \frac{n}{n-1}\bar{x}\bar{y}.$$
 Nehmen wir nun die Vektoren $x$ und $y$ unserer Probandinen und Probanden her, so können wir die Summen leicht durch Matrixverrechnungen darstellen. Dazu nennen wir `prok1` $x$ und `prok2` $y$:
 
 
-```r
+``` r
 x <- X[,1]
 y <- X[,2]
 sum(x*y)
 ```
 
 ```
-## [1] 1067
+## [1] 1545
 ```
 
-```r
+``` r
 t(x) %*% y
 ```
 
 ```
 ##      [,1]
-## [1,] 1067
+## [1,] 1545
 ```
 
-```r
+``` r
 mean(x)
 ```
 
 ```
-## [1] 2.666667
+## [1] 2.994792
 ```
 
-```r
+``` r
 1/n * (z %*% x)
 ```
 
 ```
 ##          [,1]
-## [1,] 2.666667
+## [1,] 2.994792
 ```
 
-```r
+``` r
 mean(x)*mean(y)
 ```
 
 ```
-## [1] 6.893082
+## [1] 7.814535
 ```
 
-```r
+``` r
 1/n * (z %*% x) %*% 1/n* (z %*% y)
 ```
 
 ```
 ##          [,1]
-## [1,] 6.893082
+## [1,] 7.814535
 ```
 
-```r
+``` r
 cov(x,y)
 ```
 
 ```
-## [1] -0.1835443
+## [1] 0.2335569
 ```
 
-```r
+``` r
 1/(n-1) * (t(x) %*% y - (z %*% x) %*% 1/n* (z %*% y))
 ```
 
 ```
-##            [,1]
-## [1,] -0.1835443
+##           [,1]
+## [1,] 0.2335569
 ```
 
 Das wirkt auf den ersten Blick kompliziert, das Schöne ist nun, dass diese Formel auch für Matrizen gilt.
 Wollen wir nun die Kovarianzmatrix von `X` bestimmen, so ginge dies bspw. durch:
 
 
-```r
+``` r
 1/(n-1)*(t(X) %*% X - 1/n*t(z %*% X)  %*% (z %*% X))
 ```
 
 ```
-##            prok1      prok2      prok3
-## prok1  0.6666667 -0.1835443 -0.4177215
-## prok2 -0.1835443  0.8139479  0.1530929
-## prok3 -0.4177215  0.1530929  0.7305947
+##            mdbf1      mdbf2      mdbf3
+## mdbf1  0.4659413  0.2335569 -0.2143870
+## mdbf2  0.2335569  0.6162467 -0.1994437
+## mdbf3 -0.2143870 -0.1994437  0.8035558
 ```
 
-```r
+``` r
 cov(X)
 ```
 
 ```
-##            prok1      prok2      prok3
-## prok1  0.6666667 -0.1835443 -0.4177215
-## prok2 -0.1835443  0.8139479  0.1530929
-## prok3 -0.4177215  0.1530929  0.7305947
+##            mdbf1      mdbf2      mdbf3
+## mdbf1  0.4659413  0.2335569 -0.2143870
+## mdbf2  0.2335569  0.6162467 -0.1994437
+## mdbf3 -0.2143870 -0.1994437  0.8035558
 ```
 
 Eine alternative Schreibweise wäre:
 
-```r
+``` r
 1/(n-1)*(t(X) %*% X - n*colMeans(X)  %*% t(colMeans(X)))
 ```
 
 ```
-##            prok1      prok2      prok3
-## prok1  0.6666667 -0.1835443 -0.4177215
-## prok2 -0.1835443  0.8139479  0.1530929
-## prok3 -0.4177215  0.1530929  0.7305947
+##            mdbf1      mdbf2      mdbf3
+## mdbf1  0.4659413  0.2335569 -0.2143870
+## mdbf2  0.2335569  0.6162467 -0.1994437
+## mdbf3 -0.2143870 -0.1994437  0.8035558
 ```
 
 In Büchern steht dann 

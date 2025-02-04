@@ -268,7 +268,7 @@ Zur Berechnung der Differenzvariable wurden von den Prä-Messungen die Post-Mess
 
 Es wurde in einer Wiederholungsmessung untersucht, ob sich die Teilnahme am Statistikpraktikum  auf das Wachempfinden auswirkt. Zunächst findet sich deskriptiv folgender Unterschied: Vor der Praktikumssitzung liegt der durchschnittliche Zufriedenheitswert bei `r round(vorher$mean, 2)` (_SD_ = `r round(vorher$sd, 2)`), während er nach der Praktikumssitzung bei `r round(nachher$mean, 2)` (_SD_ = `r round(nachher$sd, 2)`) liegt. 
 
-Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Gruppenunterschied ist nicht signifikant ($t$(`r ttest$parameter`) = `r round(ttest$statistic, 3)`, $p =$ `r round(ttest$p.value,3)`), somit wird die Nullhypothese beibehalten. Wir gehen davon aus, dass sich die Teilnahme am Statistikpraktikum nicht auf das Wachempfinden auswirkt.
+Zur Beantwortung der Fragestellung wurde ein ungerichteter $t$-Test für abhängige Stichproben durchgeführt. Der Gruppenunterschied ist signifikant ($t$(`r ttest$parameter`) = `r round(ttest$statistic, 3)`, $p =$ `r round(ttest$p.value,3)`), somit wird die Nullhypothese verworfen und wir gehen davon aus, dass sich die Teilnahme am Statistikpraktikum die Wachheit verändert.
 
 Der standardisierte Populationseffekt von _d''_ = `r round(d, 2)` ist laut Konventionen nach Cohen (1988) klein.
 

@@ -6,7 +6,7 @@ slug: multiple-reg
 categories: ["Statistik I"] 
 tags: ["Regression", "Determinationskoeffizient", "Voraussetzungen"] 
 subtitle: ''
-summary: 'In diesem Beitrag wird die einfache lineare Regression zur multiplen Regression erweitert, indem mehrere Prädiktoren genuzt werden. Deskriptiv werden die einzelnen Parameter der Regression dargestellt und  die gemeinsam erklärte Varianz erläutert. Aus inferenzstatistischer Sicht beschäftigen wir uns mit einem globalen Modelltest und Modellvergleichstests. Auch die Annahmen der multiplen Regression werden besprochen.' 
+summary: 'In diesem Beitrag wird die einfache lineare Regression zur multiplen Regression erweitert, indem mehrere Prädiktoren genuzt werden. Deskriptiv werden die einzelnen Parameter der Regression dargestellt und die gemeinsam erklärte Varianz erläutert. Aus inferenzstatistischer Sicht beschäftigen wir uns mit einem globalen Modelltest und Modellvergleichstests. Auch die Annahmen der multiplen Regression werden besprochen.' 
 authors: [schultze]
 weight: 12
 lastmod: '`r Sys.Date()`'
@@ -82,57 +82,42 @@ abbrev <- function(X, begin = NULL, end = NULL, ellipses = 'both',...) {
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz `fb23` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz `fb24` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 ```{r}
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb23.rda'))  
+load(url('https://pandar.netlify.app/daten/fb24.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb23$hand_factor <- factor(fb23$hand,
+fb24$hand_factor <- factor(fb24$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb23$fach <- factor(fb23$fach,
+fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb23$ziel <- factor(fb23$ziel,
+fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-
-fb23$wohnen <- factor(fb23$wohnen, 
+fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 
-fb23$fach_klin <- factor(as.numeric(fb23$fach == "Klinische"),
-                         levels = 0:1,
-                         labels = c("nicht klinisch", "klinisch"))
-
-fb23$ort <- factor(fb23$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-
-fb23$job <- factor(fb23$job, levels=c(1,2), labels=c("nein", "ja"))
-
-
 # Rekodierung invertierter Items
-fb23$mdbf4_pre_r <- -1 * (fb23$mdbf4_pre - 4 - 1)
-fb23$mdbf11_pre_r <- -1 * (fb23$mdbf11_pre - 4 - 1)
-fb23$mdbf3_pre_r <-  -1 * (fb23$mdbf3_pre - 4 - 1)
-fb23$mdbf9_pre_r <-  -1 * (fb23$mdbf9_pre - 4 - 1)
-fb23$mdbf5_pre_r <- -1 * (fb23$mdbf5_pre - 4 - 1)
-fb23$mdbf7_pre_r <- -1 * (fb23$mdbf7_pre - 4 - 1)
-
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 5)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 5)
+fb24$mdbf3_r <- -1 * (fb24$mdbf3 - 5)
+fb24$mdbf9_r <- -1 * (fb24$mdbf9 - 5)
 
 # Berechnung von Skalenwerten
-fb23$wm_pre  <- fb23[, c('mdbf1_pre', 'mdbf5_pre_r', 
-                        'mdbf7_pre_r', 'mdbf10_pre')] |> rowMeans()
-fb23$gs_pre  <- fb23[, c('mdbf1_pre', 'mdbf4_pre_r', 
-                        'mdbf8_pre', 'mdbf11_pre_r')] |> rowMeans()
-fb23$ru_pre <-  fb23[, c("mdbf3_pre_r", "mdbf6_pre", 
-                         "mdbf9_pre_r", "mdbf12_pre")] |> rowMeans()
+fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+                        'mdbf8', 'mdbf11_r')] |> rowMeans()
+fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+                         "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb23$ru_pre_zstd <- scale(fb23$ru_pre, center = TRUE, scale = TRUE)
+fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
 ```
 
 
@@ -144,11 +129,11 @@ $$
 y_m = b_0 + b_1 x_m + e_m
 $$
 
-Im Datensatz `fb23` haben wir so die Nerdiness (`nerd`) durch die Extraversion (`extra`) vorhergesagt - die Annahme war dabei, dass Personen, die introvertierter sind (also geringere Werte auf der Extraversionsskala aufweisen) sich auch Hobbies gesucht haben, die typischerweise als "nerdig" gelten. In `R` haben wir den `lm`-Befehl genutzt, um diese Hypothese auch einer Prüfung zu unterziehen.
+Im Datensatz `fb24` haben wir so die Nerdiness (`nerd`) durch die Extraversion (`extra`) vorhergesagt - die Annahme war dabei, dass Personen, die introvertierter sind (also geringere Werte auf der Extraversionsskala aufweisen) sich auch Hobbies gesucht haben, die typischerweise als "nerdig" gelten. In `R` haben wir den `lm`-Befehl genutzt, um diese Hypothese auch einer Prüfung zu unterziehen.
 
 ```{r}
 # Einfache Regression
-mod1 <- lm(nerd ~ 1 + extra, data = fb23)
+mod1 <- lm(nerd ~ 1 + extra, data = fb24)
 
 # Ergebnisse
 summary(mod1)
@@ -163,7 +148,7 @@ b1 <- coef(mod1)[2]
 Bei dieser Regression haben wir gesehen, dass die Extraversion ein bedeutsamer Prädiktor für die Nerdiness ist. Dabei geht mit einem Unterschied von einer Einheit in der Extraversion ein Unterschied von `r round(b1, 2)` Einheiten in der Nerdiness einher. Der Determinationskoeffizient beträgt `r round(r2, 2)`, was bedeutet, dass `r round(r2 * 100, 2)`% der Varianz in der Nerdiness durch die Extraversion erklärt werden. Wie wir auch schon gesehen hatten, entspricht dies der quadrierten Korrelation zwischen Extraversion und Nerdiness und die Tests beider gegen 0 sind äquivalent:
 
 ```{r}
-cor.test(fb23$nerd, fb23$extra)
+cor.test(fb24$nerd, fb24$extra)
 ```
 
 ## Multiple Regression
@@ -179,7 +164,7 @@ $K$ entspricht dabei der Anzahl der Prädiktoren, die wir in das Modell aufgenom
 ```{r}
 # Multiple Regression
 mod2 <- lm(nerd ~ 1 + extra + vertr + gewis + neuro + offen, 
-  data = fb23)
+  data = fb24)
 
 # Ergebnisse
 summary(mod2)
@@ -187,7 +172,7 @@ summary(mod2)
 ### Interpretation der Gewichte
 
 ```{r, echo = FALSE, purl = F}
-mod_tmp <- lm(neuro ~ extra, fb23)
+mod_tmp <- lm(neuro ~ extra, fb24)
 b1_tmp <- coef(mod_tmp)[2]
 ```
 
@@ -204,7 +189,7 @@ b0 <- coef(mod2)[1]
 b1 <- coef(mod2)[2]
 
 # Scatterplot
-plot(fb23$nerd ~ fb23$extra, 
+plot(fb24$nerd ~ fb24$extra, 
      xlab = "Extraversion", 
      ylab = "Nerdiness")
 
@@ -228,10 +213,10 @@ Wenn wir z.B. sehen wollen, wie sich die Extraversion auf die Nerdiness bei Pers
 ```{r, fig = TRUE}
 # Achsenabschnitt bestimmen
 X <- matrix(c(1, 0, 
-  mean(fb23$vertr, na.rm = TRUE), 
-  mean(fb23$gewis, na.rm = TRUE), 
-  mean(fb23$neuro, na.rm = TRUE), 
-  mean(fb23$offen, na.rm = TRUE)))
+  mean(fb24$vertr, na.rm = TRUE), 
+  mean(fb24$gewis, na.rm = TRUE), 
+  mean(fb24$neuro, na.rm = TRUE), 
+  mean(fb24$offen, na.rm = TRUE)))
 
 a <- coef(mod2) %*% X
 ```
@@ -242,7 +227,7 @@ abline(a = a, b = b1, col = "darkgreen")
 
 ```{r, echo = FALSE, fig = TRUE, purl = F}
 # Scatterplot
-plot(fb23$nerd ~ fb23$extra, 
+plot(fb24$nerd ~ fb24$extra, 
      xlab = "Extraversion", 
      ylab = "Nerdiness")
 
@@ -254,7 +239,7 @@ legend("topright", legend = c("Einfache Reg.", "Multiple Reg.", "Multiple Reg. (
 ```
 
 
-Der zweite Unterschied zwischen dieser neuen Linie (in Grün) und der Linie aus der einfachen linearen Regression (in Blau) zwigt, dass sie sich leicht im Steigungskoeffizienten unterscheiden. Das liegt eben genau daran, dass das Gewicht jetzt Unterschiede zwischen zwei Personen sind, die sich _nur_ in der Extraversion unterscheiden, aber sonst in allen (berücksichtigten) Belangen gleich sind.
+Der zweite Unterschied zwischen dieser neuen Linie (in Grün) und der Linie aus der einfachen linearen Regression (in Blau) zeigt, dass sie sich leicht im Steigungskoeffizienten unterscheiden. Das liegt eben genau daran, dass das Gewicht jetzt Unterschiede zwischen zwei Personen sind, die sich _nur_ in der Extraversion unterscheiden, aber sonst in allen (berücksichtigten) Belangen gleich sind.
 
 Die anderen Gewichte können wir analog interpretieren:
 
@@ -262,15 +247,15 @@ Die anderen Gewichte können wir analog interpretieren:
 summary(mod2)$coefficients
 ```
 
-Dabei sehen wir, dass nur die Extraversion und die Offenheit für neue Erfahrungen bedeutsame Prädiktoren für die Nerdiness sind. Das bedeutet, dass nur diese beiden bedeutsamen _einzigartigen_ Beitrag zur Vorhersage der Nerdiness leisten können. Zwei Personen, die sich z.B. in der Gewissenhaftigkeit um eine Einheit unterscheiden, aber hinsichtlich der anderen vier Dimensionen gleich sind, unterscheiden sich fast überhaupt nicht hinsichtlich der vorhergesagten Nerdiness.
+Dabei sehen wir, dass die Extraversion, die Verträglichkeit, die Gewissenhaftigkeit und die Offenheit für neue Erfahrungen bedeutsame Prädiktoren für die Nerdiness sind. Das bedeutet, dass diese vier Persönlichkeitsdimensionen einen bedeutsamen _einzigartigen_ Beitrag zur Vorhersage der Nerdiness leisten können. Im Umkehrschluss unterscheiden sich zwei Personen, die sich in Neurotizismus um eine Einheit unterscheiden, aber hinsichtlich der anderen vier Dimensionen gleich sind, fast überhaupt nicht hinsichtlich der vorhergesagten Nerdiness.
 
 ### Determinationskoeffizient
 
-Um das Konzept des "einzigartigen Beitrags" noch einmal genauer zu beleuchten, nehmen kramen wir ein paar gute alte Venn-Diagramme aus der Schublade. 
+Um das Konzept des "einzigartigen Beitrags" noch einmal genauer zu beleuchten, kramen wir ein paar gute alte Venn-Diagramme aus der Schublade. 
 
 ![](./venn1.svg)
 
-Hier sind erst einmal drei Variablen (unsere AV `nerd` und die beiden UVs `extra` und`offen`) dargestellt. Die Schnittmenge zwischen `extra` und `nerd` ist dabei z.B. das Ausmaß an Überlappung zwischen den beiden. Konzeptuell entspricht diese Schnittmenge die Varianz dar, die zwischen den beiden geteilt wird. Die hatten wir in der einfachen linearen Regression schon bestimmt:
+Hier sind erst einmal drei Variablen (unsere AV `nerd` und die beiden UVs `extra` und`offen`) dargestellt. Die Schnittmenge zwischen `extra` und `nerd` ist dabei z.B. das Ausmaß an Überlappung zwischen den beiden. Konzeptuell stellt diese Schnittmenge die Varianz dar, die zwischen den beiden geteilt wird. Diese Varianz hatten wir in der einfachen linearen Regression schon bestimmt:
 
 ```{r}
 summary(mod1)$r.squared
@@ -339,15 +324,14 @@ anova(mod1, mod2)
 # Test des inkrementellen R2
 anova(mod1, mod2)
 ```
-
-Den hier auftretenden Fehler behandeln wir nun in einem Intermezzo zur Datenaufbereitung.
+In unserem Fall läuft die `anova`-Funktion fehlerfrei durch. Da es hier jedoch häufig zu Fehlermeldungen aufgrund von einem Modellvergleich mit unterschiedlichen zugrundeliegenden Beobachtungen bzw. Daten kommt, wollen wir uns für diese Fall ebenfalls kurz wappnen.
 
 ### Intermezzo: Datenaufbereitung
 
-Der von der `anova`-Funktion ausgegebene Fehler zeigt, dass wir Modelle nur dann vergleichen können, wenn diese auf den gleichen Daten basieren. Das ist in unserem Fall nicht gegeben, weil es Personen gab, die zwar für Extraversion und Nerdiness Beobachtungen hatten, für mindestens eine der anderen vier Dimensionen aber nicht. Im Beitrag zu [Zusammenhangsmaßen](/lehre/statistik-i/korrelation/#fehlende-werte) hatten wir den Unterschied zwischen paarweisem und listenweisem Fallausschluss schon detaillierter Besprochen. Im Fall mehrerer Regressionsmodelle müssen wir also vorab sicherstellen, dass wir adäquaten listenweisen Fallausschlus betreiben, wenn wir die Modelle direkt vergleichen wollen:
+Der von der `anova`-Funktion potentiell ausgegebene Fehler `## Error in anova.lmlist(object, ...): models were not all fitted to the same size of dataset` zeigt, dass wir Modelle nur dann vergleichen können, wenn diese auf den gleichen Daten basieren. Das kann nicht gegeben, wenn es Personen gab, die z.B. zwar für Extraversion und Nerdiness Beobachtungen hatten, für mindestens eine der anderen vier Dimensionen aber nicht. Im Beitrag zu [Zusammenhangsmaßen](/lehre/statistik-i/korrelation/#fehlende-werte) hatten wir den Unterschied zwischen paarweisem und listenweisem Fallausschluss schon detaillierter besprochen. Im Fall mehrerer Regressionsmodelle müssen wir also vorab sicherstellen, dass wir adäquaten listenweisen Fallausschlus betreiben, wenn wir die Modelle direkt vergleichen wollen:
 
 ```{r}
-mr_dat <- na.omit(fb23[, c("nerd", "extra", "vertr", "gewis", "neuro", "offen")])
+mr_dat <- na.omit(fb24[, c("nerd", "extra", "vertr", "gewis", "neuro", "offen")])
 ```
 
 Wenn wir in `R` Modelle aktualisieren wollen, können wir mit `update` arbeiten, statt die gesamte Syntax erneut eingeben zu müssen:
@@ -369,7 +353,7 @@ Mit den Modellen, die auf die neuen Modelle angewendet wurden können wir jetzt 
 anova(mod1_new, mod2_new)
 ```
 
-Die Ergebnistabelle gibt uns verschiedene Informationen. Zunächst wird uns noch einmal gesagt, welche Modelle wir hier eigentlich vergleichen. Die Ergebnistabelle besteht dann aus folgenden Informationen:
+Da in unserem Fall von Beginn an das Problem der unterschiedlichen Daten nicht vorlag, erhalten wir eine identische Ergebnistabelle. Die Ergebnistabelle gibt uns verschiedene Informationen. Zunächst wird uns noch einmal gesagt, welche Modelle wir hier eigentlich vergleichen. Die Ergebnistabelle besteht dann aus folgenden Informationen:
 
 - `Res.Df`: Die Residualfreiheitsgrade ($n-k-1$)
 - `RSS`: Die Quadratsumme der Residuen ( _Residual Sum of Squares_ )
@@ -397,17 +381,11 @@ Als Venn-Diagramm ausgedrückt, prüfen wir so den hier hell markierten Abschnit
 
 ![](./venn5.svg)
 
-Das Ergebnis zeigt, dass Extraversion einen statistisch relevanten Anteil der Varianz in der Nerdiness aufklären kann, der nicht auch durch die anderen Big Five Persönlichkeitsmerkmale aufgeklärt wird. Nicht nur das, sondern der _einzigartige_ Beitrag von Extraverision ist sogar größer als der ursprüngliche, unkorrigierte Anteil:
-
-```{r}
-summary(mod1_new)$r.squared
-```
-
-Der Einfluss der Extraversion wurde also durch die anderen Big Five Dimensionen leicht suprimiert. Zu verschiendenen Formen der Suppression finden Sie im Lerhbuch von Eid, Gollwitzer und Schmitt (2015, Kapitel 19.8) eine detaillierte Informationen.
+Das Ergebnis zeigt, dass Extraversion einen statistisch relevanten Anteil der Varianz in der Nerdiness aufklären kann, der nicht auch durch die anderen Big Five Persönlichkeitsmerkmale aufgeklärt wird. 
 
 ## Voraussetzungen der multiplen Regression
 
-In besagtem Lehrbuch finden Sie auf S.720 auch eine Übersicht über die fünf zentralen Voraussetzungen der multiplen Regression (diese gelten in etwas simplerer Form auch für die einfache lineare Regression). Diese sind:
+Im Lehrbuch von Eid, Gollwitzer und Schmitt (2015) finden Sie auf S.720 eine Übersicht über die fünf zentralen Voraussetzungen der multiplen Regression (diese gelten in etwas simplerer Form auch für die einfache lineare Regression). Diese sind:
 
   1. Korrekte Spezifikation des Modells
   2. Messfehlerfreiheit der unabhängigen Variablen
@@ -419,7 +397,7 @@ In diesem Beitrag gucken wir uns im Folgenden noch grob an, wie man diese Voraus
 
 ### Korrekte Spezifikation des Modells
 
-Die korrekte Spezifikation ist eine sehr vielseitige Voraussetzung, die eher konzeptueller und weniger statischer Natur ist. Generell wird davon ausgegangen, dass in unserem Regressionmodell alle relevanten Prädiktoren aufgenommen wurden und dass die funktionale Form des Zusammenhangs korrekt abgebildet ist. Im Normalfall gehen wir zunächst von linearität aus (auch wenn wir in [Statistik II](/lehre/main/#statistik-ii) noch andere Formen untersuchen und testen werden). Im Beitrag zur [einfachen linearen Regression](/lehre/statistik-i/einfache-reg) hatten wir schon mit Scatterplots und LOESS-Linien geguckt, inwiefern diese Annahme realistisch ist:
+Die korrekte Spezifikation ist eine sehr vielseitige Voraussetzung, die eher konzeptueller und weniger statischer Natur ist. Generell wird davon ausgegangen, dass in unserem Regressionmodell alle relevanten Prädiktoren aufgenommen wurden und dass die funktionale Form des Zusammenhangs korrekt abgebildet ist. Im Normalfall gehen wir zunächst von Linearität aus (auch wenn wir in [Statistik II](/lehre/main/#statistik-ii) noch andere Formen untersuchen und testen werden). Im Beitrag zur [einfachen linearen Regression](/lehre/statistik-i/einfache-reg) hatten wir schon mit Scatterplots und LOESS-Linien geschaut, inwiefern diese Annahme realistisch ist:
 
 ```{r, fig = TRUE}
 plot(mr_dat$nerd ~ mr_dat$extra, 
@@ -459,7 +437,7 @@ Häufig kommt es in der Psychologie zur Verletzung dieser Annahme, wenn wir Grup
 
 ### Homoskedastizität der Residuen {#homoskedastizitaet}
 
-Beim $t$-Test hatten wir angenommen, dass die Varianz in allen Gruppen gleich ist, um die Standardfehler zu berechnen. In der multiple Regression ist die Definition von "Gruppe" etwas schwammig, weil theoretisch jede mögliche Kombination von Ausprägungen der unabhängigen Variablen eine "Gruppe" darstellt. Weil die Kombinationen von unabhängigen Variablen in der Regression durch die Regressionsgleichung in vorhergesagte Werte übersetzt werden, nehmen wir also an, dass die Varianz der der Werte um die vorhergesagten Werte herum konstant ist. Oder anders ausgedrückt: wir nehmen an, dass die Varianz der Residuen vor alle Werte von $\widehat{y}$ die gleiche ist.
+Beim $t$-Test hatten wir angenommen, dass die Varianz in allen Gruppen gleich ist, um die Standardfehler zu berechnen. In der multiple Regression ist die Definition von "Gruppe" etwas schwammig, weil theoretisch jede mögliche Kombination von Ausprägungen der unabhängigen Variablen eine "Gruppe" darstellt. Weil die Kombinationen von unabhängigen Variablen in der Regression durch die Regressionsgleichung in vorhergesagte Werte übersetzt werden, nehmen wir also an, dass die Varianz der Werte um die vorhergesagten Werte herum konstant ist. Oder anders ausgedrückt: wir nehmen an, dass die Varianz der Residuen für alle Werte von $\widehat{y}$ die gleiche ist.
 
 Theoretisch könnten wir das mit einem Streupunktdiagramm der Residuen gegen die vorhergesagten Werte sehen:
 
@@ -480,13 +458,15 @@ plot(mod2_new, which = 3)
 
 `R` liefert für jedes Regressionmodell vier diagnostische Plots, um die Qualität des Modells zu beurteilen. Der dritte dieser Plots ist es, der für uns hier von Interesse ist. Wenn die Varianz der Residuen konstant ist, sollten die Wurzel der standardisierten Residuen in Abhängigkeit von den vorhergesagten Werten keine systematischen Muster aufweisen und die eingezeichnete Linie sollte relativ horizontal verlaufen.
 
-Weil es immer schwer ist, solche Plots ohne Gegenbeispiele zu interpretieren, hier ein Beispiel, in dem man nicht von Homoskedastizität sprechen würde:
+<!-- Kann wieder reingenommen werden, wenn es schöne Beispiele gibt! '25 gab es diese nicht -->
 
-```{r, fig = TRUE}
-mod4 <- lm(lz ~ 1 + extra, fb23)
-plot(mod4, which = 3)
-```
-Hier gibt es einen relativ deutlichen Trend zur Abnahme der Varianz mit steigenden vorhergesagten Werten. 
+<!-- Weil es immer schwer ist, solche Plots ohne Gegenbeispiele zu interpretieren, hier ein Beispiel, in dem man nicht von Homoskedastizität sprechen würde: -->
+
+<!-- ```{r, fig = TRUE} -->
+<!-- mod4 <- lm(time_pre ~ 1 + vertr, fb24) -->
+<!-- plot(mod4, which = 3) -->
+<!-- ``` -->
+<!-- Hier gibt es einen relativ deutlichen Trend zur Zunahme der Varianz mit steigenden vorhergesagten Werten.  -->
 
 Über die visuelle Inspektion hinaus haben wir auch noch die Möglichkeit, die Homoskedastizität der Residuen mit dem _Breusch-Pagan_ Test zu prüfen. Dieser ist im `car`-Paket implementiert:
 
@@ -494,11 +474,12 @@ Hier gibt es einen relativ deutlichen Trend zur Abnahme der Varianz mit steigend
 car::ncvTest(mod2_new)
 ```
 
-Und hier direkt noch das eben aufgeführte Gegenbeispiel:
+<!-- Den Part hier dann auch mit auskommentieren -->
+<!-- Und hier direkt noch das eben aufgeführte Gegenbeispiel: -->
 
-```{r}
-car::ncvTest(mod4)
-```
+<!-- ```{r} -->
+<!-- car::ncvTest(mod4) -->
+<!-- ``` -->
 
 Wie bei allen Voraussetzungstests, wird hier die Nullhypothese geprüft, dass die Annahme hält. Bedeutsame Ergebnisse zeigen also eine deutliche Verletzung der Annahme an. An dieser Stelle sei noch einmal deutlich darauf hingewiesen, dass nicht-bedeutsame Ergebnisse nicht bedeuten, dass die Annahme erfüllt ist. Insbesondere durch das klassische Nullhypothesentesten, was in diesem Fall betrieben wird, ist die Prüfung der Annahmen als eher wenig streng anzusehen.
 
@@ -515,8 +496,7 @@ Auch den Shapiro-Wilk-Test haben wir schon in anderen Beiträgen genutzt:
 ```{r}
 shapiro.test(resid(mod2_new))
 ```
-
-Beide deuten darauf hin, dass wir in diesem Fall nicht von einer Verletzung der Annahme ausgehen müssen.
+Während der QQ-Plot leichte Verletzungen der Normalverteilungsannahme anzeigt, deutet das signifikante Ergebnis des Shapiro-Wilk-Tests auf eine relevante Verletzung der Annahme hin. 
 
 In Fällen, in denen wir leichte Verletzungen von der Normalverteilungsannahme feststellen, können wir verschiedene Wege nutzen, um unsere Schätzer ein wenig robuster zu machen. In Fällen, in denen wir von vornherein davon ausgehen müssen, dass die Residuen gar nicht normalverteilt sein können (z.B. weil die abhängige Variable nur zwei Ausprägungen hat), können wir andere Verteilungen annehmen. Ein klassisches Beispiel dafür ist die [logistische Regression](/lehre/klipps/logistische-regression-klinische/), welche in den beiden Masterstudiengängen noch einmal aufgegriffen werden wird.
 
