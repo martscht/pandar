@@ -32,6 +32,12 @@ output:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+knitr::opts_chunk$set(fig.path = figure_path)
+
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
 Die Abbildungen, die wir [im ersten Abschnitt](/post/ggplotting-intro) erstellt haben, nutzen alle das in `ggplot2` voreingestellte Design. Auch wenn es sicherlich einen theoretisch sehr gut fundierten Grund gibt, dass der Hintergrund der Abbildung in einem demotivierenden Grauton gehalten sein sollte, gibt es Designs, die man schöner finden kann. Im folgenden sehen wir uns an, wie man seine Abbildungen nach seinen eigenen Vorlieben anpasst.
 
 Dazu benutzen wir wieder den aus [Gapminder](https://www.gapminder.org/) zusammengeführten Datensatz (mehr Details dazu im [Beitrag zur Datenerstellung](/post/ggplotting-daten)):

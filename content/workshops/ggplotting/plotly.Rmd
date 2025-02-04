@@ -32,6 +32,11 @@ output:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+knitr::opts_chunk$set(fig.path = figure_path)
+
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
 
 In den bisherigen Sitzungen zu ggplotting hatten wir gesehen, wie man [einfache Grafiken erstellt](/post/ggplotting-intro) und so [anpasst](/post/ggplotting-themes), dass sie z.B. dem corporate design entsprechen oder sogar ansehnlich für den Druck sind. Uns aus dem leicht staubigen Gedanken lösend, dass Datendarstellungen am Ende gedruckt werden müssen, hatten wir uns auch noch damit befasst, wie man [Grafiken so animiert](/post/ggplotting-gganimate), dass man in der Lage ist, z.B. Veränderungen über die Zeit zu verdeutlichen. In diesem letzten großen Abschnitt soll es uns darum gehen, die aktive Rolle in der Datendarstellung nicht allein beim Ersteller oder der Erstellerin zu verorten, sondern auch den Rezipientinnen und Rezipienten die aktive Auseinandersetzung mit der Datenlage zu ermöglichen. Dafür sehen wir uns an, wie man mit `plotly` interaktive Grafiken erstellt.
 
