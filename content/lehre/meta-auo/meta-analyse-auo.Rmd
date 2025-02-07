@@ -36,7 +36,9 @@ output:
 
 
 ```{r setup, include=FALSE, purl =F}
-knitr::opts_chunk$set(fig.path = figure_path)
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
 # Vorbereitungen
 knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
