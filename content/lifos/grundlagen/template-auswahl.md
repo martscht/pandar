@@ -9,7 +9,7 @@ subtitle: 'Hier findet ihr die perfekte Vorlage für euer Projekt'
 summary: 'In diesem kurzen Beitrag könnt ihr für euch per Multiple-Choice Fragen herausfinden, welche LIFOS-Vorlage am ehesten geeignet ist für eure Projekte und Arbeiten.' 
 authors: [beitner,pommeranz] 
 weight: 2
-lastmod: '2023-10-26'
+lastmod: '2025-02-07'
 featured: no
 banner:
   #image: "/header/road_start.jpg"

@@ -8,7 +8,7 @@ subtitle: 'Propensity Scores'
 summary: 'Dieser Beitrag behandelt erneut die Abschätzung von Kauseffekten anhand eines Datensatzes mit Patient:innen, die entweder sofort ein Treatment erhielten oder in der Wartekontrollgruppe verblieben. Zuerst wird ein sogenannter Propensity Score für beide Gruppen geschätzt, der die Treatment-Wahrscheinlichkeit vorhersagt. Fälle, die außerhalb des Überlappungsbereichs beider Gruppen (common support region) liegen, werden ausgeschlossen. Anschließend kann der Propensity Score als Kontrollvariable verwendet werden, um eine Schätzung des Treatmenteffekts vorzunehmen. Im Weiteren werden das Optimal Pair Matching, das Full Optimal Matching sowie die Stratifizierung gezeigt. Es erfolgt erneut eine Effektschätzung unter Verwendung der entsprechenden Datensätze.'
 authors: [hartig]
 weight: 10
-lastmod: '2024-10-08'
+lastmod: '2025-02-07'
 featured: no
 banner:
      image: "/header/dusk_or_dawn.jpg"
@@ -43,7 +43,7 @@ output:
 
 #### Pakete laden
 
-``` r
+```r
 # Benötigte Pakete --> Installieren, falls nicht schon vorhanden
 library(psych)        # Für logistische Transformationen
 library(ggplot2)      # Grafiken
@@ -57,21 +57,88 @@ library(questionr)    # Für gewichtete Tabellen
 Wir verwenden wieder unserer fiktives Datenbeispiel, in dem Patient\*innen, die an einer Depression oder einer Angststörung leiden, entweder mit einer kognitiven Verhaltenstherapie (CBT) behandelt oder in einer Wartekontrollgruppe belassen wurden. Die Zuordnung konnte nicht randomisiert erfolgen, weshalb der Effekt der Behandlung nicht ohne weiteres berechenbar ist.
 
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 head(CBTdata)
 ```
 
 <div class = "big-maths">
-
-| Age|Gender |Treatment |Disorder | BDI_pre| SWL_pre| BDI_post| SWL_post|
-|---:|:------|:---------|:--------|-------:|-------:|--------:|--------:|
-|  39|female |CBT       |ANX      |      27|      10|       24|       15|
-|  36|female |CBT       |ANX      |      22|      13|       13|       17|
-|  61|female |CBT       |ANX      |      24|      11|       17|       14|
-|  70|female |CBT       |ANX      |      30|      15|       22|       19|
-|  64|female |CBT       |DEP      |      32|      12|       26|       20|
-|  50|female |CBT       |ANX      |      24|      15|       23|       22|
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> Age </th>
+   <th style="text-align:left;"> Gender </th>
+   <th style="text-align:left;"> Treatment </th>
+   <th style="text-align:left;"> Disorder </th>
+   <th style="text-align:right;"> BDI_pre </th>
+   <th style="text-align:right;"> SWL_pre </th>
+   <th style="text-align:right;"> BDI_post </th>
+   <th style="text-align:right;"> SWL_post </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 39 </td>
+   <td style="text-align:left;"> female </td>
+   <td style="text-align:left;"> CBT </td>
+   <td style="text-align:left;"> ANX </td>
+   <td style="text-align:right;"> 27 </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 24 </td>
+   <td style="text-align:right;"> 15 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 36 </td>
+   <td style="text-align:left;"> female </td>
+   <td style="text-align:left;"> CBT </td>
+   <td style="text-align:left;"> ANX </td>
+   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 17 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 61 </td>
+   <td style="text-align:left;"> female </td>
+   <td style="text-align:left;"> CBT </td>
+   <td style="text-align:left;"> ANX </td>
+   <td style="text-align:right;"> 24 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 17 </td>
+   <td style="text-align:right;"> 14 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 70 </td>
+   <td style="text-align:left;"> female </td>
+   <td style="text-align:left;"> CBT </td>
+   <td style="text-align:left;"> ANX </td>
+   <td style="text-align:right;"> 30 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:right;"> 19 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 64 </td>
+   <td style="text-align:left;"> female </td>
+   <td style="text-align:left;"> CBT </td>
+   <td style="text-align:left;"> DEP </td>
+   <td style="text-align:right;"> 32 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 20 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 50 </td>
+   <td style="text-align:left;"> female </td>
+   <td style="text-align:left;"> CBT </td>
+   <td style="text-align:left;"> ANX </td>
+   <td style="text-align:right;"> 24 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 23 </td>
+   <td style="text-align:right;"> 22 </td>
+  </tr>
+</tbody>
+</table>
 </div>
 
 
@@ -83,7 +150,7 @@ Wir wissen auch bereits, dass der Prima-Facie-Effekt (PFE) von 0.39 Punkten nich
 Zur Bildung des Propensity Scores verwenden wir eine logistische Regression mit den Variablen, von denen wir bereits wissen, dass sich die Gruppen darin unterscheiden: Art der Störung, Prätest im BDI und Prätest im SWL:
 
 
-``` r
+```r
 # Vorhersage des Treatments durch Kovariaten
 mod_ps1 <- glm(Treatment ~ Disorder + BDI_pre + SWL_pre,
               family = "binomial", data = CBTdata)
@@ -117,7 +184,7 @@ summary(mod_ps1)
 Wir sehen, dass alle Kovariaten auch bei gemeinsamer Berücksichtigung einen signifikanten Effekt auf die Treatment-Zugehörigkeit haben. Sicherheitshalber untersuchen wir auch die Wechselwirkungen:
 
 
-``` r
+```r
 # Einschluss von Wechselwirkungen, hierzu zunächst Zentrierung der Prädiktoren
 CBTdata$BDI_pre_c <- scale(CBTdata$BDI_pre, scale = F)
 CBTdata$SWL_pre_c <- scale(CBTdata$SWL_pre, scale = F)
@@ -161,13 +228,13 @@ summary(mod_ps2)
 Da keiner der Wechselwirkungs-Terme signifikant ist, verwenden wir im nächsten Schritt das einfachere Modell `mod_ps1`. Mit der `predict`-Funktion erhalten wir vorhergesagte Werte in Logit-Einheiten, mit der `logistic`-Funktion des `psych`-Paktets können wir diese in Wahrscheinlichkeiten transformieren:
 
 
-``` r
+```r
 CBTdata$PS_logit <- predict(mod_ps1)
 CBTdata$PS_P <- logistic(CBTdata$PS_logit)
 plot(CBTdata$PS_logit, CBTdata$PS_P)
 ```
 
-![](/lehre/klipps-legacy/kausaleffekte2-legacy_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](/kausaleffekte2-legacy_files/unnamed-chunk-8-1.png)<!-- -->
 
 
 
@@ -202,7 +269,7 @@ p2 <- ggplot(CBTdata, aes(x=PS_P, fill = Treatment)) +
 grid.arrange(p1, p2, nrow=1) # Beide Plots nebeneinander
 ```
 
-![](/lehre/klipps-legacy/kausaleffekte2-legacy_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/kausaleffekte2-legacy_files/unnamed-chunk-10-1.png)<!-- -->
 
 Wem die Grafiken etwas kompliziert erscheinen, kann in [Appendix A](#AppendixA) nachlesen, wie eine sehr kurze 2-Zeilen (aber nicht so schöne) Variante funktioniert.
 
@@ -211,7 +278,7 @@ Für Fälle außerhalb der *common support region* können keine kausalen Effekt
 Den kleinsten Wert in der CBT-Gruppe erhalten wir mit
 
 
-``` r
+```r
 min(subset(CBTdata, Treatment=="CBT")$PS_P)
 ```
 
@@ -223,7 +290,7 @@ wobei mit `subset` ein Subdatensatz erstellt wird, für den gilt, dass `Treatmen
 Nun sind die Personen, die in der WL-Gruppe sind und einen `PS_P`-Wert kleiner als diesen minimalen Wert haben, die folgenden: 
 
 
-``` r
+```r
 CBTdata[(CBTdata$Treatment=="WL" &
                            CBTdata$PS_P < min(subset(CBTdata, Treatment=="CBT")$PS_P)),]
 ```
@@ -246,7 +313,7 @@ Analog erhalten wir die Personen aus der CBT-Gruppe, die größere Propensity-Sc
 
 
 
-``` r
+```r
 max(subset(CBTdata, Treatment=="WL")$PS_P)
 ```
 
@@ -257,7 +324,7 @@ max(subset(CBTdata, Treatment=="WL")$PS_P)
 Nun sind die Personen, die in der WL-Gruppe sind und einen `PS_P`-Wert kleiner als diesen minimalen Wert haben, die folgenden: 
 
 
-``` r
+```r
 CBTdata[(CBTdata$Treatment=="CBT" &
                            CBTdata$PS_P > max(subset(CBTdata, Treatment=="WL")$PS_P)),]
 ```
@@ -279,7 +346,7 @@ CBTdata[(CBTdata$Treatment=="CBT" &
 Wir schließen 16 Fälle aus, die außerhalb des Überschneidungsbereichs liegen (das `!` negiert die logische Aussage, mit Hilfe derer wir die Fälle überhaupt identifizieren konnten):
 
 
-``` r
+```r
 ### Fälle außerhalb der Überschneidung ausschließen ----
 # Fälle der Kontrollgruppe entfernen, deren Wahrscheinlichkeit kleiner ist als
 # die kleinste Wahrscheinlichkeit in der Treatment-Gruppe
@@ -314,7 +381,7 @@ p2 <- ggplot(CBTdata.red, aes(x=PS_P, fill = Treatment)) +
 grid.arrange(p1, p2, nrow=1) # Beide Plots nebeneinander
 ```
 
-![](/lehre/klipps-legacy/kausaleffekte2-legacy_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](/kausaleffekte2-legacy_files/unnamed-chunk-16-1.png)<!-- -->
 
 ## Verwendung des Propensity Score in der ANCOVA{#ANCOVA}
 
@@ -323,7 +390,7 @@ Wir können den Treatment-Effekt schätzen, indem wir den Propensity Score anste
 Dazu stellen wir zwei ANCOVA-Modelle auf: einmal mittels Kovariatenadjustierung (`BDI.adj`) und einmal mittels Propensity-Score (`BDI.PS`) in der Logit-Skala. Zur besseren Vergleichbarkeit runden wir den Gruppenunterschiedsparameter (das ist der 2. in diesem Fall, der 1. ist das Interzept) auf 2 Nachkommastellen.
 
 
-``` r
+```r
 BDI.adj <- lm(BDI_post ~ Treatment + Disorder + BDI_pre + SWL_pre, data = CBTdata.red)
 round(coef(BDI.adj)[2],2)
 ```
@@ -333,7 +400,7 @@ round(coef(BDI.adj)[2],2)
 ##        -4.08
 ```
 
-``` r
+```r
 BDI.PS <- lm(BDI_post ~ Treatment + PS_logit, data = CBTdata.red)
 round(coef(BDI.PS)[2],2)
 ```
@@ -350,7 +417,7 @@ round(coef(BDI.PS)[2],2)
 Im Folgenden führen wir ein Matching mit der Funktion `matchit` aus dem Paket `MatchIt` mit zwei verschiedenen Algorithmen durch. *Optimal Pair Matching* bildet "statistische Zwillinge", *Full Optimal Matching* bildet unterschiedlich große Subklassen mit Gewichtung.  
  
 
-``` r
+```r
 # Optimal Pair Matching
 m.optimal <- matchit(Treatment ~ Disorder + BDI_pre + SWL_pre, method = "optimal",
                      data = CBTdata, distance = "glm", link = "logit")
@@ -360,7 +427,7 @@ m.optimal <- matchit(Treatment ~ Disorder + BDI_pre + SWL_pre, method = "optimal
 ## Warning: Fewer control units than treated units; not all treated units will get a match.
 ```
 
-``` r
+```r
 # Full Optimal Matching
 m.full <- matchit(Treatment ~ Disorder + BDI_pre + SWL_pre, method = "full",
                   data = CBTdata, distance = "glm", link = "logit")
@@ -375,7 +442,7 @@ Für die Methode, die Zwillingspaare bildet, erhalten wir eine Warnung, da die S
 Für beide Methoden wird der durch das Matching gebildete Datensatz mit der Funktion `match.data` extrahiert. Diesen sortieren wir anschließend nach Subklasse und Treatment mittels `order` und wenden dies auf die Zeilen (vor dem `,`) an. (Es könnten auch die Spalten sortiert werden.) 
 
 
-``` r
+```r
 # Datensätze speichern und nach Subklasse & Treatment sortieren
 df.optimal <- match.data(m.optimal) 
 df.optimal <- df.optimal[order(df.optimal$subclass, df.optimal$Treatment),]
@@ -387,7 +454,7 @@ df.full <- df.full[order(df.full$subclass, df.full$Treatment),]
 Das Optimal Pair Matching resultiert in einem Datensatz, in dem Paare (Variable `subclass`) enthalten sind, die aus je einer Person aus der Treatment- und einer Person aus der Kontrollgruppe bestehen. Die Gewichtung (Variable `weights`) ist für alle Personen 1. Wir sehen zudem, dass die von `matchit` erzeugte Distanz (`distance`) unserem oben erzeugten Propensity Score (`PS_P`) entspricht. 
 
 
-``` r
+```r
 head(df.optimal)
 ```
 
@@ -395,7 +462,7 @@ head(df.optimal)
 <table class="table" style="margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
-   <th style="text-align:left;">  </th>
+   <th style="text-align:left;">   </th>
    <th style="text-align:right;"> Age </th>
    <th style="text-align:left;"> Gender </th>
    <th style="text-align:left;"> Treatment </th>
@@ -516,7 +583,7 @@ Das Full Optimal Matching resultiert in einem Datensatz, in dem in den Subklasse
 
 
 
-``` r
+```r
 df.full[df.full$subclass %in% c(5,6),]
 ```
 
@@ -524,7 +591,7 @@ df.full[df.full$subclass %in% c(5,6),]
 <table class="table" style="margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
-   <th style="text-align:left;">  </th>
+   <th style="text-align:left;">   </th>
    <th style="text-align:right;"> Age </th>
    <th style="text-align:left;"> Gender </th>
    <th style="text-align:left;"> Treatment </th>
@@ -630,7 +697,7 @@ df.full[df.full$subclass %in% c(5,6),]
 Der Vergleich der Häufigkeiten der Subklassen in den Gruppen mit gewichteten Häufigkeiten zeigt den Effekt der Gewichtung. Die gewichteten relativen Häufigkeiten der Subklassen in der Kontrollgruppe entsprechen denjenigen der Treatment-Gruppe (die absoluten Werte sind etwas niedriger, da in der Kontrollgruppe weniger Fälle sind als in der Kontrollgruppe).
 
 
-``` r
+```r
 # Auszug as dem Datensatz
 demo.df <- subset(df.full, as.numeric(subclass) < 10)
 demo.df$subclass <- droplevels(demo.df$subclass)
@@ -645,7 +712,7 @@ table(demo.df$Treatment, demo.df$subclass)
 ##   CBT 7 4 1 1 1 2 3 1 1
 ```
 
-``` r
+```r
 # Gewichtete Häufigkeiten
 round(wtd.table(y = demo.df$subclass, 
                 x = demo.df$Treatment, weights = demo.df$weights), 2)
@@ -664,8 +731,8 @@ round(wtd.table(y = demo.df$subclass,
 Die mit beiden Methoden erzielte Balance der Kovariaten lassen wir uns mit `plot(summary())` anzeigen. In diesen Plots wird die absolute ("ohne Vorzeichen") standardisierte Mittelwertsdifferenz (x-Achse) zwischen den beiden Gruppen auf den Kovariaten (y-Achse) für den vollen Datensatz ("All") und den gematchten Datensatz ("Matched") dargestellt. Je näher die Punkte an der Null liegen, desto besser. Die vertikalen Linien zeigen einen Bereich an, der als erstrebenswert gilt. Hier sind die Unterschiede zwischen den Gruppen nur minimal (i.d.R. nicht signifikant).
 
 
-<img src="/lehre/klipps-legacy/kausaleffekte2-legacy_files/figure-html/unnamed-chunk-25-1.png" width="50%" />
-<img src="/lehre/klipps-legacy/kausaleffekte2-legacy_files/figure-html/unnamed-chunk-26-1.png" width="50%" />
+<img src="/kausaleffekte2-legacy_files/unnamed-chunk-25-1.png" width="50%" />
+<img src="/kausaleffekte2-legacy_files/unnamed-chunk-26-1.png" width="50%" />
 
 Wir sehen, dass die bestehenden Unterschiede durch das Optimal Pair Matching nur geringfügig reduziert werden. Durch das ungünstige Verhältnis von Treatment- zu Kontrollfällen sind die Möglichkeiten der Zwillingsbildung für den Datensatz sehr begrenzt. Die Reduktion der Unterschiede kommt nur durch den Ausschluss der "unpassendsten" Treatment-Fälle (!) zustande. Im Unterschied hierzu erreicht das Full Optimal Matching eine sehr gute Balance.
 
@@ -677,7 +744,7 @@ Wir sehen, dass die bestehenden Unterschiede durch das Optimal Pair Matching nur
 Für das Optimal Pair Matching kann eine Effektschätzung einfach unter Verwendung des gematchten Datensatzes erfolgen. Wir stellen dazu das Regressionsmodell auf und vergleichen unser Ergebnis mit dem PFE:
 
 
-``` r
+```r
 lm.PFE <- lm(BDI_post ~ Treatment, data = CBTdata)
 summary(lm.PFE)
 ```
@@ -703,7 +770,7 @@ summary(lm.PFE)
 ## F-statistic: 0.4523 on 1 and 324 DF,  p-value: 0.5017
 ```
 
-``` r
+```r
 lm.optimal <- lm(BDI_post ~ Treatment, data = df.optimal)
 summary(lm.optimal)
 ```
@@ -734,7 +801,7 @@ Wir sehen, dass sich der Effekt von $\beta = -0.57$ gegenüber der Analyse mit d
 Bei der Analyse der mit Full Optimal Matching gebildeten Daten muss die Gewichtung verwendet werden. Dies geschieht, indem wir in der `lm`-Funktion dem Argument `weights` die bestimmten Gewichte zuordnen. 
 
 
-``` r
+```r
 lm.full <- lm(BDI_post ~ Treatment, data = df.full, weights = weights)
 summary(lm.full)
 ```
@@ -767,7 +834,7 @@ Hier finden wir einen starken signifikanten Effekt des Treatments ($\beta = -4.3
 Stratifizierung ist als Methode `subclass` in der `matchit`-Funktion enthalten. Wir bilden fünf Strata und extrahieren den Datensatz, der die Zugehörigkeit zu den Strata enthält (Variable `subclass`).  Wir müssen lediglich das Argument `method = "subclass"` wählen. Anschließend matchen wir direkt den Datensatz und speichern diesen neu ab:
 
 
-``` r
+```r
 m.strat <- matchit(Treatment ~ Disorder + BDI_pre + SWL_pre, data = CBTdata,
                  distance = "logit", method = "subclass", subclass = 5)
 df.strat <- match.data(m.strat)
@@ -777,7 +844,7 @@ Um zu sehen, wie die Zuordnung zu den Strata geklappt haben, schauen wir uns wie
 
 
 
-``` r
+```r
 # Zugehörigkeit der Fälle zu Treatment und Stratum
 table(df.strat$Treatment, df.strat$subclass)
 ```
@@ -810,7 +877,7 @@ ggplot(df.strat, aes(x=distance, fill = Treatment)) +
   coord_flip()
 ```
 
-![](/lehre/klipps-legacy/kausaleffekte2-legacy_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](/kausaleffekte2-legacy_files/unnamed-chunk-32-1.png)<!-- -->
 
 Der Effekt der bei der Stratifizierung gebildeten Gewichte lässt sich veranschaulichen, indem dieselbe Grafik mit gewichteten Häufigkeiten erzeugt wird. Die Häufigkeiten in der Treatment-Gruppe bleiben unverändert, die in der Kontrollgruppe werden der Treatmentgruppe angeglichen:
 
@@ -831,7 +898,7 @@ ggplot(df.strat, aes(x=distance, fill = Treatment, weights=weights)) +
          coord_flip()
 ```
 
-![](/lehre/klipps-legacy/kausaleffekte2-legacy_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](/kausaleffekte2-legacy_files/unnamed-chunk-33-1.png)<!-- -->
 
 ### Effektschätzung
 
@@ -840,7 +907,7 @@ ggplot(df.strat, aes(x=distance, fill = Treatment, weights=weights)) +
 Es gibt nun mehrere Möglichkeiten bei Stratifizierung den Treatmenteffekt zu bestimmen. Entweder können wir in jedem Stratum den Effekt schätzen, indem wir die Mittelwerte in der CBT und der WL Gruppe vergleichen (siehe hierzu [Appendix C](#AppendixC)) oder wir verwenden die Gewichte, die bei der Stratifizierung ebenfalls bestimmt werden und rechnen erneut eine gewichtete Regression. Da bei der ersten Variante das Bestimmen des Standardfehlers und die damit verbundene Signifikanzentscheidung recht schwierig ist, schauen wir uns jetzt, wie für das Full Optimal Matching, eine Schätzung mit dem linearen Modell unter Verwendung der Gewichte an. Der hier resultierende Effekt von $\beta = -3.89$ ist ähnlich dem beim Full Optimal Matching. Beide Methoden sind sich konzeptuell ähnlich, bei der Stratifizierung werden mit einer einfacheren Methode weniger Subklassen gebildet.
 
 
-``` r
+```r
 lm.strat <- lm(BDI_post ~ Treatment, data = df.strat, weights = weights)
 summary(lm.strat)
 ```
@@ -875,7 +942,7 @@ Alternativ zur Bildung von Gewichten durch Matching können wir die Gewichte dir
 $$\frac{X_i}{\pi_i}+\frac{1-X_i}{1-\pi_i}$$
 
 
-``` r
+```r
 # mit (CBTdata$Treatment=="CBT")*1 wird Treatment numerisch mit 1, Kontrollgruppe mit 0 kodiert
 CBTdata$ps_w <- (CBTdata$Treatment=="CBT")*1/CBTdata$PS_P + (1 - (CBTdata$Treatment=="CBT")*1)/(1 - CBTdata$PS_P)
 ```
@@ -883,7 +950,7 @@ CBTdata$ps_w <- (CBTdata$Treatment=="CBT")*1/CBTdata$PS_P + (1 - (CBTdata$Treatm
 Diese Gewichte können in der `lm`-Funktion verwendet werden, um eine Schätzung mittels *weighted least squares* (WLS) vorzunehmen. Hierbei erhalten wir mit einem geschätzten Treatment-Effekt von -4.59 eine ähnliche Schätzung wie mit den anderen Methoden.
 
 
-``` r
+```r
 BDI.weighted <- lm(BDI_post ~ Treatment, data = CBTdata, weights = ps_w)
 summary(BDI.weighted)
 ```
@@ -924,19 +991,19 @@ Mit `density` kann man die Dichte (also die Häufigkeitsverteilung) einer Variab
 
 
 
-``` r
+```r
 ## Overlap & Common Support ----
 plot(density(CBTdata$PS_P[CBTdata$Treatment == "CBT"]), 
      type = "l")
 lines(density(CBTdata$PS_P[CBTdata$Treatment == "WL"]))
 ```
 
-![](/lehre/klipps-legacy/kausaleffekte2-legacy_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+![](/kausaleffekte2-legacy_files/unnamed-chunk-38-1.png)<!-- -->
 
 Jetzt können wir leider die Linien nicht unterscheiden, weswegen wir die Farben aus den anderen Grafiken nun auch hier verwenden. Außerdem fügen wir eine Legende hinzu, änderen die Dicke der Linien und entfernen den seltsamen Titel:
 
 
-``` r
+```r
 ## Overlap & Common Support ----
 plot(density(CBTdata$PS_P[CBTdata$Treatment == "CBT"]), 
      col = "#56B4E9", lwd = 2, type = "l", main = "")
@@ -946,7 +1013,7 @@ legend(legend = c("CBT", "WL"), lwd = 2,
        col = c("#56B4E9", "#E69F00"), x = "bottom")
 ```
 
-![](/lehre/klipps-legacy/kausaleffekte2-legacy_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
+![](/kausaleffekte2-legacy_files/unnamed-chunk-39-1.png)<!-- -->
 
 </details>
 
@@ -986,7 +1053,7 @@ Die Mittelwerte in der CBT und der WL Gruppen werden dann als Schätzer für $Y^
 Für jedes Stratum wird anhand des Anteils der Fälle an der Gesamtstichprobe ein Gewichtungsfaktor berechnet. 
 
 
-``` r
+```r
 ##ATEs in den Strata berechnen und als neuen Datensatz
 MWs <- tapply(df.strat$BDI_post, list(df.strat$subclass, df.strat$Treatment), mean)
 MWW <- data.frame(Y0 = MWs[, 1], Y1 = MWs[, 2], ATEq = MWs[, 2]-MWs[, 1])
@@ -1005,7 +1072,7 @@ MWW
 Der ATT ergibt sich dann als gewichtete Summe der Effekte innerhalb der Strata. Hierzu müssen wir zunächst kurz die Gewichte mittels `table` bestimmen, diese dann durch die Gesamtanzahl (`nrow(df.strat)`) teilen und dann die gewichtete Summe berechnen.
 
 
-``` r
+```r
 ##Gesamt-ATE als gewichtetes Mittel über die Strata berechnen 
 MWW$Wq <- table(df.strat$subclass)/nrow(df.strat) # Anteil des Stratum an der Stichprobe
 # Gesamteffekt als gewichtete Summe:
@@ -1021,7 +1088,7 @@ Wir erhalten hier mit -3.18 einen geringfügig geringeren Effekt als bei anderen
 Eine Alternative zur Bildung für die Mittelwerte wäre `aggregate` gewesen:
 
 
-``` r
+```r
 aggregate(BDI_post ~ subclass + Treatment, data = df.strat, FUN = mean)
 ```
 

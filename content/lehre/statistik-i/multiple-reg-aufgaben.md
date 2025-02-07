@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [vogler]
 weight:
-lastmod: '2024-12-16'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/stormies.jpg"
@@ -95,54 +95,14 @@ summary(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ```
 
 ```
-##      extra      
-##  Min.   :1.000  
-##  1st Qu.:2.500  
-##  Median :3.500  
-##  Mean   :3.277  
-##  3rd Qu.:4.000  
-##  Max.   :5.000  
-##  NA's   :1      
-##      vertr      
-##  Min.   :1.000  
-##  1st Qu.:3.000  
-##  Median :3.500  
-##  Mean   :3.484  
-##  3rd Qu.:4.000  
-##  Max.   :5.000  
-##  NA's   :1      
-##      gewis     
-##  Min.   :1.50  
-##  1st Qu.:3.00  
-##  Median :3.50  
-##  Mean   :3.49  
-##  3rd Qu.:4.00  
-##  Max.   :5.00  
-##  NA's   :1     
-##      neuro      
-##  Min.   :1.000  
-##  1st Qu.:3.000  
-##  Median :3.500  
-##  Mean   :3.408  
-##  3rd Qu.:4.000  
-##  Max.   :5.000  
-##  NA's   :1      
-##      offen      
-##  Min.   :1.000  
-##  1st Qu.:3.000  
-##  Median :4.000  
-##  Mean   :3.809  
-##  3rd Qu.:4.500  
-##  Max.   :5.000  
-##  NA's   :1      
-##       prok      
-##  Min.   :2.100  
-##  1st Qu.:2.500  
-##  Median :2.700  
-##  Mean   :2.685  
-##  3rd Qu.:2.900  
-##  Max.   :3.200  
-##  NA's   :2
+##      extra           vertr           gewis          neuro           offen            prok      
+##  Min.   :1.000   Min.   :1.000   Min.   :1.50   Min.   :1.000   Min.   :1.000   Min.   :2.100  
+##  1st Qu.:2.500   1st Qu.:3.000   1st Qu.:3.00   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:2.500  
+##  Median :3.500   Median :3.500   Median :3.50   Median :3.500   Median :4.000   Median :2.700  
+##  Mean   :3.277   Mean   :3.484   Mean   :3.49   Mean   :3.408   Mean   :3.809   Mean   :2.685  
+##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.00   3rd Qu.:4.000   3rd Qu.:4.500   3rd Qu.:2.900  
+##  Max.   :5.000   Max.   :5.000   Max.   :5.00   Max.   :5.000   Max.   :5.000   Max.   :3.200  
+##  NA's   :1       NA's   :1       NA's   :1      NA's   :1       NA's   :1       NA's   :2
 ```
 
 ```r

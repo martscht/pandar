@@ -1,3 +1,4 @@
+knitr::opts_chunk$set(fig.path = figure_path)
 knitr::opts_chunk$set(echo = TRUE)
 library(knitr)
 library(devtools)

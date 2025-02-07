@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die einfache lineare Regression zur multiplen Regression erweitert, indem mehrere Prädiktoren genuzt werden. Deskriptiv werden die einzelnen Parameter der Regression dargestellt und die gemeinsam erklärte Varianz erläutert. Aus inferenzstatistischer Sicht beschäftigen wir uns mit einem globalen Modelltest und Modellvergleichstests. Auch die Annahmen der multiplen Regression werden besprochen.' 
 authors: [schultze]
 weight: 12
-lastmod: '2025-01-09'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/stormies.jpg"
@@ -125,16 +125,11 @@ summary(mod1)
 ## -1.7775 -0.4801  0.0788  0.4787  1.4370 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value
-## (Intercept)  3.82358    0.16177  23.636
-## extra       -0.23757    0.04724  -5.029
-##             Pr(>|t|)    
-## (Intercept)  < 2e-16 ***
-## extra       1.15e-06 ***
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  3.82358    0.16177  23.636  < 2e-16 ***
+## extra       -0.23757    0.04724  -5.029 1.15e-06 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6601 on 188 degrees of freedom
 ##   (2 Beobachtungen als fehlend gelöscht)
@@ -153,12 +148,10 @@ cor.test(fb24$nerd, fb24$extra)
 
 ```
 ## 
-## 	Pearson's product-moment
-## 	correlation
+## 	Pearson's product-moment correlation
 ## 
 ## data:  fb24$nerd and fb24$extra
-## t = -5.029, df = 188, p-value =
-## 1.146e-06
+## t = -5.029, df = 188, p-value = 1.146e-06
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.4639588 -0.2124070
@@ -194,30 +187,19 @@ summary(mod2)
 ##     data = fb24)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q 
-## -1.56992 -0.45819  0.01851  0.47469 
-##      Max 
-##  1.23318 
+##      Min       1Q   Median       3Q      Max 
+## -1.56992 -0.45819  0.01851  0.47469  1.23318 
 ## 
 ## Coefficients:
-##              Estimate Std. Error
-## (Intercept)  3.953596   0.421555
-## extra       -0.206676   0.047875
-## vertr       -0.143322   0.055843
-## gewis       -0.132004   0.051456
-## neuro        0.004483   0.051148
-## offen        0.187446   0.046289
-##             t value Pr(>|t|)    
-## (Intercept)   9.379  < 2e-16 ***
-## extra        -4.317 2.58e-05 ***
-## vertr        -2.567   0.0111 *  
-## gewis        -2.565   0.0111 *  
-## neuro         0.088   0.9302    
-## offen         4.049 7.56e-05 ***
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  3.953596   0.421555   9.379  < 2e-16 ***
+## extra       -0.206676   0.047875  -4.317 2.58e-05 ***
+## vertr       -0.143322   0.055843  -2.567   0.0111 *  
+## gewis       -0.132004   0.051456  -2.565   0.0111 *  
+## neuro        0.004483   0.051148   0.088   0.9302    
+## offen        0.187446   0.046289   4.049 7.56e-05 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6181 on 184 degrees of freedom
 ##   (2 Beobachtungen als fehlend gelöscht)
@@ -256,7 +238,7 @@ abline(a = b0, b = b1, col = "orange")
 legend("topright", legend = c("Einfache Reg.", "Multiple Reg."), col = c("blue", "orange"), lty = 1)
 ```
 
-![](/lehre/statistik-i/multiple-reg_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](/multiple-reg_files/unnamed-chunk-8-1.png)<!-- -->
 Der erste Unterschied, der zwischen den beiden Regressiongeraden auffällt ist, dass sie versetzt sind - also nicht beim gleichen Wert die y-Achse schneiden. Das liegt daran, dass nicht nur die Regressionsgewichte ihre Bedeutung verändern, sondern auch der Achsenabschnitt. Dieser ist jetzt der vorhergesagte Wert für die Nerdiness, wenn _alle_ Prädiktoren 0 sind:
 
 $$
@@ -282,7 +264,7 @@ a <- coef(mod2) %*% X
 abline(a = a, b = b1, col = "darkgreen")
 ```
 
-![](/lehre/statistik-i/multiple-reg_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/multiple-reg_files/unnamed-chunk-11-1.png)<!-- -->
 
 
 Der zweite Unterschied zwischen dieser neuen Linie (in Grün) und der Linie aus der einfachen linearen Regression (in Blau) zeigt, dass sie sich leicht im Steigungskoeffizienten unterscheiden. Das liegt eben genau daran, dass das Gewicht jetzt Unterschiede zwischen zwei Personen sind, die sich _nur_ in der Extraversion unterscheiden, aber sonst in allen (berücksichtigten) Belangen gleich sind.
@@ -295,20 +277,13 @@ summary(mod2)$coefficients
 ```
 
 ```
-##                 Estimate Std. Error
-## (Intercept)  3.953595552 0.42155483
-## extra       -0.206676216 0.04787458
-## vertr       -0.143322141 0.05584325
-## gewis       -0.132004434 0.05145583
-## neuro        0.004483418 0.05114761
-## offen        0.187445903 0.04628891
-##                 t value     Pr(>|t|)
-## (Intercept)  9.37860328 2.502301e-17
-## extra       -4.31703415 2.580265e-05
-## vertr       -2.56650808 1.106847e-02
-## gewis       -2.56539293 1.110285e-02
-## neuro        0.08765645 9.302451e-01
-## offen        4.04947722 7.557322e-05
+##                 Estimate Std. Error     t value     Pr(>|t|)
+## (Intercept)  3.953595552 0.42155483  9.37860328 2.502301e-17
+## extra       -0.206676216 0.04787458 -4.31703415 2.580265e-05
+## vertr       -0.143322141 0.05584325 -2.56650808 1.106847e-02
+## gewis       -0.132004434 0.05145583 -2.56539293 1.110285e-02
+## neuro        0.004483418 0.05114761  0.08765645 9.302451e-01
+## offen        0.187445903 0.04628891  4.04947722 7.557322e-05
 ```
 
 Dabei sehen wir, dass die Extraversion, die Verträglichkeit, die Gewissenhaftigkeit und die Offenheit für neue Erfahrungen bedeutsame Prädiktoren für die Nerdiness sind. Das bedeutet, dass diese vier Persönlichkeitsdimensionen einen bedeutsamen _einzigartigen_ Beitrag zur Vorhersage der Nerdiness leisten können. Im Umkehrschluss unterscheiden sich zwei Personen, die sich in Neurotizismus um eine Einheit unterscheiden, aber hinsichtlich der anderen vier Dimensionen gleich sind, fast überhaupt nicht hinsichtlich der vorhergesagten Nerdiness.
@@ -317,7 +292,7 @@ Dabei sehen wir, dass die Extraversion, die Verträglichkeit, die Gewissenhaftig
 
 Um das Konzept des "einzigartigen Beitrags" noch einmal genauer zu beleuchten, kramen wir ein paar gute alte Venn-Diagramme aus der Schublade. 
 
-![](/lehre/statistik-i/./venn1.svg)
+![](./venn1.svg)
 
 Hier sind erst einmal drei Variablen (unsere AV `nerd` und die beiden UVs `extra` und`offen`) dargestellt. Die Schnittmenge zwischen `extra` und `nerd` ist dabei z.B. das Ausmaß an Überlappung zwischen den beiden. Konzeptuell stellt diese Schnittmenge die Varianz dar, die zwischen den beiden geteilt wird. Diese Varianz hatten wir in der einfachen linearen Regression schon bestimmt:
 
@@ -332,14 +307,14 @@ summary(mod1)$r.squared
 
 Das Problem ist, dass wir dabei die _gesamte_ Schnittmenge zwischen den beiden Variablen betrachen:
 
-![](/lehre/statistik-i/./venn2.svg)
+![](./venn2.svg)
 
 Ein Teil dieser Schnittmenge wird aber auch mit Offenheit für neue Erfahrungen geteilt. Für diesen Abschnitt wissen wir nicht, ob es Extraversion oder Offenheit ist, die Unterschiede in Nerdiness bedingen. Schlimmer noch: wenn wir eine zweite einfache lineare Regression machen, wird dieser Abschnitt erneut "gezählt" - wir finden also den gleichen Effekt (zumindest in Teilen) doppelt:
 
-![](/lehre/statistik-i/./venn3.svg)
+![](./venn3.svg)
 Um das zu umgehen nutzen wir die multiple Regression um einfach die gesamte Fläche von `nerd` zu bestimmen, die durch mindestens einen unserer Prädiktoren abgedeckt (also "aufgeklärt") wird:
 
-![](/lehre/statistik-i/./venn4.svg)
+![](./venn4.svg)
 
 In der `summary` von `mod2` hatten wir gesehen, wie groß dieser Anteil ist:
 
@@ -422,16 +397,11 @@ anova(mod1, mod2)
 ## 
 ## Model 1: nerd ~ 1 + extra
 ## Model 2: nerd ~ 1 + extra + vertr + gewis + neuro + offen
-##   Res.Df    RSS Df Sum of Sq      F
-## 1    188 81.929                    
-## 2    184 70.304  4    11.625 7.6063
-##      Pr(>F)    
-## 1              
-## 2 1.081e-05 ***
+##   Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
+## 1    188 81.929                                  
+## 2    184 70.304  4    11.625 7.6063 1.081e-05 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 In unserem Fall läuft die `anova`-Funktion fehlerfrei durch. Da es hier jedoch häufig zu Fehlermeldungen aufgrund von einem Modellvergleich mit unterschiedlichen zugrundeliegenden Beobachtungen bzw. Daten kommt, wollen wir uns für diese Fall ebenfalls kurz wappnen.
 
@@ -470,16 +440,11 @@ anova(mod1_new, mod2_new)
 ## 
 ## Model 1: nerd ~ 1 + extra
 ## Model 2: nerd ~ 1 + extra + vertr + gewis + neuro + offen
-##   Res.Df    RSS Df Sum of Sq      F
-## 1    188 81.929                    
-## 2    184 70.304  4    11.625 7.6063
-##      Pr(>F)    
-## 1              
-## 2 1.081e-05 ***
+##   Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
+## 1    188 81.929                                  
+## 2    184 70.304  4    11.625 7.6063 1.081e-05 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Da in unserem Fall von Beginn an das Problem der unterschiedlichen Daten nicht vorlag, erhalten wir eine identische Ergebnistabelle. Die Ergebnistabelle gibt uns verschiedene Informationen. Zunächst wird uns noch einmal gesagt, welche Modelle wir hier eigentlich vergleichen. Die Ergebnistabelle besteht dann aus folgenden Informationen:
@@ -509,16 +474,11 @@ anova(mod3, mod2_new)
 ## 
 ## Model 1: nerd ~ 1 + vertr + gewis + neuro + offen
 ## Model 2: nerd ~ 1 + extra + vertr + gewis + neuro + offen
-##   Res.Df    RSS Df Sum of Sq      F
-## 1    185 77.425                    
-## 2    184 70.304  1    7.1208 18.637
-##     Pr(>F)    
-## 1             
-## 2 2.58e-05 ***
+##   Res.Df    RSS Df Sum of Sq      F   Pr(>F)    
+## 1    185 77.425                                 
+## 2    184 70.304  1    7.1208 18.637 2.58e-05 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 ```r
@@ -532,7 +492,7 @@ summary(mod2_new)$r.squared - summary(mod3)$r.squared
 
 Als Venn-Diagramm ausgedrückt, prüfen wir so den hier hell markierten Abschnitt gegen 0 (nur, dass Sie sich die anderen drei Prädiktoren dazu denken müssen):
 
-![](/lehre/statistik-i/./venn5.svg)
+![](./venn5.svg)
 
 Das Ergebnis zeigt, dass Extraversion einen statistisch relevanten Anteil der Varianz in der Nerdiness aufklären kann, der nicht auch durch die anderen Big Five Persönlichkeitsmerkmale aufgeklärt wird. 
 
@@ -561,10 +521,10 @@ lines(lowess(mr_dat$extra, mr_dat$nerd), col = "red")
 abline(mod1_new, col = "blue")
 ```
 
-![](/lehre/statistik-i/multiple-reg_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](/multiple-reg_files/unnamed-chunk-23-1.png)<!-- -->
 Das können wir natürlich auch für die anderen vier Prädiktoren untersuchen:
 
-![](/lehre/statistik-i/multiple-reg_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](/multiple-reg_files/unnamed-chunk-24-1.png)<!-- -->
 
 Über diese Annahme der Linearität hinaus, nehmen wir z.B. auch an, dass der Zusammenhang zwischen Extraversion und Nerdiness über alle Ausprägungen des Neurotizismus hinweg gleich ist. Sollte dem nicht so sein, würden wir von moderierter Regression sprechen.
 
@@ -598,7 +558,7 @@ plot(pred, res,
      ylab = "Residuen")
 ```
 
-![](/lehre/statistik-i/multiple-reg_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](/multiple-reg_files/unnamed-chunk-25-1.png)<!-- -->
 
 Dabei müssten die Residuen für alle Werte der x-Achse gleichmäßig entlang der y-Achse streuen. Leider ist das etwas schwer einzuschätzen, weil nicht alle Wertekombinationen gleich häufig vorkommen und somit bestimmte Regionen des Plots weniger dicht besiedelt sind, wodurch es so wirken kann, als sei dort die Varianz niedriger. Um uns das Vorgehen etwas zu vereinfachen gibt es zwei Möglichkeiten: die Darstellung der Wurzel der standardisierten Residuen in Abhängigkeit von den vorhergesagten Werten und den _Breusch-Pagan_ Test. Ersteres wird direkt ohne Zusatzpaket in `R` zur Verfügung gestellt:
 
@@ -607,20 +567,19 @@ Dabei müssten die Residuen für alle Werte der x-Achse gleichmäßig entlang de
 plot(mod2_new, which = 3)
 ```
 
-![](/lehre/statistik-i/multiple-reg_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+![](/multiple-reg_files/unnamed-chunk-26-1.png)<!-- -->
 
 `R` liefert für jedes Regressionmodell vier diagnostische Plots, um die Qualität des Modells zu beurteilen. Der dritte dieser Plots ist es, der für uns hier von Interesse ist. Wenn die Varianz der Residuen konstant ist, sollten die Wurzel der standardisierten Residuen in Abhängigkeit von den vorhergesagten Werten keine systematischen Muster aufweisen und die eingezeichnete Linie sollte relativ horizontal verlaufen.
 
-Weil es immer schwer ist, solche Plots ohne Gegenbeispiele zu interpretieren, hier ein Beispiel, in dem man nicht von Homoskedastizität sprechen würde:
+<!-- Kann wieder reingenommen werden, wenn es schöne Beispiele gibt! '25 gab es diese nicht -->
 
+<!-- Weil es immer schwer ist, solche Plots ohne Gegenbeispiele zu interpretieren, hier ein Beispiel, in dem man nicht von Homoskedastizität sprechen würde: -->
 
-```r
-mod4 <- lm(time_pre ~ 1 + vertr, fb24)
-plot(mod4, which = 3)
-```
-
-![](/lehre/statistik-i/multiple-reg_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
-Hier gibt es einen relativ deutlichen Trend zur Zunahme der Varianz mit steigenden vorhergesagten Werten. 
+<!-- ```{r, fig = TRUE} -->
+<!-- mod4 <- lm(time_pre ~ 1 + vertr, fb24) -->
+<!-- plot(mod4, which = 3) -->
+<!-- ``` -->
+<!-- Hier gibt es einen relativ deutlichen Trend zur Zunahme der Varianz mit steigenden vorhergesagten Werten.  -->
 
 Über die visuelle Inspektion hinaus haben wir auch noch die Möglichkeit, die Homoskedastizität der Residuen mit dem _Breusch-Pagan_ Test zu prüfen. Dieser ist im `car`-Paket implementiert:
 
@@ -635,18 +594,12 @@ car::ncvTest(mod2_new)
 ## Chisquare = 0.2608442, Df = 1, p = 0.60954
 ```
 
-Und hier direkt noch das eben aufgeführte Gegenbeispiel:
+<!-- Den Part hier dann auch mit auskommentieren -->
+<!-- Und hier direkt noch das eben aufgeführte Gegenbeispiel: -->
 
-
-```r
-car::ncvTest(mod4)
-```
-
-```
-## Non-constant Variance Score Test 
-## Variance formula: ~ fitted.values 
-## Chisquare = 6.709224, Df = 1, p = 0.0095915
-```
+<!-- ```{r} -->
+<!-- car::ncvTest(mod4) -->
+<!-- ``` -->
 
 Wie bei allen Voraussetzungstests, wird hier die Nullhypothese geprüft, dass die Annahme hält. Bedeutsame Ergebnisse zeigen also eine deutliche Verletzung der Annahme an. An dieser Stelle sei noch einmal deutlich darauf hingewiesen, dass nicht-bedeutsame Ergebnisse nicht bedeuten, dass die Annahme erfüllt ist. Insbesondere durch das klassische Nullhypothesentesten, was in diesem Fall betrieben wird, ist die Prüfung der Annahmen als eher wenig streng anzusehen.
 
@@ -659,7 +612,7 @@ Die letzte Voraussetzung haben wir bei anderen Tests schon des Öfteren geprüft
 car::qqPlot(mod2_new)
 ```
 
-![](/lehre/statistik-i/multiple-reg_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+![](/multiple-reg_files/unnamed-chunk-28-1.png)<!-- -->
 
 ```
 ##  83 148 

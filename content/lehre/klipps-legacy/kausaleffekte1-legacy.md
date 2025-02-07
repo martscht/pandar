@@ -8,7 +8,7 @@ subtitle: 'ANCOVA Modelle'
 summary: 'Dieser Beitrag behandelt die Bestimmung kausaler Effekte insbesondere in der klinisch-psychologischen Forschung. Ein Beispiel wird vorgestellt, bei dem ein Treatment nicht randomisiert zugeordnet werden konnte, weshalb es vorab bestehende Gruppenunterschiede gibt. Zunächst wird darauf hingedeutet, dass aus diesem Grund augenscheinliche Effekte des Treatments konfundiert sein können. Dann wird der Effekt des Treatments mit einer klassischen ANOVA unter Einbezug von Kovariaten geschätzt, die mutmaßlich die Selektion ins Treatment erklären. Daraufhin wird eine generalisierte ANCOVA durchgeführt, bei der zusätzlich die Wechselwirkungen zwischen den Kovariaten und dem Treatment hinzugenommen werden. Zuletzt wird der adjustierte Effekt mittels EffectLiteR geschätzt.'
 authors: [hartig, irmer]
 weight: 9
-lastmod: '2024-10-08'
+lastmod: '2025-02-07'
 featured: no
 banner:
      image: "/header/pendulum_chain.jpg"
@@ -48,10 +48,17 @@ In der psychologischen Forschung ist die Bestimmung kausaler Effekte oft eine He
 
 ### Pakete laden
 
-``` r
+```r
 # Benötigte Pakete --> Installieren, falls nicht schon vorhanden
 library(psych)        # Für Deskriptivstatistiken
 library(EffectLiteR)  # Für die Schätzung adjustierter Effekte
+```
+
+```
+## Warning: Paket 'EffectLiteR' wurde unter R Version 4.3.3 erstellt
+```
+
+```r
 library(car)          # Quadratsummen in Anova-Output
 ```
 
@@ -60,7 +67,7 @@ library(car)          # Quadratsummen in Anova-Output
 In unserem fiktiven Datenbeispiel wurden Patient:innen, die an einer Depression oder einer Angststörung leiden, entweder mit einer kognitiven Verhaltenstherapie (CBT) behandelt oder in einer Wartekontrollgruppe belassen. Eine zufällige Zuordnung war nicht vollständig möglich, da die Zuordnung der Patient:innen von den überweisenden Hausärzt:innen mit beeinflusst werden konnte (z.B. durch Geltendmachung einer besonderen Dringlichkeit der Therapie). Zunächst laden wir diesen Datensatz und verschaffen uns einen Überblick:
 
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 head(CBTdata)
 ```
@@ -80,7 +87,7 @@ head(CBTdata)
 Die Variablen heißen `Age` (Alter), `Gender` (Geschlecht), `Treatment` (Behandlungsgruppenzugehörigkeit: CBT oder Wartekontrolle), `Disorder` (psychische Störung: Angststörung [`ANX`] oder Depression [`DEP`]), `BDI_pre` (Depressionswert gemessen mit Beck Depressions-Inventar vor Therapie), `SWL_pre` (Lebenszufriedenheit gemessen mit Satisfaction With Life Screening vor Therapie), `BDI_post` (Depressionswert gemessen mit Beck Depressions-Inventar nach Therapie), `SWL_post` (Lebenszufriedenheit gemessen mit Satisfaction With Life Screening nach Therapie). Wir können uns die Verteilung in die Behandlungsgruppen wie folgt ansehen:
 
 
-``` r
+```r
 table(CBTdata$Treatment) 
 ```
 
@@ -95,7 +102,7 @@ Der Datensatz enthält Daten also 326 Patient:innen, davon 176 in der Therapiegr
 Kritisch für die Evaluation von Therapieeffekten sind insbesondere vorab bestehende Gruppenunterschiede in den AVs und anderen Variablen. Diese schauen wir uns mit der Funktion `describeBy` deskriptiv an, wobei wir zunächst den gekürzten Datensatz übergeben und dem `group`-Argument die Gruppenvariable zuordnen. Mit `range=F` machen wir die Tabelle etwas übersichtlicher.
 
 
-``` r
+```r
 # Deskriptivstatistiken der Gruppen für Alter und Prätest-Werte
 describeBy(CBTdata[, c("Age", "BDI_pre", "SWL_pre")], group = CBTdata$Treatment, range=F)
 ```
@@ -108,7 +115,7 @@ describeBy(CBTdata[, c("Age", "BDI_pre", "SWL_pre")], group = CBTdata$Treatment,
 ## Age        1 150 48.15 15.41 -0.16    -1.27 1.26
 ## BDI_pre    2 150 19.95  4.10  0.08     0.04 0.33
 ## SWL_pre    3 150 18.13  4.04 -0.08     0.31 0.33
-## ------------------------------------------------------------------------------------ 
+## ---------------------------------------------------------------------------- 
 ## group: CBT
 ##         vars   n  mean    sd  skew kurtosis   se
 ## Age        1 176 45.47 15.94  0.02    -1.36 1.20
@@ -119,7 +126,7 @@ describeBy(CBTdata[, c("Age", "BDI_pre", "SWL_pre")], group = CBTdata$Treatment,
 Uns werden einige Deskriptivstatistiken ausgegeben. Einfache Mittelwertsvergleiche und Effektstärkemaße können wir so betrachten (wir sparen uns an dieser Stelle den Output und tragen die Größen nur in den Text ein, um ein besseres Gefühl dafür zu bekommen, ob Unterschiede vorliegen):
 
 
-``` r
+```r
 t.age <- t.test(Age ~ Treatment, data = CBTdata)
 d.age <- cohen.d(Age ~ Treatment, data = CBTdata)
 t.bdi <- t.test(BDI_pre ~ Treatment, data = CBTdata)
@@ -134,7 +141,7 @@ Hinsichtlich des Alters sind beide Gruppen sehr ähnlich ($t$=1.541; $p$=0.124, 
 Zusammenhänge von Alter und Art der Störung mit dem Treatment können wir deskriptiv durch Kreuztabellen darstellen und mit einem $\chi^2$-Test testen. Wir sehen, dass die Verteilung des Geschlechts auf die Gruppen nicht systematisch ist ($\chi^2(1)=$ 0.02,  $p=$ 0.875):
 
 
-``` r
+```r
 # Tabelle erzeugen
 tab.gender <- table(CBTdata$Treatment, CBTdata$Gender)
 # Kreuztabelle mit Anteilen Zeilenweise, durch Multiplikation mit 100 als Zeilenprozent zu lesen
@@ -148,7 +155,7 @@ round(prop.table(tab.gender, 2)*100)
 ##   CBT   53     55
 ```
 
-``` r
+```r
 # Chi2-Test
 chisq.test(tab.gender)
 ```
@@ -164,7 +171,7 @@ chisq.test(tab.gender)
 Wir sehen allerdings, dass Patient:innen mit Angststörung in der Therapiegruppe überrepräsentiert sind ($\chi^2(1)=$ 40.35,  $p<0.05$):
 
 
-``` r
+```r
 tab.disorder <- table(CBTdata$Treatment, CBTdata$Disorder)
 round(prop.table(tab.disorder, 2)*100)
 ```
@@ -176,7 +183,7 @@ round(prop.table(tab.disorder, 2)*100)
 ##   CBT  72  36
 ```
 
-``` r
+```r
 chisq.test(tab.disorder)
 ```
 
@@ -195,13 +202,13 @@ Der `table`-Befehl erzeugt hierbei die jeweiligen Vierfeldertafeln. Mit `prop.ta
 Ungeachtet der fraglichen Vergleichbarkeit schauen wir uns den augenscheinlichen Effekt der Therapie auf depressive Symptome an, grafisch als Boxplot und inferenzstatistisch mittels t-Test/Regressionsanalyse (das war ja beides das Gleiche! - siehe [ANOVA vs. Regression](/lehre/klipps-legacy/anova-regression-legacy)).
 
 
-``` r
+```r
 boxplot(CBTdata$BDI_post ~ CBTdata$Treatment)
 ```
 
-![](/lehre/klipps-legacy/kausaleffekte1-legacy_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/kausaleffekte1-legacy_files/unnamed-chunk-9-1.png)<!-- -->
 
-``` r
+```r
 BDI.PFE <- lm(BDI_post ~ Treatment, data = CBTdata)
 summary(BDI.PFE)
 ```
@@ -235,7 +242,7 @@ Wir sehen bereits grafisch, dass sich beide Gruppen kaum voneinander unterscheid
 In der Annahme, dass die Selektion ins Treatment durch die vorab gemessenen Eigenschaften der Patient:innen erklärt werden kann, schätzen wir den Effekt des Treatments zunächst mit einer klassischen ANCOVA. Dabei werden die Variablen, hinsichtlich derer sich die Gruppen unterscheiden (Prätest-Werte und Art der Störung), kontrolliert:
 
 
-``` r
+```r
 # ANCOVA mit Treatment und Kovariaten
 BDI.adj <- lm(BDI_post ~ Treatment + Disorder + BDI_pre + SWL_pre, data = CBTdata)
 summary(BDI.adj)
@@ -273,7 +280,7 @@ Unter Einbezug der Kovariaten findet sich ein signifikanter Therapieeffekt von -
 In einer generalisierten ANCOVA nehmen wir noch die Wechselwirkungen zwischen den Kovariaten und dem Treatment hinzu und schauen uns auch den `Anova`-Output des `car`-Pakets an:
 
 
-``` r
+```r
 # Zentrierte Kovariaten bilden
 CBTdata$BDI_pre_c <- scale(CBTdata$BDI_pre, scale = F)
 CBTdata$SWL_pre_c <- scale(CBTdata$SWL_pre, scale = F)
@@ -315,7 +322,7 @@ summary(BDI.adj2)
 Die Effekte ändern sich kaum. Die Interaktionseffekte scheinen nicht signifikant zu sein. Trotzdem schauen wir uns nochmals die Effekte innerhalb des ANOVA-Frameworks an, um Signifikanzentscheidungen für die Gruppen kombiniert zu sehen.
 
 
-``` r
+```r
 Anova(BDI.adj2, type = 2)
 ```
 
@@ -341,7 +348,7 @@ Diesen Analysen zufolge hat das Treatment einen Effekt. Außerdem unterscheidet 
 Zu guter Letzt fügen wir auch noch die Interaktion zwischen `Disorder` und `Treatment` zu den beiden kontinuierlichen Kovariaten hinzu, da dies im nächsten Abschnitt ebenfalls gemacht wird. Wir erweitern also auf eine *Dreifachinteraktion*. Außerdem ändern wir die Reihenfolge der Prädiktoren, da die Reihenfolge bekanntlich einen Einfluss auf die Punktschätzer haben kann. Damit wir also mit unserer ausgefalleneren ANCOVA dem nächsten Abschnitt entsprechen, müssen wir auch die entsprechende Reihenfolge der Prädiktoren einhalten:
 
 
-``` r
+```r
 BDI.adj3 <- lm(BDI_post ~ 1  +  BDI_pre_c + SWL_pre_c + Disorder +                  # Interzept
                  Disorder:BDI_pre_c + Disorder:SWL_pre_c +                          # Interzept
                  Treatment +                                                        # Slope
@@ -385,7 +392,7 @@ summary(BDI.adj3)
 ## F-statistic:  55.8 on 11 and 314 DF,  p-value: < 2.2e-16
 ```
 
-``` r
+```r
 Anova(BDI.adj3)
 ```
 
@@ -421,7 +428,7 @@ Den adjustierten Effekt können wir auch mit `EffectLiteR` schätzen, hierbei wi
 
 <div class = "big-maths">
 
-``` r
+```r
 # Schätzung des Effekts des Treatments auf BDI_post mit effectLite,
 # Prätest-Werte als kontinuierliche, Störung als kategoriale Kovariate
 # 'lm' als Methode für eine Schätzung per ANCOVA

@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'This document explores key methods in psychological network analysis. It covers foundational concepts such as centrality measures and network stability, alongside advanced techniques. Additionally, methods for network comparison, including the Network Comparison Test (NCT), and approaches for assessing stability, such as case-dropping bootstrapping, are discussed in detail.' 
 authors: [liu] 
 weight: 5
-lastmod: '2025-02-06'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/global_network.jpg"
@@ -179,7 +179,7 @@ The dataset utilized in this study is publicly available and can be accessed via
 
 
 
-``` r
+```r
 # Loading the data from your working directory
 load("eat.rda")
 ```
@@ -196,23 +196,23 @@ load("eat.rda")
 
 
 
-``` r
+```r
 head(eat) # Display the first few rows of the 'eat' dataset
 ```
 
 ```
 ## # A tibble: 6 × 32
-##   Dft      Bul   Bod   Ine   Per   Dis   Awa   Fea   Asm   Imp   Soc   BDI   Anx   Res   Nov   Har   Red  
-##   <hvn_lb> <hvn> <hvn> <hvn> <hvn> <hvn> <hvn> <hvn> <hvn> <hvn> <hvn> <hvn> <hvn> <hvn> <hvn> <hvn> <hvn>
-## 1 17        0    16    22     6    13    18    13    NA    NA    NA    NA    NA    NA    16    23    14   
-## 2 11        0    14     1    11     3     5     0    NA    NA    NA    NA    NA    NA    17     2    19   
-## 3 16       13    26    19     1     7    16    14    NA    NA    NA    NA    NA    NA    17    27    22   
-## 4 19       16    19    20     0    20    15     6    NA    NA    NA    NA    NA    NA    27    20    14   
-## 5  1        0    14    24    18     4     4     5    NA    NA    NA    NA    NA    NA    14    19    24   
-## 6 21        0    25    20    15     7    11     9    NA    NA    NA    NA    NA    NA    11    27    19   
-## # ℹ 15 more variables: Pes <hvn_lbll>, Sed <hvn_lbll>, Coa <hvn_lbll>, Set <hvn_lbll>, Dir <hvn_lbll>,
-## #   Aut <hvn_lbll>, Lim <hvn_lbll>, Foc <hvn_lbll>, Inh <hvn_lbll>, Mis <hvn_lbll>, Sta <hvn_lbll>,
-## #   Exp <hvn_lbll>, Cri <hvn_lbll>, Qua <hvn_lbll>, Pref <hvn_lbll>
+##   Dft       Bul    Bod   Ine   Per   Dis   Awa   Fea   Asm   Imp   Soc   BDI   Anx   Res   Nov   Har  
+##   <dbl+lbl> <dbl+> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+## 1 17         0     16    22     6    13    18    13    NA    NA    NA    NA    NA    NA    16    23   
+## 2 11         0     14     1    11     3     5     0    NA    NA    NA    NA    NA    NA    17     2   
+## 3 16        13     26    19     1     7    16    14    NA    NA    NA    NA    NA    NA    17    27   
+## 4 19        16     19    20     0    20    15     6    NA    NA    NA    NA    NA    NA    27    20   
+## 5  1         0     14    24    18     4     4     5    NA    NA    NA    NA    NA    NA    14    19   
+## 6 21         0     25    20    15     7    11     9    NA    NA    NA    NA    NA    NA    11    27   
+## # ℹ 16 more variables: Red <dbl+lbl>, Pes <dbl+lbl>, Sed <dbl+lbl>, Coa <dbl+lbl>, Set <dbl+lbl>,
+## #   Dir <dbl+lbl>, Aut <dbl+lbl>, Lim <dbl+lbl>, Foc <dbl+lbl>, Inh <dbl+lbl>, Mis <dbl+lbl>,
+## #   Sta <dbl+lbl>, Exp <dbl+lbl>, Cri <dbl+lbl>, Qua <dbl+lbl>, Pref <dbl+lbl>
 ```
 
 
@@ -285,7 +285,7 @@ In this matrix:
 In R, one might visualize this matrix with the **qgraph** package::
 
 
-``` r
+```r
 library(qgraph)
 # Define an adjacency matrix
       adj <- matrix(c(
@@ -299,7 +299,7 @@ library(qgraph)
 qgraph(adj, layout = "spring", labels = 1:5, color = "lightblue")
 ```
 
-![](/lehre/klipps/psychological-network-analysis_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](/psychological-network-analysis_files/unnamed-chunk-4-1.png)<!-- -->
 
 
 
@@ -328,7 +328,7 @@ In this matrix:
 
 A quick visualization in R could be done as follows: 
 
-``` r
+```r
 A <- matrix(c(
   0, 1, 0, 1, 0,
   0, 0, 1, 0, 1,
@@ -342,7 +342,7 @@ qgraph(A, layout = "circle", labels = 1:5, color = "lightblue",
           directed = TRUE, arrows = TRUE)
 ```
 
-![](/lehre/klipps/psychological-network-analysis_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](/psychological-network-analysis_files/unnamed-chunk-5-1.png)<!-- -->
 
 The difference in qgraph is we need to tell the argument that directed = TRUE, arrows = TRUE. The resulting plot would show directed arrows indicating the direction of influence. 
 
@@ -371,7 +371,7 @@ This is a tricky step because the presence of missing data can significantly dis
 Therefore, we followed here the original study’s rigorous exclusion criteria to ensure the network results are more comparable to their findings.
 
 
-``` r
+```r
 set.seed(123) # set seed to ensure the results reproducible
 
 eat_clean <- na.omit(eat) # Excluding participants with any NA values across all variables
@@ -382,7 +382,7 @@ ed <- eat_clean[, 1:11] # choose the variables about 11 symptom subdimensions
 The bootnet package in R is a powerful tool for estimating of psychological networks. It offers functionalities to estimate network structures and assess their robustness through bootstrapping methods. For a comprehensive tutorial on using the bootnet package, refer to Epskamp et al. (2018).
 
 
-``` r
+```r
 library(bootnet) # Load the 'bootnet' package for network estimation
 
 cor_ed <- estimateNetwork(ed, default = 'cor') # correlation network
@@ -393,15 +393,13 @@ cor_ed <- estimateNetwork(ed, default = 'cor') # correlation network
 ##   - psych::corr.p for significance thresholding
 ```
 
-``` r
+```r
 plot(cor_ed) # Plot the estimated correlation network
-```
 
-![](/lehre/klipps/psychological-network-analysis_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
-
-``` r
 save_layout <- plot(cor_ed)$layout # save the layout
 ```
+
+![](/psychological-network-analysis_files/unnamed-chunk-7-1.png)<!-- -->
 
 **Considerations in Network Visualization**: When visualizing networks, Layout algorithms often optimize node placement based on the network’s structure, which can shift nodes between plots. Saving and reusing the layout preserves node positions across different analyses—making it easier to see how the network changes when you alter methods (e.g., partial correlation vs. correlation) or apply model selection.
 
@@ -414,7 +412,7 @@ Partial correlation networks address this limitation by estimating each pairwise
 Again, we use estimateNetwork() from the bootnet package, but set default = 'pcor' to compute partial correlations:
 
 
-``` r
+```r
 pcor_ed <- estimateNetwork(ed, default = 'pcor') # partial correlation network
 ```
 
@@ -424,11 +422,11 @@ pcor_ed <- estimateNetwork(ed, default = 'pcor') # partial correlation network
 ##   - psych::corr.p for significance thresholding
 ```
 
-``` r
+```r
 plot(pcor_ed, layout = save_layout) # used the saved layout 
 ```
 
-![](/lehre/klipps/psychological-network-analysis_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](/psychological-network-analysis_files/unnamed-chunk-8-1.png)<!-- -->
 
 This typically produces a sparser network than the correlation network and gives more interpretable information about which variables directly influence one another.
 
@@ -469,7 +467,7 @@ The disadvantage of Pruning is:
 **Instability in Small Samples**: Pruning decisions can vary substantially with different samples, reducing replicability.
 
 
-``` r
+```r
 pcor_ed_sig <- estimateNetwork(ed, default = "pcor", threshold = "sig") # Keep only statistically significant correlations
 ```
 
@@ -479,11 +477,11 @@ pcor_ed_sig <- estimateNetwork(ed, default = "pcor", threshold = "sig") # Keep o
 ##   - psych::corr.p for significance thresholding
 ```
 
-``` r
+```r
 plot(pcor_ed_sig, layout = save_layout) # used the saved layout 
 ```
 
-![](/lehre/klipps/psychological-network-analysis_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/psychological-network-analysis_files/unnamed-chunk-9-1.png)<!-- -->
 Here, threshold = "sig" retains only those partial correlations that are statistically significant at a chosen alpha (often 0.05). All nonsignificant edges are pruned, potentially yielding a sparser, more interpretable network.
 
 While pruning offers a straightforward approach to model selection by simplifying networks, it is essential to consider its limitations. Alternative methods, such as regularization techniques, may provide more robust solutions by systematically penalizing less significant edges, leading to more stable and interpretable network models.
@@ -507,7 +505,7 @@ Regularization has become a mainstream method in psychological network analysis,
 
 
 
-``` r
+```r
 pcor_ed_lasso <- estimateNetwork(ed, default = "EBICglasso") # EBICglasso Regularization
 ```
 
@@ -518,17 +516,17 @@ pcor_ed_lasso <- estimateNetwork(ed, default = "EBICglasso") # EBICglasso Regula
 ```
 
 ```
-## Warning in EBICglassoCore(S = S, n = n, gamma = gamma, penalize.diagonal = penalize.diagonal, : A dense
-## regularized network was selected (lambda < 0.1 * lambda.max). Recent work indicates a possible drop in
-## specificity. Interpret the presence of the smallest edges with care. Setting threshold = TRUE will
-## enforce higher specificity, at the cost of sensitivity.
+## Warning in EBICglassoCore(S = S, n = n, gamma = gamma, penalize.diagonal = penalize.diagonal, : A
+## dense regularized network was selected (lambda < 0.1 * lambda.max). Recent work indicates a possible
+## drop in specificity. Interpret the presence of the smallest edges with care. Setting threshold = TRUE
+## will enforce higher specificity, at the cost of sensitivity.
 ```
 
-``` r
+```r
 plot(pcor_ed_lasso, layout = save_layout) # used the saved layout
 ```
 
-![](/lehre/klipps/psychological-network-analysis_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/psychological-network-analysis_files/unnamed-chunk-10-1.png)<!-- -->
 
 default = "EBICglasso": Instructs the estimateNetwork function to use the EBICglasso approach.
 
@@ -569,7 +567,12 @@ The parameter **λ (lambda)** plays a crucial role in Lasso regression:
 
 Selecting an appropriate value for λ is essential for balancing model complexity and predictive accuracy. 
 
-![](/lehre/klipps/psychological-network-analysis_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+
+```
+## Warning: Paket 'glasso' wurde unter R Version 4.3.1 erstellt
+```
+
+![](/psychological-network-analysis_files/unnamed-chunk-11-1.png)<!-- -->
 
 
 ## Understanding Bias in Coefficient Estimates
@@ -659,7 +662,7 @@ $$
 To compute the strength of nodes, we can apply the following code:
 
 
-``` r
+```r
 library(qgraph)
 
 # Generate a centrality plot for the partial correlation network
@@ -669,7 +672,7 @@ centralityPlot(
 )
 ```
 
-![](/lehre/klipps/psychological-network-analysis_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/psychological-network-analysis_files/unnamed-chunk-12-1.png)<!-- -->
 
 #### 2. **Expected Influence (Degree Centrality)**
 **Definition**: An alternative centrality metric that retains the sign of the edges (positive or negative) rather than using absolute values.
@@ -691,7 +694,7 @@ $$
 The following code can be used to calculate node Expected Influence, it is nearly same as Strength but with argument include = c("Strength"):
 
 
-``` r
+```r
 library(qgraph)
 
 centralityPlot(
@@ -700,7 +703,7 @@ centralityPlot(
 )
 ```
 
-![](/lehre/klipps/psychological-network-analysis_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](/psychological-network-analysis_files/unnamed-chunk-13-1.png)<!-- -->
 
 
 #### 3. **Closeness Centrality (Closeness Centrality)**
@@ -722,7 +725,7 @@ $$
 Here’s an example of code that helps compute node closeness with argument include = c("Closeness"):
 
 
-``` r
+```r
 library(qgraph)
 
 centralityPlot(
@@ -731,7 +734,7 @@ centralityPlot(
 )
 ```
 
-![](/lehre/klipps/psychological-network-analysis_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/psychological-network-analysis_files/unnamed-chunk-14-1.png)<!-- -->
 
 #### 4. **Betweenness Centrality (Betweenness Centrality)**
 **Definition**: How often a node lies on the shortest path between other node pairs.
@@ -751,7 +754,7 @@ $$
 
 The code provided below allows us to measure the Betweenness of nodes with argument include = c("Betweenness"):
 
-``` r
+```r
 library(qgraph)
 
 centralityPlot(
@@ -760,7 +763,7 @@ centralityPlot(
 )
 ```
 
-![](/lehre/klipps/psychological-network-analysis_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](/psychological-network-analysis_files/unnamed-chunk-15-1.png)<!-- -->
 
 ### Centrality Difference Test in Psychological Networks
 
@@ -791,7 +794,7 @@ It's important to note that testing differences among all node pairs can inflate
 Here’s an example using the **bootnet** package in R to conduct a non-parametric bootstrap procedure for testing differences in **expected influence**:
 
 
-``` r
+```r
 # Perform non-parametric bootstrap with 1000 iterations
 boot_diff <- bootnet(
   pcor_ed_lasso,                # The estimated network object
@@ -811,7 +814,7 @@ plot(
 )
 ```
 
-![](/lehre/klipps/psychological-network-analysis_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](/psychological-network-analysis_files/unnamed-chunk-16-1.png)<!-- -->
 
 
 ### Clustering of Nodes
@@ -914,18 +917,18 @@ To calculate all **global network measures**, we can use the `smallworldIndex()`
 Here’s the R code to perform this calculation:
 
 
-``` r
+```r
 library(qgraph)
 
 # Calculate global network measures
 smallworldIndex(qgraph(pcor_ed_lasso$graph))
 ```
 
-![](/lehre/klipps/psychological-network-analysis_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
-
 ```
 ## Warning in smallworldIndex(qgraph(pcor_ed_lasso$graph)): Edge weights removed
 ```
+
+![](/psychological-network-analysis_files/unnamed-chunk-17-1.png)<!-- -->
 
 ```
 ## $transitivity
@@ -1002,7 +1005,7 @@ To address the limitations of traditional bootstrapping—particularly for **cen
 
 Below is an example using the bootnet package. We assume you have already estimated a network object (e.g., pcor_ed_lasso) using EBICglasso:
 
-``` r
+```r
 # Perform case-dropping bootstrap to assess stability of expected influence
 stab_diff <- bootnet(
   pcor_ed_lasso,       # estimated network
@@ -1061,11 +1064,11 @@ It's important to note that the CS-Coefficient is distinct from the traditional 
 ### Example Visualization:
 
 
-``` r
+```r
 plot(stab_diff, "expectedInfluence")
 ```
 
-![](/lehre/klipps/psychological-network-analysis_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](/psychological-network-analysis_files/unnamed-chunk-19-1.png)<!-- -->
 
 - The plot shows the **average correlation** between the original centrality estimates and those obtained after progressively dropping participants.
 - As more data is removed, the correlation typically decreases, but stable networks maintain relatively high correlations even with substantial case-dropping.

@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [nolden]
 weight: 5
-lastmod: '2024-07-02'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/sunny_coastal.jpg"
@@ -155,7 +155,12 @@ apropos('anova')
 ```
 
 ```
-## [1] "anova"            "manova"           "power.anova.test" "stat.anova"       "summary.manova"
+##  [1] "anova"                        "anova"                        "Anova"                       
+##  [4] "anova.psych"                  "anova.rma"                    "as.data.frame.anova.rma"     
+##  [7] "as.data.frame.list.anova.rma" "manova"                       "Manova"                      
+## [10] "power.anova.test"             "print.anova.rma"              "print.list.anova.rma"        
+## [13] "pwr.anova.test"               "ranova"                       "sim.anova"                   
+## [16] "stat.anova"                   "summary.manova"
 ```
 
 Use `example(<topic>)` if you want to see an example. 
@@ -808,7 +813,7 @@ by(example5, example5$stim_type, summary) # It's nice to have both steps in just
 ##  Mean   : 7.50                      Mean   :0.1167  
 ##  3rd Qu.: 8.75                      3rd Qu.:0.1375  
 ##  Max.   :10.00                      Max.   :0.2100  
-## -------------------------------------------------------------------------------------- 
+## ---------------------------------------------------------------------------- 
 ## example5$stim_type: sur
 ##   participant     stim_type               Pr        
 ##  Min.   : 5.00   Length:6           Min.   :0.3000  
@@ -866,6 +871,36 @@ We won't do that here but just for you to know, you could also use:
 # install.packages("summarytools")
 # Uncomment if you have to install it the first time. Btw, it is common courtesy to include `install.packages()` functions only commented, i.e. `#install.packages()`. Otherwise you'd expect people who use your script to either check every line for unnecessary installations or to install packages they might already have installed. Both would just waste precious time.
 library(summarytools)
+```
+
+```
+## Warning: Paket 'summarytools' wurde unter R Version 4.3.2 erstellt
+```
+
+```
+## 
+## Attache Paket: 'summarytools'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:tinylabels':
+## 
+##     unlabel
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:sjmisc':
+## 
+##     descr
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:tibble':
+## 
+##     view
+```
+
+```r
 descr(example5_wide, stats = "common") # Most common descriptive statistics.
 ```
 
@@ -939,7 +974,21 @@ An easy way to get all the information we need is to use the function `summarySE
 ```r
 # install.packages("Rmisc")
 library(Rmisc)
+```
 
+```
+## Warning: Paket 'Rmisc' wurde unter R Version 4.3.2 erstellt
+```
+
+```
+## Warning: Paket 'lattice' wurde unter R Version 4.3.2 erstellt
+```
+
+```
+## Warning: Paket 'plyr' wurde unter R Version 4.3.1 erstellt
+```
+
+```r
 Easyinfo = summarySE(example5, measurevar = "Pr", groupvars = "stim_type") #
 Easyinfo
 ```
@@ -968,17 +1017,24 @@ ggplot(Easyinfo, aes(x=stim_type, y=Pr, colour=stim_type)) + # Here you specify 
 ## ℹ Do you need to adjust the group aesthetic?
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
 
 Another very easy way to get the same plot (but with less info and way uglier):  
 
 ```r
 # install.packages("gplots")
 library(gplots)
+```
+
+```
+## Warning: Paket 'gplots' wurde unter R Version 4.3.2 erstellt
+```
+
+```r
 plotmeans(Pr ~ stim_type, data = example5)
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
 
 ```r
 # But this is really only for the lazy ppl - stick with the 1st version if possible.
@@ -1025,7 +1081,7 @@ ggplot(CI_within, aes(x=stim_type, y=Pr, colour=stim_type)) +
 ## ℹ Do you need to adjust the group aesthetic?
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
 
 
 ### Data visualisation magic {#visualization}
@@ -1047,7 +1103,7 @@ ggplot(example5, aes(stim_type, Pr, fill=stim_type)) + # `fill=` assignes differ
 ## Warning: Removed 2 rows containing missing values (`geom_segment()`).
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
 
 You can change `notch` to `TRUE`. This will give you roughly a 95% CI around the median. This is usually used to compare groups and if the boxes do not overlap you can assume that there is a difference between the two medians.
 
@@ -1068,7 +1124,7 @@ ggplot(example5, aes(stim_type, Pr, fill=stim_type)) + # `fill=` assigns differe
 ## Warning: Removed 2 rows containing missing values (`geom_segment()`).
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
 
 #### Adding titles and labels {#titles}
 
@@ -1091,7 +1147,7 @@ ggplot(example5, aes(stim_type, Pr, fill=stim_type)) +
 ## Warning: Removed 2 rows containing missing values (`geom_segment()`).
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
 
 However, you will notice that this is not completely satisfactory for our x-axis and legend, since the variable stim_type that is involved here has the discrete levels "exp" and "sur" that also need to be renamed.
 
@@ -1118,7 +1174,7 @@ ggplot(example5, aes(stim_type, Pr, fill=stim_type)) +
 ## Warning: Removed 2 rows containing missing values (`geom_segment()`).
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
 
 Now we have plots that make reasonable sense for any reader from a quick glance, hurrah!
 
@@ -1151,7 +1207,7 @@ ggplot(example5, aes(stim_type, Pr, fill=stim_type)) +
 ## Warning: Removed 2 rows containing missing values (`geom_segment()`).
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
 
 #### Fancy Barplots {#fancybarplots}
 
@@ -1203,7 +1259,7 @@ ggplot(example6, aes(animal, fill=animal)) +
    "Animal") 
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
 
 Nice!! -- naturally, the **Otter** is clearly the [most favourite animal!](https://i.kym-cdn.com/photos/images/original/001/550/716/eff.jpg)
 
@@ -1254,7 +1310,7 @@ ggplot(example7, aes(x=Pr , y=rt)) +
   geom_point() # Makes a scatter plot using x and y variables specified in aes().
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
 
 Okay, it looks like maybe something is going on here. While we could try and fit a single regression line through the above data points, it could also be more informative to see whether this relationship differs by some condition -- for instance, stimulus type in our case.
 
@@ -1269,7 +1325,7 @@ ggplot(example7, aes(x=Pr, y=rt, color=stim_type, shape=stim_type)) +
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
 
 As we can see here, this visualization is quite informative, reflecting that the correlation between recognition probability and reaction time is of the same direction between the two stimulus types, and also echoing the previous boxplots that revealed recognition probability to be higher for expected stimuli than for surprising stimuli.
 
@@ -1487,7 +1543,7 @@ ggplot(data_food, aes(recog_perf)) +
   facet_grid(condition~group)
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/check normality-1.png)<!-- -->
+![](independence-r_files/figure-html/check normality-1.png)<!-- -->
 The distribution looks roughly normal. We could use a `QQ plot`.
 The `QQ plot` (quantile-quantile plot) shows the correlation between the observed data and the expected values, namely the values if data were normally distributed. If observed data are normally distributed, the `QQ plot` looks as a straight diagonal line. Deviations from the diagonal shows deviation from normality.
 
@@ -1496,28 +1552,28 @@ qqnorm(data_food$recog_perf[data_food$condition=="warm" & data_food$group=="hung
 qqline(data_food$recog_perf[data_food$condition=="warm" & data_food$group=="hungry"])
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
 
 ```r
 qqnorm(data_food$recog_perf[data_food$condition=="warm" & data_food$group=="not hungry"], main = "QQ plot for the warm condition & not hungry group")
 qqline(data_food$recog_perf[data_food$condition=="warm" & data_food$group=="not hungry"])
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-53-2.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-53-2.png)<!-- -->
 
 ```r
 qqnorm(data_food$recog_perf[data_food$condition=="cold" & data_food$group=="hungry"], main = "QQ plot for the cold condition & hungry group")
 qqline(data_food$recog_perf[data_food$condition=="cold" & data_food$group=="hungry"])
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-53-3.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-53-3.png)<!-- -->
 
 ```r
 qqnorm(data_food$recog_perf[data_food$condition=="cold" & data_food$group=="not hungry"], main = "QQ plot for the cold condition & not hungry group")
 qqline(data_food$recog_perf[data_food$condition=="cold" & data_food$group=="not hungry"])
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-53-4.png)<!-- -->
+![](independence-r_files/figure-html/unnamed-chunk-53-4.png)<!-- -->
 They look close to normality, apart from some outliers in the condition "cold" and "hungry". 
 We have to check it statistically. 
 
@@ -1615,12 +1671,16 @@ library(reshape2)
 ```
 
 ```
-## 
-## Attaching package: 'reshape2'
+## Warning: Paket 'reshape2' wurde unter R Version 4.3.1 erstellt
 ```
 
 ```
-## The following object is masked from 'package:tidyr':
+## 
+## Attache Paket: 'reshape2'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:tidyr':
 ## 
 ##     smiths
 ```
@@ -1844,7 +1904,7 @@ by(data_food$recog_perf, data_food$condition, FUN = mean)
 ```
 ## data_food$condition: cold
 ## [1] 0.5574449
-## -------------------------------------------------------------------------------------- 
+## ---------------------------------------------------------------------------- 
 ## data_food$condition: warm
 ## [1] 0.6964455
 ```
@@ -1922,8 +1982,8 @@ leveneTest(data_food_wide$recog_perf_avg, data_food_wide$group, center = mean)
 ```
 
 ```
-## Warning in leveneTest.default(data_food_wide$recog_perf_avg, data_food_wide$group, : data_food_wide$group coerced
-## to factor.
+## Warning in leveneTest.default(data_food_wide$recog_perf_avg, data_food_wide$group, :
+## data_food_wide$group coerced to factor.
 ```
 
 ```

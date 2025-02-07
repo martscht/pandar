@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'Im zweiten Teil der Einführung von ggplot2 betrachten wir neben den klassischen Gestaltungsmöglichkeiten für Scatterplots auch, wie man Grafiken mit plotly interaktiv gestalten kann.'
 authors: [schultze]
 weight: 3
-lastmod: '2024-05-07'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/colorful_tiles.jpg"
@@ -160,7 +160,7 @@ ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point()
 ```
 
-![](/lehre/statistik-ii/grafiken2-ggplot2_files/figure-html/simple-scatter-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/simple-scatter-1.png)<!-- -->
 Wie für die Balkendiagramme, können wir auch hier eine weitere Ästhetik für Farben vergeben, um so eine dritte Variable in die Abbildung zu integrieren. Beispielsweise könnten wir wieder die vier großen Weltregionen aufnehmen:
 
 
@@ -170,7 +170,7 @@ ggplot(edu_2014, aes(x = Primary, y = Index)) +
   scale_color_pandar()
 ```
 
-![](/lehre/statistik-ii/grafiken2-ggplot2_files/figure-html/scatterplot-colored-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/scatterplot-colored-1.png)<!-- -->
 Gerade für Punkte lassen sich noch einige andere Ästhetiken definieren, um weitere Variablen abbilden zu können. Wir können z.B. die From der Punkte (`pch`) nutzen, um die kategorialer Wohlstandseinschätzung der Länder darzustellen. Was auch sehr beliebt ist, ist die Größe der Punkte zu nutzen, um das "Gewicht" eines Datenpunkts darzustellen. In unserem Fall wäre z.B. die Bevölkerungszahl eines Landes relevant, weil jeder Punkt unterschiedlich viele Personen repräsentiert. Damit die Zahlen nicht exorbitant groß werden, skalieren wir sie noch in Millionen um:
 
 
@@ -196,7 +196,7 @@ ggplot(edu_2014, aes(x = Primary, y = Index)) +
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)')
 ```
 
-![](/lehre/statistik-ii/grafiken2-ggplot2_files/figure-html/scatterplot-sized-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/scatterplot-sized-1.png)<!-- -->
 
 In der neuen Abbildung lassen sich einige Datenpunkte schon ziemlich leicht direkt identifizieren: der große (viele Leute) grüne (Amerikas) Punkt mit hohem Bildungsindex ist vermutlich die USA. 
 
@@ -226,7 +226,7 @@ ggplot(edu_sel, aes(x = Primary, y = Index)) +
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)')
 ```
 
-![](/lehre/statistik-ii/grafiken2-ggplot2_files/figure-html/chaotic-neutral-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/chaotic-neutral-1.png)<!-- -->
 
 Eine Möglichkeit, in diesem Fall Übersichtlichkeit zu bewahren, ist das sogenannte Faceting. Dabei wird eine Abbildung anhand von Ausprägungen auf einer oder mehr Variablen in verschiedene Abbildungen unterteilt. 
 
@@ -238,7 +238,7 @@ ggplot(edu_sel, aes(x = Primary, y = Index)) +
   facet_wrap(~ Year)
 ```
 
-![](/lehre/statistik-ii/grafiken2-ggplot2_files/figure-html/faceted-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/faceted-1.png)<!-- -->
 
 In `facet_wrap` wird wieder mit der `R`-Gleichungsnotation gearbeitet: hier wird der Plot anhand der unabhängigen Variablen hinter der Tilde in Gruppen eingeteilt. Das gibt auch wieder die Möglichkeit mit `+` mehrere Variablen zu definieren, die zum Faceting benutzt werden sollen. Wenn Sie Gruppen anhand von zwei Variablen bilden, bietet es sich außerdem an, `facet_grid` zu benutzen.
 
@@ -271,24 +271,40 @@ library(plotly)
 ```
 
 ```
-## 
-## Attaching package: 'plotly'
+## Warning: Paket 'plotly' wurde unter R Version 4.3.2 erstellt
 ```
 
 ```
-## The following object is masked from 'package:ggplot2':
+## 
+## Attache Paket: 'plotly'
+```
+
+```
+## Die folgenden Objekte sind maskiert von 'package:plyr':
+## 
+##     arrange, mutate, rename, summarise
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:MASS':
+## 
+##     select
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:ggplot2':
 ## 
 ##     last_plot
 ```
 
 ```
-## The following object is masked from 'package:stats':
+## Das folgende Objekt ist maskiert 'package:stats':
 ## 
 ##     filter
 ```
 
 ```
-## The following object is masked from 'package:graphics':
+## Das folgende Objekt ist maskiert 'package:graphics':
 ## 
 ##     layout
 ```

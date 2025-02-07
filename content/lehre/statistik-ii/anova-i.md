@@ -9,7 +9,7 @@ subtitle: '1-fakt. ANOVA'
 summary: ''
 authors: [scheppa-lahyani, irmer, wallot, nehler]
 weight: 8
-lastmod: '2024-05-24'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"
@@ -195,7 +195,8 @@ names(temp)
 ```
 
 ```
-##  [1] "urban"   "edu"     "gender"  "age"     "GM"      "MG"      "ET"      "PW"      "CI"      "ET_mu_k"
+##  [1] "urban"   "edu"     "gender"  "age"     "GM"      "MG"      "ET"      "PW"      "CI"     
+## [10] "ET_mu_k"
 ```
 
 Anhand der Dimensionen können wir sehen, dass unser neuer Datensatz nun eine Variable mehr hat als `conspiracy`. Diese zusätzliche Spalte ist genau die, die die Mittelwerte pro Gruppe enthält (`ET_mu_k`).
@@ -258,7 +259,7 @@ pf(F_wert, nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$ur
 
 Grafisch gesehen lassen wir uns also die Fläche für den folgenden Bereich der F-Verteilung anzeigen.
 
-![](/lehre/statistik-ii/anova-i_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-14-1.png)<!-- -->
 
 Zur Beurteilung der Signifikanz muss der errechnete p-Wert mit dem vorher festgelegten $\alpha$-Niveau verglichen werden. Nehmen wir die üblichen 5% an, zeigt sich hier ein signifikanter Effekt.
 
@@ -309,8 +310,8 @@ ezANOVA(conspiracy, wid = id, dv = ET, between = urban)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -341,8 +342,8 @@ ezANOVA(conspiracy, wid = id, dv = ET, between = urban, detailed = TRUE)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -447,7 +448,7 @@ tuk <- TukeyHSD(aov(ET ~ urban, data = conspiracy))
 plot(tuk)
 ```
 
-![](/lehre/statistik-ii/anova-i_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-25-1.png)<!-- -->
 
 Schließt das Konfidenzintervall für die Mittelwertsdifferenz die Null (gestrichelte Linie) ein, so ist diese Mittelwertsdifferenz statistisch **nicht** signifikant! In unserer Stichprobe kam es zu Mittelwertsunterschieden auf `ET`, da sich die Gruppen `urban` (städtisch) und `suburban` (vorstädtisch) hinsichtlich der Zustimmung zur Überzeugung, dass die Existenz von Außerirdischen geheimgehalten wird, unterscheiden.
 
@@ -461,8 +462,8 @@ aov_t <- ezANOVA(conspiracy, wid = id, dv = ET, between = urban, return_aov = T)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```

@@ -9,7 +9,7 @@ subtitle: 'Ein Exkurs'
 summary: '' 
 authors: [irmer, schultze] 
 weight: 6
-lastmod: '2024-03-16'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/puzzle.jpg"
@@ -48,7 +48,7 @@ $$H_1:S\neq\Sigma_M$$
 {{</ math >}}
 dann konvergiert {{< math >}}$F_{ML}(\hat{\Sigma}_M,S)${{</ math >}} im Mittel nicht mehr gegen Null; es gilt also  ({{< math >}}$n\to\infty${{</ math >}}) {{< math >}}$F_{ML}(\hat{\Sigma}_M,S)\nrightarrow0${{</ math >}}, sondern {{< math >}}$F_{ML}(\hat{\Sigma}_M,S)\to d${{</ math >}}, wobei $d>0$ gerade die wahre Differenz zwischen den beiden Modellen quantifiziert. Das bedeutet gleichzeitig, dass für den zugehörigen mittleren $\chi^2$-Wert unter $H_1$ gilt: {{< math >}}$\chi^2_{H_1}\to dn \to \infty${{</ math >}}, der $\chi^2$-Wert also mit der Stichprobengröße wächst (da $dn$ gerade proportional zu $n$ wächst)! Wir wollen uns dies an folgendem Modell klar machen:
 
-<img src="/lehre/fue-ii/exkurs-modellfit_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" />
+<img src="/exkurs-modellfit_files/unnamed-chunk-1-1.png" style="display: block; margin: auto;" />
 
 Als Populationsmodell wählen wir das Folgende:
 
@@ -80,13 +80,13 @@ head(data)
 
 
 ```
-##           x1          x2         x3          y1          y2         y3          y4
-## 1 -0.5118338  1.11104804 -0.0729622 -2.46234468 -0.30571231 -1.2051386 -0.97309774
-## 2  0.4893225 -0.03456975 -0.2210260 -0.09834857 -0.03301419  0.7306844  0.42660131
-## 3 -0.4599010 -0.11154386 -1.0774381  0.35941394 -0.11804480  0.3918804  2.04007846
-## 4 -0.1563487 -1.94395700  0.5893962  0.34173255  0.32207594  0.1185581 -0.07890436
-## 5 -3.9850494 -1.34148731 -3.8810032 -0.24632514 -0.68642627 -2.3917236 -2.65022281
-## 6 -1.7981084 -0.66823365  0.6577428  1.37194245  0.25453754 -2.3033950 -1.43756669
+##           x1          x2         x3         y1          y2          y3          y4
+## 1 -0.5118338  1.11104804 -0.0729622 -2.2439826 -0.57866486 -1.74546084 -0.37273965
+## 2  0.4893225 -0.03456975 -0.2210260 -0.1614957  0.04591967  0.68927309  0.47261383
+## 3 -0.4599010 -0.11154386 -1.0774381  0.8126298 -0.68456466  0.71829334  1.67739737
+## 4 -0.1563487 -1.94395700  0.5893962  0.2923347  0.38382322  0.08129874 -0.03750505
+## 5 -3.9850494 -1.34148731 -3.8810032 -0.4478478 -0.43452292 -2.28563349 -2.76810071
+## 6 -1.7981084 -0.66823365  0.6577428  1.4657190  0.13731687 -1.95109209 -1.82901441
 ```
 
 
@@ -117,7 +117,7 @@ fit_H0 <- sem(model = model_H0, data = data)
 semPaths(fit_H0, curve = T, curvePivot = T)
 ```
 
-<img src="/lehre/fue-ii/exkurs-modellfit_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+<img src="/exkurs-modellfit_files/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
 Schätzen wir nun das Modell und gucken uns den den $\chi^2$-Wert an.
 
@@ -128,7 +128,7 @@ fit_H0
 
 
 ```
-## lavaan 0.6.17 ended normally after 45 iterations
+## lavaan 0.6.16 ended normally after 44 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
@@ -138,9 +138,9 @@ fit_H0
 ## 
 ## Model Test User Model:
 ##                                                       
-##   Test statistic                                 4.739
+##   Test statistic                                10.722
 ##   Degrees of freedom                                10
-##   P-value (Chi-square)                           0.908
+##   P-value (Chi-square)                           0.380
 ```
 
 Wie bereits im [Beitrag zur CFA](/lehre/fue-ii/cfa) besprochen, können wir den $\chi^2$-Wert, die $df$ und den zugehörigen $p$-Wert auch über die `fitmeasures`-Funktion erhhalten:
@@ -152,7 +152,7 @@ fitmeasures(fit_H0, c("chisq", 'df', "pvalue"))
 
 ```
 ##  chisq     df pvalue 
-##  4.739 10.000  0.908
+## 10.722 10.000  0.380
 ```
 
 Außerdem wollen wir zwei fehlspezifizierte Modelle betrachten. Unter `model_H1_kov` speichern wir ein Modell, welches, bis auf die fehlende Fehlerkovarianz, äquivalent zu `model_H0` ist.
@@ -177,7 +177,7 @@ Eta2 ~ Xi1 + Eta1
 semPaths(sem(model_H1_kov, data))
 ```
 
-<img src="/lehre/fue-ii/exkurs-modellfit_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+<img src="/exkurs-modellfit_files/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 Unter `model_H1_Struk` speichern wir ein Modell, welches erneut äquivalent zu `model_H0` ist,  bis auf die fehlende gerichtete Beziehung zwischen $\xi_1$ und $\eta_2$.
 
@@ -203,7 +203,7 @@ x1 ~~ x2
 semPaths(sem(model_H1_Struk, data))
 ```
 
-<img src="/lehre/fue-ii/exkurs-modellfit_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="/exkurs-modellfit_files/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 Hierbei ist das Weglassen der Fehlerkovarianz ein "kleiner" Fehler, während die Annahme einer vollständigen Mediation hier zu einem deutlichen Fehler führen sollte, da in die Fehlervarianz nur zwei Variablen involviert sind, während die gerichtete Beziehung zwischen den beiden latenten Variablen $\xi_1$ und $\eta_2$ mindestens alle manifesten Variablen, die Messungen von  $\xi_1$ und $\eta_2$ sind, betrifft. Wir gucken uns den Modellfit für alle drei Modelle an:
 
@@ -225,7 +225,7 @@ fitmeasures(fit_H1_Struk, c("chisq", 'df', "pvalue"))
 
 ```
 ##  chisq     df pvalue 
-##  4.739 10.000  0.908
+## 10.722 10.000  0.380
 ```
 
 ```
@@ -234,7 +234,7 @@ fitmeasures(fit_H1_Struk, c("chisq", 'df', "pvalue"))
 
 ```
 ##  chisq     df pvalue 
-##  9.474 11.000  0.578
+## 15.254 11.000  0.171
 ```
 
 ```
@@ -243,7 +243,7 @@ fitmeasures(fit_H1_Struk, c("chisq", 'df', "pvalue"))
 
 ```
 ##  chisq     df pvalue 
-## 23.174 11.000  0.017
+## 27.263 11.000  0.004
 ```
 
 Nun wiederholen wir das ganze für eine größere Stichprobengröße von $n=1000$.
@@ -271,7 +271,7 @@ fitmeasures(fit_H1_Struk, c("chisq", 'df', "pvalue"))
 
 ```
 ##  chisq     df pvalue 
-##  9.754 10.000  0.462
+## 10.436 10.000  0.403
 ```
 
 ```
@@ -280,7 +280,7 @@ fitmeasures(fit_H1_Struk, c("chisq", 'df', "pvalue"))
 
 ```
 ##  chisq     df pvalue 
-##  22.57  11.00   0.02
+## 22.704 11.000  0.019
 ```
 
 ```
@@ -289,7 +289,7 @@ fitmeasures(fit_H1_Struk, c("chisq", 'df', "pvalue"))
 
 ```
 ##  chisq     df pvalue 
-## 58.973 11.000  0.000
+##   62.1   11.0    0.0
 ```
 
 Wir sehen, dass das Weglassen der gerichteten Beziehung zu einem größeren mittleren Fehler führt, also zu einem größeren mittleren $\chi^2$-Wert. Gilt die Null-Hypothese, so sollte der mittlere $\chi^2$-Wert bei der Anzahl der $df$ liegen. Nun wollen wir uns die mittleren $\chi^2$-Werte ansehen für verschiedene $n$. Da diese Simulation länger dauern würde, schauen wir uns nur die Ergebnisse an:

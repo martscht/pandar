@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [kvetnaya]
 weight: 13
-lastmod: '2024-07-09'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/kettlebells.jpg"
@@ -172,16 +172,11 @@ summary(mod)
 ## -1.6735 -0.4235 -0.0047  0.4141  1.5018 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value
-## (Intercept)  2.19949    0.33031   6.659
-## intel        0.32468    0.09046   3.589
-##             Pr(>|t|)    
-## (Intercept) 5.32e-10 ***
-## intel       0.000453 ***
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  2.19949    0.33031   6.659 5.32e-10 ***
+## intel        0.32468    0.09046   3.589 0.000453 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.69 on 145 degrees of freedom
 ## Multiple R-squared:  0.0816,	Adjusted R-squared:  0.07527 
@@ -241,20 +236,13 @@ head(fb22)
 ```
 
 ```
-##        geschl  job extra intel
-## 1897 weiblich nein  2.75  4.75
-## 1898 männlich   ja  3.75  4.00
-## 1899 männlich nein  4.25  5.00
-## 1900 männlich nein  4.00  4.75
-## 1901 weiblich nein  2.50  3.50
-## 1903 männlich   ja  2.75  4.00
-##      weight_gender
-## 1897     0.5986711
-## 1898     3.2071647
-## 1899     3.2071647
-## 1900     3.2071647
-## 1901     0.5986711
-## 1903     3.2071647
+##        geschl  job extra intel weight_gender
+## 1897 weiblich nein  2.75  4.75     0.5986711
+## 1898 männlich   ja  3.75  4.00     3.2071647
+## 1899 männlich nein  4.25  5.00     3.2071647
+## 1900 männlich nein  4.00  4.75     3.2071647
+## 1901 weiblich nein  2.50  3.50     0.5986711
+## 1903 männlich   ja  2.75  4.00     3.2071647
 ```
 
 Super! Diese Variable können wir jetzt in der `lm`-Funktion mit der Nutzung des zusätzlichen Arguments `weight` einfach einbauen:
@@ -272,22 +260,15 @@ summary(mod_gender)
 ## lm(formula = extra ~ intel, data = fb22, weights = weight_gender)
 ## 
 ## Weighted Residuals:
-##      Min       1Q   Median       3Q 
-## -2.67789 -0.32602  0.01376  0.48721 
-##      Max 
-##  2.71812 
+##      Min       1Q   Median       3Q      Max 
+## -2.67789 -0.32602  0.01376  0.48721  2.71812 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value
-## (Intercept)  1.53459    0.36418   4.214
-## intel        0.48691    0.09656   5.043
-##             Pr(>|t|)    
-## (Intercept) 4.39e-05 ***
-## intel       1.35e-06 ***
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  1.53459    0.36418   4.214 4.39e-05 ***
+## intel        0.48691    0.09656   5.043 1.35e-06 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.7247 on 145 degrees of freedom
 ## Multiple R-squared:  0.1492,	Adjusted R-squared:  0.1433 
@@ -369,13 +350,13 @@ p <- ggplot(fb22, aes(x = intel, y = extra, color = geschl)) +
 print(p)
 ```
 
-![](/lehre/statistik-ii/gewichtete-reg_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](/gewichtete-reg_files/unnamed-chunk-13-1.png)<!-- -->
 
 Die SE-Bänder überlappen sich und schließen die jeweils andere Regressionsgerade mit ein. Das kann man als Hinweis darauf interpretieren, dass die beiden Modelle sich in ihrer Vorhersagekraft nicht signifikant unterscheiden und beide im Hinblick auf die gegebenen Daten adäquat sind.
 
 Um trotzdem nochmal zu verdeutlichen, weshalb die Steigung des WLS-Modells sich vom OLS-Modell unterscheidet, lohnt sich ein Blick auf die folgende Grafik. In diesem Plot sind die Beobachtungen der Männer - die stärker gewichtet sind als die der Frauen - und ihre Residuen in der Farbe des WLS-Modells hervorgehoben. Aufgrund ihres höheren Gewichts "ziehen" sie die Regressionsgerade stärker zu sich hin als die anderen Punkte. Außerdem haben wir die Datenpunkte ein bisschen verschoben ("Jitter"), um Überlappungen zu vermeiden, damit Sie die einzelnen Datenpunkte besser erkennen können. Der Code für diese Grafik mit einer zusätzlichen Erklärung ist im [Appendix](#appendix) zu finden.
 
-![](/lehre/statistik-ii/gewichtete-reg_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/gewichtete-reg_files/unnamed-chunk-14-1.png)<!-- -->
 
 Es erinnert uns möglicherweise etwas an die Darstellung eines Interaktionseffekts aus den vergangenen Sitzungen. Jedoch ist der Effekt der Gewichtung von einem Interaktionseffekt abzugrenzen, da auch die Zielsetzung der gewichteten Regression unterschiedlich ist. Hier untersuchen wir nicht den Effekt, den eine Kovariate auf die abhängige Variable hat - dieser wird in der WLS-Regression gar nicht geschätzt. 
 
@@ -499,7 +480,7 @@ p2 <- ggplot(fb22, aes(x = intel, y = extra, color = geschl)) +
 print(p2)
 ```
 
-![](/lehre/statistik-ii/gewichtete-reg_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](/gewichtete-reg_files/unnamed-chunk-16-1.png)<!-- -->
 
 
 </details>

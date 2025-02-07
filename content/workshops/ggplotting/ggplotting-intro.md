@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [schultze, buchholz] 
 weight: 1
-lastmod: '2024-05-24'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/splattered_paint.jpg"
@@ -31,6 +31,7 @@ output:
   html_document:
     keep_md: true
 ---
+
 
 
 ## Einleitung
@@ -79,13 +80,20 @@ head(edu_exp)
 ```
 
 ```
-##   geo     Country     Wealth Region Year Population Expectancy   Income Primary Secondary Tertiary Index
-## 1 afg Afghanistan low_income   asia 1997   17788819       50.7       NA      NA        NA       NA  0.18
-## 2 afg Afghanistan low_income   asia 1998   18493132       50.0       NA      NA        NA       NA  0.19
-## 3 afg Afghanistan low_income   asia 1999   19262847       50.8       NA      NA        NA       NA  0.20
-## 4 afg Afghanistan low_income   asia 2000   19542982       51.0       NA      NA        NA       NA  0.20
-## 5 afg Afghanistan low_income   asia 2001   19688632       51.1       NA      NA        NA       NA  0.21
-## 6 afg Afghanistan low_income   asia 2002   21000256       51.6 344.2242      NA        NA       NA  0.22
+##   geo     Country     Wealth Region Year Population Expectancy   Income Primary Secondary Tertiary
+## 1 afg Afghanistan low_income   asia 1997   17788819       50.7       NA      NA        NA       NA
+## 2 afg Afghanistan low_income   asia 1998   18493132       50.0       NA      NA        NA       NA
+## 3 afg Afghanistan low_income   asia 1999   19262847       50.8       NA      NA        NA       NA
+## 4 afg Afghanistan low_income   asia 2000   19542982       51.0       NA      NA        NA       NA
+## 5 afg Afghanistan low_income   asia 2001   19688632       51.1       NA      NA        NA       NA
+## 6 afg Afghanistan low_income   asia 2002   21000256       51.6 344.2242      NA        NA       NA
+##   Index
+## 1  0.18
+## 2  0.19
+## 3  0.20
+## 4  0.20
+## 5  0.21
+## 6  0.22
 ```
 
 
@@ -124,7 +132,7 @@ esp <- subset(edu_exp, geo == 'esp')
 ggplot(esp)
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/ggplotting-intro_files/unnamed-chunk-6-1.png)<!-- -->
 
 Was entsteht ist eine leere Fläche. Wie bereits beschrieben, besteht eine Abbildung in `ggplot2` immer aus den drei Komponenten Daten, Geometrie und Ästhetik. Bisher haben wir nur eine festgelegt. Als erste Ästhetik sollten wir festlegen, welche Variablen auf x- und y-Achse dargestellt werden sollen. Nehmen wir naheliegenderweise die Zeit (x-Achse) und die Ausgaben für Grundschulbildung:
 
@@ -133,7 +141,7 @@ Was entsteht ist eine leere Fläche. Wie bereits beschrieben, besteht eine Abbil
 ggplot(esp, aes(x = Year, y = Primary))
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](/ggplotting-intro_files/unnamed-chunk-7-1.png)<!-- -->
 
 
 Ästhetik wird in `ggplot2` über den `aes`-Befehl erzeugt. Jetzt fehlt uns noch die geometrische Form, mit der die Daten abgebildet werden sollen. Für die Geometrie-Komponente stehen in `ggplot2` sehr viele Funktionen zur Verfügung, die allesamt mit `geom_` beginnen. Eine Übersicht über die Möglichkeiten findet sich z.B. [hier](https://ggplot2.tidyverse.org/reference/#section-layer-geoms). Naheliegende Möglichkeiten für den Zeitverlauf sind eine Linie (`geom_line`) und mehrere Punkte (`geom_point`). Neue Schichten werden in ihrer eigenen Funktion erzeugt und mit dem einfachen `+` zu einem bestehenden Plot hinzugefügt. Für ein Liniendiagramm sieht das Ganze also einfach so aus:
@@ -145,10 +153,10 @@ ggplot(esp, aes(x = Year, y = Primary)) +
 ```
 
 ```
-## Warning: Removed 3 rows containing missing values or values outside the scale range (`geom_line()`).
+## Warning: Removed 3 rows containing missing values (`geom_line()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/simple-line-1.png)<!-- -->
+![](/ggplotting-intro_files/simple-line-1.png)<!-- -->
 
 Der immense Vorteil des Schichtens besteht darin, dass wir gleichzeitig mehrere Visualisierungsformen nutzen können. Das Prinizp bleibt das gleiche wie vorher: wir fügen Schichten mit dem `+` hinzu. Wir können also Punkte und Linien direkt miteinander kombinieren:
 
@@ -160,14 +168,14 @@ ggplot(esp, aes(x = Year, y = Primary)) +
 ```
 
 ```
-## Warning: Removed 3 rows containing missing values or values outside the scale range (`geom_line()`).
+## Warning: Removed 3 rows containing missing values (`geom_line()`).
 ```
 
 ```
-## Warning: Removed 3 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 3 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/simple-dot-lines-1.png)<!-- -->
+![](/ggplotting-intro_files/simple-dot-lines-1.png)<!-- -->
 
 ## Plots als Objekte
 
@@ -187,10 +195,10 @@ basic + geom_point()
 ```
 
 ```
-## Warning: Removed 3 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 3 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/object_combos-1.png)<!-- -->
+![](/ggplotting-intro_files/object_combos-1.png)<!-- -->
 
 Damit die Beispiele im weiteren Verlauf auch selbstständig funktionieren, wird unten immer der gesamte Plot aufgeschrieben. Aber für eigene Übungen oder Notizen ist es durchaus praktischer mit dieser Objekt Funktionalität zu arbeiten, um so zu umgehen, dass man immer wieder die gleichen Abschnitte aufschreiben muss.
 
@@ -205,10 +213,10 @@ ggplot(esp, aes(x = Year, y = Primary)) +
 ```
 
 ```
-## Warning: Removed 3 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 3 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/simple-blue-1.png)<!-- -->
+![](/ggplotting-intro_files/simple-blue-1.png)<!-- -->
 
 Alle Punkte haben die Farbe geändert. Eine Ästhetik im Sinne der `ggplot`-Grammatik ist aber immer abhängig von den Daten. Die globale Vergabe von Farbe ist also keine Ästhetik. Sie ist es nur, wenn wir sie von Ausprägungen der Daten abhängig machen. Das funktioniert z.B. so:
 
@@ -219,10 +227,10 @@ ggplot(esp, aes(x = Year, y = Primary)) +
 ```
 
 ```
-## Warning: Removed 3 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 3 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/gradient-tertiary-1.png)<!-- -->
+![](/ggplotting-intro_files/gradient-tertiary-1.png)<!-- -->
 
 Über den Befehl `aes` definieren wir eine Ästhetik und sagen `ggplot`, dass die Farbe der Punkte von der Ausprägung auf der Variable `Primary` abhängen soll. Die Farbe kann aber natürlich auch von jeder anderen Variable im Datensatz abhängen. Wie das aussehen kann gucken wir uns im kommenden Abschnitt an.
 
@@ -244,10 +252,10 @@ ggplot(sel, aes(x = Year, y = Primary)) +
 ```
 
 ```
-## Warning: Removed 23 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 23 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/grouped-chaos-1.png)<!-- -->
+![](/ggplotting-intro_files/grouped-chaos-1.png)<!-- -->
 
 Um das zu umgehen, können wir natürlich die Ästhetik der Farben benutzen:
 
@@ -258,10 +266,10 @@ ggplot(sel, aes(x = Year, y = Primary)) +
 ```
 
 ```
-## Warning: Removed 23 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 23 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/grouped-points-1.png)<!-- -->
+![](/ggplotting-intro_files/grouped-points-1.png)<!-- -->
 
 Wie Sie sehen ergibt sich automatisch eine Legende auf der rechten Seite, die jedem Land eine Farbe zuweist. Wir können auch hier wieder eine Kombination aus Punkten und Linien nutzen:
 
@@ -273,14 +281,14 @@ ggplot(sel, aes(x = Year, y = Primary)) +
 ```
 
 ```
-## Warning: Removed 23 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 23 rows containing missing values (`geom_point()`).
 ```
 
 ```
-## Warning: Removed 20 rows containing missing values or values outside the scale range (`geom_line()`).
+## Warning: Removed 20 rows containing missing values (`geom_line()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/grouped-dot-lines-1.png)<!-- -->
+![](/ggplotting-intro_files/grouped-dot-lines-1.png)<!-- -->
 
 Das Problem ist hier, dass wir die Ästhetik für jede Geomtrie wiederholen müssen. Stattdessen können wir in `ggplot` auch allgemein eine Gruppierung vornehmen, die für alle Geometrien übernommen wird:
 
@@ -303,12 +311,12 @@ ggplot(esp, aes(x = Year)) +
 ```
 
 ```
-## Warning: Removed 3 rows containing missing values or values outside the scale range (`geom_line()`).
-## Removed 3 rows containing missing values or values outside the scale range (`geom_line()`).
-## Removed 3 rows containing missing values or values outside the scale range (`geom_line()`).
+## Warning: Removed 3 rows containing missing values (`geom_line()`).
+## Removed 3 rows containing missing values (`geom_line()`).
+## Removed 3 rows containing missing values (`geom_line()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/multivar-1.png)<!-- -->
+![](/ggplotting-intro_files/multivar-1.png)<!-- -->
 
 *Achtung:* Wenn mehrere Variablen im gleichen Diagramm abgebildet werden, sollten Sie einen sinnvollen Achsentitel wählen. Hier wird per Voreinstellung der Name der ersten Variable für die Beschriftung der y-Achse gewählt. Weiter unten wird erklärt, wie die Achsenbeschriftung geändert werden kann. 
 
@@ -351,13 +359,20 @@ head(sel_long)
 ```
 
 ```
-##           geo Country      Wealth Region Year Population Expectancy   Income Index    Type  Expense id
-## 1.Primary esp   Spain high_income europe 1997   40180050       78.7 21117.02  0.68 Primary       NA  1
-## 2.Primary esp   Spain high_income europe 1998   40362357       79.0 21953.67  0.69 Primary 16.97009  2
-## 3.Primary esp   Spain high_income europe 1999   40542232       79.1 22846.72  0.69 Primary 17.73268  3
-## 4.Primary esp   Spain high_income europe 2000   40741651       79.3 23937.97  0.70 Primary 17.22694  4
-## 5.Primary esp   Spain high_income europe 2001   40966450       79.5 24707.37  0.71 Primary 17.52693  5
-## 6.Primary esp   Spain high_income europe 2002   41477655       79.6 25026.09  0.72 Primary 17.76286  6
+##           geo Country      Wealth Region Year Population Expectancy   Income Index    Type  Expense
+## 1.Primary esp   Spain high_income europe 1997   40180050       78.7 21117.02  0.68 Primary       NA
+## 2.Primary esp   Spain high_income europe 1998   40362357       79.0 21953.67  0.69 Primary 16.97009
+## 3.Primary esp   Spain high_income europe 1999   40542232       79.1 22846.72  0.69 Primary 17.73268
+## 4.Primary esp   Spain high_income europe 2000   40741651       79.3 23937.97  0.70 Primary 17.22694
+## 5.Primary esp   Spain high_income europe 2001   40966450       79.5 24707.37  0.71 Primary 17.52693
+## 6.Primary esp   Spain high_income europe 2002   41477655       79.6 25026.09  0.72 Primary 17.76286
+##           id
+## 1.Primary  1
+## 2.Primary  2
+## 3.Primary  3
+## 4.Primary  4
+## 5.Primary  5
+## 6.Primary  6
 ```
 
 Damit können wir jetzt die drei verschiedenen Variablen als gruppierte Beobachtungen darstellen und das gleiche Schema wie schon oben benutzen. Dafür wählen wir aber Spanien aus unserem Langen Datensatz aus und geben nur diese Daten mit der Pipe `|>` an `ggplot` weiter:
@@ -370,14 +385,14 @@ subset(sel_long, geo == 'esp') |>
 ```
 
 ```
-## Warning: Removed 9 rows containing missing values or values outside the scale range (`geom_line()`).
+## Warning: Removed 9 rows containing missing values (`geom_line()`).
 ```
 
 ```
-## Warning: Removed 9 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 9 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/multivar-grouped-1.png)<!-- -->
+![](/ggplotting-intro_files/multivar-grouped-1.png)<!-- -->
 
 
 ## Faceting
@@ -392,14 +407,14 @@ ggplot(sel_long, aes(x = Year, y = Expense, color = Country)) +
 ```
 
 ```
-## Warning: Removed 65 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 65 rows containing missing values (`geom_point()`).
 ```
 
 ```
-## Warning: Removed 20 rows containing missing values or values outside the scale range (`geom_line()`).
+## Warning: Removed 20 rows containing missing values (`geom_line()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/multivar-faceted-1.png)<!-- -->
+![](/ggplotting-intro_files/multivar-faceted-1.png)<!-- -->
 
 In `facet_wrap` wird mit der R Gleichungsnotation gearbeitet: hier wird der Plot anhand der unabhängigen Variablen hinter der Tilde in Gruppen eingeteilt. Das gibt auch wieder die Möglichkeit mit `+` mehrere Variablen zu definieren, die zum Faceting benutzt werden sollen. Wenn wir Gruppen anhand von zwei Variablen bilden bietet es sich außerdem an `facet_grid` zu benutzen. Ein solcher Grid wäre z.B. die gleichzeitige Einteilung nach Typ und Land:
 
@@ -411,14 +426,14 @@ ggplot(sel_long, aes(x = Year, y = Expense, color = Country)) +
 ```
 
 ```
-## Warning: Removed 65 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 65 rows containing missing values (`geom_point()`).
 ```
 
 ```
-## Warning: Removed 20 rows containing missing values or values outside the scale range (`geom_line()`).
+## Warning: Removed 20 rows containing missing values (`geom_line()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/multivar-gridded-1.png)<!-- -->
+![](/ggplotting-intro_files/multivar-gridded-1.png)<!-- -->
 
 Hier unterteilt die Variable vor der Tilde die Facets in Zeilen, die Variable nach der Tilde in Spalten. Per Voreinstellung wird beim Faceting eine gemeinsame Skalierung der x- und y-Achsen für alle Teilabbildungen festgelegt. Das kann mit dem Argument `scales` in der `facet_wrap` Funktion umgangen werden:
 
@@ -430,14 +445,14 @@ ggplot(sel_long, aes(x = Year, y = Expense, color = Country)) +
 ```
 
 ```
-## Warning: Removed 65 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 65 rows containing missing values (`geom_point()`).
 ```
 
 ```
-## Warning: Removed 20 rows containing missing values or values outside the scale range (`geom_line()`).
+## Warning: Removed 20 rows containing missing values (`geom_line()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-intro_files/figure-html/multivar-scaled-1.png)<!-- -->
+![](/ggplotting-intro_files/multivar-scaled-1.png)<!-- -->
 
 Während das zwar schöner aussieht sei aber dazu gesagt, dass wir hier die Interpretierbarkeit der Grafik dahingehend einschränken, dass Abbildungen in unterschiedlichen Zeilen nicht mehr direkt miteinander verglichen werden können. 
 

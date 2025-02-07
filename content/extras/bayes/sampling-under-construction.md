@@ -3,7 +3,7 @@ title: 'Bayesian Sampling'
 subtitle: 'Hier wird noch gebaut...'
 type: post
 date: '2019-11-07'
-lastmod: '2024-05-17'
+lastmod: '2025-02-07'
 slug: sampling-under-construction
 categories: ["Bayes"]
 tags: ["Bayes"]

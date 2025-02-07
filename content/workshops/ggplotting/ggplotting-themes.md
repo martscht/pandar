@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [schultze] 
 weight: 2
-lastmod: '2024-05-24'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/colouring_pencils_smoke.jpg"
@@ -31,6 +31,8 @@ output:
   html_document:
     keep_md: true
 ---
+
+
 
 Die Abbildungen, die wir [im ersten Abschnitt](/post/ggplotting-intro) erstellt haben, nutzen alle das in `ggplot2` voreingestellte Design. Auch wenn es sicherlich einen theoretisch sehr gut fundierten Grund gibt, dass der Hintergrund der Abbildung in einem demotivierenden Grauton gehalten sein sollte, gibt es Designs, die man schöner finden kann. Im folgenden sehen wir uns an, wie man seine Abbildungen nach seinen eigenen Vorlieben anpasst.
 
@@ -61,10 +63,10 @@ ggplot(edu_2013, aes(x = Primary, y = Index, color = Wealth)) +
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/simple-scatter-1.png)<!-- -->
+![](/ggplotting-themes_files/simple-scatter-1.png)<!-- -->
 
 Das Ergebnis können wir in Dingen Ansehnlichkeit mal als "funktionabel" bezeichnen, aber es gibt Einiges, was hier verbessert werden kann, bzw. muss. Zum Glück ist genau dafür dieser Beitrag da.
 
@@ -106,10 +108,10 @@ ggplot(edu_2013, aes(x = Primary, y = Index, color = Wealth)) +
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/nice-legend-1.png)<!-- -->
+![](/ggplotting-themes_files/nice-legend-1.png)<!-- -->
 
 Dieses Vorgehen - Daten anpassen bzw. Umstrukturieren - sollten wir in der Logik, die `ggplot` leitet, immer post-hoc Anpassungen der Abbildungen vorziehen. Fehlende Werte erhalten per Voreinstellung immer eine gesonderte Farbe (meistens grau) zugewiesen, um zu verdeutlichen, dass dies nicht *andere* Informationen zum Rest sind, sondern eben *keine*. Wenn wir solche Fälle ausschließen wollen, können wir natürlich wieder mit `subset` arbeiten und den reduzierten Datensatz an `ggplot` weitergeben:
 
@@ -121,10 +123,10 @@ subset(edu_2013, !is.na(Wealth)) |>
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/no-na-legend-1.png)<!-- -->
+![](/ggplotting-themes_files/no-na-legend-1.png)<!-- -->
 
 ## Beschriftung
 
@@ -145,10 +147,10 @@ scatter
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/labeled-1.png)<!-- -->
+![](/ggplotting-themes_files/labeled-1.png)<!-- -->
 
 Die `labs` Funktion ermöglicht uns das Vergeben von *Labels* für die Variablen, die wir als Ästhetiken in `aes()` festgehalten haben. `x` ersetzt also den Variablennamen von `Primary`, der per Voreinstellung zur Beschriftung herangezogen wird. Das Gleiche gilt dann auch für `y` und `color` ersetzt den Titel der Legende. Um diesen Titel ein wenig hübscher zu gestalten, habe ich hier einen Zeilenumbruch mit `\n` eingefügt. Die `ggtitle`-Funktion nimmt zwei Argumente entgegen: den Titel und einen Untertitel.
 
@@ -163,10 +165,10 @@ scatter + theme_minimal()
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/theme-minimal-1.png)<!-- -->
+![](/ggplotting-themes_files/theme-minimal-1.png)<!-- -->
 Gegenüber der Voreinstellung (`theme_grey`) verändert sich hier, dass der Hintergrund jetzt nicht mehr grau ist und das Raster stattdessen in Hellgrau gehalten ist. An diesem Punkt wird erneut der Vorteil des Schichtsystems von ggplot deutlich: wir definieren Daten, Ästhetik und Geometrie und können dann optische Anpassungen über das Theme vornehmen, die von den diesen drei Komponenten unabhängig verändert werden können. Diese Art und Weise, wie von ggplot Abbildungen definiert werden, hat den Vorteil, dass alles was wir hier besprechen auch auf jeden anderen Abbildungstyp anwendbar ist (eine größere Auswahl verschiedener Plots haben wir im [ggplotpourri](/post/ggplotting-ggplotpourri) zusammengestellt), weil wir einfach die `geom_` Funktionen austauschen können. Die Eigenschaften der Abbildung hinsichtlich des Aussehens von Hintergrund usw. bleiben davon aber unberührt.
 
 Über die von `ggplot2` direkt mitgelieferten Themes hinaus gibt es beinahe unzählige weitere Pakete, in denen vordefinierte Themes enthalten sind. Eine beliebtesten Sammlungen findet sich im Paket `ggthemes`:
@@ -187,10 +189,10 @@ scatter + theme_tufte()
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/tufte-1.png)<!-- -->
+![](/ggplotting-themes_files/tufte-1.png)<!-- -->
 
 Aber es gibt natürlich auch etwas komplexer aussehende Themes, wie diesen Nachbau der Grundprinzipien von Abbildungen auf [Nate Silvers Website fivethirtyeight](https://fivethirtyeight.com/):
 
@@ -200,10 +202,10 @@ scatter + theme_fivethirtyeight()
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/gdocs-1.png)<!-- -->
+![](/ggplotting-themes_files/gdocs-1.png)<!-- -->
 
 Die allermeisten Theme-Sammlungen und ggplot-Ergänzungs-Pakete werden nicht über CRAN vertrieben, sondern sind nur direkt über die GitHub-Repositorien ihrer Ersteller nutzbar. Das kann mitunter an Copyright-Problemen liegen (für CRAN-Pakete darf kein Inhalt genutzt werden, der unter Copyright steht) oder daran, dass es sich einfach um Spielereien handelt. Wer dennoch in den Genuss dieser Themes kommen möchte, benötigt das `devtools` Paket (ein [Überblick und Installationshinweise finden sich hier](https://cran.r-project.org/web/packages/devtools/readme/README.html)). Dieses Paket liefert dann den `install_github`-Befehl, mit dem Pakete direkt aus den Repositorien installiert werden können. Ein paar Empfehlungen für den alltäglichen Gebrauch:
 
@@ -268,10 +270,10 @@ scatter +
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/adjusted-title-1.png)<!-- -->
+![](/ggplotting-themes_files/adjusted-title-1.png)<!-- -->
 
 Das hat leider nur die Eigenschaften des Titels, nicht aber die des Untertitels verändert. `?theme` verrät aber relativ schnell, dass wir dafür das Argument `plot.subtitle` brauchen:
 
@@ -283,10 +285,10 @@ scatter +
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/adjusted-subtitle-1.png)<!-- -->
+![](/ggplotting-themes_files/adjusted-subtitle-1.png)<!-- -->
 
 Auf diese Art und Weise können wir extrem detailliert beliebige Eigenschaften unserer Abbildungen ändern. Zum Beispiel können wir uns die x- und y-Achse noch als deutliche Linien einzeichnen lassen:
 
@@ -299,10 +301,10 @@ scatter +
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/added-axes-1.png)<!-- -->
+![](/ggplotting-themes_files/added-axes-1.png)<!-- -->
 
 ## Eigene Themes
 
@@ -323,10 +325,10 @@ scatter
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/themed-scatter-1.png)<!-- -->
+![](/ggplotting-themes_files/themed-scatter-1.png)<!-- -->
 
 Die aktuell eingestellten Eigenschaften des Themes können wir mit `theme_get()` abrufen - aber Vorsicht, die Ausgabe kann etwas unübersichtlich und überwältigend wirken!
 
@@ -354,10 +356,10 @@ scatter + theme_grey()
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/grey-themed-1.png)<!-- -->
+![](/ggplotting-themes_files/grey-themed-1.png)<!-- -->
 
 Und mit unseren Anpassungen im eigenen Theme:
 
@@ -367,10 +369,10 @@ scatter + theme_pandar()
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/custom-theme-1.png)<!-- -->
+![](/ggplotting-themes_files/custom-theme-1.png)<!-- -->
 
 Um unser Theme für den Rest der Inhalte global als den Standard festzulegen, können wir wieder mit `theme_set()` arbeiten:
 
@@ -393,10 +395,10 @@ ggplot(edu_2013, aes(x = Primary, y = Index, color = log(Income))) +
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/continuous-wealth-1.png)<!-- -->
+![](/ggplotting-themes_files/continuous-wealth-1.png)<!-- -->
 
 Bezüglich Geometrie wird bei der Färbung zwischen `fill` und `color` unterschieden - also ob eine Geometrie mit einer Farbe gefüllt wird oder ihr Rand mit dieser Farbe gezeichnet wird. In den bisherigen Abbildungen haben wir noch kein Beispiel gehabt, in dem etwas gefüllt werden könnte, aber im [ggplotpourri](/post/ggplotting-ggplotpourri) haben wir dafür ein paar Beispiele dargestellt.
 
@@ -408,10 +410,10 @@ scatter + scale_color_grey()
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/scatter-grey-1.png)<!-- -->
+![](/ggplotting-themes_files/scatter-grey-1.png)<!-- -->
 
 Das oben erwähnte Paket `ggthemes` enthält auch weitere Farbpaletten, die wir nutzen können, um unseren Plot nach unseren Vorlieben zu gestalten. Wichtig ist beispielsweise, dass es eine Palette namens `colorblind` hat, die Farben so auswählt, dass sie auch von Personen mit Farbblindheit differenziert werden können. In Fällen mit 6 oder weniger Gruppen bietet sich darüber hinaus an mit der Ästhetik `pch` (für plot-character) zu arbeiten. Darüber hinaus gibt es für Fans der Filme von Wes Anderson z.B. das Paket `wesanderson`, welches für jeden seiner Filme die Farbpalette parat hat.
 
@@ -431,10 +433,10 @@ scatter +
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/manual-colors-1.png)<!-- -->
+![](/ggplotting-themes_files/manual-colors-1.png)<!-- -->
 
 Die Zuordnung der Farben erfolgt anhand der Reihenfolge in `pandar_colors` und der Reihenfolge der Ausprägungen von `Wealth`. Wenn Ihnen also die Zuordnung misfällt, können sie ganz einfach die Reihenfolge der Farben tauschen.
 
@@ -466,16 +468,10 @@ scatter + scale_color_pandar()
 ```
 
 ```
-## Warning: The `scale_name` argument of `discrete_scale()` is deprecated as of ggplot2 3.5.0.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
-```
-
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/own-palette-1.png)<!-- -->
+![](/ggplotting-themes_files/own-palette-1.png)<!-- -->
 
 Interessant wird es dann, wenn wir weniger oder mehr als unsere vier Ausprägungen haben. Sehen wir zunächst, was passiert, wenn wir z.B. nur zwei Gruppen haben. Dazu können wir eine binäre Version der Variable `Wealth` erzeugen, in der die Stufen zu `High` und `Low` zusammengefasst sind:
 
@@ -496,10 +492,10 @@ ggplot(edu_2013, aes(x = Primary, y = Index, color = Wealth_bin)) +
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/binary-palette-1.png)<!-- -->
+![](/ggplotting-themes_files/binary-palette-1.png)<!-- -->
 
 Hier wurden also die beiden Endpunkte unserer Farbpalette genutzt, um die Unterschiede der Gruppen zu verdeutlichen. Sehen wir, was passiert, wenn wir eine kontinuierliche Variable nutzen - erneut die logarithmierte `Income` Variable. Hierbei dürfen wir nicht vergessen, unserer Farbpalette mitzuteilen, dass wir jetzt eine stetige Variable benutzen:
 
@@ -511,10 +507,10 @@ ggplot(edu_2013, aes(x = Primary, y = Index, color = log(Income))) +
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-themes_files/figure-html/continous-palette-1.png)<!-- -->
+![](/ggplotting-themes_files/continous-palette-1.png)<!-- -->
 
 Hier wird jetzt ein Farbverlauf durch unsere vier Farben gelegt und genutzt, um unterschiedliche Ausprägungen von `Income` zu differenzieren. In beiden Varianten hat unsere Farbpalette aber ganze Arbeit geleistet!
 

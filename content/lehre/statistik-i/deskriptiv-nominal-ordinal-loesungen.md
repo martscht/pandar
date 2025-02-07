@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [buchholz, nehler, sinn] 
-lastmod: '2024-10-25'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -49,7 +49,7 @@ Die Lösungen sind exemplarische Möglichkeiten. In `R` gibt es immer viele Wege
 Daten laden:
 
 
-``` r
+```r
 load(url('https://pandar.netlify.app/daten/fb24.rda'))  
 ```
 
@@ -57,7 +57,7 @@ load(url('https://pandar.netlify.app/daten/fb24.rda'))
 Überblick über den Datensatz verschaffen:
 
 
-``` r
+```r
 dim(fb24)
 ```
 
@@ -65,7 +65,7 @@ dim(fb24)
 ## [1] 192  42
 ```
 
-``` r
+```r
 str(fb24)
 ```
 
@@ -135,7 +135,7 @@ Untersuchen Sie, welche Arbeitsbranche Sie und Ihre Kommiliton:innen nach dem St
 **Faktor erstellen**
 
 
-``` r
+```r
 fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
@@ -149,7 +149,7 @@ levels(fb24$ziel)
 **Absolute und relative Häufigkeiten anfordern**  
 
 
-``` r
+```r
 table(fb24$ziel)              # absolut
 ```
 
@@ -159,7 +159,7 @@ table(fb24$ziel)              # absolut
 ##         24        108         27         29
 ```
 
-``` r
+```r
 prop.table(table(fb24$ziel))  # relativ
 ```
 
@@ -172,7 +172,7 @@ prop.table(table(fb24$ziel))  # relativ
 **Zentrale Tendenz und Dispersion für nominalskalierte Variablen: Modus, relativer Informationsgehalt**
 
 
-``` r
+```r
 # Modus
 which.max(table(fb24$ziel))
 ```
@@ -183,7 +183,7 @@ which.max(table(fb24$ziel))
 ```
 
 
-``` r
+```r
 #relativer Informationsgehalt
 hj <- prop.table(table(fb24$ziel))  # hj erstellen
 ln_hj <- log(hj)                    # Logarithmus bestimmen
@@ -217,7 +217,7 @@ Die Variable `therap` enthält die Angaben über das Ausmaß, in dem sich Sie un
 **Modus**
 
 
-``` r
+```r
 which.max(table(fb24$therap))
 ```
 
@@ -229,7 +229,7 @@ which.max(table(fb24$therap))
 **Häufigkeiten**
 
 
-``` r
+```r
 table(fb24$therap)
 ```
 
@@ -239,7 +239,7 @@ table(fb24$therap)
 ##   2  10  57 119
 ```
 
-``` r
+```r
 prop.table(table(fb24$therap))
 ```
 
@@ -254,16 +254,16 @@ Der Modus der Variable `therap` beträgt 4, d.h. diese Antwortkategorie wurde am
 **Boxplot**
 
 
-``` r
+```r
 boxplot(fb24$therap)
 ```
 
-![](/lehre/statistik-i/deskriptiv-nominal-ordinal-loesungen_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/deskriptiv-nominal-ordinal-loesungen_files/unnamed-chunk-9-1.png)<!-- -->
 
 **Quartile**
 
 
-``` r
+```r
 quantile(fb24$therap, c(.25,.5,.75), na.rm=T)
 ```
 
@@ -290,7 +290,7 @@ Erstellen Sie für die Variable `wohnen` eine geeignete Abbildung.
 **Faktor erstellen**
 
 
-``` r
+```r
 fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
@@ -301,7 +301,7 @@ fb24$wohnen <- factor(fb24$wohnen,
 Um eine ansprechende Grafik zu erhalten, können wir einige Argumente anpassen. Hier ist natürlich nur eine beispielhafte Lösung abgebildet.
 
 
-``` r
+```r
 # Ansprechende Darstellung
 barplot(
   # wichtig: Funktion auf Häufigkeitstabelle, nicht die Variable selbst anwenden:
@@ -326,12 +326,12 @@ barplot(
   ylim = c(0,60))
 ```
 
-![](/lehre/statistik-i/deskriptiv-nominal-ordinal-loesungen_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/deskriptiv-nominal-ordinal-loesungen_files/unnamed-chunk-12-1.png)<!-- -->
 
 **Speichern (per Syntax)**
 
 
-``` r
+```r
 jpeg("Befragung-fb24.jpg", width=20, height=10, units="cm", res=200)
 barplot(
   table(fb24$wohnen),                               

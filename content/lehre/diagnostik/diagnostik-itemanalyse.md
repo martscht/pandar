@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schnatz, farugie]
 weight: 1
-lastmod: '2024-05-12'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/business_meeting.jpg"
@@ -47,16 +47,16 @@ head(data_gis_raw)
 
 ```
 ## # A tibble: 6 × 28
-##      id   sex   ses marital profession education  GIS1  GIS2  GIS3  GIS4  GIS5  GIS6  GIS7  GIS8  GIS9 GIS10 GIS11
-##   <dbl> <dbl> <dbl>   <dbl>      <dbl>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-## 1     1     1     2       1          3         5     4     3     3     3     3     3     4     4     3     4     3
-## 2     2     1     2       1          1         3     4     3     3     4     4     4     4     4     4     4     3
-## 3     3     1     2       3          1         3     4     3     4     4     3     3     3     4     4     4     3
-## 4     4     1     2       1          1         3     4     3     0     3     3     4     4     4     0     3     3
-## 5     5     0     1       1          5         5     3     4     4     3     3     4     4     4     4     3     4
-## 6     6     1     1       2          2         5     4     3     3     4     4     4     3     3     4     3     3
-## # ℹ 11 more variables: GIS12 <dbl>, GIS13 <dbl>, GIS14 <dbl>, GIS15 <dbl>, GIS16 <dbl>, GIS17 <dbl>, GIS18 <dbl>,
-## #   GIS19 <dbl>, GIS20 <dbl>, GIS21 <dbl>, Age <dbl>
+##      id   sex   ses marital profession education  GIS1  GIS2  GIS3  GIS4  GIS5  GIS6  GIS7  GIS8  GIS9
+##   <dbl> <dbl> <dbl>   <dbl>      <dbl>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+## 1     1     1     2       1          3         5     4     3     3     3     3     3     4     4     3
+## 2     2     1     2       1          1         3     4     3     3     4     4     4     4     4     4
+## 3     3     1     2       3          1         3     4     3     4     4     3     3     3     4     4
+## 4     4     1     2       1          1         3     4     3     0     3     3     4     4     4     0
+## 5     5     0     1       1          5         5     3     4     4     3     3     4     4     4     4
+## 6     6     1     1       2          2         5     4     3     3     4     4     4     3     3     4
+## # ℹ 13 more variables: GIS10 <dbl>, GIS11 <dbl>, GIS12 <dbl>, GIS13 <dbl>, GIS14 <dbl>, GIS15 <dbl>,
+## #   GIS16 <dbl>, GIS17 <dbl>, GIS18 <dbl>, GIS19 <dbl>, GIS20 <dbl>, GIS21 <dbl>, Age <dbl>
 ```
 
 
@@ -72,8 +72,8 @@ colnames(data_gis_item) # Ausgabe der Spalten des Datensatzes
 ```
 
 ```
-##  [1] "GIS1"  "GIS2"  "GIS3"  "GIS4"  "GIS5"  "GIS6"  "GIS7"  "GIS8"  "GIS9"  "GIS10" "GIS11" "GIS12" "GIS13" "GIS14"
-## [15] "GIS15" "GIS16" "GIS17" "GIS18" "GIS19" "GIS20" "GIS21"
+##  [1] "GIS1"  "GIS2"  "GIS3"  "GIS4"  "GIS5"  "GIS6"  "GIS7"  "GIS8"  "GIS9"  "GIS10" "GIS11" "GIS12"
+## [13] "GIS13" "GIS14" "GIS15" "GIS16" "GIS17" "GIS18" "GIS19" "GIS20" "GIS21"
 ```
 
 Bevor wir mit der deskriptiven Analyse beginnen, sollten wir noch überprüfen, ob es fehlende Werte (NAs) im Datensatz gibt. 
@@ -270,7 +270,7 @@ print(descr_age_by_sex)
 ## group: 0
 ##    vars   n  mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 104 66.88 6.67     65   66.01 5.93  55  90    35 1.25     1.76 0.65
-## --------------------------------------------------------------------------------------- 
+## ---------------------------------------------------------------------------- 
 ## group: 1
 ##    vars   n  mean  sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 196 66.35 5.9     65   65.67 5.93  55  89    34 1.12     1.16 0.42
@@ -445,8 +445,9 @@ colnames(data_gis_rec)
 ```
 
 ```
-##  [1] "GIS1"    "GIS2"    "GIS3"    "GIS4"    "GIS5"    "GIS6"    "GIS7"    "GIS8"    "GIS10"   "GIS11"   "GIS12"  
-## [12] "GIS13"   "GIS14"   "GIS15"   "GIS19"   "GIS20"   "GIS21"   "GIS9_r"  "GIS16_r" "GIS17_r" "GIS18_r"
+##  [1] "GIS1"    "GIS2"    "GIS3"    "GIS4"    "GIS5"    "GIS6"    "GIS7"    "GIS8"    "GIS10"  
+## [10] "GIS11"   "GIS12"   "GIS13"   "GIS14"   "GIS15"   "GIS19"   "GIS20"   "GIS21"   "GIS9_r" 
+## [19] "GIS16_r" "GIS17_r" "GIS18_r"
 ```
  
  Jetzt können wir die Itemanalyse durchführen. Wir verwenden dafür eine Funktion aus dem sjPlot Package.
@@ -578,7 +579,7 @@ sjt.itemanalysis(
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.81</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">-1.64</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.85</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.67</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.66</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col8">0.83</td>
 </tr>
 <tr>
@@ -832,7 +833,7 @@ sjt.itemanalysis(
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; ">0.81</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; ">-1.64</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; ">0.85</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; col7">0.67</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; col7">0.66</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; col8">0.83</td>
 </tr>
 <tr>
@@ -988,7 +989,7 @@ sjt.itemanalysis(
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.89</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">-1.25</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.81</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.65</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.64</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col8">0.93</td>
 </tr>
 <tr>

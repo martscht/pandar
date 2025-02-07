@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [kvetnaya, sajjad, irmer]
 weight: 12
-lastmod: '2024-07-09'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/abstract_black_hole_light.jpg"
@@ -52,7 +52,7 @@ Bei einer gewöhnlichen, multiplen Regression gehen wir davon aus, dass das Regr
 
 Es kann jedoch auch Fälle geben, wo eine (Dritt-)Variable $Z$ die Stärke des Zusammenhangs zwischen $Y$ und $X$ beeinflusst, und damit die Ausprägung von $\beta$. Schematisch lässt sich eine solcher, durch $Z$ moderierte Regressionszusammenhang so abbilden:
 
-![](/lehre/statistik-ii/moderation1.PNG)
+![](moderation1.PNG)
 
 Das lässt sich auch mittels der folgenden Regressionsgleichung darstellen (für eine Person $i$ ):
 
@@ -168,7 +168,7 @@ Wenn der IQ um 1 SD steigt, erhöht sich laut diesem Output auch die Lesefähigk
 
 Treffen wir nun die inhaltliche Annahme an, dass die Mathematikleistungen der Schüler/-innen den Zusammenhang zwischen IQ und Lesefähigkeit moderieren könnten. Oder in anderen Worten: Dass der Zusammenhang zwischen `IQ` und `reading` sich in Abhängigkeit von `math` verändert. Schematisch könnte man das so darstellen:
 
-![](/lehre/statistik-ii/moderation2.PNG)
+![](moderation2.PNG)
 
 Hierzu führen wir eine moderierte Regression durch, in welcher wir `reading` durch den `IQ` sowie die Matheleistung `math` vorhersagen, sowie zusätzlich ihre Interaktion `IQ:math`einschließen. Falls wir alternativ die Interaktion als `IQ*math` formulieren, werden automatisch die Haupteffekte, also die Variablen selbst, mit aufgenommen. Es gilt also: `math + IQ + math:IQ` = `math*IQ`, wobei die Interaktion `math:IQ` ist. Um auch wirklich die Interaktion zu testen, ist es unbedingt notwendig, die Haupteffekte der Variablen ebenfalls in das Modell mit aufzunehmen, da die Variablen trotzdem mit der Interaktion korreliert sein können, auch wenn die Variablen zentriert sind.
 
@@ -215,19 +215,12 @@ Es gibt ein R-Paket, dass eine solche Interaktion grafisch darstellt: `interacti
 
 ```r
 library(interactions)
-```
-
-```
-## Warning: Paket 'interactions' wurde unter R Version 4.3.1 erstellt
-```
-
-```r
 interact_plot(model = mod_reg, 
               pred = IQ, 
               modx = math)
 ```
 
-![](/lehre/statistik-ii/moderierte-reg_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](/moderierte-reg_files/unnamed-chunk-5-1.png)<!-- -->
 
 Uns wird nun ein Plot mit drei Linien ausgegeben. Dargestellt sind drei Beziehungen zwischen dem `IQ` und `reading` für unterschiedliche Ausprägungen von `math`. Diese werden häufig auch “simple slopes” Plot genannt, da sie zur Vereinfachung der komplexen Beziehung drei "einfache" Slopes herausgreifen und darstellen:Erstens für einen durchschnittlichen `math`-Wert, und zweitens und drittens für Werte, die eine Standardabweichung (SD) oberhalb oder eine Standardabweichung (SD) unterhalb des Mittelwerts liegen. Damit bekommen wir ein Gefühl dafür, wie sehr sich die Beziehung (und damit Interzept und Slope) zwischen der Leseleistung und der Intelligenz verändert für unterschiedliche Ausprägungen der Matheleistung: Für eine durchschnittliche (Mean) Ausprägung, eine unter- (- 1 SD) und eine überdurchschnittliche (+ 1 SD) Ausprägung.
 
@@ -236,24 +229,6 @@ Wie im Beitrag zur [ANCOVA]() gezeigt, können wir hier mithilfe des Pakets `reg
 
 ```r
 library(reghelper)
-```
-
-```
-## Warning: Paket 'reghelper' wurde unter R Version 4.3.2 erstellt
-```
-
-```
-## 
-## Attache Paket: 'reghelper'
-```
-
-```
-## Das folgende Objekt ist maskiert 'package:base':
-## 
-##     beta
-```
-
-```r
 simple_slopes(mod_reg)
 ```
 
@@ -271,7 +246,7 @@ Natürlich gibt es nicht nur diese drei Linien, sondern der Moderator kann jede 
 
 Die folgende Grafik stellt den Sachverhalt noch einmal als 3D Grafik (mit dem Paket `plot3D`) dar (ziemlich cool, oder?). In dieser Grafik erkennen wir sehr deutlich, dass die Simple Slopes tatsächlich eine stark vereinfachte Darstellung sind und es tatsächlich unendlich viele bzw. so viele unterschiedliche Beziehungen zwischen Prädiktor (`IQ`) und Kriterium (`reading`) in Abhängigkeit des Moderators (`math`) gibt, wie dieser (`math`) Ausprägungen hat. Der Code zu den Grafiken und eine nähere Beschreibung finden Sie in Appendix B.
 
-![](/lehre/statistik-ii/3d_graph.png)
+![](3d_graph.png)
 
 ## Fazit
 
@@ -302,7 +277,7 @@ interact_plot(model = mod_reg, pred = math,
               modx = IQ)
 ```
 
-![](/lehre/statistik-ii/moderierte-reg_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](/moderierte-reg_files/unnamed-chunk-7-1.png)<!-- -->
 
 Indem wir eine andere Wirkungsrichtung impliziert haben, verschiebt sich auch die Interpretation unserer Ergebnisse. So könnte aus dieser Darstellung abgeleitet werden, mit einem überdurchschnittlichen IQ der Zusammenhang zwischen der Matheleistung und der Lesefähigkeit positiv ausgeprägt ist, während bei Personen mit unterdurchschnittlichem IQ eine bessere Matheleistung mit einer schlechteren Lesefähigkeit einhergeht.
 
@@ -321,13 +296,6 @@ Es liegt daher in der Verantwortung der Forschenden, die Auswahl der Moderatorva
 
 ```r
 library(plot3D)
-```
-
-```
-## Warning: Paket 'plot3D' wurde unter R Version 4.3.1 erstellt
-```
-
-```r
 # Übersichtlicher: Vorbereitung
 x <- Schulleistungen_std$IQ
 y <- Schulleistungen_std$reading
@@ -350,7 +318,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
           main = "Moderierte Regression")
 ```
 
-![](/lehre/statistik-ii/moderierte-reg_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](/moderierte-reg_files/unnamed-chunk-8-1.png)<!-- -->
 
 Hier ist auf der x-Achse ($- links \longleftrightarrow rechts +$) der IQ dargestellt, und in die Tiefe die Matheleistung (oft z-Achse: ($-vorne\longleftrightarrow hinten+$)). Die y-Achse (im Plot heißt diese blöderweise z-Achse) stellt die Leseleistung dar. ($-unten\longleftrightarrow oben+$). Wir erkennen in dieser Ansicht ein wenig die Simple-Slopes von zuvor, denn die Achse der Matheleistung läuft ins Negative “aus dem Bildschirm hinaus”, während sie ins Positive “in den Bildschirm hinein” verläuft. Der nähere Teil der “Hyperebene” weißt eine geringere Beziehung zwischen dem IQ und der Leseleistung auf, während der Teil, der weiter entfernt liegt, eine stärkere Beziehung aufweist. Genau das haben wir auch in den Simple Slopes zuvor gesehen. Dort war für eine hohe Matheleistung die Beziehung zwischen dem IQ und der Leseleistung auch stärker. Wichtig ist, dass in diesem Plot die Beziehung zwischen dem IQ und der Leseleistung für eine fest gewählte Ausprägung der Matheleistung tatsächlich linear verläuft. Es ist also so, dass wir quasi ganz viele Linien aneinander kleben, um diese gewölbte Ebene zu erhalten. Die Ausprägung der Matheleistung ist im nächsten Plot noch besser zu erkennen, in der der Plot etwas gedreht dargestellt wird. Farblich ist außerdem die Ausprägung der Leseleistung dargestellt, damit die Werte leichter zu vergleichen sind.
 
@@ -364,7 +332,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
           main = "Moderierte Regression")
 ```
 
-![](/lehre/statistik-ii/moderierte-reg_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/moderierte-reg_files/unnamed-chunk-9-1.png)<!-- -->
 
 Diese Plots geben einen noch besseren Eindruck davon, was genau bei einer Interaktion passiert und wie “austauschbar” eigentlich der Moderator oder der Prädiktor sind. Außerdem kann man mit den Überlegungen aus diesem Abschnitt leicht einsehen, dass das quadratische Modell von oben tatsächlich ein Spezialfall dieses moderierten Modells ist, in welchem der Prädiktor mit sich selbst interagiert (sich selbst moderiert). Darüber, wie genau man moderierte Regressionen durchführt, gibt es viel Literatur. Einige Forschende sagen, dass man neben der Interaktion auch immer die quadratischen Effekte mit aufnehmen sollte, um auszuschließen, dass die Interaktion ein Artefakt ist, der nur auf quadratische Effekte zurückzuführen ist.
 

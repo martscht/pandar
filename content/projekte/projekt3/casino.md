@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Projekt versuchen wir, uns den Weg ins Casino zu ersparen, indem wir selbst ein vollständiges Roulette in R programmieren. Das heißt, dass wir uns mit Zufallsziehungen, Schleifen und Funktionen auseinandersetzen müssen. Aber Vorsicht, Glücksspiel kann süchtig machen!'
 authors: [mehler, schreiner, rouchi]
 weight: 1
-lastmod: '2024-05-15'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/roulette.jpg"
@@ -69,7 +69,7 @@ Anhand der Gewinnquote lässt sich berechnen, wie hoch die Auszahlung ist, sollt
 
 Der Wetttisch beim französischen Roulette sieht folgendermaßen aus:
 
-![](/projekte/projekt3/Roulette_table.png)
+![](Roulette_table.png)
 
 ## Beispiel zur Verwendung von Funktionen {#Beispiel}
 

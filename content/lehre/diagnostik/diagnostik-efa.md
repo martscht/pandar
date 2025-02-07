@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schnatz, farugie]
 weight: 2
-lastmod: '2024-05-12'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/coastal_sailing.jpg"
@@ -47,23 +47,23 @@ glimpse(data_gis_final)
 ```
 ## Rows: 300
 ## Columns: 17
-## $ GIS1  <int> 4, 4, 4, 4, 3, 4, 4, 3, 4, 4, 3, 3, 4, …
-## $ GIS2  <int> 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 3, 3, 4, …
-## $ GIS3  <int> 3, 3, 4, 0, 4, 3, 3, 4, 3, 3, 3, 3, 4, …
-## $ GIS4  <int> 3, 4, 4, 3, 3, 4, 3, 4, 3, 3, 3, 3, 3, …
-## $ GIS5  <int> 3, 4, 3, 3, 3, 4, 3, 3, 3, 1, 3, 3, 3, …
-## $ GIS6  <int> 3, 4, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, …
-## $ GIS7  <int> 4, 4, 3, 4, 4, 3, 4, 3, 3, 3, 4, 4, 4, …
-## $ GIS8  <int> 4, 4, 4, 4, 4, 3, 3, 4, 4, 3, 3, 3, 4, …
-## $ GIS10 <int> 4, 4, 4, 3, 3, 3, 3, 1, 3, 3, 3, 3, 4, …
-## $ GIS11 <int> 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 4, …
-## $ GIS12 <int> 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 3, 4, 4, …
-## $ GIS13 <int> 4, 4, 4, 3, 4, 3, 3, 3, 4, 3, 3, 4, 3, …
-## $ GIS14 <int> 3, 4, 3, 3, 4, 3, 4, 3, 3, 4, 3, 3, 3, …
-## $ GIS15 <int> 3, 4, 3, 3, 4, 3, 3, 3, 3, 4, 3, 3, 3, …
-## $ GIS19 <int> 4, 4, 4, 3, 4, 3, 4, 4, 4, 4, 4, 3, 4, …
-## $ GIS20 <int> 3, 4, 4, 3, 4, 3, 3, 3, 3, 3, 4, 3, 4, …
-## $ GIS21 <int> 3, 4, 4, 3, 4, 3, 3, 3, 3, 3, 4, 3, 3, …
+## $ GIS1  <int> 4, 4, 4, 4, 3, 4, 4, 3, 4, 4, 3, 3, 4, 3, 4, 3, 4, 3, 4, 4, 3, 3, 3, 3, 4, 3, 4, 4, 4,…
+## $ GIS2  <int> 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 4, 3, 4, 3, 4,…
+## $ GIS3  <int> 3, 3, 4, 0, 4, 3, 3, 4, 3, 3, 3, 3, 4, 3, 4, 3, 1, 4, 3, 3, 4, 3, 1, 3, 3, 4, 4, 4, 4,…
+## $ GIS4  <int> 3, 4, 4, 3, 3, 4, 3, 4, 3, 3, 3, 3, 3, 4, 4, 3, 3, 4, 3, 3, 4, 3, 3, 2, 4, 3, 4, 4, 4,…
+## $ GIS5  <int> 3, 4, 3, 3, 3, 4, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 4, 3,…
+## $ GIS6  <int> 3, 4, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 4, 4, 4,…
+## $ GIS7  <int> 4, 4, 3, 4, 4, 3, 4, 3, 3, 3, 4, 4, 4, 4, 3, 3, 4, 4, 4, 4, 3, 3, 3, 1, 4, 3, 4, 4, 2,…
+## $ GIS8  <int> 4, 4, 4, 4, 4, 3, 3, 4, 4, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 4, 1, 4, 4, 4,…
+## $ GIS10 <int> 4, 4, 4, 3, 3, 3, 3, 1, 3, 3, 3, 3, 4, 3, 1, 3, 3, 3, 3, 3, 3, 3, 1, 2, 4, 3, 4, 4, 4,…
+## $ GIS11 <int> 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 4, 4, 4,…
+## $ GIS12 <int> 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 3, 4, 4, 3, 4, 3, 3, 4, 3, 3, 4, 3, 4, 3, 4, 2, 4, 4, 3,…
+## $ GIS13 <int> 4, 4, 4, 3, 4, 3, 3, 3, 4, 3, 3, 4, 3, 3, 4, 4, 3, 4, 4, 4, 3, 3, 4, 3, 4, 1, 4, 4, 3,…
+## $ GIS14 <int> 3, 4, 3, 3, 4, 3, 4, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 4, 2, 4, 2, 4, 4, 3,…
+## $ GIS15 <int> 3, 4, 3, 3, 4, 3, 3, 3, 3, 4, 3, 3, 3, 4, 4, 3, 3, 3, 3, 3, 3, 3, 4, 1, 4, 3, 4, 4, 4,…
+## $ GIS19 <int> 4, 4, 4, 3, 4, 3, 4, 4, 4, 4, 4, 3, 4, 4, 4, 3, 3, 4, 4, 4, 4, 3, 3, 2, 4, 3, 4, 4, 3,…
+## $ GIS20 <int> 3, 4, 4, 3, 4, 3, 3, 3, 3, 3, 4, 3, 4, 4, 3, 3, 3, 3, 3, 4, 3, 3, 1, 2, 4, 3, 4, 4, 3,…
+## $ GIS21 <int> 3, 4, 4, 3, 4, 3, 3, 3, 3, 3, 4, 3, 3, 4, 3, 3, 4, 3, 3, 4, 3, 3, 3, 1, 4, 3, 4, 4, 3,…
 ```
 
 Als Erinnerung können wir uns nochmal die psychometrische Eigenschaften der beibehaltenen Items anschauen. Wir benutzen dafür wieder die Funktion aus dem `sjPlot` Package, die wir letztes Skript kennengelernt haben.
@@ -115,7 +115,7 @@ sjt.itemanalysis(
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.89</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">-1.25</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.81</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.65</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.64</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col8">0.93</td>
 </tr>
 <tr>
@@ -281,10 +281,8 @@ eigen(cor(data_gis_final))$values
 ```
 
 ```
-##  [1] 8.5991430 1.2760151 0.8990121 0.7701418 0.7212324
-##  [6] 0.6443391 0.5840884 0.4867182 0.4715973 0.4470492
-## [11] 0.4315886 0.3538997 0.3248867 0.2850224 0.2738591
-## [16] 0.2365159 0.1948910
+##  [1] 8.5991430 1.2760151 0.8990121 0.7701418 0.7212324 0.6443391 0.5840884 0.4867182 0.4715973
+## [10] 0.4470492 0.4315886 0.3538997 0.3248867 0.2850224 0.2738591 0.2365159 0.1948910
 ```
 
 ```r
@@ -295,10 +293,8 @@ cor(data_gis_final) %>%
 ```
 
 ```
-##  [1] 8.5991430 1.2760151 0.8990121 0.7701418 0.7212324
-##  [6] 0.6443391 0.5840884 0.4867182 0.4715973 0.4470492
-## [11] 0.4315886 0.3538997 0.3248867 0.2850224 0.2738591
-## [16] 0.2365159 0.1948910
+##  [1] 8.5991430 1.2760151 0.8990121 0.7701418 0.7212324 0.6443391 0.5840884 0.4867182 0.4715973
+## [10] 0.4470492 0.4315886 0.3538997 0.3248867 0.2850224 0.2738591 0.2365159 0.1948910
 ```
 
 ```r
@@ -547,7 +543,7 @@ scree(
   ) 
 ```
 
-![](/lehre/diagnostik/diagnostik-efa_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](diagnostik-efa_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 #### 2. Weg: `ggplot2` Package
 
@@ -587,7 +583,7 @@ ggplot(data = data_eigen, aes(x = Faktor, y = Eigenwert)) +
   theme(axis.title = element_text(face = "bold"))
 ```
 
-![](/lehre/diagnostik/diagnostik-efa_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](diagnostik-efa_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 
 Die Ergebnisse der Scree-Plots suggerieren ein Modell mit nur einem Faktor. Dementsprechend wäre die Entscheidung im Vergleich zum Kaiser-Kriterium deutlich konservativer.
@@ -611,7 +607,7 @@ fa.parallel(
   )
 ```
 
-![](/lehre/diagnostik/diagnostik-efa_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](diagnostik-efa_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 ```
 ## Parallel analysis suggests that the number of factors =  3  and the number of components =  1
@@ -680,7 +676,7 @@ tibble(
   theme(legend.position = "bottom")
 ```
 
-![](/lehre/diagnostik/diagnostik-efa_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](diagnostik-efa_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 
 Die Ergebnisse der Parallelanalyse suggerieren ein Modell mit drei Faktoren. Da dies das konservativste Vorgehen ist, entscheiden wir uns für ein dreifaktorielles Modell für die weitere Analyse.
@@ -1073,7 +1069,7 @@ sjt.itemanalysis(
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.91</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">-0.82</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.74</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.77</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.76</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col8">0.80</td>
 </tr>
 <tr>
@@ -1413,7 +1409,7 @@ ggplot(data_gis_fa1, aes(x = gis_score)) +  # oder x = f1/f2/f3
   theme_light()
 ```
 
-<img src="/lehre/diagnostik/diagnostik-efa_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="diagnostik-efa_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
 
 Für diejenigen unter euch, die sich in etwas anspruchvolleres R bzw. ggplot2-Territorium wagen wollen: Es gibt auch die Möglichkeit, alle Skalen gleichzeitig in einem Bild zu plotten. Um jeden einzelnen Schritt der großen Pipe zu verstehen, geht am besten jeden einzelnen Layer durch und schaut, wie sich der Plot verändert. Auch hilfreich kann es sein, wenn man die einzelnen Parameter in den Layern verändert, um zu schauen, was diese bewirken. Es reicht allerdings natürlich auch völlig aus, wenn ihr euch an dem letzten Plot orientiert!
 
@@ -1473,7 +1469,7 @@ data_gis_fa1 %>%
     )
 ```
 
-<img src="/lehre/diagnostik/diagnostik-efa_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
+<img src="diagnostik-efa_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
 
 ***
 

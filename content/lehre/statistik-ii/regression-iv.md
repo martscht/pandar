@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [irmer, hartig]
 weight: 
-lastmod: '2024-04-12'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/schoolbus.jpg"
@@ -115,7 +115,7 @@ Die Residuenplots sowie die Testung auf quadratische Trends, die zusammen mit de
 residualPlots(m1, pch = 16)
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 ```
 ##            Test stat Pr(>|Test stat|)  
@@ -146,14 +146,7 @@ ggplot(data = df_res, aes(x = res)) +
      labs(title = "Histogramm der Residuen mit Normalverteilungsdichte", x = "Residuen") # Füge eigenen Titel und Achsenbeschriftung hinzu
 ```
 
-```
-## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
-## ℹ Please use `after_stat(density)` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
-```
-
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
 ```r
 # Test auf Abweichung von der Normalverteilung mit dem Shpiro Test
@@ -229,8 +222,8 @@ cor(poly(PISA2009$MotherEdu, 2))
 
 ```
 ##              1            2
-## 1 1.000000e+00 2.412055e-16
-## 2 2.412055e-16 1.000000e+00
+## 1 1.000000e+00 7.025821e-18
+## 2 7.025821e-18 1.000000e+00
 ```
 Heraus kommt eine Korrelationsmatrix und im Eintrag [1,2] erkennen wir, dass die Korrelation nun de facto 0 ist. Was genau `poly` macht, steht in [Appendix A](#AppendixA).
 
@@ -277,7 +270,7 @@ Erzeugt man für das erweiterte Modell Residuenplots, ist der quadratische Trend
 residualPlots(m1.b, pch = 16)
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 ```
 ##                    Test stat Pr(>|Test stat|)
@@ -290,7 +283,7 @@ residualPlots(m1.b, pch = 16)
 Was bedeutet nun dieser Effekt inhaltlich? Um dies genauer zu verstehen, stellen wir die um die anderen Variablen bereinigte Beziehung zwischen dem Bildungsabschluss der Mutter und der Leseleistung grafisch dar. 
 
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 
 Für den Grafik-Code sowie weitere Informationen zu quadaratischen Effekten und Funktionen siehe [Appendix A](#AppendixA). Die Grafik zeigt die vorhergesagte Beziehung zwischen den standardisierten Werten des Bildungsabschlusses der Mutter und der Leseleistung. Hierbei steht erneut `|` für "gegeben" (wie beim Partialplot mit `avPlots` aus der vergangenen Sitzung). Wir sehen also den um die anderen Variablen im Modell bereinigten Effekt zwischen Bildungsabschluss und Leseleistung. Hierbei ist ein starker mittlerer Anstieg der Leseleistung (-1 bis ca. 0.1) für einen Anstieg des Bildungsabschlusses von deutlich unterdurchschnittlich bis durchschnittlich (von -2.5 bis 0) zu sehen. Danach ist die Beziehung zwischen der Leseleistung und dem Bildungsabschluss fast horizontal (Veränderung geringer als 0.1). Das spricht dafür, dass es für einen durchschnittlichen bis überdurchschnittlichen Bildungsabschluss der Mutter (von 0 bis 1.5) kaum eine Beziehung zwischen den Variablen gibt. Dies bedeutet, dass besonders im unterdurchschnittlichen Bereich der mütterlichen Bildung Unterschiede zwischen Müttern einen starken Zusammenhang mit der Leseleistung ihrer Kinder zeigen. Wenn das Bildungsniveau der Mutter jedoch durchschnittlich oder überdurchschnittlich ist, scheint der Zusammenhang beinahe zu verschwinden. 
@@ -305,7 +298,7 @@ curve(linear * x + quadratisch * x^2,
       xlim = c(-2, 2))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 Mit Hilfe von `poly(X, p)` lassen sich Polynome bis zum Grad $p$ (als $X, X^2,\dots,X^{p-1},X^p$) in die Regression aufnehmen, ohne, dass sich die Parameterschätzungen der anderen Potenzen von $X$ ändern. Durch `poly` können also leicht Modelle mit Polynomen zur Potenz 4 und 5 verglichen werden, da die Koeffizienten des linearen ($X=X^1$), des quadratischen ($X^2$), des kubischen ($X^3$), etc. in den Modellen gleich sind. Wenn Sie noch mehr über die Funktion `poly` und ihre Vorteile erfahren möchten, schauen Sie sich gerne [Appendix A](#AppendixA) an. Wenn wir `poly` nicht verwenden wollen würden, sollten wir zumindest die Prädiktoren, für welche wir quadratische Effekte annehmen, zentrieren, also den Mittelwert der Variable von dieser abziehen. Bspw. $X_i-\bar{X}$, was in `R` so aussieht: `X-mean(X)`. Diese Variable würden wir dann an unseren Datensatz anhängen. Dies wird im nächsten Abschnitt zur moderierten Regression gemacht. Hierbei ist zu beachten, dass Standardisierung nichts anderes ist als Zentrierung unter zusätzlicher Setzung der Varianz/Standardbweichung auf 1 pro Variable!
 
@@ -335,15 +328,54 @@ head(Schulleistungen)
 ## 6      0 106.14127 308.7457 602.8577
 ```
 
-
-| female|        IQ|  reading|     math|
-|------:|---------:|--------:|--------:|
-|      1|  81.77950| 449.5884| 451.9832|
-|      1| 106.75898| 544.8495| 589.6540|
-|      0|  99.14033| 331.3466| 509.3267|
-|      1| 111.91499| 531.5384| 560.4300|
-|      1| 116.12682| 604.3759| 659.4524|
-|      0| 106.14127| 308.7457| 602.8577|
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> female </th>
+   <th style="text-align:right;"> IQ </th>
+   <th style="text-align:right;"> reading </th>
+   <th style="text-align:right;"> math </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 81.77950 </td>
+   <td style="text-align:right;"> 449.5884 </td>
+   <td style="text-align:right;"> 451.9832 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 106.75898 </td>
+   <td style="text-align:right;"> 544.8495 </td>
+   <td style="text-align:right;"> 589.6540 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 99.14033 </td>
+   <td style="text-align:right;"> 331.3466 </td>
+   <td style="text-align:right;"> 509.3267 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 111.91499 </td>
+   <td style="text-align:right;"> 531.5384 </td>
+   <td style="text-align:right;"> 560.4300 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 116.12682 </td>
+   <td style="text-align:right;"> 604.3759 </td>
+   <td style="text-align:right;"> 659.4524 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 106.14127 </td>
+   <td style="text-align:right;"> 308.7457 </td>
+   <td style="text-align:right;"> 602.8577 </td>
+  </tr>
+</tbody>
+</table>
 
 Auch bei Interaktionen ist es wichtig, dass die Daten zentriert sind, also einen Mittelwert von 0 aufweisen. Dies hatte im anderen Beispiel oben die Funktion `poly` bewirkt. Das erleichtert die Interpretation und verändert die Korrelation des Interaktionsterms (oben $X_i*Z_i$) mit den Haupteffekten von $X_i$ und $Z_i$. Daher verwenden wir die `scale`-Funktion, um den gesamten Datensatz zu standardisieren (also zu zentrieren und gleich noch die Varianz auf 1 zu setzen) und speichern diesen unter dem Namen `Schulleistungen_std`. Sind die Daten zentriert (haben einen Mittelwert von 0) oder sogar standardisiert (haben einen Mittelwert von 0 **und** eine Varianz/Standardabweichung von 1), dann ist in einem Modell, in dem nur lineare Effekte, quadratische- und Interaktionseffekte vorkommen (also Prädiktoren $X, Z$ und $X^2, XZ, Z^2$, wobei die Parameter vor $X, Z$ lineare Effekte und die Parameter vor $X^2, XZ, Z^2$ quadratische bzw. Interaktionseffekte genannt werden), eine Verrechnung mit `poly` nicht mehr nötig. `poly` bringt nur dann Verbesserungen, wenn bspw. noch kubische Effekte ($X^3$) mit aufgenommen werden sollen. Dies geschieht hier aber nicht, weswegen wir `poly` in diesem Abschnitt nicht brauchen. Lesen Sie gerne eine Gegenüberstellung von `poly` und Zentrierung/Standardisierung in [Appendix A](#AppendixA) nach. 
 
@@ -406,7 +438,7 @@ library(interactions)
 interact_plot(model = mod_reg, pred = IQ, modx = math)
 ```
 
-![](/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](/regression-iv_files/unnamed-chunk-18-1.png)<!-- -->
 
 Uns wird nun ein Plot mit drei Linien ausgegeben. Dieser wird häufig "simple slopes" Plot genannt. Dargestellt sind drei Beziehungen zwischen dem `IQ` und `reading` für unterschiedliche Ausprägungen von `math`. Erstens für einen durchschnittlichen `math`-Wert und zweitens und drittens für Werte, die (1) eine Standardabweichung (SD) oberhalb oder (2) eine Standardabweichung (SD) unterhalb des Mittelwerts liegen. Damit bekommen wir ein Gefühl dafür, wie sehr sich die Beziehung (und damit Interzept und Slope) zwischen der Leseleistung und der Intelligenz verändert für unterschiedliche Ausprägungen der Matheleistung: Für eine durchschnittliche (`Mean`) Ausprägung, eine unter- (`- 1 SD`) und eine überdurchschnittliche (`+ 1 SD`) Ausprägung. Die Signifikanzentscheidung oben zeigte uns, dass diese Unterschiede bedeutsam sind und somit die Matheleistung entscheidend dafür ist, wie genau die Leseleistung mit der Intelligenz zusammenhängt. Die einzelnen Regressionsgeraden lassen sich ebenfalls auf signifikante Unterschiede prüfen. Es kann auch untersucht werden, welche Ausprägungen des Moderators zu unterschiedlichen "bedingten" Regressionsgewichten führen, also ab wann sich Interzept oder Slope des Prädiktors signifikant verändert, wenn sich der Moderator verändert. Inhaltlich wäre eine Post-Hoc (also nach der Analyse entstehende) Interpretation, dass intelligente Kinder, die gut in Mathematik sind, besonders gut lesen können und sich dies auch bereits in den Textaufgaben der Matheaufgaben geäußert haben könnte. Dies ist allerdings eine Interpretation, die mit Vorsicht zu genießen ist. Sie wurde quasi an die Ergebnisse angepasst. Wir wissen allerdings, dass dies ein exploratives Vorgehen ist und dass so nur bedingt wissenschaftliche Erkenntnisse gewonnen werden können Ein besseres Vorgehen wäre, dass wir im Vorhinein Hypothesen aus Theorien ableiten und diese an einem Datensatz prüfen. Außerdem müssten wir, um ganz sicher zu gehen, dass es in der Population eine Interaktion gibt (mit einem Irrtumsniveau von 5%), auch die quadratischen Effekte mit in das Modell aufnehmen! In unserem Beispiel hätten wir die quadratischen Effekte wie folgt aufnehmen können: `reading ~ IQ+math+ I(math^2)+I(IQ*math) +I(IQ^2)`. Die Daten hatten wir zuvor schon zentriert beziehungsweise sogar standardisiert. Hier ist das `I()` als Funktion anzusehen, die auch "as.is" genannt wird, also "so wie es dort steht". Dieser werden arithmetische Funktionen übergeben. Diese überschreibt die Kurzschreibweise `IQ*math= IQ + math + IQ:math`, da das `*` als Multiplikationsoperator interpretiert wird. Wir könnten also auch die beiden Schreibweisen mischend `reading ~ IQ*math + I(math^2) + I(IQ^2)` schreiben.  Hätten wir `I()` nicht verwendet, hätten wir vorher alle Funktionen von Variablen an den Datensatz anhängen müssen.
 
@@ -414,11 +446,11 @@ Interessierte Lesende können sich bei Interesse, welches über diesen Kurs hina
 
 Die folgende Grafik stellt den Sachverhalt noch einmal als 3D Grafik (mit dem Paket `plot3D`) dar (ziemlich cool oder?). In dieser Grafik erkennen wir sehr deutlich, dass die Simple Slopes tatsächlich eine stark vereinfachte Darstellung sind und es tatsächlich unendlich viele bzw. so viele unterschiedliche Beziehungen zwischen Prädiktor (`IQ`) und Kriterium (`reading`) in Abhängigkeit des Moderators (`math`) gibt, wie dieser (`math`) Ausprägungen hat. Der Code zu den Grafiken lässt sich in [Appendix B](#AppendixB) nachlesen.
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
 
 Hier ist die x-Achse ($-links\longleftrightarrow rechts+$) des IQs dargestellt und in die Tiefe ist die Matheleistung (oft z-Achse: ($-vorne\longleftrightarrow hinten+$)). Die y-Achse (im Plot heißt diese blöderweise z-Achse) stellt die Leseleistung dar. ($-unten\longleftrightarrow oben+$). Wir erkennen in dieser Ansicht ein wenig die Simple-Slopes von zuvor, denn die Achse der Matheleistung läuft ins Negative "aus dem Bildschirm hinaus", während sie ins Positive "in den Bildschirm hinein" verläuft. Der nähere Teil der "Hyperebene" weißt eine geringere Beziehung zwischen dem IQ und der Leseleistung auf, während der Teil, der weiter entfernt liegt, eine stärkere Beziehung aufweist. Genau das haben wir auch in den Simple Slopes zuvor gesehen. Dort war für eine hohe Matheleistung die Beziehung zwischen dem IQ und der Leseleistung auch stärker. Wichtig ist, dass in diesem Plot die Beziehung zwischen dem IQ und der Leseleistung für eine fest gewählte Ausprägung der Matheleistung tatsächlich linear verläuft. Es ist also so, dass wir quasi ganz viele Linien aneinander kleben, um diese gewölbte Ebene zu erhalten. Die Ausprägung der Matheleistung ist im nächsten Plot noch besser zu erkennen, in der der Plot etwas gedreht dargestellt wird. Farblich ist außerdem die Ausprägung der Leseleistung dargestellt, damit die Werte leichter zu vergleichen sind. 
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-20-1.png" style="display: block; margin: auto;" />
 
 Diese Plots geben einen noch besseren Eindruck davon, was genau bei einer Interaktion passiert und wie "austauschbar" eigentlich der Moderator oder der Prädiktor sind. Außerdem kann man mit den Überlegungen aus diesem Abschnitt leicht einsehen, dass das quadratische Modell von oben tatsächlich ein Spezialfall dieses moderierten Modells ist, in welchem der Prädiktor mit sich selbst interagiert (sich selbst moderiert). Darüber, wie genau man moderierte Regressionen durchführt, gibt es viel Literatur. Einige Forschende sagen, dass man neben der Interaktion auch immer die quadratischen Effekte mit aufnehmen sollte, um auszuschließen, dass die Interaktion ein Artefakt ist, der nur auf quadratische Effekte zurückzuführen ist. Das stellt eine hervorragenden Übung dar, um sich dies einmal anzusehen! In [Appendix C](#AppendixC) sehen Sie die Simple Slopes sowie die 3D-Grafiken auch noch einmal für das "volle" quadratisch-Interaktionsmodell.
 
@@ -674,7 +706,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~x^2))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
 Wir werden diese Funktion immer als Referenz mit in die Grafiken einzeichnen.
 
 
@@ -689,7 +721,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~0.5*x^2))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
 
 
 ```r
@@ -703,7 +735,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~2*x^2))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -718,7 +750,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~-x^2))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
 
 Diese invers-u-förmige Beziehung ist eine konkave Funktion. Als Eselsbrücke für das Wort *konkav*, welches fast das englische Wort *cave* enthält, können wir uns merken: Eine konkave Funktion stellt eine Art *Höhleneingang* dar.
 
@@ -735,7 +767,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~x^2+1))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
 
 $b$ bewirkt eine horizontale und vertikale Verschiebung, die nicht mehr leicht vorhersehbar ist. Für $f(x)=x^2+x$ lässt sich beispielsweise durch Umformen $f(x)=x^2+x=x(x+1)$ leicht erkennen, dass diese Funktion zwei Nullstellen bei $0$ und $-1$ hat. Somit ist ersichtlich, dass die Funktion nach unten und nach links verschoben ist:
 
@@ -751,7 +783,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~x^2+x))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-29-1.png" style="display: block; margin: auto;" />
 
 Für die genaue Gestalt einer allgemeinen quadratischen Funktion $ax^2 + bx + c$ würden wir die Nullstellen durch das Lösen der Gleichung $ax^2 + bx + c=0$ bestimmen (via *p-q Formel* oder *a-b-c-Formel*). Den Scheitelpunkt würden wir durch das Ableiten und Nullsetzen der Gleichung bestimmen. Wir müssten also $2ax+b=0$ lösen und dies in die Gleichung einsetzen. Wir könnten auch die binomischen Formeln nutzen, um die Funktion in die Gestalt $f(x):=a'(x-b')^2+c'$ oder $f(x):=a'(x-b'_1)(x-b_2')+c'$ zu bekommen, falls die Nullstellen reell sind (also das Gleichungssystem *lösbar* ist), da wir so die Nullstellen ablesen können als $b'$ oder $b_1'$ und $b_2'$, falls $c=0$. Für die Interpretation der Ergebnisse reicht es zu wissen, dass $a$ eine Stauchung bewirkt und entscheind dafür ist, ob die Funktion u-förmig oder invers-u-förmig verläuft.
 
@@ -767,7 +799,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~-0.5*x^2+x+2))
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-30-1.png" style="display: block; margin: auto;" />
 $\longrightarrow$ so ähnlich sieht die bedingte Beziehung (kontrolliert für die weiteren Prädiktoren im Modell) zwischen dem Bildungsabschluss der Mutter und der Leseleistung aus.
 
 </details>
@@ -786,7 +818,7 @@ ggplot(data = data_ME, aes(x = std_ME,  y = pred_effect_ME)) + geom_point(pch = 
           title = "Standardisierte bedingte Beziehung zwischen\n Bildungsabschluss der Mutter und Leseleistung")
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-31-1.png" style="display: block; margin: auto;" />
 
 Wir verwenden `scale`, um die linearen und quadratischen Anteile des Bildungsabschlusses der Mutter zu standardisieren und speichern sie in `X`. Anschließend ist das Interzept der quadratischen Funktion 0 ($c=0$, da wir standardisiert haben). Die zugehörigen standardisierten Koeffizienten sind $b=0.1588$ und $a=-0.1436$, die wir aus der standardisierten `summary` abgelesen haben. Somit wissen wir, dass es sich um eine invers-u-förmige Beziehung handelt (ohne die Grafik zu betrachten). Wir speichern die standardisierten Koeffizienten unter `std_par_ME` ab und verwenden anschließend das Matrixprodukt ` X %*% std_par_ME`, um die vorhergesagten Werte via $y_{std,i}=0.1588 ME - 0.1436ME^2$ zu berechnen. Diese vorhergesagten Werte `pred_effect_ME` plotten wir nun gegen die standardisierten Werte des Bildungsabschlusses der  Mutter `std_ME`, welche in der ersten Spalte von `X` stehen: `X[, 1]`.
 
@@ -848,9 +880,9 @@ cor(poly(A, 2))
 ```
 
 ```
-##             1           2
-## 1 1.00000e+00 1.92988e-17
-## 2 1.92988e-17 1.00000e+00
+##              1            2
+## 1 1.000000e+00 9.847944e-17
+## 2 9.847944e-17 1.000000e+00
 ```
 
 ```r
@@ -1042,7 +1074,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
           main = "Moderierte Regression")
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-38-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-38-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -1055,7 +1087,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
           main = "Moderierte Regression")
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-39-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-39-1.png" style="display: block; margin: auto;" />
 
 Für weitere Informationen zum Umgang mit diesem Plot siehe bspw. hier: [3D Grafiken mit `plot3D` <i class="fas fa-graduation-cap"></i>](http://www.sthda.com/english/wiki/impressive-package-for-3d-and-4d-graph-r-software-and-data-visualization).
 
@@ -1103,7 +1135,7 @@ summary(mod_reg_full)
 interact_plot(model = mod_reg_full, pred = IQ, modx = math, modx.values = c(-3, -1, 0, 1, 3))
 ```
 
-![](/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
+![](/regression-iv_files/unnamed-chunk-40-1.png)<!-- -->
 
 Mit `modx.values = c(-3, -1, 0, 1, 3)` stellen wir hier noch ein, dass wir auch Geraden für $\pm 3 SD$ und $\pm 1 SD$ des Moderators (`math`) sehen wollen. Wir erkennen in der Summary auch, dass im vollen Modell nur noch der `IQ` einen linearen Effekt auf `reading` hat!
 
@@ -1135,7 +1167,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
           main = "Moderierte Regression")
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-41-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-41-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -1148,7 +1180,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
           main = "Moderierte Regression")
 ```
 
-<img src="/lehre/statistik-ii/regression-iv_files/figure-html/unnamed-chunk-42-1.png" style="display: block; margin: auto;" />
+<img src="/regression-iv_files/unnamed-chunk-42-1.png" style="display: block; margin: auto;" />
 
 Auch die 3D-Grafiken sind nicht länger aus "Geraden zusammengesetzt", sondern bestehen aus Parabeln/Kurven! 
 

@@ -9,7 +9,7 @@ subtitle: 'Animierte Grafiken in ggplot'
 summary: '' 
 authors: [schultze] 
 weight: 4
-lastmod: '2024-05-24'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/streetlights_timelapse.jpg"
@@ -71,11 +71,11 @@ Nach dieser kurzen Vorbereitung können wir uns direkt in die Animationen stürz
 
 Nehmen wir für die Frage "Gewinnt der Betrachter bzw. die Betrachterin dabei zusätzliche Information?" mal ein Negativbeispiel:
 
-![](/workshops/ggplotting/gifs/ggplotting_gganimate1.gif)
+![](gifs/ggplotting_gganimate1.gif)
 
 Was wir hier sehen ist die animierte Variante dessen, was wir im [ggplot Intro](/post/ggplotting-intro) als "normalen" Plot erzeugt hatten. Hier werden die Ausgaben für das primäre Bildungssystem im Vergleich der fünf Länder (Vereinigtes Königreich, Frankreich, Italien, Spanien und Polen) über die Jahre zwischen 1998 und 2018 dargestellt. Die Abbildung hat zwar den Vorteil, die Spannung aufrecht zu erhalten, während wir uns wundern wie es wohl weitergeht, aber vergleichen wir diese Abbildung mal mit der ursprünglichen:
 
-![](/workshops/ggplotting/gganimate_files/figure-html/static-linedraw-1.png)<!-- -->
+![](/gganimate_files/static-linedraw-1.png)<!-- -->
 
 Im direkten Vergleich hat sie sogar einen wesentlichen Nachteil: wir haben wenig Gelegenheit, die gesamte Information zu betrachten, wenn wir im Jahr 2018 angekommen sind. Wir können zwar am Ende der Animation durch das 2-sekündige Standbild einen kurzen Überblick erhaschen, aber der Fokus wird vom Ersteller (in diesem Fall mir) auf die Entwicklung gelenkt und lässt kaum eine detaillierte Inspektion der Daten durch die Betrachtenden zu. In Dingen der Aufmerksamkeitslenkung kann diese Abbildung also durchaus nützlich sein. Wenn wir aber das Ziel haben, unsere Information sachlich und transparent zu vermitteln, gewinnen wir durch die Animation in diesem Fall nichts.
 
@@ -101,10 +101,10 @@ subset(edu_exp, Year == 2013) |>
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/gganimate_files/figure-html/og-scatter-1.png)<!-- -->
+![](/gganimate_files/og-scatter-1.png)<!-- -->
 
 Zur Erinnerung: hier werden zuerst die Daten für 2013 mittels `subset()` ausgewählt und dann über die Pipe `|>` an `ggplot()` weitergereicht. Dort verwenden wir die Ausgaben (`Primary`) als x und den Bildungsindex (`Index`) als y. Zusätzlich färben wir die Punkte nach Wohlstandsgruppe des Landes (`Wealth`). Diese Daten stellen wir dann als Punkte dar (`geom_point()`). Mit `labs()` werden unsere drei Ästhetiken dann noch etwas detaillierter beschriftet und mit `ggtitle()` wird noch ein passender Titel hinzugefügt. Zu guter Letzt können wir mit `theme_pandar()` und `scale_color_pandar()` die optische Aufbereitung aufrufen, die wir im letzten Beitrag erstellt haben.
 
@@ -123,10 +123,10 @@ static
 ```
 
 ```
-## Warning: Removed 2789 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 2789 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/gganimate_files/figure-html/static-scatter-1.png)<!-- -->
+![](/gganimate_files/static-scatter-1.png)<!-- -->
 
 Mit faceting könnten wir versuchen das Problem zu lösen, allerdings geht uns dabei die intuitive Darstellung des Zeitverlaufs verloren:
 
@@ -136,10 +136,10 @@ static + facet_wrap(~ Year, scales = 'free')
 ```
 
 ```
-## Warning: Removed 2789 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 2789 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/gganimate_files/figure-html/faceted-scatter-1.png)<!-- -->
+![](/gganimate_files/faceted-scatter-1.png)<!-- -->
 
 Leider sehen wir schon hier, dass die Datenlage für 1997 sehr dünn ist und für das Jahr 2017 aus irgendeinem Grund vor allem die Informationen aus wohlhabenden Ländern fehlen. Daher schließen wir diese beiden Jahre für die Folgenden Animationen zunächst aus:
 
@@ -203,6 +203,10 @@ Für das Laden reicht es aber dann aus, nur `gganimate` aufzurufen, weil der Ren
 library('gganimate')
 ```
 
+```
+## Warning: Paket 'gganimate' wurde unter R Version 4.3.2 erstellt
+```
+
 Weil die Darstellung von Zeitverläufen der häufigste Anwendungsfall für die Animation ist, hat sie in `gganimate` sogar eine eigene Übergangsfunktion: `transistion_time()`. Diese können wir benutzen, um die Übergänge zwischen verschiedenen Zeitpunkten in unseren Daten zu animieren. Den statischen Plot hatten wir oben bereits als `static` abglegt. Die Funktion nimmt natürlich die Zeitvariable als Argument entgegen, anhand derer die Animation betrieben wird:
 
 
@@ -220,7 +224,7 @@ anim_save('step1.gif', animated)
 
 Das Ergebnis dieses Versuchs sollte jetzt so aussehen:
 
-![](/workshops/ggplotting/gifs/ggplotting_gganimate2_step1.gif)
+![](gifs/ggplotting_gganimate2_step1.gif)
 
 ## Animierter Scatterplot: Mehr Versuche
 
@@ -300,7 +304,7 @@ animated <- animate(fluid)
 anim_save('step2.gif', animated)
 ```
 
-![](/workshops/ggplotting/gifs/ggplotting_gganimate2_step2.gif)
+![](gifs/ggplotting_gganimate2_step2.gif)
 
 Auch das wirkt durch das abrupte Erscheinen und Verschwinden von einzelnen Datenpunkten noch sehr unruhig. Um das ein wenig abzuschwächen, können wir die vorhin erwähnten `enter_` und `exit_`-Funktionen nutzen, um die Punkte allmälich ein- und auszublenden. Dazu nutze ich hier die `_fade` Variante der beiden:
 
@@ -317,11 +321,11 @@ Um nicht für jede Vorschau immer die gesamte Animation zu durchlaufen, können 
 plot(fluid, 2)
 ```
 
-![](/workshops/ggplotting/gganimate_files/figure-html/frame-preview1-1.png)<!-- -->
+![](/gganimate_files/frame-preview1-1.png)<!-- -->
 
 Hier sehen wir uns den 2. Frame der Animation an. Per Voreinstellung werden in `gganimate` 100 Frames bei 10 FPS (frames per second) erstellt, sodass die Standard-Animation stets 10 Sekunden lang ist. Wie wir sehen können, erscheinen hier gerade einige Punkte, während manche schon wieder verschwinden. In voller Umsetzung sieht das Ganze dann so aus:
 
-![](/workshops/ggplotting/gifs/ggplotting_gganimate2_step3.gif)
+![](gifs/ggplotting_gganimate2_step3.gif)
 
 ## Feinschliff-Funktionalität
 
@@ -341,7 +345,7 @@ Um von der Preview-Funktionaliät Gebrauch zu machen:
 plot(fluid, 44)
 ```
 
-![](/workshops/ggplotting/gganimate_files/figure-html/frame-preview2-1.png)<!-- -->
+![](/gganimate_files/frame-preview2-1.png)<!-- -->
 
 Wie man sieht, ist es sehr leicht möglich mit solchen Anpassungen die Abbildung "ein wenig" chaotisch werden zu lassen. Aber natürlich variiert das von Situation zu Situation - hier, wie bei allen Dingen in R, lohnt es sich einfach verschiedene Dinge auszuprobieren! Dazu bietet `gganimate` im Wesentlich drei "Schatten" `shadow_mark()`, `shadow_trail()` und das schon gesehene `shadow_wake()`. 
 
@@ -354,7 +358,7 @@ fluid <- static + transition_time(Year) +
   ease_aes('elastic-in')
 ```
 
-![](/workshops/ggplotting/gifs/ggplotting_gganimate2_step3b.gif)
+![](gifs/ggplotting_gganimate2_step3b.gif)
 
 Die dritte Anpassung bezieht sich auf die Achsen. Generell ist es empfehlenswert, global fixierte Achsen zu nutzen, um die Darstellung der Daten vergleichbar zu halten. Nichtsdestotrotz sind sich verändernde Achsen bei manchen Abbildungen sehr beliebt und manchmal auch außerordentlich sinnvoll. Wenn wir z.B. die Entwicklung der Einwohnerzahlen der Länder betrachten würden, wäre es nicht sonderlich hilfreich, für das Jahr 1800 die gleich Skalierung wie für 2020 zu nutzen. Für unseren Plot können wir z.B. Folgendes tun:
 
@@ -367,7 +371,7 @@ fluid <- static + transition_time(Year) +
 
 Dadurch verändern sich während unserer Animation die Ober- und Untergrenzen der dargestellten x- und y-Skalen. Das wirkt besonders in unserem Fall etwas ungünstig, weil sehr extreme Werte nur kurz und vereinzelt auftauchen. Das liegt höchstwahrscheinlich an der Definition der `Primary` Variable, die am GDP relativiert wird und demzufolge bei Wirtschaftskrisen sehr schnell in die Höhe springt.
 
-![](/workshops/ggplotting/gifs/ggplotting_gganimate2_step4.gif)
+![](gifs/ggplotting_gganimate2_step4.gif)
 
 Eine letzte Option, mit der wir den Plot noch verfeinern können, ist mit der Kennzeichnung der aktuellen Situation. Im Verlauf unserer Animation vergehen Jahre, allerdings erfahren wir nirgendwo, welches Jahr wir aktuell sehen. Dazu hat `gganimate` eine eigene Funktionalität: die `transition_`-Funktionen geben alle spezifische Platzhalter aus, die wir in der Animation verwenden können (diese sind in der jeweiligen Hilfe immer unter "Label Variables" gelistet). Für das von uns genutzte `transition_time()` ist dieser Platzhalter `frame_time`, in dem die aktuelle Ausprägung der Variable hinterlegt wird, die wir als Zeitvariable genutzt haben. Diese können wir benutzen, um z.B. im Verlauf der Animation den Titel oder andere Beschriftungen anzupassen. In unserem Fall bietet es sich an, den Untertitel mit der Jahreszahl zu versehen. Dafür können wir wieder `ggplot`-Elemente hinzufügen. In diesem Fall überschreiben wir mit dem neuen `ggtitle()` den Titel, den wir bereits in `static` definiert hatten:
 
@@ -380,7 +384,7 @@ fluid <- static + transition_time(Year) +
 
 Nach der Animation durch `animate()` sieht diese Abbildung dann so aus:
 
-![](/workshops/ggplotting/gifs/ggplotting_gganimate2_step5.gif)
+![](gifs/ggplotting_gganimate2_step5.gif)
 
 
 ## Animations-Optionen
@@ -413,7 +417,7 @@ animated <- animate(fluid,
 
 So ermöglicht die Animation jetzt, sich erst einen Eindruck von dem zu machen, was man im Jahr 1998 vorfindet und abschließend die Lage in 2017 zu beurteilen:
 
-![](/workshops/ggplotting/gifs/ggplotting_gganimate2_step6.gif)
+![](gifs/ggplotting_gganimate2_step6.gif)
 
 ## Bar Chart Races
 
@@ -434,17 +438,28 @@ subset(edu_exp, Index_Rank < 11 & Year == 1997)
 ```
 
 ```
-##      geo     Country Wealth   Region Year Population Expectancy   Income  Primary Secondary Tertiary Index Index_Rank
-## 177  aus   Australia   High     asia 1997   18410250       78.9 41463.65       NA        NA       NA  0.94          1
-## 265  bel     Belgium   High   europe 1997   10154872       77.3 32804.36       NA        NA       NA  0.83          9
-## 639  can      Canada   High americas 1997   29882752       78.7 33861.15       NA        NA       NA  0.85          4
-## 969  deu     Germany   High   europe 1997   81436087       77.3 32313.30       NA        NA       NA  0.84          6
-## 1035 dnk     Denmark   High   europe 1997    5277382       76.2 45570.08       NA        NA       NA  0.83         10
-## 2843 nld Netherlands   High   europe 1997   15629905       78.0 36032.04       NA        NA       NA  0.85          5
-## 2865 nor      Norway   High   europe 1997    4405333       78.2 63882.48 37.94443  18.13375 46.01137  0.84          7
-## 2931 nzl New Zealand   High     asia 1997    3775852       77.4 28764.40 17.44218  21.57709       NA  0.88          2
-## 3635 swe      Sweden   High   europe 1997    8807869       79.3 36197.63       NA        NA       NA  0.84          8
-## 4075 usa         USA   High americas 1997  272395438       76.8 44267.91       NA        NA       NA  0.87          3
+##      geo     Country Wealth   Region Year Population Expectancy   Income  Primary Secondary Tertiary
+## 177  aus   Australia   High     asia 1997   18410250       78.9 41463.65       NA        NA       NA
+## 265  bel     Belgium   High   europe 1997   10154872       77.3 32804.36       NA        NA       NA
+## 639  can      Canada   High americas 1997   29882752       78.7 33861.15       NA        NA       NA
+## 969  deu     Germany   High   europe 1997   81436087       77.3 32313.30       NA        NA       NA
+## 1035 dnk     Denmark   High   europe 1997    5277382       76.2 45570.08       NA        NA       NA
+## 2843 nld Netherlands   High   europe 1997   15629905       78.0 36032.04       NA        NA       NA
+## 2865 nor      Norway   High   europe 1997    4405333       78.2 63882.48 37.94443  18.13375 46.01137
+## 2931 nzl New Zealand   High     asia 1997    3775852       77.4 28764.40 17.44218  21.57709       NA
+## 3635 swe      Sweden   High   europe 1997    8807869       79.3 36197.63       NA        NA       NA
+## 4075 usa         USA   High americas 1997  272395438       76.8 44267.91       NA        NA       NA
+##      Index Index_Rank
+## 177   0.94          1
+## 265   0.83          9
+## 639   0.85          4
+## 969   0.84          6
+## 1035  0.83         10
+## 2843  0.85          5
+## 2865  0.84          7
+## 2931  0.88          2
+## 3635  0.84          8
+## 4075  0.87          3
 ```
 
 Damit wir unserer Abbildung auch die Information aus den Farben nicht ungenutzt lassen, können wir in dieser die Regionen kodieren. Dafür müssen wir diese, wie schon mit `Wealth` passiert, in einen schön gelabelten `factor` umwandeln:
@@ -517,7 +532,7 @@ Das Balkendiagramm mit sich überlagenden Daten für alle Jahre sieht vorhersehb
 static + facet_wrap(~ Year, scales = 'free')
 ```
 
-![](/workshops/ggplotting/gganimate_files/figure-html/static-barchartrace-1.png)<!-- -->
+![](/gganimate_files/static-barchartrace-1.png)<!-- -->
 
 Anders als im letzten Beispiel nutzen wir nicht `transition_time()`, um unsere Animation zu betreiben, sondern stattdessen `transition_states()`. Das liegt daran, dass unsere Abbildung nicht Verläufe von Datenpunkten abbildet, sondern zwischen distinkten Zuständen wechselt. Diese Funktion erlaubt uns außerdem festzulegen, wie lange in einem Zustand (bei uns das Jahr) verweilt werden soll (`state_length`), im Verhältnis zu der Animation der Übergänge (`transition_length`). Damit die Übergänge flüssig aussehen, verwende ich hier ein Verhältnis von 1 zu 30. Außerdem können wir über `wrap = FALSE` festlegen, dass die Animation nicht am Ende versuchen soll in den Ausgangszustand zurückzukehren.
 
@@ -559,7 +574,7 @@ Wenn wir uns jetzt z.B. den 12. Frame der Animation ansehen, ergibt sich folgend
 plot(fluid, 12)
 ```
 
-![](/workshops/ggplotting/gganimate_files/figure-html/frame-barchartrace-1.png)<!-- -->
+![](/gganimate_files/frame-barchartrace-1.png)<!-- -->
 
 Soweit, so gut. Diese Grafik können wir wieder an `animate()` übergeben. Weil die Animation der ein- und austretenden Balken und der Positionswechsel möglichst flüssig aussehen sollen, erhöhe in diesem Fall die FPS auf 20. Außerdem füge ich am Ende 1 Sekunde Pause ein und verlängere die Gesamtanimationsdauer auf 15 Sekunden, damit die Animation nicht zu hektisch wird:
 
@@ -572,7 +587,7 @@ animated <- animate(fluid,
 
 Abschließend sieht die Animation so aus:
 
-![](/workshops/ggplotting/gifs/ggplotting_gganimate3.gif)
+![](gifs/ggplotting_gganimate3.gif)
 
 ***
 

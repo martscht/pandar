@@ -1,6 +1,6 @@
 ## load('fairplayer.rda')
 
-load(url("https://pandar.netlify.com/daten/fairplayer.rda"))
+load(url("https://pandar.netlify.app/daten/fairplayer.rda"))
 
 # Namen der Variablen abfragen
 names(fairplayer)

@@ -9,7 +9,7 @@ subtitle: 'Die Kunst des Zusammenfassens von Studien und das `metafor`-Paket'
 summary: '' 
 authors: [irmer]
 weight: 1
-lastmod: '2024-05-12'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/galaxy_centered.jpg"
@@ -107,26 +107,16 @@ dat.mcdaniel1994$ri
 ```
 
 ```
-##   [1]  0.00  0.06  0.36  0.15  0.14  0.06  0.09  0.40
-##   [9]  0.39  0.14  0.36  0.28  0.62  0.07  0.18  0.42
-##  [17]  0.08  0.18  0.43  0.04 -0.04  0.05 -0.14  0.05
-##  [25]  0.35 -0.08  0.24  0.16  0.25  0.68  0.61  0.81
-##  [33]  0.99  0.66  0.45  0.71  0.27 -0.02  0.29  0.13
-##  [41]  0.03  0.00  0.09 -0.03  0.46  0.30  0.33  0.24
-##  [49]  0.64  0.12  0.15  0.44  0.00  0.16  0.21  0.29
-##  [57]  0.19  0.04  0.56  0.14  0.44  0.36  0.34  0.11
-##  [65]  0.40  0.23  0.22  0.44  0.27  0.11  0.27 -0.07
-##  [73]  0.32  0.05  0.20  0.18  0.34  0.03  0.45  0.34
-##  [81]  0.51  0.41  0.37  0.25 -0.17  0.47  0.32 -0.09
-##  [89]  0.33  0.22  0.27  0.00  0.41  0.16  0.00  0.03
-##  [97]  0.01  0.03  0.14  0.11  0.08 -0.13  0.13  0.36
-## [105]  0.06  0.19  0.27  0.17  0.34  0.28  0.11  0.07
-## [113] -0.13  0.12  0.12  0.37  0.26  0.42  0.37  0.17
-## [121]  0.19  0.32  0.33  0.24  0.09  0.36  0.26  0.42
-## [129]  0.62  0.87 -0.07  0.65  0.17  0.30  0.45  0.24
-## [137]  0.02  0.23  0.17  0.32  0.36  0.09  0.13  0.29
-## [145]  0.49  0.40  0.23  0.31  0.46 -0.12  0.22  0.59
-## [153]  0.21  0.02 -0.03  0.28 -0.04  0.19  0.23  0.30
+##   [1]  0.00  0.06  0.36  0.15  0.14  0.06  0.09  0.40  0.39  0.14  0.36  0.28  0.62  0.07  0.18  0.42
+##  [17]  0.08  0.18  0.43  0.04 -0.04  0.05 -0.14  0.05  0.35 -0.08  0.24  0.16  0.25  0.68  0.61  0.81
+##  [33]  0.99  0.66  0.45  0.71  0.27 -0.02  0.29  0.13  0.03  0.00  0.09 -0.03  0.46  0.30  0.33  0.24
+##  [49]  0.64  0.12  0.15  0.44  0.00  0.16  0.21  0.29  0.19  0.04  0.56  0.14  0.44  0.36  0.34  0.11
+##  [65]  0.40  0.23  0.22  0.44  0.27  0.11  0.27 -0.07  0.32  0.05  0.20  0.18  0.34  0.03  0.45  0.34
+##  [81]  0.51  0.41  0.37  0.25 -0.17  0.47  0.32 -0.09  0.33  0.22  0.27  0.00  0.41  0.16  0.00  0.03
+##  [97]  0.01  0.03  0.14  0.11  0.08 -0.13  0.13  0.36  0.06  0.19  0.27  0.17  0.34  0.28  0.11  0.07
+## [113] -0.13  0.12  0.12  0.37  0.26  0.42  0.37  0.17  0.19  0.32  0.33  0.24  0.09  0.36  0.26  0.42
+## [129]  0.62  0.87 -0.07  0.65  0.17  0.30  0.45  0.24  0.02  0.23  0.17  0.32  0.36  0.09  0.13  0.29
+## [145]  0.49  0.40  0.23  0.31  0.46 -0.12  0.22  0.59  0.21  0.02 -0.03  0.28 -0.04  0.19  0.23  0.30
 ```
 
 Die Variable heißt hier `ri`, da auch im zugehörigen Paper von Viechtbauer (2010) die Korrelation für die $i$-te Studie mit $r_i$ bezeichnet wird. Insgesamt gibt es 160 Studien (und somit Korrelationskoeffizienten) in diesem Datensatz. Einen Überblick über solch einen Wust von Daten in diesem Vektor erhalten wir mit der `R`-internen `summary` Funktion.
@@ -147,7 +137,7 @@ Die Korrelationskoeffizienten liegen also zwischen -0.17 und 0.99. Auch ein Mitt
 
 Wir wollen uns die Daten zunächst noch etwas genauer ansehen. Plotten wir zunächst die Korrelationskoeffizienten.
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 Aus dieser Grafik lässt sich noch nicht so viel erkennen, vielleicht wäre ein Boxplot sinnvoller?
 
@@ -156,7 +146,7 @@ Aus dieser Grafik lässt sich noch nicht so viel erkennen, vielleicht wäre ein 
 boxplot(dat.mcdaniel1994$ri, main = "Empirische Korrelationen zwischen\n Interview Performanz und Job-Performanz")
 ```
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -164,7 +154,7 @@ Wir sehen, dass die meisten Korrelationen zwischen  -0.17 und 0.71 liegen. 50% d
 
 Wir wollen uns außerdem die Unterschiedlichkeit der Korrelationskoeffizienten als Darstellung der verschiedenen Einfach-Regressionen von Job-Performanz auf die Interview-Performanz anschauen. Hierzu plotten wir quasi eine standardisierte Regressionsgerade ($\beta_0=0$ und $\beta_1=r_i$, wobei $r_i:=$ Korrelationskoeffizient von Studie $i$) pro Studie. Um den zu Grunde liegenden Code anzusehen, können Sie [Appendix A](#AppendixA) nachschlagen.
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 In diese Grafik würden wir gerne eine durchschnittliche Regressionsgerade hineinlegen.
 
@@ -254,7 +244,7 @@ plot(x = data_transformed$ri, y = data_transformed$z_ri, xlab = "r", ylab = "z",
      main = "Fisher's z-Transformation")
 ```
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
 
 Der Grafik ist zu entnehmen, dass nach Transformation Korrelationswerte nahe 1 stärker gewichtet werden (sie haben größere $z$-Ausprägungen). Dies war das Ziel, da es deutlich unwahrscheinlicher ist, in einer Studie einen Korrelationskoeffizient von .90 zu finden als einen von .20 und die Korrelation von .90 somit stärker ins Gewicht fallen sollte.
 Vor allem, wenn wir den mittleren Korrelationskoeffizienten gegen 0 testen wollen, sollte berücksichtigt werden, dass einige Korrelationskoeffizienten nahe 1 lagen. Sollten diese Werte aufgrund zufälliger Schwankungen gefunden worden sein, so sollte dies daran liegen, dass der Standardfehler groß, also die Stichprobengröße klein ist, da Standardfehler der Korrelation antiproportional zur Stichprobengröße ist (da $=\left(\frac{1}{\sqrt{n_i-3}}\right)$). Somit können wir auch solche Stichproben weniger stark gewichten, die zwar einen hohen Korrelationskoeffizienten aufweisen, aber eine sehr kleine Stichprobe haben, da in solchen Fällen eine hohe Korrelation auch mal durch Zufall auftreten kann! Nach unseren Berechnungen können wir die Transformation natürlich auch wieder ganz leicht rückgängig machen (natürlich gibt es hier auch wieder eine Funktion die dies für uns übernimmt, welche wir uns anschauen, wenn es soweit ist):
@@ -325,30 +315,18 @@ names(REM)
 ```
 
 ```
-##  [1] "b"            "beta"         "se"          
-##  [4] "zval"         "pval"         "ci.lb"       
-##  [7] "ci.ub"        "vb"           "tau2"        
-## [10] "se.tau2"      "tau2.fix"     "tau2.f"      
-## [13] "I2"           "H2"           "R2"          
-## [16] "vt"           "QE"           "QEp"         
-## [19] "QM"           "QMdf"         "QMp"         
-## [22] "k"            "k.f"          "k.eff"       
-## [25] "k.all"        "p"            "p.eff"       
-## [28] "parms"        "int.only"     "int.incl"    
-## [31] "intercept"    "allvipos"     "coef.na"     
-## [34] "yi"           "vi"           "X"           
-## [37] "weights"      "yi.f"         "vi.f"        
-## [40] "X.f"          "weights.f"    "M"           
-## [43] "outdat.f"     "ni"           "ni.f"        
-## [46] "ids"          "not.na"       "subset"      
-## [49] "slab"         "slab.null"    "measure"     
-## [52] "method"       "model"        "weighted"    
-## [55] "test"         "dfs"          "ddf"         
-## [58] "s2w"          "btt"          "m"           
-## [61] "digits"       "level"        "control"     
-## [64] "verbose"      "add"          "to"          
-## [67] "drop00"       "fit.stats"    "data"        
-## [70] "formula.yi"   "formula.mods" "version"     
+##  [1] "b"            "beta"         "se"           "zval"         "pval"         "ci.lb"       
+##  [7] "ci.ub"        "vb"           "tau2"         "se.tau2"      "tau2.fix"     "tau2.f"      
+## [13] "I2"           "H2"           "R2"           "vt"           "QE"           "QEp"         
+## [19] "QM"           "QMdf"         "QMp"          "k"            "k.f"          "k.eff"       
+## [25] "k.all"        "p"            "p.eff"        "parms"        "int.only"     "int.incl"    
+## [31] "intercept"    "allvipos"     "coef.na"      "yi"           "vi"           "X"           
+## [37] "weights"      "yi.f"         "vi.f"         "X.f"          "weights.f"    "M"           
+## [43] "outdat.f"     "ni"           "ni.f"         "ids"          "not.na"       "subset"      
+## [49] "slab"         "slab.null"    "measure"      "method"       "model"        "weighted"    
+## [55] "test"         "dfs"          "ddf"          "s2w"          "btt"          "m"           
+## [61] "digits"       "level"        "control"      "verbose"      "add"          "to"          
+## [67] "drop00"       "fit.stats"    "data"         "formula.yi"   "formula.mods" "version"     
 ## [73] "call"         "time"
 ```
 
@@ -396,10 +374,8 @@ names(pred_REM)
 ```
 
 ```
-##  [1] "pred"      "se"        "ci.lb"     "ci.ub"    
-##  [5] "pi.lb"     "pi.ub"     "cr.lb"     "cr.ub"    
-##  [9] "slab"      "digits"    "method"    "transf"   
-## [13] "pred.type"
+##  [1] "pred"      "se"        "ci.lb"     "ci.ub"     "pi.lb"     "pi.ub"     "cr.lb"     "cr.ub"    
+##  [9] "slab"      "digits"    "method"    "transf"    "pred.type"
 ```
 
 ```r
@@ -415,7 +391,7 @@ Wir sehen, dass der mittlere $z$-Wert sich kaum vom mittleren Korrelationskoeffi
 ### Finales Ergebnis des Random Effects Modells
 Schauen wir uns die Ergebnisse nun grafisch an:
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
 Es scheint wohl eine Beziehung zwischen Einstellungsinterviews und Job-Performanz zu geben. Allerdings ist diese Beziehung mit einer Korrelation von 0.233 nicht sehr stark; lediglich 5.43% der Variation an der Job-Performanz können durch die Interview-Performanz vorhergesagt werden. Das Credibility-Intervall zeigt an, in welchem Bereich ca. 80% der beobachteten Werte liegen.
 
@@ -428,7 +404,7 @@ Das `metafor` Paket bietet außerdem noch einige grafischen Veranschaulichungen 
 funnel(REM)
 ```
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
 
 Der Grafik ist zu entnehmen, dass im positiven Bereich mehr Studien zu finden sind. Dies könnte Indizien auf einen Publication Bias zeigen. Außerdem gibt es wenige Studien mit sehr großen Standardfehlern (und damit geringen Stichprobengrößen). Jedoch ist es wenig verwunderlich, dass es mehr Studien gibt, in welchen es eine Beziehung zwischen Interview und Job-Performanz gibt, da die Interviews zum Teil nach diesem Kriterium durchgeführt wurden und eine gewissen Augenscheinvalidität von Einstellungsinterviews (im Idealfall) besteht.
 
@@ -439,7 +415,7 @@ Auch Forest-Plots funktionieren auf die gleiche Weise mit der `forest` Funktion.
 forest(REM, xlim = c(-1, 2))
 ```
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
 
 Die Anzahl der Studien ist hierbei so enorm, dass wir die Achsenbeschriftungen nicht mehr lesen können. Mit `xlim = c(-1, 2)` legen wir das Minimum und das Maximum auf der x-Achse fest (dies machen wir, um Forest-Plots vergleichen zu können). Auch ein kumulativer Forest-Plot wäre möglich. Dazu müssen wir auf unser `REM`-Objekt noch die Funktion `cumul.rma.uni` anwenden:
 
@@ -449,7 +425,7 @@ Die Anzahl der Studien ist hierbei so enorm, dass wir die Achsenbeschriftungen n
 forest(cumul.rma.uni(REM), xlim = c(-1, 2))
 ```
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-24-1.png" style="display: block; margin: auto;" />
 
 Die Funktion `cumul.rma.uni` führt skuzessive immer wieder eine Meta-Analyse durch, wobei nach und nach eine Studie hinzugefügt wird. Anders als beim ersten Forest-Plot wird immer das Ergebnis der jeweiligen Meta-Analyse dargestellt und nicht jede Studie einzeln. Wir sehen, dass sich sowohl mittlerer $z$-Wert als auch Streuung von oben nach unten einpendeln. Das finale Ergebnis ist identisch mit unsere Meta-Analyse. Die gestrichelte Linie der Forest-Plots symbolisiert die 0, da in den meisten Fällen gegen 0 getestet wird und es daher von Interesse ist, wie viele Studien sich von 0 unterscheiden und ob sich der mittlere Effekt von 0 unterscheidet. Um die Beschriftungen des Forest-Plot einmal genauer zu sehen, führen wir eine Meta-Analyse nur über die ersten 20 Studien durch:
 
@@ -460,14 +436,14 @@ REM20 <- rma(yi = z_ri, vi = v_ri, data=data_transformed[1:20, ]) # wähle Studi
 forest(REM20, xlim = c(-1, 2))
 ```
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-25-1.png" style="display: block; margin: auto;" />
 
 ```r
 # kumulativer Forest Plot
 forest(cumul.rma.uni(REM20), xlim = c(-1, 2))
 ```
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-25-2.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-25-2.png" style="display: block; margin: auto;" />
 Wir sehen, dass auch hier der durchschnittliche Wert nicht weit von unserem finalen Durchschnitt entfernt liegt. Die kleine Raute in der letzten Zeile des normalen Forest-Plots symbolisiert den durchschnittlichen Wert und dessen Streuung.
 
 ### Mixed Effects Modelle
@@ -483,20 +459,13 @@ data_transformed$type
 ```
 
 ```
-##   [1] "j" "p" "j" "j" "j" "j" "j" "j" "s" "s" "s" "j"
-##  [13] "j" "j" "j" "j" "j" "p" "j" "j" "p" "p" "p" "j"
-##  [25] "j" "p" "p" "p" "j" "j" "j" "j" "j" "j" "j" "j"
-##  [37] "j" "j" "j" "j" "j" "j" "j" "j" "s" "s" "s" "p"
-##  [49] "j" "j" "j" "j" "j" "j" "p" "j" "j" "j" "j" "j"
-##  [61] "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j"
-##  [73] "j" "j" "j" "j" "j" "j" "s" "j" "j" "s" "s" "s"
-##  [85] "j" "j" "j" "s" "j" "j" "s" "j" "j" "j" "j" "j"
-##  [97] "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j"
-## [109] "j" "s" "j" "j" NA  "j" "j" "j" "p" "j" "j" "j"
-## [121] "j" "s" NA  "j" NA  "j" "s" "j" "j" "j" "j" "j"
-## [133] "j" "j" "s" "p" "p" "j" "j" "j" "j" "p" "j" "j"
-## [145] "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j"
-## [157] "j" "j" "j" "j"
+##   [1] "j" "p" "j" "j" "j" "j" "j" "j" "s" "s" "s" "j" "j" "j" "j" "j" "j" "p" "j" "j" "p" "p" "p" "j"
+##  [25] "j" "p" "p" "p" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "s" "s" "s" "p"
+##  [49] "j" "j" "j" "j" "j" "j" "p" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j"
+##  [73] "j" "j" "j" "j" "j" "j" "s" "j" "j" "s" "s" "s" "j" "j" "j" "s" "j" "j" "s" "j" "j" "j" "j" "j"
+##  [97] "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "s" "j" "j" NA  "j" "j" "j" "p" "j" "j" "j"
+## [121] "j" "s" NA  "j" NA  "j" "s" "j" "j" "j" "j" "j" "j" "j" "s" "p" "p" "j" "j" "j" "j" "p" "j" "j"
+## [145] "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j" "j"
 ```
 
 ```r
@@ -504,20 +473,27 @@ plot(z_ri ~ factor(type), data=data_transformed, col = c("blue", "gold3", "red")
      ylab = "z-transformierte Korrelation", main = "z-transformierte Korrelation pro Interviewtyp")
 ```
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
 ```r
 plot(ri ~ factor(type), data=data_transformed, col = c("blue", "gold3", "red"), xlab = "Interviewtyp",
      ylab = "Korrelation", main = "Korrelation pro Interviewtyp")
 ```
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-26-2.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-26-2.png" style="display: block; margin: auto;" />
 
 Ein Mixed Effects Model (MEM) können wir wieder mit der `rma` Funktion schätzen. Wir müssen lediglich dem Argument `mods = ~ factor(type)` die Namen der Moderatorvariablen übergeben. Die Tilde gibt an, dass es sich hier um eine regressive Beziehung handelt. `factor` gibt an, dass es sich um eine kategoriale Variable mit Abstufungen handelt und dass die Werte eine Gruppenzugehörigkeit symbolisieren sollen (auch falls `type` aus Zahlen bestehen würde). Wollen wir kontinuierliche (und nicht kategoriale) Prädiktoren als Moderatoren verwenden, so können wir `factor` weglassen (dazu müssen allerdings die Daten im richtigen Format vorliegen, also intervallskaliert sein: bspw. Alter, Zustimmung auf einer Likert-Skala mit hinreichend vielen Ausprägungen oder das Einkommen, etc.).
 
 
 ```r
 MEM_type <- rma(yi = z_ri, vi = v_ri, mods = ~ factor(type), data = data_transformed)
+```
+
+```
+## Warning: 3 studies with NAs omitted from model fitting.
+```
+
+```r
 MEM_type
 ```
 
@@ -539,14 +515,10 @@ MEM_type
 ## 
 ## Model Results:
 ## 
-##                estimate      se     zval    pval 
-## intrcpt          0.2474  0.0187  13.2089  <.0001 
-## factor(type)p   -0.1228  0.0582  -2.1115  0.0347 
-## factor(type)s    0.0573  0.0598   0.9587  0.3377 
-##                  ci.lb    ci.ub      
-## intrcpt         0.2107   0.2841  *** 
-## factor(type)p  -0.2368  -0.0088    * 
-## factor(type)s  -0.0599   0.1745      
+##                estimate      se     zval    pval    ci.lb    ci.ub      
+## intrcpt          0.2474  0.0187  13.2089  <.0001   0.2107   0.2841  *** 
+## factor(type)p   -0.1228  0.0582  -2.1115  0.0347  -0.2368  -0.0088    * 
+## factor(type)s    0.0573  0.0598   0.9587  0.3377  -0.0599   0.1745      
 ## 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -578,26 +550,16 @@ is.na(data_transformed$type)        # fehlt ein Wert = TRUE
 ```
 
 ```
-##   [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##   [9] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [17] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [25] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [33] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [41] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [49] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [57] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [65] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [73] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [81] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [89] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [97] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [105] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [113]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [121] FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE
-## [129] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [137] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [145] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [153] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##   [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [17] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [33] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [49] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [65] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [81] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [97] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [113]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE
+## [129] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [145] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ```
 
 ```r
@@ -682,12 +644,9 @@ anova(REM_reduced_type_ML, MEM_type_ML)
 
 ```
 ## 
-##         df      AIC     BIC     AICc logLik    LRT 
-## Full     4 -11.0523  1.1727 -10.7892 9.5262        
-## Reduced  2  -9.1793 -3.0668  -9.1014 6.5896 5.8730 
-##           pval       QE  tau^2     R^2 
-## Full           738.4411 0.0274         
-## Reduced 0.0530 747.1489 0.0285 3.8338%
+##         df      AIC     BIC     AICc logLik    LRT   pval       QE  tau^2     R^2 
+## Full     4 -11.0523  1.1727 -10.7892 9.5262               738.4411 0.0274         
+## Reduced  2  -9.1793 -3.0668  -9.1014 6.5896 5.8730 0.0530 747.1489 0.0285 3.8338%
 ```
 
 Unter `LRT` erkennen wir die Log-Likelihood-Differenz, welche die Loglikelihoods verechnet, welche wir unter `logLik` ablesen können (es gilt: $LRT = -2*(LL_{\text{Reduced}}-LL_{\text{Full}}) = -2*(6.589-9.526)=5.873$). Der angegeben p-Wert des Modellvergleichs liegt bei 0.053 und zeigt somit keine signifikante Reduktion der Heterogenitätsvarianz durch den Moderator Interviewtyp an (dies ist im Übrigen fast identisch zum p-Wert des Omnibustest, der durch das Objekt `MEM_type_ML` selbst ausgegeben würde). 
@@ -715,14 +674,10 @@ MEM_type_ML
 ## 
 ## Model Results:
 ## 
-##                estimate      se     zval    pval 
-## intrcpt          0.2472  0.0185  13.3381  <.0001 
-## factor(type)p   -0.1223  0.0576  -2.1253  0.0336 
-## factor(type)s    0.0572  0.0592   0.9658  0.3341 
-##                  ci.lb    ci.ub      
-## intrcpt         0.2109   0.2836  *** 
-## factor(type)p  -0.2352  -0.0095    * 
-## factor(type)s  -0.0589   0.1733      
+##                estimate      se     zval    pval    ci.lb    ci.ub      
+## intrcpt          0.2472  0.0185  13.3381  <.0001   0.2109   0.2836  *** 
+## factor(type)p   -0.1223  0.0576  -2.1253  0.0336  -0.2352  -0.0095    * 
+## factor(type)s    0.0572  0.0592   0.9658  0.3341  -0.0589   0.1733      
 ## 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -748,7 +703,7 @@ for(i in 1:length(dat.mcdaniel1994$ri))
 }
 ```
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-37-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -768,7 +723,7 @@ legend(x = "bottomright", col = c("black", "blue", "gold3", "grey60"), pch = NA,
        legend = c("Mittlere Korr.", "95% KI-Korr.", "Credibility Interval", "Emp. Korr.")) # Legende für Farbzuordnung
 ```
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-38-1.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-38-1.png" style="display: block; margin: auto;" />
 
 </details>
 
@@ -786,20 +741,20 @@ head(dat.bangertdrowns2004)
 
 ```
 ## 
-##   id   author year grade length minutes wic feedback 
-## 1  1 Ashworth 1992     4     15      NA   1        1 
-## 2  2    Ayers 1993     2     10      NA   1       NA 
-## 3  3   Baisch 1990     2      2      NA   1        0 
-## 4  4    Baker 1994     4      9      10   1        1 
-## 5  5   Bauman 1992     1     14      10   1        1 
-## 6  6   Becker 1996     4      1      20   1        0 
-##   info pers imag meta       subject  ni     yi    vi 
-## 1    1    1    0    1       Nursing  60  0.650 0.070 
-## 2    1    1    1    0 Earth Science  34 -0.750 0.126 
-## 3    1    1    0    1          Math  95 -0.210 0.042 
-## 4    1    0    0    0       Algebra 209 -0.040 0.019 
-## 5    1    1    0    1          Math 182  0.230 0.022 
-## 6    0    1    0    0    Literature 462  0.030 0.009
+##   id   author year grade length minutes wic feedback info pers imag meta       subject  ni     yi 
+## 1  1 Ashworth 1992     4     15      NA   1        1    1    1    0    1       Nursing  60  0.650 
+## 2  2    Ayers 1993     2     10      NA   1       NA    1    1    1    0 Earth Science  34 -0.750 
+## 3  3   Baisch 1990     2      2      NA   1        0    1    1    0    1          Math  95 -0.210 
+## 4  4    Baker 1994     4      9      10   1        1    1    0    0    0       Algebra 209 -0.040 
+## 5  5   Bauman 1992     1     14      10   1        1    1    1    0    1          Math 182  0.230 
+## 6  6   Becker 1996     4      1      20   1        0    0    1    0    0    Literature 462  0.030 
+##      vi 
+## 1 0.070 
+## 2 0.126 
+## 3 0.042 
+## 4 0.019 
+## 5 0.022 
+## 6 0.009
 ```
 
 ```r
@@ -807,19 +762,14 @@ dat.bangertdrowns2004$yi # std. Mittelwertsdiff.
 ```
 
 ```
-##  [1]  0.65 -0.75 -0.21 -0.04  0.23  0.03  0.26  0.06
-##  [9]  0.06  0.12  0.77  0.00  0.52  0.54  0.20  0.20
-## [17] -0.16  0.42  0.60  0.51  0.58  0.54  0.09  0.37
-## [25] -0.01 -0.13  0.18  0.27 -0.02  0.33  0.59  0.84
-## [33] -0.32  0.12  1.12 -0.12 -0.44 -0.07  0.70  0.49
-## [41]  0.20  0.58  0.15  0.63  0.04  1.46  0.04  0.25
+##  [1]  0.65 -0.75 -0.21 -0.04  0.23  0.03  0.26  0.06  0.06  0.12  0.77  0.00  0.52  0.54  0.20  0.20
+## [17] -0.16  0.42  0.60  0.51  0.58  0.54  0.09  0.37 -0.01 -0.13  0.18  0.27 -0.02  0.33  0.59  0.84
+## [33] -0.32  0.12  1.12 -0.12 -0.44 -0.07  0.70  0.49  0.20  0.58  0.15  0.63  0.04  1.46  0.04  0.25
 ## attr(,"measure")
 ## [1] "SMD"
 ## attr(,"ni")
-##  [1]  60  34  95 209 182 462  38 542  99  77  40 190
-## [13] 113  50  47  44  24  78  46  64  57  68  40  68
-## [25]  48 107  58 225 446  77 243  39  67  91  36 177
-## [37]  20 120  16 105 195  62 289  25 250  51  46  56
+##  [1]  60  34  95 209 182 462  38 542  99  77  40 190 113  50  47  44  24  78  46  64  57  68  40  68
+## [25]  48 107  58 225 446  77 243  39  67  91  36 177  20 120  16 105 195  62 289  25 250  51  46  56
 ```
 
 ```r
@@ -827,10 +777,8 @@ dat.bangertdrowns2004$ni # n
 ```
 
 ```
-##  [1]  60  34  95 209 182 462  38 542  99  77  40 190
-## [13] 113  50  47  44  24  78  46  64  57  68  40  68
-## [25]  48 107  58 225 446  77 243  39  67  91  36 177
-## [37]  20 120  16 105 195  62 289  25 250  51  46  56
+##  [1]  60  34  95 209 182 462  38 542  99  77  40 190 113  50  47  44  24  78  46  64  57  68  40  68
+## [25]  48 107  58 225 446  77 243  39  67  91  36 177  20 120  16 105 195  62 289  25 250  51  46  56
 ```
 
 ```r
@@ -838,12 +786,9 @@ dat.bangertdrowns2004$vi # Varianz
 ```
 
 ```
-##  [1] 0.070 0.126 0.042 0.019 0.022 0.009 0.106 0.007
-##  [9] 0.040 0.052 0.107 0.021 0.037 0.083 0.086 0.091
-## [17] 0.167 0.052 0.091 0.065 0.073 0.061 0.100 0.060
-## [25] 0.083 0.037 0.069 0.018 0.009 0.053 0.017 0.112
-## [33] 0.060 0.044 0.129 0.023 0.205 0.033 0.265 0.039
-## [41] 0.021 0.067 0.014 0.168 0.016 0.099 0.087 0.072
+##  [1] 0.070 0.126 0.042 0.019 0.022 0.009 0.106 0.007 0.040 0.052 0.107 0.021 0.037 0.083 0.086 0.091
+## [17] 0.167 0.052 0.091 0.065 0.073 0.061 0.100 0.060 0.083 0.037 0.069 0.018 0.009 0.053 0.017 0.112
+## [33] 0.060 0.044 0.129 0.023 0.205 0.033 0.265 0.039 0.021 0.067 0.014 0.168 0.016 0.099 0.087 0.072
 ```
 
 Wir können nun einfach eine Meta-Analyse mit Stichprobengewichtung durchführen. Wir mitteln (gewichtet) zunächst händisch via:
@@ -955,7 +900,7 @@ In allen drei Analysen ist die mittlere Differenz positiv und signifikant von 0 
 
 Dass es sich wirklich um den $SE^2_i$ handelt, ist folgender Grafik zu entnehmen:
 
-<img src="/lehre/meta-auo/meta-analyse-auo_files/figure-html/unnamed-chunk-44-1.png" style="display: block; margin: auto;" />
+<img src="/meta-analyse-auo_files/unnamed-chunk-44-1.png" style="display: block; margin: auto;" />
 
 Offensichtlich fällt $v_i$ mit steigendem $n_i$ gleich der Funktion $\frac{1}{x}$ ab, was nur der $SE$ tut. Die Varianz einer Skala (Stichprobenvarianz) würde sich für steigende Stichprobengröße bei einem Wert "einpendeln".
 

@@ -8,7 +8,7 @@ subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
 summary: ''
 authors: [liu]
 weight: 7
-lastmod: '2025-01-27'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/under_construction.jpg"

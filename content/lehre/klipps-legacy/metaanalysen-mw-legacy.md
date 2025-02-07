@@ -8,7 +8,7 @@ subtitle: 'Mittelwertsunterschiede'
 summary: 'In diesem Beitrag geht es um die Durchführung einer Metaanalyse im Kontext von Mittelwertsunterschieden. Zunächst wird das Fixed-Effects-Modell erläutert, das besagt, dass Effektstärken zufällig um einen wahren Wert streuen. Anschließend wird das Random-Effects-Modell eingeführt, dass zusätzlich eine Variable einschließt, die die Heterogenität zwischen den Studien beschreibt. Darüber hinaus wird das Moderatormodell präsentiert, dass zur Anwendung kommt, wenn erhebliche Heterogenität in den Daten vorliegt. Zusätzlich werden einige Anaylse-Plots zur grafischen Veranschaulichung der Streuung der Effektstärken vorgestellt.'
 authors: [irmer]
 weight: 7
-lastmod: '2024-10-08'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/model_planets_and_aliens.jpg"
@@ -43,14 +43,14 @@ Metaanalysen sind empirische Zusammenfassungen von Studien unter Verwendung math
 Mithilfe des `metafor`-Paketes (_**meta**-analysis **fo**r **r**_) von Viechtbauer (2010) lassen sich eindimensionale und mehrdimensionale Metaanalysen (in welchen die "Mittlung" eines oder mehrerer Koeffizienten über mehrere Studien vorgenommen werden soll) leicht berechnen. Zunächst müssen wir dazu das `R`-Paket installieren (`install.packages("metafor")`). Nachdem dies geschehen ist, können wir es laden:
 
 
-``` r
+```r
 library(metafor)
 ```
 
 Wie auch beim Laden des Paketes schon erwähnt wird (`For an overview and introduction to the package please type: help(metafor)`), können wir uns mit der sehr nützlichen `R`-internen Hilfe-Funktion einen Überblick über das Paket verschaffen.
 
 
-``` r
+```r
 help("metafor")
 ```
 
@@ -67,33 +67,95 @@ Im Datensatz, den wir in dieser Sitzung betrachten wollen, wurden die Effektstä
 Wir fügen diese Daten kurz in einen `data.frame`, um dann die `escalc`-Funktion schöner darauf anwenden zu können (dabei müssen wir die Daten jeweils nach Variablen sortieren):
 
 
-``` r
+```r
 df <- data.frame("Studie" = c("Studie 1", "Studie 2"), 
                  "X1" = c(1.5, 2.5), "SD1" = c(0.7, 0.9), "n1" = c(35, 132),
                  "X2" = c(2.7, 2.8), "SD2" = c(1.3, 1.1), "n2" = c(27, 126))
 df
 ```
 
-
-|Studie   |  X1| SD1|  n1|  X2| SD2|  n2|
-|:--------|---:|---:|---:|---:|---:|---:|
-|Studie 1 | 1.5| 0.7|  35| 2.7| 1.3|  27|
-|Studie 2 | 2.5| 0.9| 132| 2.8| 1.1| 126|
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Studie </th>
+   <th style="text-align:right;"> X1 </th>
+   <th style="text-align:right;"> SD1 </th>
+   <th style="text-align:right;"> n1 </th>
+   <th style="text-align:right;"> X2 </th>
+   <th style="text-align:right;"> SD2 </th>
+   <th style="text-align:right;"> n2 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Studie 1 </td>
+   <td style="text-align:right;"> 1.5 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 35 </td>
+   <td style="text-align:right;"> 2.7 </td>
+   <td style="text-align:right;"> 1.3 </td>
+   <td style="text-align:right;"> 27 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Studie 2 </td>
+   <td style="text-align:right;"> 2.5 </td>
+   <td style="text-align:right;"> 0.9 </td>
+   <td style="text-align:right;"> 132 </td>
+   <td style="text-align:right;"> 2.8 </td>
+   <td style="text-align:right;"> 1.1 </td>
+   <td style="text-align:right;"> 126 </td>
+  </tr>
+</tbody>
+</table>
 
 Der `escalc`-Funktion müssen wir zunächst sagen, welche Transformation wir wünschen: `measure = "SMD"` für **S**tandardized **M**ean **D**ifference. Anschließend braucht die Funktion alle Informationen, die wir auch selbst zum Bestimmen der Effektstärke brauchen: Mittelwerte (`m1i`, `m2i`), Standardabweichungen (`sd1i`, `sd2i`) und Stichprobengrößen (`n1i`, `n2i`).
 
 
-``` r
+```r
 escalc(measure = "SMD", m1i = X1, m2i = X2, sd1i = SD1, sd2i = SD2,
        n1i = n1, n2i = n2,
        data = df)
 ```
 
-
-|Studie   |  X1| SD1|  n1|  X2| SD2|  n2|         yi|        vi|
-|:--------|---:|---:|---:|---:|---:|---:|----------:|---------:|
-|Studie 1 | 1.5| 0.7|  35| 2.7| 1.3|  27| -1.1790461| 0.0768194|
-|Studie 2 | 2.5| 0.9| 132| 2.8| 1.1| 126| -0.2983287| 0.0156847|
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Studie </th>
+   <th style="text-align:right;"> X1 </th>
+   <th style="text-align:right;"> SD1 </th>
+   <th style="text-align:right;"> n1 </th>
+   <th style="text-align:right;"> X2 </th>
+   <th style="text-align:right;"> SD2 </th>
+   <th style="text-align:right;"> n2 </th>
+   <th style="text-align:right;"> yi </th>
+   <th style="text-align:right;"> vi </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Studie 1 </td>
+   <td style="text-align:right;"> 1.5 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 35 </td>
+   <td style="text-align:right;"> 2.7 </td>
+   <td style="text-align:right;"> 1.3 </td>
+   <td style="text-align:right;"> 27 </td>
+   <td style="text-align:right;"> -1.1790461 </td>
+   <td style="text-align:right;"> 0.0768194 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Studie 2 </td>
+   <td style="text-align:right;"> 2.5 </td>
+   <td style="text-align:right;"> 0.9 </td>
+   <td style="text-align:right;"> 132 </td>
+   <td style="text-align:right;"> 2.8 </td>
+   <td style="text-align:right;"> 1.1 </td>
+   <td style="text-align:right;"> 126 </td>
+   <td style="text-align:right;"> -0.2983287 </td>
+   <td style="text-align:right;"> 0.0156847 </td>
+  </tr>
+</tbody>
+</table>
 
 Zurückgegeben wird uns ein Metaanalysedatensatz, der um die beiden Variablen `yi` (Standardized Mean Difference) und `vi` (Standardfehler im Quadrat der SMD, also $SE(SMD)^2$) erweitert wurde. In den Zeilen stehen die zwei Studien. Bei der 2. Studie ist die SMD geringer, gleichzeitig ist aber die Präzision höher, was ausgedrückt wird durch die kleinere Varianz `vi` - diese Studie würde in einer Metaanalyse prinzipiell ein größeres Gewicht erhalten (sowohl mit Stichprobengewichtung als auch mit [quadrierter] Standardfehlergewichtung). Zum Glück liegen die Daten schon vor, sodass wir das nicht für unsere Metaanalyse tun müssen! 
 
@@ -102,20 +164,192 @@ Zurückgegeben wird uns ein Metaanalysedatensatz, der um die beiden Variablen `y
 In dieser Sitzung wollen wir einen Datensatz von López-López et al. (2019), der mit dem `metafor`-Paket mitgeliefert wird, verwenden. Dieser heißt `dat.lopez2019`. Die Autor:innen haben die Effektivität der CBT (cognitive behavioural therapy [kognitive Verhaltenstherapie]) bei Depression untersucht und diese mit verschiedenen Kontrollbedingungen und unterschiedlichen Arten der CBT verglichen. Weitere Informationen zum Datensatz erhalten Sie bspw. mit `?dat.lopez2019` (das `metafor`-Paket muss natürlich vorher geladen sein). 
 
 
-``` r
+```r
 head(dat.lopez2019)
 ```
 
 <div class="big-maths">
-
-|study              |treatment      |scale |  n|    diff|     se| group| tailored| sessions| length| intensity| multi| cog| ba| psed| home| prob| soc| relax| goal| final| mind| act|
-|:------------------|:--------------|:-----|--:|-------:|------:|-----:|--------:|--------:|------:|---------:|-----:|---:|--:|----:|----:|----:|---:|-----:|----:|-----:|----:|---:|
-|Andersson (2005)   |Placebo        |BDI   | 49| -0.2140| 0.0208|     0|        0|       NA|     NA|        NA|     0|   0|  0|    0|    0|    0|   0|     0|    0|     0|    0|   0|
-|Andersson (2005)   |Multimedia CBT |BDI   | 36| -1.5529| 0.0425|     1|        0|        5|     NA|        NA|     1|   1|  1|    1|    0|    0|   0|     0|    0|     1|    0|   0|
-|Arean (1993)       |Wait list      |BDI   | 20| -0.4032| 0.0531|     0|        0|       NA|     NA|        NA|     0|   0|  0|    0|    0|    0|   0|     0|    0|     0|    0|   0|
-|Arean (1993)       |F2F CBT        |BDI   | 19| -1.5505| 0.0831|     1|        1|       12|     90|      10.8|     0|   1|  0|    0|    0|    1|   0|     0|    0|     0|    0|   0|
-|Beckenridge (1985) |Wait list      |BDI   | 19|  0.2131| 0.0542|     0|        0|       NA|     NA|        NA|     0|   0|  0|    0|    0|    0|   0|     0|    0|     0|    0|   0|
-|Beckenridge (1985) |F2F CBT        |BDI   | 17| -1.5438| 0.0934|     0|        1|       18|     NA|        NA|     0|   1|  0|    0|    0|    1|   0|     0|    0|     0|    0|   0|
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> study </th>
+   <th style="text-align:left;"> treatment </th>
+   <th style="text-align:left;"> scale </th>
+   <th style="text-align:right;"> n </th>
+   <th style="text-align:right;"> diff </th>
+   <th style="text-align:right;"> se </th>
+   <th style="text-align:right;"> group </th>
+   <th style="text-align:right;"> tailored </th>
+   <th style="text-align:right;"> sessions </th>
+   <th style="text-align:right;"> length </th>
+   <th style="text-align:right;"> intensity </th>
+   <th style="text-align:right;"> multi </th>
+   <th style="text-align:right;"> cog </th>
+   <th style="text-align:right;"> ba </th>
+   <th style="text-align:right;"> psed </th>
+   <th style="text-align:right;"> home </th>
+   <th style="text-align:right;"> prob </th>
+   <th style="text-align:right;"> soc </th>
+   <th style="text-align:right;"> relax </th>
+   <th style="text-align:right;"> goal </th>
+   <th style="text-align:right;"> final </th>
+   <th style="text-align:right;"> mind </th>
+   <th style="text-align:right;"> act </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Andersson (2005) </td>
+   <td style="text-align:left;"> Placebo </td>
+   <td style="text-align:left;"> BDI </td>
+   <td style="text-align:right;"> 49 </td>
+   <td style="text-align:right;"> -0.2140 </td>
+   <td style="text-align:right;"> 0.0208 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Andersson (2005) </td>
+   <td style="text-align:left;"> Multimedia CBT </td>
+   <td style="text-align:left;"> BDI </td>
+   <td style="text-align:right;"> 36 </td>
+   <td style="text-align:right;"> -1.5529 </td>
+   <td style="text-align:right;"> 0.0425 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Arean (1993) </td>
+   <td style="text-align:left;"> Wait list </td>
+   <td style="text-align:left;"> BDI </td>
+   <td style="text-align:right;"> 20 </td>
+   <td style="text-align:right;"> -0.4032 </td>
+   <td style="text-align:right;"> 0.0531 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Arean (1993) </td>
+   <td style="text-align:left;"> F2F CBT </td>
+   <td style="text-align:left;"> BDI </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> -1.5505 </td>
+   <td style="text-align:right;"> 0.0831 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 90 </td>
+   <td style="text-align:right;"> 10.8 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Beckenridge (1985) </td>
+   <td style="text-align:left;"> Wait list </td>
+   <td style="text-align:left;"> BDI </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 0.2131 </td>
+   <td style="text-align:right;"> 0.0542 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Beckenridge (1985) </td>
+   <td style="text-align:left;"> F2F CBT </td>
+   <td style="text-align:left;"> BDI </td>
+   <td style="text-align:right;"> 17 </td>
+   <td style="text-align:right;"> -1.5438 </td>
+   <td style="text-align:right;"> 0.0934 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+</tbody>
+</table>
 </div>
 
 In `study` steht die verwendete Studie, `treatment` zeigt an, welche Art der Therapie oder Kontrollgruppe in der jeweiligen Studie verwendet wurde ("F2F CBT" = 'Face-to-Face'-CBT, "Multimedia CBT" = Online-CBT, "Placebo" = Placebo-Kontrollgruppe, "Wait list" = Wartelistenkontrollgruppe, "Hybrid CBT" = Mischung aus F2F und Multimedia, "No treatment" = klassische Kontrollgruppe, "TAU" = Treatment as Usual [Standardtherapie]). In `scale` steht, wie die Depression erfasst wurde, `n` ist die Stichprobengröße der Studie, `diff` ist die standardisierte Differenz (Cohen's $d$) zwischen vor und nach der Intervention, `se` ist der Standardfehler von `diff`, `group` [Dummy-Variable] zeigt an, ob es sich um eine Einzel- (0) oder Gruppentherapie (1) gehandelt hat. `tailored` gibt an, ob die Therapie auf den jeweiligen Patienten/die jeweilige Patientin zugeschnitten wurde, `sessions` ist die Anzahl an Therapiesitzungen, `length` ist die durchschnittliche Sitzungslänge, `intensity` ist das Produkt aus `sessions` und `length`. Außerdem werden noch weitere mögliche Moderatorvariablen aufgeführt, die sich jeweils auf die Therapie beziehen. Für mehr Informationen siehe bspw. `?dat.lopez2019`. Wir schauen uns die Moderatoren genauer an, wenn es um die Moderatoranalysen im Rahmen von Metaanalysen geht.
@@ -123,7 +357,7 @@ In `study` steht die verwendete Studie, `treatment` zeigt an, welche Art der The
 Wir wollen uns zunächst nur auf die klassische 'Face-to-Face'-CBT konzentrieren und kürzen daher den Datensatz. Wir kopieren den Originaldatensatz in `F2F_CBT`, damit `dat.lopez2019` erhalten bleibt.  
 
 
-``` r
+```r
 F2F_CBT <- dat.lopez2019[dat.lopez2019$treatment == "F2F CBT",] # wähle nur Fälle mit F2F CBT
 ```
 
@@ -149,7 +383,7 @@ $$\frac{\sum_{i=1}^kn_iY_i}{\sum_{i=1}^kn_i}$$
 Für die $k$ Stichproben wird hier jede standardisierte Prä-Post-Differenz mit der Stichprobengröße multipliziert ($n_iY_i$) und dann werden diese Werte aufsummiert (eine gewichtete Summe entsteht). Teilen wir diese Summe anschließend durch die Gesamtstichprobe $\sum_{i=1}^kn_i$ so erhalten wir einen gewichteten Mittelwert, der berücksichtigt, dass einige Stichproben größer sind und dass dort die geschätzte standardisierte Differenz präziser ist. Dies sieht in `R` so aus:
 
 
-``` r
+```r
 sum(F2F_CBT$n*F2F_CBT$diff)/sum(F2F_CBT$n)
 ```
 
@@ -172,7 +406,7 @@ die Effektstärken $Y_i$ zufällig um den wahren Wert $\theta$ streuen. $\vareps
 Ein Fixed-Effects-Modell lässt sich leicht mit dem `metafor`-Paket schätzen. Die Funktion dazu heißt `rma` (für `R` und Metaanalyse). Da bei Metaanalysen die Effekte in den Studien die abhängigen Variablen sind, werden sie im Paket als `yi` bezeichnet. Wir brauchen dann noch ein Streumaß `vi`, den Datensatz in `data` und wir müssen die Methode als Fixed Effects `method = "FE"` festlegen. Das Modell nennen wir `FEM_n` für Fixed-Effects Modell gewichtet mit Stichprobengrößen.
 
 
-``` r
+```r
 FEM_n <- rma(yi = diff, vi =  1/n, data = F2F_CBT, method = "FE")
 summary(FEM_n)
 ```
@@ -255,7 +489,7 @@ Wir haben nun eine relativ einfache Zusammenfassung der Studienergebnisse durchg
 
 
 
-``` r
+```r
 FEM <- rma(yi = diff, vi =  se^2, data = F2F_CBT, method = "FE")
 summary(FEM)
 ```
@@ -282,7 +516,7 @@ summary(FEM)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-``` r
+```r
 FEM2 <- rma(yi = diff, sei =  se, data = F2F_CBT, method = "FE")
 summary(FEM2)
 ```
@@ -330,7 +564,7 @@ $$\sum_{i=1}^k\frac{w_iY_i}{\sum_{i=1}^kw_i}.$$
 Verwenden wir nun das "Random Effects"-Modell, so ergibt sich ein etwas anderer Mittelwert (offensichtlich scheinen die Effektstärken heterogen zu sein, denn das Wählen des "Random Effects"-Modells hat einen Einfluss auf den geschätzten Mittelwert und außerdem ist die Heterogenitätsvarianz $\tau^2$ statistisch signifikant). Das Modell nennen wir `REM` für Random-Effects-Modell:
 
 
-``` r
+```r
 REM <- rma(yi = diff, sei =  se, data = F2F_CBT)
 summary(REM)
 ```
@@ -383,7 +617,7 @@ In beiden Analysen ist die mittlere Differenz negativ und signifikant von 0 vers
 Wollen wir von Homogenität sprechen, schlagen Döring und Bortz (2016) zwei Kriterien vor: Der p-Wert der Q-Statistik sollte größer als 0.1 sein ($p>0.1$) und die Power des Homogenitätstests sollte hoch sein. Die Power können wir recht leicht mit folgendem Code bestimmen:
 
 
-``` r
+```r
 power <- 1 - pchisq(q = qchisq(p = .95, df = REM$k.all - 1), df = REM$k.all - 1, ncp = REM$QE)
 power
 ```
@@ -402,19 +636,19 @@ Das `metafor`-Paket bietet außerdem noch einige grafische Veranschaulichungen d
 Der Funnel-Plot wird verwendet, um das bekannte Problem des Publication-Bias zu untersuchen. Dabei wird der gefundene Effekt (hier Effektstärken von Prä-Post Veränderungen) gegen den Standardfehler jeder Studie geplottet. Es wird die Annahme zugrundegelegt, dass alle Studien in der Metaanalyse eine gewisse zufällige Schwankung um den wahren Effekt haben, und diese zufällige Schwankung größer ist, je größer der Standardfehler in einer Studie ist und je kleiner die Stichprobe war. Sofern eine Studie unabhängig von der Effektgröße sowie der Streuung (und damit auch der Signifikanz) publiziert wurde, sollte so das typische symmetrische Dreieck (Funnel = Trichter) entstehen.  
 
 
-``` r
+```r
 # funnel plot
 funnel(REM)
 ```
 
-<img src="/lehre/klipps-legacy/metaanalysen-mw-legacy_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
+<img src="/metaanalysen-mw-legacy_files/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
 Der Grafik ist zu entnehmen, dass sich fast alle Effektstärken im negativen Bereich tummeln. Je kleiner der Effekt, desto präziser die Schätzung (je kleiner der SE - desto höher dargestellt im Funnel-Plot). Dies könnten Indizien auf einen Publication Bias sein. Außerdem gibt es wenige Studien mit sehr großen Standardfehlern (und damit geringen Stichprobengrößen). Der Funnel (Trichter) ist kaum befüllt. Dies liegt vermutlich an den wenigen extremen Ergebnissen, die links im Plot dargestellt sind. Allerdings ist die Punktewolke, auch wenn etwas schief, im oberen rechten Bereich recht gut ausgefüllt. Es gibt keine einzige Studie mit positiven Effektstärken. Insgesamt spricht dies dann doch dagegen, dass die Signifikanz des Effekts durch einen Bias in Veröffentlichungen entstanden ist. Allerdings könnte die ausgesprochen große Effektstärke verzerrt sein.
 
 Die Trim-and-Fill Methode wird verwendet, um zu bestimmen, wie viel Studien hinzugenommen (fill) oder entfernt (trim) werden müssten, damit der Funnel-Plot symmetrisch ist. Die Methode kann auch zur Schätzung eines (um einen möglichen Publication-Bias) bereinigten Effekts verwendet werden. Es gibt verschiedene Schätzmethoden, um die Anzahl an fehlenden Studien zu schätzen. Wenn wir uns die Hilfe der Funktion `?trimfill` anschauen, steht dort "*Three different estimators for the number of missing studies were proposed by Duval and Tweedie (2000a, 2000b). Based on these articles and Duval (2005), "R0" and "L0" are recommended. An advantage of estimator "R0" is that it provides a test of the null hypothesis that the number of missing studies (on the chosen side) is zero.*". Aus diesem Grund verwenden wir `estimator = "R0"`:
 
 
-``` r
+```r
 trimfill(REM, estimator = "R0")
 ```
 
@@ -459,11 +693,11 @@ Es werden also 6 Studien ergänzt. Der p-Wert ist mit $p=$ 0.0078 kleiner als .0
 Der weitere Output hat sich deutlich verändert. Der mittlere Effekt ist etwas weniger stark negativ (-2.05 vs. -1.77). Wenn wir nun wieder die `funnel`-Funktion darauf anwenden, sehen wir auch, welche Studien hinzugefügt wurden: 
 
 
-``` r
+```r
 funnel(trimfill(REM, estimator = "R0"))
 ```
 
-![](/lehre/klipps-legacy/metaanalysen-mw-legacy_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](/metaanalysen-mw-legacy_files/unnamed-chunk-25-1.png)<!-- -->
 
 Wir sehen, dass die 6 Studien ziemlich weit auf der rechten Seite eingefügt wurden, was auch erklärt, warum sich die mittleren Effekte unterscheiden. Der geschätzte Effekt mittels Trim-and-Fill ist kleiner geworden! Wir gehen somit insgesamt davon aus, dass kein Publication Bias vorliegt und verwerfen die eben betrachteten Trim-and-Fill-Ergebnisse. Es könnte nun mit diesem Modell weitergerechnet werden. Wir verbleiben aber beim nicht befüllten Modell.
 
@@ -471,32 +705,32 @@ Wir sehen, dass die 6 Studien ziemlich weit auf der rechten Seite eingefügt wur
 
 Auch Forest-Plots funktionieren auf die gleiche Weise mit der `forest`-Funktion. Der Forest-Plot stellt die unterschiedlichen Studien hinsichtlich ihrer Parameterschätzung (Effektstärken) und die zugehörige Streuung grafisch dar. So können beispielsweise Studien identifiziert werden, welche besonders hohe oder niedrige Werte aufweisen oder solche, die eine besonders große oder kleine Streuung zeigen.
 
-``` r
+```r
 # forest plot
 forest(REM)
 ```
 
-<img src="/lehre/klipps-legacy/metaanalysen-mw-legacy_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+<img src="/metaanalysen-mw-legacy_files/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
 Wir sehen sehr deutlich, dass alle Studien Konfidenzintervalle aufweisen, die die Null nicht einschließen. Auch ein kumulativer Forest-Plot wäre möglich. Dazu müssen wir auf unser `REM`-Objekt noch die Funktion `cumul.rma.uni` anwenden:
 
 
-``` r
+```r
 # kumulativer Forest Plot
 forest(cumul.rma.uni(REM))
 ```
 
-<img src="/lehre/klipps-legacy/metaanalysen-mw-legacy_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
+<img src="/metaanalysen-mw-legacy_files/unnamed-chunk-27-1.png" style="display: block; margin: auto;" />
 
 Die Funktion `cumul.rma.uni` führt sukzessive immer wieder eine Metaanalyse durch, wobei nach und nach eine Studie hinzugefügt wird. Anders als beim ersten Forest-Plot wird immer das Ergebnis der jeweiligen Metaanalyse dargestellt und nicht jede Studie einzeln. Wir sehen, dass sich sowohl mittlere Effektstärke als auch Streuung von oben nach unten einpendeln. Das finale Ergebnis ist identisch mit unserer Metaanalyse. Die gestrichelte Linie der Forest-Plots symbolisiert die 0, da in den meisten Fällen gegen 0 getestet wird und es daher von Interesse ist, wie viele Studien sich von 0 unterscheiden und ob sich der mittlere Effekt von 0 unterscheidet. Die Achsenbeschriftung unterscheidet sich, sodass die beiden Forest-Plots nicht ideal vergleichbar sind. Mit dem Zusatzargument `xlim` können wir die x-Achse explizit einstellen:
 
 
-``` r
+```r
 # kumulativer Forest Plot
 forest(cumul.rma.uni(REM), xlim = c(-10, 2))
 ```
 
-<img src="/lehre/klipps-legacy/metaanalysen-mw-legacy_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
+<img src="/metaanalysen-mw-legacy_files/unnamed-chunk-28-1.png" style="display: block; margin: auto;" />
 Nun sehen wir schöner, wie gut sich die Ergebnisse um den mittleren Wert einpendeln.
 
 Insgesamt zeigen uns die Plots, dass von einem stabilen Effekt ausgegangen werden kann.
@@ -519,14 +753,14 @@ wobei $\theta$ der durchschnittliche Effekt ist, wenn alle Moderatoren den Wert 
 Augenscheinlich könnte die `intensity` der Therapie für Heterogenität zwischen den Studien sorgen. Zunächst muss diese Variable zentriert werden, damit der durchschnittliche bedingte Effekt sinnvoll interpretierbar bleibt. Wir überschreiben die Ursprungsvariable.
 
 
-``` r
+```r
 F2F_CBT$intensity <- scale(F2F_CBT$intensity, center = T, scale = F) # nur zentrieren
 ```
 
 Wir stellen ein Modell auf (hierbei müssen die Moderatoren, wie in einer normalen Regressionsanlyse mit einer Formel angegeben werden; diese Formel wird dem Argument `mods` übergeben) und lassen dieses diesmal mit "ML" schätzen, um später einen geeigneten Modellvergleich durchführen zu können:
 
 
-``` r
+```r
 MEM1 <- rma(yi = diff, sei =  se, data = F2F_CBT, 
             mods =~ intensity, 
             method = "ML")
@@ -536,7 +770,7 @@ MEM1 <- rma(yi = diff, sei =  se, data = F2F_CBT,
 ## Warning: 10 studies with NAs omitted from model fitting.
 ```
 
-``` r
+```r
 summary(MEM1)
 ```
 
@@ -597,7 +831,7 @@ findet sich ein Output, der einem Regressionsoutput sehr ähnlich sieht. `intrcp
 Wir nehmen zusätzlich die Moderatoren Psychoedukation (`psed`, Dummy-Variable, 0 = nein, 1 = ja), soziales Kompetenztraining (`soc`, Dummy-Variable, 0 = nein, 1 = ja), Verhaltensaktivierung (`ba`, Dummy-Variable, 0 = nein, 1 = ja) und Hausaufgaben (`home`, Dummy-Variable, 0 = nein, 1 = ja) in das Modell mit auf. Zunächst wandeln wir die Variablen als Faktor um und geben den Ausprägungen sinnvolle Labels:
 
 
-``` r
+```r
 # factors erzeugen und den Ausprägungen Labels geben:
 F2F_CBT$psed <- factor(F2F_CBT$psed, levels = c(0, 1), labels = c("no", "yes"))
 F2F_CBT$soc <- factor(F2F_CBT$soc, levels = c(0, 1), labels = c("no", "yes"))
@@ -608,7 +842,7 @@ F2F_CBT$home <- factor(F2F_CBT$home, levels = c(0, 1), labels = c("no", "yes"))
 Das haben wir gemacht, um sicherzustellen, dass wir die Ergebnisse auch richtig interpretieren. Das Modell wird nun um diese vier Variablen erweitert:
 
 
-``` r
+```r
 MEM2 <- rma(yi = diff, sei =  se, data = F2F_CBT, 
             mods =~ intensity + psed + soc + ba + home, 
             method = "ML")
@@ -618,7 +852,7 @@ MEM2 <- rma(yi = diff, sei =  se, data = F2F_CBT,
 ## Warning: 10 studies with NAs omitted from model fitting.
 ```
 
-``` r
+```r
 summary(MEM2)
 ```
 
@@ -662,7 +896,7 @@ Der Effekt der Intensität erscheint plausibel. Je intensiver die Betreuung, des
 Zwei Moderatormodelle lassen sich leicht mit der `anova`-Funktion inferenzstatistisch vergleichen. Wir führen wie folgt einen Likelihood-Ratio-Test durch:
 
 
-``` r
+```r
 anova(MEM1, MEM2, test = "LRT")
 ```
 
@@ -678,7 +912,7 @@ Der Modellvergleich ist statistisch bedeutsam ($\Delta\chi^2(df=4)=$ 19.82, $p=$
 Mit Hilfe der `reporter`-Funktion lässt sich ein Mini-Report anfordern, der die Analyse beschreibt. Natürlich kann dieser nicht komplett übernommen werden, er hilft aber bei der Einordnung mancher Effekte. Außerdem können wir so prüfen, ob alles so ist, wie wir es erwarten würden. In diesem Report werden auch noch weitere Statistiken aufgeführt, beispielsweise wie geprüft werden kann, ob der Funnel-Plot asymmetrisch ist.
 
 
-``` r
+```r
 reporter(REM)
 ```
 

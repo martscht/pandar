@@ -8,7 +8,7 @@ tags: ["Daten"]
 subtitle: ''
 summary: 'Auf dieser Seite finden sich alle Datensätze für die Studienleistungen in KliPPsMSc5a. Die Quizze finden sich auf der Lernplattform moodle und sind nur für die Teilnehmenden des Moduls zugänglich.'
 authors: [nehler, irmer, hartig]
-lastmod: '2024-12-14'
+lastmod: '2025-02-07'
 featured: no 
 banner:
   image: "/header/dog_with_glasses.jpg"

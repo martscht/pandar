@@ -1,3 +1,6 @@
+knitr::opts_chunk$set(fig.path = figure_path)
+
+
 raw_data <- readRDS(url("https://osf.io/awz3d/download"))
 
 names(raw_data) <- c("observe", "describe", "awaren.", "nonjudg.",

@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'Innerhalb dieses Beitrags werden einige Aspekte genannt, die zu beachten sind, wenn es darum geht den nötigen Datenschutzrahmen zu gewährleisten, den eure Projekte auf LIFOS benötigen, um rechtliche und ethische Integrität zu wahren. Dabei wird sich unter anderem auf die DSGVO bezogen und eine Checkliste der Dinge gegeben, um eine zufriedenstellende Anonymisierung eher zu gewähren.' 
 authors: [beitner] 
 weight: 4
-lastmod: '2023-10-26'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/privacy_policy.jpg"

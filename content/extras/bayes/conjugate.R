@@ -1,3 +1,6 @@
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
 library(ggplot2)
 source('ggplotting-theme-source.R')
 theme_set(theme_pandar())

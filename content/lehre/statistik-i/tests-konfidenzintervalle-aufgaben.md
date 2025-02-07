@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler, vogler, scheppa-lahyani, pommeranz] 
 weight: 
-lastmod: '2024-11-27'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"

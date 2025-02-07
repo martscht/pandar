@@ -275,14 +275,15 @@ In der `R`-Syntax benutze ich hier jetzt `dbinom` statt die komplette Binomialve
 
 
 ```r
-likeli_plot <- ggplot(d, aes(x = pi, y = L)) + xlim(0, 1) + geom_function(fun = dbinom, args = list(x = 7, size = 10)) +
-    labs(x = expression(pi), y = "Likelihood")
+likeli_plot <- ggplot(d, aes(x = pi, y = L)) + xlim(0, 1) + geom_function(fun = dbinom, args = list(x = 7,
+    size = 10)) + labs(x = expression(pi), y = "Likelihood")
 
-likeli_plot + geom_vline(xintercept = 0.5, lty = 2) + annotate("text", x = 0.48, y = 0.02, label = "H[0]", parse = TRUE) +
-    geom_vline(xintercept = 0.7, lty = 2) + annotate("text", x = 0.68, y = 0.02, label = "H[1]", parse = TRUE)
+likeli_plot + geom_vline(xintercept = 0.5, lty = 2) + annotate("text", x = 0.48, y = 0.02, label = "H[0]",
+    parse = TRUE) + geom_vline(xintercept = 0.7, lty = 2) + annotate("text", x = 0.68, y = 0.02, label = "H[1]",
+    parse = TRUE)
 ```
 
-![](/extras/bayes/bayes-intro_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](bayes-intro_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 ## Basic Bayes
 
@@ -290,7 +291,7 @@ Für einen Beitrag, der eigentlich "Grundideen Bayesianischer Analysen" betitelt
 
 Die Grundidee der Bayesianischen Analysen lässt sich eigentlich in folgender Gleichung zusammenfassen:
 
-<img src="/extras/bayes/bayes-formel.png" width="400" height="400" />
+<img src="bayes-formel.png" width="400" height="400" />
 
 Auf der linken Seite steht also die uns eigentlich interessierende Aussage - wie wahrscheinlich ist unsere Hypothese $H$, wenn wir unsere Daten $X$ berücksichtigen? Diese Information wird _Posterior_ genannt - weil es unseren Wissensstand _nach_ der Studie darstellt. 
 
@@ -300,7 +301,7 @@ Warum dann überhaupt so Forschung betreiben und diese klassischen $p$-Werte bet
 
 Als letzte Information benötigen wir noch die Wahrscheinlichkeit der Daten, die wir gefunden haben. Diese Wahrscheinlichkeit kann sehr schwierig zu bestimmen sein und hat letztlich nur einen konkreten Zweck: sie relativiert das Produkt aus Likelihood und Prior so, dass wir am Ende auch wirklich eine _Wahrscheinlichkeit_  (also einen Wert zwischen 0 und 1) erhalten. Deswegen wird die Grundformel Bayesianischer Statistik häufig von dieser Komponente befreit und so notiert:
 
-<img src="/extras/bayes/bayes-formel2.png" width="400" height="400" />
+<img src="bayes-formel2.png" width="400" height="400" />
 
 
 Der Posterior ist also _propotional_ zu der Mischung aus Prior (unseren Vorannahmen) und den, in dieser Studie neu gewonnenen Daten. Wir "updaten" unsere Annahmen bzw. Theorien also anhand der Daten (die wir in Form der Likelihood berücksichtigen).
@@ -311,7 +312,7 @@ Wenn das Vorwissen, das wir über den Gegenstand unserer Untersuchung haben quas
 
 
 
-![](/extras/bayes/bayes-intro_files/figure-html/density1-1.png)<!-- -->
+![](bayes-intro_files/figure-html/density1-1.png)<!-- -->
 
 Sie fragen Sich vielleicht, warum Sie nur zwei Linien sehen, wenn wir doch drei Komponenten (Prior, Likelihood und Posterior) haben. Das liegt daran, dass unser Prior keinerlei Information beinhält - jedes $\pi$ ist gleich wahrscheinlich. Also wird die Likelihood für jeden Ausprägung von $\pi$ mit dem gleichen Wert multipliziert, sodass dieser Teil in der Gleichung einfach irrelevant wird. So geht unser Posterior also ausschließlich auf unsere Daten zurück und entspricht genau der Likelihood-Verteilung.
 
@@ -319,7 +320,7 @@ Sie fragen Sich vielleicht, warum Sie nur zwei Linien sehen, wenn wir doch drei 
 
 Jetzt haben wir also einen sehr umständlichen Weg besprochen, exakt das Gleiche zu bekommen, wie vorher auch. Interessant wird das Ganze erst, wenn man über Prior Informationen in das System hineingibt, die Vorinformationen darstellen. Zum Beispiel könnten wir davon ausgehen, dass die Extreme unwahrscheinlicher Sind, als Werte in der Mitte - z.B. weil wir von unseren Kolleg:innen wissen, dass es keine Ausgangskonzepte gibt, die bewirken, dass niemand rückfällig wird oder alle rückfällig werden. 
 
-![](/extras/bayes/bayes-intro_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](bayes-intro_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 Wenn wir dermaßen schwache Annahmen in unsere Analysen einbauen, weicht die Posterior Verteilung nur leicht von unserer Likelihood Verteilung ab. Weil wir als Vorannahme hatten, dass $\pi = .5$ der wahrscheinlichste Wert ist, ist die ermittelte Grundrate in der Population auch im Posterior nicht mehr die beobachtete relative Häufigkeit von .7. 
 
@@ -327,7 +328,7 @@ Wenn wir dermaßen schwache Annahmen in unsere Analysen einbauen, weicht die Pos
 
 Noch deutlicher wird dieser Effekt, wenn wir z.B. Informationen aus vorherigen Untersuchungen zum gleichen System einspeisen, dass Sie jetzt untersuchen wollen. Vielleicht stehen Sie im Kontakt zu anderen Kliniken, an denen schon mal ähnliche System erprobt wurden - immer wieder mit sehr kleinen Stichproben. All diese Informationen wollen Sie aber berücksichtigen, weil Ihre Studie mit $n=10$ nicht die einzige Quelle der Weisheit ist. Wenn es stichhaltige Informationen aus anderen Studien gibt, können wir diese als starke Prior einbauen:
 
-![](/extras/bayes/bayes-intro_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](bayes-intro_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 In diesem Fall stellt der Posterior wirklich eine Mischung aus Ihren vorherigen Kenntnissen und den Informationen aus Ihrer eigenen Datenerhebung dar. Aus vorherigen Studien hatten Sie abgeleitet, dass die Erfolgsquote dieses Ausgangssystems (wie bei allen Anderen) bei ungefähr $\pi = .5$ liegen sollte. Nachdem Sie das Ganze mit zehn Personen ausprobiert haben und dabei festgestellt haben, dass sieben von denen nicht rückfällig geworden sind, erscheint es Ihnen eher naheliegend, dass der "wahre" Effekt vermutlich irgendwo dazwischen liegt. 
 
 In weiteren Studien - z.B. wenn Sie den Standort wechseln oder einer Freundin in einer anderen Klinik empfehlen, das gleiche System mal auszuprobieren - können Sie diesen Posterior wiederum als Prior nutzen. So entsteht auch in der statistischen Auswertung _kumulativer_ Erkenntnisgewinn.
@@ -368,11 +369,11 @@ ki <- binom.test(7, 10, 0.5)$conf.int
 likeli_plot + geom_vline(xintercept = ki[1], lty = 3) + geom_vline(xintercept = ki[2], lty = 3)
 ```
 
-![](/extras/bayes/bayes-intro_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](bayes-intro_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
 Mit unserer Bayes-Analyse können wir etwas Ahnliches bestimmen, das _Credible Interval_. Dieses Intervall entspricht dem Intervall in das der unbeobachtete Wert in der Population mit z.B. 95%iger Wahrscheinlichkeit fällt. Dieses Intervall bestimmen wir naheliegenderweise nicht aus der Likelihood-Verteilung, sondern aus unserer Posterior-Verteilung. Für diese interessieren uns dann ebenfalls die mittleren 95%. Für den Fall mit uninformativen Priors, ist das Credible Interval numerisch identisch zum Konfidenzintervall, das wir anhand des Binomial-Tests erzeugt haben. Am Beispiel mit starken Priors sieht das Intervall hingegen so aus:
 
-![](/extras/bayes/bayes-intro_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](bayes-intro_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 Das 95%-Credible Interval ist in diesem Fall $[0.38; 0.78]$. Wie diese Werte genau entstehen, bzw. wie wir sie mit `R` ermitteln können besprechen wir im [zweiten Bayes-Beitrag](/extras/bayes/conjugate), hier geht es erst einmal um das Prinzip: Credible Intervals sind die mittleren z.B. 95% der Posterior Verteilung. 
 
@@ -390,7 +391,7 @@ In unserem einfachen Beispiel gab es zunächst nicht direkt zwei "konkurrierende
 
 Dieser Vergleich lässt sich für jeden beliebigen Wert von $\pi$ durchführen. Die Annahme, dass Ihr Ausgangskonzept eine Erfolgsquote von .3 hat, ist beispielsweise nach der Untersuchung nur $\frac{0.08}{1.13} = 0.07$-mal so wahrscheinlich annehmnbar, wie vor der Untersuchung. Dadurch, dass wir das für _jeden_ einzelnen Wert machen können, können wir es auch für ganze Regionen von Werten machen. Z.B. könnten wir prüfen, wie viel sicherer wir uns nun sein können, dass Ihr Ausgangskonzept eine Erfolgsquote von _über_ $\pi = .5$ hat. Dafür vergleichen wir die beiden eingfärbten Regionen unseres Priors und unseres Posteriors:
 
-![](/extras/bayes/bayes-intro_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](bayes-intro_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 Die Fläche unter den beiden Verteilungen können wir durch Integrale (yay!) bestimmen. In diesem Fall ergibt sich ein Bayes-Factor von $\frac{0.808}{0.5} = 1.617$. Es ist also 1.617-mal so wahrscheinlich, dass Ihr neues Ausgangsschema eine bessere Erfolgsquote hat, als die Ihrer Kolleg:innen ($\pi > .5$) als es ist, dass Ihr Schema genausogut oder schlechter ($\pi \leq .5$) ist.
 
 Der Bayes-Factor ist eine Aussage über die _relative Evidenz_ für eine Hypothese gegenüber einer anderen. Weil viele Menschen etwas dagegen haben, Werte auch interpretieren zu müssen, hat sich für den Bayes-Factor die Daumenregel eingebürgert, dass ein Wert $1/3 < BF < 3$ als schwache oder anekdotische Evidenz gewertet werden sollte. Ein $BF < 1/3$ stellt hingegen eine Unterstützung der "Nullhypothese" (in unserem Fall, dass Ihr Ausgangsystem schlechter als das Ihrer Kolleg:innen ist) dar. Umgekehrt heißt es, dass ein $BF > 3$ Unterstützung für "Alternativhypothese" anzeigt (in unserem Fall also, dass Ihr System besser ist, als dass Ihrer Kolleg:innen). Wie Sie sehen, kann ein Bayes-Factor also auch dafür genutzt werden eine Aussage zu treffen, wenn die Nullyhpothese beibehalten wird. 

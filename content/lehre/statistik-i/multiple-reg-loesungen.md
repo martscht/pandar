@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [vogler] 
 weight: 
-lastmod: '2024-12-16'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/stormies.jpg"
@@ -98,54 +98,14 @@ summary(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ```
 
 ```
-##      extra      
-##  Min.   :1.000  
-##  1st Qu.:2.500  
-##  Median :3.500  
-##  Mean   :3.277  
-##  3rd Qu.:4.000  
-##  Max.   :5.000  
-##  NA's   :1      
-##      vertr      
-##  Min.   :1.000  
-##  1st Qu.:3.000  
-##  Median :3.500  
-##  Mean   :3.484  
-##  3rd Qu.:4.000  
-##  Max.   :5.000  
-##  NA's   :1      
-##      gewis     
-##  Min.   :1.50  
-##  1st Qu.:3.00  
-##  Median :3.50  
-##  Mean   :3.49  
-##  3rd Qu.:4.00  
-##  Max.   :5.00  
-##  NA's   :1     
-##      neuro      
-##  Min.   :1.000  
-##  1st Qu.:3.000  
-##  Median :3.500  
-##  Mean   :3.408  
-##  3rd Qu.:4.000  
-##  Max.   :5.000  
-##  NA's   :1      
-##      offen      
-##  Min.   :1.000  
-##  1st Qu.:3.000  
-##  Median :4.000  
-##  Mean   :3.809  
-##  3rd Qu.:4.500  
-##  Max.   :5.000  
-##  NA's   :1      
-##       prok      
-##  Min.   :2.100  
-##  1st Qu.:2.500  
-##  Median :2.700  
-##  Mean   :2.685  
-##  3rd Qu.:2.900  
-##  Max.   :3.200  
-##  NA's   :2
+##      extra           vertr           gewis          neuro           offen            prok      
+##  Min.   :1.000   Min.   :1.000   Min.   :1.50   Min.   :1.000   Min.   :1.000   Min.   :2.100  
+##  1st Qu.:2.500   1st Qu.:3.000   1st Qu.:3.00   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:2.500  
+##  Median :3.500   Median :3.500   Median :3.50   Median :3.500   Median :4.000   Median :2.700  
+##  Mean   :3.277   Mean   :3.484   Mean   :3.49   Mean   :3.408   Mean   :3.809   Mean   :2.685  
+##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.00   3rd Qu.:4.000   3rd Qu.:4.500   3rd Qu.:2.900  
+##  Max.   :5.000   Max.   :5.000   Max.   :5.00   Max.   :5.000   Max.   :5.000   Max.   :3.200  
+##  NA's   :1       NA's   :1       NA's   :1      NA's   :1       NA's   :1       NA's   :2
 ```
 
 ```r
@@ -214,7 +174,7 @@ lines(lowess(fb24_short$gewis, fb24_short$prok), col = "red")
 abline(mod_gewis, col = "blue")
 ```
 
-![](/lehre/statistik-i/multiple-reg-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/multiple-reg-loesungen_files/unnamed-chunk-6-1.png)<!-- -->
 
 Für beide Variablen sind klare lineare Verläufe erkennbar.
 
@@ -240,7 +200,7 @@ Auch die Voraussetzung der **Unabhängigkeit der Residuen** ist inhaltlicher Nat
 plot(mod_base, which = 3)
 ```
 
-![](/lehre/statistik-i/multiple-reg-loesungen_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](/multiple-reg-loesungen_files/unnamed-chunk-8-1.png)<!-- -->
 
 ```r
 car::ncvTest(mod_base) #nicht signifikant --> Homoskedastizität wird angenommen
@@ -258,7 +218,7 @@ car::ncvTest(mod_base) #nicht signifikant --> Homoskedastizität wird angenommen
 car::qqPlot(mod_base)
 ```
 
-![](/lehre/statistik-i/multiple-reg-loesungen_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/multiple-reg-loesungen_files/unnamed-chunk-9-1.png)<!-- -->
 
 ```
 ## 109 169 
@@ -271,12 +231,10 @@ shapiro.test(mod_base$residuals) #nicht signifikant --> Normalverteilung wird an
 
 ```
 ## 
-## 	Shapiro-Wilk normality
-## 	test
+## 	Shapiro-Wilk normality test
 ## 
 ## data:  mod_base$residuals
-## W = 0.9892, p-value =
-## 0.1608
+## W = 0.9892, p-value = 0.1608
 ```
 
 *Anmerkung:* Sowohl bei der Überprüfung der Homoskedastizität als auch der Normalverteilung bedienen wir uns Funktionen des `car`-Pakets. Dieses müssen wir nicht explizit mit dem `library()`-Befehl laden wenn wir zunächst den Namen des Pakets nennen, dann zwei Doppelpunkte und die Funktion folgen.
@@ -304,12 +262,9 @@ anova(mod_base, mod_base_extra) #nicht signifikant
 ## 
 ## Model 1: prok ~ neuro + gewis
 ## Model 2: prok ~ neuro + gewis + extra
-##   Res.Df    RSS Df  Sum of Sq
-## 1    187 10.056              
-## 2    186 10.056  1 0.00032934
-##        F Pr(>F)
-## 1              
-## 2 0.0061 0.9379
+##   Res.Df    RSS Df  Sum of Sq      F Pr(>F)
+## 1    187 10.056                            
+## 2    186 10.056  1 0.00032934 0.0061 0.9379
 ```
 
 ```r
@@ -324,12 +279,9 @@ anova(mod_base, mod_base_vertr) #nicht signifikant
 ## 
 ## Model 1: prok ~ neuro + gewis
 ## Model 2: prok ~ neuro + gewis + vertr
-##   Res.Df    RSS Df Sum of Sq
-## 1    187 10.056             
-## 2    186 10.030  1  0.025336
-##        F Pr(>F)
-## 1              
-## 2 0.4698 0.4939
+##   Res.Df    RSS Df Sum of Sq      F Pr(>F)
+## 1    187 10.056                           
+## 2    186 10.030  1  0.025336 0.4698 0.4939
 ```
 
 ```r
@@ -344,12 +296,9 @@ anova(mod_base, mod_base_offen) #nicht signifikant
 ## 
 ## Model 1: prok ~ neuro + gewis
 ## Model 2: prok ~ neuro + gewis + offen
-##   Res.Df    RSS Df Sum of Sq
-## 1    187 10.056             
-## 2    186 10.019  1  0.036619
-##        F Pr(>F)
-## 1              
-## 2 0.6798 0.4107
+##   Res.Df    RSS Df Sum of Sq      F Pr(>F)
+## 1    187 10.056                           
+## 2    186 10.019  1  0.036619 0.6798 0.4107
 ```
 
 
@@ -381,32 +330,16 @@ summary(mod_final)
 ## lm(formula = prok ~ neuro + gewis, data = fb24_short)
 ## 
 ## Residuals:
-##      Min       1Q   Median 
-## -0.64691 -0.16143  0.01391 
-##       3Q      Max 
-##  0.16999  0.50266 
+##      Min       1Q   Median       3Q      Max 
+## -0.64691 -0.16143  0.01391  0.16999  0.50266 
 ## 
 ## Coefficients:
-##              Estimate
-## (Intercept)  2.593601
-## neuro        0.036029
-## gewis       -0.008946
-##             Std. Error
-## (Intercept)   0.097272
-## neuro         0.017932
-## gewis         0.019212
-##             t value Pr(>|t|)
-## (Intercept)  26.663   <2e-16
-## neuro         2.009   0.0459
-## gewis        -0.466   0.6420
-##                
-## (Intercept) ***
-## neuro       *  
-## gewis          
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  2.593601   0.097272  26.663   <2e-16 ***
+## neuro        0.036029   0.017932   2.009   0.0459 *  
+## gewis       -0.008946   0.019212  -0.466   0.6420    
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.2319 on 187 degrees of freedom
 ## Multiple R-squared:  0.02358,	Adjusted R-squared:  0.01314 
@@ -482,10 +415,8 @@ mod_final$coefficients
 ```
 
 ```
-##  (Intercept)        neuro 
-##  2.593601258  0.036028798 
-##        gewis 
-## -0.008945736
+##  (Intercept)        neuro        gewis 
+##  2.593601258  0.036028798 -0.008945736
 ```
 
 Diese sind jedoch noch von der benutzten Skala abhängig weswegen wir noch keine Aussage darüber treffen können welches das "beste" Regressionsgewicht ist. Daher standardisieren wir unser Modell, um uns von der Skalenabhängigkeit zu befreien.
@@ -509,36 +440,16 @@ summary(mod_final_std)
 ## lm(formula = prok ~ neuro + gewis, data = fb24_short)
 ## 
 ## Residuals:
-##      Min       1Q   Median 
-## -0.64691 -0.16143  0.01391 
-##       3Q      Max 
-##  0.16999  0.50266 
+##      Min       1Q   Median       3Q      Max 
+## -0.64691 -0.16143  0.01391  0.16999  0.50266 
 ## 
 ## Coefficients:
-##              Estimate
-## (Intercept)  2.593601
-## neuro        0.036029
-## gewis       -0.008946
-##             Standardized
-## (Intercept)           NA
-## neuro           0.146086
-## gewis          -0.033855
-##             Std. Error
-## (Intercept)   0.097272
-## neuro         0.017932
-## gewis         0.019212
-##             t value Pr(>|t|)
-## (Intercept)  26.663   <2e-16
-## neuro         2.009   0.0459
-## gewis        -0.466   0.6420
-##                
-## (Intercept) ***
-## neuro       *  
-## gewis          
+##              Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)  2.593601           NA   0.097272  26.663   <2e-16 ***
+## neuro        0.036029     0.146086   0.017932   2.009   0.0459 *  
+## gewis       -0.008946    -0.033855   0.019212  -0.466   0.6420    
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.2319 on 187 degrees of freedom
 ## Multiple R-squared:  0.02358,	Adjusted R-squared:  0.01314 

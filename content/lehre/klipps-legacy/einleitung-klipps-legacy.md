@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'Dieser Beitrag stellt eine Einführung in `R` dar. Neben grundlegenden Funktionen werden das Einlesen und die Verarbeitung von Daten behandelt, außerdem werden einfache Datenanalysen durchgeführt. Besonderes Augenmerk liegt dabei auf den Grundlagen zur linearen Regression, die als Vorbereitung für die Regressionssitzung dienen. Zudem gibt es eine kleine Wiederholung einiger wichtiger inferenzstatistischer Begriffe.'
 authors: [nehler, irmer, schultze]
 weight: 1
-lastmod: '2024-10-08'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/chalkboard_equation.jpg"
@@ -52,14 +52,14 @@ Bevor Sie mit `R` arbeiten können, sollten Sie dafür natürlich die nötige So
 
 Das traditionelle `R` ist im Rahmen seiner Nutzeroberfläche einer Konsole ähnlich und damit nicht sehr benutzerfreundlich. Durch die Erweiterung mit `RStudio` wird die Verwendung deutlich erleichtert, weshalb wir dieses auch herunterladen. 
 
-![](/lehre/klipps-legacy/rstudio.png)
+![](rstudio.png)
 
 `RStudio` besteht aus vier Panels. Wenn wir `RStudio` zum ersten Mal öffnen sind jedoch nur drei sichtbar. Das vierte wird durch das Öffnen eines neuen Files sichtbar (oder auch durch **Strg+Shift+n** bzw. in OS X: **Cmd+Shift+n**). 
 
 Zunächst betrachten wir das Fenster unten links - die Konsole. In dieser kann Code ausgeführt werden. Beispielsweise können wir dort eine Addition eingeben und erhalten nach dem Drücken von **Enter** dann das Ergebnis der Operation.
 
 
-``` r
+```r
 2 + 1
 ```
 
@@ -80,7 +80,7 @@ Wir haben bereits eine Addition in unser Script geschrieben. Auch wenn wir diese
 Beispielsweise könnten wir unser Skript nun folgendermaßen besser lesbar machen.
 
 
-``` r
+```r
 #### Wiederholung in R ----
 
 1 + 2   # Addition
@@ -95,7 +95,7 @@ In der Gliederung sollte in `RStudio` jetzt die Überschrift "Wiederholung in R"
 Neben einfachen Taschenrechner-Funktionen mit *numerischen Ergebnissen* kann R auch logische Abfragen und Vergleiche durchführen. Hier folgt ein Beispiel für das Prüfen auf Gleichheit:
 
 
-``` r
+```r
 3 == 4   # Logische Abfrage auf Gleichheit
 ```
 
@@ -112,7 +112,7 @@ Die Ergebnisse dieser Abfragen sind *boolesch* - also immer entweder wahr (`TRUE
 Die Umsetzung der Addition anhand normaler Zeichen ist recht simpel. Das ist jedoch eher eine Ausnahme, weshalb es in `R` vorprogrammierte Funktionen gibt. Für unsere bisherige Operation könnte man beispielsweise folgende Funktion nutzen:
 
 
-``` r
+```r
 sum(1, 2) # Addition durch Funktion
 ```
 
@@ -129,7 +129,7 @@ funktion(argument1, argument2, argument3, ...)
 Wenn Argumente verschiedene Funktionen haben, sollten sie auch benannt werden. Ein einfaches Beispiel ist das Ziehen des Logarithmus. Hier gibt es zusätzlich zu der Zahl eine Basis. In `R` würde das dann so aussehen:
 
 
-``` r
+```r
 log(x = 23, base = 10) # Benennung von Argumenten
 ```
 
@@ -146,7 +146,7 @@ Wenn die Benennung von Argumenten nicht gegeben ist, werden diese in ihrer Reihe
 Wenn man die Argumente einer Funktion (oder deren Reihenfolge) mal nicht kennt, bietet `R` ein sehr detailliertes und gut integriertes Hilfesystem.  Wenn man mehr Informationen bezüglich einer spezifischen Funktion benötigt, kann man `help` auf jede beliebige Funktion anwenden (bzw. `?` vor den Namen einer Funktion schreiben). Sie sollten - besonders zum Einstieg in `R` - häufig und gezielt diese Hilfe in Anspruch nehmen.
 
 
-``` r
+```r
 ?log
 ```
 
@@ -159,7 +159,7 @@ Die Hilfe zur Funktion wird im Panel unten rechts geöffnet und ist ein Dokument
 Objekte dienen dazu, Ergebnisse abzulegen und diese in einer anderen Funktion zu verwenden. Die Zuweisung eines Ergebnisses zu einem Objekt erfolgt über den sog. Zuweisungspfeil `<-`.
 
 
-``` r
+```r
 #### Objekte ----
 my_num <- sum(3, 4, 1, 2) # Objekt zuweisen
 ```
@@ -169,7 +169,7 @@ Anders als zuvor wird in diesem Fall in der Konsole kein Ergebnis ausgedruckt, s
 Um den Inhalt eines Objektes abzurufen, müssen Sie lediglich den Namen des Objektes ausführen:
 
 
-``` r
+```r
 my_num # Objekt anzeigen
 ```
 
@@ -180,7 +180,7 @@ my_num # Objekt anzeigen
 Das eigentliche Ziel von Objektzuweisungen ist aber (wie bereits gesagt), den Inhalt von Objekten an weitere Funktionen weiterreichen zu können. In diesem Beispiel nutzen wir `sqrt` - die Berechnung einer Wurzel.
 
 
-``` r
+```r
 sqrt(my_num) # Objekt in Funktion einbinden
 ```
 
@@ -191,7 +191,7 @@ sqrt(my_num) # Objekt in Funktion einbinden
 Der Inhalt des Objektes wird so als Argument in die Funktion `sqrt` übergeben. Das ist letztlich das Gleiche wie
 
 
-``` r
+```r
 sqrt(sum(3, 4, 1, 2)) # Verschachtelte Funktionen
 ```
 
@@ -204,7 +204,7 @@ wo das Ergebnis nicht explizit in einem Objekt gespeichert wird, sondern direkt 
 Bei der Pipe `|>` wird ein links stehendes Objekt oder Ergebnis genommen und als *erstes Argument* der rechts stehenden Funktion eingesetzt. Für unser Wurzelbeispiel also:
 
 
-``` r
+```r
 sum(3, 4, 1, 2) |> sqrt() # Nutzung Pipe
 ```
 
@@ -217,7 +217,7 @@ Das hat den immensen Vorteil, dass wir dadurch unseren Code wieder in der, im we
 Ein Objekt kann nicht nur eine Zahl, sondern beispielsweise auch ein Vektor oder eine Matrix sein. Vektoren werden dabei mit `c()` und Matrizen mit `matrix()` erstellt.
 
 
-``` r
+```r
 my_vec <- c(1, 2, 3, 4) # Erstellung Vektor
 ```
 
@@ -233,7 +233,7 @@ Im Rahmen der Einführung und der Wiederholung einiger Themen nutzen wir zunäch
 Der Datensatz ist im `R`-internen ".rda" Format abgespeichert - einem datensatzspezifischen Dateiformat. Wir können diesen Datensatz einfach mit der `load` Funktion laden. Wir müssen `R` nur mitteilen, wo der Datensatz liegt et voilà, er wird uns zur Verfügung gestellt. Liegt der Datensatz bspw. auf dem Desktop, so müssen wir den Dateipfad dorthin legen und können dann den Datensatz laden (wir gehen hier davon aus, dass Ihr PC "Musterfrau" heißt):
 
 
-``` r
+```r
 load("C:/Users/Musterfrau/Desktop/Depression.rda")
 ```
 
@@ -244,7 +244,7 @@ Bei Dateipfaden ist darauf zu achten, dass bei  Linux {{< icon name="linux" pack
 Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hierzu brauchen Sie nur die URL und müssen `R` sagen, dass es sich bei dieser um eine URL handelt, indem Sie die Funktion `url` auf den Link anwenden. Der funktionierende Befehl sieht so aus. (Es ist zu beachten, dass die URL in Anführungszeichen geschrieben werden muss):
 
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/Depression.rda"))
 ```
 
@@ -257,7 +257,7 @@ Natürlich kann `R` auch andere Dateiformate einladen. Dafür gibt es jeweils sp
 Wir können uns die ersten (6) Zeilen des Datensatzes mit der Funktion `head` ansehen. Dazu müssen wir diese Funktion auf den Datensatz (das Objekt) `Depression` anwenden:
 
 
-``` r
+```r
 head(Depression) # ersten 6 Zeilen
 ```
 
@@ -274,16 +274,16 @@ head(Depression) # ersten 6 Zeilen
 Wir erkennen die 6 Spalten mit den Variablen Lebenszufriedenheit, Depressivitaet usw. Da es sich bei unserem Datensatz um ein Objekt vom Typ `data.frame` handelt, können wir die Variablennamen des Datensatzes außerdem mit der `names` Funktion abfragen. Eine weitere interessante Funktion ist `dim`, die die Anzahl der Zeilen und Spalten ausgibt. Mit `str` kann die Struktur des Datensatzes angezeigt werden. 
 
 
-``` r
+```r
 names(Depression) # Namen der Variablen
 ```
 
 ```
-## [1] "Lebenszufriedenheit" "Episodenanzahl"      "Depressivitaet"      "Neurotizismus"       "Intervention"       
-## [6] "Geschlecht"
+## [1] "Lebenszufriedenheit" "Episodenanzahl"      "Depressivitaet"      "Neurotizismus"      
+## [5] "Intervention"        "Geschlecht"
 ```
 
-``` r
+```r
 dim(Depression) # Anzahl der Zeilen und Spalten 
 ```
 
@@ -291,7 +291,7 @@ dim(Depression) # Anzahl der Zeilen und Spalten
 ## [1] 90  6
 ```
 
-``` r
+```r
 str(Depression) # Informationen zu Variablentypen
 ```
 
@@ -320,7 +320,7 @@ Typ | Kurzform | Inhalt
 Um zu prüfen, ob ein Objekt oder eine Variable einen erwarteten Typ hat, können wir mit Funktionen vor den Typ-Namen `is.` schreiben und das als Funktion anwenden:
 
 
-``` r
+```r
 is.factor(Depression$Geschlecht)
 ```
 
@@ -335,7 +335,7 @@ _**Tipp:** In `RStudio` können Sie sich Ihren Umgang mit der Software in vielen
 Bei Faktoren können wir uns die verschiedenen Stufen mittels `levels` anzeigen lassen.
 
 
-``` r
+```r
 levels(Depression$Geschlecht)
 ```
 
@@ -347,7 +347,7 @@ Wir sehen also, dass die Variable Geschlecht zwei mögliche Ausprägungen hat. D
 
 
 
-``` r
+```r
 levels(Depression$Geschlecht) <- c("maennlich", "weiblich")
 ```
 
@@ -358,7 +358,7 @@ Bei der Datenauswertung und -inspektion kann es aber genauso wichtig sein, Einze
 
 
 
-``` r
+```r
 Depression$Depressivitaet[5] # Extrahieren
 ```
 
@@ -369,7 +369,7 @@ Depression$Depressivitaet[5] # Extrahieren
 Dabei kann man natürlich auch mehr als einen Wert auswählen, indem man Vektoren verwendet. Der Doppelpunkt bedeutet in dem Falle alle ganzen Zahlen zwischen den angegebenen Grenzen.
 
 
-``` r
+```r
 Depression$Depressivitaet[c(1, 3:5)] # Mehrfach Extrahieren
 ```
 
@@ -380,7 +380,7 @@ Depression$Depressivitaet[c(1, 3:5)] # Mehrfach Extrahieren
 Weil wir die Variable einzeln auswählen und diese dadurch eindimensional ist, benötigen wir zur Auswahl von Elementen nur eine Information. Wenn wir aus dem vollen `data.frame` auswählen, sieht das natürlich anders aus. Um beispielsweise die Lebenszufriedenheit und Arbeitsbeanspruchung der ersten beiden Personen zu betrachten, müssen wir die ersten zwei Zeilen und ersten zwei Spalten ansprechen. Bei mehrdimensionalen Objekten werden in R die Dimensionen in eckigen Klammern einfach durch Kommata getrennt:
 
 
-``` r
+```r
 Depression[c(1:2), c(1:2)] # Extrahieren aus Matrix
 ```
 
@@ -393,7 +393,7 @@ Depression[c(1:2), c(1:2)] # Extrahieren aus Matrix
 In R-Termini nimmt die Auswahlfunktion (die eckigen Klammern) in diesem Fall zwei Argumente entgegen: Zeile und Spalte. Wenn ein Argument ausgelassen wird, ist die Voreinstellung, dass alle Elemente dieser Dimension ausgegeben werden:
 
 
-``` r
+```r
 Depression[1, ]   # 1. Zeile, alle Spalten
 ```
 
@@ -407,7 +407,7 @@ Depression[1, ]   # 1. Zeile, alle Spalten
 Der Zuweisungspfeil funktioniert auch für Elemente größerer Objekte. Nehmen wir an, wir hätten uns bei der Eingabe der 5. Person im Geschlecht vertippt. Um die vorhandenen Daten zu überschreiben, können wir neue Werte direkt zuweisen. Beim Überschreiben eines Werts gibt es keinerlei Warnung. Sobald die Zuweisung ausgeführt ist, sind die Daten überschrieben und die vorherigen Daten verloren. Daher ist dies stets mit Vorsicht durchzuführen.
 
 
-``` r
+```r
 Depression[5, 6]           # Aktuellen Inhalt abfragen
 ```
 
@@ -416,21 +416,22 @@ Depression[5, 6]           # Aktuellen Inhalt abfragen
 ## Levels: maennlich weiblich
 ```
 
-``` r
+```r
 Depression[5, 6] <- "maennlich"    # Aktuellen Inhalt überschreiben
 Depression[, 6]                    # Alle Geschlechter abfragen
 ```
 
 ```
-##  [1] maennlich weiblich  maennlich weiblich  maennlich weiblich  weiblich  maennlich weiblich  maennlich
-## [11] weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich weiblich  maennlich
-## [21] weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich weiblich  weiblich 
-## [31] weiblich  maennlich weiblich  weiblich  weiblich  maennlich maennlich maennlich weiblich  maennlich
-## [41] maennlich maennlich maennlich maennlich maennlich maennlich weiblich  maennlich maennlich weiblich 
-## [51] maennlich weiblich  weiblich  maennlich maennlich maennlich weiblich  maennlich maennlich maennlich
-## [61] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
-## [71] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
-## [81] maennlich maennlich maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich 
+##  [1] maennlich weiblich  maennlich weiblich  maennlich weiblich  weiblich  maennlich weiblich 
+## [10] maennlich weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  maennlich
+## [19] weiblich  maennlich weiblich  weiblich  weiblich  weiblich  weiblich  weiblich  weiblich 
+## [28] maennlich weiblich  weiblich  weiblich  maennlich weiblich  weiblich  weiblich  maennlich
+## [37] maennlich maennlich weiblich  maennlich maennlich maennlich maennlich maennlich maennlich
+## [46] maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich  maennlich
+## [55] maennlich maennlich weiblich  maennlich maennlich maennlich maennlich maennlich maennlich
+## [64] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
+## [73] maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich maennlich
+## [82] maennlich maennlich weiblich  maennlich maennlich weiblich  maennlich weiblich  weiblich 
 ## Levels: maennlich weiblich
 ```
 
@@ -444,7 +445,7 @@ Natürlich wollen wir nicht nur mit den Daten spielen, sondern Auswertungen durc
 Bevor wir mit den in der Vorlesung besprochenen Analysen anfangen, wollen wir uns noch schnell mit dem Bestimmen einfacher deskriptivstatistischer Größen vertraut machen. Mit der Funktion `mean` können wir den Mittelwert einer Variable bestimmen. Eine Schätzung für die Populationsvarianz erhalten wir mit `var`.  _Bei der `var`-Funktion wird der Vorfaktor $\frac{1}{n-1}$ verwendet, um einen unvrezerrten Schätzer für die Variation in der Population zu erhalten. Demnach handelt es sich um eine Populations- und nicht um eine Stichprobenschätzung. (Für mehr Informationen siehe bspw. [Eid, Gollwitzer und Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 162-163 in Kapitel 6.4.4 und S. 246-247 in Kapitel 8.5.1 oder [Agresti, & Finlay, 2013](https://ubffm.hds.hebis.de/Record/HEB369761391), Kapitel 3.2 und folgend)._
 
 
-``` r
+```r
 mean(Depression$Depressivitaet) # Mittwelert
 ```
 
@@ -452,7 +453,7 @@ mean(Depression$Depressivitaet) # Mittwelert
 ## [1] 5.655556
 ```
 
-``` r
+```r
 var(Depression$Depressivitaet) # Varianz
 ```
 
@@ -463,7 +464,7 @@ var(Depression$Depressivitaet) # Varianz
 Mit `summary` können wir uns die Zusammenfassung einer Variable ansehen. 
 
 
-``` r
+```r
 summary(Depression$Depressivitaet) # Zusammenfassung numerisch
 ```
 
@@ -472,7 +473,7 @@ summary(Depression$Depressivitaet) # Zusammenfassung numerisch
 ##   1.000   5.000   6.000   5.656   7.000  10.000
 ```
 
-``` r
+```r
 summary(Depression$Geschlecht) # Zusammenfassung factor
 ```
 
@@ -486,7 +487,7 @@ Im numerischen Fall erhalten wir in der Ausgabe einige beschreibende Kennwerte w
 Als letztes schauen wir uns noch den Befehl `colMeans` an, welcher Mittelwerte eines Datensatzes über die Spalten (also pro Variable über alle Personen) bestimmt. Somit lassen sich ganz einfach für alle Variablen eines Datensatzes auf einmal die Mittelwerte bestimmen (`rowMeans` bestimmt, wie Sie sich wahrscheinlich denken, die Mittelwerte pro Zeile, also die Mittelwerte über alle Variablen pro Person):
 
 
-``` r
+```r
 colMeans(Depression[1:4]) # Spaltenmittelwerte
 ```
 
@@ -506,16 +507,16 @@ Natürlich ist die Analyse nicht ohne Voraussetzungen. Diese sind im folgenden d
 Eine simple Darstellung des Zusammenhangs kann man über die `plot`-Funktion abbilden. Schönere Grafiken erhält man mittels des Befehls `ggplot`, zu dem Sie sich [hier](/lehre/statistik-ii/grafiken-ggplot2) nochmal genauer informieren können. 
 
 
-``` r
+```r
 plot(Depression$Lebenszufriedenheit, Depression$Depressivitaet, xlab = "Lebenszufriedenheit", ylab = "Depressivitaet")
 ```
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-28-1.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-28-1.png)<!-- -->
 
 Die Umsetzung der Parameterschätzung anhand der kleinsten Quadrate ist mit der Funktion `lm` möglich. Beachten Sie hierbei, dass angegeben wird, welche Variable durch welche Variable vorhergesagt wird. Das bedeutet, dass wir hier zuerst Depressivitaet und dann Lebenszufriedenheit nennen müssen, wenn wir Depressivitaet durch Lebenszufriedenheit vorhersagen wollen.
 
 
-``` r
+```r
 lm(Depressivitaet ~ Lebenszufriedenheit, Depression) # lineare Regression
 ```
 
@@ -532,14 +533,14 @@ lm(Depressivitaet ~ Lebenszufriedenheit, Depression) # lineare Regression
 Der hier gegebene Output enthält zwar die wichtigsten Informationen, doch wird eigentlich noch viel mehr innerhalb der Funktion berechnet. Dies ist ein gutes Beispiel dafür, dass es manchmal Sinn macht, auch die Ergebnisse der Analyse in ein Objekt abzulegen.
 
 
-``` r
+```r
 model <- lm(Depressivitaet ~ Lebenszufriedenheit, Depression) # Objektzuweisung
 ```
 
 Beispielsweise können wir wie bereits angedeutet die Funktion `summary` verwenden, um eine Zusammenfassung der Ergebnisse zu erhalten.
 
 
-``` r
+```r
 summary(model)
 ```
 
@@ -569,7 +570,7 @@ Hier werden uns neben dem Steigungskoeffizienten und dem Achsenabschnitt beispie
 Doch es gibt noch einige weitere Informationen, die von der Funktion `lm` abgelegt werden. Die Bezeichnungen aller Einträge in der Liste `model` können über `names` abgefragt werden.
 
 
-``` r
+```r
 names(model) #andere Inhalte der Liste
 ```
 
@@ -600,7 +601,7 @@ Diese Hypothese gilt nicht, wenn $\mu_1\neq\mu_2$. In diesem Fall gilt irgendein
 
 
 
-``` r
+```r
 t.test(Depressivitaet ~ Geschlecht,  # abhängige Variable ~ unabhängige Variable
        data = Depression, # Datensatz
       alternative = "two.sided",        # zweiseitige Testung (Default)
@@ -654,7 +655,7 @@ zeigt uns die Alternativhypothese ($H_1:d \neq 0$), das Konfidenzintervall der M
 Wie bei der Regression können wir auch den Test als Objekt ablegen. Wenn wir `names` darauf anwenden, sehen wir wieder alle Namen, die wir hinter `$` schreiben können.
 
 
-``` r
+```r
 ttest <- t.test(Depressivitaet ~ Geschlecht,  # abhängige Variable ~ unabhängige Variable
        data = Depression, # Datensatz
       alternative = "two.sided",        # zweiseitige Testung (Default)
@@ -668,7 +669,7 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ##  [8] "alternative" "method"      "data.name"
 ```
 
-``` r
+```r
 ttest$statistic # (empirischer) t-Wert
 ```
 
@@ -677,7 +678,7 @@ ttest$statistic # (empirischer) t-Wert
 ## -7.495507
 ```
 
-``` r
+```r
 ttest$p.value   # zugehöriger p-Wert
 ```
 
@@ -698,7 +699,7 @@ Nun sind wir am Schluss des behandelten Codes in der Seminar-Sitzung angekommen.
 ### Simulieren der Stichproben
 Wir können in `R` relativ simpel normalverteilte Variablen simulieren. Für weitere Informationen zur Simulation von Verteilungen siehe bspw. [`R`-Verteilungen auf Wiki](https://en.wikibooks.org/wiki/R_Programming/Probability_Distributions) oder [hier auf pandaR](/lehre/statistik-i/verteilungen/). Den Code der hier durchgeführten Simulationen können Sie [Appendix A](#AppendixA) entnehmen (geht über den Inhalt des Seminars hinaus). Nehmen wir an, dass wir als Grundlage unserer Stichprobe die Standardnormalverteilung $\mathcal{N}(0,1)$ haben. Wir ziehen 1000 Personen aus dieser Population und lassen uns ein Histogramm sowie den Mittelwert und die geschätzte Populationsstandardabweichung ausgeben. 
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-39-1.png)<!-- -->
 
 ```
 ## [1] -0.002997332
@@ -732,7 +733,7 @@ Der Output ist uns bereits bekannt. Da die Null-Hypothese nicht verworfen wird, 
 ### Verteilung unter $H_0$
 Wenn wir dieses Experiment nun ganz häufig wiederholen, sollte die Teststatistik $t=\frac{\bar{X}-\bar{Y}}{\sigma_p}$ (wobei $\bar{X}$ und $\bar{Y}$ die Mittelwerte der Stichproben $X$ und $Y$ sind und $\sigma_p$ die gepoolte Standardabweichung beschreibt) der $t$-Verteilung folgen, welcher wir dann den $p$-Wert ablesen können. 
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-41-1.png)<!-- -->![](einleitung-klipps-legacy_files/figure-html/unnamed-chunk-41-2.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-41-1.png)<!-- -->![](/einleitung-klipps-legacy_files/unnamed-chunk-41-2.png)<!-- -->
 
 Die beiden Histogramme zeigen die empirische Verteilung der $t$- und $p$-Werte unter der $H_0$-Hypothese nach 10000 (unabhängigen) Wiederholungen sowie die angenommene Verteilung (fette durchgezogene schwarze Linie).  Von den $p$-Werten wird erwartet, dass sie sich gleich (uniform) auf das Intervall zwischen 0 und 1 verteilen. Somit landen dann nur 5% der $p$-Werte mit zugehörig großen Teststatistiken (zufällig) im Bereich $p<0.05$.
 
@@ -740,11 +741,11 @@ Die beiden Histogramme zeigen die empirische Verteilung der $t$- und $p$-Werte u
 ### Verteilung unter $H_1$
 Angenommen die $H_0$-Hypothese gilt nicht und es liegt tatsächlich eine Mittelwertsdifferenz von bspw. $d=0.1$ ($H_1: \mu_1 - \mu_2 = 0.1$) vor, dann hat dies folgende Auswirkungen auf die Verteilung der Teststatistik und die zugehörigen $p$-Werte:
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-42-1.png)<!-- -->![](einleitung-klipps-legacy_files/figure-html/unnamed-chunk-42-2.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-42-1.png)<!-- -->![](/einleitung-klipps-legacy_files/unnamed-chunk-42-2.png)<!-- -->
 
 Wir sehen sehr deutlich, dass die Teststatistik $t$ deutlich nach rechts verschoben ist und nicht mehr zur theoretischen Verteilung unter der $H_0$-Hypothese passt. Auch die $p$-Werte sind alles andere als gleichverteilt. Folglich sprechen extreme $t$-Werte gegen die Null-Hypothese, weswegen wir diese verwerfen, wenn wir einen extremen Wert beobachten. Hier liegen 60.99% der $p$-Werte unterhalb von $0.05$. Dies wird auch als **Power** (siehe im Kapitel 8 in [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158) Wiederholungen der Begriffe Power und $\alpha$-Fehler) bezeichnet. Somit hat der $t$-Test für eine Mittelwertsdifferenz von $d$=.1 und eine Stichprobengröße von insgesamt n = 2000 eine Power von rund 60.99%. Dies bedeutet, dass in diesem Fall die $H_0$ in 60.99% der Fälle richtigerweise verworfen wird. Schauen wir uns die Power der $t$-Tests einmal für verschiedene Stichprobengröße ($n$) und Mittelwertsdifferenzen ($d$) an:
 
-<img src="/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-43-1.png" style="display: block; margin: auto;" />
+<img src="/einleitung-klipps-legacy_files/unnamed-chunk-43-1.png" style="display: block; margin: auto;" />
 
 Die horizontal gepunktete Linie zeigt eine Power von 5% an (also das vorgegebene $\alpha$-Niveau) und die horizontal gestrichelte Linie zeigt eine Power von 80% an. 
 
@@ -756,11 +757,11 @@ Was wir auch erkennen ist, dass für sehr große Stichproben die Power dieses Te
 ### Verstöße gegen die Modellannahmen
 Liegen andere Verstöße gegen die Modellannahmen vor, dann kann es fälschlicherweise zu signifikanten Ergebnissen kommen, obwohl es in der Population gar keinen Effekt gibt. Dies ist oft bei kleinen Stichproben ein Problem. Nehmen wir beispielsweise an, dass die beiden Gruppen sehr gegenläufig schief verteilt sind.
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-44-1.png)<!-- -->
 
 Hier gilt zwar die Null-Hypothese, da beide Verteilungen einen theoretischen Mittelwert von 0 haben, aber die Varianzen unterscheiden sich (was im Histogramm  durch die extremeren Werte entlang der x-Achse zu erkennen ist) und die Variablen sind offensichtlich nicht normalverteilt. Schauen wir uns nun die Power des $t$-Tests für eine sehr kleine Stichprobe von 5 pro Gruppe an:
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-45-1.png)<!-- -->![](einleitung-klipps-legacy_files/figure-html/unnamed-chunk-45-2.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-45-1.png)<!-- -->![](/einleitung-klipps-legacy_files/unnamed-chunk-45-2.png)<!-- -->
 
 Insgesamt sieht die Verteilung der $t$-Werte einigermaßen in Ordnung, wenn auch etwas schief, aus. Doch bei den $p$-Werten fällt auf, dass die Null-Hypothese zu häufig verworfen wird, nämlich insgesamt in 11.11% der Fälle (durch Zufall, da die Null-Hypothese eigentlich gilt!); also doppelt so häufig wie von uns vorgegeben! Glücklicherweise ist der $t$-Test relativ robust, was daran zu erkennen ist, dass, wenn die Stichprobengröße für dieses Beispiel bei 50 oder gar höher liegt (pro Gruppe), das $\alpha$-Niveau schon wieder einigermaßen eingehalten wird. Außerdem gibt es geeignetere Tests zum Untersuchen von Mittelwertsunterschieden zweier Stichproben als den $t$-Test - nämlich den Welch-Test. Dies ist eine Erweiterung des $t$-Tests für ungleiche Varianzen. Dieser ist auch der Default in `R`. Wir rechnen ihn, indem wir nicht länger `var.equal = T` in `t.test` spezifizieren. Der Output ändert sich bis auf die Namensänderung kaum - die Freiheitsgrade des Tests werden korrigiert, um auf die ungleichen Varianzen zu reagieren (dies bedeutet, immer wenn die Freiheitsgrade nicht einfach $n-2$ sind, dann wurde der Welch-Test gerechnet; insbesondere sind Kommazahlen als $df$ möglich). Jedoch bringt diese Erweiterung ebenfalls nur für größere Stichproben etwas. Die analoge Simulationsstudie können Sie [Appendix A](#AppendixA) entnehmen. Dort finden Sie wie bereits erwähnt auch den Code für viele der hier gezeigten Grafiken und Informationen zur Simulation von Stichproben an sich.
 
@@ -783,15 +784,15 @@ Hier ist der Code für einige Grafiken und Simulationen dargestellt. Dies geht n
 Wir müssen  diesem Befehl lediglich übergeben, wie viele Replikationen wir wünschen und welchen Mittelwert und welche Standardabweichung die Zufallsvariablen haben sollen. Wir simulieren die Standardnormalverteilung $\mathcal{N}(0,1)$ und legen die generierte (realisierte) Zufallsvariable in einem Objekt mit dem Namen `group1` ab, um später gezeigte Informationen wie den Mittelwert oder die Standardabweichung abrufen zu können - dies machen wir mit dem "Zuordnungspfeil". Um zufällige Prozesse über verschiedene Zeitpunkte hinweg konstant zu halten (damit es replizierbar ist und Sie dasselbe Ergebnis bekommen), wird zunächst ein Startpunkt für den Zufallsprozess mittels `set.seed` gesetzt.
 
 
-``` r
+```r
 set.seed(1234567) # für Replizierbarkeit (bei gleicher R Version, kommen Sie mit diesem Seed zum selben Ergebnis!)
 group1 <- rnorm(n = 1000, mean = 0, sd = 1) # Standardnormalverteilung mit n = 1000
 hist(group1)
 ```
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-46-1.png)<!-- -->
 
-``` r
+```r
 mean(group1)
 ```
 
@@ -799,7 +800,7 @@ mean(group1)
 ## [1] -0.002997332
 ```
 
-``` r
+```r
 sd(group1)
 ```
 
@@ -809,7 +810,7 @@ sd(group1)
 
 
 
-``` r
+```r
 # Simulation der zweiten Stichprobe
 set.seed(2)
 group2 <- rnorm(n = 1000, mean = 0, sd = 1)
@@ -833,7 +834,7 @@ ttest # Vergleich zwischen den beiden Stichproben
 
 #### Verteilung unter $H_0$
 
-``` r
+```r
 ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
 for(i in 1:10000)
 {
@@ -848,18 +849,18 @@ hist(ts, main = "(empirische) t-Werte nach 10000 Replikationen unter H0", xlab =
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-48-1.png)<!-- -->
 
-``` r
+```r
 hist(ps, main = "p-Werte nach 10000 Replikationen unter H0", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-48-2.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-48-2.png)<!-- -->
 
 #### Verteilung unter $H_1$
 
-``` r
+```r
 ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
 for(i in 1:10000)
 {
@@ -874,19 +875,19 @@ hist(ts, main = "(empirische) t-Werte nach 10000 Replikationen unter H1", xlab =
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-49-1.png)<!-- -->
 
-``` r
+```r
 hist(ps, main = "p-Werte nach 10000 Replikationen unter H1", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-49-2.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-49-2.png)<!-- -->
 
 #### Stichprobenziehung mit Modellverstößen
 
 
-``` r
+```r
 set.seed(1)
 par(mfrow = c(1,2))
 
@@ -897,12 +898,12 @@ group2 <- group2 - 1/2
 hist(group1); hist(group2)
 ```
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-50-1.png)<!-- -->
 
 #### Verteilung unter $H_0$ mit Modellverstößen
 
 
-``` r
+```r
 set.seed(1)
 ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
 for(i in 1:10000)
@@ -920,18 +921,18 @@ hist(ts, main = "t-Werte nach 10000 Replikationen unter Modellverstöße\n für 
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-51-1.png)<!-- -->
 
-``` r
+```r
 hist(ps, main = "p-Werte nach 10000 Replikationen unter Modellverstößen\n für kleine Stichproben", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-51-2.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-51-2.png)<!-- -->
 
 #### Verteilung unter $H_0$ mit Modellverstößen: Welch-Test
 
-``` r
+```r
 set.seed(1)
 ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
 for(i in 1:10000)
@@ -949,20 +950,20 @@ hist(ts, main = "t-Werte (des Welch t-Tests) nach 10000 Replikationen\n unter Mo
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-52-1.png)<!-- -->
 
-``` r
+```r
 hist(ps, main = "p-Werte (des Welch t-Tests) nach 10000 Replikationen\n unter Modellverstößen für kleine Stichproben", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-52-2.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-52-2.png)<!-- -->
 Insgesamt sieht die Verteilung der Teststatistik (also quasi der empirischen $t$-Werte) einigermaßen in Ordnung aus, wenn auch etwas schief, doch bei den $p$-Werten fällt auf, dass die Null-Hypothese zu häufig verworfen wird, nämlich insgesamt in 10% der Fälle (durch Zufall, da die Null-Hypothese eigentlich gilt!); also doppelt so häufig wie von uns vorgegeben! Hier gibt es kaum Unterschiede zum ursprünglichen $t$-Test mit gleichen Varianzen. Allerdings ist die Stichprobengröße hier mit 5 pro Gruppe recht klein!
 
 
 #### Verteilung unter $H_0$ mit Modellverstößen mit größerer Stichprobe: Welch-Test
 
-``` r
+```r
 set.seed(1234)
 ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
 for(i in 1:10000)
@@ -980,14 +981,14 @@ hist(ts, main = "t-Werte (des Welch t-Tests) nach 10000 Replikationen\n unter Mo
 lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-53-1.png)<!-- -->
 
-``` r
+```r
 hist(ps, main = "p-Werte (des Welch t-Tests) nach 10000 Replikationen\n unter Modellverstößen für größere Stichproben", xlab = "p", freq = F)
 abline(a = 1, b = 0, lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/einleitung-klipps-legacy_files/figure-html/unnamed-chunk-53-2.png)<!-- -->
+![](/einleitung-klipps-legacy_files/unnamed-chunk-53-2.png)<!-- -->
 
 Für jeweils 100 Erhebungen pro Gruppe ist der Verstoß gegen die Normalverteilungsannahme bei ungleichen Varianzen für den Welch-Test fast zu vernachlässigen.
 

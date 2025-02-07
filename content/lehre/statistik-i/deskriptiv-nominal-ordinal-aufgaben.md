@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [buchholz, nehler, sinn]
 weight: 
-lastmod: '2024-10-24'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"

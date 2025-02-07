@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird euch SmartGit erklärt, wofür es gebraucht werden kann, und wie ihr es auf eurem eigenen Computer aufsetzen könnt. Der Fokus liegt hierbei darauf, inwiefern Smartgit für LIFOS selbst genutzt werden kann.' 
 authors: [nehler, schloter, pommeranz] 
 weight: 4
-lastmod: '2023-10-26'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/drawings_space.jpg"
@@ -45,27 +45,27 @@ Damit Ihr <span style="color: darkred;">**SmartGit**</span> auf euren Rechnern v
 
 Nach dem ersten Start von <span style="color: darkred;">**SmartGit**</span> wird man im Setup Menu zu einigen Einstellungen befragt. Dabei kann bei älteren Versionen ein *License type* ausgewählt werden, wo man angeben kann, dass man <span style="color: darkred;">**SmartGit**</span> für nicht-komerzielle Gründe verwendet. Bei den neueren Versionen von <span style="color: darkred;">**SmartGit**</span> ist das leider nicht mehr möglich und das Fenster sieht folgendermaßen aus:
 
-![](/lifos/extras/../grundlagen/smartgit_license.png)
+![](../grundlagen/smartgit_license.png)
 
 Der erste Monat nach der Installation bietet eine kostenlose Nutzung ohne irgendeinen Nachweis. [Hier](https://www.syntevo.com/register-non-commercial/#academic) könnt Ihr eine *educational license* beantragen. Dafür müsst Ihr nur euren Namen und die studentische Mail-Adresse angeben. Nachdem Ihr eure Mail-Adresse nochmal bestätigt, werdet Ihr ein paar Tage warten müssen. Da wir aber einen Monat kostenlosen Trial haben, können wir trotzdem direkt in die weitere Installation und Arbeit mit <span style="color: darkred;">**SmartGit**</span> einsteigen. Später werdet Ihr eine Mail mit eurer *educational license* erhalten, in der die Schritte zur Aktivierung genannt sind.
 
 
 Als nächstes müsst Ihr euch unter *User Information* einen Nutzernamen geben sowie eine E-Mail-Adresse angeben, über die Ihr euer <span style="color: darkred;">**SmartGit**</span> konfiguriert. Hier könnt Ihr der einfachheitshalber den Nutzernamen und die E-Mail verwenden, die auch bei LIFOS verwendet wird.  
 
-![](/lifos/extras/../grundlagen/smartgit_information.png)
+![](../grundlagen/smartgit_information.png)
 
 
 Jetzt müsst Ihr noch die Option *Use SmartGit as SSH client* auswählen. Dies ist für den Start der Arbeit mit <span style="color: darkred;">**SmartGit**</span> empfohlen. 
 
-![](/lifos/extras/../grundlagen/smartgit_sshclient.png)
+![](../grundlagen/smartgit_sshclient.png)
 
 Anschließend werden wir nach dem bevorzugten Style der Oberfläche von <span style="color: darkred;">**SmartGit**</span> gefragt. Hier gibt es natürlich kein Richtig oder Falsch und es gibt auch nicht direkt eine Empfehlung für Anfänger:innen. Die Ansicht des **Working Tree** wird von uns allerdings als intuitiver eingeschätzt und deshalb verwendet. Wie im Fenster beschrieben, kann diese Einstellung später auch unter *Präferenz* geändert werden. 
 
-![](/lifos/extras/../grundlagen/smartgit_style.png)
+![](../grundlagen/smartgit_style.png)
 
 Unter **Privacy** kann man bestimmen, in welchen Fällen Daten an die Ersteller:innen gesendet werden, die diese zur Verbesserung des Programmes nutzen wollen. Hier möchten wir keine Empfehlung aussprechen - man kann nach persönlicher Präferenz auswählen. Außerdem sucht <span style="color: darkred;">**SmartGit**</span> auf dem Rechner nach initialisierten Repositories und gibt in diesem Fenster die Anzahl an.
 
-![](/lifos/extras/../grundlagen/smartgit_privacy.png)
+![](../grundlagen/smartgit_privacy.png)
 
 Jetzt ist die Installation abgeschlossen.
 
@@ -75,41 +75,41 @@ Wir gehen hier davon aus, dass Ihr euer Projekt auf LIFOS schon erstellt habt. W
 
 Zuerst solltet Ihr euch auf der Seite des Projekts befinden, wobei nun oben zwei Warnungen angezeigt werden sollten:
 
-![](/lifos/extras/../grundlagen/smartgitlifos_warning.png)
+![](../grundlagen/smartgitlifos_warning.png)
 
 Uns interessiert hierbei die untere Warnung. Klickt dabei auf *set a password*. Im Anschluss muss auf der Seite, zu der Ihr geleitet werdet ein neues Passwort gesetzt werden. Dieses Passwort wird nachher für die Verbindung über SmartGit genutzt, es ist nicht relevant für die Anmeldung auf Gitlab selbst, dort werden weiterhin die HRZ-Logindaten entegegengenommen. Solltest du aus Versehen die Warnung permanent abgeschaltet hast, kannst du stattdessen [diesen Link](https://lifos.uni-frankfurt.de/-/profile/password/edit) nutzen.
 
 Nun benötigen wir euren Benutzernamen, Passwort und den HTTPS-Link zu eurem Projekt. Das Passwort habt Ihr gerade erstellt. Den Link findet Ihr, wenn Ihr auf der Projektseite auf *Clone* geht und dann unter *Clone with HTTPS* den Link kopiert. 
 
-![](/lifos/extras/../grundlagen/smartgitlifos_httpsLink.png)
+![](../grundlagen/smartgitlifos_httpsLink.png)
 
 Den Benutzernamen, den Ihr benötigt, findet Ihr mit einem Klick auf euren Avatar oben rechts. Der Benutzername ist der, der mit "@" beginnt. Das "@" selbst ist jedoch nicht Teil des Benutzernamens!
 
-![](/lifos/extras/../grundlagen/smartgitlifos_username.png)
+![](../grundlagen/smartgitlifos_username.png)
 
 Jetzt wechseln wir wieder zu <span style="color: darkred;">**SmartGit**</span>. Hier gehen wir unter *Repository* auf *Clone*. 
 
-![](/lifos/extras/../grundlagen/smartgitlifos_RepositoryClone.png)
+![](../grundlagen/smartgitlifos_RepositoryClone.png)
 
 Nun geben wir unter "Repository URL" den Link ein, den wir oben kopiert haben und klicken *Next*. 
 
-![](/lifos/extras/../grundlagen/smartgitlifos_RepositoryInitiate.png)
+![](../grundlagen/smartgitlifos_RepositoryInitiate.png)
 
 Auf der folgenden Seite übernehmen wir die Voreinstellungen und klicken wieder auf *Next*. 
 
-![](/lifos/extras/../grundlagen/smartgitlifos_RepositoryInitiate2.png)
+![](../grundlagen/smartgitlifos_RepositoryInitiate2.png)
 
 Auf der letzten Seite müssen wir noch einen lokalen Ordner initiieren, der als lokale Repräsentation des Online-Repositorys dient. 
 
 Zuletzt müssen wir noch den LIFOS Benutzernamen und Passwort eingeben. 
 
-![](/lifos/extras/../grundlagen/smartgitlifos_addrepositoryRemotePassword.png)
+![](../grundlagen/smartgitlifos_addrepositoryRemotePassword.png)
 
 Nun haben wir erfolgreich ein Remote-Repository mit eurem lokalen <span style="color: darkred;">**SmartGit**</span> verbunden! 
 
 Ob das Verbinden bei euch auch erfolgreich war, merkt Ihr erstens daran, dass keine Fehlermeldung ausgegeben wurde und bei <span style="color: darkred;">**SmartGit**</span> ein neues Repository aufgetaucht ist. 
 
-![](/lifos/extras/../grundlagen/smartgitlifos_NewRepository.png)
+![](../grundlagen/smartgitlifos_NewRepository.png)
 
 # Basics
 
@@ -125,7 +125,7 @@ Um genaueres über <span style="color: darkred;">**Git**</span> und alle zugehö
 
 Zur Orientierung schauen wir uns natürlich die Oberfläche von <span style="color: darkred;">**SmartGit**</span> genauer an. Diese haben wir durch die Auswahl eines bestimmten Styles hergestellt.
 
-![](/lifos/extras/../grundlagen/smartgit_style_workingtree.png)
+![](../grundlagen/smartgit_style_workingtree.png)
 
 In der oberen Zeile befinden sich zunächst Symbole mit den Begriffen *pull* und *commit*. Diese werden wir gleich brauchen. Auf der linken Seite sehen wir unser Repository - theoretisch können das so viele sein, wie Ihr an Projekten beteiligt seid. Wenn Ihr dem Tutorial Stück für Stück bis hierhin gefolgt seid, sollte euer LIFOS-Projekt-Repository hier erscheinen. Darunter sehen wir die verschiedenen **Branches** eines Projekts - was das ist, könnt Ihr [hier](https://pandar.netlify.app/post/branches/) nachlesen. 
 <!-- Link muss erneuert werden -->
@@ -135,26 +135,26 @@ In der Kachel **Changes** werden die Veränderungen an einer Datei angezeigt, we
 
 Um die Arbeit mit <span style="color: darkred;">**SmartGit**</span> zu simulieren, müssen wir Änderungen an den Dateien in unserem Ordner vornehmen oder neue erstellen. Dafür öffnen wir zunächst unseren getrackten Ordner. Je nach Template werden hier schon unterschiedliche Dateien auftauchen, die lokal auf euren Rechner gekloned wurden. 
 
-![](/lifos/extras/../grundlagen/smartgitlifos_RepositoryData.png)
+![](../grundlagen/smartgitlifos_RepositoryData.png)
 
 Wir werden hier jetzt eine Änderung an der Datei "README.md" vornehmen, da diese bei jedem Template enthalten ist. Ihr könnt in der Datei zu Veranschauungszwecken einfach einen Satz hinzufügen und dann speichern.
 
-![](/lifos/extras/../grundlagen/smartgitlifos_RepositoryChangeREADME.png)
+![](../grundlagen/smartgitlifos_RepositoryChangeREADME.png)
 
 
 Durch die Änderung der Datei erscheint diese nun in <span style="color: darkred;">**SmartGit**</span> in der Kachel **Files**.  Danaben steht, dass diese Datei "Modified" ist, d.h. für diese Datei muss noch ein *Commit* und ein *Push* durchgeführt werden, um die Änderungen auch online sichtbar zu machen. 
 
-![](/lifos/extras/../grundlagen/smartgitlifos_ModifiedREADME.png)
+![](../grundlagen/smartgitlifos_ModifiedREADME.png)
 
 ### `Commit`
 
 Nun, da wir eine Datei verändert (oder hinzugefügt) haben, wollen wir diese Änderung natürlich auch committen. Dazu wählen wir in der **Files**-Kachel mit einem Linksklick alle Dateien aus, die im nächsten `commit` enthalten sein sollen (bei der Auswahl mehrere Dateien wie üblich *strg* gedrückt halten). Anschließend wählen wir in der Werkzeuge-Leiste `commit` aus. 
 
-![](/lifos/extras/../grundlagen/smartgitlifos_Commit2.png)
+![](../grundlagen/smartgitlifos_Commit2.png)
 
 Es öffnet sich das `commit`-Fenster, in dem nochmal angezeigt wird, welche Dateien wir ausgewählt haben. Weiterhin müssen wir eine passende Message zu unserem `commit` hinzufügen, wie "Update README".
 
-![](/lifos/extras/../grundlagen/smartgitlifos_CommitMessage.png)
+![](../grundlagen/smartgitlifos_CommitMessage.png)
 
 Wenn die Nachricht verfasst ist, reicht ein Klick auf *Commit* und die Änderungen wurden angenommen. Lokal sind sie also getracked. Alternativ könnte man hier auch auf *Commit & Push* klicken, dann wird unser lokaler Ordner direkt auf <span style="color: darkred;">**LIFOS**</span> gepushed. Dies kann man machen, wenn man sich seiner Änderungen sicher ist. Nur `commit` ist dabei empfehlenswert, wenn man sich unsicher ist und nochmal weiter an den Änderungen arbeiten will - oder für den Fall, dass wir noch weitere Änderungen an anderen Dateien unseres Projekts vornehmen wollen. Aus Demonstrationszwecken drücken wir auf *Commit*. Wenn Ihr auf <span style="color: darkred;">**SmartGit**</span> die Kachel **Journal** betrachtet, ist dieser `commit` zwar im **mainr** enthalten, aber nicht im **origin**. Dies spricht dafür, dass die Änderung im **remote repository** noch angestoßen werden muss. Dies können wir mit einem `push` machen. 
 
@@ -162,11 +162,11 @@ Wenn die Nachricht verfasst ist, reicht ein Klick auf *Commit* und die Änderung
 
 Ein einfacher Klick auf *Push* reicht bei <span style="color: darkred;">**SmartGit**</span>, um das Projekt auch online zu tracken. Zunächst öffnet sich ein Fenster, in dem wir diese Aktion nochmals bestätigen. 
 
-![](/lifos/extras/../grundlagen/smartgitlifos_push.png)
+![](../grundlagen/smartgitlifos_push.png)
 
 Je nach Version von <span style="color: darkred;">**SmartGit**</span> und Betriebssystem kann es jetzt sein, dass wir nach einem **Master Password** gefragt werden. Man kann dieses zwar auch überspringen, aber es ist wichtig für den Schutz von Dateien in der Interaktion mit Servern und auch praktisch (besonders wenn wir neben <span style="color: darkred;">**GitLab**</span> auch noch <span style="color: darkred;">**GitHub**</span> oder ähnliches verwenden). Daher empfehlen wir dringend eine Festlegung. In der Interaktion mit LIFOS wird für euch das nur bedeuten, dass Ihr in <span style="color: darkred;">**SmartGit**</span> auch nach dem Master Password gefragt werden. Am besten verwendet Ihr hier auch nicht das gleiche Passwort, welches Ihr für den LIFOS-Server benutzt. 
 
-![](/lifos/extras/../grundlagen/smartgit_master_password.png)
+![](../grundlagen/smartgit_master_password.png)
 
 Einmal muss die Rechtmäßigkeit des Zugriffs auf den Server nun aber mit eurem LIFOS-Login bestätigt werden. <!--Hier gibt es nun zwei Möglichkeiten.
 Entweder Ihr generiert einen Personal Access Token (PAT), wie man das machen kann, könnt Ihr im Tutorial zu [GitHub](/post/github/#personalaccesstoken) nachlesen. Das ist vor allem praktisch, wenn Ihr die Verbindung zum LIFOS-Server an unterschiedlichen Geräten benutzt.  Oder Ihr generiert einen Application Programming Interface (API) Token, der mehr Sinn macht, wenn Ihr mehrere Provider habt, von denen Ihr aus <span style="color: darkred;">**SmartGit**</span> aus zugreifen wollt.  
@@ -175,49 +175,49 @@ Entweder Ihr generiert einen Personal Access Token (PAT), wie man das machen kan
 
 Damit wir nicht jedes Mal unseren PAT eingeben müssen, aktivieren wir den Zugang über das **Master Password**. Dafür wählen wir in der obersten Zeile *Edit* aus und wählen darin *Preferences* aus.
 
-![](/lifos/extras//post/smartgit_preferences.png)
+![](/post/smartgit_preferences.png)
 
 Hier gehen wir in der Auswahl auf *Hosting Providers* und drücken dann rechts auf *Add*.
 
-![](/lifos/extras//post/smartgit_preferences_hosting.png) 
+![](/post/smartgit_preferences_hosting.png) 
 
 Hier muss <span style="color: darkred;">**GitLab**</span> ausgewählt werden, da LIFOS darauf basiert. Wir wollen nun einen **Token** erstellen. Dafür müssen wir den Button *Generate* drücken. Der Browser sollte sich automatisch öffnen und einen Login zu <span style="color: darkred;">**GitHub**</span> erfordern. Sobald wir diese Informationen eingegeben haben, wird ein Token generiert. Diesen kopieren wir dann in das entsprechende Fenster in <span style="color: darkred;">**SmartGit**</span> und klicken auf *Authenticate*.
 
-![](/lifos/extras//post/smartgit_preferences_API.png)
+![](/post/smartgit_preferences_API.png)
 
 Wir gelangen zurück in das Fenster, wo wir den Token erstellt haben, und klicken auf *Add*. Damit erscheint nun im Fenster der Hosting Providers unser <span style="color: darkred;">**GitHub**</span>-Account und wir können auf *OK* klicken. 
 
-![](/lifos/extras//post/smartgit_preferences_hosting_two.png)
+![](/post/smartgit_preferences_hosting_two.png)
 
 </details> -->
 
 Danach fragt euch <span style="color: darkred;">**SmartGit**</span> nochmal nach eurem **Master Password**, das Ihr etwas weiter oben festgelegt habt. 
 
-![](/lifos/extras/../grundlagen/smartgit_MasterPassword.png)
+![](../grundlagen/smartgit_MasterPassword.png)
 
 Nach dessen Eingabe wird der `push` durchgeführt. Um einen optischen Indikator dafür zu haben, könnt Ihr euer Repository auf der LIFOS öffnen. Weiterhin sind man auch in der Kachel **Journal**, dass **_origin_** und **_main_** nun wieder auf derselben Höhe des neuen `commits` sind.
 
 Beachtet, dass der Vorgang von `push` wirklich simpel über den Klick funktioniert hat. Die Umstellungen für das "Passwort" mussten wir jetzt nur einmal vornehmen. Ähnlich einfach ist der Vorgang, um unsere lokale Kopie des Repositories auf die Version auf LIFOS zu aktualisieren. Auch hier können wir den Button in der Werkzeug-Leiste nutzen. Nach dem Klick auf *Pull* geht ein Fenster auf, indem man zwischen `Rebase` und `Merge` wählen kann - diese Begriffe sind beide noch unbekannt und wir bleiben bei der Standardeinstellung. Anschließend erscheint das Fenster *Pull*. Hierin wird die URL vom LIFOS-Repository angezeigt - diese müsste stimmen, könnt Ihr aber gerne kontrollieren. Anschließend klicken wir auf den uns bekannten Befehl `pull`.
 
-![](/lifos/extras/../grundlagen/smartgitlifos_pull.png)
+![](../grundlagen/smartgitlifos_pull.png)
 
 Es erscheint für eine kurze Zeit ein grüner Kasten, in dem steht, dass der `pull` erfolgreich war. Natürlich wurden gerade aber keine Änderungen an Dateien oder Ähnliches vorgenommen, da der Stand lokal und remote identisch war. Wir simulieren die Änderung einer anderen Person an einer Datei durch eine Veränderung in der Online Version, also auf LIFOS. Dafür öffnen wir das Repository auf LIFOS und ändern auch hier etwas an dem "README". Wir löschen zum Beispiel einfach den Satz, den wir gerade hinzugefügt haben. 
 
 Dafür öffnen wir die Datei in der "WebIDE" und löschen den Satz. 
 
-![](/lifos/extras/../grundlagen/smartgitlifos_WebIDEChangeFile.png)
+![](../grundlagen/smartgitlifos_WebIDEChangeFile.png)
 
 Dann klicken wir unten auf `Commit`. 
 
-![](/lifos/extras/../grundlagen/smartgitlifos_WebIDECommitFile.png)
+![](../grundlagen/smartgitlifos_WebIDECommitFile.png)
 
 In der `commit`-Nachricht beschreiben wir kurz die durchgeführte Änderung und wählen "Commit to **main** branch" aus. Anschließend klicken wir *Commit* und wechseln zurück auf unsere <span style="color: darkred;">**SmartGit**</span>- Anwendung. 
 
-![](/lifos/extras/../grundlagen/smartgitlifos_WebIDECommitMessage.png)
+![](../grundlagen/smartgitlifos_WebIDECommitMessage.png)
 
 In dieser wählen wir jetzt wieder *Pull* in unserem Projekt-Repository aus. Zunächst scheint nicht viel anderes zu passieren als bei dem vorherigen `pull`. Wenn man allerdings genau hinschaut, sieht man, dass der letzte `commit` nun am unteren Bildschirmrand im **Journal** angezeigt wird.  
 
-![](/lifos/extras/../grundlagen/smartgitlifos_DifferentCommit.png)
+![](../grundlagen/smartgitlifos_DifferentCommit.png)
 
 Wenn man die Datei **README.md** lokal auf dem eigenen Rechner anschaut, werden die neuen Inhalte nun auch angezeigt.
 
@@ -225,11 +225,11 @@ Wenn man die Datei **README.md** lokal auf dem eigenen Rechner anschaut, werden 
 
 Bei der Einrichtung von <span style="color: darkred;">**SmartGit**</span> haben wir uns für einen Style in der Anzeige unserer Repositories entschieden. Zum Abschluss der Basics des Tutorials wollen wir nun noch kurz betrachten, wie wir diese anfängliche Entscheidung ändern können. Dafür wählt Ihr in der obersten Zeile zunächst *Edit* und dann *Preferences*. Es öffnet sich ein Fenster, indem wir zunächst *User Interface* in der Übersicht links anklicken. Im rechten Fenster gibt es die Auswahl *Prefer*, bei der momentan **Working Tree** angewählt sein sollte. Stattdessen klicken wir nun auf *Log Graph* und bestätigen die Auswahl (es können natürlich noch weitere Änderungen an der Oberfläche hier durchgeführt werden, aber diese werden wir nicht näher betrachten).
 
-![](/lifos/extras/../grundlagen/smartgit_preferences_loggraph.png)
+![](../grundlagen/smartgit_preferences_loggraph.png)
 
 Beim Erstellen des Tutorials musste <span style="color: darkred;">**SmartGit**</span> nun einmal geschlossen und wieder geöffnet werden, damit die Änderungen sichtbar werden. Es ist eine neue Aufteilung in der Oberfläche zu sehen, wobei die Anzeige der *Repositories* und *Branches* auf der linken Seite bestehen bleibt. 
 
-![](/lifos/extras/../grundlagen/smartgit_loggraph.png)
+![](../grundlagen/smartgit_loggraph.png)
 
 Im zentralen Fenster **Graph** wird der Workflow - also alle `commits`, die jemals an unserem Projekt durchgeführt wurden - angezeigt. Dabei stehen jeweils die Initialien der Person, die den `commit` durchgeführt hat sowie das Änderungsdatum. So können wir auf einen Blick nachvollziehen, wer wann was an unserem Projekt verändert hat. Beachtet auch, dass nun ganz oben der aktuelle Stand eures Repositorys als **Working Tree** angezeigt wird. In diesem wird eine Änderung angezeigt, da die Datei ".Rhistory" weiterhin im Repository existiert, aber noch nicht in einen `commit` einbezogen wurde.
 

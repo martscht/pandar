@@ -171,6 +171,12 @@ scatter +
   geom_abline(data = lines, aes(intercept = int2, slope = slo2, color = condition), linetype = 'dashed') 
 
 
-# Simple Slopes
-library(interactions)
-sim_slopes(mod4, pred = condition, modx = CDI1_c)
+# Effekt bei überdurchschnittlicher Kovariate
+cope$CDI1_above <- cope$CDI1_c + sd(cope$CDI1_c)
+mod4b <- lm(CDI3 ~ CDI1_above * condition, cope)
+summary(mod4b)
+
+# Effekt bei unterdurchschnittlicher Kovariate
+cope$CDI1_below <- cope$CDI1_c - sd(cope$CDI1_c)
+mod4c <- lm(CDI3 ~ CDI1_below * condition, cope)
+summary(mod4c)

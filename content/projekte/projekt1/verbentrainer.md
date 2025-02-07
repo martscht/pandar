@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Projekt lernen wir, wie man einen Verbentrainer erstellen kann. Wir erstellen dafür einerseits eine Liste unkonjugierter Verben, sowie die Konjugationsformen, und kombinieren diese zufällig. So kann das konjugieren durch das Aufrufen zufälliger Listeneinträge geübt werden. Dies wird an einem spanischen Beispiel illustriert.'
 authors: [rouchi]
 weight: 1
-lastmod: '2024-05-15'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/architecture_valencia.jpg"
@@ -132,7 +132,7 @@ Tabelle <- data.frame(verben, person)
 
 
 ```
-## Error in data.frame(verben, person): arguments imply differing number of rows: 197, 6
+## Error in data.frame(verben, person): Argumente implizieren unterschiedliche Anzahl Zeilen: 197, 6
 ```
 
 Zum einen haben wir 197 Verben in unserer Liste, doch nur 6 Personen. Dies würde keine anständige Tabelle ergeben. Außerdem wollen wir eine zufällige Zuordnung der Personen zu den Verben, wobei sich diese wiederholen sollen. Wir müssen also eine andere Funktion verwenden, welche diese beiden Aspekte berücksichtigt:
@@ -160,12 +160,12 @@ head(Tabelle)
 
 ```
 ##      verben   person
-## 1     abrir       tú
-## 2    acabar vosotres
-## 3   acercar  él/ella
-## 4 aconsejar vosotres
-## 5   acordar vosotres
-## 6      amar nosotres
+## 1     abrir  él/ella
+## 2    acabar    elles
+## 3   acercar       tú
+## 4 aconsejar nosotres
+## 5   acordar  él/ella
+## 6      amar vosotres
 ```
 
 </details>
@@ -272,11 +272,11 @@ head(Tabelle)
 ```
 ##      verben   person                   tempus
 ## 1     abrir  él/ella Pretérito imperfecto (S)
-## 2    acabar vosotres Pretérito imperfecto (I)
-## 3   acercar       tú Pretérito indefinido (I)
-## 4 aconsejar nosotres Pretérito indefinido (I)
-## 5   acordar    elles             Presente (I)
-## 6      amar       tú Pretérito indefinido (I)
+## 2    acabar       tú             Presente (S)
+## 3   acercar vosotres Pretérito indefinido (I)
+## 4 aconsejar nosotres       Condicional simple
+## 5   acordar       yo            Futuro simple
+## 6      amar    elles               Imperativo
 ```
 
 Jetzt kann der Reihe nach jedes Verb für eine bestimmte Person in einer bestimmten Zeitform konjugiert werden.
