@@ -8,7 +8,7 @@ subtitle: 'Vorhersage von Gruppenzugehörigkeiten'
 summary: ''
 authors: [schultze]
 weight: 2
-lastmod: '2024-10-17'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/talking_beach.jpg"
@@ -103,6 +103,20 @@ Die Deskriptivstatistiken der Variablen, die für uns relevant sind, werden in T
 
 ``` r
 library(psych)
+```
+
+```
+## 
+## Attaching package: 'psych'
+```
+
+```
+## The following objects are masked from 'package:ggplot2':
+## 
+##     %+%, alpha
+```
+
+``` r
 subset(grit, select = c(ARS, RSS, ELOC, ILOC, Grit, Age)) |>
   describeBy(grit$Suicide)
 ```
@@ -118,7 +132,7 @@ subset(grit, select = c(ARS, RSS, ELOC, ILOC, Grit, Age)) |>
 ## ILOC    4 145 35.90  7.48  38.00   36.62  5.93  9.00  48 39.00 -0.99     0.65 0.62
 ## Grit    5 145  2.76  0.67   2.83    2.79  0.74  0.92   4  3.08 -0.34    -0.55 0.06
 ## Age     6 145 37.34 11.15  35.00   36.57 11.86 20.00  66 46.00  0.57    -0.53 0.93
-## --------------------------------------------------------------------- 
+## -------------------------------------------------------------------------------- 
 ## group: Ideator
 ##      vars  n  mean    sd median trimmed   mad   min   max range  skew kurtosis   se
 ## ARS     1 83 42.57 15.32   44.0   41.99 19.27 19.00 76.00 57.00  0.16    -1.12 1.68
@@ -127,7 +141,7 @@ subset(grit, select = c(ARS, RSS, ELOC, ILOC, Grit, Age)) |>
 ## ILOC    4 83 31.34  9.68   32.0   32.24  8.90  7.00 48.00 41.00 -0.78    -0.11 1.06
 ## Grit    5 83  2.42  0.66    2.5    2.45  0.74  0.92  3.83  2.92 -0.32    -0.74 0.07
 ## Age     6 83 35.78 10.86   33.0   34.49 10.38 21.00 68.00 47.00  1.03     0.69 1.19
-## --------------------------------------------------------------------- 
+## -------------------------------------------------------------------------------- 
 ## group: Attempter
 ##      vars  n  mean    sd median trimmed   mad   min   max range  skew kurtosis   se
 ## ARS     1 94 42.80 13.85  44.50   42.80 17.05 19.00 70.00 51.00 -0.08    -1.18 1.43
@@ -179,8 +193,7 @@ mod0 <- lm(Suicide ~ 1 + Grit, idea)
 ```
 
 ```
-## Warning in model.response(mf, "numeric"): using type = "numeric" with a factor response
-## will be ignored
+## Warning in model.response(mf, "numeric"): using type = "numeric" with a factor response will be ignored
 ```
 
 ```
@@ -895,7 +908,7 @@ library(sjPlot)
 ```
 
 ```
-## #refugeeswelcome
+## Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!
 ```
 
 ``` r
@@ -1081,7 +1094,7 @@ tab_model(block4b, show.r2 = FALSE, show.aic = TRUE)
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
-<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Suicide_r</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Suicide r</th>
 </tr>
 <tr>
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
