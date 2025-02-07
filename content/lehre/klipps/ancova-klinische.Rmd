@@ -417,13 +417,20 @@ scatter +
 
 ```
 
-Erneut sind sowohl optisch als auch numerisch die Unterschiede zwischen den Interventionsansätzen minimal. Dennoch sehen wir, dass im Bereich der unterdurchschnittlichen `CDI1`-Werte Teilnehmende des Project ABC niedrigere Depressionswerte zum Follow-Up aufweisen, während sich dieser Effekt bei überdurchschnittlichen Werten zugunsten von Project Personality verschiebt. Das können wir erneut (wie schon bei der moderierten Regression) mit Simple Slopes testen:
+Erneut sind sowohl optisch als auch numerisch die Unterschiede zwischen den Interventionsansätzen minimal. Dennoch sehen wir, dass im Bereich der unterdurchschnittlichen `CDI1`-Werte Teilnehmende des Project ABC niedrigere Depressionswerte zum Follow-Up aufweisen, während sich dieser Effekt bei überdurchschnittlichen Werten zugunsten von Project Personality verschiebt. Um diese Effekte zu testen, können wir in unserem Modell die `CDI1`-Variable so transformieren, dass die Gruppenunterschiede sich auf andere Ausprägungen dieser Variable beziehen. Z.B.:
 
 ```{r}
-# Simple Slopes
-library(interactions)
-sim_slopes(mod4, pred = condition, modx = CDI1_c)
+# Effekt bei überdurchschnittlicher Kovariate
+cope$CDI1_above <- cope$CDI1_c + sd(cope$CDI1_c)
+mod4b <- lm(CDI3 ~ CDI1_above * condition, cope)
+summary(mod4b)
+
+# Effekt bei unterdurchschnittlicher Kovariate
+cope$CDI1_below <- cope$CDI1_c - sd(cope$CDI1_c)
+mod4c <- lm(CDI3 ~ CDI1_below * condition, cope)
+summary(mod4c)
 ```
+
 In Fällen, in denen solche Effekte deutlicher ausfallen, könnten wir diese Ergebnisse heranziehen, um z.B. für Patient\*innen mit hoher Belastung eine Intervention zu empfehlen, für Patient\*innen mit niedrigerer Belastung aber eine Andere.
 
 ***
