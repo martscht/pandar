@@ -43,7 +43,7 @@ Die Projekte müssen nicht in der präsentierten Reihenfolge bearbeitet werden. 
       # Page order: descending (desc) or ascending (asc) date.
       order: asc
     design:
-      view: compact-titleless
+      view: compact
       columns: '2'
       
   - block: collection
@@ -65,7 +65,7 @@ Die Projekte müssen nicht in der präsentierten Reihenfolge bearbeitet werden. 
       # Page order: descending (desc) or ascending (asc) date.
       order: asc
     design:
-      view: compact-titleless
+      view: compact
       columns: '2'
       
   - block: collection
@@ -87,7 +87,7 @@ Die Projekte müssen nicht in der präsentierten Reihenfolge bearbeitet werden. 
       # Page order: descending (desc) or ascending (asc) date.
       order: asc
     design:
-      view: compact-titleless
+      view: compact
       columns: '2'
 
   - block: collection
@@ -109,7 +109,7 @@ Die Projekte müssen nicht in der präsentierten Reihenfolge bearbeitet werden. 
       # Page order: descending (desc) or ascending (asc) date.
       order: asc
     design:
-      view: compact-titleless
+      view: compact
       columns: '2'
 
 
