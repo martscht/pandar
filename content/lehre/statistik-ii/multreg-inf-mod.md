@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [nehler, irmer, schueller, hartig]
 weight: 4
-lastmod: '2024-05-06'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/man_with_binoculars.jpg"
@@ -154,10 +154,10 @@ resid(mod)[1:10]
 ```
 
 ```
-##          1          2          3          4          5          6          7          8 
-## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730  1.5996231 -0.9974955  0.8759748 
-##          9         10 
-## -1.5887563  1.3260923
+##          1          2          3          4          5          6          7 
+## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730  1.5996231 -0.9974955 
+##          8          9         10 
+##  0.8759748 -1.5887563  1.3260923
 ```
 
 ### Omnibustest der Multiplen Regression
@@ -378,6 +378,21 @@ Für die Nutzung ist die Aktivierung mit `library()` notwendig.
 library(olsrr)
 ```
 
+```
+## Warning: Paket 'olsrr' wurde unter R Version 4.3.3 erstellt
+```
+
+```
+## 
+## Attache Paket: 'olsrr'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:datasets':
+## 
+##     rivers
+```
+
 #### Nutzung der Testung von Inkrementen und Dekrementen
 
 Die Funktion `ols_step_both_p()` beinhaltet die Auswahl auf Basis der Signifikanz des Inkrements oder Dekrements und führt in jedem Schritt Tests für Einschluss und Ausschluss durch. Sie nutzt also die Technik, die wir gerade für den theorigeleiteten Modellvergleich auch genommen haben. Dieses Vorgehen sollte nicht als Default angesehen werden, da einige Probleme bestehen, auf die wir nach der Demonstration eingehen. Aufgrund der Prävalenz des Vorgehens haben wir uns dazu entschieden, es auch zu präsentieren.
@@ -462,7 +477,7 @@ ols_step_both_p(mod_all, p_enter = .05, p_remove = .10, details = TRUE)
 ##                          Model Summary                           
 ## ----------------------------------------------------------------
 ## R                       0.657       RMSE                  5.716 
-## R-Squared               0.432       MSE                  32.784 
+## R-Squared               0.432       MSE                  32.678 
 ## Adj. R-Squared          0.430       Coef. Var            25.168 
 ## Pred R-Squared          0.425       AIC                9821.429 
 ## MAE                     4.031       SBC                9853.509 

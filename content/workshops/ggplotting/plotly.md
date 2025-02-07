@@ -122,7 +122,7 @@ ggplotly(scatter2013)
 ```
 
 <!-- definitely make this more pretty at some point in the future --> 
-<iframe src="plotly1.html" width="100%" height="500"></iframe>
+<iframe src="/plotly1.html" width="100%" height="500"></iframe>
 
 Schon so erhöht sich das Ausmaß in dem man sich mit der Grafik auseinandersetzen kann, für Nutzer*innen deutlich. Sie können an dieser Stelle weiterlesen, um eine Beschreibung der interaktiven Funktionen dieses Plots zu lesen, oder es einfach ausprobieren! Für die Wenigen, die sich für Ersteres entscheiden, hier eine Erläuterung der Funktionen:
 
@@ -244,7 +244,7 @@ ggplotly(scatter2013,
 ```
 
 <!-- definitely make this more pretty at some point in the future --> 
-<iframe src="plotly2.html" width="100%" height="500"></iframe>
+<iframe src="/plotly2.html" width="100%" height="500"></iframe>
 
 ## Navigierbare Animation
 
@@ -293,7 +293,7 @@ ggplotly(scatter,
 ```
 
 <!-- definitely make this more pretty at some point in the future --> 
-<iframe src="plotly3.html" width="100%" height="500"></iframe>
+<iframe src="/plotly3.html" width="100%" height="500"></iframe>
 
 Zunächst erhalten wir bei der Erstellung eine Warnung, die dadurch zustande kommt, dass im 1. Frame (`Year == 1997`) nicht alle Datenpunkte besetzt sind. Das ist ungünstig, aber leider in Fällen wie unseren, in dem wir auf erhobene und nicht geschätzte Informationen angewiesen sind, unvermeidlich. Wenn wir eine solche Animation mit `Income` und `Expectancy` duchführen würden, wäre das kein Problem, weil hier immer alle Daten vollständig sind.
 
@@ -372,7 +372,7 @@ interact
 
 
 <!-- definitely make this more pretty at some point in the future --> 
-<iframe src="plotly4.html" width="100%" height="500"></iframe>
+<iframe src="/plotly4.html" width="100%" height="500"></iframe>
 
 In ähnlicher Weise funktionieren auch `style()` und `config()` für detaillierte Anpassungen der Grafiken. Mit `config()` können wir z.B. anpassen, welche der Buttons oben rechts angzeigt werden sollen. Z.B. könnten wir Zoom-In, Zoom-Out und das Lasso entfernen:
 
@@ -438,8 +438,8 @@ smooth <- ggplot(edu_exp, aes(x = Primary, y = Index, frame = Year)) +
 ```
 
 ```
-## Warning in geom_point(aes(color = Wealth, text = paste0(Country, "</br></br>Region: ", : Ignoring
-## unknown aesthetics: text
+## Warning in geom_point(aes(color = Wealth, text = paste0(Country,
+## "</br></br>Region: ", : Ignoring unknown aesthetics: text
 ```
 
 Weil die Hoverinfos und die Gruppeneinteilung in Wohlstandsgruppen nicht GAM-Geraden ausgegeben werden sollen, sondern nur für die tatsächlichen Datenpunkte, muss auch hier erneut der Grundlegende `ggplot` zusammengestellt werden. Dafür rutschen die Ästhetiken `color` und `text` in die `geom_point()` und werden nicht mehr global definiert. 
@@ -488,7 +488,7 @@ smoothly
 ```
 
 <!-- definitely make this more pretty at some point in the future --> 
-<iframe src="plotly5.html" width="100%" height="500"></iframe>
+<iframe src="/plotly5.html" width="100%" height="500"></iframe>
 
 ***
 

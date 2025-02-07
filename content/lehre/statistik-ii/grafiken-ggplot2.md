@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr, Daten in R mit Hilfe des Pakets "ggplot2" zu visualisieren. Das Tutorial startet mit den Grundprinzipien des Pakets, wie Daten in Schichten dargestellt werden, die Geometrie und Ästhetik der Grafiken sowie die Verwendung von Themes und Farbpaletten zur Anpassung der Abbildungen. Außerdem werden Methoden zur Beschriftung und Anpassung von Grafiken für eine übersichtlichere Darstellung von Daten erläutert.'
 authors: [schultze]
 weight: 2
-lastmod: '2024-04-22'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/colorful_bubbles.jpg"
@@ -58,7 +58,7 @@ Wir benutzen für unsere Interaktion mit `ggplot2` öffentlich zugängliche Date
 
 
 ```r
-load(url('https://pandar.netlify.com/daten/edu_exp.rda'))
+load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 ```
 
 Eine kurze Erläuterung der Variablenbedeutungen:
@@ -87,20 +87,20 @@ head(edu_exp)
 ```
 
 ```
-##   geo     Country     Wealth Region Year Population Expectancy   Income Primary Secondary Tertiary
-## 1 afg Afghanistan low_income   asia 1997   17788819       50.7       NA      NA        NA       NA
-## 2 afg Afghanistan low_income   asia 1998   18493132       50.0       NA      NA        NA       NA
-## 3 afg Afghanistan low_income   asia 1999   19262847       50.8       NA      NA        NA       NA
-## 4 afg Afghanistan low_income   asia 2000   19542982       51.0       NA      NA        NA       NA
-## 5 afg Afghanistan low_income   asia 2001   19688632       51.1       NA      NA        NA       NA
-## 6 afg Afghanistan low_income   asia 2002   21000256       51.6 344.2242      NA        NA       NA
-##   Index
-## 1  0.18
-## 2  0.19
-## 3  0.20
-## 4  0.20
-## 5  0.21
-## 6  0.22
+##   geo     Country     Wealth Region Year Population Expectancy   Income Primary
+## 1 afg Afghanistan low_income   asia 1997   17788819       50.7       NA      NA
+## 2 afg Afghanistan low_income   asia 1998   18493132       50.0       NA      NA
+## 3 afg Afghanistan low_income   asia 1999   19262847       50.8       NA      NA
+## 4 afg Afghanistan low_income   asia 2000   19542982       51.0       NA      NA
+## 5 afg Afghanistan low_income   asia 2001   19688632       51.1       NA      NA
+## 6 afg Afghanistan low_income   asia 2002   21000256       51.6 344.2242      NA
+##   Secondary Tertiary Index
+## 1        NA       NA  0.18
+## 2        NA       NA  0.19
+## 3        NA       NA  0.20
+## 4        NA       NA  0.20
+## 5        NA       NA  0.21
+## 6        NA       NA  0.22
 ```
 
 
@@ -141,7 +141,7 @@ Um diese Daten in eine Schicht der Grafik zu überführen, können wir sie einfa
 ggplot(edu_2014)
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/grafiken-ggplot2_files/unnamed-chunk-6-1.png)<!-- -->
 
 Was entsteht ist eine leere Fläche. Wie bereits beschrieben, besteht eine Abbildung in `ggplot2` immer aus den drei Komponenten Daten, Geometrie und Ästhetik. Bisher haben wir nur eine festgelegt. Als erste Ästhetik sollten wir festlegen, welche Variablen auf den Achsen dargestellt werden sollen. Im letzten Semester war der erste Plot, den wir uns angeguckt hatten ein Balkendiagramm (über Tortendiagramme werden wie nie wieder reden). Bei diesen waren auf der x-Achse immer die Kategorien einer nominalskalierte Variable und auf der y-Achse die Häufigkeit dieser Kategorien dargestellt.  
 
@@ -150,7 +150,7 @@ Was entsteht ist eine leere Fläche. Wie bereits beschrieben, besteht eine Abbil
 ggplot(edu_2014, aes(x = Wealth))
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/empty_bar1-1.png)<!-- -->
+![](/grafiken-ggplot2_files/empty_bar1-1.png)<!-- -->
 
 Ästhetik wird in `ggplot2` über den `aes`-Befehl erzeugt. Auf der x-Achse tauchen direkt die Ausprägungen der Variable auf, die wir dieser "Ästhetik" zugewiesen haben. Man sieht, dass hier einfach die Inhalte der Variable übernommen werden:
 
@@ -160,7 +160,8 @@ unique(edu_2014$Wealth)
 ```
 
 ```
-## [1] "low_income"          "lower_middle_income" "upper_middle_income" "high_income"
+## [1] "low_income"          "lower_middle_income" "upper_middle_income"
+## [4] "high_income"
 ```
 Die sind zum einen etwas unübersichtlich und zum anderen (besonders wichtig) nicht sonderlich schön. Deswegen sollten wir die Variable in einen Faktor umwandeln und etwas leserlichere Labels vergeben:
 
@@ -185,7 +186,7 @@ Wenn wir jetzt noch einmal die Fläche aufspannen, sehen wir direkt eine etwas s
 ggplot(edu_2014, aes(x = Wealth))
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/empty_bar2-1.png)<!-- -->
+![](/grafiken-ggplot2_files/empty_bar2-1.png)<!-- -->
 In diesem Schritt wird noch einmal deutlich, was ich gerade bereits angesprochen hatte:
 
 > Daten müssen immer so aufbereitet sein, dass der grundlegende Datensatz sinnvoll benannte Variablen enthält und in dem Format vorliegt, in welchem wir die Daten visualisieren wollen.
@@ -202,7 +203,7 @@ ggplot(edu_2014, aes(x = Wealth)) +
   geom_bar()
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/simple_scatter-1.png)<!-- -->
+![](/grafiken-ggplot2_files/simple_scatter-1.png)<!-- -->
 
 Der immense Vorteil des Schichtens besteht darin, dass wir gleichzeitig mehrere Visualisierungsformen nutzen können. Das Prinzip bleibt das gleiche wie vorher: wir fügen Schichten mit dem `+` hinzu. Wir können also z.B. für Zeitverläufe einfach Punkte und Linien direkt miteinander kombinieren, oder für Abbildungen die Fehlerbalken direkt hinzufügen.
 
@@ -225,7 +226,7 @@ In `basic` wird jetzt die *Anleitung* für die Erstellung der Grafik gespeichert
 basic + geom_bar()
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/object_combos-1.png)<!-- -->
+![](/grafiken-ggplot2_files/object_combos-1.png)<!-- -->
 
 Damit die Beispiele im weiteren Verlauf auch selbstständig funktionieren, wird unten immer der gesamte Plot aufgeschrieben. Aber für Ihre eigenen Übungen oder Notizen ist es durchaus praktischer mit dieser Objekt Funktionalität zu arbeiten, um so zu umgehen, dass man immer wieder die gleichen Abschnitte aufschreiben muss.
 
@@ -239,7 +240,7 @@ ggplot(edu_2014, aes(x = Wealth)) +
   geom_bar(fill = 'blue', color = 'grey40')
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/grafiken-ggplot2_files/unnamed-chunk-9-1.png)<!-- -->
 Bei Balken wird die Farbe des Balkens durch das Argument `fill` bestimmt - das Argument `color` bestimmt hingegen nur die Farbe des Rands. In diesem Fall haben alle Balken die Farbe geändert. Eine _Ästhetik_ im Sinne der `ggplot`-Grammatik ist immer abhängig von den Daten. Die globale Vergabe von Farbe ist also keine Ästhetik. Sie ist es nur, wenn wir sie von Ausprägungen der Daten abhängig machen. Das funktioniert z.B. so:
 
 
@@ -248,7 +249,7 @@ ggplot(edu_2014, aes(x = Wealth)) +
   geom_bar(aes(fill = Wealth), color = 'grey40')
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/grafiken-ggplot2_files/unnamed-chunk-10-1.png)<!-- -->
 
 Über den Befehl `aes` definieren wir eine Ästhetik und sagen `ggplot`, dass die Farbe der Balken von der Ausprägung auf der Variable `Wealth` abhängen soll. Die Farbe kann aber natürlich auch von jeder anderen Variable im Datensatz abhängen - dadurch können wir die Farbe als dritte Dimension in der Darstellung unserer Daten nutzen.
 
@@ -283,7 +284,7 @@ ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40')
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/stacked-barplot-1.png)<!-- -->
+![](/grafiken-ggplot2_files/stacked-barplot-1.png)<!-- -->
 Per Voreinstellung wird in `ggplot` ein sogenannter "stacked" Barplot erstellt, bei dem die Balken übereinander gestapelt werden. Üblicher ist aber häufig die Darstellung nebeneinander. Dafür können wir z.B. das `position`-Argument anpassen:
 
 
@@ -292,7 +293,7 @@ ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge')
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/grouped-barplot-1.png)<!-- -->
+![](/grafiken-ggplot2_files/grouped-barplot-1.png)<!-- -->
 
 
 ## Abbildungen anpassen
@@ -316,7 +317,7 @@ Um das Theme einer Abbildung zu verändern, können Sie es - wie Geometrie - mit
 bars + theme_minimal()
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/theme-minimal-1.png)<!-- -->
+![](/grafiken-ggplot2_files/theme-minimal-1.png)<!-- -->
 
 Gegenüber der Voreinstellung (`theme_grey`) verändert sich hier, dass der Hintergrund jetzt nicht mehr grau ist und das Raster stattdessen in Hellgrau gehalten ist. An diesem Punkt wird erneut der Vorteil des Schichtsystems von ggplot deutlich: wir definieren Daten, Ästhetik und Geometrie und können dann optische Anpassungen über das Theme vornehmen, die von den diesen drei Komponenten unabhängig verändert werden können. Diese Art und Weise, wie von ggplot Abbildungen definiert werden, hat den Vorteil, dass alles was wir hier besprechen auch auf jeden anderen Abbildungstyp anwendbar ist (eine größere Auswahl verschiedener Plots haben wir im [ggplotpourri](/extras/ggplotting/ggplotting-ggplotpourri) zusammengestellt), weil wir einfach die `geom_`-Funktionen austauschen können. Die Eigenschaften der Abbildung hinsichtlich des Aussehens von Hintergrund usw. bleiben davon aber unberührt.
 
@@ -329,6 +330,9 @@ library(ggthemes)
 ```
 
 
+```
+## Warning: Paket 'ggthemes' wurde unter R Version 4.3.2 erstellt
+```
 
 Dieses Paket liefert (neben anderen optischen Erweiterungen) über 20 neue Themes, die häufig den Visualisierungen in kommerzieller Software oder in bestimmten Publikationen nachempfunden sind. In Anlehnung an weit verbreitete Grundprinzipien zur Grafikgestaltung nutzen wir als allererstes natürlich das nach Tuftes "maximal Data, minimal Ink"-Prinzip erstellte Theme:
 
@@ -337,7 +341,7 @@ Dieses Paket liefert (neben anderen optischen Erweiterungen) über 20 neue Theme
 bars + theme_tufte()
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/tufte-1.png)<!-- -->
+![](/grafiken-ggplot2_files/tufte-1.png)<!-- -->
 
 Aber es gibt natürlich auch etwas komplexer aussehende Themes. Wenn Sie Sich schon immer wie ein:e Excelnutzer:in in den 90ern fühlen wollten, gibt es z.B. dieses wunderschöne Theme: 
 
@@ -346,7 +350,7 @@ Aber es gibt natürlich auch etwas komplexer aussehende Themes. Wenn Sie Sich sc
 bars + theme_excel()
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/gdocs-1.png)<!-- -->
+![](/grafiken-ggplot2_files/gdocs-1.png)<!-- -->
 
 Wenn uns ein Theme so gefällt, dass wir dieses für alle Plots benutzen wollen, können wir es mit `theme_set()` als neue Voreinstellung definieren. Wie gesagt, mag ich den minimalistischen Stil von `theme_minimal()`, weil er wenig von den Daten ablenkt:
 
@@ -380,7 +384,7 @@ ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   ggtitle('Categorization of Countries in GapMinder Data', '(Data for 2014)')
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/labeled-1.png)<!-- -->
+![](/grafiken-ggplot2_files/labeled-1.png)<!-- -->
 
 Die `labs`-Funktion ermöglicht uns das Vergeben von *Labels* für die Variablen, die wir als Ästhetiken in `aes()` festgehalten haben. `x` ersetzt also den Variablennamen von `Primary`, der per Voreinstellung zur Beschriftung herangezogen wird. Das Gleiche gilt dann auch für `y` und `color` ersetzt den Titel der Legende. Die `ggtitle`-Funktion nimmt zwei Argumente entgegen: den Titel und einen Untertitel.
 
@@ -410,7 +414,7 @@ Nehmen wir an, dass wir unsere Abbildung irgendwo drucken möchten - Farbdruck i
 bars + scale_fill_grey()
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](/grafiken-ggplot2_files/unnamed-chunk-19-1.png)<!-- -->
 
 Das bei den [Themes](#Themes) erwähnte Paket `ggthemes` enthält auch weitere Farbpaletten, die Sie nutzen können, um Ihren Plot nach Ihren Vorlieben zu gestalten. Wichtig ist beispielsweise, dass es eine Palette namens `colorblind` hat, die Farben so auswählt, dass sie auch von Personen mit Farbblindheit differenziert werden können. Darüber hinaus gibt es für Fans der Filme von Wes Anderson z.B. das Paket `wesanderson`, welches für jeden seiner Filme die Farbpalette parat hat. Wir können aber natürlich auch unsere ganz eigene Farbpalette definieren - z.B. die offizielle Farbpalette des Corporate Designs der Goethe Universität, die Sie auf den Folien von PsyBSc 1 und 2 im letzten Semester kennen (und lieben!) gelernt haben.
 
@@ -428,7 +432,7 @@ Dieses Objekt können wir dann nutzen, um mit `scale_fill_manual` selbstständig
 bars + scale_fill_manual(values = gu_colors)
 ```
 
-![](/lehre/statistik-ii/grafiken-ggplot2_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+![](/grafiken-ggplot2_files/unnamed-chunk-21-1.png)<!-- -->
 
 Die Zuordnung der Farben erfolgt anhand der Reihenfolge in `gu_colors` und der Reihenfolge der Ausprägungen von `Region`. Letztere ist - wie sie bestimmt festgestellt haben - alphabetisch. Wie häufig in `ggplot2` können Sie die Daten ändern (also mit `relevel` die Reihenfolge der Ausprägungen ändern) um Veränderungen in der Darstellung zu bewirken.
 
