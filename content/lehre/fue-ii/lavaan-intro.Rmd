@@ -95,7 +95,7 @@ load('fairplayer.rda')
 oder den Datensatz direkt von dieser Website in `R` laden:
 
 ```{r}
-load(url("https://pandar.netlify.com/daten/fairplayer.rda"))
+load(url("https://pandar.netlify.app/daten/fairplayer.rda"))
 ```
 
 
