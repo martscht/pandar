@@ -8,14 +8,12 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [walter, nehler] 
-lastmod: '2025-01-24'
+lastmod: '2025-02-11'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/449195)"
 projects: []
-expiryDate: 
-publishDate: 
 _build:
   list: never
 reading_time: false
@@ -153,6 +151,13 @@ summary(wach[, "wm_post"])
 ``` r
 # aus dem Paket psych, das wir bereits installiert haben
 library(psych)
+```
+
+```
+## Warning: Paket 'psych' wurde unter R Version 4.4.2 erstellt
+```
+
+``` r
 describe(wach[, "wm_pre"])
 ```
 
