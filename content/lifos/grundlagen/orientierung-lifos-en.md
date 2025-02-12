@@ -10,7 +10,7 @@ summary: 'This first entry serves as a introduction to LIFOS, an Ope Science Inf
 
 authors: [schloter, nehler] 
 weight: 2
-lastmod: '2025-02-07'
+lastmod: '2025-02-12'
 featured: no
 banner:
   image: "/header/road_waysign.jpg"
@@ -45,7 +45,7 @@ Due to the highly technical background of <span style="color: darkred;">GitLab</
 
 Once you have received your login credentials, you can log in to the LIFOS server. The interface will look like this:
 
-![](gitlaborientierung_Einloggen2.png)
+![](/lifos/gitlaborientierung_Einloggen2.png)
 
 When logging in for the first time, you will need to accept the data privacy and terms of use. These are also stored in a [separate project](https://lifos.uni-frankfurt.de/root/guidelines/-/tree/main) and can be viewed at any time. Additionally, you will need to give your Attribute Consent, i.e., whether it is okay for your name and student email address to be forwarded to LIFOS. 
 
@@ -54,7 +54,7 @@ When logging in for the first time, you will need to accept the data privacy and
 
 After logging in, you will arrive at this homepage:
 
-![](gitlaborientierung_projectsstartsite2.png)
+![](/lifos/gitlaborientierung_projectsstartsite2.png)
 
 As you can see, there are three options to choose from. Firstly, **Create a project**, where you can create a project (surprise!). In the collapsible section below, we will show you how to create your own project without being part of a group and without using a template. However, you should **not** do this for your thesis, as your project belongs to the department under which you create it and there are already templates intended for your use. You can see how this works [here](/lifos/grundlagen/eigenesprojekt-en/).
 
@@ -63,31 +63,31 @@ As you can see, there are three options to choose from. Firstly, **Create a proj
 
 To create your own project, go to the LIFOS homepage and click on **New project** on the right-hand side.
 
-![](gitlaborientierung_newproject.png)
+![](/lifos/gitlaborientierung_newproject.png)
 
 Then a page with four options will open:
 
-![](gitlaborientierung_newprojectoptions2.png)  
+![](/lifos/gitlaborientierung_newprojectoptions2.png)  
 
 To create a completely new project, select *Create Blank Project*.
 Here, give the project a name and set the visibility level to *internal*.
 
 In the project URL, assign the project to yourself by simply selecting your username. Then you need a project slug, which should ideally resemble your project name, so that you can easily find the project later.
 
-![](gitlaborientierung_newblankproject.png) 
+![](/lifos/gitlaborientierung_newblankproject.png) 
 At the end, click on *Create Project* and you have created your own project - without group membership or template.
 
 {{< /spoiler >}}
 
 On the other hand, there is also **Explore public projects** here, which is self-explanatory. When you click on this, the following page opens:
 
-![](gitlaborientierung_ExplorePublicProjects.png)
+![](/lifos/gitlaborientierung_ExplorePublicProjects.png)
 
 Directly under the big heading, you will find a bar that gives you an overview of different types of projects. Under *Yours*, you will find projects that you are involved in. If you are logging in to <span style="color: darkred;">GitLab</span> for the first time, there will probably be nothing under "Personal" and you will simply be redirected back to the start page. At this point, we just want to mention that group memberships are associated with departments - so you belong to the department to which your primary supervisor is assigned.
 
 It is also worth mentioning the *Explore* tab. Here, you can view shared projects of other users. If you like one of these projects and want to use it as inspiration for your own project or follow it thematically, you can star it. To do this, go to the corresponding project and press *Star*.
 
-![](gitlaborientierung_Star.png)
+![](/lifos/gitlaborientierung_Star.png)
 
 Once you have done that and return to the homepage by clicking on the Goethe button in the top left corner, you will find this project under *Starred*. This way you can collect all the projects you like in one central location and easily access them.
 
@@ -97,11 +97,11 @@ Also included on the homepage is **Learn more about GitLab**. If you click on th
 
 By signing up for LIFOS, you have created your own profile. This can of course also be edited. To do so, click on *Edit profile* in the top right corner of your avatar (the gray mannequin).
 
-![](gitlaborientierung_avatar.png)
+![](/lifos/gitlaborientierung_avatar.png)
 
 Here you can, among other things, change your profile picture, your status, or even your time zone. What may be more important are the *main settings*. Here you can change a variety of things that not only affect your profile but also your person. For example, you can enter your preferred pronouns or how to pronounce your name.
 
-![](gitlaborientierung_MainSettings.png)
+![](/lifos/gitlaborientierung_MainSettings.png)
 
 In addition, you can link various profiles (LinkedIn, Twitter, Skype, etc.) and write a bio.
 
@@ -113,7 +113,7 @@ Afterwards, you can decide whether you want to make your profile private or not.
 The default setting for regular GitLab instances would be visibility across the entire internet. However, we have already set the privacy settings such that only other users can view the information. Since exchanging information between users is precisely the purpose of the platform, there is no need to set your profile as private.
 
 
-![](gitlaborientierung_privateSettings.png)
+![](/lifos/gitlaborientierung_privateSettings.png)
 
 Lastly, click on *Update profile settings* to save your changes.
 
@@ -124,7 +124,7 @@ Accounts on LIFOS should always be associated with a group (or multiple groups).
 
 You can view your group membership(s) by clicking the menu (three stripes) in the top left, then *Groups*, and then *View all groups*.
 
-![](gitlaborientierung_yourgroups_new.png)
+![](/lifos/gitlaborientierung_yourgroups_new.png)
 
 We have already seen that within a group, all projects are displayed. However, the logic of the instance goes even further, because groups on <span style="color: darkred;">**GitLab**</span> are structured so that all members of a group could modify files in a project that belongs to the group. The great advantage of the group logic is that you don't have to individually adjust permissions for projects. Furthermore, projects remain assigned to the group even after individual students leave and can serve as inspiration for future students.
 

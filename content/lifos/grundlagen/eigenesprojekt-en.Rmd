@@ -38,29 +38,29 @@ After learning the basics of LIFOS and <span style="color: darkred;">GitLab</spa
 
 As a reminder, the page (before you create a project) looks like this: 
 
-![](gitlaborientierung_projectsstartsite.png)
+![](/lifos/gitlaborientierung_projectsstartsite.png)
 
 Here you can view all possible projects in your group. As you have already learned, *Your Projects* shows all the projects you are involved in. If you have never created a project on the server before, there will be nothing here. But you can browse projects in your group under *All*. Under *Personal* you can find your own project and under *Explore* you can look for all kinds of projects through the platform.
 
 To create a project in your group, click on **New Project** in the top right corner.
 
-![](gitlaborientierung_newproject.png)
+![](/lifos/gitlaborientierung_newproject.png)
 
 ##### Options to select
 
 After that, you will be shown a page with four options: Create blank project, Create from template, import project, and Run CI/CD for external repository. As described in the other tutorials, we have prepared templates for you so that you don't have to start the process completely from scratch.
 
-![](gitlaborientierung_newprojectoptions.png) 
+![](/lifos/gitlaborientierung_newprojectoptions.png) 
 
 Therefore, you select the option *Create from template*. To access the templates relevant to you, you need to click on **Instance** in the following column. The *Built-in* templates are global templates available to any <span style="color: darkred;">GitLab</span> user on any instance worldwide. You can explore these another time or with a test project. But the templates you find under **Instance** are most important for you.
 
-![](gitlaborientierung_newprojectinstance2.png) 
+![](/lifos/gitlaborientierung_newprojectinstance2.png) 
 
 #### Assigning your project to your group
 
 Now you need to select your group under the *Pick a group or namespace* section in the *Project URL* field.
 
-![](gitlaborientierung_pickgroup.png) 
+![](/lifos/gitlaborientierung_pickgroup.png) 
 This step is very important as the project should be assigned to the correct department! If you are not yet a member of your department's group, please refer back to the [Orientation Tutorial](/lifos/grundlagen/orientierung-lifos-en). 
 
 
@@ -96,22 +96,22 @@ With this option, the entire world could see your project because it can be acce
 
 You can also add a project description. As a student in a group project, you cannot edit this yourself anymore. So make sure to choose a meaningful description right away. A subsequent change is only possible through the supervising person.
 
-![](gitlaborientierung_newprojectsite.png)
+![](/lifos/gitlaborientierung_newprojectsite.png)
 
 The project description should follow the following pattern: Name - Type of work - Semester or year. The following picture shows an example: 
 
-![](gitlaborientierung_projektbeschreibung.png)
+![](/lifos/gitlaborientierung_projektbeschreibung.png)
 
 Finally, just click *Create Project* and you have created your first project.
 
 Now it should look like this: 
 
-![](gitlaborientierung_ErstesProjekt.png) 
+![](/lifos/gitlaborientierung_ErstesProjekt.png) 
 
 #### Project - Orientation
 
 First and foremost, the README is the most important thing for you. Here you will find all the important information about the template. You can find it by simply scrolling down on your project page.
-![](gitlaborientierung_readMe.png)
+![](/lifos/gitlaborientierung_readMe.png)
 
 In addition, you will find various folders that are intended to provide you with guidance on what you will need, such as preregistration, scripts, etc. These are of course still in the standard format and not yet filled. You will need to fill them with files and modify them as necessary.
 
@@ -121,7 +121,7 @@ In addition, you will find various folders that are intended to provide you with
 
 Let's start with an explanation of how to upload files to the repository. We assume that you have created or modified a file on your computer that you now want to add to your project. To upload it, go to the home page of your project on **LIFOS** and click on the plus button.
 
-![](gitlaborientierung_DateienHochladen.png) 
+![](/lifos/gitlaborientierung_DateienHochladen.png) 
 
 A list of options will appear. Let's say we want to upload a file called "Datenauswertung.R". We simply click on *Upload File*. Then you can easily insert the file using the drag-and-drop principle. You will also be prompted to write a commit message so that you will know later what you did or your group members can see what the new file is. This message should be short and informative and should include the name of the file you changed, such as "Add Datenauswertung.R to 2_Scripts". It is important, that your target branch remains as **main**!
 
@@ -132,21 +132,21 @@ As we have already described, LIFOS is a <span style="color: darkred;">GitLab</s
 {{< /spoiler >}}
 
 
-![](gitlaborientierung_DateiCommit.png) 
+![](/lifos/gitlaborientierung_DateiCommit.png) 
 Finally, click on *Upload File*. You will now find your file in the overview of your project:
 
-![](gitlaborientierung_DatenauswertungÜbersicht.png) 
+![](/lifos/gitlaborientierung_DatenauswertungÜbersicht.png) 
 You can also create a new file directly on <span style="color: darkred;">GitLab</span> by clicking on *New File*. Here you will also be prompted to write a commit message for the same reasons as above. Again, please keep in mind that you commit to the target branch **main**.
 
 If you want to create a file directly in a folder, you must first open the desired folder and then repeat the same procedure as above.
 
-![](gitlaborientierung_DateiHochladenOrdner.png) 
+![](/lifos/gitlaborientierung_DateiHochladenOrdner.png) 
 
 We did not upload our file to a folder, but directly to the "homepage" of our project. In retrospect, we realize that the file should have been better placed in the "Scripts" folder. Normally, you would now move the file, but this is not possible on the browser version of <span style="color: darkred;">GitLab</span>. The only way to get the file into the folder is to delete it first and then upload it again. A more convenient option is provided by <span style="color: darkred;">SmartGit</span>. With <span style="color: darkred;">SmartGit</span>, you can greatly simplify your work with <span style="color: darkred;">GitLab</span>. After you have finished reading this tutorial (recommended!), you can learn more about <span style="color: darkred;">SmartGit</span> [here](/lifos/extras/connect-smartgit-lifos-en/).
 
 If you accidentally upload the same file twice, you will receive a warning message: 
 
-![](gitlaborientierung_warningFileAlreadyExists.png)
+![](/lifos/gitlaborientierung_warningFileAlreadyExists.png)
 
 ##### Editing files
 
@@ -156,29 +156,29 @@ First of all, there is an overview of the project structure of the respective te
 
 To edit the "README.md", click on the file. Then a new window opens, where you click on *Open in WebIDE*.
 
-![](gitlaborientierung_readmeWebIDE.png)
+![](/lifos/gitlaborientierung_readmeWebIDE.png)
 Now the Web IDE opens and you have the opportunity to edit the "README.md". But as you can see, it's not just a plain text file. The "README.md" is written in the Markdown language - that's why it's called ".md". Don't be intimidated by this! You can find a guide to Markdown in this tutorial a little further [down](#basic-markdown-tutorial), and you can also test your Markdown skills in an [exercise](/lifos/extras/basic-markdown-uebung-en/).
 
 However, the Web IDE cannot display all file formats. It works for .txt, .rmd, .R, or .md, but if you try to open a Word file or OpenOffice file, it won't work.
 
 You can view the previous version of your file under "History". 
 
-![](gitlaborientierung_filehistory.png)
+![](/lifos/gitlaborientierung_filehistory.png)
 
 Here you find all old versions of your file.
 
-![](gitlaborientierung_fileSeeHistory.png)
+![](/lifos/gitlaborientierung_fileSeeHistory.png)
 
 ##### Delete files
 
 First of all you have to click on the file and you'll see the *Delete*-Button.
 
-![](gitlaborientierung_DeleteFile.png)
+![](/lifos/gitlaborientierung_DeleteFile.png)
 <span style="color: darkred;">**GitLab**</span> then asks for a *Commit*-Message, this is important to keep everything documented for the future.  
 
 Now we can upload the files into the right folder. 
 
-![](gitlaborientierung_DateiScripts.png)
+![](/lifos/gitlaborientierung_DateiScripts.png)
 
 As you can see "Datenauswertung.R" is now in the right folder. 
 
@@ -191,15 +191,15 @@ A lot of effort and feedback went into creating the templates so that you can fi
 
 For demonstration purposes we'll create a test folder. For this, we go to the homepage of our project and click on the "+" button:
 
-![](gitlaborientierung_OrdnerAdd.png)
+![](/lifos/gitlaborientierung_OrdnerAdd.png)
 
 Then, a toggle-down list opens and we need to click on *New Directory*. Directory is the translation of the term folder that we know.
 
-![](gitlaborientierung_OrdnerErstellen.png)
+![](/lifos/gitlaborientierung_OrdnerErstellen.png)
 
 Now you give this folder a name (e.g., "Test Folder") and an appropriate commit message.
 
-![](gitlaborientierung_OrdnerCommit.png)
+![](/lifos/gitlaborientierung_OrdnerCommit.png)
 
 Then, after making sure that you chose **main** as your target branch, you have to click on *Create Directory*, and you have created a new folder! You can find it on the homepage of your project. 
 
@@ -207,11 +207,11 @@ Then, after making sure that you chose **main** as your target branch, you have 
 
 Sometimes a folder is unnecessary from the beginning, or it becomes clear over time that no information is stored there. For a tidy project, it would be useful to remove unnecessary folders from the structure. We will now demonstrate the procedure on our test folder. In <span style="color: darkred;">GitLab</span>, deleting works only if all files in the folder are deleted. Currently, only the ".gitkeep" file is in our folder. The ".gitkeep" file is an otherwise empty file that is simply there to keep otherwise empty folders or repositories alive. According to <span style="color: darkred;">GitLab</span> logic, empty folders would otherwise be deleted immediately, and one would have to fill the folder with at least one file during initiation.
 
-![](gitlaborientierung_OrdnerLöschen1.png)
+![](/lifos/gitlaborientierung_OrdnerLöschen1.png)
 
 You open the folder (if you haven't already done so) and click on this file. Then you just have to click on the *Delete* button.
 
-![](gitlaborientierung_OrdnerLöschen2.png) 
+![](/lifos/gitlaborientierung_OrdnerLöschen2.png) 
 
 After you have deleted the last file in your folder (in this case, ".gitkeep"), the folder will automatically disappear from your project.
 <!-- Muss man gar nichts mehr drücken danach? Heißt die gitkeep Datei ist verantwortlich für den Erhalt des Ordners? Oder geht es auch bei jeder anderen Datei? Ja, genau. Das ist der ganze Zweck der .gitkeep Datei. Wenn man diese natürlich vor einer anderen Datei löscht, .gitkeep somit nicht die letzte Datei ist,  dann verschwindet der Ordner beim Löschen der letzten Datei, die in diesem Ordner existiert. Das habe ich aber nicht ausprobiert, aber nach GitLab-Logik funktioniert das so. -->
@@ -420,11 +420,11 @@ First, enter your project and click on the merge request symbol to the left.
 
 Your changes on other branches should be visible as a merge request.
 
-![](Gitlab_Project_Merge_Requests.png)
+![](/lifos/Gitlab_Project_Merge_Requests.png)
 
 If you now click on *create merge request* a new window should open up
 
-![](Gitlab_Project_New_Merge.png)
+![](/lifos/Gitlab_Project_New_Merge.png)
 
 Here you now enter a title and description for your merge which should properly explain why and what you are merging from a different branch.
 
@@ -432,13 +432,13 @@ Afterwards, check the merge option `Delete source branch when merge request is a
 
 You will now land on a new page.
 
-![](Gitlab_Project_New_Merge_Confirm.png)
+![](/lifos/Gitlab_Project_New_Merge_Confirm.png)
 
 Now you need to confirm your merge and the squashing of the source branch from which you are merging once more by clicking the `Merge`-button.
 
 After a short moment, you should now see that your merge suceeded!
 
-![](Gitlab_Project_New_Merge_Sucess.png)
+![](/lifos/Gitlab_Project_New_Merge_Sucess.png)
 
 *If that is not the case, or you got stuck elsewhere in the process you can contact LIFOS[at]uni-frankfurt[punkt]de instead.*
 </details>

@@ -38,7 +38,7 @@ Nachdem ihr sowohl schon die Basics über LIFOS und <span style="color: darkred;
 
 Nochmal zur Erinnerung - die Seite (bevor ihr ein Projekt erstellt), sieht folgendermaßen aus: 
 
-![](gitlaborientierung_projectsstartsite.png)
+![](/lifos/gitlaborientierung_projectsstartsite.png)
 
 Hier könnt ihr alle möglichen Projekte, zu denen ihr Zugang habt einsehen. Wie ihr schon gelernt habt, stehen unter *Your Projects* alle Projekte in denen ihr involviert seid. Solltet ihr nicht schonmal ein Projekt auf dem Server erstellt haben, wird hier nichts stehen. Unter *Personal* findet ihr eure eigenen Projekte, unter *All* die innerhalb eurer Gruppe und über *Explore* könnt ihr allgemein stöbern.
 
@@ -46,23 +46,23 @@ Hier könnt ihr alle möglichen Projekte, zu denen ihr Zugang habt einsehen. Wie
 
 Um ein Projekt in eurer Gruppe zu erstellen, klickt ihr erstmal oben rechts auf **New Project**. 
 
-![](gitlaborientierung_newproject.png)
+![](/lifos/gitlaborientierung_newproject.png)
 
 ##### Auswahloptionen
 
 Danach wird euch eine Seite mit vier Optionen angezeigt: Create blank project, Create from template, import project und Run CI/CD for external repository. Wie in den anderen Tutorials beschrieben, haben wir für euch extra Templates vorbereitet, damit ihr nicht ganz ohne Vorlage in den Prozess starten müsst.
 
-![](gitlaborientierung_newprojectoptions.png) 
+![](/lifos/gitlaborientierung_newprojectoptions.png) 
 
 Daher wählt ihr die Option *Create from template* aus. Um auf die für euch relevanten Templates zu kommen, müsst ihr in folgender Spalte auf **Instance**. Die *Built-in* Templates sind globale Templates, die jedem:r <span style="color: darkred;">**GitLab**</span>-User:in auf jeder Instanz auf der ganzen Welt zur Verfügung stehen. Diese könnt ihr euch ein anderes Mal gerne anschauen oder mit einem Testprojekt erkunden. Aber für euch am wichtigsten sind die Templates, die ihr unter **Instance** findet. 
 
-![](gitlaborientierung_newprojectinstance2.png) 
+![](/lifos/gitlaborientierung_newprojectinstance2.png) 
 
 #### Das Projekt eurer Gruppe zuordnen
 
 Jetzt müsst ihr unter dem Punkt *Project URL* bei *Pick a group or namespace* eure Gruppe suchen. 
 
-![](gitlaborientierung_pickgroup.png) 
+![](/lifos/gitlaborientierung_pickgroup.png) 
 
 Dieser Schritt ist sehr wichtig, da das Projekt auf jeden Fall zur richtigen Abteilung zugeordnet werden sollte! Falls ihr noch nicht der Gruppe eurer Abteilung angehört, lest nochmal im [Tutorial zur Orientierung](/lifos/grundlagen/orientierung-lifos) nach.
 
@@ -97,22 +97,22 @@ Hier könnte wirklich die ganze Welt euer Projekt sehen, da man auch von außerh
 
 Außerdem könnt ihr noch eine Projektbeschreibung hinzufügen. Diese könnt ihr als Studierende bei einem Projekt, das einer Gruppe angehörig ist, nicht mehr selbst bearbeiten. Achtet hier also darauf, dass ihr eine aussagekräftige Beschreibung direkt wählt. Eine nachträgliche Änderung ist nur durch die betreuende Person möglich. 
 
-![](gitlaborientierung_newprojectsite.png)
+![](/lifos/gitlaborientierung_newprojectsite.png)
 
 Die Projektbeschreibung soll zur Vereinheitlichung folgendem Muster folgen: Name - Art der Arbeit - Semester oder Jahr. In folgenden Bild seht ihr ein Beispiel: 
 
-![](gitlaborientierung_projektbeschreibung.png)
+![](/lifos/gitlaborientierung_projektbeschreibung.png)
 
 Zum Abschluss müsst ihr nur noch auf *Create Project* klicken und ihr habt euer erstes Projekt erstellt. 
 
 Das ganze sieht dann so aus: 
 
-![](gitlaborientierung_ErstesProjekt.png) 
+![](/lifos/gitlaborientierung_ErstesProjekt.png) 
 
 #### Projekt - Orientierung
 
 Zu allererst ist das README für euch am wichtigsten. Hier sind alle wichtigen Informationen zu dem Template aufgeführt. Ihr findet es, wenn ihr auf eurer Projektseite einfach nur nach unten scrollt. 
-![](gitlaborientierung_readMe.png)
+![](/lifos/gitlaborientierung_readMe.png)
 
 Außerdem findet ihr verschiedene Ordner, die euch eine Orientierung geben sollen, was ihr alles benötigen werdet z.B. Präregistrierung, Skripte etc. Diese sind natürlich noch im Standardformat und nicht gefüllt. Ihr müsst sie dann mit Dateien füllen und ggf. auch modifzieren. 
 
@@ -122,7 +122,7 @@ Außerdem findet ihr verschiedene Ordner, die euch eine Orientierung geben solle
 
 Starten wir zunächst einmal mit der Erklärung, wie man Dateien in das Repository hochlädt. Wir gehen also davon aus, dass ihr auf eurem Rechner eine Datei erstellt oder verändert habt, die nun eurem Projekt hinzugefügt werden soll. Zum Hochladen müsst ihr auf **LIFOS** die Startseite eures Projektes aufrufen und dann auf den Plus-Button klicken. 
 
-![](gitlaborientierung_DateienHochladen.png) 
+![](/lifos/gitlaborientierung_DateienHochladen.png) 
 
 Es öffnet sich eine Liste mit Optionen. Stellen wir uns nun vor, dass wir die Datei namens "Datenauswertung.R" hochladen wollen. Wir klicken nun einfach auf *Upload File*. Dann könnt ihr die Datei ganz einfach mit Drag-and-Drop Prinzip einfügen. Außerdem werdet ihr aufgefordert eine Commit-Message zu schreiben, damit ihr später wisst, was ihr da überhaupt gemacht habt oder eure Gruppenmitglieder sehen können, was das für eine neue Datei ist. Diese sollte kurz und aussagekräftig sein und den Dateinamen der Datei beeinhalten an der ihr etwas geändert habt, z.B. "Add Datenauswertung.R to 2_Scripts". Es ist wichtig, dass der Target branch **main** ist!
 
@@ -133,21 +133,21 @@ Wie wir bereits beschrieben haben,  ist der LIFOS eine <span style="color: darkr
 {{< /spoiler >}}
 
 
-![](gitlaborientierung_DateiCommit.png) 
+![](/lifos/gitlaborientierung_DateiCommit.png) 
 Zum Abschluss klickt ihr auf *Upload File*. Ihr findet euere Datei jetzt bei der Übersicht eures Projekts wieder: 
 
-![](gitlaborientierung_DatenauswertungÜbersicht.png) 
+![](/lifos/gitlaborientierung_DatenauswertungÜbersicht.png) 
 Ihr könnt aber auch direkt auf <span style="color: darkred;">**GitLab**</span> eine neue Datei erstellen mit *New File*. Hier werdet ihr auch aufgefordert eine Commit-Message zu schreiben aus denselben Gründen, wie oben. Erneut bitte beachten, dass der Commit auf dem Branch **main** geschieht.
 
 Falls ihr eine Datei direkt in einem Ordner erstellen wollt, müsst ihr den gewünschten Ordner öffnen und dann diesselbe Prozedur, wie oben wiederholen, durchführen. 
 
-![](gitlaborientierung_DateiHochladenOrdner.png) 
+![](/lifos/gitlaborientierung_DateiHochladenOrdner.png) 
 
 Wir haben unsere Datei in keinen Ordner hochgeladen, sondern direkt auf die "Startseite" unseres Projektes. Uns fällt im Nachhinein auf, dass die Datei aber eigentlich doch besser in dem Ordner "Scripts" untergebracht hätte werden müssen. Normalerweise würde man die Datei jetzt verschieben, allerdings funktioniert das auf der Browser-Version von <span style="color: darkred;">**GitLab**</span> nicht. Der einzige Weg, die Datei in den Ordner zu bekommen, ist sie zuerst zu löschen und dann wieder hochzuladen. Eine angenehmere Möglichkeit bietet <span style="color: darkred;">**SmartGit**</span>. Mit <span style="color: darkred;">**SmartGit**</span> erleichtert ihr euch die Arbeit mit <span style="color: darkred;">**GitLab**</span> enorm. Nachdem ihr dieses Tutorial zuende gelesen habt (empfohlen!), könnt ihr euch [hier](/lifos/extras/connect-lifos-smartgit) über <span style="color: darkred;">**SmartGit**</span> informieren. 
 
 Falls ihr aus Versehen diesselbe Datei zweimal hochladet, wird euch eine Warnmeldung ausgegeben: 
 
-![](gitlaborientierung_warningFileAlreadyExists.png)
+![](/lifos/gitlaborientierung_warningFileAlreadyExists.png)
 
 ##### Dateien bearbeiten
 
@@ -158,7 +158,7 @@ In das "README.md" könnt ihr aber auch schon etwas über euer Projekt schreiben
 
 Um das "README.md" zu bearbeiten klickt ihr auf die Datei. Anschließend öffnet sich ein neues Fenster, hier klickt ihr auf *Open in WebIDE*. 
 
-![](gitlaborientierung_readmeWebIDE.png)
+![](/lifos/gitlaborientierung_readmeWebIDE.png)
 
 Jetzt öffnet sich die Web IDE und ihr habt die Möglichkeit das "README.md" zu bearbeiten. Aber wie ihr sehen könnt, ist es nicht einfach nur eine Textdatei. Das "README.md" ist in der Sprache Markdown geschrieben - deswegen auch ".md". Lasst euch davon nicht verunsichern! Eine Anleitung zu Markdown findet ihr in diesem Tutorial etwas weiter [unten](#basic-markdown-tutorial) und ihr könnt eure Markdown Fähigkeiten auch in einer [Übung](/lifos/extras/basic-markdown-uebung/) unter Beweis stellen.
 
@@ -166,22 +166,22 @@ Die Web IDE kann allerdings nicht alle Dateiformate anzeigen. Sie funktioniert f
 
 Die alte Version eurer Datei könnt ihr euch unter "History" anzeigen lassen. 
 
-![](gitlaborientierung_filehistory.png)
+![](/lifos/gitlaborientierung_filehistory.png)
 
 Hier findet ihr alle alten Versionen eurer Datei. 
 
-![](gitlaborientierung_fileSeeHistory.png)
+![](/lifos/gitlaborientierung_fileSeeHistory.png)
 
 ##### Dateien löschen
 
 Um eine Datei zu löschen, klickt ihr auf diese und seht anschließend auch direkt den *Delete*-Button. 
 
-![](gitlaborientierung_DeleteFile.png)
+![](/lifos/gitlaborientierung_DeleteFile.png)
 <span style="color: darkred;">**GitLab**</span> fragt euch dann noch nach einer *Commit*-Message für diese Aktion, da es wichtig ist alles zu kommentieren, um es nachvollziehbar zu machen. 
 
 Jetzt können wir die Datei im richtigen Ordner nochmal hochladen: 
 
-![](gitlaborientierung_DateiScripts.png)
+![](/lifos/gitlaborientierung_DateiScripts.png)
 
 Wie ihr seht befindet sich "Datenauswertung.R" jetzt im richtigen Ordner. 
 
@@ -194,15 +194,15 @@ Bei der Erstellung der Templates ist viel Mühe und Feedback eingeflossen, damit
 
 Zur Demonstration erstellen wir nun einen Test-Ordner. Dafür gehen wir auf die Startseite unseres Projektes und auf das "+": 
 
-![](gitlaborientierung_OrdnerAdd.png)
+![](/lifos/gitlaborientierung_OrdnerAdd.png)
 
 Anschließend öffnet sich eine Toggle-Down Liste bei der wir auf *New Directory* klicken müssen. Directory ist also die Übersetzung von dem uns bekannten Begriff Ordner.
 
-![](gitlaborientierung_OrdnerErstellen.png)
+![](/lifos/gitlaborientierung_OrdnerErstellen.png)
 
 Diesem Ordner gebt ihr nun einen Namen (z.B. "Test-Ordner") und eine passende `Commit`-Message, wie immer mit **main** als Target branch. 
 
-![](gitlaborientierung_OrdnerCommit.png)
+![](/lifos/gitlaborientierung_OrdnerCommit.png)
 
 Anschließend müsst ihr auf *Create Directory* gehen und ihr habt einen neuen Ordner erstellt!
 Diesen findet ihr auf der Startseite eures Projekts. 
@@ -211,11 +211,11 @@ Diesen findet ihr auf der Startseite eures Projekts.
 
 Manchmal ist ein Ordner aber auch von Beginn an überflüssig oder es wird mit der Zeit klar, dass dort keine Informationen hinterlegt werden. Für ein aufgeräumtes Projekt wäre es sinnvoll, unnötige Ordner aus der Struktur zu entfernen. Wir zeigen das Vorgehen nun an unserem Test-Ordner. Löschen funktioniert in <span style="color: darkred;">**GitLab**</span> nur, wenn alle Dateien aus dem Ordner gelöscht werden. In unserem Ordner befindet sich gerade nur die ".gitkeep"-Datei. Die ".gitkeep"-Datei ist eine ansonsten leere Datei, die einfach nur da ist, um sonst leere Ordner oder Repositorys weiter existieren zu lassen. Nach der <span style="color: darkred;">**GitLab**</span>-Logik würden leere Ordner sonst direkt gelöscht werden und man müsste schon bei der Initiierung den Ordner mit mindestens einer Datei füllen.
 
-![](gitlaborientierung_OrdnerLöschen1.png)
+![](/lifos/gitlaborientierung_OrdnerLöschen1.png)
 
 Ihr öffnet den Ordner (falls ihr dies nicht schon getan habt) und klickt auf diese Datei. Anschließend müsst ihr nur noch auf den *Delete*-Button gehen. 
 
-![](gitlaborientierung_OrdnerLöschen2.png) 
+![](/lifos/gitlaborientierung_OrdnerLöschen2.png) 
 
 Nachdem ihr die letzte Datei in eurem Ordner gelöscht habt (in diesem Fall ".gitkeep"), verschwindet der Ordner automatisch aus eurem Projekt. 
 <!-- Muss man gar nichts mehr drücken danach? Heißt die gitkeep Datei ist verantwortlich für den Erhalt des Ordners? Oder geht es auch bei jeder anderen Datei? Ja, genau. Das ist der ganze Zweck der .gitkeep Datei. Wenn man diese natürlich vor einer anderen Datei löscht, .gitkeep somit nicht die letzte Datei ist,  dann verschwindet der Ordner beim Löschen der letzten Datei, die in diesem Ordner existiert. Das habe ich aber nicht ausprobiert, aber nach GitLab-Logik funktioniert das so. -->
@@ -428,11 +428,11 @@ Zuerst solltet ihr auf euer Projekt gehen und auf der linken Seite das `Merge re
 
 Hier sollte ihr eure Änderungen auf dem anderen Branch als *Merge Request* sehen.
 
-![](Gitlab_Project_Merge_Requests.png)
+![](/lifos/Gitlab_Project_Merge_Requests.png)
 
 Klickt ihr dabei nun auf *create merge request* öffnet sich ein neues Fenster.
 
-![](Gitlab_Project_New_Merge.png)
+![](/lifos/Gitlab_Project_New_Merge.png)
 
 Hier könnt ihr nun einen Titel und eine Beschreibung für euren Merge hinzufügen, der den Grund und Inhalt eures ursprünglichen Commits erklärt, und vielleicht auch auf den falschen Commit hinweist.
 
@@ -441,13 +441,13 @@ Wählt danach, sofern ihr den anderen Branch löschen wollt da ihr ihn unabsicht
 
 Ihr solltet nun auf einer neuen Seite landen
 
-![](Gitlab_Project_New_Merge_Confirm.png)
+![](/lifos/Gitlab_Project_New_Merge_Confirm.png)
 
 Hier müsst ihr euren Merge und das löschen des source branch von welchem aus der Fehler ausging erneut bestätigen und den `Merge`-button betätigen
 
 Nach einem kurzen Moment solltet ihr nun sehen, dass der Merge erfolgreich war!
 
-![](Gitlab_Project_New_Merge_Sucess.png)
+![](/lifos/Gitlab_Project_New_Merge_Sucess.png)
 
 *Sollte dies nicht der Fall sein, oder solltet ihr irgendwo vorher bereits Probleme haben, könnt ihr auch LIFOS[at]uni-frankfurt[punkt]de kontaktieren.*
 </details>
