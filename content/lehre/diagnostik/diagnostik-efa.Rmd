@@ -81,7 +81,6 @@ cor(data_gis_final) %>%
   eigen() %>% 
   chuck("values") %>% 
   as_tibble() %>% 
-  rename(Eigenvalue = value) %>% 
   tab_df(
     title = "Eigenwertverlauf",
     col.header = "Eigenwert",
@@ -271,7 +270,7 @@ Die Faktorladungen von Item 6 und Item 11 liegen unter dem üblichen Cut-off Wer
 
 ```{r}
 drop_facload1 <- c("GIS6","GIS11")
-data_gis_fa1<- select(data_gis_final, -all_of(drop_facload1))
+data_gis_fa1<- dplyr::select(data_gis_final, -all_of(drop_facload1))
 tab_fa(
   data = data_gis_fa1, 
   nmbr.fctr = 3,
@@ -304,8 +303,8 @@ sjt.itemanalysis(
 
 Ebenfalls sollte zusätzlich zur internen Konsistenz Cronbach´s $\alpha$ auch McDonald´s $\omega$ für jede Skala berechnet werden. Dafür speichern wir den Index als Dataframe und danach alle Itemnamen des jeweiligen Faktors als eigenes Objekt ab. Nun können wir eine kleine Funktion erstellen, mit der wir immer wieder für einen Datensatz $\alpha$ und $\omega$ berechnen können. Wir sparen uns somit die Arbeit, jedes Mal wieder den Code zu wiederholen, welcher im Body (hinter der eckigen Klammern) der Funktion steht. Wichtig ist, dass wir mit der `return()` angeben, was letztendlich dem User ausgegeben werden soll (sonst wird nichts angezeigt).
 
-```{r}
-#| warning: false
+```{r, warning = FALSE}
+
 index <- as.data.frame(fa_index) %>% 
   rownames_to_column(var = "item") 
 f1_names <- pull(filter(index, fa_index == 1), item)
@@ -313,7 +312,7 @@ f2_names <- pull(filter(index, fa_index == 2), item)
 f3_names <- pull(filter(index, fa_index == 3), item)
 # Funktionsinput: Dataframe & Vektor der Variablennamen des jeweiligen Faktors
 get_reliability <- function(.data, .var_names) {
-  om <- omega(select(.data, all_of(.var_names)), plot = FALSE)
+  om <- omega(dplyr::select(.data, all_of(.var_names)), plot = FALSE)
   out <- list(
     omega = om$omega.tot, 
     alpha = om$alpha
@@ -334,8 +333,8 @@ Als letztes werden wir die deskriptiven Kennwerte der Testwerte der drei Skalen 
 ```{r}
 data_gis_fa1 <- data_gis_fa1 %>% 
   rowwise() %>% 
-  mutate(gis_score = sum(c_across(everything()))) %>% 
-  mutate(
+  dplyr::mutate(gis_score = sum(c_across(everything()))) %>% 
+  dplyr::mutate(
     f1 = sum(c_across(all_of(f1_names))),
     f2 = sum(c_across(all_of(f2_names))),
     f3 = sum(c_across(all_of(f3_names))),
@@ -387,16 +386,13 @@ ggplot(data_gis_fa1, aes(x = gis_score)) +  # oder x = f1/f2/f3
 Für diejenigen unter euch, die sich in etwas anspruchvolleres R bzw. ggplot2-Territorium wagen wollen: Es gibt auch die Möglichkeit, alle Skalen gleichzeitig in einem Bild zu plotten. Um jeden einzelnen Schritt der großen Pipe zu verstehen, geht am besten jeden einzelnen Layer durch und schaut, wie sich der Plot verändert. Auch hilfreich kann es sein, wenn man die einzelnen Parameter in den Layern verändert, um zu schauen, was diese bewirken. Es reicht allerdings natürlich auch völlig aus, wenn ihr euch an dem letzten Plot orientiert!
 
 ```{r}
-#| code-fold: true
-#| code-summary: "Show the code"
-#| fig-align: "center"
-#| fig-width: 10
-#| fig-height: 6.5
 library(ggh4x)
+library(fitdistrplus)
+
 strip_labels <- as_labeller(c(f1 = "Factor 1", f2 = "Factor 2",
                               f3 = "Factor 3", gis_score = "Gesamtscore"))
 data_gis_fa1 %>% 
-  select(f1, f2, f3, gis_score) %>% 
+  dplyr::select(f1, f2, f3, gis_score) %>% 
   pivot_longer(
     cols = everything(),
     names_to = "factor",
