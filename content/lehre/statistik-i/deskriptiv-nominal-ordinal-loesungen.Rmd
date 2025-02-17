@@ -145,7 +145,7 @@ table(fb24$therap)
 prop.table(table(fb24$therap))
 ```
 
-Der Modus der Variable `therap` beträgt `r which.max(table(fb24$therap))`, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = `r max(table(fb24$therap))` bzw. `r round(max(prop.table(table(fb24$therap)))*100,2)`%).
+Der Modus der Variable `therap` beträgt `r names(which.max(table(fb24$therap)))`, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = `r max(table(fb24$therap))` bzw. `r round(max(prop.table(table(fb24$therap)))*100,2)`%).
 
 **Boxplot**
 

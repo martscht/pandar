@@ -31,9 +31,6 @@ output:
 
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
@@ -85,10 +82,33 @@ Auf Personenebene (Level-2) sind außerdem Variablen als Prädiktoren enthalten,
 
 Im Rahmen des Quiz sollen außerdem Fragen zu einer Studie, die das statistische Modell in der klinischen Forschung einsetzt, beantwortet werden. Eine groß angelegte Studie von [Goldberg et al. (2016)](https://doi.org/10.1037/cou0000131) untersuchte, ob Psychotherapeut*innen mit zunehmender Berufserfahrung bessere Therapieergebnisse erzielen. 
 
+
+## Block 4: Metaanalyse {#Block4}
+
+Im Rahmen dieses Quiz nutzen wir die Daten aus der Meta-Analyse von [Kruisbrink et al. (2021)](https://doi.org/10.1080/09638288.2021.1969452), in der verschiedene Interventionsansätze bezüglich der Sturzgefahr von Personen höheren Alters untersucht werden. Spezifisch geht es in dieser Analyse um die psychologischen Outcomes bezüglich der Angst vor Stürzen, nicht um die tatsächliche Häufigkeit oder deren Schweregrad. Die relevanten Zusatzdateien (wie z.B. der Datensatz) sind allesamt im OSF-Projekt [osf.io/sf67d](https://osf.io/sf67d/) verfügbar.
+
+Um eine, für das Quiz aufbereitete und gekürzte Fassung der Daten zu laden, können Sie das folgende Skript ausführen (*Anmerkung: sollten Sie das Paket `haven` noch nicht installiert haben, wir dieses durch das Ausführen dieses Skripts installiert*):
+
+```{r, eval = FALSE}
+source("https://pandar.netlify.app/daten/Data_Processing_fall.R")
+```
+Der entstandene Datensatz enthält 52 Beobachtungen auf 11 Variablen. In `author` werden die Studien anhand ihres Erstautors / ihrer Erstautorin geführt, in `id` ist werden die Studien-IDs numerisch vergeben. `quality` gibt an, auf wie vielen der sieben potentiellen Bias-Risiken eine Studie als problematisch eingestuft wurde. Von [Kruisbrink et al. (2021, S. 6250)](https://doi.org/10.1080/09638288.2021.1969452) wird hierzu folgende Aussage getroffen:
+
+> [...] the number of high risk of bias items ranged from two to four out of the total of seven items. Due to the nature of the interventions, blinding was impossible and the two items regarding blinding of participants and personnel and outcome assessors (performance bias and detection bias) were always scored with a high risk of bias.
+
+Die vier folgenden Variablen (`bodyawareness`, `holistic`, `meditation`, `discussion`) kennzeichnen in Dummy-Variablen, ob eine untersuchte Intervention diese Elemente enthält bzw. nach diesen Prinzipien gestaltet ist. Die Variablen `es_post` und `es_follow` enthalten die Effektstärken zur Post bzw. Follow-Messung, die Variablen `se_post` und `se_follow` die zugehörigen Standardfehler.
+
+Im Rahmen des Quiz wird außerdem um die genauere Betrachtung der Studie von [Schwenk et al. (2016)](https://doi.org/10.1682/jrrd.2015.05.0089) gebeten.
+
 ***
 
 ## Literatur
 
 Goldberg, S. B., Rousmaniere, T., Miller, S. D., Whipple, J., Nielsen, S. L., Hoyt, W. T., & Wampold, B. E. (2016). Do psychotherapists improve with time and experience? A longitudinal analysis of outcomes in a clinical setting. *Journal of counseling psychology, 63*, 1-11. https://doi.org/10.1037/cou0000131
 
+Kruisbrink, M., Crutzen, R., Kempen, G. I. J. M., Delbaere, K., Ambergen, T., Cheung, K. L., Kendrick, D., Iliffe, S., & Zijlstra, G. A. R. (2022). Disentangling interventions to reduce fear of falling in community-dwelling older people: A systematic review and meta-analysis of intervention components. *Disability and Rehabilitation, 44*(21), 6247-6257. https://doi.org/10.1080/09638288.2021.1969452
+
 Pellerin, N., & Raufaste, E. (2020). Psychological resources protect well-being during the COVID-19 pandemic: A longitudinal study during the French lockdown. Frontiers in Psychology, 11, 590276. https://doi.org/10.3389/fpsyg.2020.590276
+
+Schwenk, M., Sabbagh, M., Lin, I., Morgan, P., Grewal, G. S., Mohler, J., Coon, D. W., & Najafi, B. (2016). Sensor-based balance training with motion feedback in people with mild cognitive impairment. *Journal of Rehabilitation Research and Development, 53*(6), 945-958. https://doi.org/10.1682/JRRD.2015.05.0089
+
