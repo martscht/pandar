@@ -59,17 +59,17 @@ Nun wollen wir unseren neuen Account natürlich auch nutzen und online ein Repos
 
 Zunächst wollen wir die Situation durchgehen, in der wir uns gerade auch nach dem ersten Tutorial befinden. Wir haben bereits ein lokales Repository mit dem Namen "Praktikum". Dieses soll aber nun auf <span style="color: darkred;">**GitHub**</span> gehostet werden, da wir den Bericht im Praktikum nicht alleine schreiben und daher auch die Auswertung zusammen gemacht werden soll. Um ein neues Repository auf <span style="color: darkred;">**GitHub**</span> zu erstellen, kann man oben rechts in der Menüleiste unter dem Punkt *+* auf *New repository* klicken. In der Abbildung ist die Auswahl zu sehen - natürlich sind bei euch momentan noch keine existierenden Repositories verfügbar.
 
-![](images/github_new_repo.png)
+![](/git/images/github_new_repo.png)
 
 Unter *Repository name* kann ein Name festgelegt werden. Hier nehmen wir am besten den Namen, den das Projekt auch lokal trägt. Unter *Description* kann man eine kurze Beschreibung hinzufügen.
 Anschließend steht die Entscheidung an, ob das Repository öffentlich einsehbar oder privat sein soll. Zum Übungszweck stellen wir hier auf *Private*. Bei wichtigen Projekten sollte hier *Public* gewählt werden, damit auch andere User zugreifen können. In einer kleinen Gruppe mit Bekannten kann man auch im privaten Setting gemeinsam an einem Repository arbeiten. 
 Weitere Optionen sind das Erstellen einer **README**- und einer **.gitignore**-Datei, sowie die Auswahl einer Lizenz. Mit diesen Möglichkeiten beschäftigen wir uns später (und im nächsten Tutorial) - wählen hier also noch nichts aus. Beachtet, dass es bei einem bereits lokal existierenden Repository auch generell einfacher ist, wenn man das Online-Repository ohne zusätzliche Inhalte wie eine **.gitignore**-Datei kreiert. Beachtet, dass sich das Design von GitHub etwas geändert hat und es leicht anders aussehen könnte, als es auf dem Screenshot abgebildet ist. Die Funktionalität der einzelnen Bestandteile ist jedoch immer noch gleich. Mit einem Klick auf *Create repository* wird dieses dann erstellt.
 
-![](images/github_repo_options_first.png)
+![](/git/images/github_repo_options_first.png)
 
 Nachdem wir auf den grünen Button geklickt haben, wird uns sofort das Repository angezeigt. Hier stehen einige gute Hinweise, wie man nun weiter verfahren könnte. Ihr habt als Anleitung natürlich aber dieses Tutorial zur Verfügung. Für uns ist zunächst nur die angezeigte URL wichtig. Diese könnt ihr über das kleine Clipboard am rechten Rand (oder auf anderen Wegen) kopieren. 
 
-![](images/github_repo_overview_first.png)
+![](/git/images/github_repo_overview_first.png)
 
 Da wir ein lokales Projekt, unsere Datenauswertung für das Statistik-Praktikum, mit dem Repository auf <span style="color: darkred;">**GitHub**</span> verknüpfen wollen, müssen wir nun zurück in das Terminals unseres Rechners. Zur Erinnerung: Ansteuern eines bestimmten Ordners funktioniert über den Befehl *cd*. Wenn wir dann im Ordner "Praktikum" angekommen sind, können wir diesem die URL unseres <span style="color: darkred;">**GitHub**</span>-Repositorys mitteilen.
 
@@ -83,7 +83,7 @@ Dadurch weiß <span style="color: darkred;">**Git**</span> jetzt, an welchem Ort
 git push -u origin master
 ```
 
-![](images/git_github_connect_first2.png)
+![](/git/images/git_github_connect_first2.png)
 
 Im Terminal wird man nach dem User-Name und Passwort von <span style="color: darkred;">**GitHub**</span> gefragt, wodurch sicher gestellt wird, dass niemand Fremdes einfach ein Repository mit seinen Dateien überschreibt. Ein einfaches eingeben des Passworts sollte jedoch nicht funktionieren, was ihr auch an der Fehlermeldung oben sehen könnt. <span style="color: darkred;">**Git**</span> hat hier zur zusätzlichen Sicherheit die Personal Access Tokens eingeführt, die dann die Eingabe des Passworts ersetzen. Wir erläutern nun also zunächst, wie das Token erstellt werden kann.
 
@@ -91,7 +91,7 @@ Im Terminal wird man nach dem User-Name und Passwort von <span style="color: dar
 
  Das besondere an diesem Token ist, dass es an einen Nutzer gebunden ist. Das heißt, es wird diesselben Zugriffsrechte wie der User haben (bei Zugriff auf Content oder Spaces). Er kann auf verschiedenen Geräten genutzt werden, um mit <span style="color: darkred;">**GitHub**</span> zu kommunizieren. Um einen PAT zu erstellen, müsst ihr euch erstmal auf <span style="color: darkred;">**GitHub**</span> einloggen. Dann navigiert ihr zu **Settings** und klickt in der linken Spalte ganz unten **Developer Settings** an. Hier geht ihr dann auf **Personal Access Token** und generiert ein neues Token. 
 
-![](images/smartgit_PAT.png)
+![](/git/images/smartgit_PAT.png)
 
 Diesem müsst ihr nun einen Namen geben, der am besten erklärt, wofür ihr dieses Token braucht. Außerdem kann man entscheiden, wie lange das Token gültig sein soll. 
 
@@ -106,7 +106,7 @@ Den erstellten Token können wir jetzt im Terminal als Passwort nutzen. Dann sol
 git push -u origin master 
 ```
 
-![](images/git_github_connect_first.png)
+![](/git/images/git_github_connect_first.png)
 
 Wenn immer noch eine Fehlermeldung angezeigt wird, sollte der folgende Befehl stattdessen helfen:
 
@@ -116,7 +116,7 @@ git push -u origin main
 
 Anschließend wird viel Code angezeigt, der die angestrebten Aufgaben ausführt. Wenn ihr nun zurück auf das Browser-Fenster wechselt und hier einen `refresh` durchführt, sollten die Dateien, die ihr lokal erstellt hattet, angezeigt werden. 
 
-![](images/github_repo_overview_second.png)
+![](/git/images/github_repo_overview_second.png)
 
 
 Jetzt sind die lokale Version des Projekts auf dem Rechner und die "Cloud"-Version auf <span style="color: darkred;">**GitHub**</span> miteinander verbunden. Dies ermöglicht, dass mehrere Personen auf das gleiche Projekt zugreifen und jeweils eine lokale Kopie auf ihren Rechnern haben können. Beispielsweise könnt ihr mit euren Kommiliton:innen am gleichen <span style="color: darkred;">**R**</span>-Skript für die Datenauswertung arbeiten und seid somit immer auf dem aktuellsten Stand. Ihr müsst auch nicht mehr mühsam Dateien hin- und herschicken und Änderungen versuchen kenntlich zu machen, das erledigt <span style="color: darkred;">**GitHub**</span> für euch! 
@@ -127,21 +127,21 @@ Jetzt sind die lokale Version des Projekts auf dem Rechner und die "Cloud"-Versi
 
 Bevor wir uns mit weiteren Funktionen im Terminal beschäftigen, gehen wir den anderen bereits beschriebenen Fall durch. Das Repository existiert bereits online und wir wollen eine lokale Version davon erstellen. Um das alleine üben zu können, erstellen wir uns einfach ein neues Repository auf <span style="color: darkred;">**GitHub**</span>. Wir geben ihm den Namen "dummy" und machen es natürlich wieder *Private*. Diesmal wollen wir es auch nicht leer erstellen, sondern bereits eine Datei drin haben. Dafür wählen wir das **README** aus.
 
-![](images/github_repo_options_second.png)
+![](/git/images/github_repo_options_second.png)
 
 Nach dem Klick auf den grünen Button werden uns nicht wie beim letzten Mal Hinweise zum weiteren Vorgehen angezeigt, sondern wir sehen direkt die Inhalte unseres Repositorys. Das liegt daran, dass diesmal mit der **README**-Datei auch wirklich etwas zum Anzeigen vorhanden ist. Standardmäßig wird für diese Datei als Überschrift der Name des Repositorys gewählt und als Inhalt die kleine Beschreibung, die wir eingegeben haben. Der eigentliche Zweck besteht aber darin, dass man hier Hinweise für die Verwendung geben kann. Beispielsweise könnte das Repository ein Tool erhalten und im **README** eine Beschreibung stehen, wie dieses installiert und dann verwendet werden kann. Der Inhalt kann natürlich auch jederzeit verändert werden (beispielsweise durch einen Klick auf das Stift-Symbol). Wir sind aber nun erstmal mit dem Inhalt zufrieden, da wir ja sowieso nur einen Test durchführen.  
 
-![](images/github_repo_overview_third.png)
+![](/git/images/github_repo_overview_third.png)
 
 Nun wollen wir die Inhalte, die remote auf <span style="color: darkred;">**GitHub**</span> existieren, auf unseren lokalen Rechner laden. Dafür wechseln wir wieder in das Terminal des Computers. Wir wechseln in den Ordner, der als übergeordneter Ordner für unseren Repository-Ordner dienen soll. Daher gehen wir in den Ordner "Statistik".
 
 
-![](images/terminal_folder_navigation_second.png)
+![](/git/images/terminal_folder_navigation_second.png)
 
 
 Um das Projekt jetzt von <span style="color: darkred;">**GitHub**</span> auf euren Rechner zu laden, benötigt ihr wieder die URL des Projekts. Diese kann man kopieren, indem man auf den grünen Button *code* in der Übersicht des Respositorys klickt und anschließend auf das kleine Clipboard neben dem angezeigten Link. 
 
-![](images/github_URL.png)
+![](/git/images/github_URL.png)
 
 Im Terminal verwenden wir nun den neuen Befehl `git clone` und verweisen auf das online existierende Repository. Wie der Name des Befehls schon sagt, wird ein lokaler Klon vom Ordner, wie er auf <span style="color: darkred;">**GitHub**</span> vorliegt, erstellt. In diesem können wir lokale Arbeiten an den Dateien durchführen. Auch hier werden wir nach Nutzernamen von <span style="color: darkred;">**GitHub**</span> und zugehörigem Passwort gefragt. Ob der Befehl geklappt hat, können wir mit dem Befehl *ls* im Terminal überprüfen, der alle Inhalte eines Ordners anzeigt. Hier sollte der Name "dummy" angezeigt werden. Auch im Dateiexplorer muss der Ordner "dummy" jetzt sichtbar sein.
 
@@ -150,7 +150,7 @@ git clone DieURL
 ls
 ```
 
-![](images/git_clone.png)
+![](/git/images/git_clone.png)
 
 Den eben erstellten Ordner "dummy" werden wir jetzt nicht weiter verwenden - er diente nur zu Demonstrationszwecken. Das weitere Vorgehen orientiert sich am Ordner "praktikum". Damit das gemeinsame Arbeiten am selben Projekt ermöglicht wird, folgen jetzt ein paar Basics zu <span style="color: darkred;">**Git**</span>-Funktionen, die in der Interaktion mit <span style="color: darkred;">**GitHub**</span> nützlich sind.
 
@@ -158,11 +158,11 @@ Den eben erstellten Ordner "dummy" werden wir jetzt nicht weiter verwenden - er 
 
 Jetzt wo <span style="color: darkred;">**GitHub**</span> eingerichtet und mit unserem lokalen Ordner "praktikum" verbunden ist, können wir Änderungen an den Dateien vornehmen.  Wenn ihr etwas an dem R-Skript zur Datenauswertung ändert und einen `commit` erstellt (wie wir es im letzten Tutorial gelernt haben), ist diese Änderung zunächst nur in eurer lokalen Datei umgesetzt. Zunächst ergänzen wir also in unserem <span style="color: darkred;">**R**</span>-Skript in Zeile 17 einen Boxplot für den Gesamtscore.
 
-![](images/dummy_gitAuswertung_fourth.png)
+![](/git/images/dummy_gitAuswertung_fourth.png)
 
 Anschließend wechseln wir im Terminal in den Ordner Praktikum und können den aktuellen `status` unseres Respositorys abfragen. Hier wird wieder angezeigt, dass eine Datei modifiziert ist. Wir nutzen also wieder *add* und anschließend *commit*. 
 
-![](images/git_commit_refresh.png)
+![](/git/images/git_commit_refresh.png)
 
 Die Änderungen sind, wie bereits gesagt, nun erstmal lokal. Für eine Änderung online wird der folgende Befehl benötigt:
 
@@ -176,7 +176,7 @@ git push
 
 Das Terminal zeigt uns nun noch einigen Code an, in dem der `push` ausgeführt wird. Wir können nun auch einmal testen was passiert, wenn wir keine Änderung an unseren Dateien vornehmen, aber trotzdem einen `push` anweisen. Hier weist uns das Terminal darauf hin, dass bereits alles auf <span style="color: darkred;">**GitHub**</span> im aktuellen Zustand ist.
 
-![](images/git_push_first.png)
+![](/git/images/git_push_first.png)
 
 Eure Änderungen sind nun auf <span style="color: darkred;">**GitHub**</span> für andere einsehbar. Das hat den Vorteil, das nun auch eure Projektpartner:innen ihre lokalen Kopien des Projekts hinsichtlich eurer Veränderungen aktualisieren können. Wie das funktioniert, lernen wir mit dem nächsten Befehl.
 
@@ -191,15 +191,15 @@ git pull
 So wird der lokale Ordner aktualisiert und es können Änderungen an den Dateien vorgenommen werden. Da niemand anderes Änderungen durchgeführt hat, wird hier angezeigt, dass unser Repository bereits auf dem neuen Stand ist. 
 
 
-![](images/git_pull_first.png)
+![](/git/images/git_pull_first.png)
 
 Um eine Änderung zu simulieren, ohne eine andere Person zu benötigen, rufen wir unser Repository über <span style="color: darkred;">**GitHub**</span> auf. Bisher ist im Praktikumsordner noch keine **README**-Datei angelegt. Ein grüner Button bietet uns aber direkt das Hinzufügen dieser Datei an. Nach einem Klick auf *Add README* werden wir auf eine Seite gesendet, bei der die Datei erstellt werden kann. Als Titel ist standardmäßig der Name des Repositorys eingebaut und die erste Zeile enthält unsere angelegte Beschreibung. Wir führen hier nun erstmal keine Änderung durch. Am unteren Ende der Seite wird nach das `commit` durchgeführt. Dafür brauchen wir, wie auch im Terminal eine Message, die hier auch standardmäßig vorgeschlagen wird, und eine Auswahl des **Branches**. Mit diesen beschäftigen wir uns erst später und bleiben also bei dem default. Nun klicken wir auf den grünen Button *commit new file*. Wir gelangen zurück in die Übersicht und sehen, dass eine **README**-Datei angelegt wurde. 
 
-![](images/github_readme.png)
+![](/git/images/github_readme.png)
 
 Um dieses File auch lokal zu erhalten, muss nun ein `pull` durchgeführt werden. Wir gehen zurück ins Terminal und führen den Befehl nochmal aus. Diesmal erhalten wir einigen Code, der beschreibt, dass eine Datei in unser lokales Repository hinzugefügt wurde. 
 
-![](images/git_pull_second.png)
+![](/git/images/git_pull_second.png)
 
 
 Eine kleine Empfehlung für die normale Arbeit an einem Repository: Bevor ihr etwas an einer Datei ändern möchtet, ist es wichtig, dass ihr immer mit der aktuellsten Version des Projekts arbeitet. Dadurch werden alle Änderungen berücksichtigt, die andere Personen, die ebenfalls am Projekt arbeiten, erstellt haben. Daher sollte jeder Arbeitstag mit einem `pull` starten.
@@ -209,7 +209,7 @@ Eine kleine Empfehlung für die normale Arbeit an einem Repository: Bevor ihr et
 
 Wenn wir uns einmal die Aufbereitung von <span style="color: darkred;">**GitHub**</span> auf der Webseite anschauen, so finden wir einige Menüpunkte. Im Folgenden sind die Wichtigsten kurz aufgeführt.
 
-![](images/github_options.png)
+![](/git/images/github_options.png)
 
 ### Settings
 
@@ -221,7 +221,7 @@ Bisher greifen wir, auch wenn das Projekt online auf <span style="color: darkred
 
 Über den Menüpunkt *Settings* könnt ihr links *Manage Access* auswählen. Unten im Bild erscheint dann der grüne Button *Invite a collaborator*. Personen, die mit euch am Projekt arbeiten sollen, könnt ihr nun via *username*, *full name* oder *e-mail* hinzufügen. 
 
-![](images/github_collaborator.png)
+![](/git/images/github_collaborator.png)
 
 
 #### Als **collaborator** einem Projekt beitreten
