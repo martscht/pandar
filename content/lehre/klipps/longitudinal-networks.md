@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'This document explores key methods in longitudinal network analysis within psychological research. It covers foundational concepts such as temporal and contemporaneous networks, multilevel modeling, and autocorrelation.  Additionally, methods for handling stationarity assumptions, equidistant measurements, and Time-Varying Networks are discussed, providing a comprehensive guide to modeling dynamic psychological processes over time.' 
 authors: [liu] 
 weight: 6
-lastmod: '2025-02-07'
+lastmod: '2025-02-17'
 featured: no
 banner:
   image: "/header/global_network.jpg"
@@ -241,12 +241,12 @@ You can also find the dataset in the Moodle platform.
 
 
 
-``` r
+```r
 load("COVID19_dynamic_analyses_cleaned.Rdata")
 ```
 
 
-``` r
+```r
 colnames(data)[5:22] <- c("Insp", "Alert", "Exc", "Ent", 
                           "Det","Afraid", "Upset", "Nervous", 
                           "Scared", "Dist", "LoI", "DepMood", 
@@ -260,16 +260,18 @@ head(data)
 ```
 ## # A tibble: 6 × 24
 ## # Groups:   sub_id [1]
-##   sub_id measurement measurement_date   PHQ9  Insp Alert   Exc   Ent   Det Afraid Upset Nervous Scared
-##    <dbl>       <int> <date>            <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl>   <dbl>  <dbl>
-## 1      1           1 2020-03-21       NaN      NaN NaN     NaN NaN     NaN    NaN   NaN     NaN    NaN
-## 2      1           2 2020-03-24         6.67     1   2       1   1       1      1     1       1      1
-## 3      1           3 2020-03-27         6.5      1   1.5     1   1.5     1      1     1       1      1
-## 4      1           4 2020-03-30         6        1   1       1   2       2      1     2       1      2
-## 5      1           5 2020-04-02         4        1   2       2   2       2      2     2       2      2
-## 6      1           6 2020-04-05       NaN      NaN NaN     NaN NaN     NaN    NaN   NaN     NaN    NaN
-## # ℹ 11 more variables: Dist <dbl>, LoI <dbl>, DepMood <dbl>, SleepDis <dbl>, Fatigue <dbl>, Appet <dbl>,
-## #   Worth <dbl>, Con <dbl>, PsychMot <dbl>, group <chr>, change <chr>
+##   sub_id measurement measurement_date   PHQ9  Insp Alert   Exc   Ent   Det
+##    <dbl>       <int> <date>            <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+## 1      1           1 2020-03-21       NaN      NaN NaN     NaN NaN     NaN
+## 2      1           2 2020-03-24         6.67     1   2       1   1       1
+## 3      1           3 2020-03-27         6.5      1   1.5     1   1.5     1
+## 4      1           4 2020-03-30         6        1   1       1   2       2
+## 5      1           5 2020-04-02         4        1   2       2   2       2
+## 6      1           6 2020-04-05       NaN      NaN NaN     NaN NaN     NaN
+## # ℹ 15 more variables: Afraid <dbl>, Upset <dbl>, Nervous <dbl>,
+## #   Scared <dbl>, Dist <dbl>, LoI <dbl>, DepMood <dbl>, SleepDis <dbl>,
+## #   Fatigue <dbl>, Appet <dbl>, Worth <dbl>, Con <dbl>, PsychMot <dbl>,
+## #   group <chr>, change <chr>
 ```
 Within the loaded data object, key variables include:
 
@@ -312,29 +314,29 @@ Let’s consider a scenario where $y$ represents **Depressed Mood** over time.
 
 A simple **first-order autoregressive** model can be written as:
 
-<math> 
+ 
 $$
 y_{ti} = \beta_0 + \beta_1 y_{t-1,i} + \epsilon_{ti}
 $$
 
 where:
--$y_{ti}$ = Depressed Mood for individual$i$ at time$t$,
--$y_{t-1,i}$ = Depressed Mood at the previous time point,
--$\beta_0$ = Intercept (baseline level of depression),
--$\beta_1$ = **Autoregressive coefficient** (effect of past depression on current depression),
--$\epsilon_{ti}$ = Residual error.
+- $y_{ti}$ = Depressed Mood for individual$i$ at time$t$,
+- $y_{t-1,i}$ = Depressed Mood at the previous time point,
+- $\beta_0$ = Intercept (baseline level of depression),
+- $\beta_1$ = **Autoregressive coefficient** (effect of past depression on current depression),
+- $\epsilon_{ti}$ = Residual error.
 
 
 In this **simplified** model, each individual is assumed to have the same autoregressive effect ($\beta_1$). However, individuals may differ in how persistent (or stable) their depressive symptoms are. To **relax this assumption**, we can introduce **random slopes**, allowing each individual to have their own autoregressive effect ($ \beta_{1i}$):
 
-<math> 
+ 
 $$
 \beta_{1i} = \gamma_1 + u_{1i}
 $$
 
 where:
--$\gamma_1$ = **Overall (fixed) autoregressive effect**,
--$u_{1i}$ = **Person-specific deviation** from the average autoregression.
+- $\gamma_1$ = **Overall (fixed) autoregressive effect**,
+- $u_{1i}$ = **Person-specific deviation** from the average autoregression.
 
 This **random-slope model** accounts for the fact that depressive symptoms may persist **more strongly for some individuals than for others**. For example:
 - Some individuals may show **high stability** in depressive symptoms ($\beta_{1i} \approx 0.9$, meaning symptoms persist strongly over time).
@@ -357,17 +359,17 @@ Consider a scenario with two variables (most simple case, Bivariate example):$y$
 The model can be written as:
 **Level 1 (Within-Person):**
 
-<math> 
+ 
 $$
 y_{ti} = \beta_{0i} + \beta_{11,i} y_{t-1,i} + \beta_{12,i} z_{t-1,i} + \epsilon_{y,t,i}
 $$
 
 Where:
--$y_{ti}$: Depressed Mood for individual$i$ at time$t$.
--$\beta_{0i}$: Person-specific intercept for Depressed Mood.
--$\beta_{11,i}$: **Autoregressive effect** of past Depressed Mood ($y$ at$t-1$).
--$\beta_{12,i}$: **Cross-lagged effect** of past Fatigue ($z$ at$t-1$).
--$\epsilon_{y,t,i}$: Person-specific residual error for$y$.
+- $y_{ti}$: Depressed Mood for individual$i$ at time$t$.
+- $\beta_{0i}$: Person-specific intercept for Depressed Mood.
+- $\beta_{11,i}$: **Autoregressive effect** of past Depressed Mood ($y$ at$t-1$).
+- $\beta_{12,i}$: **Cross-lagged effect** of past Fatigue ($z$ at$t-1$).
+- $\epsilon_{y,t,i}$: Person-specific residual error for$y$.
 
 This equation suggests that:
 - A person’s **current mood** depends partly on their **past mood** (autocorrelation).
@@ -375,7 +377,7 @@ This equation suggests that:
 
 **Level 2 (Between-Person):**
 
-<math> 
+ 
 $$
 \begin{aligned}
 \beta_{0i} &= \gamma_{00} + u_{0i} \\
@@ -385,10 +387,10 @@ $$
 $$
 
 Where:
--$\gamma_{00}$: Overall intercept across individuals.
--$\gamma_{11}$: Average (fixed) autoregressive effect of$y$ across individuals.
--$\gamma_{12}$: Average (fixed) cross-lagged effect of$z$ on$y$ across individuals.
--$u_{0i}, u_{11,i}, u_{12,i}$: Random effects capturing individual deviations from the average (fixed) effects.
+- $\gamma_{00}$: Overall intercept across individuals.
+- $\gamma_{11}$: Average (fixed) autoregressive effect of$y$ across individuals.
+- $\gamma_{12}$: Average (fixed) cross-lagged effect of$z$ on$y$ across individuals.
+- $u_{0i}, u_{11,i}, u_{12,i}$: Random effects capturing individual deviations from the average (fixed) effects.
 
 
 ### Fatigue as the Dependent Variable
@@ -399,17 +401,17 @@ Now, let’s reverse the focus: instead of predicting **mood**, we predict **fat
 The model can be written as:
 **Level 1 (Within-Person):**
 
-<math> 
+ 
 $$
 z_{ti} = \beta_{0i} + \beta_{22,i} z_{t-1,i} + \beta_{21,i} y_{t-1,i} + \epsilon_{z,t,i}
 $$
 
 Where:
--$z_{ti}$: Fatigue for individual$i$ at time$t$.
--$\beta_{0i}$: Person-specific intercept for Fatigue.
--$\beta_{22,i}$: **Autoregressive effect** of past Fatigue ($z$ at$t-1$).
--$\beta_{21,i}$: **Cross-lagged effect** of past Depressed Mood ($y$ at$t-1$).
--$\epsilon_{z,t,i}$: Person-specific residual error for$z$.
+- $z_{ti}$: Fatigue for individual$i$ at time$t$.
+- $\beta_{0i}$: Person-specific intercept for Fatigue.
+- $\beta_{22,i}$: **Autoregressive effect** of past Fatigue ($z$ at$t-1$).
+- $\beta_{21,i}$: **Cross-lagged effect** of past Depressed Mood ($y$ at$t-1$).
+- $\epsilon_{z,t,i}$: Person-specific residual error for$z$.
 
 This equation suggests that:
 - A person’s **fatigue today** is influenced by their **fatigue yesterday** (autocorrelation).
@@ -417,7 +419,7 @@ This equation suggests that:
 
 **Level 2 (Between-Person):**
 
-<math> 
+ 
 $$
 \begin{aligned}
 \beta_{0i} &= \gamma_{00} + u_{0i} \\
@@ -427,17 +429,17 @@ $$
 $$
 
 Where:
--$\gamma_{00}$: Overall intercept across individuals.
--$\gamma_{22}$: Average (fixed)autoregressive effect of$z$ across individuals.
--$\gamma_{21}$: Average (fixed) cross-lagged effect of$y$ on$z$ across individuals.
--$u_{0i}, u_{22,i}, u_{21,i}$: Random effects capturing individual deviations from the average (fixed) effects.
+- $\gamma_{00}$: Overall intercept across individuals.
+- $\gamma_{22}$: Average (fixed)autoregressive effect of$z$ across individuals.
+- $\gamma_{21}$: Average (fixed) cross-lagged effect of$y$ on$z$ across individuals.
+- $u_{0i}, u_{22,i}, u_{21,i}$: Random effects capturing individual deviations from the average (fixed) effects.
 
 
 ### Combined VAR System
 
 Placing these two equations side by side yields a bivariate VAR(1) system:
 
-<math> 
+ 
 $$
 \begin{aligned}
 y_{ti} &= \beta_{0i} + \beta_{11,i} y_{t-1,i} + \beta_{12,i} z_{t-1,i} + \epsilon_{y,t,i} \\
@@ -446,10 +448,10 @@ z_{ti} &= \beta_{0i} + \beta_{22,i} z_{t-1,i} + \beta_{21,i} y_{t-1,i} + \epsilo
 $$
 
 Where:
--$\beta_{0i}$: Person-specific intercepts for Depressed Mood and Fatigue.
--$\beta_{11,i}, \beta_{22,i}$: **Autoregressive coefficients** (effect of the previous state on itself).
--$\beta_{12,i}, \beta_{21,i}$: **Cross-lagged coefficients** (mutual influence between variables).
--$\epsilon_{y,t,i}, \epsilon_{z,t,i}$: Residual error terms for $y$ and$z$, respectively.
+- $\beta_{0i}$: Person-specific intercepts for Depressed Mood and Fatigue.
+- $\beta_{11,i}, \beta_{22,i}$: **Autoregressive coefficients** (effect of the previous state on itself).
+- $\beta_{12,i}, \beta_{21,i}$: **Cross-lagged coefficients** (mutual influence between variables).
+- $\epsilon_{y,t,i}, \epsilon_{z,t,i}$: Residual error terms for $y$ and$z$, respectively.
 
 - **If$\beta_{12,i}$ is significant** → Fatigue **predicts** future depressed mood.
 - **If$\beta_{21,i}$ is significant** → Depressed mood **predicts** future fatigue.
@@ -472,7 +474,7 @@ To estimate a multilevel Vector Autoregression (VAR) model in R, we utilize the 
 
 Below is an example R code snippet demonstrating how to fit a bivariate VAR model to data containing Fatigue and DepMood (depressed mood):
 
-``` r
+```r
 # Load the mlVAR package
 library(mlVAR)
 
@@ -488,12 +490,6 @@ model_mlVAR <- mlVAR(
   lags = 1,             # The number of lags to include in the model
   verbose = FALSE       # Suppress verbose output
 )
-```
-
-```
-## Warning in mlVAR(data = data, vars = variables, idvar = "sub_id", beepvar = "measurement", : 138 subjects
-## detected with < 20 measurements. This is not recommended, as within-person centering with too few
-## observations per subject will lead to biased estimates (most notably: negative self-loops).
 ```
 The warning message you encountered: too few observations per subject. In this demonstration, we can proceed despite the warning. However, in practical applications, it's better to ensure that each subject has a sufficient number of measurements to obtain reliable estimates. Collecting at least 20 observations per subject is recommended to mitigate potential biases and enhance the robustness of the model's findings.
 
@@ -514,7 +510,7 @@ In GVAR models, **temporal networks** represent the directional influences that 
 To visualize the estimated temporal network from our multilevel VAR model, we use the plot function from the mlVAR package. Below is the R code:
 
 
-``` r
+```r
 # Plot the temporal network
 plot(model_mlVAR,          # The mlVAR model object containing the estimated networks
      type = "temporal",    # Specify that we want to plot the temporal network
@@ -524,7 +520,7 @@ plot(model_mlVAR,          # The mlVAR model object containing the estimated net
      edge.labels = TRUE)   # Display edge labels indicating the strength of connections
 ```
 
-![](/lehre/klipps/longitudinal-networks_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](/longitudinal-networks_files/unnamed-chunk-5-1.png)<!-- -->
 
 **Interpretation:**
 
@@ -540,7 +536,7 @@ Unlike partial correlation networks in cross-sectional analysis (we have learned
 
 
 
-``` r
+```r
 # Plot the contemporaneous network
 plot(model_mlVAR,          # The mlVAR model object containing the estimated networks
      type = "contemporaneous",    # Specify that we want to plot the contemporaneous network
@@ -550,7 +546,7 @@ plot(model_mlVAR,          # The mlVAR model object containing the estimated net
      edge.labels = TRUE)   # Display edge labels indicating the strength of connections
 ```
 
-![](/lehre/klipps/longitudinal-networks_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](/longitudinal-networks_files/unnamed-chunk-6-1.png)<!-- -->
 
 **Interpretation:**
 
@@ -576,7 +572,7 @@ In the MLM section, we learned about the L1 and L2 predictors. When analyzing lo
 
 It can be written as:
 
-<math> 
+ 
 $$
 \begin{aligned}
 y_{t-1,i} &= \bar{y}_i + \tilde{y}_{t-1,i} \\
@@ -585,8 +581,8 @@ z_{t-1,i} &= \bar{z}_i + \tilde{z}_{t-1,i}
 $$
 
 Where:
--$\bar{y}_i, \bar{z}_i$: Person-specific means (between-person components).
--$\tilde{y}_{t-1,i}, \tilde{z}_{t-1,i}$: Within-person centered values, calculated as the deviation of one time points from the person-specific mean.
+- $\bar{y}_i, \bar{z}_i$: Person-specific means (between-person components).
+- $\tilde{y}_{t-1,i}, \tilde{z}_{t-1,i}$: Within-person centered values, calculated as the deviation of one time points from the person-specific mean.
 
 By centering each person’s measurements around their own mean (CWC), we isolate intra-individual fluctuations. Including person-level means as separate predictors in the model reflects stable inter-individual differences.
 
@@ -596,7 +592,7 @@ Beyond temporal and contemporaneous within-person networks, mlVAR can estimate a
 
 In our example, we could use the following code:
 
-``` r
+```r
 # Plot the between-person network
 plot(model_mlVAR,          # The mlVAR model object containing the estimated networks
      type = "between",    # Specify that we want to plot the between-person network
@@ -606,7 +602,7 @@ plot(model_mlVAR,          # The mlVAR model object containing the estimated net
      edge.labels = TRUE)   # Display edge labels indicating the strength of connections
 ```
 
-![](/lehre/klipps/longitudinal-networks_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/longitudinal-networks_files/unnamed-chunk-7-1.png)<!-- -->
 
 **Interpretation:**
 
@@ -700,7 +696,7 @@ When choosing between correlated and orthogonal estimation strategies, researche
 
 To enhance understanding of which **covariances between random effects are estimated** under different estimation strategies, we present a **heatmap of the covariance matrix estimation**.
 
-![](/lehre/klipps/longitudinal-networks_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/longitudinal-networks_files/unnamed-chunk-8-1.png)<!-- -->
 
 This visualization categorizes parameter covariances into three groups:
 
@@ -741,7 +737,7 @@ One of the most effective methods for detecting **Time Trends** in time series d
 Therefore, we need to create a simple time-series plot with **time on the x-axis** and **the variable of interest on the y-axis**. Suppose we plot variable **DepMood**, To inspect **non-stationarity** in the **DepMood** variable, we use a **LOESS (Locally Estimated Scatterplot Smoothing) curve** to visualize potential trends over time. LOESS is a flexible smoothing method that can fit any nonlinear relationship in the data by adjusting to local patterns without assuming a specific trend.
 
 
-``` r
+```r
 # Load ggplot2 for visualization
 library(ggplot2)
 
@@ -758,11 +754,7 @@ ggplot(data,
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-```
-## Warning: Removed 2134 rows containing non-finite outside the scale range (`stat_smooth()`).
-```
-
-![](/lehre/klipps/longitudinal-networks_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/longitudinal-networks_files/unnamed-chunk-9-1.png)<!-- -->
 
 The plot below shows **Depression mood over time**, with a **LOESS smoothing line** and confidence intervals (shaded area). The **trend appears to decline slightly over time**, but the decrease is not severe. Since there is no strong upward or downward trend, we consider the data to be non time Trends.
 
@@ -771,37 +763,11 @@ In addition to visual inspection, statistical techniques can be employed to dete
 For example, To assess whether **Depressed Mood** scores change over time, an MLM can be specified with **(measurement)time** as a predictor and **individual participants** as random effects. 
 
 
-``` r
+```r
 # Load required packages
 library(lme4)
-```
-
-```
-## Loading required package: Matrix
-```
-
-``` r
 library(lmerTest)  # For p-values in MLM
-```
 
-```
-## 
-## Attaching package: 'lmerTest'
-```
-
-```
-## The following object is masked from 'package:lme4':
-## 
-##     lmer
-```
-
-```
-## The following object is masked from 'package:stats':
-## 
-##     step
-```
-
-``` r
 # Fit the Linear Mixed Model (LMM)
 MLM_model <- lmer(DepMood  ~ measurement + (measurement | sub_id), data = data)
 
@@ -810,7 +776,8 @@ summary(MLM_model)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+## lmerModLmerTest]
 ## Formula: DepMood ~ measurement + (measurement | sub_id)
 ##    Data: data
 ## 
@@ -855,7 +822,7 @@ Ideally, we should account for individual differences in time trends by employin
 
 The code can be written as:
 
-``` r
+```r
 # Fit a linear regression model (Depressed Mood ~ Time)
 lm_model <- lm(DepMood ~ measurement, data = data)
 
@@ -887,15 +854,15 @@ In R, the adf.test() function from the `tseries` package can be utilized to cond
 
 If the ADF test indicates the presence of a unit root, the time series can be transformed to achieve stationarity through a process called **differencing**. The most common form is **first-order differencing**, which involves subtracting each observation from the previous one:
 
-<math> 
+ 
 $$
 \Delta y_t = y_t - y_{t-1}
 $$
 
 Where:
--$\Delta y_t$ represents the differenced series at time$t$.
--$y_t$ is the original value at time$t$.
--$y_{t-1}$ is the original value at time$t-1$.
+- $\Delta y_t$ represents the differenced series at time$t$.
+- $y_t$ is the original value at time$t$.
+- $y_{t-1}$ is the original value at time$t-1$.
 
 **Purpose:**
 
@@ -941,7 +908,7 @@ To investigate this question, we can extract specific networks from the **mlVAR*
 For example, we can extract the temporal network as follows:
 
 
-``` r
+```r
 # Extract the temporal network
 temp1 <- getNet(model_mlVAR, "temporal", subject = 1) # extract from the first person
 ```
@@ -950,7 +917,7 @@ temp1 <- getNet(model_mlVAR, "temporal", subject = 1) # extract from the first p
 ## 'nonsig' argument set to: 'show'
 ```
 
-``` r
+```r
 temp2 <- getNet(model_mlVAR, "temporal", subject = 2) # extract from the second person
 ```
 
@@ -967,19 +934,19 @@ Once the **temporal network** is extracted from the mlVAR model, we can assess i
 
 The density of a network is calculated as:
 
-<math> 
+ 
 $$
 Density = \frac{1}{n} \sum_{i=1}^{n} |w_i|
 $$
 
 Where:
 
--$n$ = Total number of edges in the network.
--$w_i$ = Weight of the$i$-th edge.
+- $n$ = Total number of edges in the network.
+- $w_i$ = Weight of the$i$-th edge.
 
 The code is:
 
-``` r
+```r
 mean(abs(temp1)) # calculate the network density for the fitst person's temporal network
 ```
 
@@ -1040,7 +1007,7 @@ For a comprehensive understanding of TV-VAR models and their estimation methods,
 To illustrate the application of TV-VAR models, consider the following example where we analyze the time-varying relationship between **Fatigue** and **Depressed Mood**.
 
 
-``` r
+```r
 # Load the mgm package
 library(mgm)
 
@@ -1068,7 +1035,7 @@ tvvar_model <- tvmvar(
 ## Note that the sign of parameter estimates is stored separately; see ?tvmvar
 ```
 
-``` r
+```r
 # Extract parameter estimates
 parameter_values <- tvvar_model$wadj[2, 1, 1, ] # here we only extact one effect as example
 
@@ -1078,7 +1045,7 @@ plot(parameter_values, type = "l", ylim = c(0, 0.4),
      main = "Time-varying cross lagged effect of Fatigue on Depressed Mood")
 ```
 
-![](/lehre/klipps/longitudinal-networks_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](/longitudinal-networks_files/unnamed-chunk-14-1.png)<!-- -->
 **Interpreting the Plot**:
 
 The resulting plot displays the time-varying effect of Fatigue on Depressed Mood with a lag of 1. The x-axis represents the estimation points, which correspond to specific time intervals in the data. The y-axis indicates the estimated parameter values, reflecting the strength of the relationship between the two variables at each time point.
