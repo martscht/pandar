@@ -1,38 +1,54 @@
+knitr::opts_chunk$set(fig.path = figure_path)
 knitr::opts_chunk$set(error = TRUE)
 library(psych)
 library(car)
 library(effsize)
 
-load(url('https://pandar.netlify.app/daten/fb24.rda')) 
+#### Was bisher geschah: ----
 
+# Daten laden
+load(url('https://pandar.netlify.app/daten/fb24.rda'))
 
-is.factor(fb24$fach)
-is.factor(fb24$ort)
-is.factor(fb24$job)
-is.factor(fb24$wohnen)
-
-# Lieblingsfach als Faktor - falls es noch keiner war
-fb24$fach <- factor(fb24$fach, 
+# Nominalskalierte Variablen in Faktoren verwandeln
+fb24$hand_factor <- factor(fb24$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
+fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
-                    labels = c('Allgemeine', 'Biologische', 'Entwicklung',
-                               'Klinische', 'Diag./Meth.'))
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
+fb24$ziel <- factor(fb24$ziel,
+                        levels = 1:4,
+                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
+fb24$wohnen <- factor(fb24$wohnen, 
+                      levels = 1:4, 
+                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+fb24$fach_klin <- factor(as.numeric(fb24$fach == "Klinische"),
+                         levels = 0:1,
+                         labels = c("nicht klinisch", "klinisch"))
+fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb24$job <- factor(fb24$job, levels=c(1,2), labels=c("nein", "ja"))
+fb24$unipartys <- factor(fb24$uni3,
+                             levels = 0:1,
+                             labels = c("nein", "ja"))
 
-# Wohnort als Faktor - falls es noch keiner war
-fb24$ort <- factor(fb24$ort, 
-                   levels = c(1, 2),
-                   labels = c('Frankfurt', 'anderer'))
+# Rekodierung invertierter Items
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 4 - 1)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 4 - 1)
+fb24$mdbf3_r <-  -1 * (fb24$mdbf3 - 4 - 1)
+fb24$mdbf9_r <-  -1 * (fb24$mdbf9 - 4 - 1)
+fb24$mdbf5_r <- -1 * (fb24$mdbf5 - 4 - 1)
+fb24$mdbf7_r <- -1 * (fb24$mdbf7 - 4 - 1)
 
+# Berechnung von Skalenwerten
+fb24$wm_pre  <- fb24[, c('mdbf1', 'mdbf5_r', 
+                        'mdbf7_r', 'mdbf10')] |> rowMeans()
+fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+                        'mdbf8', 'mdbf11_r')] |> rowMeans()
+fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+                         "mdbf9_r", "mdbf12")] |> rowMeans()
 
-# Job als Faktor - falls es noch keiner war
-fb24$job <- factor(fb24$job, 
-                      levels=c(1,2), 
-                      labels=c('Job', 'kein Job'))
-
-#Wohnsituation als Faktor - falls es noch keiner war
-fb24$wohnen <- factor(fb24$wohnen,
-                      levels = 1:4,
-                      labels = c("in einer Wohngemeinschaft", "bei den Eltern", "alleine", "sonstiges"))
-
+# z-Standardisierung
+fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
 
 data1 <- fb24[ (which(fb24$fach=="Allgemeine"|fb24$fach=="Klinische")), ]
 data1$fach <- droplevels(data1$fach)
@@ -82,15 +98,15 @@ boxplot(fb24$lz ~ fb24$ort,
 
 library(psych)
 describeBy(fb24$lz, fb24$ort)
-summary(fb24[which(fb24$ort=="Frankfurt"), "lz"])
+summary(fb24[which(fb24$ort=="FFM"), "lz"])
 summary(fb24[which(fb24$ort=="anderer"), "lz"])
 
 deskr <- describeBy(fb24$lz, fb24$ort)
-fra <- summary(fb24[which(fb24$ort=="Frankfurt"), "lz"])
+fra <- summary(fb24[which(fb24$ort=="FFM"), "lz"])
 and <- summary(fb24[which(fb24$ort=="anderer"), "lz"])
 
 par(mfrow=c(1,2))
-lz.F <- fb24[which(fb24$ort=="Frankfurt"), "lz"]
+lz.F <- fb24[which(fb24$ort=="FFM"), "lz"]
 hist(lz.F, xlim=c(1,9), ylim=c(0,0.5), main="Lebenzufriedenheit\n(Frankfurter)", xlab="", ylab="", las=1, prob=T)
 curve(dnorm(x, mean=mean(lz.F, na.rm=T), sd=sd(lz.F, na.rm=T)), col="red", lwd=2, add=T)
 qqnorm(lz.F)
@@ -110,7 +126,7 @@ wilcox.test(fb24$lz ~ fb24$ort,           # abhängige Variable ~ unabhängige V
 
 wilcox <- wilcox.test(fb24$lz ~ fb24$ort, alternative = "less",  conf.level = .95)
 
-wohnsituation <- fb24[(which(fb24$wohnen=="in einer Wohngemeinschaft"|fb24$wohnen=="bei den Eltern")),] # Neuer Datensatz der nur Personen beinhaltet, die entweder bei den Eltern oder in einer WG wohnen
+wohnsituation <- fb24[(which(fb24$wohnen=="WG"|fb24$wohnen=="bei Eltern")),] # Neuer Datensatz der nur Personen beinhaltet, die entweder bei den Eltern oder in einer WG wohnen
 levels(wohnsituation$wohnen)
 wohnsituation$wohnen <- droplevels(wohnsituation$wohnen) 
 # Levels "alleine" und "sonstiges" wurden eliminiert

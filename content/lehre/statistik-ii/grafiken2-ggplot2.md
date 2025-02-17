@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'Im zweiten Teil der Einführung von ggplot2 betrachten wir neben den klassischen Gestaltungsmöglichkeiten für Scatterplots auch, wie man Grafiken mit plotly interaktiv gestalten kann.'
 authors: [schultze]
 weight: 3
-lastmod: '2024-05-07'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/colorful_tiles.jpg"
@@ -139,9 +139,12 @@ psych::describe(edu_2014[, c('Primary', 'Index')])
 ```
 
 ```
-##         vars   n  mean   sd median trimmed  mad  min   max range  skew kurtosis   se
-## Primary    1  90 16.37 6.57  15.26   16.03 6.89 3.48 36.54 33.06  0.49    -0.09 0.69
-## Index      2 192  0.65 0.18   0.68    0.66 0.21 0.21  1.05  0.84 -0.28    -0.77 0.01
+##         vars   n  mean   sd median trimmed  mad  min   max range  skew kurtosis
+## Primary    1  90 16.37 6.57  15.26   16.03 6.89 3.48 36.54 33.06  0.49    -0.09
+## Index      2 192  0.65 0.18   0.68    0.66 0.21 0.21  1.05  0.84 -0.28    -0.77
+##           se
+## Primary 0.69
+## Index   0.01
 ```
 
 Wie wir sehen, liegen für die Investitionen in die Primärbildung nur Werte aus 90 Ländern vor, was unsere Abbildung positiv ausgedrückt zumindest übersichtlicher macht. Wir können diese Datenpunkte im Datensatz lassen und `ggplot2` würde sie jedes Mal, wenn wir eine Abbildung erstellen, mit einer Warnmeldung automatisch entfernen. Allerdings wirkt sich das z.B. auf die Skalierung unserer Ästhetiken aus - z.B. würde bei der Bevölkerungszahl (die benutzen wir gleich) die Skalierung anhand das Maximums (China) festgelegt. Im Datensatz haben wir aber keine Informationen auf `Primary` von China und Indien, sodass die Skala gar nicht bis in die Milliarden gehen muss, sondern wir mit einer eingeschränkten Skala zufrieden wären. Um die Skalierung an Daten, die gar nicht genutzt werden zu verhindern, können wir - wie im letzten Beitrag betont - die Daten anpassen, bevor wir Abbildungen erstellen:
@@ -160,7 +163,7 @@ ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point()
 ```
 
-![](/lehre/statistik-ii/grafiken2-ggplot2_files/figure-html/simple-scatter-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/simple-scatter-1.png)<!-- -->
 Wie für die Balkendiagramme, können wir auch hier eine weitere Ästhetik für Farben vergeben, um so eine dritte Variable in die Abbildung zu integrieren. Beispielsweise könnten wir wieder die vier großen Weltregionen aufnehmen:
 
 
@@ -170,7 +173,7 @@ ggplot(edu_2014, aes(x = Primary, y = Index)) +
   scale_color_pandar()
 ```
 
-![](/lehre/statistik-ii/grafiken2-ggplot2_files/figure-html/scatterplot-colored-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/scatterplot-colored-1.png)<!-- -->
 Gerade für Punkte lassen sich noch einige andere Ästhetiken definieren, um weitere Variablen abbilden zu können. Wir können z.B. die From der Punkte (`pch`) nutzen, um die kategorialer Wohlstandseinschätzung der Länder darzustellen. Was auch sehr beliebt ist, ist die Größe der Punkte zu nutzen, um das "Gewicht" eines Datenpunkts darzustellen. In unserem Fall wäre z.B. die Bevölkerungszahl eines Landes relevant, weil jeder Punkt unterschiedlich viele Personen repräsentiert. Damit die Zahlen nicht exorbitant groß werden, skalieren wir sie noch in Millionen um:
 
 
@@ -196,7 +199,7 @@ ggplot(edu_2014, aes(x = Primary, y = Index)) +
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)')
 ```
 
-![](/lehre/statistik-ii/grafiken2-ggplot2_files/figure-html/scatterplot-sized-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/scatterplot-sized-1.png)<!-- -->
 
 In der neuen Abbildung lassen sich einige Datenpunkte schon ziemlich leicht direkt identifizieren: der große (viele Leute) grüne (Amerikas) Punkt mit hohem Bildungsindex ist vermutlich die USA. 
 
@@ -226,7 +229,7 @@ ggplot(edu_sel, aes(x = Primary, y = Index)) +
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)')
 ```
 
-![](/lehre/statistik-ii/grafiken2-ggplot2_files/figure-html/chaotic-neutral-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/chaotic-neutral-1.png)<!-- -->
 
 Eine Möglichkeit, in diesem Fall Übersichtlichkeit zu bewahren, ist das sogenannte Faceting. Dabei wird eine Abbildung anhand von Ausprägungen auf einer oder mehr Variablen in verschiedene Abbildungen unterteilt. 
 
@@ -238,7 +241,7 @@ ggplot(edu_sel, aes(x = Primary, y = Index)) +
   facet_wrap(~ Year)
 ```
 
-![](/lehre/statistik-ii/grafiken2-ggplot2_files/figure-html/faceted-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/faceted-1.png)<!-- -->
 
 In `facet_wrap` wird wieder mit der `R`-Gleichungsnotation gearbeitet: hier wird der Plot anhand der unabhängigen Variablen hinter der Tilde in Gruppen eingeteilt. Das gibt auch wieder die Möglichkeit mit `+` mehrere Variablen zu definieren, die zum Faceting benutzt werden sollen. Wenn Sie Gruppen anhand von zwei Variablen bilden, bietet es sich außerdem an, `facet_grid` zu benutzen.
 
@@ -268,29 +271,6 @@ Anschließend können wir es mit der `library()`-Funktion laden:
 
 ```r
 library(plotly)
-```
-
-```
-## 
-## Attaching package: 'plotly'
-```
-
-```
-## The following object is masked from 'package:ggplot2':
-## 
-##     last_plot
-```
-
-```
-## The following object is masked from 'package:stats':
-## 
-##     filter
-```
-
-```
-## The following object is masked from 'package:graphics':
-## 
-##     layout
 ```
 
 Plotly ist ein [kommerzieller Anbieter für Datenvisualisierung](https://plotly.com/) in jedweder Form. Weil ich hier nicht mehr Werbung für kommerzielle Plattformen machen will, als zwingend erfoderlich, bedanke mich einfach für das gratis Paket und wir arbeiten damit weiter.

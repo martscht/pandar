@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird Ihnen eine kurze Einführung in LIFOS (Lokale Infrastruktur für Open Science) gegeben. Hierbei handelt es sich um eine universitätsinterne Übungsplattform für Psychologie-Studierende der Goethe Universität, die es Ihnen ermöglichen soll, Open Science Praktikem in einem geschützten Raum zu üben. In diesem Quickguide wird Ihnen erklärt, wie Sie sich bei LIFOS anmelden und Ihr Projekt am richtigen Ort anlegen. Außerdem wird erläutert, welche Schritte Sie im Rahmen Ihres Praktikums auf LIFOS durchführen sollen.' 
 authors: [beitner, nehler]
 weight: 12
-lastmod: '2024-11-18'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"
@@ -67,17 +67,17 @@ Hierfür benötigen Sie lediglich die Zugangsdaten Ihres HRZ-Kontos.</li>
 <li><p><b>Gruppenübersicht anzeigen</b></p>
 Projekte auf LIFOS müssen in den jeweiligen Abteilungen/Kursen angelegt werden, um auch diesen zugeordnet werden zu können. Das heißt, Sie müssen erst Mitglied Ihrer PsyBSc2 Praktikumsgruppe auf LIFOS werden, um dann in ebenjener Gruppe ein Projekt anzulegen. Um die Gruppe auf LIFOS zu finden, klicken Sie im Steuerungsmenü auf der linken Seite auf <b>Groups</b>, dann im Hauptfenster auf <b>Explore groups</b> (direkt neben <b>New Group</b>). </li>
 
-![](/lehre/statistik-i/quickguide-lifos01.png)
+![](quickguide-lifos01.png)
 
 <li><p><b> Zur Gruppe navigieren </b></p> 
 Nun können Sie alle öffentlichen Gruppen auf LIFOS sehen. Zunächst müssen Sie auf die Gruppe <b>Psychologische Methoden mit interdisziplinärer Ausrichtung</b>, dann wiederum auf <b>PsyBSc 2 Statistik I (Praktikum)</b>, dann auf <b>WiSe 2024-25</b> klicken. Jetzt sollten Ihnen alle neun Praktikumsgruppen angezeigt werden. </li>
 
-![](/lehre/statistik-i/quickguide-lifos02.png)
+![](quickguide-lifos02.png)
 
 <li><p><b> Zugang beantragen </b></p>
 Klicken Sie auf Ihre Gruppe. Oben rechts sind nun drei Punkte zu sehen, unter denen nach einem Klick die Option <b>Request access</b> erscheint. Klicken Sie drauf und bestätigen Sie. Gratulation! Sie haben so eben einen wichtigen Schritt gemeistert und Zugriff zu Ihrer Praktikumsgruppe beantragt. Sobald Ihr Dozent/Ihre Dozentin Ihre Anfrage bestätigt hat, können Sie und Ihre Gruppe loslegen.</li></ol>
 
-![](/lehre/statistik-i/quickguide-lifos-request.png)
+![](quickguide-lifos-request.png)
 
 # Auf LIFOS ein Projekt anlegen {#projektstart}
 
@@ -87,7 +87,7 @@ Dadurch können andere später leichter nachvollziehen, wer an dem Projekt mitge
 - dass bei Project URL Ihre Gruppe steht und
 - dass das Visibility Level auf Internal gesetzt ist.
 
-![](/lehre/statistik-i/quickguide-lifos03.png)
+![](quickguide-lifos03.png)
 
 Alright, klicken Sie den *Create project* Knopf und schon steht Ihr Projekt!
 Dadurch, dass Sie das Projekt basierend auf dem PsyBSc2 Template initialisiert haben, werden Ihnen bereits wichtige Strukturen vorgegeben (die sich aber auch bei Bedarf ändern und anpassen lassen). Alle weiteren Schritte werden von nun auch im README eures Projekts angezeigt, der Vollständigkeit halber aber auch nochmal hier. Für tiefergehende Informationen über LIFOS können wir euch unsere [generellen Tutorials auf pandaR](/lifos/main/) ans Herz legen.
@@ -97,7 +97,7 @@ Dadurch, dass Sie das Projekt basierend auf dem PsyBSc2 Template initialisiert h
 
 Auf LIFOS kann man Projekte bearbeiten, indem man Dateien und Ordner hinzufügt, umbenennt oder wieder entfernt. Außerdem kann man die README-Datei, auf die hier [gleich](#projektabschluss) noch eingegangen wird, bearbeiten. Um das Projekt zu bearbeiten, ist es am einfachsten, ins Web IDE zu gehen. Hier öffnet sich ein User Interface, in dem man ganz einfach agieren kann. Zum Beispiel lassen sich mehrere Dateien gleichzeitig hochladen, löschen, etc. Wenn Sie mit Ihren Änderungen fertig sind, klicken Sie links unten auf *Create commit*. Das ist ein Git-Befehl, auf den wir hier nicht näher eingehen werden. Jetzt können Sie *commit* erstmal als so etwas wie *Speichern* verstehen. Nach dem Klicken öffnet sich ein kleines Textfeld. Hier können Sie vermerken, welche Änderungen Sie vorgenommen haben. Achten Sie nun **unbedingt** darauf, dass Sie *commit to main branch* auswählen. Wenn Sie das alles befolgen, sind im Anschluss Ihre Änderungen im Projekt sichtbar. Sollten Sie die Änderungen doch nicht speichern wollen, können Sie oben rechts auch auf den rot umrandeten Knopf *Discard changes* klicken. 
 
-![](/lehre/statistik-i/quickguide-lifos04.png)
+![](quickguide-lifos04.png)
 
 
 # Präregistrierung auf LIFOS {#praeregistrierung}
@@ -135,11 +135,11 @@ Zuerst solltet ihr auf euer Projekt gehen und auf der linken Seite das `Merge re
 
 Hier solltet ihr eure Änderungen auf dem anderen Branch als *Merge Request* sehen.
 
-![](/lehre/statistik-i/../../lifos/grundlagen/Gitlab_Project_Merge_Requests.png)
+![](../../lifos/grundlagen/Gitlab_Project_Merge_Requests.png)
 
 Klickt ihr dabei nun auf *create merge request* öffnet sich ein neues Fenster.
 
-![](/lehre/statistik-i/../../lifos/grundlagen/Gitlab_Project_New_Merge.png)
+![](../../lifos/grundlagen/Gitlab_Project_New_Merge.png)
 
 Hier könnt ihr nun einen Titel und eine Beschreibung für euren Merge hinzufügen, der den Grund und Inhalt eures ursprünglichen Commits erklärt, und vielleicht auch auf den falschen Commit hinweist.
 
@@ -148,13 +148,13 @@ Wählt danach, sofern ihr den anderen Branch löschen wollt da ihr ihn unabsicht
 
 Ihr solltet nun auf einer neuen Seite landen
 
-![](/lehre/statistik-i/../../lifos/grundlagen/Gitlab_Project_New_Merge_Confirm.png)
+![](../../lifos/grundlagen/Gitlab_Project_New_Merge_Confirm.png)
 
 Hier müsst ihr euren Merge und das löschen des source branch von welchem aus der Fehler ausging erneut bestätigen und den `Merge`-button betätigen
 
 Nach einem kurzen Moment solltet ihr nun sehen, dass der Merge erfolgreich war!
 
-![](/lehre/statistik-i/../../lifos/grundlagen/Gitlab_Project_New_Merge_Sucess.png)
+![](../../lifos/grundlagen/Gitlab_Project_New_Merge_Sucess.png)
 
 *Sollte dies nicht der Fall sein, oder solltet ihr irgendwo vorher bereits Probleme haben, könnt ihr auch LIFOS@uni-frankfurt.de kontaktieren.*
 </details>

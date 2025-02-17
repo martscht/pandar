@@ -14,8 +14,6 @@ banner:
   image: "/header/consent_checkbox.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/449195)"
 projects: []
-expiryDate: 
-publishDate: 
 _build:
   list: never
 reading_time: false
@@ -37,6 +35,9 @@ output:
 ---
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 

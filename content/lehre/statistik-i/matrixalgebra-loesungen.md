@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [zacharias]
 weight:
-lastmod: '2024-04-02'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -99,7 +99,8 @@ x + z
 ```
 
 ```
-## Warning in x + z: longer object length is not a multiple of shorter object length
+## Warning in x + z: Länge des längeren Objektes
+##  	 ist kein Vielfaches der Länge des kürzeren Objektes
 ```
 
 ```

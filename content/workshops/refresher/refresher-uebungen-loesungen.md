@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [stephan, gruetzner, vogler] 
 weight: 
-lastmod: '2024-10-11'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/syntax.jpg"
@@ -29,6 +29,8 @@ output:
     keep_md: true
     
 ---
+
+
   
 
 ## Übung 1 - Datenhandling 
@@ -44,7 +46,7 @@ Die URL lautet: https://pandar.netlify.app/daten/edu_exp.rda
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 ```
 
@@ -59,14 +61,15 @@ Machen Sie einen Faktor aus der Variable Wealth und ordnen sie die Levels so, da
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 edu_exp$Wealth_factor <- as.factor(edu_exp$Wealth)
 levels(edu_exp$Wealth_factor)                      #high_income ist bereits Level 1
 ```
 
 ```
-## [1] ""                    "high_income"         "low_income"         
-## [4] "lower_middle_income" "upper_middle_income"
+## [1] ""                    "high_income"        
+## [3] "low_income"          "lower_middle_income"
+## [5] "upper_middle_income"
 ```
 
 </details>
@@ -82,7 +85,7 @@ Entfernen Sie die Beobachtungen, die NA's auf der Variable `Income` haben.
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 edu_exp <- edu_exp[!is.na(edu_exp$Income), ]
 ```
 
@@ -99,7 +102,7 @@ EXTRA: nur Länder mit `Primary` > 30
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 edu_neu <- data.frame(country = edu_exp$Country, Primary = edu_exp$Primary, Secondary = edu_exp$Secondary , Tertiary = edu_exp$Tertiary)
 
 # oder mit der Subset-Funktion
@@ -145,7 +148,7 @@ Homoskedastizität: gegeben
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 #t.test(sens ~ edu,
 #       alternative = "greater",
 #       paired = FALSE,
@@ -166,7 +169,7 @@ Homoskedastizität: gegeben
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 #t.test(stress ~ lead,
 #       alternative = "less",
 #       paired = FALSE,
@@ -187,7 +190,7 @@ Homoskedastizität: nicht gegeben
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 #t.test(emo ~ pet,
 #       alternative = "greater",
 #       paired = FALSE,
@@ -208,7 +211,7 @@ Homoskedastizität: gegeben
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 #wilcox.test(react ~ game,
 #            alternative = "two.sided",
 #            paired = FALSE)
@@ -228,7 +231,7 @@ Homoskedastizität: gegeben
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 #t.test(respons_old, respons_young,
 #       alternative = "greater",
 #       paired = TRUE)
@@ -248,7 +251,7 @@ Homoskedastizität: nicht gegeben
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 #t.test(athl ~ smoke,
 #       alternative = "two.sided",
 #       paired = FALSE,
@@ -269,7 +272,7 @@ Homoskedastizität: nicht gegeben
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 #wilcox.test(stress ~ time,
 #            alternative = "two.sided",
 #            paired = TRUE)
@@ -289,7 +292,7 @@ Homoskedastizität: nicht gegeben
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 #wilcox.test(int_extra, int_intro,
 #            alternative = "greater",
 #            paired = FALSE)
@@ -307,7 +310,7 @@ Laden Sie den Datensatz `distort` ein, wenn noch nicht geschehen. Informationen 
   <summary>**Tipp**</summary>
 
 
-``` r
+```r
 source("https://pandar.netlify.app/daten/Data_Processing_distort.R")
 ```
   
@@ -321,7 +324,7 @@ $H_1$: Männer und Frauen unterscheiden sich in ihrer wahrgenommenen Marginalisi
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 # sex auf die relevanten Ausprägungen reduzieren
 distort2 <- subset(distort, subset = sex %in% c("female", "male"))
 
@@ -331,13 +334,13 @@ library(car)
 car::qqPlot(distort2$marginal)
 ```
 
-![](/workshops/refresher/refresher-uebungen-loesungen_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/refresher-uebungen-loesungen_files/unnamed-chunk-14-1.png)<!-- -->
 
 ```
 ## [1] 23 38
 ```
 
-``` r
+```r
 shapiro.test(distort2$marginal)
 ```
 
@@ -349,7 +352,7 @@ shapiro.test(distort2$marginal)
 ## W = 0.96067, p-value = 7.166e-10
 ```
 
-``` r
+```r
 # zentraler Grenzwertsatz --> Normalverteilung kann angenommen werden
 
 # Homoskedastizität
@@ -363,7 +366,7 @@ car::leveneTest(distort2$marginal ~ distort2$sex)
 ##       467
 ```
 
-``` r
+```r
 # nicht signifikant --> Homoskedastizität kann angenommen werden
 
 # Test
@@ -397,7 +400,7 @@ t.test(distort2$marginal ~ distort2$sex,
 Zuerst laden wir den Datensatz "Bullyingprävention bei Jugendlichen (fairplayer)" ein:
 
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/fairplayer.rda"))
 ```
 Der Datensatz stammt aus einer Studie von Bull, Schultze & Scheithauer (2009), in der die Effektivität eines Interventionsprogramms zur Bullyingprävention bei Jugendlichen untersucht wurde. Das Codebook können sie dem folgenden Link entnehmen: https://pandar.netlify.app/daten/datensaetze/
@@ -411,7 +414,7 @@ c) Wie viele Beobachtungen verlieren Sie, wenn sie alle Beobachtungen mit fehlen
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 # Aufgabe 1:
 ## a)
 dim(fairplayer)
@@ -421,7 +424,7 @@ dim(fairplayer)
 ## [1] 155  31
 ```
 
-``` r
+```r
 ## b)
 sum(is.na(fairplayer))
 ```
@@ -430,7 +433,7 @@ sum(is.na(fairplayer))
 ## [1] 830
 ```
 
-``` r
+```r
 ## c) 
 fairplayer_NA <- na.omit(fairplayer)
 dim(fairplayer_NA)
@@ -452,7 +455,7 @@ a) Entfernen Sie den Messzeitpunkt T3.
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 fairplayer_T1u2 <- fairplayer_NA[, !names(fairplayer_NA) %in% c("ra1t3", "ra2t3", "ra3t3", "em1t3", "em2t3", "em3t3", "si1t3", "si2t3", "si3t3")]
 ```
 
@@ -471,7 +474,7 @@ b) Passen Sie die Reihennamen an: ID, Klassenstufe, Interventiosgruppe, Geschlec
   <summary>**Lösung anzeigen**</summary>
   
 
-``` r
+```r
 colnames(fairplayer_T1u2)[1:4] <- c("ID", "Klassenstufe", "Interventionsgruppe", "Geschlecht")
 ```
 
@@ -490,7 +493,7 @@ c) Fassen Sie die Items der Skalen Relationale Angst, Empathie und Soziale Intel
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 fairplayer_T1u2$rat1 <- rowSums(fairplayer_T1u2[, c("ra1t1", "ra2t1", "ra3t1")]) 
 fairplayer_T1u2$rat2 <- rowSums(fairplayer_T1u2[, c("ra1t2", "ra2t2", "ra3t2")]) 
 
@@ -513,26 +516,37 @@ a) Erstellen Sie eine Tabelle, die die statistischen Kennwerte der Skalen relati
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 library(psych)
 describe(fairplayer_T1u2[ , c("rat1", "rat2", "emt1", "emt2", "sit1", "sit2")])
 ```
 
 ```
-##      vars   n  mean   sd median trimmed  mad min max range  skew kurtosis
-## rat1    1 106  4.10 1.59    3.0    3.80 0.00   3  11     8  1.81     3.62
-## rat2    2 106  4.04 1.66    3.0    3.69 0.00   3  11     8  2.19     5.35
-## emt1    3 106 11.50 2.22   11.5   11.60 2.22   4  15    11 -0.62     0.66
-## emt2    4 106 11.47 2.38   12.0   11.64 2.97   3  15    12 -0.78     0.75
-## sit1    5 106  8.21 2.80    8.0    8.08 2.97   3  15    12  0.40    -0.61
-## sit2    6 106  8.82 2.91    9.0    8.77 2.97   3  15    12  0.16    -0.25
-##        se
-## rat1 0.15
-## rat2 0.16
-## emt1 0.22
-## emt2 0.23
-## sit1 0.27
-## sit2 0.28
+## [106 obs. x 6 variables] tbl_df tbl data.frame
+## 
+## $rat1: 
+## numeric: 4 5 4 3 4 5 3 3 3 3 ...
+## min: 3 - max: 11 - NAs: 0 (0%) - 8 unique values
+## 
+## $rat2: 
+## numeric: 4 3 3 3 7 4 7 3 6 3 ...
+## min: 3 - max: 11 - NAs: 0 (0%) - 7 unique values
+## 
+## $emt1: 
+## numeric: 12 11 8 15 10 11 10 5 13 12 ...
+## min: 4 - max: 15 - NAs: 0 (0%) - 12 unique values
+## 
+## $emt2: 
+## numeric: 11 14 5 12 10 11 10 12 12 13 ...
+## min: 3 - max: 15 - NAs: 0 (0%) - 11 unique values
+## 
+## $sit1: 
+## numeric: 7 6 5 10 6 7 8 6 8 8 ...
+## min: 3 - max: 15 - NAs: 0 (0%) - 13 unique values
+## 
+## $sit2: 
+## numeric: 8 9 4 12 7 10 11 9 10 7 ...
+## min: 3 - max: 15 - NAs: 0 (0%) - 13 unique values
 ```
 
 </details>
@@ -547,7 +561,7 @@ a) Gibt es signifikante Gruppenunterschiede in der Skala soziale Intelligenz zu 
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 t.test(fairplayer_T1u2$sit1 ~ fairplayer_T1u2$Geschlecht, # abhängige Variable ~ unabhängige Variable
        alternative = "two.sided",      # beidseitig
        var.equal = TRUE,          # Homoskedastizität liegt vor
@@ -576,7 +590,7 @@ b) Wie groß ist die Effektstärke dieses Unterschieds?
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 effsize::cohen.d(fairplayer_T1u2$sit1 ~ fairplayer_T1u2$Geschlecht,
                  conf.level = 0.95)
 ```
@@ -599,7 +613,7 @@ c) Erstellen Sie GGPlots, die die Gruppenunterschiede verbildlichen.
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 library(ggplot2)
 
 ## Most basic Plot:
@@ -610,7 +624,7 @@ ggplot(data = fairplayer_T1u2,
   geom_boxplot()
 ```
 
-![](/workshops/refresher/refresher-uebungen-loesungen_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](/refresher-uebungen-loesungen_files/unnamed-chunk-23-1.png)<!-- -->
 
 </details>
 
@@ -624,7 +638,7 @@ a) Sagen die Prädiktoren Geschlecht, Interventionsgruppe, Wert zu T1 (Relationa
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 reg_mod <- lm(rat2 ~ Geschlecht + Interventionsgruppe + rat1 + Klassenstufe, data = fairplayer_T1u2)
 summary(reg_mod)
 ```
@@ -640,15 +654,23 @@ summary(reg_mod)
 ## -2.9795 -0.7636 -0.4128  0.6004  6.8951 
 ## 
 ## Coefficients:
-##                        Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)             1.82898    0.70483   2.595 0.010884 *  
-## Geschlechtmale          0.56819    0.30776   1.846 0.067817 .  
-## InterventionsgruppeIGS  0.02166    0.44333   0.049 0.961134    
-## InterventionsgruppeIGL  0.39149    0.44619   0.877 0.382362    
-## rat1                    0.35084    0.09715   3.611 0.000478 ***
-## Klassenstufe            0.07280    0.07088   1.027 0.306880    
+##                        Estimate Std. Error t value Pr(>|t|)
+## (Intercept)             1.82898    0.70483   2.595 0.010884
+## Geschlechtmale          0.56819    0.30776   1.846 0.067817
+## InterventionsgruppeIGS  0.02166    0.44333   0.049 0.961134
+## InterventionsgruppeIGL  0.39149    0.44619   0.877 0.382362
+## rat1                    0.35084    0.09715   3.611 0.000478
+## Klassenstufe            0.07280    0.07088   1.027 0.306880
+##                           
+## (Intercept)            *  
+## Geschlechtmale         .  
+## InterventionsgruppeIGS    
+## InterventionsgruppeIGL    
+## rat1                   ***
+## Klassenstufe              
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.561 on 100 degrees of freedom
 ## Multiple R-squared:  0.1535,	Adjusted R-squared:  0.1111 
@@ -667,7 +689,7 @@ a) Erstellen Sie einen Plot, der den Zusammenhang zwischen relationaler Angst un
   <summary>**Lösung anzeigen**</summary>
 
 
-``` r
+```r
 ## Most basic Plot:
 scatterplot <- ggplot(fairplayer_T1u2, 
                       aes(x = rat1, 
@@ -682,9 +704,9 @@ scatterplot +
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](/workshops/refresher/refresher-uebungen-loesungen_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](/refresher-uebungen-loesungen_files/unnamed-chunk-25-1.png)<!-- -->
 
-``` r
+```r
 ## Korrelationstest
 cor.test(fairplayer_T1u2$rat1, fairplayer_T1u2$sit1)
 ```

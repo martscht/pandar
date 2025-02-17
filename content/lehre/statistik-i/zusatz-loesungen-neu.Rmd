@@ -23,6 +23,14 @@ output:
     keep_md: true
 ---
 
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
+
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
 Hier finden Sie die Lösungen zu den Zusatzaufgaben!
 
 ***
@@ -612,9 +620,16 @@ Schauen wir uns nun noch einen weiteren Datensatz an. Laden Sie sich den Datensa
 
 
 ```{r}
-# rm(list = ls())
-source('/home/zarah/pandar.git/content/daten/SD3_zusatz_processing.R')
-# source(url("https://pandar.netlify.app/daten/SD3_zusatz_processing.R"))
+load(url("https://pandar.netlify.app/daten/SD3_origin.rda"))
+
+SD3 <- SD3_origin
+
+SD3 <- SD3[SD3$country == "CA", ]
+
+set.seed(23)
+SD3 <- SD3[sample(nrow(SD3), 44), ]
+
+rm(SD3_origin)
 ```
 
 Dieser Datensatz enthält Daten, die mit einem Fragebogen zur Dunklen Triade (Short Dark Triad) erfasst wurden. Es lassen sich drei Subskalen berechnen. Die Items `M1` bis `M9` beziehen sich auf das Konstrukt des Machiavellismus, die Items `N1` bis `N9` erfassen Narzissmus und die Items `P1` bis `P9` Psychopathie. Die Items wurden anhand einer fünf-Punte-Skala von 1 (stimme nicht zu) bis 5 (stimme zu) beantwortet. Es ist zu beachten, dass die Items `N2`, `N6`, `N8`, `P2` und `P7` invertiert sind. 
@@ -987,8 +1002,8 @@ Der deskriptive Unterschied der Mittelwerte lässt sich somit auch inferenzstati
 Laden Sie sich nun einen weiteren Datensatz `zusatz` in ihr Environment. 
 
 ```{r}
-# load(url('https://pandar.netlify.app/daten/zusatz.rda'))
-load('/home/zarah/pandar.git/content/daten/zusatz.rda')
+load(url('https://pandar.netlify.app/daten/zusatz.rda'))
+
 ```
 
 Dieser enthält simulierte Daten, aber wir stellen uns einfach mal vor, dass wir Daten aus einer bestimmten Stichprobe vorliegen haben. In der Spalte `diet` ist dann eine Information darüber enthalten, wie sich jemand ernährt. Dabei werden drei Ernährungsweisen unterschieden: nicht-vegetarisch (und damit auch nicht vegan; 1), vegetarisch (2) und vegan (3). Unterscheiden sich Personen, die sich vegan oder vegetarisch ernähren, in ihrer Happiness (`happiness`) von Personen, die sich nicht vegetarisch/vegan ernähren?

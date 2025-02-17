@@ -9,7 +9,7 @@ subtitle: 'ANOVA mit Messwiederholung'
 summary: ''
 authors: [scheppa-lahyani,irmer,nehler,schultze]
 weight: 10
-lastmod: '2024-05-24'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/tree_flooded_lake_sunset.jpg"
@@ -118,10 +118,12 @@ table(alc$id)
 
 ```
 ## 
-##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
-## 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 69 70 71 72 73 74 75 76 77 78 79 80 81 82 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1
 ```
 
 Wie bereits geschildert benötigt das `ez`-Paket für die ANOVA mit Messwiederholung allerdings einen Datensatz im langen Format. Für die Transformation der Daten aus einem in das andere Format gibt es die `reshape`-Funktion, welche unterschiedliche Argumente benötigt, je nachdem, in welche Richtung die Daten transformiert werden sollen. Hier wollen wir aus dem breiten Format ins lange Format transformieren, um die Daten hinterher für die Varianzanalyse mit Messwiederholung nutzen zu können.
@@ -301,8 +303,8 @@ ezStats(alc_long, alcuse, id, within = age)
 ```
 
 ```
-## Warning: There is at least one numeric within variable, therefore aov() will be used for computation and no assumption checks will
-## be obtained.
+## Warning: There is at least one numeric within variable, therefore aov() will be used for computation
+## and no assumption checks will be obtained.
 ```
 
 ```
@@ -341,7 +343,7 @@ ezPlot(alc_long, alcuse, id, within = age,
   x = age)
 ```
 
-![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-14-1.png)<!-- -->
 
 Wie schon in der [letzten Sitzung](../anova-ii) erklärt, sind die Intervalle um die Mittelwerte herum die *Fisher’s Least Significant Difference* (FLSD) - wenn sich zwei Mittelwerte um diesen Betrag unterscheiden, sollten sie auch statistisch bedeutsam sein.
 
@@ -554,7 +556,7 @@ ezPlot(alc_long, alcuse, id, within = age,
   xlab('Alter')
 ```
 
-![](/lehre/statistik-ii/anova-iii_files/figure-html/ezplot_theme-1.png)<!-- -->
+![](/anova-iii_files/ezplot_theme-1.png)<!-- -->
 
 Um Verläufe darzustellen, hatten wir in der [2. Sitzung](../grafiken-ggplot2) und der [8. Sitzung](../regression-v) `geom_smooth()` kennen gelernt. Weil diese Geometrie als Schicht auf den ursprünglichen Plot gelegt werden kann, können wir den linearen Verlauf veranschaulichen:
 
@@ -569,7 +571,7 @@ ezPlot(alc_long, alcuse, id, within = age,
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-23-1.png)<!-- -->
 
 Weil wir für `ezANOVA` das Alter in einen Faktor umgewandelt hatten, müssen wir es für `geom_smooth` erst noch in eine numerische Variable zurücküberführen (`as.numeric`). Dann wählen wir mit `method = 'lm'` das lineare Modell und unterdrücken mit `se = FALSE` das Konfidenzintervall um die Regressionsgerade. In unserem Kontrast für den linearen Effekt prüfen wir den Anstieg dieser Geraden (oben als $\Lambda$ notiert):
 
@@ -615,7 +617,7 @@ ezPlot(alc_long, alcuse, id, within = age,
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-25-1.png)<!-- -->
 
 Wir erkennen deutlich, dass alle Mittelwerte auf dem quadratischen Trend liegen. Das ist allerdings auch einleuchtend, da es immer so ist, dass für $t$ Zeitpunkte ein Polynom bis zum Grad $t-1$ (also: $a_0 + a_1X + a_2X^2 + \dots + a_{t-1}X^{t-1}$) gefunden werden kann, dass alle Punkte trifft, solang nicht mehrere Punkte den gleichen $x$-Wert haben. Die Frage ist nun, ob der quadratische Trend eine signifikante Verbesserung gegenüber dem linearen Trend ist!
 
@@ -739,13 +741,13 @@ ezStats(alc_long,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
-## Warning in ezStats(alc_long, dv = alcuse, wid = id, within = age, between = coa): Unbalanced groups. Mean N will be used in
-## computation of FLSD
+## Warning in ezStats(alc_long, dv = alcuse, wid = id, within = age, between = coa): Unbalanced groups.
+## Mean N will be used in computation of FLSD
 ```
 
 ```
@@ -769,16 +771,16 @@ ezPlot(alc_long,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
-## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, : Unbalanced groups. Mean N will be
-## used in computation of FLSD
+## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, :
+## Unbalanced groups. Mean N will be used in computation of FLSD
 ```
 
-![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-31-1.png)<!-- -->
 
 Der Plot verdeutlicht bereits, was in dieser Situation die drei zentralen Fragestellungen sind: 
 
@@ -802,8 +804,8 @@ ezANOVA(alc_long,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -829,13 +831,6 @@ Obwohl `ez` den *Mauchly Test* für Sphärizität mitliefert, ist im Fall des Sp
 
 ```r
 heplots::boxM(alc[, c('alcuse.14', 'alcuse.15', 'alcuse.16')], group = alc$coa)
-```
-
-```
-## Registered S3 methods overwritten by 'broom':
-##   method            from  
-##   tidy.glht         jtools
-##   tidy.summary.glht jtools
 ```
 
 ```
@@ -917,7 +912,7 @@ ezPlot(df, Y, id, within = times,
     formula = y ~ 1, color = 'gold3')
 ```
 
-![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-35-1.png)<!-- -->
 
 ```r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))
@@ -971,7 +966,7 @@ ezPlot(df, Y, id, within = times,
     formula = y ~ 1, color = 'gold3')
 ```
 
-![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-36-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-36-1.png)<!-- -->
 
 ```r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))
@@ -1026,7 +1021,7 @@ ezPlot(df, Y, id, within = times,
     formula = y ~ 1, color = 'gold3')
 ```
 
-![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-37-1.png)<!-- -->
 
 ```r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))
@@ -1079,7 +1074,7 @@ ezPlot(df, Y, id, within = times,
     formula = y ~ 1, color = 'gold3')
 ```
 
-![](/lehre/statistik-ii/anova-iii_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-38-1.png)<!-- -->
 
 ```r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))

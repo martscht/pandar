@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [schultze, irmer] 
 weight: 3
-lastmod: '2024-05-03'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/plane.jpg"
@@ -171,7 +171,7 @@ Es wird also behauptet, dass es eine grundlegende Eigenschaft von Personen gibt,
 
 Als Pfadmodell dargestellt sieht das zunächst so aus:
 
-<img src="/lehre/fue-ii/cfa1.png" width="65%"/>
+<img src="cfa1.png" width="65%"/>
 
 Hier stellen wir das Modell zunächst ohne Gewichtungen dar - es werden lediglich die Beziehungen/Zusammensetzungen zwischen den Variablen verdeutlicht: die Messungen Q2, Q7 und Q12 setzen sich alle aus der zugrundeliegenden latenten Variable GC und dem itemspezifischen Messfehler zusammen.
 
@@ -349,7 +349,7 @@ Hier können wir einfach durchzählen:
 
 Die zu schätzenden Parameter ($t$) können wir im Pfaddiagramm abzählen:
 
-<img src="/lehre/fue-ii/cfa2.png" width="65%"/>
+<img src="cfa2.png" width="65%"/>
 
 Wenn wir uns nicht unnötig damit belasten möchten die Parameter selbst zu zählen, können wir die Anzahl natürlich auch einfach von `lavaan` bekommen:
   
@@ -554,7 +554,7 @@ In der Ergebnisaufbereitung von `lavaan` hat sich gegenüber dem Regressionsmode
 
 Was bedeuten diese Ladungen aber inhaltlich? Glücklicherweise hält auch für die CFA das beinahe allgemeingültige Mantra der sozialwissenschaftlichen Auswertungsverfahren: "es ist alles nur Regression". Die Faktorladungen entsprechen hier also dem Regressionsgewicht der manifesten Variable, vorhergesagt durch die latente Variable. (Bitte beachten Sie die Richtung! Häufig wird diese Beziehung fälschlicherweise umgekehrt interpretiert - in der klassischen CFA ist aber die latente Variable die unabhängige Variable und die manifesten Variablen sind die abhängigen Variablen.) Ein Bild:
   
-![](/lehre/fue-ii/fue-cfa_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+![](/fue-cfa_files/unnamed-chunk-21-1.png)<!-- -->
 
 Die Ausprägung der manifesten Variable wird vorhergesagt durch die Ausprägung der latenten Variable - für $GC = 2$ sagen wir also $Q2 = 2$ vorher, weil die Faktorladung dieses Items auf 1 fixiert ist ($\lambda_{2} = 1$). Für Q7 ist die Ladung allerdings $\lambda_{7} = 1.062$, sodass die gelbe Regressionsgerade in der Abbildung ein bisschen steiler verläuft.
 
@@ -680,7 +680,7 @@ summary(fit2)
 
 Wie bei der Regression und bei den Varianzen schon gesehen, markiert der `.` Variablen, die im Modell abhängige Variablen sind, sodass der dargestellte Wert als *Intercept* (sprich bedingter Mittelwert) und nicht als *Mittelwert* interpretiert werden sollte. Wie bei Intercepts in Regressionen auch, ist das hier dargestellte Intercept von Q7 der Wert, den wir erwarten, wenn eine Person auf dem Prädiktor (GC) den Wert 0 hat. Durch die Festlegung des Mittelwerts von GC auf 0 bedeutet das Intercept also, dass es der erwartete Wert einer durchschnittlichen Person ist. Genau genommen ist das dann in diesem Fall also lediglich eine sehr umständliche Variante, doch den Mittelwert von Q7 zu meinen. Wenn wir die Darstellung als Regression um diese Intercepts erweitern, ergibt sich folgendes Bild:
   
-![](/lehre/fue-ii/fue-cfa_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+![](/fue-cfa_files/unnamed-chunk-30-1.png)<!-- -->
 
 Die gestrichelte Linie stellt den Mittelwert der latenten Variable dar. Der Punkt, an dem die jeweilige Regressionsgerade diese Linie schneidet, ist also das Intercept. Erneut ist eine berechtigte Frage: "Aber was soll mir das jetzt bringen?" Die Intercepts werden im Rahmen der klassischen Testtheorie als *Leichtigkeitsparameter* interpretiert. Der Aussage "The power held by heads of state is second to that of small unknown groups who really control world politics" (Q2) weist eine Person mit durchschnittlicher Ausprägung auf der Dimension *malevolent global conspiracies* einen Wahrheitsgehalt von 2.979 zu (auf einer Skala von 1 bis 5). Die gleiche, durchschnittliche Person schätzt den Wahrheitsgehalt der Aussage "A small, secret group of people is responsible for making all major world decisions, such as going to war" (Q7) auf einer Skala von 1 bis 5 mit  2.673 ein. Q2 wird also in größerem Ausmaß zugestimmt - die Aussage ist *leichter* zu bejahen, daher die Bezeichnung als *Leichtigkeitsparameter*. Manchmal wird dieser Parameter auch ins Verhältnis zur Range der Skala gesetzt (also zur Differenz zwischen Maximum und Minimum der Skala) und dann in $\%$ interpretiert. Vielleicht kennen Sie diesen Koeffizienten auch unter dem Namen *Itemschwierigkeit*. Da allerdings zumeist die Leichtigkeit quantifiziert wird, macht das die Sache kompliziert. Auch müssen wir hier kein Verhältnis zur Range der Skala verwenden, da alle Items auf der gleichen gemessen wurden und damit die Werte direkt vergleichbar sind.   
 
@@ -741,7 +741,7 @@ Diese neu gefundene Leichtigkeit der Modellierung können wir direkt nutzen, um 
 
 Um die beiden Facetten voneinander abzugrenzen, stellen wir ein Modell mit zwei latenten Variablen auf, welches als Pfaddiagramm so aussieht:
 
-![](/lehre/fue-ii/cfa3.png)
+![](cfa3.png)
 
 Inhaltlich wird mit diesem Modell behauptet, dass die Zustimmung zu den sechs Aussagen sich auf zwei verschiedene Überzeugungen von Personen zurückführen lässt. Die Erste stellt die Überzeugung dar, dass es eine kleine, elitäre Gruppe von Personen gibt, die das Weltgeschehen im Geheimen steuert. Diese Überzeugung äußert sich in der Zustimmung zu den drei Aussagen in Q2, Q7 und Q12. Die zweite Überzeugung beinhaltet, dass technologischer und wissenschaftlicher Fortschritt absichtlich verschleiert wird, um die Interessen einiger weniger zu schützen. Diese Überzeugung äußert sich dann in der Zustimmung zu den Aussagen in Q5, Q10 und Q15. Zusätzlich behauptet dieses Modell aber auch, dass sich eine Überzeugung bezüglich *malevolent global conspiracies* **nicht** in der Zustimmung zu den Aussagen in Q5, Q10 oder Q15 wiederfinden lässt. Zusammenhänge der Zustimmung zu den Aussagen in Q12 ("Certain significant events have been the result of the activity of a small group who secretly manipulate world events") und Q10 ("New and advanced technology which would harm current industry is being suppressed") sollen nur dadurch entstehen, dass die beiden grundlegenden (latenten) Überzeugungen miteinander zusammenhängen können. Diese latente Korrelation wird im Pfadmodell durch den Doppelpfeil kenntlich gemacht.
           
@@ -1006,16 +1006,18 @@ names(modelfit)
 ```
 
 ```
-##  [1] "npar"                  "fmin"                  "chisq"                 "df"                    "pvalue"               
-##  [6] "baseline.chisq"        "baseline.df"           "baseline.pvalue"       "cfi"                   "tli"                  
-## [11] "nnfi"                  "rfi"                   "nfi"                   "pnfi"                  "ifi"                  
-## [16] "rni"                   "logl"                  "unrestricted.logl"     "aic"                   "bic"                  
-## [21] "ntotal"                "bic2"                  "rmsea"                 "rmsea.ci.lower"        "rmsea.ci.upper"       
-## [26] "rmsea.ci.level"        "rmsea.pvalue"          "rmsea.close.h0"        "rmsea.notclose.pvalue" "rmsea.notclose.h0"    
-## [31] "rmr"                   "rmr_nomean"            "srmr"                  "srmr_bentler"          "srmr_bentler_nomean"  
-## [36] "crmr"                  "crmr_nomean"           "srmr_mplus"            "srmr_mplus_nomean"     "cn_05"                
-## [41] "cn_01"                 "gfi"                   "agfi"                  "pgfi"                  "mfi"                  
-## [46] "ecvi"
+##  [1] "npar"                  "fmin"                  "chisq"                 "df"                   
+##  [5] "pvalue"                "baseline.chisq"        "baseline.df"           "baseline.pvalue"      
+##  [9] "cfi"                   "tli"                   "nnfi"                  "rfi"                  
+## [13] "nfi"                   "pnfi"                  "ifi"                   "rni"                  
+## [17] "logl"                  "unrestricted.logl"     "aic"                   "bic"                  
+## [21] "ntotal"                "bic2"                  "rmsea"                 "rmsea.ci.lower"       
+## [25] "rmsea.ci.upper"        "rmsea.ci.level"        "rmsea.pvalue"          "rmsea.close.h0"       
+## [29] "rmsea.notclose.pvalue" "rmsea.notclose.h0"     "rmr"                   "rmr_nomean"           
+## [33] "srmr"                  "srmr_bentler"          "srmr_bentler_nomean"   "crmr"                 
+## [37] "crmr_nomean"           "srmr_mplus"            "srmr_mplus_nomean"     "cn_05"                
+## [41] "cn_01"                 "gfi"                   "agfi"                  "pgfi"                 
+## [45] "mfi"                   "ecvi"
 ```
 
 ```r
@@ -1055,7 +1057,7 @@ modelfit['df']
 
 Die $\chi^2$-Verteilung mit 8 Freiheitsgraden sieht so aus:
   
-![](/lehre/fue-ii/fue-cfa_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
+![](/fue-cfa_files/unnamed-chunk-47-1.png)<!-- -->
 
 Der blau eingefärbte Bereich ist der Ablehnungsbereich bei einem $\alpha$-Fehlerniveau von 5%. Der kritische Wert liegt hier bei gerundet 15.51. Wenn die doppelte Differenz der LogLikelihoods des unrestringierten und unseres Modells diesen kritischen Wert überschreitet, muss also die Nullhypothese (unser Modell) verworfen werden:
   
@@ -1279,7 +1281,7 @@ Alternativ zur Residualkorrelation zwischen Q10 und Q15 können wir auch die Que
 
 Wenn wir die Querladung im Modell zulassen, ergibt sich ein anderes Modell als das von uns ursprünglich Postulierte. In Form des Pfaddiagramms sieht das dann so aus:
 
-![](/lehre/fue-ii/cfa4.png)
+![](cfa4.png)
 
 Wir können dieses Modell wieder in zwei Zeilen definieren:
 
@@ -1510,7 +1512,7 @@ In vielen Bereichen der Psychologie ist es wichtig, nicht nur festzuhalten, dass
 Verschiedene Formen der "Gleichheit" dieser drei Messungen werden in der Hierarchie der Messmodelle festgehalten:
 
 
-![](/lehre/fue-ii/mess1.png)
+![](mess1.png)
 
 In der Abbildung sind die fünf typischen Messmodelle der klassischen Testtheorie zu sehen. In der Bezeichnung bezieht sich der Buchstabe $\tau$ auf den zugrundeliegenden, wahren Wert einer manifesten Variable. Anders als die latenten Variablen, die wir bisher betrachtet haben, ist so ein $\tau$ für jede manifeste Variable einzeln definiert, kann aber ohne weitere Modellannahmen nicht empirisch geschätzt werden. Die Namen der Messmodelle beziehen sich darauf, wie die wahren Werte $\tau$ verschiedener manifester Variablen im Verhältnis zueinander stehen. $\tau$-parallel heißt also z.B., dass die wahren Werte zweier Parallelformen der Statstikprüfung wirklich parallel sind - also in jedweder Hinsicht gleiche Eigenschaften haben. Der Weg, um von einem Messmodell zum nächsten zu kommen, ist stets an den Verbindungen dargestellt.
 
@@ -1592,7 +1594,7 @@ summary(fit1)
 
 Oder etwas bildlicher ausgedrückt:
 
-![](/lehre/fue-ii/fue-cfa_files/figure-html/unnamed-chunk-74-1.png)<!-- -->
+![](/fue-cfa_files/unnamed-chunk-74-1.png)<!-- -->
 
 Die Regression der drei Tests auf die latente Variable unterscheidet sich also in der Steigung (Faktorladung) und dem Intercept. Das bedeutet, dass unsere drei Tests unterschiedlich gut darin sind, zwischen Personen zu unterscheiden: wenn Urs eine bessere Fähigkeit auf der latenten Dimension aufweist als Hans, wird er im 3. Test um mehr Punkte besser abschneiden, als im 1. Test. Darüber hinaus sind beide Tests unterschiedlich schwierig: eine durchschnittliche Person wird auf dem 3. Test mehr Punkte erhalten als auf dem 1. Beide Zustände wären äußerst ungünstig, weil Personen (anders als unsere Normierungsstichprobe, die wir hier betrachten) normalerweise nur einen der drei Tests ablegen und Personen, die den 3. Test ablegen, dann im Mittel einen Vorteil hätten.
 
@@ -1652,7 +1654,7 @@ summary(fit2)
 Alle Faktorladungen sind nun identisch. Das heißt, dass die Linien der unterschiedlichen Tests im Bild parallel verlaufen sollten, weil wir jetzt den Einfluss der latenten Variable auf die manifesten Variablen gleichgesetzt haben:
 
 
-![](/lehre/fue-ii/fue-cfa_files/figure-html/unnamed-chunk-78-1.png)<!-- -->
+![](/fue-cfa_files/unnamed-chunk-78-1.png)<!-- -->
 
 Das bedeutet, dass sich der Unterschied zwischen Urs und Hans in der statistischen Fähigkeit in allen drei Tests im gleichen Punkteunterschied äußern *sollte*. Das *sollte* ist dabei wichtig, weil es natürlich in jedem Einzelfall aufgrund von Messfehlern zu Unterschieden kommen kann, wenn wir den Test aber unendlich häufig durchführen würden, wäre der Unterschied zwischen beiden immer gleich, egal welchen der drei Tests wir nutzen.
 
@@ -1755,7 +1757,7 @@ Inhaltlich heißt dieses Ergebnis, dass wir für zwei Personen, die die gleiche 
 
 Auch in der Abbildung zeigt sich jetzt, dass die Tests äquivalent sind:
 
-![](/lehre/fue-ii/fue-cfa_files/figure-html/unnamed-chunk-84-1.png)<!-- -->
+![](/fue-cfa_files/unnamed-chunk-84-1.png)<!-- -->
 
 </details>
 

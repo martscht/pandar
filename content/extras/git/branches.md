@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schloter, nehler]
 weight: 5
-lastmod: '2024-03-30'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/treebranches.jpg"
@@ -37,30 +37,30 @@ Für Psycholog/innen kann es zum  Beispiel nützlich sein bei Datenanalysen mit 
 
 Wenn ihr jetzt aber den neuen Analyseweg besser findet als den Alten und ihn in euer Hauptprojekt übernehmen wollt, mergt ihr die beiden. Der Ast verwächst also mit dem Baumstamm.  
 
-![](/extras/git/images/branches_MergeGraphic2.png)
+![](images/branches_MergeGraphic2.png)
 
 Hier noch ein weiteres Beispiel, warum **Branches** nützlich sein können. Ihr seid gerade an einer Hausarbeit dran oder sogar eurer Bachelorarbeit und gebt eine erste Version davon ab. Dann könnt ihr zur besseren Dokumentation, für diese Abgabe einen **Branch** erstellen und diesen dann einfrieren. Das heißt ihr benutzt ihn nicht mehr, sodass er bleibt wie er ist. Dadurch könnt ihr diese "Version" eurer Arbeit speichern, falls ihr sie später nochmal benötigt. 
 
-![](/extras/git/images/branches_releaseDevelop1.png)
+![](images/branches_releaseDevelop1.png)
 
 ### Der Master-Branch
 
 Der *master*-Zweig ist der default-**Branch** in <span style="color: darkred;">**Git**</span>. Dieser wird mit dem Befehl *git init* automatisch erstellt und die meisten Personen ändern dies nicht. Der *master*-**Branch** ist also nicht speziell, sondern einfach nur die Voreinstellung. 
 
-![](/extras/git/images/branches_master.png)
+![](images/branches_master.png)
 Der *master*-**Branch** verfolgt unsere `Commits` und befindet sich automatisch immer auf unserem aktuellen `Commit`. Damit wir wissen, wo sich der **Branch** gerade befindet, hat <span style="color: darkred;">**Git**</span> einen Zeiger oder Pfeil eingebaut.  
 
-![](/extras/git/images/branches_masterPfeil.png)
+![](images/branches_masterPfeil.png)
 Unser aktueller `Commit` ist der mit dem Namen "Neuer Commit". Der grüne Zeiger des *master*-**Branches** zeigt darauf. 
 
 ### Einen neuen **Branch** erstellen
 
 Wir wollen jetzt einen neuen **Branch** in unserem Ordner "Praktikum" erstellen, um zu testen, ob ein neuer Analyseweg besser ist als der Alte. Die erste Möglichkeit ist über das Terminal. Navigiert zu dem Ordner in dem der neue **Branch** sein soll mit cd und gebt anschließend das Command `git branch Analyse1` ein. 
 
-![](/extras/git/images/branches_New2.png)
+![](images/branches_New2.png)
 Natürlich kann auch mit <span style="color: darkred;">**SmartGit**</span> ein neuer Branch erstellt werden. Hierzu öffnet ihr <span style="color: darkred;">**SmartGit**</span>, klickt oben in der Leiste auf **Branch** und dann auf *Add Branch*. Jetzt gebt ihr einen Namen ein (z.B. "Analyse2") und bestätigt das. 
 
-![](/extras/git/images/branches_LocalBranches2.png)
+![](images/branches_LocalBranches2.png)
 
 Auf <span style="color: darkred;">**SmartGit**</span> müssten euch nun unter **Local Branches** drei Optionen angezeigt werden: *master*, *Analyse1* und *Analyse2*. 
 
@@ -69,42 +69,42 @@ Woher wissen wir auf welchem **Branch** wir uns gerade befinden?  In <span style
 Aber auch im Terminal gibt es die Möglichkeit herauszufinden, was unser aktueller **Branch** ist.
 <span style="color: darkred;">**Git**</span> hat dazu einen speziellen Zeiger namens *HEAD*. Dieser zeigt immer auf den lokalen **Branch** auf dem man sich gerade befindet.Mit dem Befehl `git log --oneline --decorate` kann man im Terminal sehen, wo der *HEAD*-Zeiger gerade hinzeigt. 
 
-![](/extras/git/images/branches_HEADBefehl.png)
+![](images/branches_HEADBefehl.png)
 
-![](/extras/git/images/branches_HEAD2.png)
+![](images/branches_HEAD2.png)
 Hier immer noch auf *master*. 
 
 Auf <span style="color: darkred;">**GitHub**</span> seht ihr direkt auf der Startseite eures Projekts auf welchem **Branch** ihr euch befindet. 
 
-![](/extras/git/images/branches_GitHub2.png)
+![](images/branches_GitHub2.png)
 
 ### **Branches** wechseln
 
 Wir wollen jetzt zu dem **Branch** *Analyse1* wechseln. In der Sprache von Git wird diese Betrachtung eines Branches als `checkout` bezeichnet. Über das Terminal ist der Befehl daher `git checkout Analyse1`. Der *HEAD*-Zeiger bewegt sich damit zu unserem ausgewählten **Branch**. Ob es geklappt hat, können wir mit dem bereits eben verwendeten Befehl `git log --oneline --decorate` testen. 
 
-![](/extras/git/images/branches_SwitchBranch2.png)
+![](images/branches_SwitchBranch2.png)
 Bei <span style="color: darkred;">**SmartGit**</span> muss man einfach nur mit Doppelklick auf den **Branch** aus der links unten angezeigten Liste gehen, in den man wechseln will. Dann sollte folgendes erscheinen, dass ihr dann bestätigt.
 
-![](/extras/git/images/branches_SmartGitSwitch2.png)
+![](images/branches_SmartGitSwitch2.png)
 
 Auch interessant zu wissen: Die Dateien, die in eurem normalen Dateiexplorer angezeigt werden, ändern sich äquivalent dazu.
 
 Machen wir uns das Ganze mal an unserer Datei "Datenauswertung" deutlich. Sagen wir mal, dass wir mit den Daten einen `t.test()` durchführen wollen, uns aber noch nicht ganz sicher sind, ob das überhaupt etwas bringt. Dazu ändern wir erstmal die Datei. 
 
-![](/extras/git/images/branches_ÄnderungDatei1.png)
+![](images/branches_ÄnderungDatei1.png)
 
 Jetzt öffnen wir <span style="color: darkred;">**SmartGit**</span> und stellen sicher, dass wir immer noch auf unserem **Branch** *Analyse1*. Wir führen nun einen `Commit` auf diesem **Branch** durch, der die oben aufgeführten Änderungen enthält. Unser *HEAD*-Zeiger zeigt nun auf *Analyse1*. Wechselt nun mal zwischen den zwei **Branches** hin und her und schaut euch den obersten `Commit` an. Hier sehen wir den Unterschied. Der `t.test()`-`Commit` ist nur auf dem **Branch** *Analyse1* vorhanden (Bild 1). Auf dem **Branch** *master* ist nur unser inzwischen alter "Neuer Commit" (Bild 2). 
 
 Bild 1: 
-![](/extras/git/images/branches_UnterschiedBranches31.png)
+![](images/branches_UnterschiedBranches31.png)
 Bild 2: 
-![](/extras/git/images/branches_UnterschiedBranches4.jpg)
+![](images/branches_UnterschiedBranches4.jpg)
 
 Falls ihr jetzt also auf *master* wechselt und hier irgendwelche Veränderungen macht, tut ihr das mit euerer alten Dateiversion (ohne die Veränderungen, die auf dem *Analyse1*-**Branch** gemacht wurden). So weit wollen wir allerdings jetzt noch nicht gehen. Wie ihr aus dem Abschnitt `Conflict Solver` in <span style="color: darkred;">**SmartGit**</span> wisst, entsteht ein Konflikt immer dann, wenn in derselben Zeile unterschiedliche Dinge stehen. Aktuell stehen unsere zwei **Branches** demnach nicht in einem Konflikt, da wir hier in *Analyse1* nur eine Zeile hinzugefügt haben und in der Zeile unseres *master*-**Branches** nichts steht. Falls ihr euch für die technische Seite dieses Vorgangs interessiert, schaut in den [Appendix A](#appendix-a).
 
 Da wir zu Übungszwecken einen Merge mit Konflikt ausführen wollen, werden wir jetzt sich widersprechende **Branches** erstellen. Dafür gehen wir wieder in unsere Datei und ändern dieselbe Zeile wie vorhin. 
   
-![](/extras/git/images/branches_ÄnderungDatei3.png)
+![](images/branches_ÄnderungDatei3.png)
 
 Wir stellen sicher, dass wir uns auf dem *master*-**Branch** befinden und führen einen `Commit`durch. Unser Projekt hat jetzt eine *Divergent History*, was soviel bedeutet wie auseinandergehende Geschichte. 
 Die Datei auf dem einen **Branch** hat einen `t.test()`, die andere einen Vektor namens *z*.  
@@ -125,25 +125,25 @@ Dann öffnet sich ein Fenster bei dem wir auf *Merge to Working Tree* gehen.
 
 <span style="color: darkred;">**SmartGit**</span> sollte nun so aussehen: 
 
-![](/extras/git/images/branches_MergeState.png)
+![](images/branches_MergeState.png)
 
 Wenn wir jetzt auf die entsprechende Datei gehen, von der es auf den zwei **Branches** unterschiedliche Versionen gibt, sollte man den *Conflict Solver* angezeigt bekommen. Wie dieser funktioniert, steht im Abschnitt über <span style="color: darkred;">**SmartGit**</span> genauer. Trotzdem kommt hier nochmal eine kurze Zusammenfassung. 
 
 Die Datei, die im Konflikt ist, sieht so aus: 
 
-![](/extras/git/images/branches_conflictedData.png)
+![](images/branches_conflictedData.png)
 Wenn ihr auf diese Datei klickt, erscheint automatisch ein Button für den `Conflict Solver`. 
 
-![](/extras/git/images/branches_ConflictSolver.png)
+![](images/branches_ConflictSolver.png)
 
 Auf diesen klicken wir und es geht ein neues Fenster mit dem `Conflict Solver` auf. 
 Jetzt müssen wir entscheiden, welche Version wir nehmen. Hier ist das noch sehr simpel, da wir nur eine Zeile haben, die sich unterscheidet. 
 Wir haben entschieden, dass wir die Analyse unserer Entwicklungsdatei in unser Original einbauen wollen. 
 
-![](/extras/git/images/branches_ConflictTakettest.png)
+![](images/branches_ConflictTakettest.png)
 Sobald wir den `t.test()` in die Mitte "gezogen" haben, speichern wir das und schließen den `Conflict Solver`. Es öffnet sich erneut ein Fenster. 
 
-![](/extras/git/images/branches_StageforCommit.png)
+![](images/branches_StageforCommit.png)
 Hier klicken wir auf *Stage*, da die Datei somit direkt ins *Staging Environment* geladen wird und wir im Anschluss darauf einen `Commit` durchführen können. 
 
 Es öffnet sich dieses Fenster durch das wir unseren `Commit` finalisieren können und eine *Commit-Message* hinzufügen können. 
@@ -152,20 +152,20 @@ Jetzt habt ihr zwei **Branches** erfolgreich gemerged.
 
 Auf <span style="color: darkred;">**SmartGit**</span> seht ihr den erfolgreichen Merge im *Log*. 
 
-![](/extras/git/images/branches_Log.png)
+![](images/branches_Log.png)
 Euch wird das angezeigt mit: *Merge Branch Analyse1*. 
 
-![](/extras/git/images/branches_LogMerging.png)
+![](images/branches_LogMerging.png)
 
 ### Branches löschen
 
 Wie ihr in dem Tutorial mitbekommen habt, haben wir den **Branch** *Analyse2* gar nicht benötigt. 
 Also werden wir ihn jetzt löschen. Dafür klicken wir auf *Analyse2* (sodass er rot hinterlegt ist). Dann gehen wir in der Menüleiste auf *Branch* und dann auf *Delete...*. 
 
-![](/extras/git/images/branches_Delete.png)
+![](images/branches_Delete.png)
 <span style="color: darkred;">**SmartGit**</span> fragt uns nochmal, ob wir uns wirklich sicher sind: 
 
-![](/extras/git/images/branches_Delete2.png) 
+![](images/branches_Delete2.png) 
 Da wir aber auf diesem **Branch** nicht gearbeitet haben und dieser somit unnötig ist, kann er weg.
 
 
@@ -176,21 +176,21 @@ Zum Abschluss des Tutorials gehen wir nochmal in ein Setting, in dem ihr mit meh
 Damit wir diese Situation alleine simulieren können, fügen wir einfach auf <span style="color: darkred;">**GitHub**</span> einen neuen **Branch** hinzu. Dazu geht ihr zunächst auf die Hauptseite eures Repository - also die auf dem Bild dargestellte Ansicht - und drückt auf `master`. 
 
 
-![](/extras/git/images/github_repo.PNG)
+![](images/github_repo.PNG)
 Anschließend muss nur ein Name gegeben werden. So lange ein **Branch** dieses Namens nicht existiert, wird angeboten, einen neuen Branch mit diesem Namen zu erzeugen. Das können wir durch einen Klick bestätigen.
 
-![](/extras/git/images/github_branch_creation.PNG)
+![](images/github_branch_creation.PNG)
 
 Nun haben wir also einen neuen **Branch** auf <span style="color: darkred;">**GitHub**</span> erstellt, der bei uns lokal noch nicht existiert. Dafür wechseln wir zurück auf <span style="color: darkred;">**SmartGit**</span>. Die Ansicht muss nochmal aktualisiert werden (bspw. über einen `pull`, aber da kann man verschiedene Wege gehen. Ihr solltet jetzt angezeigt bekommen, dass es einen Branch im **origin** mehr gibt, den ihr nicht unter **local Branches** seht. 
 
-![](/extras/git/images/smartgit_branch_added_via_github.PNG)
+![](images/smartgit_branch_added_via_github.PNG)
 Man kann ihn aber ganz leicht lokal hinzufügen. Dafür macht ihr einen Doppelklick auf den **Branch**, den ihr hinzufügen wollt. Anschließend erscheint dieses Fenster, in dem ihr noch einen neun Namen geben könntet. Die restlichen Defaults sind für das lokale tracken korrekt. Dann klickt ihr *Checkout*.
 
-![](/extras/git/images/smartgit_add_branch_tracked.PNG)
+![](images/smartgit_add_branch_tracked.PNG)
 
 Nun habt ihr den **Branch** auch lokal.
 
-![](/extras/git/images/smartgit_added_branch_tracked.PNG)
+![](images/smartgit_added_branch_tracked.PNG)
 
 # Fazit und Ausblick
 
@@ -210,15 +210,15 @@ Nehmen wir hier zur Verdeutlichung unser schon existierendes <span style="color:
 Verändern wir jetzt etwas kleines an der Datei. Fügt in einer Zeile ein Ausrufezeichen hinzu oder einen Punkt. Wichtig ist, dass die Datei in einen neuen *Commit* gepackt werden muss. 
 Öffnen wir nun das Terminal und mit *cd* unser <span style="color: darkred;">**Git**</span>-Repository. 
 
-![](/extras/git/images/branches_OpenTerminal.png)
+![](images/branches_OpenTerminal.png)
 
 Jetzt wollen wir die Datei für einen `Commit` vorbereiten. Dafür muss man sie, wie ihr wisst, erstmal ins *Staging Environment* laden. 
 
-![](/extras/git/images/branches_Stage.png)
+![](images/branches_Stage.png)
 
 Anschließend führen wir einen `Commit`durch. 
 
-![](/extras/git/images/branches_Commit.png)
+![](images/branches_Commit.png)
 
 Wie unterscheidet <span style="color: darkred;">**Git**</span> jetzt aber den neuen `Commit` vom Alten? 
 
@@ -226,21 +226,21 @@ Dafür erstellt <span style="color: darkred;">**Git**</span> bei jedem `Commit`,
 Schauen wir uns mal an, wie so eine Checksum aussieht. 
 Dafür gebt ihr im Terminal den Befehl `git log` ein oder ihr schaut euch über <span style="color: darkred;">**SmartGit**</span> euer Log an.
 
-![](/extras/git/images/branches_Log.png)
+![](images/branches_Log.png)
 
 Dieser Befehl zeigt euch eure `Commit`-Historie an und auch die jeweiligen Checksums, die <span style="color: darkred;">**Git**</span> erstellt hat. Das sind diese langen Zeichenabfolgen: 
 
-![](/extras/git/images/branches_CheckusmTerminal.png)
+![](images/branches_CheckusmTerminal.png)
 Vergleicht mal verschiedene Checksums unterschiedlicher `Commits`. Ihr werdet nie zwei identische finden. 
 
 Auf <span style="color: darkred;">**SmartGit**</span> sind die Checksums etwas schwerer zu finden und sehen auch ein bisschen anders aus. Geht dafür auf den *Log*-Button in der obersten Leiste.  
 
-![](/extras/git/images/branches_SmartGitLog.png)
+![](images/branches_SmartGitLog.png)
 
 Es öffnet sich noch ein Fenster, dass jeden eurer `Commits` in diesem Repository anzeigt. 
 Die Checksum zu unserem neuen `Commit` finden wir rechts in dem `Commit` Fenster. 
 
-![](/extras/git/images/branches_SmartGitCommit.png)
+![](images/branches_SmartGitCommit.png)
 
 Wie ihr hier sehen könnt, zeigt <span style="color: darkred;">**SmartGit**</span> nicht die ganze Checksum an, sondern nur den Anfang von ihr.
 
@@ -263,7 +263,7 @@ Zurück zu unserem Ordner "Praktikum". Dieser enthält unser Objekt *Datenauswer
 
 Hier könnt ihr euch diese grobe Erklärung der Datenstruktur von <span style="color: darkred;">**Git**</span> nochmal verbildichen: 
 
-![](/extras/git/images/branches_GitDatenStruktur1.png)
+![](images/branches_GitDatenStruktur1.png)
 
 
 ### Metadaten

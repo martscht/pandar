@@ -8,7 +8,7 @@ subtitle: ''
 summary: ''
 authors: [schultze, nehler, irmer]
 weight: 3
-lastmod: '2024-11-12'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/canceled.jpg"
@@ -56,7 +56,7 @@ Auch wenn dieser Beitrag etwas theorielastiger wird, als die vergangenen Abschni
 Wie immer können Sie die Originaldaten direkt aus dem [OSF Repo](https://osf.io/8mk6x/) beziehen. Die relevante Auswahl aus dem sehr großen Datensatz habe ich schon einmal vorbereitet und hier hinterlegt:
 
 
-``` r
+```r
 source('https://pandar.netlify.app/daten/Data_Processing_cope.R')
 ```
 
@@ -105,7 +105,7 @@ Variable | Beschreibung | Ausprägungen
 Wie schon in den anderen Beiträgen, können wir zunächst checken, ob unsere Daten mit denen aus dem Artikel übereinstimmen, indem wir die deskriptivstatistischen Tabellen nachvollziehen. Tabelle 1 (S. 260) gibt dabei eine sehr detaillierte Übersicht über die die Verteilung der demografischen Variablen Ethnizität, Geschlecht und sexueller Orientierung. Diese Ergebnisse sind mit dem bereitgestellten Datensatz soweit reproduzierbar - allerdings aufgrund der fehlenden Exklusivität der Kategorien nicht so einfach zu erstellen, wie in den vergangenen beiden Beiträgen:
 
 
-``` r
+```r
 # Ethnizität
 ethnicity <- aggregate(cope[, grep('race_', names(cope))], by = list(cope$condition), FUN = sum)
 names(ethnicity) <- c('condition', 'Native', 'Asian', 'Hispanic', 'Pacific Islander', 'White', 'Black', 'Other', 'Prefer not to say')
@@ -113,17 +113,13 @@ ethnicity
 ```
 
 ```
-##             condition Native Asian Hispanic Pacific Islander White Black Other
-## 1     Placebo Control     36   101      159               14   546    85    19
-## 2 Project Personality     29   100      148               14   550    88    11
-## 3         Project ABC     27   109      164               11   536    84    17
-##   Prefer not to say
-## 1                 9
-## 2                10
-## 3                 5
+##             condition Native Asian Hispanic Pacific Islander White Black Other Prefer not to say
+## 1     Placebo Control     36   101      159               14   546    85    19                 9
+## 2 Project Personality     29   100      148               14   550    88    11                10
+## 3         Project ABC     27   109      164               11   536    84    17                 5
 ```
 
-``` r
+```r
 # Geschlecht
 gender <- aggregate(cope[, grep('gender_', names(cope))], by = list(cope$condition), FUN = sum)
 names(gender) <- c('condition', 'agender', 'not sure', 'other', 'androgynous', 'nonbinary', 'two spirited', 'Trangender female to male', 'trans female', 'trans male', 'Gender expansive', 'Third gender', 'Genderqueer', 'Transgender male to female', 'Man', 'Woman')
@@ -131,23 +127,23 @@ gender
 ```
 
 ```
-##             condition agender not sure other androgynous nonbinary two spirited
-## 1     Placebo Control      19       71    32          50       128            5
-## 2 Project Personality      23       65    28          55       129            6
-## 3         Project ABC      12       60    27          52       127            5
-##   Trangender female to male trans female trans male Gender expansive
-## 1                        59            7         67                7
-## 2                        62            9         64                9
-## 3                        59            9         65               11
-##   Third gender Genderqueer Transgender male to female Man Woman  NA
-## 1            2          46                          6 122    70 514
-## 2            3          49                          6 126    58 516
-## 3            1          45                          3 115    58 514
+##             condition agender not sure other androgynous nonbinary two spirited Trangender female to male
+## 1     Placebo Control      19       71    32          50       128            5                        59
+## 2 Project Personality      23       65    28          55       129            6                        62
+## 3         Project ABC      12       60    27          52       127            5                        59
+##   trans female trans male Gender expansive Third gender Genderqueer Transgender male to female Man Woman
+## 1            7         67                7            2          46                          6 122    70
+## 2            9         64                9            3          49                          6 126    58
+## 3            9         65               11            1          45                          3 115    58
+##    NA
+## 1 514
+## 2 516
+## 3 514
 ```
 
 Für das biologische Geschlecht und die sexuelle Orientierung können wir die Ergebnisse mittels einfacher Häufigkeitstabeller erzeugen:
 
-``` r
+```r
 # Biologisches Geschlecht
 table(cope$sex, cope$condition)
 ```
@@ -161,42 +157,30 @@ table(cope$sex, cope$condition)
 ##   Prefer not to say               6                   9           5
 ```
 
-``` r
+```r
 # Sexuelle Orientierung
 table(cope$orientation, cope$condition)
 ```
 
 ```
 ##                                    
-##                                     Placebo Control Project Personality
-##   Asexual                                        39                  38
-##   Bisexual                                      228                 220
-##   Gay/Lesbian/Homosexual                         86                  91
-##   Heterosexual/Straight                         172                 165
-##   I do not use a label                           52                  47
-##   I do not want to respond                        3                   2
-##   Other/Not listed (please specify)              32                  38
-##   Pansexual                                      87                  79
-##   Queer                                          49                  51
-##   Unsure/Questioning                             70                  82
-##                                    
-##                                     Project ABC
-##   Asexual                                    46
-##   Bisexual                                  230
-##   Gay/Lesbian/Homosexual                     76
-##   Heterosexual/Straight                     161
-##   I do not use a label                       41
-##   I do not want to respond                    5
-##   Other/Not listed (please specify)          23
-##   Pansexual                                  98
-##   Queer                                      47
-##   Unsure/Questioning                         94
+##                                     Placebo Control Project Personality Project ABC
+##   Asexual                                        39                  38          46
+##   Bisexual                                      228                 220         230
+##   Gay/Lesbian/Homosexual                         86                  91          76
+##   Heterosexual/Straight                         172                 165         161
+##   I do not use a label                           52                  47          41
+##   I do not want to respond                        3                   2           5
+##   Other/Not listed (please specify)              32                  38          23
+##   Pansexual                                      87                  79          98
+##   Queer                                          49                  51          47
+##   Unsure/Questioning                             70                  82          94
 ```
 
 Und zu guter Letzt noch die mittlere Ausprägung des Primäroutcomes (Depressive Symptomatik) getrennt nach Interventionsgruppe zur Baseline. Dabei ist zu bedenken, dass die Variable im Datensatz als Mittelwert vorliegt (und auch in späteren Berechnungen so verwendet wird), in dieser Tabelle allerdings als Summenscore angegeben wird. Daher müssen wir den Mittelwert wieder mit der Anzahl der Items (12) multipliuieren:
 
 
-``` r
+```r
 # Baseline CDI
 psych::describeBy(cope$CDI1*12, cope$condition)
 ```
@@ -207,11 +191,11 @@ psych::describeBy(cope$CDI1*12, cope$condition)
 ## group: Placebo Control
 ##    vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 818 14.31 4.12   14.5   14.42 5.19   1  24    23 -0.25    -0.46 0.14
-## ------------------------------------------------------------ 
+## --------------------------------------------------------------------------------- 
 ## group: Project Personality
 ##    vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 813 14.22 4.13     14   14.35 4.45   3  24    21 -0.28    -0.28 0.15
-## ------------------------------------------------------------ 
+## --------------------------------------------------------------------------------- 
 ## group: Project ABC
 ##    vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 821 14.15 4.06     14   14.25 4.45   0  24    24 -0.25    -0.27 0.14
@@ -220,7 +204,7 @@ psych::describeBy(cope$CDI1*12, cope$condition)
 Im Artikel präsentieren [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) in Tabelle 2 außerdem die Akzeptanz bzw. Zufriedenheit mit der jeweiligen Intervention, die wir ebenfalls sehr leicht rekonstruieren können: 
 
 
-``` r
+```r
 # Akzeptanz
 pfs <- subset(cope, select = c('condition', grep('pfs_', names(cope), value = TRUE))) |> na.omit()
 psych::describeBy(pfs, pfs$condition)
@@ -230,64 +214,37 @@ psych::describeBy(pfs, pfs$condition)
 ## 
 ##  Descriptive statistics by group 
 ## group: Placebo Control
-##           vars   n mean   sd median trimmed  mad min max range  skew kurtosis
-## condition    1 630 1.00 0.00      1    1.00 0.00   1   1     0   NaN      NaN
-## pfs_1        2 630 3.80 0.79      4    3.83 0.00   1   5     4 -0.57     0.71
-## pfs_2        3 630 4.54 0.56      5    4.59 0.00   2   5     3 -0.86     0.66
-## pfs_3        4 630 4.46 0.64      5    4.53 0.00   2   5     3 -0.97     0.87
-## pfs_4        5 630 4.45 0.65      5    4.53 0.00   1   5     4 -0.97     0.91
-## pfs_5        6 630 4.24 0.81      4    4.34 1.48   1   5     4 -0.96     0.83
-## pfs_6        7 630 3.97 0.95      4    4.07 1.48   1   5     4 -0.67    -0.18
-## pfs_7        8 630 4.50 0.62      5    4.58 0.00   2   5     3 -0.98     0.49
-##             se
-## condition 0.00
-## pfs_1     0.03
-## pfs_2     0.02
-## pfs_3     0.03
-## pfs_4     0.03
-## pfs_5     0.03
-## pfs_6     0.04
-## pfs_7     0.02
-## ------------------------------------------------------------ 
+##            vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## condition*    1 630 1.00 0.00      1    1.00 0.00   1   1     0   NaN      NaN 0.00
+## pfs_1         2 630 3.80 0.79      4    3.83 0.00   1   5     4 -0.57     0.71 0.03
+## pfs_2         3 630 4.54 0.56      5    4.59 0.00   2   5     3 -0.86     0.66 0.02
+## pfs_3         4 630 4.46 0.64      5    4.53 0.00   2   5     3 -0.97     0.87 0.03
+## pfs_4         5 630 4.45 0.65      5    4.53 0.00   1   5     4 -0.97     0.91 0.03
+## pfs_5         6 630 4.24 0.81      4    4.34 1.48   1   5     4 -0.96     0.83 0.03
+## pfs_6         7 630 3.97 0.95      4    4.07 1.48   1   5     4 -0.67    -0.18 0.04
+## pfs_7         8 630 4.50 0.62      5    4.58 0.00   2   5     3 -0.98     0.49 0.02
+## --------------------------------------------------------------------------------- 
 ## group: Project Personality
-##           vars   n mean   sd median trimmed  mad min max range  skew kurtosis
-## condition    1 653 2.00 0.00      2    2.00 0.00   2   2     0   NaN      NaN
-## pfs_1        2 653 3.83 0.77      4    3.84 0.00   1   5     4 -0.41     0.36
-## pfs_2        3 653 4.48 0.64      5    4.55 0.00   1   5     4 -1.18     2.02
-## pfs_3        4 653 4.39 0.68      4    4.49 1.48   2   5     3 -0.94     0.73
-## pfs_4        5 653 4.45 0.67      5    4.55 0.00   1   5     4 -1.20     1.83
-## pfs_5        6 653 4.20 0.83      4    4.31 1.48   1   5     4 -1.09     1.50
-## pfs_6        7 653 3.93 1.00      4    4.05 1.48   1   5     4 -0.72    -0.07
-## pfs_7        8 653 4.47 0.70      5    4.59 0.00   1   5     4 -1.40     2.37
-##             se
-## condition 0.00
-## pfs_1     0.03
-## pfs_2     0.02
-## pfs_3     0.03
-## pfs_4     0.03
-## pfs_5     0.03
-## pfs_6     0.04
-## pfs_7     0.03
-## ------------------------------------------------------------ 
+##            vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## condition*    1 653 2.00 0.00      2    2.00 0.00   2   2     0   NaN      NaN 0.00
+## pfs_1         2 653 3.83 0.77      4    3.84 0.00   1   5     4 -0.41     0.36 0.03
+## pfs_2         3 653 4.48 0.64      5    4.55 0.00   1   5     4 -1.18     2.02 0.02
+## pfs_3         4 653 4.39 0.68      4    4.49 1.48   2   5     3 -0.94     0.73 0.03
+## pfs_4         5 653 4.45 0.67      5    4.55 0.00   1   5     4 -1.20     1.83 0.03
+## pfs_5         6 653 4.20 0.83      4    4.31 1.48   1   5     4 -1.09     1.50 0.03
+## pfs_6         7 653 3.93 1.00      4    4.05 1.48   1   5     4 -0.72    -0.07 0.04
+## pfs_7         8 653 4.47 0.70      5    4.59 0.00   1   5     4 -1.40     2.37 0.03
+## --------------------------------------------------------------------------------- 
 ## group: Project ABC
-##           vars   n mean   sd median trimmed  mad min max range  skew kurtosis
-## condition    1 729 3.00 0.00      3    3.00 0.00   3   3     0   NaN      NaN
-## pfs_1        2 729 3.93 0.73      4    3.95 0.00   1   5     4 -0.35     0.07
-## pfs_2        3 729 4.46 0.59      5    4.50 0.00   2   5     3 -0.64    -0.11
-## pfs_3        4 729 4.42 0.64      4    4.50 1.48   2   5     3 -0.81     0.32
-## pfs_4        5 729 4.42 0.69      5    4.52 0.00   1   5     4 -1.01     0.85
-## pfs_5        6 729 4.30 0.76      4    4.41 1.48   1   5     4 -0.92     0.52
-## pfs_6        7 729 4.12 0.89      4    4.22 1.48   1   5     4 -0.84     0.26
-## pfs_7        8 729 4.54 0.57      5    4.59 0.00   3   5     2 -0.76    -0.43
-##             se
-## condition 0.00
-## pfs_1     0.03
-## pfs_2     0.02
-## pfs_3     0.02
-## pfs_4     0.03
-## pfs_5     0.03
-## pfs_6     0.03
-## pfs_7     0.02
+##            vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## condition*    1 729 3.00 0.00      3    3.00 0.00   3   3     0   NaN      NaN 0.00
+## pfs_1         2 729 3.93 0.73      4    3.95 0.00   1   5     4 -0.35     0.07 0.03
+## pfs_2         3 729 4.46 0.59      5    4.50 0.00   2   5     3 -0.64    -0.11 0.02
+## pfs_3         4 729 4.42 0.64      4    4.50 1.48   2   5     3 -0.81     0.32 0.02
+## pfs_4         5 729 4.42 0.69      5    4.52 0.00   1   5     4 -1.01     0.85 0.03
+## pfs_5         6 729 4.30 0.76      4    4.41 1.48   1   5     4 -0.92     0.52 0.03
+## pfs_6         7 729 4.12 0.89      4    4.22 1.48   1   5     4 -0.84     0.26 0.03
+## pfs_7         8 729 4.54 0.57      5    4.59 0.00   3   5     2 -0.76    -0.43 0.02
 ```
 
 
@@ -302,7 +259,7 @@ Was hier beschrieben wird, ist der Umgang mit einem zentralen Problem in jeder F
 Der erste logische Schritt mit diesem Problem umzugehen ist es, festzustellen in welchem Ausmaß der Dropout über die Gruppen hinweg unterschiedlich ist. Im Artikel von [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) wird auf S. 259 genau das getan. Um Häufigkeitsverteilung zwischen mehreren Gruppen zu vergleichen, wird üblicherweise der $\chi^2$ herangezogen:
 
 
-``` r
+```r
 dropouts <- table(cope$condition, cope$dropout1)
 dropouts
 ```
@@ -315,7 +272,7 @@ dropouts
 ##   Project ABC            730      91
 ```
 
-``` r
+```r
 prop.table(dropouts, margin = 1)
 ```
 
@@ -327,7 +284,7 @@ prop.table(dropouts, margin = 1)
 ##   Project ABC         0.8891596 0.1108404
 ```
 
-``` r
+```r
 chisq.test(dropouts)
 ```
 
@@ -357,7 +314,7 @@ Wie Sie aus diesem (etwas zu lang geratenen) Absatz vermutlich ableiten können,
 Für den Dropout während der Intervention gibt es die Variable `dropout1` als Indikator. Auf dieser Variable ist kodiert, ob Teilnehmende die 1. Frage des Fragebogen direkt nach Abschluss der Intervention ausgefüllt haben. In logistischer Regression können wir diese also relativ einfach durch die Baselinevariablen vorhersagen, um zu sehen, ob es spezifische Prädiktoren für den Abbruch gibt. Damit ich die Namen der Prädiktoren nicht alle einzeln hinschreiben muss, erzeuge ich mir erst einen Datensatz, der nur die relevanten Variablen enthält und nutze dann alle darin enthaltenen Variablen als Prädiktoren.
 
 
-``` r
+```r
 # Datenauswahl zur Dropout-Vorhersage
 drop_dat <- cope[, c('dropout1', grep('^gender', names(cope), value = TRUE),
     grep('^race', names(cope), value = TRUE),
@@ -369,7 +326,7 @@ drop_mod <- glm(dropout1 ~ ., drop_dat, family = 'binomial')
 
 <details><summary><b>Die etwas lange Ergebnistabelle</b></summary>
 
-``` r
+```r
 summary(drop_mod)
 ```
 
@@ -379,72 +336,39 @@ summary(drop_mod)
 ## glm(formula = dropout1 ~ ., family = "binomial", data = drop_dat)
 ## 
 ## Coefficients:
-##                                                             Estimate Std. Error
-## (Intercept)                                               -1.1265595  0.9556823
-## gender_agender                                             0.3519673  0.3396431
-## gender_not_sure                                            0.3402405  0.1911349
-## gender_other_please_specify                               -0.2544671  0.3329464
-## gender_androgynous                                         0.1737942  0.2319843
-## gender_nonbinary                                          -0.0975538  0.1828862
-## gender_two_spirited                                       -0.2538865  0.6957078
-## gender_female_to_male_transgender_ftm                     -0.1902710  0.3378816
-## gender_trans_female_trans_feminine                        -0.3975158  0.6297381
-## gender_trans_male_trans_masculine                          0.0045856  0.3441799
-## gender_gender_expansive                                   -0.4966064  0.5822746
-## gender_third_gender                                        0.5610380  0.9150772
-## gender_genderqueer                                         0.1308056  0.2427265
-## gender_male_to_female_transgender_mtf                      0.5355085  0.6830419
-## gender_man_boy                                            -0.0676839  0.2185922
-## gender_transgender                                         0.1316265  0.3060697
-## gender_woman_girl                                         -0.0771633  0.1724972
-## race_american_indian_or_alaska_native                      0.5570829  0.2467266
-## race_asian_including_asian_desi                            0.1100817  0.1935428
-## race_hispanic_latinx                                       0.1191387  0.1677376
-## race_native_hawaiian_or_other_pacific_islander            -0.3416961  0.4929787
-## race_white_caucasian_non_hispanic_includes_middle_eastern  0.2468457  0.1657302
-## race_black_african_american                               -0.0415952  0.2034652
-## race_other_specify                                         0.3813399  0.3768827
-## race_prefer_not_to_answer                                 -0.6705623  0.7603591
-## age                                                       -0.0476536  0.0567854
-## CDI1                                                      -0.1423414  0.2471832
-## CTS1                                                       0.0017235  0.0985556
-## GAD1                                                      -0.0507514  0.0924135
-## SHS1                                                       0.0174072  0.0499594
-## BHS1                                                       0.2132303  0.1010266
-## DRS1                                                       0.0002739  0.1357147
-##                                                           z value Pr(>|z|)  
-## (Intercept)                                                -1.179   0.2385  
-## gender_agender                                              1.036   0.3001  
-## gender_not_sure                                             1.780   0.0751 .
-## gender_other_please_specify                                -0.764   0.4447  
-## gender_androgynous                                          0.749   0.4538  
-## gender_nonbinary                                           -0.533   0.5937  
-## gender_two_spirited                                        -0.365   0.7152  
-## gender_female_to_male_transgender_ftm                      -0.563   0.5733  
-## gender_trans_female_trans_feminine                         -0.631   0.5279  
-## gender_trans_male_trans_masculine                           0.013   0.9894  
-## gender_gender_expansive                                    -0.853   0.3937  
-## gender_third_gender                                         0.613   0.5398  
-## gender_genderqueer                                          0.539   0.5900  
-## gender_male_to_female_transgender_mtf                       0.784   0.4330  
-## gender_man_boy                                             -0.310   0.7568  
-## gender_transgender                                          0.430   0.6672  
-## gender_woman_girl                                          -0.447   0.6546  
-## race_american_indian_or_alaska_native                       2.258   0.0240 *
-## race_asian_including_asian_desi                             0.569   0.5695  
-## race_hispanic_latinx                                        0.710   0.4775  
-## race_native_hawaiian_or_other_pacific_islander             -0.693   0.4882  
-## race_white_caucasian_non_hispanic_includes_middle_eastern   1.489   0.1364  
-## race_black_african_american                                -0.204   0.8380  
-## race_other_specify                                          1.012   0.3116  
-## race_prefer_not_to_answer                                  -0.882   0.3778  
-## age                                                        -0.839   0.4014  
-## CDI1                                                       -0.576   0.5647  
-## CTS1                                                        0.017   0.9860  
-## GAD1                                                       -0.549   0.5829  
-## SHS1                                                        0.348   0.7275  
-## BHS1                                                        2.111   0.0348 *
-## DRS1                                                        0.002   0.9984  
+##                                                             Estimate Std. Error z value Pr(>|z|)  
+## (Intercept)                                               -1.1265595  0.9556823  -1.179   0.2385  
+## gender_agender                                             0.3519673  0.3396431   1.036   0.3001  
+## gender_not_sure                                            0.3402405  0.1911349   1.780   0.0751 .
+## gender_other_please_specify                               -0.2544671  0.3329464  -0.764   0.4447  
+## gender_androgynous                                         0.1737942  0.2319843   0.749   0.4538  
+## gender_nonbinary                                          -0.0975538  0.1828862  -0.533   0.5937  
+## gender_two_spirited                                       -0.2538865  0.6957078  -0.365   0.7152  
+## gender_female_to_male_transgender_ftm                     -0.1902710  0.3378816  -0.563   0.5733  
+## gender_trans_female_trans_feminine                        -0.3975158  0.6297381  -0.631   0.5279  
+## gender_trans_male_trans_masculine                          0.0045856  0.3441799   0.013   0.9894  
+## gender_gender_expansive                                   -0.4966064  0.5822746  -0.853   0.3937  
+## gender_third_gender                                        0.5610380  0.9150772   0.613   0.5398  
+## gender_genderqueer                                         0.1308056  0.2427265   0.539   0.5900  
+## gender_male_to_female_transgender_mtf                      0.5355085  0.6830419   0.784   0.4330  
+## gender_man_boy                                            -0.0676839  0.2185922  -0.310   0.7568  
+## gender_transgender                                         0.1316265  0.3060697   0.430   0.6672  
+## gender_woman_girl                                         -0.0771633  0.1724972  -0.447   0.6546  
+## race_american_indian_or_alaska_native                      0.5570829  0.2467266   2.258   0.0240 *
+## race_asian_including_asian_desi                            0.1100817  0.1935428   0.569   0.5695  
+## race_hispanic_latinx                                       0.1191387  0.1677376   0.710   0.4775  
+## race_native_hawaiian_or_other_pacific_islander            -0.3416961  0.4929787  -0.693   0.4882  
+## race_white_caucasian_non_hispanic_includes_middle_eastern  0.2468457  0.1657302   1.489   0.1364  
+## race_black_african_american                               -0.0415952  0.2034652  -0.204   0.8380  
+## race_other_specify                                         0.3813399  0.3768827   1.012   0.3116  
+## race_prefer_not_to_answer                                 -0.6705623  0.7603591  -0.882   0.3778  
+## age                                                       -0.0476536  0.0567854  -0.839   0.4014  
+## CDI1                                                      -0.1423414  0.2471832  -0.576   0.5647  
+## CTS1                                                       0.0017235  0.0985556   0.017   0.9860  
+## GAD1                                                      -0.0507514  0.0924135  -0.549   0.5829  
+## SHS1                                                       0.0174072  0.0499594   0.348   0.7275  
+## BHS1                                                       0.2132303  0.1010266   2.111   0.0348 *
+## DRS1                                                       0.0002739  0.1357147   0.002   0.9984  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -452,7 +376,7 @@ summary(drop_mod)
 ## 
 ##     Null deviance: 2290.4  on 2446  degrees of freedom
 ## Residual deviance: 2262.4  on 2415  degrees of freedom
-##   (5 observations deleted due to missingness)
+##   (5 Beobachtungen als fehlend gelöscht)
 ## AIC: 2326.4
 ## 
 ## Number of Fisher Scoring iterations: 4
@@ -465,7 +389,7 @@ summary(drop_mod)
 Von den 32 Tests der Regressionsgewichte sind insgesamt 2 statistisch bedeutsam, was zunächst nicht vielsagend wirkt (wenn man die 5% Irrtumswahrscheinlichkeit bedenkt). Oder etwas wissenschaftlicher ausgedrückt: nach Bonferroni-Holm Adjustierung liegt der niedrigste $p$-Wert der Regressionsgewichte bei 0.766. Auch die Confusion-Matrix, die wir [im letzten Beitrag](/lehre/klipps/logistische-regression-klinische#klassifikationsgute) genutzt hatten, um die Güte des Modells genauer zu beurteilen, deutet darauf hin, dass wir nicht besonders gut in der Lage sind, den Dropout anhand der Baselinevariablen vorherzusagen (weil wir für beinahe alle Personen vorhersagen, dass sie zum 2. Zeitpunkt teilnehmen):
 
 
-``` r
+```r
 # Vorgesagte Werte
 cope$dropout_pred <- predict(drop_mod, cope, type = 'response') > .5
 cope$dropout_pred <- factor(cope$dropout_pred, labels = c('remain', 'dropout'))
@@ -511,7 +435,7 @@ Dass sich Abbrecher*innen hinsichtlich ihrer Baselineeigenschaften kaum von Pers
 Hier werden wir uns erst einmal auf die klassischen Methoden beschränken und CCA und LOCF nutzen, um eine grobe Vorstellung von den Interventionseffekten zu bekommen. Die Umsetzung mit Amelia, die im Artikel von [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) durchgeführt wurde ist aber im entsprechenden [Skript im OSF-Repo](https://osf.io/uhzdx) zu finden. Um LOCF auch umsetzen zu können, müssen wir einen Datensatz erstellen, in dem alle fehlenden Werte durch den vorangegangenen Wert ersetzt sind:
 
 
-``` r
+```r
 locf <- cope
 
 # LOCF, post-intervention
@@ -538,7 +462,7 @@ Wir können uns hier zunächst auf das Primäroutcome konzentrieren und werden d
 Im Artikel wird die ANCOVA genutzt, um sicherzustellen, dass die Unterschiede zwischen den Gruppen _bedingt auf_ die Werte zum ersten Zeitpunkt interpretiert werden können. Gucken wir uns am besten genauer an, was ich damit meine:
 
 
-``` r
+```r
 # ANOVA model
 mod1 <- lm(CDI3 ~ condition, cope)
 
@@ -564,14 +488,14 @@ summary(mod1)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.4185 on 1500 degrees of freedom
-##   (949 observations deleted due to missingness)
+##   (949 Beobachtungen als fehlend gelöscht)
 ## Multiple R-squared:  0.007637,	Adjusted R-squared:  0.006314 
 ## F-statistic: 5.772 on 2 and 1500 DF,  p-value: 0.003183
 ```
 Im klassischen ANOVA-Modell als Prädiktor genutzt, um die abhängige Variable vorherzusagen. Die jeweilige Regressionsgewichte sind also die _mittleren_ Gruppenunterschiede (zur Äquivalenz von ANOVA und Regression gibt es [hier noch einen expliziten Beitrag](/lehre/klipps-legacy/anova-regression-legacy)). Das heißt, wenn wir die Gruppenmittelwerte des CDI zur Baseline betrachten:
 
 
-``` r
+```r
 # Gruppenmittelwerte zur Baseline
 tapply(cope$CDI1, cope$condition, mean)
 ```
@@ -583,7 +507,7 @@ tapply(cope$CDI1, cope$condition, mean)
 dass wir Personen aus der Kontrollgruppe nutzen, die einen `CDI1`-Wert von $1.19$ hatten, wärend die Personen aus Project ABC einen Wert von $1.18$ hatten. Dieser Unterschied mag numerisch klein wirken, aber wir vergleichen eben (aufgrund des Dropouts) _leicht_ unterschiedliche Personen miteinander. In der ANCOVA ziehen wir zusätzlich den CDI-Wert aus der Baselinebefragung als Prädiktor heran:
 
 
-``` r
+```r
 # Einfache ANCOVA
 mod2 <- lm(CDI3 ~ CDI1 + condition, cope)
 
@@ -610,19 +534,19 @@ summary(mod2)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.357 on 1499 degrees of freedom
-##   (949 observations deleted due to missingness)
+##   (949 Beobachtungen als fehlend gelöscht)
 ## Multiple R-squared:  0.2783,	Adjusted R-squared:  0.2769 
 ## F-statistic: 192.7 on 3 and 1499 DF,  p-value: < 2.2e-16
 ```
 Der deutliche Sprung im $R^2$ weist darauf hin, dass die Depressionsymptomatik über die Zeit deutlich korreliert ist. Wie immer in der multiplen Regression ist der Effekt der Prädiktoren jetzt unter der Bedingungen zu interpretieren, dass die Werte auf den anderen Prädiktoren konstant sind. Heißt in unserem Fall, dass wir hier nun im Regressionsgewicht von `Project Personality` den Unterschied zwischen Personen aus den beiden Gruppen sehen, die mit dem gleichen BDI zur Baseline gestartet sind. Als Bild ausgedrückt:
 
-![](/lehre/klipps/ancova-klinische_files/figure-html/anova-vs-ancova-1.png)<!-- -->
+![](/ancova-klinische_files/anova-vs-ancova-1.png)<!-- -->
 In der ANCOVA ist der Abstand zwischen den _bedingten_ Gruppenmittelwerten über alle Ausprägungen von `CDI1` der Gleiche - wir können den Abstand der Linien an jeden Punkt bestimmen und es sind immer die Regressionsgewichte aus `mod2`. In der ANOVA hingegen haben wir konkret die drei eingezeichneten Punkte verglichen, die sich nicht nur deswegen unterscheiden, weil die Linien (die bedingten Gruppenmittelwerte) um $b_2$ bzw. $b_3$ versetzt sind, sondern auch, weil wir an unterschiedlichen Stellen der x-Achse nachgucken. In diesem Fall ist der Unterschied zwischen beiden zwar minimal (weil es sich um einen immens großen RCT handelt), aber prinzipiell könnten wir so auf diese Unterschiede kontrollieren.
 
 Im Abgleich der Wege die fehlenden Werte zu behandeln, können wir die ANCOVA auch noch einmal für den `locf` Datensatz durchführen:
 
 
-``` r
+```r
 # Modell mit Last-Observation-Carried-Forward
 mod2_locf <- lm(CDI3 ~ CDI1 + condition, locf)
 
@@ -654,7 +578,7 @@ summary(mod2_locf)
 ```
 Oder für die optischeren unter uns:
 
-![](/lehre/klipps/ancova-klinische_files/figure-html/ancova-locf-1.png)<!-- -->
+![](/ancova-klinische_files/ancova-locf-1.png)<!-- -->
 Es lässt sich sofort erkennen, dass im LOCF-Ansatz der Zusammenhang zwischen `CDI1` und `CDI3` deutlich größer wird. Das überrascht wenig, wenn man bedenkt, dass wir für einige Personen den Werte aus der ersten einfach in die zweite Variable kopiert haben. Eine Überschätzung der Stabilität liegt also in der Natur der Sache. Es wird außerdem deutlich, dass der Effekt der Interventionen deutlich kleiner geworden ist, weil wir für die fehlenden Personen eine Veränderung von 0 angenommen haben. Die Schlussfolgerungen bleiben dennoch erhalten: beide Interventionen haben einen statistisch bedeutsamen Effekt über die Plazebo-Kontrollbedingung hinaus.
 
 ### Change-Modelle
@@ -666,7 +590,7 @@ Eine naheliegende Alternative zu den ANCOVA Modellen ist es, statt des zweiten Z
 Im ursprünglichen Kommentar von [Lord (1967)](https://psycnet.apa.org/doi/10.1037/h0025105) wird eine Situation beschrieben, in der eine Universität ihr Mensa-Essen evaluieren möchte. Dazu wird das Gewicht von Männern und Frauen zu Beginn des Wintersemesters und zum Ende des folgenden Sommersemesters erhoben. Nehmen wir als extremes Beispiel, dass beide Gruppen im Mittel 5kg zugelegt hätten:
 
 
-``` r
+```r
 # Seed festlegen
 set.seed(123)
 
@@ -686,7 +610,7 @@ d <- data.frame(y1 = c(y1f, y1m), y2 = c(y2f, y2m),
 In den Termini des bisherigen Beitrags ist das Geschlecht die Gruppen-Zuweisung. Wenn wir also untersuchen wollen, ob es einen Effekt der Variable Geschlecht gibt und dabei eventuelle Unterschiede in der Baseline berücksichtigen wollen (die es ja gibt), finden wir einen signifikanten Effekt:
 
 
-``` r
+```r
 # ANCOVA
 lord_ancova <- lm(y2 ~ y1 + g, d)
 summary(lord_ancova)
@@ -716,7 +640,7 @@ summary(lord_ancova)
 Die ANCOVA würde uns also zurückmelden, dass das Geschlecht selbst nach Kontrolle auf die Baselineunterschiede einen signifikanten Effekt auf die Gewichtszunahme hat. Wenn wir aber die Veränderung zwischen den Zeitpunkten betrachten, finden wir keinen signifikanten Effekt:
 
 
-``` r
+```r
 # Change-Modell
 lord_change <- lm(y2 - y1 ~ g, d)
 summary(lord_change)
@@ -749,7 +673,7 @@ Frauen verändern sich bedeutsam (im Intercept dargestellt) und die Veränderung
 Wenn wir einen Change-Ansatz nutzen möchten, um die Effekte der Interventionen auf das primäre Outcome (den CDI Depressionsscore) zu untersuchen, sieht das relativ einfach so aus:
 
 
-``` r
+```r
 # Change-Modell
 mod3 <- lm(CDI3 - CDI1 ~ condition, cope)
 
@@ -775,14 +699,14 @@ summary(mod3)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.3788 on 1500 degrees of freedom
-##   (949 observations deleted due to missingness)
+##   (949 Beobachtungen als fehlend gelöscht)
 ## Multiple R-squared:  0.01025,	Adjusted R-squared:  0.008929 
 ## F-statistic: 7.766 on 2 and 1500 DF,  p-value: 0.0004412
 ```
 Numerisch sind die Effekte der beiden Gruppen beinahe identisch. Allerdings ist die inhaltliche Interpretation ein wenig unterschiedlich: in der ANCOVA war die Bedeutung des Regressionsgewichts von `Project Personality`, dass es den Unterschied zwischen Personen aus der Kontrollgruppe und dieser Gruppe zum zweiten Zeitpunkt beschreibt, wenn sie zum ersten Zeitpunkt den gleichen CDI Wert hatten. Im Change-Modell beschreibt das Regressionsgewicht hingegen den Unterschied zwischen zwei Personen aus den beiden Gruppen hinsichtlich ihrer Veränderung zwischen dem 1. und dem 2. Messzeitpunkt. Wenn wir dieses Modell jetzt in eine ANOVA überführen:
 
 
-``` r
+```r
 # Change zur ANOVA
 anova(mod3)
 ```
@@ -809,7 +733,7 @@ Die oben vorgestellte ANCOVA lässt sich nach Belieben um mehr Kovariaten erweit
 Im vorherigen Abschnitt zur ANCOVA hatten wir angenommen, dass Kovariaten den Effekt eventuell verzerren könnten und sie daher aufgenommen, um einen "bereinigten" Effektschätzer der Intervention zu erhalten. Dabei wird allerdings (wie an den parallelen Linien zu sehen war) davon ausgegangen, dass der Interventionseffekt bei allen Ausprägungen der Kovariate der Gleiche ist. Diese Annahme lässt sich prüfen, indem wir einen Interaktionseffekt in die ANCOVA aufnehmen. Dafür gilt, wie schon im [Beitrag zur moderierten Regression](/lehre/klipps/moderierte-regression-klinische), dass wir kontinuierliche Variablen unbedingt zentrieren sollten. Das hilft zum Einen bei der Interpretaion, aber kann auch Multikollinearität verringern.
 
 
-``` r
+```r
 # Zenrierung der Kovariate
 cope$CDI1_c <- scale(cope$CDI1, scale = FALSE)
 
@@ -841,52 +765,83 @@ summary(mod4)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.3571 on 1497 degrees of freedom
-##   (949 observations deleted due to missingness)
+##   (949 Beobachtungen als fehlend gelöscht)
 ## Multiple R-squared:  0.2788,	Adjusted R-squared:  0.2764 
 ## F-statistic: 115.8 on 5 and 1497 DF,  p-value: < 2.2e-16
 ```
 Die Ergebnisse zeigen keine bedeutsamen Interaktionseffekte. Das bedeutet also, dass die Interventionen in ihrer Wirksamkeit nicht statistisch bedeutsam davon abhängen, mit welchem Depressionsscore die Personen die Studie gestartet haben. 
 
-![](/lehre/klipps/ancova-klinische_files/figure-html/ancova-generalized-1.png)<!-- -->
+![](/ancova-klinische_files/ancova-generalized-1.png)<!-- -->
 
-Erneut sind sowohl optisch als auch numerisch die Unterschiede zwischen den Interventionsansätzen minimal. Dennoch sehen wir, dass im Bereich der unterdurchschnittlichen `CDI1`-Werte Teilnehmende des Project ABC niedrigere Depressionswerte zum Follow-Up aufweisen, während sich dieser Effekt bei überdurchschnittlichen Werten zugunsten von Project Personality verschiebt. Das können wir erneut (wie schon bei der moderierten Regression) mit Simple Slopes testen:
+Erneut sind sowohl optisch als auch numerisch die Unterschiede zwischen den Interventionsansätzen minimal. Dennoch sehen wir, dass im Bereich der unterdurchschnittlichen `CDI1`-Werte Teilnehmende des Project ABC niedrigere Depressionswerte zum Follow-Up aufweisen, während sich dieser Effekt bei überdurchschnittlichen Werten zugunsten von Project Personality verschiebt. Um diese Effekte zu testen, können wir in unserem Modell die `CDI1`-Variable so transformieren, dass die Gruppenunterschiede sich auf andere Ausprägungen dieser Variable beziehen. Z.B.:
 
 
-``` r
-# Simple Slopes
-library(interactions)
-sim_slopes(mod4, pred = condition, modx = CDI1_c)
+```r
+# Effekt bei überdurchschnittlicher Kovariate
+cope$CDI1_above <- cope$CDI1_c + sd(cope$CDI1_c)
+mod4b <- lm(CDI3 ~ CDI1_above * condition, cope)
+summary(mod4b)
 ```
 
 ```
-## Warning: Johnson-Neyman intervals are not available for factor predictors or
-## moderators.
+## 
+## Call:
+## lm(formula = CDI3 ~ CDI1_above * condition, data = cope)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.18191 -0.21888  0.01634  0.23083  1.03391 
+## 
+## Coefficients:
+##                                         Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                              0.82577    0.02145  38.502  < 2e-16 ***
+## CDI1_above                               0.62109    0.04581  13.557  < 2e-16 ***
+## conditionProject Personality            -0.06710    0.03086  -2.175 0.029809 *  
+## conditionProject ABC                    -0.10125    0.03041  -3.329 0.000893 ***
+## CDI1_above:conditionProject Personality -0.01406    0.06499  -0.216 0.828708    
+## CDI1_above:conditionProject ABC          0.04964    0.06546   0.758 0.448373    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.3571 on 1497 degrees of freedom
+##   (949 Beobachtungen als fehlend gelöscht)
+## Multiple R-squared:  0.2788,	Adjusted R-squared:  0.2764 
+## F-statistic: 115.8 on 5 and 1497 DF,  p-value: < 2.2e-16
+```
+
+```r
+# Effekt bei unterdurchschnittlicher Kovariate
+cope$CDI1_below <- cope$CDI1_c - sd(cope$CDI1_c)
+mod4c <- lm(CDI3 ~ CDI1_below * condition, cope)
+summary(mod4c)
 ```
 
 ```
-## SIMPLE SLOPES ANALYSIS
 ## 
-## When CDI1_c = -0.36840443 (- 1 SD): 
+## Call:
+## lm(formula = CDI3 ~ CDI1_below * condition, data = cope)
 ## 
-##                                                Est.   S.E.   t val.      p
-## ------------------------------------------- ------- ------ -------- ------
-## Slope of conditionProject Personality         -0.07   0.03    -2.08   0.04
-## Slope of conditionProject ABC                 -0.10   0.03    -3.24   0.00
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.18191 -0.21888  0.01634  0.23083  1.03391 
 ## 
-## When CDI1_c = -0.02307023 (Mean): 
+## Coefficients:
+##                                         Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                              1.25065    0.02318  53.964   <2e-16 ***
+## CDI1_below                               0.62109    0.04581  13.557   <2e-16 ***
+## conditionProject Personality            -0.07672    0.03275  -2.343   0.0193 *  
+## conditionProject ABC                    -0.06729    0.03291  -2.045   0.0411 *  
+## CDI1_below:conditionProject Personality -0.01406    0.06499  -0.216   0.8287    
+## CDI1_below:conditionProject ABC          0.04964    0.06546   0.758   0.4484    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-##                                                Est.   S.E.   t val.      p
-## ------------------------------------------- ------- ------ -------- ------
-## Slope of conditionProject Personality         -0.07   0.02    -3.15   0.00
-## Slope of conditionProject ABC                 -0.09   0.02    -3.82   0.00
-## 
-## When CDI1_c =  0.32226396 (+ 1 SD): 
-## 
-##                                                Est.   S.E.   t val.      p
-## ------------------------------------------- ------- ------ -------- ------
-## Slope of conditionProject Personality         -0.08   0.03    -2.40   0.02
-## Slope of conditionProject ABC                 -0.07   0.03    -2.14   0.03
+## Residual standard error: 0.3571 on 1497 degrees of freedom
+##   (949 Beobachtungen als fehlend gelöscht)
+## Multiple R-squared:  0.2788,	Adjusted R-squared:  0.2764 
+## F-statistic: 115.8 on 5 and 1497 DF,  p-value: < 2.2e-16
 ```
+
 In Fällen, in denen solche Effekte deutlicher ausfallen, könnten wir diese Ergebnisse heranziehen, um z.B. für Patient\*innen mit hoher Belastung eine Intervention zu empfehlen, für Patient\*innen mit niedrigerer Belastung aber eine Andere.
 
 ***

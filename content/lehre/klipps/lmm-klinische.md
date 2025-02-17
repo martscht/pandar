@@ -8,7 +8,7 @@ subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
 summary: ''
 authors: [schultze]
 weight: 4
-lastmod: '2024-12-10'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/couple-bench.jpg"
@@ -71,7 +71,7 @@ Wie zu sehen ist, befassen sich alle drei Forschungsfragen mit Konzepten auf unt
 Wie auch schon in den letzten Beiträgen, wurden die Rohdaten zur Studie über das [OSF](https://osf.io/ycfuw/) bereitgestellt. Sie können direkt eine aufbereitete Fassung der Daten laden, indem Sie das Skript ausführen, dass ich dafür vorbereitet habe:
 
 
-``` r
+```r
 source('https://pandar.netlify.app/daten/Data_Processing_esm.R')
 ```
 
@@ -133,7 +133,7 @@ Da $\gamma_{00}$ den Erwartungswert aller Beobachtungen darstellt, sind $u_{0i}$
 
 Im folgenden Bild habe ich den Versuch unternommen, diese einzelnen Komponenten noch einmal alle zu verdeutlichen:
 
-![](/lehre/klipps/lmm-klinische_files/figure-html/fig-nullmodell-1.png)<!-- -->
+![](/lmm-klinische_files/fig-nullmodell-1.png)<!-- -->
 Auf der linken Seite sind die jeweiligen Werte abgebildet, auf der rechten die Zufallsvariablen, die wir im Modell berücksichtigen. Hier wird angenommen, dass der globale Erwartungswert über alle Personen hinweg 2 ist ($\gamma_{00}$, schwarze, gestrichelte Linie). Der Erwartungswert der Person ($\beta_{0i}$, blaue, gestrichelte Linie) ist hier 1.75 - weicht also um $u_{0i} = -0.25$ von $\gamma_{00}$ ab. Eine der drei eingezeichneten Beobachtung ist mit $y_{ti}$ gelabelt und weicht wiederum um $r_{ti} = -0.25$ von $\beta_{0i}$ ab.
 
 </details>
@@ -143,7 +143,7 @@ Auf der linken Seite sind die jeweiligen Werte abgebildet, auf der rechten die Z
 In `R` gibt es eine ganze Reihe an Paketen, mit denen gemischte Modelle und (beinahe) jede Abwandlungsform davon umgesetzt werden können. Am weitesten hat sich das Paket `lme4` verbreitet, das sowohl Modelle für kontinuierliche Variablen, als auch diverse Formen der _generalisierten_ gemischten Modelle erlaubt. Für Fälle, in denen wir mit kontinuierlichen Variablen und der Annahme normalverteilter Residuen arbeiten bietet `lme4` per Voreinstellung allerdings keine $p$-Werte an - zum Glück können wir diese Lücke aber mit `lmerTest` schließen. Daher benötigen wir zunächst die beiden Pakete:
 
 
-``` r
+```r
 # Pakete installieren
 install.packages("lme4")
 install.packages("lmerTest")
@@ -151,7 +151,7 @@ install.packages("lmerTest")
 
 
 
-``` r
+```r
 # Pakete laden
 library(lme4)
 library(lmerTest)
@@ -160,7 +160,7 @@ library(lmerTest)
 Die Grundfunktion von `lme4` ist `lmer()` und folgt den gleichen Grundprinzipien wie die `lm`-Funktion zur Schätzung von Regressionen. Wir müssen lediglich zusätzlich deutlich machen, anhand welcher Variable die Beobachtungen in unserem Datensatz gruppiert sind. In unserem Fall ist das die `id`-Variable, die kenntlich macht, dass mehrere Messungen zur gleichen Person gehören.
 
 
-``` r
+```r
 # Nullmodell in lme4
 mod0 <- lmer(problem ~ 1 + (1 | id), data = esm)
 ```
@@ -168,7 +168,7 @@ mod0 <- lmer(problem ~ 1 + (1 | id), data = esm)
 Die Modellgleichung enthält auf der linken Seite, wie immer, unsere AV (hier das Ausmaß, in dem die Einstellung zum Problem als verändert wahrgenommen wird). Hinter der `~` kommen die unabhängigen Variablen, im Nullmodell also keine, hier deklariert die `1` lediglich das Intercept. Der Ausdruck `(1 | id)` gibt an, dass dieses Intercept sich dann wiederum über Personen hinweg unterscheiden darf. Gucken wir uns die Ergebnisse mal an:
 
 
-``` r
+```r
 # Modellzusammenfassung
 summary(mod0)
 ```
@@ -217,10 +217,16 @@ $$
 Wir könnten diesen zwar aus den Ergebnissen des Modells händisch berechnen, aber zum Glück liefert uns hier die `icc`-Funktion des `performance`-Pakets eine kürzere Fassung, das ganze zu bestimmen:
 
 
-``` r
+```r
 # Paket laden
 library(performance)
+```
 
+```
+## Warning: Paket 'performance' wurde unter R Version 4.3.2 erstellt
+```
+
+```r
 # ICC berechnen
 icc(mod0)
 ```
@@ -257,14 +263,14 @@ Wir haben unser Modell also um den Term $\beta_{1i} \cdot x_{ti}$ erweitert und 
 
 Konzeptuell lässt sich das Ganze so verbildlichen: 
 
-![](/lehre/klipps/lmm-klinische_files/figure-html/random-intercept-1.png)<!-- -->
+![](/lmm-klinische_files/random-intercept-1.png)<!-- -->
 
 Hier haben wir drei Personen mit unterschiedlichen Beobachtungen auf $x_{ti}$ und $y_{ti}$. Die gestrichelte Linie beschreibt den globalen Effekt, den wir anhand der fixed effects beschreiben - diese Regressionsgerade hat also das Intercept $\gamma_{00}$ und die Steigung $\gamma_{10}$. Jeder der Linien ist personenspezifisch und daher um den Zufallseffekt im Intercept ($u_{0i}$) nach oben oder unten versetzt.
 
 Im Modell von [Liu et al. (2024, Table 6)](https://doi.org/10.1037/abn0000877) werden hier zunächst die Effekte der Verhaltensweisen des Gegenübers als Prädiktoren aufgenommen. Diese sind dummy-kodiert, liegen also als 0 (wurde nicht genutzt) und 1 (wurde genutzt) vor. Wir können das Modell also wie folgt aufstellen:
 
 
-``` r
+```r
 # Random Intercept Modell
 mod1 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming + (1 | id), data = esm)
 
@@ -321,7 +327,7 @@ In der Regression war es üblich, die Relevanz von einer ganzen Menge von Prädi
 besprochen haben. Auch hier gilt wieder das Prinzip, dass wir statt der Varianzen nun die Wahrscheinlichkeit der Daten gegeben des Modells miteinander vergleichen müssen. Probieren wir einfach mal aus, das dort vorgestellte Prinzip zum Vergleich von Nullmodell und Random-Intercept-Modell einzusetzen:
 
 
-``` r
+```r
 # Modellvergleich
 anova(mod0, mod1)
 ```
@@ -332,7 +338,7 @@ anova(mod0, mod1)
 Der entstehende Fehler zeigt, dass die Datensätze sich in ihrer Größe unterscheiden. Das kommt daher, dass Beobachtungen immer dann aus Modellierung ausgeschlossen werden, wenn auf den Prädiktoren fehlende Werte vorliegen. Das ursprüngliche Nullmodell wurde auf insgesamt 1632 Beobachtungen angepasst (alle Beobachtungen, die Werte auf der `id` und `problem`-Variable hatten), während im Random-Intercept-Modell nur noch 1617 Beobachtungen genutzt werden konnten, weil in einigen Fällen auf mindestens einem der Prädiktoren ein fehlender Wert vorlag. Weil die Behandlung von Verfahren wie Multipler Imputation an dieser Stelle den Rahmen "ein wenig" sprengen würden, beschränken wir unsere Modelle statdessen auf alle _vollständigen_ Beobachtungen. Dazu können wir beide Modelle einfach nochmal auf den Datensatz anwenden, der in `mod1` genutzt wurde (dieser ist im Objekt als `frame` hinterlegt):
 
 
-``` r
+```r
 # Modelle auf vollständige Beobachtungen anwenden
 mod0b <- update(mod0, data = mod1@frame)
 mod1b <- update(mod1, data = mod1@frame)
@@ -363,7 +369,7 @@ Die erste Zeiles des Outputs weist uns direkt noch auf eine Besonderheit dieses 
 Über die inferenzstatistische Prüfung hinaus, interessiert uns auch häufig ein Effektschätzer dafür, wie gut unsere Prädiktoren insgesamt in der Vorhersage der Outcomes sind. Wie gesehen, haben wir leider unterschiedliche Quellen der Varianz, die wir im Modell berücksichtigen, sodass auch hier die Bestimmung des Pseudo-$R^2$ nicht super einfach ist. Zum Glück haben wir aber (was ein Zufall) das `performance`-Paket schon geladen, dass den praktischen `r2`-Befehl enthält:
 
 
-``` r
+```r
 # Bestimmung des Pseudo-R^2
 r2(mod1b)
 ```
@@ -402,7 +408,7 @@ Um deutlich zu machen, welche Prädiktoren auf welcher Ebene angesiedelt sind, b
 In diesem Schritt geht es uns also zunächst darum das Intercept vorherzusagen - wir nehmen also an, dass die Gruppenunterschiede sich _gleichmäßig_ in einer anderen Einschätzung des Problems niederschlagen - zunächst kontrolliert auf die unterschiedlichen Strategien aber ohne Moderation (zu der kommen wir gleich). In der Umsetzung in R wird zwischen den Leveln der Prädiktoren nicht unterschieden, sondern die Verortung wird anhand der Daten festgelegt. Variablen, die innerhalb einer Person unterschiedliche Ausprägungen annehmen können, müssen per Definition situative Variablen sein. Variablen, die für jede Beobachtung (also Zeile im Datensatz) der gleichen Person auch den gleichen Wert annehmen, wrrden als personenspezifische Variablen angenommen. Daher erweitern wir unser Random-Intercept-Modell einfach um den neuen Prädiktor:
 
 
-``` r
+```r
 # Random Intercept Modell mit Level 2 Prädiktor
 mod2 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming +
     group + (1 | id), data = esm)
@@ -458,7 +464,7 @@ summary(mod2)
 Hier zeigt sich zunächst, dass die Strategien weiterhin bedeutsamen Einfluss auf die Problemeinschätzung haben, ein globaler Effekt der Gruppenzugehörigkeit aber nicht zu finden ist. Wir können natürlich per Modellvergleich auch noch einmal die Gruppenvariable als Ganzes testen:
 
 
-``` r
+```r
 # Modelle aktualisieren (gleicher Datensatz)
 mod1b <- update(mod1, data = mod2@frame)
 mod2b <- update(mod2, data = mod2@frame)
@@ -483,7 +489,7 @@ anova(mod1b, mod2b)
 Und, wenn wir immer noch nicht von der Bedeutungslosigkeit der Gruppenzugehörigkeit in diesem Modell überzeugt sind, können wir noch einmal den Pseudo-$R^2$-Wert betrachten:
 
 
-``` r
+```r
 # Bestimmung des Pseudo-R^2
 r2(mod2b)
 ```
@@ -506,7 +512,7 @@ In Tabelle 6 von [Liu et al. (2024)](https://doi.org/10.1037/abn0000877) werden 
 Als "stabile Komponente" können wir den Mittelwert aller Beobachtungen für eine Person nutzen, als "situative Komponenten" dann wiederum die Abweichungen der Variable von diesem Mittelwert in einer spezifischen Situation. Die Personenmittelwerte können wir einfach mit `aggregate` erzeugen:
 
 
-``` r
+```r
 # Personen-Mittelwerte berechnen (Aggregatvariablen)
 w <- aggregate(esm[, c("reappraisal", "solving", "sharing", "affection", "invalidation", "blaming")], by = list(esm$id), mean, na.rm = TRUE)
 
@@ -524,7 +530,7 @@ Da unsere Prädiktoren ursprünglich dummy-kodierte Indikatoren waren, enthält 
 Im Modell in Tabelle 6, Panel 1 [(Liu et al., 2024)](https://doi.org/10.1037/abn0000877) werden diese Mittelwerte dann als Prädiktoren auf Level 2 aufgenommen (allerdings werden hier die MD-Gruppen nicht im Modell berücksichtigt, sodass auch wir diese wieder entfernen):
 
 
-``` r
+```r
 # Random Intercept Modell mit Kontext-Effekten
 mod3 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming +
     mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming + 
@@ -587,7 +593,7 @@ Die Personenkomponenten auf Level-2, die aus dieser Form der Modellierung result
 Im gerade beschriebenen, und bei [Liu et al. (2024)](https://doi.org/10.1037/abn0000877) genutzten UN(M)-Modell wurden auf Level-1 die dummy-kodierten Variablen als Prädiktoren beibhalten. Insbesondere in Fällen, in denen die Prädiktoren auf Level-1 kontinuierlich sind, hat sich aber ein anderes Vorgehen etabliert: die _within-cluster_-zentrierteten Werte aufzunehmen. Dafür werden die Personenmittelwerte, die wir gerade erzeugt haben noch von den ursprünglichen Werten abgezogen, sodass wir als neue Prädiktoren die situative Abweichung auf einem Prädiktor von der generellen Personentendenz nutzen:
 
 
-``` r
+```r
 # CWC Werte berechnen
 esm$cwc_reappraisal <- esm$reappraisal - esm$mean_reappraisal
 esm$cwc_solving <- esm$solving - esm$mean_solving
@@ -606,22 +612,96 @@ mod4 <- lmer(problem ~ 1 + cwc_reappraisal + cwc_solving + cwc_sharing + cwc_aff
 
 Gucken wir uns kurz alle drei Ansätze gemeinsam an: 
 
-
-|                | UN Modell| UN(M) Modell| CWC(M) Modell|
-|:---------------|---------:|------------:|-------------:|
-|intercept       |     0.607|        0.805|         0.805|
-|L1_reappraisal  |     1.015|        1.017|         1.017|
-|L1_solving      |     0.828|        0.886|         0.886|
-|L1_sharing      |     0.388|        0.393|         0.393|
-|L1_affection    |     0.957|        0.963|         0.963|
-|L1_invalidation |    -0.965|       -0.978|        -0.978|
-|L1_blaming      |    -0.839|       -0.736|        -0.736|
-|L2_reappraisal  |        NA|        0.055|         1.072|
-|L2_solving      |        NA|       -0.715|         0.171|
-|L2_sharing      |        NA|        0.001|         0.395|
-|L2_affection    |        NA|        0.048|         1.011|
-|L2_invalidation |        NA|        0.808|        -0.170|
-|L2_blaming      |        NA|       -1.820|        -2.555|
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:right;"> UN Modell </th>
+   <th style="text-align:right;"> UN(M) Modell </th>
+   <th style="text-align:right;"> CWC(M) Modell </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> intercept </td>
+   <td style="text-align:right;"> 0.607 </td>
+   <td style="text-align:right;"> 0.805 </td>
+   <td style="text-align:right;"> 0.805 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> L1_reappraisal </td>
+   <td style="text-align:right;"> 1.015 </td>
+   <td style="text-align:right;"> 1.017 </td>
+   <td style="text-align:right;"> 1.017 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> L1_solving </td>
+   <td style="text-align:right;"> 0.828 </td>
+   <td style="text-align:right;"> 0.886 </td>
+   <td style="text-align:right;"> 0.886 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> L1_sharing </td>
+   <td style="text-align:right;"> 0.388 </td>
+   <td style="text-align:right;"> 0.393 </td>
+   <td style="text-align:right;"> 0.393 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> L1_affection </td>
+   <td style="text-align:right;"> 0.957 </td>
+   <td style="text-align:right;"> 0.963 </td>
+   <td style="text-align:right;"> 0.963 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> L1_invalidation </td>
+   <td style="text-align:right;"> -0.965 </td>
+   <td style="text-align:right;"> -0.978 </td>
+   <td style="text-align:right;"> -0.978 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> L1_blaming </td>
+   <td style="text-align:right;"> -0.839 </td>
+   <td style="text-align:right;"> -0.736 </td>
+   <td style="text-align:right;"> -0.736 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> L2_reappraisal </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 0.055 </td>
+   <td style="text-align:right;"> 1.072 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> L2_solving </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> -0.715 </td>
+   <td style="text-align:right;"> 0.171 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> L2_sharing </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 0.001 </td>
+   <td style="text-align:right;"> 0.395 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> L2_affection </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 0.048 </td>
+   <td style="text-align:right;"> 1.011 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> L2_invalidation </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 0.808 </td>
+   <td style="text-align:right;"> -0.170 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> L2_blaming </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> -1.820 </td>
+   <td style="text-align:right;"> -2.555 </td>
+  </tr>
+</tbody>
+</table>
 
 In dieser Tabelle sind die festen Effekte aus den drei bisherigen Modellen zur Untersuchung der Verhaltensweisen des Gegenübers zusammengetragen (UN Modell: `mod1`, UN(M) Modell: `mod3`, CWC(M)-Modell: `mod4`). Für das "einfache" UN Modell hatten wir festgehalten, dass z.B. der Effekt von blaming bedeutet, dass über alle Personen und Situationen hinweg, Schuldzuweisungen durch den Gegenüber mit einer Verschlechterung der Problemeinschätzung einhergehen. Leider ist dieser Effekt aber gemischt aus Effekten der Personen und Situationen, weswegen wir das UN(M) Modell aufgestellt haben. Dort ist der _reine situative_ Effekt der Schuldzuweisung -0.736. Sowohl der Wert als auch die Interpretation ist im CWC(M) Modell identisch. Unterschiede ergeben sich erst auf Level-2. Im CWC(M) Modell ist der Effekt der habituellen Schuldzuweisung -2.555 - hierbei handelt es sich um den _stabilen Personeneffekt_. Wie vielleicht aus der Tabelle ersichtlich wird, ist der Effekt im UN(M) Modell dieser _stabile Personeneffekt_ abzüglich der _situativen Effekte_ von Level-1: 
 
@@ -692,18 +772,15 @@ Wie Sie dem Titel dieses Abschnitts vielleicht entnehmen können, funktioniert d
 Wenn wir unsere Modell auftreten, springt uns direkt ein Warnhinweis ins Gesicht: 
 
 
-``` r
+```r
 mod5 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming +
     mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming + 
     (1 + reappraisal + solving + sharing + affection + invalidation + blaming | id), data = esm)
 ```
 
 ```
-## boundary (singular) fit: see help('isSingular')
-```
-
-```
-## Warning: Model failed to converge with 1 negative eigenvalue: -2.0e+01
+## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : Model failed to
+## converge with max|grad| = 0.149434 (tol = 0.002, component 1)
 ```
 
 Genau genommen bekommen wir zwei unterschiedliche Probleme. Das Zweite sagt, dass das Modell nicht konvergiert - der Schätzalgorithmus kommt also nicht zu einer Lösung, die den Anforderungen entspricht. Wir sollten uns zunächst damit befassen. 
@@ -725,7 +802,7 @@ Leider sind die Probleme 1 und 2 in unserem Fall nicht die Ursache. Sowohl die D
 Zunächst versuchen wir das Modell nochmal mit anderen Schätzwerte zu starten. Dafür können wir z.B. die ausgegebenen Werte des letzten Versuchs als Startwerte einsetzen:
 
 
-``` r
+```r
 # Letzte Schätzung extrahieren
 vals <- getME(mod5, c("theta"))
 
@@ -734,16 +811,13 @@ mod5b <- update(mod5, start = vals)
 ```
 
 ```
-## boundary (singular) fit: see help('isSingular')
-```
-
-```
-## Warning: Model failed to converge with 1 negative eigenvalue: -1.4e+00
+## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : Model failed to
+## converge with max|grad| = 0.0205038 (tol = 0.002, component 1)
 ```
  Das behebt unser Problem leider nicht. Wir können auch andere Startwertkonstellationen ausprobieren, aber vielleicht gucken wir erst einmal, ob andere Schätzer das gleiche Problem haben. Dafür nutzen wir die bereits erwähnte `allFit`-Funktion:
  
 
-``` r
+```r
 allFit(mod5)
 ```
 
@@ -775,14 +849,14 @@ Leider resultieren alle sechs Schätzer in einem Problem. Wenn hier ein Schätze
 Zu guter Letzt können wir noch das Konvergenzkriterium herabsetzen, um so unsere Qualitätskriterien weniger strikt auszulegen:
 
 
-``` r
+```r
 # Modell mit herabgesetztem Konvergenzkriterium
 mod5c <- update(mod5, control = lmerControl(optCtrl = list(ftol_abs = 1e3)))
 ```
 
 ```
-## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : unable to
-## evaluate scaled gradient
+## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : unable to evaluate
+## scaled gradient
 ```
 
 ```
@@ -814,45 +888,45 @@ In Fällen, in denen wir (anders als hier) auch als unabhängige Variablen Werte
 In unserem Fall hatten wir gerade festgehalten, dass wir keine vertrauenswürdigen Modellergebnisse bekommen, wenn wir annehmen, dass alle Zufallseffekte beliebig zusammenhängen dürfen. Die Ergebnisse können wir trotzdem inspizieren, um einen Eindruck davon zu bekommen, wo potentiell Probleme liegen könnten:
 
 
-``` r
+```r
 # Korrelationsmatrix der Zufallseffekte
 VarCorr(mod5)
 ```
 
 ```
 ##  Groups   Name         Std.Dev. Corr                                     
-##  id       (Intercept)  0.95009                                           
-##           reappraisal  0.77925  -0.666                                   
-##           solving      0.49768   0.017  0.565                            
-##           sharing      0.55330  -0.441  0.334  0.584                     
-##           affection    0.37401  -0.659  0.567  0.334  0.437              
-##           invalidation 1.12435  -0.060 -0.501 -0.575 -0.191  0.355       
-##           blaming      0.23711   0.548 -0.776 -0.560 -0.603 -0.148  0.774
-##  Residual              1.63135
+##  id       (Intercept)  0.94901                                           
+##           reappraisal  0.77593  -0.670                                   
+##           solving      0.49481   0.027  0.569                            
+##           sharing      0.54975  -0.434  0.332  0.570                     
+##           affection    0.36660  -0.657  0.599  0.309  0.436              
+##           invalidation 1.13032  -0.059 -0.485 -0.585 -0.140  0.350       
+##           blaming      0.24750   0.508 -0.708 -0.545 -0.584 -0.109  0.762
+##  Residual              1.63134
 ```
 
 (Diese Korrelationsmatrix ist auch in der `summary` enthalten.) Auf den ersten Blick scheint hier nichts eindeutig Bedenkliches vorzuliegen: alle Standardabweichungen sind deutliche größer als 0 (also gibt es individuelle Unterschiede in den Effekten) und keine der Korrelationen ist in der Nähe von 1 oder -1 (was hieße, dass sich die Effekte nicht trennen lassen). Wenn wir diese Korrelationen aber in [Partialkorrelationen](/lehre/statistik-ii/partial) überführen, sehen wir, dass sich das gesamte System sehr nah an Singularität bewegt:
 
 
-``` r
+```r
 # Partialkorrelationen
 attr(VarCorr(mod5)$id, 'correlation') |> corpcor::cor2pcor() |> round(3)
 ```
 
 ```
 ##        [,1]   [,2]   [,3]   [,4]   [,5]   [,6]   [,7]
-## [1,]  1.000 -0.969  0.987 -0.925  0.886 -0.986  0.531
-## [2,] -0.969  1.000  0.996 -0.990  0.973 -0.916  0.306
-## [3,]  0.987  0.996  1.000  0.974 -0.949  0.948 -0.389
-## [4,] -0.925 -0.990  0.974  1.000  0.996 -0.850  0.170
-## [5,]  0.886  0.973 -0.949  0.996  1.000  0.798 -0.078
-## [6,] -0.986 -0.916  0.948 -0.850  0.798  1.000  0.663
-## [7,]  0.531  0.306 -0.389  0.170 -0.078  0.663  1.000
+## [1,]  1.000 -0.460  0.938 -0.966 -0.693  0.674 -0.697
+## [2,] -0.460  1.000  0.158 -0.367  0.310 -0.307  0.081
+## [3,]  0.938  0.158  1.000  0.968  0.888 -0.884  0.873
+## [4,] -0.966 -0.367  0.968  1.000 -0.758  0.769 -0.841
+## [5,] -0.693  0.310  0.888 -0.758  1.000  0.991 -0.869
+## [6,]  0.674 -0.307 -0.884  0.769  0.991  1.000  0.920
+## [7,] -0.697  0.081  0.873 -0.841 -0.869  0.920  1.000
 ```
 Was genau Singularität bedeutet und wo sie herkommt, hatten wir in Statistik I im [Rahmen der Matrixalgebra](/lehre/statistik-i/matrixalgebra/#DetInv) genauer besprochen. Hier ist hauptsächlich relevant, dass es bedeutet, dass einige der Zufallseffekte quasi linear von Kombinationen anderer Zufallseffekte abhängen, was das Konzept des "Zufalls" in Zufallseffekte etwas in Frage zieht. Wie im letzten Abschnitt angerissen, wir bei persistenten Schätzproblemen empfohlen, die Korrelationen der Zufallseffekte zunächst auf 0 zu fixieren. Dazu können wir in `lme4` die Kurzform `|| id` benutzen, statt händisch einzelne Korrelationen unterdrücken zu müssen.
 
 
-``` r
+```r
 # Modell mit unkorrelierten Zufallseffekten
 mod6 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming +
     mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming + 
@@ -860,13 +934,12 @@ mod6 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalid
 ```
 
 ```
-## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, : Model failed to
-## converge with max|grad| = 0.00564595 (tol = 0.002, component 1)
+## boundary (singular) fit: see help('isSingular')
 ```
 Wie wir sehen, behebt auch das unser Problem nicht. Allerdings können wir hier durch die Nutzung von `allFit` feststellen, dass es nur der voreingestellte Algorithmus ist, der Konvergenzprobleme verursacht. Wenn wir z.B. `bobyqa` nutzen konvergiert das Modell:
 
 
-``` r
+```r
 # bobyqa als Schätzer nutzen
 mod6b <- update(mod6, control = lmerControl(optimizer = "bobyqa"))
 ```
@@ -878,7 +951,7 @@ mod6b <- update(mod6, control = lmerControl(optimizer = "bobyqa"))
 Nun sind wir endlich an dem Punkt, dass wir uns um unser zweites Problem kümmern können: die singuläre Kovarianzmatrix der Zufallseffekte. Wenn wir uns die Ergebnisses des Modells angucken, finden wir direkt eindeutige Hinweise für mögliche Ursachen:
 
 
-``` r
+```r
 # Korrelationsmatrix der Zufallseffekte
 VarCorr(mod6b)
 ```
@@ -901,7 +974,7 @@ Wir sehen hier nur 0 bei den Standardabweichungen in den Slopes der `affection` 
 Das finale Modell enthält jetzt nur noch die Zufallseffekte für das Intercept und vier der Prädiktoren. Zusammenhänge zwischen den Zufallseffekten hatten wir hier ausgeschlossen:
 
 
-``` r
+```r
 # Modellschätzung
 mod7  <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming +
     mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming + 
@@ -967,7 +1040,7 @@ Bezüglich der fixed effects egibt sich im Wesentlichen das gleiche Muster, dass
 Um den Effekt der random slopes zu verdeutlichen, können wir uns zwei Personen herausgreifen, die sich im Effekt der Lösungsvorschläge unterscheiden. Dafür bieten - wie schon beim random intercept Modell - die `ranef` einen Überblick über alle Zufallseffekte:
 
 
-``` r
+```r
 # Ausgabe der individuellen Zufallseffekte
 # wegen head() nur die top 6 Zeilen
 ranef(mod7)$id |> head()
@@ -976,8 +1049,8 @@ ranef(mod7)$id |> head()
 ```
 ##      (Intercept) reappraisal    solving    sharing invalidation
 ## 2001 -0.07444811   0.0000000  0.1937274  0.1199613     0.000000
-## 2009 -0.56470141  -0.2785829 -0.1968954 -0.2149273     0.000000
-## 2010  1.12450917   0.0000000  0.0000000  0.0000000     1.394993
+## 2009 -0.56470140  -0.2785829 -0.1968954 -0.2149273     0.000000
+## 2010  1.12450916   0.0000000  0.0000000  0.0000000     1.394993
 ## 2016 -0.31310890   0.0000000  0.0000000  0.0000000     0.000000
 ## 2018  1.64828914   0.0000000  0.1248062  0.0000000     0.000000
 ## 2019 -0.45056091  -0.1360385  0.0000000  0.0000000     0.000000
@@ -986,7 +1059,7 @@ ranef(mod7)$id |> head()
 Wie zu sehen ist, haben die beiden ersten Personen direkt gegenläufige Zufallseffekte. Gucken wir also, was passiert, wenn die beiden Personen jeweils mit einer IER Situation konfrontiert werden, in der _nur_ solving vom Gegenüber gezeigt wird, und mit einer Situation, in der keine der Strategien gezeigt wird (ein dankbar einfacher Vergleichspunkt). Dafür können wir einen neuen Datensatz erstellen, in dem wir zwei hypothetische Situationen für diese beiden Personen erzeugen:
 
 
-``` r
+```r
 # Daten für die beiden Personen
 new <- esm[esm$id %in% c(2001, 2009) & esm$index1 == 3, ]
 new <- rbind(new, new)
@@ -995,7 +1068,7 @@ rownames(new) <- c('2001:solving', '2009:solving', '2001:none', '2009:none')
 Die hier ausgewählten beiden Zeilen enthalten praktischerweise schon alle Personenvariablen und wir müssen nur noch sicherstellen, dass die situativen Level-1 Prädiktoren die richtigen Werte annehmen.
 
 
-``` r
+```r
 # Künstliche Situationen erzeugen
 new$reappraisal <- c(0, 0, 0, 0)
 new$solving <- c(1, 1, 0, 0)
@@ -1008,7 +1081,7 @@ new$blaming <- c(0, 0, 0, 0)
 Jetzt können wir die vorhergesagten Werte für die beiden Personen in den beiden Situationen berechnen:
 
 
-``` r
+```r
 # Vorhersagen für die beiden Personen
 predict(mod7, new) |> round(3)
 ```
@@ -1050,7 +1123,7 @@ Neu dazu ist an dieser Stelle als der Term $\gamma_{11} \cdot w_i$ auf Level-2 g
 In `lme4` werden diese Interaktionen genauso aufgenommen, wie alle anderen Interaktionen. Ich formuliere an dieser Stelle die Interaktionen explizit mit `:` aus, auch wenn sich der Schreibaufwand mit der `*`-Notation erheblich verringern ließe:
 
 
-``` r
+```r
 # Modell mit allen Cross-Level Interaktionen
 mod8 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming +
     mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming +
@@ -1062,7 +1135,7 @@ mod8 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalid
 Die Ergebnisse des Modells könnten wir uns dann wie gewohnt mit `summary` ausgeben lassen. Allerdings macht es zunächst Sinn, auch die Interaktionen der Kontexteffekte mit in das Modell aufzunehmen, da für diese eigentlich in stärkerem Ausmaß als für die situativen Komponenten ein Unterschied aufgrund der Major Depression zu erwarten wäre:
 
 
-``` r
+```r
 # Modell mit allen Interaktionen
 mod9 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalidation + blaming +
     mean_reappraisal + mean_solving + mean_sharing + mean_affection + mean_invalidation + mean_blaming +
@@ -1074,7 +1147,7 @@ mod9 <- lmer(problem ~ 1 + reappraisal + solving + sharing + affection + invalid
 Bevor nun aber den _erheblichen_ Aufwand betreiben die Ergebnisse eines Modells mit so vielen Effekten zu interpretieren, macht es Sinn per Modellvergleich festzustellen, ob diese Modellkomplexität überhaupt gerechtfertigt ist. Dafür können wir erneut den Devianzentest heranziehen:
 
 
-``` r
+```r
 # Modellvergleiche
 anova(mod7, mod8, mod9)
 ```
@@ -1101,7 +1174,7 @@ Im Vergleich von `mod7` zu `mod8` wird der Einfluss der Gruppe auf das Intercept
 Auch im Pseudo-$R^2$ zeigen die Modelle nur geringfügige Unterschiede:
 
 
-``` r
+```r
 performance::r2(mod7)
 ```
 
@@ -1112,7 +1185,7 @@ performance::r2(mod7)
 ##      Marginal R2: 0.237
 ```
 
-``` r
+```r
 performance::r2(mod8)
 ```
 
@@ -1123,7 +1196,7 @@ performance::r2(mod8)
 ##      Marginal R2: 0.244
 ```
 
-``` r
+```r
 performance::r2(mod9)
 ```
 

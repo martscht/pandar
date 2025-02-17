@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In this post you can find all the information you need as a supervisor who uses LIFOS in their teaching. This includes, amongs others, what LIFOs is in the first place, your rights and obligations as a supervisor and FAQs.'
 authors: [beitner] 
 weight: 5
-lastmod: '2023-10-26'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/open_books.jpg"

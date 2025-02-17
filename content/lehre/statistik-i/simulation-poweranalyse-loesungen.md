@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer, sinn] 
 weight:
-lastmod: '2024-03-28'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -172,7 +172,7 @@ summary(cors_H1)
 hist(cors_H1, breaks = 50)
 ```
 
-![](/lehre/statistik-i/simulation-poweranalyse-loesungen_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](/simulation-poweranalyse-loesungen_files/unnamed-chunk-4-1.png)<!-- -->
 Die Verteilung der Korrelationen ist nicht normalverteilt. Die Verteilung ist links-schief/rechts-steil. Wir erkennen, dass Korrelationen zwischen -0.4293 und 0.8997 liegen. Die mittlere Korrelation liegt bei 0.4889, der Median der Korrelationen liegt bei 0.508. Die zentralen Tendenzen liegt also sehr nah an der theoretischen Korrelation von 0.5.
 
 </details>
@@ -395,7 +395,7 @@ Ds <- seq(0, 1.25, 0.25)
 plot(x = Ds, y = t_power_d, type = "b", main = "Power vs. d")
 ```
 
-![](/lehre/statistik-i/simulation-poweranalyse-loesungen_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/simulation-poweranalyse-loesungen_files/unnamed-chunk-11-1.png)<!-- -->
 
 Dem Plot ist zu entnehmen, dass die Power mit steigender Effektgröße ansteigt. 
 

@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [irmer]
 weight: 1
-lastmod: '2024-07-02'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/colorful_waves.jpg"
@@ -52,7 +52,8 @@ X
 ```
 
 ```
-##  [1] -2.0353287  5.3871462  9.4222059 -7.7284885  6.1456234  6.5302795  1.1263002  1.2668407  1.1777400 -0.4501891
+##  [1] -2.0353287  5.3871462  9.4222059 -7.7284885  6.1456234  6.5302795  1.1263002  1.2668407
+##  [9]  1.1777400 -0.4501891
 ```
 
 ```r
@@ -63,7 +64,8 @@ Y
 ```
 
 ```
-##  [1] -2.0353287  5.3871462  9.4222059 -7.7284885  6.1456234  6.5302795  1.1263002  1.2668407  1.1777400 -0.4501891
+##  [1] -2.0353287  5.3871462  9.4222059 -7.7284885  6.1456234  6.5302795  1.1263002  1.2668407
+##  [9]  1.1777400 -0.4501891
 ```
 
 
@@ -75,7 +77,8 @@ Z
 ```
 
 ```
-##  [1]  5.083774  1.287537  8.455723  6.979903 12.178090  7.446377 -2.406233  2.934277 13.482699 12.884316
+##  [1]  5.083774  1.287537  8.455723  6.979903 12.178090  7.446377 -2.406233  2.934277 13.482699
+## [10] 12.884316
 ```
 
 ```r
@@ -339,7 +342,8 @@ SE # SEs der 10 Trials
 ```
 
 ```
-##  [1] 0.8872064 1.3601514 1.0677863 1.1726830 1.8964952 2.4070357 1.4417604 2.0125966 1.7096845 1.9697478
+##  [1] 0.8872064 1.3601514 1.0677863 1.1726830 1.8964952 2.4070357 1.4417604 2.0125966 1.7096845
+## [10] 1.9697478
 ```
 
 Damit haben wir alle Größen, die wir für eine Simulationsstudie brauchen, um die Konsistenz sowie die Effizienz des Schätzers (hier: Mittelwert) zu untersuchen.
@@ -359,35 +363,44 @@ X_data
 
 ```
 ## [[1]]
-##  [1]  1.4890382  4.6576558  3.6054146  8.4339240  4.5848564  5.5931504  1.0910466  7.5726636 -0.1262971  2.2006893
+##  [1]  1.4890382  4.6576558  3.6054146  8.4339240  4.5848564  5.5931504  1.0910466  7.5726636
+##  [9] -0.1262971  2.2006893
 ## 
 ## [[2]]
-##  [1]  4.4494307  4.4813723  2.9918302  7.6992025  4.6168975  3.8534165  2.0557288  6.5542813 -0.5690709 15.5514841
+##  [1]  4.4494307  4.4813723  2.9918302  7.6992025  4.6168975  3.8534165  2.0557288  6.5542813
+##  [9] -0.5690709 15.5514841
 ## 
 ## [[3]]
-##  [1]  1.80955009  7.82030308  5.30980646  7.86702298 -0.07189562  1.80774715  0.39889225  5.15472266 -1.78864731
-## [10]  5.23537996
+##  [1]  1.80955009  7.82030308  5.30980646  7.86702298 -0.07189562  1.80774715  0.39889225  5.15472266
+##  [9] -1.78864731  5.23537996
 ## 
 ## [[4]]
-##  [1]  3.5444322 12.7868781  3.3103519  3.4440325  0.5499284  2.8910288  4.9145384  6.0866164  9.3270116  8.8510101
+##  [1]  3.5444322 12.7868781  3.3103519  3.4440325  0.5499284  2.8910288  4.9145384  6.0866164
+##  [9]  9.3270116  8.8510101
 ## 
 ## [[5]]
-##  [1]  3.491854 11.016017 -4.883878  7.114337  1.388583 10.611155  2.182798 10.595329  4.218895 -5.393279
+##  [1]  3.491854 11.016017 -4.883878  7.114337  1.388583 10.611155  2.182798 10.595329  4.218895
+## [10] -5.393279
 ## 
 ## [[6]]
-##  [1]  1.7646891 -4.6929897  4.8943242 13.4873285 -7.3596274  8.9023207 -2.9941281 13.1243621 10.9064936 -0.1942594
+##  [1]  1.7646891 -4.6929897  4.8943242 13.4873285 -7.3596274  8.9023207 -2.9941281 13.1243621
+##  [9] 10.9064936 -0.1942594
 ## 
 ## [[7]]
-##  [1]  2.6900211  3.6557799  2.1055822 16.9097946  4.6491707  0.4348751  7.1899712  5.0084580  3.6504153  3.5375506
+##  [1]  2.6900211  3.6557799  2.1055822 16.9097946  4.6491707  0.4348751  7.1899712  5.0084580
+##  [9]  3.6504153  3.5375506
 ## 
 ## [[8]]
-##  [1]  6.244516 -1.321778 -1.812097 12.242609 -6.310480  4.063749 -1.437642  5.352697  9.042259 -6.372024
+##  [1]  6.244516 -1.321778 -1.812097 12.242609 -6.310480  4.063749 -1.437642  5.352697  9.042259
+## [10] -6.372024
 ## 
 ## [[9]]
-##  [1]  8.484111  3.750021 -2.726747 -5.656058  7.547908  3.210475  5.081839  8.086810 12.635879  3.481149
+##  [1]  8.484111  3.750021 -2.726747 -5.656058  7.547908  3.210475  5.081839  8.086810 12.635879
+## [10]  3.481149
 ## 
 ## [[10]]
-##  [1]  1.214389 11.141507 -0.464787 -1.787856  1.348518 16.228414 -0.162479  6.067599 -1.893416 -1.870174
+##  [1]  1.214389 11.141507 -0.464787 -1.787856  1.348518 16.228414 -0.162479  6.067599 -1.893416
+## [10] -1.870174
 ```
 
 `X_data` ist eine Liste, die 10 Einträge enthält: jeder Eintrag besteht aus einem Vektor mit 10 Einträgen einer Normalverteilung mit Mittelwert 4 und Standardabweichung 5. Wir indizieren in Listen mit Hilfe zweier eckiger Klammern `[[index]]`. Bspw. können wir uns die 3. Replikation wie folgt ausgeben lassen:
@@ -398,8 +411,8 @@ X_data[[3]] # 3. Replikation
 ```
 
 ```
-##  [1]  1.80955009  7.82030308  5.30980646  7.86702298 -0.07189562  1.80774715  0.39889225  5.15472266 -1.78864731
-## [10]  5.23537996
+##  [1]  1.80955009  7.82030308  5.30980646  7.86702298 -0.07189562  1.80774715  0.39889225  5.15472266
+##  [9] -1.78864731  5.23537996
 ```
 
 Nun könnten wir natürlich über die Listeneinträge mit einer `for`-Schleife iterieren, aber das ist nicht das Ziel dieses Abschnitts. Stattdessen erstellen wir eine Funktion, die wir `calculate_mean_SE` nennen wollen und welche den Mittelwert und den SE eines Vektors bestimmt und diesen als Liste ausgibt. Eine Funktion wird in `R` erzeugt, indem wir den Namen gefolgt vom Zuordnungspfeil `<-` und `function` schreiben. Die Funktion `function` erstellt dann eine Funktion mit unserem vorgegebenen Namen und nimmt als Argumente entgegen, was wir in die Funktion hineingeben wollen:
@@ -675,8 +688,8 @@ M - 4 # die Abweichungen
 ```
 
 ```
-##  [1] -0.08978582  1.16845730 -0.64571183  1.57058286  0.03418111 -0.21614863  0.98316187 -2.03081900  0.38953881
-## [10] -1.01782852
+##  [1] -0.08978582  1.16845730 -0.64571183  1.57058286  0.03418111 -0.21614863  0.98316187 -2.03081900
+##  [9]  0.38953881 -1.01782852
 ```
 
 ```r
@@ -684,8 +697,8 @@ M - 4 # die Abweichungen
 ```
 
 ```
-##  [1] 0.008061493 1.365292452 0.416943766 2.466730516 0.001168348 0.046720232 0.966607259 4.124225828 0.151740485
-## [10] 1.035974905
+##  [1] 0.008061493 1.365292452 0.416943766 2.466730516 0.001168348 0.046720232 0.966607259 4.124225828
+##  [9] 0.151740485 1.035974905
 ```
 
 ```r
@@ -768,7 +781,8 @@ abs(M/SE)
 ```
 
 ```
-##  [1] 4.4073330 3.7999131 3.1413479 4.7502887 2.1271770 1.5719964 3.4563036 0.9784281 2.5674554 1.5139865
+##  [1] 4.4073330 3.7999131 3.1413479 4.7502887 2.1271770 1.5719964 3.4563036 0.9784281 2.5674554
+## [10] 1.5139865
 ```
 
 ```r
@@ -778,7 +792,8 @@ abs(M2/SE2) # identisch zu oben, also können wir uns auf eines der beiden konze
 ```
 
 ```
-##  [1] 4.4073330 3.7999131 3.1413479 4.7502887 2.1271770 1.5719964 3.4563036 0.9784281 2.5674554 1.5139865
+##  [1] 4.4073330 3.7999131 3.1413479 4.7502887 2.1271770 1.5719964 3.4563036 0.9784281 2.5674554
+## [10] 1.5139865
 ```
 
 Hier alle einzeln durchzugehen und zu untersuchen, wie häufig dieser Bruch größer als 1.96 ist, ist mühselig, weswegen wir dies mit `R` automatisieren:
@@ -808,7 +823,7 @@ Die Power liegt hier bei 0.7, was {{<math>}}$70\%${{</math>}} entspricht! Die Po
 
 #### Coverage bestimmen
 Um die Coverage zu bestimmen, müssen wir uns das Konfidenzintervall ansehen, denn wir wollen untersuchen, ob sich die Schätzung signifikant vom wahren Wert unterscheidet (das wäre nämlich nicht gewünscht!). Für unsere 10 Trials sieht das ganze so aus (Grafik-Code können Sie [Appendix B](#AppendixB) entnehmen):
-![](/lehre/forschungsmodul/simulationsstudien_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](/simulationsstudien_files/unnamed-chunk-35-1.png)<!-- -->
 
 Wir sehen, dass die Konfidenzintervalle hier immer (in {{<math>}}$100\%${{</math>}} der Fälle) den wahren Wert (hier die horizontale gestrichelte Linie) enthält und somit die Schätzung sich nicht signifikant vom wahren Wert unterscheidet. Somit liegt die Coverage bei {{<math>}}$100\%${{</math>}} (für große Stichproben und viele Replikationen sollte sie bei {{<math>}}$95\%${{</math>}} liegen, bzw. allgemein bei $1-\alpha$ für beliebiges $\alpha$). In `R` müssen wir prüfen, ob der wahre Wert oberhalb der unteren Grenze und unterhalb der oberen Grenze des Konfidenzintervalls liegt. Wir können mehrere `TRUE` oder `FALSE` Abfragen mit `&` (*and*-Verknüpfung) verketten (es müssen beide `TRUE` sein, damit insgesamt `TRUE` entsteht). Die Coverage ergibt sich als:
 
@@ -823,7 +838,7 @@ mean(M - 1.96 * SE <= 4 & M + 1.96 * SE >= 4)
 
 wobei links vom `&` abgefragt wird, ob der wahre Wert (hier = 4) oberhalb (oder genau auf) der unteren Grenze (`M - 1.96 * SE`) liegt und rechts vom `&` wird abgefragt, ob der wahre Wert unterhalb (oder genau auf) der oberen Grenze (`M + 1.96 * SE`) liegt. Wenn wir uns ein paar Gedanken darüber machen, so erkennen wir, dass wir auch vom Mittelwert und von den Grenzen jeweils den wahren Wert abziehen können und anschließend prüfen können, ob die Null in diesem neuen Intervall liegt. 
 
-![](/lehre/forschungsmodul/simulationsstudien_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](/simulationsstudien_files/unnamed-chunk-37-1.png)<!-- -->
 
 Dies ist das Gleiche, wie zu prüfen, ob der absolute Bias pro Trial geteilt durch den jeweiligen $SE$ kleiner als/gleich 1.96 (und damit nicht signifikant von Null verschieden) ist: 
 
@@ -929,7 +944,7 @@ library(ggplot2)
 ggplot(data = MSE,mapping = aes(x = Trial, y = M)) + geom_point(cex = 4)+geom_hline(yintercept = 4, lty = 3)+geom_errorbar(mapping = aes(ymin = M - 1.96*SE, ymax = M + 1.96*SE))+ggtitle("Konfidenzintervalle", subtitle = "Coverage ist die Wahrscheinlichkeit den wahren Wert einzuschließen")
 ```
 
-![](/lehre/forschungsmodul/simulationsstudien_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
+![](/simulationsstudien_files/unnamed-chunk-41-1.png)<!-- -->
 
 
 ```r
@@ -941,7 +956,7 @@ library(ggplot2)
 ggplot(data = MSE, mapping = aes(x = Trial, y = M_transformed)) + geom_point(cex = 4)+geom_hline(yintercept = 0, lty = 3)+geom_errorbar(mapping = aes(ymin = M_transformed - 1.96*SE, ymax = M_transformed + 1.96*SE))+ggtitle("Konfidenzintervalle um den wahren Wert verschoben", subtitle = "Coverage ist die Wahrscheinlichkeit den wahren Wert einzuschließen")
 ```
 
-![](/lehre/forschungsmodul/simulationsstudien_files/figure-html/unnamed-chunk-42-1.png)<!-- -->
+![](/simulationsstudien_files/unnamed-chunk-42-1.png)<!-- -->
 
 </details>
 
@@ -1024,7 +1039,7 @@ lines(x = x, y = sqrt(1-x^2), lwd = 2, col = "blue") # Formel eines Kreises,
 lines(x = x, y = -sqrt(1-x^2), lwd = 2, col = "blue") # umgestellt nach x
 ```
 
-<img src="/lehre/forschungsmodul/simulationsstudien_files/figure-html/unnamed-chunk-49-1.png" style="display: block; margin: auto;" />
+<img src="/simulationsstudien_files/unnamed-chunk-49-1.png" style="display: block; margin: auto;" />
 
 Dann wissen wir aus der Schule, dass dieser Kreis einen Flächeninhalt von $\pi r^2 = \pi$ hat. Wenn wir also den Flächeninhalt bestimmen könnten, könnten wir diese Formel und damit $\pi$ prüfen. Dazu überlegen wir uns ein Zufallsexperiment. Wir haben außen um den Kreis bereits ein rotes Viereck gezeichnet. Was wir nun machen, ist den Anteil des Kreises an dem Viereck zu bestimmen. Dazu ziehen wir unabhängige uniform-verteilte Punkte auf dem Intervall $[-1,1]$ sowohl in $x$- als auch in $y$-Richtung. Wir wissen, dass die Punkte in dem Kreis liegen, wenn sie maximal den Radius (also = 1) vom Ursprung ($(0,0)$) entfernt liegen. Also liegen Sie innerhalb des Kreises, wenn $\sqrt{x^2+y^2}=1$ gilt (die Wurzel könnten wir uns eigentlich schenken, da $\sqrt{1}=1$, was wir im Folgenden auch tun!). Wenn wir nun die Wahrscheinlichkeit bestimmen, dass die Punkte im (oder auf dem) Kreis liegen, dann erhalten wir $\pi$, denn diese Wahrscheinlichkeit ist einfach das Verhältnis der beiden Flächeninhalte. Der Flächeninhalt des Quadrats liegt bei $(1-(-1))^2=2^2=4$, der des Kreises bei $\pi$. Somit erhalten wir:
 
@@ -1048,7 +1063,7 @@ points(x[in_circle], y[in_circle], col = "blue", pch = 16) # Punkte innerhalb de
 points(x[!in_circle], y[!in_circle], col = "red", pch = 16) # Punkte außerhalb des Kreises
 ```
 
-<img src="/lehre/forschungsmodul/simulationsstudien_files/figure-html/unnamed-chunk-50-1.png" style="display: block; margin: auto;" />
+<img src="/simulationsstudien_files/unnamed-chunk-50-1.png" style="display: block; margin: auto;" />
 
 
 Um nun $\pi$ zu schätzen, erzeugen wir eine Matrix mit $2*10^6$ uniform auf [-1,1] verteilten Zufallsvariablen. Außerdem bestimmen wir eine Funktion `inner_circle`, mit welcher wir checken, ob ein Datenpunkt innerhalb des Kreises liegt, indem sie uns `TRUE` oder `FALSE` zurückgibt. Anschließend berechnen wir den relativen Anteil, dass die Punkte innerhalb des Kreises liegen mit `mean` (siehe auch relative Häufigkeit in 01-Folgen in der Sitzung zur [logistischen Regression](/post/logistische-regression)) und multiplizieren diese dann mit 4.

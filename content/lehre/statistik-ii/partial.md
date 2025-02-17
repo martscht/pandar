@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag zur Partial- und Semipartialkorrelation lernst du den Einfluss von Drittvariablen zu kontrollieren und so Scheinkorrelationen zu entlarven. Das Beispiel mit Schulleistungen zeigt, dass der ursprüngliche Zusammenhang zwischen der Lese- und Mathematikleistung verschwindet, wenn der Einfluss des IQ berücksichtigt wird. Die Semipartialkorrelation spezifisch aufzeigt, wie der IQ die Mathematikleistung beeinflusst. Diese Werkzeuge sind entscheidend, um versteckte Muster in statistischen Daten zu entwirren und Kausalitätsannahmen zu überprüfen.'
 authors: [kvetnaya, schroeder, gruetzmacher, nehler, irmer]
 weight: 5
-lastmod: '2024-05-28'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/prism_colors.jpg"
@@ -134,7 +134,7 @@ ggplot(dat, aes(x = Lebenszufriedenheit, y = Depressivitaet)) +
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](/lehre/statistik-ii/partial_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](/partial_files/unnamed-chunk-4-1.png)<!-- -->
 
 In dieser Abbildung mit einer dazugehörigen Regressionsgerade wird deutlich, dass hier deskriptiv ein negativer Zusammenhang vorliegt. Das heißt, eine höhere Lebenszufriedenheit geht mit einer geringeren Depressivität einher. Zu beachten ist hierbei natürlich, dass wir die x- und y-Achsen beliebig vertauschen könnten und aus diesem Befund daher keine Aussage über die Wirkungsrichtung ableitbar ist. Ob die Lebenszufriedenheit zu einer niedrigen Depressivität führt, oder eine niedrigere Depressivität nicht ursächlich für eine höhere Lebenszufriedenheit sein könnte, bleibt auf Basis dieser Daten komplett offen.
 
@@ -291,7 +291,7 @@ library(ppcor)
 ```
 
 ```
-## Loading required package: MASS
+## Warning: Paket 'ppcor' wurde unter R Version 4.3.2 erstellt
 ```
 
 Mit der Funktion `pcor.test()` lässt sich die Partialkorrelation direkt ermitteln:
@@ -571,7 +571,7 @@ Q <- qgraph(input = pcor_table$estimate,
      labels = substr(colnames(dat), 1, 5)) # die ersten 5 Zeichen der colnames
 ```
 
-![](/lehre/statistik-ii/partial_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/partial_files/unnamed-chunk-22-1.png)<!-- -->
 
 ```r
 # Plot wird automatisch erzeugt, ohne dass wir Q ausführen müssen
@@ -681,7 +681,7 @@ mean(res_depr_neuro) # mean(eps_x)
 ```
 
 ```
-## [1] -2.246858e-18
+## [1] -9.714451e-17
 ```
 
 ```r
@@ -701,7 +701,7 @@ cov(dat$Neurotizismus, res_depr_neuro) # 0
 ```
 
 ```
-## [1] 6.216704e-17
+## [1] -7.573738e-17
 ```
 
 ```r
@@ -709,7 +709,7 @@ cor(dat$Neurotizismus, res_depr_neuro) # 0
 ```
 
 ```
-## [1] 3.373551e-17
+## [1] -4.109959e-17
 ```
 
 ```r

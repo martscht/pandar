@@ -9,7 +9,7 @@ subtitle: 'Ein Exkurs'
 summary: '' 
 authors: [irmer, schultze] 
 weight: 7
-lastmod: '2024-03-16'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/milwaukee_art_museum.jpg"

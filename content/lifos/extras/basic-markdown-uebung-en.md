@@ -10,7 +10,7 @@ summary: 'This post will explain how to setup your own Markdown-project within L
 
 authors: [schloter, nehler, pommeranz] 
 weight: 2
-lastmod: '2023-10-26'
+lastmod: '2025-02-12'
 featured: no
 banner:
   image: "/header/code_weave.jpg"
@@ -39,21 +39,21 @@ As you have seen in the basics of LIFOS, at least one component of your project 
 
 To carry out our Markdown exercise on LIFOS, you first need to create your own project using the corresponding template. To do this, go to the LIFOS homepage and click on New Project. It is very important that you do not create the project via the department group, otherwise, the group will be flooded with numerous Markdown tutorials. 
 
-![](/lifos/extras/../grundlagen/gitlaborientierung_newproject.png)
+![](/lifos/gitlaborientierung_newproject.png)
 
 You only need to click on the **New Project** button here and you will have created a new personal project.
 
 Then a page will open where you will find four options: 
 
-![](/lifos/extras/../grundlagen/gitlaborientierung_newprojectoptions.png) 
+![](/lifos/gitlaborientierung_newprojectoptions.png) 
 
 Here, click on *Create from template*, as there is a specific template for this Markdown exercise. This makes it a little easier for you. To access the exercise template, you need to click on "Instance". The "Built-in" templates are global templates that are available to every <span style="color: darkred;">GitLab</span> user. You can explore them with a test project another time, if you want.
 
-![](/lifos/extras/../grundlagen/gitlaborientierung_newprojectinstance.png) 
+![](/lifos/gitlaborientierung_newprojectinstance.png) 
 
 After clicking on "Instance", search for the template named **_Markdown Exercise Template_**.
  
-![](/lifos/extras/../grundlagen/gitlaborientierung_markdownInstanceTemplate.png) 
+![](/lifos/gitlaborientierung_markdownInstanceTemplate.png) 
 
 You can set the visibility level for this project to Private. This means it will only be visible to you, but since this is just for practice, it's not a problem. We explained visibility levels [here](/grundlagen/eigenesprojekt-en/).
 
@@ -61,7 +61,7 @@ You can set the visibility level for this project to Private. This means it will
 
 In addition to the README, you will find three more files in the template.
 
-![](/lifos/extras/../grundlagen/gitlaborientierung_uebungtemplate.png) 
+![](/lifos/gitlaborientierung_uebungtemplate.png) 
 The file you can practice with is called "Übungsdokument.md". The next section will show you exactly how to modify it. If you click on the file named "OpenScience.pdf", you will see what the final document should look like. The file "Lösung.md" contains the Markdown solution for the document. You should only look at it if you want to compare it to your finished document or if you really don't know what to do next.
 
 
@@ -70,33 +70,33 @@ The file you can practice with is called "Übungsdokument.md". The next section 
 
 To edit the "Übungsdokument.md", click on it. Then click on *Open in Web IDE*.
 
-![](/lifos/extras/../grundlagen/gitlaborientierung_openuebunginwebide.png) 
+![](/lifos/gitlaborientierung_openuebunginwebide.png) 
 
 There you can fill the document with your Markdown code under *Edit* and preview how it will look like in the compiled version under *Preview Markdown*. 
 
-![](/lifos/extras/../grundlagen/gitlaborientierung_webidetemplate.png)
+![](/lifos/gitlaborientierung_webidetemplate.png)
 
 If you have made changes to your README that you want to keep, you can do this in two different ways.
 
 One way is through the **Web IDE**, which we have just opened. We will now make a change to our document.
 
-![](/lifos/extras/../grundlagen/gitlabMarkdown_ÄnderungReadMe.png)
+![](/lifos/gitlabMarkdown_ÄnderungReadMe.png)
 
 You can preview this change in the compiled version by clicking on *Preview Markdown*. If you are satisfied with the change, click on *Create commit...* at the bottom left.
 
-![](/lifos/extras/../grundlagen/gitlabMarkdown_CreateCommitWebIDE.png)
+![](/lifos/gitlabMarkdown_CreateCommitWebIDE.png)
 
 You can also click the file itself to preview it without opening the IDE.
 
-![](/lifos/extras/../grundlagen/gitlaborientierung_preview.png)
+![](/lifos/gitlaborientierung_preview.png)
 
 By cllicking the <> - button you can change back to a code view.
 
-![](/lifos/extras/../grundlagen/gitlaborientierung_code.png)
+![](/lifos/gitlaborientierung_code.png)
 
 You enter a *Commit Message*. This is important to track changes later on. Although the Markdown exercise project is only for your personal use, you might still want to look for the reasons for individual changes you made over time.
 
-![](/lifos/extras/../grundlagen/gitlabMarkdown_CommitTest.png)
+![](/lifos/gitlabMarkdown_CommitTest.png)
 As you can see, you can either choose the main branch or create a new branch when committing. Here, you select the main branch by default. If you want to learn more about branches, check out this [tutorial](https://pandar.netlify.app/post/branches/). Your changes are now included in the README.
 <!-- Link muss erneuert werden für Branches -->
 <!-- Branches waren jetzt im eigene Projekte Teil gar kein Thema mehr - sollte vlt an einer Stelle auch angeschnitten werden. - evtl. im vertiefende Einführung? Hier muss man halt nur den main-Branch auswählen, weil die default Option ist einen neuen zu erstellen (bei jedem Commit) und das wollen wir ja nicht.-->
@@ -112,20 +112,20 @@ As mentioned earlier, deleting projects that belong to a group is not possible f
 
 First, go to the project you want to delete (e.g. the completed Markdown tutorial). Then, click on *Settings* in the sidebar, and then on *General*:
 
-![](/lifos/extras/../grundlagen/gitlabMarkdown_DeleteProject.png)
+![](/lifos/gitlabMarkdown_DeleteProject.png)
 
 Here you need to scroll down until you see *Advanced*.
 
-![](/lifos/extras/../grundlagen/gitlabMarkdown_AdvancedPrjectSet.png)
+![](/lifos/gitlabMarkdown_AdvancedPrjectSet.png)
 
 Once you've expanded it, scroll to the very end of the page. Here you will find the button that allows you to delete your project. 
 
-![](/lifos/extras/../grundlagen/gitlabMarkdown_DeleteProjectButton.png)
+![](/lifos/gitlabMarkdown_DeleteProjectButton.png)
 As it says under the button, you must be 100% sure whether you want to delete the project or not.
 
 After you've confirmed the security prompt, you can delete your project. 
 
-![](/lifos/extras/../grundlagen/gitlabMarkdown_DeleteProjectCheck.png)
+![](/lifos/gitlabMarkdown_DeleteProjectCheck.png)
 
 As this is a personal project, it will be deleted directly. This distinguishes the process from deleting projects that belong to groups - which is the process that your supervisors can carry out there.
 
@@ -147,11 +147,11 @@ Außerdem kann man Subgruppen für folgendes benutzen:
 
 Um eine Subgruppe zu erstellen, müsst ihr unter *Menu* und *Groups* auf **Your Groups** gehen. 
 
-![](/lifos/extras//post/gitlabMarkdown_createSubgroups.png)
+![](/post/gitlabMarkdown_createSubgroups.png)
 
 Anschließend wählt ihr die Gruppe aus in der ihr für euer Projekt eine Subgruppe erstellen wollt. In der Gruppe geht ihr oben rechts auf **New Subgroup**. 
 
-![](/lifos/extras//post/gitlabMarkdown_createSubgroups2.png)
+![](/post/gitlabMarkdown_createSubgroups2.png)
 
 Danach öffnet sich noch ein Fenster bei dem ihr auf **Create Groups** klickt. Danach öffnet sich eine Seite in der ihr alle möglichen Einstellungen für euer Projekt festlegen könnt. 
 
@@ -159,7 +159,7 @@ Zum einen könnt ihr festlegen,  ob nur ihr diese Gruppe benutzt oder ob ihr auc
 
 Eure erstellte Subgruppe findet ihr dann auf der Startseite der übergeordneten Gruppe.
 
-![](/lifos/extras//post/gitlabMarkdown_seeSubgroups.png)
+![](/post/gitlabMarkdown_seeSubgroups.png)
 
 ### Projekt in einer Subgruppe erstellen
 
@@ -167,7 +167,7 @@ Nachdem ihr die Subgruppe erstellt habt, könnt ihr hier ganz normal ein Projekt
 
 Nachdem ihr dieses Projekt erstellt habt, könnt ihr euch unter **Settings** und *General* die Visibility-Features anschauen. 
 
-![](/lifos/extras//post/gitlabMarkdown_subgroupVisibility.png)
+![](/post/gitlabMarkdown_subgroupVisibility.png)
 
 Wie ihr unter **Repository** sehen könnt, sind nur Projektmitglieder dazu in der Lage Dateien in diesem Projekt anzuschauen oder zu bearbeiten. 
 

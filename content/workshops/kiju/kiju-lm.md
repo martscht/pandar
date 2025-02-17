@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [nehler, schreiner]
 weight: 2
-lastmod: '2024-01-12'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/metal_beams_electricity.jpg"
@@ -33,6 +33,8 @@ output:
   html_document:
     keep_md: true
 ---
+
+
 
 
 
@@ -167,8 +169,7 @@ summary(mod)
 ## (Intercept)  2.77460    0.25420  10.915   <2e-16 ***
 ## lz           0.12732    0.05291   2.406   0.0173 *  
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.7003 on 151 degrees of freedom
 ## Multiple R-squared:  0.03693,	Adjusted R-squared:  0.03055 
@@ -183,117 +184,61 @@ summary(data)
 ```
 
 ```
-##      prok1           prok2           prok3      
-##  Min.   :1.000   Min.   :1.000   Min.   :1.000  
-##  1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000  
-##  Median :3.000   Median :3.000   Median :2.000  
-##  Mean   :2.667   Mean   :2.588   Mean   :2.235  
-##  3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000  
-##  Max.   :4.000   Max.   :4.000   Max.   :4.000  
-##                                                 
-##      prok4           prok5           prok6      
-##  Min.   :1.000   Min.   :1.000   Min.   :1.000  
-##  1st Qu.:2.000   1st Qu.:3.000   1st Qu.:2.000  
-##  Median :3.000   Median :3.000   Median :3.000  
-##  Mean   :2.569   Mean   :2.974   Mean   :2.725  
-##  3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000  
-##  Max.   :4.000   Max.   :4.000   Max.   :4.000  
-##                                                 
-##      prok7           prok8          prok9      
-##  Min.   :1.000   Min.   :1.00   Min.   :1.000  
-##  1st Qu.:2.000   1st Qu.:2.00   1st Qu.:2.000  
-##  Median :3.000   Median :3.00   Median :3.000  
-##  Mean   :2.725   Mean   :2.81   Mean   :2.745  
-##  3rd Qu.:3.000   3rd Qu.:3.00   3rd Qu.:4.000  
-##  Max.   :4.000   Max.   :4.00   Max.   :4.000  
-##                                                
-##      prok10           nr1             nr2      
-##  Min.   :1.000   Min.   :1.000   Min.   :1.00  
-##  1st Qu.:2.000   1st Qu.:2.000   1st Qu.:3.00  
-##  Median :3.000   Median :3.000   Median :4.00  
-##  Mean   :2.739   Mean   :2.765   Mean   :3.68  
-##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.00  
-##  Max.   :4.000   Max.   :5.000   Max.   :5.00  
-##                                                
-##       nr3             nr4             nr5       
-##  Min.   :1.000   Min.   :1.000   Min.   :1.000  
-##  1st Qu.:2.000   1st Qu.:3.000   1st Qu.:3.000  
-##  Median :3.000   Median :4.000   Median :3.000  
-##  Mean   :3.124   Mean   :3.699   Mean   :3.327  
-##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000  
-##  Max.   :5.000   Max.   :5.000   Max.   :5.000  
-##                                                 
-##       nr6              lz            extra      
-##  Min.   :1.000   Min.   :1.400   Min.   :1.500  
-##  1st Qu.:2.000   1st Qu.:4.200   1st Qu.:3.000  
-##  Median :3.000   Median :4.800   Median :3.250  
-##  Mean   :2.915   Mean   :4.684   Mean   :3.371  
-##  3rd Qu.:4.000   3rd Qu.:5.400   3rd Qu.:3.750  
-##  Max.   :5.000   Max.   :6.600   Max.   :5.000  
-##                                                 
-##      vertr          gewis           neuro      
-##  Min.   :2.50   Min.   :2.000   Min.   :1.250  
-##  1st Qu.:3.75   1st Qu.:3.500   1st Qu.:3.250  
-##  Median :4.00   Median :4.000   Median :3.750  
-##  Mean   :4.09   Mean   :3.856   Mean   :3.621  
-##  3rd Qu.:4.50   3rd Qu.:4.250   3rd Qu.:4.250  
-##  Max.   :5.00   Max.   :5.000   Max.   :5.000  
-##                                                
-##      intel            nerd          grund          
-##  Min.   :1.250   Min.   :1.500   Length:153        
-##  1st Qu.:3.250   1st Qu.:2.667   Class :character  
-##  Median :3.500   Median :3.167   Mode  :character  
-##  Mean   :3.564   Mean   :3.127                     
-##  3rd Qu.:4.000   3rd Qu.:3.500                     
-##  Max.   :5.000   Max.   :4.667                     
-##                                                    
-##      fach               ziel             lerntyp         
-##  Length:153         Length:153         Length:153        
-##  Class :character   Class :character   Class :character  
-##  Mode  :character   Mode  :character   Mode  :character  
-##                                                          
-##                                                          
-##                                                          
-##                                                          
-##      geschl           job            ort       
-##  Min.   :1.000   Min.   :1.00   Min.   :1.000  
-##  1st Qu.:1.000   1st Qu.:1.00   1st Qu.:1.000  
-##  Median :1.000   Median :1.00   Median :1.000  
-##  Mean   :1.161   Mean   :1.35   Mean   :1.361  
-##  3rd Qu.:1.000   3rd Qu.:2.00   3rd Qu.:2.000  
-##  Max.   :3.000   Max.   :2.00   Max.   :2.000  
-##  NA's   :10      NA's   :10     NA's   :9      
-##     ort12               wohnen           uni1       
-##  Length:153         Min.   :1.000   Min.   :0.0000  
-##  Class :character   1st Qu.:1.500   1st Qu.:0.0000  
-##  Mode  :character   Median :2.000   Median :0.0000  
-##                     Mean   :2.238   Mean   :0.2026  
-##                     3rd Qu.:3.000   3rd Qu.:0.0000  
-##                     Max.   :4.000   Max.   :1.0000  
-##                     NA's   :10                      
-##       uni2             uni3             uni4       
-##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
-##  1st Qu.:1.0000   1st Qu.:0.0000   1st Qu.:0.0000  
-##  Median :1.0000   Median :0.0000   Median :0.0000  
-##  Mean   :0.8693   Mean   :0.3791   Mean   :0.1111  
-##  3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:0.0000  
-##  Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
-##                                                    
-##   geschl_faktor     nr_ges           prok      
-##  weiblich:121   Min.   :1.000   Min.   :1.200  
-##  männlich: 21   1st Qu.:2.833   1st Qu.:2.200  
-##  anderes :  1   Median :3.333   Median :2.800  
-##  NA's    : 10   Mean   :3.252   Mean   :2.689  
-##                 3rd Qu.:3.667   3rd Qu.:3.200  
-##                 Max.   :5.000   Max.   :4.000  
-##                                                
-##     wohnen_faktor
-##  WG        :36   
-##  bei Eltern:55   
-##  alleine   :34   
-##  sonstiges :18   
-##  NA's      :10   
-##                  
+##      prok1           prok2           prok3           prok4           prok5           prok6      
+##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:3.000   1st Qu.:2.000  
+##  Median :3.000   Median :3.000   Median :2.000   Median :3.000   Median :3.000   Median :3.000  
+##  Mean   :2.667   Mean   :2.588   Mean   :2.235   Mean   :2.569   Mean   :2.974   Mean   :2.725  
+##  3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000  
+##  Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :4.000  
+##                                                                                                 
+##      prok7           prok8          prok9           prok10           nr1             nr2      
+##  Min.   :1.000   Min.   :1.00   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.00  
+##  1st Qu.:2.000   1st Qu.:2.00   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:3.00  
+##  Median :3.000   Median :3.00   Median :3.000   Median :3.000   Median :3.000   Median :4.00  
+##  Mean   :2.725   Mean   :2.81   Mean   :2.745   Mean   :2.739   Mean   :2.765   Mean   :3.68  
+##  3rd Qu.:3.000   3rd Qu.:3.00   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.00  
+##  Max.   :4.000   Max.   :4.00   Max.   :4.000   Max.   :4.000   Max.   :5.000   Max.   :5.00  
+##                                                                                               
+##       nr3             nr4             nr5             nr6              lz            extra      
+##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.400   Min.   :1.500  
+##  1st Qu.:2.000   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:2.000   1st Qu.:4.200   1st Qu.:3.000  
+##  Median :3.000   Median :4.000   Median :3.000   Median :3.000   Median :4.800   Median :3.250  
+##  Mean   :3.124   Mean   :3.699   Mean   :3.327   Mean   :2.915   Mean   :4.684   Mean   :3.371  
+##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:5.400   3rd Qu.:3.750  
+##  Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :6.600   Max.   :5.000  
+##                                                                                                 
+##      vertr          gewis           neuro           intel            nerd          grund          
+##  Min.   :2.50   Min.   :2.000   Min.   :1.250   Min.   :1.250   Min.   :1.500   Length:153        
+##  1st Qu.:3.75   1st Qu.:3.500   1st Qu.:3.250   1st Qu.:3.250   1st Qu.:2.667   Class :character  
+##  Median :4.00   Median :4.000   Median :3.750   Median :3.500   Median :3.167   Mode  :character  
+##  Mean   :4.09   Mean   :3.856   Mean   :3.621   Mean   :3.564   Mean   :3.127                     
+##  3rd Qu.:4.50   3rd Qu.:4.250   3rd Qu.:4.250   3rd Qu.:4.000   3rd Qu.:3.500                     
+##  Max.   :5.00   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :4.667                     
+##                                                                                                   
+##      fach               ziel             lerntyp              geschl           job      
+##  Length:153         Length:153         Length:153         Min.   :1.000   Min.   :1.00  
+##  Class :character   Class :character   Class :character   1st Qu.:1.000   1st Qu.:1.00  
+##  Mode  :character   Mode  :character   Mode  :character   Median :1.000   Median :1.00  
+##                                                           Mean   :1.161   Mean   :1.35  
+##                                                           3rd Qu.:1.000   3rd Qu.:2.00  
+##                                                           Max.   :3.000   Max.   :2.00  
+##                                                           NA's   :10      NA's   :10    
+##       ort           ort12               wohnen           uni1             uni2       
+##  Min.   :1.000   Length:153         Min.   :1.000   Min.   :0.0000   Min.   :0.0000  
+##  1st Qu.:1.000   Class :character   1st Qu.:1.500   1st Qu.:0.0000   1st Qu.:1.0000  
+##  Median :1.000   Mode  :character   Median :2.000   Median :0.0000   Median :1.0000  
+##  Mean   :1.361                      Mean   :2.238   Mean   :0.2026   Mean   :0.8693  
+##  3rd Qu.:2.000                      3rd Qu.:3.000   3rd Qu.:0.0000   3rd Qu.:1.0000  
+##  Max.   :2.000                      Max.   :4.000   Max.   :1.0000   Max.   :1.0000  
+##  NA's   :9                          NA's   :10                                       
+##       uni3             uni4         geschl_faktor     nr_ges           prok          wohnen_faktor
+##  Min.   :0.0000   Min.   :0.0000   weiblich:121   Min.   :1.000   Min.   :1.200   WG        :36   
+##  1st Qu.:0.0000   1st Qu.:0.0000   männlich: 21   1st Qu.:2.833   1st Qu.:2.200   bei Eltern:55   
+##  Median :0.0000   Median :0.0000   anderes :  1   Median :3.333   Median :2.800   alleine   :34   
+##  Mean   :0.3791   Mean   :0.1111   NA's    : 10   Mean   :3.252   Mean   :2.689   sonstiges :18   
+##  3rd Qu.:1.0000   3rd Qu.:0.0000                  3rd Qu.:3.667   3rd Qu.:3.200   NA's      :10   
+##  Max.   :1.0000   Max.   :1.0000                  Max.   :5.000   Max.   :4.000                   
 ## 
 ```
 Weitere Beispiele für solche Funktionen, die auf Objekte verschiedener Klassen angewandt werden können, sind `plot()` und `resid()`. 
@@ -343,8 +288,7 @@ summary(mod_kont)
 ## neuro        -0.2566     0.1184  -2.167   0.0318 *  
 ## intel         0.5460     0.1360   4.016 9.34e-05 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.017 on 150 degrees of freedom
 ## Multiple R-squared:  0.1149,	Adjusted R-squared:  0.1031 
@@ -377,8 +321,7 @@ summary(mod_kat)
 ## intel         0.5967     0.1389   4.296 3.24e-05 ***
 ## geschl       -0.5097     0.2219  -2.297   0.0231 *  
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.004 on 140 degrees of freedom
 ##   (10 Beobachtungen als fehlend gelöscht)
@@ -405,19 +348,13 @@ summary(mod_kat)
 ## -3.6774 -0.5032  0.0709  0.7226  2.0124 
 ## 
 ## Coefficients:
-##                       Estimate Std. Error t value Pr(>|t|)
-## (Intercept)             2.7046     0.5003   5.406 2.73e-07
-## intel                   0.5932     0.1395   4.253 3.84e-05
-## geschl_faktormännlich  -0.5548     0.2412  -2.300   0.0229
-## geschl_faktoranderes   -0.5740     1.0198  -0.563   0.5745
-##                          
-## (Intercept)           ***
-## intel                 ***
-## geschl_faktormännlich *  
-## geschl_faktoranderes     
+##                       Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)             2.7046     0.5003   5.406 2.73e-07 ***
+## intel                   0.5932     0.1395   4.253 3.84e-05 ***
+## geschl_faktormännlich  -0.5548     0.2412  -2.300   0.0229 *  
+## geschl_faktoranderes   -0.5740     1.0198  -0.563   0.5745    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.007 on 139 degrees of freedom
 ##   (10 Beobachtungen als fehlend gelöscht)
@@ -501,19 +438,13 @@ summary(mod_inter_center)
 ## -3.4151 -0.6220  0.0753  0.7150  1.9449 
 ## 
 ## Coefficients:
-##                           Estimate Std. Error t value
-## (Intercept)                4.68648    0.08288  56.543
-## neuro_center              -0.25945    0.11908  -2.179
-## intel_center               0.54981    0.13687   4.017
-## neuro_center:intel_center -0.07825    0.23856  -0.328
-##                           Pr(>|t|)    
-## (Intercept)                < 2e-16 ***
-## neuro_center                0.0309 *  
-## intel_center              9.32e-05 ***
-## neuro_center:intel_center   0.7434    
+##                           Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                4.68648    0.08288  56.543  < 2e-16 ***
+## neuro_center              -0.25945    0.11908  -2.179   0.0309 *  
+## intel_center               0.54981    0.13687   4.017 9.32e-05 ***
+## neuro_center:intel_center -0.07825    0.23856  -0.328   0.7434    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.02 on 149 degrees of freedom
 ## Multiple R-squared:  0.1156,	Adjusted R-squared:  0.09777 
@@ -537,19 +468,13 @@ summary(mod_inter_center)
 ## -3.4151 -0.6220  0.0753  0.7150  1.9449 
 ## 
 ## Coefficients:
-##                           Estimate Std. Error t value
-## (Intercept)                4.68648    0.08288  56.543
-## neuro_center              -0.25945    0.11908  -2.179
-## intel_center               0.54981    0.13687   4.017
-## neuro_center:intel_center -0.07825    0.23856  -0.328
-##                           Pr(>|t|)    
-## (Intercept)                < 2e-16 ***
-## neuro_center                0.0309 *  
-## intel_center              9.32e-05 ***
-## neuro_center:intel_center   0.7434    
+##                           Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                4.68648    0.08288  56.543  < 2e-16 ***
+## neuro_center              -0.25945    0.11908  -2.179   0.0309 *  
+## intel_center               0.54981    0.13687   4.017 9.32e-05 ***
+## neuro_center:intel_center -0.07825    0.23856  -0.328   0.7434    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.02 on 149 degrees of freedom
 ## Multiple R-squared:  0.1156,	Adjusted R-squared:  0.09777 
@@ -575,19 +500,13 @@ summary(mod_inter_center)
 ## -3.4151 -0.6220  0.0753  0.7150  1.9449 
 ## 
 ## Coefficients:
-##                           Estimate Std. Error t value
-## (Intercept)                4.68648    0.08288  56.543
-## neuro_center              -0.25945    0.11908  -2.179
-## intel_center               0.54981    0.13687   4.017
-## neuro_center:intel_center -0.07825    0.23856  -0.328
-##                           Pr(>|t|)    
-## (Intercept)                < 2e-16 ***
-## neuro_center                0.0309 *  
-## intel_center              9.32e-05 ***
-## neuro_center:intel_center   0.7434    
+##                           Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                4.68648    0.08288  56.543  < 2e-16 ***
+## neuro_center              -0.25945    0.11908  -2.179   0.0309 *  
+## intel_center               0.54981    0.13687   4.017 9.32e-05 ***
+## neuro_center:intel_center -0.07825    0.23856  -0.328   0.7434    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.02 on 149 degrees of freedom
 ## Multiple R-squared:  0.1156,	Adjusted R-squared:  0.09777 
@@ -614,7 +533,7 @@ Die Festlegung des Moderators kann `R` natürlich nicht für uns übernehmen.
 interact_plot(model = mod_inter_center, pred = intel_center, modx = neuro_center)
 ```
 
-![](/workshops/kiju/kiju-lm_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/kiju-lm_files/unnamed-chunk-22-1.png)<!-- -->
 
 Weitere Infos zur Moderation, besonders zum Zusammenspiel mit quadratischen Effekten, finden sich [hier](https://pandar.netlify.app/post/ancova-und-moderierte-regression/). <!-- Beitrag fehlt noch, Teil von MSc5a-->
 
@@ -640,21 +559,14 @@ summary(mod_extra)
 ## -1.5411 -0.4500  0.0080  0.5113  1.5992 
 ## 
 ## Coefficients:
-##                         Estimate Std. Error t value
-## (Intercept)              1.75211    0.42948   4.080
-## wohnen_faktorbei Eltern -0.26918    0.14279  -1.885
-## wohnen_faktoralleine    -0.04909    0.15898  -0.309
-## wohnen_faktorsonstiges  -0.31833    0.19275  -1.652
-## vertr                    0.42926    0.09992   4.296
-##                         Pr(>|t|)    
-## (Intercept)             7.59e-05 ***
-## wohnen_faktorbei Eltern   0.0615 .  
-## wohnen_faktoralleine      0.7580    
-## wohnen_faktorsonstiges    0.1009    
-## vertr                   3.26e-05 ***
+##                         Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)              1.75211    0.42948   4.080 7.59e-05 ***
+## wohnen_faktorbei Eltern -0.26918    0.14279  -1.885   0.0615 .  
+## wohnen_faktoralleine    -0.04909    0.15898  -0.309   0.7580    
+## wohnen_faktorsonstiges  -0.31833    0.19275  -1.652   0.1009    
+## vertr                    0.42926    0.09992   4.296 3.26e-05 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6648 on 138 degrees of freedom
 ##   (10 Beobachtungen als fehlend gelöscht)
@@ -680,10 +592,8 @@ lm.beta(mod_extra)
 ## lm(formula = extra ~ wohnen_faktor + vertr, data = data)
 ## 
 ## Standardized Coefficients::
-##             (Intercept) wohnen_faktorbei Eltern 
-##                      NA             -0.18368741 
-##    wohnen_faktoralleine  wohnen_faktorsonstiges 
-##             -0.02931193             -0.14810607 
+##             (Intercept) wohnen_faktorbei Eltern    wohnen_faktoralleine  wohnen_faktorsonstiges 
+##                      NA             -0.18368741             -0.02931193             -0.14810607 
 ##                   vertr 
 ##              0.33734839
 ```
@@ -702,21 +612,14 @@ summary(lm.beta(mod_extra))
 ## -1.5411 -0.4500  0.0080  0.5113  1.5992 
 ## 
 ## Coefficients:
-##                         Estimate Standardized Std. Error
-## (Intercept)              1.75211           NA    0.42948
-## wohnen_faktorbei Eltern -0.26918     -0.18369    0.14279
-## wohnen_faktoralleine    -0.04909     -0.02931    0.15898
-## wohnen_faktorsonstiges  -0.31833     -0.14811    0.19275
-## vertr                    0.42926      0.33735    0.09992
-##                         t value Pr(>|t|)    
-## (Intercept)               4.080 7.59e-05 ***
-## wohnen_faktorbei Eltern  -1.885   0.0615 .  
-## wohnen_faktoralleine     -0.309   0.7580    
-## wohnen_faktorsonstiges   -1.652   0.1009    
-## vertr                     4.296 3.26e-05 ***
+##                         Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)              1.75211           NA    0.42948   4.080 7.59e-05 ***
+## wohnen_faktorbei Eltern -0.26918     -0.18369    0.14279  -1.885   0.0615 .  
+## wohnen_faktoralleine    -0.04909     -0.02931    0.15898  -0.309   0.7580    
+## wohnen_faktorsonstiges  -0.31833     -0.14811    0.19275  -1.652   0.1009    
+## vertr                    0.42926      0.33735    0.09992   4.296 3.26e-05 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6648 on 138 degrees of freedom
 ##   (10 Beobachtungen als fehlend gelöscht)
@@ -741,21 +644,14 @@ mod_extra |> lm.beta() |> summary()
 ## -1.5411 -0.4500  0.0080  0.5113  1.5992 
 ## 
 ## Coefficients:
-##                         Estimate Standardized Std. Error
-## (Intercept)              1.75211           NA    0.42948
-## wohnen_faktorbei Eltern -0.26918     -0.18369    0.14279
-## wohnen_faktoralleine    -0.04909     -0.02931    0.15898
-## wohnen_faktorsonstiges  -0.31833     -0.14811    0.19275
-## vertr                    0.42926      0.33735    0.09992
-##                         t value Pr(>|t|)    
-## (Intercept)               4.080 7.59e-05 ***
-## wohnen_faktorbei Eltern  -1.885   0.0615 .  
-## wohnen_faktoralleine     -0.309   0.7580    
-## wohnen_faktorsonstiges   -1.652   0.1009    
-## vertr                     4.296 3.26e-05 ***
+##                         Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)              1.75211           NA    0.42948   4.080 7.59e-05 ***
+## wohnen_faktorbei Eltern -0.26918     -0.18369    0.14279  -1.885   0.0615 .  
+## wohnen_faktoralleine    -0.04909     -0.02931    0.15898  -0.309   0.7580    
+## wohnen_faktorsonstiges  -0.31833     -0.14811    0.19275  -1.652   0.1009    
+## vertr                    0.42926      0.33735    0.09992   4.296 3.26e-05 ***
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6648 on 138 degrees of freedom
 ##   (10 Beobachtungen als fehlend gelöscht)
@@ -794,27 +690,17 @@ summary(mod_falsch)
 ## -1.74002 -0.43244 -0.04961  0.43520  1.48942 
 ## 
 ## Coefficients:
-##                                         Estimate Std. Error
-## (Intercept)                             3.371832   0.054627
-## nr_ges_center                           0.021812   0.068152
-## prok_center                            -0.003785   0.085937
-## vertr_center                            0.445074   0.099212
-## nr_ges_center:prok_center              -0.165077   0.108148
-## nr_ges_center:vertr_center              0.080309   0.107238
-## prok_center:vertr_center                0.092026   0.156887
-## nr_ges_center:prok_center:vertr_center -0.095016   0.199032
-##                                        t value Pr(>|t|)    
-## (Intercept)                             61.725  < 2e-16 ***
-## nr_ges_center                            0.320    0.749    
-## prok_center                             -0.044    0.965    
-## vertr_center                             4.486 1.47e-05 ***
-## nr_ges_center:prok_center               -1.526    0.129    
-## nr_ges_center:vertr_center               0.749    0.455    
-## prok_center:vertr_center                 0.587    0.558    
-## nr_ges_center:prok_center:vertr_center  -0.477    0.634    
+##                                         Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                             3.371832   0.054627  61.725  < 2e-16 ***
+## nr_ges_center                           0.021812   0.068152   0.320    0.749    
+## prok_center                            -0.003785   0.085937  -0.044    0.965    
+## vertr_center                            0.445074   0.099212   4.486 1.47e-05 ***
+## nr_ges_center:prok_center              -0.165077   0.108148  -1.526    0.129    
+## nr_ges_center:vertr_center              0.080309   0.107238   0.749    0.455    
+## prok_center:vertr_center                0.092026   0.156887   0.587    0.558    
+## nr_ges_center:prok_center:vertr_center -0.095016   0.199032  -0.477    0.634    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6732 on 145 degrees of freedom
 ## Multiple R-squared:  0.1454,	Adjusted R-squared:  0.1042 
@@ -838,21 +724,14 @@ summary(mod_korrekt)
 ## -1.70159 -0.48198 -0.05594  0.42549  1.55172 
 ## 
 ## Coefficients:
-##                                        Estimate Std. Error
-## (Intercept)                             3.37225    0.05447
-## nr_ges_center                           0.01607    0.06802
-## prok_center                             0.01132    0.08477
-## vertr_center                            0.44291    0.09685
-## nr_ges_center:prok_center:vertr_center -0.14871    0.19278
-##                                        t value Pr(>|t|)    
-## (Intercept)                             61.905  < 2e-16 ***
-## nr_ges_center                            0.236    0.814    
-## prok_center                              0.134    0.894    
-## vertr_center                             4.573 1.01e-05 ***
-## nr_ges_center:prok_center:vertr_center  -0.771    0.442    
+##                                        Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                             3.37225    0.05447  61.905  < 2e-16 ***
+## nr_ges_center                           0.01607    0.06802   0.236    0.814    
+## prok_center                             0.01132    0.08477   0.134    0.894    
+## vertr_center                            0.44291    0.09685   4.573 1.01e-05 ***
+## nr_ges_center:prok_center:vertr_center -0.14871    0.19278  -0.771    0.442    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6735 on 148 degrees of freedom
 ## Multiple R-squared:  0.1269,	Adjusted R-squared:  0.1033 

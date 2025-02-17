@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [nolden]
 weight: 5
-lastmod: '2024-07-02'
+lastmod: '2025-02-17'
 featured: no
 banner:
   image: "/header/sunny_coastal.jpg"
@@ -22,14 +22,12 @@ links:
     icon: book
     name: Inhalte
     url: /lehre/independence/independence-r
-  - icon_pack: fas
-    icon: terminal
-    name: Code
-    url: /lehre/independence/independence-r.R
 output:
   html_document:
     keep_md: true
 ---
+
+
 
 # Contents
 
@@ -118,7 +116,7 @@ Generally speaking, your script should be structured like this:
 1. Start your script with a title, your name, and the current date. If your script is based on an older script, provide this information as well.  
 2. Clean up your global environment.
 
-```r
+``` r
 rm(list = ls())
 ```
 3. Continue with your parameters. These are values that you may eventually want to change and that you do not want to search for in every single line of your script. For example, you write your data path here, or you define the different age groups that you have tested. Just make sure you write your script in such a way that you can use it at multiple occasions (which may become relevant for your thesis).  
@@ -143,19 +141,20 @@ This is how you deal with the `help` function.
 `?<function>`
 
 
-```r
+``` r
 help.start()
 ```
  
 Use `apropos(<topic>)` in case you do not know the name of a specific function.
 
 
-```r
+``` r
 apropos('anova')
 ```
 
 ```
-## [1] "anova"            "manova"           "power.anova.test" "stat.anova"       "summary.manova"
+## [1] "anova"            "manova"           "power.anova.test" "stat.anova"      
+## [5] "summary.manova"
 ```
 
 Use `example(<topic>)` if you want to see an example. 
@@ -185,7 +184,7 @@ You have to be super careful with your raw data. Store it at multiple sites on d
 That is why we need an "in_path" and an "out_path", one directory to read from, one to write into. Create a directory with all participants' raw data. If you already know that you want to exclude a participant for whatever reason, you can already omit the respective file at this stage. Create a directory called "Analyses" or something similar. Always choose meaningful names and avoid spaces or special characters.
 
 
-```r
+``` r
 # Define in_path.
 in_path <- "/home/soph/Documents/thesis/Holy_Folder/"
 # Define out_path.
@@ -197,7 +196,7 @@ in_path
 ## [1] "/home/soph/Documents/thesis/Holy_Folder/"
 ```
 
-```r
+``` r
 out_path
 ```
 
@@ -219,13 +218,13 @@ Remember that your paths should be defined at the beginning of your file.
 As you begin using `R` in more of your projects, some of which may involve collaboration, you may begin to notice that dealing with paths and working directories can get, well, pesky. An example: your colleague Bailey sends you a folder with their data and analysis scripts. In the script, they begin with setting the working directory using: 
 
 
-```r
+``` r
 setwd("C/Users/bailey/Documents/projectA/analysis/")
 ```
 
 Or at various points in the file, they load data using:
 
-```r
+``` r
 load("C:/Users/bailey/Documents/projectA/analysis/somefolder/blahblah.rda")
 ```
 
@@ -239,7 +238,7 @@ A package that offers answers to these issues is the `here()` package. Combined 
 This is how you can read all your participants' data files into one data frame at once:
 
 
-```r
+``` r
 library(data.table) # fread is part of the library "data.table".
 
 filenames <- list.files(inPath, pattern="*.csv", full.names=TRUE) # Create a list of your data files.
@@ -250,7 +249,7 @@ myData <- rbindlist(lapply(filenames,fread),fill=TRUE) # Read in your data files
 * Sometimes, you may need to open data files saved with `SPSS`. `SPSS` is a commercial software and not everybody may have the license installed, so it can be quite tricky to open these kinds of files. I suggest to use the package `haven` for this matter.
 
 
-```r
+``` r
 library(haven) # This library is useful to deal with SPSS files.
   
 SPSSfile <- "myOtherData.sav" # Define the name of your SPSS file.
@@ -261,7 +260,7 @@ myOtherData <- read_sav(paste(inPath, SPSSfile, sep = "")) # Read in SPSS data. 
 * If you tested multiple groups (e.g., children, young adults, and older adults), you may want to organize their data in different folders. In this case, I recommend to loop through these folders and add up all files into one single data frame. Just provide a vector of character values as "in_path", with each character vector representing one path.
 
 
-```r
+``` r
 # Define in_path.
 in_path <- c("/home/soph/Documents/thesis/Holy_Folder/Child/"
               , "/home/soph/Documents/thesis/Holy_Folder/YA/"
@@ -271,7 +270,7 @@ in_path <- c("/home/soph/Documents/thesis/Holy_Folder/Child/"
   Next, create an empty data frame with the same amount of columns and the same column name as in your actual raw data.
 
 
-```r
+``` r
 all_groups <- setNames(data.frame(matrix(ncol = 9, nrow = 0))
                        , c("participant", "group", "age", "sex", "handedness"
                        , "IV1", "IV2", "DV1", "DV2"))
@@ -280,7 +279,7 @@ all_groups <- setNames(data.frame(matrix(ncol = 9, nrow = 0))
   Loop through the different directories and read the data from each directory one after another (e.g., into a data frame called "my_data"). Add it all to your empty data frame at the end of each iteration.
 
 
-```r
+``` r
 all_groups <- rbind(all_groups, my_data)
 ```
 
@@ -303,7 +302,7 @@ Our raw data files are usually organized such that one line contains all informa
 
 Let's have a look at the following example:
 
-```r
+``` r
 # Let's create a little example data frame.
 example1 <- setNames(data.frame(matrix(ncol = 5, nrow = 10))
                     , c("participant", "OS", "block_number", "DV", "IV"))
@@ -334,7 +333,7 @@ Side note: if you want to learn more about creating data frames, have a look at 
 
 The column "block_number" contains, well, the block number. Lines with `NA` are practice trials. We can remove them like this:
 
-```r
+``` r
 example1 <- example1[!is.na(example1$block_number),] # Check the different parts of this line. What do the "!" and "is.na" do? Also check out the position of the comma in the square brackets. Remember: Rows first, columns later on!
 example1
 ```
@@ -354,7 +353,7 @@ We probably also want to remove the column "OS" because it is not very helpful h
 
 The following three code chunks do the same thing:
 
-```r
+``` r
 example1_copy <- example1 # Let's create a copy of example1 so we can do the same stuff over and over again.
 example1 <- example1[,c(1,3,4,5)] # Select certain columns by index. Check out the position of the comma.
 example1
@@ -373,7 +372,7 @@ example1
 ```
 
 
-```r
+``` r
 example1 <- example1_copy # Back to our previous data frame.
 example1 <- example1[,c("participant", "block_number", "IV", "DV")] # Select certain columns by name.
 example1
@@ -392,7 +391,7 @@ example1
 ```
 
 
-```r
+``` r
 example1 <- example1_copy # Back to our previous data frame.
 example1$OS <- NULL # Delete a single columns by its name.
 example1
@@ -415,7 +414,7 @@ In the example above, it could be nice to switch the position of the independent
 
 The following two code chunks do the same thing:
 
-```r
+``` r
 example1 <- example1_copy # Back to our previous data frame.
 example1 <- example1[,c(1,3,5,4)] # Omit the second block and switch the two last blocks.
 example1
@@ -434,7 +433,7 @@ example1
 ```
 
 
-```r
+``` r
 example1 <- example1_copy # Back to our previous data frame.
 example1 <- example1[,c("participant", "block_number", "IV", "DV")] # Or use the variable names.
 example1
@@ -456,7 +455,7 @@ Sometimes, you need to calculate new variables. Imagine the participants' task w
 
 Let's create another little example data frame.
 
-```r
+``` r
 # Let's create a little example data frame.
 example2 <- setNames(data.frame(matrix(ncol = 4, nrow = 8))
                     , c("participant", "stimulus", "counterbalancing", "response"))
@@ -483,7 +482,7 @@ example2
 
 Let's first calculate a new variable that contains the meaning of the response.
 
-```r
+``` r
 example2$response_type <- "V" # As a default we put vowel.
 example2$response_type[example2$counterbalancing == "vowel_left" & example2$response == "r"] <- "C" # If the participant is supposed to indicate consonants with the right response (belongs to the first counterbalancing group) and responded with the right key.
 example2$response_type[example2$counterbalancing == "cons_left" & example2$response == "l"] <- "C" # If the participant is supposed to indicate consonants with the left response (belongs to the second counterbalancing group) and responded with the left key.
@@ -504,7 +503,7 @@ example2
 
 Let's calculate accuracy as well: `0` = incorrect response, `1` = correct response.
 
-```r
+``` r
 example2$accuracy[(example2$stimulus == "V" & example2$response_type == "V") | (example2$stimulus == "C" & example2$response_type == "C")] <- 1 # Let's find the cases where stimulus and response_type match. Have a look at how I combined logical "and" and "or" and how I used brackets here.
 example2$accuracy[is.na(example2$accuracy)] <- 0 # Now let us fill up with zeros for the incorrect responses.
 example2
@@ -532,7 +531,7 @@ Sometimes, we need to exclude outliers before we average raw data. For example, 
 
 * Use the function "group_by" of `dplyr` to group your data frame by participant. This could look like this:
 
-```r
+``` r
 my_data <- group_by(my_data, participant)
 ```
   You may be disappointed: Your data frame looks as it has looked before. However, all consecutive commands will be executed within the trials belonging to the same participant. Later, use `ungroup` if you do not want grouping anymore.  
@@ -544,7 +543,7 @@ In a similar way, you can also remove very fast responses, e.g. < 50 ms. In this
 
 Let us continue. I will provide an example data frame for you with one between IV, one within IV, and accuracy as DV:
 
-```r
+``` r
 example3 <- setNames(data.frame(matrix(ncol = 4, nrow = 12))
                     , c("participant", "IV1", "IV2", "accuracy"))
 # Values in columns.
@@ -578,7 +577,7 @@ You do not necessarily need to create a completely artificial example data frame
 
 Let us turn to the actual aggregation. I recommend the function "aggregate" from "stats":  
 
-```r
+``` r
 # Aggregate data (summarize over the within IV, separate for each participant).
 agg_example3 <- aggregate(example3$accuracy # Which variable should be aggregated?
                     ,list(example3$IV1,example3$participant,example3$IV2) # How should we split up the new data frame?
@@ -596,7 +595,7 @@ agg_example3
 
 The column names do not look especially fancy, so let us rename them.
 
-```r
+``` r
 # Create sensible column names.
 colnames(agg_example3) <- c('IV1'
                         ,'participant'
@@ -615,7 +614,7 @@ agg_example3
 
 We can now arrange the data frame the way we want, just as we did it with the raw data.
 
-```r
+``` r
 # Re-order columns.
 agg_example3 <- agg_example3[,c(2,1,3,4)]
 
@@ -641,7 +640,7 @@ One common dependent variable we use in memory research is the **recognition pro
 
 We first create an example data frame (already aggregated).
 
-```r
+``` r
 # Now something a little more realistic.
 example4 <- setNames(data.frame(matrix(ncol = 3, nrow = 6))
                     , c("participant", "stim_type", "accuracy"))
@@ -666,7 +665,7 @@ example4
 Let us group participants because everybody has an individual false alarm rate.
 
 
-```r
+``` r
 library(dplyr) # This library is our friend for so many things! Remember to install the package beforehand, if you have never used it before!
 
 # Group by participants (use "ungroup" to remove all grouping).
@@ -676,7 +675,7 @@ example4 <- group_by(example4, participant)
 And now, let us calculate **Pr**.
 Do not forget that, for new items, we currently have accuracy, not false alarm rate.
 
-```r
+``` r
 # For false alarm rates, we use 1 - the value in the third row. Thanks to grouping, this is done individually for all subjects.
 example4 <- mutate(example4, Pr = accuracy - (1-accuracy[3])) # mutate is also a nice and useful function.
 example4
@@ -697,7 +696,7 @@ example4
 
 **Pr** values for new items do not make any sense, remove values, so let us remove them.
 
-```r
+``` r
 example4$Pr[example4$stim_type == "new"] <- NA
 example4
 ```
@@ -717,7 +716,7 @@ example4
 
 Or remove the line with new items
 
-```r
+``` r
 example4 <- example4[!example4$stim_type == 'new',]
 example4
 ```
@@ -742,7 +741,7 @@ Double check again if your data frame is as it is supposed to be. If so, you are
 
 For exemplary descriptive analyses, let's stick to the previously mentioned example data frame. But we extend it a little bit to get more data points.  
 
-```r
+``` r
 example5 <- setNames(data.frame(matrix(ncol = 3, nrow = 12))
                     , c("participant", "stim_type", "Pr"))
 # Values in columns.
@@ -779,7 +778,7 @@ To get a more in-depth overview of descriptive statistics, check out the tutoria
 
 The most convenient function to get an overview is probably the `summary()` function. It gives you the minimum, 1st quartile, median, mean, 3rd quartile, maximum of all and only numeric variables (everything else is displayed as NA). Tip: if you have a large number of variables, add the `transpose = TRUE` argument for a better display.
 
-```r
+``` r
 summary(example5) 
 ```
 
@@ -795,7 +794,7 @@ summary(example5)
 
 So far so good, but this doesn't really make sense. It would be much more interesting to look at the **Pr** values for both conditions separately. So let's group the data by condition.
 
-```r
+``` r
 by(example5, example5$stim_type, summary) # It's nice to have both steps in just one line 
 ```
 
@@ -808,7 +807,7 @@ by(example5, example5$stim_type, summary) # It's nice to have both steps in just
 ##  Mean   : 7.50                      Mean   :0.1167  
 ##  3rd Qu.: 8.75                      3rd Qu.:0.1375  
 ##  Max.   :10.00                      Max.   :0.2100  
-## -------------------------------------------------------------------------------------- 
+## ------------------------------------------------------------------------ 
 ## example5$stim_type: sur
 ##   participant     stim_type               Pr        
 ##  Min.   : 5.00   Length:6           Min.   :0.3000  
@@ -821,7 +820,7 @@ by(example5, example5$stim_type, summary) # It's nice to have both steps in just
 
 I just want to mention here that if you have your data in the wide format, you can skip the grouping step and do instead:  
 
-```r
+``` r
 # Reshape to wide format.
 library(tidyr) # A nice package for data wrangling.
 example5_wide = spread(example5, stim_type, Pr)
@@ -838,7 +837,7 @@ example5_wide
 ## 6          10 0.03 0.99
 ```
 
-```r
+``` r
 # Summarize the wide format data frame.
 summary(example5_wide)
 ```
@@ -862,7 +861,7 @@ We won't do that here but just for you to know, you could also use:
 3. `freq()` for frequency tables
 4. `ctable()` for cross-tabulations
 
-```r
+``` r
 # install.packages("summarytools")
 # Uncomment if you have to install it the first time. Btw, it is common courtesy to include `install.packages()` functions only commented, i.e. `#install.packages()`. Otherwise you'd expect people who use your script to either check every line for unnecessary installations or to install packages they might already have installed. Both would just waste precious time.
 library(summarytools)
@@ -886,7 +885,7 @@ descr(example5_wide, stats = "common") # Most common descriptive statistics.
 ```
 
 
-```r
+``` r
 dfSummary(example5_wide)
 ```
 
@@ -936,7 +935,7 @@ For a more detailed description of how to investigate differences between two gr
 An easy way to get all the information we need is to use the function `summarySE()` from the package `Rmisc`. It will provide you with the standard deviation, standard error of the mean, and a (default 95%) confidence interval.  
 
 
-```r
+``` r
 # install.packages("Rmisc")
 library(Rmisc)
 
@@ -952,7 +951,7 @@ Easyinfo
 
 In the next step you can use this very easily generated information in order to plot the mean and according CI of the two stimulus groups:  
 
-```r
+``` r
 # install.packages("ggplot2")
 library(ggplot2) # Load the package.
 
@@ -968,19 +967,19 @@ ggplot(Easyinfo, aes(x=stim_type, y=Pr, colour=stim_type)) + # Here you specify 
 ## ℹ Do you need to adjust the group aesthetic?
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-40-1.png)<!-- -->
 
 Another very easy way to get the same plot (but with less info and way uglier):  
 
-```r
+``` r
 # install.packages("gplots")
 library(gplots)
 plotmeans(Pr ~ stim_type, data = example5)
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-41-1.png)<!-- -->
 
-```r
+``` r
 # But this is really only for the lazy ppl - stick with the 1st version if possible.
 ```
 
@@ -991,7 +990,7 @@ A handy way to calculate the within-subjects CI based on Cousineau is using the 
 
 
 
-```r
+``` r
 # install.packages("remotes")
 # remotes::install_github("TKoscik/tk.r.misc")
 library(tkmisc)
@@ -1013,7 +1012,7 @@ CI_within
 
 Of course we want to visually inspect these new CIs:  
 
-```r
+``` r
 ggplot(CI_within, aes(x=stim_type, y=Pr, colour=stim_type)) + 
   geom_errorbar(aes(ymin=lower, ymax=upper), width=.1) + # Add here the CI.
   geom_line() + # This specifies that we want a simple line.
@@ -1025,7 +1024,7 @@ ggplot(CI_within, aes(x=stim_type, y=Pr, colour=stim_type)) +
 ## ℹ Do you need to adjust the group aesthetic?
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-43-1.png)<!-- -->
 
 
 ### Data visualisation magic {#visualization}
@@ -1037,7 +1036,7 @@ For plotting I recommend the package [ggplot2](https://raw.githubusercontent.com
 
 Other than the plot before, a boxplot will show you by default the median as well as the first and third quartiles (the 25th and 75th percentiles). 
 
-```r
+``` r
 ggplot(example5, aes(stim_type, Pr, fill=stim_type)) + # `fill=` assignes different colors to the boxplots based on the condition.
   geom_boxplot() + # The actual function for a boxplot. 
   stat_summary(fun = "mean") # It might be helpful to add the mean here as a dot.
@@ -1047,11 +1046,11 @@ ggplot(example5, aes(stim_type, Pr, fill=stim_type)) + # `fill=` assignes differ
 ## Warning: Removed 2 rows containing missing values (`geom_segment()`).
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-44-1.png)<!-- -->
 
 You can change `notch` to `TRUE`. This will give you roughly a 95% CI around the median. This is usually used to compare groups and if the boxes do not overlap you can assume that there is a difference between the two medians.
 
-```r
+``` r
 ggplot(example5, aes(stim_type, Pr, fill=stim_type)) + # `fill=` assigns different colors to the boxplots based on the condition.
   geom_boxplot(notch = TRUE) + # The actual function for a boxplot. 
   stat_summary(fun = "mean") # It might be helpful to add the mean here as a dot.
@@ -1068,7 +1067,7 @@ ggplot(example5, aes(stim_type, Pr, fill=stim_type)) + # `fill=` assigns differe
 ## Warning: Removed 2 rows containing missing values (`geom_segment()`).
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-45-1.png)<!-- -->
 
 #### Adding titles and labels {#titles}
 
@@ -1076,7 +1075,7 @@ Awesome -- we've now got a plot clearly comparing the recognition probability (*
 
 One way of achieving this is by using `ggplot`'s `labs()` function. We can simply "add" this to our existing plotting code. For example:
 
-```r
+``` r
 ggplot(example5, aes(stim_type, Pr, fill=stim_type)) + 
   geom_boxplot() + 
   stat_summary(fun = "mean") + 
@@ -1091,14 +1090,14 @@ ggplot(example5, aes(stim_type, Pr, fill=stim_type)) +
 ## Warning: Removed 2 rows containing missing values (`geom_segment()`).
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-46-1.png)<!-- -->
 
 However, you will notice that this is not completely satisfactory for our x-axis and legend, since the variable stim_type that is involved here has the discrete levels "exp" and "sur" that also need to be renamed.
 
 This brings us to a second method of adding labels and titles which allows more fine-tuning. Here, we use scale_x_discrete() and scale_fill_discrete() to customise our x-axis and "fill" (i.e., colour fill legend) respectively.
 
 
-```r
+``` r
 ggplot(example5, aes(stim_type, Pr, fill=stim_type)) + 
   geom_boxplot() + 
   stat_summary(fun = "mean") + 
@@ -1118,7 +1117,7 @@ ggplot(example5, aes(stim_type, Pr, fill=stim_type)) +
 ## Warning: Removed 2 rows containing missing values (`geom_segment()`).
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-47-1.png)<!-- -->
 
 Now we have plots that make reasonable sense for any reader from a quick glance, hurrah!
 
@@ -1129,7 +1128,7 @@ Of course, there are many, many other ways to customise your data visualisation 
 Sometimes we want to visualise longitudinal data or we want to show which datapoints in two different conditions belong to the same participant. Therefore, we just add the `geom_line()` extension to what we already have created.  
 **BUT** keep in mind that too many lines (>6) can be confusing. In that case you might consider to create separate plots.  
 
-```r
+``` r
 ggplot(example5, aes(stim_type, Pr, fill=stim_type)) + 
   geom_boxplot() + 
   stat_summary(fun = "mean") + 
@@ -1151,13 +1150,13 @@ ggplot(example5, aes(stim_type, Pr, fill=stim_type)) +
 ## Warning: Removed 2 rows containing missing values (`geom_segment()`).
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-48-1.png)<!-- -->
 
 #### Fancy Barplots {#fancybarplots}
 
 Barplots are convenient if you have for example a categorical variable and another one that represents the amount/number of something. Let's assume we have 12 participants and we want to visualise how many of them chose an "Otter" as their favourite animal:
 
-```r
+``` r
 example6 = setNames(data.frame(matrix(ncol = 2, nrow = 12))
                     , c("participant", "animal")) 
 example6$participant = (1:12)
@@ -1192,7 +1191,7 @@ example6
 ## 12          12      Duck
 ```
 
-```r
+``` r
 ggplot(example6, aes(animal, fill=animal)) + 
   geom_bar() + # This gives you the barplot. 
   labs(title = "Favourite Animal Rating", 
@@ -1203,7 +1202,7 @@ ggplot(example6, aes(animal, fill=animal)) +
    "Animal") 
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-49-1.png)<!-- -->
 
 Nice!! -- naturally, the **Otter** is clearly the [most favourite animal!](https://i.kym-cdn.com/photos/images/original/001/550/716/eff.jpg)
 
@@ -1213,7 +1212,7 @@ Nice!! -- naturally, the **Otter** is clearly the [most favourite animal!](https
 To demonstrate how we can visualize correlation, let us consider a second continuous variable -- reaction time (**rt**) -- in addition to our existing continuous variable **Pr**.
 
 
-```r
+``` r
 example7 <- example5
 example7$rt <- c(1303,
                 900,
@@ -1249,17 +1248,17 @@ example7
 Let's say that we are interested in assessing whether participants' recognition probability are correlated with their reaction time. An easy way to get a glimpse of this is using a scatterplot, by using `geom_point()`.
 
 
-```r
+``` r
 ggplot(example7, aes(x=Pr , y=rt)) + 
   geom_point() # Makes a scatter plot using x and y variables specified in aes().
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-51-1.png)<!-- -->
 
 Okay, it looks like maybe something is going on here. While we could try and fit a single regression line through the above data points, it could also be more informative to see whether this relationship differs by some condition -- for instance, stimulus type in our case.
 
 
-```r
+``` r
 ggplot(example7, aes(x=Pr, y=rt, color=stim_type, shape=stim_type)) +
   geom_point() + 
   geom_smooth(method=lm, aes(fill=stim_type))
@@ -1269,7 +1268,7 @@ ggplot(example7, aes(x=Pr, y=rt, color=stim_type, shape=stim_type)) +
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-52-1.png)<!-- -->
 
 As we can see here, this visualization is quite informative, reflecting that the correlation between recognition probability and reaction time is of the same direction between the two stimulus types, and also echoing the previous boxplots that revealed recognition probability to be higher for expected stimuli than for surprising stimuli.
 
@@ -1290,7 +1289,7 @@ Before starting, let's create some fake data. Let's assume that we have reasons 
 
 (!! Nerd Alert!! The following procedure shows how to simulate and thus can be skipped... unless you are very interested in it)
 
-```r
+``` r
 # Set seed.
 set.seed(234634)
 # First, simulate recognition for hungry: the first 30 are for cold, the other 30 for warm food.
@@ -1331,7 +1330,7 @@ str(data_food)
 ##  $ wm         : num  0.663 0.663 0.826 0.826 0.8 ...
 ```
 
-```r
+``` r
 # Check the format of the data:
 head(data_food)
 ```
@@ -1346,7 +1345,7 @@ head(data_food)
 ## 33           3      warm  0.8200754 hungry 0.8002971
 ```
 
-```r
+``` r
 # Let us look at the data:
 data_food
 ```
@@ -1478,7 +1477,7 @@ The data are organized into a "long format", in which every row represents on co
 
 ### Normality assumption {#normality}
 
-```r
+``` r
 # Check the distribution of the response variable, performance (DV).
 library(ggplot2)
 ggplot(data_food, aes(recog_perf)) +
@@ -1487,37 +1486,37 @@ ggplot(data_food, aes(recog_perf)) +
   facet_grid(condition~group)
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/check normality-1.png)<!-- -->
+![](/independence-r_files/check normality-1.png)<!-- -->
 The distribution looks roughly normal. We could use a `QQ plot`.
 The `QQ plot` (quantile-quantile plot) shows the correlation between the observed data and the expected values, namely the values if data were normally distributed. If observed data are normally distributed, the `QQ plot` looks as a straight diagonal line. Deviations from the diagonal shows deviation from normality.
 
-```r
+``` r
 qqnorm(data_food$recog_perf[data_food$condition=="warm" & data_food$group=="hungry"], main = "QQ plot for the warm condition & hungry group")
 qqline(data_food$recog_perf[data_food$condition=="warm" & data_food$group=="hungry"])
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-53-1.png)<!-- -->
 
-```r
+``` r
 qqnorm(data_food$recog_perf[data_food$condition=="warm" & data_food$group=="not hungry"], main = "QQ plot for the warm condition & not hungry group")
 qqline(data_food$recog_perf[data_food$condition=="warm" & data_food$group=="not hungry"])
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-53-2.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-53-2.png)<!-- -->
 
-```r
+``` r
 qqnorm(data_food$recog_perf[data_food$condition=="cold" & data_food$group=="hungry"], main = "QQ plot for the cold condition & hungry group")
 qqline(data_food$recog_perf[data_food$condition=="cold" & data_food$group=="hungry"])
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-53-3.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-53-3.png)<!-- -->
 
-```r
+``` r
 qqnorm(data_food$recog_perf[data_food$condition=="cold" & data_food$group=="not hungry"], main = "QQ plot for the cold condition & not hungry group")
 qqline(data_food$recog_perf[data_food$condition=="cold" & data_food$group=="not hungry"])
 ```
 
-![](/lehre/independence/independence-r_files/figure-html/unnamed-chunk-53-4.png)<!-- -->
+![](/independence-r_files/unnamed-chunk-53-4.png)<!-- -->
 They look close to normality, apart from some outliers in the condition "cold" and "hungry". 
 We have to check it statistically. 
 
@@ -1525,7 +1524,7 @@ In order to test whether the distribution deviates from a normal distribution, w
 This test compares the observed vales are significantly different from normally distributed values. If the test is non-significant (p > .05), the distribution of data is not different from a normal distribution.
 
 
-```r
+``` r
 shapiro.test(data_food$recog_perf[data_food$condition=="warm" & data_food$group=="hungry"])
 ```
 
@@ -1537,7 +1536,7 @@ shapiro.test(data_food$recog_perf[data_food$condition=="warm" & data_food$group=
 ## W = 0.93816, p-value = 0.08114
 ```
 
-```r
+``` r
 shapiro.test(data_food$recog_perf[data_food$condition=="cold" & data_food$group=="hungry"])
 ```
 
@@ -1549,7 +1548,7 @@ shapiro.test(data_food$recog_perf[data_food$condition=="cold" & data_food$group=
 ## W = 0.94964, p-value = 0.1653
 ```
 
-```r
+``` r
 shapiro.test(data_food$recog_perf[data_food$condition=="warm" & data_food$group=="not hungry"])
 ```
 
@@ -1561,7 +1560,7 @@ shapiro.test(data_food$recog_perf[data_food$condition=="warm" & data_food$group=
 ## W = 0.96162, p-value = 0.3405
 ```
 
-```r
+``` r
 shapiro.test(data_food$recog_perf[data_food$condition=="cold" & data_food$group=="not hungry"])
 ```
 
@@ -1579,7 +1578,7 @@ In case data are not normally distributed, we can use a transformation (square, 
 In addition to being normally distributed, parametric tests require that the variances of different levels of one variable should be more or less equal. In other words, the variances should be "homogeneous". 
 In order to check for homogeneity fo variance, we can use the `Levene` test.
 
-```r
+``` r
 library(car)
 # We can check first if the variance differ across food condition.
 leveneTest(data_food$recog_perf, data_food$condition)
@@ -1592,7 +1591,7 @@ leveneTest(data_food$recog_perf, data_food$condition)
 ##       118
 ```
 
-```r
+``` r
 # Then across hunger group.
 leveneTest(data_food$recog_perf, data_food$group)
 ```
@@ -1610,7 +1609,7 @@ Let's run our parametric tests!
 We can start our analysis by checking whether participants' working memory correlates with recognition performance. For a more detailed tutorial on [correlation](/lehre/statistik-i/korrelation), check out `pandaR`.
 In order to do this, we need to work on a "wide-dataset", where every row represents a participant. We can use the `reshape()` function from the `reshape2` package. 
 
-```r
+``` r
 library(reshape2)
 ```
 
@@ -1625,7 +1624,7 @@ library(reshape2)
 ##     smiths
 ```
 
-```r
+``` r
 # Create a wide dataset by aggregating performance on the participant level.
 # In order to do that, we can use the reshape function. 
 # We need to specify the grouping variables ("idvar"), i.e. the variables that vary between participants. Those are participants' id, group, and wm. The condition that varies within participant ("timevar") is "condition". 
@@ -1645,7 +1644,7 @@ head(data_food_wide)
 ## 6           6 hungry 0.7940126       0.7107697       0.7325580
 ```
 
-```r
+``` r
 # As you can see, we have two columns indicating "recog_perf.warm" for warm condition, and "recog_perf.cold" for cold condition. 
 
 # We want to aggregate it by averaging within participant, to have one variable indicating the recognition performance at the participant level. 
@@ -1664,7 +1663,7 @@ shapiro.test(data_food_wide$wm)
 ## W = 0.96993, p-value = 0.1447
 ```
 
-```r
+``` r
 # Do the same for the aggregated recognition performance.
 shapiro.test(data_food_wide$recog_perf_avg)
 ```
@@ -1677,7 +1676,7 @@ shapiro.test(data_food_wide$recog_perf_avg)
 ## W = 0.97621, p-value = 0.2898
 ```
 
-```r
+``` r
 # They are both normally distributed. Let's do the correlation. 
 cor.test(data_food_wide$recog_perf_avg, data_food_wide$wm)
 ```
@@ -1702,7 +1701,7 @@ With regression we also explore relationships between variables. Unlike correlat
 A more detailed tutorial on regression analysis can also be found on `pandaR`, where there's a special [tutorial](/lehre/statistik-i/einfache-reg/) on it.
 Let's consider our working memory - recognition relationship as a regression. 
 
-```r
+``` r
 # R uses the "lm" (Linear Model) function to compute regression.
 regres<-lm(recog_perf_avg~wm, data=data_food_wide)
 # On the left side of the "~" there is the dependent variable, on the right the predictor(s).
@@ -1737,7 +1736,7 @@ We use t-tests to compare differences between two groups or conditions. In our f
 Let's test if they differ!
 We can start from the between-participants variable. 
 
-```r
+``` r
 t.test(recog_perf_avg~group, data = data_food_wide)
 ```
 
@@ -1760,7 +1759,7 @@ The t-test, like the ANOVA, can be considered as a special case of regression, i
 `R` automatically [dummy-codes](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faqwhat-is-dummy-coding/) the two group as "0" and "1" and returns the difference between the two. 
 Therefore, we could run a t-test by using the `lm()` function as we have already done for regression
 
-```r
+``` r
 t_test_as_reg<-lm(recog_perf_avg~group, data = data_food_wide)
 
 summary(t_test_as_reg)
@@ -1787,7 +1786,7 @@ summary(t_test_as_reg)
 ## F-statistic:  16.7 on 1 and 58 DF,  p-value: 0.0001365
 ```
 
-```r
+``` r
 # The t-value and p-value are the same as the t-test that we did before. 
 ```
 The only difference with the test that we ran before is that the sign of the t-value in the lm was negative. This occurs because the values that are shown refer to the difference between the "not hungry" condition and the "hungry" condition, the latter being the reference level (`R` automatically assigns reference level according to alphabetical order). 
@@ -1796,7 +1795,7 @@ Now we can compare the within-participants variable: condition (warm vs. cold)
 In this case we have to use a paired sample t-test. We can use the t-test function and specify
 that the data are paired. 
 
-```r
+``` r
 # Subset the variable to extract the data. 
 t.test(data_food_wide$recog_perf.warm, data_food_wide$recog_perf.cold, paired = TRUE)
 ```
@@ -1815,28 +1814,9 @@ t.test(data_food_wide$recog_perf.warm, data_food_wide$recog_perf.cold, paired = 
 ##       0.1390006
 ```
 
-```r
+``` r
 # This t-test is considering that each case is "paired" with the other, meaning that it is coming from the same participant. 
 
-# We could also run it in our long dataset.
-t.test(recog_perf~condition, data = data_food, paired =T)
-```
-
-```
-## 
-## 	Paired t-test
-## 
-## data:  recog_perf by condition
-## t = -5.2523, df = 59, p-value = 2.159e-06
-## alternative hypothesis: true mean difference is not equal to 0
-## 95 percent confidence interval:
-##  -0.19195630 -0.08604487
-## sample estimates:
-## mean difference 
-##      -0.1390006
-```
-
-```r
 # In order to understand the direction of the difference, let's get the means of the two conditions.
 by(data_food$recog_perf, data_food$condition, FUN = mean)
 ```
@@ -1844,7 +1824,7 @@ by(data_food$recog_perf, data_food$condition, FUN = mean)
 ```
 ## data_food$condition: cold
 ## [1] 0.5574449
-## -------------------------------------------------------------------------------------- 
+## ------------------------------------------------------------------------ 
 ## data_food$condition: warm
 ## [1] 0.6964455
 ```
@@ -1857,7 +1837,7 @@ Now that we know how to compare two means, we can consider cases in which we hav
 (!! Nerd Alert !!) We need to create a third group in our data. The following section is not important and can be skipped, unless you are really interested. 
 
 
-```r
+``` r
 # We can create a third group of "super hungry" people that are just starving.
 recog_perf_sH<-c(rnorm(30, mean=0.40, sd=0.13), rnorm(30, mean=0.50, sd=0.12)) 
 
@@ -1897,7 +1877,7 @@ head(data_food)
 ## 33           3      warm  0.8200754 hungry 0.8002971
 ```
 
-```r
+``` r
 # Re-create the dataframe in wide format.
 data_food_wide<-reshape(data_food, idvar = c("participant", "group", "wm"), timevar = "condition", direction = "wide")
 
@@ -1916,14 +1896,14 @@ head(data_food_wide)
 ```
 Okay, now let's compare the three groups (hungry, not hungry, super hungry) in our wide format dataset (data_food_wide). We can use the `aov()` function. Another popular way to run ANOVAs is by using the `ez()` package.
 
-```r
+``` r
 # Let's run a levene test first.
 leveneTest(data_food_wide$recog_perf_avg, data_food_wide$group, center = mean)
 ```
 
 ```
-## Warning in leveneTest.default(data_food_wide$recog_perf_avg, data_food_wide$group, : data_food_wide$group coerced
-## to factor.
+## Warning in leveneTest.default(data_food_wide$recog_perf_avg, data_food_wide$group, :
+## data_food_wide$group coerced to factor.
 ```
 
 ```
@@ -1933,7 +1913,7 @@ leveneTest(data_food_wide$recog_perf_avg, data_food_wide$group, center = mean)
 ##       87
 ```
 
-```r
+``` r
 # Since it is non-significant, the variances of the two groups are similar.
 anova_betw<-aov(recog_perf_avg~group, data=data_food_wide)
 
@@ -1949,7 +1929,7 @@ summary(anova_betw)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-```r
+``` r
 # The "summary" function returns the "omnibus" test, testing whether the recognition performance varies as a function of the hungry group. If we want to have an idea on the differences between the different conditions, we can run the ANOVA as a regression, by using the "lm" function. 
 LM_betw<-lm(recog_perf_avg~group, data=data_food_wide)
 summary(LM_betw)
@@ -1980,7 +1960,7 @@ The output of the ANOVA as regression analysis shows three coefficients. The int
 
 But what about the difference between the super hungry and not hungry groups? If we are interested in it, we can change the reference category.
 
-```r
+``` r
 # Let's make the "super hungry" group the reference level. 
 #data_food_wide$group<-relevel(data_food_wide$group, ref = "super hungry")
 
@@ -2022,7 +2002,7 @@ First, we need to create a third condition. Let's imagine that we are also showi
 
 (!! Nerd Alert !!) You know what I mean. 
 
-```r
+``` r
 recog_perf_H<-rnorm(30, mean=0.50, sd=0.13)
 # Now for not hungry.
 recog_perf_nH<-rnorm(30, mean=0.40, sd=0.14)
@@ -2073,7 +2053,7 @@ You can see that we now have three different measures for each participant, corr
 Now we want to check whether the recognition performance varies as a function of these three food conditions, that are repeated withing participants. 
 In order to do that, we can use the "ezAnova" function, from the package "ez"
 
-```r
+``` r
 library(ez)
 # Convert participant variable as factor.
 data_food$participant<-as.factor(data_food$participant)
@@ -2108,7 +2088,7 @@ The `ezAnova()` function also runs a "Mauchly test for Sphericity", and correcte
 But what about contrasts?
 
 
-```r
+``` r
 # We could use the following syntax to run pairwise, bonferroni corrected, contrasts.
 pairwise.t.test(data_food$recog_perf, data_food$condition, paired = TRUE,
 p.adjust.method = "bonferroni")
@@ -2132,7 +2112,7 @@ We could also consider the repeated measure ANOVA as a regression. In order to d
 The package used to run LMM is "lme4". 
 
 
-```r
+``` r
 library(lme4)
 library(lmerTest) # We also need this package to show the p-values.
 
@@ -2183,7 +2163,7 @@ In order to find it out, we can consider this analysis either as a mixed-model A
 
 Let's start with the former. 
 
-```r
+``` r
 # This analysis is the same as our previous ezAnova example, with the only difference that we are adding a between-participants variable(group).
 anova_mixed<-ezANOVA(data = data_food, # Dataframe.
                  dv = .(recog_perf), # Dependent variable. This functions requires to place the name of each variable within .() 
@@ -2202,7 +2182,7 @@ anova_mixed<-ezANOVA(data = data_food, # Dataframe.
 ## Warning: Converting "group" to factor for ANOVA.
 ```
 
-```r
+``` r
 anova_mixed
 ```
 
@@ -2227,7 +2207,7 @@ anova_mixed
 As we can see, the effects of group and condition are significant, but the interaction between the two is not. Let's try the LMM analysis. 
 
 
-```r
+``` r
 # This is very similar to our previous example, with the only difference that now we are adding one more fixed effect and the interaction.
 LMM_mixed<-lmer(recog_perf~condition+group+condition:group # This means that our model is a multiple regression (there are more that one fixed effects) in which we are trying to predict recogPerf from condition, group, and their interaction. 
                + (1| participant), # Random intercept for participants. The three food conditions (warm, cold, frozen) come from the same participants, and therefore we need to account for the fact that they are correlated within each participant.
@@ -2268,21 +2248,30 @@ summary(LMM_mixed)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
-##                 (Intr) cndtnf cndtnw grpnth grpsph cndtnfrzn:grpnh cndtnwrm:grpnh cndtnfrzn:grpsh
-## conditnfrzn     -0.707                                                                           
-## conditinwrm     -0.707  0.500                                                                    
-## gropnthngry     -0.707  0.500  0.500                                                             
-## grpsprhngry     -0.707  0.500  0.500  0.500                                                      
-## cndtnfrzn:grpnh  0.500 -0.707 -0.354 -0.707 -0.354                                               
-## cndtnwrm:grpnh   0.500 -0.354 -0.707 -0.707 -0.354  0.500                                        
-## cndtnfrzn:grpsh  0.500 -0.707 -0.354 -0.354 -0.707  0.500           0.250                        
-## cndtnwrm:grpsh   0.500 -0.354 -0.707 -0.354 -0.707  0.250           0.500          0.500         
+##                 (Intr) cndtnf cndtnw grpnth grpsph cndtnfrzn:grpnh cndtnwrm:grpnh
+## conditnfrzn     -0.707                                                           
+## conditinwrm     -0.707  0.500                                                    
+## gropnthngry     -0.707  0.500  0.500                                             
+## grpsprhngry     -0.707  0.500  0.500  0.500                                      
+## cndtnfrzn:grpnh  0.500 -0.707 -0.354 -0.707 -0.354                               
+## cndtnwrm:grpnh   0.500 -0.354 -0.707 -0.707 -0.354  0.500                        
+## cndtnfrzn:grpsh  0.500 -0.707 -0.354 -0.354 -0.707  0.500           0.250        
+## cndtnwrm:grpsh   0.500 -0.354 -0.707 -0.354 -0.707  0.250           0.500        
+##                 cndtnfrzn:grpsh
+## conditnfrzn                    
+## conditinwrm                    
+## gropnthngry                    
+## grpsprhngry                    
+## cndtnfrzn:grpnh                
+## cndtnwrm:grpnh                 
+## cndtnfrzn:grpsh                
+## cndtnwrm:grpsh   0.500         
 ## optimizer (nloptwrap) convergence code: 0 (OK)
 ## boundary (singular) fit: see help('isSingular')
 ```
 What we see here is a series of contrasts. If we want to check the effect of each variable (and their interaction) we can use the "Anova" function (with the capital "A") from the "car" package. 
 
-```r
+``` r
 library(car)
 
 Anova(LMM_mixed, type = "III")
@@ -2385,7 +2374,7 @@ Checkout these packages and additional options to install and load packages. Or,
 ## Let's start and create a few objects {#objects}
 Let us clean up the global environment first.
 
-```r
+``` r
 rm(list = ls())
 ```
 
@@ -2395,7 +2384,7 @@ In `R`, we can create certain objects that we can play around with, for example 
 
 A common object class is the vector.
 
-```r
+``` r
 r <- c(1:10) # Creates a vector containing the numbers 1:10 (from 1 to 10). The : here is super useful.
 r # When we type in the name of the object, we can see its contents.
 ```
@@ -2404,7 +2393,7 @@ r # When we type in the name of the object, we can see its contents.
 ##  [1]  1  2  3  4  5  6  7  8  9 10
 ```
 
-```r
+``` r
 # Assignments are usually done with <-
 ```
 
@@ -2412,7 +2401,7 @@ r # When we type in the name of the object, we can see its contents.
 
 Let us look at a few different ways to create vectors.
 
-```r
+``` r
 s = c(1.2, 18) # Assignments also possible with = . Use , to separate the elements.
 s
 ```
@@ -2422,7 +2411,7 @@ s
 ```
 
 
-```r
+``` r
 assign("t", c(r, 7, 9, 11, 13)) # Or assign. You can also put an object into an object.
 t
 ```
@@ -2434,7 +2423,7 @@ t
 
 
 
-```r
+``` r
 c(21, 8, 22.5, 3) -> u # Or you use the other arrow -> and the name of the new object on the right side. That's actually confusing, I would not recommend it.
 u
 ```
@@ -2444,7 +2433,7 @@ u
 ```
 
 
-```r
+``` r
 -u # What happens here?
 ```
 
@@ -2453,7 +2442,7 @@ u
 ```
 
 
-```r
+``` r
 u <- c(u, -5) #Y ou can also overwrite an object.
 u
 ```
@@ -2464,7 +2453,7 @@ u
 
 Have a look at the vector:
 
-```r
+``` r
 u # Entire vector.
 ```
 
@@ -2473,7 +2462,7 @@ u # Entire vector.
 ```
 
 
-```r
+``` r
 u[2] # Only second element.
 ```
 
@@ -2482,7 +2471,7 @@ u[2] # Only second element.
 ```
 
 
-```r
+``` r
 v <- u[2:4] # And what do we get here?
 v
 ```
@@ -2493,7 +2482,7 @@ v
 
 We can get an overview of our objects as follows.
 
-```r
+``` r
 objects() # Lists all objects which are in the environment.
 ```
 
@@ -2503,7 +2492,7 @@ objects() # Lists all objects which are in the environment.
 
 Another option:
 
-```r
+``` r
 ls()
 ```
 
@@ -2513,7 +2502,7 @@ ls()
 
 If we do not want an object anymore, we can delete it.
 
-```r
+``` r
 rm(v) # Removes an object you do not want anymore.
 ls()
 ```
@@ -2524,7 +2513,7 @@ ls()
 
 There are other fancy ways to create vectors if there is some predictable pattern.
 
-```r
+``` r
 v <- rep(u, times=2) # This is how you repeat.
 v
 ```
@@ -2534,7 +2523,7 @@ v
 ```
 
 
-```r
+``` r
 w <- rep(u, each=2) # Another option for repeating.
 w
 ```
@@ -2545,7 +2534,7 @@ w
 
 And maybe you want to sort your vector.
 
-```r
+``` r
 x <- sort(u) # Sort the elements of the vector.
 x
 ```
@@ -2556,7 +2545,7 @@ x
 
 We can also use characters. There are indeed different classes of objects in `R`, and text versus numbers have specific formats. Remember to put the '' for characters.
 
-```r
+``` r
 y <- c('psy', 'rules')
 y
 ```
@@ -2567,7 +2556,7 @@ y
 
 And we can change the class easily!
 
-```r
+``` r
 x_char <- as.character(x) # We can change digits into characters. Note ''.
 x_char
 ```
@@ -2577,7 +2566,7 @@ x_char
 ```
 
 
-```r
+``` r
 x_int <- as.integer(x_char) # And back into digits, here integers. Note no decimal places.
 x_int
 ```
@@ -2588,7 +2577,7 @@ x_int
 
 Checkout the type of our objects.
 
-```r
+``` r
 mode(x) # What type are our elements?
 ```
 
@@ -2597,7 +2586,7 @@ mode(x) # What type are our elements?
 ```
 
 
-```r
+``` r
 mode(y)
 ```
 
@@ -2606,7 +2595,7 @@ mode(y)
 ```
 And we can get even more fun information of our vectors such as its dimensions.
 
-```r
+``` r
 length(y) # Length of the vector.
 ```
 
@@ -2619,7 +2608,7 @@ length(y) # Length of the vector.
 Try + - / * ^ log exp sin cos tan sqrt
 Example:
 
-```r
+``` r
 s_plus_2 <- s + 2 # For example.
 s_plus_2
 ```
@@ -2630,7 +2619,7 @@ s_plus_2
 
 You can chain operations together with the pipe operator %>%.
 
-```r
+``` r
 s_log_round <- s %>% log() %>% round()
 s_log_round
 ```
@@ -2662,7 +2651,7 @@ And here are some more useful functions.
 
 Now we create vectors which contain series of numbers. Remember:
 
-```r
+``` r
 a <- seq(1,12)
 b <- seq(from=-5, to=7)
 c <- seq(2, -1, by=-.2) # Elements in descending order. We specify the difference.
@@ -2674,7 +2663,7 @@ a
 ##  [1]  1  2  3  4  5  6  7  8  9 10 11 12
 ```
 
-```r
+``` r
 b
 ```
 
@@ -2682,7 +2671,7 @@ b
 ##  [1] -5 -4 -3 -2 -1  0  1  2  3  4  5  6  7
 ```
 
-```r
+``` r
 c
 ```
 
@@ -2690,7 +2679,7 @@ c
 ##  [1]  2.0  1.8  1.6  1.4  1.2  1.0  0.8  0.6  0.4  0.2  0.0 -0.2 -0.4 -0.6 -0.8 -1.0
 ```
 
-```r
+``` r
 d
 ```
 
@@ -2711,7 +2700,7 @@ Let's have a look at arrays. Let's check out the help first to see what the docu
 
 Let's go and use the array function!
 
-```r
+``` r
 arr_3_dim <- array(1:24, dim=c(3,4,2)) # Check how it looks like.
 arr_3_dim
 ```
@@ -2734,7 +2723,7 @@ arr_3_dim
 
 Now we can use this array to create another one.
 
-```r
+``` r
 arr_2_dim <- array(arr_3_dim, dim=c(6,4)) # Cool! We can rearrange our data in a different way. Note: Zeilen zuerst, Spalten spaeter.
 arr_2_dim
 ```
@@ -2751,7 +2740,7 @@ arr_2_dim
 
 "You can do anything you want to do - This is your world." (Bob Ross)
 
-```r
+``` r
 arr <- array(c(-5, r, -3.54), dim=c(2,2,3))
 arr
 ```
@@ -2778,7 +2767,7 @@ arr
 
 Some more examples:
 
-```r
+``` r
 arr2 <- array(arr, dim=c(6,2))
 arr2
 ```
@@ -2794,7 +2783,7 @@ arr2
 ```
 
 
-```r
+``` r
 arr3 <- array(arr, dim=c(2,6))
 arr3
 ```
@@ -2806,7 +2795,7 @@ arr3
 ```
 
 
-```r
+``` r
 arr4 <- t(arr3) # Transpose function.
 arr4
 ```
@@ -2826,7 +2815,7 @@ What is t?
 
 Array indexing is very important to control your array. Check out the following examples carefully.
 
-```r
+``` r
 arr[2,1,3]
 ```
 
@@ -2835,7 +2824,7 @@ arr[2,1,3]
 ```
 
 
-```r
+``` r
 arr[,,1]
 ```
 
@@ -2846,7 +2835,7 @@ arr[,,1]
 ```
 
 
-```r
+``` r
 arr[,,c(1,3)]
 ```
 
@@ -2870,7 +2859,7 @@ Let's turn to matrices now. Let's check out the help first to see what the docum
 
 Combine vectors into matrix.
 
-```r
+``` r
 mat1 <- cbind(r,r)
 mat1
 ```
@@ -2891,7 +2880,7 @@ mat1
 
 Check out the matrix function.
 
-```r
+``` r
 mat2 <- matrix(r, 2,5)
 mat2
 ```
@@ -2904,7 +2893,7 @@ mat2
 
 Time to create new matrices based on the existing ones!
 
-```r
+``` r
 mat3 <- matrix(r,2,)
 mat3
 ```
@@ -2916,7 +2905,7 @@ mat3
 ```
 
 
-```r
+``` r
 mat4 <- matrix(r, ncol=5)
 mat4
 ```
@@ -2928,7 +2917,7 @@ mat4
 ```
 
 
-```r
+``` r
 mat5 <- matrix(r, nrow=2)
 mat5
 ```
@@ -2951,7 +2940,7 @@ Please also change the second column to characters!
 
 Check out the following example. Run it several times.
 
-```r
+``` r
 rdg <- sample(1:2,1) # Randomly select 1 or 2.
 if (rdg == 1){ # if the random digit is 1
   print ('Heaven') 
@@ -2986,7 +2975,7 @@ There are different types of loops:
 
 1) For loops.
 
-```r
+``` r
 vec <- 10:20
 for(i in 1:5){
   print(vec[i])
@@ -3005,7 +2994,7 @@ In general, it is not the best idea to test your loop in one single step. You sh
 
 2) While loops.
 
-```r
+``` r
 i <- 1
 while(i<=3){
   print(paste('This is round', i, 'of 3'))
@@ -3021,7 +3010,7 @@ while(i<=3){
 
 3) Repeat loops. Here, every block of commands is executed at least once. The break command ends the loop.
 
-```r
+``` r
 i <- 1
 repeat{
   if(i<=3){ # Note that all loops and if statements can be flexibly combined.
@@ -3044,7 +3033,7 @@ repeat{
 
 4) We can also use next within a loop.
 
-```r
+``` r
 m=8
 for (i in 1:m){
   print(i)

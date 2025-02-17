@@ -9,7 +9,7 @@ subtitle: 'MANOVA'
 summary: '' 
 authors: [irmer] 
 weight: 6
-lastmod: '2024-03-12'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/beach.jpg"
@@ -68,20 +68,20 @@ head(Therapy)
 ```
 
 ```
-##   Lebenszufriedenheit Arbeitsbeanspruchung Depressivitaet Arbeitszufriedenheit
-## 1                   7                    4              7                    5
-## 2                   5                    5              8                    3
-## 3                   8                    7              6                    6
-## 4                   6                    4              5                    5
-## 5                   6                    9              8                    5
-## 6                   8                    7              8                    6
-##     Intervention Geschlecht
-## 1 Kontrollgruppe          0
-## 2 Kontrollgruppe          1
-## 3 Kontrollgruppe          0
-## 4 Kontrollgruppe          1
-## 5 Kontrollgruppe          1
-## 6 Kontrollgruppe          1
+##   Lebenszufriedenheit Arbeitsbeanspruchung Depressivitaet Arbeitszufriedenheit   Intervention
+## 1                   7                    4              7                    5 Kontrollgruppe
+## 2                   5                    5              8                    3 Kontrollgruppe
+## 3                   8                    7              6                    6 Kontrollgruppe
+## 4                   6                    4              5                    5 Kontrollgruppe
+## 5                   6                    9              8                    5 Kontrollgruppe
+## 6                   8                    7              8                    6 Kontrollgruppe
+##   Geschlecht
+## 1          0
+## 2          1
+## 3          0
+## 4          1
+## 5          1
+## 6          1
 ```
 
 ```r
@@ -89,8 +89,7 @@ levels(Therapy$Intervention)
 ```
 
 ```
-## [1] "Kontrollgruppe"              "VT Coaching"                
-## [3] "VT Coaching + Gruppenuebung"
+## [1] "Kontrollgruppe"              "VT Coaching"                 "VT Coaching + Gruppenuebung"
 ```
 
 ```r
@@ -109,8 +108,8 @@ colnames(Therapy) # Spaltennamen ansehen
 ```
 
 ```
-## [1] "Lebenszufriedenheit"  "Arbeitsbeanspruchung" "Depressivitaet"      
-## [4] "Arbeitszufriedenheit" "Intervention"         "Geschlecht"
+## [1] "Lebenszufriedenheit"  "Arbeitsbeanspruchung" "Depressivitaet"       "Arbeitszufriedenheit"
+## [5] "Intervention"         "Geschlecht"
 ```
 
 ```r
@@ -143,6 +142,13 @@ Nachdem wir neue Pakete installiert haben (`install.packages`), laden wir diese:
 
 ```r
 library(heplots) # für Box-M Test für Kovarianzhomogenität
+```
+
+```
+## Warning: Paket 'heplots' wurde unter R Version 4.3.2 erstellt
+```
+
+```r
 library(car)
 ```
 
@@ -292,7 +298,7 @@ In Eid et al. (2017) wird auch Pillai's Spur empfohlen für die Signifikanztestu
 Wir wissen nun, dass es Unterschiede gibt. Allerdings wissen wir noch nicht auf welchen Variablen und zwischen welchen Gruppen diese vorliegen. Um eine Idee zu erhalten, schauen wir uns das ganze einmal grafisch an (der Code zur Grafik findet sich in [Appendix A](#AppendixA)). In dieser Grafik werden die SEs der Mittelwerte pro Variable dargestellt (nicht die Konfidenzintervalle). Die Fehlerbalken können also ein Indiz für mögliche signifikante Unterschiede liefern, allerdings können diese nicht die Signifikanzentscheidung ersetzen:
 
 
-![](/lehre/fue-i/manova_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/manova_files/unnamed-chunk-12-1.png)<!-- -->
  
 Auch können wir mit `aggregate` Mittelwerte (und andere Deskriptivstatistiken) sehr leicht für verschiedene Gruppen bestimmen: sie nimmt bspw. die gleiche Modellgleichung entgegen wie `manova` - wir müssen lediglich das Argument `FUN` ergänzen, welchen wir die Funktion, die pro Gruppe angewandt weden soll, übergeben müssen. Auch andere Funktionen wären hier möglich (wie etwa `sd`, `min`, `median` oder `max`).
 
@@ -458,10 +464,10 @@ TukeyHSD(aov(LZ ~ Intervention, data = Therapy)) # Tukey HSD für LZ
 ## Fit: aov(formula = LZ ~ Intervention, data = Therapy)
 ## 
 ## $Intervention
-##                                                    diff        lwr       upr     p adj
-## VT Coaching-Kontrollgruppe                 8.881784e-16 -0.8666764 0.8666764 1.0000000
-## VT Coaching + Gruppenuebung-Kontrollgruppe 1.400000e+00  0.5333236 2.2666764 0.0006493
-## VT Coaching + Gruppenuebung-VT Coaching    1.400000e+00  0.5333236 2.2666764 0.0006493
+##                                                     diff        lwr       upr     p adj
+## VT Coaching-Kontrollgruppe                 -8.881784e-16 -0.8666764 0.8666764 1.0000000
+## VT Coaching + Gruppenuebung-Kontrollgruppe  1.400000e+00  0.5333236 2.2666764 0.0006493
+## VT Coaching + Gruppenuebung-VT Coaching     1.400000e+00  0.5333236 2.2666764 0.0006493
 ```
 
 ```r
@@ -470,7 +476,7 @@ tukeyLZ <- TukeyHSD(aov(LZ ~ Intervention, data = Therapy))
 plot(tukeyLZ, las = 1)
 ```
 
-![](/lehre/fue-i/manova_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](/manova_files/unnamed-chunk-19-1.png)<!-- -->
 
 ```r
 TukeyHSD(aov(Dep ~ Intervention, data = Therapy)) # Tukey HSD für Dep
@@ -493,7 +499,7 @@ TukeyHSD(aov(Dep ~ Intervention, data = Therapy)) # Tukey HSD für Dep
 plot(TukeyHSD(aov(Dep ~ Intervention, data = Therapy)), las = 1) # Tukey HSD-Plot für Dep
 ```
 
-![](/lehre/fue-i/manova_files/figure-html/unnamed-chunk-19-2.png)<!-- -->
+![](/manova_files/unnamed-chunk-19-2.png)<!-- -->
 
 ```r
 TukeyHSD(aov(AZ ~ Intervention, data = Therapy)) # Tukey HSD für AZ
@@ -516,7 +522,7 @@ TukeyHSD(aov(AZ ~ Intervention, data = Therapy)) # Tukey HSD für AZ
 plot(TukeyHSD(aov(AZ ~ Intervention, data = Therapy)), las = 1) # Tukey HSD-Plot für AZ
 ```
 
-![](/lehre/fue-i/manova_files/figure-html/unnamed-chunk-19-3.png)<!-- -->
+![](/manova_files/unnamed-chunk-19-3.png)<!-- -->
 
 Schließen die HSD (Intervalle) die Null (vertikale gestrichelte Linie) **_nicht_** ein, so ist der Mittel in den beiden Gruppen unterschiedlich (mit einer Irrtumswahrscheinlichkeit von 5%). Wir können die Achsenbeschriftungen leider nicht sehr gut erkennen, allerdings können wir dem Output der `TukeyHSD`-Funktion entnehmen, welche Mittelwerte verglichen wurden: somit wissen wir, dass das erste Paar  `VT Coaching` und `Kontrollgruppe`, das zweite Paar `VT Coaching + Gruppenuebung`  und die `Kontrollgruppe` und das  3. Paar die beiden VT-Gruppen vergleicht. 
 
@@ -546,7 +552,7 @@ xWerte <- seq(from = min(MD), to = max(MD), by = 0.01)
 lines(x = xWerte, y = dchisq(x = xWerte, df = 4), lwd = 3, col = "blue")
 ```
 
-![](/lehre/fue-i/manova_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](/manova_files/unnamed-chunk-20-1.png)<!-- -->
 
 Noch besser sieht man es vielleicht mit einem Q-Q-Plot. Wir verwenden hier wieder die Funktion aus dem `car`-Paket, wie in der Sitzung zur [Regression](/lehre/fue-i/regression-und-ausreisserdiagnostik).
 
@@ -555,7 +561,7 @@ Noch besser sieht man es vielleicht mit einem Q-Q-Plot. Wir verwenden hier wiede
 qqPlot(MD, distribution = "chisq", df = 4)
 ```
 
-![](/lehre/fue-i/manova_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+![](/manova_files/unnamed-chunk-21-1.png)<!-- -->
 
 ```
 ## [1] 55 41
@@ -800,7 +806,7 @@ Therapy_long$Variable[Therapy_long$Variable == 4] <- "Arbeitszufriedenheit"
 ggplot(Therapy_long, aes(x = Intervention, y = AVs,  group = Variable, col = Variable))+ stat_summary(fun.data = mean_se)+stat_summary(fun.data = mean_se, geom = c("line"))
 ```
 
-![](/lehre/fue-i/manova_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
+![](/manova_files/unnamed-chunk-27-1.png)<!-- -->
 
 `reshape` transformiert den Datensatz vom Wide in das Long-Format (weites Format vs. langes Format): `data` nimmt den Datensatz entgegen, `varying` die Variablen, die wiederholt gemessen wurden (in diesem Fall unsere AVs), `v.names` nimmt die Namen unter dem die Variablen zusammengefasst werden sollen entgegen, `timevar` zeigt die Variable, die Wiederholung kennzeichnen soll, `idvar` sind Variablen, die sich über die Wiederholungen nicht verändern (die also Mehrfach in den Datensatz integriert werden) und `direction` nimmt entgegen, ob von Wide zu Long (`"long"`) oder von Long zu Wide (`"wide"`) transformiert werden soll. Dem Code ist ersichtlich, dass dies insbesondere für Messwiederholungen verwendet wird. Wir können hier allerdings die Variablen als Messwiederholungen auf unterschiedlichen Variablen ansehen. Das Long-Format ist insbesondere für das Darstellen mehrerer Gruppen in `ggplot` interessant. Hier lassen sich über die Gruppierungsvariable (hier `Variable` - den Namen, den wir `timevar` übergeben hatten) ganz leicht mehrere Linien einzeichnen. Die Fehlerbalken sind hierbei ganz einfach der SE des Mittelwerts pro Variable und Gruppe. Die Daten werden mit `stat_summary` und dem Zusatzargument `fun.data = mean_se` in Mittelwert und SE des Mittelwerts zusammengefasst. Eine detaillierte Erläuterung finden Sie in [<i class="fa-solid fa-graduation-cap"></i> Grafiken mit `ggplot2`](/lehre/statistik-ii/grafiken-mit-ggplot2) von [Prof. Dr. Martin Schultze](/authors/schultze).
 

@@ -144,12 +144,7 @@ plot(pred, res,
 
 plot(mod2_new, which = 3)
 
-mod4 <- lm(time_pre ~ 1 + vertr, fb24)
-plot(mod4, which = 3)
-
 car::ncvTest(mod2_new)
-
-car::ncvTest(mod4)
 
 car::qqPlot(mod2_new)
 

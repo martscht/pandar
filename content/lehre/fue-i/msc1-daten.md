@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer] 
 weight: 1
-lastmod: '2024-03-08'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/dog_with_glasses.jpg"

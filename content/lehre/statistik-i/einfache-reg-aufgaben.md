@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [winkler, neubauer, walter]
 weight:
-lastmod: '2024-12-16'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/modern_buildings.jpg"

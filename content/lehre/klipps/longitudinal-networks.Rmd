@@ -43,6 +43,9 @@ output:
 
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
@@ -241,7 +244,8 @@ The dataset utilized in this study is publicly available and can be accessed via
 You can also find the dataset in the Moodle platform. 
 
 ```{r, echo=FALSE, purl=FALSE}
-load("~/PowerFolders/Lehre/2024/KliPPs/network/COVID19_dynamic_analyses_cleaned.Rdata")
+#load("~/PowerFolders/Lehre/2024/KliPPs/network/COVID19_dynamic_analyses_cleaned.Rdata")
+load(file.path(path.expand("~"), "COVID19_dynamic_analyses_cleaned.Rdata"))
 ```
 
 ```{r, eval = FALSE}
@@ -299,29 +303,29 @@ Let’s consider a scenario where $y$ represents **Depressed Mood** over time.
 
 A simple **first-order autoregressive** model can be written as:
 
-<math> 
+ 
 $$
 y_{ti} = \beta_0 + \beta_1 y_{t-1,i} + \epsilon_{ti}
 $$
 
 where:
--$y_{ti}$ = Depressed Mood for individual$i$ at time$t$,
--$y_{t-1,i}$ = Depressed Mood at the previous time point,
--$\beta_0$ = Intercept (baseline level of depression),
--$\beta_1$ = **Autoregressive coefficient** (effect of past depression on current depression),
--$\epsilon_{ti}$ = Residual error.
+- $y_{ti}$ = Depressed Mood for individual$i$ at time$t$,
+- $y_{t-1,i}$ = Depressed Mood at the previous time point,
+- $\beta_0$ = Intercept (baseline level of depression),
+- $\beta_1$ = **Autoregressive coefficient** (effect of past depression on current depression),
+- $\epsilon_{ti}$ = Residual error.
 
 
 In this **simplified** model, each individual is assumed to have the same autoregressive effect ($\beta_1$). However, individuals may differ in how persistent (or stable) their depressive symptoms are. To **relax this assumption**, we can introduce **random slopes**, allowing each individual to have their own autoregressive effect ($ \beta_{1i}$):
 
-<math> 
+ 
 $$
 \beta_{1i} = \gamma_1 + u_{1i}
 $$
 
 where:
--$\gamma_1$ = **Overall (fixed) autoregressive effect**,
--$u_{1i}$ = **Person-specific deviation** from the average autoregression.
+- $\gamma_1$ = **Overall (fixed) autoregressive effect**,
+- $u_{1i}$ = **Person-specific deviation** from the average autoregression.
 
 This **random-slope model** accounts for the fact that depressive symptoms may persist **more strongly for some individuals than for others**. For example:
 - Some individuals may show **high stability** in depressive symptoms ($\beta_{1i} \approx 0.9$, meaning symptoms persist strongly over time).
@@ -344,17 +348,17 @@ Consider a scenario with two variables (most simple case, Bivariate example):$y$
 The model can be written as:
 **Level 1 (Within-Person):**
 
-<math> 
+ 
 $$
 y_{ti} = \beta_{0i} + \beta_{11,i} y_{t-1,i} + \beta_{12,i} z_{t-1,i} + \epsilon_{y,t,i}
 $$
 
 Where:
--$y_{ti}$: Depressed Mood for individual$i$ at time$t$.
--$\beta_{0i}$: Person-specific intercept for Depressed Mood.
--$\beta_{11,i}$: **Autoregressive effect** of past Depressed Mood ($y$ at$t-1$).
--$\beta_{12,i}$: **Cross-lagged effect** of past Fatigue ($z$ at$t-1$).
--$\epsilon_{y,t,i}$: Person-specific residual error for$y$.
+- $y_{ti}$: Depressed Mood for individual$i$ at time$t$.
+- $\beta_{0i}$: Person-specific intercept for Depressed Mood.
+- $\beta_{11,i}$: **Autoregressive effect** of past Depressed Mood ($y$ at$t-1$).
+- $\beta_{12,i}$: **Cross-lagged effect** of past Fatigue ($z$ at$t-1$).
+- $\epsilon_{y,t,i}$: Person-specific residual error for$y$.
 
 This equation suggests that:
 - A person’s **current mood** depends partly on their **past mood** (autocorrelation).
@@ -362,7 +366,7 @@ This equation suggests that:
 
 **Level 2 (Between-Person):**
 
-<math> 
+ 
 $$
 \begin{aligned}
 \beta_{0i} &= \gamma_{00} + u_{0i} \\
@@ -372,10 +376,10 @@ $$
 $$
 
 Where:
--$\gamma_{00}$: Overall intercept across individuals.
--$\gamma_{11}$: Average (fixed) autoregressive effect of$y$ across individuals.
--$\gamma_{12}$: Average (fixed) cross-lagged effect of$z$ on$y$ across individuals.
--$u_{0i}, u_{11,i}, u_{12,i}$: Random effects capturing individual deviations from the average (fixed) effects.
+- $\gamma_{00}$: Overall intercept across individuals.
+- $\gamma_{11}$: Average (fixed) autoregressive effect of$y$ across individuals.
+- $\gamma_{12}$: Average (fixed) cross-lagged effect of$z$ on$y$ across individuals.
+- $u_{0i}, u_{11,i}, u_{12,i}$: Random effects capturing individual deviations from the average (fixed) effects.
 
 
 ### Fatigue as the Dependent Variable
@@ -386,17 +390,17 @@ Now, let’s reverse the focus: instead of predicting **mood**, we predict **fat
 The model can be written as:
 **Level 1 (Within-Person):**
 
-<math> 
+ 
 $$
 z_{ti} = \beta_{0i} + \beta_{22,i} z_{t-1,i} + \beta_{21,i} y_{t-1,i} + \epsilon_{z,t,i}
 $$
 
 Where:
--$z_{ti}$: Fatigue for individual$i$ at time$t$.
--$\beta_{0i}$: Person-specific intercept for Fatigue.
--$\beta_{22,i}$: **Autoregressive effect** of past Fatigue ($z$ at$t-1$).
--$\beta_{21,i}$: **Cross-lagged effect** of past Depressed Mood ($y$ at$t-1$).
--$\epsilon_{z,t,i}$: Person-specific residual error for$z$.
+- $z_{ti}$: Fatigue for individual$i$ at time$t$.
+- $\beta_{0i}$: Person-specific intercept for Fatigue.
+- $\beta_{22,i}$: **Autoregressive effect** of past Fatigue ($z$ at$t-1$).
+- $\beta_{21,i}$: **Cross-lagged effect** of past Depressed Mood ($y$ at$t-1$).
+- $\epsilon_{z,t,i}$: Person-specific residual error for$z$.
 
 This equation suggests that:
 - A person’s **fatigue today** is influenced by their **fatigue yesterday** (autocorrelation).
@@ -404,7 +408,7 @@ This equation suggests that:
 
 **Level 2 (Between-Person):**
 
-<math> 
+ 
 $$
 \begin{aligned}
 \beta_{0i} &= \gamma_{00} + u_{0i} \\
@@ -414,17 +418,17 @@ $$
 $$
 
 Where:
--$\gamma_{00}$: Overall intercept across individuals.
--$\gamma_{22}$: Average (fixed)autoregressive effect of$z$ across individuals.
--$\gamma_{21}$: Average (fixed) cross-lagged effect of$y$ on$z$ across individuals.
--$u_{0i}, u_{22,i}, u_{21,i}$: Random effects capturing individual deviations from the average (fixed) effects.
+- $\gamma_{00}$: Overall intercept across individuals.
+- $\gamma_{22}$: Average (fixed)autoregressive effect of$z$ across individuals.
+- $\gamma_{21}$: Average (fixed) cross-lagged effect of$y$ on$z$ across individuals.
+- $u_{0i}, u_{22,i}, u_{21,i}$: Random effects capturing individual deviations from the average (fixed) effects.
 
 
 ### Combined VAR System
 
 Placing these two equations side by side yields a bivariate VAR(1) system:
 
-<math> 
+ 
 $$
 \begin{aligned}
 y_{ti} &= \beta_{0i} + \beta_{11,i} y_{t-1,i} + \beta_{12,i} z_{t-1,i} + \epsilon_{y,t,i} \\
@@ -433,10 +437,10 @@ z_{ti} &= \beta_{0i} + \beta_{22,i} z_{t-1,i} + \beta_{21,i} y_{t-1,i} + \epsilo
 $$
 
 Where:
--$\beta_{0i}$: Person-specific intercepts for Depressed Mood and Fatigue.
--$\beta_{11,i}, \beta_{22,i}$: **Autoregressive coefficients** (effect of the previous state on itself).
--$\beta_{12,i}, \beta_{21,i}$: **Cross-lagged coefficients** (mutual influence between variables).
--$\epsilon_{y,t,i}, \epsilon_{z,t,i}$: Residual error terms for $y$ and$z$, respectively.
+- $\beta_{0i}$: Person-specific intercepts for Depressed Mood and Fatigue.
+- $\beta_{11,i}, \beta_{22,i}$: **Autoregressive coefficients** (effect of the previous state on itself).
+- $\beta_{12,i}, \beta_{21,i}$: **Cross-lagged coefficients** (mutual influence between variables).
+- $\epsilon_{y,t,i}, \epsilon_{z,t,i}$: Residual error terms for $y$ and$z$, respectively.
 
 - **If$\beta_{12,i}$ is significant** → Fatigue **predicts** future depressed mood.
 - **If$\beta_{21,i}$ is significant** → Depressed mood **predicts** future fatigue.
@@ -550,7 +554,7 @@ In the MLM section, we learned about the L1 and L2 predictors. When analyzing lo
 
 It can be written as:
 
-<math> 
+ 
 $$
 \begin{aligned}
 y_{t-1,i} &= \bar{y}_i + \tilde{y}_{t-1,i} \\
@@ -559,8 +563,8 @@ z_{t-1,i} &= \bar{z}_i + \tilde{z}_{t-1,i}
 $$
 
 Where:
--$\bar{y}_i, \bar{z}_i$: Person-specific means (between-person components).
--$\tilde{y}_{t-1,i}, \tilde{z}_{t-1,i}$: Within-person centered values, calculated as the deviation of one time points from the person-specific mean.
+- $\bar{y}_i, \bar{z}_i$: Person-specific means (between-person components).
+- $\tilde{y}_{t-1,i}, \tilde{z}_{t-1,i}$: Within-person centered values, calculated as the deviation of one time points from the person-specific mean.
 
 By centering each person’s measurements around their own mean (CWC), we isolate intra-individual fluctuations. Including person-level means as separate predictors in the model reflects stable inter-individual differences.
 
@@ -829,15 +833,15 @@ In R, the adf.test() function from the `tseries` package can be utilized to cond
 
 If the ADF test indicates the presence of a unit root, the time series can be transformed to achieve stationarity through a process called **differencing**. The most common form is **first-order differencing**, which involves subtracting each observation from the previous one:
 
-<math> 
+ 
 $$
 \Delta y_t = y_t - y_{t-1}
 $$
 
 Where:
--$\Delta y_t$ represents the differenced series at time$t$.
--$y_t$ is the original value at time$t$.
--$y_{t-1}$ is the original value at time$t-1$.
+- $\Delta y_t$ represents the differenced series at time$t$.
+- $y_t$ is the original value at time$t$.
+- $y_{t-1}$ is the original value at time$t-1$.
 
 **Purpose:**
 
@@ -898,15 +902,15 @@ Once the **temporal network** is extracted from the mlVAR model, we can assess i
 
 The density of a network is calculated as:
 
-<math> 
+ 
 $$
 Density = \frac{1}{n} \sum_{i=1}^{n} |w_i|
 $$
 
 Where:
 
--$n$ = Total number of edges in the network.
--$w_i$ = Weight of the$i$-th edge.
+- $n$ = Total number of edges in the network.
+- $w_i$ = Weight of the$i$-th edge.
 
 The code is:
 ```{r}

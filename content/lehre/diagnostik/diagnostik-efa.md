@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schnatz, farugie]
 weight: 2
-lastmod: '2024-05-12'
+lastmod: '2025-02-17'
 featured: no
 banner:
   image: "/header/coastal_sailing.jpg"
@@ -37,7 +37,7 @@ output:
 Wir beginnen mit dem Datensatz, mit dem wir letztes Skript aufgehört haben. Wie immer müsst ihr dafür den Pfad wählen, in dem sich die Daten befinden. Mit `glimpse()` können wir uns nochmal einen kurzen Überblick verschaffen, wie die Datenstruktur aussieht und welche Variablen wir nach der Itemanalyse beibehalten/ausgeschlossen haben.        
  
 
-```r
+``` r
 library(tidyverse)
 library(here)
 data_gis_final <- read.csv(url("https://raw.githubusercontent.com/jlschnatz/PsyBSc8_Diagnostik/main/src/data/data-gis-final.csv"))
@@ -47,29 +47,29 @@ glimpse(data_gis_final)
 ```
 ## Rows: 300
 ## Columns: 17
-## $ GIS1  <int> 4, 4, 4, 4, 3, 4, 4, 3, 4, 4, 3, 3, 4, …
-## $ GIS2  <int> 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 3, 3, 4, …
-## $ GIS3  <int> 3, 3, 4, 0, 4, 3, 3, 4, 3, 3, 3, 3, 4, …
-## $ GIS4  <int> 3, 4, 4, 3, 3, 4, 3, 4, 3, 3, 3, 3, 3, …
-## $ GIS5  <int> 3, 4, 3, 3, 3, 4, 3, 3, 3, 1, 3, 3, 3, …
-## $ GIS6  <int> 3, 4, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, …
-## $ GIS7  <int> 4, 4, 3, 4, 4, 3, 4, 3, 3, 3, 4, 4, 4, …
-## $ GIS8  <int> 4, 4, 4, 4, 4, 3, 3, 4, 4, 3, 3, 3, 4, …
-## $ GIS10 <int> 4, 4, 4, 3, 3, 3, 3, 1, 3, 3, 3, 3, 4, …
-## $ GIS11 <int> 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 4, …
-## $ GIS12 <int> 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 3, 4, 4, …
-## $ GIS13 <int> 4, 4, 4, 3, 4, 3, 3, 3, 4, 3, 3, 4, 3, …
-## $ GIS14 <int> 3, 4, 3, 3, 4, 3, 4, 3, 3, 4, 3, 3, 3, …
-## $ GIS15 <int> 3, 4, 3, 3, 4, 3, 3, 3, 3, 4, 3, 3, 3, …
-## $ GIS19 <int> 4, 4, 4, 3, 4, 3, 4, 4, 4, 4, 4, 3, 4, …
-## $ GIS20 <int> 3, 4, 4, 3, 4, 3, 3, 3, 3, 3, 4, 3, 4, …
-## $ GIS21 <int> 3, 4, 4, 3, 4, 3, 3, 3, 3, 3, 4, 3, 3, …
+## $ GIS1  <int> 4, 4, 4, 4, 3, 4, 4, 3, 4, 4, 3, 3, 4, 3, 4, 3, 4, 3, 4, 4, 3, 3, 3, 3, 4, 3, 4,…
+## $ GIS2  <int> 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 4, 3, 4,…
+## $ GIS3  <int> 3, 3, 4, 0, 4, 3, 3, 4, 3, 3, 3, 3, 4, 3, 4, 3, 1, 4, 3, 3, 4, 3, 1, 3, 3, 4, 4,…
+## $ GIS4  <int> 3, 4, 4, 3, 3, 4, 3, 4, 3, 3, 3, 3, 3, 4, 4, 3, 3, 4, 3, 3, 4, 3, 3, 2, 4, 3, 4,…
+## $ GIS5  <int> 3, 4, 3, 3, 3, 4, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 4,…
+## $ GIS6  <int> 3, 4, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 4, 3, 4, 3, 3, 3, 4, 4,…
+## $ GIS7  <int> 4, 4, 3, 4, 4, 3, 4, 3, 3, 3, 4, 4, 4, 4, 3, 3, 4, 4, 4, 4, 3, 3, 3, 1, 4, 3, 4,…
+## $ GIS8  <int> 4, 4, 4, 4, 4, 3, 3, 4, 4, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 4, 1, 4,…
+## $ GIS10 <int> 4, 4, 4, 3, 3, 3, 3, 1, 3, 3, 3, 3, 4, 3, 1, 3, 3, 3, 3, 3, 3, 3, 1, 2, 4, 3, 4,…
+## $ GIS11 <int> 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 4, 3, 4,…
+## $ GIS12 <int> 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 3, 4, 4, 3, 4, 3, 3, 4, 3, 3, 4, 3, 4, 3, 4, 2, 4,…
+## $ GIS13 <int> 4, 4, 4, 3, 4, 3, 3, 3, 4, 3, 3, 4, 3, 3, 4, 4, 3, 4, 4, 4, 3, 3, 4, 3, 4, 1, 4,…
+## $ GIS14 <int> 3, 4, 3, 3, 4, 3, 4, 3, 3, 4, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 4, 2, 4, 2, 4,…
+## $ GIS15 <int> 3, 4, 3, 3, 4, 3, 3, 3, 3, 4, 3, 3, 3, 4, 4, 3, 3, 3, 3, 3, 3, 3, 4, 1, 4, 3, 4,…
+## $ GIS19 <int> 4, 4, 4, 3, 4, 3, 4, 4, 4, 4, 4, 3, 4, 4, 4, 3, 3, 4, 4, 4, 4, 3, 3, 2, 4, 3, 4,…
+## $ GIS20 <int> 3, 4, 4, 3, 4, 3, 3, 3, 3, 3, 4, 3, 4, 4, 3, 3, 3, 3, 3, 4, 3, 3, 1, 2, 4, 3, 4,…
+## $ GIS21 <int> 3, 4, 4, 3, 4, 3, 3, 3, 3, 3, 4, 3, 3, 4, 3, 3, 4, 3, 3, 4, 3, 3, 3, 1, 4, 3, 4,…
 ```
 
 Als Erinnerung können wir uns nochmal die psychometrische Eigenschaften der beibehaltenen Items anschauen. Wir benutzen dafür wieder die Funktion aus dem `sjPlot` Package, die wir letztes Skript kennengelernt haben.
 
 
-```r
+``` r
 library(sjPlot)
 sjt.itemanalysis(
   df = data_gis_final, 
@@ -275,19 +275,17 @@ Das Eigenwertkriterium bzw. Kaiser-Kriterium ist das liberalste Maß der Entsche
 #### 1. Weg: Base-R Funktion `eigen()`
 
 
-```r
+``` r
 # Base
 eigen(cor(data_gis_final))$values 
 ```
 
 ```
-##  [1] 8.5991430 1.2760151 0.8990121 0.7701418 0.7212324
-##  [6] 0.6443391 0.5840884 0.4867182 0.4715973 0.4470492
-## [11] 0.4315886 0.3538997 0.3248867 0.2850224 0.2738591
-## [16] 0.2365159 0.1948910
+##  [1] 8.5991430 1.2760151 0.8990121 0.7701418 0.7212324 0.6443391 0.5840884 0.4867182 0.4715973
+## [10] 0.4470492 0.4315886 0.3538997 0.3248867 0.2850224 0.2738591 0.2365159 0.1948910
 ```
 
-```r
+``` r
 # Alternative Schreibweise (mit pipes):
 cor(data_gis_final) %>% 
   eigen() %>% 
@@ -295,19 +293,16 @@ cor(data_gis_final) %>%
 ```
 
 ```
-##  [1] 8.5991430 1.2760151 0.8990121 0.7701418 0.7212324
-##  [6] 0.6443391 0.5840884 0.4867182 0.4715973 0.4470492
-## [11] 0.4315886 0.3538997 0.3248867 0.2850224 0.2738591
-## [16] 0.2365159 0.1948910
+##  [1] 8.5991430 1.2760151 0.8990121 0.7701418 0.7212324 0.6443391 0.5840884 0.4867182 0.4715973
+## [10] 0.4470492 0.4315886 0.3538997 0.3248867 0.2850224 0.2738591 0.2365159 0.1948910
 ```
 
-```r
+``` r
 # in Tabellenform:
 cor(data_gis_final) %>% 
   eigen() %>% 
   chuck("values") %>% 
   as_tibble() %>% 
-  rename(Eigenvalue = value) %>% 
   tab_df(
     title = "Eigenwertverlauf",
     col.header = "Eigenwert",
@@ -396,7 +391,7 @@ cor(data_gis_final) %>%
 Mit dem alternativen Weg könnnen wir noch etwas mehr Informationen als nur die Eigenwerte extrahieren. Dazu müssen wir das `FactoMineR` Package laden bzw. wenn noch nicht geschehen auch installieren. Wir verwenden die `PCA()` Funktion und extrahieren im Anschluss die Eigenwerte und Varianzaufklärung der möglichen Faktoren aus der abgespeichertern Liste.
 
 
-```r
+``` r
 library(FactoMineR)
 pca <- PCA(data_gis_final, graph = FALSE) 
 eigen <- as_tibble(pca$eig) # als dataframe abspeichern
@@ -537,7 +532,7 @@ Um in R einen Scree-Plot zu generieren, könnnen wir entweder die Base-R Plottin
 Wir benutzen das `psych` Package, um den Scree-Plot zu erstellen. Dabei verwendet dieses Package im Hintergrund Base R für das Plotting.
 
 
-```r
+``` r
 library(psych)
 scree(
   rx = data_gis_final, 
@@ -547,14 +542,14 @@ scree(
   ) 
 ```
 
-![](/lehre/diagnostik/diagnostik-efa_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](/diagnostik-efa_files/unnamed-chunk-79-1.png)<!-- -->
 
 #### 2. Weg: `ggplot2` Package
 
 Wir erstellen zunächst einen Dataframe, indem die Eigenwerte und Nummerierung der Faktoren als zwei Variablen gespeichert sind. Danach werden diese Daten in Layern mittels ggplot2 geplottet.
 
 
-```r
+``` r
 data_eigen <- tibble(
   Eigenwert = eigen(cor(data_gis_final))$values,
   Faktor = 1:length(Eigenwert)
@@ -587,7 +582,7 @@ ggplot(data = data_eigen, aes(x = Faktor, y = Eigenwert)) +
   theme(axis.title = element_text(face = "bold"))
 ```
 
-![](/lehre/diagnostik/diagnostik-efa_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/diagnostik-efa_files/unnamed-chunk-80-1.png)<!-- -->
 
 
 Die Ergebnisse der Scree-Plots suggerieren ein Modell mit nur einem Faktor. Dementsprechend wäre die Entscheidung im Vergleich zum Kaiser-Kriterium deutlich konservativer.
@@ -600,7 +595,7 @@ Die letzte vorgestellte Möglichkeit ist die Parallelanalyse. Hierbei werden die
 #### Möglichkeit 1
 
 
-```r
+``` r
 fa.parallel(
   x = data_gis_final, 
   fm = "pa", # Principal Axis Factoring Extraktion
@@ -611,7 +606,7 @@ fa.parallel(
   )
 ```
 
-![](/lehre/diagnostik/diagnostik-efa_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](/diagnostik-efa_files/unnamed-chunk-81-1.png)<!-- -->
 
 ```
 ## Parallel analysis suggests that the number of factors =  3  and the number of components =  1
@@ -622,7 +617,7 @@ fa.parallel(
 Wir speichern zunächst die ausgegeben Daten der Funktion `fa.parallel()` in einem Objekt ab. Danach erstellen wir einen Dateframe mit den relevanten Informationen (empirische und simulierte Eigenwerte).
 
 
-```r
+``` r
 data_pa <- fa.parallel(
   x = data_gis_final, 
   fm= "pa", 
@@ -637,7 +632,7 @@ data_pa <- fa.parallel(
 ## Parallel analysis suggests that the number of factors =  3  and the number of components =  NA
 ```
 
-```r
+``` r
 # Dataframe
 tibble(
   Observed = data_pa$fa.values, # empirisch
@@ -680,7 +675,7 @@ tibble(
   theme(legend.position = "bottom")
 ```
 
-![](/lehre/diagnostik/diagnostik-efa_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](/diagnostik-efa_files/unnamed-chunk-82-1.png)<!-- -->
 
 
 Die Ergebnisse der Parallelanalyse suggerieren ein Modell mit drei Faktoren. Da dies das konservativste Vorgehen ist, entscheiden wir uns für ein dreifaktorielles Modell für die weitere Analyse.
@@ -692,7 +687,7 @@ Als nächsten Schritt können wir nun die eigentliche exploratorische Faktoranal
 Wir spezifizieren ein Modell mit 3 Faktoren, die mittels Principal Axis Facoring extrahiert werden (`method = "pa"`) und führen anschließend eine oblimine Rotation durch (`rotation = "oblimin"`). Wie in der Lernbar bereits vorgestellt, gibt es unterschiedliche Rotationsverfahren nach der Extraktion der Faktoren. Bei orthogonalen Rotation bleiben die latenten Faktoren unkorreliert, wohingegen bei obliquer Rotation die Faktoren miteinander korrelieren dürfen. Alle Rotationsverfahren haben das Ziel, möglichst eine Einfachstruktur zu erhalten, d.h. dass jedes Item möglichst nur auf einen Faktor lädt. Für einen Vergleich verschiedener Rotationsverfahren und wann welches angewendet werden sollte: Costello, 2005.
 
 
-```r
+``` r
 tab_fa(
   data = data_gis_final,
   nmbr.fctr = 3, 
@@ -827,9 +822,9 @@ tab_fa(
 Die Faktorladungen von Item 6 und Item 11 liegen unter dem üblichen Cut-off Wert von $\lambda = 0.4$  (bzw. teils auch $\lambda = 0.3$) und sollten deswegen ausgeschlossen werden. Alle anderen Items laden weitestgehend gut auf einen Faktor und besitzen hohe Faktorladungen. Für eine abschließende Modellspezifizierung erstellen wir einen neuen Datensatz ohne die zwei genannten Variablen und führen erneut eine Faktorenanalyse durch.
 
 
-```r
+``` r
 drop_facload1 <- c("GIS6","GIS11")
-data_gis_fa1<- select(data_gis_final, -all_of(drop_facload1))
+data_gis_fa1<- dplyr::select(data_gis_final, -all_of(drop_facload1))
 tab_fa(
   data = data_gis_fa1, 
   nmbr.fctr = 3,
@@ -952,7 +947,7 @@ tab_fa(
 Anschließend können wir für jeden Faktor getrennt eine finale Itemanalyse durchführen. Das sjPlot Package kann dabei alle drei Tabellen für die Faktoren gleichzeitig in einer Funktion berechnen. Dafür muss zunächst jedoch ein Index erstellt werden, der spezifiziert, welche Items zu welchem Faktor gehören. Danach kann durch das Argument `factor.groups` die Faktorstruktur spezifiziert werden.
 
 
-```r
+``` r
 fa_index <- tab_fa(
   data = data_gis_fa1, 
   nmbr.fctr = 3, 
@@ -1200,7 +1195,7 @@ sjt.itemanalysis(
 Ebenfalls sollte zusätzlich zur internen Konsistenz Cronbach´s $\alpha$ auch McDonald´s $\omega$ für jede Skala berechnet werden. Dafür speichern wir den Index als Dataframe und danach alle Itemnamen des jeweiligen Faktors als eigenes Objekt ab. Nun können wir eine kleine Funktion erstellen, mit der wir immer wieder für einen Datensatz $\alpha$ und $\omega$ berechnen können. Wir sparen uns somit die Arbeit, jedes Mal wieder den Code zu wiederholen, welcher im Body (hinter der eckigen Klammern) der Funktion steht. Wichtig ist, dass wir mit der `return()` angeben, was letztendlich dem User ausgegeben werden soll (sonst wird nichts angezeigt).
 
 
-```r
+``` r
 index <- as.data.frame(fa_index) %>% 
   rownames_to_column(var = "item") 
 f1_names <- pull(filter(index, fa_index == 1), item)
@@ -1208,7 +1203,7 @@ f2_names <- pull(filter(index, fa_index == 2), item)
 f3_names <- pull(filter(index, fa_index == 3), item)
 # Funktionsinput: Dataframe & Vektor der Variablennamen des jeweiligen Faktors
 get_reliability <- function(.data, .var_names) {
-  om <- omega(select(.data, all_of(.var_names)), plot = FALSE)
+  om <- omega(dplyr::select(.data, all_of(.var_names)), plot = FALSE)
   out <- list(
     omega = om$omega.tot, 
     alpha = om$alpha
@@ -1228,7 +1223,7 @@ get_reliability(data_gis_fa1, f1_names)
 ## [1] 0.8657088
 ```
 
-```r
+``` r
 get_reliability(data_gis_fa1, f2_names)
 ```
 
@@ -1240,7 +1235,7 @@ get_reliability(data_gis_fa1, f2_names)
 ## [1] 0.8638386
 ```
 
-```r
+``` r
 get_reliability(data_gis_fa1, f3_names)
 ```
 
@@ -1257,11 +1252,11 @@ get_reliability(data_gis_fa1, f3_names)
 Als letztes werden wir die deskriptiven Kennwerte der Testwerte der drei Skalen genauer betrachten. Diese müssen wir zunächst erstmal berechnen. Über die Funktion `rowwise()` wird angegeben, dass nachfolgend eine Variable erstellt wird, bei der über die Zeilen hinweg aufsummiert werden soll. Die Variablen/Items die aufsummiert werden, können über die Funktion `c_across(variablen/items)` angegeben werden.
 
 
-```r
+``` r
 data_gis_fa1 <- data_gis_fa1 %>% 
   rowwise() %>% 
-  mutate(gis_score = sum(c_across(everything()))) %>% 
-  mutate(
+  dplyr::mutate(gis_score = sum(c_across(everything()))) %>% 
+  dplyr::mutate(
     f1 = sum(c_across(all_of(f1_names))),
     f2 = sum(c_across(all_of(f2_names))),
     f3 = sum(c_across(all_of(f3_names))),
@@ -1270,7 +1265,7 @@ data_gis_fa1 <- data_gis_fa1 %>%
 
 Wir können uns mittles der `describe()`, welche bereits im letzten Skript vorgestellt wurde die wichtigsten deskriptiven Kennwerte ausgeben lassen.
 
-```r
+``` r
 tab_df(describe(data_gis_fa1$f1))
 ```
 
@@ -1307,7 +1302,7 @@ tab_df(describe(data_gis_fa1$f1))
 </tr>
 </table>
 
-```r
+``` r
 tab_df(describe(data_gis_fa1$f2))
 ```
 
@@ -1344,7 +1339,7 @@ tab_df(describe(data_gis_fa1$f2))
 </tr>
 </table>
 
-```r
+``` r
 tab_df(describe(data_gis_fa1$f3))
 ```
 
@@ -1385,7 +1380,7 @@ Diese deskriptiven Kennwerte können wir zudem abschließend in einem Histogramm
 
 
 
-```r
+``` r
 library(ggh4x)
 ggplot(data_gis_fa1, aes(x = gis_score)) +  # oder x = f1/f2/f3
   geom_histogram(
@@ -1413,17 +1408,19 @@ ggplot(data_gis_fa1, aes(x = gis_score)) +  # oder x = f1/f2/f3
   theme_light()
 ```
 
-<img src="/lehre/diagnostik/diagnostik-efa_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="/diagnostik-efa_files/unnamed-chunk-89-1.png" style="display: block; margin: auto;" />
 
 Für diejenigen unter euch, die sich in etwas anspruchvolleres R bzw. ggplot2-Territorium wagen wollen: Es gibt auch die Möglichkeit, alle Skalen gleichzeitig in einem Bild zu plotten. Um jeden einzelnen Schritt der großen Pipe zu verstehen, geht am besten jeden einzelnen Layer durch und schaut, wie sich der Plot verändert. Auch hilfreich kann es sein, wenn man die einzelnen Parameter in den Layern verändert, um zu schauen, was diese bewirken. Es reicht allerdings natürlich auch völlig aus, wenn ihr euch an dem letzten Plot orientiert!
 
 
-```r
+``` r
 library(ggh4x)
+library(fitdistrplus)
+
 strip_labels <- as_labeller(c(f1 = "Factor 1", f2 = "Factor 2",
                               f3 = "Factor 3", gis_score = "Gesamtscore"))
 data_gis_fa1 %>% 
-  select(f1, f2, f3, gis_score) %>% 
+  dplyr::select(f1, f2, f3, gis_score) %>% 
   pivot_longer(
     cols = everything(),
     names_to = "factor",
@@ -1473,7 +1470,7 @@ data_gis_fa1 %>%
     )
 ```
 
-<img src="/lehre/diagnostik/diagnostik-efa_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
+![](/diagnostik-efa_files/unnamed-chunk-90-1.png)<!-- -->
 
 ***
 

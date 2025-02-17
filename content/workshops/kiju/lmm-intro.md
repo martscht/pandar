@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schultze]
 weight: 3
-lastmod: '2024-01-12'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/grapevines_dark.jpg"
@@ -150,7 +150,7 @@ ggplot(kultur, aes(x = pa, y = lezu)) +
 ## (`geom_point()`).
 ```
 
-![](/workshops/kiju/lmm-intro_files/figure-html/scatter-reg-1.png)<!-- -->
+![](/lmm-intro_files/scatter-reg-1.png)<!-- -->
 
 
 - R-Funktionen für Regression
@@ -370,7 +370,14 @@ plot_model(mod0, type = 're', sort.est = '(Intercept)') +  # Plot für Random Ef
   ggplot2::theme_minimal() # Layout
 ```
 
-![](/workshops/kiju/lmm-intro_files/figure-html/caterpillar-mod0-1.png)<!-- -->
+```
+## Warning in checkDepPackageVersion(dep_pkg = "TMB"): Package version inconsistency detected.
+## glmmTMB was built with TMB version 1.9.6
+## Current TMB version is 1.9.7
+## Please re-install glmmTMB from source or restore original 'TMB' package (see '?reinstalling' for more information)
+```
+
+![](/lmm-intro_files/caterpillar-mod0-1.png)<!-- -->
 
 ```r
 # Breite der Fehlerbalken hängt mit Stichprobengröße zusammen
@@ -453,6 +460,37 @@ tmp$vcov[1] / sum(tmp$vcov)
 
 ```r
 library(jtools)
+```
+
+```
+## Warning: Paket 'jtools' wurde unter R Version 4.3.1
+## erstellt
+```
+
+```
+## 
+## Attache Paket: 'jtools'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:mvtnorm':
+## 
+##     standardize
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:papaja':
+## 
+##     theme_apa
+```
+
+```
+## Die folgenden Objekte sind maskiert von 'package:sjmisc':
+## 
+##     %nin%, center
+```
+
+```r
 print(summ(mod0))
 ```
 
@@ -720,7 +758,7 @@ summ(mod1b)
 plot_model(mod1, type = 're', sort.est = '(Intercept)')
 ```
 
-![](/workshops/kiju/lmm-intro_files/figure-html/caterpillar-mod1-1.png)<!-- -->
+![](/lmm-intro_files/caterpillar-mod1-1.png)<!-- -->
 
 ### Mehrere Prädiktoren
 
@@ -1057,14 +1095,14 @@ plot_model(mod3, type = 're', grid = FALSE, sort.est = TRUE)[c(1,3)]
 ## [[1]]
 ```
 
-![](/workshops/kiju/lmm-intro_files/figure-html/caterpillar-mod3-1.png)<!-- -->
+![](/lmm-intro_files/caterpillar-mod3-1.png)<!-- -->
 
 ```
 ## 
 ## [[2]]
 ```
 
-![](/workshops/kiju/lmm-intro_files/figure-html/caterpillar-mod3-2.png)<!-- -->
+![](/lmm-intro_files/caterpillar-mod3-2.png)<!-- -->
 
 ## Level 2 Prädiktoren
 
@@ -1277,12 +1315,12 @@ plot_model(mod6, 'pred',
   terms = c('na_cwc', 'gdp'))
 ```
 
-![](/workshops/kiju/lmm-intro_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
+![](/lmm-intro_files/unnamed-chunk-39-1.png)<!-- -->
 
 
 ```r
 plot_model(mod6, 'est')
 ```
 
-![](/workshops/kiju/lmm-intro_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
+![](/lmm-intro_files/unnamed-chunk-40-1.png)<!-- -->
 

@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [schultze] 
 weight: 7
-lastmod: '2024-05-24'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/disc_reader.jpg"
@@ -46,32 +46,6 @@ Um mir die Arbeit mit den Daten ein wenig zu erleichtern, nutze ich an dieser St
 
 ```r
 library(dplyr)
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-```
-
-```
-## The following object is masked from 'package:bit':
-## 
-##     symdiff
-```
-
-```
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 library(tidyr)
 ```
 
@@ -122,7 +96,7 @@ eys <- select(hdr, geo, starts_with('eys_')) |>
 ## Warning: There was 1 warning in `mutate()`.
 ## ℹ In argument: `year = as.integer(year)`.
 ## Caused by warning:
-## ! NAs introduced by coercion
+## ! NAs durch Umwandlung erzeugt
 ```
 
 ```r
@@ -136,7 +110,7 @@ mys <- select(hdr, geo, starts_with('mys_')) |>
 ## Warning: There was 1 warning in `mutate()`.
 ## ℹ In argument: `year = as.integer(year)`.
 ## Caused by warning:
-## ! NAs introduced by coercion
+## ! NAs durch Umwandlung erzeugt
 ```
 
 Zu guter Letzt werden diese beiden Informationen zusammen geführt und der Education Index (`index`) berechnet:
@@ -229,12 +203,18 @@ names(edu_exp)
 ```
 
 ```
-##  [1] "geo"                                                         "Country"                                                    
-##  [3] "Wealth"                                                      "Region"                                                     
-##  [5] "time"                                                        "pop"                                                        
-##  [7] "life_expectancy_at_birth_data_from_ihme"                     "gdppercapita_us_inflation_adjusted"                         
-##  [9] "expenditure_per_student_primary_percent_of_gdp_per_person"   "expenditure_per_student_secondary_percent_of_gdp_per_person"
-## [11] "expenditure_per_student_tertiary_percent_of_gdp_per_person"  "index"
+##  [1] "geo"                                                        
+##  [2] "Country"                                                    
+##  [3] "Wealth"                                                     
+##  [4] "Region"                                                     
+##  [5] "time"                                                       
+##  [6] "pop"                                                        
+##  [7] "life_expectancy_at_birth_data_from_ihme"                    
+##  [8] "gdppercapita_us_inflation_adjusted"                         
+##  [9] "expenditure_per_student_primary_percent_of_gdp_per_person"  
+## [10] "expenditure_per_student_secondary_percent_of_gdp_per_person"
+## [11] "expenditure_per_student_tertiary_percent_of_gdp_per_person" 
+## [12] "index"
 ```
 
 Weil wir die Variablen immer und immer wieder im Code ansprechen müssen, machen sich besonders prägnante, kurze Variablennamen gut. Die aktuellen Namen sind leider keins von beidem, daher müssen neue her:
@@ -254,13 +234,20 @@ head(edu_exp)
 ```
 
 ```
-##   geo     Country     Wealth Region Year Population Expectancy   Income Primary Secondary Tertiary Index
-## 1 afg Afghanistan low_income   asia 1997   17788819       50.7       NA      NA        NA       NA  0.18
-## 2 afg Afghanistan low_income   asia 1998   18493132       50.0       NA      NA        NA       NA  0.19
-## 3 afg Afghanistan low_income   asia 1999   19262847       50.8       NA      NA        NA       NA  0.20
-## 4 afg Afghanistan low_income   asia 2000   19542982       51.0       NA      NA        NA       NA  0.20
-## 5 afg Afghanistan low_income   asia 2001   19688632       51.1       NA      NA        NA       NA  0.21
-## 6 afg Afghanistan low_income   asia 2002   21000256       51.6 344.2242      NA        NA       NA  0.22
+##   geo     Country     Wealth Region Year Population Expectancy   Income Primary Secondary Tertiary
+## 1 afg Afghanistan low_income   asia 1997   18452091       50.7       NA      NA        NA       NA
+## 2 afg Afghanistan low_income   asia 1998   19159996       50.0       NA      NA        NA       NA
+## 3 afg Afghanistan low_income   asia 1999   19887785       50.8       NA      NA        NA       NA
+## 4 afg Afghanistan low_income   asia 2000   20130327       51.0 317.5845      NA        NA       NA
+## 5 afg Afghanistan low_income   asia 2001   20284307       51.1 285.5022      NA        NA       NA
+## 6 afg Afghanistan low_income   asia 2002   21378117       51.6 344.2242      NA        NA       NA
+##   Index
+## 1  0.18
+## 2  0.19
+## 3  0.20
+## 4  0.20
+## 5  0.21
+## 6  0.22
 ```
 
 Eine kurze Erläuterung der Variablenbedeutungen:

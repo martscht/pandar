@@ -3,7 +3,7 @@
 {{ $counter := 0 }} {{/*<!-- Zähler der hochtickt formt Aufzählung der Liste -->*/}}
 {{ $counter_limit := (.Get 1) }} {{/*<!-- Limit für Anzahl der Vorlesungen / Haupteinträge -->*/}}
 
-{{ $var1 := (.Get 0) }} {{/*<!-- nimmt Kategorie entgegen (bspw. Statistik I) -->*/}}
+{{ $var1 := urlize (.Get 0)}} {{/*<!-- nimmt Kategorie entgegen (bspw. Statistik I) und konvertiert Input zu slug Format -->*/}}
 
 
 {{ $manual_string := (.Get 2) }} {{/*<!-- Manuelle Kategorielistung -->*/}}
@@ -12,7 +12,8 @@
 
 <table class="kategorie"> {{/*<!-- Table mit eigener Klasse die in CSS umdefiniert wurde -->*/}}
 {{ range $key, $value := .Site.Taxonomies.categories }}
-{{ if eq $key $var1  }}
+{{ $normalizedKey := replace (lower $key) " " "-" }} {{/*<!-- normalisiert keys (Problem in neueren Hugo-Versionen, weil der Output von Site.Taxonomies.categories geändert wurde) -->*/}}
+{{ if eq $normalizedKey $var1 }}
    {{ range .Pages }}
         <tr>
             {{if $manual_string}}

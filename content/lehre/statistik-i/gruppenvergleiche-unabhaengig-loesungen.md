@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [koehler, buchholz, goldhammer] 
-lastmod: '2024-12-05'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -102,7 +102,7 @@ boxplot(data1$offen ~ data1$fach,
         main="Interessenfach und Offenheit")
 ```
 
-![](/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](/gruppenvergleiche-unabhaengig-loesungen_files/unnamed-chunk-2-1.png)<!-- -->
 
 
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
@@ -120,16 +120,12 @@ describeBy(data1$offen, data1$fach)
 ## 
 ##  Descriptive statistics by group 
 ## group: Allgemeine
-##    vars  n mean   sd median trimmed  mad min max range
-## X1    1 41 3.78 1.04      4    3.86 1.48 1.5   5   3.5
-##     skew kurtosis   se
-## X1 -0.54    -0.89 0.16
-## ----------------------------------------- 
+##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 41 3.78 1.04      4    3.86 1.48 1.5   5   3.5 -0.54    -0.89 0.16
+## ---------------------------------------------------------------------------- 
 ## group: Klinische
-##    vars  n mean   sd median trimmed  mad min max range
-## X1    1 88 3.95 0.88      4    4.04 0.74   1   5     4
-##     skew kurtosis   se
-## X1 -0.94     0.72 0.09
+##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 88 3.95 0.88      4    4.04 0.74   1   5     4 -0.94     0.72 0.09
 ```
 
 ```r
@@ -251,7 +247,7 @@ boxplot(fb24$lz ~ fb24$ort,
         main="Wohnort und Lebenszufriedenheit")
 ```
 
-![](/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](/gruppenvergleiche-unabhaengig-loesungen_files/unnamed-chunk-8-1.png)<!-- -->
 
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
 
@@ -265,16 +261,12 @@ describeBy(fb24$lz, fb24$ort)
 ## 
 ##  Descriptive statistics by group 
 ## group: FFM
-##    vars   n mean   sd median trimmed  mad min max
-## X1    1 112 4.89 1.17      5    4.96 1.19   2   7
-##    range  skew kurtosis   se
-## X1     5 -0.49     -0.4 0.11
-## ----------------------------------------- 
+##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 112 4.89 1.17      5    4.96 1.19   2   7     5 -0.49     -0.4 0.11
+## ---------------------------------------------------------------------------- 
 ## group: anderer
-##    vars  n mean   sd median trimmed  mad min max range
-## X1    1 77 4.97 1.13      5    5.01 1.19   2   7     5
-##     skew kurtosis   se
-## X1 -0.33    -0.57 0.13
+##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 77 4.97 1.13      5    5.01 1.19   2   7     5 -0.33    -0.57 0.13
 ```
 
 ```r
@@ -311,7 +303,7 @@ qqnorm(lz.F)
 qqline(lz.F, col="red")
 ```
 
-<img src="/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+<img src="/gruppenvergleiche-unabhaengig-loesungen_files/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 $\rightarrow$ Entscheidung: Normalverteilung wird nicht angenommmen
 
@@ -325,7 +317,7 @@ qqnorm(lz.a)
 qqline(lz.a, col="red")
 ```
 
-<img src="/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="/gruppenvergleiche-unabhaengig-loesungen_files/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 $\rightarrow$ Entscheidung: Normalverteilung wird angenommmen 
 
@@ -357,8 +349,7 @@ wilcox.test(fb24$lz ~ fb24$ort,           # abhängige Variable ~ unabhängige V
 
 ```
 ## 
-## 	Wilcoxon rank sum test with continuity
-## 	correction
+## 	Wilcoxon rank sum test with continuity correction
 ## 
 ## data:  fb24$lz by fb24$ort
 ## W = 4208, p-value = 0.3895

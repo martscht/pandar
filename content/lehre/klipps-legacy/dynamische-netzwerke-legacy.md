@@ -8,7 +8,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um Netzwerke mit Zeitverlaufsmessung, genauer gesagt, um sogenannte idiographische Netzwerke, die sich auf einzelne Personen beziehen. Das hier beschriebene Modell zur Repräsentation personenbezogener Längsschnittdaten setzt sich aus zwei Bestandteilen zusammen, die als temporal und contemporaneous bezeichnet werden. Die Modellschätzung und Visualisierung in R werden vorgeführt. Zuletzt werden Problematiken der Modellschätzung, aber auch praktische Anwendungen solcher Modelle besprochen.'
 authors: [siepe, nehler]
 weight: 12
-lastmod: '2024-10-08'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/wooden_bridge.jpg"
@@ -56,14 +56,14 @@ Da es sich bei den idiographischen Netzwerken wie beschrieben um dynamische Netz
 Für die R-Abschnitte der heutigen Sitzung beschäftigen wir uns mit einem Datensatz, der auch in der als Grundlage angegebenen Literatur (Epskamp et al., 2018a) zu einer Einführung in die idiografischen Netzwerke genutzt wird. Wie gewohnt kann der Datensatz direkt aus dem OSF in unser Environment eingeladen werden. 
 
 
-``` r
+```r
 data <- read.csv(url("https://osf.io/g6ya4/download"))
 ```
 
 Lassen wir uns an dieser Stelle einmal die Variablennamen im Datensatz anzeigen. 
 
 
-``` r
+```r
 names(data)
 ```
 
@@ -74,7 +74,7 @@ names(data)
 Die eingeladenen Daten befassen sich mit einer einzelnen Person. Dabei handelt es sich laut der Autor:innen um eine Person, die sich nach einer Major Depression-Diagnose schon in der Behandlung befand. Die Fragen wurden von der teilnehmenden Person 5 Mal am Tag über 14 Tage hinweg ausgefüllt. Dies wird uns auch angezeigt, wenn wir uns die Spalte `time` ausgeben lassen.
 
 
-``` r
+```r
 data$time
 ```
 
@@ -102,14 +102,15 @@ data$time
 Die Zieluhrzeiten des Ausfüllens blieben über die 14 Tage hinweg konstant. Dabei wurde ein dreistündlicher Rhythmus vom Morgen bis zum späten Abend gewählt. Leider ist das Format für eine Datumsvariable in einer CSV-Datei und einem Datensatz in `R` verschieden. Es gibt jedoch einen einfachen Weg, die Transformation zwischen den Formaten durchzuführen mittels der Funktion `as.POSIXct`. Unter dem Argument `tz` kann dabei noch die passende Zeitzone ausgewählt werden - in diesem Fall wurde die Studie in den Niederlanden durchgeführt. Wenn wir uns dann einen kleinen Ausschnitt der überschriebenen Variable anzeigen lassen, merken wir zwar, dass sich nicht viel verändert hat, jedoch ist es für `R` ein großer Unterschied.
 
 
-``` r
+```r
 data$time <- as.POSIXct(data$time, tz = "Europe/Amsterdam")
 data$time[1:8]
 ```
 
 ```
-## [1] "2014-04-25 10:15:00 CEST" "2014-04-25 13:15:00 CEST" "2014-04-25 16:15:00 CEST" "2014-04-25 19:15:00 CEST"
-## [5] "2014-04-25 22:15:00 CEST" "2014-04-26 10:15:00 CEST" "2014-04-26 13:15:00 CEST" "2014-04-26 16:15:00 CEST"
+## [1] "2014-04-25 10:15:00 CEST" "2014-04-25 13:15:00 CEST" "2014-04-25 16:15:00 CEST"
+## [4] "2014-04-25 19:15:00 CEST" "2014-04-25 22:15:00 CEST" "2014-04-26 10:15:00 CEST"
+## [7] "2014-04-26 13:15:00 CEST" "2014-04-26 16:15:00 CEST"
 ```
 
 ## Modell
@@ -118,11 +119,11 @@ Das in diesem Tutorial beschriebene Modell zur Repräsentation personenbezogener
 
 Den ersten Teil der Modellierung stellt ein sogenanntes Vektorautoregressives Modell dar, in welchem die Daten eines Messzeitpunkts auf die Daten eines vorherigen Messzeitpunktes regressiert werden. Dieser Teil der Modellierung wird deshalb auch als **temporal** bezeichnet. Die Ausprägung auf einer Variable hängt dabei von vergangenen Ausprägungen dieser Variable und aller anderen Variablen im Modell ab, wobei der sogenannte **lag** ausdrückt, wie viele Messzeitpunkt man in die Vergangenheit schaut. Ein Lag 1 würde also etwa bedeuten, dass man den vorherigen Messzeitpunkt zur Modellierung verwendet. Dies stellt auch das aktuelle Standardvorgehen in der Psychologie dar, wobei auch größere Lags modelliert werden könnten. Wenn wir lediglich einen Lag 1 modellieren, gehen wir davon aus, dass sich alle Zusammenhänge zwischen den Variablen in diesem Zeitraum abspielen, bzw. andere Zusammenhänge stets durch dieses Zusammenspiel erklärt werden können. Andere (größere) Zeiträume werden also in der Modellierung in der Psychologie meist außer Acht gelassen. Der Bezug einer Variable auf sich selbst vom letzten Messzeitpunkt wird auch **auto-regressiv** genannt. Dadurch entstehen in der optischen Repräsentation des Netzwerks **self-loops**. Doch auch die anderen Variablen vom vorherigen Messzeitpunkt werden im Modell verwendet, woher auch der Name **vektor**autoregressiv stammt, da statt einer Variable ein ganzer Vektor von Variablen verwendet wird, um zeitliche Zusammenhänge zu modellieren. Der Zusammenhang einer Variable mit einer anderen wird als **cross-lagged** bezeichnet. Dadurch, dass alle Variablen wie in einer normalen multiplen Regression simultan in die Schätzung aufgenommen werden, repräsentiert ein gefundenes Gewicht zwischen zwei Knoten einen Einfluss, der über den Einfluss aller anderen Knoten hinaus existiert.
 
-![](/lehre/klipps-legacy/dynamische-netzwerke-legacy_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](/dynamische-netzwerke-legacy_files/unnamed-chunk-5-1.png)<!-- -->
 
 Diese Methode, zeitliche Zusammenhänge zwischen Variablen darzustellen, existiert schon sehr lange. Es lässt sich jedoch feststellen, dass (wie in jedem statistischen Modell) Residuen bei dieser Modellierung zurückbleiben, die noch weitere Informationen liefern können (Epskamp et al., 2018a). Eine potentiell sehr wichtige Information fehlt uns nämlich noch: Wie hängen die Variablen an einem bestimmten Messzeitpunkt gleichzeitig zusammen? Da zu jedem einzelnen Zeitpunkt Residuen auf jeder Variable existent bleiben, können diese zur Bestimmung von Partialkorrelationen verwendet werden. Diese zeigen an, wie stark die Ausprägung von zwei Knoten zu einem gleichzeitigen Messzeitpunkt zusammenhängt. Dieser Teil der Modellierung wird auch als **contemporaneous** (also gleichzeitiges Netzwerk) bezeichnet. Die Idee der Modellierung sollte uns durch das Tutorial zu den querschnittlichen Netzwerken sehr bekannt vorkommen. Die Logik und Berechnung ist dabei auch sehr ähnlich, jedoch wird in dem vorliegenden Fall nur auf Grundlage der Residuen die Struktur des Netzwerks bestimmt, wodurch für den Einfluss des Messzeitpunkts davor kontrolliert werden kann. Eine Trennung von Effekten über Zeitfenster hinweg und innerhalb eines Zeitfensters wird damit ermöglicht.
 
-![](/lehre/klipps-legacy/dynamische-netzwerke-legacy_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/dynamische-netzwerke-legacy_files/unnamed-chunk-6-1.png)<!-- -->
 
 Die Kombination der beiden Modelle wird von Epskamp et al. (2018a) als **graphicalVAR** bezeichnet und ist auch im bereits verwendeten Paket unter diesem Namen ansprechbar. Um die Schätzung mit einem Lag von 1 nochmal zusammenzufassen: Jeder Knoten wird zum Zeitpunkt *t`* mittels Maximum-Likelihood-Schätzung auf sich selbst und alle anderen Knoten zum Zeitpunkt *t-1* regressiert. Bei dieser Schätzung entstehen nicht nur Zusammenhangsgewichte, sondern auch Residuen, also Anteile, die nicht durch die Knoten am Zeitpunkt *t-1* erklärt werden können. Die Kovarianz dieser Residuen über alle Messungen hinweg  dient dann dazu, den gleichzeitigen Zusammenhang zu *t* darzustellen. Wie auch bei den querschnittlichen Netzwerken lässt sich hier sowohl bei den temporalen, als auch bei den gleichzeitigen Netzwerken der lasso benutzen, um die Schätzungen zu regularisieren und falsch-positive Kanten zu vermeiden. Die resultierenden Zusammenhänge werden dann in der Regel in eine Partialkorrelationsmatrix umgewandelt, welche letztendlich zur Visualisierung der Netzwerke verwendet wird. Es werden dabei sowohl für die temporalen als auch die gleichzeitigen Aspekte Bestrafungsparameter genutzt. Aus den vielen resultierenden Netzwerken wird wieder das Informationskriteriuem BIC bzw. EBIC (bei einem Hyperparameter größer als 0) zur Selektion der besten Modellierung verwendet. 
 
@@ -133,14 +134,14 @@ Bevor wir die bereits eingeladenen Daten aber für eine Schätzung verwenden kö
 Im Endeffekt geht es beim Detrending um eine Überprüfung des Zeiteffekts auf die Variablen im Netzwerk. Nehmen wir mal als Beispiel `tired`. Wenn der Effekt der Zeit (Spalte `time`) erkundet werden soll, geht das im einfachsten Fall natürlich mit einer linearen Regression. 
 
 
-``` r
+```r
 lm_tired <- lm(tired ~ time, data = data)
 ```
 
 Um zu überprüfen, ob ein Detrending nötig ist, würden wir jetzt überprüfen, ob die Zeit ein signifikanter Prädiktor ist. Das können wir uns beispielsweise mit der Funktion `summary` anzeigen lassen. Wir sehen, dass die Zeit einen deutlichen Effekt hatte.
 
 
-``` r
+```r
 summary(lm_tired)
 ```
 
@@ -161,14 +162,14 @@ summary(lm_tired)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.7846 on 63 degrees of freedom
-##   (5 observations deleted due to missingness)
+##   (5 Beobachtungen als fehlend gelöscht)
 ## Multiple R-squared:  0.2267,	Adjusted R-squared:  0.2144 
 ## F-statistic: 18.47 on 1 and 63 DF,  p-value: 6.1e-05
 ```
 Es ist ein signifikanter Effekt zu erkennen, weshalb die Variable detrendet werden sollte. Hier können wir uns der Logik der Regression bedienen. Wenn der Einfluss der Zeit herausgerechnet werden soll, können einfach die Residuen des linearen Modells mit der Zeit als Prädiktor genommen werden. Schließlich können diese nicht durch die Zeit erklärt werden. Die Variable im Datensatz wird also durch die Residuen (ansprechbar im Objekt `lm_tired` durch die Funktion `residuals`) ersetzt. Wichtig ist hier, dass die fehlenden Werte nicht in die Berechnung der Regression mit eingehen und es damit auch kein Residuum dafür gibt. Wenn wir die Daten ersetzen, müssen wir also sicher stellen, dass die Zeilen mit fehlenden Werten nicht beachtet werden. Wir wählen in unserem Datensatz also alle Zeilen, für die gilt, dass sie in `tired` nicht (`!`) fehlend (`is.na`) sind und ersetzen sie durch die Residuen. 
 
 
-``` r
+```r
 data[!is.na(data["tired"]),"tired"] <- residuals(lm_tired) 
 ```
 
@@ -178,7 +179,7 @@ Zunächst einmal werden alle Variablen (`rel_vars`) festgehalten, die Teile des 
 
 
 
-``` r
+```r
 rel_vars <- c("relaxed","sad","nervous","concentration","tired","rumination","bodily.discomfort")
 
 
@@ -206,14 +207,14 @@ for (v in 1:length(rel_vars)){
 Nachdem wir Stationarität in den Daten erstellt haben, können wir nun ein Modell schätzen lassen. Dafür brauchen wir auch wie bei den querschnittlichen Netzwerken das `bootnet`-Paket. Für den Zeitablauf haben wir ja bereits gesehen, dass es die Variable `time` gibt. Die verwendete Funktion benötigt aber eine Variable, die die Messungen nach Tagen aufteilt und dann eine, die die einzelnen Messungen innerhalb eines Tages nochmal nummeriert. So kann sicher gestellt werden, dass - wie bereits beschrieben - die erste Messung eines Tages nicht auf den Vortag regressiert wird. Eine Variable, in der nur der Tag erhalten ist, ist sehr schnell erstellt. Mit `as.Date` kann unsere Zeitangabe auf die Tage reduziert werden. Wir ordnen das einer neuen Variable im Datensatz `date` zu.
 
 
-``` r
+```r
 data$date <- as.Date(data$time, tz = "Europe/Amsterdam")
 ```
 
 Aus der Struktur unserer Datenerhebung wissen wir, dass wir 14 Mal 5 Messungen durchgeführt haben. Außerdem wissen wir durch die erste Betrachtung, dass die Messungen in den Zeilen nach zeitlicher Abfolge aufgeführt sind. Um die Nummerierung zu erstellen, können wir daher einfach 14 Mal 1 bis 5 in die Spalte `beep` einfügen. Dies ist durch die `rep` Funktion möglich. Bei dieser Funktion wird zuerst die Angabe gebraucht, was wiederholt wird, als zweites Argument wird die Häufigkeit der Wiederholung aufgeführt.
 
 
-``` r
+```r
 data$beep <- rep(1:5, 14)
 ```
 
@@ -222,7 +223,7 @@ Falls eine so geordnete Datenstruktur unglücklicherweise nicht vorliegt, brauch
 Hier wird wieder ein `for`-Loop erstellt, weil die Nummerierung für die `beep`-Variable an jedem Datum getrennt durchgeführt werden soll. Durch die Funktion `unique` werden alle einzigartigen Daten einmal durchlaufen. Wenn wir diesen Teil weglassen würden, würde der Loop manche Tage auch häufiger betrachten, was die Durchführung verlangsamt. Anschließend weisen wir alle Zeilen, die einem bestimmten Tag `i` entsprechen, einem kleineren Datensatz zu, den wir hier `set` nennen. Dieser Schritt ist nicht unbedingt nötigt, aber  ohne ihn würde der Code noch komplizierter werden. Wichtig ist, dass die Reihenfolge der Zeilen nicht verändert wird. Die Zeile eines Datums, die bei `data` als erste von oben steht, macht das nun auch bei `set`. Daher können wir auch auf die Ordnung der Zeit `time` in unserem neuen kleineren Datensatz `set` zugreifen. Mit `order` wird jedem Wert seine Größe in der Gesamtreihenfolge zugeordnet - in unserem Beispiel also die Werte von 1 bis 4. Diese wollen wir aber nicht nur im kleinen Datensatz belassen, sondern in `data` der (neuen) Variable `beep` zuordnen. Dabei müssen wir `data` auf die Zeilen reduzieren, die dem Datum `i` entsprechen, das gerade behandelt wird. Hier ist es also entscheidend, dass in beiden Datensätzen dieselbe Zeile eines Datums an erster, zweiter, ... Stelle steht, damit die Zahlen der Größenreihenfolge korrekt zugeordnet werden.
 
 
-``` r
+```r
 # Starte Loop für einzigartige Daten
 for (i in unique(data$date)){
   
@@ -238,7 +239,7 @@ for (i in unique(data$date)){
 Nachdem diese Vorbereitung getroffen ist, kann nun mit der Schätzung gestartet werden. Diese wird weiterhin mit dem Paket `bootnet` und der dazugehörigen Funktion durchgeführt. Vieles wird uns also bekannt vorkommen. An dieser Stelle muss noch angemerkt werden, dass `bootnet` für die Durchführung auf ein anderes Paket `graphcialVAR` zugreift. Dieses müsste daher eigentlich bei der Installation direkt dabei sein. Jedoch tritt das nicht (immer) auf, weshalb wir hier nochmal darauf hinweisen, dass das Paket auch selbst installiert werden kann.
 
 
-``` r
+```r
 install.packages("graphicalVAR")
 ```
 
@@ -246,7 +247,7 @@ Nun also zu der Funktion `estimateNetwork`. Zunächst muss im `default` wieder d
 Nun zu den uns unbekannten Argumenten: In `vars` kann angegeben werden, wenn nicht alle Variablen aus einem Datensatz auch als Knoten im Netzwerk auftreten sollen. Das ist bei uns der Fall. Glücklicherweise haben wir bereits ein Objekt, in dem die Namen aller relevanten Variablen enthalten sind (`rel_vars`). In `dayvar` kann festgelegt werden, welche Variable im Datensatz den Tag anzeigt. `beepvar` gibt an, der wievielte Alarm es jeweils an einem Tag war. So kann die Funktion die Reihenfolge und auch die Tagesübergänge erkennen. Die beiden Variablen in `dayvar` und `beepvar` müssen natürlich nur im ursprünglichen Datensatz (`data`) enthalten sein und kein Knoten im Netzwerk (`rel_vars`) werden! 
 
 
-``` r
+```r
 library(qgraph)
 library(bootnet)
 
@@ -267,20 +268,28 @@ res <- estimateNetwork(data = data,
 Die beiden ausgewählten Teilnetzwerke sind in `res$graph` abgelegt. 
 
 
-``` r
+```r
 res$graph
 ```
 
 ```
 ## $contemporaneous
-##                       relaxed          sad     nervous concentration      tired  rumination bodily.discomfort
-## relaxed            0.00000000 -0.126105027 -0.04342341    0.13282464 -0.1277847 0.000000000       -0.21395865
-## sad               -0.12610503  0.000000000  0.00000000   -0.01188015  0.3044483 0.005695221        0.07501887
-## nervous           -0.04342341  0.000000000  0.00000000    0.00000000  0.0000000 0.000000000        0.00000000
-## concentration      0.13282464 -0.011880150  0.00000000    0.00000000  0.0000000 0.000000000       -0.08499385
-## tired             -0.12778465  0.304448284  0.00000000    0.00000000  0.0000000 0.000000000        0.00000000
-## rumination         0.00000000  0.005695221  0.00000000    0.00000000  0.0000000 0.000000000        0.11110291
-## bodily.discomfort -0.21395865  0.075018873  0.00000000   -0.08499385  0.0000000 0.111102907        0.00000000
+##                       relaxed          sad     nervous concentration      tired  rumination
+## relaxed            0.00000000 -0.126105027 -0.04342341    0.13282464 -0.1277847 0.000000000
+## sad               -0.12610503  0.000000000  0.00000000   -0.01188015  0.3044483 0.005695221
+## nervous           -0.04342341  0.000000000  0.00000000    0.00000000  0.0000000 0.000000000
+## concentration      0.13282464 -0.011880150  0.00000000    0.00000000  0.0000000 0.000000000
+## tired             -0.12778465  0.304448284  0.00000000    0.00000000  0.0000000 0.000000000
+## rumination         0.00000000  0.005695221  0.00000000    0.00000000  0.0000000 0.000000000
+## bodily.discomfort -0.21395865  0.075018873  0.00000000   -0.08499385  0.0000000 0.111102907
+##                   bodily.discomfort
+## relaxed                 -0.21395865
+## sad                      0.07501887
+## nervous                  0.00000000
+## concentration           -0.08499385
+## tired                    0.00000000
+## rumination               0.11110291
+## bodily.discomfort        0.00000000
 ## 
 ## $temporal
 ##                   relaxed sad   nervous concentration     tired rumination bodily.discomfort
@@ -298,7 +307,7 @@ Wenn man sich nur eins anzeigen lassen möchte, kann man dies mit einem weiteren
 Die optische Darstellung bleibt einer der großen Vorteile der Netzwerkanalyse. An diesem Punkt haben wir zwei Strukturen, die in der Darstellung aber zusammen wahrgenommen werden sollten. Dafür wäre es zunächst wichtig, ein gemeinsames Layout zu erschaffen, da sonst die Knoten an anderen Orten aufgezeigt werden würden. Dabei wird empfohlen, zunächst ein durchschnittliches Layout mit der Funktion `averageLayout` aus dem `qgraph` Paket zu bestimmen.
 
 
-``` r
+```r
 Layout <- averageLayout(res$graph$temporal, 
                         res$graph$contemporaneous)
 ```
@@ -306,19 +315,19 @@ Layout <- averageLayout(res$graph$temporal,
 Nun kann das Zeichnen mit der `plot`-Funktion beginnen. Diesmal reicht eine direkte Ansprache des Objektes nicht aus. Wir müssen weitere Argumente angeben. In `graph` wird festgehalten, welches Netzwerk wir zeichnen möchten. Das Argument `layout` ermöglicht uns eine Konstanthaltung - hier nehmen wir natürlich das von uns bestimmte durchschnittliche `Layout`. Zur Differenzierung der beiden Plots geben wir ihnen noch einen Titel (`title`). 
 
 
-``` r
+```r
 plot(res, graph = "temporal", layout = Layout, 
      title = "Temporal")
 ```
 
-![](/lehre/klipps-legacy/dynamische-netzwerke-legacy_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](/dynamische-netzwerke-legacy_files/unnamed-chunk-18-1.png)<!-- -->
 
-``` r
+```r
 plot(res, graph = "contemporaneous", layout = Layout, 
      title = "Contemporaneous")
 ```
 
-![](/lehre/klipps-legacy/dynamische-netzwerke-legacy_files/figure-html/unnamed-chunk-18-2.png)<!-- -->
+![](/dynamische-netzwerke-legacy_files/unnamed-chunk-18-2.png)<!-- -->
 
 Im temporalen Teil des Netzwerkes sind zwei `self`-loops zu verzeichnen - also Variablen, die auf sich selbst wirken. Weiterhin sieht man auch eine Wechselwirkung zwischen `rumination` und `bodily_discomfort`. Das gleichzeitige Netzwerk ist stärker verbunden. Man sieht recht deutlich, dass `relaxed` viele negative Zusammenhänge zu symptomähnlichen Knoten hat. Wenn die Person sich ausgeruht fühlte, war sie gleichzeitig also weniger müde, traurig oder auch nervös.
 

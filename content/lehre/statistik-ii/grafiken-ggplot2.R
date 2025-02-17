@@ -1,4 +1,4 @@
-load(url('https://pandar.netlify.com/daten/edu_exp.rda'))
+load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 
 # Anschauen der ersten Zeilen
 head(edu_exp)

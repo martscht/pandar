@@ -26,6 +26,9 @@ output:
 
 
 ```{r setup, include=FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
 knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
 ```
 

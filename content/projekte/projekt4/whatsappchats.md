@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Projekt zeigen wir dir, wie du deine Whatsapp-Chats analysieren kannst. Wer schreibt im Gruppenchat am häufigsten? Wie lange dauert es, bis dir jemand antwortet? Und wer schreibt immer besonders negative oder positive Dinge? Hier kannst du herausfinden, wer deine wahren Freunde sind.'
 authors: [berger, schreiner]
 weight: 1
-lastmod: '2024-05-15'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/people_on_phones.jpg"
@@ -48,12 +48,12 @@ In dieser Aufgabe sollst du lernen, Texte zu analysieren; und zwar nicht mehr wi
 
 Für diese Aufgabe benötigst du die Handyapplikation WhatsApp und einen Gruppenchat mit Freunden oder Bekannten von dir. Diesen kannst du exportieren, indem du an deinem Handy auf deinen Gruppenchat drückst. Oben rechts siehst du drei vertikale Punkte und unter „Mehr“ findest du „Chat exportieren“. Den Chat solltest du zunächst ohne Medien exportieren.
 
-![](/projekte/projekt4/whatsapp1.jpeg)
-![](/projekte/projekt4/whatsapp2.jpeg)
+![](whatsapp1.jpeg)
+![](whatsapp2.jpeg)
 
-![](/projekte/projekt4/whatsapp3.jpeg)
+![](whatsapp3.jpeg)
 
-![](/projekte/projekt4/whatsapp4.jpeg)
+![](whatsapp4.jpeg)
 
 
 Es sollte sich ein Fenster öffnen, in dem verschiedene Möglichkeiten zum Versenden der Datei angezeigt werden. Du kannst dir den Text beispielsweise per E-Mail schicken, um auch von deinem Computer auf die Datei zugreifen zu können. Lade die Textdatei auf deinen Computer und speichere sie im gleichen Ordner, in dem du auch deine R-Datei speichern möchtest.
@@ -132,6 +132,13 @@ install.packages('rwhatsapp')
 
 ```r
 library(rwhatsapp)
+```
+
+```
+## Warning: Paket 'rwhatsapp' wurde unter R Version 4.3.2 erstellt
+```
+
+```r
 whatsapp <- rwa_read('MeineGruppe.txt')
 ```
 
@@ -140,14 +147,14 @@ Wenn du dir nun den Datensatz anschaust (z.B. über `View`) sollten die ersten s
 
 ```
 ## # A tibble: 6 × 6
-##   time                author text                                            source emoji  emoji_name
-##   <dttm>              <fct>  <chr>                                           <chr>  <list> <list>    
-## 1 2019-06-23 18:21:51 <NA>   "Du hast die Gruppe \"Meine Gruppe\" erstellt." Meine… <NULL> <NULL>    
-## 2 2019-06-26 11:49:51 Frank  "Wer hat Lust so gegen viertel nach 1 Lust auf… Meine… <NULL> <NULL>    
-## 3 2019-06-26 12:05:51 Marie  "Bin raus:/"                                    Meine… <NULL> <NULL>    
-## 4 2019-06-26 12:05:51 Hans   " Ich bin jetzt schon essen, hab nachher noch … Meine… <NULL> <NULL>    
-## 5 2019-06-26 12:06:51 Georg  " Yess, am Cafe dann?"                          Meine… <NULL> <NULL>    
-## 6 2019-06-26 12:09:51 Petra  "Ich esse Zuhause"                              Meine… <NULL> <NULL>
+##   time                author text                                             source emoji  emoji_name
+##   <dttm>              <fct>  <chr>                                            <chr>  <list> <list>    
+## 1 2019-06-23 18:21:41 <NA>   "Du hast die Gruppe \"Meine Gruppe\" erstellt."  Meine… <NULL> <NULL>    
+## 2 2019-06-26 11:49:41 Frank  "Wer hat Lust so gegen viertel nach 1 Lust auf … Meine… <NULL> <NULL>    
+## 3 2019-06-26 12:05:41 Marie  "Bin raus:/"                                     Meine… <NULL> <NULL>    
+## 4 2019-06-26 12:05:41 Hans   " Ich bin jetzt schon essen, hab nachher noch B… Meine… <NULL> <NULL>    
+## 5 2019-06-26 12:06:41 Georg  " Yess, am Cafe dann?"                           Meine… <NULL> <NULL>    
+## 6 2019-06-26 12:09:41 Petra  "Ich esse Zuhause"                               Meine… <NULL> <NULL>
 ```
 
 Wenn es bei dir einige Zeilen gibt, die keinen Absender und keine Uhrzeit haben, liegt das daran, dass jemand einen Absatz in seiner Nachricht hatte. 
@@ -233,7 +240,7 @@ tab
 pie(tab, col = c("red", "yellow", "green", "violet", "orange", "blue", "pink", "cyan") )
 ```
 
-![](/projekte/projekt4/whatsappchats_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/whatsappchats_files/unnamed-chunk-11-1.png)<!-- -->
 
 Wenn wir ein Diagramm zur Nachrichtenhäufigkeit mit `ggplot` erstellen wollen, müssen wir ein Balkendiagramm benutzten.
 
@@ -242,7 +249,7 @@ ggplot(whatsapp, aes(x = author)) +
 geom_bar(width = 1 , aes(fill = author))
 ```
 
-![](/projekte/projekt4/whatsappchats_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/whatsappchats_files/unnamed-chunk-12-1.png)<!-- -->
 
 Um ein Histogramm zu erzeugen, das aufzeigt, wann ihr - über die gesamte Zeit - am meisten schreibt, kannst du entweder die Basicfunktion `hist` verwenden oder wieder `ggplot`. Setzte die Balkenbreite so, wie es für dich Sinn macht.
 
@@ -252,10 +259,10 @@ hist(whatsapp$time, breaks = 20, freq = TRUE)
 ```
 
 ```
-## Warning in breaks[-1L] + breaks[-nB]: NAs produced by integer overflow
+## Warning in breaks[-1L] + breaks[-nB]: NAs durch Ganzzahlüberlauf erzeugt
 ```
 
-![](/projekte/projekt4/whatsappchats_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](/whatsappchats_files/unnamed-chunk-13-1.png)<!-- -->
 
 ```r
 ggplot(whatsapp, aes(x = whatsapp$time))+ geom_histogram()
@@ -266,7 +273,7 @@ ggplot(whatsapp, aes(x = whatsapp$time))+ geom_histogram()
 ## ℹ Use `time` instead.
 ```
 
-![](/projekte/projekt4/whatsappchats_files/figure-html/unnamed-chunk-13-2.png)<!-- -->
+![](/whatsappchats_files/unnamed-chunk-13-2.png)<!-- -->
 
 Für die Wochentage erstellen wir erst eine neue Variable, die die Wochentage enthält. Dafür gibt es in R den gesonderten Befehl `weekdays`, der den Wochentag eines Datums ausgibt. Da es wenig Sinn macht, die Wochentage alphabetisch zu sortieren, musst du noch einen Faktor erstellen, in dem du die richtigen Levels zuweist.
 Da Wochentage nicht intervallskaliert sind, nutzen wir hier ein Balkendiagramm.
@@ -283,7 +290,7 @@ whatsapp$Wochentage <- factor(whatsapp$Wochentage, levels = c('Montag','Dienstag
 ggplot(whatsapp, aes(x = Wochentage)) + geom_bar()
 ```
 
-![](/projekte/projekt4/whatsappchats_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](/whatsappchats_files/unnamed-chunk-15-1.png)<!-- -->
 
 Für die Uhrzeit erstellen wir erst eine neue Zeitvariable ohne das Datum mittels der Funktion`strftime`, die uns die Stunde (Hour) und die Minute (Minute), in der die Nachricht geschickt wurde, ausgeben soll (`%H:%M`). Leider speichert R die neue Zeitvariable wieder als `Character` ab, sodass du sie nochmal in `POSIXct` umformen musst. Zur Visualisierung benutzen wir hier ein Histogramm.
 
@@ -302,7 +309,7 @@ ggplot(whatsapp, aes(x = whatsapp$uhrzeit))+ geom_histogram(bins = 10, color = '
 ## ℹ Use `uhrzeit` instead.
 ```
 
-![](/projekte/projekt4/whatsappchats_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](/whatsappchats_files/unnamed-chunk-16-1.png)<!-- -->
 
 </details>
 
@@ -535,6 +542,10 @@ Falls du es noch nicht getan hast solltest du spätestens hier das Packet `udpip
 library(udpipe)
 ```
 
+```
+## Warning: Paket 'udpipe' wurde unter R Version 4.3.2 erstellt
+```
+
 Das Folgende wurde bereits erwähnt, der Vollständigkeit halber steht es hier aber nochmals. Um `udpipe` benutzen zu können, musst du das Modell in der richtigen Sprache herunterladen und in die aktuelle Sitzung laden.
 
 ```r
@@ -639,30 +650,30 @@ senti_all$overall
 ```
 
 ```
-##    doc_id sentiment_polarity sentences terms
-## 1:   doc1               40.6        23  1176
-## 2:   doc2                2.0        17   284
-## 3:   doc3               29.6        41   666
-## 4:   doc4               15.6        24   700
-## 5:   doc5               -3.0        21   525
-## 6:   doc6               14.2        42   870
-## 7:   doc7               -1.0        30  1130
-##                                              terms_positive               terms_negative
-## 1: danke, gern, gut, mögen, ok, spaß, super, süß, zufrieden                leider, sorry
-## 2:                                        gern, gratis, gut                       leider
-## 3:        danke, gern, gut, inspirieren, okay, super, süßen                       leider
-## 4:                              gut, hoffentlich, mag, okay                leider, sorry
-## 5:                                      gern, gut, ok, okay                leider, sorry
-## 6:                                    gern, gut, super, süß blöd, kriegen, leider, sorry
-## 7:                                      gern, gut, ok, okay    leider, schade, vermissen
-##      terms_negation                                       terms_amplification
-## 1:      kein, nicht                                 bißchen, echt, sehr, voll
-## 2:            nicht                                      echt, komplett, sehr
-## 3:      kein, nicht bestimmt, bißchen, definitiv, echt, sehr, wenig, wirklich
-## 4: kein, nicht, nie                                          echt, sehr, voll
-## 5:      kein, nicht                                             bißchen, voll
-## 6:            nicht                                       bißchen, echt, voll
-## 7:      kein, nicht                  echt, unglaublich, voll, wirklich, würde
+##    doc_id sentiment_polarity sentences terms                                           terms_positive
+## 1:   doc1               40.6        23  1176 danke, gern, gut, mögen, ok, spaß, super, süß, zufrieden
+## 2:   doc2                2.0        17   284                                        gern, gratis, gut
+## 3:   doc3               29.6        41   666        danke, gern, gut, inspirieren, okay, super, süßen
+## 4:   doc4               15.6        24   700                              gut, hoffentlich, mag, okay
+## 5:   doc5               -3.0        21   525                                      gern, gut, ok, okay
+## 6:   doc6               14.2        42   870                                    gern, gut, super, süß
+## 7:   doc7               -1.0        30  1130                                      gern, gut, ok, okay
+##                  terms_negative   terms_negation
+## 1:                leider, sorry      kein, nicht
+## 2:                       leider            nicht
+## 3:                       leider      kein, nicht
+## 4:                leider, sorry kein, nicht, nie
+## 5:                leider, sorry      kein, nicht
+## 6: blöd, kriegen, leider, sorry            nicht
+## 7:    leider, schade, vermissen      kein, nicht
+##                                          terms_amplification
+## 1:                                 bißchen, echt, sehr, voll
+## 2:                                      echt, komplett, sehr
+## 3: bestimmt, bißchen, definitiv, echt, sehr, wenig, wirklich
+## 4:                                          echt, sehr, voll
+## 5:                                             bißchen, voll
+## 6:                                       bißchen, echt, voll
+## 7:                  echt, unglaublich, voll, wirklich, würde
 ```
 Nun kann man jedoch nicht erkennen, welche Daten zu welcher Person gehören, da der `overall` Befehl nur Nummern und keine Namen anzeigt. Das Problem können wir aber lösen, indem wir die Autorennamen in einem weiteren Schritt zuweisen.
 
