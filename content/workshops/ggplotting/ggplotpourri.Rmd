@@ -22,7 +22,7 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /workshops/ggplotting/ggplotpouri
+    url: /workshops/ggplotting/ggplotpourri
   - icon_pack: fas
     icon: terminal
     name: Code
