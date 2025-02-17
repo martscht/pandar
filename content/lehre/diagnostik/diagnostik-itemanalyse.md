@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schnatz, farugie]
 weight: 1
-lastmod: '2025-02-07'
+lastmod: '2025-02-17'
 featured: no
 banner:
   image: "/header/business_meeting.jpg"
@@ -38,8 +38,9 @@ output:
 Bevor wir mit der Analyse beginnen können, muss der Datensatz eingelesen werden. Hierfür gibt es mehrere Packages, die diesen ersten Schritt erleichtern. Mit dem Package `foreign` können besonders gut SPSS-Dateien (.sav) geladen werden. Mit dem Package `readr` (aus der Familie des `tidyverse`) können ansonsten die typischsten  Datenformate (wie unter anderem .csv, .tsv und .txt) geladen werden. Schließlich gibt es noch das `readxl` Package, mit dem Excel-Dateien (.xls und .xlsx) eingelesen werden können. Für unseren Beispieldatensatz benötigen wir das Package `readr`. Wir laden hierbei das komplette tidyvere-package, welches im Hintergrund das readr-Package sowie noch andere relevante Packages läd (z.B. `dplyr`).
 
 
-```r
+``` r
 library(tidyverse) 
+library(dplyr)
 library(here)
 data_gis_raw <- read_csv(url("https://raw.githubusercontent.com/jlschnatz/PsyBSc8_Diagnostik/main/src/data/GIS-data.csv"))
 head(data_gis_raw) 
@@ -47,39 +48,40 @@ head(data_gis_raw)
 
 ```
 ## # A tibble: 6 × 28
-##      id   sex   ses marital profession education  GIS1  GIS2  GIS3  GIS4  GIS5  GIS6  GIS7  GIS8  GIS9
-##   <dbl> <dbl> <dbl>   <dbl>      <dbl>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-## 1     1     1     2       1          3         5     4     3     3     3     3     3     4     4     3
-## 2     2     1     2       1          1         3     4     3     3     4     4     4     4     4     4
-## 3     3     1     2       3          1         3     4     3     4     4     3     3     3     4     4
-## 4     4     1     2       1          1         3     4     3     0     3     3     4     4     4     0
-## 5     5     0     1       1          5         5     3     4     4     3     3     4     4     4     4
-## 6     6     1     1       2          2         5     4     3     3     4     4     4     3     3     4
-## # ℹ 13 more variables: GIS10 <dbl>, GIS11 <dbl>, GIS12 <dbl>, GIS13 <dbl>, GIS14 <dbl>, GIS15 <dbl>,
-## #   GIS16 <dbl>, GIS17 <dbl>, GIS18 <dbl>, GIS19 <dbl>, GIS20 <dbl>, GIS21 <dbl>, Age <dbl>
+##      id   sex   ses marital profession education  GIS1  GIS2  GIS3  GIS4  GIS5  GIS6  GIS7  GIS8
+##   <dbl> <dbl> <dbl>   <dbl>      <dbl>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+## 1     1     1     2       1          3         5     4     3     3     3     3     3     4     4
+## 2     2     1     2       1          1         3     4     3     3     4     4     4     4     4
+## 3     3     1     2       3          1         3     4     3     4     4     3     3     3     4
+## 4     4     1     2       1          1         3     4     3     0     3     3     4     4     4
+## 5     5     0     1       1          5         5     3     4     4     3     3     4     4     4
+## 6     6     1     1       2          2         5     4     3     3     4     4     4     3     3
+## # ℹ 14 more variables: GIS9 <dbl>, GIS10 <dbl>, GIS11 <dbl>, GIS12 <dbl>, GIS13 <dbl>,
+## #   GIS14 <dbl>, GIS15 <dbl>, GIS16 <dbl>, GIS17 <dbl>, GIS18 <dbl>, GIS19 <dbl>, GIS20 <dbl>,
+## #   GIS21 <dbl>, Age <dbl>
 ```
 
 
 ## Erstellen des Hauptdatensatzes
 
-Für die Itemanalyse brauchen wir nur die Items ohne den soziodemographischen Angaben. Daher erstellen wir einen Datensatz, der nur die Items und keine soziodemographische Angaben enthält. Dies ist mit der `select()` Funktion des dplyr-Packages sehr einfach. Da alle Items mit dem Prefix "GIS" beginnen können wir uns eine kleine Helper-Funktion `starts_with()` des dplyr-Packages zu Nutze machen, um die Variables auszuwählen.
+Für die Itemanalyse brauchen wir nur die Items ohne den soziodemographischen Angaben. Daher erstellen wir einen Datensatz, der nur die Items und keine soziodemographische Angaben enthält. Dies ist mit der `select()` Funktion des dplyr-Packages sehr einfach (die Funktion gibt es in verschiedenen Paketen, daher sagen wir `R` explizit, dass es aus diesem Paket genommen werden soll mit den beiden Doppelpunkten `dplyr::select()`) Da alle Items mit dem Prefix "GIS" beginnen können wir uns eine kleine Helper-Funktion `starts_with()` des dplyr-Packages zu Nutze machen, um die Variables auszuwählen.
 
 
-```r
-data_gis_item <- select(data_gis_raw, starts_with("GIS"))
-data_gis_item <- select(data_gis_raw, 7:27) # Alternative 
+``` r
+data_gis_item <- dplyr::select(data_gis_raw, starts_with("GIS"))
+data_gis_item <- dplyr::select(data_gis_raw, 7:27) # Alternative 
 colnames(data_gis_item) # Ausgabe der Spalten des Datensatzes
 ```
 
 ```
-##  [1] "GIS1"  "GIS2"  "GIS3"  "GIS4"  "GIS5"  "GIS6"  "GIS7"  "GIS8"  "GIS9"  "GIS10" "GIS11" "GIS12"
-## [13] "GIS13" "GIS14" "GIS15" "GIS16" "GIS17" "GIS18" "GIS19" "GIS20" "GIS21"
+##  [1] "GIS1"  "GIS2"  "GIS3"  "GIS4"  "GIS5"  "GIS6"  "GIS7"  "GIS8"  "GIS9"  "GIS10" "GIS11"
+## [12] "GIS12" "GIS13" "GIS14" "GIS15" "GIS16" "GIS17" "GIS18" "GIS19" "GIS20" "GIS21"
 ```
 
 Bevor wir mit der deskriptiven Analyse beginnen, sollten wir noch überprüfen, ob es fehlende Werte (NAs) im Datensatz gibt. 
 
 
-```r
+``` r
 anyNA(data_gis_item)
 ```
 
@@ -87,7 +89,7 @@ anyNA(data_gis_item)
 ## [1] FALSE
 ```
 
-```r
+``` r
 sum(is.na(data_gis_item)) # Alternative
 ```
 
@@ -98,7 +100,7 @@ sum(is.na(data_gis_item)) # Alternative
 In diesem Fall, sind keine fehlenden Werte vorhanden. Es müssen also keine Werte entfernt werden. Wenn in eurem eigenen Fragebogen fehlenden Werte vorkommen sollten, können sie durch die Funktion `na.omit()` oder `drop_na()` (tidyr-Package der tidyverse Familie) entfernt werden.
 
 
-```r
+``` r
 na.omit(data_gis_item)
 drop_na(data_gis_item)
 ```
@@ -110,7 +112,7 @@ Bevor wir die Itemanalyse durchführen, wollen wir uns zunächst ein wenig mit d
 Für die Berechnung deskriptiver Kennwerte (Mittelwert, Standardabweichung, Median, etc.) können wir die `describe()` Funktion des psych-Packages verwenden:
 
 
-```r
+``` r
 library(psych)
 describe(data_gis_item) 
 ```
@@ -143,7 +145,7 @@ describe(data_gis_item)
 Wenn wir nur eine spezifische Variable deskriptiv betrachten wollen (z.B. das Alter), kann in der gleichen Funktion die Variable direkt angesteuert werden.
 
 
-```r
+``` r
 describe(data_gis_raw$Age)
 ```
 
@@ -155,7 +157,7 @@ describe(data_gis_raw$Age)
 Für alle kategoriellen Daten (z.B. Geschlecht, SÖS, Bildung) benötigen keine Mittelwerte oder Standardabweichungen, sondern nutzen Häufigkeitsverteilung zur deskriptiven Beschreibung. Hier kommt jetzt das janitor-Package zum Einsatz.
 
 
-```r
+``` r
 library(janitor)
 tabyl(data_gis_raw$sex)
 ```
@@ -169,7 +171,7 @@ tabyl(data_gis_raw$sex)
 Wir bekommen die relativen und absoluten Häufigkeiten für männliche und weibliche Probanden ausgegeben. Falls es fehlenden Werte gäbe, müssten diese im Bericht auch angegeben werden. Dies ist ebenfalls mit der gleichen Funktion durch die Spezifizierung eineszusätzlichen Arguments möglich.
 
 
-```r
+``` r
 tabyl(data_gis_raw$sex, show_na = TRUE) 
 ```
 Hier ist der Output genau gleich (das ist ja in dem Datensatz keine NAs gibt).
@@ -179,7 +181,7 @@ Hier ist der Output genau gleich (das ist ja in dem Datensatz keine NAs gibt).
 Für die Abschlussberichte, braucht ihr die ganzen deskriptiven Informationen in APA7 formatierten Tabellen. Hierfür eignet sich besonders das Pacakge `sjPlot`. Als Beispiel speichern wir zunächst die die vorherige deskriptive Statistik bezüglich des Alters als ein Objekt ab. Danach erstellen wir mit einer Funktion des genannten Packages eine schön formatierte Tabelle.
 
 
-```r
+``` r
 library(sjPlot)
 descr_age <- describe(data_gis_raw$Age)
 tab_df(x = descr_age)
@@ -221,7 +223,7 @@ tab_df(x = descr_age)
 Die erstellte Tabelle kann sogar direkt als Word-Dokument abgespeichert werden, um danach noch weiter angepasst zu werden (z.B. Erstellen von Fußnoten, Tabellen-Titel, etc.). Wichtig dabei ist, dass nur die Endung .doc und nicht .docx funktioniert.
 
 
-```r
+``` r
 tab_df(
   x = descr_age,
   file = "table_descr_age.doc"
@@ -231,7 +233,7 @@ tab_df(
 Auch für die mit tabyl() erstellten Ergebnisse können wir eine Tabelle erstellen
 
 
-```r
+``` r
 descr_sex <- tabyl(data_gis_raw$sex)
 tab_df(descr_sex)
 ```
@@ -258,7 +260,7 @@ tab_df(descr_sex)
 Zudem können wir mit dem psych-Package auch eine Tabelle nach Gruppen erstellen. Dieser Output kann dann mit einer ähnlichen Funktion des sjPlot Package in einer Tabelle dargestellt werden.
 
 
-```r
+``` r
 descr_age_by_sex <- describeBy(x = data_gis_raw$Age,
            group = data_gis_raw$sex) 
 print(descr_age_by_sex)
@@ -270,13 +272,13 @@ print(descr_age_by_sex)
 ## group: 0
 ##    vars   n  mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 104 66.88 6.67     65   66.01 5.93  55  90    35 1.25     1.76 0.65
-## ---------------------------------------------------------------------------- 
+## ------------------------------------------------------------------------ 
 ## group: 1
 ##    vars   n  mean  sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 196 66.35 5.9     65   65.67 5.93  55  89    34 1.12     1.16 0.42
 ```
 
-```r
+``` r
 tab_dfs(
   x = descr_age_by_sex,
   titles = c("Weiblich","Männlich"),
@@ -354,7 +356,7 @@ Es gibt auch die Möglichkeit mehrere Tabellen in ein Dokument zu packen und die
 
 
 
-```r
+``` r
 tab_dfs(
   x = list(descr_age, descr_sex), 
   titles = c("Descriptives of Age", "Descriptives of Sex")
@@ -415,7 +417,7 @@ tab_dfs(
 
 
 
-```r
+``` r
 tab_dfs(
   x = list(descr_age, descr_sex), 
   titles = c("Descriptives of Age","Descriptives of Sex"),
@@ -431,7 +433,7 @@ tab_dfs(
  Dafür speichern wir alle inversen Items zunächst in einem Vektor ab. Anschließend verwenden wir die` mutate()` Funktion des `dplyr`-Package, mit welcher wir Variablen manupulieren/verändern können. Wir müssen dabei den Zusatz `across()` hinzunehmen, da wir mehreren Variablen gleichzeitig verändern wollen. Das Argument `.cols` gibt dabei an, welche Variablen wir verändern wollen. Mit dem Argument `.fns` spezifizieren wir, welche Funktion wir auf die Variablen anwenden wollen. Wir verwenden die Funktion `rec()` aus dem `sjmisc` Package. Die etwas ungewöhnliche Schreibweise mit der Tilde `~`und dem `.x` setzt sich wie folgt zusammen: Die Tilde müssen wir immer dann verwenden, wenn wir bei der Funktion, die wir anwenden  zusätzlich Argumente spezifizieren (`rec = "0=4; 1=3; 2=2; 3=1; 4=0"`). Das `.x` verwenden wir als Platzhalter für alle Variablen, die wir verändern wollen (GIS9, GIS16, GIS17 und GIS18). Schließlich können wir mit dem `.names` Argument einen Namen für alle veränderten Variablen spezifizieren. Das Prefix `{col}` steht dabei für den ursprünglichen Variablennamen (z.B. GIS9). Mit dem Zusatz `{col_r}` wird hängen wir dem Präfix noch ein Suffix an (GIS9 -> GIS9_r). Das Suffix kennzeichnet dabei, dass wir die Items rekodiert haben.
  
 
-```r
+``` r
 library(sjmisc)
 inverse_items <- c("GIS9","GIS16","GIS17","GIS18") 
 data_gis_rec <- data_gis_item %>% 
@@ -440,7 +442,7 @@ data_gis_rec <- data_gis_item %>%
     .fns = ~rec(x = .x, rec = "0=4; 1=3; 2=2; 3=1; 4=0"),
     .names = "{col}_r")
     ) %>% 
-  select(-inverse_items) 
+  dplyr::select(-inverse_items) 
 colnames(data_gis_rec)
 ```
 
@@ -453,7 +455,7 @@ colnames(data_gis_rec)
  Jetzt können wir die Itemanalyse durchführen. Wir verwenden dafür eine Funktion aus dem sjPlot Package.
 
 
-```r
+``` r
 sjt.itemanalysis(
   df = data_gis_rec,
   factor.groups.titles = "Erste Itemanalyse"
@@ -579,7 +581,7 @@ sjt.itemanalysis(
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.81</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">-1.64</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.85</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.66</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.67</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col8">0.83</td>
 </tr>
 <tr>
@@ -690,14 +692,14 @@ sjt.itemanalysis(
 Wir sehen, dass die Variablen der Reihenfolge nach wie sie im Dataframe auftauchen, in die Tabelle aufgenommen werden. Dadurch sind die rekodierten Variablen am Ende der Tabelle platziert. Wir können die Reihenfolge der Items ändern, indem wir diese in einem Vektor spezifizieren. Anschließend verwenden wir wieder die `select()` Funktion und bringen dadurch die Variablen in die gewünschte Reihenfolge.
 
 
-```r
+``` r
 col_order <- c(
   "GIS1","GIS2","GIS3","GIS4","GIS5","GIS6",
   "GIS7","GIS8","GIS9_r","GIS10", "GIS11",
   "GIS12","GIS13","GIS14","GIS15","GIS16_r",
   "GIS17_r","GIS18_r", "GIS19","GIS20","GIS21"
   )
-data_gis_rec2 <- select(data_gis_rec, all_of(col_order))
+data_gis_rec2 <- dplyr::select(data_gis_rec, all_of(col_order))
 sjt.itemanalysis(
   df = data_gis_rec2,
   factor.groups.titles = "Desktiptive Ergebnisse der Itemanalyse (mit angepasster Reihenfolge)"
@@ -833,7 +835,7 @@ sjt.itemanalysis(
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; ">0.81</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; ">-1.64</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; ">0.85</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; col7">0.66</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; col7">0.67</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; background-color:#f2f2f2; col8">0.83</td>
 </tr>
 <tr>
@@ -935,15 +937,15 @@ Wir sehen, dass alle invers gestellten Items eine schlechte Trennschärfe besitz
 
 
 
-```r
+``` r
 drop_discrm <- c("GIS9_r", "GIS16_r","GIS17_r", "GIS18_r")
-data_gis_final <- select(data_gis_rec2, -all_of(drop_discrm))
+data_gis_final <- dplyr::select(data_gis_rec2, -all_of(drop_discrm))
 ```
 
 Mit diesem Datensatz können wir nun die finale Itemanalyse durchführen:
 
 
-```r
+``` r
 sjt.itemanalysis(
   df = data_gis_final,
   factor.groups.titles = "Finale Itemanalyse"
@@ -989,7 +991,7 @@ sjt.itemanalysis(
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.89</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">-1.25</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">0.81</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.64</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col7">0.65</td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; col8">0.93</td>
 </tr>
 <tr>
@@ -1140,7 +1142,7 @@ sjt.itemanalysis(
 Abschließend gibt es noch die Möglichkeit, McDonald´s $\omega$ als ein alternatives Reliabilitätsmaß (zusätzlich zu Cronbach´s $\alpha$) zu bestimmen. 
 
 
-```r
+``` r
 omega_items <- omega(data_gis_final,
                      plot = FALSE)
 omega_items$omega.tot
@@ -1150,7 +1152,7 @@ omega_items$omega.tot
 ## [1] 0.948647
 ```
 
-```r
+``` r
 omega_items$alpha
 ```
 
