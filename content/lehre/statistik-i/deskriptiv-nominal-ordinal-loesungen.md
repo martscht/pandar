@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [buchholz, nehler, sinn] 
-lastmod: '2024-10-25'
+lastmod: '2025-02-17'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -249,7 +249,7 @@ prop.table(table(fb24$therap))
 ## 0.01063830 0.05319149 0.30319149 0.63297872
 ```
 
-Der Modus der Variable `therap` beträgt 4, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = 119 bzw. 63.3%).
+Der Modus der Variable `therap` beträgt 5, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = 119 bzw. 63.3%).
 
 **Boxplot**
 
