@@ -98,7 +98,7 @@ Der entstandene Datensatz enthält 52 Beobachtungen auf 11 Variablen. In `author
 
 Die vier folgenden Variablen (`bodyawareness`, `holistic`, `meditation`, `discussion`) kennzeichnen in Dummy-Variablen, ob eine untersuchte Intervention diese Elemente enthält bzw. nach diesen Prinzipien gestaltet ist. Die Variablen `es_post` und `es_follow` enthalten die Effektstärken zur Post bzw. Follow-Messung, die Variablen `se_post` und `se_follow` die zugehörigen Standardfehler.
 
-Im Rahmen des Quiz wird außerdem um die genauere Betrachtung der Studie von [Schwenk et al. (2016)](https://doi.org/10.1682/jrrd.2015.05.0089) gebeten.
+Im Rahmen des Quiz wird außerdem um die genauere Betrachtung der Studie von [Schwenk et al. (2016)](https://pmc.ncbi.nlm.nih.gov/articles/PMC6644036/#ABS1) gebeten.
 
 ***
 
