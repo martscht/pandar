@@ -1,8 +1,9 @@
-knitr::opts_chunk$set(fig.path = figure_path)
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
 knitr::opts_chunk$set(echo = TRUE)
 library(knitr)
 library(devtools)
-library(tabplot)
 
 load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 library(ggplot2)
@@ -104,16 +105,3 @@ library(GGally)
 ggpairs(edu_exp_sel, columns = 1:3)
 
 ggpairs(edu_exp_sel, columns = 1:3, aes(color = Region, alpha = .5))
-
-## library(devtools)
-## install_github("mtennekes/tabplot")
-## library(tabplot)
-
-edu_exp_2 <- subset(edu_exp, select = c("Country", "Region", "Index", "Expectancy", "Population", "Income"))
-
-tableplot(edu_exp_2)
-
-# Sortiert nach Income
-tableplot(edu_exp_2,
-          select=c(Region, Index, Expectancy, Income), 
-          sortCol = Income)

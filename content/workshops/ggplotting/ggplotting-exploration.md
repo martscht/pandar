@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [buchholz] 
 weight: 6
-lastmod: '2024-05-24'
+lastmod: '2025-02-25'
 featured: no
 banner:
   image: "/header/binocular_person.jpg"
@@ -46,12 +46,14 @@ Der Fokus des Workshops lag bisher stark auf explanativen Grafiken. In diesem Ab
 * Prinzip des "small multiple" anhand von Faceting  
 * Eine Serie gleicher Grafiken mit Funktion und Schleife erzeugen  
 * Viele bivariate Zusammenhänge mit `ggpairs()`  
-* Multivariate Daten mit `tableplot()` durchkämmen  
+* Multivariate Daten mit `tableplot()` durchkämmen
+
+*Anmerkung: Leider ist das Paket `tabplot` inzwischen verwaist, sodass es mit aktuellen Versionen von R und ggplot nicht mehr funktioniert. Die entsprechenden Darstellungen mussten wir daher entfernen und empfehlen stattdessen die Arbeit mit [DataVisualizations](https://cran.r-project.org/web/packages/DataVisualizations/vignettes/DataVisualizations.html#1_Exploratory_Data_Analysis).*
 
 Auch in diesem Abschnitt arbeiten wir wieder mit dem `edu_exp`-Datensatz. Außerdem muss noch `ggplot2` geladen werden.
 
 
-```r
+``` r
 load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 library(ggplot2)
 ```
@@ -75,7 +77,7 @@ In `ggplot()` stehen zwei Funktionen für faceting zur Vefügung:
 Die Variable, für die separate Plots erzeugt werden sollen, muss als diskrete Variable im Datensatz enthalten sein (z.B. Land, Weltregion). Im nachfolgenden Beispiel stellen wir den Zusammenhang zwischen den Variablen Wirtschaftsleistung und Lebenserwartung *separat für jede der vier Weltregionen* dar:
 
 
-```r
+``` r
 edu_exp |>
   subset(Year == 2016) |>
   ggplot(aes(x=Income, y=Expectancy)) +
@@ -85,15 +87,16 @@ edu_exp |>
 ```
 
 ```
-## Warning: Removed 196 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 196 rows containing missing values or values outside the scale range
+## (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-exploration_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](/ggplotting-exploration_files/unnamed-chunk-2-1.png)<!-- -->
 
 Und nun zeigen wir Ihnen noch ein weiteres Beispiel für Faceting, um die vermutlich schönste Illustration des [Anscombe Quartett](https://de.wikipedia.org/wiki/Anscombe-Quartett) in diesen Materialien unterzubringen: den **Datasaurus**. Der Datensatz liegt im Paket `datasauRus` vor, welches zunächst geladen werden muss: 
 
 
-```r
+``` r
 library(datasauRus)
 names(datasaurus_dozen)
 ```
@@ -105,36 +108,36 @@ names(datasaurus_dozen)
 Der Datensatz enthält drei Variablen: `x`, `y` und `dataset`. Der Zusammenhang zwischen `x` und `y` ohne Berücksichtigung der zugrunde liegenden Gruppen (Variable `dataset`) sieht unspektakilär aus - man kann kein Muster erkennen:
 
 
-```r
+``` r
 ggplot(datasaurus_dozen, aes(x=x, y=y)) +
   geom_point()
 ```
 
-![](/workshops/ggplotting/ggplotting-exploration_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](/ggplotting-exploration_files/unnamed-chunk-4-1.png)<!-- -->
 
 Nun wenden wir Faceting an, um small multiples für jedes der datasets anzufordern:
 
 
-```r
+``` r
 ggplot(datasaurus_dozen, aes(x=x, y=y)) +
   geom_point() +
   facet_wrap(~dataset) +
   labs(x="", y="")
 ```
 
-![](/workshops/ggplotting/ggplotting-exploration_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](/ggplotting-exploration_files/unnamed-chunk-5-1.png)<!-- -->
 
 Die unterschiedlichen Zusammenhänge in jeder der Subgruppen fallen somit unmittelbar ins Auge. Zusätzlich kann auch noch eine Farb-Ästhetik zur Darstellung der Gruppenzugehörigkeit (`dataset`) vergeben werden. Dadurch erhält jedes Kästchen eine eigene Farbe. Diese trägt absolut keine Information bei, da die Gruppenzugehörigkeit ohnehin klar ist. Es handelt sich dabei also um ein Beispiel für Tuftes sog. "chartjunk" - aber nun ist die Grafik schön bunt. :-)
 
 
-```r
+``` r
 ggplot(datasaurus_dozen, aes(x=x, y=y)) +
   geom_point(aes(colour=dataset), show.legend=F) +
   facet_wrap(~dataset) +
   labs(x="", y="")
 ```
 
-![](/workshops/ggplotting/ggplotting-exploration_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/ggplotting-exploration_files/unnamed-chunk-6-1.png)<!-- -->
 
 Mit der Technik des Faceting lässt sich also schnell ein Eindruck über Datenmuster in einer Vielzahl von Gruppen gewinnen. Außergewöhnliche Muster müssten so schnell auffallen.
 
@@ -149,7 +152,7 @@ Sehen wir uns zunächst einmal einfache Beispiele für Funktionen und Schleifen 
 Im nachfolgenden Text erstellen wir eine Funktion namens `quadrieren()`, die genau ein Argument (`zahl`) entgegennehmen kann. Die Funktion soll diese Zahl quadrieren und das Ergebnis zurückgeben. Der entsprechende Befehl sieht wie folgt aus:
 
 
-```r
+``` r
 quadrieren <- function(zahl){
   ergebnis <- zahl^2
   return(ergebnis)
@@ -159,7 +162,7 @@ quadrieren <- function(zahl){
 Testen wir nun die Funktion: 
 
 
-```r
+``` r
 quadrieren(1)
 ```
 
@@ -167,7 +170,7 @@ quadrieren(1)
 ## [1] 1
 ```
 
-```r
+``` r
 quadrieren(2)
 ```
 
@@ -175,7 +178,7 @@ quadrieren(2)
 ## [1] 4
 ```
 
-```r
+``` r
 quadrieren(3)
 ```
 
@@ -188,7 +191,7 @@ quadrieren(3)
 Anhand von Schleifen (*loops*) lassen sich wiederholt Aktionen für alle Elemente eines Vektors durchführen. In R gibt es `for()`, `while()` und `break()`-Schleifen. Wir zeigen Ihnen nachfolgend eine einfache `for()`-Schleife. Sie soll für alle Zahlen zwischen 4 und 6 eine Quadrierung vornehmen. Die Zahlen zwischen 4 bis 6 werden in einem Vektor abelegt, über den dann die Schleife läuft; die Elemente des Vektors werden mit `z` indiziert. 
 
 
-```r
+``` r
 zahlen <- 4:6
 for(z in zahlen){
   print(z^2)
@@ -208,7 +211,7 @@ Wir kombinieren nun eine selbstgeschriebene Funktion mit einer `for()`-Schleife,
 Die Grafik soll die Lebenserwartung im Zeitverlauf sowie den jeweiligen Mittelwert anzeigen. Für Afghanistan sollte sie also so aussehen: 
 
 
-```r
+``` r
 dipfblau <- rgb(102,153,204, max=255)
 tmp.data <- subset(edu_exp, Country == "Afghanistan")
 tmp.mw   <- mean(tmp.data$Expectancy)
@@ -233,27 +236,30 @@ ggplot(tmp.data, aes(x=Year, y=Expectancy)) +
 ```
 
 ```
-## Warning: Removed 5 rows containing missing values or values outside the scale range (`geom_line()`).
+## Warning: Removed 5 rows containing missing values or values outside the scale range
+## (`geom_line()`).
 ```
 
 ```
-## Warning: Removed 5 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 5 rows containing missing values or values outside the scale range
+## (`geom_point()`).
 ```
 
 ```
-## Warning: Removed 22 rows containing missing values or values outside the scale range (`geom_hline()`).
+## Warning: Removed 22 rows containing missing values or values outside the scale range
+## (`geom_hline()`).
 ```
 
 ```
 ## Warning: Removed 1 row containing missing values or values outside the scale range (`geom_text()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-exploration_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/ggplotting-exploration_files/unnamed-chunk-10-1.png)<!-- -->
 
 Dieser Befehl muss nun so abstrahiert werden, dass er für jedes Land funktioniert. Alles, was mit Afghanistan zu tun hat, wird nun so umgeschrieben, dass *irgendein* Ländername eingesetzt werden kann - nämlich den, der als Wert für das Argument `which.country` in der Funktion angebenen wurde. Wichtig ist, dass der Wertebereich von x- und y-Achse spezifiziert wird, um sicherzustellen, dass jedes Plot gleich aufgebaut ist. Außerdem soll die Funktion so geschrieben sein, dass man die Linie für den Mittelwert ein- und ausschalten kann. Dies hinterlegen wir als ein optionales Argument, das per Voreinstellung die Linie nicht enthält.
 
 
-```r
+``` r
 gm.plot <- function(which.country, show.mean=FALSE){
 
   dipfblau <- rgb(102,153,204, max=255)
@@ -282,39 +288,42 @@ gm.plot <- function(which.country, show.mean=FALSE){
 Prüfen wir nun die Funktion für Afghanistan - sie müsste ja genauso aussehen wie zuvor:
 
 
-```r
+``` r
 gm.plot("Afghanistan", TRUE)
 ```
 
 ```
-## Warning: Removed 5 rows containing missing values or values outside the scale range (`geom_line()`).
+## Warning: Removed 5 rows containing missing values or values outside the scale range
+## (`geom_line()`).
 ```
 
 ```
-## Warning: Removed 5 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 5 rows containing missing values or values outside the scale range
+## (`geom_point()`).
 ```
 
 ```
-## Warning: Removed 22 rows containing missing values or values outside the scale range (`geom_hline()`).
+## Warning: Removed 22 rows containing missing values or values outside the scale range
+## (`geom_hline()`).
 ```
 
 ```
 ## Warning: Removed 1 row containing missing values or values outside the scale range (`geom_text()`).
 ```
 
-![](/workshops/ggplotting/ggplotting-exploration_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/ggplotting-exploration_files/unnamed-chunk-12-1.png)<!-- -->
 
 Das hat geklappt! Als nächstes erstellen wir ein Verzeichnis ("gapminder-plots"), in dem die Grafiken später gespeichert werden können. Dies kann mit `dir.create()` aus R heraus erfolgen:
 
 
-```r
+``` r
 dir.create("./gapminder-Plots")
 ```
 
 Die Funktion soll nun für jedes Land angewendet werden. Dafür benötigen wir einen Vektor, der alle Ländernamen enthält:
 
 
-```r
+``` r
 countries <- unique(edu_exp$Country)
 head(countries)
 ```
@@ -323,7 +332,7 @@ head(countries)
 ## [1] "Afghanistan" "Angola"      "Albania"     "Andorra"     "UAE"         "Argentina"
 ```
 
-```r
+``` r
 length(countries)
 ```
 
@@ -334,7 +343,7 @@ length(countries)
 Der Vektor enthält 197 Elemente, folglich werden mit der `for()`-Schleife 197 Grafiken erzeugt werden. Wir erweitern die Schleife noch so, dass sie uns in die Konsole schreibt, wie weit sie ist. So können wir den Fortschritt live überwachen: 
 
 
-```r
+``` r
 for(c in 1:length(countries)){
   gm.plot(countries[c], show.mean = TRUE)
   ggsave(paste0("./gapminder-Plots/Plot-", countries[c], ".png"),
@@ -343,15 +352,15 @@ for(c in 1:length(countries)){
 }
 ```
 
-![](/workshops/ggplotting/ggplotting_print_progress.png)
+![](ggplotting_print_progress.png)
 
 Nachdem die Schleife fertig durchgelaufen ist, liegen alle 197 Grafiken im Ordner:
 
-![](/workshops/ggplotting/ggplotting_ordner.png)
+![](ggplotting_ordner.png)
 
 Durch diese kann man sich nun durcharbeiten - auffällige Muster fallen dann schnell auf:
 
-![](/workshops/ggplotting/ggplotting_gapminder_plots.gif)
+![](ggplotting_gapminder_plots.gif)
 
 
 
@@ -360,7 +369,7 @@ Durch diese kann man sich nun durcharbeiten - auffällige Muster fallen dann sch
 Das Paket `GGally` stellt die praktische Funktion `ggpairs()` bereit. Wir illustrieren diese anhand unseres Datensatzes für die Variablen Wirtschaftsleistung, Lebenserwartung und Bildungsindex, getrennt nach Weltregion. Dafür erstellen wir zunächst einen entsprechenden Teildatensatz:
 
 
-```r
+``` r
 edu_exp_sel <- edu_exp[, c("Income", "Expectancy", "Index", "Region")]
 ```
 
@@ -370,7 +379,7 @@ edu_exp_sel <- edu_exp[, c("Income", "Expectancy", "Index", "Region")]
 * Scatterplots und Korrelationskoeffizienten für jede Kombination von Variablen 
 
 
-```r
+``` r
 library(GGally)
 ```
 
@@ -380,70 +389,62 @@ library(GGally)
 ##   +.gg   ggplot2
 ```
 
-```r
+``` r
 ggpairs(edu_exp_sel, columns = 1:3)
 ```
 
-![](/workshops/ggplotting/ggplotting-exploration_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](/ggplotting-exploration_files/unnamed-chunk-17-1.png)<!-- -->
 
 Richtig spannend wird es aber erst, wenn wir zusätzlich noch separate Verteilungen für jede der vier Weltregionen (`Region`) anfordern, die farblich kodiert sind: 
 
 
-```r
+``` r
 ggpairs(edu_exp_sel, columns = 1:3, aes(color = Region, alpha = .5))
 ```
 
-![](/workshops/ggplotting/ggplotting-exploration_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](/ggplotting-exploration_files/unnamed-chunk-18-1.png)<!-- -->
 
 So lässt sich auch recht schnell ein Eindruck von den Daten gewinnen, um so auffällige Muster festzustellen.
 
 
-## Multivariate Daten mit `tableplot()` durchkämmen  
+<!-- ## Multivariate Daten mit `tableplot()` durchkämmen   -->
 
-Schließlich wollen wir Ihnen die Funktion `tableplot()` aus dem Paket `tabplot` nicht vorenthalten. Da dieses nicht auf CRAN, sondern auf github gehostet wird, installieren wir es über die `devtools`-Funktion `install_github()`. 
+<!-- Schließlich wollen wir Ihnen die Funktion `tableplot()` aus dem Paket `tabplot` nicht vorenthalten. Da dieses nicht auf CRAN, sondern auf github gehostet wird, installieren wir es über die `devtools`-Funktion `install_github()`.  -->
 
+<!-- ```{r eval=FALSE} -->
+<!-- library(devtools) -->
+<!-- install_github("mtennekes/tabplot") -->
+<!-- library(tabplot) -->
+<!-- ``` -->
 
-```r
-library(devtools)
-install_github("mtennekes/tabplot")
-library(tabplot)
-```
+<!-- Das sog. Tableplot ist geeignet, um große multivariate Datensätze zu visualisieren. Für jede Subgruppe (per Default: für jedes Quantil) auf einer Variable werden Statistiken auf anderen Variablen dargestellt:    -->
 
-Das sog. Tableplot ist geeignet, um große multivariate Datensätze zu visualisieren. Für jede Subgruppe (per Default: für jedes Quantil) auf einer Variable werden Statistiken auf anderen Variablen dargestellt:   
+<!-- * für kontinuierliche Variablen: Balkendiagramm der Mittelwerte   -->
+<!-- * für kategoriale Variablen: Gestapeltes Balkendiagramm der Häufigkeiten einzelner Kategorien   -->
 
-* für kontinuierliche Variablen: Balkendiagramm der Mittelwerte  
-* für kategoriale Variablen: Gestapeltes Balkendiagramm der Häufigkeiten einzelner Kategorien  
+<!-- Zunächst reduzieren wir den `edu_exp`-Datensatz aus didaktischen Gründen auf sechs Variablen  -->
 
-Zunächst reduzieren wir den `edu_exp`-Datensatz aus didaktischen Gründen auf sechs Variablen 
+<!-- ```{r} -->
+<!-- edu_exp_2 <- subset(edu_exp, select = c("Country", "Region", "Index", "Expectancy", "Population", "Income")) -->
+<!-- ``` -->
 
+<!-- Ohne weitere Einstellungen sieht das Tableplot für diesen Teildatensatz so aus: -->
 
-```r
-edu_exp_2 <- subset(edu_exp, select = c("Country", "Region", "Index", "Expectancy", "Population", "Income"))
-```
+<!-- ```{r} -->
+<!-- tableplot(edu_exp_2) -->
+<!-- ``` -->
 
-Ohne weitere Einstellungen sieht das Tableplot für diesen Teildatensatz so aus:
+<!-- Per Voreinstellung werden die Daten nach der ersten Variable im Datensatz sortiert (Variable `country`; alphabetisch sortiert) - dies ist hier nicht sonderlich sinnvoll. Außerdem würden wir nicht annehmen, dass die Bevölkerungszahl oder das Jahr der Erhebung eines Landes mit den anderen Variablen in Zusammenhang steht, also schließen wir sie im nächsten Schritt aus. Außerdem sortieren wir den Datensatz diesmal nach der Ausprägung auf der Variable `Income`: -->
 
+<!-- ```{r} -->
+<!-- # Sortiert nach Income -->
+<!-- tableplot(edu_exp_2, -->
+<!--           select=c(Region, Index, Expectancy, Income),  -->
+<!--           sortCol = Income) -->
+<!-- ``` -->
 
-```r
-tableplot(edu_exp_2)
-```
+<!-- Nun zeigen sich deutliche Muster - alle Variablen sortieren sich mit der Variable `Income` mit:   -->
 
-![](/workshops/ggplotting/ggplotting-exploration_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
-
-Per Voreinstellung werden die Daten nach der ersten Variable im Datensatz sortiert (Variable `country`; alphabetisch sortiert) - dies ist hier nicht sonderlich sinnvoll. Außerdem würden wir nicht annehmen, dass die Bevölkerungszahl oder das Jahr der Erhebung eines Landes mit den anderen Variablen in Zusammenhang steht, also schließen wir sie im nächsten Schritt aus. Außerdem sortieren wir den Datensatz diesmal nach der Ausprägung auf der Variable `Income`:
-
-
-```r
-# Sortiert nach Income
-tableplot(edu_exp_2,
-          select=c(Region, Index, Expectancy, Income), 
-          sortCol = Income)
-```
-
-![](/workshops/ggplotting/ggplotting-exploration_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
-
-Nun zeigen sich deutliche Muster - alle Variablen sortieren sich mit der Variable `Income` mit:  
-
-* *Region*: Die Länder im oberen Bereich der Income-Verteilung befinden sich vorrangig in Asien und Europa (gelbe und rote Anteile), während die Länder im unteren Bereich der Income-Verteilung vorrangig in Afrika liegen  
-* *Index*: Die Länder im oberen Bereich der Income-Verteilung weisen höhere Werte auf dem Bildungsindex auf als die Länder im unteren Bereich der Income-Verteilung  
-* *Expectancy*: Die Länder im oberen Bereich der Income-Verteilung weisen auch höhere Werte für die Lebenserwartung auf als die Länder im unteren Bereich der Income-Verteilung
+<!-- * *Region*: Die Länder im oberen Bereich der Income-Verteilung befinden sich vorrangig in Asien und Europa (gelbe und rote Anteile), während die Länder im unteren Bereich der Income-Verteilung vorrangig in Afrika liegen   -->
+<!-- * *Index*: Die Länder im oberen Bereich der Income-Verteilung weisen höhere Werte auf dem Bildungsindex auf als die Länder im unteren Bereich der Income-Verteilung   -->
+<!-- * *Expectancy*: Die Länder im oberen Bereich der Income-Verteilung weisen auch höhere Werte für die Lebenserwartung auf als die Länder im unteren Bereich der Income-Verteilung -->
