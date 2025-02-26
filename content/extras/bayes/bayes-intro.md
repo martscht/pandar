@@ -47,7 +47,7 @@ Nehmen wir an, dass Sie in einer Suchtklinik arbeiten - oder vielleicht ein Prak
 Ihr neues System führt dazu, dass 7 von 10 Patient:innen aus dem Ausgang zurück kommen ohne Drogen genommen zu haben. Angesichts der Tatsache, dass es bei den Kolleg:innen, die sich an das alte System halten immer knapp die Hälfte ist, verbuchen Sie das als Erfolg. Übertragen wir das Ganze mal in `R`:
 
 
-``` r
+```r
 # Beobachtungen
 obs <- c(0, 1, 1, 0, 1, 1, 1, 0, 1, 1)
 
@@ -59,7 +59,7 @@ length(obs)
 ## [1] 10
 ```
 
-``` r
+```r
 # Erfolgsquote
 mean(obs)
 ```
@@ -79,7 +79,7 @@ Etwas formaler ausgedrückt: wir wollen jetzt prüfen, ob die Erfolgsquote Ihres
 Gucken wir uns zunächst die Möglichkeiten an, zu prüfen, ob Ihr System besser ist als das Ihrer Kolleg:innen. Ein klassischer Ansatz (den Sie [hier im Appendix](/lehre/statistik-i/gruppenvergleiche-unabhaengig/#Appendix) nachlesen können) ist der $\chi^2$-Test. In unserem Fall haben wir zwar nicht vier sondern nur zwei Felder, aber das macht das Ganze einfach nur einfacher:
 
 
-``` r
+```r
 # Häufigkeitstabelle der Erfolge
 tab <- table(obs)
 
@@ -98,7 +98,7 @@ chisq.test(tab)
 Was hier geprüft wird ist die gleichmäßige Besetzung der Zellen. Unter der Nullhypothese $H_0 : \pi = .5$ müssten wir also fünf Erfolge und fünf Misserfolge beobachten:
 
 
-``` r
+```r
 chisq.test(tab)$expected
 ```
 
@@ -128,9 +128,9 @@ $$
   P(X = 7 | 10, .5) = {10 \choose 7} \cdot .5^7 \cdot (1 - .5)^{10-7} = .117
 $$
 
-``` r
+```r
 # Wahrscheinlichkeit händisch bestimmen
-choose(10, 7) * .5^7 * (1 - .5)^(10 - 7)
+choose(10, 7) * 0.5^7 * (1 - 0.5)^(10 - 7)
 ```
 
 ```
@@ -140,18 +140,18 @@ choose(10, 7) * .5^7 * (1 - .5)^(10 - 7)
 Uns interessiert aber nicht, wie wahrscheinlich es ist, dass Sie _genau_ sieben Erfolge haben. In der Inferenzstatistik interessiert uns typischerweise, wie wahrscheinlich es ist dieses oder ein extremeres (im Fall der ungerichteten Nullhypothese) Ergebnis zu finden. Dafür können wir einfach die Funktion zur Binomialverteilung nutzen:
 
 
-``` r
+```r
 # Gerichtet
-pbinom(6, 10, .5, lower.tail = FALSE)
+pbinom(6, 10, 0.5, lower.tail = FALSE)
 ```
 
 ```
 ## [1] 0.171875
 ```
 
-``` r
+```r
 # Ungerichtet
-pbinom(6, 10, .5, lower.tail = FALSE) + pbinom(3, 10, .5)
+pbinom(6, 10, 0.5, lower.tail = FALSE) + pbinom(3, 10, 0.5)
 ```
 
 ```
@@ -161,8 +161,8 @@ pbinom(6, 10, .5, lower.tail = FALSE) + pbinom(3, 10, .5)
 Wir setzen hier 6 und nicht 7 in die Funktion ein, weil uns `pbinom` die _Überschreitungswahrscheinlichkeit_ ausgibt. Wir brauchen also die Wahrscheinlichkeit dafür einen Wert von 6 zu überschreiten (weil wir die 7 ja einschließen wollen). Der Test, den wir gerade durchgeführt haben, nennt man _Binomialtest_ und auch für diesen gibt es eine eigene Funktion in `R`, die dem gleichen Schema folgt, wie z.B. die `t.test`-Funktion:
 
 
-``` r
-binom.test(7, 10, .5)
+```r
+binom.test(7, 10, 0.5)
 ```
 
 ```
@@ -222,8 +222,8 @@ $$
 In `R` dann für unseren spezifischen Fall:
 
 
-``` r
-choose(10, 7) * .5^7 * (1 - .5)^(10 - 7)
+```r
+choose(10, 7) * 0.5^7 * (1 - 0.5)^(10 - 7)
 ```
 
 ```
@@ -233,8 +233,8 @@ choose(10, 7) * .5^7 * (1 - .5)^(10 - 7)
 Wenn die Grundrate in der Population also $\pi = .5$ _wäre_, bestünde eine Wahrscheinlichkeit von 0.117, dass wir in unserem Fall sieben Erfolge verbuchen. Aber ist dieses $\pi$ eine gute Erklärung, bzw. eine gute Annahme, gegeben unserer Daten? Dafür könnten wir mit roher Gewalt einfach alle möglichen Werte von $\pi$ ausprobieren, um zu sehen, unter welcher Grundrate das Ergebnis am wahrscheinlichsten ist:
 
 
-``` r
-pi <- c(.5, .6, .7, .8, .9, 1)
+```r
+pi <- c(0.5, 0.6, 0.7, 0.8, 0.9, 1)
 L <- choose(10, 7) * pi^7 * (1 - pi)^(10 - 7)
 d <- data.frame(pi, L)
 d
@@ -259,9 +259,9 @@ Wenig überraschend ist, dass $\pi = .7$ in diesem fall die höchste Likelihood 
 wollen, können wir einfach deren Verhältnis - die sogenannte _Likelihood Ratio_ - bestimmen:
 
 
-``` r
-L_H0 <- dbinom(7, 10, .5)
-L_H1 <- dbinom(7, 10, .7)
+```r
+L_H0 <- dbinom(7, 10, 0.5)
+L_H1 <- dbinom(7, 10, 0.7)
 
 L_H1/L_H0
 ```
@@ -274,19 +274,16 @@ Eine Grundrate von .7 ist - gegeben der von uns beobachteten Daten - also 2.28-m
 In der `R`-Syntax benutze ich hier jetzt `dbinom` statt die komplette Binomialverteilung händisch aufzuschreiben - es passiert aber genaus das Gleiche. Wir können die _Dichteverteilung_ sogar nutzen, um uns anzugucken, wie die Likelihood so über verschiedene Werte von $\pi$ aussieht:
 
 
-``` r
-likeli_plot <- ggplot(d, aes(x = pi, y = L)) + 
-  xlim(0, 1) +
-  geom_function(fun = dbinom, args = list(x = 7, size = 10)) +
-  labs(x = expression(pi), y = 'Likelihood')
+```r
+likeli_plot <- ggplot(d, aes(x = pi, y = L)) + xlim(0, 1) + geom_function(fun = dbinom,
+    args = list(x = 7, size = 10)) + labs(x = expression(pi), y = "Likelihood")
 
-likeli_plot + geom_vline(xintercept = .5, lty = 2) +
-  annotate('text', x = .48, y = .02, label = 'H[0]', parse = TRUE) +
-  geom_vline(xintercept = .7, lty = 2) +
-  annotate('text', x = .68, y = .02, label = 'H[1]', parse = TRUE)
+likeli_plot + geom_vline(xintercept = 0.5, lty = 2) + annotate("text", x = 0.48,
+    y = 0.02, label = "H[0]", parse = TRUE) + geom_vline(xintercept = 0.7, lty = 2) +
+    annotate("text", x = 0.68, y = 0.02, label = "H[1]", parse = TRUE)
 ```
 
-![](/extras/bayes/bayes-intro_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](/bayes-intro_files/unnamed-chunk-10-1.png)<!-- -->
 
 ## Basic Bayes
 
@@ -294,7 +291,7 @@ Für einen Beitrag, der eigentlich "Grundideen Bayesianischer Analysen" betitelt
 
 Die Grundidee der Bayesianischen Analysen lässt sich eigentlich in folgender Gleichung zusammenfassen:
 
-<img src="/extras/bayes/bayes-formel.png" width="400" height="400" />
+<img src="bayes-formel.png" width="400" height="400" />
 
 Auf der linken Seite steht also die uns eigentlich interessierende Aussage - wie wahrscheinlich ist unsere Hypothese $H$, wenn wir unsere Daten $X$ berücksichtigen? Diese Information wird _Posterior_ genannt - weil es unseren Wissensstand _nach_ der Studie darstellt. 
 
@@ -304,7 +301,7 @@ Warum dann überhaupt so Forschung betreiben und diese klassischen $p$-Werte bet
 
 Als letzte Information benötigen wir noch die Wahrscheinlichkeit der Daten, die wir gefunden haben. Diese Wahrscheinlichkeit kann sehr schwierig zu bestimmen sein und hat letztlich nur einen konkreten Zweck: sie relativiert das Produkt aus Likelihood und Prior so, dass wir am Ende auch wirklich eine _Wahrscheinlichkeit_  (also einen Wert zwischen 0 und 1) erhalten. Deswegen wird die Grundformel Bayesianischer Statistik häufig von dieser Komponente befreit und so notiert:
 
-<img src="/extras/bayes/bayes-formel2.png" width="400" height="400" />
+<img src="bayes-formel2.png" width="400" height="400" />
 
 
 Der Posterior ist also _propotional_ zu der Mischung aus Prior (unseren Vorannahmen) und den, in dieser Studie neu gewonnenen Daten. Wir "updaten" unsere Annahmen bzw. Theorien also anhand der Daten (die wir in Form der Likelihood berücksichtigen).
@@ -315,7 +312,7 @@ Wenn das Vorwissen, das wir über den Gegenstand unserer Untersuchung haben quas
 
 
 
-![](/extras/bayes/bayes-intro_files/figure-html/density1-1.png)<!-- -->
+![](/bayes-intro_files/density1-1.png)<!-- -->
 
 Sie fragen Sich vielleicht, warum Sie nur zwei Linien sehen, wenn wir doch drei Komponenten (Prior, Likelihood und Posterior) haben. Das liegt daran, dass unser Prior keinerlei Information beinhält - jedes $\pi$ ist gleich wahrscheinlich. Also wird die Likelihood für jeden Ausprägung von $\pi$ mit dem gleichen Wert multipliziert, sodass dieser Teil in der Gleichung einfach irrelevant wird. So geht unser Posterior also ausschließlich auf unsere Daten zurück und entspricht genau der Likelihood-Verteilung.
 
@@ -323,7 +320,7 @@ Sie fragen Sich vielleicht, warum Sie nur zwei Linien sehen, wenn wir doch drei 
 
 Jetzt haben wir also einen sehr umständlichen Weg besprochen, exakt das Gleiche zu bekommen, wie vorher auch. Interessant wird das Ganze erst, wenn man über Prior Informationen in das System hineingibt, die Vorinformationen darstellen. Zum Beispiel könnten wir davon ausgehen, dass die Extreme unwahrscheinlicher Sind, als Werte in der Mitte - z.B. weil wir von unseren Kolleg:innen wissen, dass es keine Ausgangskonzepte gibt, die bewirken, dass niemand rückfällig wird oder alle rückfällig werden. 
 
-![](/extras/bayes/bayes-intro_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](/bayes-intro_files/unnamed-chunk-12-1.png)<!-- -->
 
 Wenn wir dermaßen schwache Annahmen in unsere Analysen einbauen, weicht die Posterior Verteilung nur leicht von unserer Likelihood Verteilung ab. Weil wir als Vorannahme hatten, dass $\pi = .5$ der wahrscheinlichste Wert ist, ist die ermittelte Grundrate in der Population auch im Posterior nicht mehr die beobachtete relative Häufigkeit von .7. 
 
@@ -331,7 +328,7 @@ Wenn wir dermaßen schwache Annahmen in unsere Analysen einbauen, weicht die Pos
 
 Noch deutlicher wird dieser Effekt, wenn wir z.B. Informationen aus vorherigen Untersuchungen zum gleichen System einspeisen, dass Sie jetzt untersuchen wollen. Vielleicht stehen Sie im Kontakt zu anderen Kliniken, an denen schon mal ähnliche System erprobt wurden - immer wieder mit sehr kleinen Stichproben. All diese Informationen wollen Sie aber berücksichtigen, weil Ihre Studie mit $n=10$ nicht die einzige Quelle der Weisheit ist. Wenn es stichhaltige Informationen aus anderen Studien gibt, können wir diese als starke Prior einbauen:
 
-![](/extras/bayes/bayes-intro_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](/bayes-intro_files/unnamed-chunk-13-1.png)<!-- -->
 In diesem Fall stellt der Posterior wirklich eine Mischung aus Ihren vorherigen Kenntnissen und den Informationen aus Ihrer eigenen Datenerhebung dar. Aus vorherigen Studien hatten Sie abgeleitet, dass die Erfolgsquote dieses Ausgangssystems (wie bei allen Anderen) bei ungefähr $\pi = .5$ liegen sollte. Nachdem Sie das Ganze mit zehn Personen ausprobiert haben und dabei festgestellt haben, dass sieben von denen nicht rückfällig geworden sind, erscheint es Ihnen eher naheliegend, dass der "wahre" Effekt vermutlich irgendwo dazwischen liegt. 
 
 In weiteren Studien - z.B. wenn Sie den Standort wechseln oder einer Freundin in einer anderen Klinik empfehlen, das gleiche System mal auszuprobieren - können Sie diesen Posterior wiederum als Prior nutzen. So entsteht auch in der statistischen Auswertung _kumulativer_ Erkenntnisgewinn.
@@ -347,8 +344,8 @@ Im letzten Abschnitt hat in allen drei Varianten eins gefehlt: eine eindeutige E
 In frequentistischer Statistik können wir Konfidenzintervalle um unsere Punktschätzer generieren, die von Parameter, Standardfehler und der angestrebten Sicherheit abhängen. Z.B. hatten wir oben im Binomialtest von `R` folgendes Konfidenzintervall ausgegeben bekommen:
 
 
-``` r
-binom.test(7, 10, .5)
+```r
+binom.test(7, 10, 0.5)
 ```
 
 ```
@@ -367,18 +364,17 @@ binom.test(7, 10, .5)
 Wenn wir unsere Studie unendlich häufig unter diesen Bedingungen durchführen würden, würde dieses Intervall in 95% aller Fälle den "wahren Wert" Ihres Ausgangssystems enthalten. Wenn wir uns nochmal die Likelihoodverteilung vor Augen führen, können wir an dieser erkennen, dass wir dabei einfach die extremen 5% der Verteilung abtrennen und die mittleren 95% betrachten:
 
 
-``` r
-ki <- binom.test(7, 10, .5)$conf.int
-likeli_plot + 
-  geom_vline(xintercept = ki[1], lty = 3) + 
-  geom_vline(xintercept = ki[2], lty = 3)
+```r
+ki <- binom.test(7, 10, 0.5)$conf.int
+likeli_plot + geom_vline(xintercept = ki[1], lty = 3) + geom_vline(xintercept = ki[2],
+    lty = 3)
 ```
 
-![](/extras/bayes/bayes-intro_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](/bayes-intro_files/unnamed-chunk-15-1.png)<!-- -->
 
 Mit unserer Bayes-Analyse können wir etwas Ahnliches bestimmen, das _Credible Interval_. Dieses Intervall entspricht dem Intervall in das der unbeobachtete Wert in der Population mit z.B. 95%iger Wahrscheinlichkeit fällt. Dieses Intervall bestimmen wir naheliegenderweise nicht aus der Likelihood-Verteilung, sondern aus unserer Posterior-Verteilung. Für diese interessieren uns dann ebenfalls die mittleren 95%. Für den Fall mit uninformativen Priors, ist das Credible Interval numerisch identisch zum Konfidenzintervall, das wir anhand des Binomial-Tests erzeugt haben. Am Beispiel mit starken Priors sieht das Intervall hingegen so aus:
 
-![](/extras/bayes/bayes-intro_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](/bayes-intro_files/unnamed-chunk-16-1.png)<!-- -->
 
 Das 95%-Credible Interval ist in diesem Fall $[0.38; 0.78]$. Wie diese Werte genau entstehen, bzw. wie wir sie mit `R` ermitteln können besprechen wir im [zweiten Bayes-Beitrag](/extras/bayes/conjugate), hier geht es erst einmal um das Prinzip: Credible Intervals sind die mittleren z.B. 95% der Posterior Verteilung. 
 
@@ -396,7 +392,7 @@ In unserem einfachen Beispiel gab es zunächst nicht direkt zwei "konkurrierende
 
 Dieser Vergleich lässt sich für jeden beliebigen Wert von $\pi$ durchführen. Die Annahme, dass Ihr Ausgangskonzept eine Erfolgsquote von .3 hat, ist beispielsweise nach der Untersuchung nur $\frac{0.08}{1.13} = 0.07$-mal so wahrscheinlich annehmnbar, wie vor der Untersuchung. Dadurch, dass wir das für _jeden_ einzelnen Wert machen können, können wir es auch für ganze Regionen von Werten machen. Z.B. könnten wir prüfen, wie viel sicherer wir uns nun sein können, dass Ihr Ausgangskonzept eine Erfolgsquote von _über_ $\pi = .5$ hat. Dafür vergleichen wir die beiden eingfärbten Regionen unseres Priors und unseres Posteriors:
 
-![](/extras/bayes/bayes-intro_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](/bayes-intro_files/unnamed-chunk-17-1.png)<!-- -->
 Die Fläche unter den beiden Verteilungen können wir durch Integrale (yay!) bestimmen. In diesem Fall ergibt sich ein Bayes-Factor von $\frac{0.808}{0.5} = 1.617$. Es ist also 1.617-mal so wahrscheinlich, dass Ihr neues Ausgangsschema eine bessere Erfolgsquote hat, als die Ihrer Kolleg:innen ($\pi > .5$) als es ist, dass Ihr Schema genausogut oder schlechter ($\pi \leq .5$) ist.
 
 Der Bayes-Factor ist eine Aussage über die _relative Evidenz_ für eine Hypothese gegenüber einer anderen. Weil viele Menschen etwas dagegen haben, Werte auch interpretieren zu müssen, hat sich für den Bayes-Factor die Daumenregel eingebürgert, dass ein Wert $1/3 < BF < 3$ als schwache oder anekdotische Evidenz gewertet werden sollte. Ein $BF < 1/3$ stellt hingegen eine Unterstützung der "Nullhypothese" (in unserem Fall, dass Ihr Ausgangsystem schlechter als das Ihrer Kolleg:innen ist) dar. Umgekehrt heißt es, dass ein $BF > 3$ Unterstützung für "Alternativhypothese" anzeigt (in unserem Fall also, dass Ihr System besser ist, als dass Ihrer Kolleg:innen). Wie Sie sehen, kann ein Bayes-Factor also auch dafür genutzt werden eine Aussage zu treffen, wenn die Nullyhpothese beibehalten wird. 
