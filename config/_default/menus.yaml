@@ -108,7 +108,7 @@ main:
     weight: 500
 
   - name: "DYNAMIC"
-    pre: "<i class='fas fa-bolt'></i>&ensp;"
+    pre: "<i class='fas fa-circle-nodes'></i>&ensp;"
     url: '/extras/main#dynamic'
     parent: "Extras"
     weight: 501

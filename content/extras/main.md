@@ -26,7 +26,7 @@ sections:
     id: dynamic
     content:
       title: DYNAMIC
-      subtitle:  Work in Progress
+      subtitle:  The Dynamic Network Approach of Mental Health to Stimulate Innovations for Interventions and Change
       text: Here, the methodological consulting of the [DYNAMIC](https://www.dynamic-center.net/) project presents frequently asked questions. These are categorized by research design:&nbsp;cross-sectional studies as well as longitudinal approaches (including panel studies and high-frequency measurements).
         {{< category_list "dynamic" 2 >}}
 
