@@ -8,7 +8,7 @@ subtitle: 'Grundlagen, Annahmen und ein paar Erweiterungen'
 summary: ''
 authors: [schultze]
 weight: 1
-lastmod: '2025-02-07'
+lastmod: '2025-02-27'
 featured: no
 banner:
   image: "/header/whip.jpg"
@@ -119,7 +119,7 @@ subset(coercion, select = c('drive', 'sadi', 'maso', 'f1', 'coerce')) |>
 ## maso      3 173  5.62 8.32      3    3.75 4.45   0  51    51  2.71     8.59 0.63
 ## f1        4 173 29.72 8.25     29   29.49 8.90  14  53    39  0.25    -0.47 0.63
 ## coerce    5 173 24.41 6.92     23   23.08 4.45  19  63    44  2.79    10.22 0.53
-## -------------------------------------------------------------------------------- 
+## --------------------------------------------------------------------------- 
 ## group: Female
 ##        vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## drive     1 232 14.06 3.92     14   14.16 4.45   4  24    20 -0.22    -0.32 0.26
@@ -302,7 +302,7 @@ Bezüglich der Normalverteilung und der Homoskedastizität hilft uns die Informa
 
 Die moderierte Regression wird immer dann genutzt, wenn - wie im Artikel von [Thatcher et al. (2023)](https://doi.org/10.1177/10790632231205799) - der Zusammenhang zwischen Variablen von der Ausprägung einer dritten Variable abhängen kann. Insbesondere in sozialpsychologischen Artikel wird für solche Fälle z.B. eine solche Abbildung benutzt:
 
-![](/lehre/klipps/moderation1.PNG)
+![](moderation1.PNG)
 
 Etwas formaler kann man diesen konkreten Fall (eine AV, zwei UVs inklusive Moderation) so aufschreiben:
 
@@ -507,7 +507,7 @@ library(car)
 qqPlot(mod1m_c)
 ```
 
-![](/lehre/klipps/multiple-regression-klinische_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](/multiple-regression-klinische_files/unnamed-chunk-16-1.png)<!-- -->
 
 ```
 ## 103 392 
@@ -523,7 +523,7 @@ Anders verhält es sich mit der Annahme der Homoskedastizität. Diese verzerrt a
 plot(mod1m_c, which = 3)
 ```
 
-![](/lehre/klipps/multiple-regression-klinische_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](/multiple-regression-klinische_files/unnamed-chunk-17-1.png)<!-- -->
 
 Abgebildet ist hier die Quadratwurzel der Residuenbeträge in Abhängigkeit von den vorhergesagten Werten. Im Fall homoskedastischer Fehler sollte diese unabhängig voneinander sein - es sollten also keine Trends erkennbar sein. Hier sehen wir einen relativ deutlichen, linearen Trend, der darauf hindeutet, dass die Varianz der Residuen mit größeren vorhergesagten Werten zunimmt. Wenn Sie lieber eine empirische Kennzahl möchten, um über die Annahme zu entscheiden, können Sie den Breusch-Pagan-Test nutzen:
 
@@ -722,7 +722,7 @@ Auch hier erhalten wir die exakt gleichen Ergebnisse wie [Thatcher et al. (2023,
 interact_plot(mod1m_c, pred = drive_c, modx = f1_c, robust = 'HC3')
 ```
 
-![](/lehre/klipps/multiple-regression-klinische_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](/multiple-regression-klinische_files/unnamed-chunk-25-1.png)<!-- -->
 
 ## Abschluss
 
