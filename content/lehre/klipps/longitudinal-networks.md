@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'This document explores key methods in longitudinal network analysis within psychological research. It covers foundational concepts such as temporal and contemporaneous networks, multilevel modeling, and autocorrelation.  Additionally, methods for handling stationarity assumptions, equidistant measurements, and Time-Varying Networks are discussed, providing a comprehensive guide to modeling dynamic psychological processes over time.' 
 authors: [liu] 
 weight: 6
-lastmod: '2025-02-17'
+lastmod: '2025-03-03'
 featured: no
 banner:
   image: "/header/global_network.jpg"
@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/klipps/psychological-network-analysis
+    url: /lehre/klipps/longitudinal-networks
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/klipps/psychological-network-analysis.R
+    url: /lehre/klipps/longitudinal-networks.R
   - icon_pack: fas
     icon: newspaper
     name: Artikel
@@ -258,20 +258,20 @@ head(data)
 ```
 
 ```
-## # A tibble: 6 × 24
-## # Groups:   sub_id [1]
-##   sub_id measurement measurement_date   PHQ9  Insp Alert   Exc   Ent   Det
-##    <dbl>       <int> <date>            <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-## 1      1           1 2020-03-21       NaN      NaN NaN     NaN NaN     NaN
-## 2      1           2 2020-03-24         6.67     1   2       1   1       1
-## 3      1           3 2020-03-27         6.5      1   1.5     1   1.5     1
-## 4      1           4 2020-03-30         6        1   1       1   2       2
-## 5      1           5 2020-04-02         4        1   2       2   2       2
-## 6      1           6 2020-04-05       NaN      NaN NaN     NaN NaN     NaN
-## # ℹ 15 more variables: Afraid <dbl>, Upset <dbl>, Nervous <dbl>,
-## #   Scared <dbl>, Dist <dbl>, LoI <dbl>, DepMood <dbl>, SleepDis <dbl>,
-## #   Fatigue <dbl>, Appet <dbl>, Worth <dbl>, Con <dbl>, PsychMot <dbl>,
-## #   group <chr>, change <chr>
+##   sub_id measurement measurement_date     PHQ9 Insp Alert Exc Ent Det Afraid Upset Nervous Scared Dist       LoI
+## 1      1           1       2020-03-21      NaN  NaN   NaN NaN NaN NaN    NaN   NaN     NaN    NaN  NaN       NaN
+## 2      1           2       2020-03-24 6.666667    1   2.0   1 1.0   1      1     1       1      1  1.0 0.6666667
+## 3      1           3       2020-03-27 6.500000    1   1.5   1 1.5   1      1     1       1      1  1.5 1.0000000
+## 4      1           4       2020-03-30 6.000000    1   1.0   1 2.0   2      1     2       1      2  2.0 1.0000000
+## 5      1           5       2020-04-02 4.000000    1   2.0   2 2.0   2      2     2       2      2  2.0 0.0000000
+## 6      1           6       2020-04-05      NaN  NaN   NaN NaN NaN NaN    NaN   NaN     NaN    NaN  NaN       NaN
+##   DepMood SleepDis Fatigue Appet     Worth Con  PsychMot  group    change
+## 1     NaN      NaN     NaN   NaN       NaN NaN       NaN switch no_change
+## 2       1        1       1     1 0.3333333   1 0.6666667 switch no_change
+## 3       1        1       1     1 0.5000000   1 0.0000000 switch no_change
+## 4       1        1       1     1 0.0000000   1 0.0000000 switch no_change
+## 5       0        1       1     1 0.0000000   1 0.0000000 switch no_change
+## 6     NaN      NaN     NaN   NaN       NaN NaN       NaN switch no_change
 ```
 Within the loaded data object, key variables include:
 
@@ -490,6 +490,12 @@ model_mlVAR <- mlVAR(
   lags = 1,             # The number of lags to include in the model
   verbose = FALSE       # Suppress verbose output
 )
+```
+
+```
+## Warning in mlVAR(data = data, vars = variables, idvar = "sub_id", beepvar = "measurement", : 138 subjects detected
+## with < 20 measurements. This is not recommended, as within-person centering with too few observations per subject
+## will lead to biased estimates (most notably: negative self-loops).
 ```
 The warning message you encountered: too few observations per subject. In this demonstration, we can proceed despite the warning. However, in practical applications, it's better to ensure that each subject has a sufficient number of measurements to obtain reliable estimates. Collecting at least 20 observations per subject is recommended to mitigate potential biases and enhance the robustness of the model's findings.
 
@@ -754,6 +760,10 @@ ggplot(data,
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
+```
+## Warning: Removed 2134 rows containing non-finite outside the scale range (`stat_smooth()`).
+```
+
 ![](/longitudinal-networks_files/unnamed-chunk-9-1.png)<!-- -->
 
 The plot below shows **Depression mood over time**, with a **LOESS smoothing line** and confidence intervals (shaded area). The **trend appears to decline slightly over time**, but the decrease is not severe. Since there is no strong upward or downward trend, we consider the data to be non time Trends.
@@ -766,8 +776,34 @@ For example, To assess whether **Depressed Mood** scores change over time, an ML
 ```r
 # Load required packages
 library(lme4)
-library(lmerTest)  # For p-values in MLM
+```
 
+```
+## Loading required package: Matrix
+```
+
+```r
+library(lmerTest)  # For p-values in MLM
+```
+
+```
+## 
+## Attaching package: 'lmerTest'
+```
+
+```
+## The following object is masked from 'package:lme4':
+## 
+##     lmer
+```
+
+```
+## The following object is masked from 'package:stats':
+## 
+##     step
+```
+
+```r
 # Fit the Linear Mixed Model (LMM)
 MLM_model <- lmer(DepMood  ~ measurement + (measurement | sub_id), data = data)
 
@@ -776,8 +812,7 @@ summary(MLM_model)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
-## lmerModLmerTest]
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
 ## Formula: DepMood ~ measurement + (measurement | sub_id)
 ##    Data: data
 ## 
