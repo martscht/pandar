@@ -9,7 +9,7 @@ subtitle: 'Interaktive Grafiken aus ggplotly'
 summary: '' 
 authors: [schultze] 
 weight: 5
-lastmod: '2024-05-24'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/vr_biking.jpg"
@@ -31,6 +31,7 @@ output:
   html_document:
     keep_md: true
 ---
+
 
 
 In den bisherigen Sitzungen zu ggplotting hatten wir gesehen, wie man [einfache Grafiken erstellt](/post/ggplotting-intro) und so [anpasst](/post/ggplotting-themes), dass sie z.B. dem corporate design entsprechen oder sogar ansehnlich für den Druck sind. Uns aus dem leicht staubigen Gedanken lösend, dass Datendarstellungen am Ende gedruckt werden müssen, hatten wir uns auch noch damit befasst, wie man [Grafiken so animiert](/post/ggplotting-gganimate), dass man in der Lage ist, z.B. Veränderungen über die Zeit zu verdeutlichen. In diesem letzten großen Abschnitt soll es uns darum gehen, die aktive Rolle in der Datendarstellung nicht allein beim Ersteller oder der Erstellerin zu verorten, sondern auch den Rezipientinnen und Rezipienten die aktive Auseinandersetzung mit der Datenlage zu ermöglichen. Dafür sehen wir uns an, wie man mit `plotly` interaktive Grafiken erstellt.
@@ -104,10 +105,10 @@ scatter2013
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/plotly_files/figure-html/og-scatter-1.png)<!-- -->
+![](/plotly_files/og-scatter-1.png)<!-- -->
 
 Hier gibt es direkt einige Dinge, die durch Interaktivität ein besseres Verständnis der Datenlage ermöglich würden: wie schon im Beitrag [zu Animationen](/post/ggplotting-gganimate) könnten wir hier versuchen, die Daten aus mehreren Jahren darzustellen (und dabei die Auswahl der Nutzerin oder dem Nutzer zu überlassen). Uns könnte auch interessieren, wie verschiedene Modelle den Zusammenhang zwischen den Variablen darstellen bzw. vereinfachen würden und diese in der Grafik anzeigen lassen. Vor allem aber liegt auf der Hand, dass wir durch Interaktivität die Möglichkeit gewinnen genauer zu wissen, was uns jeder einzelne Punke sagen kann.
 
@@ -121,7 +122,7 @@ ggplotly(scatter2013)
 ```
 
 <!-- definitely make this more pretty at some point in the future --> 
-<iframe src="plotly1.html" width="100%" height="500"></iframe>
+<iframe src="/plotly1.html" width="100%" height="500"></iframe>
 
 Schon so erhöht sich das Ausmaß in dem man sich mit der Grafik auseinandersetzen kann, für Nutzer*innen deutlich. Sie können an dieser Stelle weiterlesen, um eine Beschreibung der interaktiven Funktionen dieses Plots zu lesen, oder es einfach ausprobieren! Für die Wenigen, die sich für Ersteres entscheiden, hier eine Erläuterung der Funktionen:
 
@@ -243,7 +244,7 @@ ggplotly(scatter2013,
 ```
 
 <!-- definitely make this more pretty at some point in the future --> 
-<iframe src="plotly2.html" width="100%" height="500"></iframe>
+<iframe src="/plotly2.html" width="100%" height="500"></iframe>
 
 ## Navigierbare Animation
 
@@ -292,7 +293,7 @@ ggplotly(scatter,
 ```
 
 <!-- definitely make this more pretty at some point in the future --> 
-<iframe src="plotly3.html" width="100%" height="500"></iframe>
+<iframe src="/plotly3.html" width="100%" height="500"></iframe>
 
 Zunächst erhalten wir bei der Erstellung eine Warnung, die dadurch zustande kommt, dass im 1. Frame (`Year == 1997`) nicht alle Datenpunkte besetzt sind. Das ist ungünstig, aber leider in Fällen wie unseren, in dem wir auf erhobene und nicht geschätzte Informationen angewiesen sind, unvermeidlich. Wenn wir eine solche Animation mit `Income` und `Expectancy` duchführen würden, wäre das kein Problem, weil hier immer alle Daten vollständig sind.
 
@@ -371,7 +372,7 @@ interact
 
 
 <!-- definitely make this more pretty at some point in the future --> 
-<iframe src="plotly4.html" width="100%" height="500"></iframe>
+<iframe src="/plotly4.html" width="100%" height="500"></iframe>
 
 In ähnlicher Weise funktionieren auch `style()` und `config()` für detaillierte Anpassungen der Grafiken. Mit `config()` können wir z.B. anpassen, welche der Buttons oben rechts angzeigt werden sollen. Z.B. könnten wir Zoom-In, Zoom-Out und das Lasso entfernen:
 
@@ -407,14 +408,14 @@ scatter2013
 ```
 
 ```
-## Warning: Removed 99 rows containing non-finite outside the scale range (`stat_smooth()`).
+## Warning: Removed 99 rows containing non-finite values (`stat_smooth()`).
 ```
 
 ```
-## Warning: Removed 99 rows containing missing values or values outside the scale range (`geom_point()`).
+## Warning: Removed 99 rows containing missing values (`geom_point()`).
 ```
 
-![](/workshops/ggplotting/plotly_files/figure-html/og-smooth-1.png)<!-- -->
+![](/plotly_files/og-smooth-1.png)<!-- -->
 
 Hier nutze ich nicht die Voreinstellungen von `geom_smooth()` (den LOESS-Glätter), weil die Datenlage mit ca. 70 Ländern etwas dünn für einen so ausreißeranfälligen Glätter ist. Stattdessen nutze ich hier ein generalisiertes additives Modells (GAM), sodass die eingezeichnete Linie zumindest ein paar Modellannahmen unterliegt und nicht ausschließlich aus den Daten heraus erzeugt wird (eine Einführung in diese Modelle findet sich [auf dieser Seite von Michael Clark](https://m-clark.github.io/generalized-additive-models/building_gam.html)). Weil es uns hier zunächst nicht um inferenzstatistische Absicherung, sondern vor allem um die vereinfachte Zusammenfassung des Zusammenhangs geht, werden außerdem die Konfidenzintervalle ausgeblendet.
 
@@ -437,7 +438,8 @@ smooth <- ggplot(edu_exp, aes(x = Primary, y = Index, frame = Year)) +
 ```
 
 ```
-## Warning in geom_point(aes(color = Wealth, text = paste0(Country, "</br></br>Region: ", : Ignoring unknown aesthetics: text
+## Warning in geom_point(aes(color = Wealth, text = paste0(Country,
+## "</br></br>Region: ", : Ignoring unknown aesthetics: text
 ```
 
 Weil die Hoverinfos und die Gruppeneinteilung in Wohlstandsgruppen nicht GAM-Geraden ausgegeben werden sollen, sondern nur für die tatsächlichen Datenpunkte, muss auch hier erneut der Grundlegende `ggplot` zusammengestellt werden. Dafür rutschen die Ästhetiken `color` und `text` in die `geom_point()` und werden nicht mehr global definiert. 
@@ -486,7 +488,7 @@ smoothly
 ```
 
 <!-- definitely make this more pretty at some point in the future --> 
-<iframe src="plotly5.html" width="100%" height="500"></iframe>
+<iframe src="/plotly5.html" width="100%" height="500"></iframe>
 
 ***
 

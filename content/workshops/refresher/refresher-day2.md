@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [stephan, gruetzner, vogler] 
 weight: 2
-lastmod: '2024-10-11'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/rice-field.jpg"
@@ -36,6 +36,8 @@ output:
     keep_md: true
     
 ---
+
+
 
 
 
@@ -78,7 +80,7 @@ Für jede Seminar- und Abschlussarbeit sind Abbildungen unersetzbar und `ggolot2
 Wir benutzen für unsere Interaktion mit `ggplot2` öffentlich zugängliche Daten aus verschiedenen Quellen, die ich in einem Anflug von Selbstlosigkeit bereits für Sie zusammengetragen habe. Alle, die daran interessiert sind, wie diese Daten bezogen und für die Weiterverwendung aufbereitet werden, können das Ganze [im kurzen Beitrag zur Datenaufbereitung](/workshops/ggplotting/ggplotting-daten) noch genauer nachlesen. In den Daten geht es im Wesentlichen um die Ausgaben für Bildung, die Länder weltweit so tätigen. Für alle, die das überspringen und einfach Bilder machen wollen, gibt es auch schon den [{{< icon name="download" pack="fas" >}} fertigen Datensatz zum Download](/daten/edu_exp.rda). Auch den kann man aber direkt in `R` laden, ohne erst die Datei herunterladen und speichern zu müssen:
 
 
-``` r
+```r
 load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 ```
 
@@ -103,25 +105,25 @@ Eine Ausprägung von 100 auf der Variable `Primary` in Deutschland hieße also z
 Der Datensatz, mit dem wir arbeiten, sieht also so aus:
 
 
-``` r
+```r
 head(edu_exp)
 ```
 
 ```
-##   geo     Country     Wealth Region Year Population Expectancy   Income
-## 1 afg Afghanistan low_income   asia 1997   17788819       50.7       NA
-## 2 afg Afghanistan low_income   asia 1998   18493132       50.0       NA
-## 3 afg Afghanistan low_income   asia 1999   19262847       50.8       NA
-## 4 afg Afghanistan low_income   asia 2000   19542982       51.0       NA
-## 5 afg Afghanistan low_income   asia 2001   19688632       51.1       NA
-## 6 afg Afghanistan low_income   asia 2002   21000256       51.6 344.2242
-##   Primary Secondary Tertiary Index
-## 1      NA        NA       NA  0.18
-## 2      NA        NA       NA  0.19
-## 3      NA        NA       NA  0.20
-## 4      NA        NA       NA  0.20
-## 5      NA        NA       NA  0.21
-## 6      NA        NA       NA  0.22
+##   geo     Country     Wealth Region Year Population
+## 1 afg Afghanistan low_income   asia 1997   17788819
+## 2 afg Afghanistan low_income   asia 1998   18493132
+## 3 afg Afghanistan low_income   asia 1999   19262847
+## 4 afg Afghanistan low_income   asia 2000   19542982
+## 5 afg Afghanistan low_income   asia 2001   19688632
+## 6 afg Afghanistan low_income   asia 2002   21000256
+##   Expectancy   Income Primary Secondary Tertiary Index
+## 1       50.7       NA      NA        NA       NA  0.18
+## 2       50.0       NA      NA        NA       NA  0.19
+## 3       50.8       NA      NA        NA       NA  0.20
+## 4       51.0       NA      NA        NA       NA  0.20
+## 5       51.1       NA      NA        NA       NA  0.21
+## 6       51.6 344.2242      NA        NA       NA  0.22
 ```
 
 
@@ -132,7 +134,7 @@ In `ggplot2` werden immer Daten aus **einem** `data.frame` dargestellt. Das hei�
 Bevor wir loslegen können, muss natürlich `ggplot2` installiert sein und geladen werden:
 
 
-``` r
+```r
 library(ggplot2)
 ```
 
@@ -151,43 +153,43 @@ In `ggplot2` werden Grafiken nicht auf einmal mit einem Befehl erstellt, sondern
 Die Grundschicht sind die Daten. Dafür haben wir im vorherigen Abschnitt `edu_exp` als Datensatz geladen. Zum Anfang sollten wir erst einmal einen Teildatensatz benutzen, um nicht direkt tausende von Datenpunkten auf einmal zu sehen. Gucken wir also einfach zehn Jahre in die Vergangenheit und nutzen das Jahr 2014: 
 
 
-``` r
+```r
 edu_2014 <- subset(edu_exp, Year == 2014)
 ```
 
 Um diese Daten in eine Schicht der Grafik zu überführen, können wir sie einfach direkt als einziges Argument an den `ggplot`-Befehl übergeben:
 
 
-``` r
+```r
 ggplot(edu_2014)
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-6-1.png)<!-- -->
 
 Was entsteht ist eine leere Fläche. Wie bereits beschrieben, besteht eine Abbildung in `ggplot2` immer aus den drei Komponenten Daten, Geometrie und Ästhetik. Bisher haben wir nur eine festgelegt. Als erste Ästhetik sollten wir festlegen, welche Variablen auf den Achsen dargestellt werden sollen. Im letzten Semester war der erste Plot, den wir uns angeguckt hatten ein Balkendiagramm (über Tortendiagramme werden wie nie wieder reden). Bei diesen waren auf der x-Achse immer die Kategorien einer nominalskalierte Variable und auf der y-Achse die Häufigkeit dieser Kategorien dargestellt.  
 
 
-``` r
+```r
 ggplot(edu_2014, aes(x = Wealth))
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/empty_bar1-1.png)<!-- -->
+![](/refresher-day2_files/empty_bar1-1.png)<!-- -->
 
 Ästhetik wird in `ggplot2` über den `aes`-Befehl erzeugt. Auf der x-Achse tauchen direkt die Ausprägungen der Variable auf, die wir dieser "Ästhetik" zugewiesen haben. Man sieht, dass hier einfach die Inhalte der Variable übernommen werden:
 
 
-``` r
+```r
 unique(edu_2014$Wealth)
 ```
 
 ```
-## [1] "low_income"          "lower_middle_income" "upper_middle_income"
-## [4] "high_income"
+## [1] "low_income"          "lower_middle_income"
+## [3] "upper_middle_income" "high_income"
 ```
 Die sind zum einen etwas unübersichtlich und zum anderen (besonders wichtig) nicht sonderlich schön. Deswegen sollten wir die Variable in einen Faktor umwandeln und etwas leserlichere Labels vergeben:
 
 
-``` r
+```r
 edu_2014$Wealth <- factor(edu_2014$Wealth, levels = c('low_income', 'lower_middle_income', 'upper_middle_income', 'high_income'),
   labels = c('Low', 'Lower Mid', 'Upper Mid', 'High'))
 
@@ -203,11 +205,11 @@ Ich habe in diesem Fall nur vier der möglichen Ausprägungen als `levels` dekla
 Wenn wir jetzt noch einmal die Fläche aufspannen, sehen wir direkt eine etwas schönere Benennung:
 
 
-``` r
+```r
 ggplot(edu_2014, aes(x = Wealth))
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/empty_bar2-1.png)<!-- -->
+![](/refresher-day2_files/empty_bar2-1.png)<!-- -->
 In diesem Schritt wird noch einmal deutlich, was ich gerade bereits angesprochen hatte:
 
 > Daten müssen immer so aufbereitet sein, dass der grundlegende Datensatz sinnvoll benannte Variablen enthält und in dem Format vorliegt, in welchem wir die Daten visualisieren wollen.
@@ -219,12 +221,12 @@ Wenn uns also etwas in unserer Abbildung nicht gefällt, ist der Ansatz in `ggpl
 Jetzt fehlt uns noch die geometrische Form, mit der die Daten abgebildet werden sollen. Für die Geometrie-Komponente stehen in `ggplot2` sehr viele Funktionen zur Verfügung, die allesamt mit `geom_` beginnen. Eine Übersicht über die Möglichkeiten findet sich z.B. [hier](https://ggplot2.tidyverse.org/reference/#section-layer-geoms). Naheliegenderweise nehmen wir für ein Balkendiagramm _bar_ als die geometrische Form (`geom_bar`), die wir darstellen wollen. Neue Schichten werden in ihrer eigenen Funktion erzeugt und mit dem einfachen `+` zu einem bestehenden Plot hinzugefügt. Für ein Balkendiagramm sieht das Ganze also einfach so aus:
 
 
-``` r
+```r
 ggplot(edu_2014, aes(x = Wealth)) +
   geom_bar()
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/simple_scatter-1.png)<!-- -->
+![](/refresher-day2_files/simple_scatter-1.png)<!-- -->
 
 Der immense Vorteil des Schichtens besteht darin, dass wir gleichzeitig mehrere Visualisierungsformen nutzen können. Das Prinzip bleibt das gleiche wie vorher: wir fügen Schichten mit dem `+` hinzu. Wir können also z.B. für Zeitverläufe einfach Punkte und Linien direkt miteinander kombinieren, oder für Abbildungen die Fehlerbalken direkt hinzufügen.
 
@@ -236,18 +238,18 @@ Einer der Vorteile, die sich durch das Schichten der Abbildungen ergibt ist, das
 
 
 
-``` r
+```r
 basic <- ggplot(edu_2014, aes(x = Wealth))
 ```
 
 In `basic` wird jetzt die *Anleitung* für die Erstellung der Grafik gespeichert. Erstellt wird die Grafik aber erst, wenn wir das Objekt aufrufen. Dabei können wir das Objekt auch mit beliebigen anderen Komponenten über `+` kombinieren:
 
 
-``` r
+```r
 basic + geom_bar()
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/object_combos-1.png)<!-- -->
+![](/refresher-day2_files/object_combos-1.png)<!-- -->
 
 Damit die Beispiele im weiteren Verlauf auch selbstständig funktionieren, wird unten immer der gesamte Plot aufgeschrieben. Aber für Ihre eigenen Übungen oder Notizen ist es durchaus praktischer mit dieser Objekt Funktionalität zu arbeiten, um so zu umgehen, dass man immer wieder die gleichen Abschnitte aufschreiben muss.
 
@@ -256,21 +258,21 @@ Damit die Beispiele im weiteren Verlauf auch selbstständig funktionieren, wird 
 Oben wurde erwähnt, dass Ästhetik die dritte Komponente ist und als Beispiel wird die Farbe genannt. Das stimmt nicht immer: die Farbe der Darstellung muss nicht zwingend eine Ästhetik sein. Gucken wir uns zunächst an, wie es aussieht, wenn wir die Farbe der Darstellung ändern wollen:
 
 
-``` r
+```r
 ggplot(edu_2014, aes(x = Wealth)) +
   geom_bar(fill = 'blue', color = 'grey40')
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-9-1.png)<!-- -->
 Bei Balken wird die Farbe des Balkens durch das Argument `fill` bestimmt - das Argument `color` bestimmt hingegen nur die Farbe des Rands. In diesem Fall haben alle Balken die Farbe geändert. Eine _Ästhetik_ im Sinne der `ggplot`-Grammatik ist immer abhängig von den Daten. Die globale Vergabe von Farbe ist also keine Ästhetik. Sie ist es nur, wenn wir sie von Ausprägungen der Daten abhängig machen. Das funktioniert z.B. so:
 
 
-``` r
+```r
 ggplot(edu_2014, aes(x = Wealth)) +
   geom_bar(aes(fill = Wealth), color = 'grey40')
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-10-1.png)<!-- -->
 
 Über den Befehl `aes` definieren wir eine Ästhetik und sagen `ggplot`, dass die Farbe der Balken von der Ausprägung auf der Variable `Wealth` abhängen soll. Die Farbe kann aber natürlich auch von jeder anderen Variable im Datensatz abhängen - dadurch können wir die Farbe als dritte Dimension in der Darstellung unserer Daten nutzen.
 
@@ -279,7 +281,7 @@ ggplot(edu_2014, aes(x = Wealth)) +
 Die Balken der Abbildung zeigen uns jetzt erst einmal an, wie viele arme, mittlere und reiche Länder im Datensatz enthalten sind. Interessant wird es aber vor allem dann, wenn wir verschiedene Variablen zueinander in Beziehung setzen - z.B. könnten wir den "Reichtum" der Länder mit deren geografischer Lage in Verbindung setzen. Diese ist sehr grob in der Variable `Region` abgebildet: 
 
 
-``` r
+```r
 # Tabelle der vier "Kontinent", die sich im Datensatz befinden, Amerikas zusammengefasst, kein Australien
 table(edu_2014$Region)
 ```
@@ -292,7 +294,7 @@ table(edu_2014$Region)
 Die Variable ist als `character` im Datensatz abgelegt, was `ggplot` leider überhaupt nicht mag. Deswegen sollten wir sie zunächst in einen Faktor umwandeln:
 
 
-``` r
+```r
 edu_2014$Region <- factor(edu_2014$Region, levels = c('africa', 'americas', 'asia', 'europe'),
   labels = c('Africa', 'Americas', 'Asia', 'Europe'))
 ```
@@ -300,21 +302,21 @@ edu_2014$Region <- factor(edu_2014$Region, levels = c('africa', 'americas', 'asi
 Jetzt können wir die Balken nach Regionen gruppieren:
 
 
-``` r
+```r
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40')
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/stacked-barplot-1.png)<!-- -->
+![](/refresher-day2_files/stacked-barplot-1.png)<!-- -->
 Per Voreinstellung wird in `ggplot` ein sogenannter "stacked" Barplot erstellt, bei dem die Balken übereinander gestapelt werden. Üblicher ist aber häufig die Darstellung nebeneinander. Dafür können wir z.B. das `position`-Argument anpassen:
 
 
-``` r
+```r
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge')
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/grouped-barplot-1.png)<!-- -->
+![](/refresher-day2_files/grouped-barplot-1.png)<!-- -->
 
 
 ### Abbildungen anpassen
@@ -326,7 +328,7 @@ Die Abbildungen, die wir bisher erstellt haben, nutzen alle das in `ggplot2` vor
 In `ggplot2` werden die Grundeigenschaften von Abbildungen in "Themes" zusammengefasst. Mit `?theme_test` erhält man eine Auflistung aller Themes, die von `ggplot2` direkt zur Verfügung gestellt werden. Diese 10 Themes sind erst einmal sehr konservative Einstellungen für die Eigenschaften von Grafiken. Sehen wir uns meinen persönlichen Favoriten, das sehr dezente `theme_minimal()` an. Dazu legen wir die Grundanleitung der Abbildung für 2014 zunächst in einem Objekt ab (das ist nicht notwendig, soll nur im Folgenden den Fokus auf die Themes legen):
 
 
-``` r
+```r
 bars <- ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge')
 ```
@@ -334,18 +336,18 @@ bars <- ggplot(edu_2014, aes(x = Wealth, group = Region)) +
 Um das Theme einer Abbildung zu verändern, können Sie es - wie Geometrie - mit dem `+` hinzufügen.
 
 
-``` r
+```r
 bars + theme_minimal()
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/theme-minimal-1.png)<!-- -->
+![](/refresher-day2_files/theme-minimal-1.png)<!-- -->
 
 Gegenüber der Voreinstellung (`theme_grey`) verändert sich hier, dass der Hintergrund jetzt nicht mehr grau ist und das Raster stattdessen in Hellgrau gehalten ist.Die Eigenschaften der Abbildung hinsichtlich des Aussehens von Hintergrund usw. bleiben davon aber unberührt.
 
 Über die von `ggplot2` direkt mitgelieferten Themes hinaus gibt es beinahe unzählige weitere Pakete, in denen vordefinierte Themes enthalten sind. Eine der beliebtesten Sammlungen findet sich im Paket `ggthemes`.
 
 
-``` r
+```r
 install.packages('ggthemes')
 library(ggthemes)
 ```
@@ -355,23 +357,23 @@ library(ggthemes)
 Dieses Paket liefert (neben anderen optischen Erweiterungen) über 20 neue Themes, die häufig den Visualisierungen in kommerzieller Software oder in bestimmten Publikationen nachempfunden sind. In Anlehnung an weit verbreitete Grundprinzipien zur Grafikgestaltung nutzen wir als allererstes natürlich das nach Tuftes "maximal Data, minimal Ink"-Prinzip erstellte Theme:
 
 
-``` r
+```r
 bars + theme_tufte()
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/tufte-1.png)<!-- -->
+![](/refresher-day2_files/tufte-1.png)<!-- -->
 
 Wenn uns ein Theme so gefällt, dass wir dieses für alle Plots benutzen wollen, können wir es mit `theme_set()` als neue Voreinstellung definieren. Wie gesagt, mag ich den minimalistischen Stil von `theme_minimal()`, weil er wenig von den Daten ablenkt:
 
 
-``` r
+```r
 theme_set(theme_minimal())
 ```
 
 Dieser Befehl sollte allerdings mit Vorsicht genossen werden, weil er globale Einstellungen in `R` verändert, ohne davor zu warnen, dass eventuell vorherige Einstellungen verloren gehen. Zur Sicherheit können wir mit 
 
 
-``` r
+```r
 theme_set(theme_grey())
 ```
 
@@ -384,7 +386,7 @@ Eine der wichtigsten Komponenten jeder Abbildung ist die Beschriftung. Nur wenn 
 Für unsere Abbildung wäre es sinnvoll, neben einem Titel auch eine aussagekräftigere Beschriftung der Achsen und der Legende vorzunehmen. 
 
 
-``` r
+```r
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge') +
   labs(x = 'Country Wealth (GDP per Capita)',
@@ -393,14 +395,14 @@ ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   ggtitle('Categorization of Countries in GapMinder Data', '(Data for 2014)')
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/labeled-1.png)<!-- -->
+![](/refresher-day2_files/labeled-1.png)<!-- -->
 
 Die `labs`-Funktion ermöglicht uns das Vergeben von *Labels* für die Variablen, die wir als Ästhetiken in `aes()` festgehalten haben. `x` ersetzt also den Variablennamen von `Primary`, der per Voreinstellung zur Beschriftung herangezogen wird. Das Gleiche gilt dann auch für `y` und `color` ersetzt den Titel der Legende. Die `ggtitle`-Funktion nimmt zwei Argumente entgegen: den Titel und einen Untertitel.
 
 Damit wir unsere Grafik in späteren Abschnitten wiederverwenden können, legen wir sie hier wieder in einem Objekt ab:
 
 
-``` r
+```r
 bars <- ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge') +
   labs(x = 'Country Wealth (GDP per Capita)',
@@ -418,7 +420,7 @@ Eine weitere Möglichkeit um Achsenbeschriftungen hinzuzufügen und darüberhina
 - (und noch vieles mehr: alpha, color, fill, shape, linesize, size, etc.
 
 
-``` r
+```r
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge') +
   scale_y_continuous(name = 'Count',
@@ -429,7 +431,7 @@ ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   ggtitle('Categorization of Countries in GapMinder Data', '(Data for 2014)')
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-19-1.png)<!-- -->
 Die Auswahl einer Bearbeitungsmöglichkeit bleibt einem selbst überlassen. Tipp: Wenn nur wenig bearbeitet werden soll (z.B. Beschriftung und Achsengrenzen) ist die Lösung mit `labs`und `lim` einfacher.
 
 #### Farbpaletten
@@ -441,29 +443,29 @@ In `ggplot2` wird die Vergabe von Farben in der Ästhetik anhand von zwei Dingen
 Nehmen wir an, dass wir unsere Abbildung irgendwo drucken möchten - Farbdruck ist wahnsinnig teuer. Um mit Grautönen zu arbeiten, können wir z.B. `scale_fill_grey` benutzen:
 
 
-``` r
+```r
 bars + scale_fill_grey()
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-20-1.png)<!-- -->
 
 Das bei den [Themes](#Themes) erwähnte Paket `ggthemes` enthält auch weitere Farbpaletten, die Sie nutzen können, um Ihren Plot nach Ihren Vorlieben zu gestalten. Wichtig ist beispielsweise, dass es eine Palette namens `colorblind` hat, die Farben so auswählt, dass sie auch von Personen mit Farbblindheit differenziert werden können. Wir können aber natürlich auch unsere ganz eigene Farbpalette definieren - z.B. die offizielle Farbpalette des Corporate Designs der Goethe Universität, wie sie auch in den Lehrveranstaltungen des Bachelors und Masters benutzt wird.
 
 Für diese Palette können wir zunächst in einem Objekt die Farben festhalten, die wir benötigen. In `ggplot2` ist es dabei am gängigsten, Farben entweder [über Worte auszuwählen](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf) oder via [hexadezimaler Farbdefinition](https://www.color-hex.com/) zu bestimmen. Für die fünf Farben, die von der Corporate Design Abteilung der Goethe Uni definiert werden ergibt sich folgendes Objekt:
 
 
-``` r
+```r
 gu_colors <- c('#00618f', '#e3ba0f', '#ad3b76', '#737c45', '#c96215')
 ```
 
 Dieses Objekt können wir dann nutzen, um mit `scale_fill_manual` selbstständig Farben zuzuweisen:
 
 
-``` r
+```r
 bars + scale_fill_manual(values = gu_colors)
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-22-1.png)<!-- -->
 
 Die Zuordnung der Farben erfolgt anhand der Reihenfolge in `gu_colors` und der Reihenfolge der Ausprägungen von `Region`. Letztere ist - wie sie bestimmt festgestellt haben - alphabetisch. Wie häufig in `ggplot2` können Sie die Daten ändern (also mit `relevel` die Reihenfolge der Ausprägungen ändern) um Veränderungen in der Darstellung zu bewirken.
 
@@ -474,7 +476,7 @@ Im Folgenden werden noch ein paar Beispiele für den Einsatz von `ggplots`darges
 
 Die Verteilung eines numerischen Variable könnt ihr per Boxplot... 
 
-``` r
+```r
 ggplot(
   data = edu_2014,
   aes(y = Index)
@@ -485,14 +487,14 @@ ggplot(
 ```
 
 ```
-## Warning: Removed 4 rows containing non-finite outside the scale range
+## Warning: Removed 4 rows containing non-finite values
 ## (`stat_boxplot()`).
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-23-1.png)<!-- -->
 oder Histogramm...
 
-``` r
+```r
 ggplot(
   data = edu_2014,
   aes(x = Index)
@@ -508,23 +510,24 @@ ggplot(
 ```
 
 ```
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with
+## `binwidth`.
 ```
 
 ```
-## Warning: Removed 5 rows containing non-finite outside the scale range
+## Warning: Removed 5 rows containing non-finite values
 ## (`stat_bin()`).
 ```
 
 ```
-## Warning: Removed 2 rows containing missing values or values outside the scale range
+## Warning: Removed 2 rows containing missing values
 ## (`geom_bar()`).
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-24-1.png)<!-- -->
 ... oder beispielsweise als Density-Plot (gut um die Verteilung, Schiefe und Kurtosis zu betrachten) dargestellt werden:
 
-``` r
+```r
 ggplot(
   data = edu_2014,
   aes(x = Index)
@@ -535,11 +538,11 @@ ggplot(
 ```
 
 ```
-## Warning: Removed 4 rows containing non-finite outside the scale range
+## Warning: Removed 4 rows containing non-finite values
 ## (`stat_density()`).
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-25-1.png)<!-- -->
 
 
 ***
@@ -554,7 +557,7 @@ Nun wollen wir uns unserem ersten inferenzstatistischen Test in R widmen. Um ein
 Der Datensatz den wir für die Analyse benutzen stammt aus der 3. Teilstudie von Firschlich et al. (2021). Hier wurde in einem experimentellen Design untersucht, welche Auswirkungen neutrale vs. ideologische geladene Berichterstattung auf Wahrnehmung und Glaubhaftigkeitseinschätzung eines Nachrichtenbeitrags über einen deutschen Politiker hat. Es wurde außerdem noch die Verschwörungsmentalität und das Gefühl der Marginalisierung erhoben.
 
 
-``` r
+```r
 source("https://pandar.netlify.app/daten/Data_Processing_distort.R")
 
 # Kategoriale Variablen in Faktoren umwandeln
@@ -605,44 +608,118 @@ $$H_1: \mu_0 > \mu_1$$
 Bevor wir in die inferenzstatistische Analyse einsteigen, ist es immer gut, sich einen Überblick über die deskriptiven Werte zu verschaffen. Wir können uns nun unser zuvor erworbenes Wissen über Pakete zu nutze machen um einen effizienten deskriptivstatistischen Überblick zu erhalten. Hier am Beispiel von `psych` und `skimr`.
 
 
-``` r
+```r
 # Pakete einlesen
 library(psych)
 library(skimr)
+```
 
+```
+## Warning: Paket 'skimr' wurde unter R Version 4.3.2 erstellt
+```
+
+```
+## 
+## Attache Paket: 'skimr'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:sjmisc':
+## 
+##     to_long
+```
+
+```r
 # Deskriptivstatistik
 psych::describe(distort$cm)
 ```
 
 ```
-##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
-## X1    1 474  4.8 1.58      5     4.9 1.48   1   7     6 -0.46    -0.58 0.07
+##    vars   n mean   sd median trimmed  mad min max range
+## X1    1 474  4.8 1.58      5     4.9 1.48   1   7     6
+##     skew kurtosis   se
+## X1 -0.46    -0.58 0.07
 ```
 
-``` r
+```r
 skimr::skim(distort$cm)
 ```
 
 
-Table: Data summary
-
-|                         |           |
-|:------------------------|:----------|
-|Name                     |distort$cm |
-|Number of rows           |474        |
-|Number of columns        |1          |
-|_______________________  |           |
-|Column type frequency:   |           |
-|numeric                  |1          |
-|________________________ |           |
-|Group variables          |None       |
+<table style='width: auto;'
+      class='table table-condensed'>
+<caption>Data summary</caption>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Name </td>
+   <td style="text-align:left;"> distort$cm </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Number of rows </td>
+   <td style="text-align:left;"> 474 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Number of columns </td>
+   <td style="text-align:left;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> _______________________ </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Column type frequency: </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> 1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ________________________ </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Group variables </td>
+   <td style="text-align:left;"> None </td>
+  </tr>
+</tbody>
+</table>
 
 
 **Variable type: numeric**
 
-|skim_variable | n_missing| complete_rate| mean|   sd| p0| p25| p50| p75| p100|hist  |
-|:-------------|---------:|-------------:|----:|----:|--:|---:|---:|---:|----:|:-----|
-|data          |         0|             1|  4.8| 1.58|  1|   4|   5|   6|    7|▂▂▆▆▇ |
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> skim_variable </th>
+   <th style="text-align:right;"> n_missing </th>
+   <th style="text-align:right;"> complete_rate </th>
+   <th style="text-align:right;"> mean </th>
+   <th style="text-align:right;"> sd </th>
+   <th style="text-align:right;"> p0 </th>
+   <th style="text-align:right;"> p25 </th>
+   <th style="text-align:right;"> p50 </th>
+   <th style="text-align:right;"> p75 </th>
+   <th style="text-align:right;"> p100 </th>
+   <th style="text-align:left;"> hist </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> data </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 4.8 </td>
+   <td style="text-align:right;"> 1.58 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:left;"> ▂▂▆▆▇ </td>
+  </tr>
+</tbody>
+</table>
 #### Voraussetzungen
 
 Inferenzstatistische Tests haben für ihre Durchführung immer Voraussetzungen. Diese können in Anzahl und Art variieren. Verletzungen von Voraussetzungen verzerren verschiedene Aspekte der Testung. Für manche Verletzungen gibt es Korrekturen, andere führen dazu, dass man ein anderes Verfahren wählen muss. Wir werden uns im Laufe des Semesters mit vielen Voraussetzungen beschäftigen. Für den Einstichproben-t-Test ist die Liste der Voraussetzungen nicht sehr lange:
@@ -658,7 +735,7 @@ Kommen wir zu der zweiten Voraussetzung. Für die inferenzstatistische Testung b
 Dabei hilft uns das zuvor installierte `car` Paket.
 
 
-``` r
+```r
 # Paket einlesen
 library(car)
 
@@ -666,7 +743,7 @@ library(car)
 car::qqPlot(distort$cm)
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-29-1.png)<!-- -->
 
 ```
 ## [1] 63 80
@@ -683,7 +760,7 @@ Nach dem Plot zu urteilen könnte eine Verletzung der Normalverteilungsannahme h
 Wir könnten nun die zuvor berechneten [deskriptivstatistischen Werte](#desk) in die weiter oben gezeigte [Formel](#Formeln) einsetzen und so den Einstichproben t-Test berechnen. Zum Glück schafft R hier jedoch mit der `t.test()`-Funktion abhilfe.
 
 
-``` r
+```r
 t.test(distort$cm,
        mu = 5.4,
        alternative = "less",
@@ -715,22 +792,9 @@ Im Output sind bereits die wichtigsten Informationen enthalten. Wir erhalten den
 Letztlich wollen wir uns nur kurz dem Effektstärkemaß des t-Tests widmen, Cohen's d. Auch hier können wir uns dank eine R Funktion (`cohen.d()`) aus dem `effsize` Paket die Formel sparen.
 
 
-``` r
+```r
 library(effsize)
-```
 
-```
-## 
-## Attaching package: 'effsize'
-```
-
-```
-## The following object is masked from 'package:psych':
-## 
-##     cohen.d
-```
-
-``` r
 effsize::cohen.d(distort$cm,
                  f = NA,
                  mu = 5.4,
@@ -787,7 +851,7 @@ Die ersten beiden Voraussetzungen lassen sich nicht rechnerisch überprüfen. Un
 Die letzten beiden Voraussetzungen können wir rechnerisch überprüfen. Bei dem Einstichproben t-Test hatten wir erwähnt das die Normalverteilungsannahme auf mit inferenzstatistischen Tests überprüft werden kann. Einer dieser Test ist der Shapiro-Wilk-Test den wir in R mit der fast gleichnamigen Funktion (`shapiro.test()`) ausführen können.
 
 
-``` r
+```r
 # AV Spalte für die beiden Gruppen auftrennen
 west_data <- subset(distort, subset = east == "westdeutsch")
 ost_data <- subset(distort, subset = east == "ostdeutsch")
@@ -803,7 +867,7 @@ shapiro.test(west_data$cm)
 ## W = 0.95215, p-value = 3.157e-10
 ```
 
-``` r
+```r
 shapiro.test(ost_data$cm)
 ```
 
@@ -820,7 +884,7 @@ Der Test fällt in beiden Gruppen signifikant aus. Demnach müssten wir die Norm
 Übrig bleibt die Homoskedastizitätsannahme die wir mit Hilfe des levene-Tests überprüfen können. Dafür findet sich im `car` Paket die Funktion `leveneTest()`.
 
 
-``` r
+```r
 # Paket einlesen
 library(car)     #wenn nicht schon geschehen
 
@@ -845,7 +909,7 @@ Diese Art der Formulierung können wir immer dann nutzen wenn wir einen Datensat
 Da wir die Voraussetzungen überprüft haben können wir nun mit dem Test fortfahren.
 
 
-``` r
+```r
 t.test(distort$cm ~ distort$east, # abhängige Variable ~ unabhängige Variable
        alternative = "less",      # die erste Ausprägung "westdeutsch" soll "less" Verschwörungsmentalität aufweisen
        var.equal = TRUE,          # Homoskedastizität liegt vor
@@ -873,7 +937,7 @@ Anhand der Ergebnisse können wir folgende Aussage treffen: Ostdeutsche weisen e
 #### Effektstärke
 
 
-``` r
+```r
 effsize::cohen.d(distort$cm ~ distort$east,
                  conf.level = 0.95)
 ```
@@ -898,7 +962,7 @@ Nachdem wir uns mit unabhängige Stichproben beschäftigt haben wollen wir uns d
 Zunächst laden wir einen neuen Datensatz ein. Die Daten stammen von Psychologiestudierenden der Kohorte WiSe 23/24. Der Fragebogen erfasste Daten zur aktuellen Stimmung, Persönlichkeit (Big5), dem Studium sowie demografische Daten. Außerdem wurde für manche Skalen ein zweiter Messzeitpunkt erhoben.
 
 
-``` r
+```r
 load(url('https://pandar.netlify.app/daten/fb23.rda'))
 
 # Rekodierung invertierter Items
@@ -941,7 +1005,7 @@ Auch hier lassen sich die ersten beiden Voraussetzungen nicht rechnerisch überp
 Die dritte Voraussetzung können wir rechnerisch überprüfen. Die Differenzvariable d wird berechnet in dem wir die Werte aller Personen auf `gs_pre` jeweils von ihren `gs_post` Werten abziehen. Anschließende wenden wir erneut den Shapiro-Wilk-Test an.
 
 
-``` r
+```r
 fb23$gs_diff <- fb23$gs_post - fb23$gs_pre
 
 shapiro.test(fb23$gs_diff)
@@ -958,11 +1022,11 @@ shapiro.test(fb23$gs_diff)
 Der Test fällt signifikant aus. Auch hier können wir jedoch auf Basis des *zentralen Grenzwertsatzes* mit dem Test fortfahren. Zunächst schauen wir uns die Normalverteilung noch einmal optisch an.
 
 
-``` r
+```r
 car::qqPlot(fb23$gs_diff)
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-41-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-41-1.png)<!-- -->
 
 ```
 ## [1]  7 81
@@ -973,7 +1037,7 @@ Der QQ-Plot lässt erkennen das es Ausreißer an beiden Extremen gibt die wahrsc
 #### `t.test`
 
 
-``` r
+```r
 t.test(fb23$gs_post, fb23$gs_pre,
        paired = TRUE,
        alternative = "two.sided",
@@ -1003,7 +1067,7 @@ Anhand der Ergebnisse können wir nun folgende Aussage treffen: Die Stimmung der
 #### Effektstärke
 
 
-``` r
+```r
 effsize::cohen.d(fb23$gs_post, fb23$gs_pre, # Messzeitpunkte
                  paired = TRUE,             # abhängige Stichproben
                  conf.level = 0.95,         # alpha = 5%
@@ -1030,7 +1094,7 @@ effsize::cohen.d(fb23$gs_post, fb23$gs_pre, # Messzeitpunkte
 Den Datensatz `fb23` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb23.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 
-``` r
+```r
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -1093,7 +1157,7 @@ Die Modellgleichung für die lineare Regression lautet: $y_m = b_0 + b_1 x_m + e
 In R gibt es eine interne Schreibweise, die sehr eng an diese Form der Notation angelehnt ist. Mit `?formula` können Sie sich detailliert ansehen, welche Modelle in welcher Weise mit dieser Notation dargestellt werden können. R verwendet diese Notation für (beinahe) alle Modelle, sodass es sich lohnt, sich mit dieser Schreibweise vertraut zu machen. Die Kernelemente sind im Fall der linearen einfachen Regression:
 
 
-``` r
+```r
 y ~ 1 + x
 ```
 
@@ -1118,13 +1182,13 @@ Für gewöhnlich würden Sie nun zuerst einmal die Voraussetzungen überprüfen.
 
 
 
-``` r
+```r
 plot(fb23$extra, fb23$nerd, xlab = "Extraversion", ylab = "Nerdiness", 
      main = "Zusammenhang zwischen Extraversion und Nerdiness", xlim = c(0, 6), ylim = c(1, 5), pch = 19)
 lines(loess.smooth(fb23$extra, fb23$nerd), col = 'blue')    #beobachteter, lokaler Zusammenhang
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-47-1.png)<!-- -->
  
  * `pch` verändert die Darstellung der Datenpunkte
  * `xlim` und `ylim` veränderen die X- bzw. Y-Achse 
@@ -1136,7 +1200,7 @@ lines(loess.smooth(fb23$extra, fb23$nerd), col = 'blue')    #beobachteter, lokal
 In unserem Beispiel ist $x$ die Extraversion (`extra`) und $y$ die Nerdiness (`nerd`). Um das Modell zu schätzen, wird dann der `lm()` (für *linear model*) Befehl genutzt:
 
 
-``` r
+```r
 lm(formula = nerd ~ 1 + extra, data = fb23)
 ```
 
@@ -1154,14 +1218,14 @@ So werden die Koeffizienten direkt ausgegeben. Wenn wir mit dem Modell jedoch we
 
 
 
-``` r
+```r
 lin_mod <- lm(nerd ~ extra, fb23)                  #Modell erstellen und Ergebnisse im Objekt lin_mod ablegen
 ```
 
 Aus diesem Objekt können mit `coef()` oder auch `lin_mod$coefficients` die geschätzten Koeffizienten extrahiert werden:
 
 
-``` r
+```r
 coef(lin_mod) 
 ```
 
@@ -1170,7 +1234,7 @@ coef(lin_mod)
 ##   3.7198838  -0.2103006
 ```
 
-``` r
+```r
 lin_mod$coefficients
 ```
 
@@ -1182,7 +1246,7 @@ lin_mod$coefficients
 Falls man sich unsicher ist, wie dieses Modell zustande gekommen ist, kann man dies ausdrücklich erfragen:
 
 
-``` r
+```r
 formula(lin_mod)
 ```
 
@@ -1195,7 +1259,7 @@ formula(lin_mod)
 Das Streudiagramm haben wir zu Beginn schon abbilden lassen. Hier kann nun zusätzlich noch der geschätzte Zusammenhang zwischen den beiden Variablen als Regressiongerade eingefügt werden. Hierzu wird der Befehl `plot()` durch `abline()` ergänzt:
 
 
-``` r
+```r
 # Scatterplot zuvor im Skript beschrieben
 plot(fb23$extra, fb23$nerd, 
   xlim = c(0, 6), ylim = c(1, 5), pch = 19)
@@ -1204,7 +1268,7 @@ lines(loess.smooth(fb23$extra, fb23$nerd), col = 'blue')    #beobachteter, lokal
 abline(lin_mod, col = 'red')
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-52-1.png)<!-- -->
 
 
 In `lin_mod$coefficients` stehen die Regressionskoeffizienten $b_0$ unter `(Intercept)` zur Konstanten gehörend und $b_1$ unter dem Namen der Variable, die wir als Prädiktor nutzen. In diesem Fall also `extra`. Die Regressionsgleichung hat daher die folgende Gestalt: $y_i = 3.72 + -0.21 \cdot x + e_i$. 
@@ -1225,83 +1289,101 @@ $$\hat{y} = 3.72 + (-0.21)*x_m$$
 Mit dem Befehl `lm()` werden auch automatisch immer die Residuen ($e_m$) geschätzt, die mit `residuals()` (oder alternativ: `resid()`) abgefragt werden können. Die Residuen betragen die Differenzen zu den vorhergesagten Werten bzw. zur Regressionsgeraden.
 
 
-``` r
+```r
 residuals(lin_mod)
 ```
 
 ```
-##            1            2            3            4            5 
-##  1.182835060 -0.088981917 -0.545347963 -0.255648584  0.954652037 
-##            7            8            9           10           11 
-##  0.559802347  0.182835060  0.349501727  0.472534439 -0.088981917 
-##           12           13           14           15           16 
-##  0.893135681 -0.606864319  0.244351416 -0.176249825  0.472534439 
-##           17           18           19           20           21 
-## -0.694132227  0.744351416  0.682835060  0.762233819  0.349501727 
-##           22           23           24           25           26 
-## -0.360798894  0.139201106 -0.545347963  0.016168393  1.911018083 
-##           27           28           29           30           31 
-## -0.088981917  0.121318704  0.411018083  0.121318704 -0.088981917 
-##           32           33           34           35           36 
-##  0.244351416 -0.273530986 -0.194132227  0.164952658  0.472534439 
-##           37           38           39           40           41 
-## -0.465949204 -0.299282537 -0.878681296 -0.001714009  0.393135681 
-##           42           43           44           45           46 
-##  0.639201106 -0.045347963  0.577684750  0.411018083  0.331619324 
-##           47           48           49           50           51 
-## -0.712014630 -0.799282537  1.139201106 -0.045347963  0.059802347 
-##           52           53           54           55           56 
-##  0.305867773 -0.360798894  0.516168393  0.226469014 -0.273530986 
-##           57           58           59           60           61 
-##  1.349501727 -1.106864319  0.516168393 -0.922315250 -0.422315250 
-##           62           63           64           65           66 
-##  0.393135681  0.559802347 -0.606864319  0.595567152  0.454652037 
-##           67           68           69           70           71 
-##  0.621318704  0.972534439  0.621318704  0.428900486 -0.799282537 
-##           72           73           74           75           76 
-## -0.545347963 -0.588981917  0.244351416 -1.817164940 -0.335047342 
-##           77           78           79           80           81 
-## -0.817164940 -0.360798894 -0.255648584  0.077684750 -0.650498273 
-##           82           83           84           85           86 
-## -1.483831607 -0.317164940 -0.378681296 -0.360798894  0.121318704 
-##           87           88           89           90           91 
-##  0.244351416 -0.027465561  0.516168393  0.182835060  0.911018083 
-##           92           93           94           95           96 
-##  0.534050796 -0.299282537  0.867384129  0.595567152 -0.378681296 
-##           97           98           99          101          102 
-## -0.440197653  0.639201106  0.305867773  0.182835060 -0.650498273 
-##          103          104          105          106          107 
-## -0.255648584 -0.588981917 -0.440197653 -0.527465561 -0.755648584 
-##          108          109          110          111          112 
-## -0.212014630  0.287985370 -0.150498273  0.744351416 -0.527465561 
-##          113          114          115          116          117 
-##  0.516168393  0.182835060 -0.694132227  0.305867773 -0.212014630 
-##          118          119          120          121          122 
-##  0.621318704 -0.422315250  0.393135681 -0.237766181 -0.106864319 
-##          123          124          126          127          128 
-## -1.465949204 -0.483831607 -0.299282537  0.349501727  0.700717463 
-##          129          130          131          132          133 
-##  0.639201106  0.454652037 -0.799282537 -0.360798894  0.787985370 
-##          134          135          136          137          138 
-##  0.077684750  0.077684750  0.305867773 -0.527465561 -0.194132227 
-##          139          140          141          142          143 
-## -0.071099514 -0.027465561 -1.255648584 -0.273530986  0.034050796 
-##          144          145          146          147          148 
-##  0.831619324 -1.045347963  0.016168393  0.182835060  0.016168393 
-##          149          150          151          152          153 
-##  0.244351416 -0.422315250 -0.299282537  0.972534439 -0.212014630 
-##          154          155          156          157          158 
-## -0.378681296  1.139201106  0.287985370 -0.860798894 -0.001714009 
-##          159          160          161          162          163 
-## -0.527465561 -0.045347963  0.287985370 -0.835047342  1.516168393 
-##          164          165          166          167          168 
-##  0.059802347  0.121318704 -0.440197653  0.182835060 -0.878681296 
-##          169          170          171          172          173 
-## -0.755648584 -0.588981917  0.244351416 -0.422315250 -0.360798894 
-##          174          175          176          177          178 
-##  0.831619324  0.657083509  0.954652037 -0.527465561 -0.378681296 
-##          179          180          181          182 
-## -0.817164940 -0.212014630  0.472534439 -1.132615871
+##            1            2            3            4 
+##  1.182835060 -0.088981917 -0.545347963 -0.255648584 
+##            5            7            8            9 
+##  0.954652037  0.559802347  0.182835060  0.349501727 
+##           10           11           12           13 
+##  0.472534439 -0.088981917  0.893135681 -0.606864319 
+##           14           15           16           17 
+##  0.244351416 -0.176249825  0.472534439 -0.694132227 
+##           18           19           20           21 
+##  0.744351416  0.682835060  0.762233819  0.349501727 
+##           22           23           24           25 
+## -0.360798894  0.139201106 -0.545347963  0.016168393 
+##           26           27           28           29 
+##  1.911018083 -0.088981917  0.121318704  0.411018083 
+##           30           31           32           33 
+##  0.121318704 -0.088981917  0.244351416 -0.273530986 
+##           34           35           36           37 
+## -0.194132227  0.164952658  0.472534439 -0.465949204 
+##           38           39           40           41 
+## -0.299282537 -0.878681296 -0.001714009  0.393135681 
+##           42           43           44           45 
+##  0.639201106 -0.045347963  0.577684750  0.411018083 
+##           46           47           48           49 
+##  0.331619324 -0.712014630 -0.799282537  1.139201106 
+##           50           51           52           53 
+## -0.045347963  0.059802347  0.305867773 -0.360798894 
+##           54           55           56           57 
+##  0.516168393  0.226469014 -0.273530986  1.349501727 
+##           58           59           60           61 
+## -1.106864319  0.516168393 -0.922315250 -0.422315250 
+##           62           63           64           65 
+##  0.393135681  0.559802347 -0.606864319  0.595567152 
+##           66           67           68           69 
+##  0.454652037  0.621318704  0.972534439  0.621318704 
+##           70           71           72           73 
+##  0.428900486 -0.799282537 -0.545347963 -0.588981917 
+##           74           75           76           77 
+##  0.244351416 -1.817164940 -0.335047342 -0.817164940 
+##           78           79           80           81 
+## -0.360798894 -0.255648584  0.077684750 -0.650498273 
+##           82           83           84           85 
+## -1.483831607 -0.317164940 -0.378681296 -0.360798894 
+##           86           87           88           89 
+##  0.121318704  0.244351416 -0.027465561  0.516168393 
+##           90           91           92           93 
+##  0.182835060  0.911018083  0.534050796 -0.299282537 
+##           94           95           96           97 
+##  0.867384129  0.595567152 -0.378681296 -0.440197653 
+##           98           99          101          102 
+##  0.639201106  0.305867773  0.182835060 -0.650498273 
+##          103          104          105          106 
+## -0.255648584 -0.588981917 -0.440197653 -0.527465561 
+##          107          108          109          110 
+## -0.755648584 -0.212014630  0.287985370 -0.150498273 
+##          111          112          113          114 
+##  0.744351416 -0.527465561  0.516168393  0.182835060 
+##          115          116          117          118 
+## -0.694132227  0.305867773 -0.212014630  0.621318704 
+##          119          120          121          122 
+## -0.422315250  0.393135681 -0.237766181 -0.106864319 
+##          123          124          126          127 
+## -1.465949204 -0.483831607 -0.299282537  0.349501727 
+##          128          129          130          131 
+##  0.700717463  0.639201106  0.454652037 -0.799282537 
+##          132          133          134          135 
+## -0.360798894  0.787985370  0.077684750  0.077684750 
+##          136          137          138          139 
+##  0.305867773 -0.527465561 -0.194132227 -0.071099514 
+##          140          141          142          143 
+## -0.027465561 -1.255648584 -0.273530986  0.034050796 
+##          144          145          146          147 
+##  0.831619324 -1.045347963  0.016168393  0.182835060 
+##          148          149          150          151 
+##  0.016168393  0.244351416 -0.422315250 -0.299282537 
+##          152          153          154          155 
+##  0.972534439 -0.212014630 -0.378681296  1.139201106 
+##          156          157          158          159 
+##  0.287985370 -0.860798894 -0.001714009 -0.527465561 
+##          160          161          162          163 
+## -0.045347963  0.287985370 -0.835047342  1.516168393 
+##          164          165          166          167 
+##  0.059802347  0.121318704 -0.440197653  0.182835060 
+##          168          169          170          171 
+## -0.878681296 -0.755648584 -0.588981917  0.244351416 
+##          172          173          174          175 
+## -0.422315250 -0.360798894  0.831619324  0.657083509 
+##          176          177          178          179 
+##  0.954652037 -0.527465561 -0.378681296 -0.817164940 
+##          180          181          182 
+## -0.212014630  0.472534439 -1.132615871
 ```
 
 Die Residuen haben die Bedeutung des "Ausmaßes an Nerdiness, das nicht durch Extraversion vorhergesagt werden kann" - also die Differenz aus vorhergesagtem und tatsächlich beobachtetem Wert der y-Variable (Nerdiness).
@@ -1311,70 +1393,84 @@ Die Residuen haben die Bedeutung des "Ausmaßes an Nerdiness, das nicht durch Ex
 Die vorhergesagten Werte $\hat{y}$ können mit `predict()` ermittelt werden:
 
 
-``` r
+```r
 predict(lin_mod)
 ```
 
 ```
-##        1        2        3        4        5        7        8        9 
-## 2.983832 3.088982 2.878681 3.088982 2.878681 2.773531 2.983832 2.983832 
-##       10       11       12       13       14       15       16       17 
-## 3.194132 3.088982 2.773531 2.773531 3.088982 3.509583 3.194132 3.194132 
-##       18       19       20       21       22       23       24       25 
-## 3.088982 2.983832 3.404433 2.983832 3.194132 3.194132 2.878681 2.983832 
-##       26       27       28       29       30       31       32       33 
-## 3.088982 3.088982 2.878681 3.088982 2.878681 3.088982 3.088982 2.773531 
-##       34       35       36       37       38       39       40       41 
-## 3.194132 2.668381 3.194132 3.299283 3.299283 2.878681 2.668381 2.773531 
-##       42       43       44       45       46       47       48       49 
-## 3.194132 2.878681 3.088982 3.088982 2.668381 2.878681 3.299283 3.194132 
-##       50       51       52       53       54       55       56       57 
-## 2.878681 2.773531 3.194132 3.194132 2.983832 2.773531 2.773531 2.983832 
-##       58       59       60       61       62       63       64       65 
-## 2.773531 2.983832 3.088982 3.088982 2.773531 2.773531 2.773531 3.404433 
-##       66       67       68       69       70       71       72       73 
-## 2.878681 2.878681 3.194132 2.878681 3.404433 3.299283 2.878681 3.088982 
-##       74       75       76       77       78       79       80       81 
-## 3.088982 2.983832 2.668381 2.983832 3.194132 3.088982 3.088982 2.983832 
-##       82       83       84       85       86       87       88       89 
-## 2.983832 2.983832 2.878681 3.194132 2.878681 3.088982 3.194132 2.983832 
-##       90       91       92       93       94       95       96       97 
-## 2.983832 3.088982 3.299283 3.299283 3.299283 3.404433 2.878681 2.773531 
-##       98       99      101      102      103      104      105      106 
-## 3.194132 3.194132 2.983832 2.983832 3.088982 3.088982 2.773531 3.194132 
-##      107      108      109      110      111      112      113      114 
-## 3.088982 2.878681 2.878681 2.983832 3.088982 3.194132 2.983832 2.983832 
-##      115      116      117      118      119      120      121      122 
-## 3.194132 3.194132 2.878681 2.878681 3.088982 2.773531 3.404433 2.773531 
-##      123      124      126      127      128      129      130      131 
-## 3.299283 2.983832 3.299283 2.983832 3.299283 3.194132 2.878681 3.299283 
-##      132      133      134      135      136      137      138      139 
-## 3.194132 2.878681 3.088982 3.088982 3.194132 3.194132 3.194132 3.404433 
-##      140      141      142      143      144      145      146      147 
-## 3.194132 3.088982 2.773531 3.299283 2.668381 2.878681 2.983832 2.983832 
-##      148      149      150      151      152      153      154      155 
-## 2.983832 3.088982 3.088982 3.299283 3.194132 2.878681 2.878681 3.194132 
-##      156      157      158      159      160      161      162      163 
-## 2.878681 3.194132 2.668381 3.194132 2.878681 2.878681 2.668381 2.983832 
-##      164      165      166      167      168      169      170      171 
-## 2.773531 2.878681 2.773531 2.983832 2.878681 3.088982 3.088982 3.088982 
-##      172      173      174      175      176      177      178      179 
-## 3.088982 3.194132 2.668381 3.509583 2.878681 3.194132 2.878681 2.983832 
-##      180      181      182 
-## 2.878681 3.194132 3.299283
+##        1        2        3        4        5        7 
+## 2.983832 3.088982 2.878681 3.088982 2.878681 2.773531 
+##        8        9       10       11       12       13 
+## 2.983832 2.983832 3.194132 3.088982 2.773531 2.773531 
+##       14       15       16       17       18       19 
+## 3.088982 3.509583 3.194132 3.194132 3.088982 2.983832 
+##       20       21       22       23       24       25 
+## 3.404433 2.983832 3.194132 3.194132 2.878681 2.983832 
+##       26       27       28       29       30       31 
+## 3.088982 3.088982 2.878681 3.088982 2.878681 3.088982 
+##       32       33       34       35       36       37 
+## 3.088982 2.773531 3.194132 2.668381 3.194132 3.299283 
+##       38       39       40       41       42       43 
+## 3.299283 2.878681 2.668381 2.773531 3.194132 2.878681 
+##       44       45       46       47       48       49 
+## 3.088982 3.088982 2.668381 2.878681 3.299283 3.194132 
+##       50       51       52       53       54       55 
+## 2.878681 2.773531 3.194132 3.194132 2.983832 2.773531 
+##       56       57       58       59       60       61 
+## 2.773531 2.983832 2.773531 2.983832 3.088982 3.088982 
+##       62       63       64       65       66       67 
+## 2.773531 2.773531 2.773531 3.404433 2.878681 2.878681 
+##       68       69       70       71       72       73 
+## 3.194132 2.878681 3.404433 3.299283 2.878681 3.088982 
+##       74       75       76       77       78       79 
+## 3.088982 2.983832 2.668381 2.983832 3.194132 3.088982 
+##       80       81       82       83       84       85 
+## 3.088982 2.983832 2.983832 2.983832 2.878681 3.194132 
+##       86       87       88       89       90       91 
+## 2.878681 3.088982 3.194132 2.983832 2.983832 3.088982 
+##       92       93       94       95       96       97 
+## 3.299283 3.299283 3.299283 3.404433 2.878681 2.773531 
+##       98       99      101      102      103      104 
+## 3.194132 3.194132 2.983832 2.983832 3.088982 3.088982 
+##      105      106      107      108      109      110 
+## 2.773531 3.194132 3.088982 2.878681 2.878681 2.983832 
+##      111      112      113      114      115      116 
+## 3.088982 3.194132 2.983832 2.983832 3.194132 3.194132 
+##      117      118      119      120      121      122 
+## 2.878681 2.878681 3.088982 2.773531 3.404433 2.773531 
+##      123      124      126      127      128      129 
+## 3.299283 2.983832 3.299283 2.983832 3.299283 3.194132 
+##      130      131      132      133      134      135 
+## 2.878681 3.299283 3.194132 2.878681 3.088982 3.088982 
+##      136      137      138      139      140      141 
+## 3.194132 3.194132 3.194132 3.404433 3.194132 3.088982 
+##      142      143      144      145      146      147 
+## 2.773531 3.299283 2.668381 2.878681 2.983832 2.983832 
+##      148      149      150      151      152      153 
+## 2.983832 3.088982 3.088982 3.299283 3.194132 2.878681 
+##      154      155      156      157      158      159 
+## 2.878681 3.194132 2.878681 3.194132 2.668381 3.194132 
+##      160      161      162      163      164      165 
+## 2.878681 2.878681 2.668381 2.983832 2.773531 2.878681 
+##      166      167      168      169      170      171 
+## 2.773531 2.983832 2.878681 3.088982 3.088982 3.088982 
+##      172      173      174      175      176      177 
+## 3.088982 3.194132 2.668381 3.509583 2.878681 3.194132 
+##      178      179      180      181      182 
+## 2.878681 2.983832 2.878681 3.194132 3.299283
 ```
 
 Per Voreinstellung werden hier die vorhergesagten Werte aus unserem ursprünglichen Datensatz dargestellt. `predict()` erlaubt uns aber auch Werte von "neuen" Beobachtungen vorherzusagen. Nehmen wir an, wir würden die Extraversion von 5 neuen Personen beobachten (sie haben - vollkommen zufällig - die Werte 1, 2, 3, 4 und 5) und diese Beobachtungen in einem neuem Datensatz `extra_neu` festhalten:
 
 
-``` r
+```r
 extra_neu <- data.frame(extra = c(1, 2, 3, 4, 5))
 ```
 
 Anhand unseres Modells können wir für diese Personen auch ihre Nerdiness vorhersagen, obwohl wir diese nicht beobachtet haben:
 
 
-``` r
+```r
 predict(lin_mod, newdata = extra_neu)
 ```
 
@@ -1394,7 +1490,7 @@ Damit diese Vorhersage funktioniert, muss im neuen Datensatz eine Variable mit d
 Nun möchten wir aber vielleicht wissen, ob der beobachtete Zusammenhang auch statistisch bedeutsam ist oder vielleicht nur durch Zufallen zustande gekommen ist. Zuerst kann die Betrachtung der Konfidenzintervalle helfen. Der Befehl `confint()` berechnet die Konfidenzintervalle der Regressionsgewichte.
 
 
-``` r
+```r
 #Konfidenzintervalle der Regressionskoeffizienten
 confint(lin_mod)
 ```
@@ -1422,7 +1518,7 @@ Für beide Parameter ($b_1$ uns $b_0$) wird die H0 auf einem alpha-Fehler-Niveau
 Eine andere Möglichkeit zur interferenzstatistischen Überprüfung ergibt sich über die p-Werte der Regressionskoeffizienten. Diese werden über die `summary()`-Funktion ausgegeben. `summary()` fasst verschiedene Ergebnisse eines Modells zusammen und berichtet unter anderem auch Signifikanzwerte.
 
 
-``` r
+```r
 #Detaillierte Modellergebnisse
 summary(lin_mod)
 ```
@@ -1441,7 +1537,8 @@ summary(lin_mod)
 ## (Intercept)  3.71988    0.16923  21.981   <2e-16 ***
 ## extra       -0.21030    0.04991  -4.214    4e-05 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6033 on 177 degrees of freedom
 ## Multiple R-squared:  0.09116,	Adjusted R-squared:  0.08603 
@@ -1463,7 +1560,7 @@ Darüber hinaus können wir uns auch anschauen, wie gut unser aufgestelltes Mode
 Auch dies lässt sich mit der Funktion `summary()` betrachten. Anhand des p-Werts kann hier auch die Signifikanz des $R^2$ überprüft werden.
 
 
-``` r
+```r
 #Detaillierte Modellergebnisse
 summary(lin_mod)
 ```
@@ -1482,7 +1579,8 @@ summary(lin_mod)
 ## (Intercept)  3.71988    0.16923  21.981   <2e-16 ***
 ## extra       -0.21030    0.04991  -4.214    4e-05 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6033 on 177 degrees of freedom
 ## Multiple R-squared:  0.09116,	Adjusted R-squared:  0.08603 
@@ -1494,7 +1592,7 @@ Determinationskoeffizient $R^2$ ist signifikant, da $p < \alpha$.
 Der Determinationskoeffizient $R^2$ kann auch direkt über den Befehl `summary(lin_mod)$r.squared` ausgegeben werden:
 
 
-``` r
+```r
 summary(lin_mod)$r.squared
 ```
 
@@ -1523,7 +1621,7 @@ Konventionen sind, wie bereits besprochen, heranzuziehen, wenn keine vorherigen 
 Bei einer Regression kann es sinnvoll sein, die standardisierten Regressionskoeffizienten zu betrachten, um die Erklärungs- oder Prognosebeiträge der einzelnen unabhängigen Variablen (unabhängig von den bei der Messung der Variablen gewählten Einheiten) miteinander vergleichen zu können, z. B. um zu sehen, welche Variable den größten Beitrag zur Prognose der abhängigen Variable leistet. Außerdem ist es hierdurch möglich, die Ergebnisse zwischen verschiedenen Studien zu vergleichen, die `nerd` und `extra` gemessen haben, jedoch in unterschiedlichen Einheiten. Durch die Standardisierung werden die Regressionskoeffizienten vergleichbar.
 
 
-``` r
+```r
 # Paket erst installieren (wenn nötig): install.packages("lm.beta")
 library(lm.beta)
 ```
@@ -1531,7 +1629,7 @@ library(lm.beta)
 Die Funktion `lm.beta()` muss auf ein Ergebnis der normalen `lm()`-Funktion angewendet werden. Wir haben dieses Ergebnis im Objekt `lin_mod` hinterlegt. Anschließend wollen wir uns für die Interpretation wieder das `summary()` ausgeben lassen. Natürlich kann man diese Schritte auch mit der Pipe lösen, was als Kommentar noch aufgeführt ist.
 
 
-``` r
+```r
 lin_model_beta <- lm.beta(lin_mod)
 summary(lin_model_beta) # lin_mod |> lm.beta() |> summary()
 ```
@@ -1546,11 +1644,15 @@ summary(lin_model_beta) # lin_mod |> lm.beta() |> summary()
 ## -1.81716 -0.42232 -0.00171  0.41996  1.91102 
 ## 
 ## Coefficients:
-##             Estimate Standardized Std. Error t value Pr(>|t|)    
-## (Intercept)  3.71988           NA    0.16923  21.981   <2e-16 ***
-## extra       -0.21030     -0.30193    0.04991  -4.214    4e-05 ***
+##             Estimate Standardized Std. Error t value
+## (Intercept)  3.71988           NA    0.16923  21.981
+## extra       -0.21030     -0.30193    0.04991  -4.214
+##             Pr(>|t|)    
+## (Intercept)   <2e-16 ***
+## extra          4e-05 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6033 on 177 degrees of freedom
 ## Multiple R-squared:  0.09116,	Adjusted R-squared:  0.08603 
@@ -1564,23 +1666,23 @@ Die Interpretation standardisierter Regressionsgewichte weicht leicht von der In
 #### Grafische Darstellung:
 Unser Ziel ist es natürlich auch das Regressionsmodell, also den Zusammenhang der Variablen, grafisch darzustellen. Dies gelingt einfach mit der bereits bekannten GGPlot-Syntax:
 
-``` r
+```r
 # Möglichkeit A:
 ggplot(data = fb23, aes(x = extra, y = nerd))+ #Grund-Ästhetik auswählen
      geom_point() + # Darstellung der Testwerte als Punkte
   geom_abline(intercept = coef(lin_mod)[1], slope = coef(lin_mod)[2], color = 'red') # Hinzufügen der Regressionsgerade
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-65-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-65-1.png)<!-- -->
 
-``` r
+```r
 # Möglichkeit B: Vorteil = Anzeige des Konfidenzintervalls
 ggplot(data = fb23, aes(x = extra, y = nerd))+
      geom_point() +
   geom_smooth(method="lm", formula = "y~x", color = 'red')
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-65-2.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-65-2.png)<!-- -->
 ### Multiple Regression
 #### Einleitung
 
@@ -1591,7 +1693,7 @@ Bisher haben wir uns bereits mit der Analyse von Zusammenhängen anhand von einf
 Für das vorliegende Tutorial laden wir einen Datensatz aus dem [Open Scniece Framework (OSF)](https://osf.io/) ein, der aus einer [Studie](https://doi.org/10.1016/j.chiabu.2020.104826) stammt, die sich mit Parental Burnout (Elterlichem Burnout) befasst. Die Studie können wir mit folgendem Befehl direkt einladen. Die erste Spalte benötigen wir nicht, da diese sich mit der Zeilennummer doppelt.
 
 
-``` r
+```r
 burnout <- read.csv(file = url("https://osf.io/qev5n/download"))
 burnout <- burnout[,2:8]
 dim(burnout)
@@ -1604,7 +1706,7 @@ dim(burnout)
 Insgesamt besteht der restliche Datensatz also aus 1551 Zeilen und 7 Spalten. Betrachten wir nun die Variablen noch genauer. 
 
 
-``` r
+```r
 str(burnout)
 ```
 
@@ -1650,14 +1752,14 @@ Die Umsetzung in R findet ihr in [Statistik I](https://pandar.netlify.app/lehre/
 #### Bestimmung der Koeffizienten der Multiplen Regression
 Zuerst definieren wir unser Regressionsmodell für die multiple Regression.
 
-``` r
+```r
 mod <- lm(Violence ~ Exhaust + Distan + PartConfl, data = burnout)
 ```
     
 Um die berechneten Parameter des Modells anzuzeigen, nutzen wir die Funktion `summary`. 
 
 
-``` r
+```r
 summary(mod)
 ```
 
@@ -1677,7 +1779,8 @@ summary(mod)
 ## Distan       0.30161    0.02421  12.460  < 2e-16 ***
 ## PartConfl    0.57351    0.06821   8.408  < 2e-16 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 6.402 on 1547 degrees of freedom
 ## Multiple R-squared:  0.2889,	Adjusted R-squared:  0.2875 
@@ -1688,15 +1791,15 @@ Wir haben bereits gelernt, dass die Punktschätzer für die Regressionsgewichte 
 Der letzte Teil des Regressionsmodells beinhaltet die Fehler $e_i$, die (wie durch den Index $i$ gekennzeichnet) für jede Person individuell sind. Die Fehler können wir beispielsweise anzeigen, indem wir die Funktion `resid()` auf unser Objekt anwenden. Wir zeigen hier nur die ersten zehn Fehlerwerte, da der Output sonst sehr lange wäre.
 
 
-``` r
+```r
 resid(mod)[1:10]
 ```
 
 ```
-##          1          2          3          4          5          6          7 
-## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730  1.5996231 -0.9974955 
-##          8          9         10 
-##  0.8759748 -1.5887563  1.3260923
+##          1          2          3          4          5 
+## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730 
+##          6          7          8          9         10 
+##  1.5996231 -0.9974955  0.8759748 -1.5887563  1.3260923
 ```
 
 #### Omnibustest der Multiplen Regression
@@ -1705,9 +1808,9 @@ Einschätzungen zur Güte unseres Modells finden wir wie in [Statistik 1 besproc
 
 
 ```
+## 
 ## Residual standard error: 6.402 on 1547 degrees of freedom
-## Multiple R-squared:  0.2889,	Adjusted R-squared:  0.2875 
-## F-statistic: 209.5 on 3 and 1547 DF,  p-value: < 2.2e-16
+## Multiple R-squared:  0.2889,	Adjusted R-squared:  0.2875
 ```
 
 In unserem Fall hat der Omnibustest einen empirischen Wert von 209.524 bei Freiheitsgraden von 3 und 1547. Der Test prüft, ob die Prädiktoren in der Modellgleichung gemeinsam signifikant zur Vorhersage der abhängigen Variable beitragen, was in diesem Fall gegeben ist, da der p-Wert kleiner als 0.05 ist, was üblicherweise als $\alpha$-Niveau verwendet wird.
@@ -1728,7 +1831,8 @@ Auch für die Testung der einzelnen Prädiktoren liefert uns die `summary()` Fun
 ## Distan       0.30161    0.02421  12.460  < 2e-16 ***
 ## PartConfl    0.57351    0.06821   8.408  < 2e-16 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Für Emotionale Erschöpfung ergibt sich ein empirischer Wert von 5.77 und ein p-Wert von kleiner 0.001. Dieser ist kleiner als das übliche $\alpha$-Niveau von 0.05, was ein signifikantes Ergebnis anzeigt. Was bedeutet dies jetzt? Wie in den Hypothesen festgehalten wird damit angezeigt, dass das Regressionsgewicht der Emotionalen Erschöpfung verschieden von 0 ist. Nun könnte man argumentieren, dass man dies ja bereits an dem Wert für den Regressionsparameter sehen konnte, da dieser eindeutig verschieden von 0 ist, jedoch handelt es sich auch hier nur um einen deskriptivstatistischen Wert. Der t-Test zeigt uns, dass dieser in der Population von 0 verschieden. Wenn wir nun in unserem Ergebnisbericht nicht nur die Punktschätzung für den Regressionsparameter angeben wollen, können wir ein Konfidenzintervall um den Wert legen (Konfidenzintervalle haben wir [hier](/lehre/statistik-i/tests-konfidenzintervalle/#KonfInt) beim Testen eines Mittelwerts sehr detailliert besprochen). Die Formel nutzt dabei den Standardfehler des Regressionsgewichts, der in der Übersicht enthalten ist. Zusätzlich wird der kritische Wert aus der t-Verteilung benötigt (wobei mit $\alpha$ das Fehlerniveau festgelegt wird und $k$ hier für die Anzahl an Prädiktoren - also 3 - steht).
@@ -1738,7 +1842,7 @@ $$CI = b_m \pm t_{(1-\alpha/2, n-k-1)} \cdot \hat{\sigma}_{b_m}$$
 Wir könnten also per Hand das Intervall bestimmen. Jedoch ist in `R` die Erstellung des Konfidenzintervalls sehr simpel mit der Funktion `confint()` möglich. Diese muss nur auf das Objekt angwendet werden, das unser Regressionsmodell enthält. Mit dem Argument `level` kann das Konfidenzniveau festgelegt werden, das sich aus $1 - \alpha$ bestimmt. In unserem Fall wäre dieses also 0.95.
 
 
-``` r
+```r
 confint(mod, level = 0.95)
 ```
 
@@ -1759,14 +1863,14 @@ Abschließend noch ein essentieller Punkt zur Testung einzelner Prädiktoren: Vo
 Wie auch in der einfachen Regression haben wir nun die Möglichkeit, einer Person einen Wert für die abhängige Variable vorherzusagen. Dies geschieht durch die Anwendung der Regressionsgewichte auf die Werte der Prädiktoren. In unserem Fall wollen wir die Gewalttätigkeit gegenüber Kindern vorhersagen. Stellen wir uns vor, dass die neue Person einen Wert von 3 für Emotionale Erschöpfung, 4 für Emotionale Distanz und 2 für Konflikte mit dem Partner hat. Hier gibt es wieder viele Wege zum Ziel. Wir legen zuerst einen neuen Datensatz an, der die Werte der Prädiktoren enthält. 
 
 
-``` r
+```r
 predict_data <- data.frame(Exhaust = 3, Distan = 4, PartConfl = 2)
 ```
 
 Anschließend können wir die Funktion `predict()` auf unser Modell anwenden. 
 
 
-``` r
+```r
 predict(mod, newdata = predict_data)
 ```
 
@@ -1780,7 +1884,7 @@ Wir haben für die Person nun eine Punktschätzung von 17.92 für die Gewalttät
 Für die Bestimmung müssen wir nur optionale Argumente in der Funktion `predict()` nutzen. Diese umfassen erstmal die Art des Intervalls, das wir bestimmen wollen `interval = "prediction"` und das Konfidenzniveau `level = 0.95`.
 
 
-``` r
+```r
 predict(mod, newdata = predict_data, interval = "prediction", level = 0.95)
 ```
 
@@ -1815,7 +1919,7 @@ Die Regressionssyntax, die wir nun kennengelernt haben, macht es uns einfach nic
 
 Beispielsweise könnten wir im Scatterplot einen quadratischen Zusammenhang zwischen den Variablen aufgedeckt haben. Dies kann ganz leicht mit der `poly`Funktion gemacht werden, was bewirkt, dass der lineare und der quadratische Anteil des Prädiktors unkorreliert sind. (Partnerkonflikte sind hier zufällig ausgewählt, es gibt keine Anhaltspunkte für einen quadratischen Effekt).
 
-``` r
+```r
 mod_quad <- lm(Violence ~ Exhaust + Distan + poly(PartConfl, 2), data = burnout)
 summary(mod_quad)
 ```
@@ -1831,14 +1935,21 @@ summary(mod_quad)
 ## -14.094  -3.690  -1.061   2.464  50.105 
 ## 
 ## Coefficients:
-##                     Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)         18.33085    0.28425  64.489  < 2e-16 ***
-## Exhaust              0.10630    0.01853   5.738 1.15e-08 ***
-## Distan               0.30264    0.02424  12.487  < 2e-16 ***
-## poly(PartConfl, 2)1 56.53636    6.72550   8.406  < 2e-16 ***
-## poly(PartConfl, 2)2 -5.59433    6.41044  -0.873    0.383    
+##                     Estimate Std. Error t value Pr(>|t|)
+## (Intercept)         18.33085    0.28425  64.489  < 2e-16
+## Exhaust              0.10630    0.01853   5.738 1.15e-08
+## Distan               0.30264    0.02424  12.487  < 2e-16
+## poly(PartConfl, 2)1 56.53636    6.72550   8.406  < 2e-16
+## poly(PartConfl, 2)2 -5.59433    6.41044  -0.873    0.383
+##                        
+## (Intercept)         ***
+## Exhaust             ***
+## Distan              ***
+## poly(PartConfl, 2)1 ***
+## poly(PartConfl, 2)2    
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 6.403 on 1546 degrees of freedom
 ## Multiple R-squared:  0.2893,	Adjusted R-squared:  0.2874 
@@ -1847,7 +1958,7 @@ summary(mod_quad)
 Diese beiden Modelle können wir nun auch gegeneinander testen, um zu gucken, ob es zu einem Varianzinkrement durch die Zunahme des quadratischen Effekts von Partnerkonflikten, gekommen ist:
 
 
-``` r
+```r
 # Vergleich mit Modell ohne quadratischen Trend
 summary(mod)$r.squared - summary(mod_quad)$r.squared # Inkrement
 ```
@@ -1856,7 +1967,7 @@ summary(mod)$r.squared - summary(mod_quad)$r.squared # Inkrement
 ## [1] -0.0003501168
 ```
 
-``` r
+```r
 anova(mod, mod_quad) # Signifikanztestung des Inkrements
 ```
 
@@ -1874,7 +1985,7 @@ Das Inkrement ist somit nicht signifikant.
 #### Grafische Darstellung der multiplen Regression:
 Passend zu Interaktionseffekten, wollen wir uns diese mal grafisch anschauen. Den Scatter-Plot und die lineare Trendlinie haben wir bereits bei der einfachen Regression kennengelernt. Nun erweiteren wir dies durch ein multiples Regressionsmodell, welches den Effekt eines kontinuerlichen (Neurotizismus) und eines kategorialen (Fachausrichtung: klinisch oder nicht) auf die Lebenszufriedenheit überprüfen will.
 
-``` r
+```r
 # Regressionsmodell erstellen:
 mod_g <- lm(lz ~ neuro + fach_klin, data = fb23)
 summary(mod_g)
@@ -1895,15 +2006,16 @@ summary(mod_g)
 ## neuro             -0.25936    0.08136  -3.188  0.00172 ** 
 ## fach_klinklinisch  0.02626    0.15960   0.165  0.86949    
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.025 on 162 degrees of freedom
-##   (14 observations deleted due to missingness)
+##   (14 Beobachtungen als fehlend gelöscht)
 ## Multiple R-squared:  0.05906,	Adjusted R-squared:  0.04744 
 ## F-statistic: 5.084 on 2 and 162 DF,  p-value: 0.00722
 ```
 
-``` r
+```r
 # Scatterplot erstellen
 scatter <- ggplot(fb23, aes(x = neuro, y = lz, color = fach_klin)) + 
   geom_point()
@@ -1911,13 +2023,13 @@ scatter
 ```
 
 ```
-## Warning: Removed 2 rows containing missing values or values outside the scale range
+## Warning: Removed 2 rows containing missing values
 ## (`geom_point()`).
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-79-1.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-79-1.png)<!-- -->
 
-``` r
+```r
 # Regressionsgerade aus mod_g hinzufügen
 scatter + 
   geom_abline(intercept = coef(mod_g)[1], slope = coef(mod_g)[2], 
@@ -1925,13 +2037,13 @@ scatter +
 ```
 
 ```
-## Warning: Removed 2 rows containing missing values or values outside the scale range
+## Warning: Removed 2 rows containing missing values
 ## (`geom_point()`).
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-79-2.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-79-2.png)<!-- -->
 
-``` r
+```r
 scatter + 
   geom_abline(intercept = coef(mod_g)[1], slope = coef(mod_g)[2], 
     color = '#00618F') + # Regressionsgerade für klinische Fachrichtung
@@ -1940,11 +2052,11 @@ scatter +
 ```
 
 ```
-## Warning: Removed 2 rows containing missing values or values outside the scale range
+## Warning: Removed 2 rows containing missing values
 ## (`geom_point()`).
 ```
 
-![](/workshops/refresher/refresher-day2_files/figure-html/unnamed-chunk-79-3.png)<!-- -->
+![](/refresher-day2_files/unnamed-chunk-79-3.png)<!-- -->
 Wie man hier sowohl in der Summary des Regressionsmodell sowie im Plot erkennt, findet sich kein signifikanter Einfluss der Fachausrichtung auf die Lebenszufriedenheit. Die Interaktion zwischen den beiden Prädiktoren haben wir hier allerdings noch nicht aufgenommen. Damit startet ihr dann in der ersten Mastersitzung...
 
 ***

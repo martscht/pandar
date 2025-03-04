@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'Within this post some aspects of data privacy protection will be talked about. Said aspects are necessary to ensure a minimum of data protection within your projects on LIFOS that are necessary from both a legal and ethical perspective. Some talking points include the GDPR and a checklist which you can use, to achieve a satisfactory degree of anonimity within your datasets'
 authors: [beitner] 
 weight: 4
-lastmod: '2023-10-26'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/privacy_policy.jpg"

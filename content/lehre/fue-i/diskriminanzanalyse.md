@@ -9,7 +9,7 @@ subtitle: 'Deskriptive lineare Diskriminanzanalyse'
 summary: '' 
 authors: [irmer] 
 weight: 7
-lastmod: '2024-03-12'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/three_boats.jpg"
@@ -67,20 +67,20 @@ head(Therapy)
 ```
 
 ```
-##   Lebenszufriedenheit Arbeitsbeanspruchung Depressivitaet Arbeitszufriedenheit
-## 1                   7                    4              7                    5
-## 2                   5                    5              8                    3
-## 3                   8                    7              6                    6
-## 4                   6                    4              5                    5
-## 5                   6                    9              8                    5
-## 6                   8                    7              8                    6
-##     Intervention Geschlecht
-## 1 Kontrollgruppe          0
-## 2 Kontrollgruppe          1
-## 3 Kontrollgruppe          0
-## 4 Kontrollgruppe          1
-## 5 Kontrollgruppe          1
-## 6 Kontrollgruppe          1
+##   Lebenszufriedenheit Arbeitsbeanspruchung Depressivitaet Arbeitszufriedenheit   Intervention
+## 1                   7                    4              7                    5 Kontrollgruppe
+## 2                   5                    5              8                    3 Kontrollgruppe
+## 3                   8                    7              6                    6 Kontrollgruppe
+## 4                   6                    4              5                    5 Kontrollgruppe
+## 5                   6                    9              8                    5 Kontrollgruppe
+## 6                   8                    7              8                    6 Kontrollgruppe
+##   Geschlecht
+## 1          0
+## 2          1
+## 3          0
+## 4          1
+## 5          1
+## 6          1
 ```
 
 ```r
@@ -88,8 +88,7 @@ levels(Therapy$Intervention)
 ```
 
 ```
-## [1] "Kontrollgruppe"              "VT Coaching"                
-## [3] "VT Coaching + Gruppenuebung"
+## [1] "Kontrollgruppe"              "VT Coaching"                 "VT Coaching + Gruppenuebung"
 ```
 
 ```r
@@ -108,8 +107,8 @@ colnames(Therapy) # Spaltennamen ansehen
 ```
 
 ```
-## [1] "Lebenszufriedenheit"  "Arbeitsbeanspruchung" "Depressivitaet"      
-## [4] "Arbeitszufriedenheit" "Intervention"         "Geschlecht"
+## [1] "Lebenszufriedenheit"  "Arbeitsbeanspruchung" "Depressivitaet"       "Arbeitszufriedenheit"
+## [5] "Intervention"         "Geschlecht"
 ```
 
 ```r
@@ -254,7 +253,7 @@ ggplot(data = Therapy, aes(x = DA1, y = DA2, color = Intervention)) +
   ggtitle(label = "Diskriminanzachsen", subtitle = "mit Trennlinien")
 ```
 
-![](/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/diskriminanzanalyse_files/unnamed-chunk-9-1.png)<!-- -->
 
 Was wir nun sehen, ist, dass entlang der x-Achse besonders zwischen blau/grün vs rot unterschieden wird. D.h. die erste Diskriminanzachse hilft uns, zwischen den Interventionsgruppen und der Kontrollgruppe zu unterscheiden. Die zweite Achse trennt eher zwischen den beiden Interventionsgruppen, wobei diese Trennung nicht sehr eindeutig ist.
 
@@ -265,7 +264,7 @@ Wir hätten auch einfach die `plot`-Funktion auf das `model_DA`-Objekt anwenden 
 plot(model_DA)
 ```
 
-![](/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/diskriminanzanalyse_files/unnamed-chunk-10-1.png)<!-- -->
 
 Wenn wir diesem noch Farben zuordnen (hier jeweils 30 mal die selbe Farbe, da die Gruppen so häufig hintereinander im Datensatz standen...), dann sieht diese Grafik der mit `ggplot` erzeugten Grafik recht ähnlich. Natürlich können wir auch hier die Nullpunkte einfügen:
 
@@ -276,7 +275,7 @@ abline(v = 0, lty = 3)
 abline(h = 0, lty = 3)
 ```
 
-![](/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/diskriminanzanalyse_files/unnamed-chunk-11-1.png)<!-- -->
 
 Zu guter Letzt fügen wir noch die Trennlinien, die zwischen den Gruppen unterscheiden, in die erste Grafik ein. Diese liegen immer auf halbem Weg (durchgezogenen schwarzen Linien, hier für *Kontrollgruppe* vs. *VT-Coaching + Gruppenübung*) zwischen zwei Mittelwerten pro Gruppe (gestrichelten Linien) auf den jeweiligen Achsen:
 
@@ -307,7 +306,7 @@ ggplot(data = Therapy, aes(x = DA1, y = DA2, color = Intervention)) + geom_point
         ggtitle(label = "Diskriminanzachsen", subtitle = "mit Mittelwerten pro Gruppe")
 ```
 
-![](/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/diskriminanzanalyse_files/unnamed-chunk-12-1.png)<!-- -->
 
 
 
@@ -458,11 +457,10 @@ ggplot(data = Therapy, mapping = aes(x = LZ, y = AZ, color = Intervention))+
 ```
 ## Warning: The following aesthetics were dropped during statistical transformation: colour
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in the data.
-## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical variable into
-##   a factor?
+## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical variable into a factor?
 ```
 
-![](/lehre/fue-i/diskriminanzanalyse_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/diskriminanzanalyse_files/unnamed-chunk-22-1.png)<!-- -->
  
 Wir sehen, dass die Trennlinien nicht rechtwinklig zueinander verlaufen. Dies liegt daran, dass die Achsen hier in die Originalskala retransformiert wurden. Die Gruppen werden wie folgt zugeordnet: *oben links* = `VT Coaching`, *oben rechts* = `VT Coaching + Gruppenuebung` und *unten rechts/unten* = `Kontrollgruppe`. Allerdings ist diese Zuordnung nicht sehr genau...
 

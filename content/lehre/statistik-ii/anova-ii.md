@@ -9,7 +9,7 @@ subtitle: '2-fakt. ANOVA'
 summary: ''
 authors: [irmer,scheppa-lahyani,schultze]
 weight: 9
-lastmod: '2024-05-24'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/heart_alien.jpg"
@@ -111,8 +111,8 @@ ezANOVA(data = conspiracy, wid = id, dv = ET, between = urban)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -135,8 +135,8 @@ Die Ergebnisse aus den Übungsaufgaben ergaben bezüglich des Bildungabschlusses
 
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -226,26 +226,6 @@ aggregate(conspiracy$ET, list(conspiracy$edu), mean)
 ```r
 # Mithilfe des describeBy-Befehls aus dem psych-Paket
 library(psych)
-```
-
-```
-## 
-## Attaching package: 'psych'
-```
-
-```
-## The following object is masked from 'package:car':
-## 
-##     logit
-```
-
-```
-## The following objects are masked from 'package:ggplot2':
-## 
-##     %+%, alpha
-```
-
-```r
 describeBy(conspiracy$ET, conspiracy$urban)
 ```
 
@@ -255,11 +235,11 @@ describeBy(conspiracy$ET, conspiracy$urban)
 ## group: rural
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 475 2.19 1.32   1.67    2.02 0.99   1   5     4 0.74    -0.81 0.06
-## --------------------------------------------------------------------------------------------------- 
+## ---------------------------------------------------------------------------- 
 ## group: suburban
 ##    vars    n mean  sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 1125 2.15 1.3   1.67    1.97 0.99   1   5     4 0.81    -0.65 0.04
-## --------------------------------------------------------------------------------------------------- 
+## ---------------------------------------------------------------------------- 
 ## group: urban
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 851 2.31 1.36      2    2.15 1.48   1   5     4 0.62    -0.98 0.05
@@ -275,11 +255,11 @@ describeBy(conspiracy$ET, conspiracy$edu)
 ## group: not highschool
 ##    vars    n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 1060 2.37 1.36      2    2.23 1.48   1   5     4 0.54    -1.07 0.04
-## --------------------------------------------------------------------------------------------------- 
+## ---------------------------------------------------------------------------- 
 ## group: highschool
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 433 2.44 1.36   2.33    2.32 1.98   1   5     4 0.48    -1.11 0.07
-## --------------------------------------------------------------------------------------------------- 
+## ---------------------------------------------------------------------------- 
 ## group: college
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 958 1.94 1.22   1.33    1.72 0.49   1   5     4 1.11    -0.01 0.04
@@ -321,8 +301,8 @@ ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu))
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -330,8 +310,8 @@ ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu))
 ```
 
 ```
-## Warning in ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu)): Unbalanced groups. Mean N will be used in computation of
-## FLSD
+## Warning in ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu)): Unbalanced groups. Mean N
+## will be used in computation of FLSD
 ```
 
 ```
@@ -358,8 +338,8 @@ ezPlot(conspiracy, dv = ET, wid = id, between = c(urban, edu),
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -367,11 +347,11 @@ ezPlot(conspiracy, dv = ET, wid = id, between = c(urban, edu),
 ```
 
 ```
-## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, : Unbalanced groups. Mean N will be
-## used in computation of FLSD
+## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, :
+## Unbalanced groups. Mean N will be used in computation of FLSD
 ```
 
-![](/lehre/statistik-ii/anova-ii_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](/anova-ii_files/unnamed-chunk-13-1.png)<!-- -->
 
 Die **FLSD** wird hier in Form von *Error-Bars* dargestellt - durch diese kann also abgeschätzt werden, welche Mittelwerte sich statistisch bedeutsam unterscheiden.
 
@@ -422,8 +402,8 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), detailed = TRUE)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -452,8 +432,8 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), detailed = TRUE,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -556,9 +536,7 @@ library(emmeans)
 ```
 
 ```
-## Welcome to emmeans.
-## Caution: You lose important information if you filter this package's results.
-## See '? untidy'
+## Warning: Paket 'emmeans' wurde unter R Version 4.3.2 erstellt
 ```
 
 In diesem Paket gibt es die wenig überraschend benannte `emmeans`-Funktion, mit der wir alle weiteren Analysen vorbereiten müssen:
@@ -601,7 +579,7 @@ Mittelwerte und Konfidenzintervalle können wir uns sehr einfach direkt plotten 
 plot(emm)
 ```
 
-![](/lehre/statistik-ii/anova-ii_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](/anova-ii_files/unnamed-chunk-20-1.png)<!-- -->
 
 Diese Abbildung können wir um eine Aussage über die direkten Vergleiche erweitern:
 
@@ -610,7 +588,7 @@ Diese Abbildung können wir um eine Aussage über die direkten Vergleiche erweit
 plot(emm, comparisons = TRUE)
 ```
 
-![](/lehre/statistik-ii/anova-ii_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+![](/anova-ii_files/unnamed-chunk-21-1.png)<!-- -->
 
 Die neu hinzugekommenen roten Pfeile geben uns einen Hinweis dazu, welche Gruppen sich unterscheiden. Wenn zwei rote Pfeile überlappen, gibt es keinen statistisch bedeutsamen Unterschied. Wenn Sie das nicht tun, unterscheiden sich die beiden Gruppenmittelwerte auf dem festgeleten $\alpha$-Fehlerniveau (per Voreinstellung 5%) statistisch bedeutsam.
 
@@ -621,7 +599,7 @@ Eine zweite Möglichkeit, die Ergebnisse ein wenig übersichtlicher zu gestalten
 pwpp(emm)
 ```
 
-![](/lehre/statistik-ii/anova-ii_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/anova-ii_files/unnamed-chunk-22-1.png)<!-- -->
 
 In dieser Abbildung ist auf der x-Achse der $p$-Wert des Mittelwertvergleichs dargestellt. Auf der y-Achse werden die Gruppen anhand ihrer deskriptiven Mittelwerte sortiert und abgetragen (dabei sind alle Abstände zwischen zwei Gruppen gleich groß, egal wie groß der Mittelwertsunterschied auf der abhängigen Variable tatsächlich ist). Eine Verbindung besteht immer zwischen jenen Gruppen, die auf dem jeweiligen Niveau signifikant sind (`Tuckey-adjusted P value`). Die `x`-Achse ist gestaucht dargestellt, um möglichst gut darstellen zu können, welche Gruppen sich jeweils auf welchem Niveau unterscheiden. Bspw. hat der Gruppenvergleich `urban highschool` vs. `suburban not highschool` einen `Tuckey-adjusted P value` von etwas mehr als 0.1.
 
@@ -635,7 +613,7 @@ emm1 <- emmeans(aov1, ~ urban * edu)
 plot(emm1, comparisons = TRUE) # identisch zu oben
 ```
 
-![](/lehre/statistik-ii/anova-ii_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](/anova-ii_files/unnamed-chunk-23-1.png)<!-- -->
 
 So ein `aov`-Objekt hat auch weitere Vorteile, da wir bspw. dem `ez1` Objekt nicht direkt alle Informationen, wie etwa die Residuen, entlocken können. Um einem `aov`-Objekt ähnliche Infos wie dem `ezANOVA`-Objekt zu entlocken, wird in der Regel die `summary` Funktion verwendet. Genauso können auch weitere Werte, wie bspw. die Residuen, diesem Objekt entnommen werden, was bspw. mit der `resid` Funktion geht, welche bereits auch in der letzten Sitzung zur [einfaktoriellen Varianzanalyse](anova-i) angesprochen wurden, um die Normalverteilung der Residuen zu untersuchen.
 
@@ -759,13 +737,13 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 1)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
-## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable. Hopefully you are
-## doing this for demonstration purposes only!
+## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one
+## variable. Hopefully you are doing this for demonstration purposes only!
 ```
 
 ```
@@ -782,10 +760,11 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(edu, urban), type = 1)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
-## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable. Hopefully you are
-## doing this for demonstration purposes only!
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
+
+## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one
+## variable. Hopefully you are doing this for demonstration purposes only!
 ```
 
 ```
@@ -882,8 +861,8 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 2)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -960,8 +939,8 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 3)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
-## ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```

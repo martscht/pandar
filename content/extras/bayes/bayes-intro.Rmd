@@ -34,7 +34,10 @@ output:
     keep_md: true
 ---
 
-```{r, include = FALSE, purl = FALSE}
+```{r setup, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
 knitr::opts_chunk$set(tidy = TRUE)
 library(knitr)
 library(ggplot2)

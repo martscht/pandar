@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Projekt untersuchen wir die Häufigkeit, mit der politische Parteien auf Google gesucht werden. Das heißt, dass wir uns die Entwicklung der Google-Suchanfragen seit 2004 anschauen, die von [Google Trends](https://trends.google.de/trends/?geo=DE) abgerufen werden kann. Daraus wollen wir eine Überblicksdarstellung generieren. Es wird also notwendig sein, diese Daten in R zu importieren, sie nach Bedarf umzustellen und abschließend mit dem Paket `ggplot2` darzustellen.'
 authors: [berger, mehler, rouchi]
 weight: 1
-lastmod: '2024-05-15'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/google_frogs.jpg"
@@ -53,7 +53,7 @@ Auf der Seite befindet sich ein Suchfeld, wo du den ersten Begriff eingeben und 
 
 Die Skala ist bei jeder Statistik sehr wichtig und kann fehlinterpretiert werden. Daher ist es sehr wichtig, dass du dich mit der Skala dieses Datensatzes befasst. Über jeder Abbildung befindet sich ein <i class="far fa-question-circle"></i> , wo die Skala erklärt wird. Hier wird jeder Punkt im Bezug zum höchsten Punkt dargestellt. Als wir diese Seite erstellt haben, sah das Ergebnis der Suche unseres Beispiels so aus:
 
-![](/projekte/projekt2/affe_giraffe.png)
+![](affe_giraffe.png)
 
 Das heißt also, dass bei uns der Suchbegriff *Affe* in der Woche vom 23. zum 29. Dezember den Maximalwert erreicht hat, und der Begriff *Giraffe* nur auf 48% dieser Menge von Suchanfragen gekommen ist. Je nach Bezugspunkt ändern sich also die Werte. Das ist sehr wichtig, wenn man verschiedene dieser Datensätze vergleichen will.
 
@@ -496,7 +496,7 @@ ggplot(data = c_long, aes(x = Monat, y = Prozent, group = Partei)) +
   ggtitle('Suchanfragen')                # Überschrift
 ```
 
-![](/projekte/projekt2/google-trends_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+![](/google-trends_files/unnamed-chunk-21-1.png)<!-- -->
 
 </details>
 
@@ -638,7 +638,7 @@ ggplot(data = c_long, aes(x = nMonat, y = Prozent, group = Partei)) +
   ggtitle('Suchanfragen')                # Überschrift
 ```
 
-![](/projekte/projekt2/google-trends_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+![](/google-trends_files/unnamed-chunk-29-1.png)<!-- -->
 
 Um bestimmte Abschnitte näher unter die Lupe zu nehmen, können wir jetzt Anhand der Zeitvariable spezifische Auswahlen treffen. Wenn wir uns z.B. den Zeitraum um die Bundestagswahl von 2013 näher angucken möchten, können wir uns auf die Jahre zwischen 2012 und 2014 konzentrieren:
 
@@ -653,7 +653,7 @@ ggplot(data = wahl_2013, aes(x = nMonat, y = Prozent, group = Partei)) +
   ggtitle('Suchanfragen')                # Überschrift
 ```
 
-![](/projekte/projekt2/google-trends_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+![](/google-trends_files/unnamed-chunk-30-1.png)<!-- -->
 
 Ein weiteres Manko bei diesen Abbildungen sind die verwirrenden Farben. In Deutschland gibt es ein relativ konsistent genutzes Schema, nach dem die [politische Parteien durch bestimmte Farben dargestellt werden](https://de.wikipedia.org/wiki/Politische_Farbe). Wir können dieses Schema auch in unserer Abbildungen nutzen, wenn wir die Farben per Hand vergeben und dann mit `scale_color_manual` in unseren Plot aufnehmen:
 
@@ -671,7 +671,7 @@ ggplot(data = wahl_2013, aes(x = nMonat, y = Prozent, group = Partei)) +
   scale_color_manual(values = farben)
 ```
 
-![](/projekte/projekt2/google-trends_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](/google-trends_files/unnamed-chunk-31-1.png)<!-- -->
 
 </details>
 

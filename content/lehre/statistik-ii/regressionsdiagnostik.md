@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [irmer, hartig, nehler, sajjad]
 weight: 6
-lastmod: '2024-05-28'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/glider.jpg"
@@ -169,7 +169,7 @@ library(car) # Paket mit einigen Funktionen zur Regressionsdiagnostik
 avPlots(model = mod, pch = 16, lwd = 4)
 ```
 
-![](/lehre/statistik-ii/regressionsdiagnostik_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-6-1.png)<!-- -->
 
 Mit Hilfe der Argumente `pch=16` und `lwd=4` werden die Darstellung der Punkte (ausgefüllt anstatt leer) sowie die Dicke der Linie (vierfache Dicke) manipuliert. Den Achsenbeschriftungen ist zu entnehmen, dass auf der y-Achse jeweils *reading* | *others* dargestellt ist. Die vertikale Linie | steht hierbei für den mathematischen Ausdruck *gegeben*. *Others* steht hierbei für alle weiteren (anderen) Prädiktoren im Modell. Dies bedeutet, dass es sich hierbei um die Residuen aus der Regression von *reading* auf alle anderen Prädiktoren handelt. Bei den unabhängigen Variablen (*UV*, also `female` und `IQ`) steht *UV* | *others* also jeweils für die jeweilige UV gegeben der anderen UVs im Modell. Somit beschreiben die beiden Plots jeweils die Beziehungen, die die UVs über die anderen UVs im Modell hinaus mit dem Kriterium (AV, abhängige Variable) haben. Wir sehen, dass die Prüfung der Linearität für die dummykodierte Variable Geschlecht wenig sinnvoll ist. Für die intervallskalierte Variable `IQ` ist die Prüfung sinnvoll - hier zeigt die Grafik, dass die lineare Funktion der Verteilung der Daten gut gerecht wird.
 
@@ -187,11 +187,11 @@ Bezüglich der grafischen Darstellung erzeugt die Funktion `residualPlots` des P
 residualPlots(mod, pch = 16)
 ```
 
-<img src="/lehre/statistik-ii/regressionsdiagnostik_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+<img src="/regressionsdiagnostik_files/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 ```
 ##            Test stat Pr(>|Test stat|)
-## female        0.0207           0.9835
+## female        0.0340           0.9730
 ## IQ            1.4015           0.1643
 ## Tukey test    0.5234           0.6007
 ```
@@ -252,14 +252,14 @@ ggplot(data = df_res, aes(x = res)) +
      labs(title = "Histogramm der Residuen mit Normalverteilungsdichte", x = "Residuen") # Füge eigenen Titel und Achsenbeschriftung hinzu
 ```
 
-![](/lehre/statistik-ii/regressionsdiagnostik_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-10-1.png)<!-- -->
 
 ```r
 # Grafisch: Q-Q-Diagramm mit der Funktion qqPlot aus dem Paket car
 qqPlot(mod, pch = 16, distribution = "norm")
 ```
 
-![](/lehre/statistik-ii/regressionsdiagnostik_files/figure-html/unnamed-chunk-10-2.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-10-2.png)<!-- -->
 
 ```
 ## [1]  6 33
@@ -366,7 +366,7 @@ ggplot(data = df_h, aes(x = h)) +
   geom_vline(xintercept = 4/n, col = "red") # Cut-off bei 4/n
 ```
 
-![](/lehre/statistik-ii/regressionsdiagnostik_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-14-1.png)<!-- -->
 
 *Cook's Distanz* $CD_i$ gibt eine Schätzung, wie stark sich die Regressionsgewichte verändern, wenn eine Person $i$ aus dem Datensatz entfernt wird. Fälle, deren Elimination zu einer deutlichen Veränderung der Ergebnisse führen würden, sollten kritisch geprüft werden. Als einfache Daumenregel gilt, dass $CD_i>1$ auf einen einflussreichen Datenpunkt hinweist. Cook's Distanz kann mit der Funktion `cooks.distance` ermittelt werden.
 
@@ -382,7 +382,7 @@ ggplot(data = df_CD, aes(x = CD)) +
   geom_vline(xintercept = 1, col = "red") # Cut-Off bei 1
 ```
 
-![](/lehre/statistik-ii/regressionsdiagnostik_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-15-1.png)<!-- -->
 
 Die Funktion `influencePlot` des `car`-Paktes erzeugt ein "Blasendiagramm" zur simultanen grafischen Darstellung von Hebelwerten (auf der x-Achse), studentisierten Residuen (auf der y-Achse) und Cooks Distanz (als Größe der Blasen). Vertikale Bezugslinien markieren das Doppelte und Dreifache des durchschnittlichen Hebelwertes, horizontale Bezugslinien die Werte -2, 0 und 2 auf der Skala der studentisierten Residuen. Fälle, die nach einem der drei Kriterien als Ausreißer identifiziert werden, werden im Streudiagramm durch ihre Zeilennummer gekennzeichnet. Diese Zeilennummern können verwendet werden, um sich die Daten der auffälligen Fälle anzeigen zu lassen. Sie werden durch `InfPlot` ausgegeben werden. Auf diese kann durch `as.numeric(row.names(InfPlot))` zugegriffen werden.
 
@@ -391,7 +391,7 @@ Die Funktion `influencePlot` des `car`-Paktes erzeugt ein "Blasendiagramm" zur s
 InfPlot <- influencePlot(mod)
 ```
 
-![](/lehre/statistik-ii/regressionsdiagnostik_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-16-1.png)<!-- -->
 
 ```r
 IDs <- as.numeric(row.names(InfPlot))
@@ -491,7 +491,7 @@ ggplot(data = df, aes(x = Depressivitaet, y = Lebenszufriedenheit, group = Messf
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](/lehre/statistik-ii/regressionsdiagnostik_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-19-1.png)<!-- -->
 
 Aus dem Plot können wir erkennen, dass die Anwesenheit eines Messfehlers in der unabhängigen Variablen, also der Depressivität, dazu führt, dass die Datenpunkte aufgrund der Ungenauigkeit in der Erfassung um die Regressionslinie streuen. Dieser Effekt tritt nicht auf, wenn die Depressivität fehlerfrei gemessen wird. Der Messfehler hat auch Auswirkungen auf die Schätzung der Regressionsgewichte:
 
@@ -507,18 +507,18 @@ summary(lm(Lebenszufriedenheit~Depressivitaet)) # Ohne Messfehler
 ## 
 ## Residuals:
 ##        Min         1Q     Median         3Q        Max 
-## -2.795e-16 -2.730e-17 -1.670e-17 -6.800e-18  4.276e-15 
+## -1.592e-16 -1.811e-17 -3.960e-18  1.391e-17  8.235e-16 
 ## 
 ## Coefficients:
-##                  Estimate Std. Error   t value Pr(>|t|)    
-## (Intercept)    -7.022e-18  1.741e-17 -4.03e-01    0.687    
-## Depressivitaet -5.000e-01  1.812e-17 -2.76e+16   <2e-16 ***
+##                  Estimate Std. Error    t value Pr(>|t|)    
+## (Intercept)    -1.755e-18  4.049e-18 -4.340e-01    0.665    
+## Depressivitaet -5.000e-01  4.214e-18 -1.187e+17   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.752e-16 on 248 degrees of freedom
+## Residual standard error: 6.4e-17 on 248 degrees of freedom
 ## Multiple R-squared:      1,	Adjusted R-squared:      1 
-## F-statistic: 7.618e+32 on 1 and 248 DF,  p-value: < 2.2e-16
+## F-statistic: 1.408e+34 on 1 and 248 DF,  p-value: < 2.2e-16
 ```
 
 ```r
@@ -552,9 +552,9 @@ confint(lm(Lebenszufriedenheit~Depressivitaet))  # Ohne Messfehler
 ```
 
 ```
-##                        2.5 %        97.5 %
-## (Intercept)    -4.130616e-17  2.726283e-17
-## Depressivitaet -5.000000e-01 -5.000000e-01
+##                        2.5 %       97.5 %
+## (Intercept)    -9.730364e-18  6.21953e-18
+## Depressivitaet -5.000000e-01 -5.00000e-01
 ```
 
 ```r
@@ -776,7 +776,7 @@ X <- rgamma(n = n, shape = .7, rate = 1)
 hist(X) # recht schief
 ```
 
-![](/lehre/statistik-ii/regressionsdiagnostik_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-26-1.png)<!-- -->
 
 ```r
 # simuliere eps~norm
@@ -822,7 +822,7 @@ ggplot(data = df, mapping = aes(x = X, y = Y)) + geom_point() +
   geom_smooth(method = "lm", formula = "y~x")
 ```
 
-![](/lehre/statistik-ii/regressionsdiagnostik_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-27-1.png)<!-- -->
 
 Diesem Plot entnehmen wir sehr deutlich, dass die Unsicherheit bezüglich der Vorhersage von $Y$ (nämlich $\hat{Y}$) für große $X$ viel größer ausfällt, als für mittlere (oder kleine) $X$. Um den Fehler der Vorhersage genauer zu untersuchen, benötigen wir den Vorhersagefehler, also das Residuum. Um dieses über Studien hinweg immer gleich interpretieren zu können, muss dieses normiert werden. Wir wollen, dass es eine Varianz von 1 hat. Wenn Sie in [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) die Seiten 709 bis 710 durcharbeiten, lernen Sie standardisierte und studentisierte Residuen kennen. Diese Definition weicht etwas von der Definition der standardisierten und studentisierten Residuen aus dem `MASS`-Paket ab. In [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) wird das *standardisierte Residuum* so definiert, dass das Residuum einfach durch seine Standardabweichung geteilt wird:
 
@@ -893,7 +893,7 @@ ggplot(data = df, mapping = aes(x = X, y = Y)) + geom_point() +
   geom_point(mapping = aes(x = Xmax, y = Y_pred_Xmax), cex = 4, col = "gold3")
 ```
 
-![](/lehre/statistik-ii/regressionsdiagnostik_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-29-1.png)<!-- -->
 
 Der gelbe Punkt liegt genau auf der Gerade - super!
 

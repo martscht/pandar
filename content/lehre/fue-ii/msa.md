@@ -9,7 +9,7 @@ subtitle: 'Multi Sample Analysis (MSA)'
 summary: '' 
 authors: [irmer, schultze] 
 weight: 5
-lastmod: '2024-03-16'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/work_desktop.jpg"
@@ -89,7 +89,7 @@ semPaths(object = fit_sem,  what = "model", layout = "tree2",
          curvePivot = T,  edge.label.cex=1.2, sizeMan = 5, sizeLat = 8)
 ```
 
-<img src="/lehre/fue-ii/msa_files/figure-html/exercise_graph_sem1-1.png" style="display: block; margin: auto;" />
+<img src="/msa_files/exercise_graph_sem1-1.png" style="display: block; margin: auto;" />
 
 
 Wenn wir die Variable Geschlecht als Gruppierung verwenden, können wir die Invarianz der Parameter über das Geschlecht untersuchen. Um die Gruppierung in das Modell mit aufzunehmen, können wir in `sem` einfach dem Argument `group` den Namen der Gruppierungsvariable übergeben (hierbei sind die "Gänsefüßchen" wichtig!).
@@ -166,7 +166,9 @@ Wenn wir uns jetzt die Ergebnisse des Modells etwas genauer ansehen, erhalten wi
 ##    .bo6               2.258    0.095   23.659    0.000
 ##    .bo12              2.262    0.101   22.418    0.000
 ##    .bo19              2.582    0.108   23.905    0.000
-##    .BFs               2.486    0.050   49.238    0.000 
+##    .BFs               2.486    0.050   49.238    0.000
+##     ZD                0.000                           
+##    .BOEE              0.000                            
 ## [...]
 ```
 
@@ -203,7 +205,9 @@ Wenn wir uns jetzt die Ergebnisse des Modells etwas genauer ansehen, erhalten wi
 ##    .bo6               2.138    0.155   13.803    0.000
 ##    .bo12              2.188    0.166   13.184    0.000
 ##    .bo19              2.475    0.172   14.366    0.000
-##    .BFs               2.176    0.078   28.072    0.000 
+##    .BFs               2.176    0.078   28.072    0.000
+##     ZD                0.000                           
+##    .BOEE              0.000                            
 ## [...]
 ```
 
@@ -287,7 +291,7 @@ semPaths(object = fit_sem_IE_TE_MSA, what = "est", layout = "tree2",
          curvePivot = T,  edge.label.cex=1, sizeMan = 5, sizeLat = 8, fade = F)
 ```
 
-<img src="/lehre/fue-ii/msa_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /><img src="/lehre/fue-ii/msa_files/figure-html/unnamed-chunk-12-2.png" style="display: block; margin: auto;" />
+<img src="/msa_files/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /><img src="/msa_files/unnamed-chunk-12-2.png" style="display: block; margin: auto;" />
 
 Die totalen und die indirekten Effekte müssten in einer wissenschaftlichen Untersuchung erneut mithilfe von Bootstrapping inferenzstatistisch geprüft werden. Diesen Schritt überlassen wir an dieser Stelle dem/der aufmerksamen Leser/in. Auch können die indirekten Effekte bspw. gegeneinander untersucht werden via Bootstrapping, indem die Differenz der Effekte als neuer Parameter definiert wird. Allerdings können wir auch mittels des $\chi^2$-Tests einen "richtigen" Invarianztest durchführen. Das schauen wir uns im Folgenden genauer an.
 
@@ -566,7 +570,9 @@ summary(fit_sem_sex_skalar, fit.measures = T)
 ##    .bo6     (.25.)    2.240    0.092   24.481    0.000
 ##    .bo12    (.26.)    2.259    0.097   23.304    0.000
 ##    .bo19    (.27.)    2.570    0.104   24.790    0.000
-##    .BFs               2.486    0.050   49.238    0.000 
+##    .BFs               2.486    0.050   49.238    0.000
+##     ZD                0.000                           
+##    .BOEE              0.000                            
 ## [...]
 ```
 
@@ -738,7 +744,9 @@ summary(fit_sem_sex_strikt)
 ##    .bo6     (.25.)    2.242    0.092   24.477    0.000
 ##    .bo12    (.26.)    2.259    0.097   23.306    0.000
 ##    .bo19    (.27.)    2.572    0.104   24.811    0.000
-##    .BFs               2.486    0.050   49.238    0.000 
+##    .BFs               2.486    0.050   49.238    0.000
+##     ZD                0.000                           
+##    .BOEE              0.000                            
 ## [...]
 ```
 
@@ -793,7 +801,7 @@ semPaths(object = fit_sem_sex_strikt, what = "est", layout = "tree2",
          curvePivot = T,  edge.label.cex=1, sizeMan = 5, sizeLat = 8)
 ```
 
-<img src="/lehre/fue-ii/msa_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" /><img src="/lehre/fue-ii/msa_files/figure-html/unnamed-chunk-33-2.png" style="display: block; margin: auto;" />
+<img src="/msa_files/unnamed-chunk-33-1.png" style="display: block; margin: auto;" /><img src="/msa_files/unnamed-chunk-33-2.png" style="display: block; margin: auto;" />
 
 Wir erkennen deutlich, dass einige Koeffizienten gleich sind und bspw. der Mittelwert von `ZD` in einer Gruppe auf 0 ist (kein Pfeil) und in der zweiten Gruppe bei -0.29 liegt. Wenn wir hier `what = "model"` wählen, können wir das Modell mit allen Gleichsetzungen betrachten.
 
@@ -1010,7 +1018,7 @@ summary(reg)
 
 Grafisch sehen wir, dass sich die Regressionsgerade über die Gruppen hinweg nur geringfügig unterscheiden (signifikant war der Unterschied nicht!). Allerdings ist dies eine gängige Form eine solche Interaktion darzustellen:
 
-![](/lehre/fue-ii/msa_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
+![](/msa_files/unnamed-chunk-46-1.png)<!-- -->
 
 Abgetragen sehen wir auch die Gruppenunterschiede. Wirklich erkennen tun wir nur ein leichten (nicht signifikanten) Unterschied im Interzept. Der Unterschied in der Slope (der ebenfalls nicht signifikant war), lässt sich höchstens erahnen. Diese Darstellungsform wird Simple Slopes genannt. Für mehr Informationen dazu und wie man das Ganze noch in 3D darstellen kann, können sich Interessierte in der Sitzung zur [moderierten Regression](/lehre/statistik-ii/regression-iv) aus dem Bachelor ansehen/wiederholen. Wir bitten ebenfalls darauf zu achten, dass i.d.R. Prädiktoren zentriert werden sollten, wenn mit Interaktionseffekten oder quadratischen Effekten gearbeitet wird. Dies haben wir hier nicht berücksichtigt, um die Sitzung nicht in die Länge zu ziehen. 
 

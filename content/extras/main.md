@@ -20,7 +20,18 @@ sections:
           filename: header/pink-sparkle.jpg
         text_color_light: true
       columns: 2
-      
+   
+   
+  - block: markdown
+    id: dynamic
+    content:
+      title: DYNAMIC
+      subtitle:  The Dynamic Network Approach of Mental Health to Stimulate Innovations for Interventions and Change
+      text: Here, the methodological consulting of the [DYNAMIC](https://www.dynamic-center.net/) project presents frequently asked questions. These are categorized by research design:&nbsp;cross-sectional studies as well as longitudinal approaches (including panel studies and high-frequency measurements).
+        {{< category_list "dynamic" 2 >}}
+
+    design:
+      columns: 2      
       
   - block: markdown
     id: git
@@ -33,9 +44,6 @@ sections:
 
     design:
       columns: 2
-      
-
-
 
   - block: markdown
     id: bayes
@@ -47,6 +55,7 @@ sections:
 
     design:
       columns: 2
+      
   # 
   # 
   # 
@@ -54,7 +63,7 @@ sections:
   #   id: stuart
   #   content:
   #     title: Stuart
-  #     subtitle:  Stuart
+  #     subtitle:  Stuart?
   #     text: Stuart!
   #       {{< category_list "stuart" 4 >}}
   # 

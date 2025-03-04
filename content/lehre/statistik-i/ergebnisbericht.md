@@ -10,7 +10,7 @@ subtitle: ''
 summary: 'In diesem Bericht erhalten Sie Informationen zu dem Ergebnisbericht, den Sie im Rahmen des Statistik-Praktikums erstellen. Neben allgemeinen Hinweisen zu der Berichtgestaltung wird Ihnen der Aufbau eines Ergebnisbericht vorgestellt. Auf jeden Abschnitt, den Ihr Ergebnisbericht haben soll, wird dann noch einmal genauer eingegangen. Unter anderem wird die sogenannte CRediT Taxonomy erläutert, mit der Sie die konkreten Beiträge der einzelnen Gruppenmitglieder deutlich machen sollen. Zuletzt werden Ihnen einige Hinweise dazu gegeben, wie Sie Tabellen und Abbildungen APA-konform gestalten.'
 authors: [schueller, beitner, schreiner, nehler]
 weight: 12
-lastmod: '2024-04-02'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"

@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [buchholz, schultze] 
 weight: 3
-lastmod: '2024-05-24'
+lastmod: '2025-02-17'
 featured: no
 banner:
   image: "/header/jar_potpourri.jpg"
@@ -22,7 +22,7 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /workshops/ggplotting/ggplotpouri
+    url: /workshops/ggplotting/ggplotpourri
   - icon_pack: fas
     icon: terminal
     name: Code
@@ -86,7 +86,7 @@ ggplot(df, aes(x=software, y=count)) +
   geom_col() 
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](/ggplotpourri_files/unnamed-chunk-2-1.png)<!-- -->
 
 Diese Darstellung lässt sich noch optimieren. Statt der Achsenbeschriftung beschriften wir die Balken selbst mit dem Logo der Software! Zum Einlesen der Bilddateien nutzen wir das Paket `magick`, zur Integration von Bilddateien in ggplots kann das Paket `cowplot` verwendet werden.
 
@@ -97,41 +97,10 @@ library(cowplot)
 
 # Software-Logos herunterladen und einlesen (Funktion aus dem Paket magick)
 r <- image_read("https://www.r-project.org/logo/Rlogo.svg")
-```
-
-```
-## Warning: ImageMagick was built without librsvg which causes poor qualty of SVG rendering.
-## For better results use image_read_svg() which uses the rsvg package.
-```
-
-```r
 excel <- image_read("https://upload.wikimedia.org/wikipedia/commons/8/8d/Microsoft_Excel_Logo_%282013-2019%29.svg")
-```
-
-```
-## Warning: ImageMagick was built without librsvg which causes poor qualty of SVG rendering.
-## For better results use image_read_svg() which uses the rsvg package.
-```
-
-```r
 python <- image_read("https://upload.wikimedia.org/wikipedia/commons/f/f8/Python_logo_and_wordmark.svg")
-```
-
-```
-## Warning: ImageMagick was built without librsvg which causes poor qualty of SVG rendering.
-## For better results use image_read_svg() which uses the rsvg package.
-```
-
-```r
 stata <- image_read("https://upload.wikimedia.org/wikipedia/commons/5/5c/Stata_Logo.svg")
-```
 
-```
-## Warning: ImageMagick was built without librsvg which causes poor qualty of SVG rendering.
-## For better results use image_read_svg() which uses the rsvg package.
-```
-
-```r
 # ggplot-Befehl zur Erstellung der "nackten" Grafik 
 ggplot(df, aes(x=software, y=count)) +
   geom_col() +
@@ -152,7 +121,7 @@ ggdraw(plot) +
   draw_plot(plot)
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](/ggplotpourri_files/unnamed-chunk-3-1.png)<!-- -->
 
 
 ## Noch ein Balkendiagramm {#balken2}
@@ -206,7 +175,7 @@ edu_exp_long |>
   theme_classic()
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](/ggplotpourri_files/unnamed-chunk-5-1.png)<!-- -->
 
 
 ## Histogramm {#histogramm}
@@ -216,7 +185,20 @@ Die Verteilung des Einkommens (GDP/Person) soll für das Jahr 2016 dargestellt w
 
 ```r
 library(ggthemes)
+```
 
+```
+## 
+## Attache Paket: 'ggthemes'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:cowplot':
+## 
+##     theme_map
+```
+
+```r
 edu_exp |>
   subset(edu_exp$Year == 2016) |>
   ggplot(aes(x = Income)) +
@@ -233,7 +215,7 @@ edu_exp |>
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/ggplotpourri_files/unnamed-chunk-6-1.png)<!-- -->
 
 ## Boxplot {#boxplot}
 
@@ -257,7 +239,7 @@ edu_exp |>
   theme_fivethirtyeight()
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](/ggplotpourri_files/unnamed-chunk-7-1.png)<!-- -->
 
 ## Violin Plot {#violin}
 
@@ -284,7 +266,7 @@ edu_exp |>
   theme_fivethirtyeight()
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](/ggplotpourri_files/unnamed-chunk-8-1.png)<!-- -->
 
 ## Ridgeline Plot {#ridgeline}
 
@@ -314,7 +296,7 @@ edu_exp |>
 ## Picking joint bandwidth of 4590
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/ggplotpourri_files/unnamed-chunk-9-1.png)<!-- -->
 
 
 ## Torten und Donuts {#torten}
@@ -377,7 +359,7 @@ bar <- ggplot(spain,
 bar
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/stacked-bar-1.png)<!-- -->
+![](/ggplotpourri_files/stacked-bar-1.png)<!-- -->
 
 Wir nutzen statt des `theme_pandar()` hier `theme_void()`, um den Plot von Achsen und anderen Kennzeichnungen zu befreien. `color = 'white'` setze ich hier, um eine sauber aussehende Grenze zwischen den Abschnitten herzustellen.
 
@@ -389,7 +371,7 @@ pie <- bar + coord_polar("y")
 pie
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/simple-pie-1.png)<!-- -->
+![](/ggplotpourri_files/simple-pie-1.png)<!-- -->
 
 Jetzt können wir über `geom_text` noch die Prozente in die Abschnitte eintragen. Dabei müssen wir nur ordentliche Positionen für die Labels bestimmen. Ich setze diese einfach mal in die Mitte. Danach erzeugen wir noch die Prozentzahlen und `paste`n sie mit dem Prozentzeichen zusammen. Das sollte für unsere Label genügen.
 
@@ -412,7 +394,7 @@ pie <- pie +
 pie
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/fancy-pie-1.png)<!-- -->
+![](/ggplotpourri_files/fancy-pie-1.png)<!-- -->
 
 Um aus diesem Kuchen jetzt einen Donut zu machen, müssen wir nur das mittlere Stück herausnehmen, indem wir die x-Achse in eine Region erweitern, in die unser `geom_rect()` nicht reicht.
 
@@ -421,14 +403,14 @@ Um aus diesem Kuchen jetzt einen Donut zu machen, müssen wir nur das mittlere S
 pie + xlim(c(1, 3))
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/donut-1.png)<!-- -->
+![](/ggplotpourri_files/donut-1.png)<!-- -->
 
 
 ## Bubble Chart {#bubble}
 
 In Übung 1 sollten Sie [diese](https://www.gapminder.org/tools/#$model$markers$bubble$encoding$frame$value=2015;;;;;&chart-type=bubbles&url=v1) auf [gapminder.org](https://www.gapminder.org) erzeugte Grafik nachbasteln:
 
-![](/workshops/ggplotting/ggplotting-gapminder-original.png)
+![](ggplotting-gapminder-original.png)
 
 
 Die Variablen liegen alle im `edu_exp`-Datensatz vor. Allerdings sieht die ggplot-Grafik ohne Anpassungen wie folgt aus: 
@@ -441,7 +423,7 @@ edu_exp |>
   geom_point() 
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/ggplotpourri_files/unnamed-chunk-14-1.png)<!-- -->
 
 Zunächst wird der Datensatz noch so sortiert, dass kleine Länder "hinten" stehen und "zuletzt" ins Plot kommen, also vorne (unverdeckt) zu sehen sind. Außerdem hinterlege ich schon mal die vier Farben als rgb-Vektor, nachdem ich sie mit gimp "gemessen" hatte.   
 
@@ -503,7 +485,7 @@ edu_exp |>
 
 Die Grafik ohne Legende sieht nun so aus: 
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](/ggplotpourri_files/unnamed-chunk-17-1.png)<!-- -->
 
 Um die Legende für die Farben (Weltregionen) anzufügen, habe ich einen Screenshot der Weltkarte von der gapminder-Webseite gemacht und als Bilddatei gespeichert ("5_gapminder-map.png"). Diese lese ich nun mit der `image_read()`-Funktion aus dem Paket `magick` ein. Anschließend füge ich sie "oben rechts" (x = 1, y = .95) in das zuvor erzeugte ggplot ein. Dafür verwende ich wieder die Funktion `draw_image()` aus dem Paket `cowplot`.
 
@@ -519,7 +501,7 @@ ggdraw(plot_ohne_Legende) +
   draw_image(weltkarte, x = 1, y = .95, hjust = 1, vjust = 1, halign = 1, valign = 1, width = .2)
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](/ggplotpourri_files/unnamed-chunk-18-1.png)<!-- -->
 
 Und schließlich können wir die Grafik auch noch animieren, sodass sie dem Vorbild auf [www.gapminder.org]() sogar noch ähnlicher wird. Leider scheinen sich `cowplot` und `gganimate` nicht so gut zu vertragen - daher muss ich die Farblegende rechts weglassen. Ansonsten kann ich den Code der statischen Grafik oben weitgehend übernehmen; lediglich die folgenden Dinge musste ich entfernen: 
 
@@ -565,7 +547,7 @@ animate(anim, start_pause = 20, end_pause = 20,
         height = 15, width = 30, units = "cm", res = 300)
 ```
 
-![](/workshops/ggplotting/ggplotting-Bubble-Chart.gif)
+![](ggplotting-Bubble-Chart.gif)
 
 
 ## Karten {#karten}
@@ -598,7 +580,7 @@ ggplot(welt, aes(x = long, y = lat, group = group)) +
   geom_polygon()
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/ggplotpourri_files/unnamed-chunk-22-1.png)<!-- -->
 
 Wie man sieht, hat dieser Plot die gleichen Eigenschaften wie normale `ggplot`s - weil es ein ganz normaler Plot ist. Um einzelne Länder erkennen zu können, sollten wir z.B. die Länder weiß und nicht schwarz füllen. Außerdem brauchen wir nicht unbedingt x- und y-Achse, sodass wir das komplett leere Theme `theme_void` nutzen können:
 
@@ -609,7 +591,7 @@ ggplot(welt, aes(x = long, y = lat, group = group)) +
   theme_void()
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](/ggplotpourri_files/unnamed-chunk-23-1.png)<!-- -->
 
 Um die Karten-Daten mit den Daten in Verbindung zu bringen steht uns leider - wie so häufig - im Weg, dass die Daten nicht einheitlich kodiert wurden. In diesem Fall sind es die Benennungen der Länder, die uneinheitlich sind. Um herauszufinden, wo Unterschiede bestehen, können wir die normalen Operatoren der Mengenvergleiche in R nutzen:
 
@@ -619,30 +601,78 @@ setdiff(unique(welt$region), unique(edu_exp$Country))
 ```
 
 ```
-##  [1] "Aruba"                               "Anguilla"                            "United Arab Emirates"               
-##  [4] "American Samoa"                      "Antarctica"                          "French Southern and Antarctic Lands"
-##  [7] "Antigua"                             "Barbuda"                             "Saint Barthelemy"                   
-## [10] "Bermuda"                             "Ivory Coast"                         "Democratic Republic of the Congo"   
-## [13] "Republic of Congo"                   "Cook Islands"                        "Curacao"                            
-## [16] "Cayman Islands"                      "Canary Islands"                      "Falkland Islands"                   
-## [19] "Reunion"                             "Mayotte"                             "French Guiana"                      
-## [22] "Martinique"                          "Guadeloupe"                          "Faroe Islands"                      
-## [25] "Micronesia"                          "Guernsey"                            "Greenland"                          
-## [28] "Guam"                                "Heard Island"                        "Isle of Man"                        
-## [31] "Cocos Islands"                       "Christmas Island"                    "Chagos Archipelago"                 
-## [34] "Jersey"                              "Siachen Glacier"                     "Kyrgyzstan"                         
-## [37] "Nevis"                               "Saint Kitts"                         "Kosovo"                             
-## [40] "Laos"                                "Saint Lucia"                         "Saint Martin"                       
-## [43] "Northern Mariana Islands"            "Montserrat"                          "New Caledonia"                      
-## [46] "Norfolk Island"                      "Niue"                                "Bonaire"                            
-## [49] "Sint Eustatius"                      "Saba"                                "Pitcairn Islands"                   
-## [52] "Puerto Rico"                         "Madeira Islands"                     "Azores"                             
-## [55] "French Polynesia"                    "Western Sahara"                      "South Sandwich Islands"             
-## [58] "South Georgia"                       "Saint Helena"                        "Ascension Island"                   
-## [61] "Saint Pierre and Miquelon"           "Slovakia"                            "Swaziland"                          
-## [64] "Sint Maarten"                        "Turks and Caicos Islands"            "Trinidad"                           
-## [67] "Tobago"                              "Vatican"                             "Grenadines"                         
-## [70] "Saint Vincent"                       "Virgin Islands"                      "Wallis and Futuna"
+##  [1] "Aruba"                              
+##  [2] "Anguilla"                           
+##  [3] "United Arab Emirates"               
+##  [4] "American Samoa"                     
+##  [5] "Antarctica"                         
+##  [6] "French Southern and Antarctic Lands"
+##  [7] "Antigua"                            
+##  [8] "Barbuda"                            
+##  [9] "Saint Barthelemy"                   
+## [10] "Bermuda"                            
+## [11] "Ivory Coast"                        
+## [12] "Democratic Republic of the Congo"   
+## [13] "Republic of Congo"                  
+## [14] "Cook Islands"                       
+## [15] "Curacao"                            
+## [16] "Cayman Islands"                     
+## [17] "Canary Islands"                     
+## [18] "Falkland Islands"                   
+## [19] "Reunion"                            
+## [20] "Mayotte"                            
+## [21] "French Guiana"                      
+## [22] "Martinique"                         
+## [23] "Guadeloupe"                         
+## [24] "Faroe Islands"                      
+## [25] "Micronesia"                         
+## [26] "Guernsey"                           
+## [27] "Greenland"                          
+## [28] "Guam"                               
+## [29] "Heard Island"                       
+## [30] "Isle of Man"                        
+## [31] "Cocos Islands"                      
+## [32] "Christmas Island"                   
+## [33] "Chagos Archipelago"                 
+## [34] "Jersey"                             
+## [35] "Siachen Glacier"                    
+## [36] "Kyrgyzstan"                         
+## [37] "Nevis"                              
+## [38] "Saint Kitts"                        
+## [39] "Kosovo"                             
+## [40] "Laos"                               
+## [41] "Saint Lucia"                        
+## [42] "Saint Martin"                       
+## [43] "Northern Mariana Islands"           
+## [44] "Montserrat"                         
+## [45] "New Caledonia"                      
+## [46] "Norfolk Island"                     
+## [47] "Niue"                               
+## [48] "Bonaire"                            
+## [49] "Sint Eustatius"                     
+## [50] "Saba"                               
+## [51] "Pitcairn Islands"                   
+## [52] "Puerto Rico"                        
+## [53] "Madeira Islands"                    
+## [54] "Azores"                             
+## [55] "French Polynesia"                   
+## [56] "Western Sahara"                     
+## [57] "South Sandwich Islands"             
+## [58] "South Georgia"                      
+## [59] "Saint Helena"                       
+## [60] "Ascension Island"                   
+## [61] "Saint Pierre and Miquelon"          
+## [62] "Slovakia"                           
+## [63] "Swaziland"                          
+## [64] "Sint Maarten"                       
+## [65] "Turks and Caicos Islands"           
+## [66] "Trinidad"                           
+## [67] "Tobago"                             
+## [68] "Vatican"                            
+## [69] "Grenadines"                         
+## [70] "Saint Vincent"                      
+## [71] "Virgin Islands"                     
+## [72] "Wallis and Futuna"
 ```
 
 ```r
@@ -650,12 +680,15 @@ setdiff(unique(edu_exp$Country), unique(welt$region))
 ```
 
 ```
-##  [1] "Congo, Dem. Rep."               "Cote d'Ivoire"                  "UAE"                           
-##  [4] "Hong Kong, China"               "Lao"                            "Kyrgyz Republic"               
-##  [7] "Slovak Republic"                "Congo, Rep."                    "Trinidad and Tobago"           
-## [10] "Eswatini"                       "St. Lucia"                      "St. Vincent and the Grenadines"
-## [13] "Micronesia, Fed. Sts."          "Antigua and Barbuda"            "St. Kitts and Nevis"           
-## [16] "Tuvalu"                         "Holy See"
+##  [1] "Congo, Dem. Rep."               "Cote d'Ivoire"                 
+##  [3] "UAE"                            "Hong Kong, China"              
+##  [5] "Lao"                            "Kyrgyz Republic"               
+##  [7] "Slovak Republic"                "Congo, Rep."                   
+##  [9] "Trinidad and Tobago"            "Eswatini"                      
+## [11] "St. Lucia"                      "St. Vincent and the Grenadines"
+## [13] "Micronesia, Fed. Sts."          "Antigua and Barbuda"           
+## [15] "St. Kitts and Nevis"            "Tuvalu"                        
+## [17] "Holy See"
 ```
 
 Im Folgenden werden die Namen der Länder mit dem `recode` Befehl des `car`-Pakets umkodiert. Leider gibt es schon vorab ein Land, nach dem man in Datenaufbereitungen immer vorab schauen sollte: wie auch hier ist es häufiger der Fall, dass die Elfenbeiküste als `Cote d'Ivoire` kodiert ist. Leider bewirkt das `'` in diesem Namen bei Umkodierungen immer einiges an Problemen, sodass wir es vorab direkt umstellen:
@@ -719,7 +752,7 @@ geom_polygon(color = 'black', lwd = .25,
   scale_fill_pandar(discrete = FALSE, na.value = 'grey95')
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+![](/ggplotpourri_files/unnamed-chunk-29-1.png)<!-- -->
 
 
 ## Wordcloud {#wordcloud}
@@ -733,7 +766,13 @@ Zum Auslesen der Texte verwende ich Funktionen aus `rvest`, mit dem sich prima W
 
 ```r
 library(rvest)
+```
 
+```
+## Warning: Paket 'rvest' wurde unter R Version 4.3.2 erstellt
+```
+
+```r
 # Funktion zum Einlesen der Texte von Websites
 make.text <- function(website){
   read_html(website) |> 
@@ -756,16 +795,16 @@ library(tm)
 ```
 
 ```
-## Loading required package: NLP
+## Lade nötiges Paket: NLP
 ```
 
 ```
 ## 
-## Attaching package: 'NLP'
+## Attache Paket: 'NLP'
 ```
 
 ```
-## The following object is masked from 'package:ggplot2':
+## Das folgende Objekt ist maskiert 'package:ggplot2':
 ## 
 ##     annotate
 ```
@@ -809,7 +848,13 @@ Diese Tabelle bildet nun die Grundlage für die Wordcloud. Zur Erstellung der Wo
 ```r
 # Erstellen der wordcloud
 library(ggwordcloud)
+```
 
+```
+## Warning: Paket 'ggwordcloud' wurde unter R Version 4.3.3 erstellt
+```
+
+```r
 table$angle <- 90 * sample(c(0, 1), nrow(table), replace = TRUE, prob = c(60, 40))
 ggplot(table[1:50,],) +
   geom_text_wordcloud(aes(label = word, size = freq,
@@ -819,5 +864,5 @@ ggplot(table[1:50,],) +
   theme(panel.background = element_rect(fill = "grey90"))
 ```
 
-![](/workshops/ggplotting/ggplotpourri_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](/ggplotpourri_files/unnamed-chunk-32-1.png)<!-- -->
 

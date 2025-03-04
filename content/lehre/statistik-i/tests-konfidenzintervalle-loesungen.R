@@ -125,7 +125,7 @@ mean_gewis_smpl1 <- 3.6 #Mittelwert der Stichprobe
 
 sd_gewis_pop <- sd(fb24$gewis, na.rm = TRUE) * sqrt((length(na.omit(fb24$gewis)) - 1) / length(na.omit(fb24$gewis))) #empirische Standardabweichung der Population
 
-se_gewis <- sd_gewis_pop / sqrt(42) #Standardfehler
+se_gewis <- sd_gewis_pop / sqrt(42) #Standardfehler des Mittelwerts 
 
 z_gewis1 <- (mean_gewis_smpl1 - mean_gewis_pop) / se_gewis #empirischer z-Wert
 
@@ -133,7 +133,7 @@ z_krit <- qnorm(1 - 0.05/2) #kritischer z-Wert, zweiseitig
 
 abs(z_gewis1) > z_krit #nicht signifikant
 
-2 * pnorm(z_gewis1, lower.tail = FALSE) #p > .05, nicht signifikant
+2 * pnorm(z_gewis1, lower.tail = FALSE) #p Wert
 
 upper_conf_gewis <- mean_gewis_smpl1 + z_krit * se_gewis
 lower_conf_gewis <- mean_gewis_smpl1 - z_krit * se_gewis
@@ -141,28 +141,31 @@ lower_conf_gewis <- mean_gewis_smpl1 - z_krit * se_gewis
 conf_int <- c(lower_conf_gewis, upper_conf_gewis)
 conf_int
 
+fb24_red <- fb24[!is.na(fb24$gewis),] #NA's entfernen
 set.seed(1234) #erlaubt Reproduzierbarkeit
-fb24_sample <- fb24[sample(nrow(fb24), size = 31), ] #zieht eine Stichprobe mit n = 31
+fb24_sample <- fb24_red[sample(nrow(fb24_red), size = 31), ] #zieht eine Stichprobe mit n = 31
 
-fb24 <- fb24[!is.na(fb24$gewis),] #NA's entfernen
+fb24_red <- fb24[!is.na(fb24$gewis),] #NA's entfernen
 
 set.seed(1234) #erlaubt Reproduzierbarkeit
-fb24_sample <- fb24[sample(nrow(fb24), size = 31), ] #zieht eine Stichprobe mit n = 31
+fb24_sample <- fb24_red[sample(nrow(fb24_red), size = 31), ] #zieht eine Stichprobe mit n = 31
 
-anyNA(fb24$gewis) #NA's vorhanden
+anyNA(fb24$gewis) # NA's vorhanden
+anyNA(fb24_red$gewis) # keine NA's vorhanden durch Reduzierung
+anyNA(fb24_sample$gewis) # keine NA's vorhanden da Stichprobe aus fb24_red
 
-mean_gewis_pop <- mean(fb24$gewis) #Mittelwert der Population
+mean_gewis_pop <- mean(fb24_red$gewis) # Mittelwert der Population
 
-sd_gewis_pop <- sd(fb24$gewis) * sqrt((length(na.omit(fb24$gewis)) - 1) / length(na.omit(fb24$gewis))) #empirische Standardabweichung der Population
+sd_gewis_pop <- sd(fb24_red$gewis) * sqrt((length(fb24_red$gewis) - 1) / length(fb24_red$gewis)) # empirische Standardabweichung der Population - ist also die Populationsvarianz
 
-se_gewis <- sd_gewis_pop / sqrt(length(na.omit(fb24_sample))) #Standardfehler
+se_gewis <- sd_gewis_pop / sqrt(length(fb24_sample$gewis)) # Standardfehler des Mittelwerts
 
-mean_gewis_smpl2 <- mean(fb24_sample$gewis, na.rm = TRUE) #Mittelwert der Stichprobe
+mean_gewis_smpl2 <- mean(fb24_sample$gewis) # Mittelwert der Stichprobe
 
 z_gewis2 <- (mean_gewis_smpl2 - mean_gewis_pop) / se_gewis #empirischer z-Wert
 
-z_krit <- qnorm(1 - 0.05/2) #kritischer z-Wert, zweiseitig
+z_krit <- qnorm(1 - 0.05/2) # kritischer z-Wert, zweiseitig
 
-abs(z_gewis2) > z_krit #nicht signifikant
+abs(z_gewis2) > z_krit # nicht signifikant
 
-2 * pnorm(z_gewis2) #p > .05, nicht signifikant
+2 * pnorm(z_gewis2, lower.tail = FALSE) #p > .05, nicht signifikant

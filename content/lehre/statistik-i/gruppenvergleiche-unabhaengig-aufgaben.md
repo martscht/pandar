@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [koehler, buchholz]
 weight: 1
-lastmod: '2024-12-05'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/writing_math.jpg"

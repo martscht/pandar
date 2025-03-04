@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [irmer]
 weight: 2
-lastmod: '2024-07-02'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/apples.jpg"
@@ -54,11 +54,11 @@ und $$s_i=0 \text{ sonst}$$
 
 $\Longleftrightarrow$ bedeutet "*genau dann, wenn*". Ist $s_i=1$, so wird selegiert (die Person nimmt teil). $Z_i$ ist standardnormalverteilt und $\beta_0$ und $\beta_1$ sind die Regressionsgewichte der Selektion. Die Variable (hier $X$), die für die Selektion zuständig ist, ist beliebig. Sie muss nur bekannt und beobachtet sein! Wir schauen uns den (speziellen) Fall an, in welchem auch der Prädiktor aus der Regression für die Selektion zuständig ist. Dies könnte zum Beispiel der Fall sein, wenn wir den Therapieeffekt einer langwierigen Therapieform untersuchen wollen (Symptomstärke nach vollendeter Therapie = $Y$) und diese durch das Commitment ($X$) vorhersagen. Menschen, die mehr Commitment zur Therapie zeigen, ziehen die Therapie wahrscheinlicher bis zum Ende durch und werden somit mit höherer Wahrscheinlichkeit in den Pool der beobachteten Stichprobe selegiert. Der Ausdruck $Z_i \le \beta_0 + \beta_1X_i$ beschreibt diese Phänomen nochmals. Wir wissen aus früheren Semestern, dass die Standardnormalverteilung einen Mittelwert von 0 hat und eine Standardabweichung von 1. Somit ist $Z_i$ genau dann mit hoher Wahrscheinlichkeit kleiner oder gleich groß wie $\beta_0 + \beta_1X_i$ (und damit würde $s_i=1$ ausfallen), wenn dieser Ausdruck groß ist. Schauen wir uns dies einmal an: Angenommen $\beta_0 + \beta_1X_i = -1$ (kleiner Wert), dann ist $Z_i$ sehr häufig größer als $-1$.
 
-![](/lehre/forschungsmodul/selektionseffekte_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
+![](/selektionseffekte_files/unnamed-chunk-1-1.png)<!-- -->
 
 In schwarz sehen wir den Bereich, in welchem $Z_i$ kleiner als -1 ausfällt und somit selegiert werden würde. Sie erinnern sich vielleicht, dass bei einer Standardnormalverteilung gerade der Wert -1 bedeutet, dass die Variable eine Standardabweichung kleiner als der Mittelwert (0) ausfällt. In blau sehen wir außerdem die Dichte der Standardnormalverteilung. Die vertikale gestrichelte Linie repräsentiert hier den Wert -1. Nehmen wir nun an, dass $\beta_0 + \beta_1X_i = 2$ (großer Wert), dann ist $Z_i$ sehr häufig kleiner als $2$. 
 
-![](/lehre/forschungsmodul/selektionseffekte_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](/selektionseffekte_files/unnamed-chunk-2-1.png)<!-- -->
 
 Für den Code der Grafiken, siehe in [Appendix A](#AppendixA) nach. Die schwarze Fläche ist genau die Wahrscheinlichkeit, dass die Standardnormalverteilung einen Wert kleiner der oberen Grenze annimmt: also $\mathbb{P}(Z_i\le\beta_0+\beta_1X_i)=\Phi(\beta_0+\beta_1X_i)$. Diese fällt für einen Wert von 2 deutlich größer aus als für einen Wert von -1! In `R` lässt sich diese Wahrscheinlichkeit sehr leicht bestimmen:
 
@@ -272,7 +272,7 @@ Nur im repräsentativen Fall ist die Korrelation nicht signifikant von 0 verschi
 
 Diese Phänomen lässt sich auch sehr gut in einer Grafik veranschaulichen:
 
-![](/lehre/forschungsmodul/selektionseffekte_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/selektionseffekte_files/unnamed-chunk-10-1.png)<!-- -->
 
 Hier repräsentieren die hellblauen Punkte die repräsentative Stichprobe. Die schwarzen Punkte hingegen stellen die selegierte/verzerrte Stichprobe (biased sample) dar. Genauso zeigt die blaue Linie die korrekte Regressionsgerade, während die goldene Linie die verzerrte darstellt (für den Code der Grafik, siehe [Appendix A](#AppendixA)). Wir erkennen deutlich die Verzerrung der Ergebnisse. Sie können sich die Verzerrung wie folgt erklären: Die Regression wird unter der Annahme der Unabhängigkeit der Residuuen von den Prädiktoren in der Regressionsgleichung geschätzt. Da aber $e_i=rZ_i+\varepsilon_i$ gilt und wir weiter oben gesehen haben, dass $X$ und $Z$ in der Selektionsgruppe korreliert sind, bedeutet dies, dass das Residuum nicht länger unabhängig vom Prädiktor ist. Da dies aber eine Annahme ist und das Verfahren nur so geschätzt werden kann, werden die Parameter so verzerrt, damit die Residuen möglichst unsystematisch sind. Insbesondere der Mittelwert der Residuen muss 0 sein für jede Ausprägung von X. Es muss also gelten $\mathbb{E}[e_i|X_i]=0$. Allerdings ist dies nicht der Fall in der Selektionsgruppe: 
 
@@ -293,6 +293,21 @@ Nun wollen wir allerdings noch die Methode von Heckman verwenden, um doch noch z
 
 ```r
 library(sampleSelection) # Paket laden
+```
+
+```
+## Warning: Paket 'sampleSelection' wurde unter R Version 4.3.2 erstellt
+```
+
+```
+## Warning: Paket 'maxLik' wurde unter R Version 4.3.2 erstellt
+```
+
+```
+## Warning: Paket 'miscTools' wurde unter R Version 4.3.2 erstellt
+```
+
+```r
 heckman <- heckit(selection = s ~ 1 + X, outcome = Y_obs ~ 1 + X)
 summary(heckman)
 ```
@@ -465,7 +480,7 @@ lines(x = seq(-4,4,0.01), dnorm(seq(-4,4,0.01)), col = "blue", lwd = 3)
 abline(v = -1, lwd = 3, lty = 3, col = "gold3")
 ```
 
-![](/lehre/forschungsmodul/selektionseffekte_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](/selektionseffekte_files/unnamed-chunk-20-1.png)<!-- -->
 
 
 ```r
@@ -476,7 +491,7 @@ lines(x = seq(-4,4,0.01), dnorm(seq(-4,4,0.01)), col = "blue", lwd = 3)
 abline(v = 2, lwd = 3, lty = 3, col = "gold3")
 ```
 
-![](/lehre/forschungsmodul/selektionseffekte_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+![](/selektionseffekte_files/unnamed-chunk-21-1.png)<!-- -->
 
 
 
@@ -488,7 +503,7 @@ abline(reg_obs, col = "gold3", lwd = 5)
 legend(x = "bottomright", legend = c("all", "observed", "regression: all", "regression: observed"), col = c("skyblue", "black", "blue", "gold3"), lwd = c(NA, NA, 5, 5), pch = c(16, 16, NA, NA))
 ```
 
-![](/lehre/forschungsmodul/selektionseffekte_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/selektionseffekte_files/unnamed-chunk-22-1.png)<!-- -->
 
 </details>
 

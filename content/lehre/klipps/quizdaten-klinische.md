@@ -8,7 +8,7 @@ tags: ["Daten"]
 subtitle: ''
 summary: 'Auf dieser Seite finden sich alle Datensätze für die Studienleistungen in KliPPsMSc5a. Die Quizze finden sich auf der Lernplattform moodle und sind nur für die Teilnehmenden des Moduls zugänglich.'
 authors: [nehler, irmer, hartig]
-lastmod: '2025-02-17'
+lastmod: '2025-02-19'
 featured: no 
 banner:
   image: "/header/dog_with_glasses.jpg"
@@ -39,7 +39,7 @@ output:
 Das Quiz zu diesem Block beruht auf einer echten Untersuchung, deren Datensatz [hier](https://osf.io/a9vun/) im Open Science Framework abgelegt ist. In dem Datensatz wurde bspw. erhoben, was für potenziell traumatischen Erlebnissen eine Person ausgesetzt war und mittels der Live Event Checklist (LEC) zu welchem Grad. Weiterhin wurden die Depressionswerte anhand des Becks-Depression-Inventar (BDI) und die Anxiety-Werte durch die Zung Self-Rating Anxiety Scale (SAS) erhoben. Für unsere Berechnung brauchen wir nur einen Ausschnitt der Vielzahl an Variablen. Diesen extrahieren wir aus dem originalen Datensatz und erstellen damit einen Neuen für unsere Aufgaben. Da das Processing in diesem Fall sehr komplex ist, haben wir das für Sie übernommen. Dafür brauchten wir ein paar Pakete, sodass Sie mit
 
 
-```r
+``` r
 install.packages('dplyr')
 install.packages('haven')
 ```
@@ -47,7 +47,7 @@ install.packages('haven')
 zunächst die notwendigen Pakete installieren müssten. Mit folgendem Befehl laden Sie sich die modifizierte Version des Datensatzes in ihr Working Directory ein.
 
 
-```r
+``` r
 source(url("https://pandar.netlify.app/daten/Data_Processing_KliPPsQuiz1.R"))
 ```
 
@@ -65,7 +65,7 @@ Im Rahmen des Quiz nutzen wir die Daten aus der Studie von [Pellerin und Raufast
 Um die Daten zu laden können Sie wieder das vorbereitete Datenaufbereitungsskript ausführen:
 
 
-```r
+``` r
 source(url("https://pandar.netlify.app/daten/Data_Processing_KliPPsQuiz2.R"))
 ```
 
@@ -91,7 +91,7 @@ Im Rahmen dieses Quiz nutzen wir die Daten aus der Meta-Analyse von [Kruisbrink 
 Um eine, für das Quiz aufbereitete und gekürzte Fassung der Daten zu laden, können Sie das folgende Skript ausführen (*Anmerkung: sollten Sie das Paket `haven` noch nicht installiert haben, wir dieses durch das Ausführen dieses Skripts installiert*):
 
 
-```r
+``` r
 source("https://pandar.netlify.app/daten/Data_Processing_fall.R")
 ```
 Der entstandene Datensatz enthält 52 Beobachtungen auf 11 Variablen. In `author` werden die Studien anhand ihres Erstautors / ihrer Erstautorin geführt, in `id` ist werden die Studien-IDs numerisch vergeben. `quality` gibt an, auf wie vielen der sieben potentiellen Bias-Risiken eine Studie als problematisch eingestuft wurde. Von [Kruisbrink et al. (2021, S. 6250)](https://doi.org/10.1080/09638288.2021.1969452) wird hierzu folgende Aussage getroffen:
@@ -100,7 +100,7 @@ Der entstandene Datensatz enthält 52 Beobachtungen auf 11 Variablen. In `author
 
 Die vier folgenden Variablen (`bodyawareness`, `holistic`, `meditation`, `discussion`) kennzeichnen in Dummy-Variablen, ob eine untersuchte Intervention diese Elemente enthält bzw. nach diesen Prinzipien gestaltet ist. Die Variablen `es_post` und `es_follow` enthalten die Effektstärken zur Post bzw. Follow-Messung, die Variablen `se_post` und `se_follow` die zugehörigen Standardfehler.
 
-Im Rahmen des Quiz wird außerdem um die genauere Betrachtung der Studie von [Schwenk et al. (2016)](https://doi.org/10.1682/jrrd.2015.05.0089) gebeten.
+Im Rahmen des Quiz wird außerdem um die genauere Betrachtung der Studie von [Schwenk et al. (2016)](https://pmc.ncbi.nlm.nih.gov/articles/PMC6644036/#ABS1) gebeten.
 
 ***
 

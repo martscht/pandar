@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden nochmal die Grundlagen in R aus Statistik I aufgefrischt.' 
 authors: [nehler, schueller, schultze] 
 weight: 1
-lastmod: '2024-03-25'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/cat_with_glasses.jpg"
@@ -72,7 +72,7 @@ Für den Verlauf dieses Modul benötigen Sie die Statistiksoftware `R` und für 
 
 `RStudio`: [Download von der posit Seite](https://posit.co/download/rstudio-desktop/)
 
-Es ist sehr sinnvoll `R` aktuell zu halten, weil Pakete nur für die derzeitige R-Version weiterentwickelt werden und es so passieren kann, dass Ihre R-Version von bestimmten Pakete nicht mehr unterstützt wird. Die Aktuelle Version von R ist 4.3.3. Welche Version Sie zur Zeit nutzen, können Sie so herausfinden:
+Es ist sehr sinnvoll `R` aktuell zu halten, weil Pakete nur für die derzeitige R-Version weiterentwickelt werden und es so passieren kann, dass Ihre R-Version von bestimmten Pakete nicht mehr unterstützt wird. Die Aktuelle Version von R ist 4.3.0. Welche Version Sie zur Zeit nutzen, können Sie so herausfinden:
 
 
 ```r
@@ -80,7 +80,7 @@ R.Version()$version.string
 ```
 
 ```
-## [1] "R version 4.3.3 (2024-02-29)"
+## [1] "R version 4.3.0 (2023-04-21 ucrt)"
 ```
 Wie Sie sehen, ist die Version relativ neu. Wenn Sie eine andere Version nutzen, ist nun der _perfekte_ Zeitpunkt für ein Update! Der typische Weg R auf Windows oder Mac zu aktualisieren ist es, die aktuelle Fassung herunterzuladen und ganz normal neu zu installieren. Die vorangegangene Version können Sie anschließend deinstallieren. Es ist möglich mehrere Versionen von R gleichzeitig installiert zu haben, um im Fall von größeren Updates Ergebnisse aus älteren Analyseskripten reproduzieren zu können.
 
@@ -410,7 +410,7 @@ zeichen * 3
 ```
 
 ```
-## Error in zeichen * 3: non-numeric argument to binary operator
+## Error in zeichen * 3: nicht-numerisches Argument für binären Operator
 ```
 
 Nutzen Sie die Möglichkeit, die Klasse eines Objektes zu erfragen deshalb auch, wenn Sie eine Fehlermeldung erhalten, um zu prüfen, ob ein Vektor die richtige Klasse hat. Wenn Sie ein spezifische Klasse erwarten, können Sie z.B. mit dem Cousin von `as.` arbeiten: `is.`:
@@ -560,27 +560,20 @@ head(mach) # ersten 6 Zeilen
 ```
 
 ```
-##   TIPI1 TIPI2 TIPI3 TIPI4 TIPI5 TIPI6 TIPI7 TIPI8 TIPI9 TIPI10 education urban gender
-## 1     6     5     6     1     7     3     7     4     7      1         2     3      1
-## 2     2     5     6     2     4     6     5     4     6      5         2     2      1
-## 3     1     7     6     7     5     7     1     4     1      4         1     1      2
-## 4     6     5     5     7     7     2     6     2     2      3         4     3      2
-## 5     2     5     5     6     7     6     5     3     4      5         2     2      1
-## 6     2     4     6     2     3     7     5     2     7      1         1     1      1
-##   engnat age hand religion orientation race voted married familysize  nit      pit
-## 1      1  26    1        7           1   30     1       2          5 4.00 2.666667
-## 2      1  18    1        1           1   60     2       1          2 5.00 1.166667
-## 3      1  15    1        2           2   10     2       1          2 5.00 1.000000
-## 4      2  31    1        6           1   60     1       3          2 3.75 2.166667
-## 5      2  20    1        4           3   60     1       1          2 4.75 1.666667
-## 6      2  17    1        1           1   70     2       1          3 4.00 2.666667
-##       cvhn pvhn
-## 1 3.833333 2.00
-## 2 3.833333 2.75
-## 3 4.000000 2.00
-## 4 3.000000 1.50
-## 5 2.666667 2.00
-## 6 3.166667 2.25
+##   TIPI1 TIPI2 TIPI3 TIPI4 TIPI5 TIPI6 TIPI7 TIPI8 TIPI9 TIPI10 education urban gender engnat age hand
+## 1     6     5     6     1     7     3     7     4     7      1         2     3      1      1  26    1
+## 2     2     5     6     2     4     6     5     4     6      5         2     2      1      1  18    1
+## 3     1     7     6     7     5     7     1     4     1      4         1     1      2      1  15    1
+## 4     6     5     5     7     7     2     6     2     2      3         4     3      2      2  31    1
+## 5     2     5     5     6     7     6     5     3     4      5         2     2      1      2  20    1
+## 6     2     4     6     2     3     7     5     2     7      1         1     1      1      2  17    1
+##   religion orientation race voted married familysize  nit      pit     cvhn pvhn
+## 1        7           1   30     1       2          5 4.00 2.666667 3.833333 2.00
+## 2        1           1   60     2       1          2 5.00 1.166667 3.833333 2.75
+## 3        2           2   10     2       1          2 5.00 1.000000 4.000000 2.00
+## 4        6           1   60     1       3          2 3.75 2.166667 3.000000 1.50
+## 5        4           3   60     1       1          2 4.75 1.666667 2.666667 2.00
+## 6        1           1   70     2       1          3 4.00 2.666667 3.166667 2.25
 ```
 
 Da es sich bei unserem Datensatz um ein Objekt vom Typ `data.frame` handelt, können wir die Variablennamen des Datensatzes außerdem mit der `names`-Funktion abfragen. Eine weitere interessante Funktion ist `dim`, die die Anzahl der Zeilen und Spalten ausgibt. 
@@ -591,12 +584,10 @@ names(mach) # Namen der Variablen
 ```
 
 ```
-##  [1] "TIPI1"       "TIPI2"       "TIPI3"       "TIPI4"       "TIPI5"      
-##  [6] "TIPI6"       "TIPI7"       "TIPI8"       "TIPI9"       "TIPI10"     
-## [11] "education"   "urban"       "gender"      "engnat"      "age"        
-## [16] "hand"        "religion"    "orientation" "race"        "voted"      
-## [21] "married"     "familysize"  "nit"         "pit"         "cvhn"       
-## [26] "pvhn"
+##  [1] "TIPI1"       "TIPI2"       "TIPI3"       "TIPI4"       "TIPI5"       "TIPI6"       "TIPI7"      
+##  [8] "TIPI8"       "TIPI9"       "TIPI10"      "education"   "urban"       "gender"      "engnat"     
+## [15] "age"         "hand"        "religion"    "orientation" "race"        "voted"       "married"    
+## [22] "familysize"  "nit"         "pit"         "cvhn"        "pvhn"
 ```
 
 ```r
@@ -701,8 +692,9 @@ describe(mach$cvhn)
 ```
 
 ```
-##    vars     n mean   sd median trimmed  mad min max range  skew kurtosis se
-## X1    1 65151 2.99 0.81      3    2.99 0.99   1   5     4 -0.09    -0.61  0
+## [65151 obs.] 
+## numeric: 3.83333333333333 3.83333333333333 4 3 2.66666666666667 3.16666666666667 3.16666666666667 3.33333333333333 3.5 2.83333333333333 ...
+## min: 1 - max: 5 - NAs: 0 (0%) - 25 unique values
 ```
 
 Pakete müssen vor der ersten Nutzung zunächst einmal heruntergeladen werden. Für einige von Ihnen wird dieser Schritt nicht nötig sein, da Sie es bereits heruntergeladen haben.
@@ -721,8 +713,9 @@ describe(mach$cvhn)
 ```
 
 ```
-##    vars     n mean   sd median trimmed  mad min max range  skew kurtosis se
-## X1    1 65151 2.99 0.81      3    2.99 0.99   1   5     4 -0.09    -0.61  0
+## [65151 obs.] 
+## numeric: 3.83333333333333 3.83333333333333 4 3 2.66666666666667 3.16666666666667 3.16666666666667 3.33333333333333 3.5 2.83333333333333 ...
+## min: 1 - max: 5 - NAs: 0 (0%) - 25 unique values
 ```
 
 Weil wir häufig dazu tendieren, aus sehr vielen unterschiedlichen Paketen Funktionen zu nutzen, kann es sehr schnell unübersichtlich werden. Daher ist es sinnvoll, wie oben bereits angesprochen, alle Pakete an einem Ort zu Beginn des Skripts alle gemeinsam zu laden.
@@ -738,7 +731,7 @@ Natürlich ist die Regressionsanalyse nicht ohne Voraussetzungen. Diese werden w
 plot(mach$pvhn, mach$cvhn, xlab = "Positive Sichtweise", ylab = "Negative Sichtweise")
 ```
 
-![](/lehre/statistik-ii/einleitung-statistik-ii_files/figure-html/unnamed-chunk-75-1.png)<!-- -->
+![](/einleitung-statistik-ii_files/unnamed-chunk-38-1.png)<!-- -->
 
 Gerade in diesem Plot sieht man, dass die Standardfunktionalität von `R` mit der Menge an Personen im Datensatz nicht zurechtkommt. Die Umsetzung der Parameterschätzung anhand der kleinsten Quadrate ist mit der Funktion `lm` möglich. Beachten Sie hierbei, dass angegeben wird, welche Variable durch welche Variable vorhergesagt wird. Das bedeutet, dass wir hier zuerst die zynische Sichtweise und dann das Alter nennen müssen.
 
@@ -802,9 +795,8 @@ names(model) # andere Inhalte der Liste
 ```
 
 ```
-##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values"
-##  [6] "assign"        "qr"            "df.residual"   "xlevels"       "call"         
-## [11] "terms"         "model"
+##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"       
+##  [7] "qr"            "df.residual"   "xlevels"       "call"          "terms"         "model"
 ```
 
 Die weiteren Inhalte umfassen unter anderem die `residuals`, die für das Prüfen der Voraussetzungen wichtig wären, aber auch die vorhergesagten Werte (`fitted.values`). 
@@ -893,8 +885,8 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ```
 
 ```
-##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"   
-##  [6] "null.value"  "stderr"      "alternative" "method"      "data.name"
+##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value"  "stderr"     
+##  [8] "alternative" "method"      "data.name"
 ```
 
 ```r

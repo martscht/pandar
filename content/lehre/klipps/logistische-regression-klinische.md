@@ -8,7 +8,7 @@ subtitle: 'Vorhersage von Gruppenzugehörigkeiten'
 summary: ''
 authors: [schultze]
 weight: 2
-lastmod: '2024-10-17'
+lastmod: '2025-02-27'
 featured: no
 banner:
   image: "/header/talking_beach.jpg"
@@ -103,6 +103,20 @@ Die Deskriptivstatistiken der Variablen, die für uns relevant sind, werden in T
 
 ``` r
 library(psych)
+```
+
+```
+## 
+## Attaching package: 'psych'
+```
+
+```
+## The following objects are masked from 'package:ggplot2':
+## 
+##     %+%, alpha
+```
+
+``` r
 subset(grit, select = c(ARS, RSS, ELOC, ILOC, Grit, Age)) |>
   describeBy(grit$Suicide)
 ```
@@ -118,7 +132,7 @@ subset(grit, select = c(ARS, RSS, ELOC, ILOC, Grit, Age)) |>
 ## ILOC    4 145 35.90  7.48  38.00   36.62  5.93  9.00  48 39.00 -0.99     0.65 0.62
 ## Grit    5 145  2.76  0.67   2.83    2.79  0.74  0.92   4  3.08 -0.34    -0.55 0.06
 ## Age     6 145 37.34 11.15  35.00   36.57 11.86 20.00  66 46.00  0.57    -0.53 0.93
-## --------------------------------------------------------------------- 
+## --------------------------------------------------------------------------- 
 ## group: Ideator
 ##      vars  n  mean    sd median trimmed   mad   min   max range  skew kurtosis   se
 ## ARS     1 83 42.57 15.32   44.0   41.99 19.27 19.00 76.00 57.00  0.16    -1.12 1.68
@@ -127,7 +141,7 @@ subset(grit, select = c(ARS, RSS, ELOC, ILOC, Grit, Age)) |>
 ## ILOC    4 83 31.34  9.68   32.0   32.24  8.90  7.00 48.00 41.00 -0.78    -0.11 1.06
 ## Grit    5 83  2.42  0.66    2.5    2.45  0.74  0.92  3.83  2.92 -0.32    -0.74 0.07
 ## Age     6 83 35.78 10.86   33.0   34.49 10.38 21.00 68.00 47.00  1.03     0.69 1.19
-## --------------------------------------------------------------------- 
+## --------------------------------------------------------------------------- 
 ## group: Attempter
 ##      vars  n  mean    sd median trimmed   mad   min   max range  skew kurtosis   se
 ## ARS     1 94 42.80 13.85  44.50   42.80 17.05 19.00 70.00 51.00 -0.08    -1.18 1.43
@@ -179,8 +193,8 @@ mod0 <- lm(Suicide ~ 1 + Grit, idea)
 ```
 
 ```
-## Warning in model.response(mf, "numeric"): using type = "numeric" with a factor response
-## will be ignored
+## Warning in model.response(mf, "numeric"): using type = "numeric" with a factor response will be
+## ignored
 ```
 
 ```
@@ -220,7 +234,7 @@ summary(mod0)
 ```
 Das Ergebnis zeigt uns zunächst an, dass Personen mit mehr Grit weniger Suizidgedanken haben. Betrachten wir das Ganze mal als Abbildung:
 
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/Abbildung-Lineare-Regression-1.png)<!-- -->
+![](/logistische-regression-klinische_files/Abbildung-Lineare-Regression-1.png)<!-- -->
 Wie man sieht, ist die von der Regression angenommene lineare Beziehung keine besonders gute Abbildung des wahren Zusammenhangs. Vorhergesagt werden ausschließlich Wrte, die nicht vorkommen können (weil sie weder `1` noch `2` sind). Noch deutlicher wird die Unzulänglichkeit der linearen Regression, wenn wir uns die Verteilung der Residuen angucken:
 
 
@@ -228,7 +242,7 @@ Wie man sieht, ist die von der Regression angenommene lineare Beziehung keine be
 residuals(mod0) |> hist()
 ```
 
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/Residuen-Lineare-Regression-1.png)<!-- -->
+![](/logistische-regression-klinische_files/Residuen-Lineare-Regression-1.png)<!-- -->
 
 Wie bereits erwähnt, sollten diese Residuen normalverteilt sein, damit die Inferenzstatistik des Regressionsgewichts vertrauenswürdig ist. Den `shapiro.test` erspare ich uns angesichts dieser sehr deutlichen Lage.
 
@@ -349,7 +363,7 @@ new_data$Probability <- predict(mod1, newdata = new_data, type = 'response')
 
 Die Ergebnisse können wir natürlich auch bildlich veranschaulichen (den entsprechenden R-Code dazu finden Sie im oben verlinkten R-Skript für diesen Beitrag):
 
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/Abbildung-Logistische-Regression-1.png)<!-- -->
+![](/logistische-regression-klinische_files/Abbildung-Logistische-Regression-1.png)<!-- -->
 Sowohl die Ergebnisse der Regression als auch die Abbildung scheinen den Annahmen von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) also Recht zu geben: mehr Grit scheint mit bedeutsam weniger Suizidgedanken einherzugehen.
 
 Von der APA wird empfohlen, für Ergebnisse der logistischen Regression Odds und deren Konfidenzintervalle zu präsentieren. Da wir schon wissen, wie wir die Regressiongewichte in Odds umrechnen, brauchen wir nur noch die Konfidenzintervalle. Die `confint`-Funktion gibt diese natürlich auch in Logits aus, aber sie sind nach dem gleichen Prinzip in Odds umrechenbar, wie die Koeffizienten selbst:
@@ -752,7 +766,7 @@ new_data
 
 Wir sehen hier also, dass jetzt die Wahrscheinlichkeit für alle drei Kategorien bestimmt wird. Etwas bildlicher (der Code für die Abbildung ist wieder in der begleitenden R-Datei enthalten):
 
-![](/lehre/klipps/logistische-regression-klinische_files/figure-html/Abbildung-Multinomiale-Logistische-Regression-1.png)<!-- -->
+![](/logistische-regression-klinische_files/Abbildung-Multinomiale-Logistische-Regression-1.png)<!-- -->
 Wie man sieht steigt mit mehr Grit die Wahrscheinlichkeit, als `None` klassifiziert zu werden, während die Wahrscheinlichkeiten für die beiden anderen Kategorien sinkt. Bisher sprechen die Ergebnisse also nur für die erste Hälfte der Hypothese.
 
 ### Inferenzstatistik
@@ -895,7 +909,7 @@ library(sjPlot)
 ```
 
 ```
-## #refugeeswelcome
+## Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!
 ```
 
 ``` r
@@ -1081,7 +1095,7 @@ tab_model(block4b, show.r2 = FALSE, show.aic = TRUE)
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
-<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Suicide_r</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Suicide r</th>
 </tr>
 <tr>
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>

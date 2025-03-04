@@ -9,7 +9,7 @@ subtitle: 'nichtlineare Regression'
 summary: ''
 authors: [irmer, schultze]
 weight: 12
-lastmod: '2024-04-12'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/penguins_on_ice.jpg"
@@ -211,7 +211,7 @@ abline(v = 0, lwd = 0.7) # y-Achse, v = 0 zeichnet eine vertikale Linie bei x = 
 abline(h = a, lty = 3) # im Punkt a schneidet f (das exponentielle Wachstum) die y-Achse (x=0), h = a zeichnet zu y = a eine horizontale Linie
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+<img src="/regression-v_files/unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
 
 ```r
 ##################
@@ -222,7 +222,7 @@ abline(v = 0, lwd = 0.7) # y-Achse, v = 0 zeichnet eine vertikale Linie bei x = 
 abline(h = log(a), lty = 3)  # im Punkt log(a) schneidet log(f) (das linearisierte exponentielle Wachstum) die y-Achse (x=0), h =llog(a) zeichnet zu y = log(a) eine horizontale Linie
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-3-2.png" style="display: block; margin: auto;" />
+<img src="/regression-v_files/unnamed-chunk-3-2.png" style="display: block; margin: auto;" />
 
 All dies bedeutet nun, dass wir durch eine sehr simple Transformation der Daten, Schlüsse über exponientielles Wachstum treffen können. Dies schauen wir uns nun an einem inhaltlichen Beispiel an!
 
@@ -272,7 +272,7 @@ In der ersten Spalte steht das Jahr; in der 2. die Weltbevölkerungsgröße. Wir
 ggplot(data = WorldPopulation, aes(x = Year, y = Population))+geom_point()
 ```
 
-![](/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](/regression-v_files/unnamed-chunk-7-1.png)<!-- -->
 
 Das Diagramm lässt deutlich einen nichtlinearen Anstieg der Weltbevölkerung von 1800 bis 2020 vermuten. Auffällig ist auch der leichte Knick, der um 1950 zu vermuten ist und ab welchem die Bevölkerung, deskriptiv gesehen, noch stärker wächst. Dieser Knick ist zum Teil durch das Ende des Krieges, aber auch durch modernere Landwirtschaft und das Aufkommen von neuen Medikamenten (z.B. Penicilline) zu erklären. 
 
@@ -286,7 +286,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
      geom_point()+geom_smooth(method="lm", formula = "y~x")         # plotte linearen Verlauf 
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+<img src="/regression-v_files/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 ```r
 m_l <- lm(Population ~ Year, data = WorldPopulation) # linearer Verlauf
@@ -330,7 +330,7 @@ ggplot(data = df_res, aes(x = res)) +
      labs(title = "Histogramm der Residuen mit Normalverteilungsdichte\n für das lineare Modell", x = "Residuen") # Füge eigenen Titel und Achsenbeschriftung hinzu
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-8-2.png" style="display: block; margin: auto;" />
+<img src="/regression-v_files/unnamed-chunk-8-2.png" style="display: block; margin: auto;" />
 
 Durch `+ geom_smooth(method="lm", formula = "y~x")`, kann mit `ggplot` ein linearer Trend inklusive Konfidenzintervall hinzugefügt werden. Obwohl ein linearer Verlauf sehr unwahrscheinlich erscheint, können mit dem linearen Modell bereits 77.23% der Variation der Bevölkerungsdichte durch die Jahreszahl erklärt werden (entnommen aus der Summary des linearen Modells unter `Multiple R-squared:  0.7723`). Wie der Grafik deutlich zu entnehmen ist, sind die Residuen in dieser Regressionsanalyse stark abhängig von der Jahreszahl (negatives Residuum von ca. 1860-1970 und positive Residuen sonst; *Wiederholung*: $\varepsilon_i=Y_i-\hat{Y}_i$, wobei $\hat{Y}_i$ der vorhergesagte Wert ist, das Vorzeichen erhalten wir also, indem wir uns überlegen, wann die Daten oberhalb oder unterhalb der vorhergesagten Geraden liegen). Auch wenn wir uns das zugehörige Histogramm der Residuen ansehen, widerspricht dieses der Annahme auf Normalverteilung. In [Appendix A](#AppendixA) ist auch ein quadratische Trend hinzugefügt, da wir ja in der vergangenen Sitzung zu [quadratischer oder moderierter Regression](../regression-iv) gesehen hatten, dass durch das Hinzufügen von quadratischen Effekten die Vorhersage des Kriteriums verbessert werden kann. Wir interessieren uns jetzt aber erstmal für das exponentielle Wachstum!
 
@@ -413,7 +413,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = log_Population))+
   labs(title = "Logarithmierte Weltbevölkerung vs. Jahr")
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="/regression-v_files/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 So sind die Ergebnisse aber sehr schwer mit dem linearen Trend zu vergleichen. Wir wollen die Vorhersage auch retransformiert plotten, um sie mit dem linearen Verlauf grafisch vergleichen zu können. Dazu müssen wir die vorhergesagten Werte unseres logarithmischen Modells verwenden und mit mit der Umkehrfunktion des Logarithmus retransformieren. Diese können wir einem `lm`-Objekt mit `predict` entlocken. `predict` berechnet die vorhergesagten Kriteriumswerte via $\hat{Y}_i=\hat{\beta}_0+\hat{\beta}_1X_i$, wobei für unser Beispiel $Y_i=$ ln(Bevölkerung) im $i$-ten Jahr und $X_i=$ $i$-tes Jahr gilt.  Da wir zuvor logarithmiert hatten, müssen wir nun die Exponentialfunktion auf unsere vorhergesagten Werte anwenden: also quasi: $e^{\hat{Y}_i}$, bzw. $e^{\hat{\beta}_0+\hat{\beta}_1X_i}$. Wir nennen die neue Variable `pred_Pop_exp`, wobei `pred` für *predicted* und `Pop_exp` für *exponentielles Populationswachstum* steht:
 
@@ -442,7 +442,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
      geom_line(aes(x = Year, y = pred_Pop_exp), col = "red", lwd = 1.5)
 ```
 
-![](/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/regression-v_files/unnamed-chunk-14-1.png)<!-- -->
 
 Das Diagramm der retransformierten vorhergesagten Werten signalisiert, dass ein exponentielles Wachstumsmodell die Daten gut beschreibt. Wir können die Parameter des logarithmischen Modells auch in die Bevölkerungsskala (weg von der log-Skala) übersetzen. Dazu nutzen wir wieder eine Logarithmus/Exponentenregel: $e^{a+b}=e^ae^b$. Also ist $e^{\hat{\beta_0}}$ die Bevölkerung zum Jahr 0 und $e^{\hat{\beta}_1}$ die Veränderung der Bevölkerung (multiplikativ), wenn die Jahreszahl um eine Einheit erhöht wird. Wir können dies leicht wie folgt umsetzen:
 
@@ -546,7 +546,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
   geom_line(aes(x = Year, y = pred_Pop_dis), col = "blue", lwd = 1.5)
 ```
 
-![](/lehre/statistik-ii/regression-v_files/figure-html/discont_growth-1.png)<!-- -->
+![](/regression-v_files/discont_growth-1.png)<!-- -->
 
 ***
 
@@ -625,7 +625,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
      geom_smooth(method="lm", formula = "y~poly(x,2)", col = "darkblue")  # plotte quadratischen Verlauf
 ```
 
-![](/lehre/statistik-ii/regression-v_files/figure-html/exercise_graph_pop_quad-solution-1.png)<!-- -->
+![](/regression-v_files/exercise_graph_pop_quad-solution-1.png)<!-- -->
 
 Durch den quadratischen Verlauf lassen sich 97.18% der Variation der Bevölkerungsdichte erklären, was einem signifikantem Varianzinkrement von 19.95% entspricht (*mit einer Irrtumswahrscheinlichkeit von 5% ist das Inkrement in der Population nicht null.* Dies ist äquivialent zu folgdender Aussage: *mit einer Irrtumswahrscheinlichkeit von 5% ist der Effektparameter (der Regressionskoeffizient) des quadratischen Verlaufs in der Population nicht null*; dies spricht folglich für einen quadratischen im Gegensatz zu einem linearen Verlauf). Der Grafik ist deutlich zu entnehmen, dass der quadratische Verlauf nicht weit vom empirischen entfernt liegt.
 
@@ -640,7 +640,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
      geom_line(aes(x = Year, y = pred_Pop_exp), col = "red", lwd = 1.5)
 ```
 
-![](/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/regression-v_files/unnamed-chunk-22-1.png)<!-- -->
 
 
 Das Diagramm der retransformierten vorhergesagten Werten signalisiert, dass ein exponentielles Wachstumsmodell die Daten gut beschreibt, allerdings scheint der quadratische Trend vor allem ab ca. 1975 die Daten besser zu beschreiben.
@@ -659,7 +659,7 @@ Die Vorhersage mit dem diskontinuierlichen Modell exponentiellen Wachstums ist i
 residualPlot(m_log, col = "red") # Residualplot
 ```
 
-![](/lehre/statistik-ii/regression-v_files/figure-html/exercise_resid_mlog-solution-1.png)<!-- -->
+![](/regression-v_files/exercise_resid_mlog-solution-1.png)<!-- -->
 
 Dem Residualplot ist zu entnehmen, dass ggf. sogar ein nicht-linearer Verlauf angemessen wäre (wobei wir uns hier auf die *logarithmische* Skala beziehen, die Ursprungsdaten werden natürlich bereits nicht-linear, nämlich exponentiell, modelliert). Wir gehen dieser Vermutung nach, indem wir dem Log-Plot  einen quadratischen Verlauf hinzufügen. Auch dem `geom_smooth` Befehl kann einfach das modifizierte Regressionsmodell übergeben werden. Dem Argument `formula` müssen wir dazu jediglich die Formel für die Regression übergeben, wobei `y` das Kriterium und `poly(x,2)` (dies hatten wir in der vergangen Sitzung zu [quadratischer oder moderierter Regression](../regression-iv) kennengelernt) der Prädiktor mit linearem und quadratischen Anteil beschreibt.  Mit `col = "gold3"` wird die neue Linie auch extra eingefärbt.
 
@@ -671,7 +671,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = log_Population))+
   labs(title = "Logarithmierte Weltbevölkerung vs. Jahr")
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+<img src="/regression-v_files/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
 
 Vielleicht wächst die Bevölkerung sogar schneller als exponentiell? Die gelbe Linie im logarithmierten Plot lässt dies vermuten. Um dies genauer zu untersuchen fügen wir in das logarithmierte Modell einen quadratischen Trend der Zeit ein.
 
@@ -733,7 +733,7 @@ Schauen wir uns den Residuenplot des quadratisch-exponentiellen Modells an (in l
 residualPlot(m_log_quad)
 ```
 
-![](/lehre/statistik-ii/regression-v_files/figure-html/resid_log_Pop_reg_quad-1.png)<!-- -->
+![](/regression-v_files/resid_log_Pop_reg_quad-1.png)<!-- -->
 
 Es ist deutlich zu sehen, dass der Knick um 1950 auch im quadratisch-exponentiellen Modell noch zu sehen ist. Die Residuenplots zeigen außerdem, dass auch hier die Residuen nicht vollständig unsystematisch sind. Dennoch ist die Resiudalvarianz sehr klein. Dies erkennen wir an der y-Achse.
 
@@ -767,7 +767,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
      geom_line(aes(x = Year, y = pred_Pop_dis), col = 'aquamarine3', lwd = 1.5)
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/final_pred_comp-1.png" style="display: block; margin: auto;" />
+<img src="/regression-v_files/final_pred_comp-1.png" style="display: block; margin: auto;" />
 
 ```r
 # nur quadratisch-exponentiell
@@ -777,7 +777,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
   labs(title = "Beobachtetes und durch das quadratisch-exponentielle Modell\n vorhergesagtes Bevölkerungswachstum")
 ```
 
-<img src="/lehre/statistik-ii/regression-v_files/figure-html/final_pred_comp-2.png" style="display: block; margin: auto;" />
+<img src="/regression-v_files/final_pred_comp-2.png" style="display: block; margin: auto;" />
 
 <!-- Da die Modelle des linearen und des exponentiellen bzw. quadratisch-exponentiellen Verlaufs nicht geschachtelt sind (*sie gehen nicht auseinander hervor und sind nicht durch Restringieren, bzw. Nullsetzen, von Regressionsparametern aus einander überführbar*), können sie nicht inferenzstatistisch miteinander verglichen werden. Da das quadratisch-exponentielle Modell mehr Variation aufklärt als die übrigen Modelle und auch grafisch besser zum Verlauf der Daten passt (*besonders von 1800 bis ca. 1850 sagt das quadratische Modell ein Verkleinern der Bevölkerung vorher*), entscheiden wir uns final für dieses. Allerdings beschreibt ein solches Modell die Daten oft nur lokal am besten --- das bedeutet so viel wie, dass wenn wir sehr weit in die Vergangenheit oder Zukunft schauen, sagt dieses Modell ggf. die Bevölkerung nicht mehr sinnvoll vorher. -->
 

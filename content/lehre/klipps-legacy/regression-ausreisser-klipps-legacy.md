@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird eine multiple Regression in `R` exemplarisch durchgeführt. Dabei wird erläutert, wie ein Regressionsmodell in `R` erstellt und der entsprechende `R`-Output interpretiert werden kann. Außerdem werden die Voraussetzungen für die multiple Regression behandelt. Der Fokus liegt dabei auf der Prüfung der Multikollinearität sowie der Identifikation möglicher Ausreißern und einflussreicher Datenpunkte. '
 authors: [nehler, irmer, hartig]
 weight: 2
-lastmod: '2024-10-08'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/frog_overencumbered.jpg"
@@ -47,7 +47,7 @@ In der [Einführungssitzung](/lehre/klipps-legacy/einleitung-klipps-legacy) hatt
 Bevor wir dazu die Daten einlesen, sollten wir als erstes die nötigen `R`-Pakete laden. `R` funktioniert wie eine Bibliothek, in der verschiedene Bücher (also Pakete) erst vorhanden (also installiert) sein müssen, bevor man sie dann für eine Zeit leihen (also aktivieren) kann. Die `R`-Pakete, die wir im weiteren Verlauf benötigen, sind das `car`-Paket, das `MASS`-Paket sowie das Paket mit dem Namen `lm.beta`. Diese Pakete müssen zunächst "in die Bibliothek eingelagert" werden, das heißt, sie müssen installiert werden. Dies können Sie via `install.packages` machen:
 
 
-``` r
+```r
 install.packages("car")            # Die Installation ist nur einmalig von Nöten!
 install.packages("lm.beta")        # Sie müssen nur zu Update-Zwecken erneut installiert werden.
 install.packages("MASS")
@@ -56,7 +56,7 @@ install.packages("MASS")
 Anschließend werden Pakete mit der `library`-Funktion geladen (also für eine Zeit - nämlich den Verlauf einer Sitzung - ausgeliehen):
 
 
-``` r
+```r
 library(lm.beta)  # Standardisierte beta-Koeffizienten für die Regression
 library(car)      # Zusätzliche Funktion für Diagnostik von Datensätzen
 library(MASS)     # Zusätzliche Funktion für Diagnostik von Datensätzen 
@@ -69,14 +69,14 @@ Der Datensatz ist derselbe wie in der [Einführungssitzung](/lehre/klipps-legacy
 Nun müssen wir mit `load` die Daten laden. Liegt der Datensatz bspw. auf dem Desktop, so müssen wir den Dateipfad dorthin legen und können dann den Datensatz laden (wir gehen hier davon aus, dass Ihr PC "Musterfrau" heißt) _Tipp: Verwenden Sie unbedingt die automatische Vervollständigung von `R`-Studio, wie in der letzten Sitzung beschrieben_.
 
 
-``` r
+```r
 load("C:/Users/Musterfrau/Desktop/Depression.rda")
 ```
 
 Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hierzu brauchen Sie nur die URL und müssen `R` sagen, dass es sich bei dieser um eine URL handelt, indem Sie die Funktion `url` auf den Link anwenden. Der funktionierende Befehl sieht so aus (beachte, dass die URL in Anführungszeichen geschrieben werden muss):
 
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/Depression.rda"))
 ```
 
@@ -86,7 +86,7 @@ Nun sollte in `R`-Studio oben rechts in dem Fenster _Environment_ unter der Rubr
 Wir können uns die ersten (6) Zeilen des Datensatzes mit der Funktion `head` ansehen. Dazu müssen wir diese Funktion auf den Datensatz (das Objekt) `Depression` anwenden:
 
 
-``` r
+```r
 head(Depression)
 ```
 
@@ -103,7 +103,7 @@ head(Depression)
 Wir erkennen die eben beschriebenen Spalten. Weiterhin sehen wir, dass die Änderungen aus der letzten Sitzung an der Variable Geschlecht natürlich nicht mehr enthalten sind, wenn der Datensatz neu geladen wird. Daher müssen wir die `levels` wieder anpassen und den falsch eingetragenen Wert für Person 5 korrigieren.
 
 
-``` r
+```r
 levels(Depression$Geschlecht) <- c("maennlich", "weiblich")
 Depression[5, 6] <- "maennlich"    
 ```
@@ -140,7 +140,7 @@ Falls Sie sich über die mathematischen Operationen hinter der Bestimmung von ve
 Wir wollen  mit Hilfe eines Regressionsmodells die Depressivitaet durch das Geschlecht und die Lebenszufriedenheit vorhersagen. Dies funktioniert in `R` ganz leicht mit der `lm` ("**l**inear **m**odeling) Funktion. Dieser müssen wir zwei Argumente übergeben: 1) unsere angenommene Beziehung zwischen den Variablen; 2) den Datensatz, in welchem die Variablen zu finden sind:
 
 
-``` r
+```r
 lm(Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression)
 ```
 
@@ -169,7 +169,7 @@ Im Output sehen wir die Parameterschätzungen unseres Regressionsmodells, das fo
 für $i=1,\dots,100=:n$. Wir wollen uns die Ergebnisse unserer Regressionsanalyse noch detaillierter anschauen. Dazu können wir wieder die `summary`-Funktion anwenden. Wir weisen dafür den `lm`-Befehl einem  Objekt zu, welches wir weiterverwenden können, um darauf beispielsweise `summary` auszuführen. Zur Erinnerung: Wir speichern dieses Objekt ab, indem wir eine Zuordnung durchführen via `<-` und einen Namen (hier: `model`) vergeben.
 
 
-``` r
+```r
 model <- lm(Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression)
 summary(model)
 ```
@@ -201,7 +201,7 @@ summary(model)
 Um auch die standardisierten Ergebnisse zu erhalten, verwenden wir die Funktion `lm.beta`. (*lm* steht hier für lineares Modell und *beta* für die standardisierten Koeffizienten. Achtung: Häufig werden allerdings auch unstandardisierten Regressionskoeffizienten als $\beta$s bezeichnet, sodass darauf stets zu achten ist.) Die Funktion muss nach dem Erstellen eines linearen Modells (in unserem Fall `model`) auf dieses angewendet werden. Anschließend wollen wir uns noch eine `summary` des Modells ausgeben lassen. So erhalten wir zusätzlich standardisierte Koeffizienten. Für die Kombination von Funktionen haben wir in der letzten Sitzung die Verwendung des Pipes `|>` kennen gelernt.
 
 
-``` r
+```r
 lm.beta(model) |> summary()
 ```
 
@@ -228,7 +228,7 @@ lm.beta(model) |> summary()
 ## F-statistic: 40.68 on 2 and 87 DF,  p-value: 3.362e-13
 ```
 
-``` r
+```r
 model |> lm.beta() |> summary() # alternativ 
 ```
 
@@ -280,12 +280,12 @@ Fasst noch einmal zusammen, welches Objekt "zusammengefasst" wird. Hier steht da
 Diese Deskriptivstatistiken (gerundet auf 4 Nachkommastellen) geben uns ein Gefühl für die Datengrundlage: die Überschrift sagt uns, dass es hierbei um die Residuen im Regressionsmodell geht. `Min` steht für das Minimum (-3.4037), `1Q` beschreibt das erste Quartil (-0.6711); also den Prozentrang von 25% - es liegen 25% der Werte darunter und 75% darüber, `Median` beschreibt den Prozentrang von 50% (0.012), `3Q` beschreibt das 3. Quartil, also den Prozentrang von 75% (0.695) und `Max` ist der maximale Wert der Residuen (3.329). Der Mittelwert trägt hier keine Information, da die Residuen immer so bestimmt werden, dass sie im Mittel verschwinden, also ihr Mittelwert bei 0 liegt. Da der Median auch sehr nah an der 0 liegt, zeigt dies, dass die Residuen wahrscheinlich recht symmetrisch verteilt sind. Auch das 1. und 3. Quartil verteilen sich ähnlich (also entgegengesetzte Vorzeichen aber betraglich ähnliche Werte), was ebenfalls für die Symmetrie spricht. Wir können die Residuen unserem `model`-Objekt ganz leicht entlocken, indem wir den Befehl `resid` auf dieses Objekt anwenden. Bspw. ergibt sich der Mittelwert als:
 
 
-``` r
+```r
 mean(x = resid(model)) # Mittelwert mit Referenzierung aus dem lm Objekt "model"
 ```
 
 ```
-## [1] -6.002143e-17
+## [1] -1.158362e-16
 ```
 
 Natürlich könnte man statt der Funktion `resid` auch das Element Residuals im Objekt ansprechen mittels `model$residuals`.
@@ -334,7 +334,7 @@ Dazu entnehmen wir dem letzten Block den Standardfehler der Residuen (`Residual 
 Außerdem können wir natürlich auch das mit `summary` erstellte Objekt unter einem Namen abspeichern und ihm dann weitere Informationen entlocken. Bspw. erhalten wir mit `$coefficients` die Tabelle der Koeffizienten oder mit `$r.squared` das multiple $R^2$.
 
 
-``` r
+```r
 summary_model <- summary(lm.beta(model))
 summary_model$coefficients # Koeffiziententabelle
 ```
@@ -346,7 +346,7 @@ summary_model$coefficients # Koeffiziententabelle
 ## Lebenszufriedenheit -0.3663154   -0.3194030 0.09226649 -3.970189 1.474393e-04
 ```
 
-``` r
+```r
 summary_model$r.squared  # R^2
 ```
 
@@ -354,7 +354,7 @@ summary_model$r.squared  # R^2
 ## [1] 0.4832806
 ```
 
-``` r
+```r
 names(summary_model) # weitere mögliche Argumente, die wir erhalten können
 ```
 
@@ -398,7 +398,7 @@ Weitere Informationen zur Instabilität und zu Standardfehlern kann der/die inte
 Multikollinearität kann durch Inspektion der *bivariaten Zusammenhänge* (Korrelationsmatrix) der Prädiktoren $x_j$ untersucht werden. 
 
 
-``` r
+```r
 # Korrelation der Prädiktoren
 cor(as.numeric(Depression$Geschlecht), Depression$Lebenszufriedenheit)
 ```
@@ -416,7 +416,7 @@ Offensichtlich genügt eine der beiden Statistiken, da sie vollständig ineinand
 
 
 
-``` r
+```r
 car::vif(model)        # VIF
 ```
 
@@ -425,7 +425,7 @@ car::vif(model)        # VIF
 ##            1.089733            1.089733
 ```
 
-``` r
+```r
 1/car::vif(model)      # Toleranz
 ```
 
@@ -435,7 +435,7 @@ car::vif(model)        # VIF
 ```
 In diesem Beispiel mit nur 2 Prädiktoren ist $\small R_{Geschlecht}^2=R_{Lebenszufriedenheit}^2=cor(\text{Geschlecht},\text{Lebenszufriedenheit})^2$ und die Formeln sind daher sehr einfach auch mit Hand zu bestimmen:
 
-``` r
+```r
 1/(1-cor(as.numeric(Depression$Geschlecht), Depression$Lebenszufriedenheit)^2) # 1/(1-R^2) = VIF
 ```
 
@@ -443,7 +443,7 @@ In diesem Beispiel mit nur 2 Prädiktoren ist $\small R_{Geschlecht}^2=R_{Lebens
 ## [1] 1.089733
 ```
 
-``` r
+```r
 1-cor(as.numeric(Depression$Geschlecht), Depression$Lebenszufriedenheit)^2 # 1-R^2 = Toleranz
 ```
 
@@ -463,7 +463,7 @@ Die Plausibilität unserer Daten ist enorm wichtig. Aus diesem Grund sollten Aus
 
 
 
-``` r
+```r
 n <- length(residuals(model))   # Anzahl an Personen bestimmen
 h <- hatvalues(model)           # Hebelwerte
 hist(h, breaks  = 20)               
@@ -471,7 +471,7 @@ abline(v = 2*(2+1)/n, col = "red")  # Cut-off als große Stichprobe
 abline(v = 3*(2+1)/n, col = "blue")  # Cut-off als kleine Stichprobe
 ```
 
-![](/lehre/klipps-legacy/regression-ausreisser-klipps-legacy_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
+![](/regression-ausreisser-klipps-legacy_files/unnamed-chunk-19-1.png)<!-- -->
 
 Hier eine kurze Beschreibung aller Argumente in der Grafik: Das Zusatzargument `breaks = 20` in `hist` gibt an, dass 20 Balken gezeichnet werden sollen. `abline` ist eine Funktion, die einem Plot eine Gerade hinzufügt. Dem Argument `v` wird hierbei der Punkt übergeben, an welchem eine **v**ertikale Linie eingezeichnet werden soll. `col = "red"` bzw. `col = "blue"` gibt an, dass diese Linie rot bzw. blau sein soll.
 
@@ -479,24 +479,24 @@ Hier eine kurze Beschreibung aller Argumente in der Grafik: Das Zusatzargument `
 *Cook's Distanz* $CD_i$ bezieht sich auf Ausreißer in der abhängigen Variable und gibt eine Schätzung an, wie stark sich die Regressionsgewichte verändern, wenn eine Person $i$ aus dem Datensatz entfernt wird. Fälle, deren Elimination zu einer deutlichen Veränderung der Ergebnisse führen würden, sollten kritisch geprüft werden. Als einfache Daumenregel gilt, dass $CD_i>1$ auf einen einflussreichen Datenpunkt hinweist. Cook's Distanz kann mit der Funktion `cooks.distance` berechnet werden.
 
 
-``` r
+```r
 # Cook's Distanz
 CD <- cooks.distance(model) # Cook's Distanz
 hist(CD, breaks  = 20)
 abline(v = 1, col = "red")  # Cut-off bei 1
 ```
 
-![](/lehre/klipps-legacy/regression-ausreisser-klipps-legacy_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
+![](/regression-ausreisser-klipps-legacy_files/unnamed-chunk-20-1.png)<!-- -->
 In diesem Plot ist die vertikale Linie nicht enthalten, da der Plot schon zu früh entlang der x-Achse aufhört. Wir können die Grenzen mit `xlim = c(0,1)` explizit von 0 bis 1 vorgeben:
 
 
-``` r
+```r
 # Cook's Distanz nochmal
 hist(CD, breaks  = 20, xlim = c(0, 1))
 abline(v = 1, col = "red")  # Cut-off bei 1
 ```
 
-![](/lehre/klipps-legacy/regression-ausreisser-klipps-legacy_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
+![](/regression-ausreisser-klipps-legacy_files/unnamed-chunk-21-1.png)<!-- -->
 
 
 ### Blasendiagramm
@@ -504,14 +504,14 @@ Die Funktion `influencePlot` des `car`-Paketes erzeugt ein "Blasendiagramm" zur 
 Wenn wir `influencePlot(model)` in einem Objekt (mit dem Objektnamen `InfPlot` ablegen), können wir durch `as.numeric(row.names(InfPlot))` auf die Zeilennummern der auffälligen Werte zugreifen.
 
 
-``` r
+```r
 # Blasendiagramm mit Hebelwerten, studentisierten Residuen und Cook's Distanz
 InfPlot <- influencePlot(model)
 ```
 
-![](/lehre/klipps-legacy/regression-ausreisser-klipps-legacy_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
+![](/regression-ausreisser-klipps-legacy_files/unnamed-chunk-22-1.png)<!-- -->
 
-``` r
+```r
 # Werte der identifizierten Fälle
 InfPlot
 ```
@@ -525,7 +525,7 @@ InfPlot
 ## 85  1.490516 0.11113495 0.091308435
 ```
 
-``` r
+```r
 # In "IDs" werden die Zeilennummern der auffälligen Fälle gespeichert,
 # welche gleichzeitig als Zahlen im Blasendiagramm ausgegeben werden
 IDs <- as.numeric(row.names(InfPlot))
@@ -533,21 +533,27 @@ IDs <- as.numeric(row.names(InfPlot))
 
 Schauen wir uns die möglichen Ausreißer an und standardisieren die Ergebnisse für eine bessere Interpretierbarkeit.
 
-``` r
+```r
 # Rohdaten der auffälligen Fälle 
 Depression[IDs,]
 ```
 
 ```
-##    Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus                Intervention Geschlecht
-## 41                   2              4              6             3                 VT Coaching  maennlich
-## 49                   5              4              2             8                 VT Coaching  maennlich
-## 64                  10              4              1            10 VT Coaching + Gruppenuebung  maennlich
-## 78                   7              9              8             6 VT Coaching + Gruppenuebung  maennlich
-## 85                  11              7              5            10 VT Coaching + Gruppenuebung  maennlich
+##    Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus                Intervention
+## 41                   2              4              6             3                 VT Coaching
+## 49                   5              4              2             8                 VT Coaching
+## 64                  10              4              1            10 VT Coaching + Gruppenuebung
+## 78                   7              9              8             6 VT Coaching + Gruppenuebung
+## 85                  11              7              5            10 VT Coaching + Gruppenuebung
+##    Geschlecht
+## 41  maennlich
+## 49  maennlich
+## 64  maennlich
+## 78  maennlich
+## 85  maennlich
 ```
 
-``` r
+```r
 # z-standardisierte Werte der auffälligen Fälle
 scale(Depression[,1:4])[IDs,]
 ```
@@ -579,7 +585,7 @@ Die Entscheidung, ob Ausreißer oder auffällige Datenpunkte aus Analysen ausges
 ### Einfluss von Hebelwert und Cook's Distanz
 Was wäre nun gewesen, wenn die Hebelwerte oder Cook's Distanz extreme Werte angezeigt hätten? Um dieser Frage auf den Grund zu gehen, schauen wir uns für eine Kombination der beiden Koeffizienten den Effekt auf eine Regressionsgerade an. Die vier Grafiken zeigen jeweils die Regressionsgerade in schwarz ohne den jeweiligen Ausreißer, während die Gerade in blau die Regressionsanalyse (`Y ~ 1 + X`) inklusive des Ausreißers symbolisiert. Falls Sie die Grafik selbst bauen wollen, finden Sie sie in [Appendix B](#AppendixB).
 
-![](/lehre/klipps-legacy/regression-ausreisser-klipps-legacy_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
+![](/regression-ausreisser-klipps-legacy_files/unnamed-chunk-24-1.png)<!-- -->
 
 In `A)` ist die Regression ohne Ausreißer dargestellt. `B)` zeigt den Effekt, wenn nur der Hebelwert groß ist. Es ist kaum ein Einfluss auf die Regressionsgerade auszumachen. Der Mittelwert der Variable `X` wird stark nach rechts verschoben. Dies bedeutet, dass ein großer Hebelwert nur den Mittelwert dieser Variable in Richtung des Ausreißers "hebelt", nicht aber zwangsweise die Regressionsgerade! `C)` zeigt eine große Cook's Distanz bei gleichzeitig kleinem Hebelwert. Die Gerade ist etwas nach oben verschoben und auch die Steigung hat sich leicht verändert. Insgesamt ist mit dem bloßen Auge allerdings noch kein extremer Effekt auf die Gerade auszumachen. Dieser Effekt wird nur in `D)` deutlich. Hier ist sowohl Cook's Distanz als auch der Hebelwert extrem. Dadurch verändert sich die Regressionsgerade stark. Hier könnten wir davon sprechen, dass die Gerade durch den Ausreißer nach unten "gehebelt" wird. Insgesamt zeigt diese Grafik, dass ein Koeffizient alleine nicht ausreicht, um einen Effekt auf eine Regressionsanalyse zu bewirken und dass Werte besonders dann extreme Auswirkungen haben, wenn mehrere Koeffizienten groß sind!
 
@@ -600,7 +606,7 @@ Diese Sitzung war eine Wiederholung der multiplen Regression und einiger Konzept
 Folgende Befehle führen zum gleichen Ergebnis wie:
 
 
-``` r
+```r
 lm(Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression)
 ```
 
@@ -617,7 +623,7 @@ lm(Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression)
 
 Das Interzept kann explizit mitangegeben werden (falls Sie `0 +` schreiben, setzen Sie das Interzept auf 0, was sich entsprechend auf die Parameterschätzungen auswirken wird, falls das Interzept eigentlich von 0 verschieden ist!):
 
-``` r
+```r
 lm(Depressivitaet ~ 0 + Geschlecht + Lebenszufriedenheit, data = Depression)
 ```
 
@@ -636,7 +642,7 @@ Dem Output ist zu entnehmen, dass die Parameterschätzungen sich drastisch geän
 
 Lassen wir das Interzept in der Schreibweise weg, so wird es per Default mitgeschätzt.
 
-``` r
+```r
 lm(Depressivitaet ~ Geschlecht + Lebenszufriedenheit, data = Depression)
 ```
 
@@ -653,7 +659,7 @@ lm(Depressivitaet ~ Geschlecht + Lebenszufriedenheit, data = Depression)
 
 Der Argumentname für das Regressionsmodell lautet `formula`.
 
-``` r
+```r
 lm(formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depression) 
 ```
 
@@ -669,7 +675,7 @@ lm(formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit, data = Depre
 ```
 Wir können also auch einfach die Reihenfolge umdrehen, solange wir Argumente benutzen: 
 
-``` r
+```r
 lm(data = Depression, formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit) 
 ```
 
@@ -686,7 +692,7 @@ lm(data = Depression, formula = Depressivitaet ~ 1 + Geschlecht + Lebenszufriede
 
 Die Formel kann auch in Anführungszeichen geschrieben werden:
 
-``` r
+```r
 lm("Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit", data = Depression) 
 ```
 
@@ -703,7 +709,7 @@ lm("Depressivitaet ~ 1 + Geschlecht + Lebenszufriedenheit", data = Depression)
 
 Wir können auf die Datensatzspezifizierung verzichten, indem wir die Variablen direkt ansprechen (es ändern sich entsprechend die Namen der Koeffizienten im Output):
 
-``` r
+```r
 lm(Depression$Depressivitaet ~ 1 + Depression$Geschlecht + Depression$Lebenszufriedenheit) 
 ```
 
@@ -720,7 +726,7 @@ lm(Depression$Depressivitaet ~ 1 + Depression$Geschlecht + Depression$Lebenszufr
 
 Wir können auch neue Variablen definieren, um diese dann direkt anzusprechen (es ändern sich entsprechend die Namen der Koeffizienten):
 
-``` r
+```r
 AV <- Depression$Depressivitaet
 UV1 <- Depression$Geschlecht
 UV2 <- Depression$Lebenszufriedenheit
@@ -753,7 +759,7 @@ Im folgenden Block sehen wir den Code für ein Histogramm in `ggplot2`-Notation 
 #### Hat-Values
 
 
-``` r
+```r
 n <- length(residuals(model)) #Anzahl Personen
 h <- hatvalues(model) # Hebelwerte
 library(ggplot2)
@@ -767,14 +773,14 @@ ggplot(data = df_h, aes(x = h)) +
   labs(title = "Histogramm der Hebelwerte", x = "Hebelwerte") # Füge eigenen Titel und Achsenbeschriftung hinzu
 ```
 
-![](/lehre/klipps-legacy/regression-ausreisser-klipps-legacy_files/figure-html/unnamed-chunk-60-1.png)<!-- -->
+![](/regression-ausreisser-klipps-legacy_files/unnamed-chunk-33-1.png)<!-- -->
 
 #### Cook's-Distanz:
 
 Hier nochmal der Code für das Histogramm der Cook's-Distanz ohne die Styling-Elemente.
 
 
-``` r
+```r
 # Cook's Distanz
 CD <- cooks.distance(model) # Cook's Distanz
 df_CD <- data.frame(CD) # als Data.Frame für ggplot
@@ -783,12 +789,12 @@ ggplot(data = df_CD, aes(x = CD)) +
   geom_vline(xintercept = 1, col = "red") # Cut-Off bei 1
 ```
 
-![](/lehre/klipps-legacy/regression-ausreisser-klipps-legacy_files/figure-html/unnamed-chunk-61-1.png)<!-- -->
+![](/regression-ausreisser-klipps-legacy_files/unnamed-chunk-34-1.png)<!-- -->
 
 Hier finden Sie außerdem den Code zu den vier Grafiken, die den Einfluss von Hebelwerten und der Cook's Distanz dargestellt haben.
 
 
-``` r
+```r
 par(mfrow=c(2,2),cex.axis = 1.1, cex.lab= 1.2, cex.main = 1.3, mar = c(5, 5, 2, 1),
     bty="n",bg="white", mgp=c(2, 0.8, 0))
 
@@ -845,7 +851,7 @@ points(X_[length(X)+1], y_[length(X)+1], pch = 15, cex = 2.8, col = "gold")
 points(X_[length(X)+1], y_[length(X)+1], pch = 16, cex = 2, col = "darkblue")
 ```
 
-![](/lehre/klipps-legacy/regression-ausreisser-klipps-legacy_files/figure-html/unnamed-chunk-62-1.png)<!-- -->
+![](/regression-ausreisser-klipps-legacy_files/unnamed-chunk-35-1.png)<!-- -->
 
 </details>
 
@@ -862,7 +868,7 @@ Der Vektor der Mittelwertsdifferenz $\mathbf{X}_i-\bar{\mathbf{X}}$ wird durch d
 
 
 
-``` r
+```r
 library(ellipse)
 mu1 <- c(0,0)
 mu2 <- c(1,0)
@@ -902,7 +908,7 @@ points(X[i],Y[i], cex = 2, pch = 16)
 points(mu1[1],mu1[2],pch=19,col="green", cex = 3)
 ```
 
-![](/lehre/klipps-legacy/regression-ausreisser-klipps-legacy_files/figure-html/unnamed-chunk-63-1.png)<!-- -->
+![](/regression-ausreisser-klipps-legacy_files/unnamed-chunk-36-1.png)<!-- -->
 
 Der Ellipsenplot zeigt zwei multivariat-normalverteilte Variablen. Die Normalverteilungsdichte können wir uns dort wie einen Hügel vorstellen, der aus dem Bildschirm wächst, wobei hellere Kurven für eine größere Höhe des Hügels sprechen.
 
@@ -912,7 +918,7 @@ Außerdem gilt, dass bei multivariater Normalverteilung der Daten die Mahalanobi
 
 Der Befehl in `R` für die Mahalanobisdistanz ist `mahalanobis`. Hierfür sollten alle Prädiktoren aus einem Modell als Variablen in einen gemeinsamen Datensatz aufgenommen werden. Als Beispiel nehmen wir an dieser Stelle einfach die Depressivitaet und die Lebenszufriedenheit via `Depression$...` als unsere zwei Variablen auf und fassen diese zusammen zu einer Datenmatrix `X` mit dem Befehl `cbind` (column-bind), der die übergebenen Variablen als Spaltenvektoren zusammenfasst.  `mahalanobis` braucht 3 Argumente: die Daten `X`, den gemeinsamen Mittelwert der Daten, den wir hier mit `colMeans` bestimmen (es wird jeweils der Mittelwert für die Spalten gebildet) sowie die Kovarianzmatrix der Daten `cov(X)`, an welcher die Struktur relativiert werden soll (`cor` gibt die Korrelationsmatrix aus; hier wird allerdings die Kovarianzmatrix gebraucht - anhand der Korrelationsmatrix lässt sich jedoch die Beziehung der Variablen besser einordnen):
 
-``` r
+```r
 X <- cbind(Depression$Depressivitaet, Depression$Lebenszufriedenheit) # Datenmatrix mit Depressivitaet in Spalte 1 und Lebenszufriedenheit in Spalte 2
 colMeans(X)  # Spaltenmittelwerte (1. Zahl = Mittelwert der Depressivitaet, 2. Zahl = Mittelwert der Lebenszufriedenheit)
 ```
@@ -921,7 +927,7 @@ colMeans(X)  # Spaltenmittelwerte (1. Zahl = Mittelwert der Depressivitaet, 2. Z
 ## [1] 5.655556 6.400000
 ```
 
-``` r
+```r
 cov(X) # Kovarianzmatrix von Depressivitaet und Lebenszufriedenheit
 ```
 
@@ -931,7 +937,7 @@ cov(X) # Kovarianzmatrix von Depressivitaet und Lebenszufriedenheit
 ## [2,] -1.287640  2.377528
 ```
 
-``` r
+```r
 cor(X) # zum Vergleich: die Korrelationsmatrix (die Variablen scheinen mäßig zu korrelieren, was unbedingt in die Ausreißerdiagnostik involviert werden muss)
 ```
 
@@ -941,26 +947,26 @@ cor(X) # zum Vergleich: die Korrelationsmatrix (die Variablen scheinen mäßig z
 ## [2,] -0.4722292  1.0000000
 ```
 
-``` r
+```r
 MD <- mahalanobis(x = X, center = colMeans(X), cov = cov(X))
 ```
 
 Zunächst beschäftigen wir uns mit der Überprüfung auf multivariate Normalverteilung. Die Verteilung der Mahalanobisdistanz widerspricht nicht (zu sehr) der Annahme auf multivariate Normalverteilung, da das Histogramm einigermaßen zur Dichte der $\chi^2(df=2)$-Verteilung passt:
 
 
-``` r
+```r
 hist(MD, freq = F, breaks = 15)
 xWerte <- seq(from = min(MD), to = max(MD), by = 0.01)
 lines(x = xWerte, y = dchisq(x = xWerte, df = 2), lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/regression-ausreisser-klipps-legacy_files/figure-html/unnamed-chunk-65-1.png)<!-- -->
+![](/regression-ausreisser-klipps-legacy_files/unnamed-chunk-38-1.png)<!-- -->
 
-``` r
+```r
 qqPlot(x = MD,distribution =  "chisq", df = 2, pch = 16)
 ```
 
-![](/lehre/klipps-legacy/regression-ausreisser-klipps-legacy_files/figure-html/unnamed-chunk-65-2.png)<!-- -->
+![](/regression-ausreisser-klipps-legacy_files/unnamed-chunk-38-2.png)<!-- -->
 
 ```
 ## [1] 85 41
@@ -970,7 +976,7 @@ Gleiches gilt auch für den Q-Q-Plot, der hier ebenfalls gegen die $\chi^2(df=2)
 Da die Annahme der multivariaten Normalverteilung nicht verworfen wird, können wir jetzt einzelne extreme Werte auf Signifikanz testen. Zum Bestimmen der kritischen Distanz nehmen wir die $\chi^2$-Verteilung heran. Wir bestimmen mit `qchisq` den kritischen Wert, wobei als $p$-Wert hier meist ein $\alpha$-Niveau von .01 oder .001 herangezogen wird, damit wir nicht fälschlicherweise zu viele Werte aussortieren. Hierbei übergeben wir dem Argument `p` das $\alpha$-Niveau, `lower.tail = F` besagt, dass wir damit die obere Grenze meinen (also mit `p` gerade die Wahrscheinlichkeit meinen, einen extremeren Wert zu finden), `df = 2` stellt die Freiheitsgrade ein (hier = 2, da 2 Variablen): 
 
 
-``` r
+```r
 qchisq(p = .01, lower.tail = F, df = 2)    # alpha = 1%
 ```
 
@@ -978,7 +984,7 @@ qchisq(p = .01, lower.tail = F, df = 2)    # alpha = 1%
 ## [1] 9.21034
 ```
 
-``` r
+```r
 qchisq(p = .001, lower.tail = F, df = 2)   # alpha = 0.1%
 ```
 
@@ -989,27 +995,29 @@ qchisq(p = .001, lower.tail = F, df = 2)   # alpha = 0.1%
 Nun können wir die Mahalanobisdistanz untersuchen:
 
 
-``` r
+```r
 MD
 ```
 
 ```
-##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173  1.29835776  0.89484803  5.31999173
-## [10]  0.07401952  1.85988286  0.96581665  2.87179069  1.29835776  3.08398338  6.11730810  0.96581665  0.33582974
-## [19]  1.93061376  3.99622396  0.96581665  1.85988286  1.93061376  3.57704668  0.07401952  0.96581665  1.68027868
-## [28]  0.88006651  1.85988286  1.85988286  0.96581665  0.19639932  0.07401952  2.79831527  0.19639932  1.64697702
-## [37]  2.42350418  0.89484803  0.96581665  0.19639932  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651
-## [46]  0.19639932  0.07401952  0.38036881  8.84194961  1.64697702  0.19639932  1.29835776  2.87179069  4.92199266
-## [55]  7.18339325  0.19639932  0.33582974  0.38036881  3.46236019  0.07401952  0.33582974  0.38036881  3.48368968
-## [64]  8.46422112  0.19639932  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570  0.38036881  0.07401952
-## [73]  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429  3.08398338  2.86848429  1.09506856  2.39394112
-## [82]  1.50981570  1.09506856  2.42350418 10.28690861  1.33295604  0.19639932  0.88006651  1.68027868  1.09506856
+##  [1]  1.29835776  1.85988286  1.68027868  0.38036881  1.93061376  5.31999173  1.29835776  0.89484803
+##  [9]  5.31999173  0.07401952  1.85988286  0.96581665  2.87179069  1.29835776  3.08398338  6.11730810
+## [17]  0.96581665  0.33582974  1.93061376  3.99622396  0.96581665  1.85988286  1.93061376  3.57704668
+## [25]  0.07401952  0.96581665  1.68027868  0.88006651  1.85988286  1.85988286  0.96581665  0.19639932
+## [33]  0.07401952  2.79831527  0.19639932  1.64697702  2.42350418  0.89484803  0.96581665  0.19639932
+## [41]  9.85316591  0.89484803  6.01723026  4.27802381  0.88006651  0.19639932  0.07401952  0.38036881
+## [49]  8.84194961  1.64697702  0.19639932  1.29835776  2.87179069  4.92199266  7.18339325  0.19639932
+## [57]  0.33582974  0.38036881  3.46236019  0.07401952  0.33582974  0.38036881  3.48368968  8.46422112
+## [65]  0.19639932  0.88006651  0.07401952  0.88006651  1.09506856  1.50981570  0.38036881  0.07401952
+## [73]  1.64697702  0.33582974  1.09506856  0.88006651  2.86848429  3.08398338  2.86848429  1.09506856
+## [81]  2.39394112  1.50981570  1.09506856  2.42350418 10.28690861  1.33295604  0.19639932  0.88006651
+## [89]  1.68027868  1.09506856
 ```
 
 Hier alle Werte durch zugehen ist etwas lästig. Natürlich können wir den Vergleich mit den kritischen Werten auch automatisieren und z.B. uns nur diejenigen Mahalanobisdistanzwerte ansehen, die größer als der kritische Wert zum $\alpha$-Niveau von 1% sind. Wenn wir den `which` Befehl nutzen, so erhalten wir auch noch die Fallnummer (Pbn-Nr) der möglichen Ausreißer.
 
 
-``` r
+```r
 MD[MD > qchisq(p = .01, lower.tail = F, df = 2)]      # Mahalanobiswerte > krit. Wert
 ```
 
@@ -1017,7 +1025,7 @@ MD[MD > qchisq(p = .01, lower.tail = F, df = 2)]      # Mahalanobiswerte > krit.
 ## [1]  9.853166 10.286909
 ```
 
-``` r
+```r
 which(MD > qchisq(p = .01, lower.tail = F, df = 2))   # Pbn-Nr. 1%
 ```
 
@@ -1025,7 +1033,7 @@ which(MD > qchisq(p = .01, lower.tail = F, df = 2))   # Pbn-Nr. 1%
 ## [1] 41 85
 ```
 
-``` r
+```r
 which(MD > qchisq(p = .001, lower.tail = F, df = 2))   # Pbn-Nr. 0.1%
 ```
 

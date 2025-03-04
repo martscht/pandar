@@ -8,7 +8,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um den Zusammenhang von ANOVA und Regression. Zunächst wird gezeigt, wie man Regressionsmodelle miteinander vergleicht. Dann betrachten wir die einfaktorielle und die zweifaktorielle ANOVA genauer an. Dabei gehen wir auf die verschiedenen Typen von Quadratsummen ein, die bei der zweifaktoriellen ANOVA zur Überprüfung unterschiedlicher Hypothesen verwendet werden. Der Beitrag verdeutlicht, dass Regression und ANOVA zu denselben Ergebnis kommen, wenn dieselben Hypothesen geprüft werden.'
 authors: [irmer]
 weight: 3
-lastmod: '2024-10-08'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/daily_report_color.jpg"
@@ -46,56 +46,76 @@ Diese Sitzung basiert auf Literatur aus [Eid et al. (2017)](https://ubffm.hds.he
 Im Gegensatz zu den vorherigen Sitzungen wollen wir einen Datensatz direkt aus dem [Open Science Framwork (OSF)](https://osf.io) laden. Dort werden Unterlagen im Sinne der Open-Sience-Initiative abgelegt. In diesem Fall nutzen wir einen Datensatz von [Schaeuffele et al. (2020)](https://psyarxiv.com/528tw/), die den Effekt des Unified Protocol (UP) als Internetintervention für bestimmte psychische Störungen durchgeführt haben. Die OSF-Daten finden wir [hier](https://osf.io/fyhn5/). Wenn wir dort zum Datensatz navigieren, können wir das "csv"-File direkt in `R` einbinden, ohne es auf unserem Rechner ablegen zu müssen --- wie als würde der Datensatz auf `PandaR` liegen. Der nötige Befehl lautet `read.csv`, mit dem wir auch ein lokales "csv"-File einlesen können. Wir müssen  der Funktion lediglich den Link zum downloadbaren "csv"-File übergeben. Der Vollständigkeit halber sagen wir `R` dann noch, dass es sich um einen Dateipfad ins Internet handelt, indem wir die `url`-Funktion darauf anwenden. Wir nennen die eingelesenen Daten unglaublich einfallsreich einfach mal `osf` und schauen uns die Variablen des Datensatzes mit `names` an.
 
 
-``` r
+```r
 osf <- read.csv(file = url("https://osf.io/zc8ut/download"))
 names(osf)
 ```
 
 ```
-##   [1] "X"                                 "ID"                                "group"                            
-##   [4] "stratum"                           "bsi_pre"                           "bsi_mid"                          
-##   [7] "bsi_post"                          "bsi_fu"                            "bsi_fu2"                          
-##  [10] "panas_pa_pre"                      "panas_pa_mid"                      "panas_pa_post"                    
-##  [13] "panas_pa_fu"                       "panas_pa_fu2"                      "panas_na_pre"                     
-##  [16] "panas_na_mid"                      "panas_na_post"                     "panas_na_fu"                      
-##  [19] "panas_na_fu2"                      "swls_pre"                          "swls_mid"                         
-##  [22] "swls_post"                         "swls_fu"                           "swls_fu2"                         
-##  [25] "phq9_pre"                          "phq9_post"                         "gad7_pre"                         
-##  [28] "gad7_post"                         "lsas_pre"                          "lsas_post"                        
-##  [31] "lsas_anx_pre"                      "lsas_anx_post"                     "lsas_avo_pre"                     
-##  [34] "lsas_avo_post"                     "pas_pre"                           "pas_post"                         
-##  [37] "shai_anx_pre"                      "shai_anx_post"                     "shai_neg_pre"                     
-##  [40] "shai_neg_post"                     "phq15_pre"                         "phq15_post"                       
-##  [43] "NEQ_1_A"                           "NEQ_1_B"                           "NEQ_1_C"                          
-##  [46] "NEQ_2_A"                           "NEQ_2_B"                           "NEQ_2_C"                          
-##  [49] "NEQ_3_A"                           "NEQ_3_B"                           "NEQ_3_C"                          
-##  [52] "NEQ_4_A"                           "NEQ_4_B"                           "NEQ_4_C"                          
-##  [55] "NEQ_5_A"                           "NEQ_5_B"                           "NEQ_5_C"                          
-##  [58] "NEQ_6_A"                           "NEQ_6_B"                           "NEQ_6_C"                          
-##  [61] "NEQ_7_A"                           "NEQ_7_B"                           "NEQ_7_C"                          
-##  [64] "NEQ_8_A"                           "NEQ_8_B"                           "NEQ_8_C"                          
-##  [67] "NEQ_9_A"                           "NEQ_9_B"                           "NEQ_9_C"                          
-##  [70] "NEQ_10_A"                          "NEQ_10_B"                          "NEQ_10_C"                         
-##  [73] "NEQ_11_A"                          "NEQ_11_B"                          "NEQ_11_C"                         
-##  [76] "NEQ_12_A"                          "NEQ_12_B"                          "NEQ_12_C"                         
-##  [79] "NEQ_13_A"                          "NEQ_13_B"                          "NEQ_13_C"                         
-##  [82] "NEQ_14_A"                          "NEQ_14_B"                          "NEQ_14_C"                         
-##  [85] "NEQ_15_A"                          "NEQ_15_B"                          "NEQ_15_C"                         
-##  [88] "NEQ_16_A"                          "NEQ_16_B"                          "NEQ_16_C"                         
-##  [91] "NEQ_17_A"                          "NEQ_17_B"                          "NEQ_17_C"                         
-##  [94] "NEQ_18_A"                          "NEQ_18_B"                          "NEQ_18_C"                         
-##  [97] "NEQ_19_A"                          "NEQ_19_B"                          "NEQ_19_C"                         
-## [100] "NEQ_20_A"                          "NEQ_20_B"                          "NEQ_20_C"                         
-## [103] "csq8_1"                            "csq8_2"                            "csq8_3"                           
-## [106] "csq8_4"                            "csq8_5"                            "csq8_6"                           
-## [109] "csq8_7"                            "csq_8"                             "completed_modules"                
-## [112] "logins_after_allocation"           "sent_messages"                     "received_messages"                
-## [115] "exercises_total"                   "time_spent_after_allocation_hours" "exercises_per_login"
+##   [1] "X"                                 "ID"                               
+##   [3] "group"                             "stratum"                          
+##   [5] "bsi_pre"                           "bsi_mid"                          
+##   [7] "bsi_post"                          "bsi_fu"                           
+##   [9] "bsi_fu2"                           "panas_pa_pre"                     
+##  [11] "panas_pa_mid"                      "panas_pa_post"                    
+##  [13] "panas_pa_fu"                       "panas_pa_fu2"                     
+##  [15] "panas_na_pre"                      "panas_na_mid"                     
+##  [17] "panas_na_post"                     "panas_na_fu"                      
+##  [19] "panas_na_fu2"                      "swls_pre"                         
+##  [21] "swls_mid"                          "swls_post"                        
+##  [23] "swls_fu"                           "swls_fu2"                         
+##  [25] "phq9_pre"                          "phq9_post"                        
+##  [27] "gad7_pre"                          "gad7_post"                        
+##  [29] "lsas_pre"                          "lsas_post"                        
+##  [31] "lsas_anx_pre"                      "lsas_anx_post"                    
+##  [33] "lsas_avo_pre"                      "lsas_avo_post"                    
+##  [35] "pas_pre"                           "pas_post"                         
+##  [37] "shai_anx_pre"                      "shai_anx_post"                    
+##  [39] "shai_neg_pre"                      "shai_neg_post"                    
+##  [41] "phq15_pre"                         "phq15_post"                       
+##  [43] "NEQ_1_A"                           "NEQ_1_B"                          
+##  [45] "NEQ_1_C"                           "NEQ_2_A"                          
+##  [47] "NEQ_2_B"                           "NEQ_2_C"                          
+##  [49] "NEQ_3_A"                           "NEQ_3_B"                          
+##  [51] "NEQ_3_C"                           "NEQ_4_A"                          
+##  [53] "NEQ_4_B"                           "NEQ_4_C"                          
+##  [55] "NEQ_5_A"                           "NEQ_5_B"                          
+##  [57] "NEQ_5_C"                           "NEQ_6_A"                          
+##  [59] "NEQ_6_B"                           "NEQ_6_C"                          
+##  [61] "NEQ_7_A"                           "NEQ_7_B"                          
+##  [63] "NEQ_7_C"                           "NEQ_8_A"                          
+##  [65] "NEQ_8_B"                           "NEQ_8_C"                          
+##  [67] "NEQ_9_A"                           "NEQ_9_B"                          
+##  [69] "NEQ_9_C"                           "NEQ_10_A"                         
+##  [71] "NEQ_10_B"                          "NEQ_10_C"                         
+##  [73] "NEQ_11_A"                          "NEQ_11_B"                         
+##  [75] "NEQ_11_C"                          "NEQ_12_A"                         
+##  [77] "NEQ_12_B"                          "NEQ_12_C"                         
+##  [79] "NEQ_13_A"                          "NEQ_13_B"                         
+##  [81] "NEQ_13_C"                          "NEQ_14_A"                         
+##  [83] "NEQ_14_B"                          "NEQ_14_C"                         
+##  [85] "NEQ_15_A"                          "NEQ_15_B"                         
+##  [87] "NEQ_15_C"                          "NEQ_16_A"                         
+##  [89] "NEQ_16_B"                          "NEQ_16_C"                         
+##  [91] "NEQ_17_A"                          "NEQ_17_B"                         
+##  [93] "NEQ_17_C"                          "NEQ_18_A"                         
+##  [95] "NEQ_18_B"                          "NEQ_18_C"                         
+##  [97] "NEQ_19_A"                          "NEQ_19_B"                         
+##  [99] "NEQ_19_C"                          "NEQ_20_A"                         
+## [101] "NEQ_20_B"                          "NEQ_20_C"                         
+## [103] "csq8_1"                            "csq8_2"                           
+## [105] "csq8_3"                            "csq8_4"                           
+## [107] "csq8_5"                            "csq8_6"                           
+## [109] "csq8_7"                            "csq_8"                            
+## [111] "completed_modules"                 "logins_after_allocation"          
+## [113] "sent_messages"                     "received_messages"                
+## [115] "exercises_total"                   "time_spent_after_allocation_hours"
+## [117] "exercises_per_login"
 ```
 Das sind sehr viele Variablen. Wir beschränken uns in dieser und in der folgenden Sitzung auf einige wenige Variablen, die nach dem Durchführen des Treatments erhoben wurden: `ID` (Teilnehmendennummer), `group` (Gruppenzugehörigkeit: Wartelistenkontrollgruppe vs. Treatmentgruppe), `stratum` (Krankheitsbild: Angststörung [**ANX**iety], Depression [**DEP**ression] oder somatische Belastungsstörung [**SOM**atic symptom disorder]), `bsi_post` (Symptomschwere), `swls_post` (Lebenszufriedenheit [*S*atisfaction *W*ith *L*ife *S*creening]) und `pas_post` (Panikstörung und Agoraphobie [*P*anic and *A*goraphobia *S*creening]). Wir kürzen entsprechend den Datensatz und schauen ihn uns mit `head` an:
 
 
-``` r
+```r
 osf <- osf[, c("ID", "group", "stratum", "bsi_post", "swls_post", "pas_post")]
 head(osf)
 ```
@@ -112,7 +132,7 @@ head(osf)
 Wir erkennen direkt, dass es einige fehlende Werte auf den Variablen gibt. Der Einfachheit halber entfernen wir diese Missings. Wir führen also den listenweisen Fallausschluss (engl. list-wise deletion) durch. Dieser darf allerdings nur gemacht werden, wenn die fehlenden Werte rein zufällig passiert sind (missing completely at random!). Allerdings sei erwähnt, dass der listenweise Fallausschluss natürlich die Stichprobengröße verringert und dadurch die Power der Analysen reduziert. Aus Illustrationszwecken wollen wir uns damit nicht weiter aufhalten.
 
 
-``` r
+```r
 dim(osf) # vorher
 ```
 
@@ -120,7 +140,7 @@ dim(osf) # vorher
 ## [1] 129   6
 ```
 
-``` r
+```r
 osf <- na.omit(osf)
 dim(osf) # nach Fallauschluss
 ```
@@ -136,7 +156,7 @@ Der Befehl `na.omit` führt den listenweisen Fallausschluss für uns durch. *Ach
 In der vorherigen Sitzung haben wir noch einmal die Regressionsanalyse wiederholt. Wenn wir beispielsweise wissen möchten, ob nach dem Treatment die Symptomschwere mit der Lebenszufriedenheit oder der Ausprägung einer möglichen Panikstörung mit oder ohne Agoraphobie zusammenhängt, wissen wir nun, wie wir dies untersuchen können:
 
 
-``` r
+```r
 reg <- lm(bsi_post ~ 1 + swls_post + pas_post, data = osf)
 summary(reg)
 ```
@@ -165,7 +185,7 @@ summary(reg)
 Offensichtlich tragen beide Prädiktoren signifikant zur Varianzerklärung des Kriteriums bei. Damit können wir für die Population (mit einer Irrtumswahrscheinlichkeit von {{< math >}}$5\%${{< /math >}}) konkludieren, dass höhere Symptomschwere mit geringerer Lebenszufriedenheit und höherer Panik- und Agoraphobiesymptomatik assoziiert ist. Dies haben wir an den Parametertests und den zugehörigen $t$-Tests abgelesen. Allerdings können wir auch Sets von Prädiktoren auf signifikante Vorhersagekraft testen. Bspw. können wir untersuchen, ob die beiden Prädiktoren gemeinsam Varianz an der Symptomschwere erklären. Dazu müssen wir quasi ein leeres Regressionsmodell aufstellen, welches nur ein Interzept enthält. Nennen wir dieses mal `reg0`. Anschließend können wir die beiden Modelle mit dem `anova`-Befehl vergleichen. Dieser führt dann den sogenannten $F$-Test durch:
 
 
-``` r
+```r
 reg0 <-  lm(bsi_post ~ 1, data = osf)
 anova(reg0, reg)
 ```
@@ -185,7 +205,7 @@ anova(reg0, reg)
 Der `anova`-Output sagt uns zunächst, welche beiden Modelle miteinander verglichen wurden. Diese werden hier `Model 1` und `Model 2` genannt. Anschließend erhalten wir für den Modellvergleich Informationen über die Residualfreiheitsgrade (`Res.Df`), die Residualquadratsumme (`RSS`, **R**esidual **S**um of **S**quares), die Freiheitsgrade des Modellvergleichs (`Df`; entspricht der Differenz der `Res.Df` zwischen Modellen!), die Differenz der Quadratsummen (`Sum of Sq`), den empirischen $F$-Wert (`F`) sowie den zugehörigen $p$-Wert (`Pr(>F)`). Aus den ersten vier Informationen können wir den $F$-Wert bestimmen. Die Residualfreiheitsgrade sind $n-(p+1)$, wobei $n$ die Stichprobengröße und $p$ die Anzahl an Variablen im Modell ist. Somit ist $p+1$ gerade die Anzahl an Parametern ($\beta$s), wenn es ein Interzept gibt. Die Residualquadratsumme ist die quadratische Summe der Regressionsresiduen: $RSS := \sum_{i=1}^n ( y_i - \hat{y}_i)^2$, wobei die Regressionsresiduen $\hat{e}_i:= y_i - \hat{y}_i$ sind. Die Freiheitsgrade entsprechen der Anzahl an Parametern, um welche sich die beiden Modelle unterscheiden. Da das eine Modell nur aus einem Interzept besteht und im zweiten zwei Variablen (also zwei Steigungskoeffizienten) enthalten sind, gilt `Df` = 2. Die Differenz der Quadratsumme entspricht der erklärten Quadratsumme, die auf das Hinzufügen der Variablen in das Modell zurückzuführen ist. Wenn Sie sich den Determinationskoeffizienten wieder ins Gedächtnis rufen, erinnern Sie sich, dass dieser dem Anteil erklärter Varianz entspricht. Der Determinationskoeffizinet lässt sich auch anders beschreiben, er ist quasi der Anteil der erklärten Quadratsumme an der totalen Quadratsumme. Wir berechnen diesen schnell per Hand, indem wir das `anova`-Objekt abspeichern und die entsprechenden Informationen entnehmen.
 
 
-``` r
+```r
 anova0 <- anova(reg0, reg)
 R2 <- anova0$`Sum of Sq`[2] / anova0$RSS[1]
 R2 # R^2 mit Hand
@@ -195,7 +215,7 @@ R2 # R^2 mit Hand
 ## [1] 0.5271566
 ```
 
-``` r
+```r
 summary(reg)$r.squared # R^2 aus dem lm-Objekt
 ```
 
@@ -203,7 +223,7 @@ summary(reg)$r.squared # R^2 aus dem lm-Objekt
 ## [1] 0.5271566
 ```
 
-``` r
+```r
 var(predict(reg))/var(osf$bsi_post) # über die Vorhersage von Werten mittels "predict"
 ```
 
@@ -218,7 +238,7 @@ $$F := \frac{(R^2_u-R^2_e)/df_h}{(1-R^2_u)/df_e},$$
 wobei $df_h (=p_u-p_e)$ den Hypothesenfreiheitsgraden (`Df` oben) und $df_e (=n-p_u-1)$ den Fehlerfreiheitsgraden (`Res.Df` oben) des uneingeschränkten Modells entspricht. Dabei ist $p_u$ bzw. $p_e$ die Anzahl der Prädiktoren (auch Parameter) im jeweiligen Modell. Ist das eingeschränkte Modell das Null-Modell ohne Prädiktoren, so gilt $R^2_e=0$, was die Formel nochmals vereinfacht. $1-R^2_u$ ist der Anteil unerklärter Varianz im uneingeschränkten Modell --- also der Anteil der Residualvarianz an der Gesamtvarianz. Entsprechend bekommen wir den empirischen $F$-Wert (`R2` von oben entspricht $R^2_u$):
 
 
-``` r
+```r
 F_emp <- (R2/2)/((1-R2)/91)
 F_emp # empirischer F-Bruch mit Hand
 ```
@@ -227,7 +247,7 @@ F_emp # empirischer F-Bruch mit Hand
 ## [1] 50.72637
 ```
 
-``` r
+```r
 anova0$F[2] # empirischer F-Bruch aus anova-Objekt
 ```
 
@@ -243,7 +263,7 @@ Der Vergleich gegen das Null-Modell wird in jeder `summary` mit ausgegeben. Dies
 Wir können in ein Regressionsmodell auch kategoriale Prädiktoren aufnehmen. Das haben wir bereits in der vergangenen Sitzung gemacht, indem wir das Geschlecht mit in die Gleichung aufgenommen haben. Der Default in `R` ist, dass Dummyvariablen verwendet werden, um Gruppenzugehörigkeiten auszudrücken. So kann erreicht werden, dass Abweichungen zu einer Referenzkategorie kodiert werden können. Wir sagen die Symptomschwere durch die Gruppenvariable, die die Zuweisung zum Treatment enthält, vorher. Zunächst müssen wir sichergehen, dass es sich bei dieser Variable um eine Gruppierungsvariable handelt, indem wir sie in einen `factor` umwandeln. 
 
 
-``` r
+```r
 osf$group <- factor(osf$group)
 reg_dummy1 <- lm(bsi_post  ~ 1 + group, data = osf)
 summary(reg_dummy1)
@@ -273,7 +293,7 @@ summary(reg_dummy1)
 Wir erkennen im Output, dass im Modell ein Interzept sowie ein Steigungskoeffizient für `groupWaitlist` geschätzt wurde. Hier ist es nun so, dass `groupWaitlist` uns verrät, dass es sich hier um die Variable `group` handelt und dass die Ausprägung `Waitlist` im Vergleich zur Referenzkategorie betrachtet wird. Das können wir auch herausfinden, indem wir `levels` auf die Variable `group` anwenden:
 
 
-``` r
+```r
 levels(osf$group)
 ```
 
@@ -283,7 +303,7 @@ levels(osf$group)
 `"Treatment"` ist hier die Referenzkategorie. Damit unterscheiden sich die beiden Gruppen hinsichtlich der Symptomschwere um 9.614. Der Mittelwert der Symptomschwere in der Treatmentgruppe liegt bei 13.275, was dem Interzept entspricht. Die Wartelistenkontrollgruppe hatte eine durchschnittliche Symptomschwere von (13.275$+$9.614$=$) 22.889. Das können wir auch mit `aggregate` nochmals prüfen und uns die Mittelwerte in den beiden Gruppen ausgeben lassen. Hier müssen wir lediglich sagen, welche Variable in welche Gruppen aufgeteilt werden soll (`AV ~ UV`) und was in den Gruppen passieren soll (`FUN = mean` sagt, dass Mittelwerte bestimmt werden sollen):
 
 
-``` r
+```r
 aggregate(bsi_post ~ group, data = osf, FUN = mean)
 ```
 
@@ -296,7 +316,7 @@ aggregate(bsi_post ~ group, data = osf, FUN = mean)
 Wenn wir nun wieder einen Modellvergleich vornehmen, können wir den Effekt des Treatments bestimmen:
 
 
-``` r
+```r
 anova(reg0, reg_dummy1)
 ```
 
@@ -315,7 +335,7 @@ anova(reg0, reg_dummy1)
 Das Treatment scheint die Symptomschwere signifikant zu verringern (mit einer Irrtumswahrscheinlichkeit von {{< math >}}$5\%${{< /math >}}). Wir können auch nachsehen, wie viel Variation durch die Zuteilung zur Treatment- oder Wartekontrollgruppe an der Symptomschwere erklärt wird:
 
 
-``` r
+```r
 summary(reg_dummy1)$r.squared
 ```
 
@@ -330,7 +350,7 @@ Mithilfe der ANOVA können wir unsere Daten auf Mittelwertsunterschiede über Gr
 (Das Folgende ist zum Teil auch in der [Sitzung ANOVA I](/lehre/statistik-ii/anova-i) aus dem Bachelor zu finden, *natürlich mit einem anderen Datensatz*.)
 
 
-``` r
+```r
 # Paket laden (ggf. vorher installieren mit install.packages)
 library(ez)
 ```
@@ -345,20 +365,20 @@ Weil die Funktion für verschiedene Arten von *ANOVAs* geeignet ist, benötigt s
 `ID` ist die ID-Variable unseres Datensatzes. Diese müssen wir nur noch in einen `factor` umwandeln:
 
 
-``` r
+```r
 osf$ID <- as.factor(osf$ID)
 ```
 
 Jetzt kann die ANOVA mit dem `ezANOVA`-Befehl durchgeführt werden, indem wir einfach den oben stehenden Argumenten unsere Variablen übergeben:
 
 
-``` r
+```r
 ezANOVA(data = osf, wid = ID, dv = bsi_post, between = group)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -384,13 +404,13 @@ Der erste Abschnitt der Ausgabe der `ezANOVA`-Funktion liefert die Ergebnisse de
 Die letzte Spalte liefert das generalisierte $\eta^2$ (`ges` = *Generalized Eta-Squared*), ein Effektstärkenmaß für ANOVAs. Dieses berechnet sich in diesem Fall einfach aus $\eta^2 = \frac{SS_\text{between}}{SS_{tot}}$, wobei $SS_\text{between}$ die Quadratsumme (engl. sum of squares $SS$), die durch Variation zwischen den Gruppen entsteht, und $SS_{tot}$ die totale Quadratsumme der abhängigen Variablen beschreibt. Um die Quadtratsummen (`SSn` = $SS_\text{between}$, `SSd` = $SS_\text{within}$) zu erhalten, kann mithilfe des Arguments `detailed = TRUE` eine detaillierte Ausgabe angefordert werden.
 
 
-``` r
+```r
 ezANOVA(data = osf, wid = ID, dv = bsi_post, between = group, detailed = T)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -412,20 +432,20 @@ Für $\eta^2$ haben sich - wie für viele Effektgrößen - Konventionen bezügli
 Die Effektstärke bedeutet, dass 21.24% der Variation auf die Gruppenzugehörigkeit zurückgehen. Dieser Wert sollte Ihnen reichlich bekannt vorkommen. Hier gilt nämlich $\eta^2=R^2$ aus der Regression! Um dies genauer zu sehen, speichern wir uns die Ergebnisse der `ezANOVA` ab:
 
 
-``` r
+```r
 ezANOVA1 <- ezANOVA(data = osf, wid = ID, dv = bsi_post, between = group, detailed = T)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
 ## Coefficient covariances computed by hccm()
 ```
 
-``` r
+```r
 ezANOVA1$ANOVA$ges
 ```
 
@@ -433,7 +453,7 @@ ezANOVA1$ANOVA$ges
 ## [1] 0.2123605
 ```
 
-``` r
+```r
 summary(reg_dummy1)$r.squared
 ```
 
@@ -443,7 +463,7 @@ summary(reg_dummy1)$r.squared
 Auch die empirschen $F$-Werte sind identisch:
 
 
-``` r
+```r
 ezANOVA1$ANOVA$F
 ```
 
@@ -451,7 +471,7 @@ ezANOVA1$ANOVA$F
 ## [1] 24.80471
 ```
 
-``` r
+```r
 anova(reg0, reg_dummy1)$F
 ```
 
@@ -478,7 +498,7 @@ F_{emp} = \frac{SS_\text{between}/df_\text{between}}{SS_\text{within}/df_\text{w
 Auch der $t$-Test kommt zum selben Ergebnis. Hier müssen wir der zugehörigen Funktion `t.test` allerdings noch sagen, dass wir Student's $t$-Test (der $t$-Test, den Sie vermutlich im 1. Semester kennengelernt haben) wünschen, da nur dieser die Äquivalenz aufweist. Die Defaultvariante in `R` ist die robuste Variante nach Welch (Welch's $t$-Test). Für den "Heimgebrauch" sollten sie auch immer Welch's Variante verwenden, da diese der anderen in den meisten Fällen überlegen ist und zu weniger falsch-positiven Ergebnissen führt, wenn Voraussetzungen nicht erfüllt sind. (Interessierte finden [hier](https://www.rips-irsp.com/articles/10.5334/irsp.82/) eine über diesen Kurs hinausgehende Quelle die dies untersucht und diskutiert.) Wir verwenden Student's $t$-Test hier rein aus Demonstrationszwecken. Das machen wir mit der Zusatzeinstellung `var.equal = T` in der Funktion `t.test`.
 
 
-``` r
+```r
 ttest1 <- t.test(bsi_post ~ group, data = osf, var.equal = T)
 ttest1
 ```
@@ -500,7 +520,7 @@ ttest1
 Auf den ersten Blick sieht das Ergebnis anders aus als das Ergebnis der ANOVA oder der Regression. Allerdings sind die $p$-Werte in allen 3 Verfahren identisch:
 
 
-``` r
+```r
 ezANOVA1$ANOVA$p
 ```
 
@@ -508,7 +528,7 @@ ezANOVA1$ANOVA$p
 ## [1] 2.955702e-06
 ```
 
-``` r
+```r
 anova(reg0, reg_dummy1)$`Pr(>F)`
 ```
 
@@ -516,7 +536,7 @@ anova(reg0, reg_dummy1)$`Pr(>F)`
 ## [1]           NA 2.955702e-06
 ```
 
-``` r
+```r
 ttest1$p.value
 ```
 
@@ -526,7 +546,7 @@ ttest1$p.value
 Wenn Sie nun noch wissen, dass die $t(df)$-Verteilung im Quadrat der $F(1,df)$ Verteilung entspricht, dann können Sie den $t$-Wert in diesem Beispiel in den $F$-Wert transformieren:
 
 
-``` r
+```r
 ezANOVA1$ANOVA$F
 ```
 
@@ -534,7 +554,7 @@ ezANOVA1$ANOVA$F
 ## [1] 24.80471
 ```
 
-``` r
+```r
 anova(reg0, reg_dummy1)$F
 ```
 
@@ -542,7 +562,7 @@ anova(reg0, reg_dummy1)$F
 ## [1]       NA 24.80471
 ```
 
-``` r
+```r
 ttest1$statistic^2
 ```
 
@@ -562,23 +582,23 @@ Dieser Quadratsummentyp entspricht im Grunde dem stückchenweisen Aufnehmen von 
 Wir können unser ANOVA-Modell um die Diagnose der Proband:innen erweitern, indem wir dem Argument `between` in `ezANOVA` einen Vektor von Variablen übergeben (`between = c(group, stratum)`). Bevor wir dies tun, sollten wir die Gruppierungsvariable `stratum` noch in einen `factor` umwandeln! Dann stellen wir noch den Quadratsummentype ein, speichern das Objekt als `ezANOVA1` ab und erhalten:
 
 
-``` r
+```r
 osf$stratum <- factor(osf$stratum)
 ezANOVA1 <- ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID,
                     detailed = T, type = 1)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
-## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable.
-## Hopefully you are doing this for demonstration purposes only!
+## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one
+## variable. Hopefully you are doing this for demonstration purposes only!
 ```
 
-``` r
+```r
 ezANOVA1
 ```
 
@@ -599,13 +619,13 @@ Wir erhalten direkt zwei Warnungen. Einmal wird uns mitgeteilt, dass das Design 
 Hier wird uns mitgeteilt, dass die Verwendung der Quadratsumme vom Typ I keine so gute Idee ist. Zum Glück machen wir das hier tatsächlich nur zu Demonstrationszwecken! Eines der Hauptprobleme ist nämlich, dass die Reihenfolge der Prädiktoren die Signifikanzentscheidung beeinflusst. Der Effekt `group` entspricht dem Haupteffekt der Treatmentzuweisung, `stratum` entspricht dem Haupteffekt der Diagnose und `group:stratum` entspricht dem Interaktionseffekt. Dem Output ist zu entnehmen, dass nur die Treatmentzuweisung einen signifikanten Einfluss auf die Symptomschwere hat. Somit hätte das Treatment einen Effekt, welcher sich unabhängig von der Diagnose auf die Symptomschwere auswirkt (mit einer Irrtumswahrscheinlichkeit von {{< math >}}$5\%${{< /math >}}). Das Ergebnis lässt sich auch super leicht grafisch darstellen, indem wir die `ezPlot`-Funktion aus dem `ez`-Paket verwenden. Diese nimmt dieselben Argumente wie `ezANOVA` entgegen. Es fehlt lediglich die Aufteilung der Effekte. `x = stratum` lässt die Diagnose auf der $x$-Achse erscheinen. `split = group` lässt unterschiedliche Linien für Treatment und Wartekontrollgruppe erscheinen:
 
 
-``` r
+```r
 ezPlot(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID, x = stratum, split = group)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -613,30 +633,30 @@ ezPlot(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID, x = str
 ```
 
 ```
-## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, : Unbalanced
-## groups. Mean N will be used in computation of FLSD
+## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, :
+## Unbalanced groups. Mean N will be used in computation of FLSD
 ```
 
-![](/lehre/klipps-legacy/anova-regression-legacy_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](/anova-regression-legacy_files/unnamed-chunk-20-1.png)<!-- -->
 
 Die Fisher's Least Significant Distance (FLSD) ist eine Schätzung für die minimale Distanz zwischen Mittelwerten in Gruppen, die signifikant wäre. Damit gibt dieser Plot erste Anzeichen über mögliche signifikante Mittelwertsunterschiede.
 
 Wenn wir dieselbe Analyse nun wiederholen und zuerst die Diagnose in das Modell aufnehmen, erhalten wir andere Ergebnisse:
 
 
-``` r
+```r
 ezANOVA(data = osf, dv = bsi_post, between = c(stratum, group), wid = ID,
                     detailed = T, type = 1)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
-## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable.
-## Hopefully you are doing this for demonstration purposes only!
+## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one
+## variable. Hopefully you are doing this for demonstration purposes only!
 ```
 
 ```
@@ -651,7 +671,7 @@ Das spielt natürlich eine immer größere Rolle, je mehr Gruppierungsvariablen 
 Um nun dieselben Ergebnisse wie in `ezANOVA1` mit der Regressionsanalyse zu erhalten, müssen wir das entsprechende Modell aufstellen. Um den Modellvergleich besser nachvollziehen zu können, stellen wir gleich eine Reihe von Modellen auf. Hierbei kann die Interaktion mit `:` in das Modell aufgenommen werden:
 
 
-``` r
+```r
 reg0 <- lm(bsi_post ~ 1, data = osf)  # Null-Modell (leeres Modell)
 reg_g <- lm(bsi_post ~ group, data = osf) # Modell mit Haupteffekt des Treatments
 reg_s <- lm(bsi_post ~ stratum, data = osf) # Modell mit Haupteffekt der Diagnose
@@ -664,7 +684,7 @@ Insgesamt erhalten wir also fünf Modelle. Um das inkrementelle Aufnehmen der Fa
 Wir wollen nun diese Modelle inkrementell gegeneinander vergleichen. Dafür verwenden wir die `anova`-Funktion, welcher wir einfach alle Modelle (in der richtigen Reihenfolge!!) übergeben. Wenn wir nun vier geschachtelte Modelle gegeneinander testen, erhalten wir jeweils paarweise Vergleiche. Wir beginnen mit dem Null-Modell und ergänzen dann das Treatment. Dann wird die Diagnose dem Modell hinzugefügt und zum Schluss die Interaktion:
 
 
-``` r
+```r
 anova(reg0, reg_g, reg_gs, reg_gsi)
 ```
 
@@ -686,7 +706,7 @@ anova(reg0, reg_g, reg_gs, reg_gsi)
 Die Effekte sind komplett identisch zum `ezANOVA1`-Output. Wir erkennen, dass Quadratsummen vom Typ I also einem schrittweisen Aufnehmen der Prädiktoren entspricht, wobei die Reihenfolge entscheidend ist. Im Übrigen hätten wir uns das Erstellen der Modelle sparen können und einfach `anova` auf `reg_gsi` anwenden können:
 
 
-``` r
+```r
 anova(reg_gsi)
 ```
 
@@ -709,21 +729,21 @@ Allerdings war uns an dieser Stelle wichtig, zu zeigen, wie man auf die jeweilig
 Quadratsummen vom Typ II sind häufig der Default in Programmen, die nicht das schrittweise Vorgehen wählen wollen. Dieser Typ sollte verwendet werden, wenn es keine Interaktion zwischen den Faktoren gibt. Dann können die Haupteffekte sinnvoll interpretiert werden. Die Effekte werden hier als Partialeffekte bestimmt. Es spielt also keine Rolle, in welcher Reihenfolge die Faktoren aufgenommen werden. Wir rechnen zunächst wieder eine zweifaktorielle ANOVA mit dem `ezANOVA`-Befehl mit Quadratsummen vom zweiten Typ. Um den Output etwas zu verkürzen, lassen wir das Argument `detailed` weg:
 
 
-``` r
+```r
 ezANOVA2 <- ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID,
                     type = 2)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
 ## Coefficient covariances computed by hccm()
 ```
 
-``` r
+```r
 ezANOVA2
 ```
 
@@ -739,14 +759,14 @@ ezANOVA2
 ## 1   5  88 244.7046 2907.497 1.481274 0.2040363
 ```
 
-``` r
+```r
 ezANOVA(data = osf, dv = bsi_post, between = c(stratum, group), wid = ID,
         type = 2)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -768,7 +788,7 @@ ezANOVA(data = osf, dv = bsi_post, between = c(stratum, group), wid = ID,
 Zusätzlich zu den Tests auf Haupt- und Interaktionseffekte, wird uns auch noch der `$Levene's Test for Homogeneity of Variance` ausgegeben. Wie der Namen schon sagt, wird hier auf Varianzhomogenität geprüft. Es wird also die wichtige Annahme der ANOVA untersucht, dass die Varianzen in allen Gruppen gleich groß sind. Da der Test nicht signifikant ist, wird an dieser Annahme hier nicht gezweifelt. Wie Sie sehen, spielt die Reihenfolge nun keine Rolle mehr. Die Tests auf Haupt- und Interaktionseffekte kommen zu identischen Ergebnissen --- nur die Reihenfolge im Output ändert sich. Es ist sehr schwierig, mithilfe von Modellvergleichen diese Tests anhand der Regression zu replizieren. Wir können aber bspw. die `Anova`-Funktion aus dem `car`-Paket verwenden, um Quadratsummen vom Typ II aus einem `lm`-Objekt zu bekommen. Das Regressionsmodell mit zwei Faktoren inklusive Interaktion hieß `reg_gsi`:
 
 
-``` r
+```r
 library(car)
 Anova(reg_gsi, type = 2)
 ```
@@ -789,7 +809,7 @@ Anova(reg_gsi, type = 2)
 Auch diese kommt zum selben Ergebnis. Die Interaktion ist nicht signifikant, also können wir die Haupteffekte interpretieren. Von diesen ist nur der Haupteffekt des Treatments signifikant. Wenn wir konzeptionell verstehen wollen, was genau hier passiert, können wir uns mal die Effekte ohne den Interaktionseffekt ansehen, der sowieso nicht signifikant war. Dazu wenden wir die `Anova`-Funktion aus dem `car`-Paket auf das zweifaktorielle Modell ohne Interaktion an (dieses hieß `reg_gs`). Wenn wir dieses Ergebnis nun mit den Modellvergleichen von oben vergleichen, fallen uns Ähnlichkeiten auf. Um das genauer zu zeigen, führen wir nun den inkrementellen Test der Haupteffekte jeweils über den anderen Haupteffekt hinaus durch. Wir testen also das Inkrement erklärter Varianz des Treatments über die Diagnose hinaus, sowie das Inkrement erklärter Varianz der Diagnose über das Treatment hinaus:
 
 
-``` r
+```r
 Anova(reg_gs, type = 2) # simulatane Inkrementsprüfung
 ```
 
@@ -805,7 +825,7 @@ Anova(reg_gs, type = 2) # simulatane Inkrementsprüfung
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-``` r
+```r
 anova(reg_s, reg_gs) # Inkrement des Treatments
 ```
 
@@ -821,7 +841,7 @@ anova(reg_s, reg_gs) # Inkrement des Treatments
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-``` r
+```r
 anova(reg_g, reg_gs) # Inkrement der Diagnose
 ```
 
@@ -845,14 +865,14 @@ Ist der Interaktionseffekt signifikant, so sollten die Quadratsummen vom Typ III
 Mit `ezANOVA`:
 
 
-``` r
+```r
 ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID,
         type = 3)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
+## for the type argument to ezANOVA().
 ```
 
 ```
@@ -874,7 +894,7 @@ ezANOVA(data = osf, dv = bsi_post, between = c(group, stratum), wid = ID,
 Nutzen wir `Anova`, so müssen wir für Quadratsummen vom Typ III die Art der Kontrastbildung in `R` verändern. Der Default lautet:
 
 
-``` r
+```r
 options("contrasts")
 ```
 
@@ -887,7 +907,7 @@ options("contrasts")
 Hier sehen wir , dass es immer Treatment-Kontraste sind (`contr.treatment`), also dass  immer eine Referenzkategorie gebildet wird. Wir brauchen hier Summen-Kontraste (`contr.sum`). Die Umstellung kann entweder innerhalb `options` geschehen, allerdings ändert sich dann die Einstellung für die gesamte `R`-Sitzung, oder wir ergänzen den `lm`-Befehl um das Argument `contrasts`. Wir entscheiden uns hier für die 2. Variante. Damit wird auch ersichtlich, dass die Modelle nochmals geschätzt werden müssen! Wir nennen das Objekt auch nochmal um, um den Unterschied der Kodierung klar zu machen:
 
 
-``` r
+```r
 reg_gsi_contr.sum <- lm(bsi_post ~ group + stratum + group:stratum, data = osf, 
                         contrasts = list("group" = contr.sum, "stratum" = contr.sum))  # contr.sum-Kodierung
 Anova(reg_gsi_contr.sum, type = 3)

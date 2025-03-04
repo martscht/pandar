@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [irmer] 
 weight: 4
-lastmod: '2024-03-12'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/titanic.jpg"
@@ -145,6 +145,13 @@ Wir nennen unser Modell zur Modellierung des Überlebens `reg_model`.
 
 ```r
 library(lm.beta) # std. Koeffizienten
+```
+
+```
+## Warning: Paket 'lm.beta' wurde unter R Version 4.3.1 erstellt
+```
+
+```r
 reg_model <- lm(survived ~ 1 + age, data = Titanic)
 summary(lm.beta(reg_model))
 ```
@@ -182,13 +189,13 @@ library(car) # nötiges Paket laden
 avPlots(model = reg_model, pch = 16)
 ```
 
-![](/lehre/fue-i/logistische-regression-titanic_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](/logistische-regression-titanic_files/unnamed-chunk-7-1.png)<!-- -->
 
 ```r
 residualPlots(model = reg_model, pch = 16)
 ```
 
-![](/lehre/fue-i/logistische-regression-titanic_files/figure-html/unnamed-chunk-7-2.png)<!-- -->
+![](/logistische-regression-titanic_files/unnamed-chunk-7-2.png)<!-- -->
 
 ```
 ##            Test stat Pr(>|Test stat|)
@@ -204,7 +211,7 @@ xWerte <- seq(from = min(res), to = max(res), by = 0.01)
 lines(x = xWerte, y = dnorm(x = xWerte, mean = mean(res), sd = sd(res)), lwd = 3)
 ```
 
-![](/lehre/fue-i/logistische-regression-titanic_files/figure-html/unnamed-chunk-7-3.png)<!-- -->
+![](/logistische-regression-titanic_files/unnamed-chunk-7-3.png)<!-- -->
 
 Den Verteilungen der Residuen können wir deutlich entnehmen, dass diese höchst systematisch ausfallen (mit steigendem Alter fallen die Residuen linear ab) und auch die Normalverteilungsannahme ist deutlich verletzt. Eine Regression erscheint nicht sinnvoll. Den Ergebnisse der Signifikanzentscheidungen kann nicht getraut werden. Wir müssen uns also irgendwie anders mit den Daten auseinandersetzen!
 
@@ -221,10 +228,6 @@ summary(m1)
 ## 
 ## Call:
 ## glm(formula = survived ~ 1 + age, family = "binomial", data = Titanic)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -1.1488  -1.0361  -0.9544   1.3159   1.5908  
 ## 
 ## Coefficients:
 ##             Estimate Std. Error z value Pr(>|z|)  
@@ -293,21 +296,21 @@ logit <- m1$coefficients[1] + m1$coefficients[2]*AltersWerte
 plot(x = AltersWerte, y = logit, type = "l", col = "blue", lwd = 3)
 ```
 
-![](/lehre/fue-i/logistische-regression-titanic_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/logistische-regression-titanic_files/unnamed-chunk-12-1.png)<!-- -->
 
 ```r
 odds <- exp(logit)
 plot(x = AltersWerte, y = odds, type = "l", col = "blue", lwd = 3)
 ```
 
-![](/lehre/fue-i/logistische-regression-titanic_files/figure-html/unnamed-chunk-12-2.png)<!-- -->
+![](/logistische-regression-titanic_files/unnamed-chunk-12-2.png)<!-- -->
 
 ```r
 p <- odds/(1 + odds)
 plot(x = AltersWerte, y = p, type = "l", col = "blue", lwd = 3)
 ```
 
-![](/lehre/fue-i/logistische-regression-titanic_files/figure-html/unnamed-chunk-12-3.png)<!-- -->
+![](/logistische-regression-titanic_files/unnamed-chunk-12-3.png)<!-- -->
 
 `type = "l"` fordert eine Linie anstatt von Punkten an, `lwd = 3` sagt, dass diese Linie dreimal so dick wie der Default sein soll und `col = "blue"` sagt, dass die Linie blau sein soll. Wir erkennen in allen drei Plots die negative Beziehung zwischen Überleben und Alter. Der Logit ist eine lineare Funktion (Wertebereich [$-\infty$,$\infty$]). Somit steigt (bzw. sinkt) der Logit um $\beta_1$, wenn der Prädiktor (hier Alter) um eine Einheit erhöht wird. Die Odds sind eine Exponentialfunktion (Wertebereich [0,$\infty$]) und bei der Wahrscheinlichkeit handelt es sich um eine sogenannte Ogive (Wertebereich [0,1]). Die Odds steigen (bzw. sinken) um den Faktor $e^{\beta_1}$ (auch Odds-Ratio genannt), wenn der Prädiktor (hier Alter) um eine Einheit erhöht wird - die Beziehung zwischen Odds und Prädiktor ist somit multiplikativ! Wir schauen uns die Parameterinterpretation der Odds im nächsten Abschnitt genauer an. Wie sich die Wahrscheinlichkeit verändert, ist nicht pauschal zu sagen. Diese Veränderung hängt von der Ausprägung des Prädiktors ab und lässt sich nicht durch eine einzige Zahl quantifizieren. Wir erkennen aber, dass die Ogive erst deutlich nach einem Alter von Null nach links laufend flacher gegen 1 geht. Im Intervall von 0 bis 80 (also realistischem Alter) ist die Wahrscheinlichkeit zu überleben kleiner als 50% und fallend mit dem Alter. In [Appendix A](#AppendixA) haben Sie die Möglichkeit, spielerisch die Einflüsse der Parameter in der logistischen Regression kennen zu lernen.
 
@@ -350,10 +353,6 @@ summary(m2)
 ## glm(formula = survived ~ 1 + age + sex, family = "binomial", 
 ##     data = Titanic)
 ## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -1.7405  -0.6885  -0.6558   0.7533   1.8989  
-## 
 ## Coefficients:
 ##              Estimate Std. Error z value Pr(>|z|)    
 ## (Intercept) -1.188647   0.222432  -5.344  9.1e-08 ***
@@ -390,22 +389,20 @@ Titanic$sex
 ```
 
 ```
-##   [1] 2 2 1 1 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 2 1 2 2 2 2 2 1 1 2 1 1 1 2 2 2 1 1 1
-##  [43] 1 1 1 2 2 1 2 2 2 1 1 1 2 1 1 1 1 2 1 2 2 1 1 2 2 2 2 1 2 1 1 1 1 2 1 2 2 1 2 1 2 2
-##  [85] 2 2 2 2 2 1 1 2 1 1 1 2 1 2 2 1 2 2 2 1 1 2 2 2 2 1 2 2 2 2 1 1 1 2 2 2 1 2 2 2 2 2
-## [127] 2 2 1 2 2 2 2 1 2 2 2 2 1 1 2 2 2 2 2 2 2 1 2 1 1 2 1 1 1 1 2 1 1 1 1 2 2 1 2 2 2 2
-## [169] 1 2 2 1 1 2 1 1 1 2 2 2 2 2 2 1 2 1 1 2 1 1 1 2 2 2 2 1 2 1 2 2 1 1 1 1 2 2 1 2 1 1
-## [211] 2 2 1 2 2 2 2 1 2 2 2 1 2 2 2 2 2 2 2 1 1 1 2 2 2 2 1 2 2 2 2 1 2 2 2 2 2 1 1 2 1 2
-## [253] 1 1 2 1 1 2 2 2 1 1 2 2 2 1 1 2 1 1 1 1 1 2 1 2 2 2 1 2 2 2 2 2 1 2 2 2 1 2 2 2 2 2
-## [295] 1 1 1 1 1 2 1 2 2 1 1 2 1 2 1 2 1 1 2 2 2 2 1 1 1 2 2 2 2 1 2 2 2 2 2 1 2 1 1 1 1 2
-## [337] 2 2 1 2 1 2 2 2 2 2 1 2 2 1 2 1 1 2 2 2 1 1 2 2 1 2 2 2 2 2 1 2 1 1 2 1 1 2 2 2 1 2
-## [379] 2 1 1 1 2 1 2 2 1 2 1 2 2 2 2 2 1 2 2 1 2 1 1 2 1 2 1 2 2 2 1 2 1 1 2 1 1 2 2 2 1 2
-## [421] 2 2 2 2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 2 2 2 2 2 1 1 2 1 2 2 2 2 1 2 2 1 2 2 1 1 2 2 2
-## [463] 2 2 2 1 2 1 2 1 2 1 2 2 2 2 2 1 2 2 2 2 2 1 2 1 1 2 1 2 2 2 2 2 2 1 2 1 1 2 1 1 2 2
-## [505] 1 1 2 2 2 2 1 1 2 2 2 2 1 2 2 2 2 1 1 2 2 2 2 1 2 2 2 2 1 1 2 2 2 2 2 2 2 2 2 1 1 2
-## [547] 2 1 2 2 2 1 1 1 2 1 1 2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 1 1 2 1 2 2 2 1 1 1 1 2 1 1 1 2
-## [589] 2 2 2 2 2 1 2 2 2 1 2 1 2 1 1 2 2 2 2 2 2 2 2 2 1 2 2 2 2 1 2 2 2 1 2 2 1 2 2 1 1 2
-## [631] 2 2 2 2 1 1 2 1 2 2 1 2 1 1 2 2 1 2 2 2 2 2 1 1 1 2 1 2 1 1 1 2 1 2 2 2 1 1 2 2 1 2
+##   [1] 2 2 1 1 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 2 1 2 2 2 2 2 1 1 2 1 1 1 2 2 2 1 1 1 1 1 1 2 2 1
+##  [49] 2 2 2 1 1 1 2 1 1 1 1 2 1 2 2 1 1 2 2 2 2 1 2 1 1 1 1 2 1 2 2 1 2 1 2 2 2 2 2 2 2 1 1 2 1 1 1 2
+##  [97] 1 2 2 1 2 2 2 1 1 2 2 2 2 1 2 2 2 2 1 1 1 2 2 2 1 2 2 2 2 2 2 2 1 2 2 2 2 1 2 2 2 2 1 1 2 2 2 2
+## [145] 2 2 2 1 2 1 1 2 1 1 1 1 2 1 1 1 1 2 2 1 2 2 2 2 1 2 2 1 1 2 1 1 1 2 2 2 2 2 2 1 2 1 1 2 1 1 1 2
+## [193] 2 2 2 1 2 1 2 2 1 1 1 1 2 2 1 2 1 1 2 2 1 2 2 2 2 1 2 2 2 1 2 2 2 2 2 2 2 1 1 1 2 2 2 2 1 2 2 2
+## [241] 2 1 2 2 2 2 2 1 1 2 1 2 1 1 2 1 1 2 2 2 1 1 2 2 2 1 1 2 1 1 1 1 1 2 1 2 2 2 1 2 2 2 2 2 1 2 2 2
+## [289] 1 2 2 2 2 2 1 1 1 1 1 2 1 2 2 1 1 2 1 2 1 2 1 1 2 2 2 2 1 1 1 2 2 2 2 1 2 2 2 2 2 1 2 1 1 1 1 2
+## [337] 2 2 1 2 1 2 2 2 2 2 1 2 2 1 2 1 1 2 2 2 1 1 2 2 1 2 2 2 2 2 1 2 1 1 2 1 1 2 2 2 1 2 2 1 1 1 2 1
+## [385] 2 2 1 2 1 2 2 2 2 2 1 2 2 1 2 1 1 2 1 2 1 2 2 2 1 2 1 1 2 1 1 2 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2
+## [433] 2 1 2 2 2 2 2 2 2 2 2 1 1 2 1 2 2 2 2 1 2 2 1 2 2 1 1 2 2 2 2 2 2 1 2 1 2 1 2 1 2 2 2 2 2 1 2 2
+## [481] 2 2 2 1 2 1 1 2 1 2 2 2 2 2 2 1 2 1 1 2 1 1 2 2 1 1 2 2 2 2 1 1 2 2 2 2 1 2 2 2 2 1 1 2 2 2 2 1
+## [529] 2 2 2 2 1 1 2 2 2 2 2 2 2 2 2 1 1 2 2 1 2 2 2 1 1 1 2 1 1 2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 1 1 2 1
+## [577] 2 2 2 1 1 1 1 2 1 1 1 2 2 2 2 2 2 1 2 2 2 1 2 1 2 1 1 2 2 2 2 2 2 2 2 2 1 2 2 2 2 1 2 2 2 1 2 2
+## [625] 1 2 2 1 1 2 2 2 2 2 1 1 2 1 2 2 1 2 1 1 2 2 1 2 2 2 2 2 1 1 1 2 1 2 1 1 1 2 1 2 2 2 1 1 2 2 1 2
 ## [673] 2 1 2 1 2 2 1 1 2 2 1 2 2 2 2 2 2 2 1 2 1 2 1 2 2 2 2 2 2 2 2 2 2 2 2 1 2 2 2 1 2 2
 ## Levels: 2 1
 ```
@@ -478,7 +475,7 @@ ggplot(data = Titanic, mapping = aes(x = age, y = logit_m2, col = sex)) +
         ggtitle("Logit vs Age and Sex")
 ```
 
-![](/lehre/fue-i/logistische-regression-titanic_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/logistische-regression-titanic_files/unnamed-chunk-22-1.png)<!-- -->
 
 `ggplot` arbeitet etwas anders als die Basisfunktion `plot`. Zunächst übergeben wir ihr die Daten `data = Titanic`. Dem `mapping` übergeben wir sozusagen das Achsenkreuz und Gruppenzugehörigkeiten und Farbkodierungen innerhalb  von `aes(x = age, y = logit_m2, col = sex)`. Hier wird gesagt, dass das Alter auf die x-Achse soll und wir den Logit entlang der y-Achse plotten wollen. Außerdem soll für das Geschlecht eine separate Linie eingezeichnet werden und diese soll farblich kodiert sein. Damit dies funktioniert, müssen natürlich die Variablen im richtigen Format vorliegen. Bspw. müssen Gruppierungen, wie etwa das Geschlecht, als Faktor vorliegen. Anschließend fügen wir mit `+` hinzu, was genau geplottet werden soll. In diesem Beispiel wollen wir Linien haben. Deshalb verwenden wir die Funktion `geom_line` mit dem Argument `lwd = 2` für zweifache Liniendicke. Würden wir hier bspw. `geom_point` verwenden, so würden Punkte gezeichnet werden. Wieder mit dem `+` fügen wir außerdem einen Titel hinzu mit der Funktion `ggtitle`. Gleiches können wir auch für die Odds oder die Wahrscheinlichkeit  durchführen:
 
@@ -489,7 +486,7 @@ ggplot(data = Titanic, mapping = aes(x = age, y = odds_m2, col = sex)) +
         ggtitle("Odds vs Age and Sex")
 ```
 
-![](/lehre/fue-i/logistische-regression-titanic_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](/logistische-regression-titanic_files/unnamed-chunk-23-1.png)<!-- -->
 
 
 ```r
@@ -498,7 +495,7 @@ ggplot(data = Titanic, mapping = aes(x = age, y = p_m2, col = sex)) +
         ggtitle("P vs Age and Sex")
 ```
 
-![](/lehre/fue-i/logistische-regression-titanic_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](/logistische-regression-titanic_files/unnamed-chunk-24-1.png)<!-- -->
 
 Einen drastischen Alterseffekt können wir in keiner der Grafiken erkennen. Dass sich Unterschiede über das Geschlecht abbilden, sehen wir allerdings recht deutlich! Weitere Informationen zu `ggplot2` erhalten Sie bspw. auf  [<i class="fa-solid fa-graduation-cap"></i> Tidyverse](https://ggplot2.tidyverse.org). Außerdem können Sie sich auch eine [<i class="fa-solid fa-graduation-cap"></i> Einführung in `ggplot2`](/workshops/ggplotting/ggplotting-intro) auf dieser Website ansehen.
 
@@ -525,10 +522,6 @@ summary(m3)
 ## Call:
 ## glm(formula = survived ~ 1 + age + sex + pclass, family = "binomial", 
 ##     data = Titanic)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -2.7303  -0.6780  -0.3953   0.6485   2.4657  
 ## 
 ## Coefficients:
 ##              Estimate Std. Error z value Pr(>|z|)    
@@ -625,7 +618,7 @@ ggplot(data = Titanic, mapping = aes(x = age, y = logit_m3, col = pclass, lty = 
      ggtitle("Logit vs Age, Sex and Class")
 ```
 
-![](/lehre/fue-i/logistische-regression-titanic_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](/logistische-regression-titanic_files/unnamed-chunk-31-1.png)<!-- -->
 
 
 ```r
@@ -634,7 +627,7 @@ ggplot(data = Titanic, mapping = aes(x = age, y = odds_m3, col = pclass, lty = s
      ggtitle("Odds vs Age, Sex and Class")
 ```
 
-![](/lehre/fue-i/logistische-regression-titanic_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](/logistische-regression-titanic_files/unnamed-chunk-32-1.png)<!-- -->
 
 
 ```r
@@ -643,7 +636,7 @@ ggplot(data = Titanic, mapping = aes(x = age, y = p_m3, col = pclass, lty = sex)
      ggtitle("P vs Age, Sex and Class")
 ```
 
-![](/lehre/fue-i/logistische-regression-titanic_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](/logistische-regression-titanic_files/unnamed-chunk-33-1.png)<!-- -->
 
 Alle drei Grafiken zeigen deutlich die Haupteffekte der Analyse: Die Überlebenswahrscheinlichkeit des Titanicunglücks sinkt mit dem Alter. Frauen haben eine höhere Überlebenswahrscheinlichkeit als Männer (bei vergleichbarem Alter) sowie deskriptiv gesprochen hatten Menschen die in der 1. Klasse reisen eine höhere Überlebenswahrscheinlichkeit als jene aus der 2. und 3. Klasse und die aus der 2. Klasse hatten ebenfalls eine höhere Überlebenswahrscheinlichkeit als jene aus der 3. Klasse (jeweils immer für vergleichbares Alter und Geschlecht). Der Zusatz "für vergleichbares Alter" ist im Grunde das Gleiche wie der Zusatz "unter Konstanthaltung aller weiteren Prädiktoren im Modell", denn wir können schlecht die Überlebenswahrscheinlichkeit eines zwanzigjährigen Mannes aus der 1. Klasse mit der einer sechzigjährigen Frau aus der 3. Klasse vergleichen, denn dann wissen wir nicht, ob die Wahrscheinlichkeiten unterschiedlich sind, weil es sich um eine Frau oder einen Mann aus der jeweiligen Klasse handelt oder, ob es sich auf das Alter zurückführen lässt, oder ob eine Kombination der Variablen das Ergebnis erzeugt. Was wir aber tun können, ist für ein gleiches Alter die 6 Linien jeweils zu vergleichen! Außerdem erkennen wir insbesondere an der Modellierung des Logit oder der Wahrscheinlichkeit, dass Frauen, die in der 3. Klasse reisten, eine annähernd gleiche Überlebenswahrscheinlichkeit hatten wie Männer aus der 1. Klasse (erneut: jeweils für vergleichbares Alter!). Innerhalb der Geschlechter waren die Klassen allerdings auf die gleiche Art und Weise sortiert: $1 > 2 > 3$. Insgesamt suggeriert dies also, dass dem Motto "*Frauen und Kinder zuerst*" Folge geleistet wurde.
 
@@ -696,7 +689,7 @@ Sie führen diese Funktion aus, indem Sie alles von `Logistic_functions <- funct
 Logistic_functions(beta0 = 1, beta1 = -.5)
 ```
 
-![](/lehre/fue-i/logistische-regression-titanic_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](/logistische-regression-titanic_files/unnamed-chunk-35-1.png)<!-- -->
 
 </details>
 

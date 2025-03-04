@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [stephan, gruetzner, vogler] 
 weight: 1
-lastmod: '2024-10-10'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/syntax.jpg"
@@ -36,6 +36,8 @@ output:
     keep_md: true
     
 ---
+
+
 
 
   
@@ -93,16 +95,44 @@ Diese ist zu erreichen durch:
 
 <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#tabelle">Bestandteile der Help Funktion</button>
 <div id="tabelle" class="collapse">
-
-|Abschnitt   |Inhalt                                                                                                                                                                                                 |
-|:-----------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|Description |Beschreibung der Funktion                                                                                                                                                                              |
-|Usage       |Zeigt die Arguente an, die die Funktion entgegennimmt. Argumente auf die ein = folgt haben Standardeinstellungen und müssen nicht jedes mal aufs Neue definiert werden, Argumente ohne = jedoch schon. |
-|Arguments   |Liste der Argumente mit Beschreibung                                                                                                                                                                   |
-|Details     |Zusatzinformationen zur Funktion                                                                                                                                                                       |
-|Values      |Übersicht über die möglichen Ergebnisinhalte der Funktion                                                                                                                                              |
-|See also    |Ähnliche Funktionen                                                                                                                                                                                    |
-|Examples    |Praxisbeispiel, Funktion wird angewendet                                                                                                                                                               |
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Abschnitt </th>
+   <th style="text-align:left;"> Inhalt </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Description </td>
+   <td style="text-align:left;"> Beschreibung der Funktion </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Usage </td>
+   <td style="text-align:left;"> Zeigt die Arguente an, die die Funktion entgegennimmt. Argumente auf die ein = folgt haben Standardeinstellungen und müssen nicht jedes mal aufs Neue definiert werden, Argumente ohne = jedoch schon. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Arguments </td>
+   <td style="text-align:left;"> Liste der Argumente mit Beschreibung </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Details </td>
+   <td style="text-align:left;"> Zusatzinformationen zur Funktion </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Values </td>
+   <td style="text-align:left;"> Übersicht über die möglichen Ergebnisinhalte der Funktion </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> See also </td>
+   <td style="text-align:left;"> Ähnliche Funktionen </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Examples </td>
+   <td style="text-align:left;"> Praxisbeispiel, Funktion wird angewendet </td>
+  </tr>
+</tbody>
+</table>
 </div>
 
 ### R-Studio Settings und Vorteile gegenüber R
@@ -112,13 +142,37 @@ Diese ist zu erreichen durch:
 Auch wenn man nun schon sofort mit den eigenen Projekten anfangen könnte, kann es hilfreich sein, die Personalisierungsoptionen, die R bietet, auch zu nutzen.
 Hier ein kurzer Überblick nützlicher Einstellungen und wo man diese ändert:
 
-
-|Einstellung            |Änderung                                                         |Beschreibung                                                                                                                                     |
-|:----------------------|:----------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------|
-|Font Size              |Tools>Global Options>Appearance>Font Size                        |Anpassen der Schriftgröße                                                                                                                        |
-|Theme                  |Tools>Global Options>Appearance>Theme                            |Themes beeinflussen Hintergrund- und Schriftfarbe.Idealerweise sollte ein Theme gewählt werden, welches hilft, den Syntax besser zu überblicken. |
-|Rainbow Parentheses    |Tools>Global Options>Code>Display>Syntax>Use Rainbow Parentheses |Zusammengehörige Klammern erhalten dieselbe Farbe. Hilft bei der Übersichtlichkeit.                                                              |
-|Indentation Guidelines |Tools>Global Options>Code>Display>General>Indentation Guidelines |Die eingerückte Fläche wird farbig markiert. Hilft beim Überblick.                                                                               |
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Einstellung </th>
+   <th style="text-align:left;"> Änderung </th>
+   <th style="text-align:left;"> Beschreibung </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Font Size </td>
+   <td style="text-align:left;"> Tools&gt;Global Options&gt;Appearance&gt;Font Size </td>
+   <td style="text-align:left;"> Anpassen der Schriftgröße </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Theme </td>
+   <td style="text-align:left;"> Tools&gt;Global Options&gt;Appearance&gt;Theme </td>
+   <td style="text-align:left;"> Themes beeinflussen Hintergrund- und Schriftfarbe.Idealerweise sollte ein Theme gewählt werden, welches hilft, den Syntax besser zu überblicken. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Rainbow Parentheses </td>
+   <td style="text-align:left;"> Tools&gt;Global Options&gt;Code&gt;Display&gt;Syntax&gt;Use Rainbow Parentheses </td>
+   <td style="text-align:left;"> Zusammengehörige Klammern erhalten dieselbe Farbe. Hilft bei der Übersichtlichkeit. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Indentation Guidelines </td>
+   <td style="text-align:left;"> Tools&gt;Global Options&gt;Code&gt;Display&gt;General&gt;Indentation Guidelines </td>
+   <td style="text-align:left;"> Die eingerückte Fläche wird farbig markiert. Hilft beim Überblick. </td>
+  </tr>
+</tbody>
+</table>
 
 Selbstverständlich gibt es noch etliche weitere Personalisierungsoptionen. Diese sind jedoch zu diesem Zeitpunkt  nicht relevant.
 
@@ -128,13 +182,37 @@ Selbstverständlich gibt es noch etliche weitere Personalisierungsoptionen. Dies
 
 Vektoren sind eindimensionale Datenstrukturen, in denen Elemente des gleichen Typs zusammengeführt werden. Unterschieden wird zwischen folgenden vier Typen:
 
-
-|Typ       |Kurzform |Inhalt                                  |
-|:---------|:--------|:---------------------------------------|
-|logical   |logi     |wahr (TRUE) oder falsch (FALSE)         |
-|numeric   |num      |Beliebige Zahlen                        |
-|character |char     |Kombinationen aus Zahlen und Buchstaben |
-|integer   |int      |ganze Zahlen                            |
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Typ </th>
+   <th style="text-align:left;"> Kurzform </th>
+   <th style="text-align:left;"> Inhalt </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> logical </td>
+   <td style="text-align:left;"> logi </td>
+   <td style="text-align:left;"> wahr (TRUE) oder falsch (FALSE) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> num </td>
+   <td style="text-align:left;"> Beliebige Zahlen </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:left;"> char </td>
+   <td style="text-align:left;"> Kombinationen aus Zahlen und Buchstaben </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:left;"> int </td>
+   <td style="text-align:left;"> ganze Zahlen </td>
+  </tr>
+</tbody>
+</table>
 
 ##### Beispiel: Flanker Test (Eriksen & Eriksen, 1974) 
 
@@ -142,7 +220,7 @@ Die Nutzung von Vektoren wird im Folgenden am Flanker Test verdeutlicht. Dieser 
 
 
 
-![](/workshops/refresher/refresher-day1_files/figure-html/target-flanker-test-plot-1.png)<!-- -->
+![](/refresher-day1_files/target-flanker-test-plot-1.png)<!-- -->
 
 
 
@@ -169,14 +247,14 @@ eine Datenreihe gemessen zu haben und diese interpretieren zu wollen.
 Zunächst legen wir die Reaktionszeit als numerischen Vektor ab. Hierfür nehmen wir die c()-Funktion:
 
 
-``` r
+```r
 # Reaktionszeiten als numerischen Vektor
 reaction <- c(600, 520, 540, 680, 560, 590, 620, 630) 
 ```
 
 Wenn wir nun überprüfen wollen, ob der reaction Vektor auch wirklich als numerical Vektor vorliegt, nutzen wir die class() Funktion:
 
-``` r
+```r
 # Vektor Klasse anzeigen
 class(reaction) 
 ```
@@ -187,7 +265,7 @@ class(reaction)
 
 Mit der str()-Funktion können wir uns die Elemente des Vektors ausgeben lassen.
 
-``` r
+```r
 str(reaction) 
 ```
 
@@ -197,13 +275,13 @@ str(reaction)
 
 Nun legen wir die Richtung der flankierenden Zeichen fest.
 
-``` r
+```r
 flankers <- c("<","<",">","<",">",">",">","<")
 ```
 
 Nun testen wir, ob es sich um einen character Vektor handelt:
 
-``` r
+```r
 is.character(flankers) 
 ```
 
@@ -213,7 +291,7 @@ is.character(flankers)
 
 Vektoren lassen sich in manchen Fällen auch in andere Arten umwandeln:
 
-``` r
+```r
 reaction_as_char <- as.character(reaction)
 reaction_as_char
 ```
@@ -227,19 +305,19 @@ Diese Umwandlung funktioniert. Wir hätten die Reaktionszeiten auch direkt als c
 
 Die Umwandlung vom Character Vektor zu einem Numerical Vektor funktioniert jedoch nicht:
 
-``` r
+```r
 flankers_as_numeric <- as.numeric(flankers) 
 ```
 
 ```
-## Warning: NAs introduced by coercion
+## Warning: NAs durch Umwandlung erzeugt
 ```
 
 
 Da der Flanker Test untersucht ob die Aufmerksamkeit beeinflusst wird wenn die zielzeichen von inkongruenten Zeichen umgeben werden, müssen wir nun überprüfen in welcher Bedingung Kongruentz und in welcher Inkongruenz vorherrscht:
 
 
-``` r
+```r
 #  Zielzeichen erstellen
 target <- c(">", ">", ">", "<", "<", "<", ">", ">")
 # Vergleich von Vektoren (Kongruenz)
@@ -255,7 +333,7 @@ cong #logischer Vektor
 
 Dieser logische Vektor zeigt uns, dass es sich nur in Bedingungen 3,4 und 7 um Kongruente Reize handelt. Auch logical Vektoren lassen sich überprüfen:
 
-``` r
+```r
 is.logical(cong) 
 ```
 
@@ -265,7 +343,7 @@ is.logical(cong)
 
 Nun erstellen wir aus dem Flanker Vektor einen Faktor:
 
-``` r
+```r
 flankers_factorial <- as.factor(flankers) 
 #  Ausgabe des Factors
 str(flankers_factorial) 
@@ -277,7 +355,7 @@ str(flankers_factorial)
 
 Nun lassen wir uns noch die Levels ausgeben:
 
-``` r
+```r
 levels(flankers_factorial) 
 ```
 
@@ -287,7 +365,7 @@ levels(flankers_factorial)
 
 Wenn wir nun möchten, dass ">" den Wert 1 erhält, nutzen wir relevel():
 
-``` r
+```r
 releveled_flankers_factorial <- relevel(flankers_factorial, '>') 
 releveled_flankers_factorial 
 ```
@@ -300,7 +378,7 @@ releveled_flankers_factorial
 Im folgenden machen wir aus unserem Faktor einen numerical Vektor. Dies war zuvor mit dem Flankers-Vektor im Character Format nicht mögöich.
 
 
-``` r
+```r
 numeric_from_flankers <- as.numeric(flankers_factorial) 
 numeric_from_flankers 
 ```
@@ -312,7 +390,7 @@ numeric_from_flankers
 Nun steht 1 für "<" und 2 für ">".
 
 
-``` r
+```r
 char_from_flankers <- as.character(flankers_factorial) 
 char_from_flankers 
 ```
@@ -332,7 +410,7 @@ Zu beachten ist, dass beide Umwandlungen Konsequenzen für weiterführende Opera
 In R gibt man einer Funktion einen Input und erhält einen bestimmten Output zurück. Jede Funktion erledigt hierbei eine bestimmte Aufgabe. Dies hat die Vorteile der Wiederverwendbarkeit, Organisation und Effizienz. Natürlich könnte man den Mittelwert einer Datenmenge manuell berechnen, mit der darauf ausgerichteten Funktion geht es jedoch schneller.
 
 
-``` r
+```r
 (34+47+23+90+23+45+89+98)/8
 ```
 
@@ -340,7 +418,7 @@ In R gibt man einer Funktion einen Input und erhält einen bestimmten Output zur
 ## [1] 56.125
 ```
 
-``` r
+```r
 mean(c(34,47,23,90,23,45,89,98))
 ```
 
@@ -351,18 +429,34 @@ mean(c(34,47,23,90,23,45,89,98))
 In R wird zunächst die Funktion genannt und darauffolgend die Argumente. An diesem Beispiel lässt sich bereits die generelle Struktur von Funktionen in R erkennen:
 
 
-``` r
+```r
 # funktion(argument1, argument2, argument3, ...)
 ```
 
 #### Zusammenfassung Umgang mit Funktionen
 
-
-|Beschreibung                  |Code.Stil                               |
-|:-----------------------------|:---------------------------------------|
-|Funktionen schachteln         |funktion1(funktion2(argument))          |
-|Objekt im Environment anlegen |objekt <- funktion1(argument)           |
-|Ergebnis-Pipe                 |funktion1(argument) &#124;> funktion2() |
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Beschreibung </th>
+   <th style="text-align:left;"> Code.Stil </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Funktionen schachteln </td>
+   <td style="text-align:left;"> funktion1(funktion2(argument)) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Objekt im Environment anlegen </td>
+   <td style="text-align:left;"> objekt &lt;- funktion1(argument) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ergebnis-Pipe </td>
+   <td style="text-align:left;"> funktion1(argument) |&gt; funktion2() </td>
+  </tr>
+</tbody>
+</table>
 
 #### Objekte
 
@@ -370,7 +464,7 @@ In R können Ergebnisse in Objekte angelegt werden und diese wiederum in Funktio
 Der Zuweisungspfeil (Windows: Alt + -) (Mac OS: Option + -) weist dem Objekt ein Ergebnis zu.
 
 
-``` r
+```r
 Mittelwert <- mean(c(34,47,23,90,23,45,89,98))
 Mittelwert # oder auch: print(Mittelwert)
 ```
@@ -386,7 +480,7 @@ Hierbei gibt die Konsole das Objekt erst aus, wenn ich dieses noch einmal benenn
 Objekte glänzen erst wirklich sobald sie in anderen Funktionen eingesetzt werden:
 
 
-``` r
+```r
 x <- c(100, 20, 24, 89, 40)
 mean(x) == Mittelwert  # prüft, ob der Mittelwert von x gleich dem Objekte "Mittelwert" ist
 ```
@@ -394,7 +488,7 @@ mean(x) == Mittelwert  # prüft, ob der Mittelwert von x gleich dem Objekte "Mit
 Eine Alternative ist die **Pipe**. Hierbei wird das Ergebnis nicht als Objekt abgelegt, sondern direkt an eine Funktion weitergegeben.:
 
 
-``` r
+```r
 # Beispiel mit Verschachtelung
 var(c(89,48,38,29,39,49,54))
 
@@ -405,7 +499,7 @@ c(89,48,38,29,39,49,54) |> var()
 Der Vorteil hiebei ist, dass wir das ganze wieder von links nach rechts lesen können. Auch hier gibt es Möglichkeiten zur Verschachtelung:
 
 
-``` r
+```r
 # Berechnung der Standardabweichung aus Varianz heraus
 c(89, 48, 38, 29, 39, 49, 54) |> var() |> sqrt()
 ```
@@ -415,47 +509,70 @@ c(89, 48, 38, 29, 39, 49, 54) |> var() |> sqrt()
 Im Environment finden sich Objekte wieder. Diese lassen sich jedoch auch mit ls() ausgeben:
 
 
-``` r
+```r
 ls()
 ```
 
 ```
-##  [1] "char_from_flankers"           "cong"                        
-##  [3] "data"                         "data2"                       
-##  [5] "data3"                        "data4"                       
-##  [7] "flankers"                     "flankers_as_numeric"         
-##  [9] "flankers_factorial"           "Mittelwert"                  
-## [11] "numeric_from_flankers"        "plot1"                       
-## [13] "plot2"                        "plot3"                       
-## [15] "reaction"                     "reaction_as_char"            
-## [17] "releveled_flankers_factorial" "stimulus1"                   
-## [19] "stimulus2"                    "stimulus3"                   
-## [21] "target"                       "x"
+##  [1] "char_from_flankers"          
+##  [2] "cong"                        
+##  [3] "data"                        
+##  [4] "data2"                       
+##  [5] "data3"                       
+##  [6] "data4"                       
+##  [7] "figure_path"                 
+##  [8] "flankers"                    
+##  [9] "flankers_as_numeric"         
+## [10] "flankers_factorial"          
+## [11] "Mittelwert"                  
+## [12] "numeric_from_flankers"       
+## [13] "plot1"                       
+## [14] "plot2"                       
+## [15] "plot3"                       
+## [16] "reaction"                    
+## [17] "reaction_as_char"            
+## [18] "releveled_flankers_factorial"
+## [19] "stimulus1"                   
+## [20] "stimulus2"                   
+## [21] "stimulus3"                   
+## [22] "target"                      
+## [23] "x"
 ```
 
 Entfernen können wir Objekte mit rm(). Dies geschieht jedoch ohne Warnung und ist final.
 
 
-``` r
+```r
 rm(Mittelwert)
 ls()             # Environment ohne Mittelwert erscheint.
 ```
 
 ```
-##  [1] "char_from_flankers"           "cong"                        
-##  [3] "data"                         "data2"                       
-##  [5] "data3"                        "data4"                       
-##  [7] "flankers"                     "flankers_as_numeric"         
-##  [9] "flankers_factorial"           "numeric_from_flankers"       
-## [11] "plot1"                        "plot2"                       
-## [13] "plot3"                        "reaction"                    
-## [15] "reaction_as_char"             "releveled_flankers_factorial"
-## [17] "stimulus1"                    "stimulus2"                   
-## [19] "stimulus3"                    "target"                      
-## [21] "x"
+##  [1] "char_from_flankers"          
+##  [2] "cong"                        
+##  [3] "data"                        
+##  [4] "data2"                       
+##  [5] "data3"                       
+##  [6] "data4"                       
+##  [7] "figure_path"                 
+##  [8] "flankers"                    
+##  [9] "flankers_as_numeric"         
+## [10] "flankers_factorial"          
+## [11] "numeric_from_flankers"       
+## [12] "plot1"                       
+## [13] "plot2"                       
+## [14] "plot3"                       
+## [15] "reaction"                    
+## [16] "reaction_as_char"            
+## [17] "releveled_flankers_factorial"
+## [18] "stimulus1"                   
+## [19] "stimulus2"                   
+## [20] "stimulus3"                   
+## [21] "target"                      
+## [22] "x"
 ```
 
-``` r
+```r
 rm(list = ls())  # Enviroment vollständig leeren
 ls()
 ```
@@ -480,7 +597,7 @@ Dagegen spricht:
 Die Operatoren, die Sie bereits aus der Mathematik kennen, funktionieren so auch in RStudio als Arithmetische Operatoren:
 
 
-``` r
+```r
 # Addition
 1 + 2
 ```
@@ -489,7 +606,7 @@ Die Operatoren, die Sie bereits aus der Mathematik kennen, funktionieren so auch
 ## [1] 3
 ```
 
-``` r
+```r
 # Subtraktion
 1 - 2
 ```
@@ -498,7 +615,7 @@ Die Operatoren, die Sie bereits aus der Mathematik kennen, funktionieren so auch
 ## [1] -1
 ```
 
-``` r
+```r
 # Multiplikation
 1 * 2
 ```
@@ -507,7 +624,7 @@ Die Operatoren, die Sie bereits aus der Mathematik kennen, funktionieren so auch
 ## [1] 2
 ```
 
-``` r
+```r
 # Division
 (1 + 4) / (2 + 8)
 ```
@@ -516,7 +633,7 @@ Die Operatoren, die Sie bereits aus der Mathematik kennen, funktionieren so auch
 ## [1] 0.5
 ```
 
-``` r
+```r
 # Potenz
 2 ^ 3
 ```
@@ -528,7 +645,7 @@ Die Operatoren, die Sie bereits aus der Mathematik kennen, funktionieren so auch
 Bis hierhin waren das alles Beispiele die auch jeder gewöhliche Taschenrechner ausführen könnte. RStudio beherrscht jedoch auch logische Abfragen, deren Ergebnisse **boolesch** - also entweder wahr(TRUE) oder falsch(FALSE)- sind. Wie in vielen anderen Programmiersprachen nutzt man das ! zum negieren.
 
 
-``` r
+```r
 # Logische Abfragen
 1 == 2 # Ist gleich
 ```
@@ -537,7 +654,7 @@ Bis hierhin waren das alles Beispiele die auch jeder gewöhliche Taschenrechner 
 ## [1] FALSE
 ```
 
-``` r
+```r
 1 != 2 # Ist ungleich
 ```
 
@@ -545,7 +662,7 @@ Bis hierhin waren das alles Beispiele die auch jeder gewöhliche Taschenrechner 
 ## [1] TRUE
 ```
 
-``` r
+```r
 1 < 2 # Ist kleiner als
 ```
 
@@ -553,7 +670,7 @@ Bis hierhin waren das alles Beispiele die auch jeder gewöhliche Taschenrechner 
 ## [1] TRUE
 ```
 
-``` r
+```r
 1 > 2 # Ist größer als
 ```
 
@@ -561,7 +678,7 @@ Bis hierhin waren das alles Beispiele die auch jeder gewöhliche Taschenrechner 
 ## [1] FALSE
 ```
 
-``` r
+```r
 1 <= 2 # Ist kleiner/gleich
 ```
 
@@ -569,7 +686,7 @@ Bis hierhin waren das alles Beispiele die auch jeder gewöhliche Taschenrechner 
 ## [1] TRUE
 ```
 
-``` r
+```r
 1 >= 2 # Ist größer/gleich
 ```
 
@@ -577,7 +694,7 @@ Bis hierhin waren das alles Beispiele die auch jeder gewöhliche Taschenrechner 
 ## [1] FALSE
 ```
 
-``` r
+```r
 !(1 == 2) # Ist Klammerinhalt NICHT gleich?
 ```
 
@@ -599,12 +716,12 @@ RStudio gibt drei Arten von Rückmeldungen: Messages, Warnings und Errors
 
 Beispiel:
 
-``` r
+```r
 log(-1)
 ```
 
 ```
-## Warning in log(-1): NaNs produced
+## Warning in log(-1): NaNs wurden erzeugt
 ```
 
 ```
@@ -616,7 +733,7 @@ Hier erhalten wir die Warnung, dass NaN (Not a Number) als Ergebnis produziert, 
 
 Beispiel:
 
-``` r
+```r
 x <- numeric(0)  # Ein leerer Vektor für x
 y <- numeric(0)  # Ein leerer Vektor für y
 
@@ -624,7 +741,7 @@ lm(y ~ x)  # Versucht eine lineare Regression durchzuführen
 ```
 
 ```
-## Error in lm.fit(x, y, offset = offset, singular.ok = singular.ok, ...): 0 (non-NA) cases
+## Error in lm.fit(x, y, offset = offset, singular.ok = singular.ok, ...): alle Fälle NA
 ```
 
 Der Fehler "alle Fälle NA" bedeutet, dass R keine gültigen Daten hat – unsere Vektoren sind leer, also kann keine Regression durchgeführt werden.
@@ -633,18 +750,47 @@ Der Fehler "alle Fälle NA" bedeutet, dass R keine gültigen Daten hat – unser
 
 Nun haben wir bereits einen Datentypen, den Vektor, kennengelernt. Diese lassen sich auch zusammenführen, je nach Relation zueinander.
 
-
-|Typ        |Dimensionen |Zusammensetzung             |Anmerkungen                                                                 |
-|:----------|:-----------|:---------------------------|:---------------------------------------------------------------------------|
-|Matrix     |2           |Vektoren des gleichen Typs  |Bietet sich v.a. für große Datensätze an. Ist eine Sonderform des Arrays.   |
-|Array      |n           |Vektoren des gleichen Typs  |-                                                                           |
-|Data.Frame |2           |Vektoren der gleichen Länge |Häufigst genutzte Variante in der Psychologie. Ist eine Sonderform der List |
-|List       |1           |Beliebige Objekte           |-                                                                           |
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Typ </th>
+   <th style="text-align:left;"> Dimensionen </th>
+   <th style="text-align:left;"> Zusammensetzung </th>
+   <th style="text-align:left;"> Anmerkungen </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Matrix </td>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:left;"> Vektoren des gleichen Typs </td>
+   <td style="text-align:left;"> Bietet sich v.a. für große Datensätze an. Ist eine Sonderform des Arrays. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Array </td>
+   <td style="text-align:left;"> n </td>
+   <td style="text-align:left;"> Vektoren des gleichen Typs </td>
+   <td style="text-align:left;"> - </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Data.Frame </td>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:left;"> Vektoren der gleichen Länge </td>
+   <td style="text-align:left;"> Häufigst genutzte Variante in der Psychologie. Ist eine Sonderform der List </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> List </td>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:left;"> Beliebige Objekte </td>
+   <td style="text-align:left;"> - </td>
+  </tr>
+</tbody>
+</table>
 
 ##### Erstellen einer Matrix
 
 
-``` r
+```r
 # Erstellen von 2 Vektoren des gleichen Typs
 age1 <- c(30,71,33,28,19)
 age2 <- c(98,4,67,43,21)
@@ -664,7 +810,7 @@ matrix1 # die Vektoren werden als columns angeordnet
 ## [5,]   19   21
 ```
 
-``` r
+```r
 matrix2 # die Vektoren werden als rows angeordnet
 ```
 
@@ -674,7 +820,7 @@ matrix2 # die Vektoren werden als rows angeordnet
 ## age2   98    4   67   43   21
 ```
 
-``` r
+```r
 matrix3 # design wird durch Argumente ncol, nrow und byrow im Matrix-Befehl bestimmt
 ```
 
@@ -690,7 +836,7 @@ Da für eine Matrix alle Vektoren den gleichen Typ haben müssen, gleicht cbind 
 
 
 
-``` r
+```r
 job <- c("Pfegefachkraft", "Elektroniker","Grundschullehrer","Rettungssanitäter","Redakteur")
 burnout <- c(TRUE,FALSE,FALSE,FALSE,TRUE)
 
@@ -712,7 +858,7 @@ matrix4
 
 Da wir nun die Möglichkeit verloren haben num1 als numerischen Vektor zu nutzen, erstellen wir nun aus den selben Vektoren einen `data.frame`. In diesen bleiben die Vektoren Typen erhalten.
 
-``` r
+```r
 df1 <- data.frame(age1,job,burnout)
 df1
 ```
@@ -726,7 +872,7 @@ df1
 ## 5   19         Redakteur    TRUE
 ```
 
-``` r
+```r
 ##Listet Variablen und Typ auf
 str(df1)
 ```
@@ -746,7 +892,7 @@ Hierfür nutzen wir eckige Klammern (Windows: Str+Alt+8) (Mac OS: Option+5). Die
 
 
 
-``` r
+```r
 # Zugriff auf den 4. Eintrag der Spalte age1
 df1[4, 'age1'] 
 ```
@@ -755,7 +901,7 @@ df1[4, 'age1']
 ## [1] 28
 ```
 
-``` r
+```r
 # Der vierte Eintrag der Spalte 'age1' auf 20 setzen (verändert Ursprungsdateb)
 df1[4, 'age1'] <- 20 
 
@@ -767,7 +913,7 @@ df1[,'age1']
 ## [1] 30 71 33 20 19
 ```
 
-``` r
+```r
 # Erstellen einer neuen Spalte 'no_burnout', die das Gegenteil der Spalte 'burnout' darstellt - über die Sinnhaftigkeit machen wir uns hier mal lieber keine Gedanken
 df1$no_burnout <- !df1$burnout
 
@@ -789,7 +935,7 @@ df1[5, 4]
 ## [1] FALSE
 ```
 
-``` r
+```r
 # Zugriff auf die gesamte 1. Zeile
 df1[1, ]
 ```
@@ -799,7 +945,7 @@ df1[1, ]
 ## 1   30 Pfegefachkraft    TRUE      FALSE
 ```
 
-``` r
+```r
 # Zugriff auf die 1. Spalte
 df1[, 1]
 ```
@@ -808,7 +954,7 @@ df1[, 1]
 ## [1] 30 71 33 20 19
 ```
 
-``` r
+```r
 # Zugriff auf die 2. und 3. Zeile, 3. Spalte
 df1[c(2, 3), 3]
 ```
@@ -817,7 +963,7 @@ df1[c(2, 3), 3]
 ## [1] FALSE FALSE
 ```
 
-``` r
+```r
 # Zugriff auf alle Zeilen, in denen 'burnout' TRUE ist
 df1[df1$burnout, ]
 ```
@@ -835,7 +981,7 @@ In Anderen Fällen extrahiert (entnimmt) man die Daten aus dem Objekt, um sie in
 Dies exerzieren wir nun erstmal an der zuvor erstellten Variable age1 durch.
 
 
-``` r
+```r
 # age1 ausgeben lassen
 str(age1)
 ```
@@ -846,7 +992,7 @@ str(age1)
 
 Wir wissen nun, dass age1 ein numerischer Vektor mit 5 Elementen ist. Wir lassen uns nun das 5. Element ausgeben.
 
-``` r
+```r
 # das 5.Element von age1 ausgeben lassen- jedoch nicht verändern
 age1[5]
 ```
@@ -857,7 +1003,7 @@ age1[5]
 
 Wir können uns die Variable jedoch auch ohne das 5. Element ausgeben lassen:
 
-``` r
+```r
 # age1 ohne Element 5 ausgeben lassen
 age1[-5]
 ```
@@ -871,7 +1017,7 @@ age1[-5]
 Wir können uns auch eine Auswahl an Elementen ausgeben lassen. Dies gelingt indem wir einem Objekt einen numerischen Vektor zuweisen und dieses Objekt dann in den eckigen Klammern nutzen.
 
 
-``` r
+```r
 # sich eine Auswahl ausgeben lassen
 auswahl <- c(1, 3, 5)
 age1[auswahl]
@@ -881,7 +1027,7 @@ age1[auswahl]
 ## [1] 30 33 19
 ```
 
-``` r
+```r
 # Auswahl in neuem Objekt abspeichern
 age_select<-age1[auswahl]
 ```
@@ -891,7 +1037,7 @@ age_select<-age1[auswahl]
 Das funktioniert natürlich auch geschachtelt.
 
 
-``` r
+```r
 # verschachtelt eine Auswahl ausgeben lassen
 age1[c(1, 3, 5)]
 ```
@@ -905,7 +1051,7 @@ age1[c(1, 3, 5)]
 Wir können auch abrufen, welche Elemente eines character vektors TRUE oder FALSE sind.
 
 
-``` r
+```r
 !(df1$burnout)
 ```
 
@@ -913,7 +1059,7 @@ Wir können auch abrufen, welche Elemente eines character vektors TRUE oder FALS
 ## [1] FALSE  TRUE  TRUE  TRUE FALSE
 ```
 
-``` r
+```r
 # Abrufen der Job-Bezeichnungen für die Personen, die einen Burnout haben (TRUE)
 df1$job[df1$burnout]
 ```
@@ -922,23 +1068,24 @@ df1$job[df1$burnout]
 ## [1] "Pfegefachkraft" "Redakteur"
 ```
 
-``` r
+```r
 # Abrufen der Job-Bezeichnungen für Personen ohne Burnout (FALSE)
 df1$job[!df1$burnout]
 ```
 
 ```
-## [1] "Elektroniker"      "Grundschullehrer"  "Rettungssanitäter"
+## [1] "Elektroniker"      "Grundschullehrer" 
+## [3] "Rettungssanitäter"
 ```
 
-``` r
+```r
 # Auch dies kann wieder in Objekte abgelegt werden
 job_nburn <- df1$job[!df1$burnout]
 ```
 
 
 
-``` r
+```r
 # 5. Zeile, 4. Spalte ausgeben lassen
 df1[5, 4]
 ```
@@ -948,7 +1095,7 @@ df1[5, 4]
 ```
 
 
-``` r
+```r
 df1[1, ]          # 1. Zeile, alle Spalten
 ```
 
@@ -957,7 +1104,7 @@ df1[1, ]          # 1. Zeile, alle Spalten
 ## 1   30 Pfegefachkraft    TRUE      FALSE
 ```
 
-``` r
+```r
 df1[, 1]          # Alle Zeilen, 1. Spalte
 ```
 
@@ -965,7 +1112,7 @@ df1[, 1]          # Alle Zeilen, 1. Spalte
 ## [1] 30 71 33 20 19
 ```
 
-``` r
+```r
 df1[c(2, 3), 3]   # 2. und 3. Zeile, 3. Spalte
 ```
 
@@ -973,7 +1120,7 @@ df1[c(2, 3), 3]   # 2. und 3. Zeile, 3. Spalte
 ## [1] FALSE FALSE
 ```
 
-``` r
+```r
 df1[burnout, ]    # Alle kongruenten Zeilen, alle Spalten
 ```
 
@@ -984,7 +1131,7 @@ df1[burnout, ]    # Alle kongruenten Zeilen, alle Spalten
 ```
 
 
-``` r
+```r
 nrow(df1)    # Anzahl der Zeilen
 ```
 
@@ -992,7 +1139,7 @@ nrow(df1)    # Anzahl der Zeilen
 ## [1] 5
 ```
 
-``` r
+```r
 ncol(df1)    # Anzahl der Spalten
 ```
 
@@ -1000,7 +1147,7 @@ ncol(df1)    # Anzahl der Spalten
 ## [1] 4
 ```
 
-``` r
+```r
 dim(df1)     # Alle Dimensionen
 ```
 
@@ -1009,7 +1156,7 @@ dim(df1)     # Alle Dimensionen
 ```
 
 
-``` r
+```r
 names(df1)   # Namen der Variablen
 ```
 
@@ -1018,7 +1165,7 @@ names(df1)   # Namen der Variablen
 ```
 
 
-``` r
+```r
 df1[, 'age1']                # Einzelne Variable auswählen
 ```
 
@@ -1026,7 +1173,7 @@ df1[, 'age1']                # Einzelne Variable auswählen
 ## [1] 30 71 33 20 19
 ```
 
-``` r
+```r
 df1[, c('age1', 'burnout')]  # Mehrere Variable auswählen
 ```
 
@@ -1039,7 +1186,7 @@ df1[, c('age1', 'burnout')]  # Mehrere Variable auswählen
 ## 5   19    TRUE
 ```
 
-``` r
+```r
 df1$age1                     # eine Variable indizieren
 ```
 
@@ -1054,50 +1201,84 @@ df1$age1                     # eine Variable indizieren
 
 
 
-``` r
+```r
 getwd()
 ```
 
 ```
-## [1] "/home/martin/pandar/content/workshops/refresher"
+## [1] "C:/Users/kevpo/OneDrive/Desktop/Pandar/NewPanda/content/workshops/refresher"
 ```
 
 Der hat wahrscheinlich das Format C:/Users/Name/Documents. Um manuell einen anderen Ordner zu nutzen, kann dieser mit `setwd()` festgelegt werden:
 
 
-``` r
+```r
 # setwd('Pfad/Zum/Ordner')
 ```
 
 Der Inhalt eines Ordners lässt sich mit `dir()` ausgeben.
 
 
-``` r
+```r
 dir()
 ```
 
 R hat zwei eigene Datenformate mit denen Dateien abgespeichert werden können: RDA und RDS.
 
-
-|Dateiformat     |Dateiendung    |Speichern     |Laden        |Einsatzort                                    |
-|:---------------|:--------------|:-------------|:------------|:---------------------------------------------|
-|RDA             |.rda           |save()        |load()       |gemeinsames Speichern mehrerer Objekte        |
-|RDS             |.rds           |saveRDS()     |readRDS()    |Speichern einzelner Objekte (z.B. Datensätze) |
-|Klartextformate |.txt oder .dat |write.table() |read.table() |Textbasierte Speicherung und Laden            |
-|CSV             |.csv           |write.csv()   |read.csv()   |Tabellendaten im CSV-Format                   |
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Dateiformat </th>
+   <th style="text-align:left;"> Dateiendung </th>
+   <th style="text-align:left;"> Speichern </th>
+   <th style="text-align:left;"> Laden </th>
+   <th style="text-align:left;"> Einsatzort </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> RDA </td>
+   <td style="text-align:left;"> .rda </td>
+   <td style="text-align:left;"> save() </td>
+   <td style="text-align:left;"> load() </td>
+   <td style="text-align:left;"> gemeinsames Speichern mehrerer Objekte </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RDS </td>
+   <td style="text-align:left;"> .rds </td>
+   <td style="text-align:left;"> saveRDS() </td>
+   <td style="text-align:left;"> readRDS() </td>
+   <td style="text-align:left;"> Speichern einzelner Objekte (z.B. Datensätze) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Klartextformate </td>
+   <td style="text-align:left;"> .txt oder .dat </td>
+   <td style="text-align:left;"> write.table() </td>
+   <td style="text-align:left;"> read.table() </td>
+   <td style="text-align:left;"> Textbasierte Speicherung und Laden </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> CSV </td>
+   <td style="text-align:left;"> .csv </td>
+   <td style="text-align:left;"> write.csv() </td>
+   <td style="text-align:left;"> read.csv() </td>
+   <td style="text-align:left;"> Tabellendaten im CSV-Format </td>
+  </tr>
+</tbody>
+</table>
 
 
 Dies probieren wir nun mit unserem df1 Datensatz:
 
 
-``` r
+```r
 save(df1, file = 'df1.rda')
 ```
 
 Um zu testen, ob wir ihn auch wieder abrufen können, leeren wir nun erstmal das Environment:
 
 
-``` r
+```r
 rm(list = ls())
 ls()
 ```
@@ -1109,7 +1290,7 @@ ls()
 Wenn wir jetzt den Datensatz laden, wird er mit seiner Originalbenennung (df1) wiederhergestellt:
 
 
-``` r
+```r
 load('df1.rda')
 ls()
 ```
@@ -1121,7 +1302,7 @@ ls()
 Jetzt durchlaufen wir die gleichen Schritte noch einmal mit dem RDS Format:
 
 
-``` r
+```r
 saveRDS(df1, 'df1.rds')
 rm(list = ls())
 ls()
@@ -1134,7 +1315,7 @@ ls()
 Beim Laden des Datensatzes können wir diesen jetzt einem beliebigen Objekt zuweisen:
 
 
-``` r
+```r
 work <- readRDS('df1.rds')
 work
 ```
@@ -1151,7 +1332,7 @@ work
 Für eine erste Dateninspektion eignen sich die folgenden Funktionen:
 
 
-``` r
+```r
 nrow(work)    # Anzahl der Zeilen
 ```
 
@@ -1159,7 +1340,7 @@ nrow(work)    # Anzahl der Zeilen
 ## [1] 5
 ```
 
-``` r
+```r
 ncol(work)    # Anzahl der Spalten
 ```
 
@@ -1167,7 +1348,7 @@ ncol(work)    # Anzahl der Spalten
 ## [1] 4
 ```
 
-``` r
+```r
 dim(work)     # Alle Dimensionen
 ```
 
@@ -1175,7 +1356,7 @@ dim(work)     # Alle Dimensionen
 ## [1] 5 4
 ```
 
-``` r
+```r
 names(work)   # Namen der Variablen
 ```
 
@@ -1186,7 +1367,7 @@ names(work)   # Namen der Variablen
 ##### CSV Datensatz einlesen
 
 
-``` r
+```r
 osf <- read.csv(file = url("https://osf.io/zc8ut/download"))
 
 # riesiger Datensatz, wir wollen nur 6 Variablen
@@ -1206,7 +1387,7 @@ Für unser Beispiel laden wir den Datensatz "Bildungsinvestitionen auf der Welt 
 
 
 
-``` r
+```r
 # Datensatz laden
 load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 ```
@@ -1232,7 +1413,7 @@ Eine Ausprägung von 100 auf der Variable `Primary` in Deutschland hieße also z
 Betrachten wir die Variable `Year`.
 
 
-``` r
+```r
 str(edu_exp$Year)
 ```
 
@@ -1243,7 +1424,7 @@ str(edu_exp$Year)
 Wir sehen, dass die Variable noch als integer (wie numerical aber ganzzahlig) hinterlegt ist. Wenn wir uns aber die Jahrzehnte kategorial und nicht stetig wie die Jahreszahlen betrachten wollen, müssen wir einen Faktor erstellen. Das Erstellen von Faktoren ist eine Vorraussetzung für einige statistische Analysen, aber auch eine sinnvolle Visualisierung.
 
 
-``` r
+```r
 # Verwende cut() um die Jahre in Kategorien einzuteilen
 edu_exp$Decade <- cut(edu_exp$Year, 
                       breaks = c(1990, 2000, 2010, 2020), 
@@ -1260,7 +1441,7 @@ str(edu_exp$Decade)
 Allerdings kommt es eher selten vor, dass kontinuierliche Variablen willkürlich in Kategorien unterteilt werden müssen. Deswegen folgt nun ein Beispiel, in dem schon Kategorien vorliegen.
 
 
-``` r
+```r
 data$variable <- factor(data$variable, 
                         levels = c("Level1", "Level2", "Level3"), 
                         labels = c("Label1", "Label2", "Label3"))
@@ -1278,7 +1459,7 @@ data$variable <- factor(data$variable,
 
 Für statistische Analysen sind fehlende Werte ein Problem, weil sie außerhalb der zulässigen Antworten liegen.
 
-``` r
+```r
 # gibt NA zurück
 mean(edu_exp$Primary)
 ```
@@ -1289,16 +1470,35 @@ mean(edu_exp$Primary)
 
 Dies ist verständlicherweise nicht zielführend für unsere Analysen. In R kann man NA's auf zwei Ebenen angehen:
 
-
-|Ebene             |Funktion     |Beschreibung                                                                                                                                                                                                                                                                                                                      |Beispiel                                                                                                                                        |
-|:-----------------|:------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------|
-|global(Datensatz) |na.omit      |Entfernt jede Beobachtung, die mind. ein NA enthält.                                                                                                                                                                                                                                                                              |Jeder Proband, der mind. eine Frage nicht beantwortet, wird ausgeschlossen.                                                                     |
-|lokal(Variable)   |na.rm = TRUE |Das Argument na.rm ist in vielen Funktionen für univariate Statistiken enthalten. Per Voreinstellung wird NA als Ergebnis produziert, wenn fehlende Werte vorliegen. Fehlende Werte werden nur für diese eine Analyse ausgeschlossen, wenn sie auf der darin untersuchten Variable keinen Wert haben - Datensatz bleibt erhalten. |Beispiel: Ein Proband hat zwar sein Alter nicht angegeben, wird aber dennoch bei der Korrelation zwischen Region und Expectancy mit einbezogen. |
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Ebene </th>
+   <th style="text-align:left;"> Funktion </th>
+   <th style="text-align:left;"> Beschreibung </th>
+   <th style="text-align:left;"> Beispiel </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> global(Datensatz) </td>
+   <td style="text-align:left;"> na.omit </td>
+   <td style="text-align:left;"> Entfernt jede Beobachtung, die mind. ein NA enthält. </td>
+   <td style="text-align:left;"> Jeder Proband, der mind. eine Frage nicht beantwortet, wird ausgeschlossen. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> lokal(Variable) </td>
+   <td style="text-align:left;"> na.rm = TRUE </td>
+   <td style="text-align:left;"> Das Argument na.rm ist in vielen Funktionen für univariate Statistiken enthalten. Per Voreinstellung wird NA als Ergebnis produziert, wenn fehlende Werte vorliegen. Fehlende Werte werden nur für diese eine Analyse ausgeschlossen, wenn sie auf der darin untersuchten Variable keinen Wert haben - Datensatz bleibt erhalten. </td>
+   <td style="text-align:left;"> Beispiel: Ein Proband hat zwar sein Alter nicht angegeben, wird aber dennoch bei der Korrelation zwischen Region und Expectancy mit einbezogen. </td>
+  </tr>
+</tbody>
+</table>
 
 Bevor wir uns für eine Methode entscheiden, müssen wir aber erstmal versuchen, ob unser Datensatz NA's hat und wenn ja, auf welchen Variablen:
 
 
-``` r
+```r
 # Unterschiedliche Möglichkeiten NA's abzufragen
 is.na(edu_exp)          # gibt TRUE/FALSE für jede einzelne Zelle aus
 anyNA(edu_exp)          # gibt es mindestens ein NA?
@@ -1307,22 +1507,24 @@ complete.cases(edu_exp) # Welche Zeilen sind vollständig?
 ```
 
 
-``` r
+```r
 # Zeigt die Anzahl fehlender Werte pro Spalte an
 colSums(is.na(edu_exp))
 ```
 
 ```
-##        geo    Country     Wealth     Region       Year Population Expectancy 
-##          0          0          0          0          0          0       1120 
-##     Income    Primary  Secondary   Tertiary      Index     Decade 
-##        174       2753       2907       2905        288          0
+##        geo    Country     Wealth     Region       Year 
+##          0          0          0          0          0 
+## Population Expectancy     Income    Primary  Secondary 
+##          0       1120        174       2753       2907 
+##   Tertiary      Index     Decade 
+##       2905        288          0
 ```
 
 Wir erfahren, dass die Variablen `Expectancy`, `Income`, `Primary`, `Secondary`, `Tertiary` und `Index` NA's enthalten. Wenn wir dem Global Approach folgen wollen, dann können wir mit `na.omit()` ein neues Objekt mit dem bereinigten Datensatz erschaffen.
 
 
-``` r
+```r
 # Entfernt alle Zeilen, die NAs enthalten
 edu_exp_clean1 <- na.omit(edu_exp)
 dim(edu_exp_clean1)
@@ -1335,7 +1537,7 @@ dim(edu_exp_clean1)
 Wir können aber auch nur die Einträge löschen, die auf einer bestimmten Variable (nämlich die, die wir untersuchen wollen) löscht.
 
 
-``` r
+```r
 # Nur Zeilen mit fehlenden Werten in einer bestimmten Spalte entfernen:
 edu_exp_clean2 <- edu_exp[!is.na(edu_exp$Expectancy), ]
 str(edu_exp_clean2) # behält mehr observations bei
@@ -1364,7 +1566,7 @@ str(edu_exp_clean2) # behält mehr observations bei
 Anstatt den ganzen Datensatz zu betrachten, ist es oft sinnig Subsets zu erstellen, die mit logischen oder artithmetischen Operatoren eine Teilstichprobe abspalten.
 
 
-``` r
+```r
 # Subset von Pbn aus Ländern mit mehr als 10 Mio einwohnern
 edu_exp_subset <- edu_exp[edu_exp$Population > 10000000, ]
 
@@ -1387,7 +1589,7 @@ Zwar finden wir im Tab oben links den "Install"-Button, der ein weiteres Fenster
 Für das Herunterladen und Abrufen der Packages nutzen wir install.packages() und library().
 
 
-``` r
+```r
 install.packages("psych")
 library(psych)
 ```
@@ -1417,7 +1619,7 @@ Eine deskriptivstatistische Möglichkeit zur Darstellung diskreter (zählbarer) 
 
 **Absolute Häufigkeiten**
 
-``` r
+```r
 table(edu_exp$Wealth)
 ```
 
@@ -1438,7 +1640,7 @@ $h_j = \frac{n_j}{n}$
 In R können wir das mit Hilfe der `prop.table()`-Funktion bewerkstelligen:
 
 
-``` r
+```r
 table(edu_exp$Wealth) |> prop.table()
 ```
 
@@ -1455,7 +1657,7 @@ table(edu_exp$Wealth) |> prop.table()
 Den Modus, also die Ausprägung einer Variable die am häufigsten vorkommt können wir dann direkt aus einer solchen Häufigkeitstabelle ablesen
 
 
-``` r
+```r
 table(edu_exp$Wealth)
 ```
 
@@ -1470,7 +1672,7 @@ table(edu_exp$Wealth)
 oder mit Hilfe einer weiteren Funktion direkt ausgeben lassen
 
 
-``` r
+```r
 table(edu_exp$Wealth) |> which.max()
 ```
 
@@ -1490,7 +1692,7 @@ Da es keine einfache Funktion in R für die Berechnung des relativen Information
 Der Median lässt sich mit Hilfe der gleichnamigen Funktion (`median()`) in R ganz einfach berechnen. Zunächst reduzieren wir unseren Datensatz auf ein bestimmtes Jahr.
 
 
-``` r
+```r
 edu_2003 <- subset(edu_exp, subset = Year == 2003)
 
 median(edu_2003$Population)
@@ -1509,7 +1711,7 @@ Bei ordinalskalierten Daten wird häufig der Interquartilsbereich (IQB) als Disp
 Um die Quartile oder jedes beliebige andere Quantil einer Verteilung zu erhalten, kann die Funktion `quantile()` verwendet werden. Beispielsweise können wir die Grenzen des IQB und den Median mit folgender Eingabe gleichzeitig abfragen.
 
 
-``` r
+```r
 quantile(edu_2003$Population,
          c(0.25, 0.5, 0.75))
 ```
@@ -1531,7 +1733,7 @@ Aufmerksamen Lesern könnte schon aufgefallen sein das es sich bei der Variable 
 Auch die Berechnung des Mittelwerts ist in R mit Hilfe einer Funktion möglich. Diese heißt wie man vielleicht erwarten könnte `mean()`.
 
 
-``` r
+```r
 mean(edu_2003$Population)
 ```
 
@@ -1544,7 +1746,7 @@ mean(edu_2003$Population)
 Auch für die Varianz und Standardabweichung haben wir zwei intuitive Funktionen, `var()`und `sd()`.
 
 
-``` r
+```r
 var(edu_2003$Population)
 ```
 
@@ -1552,7 +1754,7 @@ var(edu_2003$Population)
 ## [1] 1.578144e+16
 ```
 
-``` r
+```r
 sd(edu_2003$Population)
 ```
 

@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [schultze] 
-lastmod: '2024-03-18'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"
@@ -96,7 +96,7 @@ zahl <- round(sqrt(115))
 ```
 
 ```
-## Error: <text>:1:6: unexpected ','
+## Error: <text>:1:6: Unerwartete(s) ','
 ## 1: 6 * 1,
 ##          ^
 ```
@@ -323,7 +323,7 @@ sum(olymp$zeit)
 ```
 
 ```
-## Error in sum(olymp$zeit): invalid 'type' (character) of argument
+## Error in sum(olymp$zeit): ungültiger 'type' (character) des Argumentes
 ```
 
 ```r

@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schultze]
 weight: 4
-lastmod: '2024-01-12'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/rainbow_loops_road.jpg"
@@ -33,6 +33,8 @@ output:
   html_document:
     keep_md: true
 ---
+
+
 
 
 
@@ -221,7 +223,7 @@ ranef(mod0)$id |> head()
 plot_model(mod0, 're', sort.est = '(Intercept)')
 ```
 
-![](/workshops/kiju/lmm-long_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/lmm-long_files/unnamed-chunk-9-1.png)<!-- -->
 
 ## Einfache Wachstumskurven
 
@@ -282,7 +284,7 @@ subset(sunday, as.numeric(id) < 10) |>
     theme_minimal() + facet_wrap(~ id)
 ```
 
-![](/workshops/kiju/lmm-long_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/lmm-long_files/unnamed-chunk-11-1.png)<!-- -->
 
 ### Kurvilineares Wachstum
 
@@ -296,7 +298,7 @@ plot_model(mod1, 'slope')
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](/workshops/kiju/lmm-long_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/lmm-long_files/unnamed-chunk-12-1.png)<!-- -->
 
 ```r
 sunday$ct_quad <- sunday$ctime^2
@@ -1010,7 +1012,7 @@ subset(sunday, as.numeric(id) < 10) |>
     theme_minimal() + facet_wrap(~ id)
 ```
 
-![](/workshops/kiju/lmm-long_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](/lmm-long_files/unnamed-chunk-20-1.png)<!-- -->
 
 ## Wachstumskurven mit Prädiktoren
 
@@ -1084,7 +1086,7 @@ subset(sunday, as.numeric(id) < 10) |>
     theme_minimal() + facet_wrap(~ id)
 ```
 
-![](/workshops/kiju/lmm-long_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/lmm-long_files/unnamed-chunk-22-1.png)<!-- -->
 
 Sonderfall _discontinuous growth_:
 - L1-Prädiktoren können auch Kodiervariablen sein
@@ -1374,7 +1376,7 @@ print(summ(mod6))
 plot_model(mod6, 'pred', terms = c('poly1', 'meq'))
 ```
 
-![](/workshops/kiju/lmm-long_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+![](/lmm-long_files/unnamed-chunk-26-1.png)<!-- -->
 
 ## Autoregressive Modelle
 
@@ -1454,6 +1456,11 @@ MuMIn::r.squaredGLMM(mod0b)
 ```
 
 ```
+## Warning: 'r.squaredGLMM' now calculates a revised
+## statistic. See the help page.
+```
+
+```
 ##      R2m       R2c
 ## [1,]   0 0.4405919
 ```
@@ -1522,7 +1529,7 @@ Indirekter Effekt: $\beta_{t(t-\text{lag})} = \gamma_{10}^{\text{lag}}$
 curve(.47^x, xlim = c(0, 7))
 ```
 
-![](/workshops/kiju/lmm-long_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](/lmm-long_files/unnamed-chunk-32-1.png)<!-- -->
 
 - Vorteile expliziter AR:
   * Einfache Spezifikation und Interpretation
@@ -1558,6 +1565,26 @@ $$
 
 ```r
 library(nlme)
+```
+
+```
+## 
+## Attache Paket: 'nlme'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:lme4':
+## 
+##     lmList
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:dplyr':
+## 
+##     collapse
+```
+
+```r
 mod0_nlme <- lme(fixed = gs ~ 1, random = ~ 1 | id, data = sunday)
 summary(mod0_nlme)
 ```

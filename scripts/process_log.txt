@@ -1,0 +1,1478 @@
+
+
+processing file: datensaetze.Rmd
+output file: datensaetze.knit.md
+
+
+Output created: datensaetze.html
+
+
+processing file: content/daten/datensaetze.Rmd
+output file: content/daten/datensaetze.R
+
+
+
+processing file: bayes-intro.Rmd
+output file: bayes-intro.knit.md
+
+
+Output created: bayes-intro.html
+
+
+processing file: content/extras/bayes/bayes-intro.Rmd
+output file: content/extras/bayes/bayes-intro.R
+
+
+
+processing file: brms-under-construction.Rmd
+output file: brms-under-construction.knit.md
+
+
+Output created: brms-under-construction.html
+
+
+processing file: conjugate.Rmd
+output file: conjugate.knit.md
+
+
+Output created: conjugate.html
+
+
+processing file: content/extras/bayes/conjugate.Rmd
+output file: content/extras/bayes/conjugate.R
+
+
+
+processing file: sampling-under-construction.Rmd
+output file: sampling-under-construction.knit.md
+
+
+Output created: sampling-under-construction.html
+
+
+processing file: branches.Rmd
+output file: branches.knit.md
+
+
+Output created: branches.html
+
+
+processing file: git-vertiefung.Rmd
+output file: git-vertiefung.knit.md
+
+
+Output created: git-vertiefung.html
+
+
+processing file: github.Rmd
+output file: github.knit.md
+
+
+Output created: github.html
+Warning in processing file: gitintro - Multiple RMarkdown files found containing gitintro. Only content/extras/git/gitintro.Rmd will be rendered.
+
+
+processing file: smartgitintro.Rmd
+output file: smartgitintro.knit.md
+
+
+Output created: smartgitintro.html
+
+
+processing file: diagnostik-efa.Rmd
+output file: diagnostik-efa.knit.md
+
+
+Output created: diagnostik-efa.html
+
+
+processing file: diagnostik-itemanalyse.Rmd
+output file: diagnostik-itemanalyse.knit.md
+
+
+Output created: diagnostik-itemanalyse.html
+
+
+processing file: selektionseffekte.Rmd
+output file: selektionseffekte.knit.md
+
+
+Output created: selektionseffekte.html
+
+
+processing file: content/lehre/forschungsmodul/selektionseffekte.Rmd
+output file: content/lehre/forschungsmodul/selektionseffekte.R
+
+
+
+processing file: simulationsstudien.Rmd
+output file: simulationsstudien.knit.md
+
+
+Output created: simulationsstudien.html
+
+
+processing file: content/lehre/forschungsmodul/simulationsstudien.Rmd
+output file: content/lehre/forschungsmodul/simulationsstudien.R
+
+
+
+processing file: diskriminanzanalyse.Rmd
+output file: diskriminanzanalyse.knit.md
+
+
+Output created: diskriminanzanalyse.html
+
+
+processing file: content/lehre/fue-i/diskriminanzanalyse.Rmd
+output file: content/lehre/fue-i/diskriminanzanalyse.R
+
+
+
+processing file: einleitung-fue.Rmd
+output file: einleitung-fue.knit.md
+
+
+Output created: einleitung-fue.html
+
+
+processing file: content/lehre/fue-i/einleitung-fue.Rmd
+output file: content/lehre/fue-i/einleitung-fue.R
+
+
+
+processing file: hierarchische-regression-schule.Rmd
+output file: hierarchische-regression-schule.knit.md
+
+
+Output created: hierarchische-regression-schule.html
+
+
+processing file: content/lehre/fue-i/hierarchische-regression-schule.Rmd
+output file: content/lehre/fue-i/hierarchische-regression-schule.R
+
+
+
+processing file: logistische-regression-titanic.Rmd
+output file: logistische-regression-titanic.knit.md
+
+
+Output created: logistische-regression-titanic.html
+
+
+processing file: content/lehre/fue-i/logistische-regression-titanic.Rmd
+output file: content/lehre/fue-i/logistische-regression-titanic.R
+
+
+
+processing file: manova.Rmd
+output file: manova.knit.md
+
+
+Output created: manova.html
+
+
+processing file: content/lehre/fue-i/manova.Rmd
+output file: content/lehre/fue-i/manova.R
+
+
+
+processing file: msc1-daten.Rmd
+output file: msc1-daten.knit.md
+
+
+Output created: msc1-daten.html
+
+
+processing file: pca.Rmd
+output file: pca.knit.md
+
+
+Output created: pca.html
+
+
+processing file: content/lehre/fue-i/pca.Rmd
+output file: content/lehre/fue-i/pca.R
+
+
+
+processing file: regression-ausreisser-fue.Rmd
+output file: regression-ausreisser-fue.knit.md
+
+
+Output created: regression-ausreisser-fue.html
+
+
+processing file: content/lehre/fue-i/regression-ausreisser-fue.Rmd
+output file: content/lehre/fue-i/regression-ausreisser-fue.R
+
+
+
+processing file: exkurs-invarianzstufen.Rmd
+output file: exkurs-invarianzstufen.knit.md
+
+
+Output created: exkurs-invarianzstufen.html
+
+
+processing file: content/lehre/fue-ii/exkurs-invarianzstufen.Rmd
+output file: content/lehre/fue-ii/exkurs-invarianzstufen.R
+
+
+
+processing file: exkurs-modellfit.Rmd
+output file: exkurs-modellfit.knit.md
+
+
+Output created: exkurs-modellfit.html
+
+
+processing file: content/lehre/fue-ii/exkurs-modellfit.Rmd
+output file: content/lehre/fue-ii/exkurs-modellfit.R
+
+
+
+processing file: fue-cfa.Rmd
+output file: fue-cfa.knit.md
+
+
+Output created: fue-cfa.html
+
+
+processing file: content/lehre/fue-ii/fue-cfa.Rmd
+output file: content/lehre/fue-ii/fue-cfa.R
+
+
+
+processing file: fue-efa.Rmd
+
+Quitting from lines 205-206 [unnamed-chunk-11] (fue-efa.Rmd)
+Error rendering content/lehre/fue-ii/fue-efa.Rmd: unbenutzte Argumente (nfactors = 2, rotate = "varimax")
+
+
+processing file: content/lehre/fue-ii/fue-efa.Rmd
+output file: content/lehre/fue-ii/fue-efa.R
+
+
+
+processing file: lavaan-intro.Rmd
+
+Quitting from lines 98-99 [unnamed-chunk-3] (lavaan-intro.Rmd)
+Error rendering content/lehre/fue-ii/lavaan-intro.Rmd: kann Verbindung zu 'https://pandar.netlify.com/daten/fairplayer.rda' nicht öffnen
+
+
+processing file: content/lehre/fue-ii/lavaan-intro.Rmd
+output file: content/lehre/fue-ii/lavaan-intro.R
+
+
+
+processing file: msa.Rmd
+output file: msa.knit.md
+
+
+Output created: msa.html
+
+
+processing file: content/lehre/fue-ii/msa.Rmd
+output file: content/lehre/fue-ii/msa.R
+
+
+
+processing file: sem.Rmd
+output file: sem.knit.md
+
+
+Output created: sem.html
+
+
+processing file: content/lehre/fue-ii/sem.Rmd
+output file: content/lehre/fue-ii/sem.R
+
+
+
+processing file: independence-r.Rmd
+output file: independence-r.knit.md
+
+
+Output created: independence-r.html
+
+
+processing file: content/lehre/independence/independence-r.Rmd
+output file: content/lehre/independence/independence-r.R
+
+
+
+processing file: ancova-moderierte-regression-legacy.Rmd
+output file: ancova-moderierte-regression-legacy.knit.md
+
+
+Output created: ancova-moderierte-regression-legacy.html
+
+
+processing file: content/lehre/klipps-legacy/ancova-moderierte-regression-legacy.Rmd
+output file: content/lehre/klipps-legacy/ancova-moderierte-regression-legacy.R
+
+
+
+processing file: anova-regression-legacy.Rmd
+output file: anova-regression-legacy.knit.md
+
+
+Output created: anova-regression-legacy.html
+
+
+processing file: content/lehre/klipps-legacy/anova-regression-legacy.Rmd
+output file: content/lehre/klipps-legacy/anova-regression-legacy.R
+
+
+
+processing file: dynamische-netzwerke-legacy.Rmd
+Failed with error:  'es gibt kein Paket namens 'graphicalVAR''
+
+Quitting from lines 90-104 [unnamed-chunk-5] (dynamische-netzwerke-legacy.Rmd)
+Error rendering content/lehre/klipps-legacy/dynamische-netzwerke-legacy.Rmd: 'graphicalVAR' package needs to be installed.
+
+
+processing file: content/lehre/klipps-legacy/dynamische-netzwerke-legacy.Rmd
+output file: content/lehre/klipps-legacy/dynamische-netzwerke-legacy.R
+
+
+
+processing file: einleitung-klipps-legacy.Rmd
+output file: einleitung-klipps-legacy.knit.md
+
+
+Output created: einleitung-klipps-legacy.html
+
+
+processing file: content/lehre/klipps-legacy/einleitung-klipps-legacy.Rmd
+output file: content/lehre/klipps-legacy/einleitung-klipps-legacy.R
+
+
+
+processing file: hierarchische-regression-klinisch-legacy.Rmd
+output file: hierarchische-regression-klinisch-legacy.knit.md
+
+
+Output created: hierarchische-regression-klinisch-legacy.html
+
+
+processing file: content/lehre/klipps-legacy/hierarchische-regression-klinisch-legacy.Rmd
+output file: content/lehre/klipps-legacy/hierarchische-regression-klinisch-legacy.R
+
+
+
+processing file: kausaleffekte1-legacy.Rmd
+output file: kausaleffekte1-legacy.knit.md
+
+
+Output created: kausaleffekte1-legacy.html
+
+
+processing file: content/lehre/klipps-legacy/kausaleffekte1-legacy.Rmd
+output file: content/lehre/klipps-legacy/kausaleffekte1-legacy.R
+
+
+
+processing file: kausaleffekte2-legacy.Rmd
+
+Quitting from lines 243-249 [unnamed-chunk-18] (kausaleffekte2-legacy.Rmd)
+Error rendering content/lehre/klipps-legacy/kausaleffekte2-legacy.Rmd: es gibt kein Paket namens 'chk'
+
+
+processing file: content/lehre/klipps-legacy/kausaleffekte2-legacy.Rmd
+output file: content/lehre/klipps-legacy/kausaleffekte2-legacy.R
+
+
+
+processing file: logistische-regression-klinische-legacy.Rmd
+output file: logistische-regression-klinische-legacy.knit.md
+
+
+Output created: logistische-regression-klinische-legacy.html
+
+
+processing file: content/lehre/klipps-legacy/logistische-regression-klinische-legacy.Rmd
+output file: content/lehre/klipps-legacy/logistische-regression-klinische-legacy.R
+
+
+
+processing file: metaanalysen-cor-legacy.Rmd
+output file: metaanalysen-cor-legacy.knit.md
+
+
+Output created: metaanalysen-cor-legacy.html
+
+
+processing file: content/lehre/klipps-legacy/metaanalysen-cor-legacy.Rmd
+output file: content/lehre/klipps-legacy/metaanalysen-cor-legacy.R
+
+
+
+processing file: metaanalysen-mw-legacy.Rmd
+output file: metaanalysen-mw-legacy.knit.md
+
+
+Output created: metaanalysen-mw-legacy.html
+
+
+processing file: content/lehre/klipps-legacy/metaanalysen-mw-legacy.Rmd
+output file: content/lehre/klipps-legacy/metaanalysen-mw-legacy.R
+
+
+
+processing file: querschnittliche-netzwerke-legacy.Rmd
+output file: querschnittliche-netzwerke-legacy.knit.md
+
+
+Output created: querschnittliche-netzwerke-legacy.html
+
+
+processing file: content/lehre/klipps-legacy/querschnittliche-netzwerke-legacy.Rmd
+output file: content/lehre/klipps-legacy/querschnittliche-netzwerke-legacy.R
+
+
+
+processing file: quizdaten-klipps-legacy.Rmd
+output file: quizdaten-klipps-legacy.knit.md
+
+
+Output created: quizdaten-klipps-legacy.html
+
+
+processing file: regression-ausreisser-klipps-legacy.Rmd
+output file: regression-ausreisser-klipps-legacy.knit.md
+
+
+Output created: regression-ausreisser-klipps-legacy.html
+
+
+processing file: content/lehre/klipps-legacy/regression-ausreisser-klipps-legacy.Rmd
+output file: content/lehre/klipps-legacy/regression-ausreisser-klipps-legacy.R
+
+
+
+processing file: ancova-klinische.Rmd
+
+Quitting from lines 210-216 [unnamed-chunk-11] (ancova-klinische.Rmd)
+Error rendering content/lehre/klipps/ancova-klinische.Rmd: es gibt kein Paket namens 'ModelMetrics'
+
+
+processing file: content/lehre/klipps/ancova-klinische.Rmd
+output file: content/lehre/klipps/ancova-klinische.R
+
+
+
+processing file: lmm-klinische.Rmd
+output file: lmm-klinische.knit.md
+
+
+Output created: lmm-klinische.html
+
+
+processing file: content/lehre/klipps/lmm-klinische.Rmd
+output file: content/lehre/klipps/lmm-klinische.R
+
+
+
+processing file: logistische-regression-klinische.Rmd
+
+Quitting from lines 80-81 [unnamed-chunk-2] (logistische-regression-klinische.Rmd)
+Error rendering content/lehre/klipps/logistische-regression-klinische.Rmd: kann Verbindung nicht öffnen
+
+
+processing file: content/lehre/klipps/logistische-regression-klinische.Rmd
+output file: content/lehre/klipps/logistische-regression-klinische.R
+
+
+
+processing file: meta-analyse.Rmd
+output file: meta-analyse.knit.md
+
+
+Output created: meta-analyse.html
+
+
+processing file: content/lehre/klipps/meta-analyse.Rmd
+output file: content/lehre/klipps/meta-analyse.R
+
+
+
+processing file: multilevel-netzwerke.Rmd
+output file: multilevel-netzwerke.knit.md
+
+
+Output created: multilevel-netzwerke.html
+
+
+processing file: content/lehre/klipps/multilevel-netzwerke.Rmd
+output file: content/lehre/klipps/multilevel-netzwerke.R
+
+
+
+processing file: multiple-regression-klinische.Rmd
+
+Quitting from lines 66-67 [unnamed-chunk-2] (multiple-regression-klinische.Rmd)
+Error rendering content/lehre/klipps/multiple-regression-klinische.Rmd: kann Verbindung nicht öffnen
+
+
+processing file: content/lehre/klipps/multiple-regression-klinische.Rmd
+output file: content/lehre/klipps/multiple-regression-klinische.R
+
+
+
+processing file: psychological-network-analysis.Rmd
+output file: psychological-network-analysis.knit.md
+
+
+Output created: psychological-network-analysis.html
+
+
+processing file: content/lehre/klipps/psychological-network-analysis.Rmd
+output file: content/lehre/klipps/psychological-network-analysis.R
+
+
+
+processing file: quizdaten-klinische.Rmd
+output file: quizdaten-klinische.knit.md
+
+
+Output created: quizdaten-klinische.html
+
+
+processing file: content/lehre/klipps/quizdaten-klinische.Rmd
+output file: content/lehre/klipps/quizdaten-klinische.R
+
+
+
+processing file: meta-analyse-auo.Rmd
+output file: meta-analyse-auo.knit.md
+
+
+Output created: meta-analyse-auo.html
+
+
+processing file: content/lehre/meta-auo/meta-analyse-auo.Rmd
+output file: content/lehre/meta-auo/meta-analyse-auo.R
+
+
+
+processing file: crash-kurs-aufgaben.Rmd
+output file: crash-kurs-aufgaben.knit.md
+
+
+Output created: crash-kurs-aufgaben.html
+
+
+processing file: crash-kurs-loesungen.Rmd
+output file: crash-kurs-loesungen.knit.md
+
+
+Output created: crash-kurs-loesungen.html
+
+
+processing file: crash-kurs.Rmd
+output file: crash-kurs.knit.md
+
+
+Output created: crash-kurs.html
+
+
+processing file: content/lehre/statistik-i/crash-kurs.Rmd
+output file: content/lehre/statistik-i/crash-kurs.R
+
+
+
+processing file: deskriptiv-intervall-aufgaben.Rmd
+output file: deskriptiv-intervall-aufgaben.knit.md
+
+
+Output created: deskriptiv-intervall-aufgaben.html
+
+
+processing file: deskriptiv-intervall-loesungen.Rmd
+output file: deskriptiv-intervall-loesungen.knit.md
+
+
+Output created: deskriptiv-intervall-loesungen.html
+
+
+processing file: deskriptiv-intervall.Rmd
+output file: deskriptiv-intervall.knit.md
+
+
+Output created: deskriptiv-intervall.html
+
+
+processing file: content/lehre/statistik-i/deskriptiv-intervall.Rmd
+output file: content/lehre/statistik-i/deskriptiv-intervall.R
+
+
+
+processing file: deskriptiv-nominal-ordinal-aufgaben.Rmd
+output file: deskriptiv-nominal-ordinal-aufgaben.knit.md
+
+
+Output created: deskriptiv-nominal-ordinal-aufgaben.html
+
+
+processing file: deskriptiv-nominal-ordinal-loesungen.Rmd
+output file: deskriptiv-nominal-ordinal-loesungen.knit.md
+
+
+Output created: deskriptiv-nominal-ordinal-loesungen.html
+
+
+processing file: deskriptiv-nominal-ordinal.Rmd
+output file: deskriptiv-nominal-ordinal.knit.md
+
+
+Output created: deskriptiv-nominal-ordinal.html
+
+
+processing file: content/lehre/statistik-i/deskriptiv-nominal-ordinal.Rmd
+output file: content/lehre/statistik-i/deskriptiv-nominal-ordinal.R
+
+
+
+processing file: einfache-reg-aufgaben.Rmd
+output file: einfache-reg-aufgaben.knit.md
+
+
+Output created: einfache-reg-aufgaben.html
+
+
+processing file: einfache-reg-loesungen.Rmd
+output file: einfache-reg-loesungen.knit.md
+
+
+Output created: einfache-reg-loesungen.html
+
+
+processing file: einfache-reg.Rmd
+output file: einfache-reg.knit.md
+
+
+Output created: einfache-reg.html
+
+
+processing file: content/lehre/statistik-i/einfache-reg.Rmd
+output file: content/lehre/statistik-i/einfache-reg.R
+
+
+
+processing file: ergebnisbericht.Rmd
+output file: ergebnisbericht.knit.md
+
+
+Output created: ergebnisbericht.html
+
+
+processing file: gruppenprojekt.Rmd
+output file: gruppenprojekt.knit.md
+
+
+Output created: gruppenprojekt.html
+
+
+processing file: gruppenvergleiche-abhaengig-aufgaben.Rmd
+output file: gruppenvergleiche-abhaengig-aufgaben.knit.md
+
+
+Output created: gruppenvergleiche-abhaengig-aufgaben.html
+
+
+processing file: gruppenvergleiche-abhaengig-loesungen.Rmd
+
+Quitting from lines 183-200 (gruppenvergleiche-abhaengig-loesungen.Rmd)
+Error rendering content/lehre/statistik-i/gruppenvergleiche-abhaengig-loesungen.Rmd: $ operator is invalid for atomic vectors
+
+
+processing file: content/lehre/statistik-i/gruppenvergleiche-abhaengig-loesungen.Rmd
+output file: content/lehre/statistik-i/gruppenvergleiche-abhaengig-loesungen.R
+
+
+
+processing file: gruppenvergleiche-abhaengig.Rmd
+output file: gruppenvergleiche-abhaengig.knit.md
+
+
+Output created: gruppenvergleiche-abhaengig.html
+
+
+processing file: content/lehre/statistik-i/gruppenvergleiche-abhaengig.Rmd
+output file: content/lehre/statistik-i/gruppenvergleiche-abhaengig.R
+
+
+
+processing file: gruppenvergleiche-unabhaengig-aufgaben.Rmd
+output file: gruppenvergleiche-unabhaengig-aufgaben.knit.md
+
+
+Output created: gruppenvergleiche-unabhaengig-aufgaben.html
+
+
+processing file: content/lehre/statistik-i/gruppenvergleiche-unabhaengig-aufgaben.Rmd
+output file: content/lehre/statistik-i/gruppenvergleiche-unabhaengig-aufgaben.R
+
+
+
+processing file: gruppenvergleiche-unabhaengig-loesungen.Rmd
+output file: gruppenvergleiche-unabhaengig-loesungen.knit.md
+
+
+Output created: gruppenvergleiche-unabhaengig-loesungen.html
+
+
+processing file: content/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen.Rmd
+output file: content/lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen.R
+
+
+
+processing file: gruppenvergleiche-unabhaengig.Rmd
+output file: gruppenvergleiche-unabhaengig.knit.md
+
+
+Output created: gruppenvergleiche-unabhaengig.html
+
+
+processing file: content/lehre/statistik-i/gruppenvergleiche-unabhaengig.Rmd
+output file: content/lehre/statistik-i/gruppenvergleiche-unabhaengig.R
+
+
+
+processing file: korrelation-aufgaben.Rmd
+output file: korrelation-aufgaben.knit.md
+
+
+Output created: korrelation-aufgaben.html
+
+
+processing file: korrelation-loesungen.Rmd
+output file: korrelation-loesungen.knit.md
+
+
+Output created: korrelation-loesungen.html
+
+
+processing file: korrelation.Rmd
+output file: korrelation.knit.md
+
+
+Output created: korrelation.html
+
+
+processing file: content/lehre/statistik-i/korrelation.Rmd
+output file: content/lehre/statistik-i/korrelation.R
+
+
+
+processing file: matrixalgebra-aufgaben.Rmd
+output file: matrixalgebra-aufgaben.knit.md
+
+
+Output created: matrixalgebra-aufgaben.html
+
+
+processing file: matrixalgebra-loesungen.Rmd
+output file: matrixalgebra-loesungen.knit.md
+
+
+Output created: matrixalgebra-loesungen.html
+
+
+processing file: matrixalgebra.Rmd
+output file: matrixalgebra.knit.md
+
+
+Output created: matrixalgebra.html
+
+
+processing file: content/lehre/statistik-i/matrixalgebra.Rmd
+output file: content/lehre/statistik-i/matrixalgebra.R
+
+
+
+processing file: multiple-reg-aufgaben.Rmd
+output file: multiple-reg-aufgaben.knit.md
+
+
+Output created: multiple-reg-aufgaben.html
+
+
+processing file: multiple-reg-loesungen.Rmd
+output file: multiple-reg-loesungen.knit.md
+
+
+Output created: multiple-reg-loesungen.html
+
+
+processing file: multiple-reg.Rmd
+output file: multiple-reg.knit.md
+
+
+Output created: multiple-reg.html
+
+
+processing file: content/lehre/statistik-i/multiple-reg.Rmd
+output file: content/lehre/statistik-i/multiple-reg.R
+
+
+
+processing file: quickguide-lifos.Rmd
+output file: quickguide-lifos.knit.md
+
+
+Output created: quickguide-lifos.html
+
+
+processing file: simulation-poweranalyse-aufgaben.Rmd
+output file: simulation-poweranalyse-aufgaben.knit.md
+
+
+Output created: simulation-poweranalyse-aufgaben.html
+
+
+processing file: simulation-poweranalyse-loesungen.Rmd
+output file: simulation-poweranalyse-loesungen.knit.md
+
+
+Output created: simulation-poweranalyse-loesungen.html
+
+
+processing file: simulation-poweranalyse.Rmd
+output file: simulation-poweranalyse.knit.md
+
+
+Output created: simulation-poweranalyse.html
+
+
+processing file: content/lehre/statistik-i/simulation-poweranalyse.Rmd
+output file: content/lehre/statistik-i/simulation-poweranalyse.R
+
+
+
+processing file: tests-konfidenzintervalle-aufgaben.Rmd
+output file: tests-konfidenzintervalle-aufgaben.knit.md
+
+
+Output created: tests-konfidenzintervalle-aufgaben.html
+
+
+processing file: tests-konfidenzintervalle-loesungen.Rmd
+output file: tests-konfidenzintervalle-loesungen.knit.md
+
+
+Output created: tests-konfidenzintervalle-loesungen.html
+
+
+processing file: content/lehre/statistik-i/tests-konfidenzintervalle-loesungen.Rmd
+output file: content/lehre/statistik-i/tests-konfidenzintervalle-loesungen.R
+
+
+
+processing file: tests-konfidenzintervalle.Rmd
+output file: tests-konfidenzintervalle.knit.md
+
+
+Output created: tests-konfidenzintervalle.html
+
+
+processing file: content/lehre/statistik-i/tests-konfidenzintervalle.Rmd
+output file: content/lehre/statistik-i/tests-konfidenzintervalle.R
+
+
+
+processing file: verteilungen-aufgaben.Rmd
+output file: verteilungen-aufgaben.knit.md
+
+
+Output created: verteilungen-aufgaben.html
+
+
+processing file: verteilungen-loesungen.Rmd
+output file: verteilungen-loesungen.knit.md
+
+
+Output created: verteilungen-loesungen.html
+
+
+processing file: verteilungen.Rmd
+output file: verteilungen.knit.md
+
+
+Output created: verteilungen.html
+
+
+processing file: content/lehre/statistik-i/verteilungen.Rmd
+output file: content/lehre/statistik-i/verteilungen.R
+
+
+
+processing file: zusatz-aufgaben.Rmd
+output file: zusatz-aufgaben.knit.md
+
+
+Output created: zusatz-aufgaben.html
+
+
+processing file: zusatz-loesungen-neu.Rmd
+
+Quitting from lines 621-624 [unnamed-chunk-43] (zusatz-loesungen-neu.Rmd)
+Error rendering content/lehre/statistik-i/zusatz-loesungen-neu.Rmd: kann Verbindung nicht öffnen
+
+
+processing file: content/lehre/statistik-i/zusatz-loesungen-neu.Rmd
+output file: content/lehre/statistik-i/zusatz-loesungen-neu.R
+
+
+
+processing file: zusatz-loesungen.Rmd
+output file: zusatz-loesungen.knit.md
+
+
+Output created: zusatz-loesungen.html
+
+
+processing file: ancova-regression.Rmd
+output file: ancova-regression.knit.md
+
+
+Output created: ancova-regression.html
+
+
+processing file: content/lehre/statistik-ii/ancova-regression.Rmd
+output file: content/lehre/statistik-ii/ancova-regression.R
+
+
+
+processing file: anova-i.Rmd
+output file: anova-i.knit.md
+
+
+Output created: anova-i.html
+
+
+processing file: content/lehre/statistik-ii/anova-i.Rmd
+output file: content/lehre/statistik-ii/anova-i.R
+
+
+
+processing file: anova-ii.Rmd
+output file: anova-ii.knit.md
+
+
+Output created: anova-ii.html
+
+
+processing file: content/lehre/statistik-ii/anova-ii.Rmd
+output file: content/lehre/statistik-ii/anova-ii.R
+
+
+
+processing file: anova-iii.Rmd
+output file: anova-iii.knit.md
+
+
+Output created: anova-iii.html
+
+
+processing file: content/lehre/statistik-ii/anova-iii.Rmd
+output file: content/lehre/statistik-ii/anova-iii.R
+
+
+
+processing file: einleitung-statistik-ii.Rmd
+output file: einleitung-statistik-ii.knit.md
+
+
+Output created: einleitung-statistik-ii.html
+
+
+processing file: content/lehre/statistik-ii/einleitung-statistik-ii.Rmd
+output file: content/lehre/statistik-ii/einleitung-statistik-ii.R
+
+
+
+processing file: gewichtete-reg.Rmd
+output file: gewichtete-reg.knit.md
+
+
+Output created: gewichtete-reg.html
+
+
+processing file: content/lehre/statistik-ii/gewichtete-reg.Rmd
+output file: content/lehre/statistik-ii/gewichtete-reg.R
+
+
+
+processing file: grafiken-ggplot2.Rmd
+
+Quitting from lines 67-68 [unnamed-chunk-2] (grafiken-ggplot2.Rmd)
+Error rendering content/lehre/statistik-ii/grafiken-ggplot2.Rmd: kann Verbindung zu 'https://pandar.netlify.com/daten/edu_exp.rda' nicht öffnen
+
+
+processing file: content/lehre/statistik-ii/grafiken-ggplot2.Rmd
+output file: content/lehre/statistik-ii/grafiken-ggplot2.R
+
+
+
+processing file: grafiken2-ggplot2.Rmd
+output file: grafiken2-ggplot2.knit.md
+
+
+Output created: grafiken2-ggplot2.html
+
+
+processing file: content/lehre/statistik-ii/grafiken2-ggplot2.Rmd
+output file: content/lehre/statistik-ii/grafiken2-ggplot2.R
+
+
+
+processing file: loops-funktionen.Rmd
+output file: loops-funktionen.knit.md
+
+
+Output created: loops-funktionen.html
+
+
+processing file: content/lehre/statistik-ii/loops-funktionen.Rmd
+output file: content/lehre/statistik-ii/loops-funktionen.R
+
+
+
+processing file: moderierte-reg.Rmd
+output file: moderierte-reg.knit.md
+
+
+Output created: moderierte-reg.html
+
+
+processing file: content/lehre/statistik-ii/moderierte-reg.Rmd
+output file: content/lehre/statistik-ii/moderierte-reg.R
+
+
+
+processing file: multreg-inf-mod.Rmd
+
+Quitting from lines 266-267 [unnamed-chunk-18] (multreg-inf-mod.Rmd)
+Error rendering content/lehre/statistik-ii/multreg-inf-mod.Rmd: es gibt kein Paket namens 'olsrr'
+
+
+processing file: content/lehre/statistik-ii/multreg-inf-mod.Rmd
+output file: content/lehre/statistik-ii/multreg-inf-mod.R
+
+
+
+processing file: nichtlineare-reg.Rmd
+output file: nichtlineare-reg.knit.md
+
+
+Output created: nichtlineare-reg.html
+
+
+processing file: content/lehre/statistik-ii/nichtlineare-reg.Rmd
+output file: content/lehre/statistik-ii/nichtlineare-reg.R
+
+
+
+processing file: partial.Rmd
+output file: partial.knit.md
+
+
+Output created: partial.html
+
+
+processing file: content/lehre/statistik-ii/partial.Rmd
+output file: content/lehre/statistik-ii/partial.R
+
+
+
+processing file: quizdaten-bsc7.Rmd
+output file: quizdaten-bsc7.knit.md
+
+
+Output created: quizdaten-bsc7.html
+
+
+processing file: content/lehre/statistik-ii/quizdaten-bsc7.Rmd
+output file: content/lehre/statistik-ii/quizdaten-bsc7.R
+
+
+
+processing file: regression-i.Rmd
+output file: regression-i.knit.md
+
+
+Output created: regression-i.html
+
+
+processing file: content/lehre/statistik-ii/regression-i.Rmd
+output file: content/lehre/statistik-ii/regression-i.R
+
+
+
+processing file: regression-ii.Rmd
+
+Quitting from lines 193-196 [unnamed-chunk-6] (regression-ii.Rmd)
+Error rendering content/lehre/statistik-ii/regression-ii.Rmd: es gibt kein Paket namens 'olsrr'
+
+
+processing file: content/lehre/statistik-ii/regression-ii.Rmd
+output file: content/lehre/statistik-ii/regression-ii.R
+
+
+
+processing file: regression-iii.Rmd
+output file: regression-iii.knit.md
+
+
+Output created: regression-iii.html
+
+
+processing file: content/lehre/statistik-ii/regression-iii.Rmd
+output file: content/lehre/statistik-ii/regression-iii.R
+
+
+
+processing file: regression-iv.Rmd
+output file: regression-iv.knit.md
+
+
+Output created: regression-iv.html
+
+
+processing file: content/lehre/statistik-ii/regression-iv.Rmd
+output file: content/lehre/statistik-ii/regression-iv.R
+
+
+
+processing file: regression-v.Rmd
+output file: regression-v.knit.md
+
+
+Output created: regression-v.html
+
+
+processing file: content/lehre/statistik-ii/regression-v.Rmd
+output file: content/lehre/statistik-ii/regression-v.R
+
+
+
+processing file: regressionsdiagnostik.Rmd
+output file: regressionsdiagnostik.knit.md
+
+
+Output created: regressionsdiagnostik.html
+
+
+processing file: content/lehre/statistik-ii/regressionsdiagnostik.Rmd
+output file: content/lehre/statistik-ii/regressionsdiagnostik.R
+
+
+
+processing file: basic-markdown-uebung-en.Rmd
+output file: basic-markdown-uebung-en.knit.md
+
+
+Output created: basic-markdown-uebung-en.html
+
+
+processing file: basic-markdown-uebung.Rmd
+output file: basic-markdown-uebung.knit.md
+
+
+Output created: basic-markdown-uebung.html
+
+
+processing file: connect-lifos-smartgit-en.Rmd
+output file: connect-lifos-smartgit-en.knit.md
+
+
+Output created: connect-lifos-smartgit-en.html
+
+
+processing file: connect-lifos-smartgit.Rmd
+output file: connect-lifos-smartgit.knit.md
+
+
+Output created: connect-lifos-smartgit.html
+
+
+processing file: datenschutz-en.Rmd
+output file: datenschutz-en.knit.md
+
+
+Output created: datenschutz-en.html
+
+
+processing file: datenschutz.Rmd
+output file: datenschutz.knit.md
+
+
+Output created: datenschutz.html
+
+
+processing file: eigenesprojekt-en.Rmd
+output file: eigenesprojekt-en.knit.md
+
+
+Output created: eigenesprojekt-en.html
+
+
+processing file: eigenesprojekt.Rmd
+output file: eigenesprojekt.knit.md
+
+
+Output created: eigenesprojekt.html
+
+
+processing file: informationen-betreuende-en.Rmd
+output file: informationen-betreuende-en.knit.md
+
+
+Output created: informationen-betreuende-en.html
+
+
+processing file: informationen-betreuende.Rmd
+output file: informationen-betreuende.knit.md
+
+
+Output created: informationen-betreuende.html
+
+
+processing file: orientierung-lifos-en.Rmd
+output file: orientierung-lifos-en.knit.md
+
+
+Output created: orientierung-lifos-en.html
+
+
+processing file: orientierung-lifos.Rmd
+output file: orientierung-lifos.knit.md
+
+
+Output created: orientierung-lifos.html
+
+
+processing file: template-auswahl-en.Rmd
+output file: template-auswahl-en.knit.md
+
+
+Output created: template-auswahl-en.html
+
+
+processing file: template-auswahl.Rmd
+output file: template-auswahl.knit.md
+
+
+Output created: template-auswahl.html
+
+
+processing file: verbentrainer.Rmd
+output file: verbentrainer.knit.md
+
+
+Output created: verbentrainer.html
+
+
+processing file: content/projekte/projekt1/verbentrainer.Rmd
+output file: content/projekte/projekt1/verbentrainer.R
+
+
+
+processing file: google-trends.Rmd
+output file: google-trends.knit.md
+
+
+Output created: google-trends.html
+
+
+processing file: content/projekte/projekt2/google-trends.Rmd
+output file: content/projekte/projekt2/google-trends.R
+
+
+
+processing file: casino.Rmd
+output file: casino.knit.md
+
+
+Output created: casino.html
+
+
+processing file: content/projekte/projekt3/casino.Rmd
+output file: content/projekte/projekt3/casino.R
+
+
+
+processing file: whatsappchats.Rmd
+output file: whatsappchats.knit.md
+
+
+Output created: whatsappchats.html
+
+
+processing file: content/projekte/projekt4/whatsappchats.Rmd
+output file: content/projekte/projekt4/whatsappchats.R
+
+
+
+processing file: gganimate.Rmd
+output file: gganimate.knit.md
+
+
+Output created: gganimate.html
+
+
+processing file: content/workshops/ggplotting/gganimate.Rmd
+output file: content/workshops/ggplotting/gganimate.R
+
+
+
+processing file: ggplotpourri.Rmd
+Warning in processing file: ggplotpourri - Zeichensatzfamilie in der Windows Zeichensatzdatenbank nicht gefunden
+
+
+processing file: ggplotting-daten.Rmd
+output file: ggplotting-daten.knit.md
+
+
+Output created: ggplotting-daten.html
+
+
+processing file: content/workshops/ggplotting/ggplotting-daten.Rmd
+output file: content/workshops/ggplotting/ggplotting-daten.R
+
+
+
+processing file: ggplotting-exploration.Rmd
+
+Quitting from lines 36-41 [setup] (ggplotting-exploration.Rmd)
+Error rendering content/workshops/ggplotting/ggplotting-exploration.Rmd: es gibt kein Paket namens 'tabplot'
+
+
+processing file: content/workshops/ggplotting/ggplotting-exploration.Rmd
+output file: content/workshops/ggplotting/ggplotting-exploration.R
+
+
+
+processing file: ggplotting-intro.Rmd
+output file: ggplotting-intro.knit.md
+
+
+Output created: ggplotting-intro.html
+
+
+processing file: content/workshops/ggplotting/ggplotting-intro.Rmd
+output file: content/workshops/ggplotting/ggplotting-intro.R
+
+
+
+processing file: ggplotting-themes.Rmd
+output file: ggplotting-themes.knit.md
+
+
+Output created: ggplotting-themes.html
+
+
+processing file: content/workshops/ggplotting/ggplotting-themes.Rmd
+output file: content/workshops/ggplotting/ggplotting-themes.R
+
+
+
+processing file: plotly.Rmd
+output file: plotly.knit.md
+
+
+Output created: plotly.html
+
+
+processing file: content/workshops/ggplotting/plotly.Rmd
+output file: content/workshops/ggplotting/plotly.R
+
+
+
+processing file: kiju-lm.Rmd
+output file: kiju-lm.knit.md
+
+
+Output created: kiju-lm.html
+
+
+processing file: content/workshops/kiju/kiju-lm.Rmd
+output file: content/workshops/kiju/kiju-lm.R
+
+
+
+processing file: kiju-r-intro.Rmd
+output file: kiju-r-intro.knit.md
+
+
+Output created: kiju-r-intro.html
+
+
+processing file: content/workshops/kiju/kiju-r-intro.Rmd
+output file: content/workshops/kiju/kiju-r-intro.R
+
+
+
+processing file: lmm-intro.Rmd
+output file: lmm-intro.knit.md
+
+
+Output created: lmm-intro.html
+
+
+processing file: content/workshops/kiju/lmm-intro.Rmd
+output file: content/workshops/kiju/lmm-intro.R
+
+
+
+processing file: lmm-long.Rmd
+output file: lmm-long.knit.md
+
+
+Output created: lmm-long.html
+
+
+processing file: content/workshops/kiju/lmm-long.Rmd
+output file: content/workshops/kiju/lmm-long.R
+
+
+
+processing file: refresher-day1.Rmd
+output file: refresher-day1.knit.md
+
+
+Output created: refresher-day1.html
+
+
+processing file: content/workshops/refresher/refresher-day1.Rmd
+output file: content/workshops/refresher/refresher-day1.R
+
+
+
+processing file: refresher-day2.Rmd
+output file: refresher-day2.knit.md
+
+
+Output created: refresher-day2.html
+
+
+processing file: content/workshops/refresher/refresher-day2.Rmd
+output file: content/workshops/refresher/refresher-day2.R
+
+
+
+processing file: refresher-uebungen-loesungen.Rmd
+output file: refresher-uebungen-loesungen.knit.md
+
+
+Output created: refresher-uebungen-loesungen.html
+
+
+processing file: refresher-uebungen.Rmd
+output file: refresher-uebungen.knit.md
+
+
+Output created: refresher-uebungen.html

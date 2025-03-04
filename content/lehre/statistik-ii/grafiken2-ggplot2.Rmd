@@ -37,6 +37,9 @@ output:
 ---
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
@@ -264,7 +267,7 @@ ggplotly(static)
 ```
 
 <!-- definitely make this more pretty at some point in the future --> 
-<iframe src="plotly1.html" width="100%" height="400"></iframe>
+<iframe src="/grafiken2-ggplot2/plotly1.html" width="100%" height="400"></iframe>
 
 Wenn sie mit dem Cursor über einen Datenpunkt hovern, erhalten Sie genauere Informationen über diesen spezifischen Datenpunkt (die sogenannte "Hoverinfo"). Im aktuellen Fall sind das die genauen Ausprägungen der vier Variablen, die im Plot auch verarbeitet sind. Außerdem kann man mit dem Cursor einen Bereich im Plot markieren um in diesen herein zu zoomen. Die dritte Möglichkeit, mit dem Datenfenster zu interagieren, stellt die Legende dar. Hier kann man durch einfachen Klick die Datenpunkte der gewählten Gruppen aus- und einblenden.
 
@@ -359,5 +362,5 @@ ggplotly(static,
 
 
 <!-- definitely make this more pretty at some point in the future --> 
-<iframe src="plotly2.html" width="100%" height="400"></iframe>
+<iframe src="/grafiken2-ggplot2/plotly2.html" width="100%" height="400"></iframe>
 

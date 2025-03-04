@@ -33,10 +33,12 @@ output:
 ---
 
 ```{r setup, include=FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
 knitr::opts_chunk$set(echo = TRUE)
 library(knitr)
 library(devtools)
-library(tabplot)
 ```
 
 ## Explanative und Explorative Grafiken
@@ -51,7 +53,9 @@ Der Fokus des Workshops lag bisher stark auf explanativen Grafiken. In diesem Ab
 * Prinzip des "small multiple" anhand von Faceting  
 * Eine Serie gleicher Grafiken mit Funktion und Schleife erzeugen  
 * Viele bivariate Zusammenhänge mit `ggpairs()`  
-* Multivariate Daten mit `tableplot()` durchkämmen  
+* Multivariate Daten mit `tableplot()` durchkämmen
+
+*Anmerkung: Leider ist das Paket `tabplot` inzwischen verwaist, sodass es mit aktuellen Versionen von R und ggplot nicht mehr funktioniert. Die entsprechenden Darstellungen mussten wir daher entfernen und empfehlen stattdessen die Arbeit mit [DataVisualizations](https://cran.r-project.org/web/packages/DataVisualizations/vignettes/DataVisualizations.html#1_Exploratory_Data_Analysis).*
 
 Auch in diesem Abschnitt arbeiten wir wieder mit dem `edu_exp`-Datensatz. Außerdem muss noch `ggplot2` geladen werden.
 
@@ -278,44 +282,44 @@ ggpairs(edu_exp_sel, columns = 1:3, aes(color = Region, alpha = .5))
 So lässt sich auch recht schnell ein Eindruck von den Daten gewinnen, um so auffällige Muster festzustellen.
 
 
-## Multivariate Daten mit `tableplot()` durchkämmen  
+<!-- ## Multivariate Daten mit `tableplot()` durchkämmen   -->
 
-Schließlich wollen wir Ihnen die Funktion `tableplot()` aus dem Paket `tabplot` nicht vorenthalten. Da dieses nicht auf CRAN, sondern auf github gehostet wird, installieren wir es über die `devtools`-Funktion `install_github()`. 
+<!-- Schließlich wollen wir Ihnen die Funktion `tableplot()` aus dem Paket `tabplot` nicht vorenthalten. Da dieses nicht auf CRAN, sondern auf github gehostet wird, installieren wir es über die `devtools`-Funktion `install_github()`.  -->
 
-```{r eval=FALSE}
-library(devtools)
-install_github("mtennekes/tabplot")
-library(tabplot)
-```
+<!-- ```{r eval=FALSE} -->
+<!-- library(devtools) -->
+<!-- install_github("mtennekes/tabplot") -->
+<!-- library(tabplot) -->
+<!-- ``` -->
 
-Das sog. Tableplot ist geeignet, um große multivariate Datensätze zu visualisieren. Für jede Subgruppe (per Default: für jedes Quantil) auf einer Variable werden Statistiken auf anderen Variablen dargestellt:   
+<!-- Das sog. Tableplot ist geeignet, um große multivariate Datensätze zu visualisieren. Für jede Subgruppe (per Default: für jedes Quantil) auf einer Variable werden Statistiken auf anderen Variablen dargestellt:    -->
 
-* für kontinuierliche Variablen: Balkendiagramm der Mittelwerte  
-* für kategoriale Variablen: Gestapeltes Balkendiagramm der Häufigkeiten einzelner Kategorien  
+<!-- * für kontinuierliche Variablen: Balkendiagramm der Mittelwerte   -->
+<!-- * für kategoriale Variablen: Gestapeltes Balkendiagramm der Häufigkeiten einzelner Kategorien   -->
 
-Zunächst reduzieren wir den `edu_exp`-Datensatz aus didaktischen Gründen auf sechs Variablen 
+<!-- Zunächst reduzieren wir den `edu_exp`-Datensatz aus didaktischen Gründen auf sechs Variablen  -->
 
-```{r}
-edu_exp_2 <- subset(edu_exp, select = c("Country", "Region", "Index", "Expectancy", "Population", "Income"))
-```
+<!-- ```{r} -->
+<!-- edu_exp_2 <- subset(edu_exp, select = c("Country", "Region", "Index", "Expectancy", "Population", "Income")) -->
+<!-- ``` -->
 
-Ohne weitere Einstellungen sieht das Tableplot für diesen Teildatensatz so aus:
+<!-- Ohne weitere Einstellungen sieht das Tableplot für diesen Teildatensatz so aus: -->
 
-```{r}
-tableplot(edu_exp_2)
-```
+<!-- ```{r} -->
+<!-- tableplot(edu_exp_2) -->
+<!-- ``` -->
 
-Per Voreinstellung werden die Daten nach der ersten Variable im Datensatz sortiert (Variable `country`; alphabetisch sortiert) - dies ist hier nicht sonderlich sinnvoll. Außerdem würden wir nicht annehmen, dass die Bevölkerungszahl oder das Jahr der Erhebung eines Landes mit den anderen Variablen in Zusammenhang steht, also schließen wir sie im nächsten Schritt aus. Außerdem sortieren wir den Datensatz diesmal nach der Ausprägung auf der Variable `Income`:
+<!-- Per Voreinstellung werden die Daten nach der ersten Variable im Datensatz sortiert (Variable `country`; alphabetisch sortiert) - dies ist hier nicht sonderlich sinnvoll. Außerdem würden wir nicht annehmen, dass die Bevölkerungszahl oder das Jahr der Erhebung eines Landes mit den anderen Variablen in Zusammenhang steht, also schließen wir sie im nächsten Schritt aus. Außerdem sortieren wir den Datensatz diesmal nach der Ausprägung auf der Variable `Income`: -->
 
-```{r}
-# Sortiert nach Income
-tableplot(edu_exp_2,
-          select=c(Region, Index, Expectancy, Income), 
-          sortCol = Income)
-```
+<!-- ```{r} -->
+<!-- # Sortiert nach Income -->
+<!-- tableplot(edu_exp_2, -->
+<!--           select=c(Region, Index, Expectancy, Income),  -->
+<!--           sortCol = Income) -->
+<!-- ``` -->
 
-Nun zeigen sich deutliche Muster - alle Variablen sortieren sich mit der Variable `Income` mit:  
+<!-- Nun zeigen sich deutliche Muster - alle Variablen sortieren sich mit der Variable `Income` mit:   -->
 
-* *Region*: Die Länder im oberen Bereich der Income-Verteilung befinden sich vorrangig in Asien und Europa (gelbe und rote Anteile), während die Länder im unteren Bereich der Income-Verteilung vorrangig in Afrika liegen  
-* *Index*: Die Länder im oberen Bereich der Income-Verteilung weisen höhere Werte auf dem Bildungsindex auf als die Länder im unteren Bereich der Income-Verteilung  
-* *Expectancy*: Die Länder im oberen Bereich der Income-Verteilung weisen auch höhere Werte für die Lebenserwartung auf als die Länder im unteren Bereich der Income-Verteilung
+<!-- * *Region*: Die Länder im oberen Bereich der Income-Verteilung befinden sich vorrangig in Asien und Europa (gelbe und rote Anteile), während die Länder im unteren Bereich der Income-Verteilung vorrangig in Afrika liegen   -->
+<!-- * *Index*: Die Länder im oberen Bereich der Income-Verteilung weisen höhere Werte auf dem Bildungsindex auf als die Länder im unteren Bereich der Income-Verteilung   -->
+<!-- * *Expectancy*: Die Länder im oberen Bereich der Income-Verteilung weisen auch höhere Werte für die Lebenserwartung auf als die Länder im unteren Bereich der Income-Verteilung -->

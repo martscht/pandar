@@ -8,7 +8,7 @@ subtitle: 'Generalisiertes lineares Modell: dichotome abhängige Variablen'
 summary: 'In diesem Beitrag wird die logistische Regression behandelt, die sich im Falle einer dichotomen abhängigen Variable eignet. Dabei werden der Logit (die Linkfunktion), die Erfolgswahrscheinlichkeit und die Odds erläutert. Es erfolgt ein Vergleich zwischen logistischer Regression und normaler Regressionsanalyse sowie eine Demonstration der logistischen Regressionsanalyse, bei der die Beiträge einzelner Prädiktoren zur Vorhersage untersucht werden.'
 authors: [nehler, irmer]
 weight: 5
-lastmod: '2024-10-08'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/meds.jpg"
@@ -47,7 +47,7 @@ In dieser Sitzung wollen wir dichotome abhängige Variablen mit der logistischen
 Wir laden zunächst die Daten. Dies können Sie lokal von Ihrem Rechner machen. Falls Sie den Datensatz lokal einladen wollen, müssen Sie ihn natürlich zunächst von der bereits angegebenen Seite herunterladen. Beachten Sie, dass dieser Datensatz im Format von SPSS vorliegt. Um diesen in `R` einzulesen, kann das Paket `haven` installiert und die Funktion `read_sav` genutzt werden. Der Rest des verwendeten Codes entspricht dem Code, den wir auch bei `load` verwendet haben. Wir weisen den Datensatz aber direkt einem Objekt zu, da er sonst nur in der Konsole angezeigt werden würde. 
 
 
-``` r
+```r
 install.packages("haven")
 library(haven)
 osf <- read_sav("C:/Users/Musterfrau/Desktop/Raw SubdataSet.sav")
@@ -56,7 +56,7 @@ osf <- read_sav("C:/Users/Musterfrau/Desktop/Raw SubdataSet.sav")
 Sie können den Datensatz aber auch direkt über die Website in das Environment einladen. Dafür verwenden Sie den folgendenen Befehl:
 
 
-``` r
+```r
 library(haven)
 osf <- read_sav(file = url("https://osf.io/prc92/download"))
 ```
@@ -67,7 +67,7 @@ Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik _Data_ unse
 Wir wollen uns einen Überblick über die Daten verschaffen:
 
 
-``` r
+```r
 names(osf)  # Variablennamen im Datensatz
 ```
 
@@ -82,7 +82,7 @@ names(osf)  # Variablennamen im Datensatz
 ## [36] "Depression_lvl1"  "Depression_lvl"   "AnydrugDep"
 ```
 
-``` r
+```r
 dim(osf)    # Dimensionen des Datensatzes
 ```
 
@@ -95,7 +95,7 @@ Es gibt insgesamt 38 Variablen. Viele Variablen sind hier auch doppelt in versch
 Auch in diesem Datensatz gibt es natürlich fehlende Werte. Zur Illustration werden wir Personen entfernen, wenn sie auf einer der relevanten Variablen einen fehlenden Wert haben. Beachten Sie, dass dieses Vorgehen in einer normalen Analyse weitreichende Probleme mit sich bringen würde und nur zur Vereinfachung für Lehrzwecke eingesetzt wird.
 
 
-``` r
+```r
 missings_id <- which(is.na(osf$ANYDUMMY) |
                         is.na(osf$GENDER_R) |
                         is.na(osf$Depression_lvl))
@@ -109,7 +109,7 @@ length(missings_id)
 Durch die Kombination aus `which` und `is.na` werden alle Zeilennummern identifiziert, in denen eine der drei Variablen fehlend ist. Der vertikale Strich steht dabei für eine Verknüpfung mit "oder". Es reicht also ein fehlender Wert auf einer der Variablen, um in dem Objekt `missings_id` getracked zu werden. Insgesamt sind von unserem Ausschluss 18659 Personen betroffen. Nun müssen wir die Fälle noch ausschließen:
 
 
-``` r
+```r
 osf <- osf[-missings_id, ]
 dim(osf) # nach Fallausschluss
 ```
@@ -120,7 +120,7 @@ dim(osf) # nach Fallausschluss
 Die Anzahl an Personen hat sich drastisch reduziert. Dennoch können wir mit der vorhanden Stichprobe die Funktionsweise der logistischen Regression gut erläutern. Dazu wollen wir auch noch das Geschlecht als Variable des Typs `factor` hinterlegen. Dabei steht `0` für weiblich und `1` für männlich. 
 
 
-``` r
+```r
 osf$GENDER_R <- as.factor(osf$GENDER_R)
 levels(osf$GENDER_R) <- c("weiblich", "maennlich")
 ```
@@ -133,7 +133,7 @@ Für unser Beispiel wollen wir die Drogenabhängigkeit als abhängige Variable b
 Um die Drogenabhängigkeit zu modellieren, könnten wir eine [Regressionsanalyse](/lehre/klipps-legacy/regression-ausreisser-klipps-legacy/) heranziehen und die Drogenabhängigkeit (`ANYDUMMY`) durch bspw. den Depressionswert  (`Depression_lvl`) vorhersagen. Wir nennen unser Modell zur Modellierung der Drogenabhängigkeit `reg_model`.
 
 
-``` r
+```r
 reg_model <- lm(ANYDUMMY ~ 1 + Depression_lvl, data = osf)
 summary(reg_model)
 ```
@@ -164,9 +164,9 @@ Laut der einfachen Regressionsanalyse scheint es, dass der Depressionsscore sehr
 Betrachten wir nun exemplarisch zwei Voraussetzungen der Regression. Der Code für die Grafiken ist in [Appendix B](#AppendixB) zu finden.
 
 
-![](/lehre/klipps-legacy/logistische-regression-klinische-legacy_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](/logistische-regression-klinische-legacy_files/unnamed-chunk-8-1.png)<!-- -->
 
-![](/lehre/klipps-legacy/logistische-regression-klinische-legacy_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/logistische-regression-klinische-legacy_files/unnamed-chunk-9-1.png)<!-- -->
 
 In dieser Analyse sind einige Annahmen der Regressionsanalyse verletzt: Normalverteilung der Residuen, Homoskedastizität und auch Unabhängigkeit der Residuen. Den Verteilungen der Residuen können wir deutlich entnehmen, dass diese systematisch ausfallen (mit steigender Depression steigen die Residuen linear an) und auch die Normalverteilungsannahme ist deutlich verletzt. Eine Regression erscheint nicht sinnvoll. Den Ergebnisse der Signifikanzentscheidungen kann nicht getraut werden. Zusätzlich würde eine Vorhersage der abhängigen Variable viele Werte außerhalb der beiden sinnvollen Ausprägungen `0` und `1` ergeben. Wir müssen uns also irgendwie anders mit den Daten auseinandersetzen! Aus diesem Grund wollen wir die logistische Regression heranziehen. 
 
@@ -189,7 +189,7 @@ Hier ist $\ln$ der natürliche Logarithmus zur Basis $e$ ($e$ ist die Eulersche 
 Für die erste Hypothese müssen wir den Einfluss des Depressionsscores auf die Wahrscheinlichkeit der Drogenabhängigkeit bestimmen. Dafür wollen wir eine logistische Regressionsanalyse durchführen. In dieser werden die Residuen nicht länger als normalverteilt angenommen, sondern die AV wird als (bedingt) binomialverteilt modelliert. Wir nennen das Modell `glm_model`, da wir uns im Generalisierten Linearen Model bewegen. Die Funktion `glm` übernimmt für uns die richtige Transformation, nämlich den Logit als Link-Funktion, indem wir noch das Zusatzargument `family = "binomial"` festlegen. Die Binomialverteilung ist gerade jene Verteilung, die beschreibt, wie häufig bei $n$ Versuchen Erfolg eintritt (also genau die richtige Verteilung für unser Modell!).
 
 
-``` r
+```r
 glm_model <- glm(ANYDUMMY ~ 1 + Depression_lvl, family = "binomial", data = osf)
 summary(glm_model)
 ```
@@ -260,7 +260,7 @@ Die Devianz beschreibt die Log-Likelihooddifferenz eines beliebigen Modells zum 
 
 Wir haben bereits anhand des Tests des Steigungsparameters gesehen, dass ein signifikanter Einfluss des Depressionsscores auf die Wahrscheinlichkeit der Drogenabhängigkeit für die Population angenommen werden kann. Trotzdem wollen wir uns nochmal damit auseinandersetzen, wie ein gesamtes Modell (mit allen Prädiktoren) gegen das Nullmodell (also ohne jeglichen Prädiktor) getestet werden kann. Natürlich könnte man sich diese Funktion schnell selbst schreiben und den kritischen Wert raus suchen, aber es gibt ein Paket, welches diese Arbeit für uns übernhemen kann. Dafür müssen wir `lmtest` installieren. Bei der Installation sollte auch die Abhängigkeit `zoo` mit installiert werden. 
 
-``` r
+```r
 install.packages("lmtest")
 library(lmtest)
 ```
@@ -270,7 +270,7 @@ library(lmtest)
 Im theoretischen Teil haben wir gelernt, dass für den Modellvergleich der Likelihood-Ratio-Test verwendet wird, in dem die Likelihood des Modells mit Prädiktoren in Verhältnis zu der Likelihood des Modells ohne Prädiktoren gesetzt wird. Ist der Gewinn in der Likelihood durch die Prädiktoren groß genug, resultiert ein signifikantes Ergebnis. Die zugehörige Funktion in `R` heißt `lrtest`. Diese braucht als einziges Argument das Modell mit Prädiktoren und kann dieses mit dem Modell ohne Prädiktoren vergleichen.
 
 
-``` r
+```r
 lrtest(glm_model)
 ```
 
@@ -293,32 +293,32 @@ Der Output zeigt uns zunächst nochmal an, welche Modelle verglichen werden. In 
 Der Effekt des Despressionsscores ist statistisch signifikant. Wir haben dieses Mal ein sinnvolleres Modell eingesetzt, was bedeutet, dass wir den Ergebnissen eher trauen können. Insgesamt stützen die Daten unsere erste Hypothese. Allerdings ist dieser Effekt sehr klein (dazu später mehr, wenn wir zur Ergebnisinterpretation und zur Einordnung der Koeffizienten kommen). Wenn wir den Wertebereich entlang der x-Achse sehr/unrealistisch groß wählen und den Depressionsscore von -20 bis 60 laufen lassen, so können wir uns die linearen und nichtlinearen Beziehungen zwischen Depressionsscore - Logit, Depressionsscore - Odds und Depressionsscore - Wahrscheinlichkeit ansehen, andernfalls ist der Effekt so klein, dass wir kaum etwas erkennen. `glm_model$coefficients[1] + glm_model$coefficients[2]*Depressionswerte` ist hierbei die Formel für den Logit, da die Parameterschätzungen einfach die $\beta$-Koeffizienten sind, welche linear verknüpft den Logit ergeben. 
 
 
-``` r
+```r
 Depressionswerte <- seq(-20, 60, 0.1)
 logit <- glm_model$coefficients[1] + glm_model$coefficients[2]*Depressionswerte 
 plot(x = Depressionswerte, y = logit, type = "l", col = "blue", lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/logistische-regression-klinische-legacy_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
+![](/logistische-regression-klinische-legacy_files/unnamed-chunk-18-1.png)<!-- -->
 
 `type = "l"` fordert eine Linie anstatt von Punkten an, `lwd = 3` sagt, dass diese Linie dreimal so dick wie der Default sein soll und `col = "blue"` sagt, dass die Linie blau sein soll.
 
 Glücklicherweise sind Logit, Odds und Wahrscheinlichkeit sehr leicht ineinander überführbar. Für die Berechnung der Odds muss nur die Funktion `exp` auf die Logit-Werte angewendet werden, während die Wahrscheinlichkeit die Odds geteilt durch eins plus Odds ist.
 
 
-``` r
+```r
 odds <- exp(logit)
 plot(x = Depressionswerte, y = odds, type = "l", col = "blue", lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/logistische-regression-klinische-legacy_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](/logistische-regression-klinische-legacy_files/unnamed-chunk-19-1.png)<!-- -->
 
-``` r
+```r
 p <- odds/(1 + odds)
 plot(x = Depressionswerte, y = p, type = "l", col = "blue", lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/logistische-regression-klinische-legacy_files/figure-html/unnamed-chunk-19-2.png)<!-- -->
+![](/logistische-regression-klinische-legacy_files/unnamed-chunk-19-2.png)<!-- -->
 
 Wir erkennen in allen drei Plots die positive Beziehung zwischen Drogenabhängigkeit und Depressionsscore. Der Logit ist eine lineare Funktion (Wertebereich [$-\infty$,$\infty$]). Somit steigt (bzw. sinkt) der Logit um $\beta_1$, wenn der Prädiktor (hier Depressionsscore) um eine Einheit erhöht wird. Die Odds sind eine Exponentialfunktion (Wertebereich [0,$\infty$]) und bei der Wahrscheinlichkeit handelt es sich um eine sogenannte Ogive (Wertebereich [0,1]). Die Odds steigen (bzw. sinken) um den Faktor $e^{\beta_1}$ (auch Odds-Ratio genannt), wenn der Prädiktor (hier Depressionsscore) um eine Einheit erhöht wird - die Beziehung zwischen Odds und Prädiktor ist somit multiplikativ! Wir schauen uns die Parameterinterpretation der Odds im nächsten Abschnitt genauer an. Wie sich die Wahrscheinlichkeit verändert, ist nicht pauschal zu sagen. Diese Veränderung hängt von der Ausprägung des Prädiktors ab und lässt sich nicht durch eine einzige Zahl quantifizieren. Wir erkennen aber, dass die Ogive erst nach einem Depressionsscore von Null nach links laufend flacher gegen 0 geht. Im Intervall von 0 bis 9 (also möglichen Depressionsscores) ist die Wahrscheinlichkeit der Drogenabhängigkeit kleiner als 20% und steigend mit dem Depressionsscore. In [Appendix A](#AppendixA) haben Sie die Möglichkeit, spielerisch die Einflüsse der Parameter in der logistischen Regression kennen zu lernen.
 
@@ -326,7 +326,7 @@ Wir erkennen in allen drei Plots die positive Beziehung zwischen Drogenabhängig
 Nun wollen wir das Geschlecht mit in unser Modell aufnehmen und somit Hypothese 2 untersuchen. Da das Geschlecht hier auch nur 2 Ausprägungen hat, kann dieser Effekt als Vergleich zwischen Gruppen verstanden werden. Diese Dummy-Variable haben wir zu Beginn schon als Faktor festgelegt. Mit der Funktion `table` erhalten wir einen Überblick über die Kombination an Drogenabhängigkeit und dem Geschlecht.
 
 
-``` r
+```r
 table(osf$GENDER_R, osf$ANYDUMMY)
 ```
 
@@ -340,7 +340,7 @@ table(osf$GENDER_R, osf$ANYDUMMY)
 In der Tabelle wird entlang der Spalten die Drogenabhängigkeit vs. das Geschlecht in den Zeilen abgetragen. Dieser Tabelle ist zu entnehmen, dass der relative Anteil an Männern, die unter einer Abhängigkeit leiden, höher ist als der der Frauen: 668 vs. 17294 für die Männer und 600 vs. 18381 für die Frauen. Auch absolut gesehen leiden mehr Männer unter einer Abhängigkeit. Da die Unterschiede aber recht klein sind, ist ein Geschlechtereffekt erstmal fraglich. Diese 4-Feldertafel könnten wir auch heranziehen, um einen $\chi^2$-Unabhängigkeitstest durchzuführen. Wir wollen aber den Effekt des Geschlechts über den Depressionsscore hinaus auf die Wahrscheinlichkeit der Drogenabhängigkeit modellieren:
 
 
-``` r
+```r
 glm_model2 <-  glm(ANYDUMMY ~ 1 + Depression_lvl + GENDER_R, family = "binomial", data = osf)
 summary(glm_model2)
 ```
@@ -390,7 +390,7 @@ Dies gibt an, dass hier dummy-kodiert wurde und der Effekt von 1 (maennlich) im 
 Die $\beta$-Gewichte zu interpretieren, hat wenig inhaltliche Aussagekraft. Wir könnten bspw. für das Geschlecht lediglich die Aussage treffen, dass (unter Konstanthaltung aller weiteren Prädiktoren im Modell), wenn Männer im Vergleich zu Frauen betrachtet werden, der Logit (der Wahrscheinlichkeit der Drogenabhängigkeit) um 0.379 steigt. Wenn wir allerdings anstatt des Logits die Odds heranziehen, so können wir mit Hilfe des Odds-Ratio doch eine Aussage über die Wahrscheinlichkeit der Drogenabhängigkeit treffen. Dazu müssen wir die $\beta$-Gewichte transformieren via $e^\beta$:
 
 
-``` r
+```r
 exp(glm_model2$coefficients) # Odds-Ratios
 ```
 
@@ -412,13 +412,13 @@ Wir können uns dieses Modell auch grafisch ansehen und damit die oben aufgezeig
 
 
 
-![](/lehre/klipps-legacy/logistische-regression-klinische-legacy_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+![](/logistische-regression-klinische-legacy_files/unnamed-chunk-25-1.png)<!-- -->
 
 In dem Plot sind die vorhergesagten Logits für alle Personen im Datensatz zu sehen. Dabei ist der Logit natürlich vom Depressionsscore abhängig und das Geschlecht wird als Gruppierungsvariable für zwei verschiedene Geraden verwendet. Die Logik lässt sich auch auf die Odds und die Wahrscheinlichkeit der Drogenabhängigkeit übertragen.
 
-![](/lehre/klipps-legacy/logistische-regression-klinische-legacy_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+![](/logistische-regression-klinische-legacy_files/unnamed-chunk-26-1.png)<!-- -->
 
-![](/lehre/klipps-legacy/logistische-regression-klinische-legacy_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
+![](/logistische-regression-klinische-legacy_files/unnamed-chunk-27-1.png)<!-- -->
 
 Die Verläufe der Odds und der Wahrscheinlichkeit sehen in diesem Beispiel recht ähnlich aus. Das liegt daran, dass wir nun den realistischen Bereich der Daten betrachten. Wenn wir den Bereich der x-Achse erweitern würden, würden die Odds gegen $\infty$ gehen, während die Wahrscheinlichkeit die ogive Form zeigen und sich damit der 1 annähern würde.
 
@@ -431,7 +431,7 @@ Zum Abschluss wollen wir uns jetzt mittels Modellvergleichen nochmal der Frage w
 Zunächst testen wir das neu erstellte Gesamtmodell gegen das Null-Modell, wie wir es bereits mit dem `glm_model` getan haben.
 
 
-``` r
+```r
 lrtest(glm_model2)
 ```
 
@@ -452,7 +452,7 @@ lrtest(glm_model2)
 Wenig überraschend erzeugt auch dieser Test ein signifikantes Ergebnis. Spannender ist jetzt, ob die Hinzunahme des Geschlechts auch einen signifikanten Mehrwert bringt. Wie immer in `R` gibt es für den Vergleich zwischen zwei Modellen mehrere Wege, wir bleiben aber bei der verwendeten `lrtest` Funktion. Diese kann nämlich auch zwei Modelle als Argumente annehmen und vegleichen.
 
 
-``` r
+```r
 lrtest(glm_model, glm_model2)
 ```
 
@@ -484,7 +484,7 @@ Final können wir festhalten, dass sowohl der Depressionsscore als auch das Gesc
 
 Die folgende Funktion stellt vier Grafiken dar: den Logit, die Odds, die Wahrscheinlichkeit und die Wahrscheinlichkeit vs. eine Zufallserhebung. Sie können $\beta_0$ und $\beta_1$ dieses Modells so einstellen, wie Sie wünschen und sich den Effekt auf die verschiedenen Darstellungsformen der logistischen Regression ansehen. In hellblau wird jeweils die Funktion mit $\beta_0 = 0$ und $\beta_1 = 1$ als Referenz dargestellt. Die gestrichelten Linien stellen jeweils die x- und die y-Achse dar. In roten Punkten werden Realisierungen von $Y=0,1$ dargestellt, die mit der angezeigten Wahrscheinlichkeit gezogen wurden. Um die Ergebnisse vergleichbar zu machen, wird `set.seed(1234)` verwendet (vgl. [Simulation und Poweranalyse](/lehre/statistik-i/simulation-poweranalyse)).
 
-``` r
+```r
 Logistic_functions <- function(beta0 = 0, beta1 = 1)
 {
         par(mfrow=c(2,2)) # 4 Grafiken in einer
@@ -517,11 +517,11 @@ Logistic_functions <- function(beta0 = 0, beta1 = 1)
 Sie führen diese Funktion aus, indem Sie alles von `Logistic_functions <- function(beta0 = 0, beta1 = 1){` bis `}` kopieren und in Ihrem `R`-Studio Fenster ausführen, sodass in der Rubrik oben rechts (dort wo auch immer _Data_ erscheint) unter _Functions_ `Logistic_functions` als Funktion aufgeführt wird. Sie können sich bspw. die Konstellation für $\beta_0 = 1$ und $\beta_1 = -0.5$ im Vergleich zu $\beta_0 = 0$ und $\beta_1 = 1$ ansehen:
 
 
-``` r
+```r
 Logistic_functions(beta0 = 1, beta1 = -.5)
 ```
 
-![](/lehre/klipps-legacy/logistische-regression-klinische-legacy_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
+![](/logistische-regression-klinische-legacy_files/unnamed-chunk-32-1.png)<!-- -->
 
 </details>
 
@@ -531,17 +531,17 @@ Logistic_functions(beta0 = 1, beta1 = -.5)
 
 Zunächst beschäftigen wir uns mit den beiden Grafiken, die die Residuen der linearen Regression zwischen Depressionsscore und Drogenabhängigkeit betrachten. Für den ersten Plot benötigen wir das Paket `car`.
 
-``` r
+```r
 library(car) # nötiges Paket laden
 avPlots(model = reg_model, pch = 16)
 ```
 
-![](/lehre/klipps-legacy/logistische-regression-klinische-legacy_files/figure-html/unnamed-chunk-33-1.png)<!-- -->
+![](/logistische-regression-klinische-legacy_files/unnamed-chunk-33-1.png)<!-- -->
 
 Für die Erstellung des zweiten Plots muss das Paket `MASS` aktiviert sein. Zunächst werden die studentisierten Residuen als Objekt abgelegt. Dafür kann die Funktion `studres` verwendet werden. Diese werden in einem Histogramm abgebildet.
 
 
-``` r
+```r
 library(MASS)# nötiges Paket laden
 res <- studres(reg_model) # Studentisierte Residuen als Objekt speichern
 hist(res, freq = F)
@@ -549,21 +549,21 @@ xWerte <- seq(from = min(res), to = max(res), by = 0.01)
 lines(x = xWerte, y = dnorm(x = xWerte, mean = mean(res), sd = sd(res)), lwd = 3)
 ```
 
-![](/lehre/klipps-legacy/logistische-regression-klinische-legacy_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+![](/logistische-regression-klinische-legacy_files/unnamed-chunk-34-1.png)<!-- -->
 
 Um die Normalverteilunskurve auch noch einzuzeichnen, erstellen wir einen Vektor mit x Variablen vom Minimum bis zum Maximum der Residuen-Werte. Anschließend legen wir über `lines` und `dnorm` die Kurve auf unser Histogramm. `dnorm` bestimmt dabei die Werte, die die Normalverteilung an der Stelle x mit dem Mittelwert und der Standardabweichung der Residuen hätte.
 
 Die beschriebenen Plots sind mit einem Paket und einer Basis-Funktion von `R` erstellt. Für die Erstellung von individuellen Plots ist `ggplot2` das richtige Paket. Dieses wurde bereits häufiger im Appendix als Möglichkeit zum Erzeugen von Plots beschrieben. Weitere Informationen zu `ggplot2` erhalten Sie bspw. auf  [{{< icon name="graduation-cap" pack="fas" >}} Tidyverse](https://ggplot2.tidyverse.org). Außerdem können Sie sich auch eine [Einführung in `ggplot2`](/lehre/statistik-ii/grafiken-ggplot2) auf dieser Website ansehen.
 
 
-``` r
+```r
 library(ggplot2)
 ```
 
 Wir können hier sehr leicht Gruppierungen in Grafiken darstellen. Zunächst müssen wir allerdings die Prädiktionen unseres Modells bestimmen, denn wir wollen uns die Vorhersage/Erwartung unseres Modells ansehen. Die Funktion, mit der wir dies machen können, heißt genauso wie die Funktion die sie ausführt: `predict`. Wir sagen damit den Logit für alle Konstellationen von Depressionsscore und Geschlecht in unseren Daten vorher, indem wir der Funktion das Modell übergeben. Wir bestimmen also für jede Personen die erwartete Wahrscheinlichkeit der Drogenabhängigkeit unter diesem Modell (der Prädiktion durch Geschlecht und Depressionsscore). Anschließend können wir den Logit so transformieren, dass wir die Odds oder die Wahrscheinlichkeit erhalten. Um dies leichter nachvollziehbar zu machen, führen wir die Transformationen mit neu erstellten Variablen durch, ehe wir diese dem Datensatz anhängen (denn `ggplot` hat es am liebsten, wenn wir mit `data.frames`, also ganzen Datensätzen arbeiten).
 
 
-``` r
+```r
 logit_glm2 <- predict(glm_model2)           # Logit unter Modell glm2 bestimmen
 odds_glm2 <- exp(logit_glm2)          # Logit unter Modell glm2 in Odds transformieren
 p_glm2 <- odds_glm2/(1 + odds_glm2)     # Odds in Wahrscheinlichkeiten transformieren
@@ -577,7 +577,7 @@ osf$p_glm2 <- p_glm2
 Eine Grafik erhalten wir nun mit `ggplot` sehr einfach:
 
 
-``` r
+```r
 ggplot(data = osf, mapping = aes(x =
                                    as.numeric(Depression_lvl),
                                  y = logit_glm2, col =
@@ -588,12 +588,12 @@ ggplot(data = osf, mapping = aes(x =
   ylab("Logit")
 ```
 
-![](/lehre/klipps-legacy/logistische-regression-klinische-legacy_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](/logistische-regression-klinische-legacy_files/unnamed-chunk-37-1.png)<!-- -->
 
 `ggplot` arbeitet etwas anders als die Basisfunktion `plot`. Zunächst übergeben wir ihr die Daten `data = osf`. Dem `mapping` übergeben wir sozusagen das Achsenkreuz und Gruppenzugehörigkeiten und Farbkodierungen innerhalb  von `aes(x = Depression_lvl, y = logit_glm2, col = GENDER_R)`. Hier wird gesagt, dass der Depressionsscore auf die x-Achse soll und wir den Logit entlang der y-Achse plotten wollen. Außerdem soll für das Geschlecht eine separate Linie eingezeichnet werden und diese soll farblich kodiert sein. Damit dies funktioniert, müssen natürlich die Variablen im richtigen Format vorliegen. Bspw. müssen Gruppierungen, wie etwa das Geschlecht, als Faktor vorliegen. Anschließend fügen wir mit `+` hinzu, was genau geplottet werden soll. In diesem Beispiel wollen wir Linien haben. Deshalb verwenden wir die Funktion `geom_line` mit dem Argument `lwd = 2` für zweifache Liniendicke. Würden wir hier bspw. `geom_point` verwenden, so würden Punkte gezeichnet werden. Wieder mit dem `+` fügen wir außerdem mit der Funktion `ggtitle` einen Titel hinzu. `xlab` und `ylab` lassen uns die Achsentitel modifizieren. Gleiches können wir auch für die Odds oder die Wahrscheinlichkeit durchführen:
 
 
-``` r
+```r
 ggplot(data = osf, mapping = aes(x = Depression_lvl,
                                  y = odds_glm2, 
                                  col = GENDER_R)) +
@@ -603,10 +603,10 @@ ggplot(data = osf, mapping = aes(x = Depression_lvl,
   ylab("Odds")
 ```
 
-![](/lehre/klipps-legacy/logistische-regression-klinische-legacy_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+![](/logistische-regression-klinische-legacy_files/unnamed-chunk-38-1.png)<!-- -->
 
 
-``` r
+```r
 ggplot(data = osf, mapping = aes(x = Depression_lvl, 
                                  y = p_glm2, 
                                  col = GENDER_R)) +
@@ -616,7 +616,7 @@ ggplot(data = osf, mapping = aes(x = Depression_lvl,
   ylab("Logit")
 ```
 
-![](/lehre/klipps-legacy/logistische-regression-klinische-legacy_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
+![](/logistische-regression-klinische-legacy_files/unnamed-chunk-39-1.png)<!-- -->
 
 </details>
 

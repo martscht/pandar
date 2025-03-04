@@ -9,7 +9,7 @@ subtitle: 'Analysen von komplexen gerichteten Beziehungen'
 summary: '' 
 authors: [irmer, schultze] 
 weight: 4
-lastmod: '2024-03-16'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/chocolate_construction.jpg"
@@ -83,20 +83,20 @@ head(StressAtWork)
 ```
 
 ```
-##   sex zd1 zd2 zd6 aop3 aop4 aop8 bf1 bf2 bf3 bf4 bf5 bf6 bf7 bf8 bf9 bf10 bf11 bf12 bf13
-## 1   1   2   2   4    5    3    4   2   1   1   1   1   1   1   1   1    1    1    2    2
-## 2   1   4   3   4    5    3    4   5   4   4   1   2   5   3   5   5    2    3    4    4
-## 3   1   2   2   3    3    1    3   3   3   4   1   3   1   1   3   2    2    2    2    3
-## 4   2   3   2   2    2    4    5   3   3   2   1   4   4   2   3   3    2    2    3    3
-## 5   1   4   3   3    4    2    4   4   4   3   1   1   2   2   2   2    2    1    2    2
-## 6   1   3   4   4    2    1    1   4   4   4   1   1   2   3   2   1    1    1    4    3
-##   bf14 bf15 bf16 bf17 bf18 bf19 bf20 bo1 bo6 bo12 bo19 bo7 bo8 bo21
-## 1    2    1    1    1    1    2    2   2   1    1    1   4   5    7
-## 2    3    2    3    2    1    4    2   3   1    2    2   2   2    2
-## 3    3    1    2    1    2    4    1   4   3    1    2   3   3    4
-## 4    3    5    3    3    1    3    3   4   2    2    1   6   6    4
-## 5    2    1    3    3    2    3    4   3   1    1    2   5   4    6
-## 6    2    2    3    1    3    3    1   2   3    1    2   5   3    6
+##   sex zd1 zd2 zd6 aop3 aop4 aop8 bf1 bf2 bf3 bf4 bf5 bf6 bf7 bf8 bf9 bf10 bf11 bf12 bf13 bf14 bf15
+## 1   1   2   2   4    5    3    4   2   1   1   1   1   1   1   1   1    1    1    2    2    2    1
+## 2   1   4   3   4    5    3    4   5   4   4   1   2   5   3   5   5    2    3    4    4    3    2
+## 3   1   2   2   3    3    1    3   3   3   4   1   3   1   1   3   2    2    2    2    3    3    1
+## 4   2   3   2   2    2    4    5   3   3   2   1   4   4   2   3   3    2    2    3    3    3    5
+## 5   1   4   3   3    4    2    4   4   4   3   1   1   2   2   2   2    2    1    2    2    2    1
+## 6   1   3   4   4    2    1    1   4   4   4   1   1   2   3   2   1    1    1    4    3    2    2
+##   bf16 bf17 bf18 bf19 bf20 bo1 bo6 bo12 bo19 bo7 bo8 bo21
+## 1    1    1    1    2    2   2   1    1    1   4   5    7
+## 2    3    2    1    4    2   3   1    2    2   2   2    2
+## 3    2    1    2    4    1   4   3    1    2   3   3    4
+## 4    3    3    1    3    3   4   2    2    1   6   6    4
+## 5    3    3    2    3    4   3   1    1    2   5   4    6
+## 6    3    1    3    3    1   2   3    1    2   5   3    6
 ```
 
 ```r
@@ -104,9 +104,9 @@ names(StressAtWork)
 ```
 
 ```
-##  [1] "sex"  "zd1"  "zd2"  "zd6"  "aop3" "aop4" "aop8" "bf1"  "bf2"  "bf3"  "bf4"  "bf5" 
-## [13] "bf6"  "bf7"  "bf8"  "bf9"  "bf10" "bf11" "bf12" "bf13" "bf14" "bf15" "bf16" "bf17"
-## [25] "bf18" "bf19" "bf20" "bo1"  "bo6"  "bo12" "bo19" "bo7"  "bo8"  "bo21"
+##  [1] "sex"  "zd1"  "zd2"  "zd6"  "aop3" "aop4" "aop8" "bf1"  "bf2"  "bf3"  "bf4"  "bf5"  "bf6"  "bf7" 
+## [15] "bf8"  "bf9"  "bf10" "bf11" "bf12" "bf13" "bf14" "bf15" "bf16" "bf17" "bf18" "bf19" "bf20" "bo1" 
+## [29] "bo6"  "bo12" "bo19" "bo7"  "bo8"  "bo21"
 ```
 
 ```r
@@ -184,7 +184,7 @@ summary(fit_paths, rsq = T, fit.measures = T)
 
 
 ```
-## lavaan 0.6.17 ended normally after 1 iteration
+## lavaan 0.6.16 ended normally after 1 iteration
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
@@ -341,7 +341,7 @@ Das Paket `semPlot` bietet die Möglichkeit, Regressionen, CFAs, Pfadanalysen un
 semPaths(fit_paths)
 ```
 
-<img src="/lehre/fue-ii/sem_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
+<img src="/sem_files/unnamed-chunk-14-1.png" style="display: block; margin: auto;" />
 
 Der Default stellt also einfach nur das Modell grafisch dar, was sehr praktisch ist, um bspw. zu prüfen, ob alle wichtigen Beziehung im Modell enthalten sind. Gestrichelte Pfeile stehen hierbei für Restriktionen, hier wird also nichts geschätzt: in unserem Bespiel wird die Varianz von `ZDs` nicht geschätzt, da die Varianz der unabhängigen Variable nur implizit in die Regressionskoeffizenten einfließt, aber keinen (testbaren) Koeffizient des Modells darstellen. Würden wir wollen, dass die Varianz von `ZDs` geschätzt wird, so könnten wir prinzipiell `ZDs ~~ ZDs` in unser Modell mit aufnehmen.
 
@@ -352,7 +352,7 @@ Gerichtete Pfeile sind regressive Beziehungen (also Regressionsparameter, Pfadko
 semPaths(fit_paths, what = "est")
 ```
 
-<img src="/lehre/fue-ii/sem_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="/sem_files/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
 
 Probieren Sie doch selbst einmal aus, was die folgenden Zusatzeinstellungen bewirken. Dazu müssen Sie nur den Code kopieren und die Einstellungen verändern. Das Ziel einer solchen Grafik sollte sein, dass man die Gleichungen, die im Hintergrund stehen (wie in der Einführung in lavaan beschrieben), leicht zu verstehen sind und man alle Beziehungen zwischen den Variablen gut erkennen kann:
 
@@ -362,7 +362,7 @@ semPaths(object = fit_paths, what = "model", layout = "tree2", rotation = 2,
          col = list(man = "skyblue"),  edge.label.cex=1, sizeMan = 5)
 ```
 
-![](/lehre/fue-ii/sem_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](/sem_files/unnamed-chunk-16-1.png)<!-- -->
 
 Sie können die Argumente der Funktion `semPaths` nachlesen, indem sie `??semPaths` in einem neuen `R`-Studio Fenster ausführen und dann `semPlot::semPaths` in der Übersicht auswählen oder sie schauen sich die [Dokumentation online hier an](https://www.rdocumentation.org/packages/semPlot/versions/1.1.2/topics/semPaths).
 
@@ -372,7 +372,7 @@ semPaths(object = fit_paths, what = "est", layout = "tree2", rotation = 2,
          col = list(man = "skyblue"),  edge.label.cex=1, sizeMan = 5)
 ```
 
-![](/lehre/fue-ii/sem_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](/sem_files/unnamed-chunk-17-1.png)<!-- -->
 
 Wenn Sie eine solche Grafik in `R`-Studio erzeugen, gibt es viele Möglichkeiten, diese abzuspeichern. Bspw. können Sie mit `dev.print(device = pdf, "MeinPlot.pdf")` die Grafik als PDF abspeichern und ihr den Namen "MeinPlot.pdf" geben. Die Endung ".pdf" ist hierbei obligatorisch. Eine andere Möglichkeit ist in `R`-Studio im Grafikfenster auf "Export" zu klicken und dann den Anweisungen zu folgen. Natürlich wären auch andere Dateiformate, wie bspw. ".jpg" oder ".png" möglich!
 
@@ -494,7 +494,7 @@ semPaths(object = fit_paths_IE_TE, what = "model", layout = "tree2", rotation = 
          col = list(man = "skyblue"),  edge.label.cex=1)
 ```
 
-<img src="/lehre/fue-ii/sem_files/figure-html/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
+<img src="/sem_files/unnamed-chunk-26-1.png" style="display: block; margin: auto;" />
 
 Die hier durchgeführten Analysen unterliegen leider einigen Einschränkungen. Bspw. wird beim Mitteln zu Skalenwerten davon ausgegangen, dass jede Messung (jede Variable pro Skala) gleichermaßen aus der dahinterliegenden latenten Variable besteht. Dies hatten wir in der [letzten Sitzung im Anhang](/lehre/fue-ii/fue-cfa) unter essentieller $\tau$-Äquivalenz kennengelernt (gleiche $\lambda$s in einem [CFA-] Messmodell). Essentielle $\tau$-Äquivalenz ist eine strenge Annahme, welche wir prüfen müssten, um den Analysen mit Skalenwerten komplett vertrauen zu können. Außerdem werden durch das Mitteln die Messfehler nicht vollständig modelliert, auch wenn die Analysen somit reliabler als *Einzelitemanalysen* (z.B. hätten wir auch jeweils ein Item pro Skala verwenden können) sind.
 Hierbei ist es nun so, dass Effekte stochastischer Regressoren konsistent unterschätzt werden, wenn diese messfehlerbehaftet sind. Wären die Variablen messfehlerfrei, würden die Effekte (die Regressionsparameter) größer ausfallen. Leider können wir nicht davon ausgehen, dass unsere beobachteten Variablen messfehlerfrei sind, wenn wir sie mit Fragebögen erheben! Aus diesem Grund ist in der multiplen Regression bspw. auch eine der Voraussetzungen die Messfehlerfreiheit der (stochastischen) Regressoren (siehe [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), Kapitel 19.13).
@@ -758,7 +758,7 @@ semPaths(object = fit_sem_IE_TE,  what = "model", layout = "tree2",
          curvePivot = T,  edge.label.cex=1.2, sizeMan = 5, sizeLat = 8)
 ```
 
-<img src="/lehre/fue-ii/sem_files/figure-html/exercise_graph_sem1-1.png" style="display: block; margin: auto;" />
+<img src="/sem_files/exercise_graph_sem1-1.png" style="display: block; margin: auto;" />
 
 
 ```r
@@ -767,7 +767,7 @@ semPaths(object = fit_sem_IE_TE, what = "est", layout = "tree2",
          curvePivot = T,  edge.label.cex=1.2, sizeMan = 5, sizeLat = 8)
 ```
 
-<img src="/lehre/fue-ii/sem_files/figure-html/exercise_graph_sem2-1.png" style="display: block; margin: auto;" />
+<img src="/sem_files/exercise_graph_sem2-1.png" style="display: block; margin: auto;" />
 
 _`curve = T` und `curvePivot = T` haben in diesem Modell **keinen Effekt**, da es hierbei um die Kovarianzen geht und werden nur der Vollständigkeit halber aufgeführt._ Der Effekt dieser beiden Argumente kann im [Exkurs zum Modellfit](/lehre/fue-ii/exkurs-modellfit) der ersten Grafik des $H_0$-Modells entnommen werden: diese Einstellungen bewirken die nicht vollständig runde Kurve der Fehlerkovarianz (durch `curvePivot = T`), welche vor allem dann die Übersichtlichkeit erhöht, wenn mehrere Kovarianzen vorhanden sind. Mit `curve = F` würden alle Fehlerkovarianzen und Kovarianzen (wenn vorhanden) als gerade Linien eingezeichnet werden.
 

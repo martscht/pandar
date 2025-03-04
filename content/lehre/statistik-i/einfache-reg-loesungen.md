@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [winkler, neubauer, walter] 
 weight: 
-lastmod: '2024-12-16'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/modern_buildings.jpg"
@@ -187,7 +187,7 @@ Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglic
 plot(fb24$extra, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
-![](/lehre/statistik-i/einfache-reg-loesungen_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](/einfache-reg-loesungen_files/unnamed-chunk-3-1.png)<!-- -->
 
 **`vertr`:**
 
@@ -195,7 +195,7 @@ plot(fb24$extra, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 plot(fb24$vertr, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
-![](/lehre/statistik-i/einfache-reg-loesungen_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](/einfache-reg-loesungen_files/unnamed-chunk-4-1.png)<!-- -->
 
 **`gewis`:**
 
@@ -203,7 +203,7 @@ plot(fb24$vertr, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 plot(fb24$gewis, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
-![](/lehre/statistik-i/einfache-reg-loesungen_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](/einfache-reg-loesungen_files/unnamed-chunk-5-1.png)<!-- -->
 
 **`neuro`:**
 
@@ -211,7 +211,7 @@ plot(fb24$gewis, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 plot(fb24$neuro, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
-![](/lehre/statistik-i/einfache-reg-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/einfache-reg-loesungen_files/unnamed-chunk-6-1.png)<!-- -->
 
 **`intel`:**
 
@@ -219,7 +219,7 @@ plot(fb24$neuro, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 plot(fb24$offen, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
-![](/lehre/statistik-i/einfache-reg-loesungen_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](/einfache-reg-loesungen_files/unnamed-chunk-7-1.png)<!-- -->
 
 </details>
 
@@ -240,28 +240,15 @@ summary(fme)
 ## lm(formula = lz ~ extra, data = fb24)
 ## 
 ## Residuals:
-##     Min      1Q  Median 
-## -3.0204 -0.6463  0.1537 
-##      3Q     Max 
-##  0.7408  2.0572 
+##     Min      1Q  Median      3Q     Max 
+## -3.0204 -0.6463  0.1537  0.7408  2.0572 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept)  3.43939
-## extra        0.45172
-##             Std. Error
-## (Intercept)    0.25842
-## extra          0.07532
-##             t value Pr(>|t|)
-## (Intercept)  13.309  < 2e-16
-## extra         5.998 9.99e-09
-##                
-## (Intercept) ***
-## extra       ***
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  3.43939    0.25842  13.309  < 2e-16 ***
+## extra        0.45172    0.07532   5.998 9.99e-09 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.057 on 189 degrees of freedom
 ##   (1 Beobachtung als fehlend gelöscht)
@@ -282,28 +269,15 @@ summary(fmv)
 ## lm(formula = lz ~ vertr, data = fb24)
 ## 
 ## Residuals:
-##      Min       1Q   Median 
-## -3.04951 -0.67250  0.07616 
-##       3Q      Max 
-##  0.85049  2.12750 
+##      Min       1Q   Median       3Q      Max 
+## -3.04951 -0.67250  0.07616  0.85049  2.12750 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept)   4.0442
-## vertr         0.2513
-##             Std. Error
-## (Intercept)     0.3588
-## vertr           0.1003
-##             t value Pr(>|t|)
-## (Intercept)  11.271   <2e-16
-## vertr         2.507    0.013
-##                
-## (Intercept) ***
-## vertr       *  
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   4.0442     0.3588  11.271   <2e-16 ***
+## vertr         0.2513     0.1003   2.507    0.013 *  
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.134 on 189 degrees of freedom
 ##   (1 Beobachtung als fehlend gelöscht)
@@ -324,28 +298,15 @@ summary(fmg)
 ## lm(formula = lz ~ gewis, data = fb24)
 ## 
 ## Residuals:
-##     Min      1Q  Median 
-## -3.0219 -0.6895  0.1105 
-##      3Q     Max 
-##  0.8766  2.2090 
+##     Min      1Q  Median      3Q     Max 
+## -3.0219 -0.6895  0.1105  0.8766  2.2090 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept)  3.76025
-## gewis        0.33232
-##             Std. Error
-## (Intercept)    0.32588
-## gewis          0.09049
-##             t value Pr(>|t|)
-## (Intercept)  11.539  < 2e-16
-## gewis         3.673 0.000312
-##                
-## (Intercept) ***
-## gewis       ***
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  3.76025    0.32588  11.539  < 2e-16 ***
+## gewis        0.33232    0.09049   3.673 0.000312 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.114 on 189 degrees of freedom
 ##   (1 Beobachtung als fehlend gelöscht)
@@ -366,28 +327,15 @@ summary(fmn)
 ## lm(formula = lz ~ neuro, data = fb24)
 ## 
 ## Residuals:
-##     Min      1Q  Median 
-## -2.7780 -0.7258  0.1699 
-##      3Q     Max 
-##  0.7481  2.2827 
+##     Min      1Q  Median      3Q     Max 
+## -2.7780 -0.7258  0.1699  0.7481  2.2827 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept)   6.6387
-## neuro        -0.5043
-##             Std. Error
-## (Intercept)     0.2843
-## neuro           0.0804
-##             t value Pr(>|t|)
-## (Intercept)  23.347  < 2e-16
-## neuro        -6.272 2.37e-09
-##                
-## (Intercept) ***
-## neuro       ***
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   6.6387     0.2843  23.347  < 2e-16 ***
+## neuro        -0.5043     0.0804  -6.272 2.37e-09 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.049 on 189 degrees of freedom
 ##   (1 Beobachtung als fehlend gelöscht)
@@ -408,28 +356,15 @@ summary(fmo)
 ## lm(formula = lz ~ offen, data = fb24)
 ## 
 ## Residuals:
-##      Min       1Q   Median 
-## -3.02651 -0.71322  0.01824 
-##       3Q      Max 
-##  0.81824  2.01824 
+##      Min       1Q   Median       3Q      Max 
+## -3.02651 -0.71322  0.01824  0.81824  2.01824 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept)  4.57896
-## offen        0.08951
-##             Std. Error
-## (Intercept)    0.33563
-## offen          0.08537
-##             t value Pr(>|t|)
-## (Intercept)  13.643   <2e-16
-## offen         1.049    0.296
-##                
-## (Intercept) ***
-## offen          
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  4.57896    0.33563  13.643   <2e-16 ***
+## offen        0.08951    0.08537   1.049    0.296    
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.149 on 189 degrees of freedom
 ##   (1 Beobachtung als fehlend gelöscht)
@@ -490,31 +425,15 @@ summary(sfme2)         # reg |> lm.beta() |> summary()
 ## lm(formula = lz ~ extra, data = fb24)
 ## 
 ## Residuals:
-##     Min      1Q  Median 
-## -3.0204 -0.6463  0.1537 
-##      3Q     Max 
-##  0.7408  2.0572 
+##     Min      1Q  Median      3Q     Max 
+## -3.0204 -0.6463  0.1537  0.7408  2.0572 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept)  3.43939
-## extra        0.45172
-##             Standardized
-## (Intercept)           NA
-## extra            0.39986
-##             Std. Error
-## (Intercept)    0.25842
-## extra          0.07532
-##             t value Pr(>|t|)
-## (Intercept)  13.309  < 2e-16
-## extra         5.998 9.99e-09
-##                
-## (Intercept) ***
-## extra       ***
+##             Estimate Standardized Std. Error t value Pr(>|t|)    
+## (Intercept)  3.43939           NA    0.25842  13.309  < 2e-16 ***
+## extra        0.45172      0.39986    0.07532   5.998 9.99e-09 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.057 on 189 degrees of freedom
 ##   (1 Beobachtung als fehlend gelöscht)
@@ -542,7 +461,7 @@ plot(fb24$neuro, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 abline(fmn, col = "red")
 ```
 
-![](/lehre/statistik-i/einfache-reg-loesungen_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](/einfache-reg-loesungen_files/unnamed-chunk-15-1.png)<!-- -->
 
 </details>
 
@@ -561,28 +480,15 @@ summary(fmn)
 ## lm(formula = lz ~ neuro, data = fb24)
 ## 
 ## Residuals:
-##     Min      1Q  Median 
-## -2.7780 -0.7258  0.1699 
-##      3Q     Max 
-##  0.7481  2.2827 
+##     Min      1Q  Median      3Q     Max 
+## -2.7780 -0.7258  0.1699  0.7481  2.2827 
 ## 
 ## Coefficients:
-##             Estimate
-## (Intercept)   6.6387
-## neuro        -0.5043
-##             Std. Error
-## (Intercept)     0.2843
-## neuro           0.0804
-##             t value Pr(>|t|)
-## (Intercept)  23.347  < 2e-16
-## neuro        -6.272 2.37e-09
-##                
-## (Intercept) ***
-## neuro       ***
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   6.6387     0.2843  23.347  < 2e-16 ***
+## neuro        -0.5043     0.0804  -6.272 2.37e-09 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.049 on 189 degrees of freedom
 ##   (1 Beobachtung als fehlend gelöscht)
@@ -605,10 +511,8 @@ predict(fmn, newdata = new)
 ```
 
 ```
-##        1        2        3 
-## 6.008326 5.251903 4.873691 
-##        4        5        6 
-## 4.495480 4.747621 5.554472
+##        1        2        3        4        5        6 
+## 6.008326 5.251903 4.873691 4.495480 4.747621 5.554472
 ```
 
 </details> 

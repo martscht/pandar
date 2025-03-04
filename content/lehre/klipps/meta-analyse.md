@@ -8,7 +8,7 @@ subtitle: 'Grundlagen des Vorgehens in der Meta-Analyse'
 summary: ''
 authors: [schultze, irmer]
 weight: 8
-lastmod: '2025-02-03'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/gaming.jpg"
@@ -62,7 +62,7 @@ Auch wenn die Gaming Disorder bereits 2013 in das DSM-V aufgenommen wurde, stell
 Wie in allen Beiträgen aus diesem Kurs handelt es sich auch bei dieser Studie um einen Fall, in dem die relevanten Daten und Analyseskripte in einem OSF-Repo öffentlich zur Verfügung gestellt wurden: [osf.io/kb7f6](https://osf.io/kb7f6/). Da die Daten – ebenso wie in den anderen Beiträgen dieses Semesters – in der Rohfassung „ein wenig“ unübersichtlich sind, können Sie mit diesem Befehl eine Aufbereitung der Daten durchführen, die das Ganze auf die wesentlichen Variablen einschränkt und bereits etwas bereinigt:  
 
 
-``` r
+```r
 source('https://pandar.netlify.app/daten/Data_Processing_game.R')
 ```
 
@@ -96,7 +96,7 @@ Insgesamt wurden nach dem Vorgehen, das im Artikel in Abbildung 1 (S. 5) dargest
 
 
 
-``` r
+```r
 # Anzahl der Studien im Datensatz
 unique(game$cite) |> length()
 ```
@@ -115,7 +115,7 @@ Schauen wir uns am Beispiel der Studie von [Wölfling et al. (2019)](https://doi
 Zum Glück finden wir bei [Wölfling et al. (2019, S. 1023)](https://doi.org/10.1001/jamapsychiatry.2019.1676) die rohen Mittelwerte und Standardabweichungen, um daraus eine Effektstärke zu berechnen. Genauer sind dort in Tabelle 2 drei Messzeitpunkte für die Interventionsgruppe und Kontrollgruppe abgetragen. Um Mittelwerte und Standardabweichungen in R zu übertragen, können wir einen `data.frame` erstellen.  
 
 
-``` r
+```r
 # Effektstärke für Wölfling et al. (2019)
 wolf <- data.frame(
   occasion = c(1, 2),
@@ -139,10 +139,16 @@ wolf
 Der Datensatz enthält jetzt für beide Zeitpunkte (während der Intervention, nach der Intervention) die Mittelwerte und Standardabweichungen der Interventions- und Kontrollgruppe. Wie bereits erwähnt, ist das Paket `esc` für die Berechnung von Effektstärken empfehlenswert:
 
 
-``` r
+```r
 # Paket laden
 library(esc)
+```
 
+```
+## Warning: Paket 'esc' wurde unter R Version 4.3.1 erstellt
+```
+
+```r
 # Effektstärke berechnen
 with(wolf[1, ],          # Datensatz, 1. MZP auswählen
   esc_mean_sd(
@@ -178,7 +184,7 @@ Das können wir mit dem Argument `es.type = 'g'` anfordern:
 
 
 
-``` r
+```r
 # Hedges g berechnen
 with(wolf[1, ],          # Datensatz, 1. MZP auswählen
   esc_mean_sd(
@@ -209,18 +215,18 @@ with(wolf[1, ],          # Datensatz, 1. MZP auswählen
 Gucken wir, ob diese Effektstärke sich auch im Datensatz von [Danielsen et al. (2024)](https://doi.org/10.1016/j.addbeh.2023.107887) wiederfindet:
 
 
-``` r
+```r
 # Effektstärke für Wölfling et al. (2019) im Datensatz
 game[game$cite == 'Woelfling et al. (2019)', ]
 ```
 
 ```
-##                       cite study effect       tr_type      ct_type dv_type     es
-## 73 Woelfling et al. (2019)    41      1 psychotherapy waiting list   Other 1.3082
-## 74 Woelfling et al. (2019)    41      2 psychotherapy waiting list   Other 1.5066
-##         v tr_n_ob ct_n_ob follow male
-## 73 0.0340      72      71     -7  100
-## 74 0.0359      72      71      0  100
+##                       cite study effect       tr_type      ct_type dv_type     es      v tr_n_ob
+## 73 Woelfling et al. (2019)    41      1 psychotherapy waiting list   Other 1.3082 0.0340      72
+## 74 Woelfling et al. (2019)    41      2 psychotherapy waiting list   Other 1.5066 0.0359      72
+##    ct_n_ob follow male
+## 73      71     -7  100
+## 74      71      0  100
 ```
 Es fallen zwei Dinge auf: 1. Die Effektstärke hat das entgegengesetzte Vorzeichen (damit positive Zahlen für einen positiven Interventionseffekt sprechen) und 2. es wurde letztlich (entgegen der Präregistrierung und der Bildunterschrift von Abbildung 6 im Artikel) doch mit Cohen's $d$ gearbeitet. Warum – oder auch _dass_ – dem so ist, wird in der Publikation leider nicht weiter erwähnt.
 
@@ -231,7 +237,7 @@ Das für die Studie von [Wölfling et al. (2019)](https://doi.org/10.1001/jamaps
 Ersteres stellt uns vor ein Problem, da wir zunächst verhindern wollen, dass die wiederholte Untersuchung desselben Effekts mehrfach in unsere Meta-Analyse eingeht. Betrachten wir also zunächst nur die Effekte, die sich auf die Messungen mit dem geringsten Abstand zur Intervention beziehen:
 
 
-``` r
+```r
 # Minimaler Abstand zur Intervention pro Studie
 post <- aggregate(game$follow, list(game$cite), \(x) min(abs(x)))
 names(post) <- c('cite', 'follow')
@@ -253,7 +259,7 @@ Weil sich Fehler traditionellerweise ausmitteln sollten (so unsere große Hoffnu
 
 
 
-``` r
+```r
 # Mittelwert der Effekte
 mean(post$es)
 ```
@@ -282,7 +288,7 @@ $$
 ermitteln:
 
 
-``` r
+```r
 # Gewichte bestimmen
 post$w <- 1 / post$v
 
@@ -301,12 +307,12 @@ Wie häufig zu beobachten, ist der geschätzte Effekt dramatisch viel geringer, 
 Damit wir die Effektschätzung nicht immer per Hand machen müssen und vielleicht auch noch ein paar interessante Zusatzinformationen bekommen (wie z.B. ob der Effekt über alle Studien hinweg jetzt eigentlich statistisch bedeutsam ist), können wir das `metafor`-Paket nutzen:
 
 
-``` r
+```r
 # Gegebenenfalls das Paket installieren
 install.packages('metafor')
 ```
 
-``` r
+```r
 # Paket laden
 library(metafor)
 ```
@@ -321,7 +327,7 @@ Für den Fixed-Effects-Ansatz setzen wir `method = 'FE'` und können dann die Ef
 
 
 
-``` r
+```r
 # Fixed Effects Model (Post Erhebungen)
 modFE <- rma(yi = es, vi = v, data = post, method = 'FE')
 
@@ -427,7 +433,7 @@ Da wir bereits wissen, dass wir die mittleren Effekte nicht händisch bestimmen 
 Wie vorhin nutzen wir für die Analyse erneut die `rma`-Funktion. Der einzige Unterschied besteht darin, dass wir jetzt nicht mehr mit `method = 'FE'` das Fixed-Effects-Model annehmen, sondern die voreingestellte Schätzung des Random-Effects-Models verwenden:
 
 
-``` r
+```r
 # Random Effects Model (Post Erhebungen)
 modRE <- rma(yi = es, vi = v, data = post)
 
@@ -468,19 +474,19 @@ Bei einer Studie entsteht der berichtete Effekt $\hat\theta$, theoretisch betrac
 
 Wenn wir eine andere Studie mit einem anderen $n_k$ durchführen, ziehen wir aus einer Verteilung mit einer anderen Streuung, aber dem gleichen Mittelwert, weil der Effekt der Intervention für alle Studien gleich sein sollte.
 
-![](/lehre/klipps/meta-analyse_files/figure-html/fe-distributions-1.png)<!-- -->
+![](/meta-analyse_files/fe-distributions-1.png)<!-- -->
 In der Abbildung ist zu sehen, dass die Verteilungen, aus denen wir die Effekte ziehen, unterschiedlich breit streuen. Für $n=120$ (die gelbe Linie) ist es also wahrscheinlicher, einen Wert in der Nähe des wahren Effekts $\theta$ zu ziehen als z. B. bei $n=30$ (blau). Das heißt nicht, dass es garantiert ist, wie man an $\hat{\theta}_2$ erkennt, welches "per Zufall" trotz der kleineren Stichprobe näher am wahren Effekt liegt.  
 
 Da die Effekte kleinerer Stichproben stärker schwanken und daher per Zufall häufiger weiter vom wahren Effekt entfernt liegen, sollten wir sie bei der Berechnung des wahren Effekts gegenüber größeren Stichproben auch weniger stark gewichten (genau genommen mit $w_k = \frac{1}{v_k}$).  
 
 Im Random-Effects-Model wird im Gegensatz zu diesem Fall jedoch ein zweischrittiges Samplingverfahren angenommen. Es gibt eine Verteilung möglicher Effekte, die in Studien gefunden werden könnten:
 
-![](/lehre/klipps/meta-analyse_files/figure-html/re-distributions1-1.png)<!-- -->
+![](/meta-analyse_files/re-distributions1-1.png)<!-- -->
 Jede dieser Studien hat also einen eigenen wahren Wert, der aus der Verteilung wahrer Werte gezogen wurde. Der Erwartungswert dieser Verteilung ist der globale Effekt $\theta$. Jeder der drei einzelnen $\theta_k$-Werte ist dabei zunächst allen anderen gegenüber gleichwertig.  
 
 Wenn wir nun die drei Studien mit unterschiedlichen Stichprobengrößen durchführen, ziehen wir aus diesen Verteilungen mit jeweils unterschiedlichen Erwartungswerten:
 
-![](/lehre/klipps/meta-analyse_files/figure-html/re-distributions2-1.png)<!-- -->
+![](/meta-analyse_files/re-distributions2-1.png)<!-- -->
 Durch die kleinere Stichprobe ist $\hat{\theta}_1$ eine schlechtere Schätzung für $\theta_1$ (weil durch den Standardfehler mehr Streuung erzeugt wird), aber nicht mehr direkt für $\theta$. Stattdessen müssen wir aus $\hat{\theta}_1$ erst einmal $\theta_1$ rückschließen und dann diesen Wert in die Schätzung von $\theta$ einfließen lassen.  
 
 Dabei entsteht also eine Gewichtung sowohl über die Stichprobenvariation als auch über die Heterogenität der Effekte (graue Verteilung), also  
@@ -500,7 +506,7 @@ Wie bei allen statistischen Verfahren (insbesondere den regressionsbasierten) is
 Die dort verwendeten Befehle `cooks.distance` und `hatvalues` können auch für Ergebnisse aus dem `metafor`-Paket verwendet werden. Allerdings liefert die `influence`-Funktion direkt eine Zusammenfassung verschiedener Diagnosemaße:
 
 
-``` r
+```r
 # Diagnosemaße
 diagnostics <- influence(modRE)
 ```
@@ -515,7 +521,7 @@ Da die tabellarische Darstellung solcher Werte für die meisten etwas ermüdend 
 
 
 
-``` r
+```r
 # Zusammenführen der Diagnosemaße und Studieninformationen
 diagnostics <- data.frame(cite = post$cite, es = post$es,
   diagnostics$inf)
@@ -527,14 +533,14 @@ ggplot(diagnostics, aes(y = cite, x = cook.d)) +
   theme_pandar()
 ```
 
-![](/lehre/klipps/meta-analyse_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+![](/meta-analyse_files/unnamed-chunk-22-1.png)<!-- -->
 
 Wie [Danielsen et al. (2024)](https://doi.org/10.1016/j.addbeh.2023.107887) berichten, fällt die Studie von [Kochuchakkalackal Kuriala und Reyes (2020)](https://doi.org/10.1007/s41347-020-00132-z) hier auf. Dort wurde eine Effektstärke von 6.3 festgestellt, und auch wenn wir an dieser Stelle gerne glauben möchten, dass in dieser Studie das Wundermittel entdeckt wurde, deutet die Bias-Analyse von [Danielsen et al. (2024, S. 9)](https://doi.org/10.1016/j.addbeh.2023.107887) darauf hin, dass diese Effektschätzung mit Vorsicht genossen werden sollte.  
 
 Um die Studie von [Kochuchakkalackal Kuriala und Reyes (2020)](https://doi.org/10.1007/s41347-020-00132-z) auszuschließen, entfernen wir diese zunächst aus dem `post`-Datensatz und aktualisieren dann unsere beiden meta-analytischen Modelle mit der `update`-Funktion:
 
 
-``` r
+```r
 # Ausreißer entfernen
 post <- post[post$study != 15, ]
 
@@ -556,18 +562,18 @@ Die meisten Voreinstellungen entsprechen bereits unserer Vorstellung davon, wie 
 Außerdem wurde z. B. bei [Danielsen et al. (2024)](https://doi.org/10.1016/j.addbeh.2023.107887) die Darstellung nach der Größe des Effekts sortiert (`order = post$es`). Um die Ergebnisse etwas übersichtlicher zu machen, nutzen wir hier außerdem `shade = TRUE`, um jede zweite Zeile etwas einzufärben:
 
 
-``` r
+```r
 # Forest Plot
 forest(modRE, slab = post$cite, order = post$es,
   shade = TRUE)
 ```
 
-![](/lehre/klipps/meta-analyse_files/figure-html/forest1-1.png)<!-- -->
+![](/meta-analyse_files/forest1-1.png)<!-- -->
 
 Die Abbildung enthält für jede Studie die Schätzung der Effektstärke (das Quadrat) und das dazugehörige 95%-Konfidenzintervall. Rechts stehen diese Informationen noch einmal als Zahlen. Die Größe des Quadrats der Effektstärke hängt von der Gewichtung der Studie (also der inversen Stichprobenvariabilität) ab. Ganz unten sehen wir die Schätzung des Gesamteffekts aus dem Random-Effects-Model. Die Enden dieses Karos zeigen die Grenzen des Konfidenzintervalls an. Durch `addpoly(modFE)` könnten wir in dieser Abbildung auch die Ergebnisse des Fixed-Effects-Models nachtragen lassen. Darüber hinaus können wir diverse optische Eigenschaften des Plots ändern, z. B. können wir mit dem `colout`-Argument die einzelnen Studien nach der Art der Intervention einfärben:
 
 
-``` r
+```r
 # Farben für Interventionstyp
 colors <- factor(post$tr_type, 
   labels = pandar_colors[1:4]) |> as.character()
@@ -582,7 +588,7 @@ legend('bottomleft', legend = levels(factor(post$tr_type)),
   cex = .75)
 ```
 
-![](/lehre/klipps/meta-analyse_files/figure-html/colored-forest-1.png)<!-- -->
+![](/meta-analyse_files/colored-forest-1.png)<!-- -->
 
 Die Setzung der Legende ist alles andere als perfekt und hängt leider von der Bildschirmauflösung und der Größe des Grafikfensters ab, sodass es hier nötig wird, extrem detailliert vorzugehen, um eine druckreife Abbildung zu erzeugen.  Was sich allerdings schon deskriptiv erkennen lässt, ist, dass Präventionsmaßnahmen (erwartungsgemäß) geringere Effekte aufzeigen als die Interventionseffekte.
 
@@ -608,7 +614,7 @@ Im `mods`-Argument kann mit der üblichen Formelnotation von R gearbeitet werden
 
 
 
-``` r
+```r
 # Meta-Regression
 modMR1 <- rma(yi = es, vi = v, data = post, mods = ~ tr_type)
 
@@ -688,7 +694,7 @@ Weil sich herausgestellt hat, dass wir uns die Mühe machen müssen, die Ergebni
 Wie in Tabelle 3 (S. 7) von [Danielsen et al. (2024)](https://doi.org/10.1016/j.addbeh.2023.107887) dargestellt, wurden die Interventionsansätze zu vier Oberkategorien zusammengefasst:
 
 
-``` r
+```r
 # Interventionsarten
 table(post$tr_type)
 ```
@@ -719,7 +725,7 @@ Wenn wir die Ansätze nicht vergleichen wollen, sondern stattdessen mehr daran i
 
 
 
-``` r
+```r
 # Meta-Regression
 modMR1b <- rma(yi = es, vi = v, data = post, mods = ~ 0 + tr_type)
 
@@ -764,7 +770,7 @@ Wie wir in der `summary` sehen können, sind beide Modelle hinsichtlich der Pass
 Im Artikel von [Danielsen et al. (2024)](https://doi.org/10.1016/j.addbeh.2023.107887) wird unter anderem erwähnt, dass die Effekte auf den relativen Anteil der männlichen Studienteilnehmer kontrolliert werden sollen, um potenzielle Verzerrungen (z. B. zu Ungunsten von Breitband-Präventionen) zu vermeiden. Wie bereits erwähnt, können wir Kovariaten einfach in der Formelnotation im `mods`-Argument aufnehmen. Damit die Effekte der Interventionen als Effekte bei Geschlechtergleichverteilung interpretiert werden können, wurde (laut [Analyseskript auf OSF](https://osf.io/edyp5)) vom Anteil der Wert 50 abgezogen. (Bitte beachten Sie, dass diese Variable entgegen der Aussage auf S. 10 im Artikel _nicht_ zentriert wurde.)
 
 
-``` r
+```r
 # Umrechnen der Geschlechtervariable
 post$genbal <- post$male - 50
 
@@ -779,7 +785,7 @@ modMR2 <- rma(yi = es, vi = v, data = post, mods = ~ 0 + tr_type + genbal)
 Noch bevor wir uns die Ergebnisse ansehen, werden wir hier direkt mit einer Gefahr der Kovariatenaufnahme konfrontiert. In diese Analyse können nur Studien aufgenommen werden, die die Geschlechterverteilung berichten. In diesem Fall bedeutet das, dass wir gegenüber der vorherigen Analyse 9 Effekte verlieren. Es ist daher besonders wichtig, bei solchen Analysen darauf zu achten, dass nur relevante Kovariaten explizit betrachtet werden und gegebenenfalls die Autor*innen kontaktiert werden müssen, um solche Zusatzinformationen zu erhalten – wobei sie häufig nicht antworten werden.
 
 
-``` r
+```r
 # Ergebniszusammenfassung
 summary(modMR2)
 ```
@@ -832,7 +838,7 @@ Damit wir alle Effekte berücksichtigen können, arbeiten wir jetzt nicht mehr m
 Zunächst schließen wir die Studie von [Kochuchakkalackal Kuriala und Reyes (2020)](https://doi.org/10.1007/s41347-020-00132-z) wieder aus – die gleiche Diagnostik, die wir oben durchgeführt haben, signalisiert auch in diesem Fall Bedenken hinsichtlich der Effektschätzung aus dieser Studie.
 
 
-``` r
+```r
 # Ausreißer entfernen
 game <- game[game$study != 15, ]
 ```
@@ -840,7 +846,7 @@ game <- game[game$study != 15, ]
 In Meta-Analysen, in denen sehr viele unterschiedliche Konstellationen von Messzeitpunkten, Outcomes und Interventionsansätzen innerhalb der untersuchten Studien genutzt werden, kann es nötig sein, zu berücksichtigen, dass die Standardfehler und Effektschätzungen innerhalb der einzelnen Studien zusätzlich korreliert sind. [Danielsen et al. (2024)](https://doi.org/10.1016/j.addbeh.2023.107887) berufen sich dabei auf die Empfehlung von [Pustejovsky und Tipton (2022)](https://doi.org/10.1007/s11121-021-01246-3), die für solche Fälle einen robusten Schätzer empfehlen. Dieser wird dadurch erzielt, dass wir die Abhängigkeiten der Standardfehler in einer Kovarianzmatrix festhalten, die wir mithilfe des `clubSandwich`-Pakets schätzen können:
 
 
-``` r
+```r
 # Paket laden
 library(clubSandwich)
 
@@ -855,7 +861,7 @@ V <- impute_covariance_matrix(
 Die genauen Hintergründe dieser Schätzung gehen über die Inhalte dieses Beitrags ein bisschen hinaus, aber der Artikel von  [Pustejovsky und Tipton (2022)](https://doi.org/10.1007/s11121-021-01246-3) bietet sowohl eine gute Übersicht, als auch einen praktischen Entscheidungsbaum für die eigene Meta-Analyse. Mit dieser Kovarianzmatrix können wir jetzt die multilevel Meta-Analyse durchführen:
 
 
-``` r
+```r
 # Multilevel Meta-Analyse
 modML <- rma.mv(yi = es, V = V, data = game, 
   random = ~ 1 | study/effect)
@@ -864,7 +870,7 @@ modML <- rma.mv(yi = es, V = V, data = game,
 In der `rma.mv` Funktion ist wenig anders, als in den Anwendungen der `rma`, die wir bisher genutzt haben. Statt `vi` heißt das Argument für die Sitchprobenvariabilität jetzt `V`, weil es nicht mehr zwingend einfach die einzelnen Varianzen für jeden Effekt darstellt, sondern auch eine Kovarianzmatrix von Stichprobenschwankungen sein kann. Im `random`-Argument halten wir die bereits erwähnte Schachtelung der Effekte in Studien fest. Hierbei bedeutet die Angaben `~ 1 | study/effect` soviel wie "das Intercept schwankt über die Studien und die darin befindlichen Einzeleffekte hinweg".
 
 
-``` r
+```r
 # Ergebnissdarstellung
 summary(modML)
 ```
@@ -903,7 +909,7 @@ Stattdessen erhalten wir zwei Varianzschätzer.
 Natürlich sollten wir bei diesen Effekten aber berücksichtigen, dass sie mit zum Teil dramatisch unterschiedlichem Abstand zur Intervention erhoben wurden. Darüber hinaus können wir erneut die Geschlechterverteilung berücksichtigen, um so beide von [Danielsen et al. (2024)](https://doi.org/10.1016/j.addbeh.2023.107887) berücksichtigten Kovariaten im Modell zu haben. Schauen wir uns das Modell für die Untersuchung verschiedener Interventionsarten an:
 
 
-``` r
+```r
 # Gender-Balance Variable erstellen
 game$genbal <- game$male - 50
 
@@ -918,7 +924,7 @@ modML2 <- rma.mv(yi = es, V = v, data = game,
 ```
 
 
-``` r
+```r
 # Ergebnissdarstellung
 summary(modML2)
 ```
@@ -952,7 +958,7 @@ In `metafor` können wir den Omnibus-Test $Q_m$ dahingehend anpassen, dass er nu
 Damit wir nicht das gesamte Modell erneut spezifizieren müssen, nutzen wir mal wieder `update`:
 
 
-``` r
+```r
 # Omnibus-Test der Interventionsarten
 modML2b <- update(modML2, btt = 1:4)
 ```
@@ -962,7 +968,7 @@ modML2b <- update(modML2, btt = 1:4)
 ```
 
 
-``` r
+```r
 # Ergebnissdarstellung
 summary(modML2b)
 ```
@@ -983,14 +989,14 @@ Spätestens seit der Diskussion um die Replikationskrise ist deutlich geworden, 
 
 Der bekannteste Ansatz, um zu prüfen, ob die Studienlage durch Publicationbias verzerrt sein könnte, ist der Funnel Plot. Die Grundidee ist dabei denkbar simpel. Wenn wir davon ausgehen, dass Studien mit kleinen Stichproben und nicht signifikanten Ergebnissen häufiger nicht veröffentlicht werden als andere Studien, können wir einfach die Effektstärke auf der $x$- und den Standardfehler auf der $y$-Achse abbilden. Sollten wir mit unserer Vermutung recht haben, sollte sich ein asymmetrisches Bild ergeben, bei dem unten (großer Standardhfehler) links (kleine bis negative Effekt) Punkte fehlen. In etwa so:
 
-![](/lehre/klipps/meta-analyse_files/figure-html/unnamed-chunk-44-1.png)<!-- -->
+![](/meta-analyse_files/unnamed-chunk-44-1.png)<!-- -->
 
 In der linken Grafik haben wir das erwartete Bild: Die Punkte streuen um einen gemeinsamen Effekt (entlang der $x$-Achse), wobei diese Streuung geringer wird, je kleiner der Standardfehler (also je größer die Stichprobe) der einzelnen Studie ist.  In der rechten Grafik ergibt sich hingegen die Systematik, dass die Punkte der Studien mit größerem Standardfehler systematisch in eine Richtung streuen – nämlich in die, die für einen Effekt spricht.  
 
 Leider ist das Ganze nicht immer so eindeutig wie in diesem Beispiel, weswegen der "contour-enhanced" Funnel Plot empfohlen wird. Abbildung 6 von [Danielsen et al. (2024)](https://doi.org/10.1016/j.addbeh.2023.107887) zeigt einen solchen Plot, den wir auch mit der `metafor`-Funktion `funnel` erstellen können:
 
 
-``` r
+```r
 # Funnel Plot
 funnel(modML,                           # Modell mit unbedingten Effekten
   refline = 0,                          # Ort der Referenzlinie
@@ -1000,7 +1006,7 @@ funnel(modML,                           # Modell mit unbedingten Effekten
 abline(v = coef(modML)[1], lty = 2)     # Geschätzter Interventionseffekt
 ```
 
-![](/lehre/klipps/meta-analyse_files/figure-html/unnamed-chunk-45-1.png)<!-- -->
+![](/meta-analyse_files/unnamed-chunk-45-1.png)<!-- -->
 
 Gegenüber der klassischen Darstellung im Beispiel hat diese Art der Aufbereitung den Vorteil, dass es leichter fallen soll, optisch Publication Bias zu identifizieren. Wenn wir davon ausgehen, dass nicht signifikante Ergebnisse nicht veröffentlicht werden, sollte der weiße Bereich in der Mitte nahezu leer sein – dort wären Studien, deren Effekt auf dem $\alpha$-Fehlerniveau von 0.1 nicht bedeutsam geworden wäre. Ein Indikator für die Bedenklichkeit der Effekte wäre es, wenn besonders im hellgrauen Bereich sehr viele Studien zu finden wären. Das würde bedeuten, dass vor allem Studien veröffentlicht werden, die _gerade so_ statistisch bedeutsam geworden sind.
 
@@ -1009,7 +1015,7 @@ Gegenüber der klassischen Darstellung im Beispiel hat diese Art der Aufbereitun
 Die optische Prüfung des Funnel Plots ist gegebenenfalls ein wenig zu subjektiv. Daher haben sich verschiedene Verfahren entwickelt, um zu prüfen, ob Publication Bias vorliegen könnte. Eine altbewährte Methode ist das sogenannte [Trim-and-Fill](https://www.metafor-project.org/doku.php/plots:funnel_plot_with_trim_and_fill), das allerdings in den vergangenen Jahren ein wenig aus der Mode geraten ist. Stattdessen werden meist regressionsbasierte Verfahren angewendet, in denen der Standardfehler als Prädiktor für den Effekt genutzt wird, um zu testen, ob die aufgedeckten Effekte lediglich durch übermäßig berichtete Effekte kleiner Stichproben zustande kommen. Diese sind in `metafor` unter der Funktion `regtest` zusammengefasst. Der bekannteste Test ist der Egger's Test, welcher die Asymmetrie des Funnel Plots testet:
 
 
-``` r
+```r
 # Egger's Test + PET
 regtest(es, v, data = game)
 ```
@@ -1028,7 +1034,7 @@ regtest(es, v, data = game)
 Wir sehen hier direkt eine Indikation dafür, dass die Ergebnisse der Studien asymmetrisch verteilt sind und zumindest irgendeine Form der Verzerrung vorliegen könnte. (Ob es sich dabei um Publication Bias handelt, ist damit nicht gesagt.) Das `Limit Estimate` gibt an, welcher Effekt bei einer Studie mit unendlicher Stichprobengröße erwartet wird und kann als Schätzer des "wahren" Effekts $\theta$ angesehen werden. Dieser Schätzer wird PET (*precision-effect test*) genannt und soll vor dem übermäßigen Einfluss kleiner Studien schützen. Sollte er von 0 verschieden sein (anders als hier), wird stattdessen der PEESE (*precision-effect estimate with standard error*) empfohlen, welcher statt des Standardfehlers als Prädiktor die Stichprobenvariabilität nutzt und somit kleine Stichproben _noch_ stärker bestraft:
 
 
-``` r
+```r
 # PEESE
 regtest(es, v, data = game, predictor = "vi")
 ```

@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [nehler, schreiner]
 weight: 1
-lastmod: '2024-01-10'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/lightbeams_converging_night.jpg"
@@ -34,6 +34,8 @@ output:
   html_document:
     keep_md: true
 ---
+
+
 
 
 
@@ -249,12 +251,10 @@ names(data)
 ```
 
 ```
-##  [1] "prok1"   "prok2"   "prok3"   "prok4"   "prok5"   "prok6"  
-##  [7] "prok7"   "prok8"   "prok9"   "prok10"  "nr1"     "nr2"    
-## [13] "nr3"     "nr4"     "nr5"     "nr6"     "lz"      "extra"  
-## [19] "vertr"   "gewis"   "neuro"   "intel"   "nerd"    "grund"  
-## [25] "fach"    "ziel"    "lerntyp" "geschl"  "job"     "ort"    
-## [31] "ort12"   "wohnen"  "uni1"    "uni2"    "uni3"    "uni4"
+##  [1] "prok1"   "prok2"   "prok3"   "prok4"   "prok5"   "prok6"   "prok7"   "prok8"   "prok9"  
+## [10] "prok10"  "nr1"     "nr2"     "nr3"     "nr4"     "nr5"     "nr6"     "lz"      "extra"  
+## [19] "vertr"   "gewis"   "neuro"   "intel"   "nerd"    "grund"   "fach"    "ziel"    "lerntyp"
+## [28] "geschl"  "job"     "ort"     "ort12"   "wohnen"  "uni1"    "uni2"    "uni3"    "uni4"
 ```
 
 Häufig benötigt man Befehle zur Datensatzreduktion häufig, um Analysen für einen bestimmten Teil der Daten durchzuführen.
@@ -266,19 +266,15 @@ data$extra
 ```
 
 ```
-##   [1] 2.75 3.75 4.25 2.50 3.00 2.75 4.75 5.00 2.00 2.25 4.00 3.00
-##  [13] 2.75 2.75 4.00 3.00 3.50 4.25 2.00 3.75 3.25 4.25 3.25 3.50
-##  [25] 3.50 4.50 3.75 4.25 3.75 4.25 3.25 3.00 3.25 2.75 3.25 3.25
-##  [37] 2.75 2.50 3.00 2.00 4.50 3.00 3.75 1.75 3.00 4.00 3.75 3.50
-##  [49] 3.00 4.00 4.00 5.00 2.00 2.25 2.75 3.75 4.75 4.00 4.25 5.00
-##  [61] 2.75 3.25 3.50 3.25 3.50 4.50 4.75 3.75 3.00 3.25 3.25 4.25
-##  [73] 3.50 3.75 2.75 4.00 3.50 1.50 3.50 3.75 2.25 3.25 3.00 3.25
-##  [85] 3.50 2.75 3.25 2.75 4.25 4.50 3.25 3.00 3.25 3.25 3.50 4.00
-##  [97] 3.75 3.25 3.75 3.25 3.75 3.00 2.50 4.00 4.00 3.75 2.25 2.75
-## [109] 3.25 2.25 3.50 2.75 3.25 2.50 2.25 2.75 3.50 4.00 4.00 2.25
-## [121] 2.25 4.25 3.25 3.25 3.00 3.75 3.75 2.25 3.50 3.25 3.25 4.00
-## [133] 2.25 3.75 3.50 4.00 3.75 2.75 2.75 3.25 4.50 3.00 2.75 3.75
-## [145] 3.25 4.25 4.25 3.00 3.50 3.00 3.00 3.50 4.50
+##   [1] 2.75 3.75 4.25 2.50 3.00 2.75 4.75 5.00 2.00 2.25 4.00 3.00 2.75 2.75 4.00 3.00 3.50 4.25 2.00
+##  [20] 3.75 3.25 4.25 3.25 3.50 3.50 4.50 3.75 4.25 3.75 4.25 3.25 3.00 3.25 2.75 3.25 3.25 2.75 2.50
+##  [39] 3.00 2.00 4.50 3.00 3.75 1.75 3.00 4.00 3.75 3.50 3.00 4.00 4.00 5.00 2.00 2.25 2.75 3.75 4.75
+##  [58] 4.00 4.25 5.00 2.75 3.25 3.50 3.25 3.50 4.50 4.75 3.75 3.00 3.25 3.25 4.25 3.50 3.75 2.75 4.00
+##  [77] 3.50 1.50 3.50 3.75 2.25 3.25 3.00 3.25 3.50 2.75 3.25 2.75 4.25 4.50 3.25 3.00 3.25 3.25 3.50
+##  [96] 4.00 3.75 3.25 3.75 3.25 3.75 3.00 2.50 4.00 4.00 3.75 2.25 2.75 3.25 2.25 3.50 2.75 3.25 2.50
+## [115] 2.25 2.75 3.50 4.00 4.00 2.25 2.25 4.25 3.25 3.25 3.00 3.75 3.75 2.25 3.50 3.25 3.25 4.00 2.25
+## [134] 3.75 3.50 4.00 3.75 2.75 2.75 3.25 4.50 3.00 2.75 3.75 3.25 4.25 4.25 3.00 3.50 3.00 3.00 3.50
+## [153] 4.50
 ## attr(,"format.spss")
 ## [1] "F4.2"
 ```
@@ -333,14 +329,11 @@ data$geschl
 ```
 
 ```
-##   [1]  1  2  2  1 NA  2  1  1  1  2  1  1  1  1  1  1  1  1  2  1
-##  [21] NA  1  1  1  1  2  1  1  1  1  1  1  1  2  1  1  1  1  1  1
-##  [41]  1  1  1  1  1  1  1 NA  1  2  1  2  1  1  1  2  1 NA NA  1
-##  [61]  3  1  1  1  1  1  1  1  1  1  1  1  2  2  2  1  2  2  1  1
-##  [81]  1  1  1  1  1  1  1  1 NA  1  1  1  1  1  1 NA  2  1  1  1
-## [101]  1 NA  1 NA  1  1  2  1  1  1  1  1  1  1  1  1  1  1  1  2
-## [121]  1  1 NA  2  1  2  1  1  1  1  1  1  1  1  1  1  1  1  1  1
-## [141]  1  1  1  1  1  1  1  1  1  1  2  1  1
+##   [1]  1  2  2  1 NA  2  1  1  1  2  1  1  1  1  1  1  1  1  2  1 NA  1  1  1  1  2  1  1  1  1  1  1
+##  [33]  1  2  1  1  1  1  1  1  1  1  1  1  1  1  1 NA  1  2  1  2  1  1  1  2  1 NA NA  1  3  1  1  1
+##  [65]  1  1  1  1  1  1  1  1  2  2  2  1  2  2  1  1  1  1  1  1  1  1  1  1 NA  1  1  1  1  1  1 NA
+##  [97]  2  1  1  1  1 NA  1 NA  1  1  2  1  1  1  1  1  1  1  1  1  1  1  1  2  1  1 NA  2  1  2  1  1
+## [129]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  2  1  1
 ## attr(,"format.spss")
 ## [1] "F8.2"
 ```
@@ -374,31 +367,21 @@ data$geschl_faktor
 ```
 
 ```
-##   [1] weiblich männlich männlich weiblich <NA>     männlich
-##   [7] weiblich weiblich weiblich männlich weiblich weiblich
-##  [13] weiblich weiblich weiblich weiblich weiblich weiblich
-##  [19] männlich weiblich <NA>     weiblich weiblich weiblich
-##  [25] weiblich männlich weiblich weiblich weiblich weiblich
-##  [31] weiblich weiblich weiblich männlich weiblich weiblich
-##  [37] weiblich weiblich weiblich weiblich weiblich weiblich
-##  [43] weiblich weiblich weiblich weiblich weiblich <NA>    
-##  [49] weiblich männlich weiblich männlich weiblich weiblich
-##  [55] weiblich männlich weiblich <NA>     <NA>     weiblich
-##  [61] anderes  weiblich weiblich weiblich weiblich weiblich
-##  [67] weiblich weiblich weiblich weiblich weiblich weiblich
-##  [73] männlich männlich männlich weiblich männlich männlich
-##  [79] weiblich weiblich weiblich weiblich weiblich weiblich
-##  [85] weiblich weiblich weiblich weiblich <NA>     weiblich
-##  [91] weiblich weiblich weiblich weiblich weiblich <NA>    
-##  [97] männlich weiblich weiblich weiblich weiblich <NA>    
-## [103] weiblich <NA>     weiblich weiblich männlich weiblich
-## [109] weiblich weiblich weiblich weiblich weiblich weiblich
-## [115] weiblich weiblich weiblich weiblich weiblich männlich
-## [121] weiblich weiblich <NA>     männlich weiblich männlich
-## [127] weiblich weiblich weiblich weiblich weiblich weiblich
-## [133] weiblich weiblich weiblich weiblich weiblich weiblich
-## [139] weiblich weiblich weiblich weiblich weiblich weiblich
-## [145] weiblich weiblich weiblich weiblich weiblich weiblich
+##   [1] weiblich männlich männlich weiblich <NA>     männlich weiblich weiblich weiblich männlich
+##  [11] weiblich weiblich weiblich weiblich weiblich weiblich weiblich weiblich männlich weiblich
+##  [21] <NA>     weiblich weiblich weiblich weiblich männlich weiblich weiblich weiblich weiblich
+##  [31] weiblich weiblich weiblich männlich weiblich weiblich weiblich weiblich weiblich weiblich
+##  [41] weiblich weiblich weiblich weiblich weiblich weiblich weiblich <NA>     weiblich männlich
+##  [51] weiblich männlich weiblich weiblich weiblich männlich weiblich <NA>     <NA>     weiblich
+##  [61] anderes  weiblich weiblich weiblich weiblich weiblich weiblich weiblich weiblich weiblich
+##  [71] weiblich weiblich männlich männlich männlich weiblich männlich männlich weiblich weiblich
+##  [81] weiblich weiblich weiblich weiblich weiblich weiblich weiblich weiblich <NA>     weiblich
+##  [91] weiblich weiblich weiblich weiblich weiblich <NA>     männlich weiblich weiblich weiblich
+## [101] weiblich <NA>     weiblich <NA>     weiblich weiblich männlich weiblich weiblich weiblich
+## [111] weiblich weiblich weiblich weiblich weiblich weiblich weiblich weiblich weiblich männlich
+## [121] weiblich weiblich <NA>     männlich weiblich männlich weiblich weiblich weiblich weiblich
+## [131] weiblich weiblich weiblich weiblich weiblich weiblich weiblich weiblich weiblich weiblich
+## [141] weiblich weiblich weiblich weiblich weiblich weiblich weiblich weiblich weiblich weiblich
 ## [151] männlich weiblich weiblich
 ## Levels: weiblich männlich anderes
 ```
@@ -425,20 +408,17 @@ data[1:5,]
 
 ```
 ## # A tibble: 5 × 37
-##   prok1 prok2 prok3 prok4 prok5 prok6 prok7 prok8 prok9 prok10
-##   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl>
-## 1     1     3     4     2     3     4     3     3     1      3
-## 2     4     3     2     4     1     4     2     4     4      4
-## 3     3     3     2     4     2     4     2     3     4      3
-## 4     2     1     4     3     2     1     2     4     1      1
-## 5     2     4     2     2     3     2     3     2     1      3
-## # ℹ 27 more variables: nr1 <dbl>, nr2 <dbl>, nr3 <dbl>,
-## #   nr4 <dbl>, nr5 <dbl>, nr6 <dbl>, lz <dbl>, extra <dbl>,
-## #   vertr <dbl>, gewis <dbl>, neuro <dbl>, intel <dbl>,
-## #   nerd <dbl>, grund <chr>, fach <chr>, ziel <chr>,
-## #   lerntyp <chr>, geschl <dbl>, job <dbl>, ort <dbl>,
-## #   ort12 <chr>, wohnen <dbl>, uni1 <dbl>, uni2 <dbl>,
-## #   uni3 <dbl>, uni4 <dbl>, geschl_faktor <fct>
+##   prok1 prok2 prok3 prok4 prok5 prok6 prok7 prok8 prok9 prok10   nr1   nr2   nr3   nr4   nr5   nr6
+##   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+## 1     1     3     4     2     3     4     3     3     1      3     1     3     5     4     4     3
+## 2     4     3     2     4     1     4     2     4     4      4     1     2     1     2     2     1
+## 3     3     3     2     4     2     4     2     3     4      3     4     5     5     5     5     5
+## 4     2     1     4     3     2     1     2     4     1      1     1     5     1     2     2     2
+## 5     2     4     2     2     3     2     3     2     1      3     1     4     3     4     3     1
+## # ℹ 21 more variables: lz <dbl>, extra <dbl>, vertr <dbl>, gewis <dbl>, neuro <dbl>, intel <dbl>,
+## #   nerd <dbl>, grund <chr>, fach <chr>, ziel <chr>, lerntyp <chr>, geschl <dbl>, job <dbl>,
+## #   ort <dbl>, ort12 <chr>, wohnen <dbl>, uni1 <dbl>, uni2 <dbl>, uni3 <dbl>, uni4 <dbl>,
+## #   geschl_faktor <fct>
 ```
 
 ```r
@@ -492,25 +472,23 @@ data[data$geschl_faktor == "weiblich" | data$geschl_faktor == "männlich",]
 
 ```
 ## # A tibble: 152 × 37
-##    prok1 prok2 prok3 prok4 prok5 prok6 prok7 prok8 prok9 prok10
-##    <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl>
-##  1     1     3     4     2     3     4     3     3     1      3
-##  2     4     3     2     4     1     4     2     4     4      4
-##  3     3     3     2     4     2     4     2     3     4      3
-##  4     2     1     4     3     2     1     2     4     1      1
-##  5    NA    NA    NA    NA    NA    NA    NA    NA    NA     NA
-##  6     2     2     3     2     3     2     3     3     2      1
-##  7     2     3     2     3     4     2     3     4     3      1
-##  8     4     3     2     4     2     4     3     2     4      4
-##  9     2     3     3     1     3     2     3     4     2      1
-## 10     3     1     2     2     3     2     3     4     3      4
+##    prok1 prok2 prok3 prok4 prok5 prok6 prok7 prok8 prok9 prok10   nr1   nr2   nr3   nr4   nr5   nr6
+##    <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+##  1     1     3     4     2     3     4     3     3     1      3     1     3     5     4     4     3
+##  2     4     3     2     4     1     4     2     4     4      4     1     2     1     2     2     1
+##  3     3     3     2     4     2     4     2     3     4      3     4     5     5     5     5     5
+##  4     2     1     4     3     2     1     2     4     1      1     1     5     1     2     2     2
+##  5    NA    NA    NA    NA    NA    NA    NA    NA    NA     NA    NA    NA    NA    NA    NA    NA
+##  6     2     2     3     2     3     2     3     3     2      1     1     3     3     4     4     1
+##  7     2     3     2     3     4     2     3     4     3      1     2     4     5     3     4     2
+##  8     4     3     2     4     2     4     3     2     4      4     1     4     4     5     4     4
+##  9     2     3     3     1     3     2     3     4     2      1     3     4     4     4     3     3
+## 10     3     1     2     2     3     2     3     4     3      4     5     4     5     4     5     3
 ## # ℹ 142 more rows
-## # ℹ 27 more variables: nr1 <dbl>, nr2 <dbl>, nr3 <dbl>,
-## #   nr4 <dbl>, nr5 <dbl>, nr6 <dbl>, lz <dbl>, extra <dbl>,
-## #   vertr <dbl>, gewis <dbl>, neuro <dbl>, intel <dbl>,
-## #   nerd <dbl>, grund <chr>, fach <chr>, ziel <chr>,
-## #   lerntyp <chr>, geschl <dbl>, job <dbl>, ort <dbl>,
-## #   ort12 <chr>, wohnen <dbl>, uni1 <dbl>, uni2 <dbl>, …
+## # ℹ 21 more variables: lz <dbl>, extra <dbl>, vertr <dbl>, gewis <dbl>, neuro <dbl>, intel <dbl>,
+## #   nerd <dbl>, grund <chr>, fach <chr>, ziel <chr>, lerntyp <chr>, geschl <dbl>, job <dbl>,
+## #   ort <dbl>, ort12 <chr>, wohnen <dbl>, uni1 <dbl>, uni2 <dbl>, uni3 <dbl>, uni4 <dbl>,
+## #   geschl_faktor <fct>
 ```
 
 

@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [stephan, gruetzner, vogler] 
 weight: 
-lastmod: '2024-10-10'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/syntax.jpg"
@@ -164,7 +164,7 @@ Laden Sie den Datensatz `distort` ein, wenn noch nicht geschehen. Informationen 
   <summary>**Tipp**</summary>
 
 
-``` r
+```r
 source("https://pandar.netlify.app/daten/Data_Processing_distort.R")
 ```
   
@@ -181,11 +181,11 @@ $H_1$: Männer und Frauen unterscheiden sich in ihrer wahrgenommenen Marginalisi
 
 ## Übung 3 - Abschlussaufgabe
 
-### Vorbereitungen:
+## Vorbereitungen:
 Zuerst laden wir den Datensatz "Bullyingprävention bei Jugendlichen (fairplayer)" ein:
 
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/fairplayer.rda"))
 ```
 Der Datensatz stammt aus einer Studie von Bull, Schultze & Scheithauer (2009), in der die Effektivität eines Interventionsprogramms zur Bullyingprävention bei Jugendlichen untersucht wurde. Das Codebook können sie dem folgenden Link entnehmen: https://pandar.netlify.app/daten/datensaetze/
@@ -196,52 +196,67 @@ b) Existieren fehlende Daten?
 c) Wie viele Beobachtungen verlieren Sie, wenn sie alle Beobachtungen mit fehlenden Werten herauswerfen? 
 
 
-``` r
-# Aufgabe 1:
-## a)
-dim(fairplayer)
-```
 
-```
-## [1] 155  31
-```
+***
 
-``` r
-## b)
-sum(is.na(fairplayer))
-```
-
-```
-## [1] 830
-```
-
-``` r
-## c) 
-fairplayer_NA <- na.omit(fairplayer)
-dim(fairplayer_NA)
-```
-
-```
-## [1] 106  31
-```
 2.) Datenaufbereitung
-a) Entfernen Sie den Messzeitpunkt T3. 
-b) Passen Sie die Reihennamen an: ID, Klassenstufe, Interventiosgruppe, Geschlecht. Die Items können gleich benannt bleiben (Tipp: trotzdem müssen sie bei dem Befehl der Namen mit angesprochen werden)
-c) Fassen Sie die Items der Skalen Relationale Angst, Empathie und Soziale Intelligenz. Achten Sie dabei darauf immer nur Items der gleichen Messzeitpunkte zusammenzufassen.
-d) Ergänzen Sie einen Faktor, der die Klassenstufen mit den Namen Schulanfänger, Zweitklässler und Drittklässler enthält.
 
+a) Entfernen Sie den Messzeitpunkt T3.
+
+
+
+b) Passen Sie die Reihennamen an: ID, Klassenstufe, Interventiosgruppe, Geschlecht. Die Items können gleich benannt bleiben.
+
+<details>
+  <summary>**Tipp**</summary>
+  
+  Befehl `colnames()`
+  
+</details>
+
+
+c) Fassen Sie die Items der Skalen Relationale Angst, Empathie und Soziale Intelligenz. Achten Sie dabei darauf immer nur Items der gleichen Messzeitpunkte zusammenzufassen.
+
+<details>
+  <summary>**Tipp**</summary>
+  
+  Befehl `rowSums()`
+  
+</details>
+
+
+***
 
 3.) Deskriptivstatistik:
-a) Erstellen Sie eine Tabelle, die die Kennwerte der demografischen Variablen Klasse, Gruppe und Geschlecht beinhalten.
-b) Erstellen Sie eine Tabelle, die die Kennwerte der Skalen relationale Angst, Empathie und Soziale Intelligenz zu T1 und T2 enthalten.
+
+a) Erstellen Sie eine Tabelle, die die statistischen Kennwerte der Skalen relationale Angst, Empathie und Soziale Intelligenz zu T1 und T2 enthalten.
+
+
+***
 
 4.) T-Test:
-a) Gibt es signifikante Gruppenunterschiede in der Skala soziale Intelligenz zu T1 zwischen Mädchen und Jungen?
-b) Zeigen sich Gruppenunterschiede zwischen den Interventionsgruppen im Hinblick auf die relationale Angst zu T2? 
-c) Erstellen Sie GGPlots, die die Gruppenunterschiede verbildlichen. 
+
+a) Gibt es signifikante Gruppenunterschiede in der Skala soziale Intelligenz zu T1 zwischen Mädchen und Jungen? (Homoskedastizität gegeben; ohne Voraussetzungsprüfung)
+
+
+b) Wie groß ist die Effektstärke dieses Unterschieds?
+
+
+c) Erstellen Sie GGPlots, die die Gruppenunterschiede verbildlichen.
+
+
+***
 
 5.) Regression:
-a) Sagen die Prädiktoren Geschlecht, Gruppe, Wert zu T1 (Relationale Angst) und Klassenstufe den Wert im Bereich relationale Angst zu T2 voraus? Erstellen Sie ein entsprechendes Regressionsmodell und rechnen sie dieses? 
+
+a) Sagen die Prädiktoren Geschlecht, Interventionsgruppe, Wert zu T1 (Relationale Angst) und Klassenstufe den Wert im Bereich relationale Angst zu T2 voraus? Erstellen Sie ein entsprechendes Regressionsmodell und interpretieren Sie den R-Output.
+
+
+***
 
 6.) GGPlot:
+
 a) Erstellen Sie einen Plot, der den Zusammenhang zwischen relationaler Angst und sozialer Intelligenz zu T1 darstellt. Fügen Sie eine lineare Trendlinie hinzu und berichten sie die Korrelation und ihre Signifikant.
+
+
+***

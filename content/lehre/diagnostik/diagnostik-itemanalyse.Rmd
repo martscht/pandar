@@ -31,6 +31,9 @@ output:
 ---
 
 ```{r knitr options, echo=FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 ```
 
@@ -39,9 +42,9 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
 Bevor wir mit der Analyse beginnen können, muss der Datensatz eingelesen werden. Hierfür gibt es mehrere Packages, die diesen ersten Schritt erleichtern. Mit dem Package `foreign` können besonders gut SPSS-Dateien (.sav) geladen werden. Mit dem Package `readr` (aus der Familie des `tidyverse`) können ansonsten die typischsten  Datenformate (wie unter anderem .csv, .tsv und .txt) geladen werden. Schließlich gibt es noch das `readxl` Package, mit dem Excel-Dateien (.xls und .xlsx) eingelesen werden können. Für unseren Beispieldatensatz benötigen wir das Package `readr`. Wir laden hierbei das komplette tidyvere-package, welches im Hintergrund das readr-Package sowie noch andere relevante Packages läd (z.B. `dplyr`).
 
-```{r}
-#| message: false
+```{r, message = FALSE}
 library(tidyverse) 
+library(dplyr)
 library(here)
 data_gis_raw <- read_csv(url("https://raw.githubusercontent.com/jlschnatz/PsyBSc8_Diagnostik/main/src/data/GIS-data.csv"))
 head(data_gis_raw) 
@@ -50,11 +53,11 @@ head(data_gis_raw)
 
 ## Erstellen des Hauptdatensatzes
 
-Für die Itemanalyse brauchen wir nur die Items ohne den soziodemographischen Angaben. Daher erstellen wir einen Datensatz, der nur die Items und keine soziodemographische Angaben enthält. Dies ist mit der `select()` Funktion des dplyr-Packages sehr einfach. Da alle Items mit dem Prefix "GIS" beginnen können wir uns eine kleine Helper-Funktion `starts_with()` des dplyr-Packages zu Nutze machen, um die Variables auszuwählen.
+Für die Itemanalyse brauchen wir nur die Items ohne den soziodemographischen Angaben. Daher erstellen wir einen Datensatz, der nur die Items und keine soziodemographische Angaben enthält. Dies ist mit der `select()` Funktion des dplyr-Packages sehr einfach (die Funktion gibt es in verschiedenen Paketen, daher sagen wir `R` explizit, dass es aus diesem Paket genommen werden soll mit den beiden Doppelpunkten `dplyr::select()`) Da alle Items mit dem Prefix "GIS" beginnen können wir uns eine kleine Helper-Funktion `starts_with()` des dplyr-Packages zu Nutze machen, um die Variables auszuwählen.
 
 ```{r}
-data_gis_item <- select(data_gis_raw, starts_with("GIS"))
-data_gis_item <- select(data_gis_raw, 7:27) # Alternative 
+data_gis_item <- dplyr::select(data_gis_raw, starts_with("GIS"))
+data_gis_item <- dplyr::select(data_gis_raw, 7:27) # Alternative 
 colnames(data_gis_item) # Ausgabe der Spalten des Datensatzes
 ```
 
@@ -185,7 +188,7 @@ data_gis_rec <- data_gis_item %>%
     .fns = ~rec(x = .x, rec = "0=4; 1=3; 2=2; 3=1; 4=0"),
     .names = "{col}_r")
     ) %>% 
-  select(-inverse_items) 
+  dplyr::select(-inverse_items) 
 colnames(data_gis_rec)
 ```
  
@@ -207,7 +210,7 @@ col_order <- c(
   "GIS12","GIS13","GIS14","GIS15","GIS16_r",
   "GIS17_r","GIS18_r", "GIS19","GIS20","GIS21"
   )
-data_gis_rec2 <- select(data_gis_rec, all_of(col_order))
+data_gis_rec2 <- dplyr::select(data_gis_rec, all_of(col_order))
 sjt.itemanalysis(
   df = data_gis_rec2,
   factor.groups.titles = "Desktiptive Ergebnisse der Itemanalyse (mit angepasster Reihenfolge)"
@@ -219,7 +222,7 @@ Wir sehen, dass alle invers gestellten Items eine schlechte Trennschärfe besitz
 
 ```{r}
 drop_discrm <- c("GIS9_r", "GIS16_r","GIS17_r", "GIS18_r")
-data_gis_final <- select(data_gis_rec2, -all_of(drop_discrm))
+data_gis_final <- dplyr::select(data_gis_rec2, -all_of(drop_discrm))
 ```
 
 Mit diesem Datensatz können wir nun die finale Itemanalyse durchführen:

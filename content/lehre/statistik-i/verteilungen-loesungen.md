@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, zacharias] 
-lastmod: '2024-03-18'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/six_sided_dice.png"
@@ -96,7 +96,7 @@ sample(x = muenze, size = 1)
 ```
 
 ```
-## [1] "Zahl"
+## [1] "Kopf"
 ```
 
 </details>
@@ -154,7 +154,7 @@ probs <- dbinom(x, size = 10, prob = 0.3)
 plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten eines Gewinns", ylab = "Wahrscheinlichkeit bei 10 Versuchen")
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/verteilungen-loesungen_files/unnamed-chunk-6-1.png)<!-- -->
 
 </details>
 
@@ -231,7 +231,7 @@ curve (expr = dnorm (x, mean = 50, sd = 10),
        ylab = "Dichte")
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](/verteilungen-loesungen_files/unnamed-chunk-10-1.png)<!-- -->
 
 </details>
 
@@ -251,7 +251,7 @@ curve (expr = dnorm (x, mean = 0, sd = 1),
        ylab = "Dichte")
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/verteilungen-loesungen_files/unnamed-chunk-11-1.png)<!-- -->
 
 </details>
 
@@ -296,7 +296,7 @@ curve (expr = pnorm (x, mean = 0, sd = 1),
        ylab = "F(x)")
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](/verteilungen-loesungen_files/unnamed-chunk-13-1.png)<!-- -->
 
 </details>
 
@@ -331,7 +331,7 @@ curve(expr = dexp(x, rate = 0.05),
       ylab = "Dichte f(x)")
 ```
 
-![](/lehre/statistik-i/verteilungen-loesungen_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](/verteilungen-loesungen_files/unnamed-chunk-15-1.png)<!-- -->
 </details>
 
 * Berechnen Sie die Wahrscheinlichkeit, dass eine Person 

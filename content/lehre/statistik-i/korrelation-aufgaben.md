@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler, winkler, vogler, schroeder]
 weight:
-lastmod: '2024-12-11'
+lastmod: '2025-02-07'
 featured: no
 banner:
   image: "/header/storch_with_baby.jpg"
@@ -56,61 +56,14 @@ names(fb24)
 ```
 
 ```
-##  [1] "mdbf1"      
-##  [2] "mdbf2"      
-##  [3] "mdbf3"      
-##  [4] "mdbf4"      
-##  [5] "mdbf5"      
-##  [6] "mdbf6"      
-##  [7] "mdbf7"      
-##  [8] "mdbf8"      
-##  [9] "mdbf9"      
-## [10] "mdbf10"     
-## [11] "mdbf11"     
-## [12] "mdbf12"     
-## [13] "time_pre"   
-## [14] "lz"         
-## [15] "extra"      
-## [16] "vertr"      
-## [17] "gewis"      
-## [18] "neuro"      
-## [19] "offen"      
-## [20] "prok"       
-## [21] "nerd"       
-## [22] "uni1"       
-## [23] "uni2"       
-## [24] "uni3"       
-## [25] "uni4"       
-## [26] "grund"      
-## [27] "fach"       
-## [28] "ziel"       
-## [29] "wissen"     
-## [30] "therap"     
-## [31] "lerntyp"    
-## [32] "hand"       
-## [33] "job"        
-## [34] "ort"        
-## [35] "ort12"      
-## [36] "wohnen"     
-## [37] "attent"     
-## [38] "gs_post"    
-## [39] "wm_post"    
-## [40] "ru_post"    
-## [41] "time_post"  
-## [42] "attent_post"
-## [43] "hand_factor"
-## [44] "fach_klin"  
-## [45] "unipartys"  
-## [46] "mdbf4_r"    
-## [47] "mdbf11_r"   
-## [48] "mdbf3_r"    
-## [49] "mdbf9_r"    
-## [50] "mdbf5_r"    
-## [51] "mdbf7_r"    
-## [52] "wm_pre"     
-## [53] "gs_pre"     
-## [54] "ru_pre"     
-## [55] "ru_pre_zstd"
+##  [1] "mdbf1"       "mdbf2"       "mdbf3"       "mdbf4"       "mdbf5"       "mdbf6"       "mdbf7"      
+##  [8] "mdbf8"       "mdbf9"       "mdbf10"      "mdbf11"      "mdbf12"      "time_pre"    "lz"         
+## [15] "extra"       "vertr"       "gewis"       "neuro"       "offen"       "prok"        "nerd"       
+## [22] "uni1"        "uni2"        "uni3"        "uni4"        "grund"       "fach"        "ziel"       
+## [29] "wissen"      "therap"      "lerntyp"     "hand"        "job"         "ort"         "ort12"      
+## [36] "wohnen"      "attent"      "gs_post"     "wm_post"     "ru_post"     "time_post"   "attent_post"
+## [43] "hand_factor" "fach_klin"   "unipartys"   "mdbf4_r"     "mdbf11_r"    "mdbf3_r"     "mdbf9_r"    
+## [50] "mdbf5_r"     "mdbf7_r"     "wm_pre"      "gs_pre"      "ru_pre"      "ru_pre_zstd"
 ```
 
 Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und 55 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.

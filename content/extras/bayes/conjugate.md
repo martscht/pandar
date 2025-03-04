@@ -141,7 +141,7 @@ likeli_plot <- ggplot(d, aes(x = pi, y = likelihood)) +
 likeli_plot
 ```
 
-![](/extras/bayes/conjugate_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/conjugate_files/unnamed-chunk-6-1.png)<!-- -->
 
 ## Ein geeigneter Prior für Wahrscheinlichkeiten
 
@@ -153,7 +153,7 @@ Zum Glück haben sich Generationen von Statisker:innen bereits darüber den Kopf
 
 In beiden Quellen sehen wir, dass der conjugate Prior für unsere Binomialverteilung die Beta-Verteilung ist, welche genutzt werden kann, um die Verteilung von $\pi$ darzustellen. Notiert wird sie als $\text{Beta}(\alpha, \beta)$. So wie jede Normalverteilung durch Mittelwert $\mu$ und Standardabweichung $\sigma$ festgelegt ist, wird die Form der Beta-Verteilung durch die beiden Parameter $\alpha$ und $\beta$ festgelegt:
 
-![](/extras/bayes/conjugate_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](/conjugate_files/unnamed-chunk-7-1.png)<!-- -->
 
 
 Für die beiden Parameter gibt es eine recht naheliegende (aber nicht 100% korrekte) intuitive Interpretation: $\alpha-1$ ist die Anzahl der Erfolge, $\beta-1$ die Anzahl der Misserfolge, die wir schon beobachten konnten. Wenn wir also keine Erfolge oder Misserfolge beobachtet haben ($\alpha = 1, \beta = 1$) ist jede Grundrate $\pi$ von 0 bis 1 gleich wahrscheinlich - wir haben keinerlei Vorinformation als Prior bereitgestellt. Wenn $\alpha = 10, \beta = 1$ ist es sehr wahrscheinlich, dass unsere Grundrate in der Nähe von 1 liegt und sehr unwahrscheinlich, dass sie kleiner als 0.5 ist. Weil $\alpha$ und $\beta$ Parameter sind, die die Verteilung des Parameters in unserer eigentlichen Auswertung (dem Binomialtest) bestimmen, werden sie als _Hyperparameter_ bezeichnet.
@@ -281,7 +281,7 @@ d$strong_post <- dbeta(d$pi, 13, 9)
 
 Wenn wir die Daten zusammenführen, wird die Tabelle langsam etwas groß, also hier die insgesamt sechs Verteilungen mal in einer Abbildung: 
 
-![](/extras/bayes/conjugate_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](/conjugate_files/unnamed-chunk-15-1.png)<!-- -->
 
 Die vertikale Linie zeigt den Wert in unserer Stichprobe ($h = .7$). Der Posterior des uninformativen Priors trifft mit seinem Modus diesen Wert natürlich genau (weil wir keine zusätzliche Information hinzugegeben hatten). Die anderen beiden Posterior-Verteilungen werden beide stärker zur Grundrate in den Prior-Annahmen ($\pi = .5$) hingezogen und dabei immer schmaler. Beide Effekte gehen damit einher, dass wir in unseren Priors mehr Information in die Analyse einspeisen. Im Fall des uninformativen Prior hatten wir mit $\text{Beta}(1, 1)$ zum ausdruck gebracht, dass wir 0 vorherige Beobachtungen haben und somit jeder Wert gleich wahrscheinlich ist. Im schwachen Prior ist die Aussage enthalten, dass wir zwei vorherige Beobachtungen gemacht haben und eine erfolgreich (kein Rückfall) und eine nicht erfolgreich war. Im starken Prior ist impliziert, dass wir zuvor schonmal zehn Beobachtungen gemacht haben, von denen fünf erfolgreich waren und fünf nicht. Unser Posterior ist also in dem Fall "die Mitte" zwischen den zehn Beobachtungen, die Sie in Ihrer Klinik gemacht haben (sieben von zehn Erfolge) und den zehn, deren Informationen schon vorab zur Verfügung standen. Dabei wird auch die Streuung unserer Posteriors kleiner, weil wir mehr Informationen als Grundlage haben und uns sicherer sein können, dass die Grundrate nicht z.B. 90% ist.
 

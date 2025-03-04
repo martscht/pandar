@@ -22,14 +22,17 @@ links:
     icon: book
     name: Inhalte
     url: /lehre/independence/independence-r
-  - icon_pack: fas
-    icon: terminal
-    name: Code
-    url: /lehre/independence/independence-r.R
 output:
   html_document:
     keep_md: true
 ---
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
 
 # Contents
 
@@ -948,9 +951,6 @@ that the data are paired.
 t.test(data_food_wide$recog_perf.warm, data_food_wide$recog_perf.cold, paired = TRUE)
 
 # This t-test is considering that each case is "paired" with the other, meaning that it is coming from the same participant. 
-
-# We could also run it in our long dataset.
-t.test(recog_perf~condition, data = data_food, paired =T)
 
 # In order to understand the direction of the difference, let's get the means of the two conditions.
 by(data_food$recog_perf, data_food$condition, FUN = mean)

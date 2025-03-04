@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [cezanne, mueller, nehler]
 weight:
-lastmod: '2024-07-02' 
+lastmod: '2025-02-07' 
 featured: no
 banner:
   image: "/header/mechanical_number_display.png"
@@ -22,6 +22,8 @@ output:
   html_document:
     keep_md: true
 ---
+
+
 
 Hier finden Sie die Lösungen zu den Zusatzaufgaben!
 
@@ -453,7 +455,7 @@ Betrachten wir statt der Variable `farbe` nun die Variable `geschlecht`.
 pie(table(data$geschlecht))
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-21-1.png)<!-- -->
 
 
 ```r
@@ -522,7 +524,7 @@ quantile(data$lz3, c(.25, .75))
 boxplot(data$lz3)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-24-1.png)<!-- -->
 
 ```r
 quantile(data$lz3, .75) - quantile(data$lz3, .25)
@@ -653,13 +655,13 @@ table_lerntyp <- table(fb22$lerntyp)
 barplot(table_lerntyp, main = "Lerntypen Jahrgang 2022", ylab = "Anzahl Studierende", col = colours)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-30-1.png)<!-- -->
 
 ```r
 barplot(table_lerntyp, main = "Lerntypen Jahrgang 2022", ylab = "Anzahl Studierende", col = colours2)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-30-2.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-30-2.png)<!-- -->
 </details>
 
 ## Aufgabe 17.2
@@ -677,13 +679,13 @@ table_urban <- table(nature$urban)
 barplot(table_urban, main = "Wohngegend als Kind", ylab = "Anzahl ProbandInnen", col = colours)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-31-1.png)<!-- -->
 
 ```r
 barplot(table_urban, main = "Wohngegend als Kind", ylab = "Anzahl ProbandInnen", col = colours2)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-31-2.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-31-2.png)<!-- -->
 </details>
   
 ## Aufgabe 18
@@ -796,13 +798,13 @@ quantile(fb22$prok10, c(.25, .75))
 boxplot(fb22$prok4)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-35-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-35-1.png)<!-- -->
 
 ```r
 boxplot(fb22$prok10)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-35-2.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-35-2.png)<!-- -->
 
 </details>
 
@@ -861,14 +863,14 @@ quantile(nature$Q5, c(.25, .75))
 boxplot(nature$Q1)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-37-1.png)<!-- -->
 
 
 ```r
 boxplot(nature$Q5)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-38-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-38-1.png)<!-- -->
 
 </details> 
 
@@ -1005,9 +1007,16 @@ Schauen wir uns nun noch einen weiteren Datensatz an. Laden Sie sich den Datensa
 
 
 ```r
-# rm(list = ls())
-source('/home/zarah/pandar.git/content/daten/SD3_zusatz_processing.R')
-# source(url("https://pandar.netlify.app/daten/SD3_zusatz_processing.R"))
+load(url("https://pandar.netlify.app/daten/SD3_origin.rda"))
+
+SD3 <- SD3_origin
+
+SD3 <- SD3[SD3$country == "CA", ]
+
+set.seed(23)
+SD3 <- SD3[sample(nrow(SD3), 44), ]
+
+rm(SD3_origin)
 ```
 
 Dieser Datensatz enthält Daten, die mit einem Fragebogen zur Dunklen Triade (Short Dark Triad) erfasst wurden. Es lassen sich drei Subskalen berechnen. Die Items `M1` bis `M9` beziehen sich auf das Konstrukt des Machiavellismus, die Items `N1` bis `N9` erfassen Narzissmus und die Items `P1` bis `P9` Psychopathie. Die Items wurden anhand einer fünf-Punte-Skala von 1 (stimme nicht zu) bis 5 (stimme zu) beantwortet. Es ist zu beachten, dass die Items `N2`, `N6`, `N8`, `P2` und `P7` invertiert sind. 
@@ -1110,7 +1119,7 @@ Verträglichkeit ist in `vertr` abgelegt.
 hist(fb22$vertr)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-48-1.png)<!-- -->
 
 Dieses Histogramm soll erstmal zum Vergleich dienen. Wir sehen die ursprünglichen Skalenwerte.
 
@@ -1120,7 +1129,7 @@ fb22$vertr_z <- scale(fb22$vertr, scale = F)
 hist(fb22$vertr_z)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-49-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-49-1.png)<!-- -->
 
 Durch die Zentrierung verändert sich die Form erstmal nicht. Der Mittelwert der Werte wird auf 0 gesetzt. Optisch äußert sich das dadurch, dass die Werte auf der x-Achse nun andere sind.
 
@@ -1130,7 +1139,7 @@ fb22$vertr_st <- scale(fb22$vertr, scale = T)
 hist(fb22$vertr_st)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-50-1.png)<!-- -->
 
 Die Standardisierung setzt die Standardabweichung auf 1. Aufgrund der neuen Wertestruktur wird natürlich auch die Kategorienanzahl geändert. 
 
@@ -1151,7 +1160,7 @@ Schauen wir uns nun das Konstrukt der Psychopathie nochmal genauer an.
 hist(SD3$P_ges)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-51-1.png)<!-- -->
 
 Dieses Histogramm soll erstmal zum Vergleich dienen. Wir sehen die ursprünglichen Skalenwerte.
 
@@ -1161,7 +1170,7 @@ SD3$P_z <- scale(SD3$P_ges, scale = F)
 hist(SD3$P_z)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-52-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-52-1.png)<!-- -->
 
 Durch die Zentrierung verändert sich die Form erstmal nicht. Der Mittelwert der Werte wird auf 0 gesetzt. Optisch äußert sich das dadurch, dass die Werte auf der x-Achse nun andere sind.
 
@@ -1171,7 +1180,7 @@ SD3$P_st <- scale(SD3$P_ges, scale = T)
 hist(SD3$P_st)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-53-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-53-1.png)<!-- -->
 
 Die Standardisierung setzt die Standardabweichung auf 1. Aufgrund der neuen Wertestruktur wird natürlich auch die Kategorienanzahl geändert. 
 
@@ -1345,7 +1354,7 @@ wk <- pbinom(X, 15, 0.75)
 plot(x = X, y = wk, typ = "h", xlab = "Anzahl Frauen", ylab = "kummulierte Wahrscheinlichkeit")
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-62-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-62-1.png)<!-- -->
 </details>
 
 
@@ -1478,7 +1487,7 @@ Jetzt können wir uns die Extraversion der Gruppen deskriptiv in einem Boxplot d
 boxplot(fb22$extra ~ fb22$lerntyp_neu, xlab = "Lerntyp", ylab = "Extraversion") 
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-70-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-70-1.png)<!-- -->
 
 Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir aber nun noch inferenzstatistisch überprüfen. Dafür überprüfen wir die Voraussetzungen eines t-Tests für unabhängige Stichproben. Wir können annehmen, dass die abhängige Variable intervallskaliert ist und dass die einzelnen Messwerte voneinander unabhängig sind. Wir müssen nun noch die Normalverteilung der Extraversion in den Gruppen und die Homoskedastizität überprüfen.
 
@@ -1492,7 +1501,7 @@ library(car)
 qqPlot(fb22$extra[fb22$lerntyp_neu == "alleine"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-71-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-71-1.png)<!-- -->
 
 ```
 ## [1]  7 38
@@ -1502,7 +1511,7 @@ qqPlot(fb22$extra[fb22$lerntyp_neu == "alleine"])
 qqPlot(fb22$extra[fb22$lerntyp_neu == "Gruppe oder Mischtyp"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-71-2.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-71-2.png)<!-- -->
 
 ```
 ## [1] 12 32
@@ -1585,8 +1594,7 @@ Laden Sie sich nun einen weiteren Datensatz `zusatz` in ihr Environment.
 
 
 ```r
-# load(url('https://pandar.netlify.app/daten/zusatz.rda'))
-load('/home/zarah/pandar.git/content/daten/zusatz.rda')
+load(url('https://pandar.netlify.app/daten/zusatz.rda'))
 ```
 
 Dieser enthält simulierte Daten, aber wir stellen uns einfach mal vor, dass wir Daten aus einer bestimmten Stichprobe vorliegen haben. In der Spalte `diet` ist dann eine Information darüber enthalten, wie sich jemand ernährt. Dabei werden drei Ernährungsweisen unterschieden: nicht-vegetarisch (und damit auch nicht vegan; 1), vegetarisch (2) und vegan (3). Unterscheiden sich Personen, die sich vegan oder vegetarisch ernähren, in ihrer Happiness (`happiness`) von Personen, die sich nicht vegetarisch/vegan ernähren?
@@ -1630,7 +1638,7 @@ Jetzt können wir uns die Happiness der Gruppen deskriptiv in einem Boxplot dars
 boxplot(zusatz$happiness ~ zusatz$diet_neu, xlab = "Diet", ylab = "Happiness") 
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-78-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-78-1.png)<!-- -->
 
 Deskriptiv lässt sich ein Mittelwertsunterschied feststellen. Diesen wollen wir aber nun noch inferenzstatistisch überprüfen. Dafür überprüfen wir die Voraussetzungen eines t-Tests für unabhängige Stichproben. Wir können annehmen, dass die abhängige Variable intervallskaliert ist und dass die einzelnen Messwerte voneinander unabhängig sind. Wir müssen nun noch die Normalverteilung der Extraversion in den Gruppen und die Homoskedastizität überprüfen.
 
@@ -1644,7 +1652,7 @@ library(car)
 qqPlot(zusatz$happiness[zusatz$diet_neu == "nicht-vegetarisch"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-79-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-79-1.png)<!-- -->
 
 ```
 ## [1] 49  1
@@ -1654,7 +1662,7 @@ qqPlot(zusatz$happiness[zusatz$diet_neu == "nicht-vegetarisch"])
 qqPlot(zusatz$happiness[zusatz$diet_neu == "vegetarisch oder vegan"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-79-2.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-79-2.png)<!-- -->
 
 ```
 ## [1] 34 27
@@ -2032,7 +2040,7 @@ library(car)
 qqPlot(fb22$intel[fb22$job == "nein"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-95-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-95-1.png)<!-- -->
 
 ```
 ## [1] 30 79
@@ -2042,7 +2050,7 @@ qqPlot(fb22$intel[fb22$job == "nein"])
 qqPlot(fb22$intel[fb22$job == "ja"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-95-2.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-95-2.png)<!-- -->
 
 ```
 ## [1] 49 46
@@ -2079,13 +2087,13 @@ Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselbe
 hist(fb22$intel[fb22$job == "ja"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-96-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-96-1.png)<!-- -->
 
 ```r
 hist(fb22$intel[fb22$job == "nein"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-96-2.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-96-2.png)<!-- -->
 Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
 
 
@@ -2148,7 +2156,7 @@ library(car)
 qqPlot(zusatz$intel[zusatz$school == "privat"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-99-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-99-1.png)<!-- -->
 
 ```
 ## [1] 21 34
@@ -2158,7 +2166,7 @@ qqPlot(zusatz$intel[zusatz$school == "privat"])
 qqPlot(zusatz$intel[zusatz$school == "öffentlich"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-99-2.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-99-2.png)<!-- -->
 
 ```
 ## [1] 67 38
@@ -2195,13 +2203,13 @@ Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselbe
 hist(zusatz$intel[zusatz$school == "privat"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-100-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-100-1.png)<!-- -->
 
 ```r
 hist(zusatz$intel[zusatz$school == "öffentlich"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-100-2.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-100-2.png)<!-- -->
 Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
 
 
@@ -2264,7 +2272,7 @@ library(car)
 qqPlot(zusatz$intel[zusatz$school == "privat"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-103-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-103-1.png)<!-- -->
 
 ```
 ## [1] 21 34
@@ -2274,7 +2282,7 @@ qqPlot(zusatz$intel[zusatz$school == "privat"])
 qqPlot(zusatz$intel[zusatz$school == "öffentlich"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-103-2.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-103-2.png)<!-- -->
 
 ```
 ## [1] 67 38
@@ -2311,13 +2319,13 @@ Wir überprüfen optisch, ob die Messwerte der beiden Gruppen ungefähr derselbe
 hist(zusatz$intel[zusatz$school == "privat"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-104-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-104-1.png)<!-- -->
 
 ```r
 hist(zusatz$intel[zusatz$school == "öffentlich"])
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-104-2.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-104-2.png)<!-- -->
 Dies kann angenommen werden. Zuletzt überprüfen wir noch die Gleichheit der Streuung in beiden Gruppen mittels Levene-Test.
 
 
@@ -2410,6 +2418,24 @@ Der Gruppenunterschied ist signifikant ($t$(158) = -7.06 , *p* < .001), somit wi
 
 ```r
 library("effsize")
+```
+
+```
+## Warning: Paket 'effsize' wurde unter R Version 4.3.3 erstellt
+```
+
+```
+## 
+## Attache Paket: 'effsize'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:psych':
+## 
+##     cohen.d
+```
+
+```r
 cohen.d(fb22$nerd, fb22$intel, paired = T, within = F)
 ```
 
@@ -2535,7 +2561,7 @@ Nun schauen wir uns den Zusammenhang der Variablen in einem Scatterplot an.
 plot(x = fb22$woerter_grund, y = fb22$gewis)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-113-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-113-1.png)<!-- -->
 
 Wir schließen einen nicht linearen Zusammenhang nicht aus und überprüfen nun die Normalverteilung der Variablen.
 
@@ -2545,7 +2571,7 @@ library(car)
 qqPlot(fb22$gewis)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-114-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-114-1.png)<!-- -->
 
 ```
 ## [1] 54 80
@@ -2555,7 +2581,7 @@ qqPlot(fb22$gewis)
 qqPlot(fb22$woerter_grund)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-114-2.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-114-2.png)<!-- -->
 
 ```
 ## [1] 136  93
@@ -2568,8 +2594,8 @@ cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "gre
 ```
 
 ```
-## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Cannot compute exact p-value
-## with ties
+## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", :
+## Kann exakten p-Wert bei Bindungen nicht berechnen
 ```
 
 ```
@@ -2603,7 +2629,7 @@ Als erstes schauen wir uns den Zusammenhang der Variablen in einem Scatterplot a
 plot(x = zusatz$caffeine, y = zusatz$stress)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-116-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-116-1.png)<!-- -->
 
 Wir schließen einen nicht linearen Zusammenhang nicht aus und überprüfen nun die Normalverteilung der Variablen.
 
@@ -2613,7 +2639,7 @@ library(car)
 qqPlot(zusatz$caffeine)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-117-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-117-1.png)<!-- -->
 
 ```
 ## [1] 102  18
@@ -2623,7 +2649,7 @@ qqPlot(zusatz$caffeine)
 qqPlot(zusatz$stress)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-117-2.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-117-2.png)<!-- -->
 
 ```
 ## [1]  92 110
@@ -2708,7 +2734,7 @@ plot(fb22$gewis, fb22$prok_ges, xlab = "Gewissenhaftigkeit", ylab = "Prokrastina
 lines(loess.smooth(fb22$gewis, fb22$prok_ges), col = 'blue')
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-120-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-120-1.png)<!-- -->
 
 Die Voraussetzung ist erfüllt. Wir können nun also unser Regressionsmodell aufstellen.
 
@@ -2725,7 +2751,7 @@ par(mfrow = c(2, 2)) #vier Abbildungen gleichzeitig
 plot(fm)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-122-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-122-1.png)<!-- -->
 
 Der Q-Q-Plot oben rechts deutet auf Normalverteilung hin. Die rote Anpassungslinie des Scale-Location Plots unten links ist annähernd parallel zur x-Achse, sodass wir von Varianzhomogenität ausgehen können. Da auch der vierte Plot unten rechts nicht auf potentiell problematische, einflussreiche Datenpunkte hindeutet, sind alle Vorausetzungen erfüllt.
 
@@ -2793,7 +2819,7 @@ summary(fm)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.4524 on 155 degrees of freedom
-##   (2 observations deleted due to missingness)
+##   (2 Beobachtungen als fehlend gelöscht)
 ## Multiple R-squared:  0.2478,	Adjusted R-squared:  0.243 
 ## F-statistic: 51.07 on 1 and 155 DF,  p-value: 3.273e-11
 ```
@@ -2855,7 +2881,7 @@ plot(zusatz$selfesteem, zusatz$empathy, xlab = "Selbstwertgefühl", ylab = "Empa
 lines(loess.smooth(zusatz$selfesteem, zusatz$empathy), col = 'blue')
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-127-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-127-1.png)<!-- -->
 
 Die Voraussetzung ist erfüllt. Wir können nun also unser Regressionsmodell aufstellen.
 
@@ -2872,7 +2898,7 @@ par(mfrow = c(2, 2)) #vier Abbildungen gleichzeitig
 plot(fm)
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-129-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-129-1.png)<!-- -->
 
 Der Q-Q-Plot oben rechts deutet auf Normalverteilung hin. Die rote Anpassungslinie des Scale-Location Plots unten links ist annähernd parallel zur x-Achse, sodass wir von Varianzhomogenität ausgehen können. Da auch der vierte Plot unten rechts nicht auf potentiell problematische, einflussreiche Datenpunkte hindeutet, sind alle Vorausetzungen erfüllt.
 
@@ -2940,7 +2966,7 @@ summary(fm)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.4472 on 113 degrees of freedom
-##   (1 observation deleted due to missingness)
+##   (1 Beobachtung als fehlend gelöscht)
 ## Multiple R-squared:  0.2623,	Adjusted R-squared:  0.2557 
 ## F-statistic: 40.17 on 1 and 113 DF,  p-value: 4.908e-09
 ```
@@ -3045,7 +3071,7 @@ x <- c(.001, 0.01, 0.025, 0.05, 0.1)
 plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-136-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-136-1.png)<!-- -->
 
 Wir sehen: Je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 44 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
 
@@ -3112,7 +3138,7 @@ x <- c(.001, 0.01, 0.025, 0.05, 0.1)
 plot(x = x, y = power, type = "b", main = "Power vs. Alpha")
 ```
 
-![](/lehre/statistik-i/zusatz-loesungen-neu_files/figure-html/unnamed-chunk-139-1.png)<!-- -->
+![](/zusatz-loesungen-neu_files/unnamed-chunk-139-1.png)<!-- -->
 
 Wir sehen: Je größer das $\alpha$-Niveau ist, desto höher ist unsere Power. Mit unserer Stichprobengröße von n = 159 haben wir selbst bei einem hypothetischen $\alpha$-Niveau von 0.1% noch eine Power von knapp 95%.  
 
