@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [nehler]
 weight: 1
-lastmod: '2025-02-28'
+lastmod: '2025-03-07'
 featured: no
 banner:
   image: "/header/lightbeams_converging_night.jpg"
@@ -156,9 +156,26 @@ Eine wichtige Grundlage ist außerdem die Nutzung von logischen Abfragen. Dabei 
 ## [1] TRUE
 ```
 
-Die Ergebnisse dieser Abfragen sind *boolesch*. Die Ergebnisse können WAHR (`TRUE`) oder FALSCH (`FALSE`) sein. Wie wir an der Abfrage "ist ungleich" sehen, wird in `R` das `!` genutzt um eine Aussage zu negieren.
+Die Ergebnisse dieser Abfragen sind *boolesch*. Die Ergebnisse können WAHR (`TRUE`) oder FALSCH (`FALSE`) sein. Wie wir an der Abfrage "ist ungleich" sehen, wird in `R` das `!` genutzt um eine Aussage zu negieren. Man kann auch gleichzeitig zwei Aussagen verknüpfen. Dafür gibt es die logischen Operatoren `&` (UND) und `|` (ODER). 
 
-Weitere Informationen finden sich [hier](/lehre/statistik-i/crash-kurs/#Taschenrechner).
+
+``` r
+2 == 3 & 2 < 3 # ist gleich UND ist kleiner?
+```
+
+```
+## [1] FALSE
+```
+
+``` r
+2 == 3 | 2 < 3 # ist gleich ODER ist kleiner?
+```
+
+```
+## [1] TRUE
+```
+
+Weitere Informationen zu einfachen Funktionalitäten finden sich [hier](/lehre/statistik-i/crash-kurs/#Taschenrechner).
 
 ## Funktionen
 
@@ -280,6 +297,7 @@ log(base = 10)
 ```
 
 Hier werden wir darauf hingewiesen, dass wir keinen Eintrag für das Argument `x` vorgenommen haben, obwohl dieses keine Voreinstellung hat. Daher kann die Funktion Ergebnis produzieren und gibt einen Fehler aus. 
+
 ## Objekte und das Environment
 
 Nicht immer ist es notwendig, dass uns Ergebnisse direkt in der Konsole ausgedruckt werden. Mitunter wollen wir Ergebnisse eigentlich nur zwischenspeichern, um sie dann weiter zu verwenden. Dafür bietet `R` die Möglichkeit, Ergebnisse in sogenannten Objekten abzulegen. Die Zuweisung eines Ergebnisses zu einem Objekt erfolgt über den Zuweisungspfeil `<-`. Die Zuweisung ist zwar auch durch ein einfaches Gleichheitszeichen `=` möglich, aber der Zuweisungspfeil ist aus unserer Sicht übersichtlicher, da das `=` auch für andere Dinge genutzt wird (siehe bspw. die Argumente).
@@ -302,6 +320,15 @@ num_sqrt                # Ausgabe des Ergebnisses
 ```
 ## [1] 0.7943109
 ```
+
+Wollen wir mehrere Zahlen in ein Objekt ablegen, kann dies durch die Festlegung eines Vektors mittels der Funktion `c()` erfolgen. Die einzlenen Einträge werden wie üblich für Argumente durch Kommas getrennt.
+
+
+``` r
+vec <- c(3, 4, 1, 2)    # Erstellung eines Vektors
+```
+
+Objekte mit mehreren Dimensionen (also Zeilen und Spalten), werden im nächsten Tutorial vorgestellt, bei dem Datensätze mehr im Vordergrund stehen.
 
 ## Funktionen Schachteln
 
@@ -353,6 +380,35 @@ Verwendung der Pipe | `funktion1(argument) \|> funktion2()`
 
 Die Entscheidung für eine Variante hängt von eigenen Präferenzen und dem Kontext ab. Hinsichtlich des Kontexts lässt sich sagen, dass Ergebinsse, die im Verlauf des Skripts an mehreren Stellen gebraucht werden, als Objekte abgelegt werden sollten. Wenn mehrere Argumente der Hauptfunktion erst aus anderen Funktionen erzeugt werden müssen, bietet sich das Schachteln an. Ansonsten bietet sich die Pipe an, weil sie die Syntax lesbarer macht. 
 
+## Daten speichern und laden
+
+Die hauptsächlichen Bestandteile, die gespeichert (und auch geladen werden) sind das Skript, an dem wir nun einige Aspekte geschrieben haben und Grafiken, zu deren Erstellung wir später noch kommen. Diese beiden Aspekte können ganz normal über die Bedienoberfläche von RStudio gespeichert werden, wie es auch in einem Microsoft Office / Open Office (...) Dokument gemacht werden würde (unter File und Speichern Unter). Das zugehörige Dateiformat für eine normale R Skriptdatei ist `.R`. 
+
+Objekte des Environments werden üblicherweise nicht gespeichert, da sie in der Regel immer wieder hergestellt werden können. Es gibt aber vielleicht auch Ausnahmen bei komplexen Analysen, deren Berechnungszeit man nicht immer wieder aufbringen möchte (bspw. Multiple Imputation, Bootstrapping...). Hier hat man die Möglichkeit, auch einzelne Objekte aus dem Environment für die zukünftige Nutzung zu speichern. Möglichkeiten gibt es hier bspw. auch für das Schreiben von Excel-Tabellen, aber R hat auch eigene Dateiformate. Wir nutzen hier das Format `.RData`, das aufgrund des Namens eindeutig mit R in Verbindung gebracht wird. Während es auch zum Speichern von Objekten Klickpfade gibt, können wir es auch Skriptbasiert durchführen. Das hilft uns auch schonmal die Verzeichnislogik von R zu verstehen. R sieht ein Verzeichnis des Computers als Arbeitsverzeichnis (Working Directory) an. Das ist der Ort, an dem R auch nach Dateien suchen würde, wenn wir sie einladen. Welches Verzeichnis das ist, steht überhalb der Konsole neben der Versionsnummer. Der Standard ist häufig der Home Ordner oder der Dokumente Ordner. Nun will man aber vielleicht nicht in diesem Verzeichnis alle Dateien speichern, sondern spezifischer einen Unterordner haben. Um das Verzeichnis zu wechseln gibt es die Funktion `setwd()` (set working directory). Bspw. kann ich in den Unterordner Workshop_FDZ in Dokumente auf meinem Laptop folgendermaßen wechseln:
+
+
+``` r
+setwd("C:/Users/nehler/Documents/Workshop_FDZ")
+```
+
+Der Code muss natürlich für Ihren Verzeichnisaufbau angepasst werden. Wichtig ist dabei, dass auch auf Windows, wo die Ordnerlogik normalerweise mit Backslashes `\` erfolgt, hier die Schrägstriche `/` genutzt werden. Beim Ausführen der Funktion ändert sich nun das Arbeitsverzeichnis, das neben der Versionsnummer angezeigt wird.
+
+Nun können wir also Objekte speichern. Dafür gibt es die Funktion `save()`. Diese nimmt als Argumente die Objekte, die gespeichert werden sollen und den Dateinamen, unter dem sie gespeichert werden sollen. Beispielsweise können wir das eben erstellte Objekt `num` speichern:
+
+
+``` r
+save(num, file = "num.RData") # Speichern des Objekts
+```
+
+Die Datei wird nun im Arbeitsverzeichnis gespeichert. Zum Abschluss wollen wir die Datei nochmal einladen. Damit wir hier einen Erfolg sehen können, müssen wir zunächst unser Environment leeren. Dafür können wir in der Kachel zum Environment auf den Besen klicken. Wir werden nochmal um Bestätigung gebeten. Um jetzt das Objekt wieder zu laden, nutzen wir die Funktion `load()`:
+
+
+``` r
+load("num.RData") # Laden des Objekts
+```
+
+An dieser Stelle ist nochmal zu sagen, dass dieses Vorgehen für so schnell erstellte Objekte nicht empfohlen wird. Außerdem lernen wir im nächsten Skript auch noch einen sehr einfachen Weg zum setzen des Workring Directory kennen.
+ 
 ## Abschluss
 
 Nachdem wir uns mit den Grundlagen von `R` und RStudio vertraut gemacht haben, können wir uns nun an die Arbeit mit Datensätzen machen. Im folgenden Tutorial werden wir uns mit dem Einlesen von Datensätzen, der Datenaufbereitung und der deskriptiven Datenauswertung beschäftigen.

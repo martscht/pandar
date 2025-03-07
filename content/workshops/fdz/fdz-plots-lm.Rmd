@@ -87,7 +87,7 @@ data$Year <- fct_recode(data$Year,
                         "8. Schuljahr" = "Year8")
 # NA-Werte ersetzen
 data <- data %>%
-  mutate(across(everything(), ~ na_if(.x, -9)))
+  mutate(across(where(is.numeric), ~ na_if(.x, -9)))
 # Skalenwerte erstellen
 data <- data %>%
   mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
@@ -107,23 +107,149 @@ data <- data %>%
 ```
 
 ```{r, echo = FALSE}
-library(haven)
-data <- read_sav(file = "../../daten/fb22_mod.sav")
-data$geschl_faktor <- factor(data$geschl,                                   # Ausgangsvariable
-                             levels = c(1, 2, 3),                           # Faktorstufen
-                             labels = c("weiblich", "männlich", "anderes")) # Label für Faktorstufen
-data$nr_ges <- rowMeans(data[,c("nr1", "nr2", "nr3", "nr4", "nr5", "nr6")])
-data$prok <- rowMeans(data[,c("prok1", "prok4", "prok6", "prok9", "prok10")])
-
-data$wohnen_faktor <- factor(data$wohnen,                                   
-                             levels = c(1, 2, 3, 4),                                
-                             labels = c("WG", "bei Eltern", "alleine", "sonstiges")) 
+# Paket einladen
+library(readxl)
+library(dplyr)
+library(forcats)
+# Daten einladen
+source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
+# Faktoren erstellen
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+data$Year <- as.factor(data$Year)
+# Faktoren Rekodieren
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+# NA-Werte ersetzen
+data <- data %>%
+  mutate(across(where(is.numeric), ~ na_if(.x, -9)))
+# Skalenwerte erstellen
+data <- data %>%
+  mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+# Gruppierungsvariablen erstellen
+data <- data %>%
+  mutate(Achiever = case_when(
+    Total_Competence_Maths >= 4 & 
+    Total_Competence_English >= 4 & 
+    Total_Competence_Science >= 4 ~ "High Achiever",
+    
+    Total_Competence_Maths == 1 & 
+    Total_Competence_English == 1 & 
+    Total_Competence_Science == 1 ~ "Low Achiever",
+    
+    TRUE ~ "Medium Achiever"  # Alle anderen Fälle
+  ))
 ```
 
 
 
+## Grafikerstellung
 
-Während die Grafikerstellung mit den Basic R Funktionen, wie wir gesehen haben, sehr leicht möglich ist, stößt dieses Vorgehen bei komplexen Analysen irgendwann an ihre Grenzen. Daher gibt es ein Paket, was spezifisch Grafikerstellung als Thema hat `ggplot2`. Die da drin verwendete Syntax unterscheidet sich ein wenig von der normalen R-Syntax, weshalb die Verwendung über diesen Workshop hinaus gehen würde. Auf pandaR gibt es dazu die Dokumentation eines [ganzen Workshop](/workshops/main/#ggplotting) oder auch ein einzelnes, einführendes [Tutorial](/lehre/statistik-ii/grafiken-mit-ggplot2/).
+Neben der Durchführung analytischer Methoden ist auch die Grafikerstellung in Basic R grundsätzlich möglich. Die Logik dabei bleibt auch dahingehend gleich, dass eine Funktion aufgerufen wird, die bestimmte Argumente benötigt. 
+
+Wollen wir zum Beispiel uns die Häufigkeiten für Geschlecht als Balekndiagramm anzeigen lassen, können wir die `barplot`-Funktion verwenden. Die Häufigkeiten selbst werden, wie bereits gelernt, mit der `table()` Funktion erstellt. 
+
+```{r}
+gender_freq <- table(data$Gender)
+barplot(gender_freq)
+```
+
+Natürlich könnten diese beiden Schritte auch in einer Zeile zusammengefasst werden, indem man die Funktion schachtelt. Durch die Nutzung der `barplot()` Funktion gewinnen wir schon einen guten Überblick über die Daten, doch wenn wir in die zugehörige Hilfe schauen, sehen wir, dass die optische Aufbereitung durch viele zusätzliche Argumente noch verbessert werden könnte. Einige von diesen werden wir häufiger verwenden. Bspw. verwendet man `main` für den Titel, `xlab` und `ylab` für die Achsenbeschriftung.
+
+```{r}
+barplot(table(data$Gender), 
+        main = "Geschlechtshäufigkeiten", 
+        xlab = "Geschlecht", 
+        ylab = "Absolute Häufigkeit")
+```
+
+Als Darstellungsform für ordinalskalierte Variablen wird häufig ein Boxplot verwendet. Auch dieser ist sehr einfach nutzbar über die Funktion `boxplot()`. Dabei nutzen wir direkt auch die Möglichkeit, die Grafik zu beschriften.
+
+```{r}
+boxplot(data$Total_Competence_Science, 
+        main = "Boxplot der Kompetenz in Naturwissenschaften", 
+        ylab = "Skalenscore")
+```
+
+In der Hilfe der `boxplot()` Funktion sehen wir, dass auch hier viele Argumente zur Verfügung stehen, um die Grafik zu verändern. So können wir beispielsweise die Farbe der Box (`col`) und die Füllung der Box (`red`) verändern. 
+
+```{r}
+boxplot(data$Total_Competence_Science, 
+        main = "Boxplot der Kompetenz in Naturwissenschaften", 
+        ylab = "Skalenscore",
+        col = "blue",
+        border = "red")
+``` 
+ 
+Die gerade getroffene farbliche Wahl entspricht wohl weniger einer optischen verbesserung. Deshalb gibt es auch die Möglichkeit, Farben aus einer Palette zu wählen. Hierfür gibt es in R bspw. die Funktion `terrain_colors()`, die eine Palette von Farben zurückgibt. Als Argument wird die Anzahl der Farben übergeben.
+
+```{r}
+terrain.colors(2)
+```
+
+Die Farben werden in Hex-Farbcode dargestellt. Die einzelnen Ergebnisse der Funktion wollen wir jetzt in unsere Zeichnung aufnehmen. Dabei können wir über die eckigen Klammern einzelne Beiträge aus dem Farbvektor ansprechen.
+
+```{r}
+terrain.colors(2)[1]
+```
+
+Wenden wir es im Boxplot an.
+
+```{r}
+boxplot(data$Total_Competence_Science, 
+        main = "Boxplot der Kompetenz in Naturwissenschaften", 
+        ylab = "Skalenscore",
+        col = terrain.colors(2)[2],
+        border = terrain.colors(2)[1])
+```
+
+
+Für kontinuierliche Daten oder zumindest solche, die dieser Eigenschaft sehr nahe kommen, wird für die Darstellung häufig ein Histogramm verwendet. Auch hierfür gibt es eine Funktion in R, die `hist()` heißt. Nehmen wir als Beispiel die Variable Selbstkonzept in der Mathematik (`Total_SelfConcept_Maths`).
+
+```{r}
+hist(data$Total_SelfConcept_Maths, 
+     main = "Histogramm des Selbstkonzepts in Mathematik", 
+     xlab = "Selbstkonzept Mathematik", 
+     ylab = "Absolute Häufigkeit")
+```
+
+In der Hilfe sehen wir, dass für ein Histogramm das Argument `breaks` genutzt werden kann, um die Anzahl der Klassen zu bestimmen. Die Voreinstellung ist dabei `breaks = "Sturges"`, was eine Methode zur Bestimmung der Anzahl der Klassen ist. Gleichzeitig kann man hier aber auch selbst alle Grenzen bestimmen oder auch einfach nur die gewünschte Anzahl an Klassen eingeben. Bspw. können wir versuchen ein Histogramm mit 10 Klassen zu erzeugen, indem wir `breaks = 10` setzen.
+
+```{r}
+hist(data$Total_SelfConcept_Maths, 
+     main = "Histogramm des Selbstkonzepts in Mathematik", 
+     xlab = "Selbstkonzept Mathematik", 
+     ylab = "Absolute Häufigkeit",
+     breaks = 10)
+```
+
+Wie wir sehen ändert sich nichts in der Anzahl der Klassen. Das liegt daran, dass die Funktion `hist()` die Anzahl der Klassen nur als Vorschlag sieht - das wird in der Hilfe auch beschrieben. Dieses Vorgehen ist ein seltenerer Fall in R, kommt aber durchaus vor, weshalb man sich dieser Möglichkeit generell bewusst sein sollte. 
+
+
+Bisher haben wir die Darstellungen auf nur eine Variable konzentriert. Doch auch die Darstellung von zwei Variablen ist möglich. Als Beispiel nutzen wir hier den Scatterplot, der die Beziehung zwischen zwei Variablen darstellt. Betrachten wir die Leistung im Fach Mathematik (`Maths_AttainmentData`) in Abhängigkeit vom zugehörigen Selbstkonzept `Total_SelfConcept_Maths`. Hier gibt es nun die Möglichkeit, die ersten beiden Argumente `x` und `y` zu nutzen, um die beiden Variablen anzugeben. 
+
+```{r}
+plot(x = data$Total_SelfConcept_Maths, 
+     y = data$Maths_AttainmentData, 
+     main = "Scatterplot Mathematikleistung und Selbstkonzept",
+     xlab = "Selbstkonzept Mathematik",
+     ylab = "Mathematikleistung")
+``` 
+
+Es gibt auch Grafikfunktionen, die nicht direkt einen Plot erstellen, sondern in eine schon existierende Fragik zusätzlich Elemente einfügen. Ein Beispiel dafür ist die `abline()` Funktion, die eine Linie in den Plot einfügt. Wenn wir beispielsweise eine optische Trennung erzeugen von Schüler:innen mit niedrigeren und höheren Werten als 6 in der Mathematikleistung, können wir eine horizontale Linie in den Plot einfügen mit dem Argument `h`.
+
+```{r}
+plot(x = data$Total_SelfConcept_Maths, 
+     y = data$Maths_AttainmentData, 
+     main = "Scatterplot Mathematikleistung und Selbstkonzept",
+     xlab = "Selbstkonzept Mathematik",
+     ylab = "Mathematikleistung")
+abline(h = 6)
+``` 
+
+Während die Grafikerstellung mit den Basic R Funktionen, wie wir gesehen haben, sehr leicht möglich ist, stößt dieses Vorgehen bei komplexen Analysen irgendwann an ihre Grenzen. Daher gibt es ein Paket, was spezifisch Grafikerstellung als Thema hat `ggplot2`. Die darin verwendete Syntax unterscheidet sich ein wenig von der normalen R-Syntax, weshalb die Verwendung über diesen Workshop hinaus gehen würde. Auf pandaR gibt es dazu die Dokumentation eines [ganzen Workshop](/workshops/main/#ggplotting) oder auch ein einzelnes, einführendes [Tutorial](/lehre/statistik-ii/grafiken-mit-ggplot2/).
 
 
 ## lineare Modellierung
@@ -136,7 +262,7 @@ Zunächst betrachten wir die Syntax für Abhängigkeiten in `R`. Dies wollen wir
 
 
 ```{r}
-aggregate(extra ~ geschl_faktor, data = data, FUN = mean)
+aggregate(Total_SelfEsteem ~ Achiever, data = data, FUN = mean)
 ```
 
 Das ist sozusagen die Basis R Variante für die Verwendung von `group_by` und `summarize` aus dem `dplyr` Paket. Die `~` symbolisiert die Abhängigkeit - vor der Tilde steht die abhängige Variable, nach der Tilde die unabhängige Variable. 
@@ -180,11 +306,30 @@ Neben der händischen Exploration eines Objektes können wir auch automatische F
 summary(mod)
 ```
 
-Sie zeigt uns die wichtigsten Parameter an. Die `summary`-Funktion ist auch auf Objekte anderer Klassen anwendbar. Wenn wir sie auf den Datensatz anwenden, werden uns Zusammenfassungen der Variablen angezeigt. Auch in den nächsten Blöcken werden wir sie noch verwenden. 
+Sie zeigt uns die wichtigsten Parameter an. Die `summary()`-Funktion ist dahingehend besonders, dass sie auch auf Objekte anderer Klassen (eigentlich fast aller Klassen) anwendbar. Wenn wir sie beispielsweise auf den Datensatz anwenden, werden uns Zusammenfassungen der Variablen angezeigt.
 
 ```{r}
 summary(data)
 ```
+
+Eine andere Funktion, die auf `mod` angewendet werden kann, ist die Funktion `coef()`, die uns die Koeffizienten der Regression anzeigt.  
+
+```{r}
+coef(mod)
+```
+
+Im Endeffekt ist das der Output, der uns standardmäßig von `lm()` angezeigt wird. Wir können unser Wissen jetzt kombinieren und in den Scatterplot zwischen den beiden Variablen der Regression auch die geschätzte Regressionsgerade einzeichnen. Dafür bauen wir wieder zunächst den Scatterplot und fügen dann über `abline()` die Regressionsgerade ein.
+
+```{r}
+plot(x = data$Total_SelfConcept_Maths, 
+     y = data$Maths_AttainmentData, 
+     main = "Scatterplot Mathematikleistung und Selbstkonzept",
+     xlab = "Selbstkonzept Mathematik",
+     ylab = "Mathematikleistung")
+abline(mod)
+```
+
+Wir können uns hier zur Nutze machen, dass `abline()` Achsenabschnitt und Steigung automatisch aus dem Modell ziehen kann.
 
 Die einfache lineare Modellierung kann [hier](/lehre/statistik-i/einfache-regression/) vertieft werden.
 
@@ -222,117 +367,42 @@ Wir sehen, dass `Gender` in der Syntax genauso notiert wird wie kontinuierlich P
 
 ### Moderierte Regression
 
-Nun soll der Interaktionseffekt zwischen zwei Variablen aufgenommen werden. Bevor wir dies tun, müssen wir die Variablen zentrieren, damit Multikollinearität vorgebeugt wird. 
+Nun soll der Interaktionseffekt zwischen zwei Variablen aufgenommen werden. Bevor wir dies tun, müssen wir die Variablen zentrieren, damit Multikollinearität vorgebeugt wird. Zentrierung und Standardisierung funktionieren über die Funktion `scale()`. Wenn wir nur eine Zentrierung erreichen wollen, müssen wir das Argument `scale` auf `FALSE` setzen. Statt der langen Schreibweise `FALSE` können wir auch einfach `F` schreiben.
 
 ```{r}
-data$neuro_center <- scale(data$neuro, scale = F, center = T)
-data$intel_center <- scale(data$intel, scale = F, center = T)
+data$Total_SelfConcept_Maths_center <- scale(data$Total_SelfConcept_Maths, scale = F, center = T)
+data$Total_Competence_Maths_center <- scale(data$Total_Competence_Maths, scale = F, center = T)
 ```
 
-Wir überprüfen die Funktionalität; diese ist nicht immer genau null, aber maschinell gesehen schon.
+Wir überprüfen die Funktionalität, indem wir uns den Mittelwert der Variablen ausgeben lassen.
 
 ```{r}
-mean(data$neuro_center)
-mean(data$intel_center)
+mean(data$Total_SelfConcept_Maths_center, na.rm = TRUE)
+mean(data$Total_Competence_Maths_center, na.rm = TRUE)
 ```
+
+Wir sehen direkt, dass hier nicht einfach eine 0 steht. Das liegt aber an maschineler Ungenauigkeit - das `e-`symbolisert Nachkommastellen. Wir haben hier also eine sehr kleine Zahl, die maschinell gesehen nicht verschieden von 0 ist.
 
 Setzen wir nun die lineare Modellierung mit Moderationseffekt um. Da eine Moderation eine Multiplikation der Effekte ist, würde man intuitiv den Code folgendermaßen schreiben. 
 
 ```{r}
-mod_inter_nocenter <- lm(lz ~ neuro + intel + neuro * intel, data = data)
-mod_inter_center <- lm(lz ~ neuro_center + intel_center + neuro_center * intel_center, data = data)
-summary(mod_inter_nocenter)
-summary(mod_inter_center)
+mod_inter <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths_center + Total_Competence_Maths_center + Total_SelfConcept_Maths_center * Total_Competence_Maths_center, data = data)
 ```
-Wir sehen, dass die Zentralisierung wie erwartet die Standardfehler reduziert hat. Kommen wir jetzt nochmal zurück zum Code: die intuitive Lösung mit der Multiplikation benötigt theoretisch nicht die einzelne Aufführung der Variablen, die Teil der Interaktion sind.
+
+Die intuitive Lösung mit der Multiplikation benötigt theoretisch nicht die einzelne Aufführung der Variablen, die Teil der Interaktion sind.
 
 ```{r}
-mod_inter_center <- lm(lz ~ neuro_center * intel_center, data = data)
-summary(mod_inter_center)
+mod_inter <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths_center * Total_Competence_Maths_center, data = data)
+
 ```
 
 Allerdings hat das natürlich den Nachteil, dass man nicht spezifisch auswählt und damit nicht so stark über sein Modell nachdenken muss. Es besteht daher die Möglichkeit, Interaktionen sehr präzise mit dem `:` auszuwählen.  
 
 ```{r}
-mod_inter_center <- lm(lz ~ neuro_center + intel_center + neuro_center:intel_center, data = data)
-summary(mod_inter_center)
+mod_inter <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths_center + Total_Competence_Maths_center + Total_SelfConcept_Maths_center:Total_Competence_Maths_center, data = data)
 ```
  
+Weitere Infos zur Moderation, besonders zum Zusammenspiel mit quadratischen Effekten, finden sich [hier](/lehre/statistik-ii/moderierte-reg/). 
 
 
-```{r, eval = FALSE}
-install.packages("interactions")
-library(interactions)
-```
-
-```{r}
-library(interactions)
-```
-
-Die Festlegung des Moderators kann `R` natürlich nicht für uns übernehmen.
-
-```{r}
-interact_plot(model = mod_inter_center, pred = intel_center, modx = neuro_center)
-```
-
-Weitere Infos zur Moderation, besonders zum Zusammenspiel mit quadratischen Effekten, finden sich [hier](https://pandar.netlify.app/post/ancova-und-moderierte-regression/). <!-- Beitrag fehlt noch, Teil von MSc5a-->
-
-## Anwendungen
- 
- 
-1. Gruppierter Boxplot
-
-1. Erstelle eine multiple Regression mit Extraversion als abhängiger Variable und Art des Wohnens sowie Verträglichkeit als unabhängigen Variablen.
-
-<details><summary>Lösung</summary>
-
-```{r}
-mod_extra <- lm(extra ~ wohnen_faktor + vertr, data = data)
-summary(mod_extra)
-```
-
-</details>
-
-2. Finde mit Hilfe des Internets heraus, wie standardisierte Regressionsparameter mit Hilfe einer Funktion ausgegeben werden können.
-
-<details><summary>Lösung</summary>
-
-```{r}
-library(lm.beta)
-lm.beta(mod_extra)
-summary(lm.beta(mod_extra))
-```
-
-Eine geschachtelte Funktion ist teilweise schwierig zu lesen. Es gibt als Lösung die Pipe, die ein Objekt in eine weitere Funktion weitergibt. 
-
-```{r}
-mod_extra |> lm.beta() |> summary()
-```
-
-</details>
-
-3. Zur Veranschaulichung des Codes - keine Empfehlung für solch ein Modell: Nun sollen statt Art des Wohnens die Skalenscores für Prokrastination und Naturverbundenheit genutzt werden. Außerdem soll die Dreifachinteraktion der Prädiktoren aufgenommen werden, aber keine Interaktionen zwischen zwei Prädiktoren.
-
-<details><summary>Lösung</summary>
-
-```{r}
-data$nr_ges_center <- scale(data$nr_ges, scale = F, center = T) 
-data$prok_center <- scale(data$prok, scale = F, center = T)
-data$vertr_center <- scale(data$vertr, scale = F, center = T)
-```
-
-
-```{r}
-mod_falsch <- lm(extra ~ nr_ges_center * prok_center * vertr_center, data = data)
-summary(mod_falsch)
-```
-
-```{r}
-mod_korrekt <- lm(extra ~ nr_ges_center + prok_center + vertr_center + nr_ges_center:prok_center:vertr_center, data = data)
-summary(mod_korrekt)
-```
-
-Anmerkung: Es ist empfehlenswert, keine Modelle zu bestimmen, in denen Interaktionen niedrigerer Ordnung nicht drin sind.
-
-</details>
  

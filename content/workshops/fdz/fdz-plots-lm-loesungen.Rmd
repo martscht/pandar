@@ -1,0 +1,203 @@
+---
+title: Basisfunktionen zur Grafikerstellung und lineare Modelle - Lösungen
+type: post
+date: '2025-02-28' 
+slug: fdz-plots-lm-loesungen 
+categories: [] 
+tags: [] 
+subtitle: ''
+summary: '' 
+authors: [nehler] 
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/toy_car_crash.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+projects: []
+
+expiryDate: ''
+publishDate: ''
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /workshops/fdz/fdz-plots-lm
+  - icon_pack: fas
+    icon: star
+    name: Aufgaben
+    url: /workshops/fdz/fdz-plots-lm-aufgaben
+
+_build:
+  list: never
+output:
+  html_document:
+    keep_md: true
+---
+
+
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
+Denken Sie bei allen Aufgaben daran, den Code im R-Skript sinnvoll zu gliedern und zu kommentieren.
+
+
+## Teil 1 - Grafikerstellung
+
+Aufgabenideen
+- histogramm zeichnen und limits anpassen, Farbe der Umrandungen soll Türkis sein - Farbe wie rot und blau, finden Sie heraus, wie man sich alle voreingestellten Farben anzeigen lassen kann und wählen Sie darin ein Türkis das ihnen gefällt.
+- Balkendiagramm für die Variable Ethnicity mit Farben für jede einzelne Kategorie aus der Palette rainbow()
+- boxplot für eine Variable, drehen und dann die Darstellung von Ausreißern ändern
+- scatterplot erstellen und die Darstellung der Punkte ändern
+
+
+
+1. Bestimmen Sie das Ergebnis von $2 + 60 \div 5$
+
+<details><summary>Lösung</summary>
+
+```{r}
+#### Aufgaben des Tutorials zur Einführung von RStudio und R ----
+##### Aufgabe 1 -----
+2 + 60 / 5 # Ausführung Rechenoperation
+```
+
+</details>
+
+
+2. Prüfen Sie mit logischen Operatoren, ob das Ergebnis aus der letzten Aufgabe dasselbe ist, wie $3 \cdot 29$ oder $ 70 \div 5$.
+
+<details><summary>Lösung</summary>
+
+Bei der Lösung kommen die logischen Operatoren `==` zum Einsatz, um zwei Rechenoperationen miteinander zu vergleichen. Hier muss besonders darauf geachtet werden, dass die Berechnung zuerst durchgeführt wird und dann der Vergleich stattfindet. Dies erreicht man, indem man die Berechnung in Klammern setzt.
+
+```{r}
+##### Aufgabe 2 -----
+(2 + 60 / 5) == (3 * 29) # logischer Vergleich zweier Rechenoperationen
+(2 + 60 / 5) == (70 / 5) # logischer Vergleich zweier Rechenoperationen
+```
+
+</details>
+
+
+
+3. Bestimmen Sie $\sqrt{115}$ und legen Sie das (ganzzahlig) gerundete Ergebnis in einem Objekt namens `zahl` ab. Die zugehörige Funktion für das Runden heißt `round()`. Nutzen Sie die Hilfe, um die passenden Argumente einzugeben.
+
+<details><summary>Lösung</summary>
+
+```{r}
+##### Aufgabe 3 -----
+zahl <- round(sqrt(115), digits = 0) # Berechnung und Rundung der Quadratwurzel von 115
+```
+
+</details>
+
+4. Sie wollen den Betrag der Zahl -5 bestimmen. Wie können Sie dies in R umsetzen? Nutzen Sie für das Suchen einer geeigneten Funktion die Hilfe oder das Internet.
+
+<details><summary>Lösung</summary>
+Die einfachste Funktion zum Bestimmen des Betrags einer Zahl ist `abs()`. 
+
+```{r}
+##### Aufgabe 4 -----
+abs(-5) # Berechnung des Betrags einer Zahl
+```
+
+</details>
+
+5. Folgende Syntax verursacht ein Warning: `sqrt(-1)`. Wodurch kommt diese Warning zu Stande?
+
+<details><summary>Lösung</summary>
+
+```{r, warning = T}
+##### Aufgabe 5 -----
+sqrt(-1)  # Betrachten der Warnung
+```
+
+Die Warnung entsteht, da die Quadratwurzel von negativen Zahlen in der reellen Zahlenmenge nicht definiert ist. Hier gibt R ähnlich wie im Tutorial aus, dass die Lösung `NaN` - also "Not a Number" ist.
+
+</details>
+
+6. Folgende Syntax verursacht einen Fehler: `6 * 1,56`. Wodurch kommt dieser Fehler zustande? Kann dieser Fehler behoben werden?
+
+<details><summary>Lösung</summary>
+
+```{r, error = T}
+##### Aufgabe 6 -----
+6 * 1,56    # Betrachten des Fehlers
+```
+
+In der Syntax wird fälschlicherweise das Komma als Dezimaltrennzeichen genutzt. Wenn man das Komma durch einen Punkt ersetzt, funktioniert die Syntax problemlos:
+
+```{r}
+6 * 1.56     # Korrekte Syntax
+```
+
+</details>
+
+
+## Teil 2 - Lineare Modelle
+## Anwendungen
+ 
+ 
+1. Gruppierter Boxplot
+
+1. Erstelle eine multiple Regression mit Extraversion als abhängiger Variable und Art des Wohnens sowie Verträglichkeit als unabhängigen Variablen.
+
+<details><summary>Lösung</summary>
+
+```{r}
+mod_extra <- lm(extra ~ wohnen_faktor + vertr, data = data)
+summary(mod_extra)
+```
+
+</details>
+
+2. Finde mit Hilfe des Internets heraus, wie standardisierte Regressionsparameter mit Hilfe einer Funktion ausgegeben werden können.
+
+<details><summary>Lösung</summary>
+
+```{r}
+library(lm.beta)
+lm.beta(mod_extra)
+summary(lm.beta(mod_extra))
+```
+
+Eine geschachtelte Funktion ist teilweise schwierig zu lesen. Es gibt als Lösung die Pipe, die ein Objekt in eine weitere Funktion weitergibt. 
+
+```{r}
+mod_extra |> lm.beta() |> summary()
+```
+
+</details>
+
+3. Zur Veranschaulichung des Codes - keine Empfehlung für solch ein Modell: Nun sollen statt Art des Wohnens die Skalenscores für Prokrastination und Naturverbundenheit genutzt werden. Außerdem soll die Dreifachinteraktion der Prädiktoren aufgenommen werden, aber keine Interaktionen zwischen zwei Prädiktoren.
+
+<details><summary>Lösung</summary>
+
+```{r}
+data$nr_ges_center <- scale(data$nr_ges, scale = F, center = T) 
+data$prok_center <- scale(data$prok, scale = F, center = T)
+data$vertr_center <- scale(data$vertr, scale = F, center = T)
+```
+
+
+```{r}
+mod_falsch <- lm(extra ~ nr_ges_center * prok_center * vertr_center, data = data)
+summary(mod_falsch)
+```
+
+```{r}
+mod_korrekt <- lm(extra ~ nr_ges_center + prok_center + vertr_center + nr_ges_center:prok_center:vertr_center, data = data)
+summary(mod_korrekt)
+```
+
+Anmerkung: Es ist empfehlenswert, keine Modelle zu bestimmen, in denen Interaktionen niedrigerer Ordnung nicht drin sind.
+
+</details>
