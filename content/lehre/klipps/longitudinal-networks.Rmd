@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/klipps/psychological-network-analysis
+    url: /lehre/klipps/longitudinal-networks
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /lehre/klipps/psychological-network-analysis.R
+    url: /lehre/klipps/longitudinal-networks.R
   - icon_pack: fas
     icon: newspaper
     name: Artikel
@@ -244,8 +244,8 @@ The dataset utilized in this study is publicly available and can be accessed via
 You can also find the dataset in the Moodle platform. 
 
 ```{r, echo=FALSE, purl=FALSE}
-#load("~/PowerFolders/Lehre/2024/KliPPs/network/COVID19_dynamic_analyses_cleaned.Rdata")
-load(file.path(path.expand("~"), "COVID19_dynamic_analyses_cleaned.Rdata"))
+load("~/PowerFolders/Lehre/2024/KliPPs/network/COVID19_dynamic_analyses_cleaned.Rdata")
+#load(file.path(path.expand("~"), "COVID19_dynamic_analyses_cleaned.Rdata"))
 ```
 
 ```{r, eval = FALSE}
