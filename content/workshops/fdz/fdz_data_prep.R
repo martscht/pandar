@@ -1,6 +1,7 @@
 # Pakete einladen
-library(httr)  # Für die GET-Funktion zum temporären Herunterladen (nicht nötig bei einfachem Download)
-library(readxl) # Für das Einlesen von Excel-Dateien
+if (!require("httr")) install.packages("httr"); library(httr)  # Wenn httr nicht installiert ist, installieren
+if (!require("readxl")) install.packages("readxl"); library(readxl)  # Wenn readxl nicht installiert ist, installieren
+
 
 url <- "https://osf.io/download/snqwr"   # URL zum Download der Excel-Datei
 
