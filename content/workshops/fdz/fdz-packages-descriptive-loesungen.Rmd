@@ -1,0 +1,258 @@
+---
+title: Nutzung von Paketen und Bestimmung Deskriptivstatistiken - Aufgaben
+type: post
+date: '2025-02-28' 
+slug: fdz-packages-descriptive-loesungen 
+categories: [] 
+tags: [] 
+subtitle: ''
+summary: '' 
+authors: [nehler] 
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/toy_car_crash.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+projects: []
+
+expiryDate: ''
+publishDate: ''
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /workshops/fdz/fdz-r-intro
+  - icon_pack: fas
+    icon: star
+    name: Lösungen
+    url: /workshops/fdz/fdz-r-intro-aufgaben
+
+_build:
+  list: never
+output:
+  html_document:
+    keep_md: true
+---
+
+
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
+
+
+Denken Sie bei allen Aufgaben daran, den Code im R-Skript sinnvoll zu gliedern und zu kommentieren.
+
+## Teil 1
+
+Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunächst den Datensatz über die eben vorgestellten Befehle in Ihr Environment. Außerdem sind die nachfolgenden Befehle aus dem Tutorial noch wichtig, die Sie also durchführen sollten, wenn es noch nicht geschehen ist!
+
+```{r, eval = FALSE}
+library(readxl)
+
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+data$Year <- as.factor(data$Year)
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+data$Total_Competence_Maths <- data$Total_Competence_Maths %>% 
+  na_if(-9)
+``` 
+
+Falls Sie sich die Aufgaben unabhängig vom Workshop anschauen, werden folgende Schritte noch benötigt, die im Tutorial durchgeführt wurden.
+
+```{r}
+source()
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+data$Year <- as.factor(data$Year)
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+data$Total_Competence_Maths <- data$Total_Competence_Maths %>% 
+  na_if(-9)
+```
+
+
+1. Welchen Wert hat die 5. Person im Datensatz in der Variable `Total_Competence_English`? Lösen Sie die Aufgabe unter Verwendung der eckigen Klammern.
+
+<details><summary>Lösung</summary>
+Im Gegensatz zu dem Vorgehen im Tutorial wählen wir hier sowohl eine spezifische Zeile als auch eine spezifische Spalte aus. Wir müssen also vor und hinter dem Komma die entsprechenden Indizes angeben. Für die Spalte verwenden wir den Variablennamen, da es schneller ist, als die Spalte herauszufinden.
+
+```{r}
+##### Aufgabe 1 -----
+data[5, "Total_Competence_English"] # Wert der 5. Person in der Variable Total_Competence_English
+```
+
+</details>
+
+2. Betrachten Sie den aktuellen Typ der Variable `Ethnicity`. Verwandeln Sie diesen über eine passende Funktion in einen Faktor. Was ist der Modalwert der Variable?
+
+<details><summary>Lösung</summary>
+
+```{r}
+#### Aufgaben des Tutorials zur Einführung von RStudio und R ----
+##### Aufgabe 1 -----
+2 + 60 / 5 # Ausführung Rechenoperation
+```
+
+</details>
+
+
+2. Überprüfen Sie die Variable `Total_Competence_English` auf fehlende Werte. Wie viele fehlende Werte sind in der Variable enthalten? Kodieren Sie diese korrekt und den Median ( `median()`) der Variable.
+
+<details><summary>Lösung</summary>
+
+Bei der Lösung kommen die logischen Operatoren `==` zum Einsatz, um zwei Rechenoperationen miteinander zu vergleichen. Hier muss besonders darauf geachtet werden, dass die Berechnung zuerst durchgeführt wird und dann der Vergleich stattfindet. Dies erreicht man, indem man die Berechnung in Klammern setzt.
+
+```{r}
+##### Aufgabe 2 -----
+(2 + 60 / 5) == (3 * 29) # logischer Vergleich zweier Rechenoperationen
+(2 + 60 / 5) == (70 / 5) # logischer Vergleich zweier Rechenoperationen
+```
+
+</details>
+
+
+
+3. Die Korrelation wird in R mit der Funktion `cor()` berechnet. Bestimmen Sie die Korrelation zwischen den Variablen `Total_Competence_Maths` und `Total_Competence_English`. Benutzen Sie die Hilfe für die Funktion, um die passenden Argumente zum Umgang mit fehlenden Werte und die Art der Korrelation einzugeben.
+
+<details><summary>Lösung</summary>
+
+```{r}
+##### Aufgabe 3 -----
+zahl <- round(sqrt(115), digits = 0) # Berechnung und Rundung der Quadratwurzel von 115
+```
+
+</details>
+
+4. Korrelation in Kombination mit na_omit
+
+<details><summary>Lösung</summary>
+Die einfachste Funktion zum Bestimmen des Betrags einer Zahl ist `abs()`. 
+
+```{r}
+##### Aufgabe 4 -----
+abs(-5) # Berechnung des Betrags einer Zahl
+```
+
+</details>
+
+5. Wie bereits geschildert führen die Autor:innen die Analyse des Datensatzes getrennt für die beiden Jahrgänge durch. Finden Sie heraus, wie man mit dem `dplyr`-Paket die Daten nach dem Merkmal `Year` filtern und einen Subdatensatz erstellen könnte, in dem nur der jüngere Jahrgang enthalten ist.
+
+<details><summary>Lösung</summary>
+
+```{r, warning = T}
+##### Aufgabe 5 -----
+sqrt(-1)  # Betrachten der Warnung
+```
+
+Die Warnung entsteht, da die Quadratwurzel von negativen Zahlen in der reellen Zahlenmenge nicht definiert ist. Hier gibt R ähnlich wie im Tutorial aus, dass die Lösung `NaN` - also "Not a Number" ist.
+
+</details>
+
+
+
+
+
+## Teil 2
+
+Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunächst den Datensatz über die eben vorgestellten Befehle in Ihr Environment. Außerdem sind die nachfolgenden Befehle aus dem Tutorial / den Aufgaben noch wichtig, die Sie also durchführen sollten, wenn es noch nicht geschehen ist!
+
+```{r, eval = FALSE}
+library(readxl)
+
+# Faktoren anlegen
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+
+data$Year <- as.factor(data$Year)
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+
+# Fehlende Werte ersetzen
+data <- data %>%
+  mutate(across(where(is.numeric), ~ na_if(.x, -9)))
+
+# Skalenwerte berechnen
+data <- data %>%
+  mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+
+# Gruppierungsvariable erstellen
+data <- data %>%
+  mutate(Achiever = case_when(
+    Total_Competence_Maths >= 4 & 
+    Total_Competence_English >= 4 & 
+    Total_Competence_Science >= 4 ~ "High Achiever",
+    
+    Total_Competence_Maths == 1 & 
+    Total_Competence_English == 1 & 
+    Total_Competence_Science == 1 ~ "Low Achiever",
+    
+    TRUE ~ "Medium Achiever"  # Alle anderen Fälle
+  ))
+``` 
+
+Falls Sie sich die Aufgaben unabhängig vom Workshop anschauen, werden folgende Schritte noch benötigt, die im Tutorial durchgeführt wurden.
+
+```{r}
+source()
+# Faktoren anlegen
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+
+data$Year <- as.factor(data$Year)
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+
+# Fehlende Werte ersetzen
+data <- data %>%
+  mutate(across(where(is.numeric), ~ na_if(.x, -9)))
+
+# Skalenwerte berechnen
+data <- data %>%
+  mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+
+# Gruppierungsvariable erstellen
+data <- data %>%
+  mutate(Achiever = case_when(
+    Total_Competence_Maths >= 4 & 
+    Total_Competence_English >= 4 & 
+    Total_Competence_Science >= 4 ~ "High Achiever",
+    
+    Total_Competence_Maths == 1 & 
+    Total_Competence_English == 1 & 
+    Total_Competence_Science == 1 ~ "Low Achiever",
+    
+    TRUE ~ "Medium Achiever"  # Alle anderen Fälle
+  ))
+
+```
+
+
+1. Erstellen Sie einen Skalenscore `Total_SelfConcept` als Mittelwert aus den Variablen `Total_SelfConcept_Maths`, `Total_SelfConcept_Science` und `Total_SelfConcept_English`. Berechnen Sie dann Mittelwert und Median der neuen Variable.
+
+
+2. Finden Sie heraus, welche Person den höchsten Wert in der Variable `Total_SelfConcept` hat. Wie lautet der Wert?
+
+
+3. Die Forscherinnen wollen überprüfen, ob Sie für alle Jugendlichen bereits eine Karriere-Empfehlung machen können. Dafür muss auf einer (oder mehrerer) der 4 Leistungsvariablen (alle haben als Teil des Namens `AttainmentData`) ein Wert von über 10 für ein Kind vorliegen. Erstellen Sie eine neue kategoriale Variable mit dem Namen `Career_Recommendation`, die die Werte `Empfohlen` und `nicht_empfohlen` enthält. Bestimmen Sie dann den Anteil der Werte an Kindern, für die Empfehlungen gegeben werden kann.
+
+
+4. Untersuchen Sie deskriptiv hinsichtlich Mittelwert und Standardabweichung, ob sich das Mindset der Schülerinnen mit und ohne Karriereempfehlung unterscheidet.
+
+

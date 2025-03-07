@@ -64,6 +64,21 @@ sections:
         
     design:
       columns: 2
+
+
+  - block: markdown
+    id: fdz
+    content:
+      title: Einführung in R
+      subtitle: Teil der [FDZ Frühjahrsakademie 2025](https://www.iqb.hu-berlin.de/institut/v/v005)
+      text:
+        Hier findet sich das Material für den Workshop zur Einführung in R, der am 11. und 12. März 2025 im Rahmen der FDZ Frühjahrsakademie des Instituts für Qualitätsentwicklung im Bildungswesen e.V. gehalten wurde. 
+
+
+        {{< category_list "fdz" 3 >}}
+        
+    design:
+      columns: 2
       
 ---
 
