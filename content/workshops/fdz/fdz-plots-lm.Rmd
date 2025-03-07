@@ -1,0 +1,338 @@
+---
+title: Basisfunktionen zur Grafikerstellung und lineare Modelle
+type: post
+date: '2025-02-28'
+slug: fdz-plots-lm
+categories: ["fdz"]
+tags: ["Grafiken", "Regression"]
+subtitle: ''
+summary: ''
+authors: [nehler]
+weight: 3
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/metal_beams_electricity.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/140211)"
+projects: []
+
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /workshops/fdz/fdz-plots-lm
+  - icon_pack: fas
+    icon: terminal
+    name: Code
+    url: /workshops/fdz/fdz-plots-lm.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Aufgaben
+    url: /workshops/fdz/fdz-plots-lm-aufgaben
+  - icon_pack: fas
+    icon: star
+    name: Lösungen
+    url: /workshops/fdz/fdz-plots-lm-loesungen
+
+
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
+
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
+```{r, echo=FALSE}
+library(knitr)
+```
+
+
+
+
+
+
+
+## Vorbereitung
+
+Zunächst müssen wir das `readxl`, `forcats` und das `dplyr` Paket wieder aktivieren und einen Teil des Code aus dem letzten Tutorial wieder durchführen.
+
+```{r, eval = FALSE}
+# Paket einladen
+library(readxl)
+library(dplyr)
+library(forcats)
+# Pfad setzen
+rstudioapi::getActiveDocumentContext()$path |>
+  dirname() |>
+  setwd()
+# Daten einladen
+data <- read_excel("Pennington_2021.xlsx", sheet = "Study_Data")
+# Faktoren erstellen
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+data$Year <- as.factor(data$Year)
+# Faktoren Rekodieren
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+# NA-Werte ersetzen
+data <- data %>%
+  mutate(across(everything(), ~ na_if(.x, -9)))
+# Skalenwerte erstellen
+data <- data %>%
+  mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+# Gruppierungsvariablen erstellen
+data <- data %>%
+  mutate(Achiever = case_when(
+    Total_Competence_Maths >= 4 & 
+    Total_Competence_English >= 4 & 
+    Total_Competence_Science >= 4 ~ "High Achiever",
+    
+    Total_Competence_Maths == 1 & 
+    Total_Competence_English == 1 & 
+    Total_Competence_Science == 1 ~ "Low Achiever",
+    
+    TRUE ~ "Medium Achiever"  # Alle anderen Fälle
+  ))
+```
+
+```{r, echo = FALSE}
+library(haven)
+data <- read_sav(file = "../../daten/fb22_mod.sav")
+data$geschl_faktor <- factor(data$geschl,                                   # Ausgangsvariable
+                             levels = c(1, 2, 3),                           # Faktorstufen
+                             labels = c("weiblich", "männlich", "anderes")) # Label für Faktorstufen
+data$nr_ges <- rowMeans(data[,c("nr1", "nr2", "nr3", "nr4", "nr5", "nr6")])
+data$prok <- rowMeans(data[,c("prok1", "prok4", "prok6", "prok9", "prok10")])
+
+data$wohnen_faktor <- factor(data$wohnen,                                   
+                             levels = c(1, 2, 3, 4),                                
+                             labels = c("WG", "bei Eltern", "alleine", "sonstiges")) 
+```
+
+
+
+
+Während die Grafikerstellung mit den Basic R Funktionen, wie wir gesehen haben, sehr leicht möglich ist, stößt dieses Vorgehen bei komplexen Analysen irgendwann an ihre Grenzen. Daher gibt es ein Paket, was spezifisch Grafikerstellung als Thema hat `ggplot2`. Die da drin verwendete Syntax unterscheidet sich ein wenig von der normalen R-Syntax, weshalb die Verwendung über diesen Workshop hinaus gehen würde. Auf pandaR gibt es dazu die Dokumentation eines [ganzen Workshop](/workshops/main/#ggplotting) oder auch ein einzelnes, einführendes [Tutorial](/lehre/statistik-ii/grafiken-mit-ggplot2/).
+
+
+## lineare Modellierung
+
+Zum Abschluss lernen wir noch die Syntax von der Modellierun in Basic-R-Syntax kennen. Dabei beziehen wir uns hier auf lineare Regressionsmodelle, aber auch bei hierarchischer oder generalierter Regression ist diese Syntax die Basis. 
+
+### Syntax
+
+Zunächst betrachten wir die Syntax für Abhängigkeiten in `R`. Dies wollen wir anhand der `aggregate`-Funktion demonstrieren. Hier wird eine bestimmte Operation an einer Variable in Abhängigkeit einer anderen Variable durchgeführt. 
+
+
+```{r}
+aggregate(extra ~ geschl_faktor, data = data, FUN = mean)
+```
+
+Das ist sozusagen die Basis R Variante für die Verwendung von `group_by` und `summarize` aus dem `dplyr` Paket. Die `~` symbolisiert die Abhängigkeit - vor der Tilde steht die abhängige Variable, nach der Tilde die unabhängige Variable. 
+
+### Einfaches lineares Modell
+
+Nun übertragen wir die eben gelernte Syntaxlogik und schauen uns die Variable zur Leistung im Fach Mathematik (`Maths_AttainmentData`) in Abhängigkeit vom zugehörigen Selbstkonzept `Total_SelfConcept_Maths` an. Die Syntax ist dabei so aufgebaut, dass im ersten Argument eine Formel verlangt wird. Unabhängige Variable und abhängige Variable müssen definiert werden, die `1` repräsentiert den Achsenabschnitt. Im zweiten Argument kann ein Datensatz aufgeführt werden, in dem die jeweiligen Variablen zu finden sind. Es ist zwar auch möglich, dass wir den Datensatznamen jeweils vor dem Variablennamen mit dem `$`-Zeichen angeben (`data$Maths_AttainmentData ~ 1 + data$Total_SelfConcept_Maths`), aber das wird vor allem bei multipler Regression unübersichtlich.  
+
+```{r}
+lm(formula = Maths_AttainmentData ~ 1 + Total_SelfConcept_Maths, data = data)
+```
+
+Bevor wir uns um den Output kümmern, noch ein paar Hinweise zur Syntax. Da das erste Argument immer die Formel ist, wird der Argumentnamen häufig nicht mit aufgeführt. Weiterhin passiert die Schätzung des Achsenabschnitts als default, sodass wir diesen nicht explizit mit der `1` angeben müssen. In der Praxis würde man also vermutlich eher folgndenen Code sehen.
+
+```{r}
+lm(Maths_AttainmentData ~ Total_SelfConcept_Maths, data = data)
+```
+
+Die Funktion `lm()` selbst hat offenbar erstmal nur eine sehr beschränkte Ausgabe - die geschätzten Regressionsgewichte. Häufig kann man mehr aus Funktionen herausholen, wenn man ihren Output zunächst in einem Objekt ablegt:
+
+```{r}
+mod <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths, data = data)
+```
+
+Das Objekt `mod` erscheint damit im Environment. Es ist vom Typ Liste, das ist etwas anderes als ein Datensatz mit einer festen Anzahl an Spalten pro Reihe und umgekehrt. Bei Listen können in verschiedenen Bestandteilen der Liste ganz unterschiedliche Sachen liegen. Meistens ist bei der Erstellung von diesen Listen ihnen noch eine extra Klasse zugeordnet, die wir mit der Funktion `class()` betrachten können.
+
+```{r}
+class(mod)
+```
+
+Die Funktion `lm()` erstellt also eine Liste mit der Klasse `lm`. In dieser Liste sind verschiedene Bestandteile enthalten, die wir uns nun genauer ansehen können. Die Auswahl von Listenbestandteilen, wenn diese Namen haben, funktioniert, wie beim Datensatz, durch das `$`. 
+
+```{r}
+mod$coefficients
+mod$call
+```
+
+Neben der händischen Exploration eines Objektes können wir auch automatische Funktionen nutzen, wie beispielsweise die `summary`-Funktion, die wohl am häufigsten verwendet wird. 
+
+```{r}
+summary(mod)
+```
+
+Sie zeigt uns die wichtigsten Parameter an. Die `summary`-Funktion ist auch auf Objekte anderer Klassen anwendbar. Wenn wir sie auf den Datensatz anwenden, werden uns Zusammenfassungen der Variablen angezeigt. Auch in den nächsten Blöcken werden wir sie noch verwenden. 
+
+```{r}
+summary(data)
+```
+
+Die einfache lineare Modellierung kann [hier](/lehre/statistik-i/einfache-regression/) vertieft werden.
+
+## Multiple Regression
+
+Die multiple Regression ist eine Erweiterung des Modells mit der Aufnahme von Effekten.
+Zur multiplen Regression gibt es viele Themen in der [Übersicht von PsyBSc7](/lehre/main/#statistik-ii).
+
+### Kontinuierliche Prädiktoren
+
+Schauen wir uns zunächst eine einfache Erweiterung der Syntax um eine Addition an. Neben dem Selbstkonzept soll auch die eigene Einschätzung der Kompetenz in Mathematik (`Total_Competence_Maths`) als Prädiktor aufgenommen werden. Dies funktioniert einfach über die additive Verbindung der Prädiktoren `+`.  
+
+```{r}
+mod_kont <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths + Total_Competence_Maths, data = data)
+```
+
+Die `class()` bleibt gleich und auch die `summary()` ist daher gleich aufgebaut. Die `Coefficients` werden logischerweise um einen Eintrag, also eine Zeile, erweitert. 
+
+```{r}
+class(mod_kont)
+summary(mod_kont)
+```
+
+
+### Aufnahme kategorialer Prädiktor
+
+Auch die Aufnahme von kategorialen Prädiktoren in das Regressionsmodell ist möglich. Hierzu sollte die Variable in Form eines Faktors vorliegen. Beispielsweise könnte es interessat sein, ob auch das Geschlecht einen Einfluss auf die Mathematikleistung hat.
+
+```{r}
+mod_kat <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths + Total_Competence_Maths + Gender, data = data)
+summary(mod_kat)
+```
+
+Wir sehen, dass `Gender` in der Syntax genauso notiert wird wie kontinuierlich Prädikoren. Die Zeile in der `Coefficients`-Tabelle zeigt uns, dass die Variable `Gender` in zwei Kategorien aufgeteilt wurde. Die Referenzkategorie wird nicht angezeigt, sondern nur die Differenz zur Referenzkategorie.
+
+### Moderierte Regression
+
+Nun soll der Interaktionseffekt zwischen zwei Variablen aufgenommen werden. Bevor wir dies tun, müssen wir die Variablen zentrieren, damit Multikollinearität vorgebeugt wird. 
+
+```{r}
+data$neuro_center <- scale(data$neuro, scale = F, center = T)
+data$intel_center <- scale(data$intel, scale = F, center = T)
+```
+
+Wir überprüfen die Funktionalität; diese ist nicht immer genau null, aber maschinell gesehen schon.
+
+```{r}
+mean(data$neuro_center)
+mean(data$intel_center)
+```
+
+Setzen wir nun die lineare Modellierung mit Moderationseffekt um. Da eine Moderation eine Multiplikation der Effekte ist, würde man intuitiv den Code folgendermaßen schreiben. 
+
+```{r}
+mod_inter_nocenter <- lm(lz ~ neuro + intel + neuro * intel, data = data)
+mod_inter_center <- lm(lz ~ neuro_center + intel_center + neuro_center * intel_center, data = data)
+summary(mod_inter_nocenter)
+summary(mod_inter_center)
+```
+Wir sehen, dass die Zentralisierung wie erwartet die Standardfehler reduziert hat. Kommen wir jetzt nochmal zurück zum Code: die intuitive Lösung mit der Multiplikation benötigt theoretisch nicht die einzelne Aufführung der Variablen, die Teil der Interaktion sind.
+
+```{r}
+mod_inter_center <- lm(lz ~ neuro_center * intel_center, data = data)
+summary(mod_inter_center)
+```
+
+Allerdings hat das natürlich den Nachteil, dass man nicht spezifisch auswählt und damit nicht so stark über sein Modell nachdenken muss. Es besteht daher die Möglichkeit, Interaktionen sehr präzise mit dem `:` auszuwählen.  
+
+```{r}
+mod_inter_center <- lm(lz ~ neuro_center + intel_center + neuro_center:intel_center, data = data)
+summary(mod_inter_center)
+```
+ 
+
+
+```{r, eval = FALSE}
+install.packages("interactions")
+library(interactions)
+```
+
+```{r}
+library(interactions)
+```
+
+Die Festlegung des Moderators kann `R` natürlich nicht für uns übernehmen.
+
+```{r}
+interact_plot(model = mod_inter_center, pred = intel_center, modx = neuro_center)
+```
+
+Weitere Infos zur Moderation, besonders zum Zusammenspiel mit quadratischen Effekten, finden sich [hier](https://pandar.netlify.app/post/ancova-und-moderierte-regression/). <!-- Beitrag fehlt noch, Teil von MSc5a-->
+
+## Anwendungen
+ 
+ 
+1. Gruppierter Boxplot
+
+1. Erstelle eine multiple Regression mit Extraversion als abhängiger Variable und Art des Wohnens sowie Verträglichkeit als unabhängigen Variablen.
+
+<details><summary>Lösung</summary>
+
+```{r}
+mod_extra <- lm(extra ~ wohnen_faktor + vertr, data = data)
+summary(mod_extra)
+```
+
+</details>
+
+2. Finde mit Hilfe des Internets heraus, wie standardisierte Regressionsparameter mit Hilfe einer Funktion ausgegeben werden können.
+
+<details><summary>Lösung</summary>
+
+```{r}
+library(lm.beta)
+lm.beta(mod_extra)
+summary(lm.beta(mod_extra))
+```
+
+Eine geschachtelte Funktion ist teilweise schwierig zu lesen. Es gibt als Lösung die Pipe, die ein Objekt in eine weitere Funktion weitergibt. 
+
+```{r}
+mod_extra |> lm.beta() |> summary()
+```
+
+</details>
+
+3. Zur Veranschaulichung des Codes - keine Empfehlung für solch ein Modell: Nun sollen statt Art des Wohnens die Skalenscores für Prokrastination und Naturverbundenheit genutzt werden. Außerdem soll die Dreifachinteraktion der Prädiktoren aufgenommen werden, aber keine Interaktionen zwischen zwei Prädiktoren.
+
+<details><summary>Lösung</summary>
+
+```{r}
+data$nr_ges_center <- scale(data$nr_ges, scale = F, center = T) 
+data$prok_center <- scale(data$prok, scale = F, center = T)
+data$vertr_center <- scale(data$vertr, scale = F, center = T)
+```
+
+
+```{r}
+mod_falsch <- lm(extra ~ nr_ges_center * prok_center * vertr_center, data = data)
+summary(mod_falsch)
+```
+
+```{r}
+mod_korrekt <- lm(extra ~ nr_ges_center + prok_center + vertr_center + nr_ges_center:prok_center:vertr_center, data = data)
+summary(mod_korrekt)
+```
+
+Anmerkung: Es ist empfehlenswert, keine Modelle zu bestimmen, in denen Interaktionen niedrigerer Ordnung nicht drin sind.
+
+</details>
+ 

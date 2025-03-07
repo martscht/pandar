@@ -1,0 +1,55 @@
+---
+title: R und RStudio - Aufgaben
+type: post
+date: '2020-10-01'
+slug: fdz-r-intro-aufgaben
+categories: []
+tags: []
+subtitle: ''
+summary: ''
+authors: [nehler]
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/toy_car_crash.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+projects: []
+
+share: false
+profile: false
+reading_time: false
+private: true
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /workshops/fdz/fdz-r-intro
+  - icon_pack: fas
+    icon: star
+    name: Lösungen
+    url: /workshops/fdz/fdz-r-intro-loesungen
+    
+    
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
+Denken Sie bei allen Aufgaben daran, den Code im R-Skript sinnvoll zu gliedern und zu kommentieren.
+
+1. Bestimmen Sie das Ergebnis von $2 + 60 \div 5$
+2. Prüfen Sie mit logischen Operatoren, ob das Ergebnis aus der letzten Aufgabe dasselbe ist, wie $3 \cdot 29$ oder $ 70 \div 5$.
+3. Bestimmen Sie $\sqrt{115}$ und legen Sie das (ganzzahlig) gerundete Ergebnis in einem Objekt namens `zahl` ab. Die zugehörige Funktion für das Runden heißt `round()`. Nutzen Sie die Hilfe, um die passenden Argumente einzugeben.
+4. Sie wollen den Betrag der Zahl -5 bestimmen. Wie können Sie dies in R umsetzen? Nutzen Sie für das Suchen einer geeigneten Funktion die Hilfe oder das Internet.
+5. Folgende Syntax verursacht ein Warning: `sqrt(-1)`. Wodurch kommt diese Warning zu Stande?
+6. Folgende Syntax verursacht einen Fehler: `6 * 1,56`. Wodurch kommt dieser Fehler zustande? Kann dieser Fehler behoben werden?
+
+
