@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler] 
-lastmod: '`r Sys.Date()`'
+lastmod: '2025-03-10'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"
@@ -40,12 +40,7 @@ output:
 
 
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
-```
+
 
 Denken Sie bei allen Aufgaben daran, den Code im R-Skript sinnvoll zu gliedern und zu kommentieren.
 

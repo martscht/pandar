@@ -9,10 +9,10 @@ subtitle: ''
 summary: ''
 authors: [nehler]
 weight: 3
-lastmod: '2025-03-07'
+lastmod: '2025-03-10'
 featured: no
 banner:
-  image: "/header/metal_beams_electricity.jpg"
+  image: "/header/rice-field.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/140211)"
 projects: []
 
@@ -115,7 +115,7 @@ gender_freq <- table(data$Gender)
 barplot(gender_freq)
 ```
 
-![](/fdz-plots-lm_files/unnamed-chunk-39-1.png)<!-- -->
+![](/fdz-plots-lm_files/unnamed-chunk-4-1.png)<!-- -->
 
 Natürlich könnten diese beiden Schritte auch in einer Zeile zusammengefasst werden, indem man die Funktion schachtelt. Durch die Nutzung der `barplot()` Funktion gewinnen wir schon einen guten Überblick über die Daten, doch wenn wir in die zugehörige Hilfe schauen, sehen wir, dass die optische Aufbereitung durch viele zusätzliche Argumente noch verbessert werden könnte. Einige von diesen werden wir häufiger verwenden. Bspw. verwendet man `main` für den Titel, `xlab` und `ylab` für die Achsenbeschriftung.
 
@@ -127,7 +127,7 @@ barplot(table(data$Gender),
         ylab = "Absolute Häufigkeit")
 ```
 
-![](/fdz-plots-lm_files/unnamed-chunk-40-1.png)<!-- -->
+![](/fdz-plots-lm_files/unnamed-chunk-5-1.png)<!-- -->
 
 Als Darstellungsform für ordinalskalierte Variablen wird häufig ein Boxplot verwendet. Auch dieser ist sehr einfach nutzbar über die Funktion `boxplot()`. Dabei nutzen wir direkt auch die Möglichkeit, die Grafik zu beschriften.
 
@@ -138,7 +138,7 @@ boxplot(data$Total_Competence_Science,
         ylab = "Skalenscore")
 ```
 
-![](/fdz-plots-lm_files/unnamed-chunk-41-1.png)<!-- -->
+![](/fdz-plots-lm_files/unnamed-chunk-6-1.png)<!-- -->
 
 In der Hilfe der `boxplot()` Funktion sehen wir, dass auch hier viele Argumente zur Verfügung stehen, um die Grafik zu verändern. So können wir beispielsweise die Farbe der Box (`col`) und die Füllung der Box (`red`) verändern. 
 
@@ -151,7 +151,7 @@ boxplot(data$Total_Competence_Science,
         border = "red")
 ```
 
-![](/fdz-plots-lm_files/unnamed-chunk-42-1.png)<!-- -->
+![](/fdz-plots-lm_files/unnamed-chunk-7-1.png)<!-- -->
  
 Die gerade getroffene farbliche Wahl entspricht wohl weniger einer optischen verbesserung. Deshalb gibt es auch die Möglichkeit, Farben aus einer Palette zu wählen. Hierfür gibt es in R bspw. die Funktion `terrain_colors()`, die eine Palette von Farben zurückgibt. Als Argument wird die Anzahl der Farben übergeben.
 
@@ -186,7 +186,7 @@ boxplot(data$Total_Competence_Science,
         border = terrain.colors(2)[1])
 ```
 
-![](/fdz-plots-lm_files/unnamed-chunk-45-1.png)<!-- -->
+![](/fdz-plots-lm_files/unnamed-chunk-10-1.png)<!-- -->
 
 
 Für kontinuierliche Daten oder zumindest solche, die dieser Eigenschaft sehr nahe kommen, wird für die Darstellung häufig ein Histogramm verwendet. Auch hierfür gibt es eine Funktion in R, die `hist()` heißt. Nehmen wir als Beispiel die Variable Selbstkonzept in der Mathematik (`Total_SelfConcept_Maths`).
@@ -199,7 +199,7 @@ hist(data$Total_SelfConcept_Maths,
      ylab = "Absolute Häufigkeit")
 ```
 
-![](/fdz-plots-lm_files/unnamed-chunk-46-1.png)<!-- -->
+![](/fdz-plots-lm_files/unnamed-chunk-11-1.png)<!-- -->
 
 In der Hilfe sehen wir, dass für ein Histogramm das Argument `breaks` genutzt werden kann, um die Anzahl der Klassen zu bestimmen. Die Voreinstellung ist dabei `breaks = "Sturges"`, was eine Methode zur Bestimmung der Anzahl der Klassen ist. Gleichzeitig kann man hier aber auch selbst alle Grenzen bestimmen oder auch einfach nur die gewünschte Anzahl an Klassen eingeben. Bspw. können wir versuchen ein Histogramm mit 10 Klassen zu erzeugen, indem wir `breaks = 10` setzen.
 
@@ -212,7 +212,7 @@ hist(data$Total_SelfConcept_Maths,
      breaks = 10)
 ```
 
-![](/fdz-plots-lm_files/unnamed-chunk-47-1.png)<!-- -->
+![](/fdz-plots-lm_files/unnamed-chunk-12-1.png)<!-- -->
 
 Wie wir sehen ändert sich nichts in der Anzahl der Klassen. Das liegt daran, dass die Funktion `hist()` die Anzahl der Klassen nur als Vorschlag sieht - das wird in der Hilfe auch beschrieben. Dieses Vorgehen ist ein seltenerer Fall in R, kommt aber durchaus vor, weshalb man sich dieser Möglichkeit generell bewusst sein sollte. 
 
@@ -228,7 +228,7 @@ plot(x = data$Total_SelfConcept_Maths,
      ylab = "Mathematikleistung")
 ```
 
-![](/fdz-plots-lm_files/unnamed-chunk-48-1.png)<!-- -->
+![](/fdz-plots-lm_files/unnamed-chunk-13-1.png)<!-- -->
 
 Es gibt auch Grafikfunktionen, die nicht direkt einen Plot erstellen, sondern in eine schon existierende Fragik zusätzlich Elemente einfügen. Ein Beispiel dafür ist die `abline()` Funktion, die eine Linie in den Plot einfügt. Wenn wir beispielsweise eine optische Trennung erzeugen von Schüler:innen mit niedrigeren und höheren Werten als 6 in der Mathematikleistung, können wir eine horizontale Linie in den Plot einfügen mit dem Argument `h`.
 
@@ -242,7 +242,7 @@ plot(x = data$Total_SelfConcept_Maths,
 abline(h = 6)
 ```
 
-![](/fdz-plots-lm_files/unnamed-chunk-49-1.png)<!-- -->
+![](/fdz-plots-lm_files/unnamed-chunk-14-1.png)<!-- -->
 
 Während die Grafikerstellung mit den Basic R Funktionen, wie wir gesehen haben, sehr leicht möglich ist, stößt dieses Vorgehen bei komplexen Analysen irgendwann an ihre Grenzen. Daher gibt es ein Paket, was spezifisch Grafikerstellung als Thema hat `ggplot2`. Die darin verwendete Syntax unterscheidet sich ein wenig von der normalen R-Syntax, weshalb die Verwendung über diesen Workshop hinaus gehen würde. Auf pandaR gibt es dazu die Dokumentation eines [ganzen Workshop](/workshops/main/#ggplotting) oder auch ein einzelnes, einführendes [Tutorial](/lehre/statistik-ii/grafiken-mit-ggplot2/).
 
@@ -393,62 +393,54 @@ summary(data)
 ##                                                       3rd Qu.:35.0  
 ##                                                       Max.   :42.0  
 ##                                                       NA's   :7     
-##  Total_Competence_Maths Total_Competence_English Total_Competence_Science
-##  Min.   :1.000          Min.   :1.000            Min.   :1.000           
-##  1st Qu.:3.000          1st Qu.:3.000            1st Qu.:3.000           
-##  Median :4.000          Median :4.000            Median :3.500           
-##  Mean   :3.846          Mean   :3.695            Mean   :3.446           
-##  3rd Qu.:4.000          3rd Qu.:4.000            3rd Qu.:4.000           
-##  Max.   :5.000          Max.   :5.000            Max.   :5.000           
-##  NA's   :1              NA's   :2                NA's   :2               
-##  Total_SelfEsteem Total_SocialSelfEsteem Total_AcademicSelfEfficacy
-##  Min.   : 6.00    Min.   :14.00          Min.   : 5.00             
-##  1st Qu.:17.00    1st Qu.:25.00          1st Qu.:11.00             
-##  Median :19.00    Median :29.00          Median :12.00             
-##  Mean   :18.99    Mean   :29.25          Mean   :12.64             
-##  3rd Qu.:21.00    3rd Qu.:33.00          3rd Qu.:15.00             
-##  Max.   :30.00    Max.   :46.00          Max.   :20.00             
-##  NA's   :17       NA's   :5              NA's   :8                 
-##  Total_SelfConcept_Maths Total_SelfConcept_English Total_SelfConcept_Science
-##  Min.   : 5.00           Min.   : 3.00             Min.   : 4.00            
-##  1st Qu.:12.00           1st Qu.: 9.00             1st Qu.:11.00            
-##  Median :14.00           Median :11.00             Median :13.00            
-##  Mean   :14.22           Mean   :10.61             Mean   :13.26            
-##  3rd Qu.:16.00           3rd Qu.:12.00             3rd Qu.:16.00            
-##  Max.   :20.00           Max.   :15.00             Max.   :20.00            
-##  NA's   :10              NA's   :3                 NA's   :5                
-##  SubjectSTEndorsement_Maths SubjectSTEndorsement_English
-##  Min.   :1.000              Min.   :1.000               
-##  1st Qu.:5.000              1st Qu.:4.000               
-##  Median :5.000              Median :5.000               
-##  Mean   :5.117              Mean   :4.445               
-##  3rd Qu.:5.000              3rd Qu.:5.000               
-##  Max.   :9.000              Max.   :8.000               
-##  NA's   :1                  NA's   :1                   
-##  SubjectSTEndorsement_Science SubjectSTEndorsement_ICT CareerSTEndorsement_Maths
-##  Min.   :1.000                Min.   :2.000            Min.   :1.000            
-##  1st Qu.:5.000                1st Qu.:5.000            1st Qu.:5.000            
-##  Median :5.000                Median :5.000            Median :5.000            
-##  Mean   :5.341                Mean   :5.692            Mean   :5.634            
-##  3rd Qu.:6.000                3rd Qu.:6.000            3rd Qu.:6.000            
-##  Max.   :9.000                Max.   :9.000            Max.   :9.000            
-##  NA's   :1                    NA's   :1                NA's   :2                
-##  CareerSTEndorsement_English CareerSTEndorsement_Science CareerSTEndorsement_ICT
-##  Min.   :1.000               Min.   :1.000               Min.   :1.000          
-##  1st Qu.:4.000               1st Qu.:5.000               1st Qu.:5.000          
-##  Median :5.000               Median :5.000               Median :6.000          
-##  Mean   :4.403               Mean   :5.493               Mean   :5.872          
-##  3rd Qu.:5.000               3rd Qu.:6.000               3rd Qu.:7.000          
-##  Max.   :9.000               Max.   :9.000               Max.   :9.000          
-##  NA's   :2                   NA's   :2                   NA's   :2              
-##  Eng_AttainmentData Maths_AttainmentData Science_AttainmentData
-##  Min.   : 1.000     Min.   : 1.0         Min.   : 1.000        
-##  1st Qu.: 6.000     1st Qu.: 6.0         1st Qu.: 6.000        
-##  Median : 8.000     Median : 7.0         Median : 8.000        
-##  Mean   : 8.137     Mean   : 7.3         Mean   : 7.887        
-##  3rd Qu.:10.000     3rd Qu.: 9.0         3rd Qu.:10.000        
-##  Max.   :14.000     Max.   :12.0         Max.   :14.000        
-##                                                                
+##  Total_Competence_Maths Total_Competence_English Total_Competence_Science Total_SelfEsteem
+##  Min.   :1.000          Min.   :1.000            Min.   :1.000            Min.   : 6.00   
+##  1st Qu.:3.000          1st Qu.:3.000            1st Qu.:3.000            1st Qu.:17.00   
+##  Median :4.000          Median :4.000            Median :3.500            Median :19.00   
+##  Mean   :3.846          Mean   :3.695            Mean   :3.446            Mean   :18.99   
+##  3rd Qu.:4.000          3rd Qu.:4.000            3rd Qu.:4.000            3rd Qu.:21.00   
+##  Max.   :5.000          Max.   :5.000            Max.   :5.000            Max.   :30.00   
+##  NA's   :1              NA's   :2                NA's   :2                NA's   :17      
+##  Total_SocialSelfEsteem Total_AcademicSelfEfficacy Total_SelfConcept_Maths
+##  Min.   :14.00          Min.   : 5.00              Min.   : 5.00          
+##  1st Qu.:25.00          1st Qu.:11.00              1st Qu.:12.00          
+##  Median :29.00          Median :12.00              Median :14.00          
+##  Mean   :29.25          Mean   :12.64              Mean   :14.22          
+##  3rd Qu.:33.00          3rd Qu.:15.00              3rd Qu.:16.00          
+##  Max.   :46.00          Max.   :20.00              Max.   :20.00          
+##  NA's   :5              NA's   :8                  NA's   :10             
+##  Total_SelfConcept_English Total_SelfConcept_Science SubjectSTEndorsement_Maths
+##  Min.   : 3.00             Min.   : 4.00             Min.   :1.000             
+##  1st Qu.: 9.00             1st Qu.:11.00             1st Qu.:5.000             
+##  Median :11.00             Median :13.00             Median :5.000             
+##  Mean   :10.61             Mean   :13.26             Mean   :5.117             
+##  3rd Qu.:12.00             3rd Qu.:16.00             3rd Qu.:5.000             
+##  Max.   :15.00             Max.   :20.00             Max.   :9.000             
+##  NA's   :3                 NA's   :5                 NA's   :1                 
+##  SubjectSTEndorsement_English SubjectSTEndorsement_Science SubjectSTEndorsement_ICT
+##  Min.   :1.000                Min.   :1.000                Min.   :2.000           
+##  1st Qu.:4.000                1st Qu.:5.000                1st Qu.:5.000           
+##  Median :5.000                Median :5.000                Median :5.000           
+##  Mean   :4.445                Mean   :5.341                Mean   :5.692           
+##  3rd Qu.:5.000                3rd Qu.:6.000                3rd Qu.:6.000           
+##  Max.   :8.000                Max.   :9.000                Max.   :9.000           
+##  NA's   :1                    NA's   :1                    NA's   :1               
+##  CareerSTEndorsement_Maths CareerSTEndorsement_English CareerSTEndorsement_Science
+##  Min.   :1.000             Min.   :1.000               Min.   :1.000              
+##  1st Qu.:5.000             1st Qu.:4.000               1st Qu.:5.000              
+##  Median :5.000             Median :5.000               Median :5.000              
+##  Mean   :5.634             Mean   :4.403               Mean   :5.493              
+##  3rd Qu.:6.000             3rd Qu.:5.000               3rd Qu.:6.000              
+##  Max.   :9.000             Max.   :9.000               Max.   :9.000              
+##  NA's   :2                 NA's   :2                   NA's   :2                  
+##  CareerSTEndorsement_ICT Eng_AttainmentData Maths_AttainmentData Science_AttainmentData
+##  Min.   :1.000           Min.   : 1.000     Min.   : 1.0         Min.   : 1.000        
+##  1st Qu.:5.000           1st Qu.: 6.000     1st Qu.: 6.0         1st Qu.: 6.000        
+##  Median :6.000           Median : 8.000     Median : 7.0         Median : 8.000        
+##  Mean   :5.872           Mean   : 8.137     Mean   : 7.3         Mean   : 7.887        
+##  3rd Qu.:7.000           3rd Qu.:10.000     3rd Qu.: 9.0         3rd Qu.:10.000        
+##  Max.   :9.000           Max.   :14.000     Max.   :12.0         Max.   :14.000        
+##  NA's   :2                                                                             
 ##  Computing_AttainmentData Total_Competence   Achiever        
 ##  Min.   : 1.00            Min.   :1.000    Length:300        
 ##  1st Qu.: 4.00            1st Qu.:3.333    Class :character  
@@ -483,7 +475,7 @@ plot(x = data$Total_SelfConcept_Maths,
 abline(mod)
 ```
 
-![](/fdz-plots-lm_files/unnamed-chunk-59-1.png)<!-- -->
+![](/fdz-plots-lm_files/unnamed-chunk-24-1.png)<!-- -->
 
 Wir können uns hier zur Nutze machen, dass `abline()` Achsenabschnitt und Steigung automatisch aus dem Modell ziehen kann.
 

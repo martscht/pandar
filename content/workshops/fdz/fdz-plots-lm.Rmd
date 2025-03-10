@@ -12,7 +12,7 @@ weight: 3
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/metal_beams_electricity.jpg"
+  image: "/header/rice-field.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/140211)"
 projects: []
 
@@ -63,7 +63,7 @@ library(knitr)
 
 ## Vorbereitung
 
-Zunächst müssen wir das `readxl`, `forcats` und das `dplyr` Paket wieder aktivieren und einen Teil des Code aus dem letzten Tutorial wieder durchführen.
+Zunächst müssen wir das `readxl`, `forcats` und das `dplyr` Paket wieder aktivieren und einen Teil des Code aus dem letzten Tutorial und den letzten Aufgaben wieder durchführen.
 
 ```{r, eval = FALSE}
 # Paket einladen
@@ -85,12 +85,14 @@ data$Year <- as.factor(data$Year)
 data$Year <- fct_recode(data$Year, 
                         "7. Schuljahr" = "Year7",
                         "8. Schuljahr" = "Year8")
+data$Ethnicity <- as.factor(data$Ethnicity)
 # NA-Werte ersetzen
 data <- data %>%
   mutate(across(where(is.numeric), ~ na_if(.x, -9)))
 # Skalenwerte erstellen
 data <- data %>%
   mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+data$Total_SelfConcept <- rowMeans(data[, c("Total_SelfConcept_Maths", "Total_SelfConcept_Science", "Total_SelfConcept_English")]) 
 # Gruppierungsvariablen erstellen
 data <- data %>%
   mutate(Achiever = case_when(
@@ -104,6 +106,15 @@ data <- data %>%
     
     TRUE ~ "Medium Achiever"  # Alle anderen Fälle
   ))
+data <- data %>%
+  mutate(Career_Recommendation = case_when(
+    Total_Competence_Maths > 10 |
+    Total_Competence_English > 10 |
+    Total_Competence_Science > 10 |
+    Total_SelfConcept > 10 ~ "Empfohlen",
+    
+    TRUE ~ "Nicht empfohlen"
+  ))  # Erstellen der neuen Variable
 ```
 
 ```{r, echo = FALSE}
