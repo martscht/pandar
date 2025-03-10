@@ -11,7 +11,7 @@ authors: [nehler]
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/toy_car_crash.jpg"
+  image: "/header/rice-field.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
 projects: []
 
@@ -26,10 +26,9 @@ links:
     name: Inhalte
     url: /workshops/fdz/fdz-plots-lm
   - icon_pack: fas
-    icon: star
+    icon: pen-to-square
     name: Aufgaben
     url: /workshops/fdz/fdz-plots-lm-aufgaben
-
 _build:
   list: never
 output:
@@ -49,155 +48,326 @@ if (exists("figure_path")) {
 Denken Sie bei allen Aufgaben daran, den Code im R-Skript sinnvoll zu gliedern und zu kommentieren.
 
 
+## Vorbereitung
+
+Zunächst müssen wir das `readxl`, `forcats` und das `dplyr` Paket wieder aktivieren und einen Teil des Code aus dem letzten Tutorial und den letzten Aufgaben wieder durchführen.
+
+```{r, eval = FALSE}
+# Paket einladen
+library(readxl)
+library(dplyr)
+library(forcats)
+# Pfad setzen
+rstudioapi::getActiveDocumentContext()$path |>
+  dirname() |>
+  setwd()
+# Daten einladen
+data <- read_excel("Pennington_2021.xlsx", sheet = "Study_Data")
+# Faktoren erstellen
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+data$Year <- as.factor(data$Year)
+# Faktoren Rekodieren
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+data$Ethnicity <- as.factor(data$Ethnicity)
+# NA-Werte ersetzen
+data <- data %>%
+  mutate(across(where(is.numeric), ~ na_if(.x, -9)))
+# Skalenwerte erstellen
+data <- data %>%
+  mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+data$Total_SelfConcept <- rowMeans(data[, c("Total_SelfConcept_Maths", "Total_SelfConcept_Science", "Total_SelfConcept_English")]) 
+# Gruppierungsvariablen erstellen
+data <- data %>%
+  mutate(Achiever = case_when(
+    Total_Competence_Maths >= 4 & 
+    Total_Competence_English >= 4 & 
+    Total_Competence_Science >= 4 ~ "High Achiever",
+    
+    Total_Competence_Maths == 1 & 
+    Total_Competence_English == 1 & 
+    Total_Competence_Science == 1 ~ "Low Achiever",
+    
+    TRUE ~ "Medium Achiever"  # Alle anderen Fälle
+  ))
+data <- data %>%
+  mutate(Career_Recommendation = case_when(
+    Total_Competence_Maths > 10 |
+    Total_Competence_English > 10 |
+    Total_Competence_Science > 10 |
+    Total_SelfConcept > 10 ~ "Empfohlen",
+    
+    TRUE ~ "Nicht empfohlen"
+  ))  
+```
+Falls Sie nicht am Workshop teilnehmen und daher keine lokale Version des Datensatzes haben, verwenden Sie diesen Code.
+
+```{r}
+# Paket einladen
+library(readxl)
+library(dplyr)
+library(forcats)
+# Daten einladen
+source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
+# Faktoren erstellen
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+data$Year <- as.factor(data$Year)
+# Faktoren Rekodieren
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+data$Ethnicity <- as.factor(data$Ethnicity)
+# NA-Werte ersetzen
+data <- data %>%
+  mutate(across(where(is.numeric), ~ na_if(.x, -9)))
+# Skalenwerte erstellen
+data <- data %>%
+  mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+data$Total_SelfConcept <- rowMeans(data[, c("Total_SelfConcept_Maths", "Total_SelfConcept_Science", "Total_SelfConcept_English")])
+# Gruppierungsvariablen erstellen
+data <- data %>%
+  mutate(Achiever = case_when(
+    Total_Competence_Maths >= 4 & 
+    Total_Competence_English >= 4 & 
+    Total_Competence_Science >= 4 ~ "High Achiever",
+    
+    Total_Competence_Maths == 1 & 
+    Total_Competence_English == 1 & 
+    Total_Competence_Science == 1 ~ "Low Achiever",
+    
+    TRUE ~ "Medium Achiever"  # Alle anderen Fälle
+  ))
+data <- data %>%
+  mutate(Career_Recommendation = case_when(
+    Total_Competence_Maths > 10 |
+    Total_Competence_English > 10 |
+    Total_Competence_Science > 10 |
+    Total_SelfConcept > 10 ~ "Empfohlen",
+    
+    TRUE ~ "Nicht empfohlen"
+  ))  
+```
+
+
+
 ## Teil 1 - Grafikerstellung
 
-Aufgabenideen
-- histogramm zeichnen und limits anpassen, Farbe der Umrandungen soll Türkis sein - Farbe wie rot und blau, finden Sie heraus, wie man sich alle voreingestellten Farben anzeigen lassen kann und wählen Sie darin ein Türkis das ihnen gefällt.
-- Balkendiagramm für die Variable Ethnicity mit Farben für jede einzelne Kategorie aus der Palette rainbow()
-- boxplot für eine Variable, drehen und dann die Darstellung von Ausreißern ändern
-- scatterplot erstellen und die Darstellung der Punkte ändern
 
-
-
-1. Bestimmen Sie das Ergebnis von $2 + 60 \div 5$
+1. Zeichnen Sie ein Histogramm für die Variable `Total_Mindset` und passen Sie die Grenzen der x-Achse an. Die Farbe der Umrandung der einzelnen Balekn soll Türkis sein. Finden Sie heraus, wie Sie sich alle voreingestellten Farben (wie `red` und `blue`) anzeigen lassen können und wählen Sie ein Türkis, das Ihnen gefällt.
 
 <details><summary>Lösung</summary>
 
+Um die Grenzen der x-Achse anzupassen, sollte zunächst der Bereich der Variable untersucht werden - bspw. mit der Funktion `summary()`.
+
 ```{r}
-#### Aufgaben des Tutorials zur Einführung von RStudio und R ----
-##### Aufgabe 1 -----
-2 + 60 / 5 # Ausführung Rechenoperation
+#### Aufgaben des Tutorials zu Basisfunktionen zur Grafikerstellung und linearen Modellen ----
+##### Teil 1 -----
+###### Aufgabe 1 ------
+summary(data$Total_Mindset) # Überblick über die Variable
+```
+Darin sehen wir den Bereich, den wir abdecken sollten zwischen Minimum und Maximum. Die Funktion `hist()` wird genutzt, um ein Histogramm zu erstellen. Mit `xlim()` können die Grenzen der x-Achse angepasst werden.
+
+```{r}
+# Histogramm mit angepasster Skalierung der x-Achse
+hist(data$Total_Mindset, 
+     main = "Histogramm der Variable Total Mindset",
+     xlab = "Total Mindset",
+     ylab = "Häufigkeit",
+     xlim = c(15, 45)) 
+```
+
+Die Farbe der Balken wird mit `col` und die Farbe der Umrandung mit `border` festgelegt. Um sich alle Basisfarben anzeigen zu lassen, kann die Funktion `colors()` genutzt werden. 
+
+```{r}
+colors()   # Anzeigen aller Basisfarben
+``` 
+
+Es gibt verschiedene Versionen von Türkis. Ich entscheide mich hier an dieser Stelle für `turquoise3`. 
+
+```{r}
+# Histogramm mit angepasster Skalierung der x-Achse und Farbe der Umrandung
+hist(data$Total_Mindset, 
+     main = "Histogramm der Variable Total Mindset",
+     xlab = "Total Mindset",
+     ylab = "Häufigkeit",
+     xlim = c(15, 45),
+     border = "turquoise3") 
 ```
 
 </details>
 
 
-2. Prüfen Sie mit logischen Operatoren, ob das Ergebnis aus der letzten Aufgabe dasselbe ist, wie $3 \cdot 29$ oder $ 70 \div 5$.
+
+2. Zeichnen Sie ein Balkendiagramm für die Variable `Achiever`. Färben Sie dabei jeden Balken in einer der Regenbogenpalette `rainbow()`.
 
 <details><summary>Lösung</summary>
 
-Bei der Lösung kommen die logischen Operatoren `==` zum Einsatz, um zwei Rechenoperationen miteinander zu vergleichen. Hier muss besonders darauf geachtet werden, dass die Berechnung zuerst durchgeführt wird und dann der Vergleich stattfindet. Dies erreicht man, indem man die Berechnung in Klammern setzt.
+Zunächst einmal sollten wir uns anschauen, wie viele Kategorien die Variable `Achiever` hat. Dies kann mit der Funktion `table()` erreicht werden. Wenn man nicht selbst zählen möchte, kann man auch die Funktion `length()` nutzen, um die Anzahl der Kategorien zu erhalten.
 
 ```{r}
-##### Aufgabe 2 -----
-(2 + 60 / 5) == (3 * 29) # logischer Vergleich zweier Rechenoperationen
-(2 + 60 / 5) == (70 / 5) # logischer Vergleich zweier Rechenoperationen
+###### Aufgabe 2 ------
+table(data$Achiever) # Überblick über die Kategorien
+length(table(data$Achiever)) # Anzahl der Kategorien
+```
+
+Die Funktion `barplot()` wird genutzt, um ein Balkendiagramm zu erstellen. Die Farben der Balken werden mit `col` festgelegt. In der Funktion `rainbow()` wird die Anzahl der Farben angegeben, die genutzt werden sollen. 
+
+```{r}
+# Balkendiagramm mit Regenbogenfarben
+barplot(table(data$Achiever), 
+        main = "Balkendiagramm der Variable Achiever",
+        xlab = "Achiever",
+        ylab = "Häufigkeit",
+        col = rainbow(3)) 
 ```
 
 </details>
 
-
-
-3. Bestimmen Sie $\sqrt{115}$ und legen Sie das (ganzzahlig) gerundete Ergebnis in einem Objekt namens `zahl` ab. Die zugehörige Funktion für das Runden heißt `round()`. Nutzen Sie die Hilfe, um die passenden Argumente einzugeben.
+3. In der Funktion `boxplot()` kann die Ausrichtung des Boxplots (vertikal, horizontal) und auch die Darstellung der Ausreißer verändert werden. Zeichnen Sie einen horizontalen Boxplot für die Variable `Total_Competence_Maths` und unterdrücken Sie die Darstellung der Ausreißer.
 
 <details><summary>Lösung</summary>
 
+Die passenden Argumente zur Aufgabe heißen `horizontal` und `outline` und können beide entweder auf `TRUE` oder `FALSE` gesetzt werden.
+
 ```{r}
-##### Aufgabe 3 -----
-zahl <- round(sqrt(115), digits = 0) # Berechnung und Rundung der Quadratwurzel von 115
+###### Aufgabe 3 ------
+# Keine Darstellung der Ausreißer und horizontaler Boxplot
+boxplot(data$Total_Competence_Maths, 
+        main = "Boxplot der Variable Total Mindset",
+        horizontal = T,
+        outline = F)     
 ```
+
+Wie wir sehen, geht der Boxplot jetzt nur von 2 bis 5 - die Zeichnung der Ausreißer mit dem Wert von 1 wurde unterdrückt.
 
 </details>
 
-4. Sie wollen den Betrag der Zahl -5 bestimmen. Wie können Sie dies in R umsetzen? Nutzen Sie für das Suchen einer geeigneten Funktion die Hilfe oder das Internet.
+4. Zeichnen Sie einen Scatterplot für den Zusammenhang der Variablen `Total_Mindset` und `Total_SelfConcept`. Passen Sie die Form (Dreiecke) und Farbe der (Grün) der Punkte an.
+
 
 <details><summary>Lösung</summary>
-Die einfachste Funktion zum Bestimmen des Betrags einer Zahl ist `abs()`. 
 
-```{r}
-##### Aufgabe 4 -----
-abs(-5) # Berechnung des Betrags einer Zahl
-```
-
-</details>
-
-5. Folgende Syntax verursacht ein Warning: `sqrt(-1)`. Wodurch kommt diese Warning zu Stande?
-
-<details><summary>Lösung</summary>
+Die nötigen Argumente im `plot()` Befehl sind `pch` für die Form der Punkte und `col` für die Farbe der Punkte. Für Dreiecke muss das Argument `pch` auf 2 gesetzt werden. Grün ist eine der Basisfarben und kann direkt als Zeichenkette `green` übergeben werden.
 
 ```{r, warning = T}
-##### Aufgabe 5 -----
-sqrt(-1)  # Betrachten der Warnung
+###### Aufgabe 4 ------
+# Scatterplot mit angepasster Form und Farbe der Punkte
+plot(data$Total_Mindset, 
+     data$Total_SelfConcept, 
+     main = "Scatterplot der Variablen Total Mindset und Total SelfConcept",
+     xlab = "Total Mindset",
+     ylab = "Total SelfConcept",
+     pch = 2, # Form der Punkte
+     col = "green") # Farbe der Punkte
 ```
 
-Die Warnung entsteht, da die Quadratwurzel von negativen Zahlen in der reellen Zahlenmenge nicht definiert ist. Hier gibt R ähnlich wie im Tutorial aus, dass die Lösung `NaN` - also "Not a Number" ist.
 
 </details>
 
-6. Folgende Syntax verursacht einen Fehler: `6 * 1,56`. Wodurch kommt dieser Fehler zustande? Kann dieser Fehler behoben werden?
-
-<details><summary>Lösung</summary>
-
-```{r, error = T}
-##### Aufgabe 6 -----
-6 * 1,56    # Betrachten des Fehlers
-```
-
-In der Syntax wird fälschlicherweise das Komma als Dezimaltrennzeichen genutzt. Wenn man das Komma durch einen Punkt ersetzt, funktioniert die Syntax problemlos:
-
-```{r}
-6 * 1.56     # Korrekte Syntax
-```
-
-</details>
 
 
 ## Teil 2 - Lineare Modelle
-## Anwendungen
- 
- 
-1. Gruppierter Boxplot
 
-1. Erstelle eine multiple Regression mit Extraversion als abhängiger Variable und Art des Wohnens sowie Verträglichkeit als unabhängigen Variablen.
+1. In Teil 1 haben wir gelernt, dass die Funktion `boxplot()` genutzt werden kann, um Boxplots zu erstellen. Erstellen Sie im Zusammenspiel mit der Syntax, die Sie in Teil 2 gelernt haben einen gruppierten Boxplot, der die Verteilung von `Total_Competence_Maths` in den Gruppen von `Gender` zeigt.
 
 <details><summary>Lösung</summary>
 
+Die Funktion `boxplot()` kann auch genutzt werden, um gruppierte Boxplots zu erstellen. Dazu wird die Variable, die gruppiert werden soll, als erstes Argument übergeben. Die Gruppierungsvariable wird als zweites Argument übergeben. Getrennt werden diese durch die auch in der Regression verwendeten `~`.
+
 ```{r}
-mod_extra <- lm(extra ~ wohnen_faktor + vertr, data = data)
-summary(mod_extra)
+##### Teil 2 -----
+###### Aufgabe 1 ------
+# Gruppierte Boxplots
+boxplot(data$Total_Competence_Maths ~ data$Gender, 
+        main = "Gruppierte Boxplots der Variable Total Competence Maths",
+        xlab = "Gender",
+        ylab = "Total Competence Maths") 
 ```
 
 </details>
 
-2. Finde mit Hilfe des Internets heraus, wie standardisierte Regressionsparameter mit Hilfe einer Funktion ausgegeben werden können.
+2. Erstellen Sie eine multiple Regression mit `Science_AttainmentData` als abhängiger Variable. Prädiktoren sollen `Total_Competence` und `Total_Mindset` sein. Wie ist das Regressionsgewicht von `Total_Competence` in diesem Fall und welcher p-Wert wird ihm zugeschrieben?  
 
 <details><summary>Lösung</summary>
 
+Die Funktion `lm()` wird genutzt, um ein Regressionsmodell zu erstellen. Die abhängige Variable wird als erstes Argument übergeben, die Prädiktoren als zweites Argument. Getrennt werden diese durch `~`.
+
+
 ```{r}
-library(lm.beta)
-lm.beta(mod_extra)
-summary(lm.beta(mod_extra))
+###### Aufgabe 2 ------
+# Regressionsmodell aufstellen
+mod <- lm(Total_Competence_Science ~ Total_Competence + Total_Mindset, data = data)
 ```
 
-Eine geschachtelte Funktion ist teilweise schwierig zu lesen. Es gibt als Lösung die Pipe, die ein Objekt in eine weitere Funktion weitergibt. 
+Um die weiteren Informationen zu erhalten, wird die Funktion `summary()` genutzt.
 
 ```{r}
-mod_extra |> lm.beta() |> summary()
+summary(mod)    # Zusammenfassung des Modells
 ```
 
 </details>
 
-3. Zur Veranschaulichung des Codes - keine Empfehlung für solch ein Modell: Nun sollen statt Art des Wohnens die Skalenscores für Prokrastination und Naturverbundenheit genutzt werden. Außerdem soll die Dreifachinteraktion der Prädiktoren aufgenommen werden, aber keine Interaktionen zwischen zwei Prädiktoren.
+3. Finden Sie mit Hilfe des Internets heraus, wie standardisierte Regressionsparameter mit Hilfe einer Funktion aus einem noch nicht verwendeten Paket ausgegeben werden können.
 
 <details><summary>Lösung</summary>
 
-```{r}
-data$nr_ges_center <- scale(data$nr_ges, scale = F, center = T) 
-data$prok_center <- scale(data$prok, scale = F, center = T)
-data$vertr_center <- scale(data$vertr, scale = F, center = T)
+Die Funktion `lm.beta()` aus dem Paket `lm.beta` kann genutzt werden, um standardisierte Regressionsparameter zu erhalten. Zuerst muss das Paket installiert werden.
+
+```{r, eval = FALSE}
+###### Aufgabe 3 ------
+install.packages("lm.beta") # Paket installieren
 ```
 
+Anschließend kann das Paket aktiviert werden.
 
 ```{r}
-mod_falsch <- lm(extra ~ nr_ges_center * prok_center * vertr_center, data = data)
-summary(mod_falsch)
+library(lm.beta) # Paket laden
 ```
+
+Mit der Funktion `lm.beta()` kann das Modell analysiert werden. Am besten sollte noch die Funktion `summary()` genutzt werden, um die Ergebnisse übersichtlich darzustellen.
 
 ```{r}
-mod_korrekt <- lm(extra ~ nr_ges_center + prok_center + vertr_center + nr_ges_center:prok_center:vertr_center, data = data)
-summary(mod_korrekt)
+mod |> lm.beta() |> summary()   # Standardisierte Regressionsparameter
 ```
 
-Anmerkung: Es ist empfehlenswert, keine Modelle zu bestimmen, in denen Interaktionen niedrigerer Ordnung nicht drin sind.
+Der Output aus der Funktion `summary()` hat sich bei den Koeffizienten um eine Zeile erweitert.
+
+</details>
+
+4. Diese Aufgabe ist nur zur Veranschaulichung der Syntax - keine Empfehlung für solch ein Modell: Als zuästzlicher Prädiktor soll `Total_SelfConcept` hinzugefügt werden. Außerdem soll die Dreifachinteraktion der Prädiktoren aufgenommen werden, aber keine Interaktionen zwischen zwei Prädiktoren.
+
+<details><summary>Lösung</summary>
+
+Hier lohnt es sich zunächst, zentrierte Versionen der Prädiktoren zu erstellen.
+
+```{r}
+###### Aufgabe 4 ------
+# Zentrierte Prädiktoren erstellen
+data$Total_Competence_center <- scale(data$Total_Competence, center = T, scale = F)
+data$Total_Mindset_center <- scale(data$Total_Mindset, center = T, scale = F)
+data$Total_SelfConcept_center <- scale(data$Total_SelfConcept, center = T, scale = F)
+```
+
+Die Funktion `lm()` wird genutzt, um das Modell zu erstellen. Wenn wir die `*`-Notation nutzen, werden alle Interaktionen bis zur dritten Ordnung aufgenommen. 
+
+
+```{r}
+# Modell mit Interaktionen bis zur dritten Ordnung
+mod_falsch <- lm(Total_Competence_Science ~ Total_Competence_center * Total_Mindset_center * Total_SelfConcept_center, data = data)
+```
+
+In der Aufgabenstellung ist explizit nur die Interaktion der dritten Ordnung gewünscht. Daher sollte die `:`-Notation genutzt werden.
+
+```{r}
+# Modell mit den spezifisch gewünschten Interaktionen
+mod_korrekt <- lm(Total_Competence_Science ~ Total_Competence_center + Total_Mindset_center + Total_SelfConcept_center + Total_Competence_center:Total_Mindset_center:Total_SelfConcept_center, data = data)
+```
+
+Anmerkung: Es ist empfehlenswert, keine Modelle zu bestimmen, in denen Interaktionen niedrigerer Ordnung nicht drin sind. Wie gesagt war das Beispiel nur zur Veranschaulichung der Syntax.
 
 </details>

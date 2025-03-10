@@ -114,10 +114,11 @@ data <- data %>%
     Total_SelfConcept > 10 ~ "Empfohlen",
     
     TRUE ~ "Nicht empfohlen"
-  ))  # Erstellen der neuen Variable
+  ))  
 ```
+Falls Sie nicht am Workshop teilnehmen und daher keine lokale Version des Datensatzes haben, verwenden Sie diesen Code.
 
-```{r, echo = FALSE}
+```{r}
 # Paket einladen
 library(readxl)
 library(dplyr)
@@ -133,12 +134,14 @@ data$Year <- as.factor(data$Year)
 data$Year <- fct_recode(data$Year, 
                         "7. Schuljahr" = "Year7",
                         "8. Schuljahr" = "Year8")
+data$Ethnicity <- as.factor(data$Ethnicity)
 # NA-Werte ersetzen
 data <- data %>%
   mutate(across(where(is.numeric), ~ na_if(.x, -9)))
 # Skalenwerte erstellen
 data <- data %>%
   mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+data$Total_SelfConcept <- rowMeans(data[, c("Total_SelfConcept_Maths", "Total_SelfConcept_Science", "Total_SelfConcept_English")])
 # Gruppierungsvariablen erstellen
 data <- data %>%
   mutate(Achiever = case_when(
@@ -152,22 +155,32 @@ data <- data %>%
     
     TRUE ~ "Medium Achiever"  # Alle anderen Fälle
   ))
+data <- data %>%
+  mutate(Career_Recommendation = case_when(
+    Total_Competence_Maths > 10 |
+    Total_Competence_English > 10 |
+    Total_Competence_Science > 10 |
+    Total_SelfConcept > 10 ~ "Empfohlen",
+    
+    TRUE ~ "Nicht empfohlen"
+  ))  
 ```
 
 
 
 ## Grafikerstellung
 
-Neben der Durchführung analytischer Methoden ist auch die Grafikerstellung in Basic R grundsätzlich möglich. Die Logik dabei bleibt auch dahingehend gleich, dass eine Funktion aufgerufen wird, die bestimmte Argumente benötigt. 
+Neben der Durchführung analytischer Methoden ist auch die Grafikerstellung in Basic `R` grundsätzlich möglich. Die Logik dabei bleibt auch dahingehend gleich, dass eine Funktion aufgerufen wird, die bestimmte Argumente benötigt. 
 
-Wollen wir zum Beispiel uns die Häufigkeiten für Geschlecht als Balekndiagramm anzeigen lassen, können wir die `barplot`-Funktion verwenden. Die Häufigkeiten selbst werden, wie bereits gelernt, mit der `table()` Funktion erstellt. 
+Wollen wir zum Beispiel uns die Häufigkeiten für Geschlecht als Balekndiagramm anzeigen lassen, können wir die `barplot()`-Funktion verwenden. Die Häufigkeiten selbst werden, wie bereits gelernt, mit der `table()` Funktion erstellt. 
 
 ```{r}
-gender_freq <- table(data$Gender)
-barplot(gender_freq)
+#### Grafikerstellung ----
+gender_freq <- table(data$Gender)  # absolute Häufigkeiten in Objekt ablegen
+barplot(gender_freq)  # Balkendiagramm erstellen
 ```
 
-Natürlich könnten diese beiden Schritte auch in einer Zeile zusammengefasst werden, indem man die Funktion schachtelt. Durch die Nutzung der `barplot()` Funktion gewinnen wir schon einen guten Überblick über die Daten, doch wenn wir in die zugehörige Hilfe schauen, sehen wir, dass die optische Aufbereitung durch viele zusätzliche Argumente noch verbessert werden könnte. Einige von diesen werden wir häufiger verwenden. Bspw. verwendet man `main` für den Titel, `xlab` und `ylab` für die Achsenbeschriftung.
+Natürlich könnten diese beiden Schritte auch in einer Zeile zusammengefasst werden, indem man die Funktion schachtelt (oder durch die Verwendung von Pipes). Durch die Nutzung der `barplot()` Funktion gewinnen wir schon einen guten Überblick über die Daten, doch wenn wir in die zugehörige Hilfe schauen, sehen wir, dass die optische Aufbereitung durch viele zusätzliche Argumente noch verbessert werden könnte. Einige von diesen werden wir häufiger verwenden. Bspw. verwendet man `main` für den Titel, `xlab` und `ylab` für die Achsenbeschriftung.
 
 ```{r}
 barplot(table(data$Gender), 
@@ -176,17 +189,21 @@ barplot(table(data$Gender),
         ylab = "Absolute Häufigkeit")
 ```
 
+Die Grafik hat dadurch an Informationsgehalt gewonnen. 
+
 Als Darstellungsform für ordinalskalierte Variablen wird häufig ein Boxplot verwendet. Auch dieser ist sehr einfach nutzbar über die Funktion `boxplot()`. Dabei nutzen wir direkt auch die Möglichkeit, die Grafik zu beschriften.
 
 ```{r}
+# Erstellung eines Boxplots mit passender Beschriftung
 boxplot(data$Total_Competence_Science, 
         main = "Boxplot der Kompetenz in Naturwissenschaften", 
         ylab = "Skalenscore")
 ```
 
-In der Hilfe der `boxplot()` Funktion sehen wir, dass auch hier viele Argumente zur Verfügung stehen, um die Grafik zu verändern. So können wir beispielsweise die Farbe der Box (`col`) und die Füllung der Box (`red`) verändern. 
+In der Hilfe der `boxplot()` Funktion sehen wir, dass auch hier viele weitere Argumente zur Verfügung stehen, um die Grafik zu verändern. So können wir beispielsweise die Farbe der Box (`col`) und die Füllung der Box (`red`) verändern. 
 
 ```{r}
+# Erstellung eines Boxplots mit passender Beschriftung und Farbgebung
 boxplot(data$Total_Competence_Science, 
         main = "Boxplot der Kompetenz in Naturwissenschaften", 
         ylab = "Skalenscore",
@@ -197,18 +214,19 @@ boxplot(data$Total_Competence_Science,
 Die gerade getroffene farbliche Wahl entspricht wohl weniger einer optischen verbesserung. Deshalb gibt es auch die Möglichkeit, Farben aus einer Palette zu wählen. Hierfür gibt es in R bspw. die Funktion `terrain_colors()`, die eine Palette von Farben zurückgibt. Als Argument wird die Anzahl der Farben übergeben.
 
 ```{r}
-terrain.colors(2)
+terrain.colors(2)   # Farben aus einer Palette abrufen
 ```
 
 Die Farben werden in Hex-Farbcode dargestellt. Die einzelnen Ergebnisse der Funktion wollen wir jetzt in unsere Zeichnung aufnehmen. Dabei können wir über die eckigen Klammern einzelne Beiträge aus dem Farbvektor ansprechen.
 
 ```{r}
-terrain.colors(2)[1]
+terrain.colors(2)[1]  # Erste Farbe aus den zwei abgerufenen Farben aus der Palette
 ```
 
 Wenden wir es im Boxplot an.
 
 ```{r}
+# Erstellung eines Boxplots mit passender Beschriftung und Farbgebung der Palette
 boxplot(data$Total_Competence_Science, 
         main = "Boxplot der Kompetenz in Naturwissenschaften", 
         ylab = "Skalenscore",
@@ -216,10 +234,12 @@ boxplot(data$Total_Competence_Science,
         border = terrain.colors(2)[1])
 ```
 
+Ob das jetzt wirklich schöner ist als unsere eigene Farbgebung, ist natürlich Geschmackssache. Zumindest haben wir gelernt, dass es in `R` Farbpaletten gibt und wie man diese nutzt.
 
 Für kontinuierliche Daten oder zumindest solche, die dieser Eigenschaft sehr nahe kommen, wird für die Darstellung häufig ein Histogramm verwendet. Auch hierfür gibt es eine Funktion in R, die `hist()` heißt. Nehmen wir als Beispiel die Variable Selbstkonzept in der Mathematik (`Total_SelfConcept_Maths`).
 
 ```{r}
+# Erstellung eines Histogramms mit passender Beschriftung
 hist(data$Total_SelfConcept_Maths, 
      main = "Histogramm des Selbstkonzepts in Mathematik", 
      xlab = "Selbstkonzept Mathematik", 
@@ -229,6 +249,7 @@ hist(data$Total_SelfConcept_Maths,
 In der Hilfe sehen wir, dass für ein Histogramm das Argument `breaks` genutzt werden kann, um die Anzahl der Klassen zu bestimmen. Die Voreinstellung ist dabei `breaks = "Sturges"`, was eine Methode zur Bestimmung der Anzahl der Klassen ist. Gleichzeitig kann man hier aber auch selbst alle Grenzen bestimmen oder auch einfach nur die gewünschte Anzahl an Klassen eingeben. Bspw. können wir versuchen ein Histogramm mit 10 Klassen zu erzeugen, indem wir `breaks = 10` setzen.
 
 ```{r}
+# Erstellung eines Histogramms mit passender Beschriftung und gewünschter Anzahl an Klassen
 hist(data$Total_SelfConcept_Maths, 
      main = "Histogramm des Selbstkonzepts in Mathematik", 
      xlab = "Selbstkonzept Mathematik", 
@@ -236,12 +257,13 @@ hist(data$Total_SelfConcept_Maths,
      breaks = 10)
 ```
 
-Wie wir sehen ändert sich nichts in der Anzahl der Klassen. Das liegt daran, dass die Funktion `hist()` die Anzahl der Klassen nur als Vorschlag sieht - das wird in der Hilfe auch beschrieben. Dieses Vorgehen ist ein seltenerer Fall in R, kommt aber durchaus vor, weshalb man sich dieser Möglichkeit generell bewusst sein sollte. 
+Wie wir sehen ändert sich nichts in der Anzahl der Klassen. Das liegt daran, dass die Funktion `hist()` die Anzahl der Klassen nur als Vorschlag sieht - das wird in der Hilfe auch beschrieben. Dieses Vorgehen ist ein seltenerer Fall in `R`, kommt aber durchaus vor, weshalb man sich dieser Möglichkeit generell bewusst sein sollte. 
 
 
 Bisher haben wir die Darstellungen auf nur eine Variable konzentriert. Doch auch die Darstellung von zwei Variablen ist möglich. Als Beispiel nutzen wir hier den Scatterplot, der die Beziehung zwischen zwei Variablen darstellt. Betrachten wir die Leistung im Fach Mathematik (`Maths_AttainmentData`) in Abhängigkeit vom zugehörigen Selbstkonzept `Total_SelfConcept_Maths`. Hier gibt es nun die Möglichkeit, die ersten beiden Argumente `x` und `y` zu nutzen, um die beiden Variablen anzugeben. 
 
 ```{r}
+# Erstellung eines Scatterplots mit passender Beschriftung
 plot(x = data$Total_SelfConcept_Maths, 
      y = data$Maths_AttainmentData, 
      main = "Scatterplot Mathematikleistung und Selbstkonzept",
@@ -257,86 +279,92 @@ plot(x = data$Total_SelfConcept_Maths,
      main = "Scatterplot Mathematikleistung und Selbstkonzept",
      xlab = "Selbstkonzept Mathematik",
      ylab = "Mathematikleistung")
-abline(h = 6)
+abline(h = 6) # Horizontale Linie bei 6 einfügen
 ``` 
 
 Während die Grafikerstellung mit den Basic R Funktionen, wie wir gesehen haben, sehr leicht möglich ist, stößt dieses Vorgehen bei komplexen Analysen irgendwann an ihre Grenzen. Daher gibt es ein Paket, was spezifisch Grafikerstellung als Thema hat `ggplot2`. Die darin verwendete Syntax unterscheidet sich ein wenig von der normalen R-Syntax, weshalb die Verwendung über diesen Workshop hinaus gehen würde. Auf pandaR gibt es dazu die Dokumentation eines [ganzen Workshop](/workshops/main/#ggplotting) oder auch ein einzelnes, einführendes [Tutorial](/lehre/statistik-ii/grafiken-mit-ggplot2/).
 
 
-## lineare Modellierung
+## Lineare Modellierung
 
-Zum Abschluss lernen wir noch die Syntax von der Modellierun in Basic-R-Syntax kennen. Dabei beziehen wir uns hier auf lineare Regressionsmodelle, aber auch bei hierarchischer oder generalierter Regression ist diese Syntax die Basis. 
+Zum Abschluss lernen wir noch die Syntax von Modellierung in Basic-`R` kennen. Dabei beziehen wir uns hier auf lineare Regressionsmodelle, aber auch bei hierarchischer oder generalierter Regression ist diese Syntax die Basis. 
 
 ### Syntax
 
-Zunächst betrachten wir die Syntax für Abhängigkeiten in `R`. Dies wollen wir anhand der `aggregate`-Funktion demonstrieren. Hier wird eine bestimmte Operation an einer Variable in Abhängigkeit einer anderen Variable durchgeführt. 
-
+Zunächst betrachten wir die Syntax für Abhängigkeiten in `R`. Dies wollen wir anhand der `aggregate()`-Funktion demonstrieren. Hier wird eine bestimmte Operation an einer Variable in Abhängigkeit einer anderen Variable durchgeführt. 
 
 ```{r}
+# Berechnung des Mittelwerts der Selbstkonzeptwerte in Abhängigkeit der Gruppierung nach Achiever
 aggregate(Total_SelfEsteem ~ Achiever, data = data, FUN = mean)
 ```
 
-Das ist sozusagen die Basis R Variante für die Verwendung von `group_by` und `summarize` aus dem `dplyr` Paket. Die `~` symbolisiert die Abhängigkeit - vor der Tilde steht die abhängige Variable, nach der Tilde die unabhängige Variable. 
+Das ist sozusagen die Basis `R` Variante für die Verwendung von `group_by()` und `summarise()` aus dem `dplyr` Paket. Die `~` symbolisiert die Abhängigkeit - vor der Tilde steht die abhängige Variable, nach der Tilde die unabhängige Variable. 
 
 ### Einfaches lineares Modell
 
 Nun übertragen wir die eben gelernte Syntaxlogik und schauen uns die Variable zur Leistung im Fach Mathematik (`Maths_AttainmentData`) in Abhängigkeit vom zugehörigen Selbstkonzept `Total_SelfConcept_Maths` an. Die Syntax ist dabei so aufgebaut, dass im ersten Argument eine Formel verlangt wird. Unabhängige Variable und abhängige Variable müssen definiert werden, die `1` repräsentiert den Achsenabschnitt. Im zweiten Argument kann ein Datensatz aufgeführt werden, in dem die jeweiligen Variablen zu finden sind. Es ist zwar auch möglich, dass wir den Datensatznamen jeweils vor dem Variablennamen mit dem `$`-Zeichen angeben (`data$Maths_AttainmentData ~ 1 + data$Total_SelfConcept_Maths`), aber das wird vor allem bei multipler Regression unübersichtlich.  
 
 ```{r}
+# Einfache lineare Regression 
+# Formel = abhängige Variable ~ unabhängige Variable
 lm(formula = Maths_AttainmentData ~ 1 + Total_SelfConcept_Maths, data = data)
 ```
 
 Bevor wir uns um den Output kümmern, noch ein paar Hinweise zur Syntax. Da das erste Argument immer die Formel ist, wird der Argumentnamen häufig nicht mit aufgeführt. Weiterhin passiert die Schätzung des Achsenabschnitts als default, sodass wir diesen nicht explizit mit der `1` angeben müssen. In der Praxis würde man also vermutlich eher folgndenen Code sehen.
 
 ```{r}
+# Reduktion der Syntax
 lm(Maths_AttainmentData ~ Total_SelfConcept_Maths, data = data)
 ```
 
 Die Funktion `lm()` selbst hat offenbar erstmal nur eine sehr beschränkte Ausgabe - die geschätzten Regressionsgewichte. Häufig kann man mehr aus Funktionen herausholen, wenn man ihren Output zunächst in einem Objekt ablegt:
 
 ```{r}
+# Speichern des Modells in einem Objekt
 mod <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths, data = data)
 ```
 
 Das Objekt `mod` erscheint damit im Environment. Es ist vom Typ Liste, das ist etwas anderes als ein Datensatz mit einer festen Anzahl an Spalten pro Reihe und umgekehrt. Bei Listen können in verschiedenen Bestandteilen der Liste ganz unterschiedliche Sachen liegen. Meistens ist bei der Erstellung von diesen Listen ihnen noch eine extra Klasse zugeordnet, die wir mit der Funktion `class()` betrachten können.
 
 ```{r}
-class(mod)
+class(mod)  # Klasse des Objekts
 ```
 
 Die Funktion `lm()` erstellt also eine Liste mit der Klasse `lm`. In dieser Liste sind verschiedene Bestandteile enthalten, die wir uns nun genauer ansehen können. Die Auswahl von Listenbestandteilen, wenn diese Namen haben, funktioniert, wie beim Datensatz, durch das `$`. 
 
 ```{r}
-mod$coefficients
-mod$call
+mod$coefficients  # Koeffizienten der Regression
+mod$call          # Aufruf der Funktion
 ```
 
 Neben der händischen Exploration eines Objektes können wir auch automatische Funktionen nutzen, wie beispielsweise die `summary`-Funktion, die wohl am häufigsten verwendet wird. 
 
 ```{r}
-summary(mod)
+summary(mod)    # Zusammenfassung des Modells
 ```
 
 Sie zeigt uns die wichtigsten Parameter an. Die `summary()`-Funktion ist dahingehend besonders, dass sie auch auf Objekte anderer Klassen (eigentlich fast aller Klassen) anwendbar. Wenn wir sie beispielsweise auf den Datensatz anwenden, werden uns Zusammenfassungen der Variablen angezeigt.
 
 ```{r}
-summary(data)
+summary(data)   # Zusammenfassung des Datensatzes
 ```
 
 Eine andere Funktion, die auf `mod` angewendet werden kann, ist die Funktion `coef()`, die uns die Koeffizienten der Regression anzeigt.  
 
 ```{r}
-coef(mod)
+coef(mod)     # Koeffizienten der Regression durch Funktion
 ```
 
 Im Endeffekt ist das der Output, der uns standardmäßig von `lm()` angezeigt wird. Wir können unser Wissen jetzt kombinieren und in den Scatterplot zwischen den beiden Variablen der Regression auch die geschätzte Regressionsgerade einzeichnen. Dafür bauen wir wieder zunächst den Scatterplot und fügen dann über `abline()` die Regressionsgerade ein.
 
 ```{r}
+# Scatterplot mit Beschriftung
 plot(x = data$Total_SelfConcept_Maths, 
      y = data$Maths_AttainmentData, 
      main = "Scatterplot Mathematikleistung und Selbstkonzept",
      xlab = "Selbstkonzept Mathematik",
      ylab = "Mathematikleistung")
+# Regressionsgerade einzeichnen
 abline(mod)
 ```
 
@@ -354,14 +382,15 @@ Zur multiplen Regression gibt es viele Themen in der [Übersicht von PsyBSc7](/l
 Schauen wir uns zunächst eine einfache Erweiterung der Syntax um eine Addition an. Neben dem Selbstkonzept soll auch die eigene Einschätzung der Kompetenz in Mathematik (`Total_Competence_Maths`) als Prädiktor aufgenommen werden. Dies funktioniert einfach über die additive Verbindung der Prädiktoren `+`.  
 
 ```{r}
+# Multiples lineares Regressionsmodell mit zwei kontinuierlichen Prädiktoren
 mod_kont <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths + Total_Competence_Maths, data = data)
 ```
 
 Die `class()` bleibt gleich und auch die `summary()` ist daher gleich aufgebaut. Die `Coefficients` werden logischerweise um einen Eintrag, also eine Zeile, erweitert. 
 
 ```{r}
-class(mod_kont)
-summary(mod_kont)
+class(mod_kont)       # Klasse des Objekts
+summary(mod_kont)     # Zusammenfassung des Modells
 ```
 
 
@@ -370,6 +399,7 @@ summary(mod_kont)
 Auch die Aufnahme von kategorialen Prädiktoren in das Regressionsmodell ist möglich. Hierzu sollte die Variable in Form eines Faktors vorliegen. Beispielsweise könnte es interessat sein, ob auch das Geschlecht einen Einfluss auf die Mathematikleistung hat.
 
 ```{r}
+# Multiples lineares Regressionsmodell mit einem kategorialen und einem kontinuierlichen Prädiktor
 mod_kat <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths + Total_Competence_Maths + Gender, data = data)
 summary(mod_kat)
 ```
@@ -381,6 +411,7 @@ Wir sehen, dass `Gender` in der Syntax genauso notiert wird wie kontinuierlich P
 Nun soll der Interaktionseffekt zwischen zwei Variablen aufgenommen werden. Bevor wir dies tun, müssen wir die Variablen zentrieren, damit Multikollinearität vorgebeugt wird. Zentrierung und Standardisierung funktionieren über die Funktion `scale()`. Wenn wir nur eine Zentrierung erreichen wollen, müssen wir das Argument `scale` auf `FALSE` setzen. Statt der langen Schreibweise `FALSE` können wir auch einfach `F` schreiben.
 
 ```{r}
+# Zentrierung der Prädiktoren
 data$Total_SelfConcept_Maths_center <- scale(data$Total_SelfConcept_Maths, scale = F, center = T)
 data$Total_Competence_Maths_center <- scale(data$Total_Competence_Maths, scale = F, center = T)
 ```
@@ -388,6 +419,7 @@ data$Total_Competence_Maths_center <- scale(data$Total_Competence_Maths, scale =
 Wir überprüfen die Funktionalität, indem wir uns den Mittelwert der Variablen ausgeben lassen.
 
 ```{r}
+# Check der Mittelwerte der Variablen
 mean(data$Total_SelfConcept_Maths_center, na.rm = TRUE)
 mean(data$Total_Competence_Maths_center, na.rm = TRUE)
 ```
@@ -397,12 +429,14 @@ Wir sehen direkt, dass hier nicht einfach eine 0 steht. Das liegt aber an maschi
 Setzen wir nun die lineare Modellierung mit Moderationseffekt um. Da eine Moderation eine Multiplikation der Effekte ist, würde man intuitiv den Code folgendermaßen schreiben. 
 
 ```{r}
+# Multiple Regression mit Interaktionseffekt
 mod_inter <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths_center + Total_Competence_Maths_center + Total_SelfConcept_Maths_center * Total_Competence_Maths_center, data = data)
 ```
 
 Die intuitive Lösung mit der Multiplikation benötigt theoretisch nicht die einzelne Aufführung der Variablen, die Teil der Interaktion sind.
 
 ```{r}
+# Multiple Regression mit Interaktionseffekt reduzierte Schreibweise
 mod_inter <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths_center * Total_Competence_Maths_center, data = data)
 
 ```
@@ -410,10 +444,14 @@ mod_inter <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths_center * Total_Co
 Allerdings hat das natürlich den Nachteil, dass man nicht spezifisch auswählt und damit nicht so stark über sein Modell nachdenken muss. Es besteht daher die Möglichkeit, Interaktionen sehr präzise mit dem `:` auszuwählen.  
 
 ```{r}
+# Multiple Regression mit Interaktionseffekt präzise Schreibweise
 mod_inter <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths_center + Total_Competence_Maths_center + Total_SelfConcept_Maths_center:Total_Competence_Maths_center, data = data)
 ```
  
 Weitere Infos zur Moderation, besonders zum Zusammenspiel mit quadratischen Effekten, finden sich [hier](/lehre/statistik-ii/moderierte-reg/). 
 
+### Zusammenfassung
+
+In diesem Tutorial haben wir uns mit der Syntax von Grafiken und der Syntax von linearen Modellen in Basic `R` beschäftigt. Damit sind wir auch am Ende des Workshops angekommen. An dieser Stelle möchte ich nochmal auf die Vielzahl an Inhalten auf pandaR hinweisen, die Einführungen in die spezifischere Nutzung von `R` in verschiedenen Analysen bieten und auch sonst im Internet viele frei zugängliche Tutorials zu finden sind. Ansonsten sind auf den Folien noch weitere Literaturhinweise für klassische Lehrbücher.
 
  
