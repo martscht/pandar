@@ -1,18 +1,18 @@
 ---
 title: Basisfunktionen zur Grafikerstellung und lineare Modelle
 type: post
-date: '2023-02-23'
+date: '2025-02-28'
 slug: fdz-plots-lm
 categories: ["fdz"]
 tags: ["Grafiken", "Regression"]
 subtitle: ''
 summary: ''
 authors: [nehler]
-weight: 2
-lastmod: '2025-02-28'
+weight: 3
+lastmod: '2025-03-10'
 featured: no
 banner:
-  image: "/header/metal_beams_electricity.jpg"
+  image: "/header/rice-field.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/140211)"
 projects: []
 
@@ -48,233 +48,520 @@ output:
 
 
 
+
+
+
+
+
 ## Vorbereitung
 
-Zunächst müssen wir das `haven`-Paket wieder aktivieren und einen Teil des Code aus dem letzten Tutorial wieder durchführen.
+Zunächst müssen wir das `readxl`, `forcats` und das `dplyr` Paket wieder aktivieren und einen Teil des Code aus dem letzten Tutorial und den letzten Aufgaben wieder durchführen.
 
 
 ``` r
-library(haven)
-setwd("~/Pfad/zu/Ordner")
-data <- read_sav(file = "fb22_mod.sav")
-data$geschl_faktor <- factor(data$geschl,                                   # Ausgangsvariable
-                             levels = c(1, 2, 3),                           # Faktorstufen
-                             labels = c("weiblich", "männlich", "anderes")) # Label für Faktorstufen
-data$nr_ges <- rowMeans(data[,c("nr1", "nr2", "nr3", "nr4", "nr5", "nr6")])
-data$prok <- rowMeans(data[,c("prok1", "prok4", "prok6", "prok9", "prok10")])
+# Paket einladen
+library(readxl)
+library(dplyr)
+library(forcats)
+# Pfad setzen
+rstudioapi::getActiveDocumentContext()$path |>
+  dirname() |>
+  setwd()
+# Daten einladen
+data <- read_excel("Pennington_2021.xlsx", sheet = "Study_Data")
+# Faktoren erstellen
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+data$Year <- as.factor(data$Year)
+# Faktoren Rekodieren
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+data$Ethnicity <- as.factor(data$Ethnicity)
+# NA-Werte ersetzen
+data <- data %>%
+  mutate(across(where(is.numeric), ~ na_if(.x, -9)))
+# Skalenwerte erstellen
+data <- data %>%
+  mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+data$Total_SelfConcept <- rowMeans(data[, c("Total_SelfConcept_Maths", "Total_SelfConcept_Science", "Total_SelfConcept_English")]) 
+# Gruppierungsvariablen erstellen
+data <- data %>%
+  mutate(Achiever = case_when(
+    Total_Competence_Maths >= 4 & 
+    Total_Competence_English >= 4 & 
+    Total_Competence_Science >= 4 ~ "High Achiever",
+    
+    Total_Competence_Maths == 1 & 
+    Total_Competence_English == 1 & 
+    Total_Competence_Science == 1 ~ "Low Achiever",
+    
+    TRUE ~ "Medium Achiever"  # Alle anderen Fälle
+  ))
+data <- data %>%
+  mutate(Career_Recommendation = case_when(
+    Total_Competence_Maths > 10 |
+    Total_Competence_English > 10 |
+    Total_Competence_Science > 10 |
+    Total_SelfConcept > 10 ~ "Empfohlen",
+    
+    TRUE ~ "Nicht empfohlen"
+  ))  
+```
+Falls Sie nicht am Workshop teilnehmen und daher keine lokale Version des Datensatzes haben, verwenden Sie diesen Code.
 
-data$wohnen_faktor <- factor(data$wohnen,                                   
-                             levels = c(1, 2, 3, 4),                                
-                             labels = c("WG", "bei Eltern", "alleine", "sonstiges")) 
+
+``` r
+# Paket einladen
+library(readxl)
+library(dplyr)
+library(forcats)
+# Daten einladen
+source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
+# Faktoren erstellen
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+data$Year <- as.factor(data$Year)
+# Faktoren Rekodieren
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+data$Ethnicity <- as.factor(data$Ethnicity)
+# NA-Werte ersetzen
+data <- data %>%
+  mutate(across(where(is.numeric), ~ na_if(.x, -9)))
+# Skalenwerte erstellen
+data <- data %>%
+  mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+data$Total_SelfConcept <- rowMeans(data[, c("Total_SelfConcept_Maths", "Total_SelfConcept_Science", "Total_SelfConcept_English")])
+# Gruppierungsvariablen erstellen
+data <- data %>%
+  mutate(Achiever = case_when(
+    Total_Competence_Maths >= 4 & 
+    Total_Competence_English >= 4 & 
+    Total_Competence_Science >= 4 ~ "High Achiever",
+    
+    Total_Competence_Maths == 1 & 
+    Total_Competence_English == 1 & 
+    Total_Competence_Science == 1 ~ "Low Achiever",
+    
+    TRUE ~ "Medium Achiever"  # Alle anderen Fälle
+  ))
+data <- data %>%
+  mutate(Career_Recommendation = case_when(
+    Total_Competence_Maths > 10 |
+    Total_Competence_English > 10 |
+    Total_Competence_Science > 10 |
+    Total_SelfConcept > 10 ~ "Empfohlen",
+    
+    TRUE ~ "Nicht empfohlen"
+  ))  
 ```
 
 
 
-## lineare Modellierung
+## Grafikerstellung
 
-Die Grundlage für die spätere hierarchische Ansetzung ist das lineares Modell ohne Hierarchie, dem wir uns demnach im Folgenden widmen werden. 
+Neben der Durchführung analytischer Methoden ist auch die Grafikerstellung in Basic `R` grundsätzlich möglich. Die Logik dabei bleibt auch dahingehend gleich, dass eine Funktion aufgerufen wird, die bestimmte Argumente benötigt. 
+
+Wollen wir zum Beispiel uns die Häufigkeiten für Geschlecht als Balekndiagramm anzeigen lassen, können wir die `barplot()`-Funktion verwenden. Die Häufigkeiten selbst werden, wie bereits gelernt, mit der `table()` Funktion erstellt. 
+
+
+``` r
+#### Grafikerstellung ----
+gender_freq <- table(data$Gender)  # absolute Häufigkeiten in Objekt ablegen
+barplot(gender_freq)  # Balkendiagramm erstellen
+```
+
+![](/fdz-plots-lm_files/unnamed-chunk-4-1.png)<!-- -->
+
+Natürlich könnten diese beiden Schritte auch in einer Zeile zusammengefasst werden, indem man die Funktion schachtelt (oder durch die Verwendung von Pipes). Durch die Nutzung der `barplot()` Funktion gewinnen wir schon einen guten Überblick über die Daten, doch wenn wir in die zugehörige Hilfe schauen, sehen wir, dass die optische Aufbereitung durch viele zusätzliche Argumente noch verbessert werden könnte. Einige von diesen werden wir häufiger verwenden. Bspw. verwendet man `main` für den Titel, `xlab` und `ylab` für die Achsenbeschriftung.
+
+
+``` r
+barplot(table(data$Gender), 
+        main = "Geschlechtshäufigkeiten", 
+        xlab = "Geschlecht", 
+        ylab = "Absolute Häufigkeit")
+```
+
+![](/fdz-plots-lm_files/unnamed-chunk-5-1.png)<!-- -->
+
+Die Grafik hat dadurch an Informationsgehalt gewonnen. 
+
+Als Darstellungsform für ordinalskalierte Variablen wird häufig ein Boxplot verwendet. Auch dieser ist sehr einfach nutzbar über die Funktion `boxplot()`. Dabei nutzen wir direkt auch die Möglichkeit, die Grafik zu beschriften.
+
+
+``` r
+# Erstellung eines Boxplots mit passender Beschriftung
+boxplot(data$Total_Competence_Science, 
+        main = "Boxplot der Kompetenz in Naturwissenschaften", 
+        ylab = "Skalenscore")
+```
+
+![](/fdz-plots-lm_files/unnamed-chunk-6-1.png)<!-- -->
+
+In der Hilfe der `boxplot()` Funktion sehen wir, dass auch hier viele weitere Argumente zur Verfügung stehen, um die Grafik zu verändern. So können wir beispielsweise die Farbe der Box (`col`) und die Füllung der Box (`red`) verändern. 
+
+
+``` r
+# Erstellung eines Boxplots mit passender Beschriftung und Farbgebung
+boxplot(data$Total_Competence_Science, 
+        main = "Boxplot der Kompetenz in Naturwissenschaften", 
+        ylab = "Skalenscore",
+        col = "blue",
+        border = "red")
+```
+
+![](/fdz-plots-lm_files/unnamed-chunk-7-1.png)<!-- -->
+ 
+Die gerade getroffene farbliche Wahl entspricht wohl weniger einer optischen verbesserung. Deshalb gibt es auch die Möglichkeit, Farben aus einer Palette zu wählen. Hierfür gibt es in R bspw. die Funktion `terrain_colors()`, die eine Palette von Farben zurückgibt. Als Argument wird die Anzahl der Farben übergeben.
+
+
+``` r
+terrain.colors(2)   # Farben aus einer Palette abrufen
+```
+
+```
+## [1] "#00A600" "#F2F2F2"
+```
+
+Die Farben werden in Hex-Farbcode dargestellt. Die einzelnen Ergebnisse der Funktion wollen wir jetzt in unsere Zeichnung aufnehmen. Dabei können wir über die eckigen Klammern einzelne Beiträge aus dem Farbvektor ansprechen.
+
+
+``` r
+terrain.colors(2)[1]  # Erste Farbe aus den zwei abgerufenen Farben aus der Palette
+```
+
+```
+## [1] "#00A600"
+```
+
+Wenden wir es im Boxplot an.
+
+
+``` r
+# Erstellung eines Boxplots mit passender Beschriftung und Farbgebung der Palette
+boxplot(data$Total_Competence_Science, 
+        main = "Boxplot der Kompetenz in Naturwissenschaften", 
+        ylab = "Skalenscore",
+        col = terrain.colors(2)[2],
+        border = terrain.colors(2)[1])
+```
+
+![](/fdz-plots-lm_files/unnamed-chunk-10-1.png)<!-- -->
+
+Ob das jetzt wirklich schöner ist als unsere eigene Farbgebung, ist natürlich Geschmackssache. Zumindest haben wir gelernt, dass es in `R` Farbpaletten gibt und wie man diese nutzt.
+
+Für kontinuierliche Daten oder zumindest solche, die dieser Eigenschaft sehr nahe kommen, wird für die Darstellung häufig ein Histogramm verwendet. Auch hierfür gibt es eine Funktion in R, die `hist()` heißt. Nehmen wir als Beispiel die Variable Selbstkonzept in der Mathematik (`Total_SelfConcept_Maths`).
+
+
+``` r
+# Erstellung eines Histogramms mit passender Beschriftung
+hist(data$Total_SelfConcept_Maths, 
+     main = "Histogramm des Selbstkonzepts in Mathematik", 
+     xlab = "Selbstkonzept Mathematik", 
+     ylab = "Absolute Häufigkeit")
+```
+
+![](/fdz-plots-lm_files/unnamed-chunk-11-1.png)<!-- -->
+
+In der Hilfe sehen wir, dass für ein Histogramm das Argument `breaks` genutzt werden kann, um die Anzahl der Klassen zu bestimmen. Die Voreinstellung ist dabei `breaks = "Sturges"`, was eine Methode zur Bestimmung der Anzahl der Klassen ist. Gleichzeitig kann man hier aber auch selbst alle Grenzen bestimmen oder auch einfach nur die gewünschte Anzahl an Klassen eingeben. Bspw. können wir versuchen ein Histogramm mit 10 Klassen zu erzeugen, indem wir `breaks = 10` setzen.
+
+
+``` r
+# Erstellung eines Histogramms mit passender Beschriftung und gewünschter Anzahl an Klassen
+hist(data$Total_SelfConcept_Maths, 
+     main = "Histogramm des Selbstkonzepts in Mathematik", 
+     xlab = "Selbstkonzept Mathematik", 
+     ylab = "Absolute Häufigkeit",
+     breaks = 10)
+```
+
+![](/fdz-plots-lm_files/unnamed-chunk-12-1.png)<!-- -->
+
+Wie wir sehen ändert sich nichts in der Anzahl der Klassen. Das liegt daran, dass die Funktion `hist()` die Anzahl der Klassen nur als Vorschlag sieht - das wird in der Hilfe auch beschrieben. Dieses Vorgehen ist ein seltenerer Fall in `R`, kommt aber durchaus vor, weshalb man sich dieser Möglichkeit generell bewusst sein sollte. 
+
+
+Bisher haben wir die Darstellungen auf nur eine Variable konzentriert. Doch auch die Darstellung von zwei Variablen ist möglich. Als Beispiel nutzen wir hier den Scatterplot, der die Beziehung zwischen zwei Variablen darstellt. Betrachten wir die Leistung im Fach Mathematik (`Maths_AttainmentData`) in Abhängigkeit vom zugehörigen Selbstkonzept `Total_SelfConcept_Maths`. Hier gibt es nun die Möglichkeit, die ersten beiden Argumente `x` und `y` zu nutzen, um die beiden Variablen anzugeben. 
+
+
+``` r
+# Erstellung eines Scatterplots mit passender Beschriftung
+plot(x = data$Total_SelfConcept_Maths, 
+     y = data$Maths_AttainmentData, 
+     main = "Scatterplot Mathematikleistung und Selbstkonzept",
+     xlab = "Selbstkonzept Mathematik",
+     ylab = "Mathematikleistung")
+```
+
+![](/fdz-plots-lm_files/unnamed-chunk-13-1.png)<!-- -->
+
+Es gibt auch Grafikfunktionen, die nicht direkt einen Plot erstellen, sondern in eine schon existierende Fragik zusätzlich Elemente einfügen. Ein Beispiel dafür ist die `abline()` Funktion, die eine Linie in den Plot einfügt. Wenn wir beispielsweise eine optische Trennung erzeugen von Schüler:innen mit niedrigeren und höheren Werten als 6 in der Mathematikleistung, können wir eine horizontale Linie in den Plot einfügen mit dem Argument `h`.
+
+
+``` r
+plot(x = data$Total_SelfConcept_Maths, 
+     y = data$Maths_AttainmentData, 
+     main = "Scatterplot Mathematikleistung und Selbstkonzept",
+     xlab = "Selbstkonzept Mathematik",
+     ylab = "Mathematikleistung")
+abline(h = 6) # Horizontale Linie bei 6 einfügen
+```
+
+![](/fdz-plots-lm_files/unnamed-chunk-14-1.png)<!-- -->
+
+Während die Grafikerstellung mit den Basic R Funktionen, wie wir gesehen haben, sehr leicht möglich ist, stößt dieses Vorgehen bei komplexen Analysen irgendwann an ihre Grenzen. Daher gibt es ein Paket, was spezifisch Grafikerstellung als Thema hat `ggplot2`. Die darin verwendete Syntax unterscheidet sich ein wenig von der normalen R-Syntax, weshalb die Verwendung über diesen Workshop hinaus gehen würde. Auf pandaR gibt es dazu die Dokumentation eines [ganzen Workshop](/workshops/main/#ggplotting) oder auch ein einzelnes, einführendes [Tutorial](/lehre/statistik-ii/grafiken-mit-ggplot2/).
+
+
+## Lineare Modellierung
+
+Zum Abschluss lernen wir noch die Syntax von Modellierung in Basic-`R` kennen. Dabei beziehen wir uns hier auf lineare Regressionsmodelle, aber auch bei hierarchischer oder generalierter Regression ist diese Syntax die Basis. 
 
 ### Syntax
 
-Es gibt eine spezielle Syntax für die Darstellungen von Abhängigkeiten. Dies wollen wir anhand der `aggregate`-Funktion demonstrieren. Hier wird eine bestimmte Operation an einer Variable in Abhängigkeit einer anderen Variable durchgeführt. 
-
+Zunächst betrachten wir die Syntax für Abhängigkeiten in `R`. Dies wollen wir anhand der `aggregate()`-Funktion demonstrieren. Hier wird eine bestimmte Operation an einer Variable in Abhängigkeit einer anderen Variable durchgeführt. 
 
 
 ``` r
-aggregate(extra ~ geschl_faktor, data = data, FUN = mean)
+# Berechnung des Mittelwerts der Selbstkonzeptwerte in Abhängigkeit der Gruppierung nach Achiever
+aggregate(Total_SelfEsteem ~ Achiever, data = data, FUN = mean)
 ```
 
 ```
-##   geschl_faktor    extra
-## 1      weiblich 3.373967
-## 2      männlich 3.250000
-## 3       anderes 2.750000
+##          Achiever Total_SelfEsteem
+## 1   High Achiever         20.26437
+## 2    Low Achiever         16.00000
+## 3 Medium Achiever         18.44103
 ```
+
+Das ist sozusagen die Basis `R` Variante für die Verwendung von `group_by()` und `summarise()` aus dem `dplyr` Paket. Die `~` symbolisiert die Abhängigkeit - vor der Tilde steht die abhängige Variable, nach der Tilde die unabhängige Variable. 
 
 ### Einfaches lineares Modell
 
-Nun übertragen wir die eben gelernte Syntaxlogik und schauen uns die Variable `extra` (Extraversion) in Abhängigkeit von `lz` (Lebenszufriedenheit) an. 
+Nun übertragen wir die eben gelernte Syntaxlogik und schauen uns die Variable zur Leistung im Fach Mathematik (`Maths_AttainmentData`) in Abhängigkeit vom zugehörigen Selbstkonzept `Total_SelfConcept_Maths` an. Die Syntax ist dabei so aufgebaut, dass im ersten Argument eine Formel verlangt wird. Unabhängige Variable und abhängige Variable müssen definiert werden, die `1` repräsentiert den Achsenabschnitt. Im zweiten Argument kann ein Datensatz aufgeführt werden, in dem die jeweiligen Variablen zu finden sind. Es ist zwar auch möglich, dass wir den Datensatznamen jeweils vor dem Variablennamen mit dem `$`-Zeichen angeben (`data$Maths_AttainmentData ~ 1 + data$Total_SelfConcept_Maths`), aber das wird vor allem bei multipler Regression unübersichtlich.  
 
 
 ``` r
-lm(extra ~ lz, data = data)
+# Einfache lineare Regression 
+# Formel = abhängige Variable ~ unabhängige Variable
+lm(formula = Maths_AttainmentData ~ 1 + Total_SelfConcept_Maths, data = data)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = extra ~ lz, data = data)
+## lm(formula = Maths_AttainmentData ~ 1 + Total_SelfConcept_Maths, 
+##     data = data)
 ## 
 ## Coefficients:
-## (Intercept)           lz  
-##      2.7746       0.1273
+##             (Intercept)  Total_SelfConcept_Maths  
+##                   4.303                    0.213
 ```
 
-Das Model selbst hat offenbar erstmal nur eine sehr beschränkte Ausgabe. Häufig kann man mehr aus Funktionen herausholen, wenn man ihren Output zunächst in einem Objekt ablegt:
+Bevor wir uns um den Output kümmern, noch ein paar Hinweise zur Syntax. Da das erste Argument immer die Formel ist, wird der Argumentnamen häufig nicht mit aufgeführt. Weiterhin passiert die Schätzung des Achsenabschnitts als default, sodass wir diesen nicht explizit mit der `1` angeben müssen. In der Praxis würde man also vermutlich eher folgndenen Code sehen.
 
 
 ``` r
-mod <- lm(extra ~ lz, data = data)
+# Reduktion der Syntax
+lm(Maths_AttainmentData ~ Total_SelfConcept_Maths, data = data)
 ```
 
-Das Objekt `mod` erscheint damit im Environment. Es ist vom Typ Liste, das ist etwas anderes als ein Datensatz mit einer festen Anzahl an Spalten pro Reihe und umgekehrt. Bei Listen können in verschiedenen Bestandteilen der Liste ganz unterschiedliche Sachen liegen. Beispielsweise können auch Datensätze Bestandteile von Listen sein. Die Auswahl von Listenbestandteilen funktioniert aber ebenfalls durch das `$`. 
+```
+## 
+## Call:
+## lm(formula = Maths_AttainmentData ~ Total_SelfConcept_Maths, 
+##     data = data)
+## 
+## Coefficients:
+##             (Intercept)  Total_SelfConcept_Maths  
+##                   4.303                    0.213
+```
+
+Die Funktion `lm()` selbst hat offenbar erstmal nur eine sehr beschränkte Ausgabe - die geschätzten Regressionsgewichte. Häufig kann man mehr aus Funktionen herausholen, wenn man ihren Output zunächst in einem Objekt ablegt:
 
 
 ``` r
-mod$coefficients
+# Speichern des Modells in einem Objekt
+mod <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths, data = data)
 ```
 
-```
-## (Intercept)          lz 
-##   2.7745981   0.1273186
-```
-
-``` r
-mod$call
-```
-
-```
-## lm(formula = extra ~ lz, data = data)
-```
-
-Genau wie Variablen (`numeric` etc.) können auch Listen verschiedene Klassen haben. Beispielsweise liegt hier die `class` `lm` vor, entsprechend der Funktion mit der wir das Objekt erstellt haben. 
-Datensätze hingegen haben meist die `class` `data.frame`.
+Das Objekt `mod` erscheint damit im Environment. Es ist vom Typ Liste, das ist etwas anderes als ein Datensatz mit einer festen Anzahl an Spalten pro Reihe und umgekehrt. Bei Listen können in verschiedenen Bestandteilen der Liste ganz unterschiedliche Sachen liegen. Meistens ist bei der Erstellung von diesen Listen ihnen noch eine extra Klasse zugeordnet, die wir mit der Funktion `class()` betrachten können.
 
 
 ``` r
-class(data)
-```
-
-```
-## [1] "tbl_df"     "tbl"        "data.frame"
-```
-
-``` r
-class(mod)
+class(mod)  # Klasse des Objekts
 ```
 
 ```
 ## [1] "lm"
 ```
 
+Die Funktion `lm()` erstellt also eine Liste mit der Klasse `lm`. In dieser Liste sind verschiedene Bestandteile enthalten, die wir uns nun genauer ansehen können. Die Auswahl von Listenbestandteilen, wenn diese Namen haben, funktioniert, wie beim Datensatz, durch das `$`. 
+
+
+``` r
+mod$coefficients  # Koeffizienten der Regression
+```
+
+```
+##             (Intercept) Total_SelfConcept_Maths 
+##               4.3025269               0.2129649
+```
+
+``` r
+mod$call          # Aufruf der Funktion
+```
+
+```
+## lm(formula = Maths_AttainmentData ~ Total_SelfConcept_Maths, 
+##     data = data)
+```
+
 Neben der händischen Exploration eines Objektes können wir auch automatische Funktionen nutzen, wie beispielsweise die `summary`-Funktion, die wohl am häufigsten verwendet wird. 
 
 
 ``` r
-summary(mod)
+summary(mod)    # Zusammenfassung des Modells
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = extra ~ lz, data = data)
+## lm(formula = Maths_AttainmentData ~ Total_SelfConcept_Maths, 
+##     data = data)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.78851 -0.48758 -0.01305  0.51706  1.63974 
+##     Min      1Q  Median      3Q     Max 
+## -5.4322 -1.6289  0.1419  1.6511  5.6326 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  2.77460    0.25420  10.915   <2e-16 ***
-## lz           0.12732    0.05291   2.406   0.0173 *  
+##                         Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)               4.3025     0.5582   7.708 2.08e-13 ***
+## Total_SelfConcept_Maths   0.2130     0.0381   5.589 5.30e-08 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.7003 on 151 degrees of freedom
-## Multiple R-squared:  0.03693,	Adjusted R-squared:  0.03055 
-## F-statistic:  5.79 on 1 and 151 DF,  p-value: 0.01732
+## Residual standard error: 2.28 on 288 degrees of freedom
+##   (10 observations deleted due to missingness)
+## Multiple R-squared:  0.09785,	Adjusted R-squared:  0.09472 
+## F-statistic: 31.24 on 1 and 288 DF,  p-value: 5.295e-08
 ```
 
-Sie zeigt uns die wichtigsten Parameter an. Die `summary`-Funktion ist auch auf Objekte anderer Klassen anwendbar. Wenn wir sie auf den Datensatz anwenden, werden uns Zusammenfassungen der Variablen angezeigt. Auch in den nächsten Blöcken werden wir sie noch verwenden. 
+Sie zeigt uns die wichtigsten Parameter an. Die `summary()`-Funktion ist dahingehend besonders, dass sie auch auf Objekte anderer Klassen (eigentlich fast aller Klassen) anwendbar. Wenn wir sie beispielsweise auf den Datensatz anwenden, werden uns Zusammenfassungen der Variablen angezeigt.
 
 
 ``` r
-summary(data)
+summary(data)   # Zusammenfassung des Datensatzes
 ```
 
 ```
-##      prok1           prok2           prok3           prok4      
-##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000  
-##  1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000  
-##  Median :3.000   Median :3.000   Median :2.000   Median :3.000  
-##  Mean   :2.667   Mean   :2.588   Mean   :2.235   Mean   :2.569  
-##  3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000  
-##  Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :4.000  
-##                                                                 
-##      prok5           prok6           prok7           prok8     
-##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.00  
-##  1st Qu.:3.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.00  
-##  Median :3.000   Median :3.000   Median :3.000   Median :3.00  
-##  Mean   :2.974   Mean   :2.725   Mean   :2.725   Mean   :2.81  
-##  3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.00  
-##  Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :4.00  
-##                                                                
-##      prok9           prok10           nr1             nr2      
-##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.00  
-##  1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:3.00  
-##  Median :3.000   Median :3.000   Median :3.000   Median :4.00  
-##  Mean   :2.745   Mean   :2.739   Mean   :2.765   Mean   :3.68  
-##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.00  
-##  Max.   :4.000   Max.   :4.000   Max.   :5.000   Max.   :5.00  
-##                                                                
-##       nr3             nr4             nr5             nr6       
-##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000  
-##  1st Qu.:2.000   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:2.000  
-##  Median :3.000   Median :4.000   Median :3.000   Median :3.000  
-##  Mean   :3.124   Mean   :3.699   Mean   :3.327   Mean   :2.915  
-##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000  
-##  Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000  
-##                                                                 
-##        lz            extra           vertr          gewis      
-##  Min.   :1.400   Min.   :1.500   Min.   :2.50   Min.   :2.000  
-##  1st Qu.:4.200   1st Qu.:3.000   1st Qu.:3.75   1st Qu.:3.500  
-##  Median :4.800   Median :3.250   Median :4.00   Median :4.000  
-##  Mean   :4.684   Mean   :3.371   Mean   :4.09   Mean   :3.856  
-##  3rd Qu.:5.400   3rd Qu.:3.750   3rd Qu.:4.50   3rd Qu.:4.250  
-##  Max.   :6.600   Max.   :5.000   Max.   :5.00   Max.   :5.000  
-##                                                                
-##      neuro           intel            nerd          grund          
-##  Min.   :1.250   Min.   :1.250   Min.   :1.500   Length:153        
-##  1st Qu.:3.250   1st Qu.:3.250   1st Qu.:2.667   Class :character  
-##  Median :3.750   Median :3.500   Median :3.167   Mode  :character  
-##  Mean   :3.621   Mean   :3.564   Mean   :3.127                     
-##  3rd Qu.:4.250   3rd Qu.:4.000   3rd Qu.:3.500                     
-##  Max.   :5.000   Max.   :5.000   Max.   :4.667                     
-##                                                                    
-##      fach               ziel             lerntyp              geschl     
-##  Length:153         Length:153         Length:153         Min.   :1.000  
-##  Class :character   Class :character   Class :character   1st Qu.:1.000  
-##  Mode  :character   Mode  :character   Mode  :character   Median :1.000  
-##                                                           Mean   :1.161  
-##                                                           3rd Qu.:1.000  
-##                                                           Max.   :3.000  
-##                                                           NA's   :10     
-##       job            ort           ort12               wohnen     
-##  Min.   :1.00   Min.   :1.000   Length:153         Min.   :1.000  
-##  1st Qu.:1.00   1st Qu.:1.000   Class :character   1st Qu.:1.500  
-##  Median :1.00   Median :1.000   Mode  :character   Median :2.000  
-##  Mean   :1.35   Mean   :1.361                      Mean   :2.238  
-##  3rd Qu.:2.00   3rd Qu.:2.000                      3rd Qu.:3.000  
-##  Max.   :2.00   Max.   :2.000                      Max.   :4.000  
-##  NA's   :10     NA's   :9                          NA's   :10     
-##       uni1             uni2             uni3             uni4       
-##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
-##  1st Qu.:0.0000   1st Qu.:1.0000   1st Qu.:0.0000   1st Qu.:0.0000  
-##  Median :0.0000   Median :1.0000   Median :0.0000   Median :0.0000  
-##  Mean   :0.2026   Mean   :0.8693   Mean   :0.3791   Mean   :0.1111  
-##  3rd Qu.:0.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:0.0000  
-##  Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
-##                                                                     
-##   geschl_faktor     nr_ges           prok          wohnen_faktor
-##  weiblich:121   Min.   :1.000   Min.   :1.200   WG        :36   
-##  männlich: 21   1st Qu.:2.833   1st Qu.:2.200   bei Eltern:55   
-##  anderes :  1   Median :3.333   Median :2.800   alleine   :34   
-##  NA's    : 10   Mean   :3.252   Mean   :2.689   sonstiges :18   
-##                 3rd Qu.:3.667   3rd Qu.:3.200   NA's      :10   
-##                 Max.   :5.000   Max.   :4.000                   
+##            Year          Gender                         Ethnicity   Total_Mindset 
+##  7. Schuljahr:187   weiblich:151   Any other Asian background:  1   Min.   :19.0  
+##  8. Schuljahr:113   männlich:149   Any other white background:  1   1st Qu.:29.0  
+##                                    Chinese                   :  1   Median :32.0  
+##                                    Pakistani                 :  1   Mean   :31.6  
+##                                    White and Asian           :  1   3rd Qu.:35.0  
+##                                    White and Black African   :  2   Max.   :42.0  
+##                                    White British             :293   NA's   :7     
+##  Total_Competence_Maths Total_Competence_English Total_Competence_Science Total_SelfEsteem
+##  Min.   :1.000          Min.   :1.000            Min.   :1.000            Min.   : 6.00   
+##  1st Qu.:3.000          1st Qu.:3.000            1st Qu.:3.000            1st Qu.:17.00   
+##  Median :4.000          Median :4.000            Median :3.500            Median :19.00   
+##  Mean   :3.846          Mean   :3.695            Mean   :3.446            Mean   :18.99   
+##  3rd Qu.:4.000          3rd Qu.:4.000            3rd Qu.:4.000            3rd Qu.:21.00   
+##  Max.   :5.000          Max.   :5.000            Max.   :5.000            Max.   :30.00   
+##  NA's   :1              NA's   :2                NA's   :2                NA's   :17      
+##  Total_SocialSelfEsteem Total_AcademicSelfEfficacy Total_SelfConcept_Maths
+##  Min.   :14.00          Min.   : 5.00              Min.   : 5.00          
+##  1st Qu.:25.00          1st Qu.:11.00              1st Qu.:12.00          
+##  Median :29.00          Median :12.00              Median :14.00          
+##  Mean   :29.25          Mean   :12.64              Mean   :14.22          
+##  3rd Qu.:33.00          3rd Qu.:15.00              3rd Qu.:16.00          
+##  Max.   :46.00          Max.   :20.00              Max.   :20.00          
+##  NA's   :5              NA's   :8                  NA's   :10             
+##  Total_SelfConcept_English Total_SelfConcept_Science SubjectSTEndorsement_Maths
+##  Min.   : 3.00             Min.   : 4.00             Min.   :1.000             
+##  1st Qu.: 9.00             1st Qu.:11.00             1st Qu.:5.000             
+##  Median :11.00             Median :13.00             Median :5.000             
+##  Mean   :10.61             Mean   :13.26             Mean   :5.117             
+##  3rd Qu.:12.00             3rd Qu.:16.00             3rd Qu.:5.000             
+##  Max.   :15.00             Max.   :20.00             Max.   :9.000             
+##  NA's   :3                 NA's   :5                 NA's   :1                 
+##  SubjectSTEndorsement_English SubjectSTEndorsement_Science SubjectSTEndorsement_ICT
+##  Min.   :1.000                Min.   :1.000                Min.   :2.000           
+##  1st Qu.:4.000                1st Qu.:5.000                1st Qu.:5.000           
+##  Median :5.000                Median :5.000                Median :5.000           
+##  Mean   :4.445                Mean   :5.341                Mean   :5.692           
+##  3rd Qu.:5.000                3rd Qu.:6.000                3rd Qu.:6.000           
+##  Max.   :8.000                Max.   :9.000                Max.   :9.000           
+##  NA's   :1                    NA's   :1                    NA's   :1               
+##  CareerSTEndorsement_Maths CareerSTEndorsement_English CareerSTEndorsement_Science
+##  Min.   :1.000             Min.   :1.000               Min.   :1.000              
+##  1st Qu.:5.000             1st Qu.:4.000               1st Qu.:5.000              
+##  Median :5.000             Median :5.000               Median :5.000              
+##  Mean   :5.634             Mean   :4.403               Mean   :5.493              
+##  3rd Qu.:6.000             3rd Qu.:5.000               3rd Qu.:6.000              
+##  Max.   :9.000             Max.   :9.000               Max.   :9.000              
+##  NA's   :2                 NA's   :2                   NA's   :2                  
+##  CareerSTEndorsement_ICT Eng_AttainmentData Maths_AttainmentData Science_AttainmentData
+##  Min.   :1.000           Min.   : 1.000     Min.   : 1.0         Min.   : 1.000        
+##  1st Qu.:5.000           1st Qu.: 6.000     1st Qu.: 6.0         1st Qu.: 6.000        
+##  Median :6.000           Median : 8.000     Median : 7.0         Median : 8.000        
+##  Mean   :5.872           Mean   : 8.137     Mean   : 7.3         Mean   : 7.887        
+##  3rd Qu.:7.000           3rd Qu.:10.000     3rd Qu.: 9.0         3rd Qu.:10.000        
+##  Max.   :9.000           Max.   :14.000     Max.   :12.0         Max.   :14.000        
+##  NA's   :2                                                                             
+##  Computing_AttainmentData Total_Competence Total_SelfConcept   Achiever        
+##  Min.   : 1.00            Min.   :1.000    Min.   : 6.00     Length:300        
+##  1st Qu.: 4.00            1st Qu.:3.333    1st Qu.:11.33     Class :character  
+##  Median : 6.00            Median :3.667    Median :12.67     Mode  :character  
+##  Mean   : 6.01            Mean   :3.663    Mean   :12.72                       
+##  3rd Qu.: 8.00            3rd Qu.:4.000    3rd Qu.:14.00                       
+##  Max.   :12.00            Max.   :5.000    Max.   :18.33                       
+##                           NA's   :2        NA's   :14                          
+##  Career_Recommendation
+##  Length:300           
+##  Class :character     
+##  Mode  :character     
+##                       
+##                       
+##                       
 ## 
 ```
-Weitere Beispiele für solche Funktionen, die auf Objekte verschiedener Klassen angewandt werden können, sind `plot()` und `resid()`. 
+
+Eine andere Funktion, die auf `mod` angewendet werden kann, ist die Funktion `coef()`, die uns die Koeffizienten der Regression anzeigt.  
+
+
+``` r
+coef(mod)     # Koeffizienten der Regression durch Funktion
+```
+
+```
+##             (Intercept) Total_SelfConcept_Maths 
+##               4.3025269               0.2129649
+```
+
+Im Endeffekt ist das der Output, der uns standardmäßig von `lm()` angezeigt wird. Wir können unser Wissen jetzt kombinieren und in den Scatterplot zwischen den beiden Variablen der Regression auch die geschätzte Regressionsgerade einzeichnen. Dafür bauen wir wieder zunächst den Scatterplot und fügen dann über `abline()` die Regressionsgerade ein.
+
+
+``` r
+# Scatterplot mit Beschriftung
+plot(x = data$Total_SelfConcept_Maths, 
+     y = data$Maths_AttainmentData, 
+     main = "Scatterplot Mathematikleistung und Selbstkonzept",
+     xlab = "Selbstkonzept Mathematik",
+     ylab = "Mathematikleistung")
+# Regressionsgerade einzeichnen
+abline(mod)
+```
+
+![](/fdz-plots-lm_files/unnamed-chunk-24-1.png)<!-- -->
+
+Wir können uns hier zur Nutze machen, dass `abline()` Achsenabschnitt und Steigung automatisch aus dem Modell ziehen kann.
+
 Die einfache lineare Modellierung kann [hier](/lehre/statistik-i/einfache-regression/) vertieft werden.
 
 ## Multiple Regression
@@ -284,18 +571,19 @@ Zur multiplen Regression gibt es viele Themen in der [Übersicht von PsyBSc7](/l
 
 ### Kontinuierliche Prädiktoren
 
-Schauen wir uns zunächst eine einfache Erweiterung der Syntax um eine Addition an. 
+Schauen wir uns zunächst eine einfache Erweiterung der Syntax um eine Addition an. Neben dem Selbstkonzept soll auch die eigene Einschätzung der Kompetenz in Mathematik (`Total_Competence_Maths`) als Prädiktor aufgenommen werden. Dies funktioniert einfach über die additive Verbindung der Prädiktoren `+`.  
 
 
 ``` r
-mod_kont <- lm(lz ~ neuro + intel, data = data)
+# Multiples lineares Regressionsmodell mit zwei kontinuierlichen Prädiktoren
+mod_kont <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths + Total_Competence_Maths, data = data)
 ```
 
-Die `class` bleibt gleich und auch die `summary` ist daher gleich aufgebaut. Die `Coefficients` werden logischerweise um einen Eintrag erweitert. 
+Die `class()` bleibt gleich und auch die `summary()` ist daher gleich aufgebaut. Die `Coefficients` werden logischerweise um einen Eintrag, also eine Zeile, erweitert. 
 
 
 ``` r
-class(mod_kont)
+class(mod_kont)       # Klasse des Objekts
 ```
 
 ```
@@ -303,502 +591,133 @@ class(mod_kont)
 ```
 
 ``` r
-summary(mod_kont)
+summary(mod_kont)     # Zusammenfassung des Modells
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = lz ~ neuro + intel, data = data)
+## lm(formula = Maths_AttainmentData ~ Total_SelfConcept_Maths + 
+##     Total_Competence_Maths, data = data)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -3.4246 -0.6164  0.0396  0.7188  1.8736 
+## -5.4090 -1.5913  0.0143  1.5292  6.2491 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   3.6670     0.6245   5.872 2.67e-08 ***
-## neuro        -0.2566     0.1184  -2.167   0.0318 *  
-## intel         0.5460     0.1360   4.016 9.34e-05 ***
+##                         Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)              3.66959    0.61595   5.958  7.5e-09 ***
+## Total_SelfConcept_Maths  0.10094    0.06026   1.675   0.0950 .  
+## Total_Competence_Maths   0.57668    0.24270   2.376   0.0182 *  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.017 on 150 degrees of freedom
-## Multiple R-squared:  0.1149,	Adjusted R-squared:  0.1031 
-## F-statistic:  9.74 on 2 and 150 DF,  p-value: 0.0001054
+## Residual standard error: 2.265 on 286 degrees of freedom
+##   (11 observations deleted due to missingness)
+## Multiple R-squared:  0.1148,	Adjusted R-squared:  0.1086 
+## F-statistic: 18.55 on 2 and 286 DF,  p-value: 2.667e-08
 ```
 
 
 ### Aufnahme kategorialer Prädiktor
 
-Nun nehmen wir zunächst einmal die Variable `geschl` (Geschlecht) auf, so wie sie ursprünglich vorlag. Die Syntax bleibt dabei genau gleich. 
+Auch die Aufnahme von kategorialen Prädiktoren in das Regressionsmodell ist möglich. Hierzu sollte die Variable in Form eines Faktors vorliegen. Beispielsweise könnte es interessat sein, ob auch das Geschlecht einen Einfluss auf die Mathematikleistung hat.
 
 
 ``` r
-mod_kat <- lm(lz ~ intel + geschl, data = data)
+# Multiples lineares Regressionsmodell mit einem kategorialen und einem kontinuierlichen Prädiktor
+mod_kat <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths + Total_Competence_Maths + Gender, data = data)
 summary(mod_kat)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = lz ~ intel + geschl, data = data)
+## lm(formula = Maths_AttainmentData ~ Total_SelfConcept_Maths + 
+##     Total_Competence_Maths + Gender, data = data)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -3.6753 -0.5007  0.0738  0.7247  2.0197 
+## -4.6873 -1.6873  0.0219  1.3965  5.9382 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   3.1983     0.5188   6.165 7.09e-09 ***
-## intel         0.5967     0.1389   4.296 3.24e-05 ***
-## geschl       -0.5097     0.2219  -2.297   0.0231 *  
+##                         Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)              3.77738    0.59514   6.347 8.62e-10 ***
+## Total_SelfConcept_Maths  0.15349    0.05926   2.590   0.0101 *  
+## Total_Competence_Maths   0.51702    0.23467   2.203   0.0284 *  
+## Gendermännlich          -1.23728    0.26498  -4.669 4.66e-06 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.004 on 140 degrees of freedom
-##   (10 observations deleted due to missingness)
-## Multiple R-squared:  0.1284,	Adjusted R-squared:  0.1159 
-## F-statistic: 10.31 on 2 and 140 DF,  p-value: 6.654e-05
+## Residual standard error: 2.187 on 285 degrees of freedom
+##   (11 observations deleted due to missingness)
+## Multiple R-squared:  0.1777,	Adjusted R-squared:  0.1691 
+## F-statistic: 20.53 on 3 and 285 DF,  p-value: 4.496e-12
 ```
 
-Wir sehen, dass `geschl` ein eigenes Steigungsgewicht bekommt. Das ist überraschend, da es drei Ausprägungen in dieser Variable gibt.
-Daher ist die Verwandlung in einen Faktor essentiell. 
-
-
-``` r
-mod_kat <- lm(lz ~ intel + geschl_faktor, data = data)
-summary(mod_kat)
-```
-
-```
-## 
-## Call:
-## lm(formula = lz ~ intel + geschl_faktor, data = data)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.6774 -0.5032  0.0709  0.7226  2.0124 
-## 
-## Coefficients:
-##                       Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)             2.7046     0.5003   5.406 2.73e-07 ***
-## intel                   0.5932     0.1395   4.253 3.84e-05 ***
-## geschl_faktormännlich  -0.5548     0.2412  -2.300   0.0229 *  
-## geschl_faktoranderes   -0.5740     1.0198  -0.563   0.5745    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 1.007 on 139 degrees of freedom
-##   (10 observations deleted due to missingness)
-## Multiple R-squared:  0.1298,	Adjusted R-squared:  0.1111 
-## F-statistic: 6.914 on 3 and 139 DF,  p-value: 0.0002258
-```
-
-Die `summary` zeigt uns direkt an, in welcher Kategorie der Unterschied besteht. Die fehlende Kategorie wird als Referenz genutzt. Standardmäßig liegt hier also eine Dummykodierung vor. 
+Wir sehen, dass `Gender` in der Syntax genauso notiert wird wie kontinuierlich Prädikoren. Die Zeile in der `Coefficients`-Tabelle zeigt uns, dass die Variable `Gender` in zwei Kategorien aufgeteilt wurde. Die Referenzkategorie wird nicht angezeigt, sondern nur die Differenz zur Referenzkategorie.
 
 ### Moderierte Regression
 
-Nun soll der Interaktionseffekt zwischen zwei Variablen aufgenommen werden. Bevor wir dies tun, müssen wir die Variablen zentrieren, damit Multikollinearität vorgebeugt wird. 
+Nun soll der Interaktionseffekt zwischen zwei Variablen aufgenommen werden. Bevor wir dies tun, müssen wir die Variablen zentrieren, damit Multikollinearität vorgebeugt wird. Zentrierung und Standardisierung funktionieren über die Funktion `scale()`. Wenn wir nur eine Zentrierung erreichen wollen, müssen wir das Argument `scale` auf `FALSE` setzen. Statt der langen Schreibweise `FALSE` können wir auch einfach `F` schreiben.
 
 
 ``` r
-data$neuro_center <- scale(data$neuro, scale = F, center = T)
-data$intel_center <- scale(data$intel, scale = F, center = T)
+# Zentrierung der Prädiktoren
+data$Total_SelfConcept_Maths_center <- scale(data$Total_SelfConcept_Maths, scale = F, center = T)
+data$Total_Competence_Maths_center <- scale(data$Total_Competence_Maths, scale = F, center = T)
 ```
 
-Wir überprüfen die Funktionalität; diese ist nicht immer genau null, aber maschinell gesehen schon.
+Wir überprüfen die Funktionalität, indem wir uns den Mittelwert der Variablen ausgeben lassen.
 
-
-``` r
-mean(data$neuro_center)
-```
-
-```
-## [1] -1.450156e-17
-```
 
 ``` r
-mean(data$intel_center)
+# Check der Mittelwerte der Variablen
+mean(data$Total_SelfConcept_Maths_center, na.rm = TRUE)
 ```
 
 ```
-## [1] -2.176752e-16
+## [1] -4.402414e-16
 ```
+
+``` r
+mean(data$Total_Competence_Maths_center, na.rm = TRUE)
+```
+
+```
+## [1] -1.025891e-16
+```
+
+Wir sehen direkt, dass hier nicht einfach eine 0 steht. Das liegt aber an maschineler Ungenauigkeit - das `e-`symbolisert Nachkommastellen. Wir haben hier also eine sehr kleine Zahl, die maschinell gesehen nicht verschieden von 0 ist.
 
 Setzen wir nun die lineare Modellierung mit Moderationseffekt um. Da eine Moderation eine Multiplikation der Effekte ist, würde man intuitiv den Code folgendermaßen schreiben. 
 
 
 ``` r
-mod_inter_nocenter <- lm(lz ~ neuro + intel + neuro * intel, data = data)
-mod_inter_center <- lm(lz ~ neuro_center + intel_center + neuro_center * intel_center, data = data)
-summary(mod_inter_nocenter)
+# Multiple Regression mit Interaktionseffekt
+mod_inter <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths_center + Total_Competence_Maths_center + Total_SelfConcept_Maths_center * Total_Competence_Maths_center, data = data)
 ```
 
-```
-## 
-## Call:
-## lm(formula = lz ~ neuro + intel + neuro * intel, data = data)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.4151 -0.6220  0.0753  0.7150  1.9449 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)
-## (Intercept)  2.65678    3.14284   0.845    0.399
-## neuro        0.01942    0.84978   0.023    0.982
-## intel        0.83316    0.88602   0.940    0.349
-## neuro:intel -0.07825    0.23856  -0.328    0.743
-## 
-## Residual standard error: 1.02 on 149 degrees of freedom
-## Multiple R-squared:  0.1156,	Adjusted R-squared:  0.09777 
-## F-statistic: 6.491 on 3 and 149 DF,  p-value: 0.0003705
-```
-
-``` r
-summary(mod_inter_center)
-```
-
-```
-## 
-## Call:
-## lm(formula = lz ~ neuro_center + intel_center + neuro_center * 
-##     intel_center, data = data)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.4151 -0.6220  0.0753  0.7150  1.9449 
-## 
-## Coefficients:
-##                           Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                4.68648    0.08288  56.543  < 2e-16 ***
-## neuro_center              -0.25945    0.11908  -2.179   0.0309 *  
-## intel_center               0.54981    0.13687   4.017 9.32e-05 ***
-## neuro_center:intel_center -0.07825    0.23856  -0.328   0.7434    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 1.02 on 149 degrees of freedom
-## Multiple R-squared:  0.1156,	Adjusted R-squared:  0.09777 
-## F-statistic: 6.491 on 3 and 149 DF,  p-value: 0.0003705
-```
-Wir sehen, dass die Zentralisierung wie erwartet die Standardfehler reduziert hat. Kommen wir jetzt nochmal zurück zum Code: die intuitive Lösung mit der Multiplikation benötigt theoretisch nicht die einzelne Aufführung der Variablen, die Teil der Interaktion sind.
+Die intuitive Lösung mit der Multiplikation benötigt theoretisch nicht die einzelne Aufführung der Variablen, die Teil der Interaktion sind.
 
 
 ``` r
-mod_inter_center <- lm(lz ~ neuro_center * intel_center, data = data)
-summary(mod_inter_center)
-```
-
-```
-## 
-## Call:
-## lm(formula = lz ~ neuro_center * intel_center, data = data)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.4151 -0.6220  0.0753  0.7150  1.9449 
-## 
-## Coefficients:
-##                           Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                4.68648    0.08288  56.543  < 2e-16 ***
-## neuro_center              -0.25945    0.11908  -2.179   0.0309 *  
-## intel_center               0.54981    0.13687   4.017 9.32e-05 ***
-## neuro_center:intel_center -0.07825    0.23856  -0.328   0.7434    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 1.02 on 149 degrees of freedom
-## Multiple R-squared:  0.1156,	Adjusted R-squared:  0.09777 
-## F-statistic: 6.491 on 3 and 149 DF,  p-value: 0.0003705
+# Multiple Regression mit Interaktionseffekt reduzierte Schreibweise
+mod_inter <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths_center * Total_Competence_Maths_center, data = data)
 ```
 
 Allerdings hat das natürlich den Nachteil, dass man nicht spezifisch auswählt und damit nicht so stark über sein Modell nachdenken muss. Es besteht daher die Möglichkeit, Interaktionen sehr präzise mit dem `:` auszuwählen.  
 
 
 ``` r
-mod_inter_center <- lm(lz ~ neuro_center + intel_center + neuro_center:intel_center, data = data)
-summary(mod_inter_center)
-```
-
-```
-## 
-## Call:
-## lm(formula = lz ~ neuro_center + intel_center + neuro_center:intel_center, 
-##     data = data)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.4151 -0.6220  0.0753  0.7150  1.9449 
-## 
-## Coefficients:
-##                           Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                4.68648    0.08288  56.543  < 2e-16 ***
-## neuro_center              -0.25945    0.11908  -2.179   0.0309 *  
-## intel_center               0.54981    0.13687   4.017 9.32e-05 ***
-## neuro_center:intel_center -0.07825    0.23856  -0.328   0.7434    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 1.02 on 149 degrees of freedom
-## Multiple R-squared:  0.1156,	Adjusted R-squared:  0.09777 
-## F-statistic: 6.491 on 3 and 149 DF,  p-value: 0.0003705
+# Multiple Regression mit Interaktionseffekt präzise Schreibweise
+mod_inter <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths_center + Total_Competence_Maths_center + Total_SelfConcept_Maths_center:Total_Competence_Maths_center, data = data)
 ```
  
-Kommen wir nun zur grafischen Darstellung: Es gibt ein Paket, dass diese sehr gut unterstützt. Es erstellt automatisch Grafen im Rahmen von `ggplot()`, wozu es auf PandaR einen [ganzen Workshop](https://pandar.netlify.app/extras/#ggplotting) oder auch ein einzelnes, einführendes [Tutorial](https://pandar.netlify.app/post/grafiken-mit-ggplot2/) gibt. <!--ggplotting-Beiträge fehlen noch-->
+Weitere Infos zur Moderation, besonders zum Zusammenspiel mit quadratischen Effekten, finden sich [hier](/lehre/statistik-ii/moderierte-reg/). 
 
+### Zusammenfassung
 
-``` r
-install.packages("interactions")
-library(interactions)
-```
+In diesem Tutorial haben wir uns mit der Syntax von Grafiken und der Syntax von linearen Modellen in Basic `R` beschäftigt. Damit sind wir auch am Ende des Workshops angekommen. An dieser Stelle möchte ich nochmal auf die Vielzahl an Inhalten auf pandaR hinweisen, die Einführungen in die spezifischere Nutzung von `R` in verschiedenen Analysen bieten und auch sonst im Internet viele frei zugängliche Tutorials zu finden sind. Ansonsten sind auf den Folien noch weitere Literaturhinweise für klassische Lehrbücher.
 
-
-``` r
-library(interactions)
-```
-
-Die Festlegung des Moderators kann `R` natürlich nicht für uns übernehmen.
-
-
-``` r
-interact_plot(model = mod_inter_center, pred = intel_center, modx = neuro_center)
-```
-
-![](/fdz-plots-lm_files/unnamed-chunk-22-1.png)<!-- -->
-
-Weitere Infos zur Moderation, besonders zum Zusammenspiel mit quadratischen Effekten, finden sich [hier](https://pandar.netlify.app/post/ancova-und-moderierte-regression/). <!-- Beitrag fehlt noch, Teil von MSc5a-->
-
-## Anwendungen
-
-1. Erstelle eine multiple Regression mit Extraversion als abhängiger Variable und Art des Wohnens sowie Verträglichkeit als unabhängigen Variablen.
-
-<details><summary>Lösung</summary>
-
-
-``` r
-mod_extra <- lm(extra ~ wohnen_faktor + vertr, data = data)
-summary(mod_extra)
-```
-
-```
-## 
-## Call:
-## lm(formula = extra ~ wohnen_faktor + vertr, data = data)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -1.5411 -0.4500  0.0080  0.5113  1.5992 
-## 
-## Coefficients:
-##                         Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)              1.75211    0.42948   4.080 7.59e-05 ***
-## wohnen_faktorbei Eltern -0.26918    0.14279  -1.885   0.0615 .  
-## wohnen_faktoralleine    -0.04909    0.15898  -0.309   0.7580    
-## wohnen_faktorsonstiges  -0.31833    0.19275  -1.652   0.1009    
-## vertr                    0.42926    0.09992   4.296 3.26e-05 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 0.6648 on 138 degrees of freedom
-##   (10 observations deleted due to missingness)
-## Multiple R-squared:  0.161,	Adjusted R-squared:  0.1367 
-## F-statistic: 6.619 on 4 and 138 DF,  p-value: 6.661e-05
-```
-
-</details>
-
-2. Finde mit Hilfe des Internets heraus, wie standardisierte Regressionsparameter mit Hilfe einer Funktion ausgegeben werden können.
-
-<details><summary>Lösung</summary>
-
-
-``` r
-library(lm.beta)
-lm.beta(mod_extra)
-```
-
-```
-## 
-## Call:
-## lm(formula = extra ~ wohnen_faktor + vertr, data = data)
-## 
-## Standardized Coefficients::
-##             (Intercept) wohnen_faktorbei Eltern    wohnen_faktoralleine 
-##                      NA             -0.18368741             -0.02931193 
-##  wohnen_faktorsonstiges                   vertr 
-##             -0.14810607              0.33734839
-```
-
-``` r
-summary(lm.beta(mod_extra))
-```
-
-```
-## 
-## Call:
-## lm(formula = extra ~ wohnen_faktor + vertr, data = data)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -1.5411 -0.4500  0.0080  0.5113  1.5992 
-## 
-## Coefficients:
-##                         Estimate Standardized Std. Error t value Pr(>|t|)
-## (Intercept)              1.75211           NA    0.42948   4.080 7.59e-05
-## wohnen_faktorbei Eltern -0.26918     -0.18369    0.14279  -1.885   0.0615
-## wohnen_faktoralleine    -0.04909     -0.02931    0.15898  -0.309   0.7580
-## wohnen_faktorsonstiges  -0.31833     -0.14811    0.19275  -1.652   0.1009
-## vertr                    0.42926      0.33735    0.09992   4.296 3.26e-05
-##                            
-## (Intercept)             ***
-## wohnen_faktorbei Eltern .  
-## wohnen_faktoralleine       
-## wohnen_faktorsonstiges     
-## vertr                   ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 0.6648 on 138 degrees of freedom
-##   (10 observations deleted due to missingness)
-## Multiple R-squared:  0.161,	Adjusted R-squared:  0.1367 
-## F-statistic: 6.619 on 4 and 138 DF,  p-value: 6.661e-05
-```
-
-Eine geschachtelte Funktion ist teilweise schwierig zu lesen. Es gibt als Lösung die Pipe, die ein Objekt in eine weitere Funktion weitergibt. 
-
-
-``` r
-mod_extra |> lm.beta() |> summary()
-```
-
-```
-## 
-## Call:
-## lm(formula = extra ~ wohnen_faktor + vertr, data = data)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -1.5411 -0.4500  0.0080  0.5113  1.5992 
-## 
-## Coefficients:
-##                         Estimate Standardized Std. Error t value Pr(>|t|)
-## (Intercept)              1.75211           NA    0.42948   4.080 7.59e-05
-## wohnen_faktorbei Eltern -0.26918     -0.18369    0.14279  -1.885   0.0615
-## wohnen_faktoralleine    -0.04909     -0.02931    0.15898  -0.309   0.7580
-## wohnen_faktorsonstiges  -0.31833     -0.14811    0.19275  -1.652   0.1009
-## vertr                    0.42926      0.33735    0.09992   4.296 3.26e-05
-##                            
-## (Intercept)             ***
-## wohnen_faktorbei Eltern .  
-## wohnen_faktoralleine       
-## wohnen_faktorsonstiges     
-## vertr                   ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 0.6648 on 138 degrees of freedom
-##   (10 observations deleted due to missingness)
-## Multiple R-squared:  0.161,	Adjusted R-squared:  0.1367 
-## F-statistic: 6.619 on 4 and 138 DF,  p-value: 6.661e-05
-```
-
-</details>
-
-3. Zur Veranschaulichung des Codes - keine Empfehlung für solch ein Modell: Nun sollen statt Art des Wohnens die Skalenscores für Prokrastination und Naturverbundenheit genutzt werden. Außerdem soll die Dreifachinteraktion der Prädiktoren aufgenommen werden, aber keine Interaktionen zwischen zwei Prädiktoren.
-
-<details><summary>Lösung</summary>
-
-
-``` r
-data$nr_ges_center <- scale(data$nr_ges, scale = F, center = T) 
-data$prok_center <- scale(data$prok, scale = F, center = T)
-data$vertr_center <- scale(data$vertr, scale = F, center = T)
-```
-
-
-
-``` r
-mod_falsch <- lm(extra ~ nr_ges_center * prok_center * vertr_center, data = data)
-summary(mod_falsch)
-```
-
-```
-## 
-## Call:
-## lm(formula = extra ~ nr_ges_center * prok_center * vertr_center, 
-##     data = data)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.74002 -0.43244 -0.04961  0.43520  1.48942 
-## 
-## Coefficients:
-##                                         Estimate Std. Error t value
-## (Intercept)                             3.371832   0.054627  61.725
-## nr_ges_center                           0.021812   0.068152   0.320
-## prok_center                            -0.003785   0.085937  -0.044
-## vertr_center                            0.445074   0.099212   4.486
-## nr_ges_center:prok_center              -0.165077   0.108148  -1.526
-## nr_ges_center:vertr_center              0.080309   0.107238   0.749
-## prok_center:vertr_center                0.092026   0.156887   0.587
-## nr_ges_center:prok_center:vertr_center -0.095016   0.199032  -0.477
-##                                        Pr(>|t|)    
-## (Intercept)                             < 2e-16 ***
-## nr_ges_center                             0.749    
-## prok_center                               0.965    
-## vertr_center                           1.47e-05 ***
-## nr_ges_center:prok_center                 0.129    
-## nr_ges_center:vertr_center                0.455    
-## prok_center:vertr_center                  0.558    
-## nr_ges_center:prok_center:vertr_center    0.634    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 0.6732 on 145 degrees of freedom
-## Multiple R-squared:  0.1454,	Adjusted R-squared:  0.1042 
-## F-statistic: 3.526 on 7 and 145 DF,  p-value: 0.001588
-```
-
-
-``` r
-mod_korrekt <- lm(extra ~ nr_ges_center + prok_center + vertr_center + nr_ges_center:prok_center:vertr_center, data = data)
-summary(mod_korrekt)
-```
-
-```
-## 
-## Call:
-## lm(formula = extra ~ nr_ges_center + prok_center + vertr_center + 
-##     nr_ges_center:prok_center:vertr_center, data = data)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.70159 -0.48198 -0.05594  0.42549  1.55172 
-## 
-## Coefficients:
-##                                        Estimate Std. Error t value
-## (Intercept)                             3.37225    0.05447  61.905
-## nr_ges_center                           0.01607    0.06802   0.236
-## prok_center                             0.01132    0.08477   0.134
-## vertr_center                            0.44291    0.09685   4.573
-## nr_ges_center:prok_center:vertr_center -0.14871    0.19278  -0.771
-##                                        Pr(>|t|)    
-## (Intercept)                             < 2e-16 ***
-## nr_ges_center                             0.814    
-## prok_center                               0.894    
-## vertr_center                           1.01e-05 ***
-## nr_ges_center:prok_center:vertr_center    0.442    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 0.6735 on 148 degrees of freedom
-## Multiple R-squared:  0.1269,	Adjusted R-squared:  0.1033 
-## F-statistic:  5.38 on 4 and 148 DF,  p-value: 0.0004508
-```
-
-Anmerkung: Es ist empfehlenswert, keine Modelle zu bestimmen, in denen Interaktionen niedrigerer Ordnung nicht drin sind.
-
-</details>
  

@@ -1,96 +1,217 @@
 library(knitr)
 
-## library(haven)
-## setwd("~/Pfad/zu/Ordner")
-## data <- read_sav(file = "fb22_mod.sav")
-## data$geschl_faktor <- factor(data$geschl,                                   # Ausgangsvariable
-##                              levels = c(1, 2, 3),                           # Faktorstufen
-##                              labels = c("weiblich", "männlich", "anderes")) # Label für Faktorstufen
-## data$nr_ges <- rowMeans(data[,c("nr1", "nr2", "nr3", "nr4", "nr5", "nr6")])
-## data$prok <- rowMeans(data[,c("prok1", "prok4", "prok6", "prok9", "prok10")])
+## # Paket einladen
+## library(readxl)
+## library(dplyr)
+## library(forcats)
+## # Pfad setzen
+## rstudioapi::getActiveDocumentContext()$path |>
+##   dirname() |>
+##   setwd()
+## # Daten einladen
+## data <- read_excel("Pennington_2021.xlsx", sheet = "Study_Data")
+## # Faktoren erstellen
+## data$Gender <- factor(data$Gender,
+##                          levels = c(1, 2),
+##                          labels = c("weiblich", "männlich"))
+## data$Year <- as.factor(data$Year)
+## # Faktoren Rekodieren
+## data$Year <- fct_recode(data$Year,
+##                         "7. Schuljahr" = "Year7",
+##                         "8. Schuljahr" = "Year8")
+## data$Ethnicity <- as.factor(data$Ethnicity)
+## # NA-Werte ersetzen
+## data <- data %>%
+##   mutate(across(where(is.numeric), ~ na_if(.x, -9)))
+## # Skalenwerte erstellen
+## data <- data %>%
+##   mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+## data$Total_SelfConcept <- rowMeans(data[, c("Total_SelfConcept_Maths", "Total_SelfConcept_Science", "Total_SelfConcept_English")])
+## # Gruppierungsvariablen erstellen
+## data <- data %>%
+##   mutate(Achiever = case_when(
+##     Total_Competence_Maths >= 4 &
+##     Total_Competence_English >= 4 &
+##     Total_Competence_Science >= 4 ~ "High Achiever",
 ## 
-## data$wohnen_faktor <- factor(data$wohnen,
-##                              levels = c(1, 2, 3, 4),
-##                              labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+##     Total_Competence_Maths == 1 &
+##     Total_Competence_English == 1 &
+##     Total_Competence_Science == 1 ~ "Low Achiever",
+## 
+##     TRUE ~ "Medium Achiever"  # Alle anderen Fälle
+##   ))
+## data <- data %>%
+##   mutate(Career_Recommendation = case_when(
+##     Total_Competence_Maths > 10 |
+##     Total_Competence_English > 10 |
+##     Total_Competence_Science > 10 |
+##     Total_SelfConcept > 10 ~ "Empfohlen",
+## 
+##     TRUE ~ "Nicht empfohlen"
+##   ))
 
-library(haven)
-data <- read_sav(file = "../../daten/fb22_mod.sav")
-data$geschl_faktor <- factor(data$geschl,                                   # Ausgangsvariable
-                             levels = c(1, 2, 3),                           # Faktorstufen
-                             labels = c("weiblich", "männlich", "anderes")) # Label für Faktorstufen
-data$nr_ges <- rowMeans(data[,c("nr1", "nr2", "nr3", "nr4", "nr5", "nr6")])
-data$prok <- rowMeans(data[,c("prok1", "prok4", "prok6", "prok9", "prok10")])
+# Paket einladen
+library(readxl)
+library(dplyr)
+library(forcats)
+# Daten einladen
+source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
+# Faktoren erstellen
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+data$Year <- as.factor(data$Year)
+# Faktoren Rekodieren
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+data$Ethnicity <- as.factor(data$Ethnicity)
+# NA-Werte ersetzen
+data <- data %>%
+  mutate(across(where(is.numeric), ~ na_if(.x, -9)))
+# Skalenwerte erstellen
+data <- data %>%
+  mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+data$Total_SelfConcept <- rowMeans(data[, c("Total_SelfConcept_Maths", "Total_SelfConcept_Science", "Total_SelfConcept_English")])
+# Gruppierungsvariablen erstellen
+data <- data %>%
+  mutate(Achiever = case_when(
+    Total_Competence_Maths >= 4 & 
+    Total_Competence_English >= 4 & 
+    Total_Competence_Science >= 4 ~ "High Achiever",
+    
+    Total_Competence_Maths == 1 & 
+    Total_Competence_English == 1 & 
+    Total_Competence_Science == 1 ~ "Low Achiever",
+    
+    TRUE ~ "Medium Achiever"  # Alle anderen Fälle
+  ))
+data <- data %>%
+  mutate(Career_Recommendation = case_when(
+    Total_Competence_Maths > 10 |
+    Total_Competence_English > 10 |
+    Total_Competence_Science > 10 |
+    Total_SelfConcept > 10 ~ "Empfohlen",
+    
+    TRUE ~ "Nicht empfohlen"
+  ))  
 
-data$wohnen_faktor <- factor(data$wohnen,                                   
-                             levels = c(1, 2, 3, 4),                                
-                             labels = c("WG", "bei Eltern", "alleine", "sonstiges")) 
+#### Grafikerstellung ----
+gender_freq <- table(data$Gender)  # absolute Häufigkeiten in Objekt ablegen
+barplot(gender_freq)  # Balkendiagramm erstellen
 
-aggregate(extra ~ geschl_faktor, data = data, FUN = mean)
+barplot(table(data$Gender), 
+        main = "Geschlechtshäufigkeiten", 
+        xlab = "Geschlecht", 
+        ylab = "Absolute Häufigkeit")
 
-lm(extra ~ lz, data = data)
+# Erstellung eines Boxplots mit passender Beschriftung
+boxplot(data$Total_Competence_Science, 
+        main = "Boxplot der Kompetenz in Naturwissenschaften", 
+        ylab = "Skalenscore")
 
-mod <- lm(extra ~ lz, data = data)
+# Erstellung eines Boxplots mit passender Beschriftung und Farbgebung
+boxplot(data$Total_Competence_Science, 
+        main = "Boxplot der Kompetenz in Naturwissenschaften", 
+        ylab = "Skalenscore",
+        col = "blue",
+        border = "red")
 
-mod$coefficients
-mod$call
+terrain.colors(2)   # Farben aus einer Palette abrufen
 
-class(data)
-class(mod)
+terrain.colors(2)[1]  # Erste Farbe aus den zwei abgerufenen Farben aus der Palette
 
-summary(mod)
+# Erstellung eines Boxplots mit passender Beschriftung und Farbgebung der Palette
+boxplot(data$Total_Competence_Science, 
+        main = "Boxplot der Kompetenz in Naturwissenschaften", 
+        ylab = "Skalenscore",
+        col = terrain.colors(2)[2],
+        border = terrain.colors(2)[1])
 
-summary(data)
+# Erstellung eines Histogramms mit passender Beschriftung
+hist(data$Total_SelfConcept_Maths, 
+     main = "Histogramm des Selbstkonzepts in Mathematik", 
+     xlab = "Selbstkonzept Mathematik", 
+     ylab = "Absolute Häufigkeit")
 
-mod_kont <- lm(lz ~ neuro + intel, data = data)
+# Erstellung eines Histogramms mit passender Beschriftung und gewünschter Anzahl an Klassen
+hist(data$Total_SelfConcept_Maths, 
+     main = "Histogramm des Selbstkonzepts in Mathematik", 
+     xlab = "Selbstkonzept Mathematik", 
+     ylab = "Absolute Häufigkeit",
+     breaks = 10)
 
-class(mod_kont)
-summary(mod_kont)
+# Erstellung eines Scatterplots mit passender Beschriftung
+plot(x = data$Total_SelfConcept_Maths, 
+     y = data$Maths_AttainmentData, 
+     main = "Scatterplot Mathematikleistung und Selbstkonzept",
+     xlab = "Selbstkonzept Mathematik",
+     ylab = "Mathematikleistung")
 
-mod_kat <- lm(lz ~ intel + geschl, data = data)
+plot(x = data$Total_SelfConcept_Maths, 
+     y = data$Maths_AttainmentData, 
+     main = "Scatterplot Mathematikleistung und Selbstkonzept",
+     xlab = "Selbstkonzept Mathematik",
+     ylab = "Mathematikleistung")
+abline(h = 6) # Horizontale Linie bei 6 einfügen
+
+# Berechnung des Mittelwerts der Selbstkonzeptwerte in Abhängigkeit der Gruppierung nach Achiever
+aggregate(Total_SelfEsteem ~ Achiever, data = data, FUN = mean)
+
+# Einfache lineare Regression 
+# Formel = abhängige Variable ~ unabhängige Variable
+lm(formula = Maths_AttainmentData ~ 1 + Total_SelfConcept_Maths, data = data)
+
+# Reduktion der Syntax
+lm(Maths_AttainmentData ~ Total_SelfConcept_Maths, data = data)
+
+# Speichern des Modells in einem Objekt
+mod <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths, data = data)
+
+class(mod)  # Klasse des Objekts
+
+mod$coefficients  # Koeffizienten der Regression
+mod$call          # Aufruf der Funktion
+
+summary(mod)    # Zusammenfassung des Modells
+
+summary(data)   # Zusammenfassung des Datensatzes
+
+coef(mod)     # Koeffizienten der Regression durch Funktion
+
+# Scatterplot mit Beschriftung
+plot(x = data$Total_SelfConcept_Maths, 
+     y = data$Maths_AttainmentData, 
+     main = "Scatterplot Mathematikleistung und Selbstkonzept",
+     xlab = "Selbstkonzept Mathematik",
+     ylab = "Mathematikleistung")
+# Regressionsgerade einzeichnen
+abline(mod)
+
+# Multiples lineares Regressionsmodell mit zwei kontinuierlichen Prädiktoren
+mod_kont <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths + Total_Competence_Maths, data = data)
+
+class(mod_kont)       # Klasse des Objekts
+summary(mod_kont)     # Zusammenfassung des Modells
+
+# Multiples lineares Regressionsmodell mit einem kategorialen und einem kontinuierlichen Prädiktor
+mod_kat <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths + Total_Competence_Maths + Gender, data = data)
 summary(mod_kat)
 
-mod_kat <- lm(lz ~ intel + geschl_faktor, data = data)
-summary(mod_kat)
+# Zentrierung der Prädiktoren
+data$Total_SelfConcept_Maths_center <- scale(data$Total_SelfConcept_Maths, scale = F, center = T)
+data$Total_Competence_Maths_center <- scale(data$Total_Competence_Maths, scale = F, center = T)
 
-data$neuro_center <- scale(data$neuro, scale = F, center = T)
-data$intel_center <- scale(data$intel, scale = F, center = T)
+# Check der Mittelwerte der Variablen
+mean(data$Total_SelfConcept_Maths_center, na.rm = TRUE)
+mean(data$Total_Competence_Maths_center, na.rm = TRUE)
 
-mean(data$neuro_center)
-mean(data$intel_center)
+# Multiple Regression mit Interaktionseffekt
+mod_inter <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths_center + Total_Competence_Maths_center + Total_SelfConcept_Maths_center * Total_Competence_Maths_center, data = data)
 
-mod_inter_nocenter <- lm(lz ~ neuro + intel + neuro * intel, data = data)
-mod_inter_center <- lm(lz ~ neuro_center + intel_center + neuro_center * intel_center, data = data)
-summary(mod_inter_nocenter)
-summary(mod_inter_center)
+# Multiple Regression mit Interaktionseffekt reduzierte Schreibweise
+mod_inter <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths_center * Total_Competence_Maths_center, data = data)
 
-mod_inter_center <- lm(lz ~ neuro_center * intel_center, data = data)
-summary(mod_inter_center)
 
-mod_inter_center <- lm(lz ~ neuro_center + intel_center + neuro_center:intel_center, data = data)
-summary(mod_inter_center)
-
-## install.packages("interactions")
-## library(interactions)
-
-library(interactions)
-
-interact_plot(model = mod_inter_center, pred = intel_center, modx = neuro_center)
-
-mod_extra <- lm(extra ~ wohnen_faktor + vertr, data = data)
-summary(mod_extra)
-
-library(lm.beta)
-lm.beta(mod_extra)
-summary(lm.beta(mod_extra))
-
-mod_extra |> lm.beta() |> summary()
-
-data$nr_ges_center <- scale(data$nr_ges, scale = F, center = T) 
-data$prok_center <- scale(data$prok, scale = F, center = T)
-data$vertr_center <- scale(data$vertr, scale = F, center = T)
-
-mod_falsch <- lm(extra ~ nr_ges_center * prok_center * vertr_center, data = data)
-summary(mod_falsch)
-
-mod_korrekt <- lm(extra ~ nr_ges_center + prok_center + vertr_center + nr_ges_center:prok_center:vertr_center, data = data)
-summary(mod_korrekt)
+# Multiple Regression mit Interaktionseffekt präzise Schreibweise
+mod_inter <- lm(Maths_AttainmentData ~ Total_SelfConcept_Maths_center + Total_Competence_Maths_center + Total_SelfConcept_Maths_center:Total_Competence_Maths_center, data = data)

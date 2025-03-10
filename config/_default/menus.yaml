@@ -77,7 +77,7 @@ main:
     pre: "<i class='fab fa-whatsapp'></i>&ensp;"
     url: '/projekte/main#projekt-4'
     parent: "Projekte"
-    weight: 304    
+    weight: 304
 
   - name: "Workshops"
     pre: "<i class='fas fa-people-line'></i>&ensp;"
@@ -102,6 +102,12 @@ main:
     parent: "Workshops"
     weight: 403
 
+  - name: "FDZ"
+    pre: 
+    url: '/workshops/main#fdz'
+    parent: "Workshops"
+    weight: 404
+
   - name: "Extras"
     pre: "<i class='fas fa-rocket'></i>&ensp;"
     url: '/extras/main'
@@ -118,7 +124,7 @@ main:
     url: '/extras/main#git'
     parent: "Extras"
     weight: 502
- 
+
   - name: "Bayes"
     pre: "<i class='fas fa-mug-hot'></i>&ensp;"
     url: '/extras/main#bayes'
@@ -128,13 +134,13 @@ main:
   - name: "tigeR"
     pre: "<i class='fas fa-paw'></i>&ensp;"
     url: 'https://tiger.uni-frankfurt.de/app/shinytigeR'
-    weight: 600  
+    weight: 600
   # - name: "Bayes"
   #   pre: "<i class='fa-solid fa-dice-d20'></i>&ensp;"
   #   url: '/extras/main#bayes'
   #   parent: 'Extras'
   #   weight: 401
-  # 
+  #
   # - name: "stuart"
   #   pre: "<i class='fa fa-bugs'></i>&ensp;"
   #   url: '/extras/main#stuart'

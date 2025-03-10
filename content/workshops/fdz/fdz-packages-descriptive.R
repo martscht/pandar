@@ -1,96 +1,158 @@
-library(knitr)
+## #### Datensatz einlesen (vorbereiten) ----
+## # Installation eines Paketes Für Einladen Excel Dateien
+## install.packages('readxl')
 
-## library(haven)
-## setwd("~/Pfad/zu/Ordner")
-## data <- read_sav(file = "fb22_mod.sav")
-## data$geschl_faktor <- factor(data$geschl,                                   # Ausgangsvariable
-##                              levels = c(1, 2, 3),                           # Faktorstufen
-##                              labels = c("weiblich", "männlich", "anderes")) # Label für Faktorstufen
-## data$nr_ges <- rowMeans(data[,c("nr1", "nr2", "nr3", "nr4", "nr5", "nr6")])
-## data$prok <- rowMeans(data[,c("prok1", "prok4", "prok6", "prok9", "prok10")])
-## 
-## data$wohnen_faktor <- factor(data$wohnen,
-##                              levels = c(1, 2, 3, 4),
-##                              labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+library(readxl) # Paket aktivieren
 
-library(haven)
-data <- read_sav(file = "../../daten/fb22_mod.sav")
-data$geschl_faktor <- factor(data$geschl,                                   # Ausgangsvariable
-                             levels = c(1, 2, 3),                           # Faktorstufen
-                             labels = c("weiblich", "männlich", "anderes")) # Label für Faktorstufen
-data$nr_ges <- rowMeans(data[,c("nr1", "nr2", "nr3", "nr4", "nr5", "nr6")])
-data$prok <- rowMeans(data[,c("prok1", "prok4", "prok6", "prok9", "prok10")])
+## # Working Directory auf den Ort setzen, an dem das Skript abgespeichert ist
+## rstudioapi::getActiveDocumentContext()$path |>
+##   dirname() |>
+##   setwd()
 
-data$wohnen_faktor <- factor(data$wohnen,                                   
-                             levels = c(1, 2, 3, 4),                                
-                             labels = c("WG", "bei Eltern", "alleine", "sonstiges")) 
+## # Aus einer Excel Datei ein Worksheet einlesen
+## data <- read_excel("Pennington_2021.xlsx", sheet = "Study 1 Year 7 Data")
 
-aggregate(extra ~ geschl_faktor, data = data, FUN = mean)
+# Daten anhand vorbereitetem Skript aus dem OSF einlesen
+source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
 
-lm(extra ~ lz, data = data)
+#### Arbeit mit Datensatz ----
+##### Übersicht über den Datensatz -----
+dim(data)      # Anzahl Zeilen und Spalten
+names(data)    # Spaltennamen
 
-mod <- lm(extra ~ lz, data = data)
+data$Year  # spezifische Spalte anzeigen lassen
 
-mod$coefficients
-mod$call
+class(data$Year)   # Typ der Variable anzeigen lassen
 
-class(data)
-class(mod)
+class(data$Total_Competence_Maths)   # Typ der Variable anzeigen lassen
 
-summary(mod)
+data[3,]    # fünfte Zeile anzeigen lassen
+data[,1]    # erste Spalte anzeigen lassen
 
-summary(data)
+data[ , "Year"]    # Spalte Year anzeigen lassen
 
-mod_kont <- lm(lz ~ neuro + intel, data = data)
+## install.packages('dplyr') # Installation des Pakets
 
-class(mod_kont)
-summary(mod_kont)
+library(dplyr)   # Laden des Pakets
 
-mod_kat <- lm(lz ~ intel + geschl, data = data)
-summary(mod_kat)
+data %>% select(Year)   # dplyr Funktion zur Auswahl einer Spalte (Year)
 
-mod_kat <- lm(lz ~ intel + geschl_faktor, data = data)
-summary(mod_kat)
+data %>% slice(3)   # dplyr Funktion zur Auswahl der dritten Zeile
 
-data$neuro_center <- scale(data$neuro, scale = F, center = T)
-data$intel_center <- scale(data$intel, scale = F, center = T)
+#### Deskriptivstatistiken ----
+##### Faktoren am Beispiel absolute Häufigkeiten -----
+table(data$Gender)   # Absolute Häufigkeiten
 
-mean(data$neuro_center)
-mean(data$intel_center)
+# Faktor erstellen für das Geschlecht
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
 
-mod_inter_nocenter <- lm(lz ~ neuro + intel + neuro * intel, data = data)
-mod_inter_center <- lm(lz ~ neuro_center + intel_center + neuro_center * intel_center, data = data)
-summary(mod_inter_nocenter)
-summary(mod_inter_center)
+class(data$Gender)   # Typ der Variable anzeigen lassen
 
-mod_inter_center <- lm(lz ~ neuro_center * intel_center, data = data)
-summary(mod_inter_center)
+table(data$Gender)   # Absolute Häufigkeiten für den Faktor
 
-mod_inter_center <- lm(lz ~ neuro_center + intel_center + neuro_center:intel_center, data = data)
-summary(mod_inter_center)
+table(data$Year)   # Absolute Häufigkeiten für die Klassenstufen
 
-## install.packages("interactions")
-## library(interactions)
+data$Year <- as.factor(data$Year)  # Umwandlung in Faktor
+class(data$Year)                   # Typ der Variable anzeigen lassen
 
-library(interactions)
+## install.packages('forcats') # Installation des Pakets
 
-interact_plot(model = mod_inter_center, pred = intel_center, modx = neuro_center)
+library(forcats)            # Laden des Pakets
 
-mod_extra <- lm(extra ~ wohnen_faktor + vertr, data = data)
-summary(mod_extra)
+# Faktorstufen umbenennen
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
 
-library(lm.beta)
-lm.beta(mod_extra)
-summary(lm.beta(mod_extra))
+table(data$Year)    # Absolute Häufigkeiten 
 
-mod_extra |> lm.beta() |> summary()
+##### Fehlende Werte am Beispiel Mittelwert -----
+table(data$Total_Competence_Maths)   # Absolute Häufigkeiten
 
-data$nr_ges_center <- scale(data$nr_ges, scale = F, center = T) 
-data$prok_center <- scale(data$prok, scale = F, center = T)
-data$vertr_center <- scale(data$vertr, scale = F, center = T)
+min(data$Total_Competence_Maths)     # Minimum der Variable
 
-mod_falsch <- lm(extra ~ nr_ges_center * prok_center * vertr_center, data = data)
-summary(mod_falsch)
+# Wert als fehlend rekodieren
+data$Total_Competence_Maths <- data$Total_Competence_Maths %>% 
+  na_if(-9)
 
-mod_korrekt <- lm(extra ~ nr_ges_center + prok_center + vertr_center + nr_ges_center:prok_center:vertr_center, data = data)
-summary(mod_korrekt)
+table(data$Total_Competence_Maths)  # Absolute Häufigkeiten
+
+mean(data$Total_Competence_Maths)   # Default Mittelwert bei Vorliegen fehlender Werte
+
+mean(data$Total_Competence_Maths, na.rm = TRUE) # Mittelwert unter Ausschluss fehlender Werte
+
+is.na(data$Total_Competence_Maths) # Überprüfung auf fehlende Werte
+
+sum(is.na(data$Total_Competence_Maths)) # Anzahl fehlender Werte
+
+#### Erstellung neuer Variablen ----
+
+##### Bilden von Fragebogenscores -----
+table(data$Total_Competence_Science)    # Betrachten der absoluten Häufigkeiten
+# fehlende Werte -9 sind vorhanden und müssen behandelt werden
+data$Total_Competence_Science <- data$Total_Competence_Science %>% 
+  na_if(-9)
+
+
+
+4:25    # Vektor von 4 bis 25
+
+colMeans(data[,4:25])    # Mittelwert aller Variablen von Spalte 4 bis 25
+
+# Mittelwerte aller Zeilen für drei Variablen
+rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")])
+
+# Skalenmittelwert mit dplyr erstellen
+data <- data %>%
+  mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+
+data$Total_Competence   # Anzeigen der neuen Variable
+
+##### Bilden einer neuen kategorialen Variable -----
+
+# Neue Variable erstellen
+data <- data %>%
+  mutate(Achiever = case_when(
+    Total_Competence_Maths >= 4 & 
+    Total_Competence_English >= 4 & 
+    Total_Competence_Science >= 4 ~ "High Achiever",
+    
+    Total_Competence_Maths == 1 & 
+    Total_Competence_English == 1 & 
+    Total_Competence_Science == 1 ~ "Low Achiever",
+    
+    TRUE ~ "Medium Achiever"  # Alle anderen Fälle
+  ))
+
+table(data$Achiever)   # Absolute Häufigkeiten der neuen Variable
+
+#### Mehrfache Durchführung von Operationen ----
+# Ersetzen von -9 durch NA
+data <- data %>%
+  mutate(across(everything(), ~ na_if(.x, -9)))
+
+class(data$Year)   # Check des Typen von Year
+is.numeric(data$Year)   # Überprüfung auf numerische Variable - nicht numerisch
+class(data$Total_Competence_Maths)   # Check des Typen von Total_Competence_Maths
+is.numeric(data$Total_Competence_Maths)   # Überprüfung auf numerische Variable - numerisch
+
+# Ersetzen von -9 durch NA auf numerischen Variablen
+data <- data %>%
+  mutate(across(where(is.numeric), ~ na_if(.x, -9)))
+
+#### Erstellen Gruppierter Deskriptivstatistiken ----
+# Gruppierung nach Achiever
+data %>%
+  group_by(Achiever) 
+
+# Gruppierung nach Achiever und Berechnung des Mittelwerts
+data %>%
+  group_by(Achiever) %>%
+  summarise(mean(Total_SelfEsteem))
+
+# Gruppierung nach Achiever und Berechnung des Mittelwerts samt Benennung
+data %>%
+  group_by(Achiever) %>%
+  summarise(Mean_SelfEsteem = mean(Total_SelfEsteem))

@@ -1,5 +1,5 @@
 ---
-title: R und RStudio - Aufgaben
+title: R und RStudio - Lösungen
 type: post
 date: '2025-02-28' 
 slug: fdz-r-intro-loesungen 
@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler] 
-lastmod: '2025-02-28'
+lastmod: '2025-03-10'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"
@@ -26,8 +26,8 @@ links:
     name: Inhalte
     url: /workshops/fdz/fdz-r-intro
   - icon_pack: fas
-    icon: star
-    name: Lösungen
+    icon: pen-to-square
+    name: Aufgaben
     url: /workshops/fdz/fdz-r-intro-aufgaben
 
 _build:
@@ -43,9 +43,11 @@ output:
 
 Denken Sie bei allen Aufgaben daran, den Code im R-Skript sinnvoll zu gliedern und zu kommentieren.
 
-1. Bestimmen Sie das Ergebnis von $2 + 60 \div 5$
+1. Bestimmen Sie das Ergebnis von $2 + 60 \div 5$. Prüfen Sie mit logischen Operatoren, ob das Ergebnis dasselbe ist wie $3 \cdot 4$.
 
 <details><summary>Lösung</summary>
+
+Dieselben Rechenoperationen können in R durchgeführt werden. Hierbei ist zu beachten, dass die Rechenoperationen in der richtigen Reihenfolge durchgeführt werden. Bei der Lösung des Vergleichs kommen die logischen Operatoren `==` zum Einsatz, um zwei Rechenoperationen miteinander zu vergleichen. Hier muss besonders darauf geachtet werden, dass die Berechnung zuerst durchgeführt wird und dann der Vergleich stattfindet. Dies erreicht man, indem man die Berechnung in Klammern setzt.
 
 
 ``` r
@@ -58,31 +60,39 @@ Denken Sie bei allen Aufgaben daran, den Code im R-Skript sinnvoll zu gliedern u
 ## [1] 14
 ```
 
-</details>
-
-
-2. Prüfen Sie mit logischen Operatoren, ob das Ergebnis aus der letzten Aufgabe dasselbe ist, wie $3 \cdot 29$ oder $ 70 \div 5$.
-
-<details><summary>Lösung</summary>
-
-Bei der Lösung kommen die logischen Operatoren `==` zum Einsatz, um zwei Rechenoperationen miteinander zu vergleichen. Hier muss besonders darauf geachtet werden, dass die Berechnung zuerst durchgeführt wird und dann der Vergleich stattfindet. Dies erreicht man, indem man die Berechnung in Klammern setzt.
-
-
 ``` r
-##### Aufgabe 2 -----
-(2 + 60 / 5) == (3 * 29) # logischer Vergleich zweier Rechenoperationen
+(2 + 60 / 5) == (3 * 4) # logischer Vergleich
 ```
 
 ```
 ## [1] FALSE
 ```
 
+</details>
+
+
+2. Nun sollen gleichzeitig zwei logische Abfragen geschehen. Prüfen Sie, ob das Ergebnis von $2 + 60 \div 5$ dasselbe ist wie $3 \cdot 29$ ODER $ 70 \div 5$. Prüfen Sie außerdem, ob das Ergebnis von $2 + 60 \div 5$ dasselbe ist wie $70 \div 5$ UND $140 \div 9$.
+
+<details><summary>Lösung</summary>
+
+Die logischen Operatoren `|` und `&` können genutzt werden, um zwei logische Abfragen zu verknüpfen. Hierbei steht `|` für ein logisches ODER und `&` für ein logisches UND. Auch hier ist es wichtig, die Rechenoperationen in Klammern zu setzen, um die Reihenfolge der Berechnung zu gewährleisten. Insgesamt brauchen wir hier viele Klammern zur Sicherstellung der Reihenfolge.
+
+
 ``` r
-(2 + 60 / 5) == (70 / 5) # logischer Vergleich zweier Rechenoperationen
+##### Aufgabe 2 -----
+((2 + 60 / 5) == (3*29)) | ((2 + 60 / 5) == (70 / 5)) # logischer ODER Vergleich
 ```
 
 ```
 ## [1] TRUE
+```
+
+``` r
+((2 + 60 / 5) == (70 / 5)) & ((2 + 60 / 5) == (140 / 9)) # logischer UND Vergleich
+```
+
+```
+## [1] FALSE
 ```
 
 </details>
@@ -101,7 +111,7 @@ zahl <- round(sqrt(115), digits = 0) # Berechnung und Rundung der Quadratwurzel 
 
 </details>
 
-4. Sie wollen den Betrag der Zahl -5 bestimmen. Wie können Sie dies in R umsetzen? Nutzen Sie für das Suchen einer geeigneten Funktion die Hilfe oder das Internet.
+4. Sie wollen den Betrag der Zahl -5 bestimmen. Wie können Sie dies in `R` umsetzen? Nutzen Sie für das Suchen einer geeigneten Funktion die Hilfe oder das Internet.
 
 <details><summary>Lösung</summary>
 Die einfachste Funktion zum Bestimmen des Betrags einer Zahl ist `abs()`. 

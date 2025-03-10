@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler] 
-lastmod: '`r Sys.Date()`'
+lastmod: '2025-03-10'
 featured: no
 banner:
   image: "/header/metal_beams_electricity.jpg"
@@ -39,12 +39,7 @@ output:
 
 
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
-```
+
 
 
 
@@ -54,7 +49,8 @@ Denken Sie bei allen Aufgaben daran, den Code im R-Skript sinnvoll zu gliedern u
 
 Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunächst den Datensatz über die eben vorgestellten Befehle in Ihr Environment. Außerdem sind die nachfolgenden Befehle aus dem Tutorial noch wichtig, die Sie also durchführen sollten, wenn es noch nicht geschehen ist!
 
-```{r, eval = FALSE}
+
+``` r
 # Paket laden
 library(readxl)
 # Pfad setzen
@@ -74,11 +70,12 @@ data$Year <- fct_recode(data$Year,
 # fehlende Werte ersetzen
 data$Total_Competence_Maths <- data$Total_Competence_Maths %>% 
   na_if(-9)
-``` 
+```
 
 Falls Sie sich die Aufgaben unabhängig vom Workshop anschauen, werden folgende Schritte noch benötigt, die im Tutorial durchgeführt wurden.
 
-```{r}
+
+``` r
 # Datensatz aus dem OSF einladen
 source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
 # Faktoren anlegen
@@ -100,11 +97,19 @@ data$Total_Competence_Maths <- data$Total_Competence_Maths %>%
 <details><summary>Lösung</summary>
 Im Gegensatz zu dem Vorgehen im Tutorial wählen wir hier sowohl eine spezifische Zeile als auch eine spezifische Spalte aus. Wir müssen also vor und hinter dem Komma die entsprechenden Indizes angeben. Für die Spalte verwenden wir den Variablennamen, da es schneller ist, als die Spalte herauszufinden.
 
-```{r}
+
+``` r
 #### Aufgaben des Tutorials zu Paketen und Deskriptivstatistiken ----
 ##### Teil 1 -----
 ###### Aufgabe 1 ------
 data[5, "Total_Competence_English"] # Wert der 5. Person in der Variable Total_Competence_English
+```
+
+```
+## # A tibble: 1 × 1
+##   Total_Competence_English
+##                      <dbl>
+## 1                        3
 ```
 
 </details>
@@ -115,28 +120,59 @@ data[5, "Total_Competence_English"] # Wert der 5. Person in der Variable Total_C
 
 Zunächst schauen wir uns die Variable einmal an.
 
-```{r}
+
+``` r
 ###### Aufgabe 2 ------
 head(data$Ethnicity)   # Inhalt der Variable
+```
+
+```
+## [1] "White British" "White British" "White British" "White British" "White British"
+## [6] "White British"
+```
+
+``` r
 class(data$Ethnicity)  # Typ der Variable
+```
+
+```
+## [1] "character"
 ```
 
 Wir wissen nun, dass die Variable als `character` vorliegt. Um sie in einen Faktor umzuwandeln, nutzen wir die Funktion `factor()`.
 
-```{r}
+
+``` r
 data$Ethnicity <- factor(data$Ethnicity)  # Umwandlung in Faktor
 ```
 
 Nun können wir den Modalwert der Variable bestimmen. Dieser ist die Kategorie mit der häufigsten Ausprägung. Hierfür nutzen wir die Funktion `table()`.
 
-```{r}
+
+``` r
 table(data$Ethnicity)  # Häufigkeiten der Kategorien
+```
+
+```
+## 
+## Any other Asian background Any other white background                    Chinese 
+##                          1                          1                          1 
+##                  Pakistani            White and Asian    White and Black African 
+##                          1                          1                          2 
+##              White British 
+##                        293
 ```
 
 Wenn wir jetzt nicht selbst nach der Kategorie suchen wollen, können wir die Funktion `which.max()` nutzen, um den Index der häufigsten Kategorie zu finden.
 
-```{r}
+
+``` r
 table(data$Ethnicity) |> which.max() # Index der häufigsten Kategorie
+```
+
+```
+## White British 
+##             7
 ```
 
 Es handelt sich dabei um die Kategorie 7 - `White British`.
@@ -150,27 +186,45 @@ Es handelt sich dabei um die Kategorie 7 - `White British`.
 
 Um die Variable auf fehlende Werte zu prüfen, können wir die Anzahl der fehlenden Werte mit der Kombination aus `is.na()` und `sum()` bestimmen.
 
-```{r}
+
+``` r
 ###### Aufgabe 3 ------
 is.na(data$Total_Competence_English) |> sum()  # Anzahl der fehlenden Werte
 ```
 
+```
+## [1] 0
+```
+
 Aktuell liegen hier keine fehlenden Werte vor. Allerdings haben wir auch gesehen, dass die Werte eventuell noch "falsch" als -9 kodiert sind. Betrachten wir die absoluten Häufigkeiten.
 
-```{r}
+
+``` r
 table(data$Total_Competence_English)  # Häufigkeiten der Werte
+```
+
+```
+## 
+##  -9   1   2   3   4   5 
+##   2   5  25  73 148  47
 ```
 
 Hier fällt direkt wieder auf, dass -9 als Wert vorkommt. Wir können diesen Wert also ersetzen.
 
-```{r}
+
+``` r
 data$Total_Competence_English <- data$Total_Competence_English %>% na_if(-9)  # Ersetzen der fehlenden Werte
 ```
 
 Nun können wir den Median der Variable bestimmen. Wie beim Mittelwert muss hier das Argument `na.rm = TRUE` gesetzt werden, um fehlende Werte zu ignorieren.
 
-```{r}
+
+``` r
 median(data$Total_Competence_English, na.rm = TRUE)  # Median der Variable
+```
+
+```
+## [1] 4
 ```
 
 
@@ -184,15 +238,25 @@ median(data$Total_Competence_English, na.rm = TRUE)  # Median der Variable
 
 Zunächst einmal lässt sich hier festhalten, dass auch die Funktion `cor()` auf fehlende Werte dahingehend reagiert, das Ergebnis auch als `NA` auszugeben. 
 
-```{r}
+
+``` r
 ###### Aufgabe 4 ------
 cor(data$Total_Competence_Maths, data$Total_Competence_English)  # Korrelation zwischen den Variablen
 ```
 
+```
+## [1] NA
+```
+
 In der Hilfe stellen wir fest, dass es hier nicht das Argument `na.rm` gibt, wie wir es von anderen Funktionen kennen. Wir können die Behandlung fehlender Werte jedoch über das Argument `use` beeinflussen. Dabei gibt es Unterschiede zwischen dem paarweisen und listenweisen Löschen von fehlenden Werten - aber bei einer Korrelation zwischen zwei Variablen macht das nichts aus.
 
-```{r}
+
+``` r
 cor(data$Total_Competence_Maths, data$Total_Competence_English, use = "pairwise.complete.obs")  # Korrelation zwischen den Variablen
+```
+
+```
+## [1] 0.2179307
 ```
 
 </details>
@@ -205,21 +269,51 @@ cor(data$Total_Competence_Maths, data$Total_Competence_English, use = "pairwise.
 
 In `dplyr` können wir die Funktion `filter()` nutzen, um die Daten nach bestimmten Kriterien zu filtern. Hier wollen wir die Daten nach dem Merkmal `Year` filtern. Die Anwendung benötigt die Angabe des Datensatzes und der Bedingung, die erfüllt sein muss. 
 
-```{r}
+
+``` r
 ###### Aufgabe 5 ------
 filter(data, Year == "7. Schuljahr")  # Filtern der Daten nach dem Merkmal Year
 ```
 
+```
+## # A tibble: 187 × 25
+##    Year        Gender Ethnicity Total_Mindset Total_Competence_Maths Total_Competence_Eng…¹
+##    <fct>       <fct>  <fct>             <dbl>                  <dbl>                  <dbl>
+##  1 7. Schulja… weibl… White Br…            36                      4                      3
+##  2 7. Schulja… weibl… White Br…            34                      2                      4
+##  3 7. Schulja… weibl… White Br…            28                      4                      4
+##  4 7. Schulja… weibl… White Br…            38                      4                      4
+##  5 7. Schulja… weibl… White Br…            26                      3                      3
+##  6 7. Schulja… weibl… White Br…            29                      4                      4
+##  7 7. Schulja… weibl… White Br…            32                      3                      4
+##  8 7. Schulja… weibl… White Br…            31                      4                      3
+##  9 7. Schulja… weibl… White Br…            28                      3                      5
+## 10 7. Schulja… weibl… White Br…            30                      5                      4
+## # ℹ 177 more rows
+## # ℹ abbreviated name: ¹​Total_Competence_English
+## # ℹ 19 more variables: Total_Competence_Science <dbl>, Total_SelfEsteem <dbl>,
+## #   Total_SocialSelfEsteem <dbl>, Total_AcademicSelfEfficacy <dbl>,
+## #   Total_SelfConcept_Maths <dbl>, Total_SelfConcept_English <dbl>,
+## #   Total_SelfConcept_Science <dbl>, SubjectSTEndorsement_Maths <dbl>,
+## #   SubjectSTEndorsement_English <dbl>, SubjectSTEndorsement_Science <dbl>, …
+```
+
 Damit ein Subdatensatz auch wirklich im Environment erscheint, müssen wir das Ergebnis der Funktion `filter()` einer neuen Variable zuweisen.
 
-```{r}
+
+``` r
 data_year7 <- filter(data, Year == "7. Schuljahr")  # Filtern der Daten nach dem Merkmal Year
 ```
 
 Mit diesem Subdatensatz können wir nun ganz normal arbeiten - bspw. den Mittelwert der Variable `Total_Competence_Maths` bestimmen.
 
-```{r}
+
+``` r
 mean(data_year7$Total_Competence_Maths, na.rm = TRUE)  # Mittelwert der Variable Total_Competence_Maths
+```
+
+```
+## [1] 3.784946
 ```
 
 </details>
@@ -232,7 +326,8 @@ mean(data_year7$Total_Competence_Maths, na.rm = TRUE)  # Mittelwert der Variable
 
 Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunächst den Datensatz über die eben vorgestellten Befehle in Ihr Environment. Außerdem sind die nachfolgenden Befehle aus dem Tutorial / den Aufgaben noch wichtig, die Sie also durchführen sollten, wenn es noch nicht geschehen ist!
 
-```{r, eval = FALSE}
+
+``` r
 # Paket laden
 library(readxl)
 # Pfad setzen
@@ -270,11 +365,12 @@ data <- data %>%
     
     TRUE ~ "Medium Achiever"  # Alle anderen Fälle
   ))
-``` 
+```
 
 Falls Sie sich die Aufgaben unabhängig vom Workshop anschauen, werden folgende Schritte noch benötigt, die im Tutorial (und Teil 1 der Aufgaben) durchgeführt wurden.
 
-```{r}
+
+``` r
 source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
 # Faktoren anlegen
 data$Gender <- factor(data$Gender, 
@@ -304,7 +400,6 @@ data <- data %>%
     
     TRUE ~ "Medium Achiever"  # Alle anderen Fälle
   ))
-
 ```
 
 
@@ -316,7 +411,8 @@ data <- data %>%
 
 Um den Skalenscore zu berechnen, können wir die Funktion `rowMeans()` nutzen. Diese berechnet den Mittelwert über die Zeilen eines Datensatzes. 
 
-```{r}
+
+``` r
 ##### Teil 2 -----
 ###### Aufgabe 1 ------
 data$Total_SelfConcept <- rowMeans(data[, c("Total_SelfConcept_Maths", "Total_SelfConcept_Science", "Total_SelfConcept_English")])  # Berechnung des Skalenscores
@@ -324,9 +420,21 @@ data$Total_SelfConcept <- rowMeans(data[, c("Total_SelfConcept_Maths", "Total_Se
 
 Nun können wir den Mittelwert und Median der neuen Variable bestimmen. Dabei müssen wir auch hier drauf achten, fehlende Werte zu ignorieren.
 
-```{r}
+
+``` r
 mean(data$Total_SelfConcept, na.rm = TRUE)  # Mittelwert der Variable
+```
+
+```
+## [1] 12.71795
+```
+
+``` r
 median(data$Total_SelfConcept, na.rm = TRUE)  # Median der Variable
+```
+
+```
+## [1] 12.66667
 ```
 </details>
 
@@ -336,15 +444,25 @@ median(data$Total_SelfConcept, na.rm = TRUE)  # Median der Variable
 
 Um den höchsten Wert in einer Variable zu finden, können wir die Funktion `max()` nutzen. Auch hier müssen wir wieder darauf achten, fehlende Werte zu ignorieren.
 
-```{r}
+
+``` r
 ###### Aufgabe 2 ------
 max(data$Total_SelfConcept, na.rm = TRUE)  # Höchster Wert in der Variable
 ```
 
+```
+## [1] 18.33333
+```
+
 Wie finden wir nun heraus, welche Person diesen Wert hat? Dafür können wir die Funktion `which.max()` nutzen, die uns den Index des höchsten Wertes zurückgibt.
 
-```{r}
+
+``` r
 which.max(data$Total_SelfConcept)  # Index der Person mit dem höchsten Wert
+```
+
+```
+## [1] 112
 ```
 
 </details>
@@ -356,7 +474,8 @@ which.max(data$Total_SelfConcept)  # Index der Person mit dem höchsten Wert
 
 Hier muss also wie im Tutorial eine kategoriale Variable erstellt werden - aus vorliegenden numerischen Werten. Dafür können wir die Funktion `mutate()` und `case_when()` nutzen.
 
-```{r}
+
+``` r
 ###### Aufgabe 3 ------
 data <- data %>%
   mutate(Career_Recommendation = case_when(
@@ -371,14 +490,28 @@ data <- data %>%
 
 Nun können wir den Anteil der Werte bestimmen, für die Empfehlungen gegeben werden können. Wir haben bereits gelernt, dass die absolute Häufigkeit mit `table()` bestimmt werden kann.
 
-```{r}
+
+``` r
 table(data$Career_Recommendation)  # Absolute Häufigkeiten
+```
+
+```
+## 
+##       Empfohlen Nicht empfohlen 
+##             251              49
 ```
 
 Den Anteil könnten wir jetzt natürlich berechnen, indem wir die absolute Häufigkeit durch die Gesamtanzahl der Werte teilen. Allerdings gibt es auch eine Funktion, die das direkt für uns erledigt. `prop.table()` gibt uns den Anteil der Werte zurück, wenn es auf ein `table()`-Objekt angewendet wird. Wir können das direkt in einem Schritt mit der Pipe `|>` machen.
 
-```{r}
+
+``` r
 table(data$Career_Recommendation) |> prop.table()  # Anteil der Werte
+```
+
+```
+## 
+##       Empfohlen Nicht empfohlen 
+##       0.8366667       0.1633333
 ```
 
 </details>
@@ -390,12 +523,21 @@ Zunächst einmal stellt sich die Frage, welche Variable das Mindset der Schüler
 
 Das restliche Vorgehen ist eine Anpassung aus dem Tutorial. Allerdings können wir in `summarise()` anstatt einer auch mehrere Funktionen gleichzeitig nutzen. Wenn wir den Ergebnissen jeweils noch einen sprechenden Namen geben, wird die Ausgabe übersichtlicher.
 
-```{r}
+
+``` r
 ###### Aufgabe 4 ------
 data %>%
   group_by(Career_Recommendation) %>%
   summarise(mean_mindset = mean(Total_Mindset, na.rm = TRUE),  # Mittelwert des Mindsets
             sd_mindset = sd(Total_Mindset, na.rm = TRUE))  # Standardabweichung des Mindsets
+```
+
+```
+## # A tibble: 2 × 3
+##   Career_Recommendation mean_mindset sd_mindset
+##   <chr>                        <dbl>      <dbl>
+## 1 Empfohlen                     32.1       4.25
+## 2 Nicht empfohlen               29.1       4.47
 ```
 
 </details>
@@ -405,21 +547,32 @@ data %>%
 <details><summary>Lösung</summary>
 Zur Erinnerung nochmal das Ergebnis der Korrelation zwischen den Variablen `Total_Competence_Maths` und `Total_Competence_English` aus Teil 1 Aufgabe 4.
 
-```{r}
+
+``` r
 ###### Aufgabe 5 ------
 cor(data$Total_Competence_Maths, data$Total_Competence_English, use = "pairwise.complete.obs")  # Korrelation zwischen den Variablen
 ```
 
+```
+## [1] 0.2179307
+```
+
 Nun können wir den Datensatz reduzieren. Dafür nutzen wir die Funktion `na.omit()`. Diese entfernt alle Zeilen, in denen mindestens ein fehlender Wert vorkommt.
 
-```{r}
+
+``` r
 data_red <- na.omit(data)  # Reduzieren des Datensatzes
 ```
 
 Die Variablennamen sind in dem Datensatz weiterhin die gleichen. Eine Behandlung fehlender Werte müssen wir in der `cor()`-Funktion nun nicht mehr angeben.
 
-```{r}
+
+``` r
 cor(data_red$Total_Competence_Maths, data_red$Total_Competence_English)  # Korrelation zwischen den Variablen
+```
+
+```
+## [1] 0.2047514
 ```
 
 Die Erklärung für den Unterschied liegt in dem Effekt der `na.omit()`-Funktion. Diese entfernt alle Zeilen, in denen mindestens ein fehlender Wert vorkommt. Dadurch werden auch Personen ausgeschlossen, die auf Variablen fehlende Werte haben, die für die Korrelation nicht relevant sind. Das kann zu Unterschieden in den Ergebnissen führen. Unabhängig davon, dass auch paarweise und listenweiser Fallausschluss problematische Aspekte haben, ist es wichtig, dass die Funktion `na.omit()` nur in sehr spezifischen Fällen genutzt wird.

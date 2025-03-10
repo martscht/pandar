@@ -1,0 +1,193 @@
+---
+title: Nutzung von Paketen und Bestimmung Deskriptivstatistiken - Aufgaben
+type: post
+date: '2025-02-28' 
+slug: fdz-packages-descriptive-aufgaben
+categories: [] 
+tags: [] 
+subtitle: ''
+summary: '' 
+authors: [nehler] 
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/metal_beams_electricity.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+projects: []
+
+expiryDate: ''
+publishDate: ''
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /workshops/fdz/fdz-packages-descriptive
+  - icon_pack: fas
+    icon: star
+    name: Lösungen
+    url: /workshops/fdz/fdz-packages-descriptive-loesungen
+
+_build:
+  list: never
+output:
+  html_document:
+    keep_md: true
+---
+
+
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
+
+
+Denken Sie bei allen Aufgaben daran, den Code im R-Skript sinnvoll zu gliedern und zu kommentieren.
+
+## Teil 1
+
+Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunächst den Datensatz über die eben vorgestellten Befehle in Ihr Environment. Außerdem sind die nachfolgenden Befehle aus dem Tutorial noch wichtig, die Sie also durchführen sollten, wenn es noch nicht geschehen ist!
+
+```{r, eval = FALSE}
+# Paket laden
+library(readxl)
+# Pfad setzen
+rstudioapi::getActiveDocumentContext()$path |>
+  dirname() |>
+  setwd()
+# Daten einladen
+data <- read_excel("Pennington_2021.xlsx", sheet = "Study 1 Year 7 Data")
+# Faktoren anlegen
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+data$Year <- as.factor(data$Year)
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+# fehlende Werte ersetzen
+data$Total_Competence_Maths <- data$Total_Competence_Maths %>% 
+  na_if(-9)
+``` 
+
+Falls Sie sich die Aufgaben unabhängig vom Workshop anschauen, werden folgende Schritte noch benötigt, die im Tutorial durchgeführt wurden.
+
+```{r}
+# Datensatz aus dem OSF einladen
+source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
+# Faktoren anlegen
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+data$Year <- as.factor(data$Year)
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+# fehlende Werte ersetzen
+data$Total_Competence_Maths <- data$Total_Competence_Maths %>% 
+  na_if(-9)
+```
+
+
+1. Welchen Wert hat die 5. Person im Datensatz in der Variable `Total_Competence_English`? Lösen Sie die Aufgabe unter Verwendung der eckigen Klammern.
+2. Betrachten Sie den aktuellen Typ der Variable `Ethnicity`. Verwandeln Sie diesen über eine passende Funktion in einen Faktor. Was ist der Modalwert der Variable?
+3. Überprüfen Sie die Variable `Total_Competence_English` auf fehlende Werte. Wie viele fehlende Werte sind in der Variable enthalten? Kodieren Sie diese korrekt und den Median ( `median()`) der Variable.
+4. Die Korrelation wird in R mit der Funktion `cor()` berechnet. Bestimmen Sie die Korrelation zwischen den Variablen `Total_Competence_Maths` und `Total_Competence_English`. Benutzen Sie die Hilfe für die Funktion, um das passende Argumente zum Umgang mit fehlenden Werte einzugeben.
+5. Wie bereits geschildert führen die Autor:innen die Analyse des Datensatzes getrennt für die beiden Jahrgänge durch. Finden Sie heraus, wie man mit dem `dplyr`-Paket die Daten nach dem Merkmal `Year` filtern und einen Subdatensatz erstellen könnte, in dem nur der jüngere Jahrgang enthalten ist. Bestimmen Sie den Mittelwert der Variable `Total_Competence_Maths` in diesem Subdatensatz.
+
+
+
+## Teil 2
+
+Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunächst den Datensatz über die eben vorgestellten Befehle in Ihr Environment. Außerdem sind die nachfolgenden Befehle aus dem Tutorial / den Aufgaben noch wichtig, die Sie also durchführen sollten, wenn es noch nicht geschehen ist!
+
+```{r, eval = FALSE}
+# Paket laden
+library(readxl)
+# Pfad setzen
+rstudioapi::getActiveDocumentContext()$path |>
+  dirname() |>
+  setwd()
+# Daten einladen
+data <- read_excel("Pennington_2021.xlsx", sheet = "Study 1 Year 7 Data")
+# Faktoren anlegen
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+
+data$Year <- as.factor(data$Year)
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+data$Ethnicity <- as.factor(data$Ethnicity)
+# Fehlende Werte ersetzen
+data <- data %>%
+  mutate(across(where(is.numeric), ~ na_if(.x, -9)))
+# Skalenwerte berechnen
+data <- data %>%
+  mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+# Gruppierungsvariable erstellen
+data <- data %>%
+  mutate(Achiever = case_when(
+    Total_Competence_Maths >= 4 & 
+    Total_Competence_English >= 4 & 
+    Total_Competence_Science >= 4 ~ "High Achiever",
+    
+    Total_Competence_Maths == 1 & 
+    Total_Competence_English == 1 & 
+    Total_Competence_Science == 1 ~ "Low Achiever",
+    
+    TRUE ~ "Medium Achiever"  # Alle anderen Fälle
+  ))
+``` 
+
+Falls Sie sich die Aufgaben unabhängig vom Workshop anschauen, werden folgende Schritte noch benötigt, die im Tutorial (und Teil 1 der Aufgaben) durchgeführt wurden.
+
+```{r}
+source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
+# Faktoren anlegen
+data$Gender <- factor(data$Gender, 
+                         levels = c(1, 2),
+                         labels = c("weiblich", "männlich"))
+data$Year <- as.factor(data$Year)
+data$Year <- fct_recode(data$Year, 
+                        "7. Schuljahr" = "Year7",
+                        "8. Schuljahr" = "Year8")
+data$Ethnicity <- as.factor(data$Ethnicity)
+# Fehlende Werte ersetzen
+data <- data %>%
+  mutate(across(where(is.numeric), ~ na_if(.x, -9)))
+# Skalenwerte berechnen
+data <- data %>%
+  mutate(Total_Competence = rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Competence_Science")]))
+# Gruppierungsvariable erstellen
+data <- data %>%
+  mutate(Achiever = case_when(
+    Total_Competence_Maths >= 4 & 
+    Total_Competence_English >= 4 & 
+    Total_Competence_Science >= 4 ~ "High Achiever",
+    
+    Total_Competence_Maths == 1 & 
+    Total_Competence_English == 1 & 
+    Total_Competence_Science == 1 ~ "Low Achiever",
+    
+    TRUE ~ "Medium Achiever"  # Alle anderen Fälle
+  ))
+
+```
+
+
+
+
+1. Erstellen Sie einen Skalenscore `Total_SelfConcept` als Mittelwert aus den Variablen `Total_SelfConcept_Maths`, `Total_SelfConcept_Science` und `Total_SelfConcept_English`. Berechnen Sie dann Mittelwert und Median der neuen Variable.
+2. Finden Sie heraus, welche Person den höchsten Wert in der Variable `Total_SelfConcept` hat. Wie lautet der Wert?
+3. Die Forscherinnen wollen überprüfen, ob Sie für alle Jugendlichen bereits eine Karriere-Empfehlung machen können. Dafür muss auf einer (oder mehrerer) der 4 Leistungsvariablen (alle haben als Teil des Namens `AttainmentData`) ein Wert von über 10 für ein Kind vorliegen. Erstellen Sie eine neue kategoriale Variable mit dem Namen `Career_Recommendation`, die die Werte `Empfohlen` und `nicht_empfohlen` enthält. Bestimmen Sie dann den Anteil der Werte an Kindern, für die Empfehlungen gegeben werden kann.
+4. Untersuchen Sie deskriptiv hinsichtlich Mittelwert und Standardabweichung, ob sich das Mindset der Schülerinnen mit und ohne Karriereempfehlung unterscheidet.
+5. In Teil 1 Aufgabe 4 haben wir bereits die Korrelation zwischen den Variablen `Total_Competence_Maths` und `Total_Competence_English` bestimmt. Dabei haben wir gesehen, dass das Argument `use` genutzt werden kann, um den Umgang mit fehlenden Werten für genau diese eine Berechnung zu steuern. In einigen Tutorials und auch in Code-Chunks, die von LLMs produziert werden, wird die Funktion `na.omit()` zum Ausschluss fehlender Werte auf dem gesamten Datensatz propagiert. Reduzieren Sie mit der Funktion den Datensatz auf einen Subdatensatz `data_red` und bestimmen Sie die Korrelation zwischen den Variablen `Total_Competence_Maths` und `Total_Competence_English` in diesem Subdatensatz. Versuchen Sie herauszufinden, wodurch die Unterschiede in den Ergebnissen zustande kommen.
+
