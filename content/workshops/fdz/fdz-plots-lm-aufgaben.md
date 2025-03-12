@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler] 
-lastmod: '2025-03-10'
+lastmod: '2025-03-12'
 featured: no
 banner:
   image: "/header/rice-field.jpg"
@@ -91,13 +91,13 @@ data <- data %>%
   ))
 data <- data %>%
   mutate(Career_Recommendation = case_when(
-    Total_Competence_Maths > 10 |
-    Total_Competence_English > 10 |
-    Total_Competence_Science > 10 |
-    Total_SelfConcept > 10 ~ "Empfohlen",
+    Maths_AttainmentData > 10 |
+    Science_AttainmentData > 10 |
+    Eng_AttainmentData > 10 |
+    Computing_AttainmentData > 10 ~ "Empfohlen",
     
     TRUE ~ "Nicht empfohlen"
-  ))  
+  ))  # Erstellen der neuen Variable
 ```
 Falls Sie nicht am Workshop teilnehmen und daher keine lokale Version des Datensatzes haben, verwenden Sie diesen Code.
 
@@ -141,13 +141,13 @@ data <- data %>%
   ))
 data <- data %>%
   mutate(Career_Recommendation = case_when(
-    Total_Competence_Maths > 10 |
-    Total_Competence_English > 10 |
-    Total_Competence_Science > 10 |
-    Total_SelfConcept > 10 ~ "Empfohlen",
+    Maths_AttainmentData > 10 |
+    Science_AttainmentData > 10 |
+    Eng_AttainmentData > 10 |
+    Computing_AttainmentData > 10 ~ "Empfohlen",
     
     TRUE ~ "Nicht empfohlen"
-  ))  
+  ))  # Erstellen der neuen Variable
 ```
 
 
