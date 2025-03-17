@@ -21,11 +21,11 @@
 {{/* Get summary. */}}
 {{ $summary := "" }}
 {{ if $item.Params.summary }}
-  {{ $summary = $item.Params.summary | plainify | truncate 135 }}
+  {{ $summary = $item.Params.summary | markdownify | emojify }}
 {{ else if $item.Params.abstract }}
-  {{ $summary = $item.Params.abstract | plainify | truncate 135 }}
+  {{ $summary = $item.Params.abstract | markdownify | emojify | truncate (site.Params.abstract_length | default 135) }}
 {{ else if $item.Summary }}
-  {{ $summary = $item.Summary | plainify | truncate 135 }}
+  {{ $summary = $item.Summary }}
 {{ end }}
 
 <div class="media stream-item view-compact">
@@ -35,13 +35,7 @@
       <a href="{{$link}}" {{ $target | safeHTMLAttr }}>{{ $item.Title }}</a>
     </div>
 
-    {{ with $summary }}
-    <a href="{{ $link }}" {{ $target | safeHTMLAttr }} class="summary-link">
-      <div class="article-style">
-        {{.}}
-      </div>
-    </a>
-    {{ end }}
+
 
     <div class="stream-meta article-metadata">
 
