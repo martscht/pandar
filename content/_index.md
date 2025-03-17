@@ -70,7 +70,7 @@ sections:
         link: /lehre/main
     design:
       # Choose a layout view
-      view: compact
+      view: card
       columns: '2'
   # - block: portfolio
   #   id: projekte-features
