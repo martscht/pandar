@@ -25,7 +25,7 @@
 {{ else if $item.Params.abstract }}
   {{ $summary = $item.Params.abstract | markdownify | emojify | truncate (site.Params.abstract_length | default 135) }}
 {{ else if $item.Summary }}
-  {{ $summary = $item.Summary | plainify | truncate 135 }}
+  {{ $summary = $item.Summary }}
 {{ end }}
 
 <div class="media stream-item view-compact">
