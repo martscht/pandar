@@ -103,7 +103,7 @@ main:
     weight: 403
 
   - name: "FDZ"
-    pre: 
+    pre: "<i class='fas fa-chalkboard-user'></i>&ensp;"
     url: '/workshops/main#fdz'
     parent: "Workshops"
     weight: 404
