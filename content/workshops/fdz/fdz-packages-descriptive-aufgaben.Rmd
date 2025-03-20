@@ -55,8 +55,10 @@ Denken Sie bei allen Aufgaben daran, den Code im R-Skript sinnvoll zu gliedern u
 Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunächst den Datensatz über die eben vorgestellten Befehle in Ihr Environment. Außerdem sind die nachfolgenden Befehle aus dem Tutorial noch wichtig, die Sie also durchführen sollten, wenn es noch nicht geschehen ist!
 
 ```{r, eval = FALSE}
-# Paket laden
+# Pakete laden
 library(readxl)
+library(dplyr)
+library(forcats)
 # Pfad setzen
 rstudioapi::getActiveDocumentContext()$path |>
   dirname() |>
@@ -79,6 +81,10 @@ data$Total_Competence_Maths <- data$Total_Competence_Maths %>%
 Falls Sie sich die Aufgaben unabhängig vom Workshop anschauen, werden folgende Schritte noch benötigt, die im Tutorial durchgeführt wurden.
 
 ```{r}
+# Pakete laden
+library(readxl)
+library(dplyr)
+library(forcats)
 # Datensatz aus dem OSF einladen
 source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
 # Faktoren anlegen
@@ -108,8 +114,10 @@ data$Total_Competence_Maths <- data$Total_Competence_Maths %>%
 Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunächst den Datensatz über die eben vorgestellten Befehle in Ihr Environment. Außerdem sind die nachfolgenden Befehle aus dem Tutorial / den Aufgaben noch wichtig, die Sie also durchführen sollten, wenn es noch nicht geschehen ist!
 
 ```{r, eval = FALSE}
-# Paket laden
+# Pakete laden
 library(readxl)
+library(dplyr)
+library(forcats)
 # Pfad setzen
 rstudioapi::getActiveDocumentContext()$path |>
   dirname() |>

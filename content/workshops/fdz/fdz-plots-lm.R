@@ -42,13 +42,13 @@ library(knitr)
 ##   ))
 ## data <- data %>%
 ##   mutate(Career_Recommendation = case_when(
-##     Total_Competence_Maths > 10 |
-##     Total_Competence_English > 10 |
-##     Total_Competence_Science > 10 |
-##     Total_SelfConcept > 10 ~ "Empfohlen",
+##     Maths_AttainmentData > 10 |
+##     Science_AttainmentData > 10 |
+##     Eng_AttainmentData > 10 |
+##     Computing_AttainmentData > 10 ~ "Empfohlen",
 ## 
 ##     TRUE ~ "Nicht empfohlen"
-##   ))
+##   ))  # Erstellen der neuen Variable
 
 # Paket einladen
 library(readxl)
@@ -88,13 +88,13 @@ data <- data %>%
   ))
 data <- data %>%
   mutate(Career_Recommendation = case_when(
-    Total_Competence_Maths > 10 |
-    Total_Competence_English > 10 |
-    Total_Competence_Science > 10 |
-    Total_SelfConcept > 10 ~ "Empfohlen",
+    Maths_AttainmentData > 10 |
+    Science_AttainmentData > 10 |
+    Eng_AttainmentData > 10 |
+    Computing_AttainmentData > 10 ~ "Empfohlen",
     
     TRUE ~ "Nicht empfohlen"
-  ))  
+  ))  # Erstellen der neuen Variable
 
 #### Grafikerstellung ----
 gender_freq <- table(data$Gender)  # absolute Häufigkeiten in Objekt ablegen

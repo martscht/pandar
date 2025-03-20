@@ -55,8 +55,10 @@ Denken Sie bei allen Aufgaben daran, den Code im R-Skript sinnvoll zu gliedern u
 Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunächst den Datensatz über die eben vorgestellten Befehle in Ihr Environment. Außerdem sind die nachfolgenden Befehle aus dem Tutorial noch wichtig, die Sie also durchführen sollten, wenn es noch nicht geschehen ist!
 
 ```{r, eval = FALSE}
-# Paket laden
+# Pakete laden
 library(readxl)
+library(dplyr)
+library(forcats)
 # Pfad setzen
 rstudioapi::getActiveDocumentContext()$path |>
   dirname() |>
@@ -79,6 +81,10 @@ data$Total_Competence_Maths <- data$Total_Competence_Maths %>%
 Falls Sie sich die Aufgaben unabhängig vom Workshop anschauen, werden folgende Schritte noch benötigt, die im Tutorial durchgeführt wurden.
 
 ```{r}
+# Pakete laden
+library(readxl)
+library(dplyr)
+library(forcats)
 # Datensatz aus dem OSF einladen
 source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
 # Faktoren anlegen
@@ -233,8 +239,10 @@ mean(data_year7$Total_Competence_Maths, na.rm = TRUE)  # Mittelwert der Variable
 Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunächst den Datensatz über die eben vorgestellten Befehle in Ihr Environment. Außerdem sind die nachfolgenden Befehle aus dem Tutorial / den Aufgaben noch wichtig, die Sie also durchführen sollten, wenn es noch nicht geschehen ist!
 
 ```{r, eval = FALSE}
-# Paket laden
+# Pakete laden
 library(readxl)
+library(dplyr)
+library(forcats)
 # Pfad setzen
 rstudioapi::getActiveDocumentContext()$path |>
   dirname() |>
@@ -360,10 +368,10 @@ Hier muss also wie im Tutorial eine kategoriale Variable erstellt werden - aus v
 ###### Aufgabe 3 ------
 data <- data %>%
   mutate(Career_Recommendation = case_when(
-    Total_Competence_Maths > 10 |
-    Total_Competence_English > 10 |
-    Total_Competence_Science > 10 |
-    Total_SelfConcept > 10 ~ "Empfohlen",
+    Maths_AttainmentData > 10 |
+    Science_AttainmentData > 10 |
+    Eng_AttainmentData > 10 |
+    Computing_AttainmentData > 10 ~ "Empfohlen",
     
     TRUE ~ "Nicht empfohlen"
   ))  # Erstellen der neuen Variable

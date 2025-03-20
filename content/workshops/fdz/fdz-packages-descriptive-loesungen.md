@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler] 
-lastmod: '2025-03-10'
+lastmod: '2025-03-12'
 featured: no
 banner:
   image: "/header/metal_beams_electricity.jpg"
@@ -51,8 +51,10 @@ Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunäch
 
 
 ``` r
-# Paket laden
+# Pakete laden
 library(readxl)
+library(dplyr)
+library(forcats)
 # Pfad setzen
 rstudioapi::getActiveDocumentContext()$path |>
   dirname() |>
@@ -76,6 +78,10 @@ Falls Sie sich die Aufgaben unabhängig vom Workshop anschauen, werden folgende 
 
 
 ``` r
+# Pakete laden
+library(readxl)
+library(dplyr)
+library(forcats)
 # Datensatz aus dem OSF einladen
 source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
 # Faktoren anlegen
@@ -127,8 +133,7 @@ head(data$Ethnicity)   # Inhalt der Variable
 ```
 
 ```
-## [1] "White British" "White British" "White British" "White British" "White British"
-## [6] "White British"
+## [1] "White British" "White British" "White British" "White British" "White British" "White British"
 ```
 
 ``` r
@@ -277,25 +282,25 @@ filter(data, Year == "7. Schuljahr")  # Filtern der Daten nach dem Merkmal Year
 
 ```
 ## # A tibble: 187 × 25
-##    Year        Gender Ethnicity Total_Mindset Total_Competence_Maths Total_Competence_Eng…¹
-##    <fct>       <fct>  <fct>             <dbl>                  <dbl>                  <dbl>
-##  1 7. Schulja… weibl… White Br…            36                      4                      3
-##  2 7. Schulja… weibl… White Br…            34                      2                      4
-##  3 7. Schulja… weibl… White Br…            28                      4                      4
-##  4 7. Schulja… weibl… White Br…            38                      4                      4
-##  5 7. Schulja… weibl… White Br…            26                      3                      3
-##  6 7. Schulja… weibl… White Br…            29                      4                      4
-##  7 7. Schulja… weibl… White Br…            32                      3                      4
-##  8 7. Schulja… weibl… White Br…            31                      4                      3
-##  9 7. Schulja… weibl… White Br…            28                      3                      5
-## 10 7. Schulja… weibl… White Br…            30                      5                      4
+##    Year         Gender   Ethnicity     Total_Mindset Total_Competence_Maths Total_Competence_English
+##    <fct>        <fct>    <fct>                 <dbl>                  <dbl>                    <dbl>
+##  1 7. Schuljahr weiblich White British            36                      4                        3
+##  2 7. Schuljahr weiblich White British            34                      2                        4
+##  3 7. Schuljahr weiblich White British            28                      4                        4
+##  4 7. Schuljahr weiblich White British            38                      4                        4
+##  5 7. Schuljahr weiblich White British            26                      3                        3
+##  6 7. Schuljahr weiblich White British            29                      4                        4
+##  7 7. Schuljahr weiblich White British            32                      3                        4
+##  8 7. Schuljahr weiblich White British            31                      4                        3
+##  9 7. Schuljahr weiblich White British            28                      3                        5
+## 10 7. Schuljahr weiblich White British            30                      5                        4
 ## # ℹ 177 more rows
-## # ℹ abbreviated name: ¹​Total_Competence_English
 ## # ℹ 19 more variables: Total_Competence_Science <dbl>, Total_SelfEsteem <dbl>,
-## #   Total_SocialSelfEsteem <dbl>, Total_AcademicSelfEfficacy <dbl>,
-## #   Total_SelfConcept_Maths <dbl>, Total_SelfConcept_English <dbl>,
-## #   Total_SelfConcept_Science <dbl>, SubjectSTEndorsement_Maths <dbl>,
-## #   SubjectSTEndorsement_English <dbl>, SubjectSTEndorsement_Science <dbl>, …
+## #   Total_SocialSelfEsteem <dbl>, Total_AcademicSelfEfficacy <dbl>, Total_SelfConcept_Maths <dbl>,
+## #   Total_SelfConcept_English <dbl>, Total_SelfConcept_Science <dbl>,
+## #   SubjectSTEndorsement_Maths <dbl>, SubjectSTEndorsement_English <dbl>,
+## #   SubjectSTEndorsement_Science <dbl>, SubjectSTEndorsement_ICT <dbl>,
+## #   CareerSTEndorsement_Maths <dbl>, CareerSTEndorsement_English <dbl>, …
 ```
 
 Damit ein Subdatensatz auch wirklich im Environment erscheint, müssen wir das Ergebnis der Funktion `filter()` einer neuen Variable zuweisen.
@@ -328,8 +333,10 @@ Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunäch
 
 
 ``` r
-# Paket laden
+# Pakete laden
 library(readxl)
+library(dplyr)
+library(forcats)
 # Pfad setzen
 rstudioapi::getActiveDocumentContext()$path |>
   dirname() |>
@@ -479,10 +486,10 @@ Hier muss also wie im Tutorial eine kategoriale Variable erstellt werden - aus v
 ###### Aufgabe 3 ------
 data <- data %>%
   mutate(Career_Recommendation = case_when(
-    Total_Competence_Maths > 10 |
-    Total_Competence_English > 10 |
-    Total_Competence_Science > 10 |
-    Total_SelfConcept > 10 ~ "Empfohlen",
+    Maths_AttainmentData > 10 |
+    Science_AttainmentData > 10 |
+    Eng_AttainmentData > 10 |
+    Computing_AttainmentData > 10 ~ "Empfohlen",
     
     TRUE ~ "Nicht empfohlen"
   ))  # Erstellen der neuen Variable
@@ -498,7 +505,7 @@ table(data$Career_Recommendation)  # Absolute Häufigkeiten
 ```
 ## 
 ##       Empfohlen Nicht empfohlen 
-##             251              49
+##              92             208
 ```
 
 Den Anteil könnten wir jetzt natürlich berechnen, indem wir die absolute Häufigkeit durch die Gesamtanzahl der Werte teilen. Allerdings gibt es auch eine Funktion, die das direkt für uns erledigt. `prop.table()` gibt uns den Anteil der Werte zurück, wenn es auf ein `table()`-Objekt angewendet wird. Wir können das direkt in einem Schritt mit der Pipe `|>` machen.
@@ -511,7 +518,7 @@ table(data$Career_Recommendation) |> prop.table()  # Anteil der Werte
 ```
 ## 
 ##       Empfohlen Nicht empfohlen 
-##       0.8366667       0.1633333
+##       0.3066667       0.6933333
 ```
 
 </details>
@@ -536,8 +543,8 @@ data %>%
 ## # A tibble: 2 × 3
 ##   Career_Recommendation mean_mindset sd_mindset
 ##   <chr>                        <dbl>      <dbl>
-## 1 Empfohlen                     32.1       4.25
-## 2 Nicht empfohlen               29.1       4.47
+## 1 Empfohlen                     32.5       4.13
+## 2 Nicht empfohlen               31.2       4.48
 ```
 
 </details>

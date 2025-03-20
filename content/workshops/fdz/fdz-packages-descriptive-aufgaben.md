@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler] 
-lastmod: '2025-03-10'
+lastmod: '2025-03-12'
 featured: no
 banner:
   image: "/header/metal_beams_electricity.jpg"
@@ -51,8 +51,10 @@ Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunäch
 
 
 ``` r
-# Paket laden
+# Pakete laden
 library(readxl)
+library(dplyr)
+library(forcats)
 # Pfad setzen
 rstudioapi::getActiveDocumentContext()$path |>
   dirname() |>
@@ -76,6 +78,10 @@ Falls Sie sich die Aufgaben unabhängig vom Workshop anschauen, werden folgende 
 
 
 ``` r
+# Pakete laden
+library(readxl)
+library(dplyr)
+library(forcats)
 # Datensatz aus dem OSF einladen
 source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
 # Faktoren anlegen
@@ -106,8 +112,10 @@ Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunäch
 
 
 ``` r
-# Paket laden
+# Pakete laden
 library(readxl)
+library(dplyr)
+library(forcats)
 # Pfad setzen
 rstudioapi::getActiveDocumentContext()$path |>
   dirname() |>
