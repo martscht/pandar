@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'Im zweiten Teil der Einführung von ggplot2 betrachten wir neben den klassischen Gestaltungsmöglichkeiten für Scatterplots auch, wie man Grafiken mit plotly interaktiv gestalten kann.'
 authors: [schultze]
 weight: 3
-lastmod: '2025-02-26'
+lastmod: '2025-03-16'
 featured: no
 banner:
   image: "/header/colorful_tiles.jpg"
