@@ -5,10 +5,10 @@ slug: multiple-regression-klinische
 categories: ["KliPPs"]
 tags: ["Regression", "Voraussetzungen", "Grundlagen"]
 subtitle: 'Grundlagen, Annahmen und ein paar Erweiterungen'
-summary: ''
+summary: 'In diesem Beitrag wird zur Auffrischung eine multiple Regression in `R` durchgeführt. Dabei wird an einem praktischen Beispiel erläutert, wie ein Regressionsmodell in `R` erstellt und der entsprechende `R`-Output interpretiert werden kann. Außerdem werden die Annahmen und mögliche Erweiterungen für die multiple Regression behandelt. '
 authors: [schultze]
 weight: 1
-lastmod: '2025-02-27'
+lastmod: '2025-03-20'
 featured: no
 banner:
   image: "/header/whip.jpg"
@@ -58,6 +58,14 @@ Die Autor*innen der Studie haben sowohl die Rohdaten, als auch einige SPSS-Outpu
 source('https://pandar.netlify.app/daten/Data_Processing_coercion.R')
 ```
 
+```
+## Loading required package: haven
+```
+
+```
+## Warning in eval(ei, envir): NAs introduced by coercion
+```
+
 
 
 Die abhängige Variable, die in der Studie im Zentrum steht ist `coerce`, ein Skalenwert aus der "Tactics to Obtain Sex Scale" (Camilleri et al., 2009), welcher abfragt, wie wahrscheinlich es ist, dass man bestimmte Verhaltensweisen an den Tag legen würde, wenn die Person von Interesse deutlich gemacht hat, dass sie heute keinen Sex möchte. Dazu gehören Aussagen wie z.B. "Try to make them feel bad about not having sex" oder "Provide them with alcohol". Mehr Details zu den restlichen Variablen finden Sie in der...
@@ -86,7 +94,20 @@ Bevor wir uns mit der moderierten Regression befassen, sollten wir zunächst sic
 ``` r
 # Paket für Deskriptivstatistik laden
 library(psych)
+```
 
+```
+## 
+## Attaching package: 'psych'
+```
+
+```
+## The following objects are masked from 'package:ggplot2':
+## 
+##     %+%, alpha
+```
+
+``` r
 # Deskriptives aus der Gesamtstichprobe
 subset(coercion, select = c('drive', 'sadi', 'maso', 'f1', 'coerce')) |>
   describe()
@@ -119,7 +140,7 @@ subset(coercion, select = c('drive', 'sadi', 'maso', 'f1', 'coerce')) |>
 ## maso      3 173  5.62 8.32      3    3.75 4.45   0  51    51  2.71     8.59 0.63
 ## f1        4 173 29.72 8.25     29   29.49 8.90  14  53    39  0.25    -0.47 0.63
 ## coerce    5 173 24.41 6.92     23   23.08 4.45  19  63    44  2.79    10.22 0.53
-## --------------------------------------------------------------------------- 
+## ----------------------------------------------------------------- 
 ## group: Female
 ##        vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## drive     1 232 14.06 3.92     14   14.16 4.45   4  24    20 -0.22    -0.32 0.26
@@ -688,13 +709,14 @@ sim_slopes(mod1m_c, pred = drive_c, modx = f1_c, robust = 'HC3')
 ```
 
 ```
-## JOHNSON-NEYMAN INTERVAL
+## JOHNSON-NEYMAN INTERVAL 
 ## 
-## When f1_c is OUTSIDE the interval [-12.34, 4.18], the slope of drive_c is p < .05.
+## When f1_c is OUTSIDE the interval [-12.34, 4.18], the slope of drive_c is p <
+## .05.
 ## 
 ## Note: The range of observed values of f1_c is [-15.72, 23.28]
 ## 
-## SIMPLE SLOPES ANALYSIS
+## SIMPLE SLOPES ANALYSIS 
 ## 
 ## Slope of drive_c when f1_c = -8.249271e+00 (- 1 SD): 
 ## 

@@ -5,7 +5,7 @@ slug: multiple-regression-klinische
 categories: ["KliPPs"]
 tags: ["Regression", "Voraussetzungen", "Grundlagen"]
 subtitle: 'Grundlagen, Annahmen und ein paar Erweiterungen'
-summary: ''
+summary: 'In diesem Beitrag wird zur Auffrischung eine multiple Regression in `R` durchgeführt. Dabei wird an einem praktischen Beispiel erläutert, wie ein Regressionsmodell in `R` erstellt und der entsprechende `R`-Output interpretiert werden kann. Außerdem werden die Annahmen und mögliche Erweiterungen für die multiple Regression behandelt. '
 authors: [schultze]
 weight: 1
 lastmod: '`r Sys.Date()`'
@@ -60,11 +60,11 @@ Eine solche Praxis finden wir im Artikel von [Thatcher, Wallace & Fido (2023)](h
 
 Die Autor*innen der Studie haben sowohl die Rohdaten, als auch einige SPSS-Outputs und die genutzten Fragebögen in einem Repository im [OSF zur Verfügung](https://osf.io/xkcah/) gestellt. Darüber hinaus: falls Sie keinen Zugriff auf den veröffentlichten Artikel haben sollten, finden Sie auf [PsyArXiv den Preprint der Studie](https://psyarxiv.com/a83pg/). Weil der Originaldatensatz nur SPSS-Format vorliegt und insgesamt 212 Variablen umfasst, habe ich die Datenaufbereitung schon einmal erledigt und Sie können die reduzierte Fassung in R einlesen, indem Sie folgendes Skript ausführen:
 
-```{r, eval=FALSE}
+```{r}
 source('https://pandar.netlify.app/daten/Data_Processing_coercion.R')
 ```
 
-```{r, echo = FALSE, purl = FALSE}
+```{r, echo = FALSE, eval = FALSE, purl = FALSE}
 load('/home/martin/projects/klipps/datasets/coercion.rda')
 ```
 
