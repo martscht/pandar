@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-ii/anova-iii.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Quizdaten
-    url: /lehre/statistik-ii/quizdaten-bsc7#Quiz5
+    name: Übungen
+    url: /lehre/statistik-ii/anova-iii-uebungen
 output:
   html_document:
     keep_md: true
@@ -45,6 +45,8 @@ if (exists("figure_path")) {
 
 
 In den letzten beiden Sitzungen ging es darum Unterschiede *zwischen* Personen zu untersuchen, indem wir Mittelwertsunterschiede zwischen verschiedenen Gruppen von Personen geprüft haben (in englischsprachiger Literatur wird dies als *between subjects* ANOVA bezeichnet). In dieser Sitzung soll es darum gehen, Unterschiede *innerhalb* von Personen (im Englischen *within subjects* ANOVA) mithilfe der **ANOVA mit Messwiederholung** zu untersuchen. Diese Unterschiede können dabei z.B. dadurch entstehen, dass wir unterschiedliche Messzeitpunkte untersuchen. Die *Messwiederholung* muss nicht zwingend durch Zeit zustande kommen - andere Möglichkeiten der Messwiederholung sind z.B. unterschiedliche Tests oder Informationsquellen. Wir könnten z.B. Verhaltensauffälligkeiten von Kindern erheben, indem wir sie durch Psychotherapeutinnen und -therapeuten beobachten lassen und die Eltern sowie die Kita-Erzieher und -Erzieherinnen befragen. Auch so messen wir wiederholt das Gleiche und können untersuchen, inwiefern sich hierbei mittlere Unterschiede zeigen. Diese Analysen von Messwiederholungen lassen sich zudem mit den *Zwischen-Subjekt Analysen* kombinieren, die wir bereits behandelt haben. Mehr zur *ANOVA mit Messwiederholung* finden Sie in [`Eid, Gollwitzer und Schmitt (2017, Kapitel 14 und insb. 14.1 und folgend)`](https://ubffm.hds.hebis.de/Record/HEB366849158). 
+
+*Im Anschluss an diesen Beitrag können Sie sich mit dem [nächsten Quiz](/lehre/statistik-ii/quizdaten-bsc7#Quiz5) auseinandersetzen.*
 
 Für die heutige Sitzung wird der Datensatz  [<i class="fas fa-download"></i> "alc.rda"](../../daten/alc.rda) benötigt. Dieser stammt aus einer längsschnittlichen Erhebung des Alkoholkonsums von Jugendlichen.
 

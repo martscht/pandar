@@ -1,0 +1,29 @@
+---
+title: "Unfertige Übungsseite" 
+type: post
+date: '2025-04-07'
+slug: moderierte-reg-uebungen
+categories: ["Statistik II Übungen"] 
+tags: [] 
+subtitle: 'Hier wird noch gegbaut...'
+summary: 'Inhalte kommen noch!.' 
+authors: [] 
+weight: 1
+lastmod: "`r format(Sys.Date(), '%Y-%m-%d')`"
+featured: no
+banner: 
+  image: "/header/under_construction.jpg"
+caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/724752)"
+projects: []
+reading_time: false
+share: false
+
+
+---
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
+```
+

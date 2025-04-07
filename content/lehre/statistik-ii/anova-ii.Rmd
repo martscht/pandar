@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-ii/anova-ii.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Quizdaten
-    url: /lehre/statistik-ii/quizdaten-bsc7#Quiz4
+    name: Übungen
+    url: /lehre/statistik-ii/anova-ii-uebungen
 output:
   html_document:
     keep_md: true
@@ -46,6 +46,8 @@ if (exists("figure_path")) {
 In der letzten Sitzung haben wir die [einfaktorielle Varianzanalyse](/post/anova1) behandelt. Die spezifische Benennung als *einfaktoriell* verdeutlicht schon, dass wir hier ansetzen und Erweiterungen vornehmen können. In dieser Sitzung geht es vor allem um die *zweifaktorielle* Varianzanalyse. Ziel dieser Analyse ist es gleichzeitig Gruppenunterschiede auf mehreren (um genau zu sein 2 im zweifaktoriellen Fall) Variablen zu untersuchen und dabei zu überprüfen, ob Kombinationen von Gruppen besondere Auswirkungen haben. Für weitere Inhalte siehe bspw. auch [Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.2 und folgend)](https://hds.hebis.de/ubffm/Record/HEB366849158).
 
 Wir arbeiten wieder mit dem `conspiracy` Datensatz. Dieser stammt aus einer Erhebung zur Validierung eines Fragebogens, aus dem Skalenwerte gebildet werden, die verschiedene Dimensionen von Verschwörungsglauben abbilden sollen. Sie können den im Folgenden verwendeten [<i class="fas fa-download"></i> Datensatz "conspiracy.rda" hier herunterladen](../../daten/conspiracy.rda).
+
+*Im Anschluss an diesen Beitrag können Sie sich mit dem [nächsten Quiz](/lehre/statistik-ii/quizdaten-bsc7#Quiz4) auseinandersetzen.*
 
 ### Daten laden
 Wir laden zunächst die Daten: entweder lokal von Ihrem Rechner:
