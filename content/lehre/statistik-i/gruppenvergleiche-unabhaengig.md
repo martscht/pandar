@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr Unterschiede zwischen zwei Gruppen zu veranschaulichen. Ihr erfahrt außerdem, wie ihr verschiedene Tests für unabhängige Stichproben in R durchführt und ihre Voraussetzungen prüft.' 
 authors: [koehler, buchholz, irmer, nehler, goldhammer, schultze] 
 weight: 6
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-i/gruppenvergleiche-unabhaengig.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/gruppenvergleiche-unabhaengig-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/gruppenvergleiche-unabhaengig-uebungen
 output:
   html_document:
     keep_md: true
@@ -57,7 +57,7 @@ output:
 Den Datensatz `fb24` haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
 
 
-```r
+``` r
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -120,7 +120,7 @@ Wie oben bereits vorgestellt, geht es uns in diesem Abschnitt darum, dass wir un
 Die Gruppierungsvariable in unserer Fragestellung muss für die Nutzung der Funktionen in `R` als Faktor vorliegen. Bei uns soll es um das Interesse am Fach klinischer Psychologie gehen (ja vs. nein). Die entsprechende (nominalskalierte) Variable liegt noch nicht im Datensatz vor, kann aber einfach erstellt werden, indem die nichtklinischen Interessen in eine Kategorie zusammengefasst werden. Dies erfolgt per logischer Abfrage (`fb24$fach == "Klinische"`) und anschließender Transformation des Ergebnisses in eine Faktorvariable:
 
 
-```r
+``` r
 fb24$fach_klin <- factor(as.numeric(fb24$fach == "Klinische"),
                          levels = 0:1,
                          labels = c("nicht klinisch", "klinisch"))
@@ -129,7 +129,7 @@ fb24$fach_klin <- factor(as.numeric(fb24$fach == "Klinische"),
 Wir können mit `is.factor()` überprüfen, ob die Variable `fach_klin` im Datensatz tatsächlich ein Faktor ist. 
 
 
-```r
+``` r
 is.factor(fb24$fach_klin)
 ```
 
@@ -142,7 +142,7 @@ Diese Funktion gibt uns einen boolschen Wert (`TRUE` oder `FALSE`) und beantwort
 Auch die `levels` können wir bestimmen
 
 
-```r
+``` r
 levels(fb24$fach_klin)
 ```
 
@@ -157,7 +157,7 @@ Der Faktor hat also 2 Stufen.
 Im ersten Schritt wollen wir uns die Daten deskriptiv anschauen. Dazu können wir die Daten entweder visuell oder durch statistische Kennwerte aufbereiten. Wir werfen zunächst vorbereitend einen tabellarischen Blick auf die Variable klinisches Interesse:
 
 
-```r
+``` r
 table(fb24$fach_klin)
 ```
 
@@ -169,7 +169,7 @@ table(fb24$fach_klin)
 Mithilfe eines Boxplots, bzw. mithilfe von Histogrammen, lassen sich Unterschiede zwischen Gruppen gut untersuchen. Wir verwenden hier einige Zusatzeinstellungen, um die Grafiken übersichtlicher und auch ein wenig ansprechender zu gestalten.
 
 
-```r
+``` r
 # Gruppierter Boxplot :
 boxplot(fb24$lz ~ fb24$fach_klin, 
         xlab="Interesse", ylab="Lebenszufriedenheit", 
@@ -179,7 +179,7 @@ boxplot(fb24$lz ~ fb24$fach_klin,
 
 ![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-6-1.png)<!-- -->
 
-```r
+``` r
 # Je ein Histogramm pro Gruppe, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
 par(mfrow=c(2,1), mar=c(3,2,2,0))
 hist(fb24[(fb24$fach_klin=="nicht klinisch"), "lz"], main="(nicht klinisch)", 
@@ -197,7 +197,7 @@ abline(v=mean(fb24[(fb24$fach_klin=="klinisch"), "lz"], na.rm=T), col="darksalmo
 Damit von nun an nicht immer zwei Grafiken in einem Plot dargestellt werden, können wir die Einstellungen zurücksetzen, indem wir den klassischen IT Trick des "Ausschalten und wieder Einschalten" nutzen:
 
 
-```r
+``` r
 dev.off()
 ```
 
@@ -209,7 +209,7 @@ dev.off()
 Wir können uns auch Deskriptivstatistiken ansehen. Bspw. könnten wir uns die Mittelwerte oder die SDs etc. ausgeben lassen. Dazu nehmen wir entweder die `summary()` und wählen die entsprechenden Fälle aus oder wir machen uns das `psych`-Paket zunutze. Wir hatten im [letzen Beitrag](/lehre/statistik-i/tests-konfidenzintervalle/#Pakete) detaillierter besprochen, was Pakete sind und wie sie funktionieren. Um `psych` nutzen zu können, muss es installiert sein (`install.packages()`). Falls dem so ist, kann das Paket mit `library()` eingeladen werden.  Die Funktion, die uns interessiert, heißt `describeBy()`, welche die Gruppenaufteilung bereits für uns übernimmt.
 
 
-```r
+``` r
 library(psych)
 describeBy(x = fb24$lz, group = fb24$fach_klin)        # beide Gruppen im Vergleich 
 ```
@@ -220,7 +220,7 @@ describeBy(x = fb24$lz, group = fb24$fach_klin)        # beide Gruppen im Vergle
 ## group: nicht klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 99 5.07 1.15    5.2    5.15 1.19   2   7     5 -0.57    -0.22 0.12
-## ---------------------------------------------------------------------------- 
+## ------------------------------------------------------------------------------------- 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 88 4.76 1.14    4.8     4.8 1.19   2   7     5 -0.3    -0.51 0.12
@@ -229,7 +229,7 @@ describeBy(x = fb24$lz, group = fb24$fach_klin)        # beide Gruppen im Vergle
 Achtung, bei den hier berichteten `sd` handelt es sich nicht um die Stichprobenkennwerte $s$, sondern um die Populationsschätzer $\hat{\sigma}$. Daher berechnen wir die Standardabweichung auch nochmals per Hand:
 
 
-```r
+``` r
 vertr_nichtKlinisch <- fb24$vertr[fb24$fach_klin=="nicht klinisch"]
 sigma_nichtKlinisch <- sd(vertr_nichtKlinisch, na.rm = T)
 n_nichtKlinisch <- length(vertr_nichtKlinisch[!is.na(vertr_nichtKlinisch)])
@@ -241,7 +241,7 @@ sd_nichtKlinisch
 ## [1] 0.761505
 ```
 
-```r
+``` r
 vertr_klinisch <- fb24$vertr[fb24$fach_klin=="klinisch"]
 sigma_klinisch <- sd(vertr_klinisch, na.rm = T)
 n_klinisch <- length(vertr_klinisch[!is.na(vertr_klinisch)])
@@ -271,9 +271,34 @@ Um die Verteilung optisch zu prüfen, haben wir zwei Möglichkeiten:
 Für den QQ-Plot gibt es in der Basis-Funktionalität von `R` zwar einen integrierten Befehl (`qqnorm()`), aber die Funktion `qqPlot()` aus dem Paket `car` liefert uns noch einige bequeme Zusatzinformationen. Wie immer muss das Paket vorher installiert werden (`install.packages("car")`).
 
 
-```r
+``` r
 library(car)
+```
 
+```
+## Warning: Paket 'car' wurde unter R Version 4.4.2 erstellt
+```
+
+```
+## Lade nötiges Paket: carData
+```
+
+```
+## Warning: Paket 'carData' wurde unter R Version 4.4.2 erstellt
+```
+
+```
+## 
+## Attache Paket: 'car'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:psych':
+## 
+##     logit
+```
+
+``` r
 # Gruppe 1 (nichtKlinisch) 
 par(mfrow=c(1,2))
 
@@ -298,7 +323,7 @@ qqPlot(lz_nichtKlinisch)
 ## [1] 97 77
 ```
 
-```r
+``` r
 dev.off()
 ```
 
@@ -316,7 +341,7 @@ Hier scheinen sowohl das Histogramm als auch der QQ-Plot keinen Anlass zu geben,
 Wir wiederholen die Befehle auch für die zweite Gruppe:
 
 
-```r
+``` r
 # Gruppe 2 (klinisch) 
 par(mfrow=c(1,2))
 
@@ -339,7 +364,7 @@ qqPlot(lz_klinisch)
 ## [1]  6 54
 ```
 
-```r
+``` r
 dev.off()
 ```
 
@@ -358,7 +383,7 @@ Die vierte Annahme (Homoskedastizität - also die Varianzgleichheit in beiden Po
 Ein nicht-signifikantes Ergebnis (*p* \> .05) deutet also darauf hin, dass wir nicht ausreichend Grundlage haben, um die Homoskedastizitätsannahme zu verwerfen. Auch der Levene-Test ist im `car`-Paket implementiert und die dazugehörige Funktion heißt praktischerweise `leveneTest()`. Sie nimmt eine Formel entgegen, die die Punktzahl ihrer jeweiligen Gruppe zuweist. Links von der `~` (Tilde) steht die abhängige Variable (hier die Lebenszufriedenheit), deren Varianzunterschied durch die unabhängige Variable (hier Interesse) rechts der `~` erklärt werden soll. Wir merken uns also, dass die Gruppenzugehörigkeit rechts der `~` stehen muss.
 
 
-```r
+``` r
 leveneTest(fb24$lz ~ fb24$fach_klin)
 ```
 
@@ -394,7 +419,7 @@ Wie so häufig gehen wir von einem $\alpha$-Fehlerniveau von 5% aus.
 Wir hatten im Rahmen des Einstichproben-*t*-Tests bereits die Funktion `t.test()` kennengelernt. Diese nutzen wir wieder. Wir übergeben dieser wieder die Formel, die wir bereits im Boxplot und im Levene-Test verwendet haben. Außerdem wählen wir einige Zusatzargumente, die dann zum Zweistichproben-*t*-Test für unabhängige Stichproben führen:
 
 
-```r
+``` r
 t.test(fb24$lz ~ fb24$fach_klin,     # abhängige Variable ~ unabhängige Variable
       #paired = FALSE,                  # Stichproben sind unabhängig (Default) 
       alternative = "two.sided",        # zweiseitige Testung (Default)
@@ -454,7 +479,7 @@ Cohen (1988) hat folgende Konventionen zur Beurteilung der Effektstärke $d$ vor
 Wir führen die Berechnung von Cohen's $d$ zunächst von Hand durch. Dafür speichern wir uns die nötigen Größen ab und wenden dann die präsentierte Formel an:
 
 
-```r
+``` r
 lz_nichtKlinisch <- fb24[(fb24$fach_klin=="nicht klinisch"), "lz"]
 mw_nichtKlinisch <- mean(lz_nichtKlinisch, na.rm=T)
 n_nichtKlinisch <- sum(!is.na(lz_nichtKlinisch))
@@ -478,13 +503,28 @@ d1
 Natürlich gibt es in `R` auch eine angenehmere Alternative:
 
 
-```r
+``` r
 # install.packages("effsize")
 library("effsize")
 ```
 
+```
+## Warning: Paket 'effsize' wurde unter R Version 4.4.3 erstellt
+```
 
-```r
+```
+## 
+## Attache Paket: 'effsize'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:psych':
+## 
+##     cohen.d
+```
+
+
+``` r
 d2 <- cohen.d(fb24$lz, fb24$fach_klin, na.rm=T)
 d2
 ```
@@ -518,7 +558,7 @@ Wir widmen uns nun der 2. Fragestellung. Dazu prüfen wir, ob klinisch interessi
 Wir beginnen damit uns, wie oben, erst einmal grafisch anzusehen, wie die Lebenszufriedenheit `lz` in beiden Gruppen aussieht. Dafür beginnen wir dieses mal mit einem Boxplot:
 
 
-```r
+``` r
 # Gruppierter Boxplot:
 boxplot(fb24$gs_pre ~ fb24$fach_klin, 
         xlab="Interesse", ylab="Gute Stimmung", 
@@ -531,7 +571,7 @@ boxplot(fb24$gs_pre ~ fb24$fach_klin,
 Hier können wir direkt (als dicke Linie eingezeichnet) die beiden Gruppenmediane sehen. Erst einmal sieht es so aus, als seien die beiden Mediane unterschiedlich. Für etwas mehr Details, nutzen wir die Deskriptivstatistik aus der `describeBy` Funktion:
 
 
-```r
+``` r
 describeBy(fb24$gs_pre, fb24$fach_klin) # beide Gruppen im Vergleich
 ```
 
@@ -541,7 +581,7 @@ describeBy(fb24$gs_pre, fb24$fach_klin) # beide Gruppen im Vergleich
 ## group: nicht klinisch
 ##    vars  n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 99 3.34 0.59    3.5    3.42 0.74   1   4     3 -1.2     1.54 0.06
-## ---------------------------------------------------------------------------- 
+## ------------------------------------------------------------------------------------- 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 88 3.14 0.65   3.25    3.19 0.74   1   4     3 -0.71    -0.06 0.07
@@ -563,7 +603,7 @@ Stetige Variablen haben theoretisch unendlich viele mögliche Ausprägungen. Dab
 Um die Verteilung in beiden Gruppen zu untersuchen, gucken wir uns wieder die Histogramme und die QQ-Plots an:
 
 
-```r
+``` r
 # Gruppe 1 (nicht klinisch) 
 par(mfrow=c(1,2))
 gs_nichtKlinisch <- fb24[(fb24$fach_klin=="nicht klinisch"), "gs_pre"]
@@ -578,7 +618,7 @@ qqPlot(gs_nichtKlinisch)
 ## [1] 29  4
 ```
 
-```r
+``` r
 # Gruppe 2 (klinisch) 
 par(mfrow=c(1,2))
 gs_klinisch <- fb24[(fb24$fach_klin=="klinisch"), "gs_pre"]
@@ -595,7 +635,7 @@ qqPlot(gs_klinisch)
 Wir sehen hier die vermutete Schiefe der Verteilung in beiden Gruppen, auch wenn in der zweiten Gruppe nur sehr leicht ausfällt. Es sei an dieser Stelle gesagt, dass unter diesen Voraussetzungen ein $t$-Test auch funktionieren würde, weil die beiden Verteilungen nicht dramatisch von der Normalität abweichen und die beiden Stichproben jeweils relativ groß sind. Dennoch *wollen* wir hier den Wilcoxon-Test nutzen, weil wir nicht Mittelwerte, sondern Mediane vergleichen möchten. Die Verteilungen sehen in den beiden Gruppen sehr ähnlich aus. Wie man ganze Verteilungen auf Gleichheit prüft, werden wir im kommenden Semester noch näher betrachten, aber wenn zwei Verteilungen gleich sind, impliziert dies auch, dass die Streuung in beiden Populationen gleich sein muss. Um diese Annahme zu prüfen, können wir auch hier den Levene-Test nutzen:
 
 
-```r
+``` r
 leveneTest(fb24$gs_pre ~ fb24$fach_klin)
 ```
 
@@ -632,7 +672,7 @@ Wie so häufig, nehmen wir auch hier ein $\alpha$-Fehlerniveau von 5% an.
 Die Funktion `wilcox.test()` nimmt im Grunde die gleichen Argumente entgegen wie die Funktion `t.test()`. Damit wir die gerichtete Hypothese in die richtige Richtung aufstellen können, müssen wir wissen, welches das erste Level des Faktors ist:
 
 
-```r
+``` r
 levels(fb24$fach_klin) # wichtig zu wissen: die erste der beiden Faktorstufen ist "nicht klinisch" 
 ```
 
@@ -643,7 +683,7 @@ levels(fb24$fach_klin) # wichtig zu wissen: die erste der beiden Faktorstufen is
 Da die erste Faktorstufe "nicht klinisch" ist, wissen wir, dass die gerichtete Hypothese "\>" lauten muss. In R wird mit dem Argument `alternative` immer Bezug genommen auf die Formulierung der *Alternativhypothese*. In unseren Fall ist diese, dass die erste Gruppe (`nicht klinisch`) einen höheren Median hat, als die zweite Gruppe (`klinisch`), also müssen wir `alternative = 'greater'` angeben:
 
 
-```r
+``` r
 wilcox.test(fb24$gs_pre ~ fb24$fach_klin,     # abhängige Variable ~ unabhängige Variable
             #paired = FALSE,              # Stichproben sind unabhängig (Default)
             alternative = "greater",      # einseitige Testung
@@ -690,7 +730,7 @@ Zusätzlich zur Gruppenvariable ist in diesem Beispiel auch die abhängige Varia
 Zunächst müssen wir den `ort` und den `job` als Faktor abspeichern und entsprechende Labels vergeben. Damit wir hier keine Probleme bekommen, müssen wir zunächst prüfen, ob die Variablen ein `factor` sind:
 
 
-```r
+``` r
 is.factor(fb24$ort)
 ```
 
@@ -698,7 +738,7 @@ is.factor(fb24$ort)
 ## [1] FALSE
 ```
 
-```r
+``` r
 is.factor(fb24$job)
 ```
 
@@ -709,7 +749,7 @@ is.factor(fb24$job)
 Dies ist bei beiden nicht der Fall, weswegen wir hier die Variable als Faktor ablegen können. Wir verwenden die Labels, die wir oben bereits in Klammern geschrieben haben.
 
 
-```r
+``` r
 # Achtung, nur einmal durchführen (ansonsten Datensatz neu einladen und Code erneut durchlaufen lassen!)
 fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
 
@@ -727,7 +767,7 @@ Wir beginnen wieder damit, uns Deskriptivstatistiken anzusehen und die Vorausset
 Weil es sich beim $\chi^2$-Test um einen parametrischen Test handelt, folgt die Teststastistik genau genommen erst bei ausreichend großen Stichproben tatsächlich der behaupteten Verteilung. Für den Vierfelder-Test reicht es eigentlich schon aus, dass jede Zelle mit mindestens 5 Fällen besetzt ist:
 
 
-```r
+``` r
 tab <- table(fb24$ort, fb24$job)
 tab
 ```
@@ -762,7 +802,7 @@ $$e_{ij} = \frac{n_{i\bullet} \cdot n_{\bullet j}}{n}$$
 $n_{i\bullet}$ und $n_{\bullet j}$ lassen sich über die Randsummen bestimmen (sie symbolisieren eigentlich: $n_{i\bullet}=n\hat{\pi}_{i\bullet}$, mit $n$ als Stichprobengröße). Diese hängen wir unseren Daten an. Anschließend erstellen wir einen neuen Datensatz und fügen alle erwarteten Häufigkeiten dort ein.
 
 
-```r
+``` r
 tab_mar <- addmargins(tab) # Randsummen zu Tabelle hinzufügen
 tab_mar
 ```
@@ -775,7 +815,7 @@ tab_mar
 ##   Sum      121  67 188
 ```
 
-```r
+``` r
 expected <- data.frame(nein=c((tab_mar[1,3]*tab_mar[3,1])/tab_mar[3,3],
                               (tab_mar[2,3]*tab_mar[3,1])/tab_mar[3,3]),
                        ja=c((tab_mar[1,3]*tab_mar[3,2])/tab_mar[3,3],
@@ -794,7 +834,7 @@ Bspw. für die Kombination (FFM, nein) ergibt sich eine erwartete Häufigkeit vo
 Um die Prüfgröße $\chi^2$ zu berechnen, können wir folgende Formel nutzen: $$\chi^2 = \sum_{i=1}^{2}{ \sum_{j=1}^{2}{ \frac{(n_{ij}-e_{ij})^2} {e_{ij}}}}$$
 
 
-```r
+``` r
 chi_quadrat_Wert <- (tab[1,1]-expected[1,1])^2/expected[1,1]+
                     (tab[1,2]-expected[1,2])^2/expected[1,2]+
                     (tab[2,1]-expected[2,1])^2/expected[2,1]+
@@ -814,7 +854,7 @@ Die Freiheitsgrade berechnen sich aus der Anzahl der untersuchten Kategorien: $d
 Zur Bestimmung des kritischen Wertes und des $p$-Wertes ziehen wir die jeweiligen Funktionen der $\chi^2$ -Verteilung heran:
 
 
-```r
+``` r
 qchisq(.95, 1) # kritischer Wert
 ```
 
@@ -822,7 +862,7 @@ qchisq(.95, 1) # kritischer Wert
 ## [1] 3.841459
 ```
 
-```r
+``` r
 pchisq(chi_quadrat_Wert, 1, lower.tail = FALSE) # p-Wert
 ```
 
@@ -844,7 +884,7 @@ Daraus lässt sich zusammenfassen: Die Wohnnähe zur Uni hängt nicht damit zusa
 Im Normalfall übernimmt die Funktion `chisq.test()` die Arbeit für uns, wenn wir ihr einfach eine 4-Feldertabelle übergeben. Als Argumente brauchen wir hauptsächlich das Objekt mit den Häufigkeiten. Weiterhin müssen wir das Argument `correct` mit `FALSE` angeben. Ansonsten würde standardmäßig die Kontinuitätskorrektur nach Yates durchgeführt werden. Diese ist als Alternative gedacht, wenn nicht der $\chi^2$-Verteilung gefolgt wird. Ein Indiz dafür sind bspw. sehr kleine Zahlen in manchen Kombinationen der Faktoren. Da wir hier in jeder Zelle einen größeren Wert hatten, brauchen wir diese Korrektur nicht.
 
 
-```r
+``` r
 chisq.test(tab,        # Kreuztabelle
            correct=F)  # keine Kontinuinitätskorrektur nach Yates
 ```
@@ -874,7 +914,7 @@ welches einen Wertebereich von [-1,1] aufweist und analog zur Korrelation interp
 In `R` sieht das so aus:
 
 
-```r
+``` r
 effekt_YulesQ <- (tab[1,1]*tab[2,2]-tab[1,2]*tab[2,1])/
                  (tab[1,1]*tab[2,2]+tab[1,2]*tab[2,1])
 effekt_YulesQ
@@ -893,7 +933,7 @@ $$\phi = \frac{n_{11}n_{22}-n_{12}n_{21}}{\sqrt{(n_{11}+n_{12})(n_{11}+n_{21})(n
 In `R` sieht das so aus:
 
 
-```r
+``` r
 effekt_phi <- (tab[1,1]*tab[2,2]-tab[1,2]*tab[2,1])/
   sqrt((tab[1,1]+tab[1,2])*(tab[1,1]+tab[2,1])*(tab[1,2]+tab[2,2])*(tab[2,1]+tab[2,2]))
 effekt_phi
@@ -906,7 +946,7 @@ effekt_phi
 Das Ganze lässt sich auch mit dem `psych` und der darin enthaltenen Funktion `phi()` umsetzen:
 
 
-```r
+``` r
 # alternativ mit psych Paket
 library(psych)
 phi(tab, digits = 8)
@@ -916,7 +956,7 @@ phi(tab, digits = 8)
 ## [1] -0.07772618
 ```
 
-```r
+``` r
 Yule(tab)
 ```
 
@@ -924,7 +964,7 @@ Yule(tab)
 ## [1] -0.1654308
 ```
 
-```r
+``` r
 # Äquivalentes Ergebnis mittels Pearson-Korrelation (kommt in den nächsten Sitzungen)
 # (dichotome Variablen)
 ort_num <- as.numeric(fb24$ort)

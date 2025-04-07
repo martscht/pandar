@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr, Zufallsexperimente und Bernoulli-Experimente zu simulieren, eine Binomialverteilung darzustellen sowie Wahrscheinlichkeitverteilungen und Verteilungsfunktionen zu erstellen. Außerdem erfahrt ihr, wie man Dichte- und Verteilungsfunktionen erstellt und wie man eine empirisch erhobene Variable gegen die Normalverteilung abtragen kann.' 
 authors: [nehler, liu] 
 weight: 4
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/six_sided_dice.png"
@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-i/verteilungen.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/verteilungen-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/verteilungen-uebungen
 output:
   html_document:
     keep_md: true
@@ -70,7 +70,7 @@ In der psychologischen Forschung werden nur Stichproben gezogen. Für die Übert
 Starten wir erstmal mit der Simulation von einem einfachen Zufallsexperiment, dem Werfen von 2 Würfeln. Zwei Würfel können insgesamt 6*6 also 36 verschiedene Kombinationen unter Beachtung der Reihenfolge ergeben. Um dies zu simulieren, definieren wir zunächst einen Würfel als Objekt. Mit `expand.grid()` können wir uns alle möglichen Kombinationen anzeigen lassen (`R` kombiniert alle Optionen des ersten Objektes `wuerfel` einmal mit allen Optionen des zweiten Objektes `wuerfel`).
 
 
-```r
+``` r
 wuerfel <- c(1:6)
 expand.grid(wuerfel,wuerfel)
 ```
@@ -118,7 +118,7 @@ expand.grid(wuerfel,wuerfel)
 Der *Erwartungswert* der Augensumme beim Wurf mit zwei Würfeln kann bestimmt werden, indem wir diese Möglichkeiten einem Objekt `pos` zuweisen. Anschließend bilden wir die Summe für jede Kombination. Wenn man nun alle Möglichkeiten aufaddiert und durch die Anzahl an Möglichkeiten (Anzahl der Reihen aller Möglichkeiten ist 36) teilt, erhält man den Erwartungswert 7.
 
 
-```r
+``` r
 pos <- expand.grid(wuerfel,wuerfel)
 pos$sum <- pos$Var1+pos$Var2
 sum(pos$sum) / nrow(pos)
@@ -131,29 +131,29 @@ sum(pos$sum) / nrow(pos)
 Wie aus der Vorlesung und der eigenen Brettspielerfahrung bekannt, ist der Erwartungswert für ein einzelnes Ereignis nicht aussagekräftig - man würfelt nicht mit jedem Wurf 7. Doch gibt es eine Beziehung zwischen beobachteter und erwarteter Häufigkeit, die man durch häufiges Wiederholen abbilden kann. Dafür könnte man 1000 Mal per Hand die Würfel werfen und das Ergebnis jeweils in `R` notieren, doch natürlich bietet das Programm auch einen Shortcut. Mit der Funktion `sample()` kann zufällig aus einer definierten Menge gezogen werden. Ein einmaliges Werfen eines Würfels würde dabei so aussehen.
 
 
-```r
+``` r
 sample(x = wuerfel, size = 1)
 ```
 
 ```
-## [1] 3
+## [1] 1
 ```
 
 Unter dem Argument `x` kann definiert werden, aus welcher Menge an Objekten zufällig gezogen wird - in diesem Fall die Ziffern zwischen 1 und 6, die im Objekt `wuerfel` hinterlegt sind. `size` definiert die Anzahl an Wiederholungen. Wenn wir nun also zwei Würfel werfen wollen, können wir die `size` einfach erhöhen. Dabei ist es außerdem wichtig, ob das Experiment mit oder ohne Zurücklegen durchgeführt wird. Dafür ist das Argument `replace` verantwortlich, das standardmäßig auf `FALSE` steht. Da die Würfel jedoch auch die selbe Zahl anzeigen können, agieren wir mit Zurücklegen und müssen das Argument auf `TRUE` setzen.
 
 
-```r
+``` r
 sample(x = wuerfel, size = 2, replace = TRUE)
 ```
 
 ```
-## [1] 3 4
+## [1] 3 3
 ```
 
 Für die Verteilung der Ergebnisse ist es vor allem wichtig, wie die Summe aus den beiden Ziffern aussieht. Die Funktionen kann man in einer Zeile kombinieren.
 
 
-```r
+``` r
 sample(x = wuerfel, size = 2, replace = TRUE) |> sum()
 ```
 
@@ -164,29 +164,29 @@ sample(x = wuerfel, size = 2, replace = TRUE) |> sum()
 Des Weiteren soll der Wurf nicht nur einmal mit den beiden Würfeln durchgeführt werden, sondern häufiger wiederholt werden. Hier hilft Ihnen  `replicate()`, wobei die Anzahl an wiederholten Durchführungen einer Funktion im Argument `n` festgelegt werden kann. Weiterhin muss im Argument `expr` die Funktion genannt werden, die wiederholt werden soll.
 
 
-```r
+``` r
 replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ```
 
 ```
-##  [1]  8  8  8  4  8 10  3  4  9  7
+##  [1]  7  4  5  2 12  8 11  4  6  3
 ```
 
 Beachten Sie jedoch, dass Sie bei zweimaliger Durchführung desselben Befehls nicht zwei Mal dasselbe Ergebnis bekommen werden, da `R` den Zufall jeweils neu simuliert. 
 
 
-```r
+``` r
 replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ```
 
 ```
-##  [1] 4 8 5 6 7 7 8 7 7 5
+##  [1] 11  8  7 10 10 10  7 10  6  5
 ```
 
 Zur Konstanthaltung der Ergebnisse eines Zufallsvorgangs kann `set.seed()` genutzt werden, durch das der `R` interne Zufallsgenerator stets an der selben Stelle gestartet wird. Dies ermöglicht die Reproduzierbarkeit des Ergebnisses (Anmerkung: bei verschiedenen Versionen von `R` könnte der Befehl auch andere Resultate produzieren).
 
 
-```r
+``` r
 set.seed(500)
 replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ```
@@ -198,7 +198,7 @@ replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 Des Weiteren weisen wir unsere Daten einem Objekt zu, um sie im Folgenden analysieren zu können. Zusätzlich können wir den Code durch die Nutzung des Pipes nochmal verschönern. Wir ziehen zuerst das `sample`, bilden dann die Summe aus den beiden Werten. Diese Kombination wird dem Argument `expr` aus der `replicate` Funktion zugeordnet. `R` ersetzt also durch den Pipe nicht immer das erste Argument der nachffolgenden Funktion (das wäre ja `n`), sondern das Argument, welches in der Standardreihenfolge als erstes keine Zuweisung erhalten hat. `R` checkt demnach, dass `n` schon besetzt ist und ersetzt stattdessen das zweite Argument `expr`. 
 
 
-```r
+``` r
 set.seed(500)
 results_10 <- sample(x = wuerfel, size = 2, replace = TRUE) |> sum() |> replicate(n = 10)
 results_10
@@ -213,7 +213,7 @@ results_10
 Zur Veranschaulichung der Ergebnisse können Sie das bereits besprochene Histogramm nutzen, das Häufigkeiten abbildet. Mit `xlim` legen wir in diesem Fall die Grenzen der möglichen Ereignisse fest, auch wenn diese noch nicht aufgetreten sind. `breaks` sind die Übergänge zwischen den Balken. Um die Balken jeweils über der ganzen Zahl (also den möglichen Ereignissen von 2 bis 12) zu haben, setzen wir die Punkte auf 1.5, 2.5, 3.5 und so weiter bis 12.5. Dies wird durch den Doppelpunkt erreicht, der so oft auf den Wert der unteren Grenze eins addiert, bis er bei der oberen angekommen ist. 
 
 
-```r
+``` r
 hist(results_10,xlim = c(1.5,12.5), breaks = c(1.5:12.5))
 ```
 
@@ -222,7 +222,7 @@ hist(results_10,xlim = c(1.5,12.5), breaks = c(1.5:12.5))
 Durch eine Erhöhung der Würfe nähert sich die empirische Wahrscheinlichkeit der einzelnen Ergebnisse den theoretischen Wahrscheinlichkeiten an. Auch dies kann man grafisch darstellen.
 
 
-```r
+``` r
 set.seed(500)
 results_50 <- sample(x = wuerfel, size = 2, replace = TRUE) |> sum() |> replicate(n = 50)
 hist(results_50, xlim = c(1.5,12.5), breaks = c(1.5:12.5))
@@ -230,14 +230,14 @@ hist(results_50, xlim = c(1.5,12.5), breaks = c(1.5:12.5))
 
 ![](/verteilungen_files/unnamed-chunk-12-1.png)<!-- -->
 
-```r
+``` r
 results_250 <- sample(x = wuerfel, size = 2, replace = TRUE) |> sum() |> replicate(n = 250)
 hist(results_250, xlim = c(1.5,12.5), breaks = c(1.5:12.5))
 ```
 
 ![](/verteilungen_files/unnamed-chunk-12-2.png)<!-- -->
 
-```r
+``` r
 results_10000 <- sample(x = wuerfel, size = 2, replace = TRUE) |> sum() |> replicate(n = 10000)
 hist(results_10000, xlim = c(1.5,12.5), breaks = c(1.5:12.5))
 ```
@@ -247,7 +247,7 @@ hist(results_10000, xlim = c(1.5,12.5), breaks = c(1.5:12.5))
 Dies wird auch daran deutlich, dass sich der Mittelwert der Verteilung nun dem *Erwartungswert* von 7 annähert.
 
 
-```r
+``` r
 mean(results_10)
 ```
 
@@ -255,7 +255,7 @@ mean(results_10)
 ## [1] 7.1
 ```
 
-```r
+``` r
 mean(results_50)
 ```
 
@@ -263,7 +263,7 @@ mean(results_50)
 ## [1] 6.88
 ```
 
-```r
+``` r
 mean(results_250)
 ```
 
@@ -271,7 +271,7 @@ mean(results_250)
 ## [1] 7.016
 ```
 
-```r
+``` r
 mean(results_10000)
 ```
 
@@ -298,7 +298,7 @@ Kommen wir nun von der Abbildung empirischer Häufigkeiten zu einer Wahrscheinli
 Für den Binomialkoeffizienten hat R einen eigenen Eingabebefehl `choose()` mit den Argumenten `n` und `k`. Wenn wir nun also berechnen wollen wie wahrscheinlich es ist, dass bei 100-maligem Drehen 20 mal grün erscheint, kann man dies folgendermaßen machen.  
 
 
-```r
+``` r
 choose(n = 100, k = 20) * 0.2^20 * 0.8^80
 ```
 
@@ -309,7 +309,7 @@ choose(n = 100, k = 20) * 0.2^20 * 0.8^80
 Noch simpler geht es mit der Funktion `dbinom()`. Diese hat als Argumente `x` statt `k`, `size` statt `n` und `prob` für die Wahrscheinlichkeit des interessierenden Ereignisses.
 
 
-```r
+``` r
 dbinom(x = 20, size = 100, prob = 0.2) 
 ```
 
@@ -320,7 +320,7 @@ dbinom(x = 20, size = 100, prob = 0.2)
 Die berechnete Lösung ist ein Wert aus der *Wahrscheinlichkeitsverteilung* unseres Beispiels. Es ist also die Wahrscheinlichkeit, dass genau 20 von 100 Versuchen auf grün landen. Für jede mögliche Anzahl `k` bzw. `x` gibt es einen zugeordneten Wert. Um sich die gesamte Wahrscheinlichkeitsverteilung anzusehen, gibt es folgende Eingabemöglichkeit:
 
 
-```r
+``` r
 x <- c(0:100)   # alle möglichen Werte für x in unserem Beispiel
 probs <- dbinom(x, size = 100, prob = 0.2) #Wahrscheinlichkeiten für alle möglichen Werte
 plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten des Ereignis Grün", ylab = "Wahrscheinlichkeit bei 100 Drehungen")
@@ -349,7 +349,7 @@ Auch hierfür ist in R eine Funktion definiert mit dem Namen `pbinom()`. `q` gib
 Höchstens 20 mal bedeutet dabei, dass die 20 im Intervall mit einbezogen wird (also `lower.tail = TRUE`). 
 
 
-```r
+``` r
 pbinom(q = 20, size = 100, prob = 0.2, lower.tail = TRUE)
 ```
 
@@ -362,7 +362,7 @@ Bei weniger als 20 mal könnte man `q = 19` verwenden, da die Binomialverteilung
 Um die Wahrscheinlichkeit innerhalb eines Intervalls zu berechnen, kann die Funktion einfach zwei mal genutzt und die Werte voneinander subtrahiert werden. Für die Fragestellung, wie wahrscheinlich Werte im Intervall von 15 und 20 sind, würde die Funktion folgendermaßen aussehen:
 
 
-```r
+``` r
 pbinom(q = 20, size = 100, prob = 0.2, lower.tail = TRUE) - pbinom(q = 14, size = 100, prob = 0.2, lower.tail = TRUE)
 ```
 
@@ -373,7 +373,7 @@ pbinom(q = 20, size = 100, prob = 0.2, lower.tail = TRUE) - pbinom(q = 14, size 
 Wie die Wahrscheinlichkeitsverteilung kann die Verteilungsfunktion natürlich auch abgebildet werden. Im Code der Grafikerstellung muss nur die Funktion `dbinom()` durch `pbinom()` ersetzt werden.
 
 
-```r
+``` r
 x <- c(0:100)   # alle möglichen Werte für x in unserem Beispiel
 probs <- pbinom(x, size = 100, prob = 0.2, lower.tail = TRUE) #Wahrscheinlichkeiten für alle möglichen Werte
 plot(x = x, y = probs, type = "h", 
@@ -396,7 +396,7 @@ Gehen wir nun einmal umgekehrt an unser Experiment heran. Wir wollen hier heraus
 Die Funktion `qbinom()` beantwortet uns diese entgegengesetzte Fragestellung von `pbinom()`. 
 
 
-```r
+``` r
 qbinom(p = 0.1, size = 100, prob = 0.2, lower.tail = TRUE)
 ```
 
@@ -409,7 +409,7 @@ qbinom(p = 0.1, size = 100, prob = 0.2, lower.tail = TRUE)
 Zum Abschluss noch die Simulation dieses Zufallsexperimentes. Bei `rbinom()` geben wir in `n` an, wie oft R unsere 100 Drehungen (`size`) mit der Wahrscheinlichkeit 0.2 (`prob`) durchführen soll. Im Bezug auf unser Beispiel wird hier also die Anzahl ausgegeben, wie häufig grün gedreht wird. Beachten Sie, dass bei diesem Befehl ohne `set.seed()` andere Ergebnisse bei mehrmaliger Durchführung auftreten, da das Experiment ja zufällig durchgeführt wird. 
 
 
-```r
+``` r
 rbinom(n = 1, size = 100, prob = 0.2)
 ```
 
@@ -455,7 +455,7 @@ Die Fläche unter dieser Funktion ergibt einen Wert von 1 - genauso wie die Addi
 Für die IQ-Verteilung der Population wird angenommen, dass diese den Mittelwert von 100 hat und eine Standardabweichung von 15. Die bewährten Tests werden dahingehend genormt. Wenn wir nun den Wert auf der x-Achse aus der Dichtefunktion eines Probanden erfahren wollen (IQ = 114.3), können wir diesen mit der `dnorm()` Funktion berechnen. Benötigt werden neben dem x-Wert (in diesem Fall der IQ-Wert) noch der Mittelwert `mean` und die Standardabweichung `sd` der zugrundeliegenden Verteilung.
 
 
-```r
+``` r
 dnorm(x = 114.3, mean = 100, sd = 15) 
 ```
 
@@ -466,7 +466,7 @@ dnorm(x = 114.3, mean = 100, sd = 15)
 Neben der Verwendung von `dnorm()` können wir die Wahrscheinlichkeitsdichte auch manuell berechnen. Dazu können wir die Formel einfach in Code übersetzen, um die Funktionalität von `dnorm()` zu prüfen. Wir haben bereits gelernt, dass die Wurzelfunktion in R `sqrt()` heißt. Die Zahl $\pi$ liegt als Objekt standardmäßig vor mit dem Namen `pi`, auch wenn es uns nicht im Global Environment angezeigt wird -- aber auch Funktionen wie `sum()`, `mean()` und sehr viele andere werden dort ja nicht angezeigt, also ist das für uns nichts neues. Die Funktion `exp()` haben wir in der Hilfe zur Logarithmus Funktion `log()` gesehen und hilft uns beim letzten Teil der Gleichung.  
 
 
-```r
+``` r
 1 / (15 * sqrt(2 * pi)) * exp(-0.5 * ((114.3 - 100) / 15)^2)
 ```
 
@@ -480,7 +480,7 @@ Eingesetzt sind hier die Werte $sd = 15$, $x = 114.3$ und $\bar{x} = 100$ Mit di
 Alleine ist der Wert aus der Dichtefunktion noch nicht aussgekräftig für die Anwendung. Trotzdem betrachten wir zunächst den grafischen Aspekt. Wenn wir nun den eben gesehenen Plot zeichnen wollen, verwenden wir bei stetigen Funktionen, wie es die Dichtefunktion eine ist, den Befehl `curve()`. Dafür muss im Argument `expr` eine Funktion in Abhängigkeit von x genannt werden. Mit `from` und `to` legt man die Grenzen der Bereiche fest. Auf der x-Achse (`xlab`) sollen die möglichen IQ-Werte, auf der y-Achse (`ylab`) die zugehörigen Werte der Dichtefunktion f(x) abgebildet werden. Mit `main` wird ein Titel für die Grafik vergeben.
 
 
-```r
+``` r
 curve(expr = dnorm(x, mean = 100, sd = 15), 
       from = 70, 
       to = 130, 
@@ -502,7 +502,7 @@ Um für einen bestimmten Wert eine hilfreiche Aussage treffen zu können, wird d
 Dafür können auch bei stetigen Variablen die anderen Präfixe wie bei `"binom()"` genutzt werden. Zur Angabe der Fläche ist der Befehl folglich `pnorm()`. Das Argument `lower.tail` steht bei `TRUE` dafür, dass die Fläche ab -$\infty$ bis zu unserem Wert berechnet wird (`FALSE` hingegen wäre von unserem Wert bis +$\infty$). 
 
 
-```r
+``` r
 pnorm(114.3, mean = 100, sd = 15, lower.tail = TRUE)
 ```
 
@@ -517,7 +517,7 @@ Neben der Verwendung von `pnorm()` können wir die Fläche unter der Kurve auch 
 Die `integrate()` in R wird verwendet, um das bestimmte Integral einer Funktion über ein angegebenes Intervall zu berechnen. Diese Funktion hat drei Argumente: `f` benennt die zu integrierende Funktion. `lower` ist die untere Grenze des Integrationsintervalls. `upper` ist die Obergrenze des Integrationsintervalls. Wenn die Funktion, die wir integrieren wollen, auch Argumente hat, werden diese in `integrate` auch aufgeführt. Dabei gibt es in `dnorm()` den Mittelwert `mean` und die Standardabweichung `sd`.
 
 
-```r
+``` r
 integrate(f = dnorm, lower = -Inf, upper = 114.3, mean = 100, sd = 15)
 ```
 
@@ -529,7 +529,7 @@ Diese Methode liefert das gleiche Ergebnis wie die Verwendung von `pnorm()` und 
 Auch hier können wir zur Veranschaulichung einmal die Verteilungsfunktion als Grafik betrachten. Dafür zeichnen wir die Funktion `pnorm()`. Der restliche Code funktioniert analog zu dem, was wir bereits gesehen haben, mit der `curve()` Funktion.
 
 
-```r
+``` r
 curve(expr = pnorm(x, mean = 100, sd = 15, lower.tail = TRUE),
      from = 70,
      to = 130,
@@ -547,7 +547,7 @@ Hier ist schön zu sehen, dass sich die Verteilungsfunktion mit steigendem IQ-We
 Auch der Präfix `"q"` funktioniert äquivalent. Durch `qnorm()` erhalten wir unter Angabe einer Wahrscheinlichkeit den zugehörigen Wert aus der Verteilungsfunktion der Dichte. Wir wollen hier betrachten, welcher Wert die unteren 50% der Verteilung abtrennt.
 
 
-```r
+``` r
 qnorm(p = 0.5, mean = 100, sd = 15, lower.tail = TRUE)
 ```
 
@@ -562,14 +562,13 @@ Aufgrund der Symmetrie der Normalverteilung wird hier wie erwartet die Verteilun
 Um die Ziehung aus einer Normalverteilung zu simulieren, können wir mit dem Präfix `"r"` wieder Daten zufällig auswählen. Anstatt `"binom()"` folgt nun aber `"norm()"`. Als Argumente werden die Anzahl der Werte, der Mittelwert `mean` und die Standardabweichung `sd` der gewünschten Verteilung benötigt. Es werden zufällig 10 Elemente aus einer Normalverteilung gezogen, die den vorgegebenen Parametern entspricht.
 
 
-```r
+``` r
 set.seed(500)                   #zur Konstanthaltung der zufälligen Ergebnisse
 rnorm(10,mean = 100,sd = 15)
 ```
 
 ```
-##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336  91.34905 110.82285 109.28648 100.31509
-## [10] 104.12275
+##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336  91.34905 110.82285 109.28648 100.31509 104.12275
 ```
 
 ***

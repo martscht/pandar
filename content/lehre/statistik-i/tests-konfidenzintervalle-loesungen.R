@@ -35,8 +35,8 @@ fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
 
 dim(fb24)
 
-## install.packages("psych")
-## install.packages("car")
+# install.packages("psych")
+# install.packages("car")
 
 library(psych)
 library(car)

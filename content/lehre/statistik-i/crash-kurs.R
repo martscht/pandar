@@ -35,11 +35,11 @@ args(log)
 
 exp(1)
 
-## help(log)
+# help(log)
 
 log(-1)
 
-## log(argument = 10)
+# log(argument = 10)
 
 
 my_num <- sum(3, 4, 1, 2)
@@ -125,8 +125,8 @@ dat
 str(dat)
 
 three <- c(1, 2, 3)
-## three <- c(1, 2, 3)
-## data.frame(color, text, cong, react, three)
+# three <- c(1, 2, 3)
+# data.frame(color, text, cong, react, three)
 
 
 four <- c(three, 4)
@@ -181,11 +181,11 @@ dat
 dat <- dat[-9, ]    # Datensatz ohne die 9. Zeile
 dat
 
-## getwd()
+# getwd()
 
-## setwd('Pfad/Zum/Ordner')
+# setwd('Pfad/Zum/Ordner')
 
-## dir()
+# dir()
 
 save(dat, file = 'dat.rda')
 
@@ -206,16 +206,16 @@ stroop
 
 args(read.table)
 
-## fb24 <- read.table('fb24.csv')
+# fb24 <- read.table('fb24.csv')
 
 
-## fb24 <- read.table('fb24.csv', header = TRUE)
+# fb24 <- read.table('fb24.csv', header = TRUE)
 
 
-## fb24 <- read.table('fb24.csv', header = TRUE, sep = ",")
+# fb24 <- read.table('fb24.csv', header = TRUE, sep = ",")
 
 
-## fb24 <- read.table('https://pandar.netlify.app/daten/fb24.csv', header = TRUE, sep = ",")
+# fb24 <- read.table('https://pandar.netlify.app/daten/fb24.csv', header = TRUE, sep = ",")
 
 head(fb24)    # Kopfzeilen
 str(fb24)     # Struktur des Datensatzes

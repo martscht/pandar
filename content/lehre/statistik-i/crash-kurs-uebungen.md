@@ -1,14 +1,14 @@
 ---
-title: R Crash-Kurs - Aufgaben
+title: R Crash-Kurs - Übungen
 type: post
 date: '2020-10-01'
-slug: crash-kurs-aufgaben
+slug: crash-kurs-uebungen
 categories: ["Statistik I Übungen"]
 tags: []
 subtitle: ''
 summary: ''
 authors: [schultze]
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"

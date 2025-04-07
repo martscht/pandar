@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [zacharias]
 weight:
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-i/matrixalgebra
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/matrixalgebra-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/matrixalgebra-uebungen
 output:
   html_document:
     keep_md: true
@@ -52,7 +52,7 @@ $$x=\begin{pmatrix}4\\2\ \end{pmatrix}, \qquad y=\begin{pmatrix}7\\14\\93\\56 \e
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 # Erstellen der Vektoren
 x <- c(4, 2)
 y <- c(7, 14, 93, 56)
@@ -65,7 +65,7 @@ y[3] # 3. Element des y-Vektors
 ## [1] 93
 ```
 
-```r
+``` r
 z[1] # 1. Element des z-Vektors
 ```
 
@@ -79,7 +79,7 @@ z[1] # 1. Element des z-Vektors
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 x + y
 ```
 
@@ -94,13 +94,12 @@ Wir wissen bereits, dass die Addition von Vektoren elementeweise funktioniert. E
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 x + z
 ```
 
 ```
-## Warning in x + z: Länge des längeren Objektes
-##  	 ist kein Vielfaches der Länge des kürzeren Objektes
+## Warning in x + z: longer object length is not a multiple of shorter object length
 ```
 
 ```
@@ -115,7 +114,7 @@ In der vorherigen Aufgabe hatten wir zwei Vektoren vorliegen, die ein Vielfaches
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 m <- 3
 y * m
 ```
@@ -133,7 +132,7 @@ Ordnen Sie den beiden Elementen die Namen zu.
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 names(x) <- c("Sarah", "Lea")
 x
 ```
@@ -158,7 +157,7 @@ $$a=\begin{pmatrix}1\\2\\3\\4\\ \end{pmatrix}, \qquad b=\begin{pmatrix}5\\6\\7\\
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 # Vektoren erstellen
 a <- c(1, 2, 3, 4)
 b <- c(5, 6, 7, 8)
@@ -189,7 +188,7 @@ $$\qquad a=\begin{pmatrix}1, 2, 3, 4 \end{pmatrix},   \qquad b=\begin{pmatrix}5,
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 # Matrix B erstellen und anzeigen lassen
 B <- rbind(a, b, c)
 B
@@ -208,7 +207,7 @@ B
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 A[3, 2]
 ```
 
@@ -217,7 +216,7 @@ A[3, 2]
 ## 7
 ```
 
-```r
+``` r
 B[2, 3]
 ```
 
@@ -234,7 +233,7 @@ Wie wir sehen, sind die Elemente $a_{32}$ und $b_{23}$ identisch. Das liegt dara
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 t(B)
 ```
 
@@ -249,7 +248,7 @@ t(B)
 Wir sehen, dass die Transponierte von `B` tatsächlich identisch mit `A` ist. Wir können die Elemente auch einzeln abgleichen:
 
 
-```r
+``` r
 t(B) == A
 ```
 
@@ -270,7 +269,7 @@ $$X=\begin{pmatrix}-4 & -13\\ 8 & -32\\ 49 & 2\end{pmatrix}, Y=\begin{pmatrix}12
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 # Matrizen erstellen
 X <- matrix(c(-4, -13, 
               8, -32,
@@ -283,7 +282,7 @@ Y <- matrix(c(12, 25,
 ```
 
 
-```r
+``` r
 # Matrizen addieren
 Z <- X + Y
 Z
@@ -296,7 +295,7 @@ Z
 ## [3,]   53  -18
 ```
 
-```r
+``` r
 # mit 4 addieren (skalare Multiplikation)
 Z*4
 ```
@@ -313,7 +312,7 @@ Z*4
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 # Matrixmultiplikation
 A %*% Z
 ```
@@ -337,7 +336,7 @@ Die Multiplikation der beiden Matrizen funktioniert unproblematisch, da die beid
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 # Einheitsmatrix
 I <- diag(4)
 I
@@ -358,7 +357,7 @@ Die Einheitsmatrix $I$ zeichnet sich dadurch aus, dass Sie auf der Diagonale nur
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 # quadratische Matrix
 S <- diag(c(14, 7, 28))
 S
@@ -378,7 +377,7 @@ S
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 # Inverse
 # solve(Z)
 ```
@@ -391,7 +390,7 @@ Es lässt sich keine Inverse der Matrix `Z` bilden, da diese nicht quadratisch i
 
 <details><summary>Lösung</summary>
 
-```r
+``` r
 # Determinante bestimmen
 det(S)
 ```
@@ -402,7 +401,7 @@ det(S)
 Die Determinante ist nicht Null, es liegt also keine lineare Abhängigkeit vor.
 
 
-```r
+``` r
 # Inverse
 P <- solve(S)
 P
@@ -417,7 +416,7 @@ P
 Nun erhalten wir ein Ergebnis, da es sich bei `S` um eine quadratische Matrix handelt, die zudem regulär und somit invertierbar ist. Unser Ergebnis ist die Matrix, mit welcher wir `S` (matrix-)multiplizieren müssen, um die Einheitsmatrix zu erhalten. Das können wir auch kurz gegenchecken:
 
 
-```r
+``` r
 # Inverse
 P %*% S
 ```

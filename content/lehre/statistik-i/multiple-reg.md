@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die einfache lineare Regression zur multiplen Regression erweitert, indem mehrere Prädiktoren genuzt werden. Deskriptiv werden die einzelnen Parameter der Regression dargestellt und die gemeinsam erklärte Varianz erläutert. Aus inferenzstatistischer Sicht beschäftigen wir uns mit einem globalen Modelltest und Modellvergleichstests. Auch die Annahmen der multiplen Regression werden besprochen.' 
 authors: [schultze]
 weight: 12
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/stormies.jpg"
@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-i/multiple-reg.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/multiple-reg-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/multiple-reg-uebungen
 output:
   html_document:
     keep_md: true
@@ -59,7 +59,7 @@ output:
 Den Datensatz `fb24` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 
-```r
+``` r
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -78,14 +78,26 @@ fb24$ziel <- factor(fb24$ziel,
 fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+fb24$fach_klin <- factor(as.numeric(fb24$fach == "Klinische"),
+                         levels = 0:1,
+                         labels = c("nicht klinisch", "klinisch"))
+fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb24$job <- factor(fb24$job, levels=c(1,2), labels=c("nein", "ja"))
+fb24$unipartys <- factor(fb24$uni3,
+                             levels = 0:1,
+                             labels = c("nein", "ja"))
 
 # Rekodierung invertierter Items
-fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 5)
-fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 5)
-fb24$mdbf3_r <- -1 * (fb24$mdbf3 - 5)
-fb24$mdbf9_r <- -1 * (fb24$mdbf9 - 5)
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 4 - 1)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 4 - 1)
+fb24$mdbf3_r <-  -1 * (fb24$mdbf3 - 4 - 1)
+fb24$mdbf9_r <-  -1 * (fb24$mdbf9 - 4 - 1)
+fb24$mdbf5_r <- -1 * (fb24$mdbf5 - 4 - 1)
+fb24$mdbf7_r <- -1 * (fb24$mdbf7 - 4 - 1)
 
 # Berechnung von Skalenwerten
+fb24$wm_pre  <- fb24[, c('mdbf1', 'mdbf5_r', 
+                        'mdbf7_r', 'mdbf10')] |> rowMeans()
 fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
 fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
@@ -107,7 +119,7 @@ $$
 Im Datensatz `fb24` haben wir so die Nerdiness (`nerd`) durch die Extraversion (`extra`) vorhergesagt - die Annahme war dabei, dass Personen, die introvertierter sind (also geringere Werte auf der Extraversionsskala aufweisen) sich auch Hobbies gesucht haben, die typischerweise als "nerdig" gelten. In `R` haben wir den `lm`-Befehl genutzt, um diese Hypothese auch einer Prüfung zu unterziehen.
 
 
-```r
+``` r
 # Einfache Regression
 mod1 <- lm(nerd ~ 1 + extra, data = fb24)
 
@@ -142,7 +154,7 @@ summary(mod1)
 Bei dieser Regression haben wir gesehen, dass die Extraversion ein bedeutsamer Prädiktor für die Nerdiness ist. Dabei geht mit einem Unterschied von einer Einheit in der Extraversion ein Unterschied von -0.24 Einheiten in der Nerdiness einher. Der Determinationskoeffizient beträgt 0.12, was bedeutet, dass 11.86% der Varianz in der Nerdiness durch die Extraversion erklärt werden. Wie wir auch schon gesehen hatten, entspricht dies der quadrierten Korrelation zwischen Extraversion und Nerdiness und die Tests beider gegen 0 sind äquivalent:
 
 
-```r
+``` r
 cor.test(fb24$nerd, fb24$extra)
 ```
 
@@ -171,7 +183,7 @@ $$
 $K$ entspricht dabei der Anzahl der Prädiktoren, die wir in das Modell aufgenommen haben. Neben der Extraversion gehören noch die Veträglichkeit (`vertr`), die Gewissenhaftigkeit (`gewis`), der Neurotizismus (`neuro`) und die Offenheit für neue Erfahrungen (`offen`) zu den Big Five Persönlichkeitsmerkmalen, die wir in der Umfage zu Beginn des Semesters mit dem [BFI-10](https://doi.org/10.6102/zis76) erhoben hatten. Wir können also ein Modell aufstellen, in dem wir die Nerdiness durch all diese Persönlichkeitsmerkmale vorhersagen. 
 
 
-```r
+``` r
 # Multiple Regression
 mod2 <- lm(nerd ~ 1 + extra + vertr + gewis + neuro + offen, 
   data = fb24)
@@ -218,7 +230,7 @@ In der multiplen Regression versuchen wir die Variablen aufzunehmen, die relevan
 Im Scatterplot wird dieser Unterschied deutlich:
 
 
-```r
+``` r
 # Gewichte aus der multiple Regression
 b0 <- coef(mod2)[1]
 b1 <- coef(mod2)[2]
@@ -248,7 +260,7 @@ $$
 Wenn wir z.B. sehen wollen, wie sich die Extraversion auf die Nerdiness bei Personen auswirkt, die in ihren sonstigen Eigenschaften eher durchschnittlich sind, können wir einfach statt 0 die entsprechenden Mittelwerte in die Gleichung einsetzen. Mit unseren [Kenntnissen über Matrixalgebra](/lehre/statistik-i/matrixalgebra) können wir das Ganze sogar relativ kurz halten:
 
 
-```r
+``` r
 # Achsenabschnitt bestimmen
 X <- matrix(c(1, 0, 
   mean(fb24$vertr, na.rm = TRUE), 
@@ -260,7 +272,7 @@ a <- coef(mod2) %*% X
 ```
 
 
-```r
+``` r
 abline(a = a, b = b1, col = "darkgreen")
 ```
 
@@ -272,7 +284,7 @@ Der zweite Unterschied zwischen dieser neuen Linie (in Grün) und der Linie aus 
 Die anderen Gewichte können wir analog interpretieren:
 
 
-```r
+``` r
 summary(mod2)$coefficients
 ```
 
@@ -297,7 +309,7 @@ Um das Konzept des "einzigartigen Beitrags" noch einmal genauer zu beleuchten, k
 Hier sind erst einmal drei Variablen (unsere AV `nerd` und die beiden UVs `extra` und`offen`) dargestellt. Die Schnittmenge zwischen `extra` und `nerd` ist dabei z.B. das Ausmaß an Überlappung zwischen den beiden. Konzeptuell stellt diese Schnittmenge die Varianz dar, die zwischen den beiden geteilt wird. Diese Varianz hatten wir in der einfachen linearen Regression schon bestimmt:
 
 
-```r
+``` r
 summary(mod1)$r.squared
 ```
 
@@ -319,7 +331,7 @@ Um das zu umgehen nutzen wir die multiple Regression um einfach die gesamte Flä
 In der `summary` von `mod2` hatten wir gesehen, wie groß dieser Anteil ist:
 
 
-```r
+``` r
 summary(mod2)$r.squared
 ```
 
@@ -352,7 +364,7 @@ Neben den Tests der einzelnen Regressionsgewichte und dem Test des _gesamten_ $R
 In solchen Fällen können wir über den Vergleich von $R^2_e$ und $R^2_u$ untersuchen, welchen Zugewinn in der Vorhersagekraft die zusätzlichen Prädiktoren so mitbringen. Rein numerisch:
 
 
-```r
+``` r
 # R2 durch Extraversion
 R2e <- summary(mod1)$r.squared
 
@@ -366,7 +378,7 @@ R2e
 ## [1] 0.1185758
 ```
 
-```r
+``` r
 R2u
 ```
 
@@ -374,7 +386,7 @@ R2u
 ## [1] 0.2436424
 ```
 
-```r
+``` r
 # Inkrementelles R2 der vier anderen
 R2u - R2e
 ```
@@ -386,7 +398,7 @@ R2u - R2e
 In diesem Inkrement wird der Teil der Varianz dargestellt, den die anderen vier Big Five Merkmale _zusätzlich_ zur Extraversion aufklären können. Dabei ist es wichtig zu bedenken, dass der Anteil der durch Gemeinsamkeiten zwischen Extraversion und den anderen vier Merkmalen aufgeklärt wird, im ersten Schritt nur der Extraversion zugute geschrieben wurde (das zweite Venn-Diagramm). Dieses Inkrement können wir natürlich aus testen:
 
 
-```r
+``` r
 # Test des inkrementellen R2
 anova(mod1, mod2)
 ```
@@ -410,14 +422,14 @@ In unserem Fall läuft die `anova`-Funktion fehlerfrei durch. Da es hier jedoch 
 Der von der `anova`-Funktion potentiell ausgegebene Fehler `## Error in anova.lmlist(object, ...): models were not all fitted to the same size of dataset` zeigt, dass wir Modelle nur dann vergleichen können, wenn diese auf den gleichen Daten basieren. Das kann nicht gegeben, wenn es Personen gab, die z.B. zwar für Extraversion und Nerdiness Beobachtungen hatten, für mindestens eine der anderen vier Dimensionen aber nicht. Im Beitrag zu [Zusammenhangsmaßen](/lehre/statistik-i/korrelation/#fehlende-werte) hatten wir den Unterschied zwischen paarweisem und listenweisem Fallausschluss schon detaillierter besprochen. Im Fall mehrerer Regressionsmodelle müssen wir also vorab sicherstellen, dass wir adäquaten listenweisen Fallausschlus betreiben, wenn wir die Modelle direkt vergleichen wollen:
 
 
-```r
+``` r
 mr_dat <- na.omit(fb24[, c("nerd", "extra", "vertr", "gewis", "neuro", "offen")])
 ```
 
 Wenn wir in `R` Modelle aktualisieren wollen, können wir mit `update` arbeiten, statt die gesamte Syntax erneut eingeben zu müssen:
 
 
-```r
+``` r
 # Modell 1, updated
 mod1_new <- update(mod1, data = mr_dat)
 
@@ -430,7 +442,7 @@ mod2_new <- update(mod2, data = mr_dat)
 Mit den Modellen, die auf die neuen Modelle angewendet wurden können wir jetzt den Vergleich erneut probieren:
 
 
-```r
+``` r
 # Test des inkrementellen R2
 anova(mod1_new, mod2_new)
 ```
@@ -461,7 +473,7 @@ In diesem Fall ist der Modellvergleich statistisch bedeutsam, was bedeutet, dass
 Wenn wir für spezifische (Gruppen von) Prädiktoren wissen wollen, wie viel einzigartigen Beitrag sie in der Vorhersage unserer AV haben, können wir dieses Vorgehen nutzen, um die Anteile zu isolieren. Zum Beispiel, wenn wir den Anteil identifizieren wollen, den Extraversion aufklärt, der nicht auch durch andere Big Five Persönlichkeitsmerkmale aufgeklärt wird, können wir ein Modell aufstellen, in dem wir alle anderen Prädiktoren als eingeschränkte Version des Modells aufnehmen:
 
 
-```r
+``` r
 # Modell 3
 mod3 <- lm(nerd ~ 1 + vertr + gewis + neuro + offen, data = mr_dat)
 
@@ -481,7 +493,7 @@ anova(mod3, mod2_new)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-```r
+``` r
 # Inkrementelles R2
 summary(mod2_new)$r.squared - summary(mod3)$r.squared
 ```
@@ -513,7 +525,7 @@ In diesem Beitrag gucken wir uns im Folgenden noch grob an, wie man diese Voraus
 Die korrekte Spezifikation ist eine sehr vielseitige Voraussetzung, die eher konzeptueller und weniger statischer Natur ist. Generell wird davon ausgegangen, dass in unserem Regressionmodell alle relevanten Prädiktoren aufgenommen wurden und dass die funktionale Form des Zusammenhangs korrekt abgebildet ist. Im Normalfall gehen wir zunächst von Linearität aus (auch wenn wir in [Statistik II](/lehre/main/#statistik-ii) noch andere Formen untersuchen und testen werden). Im Beitrag zur [einfachen linearen Regression](/lehre/statistik-i/einfache-reg) hatten wir schon mit Scatterplots und LOESS-Linien geschaut, inwiefern diese Annahme realistisch ist:
 
 
-```r
+``` r
 plot(mr_dat$nerd ~ mr_dat$extra, 
      xlab = "Extraversion", 
      ylab = "Nerdiness")
@@ -549,7 +561,7 @@ Beim $t$-Test hatten wir angenommen, dass die Varianz in allen Gruppen gleich is
 Theoretisch könnten wir das mit einem Streupunktdiagramm der Residuen gegen die vorhergesagten Werte sehen:
 
 
-```r
+``` r
 pred <- predict(mod2_new)
 res <- resid(mod2_new)
 
@@ -563,7 +575,7 @@ plot(pred, res,
 Dabei müssten die Residuen für alle Werte der x-Achse gleichmäßig entlang der y-Achse streuen. Leider ist das etwas schwer einzuschätzen, weil nicht alle Wertekombinationen gleich häufig vorkommen und somit bestimmte Regionen des Plots weniger dicht besiedelt sind, wodurch es so wirken kann, als sei dort die Varianz niedriger. Um uns das Vorgehen etwas zu vereinfachen gibt es zwei Möglichkeiten: die Darstellung der Wurzel der standardisierten Residuen in Abhängigkeit von den vorhergesagten Werten und den _Breusch-Pagan_ Test. Ersteres wird direkt ohne Zusatzpaket in `R` zur Verfügung gestellt:
 
 
-```r
+``` r
 plot(mod2_new, which = 3)
 ```
 
@@ -584,7 +596,7 @@ plot(mod2_new, which = 3)
 Über die visuelle Inspektion hinaus haben wir auch noch die Möglichkeit, die Homoskedastizität der Residuen mit dem _Breusch-Pagan_ Test zu prüfen. Dieser ist im `car`-Paket implementiert:
 
 
-```r
+``` r
 car::ncvTest(mod2_new)
 ```
 
@@ -608,7 +620,7 @@ Wie bei allen Voraussetzungstests, wird hier die Nullhypothese geprüft, dass di
 Die letzte Voraussetzung haben wir bei anderen Tests schon des Öfteren geprüft. Wie auch bei $t$-Tests und der Korrelation können wir für die Prüfung der Normalveteilung der Residuen den QQ-Plot nutzen. Damit wir direkt eine Idee davon haben, wie stark die Abweichung von der Diagonale ausfällt, können wir den `qqPlot` aus dem `car`-Paket nutzen:
 
 
-```r
+``` r
 car::qqPlot(mod2_new)
 ```
 
@@ -622,7 +634,7 @@ car::qqPlot(mod2_new)
 Auch den Shapiro-Wilk-Test haben wir schon in anderen Beiträgen genutzt:
 
 
-```r
+``` r
 shapiro.test(resid(mod2_new))
 ```
 

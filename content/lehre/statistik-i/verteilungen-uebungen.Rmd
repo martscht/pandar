@@ -1,15 +1,15 @@
 ---
-title: "Verteilungen - Aufgaben" 
+title: "Verteilungen - Übungen" 
 type: post
 date: '2019-10-18' 
-slug: verteilungen-aufgaben 
+slug: verteilungen-uebungen
 categories: ["Statistik I Übungen"]
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [nehler, zacharias] 
 weight: 
-lastmod: '2025-02-07'
+lastmod: '`r Sys.Date()`'
 featured: no
 banner:
   image: "/header/six_sided_dice.png"
@@ -33,7 +33,12 @@ output:
 ---
 
 
-
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
 
 
 ## Aufgabe 1

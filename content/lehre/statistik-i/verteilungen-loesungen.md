@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, zacharias] 
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/six_sided_dice.png"
@@ -28,8 +28,8 @@ links:
     url: /lehre/statistik-i/verteilungen
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/verteilungen-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/verteilungen-uebungen
 
 output:
   html_document:
@@ -49,7 +49,7 @@ Bei einem Gewinnspiel auf dem Jahrmarkt wird aus zwei Töpfen eine Kugel gezogen
 An dieser Stelle zunächst eine generelle Anmerkung: Für einige der nachfolgenden Aufgaben wird es - wie eigentlich fast immer in `R` - mehrere Lösungswege geben. Die hier gezeigten Wege sind also exemplarische Vorlagen.
 
 
-```r
+``` r
 topf <- c('rot','gruen','blau','gelb')
 kombis <- expand.grid(topf, topf)
 nrow(kombis)
@@ -68,7 +68,7 @@ Es gibt demnach 16 Möglichkeiten.
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 kombis$gewinn <- kombis$Var1 == 'gruen'|kombis$Var2 == 'gruen'
 sum(kombis$gewinn == TRUE)
 ```
@@ -90,13 +90,13 @@ Eine typischer Münzwurf bietet die Optionen Kopf oder Zahl.
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 muenze <- c('Kopf', 'Zahl')
 sample(x = muenze, size = 1)
 ```
 
 ```
-## [1] "Kopf"
+## [1] "Zahl"
 ```
 
 </details>
@@ -106,7 +106,7 @@ sample(x = muenze, size = 1)
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 set.seed(1901)
 kopfwurf <- replicate(n = 5, expr = sample(x = muenze, size = 1)=="Kopf")
 ```
@@ -133,7 +133,7 @@ Sie wollen an einem Gewinnspiel mit Losen teilnehmen. Dafür hat der Veranstalte
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 dbinom(x = 4, size = 10, prob = 0.3)
 ```
 
@@ -148,7 +148,7 @@ dbinom(x = 4, size = 10, prob = 0.3)
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 x <- c(0:10)
 probs <- dbinom(x, size = 10, prob = 0.3)
 plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten eines Gewinns", ylab = "Wahrscheinlichkeit bei 10 Versuchen")
@@ -163,7 +163,7 @@ plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten eines Gewinns", ylab = 
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 pbinom (q = 4, size = 10, prob = 0.3, lower.tail = FALSE)
 ```
 
@@ -180,7 +180,7 @@ Durch `q = 4` und `lower.tail = FALSE` werden hier die Werte der Wahrscheinlichk
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 pbinom(q = 8, size = 10, prob = 0.3) - pbinom(q = 5, size = 10, prob = 0.3)
 ```
 
@@ -199,7 +199,7 @@ Hier berechnen wir zunächst die Wahrscheinlichkeit, maximal 8 (d.h. 8 oder weni
 Hier sollte herausgefunden werden, welchen Erwartungswert man für die Teilnahme hat. 30% der Versuche sollten Gewinne sein.
 
 
-```r
+``` r
 anzahlGewinne <- 10*.3       #Erwartungswert bei 10 Versuchen
 GeldErw <- anzahlGewinne * 2 #Erwartungswert in Euro
 GeldErw > 5  
@@ -222,7 +222,7 @@ Ein Fragebogen zum Thema Stressempfinden wird so konzipiert, dass die Verteilung
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 curve (expr = dnorm (x, mean = 50, sd = 10),
        from = 30,
        to = 70,
@@ -242,7 +242,7 @@ curve (expr = dnorm (x, mean = 50, sd = 10),
 Die standardisierte Verteilung entspricht der Standardnormalverteilung. Das wird auch durch die Zeichnung verdeutlicht.
 
 
-```r
+``` r
 curve (expr = dnorm (x, mean = 0, sd = 1),
        from = -2,
        to = 2,
@@ -262,7 +262,7 @@ curve (expr = dnorm (x, mean = 0, sd = 1),
 Ein einfacher Weg ist die Standardisierung des Skalenwertes nach der Formel.
 
 
-```r
+``` r
 (66-50)/10
 ```
 
@@ -287,7 +287,7 @@ Dies gilt stets für einen z-Wert von 0, denn die Dichtefunktion ist symmetrisch
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 curve (expr = pnorm (x, mean = 0, sd = 1),
        from = -2,
        to = 2,
@@ -309,7 +309,7 @@ Eine Schlafforscherin plant die Messung der Zeit (in Minuten), die Menschen ben�
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 ?distributions
 ```
 
@@ -322,7 +322,7 @@ Wir erhalten eine Übersicht über die Verteilungen, die in im `stats`-Paket ver
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 curve(expr = dexp(x, rate = 0.05), 
       from = 0, 
       to = 60,
@@ -342,7 +342,7 @@ benötigt, um nach einem stressigen Tag einzuschlafen. Nutzen Sie hierzu beide M
 <details><summary>Lösung</summary>
 Die Wahrscheinlichkeit, dass eine Person bis zu 10 Minuten benötigt, um einzuschlafen, berechnet sich wie folgt:
 
-```r
+``` r
 # manuell mit integrate()
 integrate(f = dexp, lower = 0, upper = 10, rate = 0.05)
 ```
@@ -351,7 +351,7 @@ integrate(f = dexp, lower = 0, upper = 10, rate = 0.05)
 ## 0.3934693 with absolute error < 4.4e-15
 ```
 
-```r
+``` r
 # über Verteilungsfunktion pexp()
 pexp(10, rate = 0.05, lower.tail = TRUE)
 ```
@@ -363,7 +363,7 @@ Wir erhalten das gleiche Ergebnis und mit der `integrate`-Funktion noch zusätzl
 Die Wahrscheinlichkeit, dass eine Person zwischen 15 und 20 Minuten benötigt, um einzuschlafen, berechnet sich wie folgt:
 
 
-```r
+``` r
 # manuell mit integrate()
 integrate(f = dexp, lower = 15, upper = 20, rate = 0.05)
 ```
@@ -372,7 +372,7 @@ integrate(f = dexp, lower = 15, upper = 20, rate = 0.05)
 ## 0.1044871 with absolute error < 1.2e-15
 ```
 
-```r
+``` r
 # über Verteilungsfunktionp exp()
 pexp(20, rate = 0.05, lower.tail = TRUE) - pexp(15, rate = 0.05, lower.tail = TRUE)
 ```

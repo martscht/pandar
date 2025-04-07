@@ -1,8 +1,8 @@
 ---
-title: "Multiple Regression - Aufgaben" 
+title: "Multiple Regression - Übungen" 
 type: post
 date: '2024-02-06' 
-slug: multiple-reg-aufgaben
+slug: multiple-reg-uebungen
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
@@ -45,24 +45,49 @@ if (exists("figure_path")) {
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb24.rda')) 
+load(url('https://pandar.netlify.app/daten/fb24.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-
+fb24$hand_factor <- factor(fb24$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
 fb24$fach <- factor(fb24$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
 fb24$ziel <- factor(fb24$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-
 fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-
+fb24$fach_klin <- factor(as.numeric(fb24$fach == "Klinische"),
+                         levels = 0:1,
+                         labels = c("nicht klinisch", "klinisch"))
 fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-
 fb24$job <- factor(fb24$job, levels=c(1,2), labels=c("nein", "ja"))
+fb24$unipartys <- factor(fb24$uni3,
+                             levels = 0:1,
+                             labels = c("nein", "ja"))
+
+# Rekodierung invertierter Items
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 4 - 1)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 4 - 1)
+fb24$mdbf3_r <-  -1 * (fb24$mdbf3 - 4 - 1)
+fb24$mdbf9_r <-  -1 * (fb24$mdbf9 - 4 - 1)
+fb24$mdbf5_r <- -1 * (fb24$mdbf5 - 4 - 1)
+fb24$mdbf7_r <- -1 * (fb24$mdbf7 - 4 - 1)
+
+# Berechnung von Skalenwerten
+fb24$wm_pre  <- fb24[, c('mdbf1', 'mdbf5_r', 
+                        'mdbf7_r', 'mdbf10')] |> rowMeans()
+fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+                        'mdbf8', 'mdbf11_r')] |> rowMeans()
+fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+                         "mdbf9_r", "mdbf12")] |> rowMeans()
+
+# z-Standardisierung
+fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
+
 
 # Weitere Standardisierungen
 fb24$nerd_std <- scale(fb24$nerd)

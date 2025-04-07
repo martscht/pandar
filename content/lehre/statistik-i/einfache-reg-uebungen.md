@@ -1,15 +1,15 @@
 ---
-title: "Einfache Lineare Regression - Aufgaben" 
+title: "Einfache Lineare Regression - Übungen" 
 type: post
 date: '2019-10-18' 
-slug: einfache-reg-aufgaben 
+slug: einfache-reg-uebungen
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [winkler, neubauer, walter]
 weight:
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/modern_buildings.jpg"
@@ -42,7 +42,7 @@ output:
 Laden Sie zunächst den Datensatz `fb24` von der pandar-Website und führen Sie die Ergänzungen vor, die in zurückliegenden Tutorials vorgenommen wurden. 
 
 
-```r
+``` r
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -93,7 +93,7 @@ fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
-```r
+``` r
 dim(fb24)
 ```
 
@@ -101,7 +101,7 @@ dim(fb24)
 ## [1] 192  55
 ```
 
-```r
+``` r
 str(fb24)
 ```
 

@@ -43,7 +43,7 @@ A
 t(A)
 B
 
-## A + B
+# A + B
 
 
 
@@ -81,7 +81,7 @@ C
 
 diag(C)
 
-## solve(C)
+# solve(C)
 
 
 

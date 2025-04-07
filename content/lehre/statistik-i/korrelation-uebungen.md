@@ -1,15 +1,15 @@
 ---
-title: "Korrelation - Aufgaben" 
+title: "Korrelation - Übungen" 
 type: post
 date: '2019-10-18' 
-slug: korrelation-aufgaben
+slug: korrelation-uebungen
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [nehler, winkler, vogler, schroeder]
 weight:
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/storch_with_baby.jpg"
@@ -43,7 +43,7 @@ output:
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
-```r
+``` r
 dim(fb24)
 ```
 
@@ -51,7 +51,7 @@ dim(fb24)
 ## [1] 192  55
 ```
 
-```r
+``` r
 names(fb24)
 ```
 

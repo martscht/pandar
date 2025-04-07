@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte Variablen vorgestellt. Dabei wird zunächst die Berechnung des Mittelwerts, der Varianz sowie Standardabweichung behandelt. Dann wird gezeigt, wie Variablen zentriert bzw. standardisiert werden können. Abschließend geht es außerdem um das Rekodieren von Items und das Bilden von Skalenwerten.' 
 authors: [nehler, beitner, buchholz] 
 weight: 3
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-i/deskriptiv-intervall.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/deskriptiv-intervall-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/deskriptiv-intervall-uebungen
 output:
   html_document:
     keep_md: true
@@ -71,7 +71,7 @@ Absolut | absoluter Wert | Identität | ... | ... |
 Den Datensatz `fb24` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 
-```r
+``` r
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -95,7 +95,7 @@ fb24$wohnen <- factor(fb24$wohnen,
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
-```r
+``` r
 dim(fb24)
 ```
 
@@ -132,19 +132,19 @@ Für das Tutorial benutzen wir einen Skalenwert aus dem ausgefüllten Fragebogen
 Wir haben den Skalenwert bereits in der Vorbereitung des Datesnatzes für Sie erstellt. Dabei haben wir den Mittelwert aus Ihren Antworten auf die 5 Items berechnet. Wir werden uns später noch anschauen wie die Erstellung eines Skalenwertes abläuft. Für Lebeszufriedenheit ist der Skalenwert für jede einzelne Person nun in der Spalte `lz` in unserem Datensatz zu finden. Indem wir die Variable ansprechen, können wir uns die Ausprägungen anzeigen lassen.
 
 
-```r
+``` r
 fb24$lz
 ```
 
 ```
-##   [1] 6.6 4.0 5.2 4.0 5.0 4.4 6.4 4.0 4.6 6.0 3.8 3.4 6.6 6.4 5.8 4.6 4.6 2.0 4.6 5.2 4.0 6.4 4.8 5.0
-##  [25] 6.8 2.6 4.6 4.4 5.6 5.6 3.0 4.8 3.8 5.5 5.4 5.8 5.8 4.6 4.6 4.2 4.8 4.2 5.0 4.8 6.0 3.2 6.0 6.0
-##  [49] 5.6 5.2 2.8 5.4 5.0 5.6 3.8 4.8 4.2 4.0 3.0 4.6 5.8 5.8 5.0 5.8 5.2 5.4 5.8 4.0 2.6 6.0 5.8 6.6
-##  [73] 4.4 4.4 7.0 6.0 4.4 5.4 5.8 5.2 4.8 4.4 2.6 4.4  NA 6.6 5.0 5.2 7.0 4.6 4.0 3.8 6.6 3.8 6.4 4.4
-##  [97] 5.6 5.6 6.8 3.2 3.2 5.4 5.0 6.0 5.8 2.8 3.6 5.4 6.6 3.6 3.8 6.4 5.0 2.4 5.4 4.8 4.4 3.6 5.2 4.4
-## [121] 4.8 4.8 5.8 5.4 5.6 3.6 5.0 3.2 6.0 4.8 4.4 5.4 4.4 3.8 6.2 2.2 5.8 6.2 4.0 5.6 5.4 6.2 2.4 6.4
-## [145] 3.0 6.2 5.4 6.4 5.2 4.8 6.8 5.6 4.0 4.8 3.4 5.8 5.2 4.2 4.6 6.0 6.2 3.8 6.8 3.6 3.4 4.2 6.2 4.8
-## [169] 5.0 4.6 6.2 5.6 3.6 4.4 3.8 4.8 5.8 7.0 6.4 2.4 2.0 2.4 5.8 4.4 6.0 5.4 6.0 5.0 5.0 6.2 6.0 5.6
+##   [1] 6.6 4.0 5.2 4.0 5.0 4.4 6.4 4.0 4.6 6.0 3.8 3.4 6.6 6.4 5.8 4.6 4.6 2.0 4.6 5.2 4.0 6.4 4.8 5.0 6.8 2.6 4.6
+##  [28] 4.4 5.6 5.6 3.0 4.8 3.8 5.5 5.4 5.8 5.8 4.6 4.6 4.2 4.8 4.2 5.0 4.8 6.0 3.2 6.0 6.0 5.6 5.2 2.8 5.4 5.0 5.6
+##  [55] 3.8 4.8 4.2 4.0 3.0 4.6 5.8 5.8 5.0 5.8 5.2 5.4 5.8 4.0 2.6 6.0 5.8 6.6 4.4 4.4 7.0 6.0 4.4 5.4 5.8 5.2 4.8
+##  [82] 4.4 2.6 4.4  NA 6.6 5.0 5.2 7.0 4.6 4.0 3.8 6.6 3.8 6.4 4.4 5.6 5.6 6.8 3.2 3.2 5.4 5.0 6.0 5.8 2.8 3.6 5.4
+## [109] 6.6 3.6 3.8 6.4 5.0 2.4 5.4 4.8 4.4 3.6 5.2 4.4 4.8 4.8 5.8 5.4 5.6 3.6 5.0 3.2 6.0 4.8 4.4 5.4 4.4 3.8 6.2
+## [136] 2.2 5.8 6.2 4.0 5.6 5.4 6.2 2.4 6.4 3.0 6.2 5.4 6.4 5.2 4.8 6.8 5.6 4.0 4.8 3.4 5.8 5.2 4.2 4.6 6.0 6.2 3.8
+## [163] 6.8 3.6 3.4 4.2 6.2 4.8 5.0 4.6 6.2 5.6 3.6 4.4 3.8 4.8 5.8 7.0 6.4 2.4 2.0 2.4 5.8 4.4 6.0 5.4 6.0 5.0 5.0
+## [190] 6.2 6.0 5.6
 ```
 
 Auf den ersten Blick ist es schwer, aus so einer großen Menge an unterschiedlichen Werten ein Fazit zu ziehen. Um eine Stichprobe zusammenzufassen, lernen wir heute deskriptive Maße kennen. Zunächst lässt sich aber feststellen, dass wir es auch auf dem Skalenwert mit fehlenden Werten (`NA`) zu tun haben. 
@@ -155,7 +155,7 @@ Bevor wir uns mit neuen Kennwerten beschäftigen, werfen wir nochmal einen Blick
 Statistische Verfahren sind "rückwärtskompatibel", d.h. alle Berechnungen, die auf nominalskalierte und ordinalskalierte Variablen anwendbar sind, lassen sich auch auf mindestens intervallskalierte Variablen anwenden. Das bedeutet, dass bspw. Range, Quantile und Median weiterhin valide bestimmt werden können.
 
 
-```r
+``` r
 # Minimum & Maximum
 range(fb24$lz, na.rm=T)
 ```
@@ -164,7 +164,7 @@ range(fb24$lz, na.rm=T)
 ## [1] 2 7
 ```
 
-```r
+``` r
 # Quartile & Median
 quantile(fb24$lz, c(.25, .5, .75), na.rm=T)
 ```
@@ -174,7 +174,7 @@ quantile(fb24$lz, c(.25, .5, .75), na.rm=T)
 ## 4.2 5.0 5.8
 ```
 
-```r
+``` r
 #Box-Whisker Plot
 boxplot(fb24$lz)
 ```
@@ -188,7 +188,7 @@ Die Betrachtung zeigt uns, dass die meisten Werte Ihrer selbstberichteten Lebens
 Um die Verteilung der Werte für eine mindestens intervallskalierte noch besser betrachten zu können, wird sehr häufig das Histogramm als grafische Darstellungsform genutzt. Dieses fasst die kontinuierlichen Werte in Klassen (Kategorien, Intervalle) zusammen. Anschließend wird eine Häufigkeitsverteilung (ähnlich dem Barplot) für die kategorisierten Daten (sekundäre Häufigkeitsverteilung) erstellt. Grundlegend kann solch eine Grafik über den Befehl `hist()` angefordert werden.
 
 
-```r
+``` r
 # Histogramm
 hist(fb24$lz)
 ```
@@ -198,7 +198,7 @@ hist(fb24$lz)
 Natürlich kann man auch hier zusätzliche Argumente nutzen, die die Optik des Histogramms verändern. Dabei können beispielsweise Farbe, Achsenbeschriftungen oder auch der Titel verändert werden. Damit haben wir uns aber bereits auseinandergesetzt und wiederholen es deswegen an dieser Stelle nicht nochmal. Eine neue Bearbeitungsoption für den Plot ist aber das Argument `breaks`. Hierin wird beschrieben, an welchem Ort eine Kategorie anfängt und wieder aufhört. bspw. startet die erste Kategorie bei 1 und geht bis 3, die zweite dann bei 3 bis 5 und die vierte von 5 bis 7. Die Anzahl der Breakpoints wäre in diesem Beispiel 4 (`c(1, 3, 5, 7)`). Ohne eigenen Input bestimmt `R` dieses komplett selbst. Wir können aber auch einen Wert zuordnen - bspw. eine ganze Zahl. 
 
 
-```r
+``` r
 # Histogramm (20 Breakpoints anfordern)
 hist(fb24$lz,
      breaks = 20)
@@ -213,7 +213,7 @@ Werte, die genau auf einem Break liegen, werden standardmäßig der Kategorie zu
 Achtung! Die Anzahl der Kategorien kann den Eindruck der Daten beeinflussen. Hier erstellen wir ein Beispiel dafür, wie wir jeden Breakpoint selbst bestimmen können und auch den Eindruck der Daten manipulieren.
 
 
-```r
+``` r
 # Histogramm (ungleiche Kategorien)
 hist(fb24$lz,
      breaks = c(1, 3, 3.3, 3.6, 3.9, 4.5, 5, 7))
@@ -232,7 +232,7 @@ Betrachten wir nun, wie in `R` das Maß der zentralen Tendenz für mindestens in
 In `R` ist die Funktion zum Glück sehr intuitiv benannt. Dabei muss auch hier beachtet werden, dass fehlende Werte über `na.rm = T` ausgeschlossen werden, damit nicht auch als Ergebnis `NA` angezeigt.
 
 
-```r
+``` r
 # Arithmetisches Mittel
 mean(fb24$lz, na.rm = TRUE)
 ```
@@ -250,7 +250,7 @@ Für die Varianz haben Sie in der Vorlesung folgende Formel kennen gelernt:
 Wollen wir diese nun per Hand bestimmen, könnte folgender Code das für uns erledigen:
 
 
-```r
+``` r
 # Händische Varianzberechnung
 sum((fb24$lz - mean(fb24$lz, na.rm = TRUE))^2, na.rm = TRUE) / (nrow(fb24)-2)
 ```
@@ -269,7 +269,7 @@ Achtung! Wir benötigen für die Varianzberechnung `n` (s. Formel)! Wir nutzen h
 Um zu prüfen, ob und wie viele fehlende Werte eine Variable hat, lässt sich z. B. folgende Syntax verwenden:
 
 
-```r
+``` r
 is.na(fb24$lz) |> sum()
 ```
 
@@ -280,7 +280,7 @@ is.na(fb24$lz) |> sum()
 Um die Länge einer Variablen ohne fehlende Werte (also die Anzahl an Beobachtungen auf einer Variablen) zu bestimmen, lässt sich z. B. folgende Syntax verwenden:
 
 
-```r
+``` r
 na.omit(fb24$lz) |> length() # mit Pipe
 ```
 
@@ -288,7 +288,7 @@ na.omit(fb24$lz) |> length() # mit Pipe
 ## [1] 191
 ```
 
-```r
+``` r
 length(na.omit(fb24$lz))     # ohne Pipe
 ```
 
@@ -299,7 +299,7 @@ length(na.omit(fb24$lz))     # ohne Pipe
 Zur händischen Varianzberechnung können wir daher auch folgende Syntax verwenden:
 
 
-```r
+``` r
 # Händische Varianzberechnung
 sum((fb24$lz - mean(fb24$lz, na.rm = TRUE))^2, na.rm = TRUE) / (length(na.omit(fb24$lz)))
 ```
@@ -313,7 +313,7 @@ sum((fb24$lz - mean(fb24$lz, na.rm = TRUE))^2, na.rm = TRUE) / (length(na.omit(f
 
 Sie haben sich eventuell schon gewundert, warum wir eine so bekannten Wert wie die Varianz per Hand bestimmen müssen. Mit der ersten Intuition findet man bereits eine Funktion für die Berechnung, `var()`. Folgendes Ergebnis liefert R, wenn wir die R-Funktion `var()` zur Berechnung der Varianz verwenden:
 
-```r
+``` r
 # R-interne Varianzberechnung
 var(fb24$lz, na.rm = TRUE)
 ```
@@ -340,7 +340,7 @@ Ein enger Zusammenhang zwischen Populationsvarianz und empirischer Varianz ist b
 Um in R die empirische Varianz mithilfe der `var()`-Funktion zu berechnen, kann man die Populationsvarianz nutzen. Multipliziert man sie mit $\frac{n - 1}{n}$, erhält man die empirische Varianz.
 
 
-```r
+``` r
 # Umrechnung der Varianzen
 var(fb24$lz, na.rm = TRUE) * (nrow(fb24) - 1) / nrow(fb24)
 ```
@@ -352,7 +352,7 @@ var(fb24$lz, na.rm = TRUE) * (nrow(fb24) - 1) / nrow(fb24)
 Achtung! Dies funktioniert in unserem Fall wieder nicht, da die Verwendung von `nrow(fb24)` - wie oben bereits angemerkt - nicht sinnvoll ist: `nrow(fb24)` ist nicht gleich n (es kommt `NA` 1 Mal vor), daher besser:
 
 
-```r
+``` r
 # Umrechnung der Varianzen
 var(fb24$lz, na.rm = TRUE) * (length(na.omit(fb24$lz)) - 1) / (length(na.omit(fb24$lz)))
 ```
@@ -363,7 +363,7 @@ var(fb24$lz, na.rm = TRUE) * (length(na.omit(fb24$lz)) - 1) / (length(na.omit(fb
 
 Alternativ, wenn man die fehlenden Werte händisch abzieht:
 
-```r
+``` r
 # Umrechnung der Varianzen
 var(fb24$lz, na.rm = TRUE) * (191 - 1) / 191
 ```
@@ -386,7 +386,7 @@ Auch bei der Standardabweichung bestimmt R den Populationsschätzer $\hat{\sigma
 
 
 
-```r
+``` r
 # Standardabweichung in R
 sd(fb24$lz, na.rm = TRUE) # Populationsschaetzer
 ```
@@ -403,7 +403,7 @@ $s_{X} = \sqrt{s^2_{X}} = \sqrt{\frac{\sum_{m=1}^n (x_m - \bar{x})^2}{n}}$
 Wir müssten das Ergebnis also wieder mit einem Faktor ($\sqrt{\frac{n - 1}{n}}$) multiplizieren, um die emprische Standardabweichung zu erhalten. 
 
 
-```r
+``` r
 # Umrechnung der Standardabweichung
 sd(fb24$lz, na.rm = TRUE) * sqrt((191 - 1) / 191)
 ```
@@ -415,7 +415,7 @@ sd(fb24$lz, na.rm = TRUE) * sqrt((191 - 1) / 191)
 Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafür können wir einfach den bereits geschriebenen Code für die empirische Varianz nehmen und aus dem Ergebnis die Wurzel ziehen.
 
 
-```r
+``` r
 # Händische Berechnung der empirischen Standardabweichung
 (sum((fb24$lz - mean(fb24$lz, na.rm = TRUE))^2,
     na.rm = TRUE) / (length(na.omit(fb24$lz)))) |> sqrt()
@@ -432,7 +432,7 @@ Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafü
 In der Vorlesung haben Sie gelernt, dass eine Variable zentriert oder standardisiert werden kann. Die Zentrierung sorgt für einen Mittelwert von 0, während die z-Standardisierung zusätzlich die Varianz auf 1 setzt. Die Variablenzentrierung und -standardisierung lässt sich in R per Hand berechnen.
 
 
-```r
+``` r
 # Zentrierung
 lz_c <- fb24$lz - mean(fb24$lz, na.rm = TRUE)
 head(lz_c)    # erste 6 zentrierte Werte
@@ -442,7 +442,7 @@ head(lz_c)    # erste 6 zentrierte Werte
 ## [1]  1.68010471 -0.91989529  0.28010471 -0.91989529  0.08010471 -0.51989529
 ```
 
-```r
+``` r
 # z-Standardisierung
 lz_z <- lz_c / sd(fb24$lz, na.rm = TRUE)
 head(lz_z)    # erste 6 z-standardisierte Werte
@@ -455,7 +455,7 @@ head(lz_z)    # erste 6 z-standardisierte Werte
 ...oder mit Hilfe bereits existierender Funktionen:
 
 
-```r
+``` r
 ## Befehl zum z-Standardisieren
 lz_z <- scale(fb24$lz, center = TRUE, scale = TRUE) # Mittelwert auf 0 und Varianz auf 1
 ## Befehl zum Zentrieren (ohne Varianzrelativierung)
@@ -491,7 +491,7 @@ Auf der Abbildung konnten wir sehen, dass die möglichen Werte für die Beantwor
 
 **Variante 1: Lineare Transformation**
 
-```r
+``` r
 fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 5)
 head(fb24$mdbf4)     # erste 6 Werte ohne Transformation
 ```
@@ -500,7 +500,7 @@ head(fb24$mdbf4)     # erste 6 Werte ohne Transformation
 ## [1] 1 1 1 2 1 3
 ```
 
-```r
+``` r
 head(fb24$mdbf4_r)   # erste 6 Werte mit Transformation
 ```
 
@@ -525,7 +525,7 @@ head(fb24$mdbf4_r)   # erste 6 Werte mit Transformation
 Mit Hilfe von logischen Filtern, die wir auch schon im [R-Intro](/lehre/statistik-i/crash-kurs/) kennen gelernt haben, können wir uns auch alle Antworten einer Ausprägung (z.B. 1) anzeigen lassen und diesen dann den transformierten Wert zuweisen. Durch die Invertierung wissen wir, dass dem Wert 1 der Wert 4 zugeordnet werden muss. Also können wir eine Abfrage nach allen Teilnehmenden machen, die die Antwort 1 gegeben haben.
 
 
-```r
+``` r
 head(fb24$mdbf11 == 1, 15) #Zeige die ersten 15 Antworten
 ```
 
@@ -537,7 +537,7 @@ Wir erhalten einen booleschen Vektor, der uns sagt, wo der Wert 1 auftaucht (`TR
 Mit Hilfe dieses booleschen Vektors können wir die Stellen ansteuern bzw. indizieren, in denen im transformierten Vektor dann eine 4 statt einer 1 stehen soll. Dies passiert für all die Stellen, an denen `TRUE` steht.
 
 
-```r
+``` r
 fb24$mdbf11_r[fb24$mdbf11 == 1] <- 4
 fb24$mdbf11_r[fb24$mdbf11 == 2] <- 3
 fb24$mdbf11_r[fb24$mdbf11 == 3] <- 2
@@ -550,7 +550,7 @@ head(fb24$mdbf11)
 ## [1] 1 1 1 2 3 2
 ```
 
-```r
+``` r
 head(fb24$mdbf11_r)
 ```
 
@@ -569,7 +569,7 @@ head(fb24$mdbf11_r)
 Skalenwerte werden zumeist als Summen oder Mittelwerte der Items erstellt. Dafür kann man sich beispielsweise alle Daten, die der Skala zugrunde liegen, in einem eigenen kleinen Datensatz ablegen. Dieser Datensatz kann genutzt werden, um den Skalenwert wieder im Original abzulegen. Jede Person repräsentiert eine Zeile - `rowMeans()` berechnet den Mittelwert der Zeilen. Somit erhält jede Person einen eigenen Mittelwert über die Einträge. Führen wir das ganze beispielsweise für den Skalenwert zur gut/schlecht durch, die mit den 4 Items erhoben wurde. Wichtig ist hier auch, dass wir die rekodierten Items nehmen, da diese ja die "korrekte Richtung" aufweisen.
 
 
-```r
+``` r
 # neuen Datensatz der relevanten Variablen erstellen 
 gs_pre_data <- fb24[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')]
@@ -585,7 +585,7 @@ head(fb24$gs_pre)
 Natürlich kann die Erstellung auch in einem Befehl passieren - beispielsweise durch Verwendung der Pipe. Es gibt aber auch noch viele andere Optionen zur Skalenbildung - es wird (wie eigentlich fast immer) nur ein Ausschnitt der Möglichkeiten gezeigt.
 
 
-```r
+``` r
 # Direkter Befehle
 fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()

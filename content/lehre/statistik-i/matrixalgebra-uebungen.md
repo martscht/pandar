@@ -1,15 +1,15 @@
 ---
-title: "Matrixalgebra - Aufgaben" 
+title: "Matrixalgebra - Übungen" 
 type: post
 date: '2024-01-15' 
-slug: matrixalgebra-aufgaben
+slug: matrixalgebra-uebungen
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [zacharias]
 weight:
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"

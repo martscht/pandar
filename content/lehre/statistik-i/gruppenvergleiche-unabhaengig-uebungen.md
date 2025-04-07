@@ -1,0 +1,113 @@
+---
+title: "Tests für unabhängige Stichproben - Übungen" 
+type: post
+date: '2024-11-29' 
+slug: gruppenvergleiche-unabhaengig-uebungen
+categories: [] 
+tags: ["Statistik I Übungen"] 
+subtitle: ''
+summary: '' 
+authors: [koehler, buchholz]
+weight: 1
+lastmod: '2025-04-07'
+featured: no
+banner:
+  image: "/header/writing_math.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/662606)"
+projects: []
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/gruppenvergleiche-unabhaengig
+  - icon_pack: fas
+    icon: star
+    name: Lösungen
+    url: /lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen
+output:
+  html_document:
+    keep_md: true
+---
+
+
+
+
+
+## Vorbereitung
+
+> Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-unabhaengig/#prep) vorausgesetzt werden, teils inklusive derer, die erst im Beitrag vorgenommen werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+
+**Datenaufbereitung**
+
+
+``` r
+#### Was bisher geschah: ----
+
+# Daten laden
+load(url('https://pandar.netlify.app/daten/fb24.rda'))
+
+# Nominalskalierte Variablen in Faktoren verwandeln
+fb24$hand_factor <- factor(fb24$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
+fb24$fach <- factor(fb24$fach,
+                    levels = 1:5,
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
+fb24$ziel <- factor(fb24$ziel,
+                        levels = 1:4,
+                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
+fb24$wohnen <- factor(fb24$wohnen, 
+                      levels = 1:4, 
+                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+fb24$fach_klin <- factor(as.numeric(fb24$fach == "Klinische"),
+                         levels = 0:1,
+                         labels = c("nicht klinisch", "klinisch"))
+fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb24$job <- factor(fb24$job, levels=c(1,2), labels=c("nein", "ja"))
+fb24$unipartys <- factor(fb24$uni3,
+                             levels = 0:1,
+                             labels = c("nein", "ja"))
+
+# Rekodierung invertierter Items
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 4 - 1)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 4 - 1)
+fb24$mdbf3_r <-  -1 * (fb24$mdbf3 - 4 - 1)
+fb24$mdbf9_r <-  -1 * (fb24$mdbf9 - 4 - 1)
+fb24$mdbf5_r <- -1 * (fb24$mdbf5 - 4 - 1)
+fb24$mdbf7_r <- -1 * (fb24$mdbf7 - 4 - 1)
+
+# Berechnung von Skalenwerten
+fb24$wm_pre  <- fb24[, c('mdbf1', 'mdbf5_r', 
+                        'mdbf7_r', 'mdbf10')] |> rowMeans()
+fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+                        'mdbf8', 'mdbf11_r')] |> rowMeans()
+fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+                         "mdbf9_r", "mdbf12")] |> rowMeans()
+
+# z-Standardisierung
+fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
+```
+
+**Untersuchen Sie folgende Fragestellungen anhand des fb24-Datensatzes**
+
+**Denken Sie dabei an Folgendes:**
+
+*	Deskriptivstatistische Beantwortung der Fragestellung  
+*	Voraussetzungsprüfungen (Normalverteilung bitte optisch überprüfen und den Test dementsprechend wählen - auch wenn n > 30 gegeben ist)  
+*	Spezifikation der Hypothesen und des Signifikanzniveaus  
+*	Ggf. Berechnung der Effektstärke  
+*	Formales Berichten des Ergebnisses    
+
+## Aufgabe 1
+ 
+Unterscheiden sich Studierende, die sich für Allgemeine Psychologie (Variable "fach") interessieren, im Persönlichkeitsmerkmal Offenheit für neue Erfahrungen (auch Intellekt, Variable "offen") von Studierenden, die sich für Klinische Psychologie interessieren? Normalverteilung des Merkmals in der Population darf angenommen werden. 
+
+## Aufgabe 2
+Sind Studierende, die außerhalb von Frankfurt wohnen ("ort"), zufriedener im Leben ("lz") als diejenigen, die innerhalb von Frankfurt wohnen?  
+
+## Aufgabe 3
+
+Ist die Wahrscheinlichkeit dafür, neben dem Studium einen Job zu haben ("job"), die gleiche für Erstsemesterstudierende der Psychologie die in einer Wohngemeinschaft wohnen wie für Studierenden die bei ihren Eltern wohnen ("wohnen")? 

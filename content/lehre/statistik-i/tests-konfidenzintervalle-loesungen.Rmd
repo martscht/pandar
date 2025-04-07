@@ -23,8 +23,8 @@ links:
     url: /lehre/statistik-i/tests-konfidenzintervalle
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/tests-konfidenzintervalle-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/tests-konfidenzintervalle-uebungen
 
 _build:
   list: never

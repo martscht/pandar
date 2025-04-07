@@ -1,19 +1,19 @@
 ---
-title: "Einfache Lineare Regression - Aufgaben" 
+title: "Tests für abhängige Stichproben - Übungen" 
 type: post
 date: '2019-10-18' 
-slug: einfache-reg-aufgaben 
+slug: gruppenvergleiche-abhaengig-uebungen
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
-authors: [winkler, neubauer, walter]
+authors: [walter, nehler]
 weight:
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/modern_buildings.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/411588)"
+  image: "/header/consent_checkbox.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/449195)"
 projects: []
 reading_time: false
 share: false
@@ -22,16 +22,15 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/einfache-reg
+    url: /lehre/statistik-i/gruppenvergleiche-abhaengig
   - icon_pack: fas
     icon: star
     name: Lösungen
-    url: /lehre/statistik-i/einfache-reg-loesungen
+    url: /lehre/statistik-i/gruppenvergleiche-abhaengig-loesungen
 output:
   html_document:
     keep_md: true
 ---
-
 
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
@@ -44,13 +43,15 @@ if (exists("figure_path")) {
 
 ## Vorbereitung
 
-Laden Sie zunächst den Datensatz `fb24` von der pandar-Website und führen Sie die Ergänzungen vor, die in zurückliegenden Tutorials vorgenommen wurden. 
+> Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-abhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+
+**Datenaufbereitung**
 
 ```{r}
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb24.rda'))  
+load(url('https://pandar.netlify.app/daten/fb24.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
 fb24$hand_factor <- factor(fb24$hand,
@@ -92,30 +93,16 @@ fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6",
 
 # z-Standardisierung
 fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
-
 ```
 
-Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
-
-```{r}
-dim(fb24)
-str(fb24)
-```
-
-Der Datensatz besteht aus `r nrow(fb24)` Zeilen (Beobachtungen) und `r ncol(fb24)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
-
-***
 ## Aufgabe 1
-Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglichkeit (`vertr`), Gewissenhaftigkeit (`gewis`), Neurotizsimus (`neuro`) und Offenheit für neue Erfahrungen (`offen`) zeigt den höchsten linearen Zusammenhang mit der Lebenszufriedenheit (`lz`)?
+Zu Beginn und nach der ersten Pratikumssitzung wurden Sie als Studierende nach Ihrem Befinden zum Zeitpunkt der Umfrage befragt. Hierbei wurde unteranderem erhoben, wie wach (hohe Werte) oder müde (niedrige Werte) Sie sich zu beiden Zeitpunkten gefühlt haben (Variable `wm_pre` und `wm_post`). Nun wollen Sie untersuchen, ob die Teilnahme am Statistikpraktikum einen Einfluss auf das Befinden der Studierenden hat. Sie gehen davon aus, dass sich die Angaben zu Wach vor und nach dem Praktikum unterscheidet ohne eine Richtung anzunehmen.
 
-  * Erstellen Sie für jeden Zusammenhang je ein Streudiagramm. 
-  * Schätzen Sie für jeden Zusammenhang je ein Modell. 
-  * Interpretieren Sie den standardisierten Koeffizienten des linearen Zusammenhangs zwischen Extraversion und Lebenszufriedenheit. Wie verändert sich `lz`, wenn sich `extra` um eine Standardabweichung erhöht?
 
-## Aufgabe 2
-Betrachten Sie nun den Zusammenhang von Neurotizismus (`neuro`) und Lebenszufriedenheit (`lz`) etwas genauer:
-
-  * Erstellen Sie ein Streu-Punkt-Diagramm  mit Regressionsgerade für den linearen Zusammenhang zwischen Neurotizismus und Lebenszufriedenheit.
-  * Wie viel Prozent der Varianz werden durch das Modell erklärt?
-  * Ein paar Studierende wurden nachträglich zum Studiengang Psychologie zugelassen und befinden sich daher nicht im Datensatz. Die neuen Studierenden wurden nachträglich befragt und weisen auf der Skala Neurotizismus folgende Werte auf: 1.25; 2.75; 3.5; 4.25; 3.75; 2.15. Machen Sie eine Vorhersage für die Lebenszufriedenheit für die neuen Studierenden.
+* Stellen Sie zunächst das Hypothesenpaar der Testung inhaltich und auch mathematisch auf. Spezifizieren Sie das Signifikanzniveau. Dieses soll so gewählt werden, dass wir die Nullhypothese in 1 von 20 Fällen fälschlicherweise verwerfen würden.
+* Bestimmen Sie die deskriptivstatistischen Maße und bewerten Sie diese im Hinblick auf die Hypothesen. Beachten Sie, dass bei der späteren inferenzstatistischen Testung nur Personen eingehen, die zu beiden Messzeitpunkten Angaben gemacht haben. Schließen Sie also Personen mit fehlenden Werten auf einer (oder beiden) Variablen vor der Berechnung der deskriptivstatistischen Maße aus.
+* Welcher inferenzstatistische Test ist zur Überprüfung der Hypothesen am geeignetsten? Prüfen Sie die Voraussetzungen dieses Tests.
+* Führen Sie die inferenzstatistische Testung durch.
+* Bestimmen Sie unabhängig von der Signifikanzentscheidung die zugehörige Effektstärke.
+* Berichten Sie die Ergebnisse formal (in schriftlicher Form).
 

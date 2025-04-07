@@ -56,14 +56,14 @@ barplot(tab,
         las = 2,                                 # Ausrichtung der Labels
         cex.names = 0.8)                         # Schriftgröße der Labels
 
-## jpeg("Mein-Barplot.jpg", width=15, height=10, units="cm", res=150) # Eröffnung Bilderstellung
-## barplot(tab,
-##  col = rainbow(5),
-##  ylab = 'Anzahl Studierende',
-##  main = 'Lieblingsfach im 1. Semester',
-##  las = 2,
-##  cex.names = 0.8)
-## dev.off()                                                         # Abschluss Bilderstellung
+# jpeg("Mein-Barplot.jpg", width=15, height=10, units="cm", res=150) # Eröffnung Bilderstellung
+# barplot(tab,
+#  col = rainbow(5),
+#  ylab = 'Anzahl Studierende',
+#  main = 'Lieblingsfach im 1. Semester',
+#  las = 2,
+#  cex.names = 0.8)
+# dev.off()                                                         # Abschluss Bilderstellung
 
 tab            # Tabelle ausgeben
 max(tab)       # Größte Häufigkeit

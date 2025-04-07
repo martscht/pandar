@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
 authors: [nehler, scheppa-lahyani, hartig] 
 weight: 5
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-i/tests-konfidenzintervalle.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/tests-konfidenzintervalle-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/tests-konfidenzintervalle-uebungen
 output:
   html_document:
     keep_md: true
@@ -57,7 +57,7 @@ output:
 Den Datensatz `fb24` haben wir bereits unter diesem [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 
-```r
+``` r
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -130,7 +130,7 @@ Außerdem sollten wir eine Irrtumswahrscheinlichkeit $\alpha$ festlegen, die wir
 Nach diesen Festlegungen wird bei inferenzstatistischen Testungen häufig eine deskriptive Betrachtung im Rahmen der Hypothesen vollzogen. Für den vorliegenden Test würde es hier Sinn machen, dass der Mittelwert unserer Stichprobe auf der Variable Nerdiness `nerd` bestimmt wird. Den Code dafür haben wir bereits kennengelernt. Um vor der Durchführung zu testen, ob es auf der Variable fehlende Werte gibt, die die Berechnung beeinflussen würden, können wir die Funktion `anyNA()` verwenden.
 
 
-```r
+``` r
 anyNA(fb24$nerd)
 ```
 
@@ -141,7 +141,7 @@ anyNA(fb24$nerd)
 Dabei gibt es in der Variable fehlende Werte, wir verwenden daher die `mean()` Funktion mit dem Argument `na.rm = TRUE`.
 
 
-```r
+``` r
 mean(fb24$nerd, na.rm = TRUE)
 ```
 
@@ -180,7 +180,7 @@ $$\sigma_{\bar{x}} = {\frac{{\sigma}}{\sqrt{n}}}$$
 Wie bereits besprochen wird der Standardfehler des Mittelwerts (also die Streuung der SKV) kleiner, wenn wir mehr Personen untersuchen und größer, wenn die Varianz in der Population größer ist. Zunächst legen wir alle für den z-Wert relevanten Informationen in unser Environment ab, die wir entweder per Hand eingeben müssen (Populationsinformationen) oder mit einer einfachen Funktion bestimmen können.
 
 
-```r
+``` r
 pop_mean_nerd <- 2.5                 # Mittelwert Grundgesamtheit
 pop_sd_nerd <- 3.1                   # SD der Grundgesamtheit
 sample_mean_nerd <- 
@@ -192,7 +192,7 @@ sample_size <-
 Als nächstes müssen wir den Standardfehler des Mittelwerts ($\sigma_{\bar{x}}$) berechnen.
 
 
-```r
+``` r
 se_nerd <- pop_sd_nerd/sqrt(sample_size) # Standardfehler des Mittelwerts
 ```
 
@@ -200,7 +200,7 @@ Der empirische z-Wert $z_{emp}$ zeigt nun einfach auf, wie viele Standardfehler 
 
 
 
-```r
+``` r
 z_emp <- (sample_mean_nerd - pop_mean_nerd)/ se_nerd
 z_emp
 ```
@@ -217,7 +217,7 @@ Um entscheiden zu können, ob es sich um eine signifikante Abweichung handelt, m
 In Rot ist die Fläche für kleinere Werte als unseren eingzeichnet. Es wird bereits deutlich, dass die Fläche in unserem Fall sehr groß sein sollte. Umgekehrt muss der Anteil der Fläche, der für größere Werte als unseren in der Verteilung vorliegt (also der weiße Anteil), sehr gering sein. Mit `pnorm()` und `lower.tail = FALSE` können wir direkt bestimmen, wie viel Prozent der Fläche der Verteilung noch für Werte größer als den unseren übrig ist. 
 
 
-```r
+``` r
 pnorm(z_emp, lower.tail = FALSE)
 ```
 
@@ -230,7 +230,7 @@ Ungefähr 0.76% der Werte sind also größer als unserer.
 Achtung: Dieser Wert ist hier noch nicht unser *p*-Wert, da wir eine zweiseitige Testung haben. Wir haben nur die Fläche für den Fall "größer" bestimmt und nicht für "extremer". Wir können uns aber die Symmetrie der Verteilung zu nutze machen und den gefundenen Wert mit 2 multiplizieren. 
   
 
-```r
+``` r
 2*pnorm(z_emp, lower.tail = FALSE) #verdoppeln, da zweiseitig
 ```
 
@@ -245,7 +245,7 @@ Insgesamt 1.51% der Werte extremer als unserer. Wir erkennen, dass der Wert klei
 Neben der Verwendung des *p*-Werts ist in der Literatur auch noch häufig die Sprache von einem **kritischen** z-Wert $z_{krit}$. Hier wird das Herangehen etwas modifiziert. Statt den *p*-Wert für unser $z_{emp}$ zu bestimmen, wird sich im Vorhinein überlegt, welcher z-Wert 5% der Verteilung abschneiden würde. Wir können diese Frage mit dem Wissen aus dem Tutorial zu Verteilungen beantworten, indem wir `qnorm()` benutzen. In unserem Fall suchen wir aufgrund der zweitseitigen Hypothese nach der Hälfte der akzeptierten Irrtumswahrscheinlichkeit. 
 
 
-```r
+``` r
 z_krit <- qnorm(1-.05/2) # Bestimmung des kritischen Wertes
 z_krit
 ```
@@ -257,7 +257,7 @@ z_krit
 Insgesamt 5% der Verteilung werden also durch -1.96 nach links und 1.96 nach rechts abgetrennt. Der kritische z-Wert beträgt demnach $z_{krit}$ = 1.96. Damit das Ergebnis als signifikant gewertet wird, muss der empirische z-Wert extremer als der kritische Wert sein z-Wert (**$|z_{emp}|$ > $|z_{krit}|$**). Hierfür können wir auch eine logische Abfrage nutzen. Für die Verwendung der Beträge gibt es die Funktion `abs()`.
   
 
-```r
+``` r
 abs(z_emp) > abs(z_krit)
 ```
 
@@ -285,7 +285,7 @@ Die Gleichung enthält den Standardfehler ($\sigma_\bar{x}$) des Mittelwerts, de
 Wir haben bereits gesehen, dass man Quantile aus der Normalverteilung mit der Funktion `qnorm()` erhalten kann. Die Standardnormalverteilung mit Mittelwert von 0 und Standardabweichung von 1 ist dabei der Default, aber wir geben die Argumente zur Übung trotzdem selbst an.
   
 
-```r
+``` r
 z_quantil_zweiseitig <- qnorm(p = 1-(.05/2), mean = 0, sd = 1)
 z_quantil_zweiseitig
 ```
@@ -297,7 +297,7 @@ z_quantil_zweiseitig
 Dieser Wert kommt uns bekannt vor -- er entspricht dem bereits bestimmten $z_{krit}$. Dies ist auch kein Zufall, da wir jeweils danach gesucht haben, welcher Wert die extremsten 5% (2.5% jeweils unten und oben) von der Verteilung abtrennt. Nun haben wir alle wichtigen Informationen, um ein zweiseitiges Konfidenzintervall um unseren Mittelwert der Stichprobe zu legen.
 
 
-```r
+``` r
 up_conf_nerd <- sample_mean_nerd+((z_quantil_zweiseitig*pop_sd_nerd)/sqrt(sample_size))
 
 lo_conf_nerd <- sample_mean_nerd-((z_quantil_zweiseitig*pop_sd_nerd)/sqrt(sample_size))
@@ -309,7 +309,7 @@ up_conf_nerd
 ## [1] 3.487282
 ```
 
-```r
+``` r
 lo_conf_nerd
 ```
 
@@ -322,7 +322,7 @@ In diesem Fall würde man den wahren Mittelwert der Grundgesamtheit, aus der die
 Optisch ansprechender können wir das Ergebnis natürlich ausgeben, indem wir unsere beiden Werte in einen gemeinsamen Vektor ablegen.
 
 
-```r
+``` r
 conf_nerd <- c(lo_conf_nerd, up_conf_nerd)
 conf_nerd
 ```
@@ -363,22 +363,28 @@ Um eine weitere Modifikation unseres Vorgehens im Vergleich zum letzten Test zu 
 Bevor wir in die inferenzstatistische Analyse einsteigen, ist es immer gut, sich einen Überblick über die deskriptiven Werte zu verschaffen. Wir können nun natürlich einfach die bereits gelernten Funktionen zu Mittelwert, Varianz, Minimum, etc. nutzen. Doch gibt es einen schnelleren Weg? Die Basisinstallation von `R` bietet uns keine Alternative. Jedoch gibt es zusätzliche *Pakete*, die den Pool an möglichen Funktionen erweitern. Diese Pakete müssen zusätzlich installiert und für die Verwendung mit dem Befehl `library()` aufgerufen werden, diese Logik wird in [der Ergänzung unten](#Pakete) genauer erläutert. Wir verwenden für eine Übersicht über deskriptive Maße der Variable `neuro` die Funktion `describe()` aus dem Paket `psych` (Revelle, 2024). Hierfür muss einmal die Installation durchgeführt werden.
 
 
-```r
+``` r
 install.packages("psych")
 ```
 
 Danach funktioniert folgender Code:
 
 
-```r
+``` r
 library(psych)
+```
+
+```
+## Warning: Paket 'psych' wurde unter R Version 4.4.2 erstellt
+```
+
+``` r
 describe(fb24$neuro)
 ```
 
 ```
-## [192 obs.] 
-## numeric: 1.5 3 3.5 3.5 4.5 3.5 2.5 3.5 5 2.5 ...
-## min: 1 - max: 5 - NAs: 1 (0.5%) - 10 unique values
+##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 191 3.41 0.95    3.5    3.43 0.74   1   5     4 -0.25    -0.53 0.07
 ```
 
 Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei NA. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
@@ -402,7 +408,7 @@ Kommen wir zu der zweiten Voraussetzung. Für die inferenzstatistische Testung b
 Nun wollen wir inferenzstatistisch prüfen, ob die Vermutung der Forschungsgruppe bestätigt werden kann. Als ersten Schritt berechnen wir den Mittelwert in unserer Stichprobe. Auch hier müssen wir fehlende Werte beachten.
   
 
-```r
+``` r
 anyNA(fb24$neuro)
 ```
 
@@ -410,7 +416,7 @@ anyNA(fb24$neuro)
 ## [1] TRUE
 ```
 
-```r
+``` r
 sample_mean_neuro <- mean(fb24$neuro, na.rm = TRUE)
 pop_mean_neuro <- 3.1
 ```
@@ -425,7 +431,7 @@ $$\hat\sigma_{\bar{x}} = {\frac{{\hat\sigma}}{\sqrt{n}}}$$
 Da die Standardabweichung in der Population nicht bekannt ist, muss diese mittels Nutzung der Standardabweichung der Stichprobe geschätzt werden. Dies funktioniert, wie bekannt, über die Funktion `sd()`.
 
 
-```r
+``` r
 sample_sd_neuro <- sd(fb24$neuro, na.rm = TRUE)
 sample_sd_neuro
 ```
@@ -437,7 +443,7 @@ sample_sd_neuro
 Der Standardfehler des Mittelwerts wird anschließend auf der Basis dieses geschätzten Wertes selber geschätzt und nicht wie im z-Test bestimmt. Die Schätzung wird in der Formel durch das "Dach" über den Buchstaben gekennzeichnet. Für die Schätzung des Standardfehlers des Mittelwerts brauchen wir als zusätzliche Information noch die Stichprobengröße, die wir wieder durch die Differenz der Stichprobengröße `nrow()` und die Anzahl fehlender Werte `sum(is.na(fb24$neuro)` bestimmen können.
 
 
-```r
+``` r
 sample_size <- nrow(fb24) - sum(is.na(fb24$neuro))
 se_neuro <- sample_sd_neuro/sqrt(sample_size)
 ```
@@ -445,7 +451,7 @@ se_neuro <- sample_sd_neuro/sqrt(sample_size)
 Nun haben wir alle Informationen gegeben, um den empirischen $t$-Wert $t_{emp}$ zu bestimmen:
   
 
-```r
+``` r
 t_emp <- (sample_mean_neuro - pop_mean_neuro) / se_neuro
 t_emp
 ```
@@ -459,7 +465,7 @@ Die Bezeichnung der empirischen Prüfgröße (wie auch der Name des Tests) weist
 Wenn wir den $p$-Wert in einer $t$-Verteilung bestimmen wollen, nutzen wir `pt()` statt `pnorm()`. Als zusätzliches Argument neben dem empirischen Wert und `lower.tail` benötigen wir hier noch die Anzahl der Freiheitsgrade $n - 1$. 
 
 
-```r
+``` r
 pt(t_emp, df = sample_size - 1, lower.tail = F) #einseitige Testung
 ```
 
@@ -475,7 +481,7 @@ Der *p*-Wert ist kleiner .01 ($p < \alpha$) (R gibt sehr kleine oder große Wert
 Auch bei diesem Test kann statt des $p$-Werts der kritische t-Wert $t_{krit}$ bestimmt werden. Statt `qnorm()` nutzen wir hier dann natürlich `qt()` und geben wieder die Freiheitsgrade an.
 
 
-```r
+``` r
 t_krit <- qt(0.01, df = sample_size-1, lower.tail = FALSE)
 t_krit
 ```
@@ -487,7 +493,7 @@ t_krit
 Der kritische $t$-Wert ($t_{krit}$) wird hier so bestimmt, dass er das den Wert sucht, der die unteren 99% abtrennt. Dies entspricht dann 1% der Verteilung nach oben und damit genau unserem $\alpha$-Niveau. Zur Entscheidung bezüglich der Hypothesen müssen wir nun den empirischen und kritischen $t$-Wert vergleichen.
   
 
-```r
+``` r
 t_emp > t_krit
 ```
 
@@ -519,7 +525,7 @@ Kleine Anmerkung: Natürlich könnten wir auch beim Einstichproben-z-Test ein ei
 Kommen wir zur Umsetzung. Den zugehörigen t-Wert können wir wieder mit der Funktion `qt()` bestimmen.
 
 
-```r
+``` r
 t_quantil_einseitig <- qt(0.01, df = sample_size-1, lower.tail = FALSE)
 t_quantil_einseitig
 ```
@@ -531,7 +537,7 @@ t_quantil_einseitig
 Anschließend kann die untere Grenze des Intervalls sehr simpel bestimmt werden.
 
 
-```r
+``` r
 sample_mean_neuro - t_quantil_einseitig *(sample_sd_neuro / sqrt(sample_size))
 ```
 
@@ -549,7 +555,7 @@ Statt der händischen Berechnung gibt es auch noch die Funktion `t.test()`, die 
 
 
 
-```r
+``` r
 t.test(x = fb24$neuro, mu = 3.1, alternative = "greater", conf.level=0.99) #gerichtet, Stichprobenmittelwert höher
 ```
 
@@ -586,7 +592,7 @@ $$d = |\frac{\bar{x} - {\mu}}{\sigma}|$$
 Die Umsetzung in R ist aufgrund der einfachen Formel auch recht schnell. In unserem Einstichproben-z-Test haben wir die Nerdiness Werte aus unserer Stichprobe analysiert. Die funktion `abs()` bestimmt den Betrag einer Zahl und wird daher hier verwendet.
 
 
-```r
+``` r
 dz <- abs((sample_mean_nerd - pop_mean_nerd)/ pop_sd_nerd) 
 dz
 ```
@@ -614,7 +620,7 @@ $$d = |\frac{\bar{x} - {\mu}}{\hat{\sigma}}|$$
 Auch hier ist die Umsetzung in R sehr leicht -- in unserer Anwendung haben wir beim Einstichproben-t-Test die Variable `neuro` aus unserem Datensatz verwendet.
 
 
-```r
+``` r
 dt <- abs((sample_mean_neuro - pop_mean_neuro)/ sample_sd_neuro)
 dt
 ```
@@ -655,12 +661,12 @@ Beim Start von R werden die Basispakete automatisch geladen. Zusatzpakete müsse
 Gehen wir das Prinzip an dem Beispielpaket `psych` durch, das verschiedene Operationen enthält, die in der psychologischen Forschung häufig benötigt werden. Die Installation muss dem Laden des Paketes logischerweise vorausgestellt sein. Wenn R einmal geschlossen wird, müssen alle Zusatzpakete neu geladen, jedoch nicht neu installiert werden.
 
 
-```r
+``` r
 install.packages('psych')          # installieren
 ```
 
 
-```r
+``` r
 library(psych)                     # laden
 ```
 
@@ -668,7 +674,7 @@ Wir erhalten hier als *Warning Message* den Hinweis, unter welcher Version das P
 Eine kleine Suche nach Hilfe zu Pakete kann man mit `??` erhalten.
 
 
-```r
+``` r
 ??psych                          # Hilfe
 ```
 
@@ -679,7 +685,7 @@ Da das Paket `psych` nun geladen ist, können wir Funktionen aus diesem nutzen. 
 In diesem Tutorial lernen wir zunächst die optische Prüfung der Normalverteilung kennen -- im weiteren Verlauf des Studiums werden auch inferenzstatistische Testungen dazu kommen. Die einfachste optische Prüfung ist das Zeichnen eines Histogramms. Wir haben bereits gelernt, dass das mit dem Befehl `hist()` erreicht werden kann. Statt absoluten Häufigkeiten sollen hier die Dichten angezeigt werden, was wir durch die Eingabe von `freq = FALSE` bestimmen.
 
 
-```r
+``` r
 hist(fb24$neuro, xlim=c(0,6), main = "Histogramm",
      xlab = "Score", ylab= "Dichte", freq = FALSE)
 ```
@@ -689,7 +695,7 @@ hist(fb24$neuro, xlim=c(0,6), main = "Histogramm",
 Wir sehen bereits, dass unsere Verteilung verglichen mit einer Normalverteilung etwas schief aussieht, die Verteilung ist auf der linken seite flacher und auf der rechten Seite steiler. Für eine bessere Einordnung wäre es hilfreich, die theoretisch angenommene Normalverteilung noch zusätzlich zu unseren empirischen Werten einzuzeichnen. Hiefür nutzen wir die `curve()` Funktion. Da wir bereits einen Plot (das Histogramm) gezeichnet haben, können wir mit dem Argument `add` dafür sorgen, dass die Kurve in das bestehende Bild integriert wird. Daher müssen wir keine Angaben für `from`, `to` und Ähnliches machen. Lediglich die Form der Verteilung als Dichtefunktion der theoretischen Normalverteilung `dnorm()` und die dazu gehörigen beschreibenden Maße Mittelwert und Standardabweichung (hervorgehend aus unserer Nerdiness Variable) werden benötigt. Genau genommen sollte man hier die empirische Standardabweichung nutzen, weil im Histogramm ja auch die Werte aus der Stichprobe dargestellt werden. Da bei einer steigenden Stichprobengröße aber die empirische Varianz und das Ergebnis von `sd()` sehr ähnlich sind und wir hier nur eine optische Einordnung vornehmen, nutzen wir einfach die Funktion, damit der Code nicht zu unübersichtlich wird.
 
 
-```r
+``` r
 curve(dnorm(x, mean = mean(fb24$neuro, na.rm = TRUE), sd = sd(fb24$neuro, na.rm = TRUE)), add = T)
 ```
 
@@ -700,7 +706,7 @@ Im Plot sieht man recht gut, dass es kleine Abweichungen der wirklichen empirisc
 Eine zweite Möglichkeit ist das Erstellen eines sogenannten QQ-Plots (steht für quantile-quantile). Auf der x-Achse sind diejenige Positionen notiert, die unter Gültigkeit der theoretischen Form der Normalverteilung zu erwarten wären. Auf der y-Achse wird die beobachtete Position eines Messwerts abgetragen. Damit die Werte die gleiche Skalierung haben und damit einfacher interpretierbar sind, standardisieren wir zunächst unsere Variable `neuro`. Hierfür erstellen wir eine neue Variable `neuro_std` in unserem Datensatz. Codetechnisch ist ein QQ-Plot dann schnell erstellt. Mit `qqnorm()` zeichnet man die Punkte, während `qqline()` als Unterstützung nochmal die Linien durch die Mitte zeichnet.
 
 
-```r
+``` r
 fb24$neuro_std <- scale(fb24$neuro, center = T, scale = T)
 qqnorm(fb24$neuro_std)
 qqline(fb24$neuro_std)

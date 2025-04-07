@@ -1,15 +1,15 @@
 ---
-title: "Deskriptivstatistik für Nominal- und Ordinalskalen - Aufgaben" 
+title: "Deskriptivstatistik für Nominal- und Ordinalskalen - Übungen" 
 type: post
 date: '2019-10-18' 
-slug: deskriptiv-nominal-ordinal-aufgaben
+slug: deskriptiv-nominal-ordinal-uebungen
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [buchholz, nehler, sinn]
 weight: 
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"

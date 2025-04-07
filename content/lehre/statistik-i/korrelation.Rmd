@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-i/korrelation.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/korrelation-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/korrelation-uebungen
 output:
   html_document:
     keep_md: true

@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [buchholz, nehler, sinn] 
-lastmod: '2025-02-17'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -28,8 +28,8 @@ links:
     url: /lehre/statistik-i/deskriptiv-nominal-ordinal
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/deskriptiv-nominal-ordinal-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/deskriptiv-nominal-ordinal-uebungen
 
 output:
   html_document:
@@ -258,7 +258,7 @@ Der Modus der Variable `therap` beträgt 5, d.h. diese Antwortkategorie wurde am
 boxplot(fb24$therap)
 ```
 
-![](/lehre/statistik-i/deskriptiv-nominal-ordinal-loesungen_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](/deskriptiv-nominal-ordinal-loesungen_files/unnamed-chunk-9-1.png)<!-- -->
 
 **Quartile**
 
@@ -326,7 +326,7 @@ barplot(
   ylim = c(0,60))
 ```
 
-![](/lehre/statistik-i/deskriptiv-nominal-ordinal-loesungen_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](/deskriptiv-nominal-ordinal-loesungen_files/unnamed-chunk-12-1.png)<!-- -->
 
 **Speichern (per Syntax)**
 

@@ -1,24 +1,20 @@
 ---
-title: "Einfache Lineare Regression - Lösungen" 
+title: "Einfache Lineare Regression - Übungen" 
 type: post
-date: '2021-01-04' 
-slug: einfache-reg-loesungen 
+date: '2019-10-18' 
+slug: einfache-reg-uebungen
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
-authors: [winkler, neubauer, walter] 
-weight: 
+authors: [winkler, neubauer, walter]
+weight:
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
   image: "/header/modern_buildings.jpg"
   caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/411588)"
 projects: []
-expiryDate: 
-publishDate: 
-_build:
-  list: never
 reading_time: false
 share: false
 
@@ -28,23 +24,23 @@ links:
     name: Inhalte
     url: /lehre/statistik-i/einfache-reg
   - icon_pack: fas
-    icon: pen-to-square
-    name: Übungen
-    url: /lehre/statistik-i/einfache-reg-uebungen
-
-
+    icon: star
+    name: Lösungen
+    url: /lehre/statistik-i/einfache-reg-loesungen
 output:
   html_document:
     keep_md: true
 ---
+
+
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
 if (exists("figure_path")) {
   knitr::opts_chunk$set(fig.path = figure_path)
 }
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
-library(lm.beta)
 ```
+
 
 ## Vorbereitung
 
@@ -109,156 +105,17 @@ str(fb24)
 Der Datensatz besteht aus `r nrow(fb24)` Zeilen (Beobachtungen) und `r ncol(fb24)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 ***
-    
-   
 ## Aufgabe 1
 Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglichkeit (`vertr`), Gewissenhaftigkeit (`gewis`), Neurotizsimus (`neuro`) und Offenheit für neue Erfahrungen (`offen`) zeigt den höchsten linearen Zusammenhang mit der Lebenszufriedenheit (`lz`)?
 
-  * Erstellen Sie für jeden Zusammenhang je ein Streudiagramm.
-
-<details><summary>Lösung</summary>
-
-**`extra`:**
-```{r}
-plot(fb24$extra, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
-```
-
-**`vertr`:**
-```{r}
-plot(fb24$vertr, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
-```
-
-**`gewis`:**
-```{r}
-plot(fb24$gewis, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
-```
-
-**`neuro`:**
-```{r}
-plot(fb24$neuro, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
-```
-
-**`intel`:**
-```{r}
-plot(fb24$offen, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
-```
-
-</details>
-
-  * Schätzen Sie für jeden Zusammenhang je ein Modell.
-
-<details><summary>Lösung</summary>
-
-**`extra`:**
-```{r}
-fme <- lm(lz ~ extra, fb24)
-summary(fme)
-```
-
-**`vertr`:**
-```{r}
-fmv <- lm(lz ~ vertr, fb24)
-summary(fmv)
-```
-
-**`gewis`:**
-```{r}
-fmg <- lm(lz ~ gewis, fb24)
-summary(fmg)
-```
-
-**`neuro`:**
-```{r}
-fmn <- lm(lz ~ neuro, fb24)
-summary(fmn)
-```
-
-**`intel`:**
-```{r}
-fmo <- lm(lz ~ offen, fb24)
-summary(fmo)
-```
-Wenn wir die Koeffizienten der Modelle vergleichen, sehen wir, dass `extra` den stärksten linearen Zusammenhang mit `lz` aufweist (Hinweis: für den Vergleich der Modelle vergleichen wir den Determinationskoeffizienten der fünf Modelle = Multiple R-squared im R-Output! Dieser ist für das Modell mit dem Prädiktor Extraversion am höchsten)
-
-</details>
-
+  * Erstellen Sie für jeden Zusammenhang je ein Streudiagramm. 
+  * Schätzen Sie für jeden Zusammenhang je ein Modell. 
   * Interpretieren Sie den standardisierten Koeffizienten des linearen Zusammenhangs zwischen Extraversion und Lebenszufriedenheit. Wie verändert sich `lz`, wenn sich `extra` um eine Standardabweichung erhöht?
- 
-<details><summary>Lösung</summary>
-
-Für diese Aufgabe gibt es zwei Lösungsansätze.
-
-1. Das Einbauen der scale()-Funktion in unser Regressionsmodell.
-
-2. Das Verwenden der lm.beta()-Funktion aus dem gleichnamigen Paket.
-
-Es gilt zu Beachten:
-Wenn wir die Lösung zwischen den zwei Ansätzen vergleichen, ist der Wert des standardisierten Koeffizienten nicht exakt gleich.
-Dies ist der Fall, weil bei der standardisierten Regression mithilfe der lm()- und scale()-Befehle, das Intercept noch mitgeschätzt wird und sich dadurch auch auf die Schätzung des Koeffizienten auswirkt. Dies sollte sich aber in der Regel erst in den hinteren Nachkommastellen auswirken, sodass es für die Interpretation der Größe des Koeffizienten für gewöhnlich keine relevante Rolle spielt.
-
-
-Zu 1:
-```{r}
-sfme <- lm(scale(lz) ~ scale(extra), fb24)
-sfme
-```
-
-
-Zu 2:
-
-Für die Lösung der Aufgabe verwenden wir die lm.beta() Funktion. Diese stammt aus dem lm.beta-Paket, welches installiert und dann geladen werden muss.
-```{r}
-
-library(lm.beta)
-
-sfme2 <- lm.beta(fme)
-summary(sfme2)         # reg |> lm.beta() |> summary()
-
-
-```
-
-lm.beta()  ergänzt den Output der lm()-Funktion an der Stelle der Koeffizienten um die Spalte "Standardized". Dieser können wir den standardisierten Koeffizienten des linearen Zusammenhangs zwischen Extraversion und Lebenszufriedenheit entnehmen.
-
-Wenn sich die Variable `extra` um eine Standardabweichung verändert, verändert sich das Kriterium `lz` um `r round(sfme2$standardized.coefficients[2], 2)` Standardabweichungen.
-
-</details>
 
 ## Aufgabe 2
-
 Betrachten Sie nun den Zusammenhang von Neurotizismus (`neuro`) und Lebenszufriedenheit (`lz`) etwas genauer:
 
   * Erstellen Sie ein Streu-Punkt-Diagramm  mit Regressionsgerade für den linearen Zusammenhang zwischen Neurotizismus und Lebenszufriedenheit.
-
-<details><summary>Lösung</summary>
-
-```{r}
-plot(fb24$neuro, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
-abline(fmn, col = "red")
-```
-
-</details>
-
   * Wie viel Prozent der Varianz werden durch das Modell erklärt?
-
-<details><summary>Lösung</summary>
-
-```{r}
-summary(fmn)
-```
-```{r, echo=FALSE}
-sum_fmn <- summary(fmn)
-```
-$\rightarrow$ Das Modell erklärt `r round(sum_fmn$r.squared*100, 2)`% der Varianz in Lebenszufriedenheit durch Neurotizismus.
-
-</details>
-
   * Ein paar Studierende wurden nachträglich zum Studiengang Psychologie zugelassen und befinden sich daher nicht im Datensatz. Die neuen Studierenden wurden nachträglich befragt und weisen auf der Skala Neurotizismus folgende Werte auf: 1.25; 2.75; 3.5; 4.25; 3.75; 2.15. Machen Sie eine Vorhersage für die Lebenszufriedenheit für die neuen Studierenden.
 
-<details><summary>Lösung</summary>
-
-```{r}
-new <- data.frame(neuro = c(1.25, 2.75, 3.5, 4.25, 3.75, 2.15))
-predict(fmn, newdata = new)
-```
-
-</details> 

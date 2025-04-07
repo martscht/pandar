@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [nehler, buchholz, zacharias, pommeranz] 
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -28,8 +28,8 @@ links:
     url: /lehre/statistik-i/deskriptiv-intervall
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/deskriptiv-intervall-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/deskriptiv-intervall-uebungen
   
 output:
   html_document:
@@ -44,7 +44,7 @@ output:
 
 <details><summary>R-Code für die Vorbereitung</summary>
 
-```r
+``` r
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -68,7 +68,7 @@ fb24$wohnen <- factor(fb24$wohnen,
 Falls Sie nochmal sicher gehen wollen, ob alles korrekt funktioniert hat, könnte die Anzahl der Zeilen und Spalten einen Hinweis geben:
 
 
-```r
+``` r
 dim(fb24)
 ```
 
@@ -92,14 +92,14 @@ Erstellen Sie im Datensatz `fb24` die Skalenwerte für die Subskala ruhig/unruhi
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 # Invertieren
 fb24$mdbf3_r <-  -1 * (fb24$mdbf3 - 5)
 fb24$mdbf9_r <-  -1 * (fb24$mdbf9 - 5)
 ```
 
 
-```r
+``` r
 # Skalenwert
 
 ru_pre <- fb24[, c("mdbf3_r", "mdbf6", "mdbf9_r", "mdbf12")]
@@ -110,7 +110,7 @@ fb24$ru_pre <- rowMeans(ru_pre)
 Oder in einem Schritt mit der Pipe:
 
 
-```r
+``` r
 # Skalenwert
 
 fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
@@ -131,7 +131,7 @@ Bestimmen Sie für die Skala den gesamten Mittelwert und Median.
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 # Median und Mittelwert
 median(fb24$ru_pre, na.rm = TRUE)
 ```
@@ -140,7 +140,7 @@ median(fb24$ru_pre, na.rm = TRUE)
 ## [1] 2.75
 ```
 
-```r
+``` r
 mean(fb24$ru_pre, na.rm = TRUE)
 ```
 
@@ -154,7 +154,7 @@ Der Median ist fast gleich dem Mittelwert, was eine symmetrische Verteilung verm
 **Prüfen der Vermutung anhand eines Histogramms!**
 
 
-```r
+``` r
 hist(fb24$ru_pre, breaks = 6) # Histogramm
 ```
 
@@ -180,7 +180,7 @@ Bestimmen Sie für den Skalenwert `ru_pre` die empirische Varianz und Standardab
 Zur Berechnung der Varianz gemäß Formel benötigen wir $n$. Wir könnten mit `nrow(fb24)` die Länge des Datensatzes für `n` heranziehen. Dies ist jedoch nur dann sinnvoll, wenn auf der Variable `ru_pre`` keine fehlenden Werte vorhanden sind!
 
 
-```r
+``` r
 is.na(fb24$ru_pre) |> sum()
 ```
 
@@ -191,7 +191,7 @@ is.na(fb24$ru_pre) |> sum()
 Ein fehlender Wert wird uns angezeigt, weshalb im Folgenden die Umrechnung der Varianz mit `na.omit()` in der Bestimmung der Stichprobengröße erfolgt. 
 
 
-```r
+``` r
 # empirische Varianz
 # per Hand
 sum((fb24$ru_pre - mean(fb24$ru_pre, na.rm = T))^2, na.rm = T) / (length(na.omit(fb24$ru_pre)))
@@ -201,7 +201,7 @@ sum((fb24$ru_pre - mean(fb24$ru_pre, na.rm = T))^2, na.rm = T) / (length(na.omit
 ## [1] 0.4661947
 ```
 
-```r
+``` r
 # durch Umrechnung 
 var(fb24$ru_pre, na.rm = T) * (length(na.omit(fb24$ru_pre))-1) / length(na.omit(fb24$ru_pre))
 ```
@@ -210,7 +210,7 @@ var(fb24$ru_pre, na.rm = T) * (length(na.omit(fb24$ru_pre))-1) / length(na.omit(
 ## [1] 0.4661947
 ```
 
-```r
+``` r
 # Populationsschätzer
 var(fb24$ru_pre, na.rm = T)
 ```
@@ -224,7 +224,7 @@ Die empirische Varianz ist kleiner als der Populationsschätzer.
 Nun fehlt noch die Betrachtung der Standardabweichung. Als einfachste Möglichkeit für die Berechnung der empirischen Standardabweichung haben wir gelernt, dass man die Wurzel aus der empirischen Varianz ziehen kann.
 
 
-```r
+``` r
 # empirische Standardabweichung (na.omit / na.rm kann auch ausgelassen werden!)
 (sum((fb24$ru_pre - mean(fb24$ru_pre, na.rm = T))^2, na.rm = T) / length(na.omit(fb24$ru_pre))) |> sqrt()
 ```
@@ -233,7 +233,7 @@ Nun fehlt noch die Betrachtung der Standardabweichung. Als einfachste Möglichke
 ## [1] 0.6827845
 ```
 
-```r
+``` r
 # Populationsschätzer
 sd(fb24$ru_pre, na.rm = T)
 ```
@@ -261,7 +261,7 @@ Erstellen Sie eine z-standardisierte Variante der Skala ruhig/unruhig und legen 
 Um die Vergleichbarkeit zu erhöhen, wird im folgenden Code ein kleiner Trick angewendet. Die beiden Histogramme sollten am besten gleichzeitig unter **Plots** angezeigt werden. Durch die verwendete Funktion `par()` kann man verschiedene Plots gemeinsam in einem Fenster zeichnen. Das Argument bestimmt dabei, dass es eine Zeile und zwei Spalten für die Plots gibt.
 
 
-```r
+``` r
 par(mfrow=c(1,2))
 
 # z-Standardisierung
@@ -277,7 +277,7 @@ hist(fb24$ru_pre)
 Beim Vergleich der beiden Histogrammen fällt auf, dass sich - aufgrund der R-Voreinstellungen - das Erscheinungsbild fälschlicherweise unterscheidet (vor allem, wenn wir die y-Achse betrachten!) - eigentlich sollte sich durch die z-Transformation nur Skalierung der x-Achsen-Variable verändern. Tatsächlich aber bestimmt R hier eine unterschiedliche Anzahl von Kategorien. Wir erhalten eine konstantere Darstellung durch das `breaks`-Argument:
 
 
-```r
+``` r
 # Histogramme mit jeweils 5/6 Breaks
 par(mfrow=c(1,2))
 hist(fb24$ru_pre_zstd, breaks = 5)
@@ -291,7 +291,7 @@ Die Verteilungen sehen nun tatsächlich vergleichbar aus. Da die Breaks ein weic
 Zum Abschluss sollte noch der Grafik-Bereich wieder so eingestellt werden, dass nur eine Grafik gleichzeitig angezeigt wird.
 
 
-```r
+``` r
 par(mfrow=c(1,1))
 ```
 

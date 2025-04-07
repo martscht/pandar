@@ -1,15 +1,15 @@
 ---
-title: "Simulation und Poweranalyse - Aufgaben" 
+title: "Simulation und Poweranalyse - Übungen" 
 type: post
 date: '2019-10-18' 
-slug: simulation-poweranalyse-aufgaben
+slug: simulation-poweranalyse-uebungen
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [irmer, sinn]
 weight: 
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -44,7 +44,7 @@ $$Y:= \rho X + \sqrt{1-\rho^2}Z,$$
 wieder standardnormalverteilt und um den Korrelationskoeffizienten $\rho$ korreliert mit $X$. Wir können also relativ einfach zwei korrelierte Variablen generieren. Wie in der Sitzung verwenden wir $N=20$:
 
 
-```r
+``` r
 N <- 20
 
 set.seed(12345)
@@ -58,7 +58,7 @@ cor(X, Y) # empirische Korrelation
 ## [1] 0.579799
 ```
 
-```r
+``` r
 sd(X) 
 ```
 
@@ -66,7 +66,7 @@ sd(X)
 ## [1] 0.8339354
 ```
 
-```r
+``` r
 sd(Y)
 ```
 

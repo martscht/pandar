@@ -1,15 +1,15 @@
 ---
-title: "Deskriptivstatistik für Intervallskalen - Aufgaben" 
+title: "Deskriptivstatistik für Intervallskalen - Übungen" 
 type: post
 date: '2019-10-18' 
-slug: deskriptiv-intervall-aufgaben
+slug: deskriptiv-intervall-uebungen
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [nehler, buchholz, zacharias, pommeranz]
 weight:
-lastmod: '`r Sys.Date()`'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -33,12 +33,7 @@ output:
 ---
 
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
-```
+
 
 
 ### Vorbereitung

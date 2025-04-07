@@ -1,15 +1,15 @@
 ---
-title: "Tests und Konfidenzintervalle - Aufgaben" 
+title: "Tests und Konfidenzintervalle - Übungen" 
 type: post
 date: '2019-10-18' 
-slug: tests-konfidenzintervalle-aufgaben 
+slug: tests-konfidenzintervalle-uebungen
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [nehler, vogler, scheppa-lahyani, pommeranz] 
 weight: 
-lastmod: '`r Sys.Date()`'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -33,61 +33,26 @@ output:
 ---
 
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
-```
+
 
 ## Vorbereitung 
 
-```{r, echo = F}
-#### Was bisher geschah: ----
 
-# Daten laden
-load(url('https://pandar.netlify.app/daten/fb24.rda'))
-
-# Nominalskalierte Variablen in Faktoren verwandeln
-fb24$hand_factor <- factor(fb24$hand,
-                             levels = 1:2,
-                             labels = c("links", "rechts"))
-fb24$fach <- factor(fb24$fach,
-                    levels = 1:5,
-                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb24$ziel <- factor(fb24$ziel,
-                        levels = 1:4,
-                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb24$wohnen <- factor(fb24$wohnen, 
-                      levels = 1:4, 
-                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-
-# Rekodierung invertierter Items
-fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 4 - 1)
-fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 4 - 1)
-fb24$mdbf3_r <-  -1 * (fb24$mdbf3 - 4 - 1)
-fb24$mdbf9_r <-  -1 * (fb24$mdbf9 - 4 - 1)
-
-# Berechnung von Skalenwerten
-fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
-                        'mdbf8', 'mdbf11_r')] |> rowMeans()
-fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
-                         "mdbf9_r", "mdbf12")] |> rowMeans()
-
-# z-Standardisierung
-fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
-
-```
 
 > Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/tests-konfidenzintervalle/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
-```{r}
+
+``` r
 dim(fb24)
 ```
 
-Der Datensatz besteht aus `r nrow(fb24)` Zeilen (Beobachtungen) und mindestens (unter Einbeziehung der Ergänzungen) `r ncol(fb24)` Spalten (Variablen). Falls Sie bereits weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+```
+## [1] 192  50
+```
+
+Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und mindestens (unter Einbeziehung der Ergänzungen) 50 Spalten (Variablen). Falls Sie bereits weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ## Aufgabe 1
@@ -128,10 +93,16 @@ Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzinterv
 
 <details><summary>Code</summary>
 
-```{r}
+
+``` r
 anyNA(fb24$gewis) #NA's vorhanden
+```
 
+```
+## [1] TRUE
+```
 
+``` r
 set.seed(1234) #erlaubt Reproduzierbarkeit
 fb24_sample <- fb24[sample(nrow(fb24), size = 31), ] #zieht eine Stichprobe mit n = 31
 
@@ -149,8 +120,18 @@ z_gewis2 <- (mean_gewis_smpl2 - mean_gewis_pop) / se_gewis #empirischer z-Wert
 z_krit <- qnorm(1 - 0.05/2) #kritischer z-Wert, zweiseitig
 
 abs(z_gewis2) > z_krit #signifikant
+```
 
+```
+## [1] TRUE
+```
+
+``` r
 2 * pnorm(z_gewis2) #p < .05, signifikant
+```
+
+```
+## [1] 0.03659774
 ```
 
 </details>

@@ -1,15 +1,15 @@
 ---
-title: "Multiple Regression - Aufgaben" 
+title: "Multiple Regression - Übungen" 
 type: post
 date: '2024-02-06' 
-slug: multiple-reg-aufgaben
+slug: multiple-reg-uebungen
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
 summary: '' 
 authors: [vogler]
 weight:
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/stormies.jpg"
@@ -43,15 +43,15 @@ output:
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
-```r
+``` r
 dim(fb24)
 ```
 
 ```
-## [1] 192  44
+## [1] 192  57
 ```
 
-Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und 44 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und 57 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ***
@@ -65,7 +65,7 @@ Sie vermuten, dass bestimmte Persönlichkeitsmerkmale die Prokrastinationstenden
 Dafür reduzieren Sie zunächst Ihren Datensatz auf die relevanten Variablen und entfernen sämtliche fehlende Werte:
 
 
-```r
+``` r
 fb24_short <- subset(fb24, select = c("extra", "vertr", "gewis", "neuro", "offen", "prok"))
 
 fb24_short <- na.omit(fb24_short)
@@ -80,7 +80,7 @@ Zum anderen ist uns bereits im Kapitel [Multiple Regression](/lehre/statistik-i/
 Da wir im Folgenden erneut mit den Big Five Variablen arbeiten, gehen wir dieser Fehlermeldung bereits im Vorhinein aus dem Weg.
 
 
-```r
+``` r
 #Gibt es mindestens ein fehlenden Wert auf den 6 Variablen?
 anyNA(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ```
@@ -89,7 +89,7 @@ anyNA(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ## [1] TRUE
 ```
 
-```r
+``` r
 #Auf welcher Variable und wie viele NA's gibt es?
 summary(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ```
@@ -105,7 +105,7 @@ summary(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ##  NA's   :1       NA's   :1       NA's   :1      NA's   :1       NA's   :1       NA's   :2
 ```
 
-```r
+``` r
 #ein NA auf vertr
 ```
 
@@ -133,7 +133,7 @@ Falls Sie dort Schwierigkeiten hatten, benutzen Sie das Kontrollergebnis.
 <summary>Kontrollergebnis</summary>
 
 
-```r
+``` r
 mod_final <- lm(prok ~ neuro + gewis + extra, data = fb24_short)
 ```
 

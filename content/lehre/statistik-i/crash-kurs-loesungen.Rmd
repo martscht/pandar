@@ -27,8 +27,8 @@ links:
     url: /lehre/statistik-i/crash-kurs
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/crash-kurs-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/crash-kurs-uebungen
 
 _build:
   list: never

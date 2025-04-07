@@ -168,13 +168,13 @@ Odds_anderer
 OR = Odds_anderer/Odds_FFM
 OR
 
-## install.packages('rococo')          #installieren
+# install.packages('rococo')          #installieren
 
 library(rococo)                     #laden
 
-## ??rococo
+# ??rococo
 
-## ?rococo
+# ?rococo
 
 rococo(fb24$mdbf2, fb24$mdbf3)
 

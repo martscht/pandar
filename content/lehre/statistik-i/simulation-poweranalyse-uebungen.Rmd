@@ -1,8 +1,8 @@
 ---
-title: "Simulation und Poweranalyse - Aufgaben" 
+title: "Simulation und Poweranalyse - Übungen" 
 type: post
 date: '2019-10-18' 
-slug: simulation-poweranalyse-aufgaben
+slug: simulation-poweranalyse-uebungen
 categories: ["Statistik I Übungen"] 
 tags: [] 
 subtitle: ''
