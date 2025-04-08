@@ -1,4 +1,4 @@
-## load("C:/Users/Musterfrau/Desktop/alc.rda")
+# load("C:/Users/Musterfrau/Desktop/alc.rda")
 
 load(url("https://pandar.netlify.app/daten/alc.rda"))
 
@@ -13,8 +13,8 @@ alc_long <- reshape(data = alc,
 
 head(alc_long)
 
-## varying = list(c('alcuse.14', 'alcuse.15', 'alcuse.16'),
-##   c('weeduse.14', 'weeduse.15', 'weeduse.16'))
+# varying = list(c('alcuse.14', 'alcuse.15', 'alcuse.16'),
+#   c('weeduse.14', 'weeduse.15', 'weeduse.16'))
 
 alc_long[alc_long$id == 1, ]
 

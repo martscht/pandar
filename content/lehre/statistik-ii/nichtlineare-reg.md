@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [irmer, hartig, schultze, sajjad]
 weight: 7
-lastmod: '2025-02-07'
+lastmod: '2025-04-08'
 featured: no
 banner:
   image: "/header/schoolbus.jpg"
@@ -27,6 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/nichtlineare-reg.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Übungen
+    url: /lehre/statistik-ii/nichtlineare-reg-uebungen
 output:
   html_document:
     keep_md: true
@@ -50,7 +54,7 @@ Für das Tutorial nutzen wir einen Beispieldatensatz zur Lesekompetenz aus der d
 Wir laden zunächst die Daten direkt über die Webseite:
 
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/PISA2009.rda"))
 dim(PISA2009)
 ```
@@ -62,7 +66,7 @@ dim(PISA2009)
 Der Datensatz umfasst insgesamt 150 Zeilen beziehungsweise Beobachtungen und 15 Spalten. Schauen wir uns nun die einzelnen Variablen etwas genauer an. 
 
 
-```r
+``` r
 str(PISA2009)
 ```
 
@@ -90,12 +94,16 @@ Neben der Lesekompetenz der Schüler:innen wurden verschiedene zusätzliche Info
 Außerdem werden wir folgende `R`-Pakete benötigen:
 
 
-```r
+``` r
 library(car)    
 library(MASS)
 library(lm.beta) # erforderlich für standardiserte Gewichte
 library(ggplot2) # für grafische Darstellungen
 library(interactions) # für Interaktionsplots in moderierten Regressionen
+```
+
+```
+## Warning: Paket 'interactions' wurde unter R Version 4.4.2 erstellt
 ```
 
 
@@ -105,7 +113,7 @@ library(interactions) # für Interaktionsplots in moderierten Regressionen
 Betrachten wir uns folgendes Regressionsmodell: Wir möchten die Leseleistung der Schüler:innen vorhersagen. Als bedeutsame Prädiktoren definieren wir den Sozialstatus (`HISEI`), der Bildungsabschluss der Mutter (`MotherEdu`) und die Zahl der Bücher zu Hause (`Books`). Jedoch zeigten Analysen, dass nicht alle Voraussetzungen erfüllt waren:
 
 
-```r
+``` r
 # Berechnung des Modells und Ausgabe der Ergebnisse
 m1 <- lm(Reading ~ HISEI + MotherEdu + Books, data = PISA2009)
 summary(lm.beta(m1))
@@ -137,7 +145,7 @@ summary(lm.beta(m1))
 Die Residuenplots sowie die Testung auf quadratische Trends, die zusammen mit dem Residuenplot ausgegeben werden, zeigen an, dass für den Bildungsabschluss der Mutter auch eine quadratische Beziehung mit der Lesekompetenz besteht, da in den Residuen  quadratische Trends (ausgedrückt durch signifikante blaue Linien) zu sehen sind:
 
 
-```r
+``` r
 # Residuenplots
 residualPlots(m1, pch = 16)
 ```
@@ -159,7 +167,7 @@ Im Gegensatz dazu werden die Effekte von Sozialstatus und Büchern durch das lin
 Auch dem Histogramm war eine Schiefe zu entnehmen, welche durch nichtlineare Terme entstehen können (im niedrigen Bereich liegen mehr Werte; eine Linksschiefe/Rechtssteile ist zu erkennen). 
 
 
-```r
+``` r
 res <- studres(m1) # Studentisierte Residuen als Objekt speichern
 df_res <- data.frame(res) # als Data.Frame für ggplot
 # Grafisch: Histogramm mit Normalverteilungskurve
@@ -176,7 +184,7 @@ ggplot(data = df_res, aes(x = res)) +
 
 <img src="/nichtlineare-reg_files/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
-```r
+``` r
 # Test auf Abweichung von der Normalverteilung mit dem Shpiro Test
 shapiro.test(res)
 ```
@@ -200,7 +208,7 @@ Wird für den Bildungsabschluss der Mutter mit der Funktion `poly` ein linearer 
 
 
 
-```r
+``` r
 m1.b <- lm(Reading ~ HISEI + poly(MotherEdu, 2) + Books, data = PISA2009)
 summary(lm.beta(m1.b))
 ```
@@ -233,7 +241,7 @@ summary(lm.beta(m1.b))
 
 Mit dem folgenden Befehl können wir auf eine simple Weise das Inkrement des quadratischen Trends bestimmen.
 
-```r
+``` r
 # Vergleich mit Modell ohne quadratischen Trend
 summary(m1.b)$r.squared - summary(m1)$r.squared # Inkrement
 ```
@@ -246,7 +254,7 @@ Wir möchten dieses Inkrement auf Signifikanz prüfen. Dies geht mit dem `anova`
 
 
 
-```r
+``` r
 anova(m1, m1.b)
 ```
 
@@ -267,7 +275,7 @@ Hier sollte dem anova-Befehl immer das "kleinere" (restriktivere) Modell (mit we
 Erzeugt man für das erweiterte Modell Residuenplots, ist der quadratische Trend beim Bildungsabschluss komplett verschwunden - er ist ja schon im Modell enthalten und bildet sich somit nicht mehr in den Residuen ab:
 
 
-```r
+``` r
 residualPlots(m1.b, pch = 16)
 ```
 
@@ -307,7 +315,7 @@ $$Y_i=\underbrace{(\beta_0 + \beta_2Z_i)}_{\text{Interzept}(Z_i)} + \underbrace{
 Hier ist eigentlich gar nichts passiert - wir haben lediglich die Gleichung umgestellt. Allerdings sieht dies nun so aus, als würde vorne ein Interzept $(\beta_0 + \beta_2Z_i)$ und vor $X_i$ ein Slope (Steigungskoeffizient) $(\beta_1 + \beta_3Z_i)$ stehen - beide abhängig von $Z_i$. Deshalb haben wir sie gleich mal $\text{Interzept}(Z_i)$ und $\text{Slope}(Z_i)$ genannt. Genauso könnten wir allerdings auch alles nach $X$ umstellen: $Y_i=(\beta_0 + \beta_1X_i) + (\beta_2 + \beta_3X_i)Z_i + \varepsilon_i.$ Somit ist ersichtlich, dass es keine mathematische Begründung gibt, welche der beiden Variablen der Prädiktor und welche der Moderator ist! Manche sagen auch, dass dieses Modell "symmetrisch" in den beiden Variablen ist, man sie also leicht hinsichtlich der inhaltlichen Interpretation austauschen kann. Sich das Ganze in `R` anzuschauen geht sehr einfach. Wir wollen dies am Datensatz `Schulleistungen.rda` durchführen, den wir bereits aus vorherigen Sitzungen kennen. Wie genau wir an den Datensatz herankommen, können Sie sich in der entsprechenden Sitzung ansehen. Wir laden den Datensatz wie folgt über die Website:
 
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
 
 head(Schulleistungen)
@@ -323,59 +331,20 @@ head(Schulleistungen)
 ## 6      0 106.14127 308.7457 602.8577
 ```
 
-<table>
- <thead>
-  <tr>
-   <th style="text-align:right;"> female </th>
-   <th style="text-align:right;"> IQ </th>
-   <th style="text-align:right;"> reading </th>
-   <th style="text-align:right;"> math </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 81.78 </td>
-   <td style="text-align:right;"> 449.59 </td>
-   <td style="text-align:right;"> 451.98 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 106.76 </td>
-   <td style="text-align:right;"> 544.85 </td>
-   <td style="text-align:right;"> 589.65 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 99.14 </td>
-   <td style="text-align:right;"> 331.35 </td>
-   <td style="text-align:right;"> 509.33 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 111.91 </td>
-   <td style="text-align:right;"> 531.54 </td>
-   <td style="text-align:right;"> 560.43 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 116.13 </td>
-   <td style="text-align:right;"> 604.38 </td>
-   <td style="text-align:right;"> 659.45 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 106.14 </td>
-   <td style="text-align:right;"> 308.75 </td>
-   <td style="text-align:right;"> 602.86 </td>
-  </tr>
-</tbody>
-</table>
+
+| female|     IQ| reading|   math|
+|------:|------:|-------:|------:|
+|      1|  81.78|  449.59| 451.98|
+|      1| 106.76|  544.85| 589.65|
+|      0|  99.14|  331.35| 509.33|
+|      1| 111.91|  531.54| 560.43|
+|      1| 116.13|  604.38| 659.45|
+|      0| 106.14|  308.75| 602.86|
 
 Auch bei Interaktionen ist es wichtig, dass die Daten zentriert sind, also einen Mittelwert von 0 aufweisen. Dies hatte im anderen Beispiel oben die Funktion `poly` bewirkt. Das erleichtert die Interpretation und verändert die Korrelation des Interaktionsterms (oben $X_i*Z_i$) mit den Haupteffekten von $X_i$ und $Z_i$. Daher verwenden wir die `scale`-Funktion, um den gesamten Datensatz zu standardisieren (also zu zentrieren und gleich noch die Varianz auf 1 zu setzen) und speichern diesen unter dem Namen `Schulleistungen_std`. Sind die Daten zentriert (haben einen Mittelwert von 0) oder sogar standardisiert (haben einen Mittelwert von 0 **und** eine Varianz/Standardabweichung von 1), dann ist in einem Modell, in dem nur lineare Effekte, quadratische- und Interaktionseffekte vorkommen (also Prädiktoren $X, Z$ und $X^2, XZ, Z^2$, wobei die Parameter vor $X, Z$ lineare Effekte und die Parameter vor $X^2, XZ, Z^2$ quadratische bzw. Interaktionseffekte genannt werden), eine Verrechnung mit `poly` nicht mehr nötig. `poly` bringt nur dann Verbesserungen, wenn bspw. noch kubische Effekte ($X^3$) mit aufgenommen werden sollen. Dies geschieht hier aber nicht, weswegen wir `poly` in diesem Abschnitt nicht brauchen. Lesen Sie gerne eine Gegenüberstellung von `poly` und Zentrierung/Standardisierung in [Appendix D](#AppendixD) nach. 
 
 
-```r
+``` r
 Schulleistungen_std <- data.frame(scale(Schulleistungen)) # standardisierten Datensatz abspeichern als data.frame
 colMeans(Schulleistungen_std)     # Mittelwert pro Spalte ausgeben
 ```
@@ -385,7 +354,7 @@ colMeans(Schulleistungen_std)     # Mittelwert pro Spalte ausgeben
 ## -8.215650e-17 -1.576343e-16  1.358549e-16 -6.760217e-17
 ```
 
-```r
+``` r
 apply(Schulleistungen_std, 2, sd) # Standardabweichungen pro Spalte ausgeben
 ```
 
@@ -397,7 +366,7 @@ apply(Schulleistungen_std, 2, sd) # Standardabweichungen pro Spalte ausgeben
 Nun führen wir eine moderierte Regression durch, in welcher wir in diesem Datensatz die Leseleistung `reading` durch den `IQ` sowie die Matheleistung `math` vorhersagen, sowie durch deren Interaktion. Die Interaktion können wir durch `:` ausdrücken. Falls wir einfach `*` verwenden, werden auch gleich noch die Haupteffekte, also die Variablen selbst, mit aufgenommen. Es gilt also: `math + IQ + math:IQ = math*IQ`, wobei die Interaktion `math:IQ` ist. Um auch wirklich die Interaktion zu testen, ist es unbedingt notwendig, die Haupteffekte der Variablen ebenfalls in das Modell mit aufzunehmen, da die Variablen trotzdem mit der Interaktion korreliert sein können, auch wenn die Variablen zentriert sind.
 
 
-```r
+``` r
 mod_reg <- lm(reading ~ math + IQ + math:IQ, data = Schulleistungen_std)
 summary(mod_reg)
 ```
@@ -428,7 +397,7 @@ summary(mod_reg)
 Dem Output entnehmen wir, dass sowohl (1) der Haupteffekt des IQs ($p=$ 0 $<.05$) als auch (2) die Interaktion mit der Matheleistung signifikant sind ($p=$ 0.0497 $<.05$). Die Matheleistung an sich bringt aber keine signifikante Vorhersagekraft der Leseleistung ($p=$ 0.4859 $>.05$). Wie genau  es hier zu diesen Ergebnissen gekommen ist, ist schwer zu sagen. Matheaufgaben von Tests bestehen häufig aus Textaufgaben, welche ein großes Maß an Textverständnis voraussetzen. Daher wäre eine Beziehung zwischen der Matheleistung und der Leseleistung zu erwarten. Wir wollen es so interpretieren, dass die Matheleistung die Beziehung zwischen dem IQ und der Leseleistung moderiert. Somit wäre $X=$ `IQ` (Prädiktor) und $Z=$ `math` (Moderator). Es gibt ein `R`-Paket, dass eine solche Interaktion grafisch darstellt: `interactions`. Nachdem Sie dieses installiert haben, können Sie es laden und die Funktion `interact_plot` verwenden, um diese Interaktion zu veranschaulichen. Dem Argument `model` übergeben wir `mod_reg`, also unser moderiertes Regressionsmodell. Als Prädiktor wählten wir den IQ, also müssen wir dem Argument `pred` den `IQ` übergeben. Der Moderator ist hier die Matheleistung, folglich übergeben wir `math` dem Argument `modx`.
 
 
-```r
+``` r
 library(interactions)
 interact_plot(model = mod_reg, pred = IQ, modx = math)
 ```
@@ -448,7 +417,7 @@ Es besteht nicht nur die Möglichkeit, quadratische Verläufe oder Interaktionst
 Die folgenden zwei Grafiken verdeutlichen dies (Der folgende Block ist gedacht, dass Sie diesen kopieren und die Inputparameter verändern und sich den Effekt auf die Grafiken ansehen; die horizontale gestrichelte Linien repräsentiert jeweils den Wert $a$ bzw. $\text{ln}(a)$, an welchem die Kurve $f$ bzw. $\ln(f)$ die y-Achse schneiden):
 
 
-```r
+``` r
 ##################
 #### Einstellen der Koeffizienten und berechnen von f(x)
 #### 
@@ -468,7 +437,7 @@ abline(h = a, lty = 3) # im Punkt a schneidet f (das exponentielle Wachstum) die
 
 <img src="/nichtlineare-reg_files/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
 
-```r
+``` r
 ##################
 #### Plot von ln(f(x)) vs. x
 #### 
@@ -490,13 +459,13 @@ Die Dokumentation des Datensatzes mit Datenquellen sind hier einzusehen: [gapmin
 Wir laden zunächst die Daten direkt über die Website:
 
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/WorldPopulation.rda"))
 ```
 
 Schauen wir uns die Daten an:
 
-```r
+``` r
 head(WorldPopulation)
 ```
 
@@ -513,7 +482,7 @@ head(WorldPopulation)
 In der ersten Spalte steht das Jahr; in der 2. die Weltbevölkerungsgröße. Wir wollen uns dies grafisch ansehen. Dazu verwenden wir `ggplot`, um die Population (`Population`) gegen das Jahr (`Year`) abzutragen und zwar als Punkte mit `geom_point()`. Sie können Grafiken mit `ggplot2` in der [zugehörigen Sitzung](../grafiken-ggplot2) wiederholen.
 
 
-```r
+``` r
 ggplot(data = WorldPopulation, aes(x = Year, y = Population))+geom_point()+theme_minimal()
 ```
 
@@ -526,7 +495,7 @@ Wir wollen uns naiverweise ein lineares Regressionmodell, also einen linearen Ve
 
 
 
-```r
+``` r
 ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
      geom_point()+geom_smooth(method="lm", formula = "y~x")+
   theme_minimal()# plotte linearen Verlauf 
@@ -534,7 +503,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
 
 <img src="/nichtlineare-reg_files/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
-```r
+``` r
 m_l <- lm(Population ~ Year, data = WorldPopulation) # linearer Verlauf
 summary(m_l)  
 ```
@@ -560,7 +529,7 @@ summary(m_l)
 ## F-statistic: 742.9 on 1 and 219 DF,  p-value: < 2.2e-16
 ```
 
-```r
+``` r
 #########
 ### Normalverteilung der Residuen?
 ##
@@ -586,14 +555,14 @@ Durch `+ geom_smooth(method="lm", formula = "y~x")`, kann mit `ggplot` ein linea
 Nun wollen wir prüfen, ob ein exponentieller Verlauf die Daten besser beschreibt. Dazu müssen wir zunächst die Weltpopulation logarithmieren und können anschließend ein lineares Modell verwenden. Wir transformieren hierzu die Variablen und speichern diese als weitere Spalte in unserem Datensatz mit dem Namen `log_Population` ab: 
 
 
-```r
+``` r
 WorldPopulation$log_Population <- log(WorldPopulation$Population) # Logarithmus der Weltbevölkerung
 ```
 
 Wir wollen anschließend ein einfaches Regressionsmodell schätzen, in welchem die logarithmierte Bevölkerungszahl die abhängige Variable darstellt. Das `lm` Objekt speichern wir hierzu unter dem Namen `m_log` ab und schauen uns die `summary` für `m_log` an.
 
 
-```r
+``` r
 m_log <- lm(log_Population ~ Year, data = WorldPopulation) # lineares Modell mit log(y) als AV (logarithmische Skala)
 summary(m_log)
 ```
@@ -624,7 +593,7 @@ summary(m_log)
 *Es wäre auch möglich gewesen, die Daten nicht vorher zu transformieren, sondern einfach, wie in der letzten Sitzung erwähnt, `I(log(...))` auf die abhängige Variable anzuwenden:*
 
 
-```r
+``` r
 m_log2 <- lm(I(log(Population)) ~ Year, data = WorldPopulation) # lineares Modell mit log(y) als AV (logarithmische Skala)
 summary(m_log2)
 ```
@@ -653,7 +622,7 @@ summary(m_log2)
 Das lineare Modell für die logarithmierte Bevölkerungsdichte scheint gut zu den Daten zu passen. Insgesamt können 92.98 % der Variation in den Daten durch den Zeitverlauf erklärt werden --- deutlich mehr, als durch den linearen Verlauf! Die zugehörige Grafik des logarithmierten Modells sieht so aus:
 
 
-```r
+``` r
 ggplot(data = WorldPopulation, aes(x = Year, y = log_Population))+
      geom_point()+geom_smooth(method="lm", formula = "y~x", col = "red")+
   labs(title = "Logarithmierte Weltbevölkerung vs. Jahr")+
@@ -665,7 +634,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = log_Population))+
 So sind die Ergebnisse aber sehr schwer mit dem linearen Trend zu vergleichen. Wir wollen die Vorhersage auch retransformiert plotten, um sie mit dem linearen Verlauf grafisch vergleichen zu können. Dazu müssen wir die vorhergesagten Werte unseres logarithmischen Modells verwenden und mit mit der Umkehrfunktion des Logarithmus retransformieren. Diese können wir einem `lm`-Objekt mit `predict` entlocken. `predict` berechnet die vorhergesagten Kriteriumswerte via $\hat{Y}_i=\hat{\beta}_0+\hat{\beta}_1X_i$, wobei für unser Beispiel $Y_i=$ ln(Bevölkerung) im $i$-ten Jahr und $X_i=$ $i$-tes Jahr gilt.  Da wir zuvor logarithmiert hatten, müssen wir nun die Exponentialfunktion auf unsere vorhergesagten Werte anwenden: also quasi: $e^{\hat{Y}_i}$, bzw. $e^{\hat{\beta}_0+\hat{\beta}_1X_i}$. Wir nennen die neue Variable `pred_Pop_exp`, wobei `pred` für *predicted* und `Pop_exp` für *exponentielles Populationswachstum* steht:
 
 
-```r
+``` r
 WorldPopulation$pred_Pop_exp <- exp(predict(m_log)) # Abspeichern der retransformierten vorhergesagten Werten (wieder auf der Skala der Weltbevölkerung)
 head(WorldPopulation)
 ```
@@ -683,7 +652,7 @@ head(WorldPopulation)
 Dem Datensatz haben wir nun eine neue Spalte hinzugefügt, welche die vorhergesagten Populationswerte enthält (retransformiert; nicht mehr in Log-Skala). Nun schauen wir uns den exponentiellen sowie den linearen Trend für die Bevölkerungszahl an:
 
 
-```r
+``` r
 ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
      geom_point()+geom_smooth(method="lm", formula = "y~x")+         # plotte linearen Verlauf 
      geom_line(aes(x = Year, y = pred_Pop_exp), col = "red", lwd = 1.5)
@@ -694,7 +663,7 @@ ggplot(data = WorldPopulation, aes(x = Year, y = Population))+
 Das Diagramm der retransformierten vorhergesagten Werten signalisiert, dass ein exponentielles Wachstumsmodell die Daten gut beschreibt. Wir können die Parameter des logarithmischen Modells auch in die Bevölkerungsskala (weg von der log-Skala) übersetzen. Dazu nutzen wir wieder eine Logarithmus/Exponentenregel: $e^{a+b}=e^ae^b$. Also ist $e^{\hat{\beta_0}}$ die Bevölkerung zum Jahr 0 und $e^{\hat{\beta}_1}$ die Veränderung der Bevölkerung (multiplikativ), wenn die Jahreszahl um eine Einheit erhöht wird. Wir können dies leicht wie folgt umsetzen:
 
 
-```r
+``` r
 exp(coef(m_log))
 ```
 
@@ -718,7 +687,7 @@ In diesem Tutorial haben wir nichtlineare Regressionsmodelle als Erweiterung der
 <details><summary> <b>Exkurs: Was genau macht <code>poly</code>?</b> </summary>
 
 
-```r
+``` r
 X <- 1:10   # Variable X
 X2 <- X^2   # Variable X hoch 2
 X_poly <- poly(X, 2)  # erzeuge Variable X und X hoch mit Hilfe der poly Funktion
@@ -744,7 +713,7 @@ Die Funktion `poly` erzeugt sogenannte *orthogonale Polynome*. Das bedeutet, das
  
 
 
-```r
+``` r
 round(apply(X = cbind(X, X2, X_poly), MARGIN = 2, FUN = mean), 2) # Mittelwerte über die Spalten hinweg berechnen
 ```
 
@@ -753,7 +722,7 @@ round(apply(X = cbind(X, X2, X_poly), MARGIN = 2, FUN = mean), 2) # Mittelwerte 
 ##         5.5        38.5         0.0         0.0
 ```
 
-```r
+``` r
 round(apply(X = cbind(X, X2, X_poly), MARGIN = 2, FUN = sd), 2) # Standardabweichung über die Spalten hinweg berechnen
 ```
 
@@ -762,7 +731,7 @@ round(apply(X = cbind(X, X2, X_poly), MARGIN = 2, FUN = sd), 2) # Standardabweic
 ##        3.03       34.17        0.33        0.33
 ```
 
-```r
+``` r
 round(cor(cbind(X, X2, X_poly)),2) # Korrelationen berechnen
 ```
 
@@ -777,7 +746,7 @@ Die Funktion `apply` führt an der Matrix, welche dem Argument `X` übergeben wi
 
 
 
-```r
+``` r
 m1.b1 <- lm(Reading ~ HISEI + poly(MotherEdu, 1) + Books, data = PISA2009)
 summary(lm.beta(m1.b1))
 ```
@@ -805,7 +774,7 @@ summary(lm.beta(m1.b1))
 ## F-statistic: 16.78 on 3 and 146 DF,  p-value: 2.034e-09
 ```
 
-```r
+``` r
 m1.b2 <- lm(Reading ~ HISEI + poly(MotherEdu, 2) + Books, data = PISA2009)
 summary(lm.beta(m1.b2))
 ```
@@ -834,7 +803,7 @@ summary(lm.beta(m1.b2))
 ## F-statistic: 13.88 on 4 and 145 DF,  p-value: 1.3e-09
 ```
 
-```r
+``` r
 PISA2009$MotherEdu2 <- PISA2009$MotherEdu^2 # füge dem Datensatz den quadrierten Bildungsabschluss der Mutter hinzu
 m1.c1 <- lm(Reading ~ HISEI + MotherEdu + Books, data = PISA2009)
 summary(lm.beta(m1.c1))
@@ -863,7 +832,7 @@ summary(lm.beta(m1.c1))
 ## F-statistic: 16.78 on 3 and 146 DF,  p-value: 2.034e-09
 ```
 
-```r
+``` r
 m1.c2 <- lm(Reading ~ HISEI + MotherEdu + MotherEdu2 + Books, data = PISA2009)
 summary(lm.beta(m1.c2))
 ```
@@ -893,7 +862,7 @@ summary(lm.beta(m1.c2))
 ## F-statistic: 13.88 on 4 and 145 DF,  p-value: 1.3e-09
 ```
 
-```r
+``` r
 rbind(coef(m1.b1), coef(m1.c1)) # vgl Koeffizienten
 ```
 
@@ -903,7 +872,7 @@ rbind(coef(m1.b1), coef(m1.c1)) # vgl Koeffizienten
 ## [2,]    340.7035 1.443998           10.70515 16.19878
 ```
 
-```r
+``` r
 rbind(coef(m1.b2),coef(m1.c2)) # vgl Koeffizienten
 ```
 
@@ -913,7 +882,7 @@ rbind(coef(m1.b2),coef(m1.c2)) # vgl Koeffizienten
 ## [2,]    283.9386 1.469164            46.00863           -4.817134 16.57467
 ```
 
-```r
+``` r
 rbind(summary(m1.b1)$r.squared, summary(m1.c1)$r.squared) # vgl R^2
 ```
 
@@ -923,7 +892,7 @@ rbind(summary(m1.b1)$r.squared, summary(m1.c1)$r.squared) # vgl R^2
 ## [2,] 0.2563619
 ```
 
-```r
+``` r
 rbind(summary(m1.b2)$r.squared,summary(m1.c2)$r.squared) # vgl R^2
 ```
 
@@ -949,7 +918,7 @@ wobei $a\neq 0$, da es sich sonst nicht um eine quadratische Funktion handelt. W
 Für betraglich große $x$ fällt $x^2$ besonders ins Gewicht. Damit entscheidet das Vorzeichen von $a$, ob es sich um eine u-förmige (falls $a>0$) oder eine umgekehrt-u-förmige (falls $a<0$) Beziehung handelt. Die betragliche Größe von $a$ entscheidet hierbei, wie gestaucht die u-förmige Beziehung (die Parabel) ist. Die reine quadratische Beziehung $f(x)=x^2$ sieht so aus:
 
 
-```r
+``` r
 a <- 1; b <- 0; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -964,7 +933,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 Wir werden diese Funktion immer als Referenz mit in die Grafiken einzeichnen.
 
 
-```r
+``` r
 a <- 0.5; b <- 0; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -978,7 +947,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 <img src="/nichtlineare-reg_files/unnamed-chunk-33-1.png" style="display: block; margin: auto;" />
 
 
-```r
+``` r
 a <- 2; b <- 0; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -993,7 +962,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 
 
 
-```r
+``` r
 a <- -1; b <- 0; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -1010,7 +979,7 @@ Diese invers-u-förmige Beziehung ist eine konkave Funktion. Als Eselsbrücke f�
 
 $c$ bewirkt eine vertikale Verschiebung der Parabel:
 
-```r
+``` r
 a <- 1; b <- 0; c <- 1
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -1026,7 +995,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 $b$ bewirkt eine horizontale und vertikale Verschiebung, die nicht mehr leicht vorhersehbar ist. Für $f(x)=x^2+x$ lässt sich beispielsweise durch Umformen $f(x)=x^2+x=x(x+1)$ leicht erkennen, dass diese Funktion zwei Nullstellen bei $0$ und $-1$ hat. Somit ist ersichtlich, dass die Funktion nach unten und nach links verschoben ist:
 
 
-```r
+``` r
 a <- 1; b <- 1; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -1042,7 +1011,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 Für die genaue Gestalt einer allgemeinen quadratischen Funktion $ax^2 + bx + c$ würden wir die Nullstellen durch das Lösen der Gleichung $ax^2 + bx + c=0$ bestimmen (via *p-q Formel* oder *a-b-c-Formel*). Den Scheitelpunkt würden wir durch das Ableiten und Nullsetzen der Gleichung bestimmen. Wir müssten also $2ax+b=0$ lösen und dies in die Gleichung einsetzen. Wir könnten auch die binomischen Formeln nutzen, um die Funktion in die Gestalt $f(x):=a'(x-b')^2+c'$ oder $f(x):=a'(x-b'_1)(x-b_2')+c'$ zu bekommen, falls die Nullstellen reell sind (also das Gleichungssystem *lösbar* ist), da wir so die Nullstellen ablesen können als $b'$ oder $b_1'$ und $b_2'$, falls $c=0$. Für die Interpretation der Ergebnisse reicht es zu wissen, dass $a$ eine Stauchung bewirkt und entscheind dafür ist, ob die Funktion u-förmig oder invers-u-förmig verläuft.
 
 
-```r
+``` r
 a <- -0.5; b <- 1; c <- 2
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -1062,7 +1031,7 @@ $\longrightarrow$ so ähnlich sieht die bedingte Beziehung (kontrolliert für di
 <details><summary> <b>Code für quadratische Verlaufsgrafik</b> </summary>
 Der Code, der die Grafik des standardisierten vorhergesagten bedingten Verlaufs des Bildungsabschlusses der Mutter erzeugt, sieht folgendermaßen aus:
 
-```r
+``` r
 X <- scale(poly(PISA2009$MotherEdu, 2))
 std_par_ME <- c(0.1588, -0.1436)
 pred_effect_ME <- X %*% std_par_ME
@@ -1085,14 +1054,14 @@ Wir verwenden `scale`, um die linearen und quadratischen Anteile des Bildungsabs
 Wir vergleichen nun an einem ganz einfachen Beispiel, was `poly` und was Zentrierung bewirkt. Dazu erstellen wir einen Vektor (also eine Variable) $A$ der die Zahlen von 0 bis 10 enthält in 0.1 Schritten:
 
 
-```r
+``` r
 A <- seq(0, 10, 0.1)
 ```
 
 Nun bestimmen wir zunächst die Korrelation zwischen $A$ und $A^2$:
 
 
-```r
+``` r
 cor(A, A^2)
 ```
 
@@ -1102,7 +1071,7 @@ cor(A, A^2)
 welche sehr hoch ausfällt. Wir hatten bereits mit `poly` erkannt, dass diese Funktion die linearen und quadratischen Anteile trennt. Nun zentrieren wir die Daten. Das geht entweder händisch oder mit der `scale` Funktion:
 
 
-```r
+``` r
 A_c <- A - mean(A)
 mean(A_c)
 ```
@@ -1111,7 +1080,7 @@ mean(A_c)
 ## [1] 2.639528e-16
 ```
 
-```r
+``` r
 A_c2 <- scale(A, center = T, scale = F)  # scale = F bewirkt, dass nicht auch noch die SD auf 1 gesetzt werden soll
 mean(A_c2)
 ```
@@ -1123,7 +1092,7 @@ mean(A_c2)
 Nun vergleichen wir die Korrelationen zwischen $A_c$ mit $A_c^2$ mit den Ergebnissen von `poly`:
 
 
-```r
+``` r
 cor(A_c, A_c^2)
 ```
 
@@ -1131,7 +1100,7 @@ cor(A_c, A_c^2)
 ## [1] 1.763581e-16
 ```
 
-```r
+``` r
 cor(poly(A, 2))
 ```
 
@@ -1141,7 +1110,7 @@ cor(poly(A, 2))
 ## 2 9.847944e-17 1.000000e+00
 ```
 
-```r
+``` r
 # auf 15 Nachkommastellen gerundet:
 round(cor(A_c, A_c^2), 15)
 ```
@@ -1150,7 +1119,7 @@ round(cor(A_c, A_c^2), 15)
 ## [1] 0
 ```
 
-```r
+``` r
 round(cor(poly(A, 2)), 15) 
 ```
 
@@ -1164,7 +1133,7 @@ beide Vorgehensweisen sind bis auf 15 Nachkommastellen identisch!
 Spaßeshalber nehmen wir noch die Terme $A^3$ und $A^4$ auf und vergleichen die Ergebnisse:
 
 
-```r
+``` r
 # auf 15 Nachkommastellen gerundet:
 round(cor(cbind(A, A^2, A^3, A^4)), 2)
 ```
@@ -1177,7 +1146,7 @@ round(cor(cbind(A, A^2, A^3, A^4)), 2)
 ##   0.86 0.96 0.99 1.00
 ```
 
-```r
+``` r
 round(cor(cbind(A_c, A_c^2, A_c^3, A_c^4)), 2) 
 ```
 
@@ -1189,7 +1158,7 @@ round(cor(cbind(A_c, A_c^2, A_c^3, A_c^4)), 2)
 ##     0.00 0.96 0.00 1.00
 ```
 
-```r
+``` r
 round(cor(poly(A, 4)), 2)
 ```
 
@@ -1235,7 +1204,7 @@ Folglich können wir sagen, dass
 wobei wir hier benutzen, dass die Kovarianz mit sich selbst die Varianz ist und dass die zentrierte Variable $A_c$ die gleiche Varianz wie $A$ hat  (im Allgemeinen, siehe weiter unten, bleibt auch noch die Kovarianz zwischen $A_c$ und $A_c^2$ erhalten). Dies können wir leicht prüfen:
 
 
-```r
+``` r
 var(A)
 ```
 
@@ -1243,7 +1212,7 @@ var(A)
 ## [1] 8.585
 ```
 
-```r
+``` r
 var(A_c)
 ```
 
@@ -1251,7 +1220,7 @@ var(A_c)
 ## [1] 8.585
 ```
 
-```r
+``` r
 # Kovarianz 
 cov(A, A^2)
 ```
@@ -1260,7 +1229,7 @@ cov(A, A^2)
 ## [1] 85.85
 ```
 
-```r
+``` r
 2*mean(A)*var(A)
 ```
 
@@ -1268,7 +1237,7 @@ cov(A, A^2)
 ## [1] 85.85
 ```
 
-```r
+``` r
 # zentriert:
 round(cov(A_c, A_c^2), 14)
 ```
@@ -1277,7 +1246,7 @@ round(cov(A_c, A_c^2), 14)
 ## [1] 0
 ```
 
-```r
+``` r
 round(2*mean(A_c)*var(A_c), 14)
 ```
 
@@ -1306,7 +1275,7 @@ somit wird die Kovarianz zwischen $A$ und $A^2$ künstlich vergrößert, wenn di
 
 
 
-```r
+``` r
 library(plot3D)
 # Übersichtlicher: Vorbereitung
 x <- Schulleistungen_std$IQ
@@ -1336,7 +1305,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
 Hier ist die x-Achse ($-links\longleftrightarrow rechts+$) des IQs dargestellt und in die Tiefe ist die Matheleistung (oft z-Achse: ($-vorne\longleftrightarrow hinten+$)). Die y-Achse (im Plot heißt diese blöderweise z-Achse) stellt die Leseleistung dar. ($-unten\longleftrightarrow oben+$). Wir erkennen in dieser Ansicht ein wenig die Simple-Slopes von zuvor, denn die Achse der Matheleistung läuft ins Negative "aus dem Bildschirm hinaus", während sie ins Positive "in den Bildschirm hinein" verläuft. Der nähere Teil der "Hyperebene" weißt eine geringere Beziehung zwischen dem IQ und der Leseleistung auf, während der Teil, der weiter entfernt liegt, eine stärkere Beziehung aufweist. Genau das haben wir auch in den Simple Slopes zuvor gesehen. Dort war für eine hohe Matheleistung die Beziehung zwischen dem IQ und der Leseleistung auch stärker. Wichtig ist, dass in diesem Plot die Beziehung zwischen dem IQ und der Leseleistung für eine fest gewählte Ausprägung der Matheleistung tatsächlich linear verläuft. Es ist also so, dass wir quasi ganz viele Linien aneinander kleben, um diese gewölbte Ebene zu erhalten. Die Ausprägung der Matheleistung ist im nächsten Plot noch besser zu erkennen, in der der Plot etwas gedreht dargestellt wird. Farblich ist außerdem die Ausprägung der Leseleistung dargestellt, damit die Werte leichter zu vergleichen sind. 
 
 
-```r
+``` r
 scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2, 
           theta = 20, phi = 20, ticktype = "detailed",
           xlab = "IQ", ylab = "math", zlab = "reading",  
@@ -1444,7 +1413,7 @@ $$10^3=e^{\text{ln}(10^3)}=e^{3\text{ln}(10)}=1000$$
 Da sich durch *e* und *ln* alle exponentiellen Verläufe darstellen lassen, wird in der Mathematik häufig *log* als das Symbol für den natürlich Logarithmus verwendet; so ist es auch in `R`: ohne weitere Einstellungen ist `log` der natürliche Logarithmus und `exp` ist die Exponentialfunktion. Mit Hilfe von `log(..., base = 10)` erhalten sie beispielsweise den 10er-Logarithmus. Probieren Sie die obige Gleichung selbst aus:
 
 
-```r
+``` r
 # gleiches Ergebnis:
 10^3
 ```
@@ -1453,7 +1422,7 @@ Da sich durch *e* und *ln* alle exponentiellen Verläufe darstellen lassen, wird
 ## [1] 1000
 ```
 
-```r
+``` r
 exp(3*log(10))
 ```
 
@@ -1461,7 +1430,7 @@ exp(3*log(10))
 ## [1] 1000
 ```
 
-```r
+``` r
 # gleiches Ergebnis:
 log(10^3, base = 10) # Logarithmus von 1000 zur Basis 10
 ```
@@ -1470,7 +1439,7 @@ log(10^3, base = 10) # Logarithmus von 1000 zur Basis 10
 ## [1] 3
 ```
 
-```r
+``` r
 log(10^3)/log(10) # mit ln
 ```
 
@@ -1478,7 +1447,7 @@ log(10^3)/log(10) # mit ln
 ## [1] 3
 ```
 
-```r
+``` r
 # gleiches Ergebnis:
 log(9, base = 3) # Logarithmus von 9 zur Basis 3
 ```
@@ -1487,7 +1456,7 @@ log(9, base = 3) # Logarithmus von 9 zur Basis 3
 ## [1] 2
 ```
 
-```r
+``` r
 log(9)/log(3) # mit ln
 ```
 

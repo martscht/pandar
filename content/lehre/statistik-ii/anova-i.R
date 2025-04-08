@@ -1,4 +1,4 @@
-## load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
+# load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
 
 load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
 
@@ -38,8 +38,8 @@ pf(F_wert, nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$ur
 
 
 
-## # Paket installieren
-## install.packages("ez")
+# # Paket installieren
+# install.packages("ez")
 
 # Paket laden 
 library(ez)

@@ -65,9 +65,9 @@ bars <- ggplot(edu_2014, aes(x = Wealth, group = Region)) +
 # Minimal theme
 bars + theme_minimal()
 
-## # Package für weitere ggplot-themes, kann man durch auskommentieren installieren
-## install.packages('ggthemes')
-## library(ggthemes)
+# # Package für weitere ggplot-themes, kann man durch auskommentieren installieren
+# install.packages('ggthemes')
+# library(ggthemes)
 
 
 
@@ -80,8 +80,8 @@ bars + theme_excel()
 # Beispielhaft minimal als default-theme setzen
 theme_set(theme_minimal())
 
-## # Hiermit kann man zurück zum ursprünglichen R-Theme da R-Grundeinstellungen ersetzt werden
-## theme_set(theme_grey())
+# # Hiermit kann man zurück zum ursprünglichen R-Theme da R-Grundeinstellungen ersetzt werden
+# theme_set(theme_grey())
 
 # Einfügen von Beschriftungen für die einzelnen Bestandteile und Achsen
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +

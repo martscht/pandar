@@ -34,7 +34,7 @@ summary(mod_unrestricted)$r.squared - summary(mod_restricted)$r.squared
 
 anova(mod_restricted, mod_unrestricted)
 
-## install.packages("olsrr")
+# install.packages("olsrr")
 
 library(olsrr)
 

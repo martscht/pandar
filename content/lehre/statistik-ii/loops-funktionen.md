@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag lernen wir, wie eigene Funktionen in R geschrieben werden können. Dabei betrachten wir auch, wie sich logische Abfragen einsetzen lassen, um die Ausführung von Code gezielt zu steuern. Zusätzlich machen wir uns mit Schleifen (Loops) vertraut, die es ermöglichen, Code mehrfach auszuführen, ohne ihn wiederholt schreiben zu müssen.'
 authors: [nehler, irmer]
 weight: 14
-lastmod: '2025-04-04'
+lastmod: '2025-04-08'
 featured: no
 banner:
   image: "/header/sprinkled_lollipops.jpg"
@@ -27,6 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/loops-funktionen.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Übungen
+    url: /lehre/statistik-ii/loops-funktionen-uebungen
   # - icon_pack: fas
   #   icon: pen-to-square
   #   name: Quizdaten
@@ -146,11 +150,12 @@ function(x){
 ```
 
 ```
-## function(x){
-##   n <- length(x)
-##   x_quer <- mean(x)
-##   var <- sum((x - x_quer)^2) / n
-##   var
+## function (x) 
+## {
+##     n <- length(x)
+##     x_quer <- mean(x)
+##     var <- sum((x - x_quer)^2)/n
+##     var
 ## }
 ```
 
@@ -807,7 +812,7 @@ for (i in names(fb24)) {
 ```
 
 ```
-## Warning in mean.default(x): argument is not numeric or logical: returning NA
+## Warning in mean.default(x): Argument ist weder numerisch noch boolesch: gebe NA zurück
 ```
 
 ```
@@ -1465,8 +1470,8 @@ toss
 ```
 
 ```
-##  [1] "Zahl" "Kopf" "Kopf" "Zahl" "Zahl" "Zahl" "Kopf" "Kopf" "Zahl" "Kopf" "Kopf"
-## [12] "Kopf" "Zahl" "Kopf" "Kopf" "Kopf"
+##  [1] "Zahl" "Zahl" "Zahl" "Zahl" "Zahl" "Zahl" "Zahl" "Zahl" "Kopf" "Zahl" "Kopf" "Zahl" "Zahl" "Zahl" "Zahl" "Zahl" "Kopf"
+## [18] "Zahl" "Zahl" "Kopf" "Zahl" "Kopf" "Kopf" "Kopf" "Kopf" "Zahl" "Kopf" "Zahl" "Zahl" "Kopf"
 ```
 
 ### `repeat`-Loops 
@@ -1494,8 +1499,7 @@ fibo
 ```
 
 ```
-##  [1]    1    1    2    3    5    8   13   21   34   55   89  144  233  377  610  987
-## [17] 1597
+##  [1]    1    1    2    3    5    8   13   21   34   55   89  144  233  377  610  987 1597
 ```
 
 Loops können mit `break` unterbrochen werden - das gilt nicht nur für `repeat`, sondern auch für die anderen beiden Formen von Loops. Hier wurde eine `if`-Bedingung in den Loop geschachtelt. In jedem einzelnen Durchlauf des Loops wird geprüft, ob die Bedingung erfüllt ist, und die Durchführung wird beendet (`break`), sobald dies der Fall ist. 
@@ -1527,7 +1531,7 @@ Sys.time() - t1 # bestimmte die Laufzeit durch aktuelle Zeit minus Startzeit
 ```
 
 ```
-## Time difference of 0.01220989 secs
+## Time difference of 0.02198505 secs
 ```
 
 ``` r
@@ -1537,7 +1541,7 @@ Sys.time() - t2 # bestimmte die Laufzeit durch aktuelle Zeit minus Startzeit
 ```
 
 ```
-## Time difference of 0.001097441 secs
+## Time difference of 0.001507044 secs
 ```
 
 Loops sind in diesem Beispiel fast um den Faktor 10 langsamer (zumindest, wenn Sie den Code für `10^6` Beobachtungen durchführen, die Maske, die für diese Website genutzt wird, ist deutlich langsamer, weswegen hier auf `10^3` ausgewichen wurde...). Es gibt jedoch viele Anwendungsgebiete, wo Loops das Mittel der Wahl sind!
@@ -1612,8 +1616,7 @@ replicate(n = 10, expr = {X <- rnorm(N)
 ```
 
 ```
-##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306
-##  [8] 0.43862992 0.96766599 0.68865560
+##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306 0.43862992 0.96766599 0.68865560
 ```
 
 Wenn wir nun genauer hinschauen, dann sehen wir, dass der Block 
@@ -1642,8 +1645,7 @@ replicate(n = 10, expr = mySim(N = 20))
 ```
 
 ```
-##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306
-##  [8] 0.43862992 0.96766599 0.68865560
+##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306 0.43862992 0.96766599 0.68865560
 ```
 
 In der Sitzung zu [Simulationsstudien und Poweranalysen](../../statistik-i/simulation-poweranalyse) hatten wir außerdem den empirischen $t$-Wert untersucht. Diesen können wir nun ganz leicht mit aufnehmen.
@@ -1662,12 +1664,9 @@ replicate(n = 10, expr = mySim2(N = 20))
 ```
 
 ```
-##          [,1]        [,2]      [,3]       [,4]      [,5]      [,6]      [,7]
-## p   0.2635244  0.03081077 0.2128503  0.2742967 0.5320166 0.7923286 0.9397631
-## t.t 1.1349024 -2.24295556 1.2670437 -1.1092419 0.6306927 0.2651479 0.0760693
-##           [,8]        [,9]     [,10]
-## p    0.4386299  0.96766599 0.6886556
-## t.t -0.7827414 -0.04080374 0.4037557
+##          [,1]        [,2]      [,3]       [,4]      [,5]      [,6]      [,7]       [,8]        [,9]     [,10]
+## p   0.2635244  0.03081077 0.2128503  0.2742967 0.5320166 0.7923286 0.9397631  0.4386299  0.96766599 0.6886556
+## t.t 1.1349024 -2.24295556 1.2670437 -1.1092419 0.6306927 0.2651479 0.0760693 -0.7827414 -0.04080374 0.4037557
 ```
 
 Wir sehen, dass die `p`-Werte und die `t`-Werte nun gleichzeitig ausgegeben werden und zwar in zwei Zeilen untereinander, da wir den Output als Vektor gewählt haben! In diesem Semester hatten wir uns bisher mit der Regressionsanalyse beschäftigt. Aus diesem Grund wollen wir an dieser Stelle noch kurz anschneiden, wie eine Simulationsstudie für eine Regression durchgeführt werden könnte. Zunächst brauchen wir dazu Prädiktoren. Mit Hilfe der `rmvnorm` Funktion aus dem `mvtnorm`-Paket lassen sich leicht multivariat-normalverteilte Zufallsvariablen simulieren, deren Mittelwerte und Kovarianz bekannt ist:
@@ -1687,6 +1686,13 @@ S
 ``` r
 # install.packages("mvtnorm")
 library(mvtnorm)
+```
+
+```
+## Warning: Paket 'mvtnorm' wurde unter R Version 4.4.2 erstellt
+```
+
+``` r
 set.seed(1234)
 X <- rmvnorm(n = 10^3, mean = c(2, 3), sigma = S)
 colMeans(X)
@@ -1760,14 +1766,10 @@ replicate(n = 10, expr = myRegSim(N = 10^3))
 ```
 
 ```
-##                  [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]
-## (Intercept) 0.4480455 0.4645526 0.0959823 0.4036081 0.3621404 0.4454766 0.2000509
-## X1          0.5145347 0.4229675 0.5794930 0.6167309 0.4935631 0.4068533 0.5341167
-## X2          0.2532168 0.3155510 0.3264700 0.2033327 0.2789048 0.3184694 0.3038769
-##                  [,8]      [,9]     [,10]
-## (Intercept) 0.2704179 0.2343473 0.4723725
-## X1          0.4260486 0.5119222 0.4416930
-## X2          0.3344544 0.3198885 0.3067544
+##                  [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]      [,8]      [,9]     [,10]
+## (Intercept) 0.4480455 0.4645526 0.0959823 0.4036081 0.3621404 0.4454766 0.2000509 0.2704179 0.2343473 0.4723725
+## X1          0.5145347 0.4229675 0.5794930 0.6167309 0.4935631 0.4068533 0.5341167 0.4260486 0.5119222 0.4416930
+## X2          0.2532168 0.3155510 0.3264700 0.2033327 0.2789048 0.3184694 0.3038769 0.3344544 0.3198885 0.3067544
 ```
 
 Speichern wir das Ganze ab, transponieren es und bilden `colMeans`, so erhalten wir eine Schätzung für die durchschnittliche Schätzung unseres Experiments (das wir insgesamt 10 Mal unter identischen Voraussetzungen durchführen konnten):

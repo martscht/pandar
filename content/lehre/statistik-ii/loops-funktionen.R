@@ -5,9 +5,9 @@ dim(fb24)
 
 
 
-## eigene_funktion <- function(argument1, argument2, ...) {
-##   # Durchgeführte Operationen
-## }
+# eigene_funktion <- function(argument1, argument2, ...) {
+#   # Durchgeführte Operationen
+# }
 
 x <- fb24$time_pre                # Variable in ein Objekt ablegen
 n <- length(x)                    # Länge des Objekts bestimmen - Stichprobengröße
@@ -74,7 +74,7 @@ var_eigen <- function(x, empirical){
 
 
 
-## var_eigen(x = fb24$time_pre)
+# var_eigen(x = fb24$time_pre)
 
 
 
@@ -97,6 +97,7 @@ var_eigen(x = fb24$time_pre)
 
 
 
+try({
 var_eigen <- function(x, empirical = TRUE){
   n <- length(x)
   x_quer <- mean(x)
@@ -109,6 +110,7 @@ var_eigen <- function(x, empirical = TRUE){
 }
 
 var_eigen(x = fb24$time_pre, empirical = TRUE)
+})
 
 var_eigen <- function(x, empirical = TRUE){
   n <- length(x)
@@ -140,9 +142,9 @@ var_eigen(x = fb24$time_pre, empirical = TRUE)
 var_eigen(x = fb24$mdbf1, empirical = TRUE)
 var_eigen(x = fb24$mdbf2, empirical = TRUE)
 
-## for (i in c("time_pre", "mdbf1", "mdbf2")) {
-##   # Hier steht der Code, der für jedes Element ausgeführt wird
-## }
+# for (i in c("time_pre", "mdbf1", "mdbf2")) {
+#   # Hier steht der Code, der für jedes Element ausgeführt wird
+# }
 
 for (i in c("time_pre", "mdbf1", "mdbf2")) {
   var_eigen(x = fb24[, i], empirical = TRUE)
@@ -157,10 +159,12 @@ for (i in c("time_pre", "mdbf1", "mdbf2")) {
   print(var_eigen(x = fb24[, i], empirical = TRUE))
 }
 
+try({
 for (i in names(fb24)) {
   print(i)
   print(var_eigen(x = fb24[, i], empirical = TRUE))
 }
+})
 
 for (i in names(fb24)) {
   print(i)

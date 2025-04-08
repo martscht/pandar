@@ -1,4 +1,4 @@
-## load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
+# load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
 
 load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
 

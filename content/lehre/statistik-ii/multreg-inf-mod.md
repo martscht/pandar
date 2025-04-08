@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [nehler, irmer, schueller, hartig]
 weight: 4
-lastmod: '2025-02-07'
+lastmod: '2025-04-08'
 featured: no
 banner:
   image: "/header/man_with_binoculars.jpg"
@@ -27,10 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/multreg-inf-mod.R
-  # - icon_pack: fas
-  #   icon: pen-to-square
-  #   name: Quizdaten
-  #   url: /lehre/statistik-ii/quizdaten-bsc7#Quiz2 
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Übungen
+    url: /lehre/statistik-ii/multreg-inf-mod-uebungen
 output:
   html_document:
     keep_md: true
@@ -49,7 +49,7 @@ Dabei ist dieser Beitrag in zwei Teile aufgeteilt. Im ersten Teil geht es um die
 Für das vorliegende Tutorial laden wir einen Datensatz aus dem [Open Scniece Framework (OSF)](https://osf.io/) ein, der aus einer [Studie](https://doi.org/10.1016/j.chiabu.2020.104826) stammt, die sich mit Parental Burnout (Elterlichem Burnout) befasst. Die Studie können wir mit folgendem Befehl direkt einladen. Die erste Spalte benötigen wir nicht, da diese sich mit der Zeilennummer doppelt.
 
 
-```r
+``` r
 burnout <- read.csv(file = url("https://osf.io/qev5n/download"))
 burnout <- burnout[,2:8]
 dim(burnout)
@@ -62,7 +62,7 @@ dim(burnout)
 Insgesamt besteht der restliche Datensatz also aus 1551 Zeilen und 7 Spalten. Betrachten wir nun die Variablen noch genauer. 
 
 
-```r
+``` r
 str(burnout)
 ```
 
@@ -111,14 +111,14 @@ In unserem Modell wäre die höchste Ausprägung $m = 3$, da wir 3 Variablen hab
 Um die Bedeutung nochmal klarer zu machen, setzen wir unser Modell zum Parental Burnout um. Wie wir bereits [hier](/lehre/statistik-i/multiple-reg/#multiple-regression) gelernt haben, wird die multiple Regression in `R` mit der Funktion `lm` durchgeführt. Wir legen das Resultat in einem Objekt mit dem Namen `mod` ab. 
 
 
-```r
+``` r
 mod <- lm(Violence ~ Exhaust + Distan + PartConfl, data = burnout)
 ```
     
 Um die berechneten Parameter des Modells anzuzeigen, nutzen wir die Funktion `summary`. 
 
 
-```r
+``` r
 summary(mod)
 ```
 
@@ -149,15 +149,13 @@ Wir haben bereits gelernt, dass die Punktschätzer für die Regressionsgewichte 
 Der letzte Teil des Regressionsmodells beinhaltet die Fehler $e_i$, die (wie durch den Index $i$ gekennzeichnet) für jede Person individuell sind. Die Fehler können wir beispielsweise anzeigen, indem wir die Funktion `resid()` auf unser Objekt anwenden. Wir zeigen hier nur die ersten zehn Fehlerwerte, da der Output sonst sehr lange wäre.
 
 
-```r
+``` r
 resid(mod)[1:10]
 ```
 
 ```
-##          1          2          3          4          5          6          7 
-## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730  1.5996231 -0.9974955 
-##          8          9         10 
-##  0.8759748 -1.5887563  1.3260923
+##          1          2          3          4          5          6          7          8          9         10 
+## 39.8203389  2.9855780 -2.8429139 -4.3589986 -1.1023730  1.5996231 -0.9974955  0.8759748 -1.5887563  1.3260923
 ```
 
 ### Omnibustest der Multiplen Regression
@@ -205,7 +203,7 @@ $$CI = b_m \pm t_{(1-\alpha/2, n-k-1)} \cdot \hat{\sigma}_{b_m}$$
 Wir könnten also per Hand das Intervall bestimmen. Jedoch ist in `R` die Erstellung des Konfidenzintervalls sehr simpel mit der Funktion `confint()` möglich. Diese muss nur auf das Objekt angwendet werden, das unser Regressionsmodell enthält. Mit dem Argument `level` kann das Konfidenzniveau festgelegt werden, das sich aus $1 - \alpha$ bestimmt. In unserem Fall wäre dieses also 0.95.
 
 
-```r
+``` r
 confint(mod, level = 0.95)
 ```
 
@@ -226,14 +224,14 @@ Abschließend noch ein essentieller Punkt zur Testung einzelner Prädiktoren: Vo
 Durch die Erstellung unseres Regressionsmodells haben wir nun die Möglichkeit, einer Person einen Wert für die abhängige Variable vorherzusagen. Dies geschieht durch die Anwendung der Regressionsgewichte auf die Werte der Prädiktoren. In unserem Fall wollen wir die Gewalttätigkeit gegenüber Kindern vorhersagen. Stellen wir uns vor, dass die neue Person einen Wert von 3 für Emotionale Erschöpfung, 4 für Emotionale Distanz und 2 für Konflikte mit dem Partner hat. Hier gibt es wieder viele Wege zum Ziel. Wir legen zuerst einen neuen Datensatz an, der die Werte der Prädiktoren enthält. 
 
 
-```r
+``` r
 predict_data <- data.frame(Exhaust = 3, Distan = 4, PartConfl = 2)
 ```
 
 Anschließend können wir die Funktion `predict()` auf unser Modell anwenden. 
 
 
-```r
+``` r
 predict(mod, newdata = predict_data)
 ```
 
@@ -247,7 +245,7 @@ Wir haben für die Person nun eine Punktschätzung von 17.92 für die Gewalttät
 Für die Bestimmung müssen wir nur optionale Argumente in der Funktion `predict()` nutzen. Diese umfassen erstmal die Art des Intervalls, das wir bestimmen wollen `interval = "prediction"` und das Konfidenzniveau `level = 0.95`.
 
 
-```r
+``` r
 predict(mod, newdata = predict_data, interval = "prediction", level = 0.95)
 ```
 
@@ -288,7 +286,7 @@ Die Modelle, die im Vergleich getestet werden, müssen geschachtelt sein. Das be
 In `R` können wir das Modell mit allen Prädiktoren wie folgt erstellen:
 
 
-```r
+``` r
 mod_unrestricted <- lm(Violence ~ Exhaust + Distan + 
                          PartConfl + Neglect + PartEstrang, data = burnout)
 ```
@@ -296,7 +294,7 @@ mod_unrestricted <- lm(Violence ~ Exhaust + Distan +
 Um die Benennung nochmal klarer zu machen, nennen wir das Modell `mod`, das wir bereits im ersten Teil des Tutorials erstellt haben, `mod_restricted`. Dies ist aber optional und dient nur der besseren Unterscheidung. 
 
 
-```r
+``` r
 mod_restricted <- mod
 ```
 
@@ -305,7 +303,7 @@ In einem Modelltest wird im Endeffekt der Zugewinn an erklärter Varianze durch 
 Die beiden Werte können wir uns direkt anzeigen lassen, indem wir aus dem jeweiligen `summary()` nur den Abschnitt mit dem $R^2$-Wert (`r.squared`) mittels `$` extrahieren. 
 
 
-```r
+``` r
 summary(mod_unrestricted)$r.squared
 ```
 
@@ -313,7 +311,7 @@ summary(mod_unrestricted)$r.squared
 ## [1] 0.4170518
 ```
 
-```r
+``` r
 summary(mod_restricted)$r.squared
 ```
 
@@ -324,7 +322,7 @@ summary(mod_restricted)$r.squared
 Der Unterschied in der Varianzerklärung ist nun die Differenz der beiden eben betrachteten Werte ($\Delta R^2 = R_u^2 - R_r^2$):
 
 
-```r
+``` r
 summary(mod_unrestricted)$r.squared - summary(mod_restricted)$r.squared
 ```
 
@@ -337,7 +335,7 @@ Der Anteil der hinzugenommenen Varianz beträgt also 12.8%. Dies ist also das In
 Die Umsetzung in `R` geschieht mit der Funktion `anova()` (was im weiteren Verlauf des Semesters zu Verwirrungen führen könnte).
 
 
-```r
+``` r
 anova(mod_restricted, mod_unrestricted)
 ```
 
@@ -367,19 +365,23 @@ Es gibt verschiedene Vorgehensweisen bei der explorativen Suche nach einem Model
 Wie immer gibt es in `R` viele weitere Wege, zum selben Ziel zu kommen. Das Paket `olsrr` beinhaltet verschiedene Funktionen, die für die Regressionsanalyse nützlich sind, u.a. auch Funktionen, die die schrittweise Auswahl von Prädiktoren auf Basis verschiedener Kriterien und nach verschiedenen Methoden (vorwärts, rückwärts, etc.) ermöglichen. Finden Sie [hier](https://olsrr.rsquaredacademy.com/articles/variable_selection.html#best-subset-regression) mehr Informationen dazu. Bei der ersten Nutzung muss das Paket natürlich installiert werden. 
 
 
-```r
+``` r
 install.packages("olsrr")
 ```
 
 Für die Nutzung ist die Aktivierung mit `library()` notwendig.
 
 
-```r
+``` r
 library(olsrr)
 ```
 
 ```
-## Warning: Paket 'olsrr' wurde unter R Version 4.3.3 erstellt
+## Warning: Paket 'olsrr' wurde unter R Version 4.4.3 erstellt
+```
+
+```
+## Need help getting started with regression models? Visit: https://www.rsquaredacademy.com
 ```
 
 ```
@@ -400,7 +402,7 @@ Die Funktion `ols_step_both_p()` beinhaltet die Auswahl auf Basis der Signifikan
 Für die Anwendung der Funktion `ols_step_both_p()` benötigen wir zunächst ein Modell, das wir auf Basis der explorativen Suche optimieren wollen. Wir erstellen also ein Modell, das alle Prädiktoren enthält. Wenn wir uns dabei ersparen wollen, alle Prädiktoren einzeln aufzuschreiben, können wir die `.` nutzen. Dies führt dazu, dass alle anderen Variablen im Datensatz genutzt werden. Hier ist es besonders wichtig, dass Sie also auch den Datensatz mit 7 Spalten vorliegen haben!
 
 
-```r
+``` r
 # Modell mit allen Prädiktoren
 mod_all <- lm(Violence ~ ., data = burnout)
 ```
@@ -408,7 +410,7 @@ mod_all <- lm(Violence ~ ., data = burnout)
 Nun zu der Anwendung der `ols_step_both_p()`-Funktion: Der erste Input ist das eben aufgestellte Regressionsmodell. Über die zusätzlichen Argumente kann gesteuert werden, wie streng bei Aufnahme und Ausschluss getestet wird. Über das Argument `details` können Sie den gesamten Verlauf der schrittweisen Selektion (nicht nur das finale Ergebnis) anzeigen lassen. `p_enter` ist der p-Wert, der für das "entering" in das Modell zuständig ist. Also muss das Inkrement einen p-Wert von $p<.05$ haben, wenn wir `p_enter = .05` wählen.`p_remove` ist der p-Wert, der für das "removing" aus dem Modell zuständig ist. Also muss das Dekremnt einen p-Wert von $p>.10$ haben, wenn wir `p_remove = .10` wählen. `details = TRUE` fordert weitere Informationen an.
 
 
-```r
+``` r
 # Anwendung der iterativen Modellbildung
 ols_step_both_p(mod_all, p_enter = .05, p_remove = .10, details = TRUE)
 ```
@@ -543,7 +545,7 @@ Auch hier kann die Selektion "vorwärts", "rückwärts", oder in beide Richtunge
 Wenden wir die Logik der `step()`-Funktion auf unser Modell an. 
 
 
-```r
+``` r
 # Optimierung des Modells nach AIC
 step(mod_all, direction = "both")
 ```
@@ -652,7 +654,7 @@ Der nächste Step beginnt nun mit dem verbesserten AIC, der erlangt wurde, indem
 Am Ende des Outputs sehen wir das "finale" Modell, das durch die `step()`-Funktion ausgewählt wurde. Hier sehen wir zunächst nur die Regressionsgewichte. Um auch weitere Informationen, wie bspw. das $R^2$ zu erhalten, können wir die `summary()`-Funktion mit der `step()`-Funktion schachteln.
 
 
-```r
+``` r
 # Ergänzung des Outputs
 summary(step(mod_all, direction = "both"))
 ```
@@ -729,7 +731,7 @@ $BIC=-2L(\hat{\theta}) + log(n)\cdot p$
 Vorsicht, in der Ausgabe der `step`-Funktion steht immer AIC, auch wenn dies nur mit der Standardeinstellung von $k=2$ tatsächlich dem AIC entspricht!
 
 
-```r
+``` r
 # Optimierung mit BIC
 summary(step(mod_all, direction = "both", k=log(nrow(burnout))))
 ```
@@ -807,7 +809,7 @@ An dieser Stelle sei nochmal erwähnt, dass nach der explorativen Suche von Prä
 Wer den Output der beiden neu gelernten Funktionen etwas genauer betrachtet, bemerkt, dass der AIC, der in der `step()`-Funktion berichtet wird, nicht identisch mit demjenigen AIC ist, der in `ols_step_both_p()` angezeigt wird. Zu Recht kann man sich nun fragen, ob hier ein Fehler passiert. Die Antwort ist nein (und ja). Es werden tatsächlich unterschiedliche Berechnungen für den AIC herangezogen. In `step()` wird intern die `extractAIC()`-Funktion verwendet, während in `ols_step_both_p()` die `AIC`-Funktion verwendet wird:
 
 
-```r
+``` r
 AIC(mod_all)
 ```
 
@@ -815,7 +817,7 @@ AIC(mod_all)
 ## [1] 9822.933
 ```
 
-```r
+``` r
 extractAIC(mod_all) # erstes Argument ist die Anzahl der Parameter (p)
 ```
 
@@ -846,7 +848,7 @@ $$PI = \hat{y} \pm t_{(1-\alpha/2, n-k-1)} \cdot \hat{\sigma}_{e}$$
 Viele Bestandteile dieser Formel haben wir bereits kennengelernt. $\hat{y}$ ist unsere Punktschätzung, $\hat{\sigma_{e}}$ ist der geschätzte Populationsstandardfehler der Residuen. Dieser wurde uns schon im `summary()` Output angezeigt und ist mit `$sigma` ansprechbar. $t_{(1-\alpha/2, n-k-1)}$ ist ein Wert aus der t-Verteilung ($n$ Anzahl an Personen, $k$ Anzahl an Prädiktoren). 
 
 
-```r
+``` r
 y_hat <- predict(mod, newdata = predict_data)
 sigma_e <- summary(mod)$sigma
 n <- nrow(burnout)                             # da keine fehlenden Werte
@@ -857,7 +859,7 @@ t <- qt(1 - 0.05/2, n - k - 1)                 # alpha von 0.05 üblich
 Wenn wir die Werte in die Formel einsetzen, erhalten wir das Prognoseintervall. 
 
 
-```r
+``` r
 # Prognoseintervall händische, approximative Bestimmung
 y_hat + t * sigma_e
 ```
@@ -867,7 +869,7 @@ y_hat + t * sigma_e
 ## 30.47925
 ```
 
-```r
+``` r
 y_hat - t * sigma_e
 ```
 
@@ -876,7 +878,7 @@ y_hat - t * sigma_e
 ## 5.363133
 ```
 
-```r
+``` r
 # Prognoseintervall - Bestimmung durch Funktion
 predict(mod, newdata = predict_data, interval = "prediction", level = 0.95)
 ```
@@ -895,7 +897,7 @@ $$PI = \hat{y} \pm t_{(1-\alpha/2, n-k-1)} \cdot \hat{\sigma}_{e} \cdot \sqrt{1 
 In dieser Formel sind die Werte $x_i$ die Werte, für die wir das Prognoseintervall bestimmen wollen. $X$ ist die Matrix der ursprünglichen Werte von den Personen auf den Prädiktoren in dem. Damit wir auf dasselbe Ergebnis kommen, dürfen wir nicht vergessen, den Einsenvektor für den Achsenabschnitt hinzuzufügen. Damit wir Multiplikation mit `R` durchführen können, müssen wir Objekte in Matrizen umwandeln.
 
 
-```r
+``` r
 # Eine 1 für den Achsenabschnitt und die Werte auf den Prädiktoren für die neue Person
 x_i <- cbind(1, predict_data) |> as.matrix()
 # Ein 1en Vektor und die Werte auf den Prädiktoren für die Personen im ursprünglichen Datensatz
@@ -905,7 +907,7 @@ X <- cbind(1, as.matrix(burnout[, c("Exhaust", "Distan", "PartConfl")])) |> as.m
 Die Formel geht davon aus, dass `x_i` als Spaltenvektor vorliegt. Hier ist es jedoch ein Zeilenvektor. Daher müssen wir die Transponierung anhand der Funktion `t()` genau andersrum als in der Formel machen. Die Inverse von `X` können wir wie gewohnt mit `solve()` aufrufen.
 
 
-```r
+``` r
 y_hat + t * sigma_e * sqrt(1 + x_i %*% solve(t(X) %*% X) %*% t(x_i))
 ```
 
@@ -914,7 +916,7 @@ y_hat + t * sigma_e * sqrt(1 + x_i %*% solve(t(X) %*% X) %*% t(x_i))
 ## [1,] 30.49253
 ```
 
-```r
+``` r
 y_hat - t * sigma_e * sqrt(1 + x_i %*% solve(t(X) %*% X) %*% t(x_i))
 ```
 
@@ -934,7 +936,7 @@ Nun finden wir auch per Hand (glücklicherweise) dieselben Ergebnisse wie in der
 Wie bereits oben besprochen, benötigen wir für die Berechnung des AIC die Loglikelihood (Logarithmus der Likelihood) der Daten. Diese erhalten wir ganz einfach mit der `logLik` Funktion. 
 
 
-```r
+``` r
 logLik(mod_all)
 ```
 
@@ -963,7 +965,7 @@ $$-\frac{n}{2}\log(2\pi) -\frac{n}{2}\log(\sigma^2) - \frac{n}{2}$$
 An dieser Stelle muss noch einmal erwähnt werden, dass in der Likelihoodschreibweise die Schätzer der Fehlervarianz etwas anders ausfallen, da die Parameter alle simultan geschätzt werden können und nicht von den $\beta$-Gewichten abhängen. Deshalb müssen wir die Fehlervarianz anders bestimmen (die Logik ist ein wenig so, wie wenn man die Populationsschätzer und die Stichprobenschätzer der Varianz vergleicht).
 
 
-```r
+``` r
 LL <- logLik(mod_all) # Loglikelihood des Modells
 p <- length(coef(mod_all))+1 # betas + sigma
 n <- nrow(burnout) # Stichprobengröße (nur so möglich, wenn keine Missings!)
@@ -975,7 +977,7 @@ LL
 ## 'log Lik.' -4903.467 (df=8)
 ```
 
-```r
+``` r
 -n/2*log(2*pi) - n*log(sigma) - n/2
 ```
 
@@ -986,7 +988,7 @@ LL
 So, jetzt haben wir die Loglikelihood bestimmt, jetzt fehlt nur noch der AIC:
 
 
-```r
+``` r
 myAIC <- -2*LL[1] + 2*p
 myAIC
 ```
@@ -995,7 +997,7 @@ myAIC
 ## [1] 9822.933
 ```
 
-```r
+``` r
 AIC(mod_all)
 ```
 
@@ -1008,7 +1010,7 @@ Super! Die beiden sind schon mal identisch.
 Wie erhalten wir nun den Unterschied zu `extractAIC`? Wir hatten gesagt, dass in `extractAIC` alle "Konstanten" herausgelassen werden, also jene Informationen, die nicht vom Modell beeinflusst werden, solange es auf die gleichen Daten angewandt wird. Die Formel für die Loglikelihood sah so aus: $-\frac{n}{2}\log(2\pi) -\frac{n}{2}\log(\sigma^2) - \frac{n}{2}$. Hier hängt nur der Term $-\frac{n}{2}\log(\sigma^2)$ vom Modell ab, da nur die Residualvarianz $\sigma^2$ von der Inklusion der Prädiktoren abhängt. Somit haben wir also unsere fehlenden Terme gefunden! Da die Loglikelihood in der Bestimmung des AICs mit -2 multipliziert wird, müssen wir also die "Konstanten" nur noch damit multiplizieren und auf `extractAIC` draufaddieren. Außerdem müssen wir die Anzahl der Parameter um die Residualvarianz vergrößern, also müssen wir zusätlich 2*1 addieren:
 
 
-```r
+``` r
 extractAIC(mod_all)[2] + n + n*log(2*pi) + 2
 ```
 
@@ -1016,7 +1018,7 @@ extractAIC(mod_all)[2] + n + n*log(2*pi) + 2
 ## [1] 9822.933
 ```
 
-```r
+``` r
 myAIC
 ```
 
@@ -1024,7 +1026,7 @@ myAIC
 ## [1] 9822.933
 ```
 
-```r
+``` r
 AIC(mod_all)
 ```
 
@@ -1035,7 +1037,7 @@ AIC(mod_all)
 Nun sind alle AICs gleich! Warum ist das aber kein Problem? Vergleichen wir doch mal 2 Modelle:
 
 
-```r
+``` r
 model1 <- lm(Violence ~ Neglect + Ineffic, data = burnout)
 model2 <- lm(Violence ~ Neglect , data = burnout)
 
@@ -1046,7 +1048,7 @@ AIC(model1) - AIC(model2)
 ## [1] -60.8287
 ```
 
-```r
+``` r
 extractAIC(model1) - extractAIC(model2)
 ```
 
