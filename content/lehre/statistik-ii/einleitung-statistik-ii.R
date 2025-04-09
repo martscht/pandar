@@ -176,7 +176,6 @@ names(model) # andere Inhalte der Liste
 #t-Test; H0: Mittelwert von cvhn ist nicht signifikant verschieden zwischen non-native english speakers und native english speakers, Voraussetzungen werden als erfüllt angenommen
 t.test(cvhn ~ engnat,  # abhängige Variable ~ unabhängige Variable
        data = mach, # Datensatz
-       paired = FALSE, # Stichproben sind unabhängig 
       alternative = "two.sided",        # zweiseitige Testung (Default)
       var.equal = TRUE,                 # Homoskedastizität liegt vor (-> Levene-Test)
       conf.level = .95)                 # alpha = .05 (Default)
@@ -191,7 +190,6 @@ t.test(cvhn ~ engnat,  # abhängige Variable ~ unabhängige Variable
 
 ttest <- t.test(cvhn ~ engnat,  # abhängige Variable ~ unabhängige Variable
        data = mach, # Datensatz
-       paired = FALSE, # Stichproben sind unabhängig 
       alternative = "two.sided",        # zweiseitige Testung (Default)
       var.equal = TRUE,                 # Homoskedastizität liegt vor (-> Levene-Test)
       conf.level = .95)                 # alpha = .05 (Default)

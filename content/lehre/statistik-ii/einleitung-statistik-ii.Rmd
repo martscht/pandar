@@ -598,13 +598,12 @@ In diesem Beispiel wollen wir uns damit beschäftigen, ob der zynische Blick auf
 $$H_0: \mu_1=\mu_2$$
 Diese Hypothese gilt nicht, wenn $\mu_1\neq\mu_2$. In diesem Fall gilt irgendeine Alternativhypothese ($H_1$) mit einer Mittelwertsdifferenz $d=\mu_1-\mu_2$, die nicht Null ist $(d\neq0)$.
 
-Die Umsetzung in `R` ist dabei nicht schwer und funktioniert mittels `t.test`. Dabei müssen einige Argumente eingegeben werden. Zunächst geht es darum, unabhängige (`engnat`) und abhängie Variabe (`cvhn`) für den Test festzulegen. In `data` muss festgehalten werden, in welchem Datensatz diese Variablen zu finden sind. Unter `paired` wird mit `FALSE` festgehalten, dass wir unabhängige Stichproben betrachten. Eine ungerichtete Hypothese ergibt für das Argument `alternative` den Input `two.sided`. Wir setzen die Varianzhomogenität `var.equal` auf `TRUE`, da wir wie beschrieben von der Erfüllung der Voraussetzungen ausgehen. Als Sicherheitsniveau (`conf.level`) legen wir `0.95` fest, was dann einem $\alpha$-Niveau von `0.05` entspricht.
+Die Umsetzung in `R` ist dabei nicht schwer und funktioniert mittels `t.test`. Dabei müssen einige Argumente eingegeben werden. Zunächst geht es darum, unabhängige (`engnat`) und abhängie Variabe (`cvhn`) für den Test festzulegen. In `data` muss festgehalten werden, in welchem Datensatz diese Variablen zu finden sind. Das Argument `paired` hat ald Default `FALSE`, sodass standardmäßig unabhängige Stichproben angenommen werden. Wenn wir die Formelschreibweise benutzen, erlaubt uns `R` auch gar nicht, dieses Argument extra aufzuführen. Eine ungerichtete Hypothese ergibt für das Argument `alternative` den Input `two.sided`. Wir setzen die Varianzhomogenität `var.equal` auf `TRUE`, da wir wie beschrieben von der Erfüllung der Voraussetzungen ausgehen. Als Sicherheitsniveau (`conf.level`) legen wir `0.95` fest, was dann einem $\alpha$-Niveau von `0.05` entspricht.
 
 
 ```{r, echo = F, purl = FALSE}
 ttest <- t.test(cvhn ~ engnat,  # abhängige Variable ~ unabhängige Variable
        data = mach, # Datensatz
-       paired = FALSE, # Stichproben sind unabhängig 
       alternative = "two.sided",        # zweiseitige Testung (Default)
       var.equal = TRUE,                 # Homoskedastizität liegt vor (-> Levene-Test)
       conf.level = .95)                 # alpha = .05 (Default)
@@ -616,7 +615,6 @@ ttest <- t.test(cvhn ~ engnat,  # abhängige Variable ~ unabhängige Variable
 #t-Test; H0: Mittelwert von cvhn ist nicht signifikant verschieden zwischen non-native english speakers und native english speakers, Voraussetzungen werden als erfüllt angenommen
 t.test(cvhn ~ engnat,  # abhängige Variable ~ unabhängige Variable
        data = mach, # Datensatz
-       paired = FALSE, # Stichproben sind unabhängig 
       alternative = "two.sided",        # zweiseitige Testung (Default)
       var.equal = TRUE,                 # Homoskedastizität liegt vor (-> Levene-Test)
       conf.level = .95)                 # alpha = .05 (Default)
@@ -628,7 +626,6 @@ Der Output enthält folgende Informationen:
 output <- capture.output(
   t.test(cvhn ~ engnat,
        data = mach, 
-       paired = FALSE,
        alternative = "two.sided",
       var.equal = TRUE,
       conf.level = .95))
@@ -657,7 +654,6 @@ Wie bei der Regression können wir auch den Test als Objekt ablegen. Wenn wir `n
 
 ttest <- t.test(cvhn ~ engnat,  # abhängige Variable ~ unabhängige Variable
        data = mach, # Datensatz
-       paired = FALSE, # Stichproben sind unabhängig 
       alternative = "two.sided",        # zweiseitige Testung (Default)
       var.equal = TRUE,                 # Homoskedastizität liegt vor (-> Levene-Test)
       conf.level = .95)                 # alpha = .05 (Default)

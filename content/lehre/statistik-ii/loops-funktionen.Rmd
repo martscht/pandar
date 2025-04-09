@@ -8,7 +8,7 @@ tags: ["Deskriptivstatistik", "Funktionen", "Loops"]
 subtitle: ''
 summary: 'In diesem Beitrag lernen wir, wie eigene Funktionen in R geschrieben werden können. Dabei betrachten wir auch, wie sich logische Abfragen einsetzen lassen, um die Ausführung von Code gezielt zu steuern. Zusätzlich machen wir uns mit Schleifen (Loops) vertraut, die es ermöglichen, Code mehrfach auszuführen, ohne ihn wiederholt schreiben zu müssen.'
 authors: [nehler, irmer]
-weight: 14
+weight: 3.9
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
