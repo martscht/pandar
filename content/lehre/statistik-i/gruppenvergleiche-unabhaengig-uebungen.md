@@ -3,8 +3,8 @@ title: "Tests für unabhängige Stichproben - Übungen"
 type: post
 date: '2024-11-29' 
 slug: gruppenvergleiche-unabhaengig-uebungen
-categories: [] 
-tags: ["Statistik I Übungen"] 
+categories: ["Statistik I Übungen"] 
+tags: [] 
 subtitle: ''
 summary: '' 
 authors: [koehler, buchholz]
