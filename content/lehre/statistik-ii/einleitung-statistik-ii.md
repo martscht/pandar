@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden nochmal die Grundlagen in R aus Statistik I aufgefrischt.' 
 authors: [nehler, schueller, schultze] 
 weight: 1
-lastmod: '2025-04-09'
+lastmod: '2025-04-14'
 featured: no
 banner:
   image: "/header/cat_with_glasses.jpg"
@@ -107,9 +107,9 @@ Wir können Ihnen im Studium nur so viel beibringen, wie es unsere und Ihre Zeit
 
 ### ChatGPT und andere KI-Tools
 
-Natürlich verschiebt sich der Umgang mit Programmiersprachen und die Herangehensweise an Datenaufbereitung und Auswertung im Moment. Insbesondere über [ChatGPT](https://chat.openai.com) in all seinen Formen, können Sie viele Bestandteile - mitunter ganze Auswertungsskripte - quasi automatisch generieren lassen. Allerdings ist der Code, den ChatGPT produziert meist nicht perfekt - produziert Fehler oder ist für dieses spezifische Beispiel nicht korrekt. Dennoch kann auf diese Weise sehr schnell das Skelett eines funktionierenden Codes erzeugt werden und auf den eigenen Anwendungsfall hin angepasst werden. Dies erfordert allerdings, dass Sie diese Diskrepanzen erkennen und Rückmeldungen korrekt interpretieren können. Im [Appendix B](#AppendixB) ist eine kurze Interaktion mit ChatGPT dargestellt, in der für einen einfach Fall Code generiert wird und für einen anderen Fall Fehler im Code gefunden werden.
+Natürlich verschiebt sich der Umgang mit Programmiersprachen und die Herangehensweise an Datenaufbereitung und Auswertung im Moment. Insbesondere über [ChatGPT](https://chat.openai.com) in all seinen Formen, können Sie viele Bestandteile - mitunter ganze Auswertungsskripte - quasi automatisch generieren lassen. Allerdings ist der Code, den ChatGPT produziert meist nicht perfekt - produziert Fehler oder ist für dieses spezifische Beispiel nicht korrekt. Dennoch kann auf diese Weise sehr schnell das Skelett eines funktionierenden Codes erzeugt werden und auf den eigenen Anwendungsfall hin angepasst werden. Dies erfordert allerdings, dass Sie diese Diskrepanzen erkennen und Rückmeldungen korrekt interpretieren können. Im [Appendix B](#AppendixB) ist eine kurze Interaktion mit ChatGPT dargestellt, in der für einen einfach Fall Code generiert wird und für einen anderen Fall Fehler im Code gefunden werden. Auch wird dort ein Weg beschrieben, wie sie die Kommunikation mit ChatGPT in die R-Konsole einbinden können.
 
-Wenn Sie bereits einen ChatGPT Account mit API credentials haben, können Sie mit dem `air` Paket auch direkt über die R-Konsole mit ChatGPT interagieren (mehr dazu [hier](https://cran.r-project.org/web/packages/air/readme/README.html)). Wenn Sie einen einen GitHub Account haben, können Sie GitHubs [CoPilot](https://docs.github.com/en/copilot) nutzen, um direkt in RStudio Autoergänzungen und Syntax Vorschläge generieren zu lassen. Allerdings ist auch hier immense Vorsicht geboten, weil es dafür wichtig ist zu wissen, was Sie überhaupt erreichen wollen und ob der Code, der automatisch generiert wurde, Sie diesem Ziel näher bringt.
+Wenn Sie einen einen GitHub Account haben, können Sie GitHubs [CoPilot](https://docs.github.com/en/copilot) nutzen, um direkt in RStudio Autoergänzungen und Syntax Vorschläge generieren zu lassen. Allerdings ist auch hier immense Vorsicht geboten, weil es dafür wichtig ist zu wissen, was Sie überhaupt erreichen wollen und ob der Code, der automatisch generiert wurde, Sie diesem Ziel näher bringt.
 
 ### Offene Ressourcen
 
@@ -564,20 +564,27 @@ head(mach) # ersten 6 Zeilen
 ```
 
 ```
-##   TIPI1 TIPI2 TIPI3 TIPI4 TIPI5 TIPI6 TIPI7 TIPI8 TIPI9 TIPI10 education urban gender engnat age hand
-## 1     6     5     6     1     7     3     7     4     7      1         2     3      1      1  26    1
-## 2     2     5     6     2     4     6     5     4     6      5         2     2      1      1  18    1
-## 3     1     7     6     7     5     7     1     4     1      4         1     1      2      1  15    1
-## 4     6     5     5     7     7     2     6     2     2      3         4     3      2      2  31    1
-## 5     2     5     5     6     7     6     5     3     4      5         2     2      1      2  20    1
-## 6     2     4     6     2     3     7     5     2     7      1         1     1      1      2  17    1
-##   religion orientation race voted married familysize  nit      pit     cvhn pvhn
-## 1        7           1   30     1       2          5 4.00 2.666667 3.833333 2.00
-## 2        1           1   60     2       1          2 5.00 1.166667 3.833333 2.75
-## 3        2           2   10     2       1          2 5.00 1.000000 4.000000 2.00
-## 4        6           1   60     1       3          2 3.75 2.166667 3.000000 1.50
-## 5        4           3   60     1       1          2 4.75 1.666667 2.666667 2.00
-## 6        1           1   70     2       1          3 4.00 2.666667 3.166667 2.25
+##   TIPI1 TIPI2 TIPI3 TIPI4 TIPI5 TIPI6 TIPI7 TIPI8 TIPI9 TIPI10 education
+## 1     6     5     6     1     7     3     7     4     7      1         2
+## 2     2     5     6     2     4     6     5     4     6      5         2
+## 3     1     7     6     7     5     7     1     4     1      4         1
+## 4     6     5     5     7     7     2     6     2     2      3         4
+## 5     2     5     5     6     7     6     5     3     4      5         2
+## 6     2     4     6     2     3     7     5     2     7      1         1
+##   urban gender engnat age hand religion orientation race voted married
+## 1     3      1      1  26    1        7           1   30     1       2
+## 2     2      1      1  18    1        1           1   60     2       1
+## 3     1      2      1  15    1        2           2   10     2       1
+## 4     3      2      2  31    1        6           1   60     1       3
+## 5     2      1      2  20    1        4           3   60     1       1
+## 6     1      1      2  17    1        1           1   70     2       1
+##   familysize  nit      pit     cvhn pvhn
+## 1          5 4.00 2.666667 3.833333 2.00
+## 2          2 5.00 1.166667 3.833333 2.75
+## 3          2 5.00 1.000000 4.000000 2.00
+## 4          2 3.75 2.166667 3.000000 1.50
+## 5          2 4.75 1.666667 2.666667 2.00
+## 6          3 4.00 2.666667 3.166667 2.25
 ```
 
 Da es sich bei unserem Datensatz um ein Objekt vom Typ `data.frame` handelt, können wir die Variablennamen des Datensatzes außerdem mit der `names`-Funktion abfragen. Eine weitere interessante Funktion ist `dim`, die die Anzahl der Zeilen und Spalten ausgibt. 
@@ -588,10 +595,13 @@ names(mach) # Namen der Variablen
 ```
 
 ```
-##  [1] "TIPI1"       "TIPI2"       "TIPI3"       "TIPI4"       "TIPI5"       "TIPI6"       "TIPI7"      
-##  [8] "TIPI8"       "TIPI9"       "TIPI10"      "education"   "urban"       "gender"      "engnat"     
-## [15] "age"         "hand"        "religion"    "orientation" "race"        "voted"       "married"    
-## [22] "familysize"  "nit"         "pit"         "cvhn"        "pvhn"
+##  [1] "TIPI1"       "TIPI2"       "TIPI3"       "TIPI4"      
+##  [5] "TIPI5"       "TIPI6"       "TIPI7"       "TIPI8"      
+##  [9] "TIPI9"       "TIPI10"      "education"   "urban"      
+## [13] "gender"      "engnat"      "age"         "hand"       
+## [17] "religion"    "orientation" "race"        "voted"      
+## [21] "married"     "familysize"  "nit"         "pit"        
+## [25] "cvhn"        "pvhn"
 ```
 
 ``` r
@@ -696,8 +706,7 @@ describe(mach$cvhn)
 ```
 
 ```
-##    vars     n mean   sd median trimmed  mad min max range  skew kurtosis se
-## X1    1 65151 2.99 0.81      3    2.99 0.99   1   5     4 -0.09    -0.61  0
+## Error in describe(mach$cvhn): could not find function "describe"
 ```
 
 Pakete müssen vor der ersten Nutzung zunächst einmal heruntergeladen werden. Für einige von Ihnen wird dieser Schritt nicht nötig sein, da Sie es bereits heruntergeladen haben.
@@ -716,8 +725,10 @@ describe(mach$cvhn)
 ```
 
 ```
-##    vars     n mean   sd median trimmed  mad min max range  skew kurtosis se
-## X1    1 65151 2.99 0.81      3    2.99 0.99   1   5     4 -0.09    -0.61  0
+##    vars     n mean   sd median trimmed  mad min max range  skew kurtosis
+## X1    1 65151 2.99 0.81      3    2.99 0.99   1   5     4 -0.09    -0.61
+##    se
+## X1  0
 ```
 
 Weil wir häufig dazu tendieren, aus sehr vielen unterschiedlichen Paketen Funktionen zu nutzen, kann es sehr schnell unübersichtlich werden. Daher ist es sinnvoll, wie oben bereits angesprochen, alle Pakete an einem Ort zu Beginn des Skripts alle gemeinsam zu laden.
@@ -797,8 +808,9 @@ names(model) # andere Inhalte der Liste
 ```
 
 ```
-##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"       
-##  [7] "qr"            "df.residual"   "xlevels"       "call"          "terms"         "model"
+##  [1] "coefficients"  "residuals"     "effects"       "rank"         
+##  [5] "fitted.values" "assign"        "qr"            "df.residual"  
+##  [9] "xlevels"       "call"          "terms"         "model"
 ```
 
 Die weiteren Inhalte umfassen unter anderem die `residuals`, die für das Prüfen der Voraussetzungen wichtig wären, aber auch die vorhergesagten Werte (`fitted.values`). 
@@ -885,8 +897,9 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ```
 
 ```
-##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value"  "stderr"     
-##  [8] "alternative" "method"      "data.name"
+##  [1] "statistic"   "parameter"   "p.value"     "conf.int"   
+##  [5] "estimate"    "null.value"  "stderr"      "alternative"
+##  [9] "method"      "data.name"
 ```
 
 ``` r
@@ -1039,6 +1052,11 @@ Sollte Ihnen nicht klar sein, was hier passiert, kann ChatGPT Abhilfe schaffen:
 Darüber hinaus, könnten wir die KI an dieser Stelle auch bitten, solche selbstgeschriebenen Funktionen zu verbessern. Z.B. die Anzahl der [Loops](/lehre/statistik-ii/loops-und-funktionen) in unseren Skripten zu minimieren, damit die Auswertung schneller und effizienter läuft.
 
 Generell sollten Sie ChatGPT als neues Werkzeug verstehen, welches Ihnen in vielen Belangen der R-Programmierung (und logischerweise auch darüber hinaus) behilflich sein kann. Wie bei jedem Werkzeug, sollte der Umgang aber gelernt und geübt sein, damit man für sich den meisten Nutzen daraus ziehen kann.
+
+
+## ChatGPT in R Konsole - Voraussetzungen
+
+Inzwischen gibt es auch eine Möglichkeit, direkt in der R-Konsole mit ChatGPT zu interagieren. Dazu benötigen Sie allerdings einen ChatGPT Account, der mit API credentials ausgestattet ist. Das zugehörige Paket für die Funktionalität von ChatGPT in der R-Konsole heißt `air`. Dieses Paket muss wie üblich installiert werden, damit Sie auf die Funktionen zugreifen können. Mehr zu diesem Thema finden Sie [hier](https://cran.r-project.org/web/packages/air/readme/README.html) in der Beschreibung des Pakets.
 
 </details>
 

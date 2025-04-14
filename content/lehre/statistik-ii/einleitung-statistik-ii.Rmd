@@ -108,9 +108,9 @@ Wir können Ihnen im Studium nur so viel beibringen, wie es unsere und Ihre Zeit
 
 ### ChatGPT und andere KI-Tools
 
-Natürlich verschiebt sich der Umgang mit Programmiersprachen und die Herangehensweise an Datenaufbereitung und Auswertung im Moment. Insbesondere über [ChatGPT](https://chat.openai.com) in all seinen Formen, können Sie viele Bestandteile - mitunter ganze Auswertungsskripte - quasi automatisch generieren lassen. Allerdings ist der Code, den ChatGPT produziert meist nicht perfekt - produziert Fehler oder ist für dieses spezifische Beispiel nicht korrekt. Dennoch kann auf diese Weise sehr schnell das Skelett eines funktionierenden Codes erzeugt werden und auf den eigenen Anwendungsfall hin angepasst werden. Dies erfordert allerdings, dass Sie diese Diskrepanzen erkennen und Rückmeldungen korrekt interpretieren können. Im [Appendix B](#AppendixB) ist eine kurze Interaktion mit ChatGPT dargestellt, in der für einen einfach Fall Code generiert wird und für einen anderen Fall Fehler im Code gefunden werden.
+Natürlich verschiebt sich der Umgang mit Programmiersprachen und die Herangehensweise an Datenaufbereitung und Auswertung im Moment. Insbesondere über [ChatGPT](https://chat.openai.com) in all seinen Formen, können Sie viele Bestandteile - mitunter ganze Auswertungsskripte - quasi automatisch generieren lassen. Allerdings ist der Code, den ChatGPT produziert meist nicht perfekt - produziert Fehler oder ist für dieses spezifische Beispiel nicht korrekt. Dennoch kann auf diese Weise sehr schnell das Skelett eines funktionierenden Codes erzeugt werden und auf den eigenen Anwendungsfall hin angepasst werden. Dies erfordert allerdings, dass Sie diese Diskrepanzen erkennen und Rückmeldungen korrekt interpretieren können. Im [Appendix B](#AppendixB) ist eine kurze Interaktion mit ChatGPT dargestellt, in der für einen einfach Fall Code generiert wird und für einen anderen Fall Fehler im Code gefunden werden. Auch wird dort ein Weg beschrieben, wie sie die Kommunikation mit ChatGPT in die R-Konsole einbinden können.
 
-Wenn Sie bereits einen ChatGPT Account mit API credentials haben, können Sie mit dem `air` Paket auch direkt über die R-Konsole mit ChatGPT interagieren (mehr dazu [hier](https://cran.r-project.org/web/packages/air/readme/README.html)). Wenn Sie einen einen GitHub Account haben, können Sie GitHubs [CoPilot](https://docs.github.com/en/copilot) nutzen, um direkt in RStudio Autoergänzungen und Syntax Vorschläge generieren zu lassen. Allerdings ist auch hier immense Vorsicht geboten, weil es dafür wichtig ist zu wissen, was Sie überhaupt erreichen wollen und ob der Code, der automatisch generiert wurde, Sie diesem Ziel näher bringt.
+Wenn Sie einen einen GitHub Account haben, können Sie GitHubs [CoPilot](https://docs.github.com/en/copilot) nutzen, um direkt in RStudio Autoergänzungen und Syntax Vorschläge generieren zu lassen. Allerdings ist auch hier immense Vorsicht geboten, weil es dafür wichtig ist zu wissen, was Sie überhaupt erreichen wollen und ob der Code, der automatisch generiert wurde, Sie diesem Ziel näher bringt.
 
 ### Offene Ressourcen
 
@@ -779,6 +779,11 @@ Sollte Ihnen nicht klar sein, was hier passiert, kann ChatGPT Abhilfe schaffen:
 Darüber hinaus, könnten wir die KI an dieser Stelle auch bitten, solche selbstgeschriebenen Funktionen zu verbessern. Z.B. die Anzahl der [Loops](/lehre/statistik-ii/loops-und-funktionen) in unseren Skripten zu minimieren, damit die Auswertung schneller und effizienter läuft.
 
 Generell sollten Sie ChatGPT als neues Werkzeug verstehen, welches Ihnen in vielen Belangen der R-Programmierung (und logischerweise auch darüber hinaus) behilflich sein kann. Wie bei jedem Werkzeug, sollte der Umgang aber gelernt und geübt sein, damit man für sich den meisten Nutzen daraus ziehen kann.
+
+
+## ChatGPT in R Konsole - Voraussetzungen
+
+Inzwischen gibt es auch eine Möglichkeit, direkt in der R-Konsole mit ChatGPT zu interagieren. Dazu benötigen Sie allerdings einen ChatGPT Account, der mit API credentials ausgestattet ist. Das zugehörige Paket für die Funktionalität von ChatGPT in der R-Konsole heißt `air`. Dieses Paket muss wie üblich installiert werden, damit Sie auf die Funktionen zugreifen können. Mehr zu diesem Thema finden Sie [hier](https://cran.r-project.org/web/packages/air/readme/README.html) in der Beschreibung des Pakets.
 
 </details>
 
