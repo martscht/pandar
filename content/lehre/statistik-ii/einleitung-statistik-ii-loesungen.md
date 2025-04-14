@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [vonwissel] 
 weight: 1
-lastmod: "`r format(Sys.Date(), '%Y-%m-%d')`"
+lastmod: "2025-04-14"
 featured: no
 banner: 
   image: "/header/cat_with_glasses.jpg"
@@ -32,11 +32,7 @@ output:
     keep_md: true
 ---
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-```
+
 
 ## Aufgabe 1
 
@@ -46,7 +42,8 @@ Aktualisieren Sie alle R Pakete auf die neueste Version. Installieren Sie das Pa
 
 <summary>Lösung</summary>
 
-```{r eval=FALSE, include=TRUE}
+
+``` r
 # Pakete aktualisieren
 update.packages(ask = FALSE)
 
@@ -75,7 +72,8 @@ Erstellen Sie in R einen numerischen Vektor mit den Zahlen 3, 7, 12, 15 und eine
 
 <summary>Lösung</summary>
 
-```{r}
+
+``` r
 # Numerischer Vektor
 zahlen <- c(3, 7, 12, 15)
 
@@ -89,6 +87,12 @@ daten <- data.frame(zahlen, logik)
 str(daten)
 ```
 
+```
+## 'data.frame':	4 obs. of  2 variables:
+##  $ zahlen: num  3 7 12 15
+##  $ logik : logi  TRUE FALSE TRUE TRUE
+```
+
 </details>
 
 ## Aufgabe 3
@@ -99,7 +103,8 @@ Erstellen Sie einen kleinen Datensatz (`data.frame`) mit den Variablen Alter (nu
 
 <summary>Lösung</summary>
 
-```{r}
+
+``` r
 # Datensatz erstellen
 alter <- c(22, 30, 27, 19, 34)
 
@@ -113,6 +118,10 @@ gefiltert <- df[df$alter > 25, ]
 
 # Anzahl der verbleibenden Beobachtungen ausgeben
 nrow(gefiltert)
+```
+
+```
+## [1] 3
 ```
 
 </details>

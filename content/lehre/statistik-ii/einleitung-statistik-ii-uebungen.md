@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [vonwissel]
 weight: 1
-lastmod: "`r format(Sys.Date(), '%Y-%m-%d')`"
+lastmod: "2025-04-14"
 featured: no
 banner: 
   image: "/header/cat_with_glasses.jpg"
@@ -32,11 +32,7 @@ output:
     keep_md: true
 ---
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-```
+
 
 ## Aufgabe 1
 
