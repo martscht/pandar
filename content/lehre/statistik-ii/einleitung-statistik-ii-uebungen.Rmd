@@ -1,0 +1,51 @@
+---
+title: "Wiederholung von Grundlagen in R - Übungen" 
+type: post
+date: '2025-04-14'
+slug: einleitung-statistik-ii-uebungen
+categories: ["Statistik II Übungen"] 
+tags: [] 
+subtitle: ''
+summary: ''
+authors: [vonwissel]
+weight: 1
+lastmod: "`r format(Sys.Date(), '%Y-%m-%d')`"
+featured: no
+banner: 
+  image: "/header/cat_with_glasses.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/846937)"
+projects: []
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-ii/einleitung-statistik-ii
+  - icon_pack: fas
+    icon: star
+    name: Lösungen
+    url: /lehre/statistik-ii/einleitung-statistik-ii-loesungen
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
+```
+
+## Aufgabe 1
+
+Aktualisieren Sie alle R Pakete auf die neueste Version. Installieren Sie das Paket `car` (falls noch nicht geschehen) und laden Sie dieses Paket anschließend. Optional: Geben Sie danach aus, welche Version des Pakets aktuell installiert ist.
+
+## Aufgabe 2
+
+Erstellen Sie in R einen numerischen Vektor mit den Zahlen 3, 7, 12, 15 und einen logischen Vektor mit den Werten TRUE, FALSE, TRUE, TRUE. Kombinieren Sie beide Vektoren anschließend in einem Datensatz (`data.frame`) und geben Sie die Struktur (`str()`) des Datensatzes aus.
+
+## Aufgabe 3
+
+Erstellen Sie einen kleinen Datensatz (`data.frame`) mit den Variablen Alter (numerisch) und Geschlecht (faktorisiert mit den Ausprägungen „männlich“ und „weiblich“). Der Datensatz soll fünf Beobachtungen enthalten. Filtern Sie anschließend die Beobachtungen, sodass nur Personen älter als 25 Jahre übrig bleiben. Geben Sie die Anzahl der verbleibenden Beobachtungen aus.

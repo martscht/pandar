@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden nochmal die Grundlagen in R aus Statistik I aufgefrischt.' 
 authors: [nehler, schueller, schultze] 
 weight: 1
-lastmod: '2025-02-07'
+lastmod: '2025-04-14'
 featured: no
 banner:
   image: "/header/cat_with_glasses.jpg"
@@ -27,6 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/einleitung-statistik-ii.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Übungen
+    url: /lehre/statistik-ii/einleitung-statistik-ii-uebungen
 output:
   html_document:
     keep_md: true
@@ -72,15 +76,15 @@ Für den Verlauf dieses Modul benötigen Sie die Statistiksoftware `R` und für 
 
 `RStudio`: [Download von der posit Seite](https://posit.co/download/rstudio-desktop/)
 
-Es ist sehr sinnvoll `R` aktuell zu halten, weil Pakete nur für die derzeitige R-Version weiterentwickelt werden und es so passieren kann, dass Ihre R-Version von bestimmten Pakete nicht mehr unterstützt wird. Die Aktuelle Version von R ist 4.3.0. Welche Version Sie zur Zeit nutzen, können Sie so herausfinden:
+Es ist sehr sinnvoll `R` aktuell zu halten, weil Pakete nur für die derzeitige R-Version weiterentwickelt werden und es so passieren kann, dass Ihre R-Version von bestimmten Pakete nicht mehr unterstützt wird. Die Aktuelle Version von R ist 4.4.1. Welche Version Sie zur Zeit nutzen, können Sie so herausfinden:
 
 
-```r
+``` r
 R.Version()$version.string
 ```
 
 ```
-## [1] "R version 4.3.0 (2023-04-21 ucrt)"
+## [1] "R version 4.4.1 (2024-06-14)"
 ```
 Wie Sie sehen, ist die Version relativ neu. Wenn Sie eine andere Version nutzen, ist nun der _perfekte_ Zeitpunkt für ein Update! Der typische Weg R auf Windows oder Mac zu aktualisieren ist es, die aktuelle Fassung herunterzuladen und ganz normal neu zu installieren. Die vorangegangene Version können Sie anschließend deinstallieren. Es ist möglich mehrere Versionen von R gleichzeitig installiert zu haben, um im Fall von größeren Updates Ergebnisse aus älteren Analyseskripten reproduzieren zu können.
 
@@ -89,7 +93,7 @@ Wenn die Versionsnummer sich nur in der dritten Zahl unterscheidet, werden die P
 Neben R selbst, sollten Sie auch Ihre Pakete auf dem aktuellen Stand halten. Es ist sinnvoll alle zwei oder drei Wochen folgenden Befehl durchzuführen:
 
 
-```r
+``` r
 update.packages(ask = FALSE)
 ```
 
@@ -103,9 +107,9 @@ Wir können Ihnen im Studium nur so viel beibringen, wie es unsere und Ihre Zeit
 
 ### ChatGPT und andere KI-Tools
 
-Natürlich verschiebt sich der Umgang mit Programmiersprachen und die Herangehensweise an Datenaufbereitung und Auswertung im Moment. Insbesondere über [ChatGPT](https://chat.openai.com) in all seinen Formen, können Sie viele Bestandteile - mitunter ganze Auswertungsskripte - quasi automatisch generieren lassen. Allerdings ist der Code, den ChatGPT produziert meist nicht perfekt - produziert Fehler oder ist für dieses spezifische Beispiel nicht korrekt. Dennoch kann auf diese Weise sehr schnell das Skelett eines funktionierenden Codes erzeugt werden und auf den eigenen Anwendungsfall hin angepasst werden. Dies erfordert allerdings, dass Sie diese Diskrepanzen erkennen und Rückmeldungen korrekt interpretieren können. Im [Appendix B](#AppendixB) ist eine kurze Interaktion mit ChatGPT dargestellt, in der für einen einfach Fall Code generiert wird und für einen anderen Fall Fehler im Code gefunden werden.
+Natürlich verschiebt sich der Umgang mit Programmiersprachen und die Herangehensweise an Datenaufbereitung und Auswertung im Moment. Insbesondere über [ChatGPT](https://chat.openai.com) in all seinen Formen, können Sie viele Bestandteile - mitunter ganze Auswertungsskripte - quasi automatisch generieren lassen. Allerdings ist der Code, den ChatGPT produziert meist nicht perfekt - produziert Fehler oder ist für dieses spezifische Beispiel nicht korrekt. Dennoch kann auf diese Weise sehr schnell das Skelett eines funktionierenden Codes erzeugt werden und auf den eigenen Anwendungsfall hin angepasst werden. Dies erfordert allerdings, dass Sie diese Diskrepanzen erkennen und Rückmeldungen korrekt interpretieren können. Im [Appendix B](#AppendixB) ist eine kurze Interaktion mit ChatGPT dargestellt, in der für einen einfach Fall Code generiert wird und für einen anderen Fall Fehler im Code gefunden werden. Auch wird dort ein Weg beschrieben, wie sie die Kommunikation mit ChatGPT in die R-Konsole einbinden können.
 
-Wenn Sie bereits einen ChatGPT Account mit API credentials haben, können Sie mit dem `air` Paket auch direkt über die R-Konsole mit ChatGPT interagieren (mehr dazu [hier](https://cran.r-project.org/web/packages/air/readme/README.html)). Wenn Sie einen einen GitHub Account haben, können Sie GitHubs [CoPilot](https://docs.github.com/en/copilot) nutzen, um direkt in RStudio Autoergänzungen und Syntax Vorschläge generieren zu lassen. Allerdings ist auch hier immense Vorsicht geboten, weil es dafür wichtig ist zu wissen, was Sie überhaupt erreichen wollen und ob der Code, der automatisch generiert wurde, Sie diesem Ziel näher bringt.
+Wenn Sie einen einen GitHub Account haben, können Sie GitHubs [CoPilot](https://docs.github.com/en/copilot) nutzen, um direkt in RStudio Autoergänzungen und Syntax Vorschläge generieren zu lassen. Allerdings ist auch hier immense Vorsicht geboten, weil es dafür wichtig ist zu wissen, was Sie überhaupt erreichen wollen und ob der Code, der automatisch generiert wurde, Sie diesem Ziel näher bringt.
 
 ### Offene Ressourcen
 
@@ -131,7 +135,7 @@ Dokumentieren Sie alle Schritte sorgfältig. Schreiben Sie dazu so viele Komment
 Dinge gehen leichter von der Hand und sind im Nachhinein häufig leichter zu verstehen, wenn sie einer typischen Struktur folgen. Mein persönliches Template sieht dafür so aus:
 
 
-```r
+``` r
 ####   Titel des Skripts  ####
 #### Datum der Erstellung ####
 
@@ -190,7 +194,7 @@ Das traditionelle `R` ist im Rahmen seiner Nutzeroberfläche einer Konsole ähnl
 Zunächst betrachten wir das Fenster unten links - die Konsole. In dieser kann Code ausgeführt werden. Beispielsweise können wir dort eine Addition eingeben und erhalten nach dem Drücken von **Enter** dann das Ergebnis der Operation.
 
 
-```r
+``` r
 2 + 1
 ```
 
@@ -209,7 +213,7 @@ Wenn Sie einmal etwas in der Konsole ausgeführt haben, anstatt es im Skript zu 
 Um direkt die guten Vorsätze umzusetzen, die ich mir selbst oben geschrieben habe, versehen wir den kommenden Abschnitt erst einmal mit einer strukturierenden Überschrift und einem Kommentar:
 
 
-```r
+``` r
 1 + 2   # Addition
 ```
 
@@ -222,7 +226,7 @@ In der Gliederung sollte in `RStudio` jetzt die Überschrift "Wiederholung in R"
 Neben einfachen Taschenrechner-Funktionen mit *numerischen Ergebnissen* kann R auch logische Abfragen und Vergleiche durchführen. Hier folgt ein Beispiel für das Prüfen auf Gleichheit:
 
 
-```r
+``` r
 3 == 4   # Logische Abfrage auf Gleichheit
 ```
 
@@ -239,7 +243,7 @@ Die Ergebnisse dieser Abfragen sind *boolesch* - also immer entweder wahr (`TRUE
 Die Umsetzung der Addition anhand normaler Zeichen ist recht simpel. Das ist jedoch eher eine Ausnahme, weshalb es in `R` vorprogrammierte Funktionen gibt. Für unsere bisherige Operation könnte man beispielsweise folgende Funktion nutzen:
 
 
-```r
+``` r
 sum(1, 2) # Addition durch Funktion
 ```
 
@@ -256,19 +260,19 @@ funktion(argument1, argument2, argument3, ...)
 Wenn Argumente verschiedene Funktionen haben, sollten sie auch benannt werden. Ein einfaches Beispiel ist das Runden von Zahlen. Hier gibt es zusätzlich zu der Zahl auch die Menge an Nachkommastellen, die angegeben werden soll. Funktionen in `R` haben die Grundstruktur `funktionsname(argument1 = ..., argument2 = ..., argument3 = ...)`. Die Argumente, die eine Funktion erwartet, können mit `args()` abgefragt werden. 
 
 
-```r
+``` r
 args(round)
 ```
 
 ```
-## function (x, digits = 0) 
+## function (x, digits = 0, ...) 
 ## NULL
 ```
 
 Testen Sie diese Möglichkeit mit anderen Funktionen, die Sie aus dem letzten Semester kennen! Wenn es einen Default-Wert für ein Argument gibt, wird er hier hinter dem `=` angezeigt. Bei `round` sagt uns der Ausdruck `digits = 0`, dass per default auf 0 Nachkommastellen gerundet wird.
 
 
-```r
+``` r
 round(1.2859)
 ```
 
@@ -279,7 +283,7 @@ round(1.2859)
 Wenn wir diesen Default-Wert überschreiben, können wir stattdessen bspw. auf 2 Stellen runden. 
 
 
-```r
+``` r
 round(1.2859, digits = 2)
 ```
 
@@ -290,7 +294,7 @@ round(1.2859, digits = 2)
 Argumente können durch die korrekte Reihenfolge oder durch explizite Benennung angesprochen werden. Wenn wir beispielsweise in der `round` Funktion die Reihenfolge der Argumente vertauschen, aber den Namen des Argumentes verwenden, funktioniert die Ausführung trotzdem.
 
 
-```r
+``` r
 round(digits = 2, x = 1.2859)
 ```
 
@@ -305,14 +309,14 @@ In den allgemeinen Arbeitshinweisen haben wir bereits die interne Hilfe in `R` a
 Objekte dienen dazu, Ergebnisse abzulegen und diese in einer anderen Funktion zu verwenden. Die Zuweisung eines Ergebnisses zu einem Objekt erfolgt über den sog. Zuweisungspfeil `<-`.
 
 
-```r
+``` r
 my_num <- sum(3, 4, 1, 2) # Objekt zuweisen
 ```
 
 Anders als zuvor wird in diesem Fall in der Konsole kein Ergebnis ausgedruckt, sondern lediglich der Befehl gespiegelt. Das Ergebnis der Summen-Funktion ist im Objekt `my_num` abgelegt. Dieses Objekt sollte nun auch im Panel oben rechts - spezifischer im Tab *Environment* - aufgetaucht sein. Nun können wir den Inhalt des Objektes an eine Funktionen weiterreichen - z.B. um die Quadratqurzel der Zahl zu bestimmen: `sqrt`.
 
 
-```r
+``` r
 sqrt(my_num) # Objekt in Funktion einbinden
 ```
 
@@ -323,7 +327,7 @@ sqrt(my_num) # Objekt in Funktion einbinden
 Der Inhalt des Objektes wird so als Argument in die Funktion `sqrt` übergeben. Das ist letztlich das Gleiche wie
 
 
-```r
+``` r
 sqrt(sum(3, 4, 1, 2)) # Verschachtelte Funktionen
 ```
 
@@ -336,7 +340,7 @@ wo das Ergebnis nicht explizit in einem Objekt gespeichert wird, sondern direkt 
 Bei der Pipe `|>` wird ein links stehendes Objekt oder Ergebnis genommen und als *erstes Argument* der rechts stehenden Funktion eingesetzt. Für unser Wurzelbeispiel also:
 
 
-```r
+``` r
 sum(3, 4, 1, 2) |> sqrt() # Nutzung Pipe
 ```
 
@@ -355,14 +359,14 @@ Das hat den immensen Vorteil, dass wir dadurch unseren Code wieder in der, im we
 Vektoren sind ein spezieller Typ für Objekte, die in `R` durch den Befehl `c()` erstellt werden können:
 
 
-```r
+``` r
 zahlen <- c(8, 3, 4) #Vektorerstellung
 ```
 
 Wird eine Rechenoperation auf einen Vektor angewandt, so wird die Operation elementeweise vorgenommen. Hier sehen Sie, dass jedes einzelne Element des Vektors `zahlen` mit 3 multipliziert wird. 
 
 
-```r
+``` r
 zahlen * 3 # Multiplikation der Elemente des Vektors
 ```
 
@@ -382,7 +386,7 @@ Typ | Kurzform | Inhalt
 Diese vier sind die häufigsten Arten von Vektoren, die Ihnen im Umgang mit psychologischen Daten begegnen werden. Allerdings sind sie weder alle Formen von Vektoren, noch wirklich unterschiedlich. Genau genommen ist das System [etwas komplizierter](https://r4ds.had.co.nz/vectors.html), aber generell reichen für unsere Anwendung diese vier aus. Für einen vorhandenen Vektor kann die Klasse über die Funktion `str()` ermittelt werden. 
 
 
-```r
+``` r
 str(zahlen)
 ```
 
@@ -393,7 +397,7 @@ str(zahlen)
 Über die Funktion `as.character()` können die Elemente eines Vektors in Zeichen umgewandelt werden. Neben der Angabe `chr` sehen Sie auch, dass die Zahlen nun in Anführungszeichen dargestellt werden.
 
 
-```r
+``` r
 zeichen <- as.character(zahlen)
 str(zeichen)
 ```
@@ -405,18 +409,18 @@ str(zeichen)
 Wenn Sie nun beispielsweise eine mathematische Funktion auf diesen Vektor anwenden würden, erhalten Sie eine Fehlermeldung. 
 
 
-```r
+``` r
 zeichen * 3
 ```
 
 ```
-## Error in zeichen * 3: nicht-numerisches Argument für binären Operator
+## Error in zeichen * 3: non-numeric argument to binary operator
 ```
 
 Nutzen Sie die Möglichkeit, die Klasse eines Objektes zu erfragen deshalb auch, wenn Sie eine Fehlermeldung erhalten, um zu prüfen, ob ein Vektor die richtige Klasse hat. Wenn Sie ein spezifische Klasse erwarten, können Sie z.B. mit dem Cousin von `as.` arbeiten: `is.`:
 
 
-```r
+``` r
 is.numeric(zeichen)
 ```
 
@@ -439,14 +443,14 @@ Typ | Dimensionen | Inhalt
 Sie können mit dem `matrix()`-Befehl angelegt werden:
 
 
-```r
+``` r
 mat<- matrix(c(7, 3, 9, 1, 4, 6), ncol = 2) # Matrixerstellung
 ```
 
 Schauen Sie sich die erstellte Matrix an, in dem sie `mat` ausführen. Prüfen sie mit dem Befehl `str()`, von welcher Art die erstellte Matrix ist. 
 
 
-```r
+``` r
 mat
 ```
 
@@ -457,7 +461,7 @@ mat
 ## [3,]    9    6
 ```
 
-```r
+``` r
 str(mat)
 ```
 
@@ -468,7 +472,7 @@ str(mat)
 Auf die Elemente innerhalb von Matrizen kann man über die sogenannte Indizierung zugreifen, indem man Zeile und Spalte nach der folgenden Form ansteuert: `[Zeile, Spalte]`. Das Element in der dritten Zeile und der ersten Spalte erreichen wir also über:
 
 
-```r
+``` r
 mat[3, 1]
 ```
 
@@ -478,7 +482,7 @@ mat[3, 1]
 
 Die Dimensionen einer Matrix lassen sich bestimmen über: 
 
-```r
+``` r
 nrow(mat)
 ```
 
@@ -486,7 +490,7 @@ nrow(mat)
 ## [1] 3
 ```
 
-```r
+``` r
 ncol(mat)
 ```
 
@@ -494,7 +498,7 @@ ncol(mat)
 ## [1] 2
 ```
 
-```r
+``` r
 dim(mat) #alternativer Befehl
 ```
 
@@ -533,7 +537,7 @@ In der praktischen Nutzung bekommt man es mit Datensätzen in den unterschieldli
 Wir müssen `R` nur mitteilen, wo der Datensatz liegt et voilà, er wird uns zur Verfügung gestellt. Liegt der Datensatz bspw. auf dem Desktop, so müssen wir den Dateipfad dorthin legen und können dann den Datensatz laden (wir gehen hier davon aus, dass Ihr PC "Musterfrau" heißt):
 
 
-```r
+``` r
 load("C:/Users/Musterfrau/Desktop/mach.rda")
 ```
 
@@ -542,7 +546,7 @@ Bei Dateipfaden ist darauf zu achten, dass bei  Linux <i class="fa-brands fa-lin
 Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hierzu brauchen Sie nur die URL und müssen `R` sagen, dass es sich bei dieser um eine URL handelt, indem Sie die Funktion `url` auf den Link anwenden. Der funktionierende Befehl sieht so aus (wobei die URL in Anführungszeichen geschrieben werden muss):
 
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/mach.rda"))
 ```
 
@@ -555,42 +559,52 @@ Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"]
 Wir können uns die ersten (6) Zeilen des Datensatzes mit der Funktion `head` ansehen. Dazu müssen wir diese Funktion auf den Datensatz (das Objekt) `mach` anwenden:
 
 
-```r
+``` r
 head(mach) # ersten 6 Zeilen
 ```
 
 ```
-##   TIPI1 TIPI2 TIPI3 TIPI4 TIPI5 TIPI6 TIPI7 TIPI8 TIPI9 TIPI10 education urban gender engnat age hand
-## 1     6     5     6     1     7     3     7     4     7      1         2     3      1      1  26    1
-## 2     2     5     6     2     4     6     5     4     6      5         2     2      1      1  18    1
-## 3     1     7     6     7     5     7     1     4     1      4         1     1      2      1  15    1
-## 4     6     5     5     7     7     2     6     2     2      3         4     3      2      2  31    1
-## 5     2     5     5     6     7     6     5     3     4      5         2     2      1      2  20    1
-## 6     2     4     6     2     3     7     5     2     7      1         1     1      1      2  17    1
-##   religion orientation race voted married familysize  nit      pit     cvhn pvhn
-## 1        7           1   30     1       2          5 4.00 2.666667 3.833333 2.00
-## 2        1           1   60     2       1          2 5.00 1.166667 3.833333 2.75
-## 3        2           2   10     2       1          2 5.00 1.000000 4.000000 2.00
-## 4        6           1   60     1       3          2 3.75 2.166667 3.000000 1.50
-## 5        4           3   60     1       1          2 4.75 1.666667 2.666667 2.00
-## 6        1           1   70     2       1          3 4.00 2.666667 3.166667 2.25
+##   TIPI1 TIPI2 TIPI3 TIPI4 TIPI5 TIPI6 TIPI7 TIPI8 TIPI9 TIPI10 education
+## 1     6     5     6     1     7     3     7     4     7      1         2
+## 2     2     5     6     2     4     6     5     4     6      5         2
+## 3     1     7     6     7     5     7     1     4     1      4         1
+## 4     6     5     5     7     7     2     6     2     2      3         4
+## 5     2     5     5     6     7     6     5     3     4      5         2
+## 6     2     4     6     2     3     7     5     2     7      1         1
+##   urban gender engnat age hand religion orientation race voted married
+## 1     3      1      1  26    1        7           1   30     1       2
+## 2     2      1      1  18    1        1           1   60     2       1
+## 3     1      2      1  15    1        2           2   10     2       1
+## 4     3      2      2  31    1        6           1   60     1       3
+## 5     2      1      2  20    1        4           3   60     1       1
+## 6     1      1      2  17    1        1           1   70     2       1
+##   familysize  nit      pit     cvhn pvhn
+## 1          5 4.00 2.666667 3.833333 2.00
+## 2          2 5.00 1.166667 3.833333 2.75
+## 3          2 5.00 1.000000 4.000000 2.00
+## 4          2 3.75 2.166667 3.000000 1.50
+## 5          2 4.75 1.666667 2.666667 2.00
+## 6          3 4.00 2.666667 3.166667 2.25
 ```
 
 Da es sich bei unserem Datensatz um ein Objekt vom Typ `data.frame` handelt, können wir die Variablennamen des Datensatzes außerdem mit der `names`-Funktion abfragen. Eine weitere interessante Funktion ist `dim`, die die Anzahl der Zeilen und Spalten ausgibt. 
 
 
-```r
+``` r
 names(mach) # Namen der Variablen
 ```
 
 ```
-##  [1] "TIPI1"       "TIPI2"       "TIPI3"       "TIPI4"       "TIPI5"       "TIPI6"       "TIPI7"      
-##  [8] "TIPI8"       "TIPI9"       "TIPI10"      "education"   "urban"       "gender"      "engnat"     
-## [15] "age"         "hand"        "religion"    "orientation" "race"        "voted"       "married"    
-## [22] "familysize"  "nit"         "pit"         "cvhn"        "pvhn"
+##  [1] "TIPI1"       "TIPI2"       "TIPI3"       "TIPI4"      
+##  [5] "TIPI5"       "TIPI6"       "TIPI7"       "TIPI8"      
+##  [9] "TIPI9"       "TIPI10"      "education"   "urban"      
+## [13] "gender"      "engnat"      "age"         "hand"       
+## [17] "religion"    "orientation" "race"        "voted"      
+## [21] "married"     "familysize"  "nit"         "pit"        
+## [25] "cvhn"        "pvhn"
 ```
 
-```r
+``` r
 dim(mach) # Anzahl der Zeilen und Spalten 
 ```
 
@@ -609,7 +623,7 @@ Die ersten Items beschäftigen sich mit den üblichen Persönlichkeitseigenschaf
 Um auf einzelne Variablen in einem Datensatz zuzugreifen, kann man das `$`-Zeichen nutzen, und dann Funktionen auf die angesprochene Variable anwenden. Der Mittelwert wird mit der Funktion `mean` berechnet. Eine Schätzung für die Populationsvarianz erhalten wir mit `var`. Wir wenden diese uns bekannten Funktionen auf die Variable `cvhn` an. Diese gibt an, ob eine Person eine zynische Sichtweise auf die menschliche Natur hat. 
 
 
-```r
+``` r
 mean(mach$cvhn)    # Mittelwert
 ```
 
@@ -617,7 +631,7 @@ mean(mach$cvhn)    # Mittelwert
 ## [1] 2.986698
 ```
 
-```r
+``` r
 var(mach$cvhn)     # geschätzte Populationsvarianz
 ```
 
@@ -628,7 +642,7 @@ var(mach$cvhn)     # geschätzte Populationsvarianz
 Alternativ kann man analog zu oben auch die bereits besprochene Indizierung über eckige Klammern nutzen, um eine oder mehrere Variablen oder Beobachtungen auszuwählen. Unsere Variable ist dabei in Spalte 25 zu finden.
 
 
-```r
+``` r
 mach[, 25] #Alle Zeilen, Spalte 25
 ```
 
@@ -650,7 +664,7 @@ mach[, 25] #Alle Zeilen, Spalte 25
 Um eine Anzahl an Beobachtungen für eine bestimmte Variable zu bestimmen, kann mit der `table`-Funktion gearbeitet werden. Überprüfen wir die Häufigkeiten für die Variable, ob die Muttersprache Englisch ist `engnat`.
 
 
-```r
+``` r
 table(mach$engnat)
 ```
 
@@ -660,7 +674,7 @@ table(mach$engnat)
 ## 41169 23982
 ```
 
-```r
+``` r
 str(mach$engnat)
 ```
 
@@ -670,7 +684,7 @@ str(mach$engnat)
 Wir sehen, dass die Variable noch als numerisch hinterlegt ist. Wir wollen jedoch den Zahlen die Bedeutung zuordnen und so einen Faktor erstellen. Diesen werden wir später noch verwenden.
 
 
-```r
+``` r
 mach$engnat <- factor(mach$engnat,                # Ausgangsvariable
                       levels = 1:2,               # Faktorstufen
                       labels = c("Ja", "Nein"))   # Bedeutung
@@ -687,35 +701,34 @@ str(mach$engnat)                                  # Test der Umwandlung
 Sogenannte Pakete stellen zusätzliche Funktionen zur Verfügung, die in base `R` nicht verfügbar sind. Aktuell sind in dem offiziellen Repository für `R` über 15.000 ergänzende Pakete verfügbar. Sehen Sie sich hier die vollständige [Liste](https://cran.r-project.org/web/packages/) an. Wenn Sie nach einem Paket für einen bestimmten Zweck suchen, ist es jedoch leichter, eine konventionelle Suchmaschine zu nutzen. Ein gutes Paket für die einfache Berechnung vieler deskriptiver Werte ist `psych` (mit der Funktion `describe`). Ohne Installation und Aktivierung ist diese nicht verfügbar.
 
 
-```r
+``` r
 describe(mach$cvhn)
 ```
 
 ```
-## [65151 obs.] 
-## numeric: 3.83333333333333 3.83333333333333 4 3 2.66666666666667 3.16666666666667 3.16666666666667 3.33333333333333 3.5 2.83333333333333 ...
-## min: 1 - max: 5 - NAs: 0 (0%) - 25 unique values
+## Error in describe(mach$cvhn): could not find function "describe"
 ```
 
 Pakete müssen vor der ersten Nutzung zunächst einmal heruntergeladen werden. Für einige von Ihnen wird dieser Schritt nicht nötig sein, da Sie es bereits heruntergeladen haben.
 
 
-```r
+``` r
 install.packages("psych")
 ```
 
 Danach muss man ein Package aus der library laden. Dies muss nach jedem Neustart von `R` erneut erfolgen, damit das Package genutzt werden kann.
 
 
-```r
+``` r
 library(psych)
 describe(mach$cvhn)
 ```
 
 ```
-## [65151 obs.] 
-## numeric: 3.83333333333333 3.83333333333333 4 3 2.66666666666667 3.16666666666667 3.16666666666667 3.33333333333333 3.5 2.83333333333333 ...
-## min: 1 - max: 5 - NAs: 0 (0%) - 25 unique values
+##    vars     n mean   sd median trimmed  mad min max range  skew kurtosis
+## X1    1 65151 2.99 0.81      3    2.99 0.99   1   5     4 -0.09    -0.61
+##    se
+## X1  0
 ```
 
 Weil wir häufig dazu tendieren, aus sehr vielen unterschiedlichen Paketen Funktionen zu nutzen, kann es sehr schnell unübersichtlich werden. Daher ist es sinnvoll, wie oben bereits angesprochen, alle Pakete an einem Ort zu Beginn des Skripts alle gemeinsam zu laden.
@@ -727,7 +740,7 @@ Die lineare Regression ist eine sehr einfache Analyse, um den Zusammenhang zwisc
 Natürlich ist die Regressionsanalyse nicht ohne Voraussetzungen. Diese werden wir in den nächsten Wochen nochmal besprechen, an dieser Stelle also nicht betrachten. Eine simple Darstellung des Zusammenhangs kann man über die `plot`-Funktion abbilden. Schönere Grafiken erhält man mittels `ggplot`, was in der nächsten Sitzung unser Thema wird.
 
 
-```r
+``` r
 plot(mach$pvhn, mach$cvhn, xlab = "Positive Sichtweise", ylab = "Negative Sichtweise")
 ```
 
@@ -736,7 +749,7 @@ plot(mach$pvhn, mach$cvhn, xlab = "Positive Sichtweise", ylab = "Negative Sichtw
 Gerade in diesem Plot sieht man, dass die Standardfunktionalität von `R` mit der Menge an Personen im Datensatz nicht zurechtkommt. Die Umsetzung der Parameterschätzung anhand der kleinsten Quadrate ist mit der Funktion `lm` möglich. Beachten Sie hierbei, dass angegeben wird, welche Variable durch welche Variable vorhergesagt wird. Das bedeutet, dass wir hier zuerst die zynische Sichtweise und dann das Alter nennen müssen.
 
 
-```r
+``` r
 lm(cvhn ~ pvhn, mach) # lineare Regression
 ```
 
@@ -753,14 +766,14 @@ lm(cvhn ~ pvhn, mach) # lineare Regression
 Das Steigungsgewicht ist wie erwartet negativ. Der hier gegebene Output enthält zwar die wichtigsten Informationen, doch wird eigentlich noch viel mehr innerhalb der Funktion berechnet. Dies ist ein gutes Beispiel dafür, dass es manchmal Sinn ergibt, auch die Ergebnisse der Analyse in ein Objekt abzulegen.
 
 
-```r
+``` r
 model <- lm(cvhn ~ pvhn, mach)  # Objektzuweisung
 ```
 
 Beispielsweise können wir wie bereits angedeutet die Funktion `summary` verwenden, um eine Zusammenfassung der Ergebnisse zu erhalten.
 
 
-```r
+``` r
 summary(model) #Ergebniszusammenfassung
 ```
 
@@ -790,13 +803,14 @@ Hier werden uns neben dem Steigungskoeffizienten und dem Achsenabschnitt auch no
 Doch es gibt noch einige weitere Informationen, die von der Funktion `lm` abgelegt werden. Die Bezeichnung der Einträge in der Liste `model` kann über `names` abgefragt werden.
 
 
-```r
+``` r
 names(model) # andere Inhalte der Liste
 ```
 
 ```
-##  [1] "coefficients"  "residuals"     "effects"       "rank"          "fitted.values" "assign"       
-##  [7] "qr"            "df.residual"   "xlevels"       "call"          "terms"         "model"
+##  [1] "coefficients"  "residuals"     "effects"       "rank"         
+##  [5] "fitted.values" "assign"        "qr"            "df.residual"  
+##  [9] "xlevels"       "call"          "terms"         "model"
 ```
 
 Die weiteren Inhalte umfassen unter anderem die `residuals`, die für das Prüfen der Voraussetzungen wichtig wären, aber auch die vorhergesagten Werte (`fitted.values`). 
@@ -812,16 +826,15 @@ In diesem Beispiel wollen wir uns damit beschäftigen, ob der zynische Blick auf
 $$H_0: \mu_1=\mu_2$$
 Diese Hypothese gilt nicht, wenn $\mu_1\neq\mu_2$. In diesem Fall gilt irgendeine Alternativhypothese ($H_1$) mit einer Mittelwertsdifferenz $d=\mu_1-\mu_2$, die nicht Null ist $(d\neq0)$.
 
-Die Umsetzung in `R` ist dabei nicht schwer und funktioniert mittels `t.test`. Dabei müssen einige Argumente eingegeben werden. Zunächst geht es darum, unabhängige (`engnat`) und abhängie Variabe (`cvhn`) für den Test festzulegen. In `data` muss festgehalten werden, in welchem Datensatz diese Variablen zu finden sind. Unter `paired` wird mit `FALSE` festgehalten, dass wir unabhängige Stichproben betrachten. Eine ungerichtete Hypothese ergibt für das Argument `alternative` den Input `two.sided`. Wir setzen die Varianzhomogenität `var.equal` auf `TRUE`, da wir wie beschrieben von der Erfüllung der Voraussetzungen ausgehen. Als Sicherheitsniveau (`conf.level`) legen wir `0.95` fest, was dann einem $\alpha$-Niveau von `0.05` entspricht.
+Die Umsetzung in `R` ist dabei nicht schwer und funktioniert mittels `t.test`. Dabei müssen einige Argumente eingegeben werden. Zunächst geht es darum, unabhängige (`engnat`) und abhängie Variabe (`cvhn`) für den Test festzulegen. In `data` muss festgehalten werden, in welchem Datensatz diese Variablen zu finden sind. Das Argument `paired` hat ald Default `FALSE`, sodass standardmäßig unabhängige Stichproben angenommen werden. Wenn wir die Formelschreibweise benutzen, erlaubt uns `R` auch gar nicht, dieses Argument extra aufzuführen. Eine ungerichtete Hypothese ergibt für das Argument `alternative` den Input `two.sided`. Wir setzen die Varianzhomogenität `var.equal` auf `TRUE`, da wir wie beschrieben von der Erfüllung der Voraussetzungen ausgehen. Als Sicherheitsniveau (`conf.level`) legen wir `0.95` fest, was dann einem $\alpha$-Niveau von `0.05` entspricht.
 
 
 
 
 
-```r
+``` r
 t.test(cvhn ~ engnat,  # abhängige Variable ~ unabhängige Variable
        data = mach, # Datensatz
-       paired = FALSE, # Stichproben sind unabhängig 
       alternative = "two.sided",        # zweiseitige Testung (Default)
       var.equal = TRUE,                 # Homoskedastizität liegt vor (-> Levene-Test)
       conf.level = .95)                 # alpha = .05 (Default)
@@ -874,10 +887,9 @@ zeigt uns die Alternativhypothese ($H_1:d \neq 0$), das Konfidenzintervall der M
 Wie bei der Regression können wir auch den Test als Objekt ablegen. Wenn wir `names` darauf anwenden, sehen wir wieder alle Namen, die wir hinter `$` schreiben können.
 
 
-```r
+``` r
 ttest <- t.test(cvhn ~ engnat,  # abhängige Variable ~ unabhängige Variable
        data = mach, # Datensatz
-       paired = FALSE, # Stichproben sind unabhängig 
       alternative = "two.sided",        # zweiseitige Testung (Default)
       var.equal = TRUE,                 # Homoskedastizität liegt vor (-> Levene-Test)
       conf.level = .95)                 # alpha = .05 (Default)
@@ -885,11 +897,12 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ```
 
 ```
-##  [1] "statistic"   "parameter"   "p.value"     "conf.int"    "estimate"    "null.value"  "stderr"     
-##  [8] "alternative" "method"      "data.name"
+##  [1] "statistic"   "parameter"   "p.value"     "conf.int"   
+##  [5] "estimate"    "null.value"  "stderr"      "alternative"
+##  [9] "method"      "data.name"
 ```
 
-```r
+``` r
 ttest$statistic # (empirischer) t-Wert
 ```
 
@@ -898,7 +911,7 @@ ttest$statistic # (empirischer) t-Wert
 ## -46.85501
 ```
 
-```r
+``` r
 ttest$p.value   # zugehöriger p-Wert
 ```
 
@@ -976,7 +989,7 @@ Punkt 1 kann eventuell dadurch umgangen werden, dass Sie bessere Prompts schreib
 Die Antwort, die ChatGPT produziert ist beeindruckend detailliert (und größtenteils sogar richtig), aber Sie sollten hier Folgendes berücksichtigen:
 
 
-```r
+``` r
 set.seed(123)
 group1 <- rnorm(20, mean = 10, sd = 2)
 group2 <- rnorm(20, mean = 12, sd = 2)
@@ -1024,7 +1037,7 @@ In diesem Beispiel sollten Sie bereits selbst den Fehler identifiziert haben, ab
 Auch dabei das Skript Anderer (oder das eigene, schlecht kommentierte Skript) zu verstehen, kann ChatGPT behilflich sein. Nehmen Sie z.B. diese Funktion, die ich für BSc2 erstellt habe:
 
 
-```r
+``` r
 foo <- function(x) {
   x <- na.omit(x)
   sum((x - mean(x))^2)/length(x)
@@ -1039,6 +1052,11 @@ Sollte Ihnen nicht klar sein, was hier passiert, kann ChatGPT Abhilfe schaffen:
 Darüber hinaus, könnten wir die KI an dieser Stelle auch bitten, solche selbstgeschriebenen Funktionen zu verbessern. Z.B. die Anzahl der [Loops](/lehre/statistik-ii/loops-und-funktionen) in unseren Skripten zu minimieren, damit die Auswertung schneller und effizienter läuft.
 
 Generell sollten Sie ChatGPT als neues Werkzeug verstehen, welches Ihnen in vielen Belangen der R-Programmierung (und logischerweise auch darüber hinaus) behilflich sein kann. Wie bei jedem Werkzeug, sollte der Umgang aber gelernt und geübt sein, damit man für sich den meisten Nutzen daraus ziehen kann.
+
+
+## ChatGPT in R Konsole - Voraussetzungen
+
+Inzwischen gibt es auch eine Möglichkeit, direkt in der R-Konsole mit ChatGPT zu interagieren. Dazu benötigen Sie allerdings einen ChatGPT Account, der mit API credentials ausgestattet ist. Das zugehörige Paket für die Funktionalität von ChatGPT in der R-Konsole heißt `air`. Dieses Paket muss wie üblich installiert werden, damit Sie auf die Funktionen zugreifen können. Mehr zu diesem Thema finden Sie [hier](https://cran.r-project.org/web/packages/air/readme/README.html) in der Beschreibung des Pakets.
 
 </details>
 

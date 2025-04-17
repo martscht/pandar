@@ -34,8 +34,8 @@ res_lz_neuro <- residuals(reg_lz_neuro)
 
 cor(res_depr_neuro, res_lz_neuro)
 
-## # Paket für Partial- und Semipartialkorrelation
-## install.packages("ppcor")
+# # Paket für Partial- und Semipartialkorrelation
+# install.packages("ppcor")
 
 library(ppcor)
 

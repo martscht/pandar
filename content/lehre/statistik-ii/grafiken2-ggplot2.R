@@ -10,8 +10,8 @@ edu_exp$Wealth <- factor(edu_exp$Wealth, levels = c('low_income', 'lower_middle_
 edu_exp$Region <- factor(edu_exp$Region, levels = c('africa', 'americas', 'asia', 'europe'),
   labels = c('Africa', 'Americas', 'Asia', 'Europe'))
 
-## # Laden des pandaR Themes
-## source('https://pandar.netlify.com/lehre/statistik-ii/pandar_theme.R')
+# # Laden des pandaR Themes
+# source('https://pandar.netlify.com/lehre/statistik-ii/pandar_theme.R')
 
 
 theme_set(theme_pandar())
@@ -37,10 +37,10 @@ ggplot(edu_2014, aes(x = Primary, y = Index)) +
 # Reskalierung Bevölkerungszahl
 edu_2014$Population <- edu_2014$Population / 1e6
 
-## # Scatterplot mit nominaler Farbästhetik und intervallskalierter Punktgröße
-## ggplot(edu_2014, aes(x = Primary, y = Index)) +
-##   geom_point(aes(color = Region, size = Population)) +
-##   scale_color_pandar()
+# # Scatterplot mit nominaler Farbästhetik und intervallskalierter Punktgröße
+# ggplot(edu_2014, aes(x = Primary, y = Index)) +
+#   geom_point(aes(color = Region, size = Population)) +
+#   scale_color_pandar()
 
 # Anpassung der Benennung einer Ästhetik
 ggplot(edu_2014, aes(x = Primary, y = Index)) +
@@ -73,19 +73,19 @@ static <- ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population)) +
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)')
 
-## install.packages('plotly')
+# install.packages('plotly')
 
 library(plotly)
 
-## ggplotly(static)
+# ggplotly(static)
 
 # Statischen Scatterplot für Plotly überarbeiten
 static <- ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population)) +
   scale_color_pandar() + guides(size = 'none')
 
-## ggplotly(static,
-##   tooltip = c('colour', 'size', 'x', 'y'))
+# ggplotly(static,
+#   tooltip = c('colour', 'size', 'x', 'y'))
 
 # Beispiellabel erzeugen
 tmp <- subset(edu_2014, Country == 'Spain')  
@@ -101,5 +101,5 @@ static <- ggplot(edu_2014, aes(x = Primary, y = Index,
   geom_point(aes(color = Region, size = Population)) +
   scale_color_pandar() + guides(size = 'none')
 
-## ggplotly(static,
-##   tooltip = 'text')
+# ggplotly(static,
+#   tooltip = 'text')

@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [kvetnaya]
 weight: 13
-lastmod: '2025-02-07'
+lastmod: '2025-04-08'
 featured: no
 banner:
   image: "/header/kettlebells.jpg"
@@ -27,6 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/gewichtete-reg.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Übungen
+    url: /lehre/statistik-ii/gewichtete-reg-uebungen
 output:
   html_document:
     keep_md: true
@@ -80,7 +84,7 @@ Um die Gewichtung durchzuführen, müssen wir die Häufigkeitsverteilung der int
 Für dieses Beispiel werden wir den Fragebogendatensatz aus dem ersten Semester `fb22` ([Link zur Beschreibung](/daten/datensaetze/#fragebogendaten-aus-dem-ersten-semester-fb22) verwenden. Wir werden daraus die demografischen Variablen über das Geschlecht (`geschl`) und die Angaben darüber, ob die Studierenden einer Nebentätigkeit neben dem Studium nachgehen (`job`), verwenden. Außerdem interessieren wir uns im Besonderen für die Variablen Extraversion und Intelligenz, weshalb wir nur diese Variablen in den Datensatz aufnehmen.
 
 
-```r
+``` r
 # Einlesen des Datensatzes aus WiSe 22
 load(url('https://pandar.netlify.app/daten/fb22.rda'))
 
@@ -92,7 +96,7 @@ fb22 <- na.omit(fb22) # Entfernen der Beobachtungen mit NAs
 Anschließend wandeln wir die kategorialen Daten noch in das korrekte Format mit entsprechenden Faktorlevels und -labels um.
 
 
-```r
+``` r
 # Geschlecht als Faktor
 fb22$geschl <- factor(fb22$geschl, levels = c(1, 2,3 ), 
                       labels = c("weiblich", "männlich", "anderes"))
@@ -105,7 +109,7 @@ fb22$job <- factor(fb22$job, levels = c(1, 2),
 Durch den Vergleich der beobachteten Häufigkeitsverteilung einer Variablen mit der Populationsverteilung können wir feststellen, ob die Umfragebeantwortung in Bezug auf diese Variable repräsentativ ist, oder ob es erhebliche Unterschiede in der Verteilung gibt. Schauen wir uns zunächst die Verteilung der relativen Häufigkeiten in der Stichprobe an, die wir uns mithilfe der `table()` und `prop.table()`-Funktionen anzeigen lassen können.
 
 
-```r
+``` r
 # Häufigkeitstabelle Merkmal
 gender_sample <- table(fb22$geschl) |> prop.table()
 gender_sample
@@ -117,7 +121,7 @@ gender_sample
 ## 0.837837838 0.155405405 0.006756757
 ```
 
-```r
+``` r
 job_sample <- table(fb22$job) |> prop.table()
 job_sample
 ```
@@ -135,7 +139,7 @@ Das gilt auch für die Angaben zur Nebentätigkeit: In unserer Stichprobe haben 
 Konzentrieren wir uns vorerst auf das Geschlecht, und speichern seine Populationsanteile für die weitere Bearbeitung erstmal als Objekte in R ab.
 
 
-```r
+``` r
 # Population der Studierenden in Deutschland 2022
 studierende_total <- (1475633) + (1466282)
 studierende_frauen <- 1475633
@@ -147,7 +151,7 @@ p_m <- 1 - p_w                                  # 49.84 %
 Zur Kategorie "Divers" liegen leider keine zuverlässigen Statistiken vor, denn diese Personen werden in Hochschulstatistiken immer per Zufallsprinzip den kategorien "männlich" oder "weiblich" zugeordnet. Das erfordert weitere Überlegungen dazu, inwiefern das aus methodischer Sicht ein Problem ist, bzw. die Frage, wie in Bezug auf ihr Geschlecht diverse Personen in Befragungen repräsentiert werden können, aber an dieser Stelle müssen wir diese Frage leider aussparen und aus Mangel an Information mit den beiden Geschlechtern weiterrechnen. Nach Entfernung der Kategorie `anderes` aus dem Datensatz können wir mit `droplevels()` auch das nicht mehr genutzte Faktorlevel entfernen, damit es bei den künftigen Analysen nicht mehr auftaucht:
 
 
-```r
+``` r
 # Geschlecht = "anderes" aus Datensatz inkl. Faktorlabels entfernen
 fb22 <- fb22[fb22$geschl != "anderes", ]
 fb22$geschl <- droplevels(fb22$geschl)
@@ -156,7 +160,7 @@ fb22$geschl <- droplevels(fb22$geschl)
 Führen wir zunächst eine Regression ohne Gewichtung zum Vergleich durch. Wir planen in unserer Mini-Studie die Annahme zu prüfen, dass Intelligenz im Zusammenhang mit dem Ausmaß an Extraversion stehen könnte.
 
 
-```r
+``` r
 # OLS-Regression 
 mod <- lm(extra ~ intel, fb22)
 summary(mod)
@@ -192,7 +196,7 @@ Das Gewicht, mit dem wir die Beobachtungen aus der $j$-ten Untergruppe versehen 
 Für $j$ = Geschlecht machen wir das so:
 
 
-```r
+``` r
 # Berechnung der Gewichte
 weight_w <- p_w / gender_sample["weiblich"]
 weight_m <- p_m / gender_sample["männlich"]
@@ -205,7 +209,7 @@ weight_w
 ## 0.5986711
 ```
 
-```r
+``` r
 weight_m
 ```
 
@@ -221,7 +225,7 @@ Wir erkennen, dass Beobachtungen aus einer unterrepräsentierten Gruppe ein $w_j
 Die individuellen Gewichte $w_{ij}$ für jede Beobachtung $i$ und Ausprägung der Gruppe $j$ werden in einer Hilfsvariable gespeichert, die die gleiche Länge hat wie die Stichprobe groß ist.
 
 
-```r
+``` r
 # Gewichtung nach Geschlecht
 fb22$weight_gender <- ifelse(fb22$geschl == "weiblich", weight_w, weight_m)
 ```
@@ -231,7 +235,7 @@ Was hier passiert ist, dass für jede Beobachtung in der Stichprobe mit der `ife
 Schauen wir uns die neue Variable im Datensatz an, um uns zu vergewissern, dass wir alles richtig gemacht haben:
 
 
-```r
+``` r
 head(fb22)
 ```
 
@@ -248,7 +252,7 @@ head(fb22)
 Super! Diese Variable können wir jetzt in der `lm`-Funktion mit der Nutzung des zusätzlichen Arguments `weight` einfach einbauen:
 
 
-```r
+``` r
 # WLS-Regression
 mod_gender <- lm(extra ~ intel, fb22, weights = weight_gender)
 summary(mod_gender)
@@ -278,7 +282,7 @@ summary(mod_gender)
 Der Zusammenhang besteht nach wie vor, aber wir sehen, dass sich u.A. das $\beta$ für Intelligenz und auch das $R^2$ etwas verändert haben. Nehmen wir das Ganze unter die Lupe:
 
 
-```r
+``` r
 summary(mod)$r.squared        # R²
 ```
 
@@ -286,7 +290,7 @@ summary(mod)$r.squared        # R²
 ## [1] 0.08160002
 ```
 
-```r
+``` r
 summary(mod_gender)$r.squared # gewichtetes R²
 ```
 
@@ -297,7 +301,7 @@ summary(mod_gender)$r.squared # gewichtetes R²
 Wir erkennen, dass das gewichtete Modell mit 14.92% nun zumindest deskriptiv mehr Varianz erklärt als das ungewichtete Modell (8.16%).
 
 
-```r
+``` r
 coef(mod)[2]
 ```
 
@@ -306,7 +310,7 @@ coef(mod)[2]
 ## 0.324681
 ```
 
-```r
+``` r
 coef(mod_gender)[2]
 ```
 
@@ -326,7 +330,7 @@ Die Entscheidung, ob unser neues WLS-Modell prädiktive Validität besitzt, lie�
 In der folgenden Grafik ist dargestellt, wie sich die Regressionsgerade des gewichteten Modells im Gegensatz zum ungewichteten Modell verhält.
 
 
-```r
+``` r
 # Scatter-Plot mit ggplot2
 library(ggplot2)
 p <- ggplot(fb22, aes(x = intel, y = extra, color = geschl)) +
@@ -373,7 +377,7 @@ Dieser Zusammenhang ist im gewichteten Modell deskriptiv etwas höher. Die Tatsa
 Wenn wir mehr Variablen zur Gewichtung heranziehen, kann die Schätzung potenziell genauer werden. Je mehr Variablen einbezogen werden, desto mehr Kombinationen von Untergruppen entstehen, was zu einer großen Anzahl möglicher Kombinationen führen kann. Am Beispiel einer 2x2-Tabelle können wir uns das verdeutlichen. Wenn wir die hinsichtlich ihrer Häufigkeit ebenso verzerrte Variable der Nebentätigkeit einbeziehen, dann sieht die Häufigkeitstabelle in unserer Ersti-Stichprobe so aus:
 
 
-```r
+``` r
 table(fb22$geschl, fb22$job) |> prop.table() |> round(2)
 ```
 
@@ -418,7 +422,7 @@ Unser Beispiel war natürlich sehr vereinfacht: Mit Sicherheit haben Psychologie
 <summary><b>Code zum detaillierten Scatterplot</b></summary>
 
 
-```r
+``` r
 # Scatter-Plot mit ggplot2
 
 # Filter für männliche Beobachtungen

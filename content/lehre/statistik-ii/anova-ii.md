@@ -9,7 +9,7 @@ subtitle: '2-fakt. ANOVA'
 summary: ''
 authors: [irmer,scheppa-lahyani,schultze]
 weight: 9
-lastmod: '2025-02-07'
+lastmod: '2025-04-08'
 featured: no
 banner:
   image: "/header/heart_alien.jpg"
@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-ii/anova-ii.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Quizdaten
-    url: /lehre/statistik-ii/quizdaten-bsc7#Quiz4
+    name: Übungen
+    url: /lehre/statistik-ii/anova-ii-uebungen
 output:
   html_document:
     keep_md: true
@@ -42,24 +42,26 @@ In der letzten Sitzung haben wir die [einfaktorielle Varianzanalyse](/post/anova
 
 Wir arbeiten wieder mit dem `conspiracy` Datensatz. Dieser stammt aus einer Erhebung zur Validierung eines Fragebogens, aus dem Skalenwerte gebildet werden, die verschiedene Dimensionen von Verschwörungsglauben abbilden sollen. Sie können den im Folgenden verwendeten [<i class="fas fa-download"></i> Datensatz "conspiracy.rda" hier herunterladen](../../daten/conspiracy.rda).
 
+*Im Anschluss an diesen Beitrag können Sie sich mit dem [nächsten Quiz](/lehre/statistik-ii/quizdaten-bsc7#Quiz4) auseinandersetzen.*
+
 ### Daten laden
 Wir laden zunächst die Daten: entweder lokal von Ihrem Rechner:
 
 
-```r
+``` r
 load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
 ```
 
 oder wir laden sie direkt über die Website:
 
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
 ```
 Eine kurze Übersicht über den Datensatz zeigt:
 
 
-```r
+``` r
 dim(conspiracy)
 ```
 
@@ -70,7 +72,7 @@ dim(conspiracy)
 Der Datensatz enthält die Werte von 2451 Personen auf 9 Variablen. 
 
 
-```r
+``` r
 head(conspiracy)
 ```
 
@@ -92,27 +94,27 @@ Er stammt aus einer Untersuchung zum Thema *verschwörungstheoretische Überzegu
 In der letzten Sitzung zeigte sich, dass die Überzeugung, dass die Existenz von Außerirdischen durch eine globale Verschwörung verdeckt wird (`ET`), von der Art des Wohngebiets (`urban`) abhängig ist. Zur Berechnung der einfaktoriellen ANOVA wurde das `ez`-Paket verwendet. Dieses Paket brauchen wir weiterhin:
 
 
-```r
+``` r
 library(ez)
 ```
 
 Wie schon in der letzten Sitzung, ist es zunächst erforderlich eine Personen-ID zu erzeugen. In diesem Fall kann einfach die Zeilennummer einer Person genutzt werden:
 
 
-```r
+``` r
 conspiracy$id <- as.factor(1:nrow(conspiracy))
 ```
 
 Wir führen zur kurzen Wiederholung noch einmal die einfaktorielle ANOVA bezüglich des Wohnortes durch, um uns zu vergegenwärtigen, wie der `ezANOVA`-Befehl funktioniert! Der `ezANOVA` Befehl, um eine einfaktorielle ANOVA durchzuführen, braucht vier Argumente: `data` übergeben wir unseren Datensatz (`data = conspiracy`), `wid` kennzeichnet den Within-Identifier, eine Personen ID Variable, weswegen wir diesem Argument unsere ID-Variable übergeben (`wid = id`),  `dv` steht für "Dependent Variable", also abhängige Variable, weswegen wir hier die Überzeugung, dass die Existenz von Außerirdischen durch eine globale Verschwörung verdeckt wird, übergeben (`dv = ET`), `between` ist die unabhängige Variable, die zwischen Personen unterscheidet, also die Gruppierungsvariable für deren Effekt wir uns interessieren, hier die Art des Wohngebiets (`between = urban`).
 
 
-```r
+``` r
 ezANOVA(data = conspiracy, wid = id, dv = ET, between = urban)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
-## for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -135,8 +137,8 @@ Die Ergebnisse aus den Übungsaufgaben ergaben bezüglich des Bildungabschlusses
 
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
-## for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -156,7 +158,7 @@ Die Ergebnisse aus den Übungsaufgaben ergaben bezüglich des Bildungabschlusses
 Hier musste die Annahme der Homoskedastizität verworfen werden ($p$ < .05), sodass eine Adjustierung der Inferenzstatistik durchgeführt werden sollte (`white.adjust = TRUE`). Im ersten Fall erhalten wir auch das generalisierte partielle $\eta^2$, also einen Schätzer der Effektstärke, die im Grunde angibt, wie viel systematische Variation in den Daten ist, relativ zur zufälligen Schwankung. Um dies in der Skala der ursprünglichen Variablen zu interpretieren, können wir uns rein deskriptiv die gruppenspezifischen Mittelwerte angucken. Dazu kann mit einer Vielzahl von Funktionen gearbeitet werden. Eine gängige Variante ist der `tapply`-Befehl:
 
 
-```r
+``` r
 tapply(X = conspiracy$ET, INDEX = conspiracy$urban, FUN = mean)
 ```
 
@@ -165,7 +167,7 @@ tapply(X = conspiracy$ET, INDEX = conspiracy$urban, FUN = mean)
 ## 2.194386 2.150963 2.307286
 ```
 
-```r
+``` r
 tapply(X = conspiracy$ET, INDEX = conspiracy$edu, FUN = mean)
 ```
 
@@ -177,7 +179,7 @@ tapply(X = conspiracy$ET, INDEX = conspiracy$edu, FUN = mean)
 Dieser Funktion müssen jeweils die Daten (`X`), ein Index für Gruppierung (`INDEX`) sowie eine Funktion, die auf die Subgruppen angewendet werden soll (`FUN`, hier der Mittelwert, deshalb `FUN = mean`), übergeben werden. Es gibt jedoch noch unzählbar viele andere Wege zum selben Ergebnis zu kommen. Hier einige Beispiele:
 
 
-```r
+``` r
 # Mithilfe des aggregate-Befehls
 aggregate(ET ~ urban, data = conspiracy, mean)
 ```
@@ -189,7 +191,7 @@ aggregate(ET ~ urban, data = conspiracy, mean)
 ## 3    urban 2.307286
 ```
 
-```r
+``` r
 aggregate(ET ~ edu, data = conspiracy, mean)
 ```
 
@@ -200,7 +202,7 @@ aggregate(ET ~ edu, data = conspiracy, mean)
 ## 3        college 1.937717
 ```
 
-```r
+``` r
 # Mithilfe des aggregate-Befehls mit anderer Schreibweise (wie bei tapply)
 aggregate(conspiracy$ET, list(conspiracy$urban), mean)
 ```
@@ -212,7 +214,7 @@ aggregate(conspiracy$ET, list(conspiracy$urban), mean)
 ## 3    urban 2.307286
 ```
 
-```r
+``` r
 aggregate(conspiracy$ET, list(conspiracy$edu), mean)
 ```
 
@@ -223,7 +225,7 @@ aggregate(conspiracy$ET, list(conspiracy$edu), mean)
 ## 3        college 1.937717
 ```
 
-```r
+``` r
 # Mithilfe des describeBy-Befehls aus dem psych-Paket
 library(psych)
 describeBy(conspiracy$ET, conspiracy$urban)
@@ -235,17 +237,17 @@ describeBy(conspiracy$ET, conspiracy$urban)
 ## group: rural
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 475 2.19 1.32   1.67    2.02 0.99   1   5     4 0.74    -0.81 0.06
-## ---------------------------------------------------------------------------- 
+## ---------------------------------------------------------------------------------------------- 
 ## group: suburban
 ##    vars    n mean  sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 1125 2.15 1.3   1.67    1.97 0.99   1   5     4 0.81    -0.65 0.04
-## ---------------------------------------------------------------------------- 
+## ---------------------------------------------------------------------------------------------- 
 ## group: urban
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 851 2.31 1.36      2    2.15 1.48   1   5     4 0.62    -0.98 0.05
 ```
 
-```r
+``` r
 describeBy(conspiracy$ET, conspiracy$edu)
 ```
 
@@ -255,11 +257,11 @@ describeBy(conspiracy$ET, conspiracy$edu)
 ## group: not highschool
 ##    vars    n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 1060 2.37 1.36      2    2.23 1.48   1   5     4 0.54    -1.07 0.04
-## ---------------------------------------------------------------------------- 
+## ---------------------------------------------------------------------------------------------- 
 ## group: highschool
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 433 2.44 1.36   2.33    2.32 1.98   1   5     4 0.48    -1.11 0.07
-## ---------------------------------------------------------------------------- 
+## ---------------------------------------------------------------------------------------------- 
 ## group: college
 ##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
 ## X1    1 958 1.94 1.22   1.33    1.72 0.49   1   5     4 1.11    -0.01 0.04
@@ -270,7 +272,7 @@ describeBy(conspiracy$ET, conspiracy$edu)
 In der mehrfaktoriellen ANOVA steht nicht nur der Vergleich von Gruppen anhand *einer* unabhängigen Variable im Mittelpunkt, sondern der Fokus liegt auf der *Kombination von Gruppierungen* anhand mehrerer unabhängiger Variablen. Deksriptiv können die Mittelwerte aus Gruppenkombinationen ebenfalls mit der `tapply`-Funktion bestimmt werden:
 
 
-```r
+``` r
 # Gruppierungskombinationen erstellen
 kombi <- conspiracy[, c('urban', 'edu')]
 
@@ -296,13 +298,13 @@ Im `ez`-Paket sind neben den Funktionen zur direkten Berechnung von Varianzanaly
 Um mehrere Variablen als unabhängige Variablen zu deklarieren, kann mit `c()` ein Vektor eröffnet werden, der an das Argument `between` weitergegeben wird.
 
 
-```r
+``` r
 ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu))
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
-## for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -310,8 +312,8 @@ ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu))
 ```
 
 ```
-## Warning in ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu)): Unbalanced groups. Mean N
-## will be used in computation of FLSD
+## Warning in ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu)): Unbalanced groups. Mean N will be used in
+## computation of FLSD
 ```
 
 ```
@@ -332,14 +334,14 @@ Neben $N$, $\bar{X}$ und $\hat{\sigma}$ wird in der Ausgabe auch *Fisher's Least
 Für eine grafische Darstellung der Mittelwerte, kann `ezPlot` benutzt werden. Der Befehl nimmt die gleichen Argumente entgegen wie `ezStats`, benötigt aber zusätzlich eine Aussage darüber, welche Variable auf der x-Achse abgetragen werden soll (`x = `) und welche Variable farblich unterschieden werden soll (`split = `). Mit dieser Funktion wird dann ein `ggplot` erstellt. Diesen könnten Sie mit dem, was wir in der [Sitzung zu `ggplot2`](../grafiken-ggplot2) besprochen haben, auch händisch erstellen! `ezPlot` nimmt Ihnen hier aber ein wenig Arbeit ab:
 
 
-```r
+``` r
 ezPlot(conspiracy, dv = ET, wid = id, between = c(urban, edu),
   x = urban, split = edu)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
-## for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -347,8 +349,8 @@ ezPlot(conspiracy, dv = ET, wid = id, between = c(urban, edu),
 ```
 
 ```
-## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, :
-## Unbalanced groups. Mean N will be used in computation of FLSD
+## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, : Unbalanced groups. Mean N
+## will be used in computation of FLSD
 ```
 
 ![](/anova-ii_files/unnamed-chunk-13-1.png)<!-- -->
@@ -397,13 +399,13 @@ Da wir wissen wollen, ob sich die Effekte $\alpha_j$, $\beta_k$ und $\gamma_{jk}
 Die drei Nullhypothesen werden in der **zweifaktoriellen ANOVA** geprüft. Die für `ezStats` genutzten Argumente können auch für `ezANOVA` benutzt werden. Um eine etwas detailliertere Ausgabe zu erhalten, kann zudem `detailed = TRUE` gesetzt werden.
 
 
-```r
+``` r
 ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), detailed = TRUE)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
-## for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -427,13 +429,13 @@ In der ANOVA erhalten wir folgende Informationen: `Effect` ist die unabhängige 
 Der *Levene Test* fällt in diesem Fall statistisch bedeutsam aus, sodass die Homoskedastizitätsannahme (in diesem Fall: die Varianz ist in allen 9 Gruppen identisch) verworfen werden muss. `ezANOVA` liefert eine eingebaute Korrekturmöglichkeit (HC3 von MacKinnon & White, 1985), die mithilfe `white.adjust = TRUE` angefordert werden kann. Probieren Sie das doch einmal selbst aus, indem Sie den Code kopieren und die Korrektur anfordern! Wie verändert das die Ergebnisse, die Ihnen ausgegeben werden?
 
 
-```r
+``` r
 ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), detailed = TRUE, white.adjust = TRUE)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
-## for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -466,7 +468,7 @@ Welche unterschiedlichen Kombinationen an Signifikanzen es gibt und was diese sc
 Mit *Tukeys Honest Significant Difference* können, wie auch in der [letzten Sitzung](../anova-i), alle möglichen Gruppenkombinationen verglichen werden. Wir müssen die `TuckeyHSD` Funktion auf ein `aov`-Objekt anwenden.
 
 
-```r
+``` r
 TukeyHSD(aov(ET ~ urban*edu, conspiracy))
 ```
 
@@ -531,18 +533,24 @@ TukeyHSD(aov(ET ~ urban*edu, conspiracy))
 Leider ist das Ergebnis etwas unübersichtlich, weil sich in diesem Fall 36 Vergleiche ergeben. Mit ein paar Funktionen aus dem `emmeans`-Paket können wir versuchen, das optisch etwas aufzubereiten. Dafür müssen wir zunächst das Paket laden:
 
 
-```r
+``` r
 library(emmeans)
 ```
 
 ```
-## Warning: Paket 'emmeans' wurde unter R Version 4.3.2 erstellt
+## Warning: Paket 'emmeans' wurde unter R Version 4.4.2 erstellt
+```
+
+```
+## Welcome to emmeans.
+## Caution: You lose important information if you filter this package's results.
+## See '? untidy'
 ```
 
 In diesem Paket gibt es die wenig überraschend benannte `emmeans`-Funktion, mit der wir alle weiteren Analysen vorbereiten müssen:
 
 
-```r
+``` r
 emm <- emmeans(aov(ET ~ urban*edu, conspiracy), ~ urban * edu)
 ```
 
@@ -551,7 +559,7 @@ Diese Funktion nimmt als erstes Argument das gleiche `aov`-Objekt entgegen wie `
 Wenn wir uns das entstandene Objekt angucken, sehen wir eine Tabelle mit 7 Spalten:
 
 
-```r
+``` r
 emm
 ```
 
@@ -560,9 +568,9 @@ emm
 ##  rural    not highschool   2.40 0.0889 2442     2.23     2.58
 ##  suburban not highschool   2.24 0.0599 2442     2.13     2.36
 ##  urban    not highschool   2.51 0.0681 2442     2.38     2.64
-##  rural    highschool       2.33 0.1596 2442     2.02     2.65
+##  rural    highschool       2.33 0.1600 2442     2.02     2.65
 ##  suburban highschool       2.38 0.0858 2442     2.21     2.55
-##  urban    highschool       2.60 0.1129 2442     2.38     2.82
+##  urban    highschool       2.60 0.1130 2442     2.38     2.82
 ##  rural    college          1.91 0.0943 2442     1.73     2.10
 ##  suburban college          1.91 0.0640 2442     1.79     2.04
 ##  urban    college          1.98 0.0699 2442     1.84     2.12
@@ -575,7 +583,7 @@ Die ersten beiden Spalten  (`urban`, `edu`) geben an, welche Ausprägungen unser
 Mittelwerte und Konfidenzintervalle können wir uns sehr einfach direkt plotten lassen:
 
 
-```r
+``` r
 plot(emm)
 ```
 
@@ -584,7 +592,7 @@ plot(emm)
 Diese Abbildung können wir um eine Aussage über die direkten Vergleiche erweitern:
 
 
-```r
+``` r
 plot(emm, comparisons = TRUE)
 ```
 
@@ -595,7 +603,7 @@ Die neu hinzugekommenen roten Pfeile geben uns einen Hinweis dazu, welche Gruppe
 Eine zweite Möglichkeit, die Ergebnisse ein wenig übersichtlicher zu gestalten sind *pairwise $p$-value plots*. Im `emmeans`-Paket werden diese über `pwpp` angefordert:
 
 
-```r
+``` r
 pwpp(emm)
 ```
 
@@ -606,7 +614,7 @@ In dieser Abbildung ist auf der x-Achse der $p$-Wert des Mittelwertvergleichs da
 Wir hätten auch mit Hilfe des `ezANOVA`-Befehls ein `aov`-Objekt erhalten können, mit welchem wir die oben aufgeführten Späße hätten durchführen können. Dazu müssen wir das Objekt lediglich abspeichern und das Argument `return_aov` auf `T`, bzw. `TRUE` setzen:
 
 
-```r
+``` r
 ez1 <- ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), detailed = TRUE, return_aov = T)
 aov1 <- ez1$aov
 emm1 <- emmeans(aov1, ~ urban * edu)
@@ -624,7 +632,7 @@ In Situationen mit vielen Gruppen ist es außerordentlich ineffizient, *alle* Ve
 Um Kontraste definieren zu können, müssen wir zunächst in Erfahrung bringen, in welcher Reihenfolge die Gruppenkombinationen intern repräsentiert werden. Diese Reihenfolge haben wir bereits im `emm`-Objekt gesehen:
 
 
-```r
+``` r
 emm
 ```
 
@@ -633,9 +641,9 @@ emm
 ##  rural    not highschool   2.40 0.0889 2442     2.23     2.58
 ##  suburban not highschool   2.24 0.0599 2442     2.13     2.36
 ##  urban    not highschool   2.51 0.0681 2442     2.38     2.64
-##  rural    highschool       2.33 0.1596 2442     2.02     2.65
+##  rural    highschool       2.33 0.1600 2442     2.02     2.65
 ##  suburban highschool       2.38 0.0858 2442     2.21     2.55
-##  urban    highschool       2.60 0.1129 2442     2.38     2.82
+##  urban    highschool       2.60 0.1130 2442     2.38     2.82
 ##  rural    college          1.91 0.0943 2442     1.73     2.10
 ##  suburban college          1.91 0.0640 2442     1.79     2.04
 ##  urban    college          1.98 0.0699 2442     1.84     2.12
@@ -646,7 +654,7 @@ emm
 Mithilfe eines 9 Elemente langen Vektors können Kontraste festgelegt werden. Um z.B. die Gruppe "rural, not highschool" (Zeile 1) mit der Gruppe "suburban, not highschool" (Zeile 2) zu vergleichen, kann folgender Vektor angelegt werden:
 
 
-```r
+``` r
 cont1 <- c(1, -1, 0, 0, 0, 0, 0, 0, 0)
 ```
 
@@ -661,7 +669,7 @@ $H_0: \mu_{11} - \mu_{21} = 0$
 Mit dem `contrast`-Befehl kann der festgelegte Kontrast geprüft werden, indem wir das Mittelwertsobjekt `emm` übergeben und anschließend die Gruppenzugehörigkeit via Kontrast als Liste `list(cont1)` übergeben:
 
 
-```r
+``` r
 contrast(emm, list(cont1))
 ```
 
@@ -673,7 +681,7 @@ contrast(emm, list(cont1))
 Dieser Kontrast entspricht dem ersten Vergleich des oben durchgeführten `TukeyHSD`, unterscheidet sich jedoch im $p$-Wert. Der hier bestimmte $p$-Wert ist nicht korrigiert (weil nur ein Kontrast geprüft wurde), der oben aufgeführte ist hingegen auf 36 Tests Tukey-korrigiert. Genauso können andere Gruppen miteinander verglichen werden, indem die jeweiligen Stellen von `cont1` verändert werden. Eine generelle Daumenregel besagt, dass die Summe des Kontrastvektors 0 sein sollte:
 
 
-```r
+``` r
 sum(cont1)
 ```
 
@@ -681,7 +689,7 @@ sum(cont1)
 ## [1] 0
 ```
 
-```r
+``` r
 sum(cont1) == 0
 ```
 
@@ -694,7 +702,7 @@ Falls dies nicht der Fall ist, dann ist der Kontrast nicht richtig gewählt!
 Mithilfe der Kontrast-Vektoren können auch komplexe Hypothesen geprüft werden. Beispielsweise könnten wir vergleichen, inwiefern sich Personen aus städtischer Umgebung ($j = 3$) mit mindestens High School Abschluss ($k = 2$ und $k = 3$) von Personen ohne High School Abschluss ($k = 1$) unterscheiden. Da nun die Gruppen 32 und 33 gleichwertig sind, teilen sie sich einen Platz. Daher bekommen beide Gruppen einen halben Platz, also 0.5:
 
 
-```r
+``` r
 cont2 <- c(0, 0, 1, 0, 0, -.5, 0, 0, -.5)
 ```
 
@@ -703,13 +711,13 @@ oder in Hypothesenform: $H_0: \mu_{31} - .5 \cdot \mu_{32} - .5 \cdot \mu_{33} =
 Weil sowohl `cont1` als auch `cont2` durchgeführt werden, muss für das multiple Testen der beiden korrigiert werden. Das kann dadurch erreicht werden, dass im `contrast`-Befehl alle Kontraste gleichzeitig eingeschlossen werden und mit `adjust = 'bonferroni'` z.B. die Bonferroni-Korrektur ausgewählt wird:
 
 
-```r
+``` r
 contrast(emm, list(cont1, cont2), adjust = 'bonferroni')
 ```
 
 ```
 ##  contrast                           estimate     SE   df t.ratio p.value
-##  c(1, -1, 0, 0, 0, 0, 0, 0, 0)         0.158 0.1072 2442   1.475  0.2809
+##  c(1, -1, 0, 0, 0, 0, 0, 0, 0)         0.158 0.1070 2442   1.475  0.2809
 ##  c(0, 0, 1, 0, 0, -0.5, 0, 0, -0.5)    0.220 0.0951 2442   2.315  0.0414
 ## 
 ## P value adjustment: bonferroni method for 2 tests
@@ -731,19 +739,19 @@ Bei mehrfaktoriellen ANOVAs können die Quadratsummen auf unterschiedliche Arten
 Typ I berücksichtigt in der Berechnung der Quadratsummen nur die vorherigen unabhängigen Variablen. Dies entspricht konzeptuell der sequentiellen Aufnahme von Prädiktoren in der Regression.
 
 
-```r
+``` r
 # QS-Typ 1, Reihenfolge 1
 ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 1)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
-## for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
-## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one
-## variable. Hopefully you are doing this for demonstration purposes only!
+## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable. Hopefully you
+## are doing this for demonstration purposes only!
 ```
 
 ```
@@ -754,17 +762,16 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 1)
 ## 3 urban:edu   4 2442  0.835700 5.023239e-01       0.001367007
 ```
 
-```r
+``` r
 # QS-Typ 1, Reihenfolge 2
 ezANOVA(conspiracy, dv = ET, wid = id, between = c(edu, urban), type = 1)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
-## for the type argument to ezANOVA().
-
-## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one
-## variable. Hopefully you are doing this for demonstration purposes only!
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
+## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable. Hopefully you
+## are doing this for demonstration purposes only!
 ```
 
 ```
@@ -778,7 +785,7 @@ ezANOVA(conspiracy, dv = ET, wid = id, between = c(edu, urban), type = 1)
 Dies ist im Übrigen auch der Default im `lm`-Befehl, an den auch einfach eine `factor`-Variable übergeben werden kann. Auf das `lm`-Objekt wird dann die `anova`-Funktion angewandt, um den gängigen ANOVA-Output zu erhalten. Jedoch sollte hier aufgepasst werden, falls Interaktionen bestimmt werden. Der Default ist immer Typ I!
 
 
-```r
+``` r
 # QS-Typ 1, Reihenfolge 1 mit lm
 anova(lm(ET ~ urban*edu, data = conspiracy))
 ```
@@ -796,7 +803,7 @@ anova(lm(ET ~ urban*edu, data = conspiracy))
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-```r
+``` r
 # QS-Typ 1, Reihenfolge 2 mit lm
 anova(lm(ET ~ edu*urban, data = conspiracy))
 ```
@@ -818,7 +825,7 @@ anova(lm(ET ~ edu*urban, data = conspiracy))
 
 
 
-```r
+``` r
 # QS-Typ 1, Reihenfolge 1 mit aov
 summary(aov(ET ~ urban*edu, data = conspiracy))
 ```
@@ -833,7 +840,7 @@ summary(aov(ET ~ urban*edu, data = conspiracy))
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-```r
+``` r
 # QS-Typ 1, Reihenfolge 2 mit aov
 summary(aov(ET ~ edu*urban, data = conspiracy))
 ```
@@ -855,14 +862,14 @@ Wir sehen deutlich, dass sich der $F$-Wert ändert, je nach dem in welcher Reihe
 Typ II berücksichtigt in der Berechnung alle anderen unabhängigen Variablen. In der Berechnung der einzelnen Quadratsummen wird allerdings angenommen, dass alle Interaktionen, an denen dieser Term beteiligt ist, 0 sind. Typ II ist in `ezANOVA` voreingestellt.
 
 
-```r
+``` r
 # QS-Typ 2
 ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 2)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
-## for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -886,14 +893,14 @@ Die Quadratsummen mit `lm` zu replizieren, ist extrem aufwendig. Es geht aber au
 Zunächst laden wir das Paket:
 
 
-```r
+``` r
 library(car)
 ```
 
 Anschließend verwenden wir `Anova` aus dem `car`-Paket wie zuvor `anova` auf das `lm`-Objekt oder wie die `summary` auf das `aov`-Objekt an. Mit dem Zusatzargument `type = "II"`, stellen wir, analog zu `ezANOVA`, den Quadratsummentyp ein. Die Reihenfolge der Prädiktoren spielt nun keine Rolle mehr!
 
 
-```r
+``` r
 Anova(lm(ET ~ urban*edu, data = conspiracy), type = "II")
 ```
 
@@ -910,7 +917,7 @@ Anova(lm(ET ~ urban*edu, data = conspiracy), type = "II")
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-```r
+``` r
 Anova(aov(ET ~ urban*edu, data = conspiracy), type = "II")
 ```
 
@@ -933,14 +940,14 @@ Anova(aov(ET ~ urban*edu, data = conspiracy), type = "II")
 Typ III unterscheidet sich von Typ II nur darin, dass bei der Berechnung nicht angenommen wird, dass die Interaktionen 0 sind. Typ III ist z.B. in SPSS voreingestellt.
 
 
-```r
+``` r
 # QS-Typ 3
 ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 3)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
-## for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -964,7 +971,7 @@ Wir wollen dies nun noch für den `lm` und den `aov`-Befehl replizieren. Hier m�
 
 
 
-```r
+``` r
 # verstelle die Art, wie Kontraste bestimmt werden --- Achtung! Immer wieder zurückstellen
 options(contrasts=c(unordered="contr.sum", ordered="contr.poly")) 
 Anova(lm(ET ~ urban*edu, data = conspiracy), type = "III")
@@ -984,7 +991,7 @@ Anova(lm(ET ~ urban*edu, data = conspiracy), type = "III")
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-```r
+``` r
 Anova(aov(ET ~ urban*edu, data = conspiracy), type = "III")
 ```
 
@@ -1002,7 +1009,7 @@ Anova(aov(ET ~ urban*edu, data = conspiracy), type = "III")
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-```r
+``` r
 # Einstellungen zurücksetzen zum Default:
 options(contrasts=c(unordered="contr.treatment", ordered="contr.poly"))
 

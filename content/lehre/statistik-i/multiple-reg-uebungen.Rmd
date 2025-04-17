@@ -1,0 +1,178 @@
+---
+title: "Multiple Regression - Übungen" 
+type: post
+date: '2024-02-06' 
+slug: multiple-reg-uebungen
+categories: ["Statistik I Übungen"] 
+tags: [] 
+subtitle: ''
+summary: '' 
+authors: [vogler]
+weight:
+lastmod: '`r Sys.Date()`'
+featured: no
+banner:
+  image: "/header/stormies.jpg"
+  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/89134)"
+projects: []
+reading_time: false
+share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/multiple-reg
+  - icon_pack: fas
+    icon: star
+    name: Lösungen
+    url: /lehre/statistik-i/multiple-reg-loesungen
+output:
+  html_document:
+    keep_md: true
+---
+
+```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
+if (exists("figure_path")) {
+  knitr::opts_chunk$set(fig.path = figure_path)
+}
+# Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
+```
+
+## Vorbereitung
+
+```{r, echo = F}
+#### Was bisher geschah: ----
+
+# Daten laden
+load(url('https://pandar.netlify.app/daten/fb24.rda'))
+
+# Nominalskalierte Variablen in Faktoren verwandeln
+fb24$hand_factor <- factor(fb24$hand,
+                             levels = 1:2,
+                             labels = c("links", "rechts"))
+fb24$fach <- factor(fb24$fach,
+                    levels = 1:5,
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
+fb24$ziel <- factor(fb24$ziel,
+                        levels = 1:4,
+                        labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
+fb24$wohnen <- factor(fb24$wohnen, 
+                      levels = 1:4, 
+                      labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+fb24$fach_klin <- factor(as.numeric(fb24$fach == "Klinische"),
+                         levels = 0:1,
+                         labels = c("nicht klinisch", "klinisch"))
+fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb24$job <- factor(fb24$job, levels=c(1,2), labels=c("nein", "ja"))
+fb24$unipartys <- factor(fb24$uni3,
+                             levels = 0:1,
+                             labels = c("nein", "ja"))
+
+# Rekodierung invertierter Items
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 4 - 1)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 4 - 1)
+fb24$mdbf3_r <-  -1 * (fb24$mdbf3 - 4 - 1)
+fb24$mdbf9_r <-  -1 * (fb24$mdbf9 - 4 - 1)
+fb24$mdbf5_r <- -1 * (fb24$mdbf5 - 4 - 1)
+fb24$mdbf7_r <- -1 * (fb24$mdbf7 - 4 - 1)
+
+# Berechnung von Skalenwerten
+fb24$wm_pre  <- fb24[, c('mdbf1', 'mdbf5_r', 
+                        'mdbf7_r', 'mdbf10')] |> rowMeans()
+fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+                        'mdbf8', 'mdbf11_r')] |> rowMeans()
+fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+                         "mdbf9_r", "mdbf12")] |> rowMeans()
+
+# z-Standardisierung
+fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
+
+
+# Weitere Standardisierungen
+fb24$nerd_std <- scale(fb24$nerd)
+fb24$neuro_std <- scale(fb24$neuro)
+```
+
+> Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/multiple-reg/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+
+Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
+
+```{r}
+dim(fb24)
+```
+
+Der Datensatz besteht aus `r nrow(fb24)` Zeilen (Beobachtungen) und `r ncol(fb24)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+
+
+***
+
+## Aufgabe 1
+
+Ihr womöglich erstes Semester des Psychologie Studiums neigt sich dem Ende entgegen und die Klausuren rücken somit immer näher. Als vorbildliche\*r Student\*in sind Sie bereits fleißig am Lernen.
+Jedoch beobachten Sie in manchen Kommilitoninnen und Kommilitonen, dass diese nicht so fleißig sind und eher vor sich hin prokrastinieren.
+Sie vermuten, dass bestimmte Persönlichkeitsmerkmale die Prokrastinationstendenz (`prok`) vorhersagen könnten. Konkret vermuten Sie einen positiven Zusammenhang mit Neurotizismus (`neuro`) und einen negativen Zusammenhang mit Gewissenhaftigkeit (`gewis`). Im weiteren Verlauf sollen aber alle Eigenschaften aus dem Big Five Modell überprüft werden.
+
+Dafür reduzieren Sie zunächst Ihren Datensatz auf die relevanten Variablen und entfernen sämtliche fehlende Werte:
+
+```{r}
+fb24_short <- subset(fb24, select = c("extra", "vertr", "gewis", "neuro", "offen", "prok"))
+
+fb24_short <- na.omit(fb24_short)
+```
+
+<details>
+
+<summary>Exkurs: Warum machen wir das?</summary>
+
+Zum einen fällt es uns so leichter den Überblick über unsere Daten zu behalten.
+Zum anderen ist uns bereits im Kapitel [Multiple Regression](/lehre/statistik-i/multiple-reg) eine Fehlermeldung bei der Verwendung des Befehls `anova()` in Kombination mit fehlenden Werten (`NA`) begegnet.
+Da wir im Folgenden erneut mit den Big Five Variablen arbeiten, gehen wir dieser Fehlermeldung bereits im Vorhinein aus dem Weg.
+
+```{r}
+#Gibt es mindestens ein fehlenden Wert auf den 6 Variablen?
+anyNA(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
+
+#Auf welcher Variable und wie viele NA's gibt es?
+summary(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
+#ein NA auf vertr
+```
+
+</details>
+
+*   Stellen Sie das oben beschriebene lineare Regressionsmodell auf.
+
+*   Überprüfen Sie die Voraussetzungen für die multiple lineare Regression.
+
+*   Neurotizismus (`neuro`) und Gewissenhaftigkeit (`gewis`) bilden bereits zwei der fünf Persönlichkeitsdimensionen nach dem Big Five Modell ab. Gibt es unter den verbleibenden drei Dimensionen einen weiteren signifikanten Prädiktor für die Prokrastinationstendenz (`prok`)? Gehen Sie schrittweise vor, indem Sie Ihr vorhandenes Modell um eine Persönlichkeitsdimension erweitern und dann testen, ob deren Inkrement signifikant ist.
+
+*   Interpretieren Sie das Regressionsgewicht von Gewissenhaftigkeit (`gewis`).
+
+*   Wie viel Varianz (in %) erklärt das finale Modell?
+
+
+## Aufgabe 2
+
+Gehen Sie für die folgende Aufgabe von dem finalen Modell aus Aufgabe 1 aus.
+
+Falls Sie dort Schwierigkeiten hatten, benutzen Sie das Kontrollergebnis.
+
+<details>
+
+<summary>Kontrollergebnis</summary>
+
+```{r eval=FALSE}
+mod_final <- lm(prok ~ neuro + gewis + extra, data = fb24_short)
+```
+
+</details>
+
+*   Welcher Prädiktor trägt am meisten zur Prognose der Prokrastinationstendenz (`prok`) bei?
+
+*   Welche Prokrastinationstendenz (`prok`) sagt das finale Modell für eine Person hervor, die auf allen inkludierten Prädiktoren genau in der Mitte der Stichprobe (`fb24`) liegt (Mittelwerte)?
+
+
+***
+
+
+

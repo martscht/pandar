@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler, winkler, schroeder, neubauer, goldhammer]
 weight: 9
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/storch_with_baby.jpg"
@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-i/korrelation.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/korrelation-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/korrelation-uebungen
 output:
   html_document:
     keep_md: true
@@ -59,7 +59,7 @@ output:
 Den Datensatz `fb24` haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
 
 
-```r
+``` r
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -106,7 +106,7 @@ Die Erstellung von *Häufigkeitstabellen* zur Darstellung univariater Häufigkei
 
 
 
-```r
+``` r
 tab <- table(fb24$fach)               #Absolut
 tab
 ```
@@ -117,7 +117,7 @@ tab
 ##          41          15          40          88           3
 ```
 
-```r
+``` r
 prop.table(tab)                       #Relativ
 ```
 
@@ -132,7 +132,7 @@ prop.table(tab)                       #Relativ
 Die Erweiterung für den bivariaten Fall ist dabei nicht schwierig und wird als *Kreuztabelle* bezeichnet. Sie liefert die Häufigkeit von Kombinationen von Ausprägungen in mehreren Variablen. In den Zeilen wird die erste Variable abgetragen und in den Spalten die zweite. Im Unterschied zum univariaten Fall muss im `table()`-Befehl nur die zweite interessierende Variable zusätzlich genannt werden. Tabellen können beliebig viele Dimensionen haben, werden dann aber sehr unübersichtlich.
 
 
-```r
+``` r
 tab<-table(fb24$fach,fb24$ziel)       #Kreuztabelle
 tab
 ```
@@ -150,7 +150,7 @@ tab
 In eine Kreuztabelle können Randsummen mit dem `addmargins()` Befehl hinzugefügt werden. Randsummen erzeugen in der letzten Spalte bzw. Zeile die univariaten Häufigkeitstabellen der Variablen.
 
 
-```r
+``` r
 addmargins(tab)                       #Randsummen hinzufügen
 ```
 
@@ -170,7 +170,7 @@ addmargins(tab)                       #Randsummen hinzufügen
 Auch für die Kreuztabelle ist die Möglichkeit der Darstellung der Häufigkeiten in Relation zur Gesamtzahl der Beobachtungen gegeben. 
 
 
-```r
+``` r
 prop.table(tab)                       #Relative Häufigkeiten
 ```
 
@@ -190,7 +190,7 @@ prop.table(tab)                       #Relative Häufigkeiten
 `prob.table()` kann allerdings nicht nur an der Gesamtzahl relativiert werden, sondern auch an der jeweiligen Zeilen- oder Spaltensumme. Dafür gibt man im Argument `margin` für Zeilen `1` oder für Spalten `2` an.
 
 
-```r
+``` r
 prop.table(tab, margin = 1)           #relativiert an Zeilen
 ```
 
@@ -207,7 +207,7 @@ prop.table(tab, margin = 1)           #relativiert an Zeilen
 Von 88 Personen, die sich am meisten für klinische Psychologie interessieren, wollen 84.09% (nämlich 74 Personen) später therapeutisch arbeiten.
 
 
-```r
+``` r
 prop.table(tab, margin = 2)           #relativiert an Spalten
 ```
 
@@ -229,7 +229,7 @@ Von 108 Personen, die später therapeutisch arbeiten wollen, interessieren sich 
 `addmargins(prop.table(tab))` liefert die Randsummen der relativen Häufigkeiten.
 
 
-```r
+``` r
 addmargins(prop.table(tab))      # als geschachtelte Funktion
 ```
 
@@ -244,7 +244,7 @@ addmargins(prop.table(tab))      # als geschachtelte Funktion
 ##   Sum         0.129032258 0.580645161 0.134408602 0.155913978 1.000000000
 ```
 
-```r
+``` r
 prop.table(tab) |> addmargins()  # als Pipe
 ```
 
@@ -266,7 +266,7 @@ prop.table(tab) |> addmargins()  # als Pipe
 Grafisch kann eine solche Kreuztabelle durch gruppierte Balkendiagramme dargestellt werden. Das Argument `beside` sorgt für die Anordnung der Balken (bei `TRUE` nebeneinander, bei `FALSE` übereinander). Das Argument `legend` nimmt einen Vektor für die Beschriftung entgegen. Die Zeilen des Datensatzes bilden dabei stets eigene Balken, während die Spalten die Gruppierungsvariable bilden. Deshalb müssen als Legende die Namen der Reihen `rownames()` unserer Tabelle `tab` ausgewählt werden.
 
 
-```r
+``` r
 barplot (tab,
          beside = TRUE,
          col = c('mintcream','olivedrab','peachpuff','steelblue','maroon'),
@@ -304,7 +304,7 @@ Die Funktionen für die Varianz ist dabei `var()`. Im Folgenden wird diese für 
 Wie bereits in vergangenen Sitzungen gesehen, führen fehlende Werte zu der Ausgabe `NA`. Um dies vorzubeugen, wird im univariaten Fall `na.rm = TRUE` zum Ausschluss verwendet. 
 
 
-```r
+``` r
 var(fb24$neuro, na.rm = TRUE)            #Varianz Neurotizismus
 ```
 
@@ -312,7 +312,7 @@ var(fb24$neuro, na.rm = TRUE)            #Varianz Neurotizismus
 ## [1] 0.8955084
 ```
 
-```r
+``` r
 var(fb24$gewis, na.rm = TRUE)            #Varianz Gewissenhaftigkeit
 ```
 
@@ -326,7 +326,7 @@ Die Funktion `cov()` wird für die Kovarianz verwendet und benötigt als Argumen
 {{<intext_anchor NA>}}
 
 
-```r
+``` r
 cov(fb24$neuro, fb24$gewis)              #Kovarianz Neurotizismus und Gewissenhaftigkeit
 ```
 
@@ -343,7 +343,7 @@ Natürlich können auch bei der Kovarianzberechnung fehlende Werte zu einem Prob
 Am besten lässt sich der Unterschied in einer *Kovarianzmatrix* veranschaulichen. Hier werden alle Varianzen und Kovarianzen von einer Menge an Variablen berechnet und in einer Tabelle darstellt. Dafür kann ein Datensatz erstellt werden, der nur die interessierenden Variablen enthält. Wir nehmen alle vier Variablen aus unseren Beispielen zur Kovarianzen auf. Außerdem müssen wir zu Veranschaulichungszwecken noch das Vorkommen fehlender Werte (willkürlich) anpassen.
 
 
-```r
+``` r
 big5 <- fb24[,c('extra', 'vertr', 'gewis', 'neuro', 'offen')] #Datensatzreduktion
 cov(big5)                                       #Kovarianzmatrix   
 ```
@@ -360,7 +360,7 @@ cov(big5)                                       #Kovarianzmatrix
 Auch hier bekommen wir zunächst die wenig zufriedenstellende Aussage, dass keine der Kovarianzen bestimmt werden kann, weil fehlende Werte vorliegen. Anhand der `summary` können wir auch schnell ermitteln, wie viele fehlende Werte das pro Variable sind:
 
 
-```r
+``` r
 summary(big5)
 ```
 
@@ -379,7 +379,7 @@ summary(big5)
 Um trotz dieser fehlenden Werte Kovarianzen berechnen zu können, können wir mit dem Argument `use` arbeiten. Per Voreinstellung wird die erste der drei Optionen genutzt, welche ausgeschrieben `"everything"` heißt. Da dabei alle Zeilen einfach in die Berechnung eingehen, werden `NA`-Werte nicht ausgeschlossen und für die Zusammenhänge daher keine Kennwerte erzeugt. Wir können diese Schlussfolgerug auch nochmal überprüfen.
 
 
-```r
+``` r
 cov(big5, use = "everything")         # Kovarianzmatrix mit Argument   
 ```
 
@@ -397,7 +397,7 @@ Die Ergebnisse sind exakt gleich mit den vorherigen - `"everything"` ist also de
 Beginnen wir mit dem *paarweisem Fallausschluss*, der mit `"pairwise"` angesprochen werden kann. 
 
 
-```r
+``` r
 cov(big5, use = 'pairwise')             #Paarweiser Fallausschluss
 ```
 
@@ -414,7 +414,7 @@ Wie wir sehen, werden nun die Personen mit fehlenden Werten auf einer Variable i
 
 Vergleichen wir nun dieses Ergebnis noch mit dem Ergebnis des *listenweisem Fallausschluss*.
 
-```r
+``` r
 cov(big5, use = 'complete')             #Listenweiser Fallausschluss
 ```
 
@@ -430,14 +430,14 @@ cov(big5, use = 'complete')             #Listenweiser Fallausschluss
 Wie wir sehen, sind die Werte in diesem Fall gleich. Das liegt allerdings nur daran, dass es anscheinend _die selbe_ Person war, die auf allen fünf Variablen fehlende Werte hatte. Wenn wir händisch einen fehlenden Wert hinzufügen:
 
 
-```r
+``` r
 big5[1, 1] <- NA
 ```
 
 unterscheiden sich die Werte zwischen `pairwise` und `complete` für die Kovarianzen aller Kombinationen außer der mit der ersten Variable:
 
 
-```r
+``` r
 cov(big5, use = 'complete')             #Listenweiser Fallausschluss
 ```
 
@@ -450,7 +450,7 @@ cov(big5, use = 'complete')             #Listenweiser Fallausschluss
 ## offen -0.02488165  0.055966305 -0.081906154  0.02392788  0.95893205
 ```
 
-```r
+``` r
 cov(big5, use = 'pairwise')             #Paarweiser Fallausschluss
 ```
 
@@ -470,7 +470,7 @@ Das liegt daran, dass `complete` Personen mit fehlenden Werten aus der komplette
 Der Zusammenhang zwischen zwei Variablen kann in einem *Scatterplot* bzw. *Streupunktdiagramm* dargestellt werden. Dafür kann man die `plot()` Funktion nutzen. Als Argumente können dabei `x` für die Variable auf der x-Achse, `y` für die Variable auf der y-Achse, `xlim`, `ylim` für eventuelle Begrenzungen der Achsen und `pch` für die Punktart angegeben werden.
 
 
-```r
+``` r
 plot(x = fb24$neuro, y = fb24$gewis, xlim = c(1,5) , ylim = c(1,5))
 ```
 
@@ -483,7 +483,7 @@ plot(x = fb24$neuro, y = fb24$gewis, xlim = c(1,5) , ylim = c(1,5))
 Wie in der Vorlesung besprochen, sind für verschiedene Skalenniveaus verschiedene Zusammenhangsmaße verfügbar, die im Gegensatz zur Kovarianz auch eine Vergleichbarkeit zwischen zwei Zusammenhangswerten sicherstellen. Für zwei metrisch skalierte Variablen gibt es dabei die *Produkt-Moment-Korrelation*. In der Funktion `cor()` werden dabei die Argumente `x` und `y` für die beiden betrachteten Variablen benötigt. `use` beschreibt weiterhin den Umgang mit fehlenden Werten.
 
 
-```r
+``` r
 cor(x = fb24$neuro, y = fb24$gewis, use = 'pairwise')
 ```
 
@@ -496,7 +496,7 @@ Bei einer positiven Korrelation gilt „je mehr Variable x... desto mehr Variabl
 In R können wir uns auch eine *Korrelationsmatrix* ausgeben lassen. Dies geschieht äquivalent zu der Kovarianzmatrix mit dem Datensatz als Argument in der `cor()` Funktion. In der Diagonale stehen die Korrelationen der Variable mit sich selbst - also 1 - und in den restlichen Feldern die Korrelationen der Variablen untereinander.
 
 
-```r
+``` r
 cor(big5, use = 'pairwise')
 ```
 
@@ -514,7 +514,7 @@ Die Stärke des korrelativen Zusammenhangs wird mit dem Korrelationskoeffiziente
 Die default-Einstellung bei `cor()`ist die *Produkt-Moment-Korrelation*, also die Pearson-Korrelation.
 
 
-```r
+``` r
 cor(fb24$neuro, fb24$gewis, use = "pairwise", method = "pearson")
 ```
 
@@ -536,7 +536,7 @@ Achtung! Die inferenzstatistische Testung der Pearson-Korrelation hat gewisse Vo
 $\rightarrow$ QQ-Plot, Histogramm & Shapiro-Wilk-Test
 
 
-```r
+``` r
 # car-Paket laden
 library(car)
 
@@ -550,7 +550,7 @@ qqPlot(fb24$neuro)
 ## [1]  13 146
 ```
 
-```r
+``` r
 qqPlot(fb24$gewis)
 ```
 
@@ -560,7 +560,7 @@ qqPlot(fb24$gewis)
 ## [1] 34 44
 ```
 
-```r
+``` r
 #Histogramm
 
 hist(fb24$neuro, prob = T, ylim = c(0, 1))
@@ -569,14 +569,14 @@ curve(dnorm(x, mean = mean(fb24$neuro, na.rm = T), sd = sd(fb24$neuro, na.rm = T
 
 ![](/korrelation_files/unnamed-chunk-23-3.png)<!-- -->
 
-```r
+``` r
 hist(fb24$gewis, prob = T, ylim = c(0,1))
 curve(dnorm(x, mean = mean(fb24$gewis, na.rm = T), sd = sd(fb24$gewis, na.rm = T)), col = "blue", add = T)
 ```
 
 ![](/korrelation_files/unnamed-chunk-23-4.png)<!-- -->
 
-```r
+``` r
 #Shapiro
 shapiro.test(fb24$neuro)
 ```
@@ -589,7 +589,7 @@ shapiro.test(fb24$neuro)
 ## W = 0.95921, p-value = 2.523e-05
 ```
 
-```r
+``` r
 shapiro.test(fb24$gewis)
 ```
 
@@ -608,7 +608,7 @@ $p < \alpha$ $\rightarrow$ $H_1$: Normalverteilung kann nicht angenommen werden.
 #### Rangkorrelation in R
 
 
-```r
+``` r
 r1 <- cor(fb24$neuro,fb24$gewis,
           method = "spearman",     #Pearson ist default
           use = "complete") 
@@ -636,7 +636,7 @@ Es handelt sich um eine schwache negative Korrelation von _r_ = -0.11. Der Effek
 Als weitere Variante der Rangkorrelation gibt es noch Kendalls $\tau$. Diese kann man mit `method = "kendall"` angesprochen werden.
 
 
-```r
+``` r
 cor(fb24$neuro, fb24$gewis, use = 'complete', method = 'kendall')
 ```
 
@@ -652,7 +652,7 @@ Nachdem der Korrelationskoeffizient berechnet wurde, kann dieser noch auf Signif
 * $H_1$: $\rho \neq 0$ $\rightarrow$  es gibt einen Zusammenhang zwischen Neurotizismus und Gewissenhaftigkeit
 
 
-```r
+``` r
 cor <- cor.test(fb24$neuro, fb24$gewis, 
          alternative = "two.sided", 
          method = "spearman",      #Da Voraussetzungen für Pearson verletzt
@@ -660,11 +660,11 @@ cor <- cor.test(fb24$neuro, fb24$gewis,
 ```
 
 ```
-## Warning in cor.test.default(fb24$neuro, fb24$gewis, alternative = "two.sided", : Kann exakten p-Wert
-## bei Bindungen nicht berechnen
+## Warning in cor.test.default(fb24$neuro, fb24$gewis, alternative = "two.sided", : Kann exakten p-Wert bei
+## Bindungen nicht berechnen
 ```
 
-```r
+``` r
 cor$p.value      #Gibt den p-Wert aus
 ```
 
@@ -681,7 +681,7 @@ Es wurde untersucht, ob Neurotizismus und Gewissenhaftigkeit miteinander zusamme
 Wir haben in der Funktion `cor.test()` als Argument `method = "spearman"` eingegeben, da die Voraussetzungen für die Pearson-Korrelation nicht erfüllt waren. Wenn dies der Fall gewesen wäre, müsste man stattdessen `method = "pearson"` angeben:
 
 
-```r
+``` r
 cor.test(fb24$neuro, fb24$gewis, 
          alternative = "two.sided", 
          method = "pearson",       
@@ -709,7 +709,7 @@ Abschließend lernen wir Zusammenhangsmaße für dichotome nominalskalierte Vari
 Wir analysieren aus unserem Datensatz die beiden dichotomen Variablen `job` (ja [`ja`] vs. nein [`nein`]) und `ort` (Frankfurt [`FFM`] vs. außerhalb [`andere`]). Die Variablen `ort` und `job` liegen nach den vorbereitenden Schritten bereits als Faktor-Variablen mit entsprechende Labels vor. Dies wird durch die folgende Prüfung bestätigt:
 
 
-```r
+``` r
 is.factor(fb24$ort)
 ```
 
@@ -717,7 +717,7 @@ is.factor(fb24$ort)
 ## [1] TRUE
 ```
 
-```r
+``` r
 is.factor(fb24$job)
 ```
 
@@ -726,7 +726,7 @@ is.factor(fb24$job)
 ```
 Erstellen der Kreuztabelle als Datenbasis:
 
-```r
+``` r
 tab <- table(fb24$ort, fb24$job)
 tab
 ```
@@ -748,7 +748,7 @@ $$\phi = \frac{n_{11}n_{22}-n_{12}n_{21}}{\sqrt{(n_{11}+n_{12})(n_{11}+n_{21})(n
 In `R` sieht das so aus:
 
 
-```r
+``` r
 korr_phi <- (tab[1,1]*tab[2,2]-tab[1,2]*tab[2,1])/
   sqrt((tab[1,1]+tab[1,2])*(tab[1,1]+tab[2,1])*(tab[1,2]+tab[2,2])*(tab[2,1]+tab[2,2]))
 korr_phi
@@ -761,7 +761,7 @@ korr_phi
 Durch ein mathematisches Wunder (dass Sie gerne anhand der Formeln für Kovarianz und Korrelation nachvollziehen können) entspricht diese Korrelation exakt dem Wert, den wir auch anhand der Pearson-Korrelation zwischen den beiden Variablen bestimmen würden:
 
 
-```r
+``` r
 # Numerische Variablen erstellen
 ort_num <- as.numeric(fb24$ort)
 job_num <- as.numeric(fb24$job)
@@ -775,7 +775,7 @@ cor(ort_num, job_num, use = 'pairwise')
 Das hat gegenüber der händischen Bestimmung natürlich den Vorteil, dass wir direkt $p$-Wert und Konfidenzintervall bestimmen können:
 
 
-```r
+``` r
 cor.test(ort_num, job_num)
 ```
 
@@ -816,7 +816,7 @@ welches einen Wertebereich von [-1,1] aufweist und analog zur Korrelation interp
 In `R` sieht das so aus:
 
 
-```r
+``` r
 YulesQ <- (tab[1,1]*tab[2,2]-tab[1,2]*tab[2,1])/
                  (tab[1,1]*tab[2,2]+tab[1,2]*tab[2,1])
 YulesQ
@@ -830,7 +830,7 @@ YulesQ
 Das Ganze lässt sich auch mit dem `psych` Paket und der darin enthaltenen Funktionen `phi()` und `Yule()` umsetzen:
 
 
-```r
+``` r
 # alternativ mit psych Paket
 library(psych)
 phi(tab, digits = 8)
@@ -840,7 +840,7 @@ phi(tab, digits = 8)
 ## [1] -0.07772618
 ```
 
-```r
+``` r
 Yule(tab)
 ```
 
@@ -855,7 +855,7 @@ Das Wettquotienten-Verhältnis (Odds-Ratio) zeigt an, um wieviel sich dieses Ver
 
 Zur Erinnerung die Kreuztabelle:
 
-```r
+``` r
 tab
 ```
 
@@ -868,7 +868,7 @@ tab
 
 Berechnung des Odds für `FFM`:
 
-```r
+``` r
 Odds_FFM = tab[1,1]/tab[1,2]
 Odds_FFM
 ```
@@ -880,7 +880,7 @@ Für in Frankfurt Wohnende ist die Chance keinen Job zu haben demnach 1.58-mal s
 
 Berechnung des Odds für `anderer`:
 
-```r
+``` r
 Odds_anderer = tab[2,1]/tab[2,2]
 Odds_anderer
 ```
@@ -893,7 +893,7 @@ Für nicht in Frankfurt Wohnende ist die Chance keinen Job zu haben 2.21-mal so 
 
 Berechnung des Odds-Ratio:
 
-```r
+``` r
 OR = Odds_anderer/Odds_FFM
 OR
 ```
@@ -925,37 +925,37 @@ Ordinalskalierte Daten können aufgrund der Verletzung der Äquidistanz zwischen
 Zur Berechnung dieses Koeffizienten müssen wir das Paket `rococo` installieren, welches verschiedene Konkordanz-basierte Zusammenhangsmaße enthält. Die Installation muss dem Laden des Paketes logischerweise vorausgestellt sein. Wenn R einmal geschlossen wird, müssen alle Zusatzpakete neu geladen, jedoch nicht neu installiert werden.
 
 
-```r
+``` r
 install.packages('rococo')          #installieren
 ```
 
 
-```r
+``` r
 library(rococo)                     #laden
 ```
 
 ```
-## Warning: Paket 'rococo' wurde unter R Version 4.3.3 erstellt
+## Warning: Paket 'rococo' wurde unter R Version 4.4.3 erstellt
 ```
 
 Übersichten über Pakete kann man mit `??` erhalten.
 
 
-```r
+``` r
 ??rococo
 ```
 
 Die Funktion heißt hier zufälligerweise genau gleich wie das Paket. Wenn man nur Informationen über die Funktion statt dem Paket sucht, geht das anhand von `?`.
 
 
-```r
+``` r
 ?rococo
 ```
 
 Dank des neuen Pakets können wir nun den Koeffizienten $\hat{\gamma}$ berechnen und damit den Zusammenhang zwischen Items betrachten. Schauen wir uns nun mal den Zusammenhang der beiden Prokrastinationsitems `fb24$mdbf2` und `fb24$mdbf3` an, um zu überprüfen, ob die beiden Items auch (wie beabsichtigt) etwas Ähnliches messen (nähmlich die aktuelle Stimmung). Die beiden Variablen wurden ursprünglich auf einer Skala von 1 (*stimmt gar nicht*) bis 4 (*stimmt vollkommen*) (also auf Ordinalskalenniveau) erfasst. 
 
 
-```r
+``` r
 rococo(fb24$mdbf2, fb24$mdbf3)
 ```
 
@@ -966,7 +966,7 @@ rococo(fb24$mdbf2, fb24$mdbf3)
 Um zu überprüfen, ob zwei ordinalskalierte Variablen signifikant miteinander zusammenhängen, können wir die `rococo.test()`-Funktion anwenden.
 
 
-```r
+``` r
 rococo.test(fb24$mdbf2, fb24$mdbf3)
 ```
 

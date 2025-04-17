@@ -27,6 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/ancova-regression.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Übungen
+    url: /lehre/statistik-ii/ancova-regression-uebungen
 output:
   html_document:
     keep_md: true

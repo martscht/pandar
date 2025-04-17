@@ -29,8 +29,9 @@ links:
     url: /lehre/statistik-ii/grafiken2-ggplot2.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Quizdaten
-    url: /lehre/statistik-ii/quizdaten-bsc7#Quiz1
+    name: Übungen
+    url: /lehre/statistik-ii/grafiken2-ggplot2-uebungen
+
 output:
   html_document:
     keep_md: true
@@ -48,7 +49,7 @@ if (exists("figure_path")) {
 ggplot2::theme_set(ggplot2::theme_grey())
 ```
 
-Im [letzten Beitrag](/lehre/statistik-ii/grafiken-ggplot2) haben wir uns mit den Grundeigenschaften von `ggplot2` befasst und uns dabei erstmal auf die Gestaltung von Balkendiagrammen konzentriert. Hier will ich das Ganze auf eine der typischen Abbildungen in den Sozialwissenschaften erweitern: den Scatterplot. Weil Printmedien aussterben gucken wir uns außerdem noch an, wie man Grafiken so erstellen kann, dass Leser:innen damit interagieren können, um mehr Informationen zu erhalten, die sich nicht auf einen Blick verpacken lassen.
+Im [letzten Beitrag](/lehre/statistik-ii/grafiken-ggplot2) haben wir uns mit den Grundeigenschaften von `ggplot2` befasst und uns dabei erstmal auf die Gestaltung von Balkendiagrammen konzentriert. Hier will ich das Ganze auf eine der typischen Abbildungen in den Sozialwissenschaften erweitern: den Scatterplot. Weil Printmedien aussterben gucken wir uns außerdem noch an, wie man Grafiken so erstellen kann, dass Leser:innen damit interagieren können, um mehr Informationen zu erhalten, die sich nicht auf einen Blick verpacken lassen. Mit diesem Beitrags können Sie sich dann auch mit dem ersten [Quiz](/lehre/statistik-ii/quizdaten-bsc7#Quiz1) auseinandersetzen.
 
 <details><summary>Abschnitte in diesem Beitrag</summary>
 

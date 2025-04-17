@@ -81,7 +81,7 @@ lo_conf_nerd
 conf_nerd <- c(lo_conf_nerd, up_conf_nerd)
 conf_nerd
 
-## install.packages("psych")
+# install.packages("psych")
 
 library(psych)
 describe(fb24$neuro)
@@ -121,11 +121,11 @@ dz
 dt <- abs((sample_mean_neuro - pop_mean_neuro)/ sample_sd_neuro)
 dt
 
-## install.packages('psych')          # installieren
+# install.packages('psych')          # installieren
 
 library(psych)                     # laden
 
-## ??psych                          # Hilfe
+# ??psych                          # Hilfe
 
 
 

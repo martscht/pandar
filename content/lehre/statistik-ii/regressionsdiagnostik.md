@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [irmer, hartig, nehler, sajjad]
 weight: 6
-lastmod: '2025-02-07'
+lastmod: '2025-04-08'
 featured: no
 banner:
   image: "/header/glider.jpg"
@@ -27,6 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/regressionsdiagnostik.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Übungen
+    url: /lehre/statistik-ii/regressionsdiagnostik-uebungen
 output:
   html_document:
     keep_md: true
@@ -58,7 +62,7 @@ Für die heutige Sitzung betrachten wir folgendes Anwendungsbeispiel: Eine Stich
 
 Den Datensatz und die benötigten Pakete laden Sie  wie folgt:
 
-```r
+``` r
 # Datensatz laden
 load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
 str(Schulleistungen)
@@ -79,7 +83,7 @@ Wir wollen in einem ersten Schritt das Modell betrachten, um das es heute bei de
 
 
 
-```r
+``` r
 mod <- lm(reading ~ female + IQ, data = Schulleistungen)
 summary(mod)
 ```
@@ -117,7 +121,7 @@ Den Koeffizienten entnehmen wir, dass die Prädiktoren `female` und `IQ` signifi
 Die Regressionskoeffizienten $b_j$ beziehen sich auf die Maßeinheiten der Variablen im Datensatz (um wie viele Einheiten nimmt $y$ *im Mittel* zu, wenn $x_j$ um eine Einheit zunimmt, *unter Konstanthaltung aller weiteren Prädiktoren im Modell*). Wie wir bereits aus Statistik I im Beitrag zur [einfachen linearen Regression](/lehre/statistik-i/einafache-reg) gelernt haben, sind diese *unstandardisierten Regressionskoeffizienten* verschiedener Prädiktoren nicht vergleichbar. So lässt sich nicht einfach sagen, dass das Geschlecht einen stärkeren Einfluss auf die Leseleistung hätte als Intelligenz, nur weil das Regressionsgewicht für Geschlecht ($b_1=$ 38.5) größer ist als das für Intelligenz ($b_2=$ 3.9). Aus diesem Grund werden oft *standardisierte Regressionskoeffizienten* berechnet und berichtet. Diese können wir mithilfe der Funktion `lm.beta()` aus dem Paket `lm.beta` ermitteln, welches wir bereits installiert haben und nur noch aktivieren müssen.
 
 
-```r
+``` r
 library(lm.beta)
 summary(lm.beta(mod))
 ```
@@ -162,9 +166,34 @@ In die korrekte Spezifikation des Modells fällt, dass keine als Prädiktor rele
 Eine grafische Prüfung der partiellen Linearität zwischen den einzelnen Prädiktorvariablen und dem Kriterium kann durch *partielle Regressionsplots* (engl. *Partialplots*) erfolgen. Dafür sagen wir in einem Zwischenschritt einen einzelnen Prädiktor durch alle anderen Prädiktoren im Modell vorher und speichern die Residuen, die sich aus dieser Regression ergeben. Diese kennzeichnen den eigenständigen Anteil, den ein Prädiktor nicht mit den anderen Prädiktoren gemein hat. Dann werden die Residuen aus dieser Vorhersage gegen die Residuen des Kriteriums bei Vorhersage durch alle Prädiktor bis auf den betrachteten Prädiktor dargestellt. Bspw. im Block `reading | others` vs. `IQ | others` ist die lineare Beziehung zwischen der Leseleistung, wobei alle Varianzanteile der "anderen Prädiktoren" bereits herausgezogen wurden (à la Partial-/Semipartialkorrelation). Hier gibt es nur noch das Geschlecht im Modell, wodurch ersichtlich wird, dass hier die Leseleistung unter Kontrolle des Geschlechts abgebildet wird gegen die Intelligenz unter Kontrolle des Geschlecht. Mit "unter Kontrolle" meinen wir hier "gegeben die jeweiligen Prädiktoren". Das ist im Grunde eine sehr komplizierte Ausdrucksweise, um tatsächlich einfach die Residuen einer Regression zu meinen. Wir tragen also die Residuen der Regression der Leseleistung durch das Geschlecht vs. die Residuen der Intelligenz gegeben das Geschlecht ab. Diese Grafiken können Hinweise auf systematische nicht-lineare Zusammenhänge geben, die in der Modellspezifikation nicht berücksichtigt wurden. Die zugehörige `R`-Funktion des `car` Pakets, das wir bereits installiert haben, heißt `avPlots()` und braucht als Argument lediglich das Regressionsmodell `mod`.
 
 
-```r
+``` r
 library(car) # Paket mit einigen Funktionen zur Regressionsdiagnostik
+```
 
+```
+## Warning: Paket 'car' wurde unter R Version 4.4.2 erstellt
+```
+
+```
+## Lade nötiges Paket: carData
+```
+
+```
+## Warning: Paket 'carData' wurde unter R Version 4.4.2 erstellt
+```
+
+```
+## 
+## Attache Paket: 'car'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:psych':
+## 
+##     logit
+```
+
+``` r
 # partielle Regressionsplots
 avPlots(model = mod, pch = 16, lwd = 4)
 ```
@@ -182,7 +211,7 @@ Die Varianz der Residuen sollte unabhängig von den Ausprägungen der Prädiktor
 Bezüglich der grafischen Darstellung erzeugt die Funktion `residualPlots` des Pakets `car` separate Residuenplots in Abhängigkeit von jedem einzelnen Prädiktor $x_j$ und von den vorhergesagten Werten $\hat{y}_i$ (*"Fitted Values"*); als Input braucht sie das Modell `mod`. Zusätzlich wird für jeden Plot ein quadratischer Trend eingezeichnet und auf Signifikanz getestet, wodurch eine zusätzliche Prüfung auf nicht-lineare Effekte erfolgt. Sind diese Test nicht signifikant, ist davon auszugehen, dass diese Effekte nicht vorliegen und die Voraussetzungen in dieser Hinsicht nicht verletzt sind.
 
 
-```r
+``` r
 # Residuenplots (+ Test auf Nicht-Linearität)
 residualPlots(mod, pch = 16)
 ```
@@ -199,7 +228,7 @@ residualPlots(mod, pch = 16)
 Die Funktion `ncvTest` (Test For Non-Constant Error Variance) prüft, ob die Varianz der Residuen signifikant linear (!) mit den vorhergesagten Werten zusammenhängt. Wird dieser Test signifikant, ist die Annahme der Homoskedaszidität verletzt. Wird er nicht signifikant, kann dennoch eine Verletzung vorliegen, z.B. ein nicht-linearer Zusammenhang.
 
 
-```r
+``` r
 # Test For Non-Constant Error Variance
 ncvTest(mod)
 ```
@@ -220,7 +249,7 @@ Wir beginnen mit der Vorbereitung der Daten. Wir wollen die studentisierten Resi
 
 
 
-```r
+``` r
 library(MASS)
 res <- studres(mod)       # Studentisierte Residuen als Objekt speichern
 df_res <- data.frame(res) # als Data.Frame für ggplot
@@ -240,7 +269,7 @@ head(df_res)              # Kurzer Blick in den Datensatz
 Im Folgenden erzeugen wir ein Histogramm und ein Q-Q-Diagramm aus dem Datensatz --- die Kommentare im Code erläutern diesen.
 
 
-```r
+``` r
 library(ggplot2)
 # Histogramm der Residuen mit Normalverteilungs-Kurve
 ggplot(data = df_res, aes(x = res)) +
@@ -254,7 +283,7 @@ ggplot(data = df_res, aes(x = res)) +
 
 ![](/regressionsdiagnostik_files/unnamed-chunk-10-1.png)<!-- -->
 
-```r
+``` r
 # Grafisch: Q-Q-Diagramm mit der Funktion qqPlot aus dem Paket car
 qqPlot(mod, pch = 16, distribution = "norm")
 ```
@@ -270,7 +299,7 @@ Die in der Konsole von der Funktion `qqplot()` ausgegebenen Werte geben die Zeil
 Zusätzlich zur grafischen Darstellung können wir die Hypothese auf Normalverteilung der Residuen natürlich auch inferenzstatistisch prüfen - mit dem Shapiro-Wilk-Test oder dem Kolmogorov-Smirnov-Test prüfen. Hierbei erhalten wir folgenden Output (**Erinnerung**: Beim Shapiro-Wilk-Test und dem Kolmogorov-Smirnov-Test testen wir im Endeffekt auf die H0 bzw. wollen, dass die H0 nicht verworfen wird.):
 
 
-```r
+``` r
 # Test auf Abweichung von der Normalverteilung mit dem Shapiro-Test
 shapiro.test(res)
 ```
@@ -283,7 +312,7 @@ shapiro.test(res)
 ## W = 0.99015, p-value = 0.6764
 ```
 
-```r
+``` r
 # Test auf Abwweichung von der Normalverteilung mit dem Kolmogorov-Smirnov Test
 ks.test(res, "pnorm", mean(res), sd(res))
 ```
@@ -315,7 +344,7 @@ Multikollinearität kann durch Inspektion der *bivariaten Zusammenhänge* (Korre
 Offensichtlich genügt eine der beiden Statistiken, da sie vollständig ineinander überführbar und damit redundant sind. Empfehlungen als Grenzwert für Kollinearitätsprobleme sind z. B. $VIF_j>10$ ($T_j<0.1$) (siehe [Eid, Gollwitzer, & Schmitt, 2017, S. 712 und folgend](https://ubffm.hds.hebis.de/Record/HEB366849158)). Die Varianzinflationsfaktoren der Prädiktoren im Modell können mit der Funktion `vif` des `car`-Paktes bestimmt werden, der Toleranzwert als Kehrwert des VIFs.
 
 
-```r
+``` r
 # Korrelation der Prädiktoren
 cor(Schulleistungen$female, Schulleistungen$IQ)
 ```
@@ -327,7 +356,7 @@ cor(Schulleistungen$female, Schulleistungen$IQ)
 Die beiden Prädiktoren sind nur schwach negativ korreliert. Wir schauen uns trotzdem den VIF und die Toleranz an. Dazu übergeben wir wieder das definierte Regressionsmodell an `vif`.
 
 
-```r
+``` r
 # Varianzinflationsfaktor:
 vif(mod)
 ```
@@ -337,7 +366,7 @@ vif(mod)
 ## 1.007221 1.007221
 ```
 
-```r
+``` r
 # Toleranzwerte als Kehrwerte
 1 / vif(mod)
 ```
@@ -355,7 +384,7 @@ Die Plausibilität unserer Daten ist enorm wichtig. Aus diesem Grund sollten Aur
 *Hebelwerte* $h_j$ erlauben die Identifikation von Ausreißern aus der gemeinsamen Verteilung der unabhängigen Variablen, d.h. einzelne Fälle, die weit entfernt vom  Mittelwert der gemeinsamen Verteilung der unabhängigen Variablen liegen und somit einen starken Einfluss auf die Regressionsgewichte haben können. Diese werden mit der Funktion `hatvalues` ermittelt (die Hebelwerte spielen auch bei der Bestimmung standardisierter und studentisierter Residuen eine wichtige Rolle, sodass interessierte Lesende gerne im [Appendix C](#AppendixC) mehr Informationen dazu finden). Kriterien zur Beurteilung der Hebelwerte variieren, so werden von [Eid et al. (2017, S. 707 und folgend)](https://ubffm.hds.hebis.de/Record/HEB366849158) Grenzen von $2\cdot k / n$ für große und $3\cdot k / n$ für kleine Stichproben vorgeschlagen, in den Vorlesungsfolien werden Werte von $4/n$ als auffällig eingestuft (hierbei ist $k$ die Anzahl an Prädiktoren und $n$ die Anzahl der Beobachtungen). Alternativ zu einem festen Cut-Off-Kriterium kann die Verteilung der Hebelwerte inspiziert und diejenigen Werte kritisch betrachtet werden, die aus der Verteilung ausreißen. Die Funktion `hatvalues` erzeugt die Hebelwerte aus einem Regression-Objekt. Wir wollen diese als Histogramm darstellen.
 
 
-```r
+``` r
 n <- length(residuals(mod)) # n für Berechnung der Cut-Off-Werte
 h <- hatvalues(mod)         # Hebelwerte
 df_h <- data.frame(h)       # als Data.Frame für ggplot
@@ -371,7 +400,7 @@ ggplot(data = df_h, aes(x = h)) +
 *Cook's Distanz* $CD_i$ gibt eine Schätzung, wie stark sich die Regressionsgewichte verändern, wenn eine Person $i$ aus dem Datensatz entfernt wird. Fälle, deren Elimination zu einer deutlichen Veränderung der Ergebnisse führen würden, sollten kritisch geprüft werden. Als einfache Daumenregel gilt, dass $CD_i>1$ auf einen einflussreichen Datenpunkt hinweist. Cook's Distanz kann mit der Funktion `cooks.distance` ermittelt werden.
 
 
-```r
+``` r
 # Cooks Distanz
 CD <- cooks.distance(mod) # Cooks Distanz
 df_CD <- data.frame(CD) # als Data.Frame für ggplot
@@ -387,20 +416,20 @@ ggplot(data = df_CD, aes(x = CD)) +
 Die Funktion `influencePlot` des `car`-Paktes erzeugt ein "Blasendiagramm" zur simultanen grafischen Darstellung von Hebelwerten (auf der x-Achse), studentisierten Residuen (auf der y-Achse) und Cooks Distanz (als Größe der Blasen). Vertikale Bezugslinien markieren das Doppelte und Dreifache des durchschnittlichen Hebelwertes, horizontale Bezugslinien die Werte -2, 0 und 2 auf der Skala der studentisierten Residuen. Fälle, die nach einem der drei Kriterien als Ausreißer identifiziert werden, werden im Streudiagramm durch ihre Zeilennummer gekennzeichnet. Diese Zeilennummern können verwendet werden, um sich die Daten der auffälligen Fälle anzeigen zu lassen. Sie werden durch `InfPlot` ausgegeben werden. Auf diese kann durch `as.numeric(row.names(InfPlot))` zugegriffen werden.
 
 
-```r
+``` r
 InfPlot <- influencePlot(mod)
 ```
 
 ![](/regressionsdiagnostik_files/unnamed-chunk-16-1.png)<!-- -->
 
-```r
+``` r
 IDs <- as.numeric(row.names(InfPlot))
 ```
 
 Schauen wir uns die möglichen Ausreißer an und standardisieren die Ergebnisse für eine bessere Interpretierbarkeit.
 
 
-```r
+``` r
 # Rohdaten der auffälligen Fälle (gerundet für bessere Übersichtlichkeit)
 round(Schulleistungen[IDs,],2)
 ```
@@ -414,7 +443,7 @@ round(Schulleistungen[IDs,],2)
 ## 99      0  54.05  198.11 367.98
 ```
 
-```r
+``` r
 # z-Standardisierte Werte der auffälligen Fälle
 round(scale(Schulleistungen)[IDs,],2)
 ```
@@ -455,7 +484,7 @@ Wir können die Auswirkungen von Messfehlern in den unabhängigen Variablen anha
 $$Lebenszufriedenheit = -0.5\cdot Depressivitaet$$
 
 
-```r
+``` r
 # Vergeichbarkeit
 set.seed(1)
 
@@ -479,7 +508,7 @@ Dabei unterscheiden wir in der Datensimulation zwischen zwei Fällen: In einem F
 
 
 
-```r
+``` r
 library(ggplot2)
 ggplot(data = df, aes(x = Depressivitaet, y = Lebenszufriedenheit, group = Messfehler))+
   geom_point()+
@@ -496,7 +525,7 @@ ggplot(data = df, aes(x = Depressivitaet, y = Lebenszufriedenheit, group = Messf
 Aus dem Plot können wir erkennen, dass die Anwesenheit eines Messfehlers in der unabhängigen Variablen, also der Depressivität, dazu führt, dass die Datenpunkte aufgrund der Ungenauigkeit in der Erfassung um die Regressionslinie streuen. Dieser Effekt tritt nicht auf, wenn die Depressivität fehlerfrei gemessen wird. Der Messfehler hat auch Auswirkungen auf die Schätzung der Regressionsgewichte:
 
 
-```r
+``` r
 summary(lm(Lebenszufriedenheit~Depressivitaet)) # Ohne Messfehler
 ```
 
@@ -521,7 +550,7 @@ summary(lm(Lebenszufriedenheit~Depressivitaet)) # Ohne Messfehler
 ## F-statistic: 1.408e+34 on 1 and 248 DF,  p-value: < 2.2e-16
 ```
 
-```r
+``` r
 summary(lm(Lebenszufriedenheit~Depressivitaet_mf)) # Mit Messfehler
 ```
 
@@ -546,7 +575,7 @@ summary(lm(Lebenszufriedenheit~Depressivitaet_mf)) # Mit Messfehler
 ## F-statistic: 505.4 on 1 and 248 DF,  p-value: < 2.2e-16
 ```
 
-```r
+``` r
 # Konfidenzintervall des Regressionsgewichts
 confint(lm(Lebenszufriedenheit~Depressivitaet))  # Ohne Messfehler
 ```
@@ -557,7 +586,7 @@ confint(lm(Lebenszufriedenheit~Depressivitaet))  # Ohne Messfehler
 ## Depressivitaet -5.000000e-01 -5.00000e-01
 ```
 
-```r
+``` r
 confint(lm(Lebenszufriedenheit~Depressivitaet_mf)) # Mit Messfehler
 ```
 
@@ -613,7 +642,7 @@ Hierbei ist zu beachten, dass $X$ die Systemmatrix ist, welche auch die $1$ des 
 
 Im *Fall 1* sind die zwei Variablen unkorreliert. Die Inverse ist leicht zu bilden.
 
-```r
+``` r
 XX_1 <- matrix(c(100,0,0,
                0,100,0,
                0,0,100),3,3)
@@ -627,7 +656,7 @@ XX_1 # Die Matrix X'X im Fall 1
 ## [3,]    0    0  100
 ```
 
-```r
+``` r
 I_1 <- solve(XX_1)*1 # I (*1 wegen Residualvarianz = 1)
 I_1
 ```
@@ -639,7 +668,7 @@ I_1
 ## [3,] 0.00 0.00 0.01
 ```
 
-```r
+``` r
 sqrt(diag(I_1)) # Wurzel aus den Diagonalelementen der Inverse = SE, wenn sigma_e^2=1
 ```
 
@@ -650,7 +679,7 @@ Die Standardfehler sind nicht sehr groß: alle liegen bei $0.1$.
 
 Im *Fall 2* sind die zwei Variablen fast perfekt (zu $.99$) korreliert - es liegt hohe Multikollinearität vor. Die Inverse ist noch zu bilden. Die Standardfehler sind deutlich erhöht im Vergleich zu *Fall 1*.
 
-```r
+``` r
 XX_2 <- matrix(c(100,0,0,
                0,100,99,
                0,99,100),3,3)
@@ -664,7 +693,7 @@ XX_2 # Die Matrix X'X im Fall 2
 ## [3,]    0   99  100
 ```
 
-```r
+``` r
 I_2 <- solve(XX_2)*1 # I (*1 wegen Residualvarianz = 1)
 I_2
 ```
@@ -676,7 +705,7 @@ I_2
 ## [3,] 0.00 -0.4974874  0.5025126
 ```
 
-```r
+``` r
 sqrt(diag(I_2)) # SEs im Fall 2
 ```
 
@@ -684,7 +713,7 @@ sqrt(diag(I_2)) # SEs im Fall 2
 ## [1] 0.1000000 0.7088812 0.7088812
 ```
 
-```r
+``` r
 sqrt(diag(I_1)) # SEs im Fall 1
 ```
 
@@ -693,7 +722,7 @@ sqrt(diag(I_1)) # SEs im Fall 1
 ```
 Die Standardfehler des *Fall 2* sind sehr groß im Vergleich zu *Fall 1* (mehr als sieben Mal so groß); nur der Standardfehler des Interzept bleibt gleich. Die Determinante von $X'X$ in *Fall 2* liegt deutlich näher an $0$ im Vergleich zu *Fall 1*; hier: $10^6$.
 
-```r
+``` r
 det(XX_2) # Determinante Fall 2
 ```
 
@@ -701,7 +730,7 @@ det(XX_2) # Determinante Fall 2
 ## [1] 19900
 ```
 
-```r
+``` r
 det(XX_1) # Determinante Fall 1
 ```
 
@@ -712,7 +741,7 @@ det(XX_1) # Determinante Fall 1
 
 Im *Fall 3* sind die zwei Variablen perfekt korreliert - es liegt perfekte Multikollinearität vor. Die Inverse kann  **nicht** gebildet werden (da $\text{det}(X'X) = 0$). Die Standardfehler können nicht berechnet werden. Eine Fehlermeldung wird ausgegeben.
 
-```r
+``` r
 XX_3 <- matrix(c(100,0,0,
                0,100,100,
                0,100,100),3,3)
@@ -726,7 +755,7 @@ XX_3 # Die Matrix X'X im Fall 3
 ## [3,]    0  100  100
 ```
 
-```r
+``` r
 det(XX_3) # Determinante on X'X im Fall 3
 ```
 
@@ -735,7 +764,7 @@ det(XX_3) # Determinante on X'X im Fall 3
 ```
 
 
-```r
+``` r
 I_3 <- solve(XX_3)*1 # I (*1 wegen Residualvarianz = 1)
 I_3
 sqrt(diag(I_3)) # Wurzel aus den Diagonalelementen der Inverse = SE, wenn sigma_e^2=1
@@ -766,7 +795,7 @@ Wir wollen uns in diesem Abschnitt verschiedene "normierte" Residuen ansehen, we
 Der Einfluss der Position entlang der Regressiongerade (oder Hyperebene, wenn es mehrere Prädiktoren sind) in "x"-Richtung kann mit unter enorm sein. Weit vom (gemeinsamen) Mittelwert entfernt liegende Punkte in den Prädiktoren sind hinsichtlich der Vorhersage von $Y$ mit wesentlich größerer Unsicherheit behaftet, als diejenigen, die nah am (gemeinsamen) Mittelwert liegen. Eben jene Unsicherheit gilt es bei standardisierten und studentisierten Residuen einzupreisen. Zunächst schauen wir uns diese Unsicherheit an: Dazu simulieren wir geschwind ein paar Daten - so ähnlich wie wir dies im vergangenen Semester bereits kennengelernt haben. Wir benötigen einen Prädiktor $X$, der beispielsweise gamma-verteilt sein soll (das ist eine recht schiefe Verteilung). Anschließend brauchen wir für eine Regressionsgleichung noch ein Residuum $\varepsilon$, welches wir als normalverteilt annehmen, sowie ein Interzept $\beta_0$ und einen Steigungskoeffizienten $\beta_1$:
 
 
-```r
+``` r
 # Vergleichbarkeit
 set.seed(1)
 
@@ -778,7 +807,7 @@ hist(X) # recht schief
 
 ![](/regressionsdiagnostik_files/unnamed-chunk-26-1.png)<!-- -->
 
-```r
+``` r
 # simuliere eps~norm
 eps <- rnorm(n = n, mean = 0, sd = 2)
 
@@ -816,7 +845,7 @@ summary(reg)
 Wir sehen, dass die Populationsparameter, die wir vorgegeben haben, nicht exakt getroffen werden. Das Interzept ist mit $\hat{\beta_0}$ = 0.265 und der Steigungskoeffizent mit $\hat{\beta_1}$ = 0.74 recht nah an den wahren Werten 0.5 und 0.6 dran, aber eben nicht exakt. Diese Unsicherheit gilt es in der Statistik zu beschreiben und einzuordnen. Ist der Effekt relativ zur Unsicherheit groß, dann sprechen wir von Signifikanz. Wir können diese Daten sehr leicht mit `ggplot` veranschaulichen und einen Regressionstrend hinzu zufügen. Per Default wird dann auch direkt ein Konfidenzintervall für die Regressionsgerade eingezeichnet:
 
 
-```r
+``` r
 library(ggplot2)
 ggplot(data = df, mapping = aes(x = X, y = Y)) + geom_point() +
   geom_smooth(method = "lm", formula = "y~x")
@@ -840,7 +869,7 @@ So haben wir die Standardisierung auch schon vorher kennengelernt. Da bei einem 
 Wir bestimmen nun das standardisierte Residuum und das studentisierte Residuum für den größten $X$-Wert. Diesen müssen wir vorher erst noch einmal finden und nennen ihn dann `Xmax`:
 
 
-```r
+``` r
 # größtes X finden
 ind_Xmax <- which.max(X)
 Xmax <- X[ind_Xmax]
@@ -851,7 +880,7 @@ Xmax
 ## [1] 4.230831
 ```
 
-```r
+``` r
 # zugehörigen Y-Wert finden
 Y_Xmax <- Y[ind_Xmax]
 Y_Xmax
@@ -861,7 +890,7 @@ Y_Xmax
 ## [1] 1.374412
 ```
 
-```r
+``` r
 # sd_eps bestimmen
 sd_eps <- summary(reg)$sigma
 sd_eps
@@ -871,7 +900,7 @@ sd_eps
 ## [1] 2.282814
 ```
 
-```r
+``` r
 # vorhergesaten y-Wert bestimmen
 Y_pred_Xmax <- predict(reg, newdata = data.frame("X" = Xmax))
 Y_pred_Xmax
@@ -887,10 +916,15 @@ In `ind_Xmax` steht einfach nur die Position innerhalb des Vektors, an der das M
 Um zu prüfen, ob wir uns verrechnet haben, zeichnen wir den vorhergesagten $Y$-Wert für den größten $X$-Wert von 4.231 in unsere Grafik ein:
 
 
-```r
+``` r
 ggplot(data = df, mapping = aes(x = X, y = Y)) + geom_point() +
   geom_smooth(method = "lm", formula = "y~x") +
   geom_point(mapping = aes(x = Xmax, y = Y_pred_Xmax), cex = 4, col = "gold3")
+```
+
+```
+## Warning in geom_point(mapping = aes(x = Xmax, y = Y_pred_Xmax), cex = 4, : All aesthetics have length 1, but the data has 20 rows.
+## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.
 ```
 
 ![](/regressionsdiagnostik_files/unnamed-chunk-29-1.png)<!-- -->
@@ -900,7 +934,7 @@ Der gelbe Punkt liegt genau auf der Gerade - super!
 Das standardisierte Residuum nach [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) bekommen wir nun, indem wir das Residuum durch den Standardfehler der Regression teilen. Dazu brauchen wir zunächst das Residuum:
 
 
-```r
+``` r
 # Residuum bestimmen
 resid_Xmax <- resid(reg)[ind_Xmax]
 resid_Xmax
@@ -911,7 +945,7 @@ resid_Xmax
 ## -2.019278
 ```
 
-```r
+``` r
 # std Residuum (nach Eid et al., 2017)
 resid_Xmax_std <- resid_Xmax / sd_eps
 resid_Xmax_std
@@ -930,7 +964,7 @@ $$h = \text{diag}\left[X(X'X)^{-1}X'\right]$$
 Sie sind die Diagonalelemente der sogenannten Hut-Matrix. $\text{diag}[\cdot]$ bestimmt hier die Diagonalelemente der Matrix $X(X'X)^{-1}X'$, welche oft auch als Hutmatrix bezeichnet iwrd. Wir berechnen diese und vergleichen Sie mit der jeweiligen Funktion, welche wir oben schon kennengelernt haben:
 
 
-```r
+``` r
 X_mat <- cbind(1, X)
 h <- diag(X_mat %*% solve(t(X_mat) %*% X_mat) %*% t(X_mat))
 round(h-hatvalues(reg), digits = 10)
@@ -959,7 +993,7 @@ Die beiden Residuen werden also bestimmt, indem das eigentliche Residuum der Per
 
 
 
-```r
+``` r
 # hatvalue für Xmax bestimmen
 h_Xmax <- h[ind_Xmax]
 h_Xmax
@@ -969,7 +1003,7 @@ h_Xmax
 ## [1] 0.686591
 ```
 
-```r
+``` r
 # Residuum internal studentisiert (Mittelwert abziehen und durch SD teilen)
 resid_Xmax_stud_int <- resid_Xmax  / (sd_eps*sqrt(1-h_Xmax))
 resid_Xmax_stud_int
@@ -980,7 +1014,7 @@ resid_Xmax_stud_int
 ## -1.580047
 ```
 
-```r
+``` r
 # vergleich -> identisch!
 stdres(reg)[ind_Xmax] # internal studentisiert nach MASS
 ```
@@ -990,7 +1024,7 @@ stdres(reg)[ind_Xmax] # internal studentisiert nach MASS
 ## -1.580047
 ```
 
-```r
+``` r
 # studentisiertes Residuum bestimmen
 reg2 <- lm(Y~X, data = df[-ind_Xmax,]) # Regression ohne Person i
 sd_eps_Xmax <- summary(reg2)$sigma
@@ -1003,7 +1037,7 @@ resid_Xmax_stud_ext
 ## -1.654551
 ```
 
-```r
+``` r
 # vergleich -> identisch!
 studres(reg)[ind_Xmax] # external studentisiert nach MASS
 ```
@@ -1016,7 +1050,7 @@ studres(reg)[ind_Xmax] # external studentisiert nach MASS
 Das Schöne ist nun, dass sich diese Residuen auch über Analysen hinweg vergleichen lassen, da sie eben normiert sind und den Abstand vom Mittelwert und damit auch den Einfluss auf die Analyse und die damit verbundenen Unsicherheit integrieren. Beide Arten der Normierung haben den Abstand zum Mittelwert von $X$ ausgedrückt durch die Hebelwerte berücksichtigt. Würden wir dies nicht tun, würde das *naiv*-standardisierte Residuum so ausfallen (dies ist das standardisierte Residuum nach Eid, et al.):
 
 
-```r
+``` r
 resid_Xmax_std <- resid_Xmax  / sd_eps
 resid_Xmax_std
 ```

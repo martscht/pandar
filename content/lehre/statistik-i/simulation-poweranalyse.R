@@ -13,10 +13,10 @@ ttestH0$p.value   # zugehöriger p-Wert
 
 replicate(n = 5, expr = rnorm(3))
 
-## X_1 <- rnorm(N)
-## X_2 <- rnorm(N)
-## ttestH0 <- t.test(X_1, X_2, var.equal = TRUE)
-## ttestH0$p.value
+# X_1 <- rnorm(N)
+# X_2 <- rnorm(N)
+# ttestH0 <- t.test(X_1, X_2, var.equal = TRUE)
+# ttestH0$p.value
 
 set.seed(1234)
 replicate(n = 10, expr = {X_1 <- rnorm(N)
@@ -117,10 +117,10 @@ wp.t(d = .5, power = .8, type = "two.sample", alternative = "two.sided")
 
 wp.t(d = .5, power = .8, type = "two.sample", alternative = "greater")
 
-## wp.t(d = .5, power = .8, type = "two.sample", alternative = "less")
+# wp.t(d = .5, power = .8, type = "two.sample", alternative = "less")
 
 
-## wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "less")
+# wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "less")
 
 
 wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "greater")

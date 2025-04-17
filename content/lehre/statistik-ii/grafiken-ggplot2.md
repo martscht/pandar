@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr, Daten in R mit Hilfe des Pakets "ggplot2" zu visualisieren. Das Tutorial startet mit den Grundprinzipien des Pakets, wie Daten in Schichten dargestellt werden, die Geometrie und Ästhetik der Grafiken sowie die Verwendung von Themes und Farbpaletten zur Anpassung der Abbildungen. Außerdem werden Methoden zur Beschriftung und Anpassung von Grafiken für eine übersichtlichere Darstellung von Daten erläutert.'
 authors: [schultze]
 weight: 2
-lastmod: '2025-02-07'
+lastmod: '2025-04-08'
 featured: no
 banner:
   image: "/header/colorful_bubbles.jpg"
@@ -27,6 +27,10 @@ links:
     icon: terminal
     name: Code
     url: /lehre/statistik-ii/grafiken-ggplot2.R
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Übungen
+    url: /lehre/statistik-ii/grafiken-ggplot2-uebungen
 output:
   html_document:
     keep_md: true
@@ -57,7 +61,7 @@ Weil `ggplot2` so beliebt ist, gibt es online tausende von Quellen mit Tutorials
 Wir benutzen für unsere Interaktion mit `ggplot2` öffentlich zugängliche Daten aus verschiedenen Quellen, die ich in einem Anflug von Selbstlosigkeit bereits für Sie zusammengetragen habe. Alle, die daran interessiert sind, wie diese Daten bezogen und für die Weiterverwendung aufbereitet werden, können das Ganze [im kurzen Beitrag zur Datenaufbereitung](/workshops/ggplotting/ggplotting-daten) noch genauer nachlesen. In den Daten geht es im Wesentlichen um die Ausgaben für Bildung, die Länder weltweit so tätigen. Für alle, die das überspringen und einfach Bilder machen wollen, gibt es auch schon den [{{< icon name="download" pack="fas" >}} fertigen Datensatz zum Download](/daten/edu_exp.rda). Auch den kann man aber direkt in `R` laden, ohne erst die Datei herunterladen und speichern zu müssen:
 
 
-```r
+``` r
 load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 ```
 
@@ -82,25 +86,18 @@ Eine Ausprägung von 100 auf der Variable `Primary` in Deutschland hieße also z
 Der Datensatz, mit dem wir arbeiten, sieht also so aus:
 
 
-```r
+``` r
 head(edu_exp)
 ```
 
 ```
-##   geo     Country     Wealth Region Year Population Expectancy   Income Primary
-## 1 afg Afghanistan low_income   asia 1997   17788819       50.7       NA      NA
-## 2 afg Afghanistan low_income   asia 1998   18493132       50.0       NA      NA
-## 3 afg Afghanistan low_income   asia 1999   19262847       50.8       NA      NA
-## 4 afg Afghanistan low_income   asia 2000   19542982       51.0       NA      NA
-## 5 afg Afghanistan low_income   asia 2001   19688632       51.1       NA      NA
-## 6 afg Afghanistan low_income   asia 2002   21000256       51.6 344.2242      NA
-##   Secondary Tertiary Index
-## 1        NA       NA  0.18
-## 2        NA       NA  0.19
-## 3        NA       NA  0.20
-## 4        NA       NA  0.20
-## 5        NA       NA  0.21
-## 6        NA       NA  0.22
+##   geo     Country     Wealth Region Year Population Expectancy   Income Primary Secondary Tertiary Index
+## 1 afg Afghanistan low_income   asia 1997   17788819       50.7       NA      NA        NA       NA  0.18
+## 2 afg Afghanistan low_income   asia 1998   18493132       50.0       NA      NA        NA       NA  0.19
+## 3 afg Afghanistan low_income   asia 1999   19262847       50.8       NA      NA        NA       NA  0.20
+## 4 afg Afghanistan low_income   asia 2000   19542982       51.0       NA      NA        NA       NA  0.20
+## 5 afg Afghanistan low_income   asia 2001   19688632       51.1       NA      NA        NA       NA  0.21
+## 6 afg Afghanistan low_income   asia 2002   21000256       51.6 344.2242      NA        NA       NA  0.22
 ```
 
 
@@ -111,8 +108,27 @@ In `ggplot2` werden immer Daten aus **einem** `data.frame` dargestellt. Das hei�
 Bevor wir loslegen können, muss natürlich `ggplot2` installiert sein und geladen werden:
 
 
-```r
+``` r
 library(ggplot2)
+```
+
+```
+## Warning: Paket 'ggplot2' wurde unter R Version 4.4.2 erstellt
+```
+
+```
+## Want to understand how all the pieces fit together? Read R for Data Science: https://r4ds.hadley.nz/
+```
+
+```
+## 
+## Attache Paket: 'ggplot2'
+```
+
+```
+## Die folgenden Objekte sind maskiert von 'package:psych':
+## 
+##     %+%, alpha
 ```
 
 Im Kern bestehen Abbildungen in der Grammatik von `ggplot2` immer aus drei Komponenten:
@@ -130,14 +146,14 @@ In `ggplot2` werden Grafiken nicht auf einmal mit einem Befehl erstellt, sondern
 Die Grundschicht sind die Daten. Dafür haben wir im vorherigen Abschnitt `edu_exp` als Datensatz geladen. Zum Anfang sollten wir erst einmal einen Teildatensatz benutzen, um nicht direkt tausende von Datenpunkten auf einmal zu sehen. Gucken wir also einfach zehn Jahre in die Vergangenheit und nutzen das Jahr 2014: 
 
 
-```r
+``` r
 edu_2014 <- subset(edu_exp, Year == 2014)
 ```
 
 Um diese Daten in eine Schicht der Grafik zu überführen, können wir sie einfach direkt als einziges Argument an den `ggplot`-Befehl übergeben:
 
 
-```r
+``` r
 ggplot(edu_2014)
 ```
 
@@ -146,7 +162,7 @@ ggplot(edu_2014)
 Was entsteht ist eine leere Fläche. Wie bereits beschrieben, besteht eine Abbildung in `ggplot2` immer aus den drei Komponenten Daten, Geometrie und Ästhetik. Bisher haben wir nur eine festgelegt. Als erste Ästhetik sollten wir festlegen, welche Variablen auf den Achsen dargestellt werden sollen. Im letzten Semester war der erste Plot, den wir uns angeguckt hatten ein Balkendiagramm (über Tortendiagramme werden wie nie wieder reden). Bei diesen waren auf der x-Achse immer die Kategorien einer nominalskalierte Variable und auf der y-Achse die Häufigkeit dieser Kategorien dargestellt.  
 
 
-```r
+``` r
 ggplot(edu_2014, aes(x = Wealth))
 ```
 
@@ -155,18 +171,17 @@ ggplot(edu_2014, aes(x = Wealth))
 Ästhetik wird in `ggplot2` über den `aes`-Befehl erzeugt. Auf der x-Achse tauchen direkt die Ausprägungen der Variable auf, die wir dieser "Ästhetik" zugewiesen haben. Man sieht, dass hier einfach die Inhalte der Variable übernommen werden:
 
 
-```r
+``` r
 unique(edu_2014$Wealth)
 ```
 
 ```
-## [1] "low_income"          "lower_middle_income" "upper_middle_income"
-## [4] "high_income"
+## [1] "low_income"          "lower_middle_income" "upper_middle_income" "high_income"
 ```
 Die sind zum einen etwas unübersichtlich und zum anderen (besonders wichtig) nicht sonderlich schön. Deswegen sollten wir die Variable in einen Faktor umwandeln und etwas leserlichere Labels vergeben:
 
 
-```r
+``` r
 edu_2014$Wealth <- factor(edu_2014$Wealth, levels = c('low_income', 'lower_middle_income', 'upper_middle_income', 'high_income'),
   labels = c('Low', 'Lower Mid', 'Upper Mid', 'High'))
 
@@ -182,7 +197,7 @@ Ich habe in diesem Fall nur vier der möglichen Ausprägungen als `levels` dekla
 Wenn wir jetzt noch einmal die Fläche aufspannen, sehen wir direkt eine etwas schönere Benennung:
 
 
-```r
+``` r
 ggplot(edu_2014, aes(x = Wealth))
 ```
 
@@ -198,7 +213,7 @@ Wenn uns also etwas in unserer Abbildung nicht gefällt, ist der Ansatz in `ggpl
 Jetzt fehlt uns noch die geometrische Form, mit der die Daten abgebildet werden sollen. Für die Geometrie-Komponente stehen in `ggplot2` sehr viele Funktionen zur Verfügung, die allesamt mit `geom_` beginnen. Eine Übersicht über die Möglichkeiten findet sich z.B. [hier](https://ggplot2.tidyverse.org/reference/#section-layer-geoms). Naheliegenderweise nehmen wir für ein Balkendiagramm _bar_ als die geometrische Form (`geom_bar`), die wir darstellen wollen. Neue Schichten werden in ihrer eigenen Funktion erzeugt und mit dem einfachen `+` zu einem bestehenden Plot hinzugefügt. Für ein Balkendiagramm sieht das Ganze also einfach so aus:
 
 
-```r
+``` r
 ggplot(edu_2014, aes(x = Wealth)) +
   geom_bar()
 ```
@@ -215,14 +230,14 @@ Einer der Vorteile, die sich durch das Schichten der Abbildungen ergibt ist, das
 
 
 
-```r
+``` r
 basic <- ggplot(edu_2014, aes(x = Wealth))
 ```
 
 In `basic` wird jetzt die *Anleitung* für die Erstellung der Grafik gespeichert. Erstellt wird die Grafik aber erst, wenn wir das Objekt aufrufen. Dabei können wir das Objekt auch mit beliebigen anderen Komponenten über `+` kombinieren:
 
 
-```r
+``` r
 basic + geom_bar()
 ```
 
@@ -235,7 +250,7 @@ Damit die Beispiele im weiteren Verlauf auch selbstständig funktionieren, wird 
 Oben wurde erwähnt, dass Ästhetik die dritte Komponente ist und als Beispiel wird die Farbe genannt. Das stimmt nicht immer: die Farbe der Darstellung muss nicht zwingend eine Ästhetik sein. Gucken wir uns zunächst an, wie es aussieht, wenn wir die Farbe der Darstellung ändern wollen:
 
 
-```r
+``` r
 ggplot(edu_2014, aes(x = Wealth)) +
   geom_bar(fill = 'blue', color = 'grey40')
 ```
@@ -244,7 +259,7 @@ ggplot(edu_2014, aes(x = Wealth)) +
 Bei Balken wird die Farbe des Balkens durch das Argument `fill` bestimmt - das Argument `color` bestimmt hingegen nur die Farbe des Rands. In diesem Fall haben alle Balken die Farbe geändert. Eine _Ästhetik_ im Sinne der `ggplot`-Grammatik ist immer abhängig von den Daten. Die globale Vergabe von Farbe ist also keine Ästhetik. Sie ist es nur, wenn wir sie von Ausprägungen der Daten abhängig machen. Das funktioniert z.B. so:
 
 
-```r
+``` r
 ggplot(edu_2014, aes(x = Wealth)) +
   geom_bar(aes(fill = Wealth), color = 'grey40')
 ```
@@ -258,7 +273,7 @@ ggplot(edu_2014, aes(x = Wealth)) +
 Die Balken der Abbildung zeigen uns jetzt erst einmal an, wie viele arme, mittlere und reiche Länder im Datensatz enthalten sind. Interessant wird es aber vor allem dann, wenn wir verschiedene Variablen zueinander in Beziehung setzen - z.B. könnten wir den "Reichtum" der Länder mit deren geografischer Lage in Verbindung setzen. Diese ist sehr grob in der Variable `Region` abgebildet: 
 
 
-```r
+``` r
 # Tabelle der vier "Kontinent", die sich im Datensatz befinden, Amerikas zusammengefasst, kein Australien
 table(edu_2014$Region)
 ```
@@ -271,7 +286,7 @@ table(edu_2014$Region)
 Wie wir sehen, sind die beiden Amerikas zusammengefasst, aber im Wesentlichen haben wir eine relativ gleichmäßige Aufteilung der Länder in diese vier großen Regionen. Die Variable ist als `character` im Datensatz abgelegt, was `ggplot` leider überhaupt nicht mag. Deswegen sollten wir sie zunächst in einen Faktor umwandeln:
 
 
-```r
+``` r
 edu_2014$Region <- factor(edu_2014$Region, levels = c('africa', 'americas', 'asia', 'europe'),
   labels = c('Africa', 'Americas', 'Asia', 'Europe'))
 ```
@@ -279,7 +294,7 @@ edu_2014$Region <- factor(edu_2014$Region, levels = c('africa', 'americas', 'asi
 Jetzt können wir die Balken nach Regionen gruppieren:
 
 
-```r
+``` r
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40')
 ```
@@ -288,7 +303,7 @@ ggplot(edu_2014, aes(x = Wealth, group = Region)) +
 Per Voreinstellung wird in `ggplot` ein sogenannter "stacked" Barplot erstellt, bei dem die Balken übereinander gestapelt werden. Üblicher ist aber häufig die Darstellung nebeneinander. Dafür können wir z.B. das `position`-Argument anpassen:
 
 
-```r
+``` r
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge')
 ```
@@ -305,7 +320,7 @@ Die Abbildungen, die wir bisher erstellt haben, nutzen alle das in `ggplot2` vor
 In `ggplot2` werden die Grundeigenschaften von Abbildungen in "Themes" zusammengefasst. Mit `?theme_test` erhält man eine Auflistung aller Themes, die von `ggplot2` direkt zur Verfügung gestellt werden. Diese 10 Themes sind erst einmal sehr konservative Einstellungen für die Eigenschaften von Grafiken. Sehen wir uns meinen persönlichen Favoriten, das sehr dezente `theme_minimal()` an. Dazu legen wir die Grundanleitung der Abbildung für 2014 zunächst in einem Objekt ab (das ist nicht notwendig, soll nur im Folgenden den Fokus auf die Themes legen):
 
 
-```r
+``` r
 bars <- ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge')
 ```
@@ -313,7 +328,7 @@ bars <- ggplot(edu_2014, aes(x = Wealth, group = Region)) +
 Um das Theme einer Abbildung zu verändern, können Sie es - wie Geometrie - mit dem `+` hinzufügen.
 
 
-```r
+``` r
 bars + theme_minimal()
 ```
 
@@ -324,20 +339,20 @@ Gegenüber der Voreinstellung (`theme_grey`) verändert sich hier, dass der Hint
 Über die von `ggplot2` direkt mitgelieferten Themes hinaus gibt es beinahe unzählige weitere Pakete, in denen vordefinierte Themes enthalten sind. Eine der beliebtesten Sammlungen findet sich im Paket `ggthemes`:
 
 
-```r
+``` r
 install.packages('ggthemes')
 library(ggthemes)
 ```
 
 
 ```
-## Warning: Paket 'ggthemes' wurde unter R Version 4.3.2 erstellt
+## Warning: Paket 'ggthemes' wurde unter R Version 4.4.3 erstellt
 ```
 
 Dieses Paket liefert (neben anderen optischen Erweiterungen) über 20 neue Themes, die häufig den Visualisierungen in kommerzieller Software oder in bestimmten Publikationen nachempfunden sind. In Anlehnung an weit verbreitete Grundprinzipien zur Grafikgestaltung nutzen wir als allererstes natürlich das nach Tuftes "maximal Data, minimal Ink"-Prinzip erstellte Theme:
 
 
-```r
+``` r
 bars + theme_tufte()
 ```
 
@@ -346,7 +361,7 @@ bars + theme_tufte()
 Aber es gibt natürlich auch etwas komplexer aussehende Themes. Wenn Sie Sich schon immer wie ein:e Excelnutzer:in in den 90ern fühlen wollten, gibt es z.B. dieses wunderschöne Theme: 
 
 
-```r
+``` r
 bars + theme_excel()
 ```
 
@@ -355,14 +370,14 @@ bars + theme_excel()
 Wenn uns ein Theme so gefällt, dass wir dieses für alle Plots benutzen wollen, können wir es mit `theme_set()` als neue Voreinstellung definieren. Wie gesagt, mag ich den minimalistischen Stil von `theme_minimal()`, weil er wenig von den Daten ablenkt:
 
 
-```r
+``` r
 theme_set(theme_minimal())
 ```
 
 Dieser Befehl sollte allerdings mit Vorsicht genossen werden, weil er globale Einstellungen in `R` verändert, ohne davor zu warnen, dass eventuell vorherige Einstellungen verloren gehen. Zur Sicherheit können wir mit 
 
 
-```r
+``` r
 theme_set(theme_grey())
 ```
 
@@ -375,7 +390,7 @@ Eine der wichtigsten Komponenten jeder Abbildung ist die Beschriftung. Nur wenn 
 Für unsere Abbildung wäre es sinnvoll, neben einem Titel auch eine aussagekräftigere Beschriftung der Achsen und der Legende vorzunehmen. 
 
 
-```r
+``` r
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge') +
   labs(x = 'Country Wealth (GDP per Capita)',
@@ -391,7 +406,7 @@ Die `labs`-Funktion ermöglicht uns das Vergeben von *Labels* für die Variablen
 Damit wir unsere Grafik in späteren Abschnitten wiederverwenden können, legen wir sie hier wieder in einem Objekt ab:
 
 
-```r
+``` r
 bars <- ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge') +
   labs(x = 'Country Wealth (GDP per Capita)',
@@ -410,7 +425,7 @@ In `ggplot2` wird die Vergabe von Farben in der Ästhetik anhand von zwei Dingen
 Nehmen wir an, dass wir unsere Abbildung irgendwo drucken möchten - Farbdruck ist wahnsinnig teuer. Um mit Grautönen zu arbeiten, können wir z.B. `scale_fill_grey` benutzen:
 
 
-```r
+``` r
 bars + scale_fill_grey()
 ```
 
@@ -421,14 +436,14 @@ Das bei den [Themes](#Themes) erwähnte Paket `ggthemes` enthält auch weitere F
 Für diese Palette können wir zunächst in einem Objekt die Farben festhalten, die wir benötigen. In `ggplot2` ist es dabei am gängigsten, Farben entweder [über Worte auszuwählen](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf) oder via [hexadezimaler Farbdefinition](https://www.color-hex.com/) zu bestimmen. Für die fünf Farben, die von der Corporate Design Abteilung der Goethe Uni definiert werden ergibt sich folgendes Objekt:
 
 
-```r
+``` r
 gu_colors <- c('#00618f', '#e3ba0f', '#ad3b76', '#737c45', '#c96215')
 ```
 
 Dieses Objekt können wir dann nutzen, um mit `scale_fill_manual` selbstständig Farben zuzuweisen:
 
 
-```r
+``` r
 bars + scale_fill_manual(values = gu_colors)
 ```
 

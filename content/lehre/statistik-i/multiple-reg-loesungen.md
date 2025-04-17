@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [vogler] 
 weight: 
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/stormies.jpg"
@@ -28,8 +28,8 @@ links:
     url: /lehre/statistik-i/multiple-reg
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/multiple-reg-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/multiple-reg-uebungen
 output:
   html_document:
     keep_md: true
@@ -46,15 +46,15 @@ output:
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
-```r
+``` r
 dim(fb24)
 ```
 
 ```
-## [1] 192  44
+## [1] 192  57
 ```
 
-Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und 44 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und 57 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ***
@@ -68,7 +68,7 @@ Sie vermuten, dass bestimmte Persönlichkeitsmerkmale die Prokrastinationstenden
 Dafür reduzieren Sie zunächst Ihren Datensatz auf die relevanten Variablen und entfernen sämtliche fehlende Werte:
 
 
-```r
+``` r
 fb24_short <- subset(fb24, select = c("extra", "vertr", "gewis", "neuro", "offen", "prok"))
 
 fb24_short <- na.omit(fb24_short)
@@ -83,7 +83,7 @@ Zum anderen ist uns bereits im Kapitel [Multiple Regression](/lehre/statistik-i/
 Da wir im Folgenden erneut mit den Big Five Variablen arbeiten, gehen wir dieser Fehlermeldung bereits im Vorhinein aus dem Weg.
 
 
-```r
+``` r
 #Gibt es mindestens ein fehlenden Wert auf den 6 Variablen?
 anyNA(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ```
@@ -92,7 +92,7 @@ anyNA(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ## [1] TRUE
 ```
 
-```r
+``` r
 #Auf welcher Variable und wie viele NA's gibt es?
 summary(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ```
@@ -108,7 +108,7 @@ summary(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ##  NA's   :1       NA's   :1       NA's   :1      NA's   :1       NA's   :1       NA's   :2
 ```
 
-```r
+``` r
 #ein NA auf vertr
 ```
 
@@ -122,7 +122,7 @@ summary(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 <summary>Lösung</summary>
 
 
-```r
+``` r
 mod_base <- lm(prok ~ neuro + gewis, data = fb24_short)
 ```
 
@@ -149,7 +149,7 @@ mod_base <- lm(prok ~ neuro + gewis, data = fb24_short)
 
 
 
-```r
+``` r
 # Korrekte Spezifikation des Modells --> Linearität
 
 #Einfache Regressionsmodelle aufstellen
@@ -179,7 +179,7 @@ abline(mod_gewis, col = "blue")
 Für beide Variablen sind klare lineare Verläufe erkennbar.
 
 
-```r
+``` r
 #1x2 Ansicht der Plots beenden
 dev.off()
 ```
@@ -195,14 +195,14 @@ Bei der Nennung dieser belassen wir es aber für diese Aufgabe mal und nehmen an
 Auch die Voraussetzung der **Unabhängigkeit der Residuen** ist inhaltlicher Natur. In diesem Fall gehen wir davon aus, dass Sie den Fragebogen am Anfang des Semesters weitgehend unabhängig voneinander bearbeitet haben. Somit ist auch diese Voraussetzung erfüllt.
 
 
-```r
+``` r
 #Homoskedastizität der Residuen
 plot(mod_base, which = 3)
 ```
 
 ![](/multiple-reg-loesungen_files/unnamed-chunk-8-1.png)<!-- -->
 
-```r
+``` r
 car::ncvTest(mod_base) #nicht signifikant --> Homoskedastizität wird angenommen
 ```
 
@@ -213,7 +213,7 @@ car::ncvTest(mod_base) #nicht signifikant --> Homoskedastizität wird angenommen
 ```
 
 
-```r
+``` r
 #Normalverteilung der Residuen
 car::qqPlot(mod_base)
 ```
@@ -225,7 +225,7 @@ car::qqPlot(mod_base)
 ## 107 167
 ```
 
-```r
+``` r
 shapiro.test(mod_base$residuals) #nicht signifikant --> Normalverteilung wird angenommen
 ```
 
@@ -250,7 +250,7 @@ Dies ist selbst dann zu empfehlen wenn man die Pakete bereits geladen hat da so 
 <summary>Lösung</summary>
 
 
-```r
+``` r
 #Extraversion
 mod_base_extra <- lm(prok ~ neuro + gewis + extra, data = fb24_short)
 
@@ -267,7 +267,7 @@ anova(mod_base, mod_base_extra) #nicht signifikant
 ## 2    186 10.056  1 0.00032934 0.0061 0.9379
 ```
 
-```r
+``` r
 #Verträglichkeit
 mod_base_vertr <- lm(prok ~ neuro + gewis + vertr, data = fb24_short)
 
@@ -284,7 +284,7 @@ anova(mod_base, mod_base_vertr) #nicht signifikant
 ## 2    186 10.030  1  0.025336 0.4698 0.4939
 ```
 
-```r
+``` r
 #Offenheit für neue Erfahrungen
 mod_base_offen <- lm(prok ~ neuro + gewis + offen, data = fb24_short)
 
@@ -302,7 +302,7 @@ anova(mod_base, mod_base_offen) #nicht signifikant
 ```
 
 
-```r
+``` r
 #Inkrement von Extraversion
 summary(mod_base_extra)$r.squared - summary(mod_base)$r.squared 
 ```
@@ -318,7 +318,7 @@ Keine weitere Dimension der Big Five  kommt als weiterer signifikanter Prädikto
 Somit lautet unser finales Modell weiterhin wie folgt:
 
 
-```r
+``` r
 mod_final <- lm(prok ~ neuro + gewis, data = fb24_short)
 
 summary(mod_final)
@@ -369,7 +369,7 @@ Zwei Personen die den **gleichen** Neurotizismus-Wert haben, sich aber um eine E
 <summary>Lösung</summary>
 
 
-```r
+``` r
 summary(mod_final)$r.squared
 ```
 
@@ -394,7 +394,7 @@ Falls Sie dort Schwierigkeiten hatten, benutzen Sie das Kontrollergebnis.
 <summary>Kontrollergebnis</summary>
 
 
-```r
+``` r
 mod_final <- lm(prok ~ neuro + gewis, data = fb24_short)
 ```
 
@@ -410,7 +410,7 @@ mod_final <- lm(prok ~ neuro + gewis, data = fb24_short)
 Hierfür betrachten wir unsere Regressionsgewichte:
 
 
-```r
+``` r
 mod_final$coefficients
 ```
 
@@ -423,12 +423,12 @@ Diese sind jedoch noch von der benutzten Skala abhängig weswegen wir noch keine
 (Ausführlicher wurde dieses Vorgehen im Kapitel [Einfache Lineare Regression](/lehre/statistik-i/einfache-reg) besprochen.)
 
 
-```r
+``` r
 library(lm.beta)
 ```
 
 
-```r
+``` r
 mod_final_std <- lm.beta(mod_final)
 
 summary(mod_final_std)
@@ -471,7 +471,7 @@ Somit lässt sich die Aussage treffen, das Neurotizismus im Vergleich zu Gewisse
 Im Folgenden werden drei Lösungsansätze gezeigt, die sich in ihrer Komplexität unterscheiden. Sofern Sie auf einen der drei gekommen sind oder einen weiteren Ansatz gefunden haben der zum gleichen Ergebnis kommt, haben Sie die Aufgabe erfolgreich geeistert.
 
 
-```r
+``` r
 #1. Ansatz
 means <- data.frame(neuro = mean(fb24_short$neuro),
                     gewis = mean(fb24_short$gewis))
@@ -489,7 +489,7 @@ predict(mod_final, newdata = means)
 Hierbei handelt es sich um den standard Ansatz wenn es darum geht für eine neue Person mit folgenden Werten auf den Prädiktoren eine Vorhersage zu treffen.
 
 
-```r
+``` r
 #2. Ansatz
 mod_final_sc <- lm(prok ~ scale(neuro) + scale(gewis), data = fb24_short)
 
@@ -535,7 +535,7 @@ Unsere Formel reduziert sich dann auf:
 $\rightarrow$ Für eine Person, die auf allen standardisierten Prädiktoren genau den Mittelwert dieser Variable als eigenen Wert hat, ist die prognostizierte Prokrastinationstendenz gleich dem Intercept.
 
 
-```r
+``` r
 #3. Ansatz
 mean(fb24_short$prok)
 ```

@@ -9,7 +9,7 @@ subtitle: 'ANOVA mit Messwiederholung'
 summary: ''
 authors: [scheppa-lahyani,irmer,nehler,schultze]
 weight: 10
-lastmod: '2025-02-07'
+lastmod: '2025-04-08'
 featured: no
 banner:
   image: "/header/tree_flooded_lake_sunset.jpg"
@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-ii/anova-iii.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Quizdaten
-    url: /lehre/statistik-ii/quizdaten-bsc7#Quiz5
+    name: Übungen
+    url: /lehre/statistik-ii/anova-iii-uebungen
 output:
   html_document:
     keep_md: true
@@ -41,6 +41,8 @@ output:
 
 In den letzten beiden Sitzungen ging es darum Unterschiede *zwischen* Personen zu untersuchen, indem wir Mittelwertsunterschiede zwischen verschiedenen Gruppen von Personen geprüft haben (in englischsprachiger Literatur wird dies als *between subjects* ANOVA bezeichnet). In dieser Sitzung soll es darum gehen, Unterschiede *innerhalb* von Personen (im Englischen *within subjects* ANOVA) mithilfe der **ANOVA mit Messwiederholung** zu untersuchen. Diese Unterschiede können dabei z.B. dadurch entstehen, dass wir unterschiedliche Messzeitpunkte untersuchen. Die *Messwiederholung* muss nicht zwingend durch Zeit zustande kommen - andere Möglichkeiten der Messwiederholung sind z.B. unterschiedliche Tests oder Informationsquellen. Wir könnten z.B. Verhaltensauffälligkeiten von Kindern erheben, indem wir sie durch Psychotherapeutinnen und -therapeuten beobachten lassen und die Eltern sowie die Kita-Erzieher und -Erzieherinnen befragen. Auch so messen wir wiederholt das Gleiche und können untersuchen, inwiefern sich hierbei mittlere Unterschiede zeigen. Diese Analysen von Messwiederholungen lassen sich zudem mit den *Zwischen-Subjekt Analysen* kombinieren, die wir bereits behandelt haben. Mehr zur *ANOVA mit Messwiederholung* finden Sie in [`Eid, Gollwitzer und Schmitt (2017, Kapitel 14 und insb. 14.1 und folgend)`](https://ubffm.hds.hebis.de/Record/HEB366849158). 
 
+*Im Anschluss an diesen Beitrag können Sie sich mit dem [nächsten Quiz](/lehre/statistik-ii/quizdaten-bsc7#Quiz5) auseinandersetzen.*
+
 Für die heutige Sitzung wird der Datensatz  [<i class="fas fa-download"></i> "alc.rda"](../../daten/alc.rda) benötigt. Dieser stammt aus einer längsschnittlichen Erhebung des Alkoholkonsums von Jugendlichen.
 
 ### Datensatz laden
@@ -48,19 +50,19 @@ Für die heutige Sitzung wird der Datensatz  [<i class="fas fa-download"></i> "a
 Wir laden zunächst die Daten, entweder lokal von Ihrem Rechner:
 
 
-```r
+``` r
 load("C:/Users/Musterfrau/Desktop/alc.rda")
 ```
 
 oder wir laden sie direkt über die Website:
 
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/alc.rda"))
 ```
 
 
-```r
+``` r
 dim(alc)
 ```
 
@@ -68,7 +70,7 @@ dim(alc)
 ## [1] 82  7
 ```
 
-```r
+``` r
 head(alc)
 ```
 
@@ -112,18 +114,16 @@ Im langen Format hingegen bekommt jede Versuchsperson für jeden Messzeitpunkt e
 Wenn wir uns den Datensatz `alc` anschauen sehen wir, dass er erstmal im breiten Format vorliegt. Eine weitere Bestätigung dafür ist, dass jede `ID` auch nur einmal vorkommt.
 
 
-```r
+``` r
 table(alc$id)
 ```
 
 ```
 ## 
-##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
-## 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
-## 69 70 71 72 73 74 75 76 77 78 79 80 81 82 
-##  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
 ```
 
 Wie bereits geschildert benötigt das `ez`-Paket für die ANOVA mit Messwiederholung allerdings einen Datensatz im langen Format. Für die Transformation der Daten aus einem in das andere Format gibt es die `reshape`-Funktion, welche unterschiedliche Argumente benötigt, je nachdem, in welche Richtung die Daten transformiert werden sollen. Hier wollen wir aus dem breiten Format ins lange Format transformieren, um die Daten hinterher für die Varianzanalyse mit Messwiederholung nutzen zu können.
@@ -137,7 +137,7 @@ Weil die Benennung und Handhabung von Argumenten in `reshape` mitunter etwas un�
 Den umgewndelten Datensatz wollen wir direkt ablegen. Allerdings wollen wir den Datensatz im breiten Format nicht überschreiben, weshalb wir den Namen `alc_long` verwenden. Im Minimalfall sieht die Umwandlung also so aus:
 
 
-```r
+``` r
 alc_long <- reshape(data = alc,
   varying = list(c('alcuse.14', 'alcuse.15', 'alcuse.16')),
   direction = 'long')
@@ -158,7 +158,7 @@ head(alc_long)
 Das Argument `varying` bedarf einer zweiten Betrachtung: hier wird eine Liste von Vektoren erstellt. Die Vektoren enthalten jeweils die Namen der Variablen, die zusammen Messwiederholungen der gleichen Variable sind. Wenn wir z.B. einen weiteren Satz aus drei Variablen hätten, die `weeduse` hieße, würde diese Liste so aussehen:
 
 
-```r
+``` r
 varying = list(c('alcuse.14', 'alcuse.15', 'alcuse.16'),
   c('weeduse.14', 'weeduse.15', 'weeduse.16'))
 ```
@@ -166,7 +166,7 @@ varying = list(c('alcuse.14', 'alcuse.15', 'alcuse.16'),
 Per Voreinstellung werden alle Variablen übernommen, die nicht explizit als `varying` angegeben werden. Diese Variablen haben dann für jede Zeile, die die gleiche Person betrifft, auch den gleichen Wert. Wenn wir die Werte für die erste Person betrachten:
 
 
-```r
+``` r
 alc_long[alc_long$id == 1, ]
 ```
 
@@ -180,7 +180,7 @@ alc_long[alc_long$id == 1, ]
 sehen wir diese Variablen in den ersten vier Spalten wieder (id, male, peer, coa). Die nächste Variable ist die Zeitvariable, die von R automatisch als `time` benannt wird. Wenn wir etwas anderes nutzen möchten, können wir mit `timevar` explizit einen Namen vergeben (weil die Wiederholungen das Alter der Jugendlichen sind, bietet sich `age` an):
 
 
-```r
+``` r
 alc_long <- reshape(data = alc,
   varying = list(c('alcuse.14', 'alcuse.15', 'alcuse.16')),
   direction = 'long',
@@ -202,7 +202,7 @@ head(alc_long)
 Das Problem mit dieser neuen Variable ist jetzt noch, dass sie nicht das korrekte Alter der Jugendlichen kodiert, sondern stattdessen einfach bei 1 anfängt und hoch zählt. Auch das können wir per Argument ändern:
 
 
-```r
+``` r
 alc_long <- reshape(data = alc,
   varying = list(c('alcuse.14', 'alcuse.15', 'alcuse.16')),
   direction = 'long',
@@ -225,7 +225,7 @@ head(alc_long)
 Zu guter Letzt wird für die neuen Variablen automatisch der erste Name wiederverwendet. Hier ist der Name der neuen, messwiederholten Variable also `alcuse.14`. Weil in der Variable aber jetzt nicht mehr nur der Alkoholkonsum im 14. Lebensjahr enthalten ist, sondern für alle Jahre von 14 bis 16, bietet es sich an, hier auch einen allgemeineren Namen zu verwenden:
 
 
-```r
+``` r
 alc_long <- reshape(data = alc,
   varying = list(c('alcuse.14', 'alcuse.15', 'alcuse.16')),
   direction = 'long',
@@ -258,7 +258,7 @@ Der Vollständigkeit halber können wir auch noch überlegen, wie man diesen Dat
   - `direction`: das Zielformat des neuen Datensatzes
 
 
-```r
+``` r
 alc_wide <- reshape(alc_long, 
             v.names = 'alcuse', 
             timevar = 'age', 
@@ -293,7 +293,7 @@ Die Umsetzung in `R` funktioniert aber ähnlich mit den in den letzten Sitzungen
 In diesem Fall ist von Interesse, wie sich der **Alkoholkonsum von Jugendlichen zwischen 14 und 16 verändert**. Dafür können wir zunächst deskriptiv betrachten, wie die Mittelwerte sich über die Zeit verändern:
 
 
-```r
+``` r
 library(ez)
 ezStats(alc_long, alcuse, id, within = age)
 ```
@@ -303,8 +303,8 @@ ezStats(alc_long, alcuse, id, within = age)
 ```
 
 ```
-## Warning: There is at least one numeric within variable, therefore aov() will be used for computation
-## and no assumption checks will be obtained.
+## Warning: There is at least one numeric within variable, therefore aov() will be used for computation and no assumption checks
+## will be obtained.
 ```
 
 ```
@@ -317,14 +317,14 @@ ezStats(alc_long, alcuse, id, within = age)
 `ezStats` wartet hier direkt mit einer Warnung auf, die darauf hinweist, dass `age` als numerische Variable vorliegt. Weil in der Varianzanalyse davon ausgegangen wird, dass die unabhängigen Variablen nominalskaliert sind, möchte das `ez`-Paket sie auch im dazugehörigen Format. Deswegen wandeln wir die Altersvariable schnell in einen `factor` um:
 
 
-```r
+``` r
 alc_long$age <- as.factor(alc_long$age)
 ```
 
 Jetzt sollte der `ezStats`-Befehl ohne die Warnung funktionieren:
 
 
-```r
+``` r
 ezStats(alc_long, alcuse, id, within = age)
 ```
 
@@ -338,7 +338,7 @@ ezStats(alc_long, alcuse, id, within = age)
 Statt das Argument `between` wie in den letzten Sitzungen zu nutzen, wird mithilfe des `within` Arguments die Variable benannt, die zwischen Messungen *innerhalb* der gleichen Personen unterscheidet. In diesem Fall unterscheiden sich die Messungen der gleichen Personen bezogen auf das Alter, zu dem Sie befragt wurden. Deskriptiv zeigt sich (vielleicht nicht allzu überraschend) ein Anstieg des Alkoholkonsums über die Jahre. Grafisch dargestellt:
 
 
-```r
+``` r
 ezPlot(alc_long, alcuse, id, within = age,
   x = age)
 ```
@@ -352,7 +352,7 @@ Wie schon in der [letzten Sitzung](../anova-ii) erklärt, sind die Intervalle um
 Als Äquivalent zur Homoskedastizitätsannahme in der ANOVA *ohne* Messwiederholung, wird in der ANOVA *mit* Messwiederholung die **Sphärizitätsannahme** getroffen. Unter dieser Annahme sollten die Varianzen der Differenzen zwischen allen Zeitpunkten identisch sein (vgl. [Eid et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 474 f.). Im breiten Datenformat sind diese Differenzen einfach zu erstellen:
 
 
-```r
+``` r
 alc$diff_1415 <- alc$alcuse.15 - alc$alcuse.14
 alc$diff_1416 <- alc$alcuse.16 - alc$alcuse.14
 alc$diff_1516 <- alc$alcuse.16 - alc$alcuse.15
@@ -369,7 +369,7 @@ var(alc[, c('diff_1415', 'diff_1416', 'diff_1516')])
 Wir konzentrieren uns auf die Diagonale. Rein deskriptiv lässt sich erkennen, dass die Varianz der Differenz zwischen 14 und 16 Jahren beinahe doppelt so groß ist, wie die zwischen 14 und 15 Jahren. Wie schon bei der Homoskedastizitätsannahme, wird auch die Sphärizität von `ezANOVA` mitgetestet:
 
 
-```r
+``` r
 ezANOVA(data = alc_long, dv = alcuse, wid = id, within = age)
 ```
 
@@ -408,7 +408,7 @@ ICC | klein | mittel | groß
 Die ICC kann generell als $\frac{\sigma^2_{\pi}}{\sigma^2_{\pi} + \sigma^2_{\epsilon}}$ berechnet werden. Dabei ist $\sigma^2_{\pi}$ die Personenvarianz und $\sigma^2_{\epsilon}$ die Residualvarianz. Beide können direkt aus den mittleren Quadratsummen berechnet werden. Alternativ kann die `ICC`-Funktion aus dem `psych`-Paket genutzt werden:
 
 
-```r
+``` r
 psych::ICC(alc[, c('alcuse.14', 'alcuse.15', 'alcuse.16')])
 ```
 
@@ -436,14 +436,14 @@ Der in diesem Fall relevante ICC-Typ (`type`) ist als `ICC1` gelistet. In diesem
 Wie für eine [ANOVA ohne Messwiederholung](../anova-ii), kann auch in diesem Fall mit dem `emmeans`-Paket die Kontrastanalyse durchgeführt werden.
 
 
-```r
+``` r
 library(emmeans)
 ```
 
 Kontraste sind hier hilfreich, da spezifischere Hypothesen getesten werden können, während unsere bisherige Analyse nur einen globalen Effekt feststellen konnte. Die `contrast`-Funktion des Pakets benötigt als Input ein `aov`-Objekt. Wir haben bereits gelernt, dass solch ein Objekt mit der Funktion `aov` erstellt werden kann (`aov(alcuse ~ age, data = alc_long`; links steht die abhängige Variable Nutzung von Alkohol getrennt von der `~` stehen dann die Gruppenvariablen hier die Zeit). Wenn wir diesen Code jetzt so übernehmen würden, würden aber die Abhängigkeiten in unserem Datensatz durch die Messwiederholung nicht berücksichtigt. Genauer gesagt muss die Abhängigkeit in den Fehlern modelliert werden, die duch die Messwiederholung entsteht. In `aov` wird dies durch die Hinzunahme von `Error()` erreicht. Die Fehler sind abhängig von der Personen ID zu den verschiedenen Messungen. In `Error` müssen beide Informationen getrennt durch einen Backslash `\` aufgegührt werden. Wir schreiben also zunächst `id`, da alle gleichen Ausprägungen zur gleichen Person gehören. Nach dem Backslash schreiben wir `age`, da es sich hierbei um eine Innersubjektvariable (eine Within-Variable). Diese Schreibweise sagt quasi, dass wir die Messzeitpunkte innerhalb einer Person als Gruppe betrachten. 
 
 
-```r
+``` r
 # aov-Objekt erzeugen
 wdh_aov <- aov(alcuse ~ age + Error(id/age), 
   data = alc_long)
@@ -480,7 +480,7 @@ wdh_aov
 In den `aov`-Objekten werden uns ein paar zusätzliche Infos mit ausgegen, nämlich die Quadratsummenzerlegung in Effekt, Person und Fehler. Die Variation, die auf die Personen zurückzuführen ist, steht unter `Stratum 1: id`, während die Effekte der Zeit unter `Stratum 2: id:age` zu finden sind. Genauso kann uns natürlich auch `ezANOVA` ein `aov`-Objekt als Output mitgeben, indem wir das nötige Argument spezifizieren, allerdings scheint es hier zurzeit Probleme mit dem Paket zu geben, weswegen wir hier nun auf `aov`  ausweichen müssen. Nachdem wir nun ein Objekt erstellt haben, müssen wir die Funktion `emmeans` auf dieses anwenden und damit ein Objekt vorbereiten, das bei den Kontrasten verwendet werden kann.
 
 
-```r
+``` r
 # Kontraste vorbereiten
 em <- emmeans(wdh_aov, ~ age)
 ```
@@ -489,7 +489,7 @@ em <- emmeans(wdh_aov, ~ age)
 ## Note: re-fitting model with sum-to-zero contrasts
 ```
 
-```r
+``` r
 em
 ```
 
@@ -533,21 +533,21 @@ wobei $K_j$ die jeweiligen Kontrastkoeffizienten sind. Wie in der [letzten Sitzu
 Horizontaler Trend würde bedeuten, dass unsere Messwerte eine *horizontale Linie* bilden. Für die Bestimmung der Koeffizienten müssen wir zunächst einige mathematische (theoretische) Überlegungen anstellen. Eine horizontale Linie entsteht, wenn sich die Mittelwerte über die Zeit nicht verändern, also der Abstand vom Mittelpunkt in beide Richtungen gleich groß ist und sich das Vorzeichen nicht verändert: $\mu_2 - \mu_1 = \mu_2 - \mu_3$. Hier ist es extrem wichtig, dass wir das gleiche $\mu$ (hier $\mu_2$) zuerst nennen, da wir sonst fälschlicherweise andere Effekte testen würden. Wenn wir diese kleine Gleichung nun umformen und auf beiden Seiten $\mu_2$ abziehen und anschließend beide Seiten mit $\mu_3$ addieren, dann erhalten wir: $-\mu_1 + \mu_3 = 0$ also die Kontrastkoeffizienten (-1, 0, 1), wie wir sie oben schon aufgeschrieben hatten. Wie schon für die Kontraste in der [letzten Sitzung](../anova-ii) wird hierbei die Nullhypothese getestet, dass $H_0 : -1 \cdot \mu_1 + 0 \cdot \mu_2 + 1 \cdot \mu_3 = 0$. Diese Koeffizienten müssen wir in einem eigenen Objekt ablegen. 
 
 
-```r
+``` r
 lin_cont <- c(-1, 0, 1)
 ```
 
 Wir können uns erstmal rein deskriptiv anschauen, inwiefern der lineare Verlauf eine realistische Behauptung über den Mittelwertsverlauf ist. Wie in der [letzten Sitzung](../anova-ii) behandelt, erstellen wir mit `ezPlot` automatisch einen `ggplot` mit der gleichen Snytax wie bei `ezANOVA`. Der Grund, aus dem `ggplot2` als Paket so beliebt ist, ist, dass es modular funktioniert und wir unsere Abbildungen schichten können (wie in der [2. Sitzung](../grafiken-ggplot2) behandelt). Wenn Pakete also `ggplot2`-Abbildungen erstellen, können wir diese einfach durch andere `ggplot2`-Komponenten ergänzen (wenn wir vorher `ggplot2` geladen haben):
 
 
-```r
+``` r
 library(ggplot2)
 ```
 
 Zur Erinnerungen können Sie die Abbildung nach Ihren Wünschen umgestalten, wie in der [2. Sitzung](../grafiken-ggplot2) besprochen:
 
 
-```r
+``` r
 # ezPlot siehe oben
 ezPlot(alc_long, alcuse, id, within = age,
   x = age) +
@@ -561,7 +561,7 @@ ezPlot(alc_long, alcuse, id, within = age,
 Um Verläufe darzustellen, hatten wir in der [2. Sitzung](../grafiken-ggplot2) und der [8. Sitzung](../regression-v) `geom_smooth()` kennen gelernt. Weil diese Geometrie als Schicht auf den ursprünglichen Plot gelegt werden kann, können wir den linearen Verlauf veranschaulichen:
 
 
-```r
+``` r
 ezPlot(alc_long, alcuse, id, within = age,
   x = age) +
   geom_smooth(aes(x = as.numeric(age)), method = 'lm', se = FALSE)
@@ -576,7 +576,7 @@ ezPlot(alc_long, alcuse, id, within = age,
 Weil wir für `ezANOVA` das Alter in einen Faktor umgewandelt hatten, müssen wir es für `geom_smooth` erst noch in eine numerische Variable zurücküberführen (`as.numeric`). Dann wählen wir mit `method = 'lm'` das lineare Modell und unterdrücken mit `se = FALSE` das Konfidenzintervall um die Regressionsgerade. In unserem Kontrast für den linearen Effekt prüfen wir den Anstieg dieser Geraden (oben als $\Lambda$ notiert):
 
 
-```r
+``` r
 contrast(em, list(lin_cont))
 ```
 
@@ -605,7 +605,7 @@ Um Ihnen das Leben ein wenig zu erleichtern, können Sie folgende Tabelle konsul
 Diese Tabelle ist natürlich ziemlich lang erweiterbar. Wie Sie sehen, können Polynome immer für $t-1$ Grade bestimmt werden - für drei Messzeitpunkte, kann also bis zum quadratischen Trend geprüft werden. Abgebildet sieht der quadratische Verlauf der Mittelwerte (rote Linie) so aus:
 
 
-```r
+``` r
 ezPlot(alc_long, alcuse, id, within = age,
   x = age) +
   geom_smooth(aes(x = as.numeric(age)), method = 'lm', se = FALSE) +
@@ -624,7 +624,7 @@ Wir erkennen deutlich, dass alle Mittelwerte auf dem quadratischen Trend liegen.
 Wir wollen nun also untersuchen, ob es in den Daten einen quadratischen Trend gibt, indem wir dafür den entsprechenden Kontrast definieren und die Kontrastprüfung gleichzeitig für den linearen und quadratischen Effekt durchführen! Wir sollten dabei nicht vergessen, die $p$-Werte einer Bonferroni-Korrektur zu unterziehen!
 
 
-```r
+``` r
 lin_cont <- c(-1, 0, 1)
 qua_cont <- c(1, -2, 1)
 
@@ -649,7 +649,7 @@ Hier muss allerdings aufgepasst werden. Diese Kontraste, die aus sogenannten ort
 Damit wir nicht für jede Datenkonstellation riesige Tabellen von orthogonalen Kontrasten parat haben müssen, können wir in der `contrast`-Funktion einige typische Kontraste in abgekürzter Fassung anfordern. Für polynomiale Kontraste, z.B.
 
 
-```r
+``` r
 contrast(em, interaction = 'poly')
 ```
 
@@ -662,7 +662,7 @@ contrast(em, interaction = 'poly')
 Es zeigt sich in diesem Fall also ein bedeutsamer linearer, aber kein bedeutsamer quadratischer Trend. Die Interpretation ist identisch zu oben --- es ist ja auch die gleiche Analyse (alle Koeffizienten sind identisch zu oben)! Wie schon zuvor, können wir hier mit `adjust` eine Bonferroni-Korrektur vornehmen:
 
 
-```r
+``` r
 contrast(em, interaction = 'poly',
   adjust = 'bonferroni')
 ```
@@ -680,7 +680,7 @@ Es ergibt sich die gleiche Tabelle wie zuvor.
 Wollen wir einen herkömmlichen Kontrast prüfen (also keinen Trend), so müssen wir in unserer Interpretation wieder umschwenken! Der direkte Vergleich aller Zeitpunkte kann via `method = 'pairwise'` erreicht werden. Außerdem resultieren die Voreinstellungen in einem Vergleich aller Zeitpunkte mit dem globalen Mittel:
 
 
-```r
+``` r
 # Alle paarweisen Vergleiche
 contrast(em, method = 'pairwise',
   adjust = 'bonferroni')
@@ -698,7 +698,7 @@ contrast(em, method = 'pairwise',
 Hier erkennt man, dass sich vor allem Unterschiede zwischen 14 und 15 Jahren ($p = 0.0083$) sowie zwischen 14 und 16 Jahren ($p < .001$) ergeben, da hier die Mittelwertsvergleiche signifikant sind. Genauso könnten wir auch den jeweiligen Gruppenmittelwert gegen den globalen Mittelwert testen.
 
 
-```r
+``` r
 # Vergleiche mit dem Mittel
 contrast(em,
   adjust = 'bonferroni')
@@ -731,7 +731,7 @@ Wir sehen also, dass die paarweisen Vergleiche extrem schnell anwachsen, was nat
 Untersuchungen, in denen *mehrere Gruppen und mehrere Messungen gleichzeitig* betrachtet werden, werden häufig **Split-Plot Designs** genannt. Im aktuellen Datensatz können Jugendliche danach in Gruppen eingeteilt werden, ob ihre Eltern Alkoholiker sind (`coa`). Die entsprechende Syntax für das `ez`-Paket ist eine einfache Kombination aus der Syntax für die beiden Typen der ANOVA, die wir bereits behandelt haben:
 
 
-```r
+``` r
 # Deskriptive Statistiken
 ezStats(alc_long, 
   dv = alcuse, 
@@ -741,13 +741,13 @@ ezStats(alc_long,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
-## for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
-## Warning in ezStats(alc_long, dv = alcuse, wid = id, within = age, between = coa): Unbalanced groups.
-## Mean N will be used in computation of FLSD
+## Warning in ezStats(alc_long, dv = alcuse, wid = id, within = age, between = coa): Unbalanced groups. Mean N will be used in
+## computation of FLSD
 ```
 
 ```
@@ -760,7 +760,7 @@ ezStats(alc_long,
 ## 6   1  16 37 1.5312054 1.0573837 0.3080161
 ```
 
-```r
+``` r
 # Grafische Darstellung
 ezPlot(alc_long, 
   dv = alcuse, 
@@ -771,13 +771,13 @@ ezPlot(alc_long,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
-## for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
-## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, :
-## Unbalanced groups. Mean N will be used in computation of FLSD
+## Warning in ezStats(data = data, dv = dv, wid = wid, within = within, within_full = within_full, : Unbalanced groups. Mean N
+## will be used in computation of FLSD
 ```
 
 ![](/anova-iii_files/unnamed-chunk-31-1.png)<!-- -->
@@ -795,7 +795,7 @@ In sehr vielen psychologischen Studien ist der Interaktionseffekt der relevante 
 Um diese Effekte zu untersuchen, können wir wieder die `ezANOVA` nutzen:
 
 
-```r
+``` r
 ezANOVA(alc_long, 
   dv = alcuse, 
   wid = id, 
@@ -804,8 +804,8 @@ ezANOVA(alc_long,
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value
-## for the type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type argument to
+## ezANOVA().
 ```
 
 ```
@@ -829,7 +829,7 @@ ezANOVA(alc_long,
 Obwohl `ez` den *Mauchly Test* für Sphärizität mitliefert, ist im Fall des Split-Plot Designs die *eigentliche* Annahme die *Gleichheit der Varianz-Kovarianz-Matrizen der messwiederholten Variablen über alle Gruppen hinweg*. Diese Annahme kann mithilfe des **Box-M-Tests** geprüft werden, welcher allerdings in nur wenigen Paketen implementiert ist, weil er in der Mehrheit aller empirischen Anwendungen statistisch bedeutsam ist. Wer ihn dennoch durchführen möchte, findet ihn z.B. im `heplots` Paket:
 
 
-```r
+``` r
 heplots::boxM(alc[, c('alcuse.14', 'alcuse.15', 'alcuse.16')], group = alc$coa)
 ```
 
@@ -876,7 +876,7 @@ Bezüglich der Ergebnisse der ANOVA zeigt sich, dass das Alter (korrigierte Effe
 Wir schauen uns im Folgenden simulierte Daten an und betrachten  nochmals die 3 Trends (horizontal, linear, quadratisch). Wir beginnen mit einem horiziontalen Trend in den Daten an. Die wahren Mittelwerte werden als (0, 0, 0) gewählt:
 
 
-```r
+``` r
 set.seed(123) # für Vergleichbarkeit
 Means <- c(0, 0, 0) # wahren Mittelwerte pro Zeitpunkt
 Y <- Means[1] + rnorm(30)
@@ -901,7 +901,7 @@ head(df)
 ## 6  1.71506499     1  6
 ```
 
-```r
+``` r
 ezPlot(df, Y, id, within = times,
   x = times) +
   geom_smooth(aes(x = as.numeric(times)), method = 'lm', se = FALSE,
@@ -914,7 +914,7 @@ ezPlot(df, Y, id, within = times,
 
 ![](/anova-iii_files/unnamed-chunk-35-1.png)<!-- -->
 
-```r
+``` r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))
 em <- emmeans(whd_aov, ~ times)
 contrast(em, interaction = 'poly')
@@ -930,7 +930,7 @@ Sowohl der lineare als auch der quadratische Trend sind **nicht** signifikant! D
 Nun schauen wir uns einen linearen Trend mit Mittelwerten (0, 1, 2) an:
 
 
-```r
+``` r
 set.seed(123) # für Vergleichbarkeit
 Means <- c(0, 1, 2) # wahren Mittelwerte pro Zeitpunkt
 Y <- Means[1] + rnorm(30)
@@ -955,7 +955,7 @@ head(df)
 ## 6  1.71506499     1  6
 ```
 
-```r
+``` r
 ezPlot(df, Y, id, within = times,
   x = times) +
   geom_smooth(aes(x = as.numeric(times)), method = 'lm', se = FALSE,
@@ -968,7 +968,7 @@ ezPlot(df, Y, id, within = times,
 
 ![](/anova-iii_files/unnamed-chunk-36-1.png)<!-- -->
 
-```r
+``` r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))
 em <- emmeans(whd_aov, ~ times)
 contrast(em, interaction = 'poly')
@@ -985,7 +985,7 @@ Diesmal ist nur der lineare Trend signifikant. Die Mittelwerte steigen mit jedem
 Nun schauen wir uns einen (umgekehrt) U-förmigen Verlauf an mit Mittelwerten: (0, 1, 0):
 
 
-```r
+``` r
 set.seed(123) # für Vergleichbarkeit
 Means <- c(0, 1, 0) # wahren Mittelwerte pro Zeitpunkt
 Y <- Means[1] + rnorm(30)
@@ -1010,7 +1010,7 @@ head(df)
 ## 6  1.71506499     1  6
 ```
 
-```r
+``` r
 ezPlot(df, Y, id, within = times,
   x = times) +
   geom_smooth(aes(x = as.numeric(times)), method = 'lm', se = FALSE,
@@ -1023,7 +1023,7 @@ ezPlot(df, Y, id, within = times,
 
 ![](/anova-iii_files/unnamed-chunk-37-1.png)<!-- -->
 
-```r
+``` r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))
 em <- emmeans(whd_aov, ~ times)
 contrast(em, interaction = 'poly')
@@ -1038,7 +1038,7 @@ contrast(em, interaction = 'poly')
 Es ist nur der quadratische Trend signifikant, da wir ja gesehen hatten, dass der Kontrast für den linearen Trend nur die beiden äußeren Mittelwerte gegeneinander testet ($\mu_1$ vs $\mu_3$), welche sich aber nicht unterscheiden und somit auch die blau Gerade horizontal erscheint (sie ist nicht/kaum von der gelben zu unterscheiden)! Schauen wir uns doch einmal einen Verlauf an, in welchem sowohl der lineare als auch de quadratische Trend signifikant ist. Das ist der Fall, wenn die Mittelwerte bspw. "beschleunigt" steigen mit den Zeitpunkten. wir wählen die Mittelwerte als (1, 4, 9), also $t^2$. 
 
 
-```r
+``` r
 set.seed(1234) # für Vergleichbarkeit
 Means <- c(1^2, 2^2, 3^2) # wahren Mittelwerte pro Zeitpunkt
 Y <- Means[1] + rnorm(30)
@@ -1063,7 +1063,7 @@ head(df)
 ## 6  1.5060559     1  6
 ```
 
-```r
+``` r
 ezPlot(df, Y, id, within = times,
   x = times) +
   geom_smooth(aes(x = as.numeric(times)), method = 'lm', se = FALSE,
@@ -1076,7 +1076,7 @@ ezPlot(df, Y, id, within = times,
 
 ![](/anova-iii_files/unnamed-chunk-38-1.png)<!-- -->
 
-```r
+``` r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))
 em <- emmeans(whd_aov, ~ times)
 contrast(em, interaction = 'poly')

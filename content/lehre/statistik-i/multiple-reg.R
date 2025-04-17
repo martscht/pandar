@@ -16,14 +16,26 @@ fb24$ziel <- factor(fb24$ziel,
 fb24$wohnen <- factor(fb24$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
+fb24$fach_klin <- factor(as.numeric(fb24$fach == "Klinische"),
+                         levels = 0:1,
+                         labels = c("nicht klinisch", "klinisch"))
+fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb24$job <- factor(fb24$job, levels=c(1,2), labels=c("nein", "ja"))
+fb24$unipartys <- factor(fb24$uni3,
+                             levels = 0:1,
+                             labels = c("nein", "ja"))
 
 # Rekodierung invertierter Items
-fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 5)
-fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 5)
-fb24$mdbf3_r <- -1 * (fb24$mdbf3 - 5)
-fb24$mdbf9_r <- -1 * (fb24$mdbf9 - 5)
+fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 4 - 1)
+fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 4 - 1)
+fb24$mdbf3_r <-  -1 * (fb24$mdbf3 - 4 - 1)
+fb24$mdbf9_r <-  -1 * (fb24$mdbf9 - 4 - 1)
+fb24$mdbf5_r <- -1 * (fb24$mdbf5 - 4 - 1)
+fb24$mdbf7_r <- -1 * (fb24$mdbf7 - 4 - 1)
 
 # Berechnung von Skalenwerten
+fb24$wm_pre  <- fb24[, c('mdbf1', 'mdbf5_r', 
+                        'mdbf7_r', 'mdbf10')] |> rowMeans()
 fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
 fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
@@ -31,6 +43,7 @@ fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6",
 
 # z-Standardisierung
 fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
+
 
 # Einfache Regression
 mod1 <- lm(nerd ~ 1 + extra, data = fb24)
@@ -78,7 +91,7 @@ X <- matrix(c(1, 0,
 
 a <- coef(mod2) %*% X
 
-## abline(a = a, b = b1, col = "darkgreen")
+# abline(a = a, b = b1, col = "darkgreen")
 
 
 
@@ -102,8 +115,8 @@ R2u
 # Inkrementelles R2 der vier anderen
 R2u - R2e
 
-## # Test des inkrementellen R2
-## anova(mod1, mod2)
+# # Test des inkrementellen R2
+# anova(mod1, mod2)
 
 
 

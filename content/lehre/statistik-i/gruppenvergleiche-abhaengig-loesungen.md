@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [walter, nehler] 
-lastmod: '2025-02-11'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -26,8 +26,8 @@ links:
     url: /lehre/statistik-i/gruppenvergleiche-abhaengig
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/gruppenvergleiche-abhaengig-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/gruppenvergleiche-abhaengig-uebungen
     
 output:
   html_document:
@@ -40,6 +40,7 @@ output:
 
 > Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/gruppenvergleiche-abhaengig/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
+**Datenaufbereitung**
 
 
 
@@ -120,7 +121,7 @@ hist(wach[, "wm_post"], xlim=c(0,5), ylim=c(1,50), main="Wachempfinden nach der 
 abline(v=mean(wach[, "wm_post"]), lty=2, lwd=2)
 ```
 
-![](/lehre/statistik-i/gruppenvergleiche-abhaengig-loesungen_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig-loesungen_files/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 par(mfrow=c(1,1)) #Zurücksetzen auf default
@@ -151,13 +152,6 @@ summary(wach[, "wm_post"])
 ``` r
 # aus dem Paket psych, das wir bereits installiert haben
 library(psych)
-```
-
-```
-## Warning: Paket 'psych' wurde unter R Version 4.4.2 erstellt
-```
-
-``` r
 describe(wach[, "wm_pre"])
 ```
 
@@ -202,7 +196,7 @@ hist(difference, xlim=c(-4,4), main="Verteilung der Differenzen", xlab="Differen
 curve(dnorm(x, mean=mean(difference), sd=sd(difference)), col="blue", lwd=2, add=T)
 ```
 
-![](/lehre/statistik-i/gruppenvergleiche-abhaengig-loesungen_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig-loesungen_files/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 par(mfrow=c(1,1)) #Zurücksetzen auf default
@@ -210,7 +204,7 @@ qqnorm(difference,las=1)
 qqline(difference, col="blue")
 ```
 
-![](/lehre/statistik-i/gruppenvergleiche-abhaengig-loesungen_files/figure-html/unnamed-chunk-6-2.png)<!-- -->
+![](/gruppenvergleiche-abhaengig-loesungen_files/unnamed-chunk-6-2.png)<!-- -->
 
 $\Rightarrow$ Differenzen weisen leichte Abweichungen zur Normalverteilung auf. Symmetrie trotzdem gegeben und auf Grund des zentralen Grenzwertsatzes und der Stichprobengröße $\Rightarrow$ Durchführung des t-Tests für abhängige Stichproben
 </details>

@@ -8,7 +8,7 @@ tags: []
 subtitle: ''
 summary: '' 
 authors: [koehler, buchholz, goldhammer] 
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -20,6 +20,17 @@ _build:
   list: never
 reading_time: false
 share: false
+
+links:
+  - icon_pack: fas
+    icon: book
+    name: Inhalte
+    url: /lehre/statistik-i/gruppenvergleiche-unabhaengig
+  - icon_pack: fas
+    icon: pen-to-square
+    name: Übungen
+    url: /lehre/statistik-i/gruppenvergleiche-unabhaengig-uebungen
+    
 output:
   html_document:
     keep_md: true
@@ -35,7 +46,7 @@ output:
 **Datenaufbereitung**
 
 
-```r
+``` r
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -93,7 +104,7 @@ Unterscheiden sich Studierende, die sich für Allgemeine Psychologie (Variable "
 **Deskriptivstatistische Beantwortung der Fragestellung: grafisch**
 
 
-```r
+``` r
 data1 <- fb24[ (which(fb24$fach=="Allgemeine"|fb24$fach=="Klinische")), ]
 data1$fach <- droplevels(data1$fach)
 boxplot(data1$offen ~ data1$fach,
@@ -109,7 +120,7 @@ boxplot(data1$offen ~ data1$fach,
 
 
 
-```r
+``` r
 # Überblick
 
 library(psych)
@@ -122,13 +133,13 @@ describeBy(data1$offen, data1$fach)
 ## group: Allgemeine
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 41 3.78 1.04      4    3.86 1.48 1.5   5   3.5 -0.54    -0.89 0.16
-## ---------------------------------------------------------------------------- 
+## ------------------------------------------------------------------------------------- 
 ## group: Klinische
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 88 3.95 0.88      4    4.04 0.74   1   5     4 -0.94     0.72 0.09
 ```
 
-```r
+``` r
 # Berechnung der empirischen Standardabweichung, da die Funktion describeBy() nur Populationsschätzer für Varianz und Standardabweichung berichtet
 
 offen.A <- data1$offen[(data1$fach=="Allgemeine")]
@@ -142,7 +153,7 @@ sd.A
 ## [1] 1.02439
 ```
 
-```r
+``` r
 offen.B <- data1$offen[(data1$fach=="Klinische")]
 sigma.B <- sd(offen.B)
 n.B <- length(offen.B[!is.na(offen.B)])
@@ -179,7 +190,7 @@ $\alpha = .05$
 **Voraussetzungsprüfung: Varianzhomogenität**
 
 
-```r
+``` r
 library(car)
 leveneTest(data1$offen ~ data1$fach)
 ```
@@ -191,7 +202,7 @@ leveneTest(data1$offen ~ data1$fach)
 ##       127
 ```
 
-```r
+``` r
 levene <- leveneTest(data1$offen ~ data1$fach)
 f <- round(levene$`F value`[1], 2)
 p <- round(levene$`Pr(>F)`[1], 3)
@@ -202,7 +213,7 @@ _F_(1, 127) = 2.66, _p_ = 0.106 $\rightarrow$ Das Ergebnis ist nicht signifikant
 **Durchführung des _t_-Tests**
 
 
-```r
+``` r
 t.test(data1$offen ~ data1$fach,           # abhängige Variable ~ unabhängige Variable
        #paired = F,                   # Stichproben sind unabhängig 
        alternative = "two.sided",         # zweiseitige Testung
@@ -240,7 +251,7 @@ Sind Studierende, die außerhalb von Frankfurt wohnen ("ort"), zufriedener im Le
 **Deskriptivstatistische Beantwortung der Fragestellung: grafisch**
 
 
-```r
+``` r
 boxplot(fb24$lz ~ fb24$ort,
         xlab="Wohnort", ylab="Lebenszufriedenheit", 
         las=1, cex.lab=1.5, 
@@ -252,7 +263,7 @@ boxplot(fb24$lz ~ fb24$ort,
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
 
 
-```r
+``` r
 library(psych)
 describeBy(fb24$lz, fb24$ort)
 ```
@@ -263,13 +274,13 @@ describeBy(fb24$lz, fb24$ort)
 ## group: FFM
 ##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 112 4.89 1.17      5    4.96 1.19   2   7     5 -0.49     -0.4 0.11
-## ---------------------------------------------------------------------------- 
+## ------------------------------------------------------------------------------------- 
 ## group: anderer
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 77 4.97 1.13      5    5.01 1.19   2   7     5 -0.33    -0.57 0.13
 ```
 
-```r
+``` r
 summary(fb24[which(fb24$ort=="FFM"), "lz"])
 ```
 
@@ -278,7 +289,7 @@ summary(fb24[which(fb24$ort=="FFM"), "lz"])
 ##   2.000   4.000   5.000   4.889   5.800   7.000
 ```
 
-```r
+``` r
 summary(fb24[which(fb24$ort=="anderer"), "lz"])
 ```
 
@@ -294,7 +305,7 @@ Der Mittelwert der Frankfurter:innen ist deskriptiv niedriger als der der Nicht-
 **Voraussetzungsprüfung: Normalverteilung**
 
 
-```r
+``` r
 par(mfrow=c(1,2))
 lz.F <- fb24[which(fb24$ort=="FFM"), "lz"]
 hist(lz.F, xlim=c(1,9), ylim=c(0,0.5), main="Lebenzufriedenheit\n(Frankfurter)", xlab="", ylab="", las=1, prob=T)
@@ -308,7 +319,7 @@ qqline(lz.F, col="red")
 $\rightarrow$ Entscheidung: Normalverteilung wird nicht angenommmen
 
 
-```r
+``` r
 par(mfrow=c(1,2))
 lz.a <- fb24[which(fb24$ort=="anderer"), "lz"]
 hist(lz.a, xlim=c(1,9), main="Lebenszufriedenheit\n(Nicht-Frankfurter)", xlab="", ylab="", las=1, prob=T)
@@ -340,7 +351,7 @@ $\alpha = .05$
 **Durchführung des Wilcoxon-Tests**
 
 
-```r
+``` r
 wilcox.test(fb24$lz ~ fb24$ort,           # abhängige Variable ~ unabhängige Variable
        #paired = F,                   # Stichproben sind unabhängig (Default)
        alternative = "less",         # einseitige Testung: Gruppe1 (Frankfurter:innen) < Gruppe2 (Nicht-Frankfurter:innen) 
@@ -379,7 +390,7 @@ Beide Variablen sind nominalskaliert $\rightarrow \chi^2$-Test
 3. Zellbesetzung für alle $n_{ij}$ > 5 $\rightarrow$ Prüfung anhand von Häufigkeitstabelle 
 
 
-```r
+``` r
 wohnsituation <- fb24[(which(fb24$wohnen=="WG"|fb24$wohnen=="bei Eltern")),] # Neuer Datensatz der nur Personen beinhaltet, die entweder bei den Eltern oder in einer WG wohnen
 levels(wohnsituation$wohnen)
 ```
@@ -388,7 +399,7 @@ levels(wohnsituation$wohnen)
 ## [1] "WG"         "bei Eltern" "alleine"    "sonstiges"
 ```
 
-```r
+``` r
 wohnsituation$wohnen <- droplevels(wohnsituation$wohnen) 
 # Levels "alleine" und "sonstiges" wurden eliminiert
 levels(wohnsituation$wohnen)
@@ -398,7 +409,7 @@ levels(wohnsituation$wohnen)
 ## [1] "WG"         "bei Eltern"
 ```
 
-```r
+``` r
 tab <- table(wohnsituation$wohnen, wohnsituation$job)
 tab
 ```
@@ -431,7 +442,7 @@ Hypothesenpaar (statistisch):
 **Durchführung des $\chi^2$-Test in R**
 
 
-```r
+``` r
 chisq.test(tab, correct=FALSE)
 ```
 
@@ -450,7 +461,7 @@ $\chi^2$ = 0.758, df = 1, p = 0.384 $\rightarrow H_0$
 **Effektstärke Phi ($\phi$)**
 
 
-```r
+``` r
 library(psych)
 phi(tab)
 ```

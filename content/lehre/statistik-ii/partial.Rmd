@@ -29,8 +29,9 @@ links:
     url: /lehre/statistik-ii/partial.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Quizdaten
-    url: /lehre/statistik-ii/quizdaten-bsc7#Quiz3
+    name: Übungen
+    url: /lehre/statistik-ii/partial-uebungen
+
 output:
   html_document:
     keep_md: true
@@ -56,6 +57,7 @@ Um sich Rückschlüssen über die wahren Wirkungsbeziehungen aber zumindest anzu
 
 $^1$ Falls Sie noch mehr solcher Scheinkorrelationen zu Gemüte führen wollen, gibt es einen ganzen Blog, der sich mit solchen [*spurious correlations*](http://tylervigen.com/spurious-correlations) befasst.
 
+*Im Anschluss an diesen Beitrag können Sie sich mit dem [nächsten Quiz](/lehre/statistik-ii/quizdaten-bsc7#Quiz3) auseinandersetzen.*
 
 ## Vorbereitung des Datensatzes
 

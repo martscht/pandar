@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-ii/moderierte-reg.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Quizdaten
-    url: /lehre/statistik-ii/quizdaten-bsc7#Quiz6 
+    name: Übungen
+    url: /lehre/statistik-ii/moderierte-reg-uebungen
 output:
   html_document:
     keep_md: true
@@ -48,6 +48,8 @@ if (exists("figure_path")) {
 In der letzten Sitzung haben wir die Analyse von Kovariaten (bzw. **AN**alysis **o**f **C**ovariance, ANCOVA) als Regression mit nominalskalierten Prädiktoren kennengelernt.
 
 Wir haben gesehen, dass wir Gebrauch von Interaktionstermen in der Regressionsgleichung gemacht haben, um die Wechselwirkungen zwischen kategorialen UVs, oder zwischen einer kategorialen und einer intervallskalierten UV zu berücksichtigen. In der Moderationsanalyse werden wir diese Konzepte zurückgreifen und uns dabei vor allem auf Eid & Gollwitzer 2017, Kapitel 19.9 beziehen.
+
+*Im Anschluss an diesen Beitrag können Sie sich mit dem [nächsten Quiz](/lehre/statistik-ii/quizdaten-bsc7#Quiz6) auseinandersetzen.*
 
 ## Was ist moderierte Regression?
 

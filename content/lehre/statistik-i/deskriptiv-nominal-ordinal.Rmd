@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-i/deskriptiv-nominal-ordinal.R
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/deskriptiv-nominal-ordinal-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/deskriptiv-nominal-ordinal-uebungen
 
 output:
   html_document:

@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [nehler, winkler, vogler, schroeder] 
 weight: 
-lastmod: '2025-02-07'
+lastmod: '2025-04-07'
 featured: no
 banner:
   image: "/header/storch_with_baby.jpg"
@@ -29,8 +29,8 @@ links:
     url: /lehre/statistik-i/korrelation
   - icon_pack: fas
     icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/korrelation-aufgaben
+    name: Übungen
+    url: /lehre/statistik-i/korrelation-uebungen
 
 output:
   html_document:
@@ -48,7 +48,7 @@ output:
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
-```r
+``` r
 dim(fb24)
 ```
 
@@ -56,7 +56,7 @@ dim(fb24)
 ## [1] 192  55
 ```
 
-```r
+``` r
 names(fb24)
 ```
 
@@ -88,13 +88,13 @@ Das Paket `psych` enthält vielerlei Funktionen, die für die Analyse von Datens
 <summary>Lösung</summary>
 
 
-```r
+``` r
 # Paket installieren
 install.packages('psych')
 ```
 
 
-```r
+``` r
 # Paket laden
 library(psych)
 ```
@@ -108,14 +108,13 @@ library(psych)
 <summary>Lösung</summary>
 
 
-```r
+``` r
 describe(fb24$lz)
 ```
 
 ```
-## [192 obs.] 
-## numeric: 6.6 4 5.2 4 5 4.4 6.4 4 4.6 6 ...
-## min: 2 - max: 7 - NAs: 1 (0.5%) - 28 unique values
+##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## X1    1 191 4.92 1.15      5    4.98 1.19   2   7     5 -0.43    -0.41 0.08
 ```
 
 </details>
@@ -127,7 +126,7 @@ describe(fb24$lz)
 <summary>Lösung</summary>
 
 
-```r
+``` r
 describeBy(fb24$lz, group = fb24$wohnen)
 ```
 
@@ -137,15 +136,15 @@ describeBy(fb24$lz, group = fb24$wohnen)
 ## group: WG
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 62 5.03 1.09      5    5.06 1.19 2.4   7   4.6 -0.21    -0.55 0.14
-## ---------------------------------------------------------------------------- 
+## ------------------------------------------------------------------------------------- 
 ## group: bei Eltern
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 60 5.06 1.14    5.3    5.15 1.19   2   7     5 -0.67    -0.28 0.15
-## ---------------------------------------------------------------------------- 
+## ------------------------------------------------------------------------------------- 
 ## group: alleine
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 45 4.48 1.27    4.6    4.51 1.48   2 6.8   4.8 -0.17    -0.95 0.19
-## ---------------------------------------------------------------------------- 
+## ------------------------------------------------------------------------------------- 
 ## group: sonstiges
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis  se
 ## X1    1 22 5.14 0.95      5    5.16 0.89 2.8 6.8     4 -0.23    -0.27 0.2
@@ -160,32 +159,17 @@ describeBy(fb24$lz, group = fb24$wohnen)
 <summary>Lösung</summary>
 
 
-```r
+``` r
 describe(fb24[,c("extra","vertr","gewis","neuro","offen")])
 ```
 
 ```
-## [192 obs. x 5 variables] tbl_df tbl data.frame
-## 
-## $extra: 
-## numeric: 5 4 3 1.5 2.5 4.5 4 2.5 4 3 ...
-## min: 1 - max: 5 - NAs: 1 (0.5%) - 10 unique values
-## 
-## $vertr: 
-## numeric: 4 3 3 3 3.5 2.5 4 2.5 4.5 3 ...
-## min: 1 - max: 5 - NAs: 1 (0.5%) - 10 unique values
-## 
-## $gewis: 
-## numeric: 4 4.5 4 3.5 2.5 4 3.5 3.5 4 5 ...
-## min: 1.5 - max: 5 - NAs: 1 (0.5%) - 9 unique values
-## 
-## $neuro: 
-## numeric: 1.5 3 3.5 3.5 4.5 3.5 2.5 3.5 5 2.5 ...
-## min: 1 - max: 5 - NAs: 1 (0.5%) - 10 unique values
-## 
-## $offen: 
-## numeric: 4 4 4 3.5 4.5 4 4 4 4.5 3 ...
-## min: 1 - max: 5 - NAs: 1 (0.5%) - 10 unique values
+##       vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
+## extra    1 191 3.28 1.02    3.5    3.31 1.48 1.0   5   4.0 -0.28    -0.79 0.07
+## vertr    2 191 3.48 0.82    3.5    3.51 0.74 1.0   5   4.0 -0.38     0.11 0.06
+## gewis    3 191 3.49 0.89    3.5    3.50 0.74 1.5   5   3.5 -0.13    -0.80 0.06
+## neuro    4 191 3.41 0.95    3.5    3.43 0.74 1.0   5   4.0 -0.25    -0.53 0.07
+## offen    5 191 3.81 0.98    4.0    3.91 0.74 1.0   5   4.0 -0.80    -0.07 0.07
 ```
 
 </details>
@@ -205,7 +189,7 @@ In der Befragung am Anfang des Semesters wurde gefragt, ob Sie neben der Uni ein
 Zunächst können wir überprüfen, ob die Variablen als Faktor vorliegen.
 
 
-```r
+``` r
 #Labels
 is.factor(fb24$job)
 ```
@@ -214,7 +198,7 @@ is.factor(fb24$job)
 ## [1] TRUE
 ```
 
-```r
+``` r
 is.factor(fb24$hand)
 ```
 
@@ -226,7 +210,7 @@ Wenn Sie die Datensatzvorbereitung aus dem Skript kopiert haben, sollte die Vari
 Die Variable `hand` jedoch nicht. Dies müssen wir ändern.
 
 
-```r
+``` r
 fb24$hand <- factor(fb24$hand,
                     levels = c(1, 2),
                     labels = c("links", "rechts"))
@@ -235,7 +219,7 @@ fb24$hand <- factor(fb24$hand,
 Für den Fall, dass die Variable `job` noch nicht als Faktor im Datensatz vorliegt, kann folgender Code durchgeführt werden. Achten Sie aber drauf, dass dieser Befehl auf eine Variable nicht angewendet werden sollte, wenn diese bereits ein Faktor ist. Ansonsten kommt es zu dem Fehler, dass die Variable keine Informationen mehr enthält.
 
 
-```r
+``` r
 fb24$job <- factor(fb24$job, levels = c(1, 2),
   labels = c('nein', 'ja'))
 ```
@@ -243,7 +227,7 @@ fb24$job <- factor(fb24$job, levels = c(1, 2),
 Die Variablen sehen dann folgendermaßen aus.
 
 
-```r
+``` r
 str(fb24$job)
 ```
 
@@ -251,7 +235,7 @@ str(fb24$job)
 ##  Factor w/ 2 levels "nein","ja": 2 1 2 1 1 1 1 1 2 2 ...
 ```
 
-```r
+``` r
 str(fb24$hand)
 ```
 
@@ -268,7 +252,7 @@ str(fb24$hand)
 <summary>Lösung</summary>
 
 
-```r
+``` r
 # Kreuztabelle absolut
 tab <- table(fb24$hand, fb24$job)
 addmargins(tab)
@@ -293,7 +277,7 @@ addmargins(tab)
 <summary>Lösung</summary>
 
 
-```r
+``` r
 # Relative Häufigkeiten, mit Randsummen
 addmargins(prop.table(tab))
 ```
@@ -317,7 +301,7 @@ addmargins(prop.table(tab))
 <summary>Lösung</summary>
 
 
-```r
+``` r
 phi(tab, digits = 3)
 ```
 
@@ -325,7 +309,7 @@ phi(tab, digits = 3)
 ## [1] -0.064
 ```
 
-```r
+``` r
 Yule(tab) |> round(digits = 3) #da die Yule()-Funktion nicht direkt runden kann geben wir das Ergebnis an die round()-Funktion weiter
 ```
 
@@ -355,7 +339,7 @@ Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglic
 2.  Linearität: Zusammenhang muss linear sein $\rightarrow$ Grafische überprüfung (Scatterplot)
 
 
-```r
+``` r
 # Scatterplot
 plot(fb24$extra, fb24$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
@@ -363,28 +347,28 @@ plot(fb24$extra, fb24$lz,
 
 ![](/korrelation-loesungen_files/unnamed-chunk-15-1.png)<!-- -->
 
-```r
+``` r
 plot(fb24$vertr, fb24$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 ![](/korrelation-loesungen_files/unnamed-chunk-15-2.png)<!-- -->
 
-```r
+``` r
 plot(fb24$gewis, fb24$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 ![](/korrelation-loesungen_files/unnamed-chunk-15-3.png)<!-- -->
 
-```r
+``` r
 plot(fb24$neuro, fb24$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
 ![](/korrelation-loesungen_files/unnamed-chunk-15-4.png)<!-- -->
 
-```r
+``` r
 plot(fb24$offen, fb24$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
@@ -396,7 +380,7 @@ Die fünf Scatterplots lassen allesamt auf einen linearen Zusammenhang zwischen 
 3.  Normalverteilung $\rightarrow$ QQ-Plot, Histogramm oder Shapiro-Wilk-Test
 
 
-```r
+``` r
 #QQ
 qqnorm(fb24$extra)
 qqline(fb24$extra)
@@ -404,42 +388,42 @@ qqline(fb24$extra)
 
 ![](/korrelation-loesungen_files/unnamed-chunk-16-1.png)<!-- -->
 
-```r
+``` r
 qqnorm(fb24$vertr)
 qqline(fb24$vertr)
 ```
 
 ![](/korrelation-loesungen_files/unnamed-chunk-16-2.png)<!-- -->
 
-```r
+``` r
 qqnorm(fb24$gewis)
 qqline(fb24$gewis)
 ```
 
 ![](/korrelation-loesungen_files/unnamed-chunk-16-3.png)<!-- -->
 
-```r
+``` r
 qqnorm(fb24$neuro)
 qqline(fb24$neuro)
 ```
 
 ![](/korrelation-loesungen_files/unnamed-chunk-16-4.png)<!-- -->
 
-```r
+``` r
 qqnorm(fb24$offen)
 qqline(fb24$offen)
 ```
 
 ![](/korrelation-loesungen_files/unnamed-chunk-16-5.png)<!-- -->
 
-```r
+``` r
 qqnorm(fb24$lz)
 qqline(fb24$lz)
 ```
 
 ![](/korrelation-loesungen_files/unnamed-chunk-16-6.png)<!-- -->
 
-```r
+``` r
 #Histogramm
 hist(fb24$extra, prob = TRUE, ylim = c(0, 1))
 curve(dnorm(x, mean = mean(fb24$extra, na.rm = TRUE), sd = sd(fb24$extra, na.rm = TRUE)), col = "#00618F", add = TRUE)  
@@ -447,42 +431,42 @@ curve(dnorm(x, mean = mean(fb24$extra, na.rm = TRUE), sd = sd(fb24$extra, na.rm 
 
 ![](/korrelation-loesungen_files/unnamed-chunk-16-7.png)<!-- -->
 
-```r
+``` r
 hist(fb24$vertr, prob = TRUE, ylim = c(0, 1))
 curve(dnorm(x, mean = mean(fb24$vertr, na.rm = TRUE), sd = sd(fb24$vertr, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 ```
 
 ![](/korrelation-loesungen_files/unnamed-chunk-16-8.png)<!-- -->
 
-```r
+``` r
 hist(fb24$gewis, prob = TRUE, ylim = c(0, 1))
 curve(dnorm(x, mean = mean(fb24$gewis, na.rm = TRUE), sd = sd(fb24$gewis, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 ```
 
 ![](/korrelation-loesungen_files/unnamed-chunk-16-9.png)<!-- -->
 
-```r
+``` r
 hist(fb24$neuro, prob = TRUE, ylim = c(0, 1))
 curve(dnorm(x, mean = mean(fb24$neuro, na.rm = TRUE), sd = sd(fb24$neuro, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 ```
 
 ![](/korrelation-loesungen_files/unnamed-chunk-16-10.png)<!-- -->
 
-```r
+``` r
 hist(fb24$offen, prob = TRUE, ylim = c(0, 1))
 curve(dnorm(x, mean = mean(fb24$offen, na.rm = TRUE), sd = sd(fb24$offen, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 ```
 
 ![](/korrelation-loesungen_files/unnamed-chunk-16-11.png)<!-- -->
 
-```r
+``` r
 hist(fb24$lz, prob = TRUE, ylim = c(0, 1))
 curve(dnorm(x, mean = mean(fb24$lz, na.rm = TRUE), sd = sd(fb24$lz, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 ```
 
 ![](/korrelation-loesungen_files/unnamed-chunk-16-12.png)<!-- -->
 
-```r
+``` r
 #Shapiro
 shapiro.test(fb24$extra)
 ```
@@ -495,7 +479,7 @@ shapiro.test(fb24$extra)
 ## W = 0.9514, p-value = 4.187e-06
 ```
 
-```r
+``` r
 shapiro.test(fb24$vertr)
 ```
 
@@ -507,7 +491,7 @@ shapiro.test(fb24$vertr)
 ## W = 0.95457, p-value = 8.51e-06
 ```
 
-```r
+``` r
 shapiro.test(fb24$gewis)
 ```
 
@@ -519,7 +503,7 @@ shapiro.test(fb24$gewis)
 ## W = 0.95223, p-value = 5.029e-06
 ```
 
-```r
+``` r
 shapiro.test(fb24$neuro)
 ```
 
@@ -531,7 +515,7 @@ shapiro.test(fb24$neuro)
 ## W = 0.95921, p-value = 2.523e-05
 ```
 
-```r
+``` r
 shapiro.test(fb24$offen)
 ```
 
@@ -543,7 +527,7 @@ shapiro.test(fb24$offen)
 ## W = 0.90621, p-value = 1.225e-09
 ```
 
-```r
+``` r
 shapiro.test(fb24$lz)
 ```
 
@@ -565,7 +549,7 @@ $p < \alpha$ $\rightarrow$ H1: Normalverteilung kann für alle Variablen nicht a
 <summary>Lösung</summary>
 
 
-```r
+``` r
 # Korrelationstabelle erstellen und runden
 cor_mat <- round(cor(fb24[,c('lz', 'extra', 'vertr', 'gewis', 'neuro', 'offen')],
                      use = 'pairwise',
@@ -603,7 +587,7 @@ Die betragsmäßig größte Korrelation mit der Lebenszufriedenheit hat der Neur
 <summary>Lösung</summary>
 
 
-```r
+``` r
 cor.test(fb24$lz, fb24$neuro, 
          alternative = "two.sided", 
          method = "spearman",       
@@ -611,8 +595,8 @@ cor.test(fb24$lz, fb24$neuro,
 ```
 
 ```
-## Warning in cor.test.default(fb24$lz, fb24$neuro, alternative = "two.sided", : Kann exakten p-Wert bei
-## Bindungen nicht berechnen
+## Warning in cor.test.default(fb24$lz, fb24$neuro, alternative = "two.sided", : Kann exakten p-Wert bei Bindungen
+## nicht berechnen
 ```
 
 ```
@@ -645,7 +629,7 @@ Um das geeignete Korrelationsmaß zu bestimmen überprüfen wir zunächst die Vo
 2.  Linearität: Zusammenhang muss linear sein $\rightarrow$ Grafische überprüfung (Scatterplot)
 
 
-```r
+``` r
 # Scatterplot
 plot(fb24$nerd, fb24$prok, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
@@ -659,13 +643,13 @@ Gleichzeitig ist keine andere Art des Zusammenhangs (polynomial, exponentiell et
 3.  Normalverteilung $\rightarrow$ QQ-Plot, Histogramm oder Shapiro-Wilk Test
 
 
-```r
+``` r
 #Car-Paket laden
 library(car)
 ```
 
 
-```r
+``` r
 #QQ-Plot
 qqPlot(fb24$nerd)
 ```
@@ -676,7 +660,7 @@ qqPlot(fb24$nerd)
 ## [1] 148 192
 ```
 
-```r
+``` r
 qqPlot(fb24$prok)
 ```
 
@@ -686,7 +670,7 @@ qqPlot(fb24$prok)
 ## [1] 109 169
 ```
 
-```r
+``` r
 #Histogramm
 hist(fb24$nerd, prob = TRUE, ylim = c(0, 1))
 curve(dnorm(x, mean = mean(fb24$nerd, na.rm = TRUE), sd = sd(fb24$nerd, na.rm = TRUE)), col = "#00618F", add = TRUE)  
@@ -694,14 +678,14 @@ curve(dnorm(x, mean = mean(fb24$nerd, na.rm = TRUE), sd = sd(fb24$nerd, na.rm = 
 
 ![](/korrelation-loesungen_files/unnamed-chunk-21-3.png)<!-- -->
 
-```r
+``` r
 hist(fb24$prok, prob = TRUE, ylim = c(0, 1))
 curve(dnorm(x, mean = mean(fb24$prok, na.rm = TRUE), sd = sd(fb24$prok, na.rm = TRUE)), col = "#00618F", add = TRUE)
 ```
 
 ![](/korrelation-loesungen_files/unnamed-chunk-21-4.png)<!-- -->
 
-```r
+``` r
 #Shapiro-Wilk Test
 shapiro.test(fb24$nerd) #signifikant
 ```
@@ -714,7 +698,7 @@ shapiro.test(fb24$nerd) #signifikant
 ## W = 0.98363, p-value = 0.02579
 ```
 
-```r
+``` r
 shapiro.test(fb24$prok) #signifikant
 ```
 
@@ -732,7 +716,7 @@ Somit kommen wir zum Schluss das die Spearman-Rangkorrelation hier das richtige 
 
 
 
-```r
+``` r
 cor.test(fb24$nerd, fb24$prok,
                         alternative = "two.sided",
                         method = "spearman",
@@ -740,8 +724,8 @@ cor.test(fb24$nerd, fb24$prok,
 ```
 
 ```
-## Warning in cor.test.default(fb24$nerd, fb24$prok, alternative = "two.sided", : Kann exakten p-Wert
-## bei Bindungen nicht berechnen
+## Warning in cor.test.default(fb24$nerd, fb24$prok, alternative = "two.sided", : Kann exakten p-Wert bei Bindungen
+## nicht berechnen
 ```
 
 ```
@@ -758,8 +742,8 @@ cor.test(fb24$nerd, fb24$prok,
 
 
 ```
-## Warning in cor.test.default(fb24$nerd, fb24$prok, alternative = "two.sided", : Kann exakten p-Wert
-## bei Bindungen nicht berechnen
+## Warning in cor.test.default(fb24$nerd, fb24$prok, alternative = "two.sided", : Kann exakten p-Wert bei Bindungen
+## nicht berechnen
 ```
 
 Die Spearman-Rangkorrelation (p = 0.7724483) ist nicht signifikant von 0 verschieden. 
@@ -784,20 +768,12 @@ Einfach gesagt, gesucht ist die aufdeckbare Effektstärke.
 Außerdem sind Korrelationen ihre eigenen Effektgrößen, daher müssen wir nicht noch etwa Cohens d berechnen.
 
 
-```r
+``` r
 library(WebPower)
 ```
 
-```
-## Warning: Paket 'WebPower' wurde unter R Version 4.3.1 erstellt
-```
 
-```
-## Warning: Paket 'PearsonDS' wurde unter R Version 4.3.1 erstellt
-```
-
-
-```r
+``` r
 wp.correlation(n = nrow(fb24),            
                r = NULL,                  #gesucht
                power = 0.8,               #Power = 1 - Beta
