@@ -1,4 +1,4 @@
-## load('fairplayer.rda')
+# load('fairplayer.rda')
 
 load(url("https://pandar.netlify.app/daten/fairplayer.rda"))
 
@@ -14,7 +14,7 @@ str(fairplayer)
 # Ersten Zeilen des Datensatzes ansehen
 head(fairplayer)
 
-## fairplayer$rat1 <- (fairplayer$ra1t1 + fairplayer$ra2t1 + fairplayer$ra3t1) / 3
+# fairplayer$rat1 <- (fairplayer$ra1t1 + fairplayer$ra2t1 + fairplayer$ra3t1) / 3
 
 fairplayer$rat1 <- rowMeans(fairplayer[, c('ra1t1', 'ra2t1', 'ra3t1')],
   na.rm = TRUE)
@@ -65,18 +65,18 @@ mod <- 'rat1 ~ 1 + sit1 + emt1'
 mod <- 'rat1 ~ 1 + sit1 + emt1
   rat1 ~~ rat1'
 
-## mod <- '
-##   # Regression
-##   rat1 ~ 1
-##   rat1 ~ sit1
-##   rat1 ~ emt1
-## 
-##   # Residuum
-##   rat1 ~~ rat1'
+# mod <- '
+#   # Regression
+#   rat1 ~ 1
+#   rat1 ~ sit1
+#   rat1 ~ emt1
+# 
+#   # Residuum
+#   rat1 ~~ rat1'
 
 fit <- lavaan(mod, fairplayer)
 
-## summary(fit)
+# summary(fit)
 
 
 
@@ -94,5 +94,5 @@ inspect(fit, 'rsquare')
 # Unstandardisierte Parameter
 parameterEstimates(fit)
 
-## # Standardisierte Parameter
-## standardizedSolution(fit)
+# # Standardisierte Parameter
+# standardizedSolution(fit)
