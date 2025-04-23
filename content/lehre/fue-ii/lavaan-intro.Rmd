@@ -298,7 +298,7 @@ Im 1. Schritt schreiben wir ein Modell als Text und legen es in einem Objekt (z.
 
 Die Model-Syntax von `lavaan` ist eine grafische Sprache. Das heißt, dass die Syntax so gedacht ist, dass man dabei das Pfaddiagramm in Worten beschreibt. Im Verlauf des Semesters werden wir noch diverse Modelle mit Pfaddiagrammen darstellen und dabei immer mal wieder neue Komponenten kennenlernen. Im Wesentlichen bilden Pfaddiagramme aber die beiden möglichen Beziehungen zwischen drei Typen von "Variablen" ab.
 
-<img src="FEII_shapes.png" width="65%"/>
+<img src="../FEII_shapes.png" width="65%"/>
 <!-- shortcode declines width scaling -->
 <!--
   {{< figure src="../FEII_shapes.png" >}}
@@ -306,14 +306,14 @@ Die Model-Syntax von `lavaan` ist eine grafische Sprache. Das heißt, dass die S
 
 Mit diesen fünf sehr grundlegenden Elementen lassen sich erstaunlich viele Modelle darstellen, die in der psychologischen Forschung genutzt werden. Wir können z.B. eine einfache Regression zur Vorhersage eines Kriteriums $Y$ durch einen Prädiktor $X$ aufstellen. Wir haben also zwei manifeste Variablen (in Rechtecken) und eine gerichtete Verbindung zwischen den beiden (die Regression). Wie üblich, benennen wir die Regression mit $\beta$:
 
-<img src="FEII_step1.png" width="50%"/>
+<img src="../FEII_step1.png" width="50%"/>
 <!--
 {{< figure src="../FEII_step1.png" >}}
 -->
 
 Was diese Abbildung also darstellt, ist $Y = \beta \cdot X$. Für eine vollständige Regressionsgleichung fehlen allerdings noch ein paar Dinge. Als erstes nehmen wir das Interzept hinzu - also den Wert, der für $Y$ bei $X = 0$ vorhergesagt wird. Wie in der Übersicht oben dargestellt, fügen wir Konstanten hinzu, indem wir das Dreieick nutzen:
 
-<img src="FEII_step2.png" width="50%"/>
+<img src="../FEII_step2.png" width="50%"/>
 
 <!--
   {{< figure src="../FEII_step2.png" >}}
@@ -321,7 +321,7 @@ Was diese Abbildung also darstellt, ist $Y = \beta \cdot X$. Für eine vollstän
 
 Wir fügen also eine zweite Regression hinzu (der Pfeil), in der $Y$ auf 1 regressiert wird. In der Regressionsgleichung sieht das so aus: $Y = \alpha \cdot 1 + \beta \cdot X$. Wir nutzen hier $\alpha$ und nicht $\beta_0$ für das Interzept, weil das die von `lavaan` verwendete Notation ist. An der Bedeutung ändert sich dadurch aber nichts. Weil $\alpha \cdot 1 = \alpha$ ergibt, können wir die Regressionsgleichung auf $Y = \alpha + \beta \cdot X$ kürzen. Jetzt fehlt noch das Residuum, also die Komponenten in $Y$, die nicht durch $X$ vorhergesagt werden können. Bei diesem Residuum handelt es sich um eine nicht-beobachtbare, bzw. latente Variable. Diese Variable entsteht durch unsere Berechnung, sie existiert ohne das Modell nicht im Datensatz. In der Abbildung fügen wir also eine Ellipse hinzu und nutzen diese zur Vorhersage von $Y$:
 
-<img src="FEII_step3.png" width="65%"/>
+<img src="../FEII_step3.png" width="65%"/>
 
 <!--
 {{< figure src="../FEII_step3.png" >}}
@@ -331,7 +331,7 @@ In der Regressionsgleichung ergibt sich dadurch $Y = \alpha + \beta \cdot X + 1 
 
 Nehmen wir das bisherige Beispiel der Regression, in der wir relationale Aggression zum 1. Zeitpunkt ($RA_1$) durch soziale Intelligenz ($SI_1$) und Empathie ($EM_1$) vorhersagen. In diesem Fall haben wir drei beobachtbare Variablen: die drei Skalenwerte, die wir erzeugt haben. Die Beziehung zwischen $RA_1$ und $SI_1$ ($\beta_1$) bzw. $EM_1$ ($\beta_2$) ist regressiv. Zusätzlich regressieren wir die relationale Aggression auf die Konstante 1, um so eine Schätzung für das Interzept $\alpha$ zu erhalten.
 
-<img src="FEII_regression.png" width="65%"/>
+<img src="../FEII_regression.png" width="65%"/>
 
 <!--
 {{< figure src="../FEII_regression.png" >}}
@@ -339,7 +339,7 @@ Nehmen wir das bisherige Beispiel der Regression, in der wir relationale Aggress
 
 In dieser Abbildung wird die Regression $RA_1 = \alpha + \beta_1 SI_1 + \beta_2EM_1 + \epsilon$ dargestellt. Häufig wird natürlich auf die detaillierte Beschriftung in solchen Abbildungen verzichtet, sodass eine typische Abbildung dieser Regression so aussehen würde:
 
-<img src="FEII_regression_short.png" width="65%"/>
+<img src="../FEII_regression_short.png" width="65%"/>
 
 <!--
 {{< figure src="../FEII_regression_short.png" >}}
@@ -347,7 +347,7 @@ In dieser Abbildung wird die Regression $RA_1 = \alpha + \beta_1 SI_1 + \beta_2E
 
 In vielen Fällen wird von dieser (sehr rigiden) Auslegung der Darstellungsregeln abgewichen und stattdessen Folgendes Schema verwendet:
 
-<img src="FEII_step3b.png" width="65%"/>
+<img src="../FEII_step3b.png" width="65%"/>
 
 Hier wird das Residuum nicht als latente Variable eingezeichnet, sondern als Kovarianz der abhängigen Variable mit sich selbst. So soll verdeutlicht werden, dass diese Varianz geschätzt werden muss (weil es meist das Einzige ist, was uns an Residuen interessiert). Leider ist diese Darstellungsform etwas uneinheitlich mit der klassichen Notation der Regressionsgleichungen, aber sie ist so weit verbreitet, dass sie auch die Variante ist, mit der `lavaan` in seiner Syntax arbeitet. 
 
