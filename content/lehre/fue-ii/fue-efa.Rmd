@@ -8,7 +8,7 @@ tags: ["EFA", "exploratorisch", "latent", "Hauptachsenanalyse"]
 subtitle: 'EFA'
 summary: '' 
 authors: [irmer, schultze] 
-weight: 2
+weight: 1
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:

@@ -8,8 +8,8 @@ tags: ["lavaan", "Intro", "Regression"]
 subtitle: 'Das Instrument für die multivariate Datenanalyse'
 summary: '' 
 authors: [schultze, irmer] 
-weight: 1
-lastmod: '2025-04-23'
+weight: 2
+lastmod: '2025-04-24'
 featured: no
 banner:
   image: "/header/guitars.jpg"
@@ -81,10 +81,9 @@ names(fairplayer)
 ```
 
 ```
-##  [1] "id"    "class" "grp"   "sex"   "ra1t1" "ra2t1" "ra3t1" "ra1t2" "ra2t2" "ra3t2"
-## [11] "ra1t3" "ra2t3" "ra3t3" "em1t1" "em2t1" "em3t1" "em1t2" "em2t2" "em3t2" "em1t3"
-## [21] "em2t3" "em3t3" "si1t1" "si2t1" "si3t1" "si1t2" "si2t2" "si3t2" "si1t3" "si2t3"
-## [31] "si3t3"
+##  [1] "id"    "class" "grp"   "sex"   "ra1t1" "ra2t1" "ra3t1" "ra1t2" "ra2t2" "ra3t2" "ra1t3"
+## [12] "ra2t3" "ra3t3" "em1t1" "em2t1" "em3t1" "em1t2" "em2t2" "em3t2" "em1t3" "em2t3" "em3t3"
+## [23] "si1t1" "si2t1" "si3t1" "si1t2" "si2t2" "si3t2" "si1t3" "si2t3" "si3t3"
 ```
 
 ``` r
@@ -142,27 +141,20 @@ head(fairplayer)
 ```
 
 ```
-##   id class grp    sex ra1t1 ra2t1 ra3t1 ra1t2 ra2t2 ra3t2 ra1t3 ra2t3 ra3t3 em1t1
-## 1  1     1 IGL female     2     1     1     2     1     1     1     1     1     3
-## 2  2     1 IGL   male     1     3     1     1     1     1     1     1     1     4
-## 3  3     1 IGL female     1     2     1     1     1     1     1     2     1     3
-## 4  4     1 IGL female     1     1     1     1     1     1     1     1     1     5
-## 5  5     1 IGL   male     2     1     1     1     5     1     1     2     1     3
-## 6  6     1 IGL   male     1     3     1     1     2     1     1     3     1     4
-##   em2t1 em3t1 em1t2 em2t2 em3t2 em1t3 em2t3 em3t3 si1t1 si2t1 si3t1 si1t2 si2t2 si3t2
-## 1     5     4     4     4     3     3     4     5     2     2     3     3     2     3
-## 2     4     3     4     5     5     4     3     3     2     1     3     4     2     3
-## 3     3     2     2     2     1     3     2     2     1     2     2     1     1     2
-## 4     5     5     4     4     4     3     4     5     4     1     5     4     4     4
-## 5     3     4     3     4     3     3     4     4     2     2     2     2     3     2
-## 6     3     4     3     4     4     4     4     4     2     2     3     3     3     4
-##   si1t3 si2t3 si3t3
-## 1     2     1     3
-## 2     3     2     3
-## 3     1     1     2
-## 4     4     1     4
-## 5     3     5     3
-## 6     4     3     4
+##   id class grp    sex ra1t1 ra2t1 ra3t1 ra1t2 ra2t2 ra3t2 ra1t3 ra2t3 ra3t3 em1t1 em2t1 em3t1
+## 1  1     1 IGL female     2     1     1     2     1     1     1     1     1     3     5     4
+## 2  2     1 IGL   male     1     3     1     1     1     1     1     1     1     4     4     3
+## 3  3     1 IGL female     1     2     1     1     1     1     1     2     1     3     3     2
+## 4  4     1 IGL female     1     1     1     1     1     1     1     1     1     5     5     5
+## 5  5     1 IGL   male     2     1     1     1     5     1     1     2     1     3     3     4
+## 6  6     1 IGL   male     1     3     1     1     2     1     1     3     1     4     3     4
+##   em1t2 em2t2 em3t2 em1t3 em2t3 em3t3 si1t1 si2t1 si3t1 si1t2 si2t2 si3t2 si1t3 si2t3 si3t3
+## 1     4     4     3     3     4     5     2     2     3     3     2     3     2     1     3
+## 2     4     5     5     4     3     3     2     1     3     4     2     3     3     2     3
+## 3     2     2     1     3     2     2     1     2     2     1     1     2     1     1     2
+## 4     4     4     4     3     4     5     4     1     5     4     4     4     4     1     4
+## 5     3     4     3     3     4     4     2     2     2     2     3     2     3     5     3
+## 6     3     4     4     4     4     4     2     2     3     3     3     4     4     3     4
 ```
 
 Der Datensatz, den wir hier betrachten, enthält verhaltensbezogene Selbstberichte auf jeweils drei Items zur relationalen Aggression (`ra`), Empathie (`em`) und sozialen Intelligenz (`si`). Diese insgesamt 9 Indikatoren liegen zu drei Messzeitpunkten (`t1`, `t2` und `t3`) vor. Die über den Befehl `str` angeforderte Struktur verrät uns außerdem, dass diese Variablen allesamt integer (`int`), also ganzzahlig, sind. Über die Items hinaus sind vier weitere Variablen im Datensatz enthalten, die den Personenidentifikator (`id`), die Klasse (`class`), die Interventionsgruppe (`grp`) und das Geschlecht (`sex`) der Jugendlichen kodieren.
@@ -360,6 +352,14 @@ b <- coef(mod)
 
 # Scatterplot mit Regressionslinie
 library(ggplot2)
+```
+
+```
+## Want to understand how all the pieces fit together? Read R for Data Science:
+## https://r4ds.hadley.nz/
+```
+
+``` r
 ggplot(fairplayer, aes(x = sit1, y = rat1)) +
   geom_point() +
   geom_abline(intercept = b['(Intercept)'], slope = b['sit1'],
