@@ -8,7 +8,7 @@ tags: ["lavaan", "Intro", "Regression"]
 subtitle: 'Das Instrument für die multivariate Datenanalyse'
 summary: '' 
 authors: [schultze, irmer] 
-weight: 1
+weight: 2
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:

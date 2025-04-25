@@ -4,7 +4,7 @@ library(GPArotation) # EFA Lösung rotieren
 
 
 
-## load("C:/Users/Musterfrau/Desktop/Big5_EFA.rda")
+# load("C:/Users/Musterfrau/Desktop/Big5_EFA.rda")
 
 load(url("https://pandar.netlify.app/daten/Big5_EFA.rda"))
 
@@ -85,20 +85,20 @@ anova(two_factor_ML, three_factor_ML)
 
 
 
-## data_full <- read.table("BIG5/data.csv", header = T, sep = "\t") # nach entpacken des .zip liegen die Daten in einem Ordner namens Big5
-## 
-## ### Entferne leere Zeilen und Zeilen mit Missings aus dem Datensatz
-## ind <- apply(data_full, 1, FUN = function(x) any(is.na(x))) # erzeuge eine Variable, welche TRUE ist, wenn mindestens ein Eintrag pro Zeile fehlt und ansonsten FALSE anzeigt
-## data_full <- data_full[!ind, ] # Wähle nur diejenigen Zeilen, in denen unsere Indikatorvariable "ind" NICHT TRUE anzeigt, also wo alle Einträge vorhanden sind
-## # !ind (Ausrufezeichen vor ind) negiert die Einträge in ind (Prüfe bspw. !FALSE == TRUE, nicht false ist gleich true)
-## 
-## ### Shorten Data Set
-## Big5 <- data_full[, c(2:4,7,7+rep(1:3,5)+sort(rep(seq(0,40,10),3)))]
-##  # Verwende nur 3 Items pro Skala plus einige demografische Items
-## Big5 <- data.frame(Big5) # Schreibe Datensatz als data.frame
-## save(list = c("Big5"), file = "Big5.rda")
-## # Speichere gekürzten Datensatz in .rda file (dem R-internen Datenformat)
-## ## --> Das ist auch der Datensatz, den wir weiter verwendet haben!
+# data_full <- read.table("BIG5/data.csv", header = T, sep = "\t") # nach entpacken des .zip liegen die Daten in einem Ordner namens Big5
+# 
+# ### Entferne leere Zeilen und Zeilen mit Missings aus dem Datensatz
+# ind <- apply(data_full, 1, FUN = function(x) any(is.na(x))) # erzeuge eine Variable, welche TRUE ist, wenn mindestens ein Eintrag pro Zeile fehlt und ansonsten FALSE anzeigt
+# data_full <- data_full[!ind, ] # Wähle nur diejenigen Zeilen, in denen unsere Indikatorvariable "ind" NICHT TRUE anzeigt, also wo alle Einträge vorhanden sind
+# # !ind (Ausrufezeichen vor ind) negiert die Einträge in ind (Prüfe bspw. !FALSE == TRUE, nicht false ist gleich true)
+# 
+# ### Shorten Data Set
+# Big5 <- data_full[, c(2:4,7,7+rep(1:3,5)+sort(rep(seq(0,40,10),3)))]
+#  # Verwende nur 3 Items pro Skala plus einige demografische Items
+# Big5 <- data.frame(Big5) # Schreibe Datensatz als data.frame
+# save(list = c("Big5"), file = "Big5.rda")
+# # Speichere gekürzten Datensatz in .rda file (dem R-internen Datenformat)
+# ## --> Das ist auch der Datensatz, den wir weiter verwendet haben!
 
 fa.parallel(x = dataFR,fa = "fa")
 
@@ -120,7 +120,7 @@ four_factor_ML <- fa(dataFR, nfactors = 4, rotate = "oblimin", fm = "ml")
 four_factor_ML$STATISTIC
 four_factor_ML$PVAL
 
-## anova(four_factor_ML, five_factor_ML)
+# anova(four_factor_ML, five_factor_ML)
 
 
 
@@ -128,11 +128,11 @@ six_factor_ML <- fa(dataFR, nfactors = 6, rotate = "oblimin", fm = "ml")
 six_factor_ML$STATISTIC
 six_factor_ML$PVAL # Modell wird durch die Daten nicht verworfen
 
-## anova(five_factor_ML, six_factor_ML)
+# anova(five_factor_ML, six_factor_ML)
 
 
 
-## anova(four_factor_ML, five_factor_ML, six_factor_ML)
+# anova(four_factor_ML, five_factor_ML, six_factor_ML)
 
 
 
