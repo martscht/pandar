@@ -109,7 +109,7 @@ Im letzten Beitrag hatten wir als letzten Punkt besprochen, wie wir Plots nach u
 
 ```{r, eval = FALSE, purl = TRUE, echo = -1}
 # Laden des pandaR Themes
-source('https://pandar.netlify.com/lehre/statistik-ii/pandar_theme.R')
+source('https://pandar.netlify.app/lehre/statistik-ii/pandar_theme.R')
 ```
 ```{r, echo = FALSE, purl = FALSE}
 source('pandar_theme.R')
