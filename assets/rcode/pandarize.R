@@ -56,13 +56,48 @@ pandarize <- function(x, purl = TRUE) {
     # 
     
     # new (might be better at closing connections correctly)
-    lines <- readLines(.md) |>
-      sub(pattern = paste0('![](', gsub("\\\\", "/", figure_path)), 
-          replacement = paste0('![](', sub(".*?/static/", "/", figure_path)), x = _, fixed = TRUE) |>
-      sub(pattern = paste0('](', gsub("\\\\", "/", figure_path)), 
-          replacement = paste0('](', sub(".*?/static/", "/", figure_path)), x = _, fixed = TRUE) |>
-      gsub(pattern = paste0('<img src="', gsub("\\\\", "/", figure_path)), 
-           replacement = paste0('<img src="', sub(".*?/static/", "/", figure_path)), x = _)
+    # Normalize the path
+    normalized_path <- gsub("\\\\", "/", figure_path)
+    
+    # Strip everything before and including '/static/' to make it relative
+    relative_path <- sub(".*?/static/", "/", normalized_path)
+    
+    # Read the lines
+    lines <- readLines(.md)
+    
+    # 1. Handle Markdown image links ![](
+    pattern1 <- paste0('![](', normalized_path)
+    replacement1 <- paste0('![](', relative_path)
+    
+    matches1 <- grep(pattern1, lines, fixed = TRUE, value = TRUE)
+    if (length(matches1) > 0) {
+      cat("Original ![](...) matches:\n", paste(matches1, collapse = "\n"), "\n\n")
+      cat("Replacements:\n", paste(gsub(pattern1, replacement1, matches1, fixed = TRUE), collapse = "\n"), "\n\n")
+    }
+    lines <- gsub(pattern1, replacement1, lines, fixed = TRUE)
+    
+    # 2. Handle generic Markdown links ](
+    pattern2 <- paste0('](', normalized_path)
+    replacement2 <- paste0('](', relative_path)
+    
+    matches2 <- grep(pattern2, lines, fixed = TRUE, value = TRUE)
+    if (length(matches2) > 0) {
+      cat("Original ](...) matches:\n", paste(matches2, collapse = "\n"), "\n\n")
+      cat("Replacements:\n", paste(gsub(pattern2, replacement2, matches2, fixed = TRUE), collapse = "\n"), "\n\n")
+    }
+    lines <- gsub(pattern2, replacement2, lines, fixed = TRUE)
+    
+    # 3. Handle HTML-style image tags <img src="
+    pattern3 <- paste0('<img src="', normalized_path)
+    replacement3 <- paste0('<img src="', relative_path)
+    
+    matches3 <- grep(pattern3, lines, fixed = TRUE, value = TRUE)
+    if (length(matches3) > 0) {
+      cat("Original <img src=...> matches:\n", paste(matches3, collapse = "\n"), "\n\n")
+      cat("Replacements:\n", paste(gsub(pattern3, replacement3, matches3, fixed = TRUE), collapse = "\n"), "\n\n")
+    }
+    lines <- gsub(pattern3, replacement3, lines, fixed = TRUE)
+    
     
     con <- file(.md, "w")  # Open file connection for writing
     writeLines(lines, con)  # Write updated lines to the file
