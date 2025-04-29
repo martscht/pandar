@@ -11,7 +11,7 @@ edu_exp$Region <- factor(edu_exp$Region, levels = c('africa', 'americas', 'asia'
   labels = c('Africa', 'Americas', 'Asia', 'Europe'))
 
 # # Laden des pandaR Themes
-# source('https://pandar.netlify.com/lehre/statistik-ii/pandar_theme.R')
+# source('https://pandar.netlify.app/lehre/statistik-ii/pandar_theme.R')
 
 
 theme_set(theme_pandar())
