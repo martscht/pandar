@@ -6,7 +6,7 @@ slug: fdz-r-intro
 categories: ["fdz"]
 tags: ["Intro"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Tutorial werden die grundlegenden Eigenschaften von R-Syntax besprochen. Dabei wird auch das Speichern und Laden von Objekten behandelt. Außerdem wird die Nutzung von RStudio als Oberfläche für R vorgestellt.'
 authors: [nehler]
 weight: 1
 lastmod: '`r Sys.Date()`'

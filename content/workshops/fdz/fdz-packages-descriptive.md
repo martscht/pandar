@@ -4,12 +4,12 @@ type: post
 date: '2025-02-28'
 slug: fdz-packages-descriptive
 categories: ["fdz"]
-tags: ["Grafiken", "Regression"]
+tags: ["Datenaufbereitung"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Tutorial wird die Berechnung von Deskriptivstatistiken in R behandelt. Dabei wird auf die Nutzung von Paketen eingegangen und spezifisch die Datenaufbereitung mit dplyr eingangen.'
 authors: [nehler]
 weight: 2
-lastmod: '2025-03-10'
+lastmod: '2025-04-30'
 featured: no
 banner:
   image: "/header/metal_beams_electricity.jpg"
@@ -49,7 +49,7 @@ output:
 
 Nachdem wir im letzten Skript die Grundlagen von `R` und `RStudio` kennengelernt haben, wollen wir uns nun mit der Nutzung von Paketen und der Bestimmung von Deskriptivstatistiken beschäftigen. Hierfür wollen wir mit einem leicht angepassten Datensatz aus einer Studie von Pennington et al. aus dem Jahre 2021 ([Link zum Artikel](https://doi.org/10.1111/jasp.12711)) arbeiten. 
 
-Wie bereits im letzten Skript angekündigt, können Dateien grundsätzlich auch per Klick in R eingelesen werden. In diesem Fall gibt es jedoch zwei Herausforderungen. Da es sich um eine Excel-Datei handelt, bringt die Basisinstallation von R nicht die notwendige Funktionalität mit, um sie direkt zu verarbeiten. Zudem enthält die Datei mehrere Arbeitsblätter, wobei das erste als Codebook dient. Das erschwert das Einlesen über die grafische Oberfläche. Um diese Probleme zu lösen, werden wir zunächst die erforderlichen Funktionalitäten installieren und uns dann damit beschäftigen, wie sich die Datei direkt per Code einlesen lässt.
+Wie bereits im letzten Skript angekündigt, können Dateien grundsätzlich auch per Klick in `R` eingelesen werden. In diesem Fall gibt es jedoch zwei Herausforderungen. Da es sich um eine Excel-Datei handelt, bringt die Basisinstallation von `R` nicht die notwendige Funktionalität mit, um sie direkt zu verarbeiten. Zudem enthält die Datei mehrere Arbeitsblätter, wobei das erste als Codebook dient. Das erschwert das Einlesen über die grafische Oberfläche. Um diese Probleme zu lösen, werden wir zunächst die erforderlichen Funktionalitäten installieren und uns dann damit beschäftigen, wie sich die Datei direkt per Code einlesen lässt.
 
 ## Pakete
 
@@ -106,6 +106,10 @@ Anmerkungen: Sollten Sie dieses Skript unabhängig vom Workshop lesen, gibt es d
 source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
 ```
 
+```
+## Loading required package: httr
+```
+
 ## Arbeit mit Datensatz
 
 Zunächst wollen wir uns in unserem Datensatz etwas orientieren. Dazu lassen wir die Anzahl an Messungen und Variablen ausgeben `dim()`, sowie die Variablennamen `names()`. 
@@ -150,36 +154,40 @@ data$Year  # spezifische Spalte anzeigen lassen
 ```
 
 ```
-##   [1] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-##  [11] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-##  [21] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-##  [31] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-##  [41] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-##  [51] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-##  [61] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-##  [71] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-##  [81] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-##  [91] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-## [101] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-## [111] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-## [121] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-## [131] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-## [141] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-## [151] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-## [161] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-## [171] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
-## [181] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year8" "Year8" "Year8"
-## [191] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
-## [201] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
-## [211] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
-## [221] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
-## [231] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
-## [241] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
-## [251] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
-## [261] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
-## [271] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
-## [281] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
-## [291] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
+##   [1] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+##  [10] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+##  [19] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+##  [28] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+##  [37] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+##  [46] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+##  [55] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+##  [64] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+##  [73] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+##  [82] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+##  [91] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+## [100] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+## [109] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+## [118] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+## [127] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+## [136] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+## [145] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+## [154] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+## [163] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+## [172] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7"
+## [181] "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year7" "Year8" "Year8"
+## [190] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
+## [199] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
+## [208] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
+## [217] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
+## [226] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
+## [235] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
+## [244] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
+## [253] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
+## [262] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
+## [271] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
+## [280] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
+## [289] "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8" "Year8"
+## [298] "Year8" "Year8" "Year8"
 ```
 
 Die Variable `Year` enthält die Klassenstufen der Schüler*innen. Hierbei handelt es sich offentlich um Text, da nicht einfach nur eine Zahl sondern auch das Beiwort `Year` enthalten ist. Einzelne Daten sind in `R` jeweils in einem spezifischen Format abgelegt, das man mit `class` erfragen kann.
@@ -215,16 +223,16 @@ data[3,]    # fünfte Zeile anzeigen lassen
 
 ```
 ## # A tibble: 1 × 25
-##   Year  Gender Ethnicity     Total_Mindset Total_Competence_Maths Total_Competence_English
-##   <chr>  <dbl> <chr>                 <dbl>                  <dbl>                    <dbl>
-## 1 Year7      1 White British            28                      4                        4
-## # ℹ 19 more variables: Total_Competence_Science <dbl>, Total_SelfEsteem <dbl>,
+##   Year  Gender Ethnicity     Total_Mindset Total_Competence_Maths
+##   <chr>  <dbl> <chr>                 <dbl>                  <dbl>
+## 1 Year7      1 White British            28                      4
+## # ℹ 20 more variables: Total_Competence_English <dbl>,
+## #   Total_Competence_Science <dbl>, Total_SelfEsteem <dbl>,
 ## #   Total_SocialSelfEsteem <dbl>, Total_AcademicSelfEfficacy <dbl>,
 ## #   Total_SelfConcept_Maths <dbl>, Total_SelfConcept_English <dbl>,
 ## #   Total_SelfConcept_Science <dbl>, SubjectSTEndorsement_Maths <dbl>,
 ## #   SubjectSTEndorsement_English <dbl>, SubjectSTEndorsement_Science <dbl>,
-## #   SubjectSTEndorsement_ICT <dbl>, CareerSTEndorsement_Maths <dbl>,
-## #   CareerSTEndorsement_English <dbl>, CareerSTEndorsement_Science <dbl>, …
+## #   SubjectSTEndorsement_ICT <dbl>, CareerSTEndorsement_Maths <dbl>, …
 ```
 
 ``` r
@@ -286,6 +294,23 @@ Anschließend kann es aktiviert werden.
 library(dplyr)   # Laden des Pakets
 ```
 
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
 Die Auswahl einzelner Spalten funktioniert in `dplyr` mit der Funktion `select()`. In `dplyr` ist es üblich, den Datensatz immer als Startpunkt zu benutzen und dann mit Pipes zu arbeiten. Allerdings wird nicht die native Pipe aus R verwendet, sondern die Pipe aus dem Paket `magrittr`, die mit `%>%` aufgerufen wird. Dieses wird bei der Installation von `dyplyr` automatisch mitinstalliert und auch beim Aufruf aktiviert, also müssen wir uns hierum keine Gedanken machen.
 
 
@@ -319,16 +344,16 @@ data %>% slice(3)   # dplyr Funktion zur Auswahl der dritten Zeile
 
 ```
 ## # A tibble: 1 × 25
-##   Year  Gender Ethnicity     Total_Mindset Total_Competence_Maths Total_Competence_English
-##   <chr>  <dbl> <chr>                 <dbl>                  <dbl>                    <dbl>
-## 1 Year7      1 White British            28                      4                        4
-## # ℹ 19 more variables: Total_Competence_Science <dbl>, Total_SelfEsteem <dbl>,
+##   Year  Gender Ethnicity     Total_Mindset Total_Competence_Maths
+##   <chr>  <dbl> <chr>                 <dbl>                  <dbl>
+## 1 Year7      1 White British            28                      4
+## # ℹ 20 more variables: Total_Competence_English <dbl>,
+## #   Total_Competence_Science <dbl>, Total_SelfEsteem <dbl>,
 ## #   Total_SocialSelfEsteem <dbl>, Total_AcademicSelfEfficacy <dbl>,
 ## #   Total_SelfConcept_Maths <dbl>, Total_SelfConcept_English <dbl>,
 ## #   Total_SelfConcept_Science <dbl>, SubjectSTEndorsement_Maths <dbl>,
 ## #   SubjectSTEndorsement_English <dbl>, SubjectSTEndorsement_Science <dbl>,
-## #   SubjectSTEndorsement_ICT <dbl>, CareerSTEndorsement_Maths <dbl>,
-## #   CareerSTEndorsement_English <dbl>, CareerSTEndorsement_Science <dbl>, …
+## #   SubjectSTEndorsement_ICT <dbl>, CareerSTEndorsement_Maths <dbl>, …
 ```
 
 Auch im weiteren Tutorial werden wir zur Datenaufbereitung Funktionen aus `dplyr`, aber auch aus Basis-`R` nutzen. Wir wollen diese aber an spezifischen Anwendungsfelder besprechen.
@@ -527,28 +552,31 @@ is.na(data$Total_Competence_Maths) # Überprüfung auf fehlende Werte
 ```
 
 ```
-##   [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [15] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [29] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [43] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [57] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE
-##  [71] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [85] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-##  [99] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [113] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [127] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [141] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [155] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [169] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [183] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [197] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [211] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [225] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [239] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [253] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [267] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [281] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-## [295] FALSE FALSE FALSE FALSE FALSE FALSE
+##   [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [13] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [25] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [37] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [49] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [61] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE
+##  [73] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [85] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [97] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [109] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [121] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [133] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [145] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [157] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [169] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [181] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [193] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [205] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [217] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [229] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [241] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [253] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [265] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [277] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [289] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ```
 
 Die Funktion `is.na()` gibt uns für jeden Eintrag auf der Variable `TRUE` zurück, wenn es sich um einen fehlenden Wert handelt, und `FALSE`, wenn es sich um einen vorhandenen Wert handelt. Die Darstellung von `TRUE` und `FALSE` haben wir dabei schon bei den logischen Überprüfungen im ersten Tutorial gesehen. Diesen Typ von Variable nennt man in R `logical`. Ein Fakt, den man sich dabei merken kann, ist, dass `TRUE` als 1 und `FALSE` als 0 kodiert wird. Wenn wir jetzt also nicht die `TRUE` Einträge selbst zählen wollen, können wir einfach die Funktion `sum()` verwenden. 
@@ -627,22 +655,28 @@ colMeans(data[,4:25])    # Mittelwert aller Variablen von Spalte 4 bis 25
 ```
 
 ```
-##                Total_Mindset       Total_Competence_Maths     Total_Competence_English 
-##                    30.650000                           NA                     3.610000 
-##     Total_Competence_Science             Total_SelfEsteem       Total_SocialSelfEsteem 
-##                           NA                    17.406667                    28.613333 
-##   Total_AcademicSelfEfficacy      Total_SelfConcept_Maths    Total_SelfConcept_English 
-##                    12.060000                    13.446667                    10.416667 
-##    Total_SelfConcept_Science   SubjectSTEndorsement_Maths SubjectSTEndorsement_English 
-##                    12.893333                     5.070000                     4.400000 
-## SubjectSTEndorsement_Science     SubjectSTEndorsement_ICT    CareerSTEndorsement_Maths 
-##                     5.293333                     5.643333                     5.536667 
-##  CareerSTEndorsement_English  CareerSTEndorsement_Science      CareerSTEndorsement_ICT 
-##                     4.313333                     5.396667                     5.773333 
-##           Eng_AttainmentData         Maths_AttainmentData       Science_AttainmentData 
-##                     8.136667                     7.300000                     7.886667 
-##     Computing_AttainmentData 
-##                     6.010000
+##                Total_Mindset       Total_Competence_Maths 
+##                    30.650000                           NA 
+##     Total_Competence_English     Total_Competence_Science 
+##                     3.610000                           NA 
+##             Total_SelfEsteem       Total_SocialSelfEsteem 
+##                    17.406667                    28.613333 
+##   Total_AcademicSelfEfficacy      Total_SelfConcept_Maths 
+##                    12.060000                    13.446667 
+##    Total_SelfConcept_English    Total_SelfConcept_Science 
+##                    10.416667                    12.893333 
+##   SubjectSTEndorsement_Maths SubjectSTEndorsement_English 
+##                     5.070000                     4.400000 
+## SubjectSTEndorsement_Science     SubjectSTEndorsement_ICT 
+##                     5.293333                     5.643333 
+##    CareerSTEndorsement_Maths  CareerSTEndorsement_English 
+##                     5.536667                     4.313333 
+##  CareerSTEndorsement_Science      CareerSTEndorsement_ICT 
+##                     5.396667                     5.773333 
+##           Eng_AttainmentData         Maths_AttainmentData 
+##                     8.136667                     7.300000 
+##       Science_AttainmentData     Computing_AttainmentData 
+##                     7.886667                     6.010000
 ```
 
 Beachten Sie auch hier, dass einige Mittelwerte als `NA` ausgegeben werden, da im Datensatz fehlende Werte vorliegen. Nun wollen wir aber die Mittelwerte über zwei Items hinweg für alle Personen bilden - das bedeutet stattdessen brauchen wir die Mittelwerte über die Zeilen. Hierfür können wir die Funktion `rowMeans()` verwenden. Anstatt von Zahlen zur Auswahl der Spalten, können wir auch die Spaltennamen verwenden. Dies ist hier eventuell einfacher, da uns die Spaltennummern nicht immer bekannt sind, aber die Namen der Variablen wahrscheinlich schon.
@@ -654,40 +688,44 @@ rowMeans(data[,c("Total_Competence_Maths", "Total_Competence_English", "Total_Co
 ```
 
 ```
-##   [1] 2.666667 3.000000 4.000000 4.000000 2.666667 4.333333 3.333333 4.000000 3.333333
-##  [10] 4.666667 4.333333 3.666667 3.333333 3.666667 2.333333 4.000000 5.000000 4.333333
-##  [19] 4.333333 3.666667 3.333333 4.000000 3.333333 3.000000 4.000000 3.333333 4.333333
-##  [28] 4.000000 3.333333 3.333333 3.666667 3.666667 2.666667 4.666667 3.333333 3.000000
-##  [37] 2.666667 2.666667 1.666667 4.333333 2.666667 4.000000 3.333333 3.333333 4.000000
-##  [46] 4.000000 4.666667 3.333333 3.666667 3.666667 3.666667 4.666667 4.333333 4.000000
-##  [55] 3.000000 3.333333 3.666667 3.333333 3.333333 3.000000 4.000000 3.666667 3.666667
-##  [64] 3.666667 4.000000 2.666667 4.333333 3.666667 1.000000       NA 5.000000 3.333333
-##  [73] 3.333333 3.666667 3.333333 3.666667 3.666667 4.000000 3.333333 3.666667 2.666667
-##  [82] 2.000000 3.666667 2.666667 4.333333 3.666667 3.666667 3.333333 3.000000 3.666667
-##  [91] 3.666667 3.000000 3.333333 4.333333 2.333333 3.333333 3.000000 3.333333 4.000000
-## [100] 3.666667 4.333333 3.333333 4.333333 2.666667 4.333333 3.666667 3.333333 3.333333
-## [109] 3.000000 4.333333 3.666667 5.000000 3.000000 3.333333 4.000000 4.000000 3.333333
-## [118] 4.000000 3.666667 3.666667 3.333333 3.000000 3.000000 4.333333 3.666667 4.333333
-## [127] 4.000000 3.333333       NA 4.666667 3.666667 4.666667 2.333333 4.000000 3.666667
-## [136] 2.333333 3.666667 3.333333 4.333333 3.000000 4.333333 4.000000 4.000000 4.333333
-## [145] 4.000000 3.333333 3.000000 3.666667 4.333333 3.666667 3.666667 2.333333 4.333333
-## [154] 3.333333 4.000000 4.333333 3.666667 3.000000 5.000000 3.333333 1.000000 4.333333
-## [163] 3.000000 3.666667 3.333333 3.666667 3.333333 2.666667 2.000000 3.666667 3.666667
-## [172] 3.333333 3.000000 4.000000 3.666667 3.666667 4.666667 3.666667 3.333333 4.666667
-## [181] 4.000000 2.666667 3.666667 3.333333 1.333333 4.000000 2.333333 3.000000 3.666667
-## [190] 4.333333 4.333333 3.000000 3.000000 4.000000 4.000000 4.000000 3.333333 2.333333
-## [199] 2.333333 4.333333 4.666667 3.666667 3.666667 4.666667 4.666667 3.000000 4.000000
-## [208] 4.000000 3.666667 4.000000 3.333333 3.666667 3.666667 4.333333 5.000000 5.000000
-## [217] 3.666667 4.000000 4.000000 4.333333 2.666667 3.000000 3.333333 4.000000 3.666667
-## [226] 4.000000 3.666667 3.666667 3.333333 3.666667 4.333333 4.000000 4.666667 4.000000
-## [235] 3.333333 3.333333 3.666667 4.333333 3.666667 4.666667 3.666667 3.000000 3.000000
-## [244] 4.000000 3.000000 4.333333 3.666667 3.666667 3.666667 4.000000 4.333333 4.000000
-## [253] 4.666667 3.333333 3.333333 3.333333 4.333333 3.333333 4.000000 3.333333 4.666667
-## [262] 4.666667 4.000000 3.666667 4.000000 3.666667 3.000000 3.000000 4.000000 3.333333
-## [271] 4.333333 4.666667 3.666667 3.666667 4.000000 4.333333 4.333333 4.000000 4.000000
-## [280] 4.000000 3.333333 3.666667 3.666667 3.666667 3.666667 4.666667 3.333333 5.000000
-## [289] 3.666667 4.666667 4.000000 3.333333 3.666667 3.333333 4.666667 4.666667 4.000000
-## [298] 3.333333 3.666667 4.333333
+##   [1] 2.666667 3.000000 4.000000 4.000000 2.666667 4.333333 3.333333 4.000000
+##   [9] 3.333333 4.666667 4.333333 3.666667 3.333333 3.666667 2.333333 4.000000
+##  [17] 5.000000 4.333333 4.333333 3.666667 3.333333 4.000000 3.333333 3.000000
+##  [25] 4.000000 3.333333 4.333333 4.000000 3.333333 3.333333 3.666667 3.666667
+##  [33] 2.666667 4.666667 3.333333 3.000000 2.666667 2.666667 1.666667 4.333333
+##  [41] 2.666667 4.000000 3.333333 3.333333 4.000000 4.000000 4.666667 3.333333
+##  [49] 3.666667 3.666667 3.666667 4.666667 4.333333 4.000000 3.000000 3.333333
+##  [57] 3.666667 3.333333 3.333333 3.000000 4.000000 3.666667 3.666667 3.666667
+##  [65] 4.000000 2.666667 4.333333 3.666667 1.000000       NA 5.000000 3.333333
+##  [73] 3.333333 3.666667 3.333333 3.666667 3.666667 4.000000 3.333333 3.666667
+##  [81] 2.666667 2.000000 3.666667 2.666667 4.333333 3.666667 3.666667 3.333333
+##  [89] 3.000000 3.666667 3.666667 3.000000 3.333333 4.333333 2.333333 3.333333
+##  [97] 3.000000 3.333333 4.000000 3.666667 4.333333 3.333333 4.333333 2.666667
+## [105] 4.333333 3.666667 3.333333 3.333333 3.000000 4.333333 3.666667 5.000000
+## [113] 3.000000 3.333333 4.000000 4.000000 3.333333 4.000000 3.666667 3.666667
+## [121] 3.333333 3.000000 3.000000 4.333333 3.666667 4.333333 4.000000 3.333333
+## [129]       NA 4.666667 3.666667 4.666667 2.333333 4.000000 3.666667 2.333333
+## [137] 3.666667 3.333333 4.333333 3.000000 4.333333 4.000000 4.000000 4.333333
+## [145] 4.000000 3.333333 3.000000 3.666667 4.333333 3.666667 3.666667 2.333333
+## [153] 4.333333 3.333333 4.000000 4.333333 3.666667 3.000000 5.000000 3.333333
+## [161] 1.000000 4.333333 3.000000 3.666667 3.333333 3.666667 3.333333 2.666667
+## [169] 2.000000 3.666667 3.666667 3.333333 3.000000 4.000000 3.666667 3.666667
+## [177] 4.666667 3.666667 3.333333 4.666667 4.000000 2.666667 3.666667 3.333333
+## [185] 1.333333 4.000000 2.333333 3.000000 3.666667 4.333333 4.333333 3.000000
+## [193] 3.000000 4.000000 4.000000 4.000000 3.333333 2.333333 2.333333 4.333333
+## [201] 4.666667 3.666667 3.666667 4.666667 4.666667 3.000000 4.000000 4.000000
+## [209] 3.666667 4.000000 3.333333 3.666667 3.666667 4.333333 5.000000 5.000000
+## [217] 3.666667 4.000000 4.000000 4.333333 2.666667 3.000000 3.333333 4.000000
+## [225] 3.666667 4.000000 3.666667 3.666667 3.333333 3.666667 4.333333 4.000000
+## [233] 4.666667 4.000000 3.333333 3.333333 3.666667 4.333333 3.666667 4.666667
+## [241] 3.666667 3.000000 3.000000 4.000000 3.000000 4.333333 3.666667 3.666667
+## [249] 3.666667 4.000000 4.333333 4.000000 4.666667 3.333333 3.333333 3.333333
+## [257] 4.333333 3.333333 4.000000 3.333333 4.666667 4.666667 4.000000 3.666667
+## [265] 4.000000 3.666667 3.000000 3.000000 4.000000 3.333333 4.333333 4.666667
+## [273] 3.666667 3.666667 4.000000 4.333333 4.333333 4.000000 4.000000 4.000000
+## [281] 3.333333 3.666667 3.666667 3.666667 3.666667 4.666667 3.333333 5.000000
+## [289] 3.666667 4.666667 4.000000 3.333333 3.666667 3.333333 4.666667 4.666667
+## [297] 4.000000 3.333333 3.666667 4.333333
 ```
 
 Um aus diesem Wissen jetzt neue Variablen zu erstellen, gibt es sehr viele Möglichkeiten. Um unseren Fokus in der Datenaufbereitung weiter auf `dplyr` zu halten, können wir mit `mutate()` eine neue Variable erstellen. Wir sagen in der Funktion den Namen der neuen Variable `Total_Competence` und nach dem `=` die Art und Weise der Berechnung. Hier fügen wir einfach den eben berechneten Mittelwert hinzu. 
@@ -707,40 +745,44 @@ data$Total_Competence   # Anzeigen der neuen Variable
 ```
 
 ```
-##   [1] 2.666667 3.000000 4.000000 4.000000 2.666667 4.333333 3.333333 4.000000 3.333333
-##  [10] 4.666667 4.333333 3.666667 3.333333 3.666667 2.333333 4.000000 5.000000 4.333333
-##  [19] 4.333333 3.666667 3.333333 4.000000 3.333333 3.000000 4.000000 3.333333 4.333333
-##  [28] 4.000000 3.333333 3.333333 3.666667 3.666667 2.666667 4.666667 3.333333 3.000000
-##  [37] 2.666667 2.666667 1.666667 4.333333 2.666667 4.000000 3.333333 3.333333 4.000000
-##  [46] 4.000000 4.666667 3.333333 3.666667 3.666667 3.666667 4.666667 4.333333 4.000000
-##  [55] 3.000000 3.333333 3.666667 3.333333 3.333333 3.000000 4.000000 3.666667 3.666667
-##  [64] 3.666667 4.000000 2.666667 4.333333 3.666667 1.000000       NA 5.000000 3.333333
-##  [73] 3.333333 3.666667 3.333333 3.666667 3.666667 4.000000 3.333333 3.666667 2.666667
-##  [82] 2.000000 3.666667 2.666667 4.333333 3.666667 3.666667 3.333333 3.000000 3.666667
-##  [91] 3.666667 3.000000 3.333333 4.333333 2.333333 3.333333 3.000000 3.333333 4.000000
-## [100] 3.666667 4.333333 3.333333 4.333333 2.666667 4.333333 3.666667 3.333333 3.333333
-## [109] 3.000000 4.333333 3.666667 5.000000 3.000000 3.333333 4.000000 4.000000 3.333333
-## [118] 4.000000 3.666667 3.666667 3.333333 3.000000 3.000000 4.333333 3.666667 4.333333
-## [127] 4.000000 3.333333       NA 4.666667 3.666667 4.666667 2.333333 4.000000 3.666667
-## [136] 2.333333 3.666667 3.333333 4.333333 3.000000 4.333333 4.000000 4.000000 4.333333
-## [145] 4.000000 3.333333 3.000000 3.666667 4.333333 3.666667 3.666667 2.333333 4.333333
-## [154] 3.333333 4.000000 4.333333 3.666667 3.000000 5.000000 3.333333 1.000000 4.333333
-## [163] 3.000000 3.666667 3.333333 3.666667 3.333333 2.666667 2.000000 3.666667 3.666667
-## [172] 3.333333 3.000000 4.000000 3.666667 3.666667 4.666667 3.666667 3.333333 4.666667
-## [181] 4.000000 2.666667 3.666667 3.333333 1.333333 4.000000 2.333333 3.000000 3.666667
-## [190] 4.333333 4.333333 3.000000 3.000000 4.000000 4.000000 4.000000 3.333333 2.333333
-## [199] 2.333333 4.333333 4.666667 3.666667 3.666667 4.666667 4.666667 3.000000 4.000000
-## [208] 4.000000 3.666667 4.000000 3.333333 3.666667 3.666667 4.333333 5.000000 5.000000
-## [217] 3.666667 4.000000 4.000000 4.333333 2.666667 3.000000 3.333333 4.000000 3.666667
-## [226] 4.000000 3.666667 3.666667 3.333333 3.666667 4.333333 4.000000 4.666667 4.000000
-## [235] 3.333333 3.333333 3.666667 4.333333 3.666667 4.666667 3.666667 3.000000 3.000000
-## [244] 4.000000 3.000000 4.333333 3.666667 3.666667 3.666667 4.000000 4.333333 4.000000
-## [253] 4.666667 3.333333 3.333333 3.333333 4.333333 3.333333 4.000000 3.333333 4.666667
-## [262] 4.666667 4.000000 3.666667 4.000000 3.666667 3.000000 3.000000 4.000000 3.333333
-## [271] 4.333333 4.666667 3.666667 3.666667 4.000000 4.333333 4.333333 4.000000 4.000000
-## [280] 4.000000 3.333333 3.666667 3.666667 3.666667 3.666667 4.666667 3.333333 5.000000
-## [289] 3.666667 4.666667 4.000000 3.333333 3.666667 3.333333 4.666667 4.666667 4.000000
-## [298] 3.333333 3.666667 4.333333
+##   [1] 2.666667 3.000000 4.000000 4.000000 2.666667 4.333333 3.333333 4.000000
+##   [9] 3.333333 4.666667 4.333333 3.666667 3.333333 3.666667 2.333333 4.000000
+##  [17] 5.000000 4.333333 4.333333 3.666667 3.333333 4.000000 3.333333 3.000000
+##  [25] 4.000000 3.333333 4.333333 4.000000 3.333333 3.333333 3.666667 3.666667
+##  [33] 2.666667 4.666667 3.333333 3.000000 2.666667 2.666667 1.666667 4.333333
+##  [41] 2.666667 4.000000 3.333333 3.333333 4.000000 4.000000 4.666667 3.333333
+##  [49] 3.666667 3.666667 3.666667 4.666667 4.333333 4.000000 3.000000 3.333333
+##  [57] 3.666667 3.333333 3.333333 3.000000 4.000000 3.666667 3.666667 3.666667
+##  [65] 4.000000 2.666667 4.333333 3.666667 1.000000       NA 5.000000 3.333333
+##  [73] 3.333333 3.666667 3.333333 3.666667 3.666667 4.000000 3.333333 3.666667
+##  [81] 2.666667 2.000000 3.666667 2.666667 4.333333 3.666667 3.666667 3.333333
+##  [89] 3.000000 3.666667 3.666667 3.000000 3.333333 4.333333 2.333333 3.333333
+##  [97] 3.000000 3.333333 4.000000 3.666667 4.333333 3.333333 4.333333 2.666667
+## [105] 4.333333 3.666667 3.333333 3.333333 3.000000 4.333333 3.666667 5.000000
+## [113] 3.000000 3.333333 4.000000 4.000000 3.333333 4.000000 3.666667 3.666667
+## [121] 3.333333 3.000000 3.000000 4.333333 3.666667 4.333333 4.000000 3.333333
+## [129]       NA 4.666667 3.666667 4.666667 2.333333 4.000000 3.666667 2.333333
+## [137] 3.666667 3.333333 4.333333 3.000000 4.333333 4.000000 4.000000 4.333333
+## [145] 4.000000 3.333333 3.000000 3.666667 4.333333 3.666667 3.666667 2.333333
+## [153] 4.333333 3.333333 4.000000 4.333333 3.666667 3.000000 5.000000 3.333333
+## [161] 1.000000 4.333333 3.000000 3.666667 3.333333 3.666667 3.333333 2.666667
+## [169] 2.000000 3.666667 3.666667 3.333333 3.000000 4.000000 3.666667 3.666667
+## [177] 4.666667 3.666667 3.333333 4.666667 4.000000 2.666667 3.666667 3.333333
+## [185] 1.333333 4.000000 2.333333 3.000000 3.666667 4.333333 4.333333 3.000000
+## [193] 3.000000 4.000000 4.000000 4.000000 3.333333 2.333333 2.333333 4.333333
+## [201] 4.666667 3.666667 3.666667 4.666667 4.666667 3.000000 4.000000 4.000000
+## [209] 3.666667 4.000000 3.333333 3.666667 3.666667 4.333333 5.000000 5.000000
+## [217] 3.666667 4.000000 4.000000 4.333333 2.666667 3.000000 3.333333 4.000000
+## [225] 3.666667 4.000000 3.666667 3.666667 3.333333 3.666667 4.333333 4.000000
+## [233] 4.666667 4.000000 3.333333 3.333333 3.666667 4.333333 3.666667 4.666667
+## [241] 3.666667 3.000000 3.000000 4.000000 3.000000 4.333333 3.666667 3.666667
+## [249] 3.666667 4.000000 4.333333 4.000000 4.666667 3.333333 3.333333 3.333333
+## [257] 4.333333 3.333333 4.000000 3.333333 4.666667 4.666667 4.000000 3.666667
+## [265] 4.000000 3.666667 3.000000 3.000000 4.000000 3.333333 4.333333 4.666667
+## [273] 3.666667 3.666667 4.000000 4.333333 4.333333 4.000000 4.000000 4.000000
+## [281] 3.333333 3.666667 3.666667 3.666667 3.666667 4.666667 3.333333 5.000000
+## [289] 3.666667 4.666667 4.000000 3.333333 3.666667 3.333333 4.666667 4.666667
+## [297] 4.000000 3.333333 3.666667 4.333333
 ```
 
 #### Bilden einer neuen kategorialen Variable
@@ -866,21 +908,21 @@ data %>%
 ```
 ## # A tibble: 300 × 27
 ## # Groups:   Achiever [3]
-##    Year        Gender Ethnicity Total_Mindset Total_Competence_Maths Total_Competence_Eng…¹
-##    <fct>       <fct>  <chr>             <dbl>                  <dbl>                  <dbl>
-##  1 7. Schulja… weibl… White Br…            36                      4                      3
-##  2 7. Schulja… weibl… White Br…            34                      2                      4
-##  3 7. Schulja… weibl… White Br…            28                      4                      4
-##  4 7. Schulja… weibl… White Br…            38                      4                      4
-##  5 7. Schulja… weibl… White Br…            26                      3                      3
-##  6 7. Schulja… weibl… White Br…            29                      4                      4
-##  7 7. Schulja… weibl… White Br…            32                      3                      4
-##  8 7. Schulja… weibl… White Br…            31                      4                      3
-##  9 7. Schulja… weibl… White Br…            28                      3                      5
-## 10 7. Schulja… weibl… White Br…            30                      5                      4
+##    Year         Gender   Ethnicity     Total_Mindset Total_Competence_Maths
+##    <fct>        <fct>    <chr>                 <dbl>                  <dbl>
+##  1 7. Schuljahr weiblich White British            36                      4
+##  2 7. Schuljahr weiblich White British            34                      2
+##  3 7. Schuljahr weiblich White British            28                      4
+##  4 7. Schuljahr weiblich White British            38                      4
+##  5 7. Schuljahr weiblich White British            26                      3
+##  6 7. Schuljahr weiblich White British            29                      4
+##  7 7. Schuljahr weiblich White British            32                      3
+##  8 7. Schuljahr weiblich White British            31                      4
+##  9 7. Schuljahr weiblich White British            28                      3
+## 10 7. Schuljahr weiblich White British            30                      5
 ## # ℹ 290 more rows
-## # ℹ abbreviated name: ¹​Total_Competence_English
-## # ℹ 21 more variables: Total_Competence_Science <dbl>, Total_SelfEsteem <dbl>,
+## # ℹ 22 more variables: Total_Competence_English <dbl>,
+## #   Total_Competence_Science <dbl>, Total_SelfEsteem <dbl>,
 ## #   Total_SocialSelfEsteem <dbl>, Total_AcademicSelfEfficacy <dbl>,
 ## #   Total_SelfConcept_Maths <dbl>, Total_SelfConcept_English <dbl>,
 ## #   Total_SelfConcept_Science <dbl>, SubjectSTEndorsement_Maths <dbl>,
