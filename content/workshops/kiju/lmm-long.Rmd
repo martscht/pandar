@@ -6,7 +6,7 @@ slug: lmm-long
 categories: ["KiJu"]
 tags: ["Regression", "Hierarchische Daten", "Zufallseffekte"]
 subtitle: ''
-summary: ''
+summary: 'Dieser Beitrag präsentiert die Schätzung von gemischten Modellen mit längsschnittlichen Daten und deren Interpretation. Dabei wird auf die Zerlegung der Varianz in stabile und instabile Anteile eingegangen. Zudem werden verschiedene Ansätze zur Modellierung von Wachstumskurven vorgestellt.'
 authors: [schultze]
 weight: 4
 lastmod: '`r Sys.Date()`'
@@ -73,12 +73,12 @@ Abschnitte:
   
 ### Datenbeispiel
 
-```{r, eval=FALSE}
+```{r}
 load(url('https://pandar.netlify.app/daten/Sunday.rda'))
 head(sunday)
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, eval = FALSE}
 load('../../daten/Sunday.rda')
 head(sunday)
 ```

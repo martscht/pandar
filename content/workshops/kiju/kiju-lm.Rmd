@@ -6,7 +6,7 @@ slug: kiju-lm
 categories: ["KiJu"]
 tags: ["Regression"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Tutorial wird beschrieben, wie lineare Modelle in R erstellt werden können. Dabei wird auf die Syntax eingegangen und diese spezifisch für einfache, multiple und moderierte Regressionen erläutert.'
 authors: [nehler, schreiner]
 weight: 2
 lastmod: '`r Sys.Date()`'
