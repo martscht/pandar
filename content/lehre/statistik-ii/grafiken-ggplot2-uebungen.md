@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [vonwissel]
 weight: 1
-lastmod: "`r format(Sys.Date(), '%Y-%m-%d')`"
+lastmod: "2025-05-05"
 featured: no
 banner:
   image: "/header/colorful_bubbles.jpg"
@@ -32,24 +32,22 @@ output:
     keep_md: true
 ---
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-```
+
 
 ## Vorbereitung
 
 Installieren und laden Sie das Paket *ggplot2*, sofern noch nicht geschehen.
 
-```{r eval = FALSE}
+
+``` r
 install.packages("ggplot2")
 library(ggplot2)
 ```
 
 Kopieren Sie nun bitte folgenden R-Code um den Übungsdatensatz *mach* zu laden und weitere vorbereitende Schritte auszuführen:
 
-```{r eval = FALSE}
+
+``` r
 load(url("https://pandar.netlify.app/daten/mach.rda"))
 
 # Variable hand (Schreibhand) als Faktor definieren

@@ -1,15 +1,15 @@
 ---
-title: "Grafiken mit ggplot2 - Übungen" 
+title: "Grafiken mit ggplot2 - Lösungen" 
 type: post
 date: '2025-05-05'
-slug: grafiken-ggplot2-uebungen
+slug: grafiken-ggplot2-loesungen
 categories: ["Statistik II Übungen"] 
 tags: [] 
 subtitle: ''
-summary: ''
-authors: [vonwissel]
+summary: '' 
+authors: [vonwissel] 
 weight: 1
-lastmod: "`r format(Sys.Date(), '%Y-%m-%d')`"
+lastmod: "2025-05-05"
 featured: no
 banner:
   image: "/header/colorful_bubbles.jpg"
@@ -24,32 +24,31 @@ links:
     name: Inhalte
     url: /lehre/statistik-ii/grafiken-ggplot2
   - icon_pack: fas
-    icon: star
-    name: Lösungen
-    url: /lehre/statistik-ii/grafiken-ggplot2-loesungen
+    icon: pen-to-square
+    name: Übungen
+    url: /lehre/statistik-ii/grafiken-ggplot2-uebungen
 output:
   html_document:
     keep_md: true
 ---
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-```
+
+
 
 ## Vorbereitung
 
 Installieren und laden Sie das Paket *ggplot2*, sofern noch nicht geschehen.
 
-```{r eval = FALSE}
+
+``` r
 install.packages("ggplot2")
 library(ggplot2)
 ```
 
 Kopieren Sie nun bitte folgenden R-Code um den Übungsdatensatz *mach* zu laden und weitere vorbereitende Schritte auszuführen:
 
-```{r eval = FALSE}
+
+``` r
 load(url("https://pandar.netlify.app/daten/mach.rda"))
 
 # Variable hand (Schreibhand) als Faktor definieren
@@ -72,6 +71,18 @@ Erstellen Sie ein einfaches Balkendiagramm für die Variable *hand* aus dem *mac
 - Formatieren Sie die Farbe der Balken in Abhängigkeit der Variable *hand*
 - Wenden Sie das Theme `theme_minimal()` an.
 
+<details>
+
+<summary>Lösung</summary>
+
+``` r
+ggplot(mach, aes(x = hand)) +    # Erstellen eines leeren ggplots für den Datensatz 'mach' und der Variable 'hand' auf der x-Achse
+  geom_bar(aes(fill = hand)) +   # Erweitern um eine Ebene mit Balkendiagramm. Festlegen der Farben der Balken in Abhängigkeit der Variable 'hand'
+  theme_minimal()                # Verwendung des gefragten Themes
+```
+
+</details>
+
 ## Aufgabe 2
 
 Visualisieren Sie in einem neuen Plot die Häufigkeit der Antwort *hand*, gruppiert nach *gender*.
@@ -79,11 +90,51 @@ Visualisieren Sie in einem neuen Plot die Häufigkeit der Antwort *hand*, gruppi
 - Fügen Sie einen schwarzen Rand zu den Balken hinzu
 - Stellen Sie die Balken nebeneinander dar. (Die Voreinstellung gibt die Balken in einer gestaplten Ansicht aus.)
 
+<details>
+
+<summary>Lösung</summary>
+
+``` r
+ggplot(mach, aes(x = hand, group = gender)) +                         # Grundstruktur: x-Achse = 'hand', gruppiert nach 'gender'
+  geom_bar(aes(fill = gender), color = 'black', position = 'dodge')   # Balken farbig nach Geschlecht, mit schwarzem Rand, nebeneinander dargestellt 
+```
+
+</details>
+
 ## Aufgabe 3
 
 Erweitern Sie das gruppierte Balkendiagramm aus Aufgabe 2 um geeignete Beschriftungen.
 - Vergeben Sie jeweils Titel und Untertitel, sowie Achsen- und Legendentitel
 
+<details>
+
+<summary>Lösung</summary>
+
+``` r
+ggplot(mach, aes(x = hand, group = gender)) +  
+  geom_bar(aes(fill = gender), color = "black", position = "dodge") +  # Gruppiertes Balkendiagramm wie in Aufgabe 2
+  labs(x = "Schreibhand", y = "Anzahl", fill = "Geschlecht") +         # Achsen- und Legendentitel ergänzen
+  ggtitle("Verteilung der Schreihand nach Geschlecht",                 # Haupttitel
+          "(Daten aus dem mach-Datensatz)")                            # Untertitel
+```
+
+</details>
+
 ## Aufgabe 4
 
 Verwenden Sie nun die in der Variable *mach_colors* (Siehe Vorbereitung oben) manuell definierte Farbpalette, um die Balken mit den von uns gewählten Farben anzupassen.
+
+<details>
+
+<summary>Lösung</summary>
+
+``` r
+ggplot(mach, aes(x = hand, group = gender)) +  
+  geom_bar(aes(fill = gender), color = "black", position = "dodge") +  # Gruppiertes Balkendiagramm
+  scale_fill_manual(values = mach_colors) +                            # Eigene Farbpalette anwenden
+  labs(x = "Schreibhand", y = "Anzahl", fill = "Geschlecht") +         # Beschriftungen setzen
+  ggtitle("Verteilung der Schreihand nach Geschlecht", 
+          "(Daten aus dem mach-Datensatz)")
+```
+
+</details>
