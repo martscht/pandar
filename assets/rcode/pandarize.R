@@ -1,4 +1,4 @@
-pandarize <- function(x, purl = TRUE) {
+pandarize <- function(x, purl = TRUE, debugging = FALSE) {
   
   # saves the global environment to the temporary R folder (deletes after the session)
   save(list = ls(.GlobalEnv), file = file.path(tempdir(), "env.RData"), envir = .GlobalEnv)
@@ -29,9 +29,9 @@ pandarize <- function(x, purl = TRUE) {
     knitr::opts_chunk$set(fig.path = figure_path)
     
     # debug for figures and images
-    # print(getwd())
-    # print(.img_location)
-    print(paste0("Setting fig.path to: ", figure_path))
+    if (debugging){
+      print(paste0("Setting fig.path to: ", figure_path))
+    }
     
     # render the RMarkdown, use the global environment
     figure_path <<- figure_path # to pass param to rmarkdown, doing with params didnt work due to globalenv
@@ -44,64 +44,58 @@ pandarize <- function(x, purl = TRUE) {
     
     # only purl the R code from the RMarkdown if the argument is TRUE
     if (purl) knitr::purl(.rmd, .R, documentation = 0)
-    
-    # rename figures and images links in the markdown so they are found and displayed aferwards
-    
-    # old method, can be removed if new one works just as well!
-    # readLines(.md) |>
-    #   sub(pattern = '![](', replacement = paste0('![](', .img_location), x = _, fixed = TRUE) |>
-    #   sub(pattern = '](figure/', replacement = paste0('](', .img_location), x = _, fixed = TRUE) |>
-    #   gsub(pattern = '<img src="', replacement = paste0('<img src="', .img_location)) |>
-    #   writeLines(con = .md)
-    # 
-    
-    # new (might be better at closing connections correctly)
-    # Normalize the path
+
+    # path that is used as replacer
     normalized_path <- gsub("\\\\", "/", figure_path)
     
-    # Strip everything before and including '/static/' to make it relative
+    # replace all paths that include /static/ to remove that part and all before it so it correctly references generated images
     relative_path <- sub(".*?/static/", "/", normalized_path)
     
-    # Read the lines
+    # read the lines
     lines <- readLines(.md)
     
-    # 1. Handle Markdown image links ![](
+    # 1. print and sub all Markdown image links ![](
     pattern1 <- paste0('![](', normalized_path)
     replacement1 <- paste0('![](', relative_path)
     
     matches1 <- grep(pattern1, lines, fixed = TRUE, value = TRUE)
-    if (length(matches1) > 0) {
-      cat("Original ![](...) matches:\n", paste(matches1, collapse = "\n"), "\n\n")
-      cat("Replacements:\n", paste(gsub(pattern1, replacement1, matches1, fixed = TRUE), collapse = "\n"), "\n\n")
+    if (debugging){
+      if (length(matches1) > 0) {
+        cat("Original ![](...) matches:\n", paste(matches1, collapse = "\n"), "\n\n")
+        cat("Replacements:\n", paste(gsub(pattern1, replacement1, matches1, fixed = TRUE), collapse = "\n"), "\n\n")
+      }
     }
     lines <- gsub(pattern1, replacement1, lines, fixed = TRUE)
     
-    # 2. Handle generic Markdown links ](
+    # 2. print and sub generic Markdown links ](
     pattern2 <- paste0('](', normalized_path)
     replacement2 <- paste0('](', relative_path)
     
     matches2 <- grep(pattern2, lines, fixed = TRUE, value = TRUE)
-    if (length(matches2) > 0) {
-      cat("Original ](...) matches:\n", paste(matches2, collapse = "\n"), "\n\n")
-      cat("Replacements:\n", paste(gsub(pattern2, replacement2, matches2, fixed = TRUE), collapse = "\n"), "\n\n")
+    if(debugging){
+      if (length(matches2) > 0) {
+        cat("Original ](...) matches:\n", paste(matches2, collapse = "\n"), "\n\n")
+        cat("Replacements:\n", paste(gsub(pattern2, replacement2, matches2, fixed = TRUE), collapse = "\n"), "\n\n")
+      }
     }
     lines <- gsub(pattern2, replacement2, lines, fixed = TRUE)
     
-    # 3. Handle HTML-style image tags <img src="
+    # 3. print and sub HTML-style image tags <img src="
     pattern3 <- paste0('<img src="', normalized_path)
     replacement3 <- paste0('<img src="', relative_path)
     
     matches3 <- grep(pattern3, lines, fixed = TRUE, value = TRUE)
-    if (length(matches3) > 0) {
-      cat("Original <img src=...> matches:\n", paste(matches3, collapse = "\n"), "\n\n")
-      cat("Replacements:\n", paste(gsub(pattern3, replacement3, matches3, fixed = TRUE), collapse = "\n"), "\n\n")
+    if (debugging){
+      if (length(matches3) > 0) {
+        cat("Original <img src=...> matches:\n", paste(matches3, collapse = "\n"), "\n\n")
+        cat("Replacements:\n", paste(gsub(pattern3, replacement3, matches3, fixed = TRUE), collapse = "\n"), "\n\n")
+      }
     }
     lines <- gsub(pattern3, replacement3, lines, fixed = TRUE)
     
-    
-    con <- file(.md, "w")  # Open file connection for writing
-    writeLines(lines, con)  # Write updated lines to the file
-    close(con)  # Ensure the connection is closed
+    con <- file(.md, "w")  # open file connection for writing
+    writeLines(lines, con)  # write updated lines to the file
+    close(con)  # ensure the connection is closed
     
     # remove the created html because we do not need it
     if (file.exists(.html)){
