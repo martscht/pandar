@@ -38,6 +38,17 @@ if (exists("figure_path")) {
 }
 ```
 
+## Vorbereitung
+
+Bitte laden Sie für die folgenden Aufgaben die Übungsdatensatze *mdbf* und *fb24*:
+
+```{r eval = FALSE}
+# Übungsdatensatz für Aufgabe 3
+load(url("https://pandar.netlify.app/daten/mdbf.rda"))
+# Übungsdatensatz für Aufgabe 4
+load(url("https://pandar.netlify.app/daten/fb24.rda"))
+```
+
 ## Aufgabe 1
 
 Eigene Funktionen helfen, Arbeitsschritte effizient zusammenzufassen.
@@ -53,16 +64,6 @@ Mit *if*-Abfragen kann die Ausführung von Code gesteuert werden.
 - Testen Sie Ihre Funktion mit den Werten 16 und 22.
 
 ## Aufgabe 3
-
-### Vorbereitung
-
-Bitte laden Sie folgenden Übungsdatensatz *mdbf*:
-
-```{r eval = FALSE}
-load(url("https://pandar.netlify.app/daten/mdbf.rda"))
-```
-
-### Aufgabe
 
 Ziel dieser Aufgabe ist es, alle **negativ** gepolten Items im mdbf-Datensatz in eine positive Richtung umzucodieren.
 Folgende Items sind negativ gepoolt: `"stim3", "stim4", "stim5", "stim7", "stim9", "stim11"`
@@ -103,17 +104,7 @@ for (i in names(fb24)) {
 }
 ```
 
-### Vorbereitung
-
-Bitte laden Sie folgenden Übungsdatensatz *mdbf*:
-
-```{r eval = FALSE}
-load(url("https://pandar.netlify.app/daten/fb24.rda"))
-```
-
-### Aufgabe
-
-Erweitern Sie die Funktion *var_eigen* um ein logisches Argument *na.rm*.
+Erweitern Sie nun die Funktion *var_eigen* um ein logisches Argument *na.rm*.
 Wird `na.rm = TRUE` gesetzt, sollen fehlende Werte aus der Berechnung ausgeschlossen werden.
 - Achten Sie darauf, dass die Berechnung von *n* auf der bereinigten Stichprobe basiert.
 - Testen Sie die neue Funktion sowohl mit als auch ohne `na.rm = TRUE`.
