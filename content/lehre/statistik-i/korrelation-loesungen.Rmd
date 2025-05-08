@@ -1,40 +1,43 @@
 ---
-title: "Korrelation - Lösungen" 
+title: Korrelation - Lösungen
 type: post
-date: '2021-01-04' 
-slug: korrelation-loesungen 
-categories: ["Statistik I Übungen"] 
-tags: [] 
+date: '2021-01-04'
+slug: korrelation-loesungen
+categories: Statistik I Übungen
+tags: []
 subtitle: ''
-summary: '' 
-authors: [nehler, winkler, vogler, schroeder] 
-weight: 
+summary: ''
+authors:
+- nehler
+- winkler
+- vogler
+- schroeder
+weight: ~
 lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: "/header/storch_with_baby.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/855019)"
+  image: /header/storch_with_baby.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/de/photo/855019)'
 projects: []
 expiryDate: ''
 publishDate: ''
 _build:
   list: never
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/statistik-i/korrelation
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Übungen
-    url: /lehre/statistik-i/korrelation-uebungen
-
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-i/korrelation
+- icon_pack: fas
+  icon: pen-to-square
+  name: Übungen
+  url: /lehre/statistik-i/korrelation-uebungen
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
