@@ -1,32 +1,34 @@
 ---
-title: "Freiwillige Übungsaufgaben - Lösungen"
+title: Freiwillige Übungsaufgaben - Lösungen
 type: post
 date: '2021-11-29'
 slug: zusatz-loesungen
-categories: ["Statistik I Übungen"]
+categories: Statistik I Übungen
 tags: []
 subtitle: ''
 summary: ''
-authors: [cezanne, mueller, nehler]
-weight:
-lastmod: '2025-02-07' 
+authors:
+- cezanne
+- mueller
+- nehler
+weight: ~
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/mechanical_number_display.png"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/753544)"
+  image: /header/mechanical_number_display.png
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/753544)'
 projects: []
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Aufgaben
-    url: /lehre/statistik-i/zusatz-aufgaben
-
+- icon_pack: fas
+  icon: pen-to-square
+  name: Aufgaben
+  url: /lehre/statistik-i/zusatz-aufgaben
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -1607,8 +1609,8 @@ cor.test(fb22$woerter_grund, fb22$gewis, method = "spearman", alternative = "gre
 ```
 
 ```
-## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", : Kann exakten
-## p-Wert bei Bindungen nicht berechnen
+## Warning in cor.test.default(fb22$woerter_grund, fb22$gewis, method = "spearman", :
+## Kann exakten p-Wert bei Bindungen nicht berechnen
 ```
 
 ```

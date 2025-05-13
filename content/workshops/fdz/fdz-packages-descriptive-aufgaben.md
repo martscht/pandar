@@ -1,40 +1,38 @@
 ---
 title: Nutzung von Paketen und Bestimmung Deskriptivstatistiken - Aufgaben
 type: post
-date: '2025-02-28' 
+date: '2025-02-28'
 slug: fdz-packages-descriptive-aufgaben
-categories: [] 
-tags: [] 
+categories: []
+tags: []
 subtitle: ''
-summary: '' 
-authors: [nehler] 
-lastmod: '2025-03-12'
+summary: ''
+authors: nehler
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/metal_beams_electricity.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+  image: /header/metal_beams_electricity.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)'
 projects: []
-
 expiryDate: ''
 publishDate: ''
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /workshops/fdz/fdz-packages-descriptive
-  - icon_pack: fas
-    icon: star
-    name: Lösungen
-    url: /workshops/fdz/fdz-packages-descriptive-loesungen
-
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /workshops/fdz/fdz-packages-descriptive
+- icon_pack: fas
+  icon: star
+  name: Lösungen
+  url: /workshops/fdz/fdz-packages-descriptive-loesungen
 _build:
   list: never
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -50,7 +48,7 @@ Denken Sie bei allen Aufgaben daran, den Code im R-Skript sinnvoll zu gliedern u
 Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunächst den Datensatz über die eben vorgestellten Befehle in Ihr Environment. Außerdem sind die nachfolgenden Befehle aus dem Tutorial noch wichtig, die Sie also durchführen sollten, wenn es noch nicht geschehen ist!
 
 
-``` r
+```r
 # Pakete laden
 library(readxl)
 library(dplyr)
@@ -77,7 +75,7 @@ data$Total_Competence_Maths <- data$Total_Competence_Maths %>%
 Falls Sie sich die Aufgaben unabhängig vom Workshop anschauen, werden folgende Schritte noch benötigt, die im Tutorial durchgeführt wurden.
 
 
-``` r
+```r
 # Pakete laden
 library(readxl)
 library(dplyr)
@@ -111,7 +109,7 @@ data$Total_Competence_Maths <- data$Total_Competence_Maths %>%
 Falls Sie am Workshop teilnehmen, laden Sie, falls noch nicht geschehen, zunächst den Datensatz über die eben vorgestellten Befehle in Ihr Environment. Außerdem sind die nachfolgenden Befehle aus dem Tutorial / den Aufgaben noch wichtig, die Sie also durchführen sollten, wenn es noch nicht geschehen ist!
 
 
-``` r
+```r
 # Pakete laden
 library(readxl)
 library(dplyr)
@@ -156,7 +154,7 @@ data <- data %>%
 Falls Sie sich die Aufgaben unabhängig vom Workshop anschauen, werden folgende Schritte noch benötigt, die im Tutorial (und Teil 1 der Aufgaben) durchgeführt wurden.
 
 
-``` r
+```r
 source("https://pandar.netlify.app/workshops/fdz/fdz_data_prep.R")
 # Faktoren anlegen
 data$Gender <- factor(data$Gender, 

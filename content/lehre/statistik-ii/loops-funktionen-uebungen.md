@@ -1,38 +1,50 @@
 ---
-title: "Funktionen und Loops - Übungen" 
+title: Funktionen und Loops - Übungen
 type: post
 date: '2025-04-26'
 slug: loops-funktionen-uebungen
-categories: ["Statistik II Übungen"] 
-tags: [] 
+categories: Statistik II Übungen
+tags: []
 subtitle: ''
 summary: ''
-authors: [vonwissel]
+authors: vonwissel
 weight: 1
-lastmod: "2025-05-05"
+lastmod: '2025-05-13'
 featured: no
-banner: 
-  image: "/header/sprinkled_lollipops.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1457161)"
+banner:
+  image: /header/sprinkled_lollipops.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1457161)'
 projects: []
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/statistik-ii/loops-funktionen
-  - icon_pack: fas
-    icon: star
-    name: Lösungen
-    url: /lehre/statistik-ii/loops-funktionen-loesungen
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-ii/loops-funktionen
+- icon_pack: fas
+  icon: star
+  name: Lösungen
+  url: /lehre/statistik-ii/loops-funktionen-loesungen
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
+
+## Vorbereitung
+
+Bitte laden Sie für die folgenden Aufgaben die Übungsdatensatze *mdbf* und *fb24*:
+
+
+```r
+# Übungsdatensatz für Aufgabe 3
+load(url("https://pandar.netlify.app/daten/mdbf.rda"))
+# Übungsdatensatz für Aufgabe 4
+load(url("https://pandar.netlify.app/daten/fb24.rda"))
+```
 
 ## Aufgabe 1
 
@@ -50,17 +62,6 @@ Mit *if*-Abfragen kann die Ausführung von Code gesteuert werden.
 
 ## Aufgabe 3
 
-### Vorbereitung
-
-Bitte laden Sie folgenden Übungsdatensatz *mdbf*:
-
-
-``` r
-load(url("https://pandar.netlify.app/daten/mdbf.rda"))
-```
-
-### Aufgabe
-
 Ziel dieser Aufgabe ist es, alle **negativ** gepolten Items im mdbf-Datensatz in eine positive Richtung umzucodieren.
 Folgende Items sind negativ gepoolt: `"stim3", "stim4", "stim5", "stim7", "stim9", "stim11"`
 
@@ -75,7 +76,7 @@ Folgende Items sind negativ gepoolt: `"stim3", "stim4", "stim5", "stim7", "stim9
 Im zugehörigen Kapitel haben wir die Funktion *var_eigen* zur Ausgabe der Varianz und Stichprobengröße erstellt:
 
 
-``` r
+```r
 var_eigen <- function(x, empirical = TRUE){
   n <- length(x)
   x_quer <- mean(x)
@@ -91,7 +92,7 @@ var_eigen <- function(x, empirical = TRUE){
 Nach Anwendung der Funktion auf alle numerischen Variablen im Datensatz *fb24*, haben wir festgestellt, dass die Berechnung für einige der Variablen fehltschlägt, da diese NAs beinhalten. Folgende *for*-Schleife haben wir dazu genutzt:
 
 
-``` r
+```r
 for (i in names(fb24)) {
   print(i)
   if (is.character(fb24[, i])) {
@@ -102,18 +103,7 @@ for (i in names(fb24)) {
 }
 ```
 
-### Vorbereitung
-
-Bitte laden Sie folgenden Übungsdatensatz *mdbf*:
-
-
-``` r
-load(url("https://pandar.netlify.app/daten/fb24.rda"))
-```
-
-### Aufgabe
-
-Erweitern Sie die Funktion *var_eigen* um ein logisches Argument *na.rm*.
+Erweitern Sie nun die Funktion *var_eigen* um ein logisches Argument *na.rm*.
 Wird `na.rm = TRUE` gesetzt, sollen fehlende Werte aus der Berechnung ausgeschlossen werden.
 - Achten Sie darauf, dass die Berechnung von *n* auf der bereinigten Stichprobe basiert.
 - Testen Sie die neue Funktion sowohl mit als auch ohne `na.rm = TRUE`.

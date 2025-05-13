@@ -1,40 +1,38 @@
 ---
 title: R und RStudio - Lösungen
 type: post
-date: '2025-02-28' 
-slug: fdz-r-intro-loesungen 
-categories: [] 
-tags: [] 
+date: '2025-02-28'
+slug: fdz-r-intro-loesungen
+categories: []
+tags: []
 subtitle: ''
-summary: '' 
-authors: [nehler] 
-lastmod: '2025-03-10'
+summary: ''
+authors: nehler
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/toy_car_crash.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+  image: /header/toy_car_crash.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)'
 projects: []
-
 expiryDate: ''
 publishDate: ''
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /workshops/fdz/fdz-r-intro
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Aufgaben
-    url: /workshops/fdz/fdz-r-intro-aufgaben
-
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /workshops/fdz/fdz-r-intro
+- icon_pack: fas
+  icon: pen-to-square
+  name: Aufgaben
+  url: /workshops/fdz/fdz-r-intro-aufgaben
 _build:
   list: never
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -50,7 +48,7 @@ Denken Sie bei allen Aufgaben daran, den Code im R-Skript sinnvoll zu gliedern u
 Dieselben Rechenoperationen können in R durchgeführt werden. Hierbei ist zu beachten, dass die Rechenoperationen in der richtigen Reihenfolge durchgeführt werden. Bei der Lösung des Vergleichs kommen die logischen Operatoren `==` zum Einsatz, um zwei Rechenoperationen miteinander zu vergleichen. Hier muss besonders darauf geachtet werden, dass die Berechnung zuerst durchgeführt wird und dann der Vergleich stattfindet. Dies erreicht man, indem man die Berechnung in Klammern setzt.
 
 
-``` r
+```r
 #### Aufgaben des Tutorials zur Einführung von RStudio und R ----
 ##### Aufgabe 1 -----
 2 + 60 / 5 # Ausführung Rechenoperation
@@ -60,7 +58,7 @@ Dieselben Rechenoperationen können in R durchgeführt werden. Hierbei ist zu be
 ## [1] 14
 ```
 
-``` r
+```r
 (2 + 60 / 5) == (3 * 4) # logischer Vergleich
 ```
 
@@ -78,7 +76,7 @@ Dieselben Rechenoperationen können in R durchgeführt werden. Hierbei ist zu be
 Die logischen Operatoren `|` und `&` können genutzt werden, um zwei logische Abfragen zu verknüpfen. Hierbei steht `|` für ein logisches ODER und `&` für ein logisches UND. Auch hier ist es wichtig, die Rechenoperationen in Klammern zu setzen, um die Reihenfolge der Berechnung zu gewährleisten. Insgesamt brauchen wir hier viele Klammern zur Sicherstellung der Reihenfolge.
 
 
-``` r
+```r
 ##### Aufgabe 2 -----
 ((2 + 60 / 5) == (3*29)) | ((2 + 60 / 5) == (70 / 5)) # logischer ODER Vergleich
 ```
@@ -87,7 +85,7 @@ Die logischen Operatoren `|` und `&` können genutzt werden, um zwei logische Ab
 ## [1] TRUE
 ```
 
-``` r
+```r
 ((2 + 60 / 5) == (70 / 5)) & ((2 + 60 / 5) == (140 / 9)) # logischer UND Vergleich
 ```
 
@@ -104,7 +102,7 @@ Die logischen Operatoren `|` und `&` können genutzt werden, um zwei logische Ab
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 ##### Aufgabe 3 -----
 zahl <- round(sqrt(115), digits = 0) # Berechnung und Rundung der Quadratwurzel von 115
 ```
@@ -117,7 +115,7 @@ zahl <- round(sqrt(115), digits = 0) # Berechnung und Rundung der Quadratwurzel 
 Die einfachste Funktion zum Bestimmen des Betrags einer Zahl ist `abs()`. 
 
 
-``` r
+```r
 ##### Aufgabe 4 -----
 abs(-5) # Berechnung des Betrags einer Zahl
 ```
@@ -133,13 +131,13 @@ abs(-5) # Berechnung des Betrags einer Zahl
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 ##### Aufgabe 5 -----
 sqrt(-1)  # Betrachten der Warnung
 ```
 
 ```
-## Warning in sqrt(-1): NaNs produced
+## Warning in sqrt(-1): NaNs wurden erzeugt
 ```
 
 ```
@@ -155,13 +153,13 @@ Die Warnung entsteht, da die Quadratwurzel von negativen Zahlen in der reellen Z
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 ##### Aufgabe 6 -----
 6 * 1,56    # Betrachten des Fehlers
 ```
 
 ```
-## Error: <text>:2:6: unexpected ','
+## Error: <text>:2:6: Unerwartete(s) ','
 ## 1: ##### Aufgabe 6 -----
 ## 2: 6 * 1,
 ##         ^
@@ -170,7 +168,7 @@ Die Warnung entsteht, da die Quadratwurzel von negativen Zahlen in der reellen Z
 In der Syntax wird fälschlicherweise das Komma als Dezimaltrennzeichen genutzt. Wenn man das Komma durch einen Punkt ersetzt, funktioniert die Syntax problemlos:
 
 
-``` r
+```r
 6 * 1.56     # Korrekte Syntax
 ```
 

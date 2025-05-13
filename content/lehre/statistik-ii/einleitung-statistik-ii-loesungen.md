@@ -1,35 +1,35 @@
 ---
-title: "Wiederholung von Grundlagen in R - Lösungen" 
+title: Wiederholung von Grundlagen in R - Lösungen
 type: post
 date: '2025-04-14'
 slug: einleitung-statistik-ii-loesungen
-categories: ["Statistik II Übungen"] 
-tags: [] 
+categories: Statistik II Übungen
+tags: []
 subtitle: ''
-summary: '' 
-authors: [vonwissel] 
+summary: ''
+authors: vonwissel
 weight: 1
-lastmod: "2025-04-14"
+lastmod: '2025-05-13'
 featured: no
-banner: 
-  image: "/header/cat_with_glasses.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/846937)"
+banner:
+  image: /header/cat_with_glasses.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/846937)'
 projects: []
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/statistik-ii/einleitung-statistik-ii
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Übungen
-    url: /lehre/statistik-ii/einleitung-statistik-ii-uebungen
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-ii/einleitung-statistik-ii
+- icon_pack: fas
+  icon: pen-to-square
+  name: Übungen
+  url: /lehre/statistik-ii/einleitung-statistik-ii-uebungen
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -43,7 +43,7 @@ Aktualisieren Sie alle R Pakete auf die neueste Version. Installieren Sie das Pa
 <summary>Lösung</summary>
 
 
-``` r
+```r
 # Pakete aktualisieren
 update.packages(ask = FALSE)
 
@@ -73,7 +73,7 @@ Erstellen Sie in R einen numerischen Vektor mit den Zahlen 3, 7, 12, 15 und eine
 <summary>Lösung</summary>
 
 
-``` r
+```r
 # Numerischer Vektor
 zahlen <- c(3, 7, 12, 15)
 
@@ -104,7 +104,7 @@ Erstellen Sie einen kleinen Datensatz (`data.frame`) mit den Variablen Alter (nu
 <summary>Lösung</summary>
 
 
-``` r
+```r
 # Datensatz erstellen
 alter <- c(22, 30, 27, 19, 34)
 

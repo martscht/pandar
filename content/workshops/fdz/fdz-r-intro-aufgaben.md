@@ -1,41 +1,38 @@
 ---
 title: R und RStudio - Aufgaben
 type: post
-date: '2025-02-28' 
-slug: fdz-r-intro-aufgaben 
-categories: [] 
-tags: [] 
+date: '2025-02-28'
+slug: fdz-r-intro-aufgaben
+categories: []
+tags: []
 subtitle: ''
-summary: '' 
-authors: [nehler] 
-lastmod: '2025-03-10'
+summary: ''
+authors: nehler
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/toy_car_crash.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+  image: /header/toy_car_crash.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)'
 projects: []
-
 expiryDate: ''
 publishDate: ''
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /workshops/fdz/fdz-r-intro
-  - icon_pack: fas
-    icon: star
-    name: Lösungen
-    url: /workshops/fdz/fdz-r-intro-loesungen
-
-
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /workshops/fdz/fdz-r-intro
+- icon_pack: fas
+  icon: star
+  name: Lösungen
+  url: /workshops/fdz/fdz-r-intro-loesungen
 _build:
   list: never
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 

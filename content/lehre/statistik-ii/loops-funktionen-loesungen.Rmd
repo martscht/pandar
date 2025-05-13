@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: vonwissel
 weight: 1
-lastmod: '2025-04-26'
+lastmod: '`r Sys.Date()`'
 featured: no
 banner:
   image: /header/sprinkled_lollipops.jpg

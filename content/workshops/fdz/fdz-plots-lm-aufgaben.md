@@ -1,39 +1,38 @@
 ---
 title: Basisfunktionen zur Grafikerstellung und lineare Modelle - Aufgaben
 type: post
-date: '2025-02-28' 
+date: '2025-02-28'
 slug: fdz-plots-lm-aufgaben
-categories: [] 
-tags: [] 
+categories: []
+tags: []
 subtitle: ''
-summary: '' 
-authors: [nehler] 
-lastmod: '2025-03-12'
+summary: ''
+authors: nehler
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/rice-field.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+  image: /header/rice-field.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)'
 projects: []
-
 expiryDate: ''
 publishDate: ''
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /workshops/fdz/fdz-plots-lm
-  - icon_pack: fas
-    icon: star
-    name: Lösungen
-    url: /workshops/fdz/fdz-plots-lm-loesungen
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /workshops/fdz/fdz-plots-lm
+- icon_pack: fas
+  icon: star
+  name: Lösungen
+  url: /workshops/fdz/fdz-plots-lm-loesungen
 _build:
   list: never
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -48,7 +47,7 @@ Denken Sie bei allen Aufgaben daran, den Code im R-Skript sinnvoll zu gliedern u
 Zunächst müssen wir das `readxl`, `forcats` und das `dplyr` Paket wieder aktivieren und einen Teil des Code aus dem letzten Tutorial und den letzten Aufgaben wieder durchführen.
 
 
-``` r
+```r
 # Paket einladen
 library(readxl)
 library(dplyr)
@@ -102,7 +101,7 @@ data <- data %>%
 Falls Sie nicht am Workshop teilnehmen und daher keine lokale Version des Datensatzes haben, verwenden Sie diesen Code.
 
 
-``` r
+```r
 # Paket einladen
 library(readxl)
 library(dplyr)

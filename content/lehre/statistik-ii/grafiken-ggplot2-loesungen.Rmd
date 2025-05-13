@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: vonwissel
 weight: 1
-lastmod: '`r format(Sys.Date(), ''%Y-%m-%d'')`'
+lastmod: '`r Sys.Date()`'
 featured: no
 banner:
   image: /header/colorful_bubbles.jpg

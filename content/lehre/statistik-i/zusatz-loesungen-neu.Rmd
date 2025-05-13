@@ -17,6 +17,7 @@ banner:
 projects: []
 reading_time: false
 share: false
+private: true
 
 output:
   html_document:

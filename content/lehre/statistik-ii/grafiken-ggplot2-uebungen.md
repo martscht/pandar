@@ -1,35 +1,35 @@
 ---
-title: "Grafiken mit ggplot2 - Übungen" 
+title: Grafiken mit ggplot2 - Übungen
 type: post
 date: '2025-05-05'
 slug: grafiken-ggplot2-uebungen
-categories: ["Statistik II Übungen"] 
-tags: [] 
+categories: Statistik II Übungen
+tags: []
 subtitle: ''
 summary: ''
-authors: [vonwissel]
+authors: vonwissel
 weight: 1
-lastmod: "2025-05-05"
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/colorful_bubbles.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/569459)"
+  image: /header/colorful_bubbles.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/de/photo/569459)'
 projects: []
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/statistik-ii/grafiken-ggplot2
-  - icon_pack: fas
-    icon: star
-    name: Lösungen
-    url: /lehre/statistik-ii/grafiken-ggplot2-loesungen
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-ii/grafiken-ggplot2
+- icon_pack: fas
+  icon: star
+  name: Lösungen
+  url: /lehre/statistik-ii/grafiken-ggplot2-loesungen
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -39,7 +39,7 @@ output:
 Installieren und laden Sie das Paket *ggplot2*, sofern noch nicht geschehen.
 
 
-``` r
+```r
 install.packages("ggplot2")
 library(ggplot2)
 ```
@@ -47,7 +47,7 @@ library(ggplot2)
 Kopieren Sie nun bitte folgenden R-Code um den Übungsdatensatz *mach* zu laden und weitere vorbereitende Schritte auszuführen:
 
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/mach.rda"))
 
 # Variable hand (Schreibhand) als Faktor definieren

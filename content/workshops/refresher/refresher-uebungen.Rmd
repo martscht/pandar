@@ -161,7 +161,9 @@ Homoskedastizität: nicht gegeben
 Laden Sie den Datensatz `distort` ein, wenn noch nicht geschehen. Informationen zu den Variablen finden Sie [hier](/daten/datensaetze/#distorted-news).
 
 <details>
-  <summary>**Tipp**</summary>
+  <summary>
+  <b>Tipp</b>
+  </summary>
 
 ```{r}  
 source("https://pandar.netlify.app/daten/Data_Processing_distort.R")
@@ -206,7 +208,9 @@ a) Entfernen Sie den Messzeitpunkt T3.
 b) Passen Sie die Reihennamen an: ID, Klassenstufe, Interventiosgruppe, Geschlecht. Die Items können gleich benannt bleiben.
 
 <details>
-  <summary>**Tipp**</summary>
+  <summary>
+  <b>Tipp</b>
+  </summary>
   
   Befehl `colnames()`
   
@@ -216,7 +220,9 @@ b) Passen Sie die Reihennamen an: ID, Klassenstufe, Interventiosgruppe, Geschlec
 c) Fassen Sie die Items der Skalen Relationale Angst, Empathie und Soziale Intelligenz. Achten Sie dabei darauf immer nur Items der gleichen Messzeitpunkte zusammenzufassen.
 
 <details>
-  <summary>**Tipp**</summary>
+  <summary>
+  <b>Tipp</b>
+  </summary>
   
   Befehl `rowSums()`
   

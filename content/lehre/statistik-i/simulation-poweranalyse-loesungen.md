@@ -1,40 +1,41 @@
 ---
-title: "Simulation und Poweranalyse - Lösungen" 
+title: Simulation und Poweranalyse - Lösungen
 type: post
-date: '2021-09-21' 
-slug: simulation-poweranalyse-loesungen 
-categories: ["Statistik I Übungen"] 
-tags: [] 
+date: '2021-09-21'
+slug: simulation-poweranalyse-loesungen
+categories: Statistik I Übungen
+tags: []
 subtitle: ''
-summary: '' 
-authors: [irmer, sinn] 
-weight:
-lastmod: '2025-04-07'
+summary: ''
+authors:
+- irmer
+- sinn
+weight: ~
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/windmills_but_fancy.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1178076)"
+  image: /header/windmills_but_fancy.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1178076)'
 projects: []
 expiryDate: ''
 publishDate: ''
 _build:
   list: never
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/statistik-i/simulation-poweranalyse
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Übungen
-    url: /lehre/statistik-i/simulation-poweranalyse-uebungen
-
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-i/simulation-poweranalyse
+- icon_pack: fas
+  icon: pen-to-square
+  name: Übungen
+  url: /lehre/statistik-i/simulation-poweranalyse-uebungen
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -50,7 +51,7 @@ $$Y:= \rho X + \sqrt{1-\rho^2}Z,$$
 wieder standardnormalverteilt und um den Korrelationskoeffizienten $\rho$ korreliert mit $X$. Wir können also relativ einfach zwei korrelierte Variablen generieren. Wie in der Sitzung verwenden wir $N=20$:
 
 
-``` r
+```r
 N <- 20
 
 set.seed(12345)
@@ -64,7 +65,7 @@ cor(X, Y) # empirische Korrelation
 ## [1] 0.579799
 ```
 
-``` r
+```r
 sd(X) 
 ```
 
@@ -72,7 +73,7 @@ sd(X)
 ## [1] 0.8339354
 ```
 
-``` r
+```r
 sd(Y)
 ```
 
@@ -89,7 +90,7 @@ Verwenden Sie für diese Aufgabe stets den Seed 12345 (`set.seed(12345)`).
 
 <details><summary>Lösung</summary>
 
-``` r
+```r
 N <- 10^6
 
 set.seed(12345)
@@ -103,7 +104,7 @@ cor(X, Y) # empirische Korrelation
 ## [1] 0.4994574
 ```
 
-``` r
+```r
 sd(X) 
 ```
 
@@ -111,7 +112,7 @@ sd(X)
 ## [1] 1.001315
 ```
 
-``` r
+```r
 sd(Y)
 ```
 
@@ -128,7 +129,7 @@ Die Korrelation liegt bei $\hat{\rho}_{XY}=$0.4995 und liegt damit sehr nah an d
 
 <details><summary>Lösung</summary>
 
-``` r
+```r
 N <- 20
 set.seed(12345)
 pcor_H1 <- replicate(n = 10000, expr = {X <- rnorm(N)
@@ -154,7 +155,7 @@ Die Power des Korrelationstests für eine Korrelation von 0.5 für $N=20$ liegt 
 
 <details><summary>Lösung</summary>
 
-``` r
+```r
 set.seed(12345)
 cors_H1 <- replicate(n = 10000, expr = {X <- rnorm(N)
                                         Z <- rnorm(N)
@@ -168,7 +169,7 @@ summary(cors_H1)
 ## -0.4293  0.3791  0.5080  0.4889  0.6177  0.8997
 ```
 
-``` r
+```r
 hist(cors_H1, breaks = 50)
 ```
 
@@ -187,7 +188,7 @@ Wiederholen Sie die Analyse. Verändern Sie diesmal die Varianz der beiden Varia
 
 <details><summary>Lösung</summary>
 
-``` r
+```r
 N <- 10^6
 
 set.seed(12345)
@@ -203,7 +204,7 @@ cor(X_new, Y_new) # empirische Korrelation
 ## [1] 0.4994574
 ```
 
-``` r
+```r
 sd(X_new) 
 ```
 
@@ -211,7 +212,7 @@ sd(X_new)
 ## [1] 3.003945
 ```
 
-``` r
+```r
 sd(Y_new)
 ```
 
@@ -229,7 +230,7 @@ Die Korrelation liegt bei $\hat{\rho}_{X_\text{new}Y_\text{new}}=$0.4995 und lie
 
 <details><summary>Lösung</summary>
 
-``` r
+```r
 N <- 20
 set.seed(12345)
 pcor_H1_new <- replicate(n = 10000, expr = {X <- rnorm(N)
@@ -260,8 +261,78 @@ In den [Inhalten](/lehre/statistik-i/simulation-poweranalyse/) zu dieser Sitzung
 
 <details><summary>Lösung</summary>
 
-``` r
+```r
 library(WebPower)
+```
+
+```
+## Warning: Paket 'WebPower' wurde unter R Version 4.3.1 erstellt
+```
+
+```
+## Lade nötiges Paket: MASS
+```
+
+```
+## 
+## Attache Paket: 'MASS'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:dplyr':
+## 
+##     select
+```
+
+```
+## Lade nötiges Paket: lme4
+```
+
+```
+## Lade nötiges Paket: Matrix
+```
+
+```
+## Warning: Paket 'Matrix' wurde unter R Version 4.3.2 erstellt
+```
+
+```
+## Lade nötiges Paket: lavaan
+```
+
+```
+## Warning: Paket 'lavaan' wurde unter R Version 4.3.1 erstellt
+```
+
+```
+## This is lavaan 0.6-16
+## lavaan is FREE software! Please report any bugs.
+```
+
+```
+## 
+## Attache Paket: 'lavaan'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:psych':
+## 
+##     cor2cov
+```
+
+```
+## Lade nötiges Paket: parallel
+```
+
+```
+## Lade nötiges Paket: PearsonDS
+```
+
+```
+## Warning: Paket 'PearsonDS' wurde unter R Version 4.3.1 erstellt
+```
+
+```r
 ?wp.correlation
 ```
 </details>
@@ -273,7 +344,7 @@ library(WebPower)
 Für die Sensitivitätsanalyse legen wir in der Funktion `wp.correlation` die Stichprobengröße ($N$), die Power für die wir uns interessieren sowie das $\alpha$-Fehlerniveau fest. Den Korrelationskoeffizienten `r` lassen wir hingegen leer:
 
 
-``` r
+```r
 wp.correlation(n = 50, r = NULL, power = 0.95, alpha = 0.05, alternative = c("two.sided"))
 ```
 
@@ -303,7 +374,7 @@ Nutzen Sie den Seed 12345 (`set.seed(12345)`).
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 N <- 20
 set.seed(12345)
 pt_H0 <- replicate(n = 10000, expr = {X <- rnorm(N)
@@ -327,7 +398,7 @@ Der empirische $\alpha$-Fehler liegt bei 0.11% und liegt damit sehr nah an dem v
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 set.seed(12345)
 pt_H1 <- replicate(n = 10000, expr = {X <- rnorm(N)
                                       Y <- rnorm(N) + 0.5
@@ -359,7 +430,7 @@ Nutzen Sie den Seed 12345 (`set.seed(12345)`).
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 set.seed(12345)
 pt_H1_0 <- replicate(n = 10000, expr = {X <- rnorm(20)
                                         Y <- rnorm(20) 
@@ -422,7 +493,7 @@ Nutzen Sie den Seed 12345 (`set.seed(12345)`).
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 N <- 20
 set.seed(12345)
 pt_H1_t <- replicate(n = 10000, expr = {X <- rnorm(N)
@@ -436,7 +507,7 @@ mean(pt_H1_t < 0.05) # empirische Power des t-Tests
 ## [1] 0.335
 ```
 
-``` r
+```r
 set.seed(12345)
 pt_H1_W <- replicate(n = 10000, expr = {X <- rnorm(N)
                                       Y <- rnorm(N) + 0.5
