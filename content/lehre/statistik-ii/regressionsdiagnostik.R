@@ -1,16 +1,16 @@
 library(ggplot2)
-theme_set(theme_minimal())
+source('./pandar_theme.R')
+theme_set(theme_pandar())
 
 #### Vorbereitung ----
 # Datensatz laden
-load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
-str(Schulleistungen)
-
+source("https://pandar.netlify.app/daten/Data_Processing_vegan.R")
 
 #### Modell aufstellen ----
-# Leseleistung durch Geschlecht und IQ vorhersagen, von Interesse sind hier die Beta-Gewichte des Modells
+# Volles Regressionsmodell
+mod <- lm(commitment ~ health + environment + animals + social + workers + disgust, data = vegan)
 
-mod <- lm(reading ~ female + IQ, data = Schulleistungen)
+# Ergebnisse betrachten
 summary(mod)
 
 
@@ -19,57 +19,163 @@ summary(mod)
 library(lm.beta)
 summary(lm.beta(mod))
 
-## Grafische Prüfung der partiellen Linearität
+#### Homoskedastizität ----
 
-library(car) # Paket mit einigen Funktionen zur Regressionsdiagnostik
+# Scale-Location-Plot
+plot(mod, 3)
 
-# partielle Regressionsplots
-avPlots(model = mod, pch = 16, lwd = 4)
+# Varianz der Residuen im 1. und 4. Viertel:
+resis <- residuals(mod) # Residuen
+preds <- fitted(mod)    # Vorhergesagte Werte
 
-## Prüfung der Homoskedastizität (Grafisch)
-# Residuenplots (+ Test auf Nicht-Linearität)
-residualPlots(mod, pch = 16)
+# Varianz der Residuen im 1. Viertel der vorhergesagten Werte
+var(resis[preds <= quantile(preds, .25)])
+# Varianz der Residuen im 4. Viertel der vorhergesagten Werte
+var(resis[preds >= quantile(preds, .75)])
 
-## Prüfung der Homoskedastizität (Test)
+# Residuenplot
+plot(mod, which = 1)
+
+# car-Paket laden
+library(car)
+
 # Test For Non-Constant Error Variance
 ncvTest(mod)
 
-## Prüfung der Normalverteilung (Grafisch)
-# Daten für ggplot extrahieren
-library(MASS)
-res <- studres(mod)       # Studentisierte Residuen als Objekt speichern
-df_res <- data.frame(res) # als Data.Frame für ggplot
-head(df_res)              # Kurzer Blick in den Datensatz
+# Box-Cox Transformation
+bc <- MASS::boxcox(mod, lambda = seq(-5, 5, .1))
 
-# ggplot erstellen
+# Optimales Lambda extrahieren
+lam <- bc$x[which.max(bc$y)]
+lam
+
+# Transformation der AV
+vegan$commitment_bc <- (vegan$commitment^lam - 1) / lam
+
+# Neues Modell aufstellen
+mod_bc <- lm(commitment_bc ~ health + environment + animals + social + workers + disgust, data = vegan)
+
+# Non-Constant-Variance Test
+ncvTest(mod_bc)
+
+# Pakete laden
+library(sandwich)   # für die Berechnung der HC3 Standardfehler
+library(lmtest)     # für die Testung der Regressionsgewichte
+
+# Standardfehler
+vcov(mod) |> diag() |> sqrt()
+
+# HC3 Standardfehler
+vcovHC(mod) |> diag() |> sqrt()
+
+# Inferenzstatistik der Regressionsgewichte
+coeftest(mod, vcov = vcovHC(mod))
+
+# QQ-Plot der Residuen
+qqPlot(mod)
+
+# Histogramm der Residuen
+resid(mod) |> hist()
+
+# Shapiro-Wilk-Test auf Normalverteilung
+resid(mod) |> shapiro.test()
+
+# Vier plots gleichzeitig darstellen
+par(mfrow = c(2, 2))
+
+# QQ-Plot ohne Transformation
+qqPlot(mod)
+
+# QQ-Plot mit Transformation
+qqPlot(mod_bc)
+
+# Histogramm ohne Transformation
+resid(mod) |> hist()
+
+# Histogramm mit Transformation
+resid(mod_bc) |> hist()
+
+
+# Normale Einstellung für Plots wiederherstellen
+par(mfrow = c(1, 1))
+
+# Shapiro-Wilk-Test nach Transformation
+resid(mod_bc) |> shapiro.test()
+
+set.seed(35355)
+
+#### Händischer Bootstrap ----
+# Originaldatensatz
+og <- vegan[1:7, c('age', 'gender', 'commitment', 'animals')]
+og
+
+# Bootstrap-Datensatz
+b1 <- og[sample(1:7, 7, replace = TRUE), ]
+b1
+
+# # Manuelle Regressionsfunktion
+# booting <- function(data) {
+#   # Datensatz zufällig ziehen
+#   b_data <- data[sample(1:nrow(data), nrow(data), replace = TRUE), ]
+# 
+#   # Regression durchführen
+#   mod <- lm(commitment ~ health + environment + animals + social + workers + disgust, data = b_data)
+# 
+#   # Regressionsgewicht extrahieren
+#   out <- coef(mod)[4]
+# 
+#   return(out)
+# }
+# 
+# # Wiederholte anwendung
+# booted <- replicate(5000, booting(vegan))
+
+# Bootstrapping mit car-Paket
+booted <- Boot(mod, R = 5000)
+
+# ggplot2 Paket laden
 library(ggplot2)
-# Histogramm der Residuen mit Normalverteilungs-Kurve
-ggplot(data = df_res, aes(x = res)) +
-     geom_histogram(aes(y = after_stat(density)),
-                    bins = 20,                    # Wie viele Balken sollen gezeichnet werden?
-                    colour = "blue",              # Welche Farbe sollen die Linien der Balken haben?
-                    fill = "skyblue") +           # Wie sollen die Balken gefüllt sein?
-     stat_function(fun = dnorm, args = list(mean = mean(res), sd = sd(res)), col = "darkblue") + # Füge die Normalverteilungsdiche "dnorm" hinzu und nutze den empirischen Mittelwert und die empirische Standardabweichung "args = list(mean = mean(res), sd = sd(res))", wähle dunkelblau als Linienfarbe
-     labs(title = "Histogramm der Residuen mit Normalverteilungsdichte", x = "Residuen") # Füge eigenen Titel und Achsenbeschriftung hinzu
 
+# Original Regressionsgewicht
+b_og <- coef(mod)[4]
+# Standardfehler
+se_og <- sqrt(diag(vcov(mod))[4])
 
+# 5000 Regressionen
+b_boot <- booted$t
 
-# Grafisch: Q-Q-Diagramm mit der Funktion qqPlot aus dem Paket car
-qqPlot(mod, pch = 16, distribution = "norm")
+# ggplot2 Plot erstellen
+ggplot(b_boot, aes(x = animals)) + 
+  geom_histogram(aes(y = after_stat(density)), bins = 50, fill = "grey90", color = "black") +
+  geom_function(fun = dnorm, args = list(mean = b_og, sd = se_og)) + 
+  geom_vline(xintercept = b_og, linetype = "dashed")
 
+# Standardabweichung der gebootstrappten Werte
+sd(b_boot[, 4])
 
-## Prüfung der Normalverteilung (Test)
+# Standardfehler der Regressionsgewichte
+vcov(mod)[4, 4] |> sqrt()
 
-# Test auf Abweichung von der Normalverteilung mit dem Shapiro-Test
-shapiro.test(res)
+# # Bootstrapping mit car-Paket
+# booted <- Boot(mod, R = 5000)
+# Zusammenfassung der Ergebnisse
+confint(booted, type = 'perc')
 
-# Test auf Abwweichung von der Normalverteilung mit dem Kolmogorov-Smirnov Test
-ks.test(res, "pnorm", mean(res), sd(res))
+# ## Grafische Prüfung der partiellen Linearität
+# 
+# # Residuenplots
+# residualPlots(mod)
 
-## Prüfung der Mulitkollinearität durch Inspektion der bivariaten ZUsammenhänge (T / VIF)
+residualPlots(mod, tests = FALSE)
 
+residualPlots(mod, plot = FALSE, tests = TRUE)
+
+## Prüfung der Mulitkollinearität durch Inspektion der bivariaten Zusammenhänge
+
+# Datensatz der Prädiktoren
+UV <- vegan[, c('health', 'environment', 'animals', 'social', 'workers', 'disgust')]
 # Korrelation der Prädiktoren
-cor(Schulleistungen$female, Schulleistungen$IQ)
+cor(UV)
 
 # Varianzinflationsfaktor:
 vif(mod)
@@ -78,37 +184,51 @@ vif(mod)
 1 / vif(mod)
 
 #### Ausreißerdiagnostik ----
+## Ausreißeridentifikation mit Hebelwerten und Cooks Distanz
 
-n <- length(residuals(mod)) # n für Berechnung der Cut-Off-Werte
-h <- hatvalues(mod)         # Hebelwerte
-df_h <- data.frame(h)       # als Data.Frame für ggplot
+# Hebelwerte
+hebel <- hatvalues(mod) # Hebelwerte
 
-# Erzeugung der Grafik
-ggplot(data = df_h, aes(x = h)) +
-  geom_histogram(aes(y =after_stat(density)),  bins = 15, fill="skyblue", colour = "blue") +
-  geom_vline(xintercept = 4/n, col = "red") # Cut-off bei 4/n
+# Cooks Distanz
+cook <- cooks.distance(mod) # Cooks Distanz
 
-# Cooks Distanz gibt an, wie stark sich Regressionsgewichte ändern, wenn eine Person i aus dem Datensatz entfernt wird
+# Abgleich mit verschiedenen Grenzwerten:
+n <- length(hebel) # Anzahl der Beobachtungen
+
+which(hebel > (4/n)) |> length() # Anzahl Hebelwerte > 4/n
+which(hebel > (2*6/n)) |> length() # Anzahl Hebelwerte > 2*k/n
+which(hebel > (3*6/n)) |> length() # Anzahl Hebelwerte > 3*k/n
+
+# Abgleich für Cook
+which(cook > 1) |> length() # Anzahl Cook's Distanz > 1
+
+# Histogramm der Hebelwerte mit Grenzwerten
+grenzen <- data.frame(h = c(4/n, 2*6/n, 3*6/n), 
+                       Grenzwerte = c("4/n", "2*k/n", "3*k/n"))
+
+ggplot(data = as.data.frame(hebel), aes(x = hebel)) +
+  geom_histogram(aes(y =after_stat(density)),  bins = 15, fill="grey90", colour = "black") +
+  geom_vline(data = grenzen, aes(xintercept = h, lty = Grenzwerte)) # Cut-off bei 4/n
 
 # Cooks Distanz
 CD <- cooks.distance(mod) # Cooks Distanz
-df_CD <- data.frame(CD) # als Data.Frame für ggplot
 
 # Erzeugung der Grafik
-ggplot(data = df_CD, aes(x = CD)) +
-  geom_histogram(aes(y =after_stat(density)),  bins = 15, fill="skyblue", colour = "blue") +
-  geom_vline(xintercept = 1, col = "red") # Cut-Off bei 1
+ggplot(as.data.frame(CD), aes(x = CD)) +
+  geom_histogram(aes(y =after_stat(density)),  bins = 15, fill="grey90", colour = "black")
 
 # Blasendiagramm, das simultan Hebelwerte, studentisierte Residuen und Cooks Distanz darstellt
 
 InfPlot <- influencePlot(mod)
 IDs <- as.numeric(row.names(InfPlot))
 
-# Rohdaten der auffälligen Fälle (gerundet für bessere Übersichtlichkeit)
-round(Schulleistungen[IDs,],2)
+# Rohdaten der auffälligen Fälle
+vegan[IDs, c('commitment', 'health', 'environment', 'animals', 'social', 'workers', 'disgust')]
 
-# z-Standardisierte Werte der auffälligen Fälle
-round(scale(Schulleistungen)[IDs,],2)
+# Standardisierte Skalenwerte
+vegan[IDs, c('commitment', 'health', 'environment', 'animals', 'social', 'workers', 'disgust')] |>
+  scale() |>
+  round(2)
 
 
 
