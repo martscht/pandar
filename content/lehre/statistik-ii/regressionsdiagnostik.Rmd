@@ -912,7 +912,7 @@ resid_Xmax_stud_int <- resid_Xmax  / (sd_eps*sqrt(1-h_Xmax))
 resid_Xmax_stud_int
 
 # vergleich -> identisch!
-stdres(reg)[ind_Xmax] # internal studentisiert nach MASS
+MASS::stdres(reg)[ind_Xmax] # internal studentisiert nach MASS
 
 # studentisiertes Residuum bestimmen
 reg2 <- lm(Y~X, data = df[-ind_Xmax,]) # Regression ohne Person i
@@ -921,7 +921,7 @@ resid_Xmax_stud_ext <- resid_Xmax  / (sd_eps_Xmax*sqrt(1-h_Xmax))
 resid_Xmax_stud_ext
 
 # vergleich -> identisch!
-studres(reg)[ind_Xmax] # external studentisiert nach MASS
+MASS::studres(reg)[ind_Xmax] # external studentisiert nach MASS
 ```
 
 Das Schöne ist nun, dass sich diese Residuen auch über Analysen hinweg vergleichen lassen, da sie eben normiert sind und den Abstand vom Mittelwert und damit auch den Einfluss auf die Analyse und die damit verbundenen Unsicherheit integrieren. Beide Arten der Normierung haben den Abstand zum Mittelwert von $X$ ausgedrückt durch die Hebelwerte berücksichtigt. Würden wir dies nicht tun, würde das *naiv*-standardisierte Residuum so ausfallen (dies ist das standardisierte Residuum nach Eid, et al.):
