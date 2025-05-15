@@ -97,4 +97,4 @@ Verwenden Sie nun die in der Variable *mach_colors* (Siehe Vorbereitung oben) ma
 
 Versuchen Sie unter der Verwendung der Variablen *urban* und *pvhn* die folgende Abbildung nachzubauen! 
 
-![Boxplot Aufgabe 5](grafiken-ggplot2-aufgabe5.png)
+![Boxplot Aufgabe 5](/grafiken-ggplot2-aufgabe5.png)

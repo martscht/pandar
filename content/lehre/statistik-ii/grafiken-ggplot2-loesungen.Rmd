@@ -150,7 +150,7 @@ ggplot(mach, aes(x = hand, group = gender)) +
 
 Versuchen Sie unter der Verwendung der Variablen *urban* und *pvhn* die folgende Abbildung nachzubauen! 
 
-![Boxplot Aufgabe 5](grafiken-ggplot2-aufgabe5.png)
+![Boxplot Aufgabe 5](/grafiken-ggplot2-aufgabe5.png)
 
 <details>
 

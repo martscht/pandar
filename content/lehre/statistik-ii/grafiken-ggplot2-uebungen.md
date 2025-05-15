@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: vonwissel
 weight: 1
-lastmod: "2025-05-14"
+lastmod: '2025-05-15'
 featured: no
 banner:
   image: /header/colorful_bubbles.jpg
@@ -95,4 +95,4 @@ Verwenden Sie nun die in der Variable *mach_colors* (Siehe Vorbereitung oben) ma
 
 Versuchen Sie unter der Verwendung der Variablen *urban* und *pvhn* die folgende Abbildung nachzubauen! 
 
-![Boxplot Aufgabe 5](https://pandar.netlify.app/lehre/statistik-ii/grafiken-ggplot2-aufgabe5.png)
+![Boxplot Aufgabe 5](/grafiken-ggplot2-aufgabe5.png)

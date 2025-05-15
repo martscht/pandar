@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: vonwissel
 weight: 1
-lastmod: "2025-05-15"
+lastmod: '2025-05-15'
 featured: no
 banner:
   image: /header/colorful_bubbles.jpg
@@ -81,7 +81,7 @@ Erstellen Sie ein einfaches Balkendiagramm für die Variable *hand* aus dem *mac
 <summary>Lösung</summary>
 
 
-``` r
+```r
 ggplot(mach, aes(x = hand)) +    # Erstellen eines leeren ggplots für den Datensatz 'mach' und der Variable 'hand' auf der x-Achse
   geom_bar(aes(fill = hand)) +   # Erweitern um eine Ebene mit Balkendiagramm. Festlegen der Farben der Balken in Abhängigkeit der Variable 'hand'
   theme_minimal()                # Verwendung des gefragten Themes
@@ -101,7 +101,7 @@ Visualiseren Sie für jedes der drei Geschlechter (Variable *gender*) die Häufi
 <summary>Lösung</summary>
 
 
-``` r
+```r
 ggplot(mach, aes(x = hand, group = gender)) +                         # Grundstruktur: x-Achse = 'hand', gruppiert nach 'gender'
   geom_bar(aes(fill = gender), color = 'black', position = 'dodge')   # Balken farbig nach Geschlecht, mit schwarzem Rand, nebeneinander dargestellt 
 ```
@@ -118,7 +118,7 @@ Erweitern Sie das gruppierte Balkendiagramm aus Aufgabe 2 um geeignete Beschrift
 <summary>Lösung</summary>
 
 
-``` r
+```r
 ggplot(mach, aes(x = hand, group = gender)) +  
   geom_bar(aes(fill = gender), color = "black", position = "dodge") +  # Gruppiertes Balkendiagramm wie in Aufgabe 2
   labs(x = "Schreibhand", y = "Anzahl", fill = "Geschlecht") +         # Achsen- und Legendentitel ergänzen
@@ -137,7 +137,7 @@ Verwenden Sie nun die in der Variable *mach_colors* (Siehe Vorbereitung oben) ma
 <summary>Lösung</summary>
 
 
-``` r
+```r
 ggplot(mach, aes(x = hand, group = gender)) +  
   geom_bar(aes(fill = gender), color = "black", position = "dodge") +  # Gruppiertes Balkendiagramm
   scale_fill_manual(values = mach_colors) +                            # Eigene Farbpalette anwenden
@@ -152,14 +152,14 @@ ggplot(mach, aes(x = hand, group = gender)) +
 
 Versuchen Sie unter der Verwendung der Variablen *urban* und *pvhn* die folgende Abbildung nachzubauen! 
 
-![Boxplot Aufgabe 5]("../../grafiken-ggplot2-aufgabe5.png")
+![Boxplot Aufgabe 5](/grafiken-ggplot2-aufgabe5.png)
 
 <details>
 
 <summary>Lösung</summary>
 
 
-``` r
+```r
 ggplot(mach, aes(x = urban, y = pvhn, fill = urban)) +
   geom_boxplot() +
   scale_fill_manual(values = mach_colors) +
