@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: vonwissel
 weight: 1
-lastmod: '2025-05-13'
+lastmod: "2025-05-14"
 featured: no
 banner:
   image: /header/colorful_bubbles.jpg
@@ -60,6 +60,11 @@ mach$gender <- factor(mach$gender,
                       levels = 1:3,
                       labels = c("weiblich", "männlich", "divers"))
 
+# Variable urban (Ort des Aufwachsens) als Faktor definieren
+mach$urban <- factor(mach$urban,
+                      levels = 1:3,
+                      labels = c("Rural (country side)", "Suburban", "Urban (town / city)"))
+
 # Definition von drei Farben als Hex-Codes zur Verwendung in Aufgabe 4
 mach_colors <- c("#00618f", "#e3ba0f", "#ad3b76")
 ```
@@ -72,7 +77,7 @@ Erstellen Sie ein einfaches Balkendiagramm für die Variable *hand* aus dem *mac
 
 ## Aufgabe 2
 
-Visualisieren Sie in einem neuen Plot die Häufigkeit der Antwort *hand*, gruppiert nach *gender*.
+Visualiseren Sie für jedes der drei Geschlechter (Variable *gender*) die Häufigkeit der Schreibhand (Variable *hand*). Es sollen drei Balken pro Schreibhand dargestellt werden.
 - Formatieren Sie die Farbe der Balken in Abhängigkeit der Variable *gender*
 - Fügen Sie einen schwarzen Rand zu den Balken hinzu
 - Stellen Sie die Balken nebeneinander dar. (Die Voreinstellung gibt die Balken in einer gestaplten Ansicht aus.)
@@ -85,3 +90,9 @@ Erweitern Sie das gruppierte Balkendiagramm aus Aufgabe 2 um geeignete Beschrift
 ## Aufgabe 4
 
 Verwenden Sie nun die in der Variable *mach_colors* (Siehe Vorbereitung oben) manuell definierte Farbpalette, um die Balken mit den von uns gewählten Farben anzupassen.
+
+## Aufgabe 5
+
+Versuchen Sie unter der Verwendung der Variablen *urban* und *pvhn* die folgende Abbildung nachzubauen! 
+
+![Boxplot Aufgabe 5](https://pandar.netlify.app/lehre/statistik-ii/grafiken-ggplot2-aufgabe5.png)
