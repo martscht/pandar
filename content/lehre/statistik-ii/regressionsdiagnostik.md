@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schultze, irmer, hartig, nehler, sajjad]
 weight: 6
-lastmod: '2025-05-14'
+lastmod: '2025-05-15'
 featured: no
 banner:
   image: "/header/vegan_produce.jpg"
@@ -46,19 +46,19 @@ In den letzten Sitzungen haben wir gesehen, wie wir ein Modell für eine Multipl
 
 * [Messfehlerfreiheit der unabhängigen Variablen](#vorschub)
 * [Unabhängigkeit der Residuen](#vorschub)
-* [Homoskedastizität der Residuen](#homoskedastizitat)
+* [Homoskedastizität der Residuen](#Homoskedastizität)
 * [Normalverteilung der Residuen](#normalverteilung)
-* [Korrekte Spezifikation des Modells - bspw. Linearität](#linearitat)
+* [Korrekte Spezifikation des Modells - bspw. Linearität](#Linearität)
 
-In diesem Beitrag gucken wir uns diese nochmal genauer an, betrachten ein paar Details etwas genauer und gucken uns an, was man eigentlich tun kann, wenn die Voraussetzungen nicht halten sollten. Darüber hinaus werden wir zwei weitere problematische Datensituationen behandeln, die die Analyse beeinflussen können:
+In diesem Beitrag gucken wir uns diese nochmal genauer an, betrachten ein paar Details etwas präziser und gucken uns an, was man eigentlich tun kann, wenn die Voraussetzungen nicht halten sollten. Darüber hinaus werden wir zwei weitere problematische Datensituationen behandeln, welche die Analyse beeinflussen können:
 
 
-* [Multikollinearität](#multikollinearitat)
+* [Multikollinearität](#Multikollinearität)
 * [Identifikation von Ausreißern und einflussreichen Datenpunkten](#ausreisser)
 
 ### Beispieldaten
 
-In diesem Beitrag nutzen wir die Daten aus dem Artikel von [Stahlmann et al. (2024)](https://doi.org/10.1016/j.appet.2024.107701), in welchem Beweggründe für und Commitment zu veganer bzw. vegetarischer Ernährung untersucht werden. Wir betrachte hier nur den Teildatensatz der Personen, die sich vegan ernähren, aber den vollen Datensatz können Sie sich im [OSF-Repo zum Artikel](https://osf.io/ga5rt) genauer ansehen. Die Datenaufbereitung und -auswahl habe ich in einem R-Skript hinterlegt, das Sie direkt ausführen können:
+In diesem Beitrag nutzen wir die Daten aus dem Artikel von [Stahlmann et al. (2024)](https://doi.org/10.1016/j.appet.2024.107701), in welchem Beweggründe für und Commitment zu veganer bzw. vegetarischer Ernährung untersucht werden. Wir betrachten hier nur den Teildatensatz der Personen, die sich vegan ernähren, aber den vollen Datensatz können Sie sich im [OSF-Repo zum Artikel](https://osf.io/ga5rt) genauer ansehen. Die Datenaufbereitung und -auswahl habe ich in einem R-Skript hinterlegt, das Sie direkt ausführen können:
 
 
 ``` r
@@ -66,7 +66,7 @@ In diesem Beitrag nutzen wir die Daten aus dem Artikel von [Stahlmann et al. (20
 source("https://pandar.netlify.app/daten/Data_Processing_vegan.R")
 ```
 
-Dieser reudzierte Datensatz besteht aus 987 Beobachtungen auf 10 Variablen. Für uns sind im Rahmen dieses Beitrags vor allem die `commitment` und die sechs Subskalen des VEMI+ relevant, die unterschiedliche Gründe für die vegane Ernährung abbilden. Mit einem Klick, finden Sie hier ein paar Beispielitems:
+Dieser reduzierte Datensatz besteht aus 987 Beobachtungen auf 10 Variablen. Für uns sind im Rahmen dieses Beitrags vor allem die `commitment` und die sechs Subskalen des VEMI+ relevant, die unterschiedliche Gründe für die vegane Ernährung abbilden. Mit einem Klick finden Sie hier ein paar Beispielitems:
 
 <details><summary><b>Details zu den Variablen</b></summary>
 
@@ -84,7 +84,7 @@ Variable | Beispielitem
 
 ## Modell aufstellen
 
-Zunächst gucken wir uns das Regressionsmodell an, mit dem wir vorhersagen, inwiefern die Gründe für den Veganismus das Commitment zum Veganismus vorhersagen können. Wie Sie in den vorangegangen Beiträgen zur Regression wahrscheinlich mitbekommen haben, funktioniert das Ganze über den `lm`-Befehl:
+Zunächst gucken wir uns das Regressionsmodell an, mit dem wir vorhersagen, inwiefern die Gründe für den Veganismus das Commitment zum Veganismus vorhersagen können. Wie Sie in den vorangegangenen Beiträgen zur Regression wahrscheinlich mitbekommen haben, funktioniert das Ganze über den `lm`-Befehl:
 
 
 ``` r
@@ -130,13 +130,12 @@ Im Output der `summary` sehen wir die Parameterschätzungen unseres Regressionsm
 $$
   \text{commitment}_i = b_0 + b_1\text{health}_i + b_2\text{environment}_i + b_3\text{animals}_i + \\
   b_4\text{social}_i + b_5\text{workers}_i + b_6\text{disgust}_i +\varepsilon_i
-
 $$
 </math>
 
 Den Koeffizienten entnehmen wir, dass alle Subskalen der Beweggründe außer `environment` statistisch bedeutsam sind. Dabei ist besonders beachtenswert, dass drei der signifikanten Prädiktoren sich sogar negativ auf das `commitment` auswirken - Personen, denen ihre Gesundheit besonders wichtig ist, fühlen sich dem Veganismus also weniger stark verpflichtet (unter Konstanthaltung der Ausprägung auf den anderen fünf Subskalen). Insgesamt werden 27.06% der Variation durch die Prädiktoren erklärt.
 
-Die Regressionskoeffizienten $b_j$ beziehen sich auf die Maßeinheiten der Variablen im Datensatz (um wie viele Einheiten unterscheiden sich Personen in $y$ *im Mittel*, wenn sie sich in $x_j$ um eine Einheit unterscheiden, *unter Konstanthaltung aller weiteren Prädiktoren im Modell*). Wie wir bereits aus Statistik I im Beitrag zur [einfachen linearen Regression](/lehre/statistik-i/einafache-reg) gelernt haben, sind diese *unstandardisierten Regressionskoeffizienten* verschiedener Prädiktoren nicht immer direkt vergleichbar. Aus diesem Grund werden oft *standardisierte Regressionskoeffizienten* berechnet und berichtet. Diese können wir mithilfe der Funktion `lm.beta()` aus dem Paket `lm.beta` ermitteln, welches wir bereits installiert haben und nur noch aktivieren müssen.
+Die Regressionskoeffizienten $b_j$ beziehen sich auf die Maßeinheiten der Variablen im Datensatz (um wie viele Einheiten unterscheiden sich Personen in $y$ *im Mittel*, wenn sie sich in $x_j$ um eine Einheit unterscheiden, *unter Konstanthaltung aller weiteren Prädiktoren im Modell*). Wie wir bereits aus Statistik I im Beitrag zur [einfachen linearen Regression](/lehre/statistik-i/einfache-reg) gelernt haben, sind diese *unstandardisierten Regressionskoeffizienten* verschiedener Prädiktoren nicht immer direkt vergleichbar. Aus diesem Grund werden oft *standardisierte Regressionskoeffizienten* berechnet und berichtet. Diese können wir mithilfe der Funktion `lm.beta()` aus dem Paket `lm.beta` ermitteln, welches wir bereits installiert haben und nur noch aktivieren müssen.
 
 
 ``` r
@@ -171,22 +170,22 @@ summary(lm.beta(mod))
 ## F-statistic:  60.6 on 6 and 980 DF,  p-value: < 2.2e-16
 ```
 
-Die standardisierten Regressionsgewichte für die Prädiktoren, welche in der zweiten Spalte bei den Koeffizienten abgetragen sind, geben an, *um wieviele Standardabweichungen* sich die Vorhersage von $y$ unterscheidet, wenn sich zwei Personen in $x$ *um eine Standardabweichung* unterscheiden.
+Die standardisierten Regressionsgewichte für die Prädiktoren, welche in der zweiten Spalte bei den Koeffizienten abgetragen sind, geben an, *um wie viele Standardabweichungen* sich die Vorhersage von $y$ unterscheidet, wenn sich zwei Personen in $x$ *um eine Standardabweichung* unterscheiden (bei gleicher Ausprägung aller anderen Prädiktoren).
 
 ## Messfehlerfreiheit der unabhängigen Variablen und Unabhängigkeit der Residuen {#vorschub}
 
 Die beiden Voraussetzungen werden wir im Tutorial nicht genauer betrachten. Im Beitrag zur [multiplen Regression](/lehre/statistik-i/multiple-reg) hatten wir beide schon angeschnitten, weshalb wir hier nur zum Start die Bedeutung und Auswirkung kurz zusammenfassen. Messfehlerfreiheit der unabhängigen Variable umfasst, dass die Ausprägung der Variablen ohne Fehler gemessen werden können. Eine vielleicht aus der Diagnostik bekannte Größe, die den Grad an Messfehlerabhängigkeit bestimmen kann, ist die Reliabilität. Messinstrumente mit hoher Reliabilität sind demnach zu bevorzugen und resultieren in weniger Fehlern. Wenn unsere unabhängigen Variablen mit Messfehler versehen sind, kann das zu einer Unterschätzung der Regressionsgewichte führen - woher das kommt, erklären wir im Exkurs in [Appendix A](#AppendixA).
 
-Bei der Unabhängigkeit der Residuen geht es darum, dass die Residuen voneinander unabhängig sind. Diese Annahme ist z.B. dann verletzt, wenn wir in Messwiederholungen mehrfach die gleichen Personen messen (bei $t$-Tests hatte diese Abhängigkeit dann z.B. dazu geführt, dass wir einen komplett neuen Test nutzen mussten). Aber auch in weniger offensichtlichen Fällen, kann es zu Abhängigkeiten kommen, die eine Verletzung der Annahme darstellen. Ein klassisches Beispiel ist die Befragung von Schüler\*innen in Schulklassen. Hier können wir begründet annehmen, dass sich die Schüler\*innen aus einer Klasse ähnlicher sind, als sie anderen Schüler\*innen sind (z.B. weil sie Unterricht bei den gleichen Lehrer\*innen haben, weil sie als Gruppe bestimmte Werte und Normen entwickelt haben oder auch einfach, weil Kinder auf einer Schule meist einen ähnlichen sozialen Hintergrund haben). Dies führt typischerweise zu einer Unterschätzung der Standardfehler und damit einem niedrigeren Irrtumsniveau, als wir eigentlich festgelegt haben. Wie genau wir mit solchen Abhängigkeiten umgehen, betrachten wir in den Beiträgen aus dem [KliPPs](/lehre/klipps/lmm-klinische) und dem [Psychologie Master](/lehre/fue-i/hierarchische-regression-schule) genauer.
+Bei der Unabhängigkeit der Residuen geht es darum, dass die Residuen voneinander unabhängig sind. Diese Annahme ist z.B. dann verletzt, wenn wir in Messwiederholungen mehrfach die gleichen Personen messen (bei $t$-Tests hatte diese Abhängigkeit dann z.B. dazu geführt, dass wir einen komplett neuen Test nutzen mussten). Aber auch in weniger offensichtlichen Fällen, kann es zu Abhängigkeiten kommen, die eine Verletzung der Annahme darstellen. Ein klassisches Beispiel ist die Befragung von Schüler\*innen in Schulklassen. Hier können wir begründet annehmen, dass sich die Schüler\*innen aus einer Klasse ähnlicher sind, als sie anderen Schüler\*innen sind (z.B. weil sie Unterricht bei den gleichen Lehrer\*innen haben, weil sie als Gruppe bestimmte Werte und Normen entwickelt haben oder auch einfach, weil Kinder auf einer Schule meist einen ähnlichen sozialen Hintergrund haben). Dies führt typischerweise zu einer Unterschätzung der Standardfehler und damit einem niedrigeren $\alpha$-Fehlerniveau, als wir eigentlich festgelegt haben. Wie genau wir mit solchen Abhängigkeiten umgehen, betrachten wir in den Beiträgen aus dem [KliPPs](/lehre/klipps/lmm-klinische) und dem [Psychologie Master](/lehre/fue-i/hierarchische-regression-schule) genauer.
 
 
-## Homoskedastizität
+## Homoskedastizität {#Homoskedastizität}
 
 ### Prüfung der Voraussetzung
 
 Wie schon beim $t$-Test oder dem Beitrag zur [multiplen Regression](/lehre/statistik-i/multiple-reg) geschildert, geht es bei der Homoskedastizität darum, dass die Varianz der Residuen einheitlich ist. Genauer ist damit gemeint, dass die Varianz der Residuen sich nicht systematisch über die Ausprägungen der vorhergesagten Werte hinweg unterscheidet. Das können wir - wie bei vielen Annahmen empfehlenswert - visuell prüfen (mit einem *Residuenplot*) oder durch einen Test wie z.B. dem *Breusch-Pagan-Test*.
 
-Im ersten Semester hatten wir für die optische Prüfung den [Scale-Location-Plot](/lehre/statistik-i/multiple-reg/#homoskedastizitat-der-residuen) genutzt, die Homoskedastizität einzuschätzen. Weil es damals so gut funktioniert hat, gibt es zunächst keinen Grund etwas daran zu ändern. Wir hatten damals alle diagnostischen Plots zu einem Modell über den einfachen `plot`-Befehl angefordert. Weil wir jetzt nur den dritten der dort erzeugten vier Plots benötigen, können wir als zweites Argument (`which`) einfach `3` auswählen:
+Im ersten Semester hatten wir für die optische Prüfung den [Scale-Location-Plot](/lehre/statistik-i/multiple-reg/#homoskedastizität-der-residuen) genutzt, die Homoskedastizität einzuschätzen. Weil es damals so gut funktioniert hat, gibt es zunächst keinen Grund, etwas daran zu ändern. Wir hatten damals alle diagnostischen Plots zu einem Modell über den einfachen `plot`-Befehl angefordert. Weil wir jetzt nur den dritten der dort erzeugten vier Plots benötigen, können wir als zweites Argument (`which`) einfach `3` auswählen:
 
 
 ``` r
@@ -194,32 +193,11 @@ Im ersten Semester hatten wir für die optische Prüfung den [Scale-Location-Plo
 plot(mod, 3)
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-6-1.png)<!-- -->
-
-Zur Erinnerung: wenn die Varianz über alle vorhergesagten Werte gleich wäre, sollte die eingezeichnete rote LOWESS-Linie bei einem Wert von 1 parallel zur x-Achse (also horizontal) verlaufen. Die Tendenz weißt aber deutlich darauf hin, dass in diesem Fall die Varianz der Residuen bei hohen vorhergesagten Werten niedriger zu sein scheint, als bei niedrigen Werten. Zum Abgleich, können wir auch die Varianz der Residuen der unteren 25% und der oberen 25% der vorhergesagten Werte vergleichen:
+![](/regressionsdiagnostik_files/unnamed-chunk-101-1.png)<!-- -->
 
 
-``` r
-# Varianz der Residuen im 1. und 4. Viertel:
-resis <- residuals(mod) # Residuen
-preds <- fitted(mod)    # Vorhergesagte Werte
 
-# Varianz der Residuen im 1. Viertel der vorhergesagten Werte
-var(resis[preds <= quantile(preds, .25)])
-```
-
-```
-## [1] 1.172669
-```
-
-``` r
-# Varianz der Residuen im 4. Viertel der vorhergesagten Werte
-var(resis[preds >= quantile(preds, .75)])
-```
-
-```
-## [1] 0.3489785
-```
+Zur Erinnerung: wenn die Varianz über alle vorhergesagten Werte gleich wäre, sollte die eingezeichnete rote LOWESS-Linie bei einem Wert von 1 parallel zur x-Achse (also horizontal) verlaufen. Die Tendenz weißt aber deutlich darauf hin, dass in diesem Fall die Varianz der Residuen bei hohen vorhergesagten Werten niedriger zu sein scheint, als bei niedrigen Werten. Zum Abgleich: die Varianz der Residuen ist für die 25% der Fälle mit den geringsten vorhergesagten Werten 1.17, bei den Fällen mit den höchsten 25% der vorhergesagten Werte hingegen 0.35.
 
 Im Residuenplot zeichnet sich der Grund für die Heteroskedastizität ab:
 
@@ -229,10 +207,10 @@ Im Residuenplot zeichnet sich der Grund für die Heteroskedastizität ab:
 plot(mod, which = 1)
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-8-1.png)<!-- -->
-Alle Datenpunkte scheinen sich in einem diagonalen Streifen anzuordnen, was auf die Begrenzung unserer Skala hinweist. Personen, für die ein Wert von 5 vorhergesagt wird, haben allesamt ein Residuum von 0. Personen können an dieser Stelle kein höheres Residuum haben, weil die Skala nur von 1 bis 5 geht (genauso sind bei $\hat{y}_i = 4.5$ alle $\varepsilon_i \leq 0.5 $). 
+![](/regressionsdiagnostik_files/unnamed-chunk-103-1.png)<!-- -->
+Alle Datenpunkte scheinen sich in einem diagonalen Streifen anzuordnen, was auf die Begrenzung unserer Skala hinweist. Personen, für die ein Wert von 5 vorhergesagt wird, haben allesamt ein Residuum von 0. Personen können an dieser Stelle kein positives Residuum haben, weil die Skala nur von 1 bis 5 geht (genauso sind bei $\hat{y}_i = 4.5$ alle $\varepsilon_i \leq 0.5 $). 
 
-Für einen direkten Test der Homoskedastizität, können wir die Funktion `ncvTest` (Test For Non-Constant Error Variance) aus dem `car`-Paket nutzen. Diese prüft, ob die Varianz der Residuen signifikant linear (!) mit den vorhergesagten Werten zusammenhängt.  Für Gruppenvergleiche hatten wir noch den *Levene-Test* (`leveneTest`) genutzt - dieser funktioniert allerdings nur dann, wenn wir Varianzen über viele Beobachtungen in wenigen Gruppen bestimmen können. Da wir in den meisten Fällen in der Regression mehr potentielle Ausprägungen der vorhergesagten Werte als Beobachtungen haben, benötigen wir hier eine vereinfachende Modellannahme, um eine Approximation dafür zu erhalten, ob sich Unterschiede in der Varianz finden lassen. 
+Für einen Test der Homoskedastizität, können wir die Funktion `ncvTest` (Test For Non-Constant Error Variance) aus dem `car`-Paket nutzen. Diese prüft, ob die Varianz der Residuen signifikant linear (!) mit den vorhergesagten Werten zusammenhängt.  Für Gruppenvergleiche hatten wir noch den *Levene-Test* (`leveneTest`) genutzt - dieser funktioniert allerdings nur dann, wenn wir Varianzen über viele Beobachtungen in wenigen Gruppen bestimmen können. Da wir in den meisten Fällen in der Regression mehr potenzielle Ausprägungen der vorhergesagten Werte als Beobachtungen haben, benötigen wir hier eine vereinfachende Modellannahme, um eine Approximation dafür zu erhalten, ob sich Unterschiede in der Varianz finden lassen. 
 
 
 ``` r
@@ -248,13 +226,13 @@ ncvTest(mod)
 ## Chisquare = 104.7127, Df = 1, p = < 2.22e-16
 ```
 
-Wie bei allen Voraussetzungstests, ist auch hier die Nullhypothese, dass die Voraussetzung hält. Wird dieser Test also signifikant (wie hier), ist die Annahme der Homoskedaszidität zu verwerfen. Es ist wichtig zu bedenken, dass ein nicht signifikantes Ergebnis kein Beleg für Homoskedastizität ist - es könnte uns an Power mangeln oder die Varianzen könnten z.B. nicht-linear von den vorhergesagten Werten abhängen.
+Wie bei allen Voraussetzungstests ist auch hier die Nullhypothese, dass die Voraussetzung hält. Wird dieser Test also signifikant (wie hier), ist die Annahme der Homoskedaszidität zu verwerfen. Es ist wichtig zu bedenken, dass ein nicht signifikantes Ergebnis kein Beleg für Homoskedastizität ist - es könnte uns an Power mangeln oder die Varianzen könnten z.B. nicht-linear von den vorhergesagten Werten abhängen.
 
 ### Umgang mit Heteroskedastizität
 
-Wenn unsere Datenlage eine Voraussetzung für einen statistischen Test nicht erfüllt, ist die wichtigste anschließende Frage "warum?". Eine pauschale Lösung, wie mit der Verletzung einer Annahme umgegangen werden soll wird es nicht geben, weil - etwas dramatisch ausgedrückt - ein Symptom ein Indikator für verschiedene Krankheiten sein kann. Prinzipiell könnte Heteroskedasitizität z.B. enstehen, weil nicht-lineare Effekte vorliegen, dir wir nicht in unserem Modell aufgenommen haben. Eine andere Möglichkeit wäre, dass die Skala, mit der wir die abhängige Variable gemessen haben, begrenzt ist, sodass die Unterschiede zwischen Personen künstlich beschnitten sind. Weil beides sehr unterschiedliche Gründe sind, sind auch die entsprechenden Gegenmaßnahmen dramatisch unterschiedlich. Im ersten Fall würden wir zunächst versuchen die [Annahme der korrekten Spezifikation des Modells zu erfüllen](#linearitat), z.B. indem wir [nicht-lineare Effekte aufnehmen](/lehre/statistik-ii/nichtlineare-reg). Im zweiten Fall, könnten wir für die nächste Studie notieren, dass wir ein anderes Messinstrument nutzen sollten (was uns bei der aktuellen Regression aber nur wenig hilft).
+Wenn unsere Datenlage eine Voraussetzung für einen statistischen Test nicht erfüllt, ist die wichtigste anschließende Frage "warum?". Eine pauschale Lösung, wie mit der Verletzung einer Annahme umgegangen werden soll, wird es nicht geben, weil - etwas dramatisch ausgedrückt - ein Symptom ein Indikator für verschiedene Krankheiten sein kann. Prinzipiell könnte Heteroskedasitizität z.B. entstehen, weil nicht-lineare Effekte vorliegen, die wir nicht in unserem Modell aufgenommen haben. Eine andere Möglichkeit wäre, dass die Skala, mit der wir die abhängige Variable gemessen haben, begrenzt ist, sodass die Unterschiede zwischen Personen künstlich beschnitten sind. Weil beides sehr unterschiedliche Gründe sind, unterscheiden sich auch die entsprechenden Gegenmaßnahmen dramatisch. Im ersten Fall würden wir zunächst versuchen die [Annahme der korrekten Spezifikation des Modells zu erfüllen](#Linearität), z.B. indem wir [nicht-lineare Effekte aufnehmen](/lehre/statistik-ii/nichtlineare-reg). Im zweiten Fall könnten wir für die nächste Studie notieren, dass wir ein anderes Messinstrument nutzen sollten (was uns bei der aktuellen Regression aber nur wenig hilft).
 
-Wenn wir entweder nicht herausfinden können, was die Ursache für das Problem ist, diese nicht beheben können oder - auch das soll es geben - die Varianzen einfach tatsächlich unterschiedlic sind, können wir zumindest das Symptom lindern. Wie im 1. Semester besprochen, führt die Verletzung der Annahme der Homoskedastizität zu einer Verzerrung der Standardfehler und somit der Inferenzstatistik unserer Regressionsgewichte und des $R^2$. Standardfehler können wir mit verschiedenen Ansätzen korrigieren:
+Wenn wir entweder nicht herausfinden können, was die Ursache für das Problem ist, dieses nicht beheben können oder - auch das soll es geben - die Varianzen einfach tatsächlich unterschiedlich sind, können wir zumindest das Symptom lindern. Wie im 1. Semester besprochen, führt die Verletzung der Annahme der Homoskedastizität zu einer Verzerrung der Standardfehler und somit der Inferenzstatistik unserer Regressionsgewichte und des $R^2$. Standardfehler können wir mit verschiedenen Ansätzen korrigieren:
 
   1. Nutzen von weighted-least-squares (WLS) Regression
   2. Transformation der abhängigen Variable
@@ -263,15 +241,15 @@ Wenn wir entweder nicht herausfinden können, was die Ursache für das Problem i
   
 Der Ansatz via WLS-Regression wird z.B. von Cohen et al. (2003) bei starker Verletzung der Annahme und großen Stichproben empfohlen. Dieses Vorgehen umfasst mehrere Schritte, die wir hier nicht näher erläutern werden, weil Alternativen 2 bis 4 meist ausreichend gut und sehr viel einfacher das gewünschte Ziel erreichen. Den 4. Punkt (Bootstrapping) werden wir gleich beim [Umgang mit Verletzungen der Normalverteilungsannahme](#umgang-mit-abweichung-von-der-normalverteilung) besprechen, weswegen wir ihn hier überspringen.
 
-#### Box-Cox Transformation
+#### Transformation der abhängigen Variable: Box-Cox Transformation
 
-Unterschiedliche Varianzen der Residuen bedeuten, dass die Unterschiede zwischen Personen in einigen Bereichen der Variable kleiner sind, als in anderen. Wenn wir also die Skalierung der Variable so ändern, dass Unterschiede in bestimmten bereichen "groß gerechnet" werden, während wir sie an anderen Stellen verringern, könnte das unser Problem lösen. Die Frage, die sich aufdrängt ist aber: welche Transformation ist _diesem spezifischen_ Anwendungsfall die richtige? Je nachdem, wo Varianzen kleiner oder größer sind, werde ich andere Gleichungen brauchen, um durch die Transformation Varianzen anzugleichen, statt das Problem eventuell sogar zu verschlimmern.
+Unterschiedliche Varianzen der Residuen bedeuten, dass die Unterschiede zwischen Personen in einigen Bereichen der Variable kleiner sind, als in anderen. Wenn wir also die Skalierung der Variable so ändern, dass Unterschiede in bestimmten Bereichen "groß gerechnet" werden, während wir sie an anderen Stellen verringern, könnte das unser Problem lösen. Die Frage, die sich aufdrängt, ist aber: welche Transformation ist in _diesem spezifischen_ Anwendungsfall die Richtige? Je nachdem, wo Varianzen kleiner oder größer sind, werde ich andere Gleichungen brauchen, um durch die Transformation Varianzen anzugleichen, statt sie potentiell sogar unterschiedlicher zu machen.
 
 Generell wird die Box-Cox Transformation durch folgende Gleichung ausgedrückt:
 
 $$
   y_i^{(\lambda)} =  \begin{cases}
-  \frac{y_i^\lambda - 1}{\lambda} & \text{wenn } \lambda \neq 0 \\
+  \frac{y_i^\lambda - 1}{\lambda} & \text{wenn } \lambda \neq 0 \newline
   ln(y_i) & \text{wenn }\lambda = 0
   \end{cases}
 $$
@@ -284,7 +262,7 @@ Diese Transformation ist relativ flexibel - wenn $\lambda = 1$ wird z.B. 1 von u
 bc <- MASS::boxcox(mod, lambda = seq(-5, 5, .1))
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-10-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-105-1.png)<!-- -->
 Diese Funktion nimmt unser Regressionsmodell `mod` und die Werte, die wir für $\lambda$ ausprobieren wollen als Argumente entgegen. Produziert wird eine Abbildung, welche uns anzeigt, welche Transformation zur besten Passung des Modells zu unseren Daten führt. Damit wir anhand der Abbildung nicht raten müssen, welches $\lambda$ gemeint ist, können wir die abgebildet Werte auch ausgeben lassen. Hierfür wollen wir wissen, welcher Wert auf der x-Achse den maximalen Wert auf der y-Achse erzeugt:
 
 
@@ -386,12 +364,12 @@ coeftest(mod, vcov = vcovHC(mod))
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
-Inhaltlich ändert das wenig an den Aussagen - die konkreten Werte ändern sich zwar, aber bei $N = 987$ ist die Datenlage zum Glück relativ robust.
+Inhaltlich ändert das wenig an den Aussagen - die konkreten Werte ändern sich zwar, aber bei $N = 987$ ist die Datenlage zum Glück relativ robust und die Siginifikanzentscheidungen bleiben die gleichen.
 
 
-## Normalverteilung
+## Normalverteilung {#normalverteilung}
 
-Die Normalverteilung der Residuen haben wir bereits in [Statistik I](/lehre/statistik-i/multiple-reg) geprüft. Dafür haben wir - analog zum Vorgehen bei der Homoskedastizität - sowohl eine optische als auch eine inferenzstatistische Prüfung kennengelernt. Im Fall der Normalverteilungsannahme basiert die visuelle Prüfung am QQ-Plots (Quantile-Quantile-Plots) oder einem Histogramm der Residuen. Für den QQ-Plot hatten wir `qqPlot` aus dem `car`-Paket genutzt:
+Die Normalverteilung der Residuen haben wir bereits in [Statistik I](/lehre/statistik-i/multiple-reg) geprüft. Dafür haben wir - analog zum Vorgehen bei der Homoskedastizität - sowohl eine optische als auch eine inferenzstatistische Prüfung kennengelernt. Im Fall der Normalverteilungsannahme basiert die visuelle Prüfung auf QQ-Plots (Quantile-Quantile-Plots) oder auf einem Histogramm der Residuen. Für den QQ-Plot hatten wir den Befehl `qqPlot` aus dem `car`-Paket genutzt:
 
 
 ``` r
@@ -399,7 +377,7 @@ Die Normalverteilung der Residuen haben wir bereits in [Statistik I](/lehre/stat
 qqPlot(mod)
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-18-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-113-1.png)<!-- -->
 
 ```
 ## [1] 519 658
@@ -412,10 +390,10 @@ Das Histogramm können wir mittels `hist`-Befehl erzeugen:
 resid(mod) |> hist()
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-19-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-114-1.png)<!-- -->
 Beide Plots zeigen deutlich, dass die Residuen nicht normalverteilt sind.
 
-Wenn wir zusätzlich einen inferenzstatistischen Beleg der Unangemessenheit der Annahmen haben möchten, können wir den den Shapiro-Wilk-Test auf Normalität (`shapiro.test`) nutzen.
+Wenn wir zusätzlich einen inferenzstatistischen Beleg der Unangemessenheit der Annahmen haben möchten, können wir den Shapiro-Wilk-Test auf Normalität (`shapiro.test`) nutzen.
 
 
 ``` r
@@ -430,9 +408,9 @@ resid(mod) |> shapiro.test()
 ## data:  resid(mod)
 ## W = 0.94394, p-value < 2.2e-16
 ```
-Wenig überraschend, verwirft diese Test hier die Nullhypothese, dass die Residuen normalverteilt sind und wir müssen uns wieder fragen, was geeignete Vorgehensweisen für den
+Wenig überraschend verwirft dieser Test hier die Nullhypothese, dass die Residuen normalverteilt sind und wir müssen uns wieder fragen, was geeignete Vorgehensweisen für den
 
-### Umgang mit Abweichung von der Normalverteilung
+### Umgang mit Abweichung von der Normalverteilung {#umgang-mit-abweichung-von-der-normalverteilung}
 
 sind. Im Wesentlichen lassen sich die Möglichkeiten in drei große Kategorien gliedern:
 
@@ -478,7 +456,7 @@ resid(mod) |> hist()
 resid(mod_bc) |> hist()
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-21-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-116-1.png)<!-- -->
 
 ``` r
 # Normale Einstellung für Plots wiederherstellen
@@ -499,11 +477,11 @@ resid(mod_bc) |> shapiro.test()
 ## data:  resid(mod_bc)
 ## W = 0.9734, p-value = 1.827e-12
 ```
-Die Transformation der Variablen sollte stets extrem überlegt vorgenommen werden. Wie wir hier gesehen habe, hat sie gleichzeitig Auswirkungen auf Varianz und Verteilung der Variablen, aber auch die Interpretation der Modellparameter ändert sich. So bewirkt z.B. die beliebte logarithmus-Transformation von Reaktionszeiten, dass die Regression keine linearen Effekte mehr abbidet, sondern Reaktionszeiten exponentiell die Unterschiede in den unabhängigen Variablen abbilden. Bei komplexeren Transformationen (wie hier z.B. bei der Box-Cox-Transformation) wird die direkte Interpretation der Regressionsgewichte extrem schwer, sodass ich generell von einer Transformation der Variablen abraten würden, wenn sie nicht vorher theoretisch ableitbar war und die Veränderung der Interpretation der Regressionsgewichte explizit gewollt ist.
+Die Transformation der Variablen sollte stets extrem überlegt vorgenommen werden. Wie wir hier gesehen haben, hat sie gleichzeitig Auswirkungen auf Varianz und Verteilung der Variablen, aber auch die Interpretation der Modellparameter ändert sich. So bewirkt z.B. die beliebte logarithmus-Transformation von Reaktionszeiten, dass die Regression keine linearen Effekte mehr abbildet, sondern Reaktionszeiten exponentiell die Unterschiede in den unabhängigen Variablen abbilden. Bei komplexeren Transformationen (wie hier z.B. bei der Box-Cox-Transformation) wird die direkte Interpretation der Regressionsgewichte extrem schwer, sodass ich generell von einer Transformation der Variablen abraten würde, wenn sie nicht vorher theoretisch ableitbar war und die Veränderung der Interpretation der Regressionsgewichte explizit gewollt ist.
 
 #### Bootstrapping
 
-Die Voraussetzungen der Normalverteilung und Homoskedastizität sollen gewährleisten, dass das Verhältnis aus Parameterschätzer und Standardfehler der $t$-Verteilung mit $n - k - 1$ Freiheitsgraden folgt. In den bisherigen Versuchen haben wir Daten transformiert oder (bei Heteroskedastizität) Standardfehler korrigiert, um diese Verteilung wieder anzunähern. Bootstrapping bietet uns eine Alternative, die das Problem aus der anderen Richtung angeht. Um eine Stichprobenkennwerteverteilung zu erzeugen, müssten wir unsere Studie sehr häufig durchführen und die Regression berechnen. Durch Schwankungen zwischen den Stichproben würden sich leichte Unterschiede in den Regressionsgewichten ergeben. Diese Schwankung wird traditionellerweise als Standardfehler bezeichnet und - unter bestimmten Annahmen - mit Formeln berechnet, auch dann wenn wir nur eine Studie durchgeführt haben. Weil diese "bestimmten Annahmen" in unserem Fall nicht halten, könnten wir mehrere Studien durchführen und die Verteilung wirklich ermitteln. Die Grundidee beim Bootstrap ist: wenn die Beobachtungen in der Stichprobe eine Zufallsziehung sind, können wir aus dieser Stichprobe auch erneut zufällig ziehen, um eine andere Zufallsstichprobe zu erzeugen. Für diese können wir das Regressionsgewicht berechnen und dann wiederholen wir das Ganze - so lange, bis wir die Stichprobenkennwerteverteilung ausreichend genau erzeugt haben. Der Clou ist dabei, dass diese Ziehung mit Zurücklegen erfolgt, sodass jede Stichprobe im Bootstrap aus genauso vielen Beobachtungen besteht, wie unsere eigentliche Stichprobe. Den folgenden Infotext können Sie aufklappen, wenn Sie das Ganze mal detailliert am Beispiel des Regressionsgewichts für den Beweggrund des Tierwohls (`animals`) sehen möchten.
+Die Voraussetzungen der Normalverteilung und Homoskedastizität sollen gewährleisten, dass das Verhältnis aus Parameterschätzer und Standardfehler der $t$-Verteilung mit $n - k - 1$ Freiheitsgraden folgt. In den bisherigen Versuchen haben wir Daten transformiert oder (bei Heteroskedastizität) Standardfehler korrigiert, um diese Verteilung wieder anzunähern. Bootstrapping bietet uns eine Alternative, die das Problem aus der anderen Richtung angeht. Um eine Stichprobenkennwerteverteilung zu erzeugen, müssten wir unsere Studie sehr häufig durchführen und die Regression berechnen. Durch Schwankungen zwischen den Stichproben würden sich leichte Unterschiede in den Regressionsgewichten ergeben. Diese Schwankung wird traditionellerweise als Standardfehler bezeichnet und - unter bestimmten Annahmen - mit Formeln berechnet, auch dann, wenn wir nur eine Studie durchgeführt haben. Weil diese "bestimmten Annahmen" in unserem Fall nicht halten, könnten wir mehrere Studien durchführen und die Verteilung wirklich ermitteln. Die Grundidee beim Bootstrap ist: wenn die Beobachtungen in der Stichprobe eine Zufallsziehung sind, können wir aus dieser Stichprobe auch erneut zufällig ziehen, um eine andere Zufallsstichprobe zu erzeugen. Für diese können wir das Regressionsgewicht berechnen und dann wiederholen wir das Ganze - so lange, bis wir die Stichprobenkennwerteverteilung ausreichend genau erzeugt haben. Der Clou ist dabei, dass diese Ziehung mit Zurücklegen erfolgt, sodass jede Stichprobe im Bootstrap aus genauso vielen Beobachtungen besteht, wie unsere eigentliche Stichprobe. Den folgenden Infotext können Sie aufklappen, wenn Sie das Ganze mal detailliert am Beispiel des Regressionsgewichts für den Beweggrund des Tierwohls (`animals`) sehen möchten.
 
 
 <details><summary><b>Details zum Bootstrapping</b></summary>
@@ -533,7 +511,7 @@ og
 
 ``` r
 # Bootstrap-Datensatz
-b1 <- og[sample(1:7, 7, replace = TRUE), ]
+b1 <- og[sample(1:7, 7, replace = TRUE), ] #Wichtig: replace=TRUE --> mit Zurücklegen
 b1
 ```
 
@@ -549,7 +527,7 @@ b1
 ```
 Hier wurden die Personen 4, 6 und 2 jeweils doppelt gezogen, Personen 1, 5 und 7 kommen hingegen in dieser Zufallsziehung gar nicht vor. Wenn wir in diesem Datensatz die Regression berechnen würden, wäre sie also etwas anders als im Originaldatensatz. 
 
-Damit wir das Ganze wiederholt durchführen können, könnten wir den `replicate`-Befehl benutzen, den wir im letzten Semester für [die Poweranalyse verwendet](/lehre/statistik-i/simulation-poweranalyse) hatten. Beschränken wir uns zunächst auf das Regressionsgewicht von `animals` und [erstellen Funktion](/lehre/statistik-ii/loops-und-funktionen), die einen Datensatz entgegennimmt, daraus zufällig zieht und das Regressionsgewicht ausgibt: 
+Damit wir das Ganze wiederholt durchführen können, könnten wir den `replicate`-Befehl benutzen, den wir im letzten Semester für [die Poweranalyse verwendet](/lehre/statistik-i/simulation-poweranalyse) hatten. Beschränken wir uns zunächst auf das Regressionsgewicht von `animals` und [erstellen eine Funktion](/lehre/statistik-ii/loops-funktionen), die einen Datensatz entgegennimmt, daraus zufällig zieht und das Regressionsgewicht ausgibt: 
 
 
 ``` r
@@ -579,7 +557,7 @@ Damit wir nicht jedes mal eine neue Funktion schreiben müssen, können wir Regr
 booted <- Boot(mod, R = 5000)
 ```
 
-So erhalten wir die Ergebnisse für unsere Regression 5000 mal. Um zu sehen, wie sich das auf das Regressionsgewicht von `animals` auswirkt, können wir die angenommene Verteilung des Regressionsgewichts (eine Normalverteilung mit dem Mittelwert $b_3$ und dem Standardfehler $\hat{\sigma}_{b_3}$ als Standardabweichung) optisch gegenüberstell. Dafür können wir uns einen [ggplot](/lehre/statistik-ii/grafiken-mit-ggplot2) mit dem Histogramm der gebootstrappten Werte von $b_3$ erzeugen und die angenommene Normalverteilung einzeichen:
+So erhalten wir die Ergebnisse für unsere Regression 5000 mal. Um zu sehen, wie sich das auf das Regressionsgewicht von `animals` auswirkt, können wir die angenommene Verteilung des Regressionsgewichts (eine Normalverteilung mit dem Mittelwert $b_3$ und dem Standardfehler $\hat{\sigma}_{b_3}$ als Standardabweichung) optisch gegenüberstellen. Dafür können wir uns einen [ggplot](/lehre/statistik-ii/grafiken-mit-ggplot2) mit dem Histogramm der gebootstrappten Werte von $b_3$ erzeugen und die angenommene Normalverteilung einzeichen:
 
 
 ``` r
@@ -601,7 +579,7 @@ ggplot(b_boot, aes(x = animals)) +
   geom_vline(xintercept = b_og, linetype = "dashed")
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-27-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-122-1.png)<!-- -->
 An sich nähert die theoretische Verteilung (schwarze Linie) die "tatsächliche" Stichprobenkennwerteverteilung ganz gut an (Histogramm). Es fällt lediglich auf, dass die Verteilung etwas flacher und breiter zu sein scheint, als die Verteilung, die wir ursprünglich angenommen hatten.
 
 Diese Intuition können wir überprüfen, indem wir die Standardfehler aus dem Modell mit der Standardabweichung der gebootstrappten Werte vergleichen:
@@ -653,7 +631,7 @@ confint(booted, type = 'perc')
 ## workers     -0.07436732 -0.00848034
 ## disgust      0.15026793  0.21951566
 ```
-Im einfachsten Fall, wird das Konfidenzintervall im Bootstrap so erstellt, dass von unseren 5000 Wiederholungen die 2.5\% und 97.5\% Perzentile bestimmt werden. Dieses "percentile" Konfidenzintervall ist nicht immer frei von Verzerrungen, sodass die Korrektur (BCa - Bias-Corrected and Accelerated) inzwischen der Standard ist (und auch ohne Angabe von `type` als Voreinstellung ausgegeben werden würde). Generell werden hier keine $p$-Werte erzeugt oder Test durchgeführt, weil wir explizit _keine_ Verteilungsannahmen machen wollen. In Fällen des Bootstraps sollte also üblicherweise via Konfidenzintervall eine Entscheidung getroffen werden.
+Im einfachsten Fall wird das Konfidenzintervall im Bootstrap so erstellt, dass von unseren 5000 Wiederholungen die 2.5\% und 97.5\% Perzentile bestimmt werden. Dieses "percentile" Konfidenzintervall ist nicht immer frei von Verzerrungen, sodass die Korrektur (BCa - Bias-Corrected and Accelerated) inzwischen der Standard ist (und auch ohne Angabe von `type` als Voreinstellung ausgegeben werden würde). Generell werden hier keine $p$-Werte erzeugt oder Test durchgeführt, weil wir explizit _keine_ Verteilungsannahmen machen wollen. In Fällen des Bootstraps sollte also üblicherweise via Konfidenzintervall eine Entscheidung getroffen werden.
 
 
 ## Korrekte Spezifikation des Modells - bspw. Linearität {#Linearität}
@@ -668,8 +646,8 @@ Eine grafische Prüfung der partiellen Linearität zwischen den einzelnen Prädi
 residualPlots(mod)
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-32-1.png)<!-- -->
-Als Ergebnis erhalten wir zunächst ein paar Abbildungen. Die blaue Linie zeigt jeweils die Regressionskurve des quadrierten Prädiktors an. Für `workers` und `disgust` sehen wir zum Beispiel, dass die Kurve quasi nur eine horizontale Linie ist - hier scheint es also keine quadratischen Effekte zu geben. Für `environment` und `animals` sieht dies etwas anders aus - für beide Variablen indiziert der Plot zunächst, dass sehr niedrige Auspräungen auf dem Prädiktor mit höheren Residuen einhergehen, als unser lineares Modell implizieren würde.
+![](/regressionsdiagnostik_files/unnamed-chunk-127-1.png)<!-- -->
+Als Ergebnis erhalten wir zunächst ein paar Abbildungen. Die blaue Linie zeigt jeweils die Regressionskurve des quadrierten Prädiktors an. Für `workers` und `disgust` sehen wir zum Beispiel, dass die Kurve quasi nur eine horizontale Linie ist - hier scheint es also keine quadratischen Effekte zu geben. Für `environment` und `animals` sieht dies etwas anders aus - für beide Variablen indiziert der Plot zunächst, dass sehr niedrige Ausprägungen auf dem Prädiktor mit höheren Residuen einhergehen, als unser lineares Modell implizieren würde.
 
 Die Plots dienen hauptsächlich dem Check auf die _Intensität_ und Richtung dieser Effekte. Per Voreinstellung liefert der `residualPlots`-Befehl auch eine Ergebnistabelle für die inferenzstatistische Prüfung dieser quadratischen Effekte:
 
@@ -687,9 +665,9 @@ Die Plots dienen hauptsächlich dem Check auf die _Intensität_ und Richtung die
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-Letztlich sagt uns diese Tabelle, dass wir zumindest auf die Möglichkeit eingehen sollten, dass die Begrüdungsmuster `health` und `animals` quadratische Effekte vorweisen. Im [nächsten Beitrag](/lehre/statistik-ii/nichtlineare-reg) befassen wir uns genauer damit, wie solche Modelle aufgestellt werden können und welche inhaltlichen Möglichkeiten wir dadurch erschließen können.
+Letztlich sagt uns diese Tabelle, dass wir zumindest auf die Möglichkeit eingehen sollten, dass die Begründungsmuster `health` und `animals` quadratische Effekte vorweisen. Im [nächsten Beitrag](/lehre/statistik-ii/nichtlineare-reg) befassen wir uns genauer damit, wie solche Modelle aufgestellt werden können und welche inhaltlichen Möglichkeiten wir dadurch erschließen können.
 
-Der letzte Test in dieser Tabelle ist der Tukey-Test für non-Additivität. Letztlich wird hier sehr grob gecheckt, ob es zwischen unseren Prädiktoren Interaktionen gibt - ob sich die Einflüsse der unabhängigen Variablen also gegenseitig beeinflussen. Mit solche Modellen werden wir uns unter dem Begriff [moderierte Regression in einem späteren Beitrag](/lehre/statistik-ii/moderierte-reg) noch detaillierter beschäftigen.
+Der letzte Test in dieser Tabelle ist der Tukey-Test für non-Additivität. Letztlich wird hier sehr grob gecheckt, ob es zwischen unseren Prädiktoren Interaktionen gibt - ob sich die Einflüsse der unabhängigen Variablen also gegenseitig beeinflussen. Mit solchen Modellen werden wir uns unter dem Begriff [moderierte Regression in einem späteren Beitrag](/lehre/statistik-ii/moderierte-reg) noch detaillierter beschäftigen.
 
 
 ## Multikollinearität{#Multikollinearität}
@@ -698,9 +676,9 @@ Multikollinearität ist ein potenzielles Problem der multiplen Regressionsanalys
 
 * schränkt die mögliche multiple Korrelation ein, da die Prädiktoren redundant sind und überlappende Varianzanteile in $y$ erklären.
 * erschwert die Identifikation von bedeutsamen Prädiktoren, da deren Effekte untereinander konfundiert sind (die Effekte können schwer voneinander getrennt werden).
-* bewirkt eine Erhöung der Standardfehler der Regressionkoeffizienten *(der Standardfehler ist die Standardabweichung zu der Varianz der Regressionskoeffizienten bei wiederholter Stichprobenziehung und Schätzung)*. Dies bedeutet, dass die Schätzungen der Regressionsparameter instabil, und damit weniger verlässlich, werden. Für weiterführende Informationen zur Instabilität und Standardfehlern siehe [Appendix B](#AppendixB).
+* bewirkt eine Erhöhung der Standardfehler der Regressionkoeffizienten *(der Standardfehler ist die Standardabweichung zu der Varianz der Regressionskoeffizienten bei wiederholter Stichprobenziehung und Schätzung)*. Dies bedeutet, dass die Schätzungen der Regressionsparameter instabil, und damit weniger verlässlich, werden. Für weiterführende Informationen zur Instabilität und Standardfehlern siehe [Appendix B](#AppendixB).
 
-Multikollinearität kann durch Inspektion der *bivariaten Zusammenhänge* (Korrelationsmatrix) der Prädiktoren $x_j$ untersucht werden, dies kann aber nicht alle Formen von Multikollinearität aufdecken. Darüber hinaus ist die Berechung der sogennanten *Toleranz* und des *Varianzinflationsfaktors* (VIF) für jeden Prädiktor möglich. Hierfür wird für jeden Prädiktor $x_j$ der Varianzanteil $R_j^2$ berechnet, der durch Vorhersage von $x_j$ durch *alle anderen Prädiktoren* in der Regression erklärt wird. Toleranz und VIF sind wie folgt definiert:
+Multikollinearität kann durch Inspektion der *bivariaten Zusammenhänge* (Korrelationsmatrix) der Prädiktoren $x_j$ untersucht werden, dies kann aber nicht alle Formen von Multikollinearität aufdecken. Darüber hinaus ist die Berechnung der sogenannten *Toleranz* und des *Varianzinflationsfaktors* (VIF) für jeden Prädiktor möglich. Hierfür wird für jeden Prädiktor $x_j$ der Varianzanteil $R_j^2$ berechnet, der durch Vorhersage von $x_j$ durch *alle anderen Prädiktoren* in der Regression erklärt wird. Toleranz und VIF sind wie folgt definiert:
 
  $$T_j = 1-R^2_j = \frac{1}{VIF_j}$$
  $$VIF_j = \frac{1}{1-R^2_j} = \frac{1}{T_j}$$
@@ -751,9 +729,9 @@ Für unser Modell wird ersichtlich, dass die Prädiktoren allesamt noch vollkomm
 
 ## Identifikation von Ausreißern und einflussreichen Datenpunkten {#ausreisser}
 
-Die Plausibilität unserer Daten ist enorm wichtig. Aus diesem Grund sollten Aureißer oder einflussreiche Datenpunkte analysiert werden. Diese können bspw. durch Eingabefehler entstehen (Alter von 211 Jahren anstatt 21) oder es sind seltene Fälle (hochintelligentes Kind in einer Normstichprobe), welche so in natürlicher Weise (aber mit sehr geringer Häufigkeit) auftreten können. Es muss dann entschieden werden, ob Ausreißer die Repräsentativität der Stichprobe gefährden und ob diese besser ausgeschlossen werden sollten.
+Die Plausibilität unserer Daten ist enorm wichtig. Aus diesem Grund sollten Ausreißer oder einflussreiche Datenpunkte analysiert werden. Diese können bspw. durch Eingabefehler entstehen (Alter von 211 Jahren anstatt 21) oder es sind seltene Fälle (hochintelligentes Kind in einer Normstichprobe), welche so in natürlicher Weise (aber mit sehr geringer Häufigkeit) auftreten können. Es muss dann entschieden werden, ob Ausreißer die Repräsentativität der Stichprobe gefährden und ob diese besser ausgeschlossen werden sollten.
 
-*Hebelwerte* $h_j$ erlauben die Identifikation von Ausreißern aus der gemeinsamen Verteilung der unabhängigen Variablen, d.h. einzelne Fälle, die weit entfernt vom Mittelwert der gemeinsamen Verteilung der unabhängigen Variablen liegen und somit einen starken Einfluss auf die Regressionsgerade haben können (also eine große Hebelwirkung ausüben). Diese werden mit der Funktion `hatvalues` ermittelt (die Hebelwerte spielen auch bei der Bestimmung standardisierter und studentisierter Residuen eine wichtige Rolle, sodass interessierte Lesende gerne im [Appendix C](#AppendixC) mehr Informationen dazu finden). Kriterien zur Beurteilung der Hebelwerte variieren, so werden von [Eid et al. (2017, S. 707 und folgend)](https://ubffm.hds.hebis.de/Record/HEB366849158) Grenzen von $2\cdot k / n$ für große und $3\cdot k / n$ für kleine Stichproben vorgeschlagen, in den Vorlesungsfolien werden Werte von $4/n$ als auffällig eingestuft (hierbei ist $k$ die Anzahl an Prädiktoren und $n$ die Anzahl der Beobachtungen). 
+*Hebelwerte* $h_j$ erlauben die Identifikation von Ausreißern aus der gemeinsamen Verteilung der unabhängigen Variablen, d.h. einzelne Fälle, die weit entfernt vom Mittelwert der gemeinsamen Verteilung der unabhängigen Variablen liegen und somit einen starken Einfluss auf die Regressionsgerade haben können (also eine große Hebelwirkung ausüben). Diese werden mit der Funktion `hatvalues` ermittelt (die Hebelwerte spielen auch bei der Bestimmung standardisierter und studentisierter Residuen eine wichtige Rolle, sodass interessierte Lesende gerne im [Appendix C](#AppendixC) mehr Informationen dazu finden). Kriterien zur Beurteilung der Hebelwerte variieren, so werden von [Eid et al. (2017, S. 707 und folgend)](https://ubffm.hds.hebis.de/Record/HEB366849158) Grenzen von $2\cdot k / n$ für große und $3\cdot k / n$ für kleine Stichproben vorgeschlagen,in manchen Quellen werden Werte von $4/n$ als auffällig eingestuft (hierbei ist $k$ die Anzahl an Prädiktoren und $n$ die Anzahl der Beobachtungen). 
 
 *Cook's Distanz* $CD_i$ gibt eine Schätzung, wie stark sich die Regressionsgewichte verändern, wenn eine Person $i$ aus dem Datensatz entfernt wird. Fälle, deren Elimination zu einer deutlichen Veränderung der Ergebnisse führen würden, sollten kritisch geprüft werden. Als einfache Daumenregel gilt, dass $CD_i>1$ auf einen einflussreichen Datenpunkt hinweist. Cook's Distanz kann mit der Funktion `cooks.distance` ermittelt werden.
 
@@ -825,7 +803,7 @@ ggplot(data = as.data.frame(hebel), aes(x = hebel)) +
   geom_vline(data = grenzen, aes(xintercept = h, lty = Grenzwerte)) # Cut-off bei 4/n
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-38-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-133-1.png)<!-- -->
 Diese Verteilung impliziert, dass wir eventuell die Personen mit Werten $h > .3$ genauer inspizieren sollten. 
 
 *Cook's Distanz* $CD_i$ gibt eine Schätzung, wie stark sich die Regressionsgewichte verändern, wenn eine Person $i$ aus dem Datensatz entfernt wird. Fälle, deren Elimination zu einer deutlichen Veränderung der Ergebnisse führen würden, sollten kritisch geprüft werden. Als einfache Daumenregel gilt, dass $CD_i>1$ auf einen einflussreichen Datenpunkt hinweist. Cook's Distanz kann mit der Funktion `cooks.distance` ermittelt werden.
@@ -839,8 +817,8 @@ ggplot(as.data.frame(CD), aes(x = CD)) +
   geom_histogram(aes(y =after_stat(density)),  bins = 15, fill="grey90", colour = "black")
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-39-1.png)<!-- -->
-Hier brauchen wir die Linie für den Cut-Off-Wert von 1 gar nicht erst einzeichnen.
+![](/regressionsdiagnostik_files/unnamed-chunk-134-1.png)<!-- -->
+Hier brauchen wir die Linie für den Cut-Off-Wert von 1 gar nicht erst einzeichnen, weil die extremsten Werte deutlich unter 1 fallen.
 
 </details>
 
@@ -851,7 +829,7 @@ Die Funktion `influencePlot` des `car`-Paktes erzeugt ein "Blasendiagramm" zur s
 InfPlot <- influencePlot(mod)
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-40-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-135-1.png)<!-- -->
 
 ``` r
 IDs <- as.numeric(row.names(InfPlot))
@@ -876,24 +854,18 @@ vegan[IDs, c('commitment', 'health', 'environment', 'animals', 'social', 'worker
 
 ``` r
 # Standardisierte Skalenwerte
-vegan[IDs, c('commitment', 'health', 'environment', 'animals', 'social', 'workers', 'disgust')] |>
-  scale() |>
-  round(2)
+std <- vegan[, c('commitment', 'health', 'environment', 'animals', 'social', 'workers', 'disgust')] |>
+  scale()
+round(std[IDs, ], 3)
 ```
 
 ```
 ##     commitment health environment animals social workers disgust
-## 8         1.35  -1.03       -1.16   -1.09  -0.61   -0.63   -1.02
-## 184       0.76  -0.68       -0.15   -1.09  -0.61   -0.63    0.98
-## 519      -0.44   1.07        1.45    0.80  -0.61   -0.63    0.98
-## 658      -0.84  -0.44        0.44    0.80   0.15    0.23    0.09
-## 867      -0.84   1.07       -0.58    0.59   1.69    1.66   -1.02
-## attr(,"scaled:center")
-##  commitment      health environment     animals      social     workers     disgust 
-##    2.400000    3.933333    3.666667    4.466667    1.266667    2.466667    4.066667 
-## attr(,"scaled:scale")
-##  commitment      health environment     animals      social     workers     disgust 
-##   1.6733201   2.8616235   2.2973415   3.1763011   0.4346135   2.3285666   3.0037014
+## 8        0.493 -2.826      -4.137  -4.700 -0.730  -1.651  -1.969
+## 184     -0.522 -2.187      -2.204  -4.700 -0.730  -1.651   1.117
+## 519     -2.553  1.006       0.833   0.555 -0.730  -1.651   1.117
+## 658     -3.230 -1.761      -1.100   0.555 -0.454  -0.534  -0.255
+## 867     -3.230  1.006      -3.033  -0.029  0.098   1.328  -1.969
 ```
 
 
@@ -905,9 +877,9 @@ Was ist an den fünf identifizierten Fällen konkret auffällig?
 * Fall 184: Hat einen sehr hohen Wert auf `disgust` aber niedrige Werte auf `health`, `animals`, `social` und `workers`, wodurch die Person eine seltene Wertkombination hat - sie übt allerdings vernachlässigbaren Einfluss auf die Regressionsergebnisse aus (kleine Cooks Distanz, minimales Residuum)
 * Fall 519: Antwortet quasi ausschließlich in Extremkategorien und erzeugt dadurch eine seltene Wertekonstellation. Das sehr niedrige Commitment ist dabei unerwartet. 
 * Fall 658: Hat wenig spektakuläre Werte auf den UVs aber ein unerwartet niedriges Commitment, wodurch die Regressionsgerade stark nach unten gezogen wird.
-* Fall 867: Relativ hohe Werte auf `health`, `animals`, `social` und `workers` aber auch hier unerwartet niedriges Commitment machen die Person auffällg.
+* Fall 867: Relativ hohe Werte auf `health`, `animals`, `social` und `workers` aber auch hier unerwartet niedriges Commitment machen die Person auffällig.
 
-Die Entscheidung, ob Ausreißer oder auffällige Datenpunkte aus Analysen ausgeschlossen werden, ist schwierig und kann nicht pauschal beantwortet werden. Im vorliegenden Fall wäre z.B. zu überlegen, ob Person 8 und eventuell 519 aufgrund ihrer sehr auffälligen Antwortmuster von der Auswertung ausgeschlossen werden sollten. Sollte Unschlüssigkeit über den Ausschluss von Datenpunkten bestehen, bietet es sich an, die Ergebnisse einmal *mit* und einmal *ohne* die Ausreißer zu berechnen und zu vergleichen. Sollte sich ein robustes Effektmuster zeigen, ist die Entschiedung eines Ausschlusses nicht essentiell.
+Die Entscheidung, ob Ausreißer oder auffällige Datenpunkte aus Analysen ausgeschlossen werden, ist schwierig und kann nicht pauschal beantwortet werden. Im vorliegenden Fall wäre z.B. zu überlegen, ob Person 8 und eventuell 519 aufgrund ihrer sehr auffälligen Antwortmuster von der Auswertung ausgeschlossen werden sollten. Sollte Unschlüssigkeit über den Ausschluss von Datenpunkten bestehen, bietet es sich an, die Ergebnisse einmal *mit* und einmal *ohne* die Ausreißer zu berechnen und zu vergleichen. Sollte sich ein robustes Effektmuster zeigen, ist die Entscheidung eines Ausschlusses nicht essenziell.
 
 ***
 ## Appendix A {#AppendixA}
@@ -957,7 +929,7 @@ ggplot(data = df, aes(x = Depressivitaet, y = Lebenszufriedenheit, group = Messf
 ## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-43-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-138-1.png)<!-- -->
 
 Aus dem Plot können wir erkennen, dass die Anwesenheit eines Messfehlers in der unabhängigen Variablen, also der Depressivität, dazu führt, dass die Datenpunkte aufgrund der Ungenauigkeit in der Erfassung um die Regressionslinie streuen. Dieser Effekt tritt nicht auf, wenn die Depressivität fehlerfrei gemessen wird. Der Messfehler hat auch Auswirkungen auf die Schätzung der Regressionsgewichte:
 
@@ -1054,7 +1026,7 @@ Für eine einfache Regressionsgleichung mit $$Y_i=\beta_0 + \beta_1x_{i1} + \bet
 kann die selbe Gleichung auch in Matrixnotation formuliert werden $$Y = X\beta + \varepsilon.$$ Hier ist $X$ die Systemmatrix, welche die Zeilenvektoren $X_i=(1, x_{i1}, x_{i2})$ enthält. Die Standardfehler, welche die Streuung der Parameter $\beta:=(\beta_0,\beta_1,\beta_2)$ beschreiben, lassen sich wie folgt ermitteln. Wir bestimmen zunächst die Matrix $I$ wie folgt
 $$I:=(X'X)^{-1}\hat{\sigma}^2_e,$$
 wobei $\hat{\sigma}^2_e$ die Residualvarianz unserer Regressionanalyse ist (also der nicht-erklärte Anteil an der Varianz von $Y$). Aus der Matrix $I$ erhalten wir die Standardfehler sehr einfach: Sie stehen im Quadrat auf der Diagonale. Das heißt, die Standardfehler sind $SE(\beta)=\sqrt{\text{diag}(I)}$ (Wir nehmen mit $\text{diag}$ die Diagonalelemente aus $I$ und ziehen aus diesen jeweils die Wurzel: der erste Eintrag ist der $SE$ von $\beta_0$; also $SE(\beta_0)=\sqrt{I_{11}}$; der zweite von $\beta_1$;$SE(\beta_1)=\sqrt{I_{22}}$; usw.). Was hat das nun mit der Kollinearität zu tun? Wir wissen, dass in $X'X$ die Information über die Kovariation im Datensatz steckt (*dafür muss nur noch durch die Stichprobengröße geteilt werden und das Vektorprodukt der Mittelwerte abgezogen werden; damit wir eine Zentrierung um die Mittelwert sowie eine Normierung an der Stichprobengröße vorgenommen*). Beispielsweise lässt sich die empirische Kovarianzmatrix $S$ zweier Variablen $z_1$ und $z_2$ sehr einfach bestimmen mit $Z:=(z_1, z_2)$:
-$$ S=\frac{1}{n}Z'Z - \begin{pmatrix}\overline{z}_1\\\overline{z}_2 \end{pmatrix}\begin{pmatrix}\overline{z}_1&\overline{z}_2 \end{pmatrix}.$$
+$$ S=\frac{1}{n}Z'Z - \begin{pmatrix}\overline{z}_1\\ \overline{z}_2 \end{pmatrix}\begin{pmatrix}\overline{z}_1&\overline{z}_2 \end{pmatrix}.$$
 Weitere Informationen hierzu (Kovarianzmatrix und Standardfehler) können bei [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) Unterpunkt 5.2-5.4 bzw. ab Seite 1058) nachgelesen werden.
 
 Insgesamt bedeutet dies, dass die Standardfehler von der Inversen der Kovarianzmatrix unserer Daten sowie von der Residualvarianz abhängen. Sie sind also groß, wenn die Residualvarianz groß ist (damit ist die Vorhersage von $Y$ schlecht) oder wenn die Inverse der Kovarianzmatrix groß ist (also wenn die Variablen stark redundant sind und somit hoch mit einander korrelieren). Nehmen wir dazu der Einfachheit halber an, dass $\hat{\sigma}_e^2=1$ (es geht hier nur um eine numerische Präsentation der Effekte, nicht um ein sinnvolles Modell) sowie $n = 100$ (Stichprobengröße). Zusätzlich gehen wir von zentrierten Variablen (Mittelwert von 0) aus. Dann lässt sich aus $X'X$ durch Division durch $100$ die Kovarianzmatrix der Variablen bestimmen. Wir gucken uns drei Fälle an mit
@@ -1229,7 +1201,7 @@ Dieser Exkurs zeigt, wie sich die Multikolinearität auf die Standardfehler und 
 
 Wir wollen uns in diesem Abschnitt verschiedene "normierte" Residuen ansehen, welche dafür genutzt werden, einflussreiche Datenpunkte und Ausreißer zu bestimmen. Diese können dann aus der Analyse ausgeschlossen werden oder zumindest genauer betrachtet werden. Normiert bedeutet hier, dass diese Residuen über Studien hinweg vergleichbar gemacht werden sollen. Der Vorteil ist somit, dass bspw. Grafiken, die auf diesen normierten Residuen beruhen, immer gleich interpretiert werden können.
 
-Der Einfluss der Position entlang der Regressiongerade (oder Hyperebene, wenn es mehrere Prädiktoren sind) in "x"-Richtung kann mit unter enorm sein. Weit vom (gemeinsamen) Mittelwert entfernt liegende Punkte in den Prädiktoren sind hinsichtlich der Vorhersage von $Y$ mit wesentlich größerer Unsicherheit behaftet, als diejenigen, die nah am (gemeinsamen) Mittelwert liegen. Eben jene Unsicherheit gilt es bei standardisierten und studentisierten Residuen einzupreisen. Zunächst schauen wir uns diese Unsicherheit an: Dazu simulieren wir geschwind ein paar Daten - so ähnlich wie wir dies im vergangenen Semester bereits kennengelernt haben. Wir benötigen einen Prädiktor $X$, der beispielsweise gamma-verteilt sein soll (das ist eine recht schiefe Verteilung). Anschließend brauchen wir für eine Regressionsgleichung noch ein Residuum $\varepsilon$, welches wir als normalverteilt annehmen, sowie ein Interzept $\beta_0$ und einen Steigungskoeffizienten $\beta_1$:
+Der Einfluss der Position entlang der Regressiongerade (oder Hyperebene, wenn es mehrere Prädiktoren sind) in "x"-Richtung kann mitunter enorm sein. Weit vom (gemeinsamen) Mittelwert entfernt liegende Punkte in den Prädiktoren sind hinsichtlich der Vorhersage von $Y$ mit wesentlich größerer Unsicherheit behaftet als diejenigen, die nah am (gemeinsamen) Mittelwert liegen. Eben jene Unsicherheit gilt es bei standardisierten und studentisierten Residuen einzupreisen. Zunächst schauen wir uns diese Unsicherheit an: Dazu simulieren wir geschwind ein paar Daten - so ähnlich wie wir dies im vergangenen Semester bereits kennengelernt haben. Wir benötigen einen Prädiktor $X$, der beispielsweise gamma-verteilt sein soll (das ist eine recht schiefe Verteilung). Anschließend brauchen wir für eine Regressionsgleichung noch ein Residuum $\varepsilon$, welches wir als normalverteilt annehmen, sowie ein Interzept $\beta_0$ und einen Steigungskoeffizienten $\beta_1$:
 
 
 ``` r
@@ -1242,7 +1214,7 @@ X <- rgamma(n = n, shape = .7, rate = 1)
 hist(X) # recht schief
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-50-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-145-1.png)<!-- -->
 
 ``` r
 # simuliere eps~norm
@@ -1279,7 +1251,7 @@ summary(reg)
 ## F-statistic: 2.016 on 1 and 18 DF,  p-value: 0.1727
 ```
 
-Wir sehen, dass die Populationsparameter, die wir vorgegeben haben, nicht exakt getroffen werden. Das Interzept ist mit $\hat{\beta_0}$ = 0.265 und der Steigungskoeffizent mit $\hat{\beta_1}$ = 0.74 recht nah an den wahren Werten 0.5 und 0.6 dran, aber eben nicht exakt. Diese Unsicherheit gilt es in der Statistik zu beschreiben und einzuordnen. Ist der Effekt relativ zur Unsicherheit groß, dann sprechen wir von Signifikanz. Wir können diese Daten sehr leicht mit `ggplot` veranschaulichen und einen Regressionstrend hinzu zufügen. Per Default wird dann auch direkt ein Konfidenzintervall für die Regressionsgerade eingezeichnet:
+Wir sehen, dass die Populationsparameter, die wir vorgegeben haben, nicht exakt getroffen werden. Das Interzept ist mit $\hat{\beta_0}$ = 0.265 und der Steigungskoeffizent mit $\hat{\beta_1}$ = 0.74 recht nah an den wahren Werten 0.5 und 0.6 dran, aber eben nicht exakt. Diese Unsicherheit gilt es in der Statistik zu beschreiben und einzuordnen. Ist der Effekt relativ zur Unsicherheit groß, dann sprechen wir von Signifikanz. Wir können diese Daten sehr leicht mit `ggplot` veranschaulichen und einen Regressionstrend hinzuzufügen. Per Default wird dann auch direkt ein Konfidenzintervall für die Regressionsgerade eingezeichnet:
 
 
 ``` r
@@ -1288,18 +1260,18 @@ ggplot(data = df, mapping = aes(x = X, y = Y)) + geom_point() +
   geom_smooth(method = "lm", formula = "y~x")
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-51-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-146-1.png)<!-- -->
 
-Diesem Plot entnehmen wir sehr deutlich, dass die Unsicherheit bezüglich der Vorhersage von $Y$ (nämlich $\hat{Y}$) für große $X$ viel größer ausfällt, als für mittlere (oder kleine) $X$. Um den Fehler der Vorhersage genauer zu untersuchen, benötigen wir den Vorhersagefehler, also das Residuum. Um dieses über Studien hinweg immer gleich interpretieren zu können, muss dieses normiert werden. Wir wollen, dass es eine Varianz von 1 hat. Wenn Sie in [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) die Seiten 709 bis 710 durcharbeiten, lernen Sie standardisierte und studentisierte Residuen kennen. Diese Definition weicht etwas von der Definition der standardisierten und studentisierten Residuen aus dem `MASS`-Paket ab. In [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) wird das *standardisierte Residuum* so definiert, dass das Residuum einfach durch seine Standardabweichung geteilt wird:
+Diesem Plot entnehmen wir sehr deutlich, dass die Unsicherheit bezüglich der Vorhersage von $Y$ (nämlich $\hat{Y}$) für große $X$ viel größer ausfällt als für mittlere (oder kleine) $X$. Um den Fehler der Vorhersage genauer zu untersuchen, benötigen wir den Vorhersagefehler, also das Residuum. Um dieses über Studien hinweg immer gleich interpretieren zu können, muss dieses normiert werden. Wir wollen, dass es eine Varianz von 1 hat. Wenn Sie in [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) die Seiten 709 bis 710 durcharbeiten, lernen Sie standardisierte und studentisierte Residuen kennen. Diese Definition weicht etwas von der Definition der standardisierten und studentisierten Residuen aus dem `MASS`-Paket ab. In [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) wird das *standardisierte Residuum* so definiert, dass das Residuum einfach durch seine Standardabweichung geteilt wird:
 
-
+$$
 \begin{equation}
 \hat{\varepsilon}_{i,\text{std}} := \frac{\hat{\varepsilon}_{i}}{\hat{\sigma}},
 \end{equation}
+$$
 
 
-
-wobei $\hat{\sigma}$ der geschätze Regressionsfehler (also die Standardabweichung der Residuen) ist.
+wobei $\hat{\sigma}$ der geschätzte Regressionsfehler (also die Standardabweichung der Residuen) ist.
 
 So haben wir die Standardisierung auch schon vorher kennengelernt. Da bei einem Residuum der Mittelwert eh bei 0 liegt, müssen wir den Mittelwert des Residuums auch vorher nicht mehr abziehen, sondern es reicht das Residuum durch die Standardabweichung zu teilen. Gleichzeitig wird in [Eid et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849158) das *studentisierte* Residuum so definiert, dass wir uns das Wissen über den Regressionzusammenhang zwischen den unabhängigen Variablen und der abhängigen Variable zu Nutze machen und einpreisen, dass wir für Punkte, die weit vom Mittelwert der Prädiktoren entfernt liegen, größere Residuen erwarten können. Das hatten wir auch in dem Plot gesehen, dass an den Rändern das Konfidenzintervall viel breiter ausfällt.
 
@@ -1361,11 +1333,10 @@ ggplot(data = df, mapping = aes(x = X, y = Y)) + geom_point() +
 
 ```
 ## Warning in geom_point(mapping = aes(x = Xmax, y = Y_pred_Xmax), cex = 4, : All aesthetics have length 1, but the data has 20 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing a
-##   single row.
+## ℹ Please consider using `annotate()` or provide this layer with data containing a single row.
 ```
 
-![](/regressionsdiagnostik_files/unnamed-chunk-53-1.png)<!-- -->
+![](/regressionsdiagnostik_files/unnamed-chunk-148-1.png)<!-- -->
 
 Der gelbe Punkt liegt genau auf der Gerade - super!
 
@@ -1399,12 +1370,13 @@ Jetzt müssen wir noch die Unsicherheit einpreisen, die dadurch resultiert, dass
 
 $$h = \text{diag}\left[X(X'X)^{-1}X'\right]$$
 
-Sie sind die Diagonalelemente der sogenannten Hut-Matrix. $\text{diag}[\cdot]$ bestimmt hier die Diagonalelemente der Matrix $X(X'X)^{-1}X'$, welche oft auch als Hutmatrix bezeichnet iwrd. Wir berechnen diese und vergleichen Sie mit der jeweiligen Funktion, welche wir oben schon kennengelernt haben:
+Sie sind die Diagonalelemente der sogenannten Hut-Matrix. $\text{diag}[\cdot]$ bestimmt hier die Diagonalelemente der Matrix $X(X'X)^{-1}X'$, welche oft auch als Hutmatrix bezeichnet wird. Wir berechnen diese und vergleichen Sie mit der jeweiligen Funktion, welche wir oben schon kennengelernt haben:
 
 
 ``` r
 X_mat <- cbind(1, X)
 h <- diag(X_mat %*% solve(t(X_mat) %*% X_mat) %*% t(X_mat))
+#Abgleich mit vorher berechneten hatvalues
 round(h-hatvalues(reg), digits = 10)
 ```
 
@@ -1413,21 +1385,21 @@ round(h-hatvalues(reg), digits = 10)
 ##  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
 ```
 
-Super, die *hatvalues* haben wir schon mal ausgerechnet. Nun kommen wir zu den  studentisierten Residuen, welche diese Werte mit einbeziehen. Wir bestimmen hier zwei Varianten des studentisierten Residuums ([Eid et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158)); das internal studentisierte Residuum und das external studentisierte Residuum. Internal und external bezieht sich hierbei auf dem Umstand, ob die Standardabweichung der Residuen unter einbezug (internal) oder unter Auschluss (external) der betrachteten Person bestimmt wird:
+Super, die *hatvalues* haben wir schon mal ausgerechnet. Nun kommen wir zu den  studentisierten Residuen, welche diese Werte mit einbeziehen. Wir bestimmen hier zwei Varianten des studentisierten Residuums ([Eid et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158)); das internal studentisierte Residuum und das external studentisierte Residuum. Internal und external bezieht sich hierbei auf dem Umstand, ob die Standardabweichung der Residuen unter Einbezug (internal) oder unter Ausschluss (external) der betrachteten Person bestimmt wird:
 
-
+$$
 \begin{equation}
 \hat{\varepsilon}_{i,\text{stud, internal}} := \frac{\hat{\varepsilon}_{i}}{\hat{\sigma}\sqrt{1-h_i}}
 \end{equation}
+$$
 
-
-
+$$
 \begin{equation}
 \hat{\varepsilon}_{i,\text{stud, external}} := \frac{\hat{\varepsilon}_{i}}{\hat{\sigma}_{(-i)}\sqrt{1-h_i}}
 \end{equation}
+$$
 
-
-Die beiden Residuen werden also bestimmt, indem das eigentliche Residuum der Person $i$, nämlich $\hat{\varepsilon}_i = Y_i - \hat{Y}_i$ durch den Standardfehler $\hat{\sigma}$ multipliziert mit $\sqrt{1-h_i}$ geteilt wird: $\hat{\sigma}\sqrt{1-h_i}$. $h_i$ ist der Hebelwert der Person $i$. Für das external studentisierte Residuum wird nun zur Bestimmung des Standardfehlers die Analyse wiederholt, nur das Person $i$ aus dem Datensatz ausgeschlossen wird. Dies ist Ähnlich zu der Cooks-Distanz von oben. Nun führen wir das Ganze mal empirisch durch. Hier muss nun gesagt werden, dass innerhalb des `MASS`-Pakets internal-studentisierte Residuen mit dem `stdres` und external-studentisierte Residuen mit dem `studres`-Befehl bestimmt werden und es so zu einer Vermischung der Termologien kommt:
+Die beiden Residuen werden also bestimmt, indem das eigentliche Residuum der Person $i$, nämlich $\hat{\varepsilon}_i = Y_i - \hat{Y}_i$ durch den Standardfehler $\hat{\sigma}$ multipliziert mit $\sqrt{1-h_i}$ geteilt wird: $\hat{\sigma}\sqrt{1-h_i}$. $h_i$ ist der Hebelwert der Person $i$. Für das external studentisierte Residuum wird nun zur Bestimmung des Standardfehlers die Analyse wiederholt, nur das Person $i$ aus dem Datensatz ausgeschlossen wird. Dies ist ähnlich zu der Cooks-Distanz von oben. Nun führen wir das Ganze mal empirisch durch. Hier muss nun gesagt werden, dass innerhalb des `MASS`-Pakets internal-studentisierte Residuen mit dem `stdres` und external-studentisierte Residuen mit dem `studres`-Befehl bestimmt werden und es so zu einer Vermischung der Terminologien kommt:
 
 
 

@@ -29,9 +29,9 @@ resis <- residuals(mod) # Residuen
 preds <- fitted(mod)    # Vorhergesagte Werte
 
 # Varianz der Residuen im 1. Viertel der vorhergesagten Werte
-var(resis[preds <= quantile(preds, .25)])
+q1_var <- var(resis[preds <= quantile(preds, .25)])
 # Varianz der Residuen im 4. Viertel der vorhergesagten Werte
-var(resis[preds >= quantile(preds, .75)])
+q3_var <- var(resis[preds >= quantile(preds, .75)])
 
 # Residuenplot
 plot(mod, which = 1)
@@ -110,7 +110,7 @@ og <- vegan[1:7, c('age', 'gender', 'commitment', 'animals')]
 og
 
 # Bootstrap-Datensatz
-b1 <- og[sample(1:7, 7, replace = TRUE), ]
+b1 <- og[sample(1:7, 7, replace = TRUE), ] #Wichtig: replace=TRUE --> mit Zurücklegen
 b1
 
 # # Manuelle Regressionsfunktion
@@ -226,9 +226,9 @@ IDs <- as.numeric(row.names(InfPlot))
 vegan[IDs, c('commitment', 'health', 'environment', 'animals', 'social', 'workers', 'disgust')]
 
 # Standardisierte Skalenwerte
-vegan[IDs, c('commitment', 'health', 'environment', 'animals', 'social', 'workers', 'disgust')] |>
-  scale() |>
-  round(2)
+std <- vegan[, c('commitment', 'health', 'environment', 'animals', 'social', 'workers', 'disgust')] |>
+  scale()
+round(std[IDs, ], 3)
 
 
 
