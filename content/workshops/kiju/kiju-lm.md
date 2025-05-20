@@ -6,10 +6,10 @@ slug: kiju-lm
 categories: ["KiJu"]
 tags: ["Regression"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Tutorial wird beschrieben, wie lineare Modelle in R erstellt werden können. Dabei wird auf die Syntax eingegangen und diese spezifisch für einfache, multiple und moderierte Regressionen erläutert.'
 authors: [nehler, schreiner]
 weight: 2
-lastmod: '2025-02-07'
+lastmod: '2025-04-30'
 featured: no
 banner:
   image: "/header/metal_beams_electricity.jpg"
@@ -44,7 +44,7 @@ output:
 Zunächst müssen wir das `haven`-Paket wieder aktivieren und einen Teil des Code aus dem letzten Tutorial wieder durchführen.
 
 
-```r
+``` r
 library(haven)
 setwd("~/Pfad/zu/Ordner")
 data <- read_sav(file = "fb22_mod.sav")
@@ -71,7 +71,7 @@ Es gibt eine spezielle Syntax für die Darstellungen von Abhängigkeiten. Dies w
 
 
 
-```r
+``` r
 aggregate(extra ~ geschl_faktor, data = data, FUN = mean)
 ```
 
@@ -87,7 +87,7 @@ aggregate(extra ~ geschl_faktor, data = data, FUN = mean)
 Nun übertragen wir die eben gelernte Syntaxlogik und schauen uns die Variable `extra` (Extraversion) in Abhängigkeit von `lz` (Lebenszufriedenheit) an. 
 
 
-```r
+``` r
 lm(extra ~ lz, data = data)
 ```
 
@@ -104,14 +104,14 @@ lm(extra ~ lz, data = data)
 Das Model selbst hat offenbar erstmal nur eine sehr beschränkte Ausgabe. Häufig kann man mehr aus Funktionen herausholen, wenn man ihren Output zunächst in einem Objekt ablegt:
 
 
-```r
+``` r
 mod <- lm(extra ~ lz, data = data)
 ```
 
 Das Objekt `mod` erscheint damit im Environment. Es ist vom Typ Liste, das ist etwas anderes als ein Datensatz mit einer festen Anzahl an Spalten pro Reihe und umgekehrt. Bei Listen können in verschiedenen Bestandteilen der Liste ganz unterschiedliche Sachen liegen. Beispielsweise können auch Datensätze Bestandteile von Listen sein. Die Auswahl von Listenbestandteilen funktioniert aber ebenfalls durch das `$`. 
 
 
-```r
+``` r
 mod$coefficients
 ```
 
@@ -120,7 +120,7 @@ mod$coefficients
 ##   2.7745981   0.1273186
 ```
 
-```r
+``` r
 mod$call
 ```
 
@@ -132,7 +132,7 @@ Genau wie Variablen (`numeric` etc.) können auch Listen verschiedene Klassen ha
 Datensätze hingegen haben meist die `class` `data.frame`.
 
 
-```r
+``` r
 class(data)
 ```
 
@@ -140,7 +140,7 @@ class(data)
 ## [1] "tbl_df"     "tbl"        "data.frame"
 ```
 
-```r
+``` r
 class(mod)
 ```
 
@@ -151,7 +151,7 @@ class(mod)
 Neben der händischen Exploration eines Objektes können wir auch automatische Funktionen nutzen, wie beispielsweise die `summary`-Funktion, die wohl am häufigsten verwendet wird. 
 
 
-```r
+``` r
 summary(mod)
 ```
 
@@ -179,66 +179,90 @@ summary(mod)
 Sie zeigt uns die wichtigsten Parameter an. Die `summary`-Funktion ist auch auf Objekte anderer Klassen anwendbar. Wenn wir sie auf den Datensatz anwenden, werden uns Zusammenfassungen der Variablen angezeigt. Auch in den nächsten Blöcken werden wir sie noch verwenden. 
 
 
-```r
+``` r
 summary(data)
 ```
 
 ```
-##      prok1           prok2           prok3           prok4           prok5           prok6      
-##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000  
-##  1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:3.000   1st Qu.:2.000  
-##  Median :3.000   Median :3.000   Median :2.000   Median :3.000   Median :3.000   Median :3.000  
-##  Mean   :2.667   Mean   :2.588   Mean   :2.235   Mean   :2.569   Mean   :2.974   Mean   :2.725  
-##  3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000  
-##  Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :4.000  
-##                                                                                                 
-##      prok7           prok8          prok9           prok10           nr1             nr2      
-##  Min.   :1.000   Min.   :1.00   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.00  
-##  1st Qu.:2.000   1st Qu.:2.00   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:3.00  
-##  Median :3.000   Median :3.00   Median :3.000   Median :3.000   Median :3.000   Median :4.00  
-##  Mean   :2.725   Mean   :2.81   Mean   :2.745   Mean   :2.739   Mean   :2.765   Mean   :3.68  
-##  3rd Qu.:3.000   3rd Qu.:3.00   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.00  
-##  Max.   :4.000   Max.   :4.00   Max.   :4.000   Max.   :4.000   Max.   :5.000   Max.   :5.00  
-##                                                                                               
-##       nr3             nr4             nr5             nr6              lz            extra      
-##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.400   Min.   :1.500  
-##  1st Qu.:2.000   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:2.000   1st Qu.:4.200   1st Qu.:3.000  
-##  Median :3.000   Median :4.000   Median :3.000   Median :3.000   Median :4.800   Median :3.250  
-##  Mean   :3.124   Mean   :3.699   Mean   :3.327   Mean   :2.915   Mean   :4.684   Mean   :3.371  
-##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:5.400   3rd Qu.:3.750  
-##  Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :6.600   Max.   :5.000  
-##                                                                                                 
-##      vertr          gewis           neuro           intel            nerd          grund          
-##  Min.   :2.50   Min.   :2.000   Min.   :1.250   Min.   :1.250   Min.   :1.500   Length:153        
-##  1st Qu.:3.75   1st Qu.:3.500   1st Qu.:3.250   1st Qu.:3.250   1st Qu.:2.667   Class :character  
-##  Median :4.00   Median :4.000   Median :3.750   Median :3.500   Median :3.167   Mode  :character  
-##  Mean   :4.09   Mean   :3.856   Mean   :3.621   Mean   :3.564   Mean   :3.127                     
-##  3rd Qu.:4.50   3rd Qu.:4.250   3rd Qu.:4.250   3rd Qu.:4.000   3rd Qu.:3.500                     
-##  Max.   :5.00   Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :4.667                     
-##                                                                                                   
-##      fach               ziel             lerntyp              geschl           job      
-##  Length:153         Length:153         Length:153         Min.   :1.000   Min.   :1.00  
-##  Class :character   Class :character   Class :character   1st Qu.:1.000   1st Qu.:1.00  
-##  Mode  :character   Mode  :character   Mode  :character   Median :1.000   Median :1.00  
-##                                                           Mean   :1.161   Mean   :1.35  
-##                                                           3rd Qu.:1.000   3rd Qu.:2.00  
-##                                                           Max.   :3.000   Max.   :2.00  
-##                                                           NA's   :10      NA's   :10    
-##       ort           ort12               wohnen           uni1             uni2       
-##  Min.   :1.000   Length:153         Min.   :1.000   Min.   :0.0000   Min.   :0.0000  
-##  1st Qu.:1.000   Class :character   1st Qu.:1.500   1st Qu.:0.0000   1st Qu.:1.0000  
-##  Median :1.000   Mode  :character   Median :2.000   Median :0.0000   Median :1.0000  
-##  Mean   :1.361                      Mean   :2.238   Mean   :0.2026   Mean   :0.8693  
-##  3rd Qu.:2.000                      3rd Qu.:3.000   3rd Qu.:0.0000   3rd Qu.:1.0000  
-##  Max.   :2.000                      Max.   :4.000   Max.   :1.0000   Max.   :1.0000  
-##  NA's   :9                          NA's   :10                                       
-##       uni3             uni4         geschl_faktor     nr_ges           prok          wohnen_faktor
-##  Min.   :0.0000   Min.   :0.0000   weiblich:121   Min.   :1.000   Min.   :1.200   WG        :36   
-##  1st Qu.:0.0000   1st Qu.:0.0000   männlich: 21   1st Qu.:2.833   1st Qu.:2.200   bei Eltern:55   
-##  Median :0.0000   Median :0.0000   anderes :  1   Median :3.333   Median :2.800   alleine   :34   
-##  Mean   :0.3791   Mean   :0.1111   NA's    : 10   Mean   :3.252   Mean   :2.689   sonstiges :18   
-##  3rd Qu.:1.0000   3rd Qu.:0.0000                  3rd Qu.:3.667   3rd Qu.:3.200   NA's      :10   
-##  Max.   :1.0000   Max.   :1.0000                  Max.   :5.000   Max.   :4.000                   
+##      prok1           prok2           prok3           prok4      
+##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000  
+##  Median :3.000   Median :3.000   Median :2.000   Median :3.000  
+##  Mean   :2.667   Mean   :2.588   Mean   :2.235   Mean   :2.569  
+##  3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000  
+##  Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :4.000  
+##                                                                 
+##      prok5           prok6           prok7           prok8     
+##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.00  
+##  1st Qu.:3.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.00  
+##  Median :3.000   Median :3.000   Median :3.000   Median :3.00  
+##  Mean   :2.974   Mean   :2.725   Mean   :2.725   Mean   :2.81  
+##  3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.00  
+##  Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :4.00  
+##                                                                
+##      prok9           prok10           nr1             nr2      
+##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.00  
+##  1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:3.00  
+##  Median :3.000   Median :3.000   Median :3.000   Median :4.00  
+##  Mean   :2.745   Mean   :2.739   Mean   :2.765   Mean   :3.68  
+##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.00  
+##  Max.   :4.000   Max.   :4.000   Max.   :5.000   Max.   :5.00  
+##                                                                
+##       nr3             nr4             nr5             nr6       
+##  Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:2.000   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:2.000  
+##  Median :3.000   Median :4.000   Median :3.000   Median :3.000  
+##  Mean   :3.124   Mean   :3.699   Mean   :3.327   Mean   :2.915  
+##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.000  
+##  Max.   :5.000   Max.   :5.000   Max.   :5.000   Max.   :5.000  
+##                                                                 
+##        lz            extra           vertr          gewis      
+##  Min.   :1.400   Min.   :1.500   Min.   :2.50   Min.   :2.000  
+##  1st Qu.:4.200   1st Qu.:3.000   1st Qu.:3.75   1st Qu.:3.500  
+##  Median :4.800   Median :3.250   Median :4.00   Median :4.000  
+##  Mean   :4.684   Mean   :3.371   Mean   :4.09   Mean   :3.856  
+##  3rd Qu.:5.400   3rd Qu.:3.750   3rd Qu.:4.50   3rd Qu.:4.250  
+##  Max.   :6.600   Max.   :5.000   Max.   :5.00   Max.   :5.000  
+##                                                                
+##      neuro           intel            nerd          grund          
+##  Min.   :1.250   Min.   :1.250   Min.   :1.500   Length:153        
+##  1st Qu.:3.250   1st Qu.:3.250   1st Qu.:2.667   Class :character  
+##  Median :3.750   Median :3.500   Median :3.167   Mode  :character  
+##  Mean   :3.621   Mean   :3.564   Mean   :3.127                     
+##  3rd Qu.:4.250   3rd Qu.:4.000   3rd Qu.:3.500                     
+##  Max.   :5.000   Max.   :5.000   Max.   :4.667                     
+##                                                                    
+##      fach               ziel             lerntyp              geschl     
+##  Length:153         Length:153         Length:153         Min.   :1.000  
+##  Class :character   Class :character   Class :character   1st Qu.:1.000  
+##  Mode  :character   Mode  :character   Mode  :character   Median :1.000  
+##                                                           Mean   :1.161  
+##                                                           3rd Qu.:1.000  
+##                                                           Max.   :3.000  
+##                                                           NA's   :10     
+##       job            ort           ort12               wohnen     
+##  Min.   :1.00   Min.   :1.000   Length:153         Min.   :1.000  
+##  1st Qu.:1.00   1st Qu.:1.000   Class :character   1st Qu.:1.500  
+##  Median :1.00   Median :1.000   Mode  :character   Median :2.000  
+##  Mean   :1.35   Mean   :1.361                      Mean   :2.238  
+##  3rd Qu.:2.00   3rd Qu.:2.000                      3rd Qu.:3.000  
+##  Max.   :2.00   Max.   :2.000                      Max.   :4.000  
+##  NA's   :10     NA's   :9                          NA's   :10     
+##       uni1             uni2             uni3             uni4       
+##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+##  1st Qu.:0.0000   1st Qu.:1.0000   1st Qu.:0.0000   1st Qu.:0.0000  
+##  Median :0.0000   Median :1.0000   Median :0.0000   Median :0.0000  
+##  Mean   :0.2026   Mean   :0.8693   Mean   :0.3791   Mean   :0.1111  
+##  3rd Qu.:0.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:0.0000  
+##  Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
+##                                                                     
+##   geschl_faktor     nr_ges           prok          wohnen_faktor
+##  weiblich:121   Min.   :1.000   Min.   :1.200   WG        :36   
+##  männlich: 21   1st Qu.:2.833   1st Qu.:2.200   bei Eltern:55   
+##  anderes :  1   Median :3.333   Median :2.800   alleine   :34   
+##  NA's    : 10   Mean   :3.252   Mean   :2.689   sonstiges :18   
+##                 3rd Qu.:3.667   3rd Qu.:3.200   NA's      :10   
+##                 Max.   :5.000   Max.   :4.000                   
 ## 
 ```
 Weitere Beispiele für solche Funktionen, die auf Objekte verschiedener Klassen angewandt werden können, sind `plot()` und `resid()`. 
@@ -254,14 +278,14 @@ Zur multiplen Regression gibt es viele Themen in der [Übersicht von PsyBSc7](/l
 Schauen wir uns zunächst eine einfache Erweiterung der Syntax um eine Addition an. 
 
 
-```r
+``` r
 mod_kont <- lm(lz ~ neuro + intel, data = data)
 ```
 
 Die `class` bleibt gleich und auch die `summary` ist daher gleich aufgebaut. Die `Coefficients` werden logischerweise um einen Eintrag erweitert. 
 
 
-```r
+``` r
 class(mod_kont)
 ```
 
@@ -269,7 +293,7 @@ class(mod_kont)
 ## [1] "lm"
 ```
 
-```r
+``` r
 summary(mod_kont)
 ```
 
@@ -301,7 +325,7 @@ summary(mod_kont)
 Nun nehmen wir zunächst einmal die Variable `geschl` (Geschlecht) auf, so wie sie ursprünglich vorlag. Die Syntax bleibt dabei genau gleich. 
 
 
-```r
+``` r
 mod_kat <- lm(lz ~ intel + geschl, data = data)
 summary(mod_kat)
 ```
@@ -324,7 +348,7 @@ summary(mod_kat)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.004 on 140 degrees of freedom
-##   (10 Beobachtungen als fehlend gelöscht)
+##   (10 observations deleted due to missingness)
 ## Multiple R-squared:  0.1284,	Adjusted R-squared:  0.1159 
 ## F-statistic: 10.31 on 2 and 140 DF,  p-value: 6.654e-05
 ```
@@ -333,7 +357,7 @@ Wir sehen, dass `geschl` ein eigenes Steigungsgewicht bekommt. Das ist überrasc
 Daher ist die Verwandlung in einen Faktor essentiell. 
 
 
-```r
+``` r
 mod_kat <- lm(lz ~ intel + geschl_faktor, data = data)
 summary(mod_kat)
 ```
@@ -357,7 +381,7 @@ summary(mod_kat)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.007 on 139 degrees of freedom
-##   (10 Beobachtungen als fehlend gelöscht)
+##   (10 observations deleted due to missingness)
 ## Multiple R-squared:  0.1298,	Adjusted R-squared:  0.1111 
 ## F-statistic: 6.914 on 3 and 139 DF,  p-value: 0.0002258
 ```
@@ -369,7 +393,7 @@ Die `summary` zeigt uns direkt an, in welcher Kategorie der Unterschied besteht.
 Nun soll der Interaktionseffekt zwischen zwei Variablen aufgenommen werden. Bevor wir dies tun, müssen wir die Variablen zentrieren, damit Multikollinearität vorgebeugt wird. 
 
 
-```r
+``` r
 data$neuro_center <- scale(data$neuro, scale = F, center = T)
 data$intel_center <- scale(data$intel, scale = F, center = T)
 ```
@@ -377,7 +401,7 @@ data$intel_center <- scale(data$intel, scale = F, center = T)
 Wir überprüfen die Funktionalität; diese ist nicht immer genau null, aber maschinell gesehen schon.
 
 
-```r
+``` r
 mean(data$neuro_center)
 ```
 
@@ -385,7 +409,7 @@ mean(data$neuro_center)
 ## [1] -1.450156e-17
 ```
 
-```r
+``` r
 mean(data$intel_center)
 ```
 
@@ -396,7 +420,7 @@ mean(data$intel_center)
 Setzen wir nun die lineare Modellierung mit Moderationseffekt um. Da eine Moderation eine Multiplikation der Effekte ist, würde man intuitiv den Code folgendermaßen schreiben. 
 
 
-```r
+``` r
 mod_inter_nocenter <- lm(lz ~ neuro + intel + neuro * intel, data = data)
 mod_inter_center <- lm(lz ~ neuro_center + intel_center + neuro_center * intel_center, data = data)
 summary(mod_inter_nocenter)
@@ -423,7 +447,7 @@ summary(mod_inter_nocenter)
 ## F-statistic: 6.491 on 3 and 149 DF,  p-value: 0.0003705
 ```
 
-```r
+``` r
 summary(mod_inter_center)
 ```
 
@@ -453,7 +477,7 @@ summary(mod_inter_center)
 Wir sehen, dass die Zentralisierung wie erwartet die Standardfehler reduziert hat. Kommen wir jetzt nochmal zurück zum Code: die intuitive Lösung mit der Multiplikation benötigt theoretisch nicht die einzelne Aufführung der Variablen, die Teil der Interaktion sind.
 
 
-```r
+``` r
 mod_inter_center <- lm(lz ~ neuro_center * intel_center, data = data)
 summary(mod_inter_center)
 ```
@@ -484,7 +508,7 @@ summary(mod_inter_center)
 Allerdings hat das natürlich den Nachteil, dass man nicht spezifisch auswählt und damit nicht so stark über sein Modell nachdenken muss. Es besteht daher die Möglichkeit, Interaktionen sehr präzise mit dem `:` auszuwählen.  
 
 
-```r
+``` r
 mod_inter_center <- lm(lz ~ neuro_center + intel_center + neuro_center:intel_center, data = data)
 summary(mod_inter_center)
 ```
@@ -516,20 +540,20 @@ summary(mod_inter_center)
 Kommen wir nun zur grafischen Darstellung: Es gibt ein Paket, dass diese sehr gut unterstützt. Es erstellt automatisch Grafen im Rahmen von `ggplot()`, wozu es auf PandaR einen [ganzen Workshop](https://pandar.netlify.app/extras/#ggplotting) oder auch ein einzelnes, einführendes [Tutorial](https://pandar.netlify.app/post/grafiken-mit-ggplot2/) gibt. <!--ggplotting-Beiträge fehlen noch-->
 
 
-```r
+``` r
 install.packages("interactions")
 library(interactions)
 ```
 
 
-```r
+``` r
 library(interactions)
 ```
 
 Die Festlegung des Moderators kann `R` natürlich nicht für uns übernehmen.
 
 
-```r
+``` r
 interact_plot(model = mod_inter_center, pred = intel_center, modx = neuro_center)
 ```
 
@@ -544,7 +568,7 @@ Weitere Infos zur Moderation, besonders zum Zusammenspiel mit quadratischen Effe
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 mod_extra <- lm(extra ~ wohnen_faktor + vertr, data = data)
 summary(mod_extra)
 ```
@@ -569,7 +593,7 @@ summary(mod_extra)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6648 on 138 degrees of freedom
-##   (10 Beobachtungen als fehlend gelöscht)
+##   (10 observations deleted due to missingness)
 ## Multiple R-squared:  0.161,	Adjusted R-squared:  0.1367 
 ## F-statistic: 6.619 on 4 and 138 DF,  p-value: 6.661e-05
 ```
@@ -581,7 +605,7 @@ summary(mod_extra)
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 library(lm.beta)
 lm.beta(mod_extra)
 ```
@@ -592,13 +616,13 @@ lm.beta(mod_extra)
 ## lm(formula = extra ~ wohnen_faktor + vertr, data = data)
 ## 
 ## Standardized Coefficients::
-##             (Intercept) wohnen_faktorbei Eltern    wohnen_faktoralleine  wohnen_faktorsonstiges 
-##                      NA             -0.18368741             -0.02931193             -0.14810607 
-##                   vertr 
-##              0.33734839
+##             (Intercept) wohnen_faktorbei Eltern    wohnen_faktoralleine 
+##                      NA             -0.18368741             -0.02931193 
+##  wohnen_faktorsonstiges                   vertr 
+##             -0.14810607              0.33734839
 ```
 
-```r
+``` r
 summary(lm.beta(mod_extra))
 ```
 
@@ -622,7 +646,7 @@ summary(lm.beta(mod_extra))
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6648 on 138 degrees of freedom
-##   (10 Beobachtungen als fehlend gelöscht)
+##   (10 observations deleted due to missingness)
 ## Multiple R-squared:  0.161,	Adjusted R-squared:  0.1367 
 ## F-statistic: 6.619 on 4 and 138 DF,  p-value: 6.661e-05
 ```
@@ -630,7 +654,7 @@ summary(lm.beta(mod_extra))
 Eine geschachtelte Funktion ist teilweise schwierig zu lesen. Es gibt als Lösung die Pipe, die ein Objekt in eine weitere Funktion weitergibt. 
 
 
-```r
+``` r
 mod_extra |> lm.beta() |> summary()
 ```
 
@@ -654,7 +678,7 @@ mod_extra |> lm.beta() |> summary()
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6648 on 138 degrees of freedom
-##   (10 Beobachtungen als fehlend gelöscht)
+##   (10 observations deleted due to missingness)
 ## Multiple R-squared:  0.161,	Adjusted R-squared:  0.1367 
 ## F-statistic: 6.619 on 4 and 138 DF,  p-value: 6.661e-05
 ```
@@ -666,7 +690,7 @@ mod_extra |> lm.beta() |> summary()
 <details><summary>Lösung</summary>
 
 
-```r
+``` r
 data$nr_ges_center <- scale(data$nr_ges, scale = F, center = T) 
 data$prok_center <- scale(data$prok, scale = F, center = T)
 data$vertr_center <- scale(data$vertr, scale = F, center = T)
@@ -674,7 +698,7 @@ data$vertr_center <- scale(data$vertr, scale = F, center = T)
 
 
 
-```r
+``` r
 mod_falsch <- lm(extra ~ nr_ges_center * prok_center * vertr_center, data = data)
 summary(mod_falsch)
 ```
@@ -690,15 +714,24 @@ summary(mod_falsch)
 ## -1.74002 -0.43244 -0.04961  0.43520  1.48942 
 ## 
 ## Coefficients:
-##                                         Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                             3.371832   0.054627  61.725  < 2e-16 ***
-## nr_ges_center                           0.021812   0.068152   0.320    0.749    
-## prok_center                            -0.003785   0.085937  -0.044    0.965    
-## vertr_center                            0.445074   0.099212   4.486 1.47e-05 ***
-## nr_ges_center:prok_center              -0.165077   0.108148  -1.526    0.129    
-## nr_ges_center:vertr_center              0.080309   0.107238   0.749    0.455    
-## prok_center:vertr_center                0.092026   0.156887   0.587    0.558    
-## nr_ges_center:prok_center:vertr_center -0.095016   0.199032  -0.477    0.634    
+##                                         Estimate Std. Error t value Pr(>|t|)
+## (Intercept)                             3.371832   0.054627  61.725  < 2e-16
+## nr_ges_center                           0.021812   0.068152   0.320    0.749
+## prok_center                            -0.003785   0.085937  -0.044    0.965
+## vertr_center                            0.445074   0.099212   4.486 1.47e-05
+## nr_ges_center:prok_center              -0.165077   0.108148  -1.526    0.129
+## nr_ges_center:vertr_center              0.080309   0.107238   0.749    0.455
+## prok_center:vertr_center                0.092026   0.156887   0.587    0.558
+## nr_ges_center:prok_center:vertr_center -0.095016   0.199032  -0.477    0.634
+##                                           
+## (Intercept)                            ***
+## nr_ges_center                             
+## prok_center                               
+## vertr_center                           ***
+## nr_ges_center:prok_center                 
+## nr_ges_center:vertr_center                
+## prok_center:vertr_center                  
+## nr_ges_center:prok_center:vertr_center    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -708,7 +741,7 @@ summary(mod_falsch)
 ```
 
 
-```r
+``` r
 mod_korrekt <- lm(extra ~ nr_ges_center + prok_center + vertr_center + nr_ges_center:prok_center:vertr_center, data = data)
 summary(mod_korrekt)
 ```
@@ -724,12 +757,18 @@ summary(mod_korrekt)
 ## -1.70159 -0.48198 -0.05594  0.42549  1.55172 
 ## 
 ## Coefficients:
-##                                        Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                             3.37225    0.05447  61.905  < 2e-16 ***
-## nr_ges_center                           0.01607    0.06802   0.236    0.814    
-## prok_center                             0.01132    0.08477   0.134    0.894    
-## vertr_center                            0.44291    0.09685   4.573 1.01e-05 ***
-## nr_ges_center:prok_center:vertr_center -0.14871    0.19278  -0.771    0.442    
+##                                        Estimate Std. Error t value Pr(>|t|)
+## (Intercept)                             3.37225    0.05447  61.905  < 2e-16
+## nr_ges_center                           0.01607    0.06802   0.236    0.814
+## prok_center                             0.01132    0.08477   0.134    0.894
+## vertr_center                            0.44291    0.09685   4.573 1.01e-05
+## nr_ges_center:prok_center:vertr_center -0.14871    0.19278  -0.771    0.442
+##                                           
+## (Intercept)                            ***
+## nr_ges_center                             
+## prok_center                               
+## vertr_center                           ***
+## nr_ges_center:prok_center:vertr_center    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 

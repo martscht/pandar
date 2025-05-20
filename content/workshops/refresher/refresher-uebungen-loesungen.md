@@ -1,33 +1,34 @@
 ---
-title: "Lösungen zur Übung" 
+title: Lösungen zur Übung
 type: post
-date: '2024-10-09' 
-slug: refresher-uebungen-loesungen 
-categories: ["refresheR Übungen"] 
-tags: ["refresheR"] 
+date: '2024-10-09'
+slug: refresher-uebungen-loesungen
+categories: refresheR Übungen
+tags: refresheR
 subtitle: ''
-summary: '' 
-authors: [stephan, gruetzner, vogler] 
-weight: 
-lastmod: '2025-02-07'
+summary: ''
+authors:
+- stephan
+- gruetzner
+- vogler
+weight: ~
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/syntax.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1172040)"
+  image: /header/syntax.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1172040)'
 projects: []
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Aufgaben
-    url: /workshops/refresheR/uebungen
-
+- icon_pack: fas
+  icon: pen-to-square
+  name: Aufgaben
+  url: /workshops/refresheR/uebungen
 output:
   html_document:
-    keep_md: true
-    
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -67,9 +68,8 @@ levels(edu_exp$Wealth_factor)                      #high_income ist bereits Leve
 ```
 
 ```
-## [1] ""                    "high_income"        
-## [3] "low_income"          "lower_middle_income"
-## [5] "upper_middle_income"
+## [1] ""                    "high_income"         "low_income"         
+## [4] "lower_middle_income" "upper_middle_income"
 ```
 
 </details>
@@ -330,7 +330,13 @@ distort2 <- subset(distort, subset = sex %in% c("female", "male"))
 
 # Normalverteilung
 library(car)
+```
 
+```
+## Lade nötiges Paket: carData
+```
+
+```r
 car::qqPlot(distort2$marginal)
 ```
 
@@ -518,35 +524,35 @@ a) Erstellen Sie eine Tabelle, die die statistischen Kennwerte der Skalen relati
 
 ```r
 library(psych)
+```
+
+```
+## Warning: Paket 'psych' wurde unter R Version 4.3.2 erstellt
+```
+
+```
+## 
+## Attache Paket: 'psych'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:car':
+## 
+##     logit
+```
+
+```r
 describe(fairplayer_T1u2[ , c("rat1", "rat2", "emt1", "emt2", "sit1", "sit2")])
 ```
 
 ```
-## [106 obs. x 6 variables] tbl_df tbl data.frame
-## 
-## $rat1: 
-## numeric: 4 5 4 3 4 5 3 3 3 3 ...
-## min: 3 - max: 11 - NAs: 0 (0%) - 8 unique values
-## 
-## $rat2: 
-## numeric: 4 3 3 3 7 4 7 3 6 3 ...
-## min: 3 - max: 11 - NAs: 0 (0%) - 7 unique values
-## 
-## $emt1: 
-## numeric: 12 11 8 15 10 11 10 5 13 12 ...
-## min: 4 - max: 15 - NAs: 0 (0%) - 12 unique values
-## 
-## $emt2: 
-## numeric: 11 14 5 12 10 11 10 12 12 13 ...
-## min: 3 - max: 15 - NAs: 0 (0%) - 11 unique values
-## 
-## $sit1: 
-## numeric: 7 6 5 10 6 7 8 6 8 8 ...
-## min: 3 - max: 15 - NAs: 0 (0%) - 13 unique values
-## 
-## $sit2: 
-## numeric: 8 9 4 12 7 10 11 9 10 7 ...
-## min: 3 - max: 15 - NAs: 0 (0%) - 13 unique values
+##      vars   n  mean   sd median trimmed  mad min max range  skew kurtosis   se
+## rat1    1 106  4.10 1.59    3.0    3.80 0.00   3  11     8  1.81     3.62 0.15
+## rat2    2 106  4.04 1.66    3.0    3.69 0.00   3  11     8  2.19     5.35 0.16
+## emt1    3 106 11.50 2.22   11.5   11.60 2.22   4  15    11 -0.62     0.66 0.22
+## emt2    4 106 11.47 2.38   12.0   11.64 2.97   3  15    12 -0.78     0.75 0.23
+## sit1    5 106  8.21 2.80    8.0    8.08 2.97   3  15    12  0.40    -0.61 0.27
+## sit2    6 106  8.82 2.91    9.0    8.77 2.97   3  15    12  0.16    -0.25 0.28
 ```
 
 </details>
@@ -615,7 +621,29 @@ c) Erstellen Sie GGPlots, die die Gruppenunterschiede verbildlichen.
 
 ```r
 library(ggplot2)
+```
 
+```
+## Warning: Paket 'ggplot2' wurde unter R Version 4.3.2 erstellt
+```
+
+```
+## Want to understand how all the pieces fit together? Read R for Data Science:
+## https://r4ds.had.co.nz/
+```
+
+```
+## 
+## Attache Paket: 'ggplot2'
+```
+
+```
+## Die folgenden Objekte sind maskiert von 'package:psych':
+## 
+##     %+%, alpha
+```
+
+```r
 ## Most basic Plot:
 ggplot(data = fairplayer_T1u2,
        mapping = aes(x = sit1,
@@ -654,23 +682,15 @@ summary(reg_mod)
 ## -2.9795 -0.7636 -0.4128  0.6004  6.8951 
 ## 
 ## Coefficients:
-##                        Estimate Std. Error t value Pr(>|t|)
-## (Intercept)             1.82898    0.70483   2.595 0.010884
-## Geschlechtmale          0.56819    0.30776   1.846 0.067817
-## InterventionsgruppeIGS  0.02166    0.44333   0.049 0.961134
-## InterventionsgruppeIGL  0.39149    0.44619   0.877 0.382362
-## rat1                    0.35084    0.09715   3.611 0.000478
-## Klassenstufe            0.07280    0.07088   1.027 0.306880
-##                           
-## (Intercept)            *  
-## Geschlechtmale         .  
-## InterventionsgruppeIGS    
-## InterventionsgruppeIGL    
-## rat1                   ***
-## Klassenstufe              
+##                        Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)             1.82898    0.70483   2.595 0.010884 *  
+## Geschlechtmale          0.56819    0.30776   1.846 0.067817 .  
+## InterventionsgruppeIGS  0.02166    0.44333   0.049 0.961134    
+## InterventionsgruppeIGL  0.39149    0.44619   0.877 0.382362    
+## rat1                    0.35084    0.09715   3.611 0.000478 ***
+## Klassenstufe            0.07280    0.07088   1.027 0.306880    
 ## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.561 on 100 degrees of freedom
 ## Multiple R-squared:  0.1535,	Adjusted R-squared:  0.1111 

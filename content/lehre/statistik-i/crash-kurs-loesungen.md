@@ -1,40 +1,38 @@
 ---
-title: "R Crash-Kurs - Lösungen" 
+title: R Crash-Kurs - Lösungen
 type: post
-date: '2020-11-09' 
-slug: crash-kurs-loesungen 
-categories: ["Statistik I Übungen"] 
-tags: [] 
+date: '2020-11-09'
+slug: crash-kurs-loesungen
+categories: Statistik I Übungen
+tags: []
 subtitle: ''
-summary: '' 
-authors: [schultze] 
-lastmod: '2025-04-07'
+summary: ''
+authors: schultze
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/toy_car_crash.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+  image: /header/toy_car_crash.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)'
 projects: []
-
 expiryDate: ''
 publishDate: ''
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/statistik-i/crash-kurs
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Übungen
-    url: /lehre/statistik-i/crash-kurs-uebungen
-
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-i/crash-kurs
+- icon_pack: fas
+  icon: pen-to-square
+  name: Übungen
+  url: /lehre/statistik-i/crash-kurs-uebungen
 _build:
   list: never
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 ## R als Taschenrechner
@@ -47,7 +45,7 @@ output:
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 3 + 7 * 12
 ```
 
@@ -63,7 +61,7 @@ output:
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 (3 + 7 * 12) == (3 * 29)
 ```
 
@@ -79,7 +77,7 @@ output:
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 zahl <- round(sqrt(115))
 ```
 
@@ -91,12 +89,12 @@ zahl <- round(sqrt(115))
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 6 * 1,56
 ```
 
 ```
-## Error in parse(text = input): <text>:1:6: unexpected ','
+## Error: <text>:1:6: Unerwartete(s) ','
 ## 1: 6 * 1,
 ##          ^
 ```
@@ -104,7 +102,7 @@ zahl <- round(sqrt(115))
 In der Syntax wird fälschlicherweise das Komma als Dezimaltrennzeichen genutzt. Wenn man das Komma durch einen Punkt ersetzt, funktioniert die Syntax problemlos:
 
 
-``` r
+```r
 6 * 1.56
 ```
 
@@ -137,7 +135,7 @@ Ajla del Ponte | 10.97
 Erstellen der Vektoren:
 
 
-``` r
+```r
 sprinterin <- c('Elaine Thompson-Herah', 'Shelly-Ann Fraser-Pryce', 'Shericka Jackson', 'Marie-Josee Ta Lou', 'Ajla del Ponte')
 zeit <- c(10.61, 10.74, 10.76, 10.91, 10.97)
 ```
@@ -145,7 +143,7 @@ zeit <- c(10.61, 10.74, 10.76, 10.91, 10.97)
 Prüfen der Typen:
 
 
-``` r
+```r
 class(sprinterin)
 ```
 
@@ -153,7 +151,7 @@ class(sprinterin)
 ## [1] "character"
 ```
 
-``` r
+```r
 class(zeit)
 ```
 
@@ -173,7 +171,7 @@ class(zeit)
 Per Voreinstellung wurden bis zur R-Version 4.0.0 `character` Vektoren beim Zusammenführen in `data.frame`s in den Typ `factor` umgewandelt. Sollten Sie also eine älter Version benutzen, kann es hier zu Komplikationen kommen:
 
 
-``` r
+```r
 olymp <- data.frame(sprinterin, zeit)
 str(olymp)
 ```
@@ -193,7 +191,7 @@ In diesem Fall (R-Version 4.1.1) werden die Namen als `character` beibehalten. D
 In älteren Versionen muss dieses Argument also händisch auf `FALSE` gesetzt werden, um das gewünschte Ergebnis zu erreichen.
 
 
-``` r
+```r
 olymp <- data.frame(sprinterin, zeit, stringsAsFactors = FALSE)
 str(olymp)
 ```
@@ -212,7 +210,7 @@ str(olymp)
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 olymp[3, 2]         # dirkete Auswahl via Position
 ```
 
@@ -220,7 +218,7 @@ olymp[3, 2]         # dirkete Auswahl via Position
 ## [1] 10.76
 ```
 
-``` r
+```r
 olymp[3, 'zeit']    # Variablenauswahl per Name
 ```
 
@@ -228,7 +226,7 @@ olymp[3, 'zeit']    # Variablenauswahl per Name
 ## [1] 10.76
 ```
 
-``` r
+```r
 olymp[olymp$sprinterin == 'Shericka Jackson', 'zeit']  # Filterauswahl
 ```
 
@@ -244,7 +242,7 @@ olymp[olymp$sprinterin == 'Shericka Jackson', 'zeit']  # Filterauswahl
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 olymp[6, ] <- c('Muljinga Kambundji', 10.99)
 olymp
 ```
@@ -271,7 +269,7 @@ Die Nationalitäten finden sich übersichtlich z.B. auf [der Wikipedia-Seite zum
 Variante 1: Neuen Vektor erstellen und über `cbind` oder `data.frame` hinzufügen.
 
 
-``` r
+```r
 nation <- c('Jamaika', 'Jamaika', 'Jamaika', 'Elfenbeinküste', 'Schweiz', 'Schweiz')
 full <- data.frame(olymp, nation)   # via data.frame
 # Alternative: via cbind
@@ -292,7 +290,7 @@ full
 Variante 2: Vektor direkt im Datensatz anlegen.
 
 
-``` r
+```r
 olymp$nation <- c('Jamaika', 'Jamaika', 'Jamaika', 'Elfenbeinküste', 'Schweiz', 'Schweiz')
 olymp
 ```
@@ -318,15 +316,15 @@ olymp
 *Hinweis*: Die Summe des Objekts `zeit` ist hier nicht mehr angebracht, weil die 6. Sprinterin direkt dem Datensatz hinzugefügt wurde. Dadurch hat sich das Verhalten unseres Datensatzes geändert:
 
 
-``` r
+```r
 sum(olymp$zeit)
 ```
 
 ```
-## Error in sum(olymp$zeit): invalid 'type' (character) of argument
+## Error in sum(olymp$zeit): ungültiger 'type' (character) des Argumentes
 ```
 
-``` r
+```r
 str(olymp)
 ```
 
@@ -340,7 +338,7 @@ str(olymp)
 Es entsteht ein Fehler, der besagt, dass `zeit` im Datensatz als `character` und nicht numerisch abgelegt ist. Das ist dadurch passiert, dass die Daten von Mujinga Kambundji händisch hinzufügt wurden. Es gibt zwei Möglichkeiten damit umzugehen. Die Erste ist eine ad-hoc Korrektur der Variablentypen:
 
 
-``` r
+```r
 olymp$zeit <- as.numeric(olymp$zeit)
 str(olymp)
 ```
@@ -355,7 +353,7 @@ str(olymp)
 Die Zweite ist es, das Problem bereits beim Hinzufügen von Daten zu umgehen. Dazu erstellen wir erst einmal den `olymp` Datensatz mit fünf Sprinterinnen aus den ursprünglichen Objekten erneut, um die Ausgangslage wiederherzustellen. Dann fügen wir die sechste Sprinterin eigenen, einzeiligen `data.frame` hinzu:
 
 
-``` r
+```r
 olymp <- data.frame(sprinterin, zeit)
 olymp[6, ] <- data.frame('Muljinga Kambundji', 10.99)
 str(olymp)
@@ -370,7 +368,7 @@ str(olymp)
 In beiden Fällen kann anschließend mit `sum` gearbeitet werden:
 
 
-``` r
+```r
 sum(olymp$zeit)
 ```
 
@@ -392,11 +390,11 @@ Die folgenden Aufgaben beziehen sich auf den Datensatz **fb23**, den Sie [<i cla
 Lokale Datei öffnen:
 
 
-``` r
+```r
 setwd(...)
 ```
 
-``` r
+```r
 fb23 <- read.table('fb23.csv', 
   header = TRUE, 
   sep = ',')
@@ -405,7 +403,7 @@ fb23 <- read.table('fb23.csv',
 Online Datei öffnen:
 
 
-``` r
+```r
 fb23 <- read.table('https://pandar.netlify.app/daten/fb23.csv', 
   header = TRUE,
   sep = ',')
@@ -419,7 +417,7 @@ fb23 <- read.table('https://pandar.netlify.app/daten/fb23.csv',
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 str(fb23$ziel)
 ```
 
@@ -430,7 +428,7 @@ str(fb23$ziel)
 Variante 1: Umwandeln und anschließend Labels vergeben.
 
 
-``` r
+```r
 # Umwandung von numeric in factor
 fb23$ziel <- as.factor(fb23$ziel)
 # Vergabe von levels
@@ -440,13 +438,13 @@ levels(fb23$ziel) <- c('Wirtschaft', 'Therapie', 'Forschung', 'Andere')
 Variante 2: In einem Schritt umwandeln und Labels vergeben.
 
 
-``` r
+```r
 fb23$ziel <- factor(fb23$ziel,
   labels = c('Wirtschaft', 'Therapie', 'Forschung', 'Andere'))
 ```
 
 
-``` r
+```r
 str(fb23$ziel)
 ```
 
@@ -464,7 +462,7 @@ str(fb23$ziel)
 Variante 1: Taschenrechnen mit Vektoren.
 
 
-``` r
+```r
 fb23$uni <- fb23$uni1 + fb23$uni2 + fb23$uni3 + fb23$uni4
 str(fb23$uni)
 ```
@@ -476,7 +474,7 @@ str(fb23$uni)
 Variante 2: Zeilen-spezifische Summen bilden.
 
 
-``` r
+```r
 fb23$uni <- rowSums(fb23[, c('uni1', 'uni2', 'uni3', 'uni4')])
 str(fb23$uni)
 ```
@@ -496,12 +494,12 @@ str(fb23$uni)
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 help(subset)
 ```
 
 
-``` r
+```r
 therapie <- subset(fb23,            # Voller Datensatz
   subset = fb23$ziel == 'Therapie'  # Auswahlkriterium
   )
@@ -561,7 +559,7 @@ str(therapie)
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 saveRDS(therapie, 'therapie.rds')
 ```
 

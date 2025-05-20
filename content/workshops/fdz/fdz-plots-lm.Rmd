@@ -6,7 +6,7 @@ slug: fdz-plots-lm
 categories: ["fdz"]
 tags: ["Grafiken", "Regression"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Tutorial wird die Erstellung von Grafiken mit Basis R und die Syntax von linearen Modellen in R behandelt. Die Syntax für einfache und multiple Regressionen wird erläutert, einschließlich der Verwendung von kontinuierlichen und kategorialen Prädiktoren sowie der Moderation.'
 authors: [nehler]
 weight: 3
 lastmod: '`r Sys.Date()`'

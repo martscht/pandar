@@ -1,34 +1,34 @@
 ---
-title: "Übungen" 
+title: Übungen
 type: post
-date: '2024-10-09' 
-slug: refresher-uebungen 
-categories: ["refresheR Übungen"] 
-tags: ["refresheR"] 
+date: '2024-10-09'
+slug: refresher-uebungen
+categories: refresheR Übungen
+tags: refresheR
 subtitle: ''
-summary: '' 
-authors: [stephan, gruetzner, vogler] 
-weight: 
-lastmod: '2025-02-07'
+summary: ''
+authors:
+- stephan
+- gruetzner
+- vogler
+weight: ~
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/syntax.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1172040)"
+  image: /header/syntax.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1172040)'
 projects: []
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Lösungen
-    url: /workshops/refresheR/uebungen-loesungen
-
-
+- icon_pack: fas
+  icon: pen-to-square
+  name: Lösungen
+  url: /workshops/refresheR/uebungen-loesungen
 output:
   html_document:
-    keep_md: true
-    
+    keep_md: yes
+private: 'true'
 ---
   
 
@@ -161,7 +161,9 @@ Homoskedastizität: nicht gegeben
 Laden Sie den Datensatz `distort` ein, wenn noch nicht geschehen. Informationen zu den Variablen finden Sie [hier](/daten/datensaetze/#distorted-news).
 
 <details>
-  <summary>**Tipp**</summary>
+  <summary>
+  <b>Tipp</b>
+  </summary>
 
 
 ```r
@@ -208,7 +210,9 @@ a) Entfernen Sie den Messzeitpunkt T3.
 b) Passen Sie die Reihennamen an: ID, Klassenstufe, Interventiosgruppe, Geschlecht. Die Items können gleich benannt bleiben.
 
 <details>
-  <summary>**Tipp**</summary>
+  <summary>
+  <b>Tipp</b>
+  </summary>
   
   Befehl `colnames()`
   
@@ -218,7 +222,9 @@ b) Passen Sie die Reihennamen an: ID, Klassenstufe, Interventiosgruppe, Geschlec
 c) Fassen Sie die Items der Skalen Relationale Angst, Empathie und Soziale Intelligenz. Achten Sie dabei darauf immer nur Items der gleichen Messzeitpunkte zusammenzufassen.
 
 <details>
-  <summary>**Tipp**</summary>
+  <summary>
+  <b>Tipp</b>
+  </summary>
   
   Befehl `rowSums()`
   

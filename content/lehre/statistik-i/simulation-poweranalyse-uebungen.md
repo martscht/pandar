@@ -1,35 +1,37 @@
 ---
-title: "Simulation und Poweranalyse - Übungen" 
+title: Simulation und Poweranalyse - Übungen
 type: post
-date: '2019-10-18' 
+date: '2019-10-18'
 slug: simulation-poweranalyse-uebungen
-categories: ["Statistik I Übungen"] 
-tags: [] 
+categories: Statistik I Übungen
+tags: []
 subtitle: ''
-summary: '' 
-authors: [irmer, sinn]
-weight: 
-lastmod: '2025-04-07'
+summary: ''
+authors:
+- irmer
+- sinn
+weight: ~
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/windmills_but_fancy.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1178076)"
+  image: /header/windmills_but_fancy.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1178076)'
 projects: []
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/statistik-i/simulation-poweranalyse
-  - icon_pack: fas
-    icon: star
-    name: Lösungen
-    url: /lehre/statistik-i/simulation-poweranalyse-loesungen
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-i/simulation-poweranalyse
+- icon_pack: fas
+  icon: star
+  name: Lösungen
+  url: /lehre/statistik-i/simulation-poweranalyse-loesungen
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -44,7 +46,7 @@ $$Y:= \rho X + \sqrt{1-\rho^2}Z,$$
 wieder standardnormalverteilt und um den Korrelationskoeffizienten $\rho$ korreliert mit $X$. Wir können also relativ einfach zwei korrelierte Variablen generieren. Wie in der Sitzung verwenden wir $N=20$:
 
 
-``` r
+```r
 N <- 20
 
 set.seed(12345)
@@ -58,7 +60,7 @@ cor(X, Y) # empirische Korrelation
 ## [1] 0.579799
 ```
 
-``` r
+```r
 sd(X) 
 ```
 
@@ -66,7 +68,7 @@ sd(X)
 ## [1] 0.8339354
 ```
 
-``` r
+```r
 sd(Y)
 ```
 

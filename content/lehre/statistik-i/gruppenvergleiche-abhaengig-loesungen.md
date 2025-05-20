@@ -1,37 +1,38 @@
 ---
-title: "Tests für abhängige Stichproben - Lösungen" 
+title: Tests für abhängige Stichproben - Lösungen
 type: post
-date: '2022-12-13' 
-slug: gruppenvergleiche-abhaengig-loesungen 
-categories: ["Statistik I Übungen"] 
-tags: [] 
+date: '2022-12-13'
+slug: gruppenvergleiche-abhaengig-loesungen
+categories: Statistik I Übungen
+tags: []
 subtitle: ''
-summary: '' 
-authors: [walter, nehler] 
-lastmod: '2025-04-07'
+summary: ''
+authors:
+- walter
+- nehler
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/consent_checkbox.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/449195)"
+  image: /header/consent_checkbox.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/449195)'
 projects: []
 _build:
   list: never
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/statistik-i/gruppenvergleiche-abhaengig
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Übungen
-    url: /lehre/statistik-i/gruppenvergleiche-abhaengig-uebungen
-    
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-i/gruppenvergleiche-abhaengig
+- icon_pack: fas
+  icon: pen-to-square
+  name: Übungen
+  url: /lehre/statistik-i/gruppenvergleiche-abhaengig-uebungen
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -87,7 +88,7 @@ Ein Blick in den `fb24`-Datensatz verrät, dass auf dem Skalenwert `wm_post`, de
 Um verfälschte deskriptiv- und inferenzstatistische Ergebnisse zu vermeiden, werden alle Personen aus der weiteren Berechung ausgeschlossen, die einen fehlenden Wert auf `wm_post` (oder `wm_pre`) aufweisen. Damit wir den Datensatz `fb24` aber nicht generell verändern, legen wir estmal einen neuen Datesatz an, der nur die beiden interessierenden Variablen enthält.
 
 
-``` r
+```r
 wach <- fb24[, c("wm_pre", "wm_post")] #Erstellung eines neuen Datensatzes, welcher nur die für uns wichtigen Variablen enthält
 
 wach <- na.omit(wach) #Entfernt alle Beobachtungen, die auf einer der beiden Variable einen fehlenden Wert haben
@@ -111,7 +112,7 @@ Histogramme (weil die Skalenwerte Intervallskalenqualität haben):
 Je ein Histogramm pro Gruppe, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert.
 
 
-``` r
+```r
 par(mfrow=c(2,1), mar=c(3,2,2,0)) # Zusammenfügen der zwei Histogramme in eine Plot-Datei und ändern der Ränder (margins) des Plot-Fensters
 
 hist(wach[, "wm_pre"], xlim=c(0,5), ylim=c(1,50), main="Wachempfinden vor der Sitzung", xlab="", ylab="", las=1)
@@ -123,7 +124,7 @@ abline(v=mean(wach[, "wm_post"]), lty=2, lwd=2)
 
 ![](/gruppenvergleiche-abhaengig-loesungen_files/unnamed-chunk-3-1.png)<!-- -->
 
-``` r
+```r
 par(mfrow=c(1,1)) #Zurücksetzen auf default
 ```
 
@@ -131,7 +132,7 @@ par(mfrow=c(1,1)) #Zurücksetzen auf default
 **Deskriptivstatistische Beantwortung der Fragestellung: statistisch**
 
 
-``` r
+```r
 summary(wach[, "wm_pre"])
 ```
 
@@ -140,7 +141,7 @@ summary(wach[, "wm_pre"])
 ##   1.250   2.250   2.750   2.731   3.250   4.000
 ```
 
-``` r
+```r
 summary(wach[, "wm_post"])
 ```
 
@@ -149,7 +150,7 @@ summary(wach[, "wm_post"])
 ##   1.000   2.250   2.500   2.517   2.750   3.500
 ```
 
-``` r
+```r
 # aus dem Paket psych, das wir bereits installiert haben
 library(psych)
 describe(wach[, "wm_pre"])
@@ -160,7 +161,7 @@ describe(wach[, "wm_pre"])
 ## X1    1 134 2.73 0.61   2.75    2.74 0.74 1.25   4  2.75 -0.15    -0.82 0.05
 ```
 
-``` r
+```r
 describe(wach[, "wm_post"])
 ```
 
@@ -189,7 +190,7 @@ Die deskriptivstatistischen Maße unterscheiden sich.
 
 **Grafische Voraussetzungsprüfung: Normalverteilung von _d_**
 
-``` r
+```r
 par(mar=c(3,3,3,0)) #ändern der Ränder (margins) des Plot-Fensters
 difference <- wach[, "wm_pre"]-wach[, "wm_post"]
 hist(difference, xlim=c(-4,4), main="Verteilung der Differenzen", xlab="Differenzen", ylab="", las=1,freq=F)
@@ -198,7 +199,7 @@ curve(dnorm(x, mean=mean(difference), sd=sd(difference)), col="blue", lwd=2, add
 
 ![](/gruppenvergleiche-abhaengig-loesungen_files/unnamed-chunk-6-1.png)<!-- -->
 
-``` r
+```r
 par(mfrow=c(1,1)) #Zurücksetzen auf default
 qqnorm(difference,las=1)
 qqline(difference, col="blue")
@@ -216,7 +217,7 @@ $\Rightarrow$ Differenzen weisen leichte Abweichungen zur Normalverteilung auf. 
 **Durchführung des _t_-Tests für abhängige Stichproben in R**
 
 
-``` r
+```r
 t.test(x = wach[, "wm_pre"], y  = wach[, "wm_post"], # die Werte vorher und nachher
        paired = T,                                   # Stichproben sind abhängig
        alternative = "two.sided",                    # unggerichtete Hypothese -> zweiseitig Testung
@@ -238,7 +239,7 @@ t.test(x = wach[, "wm_pre"], y  = wach[, "wm_post"], # die Werte vorher und nach
 ```
 
 
-``` r
+```r
 # Alternative Schreibweise
 t.test(x = wach$wm_pre, y = wach$wm_post, 
        paired = T,
@@ -260,7 +261,7 @@ t.test(x = wach$wm_pre, y = wach$wm_post,
 **Schätzung des standardisierten Populationseffekts**
 
 
-``` r
+```r
 mean_d <- mean(difference) # Mittelwert der Differenzen
 sd.d.est <- sd(difference) # geschätzte Populationsstandardabweichung der Differenzen
 d <- mean_d/sd.d.est

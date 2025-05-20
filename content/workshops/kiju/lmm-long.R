@@ -1,10 +1,10 @@
 library(knitr)
 
-## load(url('https://pandar.netlify.app/daten/Sunday.rda'))
-## head(sunday)
-
-load('../../daten/Sunday.rda')
+load(url('https://pandar.netlify.app/daten/Sunday.rda'))
 head(sunday)
+
+## load('../../daten/Sunday.rda')
+## head(sunday)
 
 ## # Für Plots der Modelle - dauert einen Moment
 ## install.packages('sjPlot', dependencies = TRUE)

@@ -6,10 +6,10 @@ slug: lmm-long
 categories: ["KiJu"]
 tags: ["Regression", "Hierarchische Daten", "Zufallseffekte"]
 subtitle: ''
-summary: ''
+summary: 'Dieser Beitrag präsentiert die Schätzung von gemischten Modellen mit längsschnittlichen Daten und deren Interpretation. Dabei wird auf die Zerlegung der Varianz in stabile und instabile Anteile eingegangen. Zudem werden verschiedene Ansätze zur Modellierung von Wachstumskurven vorgestellt.'
 authors: [schultze]
 weight: 4
-lastmod: '2025-02-07'
+lastmod: '2025-04-30'
 featured: no
 banner:
   image: "/header/rainbow_loops_road.jpg"
@@ -66,11 +66,10 @@ Abschnitte:
 ### Datenbeispiel
 
 
-```r
+``` r
 load(url('https://pandar.netlify.app/daten/Sunday.rda'))
 head(sunday)
 ```
-
 
 ```
 ##   id mzp  pos  neg   gs  wm meq ctime gs_lag wm_lag
@@ -81,6 +80,8 @@ head(sunday)
 ## 5  1   4 nein nein 3.00 2.0  33  9.57   3.00    2.5
 ## 6  1   5 nein nein 2.75 1.0  33 11.12   3.00    2.0
 ```
+
+
 
 Crayen, C., Eid, M., Lischetzke, T., Courvoisier, D. S. und Vermunt, J. K. (2012). Exploring dynamics in mood regulation—Mixture latent Markov modeling of ambulatory assessment data. _Psychosomatic Medicine_, 74, 366-376.
 
@@ -98,7 +99,7 @@ Crayen, C., Eid, M., Lischetzke, T., Courvoisier, D. S. und Vermunt, J. K. (2012
 ### Pakete
 
 
-```r
+``` r
 # Für Plots der Modelle - dauert einen Moment
 install.packages('sjPlot', dependencies = TRUE)
 
@@ -109,7 +110,7 @@ installpackages('jtools')
 Für alternative Ansätze der Darstellung bzw. Berechnung von Komponenten (nur in vereinzelten Beispielen genutzt)
 
 
-```r
+``` r
 # Für Inferenz der fixed effects
 install.packages('lmerTest')
 
@@ -118,7 +119,7 @@ install.packages('MuMIn')
 ```
 
 
-```r
+``` r
 library(lme4)
 library(sjPlot)
 library(jtools)
@@ -145,7 +146,7 @@ $$ y_{ti} = \gamma_{00} + u_{0i} + r_{ti} $$
 $$ \tau_{ti} = \xi_{i} + \zeta_{ti} $$
 
 
-```r
+``` r
 mod0 <- lmer(wm ~ 1 + (1 | id), sunday)
 print(summ(mod0))
 ```
@@ -188,7 +189,7 @@ print(summ(mod0))
 ICC: Stabilitätsausmaß (relativer Varianzanteil der Personeneigenschaften)
 
 
-```r
+``` r
 # Individuelle Traits (Ewartungswerte, beta0i)
 coef(mod0)$id |> head()
 ```
@@ -203,7 +204,7 @@ coef(mod0)$id |> head()
 ## 6    2.743919
 ```
 
-```r
+``` r
 # Abweichungen (u0i)
 ranef(mod0)$id |> head()
 ```
@@ -219,7 +220,7 @@ ranef(mod0)$id |> head()
 ```
 
 
-```r
+``` r
 plot_model(mod0, 're', sort.est = '(Intercept)')
 ```
 
@@ -232,7 +233,7 @@ plot_model(mod0, 're', sort.est = '(Intercept)')
 - Random Intercept Modell mit Zeit als UV
 
 
-```r
+``` r
 mod1 <- lmer(wm ~ 1 + ctime + (1 | id), sunday)
 print(summ(mod1))
 ```
@@ -274,7 +275,7 @@ print(summ(mod1))
 ## -------------------------
 ```
 
-```r
+``` r
 sunday$pred_mod1 <- predict(mod1)
 
 subset(sunday, as.numeric(id) < 10) |>
@@ -289,7 +290,7 @@ subset(sunday, as.numeric(id) < 10) |>
 ### Kurvilineares Wachstum
 
 
-```r
+``` r
 plot_model(mod1, 'slope')
 ```
 
@@ -300,12 +301,12 @@ plot_model(mod1, 'slope')
 
 ![](/lmm-long_files/unnamed-chunk-12-1.png)<!-- -->
 
-```r
+``` r
 sunday$ct_quad <- sunday$ctime^2
 ```
 
 
-```r
+``` r
 cor(sunday$ctime, sunday$ctime^2)
 ```
 
@@ -313,7 +314,7 @@ cor(sunday$ctime, sunday$ctime^2)
 ## [1] 0.9762517
 ```
 
-```r
+``` r
 poly(sunday$ctime, 2)
 ```
 
@@ -819,7 +820,7 @@ poly(sunday$ctime, 2)
 ##  [498,]  0.0187272793 -0.0200897591
 ##  [499,]  0.0278064354 -0.0039910536
 ##  [500,]  0.0390583809  0.0243330158
-##  [ erreichte getOption("max.print") --  569 Zeilen ausgelassen ]
+##  [ reached getOption("max.print") -- omitted 569 rows ]
 ## attr(,"coefs")
 ## attr(,"coefs")$alpha
 ## [1] 8.056679 7.810085
@@ -835,7 +836,7 @@ poly(sunday$ctime, 2)
 
 
 
-```r
+``` r
 mod2 <- lmer(wm ~ 1 + poly(ctime, 2) + (1 | id), sunday)
 print(summ(mod2))
 ```
@@ -884,7 +885,7 @@ print(summ(mod2))
   * Anschließende Darstellung etwas komplizierter
 
 
-```r
+``` r
 tmp <- poly(sunday$ctime, 2)
 sunday$poly1 <- tmp[,1]
 sunday$poly2 <- tmp[,2]
@@ -892,7 +893,7 @@ sunday$poly2 <- tmp[,2]
 
 
 
-```r
+``` r
 plot_model(mod2, 'pred') # hässlich
 
 # schöner
@@ -906,22 +907,13 @@ ggplot(sunday, aes(x = ctime, y = pred_mod2)) +
 ### Random Slopes Modell
 
 
-```r
+``` r
 tmp <- poly(sunday$ctime, 2)
 tmp <- as.data.frame(tmp)
 names(tmp) <- c('poly1', 'poly2')
 sunday <- cbind(sunday, tmp)
 mod3a <- lmer(wm ~ 1 + poly1 + poly2 + (1 + poly1 | id), sunday)
 mod3b <- lmer(wm ~ 1 + poly1 + poly2 + (1 + poly1 + poly2 | id), sunday)
-```
-
-```
-## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl =
-## control$checkConv, : Model failed to converge with
-## max|grad| = 0.00595614 (tol = 0.002, component 1)
-```
-
-```r
 anova(mod2, mod3a, mod3b, refit = FALSE)
 ```
 
@@ -945,7 +937,7 @@ anova(mod2, mod3a, mod3b, refit = FALSE)
 ```
 
 
-```r
+``` r
 print(summ(mod3b))
 ```
 
@@ -964,9 +956,9 @@ print(summ(mod3b))
 ## ---------------------------------------------------------
 ##                      Est.   S.E.   t val.     d.f.      p
 ## ----------------- ------- ------ -------- -------- ------
-## (Intercept)          2.66   0.04    71.32   151.81   0.00
-## poly1                2.38   1.00     2.37   151.85   0.02
-## poly2               -6.32   0.73    -8.63   137.31   0.00
+## (Intercept)          2.66   0.04    71.32   151.82   0.00
+## poly1                2.38   1.00     2.37   151.94   0.02
+## poly2               -6.32   0.73    -8.62   137.32   0.00
 ## ---------------------------------------------------------
 ## 
 ## p values calculated using Satterthwaite d.f.
@@ -989,20 +981,20 @@ print(summ(mod3b))
 ## -------------------------
 ```
 
-```r
+``` r
 VarCorr(mod3b)
 ```
 
 ```
 ##  Groups   Name        Std.Dev. Corr         
-##  id       (Intercept) 0.39925               
-##           poly1       9.81335  -0.130       
-##           poly2       5.18007  -0.003 -0.499
+##  id       (Intercept) 0.39924               
+##           poly1       9.80970  -0.131       
+##           poly2       5.18308  -0.003 -0.498
 ##  Residual             0.55216
 ```
 
 
-```r
+``` r
 sunday$pred_mod3 <- predict(mod3b)
 
 subset(sunday, as.numeric(id) < 10) |>
@@ -1030,8 +1022,17 @@ subset(sunday, as.numeric(id) < 10) |>
 ### Dynamische Prädiktoren
 
 
-```r
+``` r
 mod4 <- lmer(wm ~ 1 + poly1 + poly2 + pos + (1 + poly1 + poly2 | id), sunday)
+```
+
+```
+## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl =
+## control$checkConv, : Model failed to converge with
+## max|grad| = 0.0045503 (tol = 0.002, component 1)
+```
+
+``` r
 print(summ(mod4))
 ```
 
@@ -1050,10 +1051,10 @@ print(summ(mod4))
 ## ---------------------------------------------------------
 ##                      Est.   S.E.   t val.     d.f.      p
 ## ----------------- ------- ------ -------- -------- ------
-## (Intercept)          2.62   0.04    67.34   184.36   0.00
-## poly1                2.37   1.00     2.37   151.40   0.02
-## poly2               -6.31   0.74    -8.58   136.08   0.00
-## posja                0.14   0.05     3.06   950.09   0.00
+## (Intercept)          2.62   0.04    67.35   184.38   0.00
+## poly1                2.37   1.00     2.37   151.41   0.02
+## poly2               -6.31   0.74    -8.58   136.09   0.00
+## posja                0.14   0.05     3.06   950.08   0.00
 ## ---------------------------------------------------------
 ## 
 ## p values calculated using Satterthwaite d.f.
@@ -1076,7 +1077,7 @@ print(summ(mod4))
 ## -------------------------
 ```
 
-```r
+``` r
 sunday$pred_mod4 <- predict(mod4)
 
 subset(sunday, as.numeric(id) < 10) |>
@@ -1111,7 +1112,7 @@ time | event | ptime
 ### Stabile Prädiktoren
 
 
-```r
+``` r
 mod5 <- lmer(wm ~ 1 + poly1 + poly2 + meq + (1 + poly1 + poly2 | id), sunday) # + meq = additiver Effekt auf das Mittel (Interaktion morning/evening)
 print(summ(mod5))
 ```
@@ -1132,7 +1133,7 @@ print(summ(mod5))
 ##                      Est.   S.E.   t val.     d.f.      p
 ## ----------------- ------- ------ -------- -------- ------
 ## (Intercept)          2.69   0.16    16.63   153.33   0.00
-## poly1                2.37   1.00     2.36   151.90   0.02
+## poly1                2.37   1.00     2.36   151.91   0.02
 ## poly2               -6.32   0.73    -8.62   137.25   0.00
 ## meq                 -0.00   0.01    -0.21   153.07   0.83
 ## ---------------------------------------------------------
@@ -1158,7 +1159,7 @@ print(summ(mod5))
 ```
 
 
-```r
+``` r
 mod5b <- lmer(wm ~ 1 + poly1 + poly2 + meq + meq:poly2 + meq:poly1 + # kann meq weggelassen werden, wenn es nicht interessiert?
                 (1 + poly1 + poly2 | id), sunday)
 summ(mod5b)
@@ -1216,7 +1217,7 @@ summ(mod5b)
    <td style="text-align:right;"> 2.63 </td>
    <td style="text-align:right;"> 0.16 </td>
    <td style="text-align:right;"> 16.17 </td>
-   <td style="text-align:right;"> 153.82 </td>
+   <td style="text-align:right;"> 153.83 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
   <tr>
@@ -1224,7 +1225,7 @@ summ(mod5b)
    <td style="text-align:right;"> 17.34 </td>
    <td style="text-align:right;"> 4.23 </td>
    <td style="text-align:right;"> 4.09 </td>
-   <td style="text-align:right;"> 156.42 </td>
+   <td style="text-align:right;"> 156.44 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
   <tr>
@@ -1240,7 +1241,7 @@ summ(mod5b)
    <td style="text-align:right;"> 0.00 </td>
    <td style="text-align:right;"> 0.01 </td>
    <td style="text-align:right;"> 0.20 </td>
-   <td style="text-align:right;"> 153.69 </td>
+   <td style="text-align:right;"> 153.70 </td>
    <td style="text-align:right;"> 0.85 </td>
   </tr>
   <tr>
@@ -1256,7 +1257,7 @@ summ(mod5b)
    <td style="text-align:right;"> -0.56 </td>
    <td style="text-align:right;"> 0.15 </td>
    <td style="text-align:right;"> -3.63 </td>
-   <td style="text-align:right;"> 156.39 </td>
+   <td style="text-align:right;"> 156.41 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
 </tbody>
@@ -1280,7 +1281,7 @@ summ(mod5b)
   <tr>
    <td> id </td>
    <td> poly1 </td>
-   <td> 9.22 </td>
+   <td> 9.21 </td>
   </tr>
   <tr>
    <td> id </td>
@@ -1315,17 +1316,8 @@ summ(mod5b)
 ### Cross-Level-Interaktionen
 
 
-```r
+``` r
 mod6 <- lmer(wm ~ 1 + poly1*meq + poly2*meq + (1 + poly1 + poly2 | id), sunday)
-```
-
-```
-## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl =
-## control$checkConv, : Model failed to converge with
-## max|grad| = 0.00221201 (tol = 0.002, component 1)
-```
-
-```r
 print(summ(mod6))
 ```
 
@@ -1344,11 +1336,11 @@ print(summ(mod6))
 ## ---------------------------------------------------------
 ##                      Est.   S.E.   t val.     d.f.      p
 ## ----------------- ------- ------ -------- -------- ------
-## (Intercept)          2.63   0.16    16.17   153.84   0.00
-## poly1               17.34   4.23     4.10   156.46   0.00
-## meq                  0.00   0.01     0.20   153.71   0.85
-## poly2               -9.38   3.20    -2.93   139.61   0.00
-## poly1:meq           -0.56   0.15    -3.63   156.42   0.00
+## (Intercept)          2.63   0.16    16.17   153.82   0.00
+## poly1               17.34   4.23     4.10   156.47   0.00
+## meq                  0.00   0.01     0.20   153.69   0.85
+## poly2               -9.38   3.20    -2.93   139.60   0.00
+## poly1:meq           -0.56   0.15    -3.63   156.43   0.00
 ## meq:poly2            0.11   0.12     0.95   140.17   0.34
 ## ---------------------------------------------------------
 ## 
@@ -1372,7 +1364,7 @@ print(summ(mod6))
 ## -------------------------
 ```
 
-```r
+``` r
 plot_model(mod6, 'pred', terms = c('poly1', 'meq'))
 ```
 
@@ -1394,7 +1386,7 @@ plot_model(mod6, 'pred', terms = c('poly1', 'meq'))
 
 - Lag Variable erstellen
 
-```r
+``` r
 # mit basis R-Befehlen
 sunday$wm_lag <- NA
 for (i in sunday$id) {
@@ -1407,7 +1399,7 @@ sunday <- group_by(sunday, id) %>% mutate(wm_lag = lag(wm))
 ```
 
 
-```r
+``` r
 mod0 <- lmer(gs ~ 1 + (1 | id), sunday)
 mod1 <- lmer(gs ~ 1 + gs_lag + (1 | id), sunday)
 anova(mod0, mod1)
@@ -1418,7 +1410,7 @@ anova(mod0, mod1)
 ```
 
 
-```r
+``` r
 mod0b <- update(mod0, data = mod1@frame)
 mod1b <- update(mod1, data = mod1@frame)
 anova(mod0b, mod1b)
@@ -1451,13 +1443,8 @@ Drei Varianzkomponenten:
 - Unvorhersagbare State-Komponente
 
 
-```r
+``` r
 MuMIn::r.squaredGLMM(mod0b)
-```
-
-```
-## Warning: 'r.squaredGLMM' now calculates a revised
-## statistic. See the help page.
 ```
 
 ```
@@ -1465,7 +1452,7 @@ MuMIn::r.squaredGLMM(mod0b)
 ## [1,]   0 0.4405919
 ```
 
-```r
+``` r
 MuMIn::r.squaredGLMM(mod1b)
 ```
 
@@ -1475,7 +1462,7 @@ MuMIn::r.squaredGLMM(mod1b)
 ```
 
 
-```r
+``` r
 print(summ(mod1b))
 ```
 
@@ -1525,7 +1512,7 @@ $$
 Indirekter Effekt: $\beta_{t(t-\text{lag})} = \gamma_{10}^{\text{lag}}$
 
 
-```r
+``` r
 curve(.47^x, xlim = c(0, 7))
 ```
 
@@ -1563,28 +1550,28 @@ $$
   * hier Awendung mit `nlme`, weil vorinstalliert und `lme4` relativ ähnlich
   
 
-```r
+``` r
 library(nlme)
 ```
 
 ```
 ## 
-## Attache Paket: 'nlme'
+## Attaching package: 'nlme'
 ```
 
 ```
-## Das folgende Objekt ist maskiert 'package:lme4':
+## The following object is masked from 'package:lme4':
 ## 
 ##     lmList
 ```
 
 ```
-## Das folgende Objekt ist maskiert 'package:dplyr':
+## The following object is masked from 'package:dplyr':
 ## 
 ##     collapse
 ```
 
-```r
+``` r
 mod0_nlme <- lme(fixed = gs ~ 1, random = ~ 1 | id, data = sunday)
 summary(mod0_nlme)
 ```
@@ -1614,7 +1601,7 @@ summary(mod0_nlme)
 ## Number of Groups: 148
 ```
 
-```r
+``` r
 summary(mod0)
 ```
 
@@ -1646,7 +1633,7 @@ summary(mod0)
 ## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-```r
+``` r
 mod1_nlme <- lme(fixed = gs ~ 1, random = ~ 1 | id, data = sunday, 
   correlation = corAR1())
 summary(mod1_nlme)
@@ -1691,7 +1678,7 @@ summary(mod1_nlme)
   * $\phi$ berücksichtigt dabei nicht zeitlichen Abstand zwischen $t$ und $t-1$
 
 
-```r
+``` r
 mod2_nlme <- lme(fixed = gs ~ 1, random = ~ 1 | id, data = sunday, 
   correlation = corCAR1(, form = ~ ctime))
 summary(mod2_nlme)

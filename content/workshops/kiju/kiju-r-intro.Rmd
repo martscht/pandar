@@ -6,7 +6,7 @@ slug: kiju-r-intro
 categories: ["KiJu"]
 tags: ["Intro"]
 subtitle: ''
-summary: ''
+summary: 'Dieser Beitrag bietet eine Einführung in die Nutzung von R mit der RStudio-Oberfläche. Dabei liegt der Fokus auf der Verwendung von Funktionen und Paketen.'
 authors: [nehler, schreiner]
 weight: 1
 lastmod: '`r Sys.Date()`'
