@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: vonwissel
 weight: 1
-lastmod: '`r Sys.Date()`'
+lastmod: '2025-05-21'
 featured: no
 banner:
   image: "/header/colorful_tiles.jpg"
@@ -34,17 +34,14 @@ output:
 private: 'true'
 ---
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-```
+
 
 ## Vorbereitung
 
 Bitte führen Sie den folgenden R-Code aus, welcher die benötigten Pakete installiert, den Übungsdatensatz läd und das Theme für die Plots setzt. Zu Übungszwecken nutzen wir das gleiche Theme, welches Ihnen bereits aus den Inhalten dieses Kapitels bekannt ist.
 
-```{r eval = FALSE}
+
+``` r
 # Installation und Laden des Pakets "ggplot2"
 install.packages("ggplot2")
 library(ggplot2)
