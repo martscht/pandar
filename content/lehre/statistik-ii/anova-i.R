@@ -1,4 +1,4 @@
-# load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
+## load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
 
 load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
 
@@ -6,28 +6,25 @@ dim(conspiracy)
 
 head(conspiracy)
 
-library(car)
-leveneTest(conspiracy$ET ~ conspiracy$urban)
-
 # Gruppenmittelwerte ermitteln
-mu_k <- aggregate(conspiracy$ET, list(conspiracy$urban), mean)
-mu_k
+y_mean_k <- aggregate(conspiracy$ET, list(conspiracy$urban), mean)
+y_mean_k
 
-names(mu_k) <- c('urban', 'ET_mu_k')
+names(y_mean_k) <- c('urban', 'ET_mean_k')
 
-temp <- merge(conspiracy, mu_k, by = 'urban')
+temp <- merge(conspiracy, y_mean_k, by = 'urban')
 dim(temp)
 names(temp)
 
 # Gesamtmittelwert ermitteln
-mu <- mean(conspiracy$ET)
+y_mean_ges <- mean(conspiracy$ET)
 
 # Gruppengrößen ermitteln
 n_k <- table(conspiracy$urban)
 
-QS_inn <- sum((temp$ET - temp$ET_mu_k)^2)
+QS_inn <- sum((temp$ET - temp$ET_mean_k)^2)
 
-QS_zw <- sum(n_k * (mu_k[, 2] - mu)^2)
+QS_zw <- sum(n_k * (y_mean_k[, 2] - y_mean_ges)^2)
 
 MQS_inn <- QS_inn / (nrow(conspiracy) - nlevels(conspiracy$urban))
 MQS_zw <- QS_zw / (nlevels(conspiracy$urban)-1)
@@ -38,34 +35,32 @@ pf(F_wert, nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$ur
 
 
 
-# # Paket installieren
-# install.packages("ez")
+## # Paket installieren
+## install.packages("afex")
 
 # Paket laden 
-library(ez)
+library(afex)
+
+aov_4(ET ~ urban, data = conspiracy)
 
 conspiracy$id <- 1:nrow(conspiracy)
 
-conspiracy$id <- as.factor(conspiracy$id)
+aov_4(ET ~ urban + (1|id), data = conspiracy)
 
-ezANOVA(conspiracy, wid = id, dv = ET, between = urban)
-
-ezANOVA(conspiracy, wid = id, dv = ET, between = urban, detailed = TRUE)
+einfakt <- aov_4(ET ~ urban + (1|id), data = conspiracy)
 
 pairwise.t.test(conspiracy$ET, conspiracy$urban, p.adjust = 'bonferroni')
 
-alternative<- aov(ET ~ urban, data = conspiracy)
+## # Paket installieren
+## install.packages("emmeans")
 
-summary(alternative)
+library(emmeans)
 
-TukeyHSD(alternative, conf.level = 0.95)
+emm_einfakt <- emmeans(einfakt, ~ urban)
 
-tuk <- TukeyHSD(aov(ET ~ urban, data = conspiracy))
-plot(tuk)
+tukey <- pairs(emm_einfakt, adjust = "tukey")
+tukey
 
-aov_t <- ezANOVA(conspiracy, wid = id, dv = ET, between = urban, return_aov = T)
-names(aov_t)
+confint(tukey)
 
-class(aov_t$aov)
-
-TukeyHSD(aov_t$aov, conf.level = 0.95)
+plot(tukey)
