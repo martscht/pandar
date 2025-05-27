@@ -75,6 +75,7 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Therapieerfolg](#therapieerfolg-therapy) | [{{< icon name="download" pack="fas" >}} `Therapy` ](/daten/Therapy.rda) |
 | [Titanic](#titanic-titanic) |  [{{< icon name="download" pack="fas" >}} `Titanic` ](/daten/Titanic.rda) |
 | [Traumatische Erlebnisse und psychische Störungen](#traumatische-erlebnisse-und-psychische-störungen-trauma) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/a9vun/download) |
+| [Trivia](#trivia-trivia) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/7ekb4/)
 | [Vegan](#vegan-vegan) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/rctkf/)
 | [Vergleich von Behandlungsformen](#vergleich-von-behandlungsformen-behandlungsform) | [{{< icon name="download" pack="fas" >}} `Behandlungsform` ](daten/Behandlungsform.rda)
 | [Xmas](#xmas-xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
@@ -1957,6 +1958,52 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+---
+
+## Trivia (`trivia`)
+
+Die Daten stammen aus einer Erhebung von [Fazio et al. (2022)](https://doi.org/10.1037/xge0001211), in der über Teilnehmende einen zweiwöchigen Zeitraum wiederholt faktische Aussagen im Stil eines Quiz per Push-Benachrichtigung präsentiert wurden. Einige dieser Aussage waren wahr, einige waren falsch. Von den präsentierten Aussagen wurden zehn als Zielitems definiert und Teilnehmende wurden am Ende der zwei Wochen danach gefragt, ob diese Aussage wahr ist. Die Aussagen wurden Teilnehmenden unterschiedlich häufig präsentiert (1, 2, 4, 8 oder 16 mal). Ziel der Untersuchung war es, in einem Feldexperiment die aus Laborstudien bekannte Zusammenhangsform zwischen Wiederholungen und Einschätzung des Wahrheitsgehalts zu untersuchen. Die Daten wurden über das [OSF](https://osf.io/re6dh/) bereitgestellt. Dort finden sich auch weitere Informationen zur Studie.
+
+### Datensatz laden
+
+Der Datensatz wird in einem Skript reduziert und Variablen umbenannt. Dieses Skript kann mit folgendem Befehl ausgeführt werden:
+
+```{r, eval = FALSE}
+source("https://pandar.netlify.app/daten/Data_Processing_trivia.R")
+```
+```{r, echo = FALSE}
+source('./Data_Processing_trivia.R')
+```
+
+Im Environment erscheint dadurch der Datensatz `trivia`. 
+
+### Größe
+
+Der Datensatz besteht aus `r nrow(trivia)` Beobachtungen auf `r ncol(trivia)` Variablen. Der Datensatz liegt im long-Format vor, mit zehn Beobachtungen (eine pro Aussage) für jede Person.
+
+### Variablen
+
+In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und ihrer Bedeutungen. 
+
+| Variable | Bedeutung | Kodierung |
+| --- | --- | --- |
+| `id` | Personen-Code | |
+| `rating` | Einschätzung des Wahrheitsgehalts | 1 = mit Sicherheit nicht wahr, 6 = mit Sicherheit wahr |
+| `repetition` | Anzahl der Wiederholungen der Präsentation |  |
+| `truth` | Objektive Wahrheit der Aussage | 1 = `true`, 2 = `false` |
+| `headline` | Eingeschätzte Aussage | 1 =  Clarabell is the clown on the "Howdy Doody" television show. |
+| | | 2 = Bach is the composer who wrote the opera "Don Giovanni." |
+| | | 3 = In the story of Pinocchio, the goldfish is named Cleo. |
+| | | 4 = Beasley is Dagwood's boss in the comic strip "Blondie." |
+| | | 5 = Williams is the last name of the playwright who wrote "A Streetcar Named Desire."  |
+| | | 6 = Toronto is the capital of Canada. |
+| | | 7 = Kingston is the capital of Jamaica. |
+| | | 8 = Eloi are the villainous people who lived underground in H.G. Wells' book "The Time Machine." |
+| | | 9 = Bullet was the name of Roy Roger's dog. |
+| | | 10 = Lima is the capital of Chile. |
+
+
 
 ---
 

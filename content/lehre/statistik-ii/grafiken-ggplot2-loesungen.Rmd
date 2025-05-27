@@ -29,6 +29,7 @@ links:
 output:
   html_document:
     keep_md: yes
+    self_contained: false
 private: 'true'
 ---
 
@@ -48,7 +49,7 @@ install.packages("ggplot2")
 library(ggplot2)
 ```
 
-Kopieren Sie nun bitte folgenden R-Code um den Übungsdatensatz *mach* zu laden und weitere vorbereitende Schritte auszuführen:
+Kopieren Sie nun bitte folgenden R-Code, um den Übungsdatensatz *mach* zu laden und weitere vorbereitende Schritte auszuführen:
 
 ```{r eval = FALSE}
 load(url("https://pandar.netlify.app/daten/mach.rda"))

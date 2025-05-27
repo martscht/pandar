@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: vonwissel
 weight: 1
-lastmod: '2025-05-15'
+lastmod: '2025-05-21'
 featured: no
 banner:
   image: /header/colorful_bubbles.jpg
@@ -29,6 +29,7 @@ links:
 output:
   html_document:
     keep_md: yes
+    self_contained: false
 private: 'true'
 ---
 
@@ -40,7 +41,7 @@ private: 'true'
 Installieren und laden Sie das Paket *ggplot2*, sofern noch nicht geschehen.
 
 
-```r
+``` r
 install.packages("ggplot2")
 library(ggplot2)
 ```
@@ -48,7 +49,7 @@ library(ggplot2)
 Kopieren Sie nun bitte folgenden R-Code um den Übungsdatensatz *mach* zu laden und weitere vorbereitende Schritte auszuführen:
 
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/mach.rda"))
 
 # Variable hand (Schreibhand) als Faktor definieren
@@ -81,7 +82,7 @@ Erstellen Sie ein einfaches Balkendiagramm für die Variable *hand* aus dem *mac
 <summary>Lösung</summary>
 
 
-```r
+``` r
 ggplot(mach, aes(x = hand)) +    # Erstellen eines leeren ggplots für den Datensatz 'mach' und der Variable 'hand' auf der x-Achse
   geom_bar(aes(fill = hand)) +   # Erweitern um eine Ebene mit Balkendiagramm. Festlegen der Farben der Balken in Abhängigkeit der Variable 'hand'
   theme_minimal()                # Verwendung des gefragten Themes
@@ -101,7 +102,7 @@ Visualiseren Sie für jedes der drei Geschlechter (Variable *gender*) die Häufi
 <summary>Lösung</summary>
 
 
-```r
+``` r
 ggplot(mach, aes(x = hand, group = gender)) +                         # Grundstruktur: x-Achse = 'hand', gruppiert nach 'gender'
   geom_bar(aes(fill = gender), color = 'black', position = 'dodge')   # Balken farbig nach Geschlecht, mit schwarzem Rand, nebeneinander dargestellt 
 ```
@@ -118,7 +119,7 @@ Erweitern Sie das gruppierte Balkendiagramm aus Aufgabe 2 um geeignete Beschrift
 <summary>Lösung</summary>
 
 
-```r
+``` r
 ggplot(mach, aes(x = hand, group = gender)) +  
   geom_bar(aes(fill = gender), color = "black", position = "dodge") +  # Gruppiertes Balkendiagramm wie in Aufgabe 2
   labs(x = "Schreibhand", y = "Anzahl", fill = "Geschlecht") +         # Achsen- und Legendentitel ergänzen
@@ -137,7 +138,7 @@ Verwenden Sie nun die in der Variable *mach_colors* (Siehe Vorbereitung oben) ma
 <summary>Lösung</summary>
 
 
-```r
+``` r
 ggplot(mach, aes(x = hand, group = gender)) +  
   geom_bar(aes(fill = gender), color = "black", position = "dodge") +  # Gruppiertes Balkendiagramm
   scale_fill_manual(values = mach_colors) +                            # Eigene Farbpalette anwenden
@@ -159,7 +160,7 @@ Versuchen Sie unter der Verwendung der Variablen *urban* und *pvhn* die folgende
 <summary>Lösung</summary>
 
 
-```r
+``` r
 ggplot(mach, aes(x = urban, y = pvhn, fill = urban)) +
   geom_boxplot() +
   scale_fill_manual(values = mach_colors) +
