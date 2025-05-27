@@ -9,6 +9,8 @@ distort <- subset(raw_osf_frischlich, select = c('VP', 'Sex', 'Age', 'dummy_stud
 names(distort) <- c('id', 'sex', 'age', 'stud', 'east', 'state', 'type', 'ideology', 'leaning', 'attitude', 'attention',
   'rwa', 'cm', 'credibility', 'perception', 'threat', 'marginal')
 
+distort <- subset(distort, select = -c(attention))
+
 # Variable Overview
   # id: Participant
   # sex: gender
@@ -20,7 +22,7 @@ names(distort) <- c('id', 'sex', 'age', 'stud', 'east', 'state', 'type', 'ideolo
   # ideology: ideology of the article (right vs. left wing)
   # leaning: political leaning of the participant (mid = 5)
   # attitude: attitude towards candidate
-  # attention: level of attention to politics
+  # attention: level of attention to politics --> removed, wrong coding
   # rwa: right wing authoritarianism
   # cm: conspiracy mentality
   # credibility: credibility of the article
