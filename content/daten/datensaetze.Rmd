@@ -430,7 +430,7 @@ In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und
 | `ideology` | Ideologie des Artikels | 1 = links, 2 = rechts |
 | `leaning` | Politische Tendenz | 1 = extrem links, 5 = moderat, 9 = extrem rechts  |
 | `attitude` | Einstellung zum Politiker | _Skalenwert_ |
-| `attention` | Aufmerksamkeit für Politik | _Skalenwert_ |
+| `views` | Mittelwert allgemeiner politischer Tendenz und sozialpolitischer Tendenz | 1 = ???, 5 = moderat, 9 = ??? |
 | `rwa` | Rechtsextreme Autoritarismus | _Skalenwert_ |
 | `cm` | Verschwörungsmentalität | _Skalenwert_ |
 | `credibility` | Glaubwürdigkeit des Artikels | _Skalenwert_ |
