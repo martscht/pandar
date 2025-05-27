@@ -9,7 +9,7 @@ subtitle: '1-fakt. ANOVA'
 summary: ''
 authors: [nehler, scheppa-lahyani, irmer, wallot ]
 weight: 8
-lastmod: '2025-05-23'
+lastmod: '2025-05-27'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"
@@ -42,9 +42,9 @@ output:
 
 In den letzten Sitzungen haben wir uns mit der Beantwortung von Zusammenhangsfragestellungen im Rahmen von Korrelation und Regression beschäftigt. Wie auch im letzten Semester werden wir uns nun mit Fragestellungen zum Unterschied beschäftigen. Dort haben wir bereits den **t-Test** kennen gelernt, mit dem Mittelwertsunterschiede zwischen zwei Gruppen untersucht werden können. Wenn wir nun mehr als zwei Gruppen miteinander vergleichen möchten, müssten wir mehrere **t-Tests** mit allen Kombinationen durchführen. Bei z. B. 3 Gruppen müssten wir $\binom{3}{2}$ - also in diesem Fall 3  *t-Tests* durchführen. Dies führt aber zu einer $\alpha$**-Fehler-Inflation oder -Kumulierung**. 
 
-Die Lösung für diese Problematik bietet die **ANOVA**, die uns die nächsten Wochen beschäftigen wird. Heute fokussieren wir uns zunächst auf ein Setting, in dem *eine Gruppenvariable* vorliegt. Diese kann beliebig viele Ausprägungen haben - wir bleiben im Beispiel bei 3 Stück. Wir nutzen heute also eine *einfaktorielle ANOVA* - die eine Gruppenvariable stellt den einen Faktor dar. Wie das Verfahren für mehrere Gruppenvariablen ist, wird in der nächsten Sitzung besprochen. Mehr zur *einfaktoriellen ANOVA* finden Sie in [`Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.1 und folgend)`](https://ubffm.hds.hebis.de/Record/HEB366849158). 
+Die Lösung für diese Problematik bietet die **ANOVA**, die uns die nächsten Wochen beschäftigen wird. Heute fokussieren wir uns zunächst auf ein Setting, in dem *eine Gruppenvariable* vorliegt, auf der sich die Personen untereinander unterscheiden (auch als *between subject* bezeichnet). Es handelt sich also hierbei zunächst um die Erweiterung des t-Tests für *unabhängige* Stichproben (Erweiterung des t-Tests für abhängige gibt es [hier](/lehre/statistik-ii/anova-iii)). Die Gruppierungsvariable kann beliebig viele Ausprägungen haben - wir bleiben im Beispiel bei 3 Stück. Wir nutzen heute also eine *einfaktorielle ANOVA* - die eine Gruppenvariable stellt den einen Faktor dar. Wie das Verfahren für mehrere Gruppenvariablen ist, wird in der nächsten Sitzung besprochen. Mehr zur *einfaktoriellen ANOVA* finden Sie in [`Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.1 und folgend)`](https://ubffm.hds.hebis.de/Record/HEB366849158). 
 
-Die praktische Umsetzung in `R` soll anhand des Datensatzes `conspiracy` demonstriert werden, den wir also zunächst in unser Environment laden müssen. Dieser stammt aus einer Erhebung zur Validierung eines Fragebogens, der Skalenwerte enhält, die verschiedene Dimensionen von Verschwörungsglauben abbilden sollen.
+Die praktische Umsetzung in `R` soll anhand des Datensatzes `conspiracy` demonstriert werden, den wir also zunächst in unser Environment laden müssen. Dieser stammt aus einer Erhebung zur Validierung eines Fragebogens, der Skalenwerte enthält, die verschiedene Dimensionen von Verschwörungsglauben abbilden sollen.
 
 ### Daten laden
 Wenn Sie den Datensatz lokal auf ihrem Rechner haben möchten, können Sie ihn [<i class="fas fa-download"></i> hier herunterladen](../../daten/conspiracy.rda). Anschließend muss er eingeladen werden - natürlich mit Ihrem Dateipfad.
@@ -61,7 +61,7 @@ Alternativ kann der Datensatz durch die Nutzung von `url` auch direkt über pand
 load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
 ```
 
-Wie bereits erwähnt stammt der Datensatz aus einer Untersuchung zum Thema *verschwörungstheoretische Überzegungen*. Beginnen wir mit einer kurzen Inspektion. 
+Wie bereits erwähnt stammt der Datensatz aus einer Untersuchung zum Thema *verschwörungstheoretische Überzeugungen*. Beginnen wir mit einer kurzen Inspektion. 
 
 
 ``` r
@@ -95,7 +95,7 @@ Die **ersten vier Variablen** enthalten Informationen über den demographischen 
 
 Die Durchführung der ANOVA benötigt natürlich Hypothesen, die uns bei der Auswertung interessieren. In unserem Beispiel soll untersucht werden, ob sich Personen je nach Ländlichkeit ihres Wohnortes (*rural*, *suburban*, *urban* - Variablenname `urban`) in der Überzeugung unterscheiden, inwiefern die Existenz von Außerirdischen (Skalenwert Variablenname `ET`) geheimgehalten wird (Beispielitem: Evidence of alien contact is being concealed from the public).
 
-In der *einfaktoriellen ANOVA* wird die **Gleichheit aller Gruppenmittelwerte als Nullhypothese** postuliert. Dies bedeutet, dass sich Bewohner:innen des ländlichen Raums (`rural`), des vorstädtischen Raums (`suburban`) und der Stadt (`urban`) nicht hinsichtlicher ihrer Zustimmung zur Verschwörungstheorie (`ET`) unterscheiden:
+In der *einfaktoriellen ANOVA* wird die **Gleichheit aller Gruppenmittelwerte als Nullhypothese** postuliert. Dies bedeutet, dass sich Bewohner:innen des ländlichen Raums (`rural`), des vorstädtischen Raums (`suburban`) und der Stadt (`urban`) nicht hinsichtlich ihrer Zustimmung zur Verschwörungstheorie (`ET`) unterscheiden:
 
 $H_0: \mu_{\text{rural}} = \mu_{\text{suburban}} = \mu_{\text{urban}}$
 
@@ -111,12 +111,15 @@ Bevor wir in die Testung einsteigen, müssen wir natürlich noch $\alpha$ festle
 
 ### Durchführung per Hand
 
-Schauen wir uns zunächst an, wie wir die einfaktorielle ANOVA per Hand durchführen können. Dafür müssen wir uns zunächst die mathematischen Grundlagen klar machen - der Kern der Berechnung basiert auf der *Quadratsummenzerlegung*. Hierbei werden Unterschiede/Variationen zwischen den Gruppen ($QS_{zw}$) und Unterschiede/Variationen innerhalb der Gruppen ($QS_{inn}$) getrennt betrachtet und bestimmt. Die Variation zwischen den Gruppen kann als bedingt durch die unterschiedliche Gruppenzugehörigkeit interpretiert werden, wobei die Variation innerhalb einer Gruppe von den Individuen, die der Gruppe zugehörig sind, bedingt wird. Die Gesamtvariation wird als **totale Quadratsumme** ($QS_{tot}$) bezeichnet und ergibt sich wie folgt aus den beiden beschriebenen Bestandteilen:
+Schauen wir uns zunächst an, wie wir die einfaktorielle ANOVA per Hand durchführen können. Dafür müssen wir uns zunächst die mathematischen Grundlagen klar machen. Der Kern der Berechnung basiert auf der *Quadratsummenzerlegung*. Hierbei werden Unterschiede/Variationen zwischen den Gruppen ($QS_{zw}$) und Unterschiede/Variationen innerhalb der Gruppen ($QS_{inn}$) getrennt betrachtet und bestimmt. Die Variation zwischen den Gruppen kann als bedingt durch die unterschiedliche Gruppenzugehörigkeit interpretiert werden, wobei die Variation innerhalb einer Gruppe von den Individuen, die der Gruppe zugehörig sind, bedingt wird. Diese beiden Bestandteile zusammen ergeben also die Gesamtvariation die dann als **totale Quadratsumme** ($QS_{tot}$) bezeichnet wird.
 
 $$QS_{tot} = QS_{zw} + QS_{inn}$$
 
 Die totale Quadratsumme als Repräsentant der Gesamtvariation kann auch als quadrierte Abstände aller Werte zum Gesamtmittelwert dargestellt werden. $i$ ist dabei der Index der Personen, $k$ der Index der Gruppe, $K$ die Gesamtanzahl der Gruppen und $n_k$ ist die Gruppengröße der k-ten Gruppen. 
 $$QS_{tot} = \sum_{k = 1}^{K} \sum_{i = 1}^{n_k} (y_{ik}-\overline{y})^2$$
+
+Auch wenn die Formel zunächst komplex aussieht, passiert hier nichts anderes, als dass vom Gesamtmittelwert der Wert jeder Person in der Stichprobe abgezogen wird. Die quadrierten Abweichungen werden dabei über alle Personen und Gruppen hinweg aufsummiert.
+
 Die Quadratsumme zwischen den Gruppen repräsentiert die Abstände der Gruppenmittelwerte vom Gesamtmittelwert.
 
 $$QS_{zw} = \sum_{k = 1}^{K} n_k* (\overline{y_k}-\overline{y})^2$$
@@ -126,23 +129,23 @@ Die Quadratsumme innerhalb der Gruppen ist die Summe der quadrierten Abweichunge
 $$QS_{inn} = \sum_{k = 1}^{K} \sum_{i = 1}^{n_k} (y_{ik}-\overline{y_k})^2$$
 
 
-Um die Quadratsummen der einfaktoriellen ANOVA per Hand zu bestimmen, brauchen wir die `aggregate()`-Funktion, die es erlaubt, eine zusammenfassende Statistik (wie Mittelwert oder Standardabweichung) für eine Variable getrennt nach verschiedenen Subgruppen zu berechnen. Dabei übergeben wir `aggregate()` die Variable selbst sowie die Gruppierungsvariable als Liste (deshalb steht im Befehl auch `list(conspiracy$urban)`). Als drittes Argument wird die Funktion übergeben, die in der Aggregation durchgeführt werden soll - also der Mittelwert durch `mean()`.
+Um die Quadratsummen der einfaktoriellen ANOVA per Hand zu bestimmen, müssen wir einige vorbereitende Schritte vollziehen. Zunächst brauchen wir die `aggregate()`-Funktion, die es erlaubt, eine zusammenfassende Statistik (wie Mittelwert oder Standardabweichung) für eine Variable getrennt nach verschiedenen Subgruppen zu berechnen. Dabei können wir in `aggregate()` die Schreibweise nutzen, die wir aus der Regression gewohnt sind - `interessierende Variable ~ Gruppierungsvariable, data`. Bei uns ist die interessierende Variable `ET` und die Gruppierungsvariable `urban`. Als zusätzliches Argument wird die Funktion übergeben, die in der Aggregation durchgeführt werden soll - also der Mittelwert durch `mean()`.
 
 
 ``` r
 # Gruppenmittelwerte ermitteln
-y_mean_k <- aggregate(conspiracy$ET, list(conspiracy$urban), mean)
+y_mean_k <- aggregate(ET ~ urban, conspiracy, mean)
 y_mean_k
 ```
 
 ```
-##    Group.1        x
+##      urban       ET
 ## 1    rural 2.194386
 ## 2 suburban 2.150963
 ## 3    urban 2.307286
 ```
 
-Unser erstelltes Objekt `y_mean_k` enthält nun die Mittelwerte der drei Gruppen. Da die Spaltennamen des neuen Objekts aktuell nicht sehr aussagekräftig sind, überschreiben wir diese. Die erste Spalte repräsentiert dabei die drei Ausprägungen der Variable `urban` - die zweite Spalte die empirischen Mittelwerte (und damit geschätzten Populationsmittlelwerte) der Gruppe k auf der Variable `ET` (`ET_mean_k`).
+Unser erstelltes Objekt `y_mean_k` enthält nun die Mittelwerte der drei Gruppen. Die erste Spalte repräsentiert dabei die drei Ausprägungen der Variable `urban` - die zweite Spalte repräsentiert die empirischen Mittelwerte (und damit geschätzten Populationsmittelwerte) der Gruppe k auf der Variable `ET`. Der erste Spaltenname passt sehr gut - wir wollen aber hier die zweite Spalte noch neu benennen (`ET_mean_k`).
 
 
 ``` r
@@ -154,7 +157,7 @@ Wir wollen nun die Mittelwerte der Gruppen zu unserem ursprünglichen Datensatz 
 
 ``` r
 temp <- merge(conspiracy, y_mean_k, by = 'urban')
-dim(temp)
+dim(temp)    # Dimensionen des temporären Datensatzes
 ```
 
 ```
@@ -162,15 +165,29 @@ dim(temp)
 ```
 
 ``` r
-names(temp)
+names(temp)  # Spaltennamen des temporären Datensatzes
 ```
 
 ```
-##  [1] "urban"     "edu"       "gender"    "age"       "GM"        "MG"        "ET"        "PW"       
-##  [9] "CI"        "ET_mean_k"
+##  [1] "urban"     "edu"       "gender"    "age"       "GM"        "MG"        "ET"        "PW"        "CI"       
+## [10] "ET_mean_k"
 ```
 
-Anhand der Dimensionen können wir sehen, dass unser neuer Datensatz nun eine Variable mehr hat als `conspiracy`. Diese zusätzliche Spalte ist genau die, die die Mittelwerte pro Gruppe enthält (`ET_mean_k`).
+``` r
+head(temp)   # ersten 6 Zeilen des temporären Datensatzes
+```
+
+```
+##   urban            edu gender age GM       MG       ET       PW       CI ET_mean_k
+## 1 rural not highschool   male  19  4 2.666667 1.000000 2.666667 3.666667  2.194386
+## 2 rural     highschool   male  16  5 2.666667 1.000000 2.333333 3.333333  2.194386
+## 3 rural        college female  74  2 3.000000 2.333333 2.666667 3.333333  2.194386
+## 4 rural not highschool   male  38  4 1.666667 3.666667 2.000000 3.333333  2.194386
+## 5 rural not highschool   male  21  5 4.333333 4.000000 4.000000 4.333333  2.194386
+## 6 rural        college   male  61  1 1.000000 1.000000 1.000000 1.000000  2.194386
+```
+
+Anhand der Dimensionen können wir sehen, dass unser neuer Datensatz nun eine Variable mehr hat als `conspiracy`. Anhand der Variablennamen können wir sehen, dass die zusätzliche Spalte genau die ist, die die Mittelwerte pro Gruppe enthält (`ET_mean_k`). Mit der `head()`-Funktion gewinnnen wir weitere Eindrücke, gerne können Sie sich lokal den Datensatz auch mit `View(temp)` anschauen.
 
 Weitere nötige Informationen für die händische Berechnung der Quadratsummen sind der Gesamtmittelwert und auch die Gruppengröße. Diese können mit uns bekannten Funktion einfach bestimmt werden. 
 
@@ -178,13 +195,29 @@ Weitere nötige Informationen für die händische Berechnung der Quadratsummen s
 ``` r
 # Gesamtmittelwert ermitteln
 y_mean_ges <- mean(conspiracy$ET)
+y_mean_ges 
+```
 
+```
+## [1] 2.213654
+```
+
+``` r
 # Gruppengrößen ermitteln
 n_k <- table(conspiracy$urban)
+n_k
+```
+
+```
+## 
+##    rural suburban    urban 
+##      475     1125      851
 ```
 
 
 Nach diesen Vorbereitungen können wir die Quadratsummen $QS_{inn}$ und $QS_{zw}$ berechnen. $QS_{inn}$ beschreibt die quadratischen Abweichungen aller Gruppenmitglieder von ihrem Gruppenmittelwert. Diese beiden Informationen sind in unserem temporären Datensatz `temp` in den Variablen `temp$ET` und `temp$ET_mean_k` festgehalten.
+
+$$QS_{inn} = \sum_{k = 1}^{K} \sum_{i = 1}^{n_k} (y_{ik}-\overline{y_k})^2$$
 
 
 ``` r
@@ -193,6 +226,7 @@ QS_inn <- sum((temp$ET - temp$ET_mean_k)^2)
 
 Die Berechnung von $QS_{zw}$ benötigt die einzelnen Gruppengrößen, die wir unter `n_k` abgelegt haben. Diese werden jeweils mit dem quadrierten Unterschied ihres Gruppenmittelwertes vom Gesamtmittelwert multipliziert. Die einzelnen Gruppenmittelwerte sind in `y_mean_k` abgelgt. `y_mean_k[, 2]` wird hier so verwendet, da in `y_mean_k` in der ersten Spalte die Gruppenzugehörigkeiten stehen und in der 2. Spalte die Mittelwerte selbst. Der Gesamtmittelwert liegt in `y_mean_ges`.
 
+$$QS_{zw} = \sum_{k = 1}^{K} n_k* (\overline{y_k}-\overline{y})^2$$
 
 
 ``` r
@@ -204,8 +238,11 @@ Zur inferenzstatistischen Prüfung wird der $F$-Test herangezogen. Für die Bere
 
 
 ``` r
-MQS_inn <- QS_inn / (nrow(conspiracy) - nlevels(conspiracy$urban))
-MQS_zw <- QS_zw / (nlevels(conspiracy$urban)-1)
+N <- nrow(conspiracy) # Stichprobengröße bestimmen
+K <- nlevels(conspiracy$urban) # Gruppenanzahl bestimmen
+
+MQS_inn <- QS_inn / (N - K)
+MQS_zw <- QS_zw / (K - 1)
 ```
 
 Die Funktionalität von `nlevels()` basiert auf der Annahme, dass wir kein Level ohne Beobachtung in den Daten haben, aber in diesem Fall wäre es auch schon früher zu Problemen gekommen.
@@ -220,7 +257,7 @@ Wir erkennen, dass hier einfach die Variation zwischen den Gruppen (Variation de
 F_wert <- MQS_zw/MQS_inn
 ```
 
-Das Verhältnis der Quadratsummen ist mit $df_1 = K - 1$ und $df_2 = N - K$ $F$-verteilt. Daher wird der $F_{emp}$ mit dem $F_{krit}$ mit $df_1 = K - 1$ (Zählerfreiheitsgraden) und $df_2 = N - K$ (Nennerfreiheitsgraden) verglichen. In `R` geht das automatisch mit `pf` (die Verteilungsfunktion/ kumulative Dichtefunktion der $F$-Verteilung). Diese gibt uns den $p$-Wert wieder. Hierbei muss zunächst der $F_{emp}$ angegeben werden, danach $df_1$ und als letztes $df_2$. `lower.tail = FALSE` bestimmt, dass wir die Wahrscheinlichkeit (Fläche unter der Kurve) für extremere Werte als unseren beobachtenen $F_{emp}$ angezeigt bekommen:
+Das Verhältnis der Quadratsummen ist mit $df_1 = K - 1$ und $df_2 = N - K$ $F$-verteilt. Daher wird der $F_{emp}$ mit dem $F_{krit}$ mit $df_1 = K - 1$ (Zählerfreiheitsgraden) und $df_2 = N - K$ (Nennerfreiheitsgraden) verglichen. In `R` geht das automatisch mit `pf` (die Verteilungsfunktion/ kumulative Dichtefunktion der $F$-Verteilung). Diese gibt uns den $p$-Wert wieder. Hierbei muss zunächst der $F_{emp}$ angegeben werden, danach $df_1$ und als letztes $df_2$. `lower.tail = FALSE` bestimmt, dass wir die Wahrscheinlichkeit (Fläche unter der Kurve) für extremere Werte als unseren beobachteten $F_{emp}$ angezeigt bekommen:
 
 
 ``` r
@@ -233,9 +270,14 @@ pf(F_wert, nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$ur
 
 Grafisch gesehen lassen wir uns also die Fläche für den folgenden Bereich der F-Verteilung anzeigen.
 
-![](/anova-i_files/unnamed-chunk-14-1.png)<!-- -->
 
-Zur Beurteilung der Signifikanz muss der errechnete p-Wert mit dem vorher festgelegten $\alpha$-Niveau verglichen werden. Da der p-Wert hier niedriger als unser $\alpha$-Niveau von .05 ist, können wir die Nullhypothese verwerfen und die Alternativhypothese annehmen.
+```
+## Want to understand how all the pieces fit together? Read R for Data Science: https://r4ds.had.co.nz/
+```
+
+![](/anova-i_files/unnamed-chunk-19-1.png)<!-- -->
+
+Zur Beurteilung der Signifikanz muss der errechnete p-Wert mit dem vorher festgelegten $\alpha$-Niveau verglichen werden. Da der p-Wert hier niedriger als unser $\alpha$-Niveau von .05 ist, können wir die Nullhypothese verwerfen und die Alternativhypothese annehmen. Bevor wir genauer darauf eingehen, was diese Signifikanzentscheidung bedeutet, schauen wir uns zunächst die Durchführung mithilfe eines Pakets an.
 
 ### Durchführung per Paket
 
@@ -253,6 +295,40 @@ Anschließend kann es geladen werden.
 ``` r
 # Paket laden 
 library(afex)
+```
+
+```
+## Loading required package: lme4
+```
+
+```
+## Loading required package: Matrix
+```
+
+```
+## ************
+## Welcome to afex. For support visit: http://afex.singmann.science/
+```
+
+```
+## - Functions for ANOVAs: aov_car(), aov_ez(), and aov_4()
+## - Methods for calculating p-values with mixed(): 'S', 'KR', 'LRT', and 'PB'
+## - 'afex_aov' and 'mixed' objects can be passed to emmeans() for follow-up tests
+## - Get and set global package options with: afex_options()
+## - Set sum-to-zero contrasts globally: set_sum_contrasts()
+## - For example analyses see: browseVignettes("afex")
+## ************
+```
+
+```
+## 
+## Attaching package: 'afex'
+```
+
+```
+## The following object is masked from 'package:lme4':
+## 
+##     lmer
 ```
 
 Die Funktion, die wir zur Durchführung der ANOVA nutzen wollen, heißt `aov_4()`. Wie bereits angekündigt , ist die Syntax ähnlich der der Regressionsanalyse. Die abhängige Variable wird zunächst genannt, dann folgt die Tilde `~`, dann die unabhängige Variable und schließlich der Datensatz. 
@@ -273,7 +349,7 @@ Leider funktioniert die Durchführung hier nicht direkt. Die Fehlermeldung spric
 conspiracy$id <- 1:nrow(conspiracy)
 ```
 
-Die `id`-Variable muss dann in unserer Regressiongleichung ergänzt werden mit der folgenden Schreibweise.
+Die `id`-Variable muss dann in unserer Regressiongleichung ergänzt werden mit der folgenden Schreibweise, die in einem späteren Tutorial erläutert wird.
 
 
 ``` r
@@ -341,7 +417,7 @@ pairwise.t.test(conspiracy$ET, conspiracy$urban, p.adjust = 'bonferroni')
 ## P value adjustment method: bonferroni
 ```
 
-Hier zeigt sich, dass sich ausschließlich Personen aus `urban` und `suburban` Umgegbungen in ihrer Überzeugung bezüglich des *Extraterrestrial Cover-Ups* unterscheiden ($p$ < .05).
+Jeder Eintrag in der Tabelle entspricht dann dem korrigierten $p$-Wert von einem Gruppenvergleich. Daher zeigt sich, dass sich ausschließlich Personen aus `urban` und `suburban` Umgegbungen in ihrer Überzeugung bezüglich des *Extraterrestrial Cover-Ups* unterscheiden, da nur hier ein Wert von $p$ < .05($\$alpha$) vorliegt.
 
 ### Tukey Test
 
@@ -358,6 +434,12 @@ Nun können wir das Paket einladen.
 
 ``` r
 library(emmeans)
+```
+
+```
+## Welcome to emmeans.
+## Caution: You lose important information if you filter this package's results.
+## See '? untidy'
 ```
 
 Nun wandeln wir das Objekt um. Dafür brauchen wir die Funktion `emmeans()` (die wiederum also genauso heißt wie das Paket). Diese benötigt als erstes Argument unser Objekt und als zweites dann nochmal unsere Gruppierungsvariable mit einer Tilde `~` vorweg. Das erscheint etwas redundant, aber wenn man bspw. mehrere Gruppierungsvariablen hätte, könnte man hier reduzieren.
@@ -404,14 +486,14 @@ confint(tukey)
 ```
 Schließt das Konfidenzintervall für die Mittelwertsdifferenz die 0 ein, so ist diese Mittelwertsdifferenz statistisch **nicht** signifikant! Als Fazit lässt sich ziehen: In unserer Stichprobe kam es zu Mittelwertsunterschieden auf `ET`, da sich die Gruppen `urban` (städtisch) und `suburban` (vorstädtisch) hinsichtlich der Zustimmung zur Überzeugung, dass die Existenz von Außerirdischen geheimgehalten wird, unterscheiden.
 
-Auch ein hübscher Plot für die Bericherstattung lässt sich erzeugen, der die eben bestimmten Konfidenzintervalle abbildet.
+Auch ein hübscher Plot für die Berichterstattung lässt sich erzeugen, der die eben bestimmten Konfidenzintervalle abbildet.
 
 
 ``` r
 plot(tukey)
 ```
 
-![](/anova-i_files/unnamed-chunk-26-1.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-31-1.png)<!-- -->
 
 *Tipp:* Man kann diese Grafik auch noch mit den bereits erlernten `ggplot2`-Funktionen anpassen.
 
@@ -438,11 +520,18 @@ Die Unabhängigkeit der Residuen wäre dann verletzt, wenn abhängige Stichprobe
 
 #### 2) Homoskedastizität
 
-Die Homoskedastizitätsannahme besagt, dass die Varianzen jeder Gruppe über die Gruppen hinweg gleich sind. Deshalb wird diese Annahme auch häufig "Varianzhomogenitätsannahme" genannt. Zur Überprüfung der Homoskedatizität kann der **Levene-Test** herangezogen werden. Dieser kann mithilfe des `car`-Pakets angefordert werden. Dazu laden wir zunächst das Paket und führen anschließend die Funktion `leveneTest` aus. Installiert haben wir das Paket bereits in vorherigen Tutorials und dort auch bereits angewendet.
+Die Homoskedastizitätsannahme besagt, dass die Varianzen jeder Gruppe über die Gruppen hinweg gleich sind. Deshalb wird diese Annahme auch häufig "Varianzhomogenitätsannahme" genannt. Zur Überprüfung der Homoskedastizität kann der **Levene-Test** herangezogen werden. Dieser kann mithilfe des `car`-Pakets angefordert werden. Dazu laden wir zunächst das Paket und führen anschließend die Funktion `leveneTest` aus. Installiert haben wir das Paket bereits in vorherigen Tutorials und dort auch bereits angewendet.
 
 
 ``` r
 library(car)
+```
+
+```
+## Loading required package: carData
+```
+
+``` r
 leveneTest(conspiracy$ET ~ conspiracy$urban)
 ```
 
@@ -459,7 +548,7 @@ Die Funktion nimmt die Variable selbst entgegen sowie die Gruppierungsvariable. 
 
 #### 3) Normalverteilung
 
-Innerhalb jeder Gruppe sollte eine Normalverteilung vorliegen. Diese Annahme bezieht sich, entgegen häufiger Vermutung, auf die Residuen der ANOVA. Wir erkennen diese Annahme aus der Regressionsanalyse wieder, wo wir ebenfalls die [Normalverteilung der Residuen, behandelt in Regression III,](/post/reg3) annahmen, um Inferenzstatistik zu betreiben. Um auf die Residuen einer ANOVA zuzugreifen, kann der Befehl `residuals` oder `resid` auf das von uns erstellte Objekt angewendet werden. Wie legen diese mal zusätzlich im Datensatz ab.
+Innerhalb jeder Gruppe sollte eine Normalverteilung vorliegen. Diese Annahme bezieht sich, entgegen häufiger Vermutung, auf die Residuen der ANOVA. Wir erkennen diese Annahme aus der Regressionsanalyse wieder, wo wir ebenfalls die [Normalverteilung der Residuen, behandelt in Regression III,](/lehre/statistik-ii/regressionsdiagnostik) annahmen, um Inferenzstatistik zu betreiben. Um auf die Residuen einer ANOVA zuzugreifen, kann der Befehl `residuals` oder `resid` auf das von uns erstellte Objekt angewendet werden. Wie legen diese mal zusätzlich im Datensatz ab.
 
 
 ``` r
@@ -473,19 +562,19 @@ Nun können wir auf die Residuen einzelner Gruppen zugreifen und uns beispielswe
 hist(conspiracy$resid[conspiracy$urban == "rural"])
 ```
 
-![](/anova-i_files/unnamed-chunk-29-1.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-34-1.png)<!-- -->
 
 ``` r
 hist(conspiracy$resid[conspiracy$urban == "suburban"])
 ```
 
-![](/anova-i_files/unnamed-chunk-29-2.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-34-2.png)<!-- -->
 
 ``` r
 hist(conspiracy$resid[conspiracy$urban == "urban"])
 ```
 
-![](/anova-i_files/unnamed-chunk-29-3.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-34-3.png)<!-- -->
 
 Die Normalverteilung der Residuen scheint schwierig zu sein.
 
