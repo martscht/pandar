@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: vonwissel
 weight: 1
-lastmod: '`r Sys.Date()`'
+lastmod: '2025-05-28'
 featured: no
 banner:
   image: "/header/colorful_tiles.jpg"
@@ -34,17 +34,14 @@ output:
 private: 'true'
 ---
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-```
+
 
 ## Vorbereitung
 
 Bitte führen Sie den folgenden R-Code aus, welcher die benötigten Pakete installiert, den Übungsdatensatz läd und das Theme für die Plots setzt. Zu Übungszwecken nutzen wir das gleiche Theme, welches Ihnen bereits aus den Inhalten dieses Kapitels bekannt ist.
 
-```{r eval = FALSE}
+
+``` r
 # Installation und Laden des Pakets "ggplot2"
 install.packages("ggplot2")
 library(ggplot2)
@@ -75,7 +72,8 @@ Erstellen Sie ein **Liniendiagramm**, das die Entwicklung der Lebenserwartung (*
 
 <summary>Lösung</summary>
 
-```{r eval = FALSE}
+
+``` r
 data_germany <- subset(gapminder, country == "Germany")
 
 ggplot(data_germany, aes(x = year, y = lifeExp)) +
@@ -101,7 +99,8 @@ Sie möchten nun einen **Scatterplot** erstellen, welcher den Zusammenhang zwisc
 
 <summary>Lösung</summary>
 
-```{r eval = FALSE}
+
+``` r
 # Subset erstellen für alle Daten aus dem Jahr 2007 und Ausschluss des Kontinents "Oceania"
 gap07 <- subset(gapminder, year == 2007 & continent != "Oceania")
 
@@ -130,7 +129,8 @@ Erstellen Sie auf Basis des Scatterplots aus Aufgabe 2 eine Variante mit **Facet
 
 <summary>Lösung</summary>
 
-```{r eval = FALSE}
+
+``` r
 # Erweitern des Plots aus Aufgabe 2
 aufgabe2_plot + facet_wrap(~ continent)
 ```
@@ -150,7 +150,8 @@ Die Tooltips sollen folgende Informationen anzeigen:
 
 <summary>Lösung</summary>
 
-```{r eval = FALSE}
+
+``` r
 # Erstellung einer Hilfsvariable für die Darstellung des Tooltip-Textes (Weitere Erläuterung finden Sie in den Inhalten zur diesem Kapitel)
 gap07$label <- paste0("Land: ", gap07$country,
                       "<br>Lebenserwartung: ", round(gap07$lifeExp, 1),
