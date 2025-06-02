@@ -10,27 +10,27 @@ trauma[, 168:247][is.na(trauma[, 168:247])] <- 0
 
 trauma_tmp <- trauma[, FALSE]
 
-trauma_tmp$sexual_assault <- if_else(trauma$lec8_1 == 1, 1, 0) 
+trauma_tmp$sexual_assault <- ifelse(trauma$lec8_1 == 1, 1, 0) 
   
 # Zusammenfassung der LEC Items in f?nf Gruppen
 # 1. sexuelle Gewalt (lec8, lec9 & lec11); 2. physische Gewalt (lec6, lec7 & lec14)
 # 3. Schwere Krankheit  (lec12, lec13 & lec15); 4. Schwere Unfaelle (lec2, lec3, lec4 & lec5)
 # 5. Krieg / Naturkatastrophen (lec10, lec16 & lec1); 0. kein Traumata
 trauma_tmp$trauma_exp_kind <- with(trauma, 
-  if_else(lec8_1 == 1 | lec8_2 == 1 | 
+  ifelse(lec8_1 == 1 | lec8_2 == 1 | 
       lec9_2 == 1 | 
       lec11_1 == 1 | lec11_2 == 1, 'sexuelle Gewalt',
-    if_else(lec6_1 == 1 | lec6_2 == 1 | 
+    ifelse(lec6_1 == 1 | lec6_2 == 1 | 
         lec7_1 == 1 | lec7_2 == 1 | 
         lec14_1 == 1 | lec14_2 == 1, 'physische Gewalt',
-      if_else(lec12_1 == 1 | lec12_2 == 1 | 
+      ifelse(lec12_1 == 1 | lec12_2 == 1 | 
           lec13_1 == 1 | lec13_2 == 1 | 
           lec15_1 == 1 | lec15_2 == 1, 'schwere Krankheit',
-        if_else(lec2_1 == 1 | lec2_2 == 1 | 
+        ifelse(lec2_1 == 1 | lec2_2 == 1 | 
             lec3_1 == 1 | lec3_2 == 1 | 
             lec4_1 == 1 | lec4_2 == 1 | 
             lec5_1 == 1 | lec5_2 == 1, 'schwere Unfälle',
-          if_else(lec10_1 == 1 | lec10_2 == 1 | 
+          ifelse(lec10_1 == 1 | lec10_2 == 1 | 
               lec16_1 == 1 | lec16_2 == 1 |
               lec1_1 == 1 | lec1_2 == 1, 'Krieg/Naturkatastrophen', 'keine Traumata'))))))
 trauma_tmp$trauma_exp_kind <- as.factor(trauma_tmp$trauma_exp_kind)
@@ -41,12 +41,12 @@ trauma$trauma_exp_kind <- as.numeric(trauma_tmp$trauma_exp_kind)
   # no experience = Person hat kein traumatisches Erlebnis
   # Gruppen werden mit Trauma Art im Kombi mit den spezifischen Items gebildet, um die richtige Zuordnung zu gewhren 
 trauma_tmp$trauma_exp_form <- with(trauma, 
-  if_else(trauma_tmp$trauma_exp_kind == 1 & (lec8_1 == 1 | lec11_1 == 1 ) | 
+  ifelse(trauma_tmp$trauma_exp_kind == 1 & (lec8_1 == 1 | lec11_1 == 1 ) | 
       trauma_tmp$trauma_exp_kind == 2 & (lec6_1 == 1 | lec7_1 == 1 | lec14_1 == 1 ) |
       trauma_tmp$trauma_exp_kind == 4 & (lec2_1 == 1 | lec3_1 == 1 | lec4_1 == 1 | lec5_1 == 1 ) |
       trauma_tmp$trauma_exp_kind == 3 & (lec12_1 == 1 | lec13_1 == 1 | lec15_1 == 1 ) |
       trauma_tmp$trauma_exp_kind == 5 & (lec10_1 == 1 | lec16_1 == 1 | lec1_1 == 1 ), "direct experience",
-    if_else(trauma_tmp$trauma_exp_kind == 1 & (lec8_2 == 1 | lec9_2 == 1 |lec11_2 == 1) | 
+    ifelse(trauma_tmp$trauma_exp_kind == 1 & (lec8_2 == 1 | lec9_2 == 1 |lec11_2 == 1) | 
         trauma_tmp$trauma_exp_kind == 2 & (lec6_2 == 1 | lec7_2 == 1 | lec14_2 == 1) |
         trauma_tmp$trauma_exp_kind == 3 & (lec12_2 == 1 | lec13_2 == 1 | lec15_2 == 1) |
         trauma_tmp$trauma_exp_kind == 4 & (lec2_2 == 1 | lec3_2 == 1 | lec4_2 == 1 | lec5_2 == 1) |
