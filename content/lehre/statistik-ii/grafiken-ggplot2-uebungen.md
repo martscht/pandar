@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: vonwissel
 weight: 1
-lastmod: '2025-05-15'
+lastmod: '2025-05-21'
 featured: no
 banner:
   image: /header/colorful_bubbles.jpg
@@ -29,6 +29,7 @@ links:
 output:
   html_document:
     keep_md: yes
+    self_contained: false
 private: 'true'
 ---
 
@@ -39,7 +40,7 @@ private: 'true'
 Installieren und laden Sie das Paket *ggplot2*, sofern noch nicht geschehen.
 
 
-```r
+``` r
 install.packages("ggplot2")
 library(ggplot2)
 ```
@@ -47,7 +48,7 @@ library(ggplot2)
 Kopieren Sie nun bitte folgenden R-Code um den Übungsdatensatz *mach* zu laden und weitere vorbereitende Schritte auszuführen:
 
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/mach.rda"))
 
 # Variable hand (Schreibhand) als Faktor definieren

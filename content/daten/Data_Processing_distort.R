@@ -6,7 +6,7 @@ raw_osf_frischlich <- read.csv('https://osf.io/download/k4xcv/')
 distort <- subset(raw_osf_frischlich, select = c('VP', 'Sex', 'Age', 'dummy_student', 'dummy_eastgerman', 'Federal_state',
   'articletype', 'articleideology', 'Political_Ideology', 'Politbarometer', grep('_mean', names(raw_osf_frischlich), value = TRUE)))
 
-names(distort) <- c('id', 'sex', 'age', 'stud', 'east', 'state', 'type', 'ideology', 'leaning', 'attitude', 'attention',
+names(distort) <- c('id', 'sex', 'age', 'stud', 'east', 'state', 'type', 'ideology', 'leaning', 'attitude', 'views',
   'rwa', 'cm', 'credibility', 'perception', 'threat', 'marginal')
 
 # Variable Overview
@@ -20,7 +20,7 @@ names(distort) <- c('id', 'sex', 'age', 'stud', 'east', 'state', 'type', 'ideolo
   # ideology: ideology of the article (right vs. left wing)
   # leaning: political leaning of the participant (mid = 5)
   # attitude: attitude towards candidate
-  # attention: level of attention to politics
+  # views: political leaning of the participant (mid = 5) across subdimensions (economic, social etc.)
   # rwa: right wing authoritarianism
   # cm: conspiracy mentality
   # credibility: credibility of the article
