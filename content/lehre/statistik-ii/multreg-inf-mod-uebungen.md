@@ -1,5 +1,5 @@
 ---
-title: "Inferenz und Modellauswahl in der multiplen Regression - Lösungen" 
+title: "Inferenz und Modellauswahl in der multiplen Regression - Übungen" 
 type: post
 date: '2025-06-04'
 slug: multreg-inf-mod-loesungen
@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [vonwissel]
 weight: 1
-lastmod: '`r Sys.Date()`'
+lastmod: '2025-06-04'
 featured: no
 banner:
   image: "/header/man_with_binoculars.jpg"
@@ -20,24 +20,20 @@ share: no
 private: 'true'
 
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/statistik-ii/multreg-inf-mod
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Übungen
-    url: /lehre/statistik-ii/multreg-inf-mod-uebungen
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-ii/multreg-inf-mod
+- icon_pack: fas
+  icon: star
+  name: Lösungen
+  url: /lehre/statistik-ii/multreg-inf-mod-loesungen
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
 ---
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-```
+
 
 ## Vorbereitung
 
@@ -58,7 +54,8 @@ Der Datensatz enthält ausschließlich **Skalenwerte** (keine fehlenden Werte). 
 
 Bitte führen Sie den folgenden R-Code aus, um den Datensatz zu laden und alle nötigen Pakete zu installieren.
 
-```{r eval = FALSE}
+
+``` r
 # Installation und Laden benötigter Pakete
 install.packages("olsrr")
 library(olsrr)
@@ -82,22 +79,6 @@ Erstellen Sie ein multiples Regressionsmodell zur Vorhersage der Glaubwürdigkei
 - Geben Sie die Regressionskoeffizienten aus und interpretieren Sie den Omnibustest der multiplen Regression.
 - Welche der Prädiktoren trägt signifikant zur Vorhersage der Glaubwürdigkeit bei?
 
-<details>
-<summary>Lösung</summary>
-
-```{r eval = FALSE}
-mod_unrestricted <- lm(credibility ~ leaning + rwa + cm + threat + marginal, data = distort)
-summary(mod_unrestricted)
-```
-
-Omnibustest (F-Test):
-- Das Modell ist signifikant (F(5, 110) = 3.34, p = 0.0076) -> mindestens ein Prädiktor erklärt signifikant Varianz in der abhängigen Variable.
-
-Signifikanter Prädiktor:
-- Nur `rwa` trägt signifikant zur Vorhersage von `credibility` bei (p = 0.026).
-
-</details>
-
 ## Aufgabe 2
 
 Nutzen Sie `mod_unrestricted`, um den `credibility`-Wert einer hypothetischen Person vorherzusagen. Legen Sie dazu zunächst ein Dataframe mit folgenden Werten an:
@@ -105,78 +86,18 @@ Nutzen Sie `mod_unrestricted`, um den `credibility`-Wert einer hypothetischen Pe
 
 Berechnen Sie anschließend den vorhergesagten Wert inklusive Konfidenzintervall.
 
-<details>
-<summary>Lösung</summary>
-
-```{r eval = FALSE}
-neue_person <- data.frame(
-  leaning = 6,
-  rwa = 2.7,
-  cm = 4.5,
-  threat = 5.2,
-  marginal = 3.3
-)
-
-predict(mod_unrestricted, newdata = neue_person, interval = "prediction", level = 0.95)
-```
-
-Ergebnis: Die Punktschätzung unserer fiktive Person für die Glaubwürdigkeit beträgt `2.35`. Das 95%-Konfidenzintervall reicht von `-0.48` bis `5.18`.
-
-</details>
-
 ## Aufgabe 3
 
 Erstellen Sie ein weiteres Modell (`mod_restricted`), das nur `leaning`, `rwa` und `cm` als Prädiktoren enthält. 
 
 Vergleichen Sie `mod_restricted` mit `mod_unrestricted`. Ist das vollständige Modell signifikant besser?
 
-<details>
-<summary>Lösung</summary>
-
-```{r eval = FALSE}
-mod_restricted <- lm(credibility ~ leaning + rwa + cm, data = distort)
-anova(mod_restricted, mod_unrestricted)
-```
-
-</details>
-
 ## Aufgabe 4
 
 Nutzen Sie zur **automatisierten Modellauswahl** die Funktion `ols_step_both_p()` aus dem Paket `olsrr`. Verwenden Sie dafür das bereits zuvor erstellte Modell `mod_unrestricted`, das alle Prädiktoren umfasst. Führen Sie anschließend `ols_step_both_p()` mit `p_enter = .05`, `p_remove = .10` und `details = TRUE` aus, um den vollständigen Auswahlprozess zu verfolgen.
-
-<details>
-<summary>Lösung</summary>
-
-```{r eval = FALSE}
-# Schrittweise Modellauswahl mit Inkrement- und Dekrementtests
-ols_step_both_p(mod_unrestricted, p_enter = .05, p_remove = .10, details = TRUE)
-```
-
-</details>
 
 ## Aufgabe 5
 
 Führen Sie nun eine **schrittweise Modellsuche** mit `step()` durch, ausgehend von `mod_unrestricted`. Verwenden Sie die Richtung "both" (Vorwärts- und Rückwärtsselektion).
 
 Vergleichen Sie das resultierende Modell mit `mod_unrestricted` anhand von AIC und erklärter Varianz (R²).
-
-<details>
-<summary>Lösung</summary>
-
-```{r eval = FALSE}
-mod_stepwise <- step(mod_unrestricted, direction = "both")
-
-# Start:  AIC=80.43
-# credibility ~ leaning + rwa + cm + threat + marginal
-
-# Step:  AIC=74.98
-# credibility ~ rwa + cm
-
-# Ausgabe R^2 ursprüngliches Modell
-summary(mod_unrestricted)$r.squared # 0.1316718
-
-# Ausgabe R^2 schrittweise ausgewählte Modell
-summary(mod_stepwise)$r.squared # 0.12753
-
-``` 
-</details>
