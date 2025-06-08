@@ -52,7 +52,7 @@ Die Lösung für diese Problematik bietet die **ANOVA**, die uns die nächsten W
 Die praktische Umsetzung in `R` soll anhand des Datensatzes `conspiracy` demonstriert werden, den wir also zunächst in unser Environment laden müssen. Dieser stammt aus einer Erhebung zur Validierung eines Fragebogens, der Skalenwerte enthält, die verschiedene Dimensionen von Verschwörungsglauben abbilden sollen.
 
 ### Daten laden
-Wenn Sie den Datensatz lokal auf ihrem Rechner haben möchten, können Sie ihn [<i class="fas fa-download"></i> hier herunterladen](../../daten/conspiracy.rda). Anschließend muss er eingeladen werden - natürlich mit Ihrem Dateipfad.
+Wenn Sie den Datensatz lokal auf ihrem Rechner haben möchten, können Sie ihn [<i class="fas fa-download"></i> hier herunterladen](/daten/conspiracy.rda). Anschließend muss er eingeladen werden - natürlich mit Ihrem Dateipfad.
 
 ```{r, eval = F}
 load("C:/Users/Musterfrau/Desktop/conspiracy.rda")

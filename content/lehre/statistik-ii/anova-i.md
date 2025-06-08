@@ -9,7 +9,7 @@ subtitle: '1-fakt. ANOVA'
 summary: ''
 authors: [nehler, scheppa-lahyani, irmer, wallot ]
 weight: 8
-lastmod: '2025-05-27'
+lastmod: '2025-06-08'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"
@@ -47,7 +47,7 @@ Die Lösung für diese Problematik bietet die **ANOVA**, die uns die nächsten W
 Die praktische Umsetzung in `R` soll anhand des Datensatzes `conspiracy` demonstriert werden, den wir also zunächst in unser Environment laden müssen. Dieser stammt aus einer Erhebung zur Validierung eines Fragebogens, der Skalenwerte enthält, die verschiedene Dimensionen von Verschwörungsglauben abbilden sollen.
 
 ### Daten laden
-Wenn Sie den Datensatz lokal auf ihrem Rechner haben möchten, können Sie ihn [<i class="fas fa-download"></i> hier herunterladen](../../daten/conspiracy.rda). Anschließend muss er eingeladen werden - natürlich mit Ihrem Dateipfad.
+Wenn Sie den Datensatz lokal auf ihrem Rechner haben möchten, können Sie ihn [<i class="fas fa-download"></i> hier herunterladen](/daten/conspiracy.rda). Anschließend muss er eingeladen werden - natürlich mit Ihrem Dateipfad.
 
 
 ``` r
@@ -169,8 +169,7 @@ names(temp)  # Spaltennamen des temporären Datensatzes
 ```
 
 ```
-##  [1] "urban"     "edu"       "gender"    "age"       "GM"        "MG"        "ET"        "PW"        "CI"       
-## [10] "ET_mean_k"
+##  [1] "urban"     "edu"       "gender"    "age"       "GM"        "MG"        "ET"        "PW"        "CI"        "ET_mean_k"
 ```
 
 ``` r
@@ -270,12 +269,7 @@ pf(F_wert, nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$ur
 
 Grafisch gesehen lassen wir uns also die Fläche für den folgenden Bereich der F-Verteilung anzeigen.
 
-
-```
-## Want to understand how all the pieces fit together? Read R for Data Science: https://r4ds.had.co.nz/
-```
-
-![](/anova-i_files/unnamed-chunk-19-1.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-14-1.png)<!-- -->
 
 Zur Beurteilung der Signifikanz muss der errechnete p-Wert mit dem vorher festgelegten $\alpha$-Niveau verglichen werden. Da der p-Wert hier niedriger als unser $\alpha$-Niveau von .05 ist, können wir die Nullhypothese verwerfen und die Alternativhypothese annehmen. Bevor wir genauer darauf eingehen, was diese Signifikanzentscheidung bedeutet, schauen wir uns zunächst die Durchführung mithilfe eines Pakets an.
 
@@ -295,40 +289,6 @@ Anschließend kann es geladen werden.
 ``` r
 # Paket laden 
 library(afex)
-```
-
-```
-## Loading required package: lme4
-```
-
-```
-## Loading required package: Matrix
-```
-
-```
-## ************
-## Welcome to afex. For support visit: http://afex.singmann.science/
-```
-
-```
-## - Functions for ANOVAs: aov_car(), aov_ez(), and aov_4()
-## - Methods for calculating p-values with mixed(): 'S', 'KR', 'LRT', and 'PB'
-## - 'afex_aov' and 'mixed' objects can be passed to emmeans() for follow-up tests
-## - Get and set global package options with: afex_options()
-## - Set sum-to-zero contrasts globally: set_sum_contrasts()
-## - For example analyses see: browseVignettes("afex")
-## ************
-```
-
-```
-## 
-## Attaching package: 'afex'
-```
-
-```
-## The following object is masked from 'package:lme4':
-## 
-##     lmer
 ```
 
 Die Funktion, die wir zur Durchführung der ANOVA nutzen wollen, heißt `aov_4()`. Wie bereits angekündigt , ist die Syntax ähnlich der der Regressionsanalyse. Die abhängige Variable wird zunächst genannt, dann folgt die Tilde `~`, dann die unabhängige Variable und schließlich der Datensatz. 
@@ -436,12 +396,6 @@ Nun können wir das Paket einladen.
 library(emmeans)
 ```
 
-```
-## Welcome to emmeans.
-## Caution: You lose important information if you filter this package's results.
-## See '? untidy'
-```
-
 Nun wandeln wir das Objekt um. Dafür brauchen wir die Funktion `emmeans()` (die wiederum also genauso heißt wie das Paket). Diese benötigt als erstes Argument unser Objekt und als zweites dann nochmal unsere Gruppierungsvariable mit einer Tilde `~` vorweg. Das erscheint etwas redundant, aber wenn man bspw. mehrere Gruppierungsvariablen hätte, könnte man hier reduzieren.
 
 
@@ -493,7 +447,7 @@ Auch ein hübscher Plot für die Berichterstattung lässt sich erzeugen, der die
 plot(tukey)
 ```
 
-![](/anova-i_files/unnamed-chunk-31-1.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-26-1.png)<!-- -->
 
 *Tipp:* Man kann diese Grafik auch noch mit den bereits erlernten `ggplot2`-Funktionen anpassen.
 
@@ -531,6 +485,17 @@ library(car)
 ## Loading required package: carData
 ```
 
+```
+## 
+## Attaching package: 'car'
+```
+
+```
+## The following object is masked from 'package:psych':
+## 
+##     logit
+```
+
 ``` r
 leveneTest(conspiracy$ET ~ conspiracy$urban)
 ```
@@ -562,19 +527,19 @@ Nun können wir auf die Residuen einzelner Gruppen zugreifen und uns beispielswe
 hist(conspiracy$resid[conspiracy$urban == "rural"])
 ```
 
-![](/anova-i_files/unnamed-chunk-34-1.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-29-1.png)<!-- -->
 
 ``` r
 hist(conspiracy$resid[conspiracy$urban == "suburban"])
 ```
 
-![](/anova-i_files/unnamed-chunk-34-2.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-29-2.png)<!-- -->
 
 ``` r
 hist(conspiracy$resid[conspiracy$urban == "urban"])
 ```
 
-![](/anova-i_files/unnamed-chunk-34-3.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-29-3.png)<!-- -->
 
 Die Normalverteilung der Residuen scheint schwierig zu sein.
 
