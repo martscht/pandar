@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schultze, irmer, hartig, sajjad]
 weight: 7
-lastmod: '2025-05-26'
+lastmod: '2025-06-09'
 featured: no
 banner:
   image: "/header/curvy-road.jpg"
@@ -103,7 +103,13 @@ Wir sehen hier, dass der lineare Effekt ca. 16% der Unterschiede im Commitment a
 ``` r
 # car laden
 library(car)
+```
 
+```
+## Loading required package: carData
+```
+
+``` r
 # Residuenplot
 residualPlot(mod_lin)
 ```
@@ -527,7 +533,7 @@ summary(mod_quad_poly)
 ## Multiple R-squared:  0.1769,	Adjusted R-squared:  0.1752 
 ## F-statistic: 105.7 on 2 and 984 DF,  p-value: < 2.2e-16
 ```
-Während dieser Ansatz garantiert, dass wir unkorrelierte Polynome erhalten und somit die Standardfehler minimal sind, kostet und das die direkte Interpretierbarkeit der Koeffizienten. 
+Während dieser Ansatz garantiert, dass wir unkorrelierte Polynome erhalten und somit die Standardfehler minimal sind, kostet uns das die direkte Interpretierbarkeit der Koeffizienten. 
 
 ### Vergleich der Ansätze
 
@@ -776,7 +782,7 @@ Im vorherigen Abschnitt hatten wir quadratische und kubsiche Effekte als typisch
 
 Um uns anzugucken, wie logarithmische Effekte modelliert werden, nutzen wir Daten aus der Studie von [Fazio et al. (2022)](https://doi.org/10.1037/xge0001211). In dieser Studie wurden Personen über einen Zeitraum von zwei Wochen via Push wiederholt Aussagen präsentiert, von denen manche wahr und manche falsch waren. Effekte der Anzahl von wiederholten Präsentationen von Informationen auf das Lernen sind in experimentellen Bedingungen extrem weitreichen untersucht. [Fazio et al. (2022)](https://doi.org/10.1037/xge0001211) wollten mit ihrer Studie untersuchen, ob auch im Alltag - bei der einfachen Aufnahmen von Informationen "nebenbei", wie sie heutzutage via Headline-Scrolling üblich ist - diese Effekte auftreten und ob sich dabei wahre von falschen Aussagen unterscheiden.
 
-Eine volle Liste der Aussage, für die diese Effekte untersucht wurden haben wir [hier](/daten/datensaetze/#trivia-trivia) bereitgestellt. Für unser Beispiel beschränken wir uns auf die Aussage "In the story of Pinnochio, die goldfisch is named Cleo." Dafür müssen wir zunächst die Daten einlesen und dann auf diese Aussage einschränken:
+Eine volle Liste der Aussage, für die diese Effekte untersucht wurden haben wir [hier](/daten/datensaetze/#trivia-trivia) bereitgestellt. Für unser Beispiel beschränken wir uns auf die Aussage "In the story of Pinnochio, the goldfish is named Cleo." Dafür müssen wir zunächst die Daten einlesen und dann auf diese Aussage einschränken:
 
 
 ``` r
@@ -1085,9 +1091,9 @@ cor(poly(A, 2))
 ```
 
 ```
-##             1           2
-## 1 1.00000e+00 1.92988e-17
-## 2 1.92988e-17 1.00000e+00
+##              1            2
+## 1 1.000000e+00 9.847944e-17
+## 2 9.847944e-17 1.000000e+00
 ```
 
 ``` r
