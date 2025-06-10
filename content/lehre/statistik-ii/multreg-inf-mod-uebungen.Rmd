@@ -2,7 +2,7 @@
 title: "Inferenz und Modellauswahl in der multiplen Regression - Übungen" 
 type: post
 date: '2025-06-04'
-slug: multreg-inf-mod-loesungen
+slug: multreg-inf-mod-uebungen
 categories: Statistik II Übungen
 tags: []
 subtitle: ''
