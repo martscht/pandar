@@ -76,7 +76,7 @@ search_rmd_dataset <- function(keyword, path = ".") {
   
   # Construct the final output sentence.
   sentence <- if (length(found_in_titles) > 0) {
-    paste0(keyword, " wird in den Beiträgen ", title_list, " genutzt.")
+    paste0(keyword, " wird in ", title_list, " genutzt.")
   } else {
     paste0(keyword, " wird in keinem Beitrag genutzt.")
   }
