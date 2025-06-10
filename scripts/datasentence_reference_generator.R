@@ -1,9 +1,12 @@
 library(yaml)
 library(stringr)
 
-search_rmd_dataset <- function(keyword, path = ".") {
+search_rmd_dataset <- function(keyword, path = ".", name = "None") {
   # Capitalize the dataset keyword for display.
   keyword <- str_to_title(keyword)
+  
+  # Determine what displayed name to use:
+  display_dataset <- if (name == "None") keyword else name
   
   # List all R Markdown files recursively (full paths).
   files <- list.files(path, pattern = "\\.Rmd$", recursive = TRUE, full.names = TRUE)
@@ -21,6 +24,11 @@ search_rmd_dataset <- function(keyword, path = ".") {
       title <- if (!is.null(yaml_data$title)) yaml_data$title else basename(file)
     } else {
       title <- basename(file)
+    }
+    
+    # -- NEW: If the title contains "Lösung", skip this file --
+    if (grepl("Lösung", title, ignore.case = TRUE)) {
+      next
     }
     
     # --- Build the Main File Link ---
@@ -42,7 +50,7 @@ search_rmd_dataset <- function(keyword, path = ".") {
     folder_path <- dirname(main_link)
     cat_name <- basename(folder_path)  # e.g. "fue-ii"
     
-    # Build the category URL as /category/<cat_name>/ 
+    # Build the category URL as /category/<cat_name>/
     category_link <- paste0("/category/", cat_name, "/")
     
     # Build the displayed category text:
@@ -74,11 +82,11 @@ search_rmd_dataset <- function(keyword, path = ".") {
     title_list <- found_in_titles
   }
   
-  # Construct the final output sentence.
+  # Construct the final output sentence using display_dataset.
   sentence <- if (length(found_in_titles) > 0) {
-    paste0(keyword, " wird in ", title_list, " genutzt.")
+    paste0(display_dataset, " wird in ", title_list, " genutzt.")
   } else {
-    paste0(keyword, " wird in keinem Beitrag genutzt.")
+    paste0(display_dataset, " wird in keinem Beitrag genutzt.")
   }
   
   return(sentence)
@@ -86,3 +94,5 @@ search_rmd_dataset <- function(keyword, path = ".") {
 
 # Example usage:
 search_rmd_dataset("raw_data")
+# or using a new name:
+search_rmd_dataset("raw_data", name = "Megraw Data")

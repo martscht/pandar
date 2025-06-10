@@ -88,12 +88,12 @@ Beim Datensatz stammt von Rubin (2020) und ist auf dem `Open Science Framework` 
 ### Datensatz laden
 
 
-``` r
+```r
 raw_data <- readRDS(url("https://osf.io/awz3d/download"))
 ```
 
 
-``` r
+```r
 names(raw_data) <- c("observe", "describe", "awaren.", "nonjudg.",
                      "nonreact.", "interest",  "emotions",  "sleep",
                      "tired",  "appetite", "selfim.",
@@ -132,6 +132,9 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+Achtsamkeit und Depression wird in [Netzwerkanalyse im Querschnitt](/lehre/klipps-legacy/querschnittliche-netzwerke-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
 ---
 
 ## Alkoholkonsum von Jugendlichen (`alc`)
@@ -143,7 +146,7 @@ Der Datensatz stammt aus einer Erhebung von Curran, Stice und Chassin (1997) in 
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/alc.rda"))
 ```
 
@@ -166,12 +169,15 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 
+### Auftreten
+Alc wird in [Varianzanalyse mit Messwiederholung](/lehre/statistik-ii/anova-iii) [[Statistik II](/category/statistik-ii/)] genutzt.
+
 ### Erweiterung 
 
 Für das Quiz ANOVA III in PsyBSc7 wurde der Datensatz nochmal in zwei getrennten Formaten erweitert. Die erweiterten Daten sind simulationsbasiert. Die Daten können mit folgendem Befehl eingeladen werden:
 
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/alc_extended.rda"))
 ```
 
@@ -198,7 +204,7 @@ Der Datensatz ist eine Zusammenstellung aus mehreren Studien der Arbeits- und Or
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/StressAtWork.rda"))
 ```
 
@@ -222,6 +228,9 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+StressAtWork wird in [Modelle für Gruppenvergleiche](/lehre/fue-ii/msa) [[Fue II](/category/fue-ii/)] und [Pfadanalysen und Strukturgleichungsmodelle](/lehre/fue-ii/sem) [[Fue II](/category/fue-ii/)] genutzt.
+
 ---
 
 ## Bildungsinvestitionen auf der Welt (`edu_exp`)
@@ -232,7 +241,7 @@ Wir benutzen für unsere Interaktion mit `ggplot2` öffentlich zugängliche Date
 
 ### Datensatz laden
 
-``` r
+```r
 load(url('https://pandar.netlify.app/daten/edu_exp.rda'))
 ```
 
@@ -269,6 +278,9 @@ Insgesamt liegen im Datensatz 10147 fehlende Werte vor. Folgende Variablen entha
 
 <!-- </details> -->
 
+### Auftreten
+edu_exp wird in [Grafiken mit ggplot2](/lehre/statistik-ii/grafiken-ggplot2) [[Statistik II](/category/statistik-ii/)], [Scatterplots und interaktiven Grafiken mit ggplot2](/lehre/statistik-ii/grafiken2-ggplot2) [[Statistik II](/category/statistik-ii/)], [gganimate](/workshops/ggplotting/gganimate) [[Ggplotting](/category/ggplotting/)], [ggplotpourri](/workshops/ggplotting/ggplotpourri) [[Ggplotting](/category/ggplotting/)], [Datenaufbereitung für ggplotting](/workshops/ggplotting/ggplotting-daten) [[Ggplotting](/category/ggplotting/)], [Explorative Grafiken](/workshops/ggplotting/ggplotting-exploration) [[Ggplotting](/category/ggplotting/)], [ggplot2 Intro](/workshops/ggplotting/ggplotting-intro) [[Ggplotting](/category/ggplotting/)], [Hübschere Grafiken mit ggplot](/workshops/ggplotting/ggplotting-themes) [[Ggplotting](/category/ggplotting/)], [plotly](/workshops/ggplotting/plotly) [[Ggplotting](/category/ggplotting/)], [Tag 01](/workshops/refresher/refresher-day1) [[Refresher](/category/refresher/)], [Tag 02](/workshops/refresher/refresher-day2) [[Refresher](/category/refresher/)] und [Übungen](/workshops/refresher/refresher-uebungen) [[Refresher](/category/refresher/)] genutzt.
+
 ---
 
 ## Bullyingprävention bei Jugendlichen (`fairplayer`)
@@ -279,7 +291,7 @@ Der Datensatz stammt aus einer Studie von Bull, Schultze & Scheithauer (2009), i
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/fairplayer.rda"))
 ```
 
@@ -312,6 +324,9 @@ In dem Datensatz liegen 830 fehlende Werte vor. Folgende Variablen enthalten kei
 
 <!-- </details> -->
 
+### Auftreten
+fairplayer wird in [Einführung in lavaan](/lehre/fue-ii/lavaan-intro) [[Fue II](/category/fue-ii/)] und [Übungen](/workshops/refresher/refresher-uebungen) [[Refresher](/category/refresher/)] genutzt.
+
 ---
 
 ## Depressivität (`Depression`)
@@ -322,7 +337,7 @@ Beim Datensatz handelt es sich um fiktive Daten bezüglich Depressionswerten in 
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/Depression.rda"))
 ```
 
@@ -347,6 +362,9 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+depression wird in [Einleitung und Wiederholung KliPPs](/lehre/klipps-legacy/einleitung-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)], [Multiple Regression und Ausreißerdiagnostik](/lehre/klipps-legacy/regression-ausreisser-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)] und [Partial- & Semipartialkorrelation](/lehre/statistik-ii/partial) [[Statistik II](/category/statistik-ii/)] genutzt.
+
 ---
 
 ## Die Big Five Persönlichkeitsdimensionen (`Big5`)
@@ -359,7 +377,7 @@ Um das Ganze etwas übersichtlicher zu gestalten, betrachten wir einen gekürzte
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/Big5_EFA.rda"))
 ```
 
@@ -392,6 +410,9 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+Big5 wird in [Exploratorische Faktorenanalyse](/lehre/fue-ii/fue-efa) [[Fue II](/category/fue-ii/)] genutzt.
+
 ---
 
 ## Distorted News (`OSF`)
@@ -406,7 +427,7 @@ Frischlich, L., Hellmann, J.H., Brinkschulte, F., Becker, M., & Back, M.D. (2021
 Der Datensatz wird in einem Skript reduziert und Variablen umbenannt. Dieses Skript kann mit folgendem Befehl ausgeführt werden:
 
 
-``` r
+```r
 source("https://pandar.netlify.app/daten/Data_Processing_distort.R")
 ```
 
@@ -433,7 +454,7 @@ In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und
 | `ideology` | Ideologie des Artikels | 1 = links, 2 = rechts |
 | `leaning` | Politische Tendenz | 1 = extrem links, 5 = moderat, 9 = extrem rechts  |
 | `attitude` | Einstellung zum Politiker | _Skalenwert_ |
-| `attention` | Aufmerksamkeit für Politik | _Skalenwert_ |
+| `views` | Mittelwert allgemeiner politischer Tendenz und sozialpolitischer Tendenz | 1 = ???, 5 = moderat, 9 = ??? |
 | `rwa` | Rechtsextreme Autoritarismus | _Skalenwert_ |
 | `cm` | Verschwörungsmentalität | _Skalenwert_ |
 | `credibility` | Glaubwürdigkeit des Artikels | _Skalenwert_ |
@@ -445,6 +466,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und
 
 Dieser Datensatz wurde zuvor mit einfacher Imputation ergänzt und enthält daher keine fehlenden Werte.
 
+### Auftreten
+OSF distort wird in [Inferenz und Modellauswahl in der multiplen Regression - Übungen](/lehre/statistik-ii/multreg-inf-mod-uebungen) [[Statistik II](/category/statistik-ii/)], [Tag 02](/workshops/refresher/refresher-day2) [[Refresher](/category/refresher/)] und [Übungen](/workshops/refresher/refresher-uebungen) [[Refresher](/category/refresher/)] genutzt.
+
 ---
 
 ## Effektivität der CBT bei Depression (`F2F_CBT`)
@@ -455,8 +479,44 @@ Der Datensatz ist `R`-eigenen Paket `metafor` von Viechtbauer (2010) enthalten u
 
 ### Datensatz laden
 
-``` r
+```r
 library(metafor)
+```
+
+```
+## Warning: Paket 'metafor' wurde unter R Version 4.3.1 erstellt
+```
+
+```
+## Lade nötiges Paket: Matrix
+```
+
+```
+## Warning: Paket 'Matrix' wurde unter R Version 4.3.2 erstellt
+```
+
+```
+## Lade nötiges Paket: metadat
+```
+
+```
+## Warning: Paket 'metadat' wurde unter R Version 4.3.1 erstellt
+```
+
+```
+## Lade nötiges Paket: numDeriv
+```
+
+```
+## 
+## Loading the 'metafor' package (version 4.2-0). For an
+## introduction to the package please type: help(metafor)
+## 
+## An updated version of the package (version 4.8-0) is available!
+## To update to this version type: install.packages("metafor")
+```
+
+```r
 F2F_CBT <- dat.lopez2019[dat.lopez2019$treatment == "F2F CBT",] # wähle nur Fälle mit F2F CBT
 ```
 
@@ -508,6 +568,9 @@ Im Datensatz liegen 20 fehlende Werte vor. Auf folgenden Variablen liegen keine 
 
 <!-- </details> -->
 
+### Auftreten
+F2F_CBT wird in [Metaanalysen in R](/lehre/klipps-legacy/metaanalysen-mw-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
 ---
 
 ## Einstellungsentscheidungen (`Assessment`)
@@ -516,7 +579,7 @@ Bei dem Datensatz handelt es sich um ein simuliertes Datenbeispiel zu Einstellun
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/Assessment.rda"))
 ```
 
@@ -537,6 +600,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+### Auftreten
+Assessment wird in [Daten für die Übungen](/lehre/fue-i/msc1-daten) [[Fue I](/category/fue-i/)] genutzt.
+
 ---
 
 ## Entwicklung der Weltbevölkerung (`WorldPopulation`)
@@ -547,7 +613,7 @@ Der Datensatz stammt von `Gapminder` und enthält Daten zur Entwicklung der Welt
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/WorldPopulation.rda"))
 ```
 
@@ -566,6 +632,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+### Auftreten
+WorldPopulation wird in [Regression V: nichtlineare Regression - exponentielles Wachstum](/lehre/statistik-ii/regression-v) [[Statistik II](/category/statistik-ii/)] genutzt.
+
 ---
 
 ## Erfahrungen in Beziehungen (`ecr`)
@@ -575,7 +644,7 @@ Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"]
 
 ### Datensatz laden
 
-``` r
+```r
 load(url('https://pandar.netlify.com/daten/ecr.rda'))
 ```
 
@@ -630,6 +699,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 Im Datensatz liegen 2 fehlenden Werte vor. Fehlende Werte sind dabei ausschließlich auf der Variable `gender` zu finden.
 
+### Auftreten
+ecr wird in keinem Beitrag genutzt.
+
 ---
 
 ## Fragebogendaten aus dem ersten Semester (`fb22`)
@@ -641,7 +713,7 @@ Der Datensatz `fb22` besteht aus Daten, die von den Studierenden selbst in den e
 
 ### Datensatz laden
 
-``` r
+```r
 load(url('https://pandar.netlify.app/daten/fb22.rda'))
 ```
 
@@ -702,6 +774,9 @@ Insgesamt liegen im Datensatz 102 fehlende Werte vor. Folgende Variablen enthalt
 * `uni4`
 <!-- </details> -->
 
+### Auftreten
+fb22 wird in [Freiwillige Übungsaufgaben (alle Abschnitte)](/lehre/statistik-i/zusatz-aufgaben) [[Statistik I](/category/statistik-i/)] und [Gewichtete Regression](/lehre/statistik-ii/gewichtete-reg) [[Statistik II](/category/statistik-ii/)] genutzt.
+
 ---
 
 ## Fragebogendaten aus dem ersten Semester (`fb23`)
@@ -713,7 +788,7 @@ Der Datensatz `fb23` besteht aus Daten, die von den Studierenden selbst in den e
 
 ### Datensatz laden
 
-``` r
+```r
 load(url('https://pandar.netlify.app/daten/fb23.rda'))
 ```
 
@@ -779,6 +854,9 @@ Insgesamt liegen im Datensatz 222 fehlende Werte vor. Folgende Variablen enthalt
 
 <!-- </details> -->
 
+### Auftreten
+fb23 wird in [Tag 02](/workshops/refresher/refresher-day2) [[Refresher](/category/refresher/)] genutzt.
+
 
 ---
 
@@ -791,7 +869,7 @@ Der Datensatz `fb24` besteht aus Daten, die von den Studierenden selbst in den e
 
 ### Datensatz laden
 
-``` r
+```r
 load(url('https://pandar.netlify.app/daten/fb24.rda'))
 ```
 
@@ -861,6 +939,9 @@ Insgesamt liegen im Datensatz 379 fehlende Werte vor. Folgende Variablen enthalt
 
 <!-- </details> -->
 
+### Auftreten
+fb24 wird in [Deskriptivstatistik für Intervallskalen - Übungen](/lehre/statistik-i/deskriptiv-intervall-uebungen) [[Statistik I](/category/statistik-i/)], [Deskriptivstatistik für Intervallskalen](/lehre/statistik-i/deskriptiv-intervall) [[Statistik I](/category/statistik-i/)], [Deskriptivstatistik für Nominal- und Ordinalskalen - Übungen](/lehre/statistik-i/deskriptiv-nominal-ordinal-uebungen) [[Statistik I](/category/statistik-i/)], [Deskriptivstatistik für Nominal- und Ordinalskalen](/lehre/statistik-i/deskriptiv-nominal-ordinal) [[Statistik I](/category/statistik-i/)], [Einfache Lineare Regression - Übungen](/lehre/statistik-i/einfache-reg-uebungen) [[Statistik I](/category/statistik-i/)], [Einfache Lineare Regression](/lehre/statistik-i/einfache-reg) [[Statistik I](/category/statistik-i/)], [Tests für abhängige Stichproben - Übungen](/lehre/statistik-i/gruppenvergleiche-abhaengig-uebungen) [[Statistik I](/category/statistik-i/)], [Tests für abhängige Stichproben](/lehre/statistik-i/gruppenvergleiche-abhaengig) [[Statistik I](/category/statistik-i/)], [Tests für unabhängige Stichproben - Übungen](/lehre/statistik-i/gruppenvergleiche-unabhaengig-uebungen) [[Statistik I](/category/statistik-i/)], [Tests für unabhängige Stichproben](/lehre/statistik-i/gruppenvergleiche-unabhaengig) [[Statistik I](/category/statistik-i/)], [Korrelation - Übungen](/lehre/statistik-i/korrelation-uebungen) [[Statistik I](/category/statistik-i/)], [Korrelation](/lehre/statistik-i/korrelation) [[Statistik I](/category/statistik-i/)], [Matrixalgebra](/lehre/statistik-i/matrixalgebra) [[Statistik I](/category/statistik-i/)], [Multiple Regression - Übungen](/lehre/statistik-i/multiple-reg-uebungen) [[Statistik I](/category/statistik-i/)], [Multiple Regression](/lehre/statistik-i/multiple-reg) [[Statistik I](/category/statistik-i/)], [Tests und Konfidenzintervalle - Übungen](/lehre/statistik-i/tests-konfidenzintervalle-uebungen) [[Statistik I](/category/statistik-i/)], [Tests und Konfidenzintervalle](/lehre/statistik-i/tests-konfidenzintervalle) [[Statistik I](/category/statistik-i/)], [Funktionen und Loops - Übungen](/lehre/statistik-ii/loops-funktionen-uebungen) [[Statistik II](/category/statistik-ii/)] und [Funktionen und Loops](/lehre/statistik-ii/loops-funktionen) [[Statistik II](/category/statistik-ii/)] genutzt.
+
 
 ---
 
@@ -874,8 +955,15 @@ Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Unters
 ### Datensatz laden
 
 
-``` r
+```r
 library(haven)
+```
+
+```
+## Warning: Paket 'haven' wurde unter R Version 4.3.1 erstellt
+```
+
+```r
 osf <- read_sav(file = url("https://osf.io/prc92/download"))
 ```
 
@@ -898,6 +986,9 @@ In dem Datensatz liegen 184784 fehlende Werte vor. Auf folgenden der für die Un
 
 <!-- </details> -->
 
+### Auftreten
+OSF Gender, Drug and Depression wird in [Logistische Regression](/lehre/klipps-legacy/logistische-regression-klinische-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
 
 ---
 
@@ -911,7 +1002,7 @@ Molloy, G. J., O'Carroll, R. E., & Ferguson, E. (2014). Conscientiousness and me
 
 ### Datensatz laden
 
-``` r
+```r
 library(metafor)
 load(url('https://pandar.netlify.app/daten/reliabilites.molloy2014.rda'))
 ```
@@ -919,7 +1010,7 @@ load(url('https://pandar.netlify.app/daten/reliabilites.molloy2014.rda'))
 Im nächsten Schritt sollte der Datensatz mit den Reliabilitäten und der ursprüngliche Datensatz zusammen gefasst werden. Dafür gibt es einige Möglichkeiten. Hier ist ein Beispiel aufgeführt: 
 
 
-``` r
+```r
 data_combined <- dat.molloy2014
 data_combined$rel1 <- reliabilites.molloy2014$RelGewissenhaftigkeit
 data_combined$rel2 <- reliabilites.molloy2014$RelCondition
@@ -972,6 +1063,10 @@ Im Datensatz liegen 4 fehlende Werte vor. Auf folgenden Variablen liegen keine f
 
 <!-- </details> -->
 
+### Auftreten
+data_combined wird in [Daten für die Quiz](/lehre/klipps-legacy/quizdaten-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
+
 ---
 
 ## Hauptkomponentenanalyse (`PCA`)
@@ -982,7 +1077,7 @@ Der Beispieldatensatz enthält simulierte Daten zu unbekannten Variablen. Eine a
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/PCA.RData"))
 ```
 
@@ -1007,6 +1102,9 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+PCA wird in [Hauptkomponentenanalyse](/lehre/fue-i/pca) [[Fue I](/category/fue-i/)] genutzt.
+
 ---
 
 ## HeckData (`HeckData`)
@@ -1017,7 +1115,7 @@ Keine Ahnung, zu welcher Thematik dieser Beispieldatensatz Daten enthält. Falls
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/HeckData.rda"))
 ```
 
@@ -1037,6 +1135,8 @@ Im Datensatz liegen ...
 
 <!-- </details> -->
 
+### Auftreten
+HeckData wird in [Selektionseffekte](/lehre/forschungsmodul/selektionseffekte) [[Forschungsmodul](/category/forschungsmodul/)] genutzt.
 
 ---
 
@@ -1049,7 +1149,7 @@ Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Unters
 ### Datensatz laden
 
 
-``` r
+```r
 osf <- read.csv(file = url("https://osf.io/zc8ut/download"))
 osf <- osf[, c("ID", "group", "stratum", "bsi_post", "swls_post", "pas_post")]
 ```
@@ -1078,6 +1178,9 @@ In dem Datensatz liegen 96 fehlende Werte vor. Auf folgenden Variablen liegen ke
 
 <!-- </details> -->
 
+### Auftreten
+OSF Internetintervention für psychische Störungen wird in [ANCOVA und moderierte Regression](/lehre/klipps-legacy/ancova-moderierte-regression-legacy) [[Klipps Legacy](/category/klipps-legacy/)], [ANOVA vs. Regression](/lehre/klipps-legacy/anova-regression-legacy) [[Klipps Legacy](/category/klipps-legacy/)] und [Tag 01](/workshops/refresher/refresher-day1) [[Refresher](/category/refresher/)] genutzt.
+
 
 ---
 
@@ -1092,7 +1195,7 @@ Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Unters
 Der Datensatz liegt im OSF im `.sav` Dateiformat (dem Datenformat in dem SPSS seine Daten abspeichert) vor. Daher müssen die Daten mithilfe einer der vielen verschiedenen Import-Funktionen eingelesen werden. Hier nutzen wir dafür die Funktion `read_sav` aus dem Paket `haven`, welches R-Studio primär nutzt, um Daten zu importieren und daher bereits installiert sein sollte.
 
 
-``` r
+```r
 library(haven)
 body <- haven::read_sav(file = url('https://osf.io/43xv5/download'))
 ```
@@ -1100,7 +1203,7 @@ body <- haven::read_sav(file = url('https://osf.io/43xv5/download'))
 Der Datensatz enthält neben den zusammengefassten Skalenwerten auch die einzelnen Items der beiden zentralen Skalen (IAS und BPQ), welche wir für diese Anwendung entfernen, um die Daten etwas übersichtlicher zu gestalten. Wir beschränken uns also auf die ersten 27 Variablen im Datensatz:
 
 
-``` r
+```r
 body <- body[, 1:27]
 ```
 
@@ -1144,6 +1247,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 
 In dem Datensatz liegen 92 fehlende Werte vor. Diese sind allesamt auf der fehlerhaft kodierten Variablen `UniversityStudent` zu finden.
 
+### Auftreten
+body wird in keinem Beitrag genutzt.
+
 
 ---
 
@@ -1155,7 +1261,7 @@ Die Daten stammen aus der Erhebung zur Validierung der *Generic Conspiracist Bel
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/conspiracy_cfa.rda"))
 ```
 
@@ -1201,6 +1307,8 @@ Im Datensatz liegen 186 fehlende Werte vor. Die folgenden Variablen enthalten ke
 * `Q10`
 
 <!-- </details> -->
+### Auftreten - VERALTET
+conspiracy_cfa wird in [Konfirmatorische Faktorenanalyse](/lehre/fue-ii/fue-cfa) [[Fue II](/category/fue-ii/)] genutzt.
 
 
 
@@ -1214,7 +1322,7 @@ Der Datensatz stammt aus [Eid, Gollwitzer & Schmitt: "Statistik und Forschungsme
 
 ### Datensatz laden
 
-``` r
+```r
 dataKooperation <- data.frame(Paar = 1:10, Juenger = c(0.49,0.25,0.51,0.55,0.35,0.54,0.24,0.49,0.38,0.50), Aelter = c(0.4,0.25,0.31,0.44,0.25,0.33,0.26,0.38,0.23,0.35))
 ```
 
@@ -1234,6 +1342,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+### Auftreten
+Datakooperation wird in keinem Beitrag genutzt.
+
 
 ---
 
@@ -1248,14 +1359,14 @@ Die Daten stammen aus einer [kuturellen Unterschieden in der Einschätzung von v
 Die Daten können direkt vom [{{< icon name="download" pack="fas" >}} OSF heruntergeladen ](https://osf.io/4wypx/download) werden. Allerdings werden einige Schritte durchlaufe, um die Daten auf die nötigen Variablen zu reduzieren, welche mit 
 
 
-``` r
+```r
 source("https://pandar.netlify.app/daten/Data_Processing_punish.R")
 ```
 
 direkt durchgeführt werden können. Zur Nachvollziehbarkeit, hier noch einmal der Inhalt dieses Skripts:
 
 
-``` r
+```r
 #### Data preparation file for punishment severity evaluation ----
 # for the paper see: https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509
 
@@ -1297,6 +1408,9 @@ Bei den Variablen `gains` bis `severe` handelt es sich um individuelle Einschät
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 
+### Auftreten
+punish wird in [Regression mit nominalskalierten Prädiktoren](/lehre/statistik-ii/ancova-regression) [[Statistik II](/category/statistik-ii/)] genutzt.
+
 
 ---
 
@@ -1310,7 +1424,7 @@ Der Beispieldatensatz enthält Daten zur Lesekompetenz aus der deutschen Stichpr
 ### Datensatz laden
 
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/PISA2009.rda"))
 ```
 
@@ -1342,6 +1456,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+### Auftreten
+PISA2009 wird in [Daten für die Quiz](/lehre/statistik-ii/quizdaten-bsc7) [[Statistik II](/category/statistik-ii/)] und [Regression IV: quadratische und moderierte Regression](/lehre/statistik-ii/regression-iv) [[Statistik II](/category/statistik-ii/)] genutzt.
+
+
 ---
 
 ## Machiavellismus-Fragebogen (`mach`)
@@ -1353,7 +1471,7 @@ Der Datensatz erhält viele Angaben zur Persönlichkeit und demografischen Daten
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/mach.rda"))
 ```
 
@@ -1388,6 +1506,9 @@ Insgesamt liegen im Datensatz 19 fehlende Werte vor. Diese liegen ausschließlic
 
 <!-- </details> -->
 
+### Auftreten
+mach wird in [Wiederholung von Grundlagen in R](/lehre/statistik-ii/einleitung-statistik-ii) [[Statistik II](/category/statistik-ii/)], [Grafiken mit ggplot2 - Übungen](/lehre/statistik-ii/grafiken-ggplot2-uebungen) [[Statistik II](/category/statistik-ii/)] und [Daten für die Quiz](/lehre/statistik-ii/quizdaten-bsc7) [[Statistik II](/category/statistik-ii/)] genutzt.
+
 ---
 
 ## Major Depression (`data`)
@@ -1401,7 +1522,7 @@ Epskamp, S., van Borkulo, C. D., van der Veen, D. C., Servaas, M., Isvoranu, A.-
 ### Datensatz laden
 
 
-``` r
+```r
 data <- read.csv(url("https://osf.io/g6ya4/download"))
 ```
 
@@ -1429,6 +1550,9 @@ In dem Datensatz liegen 35 fehlende Werte vor. Folgende Variablen enthalten kein
 
 <!-- </details> -->
 
+### Auftreten
+Major Depression (data) wird in [Dynamische Netzwerkanalyse](/lehre/klipps-legacy/dynamische-netzwerke-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
 ---
 
 ## Mehrdimensionaler Befindlichkeitsfragebogen (`mdbf`)
@@ -1440,7 +1564,7 @@ Beim Datensatz handelt es sich um eine Erhebung, die 2017 an der Freien Universi
 ### Datensatz laden
 
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/mdbf.rda"))
 ```
 
@@ -1471,6 +1595,9 @@ In der Spalte *Dimension* sehen wir, dass die Items 3 verschiedene Dimensionen a
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+### Auftreten
+mdbf wird in [Funktionen und Loops - Übungen](/lehre/statistik-ii/loops-funktionen-uebungen) [[Statistik II](/category/statistik-ii/)] und [Daten für die Quiz](/lehre/statistik-ii/quizdaten-bsc7) [[Statistik II](/category/statistik-ii/)] genutzt.
+
 ---
 
 ## Mental Health and Social Contact During the COVID-19 Pandemic (`data`)
@@ -1485,7 +1612,7 @@ Fried, E. I., Papanikolaou, F., & Epskamp, S. (2021). Mental Health and Social C
 ### Datensatz laden
 
 
-``` r
+```r
 source(url("https://pandar.netlify.app/daten/Data_Processing_Quiz4b.R"))
 ```
 
@@ -1527,6 +1654,9 @@ Im Datensatz liegen 42 fehlende Werte vor. Die folgenden Variablen enthalten kei
 
 </details>
 
+### Auftreten
+Mental Health and Social Contact During the COVID-19 Pandemic (data) wird in [Daten für die Quiz](/lehre/klipps-legacy/quizdaten-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
 ---
 
 ## Naturverbundenheit (`nature`)
@@ -1538,7 +1668,7 @@ Der Datensatz behandelt die Naturverbundenheit, welche anhand von 6 Items gemess
 ### Datensatz laden
 
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/nature.rda"))
 ```
 
@@ -1558,6 +1688,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+### Auftreten
+nature wird in [Daten für die Quiz](/lehre/statistik-ii/quizdaten-bsc7) [[Statistik II](/category/statistik-ii/)] genutzt.
+
+
 ---
 
 ## Nerdiness (`NerdData`)
@@ -1566,7 +1700,7 @@ Bei dem Datensatz handelt es sich eine gekürzte Version von Daten zur "Nerdy Pe
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/NerdData.rda"))
 ```
 
@@ -1626,6 +1760,10 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 
+### Auftreten
+NerdData wird in [Daten für die Übungen](/lehre/fue-i/msc1-daten) [[Fue I](/category/fue-i/)] genutzt.
+
+
 ---
 
 ## Parental Burnout (`burnout`)
@@ -1641,7 +1779,7 @@ In der Untersuchung wurden charakteristische Merkmale von *Parental Burnout* unt
 ### Datensatz laden
 
 
-``` r
+```r
 burnout <- read.csv(file = url("https://osf.io/qev5n/download"))
 burnout <- burnout[,2:8]
 ```
@@ -1667,6 +1805,10 @@ Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 
+### Auftreten
+burnout wird in [Daten für die Quiz](/lehre/klipps-legacy/quizdaten-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)], [Inferenz und Modellauswahl in der multiplen Regression](/lehre/statistik-ii/multreg-inf-mod) [[Statistik II](/category/statistik-ii/)] und [Tag 02](/workshops/refresher/refresher-day2) [[Refresher](/category/refresher/)] genutzt.
+
+
 ---
 
 ## Psychisches Wohlbefinden von Individuen während des Lockdowns in Frankreich (`lockdown`)
@@ -1678,15 +1820,46 @@ Es handelt sich um hierarchische Daten mit Messzeitpunkten auf Ebene 1 und Indiv
 
 ### Datensatz laden
 
-``` r
+```r
 library(dplyr)
+```
+
+```
+## 
+## Attache Paket: 'dplyr'
+```
+
+```
+## Die folgenden Objekte sind maskiert von 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## Die folgenden Objekte sind maskiert von 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
 library(ICC)
+```
+
+```
+## Warning: Paket 'ICC' wurde unter R Version 4.3.1 erstellt
+```
+
+```r
 library(lme4)
 library(interactions)
 ```
 
+```
+## Warning: Paket 'interactions' wurde unter R Version 4.3.1 erstellt
+```
 
-``` r
+
+```r
 # Daten einlesen und vorbereiten ----
 lockdown <- read.csv(url("https://osf.io/dc6me/download"))
 
@@ -1750,6 +1923,10 @@ Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 
+### Auftreten
+lockdown wird in [Hierarchische Regression](/lehre/klipps-legacy/hierarchische-regression-klinisch-legacy) [[Klipps Legacy](/category/klipps-legacy/)] und [Daten für die Quiz](/lehre/klipps-legacy/quizdaten-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
+
 ---
 
 ## Quasi-Experimentelle Therapiestudie (`CBTdata`)
@@ -1761,7 +1938,7 @@ Beim Datensatz handelt es sich um ein fiktives Datenbeispiel, bei dem Patient:in
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/CBTdata.rda"))
 ```
 
@@ -1786,6 +1963,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der wichtigsten Variablen und i
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+
+### Auftreten
+CBTdata wird in [Schätzung von Kausaleffekten 1](/lehre/klipps-legacy/kausaleffekte1-legacy) [[Klipps Legacy](/category/klipps-legacy/)] und [Schätzung von Kausaleffekten 2](/lehre/klipps-legacy/kausaleffekte2-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
 ---
 
 ## Schulleistungen (`Schulleistungen`)
@@ -1797,7 +1978,7 @@ Der Datensatz erhält die Ergebnisse von 100 Schüler:innen, die einen Lese- (`r
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
 ```
 
@@ -1819,6 +2000,8 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+Schulleistungen wird in [Einleitung und Wiederholung](/lehre/fue-i/einleitung-fue) [[Fue I](/category/fue-i/)], [Daten für die Übungen](/lehre/fue-i/msc1-daten) [[Fue I](/category/fue-i/)], [Regression und Ausreißerdiagnostik](/lehre/fue-i/regression-ausreisser-fue) [[Fue I](/category/fue-i/)], [Moderierte Regression](/lehre/statistik-ii/moderierte-reg) [[Statistik II](/category/statistik-ii/)], [Regressionsanalyse I](/lehre/statistik-ii/regression-i) [[Statistik II](/category/statistik-ii/)], [Regressionsanalyse II](/lehre/statistik-ii/regression-ii) [[Statistik II](/category/statistik-ii/)], [Regressionsanalyse III](/lehre/statistik-ii/regression-iii) [[Statistik II](/category/statistik-ii/)] und [Regression IV: quadratische und moderierte Regression](/lehre/statistik-ii/regression-iv) [[Statistik II](/category/statistik-ii/)] genutzt.
 
 
 ---
@@ -1831,7 +2014,7 @@ Die Daten stammen aus der Erhebung zur Validierung der *Generic Conspiracist Bel
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
 ```
 
@@ -1857,6 +2040,11 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+
+### Auftreten - VERALTETS
+conspiracy wird in [Konfirmatorische Faktorenanalyse](/lehre/fue-ii/fue-cfa) [[Fue II](/category/fue-ii/)], [Einfaktorielle ANOVA](/lehre/statistik-ii/anova-i) [[Statistik II](/category/statistik-ii/)] und [Zweifaktorielle ANOVA](/lehre/statistik-ii/anova-ii) [[Statistik II](/category/statistik-ii/)] genutzt.
+
+
 ---
 
 ## Students in Classes (`StudentsInClasses`)
@@ -1865,7 +2053,7 @@ Bei dem Datensatz handelt es sich um ein fiktives Datenbeispiel mit Multilevel-D
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/StudentsInClasses.rda"))
 ```
 
@@ -1892,6 +2080,10 @@ Ebene 2 (between-level)
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+
+### Auftreten
+StudentsInClasses wird in [Hierarchische Regression](/lehre/fue-i/hierarchische-regression-schule) [[Fue I](/category/fue-i/)] und [Daten für die Übungen](/lehre/fue-i/msc1-daten) [[Fue I](/category/fue-i/)] genutzt.
+
 ---
 
 ## Therapieerfolg (`Therapy`)
@@ -1902,7 +2094,7 @@ Beim Datensatz handelt es sich um ein fiktives Datenbeispiel mit simulierten Dat
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/Therapy.rda"))
 ```
 
@@ -1925,6 +2117,11 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+
+### Auftreten
+Therapy wird in [Diskriminanzanalyse](/lehre/fue-i/diskriminanzanalyse) [[Fue I](/category/fue-i/)] und [Multivariate Varianzanalyse](/lehre/fue-i/manova) [[Fue I](/category/fue-i/)] genutzt.
+
+
 ---
 
 ## Titanic (`Titanic`)
@@ -1935,7 +2132,7 @@ Bei dem Datensatz handelt es sich um ein reales Beispiel des Titanicunglücks, i
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/Titanic.rda"))
 ```
 
@@ -1956,6 +2153,11 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+
+### Auftreten
+Titanic wird in [Logistische Regression](/lehre/fue-i/logistische-regression-titanic) [[Fue I](/category/fue-i/)] genutzt.
+
+
 ---
 
 ## Traumatische Erlebnisse und psychische Störungen (`trauma`)
@@ -1966,7 +2168,7 @@ Die Daten stammen aus einer echten Untersuchung, deren Datensatz [hier](https://
 
 ### Datensatz laden
 
-``` r
+```r
 source(url("https://pandar.netlify.app/daten/Data_Processing_Quiz1.R"))
 ```
 
@@ -1994,6 +2196,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+
+### Auftreten
+trauma wird in [Daten für die Quiz](/lehre/klipps-legacy/quizdaten-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
 ---
 
 ## Trivia (`trivia`)
@@ -2005,7 +2211,7 @@ Die Daten stammen aus einer Erhebung von [Fazio et al. (2022)](https://doi.org/1
 Der Datensatz wird in einem Skript reduziert und Variablen umbenannt. Dieses Skript kann mit folgendem Befehl ausgeführt werden:
 
 
-``` r
+```r
 source("https://pandar.netlify.app/daten/Data_Processing_trivia.R")
 ```
 
@@ -2039,6 +2245,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und
 
 
 
+### Auftreten
+trivia wird in [Nichtlineare Regression](/lehre/statistik-ii/nichtlineare-reg) [[Statistik II](/category/statistik-ii/)] genutzt.
+
+
 ---
 
 ## Vegan (`vegan`)
@@ -2050,7 +2260,7 @@ Im Datensatz ist ein Ausschnitt aus den Daten zu einer Validierungsstudie des "V
 Der Datensatz wird in einem Skript reduziert und Variablen umbenannt. Dieses Skript kann mit folgendem Befehl ausgeführt werden:
 
 
-``` r
+```r
 source("https://pandar.netlify.app/daten/Data_Processing_vegan.R")
 ```
 
@@ -2079,6 +2289,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und
 | `disgust` | Ekel vor Fleischkonsum | _Skalenwert_ |
 
 
+### Auftreten
+vegan wird in [Nichtlineare Regression](/lehre/statistik-ii/nichtlineare-reg) [[Statistik II](/category/statistik-ii/)] und [Regressionsdiagnostik](/lehre/statistik-ii/regressionsdiagnostik) [[Statistik II](/category/statistik-ii/)] genutzt.
+
+
 ---
 
 ## Vergleich von Behandlungsformen (`Behandlungsform`)
@@ -2090,7 +2304,7 @@ Der Datensatz enthält Ausprägungen von Patient:innen auf verschiedenen psychot
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/Behandlungsform.rda"))
 ```
 
@@ -2114,6 +2328,10 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+Behandlungsform wird in [Daten für die Quiz](/lehre/klipps-legacy/quizdaten-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)] und [Daten für die Quiz](/lehre/statistik-ii/quizdaten-bsc7) [[Statistik II](/category/statistik-ii/)] genutzt.
+
+
 ---
 
 ## Xmas (`Xmas`)
@@ -2123,7 +2341,7 @@ Bis zum 25.11.2020 konnten Studierende des Masterkurses MSc1 zu folgenden Weihna
 
 ### Datensatz laden
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/Xmas.rda"))
 ```
 
@@ -2158,3 +2376,5 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+### Auftreten
+Xmas wird in [Daten für die Übungen](/lehre/fue-i/msc1-daten) [[Fue I](/category/fue-i/)] genutzt.

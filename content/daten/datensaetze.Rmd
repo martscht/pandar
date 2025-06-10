@@ -29,6 +29,110 @@ if (exists("figure_path")) {
   knitr::opts_chunk$set(fig.path = figure_path)
 }
 
+library(yaml)
+library(stringr)
+
+search_rmd_dataset <- function(keyword, path = ".", name = "None") {
+  # Store the original working directory
+  original_wd <- getwd()
+  
+  # Move two folders down (adjust based on your project structure)
+  setwd("../../")  # Moves up two levels to the project root
+  
+  # Capitalize the dataset keyword for display.
+  keyword <- str_to_title(keyword)
+  
+  # Determine what displayed name to use:
+  display_dataset <- if (name == "None") keyword else name
+  
+  # List all R Markdown files recursively (full paths).
+  files <- list.files(path, pattern = "\\.Rmd$", recursive = TRUE, full.names = TRUE)
+  found_in_titles <- c()
+  
+  for (file in files) {
+    # Read file content.
+    lines <- readLines(file, warn = FALSE)
+    
+    # Extract YAML header to get the title if available; fallback to the filename.
+    yaml_end <- which(lines == "---")[2]
+    if (!is.na(yaml_end)) {
+      yaml_content <- paste(lines[2:(yaml_end - 1)], collapse = "\n")
+      yaml_data <- yaml.load(yaml_content)
+      title <- if (!is.null(yaml_data$title)) yaml_data$title else basename(file)
+    } else {
+      title <- basename(file)
+    }
+    
+    # -- NEW: If the title contains "Lösung", skip this file --
+    if (grepl("Lösung", title, ignore.case = TRUE)) {
+      next
+    }
+    
+    # --- Build the Main File Link ---
+    # Remove the leading "./content" from the file path.
+    relative_path <- sub("^\\./content", "", file)
+    # Ensure the path is root-relative.
+    if (!startsWith(relative_path, "/")) {
+      relative_path <- paste0("/", relative_path)
+    }
+    # Skip any file whose path (after removing "./content") contains "/daten/"
+    if (grepl("/daten/", relative_path)) {
+      next
+    }
+    # Remove the .Rmd extension to produce a typical Hugo URL.
+    main_link <- sub("\\.Rmd$", "", relative_path)
+    
+    # --- Build the Category Link ---
+    # The category is defined as the folder immediately containing the file.
+    folder_path <- dirname(main_link)
+    cat_name <- basename(folder_path)  # e.g. "fue-ii"
+    
+    # Build the category URL as /category/<cat_name>/
+    category_link <- paste0("/category/", cat_name, "/")
+    
+    # Build the displayed category text:
+    # Replace dashes with spaces and capitalize.
+    display_cat <- str_to_title(gsub("-", " ", cat_name))
+    # Additionally, if the display text contains a stand-alone "Ii", replace it with "II"
+    display_cat <- gsub("\\bIi\\b", "II", display_cat)
+    
+    # Build the inner Markdown link for the category.
+    inner_cat_link <- paste0("[", display_cat, "](", category_link, ")")
+    # Now wrap that inner category link in an extra pair of square brackets.
+    category_markdown <- paste0("[", inner_cat_link, "]")
+    
+    # --- Construct the Main File Markdown Link ---
+    main_file_markdown <- paste0("[", title, "](", main_link, ")")
+    
+    # Only add this file if it contains the keyword (case-insensitive).
+    if (any(grepl(keyword, lines, ignore.case = TRUE))) {
+      combined_link <- paste(main_file_markdown, category_markdown)
+      found_in_titles <- c(found_in_titles, combined_link)
+    }
+  }
+  
+  # Format the list of links: if there is more than one, insert "und" before the last entry.
+  if (length(found_in_titles) > 1) {
+    title_list <- paste(head(found_in_titles, -1), collapse = ", ")
+    title_list <- paste(title_list, "und", tail(found_in_titles, 1))
+  } else {
+    title_list <- found_in_titles
+  }
+  
+  # Construct the final output sentence using display_dataset.
+  sentence <- if (length(found_in_titles) > 0) {
+    paste0(display_dataset, " wird in ", title_list, " genutzt.")
+  } else {
+    paste0(display_dataset, " wird in keinem Beitrag genutzt.")
+  }
+  
+  # Restore the original working directory
+  setwd(original_wd)
+  
+  return(sentence)
+}
+
+
 ```
 
 Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den verschiedenen Tutorials auf `pandaR` gearbeitet wird. Die Datensätze sind alphabetisch sortiert und können teilweise direkt über diese Seite heruntergeladen werden. Hier eine Übersicht:
@@ -135,6 +239,9 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+`r search_rmd_dataset("raw_data", name ="Achtsamkeit und Depression")`
+
 ---
 
 ## Alkoholkonsum von Jugendlichen (`alc`)
@@ -167,6 +274,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
+
+### Auftreten
+`r search_rmd_dataset("alc.rda", name ="Alc")`
 
 ### Erweiterung 
 
@@ -222,6 +332,9 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+`r search_rmd_dataset("StressAtWork.rda", name ="StressAtWork")`
+
 ---
 
 ## Bildungsinvestitionen auf der Welt (`edu_exp`)
@@ -268,6 +381,9 @@ Insgesamt liegen im Datensatz `r sum(is.na(edu_exp))` fehlende Werte vor. Folgen
 
 <!-- </details> -->
 
+### Auftreten
+`r search_rmd_dataset("edu_exp.rda", name ="edu_exp")`
+
 ---
 
 ## Bullyingprävention bei Jugendlichen (`fairplayer`)
@@ -310,6 +426,9 @@ In dem Datensatz liegen `r sum(is.na(fairplayer))` fehlende Werte vor. Folgende 
 
 <!-- </details> -->
 
+### Auftreten
+`r search_rmd_dataset("fairplayer.rda", name ="fairplayer")`
+
 ---
 
 ## Depressivität (`Depression`)
@@ -343,6 +462,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
+
+### Auftreten
+`r search_rmd_dataset("Depression.rda", name ="depression")`
 
 ---
 
@@ -387,6 +509,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der wichtigsten Variablen und i
 Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
+
+### Auftreten
+`r search_rmd_dataset("Big5_EFA.rda", name ="Big5")`
 
 ---
 
@@ -441,6 +566,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und
 ### Fehlende Werte
 
 Dieser Datensatz wurde zuvor mit einfacher Imputation ergänzt und enthält daher keine fehlenden Werte.
+
+### Auftreten
+`r search_rmd_dataset("Data_Processing_distort.R", name ="OSF distort")`
 
 ---
 
@@ -504,6 +632,9 @@ Im Datensatz liegen `r sum(is.na(F2F_CBT))` fehlende Werte vor. Auf folgenden Va
 
 <!-- </details> -->
 
+### Auftreten
+`r search_rmd_dataset("F2F_CBT", name ="F2F_CBT")`
+
 ---
 
 ## Einstellungsentscheidungen (`Assessment`)
@@ -532,6 +663,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+### Auftreten
+`r search_rmd_dataset("Assessment.rda", name ="Assessment")`
+
 ---
 
 ## Entwicklung der Weltbevölkerung (`WorldPopulation`)
@@ -559,6 +693,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+### Auftreten
+`r search_rmd_dataset("WorldPopulation.rda", name ="WorldPopulation")`
 
 ---
 
@@ -624,6 +761,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 
 ### Fehlende Werte
 Im Datensatz liegen `r sum(is.na(ecr))` fehlenden Werte vor. Fehlende Werte sind dabei ausschließlich auf der Variable `gender` zu finden.
+
+### Auftreten
+`r search_rmd_dataset("ecr.rda", name ="ecr")`
 
 ---
 
@@ -695,6 +835,9 @@ Insgesamt liegen im Datensatz `r sum(is.na(fb22))` fehlende Werte vor. Folgende 
 * `uni3`
 * `uni4`
 <!-- </details> -->
+
+### Auftreten
+`r search_rmd_dataset("fb22.rda", name ="fb22")`
 
 ---
 
@@ -771,6 +914,9 @@ Insgesamt liegen im Datensatz `r sum(is.na(fb23))` fehlende Werte vor. Folgende 
 * `uni4`
 
 <!-- </details> -->
+
+### Auftreten
+`r search_rmd_dataset("fb23.rda", name ="fb23")`
 
 
 ---
@@ -855,6 +1001,9 @@ Insgesamt liegen im Datensatz `r sum(is.na(fb24))` fehlende Werte vor. Folgende 
 
 <!-- </details> -->
 
+### Auftreten
+`r search_rmd_dataset("fb24.rda", name ="fb24")`
+
 
 ---
 
@@ -890,6 +1039,9 @@ In dem Datensatz liegen `r sum(is.na(osf))` fehlende Werte vor. Auf folgenden de
 * `GENDER_R`
 
 <!-- </details> -->
+
+### Auftreten
+`r search_rmd_dataset("prc92", name ="OSF Gender, Drug and Depression")`
 
 
 ---
@@ -963,6 +1115,10 @@ Im Datensatz liegen `r sum(is.na(data_combined))` fehlende Werte vor. Auf folgen
 
 <!-- </details> -->
 
+### Auftreten
+`r search_rmd_dataset("molloy2014.rda", name ="data_combined")`
+
+
 ---
 
 ## Hauptkomponentenanalyse (`PCA`)
@@ -997,6 +1153,9 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+`r search_rmd_dataset("PCA.RData", name ="PCA")`
+
 ---
 
 ## HeckData (`HeckData`)
@@ -1026,6 +1185,8 @@ Im Datensatz liegen ...
 
 <!-- </details> -->
 
+### Auftreten
+`r search_rmd_dataset("HeckData.rda", name ="HeckData")`
 
 ---
 
@@ -1065,6 +1226,9 @@ In dem Datensatz liegen `r sum(is.na(osf))` fehlende Werte vor. Auf folgenden Va
 * `stratum`
 
 <!-- </details> -->
+
+### Auftreten
+`r search_rmd_dataset("zc8ut", name ="OSF Internetintervention für psychische Störungen")`
 
 
 ---
@@ -1130,6 +1294,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 
 In dem Datensatz liegen `r sum(is.na(body))` fehlende Werte vor. Diese sind allesamt auf der fehlerhaft kodierten Variablen `UniversityStudent` zu finden.
 
+### Auftreten
+`r search_rmd_dataset("43xv5", name ="body")`
+
 
 ---
 
@@ -1186,6 +1353,8 @@ Im Datensatz liegen 186 fehlende Werte vor. Die folgenden Variablen enthalten ke
 * `Q10`
 
 <!-- </details> -->
+### Auftreten - VERALTET
+`r search_rmd_dataset("conspiracy_cfa.rda", name ="conspiracy_cfa")`
 
 
 
@@ -1217,6 +1386,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+### Auftreten
+`r search_rmd_dataset("dataKooperation")`
 
 
 ---
@@ -1279,6 +1451,9 @@ Bei den Variablen `gains` bis `severe` handelt es sich um individuelle Einschät
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 
+### Auftreten
+`r search_rmd_dataset("Data_Processing_punish.R", name ="punish")`
+
 
 ---
 
@@ -1322,6 +1497,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+### Auftreten
+`r search_rmd_dataset("PISA2009.rda", name ="PISA2009")`
+
 
 ---
 
@@ -1368,6 +1547,9 @@ Insgesamt liegen im Datensatz `r sum(is.na(mach))` fehlende Werte vor. Diese lie
 
 <!-- </details> -->
 
+### Auftreten
+`r search_rmd_dataset("mach.rda", name ="mach")`
+
 ---
 
 ## Major Depression (`data`)
@@ -1407,6 +1589,9 @@ In dem Datensatz liegen `r sum(is.na(data))` fehlende Werte vor. Folgende Variab
 * `time`
 
 <!-- </details> -->
+
+### Auftreten
+`r search_rmd_dataset("g6ya4", name ="Major Depression (data)")`
 
 ---
 
@@ -1448,6 +1633,9 @@ In der Spalte *Dimension* sehen wir, dass die Items 3 verschiedene Dimensionen a
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+### Auftreten
+`r search_rmd_dataset("mdbf.rda", name ="mdbf")`
 
 ---
 
@@ -1504,6 +1692,9 @@ Im Datensatz liegen 42 fehlende Werte vor. Die folgenden Variablen enthalten kei
 
 </details>
 
+### Auftreten
+`r search_rmd_dataset("Data_Processing_Quiz4b.R", name ="Mental Health and Social Contact During the COVID-19 Pandemic (data)")`
+
 ---
 
 ## Naturverbundenheit (`nature`)
@@ -1533,6 +1724,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+### Auftreten
+`r search_rmd_dataset("nature.rda", name ="nature")`
+
 
 ---
 
@@ -1601,6 +1796,10 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 
+### Auftreten
+`r search_rmd_dataset("NerdData.rda", name ="NerdData")`
+
+
 ---
 
 ## Parental Burnout (`burnout`)
@@ -1639,6 +1838,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der wichtigsten Variablen und i
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+
+### Auftreten
+`r search_rmd_dataset("qev5n", name ="burnout")`
 
 
 ---
@@ -1722,6 +1925,10 @@ Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 
+### Auftreten
+`r search_rmd_dataset("dc6me", name ="lockdown")`
+
+
 ---
 
 ## Quasi-Experimentelle Therapiestudie (`CBTdata`)
@@ -1757,6 +1964,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der wichtigsten Variablen und i
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+
+### Auftreten
+`r search_rmd_dataset("CBTdata.rda", name ="CBTdata")`
+
 ---
 
 ## Schulleistungen (`Schulleistungen`)
@@ -1789,6 +2000,8 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+`r search_rmd_dataset("Schulleistungen.rda", name ="Schulleistungen")`
 
 
 ---
@@ -1826,6 +2039,11 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+
+### Auftreten - VERALTETS
+`r search_rmd_dataset("conspiracy.rda", name ="conspiracy")`
+
+
 ---
 
 ## Students in Classes (`StudentsInClasses`)
@@ -1860,6 +2078,10 @@ Ebene 2 (between-level)
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+
+### Auftreten
+`r search_rmd_dataset("StudentsInClasses.rda", name ="StudentsInClasses")`
+
 ---
 
 ## Therapieerfolg (`Therapy`)
@@ -1892,6 +2114,11 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+
+### Auftreten
+`r search_rmd_dataset("Therapy.rda", name ="Therapy")`
+
+
 ---
 
 ## Titanic (`Titanic`)
@@ -1921,6 +2148,11 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+
+### Auftreten
+`r search_rmd_dataset("Titanic.rda", name ="Titanic")`
+
 
 ---
 
@@ -1958,6 +2190,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+
+### Auftreten
+`r search_rmd_dataset("Data_Processing_Quiz1.R", name ="trauma")`
 
 ---
 
@@ -2005,6 +2241,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und
 
 
 
+### Auftreten
+`r search_rmd_dataset("Data_Processing_trivia.R", name ="trivia")`
+
+
 ---
 
 ## Vegan (`vegan`)
@@ -2046,6 +2286,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und
 | `disgust` | Ekel vor Fleischkonsum | _Skalenwert_ |
 
 
+### Auftreten
+`r search_rmd_dataset("Data_Processing_vegan.R", name ="vegan")`
+
+
 ---
 
 ## Vergleich von Behandlungsformen (`Behandlungsform`)
@@ -2079,6 +2323,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
+
+### Auftreten
+`r search_rmd_dataset("Behandlungsform.rda", name ="Behandlungsform")`
+
 
 ---
 
@@ -2123,3 +2371,5 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+### Auftreten
+`r search_rmd_dataset("Xmas.rda", name ="Xmas")`
