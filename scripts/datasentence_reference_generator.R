@@ -86,7 +86,7 @@ search_rmd_dataset <- function(keyword, path = ".", name = "None") {
   sentence <- if (length(found_in_titles) > 0) {
     paste0(display_dataset, " wird in ", title_list, " genutzt.")
   } else {
-    paste0(display_dataset, " wird in keinem Beitrag genutzt.")
+    paste0(display_dataset, " wird aktuell in keinem Beitrag genutzt.")
   }
   
   return(sentence)

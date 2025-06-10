@@ -481,42 +481,6 @@ Der Datensatz ist `R`-eigenen Paket `metafor` von Viechtbauer (2010) enthalten u
 
 ```r
 library(metafor)
-```
-
-```
-## Warning: Paket 'metafor' wurde unter R Version 4.3.1 erstellt
-```
-
-```
-## Lade nötiges Paket: Matrix
-```
-
-```
-## Warning: Paket 'Matrix' wurde unter R Version 4.3.2 erstellt
-```
-
-```
-## Lade nötiges Paket: metadat
-```
-
-```
-## Warning: Paket 'metadat' wurde unter R Version 4.3.1 erstellt
-```
-
-```
-## Lade nötiges Paket: numDeriv
-```
-
-```
-## 
-## Loading the 'metafor' package (version 4.2-0). For an
-## introduction to the package please type: help(metafor)
-## 
-## An updated version of the package (version 4.8-0) is available!
-## To update to this version type: install.packages("metafor")
-```
-
-```r
 F2F_CBT <- dat.lopez2019[dat.lopez2019$treatment == "F2F CBT",] # wähle nur Fälle mit F2F CBT
 ```
 
@@ -700,7 +664,7 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 Im Datensatz liegen 2 fehlenden Werte vor. Fehlende Werte sind dabei ausschließlich auf der Variable `gender` zu finden.
 
 ### Auftreten
-ecr wird in keinem Beitrag genutzt.
+ecr wird aktuell in keinem Beitrag genutzt.
 
 ---
 
@@ -957,13 +921,6 @@ Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Unters
 
 ```r
 library(haven)
-```
-
-```
-## Warning: Paket 'haven' wurde unter R Version 4.3.1 erstellt
-```
-
-```r
 osf <- read_sav(file = url("https://osf.io/prc92/download"))
 ```
 
@@ -1248,7 +1205,7 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen 92 fehlende Werte vor. Diese sind allesamt auf der fehlerhaft kodierten Variablen `UniversityStudent` zu finden.
 
 ### Auftreten
-body wird in keinem Beitrag genutzt.
+body wird aktuell in keinem Beitrag genutzt.
 
 
 ---
@@ -1343,7 +1300,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 ### Auftreten
-Datakooperation wird in keinem Beitrag genutzt.
+Datakooperation wird aktuell in keinem Beitrag genutzt.
 
 
 ---
@@ -1822,40 +1779,9 @@ Es handelt sich um hierarchische Daten mit Messzeitpunkten auf Ebene 1 und Indiv
 
 ```r
 library(dplyr)
-```
-
-```
-## 
-## Attache Paket: 'dplyr'
-```
-
-```
-## Die folgenden Objekte sind maskiert von 'package:stats':
-## 
-##     filter, lag
-```
-
-```
-## Die folgenden Objekte sind maskiert von 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 library(ICC)
-```
-
-```
-## Warning: Paket 'ICC' wurde unter R Version 4.3.1 erstellt
-```
-
-```r
 library(lme4)
 library(interactions)
-```
-
-```
-## Warning: Paket 'interactions' wurde unter R Version 4.3.1 erstellt
 ```
 
 
