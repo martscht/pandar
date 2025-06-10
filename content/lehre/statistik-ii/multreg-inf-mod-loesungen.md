@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [vonwissel]
 weight: 1
-lastmod: '`r Sys.Date()`'
+lastmod: '2025-06-04'
 featured: no
 banner:
   image: "/header/man_with_binoculars.jpg"
@@ -33,11 +33,7 @@ output:
     keep_md: true
 ---
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-```
+
 
 ## Vorbereitung
 
@@ -58,7 +54,8 @@ Der Datensatz enthält ausschließlich **Skalenwerte** (keine fehlenden Werte). 
 
 Bitte führen Sie den folgenden R-Code aus, um den Datensatz zu laden und alle nötigen Pakete zu installieren.
 
-```{r eval = FALSE}
+
+``` r
 # Installation und Laden benötigter Pakete
 install.packages("olsrr")
 library(olsrr)
@@ -85,7 +82,8 @@ Erstellen Sie ein multiples Regressionsmodell zur Vorhersage der Glaubwürdigkei
 <details>
 <summary>Lösung</summary>
 
-```{r eval = FALSE}
+
+``` r
 mod_unrestricted <- lm(credibility ~ leaning + rwa + cm + threat + marginal, data = distort)
 summary(mod_unrestricted)
 ```
@@ -108,7 +106,8 @@ Berechnen Sie anschließend den vorhergesagten Wert inklusive Konfidenzintervall
 <details>
 <summary>Lösung</summary>
 
-```{r eval = FALSE}
+
+``` r
 neue_person <- data.frame(
   leaning = 6,
   rwa = 2.7,
@@ -118,6 +117,7 @@ neue_person <- data.frame(
 )
 
 predict(mod_unrestricted, newdata = neue_person, interval = "prediction", level = 0.95)
+)
 ```
 
 Ergebnis: Die Punktschätzung unserer fiktive Person für die Glaubwürdigkeit beträgt `2.35`. Das 95%-Konfidenzintervall reicht von `-0.48` bis `5.18`.
@@ -133,7 +133,8 @@ Vergleichen Sie `mod_restricted` mit `mod_unrestricted`. Ist das vollständige M
 <details>
 <summary>Lösung</summary>
 
-```{r eval = FALSE}
+
+``` r
 mod_restricted <- lm(credibility ~ leaning + rwa + cm, data = distort)
 anova(mod_restricted, mod_unrestricted)
 ```
@@ -147,7 +148,8 @@ Nutzen Sie zur **automatisierten Modellauswahl** die Funktion `ols_step_both_p()
 <details>
 <summary>Lösung</summary>
 
-```{r eval = FALSE}
+
+``` r
 # Schrittweise Modellauswahl mit Inkrement- und Dekrementtests
 ols_step_both_p(mod_unrestricted, p_enter = .05, p_remove = .10, details = TRUE)
 ```
@@ -163,7 +165,8 @@ Vergleichen Sie das resultierende Modell mit `mod_unrestricted` anhand von AIC u
 <details>
 <summary>Lösung</summary>
 
-```{r eval = FALSE}
+
+``` r
 mod_stepwise <- step(mod_unrestricted, direction = "both")
 
 # Start:  AIC=80.43
@@ -177,6 +180,5 @@ summary(mod_unrestricted)$r.squared # 0.1316718
 
 # Ausgabe R^2 schrittweise ausgewählte Modell
 summary(mod_stepwise)$r.squared # 0.12753
-
-``` 
+```
 </details>
