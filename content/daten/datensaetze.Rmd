@@ -161,7 +161,6 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Internetintervention für psychische Störungen](#internetintervention-für-psychische-störungen-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/zc8ut/download) |
 | [Interozeptive Aufmerksamkeit und Genauigkeit](#interozeptive-aufmerksamkeit-und-genauigkeit-body) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/j6ef3/download) |
 | [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa` ](/daten/conspiracy_cfa.rda) |
-| [Kooperationsbereitschaft von Geschwistern](#kooperationsbereitschaft-von-geschwistern-datakooperation) | _via Syntax erstellt_ |
 | [Kulturelle Unterschiede in Korruptionsbestrafung](#kulturelle-unterschiede-in-korruptionsbestrafung-punish) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/4wypx/download)
 | [Lesekompetenz in der PISA-Erhebung](#lesekompetenz-in-der-pisa-erhebung-pisa2009) | [{{< icon name="download" pack="fas" >}} `PISA2009` ](/daten/PISA2009.rda) |
 | [Machiavellismus-Fragebogen](#machiavellismus-fragebogen-mach) | [{{< icon name="download" pack="fas" >}} `mach` ](/daten/mach.rda) |
@@ -1359,37 +1358,6 @@ Im Datensatz liegen 186 fehlende Werte vor. Die folgenden Variablen enthalten ke
 
 
 ---
-
-## Kooperationsbereitschaft von Geschwistern (`dataKooperation`)
-
-<!-- <details><summary>Datensatz</summary> -->
-### Beschreibung
-Der Datensatz stammt aus [Eid, Gollwitzer & Schmitt: "Statistik und Forschungsmethoden" (4. Auflage, S.370)](https://ubffm.hds.hebis.de/Record/HEB366849158). Es wurde die Kooperationsbereitschaft von verschiedenen Geschwisterteilen innerhalb einer Familie erhoben. Die Paare bestehen hierbei aus beiden Geschwisterteilen, von denen jeweils die Kooperationsbereitschaft gemessen wurde.
-
-### Datensatz laden
-```{r}
-dataKooperation <- data.frame(Paar = 1:10, Juenger = c(0.49,0.25,0.51,0.55,0.35,0.54,0.24,0.49,0.38,0.50), Aelter = c(0.4,0.25,0.31,0.44,0.25,0.33,0.26,0.38,0.23,0.35))
-```
-
-### Größe
-Der Datensatz besteht aus `r dim(dataKooperation)[1]` Beobachtungen auf `r dim(dataKooperation)[2]` Variablen.
-
-### Variablen
-In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
-
-| Variable | Inhalt |
-| --- | ---- |
-| `Paar` | Nummer des Geschwisterpaares  |
-| `Juenger` | Kooperationsbereitschaft des jüngeren Geschwisterteils  |
-| `Aelter` | Kooperationsbereitschaft des älteren Geschwisterteils  |
-
-### Fehlende Werte
-Im Datensatz liegen keine fehlenden Werte vor.
-<!-- </details> -->
-
-### Auftreten
-`r search_rmd_dataset("dataKooperation")`
-
 
 ---
 
