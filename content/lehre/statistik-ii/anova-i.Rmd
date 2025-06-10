@@ -52,16 +52,12 @@ Die Lösung für diese Problematik bietet die **ANOVA**, die uns die nächsten W
 Die praktische Umsetzung in `R` soll anhand des Datensatzes `conspiracy` demonstriert werden, den wir also zunächst in unser Environment laden müssen. Dieser stammt aus einer Erhebung zur Validierung eines Fragebogens, der Skalenwerte enthält, die verschiedene Dimensionen von Verschwörungsglauben abbilden sollen.
 
 ### Daten laden
-Wenn Sie den Datensatz lokal auf ihrem Rechner haben möchten, können Sie ihn [<i class="fas fa-download"></i> hier herunterladen](/daten/conspiracy.rda). Anschließend muss er eingeladen werden - natürlich mit Ihrem Dateipfad.
 
-```{r, eval = F}
-load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
-```
+Da die Rohdaten hier einige Informationen erhalten, die wir für die Durchführung des Tutorials nicht benötigen, stellen wir ein Aufbereitungsskript bereit, dass direkt eine Version des Datensatzes lädt, die für die Durchführung des Tutorials geeignet ist. Dieses kann mit dem `source()`-Befehl geladen und ausgeführt werden. 
 
-Alternativ kann der Datensatz durch die Nutzung von `url` auch direkt über pandaR eingeladen werden.
 
 ```{r, eval = T}
-load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
+source("https://pandar.netlify.app/daten/Data_Processing_conspiracy.R")
 ```
 
 Wie bereits erwähnt stammt der Datensatz aus einer Untersuchung zum Thema *verschwörungstheoretische Überzeugungen*. Beginnen wir mit einer kurzen Inspektion. 
@@ -76,13 +72,13 @@ Der Datensatz enthält die Werte von `r dim(conspiracy)[1]` Personen auf `r dim(
 head(conspiracy)
 ```
 
-Die **ersten vier Variablen** enthalten Informationen über den demographischen Hintergrund der Personen: höchster Bildungsabschluss (`edu`), Typ des Wohnortes (`urban`), Geschlecht (`gender`) und Alter (`age`). Die **fünf restlichen Variablen** sind Skalenwerte bezüglich verschiedener Subdimensionen verschwörungstheoretischer Überzeugungen: `GM` (goverment malfeasance), `MG` (malevolent global conspiracies), `ET` (extraterrestrial cover-up), `PW` (personal well-being) und `CI` (control of information).
+Die **ersten vier Variablen** enthalten Informationen über den demographischen Hintergrund der Personen: höchster Bildungsabschluss (`edu`), Typ des Wohnortes (`urban`), Geschlecht (`gender`) und Alter (`age`). Die **fünf restlichen Variablen** sind Skalenwerte bezüglich verschiedener Subdimensionen verschwörungstheoretischer Überzeugungen: `GM` (goverment malfeasance), `GC` (malevolent global conspiracies), `EC` (extraterrestrial cover-up), `PW` (personal well-being) und `CI` (control of information).
 
 ## Einfaktorielle ANOVA
 
-Die Durchführung der ANOVA benötigt natürlich Hypothesen, die uns bei der Auswertung interessieren. In unserem Beispiel soll untersucht werden, ob sich Personen je nach Ländlichkeit ihres Wohnortes (*rural*, *suburban*, *urban* - Variablenname `urban`) in der Überzeugung unterscheiden, inwiefern die Existenz von Außerirdischen (Skalenwert Variablenname `ET`) geheimgehalten wird (Beispielitem: Evidence of alien contact is being concealed from the public).
+Die Durchführung der ANOVA benötigt natürlich Hypothesen, die uns bei der Auswertung interessieren. In unserem Beispiel soll untersucht werden, ob sich Personen je nach Ländlichkeit ihres Wohnortes (*rural*, *suburban*, *urban* - Variablenname `urban`) in der Überzeugung unterscheiden, inwiefern die Existenz von Außerirdischen (Skalenwert Variablenname `EC`) geheimgehalten wird (Beispielitem: Evidence of alien contact is being concealed from the public).
 
-In der *einfaktoriellen ANOVA* wird die **Gleichheit aller Gruppenmittelwerte als Nullhypothese** postuliert. Dies bedeutet, dass sich Bewohner:innen des ländlichen Raums (`rural`), des vorstädtischen Raums (`suburban`) und der Stadt (`urban`) nicht hinsichtlich ihrer Zustimmung zur Verschwörungstheorie (`ET`) unterscheiden:
+In der *einfaktoriellen ANOVA* wird die **Gleichheit aller Gruppenmittelwerte als Nullhypothese** postuliert. Dies bedeutet, dass sich Bewohner:innen des ländlichen Raums (`rural`), des vorstädtischen Raums (`suburban`) und der Stadt (`urban`) nicht hinsichtlich ihrer Zustimmung zur Verschwörungstheorie (`EC`) unterscheiden:
 
 $H_0: \mu_{\text{rural}} = \mu_{\text{suburban}} = \mu_{\text{urban}}$
 
@@ -116,18 +112,18 @@ Die Quadratsumme innerhalb der Gruppen ist die Summe der quadrierten Abweichunge
 $$QS_{inn} = \sum_{k = 1}^{K} \sum_{i = 1}^{n_k} (y_{ik}-\overline{y_k})^2$$
 
 
-Um die Quadratsummen der einfaktoriellen ANOVA per Hand zu bestimmen, müssen wir einige vorbereitende Schritte vollziehen. Zunächst brauchen wir die `aggregate()`-Funktion, die es erlaubt, eine zusammenfassende Statistik (wie Mittelwert oder Standardabweichung) für eine Variable getrennt nach verschiedenen Subgruppen zu berechnen. Dabei können wir in `aggregate()` die Schreibweise nutzen, die wir aus der Regression gewohnt sind - `interessierende Variable ~ Gruppierungsvariable, data`. Bei uns ist die interessierende Variable `ET` und die Gruppierungsvariable `urban`. Als zusätzliches Argument wird die Funktion übergeben, die in der Aggregation durchgeführt werden soll - also der Mittelwert durch `mean()`.
+Um die Quadratsummen der einfaktoriellen ANOVA per Hand zu bestimmen, müssen wir einige vorbereitende Schritte vollziehen. Zunächst brauchen wir die `aggregate()`-Funktion, die es erlaubt, eine zusammenfassende Statistik (wie Mittelwert oder Standardabweichung) für eine Variable getrennt nach verschiedenen Subgruppen zu berechnen. Dabei können wir in `aggregate()` die Schreibweise nutzen, die wir aus der Regression gewohnt sind - `interessierende Variable ~ Gruppierungsvariable, data`. Bei uns ist die interessierende Variable `EC` und die Gruppierungsvariable `urban`. Als zusätzliches Argument wird die Funktion übergeben, die in der Aggregation durchgeführt werden soll - also der Mittelwert durch `mean()`.
 
 ```{r}
 # Gruppenmittelwerte ermitteln
-y_mean_k <- aggregate(ET ~ urban, conspiracy, mean)
+y_mean_k <- aggregate(EC ~ urban, conspiracy, mean)
 y_mean_k
 ```
 
-Unser erstelltes Objekt `y_mean_k` enthält nun die Mittelwerte der drei Gruppen. Die erste Spalte repräsentiert dabei die drei Ausprägungen der Variable `urban` - die zweite Spalte repräsentiert die empirischen Mittelwerte (und damit geschätzten Populationsmittelwerte) der Gruppe k auf der Variable `ET`. Der erste Spaltenname passt sehr gut - wir wollen aber hier die zweite Spalte noch neu benennen (`ET_mean_k`).
+Unser erstelltes Objekt `y_mean_k` enthält nun die Mittelwerte der drei Gruppen. Die erste Spalte repräsentiert dabei die drei Ausprägungen der Variable `urban` - die zweite Spalte repräsentiert die empirischen Mittelwerte (und damit geschätzten Populationsmittelwerte) der Gruppe k auf der Variable `EC`. Der erste Spaltenname passt sehr gut - wir wollen aber hier die zweite Spalte noch neu benennen (`EC_mean_k`).
 
 ```{r}
-names(y_mean_k) <- c('urban', 'ET_mean_k')
+names(y_mean_k) <- c('urban', 'EC_mean_k')
 ```
 
 Wir wollen nun die Mittelwerte der Gruppen zu unserem ursprünglichen Datensatz hinzufügen. Es soll eine neue Spalte entstehen, die jeder Person den Mittelwert der Gruppe zuweist, in der sie wohnhaft ist. Ein solches Zusammenführen ist mit der Funktion `merge()` möglich. Dafür müssen wir zunächst die beiden Datensätze angeben, die zusammengefügt werden sollen (`conspiracy` und `y_mean_k`). Natürlich müssen wir `R` auch noch mitteilen, welche Variable das Zusammenfügen ermöglicht. Diese (in beiden Datensätzen gleiche) Variable heißt `urban` und wird dem Argument `by` übergeben. Wir nennen das neue Objekt `temp` für seine temporäre Nutzung.
@@ -139,13 +135,13 @@ names(temp)  # Spaltennamen des temporären Datensatzes
 head(temp)   # ersten 6 Zeilen des temporären Datensatzes
 ```
 
-Anhand der Dimensionen können wir sehen, dass unser neuer Datensatz nun eine Variable mehr hat als `conspiracy`. Anhand der Variablennamen können wir sehen, dass die zusätzliche Spalte genau die ist, die die Mittelwerte pro Gruppe enthält (`ET_mean_k`). Mit der `head()`-Funktion gewinnnen wir weitere Eindrücke, gerne können Sie sich lokal den Datensatz auch mit `View(temp)` anschauen.
+Anhand der Dimensionen können wir sehen, dass unser neuer Datensatz nun eine Variable mehr hat als `conspiracy`. Anhand der Variablennamen können wir sehen, dass die zusätzliche Spalte genau die ist, die die Mittelwerte pro Gruppe enthält (`EC_mean_k`). Mit der `head()`-Funktion gewinnnen wir weitere Eindrücke, gerne können Sie sich lokal den Datensatz auch mit `View(temp)` anschauen.
 
 Weitere nötige Informationen für die händische Berechnung der Quadratsummen sind der Gesamtmittelwert und auch die Gruppengröße. Diese können mit uns bekannten Funktion einfach bestimmt werden. 
 
 ```{r}
 # Gesamtmittelwert ermitteln
-y_mean_ges <- mean(conspiracy$ET)
+y_mean_ges <- mean(conspiracy$EC)
 y_mean_ges 
 
 # Gruppengrößen ermitteln
@@ -154,12 +150,12 @@ n_k
 ```
 
 
-Nach diesen Vorbereitungen können wir die Quadratsummen $QS_{inn}$ und $QS_{zw}$ berechnen. $QS_{inn}$ beschreibt die quadratischen Abweichungen aller Gruppenmitglieder von ihrem Gruppenmittelwert. Diese beiden Informationen sind in unserem temporären Datensatz `temp` in den Variablen `temp$ET` und `temp$ET_mean_k` festgehalten.
+Nach diesen Vorbereitungen können wir die Quadratsummen $QS_{inn}$ und $QS_{zw}$ berechnen. $QS_{inn}$ beschreibt die quadratischen Abweichungen aller Gruppenmitglieder von ihrem Gruppenmittelwert. Diese beiden Informationen sind in unserem temporären Datensatz `temp` in den Variablen `temp$EC` und `temp$EC_mean_k` festgehalten.
 
 $$QS_{inn} = \sum_{k = 1}^{K} \sum_{i = 1}^{n_k} (y_{ik}-\overline{y_k})^2$$
 
 ```{r}
-QS_inn <- sum((temp$ET - temp$ET_mean_k)^2)
+QS_inn <- sum((temp$EC - temp$EC_mean_k)^2)
 ```
 
 Die Berechnung von $QS_{zw}$ benötigt die einzelnen Gruppengrößen, die wir unter `n_k` abgelegt haben. Diese werden jeweils mit dem quadrierten Unterschied ihres Gruppenmittelwertes vom Gesamtmittelwert multipliziert. Die einzelnen Gruppenmittelwerte sind in `y_mean_k` abgelgt. `y_mean_k[, 2]` wird hier so verwendet, da in `y_mean_k` in der ersten Spalte die Gruppenzugehörigkeiten stehen und in der 2. Spalte die Mittelwerte selbst. Der Gesamtmittelwert liegt in `y_mean_ges`.
@@ -232,7 +228,7 @@ library(afex)
 Die Funktion, die wir zur Durchführung der ANOVA nutzen wollen, heißt `aov_4()`. Wie bereits angekündigt , ist die Syntax ähnlich der der Regressionsanalyse. Die abhängige Variable wird zunächst genannt, dann folgt die Tilde `~`, dann die unabhängige Variable und schließlich der Datensatz. 
 
 ```{r, error=TRUE}
-aov_4(ET ~ urban, data = conspiracy)
+aov_4(EC ~ urban, data = conspiracy)
 ``` 
 
 Leider funktioniert die Durchführung hier nicht direkt. Die Fehlermeldung spricht an, dass wir einen *random-effect* in der Formel brauchen. Was das genau ist, besprechen wir in einem späteren Tutorial. Fürs erste können wir das Problem lösen, indem wir eine `id`-Variable zu unserem Datensatz hinzufügen. Diese macht klar, welche Zeile zu welcher Beobachtung gehört. Bei uns können wir die `id` einfach durchnummerieren, da jede Beobachtung eine eigene Zeile hat.
@@ -244,7 +240,7 @@ conspiracy$id <- 1:nrow(conspiracy)
 Die `id`-Variable muss dann in unserer Regressiongleichung ergänzt werden mit der folgenden Schreibweise, die in einem späteren Tutorial erläutert wird.
 
 ```{r}
-aov_4(ET ~ urban + (1|id), data = conspiracy)
+aov_4(EC ~ urban + (1|id), data = conspiracy)
 ```
 
 Im Output wird zunächst darauf hingewiesen, dass es sich um einen ANOVA Table handelt. Was genau die Klammer - Type 3 tests - bedeutet, besprechen wir in der nächsten Sitzung zur [zweifaktoriellen ANOVA](/lehre/statistik-ii/anova-ii). Auch die entstehende Mitteilung besprechen wir dort.
@@ -256,7 +252,7 @@ Die vorletzte Spalte liefert das generalisierte $\eta^2$ (`ges` = *Generalized E
 Detaillierte Ergebnisse können wir natürlich erhalten, wenn wir die Berechnung in ein Objekt ablegen. 
 
 ```{r}
-einfakt <- aov_4(ET ~ urban + (1|id), data = conspiracy)
+einfakt <- aov_4(EC ~ urban + (1|id), data = conspiracy)
 ```
 
 Es entsteht eine Liste mit 5 Einträgen - klicken Sie die Bestandteile gerne einmal durch (bspw. gibt es noch nähere Informationen zu den Quadratsummen). Wir nutzen das Objekt im Tutorial für den folgenden Abschnitt.
@@ -272,7 +268,7 @@ Die **ANOVA** ist ein **Omnibustest** - es wird lediglich die Gleichheit aller G
 Die naheliegende Untersuchung wäre hier, alle drei Gruppen mithilfe einfacher $t$-Tests zu vergleichen. Da wir hier nicht nur zwei Ausprägungen in unserer Gruppierungsvariable haben, nutzen wir den Befehl `pairwise.t.test`. Aufgrund der $\alpha$-Fehler Kumulierung müssen die $p$-Werte adjustiert werden (`p.adjust = 'bonferroni'`). Dabei ist die Bonferroni-Korrektur einer der einfachsten (und gleichzeitig konservativsten) Ansätze: $\alpha_{\text{kor}} = \frac{\alpha}{m}$, wobei $m = \binom{K}{2}$ die Anzahl der durchgeführten Tests ist. 
 
 ```{r}
-pairwise.t.test(conspiracy$ET, conspiracy$urban, p.adjust = 'bonferroni')
+pairwise.t.test(conspiracy$EC, conspiracy$urban, p.adjust = 'bonferroni')
 ```
 
 Jeder Eintrag in der Tabelle entspricht dann dem korrigierten $p$-Wert von einem Gruppenvergleich. Daher zeigt sich, dass sich ausschließlich Personen aus `urban` und `suburban` Umgegbungen in ihrer Überzeugung bezüglich des *Extraterrestrial Cover-Ups* unterscheiden, da nur hier ein Wert von $p$ < .05($\$alpha$) vorliegt.
@@ -312,7 +308,7 @@ Korrigierte Konfidenzintervalle für die Mittelwertsdifferenzen kann man mit `co
 ```{r}
 confint(tukey)
 ```
-Schließt das Konfidenzintervall für die Mittelwertsdifferenz die 0 ein, so ist diese Mittelwertsdifferenz statistisch **nicht** signifikant! Als Fazit lässt sich ziehen: In unserer Stichprobe kam es zu Mittelwertsunterschieden auf `ET`, da sich die Gruppen `urban` (städtisch) und `suburban` (vorstädtisch) hinsichtlich der Zustimmung zur Überzeugung, dass die Existenz von Außerirdischen geheimgehalten wird, unterscheiden.
+Schließt das Konfidenzintervall für die Mittelwertsdifferenz die 0 ein, so ist diese Mittelwertsdifferenz statistisch **nicht** signifikant! Als Fazit lässt sich ziehen: In unserer Stichprobe kam es zu Mittelwertsunterschieden auf `EC`, da sich die Gruppen `urban` (städtisch) und `suburban` (vorstädtisch) hinsichtlich der Zustimmung zur Überzeugung, dass die Existenz von Außerirdischen geheimgehalten wird, unterscheiden.
 
 Auch ein hübscher Plot für die Berichterstattung lässt sich erzeugen, der die eben bestimmten Konfidenzintervalle abbildet.
 
@@ -349,10 +345,10 @@ Die Homoskedastizitätsannahme besagt, dass die Varianzen jeder Gruppe über die
 
 ```{r  purl = FALSE}
 library(car)
-leveneTest(conspiracy$ET ~ conspiracy$urban)
+leveneTest(conspiracy$EC ~ conspiracy$urban)
 ```
 
-Die Funktion nimmt die Variable selbst entgegen sowie die Gruppierungsvariable. `ET` aus dem `conspiracy`-Datensatz stellt hierbei die AV dar, die Gruppierungsvariable `urban` ist die UV. Wir erkennen im Output, was genau der Levene-Test eigentlich macht: `Levene's Test for Homogeneity of Variance`, nämlich die Varianzen auf Homogenität prüfen.  Das Ergebnis ist nicht signifikant. In diesem Fall muss die Annahme der Varianzhomogenität über die drei Gruppen hinweg also *nicht verworfen* werden. 
+Die Funktion nimmt die Variable selbst entgegen sowie die Gruppierungsvariable. `EC` aus dem `conspiracy`-Datensatz stellt hierbei die AV dar, die Gruppierungsvariable `urban` ist die UV. Wir erkennen im Output, was genau der Levene-Test eigentlich macht: `Levene's Test for Homogeneity of Variance`, nämlich die Varianzen auf Homogenität prüfen.  Das Ergebnis ist nicht signifikant. In diesem Fall muss die Annahme der Varianzhomogenität über die drei Gruppen hinweg also *nicht verworfen* werden. 
 
 #### 3) Normalverteilung
 
