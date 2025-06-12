@@ -48,7 +48,7 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Gender, Drug, and Depression](#gender-drug-and-depression-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/prc92/download) |
 | [Gewissenhaftigkeit und Medikamenteneinnahme](#gewissenhaftigkeit-und-medikamenteneinnahme-data_combined) |  _Teil des Pakets `metafor`_ |
 | [Hauptkomponentenanalyse](#hauptkomponentenanalyse-pca) | [{{< icon name="download" pack="fas" >}} `PCA` ](/daten/PCA.RData) |
-| [HeckData (keine Ahnung, worum es bei diesem Datensatz eigentlich geht)](#heckdata-heckdata) | [{{< icon name="download" pack="fas" >}} `HeckData` ](/daten/HeckData.rda) |
+| [HeckData ](#heckdata-heckdata) | [{{< icon name="download" pack="fas" >}} `HeckData` ](/daten/HeckData.rda) |
 | [Internetintervention für psychische Störungen](#internetintervention-für-psychische-störungen-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/zc8ut/download) |
 | [Interozeptive Aufmerksamkeit und Genauigkeit](#interozeptive-aufmerksamkeit-und-genauigkeit-body) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/j6ef3/download) |
 | [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa` ](/daten/conspiracy_cfa.rda) |
@@ -474,7 +474,7 @@ OSF distort wird in [Inferenz und Modellauswahl in der multiplen Regression - Ü
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
-Der Datensatz ist `R`-eigenen Paket `metafor` von Viechtbauer (2010) enthalten und stammt von einer Studie von López-López et al. (2019). Die Autor:innen haben die Effektivität der CBT (cognitive behavioural therapy [kognitive Verhaltenstherapie]) bei Depression untersucht und diese mit verschiedenen Kontrollbedingungen und unterschiedlichen Arten der CBT verglichen.
+Der Datensatz ist im `R`-eigenen Paket `metafor` von Viechtbauer (2010) enthalten und stammt von einer Studie von López-López et al. (2019). Die Autor:innen haben die Effektivität der CBT (cognitive behavioural therapy [kognitive Verhaltenstherapie]) bei Depression untersucht und diese mit verschiedenen Kontrollbedingungen und unterschiedlichen Arten der CBT verglichen.
 
 ### Datensatz laden
 
@@ -1067,7 +1067,9 @@ PCA wird in [Hauptkomponentenanalyse](/lehre/fue-i/pca) [[Fue I](/category/fue-i
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
-Keine Ahnung, zu welcher Thematik dieser Beispieldatensatz Daten enthält. Falls irgendwann jemand ambitioniert ist, das herauszufinden, sollte sich diese Person wahrscheinlich an Julian Irmer wenden, der den Datensatz in seinem Tutorial zu Selektionseffekten (/lehre/simulation/selektionseffekte) erwähnt hat. 
+
+<!-- Keine Ahnung, zu welcher Thematik dieser Beispieldatensatz Daten enthält. Falls irgendwann jemand ambitioniert ist, das herauszufinden, sollte sich diese Person wahrscheinlich an Julian Irmer wenden, der den Datensatz in seinem Tutorial zu Selektionseffekten (/lehre/simulation/selektionseffekte) erwähnt hat. -->
+Dieser Datensatz ist ein simulierter Datensatz zur Anwendung auf ein Heckman Modell, um die Methodik für Selektionseffekte zu erläutern. Die genauen Parameter der Simulation sind im entsprechenden Beitrag in Appendix B gegeben.
 
 ### Datensatz laden
 
@@ -1076,18 +1078,22 @@ load(url("https://pandar.netlify.app/daten/HeckData.rda"))
 ```
 
 ### Größe
-Der Datensatz besteht aus ... Beobachtungen auf ... Variablen.
+Der Datensatz besteht aus 10000 Beobachtungen auf 5 Variablen.
 
 ### Variablen
-Die Namen der Variablen...
+Die Namen der Variablen:
 
 | Variable | Kodierung |
 | --- | --- |
-| `Platzhalter` | *Platzhalter* |
+| `s` | Ob die gegebene Outcome-Variable beobachtet wird oder nicht (bool) |
+| `X` | Variable, die für die Selektion zuständig ist (bspw. Therapie-Commitment) |
+| `Y` | Outcome-Variable (bpsw. Symptomstärke nach vollendeter Therapie) |
+| `Y_obs` | Die nach Selektion beobachteten Y-Werte |
+| `Z` | Standardnormalverteilte Variable |
 
 
 ### Fehlende Werte
-Im Datensatz liegen ...
+Im Datensatz liegen 7622 "fehlende Werte" auf der Variable `Y_obs` vor.
 
 <!-- </details> -->
 
@@ -1218,12 +1224,12 @@ Die Daten stammen aus der Erhebung zur Validierung der *Generic Conspiracist Bel
 ### Datensatz laden
 
 ```r
-load(url("https://pandar.netlify.app/daten/conspiracy_cfa.rda"))
+source("https://pandar.netlify.app/daten/Data_Processing_conspiracy_cfa.R")
 ```
 
 
 ### Größe
-Der Datensatz besteht aus ... Beobachtungen auf ... Variablen. 
+Der Datensatz besteht aus 2495 Beobachtungen auf 19 Variablen. 
 
 
 ### Variablen
@@ -1263,7 +1269,7 @@ Im Datensatz liegen 186 fehlende Werte vor. Die folgenden Variablen enthalten ke
 * `Q10`
 
 <!-- </details> -->
-### Auftreten - VERALTET
+### Auftreten
 conspiracy_cfa wird in [Konfirmatorische Faktorenanalyse](/lehre/fue-ii/fue-cfa) [[Fue II](/category/fue-ii/)] genutzt.
 
 
@@ -1275,7 +1281,7 @@ conspiracy_cfa wird in [Konfirmatorische Faktorenanalyse](/lehre/fue-ii/fue-cfa)
 ## Kulturelle Unterschiede in Korruptionsbestrafung (`punish`)
 
 ### Beschreibung
-Die Daten stammen aus einer [kuturellen Unterschieden in der Einschätzung von verschiedenen Aspekten der Bestechung](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509){target="_blank"}. Die hier genutzten Daten sind ein Auszug aus den im [Artikel von Hong-Zhi et al., 2021](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509) für Studie 1 genutzten Daten.
+Die Daten stammen aus einer [kuturellen Unterschieden in der Einschätzung von verschiedenen Aspekten der Bestechung](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509). Die hier genutzten Daten sind ein Auszug aus den im [Artikel von Hong-Zhi et al., 2021](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509) für Studie 1 genutzten Daten.
 
 
 ### Datensatz laden
@@ -1908,7 +1914,7 @@ Die Daten stammen aus der Erhebung zur Validierung der *Generic Conspiracist Bel
 ### Datensatz laden
 
 ```r
-load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
+source("https://pandar.netlify.app/daten/Data_Processing_conspiracy.R")
 ```
 
 ### Größe
@@ -1934,8 +1940,8 @@ Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 
-### Auftreten - VERALTETS
-conspiracy wird in [Konfirmatorische Faktorenanalyse](/lehre/fue-ii/fue-cfa) [[Fue II](/category/fue-ii/)], [Einfaktorielle ANOVA](/lehre/statistik-ii/anova-i) [[Statistik II](/category/statistik-ii/)] und [Zweifaktorielle ANOVA](/lehre/statistik-ii/anova-ii) [[Statistik II](/category/statistik-ii/)] genutzt.
+### Auftreten
+conspiracy wird in [Einfaktorielle ANOVA](/lehre/statistik-ii/anova-i) [[Statistik II](/category/statistik-ii/)] und [Zweifaktorielle ANOVA](/lehre/statistik-ii/anova-ii) [[Statistik II](/category/statistik-ii/)] genutzt.
 
 
 ---
