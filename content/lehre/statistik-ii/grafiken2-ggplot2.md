@@ -41,7 +41,7 @@ output:
 
 
 
-Im [letzten Beitrag](/lehre/statistik-ii/grafiken-ggplot2) haben wir uns mit den Grundeigenschaften von `ggplot2` befasst und uns dabei erstmal auf die Gestaltung von Balkendiagrammen konzentriert. Hier will ich das Ganze auf eine der typischen Abbildungen in den Sozialwissenschaften erweitern: den Scatterplot. Weil Printmedien aussterben gucken wir uns außerdem noch an, wie man Grafiken so erstellen kann, dass Leser:innen damit interagieren können, um mehr Informationen zu erhalten, die sich nicht auf einen Blick verpacken lassen. Mit diesem Beitrags können Sie sich dann auch mit dem ersten [Quiz](/lehre/statistik-ii/quizdaten-bsc7#Quiz1) auseinandersetzen.
+Im [letzten Beitrag](/lehre/statistik-ii/grafiken-ggplot2) haben wir uns mit den Grundeigenschaften von `ggplot2` befasst und uns dabei erstmal auf die Gestaltung von Balkendiagrammen konzentriert. Hier will ich das Ganze auf eine der typischen Abbildungen in den Sozialwissenschaften erweitern: den Scatterplot. Weil Printmedien aussterben gucken wir uns außerdem noch an, wie man Grafiken so erstellen kann, dass Leser:innen damit interagieren können, um mehr Informationen zu erhalten, die sich nicht auf einen Blick verpacken lassen.
 
 <details><summary>Abschnitte in diesem Beitrag</summary>
 

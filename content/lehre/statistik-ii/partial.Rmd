@@ -57,8 +57,6 @@ Um sich Rückschlüssen über die wahren Wirkungsbeziehungen aber zumindest anzu
 
 $^1$ Falls Sie noch mehr solcher Scheinkorrelationen zu Gemüte führen wollen, gibt es einen ganzen Blog, der sich mit solchen [*spurious correlations*](http://tylervigen.com/spurious-correlations) befasst.
 
-*Im Anschluss an diesen Beitrag können Sie sich mit dem [nächsten Quiz](/lehre/statistik-ii/quizdaten-bsc7#Quiz3) auseinandersetzen.*
-
 ## Vorbereitung des Datensatzes
 
 Der Datensatz `Depression`, den wir zur Illustration des heutigen Themas heranziehen werden, enthält fiktive Daten bezüglich Depressivitätswerten und einigen anderen, damit in Beziehung stehenden Variablen. Zusätzlich sind die kategorialen Variablen `Intervention` und `Geschlecht` enthalten, die wir in dieser Sitzung aber nicht weiter betrachten werden.

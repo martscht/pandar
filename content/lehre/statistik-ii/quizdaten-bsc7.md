@@ -1,5 +1,5 @@
 ---
-title: Daten für die Quiz
+title: Alte Daten für die Quiz
 type: post
 date: '2021-04-21'
 slug: quizdaten-bsc7
