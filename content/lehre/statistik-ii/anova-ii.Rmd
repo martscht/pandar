@@ -478,11 +478,11 @@ Der Kontrast zeigt uns hier ein signifikantes Ergebnis, was bedeutet, dass Perso
 Eine weitere interessante Forschungsfrage wäre hier, ob der Abstand zwischen den nicht-College Gruppen und der College Gruppe für die beiden Subgruppen `rural` und `urban` gleich groß ist. Damit kann getestet werden, ob der Effekt der höheren Bildung vielleicht vom Wohnort abhängt (diese Testung würde bei einem signifikanten Interaktionseffekt mehr Sinn machen, wird hier aber trotzdem durchgeführt). Stellen wir uns das Prinzip als Gleichung vor, um die Kontrastkoeffizienten zu vergeben:
 
 
-$\mu_{11} + \mu_{12}}{2} - \mu_{13} = \frac{\mu_{31} + \mu_{32}}{2} - \mu_{33}$
+$\frac{\mu_{11} + \mu_{12}}{2} - \mu_{13} = \frac{\mu_{31} + \mu_{32}}{2} - \mu_{33}$
 
 Für die einfache Vergabe von Kontrastkoeffizienten sollte die Gleichung umgestellt werden:
 
-$\mu_{11} + \cdot \mu_{12}}{2} - \mu_{13} - \frac{\mu_{31} + \mu_{32}}{2} 2 \mu_{33} = 0$
+$\frac{\mu_{11} + \mu_{12}}{2} - \mu_{13} - \frac{\mu_{31} + \mu_{32}}{2} + \mu_{33} = 0$
 
 Daraus ergibt sich dann:
 
