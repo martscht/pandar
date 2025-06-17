@@ -43,7 +43,7 @@ if (exists("figure_path")) {
 # Aktuell sollen die global options für die Kompilierung auf den default Einstellungen gelassen werden
 ```
 
-In der letzten Sitzung haben wir die [einfaktorielle Varianzanalyse](/lehre/statistik-ii/anova-i) behandelt. Die spezifische Benennung als *einfaktoriell* verdeutlicht schon, dass wir hier ansetzen und Erweiterungen durch die Aufnahme von mehr Faktoren vornehmen können. In dieser Sitzung geht es vor allem um die *zweifaktorielle* Varianzanalyse - also das Vorliegen von zwei Faktoren. Ziel dieser Analyse ist es, gleichzeitig Gruppenunterschiede auf zwei Variablen zu untersuchen und dabei zu überprüfen, ob Kombinationen von Gruppen besondere Auswirkungen haben. Für weitere Inhalte siehe bspw. auch [Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.2 und folgend)](https://hds.hebis.de/ubffm/Record/HEB366849158).
+In der letzten Sitzung haben wir die [einfaktorielle Varianzanalyse](/lehre/statistik-ii/anova-i) behandelt. Die spezifische Benennung als *einfaktoriell* verdeutlicht schon, dass wir hier ansetzen und Erweiterungen durch die Aufnahme von mehr Faktoren vornehmen können. In dieser Sitzung geht es vor allem um die *zweifaktorielle* Varianzanalyse - also das Vorliegen von zwei Faktoren. Ziel dieser Analyse ist es, gleichzeitig Gruppenunterschiede auf zwei Variablen zu untersuchen und dabei zu überprüfen, ob Kombinationen von Gruppen besondere Auswirkungen haben. Für weitere Inhalte siehe bspw. auch [Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.2 und folgend)](https://ubffm.hds.hebis.de/Record/HEB366849158).
 
 Wir arbeiten wieder mit dem `conspiracy` Datensatz. Dieser stammt aus einer Erhebung zur Validierung eines Fragebogens, aus dem Skalenwerte gebildet werden, die verschiedene Dimensionen von Verschwörungsglauben abbilden sollen. 
 
@@ -187,7 +187,7 @@ Die drei Punkte, die den jeweiligen Faktorstufen von `edu` angehören, scheinen 
 
 ## Zweifaktorielle Varianzanalyse
 
-Mithilfe der zweifaktoriellen Varianzanalyse können drei zentralen Fragen beantwortet werden ([Eid et al., 2017](https://hds.hebis.de/ubffm/Record/HEB366849158), S. 432):
+Mithilfe der zweifaktoriellen Varianzanalyse können drei zentralen Fragen beantwortet werden ([Eid et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 432):
 
   1. Lassen sich **Unterschiede in der AV** auf **Unterschiede in der 1. UV** zurückführen? (**Haupteffekt 1**, manchmal auch Haupteffekt Faktor A)
   2. Lassen sich **Unterschiede in der AV** auf **Unterschiede in der 2. UV** zurückführen? (**Haupteffekt 2**, manchmal auch Haupteffekt Faktor B)
@@ -203,7 +203,7 @@ Die Nullhypothesen haben wie gewohnt die Form, dass keine Effekte vorliegen. Die
 
 <details><summary><b>Technische Details zu den Hypothesen </b></summary>
 
-Etwas technischer ausgedrückt lassen sich die drei Fragen in Hypothesenpaaren formulieren ([Eid et al., 2017](https://hds.hebis.de/ubffm/Record/HEB366849158), S. 442):
+Etwas technischer ausgedrückt lassen sich die drei Fragen in Hypothesenpaaren formulieren ([Eid et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 442):
 
   1. $H_0: \mu_{j \bullet} - \mu = 0$, $\quad H_1: \mu_{j \bullet} - \mu \neq 0$
   2. $H_0: \mu_{\bullet k} - \mu = 0$, $\quad H_1: \mu_{\bullet k} - \mu \neq 0$
@@ -396,7 +396,7 @@ Auf den Abbildungen ist das der Fall - die Differenz zwischen den Stufen A2 und 
 
 Beim Vorliegen der semidisordinalen Interaktionseffekte ist die Interpretation der Haupteffekte besonders für den Faktor schwierig, bei dem die Vorzeichen wechseln, da hier wie bei der disordinalen Interaktion keine generelle Aussage getroffen werden kann. Bei der Interpretation des Faktors, bei dem die Vorzeichen gleich bleiben, kann hingegen eher eine Aussage getroffen werden, da hier die Haupteffekte auch für alle Stufen des anderen Faktors gelten. 
 
-Welche unterschiedlichen Kombinationen an Signifikanzen (der Haupt- und Interaktionseffekte) es gibt und was diese schematisch bedeuten, kann auch in [Eid et al. (2017](https://hds.hebis.de/ubffm/Record/HEB366849158), p. 436, Abbildung 13.6) nachgelesen werden.
+Welche unterschiedlichen Kombinationen an Signifikanzen (der Haupt- und Interaktionseffekte) es gibt und was diese schematisch bedeuten, kann auch in [Eid et al. (2017](https://ubffm.hds.hebis.de/Record/HEB366849158), p. 436, Abbildung 13.6) nachgelesen werden.
 
 </details>
 
@@ -585,7 +585,7 @@ ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu), detailed = TRUE,
 ***
 
 ## Literatur
-[Eid, M., Gollwitzer, M., & Schmitt, M. (2017).](https://hds.hebis.de/ubffm/Record/HEB366849158) *Statistik und Forschungsmethoden* (5. Auflage, 1. Auflage: 2010). Weinheim: Beltz. 
+[Eid, M., Gollwitzer, M., & Schmitt, M. (2017).](https://ubffm.hds.hebis.de/Record/HEB366849158) *Statistik und Forschungsmethoden* (5. Auflage, 1. Auflage: 2010). Weinheim: Beltz. 
 
 
 * <small> *Blau hinterlegte Autorenangaben führen Sie direkt zur universitätsinternen Ressource.*
