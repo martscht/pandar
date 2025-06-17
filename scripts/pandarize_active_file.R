@@ -3,7 +3,7 @@ library(rstudioapi)
 apply_pandarize_to_active <- function(purl = FALSE, debugging = FALSE) {
   
   # Get the path of the active document
-  active_doc <- getSourceEditorContext()$path
+  active_doc <- rstudioapi::getSourceEditorContext()$path
   
   # Debugging information
   if (debugging) {

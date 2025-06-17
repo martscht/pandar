@@ -1,16 +1,14 @@
-## load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
-
-load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
+source("https://pandar.netlify.app/daten/Data_Processing_conspiracy.R")
 
 dim(conspiracy)
 
 head(conspiracy)
 
 # Gruppenmittelwerte ermitteln
-y_mean_k <- aggregate(ET ~ urban, conspiracy, mean)
+y_mean_k <- aggregate(EC ~ urban, conspiracy, mean)
 y_mean_k
 
-names(y_mean_k) <- c('urban', 'ET_mean_k')
+names(y_mean_k) <- c('urban', 'EC_mean_k')
 
 temp <- merge(conspiracy, y_mean_k, by = 'urban')
 dim(temp)    # Dimensionen des temporären Datensatzes
@@ -18,14 +16,14 @@ names(temp)  # Spaltennamen des temporären Datensatzes
 head(temp)   # ersten 6 Zeilen des temporären Datensatzes
 
 # Gesamtmittelwert ermitteln
-y_mean_ges <- mean(conspiracy$ET)
+y_mean_ges <- mean(conspiracy$EC)
 y_mean_ges 
 
 # Gruppengrößen ermitteln
 n_k <- table(conspiracy$urban)
 n_k
 
-QS_inn <- sum((temp$ET - temp$ET_mean_k)^2)
+QS_inn <- sum((temp$EC - temp$EC_mean_k)^2)
 
 QS_zw <- sum(n_k * (y_mean_k[, 2] - y_mean_ges)^2)
 
@@ -47,15 +45,15 @@ pf(F_wert, nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$ur
 # Paket laden 
 library(afex)
 
-aov_4(ET ~ urban, data = conspiracy)
+aov_4(EC ~ urban, data = conspiracy)
 
 conspiracy$id <- 1:nrow(conspiracy)
 
-aov_4(ET ~ urban + (1|id), data = conspiracy)
+aov_4(EC ~ urban + (1|id), data = conspiracy)
 
-einfakt <- aov_4(ET ~ urban + (1|id), data = conspiracy)
+einfakt <- aov_4(EC ~ urban + (1|id), data = conspiracy)
 
-pairwise.t.test(conspiracy$ET, conspiracy$urban, p.adjust = 'bonferroni')
+pairwise.t.test(conspiracy$EC, conspiracy$urban, p.adjust = 'bonferroni')
 
 ## # Paket installieren
 ## install.packages("emmeans")

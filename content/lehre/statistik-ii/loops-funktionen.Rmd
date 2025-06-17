@@ -31,10 +31,6 @@ links:
     icon: pen-to-square
     name: Übungen
     url: /lehre/statistik-ii/loops-funktionen-uebungen
-  # - icon_pack: fas
-  #   icon: pen-to-square
-  #   name: Quizdaten
-  #   url: /lehre/statistik-ii/quizdaten-bsc7#Quiz6
 output:
   html_document:
     keep_md: true

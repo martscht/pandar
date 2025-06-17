@@ -113,7 +113,7 @@ In dieser Sitzung werden wir untersuchen, inwiefern diese theoretische Zuordnung
 Zunächst können wir den Datensatz laden und ein bisschen genauer betrachten. Wie schon für die letzten beiden Sitzungen, haben wir den Datensatz bereits im `.rda`-Format aufbereitet, sodass Sie Ihn direkt in R von dieser laden können:
 
 ```{r}
-load(url("https://pandar.netlify.app/daten/conspiracy_cfa.rda"))
+source("../../daten/Data_Processing_conspiracy_cfa.R")
 ```
 
 Alternativ können Sie den Datensatz natürlich auch für den lokalen Gebrauch [<i class="fas fa-download"></i> hier herunterladen](/daten/conspiracy_cfa.rda).
@@ -147,7 +147,7 @@ Es wird also behauptet, dass es eine grundlegende Eigenschaft von Personen gibt,
 
 Als Pfadmodell dargestellt sieht das zunächst so aus:
 
-<img src="cfa1.png" width="65%"/>
+<img src="../cfa1.png" width="65%"/>
 
 Hier stellen wir das Modell zunächst ohne Gewichtungen dar - es werden lediglich die Beziehungen/Zusammensetzungen zwischen den Variablen verdeutlicht: die Messungen Q2, Q7 und Q12 setzen sich alle aus der zugrundeliegenden latenten Variable GC und dem itemspezifischen Messfehler zusammen.
 
@@ -205,7 +205,7 @@ GC ~~ GC'
 
 Sobald wir das Modell erstellt haben, folgen alle weiteren Schritte dem gleichen Prinzip, das wir in der ersten Sitzung für Regressionen gesehen haben. Zunächst wenden wir das Modell mit dem `lavaan`-Befehl auf den Datensatz an. Dieser Datensatz muss dabei alle Variablen enthalten, die wir als manifeste Variablen in unserem Modell angesprochen haben.
 
-```{r fit1}
+```{r fit1, error=TRUE}
 fit1 <- lavaan(mod1, conspiracy)
 ```
 
@@ -255,7 +255,7 @@ tmp
 
 Die zu schätzenden Parameter ($t$) können wir im Pfaddiagramm abzählen:
 
-<img src="cfa2.png" width="65%"/>
+<img src="../cfa2.png" width="65%"/>
 
 Wenn wir uns nicht unnötig damit belasten möchten die Parameter selbst zu zählen, können wir die Anzahl natürlich auch einfach von `lavaan` bekommen:
   

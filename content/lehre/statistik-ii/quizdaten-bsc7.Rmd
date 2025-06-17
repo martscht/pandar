@@ -1,9 +1,9 @@
 ---
-title: Daten für die Quiz
+title: Alte Daten für die Quiz
 type: post
 date: '2021-04-21'
 slug: quizdaten-bsc7
-categories: [""]
+categories: ["Deprecated"]
 tags: ["Daten"]
 subtitle: ''
 summary: 'Auf dieser Seite finden sich alle Datensätze für die Studienleistungen in PsyBSc2. Die Durchführung der Quiz findet auf der Lernplattform moodle für die Teilnehmenden des Moduls statt.'

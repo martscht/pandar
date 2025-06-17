@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [kvetnaya, sajjad, irmer]
 weight: 12
-lastmod: '2025-04-08'
+lastmod: '2025-06-12'
 featured: no
 banner:
   image: "/header/abstract_black_hole_light.jpg"
@@ -43,8 +43,6 @@ output:
 In der letzten Sitzung haben wir die Analyse von Kovariaten (bzw. **AN**alysis **o**f **C**ovariance, ANCOVA) als Regression mit nominalskalierten Prädiktoren kennengelernt.
 
 Wir haben gesehen, dass wir Gebrauch von Interaktionstermen in der Regressionsgleichung gemacht haben, um die Wechselwirkungen zwischen kategorialen UVs, oder zwischen einer kategorialen und einer intervallskalierten UV zu berücksichtigen. In der Moderationsanalyse werden wir diese Konzepte zurückgreifen und uns dabei vor allem auf Eid & Gollwitzer 2017, Kapitel 19.9 beziehen.
-
-*Im Anschluss an diesen Beitrag können Sie sich mit dem [nächsten Quiz](/lehre/statistik-ii/quizdaten-bsc7#Quiz6) auseinandersetzen.*
 
 ## Was ist moderierte Regression?
 
@@ -90,7 +88,7 @@ Wie genau die Interpretation einer moderierten Regression in der Praxis funktion
 Wir wollen dies am Datensatz `Schulleistungen.rda` ([Link zur Beschreibung]() durchführen, den wir bereits aus vorherigen Sitzungen kennen. Erneut werden wir die Zusammenhänge in den Daten zu mathematischen und Lesefähigkeiten, sowie des IQ-Testwerts von $N$ = 100 Schüler/-innen betrachten. Zunächst laden wir den Datensatz über die Website:
 
 
-``` r
+```r
 # Datensatz einlesen
 load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
 head(Schulleistungen)
@@ -115,7 +113,7 @@ Wieso erleichtert uns das die Interpretation? Wenn sowohl Prädiktor als auch Mo
 Obwohl eine Standardisierung nicht unbedingt notwendig ist, führen wir sie mit unseren Variablen zusätzlich durch (und setzen ihre Standardabweichung auf 1), um uns die spätere Interpretation zu erleichern:
 
 
-``` r
+```r
 # Standardisierung der Variablen
 Schulleistungen_std <- data.frame(scale(Schulleistungen)) 
 # standardisierten Datensatz abspeichern als data.frame
@@ -127,7 +125,7 @@ colMeans(Schulleistungen_std)     # Mittelwert pro Spalte ausgeben
 ## -8.215650e-17 -1.576343e-16  1.358549e-16 -6.760217e-17
 ```
 
-``` r
+```r
 apply(Schulleistungen_std, 2, sd) # SD pro Spalte ausgeben
 ```
 
@@ -139,7 +137,7 @@ apply(Schulleistungen_std, 2, sd) # SD pro Spalte ausgeben
 Inhaltlich treffen wir zunächst einmal die Annahme - von der wir uns in den vergangenen Lektionen bereits überzeugen konnten - dass der IQ die Leseleistung der Schüler/-innen signifikanz vorhersagt. Das erkennen wir auch anhand einer einfachen Regression mit `IQ` als Prädiktor und `reading` als Outcome-Variable:
 
 
-``` r
+```r
 # Regression ohne Interaktion
 mod <- lm(reading ~ IQ, Schulleistungen_std)
 summary(mod)
@@ -175,7 +173,7 @@ Treffen wir nun die inhaltliche Annahme an, dass die Mathematikleistungen der Sc
 Hierzu führen wir eine moderierte Regression durch, in welcher wir `reading` durch den `IQ` sowie die Matheleistung `math` vorhersagen, sowie zusätzlich ihre Interaktion `IQ:math`einschließen. Falls wir alternativ die Interaktion als `IQ*math` formulieren, werden automatisch die Haupteffekte, also die Variablen selbst, mit aufgenommen. Es gilt also: `math + IQ + math:IQ` = `math*IQ`, wobei die Interaktion `math:IQ` ist. Um auch wirklich die Interaktion zu testen, ist es unbedingt notwendig, die Haupteffekte der Variablen ebenfalls in das Modell mit aufzunehmen, da die Variablen trotzdem mit der Interaktion korreliert sein können, auch wenn die Variablen zentriert sind.
 
 
-``` r
+```r
 # Regression mit Moderator Matheleistungen
 mod_reg <- lm(reading ~ IQ + math + IQ:math, data = Schulleistungen_std)
 summary(mod_reg)
@@ -215,7 +213,7 @@ Wenn die Matheleistung um 1 SD steigt, erhöht sich der Zusammenhang zwischen IQ
 Es gibt ein R-Paket, dass eine solche Interaktion grafisch darstellt: `interactions`. Nachdem Sie dieses installiert haben, können Sie es laden und die Funktion `interact_plot` verwenden, um diese Interaktion zu veranschaulichen. Dem Argument model übergeben wir `mod_reg`, also unser moderiertes Regressionsmodell. Als Prädiktor wählen wir den IQ, also müssen wir dem Argument `pred` den IQ übergeben. Der Moderator ist hier die Matheleistung, folglich übergeben wir `math` dem Argument `modx`.
 
 
-``` r
+```r
 library(interactions)
 interact_plot(model = mod_reg, 
               pred = IQ, 
@@ -229,8 +227,26 @@ Uns wird nun ein Plot mit drei Linien ausgegeben. Dargestellt sind drei Beziehun
 Wie im Beitrag zur [ANCOVA]() gezeigt, können wir hier mithilfe des Pakets `reghelper` die Simple Slopes auch numerisch ausgeben lassen:
 
 
-``` r
+```r
 library(reghelper)
+```
+
+```
+## Warning: Paket 'reghelper' wurde unter R Version 4.3.2 erstellt
+```
+
+```
+## 
+## Attache Paket: 'reghelper'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:base':
+## 
+##     beta
+```
+
+```r
 simple_slopes(mod_reg)
 ```
 
@@ -274,7 +290,7 @@ $$
 Andererseits wird auch durch die R-Syntax des Modell-Calls `lm(formula = reading ~ IQ + math + IQ:math, data = Schulleistungen_std)` für unser Regressionsmodell deutlich, dass die Reihenfolge der Variablennamen `math` und `IQ` ebenfalls keinen Unterschied macht. Dies wird auch daran deutlich, dass wir unter Zugrundelegung des gleichen Modellobjekts ebenso einen Zusammenhang zwischen `math` als Prädiktor, und `IQ` als Moderator visualisieren könnten:
 
 
-``` r
+```r
 interact_plot(model = mod_reg, pred = math, 
               modx = IQ)
 ```
@@ -296,8 +312,15 @@ Es liegt daher in der Verantwortung der Forschenden, die Auswahl der Moderatorva
 
 
 
-``` r
+```r
 library(plot3D)
+```
+
+```
+## Warning: Paket 'plot3D' wurde unter R Version 4.3.1 erstellt
+```
+
+```r
 # Übersichtlicher: Vorbereitung
 x <- Schulleistungen_std$IQ
 y <- Schulleistungen_std$reading
@@ -325,7 +348,7 @@ scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2,
 Hier ist auf der x-Achse ($- links \longleftrightarrow rechts +$) der IQ dargestellt, und in die Tiefe die Matheleistung (oft z-Achse: ($-vorne\longleftrightarrow hinten+$)). Die y-Achse (im Plot heißt diese blöderweise z-Achse) stellt die Leseleistung dar. ($-unten\longleftrightarrow oben+$). Wir erkennen in dieser Ansicht ein wenig die Simple-Slopes von zuvor, denn die Achse der Matheleistung läuft ins Negative “aus dem Bildschirm hinaus”, während sie ins Positive “in den Bildschirm hinein” verläuft. Der nähere Teil der “Hyperebene” weißt eine geringere Beziehung zwischen dem IQ und der Leseleistung auf, während der Teil, der weiter entfernt liegt, eine stärkere Beziehung aufweist. Genau das haben wir auch in den Simple Slopes zuvor gesehen. Dort war für eine hohe Matheleistung die Beziehung zwischen dem IQ und der Leseleistung auch stärker. Wichtig ist, dass in diesem Plot die Beziehung zwischen dem IQ und der Leseleistung für eine fest gewählte Ausprägung der Matheleistung tatsächlich linear verläuft. Es ist also so, dass wir quasi ganz viele Linien aneinander kleben, um diese gewölbte Ebene zu erhalten. Die Ausprägung der Matheleistung ist im nächsten Plot noch besser zu erkennen, in der der Plot etwas gedreht dargestellt wird. Farblich ist außerdem die Ausprägung der Leseleistung dargestellt, damit die Werte leichter zu vergleichen sind.
 
 
-``` r
+```r
 scatter3D(x = x, y = z, z = y, pch = 16, cex = 1.2, 
           theta = 20, phi = 20, ticktype = "detailed",
           xlab = "IQ", ylab = "math", zlab = "reading",  

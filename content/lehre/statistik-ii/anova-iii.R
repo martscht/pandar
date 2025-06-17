@@ -157,8 +157,6 @@ df$times <- as.factor(times)
 df$id <- as.factor(df$id)
 head(df)
 
-# ezPlot(df, Y, id, within = times,
-#   x = times) +
 aggregate(Y ~ times, df, mean) |>
   ggplot(aes(x = times, y = Y, group = 1)) +
   geom_point() +
