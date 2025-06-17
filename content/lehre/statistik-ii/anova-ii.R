@@ -14,16 +14,6 @@ aov_4(EC ~ edu + (1|id), data = conspiracy)
 
 aggregate(EC ~ edu, conspiracy, mean)
 
-# Mithilfe des tapply-Befehls
-tapply(X = conspiracy$EC, INDEX = conspiracy$edu, FUN = mean)
-
-# Mithilfe des aggregate-Befehls mit anderer Schreibweise (wie bei tapply)
-aggregate(conspiracy$EC, list(conspiracy$edu), mean)
-
-# Mithilfe des describeBy-Befehls aus dem psych-Paket
-library(psych)
-describeBy(conspiracy$EC, conspiracy$edu)
-
 # Kombinationsspezifische Mittelwertetabelle
 aggregate(EC ~ urban + edu, conspiracy, mean)
 

@@ -9,7 +9,7 @@ subtitle: '2-fakt. ANOVA'
 summary: ''
 authors: [nehler, irmer,scheppa-lahyani,schultze]
 weight: 9
-lastmod: '2025-06-10'
+lastmod: '2025-06-13'
 featured: no
 banner:
   image: "/header/heart_alien.jpg"
@@ -38,7 +38,7 @@ output:
 
 
 
-In der letzten Sitzung haben wir die [einfaktorielle Varianzanalyse](/lehre/statistik-ii/anova-i) behandelt. Die spezifische Benennung als *einfaktoriell* verdeutlicht schon, dass wir hier ansetzen und Erweiterungen durch die Aufnahme von mehr Faktoren vornehmen können. In dieser Sitzung geht es vor allem um die *zweifaktorielle* Varianzanalyse - also das Vorliegen von zwei Faktoren. Ziel dieser Analyse ist es gleichzeitig Gruppenunterschiede auf zwei Variablen zu untersuchen und dabei zu überprüfen, ob Kombinationen von Gruppen besondere Auswirkungen haben. Für weitere Inhalte siehe bspw. auch [Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.2 und folgend)](https://hds.hebis.de/ubffm/Record/HEB366849158).
+In der letzten Sitzung haben wir die [einfaktorielle Varianzanalyse](/lehre/statistik-ii/anova-i) behandelt. Die spezifische Benennung als *einfaktoriell* verdeutlicht schon, dass wir hier ansetzen und Erweiterungen durch die Aufnahme von mehr Faktoren vornehmen können. In dieser Sitzung geht es vor allem um die *zweifaktorielle* Varianzanalyse - also das Vorliegen von zwei Faktoren. Ziel dieser Analyse ist es, gleichzeitig Gruppenunterschiede auf zwei Variablen zu untersuchen und dabei zu überprüfen, ob Kombinationen von Gruppen besondere Auswirkungen haben. Für weitere Inhalte siehe bspw. auch [Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.2 und folgend)](https://hds.hebis.de/ubffm/Record/HEB366849158).
 
 Wir arbeiten wieder mit dem `conspiracy` Datensatz. Dieser stammt aus einer Erhebung zur Validierung eines Fragebogens, aus dem Skalenwerte gebildet werden, die verschiedene Dimensionen von Verschwörungsglauben abbilden sollen. 
 
@@ -81,7 +81,7 @@ head(conspiracy)
 ## 6     highschool suburban   male  17 3.333333 2.666667 3.000000 2.666667 3.666667
 ```
 
-Er stammt aus einer Untersuchung zum Thema *verschwörungstheoretische Überzegungen*. Die **ersten vier Variablen** enthalten Informationen über den demographischen Hintergrund der Personen: höchster Bildungsabschluss (`edu`), Typ des Wohnortes (`urban`), Geschlecht (`gender`) und Alter (`age`). Die **fünf restlichen Variablen** sind Skalenwerte bezüglich verschiedener subdimensionen verschwörungstheoretischer Überzeugungen: `GM` (goverment malfeasance), `GC` (malevolent global conspiracies), `EC` (extraterrestrial cover-up), `PW` (personal well-being) und `CI` (control of information).
+Er stammt aus einer Untersuchung zum Thema *verschwörungstheoretische Überzeugungen*. Die **ersten vier Variablen** enthalten Informationen über den demographischen Hintergrund der Personen: höchster Bildungsabschluss (`edu`), Typ des Wohnortes (`urban`), Geschlecht (`gender`) und Alter (`age`). Die **fünf restlichen Variablen** sind Skalenwerte bezüglich verschiedener Subdimensionen verschwörungstheoretischer Überzeugungen: `GM` (goverment malfeasance), `GC` (malevolent global conspiracies), `EC` (extraterrestrial cover-up), `PW` (personal well-being) und `CI` (control of information).
 
 Den Datensatz haben wir in der letzten Sitzung schon genutzt, haben dabei aber nicht genauer die Struktur angeschaut. Dies holen wir hier einmal nach.
 
@@ -103,7 +103,7 @@ str(conspiracy)
 ##  $ CI    : num  4.67 3.33 4.67 4.67 1 ...
 ```
 
-Der Output zeigt, dass wir Variablen vom Typen `factor` und `numeric` (und `integer`) haben. Besonderen Fokus wollen wir auf die Variablen `urban`, `edu` und `ET` liegen, da diese in diesem Tutorial behandelt werden. `EC` liegt schon als `numeric` vor, was an dieser Stelle für einen Fragebogenscore auch Sinn macht. Die anderen beiden Variablen sind vom Typen `factor`, was hier Sinn ergibt, da nur bestimmte Ausprägungen hier auftreten können (kein Freitext sondern nominale Kategorien).
+Der Output zeigt, dass wir Variablen vom Typen `factor` und `numeric` (und `integer`) haben. Besonderen Fokus wollen wir auf die Variablen `urban`, `edu` und `ET` liegen, da diese in diesem Tutorial behandelt werden. `EC` liegt schon als `numeric` vor, was an dieser Stelle für einen Fragebogenscore auch Sinn macht. Die anderen beiden Variablen sind vom Typen `factor`, was hier Sinn ergibt, da nur bestimmte Ausprägungen hier auftreten können (kein Freitext, sondern nominale Kategorien).
 
 ## Einfaktorielle ANOVA
 
@@ -114,7 +114,7 @@ In der letzten Sitzung zeigte sich, dass die Überzeugung, dass die Existenz von
 library(afex)
 ```
 
-Wir führen zur kurzen Wiederholung noch einmal die einfaktorielle ANOVA bezüglich des Bildungsniveaus (`edu`) durch, um uns zu vergegenwärtigen, wie der `aov_4()`-Befehl funktioniert! Wie schon in der letzten Sitzung, ist es zunächst erforderlich eine Personen-ID zu erzeugen. In diesem Fall kann einfach die Zeilennummer einer Person genutzt werden:
+Wir führen zur kurzen Wiederholung noch einmal die einfaktorielle ANOVA bezüglich des Bildungsniveaus (`edu`) durch, um uns zu vergegenwärtigen, wie der `aov_4()`-Befehl funktioniert! Wie schon in der letzten Sitzung ist es zunächst erforderlich, eine Personen-ID zu erzeugen. In diesem Fall kann einfach die Zeilennummer einer Person genutzt werden:
 
 
 ``` r
@@ -142,7 +142,7 @@ aov_4(EC ~ edu + (1|id), data = conspiracy)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
 ```
 
-Die Ergebnisse zeigen, dass es signifikante Unterschiede zwischen den verschiedenen Wohnorten gibt. Zusätzlich erhalten wir auch das generalisierte partielle $\eta^2$, also einen Schätzer der Effektstärke, die im Grunde angibt, wie viel systematische Variation in den Daten ist, relativ zur zufälligen Schwankung. Um dies in der Skala der ursprünglichen Variablen zu interpretieren, können wir uns rein deskriptiv die gruppenspezifischen Mittelwerte angucken. Dazu kann mit einer Vielzahl von Funktionen gearbeitet werden. Eine gängige Variante ist der `aggregate()`-Befehl, den wir auch bereits kennengelernt haben.
+Die Ergebnisse zeigen, dass es signifikante Unterschiede zwischen den verschiedenen Wohnorten gibt. Zusätzlich erhalten wir auch das generalisierte $\eta^2$, also einen Schätzer der Effektstärke, die im Grunde angibt, wie viel systematische Variation in den Daten ist, relativ zur zufälligen Schwankung. Um dies in der Skala der ursprünglichen Variablen zu interpretieren, können wir uns rein deskriptiv die gruppenspezifischen Mittelwerte angucken. Dazu kann mit einer Vielzahl von Funktionen gearbeitet werden. Eine gängige Variante ist der `aggregate()`-Befehl, den wir auch bereits kennengelernt haben.
 
 
 ``` r
@@ -156,56 +156,11 @@ aggregate(EC ~ edu, conspiracy, mean)
 ## 3        college 1.929019
 ```
 
-Es gibt jedoch noch unzählbar viele andere Wege zum selben Ergebnis zu kommen. Hier einige Beispiele:
 
-
-``` r
-# Mithilfe des tapply-Befehls
-tapply(X = conspiracy$EC, INDEX = conspiracy$edu, FUN = mean)
-```
-
-```
-## not highschool     highschool        college 
-##       2.422633       2.361635       1.929019
-```
-
-``` r
-# Mithilfe des aggregate-Befehls mit anderer Schreibweise (wie bei tapply)
-aggregate(conspiracy$EC, list(conspiracy$edu), mean)
-```
-
-```
-##          Group.1        x
-## 1 not highschool 2.422633
-## 2     highschool 2.361635
-## 3        college 1.929019
-```
-
-``` r
-# Mithilfe des describeBy-Befehls aus dem psych-Paket
-library(psych)
-describeBy(conspiracy$EC, conspiracy$edu)
-```
-
-```
-## 
-##  Descriptive statistics by group 
-## group: not highschool
-##    vars   n mean   sd median trimmed  mad min max range skew kurtosis   se
-## X1    1 433 2.42 1.35   2.33    2.29 1.98   1   5     4 0.51    -1.06 0.06
-## ---------------------------------------------------------------------------------------- 
-## group: highschool
-##    vars    n mean   sd median trimmed  mad  min max range skew kurtosis   se
-## X1    1 1060 2.36 1.36      2    2.22 1.48 0.67   5  4.33 0.55    -1.05 0.04
-## ---------------------------------------------------------------------------------------- 
-## group: college
-##    vars   n mean   sd median trimmed  mad  min max range skew kurtosis   se
-## X1    1 958 1.93 1.22   1.33    1.72 0.49 0.67   5  4.33 1.11        0 0.04
-```
 
 ## Deskriptive Darstellung der Kombinationen
 
-In der mehrfaktoriellen ANOVA steht nicht nur der Vergleich von Gruppen anhand *einer* unabhängigen Variable im Mittelpunkt, sondern der Fokus liegt auf der *Kombination von Gruppierungen* anhand mehrerer unabhängiger Variablen. Deskriptiv können die Mittelwerte aus Gruppenkombinationen ebenfalls mit der `aggregate()`-Funktion bestimmt werden:
+In der mehrfaktoriellen ANOVA steht nicht nur der Vergleich von Gruppen anhand *einer* unabhängigen Variable im Mittelpunkt, sondern der Fokus liegt auf der *Kombination von Gruppierungen* anhand mehrerer unabhängiger Variablen. Deskriptiv können die Mittelwerte aus Gruppenkombinationen ebenfalls mit der `aggregate()`-Funktion bestimmt werden, indem in der klassischen Schreibweise eine weitere Gruppierungsvariable mit einem `+` aufgenommen wird:
 
 
 ``` r
@@ -227,11 +182,16 @@ aggregate(EC ~ urban + edu, conspiracy, mean)
 ```
 
 
-Auf den ersten Blick fällt schon einmal auf, dass Menschen, die als höchsten Bildungsabschluss das College besucht hatten, deutlich niedrigere Mittelwerte hinsichtlich der Verschwörung aufweisen, als jene, die keinen High-School oder maximal einen High-School Abschluss haben. Auch wenn die tabellarische Übersicht für manche die präferierte Variante sein wird, ist es auf Postern und in Berichten häufig so, dass stattdessen Grafiken eingesetzt werden. Wir schauen uns hier erstmal an, wie man eine solche Grafik erstellen könnte mit dem `ggplot2` Paket.
+Auf den ersten Blick fällt schon einmal auf, dass Menschen, die als höchsten Bildungsabschluss das College besucht hatten, deutlich niedrigere Mittelwerte hinsichtlich der Verschwörung aufweisen als jene, die keinen High-School oder maximal einen High-School Abschluss haben. Auch wenn die tabellarische Übersicht für manche die präferierte Variante sein wird, ist es auf Postern und in Berichten häufig so, dass stattdessen Grafiken eingesetzt werden. Wir schauen uns hier erstmal an, wie man eine solche Grafik erstellen könnte mit dem `ggplot2` Paket.
 
 
 ``` r
 library(ggplot2)
+```
+
+```
+## Want to understand how all the pieces fit together? Read R for Data Science:
+## https://r4ds.had.co.nz/
 ```
 
 Damit wir die Mittelwerte darstellen können, müssen diese natürlich auch an die Funktion gegeben werden. Dafür nutzen wir den `aggregate()`-Befehl und geben über die Pipe `|>` die resultierende Tabelle als Datensatz an die `ggplot()` Funktion weiter. Als nächstes ist es wichtig zu entscheiden, welcher Faktor wo abgebildet werden sollte. Wir nehmen hier `urban` auf der x-Achse, weshalb wir es in den Ästhetiken (`aes()`) auch `x` zuordnen. Die abhängige Variable wird `y` zugeordnet. Der zweite Faktor wird sowohl `color` als auch `group` zugeordnet, damit die Stufen dieses Faktors die Farbe bestimmen und auch mit Linien verbunden werden. Die passenden Geometrien sind dann `geom_point()` und `geom_line()`. Zur besseren Darstellung können bspw. die Beschriftung der Aspekte (`labs()`) geändert werden, aber wie wir bereits wissen, sind die Möglichkeiten in `ggplot2` hier fast endlos.
@@ -245,15 +205,15 @@ aggregate(EC ~ urban + edu, conspiracy, mean) |>
     labs(x = "Urban", y = "Mean EC", color = "Education")
 ```
 
-![](/anova-ii_files/unnamed-chunk-50-1.png)<!-- -->
+![](/anova-ii_files/unnamed-chunk-11-1.png)<!-- -->
 
 Hier werden zunächst wie von uns angefordert nur die Mittelwerte dargestellt. Wer gerne noch Balken (bspw. der geschätzte Standardfehler für den Mittelwert der Gruppen) hinzufügen möchte, kann die Vertiefung anschauen.
 
 <details><summary><b>Mittelwertsplot mit Balken </b></summary>
 
-Es gibt sehr vieel Wege, um in dem Plot Unsicherheit anzuzeigen. Wie bereits geschrieben, wollen wir den geschätzten Standardfehler für den Mittelwert der einzelnen Gruppen ergänzen. Auch dafür gibt es mehrere Wege. Wir stellen an dieser Stelle einen rehct einfachen vor.
+Es gibt sehr viele Wege, um in dem Plot Unsicherheit anzuzeigen. Wie bereits geschrieben, wollen wir den geschätzten Standardfehler für den Mittelwert der einzelnen Gruppen ergänzen. Auch dafür gibt es mehrere Wege. Wir stellen an dieser Stelle einen recht einfachen vor.
 
-Beispielsweise können wir zunächst einen Datensatz erstellen, indem sowohl die Mittelwerte als auch die geschätzten Standarfehler enthalten sind. Für die Schätzung der Standardfehler des Mittelwerts benötigen wir die Stichprobengröße und die geschätzte Populationsstandardabweichung Dafür starten wir mit der Erstellung von getrennten Datensätze.
+Beispielsweise können wir zunächst einen Datensatz erstellen, indem sowohl die Mittelwerte als auch die geschätzten Standardfehler enthalten sind. Für die Schätzung der Standardfehler des Mittelwerts benötigen wir die Stichprobengröße und die geschätzte Populationsstandardabweichung Dafür starten wir mit der Erstellung von getrennten Datensätze.
 
 
 ``` r
@@ -288,7 +248,7 @@ Nun bestimmen wir die geschätzten Standardfehler des Mittelwerts.
 plot_df$se <- plot_df$sd_EC / sqrt(plot_df$n)
 ```
 
-Anschließend können wir den Plot erstellen. Dabei brauchen wir jetzt das zusätzlich `geom_errobar()`, bei dem wir in den Ästhetiken die obere und untere Grenze der Balken festhalten können.
+Anschließend können wir den Plot erstellen. Dabei brauchen wir jetzt das zusätzlich `geom_errorbar()`, bei dem wir in den Ästhetiken die obere und untere Grenze der Balken festhalten können.
 
 
 ``` r
@@ -299,11 +259,11 @@ ggplot(plot_df, aes(x = urban, y = mean_EC, color = edu, group = edu)) +
   labs(x = "Urban", y = "Mean ET", color = "Education") 
 ```
 
-![](/anova-ii_files/unnamed-chunk-54-1.png)<!-- -->
+![](/anova-ii_files/unnamed-chunk-15-1.png)<!-- -->
 
 </details>
 
-Es wird deutlich, dass sich sowohl für `urban` als auch für `edu` Unterschiede zwischen den jeweiligen Stufen ergeben. Außerdem sehen wir, dass die Linien sich überschneiden - für die Stufe `rural` liegt die mittlere Ausprägung von `EC` bei `not highschool` niedriger als `highschool`, während es bei allen anderen Stufen von `urban` andersrum ist. Ob diese beobachteten Unterschiede aber auch wirklich auf die Population übertragbar sind, schauen uns im Folgenden genauer an, indem wir eine **zweifaktorielle ANOVA** durchführen.
+Die drei Punkte, die den jeweiligen Faktorstufen von `edu` angehören, scheinen sich im Mittel zu unterscheiden, was einen Unterschied auf diesem Faktor andeutet. Dasselbe gilt für das Mittel der drei Punkte, die den jeweiligen Faktorstufen von `urban` angehören. Außerdem sehen wir, dass die Linien sich überschneiden - für die Stufe `rural` liegt die mittlere Ausprägung von `EC` bei `not highschool` niedriger als `highschool`, während es bei allen anderen Stufen von `urban` andersrum ist, was ein Anzeichen für eine Interaktion der Faktoren sein kann (*Hinweis*: Für das Vorliegen einer Interaktion genügt es bereits, wenn die Linien unterschiedliche Steigungen aufweisen – sie müssen sich nicht zwingend schneiden. Denn bei einer Interaktion geht es darum, dass sich der Effekt einer unabhängigen Variable zwischen den Stufen der anderen unabhängigen Variable verändert). Ob diese beobachteten Unterschiede aber auch wirklich auf die Population übertragbar sind, schauen uns im Folgenden genauer an, indem wir eine **zweifaktorielle ANOVA** durchführen.
 
 ## Zweifaktorielle Varianzanalyse
 
@@ -344,7 +304,7 @@ wobei $\mu$ der Mittelwert über alle Messungen ist (Grand Mean). $\alpha_j$ ste
 Da wir wissen wollen, ob sich die Effekte $\alpha_j$, $\beta_k$ und $\gamma_{jk}$ signifikant von Null unterscheiden, werden die Gleichungen in die oben genannten Hypothesen überführt. Bspw. wäre die Hypothese für Faktor A: $H_0: \alpha_1 = \dots \alpha_J = 0$ oder $H_0: \alpha_j=0$, wobei $\alpha_j:=\mu_{j \bullet} - \mu$.
 </details>
 
-Deskriptiv lassen sich Hinweise auf die drei Fragestellungen aus der erstellten Zeichnung erkennen: Für den Faktor `urban`, also für die erste Fragestellung, zeigen sich höhere Werte bei der gleichnamige Ausprägung `urban`, während `suburban` und `rural` ähnlich erscheinen. Es könnte ein Haupteffekt vorliegen. Für den Faktor`edu`, die zweite Fragestellung, fällt `college` mit deutlich niedrigeren Werten, während `not highschool` und `highschool`  sich weniger stark unterscheiden, was insgesamt auch auf einen Haupteffekt hindeuten könnte. Auch für die dritte Fragestellung, also den Interaktionseffekt, gibt es Hinweise, dass er vorliegen könnte. Innerhalb der Gruppe mit ländlichem Wohnort (`rural`) haben Personen ohne Highschool Abschluss (`not highschool`) eine niedrigere verschwörungstheoretische Überzeugung Personen mit Highschool Abschluss (`highschool`), wohingegen sie in den beiden anderen Wohnort-Gruppen einen höheren mittleren Wert (`EC`) aufweisen.
+Deskriptiv lassen sich Hinweise auf die drei Fragestellungen aus der erstellten Zeichnung erkennen: Für den Faktor `urban`, also für die erste Fragestellung, zeigen sich höhere Werte bei der gleichnamigen Ausprägung `urban`, während `suburban` und `rural` ähnlich erscheinen. Es könnte ein Haupteffekt vorliegen. Für den Faktor `edu`, die zweite Fragestellung, fällt `college` mit deutlich niedrigeren Werten auf, während `not highschool` und `highschool`  sich weniger stark unterscheiden, was insgesamt auch auf einen Haupteffekt hindeuten könnte. Auch für die dritte Fragestellung, also den Interaktionseffekt, gibt es Hinweise, dass er vorliegen könnte. Innerhalb der Gruppe mit ländlichem Wohnort (`rural`) haben Personen ohne Highschool Abschluss (`not highschool`) eine niedrigere verschwörungstheoretische Überzeugung Personen mit Highschool Abschluss (`highschool`), wohingegen sie in den beiden anderen Wohnort-Gruppen einen höheren mittleren Wert (`EC`) aufweisen.
 
 
 Die drei Nullhypothesen werden in der **zweifaktoriellen ANOVA** gleichzeitig geprüft. Die Schreibweise in `aov_4()` ist dabei ähnlich wie in der einfaktoriellen ANOVA, nur dass nun zwei unabhängige Variablen angegeben werden müssen. Die Syntax lautet: `aov_4(dv ~ uv1 + uv2 + uv1 : uv 2 + (1|id), data = datensatz)`. Dabei ist `dv` die abhängige Variable, `uv1` und `uv2` die beiden unabhängigen Variablen und `id` die Personen-ID. Die gemeinsame Notation der beiden unabhängigen Variablen (`uv1 : uv2`) gibt an, dass die Interaktion der beiden Variablen ebenfalls berücksichtigt werden soll. 
@@ -370,13 +330,13 @@ aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
 ```
 
-Der Output zeigt uns die Ergebnisse der zweifaktoriellen ANOVA. Im Vergleich zur einfaktoriellen ANOVA erhalten wir mehr Zeilen, in denen jeweils die Variablennamen gelistet sind. Die Änderung entspricht also genau der Änderung, wenn wir in eine einfache Regression mehr Prädiktoren aufnehmen. Die erste Zeile gibt den Haupteffekt des Wohnorts (`urban`) an, die zweite den Haupteffekt des Bildungsniveaus (`edu`) und die dritte die Interaktion zwischen Wohnort und Bildungsniveau (`urban:edu`). In der Spalte der p-Werte sehen wir, dass sowohl der Haupteffekt des Wohnorts (`urban`) als auch der Haupteffekt des Bildungsniveaus (`edu`) statistisch bedeutsam sind. Die Interaktion zwischen Wohnort und Bildungsniveau ist jedoch nicht signifikant. Inhaltlich heißt das, dass sowohl die Art des Wohnorts als auch das Bildungsniveau einen Einfluss auf die verschwörungstheoretische Überzeugung haben. Über die jeweiligen Effekte hinaus, ist die spezifische Kombination aus Wohnort und Bildungsniveau für diese Überzeugung irrelevant.
+Der Output zeigt uns die Ergebnisse der zweifaktoriellen ANOVA. Im Vergleich zur einfaktoriellen ANOVA erhalten wir mehr Zeilen, in denen jeweils die Variablennamen gelistet sind. Die Änderung entspricht also genau der Änderung, wenn wir in eine einfache Regression mehr Prädiktoren aufnehmen. Die erste Zeile gibt den Haupteffekt des Wohnorts (`urban`) an, die zweite den Haupteffekt des Bildungsniveaus (`edu`) und die dritte die Interaktion zwischen Wohnort und Bildungsniveau (`urban:edu`). In der Spalte der p-Werte sehen wir, dass sowohl der Haupteffekt des Wohnorts (`urban`) als auch der Haupteffekt des Bildungsniveaus (`edu`) statistisch bedeutsam sind. Die Interaktion zwischen Wohnort und Bildungsniveau ist jedoch nicht signifikant. Inhaltlich heißt das, dass sowohl die Art des Wohnorts als auch das Bildungsniveau einen Einfluss auf die verschwörungstheoretische Überzeugung haben. Über die jeweiligen Effekte hinaus ist die spezifische Kombination aus Wohnort und Bildungsniveau für diese Überzeugung irrelevant.
 
 Der Output besteht allerdings nicht nur aus der Tabelle mit den Ergebnissen, sondern auch aus einer Warnung (bezüglich Kodierung) und natürlich der Überschrift (bezüglich Typen). Diese Aspekte haben wir im letzten Tutorial erstmal übersprungen, wollen uns jetzt aber mit ihnen beschäftigen.
 
 ##### Quadratsummen-Typen 
 
-Bei mehrfaktoriellen ANOVAs können die Quadratsummen ($QS_{A}$, $QS_{B}$ und $QS_{A\times B}$) - also die erklärte Varianz, die den Faktoren zugeschrieben wird - auf unterschiedliche Arten berechnet werden. Verbreitet sind dabei drei Typen (bzw. eigentlich eher zwei zentrale Typen), zwischen denen man sich anhand der inhaltlichen Hypothesen entscheiden sollte. Wir besprechen hier im Text nur die Typen II und III - wer sich für eine genauere Betrachtung von Typ I interessiert, kann sich gerne [den Appendix](#AppendixA) anschauen.
+Bei mehrfaktoriellen ANOVAs können die Quadratsummen ($QS_{A}$, $QS_{B}$ und $QS_{A\times B}$) - also die systematische Varianz, die den Faktoren zugeschrieben wird - auf unterschiedliche Arten berechnet werden. Verbreitet sind dabei drei Typen (bzw. eigentlich eher zwei zentrale Typen), zwischen denen man sich anhand der inhaltlichen Hypothesen entscheiden sollte. Wir besprechen hier im Text nur die Typen II und III - wer sich für eine genauere Betrachtung von Typ I interessiert, kann sich gerne [den Appendix](#AppendixA) anschauen.
 
 Wie die Tabellenüberschrift unseres Outputs sagt, ist der default-Typ in `aov_4()` Typ III. Jeder Effekt wird berechnet, nachdem alle anderen Effekte des Modells (Haupteffekte und Interaktionen) berücksichtigt wurden.
 
@@ -426,11 +386,11 @@ aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy, type = "II")
 ```
 Die Unterscheidung zwischen Typ II und Typ III ist also, dass bei Typ II die Interaktionseffekte nicht berücksichtigt werden, wenn die Quadratsumme der Haupteffekte berechnet wird. Bei Typ III hingegen werden alle anderen Haupteffekte und Interaktionen berücksichtigt. In den Zahlen merken wir das daran, dass die empirischen F-Werte, die ja die Quadratsummen der Effekte im Zähler haben, unterschiedlich sind. Spezifischer kann man sagen, dass sie bei Typ II größer sind, da die Quadratsummen der Haupteffekte nicht auf die Interaktionseffekte kontrolliert wurden. Die Quadratsummen der Interaktionseffekte sind bei Typ II und Typ III identisch, da sie in beiden Fällen die Haupteffekte in die Berechnung mit einbeziehen.
 
-Welcher der beiden Typen ist nun der Richtige? Wie in den einleitenden Worten gesagt, sollte die Entscheidung auf den inhaltlichen Hypohtesen basieren. Sind Unterschiede nur für die Haupteffekte zu erwarten und nicht für den Interaktionseffekt, sollte Typ II verwendet werden, denn hier haben wir die höhere Power. Sind hingegen Interaktionseffekte zu erwarten, sollte Typ III verwendet werden. Sollte sich bei der Testung unter Verwendung von Typ II doch ein signifikanter Interaktionseffekt ergeben, sollte die ANOVA nochmal mit Typ III durchgeführt werden - denn dann ist die Annahme für die Verwendung von Typ II ja nicht gegeben (Interaktionseffekt ist doch von 0 verschieden). Sollte sich bei der Testung mit Typ III kein signifikanter Interaktionseffekt ergeben, sollte aber nicht nochmal mit Typ II getestet werden, da dies einer Kumulation von Fehlern gleichkäme.
+Welcher der beiden Typen ist nun der Richtige? Wie in den einleitenden Worten gesagt, sollte die Entscheidung auf den inhaltlichen Hypothesen basieren. Sind Unterschiede nur für die Haupteffekte zu erwarten und nicht für den Interaktionseffekt, sollte Typ II verwendet werden, denn hier haben wir die höhere Power. Sind hingegen Interaktionseffekte zu erwarten, sollte Typ III verwendet werden. Sollte sich bei der Testung unter Verwendung von Typ II doch ein signifikanter Interaktionseffekt ergeben, sollte die ANOVA nochmal mit Typ III durchgeführt werden - denn dann ist die Annahme für die Verwendung von Typ II ja nicht gegeben (Interaktionseffekt ist doch von 0 verschieden). Sollte sich bei der Testung mit Typ III kein signifikanter Interaktionseffekt ergeben, sollte aber nicht nochmal mit Typ II getestet werden, da dies einer Kumulation von Fehlern gleichkäme.
 
 ##### Kodierung der Variablen
 
-Die Message, die wir im Output gesehen haben, bezieht sich auf die Kodierung der kategorialen Variablen mit ungeordneten Ausprägungen und deren Behandlung im Modell. Wie bereits besprochen, werden kategoriale Variablen in Analysen häufig durch sogenannte Kodiervariablen dargestellt, bei denen jeder Gruppe eine Zahl zugeordnet wird. Bei Variablen mit nur zwei Ausprägungen ist dafür lediglich eine Kodiervariable nötig, um die Informationen der ursprünglichen Variable vollständig zu repräsentieren (zum Beispiel erhält eine Gruppe den Wert 0 und die andere den Wert 1). Bei Variablen mit mehr als zwei Ausprägungen (wie in unserem Fall) sind dagegen mehrere Kodiervariablen erforderlich. Die allgemeine Regel lautet: *Anzahl der Ausprägungen - 1*. 
+Die Message, die wir im Output gesehen haben, bezieht sich auf die Kodierung der kategorialen Variablen mit ungeordneten Ausprägungen und deren Behandlung im Modell. Kategoriale Variablen in Analysen häufig durch sogenannte Kodiervariablen dargestellt, bei denen jeder Gruppe eine Zahl zugeordnet wird. Bei Variablen mit nur zwei Ausprägungen ist dafür lediglich eine Kodiervariable nötig, um die Informationen der ursprünglichen Variable vollständig zu repräsentieren (zum Beispiel erhält eine Gruppe den Wert 0 und die andere den Wert 1). Bei Variablen mit mehr als zwei Ausprägungen (wie in unserem Fall) sind dagegen mehrere Kodiervariablen erforderlich. Die allgemeine Regel lautet: *Anzahl der Ausprägungen - 1*. 
 
 Bei der Bildung der Kodiervariablen haben wir grundsätzlich zwei verschiedene Möglichkeiten. Bei der Einstellung `contr.treatment` (auch als Dummy-Codierung bezeichnet) wird eine der Ausprägungen als Referenzkategorie festgelegt. Die anderen Ausprägungen werden dann in Bezug auf diese Referenzkategorie kodiert. Diese Art der Kodierung ist der Standard in `R` und würde zum Beispiel automatisch angewendet, wenn wir unsere Variablen direkt an eine Regression mit `lm()` übergeben würden.
 
@@ -440,7 +400,7 @@ Bei der Bildung der Kodiervariablen haben wir grundsätzlich zwei verschiedene M
 | highschool        | 1          | 0          |
 | college           | 0          | 1          |
 
-Bei der Einstellung `contr.sum` (bezeichnet als Effekt-Codierung) werden die Koeffizienten auf den Kodiervariablen so vergeben, dass die Abweichungen vom Mittelwert repräsentiert werden. Wir bilden hier einen ungewichteten Mittelwert der Ausprägungen, indem die Gruppengröße der einzelnen Ausprägungen nicht in dei Effekt-Codierung mit einbezogen werden.
+Bei der Einstellung `contr.sum` (bezeichnet als Effekt-Codierung) werden die Koeffizienten auf den Kodiervariablen so vergeben, dass die Abweichungen vom Mittelwert repräsentiert werden. Wir bilden hier einen ungewichteten Mittelwert der Ausprägungen, indem die Gruppengröße der einzelnen Ausprägungen nicht in die Effekt-Codierung mit einbezogen werden.
 
 | Ausprägung        | Variable 1 | Variable 2 |
 |-------------------|------------|------------|
@@ -462,7 +422,15 @@ Die Art der Interaktion wird in der Literatur in drei Bereiche aufgeteilt. Dabei
 
 Beginnen wir in unserer Betrachtung mit einem **ordinalen** Interaktionseffekt. Dabei vereinfachen wir das Beispiel für die zweifaktorielle ANOVA auf Faktoren mit jeweils nur zwei Faktorstufen - es gibt also Faktor A mit den Stufen A1 und A2 und Faktor B mit den Stufen B1 und B2. Die beiden hier dargestellten Grafiken stellen die Mittelwerte der 4 Kombinationen aus zwei verschiedenen Perspektiven da - einmal mit A auf der x-Achse und einmal mit B auf der x-Achse.
 
-![](/anova-ii_files/unnamed-chunk-58-1.png)<!-- -->
+
+```
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+```
+
+![](/anova-ii_files/unnamed-chunk-19-1.png)<!-- -->
 
 Die Farben zeigen uns stets den Faktor B an, die Formen den Faktor A. Die Linien verbinden immer die zusammengehörigen Faktorstufen auf dem Faktor, der nicht auf der x-Achse dargestellt ist. Ordinale Interaktion bedeutet nun, dass die bedingten Mittelwertsdifferenzen zwischen den Faktorstufen A (in diesem Fall A1 und A2) auf allen Stufen des Faktors B (B1 und B2) die gleichen Vorzeichen haben. Außerdem muss dasselbe für die bedingten Mittelwertsdifferenzen zwischen den Faktorstufen B (in diesem Fall B1 und B2) auf allen Stufen des Faktors A (A1 und A2) gelten. 
 
@@ -472,22 +440,22 @@ Beim Vorliegen von ordinalen Effekten ist die Interpretation der Haupteffekte au
 
 Als zweites nehmen wir uns das Gegenteil - die disordinale Interaktion - vor. Auch hier zunächst eine grafische Darstellung des Falls mit der exakt selben Gestaltung wie eben.
 
-![](/anova-ii_files/unnamed-chunk-59-1.png)<!-- -->
+![](/anova-ii_files/unnamed-chunk-20-1.png)<!-- -->
 
 Bei einem disordinalen Interaktionseffekt ändert sich das Vorzeichen der bedingten Mittelwertsdifferenzen zwischen den Faktorstufen A (in diesem Fall A1 und A2) auf den Stufen des Faktors B (in diesem Fall B1 und B2). Weiterhin ändert sich das Vorzeichen der bedingten Mittelwertsdifferenzen zwischen den Faktorstufen B (in diesem Fall B1 und B2) auf den Stufen des Faktors A (in diesem Fall A1 und A2).
-In unserem Beispiel ist das der Fall, da die Differenz zwischen den Stufen A2 und A1 auf der Stufe B1 positiv ist (A2 > A1), aber auf der Stufe B2 negativ (A2 < A1). Das gleiche gilt für die Differenz zwischen den Stufen B2 und B1 auf den Stufen von A. Auf der Stufe A1 ist die Differenz positiv (B2 > B1), auf der Stufe A2 negativ (B2 < B1).
+In unserem Beispiel ist das der Fall, da die Differenz zwischen den Stufen A2 und A1 auf der Stufe B1 positiv ist (A2 > A1), aber auf der Stufe B2 negativ (A2 < A1). Das Gleiche gilt für die Differenz zwischen den Stufen B2 und B1 auf den Stufen von A. Auf der Stufe A1 ist die Differenz positiv (B2 > B1), auf der Stufe A2 negativ (B2 < B1).
 
-Bei Vorliegen disordinaler Interaktionseffekte ist die Interpretation der Haupteffekte nicht zulässig - zumindest sollte nicht gesagt werden, dass eine Stufe des einen Faktors grundsätzlich besser ist, da dies ja von der Ausprägung auf dem anderen Faktor abhängt.
+Bei Vorliegen disordinaler Interaktionseffekte ist die Interpretation der Haupteffekte nicht zulässig - zumindest sollte nicht gesagt werden, dass eine Stufe des einen Faktors grundsätzlich höher ausgeprägt ist, da dies ja von der Ausprägung auf dem anderen Faktor abhängt.
 
 Der letzte Fall ist die **semidisordinale Interaktion**. Auch hier zunächst eine grafische Darstellung des Falls mit der exakt selben Gestaltung wie eben.
 
-![](/anova-ii_files/unnamed-chunk-60-1.png)<!-- -->
+![](/anova-ii_files/unnamed-chunk-21-1.png)<!-- -->
 
 Der semidisordinale Interaktionseffekt ist eine Mischung aus den beiden vorherigen Fällen. Die bedingten Mittelwertsdifferenzen zwischen den Faktorstufen A (in diesem Fall A1 und A2) auf den Stufen des Faktors B (in diesem Fall B1 und B2) haben die gleichen Vorzeichen und die bedingten Mittelwertsdifferenzen zwischen den Faktorstufen B (in diesem Fall B1 und B2) auf den Stufen des Faktors A (in diesem Fall A1 und A2) haben unterschiedliche Vorzeichen - oder natürlich umgekehrt.
 
 Auf den Abbildungen ist das der Fall - die Differenz zwischen den Stufen A2 und A1 auf der Stufe B1 ist positiv (A2 > A1), aber auf der Stufe B2 negativ (A2 < A1). Die Differenz zwischen den Stufen B2 und B1 auf der Stufe A1 ist positiv (B2 > B1), und auf der Stufe A2 ebenfalls positiv (B2 > B1).
 
-Beim Vorliegen der semidisordinalen Interaktionseffekte ist die Interpretation der Haupteffekte besonders für den Faktor schwierig, bei dem die Vorzeichen wechseln, da hier wie bei der disordinalen Interaktion keine generale Aussage getroffen werden kann. Bei der Interpretation des Faktors, bei dem die Vorzeichen gleich bleiben, kann hingegen eher eine Aussage getroffen werden, da hier die Haupteffekte auch für alle Stufen des anderen Faktors gelten. 
+Beim Vorliegen der semidisordinalen Interaktionseffekte ist die Interpretation der Haupteffekte besonders für den Faktor schwierig, bei dem die Vorzeichen wechseln, da hier wie bei der disordinalen Interaktion keine generelle Aussage getroffen werden kann. Bei der Interpretation des Faktors, bei dem die Vorzeichen gleich bleiben, kann hingegen eher eine Aussage getroffen werden, da hier die Haupteffekte auch für alle Stufen des anderen Faktors gelten. 
 
 Welche unterschiedlichen Kombinationen an Signifikanzen (der Haupt- und Interaktionseffekte) es gibt und was diese schematisch bedeuten, kann auch in [Eid et al. (2017](https://hds.hebis.de/ubffm/Record/HEB366849158), p. 436, Abbildung 13.6) nachgelesen werden.
 
@@ -517,6 +485,15 @@ Außerdem müssen wir wieder das Paket `emmeans` laden und die `emmeans`-Funktio
 
 ``` r
 library(emmeans)
+```
+
+```
+## Welcome to emmeans.
+## Caution: You lose important information if you filter this package's results.
+## See '? untidy'
+```
+
+``` r
 emm_zweifakt <- emmeans(zweifakt, ~ urban + edu + urban : edu)
 ```
 
@@ -579,9 +556,9 @@ Stattdessen können wir uns das Objekt auch sehr einfach plotten lassen:
 plot(tukey)
 ```
 
-![](/anova-ii_files/unnamed-chunk-64-1.png)<!-- -->
+![](/anova-ii_files/unnamed-chunk-25-1.png)<!-- -->
 
-Hier wäre es wichtig zu betrachten, welches Konfidenzintervall für die Mittelwertsdifferenz nicht die 0 enhält, um signifikante Unterschiede zu erkennen.
+Hier wäre es wichtig zu betrachten, welches Konfidenzintervall für die Mittelwertsdifferenz nicht die 0 enthält, um signifikante Unterschiede zu erkennen.
 
 
 ### Spezifische Kontraste
@@ -614,7 +591,7 @@ emm_zweifakt
 ## Confidence level used: 0.95
 ```
 
-Mithilfe eines 9 Elemente langen Vektors, in dem die Kontraskoeffizienten stehen, können Kontraste festgelegt werden. In unserer Fragestellung sollen global die Mittelwerte der drei Gruppen, die `college` in ihrer Kombination haben, mit den 6 Gruppen, die `not highschool` oder `highschool` in ihrer Kombination haben, verglichen werden. Das bedeutet, dass die Koeffizienten für die Gruppen mit College-Abschluss positiv und die anderen negativ sein sollten. Eine weitere Voraussetzung für Kontrastkoeffizienten, die wir bereits kennen, lautet, dass sich die Koeffizienten zu 0 addieren müssen. Das bedeutet, dass die Summe der Koeffizienten für die Gruppen mit College-Abschluss bspw. 3 und die Summe der Koeffizienten für die anderen Gruppen -3 betragen muss. Daraus würde sich ergeben, dass alle Gruppen mit College-Abschluss den Koeffizienten `1` zugewiesen bekommen, während die anderen Gruppen den Koeffizienten `-0.5` zugewiesen bekommen.
+Mithilfe eines 9 Elemente langen Vektors, in dem die Kontrastkoeffizienten stehen, können Kontraste festgelegt werden. In unserer Fragestellung sollen global die Mittelwerte der drei Gruppen, die `college` in ihrer Kombination haben, mit den 6 Gruppen, die `not highschool` oder `highschool` in ihrer Kombination haben, verglichen werden. Das bedeutet, dass die Koeffizienten für die Gruppen mit College-Abschluss positiv und die anderen negativ sein sollten. Eine weitere Voraussetzung für Kontrastkoeffizienten, die wir bereits kennen, lautet, dass sich die Koeffizienten zu 0 addieren müssen. Das bedeutet, dass die Summe der Koeffizienten für die Gruppen mit College-Abschluss bspw. 3 und die Summe der Koeffizienten für die anderen Gruppen -3 betragen muss. Daraus würde sich ergeben, dass alle Gruppen mit College-Abschluss den Koeffizienten `1` zugewiesen bekommen, während die anderen Gruppen den Koeffizienten `-0.5` zugewiesen bekommen.
 
 
 
@@ -683,7 +660,7 @@ contrast(emm_zweifakt, list(cont1, cont2), adjust = 'bonferroni')
 ## P value adjustment: bonferroni method for 2 tests
 ```
 
-Der erste Kontrast ist weiterhin signifikant, der zweite jedoch schon (p = 0.0414 < 0.05). Dieses Ergebnis ist aber auch nicht überraschend, da kein Interaktionseffekt in den Daten vorlag. Die Anzahl der geplanten Kontraste ist theoretisch endlos - der Fokus liegt hier auf den Erwartungen, die aus der Theorie abgeleitet werden. 
+Der erste Kontrast ist weiterhin signifikant, der zweite jedoch nicht Dieses Ergebnis ist aber auch nicht überraschend, da kein Interaktionseffekt in den Daten vorlag. Die Anzahl der geplanten Kontraste ist theoretisch endlos - der Fokus liegt hier auf den Erwartungen, die aus der Theorie abgeleitet werden. 
 
 
 Sollen Hypothesen möglichst effektiv getestet werden, sollten Kontraste orthogonal, das heißt voneinander unabhängig sein. Zwei orthogonale Kontraste erkennt man daran, dass die Summe aller gewichteten Kontrastprodukte gleich 0 ist. Bei geplanten Kontrasten ist dies jedoch selten der Fall, da die Fragestellungen bzw. Hypothesen, die man aus der Literatur ableitet, selten komplett voneinander unabhängig sind. 
@@ -703,7 +680,7 @@ Wie beschrieben, können bei mehrfaktoriellen ANOVAs die Quadratsummen auf unter
 
 ### Typ I
 
-Typ I berücksichtigt in der Berechnung der Quadratsummen nur die vorherigen unabhängigen Variablen. Dies entspricht konzeptuell der sequentiellen Aufnahme von Prädiktoren in der Regression. In `afex` ist diese Berechnung gar nicht möglich, da man das Argument `type` nicht damit ansprechen kann. 
+Typ I berücksichtigt in der Berechnung der Quadratsummen nur die vorherigen unabhängigen Variablen. Dies entspricht konzeptuell der sequenziellen Aufnahme von Prädiktoren in der Regression. In `afex` ist diese Berechnung gar nicht möglich, da man das Argument `type` nicht damit ansprechen kann. 
 
 
 ``` r
