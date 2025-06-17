@@ -9,7 +9,7 @@ subtitle: '2-fakt. ANOVA'
 summary: ''
 authors: [nehler, irmer,scheppa-lahyani,schultze]
 weight: 9
-lastmod: '2025-06-13'
+lastmod: '2025-06-17'
 featured: no
 banner:
   image: "/header/heart_alien.jpg"
@@ -38,7 +38,7 @@ output:
 
 
 
-In der letzten Sitzung haben wir die [einfaktorielle Varianzanalyse](/lehre/statistik-ii/anova-i) behandelt. Die spezifische Benennung als *einfaktoriell* verdeutlicht schon, dass wir hier ansetzen und Erweiterungen durch die Aufnahme von mehr Faktoren vornehmen können. In dieser Sitzung geht es vor allem um die *zweifaktorielle* Varianzanalyse - also das Vorliegen von zwei Faktoren. Ziel dieser Analyse ist es, gleichzeitig Gruppenunterschiede auf zwei Variablen zu untersuchen und dabei zu überprüfen, ob Kombinationen von Gruppen besondere Auswirkungen haben. Für weitere Inhalte siehe bspw. auch [Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.2 und folgend)](https://hds.hebis.de/ubffm/Record/HEB366849158).
+In der letzten Sitzung haben wir die [einfaktorielle Varianzanalyse](/lehre/statistik-ii/anova-i) behandelt. Die spezifische Benennung als *einfaktoriell* verdeutlicht schon, dass wir hier ansetzen und Erweiterungen durch die Aufnahme von mehr Faktoren vornehmen können. In dieser Sitzung geht es vor allem um die *zweifaktorielle* Varianzanalyse - also das Vorliegen von zwei Faktoren. Ziel dieser Analyse ist es, gleichzeitig Gruppenunterschiede auf zwei Variablen zu untersuchen und dabei zu überprüfen, ob Kombinationen von Gruppen besondere Auswirkungen haben. Für weitere Inhalte siehe bspw. auch [Eid, Gollwitzer und Schmitt (2017, Kapitel 13 und insb. 13.2 und folgend)](https://ubffm.hds.hebis.de/Record/HEB366849158).
 
 Wir arbeiten wieder mit dem `conspiracy` Datensatz. Dieser stammt aus einer Erhebung zur Validierung eines Fragebogens, aus dem Skalenwerte gebildet werden, die verschiedene Dimensionen von Verschwörungsglauben abbilden sollen. 
 
@@ -49,14 +49,14 @@ Da die Rohdaten hier einige Informationen erhalten, die wir für die Durchführu
 
 
 
-``` r
+```r
 source("https://pandar.netlify.app/daten/Data_Processing_conspiracy.R")
 ```
 
 Eine kurze Übersicht über den Datensatz zeigt:
 
 
-``` r
+```r
 dim(conspiracy)
 ```
 
@@ -67,7 +67,7 @@ dim(conspiracy)
 Der Datensatz enthält die Werte von 2451 Personen auf 9 Variablen. 
 
 
-``` r
+```r
 head(conspiracy)
 ```
 
@@ -86,7 +86,7 @@ Er stammt aus einer Untersuchung zum Thema *verschwörungstheoretische Überzeug
 Den Datensatz haben wir in der letzten Sitzung schon genutzt, haben dabei aber nicht genauer die Struktur angeschaut. Dies holen wir hier einmal nach.
 
 
-``` r
+```r
 str(conspiracy)
 ```
 
@@ -110,21 +110,21 @@ Der Output zeigt, dass wir Variablen vom Typen `factor` und `numeric` (und `inte
 In der letzten Sitzung zeigte sich, dass die Überzeugung, dass die Existenz von Außerirdischen durch eine globale Verschwörung verdeckt wird (`EC`), von der Art des Wohngebiets (`urban`) abhängig ist. Zur Berechnung der einfaktoriellen ANOVA wurde das `afex`-Paket verwendet. Dieses Paket brauchen wir weiterhin:
 
 
-``` r
+```r
 library(afex)
 ```
 
 Wir führen zur kurzen Wiederholung noch einmal die einfaktorielle ANOVA bezüglich des Bildungsniveaus (`edu`) durch, um uns zu vergegenwärtigen, wie der `aov_4()`-Befehl funktioniert! Wie schon in der letzten Sitzung ist es zunächst erforderlich, eine Personen-ID zu erzeugen. In diesem Fall kann einfach die Zeilennummer einer Person genutzt werden:
 
 
-``` r
+```r
 conspiracy$id <- as.factor(1:nrow(conspiracy))
 ```
 
 Das erste Argument der `aov_4()`-Funktion ist im Stil der Regressionsformel - wir müssen zunächst die abhängige Variable nennen (`EC`), dann die unabhängige Variable (`edu`) nach der Tilde `~` und zum Abschluss müssen wir noch `(1|id)` ergänzen. Die Bedeutung dieses zusätzlichen Terms werden wir im nächsten Tutorial beleuchten. Als zweites Argument muss der Datensatz angegeben werden (`data = conspiracy`). 
 
 
-``` r
+```r
 aov_4(EC ~ edu + (1|id), data = conspiracy)
 ```
 
@@ -145,7 +145,7 @@ aov_4(EC ~ edu + (1|id), data = conspiracy)
 Die Ergebnisse zeigen, dass es signifikante Unterschiede zwischen den verschiedenen Wohnorten gibt. Zusätzlich erhalten wir auch das generalisierte $\eta^2$, also einen Schätzer der Effektstärke, die im Grunde angibt, wie viel systematische Variation in den Daten ist, relativ zur zufälligen Schwankung. Um dies in der Skala der ursprünglichen Variablen zu interpretieren, können wir uns rein deskriptiv die gruppenspezifischen Mittelwerte angucken. Dazu kann mit einer Vielzahl von Funktionen gearbeitet werden. Eine gängige Variante ist der `aggregate()`-Befehl, den wir auch bereits kennengelernt haben.
 
 
-``` r
+```r
 aggregate(EC ~ edu, conspiracy, mean)
 ```
 
@@ -163,7 +163,7 @@ aggregate(EC ~ edu, conspiracy, mean)
 In der mehrfaktoriellen ANOVA steht nicht nur der Vergleich von Gruppen anhand *einer* unabhängigen Variable im Mittelpunkt, sondern der Fokus liegt auf der *Kombination von Gruppierungen* anhand mehrerer unabhängiger Variablen. Deskriptiv können die Mittelwerte aus Gruppenkombinationen ebenfalls mit der `aggregate()`-Funktion bestimmt werden, indem in der klassischen Schreibweise eine weitere Gruppierungsvariable mit einem `+` aufgenommen wird:
 
 
-``` r
+```r
 # Kombinationsspezifische Mittelwertetabelle
 aggregate(EC ~ urban + edu, conspiracy, mean)
 ```
@@ -185,19 +185,14 @@ aggregate(EC ~ urban + edu, conspiracy, mean)
 Auf den ersten Blick fällt schon einmal auf, dass Menschen, die als höchsten Bildungsabschluss das College besucht hatten, deutlich niedrigere Mittelwerte hinsichtlich der Verschwörung aufweisen als jene, die keinen High-School oder maximal einen High-School Abschluss haben. Auch wenn die tabellarische Übersicht für manche die präferierte Variante sein wird, ist es auf Postern und in Berichten häufig so, dass stattdessen Grafiken eingesetzt werden. Wir schauen uns hier erstmal an, wie man eine solche Grafik erstellen könnte mit dem `ggplot2` Paket.
 
 
-``` r
+```r
 library(ggplot2)
-```
-
-```
-## Want to understand how all the pieces fit together? Read R for Data Science:
-## https://r4ds.had.co.nz/
 ```
 
 Damit wir die Mittelwerte darstellen können, müssen diese natürlich auch an die Funktion gegeben werden. Dafür nutzen wir den `aggregate()`-Befehl und geben über die Pipe `|>` die resultierende Tabelle als Datensatz an die `ggplot()` Funktion weiter. Als nächstes ist es wichtig zu entscheiden, welcher Faktor wo abgebildet werden sollte. Wir nehmen hier `urban` auf der x-Achse, weshalb wir es in den Ästhetiken (`aes()`) auch `x` zuordnen. Die abhängige Variable wird `y` zugeordnet. Der zweite Faktor wird sowohl `color` als auch `group` zugeordnet, damit die Stufen dieses Faktors die Farbe bestimmen und auch mit Linien verbunden werden. Die passenden Geometrien sind dann `geom_point()` und `geom_line()`. Zur besseren Darstellung können bspw. die Beschriftung der Aspekte (`labs()`) geändert werden, aber wie wir bereits wissen, sind die Möglichkeiten in `ggplot2` hier fast endlos.
 
 
-``` r
+```r
 aggregate(EC ~ urban + edu, conspiracy, mean) |> 
   ggplot(aes(x = urban, y = EC, color = edu, group = edu)) +
     geom_point() +
@@ -216,7 +211,7 @@ Es gibt sehr viele Wege, um in dem Plot Unsicherheit anzuzeigen. Wie bereits ges
 Beispielsweise können wir zunächst einen Datensatz erstellen, indem sowohl die Mittelwerte als auch die geschätzten Standardfehler enthalten sind. Für die Schätzung der Standardfehler des Mittelwerts benötigen wir die Stichprobengröße und die geschätzte Populationsstandardabweichung Dafür starten wir mit der Erstellung von getrennten Datensätze.
 
 
-``` r
+```r
 # Mittelwert berechnen und in Datensatz ablegen
 means_df <- aggregate(EC ~ urban + edu, conspiracy, mean)
 # SD berechnen und in Datensatz ablegen
@@ -229,7 +224,7 @@ names(sds_df)[3] <- "sd_EC"
 Jetzt können wir die beiden Datensätze mit der `merge()` Funktion zusammenführen. Dabei füllen wir das Argument `by` mit den Namen der beiden Faktoren. Um die Stichprobengröße auch noch einzufügen, starten wir das Spiel nochmal.
 
 
-``` r
+```r
 # Zusammenführen
 plot_df <- merge(means_df, sds_df, by = c("urban", "edu"))
 
@@ -244,14 +239,14 @@ plot_df <- merge(plot_df, n_df, by = c("urban", "edu"))
 Nun bestimmen wir die geschätzten Standardfehler des Mittelwerts.
 
 
-``` r
+```r
 plot_df$se <- plot_df$sd_EC / sqrt(plot_df$n)
 ```
 
 Anschließend können wir den Plot erstellen. Dabei brauchen wir jetzt das zusätzlich `geom_errorbar()`, bei dem wir in den Ästhetiken die obere und untere Grenze der Balken festhalten können.
 
 
-``` r
+```r
 ggplot(plot_df, aes(x = urban, y = mean_EC, color = edu, group = edu)) +
   geom_point() +
   geom_line() +
@@ -267,7 +262,7 @@ Die drei Punkte, die den jeweiligen Faktorstufen von `edu` angehören, scheinen 
 
 ## Zweifaktorielle Varianzanalyse
 
-Mithilfe der zweifaktoriellen Varianzanalyse können drei zentralen Fragen beantwortet werden ([Eid et al., 2017](https://hds.hebis.de/ubffm/Record/HEB366849158), S. 432):
+Mithilfe der zweifaktoriellen Varianzanalyse können drei zentralen Fragen beantwortet werden ([Eid et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 432):
 
   1. Lassen sich **Unterschiede in der AV** auf **Unterschiede in der 1. UV** zurückführen? (**Haupteffekt 1**, manchmal auch Haupteffekt Faktor A)
   2. Lassen sich **Unterschiede in der AV** auf **Unterschiede in der 2. UV** zurückführen? (**Haupteffekt 2**, manchmal auch Haupteffekt Faktor B)
@@ -283,7 +278,7 @@ Die Nullhypothesen haben wie gewohnt die Form, dass keine Effekte vorliegen. Die
 
 <details><summary><b>Technische Details zu den Hypothesen </b></summary>
 
-Etwas technischer ausgedrückt lassen sich die drei Fragen in Hypothesenpaaren formulieren ([Eid et al., 2017](https://hds.hebis.de/ubffm/Record/HEB366849158), S. 442):
+Etwas technischer ausgedrückt lassen sich die drei Fragen in Hypothesenpaaren formulieren ([Eid et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 442):
 
   1. $H_0: \mu_{j \bullet} - \mu = 0$, $\quad H_1: \mu_{j \bullet} - \mu \neq 0$
   2. $H_0: \mu_{\bullet k} - \mu = 0$, $\quad H_1: \mu_{\bullet k} - \mu \neq 0$
@@ -310,7 +305,7 @@ Deskriptiv lassen sich Hinweise auf die drei Fragestellungen aus der erstellten 
 Die drei Nullhypothesen werden in der **zweifaktoriellen ANOVA** gleichzeitig geprüft. Die Schreibweise in `aov_4()` ist dabei ähnlich wie in der einfaktoriellen ANOVA, nur dass nun zwei unabhängige Variablen angegeben werden müssen. Die Syntax lautet: `aov_4(dv ~ uv1 + uv2 + uv1 : uv 2 + (1|id), data = datensatz)`. Dabei ist `dv` die abhängige Variable, `uv1` und `uv2` die beiden unabhängigen Variablen und `id` die Personen-ID. Die gemeinsame Notation der beiden unabhängigen Variablen (`uv1 : uv2`) gibt an, dass die Interaktion der beiden Variablen ebenfalls berücksichtigt werden soll. 
 
 
-``` r
+```r
 aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy)
 ```
 
@@ -341,7 +336,7 @@ Bei mehrfaktoriellen ANOVAs können die Quadratsummen ($QS_{A}$, $QS_{B}$ und $Q
 Wie die Tabellenüberschrift unseres Outputs sagt, ist der default-Typ in `aov_4()` Typ III. Jeder Effekt wird berechnet, nachdem alle anderen Effekte des Modells (Haupteffekte und Interaktionen) berücksichtigt wurden.
 
 
-``` r
+```r
 aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy)
 ```
 
@@ -364,7 +359,7 @@ aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy)
 Typ II berücksichtigt in der Berechnung der Quadratsummen von Effekten im Gegensatz dazu nur alle anderen Haupteffekte. In der Berechnung der  Quadratsummen der Haupteffekte wird damit angenommen, dass alle Interaktionen, an denen dieser Term beteiligt ist, 0 sind. In dem Befehl kann man diese Quadratsummen mit dem Argument `type = "II"` anfordern: 
 
 
-``` r
+```r
 # QS-Typ 2
 aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy, type = "II")
 ```
@@ -422,14 +417,6 @@ Die Art der Interaktion wird in der Literatur in drei Bereiche aufgeteilt. Dabei
 
 Beginnen wir in unserer Betrachtung mit einem **ordinalen** Interaktionseffekt. Dabei vereinfachen wir das Beispiel für die zweifaktorielle ANOVA auf Faktoren mit jeweils nur zwei Faktorstufen - es gibt also Faktor A mit den Stufen A1 und A2 und Faktor B mit den Stufen B1 und B2. Die beiden hier dargestellten Grafiken stellen die Mittelwerte der 4 Kombinationen aus zwei verschiedenen Perspektiven da - einmal mit A auf der x-Achse und einmal mit B auf der x-Achse.
 
-
-```
-## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## ℹ Please use `linewidth` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
-```
-
 ![](/anova-ii_files/unnamed-chunk-19-1.png)<!-- -->
 
 Die Farben zeigen uns stets den Faktor B an, die Formen den Faktor A. Die Linien verbinden immer die zusammengehörigen Faktorstufen auf dem Faktor, der nicht auf der x-Achse dargestellt ist. Ordinale Interaktion bedeutet nun, dass die bedingten Mittelwertsdifferenzen zwischen den Faktorstufen A (in diesem Fall A1 und A2) auf allen Stufen des Faktors B (B1 und B2) die gleichen Vorzeichen haben. Außerdem muss dasselbe für die bedingten Mittelwertsdifferenzen zwischen den Faktorstufen B (in diesem Fall B1 und B2) auf allen Stufen des Faktors A (A1 und A2) gelten. 
@@ -457,7 +444,7 @@ Auf den Abbildungen ist das der Fall - die Differenz zwischen den Stufen A2 und 
 
 Beim Vorliegen der semidisordinalen Interaktionseffekte ist die Interpretation der Haupteffekte besonders für den Faktor schwierig, bei dem die Vorzeichen wechseln, da hier wie bei der disordinalen Interaktion keine generelle Aussage getroffen werden kann. Bei der Interpretation des Faktors, bei dem die Vorzeichen gleich bleiben, kann hingegen eher eine Aussage getroffen werden, da hier die Haupteffekte auch für alle Stufen des anderen Faktors gelten. 
 
-Welche unterschiedlichen Kombinationen an Signifikanzen (der Haupt- und Interaktionseffekte) es gibt und was diese schematisch bedeuten, kann auch in [Eid et al. (2017](https://hds.hebis.de/ubffm/Record/HEB366849158), p. 436, Abbildung 13.6) nachgelesen werden.
+Welche unterschiedlichen Kombinationen an Signifikanzen (der Haupt- und Interaktionseffekte) es gibt und was diese schematisch bedeuten, kann auch in [Eid et al. (2017](https://ubffm.hds.hebis.de/Record/HEB366849158), p. 436, Abbildung 13.6) nachgelesen werden.
 
 </details>
 
@@ -472,7 +459,7 @@ Wie auch schon im [letzten Tutorial](/lehre/statistik-ii/anova-i) können bei de
 Zunächst müssen wir unsere Analyse in ein Objekt ablegen. 
 
 
-``` r
+```r
 zweifakt <- aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy)
 ```
 
@@ -483,66 +470,94 @@ zweifakt <- aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy)
 Außerdem müssen wir wieder das Paket `emmeans` laden und die `emmeans`-Funktion verwenden, um die Post-Hoc-Analyse vorzubereiten. 
 
 
-``` r
+```r
 library(emmeans)
-```
-
-```
-## Welcome to emmeans.
-## Caution: You lose important information if you filter this package's results.
-## See '? untidy'
-```
-
-``` r
 emm_zweifakt <- emmeans(zweifakt, ~ urban + edu + urban : edu)
 ```
 
 Die `pairs()`-Funktion erlaubt uns nun die Gegenüberstellung aller Gruppen. Als zusätzliches Argument, neben dem Objekt, brauchen wir nur die Aussage, dass die Vergleiche mit der Tukey-Methode korrigiert werden sollen.
 
 
-``` r
+```r
 tukey <- pairs(emm_zweifakt, adjust = "tukey")
 tukey
 ```
 
 ```
-##  contrast                                       estimate     SE   df t.ratio p.value
-##  rural not highschool - suburban not highschool -0.05151 0.1808 2442  -0.285  1.0000
-##  rural not highschool - urban not highschool    -0.26368 0.1951 2442  -1.352  0.9154
-##  rural not highschool - rural highschool        -0.08009 0.1823 2442  -0.439  1.0000
-##  rural not highschool - suburban highschool      0.08094 0.1701 2442   0.476  0.9999
-##  rural not highschool - urban highschool        -0.19653 0.1732 2442  -1.135  0.9690
-##  rural not highschool - rural college            0.40371 0.1850 2442   2.182  0.4178
-##  rural not highschool - suburban college         0.40376 0.1716 2442   2.353  0.3110
-##  rural not highschool - urban college            0.35068 0.1739 2442   2.016  0.5319
-##  suburban not highschool - urban not highschool -0.21217 0.1415 2442  -1.500  0.8560
-##  suburban not highschool - rural highschool     -0.02858 0.1233 2442  -0.232  1.0000
-##  suburban not highschool - suburban highschool   0.13245 0.1044 2442   1.269  0.9403
-##  suburban not highschool - urban highschool     -0.14502 0.1093 2442  -1.327  0.9235
-##  suburban not highschool - rural college         0.45522 0.1272 2442   3.578  0.0106
-##  suburban not highschool - suburban college      0.45527 0.1068 2442   4.263  0.0007
-##  suburban not highschool - urban college         0.40219 0.1105 2442   3.641  0.0085
-##  urban not highschool - rural highschool         0.18360 0.1434 2442   1.280  0.9371
-##  urban not highschool - suburban highschool      0.34462 0.1275 2442   2.703  0.1473
-##  urban not highschool - urban highschool         0.06715 0.1316 2442   0.510  0.9999
-##  urban not highschool - rural college            0.66739 0.1468 2442   4.547  0.0002
-##  urban not highschool - suburban college         0.66744 0.1295 2442   5.155  <.0001
-##  urban not highschool - urban college            0.61436 0.1325 2442   4.636  0.0001
-##  rural highschool - suburban highschool          0.16103 0.1070 2442   1.505  0.8534
-##  rural highschool - urban highschool            -0.11645 0.1118 2442  -1.042  0.9817
-##  rural highschool - rural college                0.48380 0.1293 2442   3.741  0.0059
-##  rural highschool - suburban college             0.48385 0.1093 2442   4.426  0.0003
-##  rural highschool - urban college                0.43077 0.1129 2442   3.816  0.0044
-##  suburban highschool - urban highschool         -0.27747 0.0905 2442  -3.066  0.0561
-##  suburban highschool - rural college             0.32277 0.1115 2442   2.895  0.0902
-##  suburban highschool - suburban college          0.32282 0.0875 2442   3.691  0.0070
-##  suburban highschool - urban college             0.26974 0.0919 2442   2.936  0.0809
-##  urban highschool - rural college                0.60024 0.1161 2442   5.171  <.0001
-##  urban highschool - suburban college             0.60029 0.0933 2442   6.437  <.0001
-##  urban highschool - urban college                0.54721 0.0974 2442   5.617  <.0001
-##  rural college - suburban college                0.00005 0.1137 2442   0.000  1.0000
-##  rural college - urban college                  -0.05303 0.1172 2442  -0.453  1.0000
-##  suburban college - urban college               -0.05308 0.0946 2442  -0.561  0.9998
+##  contrast                                       estimate     SE   df t.ratio
+##  rural not highschool - suburban not highschool -0.05151 0.1808 2442  -0.285
+##  rural not highschool - urban not highschool    -0.26368 0.1951 2442  -1.352
+##  rural not highschool - rural highschool        -0.08009 0.1823 2442  -0.439
+##  rural not highschool - suburban highschool      0.08094 0.1701 2442   0.476
+##  rural not highschool - urban highschool        -0.19653 0.1732 2442  -1.135
+##  rural not highschool - rural college            0.40371 0.1850 2442   2.182
+##  rural not highschool - suburban college         0.40376 0.1716 2442   2.353
+##  rural not highschool - urban college            0.35068 0.1739 2442   2.016
+##  suburban not highschool - urban not highschool -0.21217 0.1415 2442  -1.500
+##  suburban not highschool - rural highschool     -0.02858 0.1233 2442  -0.232
+##  suburban not highschool - suburban highschool   0.13245 0.1044 2442   1.269
+##  suburban not highschool - urban highschool     -0.14502 0.1093 2442  -1.327
+##  suburban not highschool - rural college         0.45522 0.1272 2442   3.578
+##  suburban not highschool - suburban college      0.45527 0.1068 2442   4.263
+##  suburban not highschool - urban college         0.40219 0.1105 2442   3.641
+##  urban not highschool - rural highschool         0.18360 0.1434 2442   1.280
+##  urban not highschool - suburban highschool      0.34462 0.1275 2442   2.703
+##  urban not highschool - urban highschool         0.06715 0.1316 2442   0.510
+##  urban not highschool - rural college            0.66739 0.1468 2442   4.547
+##  urban not highschool - suburban college         0.66744 0.1295 2442   5.155
+##  urban not highschool - urban college            0.61436 0.1325 2442   4.636
+##  rural highschool - suburban highschool          0.16103 0.1070 2442   1.505
+##  rural highschool - urban highschool            -0.11645 0.1118 2442  -1.042
+##  rural highschool - rural college                0.48380 0.1293 2442   3.741
+##  rural highschool - suburban college             0.48385 0.1093 2442   4.426
+##  rural highschool - urban college                0.43077 0.1129 2442   3.816
+##  suburban highschool - urban highschool         -0.27747 0.0905 2442  -3.066
+##  suburban highschool - rural college             0.32277 0.1115 2442   2.895
+##  suburban highschool - suburban college          0.32282 0.0875 2442   3.691
+##  suburban highschool - urban college             0.26974 0.0919 2442   2.936
+##  urban highschool - rural college                0.60024 0.1161 2442   5.171
+##  urban highschool - suburban college             0.60029 0.0933 2442   6.437
+##  urban highschool - urban college                0.54721 0.0974 2442   5.617
+##  rural college - suburban college                0.00005 0.1137 2442   0.000
+##  rural college - urban college                  -0.05303 0.1172 2442  -0.453
+##  suburban college - urban college               -0.05308 0.0946 2442  -0.561
+##  p.value
+##   1.0000
+##   0.9154
+##   1.0000
+##   0.9999
+##   0.9690
+##   0.4178
+##   0.3110
+##   0.5319
+##   0.8560
+##   1.0000
+##   0.9403
+##   0.9235
+##   0.0106
+##   0.0007
+##   0.0085
+##   0.9371
+##   0.1473
+##   0.9999
+##   0.0002
+##   <.0001
+##   0.0001
+##   0.8534
+##   0.9817
+##   0.0059
+##   0.0003
+##   0.0044
+##   0.0561
+##   0.0902
+##   0.0070
+##   0.0809
+##   <.0001
+##   <.0001
+##   <.0001
+##   1.0000
+##   1.0000
+##   0.9998
 ## 
 ## P value adjustment: tukey method for comparing a family of 9 estimates
 ```
@@ -552,7 +567,7 @@ Leider ist das Ergebnis etwas unübersichtlich, weil sich in diesem Fall 36 Verg
 Stattdessen können wir uns das Objekt auch sehr einfach plotten lassen:
 
 
-``` r
+```r
 plot(tukey)
 ```
 
@@ -572,7 +587,7 @@ Gehen wir einmal davon aus, dass Bildung auf College-Niveau beginnt, eigenständ
 Um Kontraste definieren zu können, müssen wir zunächst in Erfahrung bringen, in welcher Reihenfolge die Gruppenkombinationen intern repräsentiert werden. Diese Reihenfolge können wir durch betrachten des Objektes `emm_zweifakt` herausfinden:
 
 
-``` r
+```r
 emm_zweifakt
 ```
 
@@ -595,7 +610,7 @@ Mithilfe eines 9 Elemente langen Vektors, in dem die Kontrastkoeffizienten stehe
 
 
 
-``` r
+```r
 cont1 <- c(-0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 1, 1, 1)
 sum(cont1) == 0 # Check ob die Koeffizienten sich zu 0 addieren
 ```
@@ -611,13 +626,15 @@ $H_0: -0.5 \cdot \mu_{11} - -0.5 \cdot \mu_{21} + -0.5 \cdot \mu_{31} + -0.5 \cd
 Mit dem `contrast`-Befehl kann der festgelegte Kontrast geprüft werden, indem wir das Mittelwertsobjekt `emm` übergeben und anschließend die Gruppenzugehörigkeit via Kontrast als Liste `list(cont1)` übergeben:
 
 
-``` r
+```r
 contrast(emm_zweifakt, list(cont1))
 ```
 
 ```
-##  contrast                                       estimate    SE   df t.ratio p.value
-##  c(-0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 1, 1, 1)    -1.41 0.182 2442  -7.762  <.0001
+##  contrast                                       estimate    SE   df t.ratio
+##  c(-0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 1, 1, 1)    -1.41 0.182 2442  -7.762
+##  p.value
+##   <.0001
 ```
 
 Der Kontrast zeigt uns hier ein signifikantes Ergebnis, was bedeutet, dass Personen, die auf dem College waren, sich signifikant von Personen unterscheiden, die nicht auf dem College waren.
@@ -627,11 +644,11 @@ Der Kontrast zeigt uns hier ein signifikantes Ergebnis, was bedeutet, dass Perso
 Eine weitere interessante Forschungsfrage wäre hier, ob der Abstand zwischen den nicht-College Gruppen und der College Gruppe für die beiden Subgruppen `rural` und `urban` gleich groß ist. Damit kann getestet werden, ob der Effekt der höheren Bildung vielleicht vom Wohnort abhängt (diese Testung würde bei einem signifikanten Interaktionseffekt mehr Sinn machen, wird hier aber trotzdem durchgeführt). Stellen wir uns das Prinzip als Gleichung vor, um die Kontrastkoeffizienten zu vergeben:
 
 
-$\mu_{11} + \mu_{12}}{2} - \mu_{13} = \frac{\mu_{31} + \mu_{32}}{2} - \mu_{33}$
+$\frac{\mu_{11} + \mu_{12}}{2} - \mu_{13} = \frac{\mu_{31} + \mu_{32}}{2} - \mu_{33}$
 
 Für die einfache Vergabe von Kontrastkoeffizienten sollte die Gleichung umgestellt werden:
 
-$\mu_{11} + \cdot \mu_{12}}{2} - \mu_{13} - \frac{\mu_{31} + \mu_{32}}{2} 2 \mu_{33} = 0$
+$\frac{\mu_{11} + \mu_{12}}{2} - \mu_{13} - \frac{\mu_{31} + \mu_{32}}{2} + \mu_{33} = 0$
 
 Daraus ergibt sich dann:
 
@@ -640,7 +657,7 @@ $H_0: 0.5 \cdot \mu_{11} + 0.5 \cdot \mu_{12} - 1 \cdot \mu_{13} - 0.5 \cdot \mu
 Zugeordnet zur Reihenfolge der Gruppen also folgendes Muster:
 
 
-``` r
+```r
 cont2 <- c(0.5, 0, -0.5, 0.5, 0, -0.5, -1, 0, 1)
 ```
 
@@ -648,14 +665,17 @@ cont2 <- c(0.5, 0, -0.5, 0.5, 0, -0.5, -1, 0, 1)
 Weil sowohl `cont1` als auch `cont2` durchgeführt werden, muss für das multiple Testen der beiden korrigiert werden. Das kann dadurch erreicht werden, dass im `contrast`-Befehl alle Kontraste gleichzeitig eingeschlossen werden und mit `adjust = 'bonferroni'` z.B. die Bonferroni-Korrektur ausgewählt wird:
 
 
-``` r
+```r
 contrast(emm_zweifakt, list(cont1, cont2), adjust = 'bonferroni')
 ```
 
 ```
-##  contrast                                       estimate    SE   df t.ratio p.value
-##  c(-0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 1, 1, 1)   -1.414 0.182 2442  -7.762  <.0001
-##  c(0.5, 0, -0.5, 0.5, 0, -0.5, -1, 0, 1)          -0.137 0.162 2442  -0.844  0.7976
+##  contrast                                       estimate    SE   df t.ratio
+##  c(-0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 1, 1, 1)   -1.414 0.182 2442  -7.762
+##  c(0.5, 0, -0.5, 0.5, 0, -0.5, -1, 0, 1)          -0.137 0.162 2442  -0.844
+##  p.value
+##   <.0001
+##   0.7976
 ## 
 ## P value adjustment: bonferroni method for 2 tests
 ```
@@ -683,7 +703,7 @@ Wie beschrieben, können bei mehrfaktoriellen ANOVAs die Quadratsummen auf unter
 Typ I berücksichtigt in der Berechnung der Quadratsummen nur die vorherigen unabhängigen Variablen. Dies entspricht konzeptuell der sequenziellen Aufnahme von Prädiktoren in der Regression. In `afex` ist diese Berechnung gar nicht möglich, da man das Argument `type` nicht damit ansprechen kann. 
 
 
-``` r
+```r
 aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy, type = I)
 ```
 
@@ -698,7 +718,7 @@ aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy, type = I)
 In der Fehlermeldung steht direkt drin, dass der Typ nicht unterstützt wird. Das deutet schonmal daraufhin, dass diese Einstellung nicht sinnvoll wäre. Um den Effekt zu betrachten, brauchen wir also ein anderes Paket - nutzen wir bspw. das Paket `ez`. Das müssen wir zunächst installieren und dann aktivieren.
 
 
-``` r
+```r
 install.packages("ez")
 library(ez)
 ```
@@ -708,19 +728,20 @@ library(ez)
 In dem Paket wird die Funktion `ezANOVA()` verwendet, um eine ANOVA durchzuführen. Diese Funktion hat ein Argument `type`, welches die Quadratsummen-Typen angibt. Wir können also Typ I anfordern, indem wir `type = 1` setzen. Weitere benötigte Argument sind der Datensatz, die abhängige Variable `dv`, die ID-Variable `wid` und die unabhängigen Variablen `between`. Diese müssen als Vektor angegeben werden, da wir hier eine mehrfaktorielle ANOVA durchführen wollen. 
 
 
-``` r
+```r
 # QS-Typ 1, Reihenfolge 1
 ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu), type = 1)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
-## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable.
-## Hopefully you are doing this for demonstration purposes only!
+## Warning: Using "type==1" is highly questionable when data are unbalanced and there
+## is more than one variable. Hopefully you are doing this for demonstration purposes
+## only!
 ```
 
 ```
@@ -731,16 +752,18 @@ ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu), type = 1)
 ## 3 urban:edu   4 2442  0.9624503 4.269191e-01       0.001574014
 ```
 
-``` r
+```r
 # QS-Typ 1, Reihenfolge 2
 ezANOVA(conspiracy, dv = EC, wid = id, between = c(edu, urban), type = 1)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type
-## argument to ezANOVA().
-## Warning: Using "type==1" is highly questionable when data are unbalanced and there is more than one variable.
-## Hopefully you are doing this for demonstration purposes only!
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
+
+## Warning: Using "type==1" is highly questionable when data are unbalanced and there
+## is more than one variable. Hopefully you are doing this for demonstration purposes
+## only!
 ```
 
 ```
@@ -758,14 +781,14 @@ Die Reihenfolge der Prädiktoren spielt dabei eine Rolle, da die Quadratsummen i
 Wie bereits beschrieben berücksichtigt Typ II in der Berechnung der Quadratsummen alle anderen unabhängigen Variablen. In der Berechnung der einzelnen Quadratsummen wird allerdings angenommen, dass alle Interaktionen, an denen dieser Term beteiligt ist, 0 sind. Typ II ist in `ezANOVA()` voreingestellt - im Gegensatz zu der Einstellung in `aov_4()`.
 
 
-``` r
+```r
 # QS-Typ 2
 ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu))
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -787,14 +810,14 @@ ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu))
 Typ III lässt sich auch durch eine einfache Einstellung in `ezANOVA()` anfordern. Dabei wird nicht angenommen, dass die Interaktionen 0 sind. Typ III ist z.B. auch in SPSS voreingestellt.
 
 
-``` r
+```r
 # QS-Typ 3
 ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu), type = 3)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -825,13 +848,13 @@ Die Voraussetzungsprüfung für between-Subject Fragestellungen ist aktuell noch
 Im auch in Anhang A genutzten Paket `ez` ist in der Funktion `ezANOVA()` die Prüfung der Homoskedastizität bereits integriert. Diese wird automatisch durchgeführt, wenn die ANOVA mit `ezANOVA()` durchgeführt wird. Auch eine Korrektur für eine signifikante Verletzung, wie sie bei dem hier verwendeten Datenbeispiel auftreten würde, ist eingebaut. Dabei handelt es sich um die HC3-Korrektur von MacKinnon & White (1985). Diese kann mit dem Argument `white.adjust = TRUE` aktiviert werden. 
 
 
-``` r
+```r
 ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu), detailed = TRUE, white.adjust = TRUE)
 ```
 
 ```
-## Warning: Data is unbalanced (unequal N per group). Make sure you specified a well-considered value for the type
-## argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per group). Make sure you specified a
+## well-considered value for the type argument to ezANOVA().
 ```
 
 ```
@@ -854,7 +877,7 @@ ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu), detailed = TRUE,
 ***
 
 ## Literatur
-[Eid, M., Gollwitzer, M., & Schmitt, M. (2017).](https://hds.hebis.de/ubffm/Record/HEB366849158) *Statistik und Forschungsmethoden* (5. Auflage, 1. Auflage: 2010). Weinheim: Beltz. 
+[Eid, M., Gollwitzer, M., & Schmitt, M. (2017).](https://ubffm.hds.hebis.de/Record/HEB366849158) *Statistik und Forschungsmethoden* (5. Auflage, 1. Auflage: 2010). Weinheim: Beltz. 
 
 
 * <small> *Blau hinterlegte Autorenangaben führen Sie direkt zur universitätsinternen Ressource.*

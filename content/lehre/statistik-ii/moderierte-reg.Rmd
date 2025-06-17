@@ -49,8 +49,6 @@ In der letzten Sitzung haben wir die Analyse von Kovariaten (bzw. **AN**alysis *
 
 Wir haben gesehen, dass wir Gebrauch von Interaktionstermen in der Regressionsgleichung gemacht haben, um die Wechselwirkungen zwischen kategorialen UVs, oder zwischen einer kategorialen und einer intervallskalierten UV zu berücksichtigen. In der Moderationsanalyse werden wir diese Konzepte zurückgreifen und uns dabei vor allem auf Eid & Gollwitzer 2017, Kapitel 19.9 beziehen.
 
-*Im Anschluss an diesen Beitrag können Sie sich mit dem [nächsten Quiz](/lehre/statistik-ii/quizdaten-bsc7#Quiz6) auseinandersetzen.*
-
 ## Was ist moderierte Regression?
 
 Bei der moderierten Regression bzw. Moderationsanalyse handelt es sich um eine weitere Methode, die es uns gestattet, auch komplexere Zusammenhänge mehrerer Variablen mithilfe der Regression zu untersuchen. Konkreter soll es hier um Szenarien gehen, in denen der Regressionszusammenhang von einer dritten Variable abhängig ist.
