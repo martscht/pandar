@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: []
 weight: 1
-lastmod: '`r Sys.Date()`'
+lastmod: '2025-06-18'
 featured: no
 banner:
   image: "/header/prism_colors.jpg"
@@ -33,16 +33,13 @@ output:
     keep_md: yes
 ---
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-```
+
 ## Vorbereitung
 
 Bitte laden Sie den folgenden Datensatz, um die Übungen zu den (Semi-)Partialkorrelationen mit den Big-Five-Persönlichkeitsdimensionen durchzuführen. **Hinweis**: Um das Ganze etwas übersichtlicher zu gestalten, betrachten wir einen gekürzten Datensatz. Im Datensatz befinden sich 15 Items aus dem Big-5 Persönlichkeitsfragebogen. Es werden von den 10 Items pro Facette jeweils die ersten drei verwendet.
 
-```{r eval = FALSE}
+
+``` r
 # Datensatz laden
 load(url("https://pandar.netlify.app/daten/Big5_EFA.rda"))
 
