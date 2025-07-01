@@ -41,9 +41,40 @@ pandarize <- function(x, purl = TRUE, debugging = FALSE) {
       message("Error rendering ", .rmd, ": ", e$message)
     })
     
-    
     # only purl the R code from the RMarkdown if the argument is TRUE
-    if (purl) knitr::purl(.rmd, .R, documentation = 0)
+    if (purl){
+      # Setting up a code cleaning function
+      tidy_purled_script <- function(input_file) {
+        lines <- readLines(input_file)
+        
+        # Remove chunk headers with no meaningful label (just options or emptiness)
+        lines <- lines[!grepl("^## ----\\s*($|[a-zA-Z_]+\\s*=)", lines)]       # removes lines like "## ---- eval = FALSE----"
+        lines <- lines[!grepl("^## ----\\s*----", lines)]                        # removes "## ---- ----"
+        
+        # Reformat named chunk headers nicely
+        lines <- gsub("^## ----\\s*([^,=]+)[,=]?.*----.*$", "# ---- \\1 ----", lines)
+        
+        # Collapse multiple empty lines into a single one
+        lines <- unlist(strsplit(paste(lines, collapse = "\n"), "\n{2,}"))
+        lines <- paste(lines, collapse = "\n\n")
+        
+        # Write to new file or overwrite
+        writeLines(lines, input_file)
+        
+        # Style with styler to fit into official tidyverse scheme
+        if (!requireNamespace("styler", quietly = TRUE)) {
+          install.packages("styler")
+        }
+        
+        try(styler::style_file(input_file), silent = TRUE)
+        
+        message("Tidying complete: ", input_file)
+      }
+      
+      # Apply knit and then code cleaning
+      knitr::purl(.rmd, .R, documentation = 1)
+      tidy_purled_script(.R)
+    } 
 
     # path that is used as replacer
     normalized_path <- gsub("\\\\", "/", figure_path)
