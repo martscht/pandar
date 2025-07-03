@@ -26,68 +26,102 @@ ggplot(data = vegan, aes(x = animals, y = commitment)) +
   geom_smooth() +
   labs(title = "Scatterplot mit LOESS-Linie")
 
-a <- 1; b <- 0; c <- 0
-x <- seq(-2,2,0.01)
-f <- a*x^2 + b*x + c
+a <- 1
+b <- 0
+c <- 0
+x <- seq(-2, 2, 0.01)
+f <- a * x^2 + b * x + c
 data_X <- data.frame(x, f)
-ggplot(data = data_X, aes(x = x,  y = f)) + 
-     geom_line(col = "black")+
-     labs(x = "x", y =  "f(x)",
-          title = expression("f(x)="~x^2))
+ggplot(data = data_X, aes(x = x, y = f)) +
+  geom_line(col = "black") +
+  labs(
+    x = "x", y = "f(x)",
+    title = expression("f(x)=" ~ x^2)
+  )
 
-a <- 0.5; b <- 0; c <- 0
-x <- seq(-2,2,0.01)
-f <- a*x^2 + b*x + c
+a <- 0.5
+b <- 0
+c <- 0
+x <- seq(-2, 2, 0.01)
+f <- a * x^2 + b * x + c
 data_X <- data.frame(x, f)
-ggplot(data = data_X, aes(x = x,  y = f)) + 
-     geom_line(col = "blue", lwd = 2)+ geom_line(mapping = aes(x, x^2), lty = 3)+
-     labs(x = "x", y =  "f(x)",
-          title = expression("f(x)="~0.5*x^2))
+ggplot(data = data_X, aes(x = x, y = f)) +
+  geom_line(col = "blue", lwd = 2) +
+  geom_line(mapping = aes(x, x^2), lty = 3) +
+  labs(
+    x = "x", y = "f(x)",
+    title = expression("f(x)=" ~ 0.5 * x^2)
+  )
 
-a <- 2; b <- 0; c <- 0
-x <- seq(-2,2,0.01)
-f <- a*x^2 + b*x + c
+a <- 2
+b <- 0
+c <- 0
+x <- seq(-2, 2, 0.01)
+f <- a * x^2 + b * x + c
 data_X <- data.frame(x, f)
-ggplot(data = data_X, aes(x = x,  y = f)) + 
-     geom_line(col = "blue", lwd = 2)+ geom_line(mapping = aes(x, x^2), lty = 3)+
-     labs(x = "x", y =  "f(x)",
-          title = expression("f(x)="~2*x^2))
+ggplot(data = data_X, aes(x = x, y = f)) +
+  geom_line(col = "blue", lwd = 2) +
+  geom_line(mapping = aes(x, x^2), lty = 3) +
+  labs(
+    x = "x", y = "f(x)",
+    title = expression("f(x)=" ~ 2 * x^2)
+  )
 
-a <- -1; b <- 0; c <- 0
-x <- seq(-2,2,0.01)
-f <- a*x^2 + b*x + c
+a <- -1
+b <- 0
+c <- 0
+x <- seq(-2, 2, 0.01)
+f <- a * x^2 + b * x + c
 data_X <- data.frame(x, f)
-ggplot(data = data_X, aes(x = x,  y = f)) + 
-     geom_line(col = "blue", lwd = 2)+ geom_line(mapping = aes(x, x^2), lty = 3)+
-     labs(x = "x", y =  "f(x)",
-          title = expression("f(x)="~-x^2))
+ggplot(data = data_X, aes(x = x, y = f)) +
+  geom_line(col = "blue", lwd = 2) +
+  geom_line(mapping = aes(x, x^2), lty = 3) +
+  labs(
+    x = "x", y = "f(x)",
+    title = expression("f(x)=" ~ -x^2)
+  )
 
-a <- 1; b <- 0; c <- 1
-x <- seq(-2,2,0.01)
-f <- a*x^2 + b*x + c
+a <- 1
+b <- 0
+c <- 1
+x <- seq(-2, 2, 0.01)
+f <- a * x^2 + b * x + c
 data_X <- data.frame(x, f)
-ggplot(data = data_X, aes(x = x,  y = f)) + 
-     geom_line(col = "blue", lwd = 2)+ geom_line(mapping = aes(x, x^2), lty = 3)+
-     labs(x = "x", y =  "f(x)",
-          title = expression("f(x)="~x^2+1))
+ggplot(data = data_X, aes(x = x, y = f)) +
+  geom_line(col = "blue", lwd = 2) +
+  geom_line(mapping = aes(x, x^2), lty = 3) +
+  labs(
+    x = "x", y = "f(x)",
+    title = expression("f(x)=" ~ x^2 + 1)
+  )
 
-a <- 1; b <- 1; c <- 0
-x <- seq(-2,2,0.01)
-f <- a*x^2 + b*x + c
+a <- 1
+b <- 1
+c <- 0
+x <- seq(-2, 2, 0.01)
+f <- a * x^2 + b * x + c
 data_X <- data.frame(x, f)
-ggplot(data = data_X, aes(x = x,  y = f)) + 
-     geom_line(col = "blue", lwd = 2)+ geom_line(mapping = aes(x, x^2), lty = 3)+
-     labs(x = "x", y =  "f(x)",
-          title = expression("f(x)="~x^2+x))
+ggplot(data = data_X, aes(x = x, y = f)) +
+  geom_line(col = "blue", lwd = 2) +
+  geom_line(mapping = aes(x, x^2), lty = 3) +
+  labs(
+    x = "x", y = "f(x)",
+    title = expression("f(x)=" ~ x^2 + x)
+  )
 
-a <- -0.5; b <- 1; c <- 2
-x <- seq(-2,2,0.01)
-f <- a*x^2 + b*x + c
+a <- -0.5
+b <- 1
+c <- 2
+x <- seq(-2, 2, 0.01)
+f <- a * x^2 + b * x + c
 data_X <- data.frame(x, f)
-ggplot(data = data_X, aes(x = x,  y = f)) + 
-     geom_line(col = "blue", lwd = 2)+ geom_line(mapping = aes(x, x^2), lty = 3)+
-     labs(x = "x", y =  "f(x)",
-          title = expression("f(x)="~-0.5*x^2+x+2))
+ggplot(data = data_X, aes(x = x, y = f)) +
+  geom_line(col = "blue", lwd = 2) +
+  geom_line(mapping = aes(x, x^2), lty = 3) +
+  labs(
+    x = "x", y = "f(x)",
+    title = expression("f(x)=" ~ -0.5 * x^2 + x + 2)
+  )
 
 #### Aufnahme quadratischer Effekte ----
 # Quadrierter Prädiktor
@@ -202,8 +236,8 @@ predict(mod_quad_poly)[1:3]
 ggplot(data = vegan, aes(x = animals, y = commitment)) +
   geom_point() +
   geom_smooth(method = "lm", formula = y ~ poly(x, 2), col = "#00618f", se = FALSE) +
-  geom_smooth(method = "lm", formula = y ~ x, col = "#e3ba0f", se = FALSE) 
-  labs(title = "Scatterplot mit quadratischer Regression")
+  geom_smooth(method = "lm", formula = y ~ x, col = "#e3ba0f", se = FALSE)
+labs(title = "Scatterplot mit quadratischer Regression")
 
 # Modell mit kubischem Effekt
 mod_cubic <- lm(commitment ~ poly(animals, 3), data = vegan)
@@ -219,17 +253,12 @@ ggplot(data = vegan, aes(x = animals, y = commitment)) +
   geom_smooth(method = "lm", formula = y ~ x, col = "#e3ba0f", se = FALSE) +
   labs(title = "Scatterplot mit polynomialen Regressionsmodellen")
 
-# #### Logarithmische Effekte ----
-# # Daten einlesen
-# source("https://pandar.netlify.app/daten/Data_Processing_trivia.R")
-
+#### Logarithmische Effekte ----
+# Daten einlesen
+source("https://pandar.netlify.app/daten/Data_Processing_trivia.R")
 
 # Einschränken auf Pinnochio
 trivia <- subset(trivia, headline == 3)
-
-
-
-
 
 # Lineare Regression
 mod_lin <- lm(rating ~ repetition, data = trivia)
@@ -276,6 +305,7 @@ summary(mod_log2)$r.squared
 # AIC der Modelle
 AIC(mod_log, mod_log2)
 
+# ---- Appendix A----------------- ----
 A <- seq(0, 10, 0.1)
 
 cor(A, A^2)
@@ -283,7 +313,7 @@ cor(A, A^2)
 A_c <- A - mean(A)
 mean(A_c)
 
-A_c2 <- scale(A, center = T, scale = F)  # scale = F bewirkt, dass nicht auch noch die SD auf 1 gesetzt werden soll
+A_c2 <- scale(A, center = T, scale = F) # scale = F bewirkt, dass nicht auch noch die SD auf 1 gesetzt werden soll
 mean(A_c2)
 
 cor(A_c, A_c^2)
@@ -291,33 +321,33 @@ cor(poly(A, 2))
 
 # auf 15 Nachkommastellen gerundet:
 round(cor(A_c, A_c^2), 15)
-round(cor(poly(A, 2)), 15) 
+round(cor(poly(A, 2)), 15)
 
 # auf 15 Nachkommastellen gerundet:
 round(cor(cbind(A, A^2, A^3, A^4)), 2)
-round(cor(cbind(A_c, A_c^2, A_c^3, A_c^4)), 2) 
+round(cor(cbind(A_c, A_c^2, A_c^3, A_c^4)), 2)
 round(cor(poly(A, 4)), 2)
-
 
 var(A)
 var(A_c)
 
-# Kovarianz 
+# Kovarianz
 cov(A, A^2)
-2*mean(A)*var(A)
+2 * mean(A) * var(A)
 
 # zentriert:
 round(cov(A_c, A_c^2), 14)
-round(2*mean(A_c)*var(A_c), 14)
+round(2 * mean(A_c) * var(A_c), 14)
 
+# ---- Appendix B----------------- ----
 # gleiches Ergebnis:
 10^3
-exp(3*log(10))
+exp(3 * log(10))
 
 # gleiches Ergebnis:
 log(10^3, base = 10) # Logarithmus von 1000 zur Basis 10
-log(10^3)/log(10) # mit ln
+log(10^3) / log(10) # mit ln
 
 # gleiches Ergebnis:
 log(9, base = 3) # Logarithmus von 9 zur Basis 3
-log(9)/log(3) # mit ln
+log(9) / log(3) # mit ln

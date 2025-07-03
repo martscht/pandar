@@ -48,7 +48,7 @@ In diesem Beitrag lernen wir, wie eigene Funktionen in R geschrieben werden kön
 
 Die gelernten Fähigkeiten wollen wir nun direkt auf einen Datensatz anwenden. Dafür nutzen wir den selbst erstellten Datensatz aus Statistik I: `fb24` [(zur Variablenübersicht)](/lehre/statistik-i/variablen.pdf).
 
-```{r}
+```{r Datensatz laden}
 load(url('https://pandar.netlify.app/daten/fb24.rda'))
 dim(fb24)
 ```
@@ -68,7 +68,7 @@ funktionsname(argument1, argument2 = voreinstellung2, ...)
 
 Betrachten wir noch einmal eine bereits bekannte Funktion: die Funktion zur Berechnung des Logarithmus trägt den Namen `log`. m uns die Argumente dieser Funktion anzeigen zu lassen, können wir die Funktion `args()` nutzen.
 
-```{r, purl = FALSE}
+```{r Funktion betrachten, purl = FALSE}
 args(log)
 ```
 
@@ -95,7 +95,7 @@ n `R` liefert die Funktion `var()` standardmäßig die Schätzung der Population
 
 Eine neue Funktion kann in `R` mit der `function()`-Funktion erstellt werden.  Zunächst legen wir den Namen der neuen Funktion fest, sorgen dabei über den Zuweisungspfeil (`<-`) dafür, dass diese als Objekt in das Global Environment abgelegt wird. Dann sprechen wir die Funktion `function()` an und geben in den runden Klammern an, welche Argumente der Funktion zur Verfügung stehen sollen. Als Argumente können beliebig viele Eingaben definiert werden, auf die innerhalb der Funktion Bezug genommen wird. In geschweiften Klammern wird schließlich festgelegt, welche Operationen mit den angegebenen Argumenten durchgeführt werden sollen. Die geschweiften Klammern ermöglichen dabei, dass die Operationen über mehrere Zeilen im Skript gehen können. Hier ist nochmal der grundlegende Aufbau einer Funktionserstellung dargestellt:
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, purl=FALSE}
 eigene_funktion <- function(argument1, argument2, ...) {
   # Durchgeführte Operationen
 }
@@ -103,7 +103,7 @@ eigene_funktion <- function(argument1, argument2, ...) {
 
 Überlegen wir uns zunächst den Teil, den wir in die geschweiften Klammern schreiben – also: Welche Operationen müssen durchgeführt werden, um die empirische Varianz zu berechnen? Als Beispiel verwenden wir die Variable `time_pre` aus dem Datensatz `fb24`, die die Bearbeitungszeiten der Personen für den Fragebogen vor dem Praktikum enthält. Die einzelnen Berechnungsschritte sollten aus dem letzten Semester noch bekannt sein und werden daher an dieser Stelle nicht erneut im Detail erläutert.
 
-```{r}
+```{r Aufbau einer Funktion}
 x <- fb24$time_pre                # Variable in ein Objekt ablegen
 n <- length(x)                    # Länge des Objekts bestimmen - Stichprobengröße
 x_quer <- mean(x)                 # Mittelwert der Variable bestimmen
@@ -115,12 +115,12 @@ var                                # Ausgabe des Ergebnis
 Um die Funktionsweise der Funktion zu verdeutlichen, reduzieren wir unser Environment gerade mal wieder auf den Datensatz `fb24`. 
 
 ```{r}
-rm(x, n, x_quer, var)    # Envrionment auf fb24 reduzieren
+rm(x, n, x_quer, var)    # Environment auf fb24 reduzieren
 ``` 
 
 Aus der händischen Berechnung können wir ableiten, welche Angaben wir von Nutzer:innen als Argumente benötigen, um die Operationen durchzuführen. Zwar werden in der Berechnung einige Zwischenschritte wie der Mittelwert und die Stichprobengröße erstellt, im Kern benötigen wir jedoch nur den Vektor mit den Werten `x`– also die Variable, für die die empirische Varianz bestimmt werden soll. Für unsere Funktion reicht daher zunächst ein einziges Argument. Um konsistent zu bleiben, geben wir diesem Argument den Namen `x`. 
 
-```{r}
+```{r Eigene Funktionen}
 # Argumente und Operationen der neuen Funktion
 function(x){
   n <- length(x)
@@ -183,7 +183,7 @@ Wir wollen bestimmte Berechnungen nur unter bestimmten Bedingungen ausführen �
 Wie in den meisten Programmiersprachen werden Wenn-Dann-Bedingungen in `R` mit der Nutzung von `if` (ggf. in Kombination mit `else`) umgesetzt. Auf ein `if` folgt in runden Klammern die Bedingung, die entweder als `TRUE` oder `FALSE` ausgewertet wird. Direkt danach folgt die Konsequenz – also der Code, der bei erfüllter Bedingung ausgeführt werden soll. Ist diese Konsequenz nur eine Zeile lang, kann sie direkt hinter dem `if`-Ausdruck stehen. Wenn die Konsequenz über mehrere Zeilen geht, müssen geschweifte Klammern `{...}` verwendet werden. Zur besseren Lesbarkeit empfiehlt es sich allerdings, die Klammern auch bei einzeiligen Konsequenzen zu nutzen – so wie wir es hier tun, obwohl es technisch nicht erforderlich wäre. Wichtig: Die Konsequenz wird nur dann ausgeführt, wenn die Bedingung in `if` den Wert `TRUE` liefert.
 
 
-```{r}
+```{r Logische Abfragen und Bedingungen}
 var_eigen <- function(x, empirical){
   n <- length(x)
   x_quer <- mean(x)
@@ -280,7 +280,7 @@ cat('Error in var_eigen(x = fb24$time_pre) :
 
 Konzentrieren wir uns auf den Wortlaut der Fehlermeldung: Sie enthält die Formulierung *with no default*. Das bedeutet, dass das entsprechende Argument für die Ausführung der Funktion erforderlich ist – in unserem Fall also für die `if`-`else`-Abfrage – und dass keine Voreinstellung (*default*) dafür hinterlegt wurde. Ähnlich wie in der Funktion `t.test()`, bei der das Argument `paired` eine Voreinstellung besitzt, möchten wir auch in unserer Funktion eine Standardvorgabe definieren. Dadurch müssen Nutzer:innen das Argument nicht zwingend angeben – es wird dann automatisch der voreingestellte Wert verwendet. Um eine solche Voreinstellung in `R` festzulegen, wird der gewünschte Standardwert direkt in der runden Klammer der Funktionsdefinition mit dem Gleichheitszeichen zugewiesen, hier `empirical = TRUE`.
 
-```{r build-function-XI, exercise=TRUE, exercise.lines = 11}
+```{r Default-Werte}
 var_eigen <- function(x, empirical = TRUE){
   n <- length(x)
   x_quer <- mean(x)
@@ -293,7 +293,7 @@ var_eigen <- function(x, empirical = TRUE){
 }
 ```
 
-```{r build-function-XII, exercise=TRUE, exercise.lines = 3}
+```{r}
 var_eigen(x = fb24$time_pre)
 ```
 
@@ -421,7 +421,7 @@ Wir wir bereits gelernt haben sollen wir uns aber nicht wiederholen. Eine elegan
 
 In `for`-Loops (Schleifen) wird ein bestimmter Abschnitt des R-Codes für jedes Element eines zuvor definierten Objekts – meist ein Vektor – ausgeführt. Der allgemeine Aufbau lautet `for (i in Vektor) {}`. Dabei ist `i` ein Platzhalter, der nacheinander alle Werte aus dem Vektor annimmt. In unserem Beispiel soll der Code für die Variablen `time_pre`, `mdbf1` und `mdbf2` durchlaufen werden, weshalb die Variablennamen in einem Vektor zusammgengefasst werden.:
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, purl=FALSE}
 for (i in c("time_pre", "mdbf1", "mdbf2")) {
   # Hier steht der Code, der für jedes Element ausgeführt wird
 }
@@ -430,7 +430,7 @@ Innerhalb der geschweiften Klammern wird der enthaltene (möglicherweise mehrzei
 
 Versuchen wir nun einmal die Operation, die wir durchführen wollen, in den Loop einzufügen. Wir möchten die Funktion `var_eigen()` für jede der drei Variablen aufrufen.
 
-```{r}
+```{r for-Loops}
 for (i in c("time_pre", "mdbf1", "mdbf2")) {
   var_eigen(x = fb24[, i], empirical = TRUE)
 }

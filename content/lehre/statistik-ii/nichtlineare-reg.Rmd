@@ -131,7 +131,7 @@ $$f(x):=ax^2 + bx + c,$$
 wobei $a\neq 0$, da es sich sonst nicht um eine quadratische Funktion handelt. Wäre $a=0$, würde es sich um eine lineare Funktion mit Achsenabschnitt $c$ und Steigung (Slope) $b$ handeln. Wäre zusätzlich $b=0$, handelt es sich um eine horizontale Linie bei $y=f(x)=c$. 
 Für betraglich große $x$ fällt $x^2$ besonders ins Gewicht. Damit entscheidet das Vorzeichen von $a$, ob es sich um eine u-förmige (falls $a>0$) oder eine umgekehrt-u-förmige (falls $a<0$) Beziehung handelt. Die betragliche Größe von $a$ entscheidet hierbei, wie gestaucht die u-förmige Beziehung (die Parabel) ist. Die reine quadratische Beziehung $f(x)=x^2$ sieht so aus:
 
-```{r, fig.align="center", fig.height=6}
+```{r, echo=TRUE, fig.align="center", fig.height=6}
 a <- 1; b <- 0; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -143,7 +143,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 ```
 Wir werden diese Funktion immer als Referenz mit in die Grafiken einzeichnen.
 
-```{r, fig.align="center", fig.height=6}
+```{r, echo=TRUE, fig.align="center", fig.height=6}
 a <- 0.5; b <- 0; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -154,7 +154,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
           title = expression("f(x)="~0.5*x^2))
 ```
 
-```{r, fig.align="center", fig.height=6}
+```{r, echo=TRUE, fig.align="center", fig.height=6}
 a <- 2; b <- 0; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -166,7 +166,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 ```
 
 
-```{r, fig.align="center", fig.height=6}
+```{r, echo=TRUE, fig.align="center", fig.height=6}
 a <- -1; b <- 0; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -180,7 +180,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 Diese invers-u-förmige Beziehung ist eine konkave Funktion. Als Eselsbrücke für das Wort *konkav*, welches fast das englische Wort *cave* enthält, können wir uns merken: Eine konkave Funktion stellt eine Art *Höhleneingang* dar.
 
 $c$ bewirkt eine vertikale Verschiebung der Parabel:
-```{r, fig.align="center", fig.height=6}
+```{r, echo=TRUE, fig.align="center", fig.height=6}
 a <- 1; b <- 0; c <- 1
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -193,7 +193,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 
 $b$ bewirkt eine horizontale und vertikale Verschiebung, die nicht mehr leicht vorhersehbar ist. Für $f(x)=x^2+x$ lässt sich beispielsweise durch Umformen $f(x)=x^2+x=x(x+1)$ leicht erkennen, dass diese Funktion zwei Nullstellen bei $0$ und $-1$ hat. Somit ist ersichtlich, dass die Funktion nach unten und nach links verschoben ist:
 
-```{r, fig.align="center", fig.height=6}
+```{r, echo=TRUE, fig.align="center", fig.height=6}
 a <- 1; b <- 1; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -206,7 +206,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 
 Für die genaue Gestalt einer allgemeinen quadratischen Funktion $ax^2 + bx + c$ würden wir die Nullstellen durch das Lösen der Gleichung $ax^2 + bx + c=0$ bestimmen (via *p-q Formel* oder *a-b-c-Formel*). Den Scheitelpunkt würden wir durch das Ableiten und Nullsetzen der Gleichung bestimmen. Wir müssten also $2ax+b=0$ lösen und dies in die Gleichung einsetzen. Wir könnten auch die binomischen Formeln nutzen, um die Funktion in die Gestalt $f(x):=a'(x-b')^2+c'$ oder $f(x):=a'(x-b'_1)(x-b_2')+c'$ zu bekommen, falls die Nullstellen reell sind (also das Gleichungssystem *lösbar* ist), da wir so die Nullstellen ablesen können als $b'$ oder $b_1'$ und $b_2'$, falls $c=0$. Für die Interpretation der Ergebnisse reicht es zu wissen, dass $a$ eine Stauchung bewirkt und entscheind dafür ist, ob die Funktion u-förmig oder invers-u-förmig verläuft.
 
-```{r, fig.align="center", fig.height=6}
+```{r, echo=TRUE, fig.align="center", fig.height=6}
 a <- -0.5; b <- 1; c <- 2
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -473,7 +473,7 @@ Um uns anzugucken, wie logarithmische Effekte modelliert werden, nutzen wir Date
 
 Eine volle Liste der Aussage, für die diese Effekte untersucht wurden haben wir [hier](/daten/datensaetze/#trivia-trivia) bereitgestellt. Für unser Beispiel beschränken wir uns auf die Aussage "In the story of Pinnochio, the goldfish is named Cleo." Dafür müssen wir zunächst die Daten einlesen und dann auf diese Aussage einschränken:
 
-```{r, echo = -1, eval=FALSE}
+```{r, echo = -1}
 #### Logarithmische Effekte ----
 # Daten einlesen
 source("https://pandar.netlify.app/daten/Data_Processing_trivia.R")
@@ -634,7 +634,7 @@ In diesem Tutorial haben wir nichtlineare Regressionsmodelle als Erweiterung der
 
 Wir vergleichen nun an einem ganz einfachen Beispiel, was `poly` und was Zentrierung bewirkt. Dazu erstellen wir einen Vektor (also eine Variable) $A$ der die Zahlen von 0 bis 10 enthält in 0.1 Schritten:
 
-```{r}
+```{r Appendix A}
 A <- seq(0, 10, 0.1)
 ```
 
@@ -827,7 +827,7 @@ $$10^3=e^{\text{ln}(10^3)}=e^{3\text{ln}(10)}=1000$$
 
 Da sich durch *e* und *ln* alle exponentiellen Verläufe darstellen lassen, wird in der Mathematik häufig *log* als das Symbol für den natürlich Logarithmus verwendet; so ist es auch in `R`: ohne weitere Einstellungen ist `log` der natürliche Logarithmus und `exp` ist die Exponentialfunktion. Mit Hilfe von `log(..., base = 10)` erhalten sie beispielsweise den 10er-Logarithmus. Probieren Sie die obige Gleichung selbst aus:
 
-```{r}
+```{r Appendix B}
 # gleiches Ergebnis:
 10^3
 exp(3*log(10))

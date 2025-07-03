@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag zur Partial- und Semipartialkorrelation lernst du den Einfluss von Drittvariablen zu kontrollieren und so Scheinkorrelationen zu entlarven. Das Beispiel mit Schulleistungen zeigt, dass der ursprüngliche Zusammenhang zwischen der Lese- und Mathematikleistung verschwindet, wenn der Einfluss des IQ berücksichtigt wird. Die Semipartialkorrelation spezifisch aufzeigt, wie der IQ die Mathematikleistung beeinflusst. Diese Werkzeuge sind entscheidend, um versteckte Muster in statistischen Daten zu entwirren und Kausalitätsannahmen zu überprüfen.'
 authors: [kvetnaya, schroeder, gruetzmacher, nehler, irmer]
 weight: 5
-lastmod: '2025-06-12'
+lastmod: '2025-07-01'
 featured: no
 banner:
   image: "/header/prism_colors.jpg"
@@ -123,18 +123,7 @@ Schauen wir uns zwei Variablen aus unserem Datensatz ab, bei denen die Vermutung
 
 ```r
 library(ggplot2) # notwendiges Paket für Grafiken laden
-```
 
-```
-## Warning: Paket 'ggplot2' wurde unter R Version 4.3.2 erstellt
-```
-
-```
-## Want to understand how all the pieces fit together? Read R
-## for Data Science: https://r4ds.had.co.nz/
-```
-
-```r
 ggplot(dat, aes(x = Lebenszufriedenheit, y = Depressivitaet)) + 
   geom_point() +
   theme_minimal() +
@@ -142,7 +131,8 @@ ggplot(dat, aes(x = Lebenszufriedenheit, y = Depressivitaet)) +
 ```
 
 ```
-## `geom_smooth()` using formula = 'y ~ x'
+## `geom_smooth()` using formula = 'y ~
+## x'
 ```
 
 ![](/partial_files/unnamed-chunk-4-1.png)<!-- -->
@@ -158,10 +148,12 @@ cor.test(dat$Depressivitaet, dat$Lebenszufriedenheit)
 
 ```
 ## 
-## 	Pearson's product-moment correlation
+## 	Pearson's product-moment
+## 	correlation
 ## 
 ## data:  dat$Depressivitaet and dat$Lebenszufriedenheit
-## t = -5.0256, df = 88, p-value = 2.614e-06
+## t = -5.0256, df = 88, p-value =
+## 2.614e-06
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.6188046 -0.2938777
@@ -198,10 +190,12 @@ cor.test(dat$Neurotizismus, dat$Lebenszufriedenheit)
 
 ```
 ## 
-## 	Pearson's product-moment correlation
+## 	Pearson's product-moment
+## 	correlation
 ## 
 ## data:  dat$Neurotizismus and dat$Lebenszufriedenheit
-## t = -8.2276, df = 88, p-value = 1.587e-12
+## t = -8.2276, df = 88, p-value =
+## 1.587e-12
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.7623706 -0.5238208
@@ -216,10 +210,12 @@ cor.test(dat$Neurotizismus, dat$Depressivitaet)
 
 ```
 ## 
-## 	Pearson's product-moment correlation
+## 	Pearson's product-moment
+## 	correlation
 ## 
 ## data:  dat$Neurotizismus and dat$Depressivitaet
-## t = 12.289, df = 88, p-value < 2.2e-16
+## t = 12.289, df = 88, p-value <
+## 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  0.7035951 0.8603383
@@ -292,32 +288,15 @@ Natürlich müssen wir nicht jedes Mal die Residuen manuell berechnen, sondern k
 
 
 ```r
-# Paket für Partial- und Semipartialkorrelation
-install.packages("ppcor")
+# Paket für Partial- und Semipartialkorrelation intallieren falls nicht vorhanden
+if (!requireNamespace("ppcor", quietly = TRUE)) {
+    install.packages("ppcor")
+  }
 ```
 
 
 ```r
 library(ppcor)
-```
-
-```
-## Warning: Paket 'ppcor' wurde unter R Version 4.3.2 erstellt
-```
-
-```
-## Lade nötiges Paket: MASS
-```
-
-```
-## 
-## Attache Paket: 'MASS'
-```
-
-```
-## Das folgende Objekt ist maskiert 'package:dplyr':
-## 
-##     select
 ```
 
 Mit der Funktion `pcor.test()` lässt sich die Partialkorrelation direkt ermitteln:
@@ -331,8 +310,10 @@ pcor.test(x = dat$Depressivitaet,      # Das Outcome
 ```
 
 ```
-##    estimate   p.value statistic  n gp  Method
-## 1 0.1137543 0.2884924  1.067961 90  1 pearson
+##    estimate   p.value statistic  n gp
+## 1 0.1137543 0.2884924  1.067961 90  1
+##    Method
+## 1 pearson
 ```
 
 **Vorsicht:** Hier herrscht Verwechslungsgefahr bei der Notation der Argumente! Während wir typischerweise bei der Regression mit $x$ den Prädiktor meinen, dessen Einfluss auf das Kriterium $y$ untersucht werden soll, haben die Argumente-Namen der `pcor.test`-Funktion in diesem Fall nichts damit zu tun. Mit `x` ist hier die primäre Variable gemeint, aus deren gemeinsamer Varianz mit `y` der Varianzanteil von `z` herauspartialisiert werden soll. Das entspricht eher der Notation in den Venn-Diagrammen in dieser Lektion. Bei den Semipartialkorrelationen weiter unten wird diese Reihenfolge noch relevant!
@@ -351,9 +332,15 @@ summary(mod1)$coefficients |> round(3)
 ```
 
 ```
-##                     Estimate Std. Error t value Pr(>|t|)
-## (Intercept)            9.122      0.709  12.862        0
-## Lebenszufriedenheit   -0.542      0.108  -5.026        0
+##                     Estimate
+## (Intercept)            9.122
+## Lebenszufriedenheit   -0.542
+##                     Std. Error
+## (Intercept)              0.709
+## Lebenszufriedenheit      0.108
+##                     t value Pr(>|t|)
+## (Intercept)          12.862        0
+## Lebenszufriedenheit  -5.026        0
 ```
 
 ```r
@@ -363,10 +350,18 @@ summary(mod2)$coefficients |> round(3)
 ```
 
 ```
-##                     Estimate Std. Error t value Pr(>|t|)
-## (Intercept)            1.008      0.950   1.061    0.292
-## Lebenszufriedenheit    0.105      0.099   1.068    0.288
-## Neurotizismus          0.881      0.089   9.950    0.000
+##                     Estimate
+## (Intercept)            1.008
+## Lebenszufriedenheit    0.105
+## Neurotizismus          0.881
+##                     Std. Error
+## (Intercept)              0.950
+## Lebenszufriedenheit      0.099
+## Neurotizismus            0.089
+##                     t value Pr(>|t|)
+## (Intercept)           1.061    0.292
+## Lebenszufriedenheit   1.068    0.288
+## Neurotizismus         9.950    0.000
 ```
 
 
@@ -422,8 +417,10 @@ spcor.test(x = dat$Depressivitaet,        # Outcome
 ```
 
 ```
-##     estimate   p.value statistic  n gp  Method
-## 1 0.06902416 0.5203964 0.6453536 90  1 pearson
+##     estimate   p.value statistic  n
+## 1 0.06902416 0.5203964 0.6453536 90
+##   gp  Method
+## 1  1 pearson
 ```
 
 Der Koeffizient der Semipartialkorrelation $r_{x(y.z)}$ beträgt 0.07 und ist nicht signifikant ($p$ = 0.52). Es zeigt sich also, dass der ursprüngliche Zusammenhang zwischen Depressivität und Lebenszufriedenheit ($r_{xz}$ = -0.47) verschwindet, wenn der Einfluss des Neurotizismus auf die Lebenszufriedenheit kontrolliert wird.
@@ -449,13 +446,7 @@ In [Statistik 1](/lehre/statistik-i/einfache-reg) haben wir bereits erfahren, da
 ```r
 # Paket für standardisierte Beta-Koeffizienten
 library(lm.beta)
-```
 
-```
-## Warning: Paket 'lm.beta' wurde unter R Version 4.3.1 erstellt
-```
-
-```r
 # Einfache lineare Regression von Depressivität auf Neurotizismus
 mod1 <- lm(Depressivitaet ~ Neurotizismus, data = dat)
 lm.beta(mod1)$standardized.coefficients
@@ -504,20 +495,28 @@ lm.beta(mod2) |> summary() # fügt std. Betas zum Output hinzu
 ##     data = dat)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -2.02852 -0.51230 -0.08009  0.65804  1.74145 
+##      Min       1Q   Median       3Q 
+## -2.02852 -0.51230 -0.08009  0.65804 
+##      Max 
+##  1.74145 
 ## 
 ## Coefficients:
-##                Estimate Standardized Std. Error t value Pr(>|t|)
-## (Intercept)    -1.17653           NA    0.46337  -2.539   0.0129
-## Neurotizismus   0.82155      0.79784    0.05088  16.147  < 2e-16
-## Episodenanzahl  0.51622      0.39471    0.06462   7.988 5.23e-12
-##                   
-## (Intercept)    *  
-## Neurotizismus  ***
-## Episodenanzahl ***
+##                Estimate Standardized
+## (Intercept)    -1.17653           NA
+## Neurotizismus   0.82155      0.79784
+## Episodenanzahl  0.51622      0.39471
+##                Std. Error t value
+## (Intercept)       0.46337  -2.539
+## Neurotizismus     0.05088  16.147
+## Episodenanzahl    0.06462   7.988
+##                Pr(>|t|)    
+## (Intercept)      0.0129 *  
+## Neurotizismus   < 2e-16 ***
+## Episodenanzahl 5.23e-12 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.8243 on 87 degrees of freedom
 ## Multiple R-squared:  0.7876,	Adjusted R-squared:  0.7827 
@@ -588,16 +587,26 @@ pcor_table$estimate |> round(3)
 ```
 
 ```
-##                     Lebenszufriedenheit Episodenanzahl
-## Lebenszufriedenheit               1.000         -0.173
-## Episodenanzahl                   -0.173          1.000
-## Depressivitaet                    0.199          0.662
-## Neurotizismus                    -0.529         -0.565
-##                     Depressivitaet Neurotizismus
-## Lebenszufriedenheit          0.199        -0.529
-## Episodenanzahl               0.662        -0.565
-## Depressivitaet               1.000         0.825
-## Neurotizismus                0.825         1.000
+##                     Lebenszufriedenheit
+## Lebenszufriedenheit               1.000
+## Episodenanzahl                   -0.173
+## Depressivitaet                    0.199
+## Neurotizismus                    -0.529
+##                     Episodenanzahl
+## Lebenszufriedenheit         -0.173
+## Episodenanzahl               1.000
+## Depressivitaet               0.662
+## Neurotizismus               -0.565
+##                     Depressivitaet
+## Lebenszufriedenheit          0.199
+## Episodenanzahl               0.662
+## Depressivitaet               1.000
+## Neurotizismus                0.825
+##                     Neurotizismus
+## Lebenszufriedenheit        -0.529
+## Episodenanzahl             -0.565
+## Depressivitaet              0.825
+## Neurotizismus               1.000
 ```
 
 Man kann das ganze auch grafisch darstellen, um sich einen schnellen Überblick über ungerichtete Zusammenhänge zwischen einer größeren Anzahl von Variablen zu verschaffen. Dabei wird der Einfluss je aller anderen Variablen im Datensatz konstant gehalten (herauspartialisiert). Ein populäres Paket zur Visualisierung solcher ungerichteten Zusammenhänge ist das Paket `qgraph`. Für die numerischen Variablen aus unserem Depressionsdatensatz könnte das Ganze so aussehen:
@@ -605,13 +614,6 @@ Man kann das ganze auch grafisch darstellen, um sich einen schnellen Überblick 
 
 ```r
 library(qgraph)
-```
-
-```
-## Warning: Paket 'qgraph' wurde unter R Version 4.3.2 erstellt
-```
-
-```r
 # Partialkorrelationsnetzwerk grafisch darstellen:
 Q <- qgraph(input = pcor_table$estimate, 
      layout = "spring",                    # grafische Anordnung der Variablen
