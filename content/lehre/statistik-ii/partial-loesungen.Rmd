@@ -1,23 +1,36 @@
 ---
-title: Unfertige Lösung
+title: "Partial- & Semipartialkorrelation - Lösungen" 
 type: post
-date: '2025-04-07'
+date: '2025-06-18'
 slug: partial-loesungen
 categories: Statistik II Übungen
-tags: []
-subtitle: Hier wird noch gegbaut...
-summary: Inhalte kommen noch!.
+tags: ["Partialkorrelation", "Semipartialkorrelation", "geteilte Varianz", "Zusammenhangsanalyse"] 
+subtitle: ''
+summary: ''
 authors: []
 weight: 1
-lastmod: '`r format(Sys.Date(), ''%Y-%m-%d'')`'
+lastmod: '`r Sys.Date()`'
 featured: no
 banner:
-  image: /header/under_construction.jpg
-caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/724752)'
+  image: "/header/prism_colors.jpg"
+  caption: "[Courtesy of pexels](https://www.pexels.com/photo/optical-glass-triangular-prism-3845162/)"
 projects: []
 reading_time: no
 share: no
 private: 'true'
+
+links:
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-ii/partial
+- icon_pack: fas
+  icon: pen-to-square
+  name: Übungen
+  url: /lehre/statistik-ii/partial-uebungen
+output:
+  html_document:
+    keep_md: yes
 ---
 
 ```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
@@ -25,4 +38,82 @@ if (exists("figure_path")) {
   knitr::opts_chunk$set(fig.path = figure_path)
 }
 ```
+## Vorbereitung
+
+Bitte laden Sie den folgenden Datensatz, um die Übungen zu den (Semi-)Partialkorrelationen mit den Big-Five-Persönlichkeitsdimensionen durchzuführen. **Hinweis**: Um das Ganze etwas übersichtlicher zu gestalten, betrachten wir einen gekürzten Datensatz. Im Datensatz befinden sich 15 Items aus dem Big-5 Persönlichkeitsfragebogen. Es werden von den 10 Items pro Facette jeweils die ersten drei verwendet.
+
+```{r eval = FALSE}
+# Datensatz laden
+load(url("https://pandar.netlify.app/daten/Big5_EFA.rda"))
+
+# Paket für Partial- und Semipartialkorrelationen laden
+install.packages("ppcor")
+library(ppcor)
+```
+
+## Aufgabe 1: Partialkorrelation
+
+Untersuchen Sie den Zusammenhang zwischen **Extraversion** und **Neurotizismus**, wobei der Einfluss von **Gewissenhaftigkeit** herauspartialisiert werden soll.
+
+- Berechnen Sie zunächst die Mittelwerte für die Skalen **Extraversion** (`E1`, `E2`, `E3`), **Neurotizismus** (`N1`, `N2`, `N3`) und **Gewissenhaftigkeit** (`C1`, `C2`, `C3`).
+- Berechnen Sie anschließend die Partialkorrelation.
+
+<details>
+<summary>Lösung</summary>
+
+```{r eval = FALSE}
+# Mittelwertskalen bilden
+Big5$extraversion <- rowMeans(Big5[, c("E1", "E2", "E3")])
+Big5$neurotizismus <- rowMeans(Big5[, c("N1", "N2", "N3")])
+Big5$gewissenhaft <- rowMeans(Big5[, c("C1", "C2", "C3")])
+
+# Partialkorrelation: Extraversion und Neurotizismus, kontrolliert für Gewissenhaftigkeit
+pcor.test(x = Big5$extraversion,    # Das Outcome
+          y = Big5$neurotizismus,   # Die Prädiktorvariable
+          z = Big5$gewissenhaft)    # wird aus X und Y auspartialisiert
+```
+</details>
+
+## Aufgabe 2: Semipartialkorrelation
+
+Untersuchen Sie den Zusammenhang zwischen **Offenheit** (`O1`, `O2`, `O3`) und **Verträglichkeit** (`A1`, `A2`, `A3`), wobei der Einfluss von **Neurotizismus** nur aus der Variable Offenheit kontrolliert wird.
+
+- Bilden Sie die fehlenden Skalenmittelwerte.
+- Berechnen Sie anschließend die Semipartialkorrelation
+
+<details>
+<summary>Lösung</summary>
+
+```{r eval = FALSE}
+# Skalenmittelwerte bilden
+Big5$offenheit <- rowMeans(Big5[, c("O1", "O2", "O3")])
+Big5$vertraeglichkeit <- rowMeans(Big5[, c("A1", "A2", "A3")])
+
+# Semipartialkorrelation: Offenheit und Verträglichkeit, kontrolliert für Neurotizismus (nur aus Offenheit)
+spcor.test(x = Big5$offenheit,        # Outcome
+           y = Big5$vertraeglichkeit, # Prädiktor
+           z = Big5$neurotizismus)    # wird aus Y, aber nicht X auspartialisiert
+```
+</details>
+
+## Aufgabe 3: Tabelle aller Partialkorrelationen
+
+- Bitte erstellen Sie einen reduzierten Datensatz, welcher nur die zuvor erstellten Skalenwerte beinhaltet
+- Geben Sie sich auf Basis des reduzierten Datensatzes nun eine Tabelle mit allen Partialkorrelationskoeffizienten aus
+
+<details>
+<summary>Lösung</summary>
+
+**Interpretation**: Aus jedem Partialkorrelationspaar in der Tabelle wurden alle übrigen Variablen herauspartialisiert. Beispiel: Die Korrelation zwischen *neurotizismus* und *extraversion*, wurde bereinigt um *offenheit*, *vertraeglichkeit* und *gewissenhaftigkeit*.
+
+```{r eval = FALSE}
+# Erstellen des reduzierten Datensatzes
+Big5_Skalen <- Big5[, c("extraversion", "neurotizismus", "gewissenhaft", "offenheit", "vertraeglichkeit")]
+
+# Tabelle der Partialkorrelationen
+pcor_table <- pcor(dat)
+pcor_table$estimate |> round(3) # Die Funktion gibt auch p-Werte etc. aus Wir extrahieren nur den Teil des Outputs, der die Partialkorrelationen enthält und runden diese Ergebnisse.
+```
+
+</details>
 

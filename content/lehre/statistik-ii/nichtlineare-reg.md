@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schultze, irmer, hartig, sajjad]
 weight: 7
-lastmod: '2025-06-09'
+lastmod: '2025-07-03'
 featured: no
 banner:
   image: "/header/curvy-road.jpg"
@@ -52,7 +52,7 @@ Diese Sitzung basiert zum Teil auf der Literatur aus [Eid et al. (2017)](https:/
 Weil wir uns in diesem Beitrag mit zwei sehr unterschiedlichen Zusammenhangsformen befassen, benötigen wir auch zwei unterschiedliche Datenbeispiele. Für die quadratischen Zusammenhänge verwenden wir den Datensatz aus dem [letzten Beitrag](/lehre/statistik-ii/regressionsdiagnostik) erneut. In den Daten von [Stahlmann et al. (2024)](https://doi.org/10.1016/j.appet.2024.107701), geht es um die Beweggründe für und Commitment zu veganer bzw. vegetarischer Ernährung. Wir betrachten hier nur den Teildatensatz der Personen, die sich vegan ernähren (den vollen Datensatz gibt es im [OSF-Repo zum Artikel](https://osf.io/ga5rt)). Die Datenaufbereitung und -auswahl habe ich in einem R-Skript hinterlegt, das Sie direkt ausführen können:
 
 
-``` r
+```r
 # Datensatz laden
 source("https://pandar.netlify.app/daten/Data_Processing_vegan.R")
 ```
@@ -69,7 +69,7 @@ In Fällen, in denen wir aber nicht zwingend mit Abweichungen von der Linearitä
 Ein kurzer Recap mit einem einfachen Modell, in dem wir `commitment` zur veganen Ernährung durch Einstellungen zum Tierwohl (`animals`) vorhersagen:
 
 
-``` r
+```r
 # Einfache lineare Regression
 mod_lin <- lm(commitment ~ animals, data = vegan)
 
@@ -83,15 +83,22 @@ summary(mod_lin)
 ## lm(formula = commitment ~ animals, data = vegan)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.3969 -0.3969  0.2698  0.6031  2.3150 
+##     Min      1Q  Median      3Q 
+## -3.3969 -0.3969  0.2698  0.6031 
+##     Max 
+##  2.3150 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  2.01078    0.16328   12.31   <2e-16 ***
-## animals      0.34087    0.02524   13.50   <2e-16 ***
+##             Estimate Std. Error
+## (Intercept)  2.01078    0.16328
+## animals      0.34087    0.02524
+##             t value Pr(>|t|)    
+## (Intercept)   12.31   <2e-16 ***
+## animals       13.50   <2e-16 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.9051 on 985 degrees of freedom
 ## Multiple R-squared:  0.1562,	Adjusted R-squared:  0.1554 
@@ -100,16 +107,10 @@ summary(mod_lin)
 Wir sehen hier, dass der lineare Effekt ca. 16% der Unterschiede im Commitment aufklären kann. Zur Prüfung der Linearitätsannahme hatten wir dann im letzten Beitrag `residualPlots()` aus dem `car`-Paket verwendet. Für diesen Fall reicht uns der Befehl mit der Einzahl (also `residualPlot()`), weil wir nur eine UV haben:
 
 
-``` r
+```r
 # car laden
 library(car)
-```
 
-```
-## Loading required package: carData
-```
-
-``` r
 # Residuenplot
 residualPlot(mod_lin)
 ```
@@ -121,7 +122,7 @@ Die eingezeichnete blaue Linie stellt den quadratischen Effekt dar, *wenn wir ih
 Ein anderer, häufig genutzter Ansatz sind sogenannte LOESS-Linien. Bei diesen handelt es sich um lokale Schätzer für die Zusammanhangsstruktur. Gemeint ist damit, dass an jeder Stelle der x-Achse ein nicht-lineares Regressionsmodell aufgestellt wird, welches nur die "Umgebung" (also z.B. die nähesten 50 Beobachtungen auf der x-Achse) berücksichtigt, um so detailliert die tatsächlichen Zusammenhangsstrukturen in einem Datensatz abzubilden. Dieses Vorgehen ist in der Datenexploration so gängig, dass es in `ggplot` z.B. die Voreinstellung ist:
 
 
-``` r
+```r
 # ggplot2 laden
 library(ggplot2)
 
@@ -133,7 +134,8 @@ ggplot(data = vegan, aes(x = animals, y = commitment)) +
 ```
 
 ```
-## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
+## `geom_smooth()` using method =
+## 'loess' and formula = 'y ~ x'
 ```
 
 ![](/nichtlineare-reg_files/unnamed-chunk-4-1.png)<!-- -->
@@ -158,7 +160,7 @@ wobei $a\neq 0$, da es sich sonst nicht um eine quadratische Funktion handelt. W
 Für betraglich große $x$ fällt $x^2$ besonders ins Gewicht. Damit entscheidet das Vorzeichen von $a$, ob es sich um eine u-förmige (falls $a>0$) oder eine umgekehrt-u-förmige (falls $a<0$) Beziehung handelt. Die betragliche Größe von $a$ entscheidet hierbei, wie gestaucht die u-förmige Beziehung (die Parabel) ist. Die reine quadratische Beziehung $f(x)=x^2$ sieht so aus:
 
 
-``` r
+```r
 a <- 1; b <- 0; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -173,7 +175,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 Wir werden diese Funktion immer als Referenz mit in die Grafiken einzeichnen.
 
 
-``` r
+```r
 a <- 0.5; b <- 0; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -187,7 +189,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 <img src="/nichtlineare-reg_files/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 a <- 2; b <- 0; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -202,7 +204,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 
 
 
-``` r
+```r
 a <- -1; b <- 0; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -219,7 +221,7 @@ Diese invers-u-förmige Beziehung ist eine konkave Funktion. Als Eselsbrücke f�
 
 $c$ bewirkt eine vertikale Verschiebung der Parabel:
 
-``` r
+```r
 a <- 1; b <- 0; c <- 1
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -235,7 +237,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 $b$ bewirkt eine horizontale und vertikale Verschiebung, die nicht mehr leicht vorhersehbar ist. Für $f(x)=x^2+x$ lässt sich beispielsweise durch Umformen $f(x)=x^2+x=x(x+1)$ leicht erkennen, dass diese Funktion zwei Nullstellen bei $0$ und $-1$ hat. Somit ist ersichtlich, dass die Funktion nach unten und nach links verschoben ist:
 
 
-``` r
+```r
 a <- 1; b <- 1; c <- 0
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -251,7 +253,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 Für die genaue Gestalt einer allgemeinen quadratischen Funktion $ax^2 + bx + c$ würden wir die Nullstellen durch das Lösen der Gleichung $ax^2 + bx + c=0$ bestimmen (via *p-q Formel* oder *a-b-c-Formel*). Den Scheitelpunkt würden wir durch das Ableiten und Nullsetzen der Gleichung bestimmen. Wir müssten also $2ax+b=0$ lösen und dies in die Gleichung einsetzen. Wir könnten auch die binomischen Formeln nutzen, um die Funktion in die Gestalt $f(x):=a'(x-b')^2+c'$ oder $f(x):=a'(x-b'_1)(x-b_2')+c'$ zu bekommen, falls die Nullstellen reell sind (also das Gleichungssystem *lösbar* ist), da wir so die Nullstellen ablesen können als $b'$ oder $b_1'$ und $b_2'$, falls $c=0$. Für die Interpretation der Ergebnisse reicht es zu wissen, dass $a$ eine Stauchung bewirkt und entscheind dafür ist, ob die Funktion u-förmig oder invers-u-förmig verläuft.
 
 
-``` r
+```r
 a <- -0.5; b <- 1; c <- 2
 x <- seq(-2,2,0.01)
 f <- a*x^2 + b*x + c
@@ -269,7 +271,7 @@ ggplot(data = data_X, aes(x = x,  y = f)) +
 Die direkte Übersetzung der Regressionsgleichung in `lm()` können wir also erreichen, indem wir die Variable `animals` quadrieren und in die Regressionsgleichung aufnehmen:
 
 
-``` r
+```r
 # Quadrierter Prädiktor
 vegan$animals2 <- vegan$animals^2
 
@@ -286,16 +288,24 @@ summary(mod_quad)
 ## lm(formula = commitment ~ animals + animals2, data = vegan)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.4514 -0.4514  0.2153  0.5486  1.8747 
+##     Min      1Q  Median      3Q 
+## -3.4514 -0.4514  0.2153  0.5486 
+##     Max 
+##  1.8747 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  3.68288    0.37321   9.868  < 2e-16 ***
-## animals     -0.40535    0.15224  -2.663  0.00788 ** 
-## animals2     0.07359    0.01481   4.969 7.95e-07 ***
+##             Estimate Std. Error
+## (Intercept)  3.68288    0.37321
+## animals     -0.40535    0.15224
+## animals2     0.07359    0.01481
+##             t value Pr(>|t|)    
+## (Intercept)   9.868  < 2e-16 ***
+## animals      -2.663  0.00788 ** 
+## animals2      4.969 7.95e-07 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.8944 on 984 degrees of freedom
 ## Multiple R-squared:  0.1769,	Adjusted R-squared:  0.1752 
@@ -306,7 +316,7 @@ Wir sehen hier, dass sowohl der lineare als auch der quadratische Term statistis
 Im letzten Beitrag hatten wir Multikollinearität auf zwei wegen Entdeckt: zum Einen über die einfache Korrelation zwischen Prädiktoren und zum Anderen über die Varianzinflationsfaktor (VIF) bzw. dessen Kehrwert (der Toleranz):
 
 
-``` r
+```r
 # Korrelation
 cor(vegan$animals, vegan$animals2)
 ```
@@ -315,7 +325,7 @@ cor(vegan$animals, vegan$animals2)
 ## [1] 0.9864857
 ```
 
-``` r
+```r
 # VIF
 vif(mod_quad)
 ```
@@ -335,7 +345,7 @@ Ein einfacher Weg die _nicht-essentielle_ Multikollinearität zu minimieren ist 
 Wie sich das Zentrieren auf die Korrelation auswirkt, lässt sich an einem einfachen Beispiel demonstrieren. Nehmen wir einfach die Zahl von 0 bis 9:
 
 
-``` r
+```r
 # Beispielwerte erstellen und quadrieren
 A <- 0:9
 A2 <- A^2
@@ -360,7 +370,7 @@ cbind(A, A2)
 Der Zusammenhang ist direkt erkennbar: wenn `A` steigt, steigt auch `A2`. Die Korrelation ist dabei 0.96. Wenn wir `A` vorher zentrieren passiert folgendes:
 
 
-``` r
+```r
 # Zentrierung
 Ac <- scale(A, scale = FALSE)
 Ac2 <- Ac^2
@@ -389,7 +399,7 @@ Der _lineare_ Zusammenhang zwischen den beiden Variablen verschwindet ($r = 0$),
 Dieser Weg wird extrem häufig in psychologischen Studien eingeschlagen und in Artikeln berichtet (und auch von [Eid, Gollwitzer und Schmitt, 2017, S. 675](https://ubffm.hds.hebis.de/Record/HEB366849158) empfohlen):
 
 
-``` r
+```r
 # Zentrierung des Prädiktors
 vegan$animals_c <- scale(vegan$animals, scale = FALSE)
 
@@ -411,7 +421,7 @@ Leider verschwindet hier die Korrelation nicht, sondern wir finden stattdessen e
 Wenn wir das Beispiel aus der Inforbox oben so umgestalten, dass die Variable schief verteilt ist, sehen wir das Ganze erneut direkt:
 
 
-``` r
+```r
 # Beispielwerte erstellen und quadrieren
 B <- c(0, 0, 0, 0, 0, 2, 4, 6, 8, 9)
 Bc <- scale(B, scale = FALSE)
@@ -435,7 +445,7 @@ cbind(Bc, Bc2)
 ## [10,]  6.1 37.21
 ```
 
-``` r
+```r
 # Korrelation
 cor(Bc, Bc2)
 ```
@@ -447,7 +457,7 @@ cor(Bc, Bc2)
 Hier besteht ein positiver Zusammenhang, weil niedrige Werte auf `Bc` (-2.9) mit "relativ" niedrigen Werte auf `Bc2` einhergehen. Höhere Werte auf `Bc` (3.1, 5.1, 6.1) gehen allesamt mit hohen Werten auf der quadrierten Variable einher. Wenn wir `B` jetzt einfach so erweitern, dass auch die 9 fünf mal vorkommt, sinkt die Korrelation wieder drastisch:
 
 
-``` r
+```r
 # Beispielwerte erstellen und quadrieren
 B <- c(0, 0, 0, 0, 0, 2, 4, 6, 8, 9, 9, 9, 9, 9)
 Bc <- scale(B, scale = FALSE)
@@ -469,7 +479,7 @@ Im Fall des `vegan` Datensatzes ist die entstandene Korrelation negativ, was imp
 Im Fall der `animals` Variable zeigt ein kurzer Blick auf das Histogramm, dass wir hier beim besten Willen nicht von einer symmetrischen Verteilung sprechen können:
 
 
-``` r
+```r
 # Histogramm
 hist(vegan$animals)
 ```
@@ -478,7 +488,7 @@ hist(vegan$animals)
 Im Fall des Modells mit zentriertem Prädiktor ist der VIF jetzt zwar unterhalb der typischen Daumenregel-Grenze von 10:
 
 
-``` r
+```r
 # Modell mit zentriertem Prädiktor
 mod_quad_c <- lm(commitment ~ animals_c + animals_c2, data = vegan)
 
@@ -504,7 +514,7 @@ Orthogonal Polynome bieten eine Möglichkeit, eine Variable und ihre polynomiale
 Dafür ist es allerdings notwendig für jede einzelne Anwendung eine transformation zu ermitteln, die diese Eigenschaften erfüllt. R bietet uns hierfür die `poly`-Funktion an, die wir direkt innerhalb des `lm`-Befehls nutzen können:
 
 
-``` r
+```r
 # Modell mit poly()-Prädiktor
 mod_quad_poly <- lm(commitment ~ poly(animals, 2), data = vegan)
 
@@ -518,16 +528,28 @@ summary(mod_quad_poly)
 ## lm(formula = commitment ~ poly(animals, 2), data = vegan)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -3.4514 -0.4514  0.2153  0.5486  1.8747 
+##     Min      1Q  Median      3Q 
+## -3.4514 -0.4514  0.2153  0.5486 
+##     Max 
+##  1.8747 
 ## 
 ## Coefficients:
-##                   Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)        4.18102    0.02847 146.858  < 2e-16 ***
-## poly(animals, 2)1 12.22236    0.89442  13.665  < 2e-16 ***
-## poly(animals, 2)2  4.44405    0.89442   4.969 7.95e-07 ***
+##                   Estimate Std. Error
+## (Intercept)        4.18102    0.02847
+## poly(animals, 2)1 12.22236    0.89442
+## poly(animals, 2)2  4.44405    0.89442
+##                   t value Pr(>|t|)
+## (Intercept)       146.858  < 2e-16
+## poly(animals, 2)1  13.665  < 2e-16
+## poly(animals, 2)2   4.969 7.95e-07
+##                      
+## (Intercept)       ***
+## poly(animals, 2)1 ***
+## poly(animals, 2)2 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.8944 on 984 degrees of freedom
 ## Multiple R-squared:  0.1769,	Adjusted R-squared:  0.1752 
@@ -540,7 +562,7 @@ Während dieser Ansatz garantiert, dass wir unkorrelierte Polynome erhalten und 
 Wir haben drei verschiedene Ansätze zur Aufnahme quadratischer Effekte in unser Regressionsmodell betrachtet. Bevor wir debattieren, welcher Ansatz in welchen Situationen nützlich ist, macht es Sinn kurz darauf einzugehen, was zwischen den drei Ansätzen gleich ist. Zunächst ist wichtig, dass alle drei Modelle eigentlich aus den gleichen Daten die gleichen Vorhersagen versuchen und die Transformation der Daten lediglich Parameter und deren Standardfehler ändert. Die aufgeklärte Varianz hingegen, ist in allen drei Ansätzen identisch:
 
 
-``` r
+```r
 # R-Quadrat, Rohwerte
 summary(mod_quad)$r.squared
 ```
@@ -549,7 +571,7 @@ summary(mod_quad)$r.squared
 ## [1] 0.1768601
 ```
 
-``` r
+```r
 # R-Quadrat, Zentrierung
 summary(mod_quad_c)$r.squared
 ```
@@ -558,7 +580,7 @@ summary(mod_quad_c)$r.squared
 ## [1] 0.1768601
 ```
 
-``` r
+```r
 # R-Quadrat, poly()
 summary(mod_quad_poly)$r.squared
 ```
@@ -570,7 +592,7 @@ summary(mod_quad_poly)$r.squared
 Da alle drei $R^2$ identisch sind, muss auch das $\Delta R^2$ gegenüber dem linearen Modell (der Zugewinn durch die Aufnahme des quadratischen Terms) identisch sein. Wie schon gesehen, ist das hier $\Delta R^2 = 0.02$. Schon in [früheren Beiträgen](/lehre/statistik-ii/multreg-inf-mod) hatten wir mittels `anova` geprüft, ob ein Zugewinn in der Varianzaufklärung statistisch bedeutsam ist:
 
 
-``` r
+```r
 # Modellvergleich, Rohwerte
 anova(mod_lin, mod_quad)
 ```
@@ -580,14 +602,19 @@ anova(mod_lin, mod_quad)
 ## 
 ## Model 1: commitment ~ animals
 ## Model 2: commitment ~ animals + animals2
-##   Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
-## 1    985 806.94                                  
-## 2    984 787.19  1     19.75 24.687 7.948e-07 ***
+##   Res.Df    RSS Df Sum of Sq      F
+## 1    985 806.94                    
+## 2    984 787.19  1     19.75 24.687
+##      Pr(>F)    
+## 1              
+## 2 7.948e-07 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ```
 
-``` r
+```r
 # Modellvergleich, Zentrierung
 anova(mod_lin, mod_quad_c)
 ```
@@ -597,14 +624,19 @@ anova(mod_lin, mod_quad_c)
 ## 
 ## Model 1: commitment ~ animals
 ## Model 2: commitment ~ animals_c + animals_c2
-##   Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
-## 1    985 806.94                                  
-## 2    984 787.19  1     19.75 24.687 7.948e-07 ***
+##   Res.Df    RSS Df Sum of Sq      F
+## 1    985 806.94                    
+## 2    984 787.19  1     19.75 24.687
+##      Pr(>F)    
+## 1              
+## 2 7.948e-07 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ```
 
-``` r
+```r
 # Modellvergleich, poly()
 anova(mod_lin, mod_quad_poly)
 ```
@@ -614,56 +646,81 @@ anova(mod_lin, mod_quad_poly)
 ## 
 ## Model 1: commitment ~ animals
 ## Model 2: commitment ~ poly(animals, 2)
-##   Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
-## 1    985 806.94                                  
-## 2    984 787.19  1     19.75 24.687 7.948e-07 ***
+##   Res.Df    RSS Df Sum of Sq      F
+## 1    985 806.94                    
+## 2    984 787.19  1     19.75 24.687
+##      Pr(>F)    
+## 1              
+## 2 7.948e-07 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ```
 
 Auch diese sind allesamt identisch. Da der Modellvergleich für die Aufnahme _eines_ Prädiktors dem Test des Regressionsgewichts entspricht, müsste auch dieser identisch sein:
 
 
-``` r
+```r
 # Modellergebnisse, Rohwerte
 summary(mod_quad)$coef
 ```
 
 ```
-##                Estimate Std. Error   t value     Pr(>|t|)
-## (Intercept)  3.68287843 0.37321105  9.868085 5.756669e-22
-## animals     -0.40534714 0.15224300 -2.662501 7.882786e-03
-## animals2     0.07359022 0.01481094  4.968638 7.948045e-07
+##                Estimate Std. Error
+## (Intercept)  3.68287843 0.37321105
+## animals     -0.40534714 0.15224300
+## animals2     0.07359022 0.01481094
+##               t value     Pr(>|t|)
+## (Intercept)  9.868085 5.756669e-22
+## animals     -2.662501 7.882786e-03
+## animals2     4.968638 7.948045e-07
 ```
 
-``` r
+```r
 # Modellergebnisse, Zentrierung
 summary(mod_quad_c)$coef
 ```
 
 ```
-##               Estimate Std. Error    t value     Pr(>|t|)
-## (Intercept) 4.08516070 0.03439098 118.785805 0.000000e+00
-## animals_c   0.53171652 0.04579923  11.609726 2.702879e-29
-## animals_c2  0.07359022 0.01481094   4.968638 7.948045e-07
+##               Estimate Std. Error
+## (Intercept) 4.08516070 0.03439098
+## animals_c   0.53171652 0.04579923
+## animals_c2  0.07359022 0.01481094
+##                t value     Pr(>|t|)
+## (Intercept) 118.785805 0.000000e+00
+## animals_c    11.609726 2.702879e-29
+## animals_c2    4.968638 7.948045e-07
 ```
 
-``` r
+```r
 # Modellergebnisse, poly()
 summary(mod_quad_poly)$coef
 ```
 
 ```
-##                    Estimate Std. Error    t value     Pr(>|t|)
-## (Intercept)        4.181020 0.02846973 146.858440 0.000000e+00
-## poly(animals, 2)1 12.222358 0.89442082  13.665109 4.716036e-39
-## poly(animals, 2)2  4.444054 0.89442082   4.968638 7.948045e-07
+##                    Estimate
+## (Intercept)        4.181020
+## poly(animals, 2)1 12.222358
+## poly(animals, 2)2  4.444054
+##                   Std. Error
+## (Intercept)       0.02846973
+## poly(animals, 2)1 0.89442082
+## poly(animals, 2)2 0.89442082
+##                      t value
+## (Intercept)       146.858440
+## poly(animals, 2)1  13.665109
+## poly(animals, 2)2   4.968638
+##                       Pr(>|t|)
+## (Intercept)       0.000000e+00
+## poly(animals, 2)1 4.716036e-39
+## poly(animals, 2)2 7.948045e-07
 ```
 
 In allen drei Fällen sehen wir als $t$-Wert für den quadratischen Effekt 4.97 (welches, wie wir im 1. Semester gesehen hatten die Quadratwurzel des $F$-Werts aus dem Modellvergleich ist). Die Unterschiede zwischen den Ansätzen bestehen also lediglich in den Regressionsgewichten und der Inferenz bezüglich des linearen Effekts und des Intercepts. Auch die Vorhersagen aus den drei Modellen sind identisch:
 
 
-``` r
+```r
 # Vorhersagen, Rohwerte
 predict(mod_quad)[1:3]
 ```
@@ -673,7 +730,7 @@ predict(mod_quad)[1:3]
 ## 3.238933 4.451369 4.451369
 ```
 
-``` r
+```r
 # Vorhersagen, Zentrierung
 predict(mod_quad_c)[1:3]
 ```
@@ -683,7 +740,7 @@ predict(mod_quad_c)[1:3]
 ## 3.238933 4.451369 4.451369
 ```
 
-``` r
+```r
 # Vorhersagen, poly()
 predict(mod_quad_poly)[1:3]
 ```
@@ -702,7 +759,7 @@ Wie bereits erwähnt ist in der Psychologie der Ansatz der Zentrierung am weites
 Egal ob wir uns für die Zentrierung oder die Nutzung von `poly` entscheiden, es macht Sinn sich das Modell ein wenig zu veranschaulichen. Zum Glück haben wir uns schon ausgiebig damit beschäftigt, wie man [Grafiken mit `ggplot2`](/lehre/statistik-ii/grafiken-ggplot2) erstellt. Wie weiter oben, als wir uns die LOESS-Linie angeguckt hatten, können wir auch hier mit `geom_smooth` arbeiten:
 
 
-``` r
+```r
 # Abbildung des Modells
 ggplot(data = vegan, aes(x = animals, y = commitment)) +
   geom_point() +
@@ -712,7 +769,7 @@ ggplot(data = vegan, aes(x = animals, y = commitment)) +
 
 ![](/nichtlineare-reg_files/unnamed-chunk-26-1.png)<!-- -->
 
-``` r
+```r
   labs(title = "Scatterplot mit quadratischer Regression")
 ```
 
@@ -737,7 +794,7 @@ In der Realität hört das Testen von Polynomen meistens bei der dritten Ordnung
 Weil wir gerade gesehen haben, dass die unterschiedlichen Varianten der Prädiktorbehandlung (Rohwerte, Zentrierung, `poly`) für den höhesten Term (vorhin noch der quadratische) identische Inferenz liefern, wähle ich hier den `poly`-Ansatz, um den kubischen Effekt zu testen, weil er der einfachste in der Syntax-Umsetzung ist:
 
 
-``` r
+```r
 # Modell mit kubischem Effekt
 mod_cubic <- lm(commitment ~ poly(animals, 3), data = vegan)
 
@@ -750,17 +807,22 @@ anova(mod_quad_poly, mod_cubic)
 ## 
 ## Model 1: commitment ~ poly(animals, 2)
 ## Model 2: commitment ~ poly(animals, 3)
-##   Res.Df    RSS Df Sum of Sq     F  Pr(>F)  
-## 1    984 787.19                             
-## 2    983 784.39  1    2.8024 3.512 0.06122 .
+##   Res.Df    RSS Df Sum of Sq     F
+## 1    984 787.19                   
+## 2    983 784.39  1    2.8024 3.512
+##    Pr(>F)  
+## 1          
+## 2 0.06122 .
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ```
 
 Im direkten Vergleich scheint der kubische Effekt nicht statistisch bedeutsam zu sein. Das $\Delta R^2 = 0.003$ ist auch sehr überschaubar. Auch wenn wir uns in diesem Fall für das quadratische Modell entscheiden, hier noch eine kurze Darstellung der drei Modelle (linear, quadratisch, kubisch), um die Implikationen der jeweiligen nicht-Linearität zu verdeutlichen:
 
 
-``` r
+```r
 # Abbildung des Modells
 ggplot(data = vegan, aes(x = animals, y = commitment)) +
   geom_point() +
@@ -785,14 +847,14 @@ Um uns anzugucken, wie logarithmische Effekte modelliert werden, nutzen wir Date
 Eine volle Liste der Aussage, für die diese Effekte untersucht wurden haben wir [hier](/daten/datensaetze/#trivia-trivia) bereitgestellt. Für unser Beispiel beschränken wir uns auf die Aussage "In the story of Pinnochio, the goldfish is named Cleo." Dafür müssen wir zunächst die Daten einlesen und dann auf diese Aussage einschränken:
 
 
-``` r
+```r
 # Daten einlesen
 source("https://pandar.netlify.app/daten/Data_Processing_trivia.R")
 ```
 
 
 
-``` r
+```r
 # Einschränken auf Pinnochio
 trivia <- subset(trivia, headline == 3)
 ```
@@ -819,7 +881,7 @@ Wie vorhin bei den Polynomen, sollten wir auch in diesem Fall die modellierte Fo
 Erstellen wir zunächst wieder das lineare Modell - als Baseline die einfachste Form des Zusammenhangs abzubilden:
 
 
-``` r
+```r
 # Lineare Regression
 mod_lin <- lm(rating ~ repetition, data = trivia)
 
@@ -833,15 +895,22 @@ summary(mod_lin)
 ## lm(formula = rating ~ repetition, data = trivia)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -4.5172 -0.5899  0.4101  1.1010  1.6419 
+##     Min      1Q  Median      3Q 
+## -4.5172 -0.5899  0.4101  1.1010 
+##     Max 
+##  1.6419 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  4.28080    0.09410  45.494  < 2e-16 ***
-## repetition   0.07727    0.01135   6.811  3.3e-11 ***
+##             Estimate Std. Error
+## (Intercept)  4.28080    0.09410
+## repetition   0.07727    0.01135
+##             t value Pr(>|t|)    
+## (Intercept)  45.494  < 2e-16 ***
+## repetition    6.811  3.3e-11 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.27 on 428 degrees of freedom
 ## Multiple R-squared:  0.09779,	Adjusted R-squared:  0.09568 
@@ -850,7 +919,7 @@ summary(mod_lin)
 Die Ergebnisse zeigen zunächst, dass es einen bedeutsamen Effekt der Anzahl der Wiederholungen auf die Wahrheitseinschätzung gibt ($R^2 \approx 0.1$). Wenn wir die unabhängige Variable (die Anzahl an Wiederholungen) logarithmieren, zeigen sich folgende Ergebnisse:
 
 
-``` r
+```r
 # Logarithmische Regression
 mod_log <- lm(rating ~ log(repetition), data = trivia)
 
@@ -864,15 +933,22 @@ summary(mod_log)
 ## lm(formula = rating ~ log(repetition), data = trivia)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -4.4238 -0.7510  0.2490  0.9126  1.9218 
+##     Min      1Q  Median      3Q 
+## -4.4238 -0.7510  0.2490  0.9126 
+##     Max 
+##  1.9218 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)      4.07819    0.10747  37.949  < 2e-16 ***
-## log(repetition)  0.48534    0.06261   7.752 6.65e-14 ***
+##                 Estimate Std. Error
+## (Intercept)      4.07819    0.10747
+## log(repetition)  0.48534    0.06261
+##                 t value Pr(>|t|)    
+## (Intercept)      37.949  < 2e-16 ***
+## log(repetition)   7.752 6.65e-14 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.252 on 428 degrees of freedom
 ## Multiple R-squared:  0.1231,	Adjusted R-squared:  0.1211 
@@ -881,7 +957,7 @@ summary(mod_log)
 Der Effekt ist ebenfalls statistisch bedeutsam, die aufgeklärte Varianz ist sogar ein bisschen größer ($R^2 \approx 0.12$). Bilden wir beide Zusammenhänge mal im Kontext der Daten ab:
 
 
-``` r
+```r
 # Abbildung der Modelle
 ggplot(data = trivia, aes(x = repetition, y = rating)) +
   geom_point() +
@@ -896,7 +972,7 @@ Wegen des experimentellen Designs und der Einschränkung der Skalenwerte von 1 b
 Um die beide Modelle direkt zu vergleichen hatten wir bereits im Rahmen des [Beitrags zur Prädiktorauswal](/lehre/statistik-ii/multreg-inf-mod) eine Alternative zum einfachen Modellvergleich via $F$-Test kennengelernt: Informationskriterien wie z.B. das Akaike Informationskriterium (AIC). Während der Modellvergleich via $F$-Test nur dann sinnvoll ist, wenn ein Modell durch Einschränkungen aus dem anderen Modell hervorgeht (und so das $\Delta R^2$ auf diese Veränderung attribuiert werden kann), können wir Informationskriterien auch nutzen, um Modelle zu vergleichen, die nicht die gleichen Prädiktoren nutzen, solange die gleiche abhängige Variable im gleichen Datensatz vorhergesagt wird. Mit `AIC` können wir uns den AIC des entsprechenden Modells ausgeben lassen:
 
 
-``` r
+```r
 # AIC der Modelle
 AIC(mod_lin, mod_log)
 ```
@@ -913,7 +989,7 @@ Wie zu sehen ist, bevorzugt der AIC hier das Modell mit dem logarithmischen Prä
 Neben dem (schon gezeigten) Bild, helfen auch vorhergesagte Werte immer dabei, die Regressionsparameter angemessen zu interpretieren. Durch die Logarithmierung der unabhängigen Variable, können wir die Regressionsparameter nicht wie gewohnt interpretieren, sondern müssen berücksichtigen, dass der Effekt von Unterschieden in $X$ über die Skala hinweg unterschiedlich ist. Generell finde ich es am einfachsten (und Sie können da anderer Meinung sein, was die Definition des Wortes "einfach" betrifft), Effekte von logarithmierten Variablen in Verdoppelungen zu denken. Was ich damit meine: wir können die Werte für eine Sequenz sich verdoppelnder Werte vorhersagen:
 
 
-``` r
+```r
 # Wertereihe
 newX <- data.frame(repetition = c(1, 2, 4, 8, 16))
 
@@ -933,7 +1009,7 @@ cbind(newX, pred_log)
 (Glücklicherweise sind das genau die Werte, die auch in der Studie von [Fazio et al. (2022)](https://doi.org/10.1037/xge0001211) für die Ausprägungen der Wiederholungen genutzt werden, was für ein unglaublicher Zufall.) Die Differenz zwischen diesen Werten ist immer identisch:
 
 
-``` r
+```r
 # Differenzen
 diff(pred_log)
 ```
@@ -969,7 +1045,7 @@ $$
 Das Regressionsgewicht selbst ist (weil wir leichtsinnig den natürlichen Logarithmus gewählt haben) der Unterschied zwischen den vorhergesagten Werten, wenn die unabhängige Variable mit der Euler'schen Zahl $e$ multipliziert wird. Um uns selbst das Leben ein wenig einfacher zu machen, könnten wir also eine Logarithmustransformation wählen, die etwas leichter interpretierbar ist:
 
 
-``` r
+```r
 # Logarithmische Regression, Basis 2
 mod_log2 <- lm(rating ~ log(repetition, base = 2), data = trivia)
 
@@ -983,15 +1059,31 @@ summary(mod_log2)
 ## lm(formula = rating ~ log(repetition, base = 2), data = trivia)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -4.4238 -0.7510  0.2490  0.9126  1.9218 
+##     Min      1Q  Median      3Q 
+## -4.4238 -0.7510  0.2490  0.9126 
+##     Max 
+##  1.9218 
 ## 
 ## Coefficients:
-##                           Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)                 4.0782     0.1075  37.949  < 2e-16 ***
-## log(repetition, base = 2)   0.3364     0.0434   7.752 6.65e-14 ***
+##                           Estimate
+## (Intercept)                 4.0782
+## log(repetition, base = 2)   0.3364
+##                           Std. Error
+## (Intercept)                   0.1075
+## log(repetition, base = 2)     0.0434
+##                           t value
+## (Intercept)                37.949
+## log(repetition, base = 2)   7.752
+##                           Pr(>|t|)
+## (Intercept)                < 2e-16
+## log(repetition, base = 2) 6.65e-14
+##                              
+## (Intercept)               ***
+## log(repetition, base = 2) ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.252 on 428 degrees of freedom
 ## Multiple R-squared:  0.1231,	Adjusted R-squared:  0.1211 
@@ -1000,7 +1092,7 @@ summary(mod_log2)
 Durch die Magie der Mathematik ist das Regressionsgewicht genau der Wert, den wir gerade als Differenz der vorhergesagten Werte bestimmt haben, wenn die unabhängige Variable verdoppelt wird. Darüber hinaus sind $R^2$ und AIC der beiden Modelle identisch:
 
 
-``` r
+```r
 # R-Quadrat der Modelle
 summary(mod_log)$r.squared
 ```
@@ -1009,7 +1101,7 @@ summary(mod_log)$r.squared
 ## [1] 0.1231201
 ```
 
-``` r
+```r
 summary(mod_log2)$r.squared
 ```
 
@@ -1017,7 +1109,7 @@ summary(mod_log2)$r.squared
 ## [1] 0.1231201
 ```
 
-``` r
+```r
 # AIC der Modelle
 AIC(mod_log, mod_log2)
 ```
@@ -1040,14 +1132,14 @@ In diesem Tutorial haben wir nichtlineare Regressionsmodelle als Erweiterung der
 Wir vergleichen nun an einem ganz einfachen Beispiel, was `poly` und was Zentrierung bewirkt. Dazu erstellen wir einen Vektor (also eine Variable) $A$ der die Zahlen von 0 bis 10 enthält in 0.1 Schritten:
 
 
-``` r
+```r
 A <- seq(0, 10, 0.1)
 ```
 
 Nun bestimmen wir zunächst die Korrelation zwischen $A$ und $A^2$:
 
 
-``` r
+```r
 cor(A, A^2)
 ```
 
@@ -1057,7 +1149,7 @@ cor(A, A^2)
 welche sehr hoch ausfällt. Wir hatten bereits mit `poly` erkannt, dass diese Funktion die linearen und quadratischen Anteile trennt. Nun zentrieren wir die Daten. Das geht entweder händisch oder mit der `scale` Funktion:
 
 
-``` r
+```r
 A_c <- A - mean(A)
 mean(A_c)
 ```
@@ -1066,7 +1158,7 @@ mean(A_c)
 ## [1] 2.639528e-16
 ```
 
-``` r
+```r
 A_c2 <- scale(A, center = T, scale = F)  # scale = F bewirkt, dass nicht auch noch die SD auf 1 gesetzt werden soll
 mean(A_c2)
 ```
@@ -1078,7 +1170,7 @@ mean(A_c2)
 Nun vergleichen wir die Korrelationen zwischen $A_c$ mit $A_c^2$ mit den Ergebnissen von `poly`:
 
 
-``` r
+```r
 cor(A_c, A_c^2)
 ```
 
@@ -1086,7 +1178,7 @@ cor(A_c, A_c^2)
 ## [1] 1.763581e-16
 ```
 
-``` r
+```r
 cor(poly(A, 2))
 ```
 
@@ -1096,7 +1188,7 @@ cor(poly(A, 2))
 ## 2 9.847944e-17 1.000000e+00
 ```
 
-``` r
+```r
 # auf 15 Nachkommastellen gerundet:
 round(cor(A_c, A_c^2), 15)
 ```
@@ -1105,7 +1197,7 @@ round(cor(A_c, A_c^2), 15)
 ## [1] 0
 ```
 
-``` r
+```r
 round(cor(poly(A, 2)), 15) 
 ```
 
@@ -1119,7 +1211,7 @@ beide Vorgehensweisen sind bis auf 15 Nachkommastellen identisch!
 Spaßeshalber nehmen wir noch die Terme $A^3$ und $A^4$ auf und vergleichen die Ergebnisse:
 
 
-``` r
+```r
 # auf 15 Nachkommastellen gerundet:
 round(cor(cbind(A, A^2, A^3, A^4)), 2)
 ```
@@ -1132,7 +1224,7 @@ round(cor(cbind(A, A^2, A^3, A^4)), 2)
 ##   0.86 0.96 0.99 1.00
 ```
 
-``` r
+```r
 round(cor(cbind(A_c, A_c^2, A_c^3, A_c^4)), 2) 
 ```
 
@@ -1144,7 +1236,7 @@ round(cor(cbind(A_c, A_c^2, A_c^3, A_c^4)), 2)
 ##     0.00 0.96 0.00 1.00
 ```
 
-``` r
+```r
 round(cor(poly(A, 4)), 2)
 ```
 
@@ -1190,7 +1282,7 @@ Folglich können wir sagen, dass
 wobei wir hier benutzen, dass die Kovarianz mit sich selbst die Varianz ist und dass die zentrierte Variable $A_c$ die gleiche Varianz wie $A$ hat  (im Allgemeinen, siehe weiter unten, bleibt auch noch die Kovarianz zwischen $A_c$ und $A_c^2$ erhalten). Dies können wir leicht prüfen:
 
 
-``` r
+```r
 var(A)
 ```
 
@@ -1198,7 +1290,7 @@ var(A)
 ## [1] 8.585
 ```
 
-``` r
+```r
 var(A_c)
 ```
 
@@ -1206,7 +1298,7 @@ var(A_c)
 ## [1] 8.585
 ```
 
-``` r
+```r
 # Kovarianz 
 cov(A, A^2)
 ```
@@ -1215,7 +1307,7 @@ cov(A, A^2)
 ## [1] 85.85
 ```
 
-``` r
+```r
 2*mean(A)*var(A)
 ```
 
@@ -1223,7 +1315,7 @@ cov(A, A^2)
 ## [1] 85.85
 ```
 
-``` r
+```r
 # zentriert:
 round(cov(A_c, A_c^2), 14)
 ```
@@ -1232,7 +1324,7 @@ round(cov(A_c, A_c^2), 14)
 ## [1] 0
 ```
 
-``` r
+```r
 round(2*mean(A_c)*var(A_c), 14)
 ```
 
@@ -1347,7 +1439,7 @@ $$10^3=e^{\text{ln}(10^3)}=e^{3\text{ln}(10)}=1000$$
 Da sich durch *e* und *ln* alle exponentiellen Verläufe darstellen lassen, wird in der Mathematik häufig *log* als das Symbol für den natürlich Logarithmus verwendet; so ist es auch in `R`: ohne weitere Einstellungen ist `log` der natürliche Logarithmus und `exp` ist die Exponentialfunktion. Mit Hilfe von `log(..., base = 10)` erhalten sie beispielsweise den 10er-Logarithmus. Probieren Sie die obige Gleichung selbst aus:
 
 
-``` r
+```r
 # gleiches Ergebnis:
 10^3
 ```
@@ -1356,7 +1448,7 @@ Da sich durch *e* und *ln* alle exponentiellen Verläufe darstellen lassen, wird
 ## [1] 1000
 ```
 
-``` r
+```r
 exp(3*log(10))
 ```
 
@@ -1364,7 +1456,7 @@ exp(3*log(10))
 ## [1] 1000
 ```
 
-``` r
+```r
 # gleiches Ergebnis:
 log(10^3, base = 10) # Logarithmus von 1000 zur Basis 10
 ```
@@ -1373,7 +1465,7 @@ log(10^3, base = 10) # Logarithmus von 1000 zur Basis 10
 ## [1] 3
 ```
 
-``` r
+```r
 log(10^3)/log(10) # mit ln
 ```
 
@@ -1381,7 +1473,7 @@ log(10^3)/log(10) # mit ln
 ## [1] 3
 ```
 
-``` r
+```r
 # gleiches Ergebnis:
 log(9, base = 3) # Logarithmus von 9 zur Basis 3
 ```
@@ -1390,7 +1482,7 @@ log(9, base = 3) # Logarithmus von 9 zur Basis 3
 ## [1] 2
 ```
 
-``` r
+```r
 log(9)/log(3) # mit ln
 ```
 

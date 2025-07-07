@@ -138,7 +138,7 @@ ggplot(edu_2014)
 
 Was entsteht ist eine leere Fläche. Wie bereits beschrieben, besteht eine Abbildung in `ggplot2` immer aus den drei Komponenten Daten, Geometrie und Ästhetik. Bisher haben wir nur eine festgelegt. Als erste Ästhetik sollten wir festlegen, welche Variablen auf den Achsen dargestellt werden sollen. Im letzten Semester war der erste Plot, den wir uns angeguckt hatten ein Balkendiagramm (über Tortendiagramme werden wie nie wieder reden). Bei diesen waren auf der x-Achse immer die Kategorien einer nominalskalierte Variable und auf der y-Achse die Häufigkeit dieser Kategorien dargestellt.  
 
-```{r empty_bar1, fig=TRUE, echo=-1, height = 4, width = 6}
+```{r Leeres-Balkendiagramm, fig=TRUE, echo=-1, height = 4, width = 6}
 # Erste Ästhetik (x-Achse) festlegen
 ggplot(edu_2014, aes(x = Wealth))
 ```
@@ -163,7 +163,7 @@ Ich habe in diesem Fall nur vier der möglichen Ausprägungen als `levels` dekla
 
 Wenn wir jetzt noch einmal die Fläche aufspannen, sehen wir direkt eine etwas schönere Benennung:
 
-```{r empty_bar2, fig=TRUE, echo = -1}
+```{r Erweitertes-Balkendiagramm, fig=TRUE, echo = -1}
 # Erste Ästhetik (x-Achse) festlegen
 ggplot(edu_2014, aes(x = Wealth))
 ```
@@ -177,7 +177,7 @@ Wenn uns also etwas in unserer Abbildung nicht gefällt, ist der Ansatz in `ggpl
 
 Jetzt fehlt uns noch die geometrische Form, mit der die Daten abgebildet werden sollen. Für die Geometrie-Komponente stehen in `ggplot2` sehr viele Funktionen zur Verfügung, die allesamt mit `geom_` beginnen. Eine Übersicht über die Möglichkeiten findet sich z.B. [hier](https://ggplot2.tidyverse.org/reference/#section-layer-geoms). Naheliegenderweise nehmen wir für ein Balkendiagramm _bar_ als die geometrische Form (`geom_bar`), die wir darstellen wollen. Neue Schichten werden in ihrer eigenen Funktion erzeugt und mit dem einfachen `+` zu einem bestehenden Plot hinzugefügt. Für ein Balkendiagramm sieht das Ganze also einfach so aus:
 
-```{r simple_scatter, fig=TRUE, echo=-1}
+```{r Einfacher-Scatterplot, fig=TRUE, echo=-1}
 # Nun wird der fertige Scatter Plot zwischen Grundschulbildung und Education Index dargestellt
 ggplot(edu_2014, aes(x = Wealth)) +
   geom_bar()
@@ -192,14 +192,14 @@ In der Abbildung sieht es zunächst ganz danach aus, als hätten hauptsächlich 
 Einer der Vorteile, die sich durch das Schichten der Abbildungen ergibt ist, dass wir Teile der Abbildung als Objekte definieren können und sie in verschiedenen Varianten wieder benutzen können. Das hilft besonders dann, wenn wir unterschiedliche Geometrie in einer gemeinsamen Abbildung darstellen wollen oder z.B. erst einmal eine Abbildung definieren wollen, bevor wir Feinheiten adjustieren.
 
 
-```{r basic_plot, echo=-1}
+```{r Basic-Plot, echo=-1}
 # Speichert eine Grundlagenschicht in ggplot, basierend auf data und aes, diese gilt als Basis für die danach erstellten Grafiken
 basic <- ggplot(edu_2014, aes(x = Wealth))
 ```
 
 In `basic` wird jetzt die *Anleitung* für die Erstellung der Grafik gespeichert. Erstellt wird die Grafik aber erst, wenn wir das Objekt aufrufen. Dabei können wir das Objekt auch mit beliebigen anderen Komponenten über `+` kombinieren:
 
-```{r object_combos, echo=-1}
+```{r Objekt-Kombo, echo=-1}
 # Grundschema wird zusammen mit der Geometrie "Balken" aufgerufen
 basic + geom_bar()
 ```
@@ -242,13 +242,13 @@ edu_2014$Region <- factor(edu_2014$Region, levels = c('africa', 'americas', 'asi
 
 Jetzt können wir die Balken nach Regionen gruppieren:
 
-```{r stacked-barplot, fig=TRUE}
+```{r Gestapeltes-Balkendiagramm, fig=TRUE}
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40')
 ```
 Per Voreinstellung wird in `ggplot` ein sogenannter "stacked" Barplot erstellt, bei dem die Balken übereinander gestapelt werden. Üblicher ist aber häufig die Darstellung nebeneinander. Dafür können wir z.B. das `position`-Argument anpassen:
 
-```{r grouped-barplot, fig=TRUE}
+```{r Gruppiertes-Balkendiagramm, fig=TRUE}
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge')
 ```
@@ -270,7 +270,7 @@ bars <- ggplot(edu_2014, aes(x = Wealth, group = Region)) +
 
 Um das Theme einer Abbildung zu verändern, können Sie es - wie Geometrie - mit dem `+` hinzufügen.
 
-```{r theme-minimal, fig=TRUE, echo=-1}
+```{r Themes, fig=TRUE, echo=-1}
 # Minimal theme
 bars + theme_minimal()
 ```
@@ -291,14 +291,14 @@ library(ggthemes)
 
 Dieses Paket liefert (neben anderen optischen Erweiterungen) über 20 neue Themes, die häufig den Visualisierungen in kommerzieller Software oder in bestimmten Publikationen nachempfunden sind. In Anlehnung an weit verbreitete Grundprinzipien zur Grafikgestaltung nutzen wir als allererstes natürlich das nach Tuftes "maximal Data, minimal Ink"-Prinzip erstellte Theme:
 
-```{r tufte, fig = TRUE, echo=-1}
+```{r, fig = TRUE, echo=-1}
 # maximal Data, minimal Ink - Theme
 bars + theme_tufte()
 ```
 
 Aber es gibt natürlich auch etwas komplexer aussehende Themes. Wenn Sie Sich schon immer wie ein:e Excelnutzer:in in den 90ern fühlen wollten, gibt es z.B. dieses wunderschöne Theme: 
 
-```{r gdocs, fig = TRUE, echo=-1}
+```{r, fig = TRUE, echo=-1}
 # Komplexeres Theme
 bars + theme_excel()
 ```
@@ -325,7 +325,7 @@ Eine der wichtigsten Komponenten jeder Abbildung ist die Beschriftung. Nur wenn 
 
 Für unsere Abbildung wäre es sinnvoll, neben einem Titel auch eine aussagekräftigere Beschriftung der Achsen und der Legende vorzunehmen. 
 
-```{r labeled, fig = TRUE, echo=-1}
+```{r Labels, fig = TRUE, echo=-1}
 # Einfügen von Beschriftungen für die einzelnen Bestandteile und Achsen
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = 'grey40', position = 'dodge') +

@@ -52,13 +52,13 @@ Für die heutige Sitzung wird der Datensatz  [<i class="fas fa-download"></i> "a
 
 Wir laden zunächst die Daten, entweder lokal von Ihrem Rechner:
 
-```{r, eval = F}
+```{r, eval = F, purl=FALSE}
 load("C:/Users/Musterfrau/Desktop/alc.rda")
 ```
 
 oder wir laden sie direkt über die Website:
 
-```{r}
+```{r Datensatz laden}
 load(url("https://pandar.netlify.app/daten/alc.rda"))
 ```
 
@@ -80,7 +80,7 @@ In Datensätzen, bei denen wir Arten von Messwiederholungen haben, können diese
 | 3 | 1 | 2 |  3 | 0 | 
 
 
-Im langen Format hingegen bekommt jede Versuchsperson für jeden Messzeitpunkt eine Spalte. Variablen, die häufiger gemessen wurden, ändern sich dann je nach Zeile für eine Person, während einmal gemessene Variablen gleichbleiben. Als Indikator für den Messzeitpunkt wird eine neue Spalte eingeführt. Die gerade aufgeführte Tabelle würde dann so aussehen:
+Im langen Format hingegen bekommt jede Versuchsperson für jeden Messzeitpunkt eine Spalte. Variablen, die häufiger gemessen wurden, ändern sich dann je nach Zeile für eine Person, während einmal gemessene Variablen gleich bleiben. Als Indikator für den Messzeitpunkt wird eine neue Spalte eingeführt. Die gerade aufgeführte Tabelle würde dann so aussehen:
 
 | ID| age | alc | male |
 | --- | ---  | --- | --- | 
@@ -94,13 +94,13 @@ Im langen Format hingegen bekommt jede Versuchsperson für jeden Messzeitpunkt e
 | 3 | 15 | 2 | 0 |
 | 3 | 16 | 3 | 0 |
 
-Wenn wir uns den Datensatz `alc` anschauen, sehen wir, dass er erstmal im breiten Format vorliegt. Eine weitere Bestätigung dafür ist, dass jede `ID` auch nur einmal vorkommt.
+Wenn wir uns den Datensatz `alc` anschauen sehen wir, dass er erstmal im breiten Format vorliegt. Eine weitere Bestätigung dafür ist, dass jede `ID` auch nur einmal vorkommt.
 
 ```{r}
 table(alc$id)
 ```
 
-Wie bereits geschildert verlangen unterschiedliche Analysen den Datensatz in einem unterschiedlichen Format. Daher wollen wir an dieser Stelle einmal betrachten, wie wir den Datensatz von dem einen in das andere Format *transformieren* können. In R gibt es hierfür die `reshape()`-Funktion, welche unterschiedliche Argumente benötigt, je nachdem, in welche Richtung die Daten transformiert werden sollen. Hier wollen wir zunächst aus dem vorliegenden breiten Format in das lange Format umwandeln.
+Wie bereits geschildert verlangen unterschiedliche Analysen den Datensatz in einem unterschiedlichen Format. Daher wollen wir an dieser Stelle einmal betrachten, wie wir den Datensatz von dem einen in das andere Format *transformieren* können. In R gibt es hierfür die `reshape()`-Funktion, welche unterschiedliche Argumente benötigt, je nachdem, in welche Richtung die Daten transformiert werden sollen. Hier wollen wir aus dem zunächst aus dem vorliegenden breiten Format in das lange Format umwandeln.
 
 Weil die Benennung und Handhabung von Argumenten in `reshape()` mitunter etwas unübersichtlich ist, empfiehlt es sich mit `?reshape` die Hilfe aufzurufen. Für die Umwandlung von breit nach lang sind drei Argumente zwingend erforderlich:
 
@@ -110,7 +110,7 @@ Weil die Benennung und Handhabung von Argumenten in `reshape()` mitunter etwas u
 
 Den umgewandelten Datensatz wollen wir direkt ablegen. Allerdings wollen wir den Datensatz im breiten Format nicht überschreiben, weshalb wir den Namen `alc_long` verwenden. Im Minimalfall sieht die Umwandlung also so aus:
 
-```{r}
+```{r Datentransformation}
 alc_long <- reshape(data = alc,
   varying = list(c('alcuse.14', 'alcuse.15', 'alcuse.16')),
   direction = 'long')
@@ -120,7 +120,7 @@ head(alc_long)
 
 Das Argument `varying` bedarf einer zweiten Betrachtung: hier wird eine Liste von Vektoren erstellt. Die Vektoren enthalten jeweils die Namen der Variablen, die zusammen Messwiederholungen der gleichen Variable sind. Wenn wir z.B. einen weiteren Satz aus drei Variablen hätten, die `weeduse` hieße, würde diese Liste so aussehen (würde hier einen Fehler geben, weil die Variablen nicht im Datensatz enthalten sind):
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, purl=FALSE}
 varying = list(c('alcuse.14', 'alcuse.15', 'alcuse.16'),
   c('weeduse.14', 'weeduse.15', 'weeduse.16'))
 ```
@@ -178,7 +178,7 @@ Der Vollständigkeit halber können wir auch noch überlegen, wie man diesen Dat
   - `idvar`: der Personen-Identifikator
   - `direction`: das Zielformat des neuen Datensatzes
 
-```{r}
+```{r Rückkehr in breites Format}
 alc_wide <- reshape(alc_long, 
             v.names = 'alcuse', 
             timevar = 'age', 
@@ -203,7 +203,7 @@ Die Umsetzung in `R` funktioniert aber ähnlich mit den in den letzten Sitzungen
 
 In diesem Fall ist von Interesse, wie sich der **Alkoholkonsum von Jugendlichen zwischen 14 und 16 verändert**.  Bevor wir in die Berechnung von Statistiken eingehen, sollten wir überprüfen, ob die Variablen im richtigen Format vorliegen. Die Variable `alcuse` sollte numerisch sein, da es sich um eine Skala handelt, die den Alkoholkonsum misst. Die Variable `age` sollte als Faktor vorliegen, da es sich um eine kategoriale Variable handelt, die die Altersgruppe angibt. Eine allgemeine Übersicht bekommen wir, indem wir die Struktur des Datensatzes betrachten:
 
-```{r}
+```{r Deskriptivstatistik}
 str(alc_long)
 ```
 
@@ -213,7 +213,7 @@ Hier wird deutlich, dass `age` noch nicht im richtigen Format vorliegt - wir beh
 alc_long$age <- as.factor(alc_long$age)
 ```
 
-Kommen wir nun zu einer deskriptivstatistischen Betrachtung, wie die Mittelwerte sich über die Zeit verändern. Hier können wir weiterhin mit der bekannten `aggregate()`-Funktion arbeiten.
+Kommen wir nun zu einer deskriptivstastischen Betrachtung, wie die Mittelwerte sich über die Zeit verändern. Hier können wir weiterhin mit der bekannten `aggregate()`-Funktion arbeiten.
 
 ```{r}
 aggregate(alcuse ~ age, data = alc_long, FUN = mean)
@@ -225,7 +225,7 @@ Deskriptiv zeigt sich (vielleicht nicht allzu überraschend) ein Anstieg des Alk
 ```{r}
 library(ggplot2)
 ```
-Im Endeffekt bleibt der Code so wie im letzten Tutorial - allerdings haben wir hier diesmal nur einen Faktor, der dann natürlich der x-Achse zugeordnet wird. Damit die Punkte verbunden werden, müssen wir `ggplot()` mitteilen, dass alle Werte gemeinsam zu einer Gruppe gehören. Dafür gibt es bspw. die Möglichkeit `group = 1` einzugeben.
+Im Endeffekt bleibt der Code so wie im letzten Tutorial - allerdings haben wir hier diesmal nur einen Faktor, der dann natürlich der x-Achse zugeordnet wird. Damit die Punkte verbunden werden, müssen wir `ggplot()` mitteilen, dass alle Werte gemeinsam zu einer Gruppe gehören. Dafür gibt es bspw. die Möglichkeite `group = 1` einzugeben.
 
 ```{r}
 aggregate(alcuse ~ age, data = alc_long, FUN = mean) |> 
@@ -241,7 +241,7 @@ aggregate(alcuse ~ age, data = alc_long, FUN = mean) |>
 
 Für die Durchführung der ANOVA mit Messwiederholung nutzen wir wieder das `afex` Paket. 
 
-```{r}
+```{r ANOVA mit Messwiederholung}
 library(afex)
 ```
 
@@ -251,7 +251,7 @@ Die Syntax ist dabei fast identisch mit der ANOVA ohne Messwiederholung, allerdi
 aov_4(alcuse ~ 1  + (age | id), alc_long)
 ```
 
-Doch was bedeutet das eigentlich? Wenn wir die Variable `age` nicht anders behandeln würden als die between-Subject Faktoren in den letzten Wochen, würden die Abhängigkeiten in den Daten durch die Messwiederholung nicht berücksichtigt. Genauer gesagt muss die Abhängigkeit in den Fehlern modelliert werden, die durch die Messwiederholung entsteht. Durch die Notation `(age | id)` wird ausgedrückt, dass `age` einen innerhalb der Personen `id` wiederholten Faktor darstellt. Somit stellen wir sicher, dass die Korrelationen der Residuen innerhalb einer Person korrekt modelliert werden. Ein Regressionsmodell, dass mit diesen Abhängigkeiten in den Daten umgehen kann, wird [im Master](/lehre/fue-i/hierarchische-regression-schule/) vorgestellt. 
+Doch was bedeutet das eigentlich? Wenn wir die Variable `age` nicht anders behandeln würden als die between-Subject Faktoren in den letzten Wochen, würden die Abhängigkeiten in den Daten durch die Messwiederholung nicht berücksichtigt. Genauer gesagt muss die Abhängigkeit in den Fehlern modelliert werden, die duch die Messwiederholung entsteht. Durch die Notation `(age | id)` wird ausgedrückt, dass `age` einen innerhalb der Personen `id` wiederholten Faktor darstellt. Somit stellen wir sicher, dass die Korrelationen der Residuen innerhalb einer Person korrekt modelliert werden. Ein Regressionsmodell, dass mit diesen Abhängigkeiten in den Daten umgehen kann, wird [im Master](/lehre/fue-i/hierarchische-regression-schule/) vorgestellt. 
 
 Betrachten wir nun einmal den Output.
 
@@ -259,7 +259,7 @@ Betrachten wir nun einmal den Output.
 aov_4(alcuse ~ 1  + (age | id), alc_long)
 ```
 
-Wir sehen in der Überschrift wieder die Bemerkung, dass als Quadratsummentyp III verwendet wird, was aber keinen großen Einfluss hat, da wir nur einen Faktor haben. Als nächstes folgt die Tabelle mit den untersuchten Effekten. Hierbei zeigt sich **ein signifikanter Unterschied im Alkoholkonsum zwischen dem 14, 15 und 16. Lebensjahr** ($p$ < .05).  Ob es sich hier um einen konstanten Anstieg handelt, der Alkoholkonsum stetig abnimmt, oder aber im Alter von 15 Jahren den Höhepunkt erreicht wird, können wir aus diesen Ergebnissen allein nicht unterscheiden. Wie bereits aus den letzten beiden Sitzungen bekannt ist, bietet die ANOVA uns einen Omnibustest dafür, *ob* es Unterschiede gibt. Um genauer zu verstehen, *welche* Unterschiede es gibt, können wir [Kontraste](#Kontraste) nutzen.
+Wir sehen in der Überschrift wieder die Bemerkung, dass als Quadratsummentyp III verwendet wird, was aber keinen großen Einfluss hat, da wir nur einen Faktor haben. Als nächstes folgt die Tabelle mit den untersuchten Effekten. Hierbei zeigt sich **ein signifikante Unterschied im Alkoholkonsum zwischen dem 14, 15 und 16. Lebensjahr** ($p$ < .05).  Ob es sich hier um einen konstanten Anstieg handelt, der Alkoholkonsum stetig abnimmt, oder aber im Alter von 15 Jahren den Höhepunkt erreicht wird, können wir aus diesen Ergebnissen allein nicht unterscheiden. Wie bereits aus den letzten beiden Sitzungen bekannt ist, bietet die ANOVA uns einen Omnibustest dafür, *ob* es Unterschiede gibt. Um genauer zu verstehen, *welche* Unterschiede es gibt, können wir [Kontraste](#Kontraste) nutzen.
 
 Außerdem wird in der Tabelle auch wieder eine Effektgröße, das generalisierte $\eta^2$, angegeben. Zu deren Interpretation kommen wir gleich nochmal. Zunächst fokussieren wir uns auf den letzten Teil des Outputs, der uns angibt, dass eine Korrektur für die Sphärzität vorgenommen wird. 
 
@@ -268,7 +268,7 @@ Außerdem wird in der Tabelle auch wieder eine Effektgröße, das generalisierte
 
 Als Äquivalent zur Homoskedastizitätsannahme in der ANOVA *ohne* Messwiederholung, wird in der ANOVA *mit* Messwiederholung die **Sphärizitätsannahme** getroffen. Unter dieser Annahme sollten die Varianzen der Differenzen zwischen allen Zeitpunkten identisch sein (vgl. [Eid et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 474 f.). Im breiten Datenformat sind diese Differenzen einfach zu erstellen:
 
-```{r}
+```{r Voraussetzungen}
 alc$diff_1415 <- alc$alcuse.15 - alc$alcuse.14
 alc$diff_1416 <- alc$alcuse.16 - alc$alcuse.14
 alc$diff_1516 <- alc$alcuse.16 - alc$alcuse.15
@@ -285,7 +285,7 @@ summary(anova_mw)
 
 Der  Mauchly Test (`Mauchly's Test for Sphericity`) zeigt hier an, dass es bedeutsame Abweichungen von der *Annahme der Sphärizität* gibt ($p$ < .05), die Annahme also nicht als gegeben betrachtet werden kann. Weil diese Situation sehr häufig vorkommt, gibt es eine Reihe verbreiteter Korrekturen, von denen `afex` die **Greenhouse-Geisser** (`GG`) und die **Huynh-Feldt Korrekturen** (`HF`) anbietet. In der methodischen Forschung hat sich gezeigt, dass die *Greenhouse-Geisser Korrektur* mitunter zu strikt ist (also zu selten bedeutsame Ergebnisse gefunden werden), weswegen beide Varianten ausgegeben werden. Beide Korrekturen führen zu kleineren Freiheitsgraden durch Multiplikation mit dem Faktor $\epsilon$, der uns hier auch für beide Korrekturen mit ausgegeben wird (`GG eps` und `HF eps`). Im Output der Funktion sehen wir die Korrektur durch einen darauf angepassten p-Wert - die korrigierten Freiheitsgrade werden nicht aufgeführt. Eine Empfehlung für eine der beiden Korrekturen zu geben ist schwer, da sie sich häufig nur leicht unterscheiden. Verschiedene Daumenregeln existieren, doch sollte im besten Fall die Power im Versuchsplan so gestaltet werden, dass der kleine Unterschied in keinen unterschiedlichen Signifikanzentscheidungen resultiert. 
 
-Wenn wir nicht die `summary()` Funktion nutzen, bekommen wir die unkorrigierten Werte bei einem signifikanten Mauchly Test erst gar nicht angezeigt - was aber auch nicht schlimm ist, da wir sowieso die korrigierten nutzen sollten. Wenn wir direkt die Huynh-Feldt Korrekturen angezeigt bekommen wollen, müssen wir einen etwas umständlichen Weg mit der Erstellung einer Liste für das Argument `anova_table` gehen und dort die richtige `correction` ansprechen.
+Wenn wir nich die `summary()` Funktion nutzen, bekommen wir die unkorrigierten Werte bei einem signifikanten Mauchly Test erst gar nicht angezeigt - was aber auch nicht schlimm ist, da wir sowieso die korrigierten nutze sollten. Wenn wir direkt die Huynh-Feldt Korrekturen angezeigt bekommen wollen, müssen wir einen etwas umständlichen Weg mit der Erstellung einer Liste für das Argument `anova_table` gehen und dort die richtige `correction` ansprechen.
 
 ```{r}
 aov_4(alcuse ~ 1  + (age | id), alc_long, anova_table = list(correction = "HF"))
@@ -305,7 +305,7 @@ ICC | klein | mittel | groß
 
 Die ICC kann generell als $\frac{\sigma^2_{\pi}}{\sigma^2_{\pi} + \sigma^2_{\epsilon}}$ berechnet werden. Dabei ist $\sigma^2_{\pi}$ die Personenvarianz und $\sigma^2_{\epsilon}$ die Residualvarianz. Beide können direkt aus den mittleren Quadratsummen berechnet werden. Alternativ kann die `ICC`-Funktion aus dem `psych`-Paket genutzt werden:
 
-```{r}
+```{r ICC und Effektstärke}
 psych::ICC(alc[, c('alcuse.14', 'alcuse.15', 'alcuse.16')])
 ```
 
@@ -316,11 +316,11 @@ Der in diesem Fall relevante ICC-Typ (`type`) ist als `ICC1` gelistet. In diesem
 
 Wie für eine [ANOVA ohne Messwiederholung](/lehre/statistik-ii/anova-i), kann auch in diesem Fall mit dem `emmeans`-Paket die Kontrastanalyse durchgeführt werden.
 
-```{r}
+```{r Kontraste}
 library(emmeans)
 ```
 
-Kontraste sind hier hilfreich, da spezifischere Hypothesen getestet werden können, während unsere bisherige Analyse nur einen globalen Effekt feststellen konnte. Zunächst sollten wir wieder ein Objekt des richtigen Typen erstellen.
+Kontraste sind hier hilfreich, da spezifischere Hypothesen getesten werden können, während unsere bisherige Analyse nur einen globalen Effekt feststellen konnte. Zunächst sollten wir wieder ein Objekt des richtigen Typen erstellen.
 
 ```{r}
 emm_mw <- emmeans(anova_mw, ~ age)
@@ -336,9 +336,9 @@ In der [letzten Sitzung](/lehre/statistik-ii/anova-ii) hatten wir den `contrast(
 
 Bei sogenannten **Trendanalysen**, bei denen wir Veränderungen über bspw. die Zeit bei Messwiederholungsdesigns untersuchen, ist dies anders. Hier wird in der Regel eine ganze Batterie an orthogonalen Kontrasten verwendet, die *sukzessive* verschiedene Verläufe testet, wobei hier die Null-Hypothese besagt, dass der jeweilige Verlauf _**nicht**_ gilt. Dies bedeutet im Umkehrschluss, dass bei Trendanalysen die Signifikanz einer Hypothese besagt, dass mindestens dieser Verlauf gilt (auf das _"mindestens"_ gehen wir noch näher ein). 
 
-In unserem Beispiel haben wir 3 Messzeitpunkte, also 3 Mittelwerte, die wir auf Trends testen können. Bei 3 Mittelwerten können wir *maximal einen quadratischen Verlauf* testen und es können *maximal zwei orthogonale Kontraste* aufgestellt werden (immer K - 1 viele, wobei K die Anzahl an Gruppen ist; hier Gruppen = Messzeitpunkte). **Welche Verläufe sind nun möglich?** Die Null-Hypothese einer normalen ANOVA besagt, dass alle Mittelwerte gleich sind. Übersetzt in das Messwiederholungsdesign bedeutet dies, dass sich die Mittelwerte nicht über die Zeit verändern: _die Mittelwerte folgen einer **horizontalen Linie** (im Regressionssetting bedeutet dies, dass es keine Beziehung mit der Zeit/der Wiederholungsmessung gibt; die Steigung ist Null)_. Folgen die Mittelwerte keiner horizontalen Linie, sondern *verändern sich gleichmäßig über die Zeit*, so **steigen sie linear an oder fallen linear ab**. Zeigen die Mittelwerte hingegen ein *beschleunigtes Wachstum oder einen beschleunigten Abfall* oder steigen sie erst an und fallen dann ab oder fallen erst ab und steigen dann an, so folgen sie vermutlich keinem linearen Trend mehr. Hier wäre der **quadratische Trend** geeigneter, um dieses Verhalten zu erklären. 
+In unserem Beispiel haben wir 3 Messzeitpunkte, also 3 Mittelwerte, die wir auf Trends testen können. Bei 3 Mittelwerten können wir *maximal einen quadratischen Verlauf* testen und es können *maximal zwei orthogonale Kontraste* aufgestellt werden (immer K - 1 viele, wobei K die Anzahl an Gruppen ist; hier Gruppen = Messzeitpunkte). **Welche Verläufe sind nun möglich?** Die Null-Hypothese einer normalen ANOVA besagt, dass alle Mittelwerte gleich sind. Übersetzt in das Messwiederholungsdesign bedeutet dies, dass sich die Mittelwerte nicht über die Zeit verändern: _die Mittelwerte folgen einer **horizontalen Linie** (im Regressionssetting bedeutet dies, dass es keine Beziehung mit der Zeit/der Wiederholungsmessung gibt; die Steigung ist Null)_. Folgen die Mittelwerte keiner horziontalen Linie, sondern *verändern sich gleichmäßig über die Zeit*, so **steigen sie linear an oder fallen linear ab**. Zeigen die Mittelwerte hingegen ein *beschleunigtes Wachstum oder einen beschleunigten Abfall* oder steigen sie erst an und fallen dann ab oder fallen erst ab und steigen dann an, so folgen sie vermutlich keinem linearen Trend mehr. Hier wäre der **quadratische Trend** geeigneter, um dieses Verhalten zu erklären. 
 
-Folglich haben wir **drei Trends**, die wir untersuchen können: **horizontal, linear und quadratisch**. Entsprechend werden auch die Hypothesen aufgestellt. Die erste Nullyhpothese des Kontrasts in diesem Beispiel ist, dass ein horizontaler Verlauf gilt. Ist dieser Kontrast signifikant, so wird sie verworfen und es gilt kein horizontaler Verlauf. Aus diesem Grund wird diese Hypothesenstellung auch häufig die **Hypothese auf linearen Trend** genannt (was zur Verwirrung führen kann, weil der lineare Trend in der H1 steckt); ist die Testung signifikant, so gilt mindestens ein linearer Trend in den Daten (mit einer Irrtumswahrscheinlichkeit von $5\%$ - bzw. einem gewählten $\alpha$). Das mindestens steht hier, weil auch ein quadratischer Trend dem horizontalen Verlauf widerspricht. Wir brauchen also noch einen weiteren Hypothesentest, der den **linearen gegen den quadratischen Verlauf** testet. Sie denken es sich vielleicht schon, die nächste Null-Hypothese repräsentiert einen *linearen Trend*. Wird diese verworfen, so gilt kein linearer Verlauf, sondern ein quadratischer. Der quadratische Trend beschreibt die Daten signifikant besser als der Lineare. Aus diesem Grund wird dieser Kontrast auch häufig der **Kontrast auf quadratischen Trend** genannt. Ist er signifikant, so können wir für die Daten einen quadratischen Trend annehmen. Diese Informationen sind in folgender Tabelle nochmals zusammengefasst:
+Folglich haben wir **drei Trends**, die wir untersuchen können: **horizontal, linear und quadratisch**. Entsprechend werden auch die Hypothesen aufgestellt. Die erste Nullyhpothese des Kontrasts in diesem Beispiel ist, dass ein horizontaler Verlauf gilt. Ist dieser Kontrast signifikant, so wird sie verworfen und es gilt kein horizontaler Verlauf. Aus diesem Grund wird diese Hypothesenstellung auch häufig die **Hypothese auf linearen Trend** genannt (was zur Verwirrung führen kann, weil der lineare Trend in der H1 steckt); ist die Testung signifikant, so gilt mindestens ein linearer Trend in den Daten (mit einer Irrtumswahrscheinlichkeit von $5\%$ - bzw. einem gewählten $\alpha$). Das mindestens steht hier, weil auch ein quadratischer Trend dem horizontalen Verlauf widerspricht. Wir brauchen also noch einen weiteren Hypothesentest, der den **linearen gegen den quadratischen Verlauf** testet. Sie denken es sich vielleicht schon, die nächste Null-Hypothese repräsentiert einen *linearen Trend*. Wird diese verworfen, so gilt kein linearer Verlauf sondern ein quadratischer. Der quadratische Trend beschreibt die Daten signifikant besser als der Lineare. Aus diesem Grund wird dieser Kontrast auch häufig der **Kontrast auf quadratischen Trend** genannt. Ist er signifikant, so können wir für die Daten einen quadratischen Trend annehmen. Diese Informationen sind in folgender Tabelle nochmals zusammengefasst:
 
 | Kontrastnahme | $H_0$ | $H_1$ |
 | --- | --- | --- |
@@ -346,7 +346,7 @@ Folglich haben wir **drei Trends**, die wir untersuchen können: **horizontal, l
 | *quadratisch* | linear: $y = bx + c$ | quadratisch:  $y = ax^2 +bx + c$ | 
 
 
-Der Tabelle entnehmen wir, dass quasi immer ein Term hinzukommt (von "$c$" zu "$bx + c$" zu "$ax^2 + bx + c$"). Die Signifikanzentscheidung entspricht also dem inkrementellen Vorgehen, welches wir bereits aus der Regressionsanalyse kennen! Das bedeutet also, falls der lineare Trend signifikant ist, dann verbessert er gegenüber der H0 vom  horizontalen Verlauf die Vorhersage der Entwicklung der Mittelwerte. Genauso spricht ein signifikanter quadratischer Trend für eine Verbesserung der Vorhersage gegenüber dem linearen Trend!
+Der Tabelle entnehmen wir, dass quasi immer ein Term hinzukommt (von "$c$" zu "$bx + c$" zu "$ax^2 + bx + c$"). Die Signifikanzentscheidung entspricht also dem inkrementellen Vorgehen, welches wir bereits aus der Regressionsanalyse kennen! Das bedeutet also, falls der lineare Trend signifikant ist, dann verbessert er gegenüber der H0 vom  horizontalen Verlauf die Vorhersage der Entwicklung der Mittelwerte. Genauso spricht ein signifikanter quadratischer Trend für eine Verbesserung der Vorhersage gegenüber des linearen Trends!
 
 Die erste Funktion, die üblicherweise getestet wird, ist der **lineare Verlauf**. Dabei wird unterstellt, dass die Mittelwerte auf einer *geraden Linie* liegen, die eine uns vorerst unbekannte Steigung hat. Wie bei [Eid et al. (2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 481) dargestellt, ergibt sich daraus die Linearkombination
 
@@ -388,7 +388,7 @@ contrast(emm_mw, list(lin_cont))
 ```
 
 
-Wie wir an dem `p.value` erkennen können, ist der Kontrast signifikant, es liegt also mindestens ein linearer Trend vor. Im nächsten Schritt können wir prüfen, ob ein **quadratischer Effekt** vorliegt. Für diesen Effekt ist es eventuell nicht so direkt einleuchtend, wie der Kontrastvektor auszusehen hat. Auch hier gilt, dass $\sum_{j=1}^{J} K_j = 0$ sein muss. Wir wissen, dass der Test auf den quadratischen Trend dem des linearen Trends widersprechen soll. Dies erreichen wir, indem wir tatsächlich in der H0 einen linearen  Verlauf aufstellen. Das erscheint jetzt etwas paradox, da wir uns ja im vorherigen Test bereits dafür entschlossen hatten, dass in den Daten _mindestens_ ein linearer Trend verborgen ist. Wir wollen allerdings einen Kontrast erstellen, der, falls er signifikant ist, gegen einen linearen und für einen quadratischen Verlauf spricht. Folglich müssen wir *Linearität annehmen*, indem wir uns vorstellen, dass die Veränderung von $\mu_1$ zu $\mu_2$ genauso groß ist, wie von $\mu_2$ zu $\mu_3$. Hier ist nun die Richtung (und damit das Vorzeichen) entscheidend, denn in Worten gesprochen klingt das zunächst sehr ähnlich zu dem, was wir oben getestet haben. Wenn wir allerdings die Richtung berücksichtigen, so erhalten wir bspw.: $\mu_2 - \mu_1 = \mu_3 - \mu_2$, was sich umformen lässt zu $\mu_1 - 2\mu_2 + \mu_3 = 0$. Für eine gleichzeitige Testung der beiden bisher aufgestellten Kontraste müssen diese *orthogonal* sein (siehe [Eid et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 426).
+Wie wir an dem `p.value` erkennen können, ist der Kontrast signifikant, es liegt also mindestens ein linearer Trend vor. Im nächsten Schritt können wir prüfen, ob ein **quadratischer Effekt** vorliegt. Für diesen Effekt ist es eventuell nicht so direkt einleuchtend, wie der Kontrastvektor auszusehen hat. Auch hier gilt, dass $\sum_{j=1}^{J} K_j = 0$ sein muss. Wir wissen, dass der Test auf den quadratischen Trend dem des linearen Trends widersprechen soll. Dies erreichen wir, indem wir tatsächlich in der H0 einen linearen  Verlauf aufstellen. Das erscheint jetzt etwas paradox, da wir uns ja im zuvorigen Test bereits dafür entschlossen hatten, dass in den Daten _mindestens_ ein linearer Trend verborgen ist. Wir wollen allerdings einen Kontrast erstellen, der, falls er signifikant ist, gegen einen linearen und für einen quadratischen Verlauf spricht. Folglich müssen wir *Linearität annehmen*, indem wir uns vorstellen, dass die Veränderung von $\mu_1$ zu $\mu_2$ genauso groß ist, wie von $\mu_2$ zu $\mu_3$. Hier ist nun die Richtung (und damit das Vorzeichen) entscheidend, denn in Worten gesprochen klingt das zunächst sehr ähnlich zu dem, was wir oben getestet haben. Wenn wir allerdings die Richtung berücksichtigen, so erhalten wir bspw: $\mu_2 - \mu_1 = \mu_3 - \mu_2$, was sich umformen lässt zu $\mu_1 - 2\mu_2 + \mu_3 = 0$. Für eine gleichzeitige Testung der beiden bisher aufgestellten Kontraste müssen diese *orthogonal* sein (siehe [Eid et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 426).
 Dies kann man leicht prüfen: {{< math >}}$-1*1 + 0*-2 + 1*1 = 0${{< /math >}} (hier ist die erste Zahl pro Summand jeweils der Koeffizient des ersten Kontrasts und die zweite jeweils die vom zweiten: (-1, 0, 1) und (1, -2, 1)).
 
 Um Ihnen das Leben ein wenig zu erleichtern, können Sie folgende Tabelle konsultieren, wenn Sie gleichabständige Messungen vorliegen haben und polynomiale Kontraste definieren wollen:
@@ -431,7 +431,7 @@ contrast(emm_mw, list(lin_cont, qua_cont),
 
 Wie Sie erkennen können, ist nur der lineare Trend-Kontrast signifikant! Wir gehen also nur von einem linearen und nicht von einem quadratischen Trend aus, denn der Test auf "Modellverbesserung" durch das Hinzufügen des quadratischen Trends brachte keine signifikante Verbesserung. Genauso kann man dies so interpretieren, dass die Datenlage zwar einem horizontalen (Gleichheit aller Mittelwerte) Verlauf widerspricht, nicht aber einem linearen Verlauf! 
 
-Hier muss allerdings aufgepasst werden. Diese Kontraste, die aus sogenannten orthogonalen Polynomen entstehen, sollten immer gemeinsam getestet werden. Wenn beispielsweise der quadratische Verlauf der richtige wäre, er aber perfekt U-förmig verläuft, so könnte es passieren, dass der lineare Trend nicht signifikant wird, wir aber im quadratischen erkennen, dass tatsächlich die Daten einem quadratischen Trend folgen. **Hier ist das beste Vorgehen immer alle möglichen Trends gleichzeitig zu prüfen**. Es wird dann immer der *höchste signifikante Trend* angenommen. Falls z.B. der lineare und der quadratische Trend signifikant sind, so entscheiden wir uns für den quadratischen. Falls Sie mehr dazu wissen wollen, schauen Sie doch in [Appendix A](#AppendixA) vorbei.
+Hier muss allerdings aufgepasst werden. Diese Kontraste, die aus sogenannten orthognalen Polynomen entstehen, sollten immer gemeinsam getestet werden. Wenn beispielsweise der quadratische Verlauf der richtige wäre, er aber perfekt U-förmig verläuft, so könnte es passieren, dass der lineare Trend nicht signifikant wird, wir aber im quadratischen erkennen, dass tatsächlich die Daten einem quadratischen Trend folgen. **Hier ist das beste Vorgehen immer alle möglichen Trends gleichzeitig zu prüfen**. Es wird dann immer der *höchste signifikante Trend* angenommen. Falls z.B. der lineare und der quadratische signifikant sind, so entscheiden wir uns für den quadratischen. Falls Sie mehr dazu wissen wollen, schauen Sie doch in [Appendix A](#AppendixA) vorbei.
 
 ### Abkürzungen für typische Kontraste
 
@@ -450,7 +450,7 @@ contrast(emm_mw, interaction = 'poly',
 
 Es ergibt sich die gleiche Tabelle wie zuvor.
 
-Wollen wir einen herkömmlichen Kontrast prüfen (also keinen Trend), so müssen wir in unserer Interpretation wieder umschwenken! Der direkte Vergleich aller Zeitpunkte kann via `method = 'pairwise'` erreicht werden. 
+Wollen wir einen herkömmlichen Kontrast prüfen (also keinen Trend), so müssen wir in unserer Interpretation wieder umschwenken! Der direkte Vergleich aller Zeitpunkte kann via `method = 'pairwise'` erreicht werden. Außerdem resultieren die Voreinstellungen in einem Vergleich aller Zeitpunkte mit dem globalen Mittel:
 
 ```{r}
 # Alle paarweisen Vergleiche
@@ -477,7 +477,7 @@ Würden wir beispielsweise bei p Gruppen paarweise Vergleiche durchführen, so b
 | 4 | 6 | 4 | 
 | 5 | 10 | 5 | 
 
-Wir sehen also, dass die paarweisen Vergleiche extrem schnell anwachsen, was natürlich verheerende Folgen im Hinblick auf die Irrtumswahrscheinlichkeit hat!
+Wir sehen also, dass die paarweisen Vergleiche extrem schnell anwachsen, was natürlich verherende Folgen im Hinblick auf die Irrtumswahrscheinlichkeit hat!
 
 ## Split-Plot ANOVA
 
@@ -485,7 +485,7 @@ Untersuchungen, in denen *mehrere Gruppen und mehrere Messungen gleichzeitig* be
 
 Wie bei der zweifaktoriellen ANOVA mit nur Zwischensubjekt-Faktoren, können wir die beobachteten Mittelwerte in einem Plot darstellen. Meistens wird die messwiederholte Variable dabei auf der x-Achse abgebildet.
 
-```{r}
+```{r Split-Plot-ANOVA}
 aggregate(alcuse ~ age + coa, data = alc_long, FUN = mean) |> 
   ggplot(aes(x = age, y = alcuse, color = coa, group = coa)) +
     geom_point() +
@@ -516,7 +516,7 @@ Obwohl `afex` den *Mauchly Test* für Sphärizität mitliefert, ist im Fall des 
 heplots::boxM(alc[, c('alcuse.14', 'alcuse.15', 'alcuse.16')], group = alc$coa)
 ```
 
-Auch in unserem Fall wird eine signifikante Verletzung der Annahme angezeigt. Nach [Eid et al. (2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 494) ist die ANOVA gegenüber der Verletzung der Homogenitätsannahme bezüglich der Kovarianzmatrizen dann robust, wenn die Sphärizitätsannahme nicht verworfen werden muss. In dem Output von der ANOVA haben wir aber gesehen, dass auch hier eine signifikante Verletzung vorliegt. Für die Interpretation können nun die zuvor dargestellten Korrekturen oder eine "echte" robuste Variante (z.B. im `WRS2`-Paket) genutzt werden. Betrachten wir nun nochmal genauer den oben schon gezeigten Output.
+Auch in unserem Fall wird eine signifikante Verletzung der Annahme angezeigt. Nach [Eid et al. (2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 494) ist die ANOVA gegenüber der Verletzung der Homgenitätsannahme bezüglich der Kovarianzmatrizen dann robust, wenn die Sphärizitätsannahme nicht verworfen werden muss. In dem Output von der ANOVA haben wir aber gesehen, dass auch hier eine signifikante Verletzung vorliegt. Für die Interpretaion können nun die zuvor dargestellten Korrekturen oder eine "echte" robuste Variante (z.B. im `WRS2`-Paket) genutzt werden. Betrachten wir nun nochmal genauer den oben schon gezeigten Output.
 
 
 ```{r, echo = FALSE, warning=FALSE, purl=FALSE}
@@ -552,6 +552,8 @@ df$times <- as.factor(times)
 df$id <- as.factor(df$id)
 head(df)
 
+# ezPlot(df, Y, id, within = times,
+#   x = times) +
 aggregate(Y ~ times, df, mean) |>
   ggplot(aes(x = times, y = Y, group = 1)) +
   geom_point() +
@@ -633,7 +635,7 @@ em <- emmeans(whd_aov, ~ times)
 contrast(em, interaction = 'poly')
 ```
 
-Es ist nur der quadratische Trend signifikant, da wir ja gesehen hatten, dass der Kontrast für den linearen Trend nur die beiden äußeren Mittelwerte gegeneinander testet ($\mu_1$ vs $\mu_3$), welche sich aber nicht unterscheiden und somit auch die blau Gerade horizontal erscheint (sie ist nicht/kaum von der gelben zu unterscheiden)! Schauen wir uns doch einmal einen Verlauf an, in welchem sowohl der lineare als auch der quadratische Trend signifikant sind. Das ist der Fall, wenn die Mittelwerte bspw. "beschleunigt" steigen mit den Zeitpunkten. wir wählen die Mittelwerte als (1, 4, 9), also $t^2$. 
+Es ist nur der quadratische Trend signifikant, da wir ja gesehen hatten, dass der Kontrast für den linearen Trend nur die beiden äußeren Mittelwerte gegeneinander testet ($\mu_1$ vs $\mu_3$), welche sich aber nicht unterscheiden und somit auch die blau Gerade horizontal erscheint (sie ist nicht/kaum von der gelben zu unterscheiden)! Schauen wir uns doch einmal einen Verlauf an, in welchem sowohl der lineare als auch de quadratische Trend signifikant ist. Das ist der Fall, wenn die Mittelwerte bspw. "beschleunigt" steigen mit den Zeitpunkten. wir wählen die Mittelwerte als (1, 4, 9), also $t^2$. 
 
 ```{r, warning=F, message=F}
 set.seed(1234) # für Vergleichbarkeit
@@ -664,7 +666,7 @@ em <- emmeans(whd_aov, ~ times)
 contrast(em, interaction = 'poly')
 ```
 
-Wir erkennen, dass sowohl der lineare als auch der quadratische Trend signifikant ist. Die blaue Linie passt besser als eine horiziontale Linie und die rote passt besser als die blaue Linie! Hier entscheiden wir uns final für den quadratischen Trend!
+Wir erkennen, dass sowohl der lineare als auch der quadratische Trend signifikant ist. Die blaue Linie passt besser als eine horiziontale und die rote passt besser als die blau Linie! Hier entscheiden wir uns final für den quadratischen Trend!
 
 </details>
 

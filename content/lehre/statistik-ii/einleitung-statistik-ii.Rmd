@@ -131,11 +131,11 @@ Dokumentieren Sie alle Schritte sorgfältig. Schreiben Sie dazu so viele Komment
 {{<inline_image"/lehre/statistik-ii/comments.jpg">}}
 <!-- https://i.redd.it/b9e4xbeg40151.jpg Ich habe keine Ahnung, ob das Bild urheberechtlich geschützt ist, und weiß nicht wie ich es herausfinden könnte-->
 
-### Struktrurierung
+### Strukturierung
 
 Dinge gehen leichter von der Hand und sind im Nachhinein häufig leichter zu verstehen, wenn sie einer typischen Struktur folgen. Mein persönliches Template sieht dafür so aus:
 
-```{r}
+```{r, purl=FALSE}
 ####   Titel des Skripts  ####
 #### Datum der Erstellung ####
 
@@ -251,21 +251,21 @@ args(round)
 Testen Sie diese Möglichkeit mit anderen Funktionen, die Sie aus dem letzten Semester kennen! Wenn es einen Default-Wert für ein Argument gibt, wird er hier hinter dem `=` angezeigt. Bei `round` sagt uns der Ausdruck `digits = 0`, dass per default auf 0 Nachkommastellen gerundet wird.
 
 ```{r, echo=-1}
-#Demonstration von round und seinem Default-Wert für die Zahl!
+# Demonstration von round und seinem Default-Wert für die Zahl!
 round(1.2859)
 ```
 
 Wenn wir diesen Default-Wert überschreiben, können wir stattdessen bspw. auf 2 Stellen runden. 
 
 ```{r, echo=-1}
-#Ersetzenn des Default
+# Ersetzen des Default
 round(1.2859, digits = 2)
 ``` 
 
 Argumente können durch die korrekte Reihenfolge oder durch explizite Benennung angesprochen werden. Wenn wir beispielsweise in der `round` Funktion die Reihenfolge der Argumente vertauschen, aber den Namen des Argumentes verwenden, funktioniert die Ausführung trotzdem.
 
 ```{r, echo=-1}
-#Hier wird gezeigt, dass die Reihenfolge der Operatoren egal ist, WENN sie explizit benannt werden
+# Hier wird gezeigt, dass die Reihenfolge der Operatoren egal ist, WENN sie explizit benannt werden
 round(digits = 2, x = 1.2859)
 ``` 
 
@@ -379,7 +379,7 @@ Sie können mit dem `matrix()`-Befehl angelegt werden:
 ```{r, echo=-1}
 #### Matrizen ----
 
-mat<- matrix(c(7, 3, 9, 1, 4, 6), ncol = 2) # Matrixerstellung
+mat <- matrix(c(7, 3, 9, 1, 4, 6), ncol = 2) # Matrixerstellung
 ```
 
 Schauen Sie sich die erstellte Matrix an, in dem sie `mat` ausführen. Prüfen sie mit dem Befehl `str()`, von welcher Art die erstellte Matrix ist. 
@@ -402,7 +402,7 @@ Die Dimensionen einer Matrix lassen sich bestimmen über:
 # Bestimmung der Dimensionen, einzeln oder in einem
 nrow(mat)
 ncol(mat)
-dim(mat) #alternativer Befehl
+dim(mat) # alternativer Befehl
 ```
 
 ### Matrixoperationen
@@ -438,7 +438,7 @@ Wir müssen `R` nur mitteilen, wo der Datensatz liegt et voilà, er wird uns zur
 ```{r, eval = FALSE, echo=c(-1,-3)}
 #### Datenmanagement ----
 
-#Beispiel, eine RDA zu laden, die sich auf dem eigenen Desktop befindet
+# Beispiel, eine RDA zu laden, die sich auf dem eigenen Desktop befindet
 load("C:/Users/Musterfrau/Desktop/mach.rda")
 ```
 
@@ -460,7 +460,7 @@ Die hier verwendeten Daten stammen aus dem ["Open-Source Psychometrics Project"]
 Wir können uns die ersten (6) Zeilen des Datensatzes mit der Funktion `head` ansehen. Dazu müssen wir diese Funktion auf den Datensatz (das Objekt) `mach` anwenden:
 
 ```{r, echo=-1}
-#Betrachtung der Daten
+# Betrachtung der Daten
 head(mach) # ersten 6 Zeilen
 ```
 
@@ -493,7 +493,7 @@ Alternativ kann man analog zu oben auch die bereits besprochene Indizierung übe
 
 ```{r, eval = FALSE, echo=-1}
 # Beispiel der Indizierung über eckige Klammern statt Variablenname
-mach[, 25] #Alle Zeilen, Spalte 25
+mach[, 25] # Alle Zeilen, Spalte 25
 ```
 ```{r, echo = FALSE, purl=FALSE}
 cat(paste(mach[1:10, 25], collapse = '\n'), '...', sep = '\n')
@@ -503,14 +503,14 @@ cat(paste(mach[1:10, 25], collapse = '\n'), '...', sep = '\n')
 Um eine Anzahl an Beobachtungen für eine bestimmte Variable zu bestimmen, kann mit der `table`-Funktion gearbeitet werden. Überprüfen wir die Häufigkeiten für die Variable, ob die Muttersprache Englisch ist `engnat`.
 
 ```{r, echo=-1}
-#Betrachten der Häufigkeit & Format der Variable
+# Betrachten der Häufigkeit & Format der Variable
 table(mach$engnat)
 str(mach$engnat)
 ```
 Wir sehen, dass die Variable noch als numerisch hinterlegt ist. Wir wollen jedoch den Zahlen die Bedeutung zuordnen und so einen Faktor erstellen. Diesen werden wir später noch verwenden.
 
 ```{r, echo=-1}
-#Variable wird zum Faktor umgewandelt, da sie numerisch vorlag
+# Variable wird zum Faktor umgewandelt, da sie numerisch vorlag
 
 mach$engnat <- factor(mach$engnat,                # Ausgangsvariable
                       levels = 1:2,               # Faktorstufen
@@ -538,7 +538,7 @@ install.packages("psych")
 Danach muss man ein Package aus der library laden. Dies muss nach jedem Neustart von `R` erneut erfolgen, damit das Package genutzt werden kann.
 
 ```{r, echo=-1}
-# Package wird aus der Library geladen und danach erneut describe () ausgeführt, sollte jetzt funktionieren
+# Package wird aus der Library geladen und danach erneut describe () ausgeführt
 library(psych)
 describe(mach$cvhn)
 ```
@@ -554,7 +554,7 @@ Natürlich ist die Regressionsanalyse nicht ohne Voraussetzungen. Diese werden w
 ```{r, echo=c(-1:-3)}
 #### Lineare Regression ----
 
-#Genereller Zusammenhang von Positiver Sichtweise und Zynischer Sichtweise
+# Genereller Zusammenhang von Positiver Sichtweise und Zynischer Sichtweise
 plot(mach$pvhn, mach$cvhn, xlab = "Positive Sichtweise", ylab = "Negative Sichtweise")
 ```
 
@@ -573,7 +573,7 @@ model <- lm(cvhn ~ pvhn, mach)  # Objektzuweisung
 Beispielsweise können wir wie bereits angedeutet die Funktion `summary` verwenden, um eine Zusammenfassung der Ergebnisse zu erhalten.
 
 ```{r}
-summary(model) #Ergebniszusammenfassung
+summary(model) # Ergebniszusammenfassung
 ```
 
 Hier werden uns neben dem Steigungskoeffizienten und dem Achsenabschnitt auch noch beispielsweise deren Signifikanz und $R^2$ angezeigt. Beide werden hier als signifikant angegeben. Es handelt sich um einen mittleren Effekt.
@@ -612,7 +612,7 @@ ttest <- t.test(cvhn ~ engnat,  # abhängige Variable ~ unabhängige Variable
 ```{r, echo=c(-1:-3)}
 #### T-test ----
 
-#t-Test; H0: Mittelwert von cvhn ist nicht signifikant verschieden zwischen non-native english speakers und native english speakers, Voraussetzungen werden als erfüllt angenommen
+# t-Test; H0: Mittelwert von cvhn ist nicht signifikant verschieden zwischen non-native english speakers und native english speakers, Voraussetzungen werden als erfüllt angenommen
 t.test(cvhn ~ engnat,  # abhängige Variable ~ unabhängige Variable
        data = mach, # Datensatz
       alternative = "two.sided",        # zweiseitige Testung (Default)
@@ -650,7 +650,7 @@ zeigt uns die Alternativhypothese ($H_1:d \neq 0$), das Konfidenzintervall der M
 Wie bei der Regression können wir auch den Test als Objekt ablegen. Wenn wir `names` darauf anwenden, sehen wir wieder alle Namen, die wir hinter `$` schreiben können.
 
 ```{r, echo=-1}
-#T-test wird abgespeichert, im Nachhinein wird gezeigt, dass man sich mit names() wieder alle Variablen anzeigen lassen kann
+# T-test wird abgespeichert, im Nachhinein wird gezeigt, dass man sich mit names() wieder alle Variablen anzeigen lassen kann
 
 ttest <- t.test(cvhn ~ engnat,  # abhängige Variable ~ unabhängige Variable
        data = mach, # Datensatz

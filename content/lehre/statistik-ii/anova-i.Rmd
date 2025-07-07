@@ -213,9 +213,11 @@ Zur Beurteilung der Signifikanz muss der errechnete p-Wert mit dem vorher festge
 
 Da das Ausrechnen per Hand nun doch etwas umständlich ist, bietet `R` uns einige andere Möglichkeiten. Beispielsweise gibt es `anova()` oder `aov()` in der Basisinstallation und diverse weitere Funktionen in Paketen (z. B. `Anova()` aus `car`). Bis zum letzten Jahr haben wir die ANOVA hier noch mit dem `ez`-Paket vorgestellt. Dieses wird jedoch nicht mehr häufig maintained (also Fehler werden nicht behoben) und bietet wenig Expansionsmöglichkeiten zu Kontrasten, besonders im längsschnittlichen Fall. Stattdessen werden wir die ANOVA nun mit dem `afex`-Paket durchführen. Leider hat auch dieses den Nachteil - Korrekturen der Parameter bei Verletzungen von Voraussetzungen sind nicht komplett implementiert. So ist es also wie so häufig in `R` - alles hat Vor- und Nachteile. Wir können uns zumindest freuen, dass wir unsere bekannte Schreibweise aus der Regression beibehalten und leicht Kontraste durchführen können. Da wir das Paket bisher nicht genutzt haben, müssen wir es zunächst installieren.
 
-```{r, eval = F}
-# Paket installieren
-install.packages("afex")
+```{r} 
+# Paket installieren falls nicht vorhanden
+if (!requireNamespace("afex", quietly = TRUE)) {
+    install.packages("afex")
+  }
 ```
 
 Anschließend kann es geladen werden.
@@ -277,9 +279,12 @@ Jeder Eintrag in der Tabelle entspricht dann dem korrigierten $p$-Wert von einem
 
 Ein Ansatz mit mehr Power (also weniger konservativ) als die einfachen $t$-Tests bietet **Tukeys Honest Significant Difference** (auch *Tukey-Test* genannt). Um diesen durchzuführen, brauchen wir ein Objekt des Typens `emmGrid` bzw. `emmeans`. Dafür benötigen wir zunächst ein weiteres Paket - das passenderweise auch `emmeans` heißt. Zunächst installieren wir wieder.
 
-```{r, eval = F}
-# Paket installieren
-install.packages("emmeans")
+```{r}
+# Paket installieren falls nicht vorhanden
+if (!requireNamespace("emmeans", quietly = TRUE)) {
+    install.packages("emmeans")
+  }
+
 ```
 
 Nun können wir das Paket einladen.
@@ -290,7 +295,7 @@ library(emmeans)
 
 Nun wandeln wir das Objekt um. Dafür brauchen wir die Funktion `emmeans()` (die wiederum also genauso heißt wie das Paket). Diese benötigt als erstes Argument unser Objekt und als zweites dann nochmal unsere Gruppierungsvariable mit einer Tilde `~` vorweg. Das erscheint etwas redundant, aber wenn man bspw. mehrere Gruppierungsvariablen hätte, könnte man hier reduzieren.
 
-```{r einfakt_emmeans}
+```{r Anwendung emmeans}
 emm_einfakt <- emmeans(einfakt, ~ urban)
 ```
 
@@ -343,7 +348,7 @@ Die Unabhängigkeit der Residuen wäre dann verletzt, wenn abhängige Stichprobe
 
 Die Homoskedastizitätsannahme besagt, dass die Varianzen jeder Gruppe über die Gruppen hinweg gleich sind. Deshalb wird diese Annahme auch häufig "Varianzhomogenitätsannahme" genannt. Zur Überprüfung der Homoskedastizität kann der **Levene-Test** herangezogen werden. Dieser kann mithilfe des `car`-Pakets angefordert werden. Dazu laden wir zunächst das Paket und führen anschließend die Funktion `leveneTest` aus. Installiert haben wir das Paket bereits in vorherigen Tutorials und dort auch bereits angewendet.
 
-```{r  purl = FALSE}
+```{r Appendix A}
 library(car)
 leveneTest(conspiracy$EC ~ conspiracy$urban)
 ```
@@ -354,13 +359,13 @@ Die Funktion nimmt die Variable selbst entgegen sowie die Gruppierungsvariable. 
 
 Innerhalb jeder Gruppe sollte eine Normalverteilung vorliegen. Diese Annahme bezieht sich, entgegen häufiger Vermutung, auf die Residuen der ANOVA. Wir erkennen diese Annahme aus der Regressionsanalyse wieder, wo wir ebenfalls die [Normalverteilung der Residuen, behandelt in Regression III,](/lehre/statistik-ii/regressionsdiagnostik) annahmen, um Inferenzstatistik zu betreiben. Um auf die Residuen einer ANOVA zuzugreifen, kann der Befehl `residuals` oder `resid` auf das von uns erstellte Objekt angewendet werden. Wie legen diese mal zusätzlich im Datensatz ab.
 
-```{r, purl = FALSE}
+```{r }
 conspiracy$resid <- resid(einfakt) 
 ```
 
 Nun können wir auf die Residuen einzelner Gruppen zugreifen und uns beispielsweise im Histogramm anschauen.
 
-```{r, purl = FALSE}
+```{r }
 hist(conspiracy$resid[conspiracy$urban == "rural"])
 hist(conspiracy$resid[conspiracy$urban == "suburban"])
 hist(conspiracy$resid[conspiracy$urban == "urban"])

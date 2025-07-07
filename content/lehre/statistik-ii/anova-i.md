@@ -9,7 +9,7 @@ subtitle: '1-fakt. ANOVA'
 summary: ''
 authors: [nehler, scheppa-lahyani, irmer, wallot ]
 weight: 8
-lastmod: '2025-06-10'
+lastmod: '2025-07-01'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"
@@ -52,14 +52,14 @@ Da die Rohdaten hier einige Informationen erhalten, die wir für die Durchführu
 
 
 
-``` r
+```r
 source("https://pandar.netlify.app/daten/Data_Processing_conspiracy.R")
 ```
 
 Wie bereits erwähnt stammt der Datensatz aus einer Untersuchung zum Thema *verschwörungstheoretische Überzeugungen*. Beginnen wir mit einer kurzen Inspektion. 
 
 
-``` r
+```r
 dim(conspiracy)
 ```
 
@@ -70,18 +70,32 @@ dim(conspiracy)
 Der Datensatz enthält die Werte von 2451 Personen auf 9 Variablen. 
 
 
-``` r
+```r
 head(conspiracy)
 ```
 
 ```
-##              edu    urban gender age       GM       GC       EC       PW       CI
-## 1 not highschool suburban female  14 4.000000 5.000000 4.666667 3.333333 4.666667
-## 2        college suburban female  26 2.000000 4.000000 1.000000 2.000000 3.333333
-## 3        college    rural   male  25 5.000000 4.333333 1.000000 3.333333 4.666667
-## 4     highschool suburban   male  37 5.000000 4.333333 2.333333 3.333333 4.666667
-## 5        college    rural   male  34 1.000000 1.000000 1.000000 1.000000 1.000000
-## 6     highschool suburban   male  17 3.333333 2.666667 3.000000 2.666667 3.666667
+##              edu    urban gender age
+## 1 not highschool suburban female  14
+## 2        college suburban female  26
+## 3        college    rural   male  25
+## 4     highschool suburban   male  37
+## 5        college    rural   male  34
+## 6     highschool suburban   male  17
+##         GM       GC       EC       PW
+## 1 4.000000 5.000000 4.666667 3.333333
+## 2 2.000000 4.000000 1.000000 2.000000
+## 3 5.000000 4.333333 1.000000 3.333333
+## 4 5.000000 4.333333 2.333333 3.333333
+## 5 1.000000 1.000000 1.000000 1.000000
+## 6 3.333333 2.666667 3.000000 2.666667
+##         CI
+## 1 4.666667
+## 2 3.333333
+## 3 4.666667
+## 4 4.666667
+## 5 1.000000
+## 6 3.666667
 ```
 
 Die **ersten vier Variablen** enthalten Informationen über den demographischen Hintergrund der Personen: höchster Bildungsabschluss (`edu`), Typ des Wohnortes (`urban`), Geschlecht (`gender`) und Alter (`age`). Die **fünf restlichen Variablen** sind Skalenwerte bezüglich verschiedener Subdimensionen verschwörungstheoretischer Überzeugungen: `GM` (goverment malfeasance), `GC` (malevolent global conspiracies), `EC` (extraterrestrial cover-up), `PW` (personal well-being) und `CI` (control of information).
@@ -127,7 +141,7 @@ $$QS_{inn} = \sum_{k = 1}^{K} \sum_{i = 1}^{n_k} (y_{ik}-\overline{y_k})^2$$
 Um die Quadratsummen der einfaktoriellen ANOVA per Hand zu bestimmen, müssen wir einige vorbereitende Schritte vollziehen. Zunächst brauchen wir die `aggregate()`-Funktion, die es erlaubt, eine zusammenfassende Statistik (wie Mittelwert oder Standardabweichung) für eine Variable getrennt nach verschiedenen Subgruppen zu berechnen. Dabei können wir in `aggregate()` die Schreibweise nutzen, die wir aus der Regression gewohnt sind - `interessierende Variable ~ Gruppierungsvariable, data`. Bei uns ist die interessierende Variable `EC` und die Gruppierungsvariable `urban`. Als zusätzliches Argument wird die Funktion übergeben, die in der Aggregation durchgeführt werden soll - also der Mittelwert durch `mean()`.
 
 
-``` r
+```r
 # Gruppenmittelwerte ermitteln
 y_mean_k <- aggregate(EC ~ urban, conspiracy, mean)
 y_mean_k
@@ -143,14 +157,14 @@ y_mean_k
 Unser erstelltes Objekt `y_mean_k` enthält nun die Mittelwerte der drei Gruppen. Die erste Spalte repräsentiert dabei die drei Ausprägungen der Variable `urban` - die zweite Spalte repräsentiert die empirischen Mittelwerte (und damit geschätzten Populationsmittelwerte) der Gruppe k auf der Variable `EC`. Der erste Spaltenname passt sehr gut - wir wollen aber hier die zweite Spalte noch neu benennen (`EC_mean_k`).
 
 
-``` r
+```r
 names(y_mean_k) <- c('urban', 'EC_mean_k')
 ```
 
 Wir wollen nun die Mittelwerte der Gruppen zu unserem ursprünglichen Datensatz hinzufügen. Es soll eine neue Spalte entstehen, die jeder Person den Mittelwert der Gruppe zuweist, in der sie wohnhaft ist. Ein solches Zusammenführen ist mit der Funktion `merge()` möglich. Dafür müssen wir zunächst die beiden Datensätze angeben, die zusammengefügt werden sollen (`conspiracy` und `y_mean_k`). Natürlich müssen wir `R` auch noch mitteilen, welche Variable das Zusammenfügen ermöglicht. Diese (in beiden Datensätzen gleiche) Variable heißt `urban` und wird dem Argument `by` übergeben. Wir nennen das neue Objekt `temp` für seine temporäre Nutzung.
 
 
-``` r
+```r
 temp <- merge(conspiracy, y_mean_k, by = 'urban')
 dim(temp)    # Dimensionen des temporären Datensatzes
 ```
@@ -159,26 +173,44 @@ dim(temp)    # Dimensionen des temporären Datensatzes
 ## [1] 2451   10
 ```
 
-``` r
+```r
 names(temp)  # Spaltennamen des temporären Datensatzes
 ```
 
 ```
-##  [1] "urban"     "edu"       "gender"    "age"       "GM"        "GC"        "EC"        "PW"        "CI"        "EC_mean_k"
+##  [1] "urban"     "edu"      
+##  [3] "gender"    "age"      
+##  [5] "GM"        "GC"       
+##  [7] "EC"        "PW"       
+##  [9] "CI"        "EC_mean_k"
 ```
 
-``` r
+```r
 head(temp)   # ersten 6 Zeilen des temporären Datensatzes
 ```
 
 ```
-##   urban            edu gender age GM       GC       EC       PW       CI EC_mean_k
-## 1 rural     highschool   male  19  4 2.666667 1.000000 2.666667 3.666667  2.186667
-## 2 rural not highschool   male  16  5 2.666667 1.000000 2.333333 3.333333  2.186667
-## 3 rural        college female  74  2 3.000000 2.333333 2.666667 3.333333  2.186667
-## 4 rural     highschool   male  38  4 1.666667 3.666667 2.000000 3.333333  2.186667
-## 5 rural     highschool   male  21  5 4.333333 4.000000 4.000000 4.333333  2.186667
-## 6 rural        college   male  61  1 1.000000 1.000000 1.000000 1.000000  2.186667
+##   urban            edu gender age GM
+## 1 rural     highschool   male  19  4
+## 2 rural not highschool   male  16  5
+## 3 rural        college female  74  2
+## 4 rural     highschool   male  38  4
+## 5 rural     highschool   male  21  5
+## 6 rural        college   male  61  1
+##         GC       EC       PW       CI
+## 1 2.666667 1.000000 2.666667 3.666667
+## 2 2.666667 1.000000 2.333333 3.333333
+## 3 3.000000 2.333333 2.666667 3.333333
+## 4 1.666667 3.666667 2.000000 3.333333
+## 5 4.333333 4.000000 4.000000 4.333333
+## 6 1.000000 1.000000 1.000000 1.000000
+##   EC_mean_k
+## 1  2.186667
+## 2  2.186667
+## 3  2.186667
+## 4  2.186667
+## 5  2.186667
+## 6  2.186667
 ```
 
 Anhand der Dimensionen können wir sehen, dass unser neuer Datensatz nun eine Variable mehr hat als `conspiracy`. Anhand der Variablennamen können wir sehen, dass die zusätzliche Spalte genau die ist, die die Mittelwerte pro Gruppe enthält (`EC_mean_k`). Mit der `head()`-Funktion gewinnnen wir weitere Eindrücke, gerne können Sie sich lokal den Datensatz auch mit `View(temp)` anschauen.
@@ -186,7 +218,7 @@ Anhand der Dimensionen können wir sehen, dass unser neuer Datensatz nun eine Va
 Weitere nötige Informationen für die händische Berechnung der Quadratsummen sind der Gesamtmittelwert und auch die Gruppengröße. Diese können mit uns bekannten Funktion einfach bestimmt werden. 
 
 
-``` r
+```r
 # Gesamtmittelwert ermitteln
 y_mean_ges <- mean(conspiracy$EC)
 y_mean_ges 
@@ -196,7 +228,7 @@ y_mean_ges
 ## [1] 2.203318
 ```
 
-``` r
+```r
 # Gruppengrößen ermitteln
 n_k <- table(conspiracy$urban)
 n_k
@@ -214,7 +246,7 @@ Nach diesen Vorbereitungen können wir die Quadratsummen $QS_{inn}$ und $QS_{zw}
 $$QS_{inn} = \sum_{k = 1}^{K} \sum_{i = 1}^{n_k} (y_{ik}-\overline{y_k})^2$$
 
 
-``` r
+```r
 QS_inn <- sum((temp$EC - temp$EC_mean_k)^2)
 ```
 
@@ -223,7 +255,7 @@ Die Berechnung von $QS_{zw}$ benötigt die einzelnen Gruppengrößen, die wir un
 $$QS_{zw} = \sum_{k = 1}^{K} n_k* (\overline{y_k}-\overline{y})^2$$
 
 
-``` r
+```r
 QS_zw <- sum(n_k * (y_mean_k[, 2] - y_mean_ges)^2)
 ```
 
@@ -231,7 +263,7 @@ QS_zw <- sum(n_k * (y_mean_k[, 2] - y_mean_ges)^2)
 Zur inferenzstatistischen Prüfung wird der $F$-Test herangezogen. Für die Berechnung brauchen wir die mittleren Quadratsummen $MQS_{zw} = \frac{QS_{zw}}{K-1}$ und $MQS_{inn} = \frac{QS_{inn}}{N-K}$. Dabei steht $N$ für die Anzahl aller Personen in der Stichprobe und $K$ (weiterhin) für die Anzahl an Gruppen. Folglich können die beiden Werten mit diesem Code per Hand bestimmt werden:
 
 
-``` r
+```r
 N <- nrow(conspiracy) # Stichprobengröße bestimmen
 K <- nlevels(conspiracy$urban) # Gruppenanzahl bestimmen
 
@@ -247,14 +279,14 @@ $$F_{emp} = \frac{MQS{zw}}{MQS{inn}}$$
 Wir erkennen, dass hier einfach die Variation zwischen den Gruppen (Variation der Mittelwerte) relativ zur (zufälligen) Variation innerhalb der Gruppen betrachtet wird. Ist die Variation zwischen den Gruppen relativ zur zufälligen Variation groß, so kann dies nicht durch Zufall passiert sein: die Mittelwerte müssen sich also bei einem großen $F$-Wert unterscheiden. 
 
 
-``` r
+```r
 F_wert <- MQS_zw/MQS_inn
 ```
 
 Das Verhältnis der Quadratsummen ist mit $df_1 = K - 1$ und $df_2 = N - K$ $F$-verteilt. Daher wird der $F_{emp}$ mit dem $F_{krit}$ mit $df_1 = K - 1$ (Zählerfreiheitsgraden) und $df_2 = N - K$ (Nennerfreiheitsgraden) verglichen. In `R` geht das automatisch mit `pf` (die Verteilungsfunktion/ kumulative Dichtefunktion der $F$-Verteilung). Diese gibt uns den $p$-Wert wieder. Hierbei muss zunächst der $F_{emp}$ angegeben werden, danach $df_1$ und als letztes $df_2$. `lower.tail = FALSE` bestimmt, dass wir die Wahrscheinlichkeit (Fläche unter der Kurve) für extremere Werte als unseren beobachteten $F_{emp}$ angezeigt bekommen:
 
 
-``` r
+```r
 pf(F_wert, nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$urban), lower.tail = FALSE)
 ```
 
@@ -273,15 +305,17 @@ Zur Beurteilung der Signifikanz muss der errechnete p-Wert mit dem vorher festge
 Da das Ausrechnen per Hand nun doch etwas umständlich ist, bietet `R` uns einige andere Möglichkeiten. Beispielsweise gibt es `anova()` oder `aov()` in der Basisinstallation und diverse weitere Funktionen in Paketen (z. B. `Anova()` aus `car`). Bis zum letzten Jahr haben wir die ANOVA hier noch mit dem `ez`-Paket vorgestellt. Dieses wird jedoch nicht mehr häufig maintained (also Fehler werden nicht behoben) und bietet wenig Expansionsmöglichkeiten zu Kontrasten, besonders im längsschnittlichen Fall. Stattdessen werden wir die ANOVA nun mit dem `afex`-Paket durchführen. Leider hat auch dieses den Nachteil - Korrekturen der Parameter bei Verletzungen von Voraussetzungen sind nicht komplett implementiert. So ist es also wie so häufig in `R` - alles hat Vor- und Nachteile. Wir können uns zumindest freuen, dass wir unsere bekannte Schreibweise aus der Regression beibehalten und leicht Kontraste durchführen können. Da wir das Paket bisher nicht genutzt haben, müssen wir es zunächst installieren.
 
 
-``` r
-# Paket installieren
-install.packages("afex")
+```r
+# Paket installieren falls nicht vorhanden
+if (!requireNamespace("afex", quietly = TRUE)) {
+    install.packages("afex")
+  }
 ```
 
 Anschließend kann es geladen werden.
 
 
-``` r
+```r
 # Paket laden 
 library(afex)
 ```
@@ -289,25 +323,25 @@ library(afex)
 Die Funktion, die wir zur Durchführung der ANOVA nutzen wollen, heißt `aov_4()`. Wie bereits angekündigt , ist die Syntax ähnlich der der Regressionsanalyse. Die abhängige Variable wird zunächst genannt, dann folgt die Tilde `~`, dann die unabhängige Variable und schließlich der Datensatz. 
 
 
-``` r
+```r
 aov_4(EC ~ urban, data = conspiracy)
 ```
 
 ```
-## Error in aov_4(EC ~ urban, data = conspiracy): aov_4() requires one random-effect term in formula
+## Error in if (make.names(name) != name) {: Fehlender Wert, wo TRUE/FALSE nötig ist
 ```
 
 Leider funktioniert die Durchführung hier nicht direkt. Die Fehlermeldung spricht an, dass wir einen *random-effect* in der Formel brauchen. Was das genau ist, besprechen wir in einem späteren Tutorial. Fürs erste können wir das Problem lösen, indem wir eine `id`-Variable zu unserem Datensatz hinzufügen. Diese macht klar, welche Zeile zu welcher Beobachtung gehört. Bei uns können wir die `id` einfach durchnummerieren, da jede Beobachtung eine eigene Zeile hat.
 
 
-``` r
+```r
 conspiracy$id <- 1:nrow(conspiracy)
 ```
 
 Die `id`-Variable muss dann in unserer Regressiongleichung ergänzt werden mit der folgenden Schreibweise, die in einem späteren Tutorial erläutert wird.
 
 
-``` r
+```r
 aov_4(EC ~ urban + (1|id), data = conspiracy)
 ```
 
@@ -319,10 +353,14 @@ aov_4(EC ~ urban + (1|id), data = conspiracy)
 ## Anova Table (Type 3 tests)
 ## 
 ## Response: EC
-##   Effect      df  MSE      F  ges p.value
-## 1  urban 2, 2448 1.75 3.42 * .003    .033
+##   Effect      df  MSE      F  ges
+## 1  urban 2, 2448 1.75 3.42 * .003
+##   p.value
+## 1    .033
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '+' 0.1 ' ' 1
 ```
 
 Im Output wird zunächst darauf hingewiesen, dass es sich um einen ANOVA Table handelt. Was genau die Klammer - Type 3 tests - bedeutet, besprechen wir in der nächsten Sitzung zur [zweifaktoriellen ANOVA](/lehre/statistik-ii/anova-ii). Auch die entstehende Mitteilung besprechen wir dort.
@@ -334,7 +372,7 @@ Die vorletzte Spalte liefert das generalisierte $\eta^2$ (`ges` = *Generalized E
 Detaillierte Ergebnisse können wir natürlich erhalten, wenn wir die Berechnung in ein Objekt ablegen. 
 
 
-``` r
+```r
 einfakt <- aov_4(EC ~ urban + (1|id), data = conspiracy)
 ```
 
@@ -355,7 +393,7 @@ Die **ANOVA** ist ein **Omnibustest** - es wird lediglich die Gleichheit aller G
 Die naheliegende Untersuchung wäre hier, alle drei Gruppen mithilfe einfacher $t$-Tests zu vergleichen. Da wir hier nicht nur zwei Ausprägungen in unserer Gruppierungsvariable haben, nutzen wir den Befehl `pairwise.t.test`. Aufgrund der $\alpha$-Fehler Kumulierung müssen die $p$-Werte adjustiert werden (`p.adjust = 'bonferroni'`). Dabei ist die Bonferroni-Korrektur einer der einfachsten (und gleichzeitig konservativsten) Ansätze: $\alpha_{\text{kor}} = \frac{\alpha}{m}$, wobei $m = \binom{K}{2}$ die Anzahl der durchgeführten Tests ist. 
 
 
-``` r
+```r
 pairwise.t.test(conspiracy$EC, conspiracy$urban, p.adjust = 'bonferroni')
 ```
 
@@ -379,38 +417,44 @@ Jeder Eintrag in der Tabelle entspricht dann dem korrigierten $p$-Wert von einem
 Ein Ansatz mit mehr Power (also weniger konservativ) als die einfachen $t$-Tests bietet **Tukeys Honest Significant Difference** (auch *Tukey-Test* genannt). Um diesen durchzuführen, brauchen wir ein Objekt des Typens `emmGrid` bzw. `emmeans`. Dafür benötigen wir zunächst ein weiteres Paket - das passenderweise auch `emmeans` heißt. Zunächst installieren wir wieder.
 
 
-``` r
-# Paket installieren
-install.packages("emmeans")
+```r
+# Paket installieren falls nicht vorhanden
+if (!requireNamespace("emmeans", quietly = TRUE)) {
+    install.packages("emmeans")
+  }
 ```
 
 Nun können wir das Paket einladen.
 
 
-``` r
+```r
 library(emmeans)
 ```
 
 Nun wandeln wir das Objekt um. Dafür brauchen wir die Funktion `emmeans()` (die wiederum also genauso heißt wie das Paket). Diese benötigt als erstes Argument unser Objekt und als zweites dann nochmal unsere Gruppierungsvariable mit einer Tilde `~` vorweg. Das erscheint etwas redundant, aber wenn man bspw. mehrere Gruppierungsvariablen hätte, könnte man hier reduzieren.
 
 
-``` r
+```r
 emm_einfakt <- emmeans(einfakt, ~ urban)
 ```
 
 Der Tukey kann dann mit der Funktion `pairs()` durchgeführt wird. Neben dem Objekt wird als Input noch benötigt, wie wir den p-Wert anpassen `adjust` wollen. Hier wählen wir `tukey`. Wir legen das Ergebnis wieder in ein Objekt ab und lassen uns das Ergebnis anzeigen.
 
 
-``` r
+```r
 tukey <- pairs(emm_einfakt, adjust = "tukey")
 tukey
 ```
 
 ```
-##  contrast         estimate     SE   df t.ratio p.value
-##  rural - suburban   0.0465 0.0724 2448   0.643  0.7964
-##  rural - urban     -0.1095 0.0757 2448  -1.445  0.3179
-##  suburban - urban  -0.1560 0.0601 2448  -2.596  0.0257
+##  contrast         estimate     SE
+##  rural - suburban   0.0465 0.0724
+##  rural - urban     -0.1095 0.0757
+##  suburban - urban  -0.1560 0.0601
+##    df t.ratio p.value
+##  2448   0.643  0.7964
+##  2448  -1.445  0.3179
+##  2448  -2.596  0.0257
 ## 
 ## P value adjustment: tukey method for comparing a family of 3 estimates
 ```
@@ -420,15 +464,19 @@ Das zeigt uns für alle 3 Gruppenvergleiche die Mittelwertsdifferenz in `estimat
 Korrigierte Konfidenzintervalle für die Mittelwertsdifferenzen kann man mit `confint()` anzeigen lassen. 
 
 
-``` r
+```r
 confint(tukey)
 ```
 
 ```
-##  contrast         estimate     SE   df lower.CL upper.CL
-##  rural - suburban   0.0465 0.0724 2448   -0.123   0.2162
-##  rural - urban     -0.1095 0.0757 2448   -0.287   0.0682
-##  suburban - urban  -0.1560 0.0601 2448   -0.297  -0.0151
+##  contrast         estimate     SE
+##  rural - suburban   0.0465 0.0724
+##  rural - urban     -0.1095 0.0757
+##  suburban - urban  -0.1560 0.0601
+##    df lower.CL upper.CL
+##  2448   -0.123   0.2162
+##  2448   -0.287   0.0682
+##  2448   -0.297  -0.0151
 ## 
 ## Confidence level used: 0.95 
 ## Conf-level adjustment: tukey method for comparing a family of 3 estimates
@@ -438,7 +486,7 @@ Schließt das Konfidenzintervall für die Mittelwertsdifferenz die 0 ein, so ist
 Auch ein hübscher Plot für die Berichterstattung lässt sich erzeugen, der die eben bestimmten Konfidenzintervalle abbildet.
 
 
-``` r
+```r
 plot(tukey)
 ```
 
@@ -472,7 +520,7 @@ Die Unabhängigkeit der Residuen wäre dann verletzt, wenn abhängige Stichprobe
 Die Homoskedastizitätsannahme besagt, dass die Varianzen jeder Gruppe über die Gruppen hinweg gleich sind. Deshalb wird diese Annahme auch häufig "Varianzhomogenitätsannahme" genannt. Zur Überprüfung der Homoskedastizität kann der **Levene-Test** herangezogen werden. Dieser kann mithilfe des `car`-Pakets angefordert werden. Dazu laden wir zunächst das Paket und führen anschließend die Funktion `leveneTest` aus. Installiert haben wir das Paket bereits in vorherigen Tutorials und dort auch bereits angewendet.
 
 
-``` r
+```r
 library(car)
 leveneTest(conspiracy$EC ~ conspiracy$urban)
 ```
@@ -483,7 +531,9 @@ leveneTest(conspiracy$EC ~ conspiracy$urban)
 ## group    2  2.7631 0.06329 .
 ##       2448                  
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ```
 
 Die Funktion nimmt die Variable selbst entgegen sowie die Gruppierungsvariable. `EC` aus dem `conspiracy`-Datensatz stellt hierbei die AV dar, die Gruppierungsvariable `urban` ist die UV. Wir erkennen im Output, was genau der Levene-Test eigentlich macht: `Levene's Test for Homogeneity of Variance`, nämlich die Varianzen auf Homogenität prüfen.  Das Ergebnis ist nicht signifikant. In diesem Fall muss die Annahme der Varianzhomogenität über die drei Gruppen hinweg also *nicht verworfen* werden. 
@@ -493,30 +543,30 @@ Die Funktion nimmt die Variable selbst entgegen sowie die Gruppierungsvariable. 
 Innerhalb jeder Gruppe sollte eine Normalverteilung vorliegen. Diese Annahme bezieht sich, entgegen häufiger Vermutung, auf die Residuen der ANOVA. Wir erkennen diese Annahme aus der Regressionsanalyse wieder, wo wir ebenfalls die [Normalverteilung der Residuen, behandelt in Regression III,](/lehre/statistik-ii/regressionsdiagnostik) annahmen, um Inferenzstatistik zu betreiben. Um auf die Residuen einer ANOVA zuzugreifen, kann der Befehl `residuals` oder `resid` auf das von uns erstellte Objekt angewendet werden. Wie legen diese mal zusätzlich im Datensatz ab.
 
 
-``` r
+```r
 conspiracy$resid <- resid(einfakt) 
 ```
 
 Nun können wir auf die Residuen einzelner Gruppen zugreifen und uns beispielsweise im Histogramm anschauen.
 
 
-``` r
+```r
 hist(conspiracy$resid[conspiracy$urban == "rural"])
 ```
 
-![](/anova-i_files/unnamed-chunk-28-1.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-27-1.png)<!-- -->
 
-``` r
+```r
 hist(conspiracy$resid[conspiracy$urban == "suburban"])
 ```
 
-![](/anova-i_files/unnamed-chunk-28-2.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-27-2.png)<!-- -->
 
-``` r
+```r
 hist(conspiracy$resid[conspiracy$urban == "urban"])
 ```
 
-![](/anova-i_files/unnamed-chunk-28-3.png)<!-- -->
+![](/anova-i_files/unnamed-chunk-27-3.png)<!-- -->
 
 Die Normalverteilung der Residuen scheint schwierig zu sein.
 
