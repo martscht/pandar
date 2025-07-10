@@ -51,7 +51,10 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [HeckData ](#heckdata-heckdata) | [{{< icon name="download" pack="fas" >}} `HeckData` ](/daten/HeckData.rda) |
 | [Internetintervention für psychische Störungen](#internetintervention-für-psychische-störungen-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/zc8ut/download) |
 | [Interozeptive Aufmerksamkeit und Genauigkeit](#interozeptive-aufmerksamkeit-und-genauigkeit-body) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/j6ef3/download) |
-| [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa` ](/daten/conspiracy_cfa.rda) |
+| [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa (Processing-File)` ](/daten/Data_Processing_conspiracy_cfa.R) |
+|[KliPPs - Quiz 1: `trauma` - Generalisiertes lineares Modell](#Klipps1)|[{{< icon name="download" pack="fas" >}} `trauma (Processing-File)` ](/daten/Data_Processing_KliPPsQuiz1.R)|
+|[KliPPs - Quiz 2: `lockdown` - Hierarschische Regression](#Klipps2)|[{{< icon name="download" pack="fas" >}} `lockdown (Processing-File)` ](/daten/Data_Processing_KliPPsQuiz2.R)|
+|[KliPPs - Quiz 4: `fall` - Metaanalyse](#Klipps4)|[{{< icon name="download" pack="fas" >}} `fall (Processing-File)` ](/daten/Data_Processing_fall.R)|
 | [Kulturelle Unterschiede in Korruptionsbestrafung](#kulturelle-unterschiede-in-korruptionsbestrafung-punish) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/4wypx/download)
 | [Lesekompetenz in der PISA-Erhebung](#lesekompetenz-in-der-pisa-erhebung-pisa2009) | [{{< icon name="download" pack="fas" >}} `PISA2009` ](/daten/PISA2009.rda) |
 | [Machiavellismus-Fragebogen](#machiavellismus-fragebogen-mach) | [{{< icon name="download" pack="fas" >}} `mach` ](/daten/mach.rda) |
@@ -64,14 +67,14 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Psychisches Wohlbefinden von Individuen während des Lockdowns in Frankreich](#psychisches-wohlbefinden-von-individuen-während-des-lockdowns-in-frankreich-lockdown) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/dc6me/download)
 | [Quasi-Experimentelle Therapiestudie](#quasi-experimentelle-therapiestudie-cbtdata) | [{{< icon name="download" pack="fas" >}} `CBTdata` ](/daten/CBTdata.rda) |
 | [Schulleistungen](#schulleistungen-schulleistungen) | [{{< icon name="download" pack="fas" >}} `Schulleistungen` ](/daten/Schulleistungen.rda) |
-| [Skalenwerte der Generic Conspiracist Beliefs Scale](#skalenwerte-der-generic-conspiracist-beliefs-scale-conspiracy) | [{{< icon name="download" pack="fas" >}} `conspiracy` ](/daten/conspiracy.rda) |
+| [Skalenwerte der Generic Conspiracist Beliefs Scale](#skalenwerte-der-generic-conspiracist-beliefs-scale-conspiracy) | [{{< icon name="download" pack="fas" >}} `conspiracy (Processing-File)` ](/daten/Data_Processing_conspiracy.R)) |
 | [Students in Classes](#students-in-classes-studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
 | [Therapieerfolg](#therapieerfolg-therapy) | [{{< icon name="download" pack="fas" >}} `Therapy` ](/daten/Therapy.rda) |
 | [Titanic](#titanic-titanic) |  [{{< icon name="download" pack="fas" >}} `Titanic` ](/daten/Titanic.rda) |
 | [Traumatische Erlebnisse und psychische Störungen](#traumatische-erlebnisse-und-psychische-störungen-trauma) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/a9vun/download) |
 | [Trivia](#trivia-trivia) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/7ekb4/)
 | [Vegan](#vegan-vegan) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/rctkf/)
-| [Vergleich von Behandlungsformen](#vergleich-von-behandlungsformen-behandlungsform) | [{{< icon name="download" pack="fas" >}} `Behandlungsform` ](daten/Behandlungsform.rda)
+| [Vergleich von Behandlungsformen](#vergleich-von-behandlungsformen-behandlungsform) | [{{< icon name="download" pack="fas" >}} `Behandlungsform` ](/daten/Behandlungsform.rda)
 | [Xmas](#xmas-xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
 
 ---
@@ -410,7 +413,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 ### Auftreten
-Big5 wird in [Exploratorische Faktorenanalyse](/lehre/fue-ii/fue-efa) [[Fue II](/category/fue-ii/)] genutzt.
+Big5 wird in [Exploratorische Faktorenanalyse](/lehre/fue-ii/fue-efa) [[Fue II](/category/fue-ii/)] und [Partial- & Semipartialkorrelation - Übungen](/lehre/statistik-ii/partial-uebungen) [[Statistik II](/category/statistik-ii/)] genutzt.
 
 ---
 
@@ -1344,6 +1347,179 @@ punish wird in [Regression mit nominalskalierten Prädiktoren](/lehre/statistik-
 
 ---
 
+## KliPPs - Quiz 1: Generalisiertes lineares Modell (`trauma`) {#Klipps1}
+
+### Beschreibung
+Das Quiz zu diesem Block beruht auf einer echten Untersuchung, deren Datensatz [hier](https://osf.io/a9vun/) im Open Science Framework abgelegt ist. In dem Datensatz wurde bspw. erhoben, was für potenziell traumatischen Erlebnissen eine Person ausgesetzt war und mittels der Live Event Checklist (LEC) zu welchem Grad. Weiterhin wurden die Depressionswerte anhand des Becks-Depression-Inventar (BDI) und die Anxiety-Werte durch die Zung Self-Rating Anxiety Scale (SAS) erhoben. Für unsere Berechnung brauchen wir nur einen Ausschnitt der Vielzahl an Variablen. Diesen extrahieren wir aus dem originalen Datensatz und erstellen damit einen Neuen für unsere Aufgaben. Da das Processing in diesem Fall sehr komplex ist, haben wir das für Sie übernommen.
+
+In diesem ist die Variable Geschlecht (`gender`) in `m` und `w` unterteilt, wobei `m` Männer und `w` Frauen beschreibt. Die Variable mit den Anxiety Werten (`sas`) erfasst die kumulierten Werte aller Fragen aus der SAS, die eine 4-Punkt Likert-Skala benutzt. Die Variable mit den Depressionswerten (`bdi`) erfasst die kumulierten Werte aller Fragen aus dem BDI, das Antwortmöglichkeiten von 0 bis 3 anhand der Schwere der Symptomatik bewertet. Sowohl die Anxiety Werte als auch die Depressionswerte wurden ihrer Intensität nach gruppiert von 1 bis 4, wobei `1` keine auffällige Symptomatik beschreibt, `2` milde bis moderate Symptome, `3` moderate bis schwere Symptome und `4` schwere Symptome. Diese Werte sind in den Variablen `bdi_group` und `sas_group` zu finden. In der Variable `sexual_assault` wurde allen Personen, die sexuelle Gewalt direkt erfahren haben, eine `1` zugeteilt, während allen anderen Fällen eine `0` zugewiesen wurde. Die Variable `trauma_exp_form` beschreibt die Form des Trauma-Erlebnisses, ob dieses direkt erlebt wurde (markiert durch `direct experience`), also der Person selbst passiert ist oder indirekt (`indirect experience`), so dass sie es gesehen / mitbekommen hat. Die Variable `trauma_exp_kind` beschreibt dagegen, welcher Art das Trauma-Erlebnis war. Dabei wurden die verschiedenen LEC Fragen fünf verschiedenen Gruppen zugeteilt. Im Datensatz liegt diese Variable als Faktor mit 6 Abstufungen vor. Mit diesen 6 Abstufungen können die 5 verschiedene Arten von Traumata aus dem LEC und "kein Trauma" kodiert werden: Stufe `1` steht für Personen, die keine Art eines Traumas erlebt haben. Stufe `2` steht für schwere Krankheiten, `3` für sexuelle Gewalt, `4` für schwere Unfälle, `5` für körperliche Gewalt und `6` für Krieg oder Naturkatastrophen. In der Variable `future` wird anhand des Zimbardo Time Perspective Inventory (ZTPI) die Einstellung gegenüber der Zukunft erfasst, also ob es für diese klare Vorstellungen, Pläne und Ziele gibt oder nicht. Die Skala Past Negative des ZTPI wird in der Variable `past_neg` festgehalten und beschreibt wie oft eine Person negativ über die Vergangenheit denkt. Beide Skalen wurden durch 5-Punkt Likert-Skalen bewertet, deren Durchschnitt festgehalten wurde. Zuletzt wurde noch der Gesamtwert der Dissociative Experiences Scale in der Variable `dissociation` festgehalten. Diese Skala erhebt das Dissoziationserleben einer Person mit 28 Items in einer 11 Punkt Likert-Skala.
+
+**Zum Abschluss noch ein Disclaimer zum Processing:** Bei der Erstellung der Variable `trauma_exp_kind` wurde das Erleben mehrerer potentiell traumatischer Live Events ignoriert und die Personen dem jeweils ersten abgefragten traumatischen Erlebnis zugeteilt. Der Effekt mehrerer traumatischer Erlebnisse ist hiermit also nicht mehr erfassbar und kann dadurch die Ergebnisse verzerren. Ebenso wurden die Gruppen nur auf Basis von Item-Ähnlichkeit gebildet und nicht basierend auf empirischen Erkenntnissen. Das ist keine Grundlage für empirisch valide Forschung, sondern gilt einzig der Vereinfachung für die Übungsrechnung.
+
+### Datensatz laden
+Sie benötigen zum Ausführen des Processing folgende Pakete:
+
+```r
+install.packages('dplyr')
+install.packages('haven')
+```
+
+Mit folgendem Befehl laden Sie sich die modifizierte Version des Datensatzes in ihr Working Directory ein.
+
+
+```r
+source(url("https://pandar.netlify.app/daten/Data_Processing_KliPPsQuiz1.R"))
+```
+
+### Größe
+Der Datensatz besteht aus 470 Beobachtungen auf 11 Variablen.
+
+### Variablen
+Der Datensatz enthält folgende Variablen:
+
+| Variable | Bedeutung | Kodierung |
+| --- | ---- | ---- |
+| `gender` | Geschlecht | w = weiblich, m = männlich |
+| `bdi` | Depressions-Werte | kumulierte Werte aus BDI |
+| `bdi_group` | Gruppierung der BDI-Scores | 1 = keine auffällige Symptomatik, 2 = milde bis moderate Symptome, 3 = moderate bis schwere Symptome, 4 = schwere Symptome |
+| `sas` | Anxiety-Werte | kumulierte Werte aus SAS |
+| `sas_group` |  Gruppierung der SAS-Scores | 1 = keine auffällige Symptomatik, 2 = milde bis moderate Symptome, 3 = moderate bis schwere Symptome, 4 = schwere Symptome | 
+| `future` | Einstellung gegenüber der Zukunft | *Skalenwert*: 5-Punkt-Likert-Skala | 
+| `past_neg` | Skala *Past Negative* des ZTPI | *Skalenwert*: 5-Punkt-Likert-Skala | 
+| `dissociation` | Gesamtwert der *Dissociative Experiences Scale* | *Skalenwert*: 11-Punkt-Likert-Skala | 
+| `sexual_assault` | Erfahrungen mit sexueller Gewalt | 0 = vorhanden, 1 = nicht vorhanden |
+| `trauma_exp_kind` | Art des Traumaerlebnisses | 1 = keine Art eines Traumas erlebt, 2 = schwere Krankheiten, 3 = sexuelle Gewalt, 4 = schwere Unfälle, 5 = körperliche Gewalt, 6 = Krieg/Naturkatastrophen |
+| `trauma_exp_form` | Form des Traumaerlebnisses | *direct experience* = als Opfer, *indirect experience* = als Zeug:in | 
+
+### Fehlende Werte
+Fehlende Werte sind nicht vorhanden
+
+### Auftreten
+trauma wird in [Daten für die Quizze](/lehre/klipps/quizdaten-klinische) [[Klipps](/category/klipps/)] genutzt.
+
+
+
+---
+
+## Klipps - Quiz 2: Hierarchische Regression(`lockdown`) {#Klipps2}
+
+### Beschreibung
+Dieser Datensatz nutzt Daten aus der Studie von [Pellerin und Raufaste (2020)](https://doi.org/10.3389/fpsyg.2020.590276), in der die protektive Wirkung verschiedener psychologischer Ressourcen auf die psychische Gesundheit während der COVID-19-Pandemie untersucht wurde. Die Daten sind [hier](https://osf.io/45aq3) verfügbar.
+
+In diesem Datensatz sind Personen (`id`) zu mehreren Messzeitpunkten (`wave`) während des Lockdowns in Frankreich befragt worden. In der Variable `time` wird zusätzlich kodiert, wie lange die Person zu diesem Zeitpunkt schon im Lockdown war. Außerdem wurden vier verschiedene Wohlbefindensvariablen als abhängige Variablen erfasst:
+
+- `EWB`: Emotional Wellbeing
+- `PWB`: Psychological Wellbeing
+- `SWB`: Social Wellbeing
+- `IWB`: Inner Wellbeing
+
+Eine detailliertere Darstellung der Konstrukte, die sich hinter diesen Variablen verbergen finden Sie im Artikel von [Pellerin und Raufaste (2020)](https://doi.org/10.3389/fpsyg.2020.590276). 
+
+Auf Personenebene (Level-2) sind außerdem Variablen als Prädiktoren enthalten, welche zum 1. Zeitpunkt als "Ausgangsniveau" erhoben wurden. Dies sind Personenvariablen wie Alter und Geschlecht, zudem verschiedene psychologischen Ressourcen wie Optimismus (`Optimism`), Selbstwirksamkeit (`Self-efficacy`), Hoffnung (`Hope`), Weisheit (`P.Wisdom` & `ST.Wisdom`), Dankbarkeit gegenüber der eigenen Existenz und der Welt (`Grat.being` & `Grat.world`) und Akzeptanz (`Acceptance`). Als Prädiktoren auf Ebene 1 können Variablen verwendet werden, die mehrfach erfragt wurden und über die Zeit variieren. Dies ist die o.g. im Lockdown verbrachte Zeit (`Time`) sowie die wahrgenommene ökonomische Bedrohung, also Jobgefahr, Geldnot, etc. (`E.threat`) und die wahrgenommene gesundheitliche Bedrohung, also die Wahrscheinlichkeit einer Erkrankung und deren Folgen (`H.threat`).
+
+
+Im Rahmen des Quiz sollen außerdem Fragen zu einer Studie, die das statistische Modell in der klinischen Forschung einsetzt, beantwortet werden. Eine groß angelegte Studie von [Goldberg et al. (2016)](https://doi.org/10.1037/cou0000131) untersuchte, ob Psychotherapeut*innen mit zunehmender Berufserfahrung bessere Therapieergebnisse erzielen. 
+
+### Datensatz laden
+Um die Daten zu laden können Sie wieder das vorbereitete Datenaufbereitungsskript ausführen:
+
+
+```r
+source(url("https://pandar.netlify.app/daten/Data_Processing_KliPPsQuiz2.R"))
+```
+
+### Größe
+Der Datensatz besteht aus 2188 Beobachtungen auf 25 Variablen.
+
+### Variablen
+Der Datensatz enthält folgende Variablen:
+
+| Variable | Inhalt | Kodierung |
+|----------|--------|-----------|
+| `ID` | Probanden-ID | Faktor mit Codierung |
+| `Wave` | Messzeitpunkt | Reihenfolgenordnung der Messzeitpunkte |
+| `Age` | Alter | Alter in Jahren |
+| `Gender` | Geschlecht | 1 = Männlich, 2 = Weiblich |
+| `Income` | Einkommen | (0,2] = <1000, (2,5] = 1000-2000, (5,7] = 2000-3000, (7,10] = >3000 |
+| `EWB` | Emotional well-being | z-standardisiert |
+| `PWB` | Psychological well-being | z-standardisiert |
+| `SWB` | Social well-being | z-standardisiert |
+| `IWB` | Inner well-being | z-standardisiert |
+| `E.threat` | Wahrgenommene ökonomische Bedrohung | z-standardisiert |
+| `H.threat` | Wahrgenommene gesundheitliche Bedrohung | z-standardisiert |
+| `Optimism` | Optimismus | z-standardisiert |
+| `Self.efficacy` | Selbstwirksamkeit | z-standardisiert |
+| `Hope` | Hoffnung | z-standardisiert |
+| `P.Wisdom` | Weisheit | z-standardisiert |
+| `ST.Wisdom` | Weisheit | z-standardisiert |
+| `Grat.being` | Dankbarkeit für eigene Existenz | z-standardisiert |
+| `Grat.world` | Dankbarkeit gegenüber der Welt | z-standardisiert |
+| `PD` | Peaceful Disengagement (Friedliche Einstellung gegenüber der Loslösung des Selbst von der Realität) |  |
+| `Acc` | Akzeptanz gegenüber Geschehnissen |  |
+| `Time` | Im Lockdown verbrachte Zeit |  |
+| `EWB.Baseline` | EWB-Werte von Wave 1 | Mittelwert d. Items |
+| `PWB.Baseline` | PWB-Werte von Wave 1 | Mittelwert d. Items |
+| `SWB.Baseline` | SWB-Werte von Wave 1 | Mittelwert d. Items |
+| `IWB.Baseline` | IWB-Werte von Wave 1| Mittelwert d. Items |
+
+### Fehlende Werte
+Es sind keine fehlenden Werte vorhanden.
+
+### Auftreten
+lockdown wird in [Daten für die Quizze](/lehre/klipps/quizdaten-klinische) [[Klipps](/category/klipps/)] genutzt.
+
+---
+
+## Klipps - Quiz 4: Metaanalyse (`fall`) {#Klipps4}
+
+### Beschreibung
+Für diesen Datensatz nutzen wir die Daten aus der Meta-Analyse von [Kruisbrink et al. (2021)](https://doi.org/10.1080/09638288.2021.1969452), in der verschiedene Interventionsansätze bezüglich der Sturzgefahr von Personen höheren Alters untersucht werden. Spezifisch geht es in dieser Analyse um die psychologischen Outcomes bezüglich der Angst vor Stürzen, nicht um die tatsächliche Häufigkeit oder deren Schweregrad. Die relevanten Zusatzdateien (wie z.B. der Datensatz) sind allesamt im OSF-Projekt [osf.io/sf67d](https://osf.io/sf67d/) verfügbar.
+
+In `author` werden die Studien anhand ihres Erstautors / ihrer Erstautorin geführt, in `id` ist werden die Studien-IDs numerisch vergeben. `quality` gibt an, auf wie vielen der sieben potentiellen Bias-Risiken eine Studie als problematisch eingestuft wurde. Von [Kruisbrink et al. (2021, S. 6250)](https://doi.org/10.1080/09638288.2021.1969452) wird hierzu folgende Aussage getroffen:
+
+> [...] the number of high risk of bias items ranged from two to four out of the total of seven items. Due to the nature of the interventions, blinding was impossible and the two items regarding blinding of participants and personnel and outcome assessors (performance bias and detection bias) were always scored with a high risk of bias.
+
+Die vier folgenden Variablen (`bodyawareness`, `holistic`, `meditation`, `discussion`) kennzeichnen in Dummy-Variablen, ob eine untersuchte Intervention diese Elemente enthält bzw. nach diesen Prinzipien gestaltet ist. Die Variablen `es_post` und `es_follow` enthalten die Effektstärken zur Post bzw. Follow-Messung, die Variablen `se_post` und `se_follow` die zugehörigen Standardfehler.
+
+Im Rahmen des Quiz wird außerdem um die genauere Betrachtung der Studie von [Schwenk et al. (2016)](https://pmc.ncbi.nlm.nih.gov/articles/PMC6644036/#ABS1) gebeten.
+
+### Datensatz laden
+Um eine, für das Quiz aufbereitete und gekürzte Fassung der Daten zu laden, können Sie das folgende Skript ausführen (*Anmerkung: sollten Sie das Paket `haven` noch nicht installiert haben, wird dieses durch das Ausführen dieses Skripts installiert*):
+
+
+```r
+source("https://pandar.netlify.app/daten/Data_Processing_fall.R")
+```
+
+### Größe
+Der Datensatz besteht aus 52 Beobachtungen auf 11 Variablen.
+
+### Variablen
+Der Datensatz enthält folgende Variablen:
+
+| Variable | Inhalt | Kodierung |
+|----------|--------|-----------|
+| `Author` | Erstautoren der jeweiligen Studie | Text der Autorenschaft enthält |
+| `id` | Zuordnung der Studie | Numerischer Wert |
+| `quality` | Gibt an, wie viele problematische Bias-Risiken eine Studie aufweist | Anzahl der riskanten Bias-Items [2-4] |
+| `bodyawareness` | Ob die beschriebene Intervention enthalten ist | 0 = nein, 1 = ja |
+| `holistic` | Ob die beschriebene Intervention enthalten ist | 0 = nein, 1 = ja |
+| `meditation` | Ob die beschriebene Intervention enthalten ist | 0 = nein, 1 = ja |
+| `discussion` | Ob die beschriebene Intervention enthalten ist | 0 = nein, 1 = ja |
+| `es_post` | Effektstärke der Post-Messung |  |
+| `se_post` | Standardfehler der Post-Messung |  |
+| `es_follow` | Effektstärke der Follow-Messung |  |
+| `se_follow` | Standardfehler der Follow-Messung |  |
+
+
+### Fehlende Werte
+Es liegen fehlende Werte in einzelnen Studien vor.
+
+### Auftreten
+fall wird in [Daten für die Quizze](/lehre/klipps/quizdaten-klinische) [[Klipps](/category/klipps/)] genutzt.
+
+---
+
 ## Lesekompetenz in der PISA-Erhebung (`PISA2009`)
 
 <!-- <details><summary>Datensatz</summary> -->
@@ -1387,7 +1563,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 ### Auftreten
-PISA2009 wird in [Daten für die Quiz](/lehre/statistik-ii/quizdaten-bsc7) [[Statistik II](/category/statistik-ii/)] und [Regression IV: quadratische und moderierte Regression](/lehre/statistik-ii/regression-iv) [[Statistik II](/category/statistik-ii/)] genutzt.
+PISA2009 wird in [Regression IV: quadratische und moderierte Regression](/lehre/statistik-ii/regression-iv) [[Statistik II](/category/statistik-ii/)] genutzt.
 
 
 ---
@@ -1437,7 +1613,7 @@ Insgesamt liegen im Datensatz 19 fehlende Werte vor. Diese liegen ausschließlic
 <!-- </details> -->
 
 ### Auftreten
-mach wird in [Wiederholung von Grundlagen in R](/lehre/statistik-ii/einleitung-statistik-ii) [[Statistik II](/category/statistik-ii/)], [Grafiken mit ggplot2 - Übungen](/lehre/statistik-ii/grafiken-ggplot2-uebungen) [[Statistik II](/category/statistik-ii/)] und [Daten für die Quiz](/lehre/statistik-ii/quizdaten-bsc7) [[Statistik II](/category/statistik-ii/)] genutzt.
+mach wird in [Wiederholung von Grundlagen in R](/lehre/statistik-ii/einleitung-statistik-ii) [[Statistik II](/category/statistik-ii/)] und [Grafiken mit ggplot2 - Übungen](/lehre/statistik-ii/grafiken-ggplot2-uebungen) [[Statistik II](/category/statistik-ii/)] genutzt.
 
 ---
 
@@ -1526,7 +1702,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 ### Auftreten
-mdbf wird in [Funktionen und Loops - Übungen](/lehre/statistik-ii/loops-funktionen-uebungen) [[Statistik II](/category/statistik-ii/)] und [Daten für die Quiz](/lehre/statistik-ii/quizdaten-bsc7) [[Statistik II](/category/statistik-ii/)] genutzt.
+mdbf wird in [Funktionen und Loops - Übungen](/lehre/statistik-ii/loops-funktionen-uebungen) [[Statistik II](/category/statistik-ii/)] genutzt.
 
 ---
 
@@ -1619,7 +1795,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 ### Auftreten
-nature wird in [Daten für die Quiz](/lehre/statistik-ii/quizdaten-bsc7) [[Statistik II](/category/statistik-ii/)] genutzt.
+nature wird aktuell in keinem Beitrag genutzt.
 
 
 ---
@@ -2068,7 +2244,7 @@ Die Daten stammen aus einer echten Untersuchung, deren Datensatz [hier](https://
 ### Datensatz laden
 
 ```r
-source(url("https://pandar.netlify.app/daten/Data_Processing_Quiz1.R"))
+source("https://pandar.netlify.app/daten/Data_Processing_Quiz1.R")
 ```
 
 ### Größe
@@ -2228,7 +2404,7 @@ Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 ### Auftreten
-Behandlungsform wird in [Daten für die Quiz](/lehre/klipps-legacy/quizdaten-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)] und [Daten für die Quiz](/lehre/statistik-ii/quizdaten-bsc7) [[Statistik II](/category/statistik-ii/)] genutzt.
+Behandlungsform wird in [Daten für die Quiz](/lehre/klipps-legacy/quizdaten-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
 
 
 ---
