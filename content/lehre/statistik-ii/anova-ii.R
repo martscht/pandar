@@ -1,4 +1,3 @@
-# ---- Daten laden ----
 source("https://pandar.netlify.app/daten/Data_Processing_conspiracy.R")
 
 dim(conspiracy)
@@ -7,7 +6,7 @@ head(conspiracy)
 
 str(conspiracy)
 
-# ---- Einfaktorielle ANOVA ----
+#### Einfaktorielle ANOVA ----
 library(afex)
 
 conspiracy$id <- as.factor(1:nrow(conspiracy))
@@ -16,7 +15,7 @@ aov_4(EC ~ edu + (1 | id), data = conspiracy)
 
 aggregate(EC ~ edu, conspiracy, mean)
 
-# ---- Deskriptivdarstellung------ ----
+#### Deskriptivdarstellung ----
 # Kombinationsspezifische Mittelwertetabelle
 aggregate(EC ~ urban + edu, conspiracy, mean)
 
@@ -28,16 +27,16 @@ aggregate(EC ~ urban + edu, conspiracy, mean) |>
   geom_line() +
   labs(x = "Urban", y = "Mean EC", color = "Education")
 
-# ---- Zweifaktorielle ANOVA------ ----
+#### Zweifaktorielle ANOVA ----
 aov_4(EC ~ urban + edu + urban:edu + (1 | id), data = conspiracy)
 
-# ---- Quadratsummen-Typen-------- ----
+#### Quadratsummen-Typen ----
 aov_4(EC ~ urban + edu + urban:edu + (1 | id), data = conspiracy)
 
 # QS-Typ 2
 aov_4(EC ~ urban + edu + urban:edu + (1 | id), data = conspiracy, type = "II")
 
-# ---- Tukey-Test----------------- ----
+#### Tukey-Test ----
 zweifakt <- aov_4(EC ~ urban + edu + urban:edu + (1 | id), data = conspiracy)
 
 library(emmeans)
@@ -48,7 +47,7 @@ tukey
 
 plot(tukey)
 
-# ---- Kontraste------------------ ----
+#### Kontraste ----
 emm_zweifakt
 
 cont1 <- c(-0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 1, 1, 1)

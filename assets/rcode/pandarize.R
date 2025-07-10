@@ -45,14 +45,8 @@ pandarize <- function(x, purl = TRUE, debugging = FALSE) {
     if (purl){
       # Setting up a code cleaning function
       tidy_purled_script <- function(input_file) {
+        # Read lines
         lines <- readLines(input_file)
-        
-        # Remove chunk headers with no meaningful label (just options or emptiness)
-        lines <- lines[!grepl("^## ----\\s*($|[a-zA-Z_]+\\s*=)", lines)]       # removes lines like "## ---- eval = FALSE----"
-        lines <- lines[!grepl("^## ----\\s*----", lines)]                        # removes "## ---- ----"
-        
-        # Reformat named chunk headers nicely
-        lines <- gsub("^## ----\\s*([^,=]+)[,=]?.*----.*$", "# ---- \\1 ----", lines)
         
         # Collapse multiple empty lines into a single one
         lines <- unlist(strsplit(paste(lines, collapse = "\n"), "\n{2,}"))
@@ -72,7 +66,7 @@ pandarize <- function(x, purl = TRUE, debugging = FALSE) {
       }
       
       # Apply knit and then code cleaning
-      knitr::purl(.rmd, .R, documentation = 1)
+      knitr::purl(.rmd, .R, documentation = 0)
       tidy_purled_script(.R)
     } 
 

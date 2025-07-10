@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [schultze]
 weight: 11
-lastmod: '2025-07-03'
+lastmod: '2025-07-10'
 featured: no
 banner:
   image: "/header/transaction_50_euros.jpg"
@@ -60,27 +60,20 @@ head(punish)
 ```
 
 ```
-##   country      bribe   age gender
-## 1   China individual 21-30 female
-## 2   China individual 31-40 female
-## 3   China individual 31-40   male
-## 4   China individual 31-40 female
-## 5   China individual 31-40 female
-## 6   China individual 31-40   male
-##   gains difficult notice probable
-## 1   8.6       3.0    3.8      3.0
-## 2  10.0       3.8    1.6      1.0
-## 3   9.2       1.6    2.0      2.2
-## 4  10.0       1.2    0.8      2.4
-## 5   9.0       1.4    1.2      4.2
-## 6   9.0       8.0    6.0      7.8
-##   severe
-## 1    2.8
-## 2    1.2
-## 3    2.4
-## 4    4.6
-## 5    4.6
-## 6    8.6
+##   country      bribe   age gender gains
+## 1   China individual 21-30 female   8.6
+## 2   China individual 31-40 female  10.0
+## 3   China individual 31-40   male   9.2
+## 4   China individual 31-40 female  10.0
+## 5   China individual 31-40 female   9.0
+## 6   China individual 31-40   male   9.0
+##   difficult notice probable severe
+## 1       3.0    3.8      3.0    2.8
+## 2       3.8    1.6      1.0    1.2
+## 3       1.6    2.0      2.2    2.4
+## 4       1.2    0.8      2.4    4.6
+## 5       1.4    1.2      4.2    4.6
+## 6       8.0    6.0      7.8    8.6
 ```
 
 In der Studie, aus der diese Daten kommen, wurden kulturelle Unterschiede in der Einschätzung von und Reaktion auf Bestechung untersucht. Spezifisch ging es darum, wie sich Personen in China und den USA darin unterscheiden, wie sie individuelle und gruppenbezogene Bestechung wahrnehmen und für wie wahrscheinlich und schwer sie Bestrafungen für diese halten. Dabei wurden fünf verschiedene Situationen als Text dargestellt. In [Tabelle 1](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509#ajsp12509-tbl-0001) des Artikels von [Hong-Zhi et al. (2021)](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509) sind die fünf Situationen dargestellt. Der erste Text dreht sich um Bestechung im Gesundheitswesen, welche im individuellen Fall so aussieht:
@@ -125,22 +118,19 @@ summary(mod1)
 ## lm(formula = severe ~ country, data = punish)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q 
-## -3.7902 -1.9902 -0.0669  1.6448 
-##     Max 
-##  5.4565 
+##     Min      1Q  Median      3Q     Max 
+## -3.7902 -1.9902 -0.0669  1.6448  5.4565 
 ## 
 ## Coefficients:
-##              Estimate Std. Error
-## (Intercept)    4.5435     0.2378
-## countryChina   0.4468     0.3463
-##              t value Pr(>|t|)    
-## (Intercept)    19.11   <2e-16 ***
-## countryChina    1.29    0.199    
+##              Estimate Std. Error t value
+## (Intercept)    4.5435     0.2378   19.11
+## countryChina   0.4468     0.3463    1.29
+##              Pr(>|t|)    
+## (Intercept)    <2e-16 ***
+## countryChina    0.199    
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.28 on 172 degrees of freedom
 ## Multiple R-squared:  0.009582,	Adjusted R-squared:  0.003824 
@@ -237,16 +227,13 @@ t.test(punish$severe ~ punish$country, var.equal = TRUE)
 ## 	Two Sample t-test
 ## 
 ## data:  punish$severe by punish$country
-## t = -1.29, df = 172, p-value =
-## 0.1988
+## t = -1.29, df = 172, p-value = 0.1988
 ## alternative hypothesis: true difference in means between group U.S and group China is not equal to 0
 ## 95 percent confidence interval:
 ##  -1.1303844  0.2368531
 ## sample estimates:
-##   mean in group U.S 
-##            4.543478 
-## mean in group China 
-##            4.990244
+##   mean in group U.S mean in group China 
+##            4.543478            4.990244
 ```
 
 Die Äquivalenz der Ergebnisse erkennen wir bspw. an der Gleichheit der $p$-Werte in der Signifikanzentscheidung und der betraglichen Gleichheit der zugehörigen $t$-Werte. 
@@ -288,22 +275,19 @@ summary(mod1b)
 ## lm(formula = severe ~ country, data = punish)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q 
-## -3.7902 -1.9902 -0.0669  1.6448 
-##     Max 
-##  5.4565 
+##     Min      1Q  Median      3Q     Max 
+## -3.7902 -1.9902 -0.0669  1.6448  5.4565 
 ## 
 ## Coefficients:
-##             Estimate Std. Error
-## (Intercept)   4.7669     0.1732
-## country1     -0.2234     0.1732
-##             t value Pr(>|t|)    
-## (Intercept)   27.53   <2e-16 ***
-## country1      -1.29    0.199    
+##             Estimate Std. Error t value
+## (Intercept)   4.7669     0.1732   27.53
+## country1     -0.2234     0.1732   -1.29
+##             Pr(>|t|)    
+## (Intercept)   <2e-16 ***
+## country1       0.199    
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.28 on 172 degrees of freedom
 ## Multiple R-squared:  0.009582,	Adjusted R-squared:  0.003824 
@@ -388,24 +372,21 @@ summary(mod2)
 ## lm(formula = severe ~ country + bribe, data = punish)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q 
-## -3.8853 -1.9040 -0.0947  1.5573 
-##     Max 
-##  5.3620 
+##     Min      1Q  Median      3Q     Max 
+## -3.8853 -1.9040 -0.0947  1.5573  5.3620 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error
-## (Intercept)       4.4568     0.2903
-## countryChina      0.4472     0.3471
-## bribeindividual   0.1812     0.3469
-##                 t value Pr(>|t|)    
-## (Intercept)      15.351   <2e-16 ***
-## countryChina      1.289    0.199    
-## bribeindividual   0.523    0.602    
+##                 Estimate Std. Error t value
+## (Intercept)       4.4568     0.2903  15.351
+## countryChina      0.4472     0.3471   1.289
+## bribeindividual   0.1812     0.3469   0.523
+##                 Pr(>|t|)    
+## (Intercept)       <2e-16 ***
+## countryChina       0.199    
+## bribeindividual    0.602    
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.285 on 171 degrees of freedom
 ## Multiple R-squared:  0.01116,	Adjusted R-squared:  -0.0004046 
@@ -433,16 +414,11 @@ tab
 ```
 
 ```
-##   country      bribe     mod1
-## 1     U.S      group 4.543478
-## 2     U.S individual 4.543478
-## 3   China      group 4.990244
-## 4   China individual 4.990244
-##       mod2
-## 1 4.456796
-## 2 4.638041
-## 3 4.904042
-## 4 5.085287
+##   country      bribe     mod1     mod2
+## 1     U.S      group 4.543478 4.456796
+## 2     U.S individual 4.543478 4.638041
+## 3   China      group 4.990244 4.904042
+## 4   China individual 4.990244 5.085287
 ```
 
 ```r
@@ -478,10 +454,8 @@ summary(mod3)
 ## lm(formula = severe ~ country + bribe + country:bribe, data = punish)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q 
-## -4.1182 -1.7436  0.0564  1.5993 
-##     Max 
-##  5.0564 
+##     Min      1Q  Median      3Q     Max 
+## -4.1182 -1.7436  0.0564  1.5993  5.0564 
 ## 
 ## Coefficients:
 ##                              Estimate
@@ -494,16 +468,11 @@ summary(mod3)
 ## countryChina                     0.4700
 ## bribeindividual                  0.4672
 ## countryChina:bribeindividual     0.6806
-##                              t value
-## (Intercept)                   12.432
-## countryChina                   2.933
-## bribeindividual                2.358
-## countryChina:bribeindividual  -2.870
-##                              Pr(>|t|)
-## (Intercept)                   < 2e-16
-## countryChina                  0.00382
-## bribeindividual               0.01952
-## countryChina:bribeindividual  0.00463
+##                              t value Pr(>|t|)
+## (Intercept)                   12.432  < 2e-16
+## countryChina                   2.933  0.00382
+## bribeindividual                2.358  0.01952
+## countryChina:bribeindividual  -2.870  0.00463
 ##                                 
 ## (Intercept)                  ***
 ## countryChina                 ** 
@@ -511,8 +480,7 @@ summary(mod3)
 ## countryChina:bribeindividual ** 
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.238 on 170 degrees of freedom
 ## Multiple R-squared:  0.05685,	Adjusted R-squared:  0.04021 
@@ -545,16 +513,16 @@ tab
 ```
 
 ```
-##   country      bribe     mod1
-## 1     U.S      group 4.543478
-## 2     U.S individual 4.543478
-## 3   China      group 4.990244
-## 4   China individual 4.990244
-##       mod2     mod3
-## 1 4.456796 4.016667
-## 2 4.638041 5.118182
-## 3 4.904042 5.395349
-## 4 5.085287 4.543590
+##   country      bribe     mod1     mod2
+## 1     U.S      group 4.543478 4.456796
+## 2     U.S individual 4.543478 4.638041
+## 3   China      group 4.990244 4.904042
+## 4   China individual 4.990244 5.085287
+##       mod3
+## 1 4.016667
+## 2 5.118182
+## 3 5.395349
+## 4 4.543590
 ```
 
 Wir sollten uns wieder vor Augen führen, dass die unabhängigen Variablen mit 0 und 1 kodiert sind, da es sich um *dummy*-Variablen handelt. Für Personen aus den USA (`country = 0`), die kollektive Bestechung (`bribe = 0`) gesehen haben vereinfacht sich die Regressionsgleichung also zu:
@@ -638,18 +606,17 @@ anova(mod1, mod2, mod3)
 ## Model 1: severe ~ country
 ## Model 2: severe ~ country + bribe
 ## Model 3: severe ~ country + bribe + country:bribe
-##   Res.Df    RSS Df Sum of Sq      F
-## 1    172 894.50                    
-## 2    171 893.07  1     1.426 0.2846
-## 3    170 851.81  1    41.265 8.2355
-##    Pr(>F)   
-## 1           
-## 2 0.59441   
-## 3 0.00463 **
+##   Res.Df    RSS Df Sum of Sq      F  Pr(>F)
+## 1    172 894.50                            
+## 2    171 893.07  1     1.426 0.2846 0.59441
+## 3    170 851.81  1    41.265 8.2355 0.00463
+##     
+## 1   
+## 2   
+## 3 **
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 ```r
@@ -702,26 +669,23 @@ summary(mod4)
 ## lm(formula = severe ~ age, data = punish)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q 
-## -4.2650 -1.8150 -0.0951  1.5152 
-##     Max 
-##  5.1152 
+##     Min      1Q  Median      3Q     Max 
+## -4.2650 -1.8150 -0.0951  1.5152  5.1152 
 ## 
 ## Coefficients:
-##             Estimate Std. Error
-## (Intercept)  4.12857    0.34659
-## age31-40     1.13643    0.42800
-## age41-50     0.55628    0.52250
-## ageover 50  -0.02331    0.62101
-##             t value Pr(>|t|)    
-## (Intercept)  11.912  < 2e-16 ***
-## age31-40      2.655  0.00868 ** 
-## age41-50      1.065  0.28855    
-## ageover 50   -0.038  0.97010    
+##             Estimate Std. Error t value
+## (Intercept)  4.12857    0.34659  11.912
+## age31-40     1.13643    0.42800   2.655
+## age41-50     0.55628    0.52250   1.065
+## ageover 50  -0.02331    0.62101  -0.038
+##             Pr(>|t|)    
+## (Intercept)  < 2e-16 ***
+## age31-40     0.00868 ** 
+## age41-50     0.28855    
+## ageover 50   0.97010    
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.246 on 170 degrees of freedom
 ## Multiple R-squared:  0.05035,	Adjusted R-squared:  0.03359 
@@ -801,22 +765,19 @@ summary(mod5)
 ## lm(formula = severe ~ gains, data = usa)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q 
-## -3.6008 -1.9318  0.2474  1.5992 
-##     Max 
-##  5.3905 
+##     Min      1Q  Median      3Q     Max 
+## -3.6008 -1.9318  0.2474  1.5992  5.3905 
 ## 
 ## Coefficients:
-##             Estimate Std. Error
-## (Intercept)   4.4212     0.6766
-## gains         0.0219     0.1138
-##             t value Pr(>|t|)    
-## (Intercept)   6.534 3.74e-09 ***
-## gains         0.192    0.848    
+##             Estimate Std. Error t value
+## (Intercept)   4.4212     0.6766   6.534
+## gains         0.0219     0.1138   0.192
+##             Pr(>|t|)    
+## (Intercept) 3.74e-09 ***
+## gains          0.848    
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.224 on 90 degrees of freedom
 ## Multiple R-squared:  0.0004112,	Adjusted R-squared:  -0.0107 
@@ -836,24 +797,21 @@ summary(mod6)
 ## lm(formula = severe ~ gains + bribe, data = usa)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q 
-## -4.2272 -1.5163  0.0983  1.5606 
-##     Max 
-##  4.9696 
+##     Min      1Q  Median      3Q     Max 
+## -4.2272 -1.5163  0.0983  1.5606  4.9696 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error
-## (Intercept)      4.19277    0.66516
-## gains           -0.03392    0.11311
-## bribeindividual  1.12940    0.46126
-##                 t value Pr(>|t|)    
-## (Intercept)       6.303 1.09e-08 ***
-## gains            -0.300   0.7650    
-## bribeindividual   2.449   0.0163 *  
+##                 Estimate Std. Error t value
+## (Intercept)      4.19277    0.66516   6.303
+## gains           -0.03392    0.11311  -0.300
+## bribeindividual  1.12940    0.46126   2.449
+##                 Pr(>|t|)    
+## (Intercept)     1.09e-08 ***
+## gains             0.7650    
+## bribeindividual   0.0163 *  
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.165 on 89 degrees of freedom
 ## Multiple R-squared:  0.0635,	Adjusted R-squared:  0.04245 
@@ -893,36 +851,23 @@ summary(mod7)
 ## lm(formula = severe ~ gains + bribe + gains:bribe, data = usa)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q 
-## -4.2442 -1.2632 -0.0587  1.3676 
-##     Max 
-##  4.2925 
+##     Min      1Q  Median      3Q     Max 
+## -4.2442 -1.2632 -0.0587  1.3676  4.2925 
 ## 
 ## Coefficients:
-##                       Estimate
-## (Intercept)             5.6659
-## gains                  -0.3177
-## bribeindividual        -1.9180
-## gains:bribeindividual   0.5455
-##                       Std. Error
-## (Intercept)               0.8784
-## gains                     0.1588
-## bribeindividual           1.3089
-## gains:bribeindividual     0.2201
-##                       t value
-## (Intercept)             6.450
-## gains                  -2.001
-## bribeindividual        -1.465
-## gains:bribeindividual   2.478
-##                       Pr(>|t|)    
-## (Intercept)           5.86e-09 ***
-## gains                   0.0485 *  
-## bribeindividual         0.1464    
-## gains:bribeindividual   0.0151 *  
+##                       Estimate Std. Error
+## (Intercept)             5.6659     0.8784
+## gains                  -0.3177     0.1588
+## bribeindividual        -1.9180     1.3089
+## gains:bribeindividual   0.5455     0.2201
+##                       t value Pr(>|t|)    
+## (Intercept)             6.450 5.86e-09 ***
+## gains                  -2.001   0.0485 *  
+## bribeindividual        -1.465   0.1464    
+## gains:bribeindividual   2.478   0.0151 *  
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.105 on 88 degrees of freedom
 ## Multiple R-squared:  0.1246,	Adjusted R-squared:  0.09475 
@@ -983,6 +928,14 @@ Im [Beitrag zu Interaktionen zwischen intervallskalierten Variablen](/lehre/stat
 
 ```r
 library(reghelper)
+```
+
+```
+## Warning: Paket 'reghelper' wurde unter R
+## Version 4.3.2 erstellt
+```
+
+```r
 simple_slopes(mod7)
 ```
 
@@ -1029,20 +982,19 @@ summary(mod8)
 ## -3.883 -1.878 -0.125  1.577  5.406 
 ## 
 ## Coefficients:
-##                 Estimate Std. Error
-## (Intercept)      4.54433    0.59165
-## countryChina     0.47596    0.38691
-## bribeindividual  0.19243    0.35402
-## gains           -0.01663    0.09786
-##                 t value Pr(>|t|)    
-## (Intercept)       7.681 1.19e-12 ***
-## countryChina      1.230    0.220    
-## bribeindividual   0.544    0.587    
-## gains            -0.170    0.865    
+##                 Estimate Std. Error t value
+## (Intercept)      4.54433    0.59165   7.681
+## countryChina     0.47596    0.38691   1.230
+## bribeindividual  0.19243    0.35402   0.544
+## gains           -0.01663    0.09786  -0.170
+##                 Pr(>|t|)    
+## (Intercept)     1.19e-12 ***
+## countryChina       0.220    
+## bribeindividual    0.587    
+## gains              0.865    
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 2.292 on 170 degrees of freedom
 ## Multiple R-squared:  0.01133,	Adjusted R-squared:  -0.006118 
@@ -1162,21 +1114,16 @@ simple_slopes(mod13, levels = list(gains = 'sstest'))
 ```
 
 ```
-##   country      bribe  gains
-## 1     U.S      group sstest
-## 2   China      group sstest
-## 3     U.S individual sstest
-## 4   China individual sstest
-##   Test Estimate Std. Error t value
-## 1       -0.3177     0.1676 -1.8950
-## 2        0.1126     0.2177  0.5172
-## 3        0.2279     0.1610  1.4151
-## 4       -0.1968     0.2534 -0.7767
-##    df Pr(>|t|) Sig.
-## 1 166  0.05983    .
-## 2 166  0.60573     
-## 3 166  0.15890     
-## 4 166  0.43844
+##   country      bribe  gains Test Estimate
+## 1     U.S      group sstest       -0.3177
+## 2   China      group sstest        0.1126
+## 3     U.S individual sstest        0.2279
+## 4   China individual sstest       -0.1968
+##   Std. Error t value  df Pr(>|t|) Sig.
+## 1     0.1676 -1.8950 166  0.05983    .
+## 2     0.2177  0.5172 166  0.60573     
+## 3     0.1610  1.4151 166  0.15890     
+## 4     0.2534 -0.7767 166  0.43844
 ```
 Wir sehen also, dass trotz der großen optischen Unterschiede in den Regressionsgewichten, keins der gruppenspezifischen Regressionsgewichte statistisch bedeutsam von 0 abweicht.
 

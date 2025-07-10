@@ -1,4 +1,4 @@
-# ---- Datensatz laden------------ ----
+#### Datensatz laden ----
 load(url("https://pandar.netlify.app/daten/alc.rda"))
 
 dim(alc)
@@ -6,7 +6,7 @@ head(alc)
 
 table(alc$id)
 
-# ---- Datentransformation-------- ----
+#### Datentransformation ----
 alc_long <- reshape(
   data = alc,
   varying = list(c("alcuse.14", "alcuse.15", "alcuse.16")),
@@ -47,7 +47,7 @@ alc_long <- reshape(
 
 head(alc_long)
 
-# ---- Rückkehr in breites Format- ----
+#### Rückkehr in breites Format ----
 alc_wide <- reshape(alc_long,
   v.names = "alcuse",
   timevar = "age",
@@ -56,7 +56,7 @@ alc_wide <- reshape(alc_long,
 )
 head(alc_wide)
 
-# ---- Deskriptivstatistik-------- ----
+#### Deskriptivstatistik ----
 str(alc_long)
 
 alc_long$age <- as.factor(alc_long$age)
@@ -71,12 +71,12 @@ aggregate(alcuse ~ age, data = alc_long, FUN = mean) |>
   geom_line() +
   labs(x = "Age", y = "Mean Alcuse")
 
-# ---- ANOVA mit Messwiederholung- ----
+#### ANOVA mit Messwiederholung ----
 library(afex)
 
 aov_4(alcuse ~ 1 + (age | id), alc_long)
 
-# ---- Voraussetzungen------------ ----
+#### Voraussetzungen ----
 alc$diff_1415 <- alc$alcuse.15 - alc$alcuse.14
 alc$diff_1416 <- alc$alcuse.16 - alc$alcuse.14
 alc$diff_1516 <- alc$alcuse.16 - alc$alcuse.15
@@ -87,10 +87,10 @@ summary(anova_mw)
 
 aov_4(alcuse ~ 1 + (age | id), alc_long, anova_table = list(correction = "HF"))
 
-# ---- ICC und Effektstärke------- ----
+#### ICC und Effektstärke ----
 psych::ICC(alc[, c("alcuse.14", "alcuse.15", "alcuse.16")])
 
-# ---- Kontraste------------------ ----
+#### Kontraste ----
 library(emmeans)
 
 emm_mw <- emmeans(anova_mw, ~age)
@@ -148,7 +148,7 @@ contrast(emm_mw,
   adjust = "bonferroni"
 )
 
-# ---- Split-Plot-ANOVA----------- ----
+#### Split-Plot ANOVA ----
 aggregate(alcuse ~ age + coa, data = alc_long, FUN = mean) |>
   ggplot(aes(x = age, y = alcuse, color = coa, group = coa)) +
   geom_point() +

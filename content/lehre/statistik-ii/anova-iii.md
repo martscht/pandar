@@ -9,7 +9,7 @@ subtitle: 'ANOVA mit Messwiederholung'
 summary: ''
 authors: [nehler, scheppa-lahyani,irmer,schultze]
 weight: 10
-lastmod: '2025-07-03'
+lastmod: '2025-07-10'
 featured: no
 banner:
   image: "/header/tree_flooded_lake_sunset.jpg"
@@ -73,20 +73,20 @@ head(alc)
 ```
 
 ```
-##    id male      peer coa alcuse.14
-## 1   1    0 1.2649111   1  1.732051
-## 4   2    1 0.8944272   1  0.000000
-## 7   3    1 0.8944272   1  1.000000
-## 10  4    1 1.7888544   1  0.000000
-## 13  5    0 0.8944272   1  0.000000
-## 16  6    1 1.5491934   1  3.000000
-##    alcuse.15 alcuse.16
-## 1          2  2.000000
-## 4          0  1.000000
-## 7          2  3.316625
-## 10         2  1.732051
-## 13         0  0.000000
-## 16         3  3.162278
+##    id male      peer coa alcuse.14 alcuse.15
+## 1   1    0 1.2649111   1  1.732051         2
+## 4   2    1 0.8944272   1  0.000000         0
+## 7   3    1 0.8944272   1  1.000000         2
+## 10  4    1 1.7888544   1  0.000000         2
+## 13  5    0 0.8944272   1  0.000000         0
+## 16  6    1 1.5491934   1  3.000000         3
+##    alcuse.16
+## 1   2.000000
+## 4   1.000000
+## 7   3.316625
+## 10  1.732051
+## 13  0.000000
+## 16  3.162278
 ```
 
 Die enthaltenen Variablen sind der *Personen-Identifikator* (`id`), das dichotom kodierte *Geschlecht* (`male`, mit 0 = weiblich), das *berichtete Ausmaß, in dem Peers Alkohol konsumieren* (`peer`, ein Durchschnittswert über mehrere Items mit 0 = keine und 5 = alle) und ob derjenige/diejenige *Kind eines/einer Alkoholikers/Alkoholikerin* ist (`coa`, "child of alcoholic", mit 0 = nein). Darüber hinaus gibt es zu drei verschiedenen Zeitpunkten (jeweils im Alter von 14, 15 und 16) die *selbstberichtete Häufigkeit, mit der Alkohol konsumiert wird* (`alcuse`, Durchschnittswert einer Skala mit mehreren Items von 0 = nie und 7 = täglich).
@@ -125,20 +125,18 @@ table(alc$id)
 
 ```
 ## 
-##  1  2  3  4  5  6  7  8  9 10 11 12 
-##  1  1  1  1  1  1  1  1  1  1  1  1 
-## 13 14 15 16 17 18 19 20 21 22 23 24 
-##  1  1  1  1  1  1  1  1  1  1  1  1 
-## 25 26 27 28 29 30 31 32 33 34 35 36 
-##  1  1  1  1  1  1  1  1  1  1  1  1 
-## 37 38 39 40 41 42 43 44 45 46 47 48 
-##  1  1  1  1  1  1  1  1  1  1  1  1 
-## 49 50 51 52 53 54 55 56 57 58 59 60 
-##  1  1  1  1  1  1  1  1  1  1  1  1 
-## 61 62 63 64 65 66 67 68 69 70 71 72 
-##  1  1  1  1  1  1  1  1  1  1  1  1 
-## 73 74 75 76 77 78 79 80 81 82 
-##  1  1  1  1  1  1  1  1  1  1
+##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 
+##  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 
+## 76 77 78 79 80 81 82 
+##  1  1  1  1  1  1  1
 ```
 
 Wie bereits geschildert verlangen unterschiedliche Analysen den Datensatz in einem unterschiedlichen Format. Daher wollen wir an dieser Stelle einmal betrachten, wie wir den Datensatz von dem einen in das andere Format *transformieren* können. In R gibt es hierfür die `reshape()`-Funktion, welche unterschiedliche Argumente benötigt, je nachdem, in welche Richtung die Daten transformiert werden sollen. Hier wollen wir aus dem zunächst aus dem vorliegenden breiten Format in das lange Format umwandeln.
@@ -161,20 +159,13 @@ head(alc_long)
 ```
 
 ```
-##     id male      peer coa time
-## 1.1  1    0 1.2649111   1    1
-## 2.1  2    1 0.8944272   1    1
-## 3.1  3    1 0.8944272   1    1
-## 4.1  4    1 1.7888544   1    1
-## 5.1  5    0 0.8944272   1    1
-## 6.1  6    1 1.5491934   1    1
-##     alcuse.14
-## 1.1  1.732051
-## 2.1  0.000000
-## 3.1  1.000000
-## 4.1  0.000000
-## 5.1  0.000000
-## 6.1  3.000000
+##     id male      peer coa time alcuse.14
+## 1.1  1    0 1.2649111   1    1  1.732051
+## 2.1  2    1 0.8944272   1    1  0.000000
+## 3.1  3    1 0.8944272   1    1  1.000000
+## 4.1  4    1 1.7888544   1    1  0.000000
+## 5.1  5    0 0.8944272   1    1  0.000000
+## 6.1  6    1 1.5491934   1    1  3.000000
 ```
 
 Das Argument `varying` bedarf einer zweiten Betrachtung: hier wird eine Liste von Vektoren erstellt. Die Vektoren enthalten jeweils die Namen der Variablen, die zusammen Messwiederholungen der gleichen Variable sind. Wenn wir z.B. einen weiteren Satz aus drei Variablen hätten, die `weeduse` hieße, würde diese Liste so aussehen (würde hier einen Fehler geben, weil die Variablen nicht im Datensatz enthalten sind):
@@ -193,14 +184,10 @@ alc_long[alc_long$id == 1, ]
 ```
 
 ```
-##     id male     peer coa time
-## 1.1  1    0 1.264911   1    1
-## 1.2  1    0 1.264911   1    2
-## 1.3  1    0 1.264911   1    3
-##     alcuse.14
-## 1.1  1.732051
-## 1.2  2.000000
-## 1.3  2.000000
+##     id male     peer coa time alcuse.14
+## 1.1  1    0 1.264911   1    1  1.732051
+## 1.2  1    0 1.264911   1    2  2.000000
+## 1.3  1    0 1.264911   1    3  2.000000
 ```
 
 sehen wir diese Variablen in den ersten vier Spalten wieder (id, male, peer, coa). Die nächste Variable ist die Zeitvariable, die von R automatisch als `time` benannt wird. Wenn wir etwas anderes nutzen möchten, können wir mit `timevar` explizit einen Namen vergeben (weil die Wiederholungen das Alter der Jugendlichen sind, bietet sich `age` an):
@@ -216,20 +203,13 @@ head(alc_long)
 ```
 
 ```
-##     id male      peer coa age
-## 1.1  1    0 1.2649111   1   1
-## 2.1  2    1 0.8944272   1   1
-## 3.1  3    1 0.8944272   1   1
-## 4.1  4    1 1.7888544   1   1
-## 5.1  5    0 0.8944272   1   1
-## 6.1  6    1 1.5491934   1   1
-##     alcuse.14
-## 1.1  1.732051
-## 2.1  0.000000
-## 3.1  1.000000
-## 4.1  0.000000
-## 5.1  0.000000
-## 6.1  3.000000
+##     id male      peer coa age alcuse.14
+## 1.1  1    0 1.2649111   1   1  1.732051
+## 2.1  2    1 0.8944272   1   1  0.000000
+## 3.1  3    1 0.8944272   1   1  1.000000
+## 4.1  4    1 1.7888544   1   1  0.000000
+## 5.1  5    0 0.8944272   1   1  0.000000
+## 6.1  6    1 1.5491934   1   1  3.000000
 ```
 
 Das Problem mit dieser neuen Variable ist jetzt noch, dass sie nicht das korrekte Alter der Jugendlichen kodiert (also nicht die Zahlen aus den Variablennamen direkt übernehmen kann), sondern stattdessen standardmäßig einfach bei 1 für den ersten Messzeitpunkt (also den ersten Wert in unserem Vektor) anfängt und hoch zählt. Auch dieses Verhalten können wir per Argument (`times`) ändern und dabei aussagen, dass die Werte der neuen Variable `age` die Zahlen 14, 15 und 16 sein sollen:
@@ -246,20 +226,13 @@ head(alc_long)
 ```
 
 ```
-##      id male      peer coa age
-## 1.14  1    0 1.2649111   1  14
-## 2.14  2    1 0.8944272   1  14
-## 3.14  3    1 0.8944272   1  14
-## 4.14  4    1 1.7888544   1  14
-## 5.14  5    0 0.8944272   1  14
-## 6.14  6    1 1.5491934   1  14
-##      alcuse.14
-## 1.14  1.732051
-## 2.14  0.000000
-## 3.14  1.000000
-## 4.14  0.000000
-## 5.14  0.000000
-## 6.14  3.000000
+##      id male      peer coa age alcuse.14
+## 1.14  1    0 1.2649111   1  14  1.732051
+## 2.14  2    1 0.8944272   1  14  0.000000
+## 3.14  3    1 0.8944272   1  14  1.000000
+## 4.14  4    1 1.7888544   1  14  0.000000
+## 5.14  5    0 0.8944272   1  14  0.000000
+## 6.14  6    1 1.5491934   1  14  3.000000
 ```
 
 Zu guter Letzt wird für die neuen Variablen automatisch der erste Name wiederverwendet. Hier ist der Name der neuen, messwiederholten Variable also `alcuse.14`. Weil in der Variable aber jetzt nicht mehr nur der Alkoholkonsum im 14. Lebensjahr enthalten ist, sondern für alle Jahre von 14 bis 16, bietet es sich an, hier auch einen allgemeineren Namen zu verwenden:
@@ -277,20 +250,13 @@ head(alc_long)
 ```
 
 ```
-##      id male      peer coa age
-## 1.14  1    0 1.2649111   1  14
-## 2.14  2    1 0.8944272   1  14
-## 3.14  3    1 0.8944272   1  14
-## 4.14  4    1 1.7888544   1  14
-## 5.14  5    0 0.8944272   1  14
-## 6.14  6    1 1.5491934   1  14
-##        alcuse
-## 1.14 1.732051
-## 2.14 0.000000
-## 3.14 1.000000
-## 4.14 0.000000
-## 5.14 0.000000
-## 6.14 3.000000
+##      id male      peer coa age   alcuse
+## 1.14  1    0 1.2649111   1  14 1.732051
+## 2.14  2    1 0.8944272   1  14 0.000000
+## 3.14  3    1 0.8944272   1  14 1.000000
+## 4.14  4    1 1.7888544   1  14 0.000000
+## 5.14  5    0 0.8944272   1  14 0.000000
+## 6.14  6    1 1.5491934   1  14 3.000000
 ```
 
 
@@ -407,7 +373,7 @@ aggregate(alcuse ~ age, data = alc_long, FUN = mean) |>
     labs(x = "Age", y = "Mean Alcuse")
 ```
 
-![](/anova-iii_files/unnamed-chunk-12-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-13-1.png)<!-- -->
 
 
 
@@ -440,14 +406,13 @@ aov_4(alcuse ~ 1  + (age | id), alc_long)
 ## Anova Table (Type 3 tests)
 ## 
 ## Response: alcuse
-##   Effect           df  MSE         F
-## 1    age 1.80, 145.41 0.55 12.40 ***
-##    ges p.value
-## 1 .044   <.001
+##   Effect           df  MSE         F  ges
+## 1    age 1.80, 145.41 0.55 12.40 *** .044
+##   p.value
+## 1   <.001
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '+' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
 ## 
 ## Sphericity correction method: GG
 ```
@@ -470,14 +435,10 @@ var(alc[, c('diff_1415', 'diff_1416', 'diff_1516')])
 ```
 
 ```
-##            diff_1415 diff_1416
-## diff_1415  0.7235404 0.5391093
-## diff_1416  0.5391093 1.2951897
-## diff_1516 -0.1844311 0.7560804
-##            diff_1516
-## diff_1415 -0.1844311
-## diff_1416  0.7560804
-## diff_1516  0.9405115
+##            diff_1415 diff_1416  diff_1516
+## diff_1415  0.7235404 0.5391093 -0.1844311
+## diff_1416  0.5391093 1.2951897  0.7560804
+## diff_1516 -0.1844311 0.7560804  0.9405115
 ```
 
 Wir konzentrieren uns auf die Diagonale. Rein deskriptiv lässt sich erkennen, dass die Varianz der Differenz zwischen 14 und 16 Jahren beinahe doppelt so groß ist, wie die zwischen 14 und 15 Jahren. Doch wir wollen uns natürlich nicht auf eine deskriptive Betrachtung beschränken, sondern die Sphärizitätsannahme auch statistisch prüfen. Hierfür können wir den **Mauchly-Test** nutzen, der im `afex`-Paket bereits integriert ist. Wir müssen dafür nur die ANOVA in ein Objekt ablegen und dieses dann mit `summary()` betrachten.
@@ -493,19 +454,15 @@ summary(anova_mw)
 ## 
 ## Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
 ## 
-##              Sum Sq num Df Error SS
-## (Intercept) 209.100      1   184.77
-## age          12.227      2    79.90
-##             den Df F value    Pr(>F)
-## (Intercept)     81  91.664 5.838e-15
-## age            162  12.395 9.793e-06
-##                
-## (Intercept) ***
-## age         ***
+##              Sum Sq num Df Error SS den Df
+## (Intercept) 209.100      1   184.77     81
+## age          12.227      2    79.90    162
+##             F value    Pr(>F)    
+## (Intercept)  91.664 5.838e-15 ***
+## age          12.395 9.793e-06 ***
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## 
 ## Mauchly Tests for Sphericity
@@ -521,8 +478,7 @@ summary(anova_mw)
 ## age 0.89757  2.342e-05 ***
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ##        HF eps   Pr(>F[HF])
 ## age 0.9166239 1.991144e-05
@@ -541,14 +497,13 @@ aov_4(alcuse ~ 1  + (age | id), alc_long, anova_table = list(correction = "HF"))
 ## Anova Table (Type 3 tests)
 ## 
 ## Response: alcuse
-##   Effect           df  MSE         F
-## 1    age 1.83, 148.49 0.54 12.40 ***
-##    ges p.value
-## 1 .044   <.001
+##   Effect           df  MSE         F  ges
+## 1    age 1.83, 148.49 0.54 12.40 *** .044
+##   p.value
+## 1   <.001
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '+' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
 ## 
 ## Sphericity correction method: HF
 ```
@@ -576,27 +531,20 @@ psych::ICC(alc[, c('alcuse.14', 'alcuse.15', 'alcuse.16')])
 ## Call: psych::ICC(x = alc[, c("alcuse.14", "alcuse.15", "alcuse.16")])
 ## 
 ## Intraclass correlation coefficients 
-##                          type  ICC
-## Single_raters_absolute   ICC1 0.51
-## Single_random_raters     ICC2 0.51
-## Single_fixed_raters      ICC3 0.55
-## Average_raters_absolute ICC1k 0.75
-## Average_random_raters   ICC2k 0.76
-## Average_fixed_raters    ICC3k 0.78
-##                           F df1 df2
-## Single_raters_absolute  4.1  81 164
-## Single_random_raters    4.6  81 162
-## Single_fixed_raters     4.6  81 162
-## Average_raters_absolute 4.1  81 164
-## Average_random_raters   4.6  81 162
-## Average_fixed_raters    4.6  81 162
-##                               p
-## Single_raters_absolute  1.4e-14
-## Single_random_raters    6.3e-17
-## Single_fixed_raters     6.3e-17
-## Average_raters_absolute 1.4e-14
-## Average_random_raters   6.3e-17
-## Average_fixed_raters    6.3e-17
+##                          type  ICC   F df1
+## Single_raters_absolute   ICC1 0.51 4.1  81
+## Single_random_raters     ICC2 0.51 4.6  81
+## Single_fixed_raters      ICC3 0.55 4.6  81
+## Average_raters_absolute ICC1k 0.75 4.1  81
+## Average_random_raters   ICC2k 0.76 4.6  81
+## Average_fixed_raters    ICC3k 0.78 4.6  81
+##                         df2       p
+## Single_raters_absolute  164 1.4e-14
+## Single_random_raters    162 6.3e-17
+## Single_fixed_raters     162 6.3e-17
+## Average_raters_absolute 164 1.4e-14
+## Average_random_raters   162 6.3e-17
+## Average_fixed_raters    162 6.3e-17
 ##                         lower bound
 ## Single_raters_absolute         0.38
 ## Single_random_raters           0.37
@@ -681,7 +629,7 @@ aggregate(alcuse ~ age, data = alc_long, FUN = mean) |>
     labs(x = "Age", y = "Mean Alcuse")
 ```
 
-![](/anova-iii_files/unnamed-chunk-19-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-21-1.png)<!-- -->
 
 Um Verläufe darzustellen, können wir `geom_smooth()` nutzen. Hier können wir bspw. angeben, dass ein linearer Verlauf zwischen den Gruppen angenommen werden soll, indem wir unter `method` die lineare Modellierung `lm` ansprechen. Weil wir für die ANOVA das Alter in einen Faktor umgewandelt hatten, müssen wir es für `geom_smooth()` erst noch in eine numerische Variable zurücküberführen (`as.numeric`). Abschließend  unterdrücken mit `se = FALSE` das Konfidenzintervall um die Regressionsgerade. Weil diese Geometrie als Schicht auf den ursprünglichen Plot gelegt werden kann, können wir den linearen Verlauf im Vergleich zum beobachteten Verlauf veranschaulichen:
 
@@ -696,11 +644,10 @@ aggregate(alcuse ~ age, data = alc_long, FUN = mean) |>
 ```
 
 ```
-## `geom_smooth()` using formula = 'y ~
-## x'
+## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](/anova-iii_files/unnamed-chunk-20-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-22-1.png)<!-- -->
 
  In unserem Kontrast für den linearen Effekt prüfen wir den Anstieg dieser Geraden (oben als $\Lambda$ notiert):
 
@@ -710,10 +657,10 @@ contrast(emm_mw, list(lin_cont))
 ```
 
 ```
-##  contrast    estimate    SE df
-##  c(-1, 0, 1)    0.541 0.126 81
-##  t.ratio p.value
-##    4.307  <.0001
+##  contrast    estimate    SE df t.ratio
+##  c(-1, 0, 1)    0.541 0.126 81   4.307
+##  p.value
+##   <.0001
 ```
 
 
@@ -748,11 +695,10 @@ aggregate(alcuse ~ age, data = alc_long, FUN = mean) |>
 ```
 
 ```
-## `geom_smooth()` using formula = 'y ~
-## x'
+## `geom_smooth()` using formula = 'y ~ x'
 ```
 
-![](/anova-iii_files/unnamed-chunk-22-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-24-1.png)<!-- -->
 
 Wir erkennen deutlich, dass alle Mittelwerte auf dem quadratischen Trend liegen. Das ist allerdings auch einleuchtend, da es immer so ist, dass für $t$ Zeitpunkte ein Polynom bis zum Grad $t-1$ (also: $a_0 + a_1X + a_2X^2 + \dots + a_{t-1}X^{t-1}$) gefunden werden kann, dass alle Punkte trifft, solang nicht mehrere Punkte den gleichen $x$-Wert haben. Die Frage ist nun, ob der quadratische Trend eine signifikante Verbesserung gegenüber dem linearen Trend ist!
 
@@ -768,12 +714,12 @@ contrast(emm_mw, list(lin_cont, qua_cont),
 ```
 
 ```
-##  contrast    estimate    SE df
-##  c(-1, 0, 1)    0.541 0.126 81
-##  c(1, -2, 1)   -0.125 0.157 81
-##  t.ratio p.value
-##    4.307  0.0001
-##   -0.794  0.8590
+##  contrast    estimate    SE df t.ratio
+##  c(-1, 0, 1)    0.541 0.126 81   4.307
+##  c(1, -2, 1)   -0.125 0.157 81  -0.794
+##  p.value
+##   0.0001
+##   0.8590
 ## 
 ## P value adjustment: bonferroni method for 2 tests
 ```
@@ -792,12 +738,9 @@ contrast(emm_mw, interaction = 'poly')
 ```
 
 ```
-##  age_poly  estimate    SE df t.ratio
-##  linear       0.541 0.126 81   4.307
-##  quadratic   -0.125 0.157 81  -0.794
-##  p.value
-##   <.0001
-##   0.4295
+##  age_poly  estimate    SE df t.ratio p.value
+##  linear       0.541 0.126 81   4.307  <.0001
+##  quadratic   -0.125 0.157 81  -0.794  0.4295
 ```
 
 Es zeigt sich in diesem Fall also ein bedeutsamer linearer, aber kein bedeutsamer quadratischer Trend. Die Interpretation ist identisch zu oben --- es ist ja auch die gleiche Analyse (alle Koeffizienten sind identisch zu oben)! Wie schon zuvor, können wir hier mit `adjust` eine Bonferroni-Korrektur vornehmen:
@@ -809,12 +752,9 @@ contrast(emm_mw, interaction = 'poly',
 ```
 
 ```
-##  age_poly  estimate    SE df t.ratio
-##  linear       0.541 0.126 81   4.307
-##  quadratic   -0.125 0.157 81  -0.794
-##  p.value
-##   0.0001
-##   0.8590
+##  age_poly  estimate    SE df t.ratio p.value
+##  linear       0.541 0.126 81   4.307  0.0001
+##  quadratic   -0.125 0.157 81  -0.794  0.8590
 ## 
 ## P value adjustment: bonferroni method for 2 tests
 ```
@@ -831,14 +771,10 @@ contrast(emm_mw, method = 'pairwise',
 ```
 
 ```
-##  contrast  estimate     SE df t.ratio
-##  X14 - X15   -0.333 0.0939 81  -3.547
-##  X14 - X16   -0.541 0.1257 81  -4.307
-##  X15 - X16   -0.208 0.1071 81  -1.943
-##  p.value
-##   0.0020
-##   0.0001
-##   0.1663
+##  contrast  estimate     SE df t.ratio p.value
+##  X14 - X15   -0.333 0.0939 81  -3.547  0.0020
+##  X14 - X16   -0.541 0.1257 81  -4.307  0.0001
+##  X15 - X16   -0.208 0.1071 81  -1.943  0.1663
 ## 
 ## P value adjustment: bonferroni method for 3 tests
 ```
@@ -853,14 +789,14 @@ contrast(emm_mw,
 ```
 
 ```
-##  contrast   estimate     SE df
-##  X14 effect  -0.2915 0.0648 81
-##  X15 effect   0.0417 0.0525 81
-##  X16 effect   0.2498 0.0713 81
-##  t.ratio p.value
-##   -4.500  0.0001
-##    0.794  1.0000
-##    3.506  0.0022
+##  contrast   estimate     SE df t.ratio
+##  X14 effect  -0.2915 0.0648 81  -4.500
+##  X15 effect   0.0417 0.0525 81   0.794
+##  X16 effect   0.2498 0.0713 81   3.506
+##  p.value
+##   0.0001
+##   1.0000
+##   0.0022
 ## 
 ## P value adjustment: bonferroni method for 3 tests
 ```
@@ -924,25 +860,19 @@ summary(anova_sp)
 ## 
 ## Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
 ## 
-##              Sum Sq num Df Error SS
-## (Intercept) 222.594      1  155.453
-## coa          29.320      1  155.453
-## age          11.889      2   79.787
-## coa:age       0.113      2   79.787
-##             den Df  F value    Pr(>F)
-## (Intercept)     80 114.5525 < 2.2e-16
-## coa             80  15.0889 0.0002102
-## age            160  11.9209 1.493e-05
-## coa:age        160   0.1133 0.8929835
-##                
-## (Intercept) ***
-## coa         ***
-## age         ***
-## coa:age        
+##              Sum Sq num Df Error SS den Df
+## (Intercept) 222.594      1  155.453     80
+## coa          29.320      1  155.453     80
+## age          11.889      2   79.787    160
+## coa:age       0.113      2   79.787    160
+##              F value    Pr(>F)    
+## (Intercept) 114.5525 < 2.2e-16 ***
+## coa          15.0889 0.0002102 ***
+## age          11.9209 1.493e-05 ***
+## coa:age       0.1133 0.8929835    
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## 
 ## Mauchly Tests for Sphericity
@@ -960,8 +890,7 @@ summary(anova_sp)
 ## coa:age 0.89766     0.8727    
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ##            HF eps   Pr(>F[HF])
 ## age     0.9169621 2.930429e-05
@@ -976,13 +905,20 @@ heplots::boxM(alc[, c('alcuse.14', 'alcuse.15', 'alcuse.16')], group = alc$coa)
 ```
 
 ```
+## Registered S3 methods overwritten by 'broom':
+##   method            from  
+##   tidy.glht         jtools
+##   tidy.summary.glht jtools
+```
+
+```
 ## 
 ## 	Box's M-test for Homogeneity of
 ## 	Covariance Matrices
 ## 
 ## data:  alc[, c("alcuse.14", "alcuse.15", "alcuse.16")]
-## Chi-Sq (approx.) = 21.486, df =
-## 6, p-value = 0.0015
+## Chi-Sq (approx.) = 21.486, df = 6,
+## p-value = 0.0015
 ```
 
 Auch in unserem Fall wird eine signifikante Verletzung der Annahme angezeigt. Nach [Eid et al. (2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 494) ist die ANOVA gegenüber der Verletzung der Homgenitätsannahme bezüglich der Kovarianzmatrizen dann robust, wenn die Sphärizitätsannahme nicht verworfen werden muss. In dem Output von der ANOVA haben wir aber gesehen, dass auch hier eine signifikante Verletzung vorliegt. Für die Interpretaion können nun die zuvor dargestellten Korrekturen oder eine "echte" robuste Variante (z.B. im `WRS2`-Paket) genutzt werden. Betrachten wir nun nochmal genauer den oben schon gezeigten Output.
@@ -997,18 +933,17 @@ Auch in unserem Fall wird eine signifikante Verletzung der Annahme angezeigt. Na
 ## Anova Table (Type 3 tests)
 ## 
 ## Response: alcuse
-##    Effect           df  MSE         F
-## 1     coa        1, 80 1.94 15.09 ***
-## 2     age 1.80, 143.63 0.56 11.92 ***
-## 3 coa:age 1.80, 143.63 0.56      0.11
-##     ges p.value
-## 1  .111   <.001
-## 2  .048   <.001
-## 3 <.001    .873
+##    Effect           df  MSE         F   ges
+## 1     coa        1, 80 1.94 15.09 ***  .111
+## 2     age 1.80, 143.63 0.56 11.92 ***  .048
+## 3 coa:age 1.80, 143.63 0.56      0.11 <.001
+##   p.value
+## 1   <.001
+## 2   <.001
+## 3    .873
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '+' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
 ## 
 ## Sphericity correction method: GG
 ```
@@ -1068,7 +1003,7 @@ aggregate(Y ~ times, df, mean) |>
     formula = y ~ 1, color = 'gold3')
 ```
 
-![](/anova-iii_files/unnamed-chunk-31-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-33-1.png)<!-- -->
 
 ```r
 whd_aov <- aov_4(Y ~ times + (times | id), data = data.frame(df))
@@ -1077,12 +1012,9 @@ contrast(em, interaction = 'poly')
 ```
 
 ```
-##  times_poly estimate    SE df t.ratio
-##  linear       0.0715 0.219 29   0.327
-##  quadratic   -0.3794 0.449 29  -0.844
-##  p.value
-##   0.7462
-##   0.4054
+##  times_poly estimate    SE df t.ratio p.value
+##  linear       0.0715 0.219 29   0.327  0.7462
+##  quadratic   -0.3794 0.449 29  -0.844  0.4054
 ```
 Sowohl der lineare als auch der quadratische Trend sind **nicht** signifikant! Die gelbe Linie stellt einen horizontalen Verlauf dar, die blaue einen linearen Verlauf und die rote einen quadratischen.
 
@@ -1127,7 +1059,7 @@ aggregate(Y ~ times, df, mean) |>
     formula = y ~ 1, color = 'gold3')
 ```
 
-![](/anova-iii_files/unnamed-chunk-32-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-34-1.png)<!-- -->
 
 ```r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))
@@ -1136,12 +1068,9 @@ contrast(em, interaction = 'poly')
 ```
 
 ```
-##  times_poly estimate    SE df t.ratio
-##  linear        1.365 0.475 84   2.872
-##  quadratic    -0.531 0.823 84  -0.645
-##  p.value
-##   0.0052
-##   0.5205
+##  times_poly estimate    SE df t.ratio p.value
+##  linear        1.365 0.475 84   2.872  0.0052
+##  quadratic    -0.531 0.823 84  -0.645  0.5205
 ```
 
 Diesmal ist nur der lineare Trend signifikant. Die Mittelwerte steigen mit jedem Zeitpunkt um 1 Einheit! 
@@ -1187,7 +1116,7 @@ aggregate(Y ~ times, df, mean) |>
     formula = y ~ 1, color = 'gold3')
 ```
 
-![](/anova-iii_files/unnamed-chunk-33-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-35-1.png)<!-- -->
 
 ```r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))
@@ -1196,12 +1125,9 @@ contrast(em, interaction = 'poly')
 ```
 
 ```
-##  times_poly estimate    SE df t.ratio
-##  linear       -0.635 0.475 84  -1.337
-##  quadratic    -2.531 0.823 84  -3.075
-##  p.value
-##   0.1848
-##   0.0028
+##  times_poly estimate    SE df t.ratio p.value
+##  linear       -0.635 0.475 84  -1.337  0.1848
+##  quadratic    -2.531 0.823 84  -3.075  0.0028
 ```
 
 Es ist nur der quadratische Trend signifikant, da wir ja gesehen hatten, dass der Kontrast für den linearen Trend nur die beiden äußeren Mittelwerte gegeneinander testet ($\mu_1$ vs $\mu_3$), welche sich aber nicht unterscheiden und somit auch die blau Gerade horizontal erscheint (sie ist nicht/kaum von der gelben zu unterscheiden)! Schauen wir uns doch einmal einen Verlauf an, in welchem sowohl der lineare als auch de quadratische Trend signifikant ist. Das ist der Fall, wenn die Mittelwerte bspw. "beschleunigt" steigen mit den Zeitpunkten. wir wählen die Mittelwerte als (1, 4, 9), also $t^2$. 
@@ -1245,7 +1171,7 @@ aggregate(Y ~ times, df, mean) |>
     formula = y ~ 1, color = 'gold3')
 ```
 
-![](/anova-iii_files/unnamed-chunk-34-1.png)<!-- -->
+![](/anova-iii_files/unnamed-chunk-36-1.png)<!-- -->
 
 ```r
 whd_aov <- aov(Y ~ times + Error(id/times), data = data.frame(df))
@@ -1254,12 +1180,9 @@ contrast(em, interaction = 'poly')
 ```
 
 ```
-##  times_poly estimate    SE df t.ratio
-##  linear         9.04 0.497 84  18.194
-##  quadratic      4.13 0.861 84   4.793
-##  p.value
-##   <.0001
-##   <.0001
+##  times_poly estimate    SE df t.ratio p.value
+##  linear         9.04 0.497 84  18.194  <.0001
+##  quadratic      4.13 0.861 84   4.793  <.0001
 ```
 
 Wir erkennen, dass sowohl der lineare als auch der quadratische Trend signifikant ist. Die blaue Linie passt besser als eine horiziontale und die rote passt besser als die blau Linie! Hier entscheiden wir uns final für den quadratischen Trend!

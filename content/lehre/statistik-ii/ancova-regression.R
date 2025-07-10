@@ -39,7 +39,7 @@ tab <- data.frame(
 tab$mod1 <- predict(mod1, tab)
 tab
 
-# ---- mod1-Plot ----
+#### mod1 Plot ----
 pred_plot <- ggplot(tab, aes(
   x = bribe,
   group = country, color = country
@@ -54,7 +54,7 @@ pred_plot
 mod2 <- lm(severe ~ country + bribe, punish)
 summary(mod2)
 
-# ---- mod2-Plot ----
+#### mod2 Plot ----
 tab$mod2 <- predict(mod2, tab)
 
 pred_plot <- pred_plot +
@@ -71,7 +71,7 @@ tab$mod2[4] - tab$mod2[3] # identisch
 mod3 <- lm(severe ~ country + bribe + country:bribe, punish)
 summary(mod3)
 
-# ---- mod3-Plot ----
+#### mod3 Plot ----
 tab$mod3 <- predict(mod3, tab)
 
 pred_plot <- pred_plot +
@@ -105,7 +105,7 @@ summary(mod5)
 mod6 <- lm(severe ~ gains + bribe, usa)
 summary(mod6)
 
-# ---- ANCOVA-Plot ----
+#### ANCOVA Plot ----
 # Scatterplot erstellen
 scatter <- ggplot(usa, aes(x = gains, y = severe, color = bribe)) +
   geom_point()
@@ -126,7 +126,7 @@ scatter +
 mod7 <- lm(severe ~ gains + bribe + gains:bribe, usa)
 summary(mod7)
 
-# ---- Generalisierte-ANCOVA-Plot ----
+#### Plot für generalisierte ANCOVA ----
 scatter +
   # Kollektive Bestechung
   geom_abline(
@@ -142,7 +142,7 @@ scatter +
 library(reghelper)
 simple_slopes(mod7)
 
-# ---- Appendix-A----------------- ----
+#### Appendix A ----
 mod8 <- lm(severe ~ country + bribe + gains, punish)
 summary(mod8)
 
@@ -159,14 +159,14 @@ tab <- data.frame(
 tab$intercept <- c(tmp[1], sum(tmp[c(1, 3)]), sum(tmp[1:2]), sum(tmp[1:3]))
 tab$slope <- tmp[4]
 
-# ---- Komplexer-Plot(additiv) ----
+#### Komplexer Plot mit additiven Elementen ----
 scatter +
   geom_abline(data = tab, aes(
     intercept = intercept, slope = slope,
     color = country:bribe
   ))
 
-# ---- Komplexer-Plot-mit-Interaktion ----
+#### Komplexer Plot mit Interaktionen ----
 # Modell
 mod9 <- lm(severe ~ country + bribe + gains + country:bribe, punish)
 
@@ -201,7 +201,7 @@ names(aics) <- c("df", "AIC")
 aics$model <- 8:13
 aics
 
-# ---- Komplexer-Plot-mit-vollständiger-Interaktion ----
+#### Komplexer Plot mit vollständigen Interaktionen ----
 # Plot vorbereitung
 tmp <- coef(mod13)
 tab$intercept <- c(tmp[1], sum(tmp[c(1, 3)]), sum(tmp[1:2]), sum(tmp[c(1:3, 5)]))

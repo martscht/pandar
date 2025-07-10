@@ -62,7 +62,7 @@ if (!requireNamespace("emmeans", quietly = TRUE)) {
 
 library(emmeans)
 
-# ---- Anwendung emmeans---------- ----
+#### Anwendung emmeans ----
 emm_einfakt <- emmeans(einfakt, ~urban)
 
 tukey <- pairs(emm_einfakt, adjust = "tukey")
@@ -72,7 +72,7 @@ confint(tukey)
 
 plot(tukey)
 
-# ---- Appendix A----------------- ----
+#### Appendix A ----
 library(car)
 leveneTest(conspiracy$EC ~ conspiracy$urban)
 

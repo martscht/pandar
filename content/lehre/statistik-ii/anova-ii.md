@@ -9,7 +9,7 @@ subtitle: '2-fakt. ANOVA'
 summary: ''
 authors: [nehler, irmer,scheppa-lahyani,schultze]
 weight: 9
-lastmod: '2025-07-03'
+lastmod: '2025-07-10'
 featured: no
 banner:
   image: "/header/heart_alien.jpg"
@@ -70,34 +70,20 @@ head(conspiracy)
 ```
 
 ```
-##              edu    urban
-## 1 not highschool suburban
-## 2        college suburban
-## 3        college    rural
-## 4     highschool suburban
-## 5        college    rural
-## 6     highschool suburban
-##   gender age       GM
-## 1 female  14 4.000000
-## 2 female  26 2.000000
-## 3   male  25 5.000000
-## 4   male  37 5.000000
-## 5   male  34 1.000000
-## 6   male  17 3.333333
-##         GC       EC       PW
-## 1 5.000000 4.666667 3.333333
-## 2 4.000000 1.000000 2.000000
-## 3 4.333333 1.000000 3.333333
-## 4 4.333333 2.333333 3.333333
-## 5 1.000000 1.000000 1.000000
-## 6 2.666667 3.000000 2.666667
-##         CI
-## 1 4.666667
-## 2 3.333333
-## 3 4.666667
-## 4 4.666667
-## 5 1.000000
-## 6 3.666667
+##              edu    urban gender age       GM
+## 1 not highschool suburban female  14 4.000000
+## 2        college suburban female  26 2.000000
+## 3        college    rural   male  25 5.000000
+## 4     highschool suburban   male  37 5.000000
+## 5        college    rural   male  34 1.000000
+## 6     highschool suburban   male  17 3.333333
+##         GC       EC       PW       CI
+## 1 5.000000 4.666667 3.333333 4.666667
+## 2 4.000000 1.000000 2.000000 3.333333
+## 3 4.333333 1.000000 3.333333 4.666667
+## 4 4.333333 2.333333 3.333333 4.666667
+## 5 1.000000 1.000000 1.000000 1.000000
+## 6 2.666667 3.000000 2.666667 3.666667
 ```
 
 Er stammt aus einer Untersuchung zum Thema *verschwörungstheoretische Überzeugungen*. Die **ersten vier Variablen** enthalten Informationen über den demographischen Hintergrund der Personen: höchster Bildungsabschluss (`edu`), Typ des Wohnortes (`urban`), Geschlecht (`gender`) und Alter (`age`). Die **fünf restlichen Variablen** sind Skalenwerte bezüglich verschiedener Subdimensionen verschwörungstheoretischer Überzeugungen: `GM` (goverment malfeasance), `GC` (malevolent global conspiracies), `EC` (extraterrestrial cover-up), `PW` (personal well-being) und `CI` (control of information).
@@ -155,14 +141,11 @@ aov_4(EC ~ edu + (1|id), data = conspiracy)
 ## Anova Table (Type 3 tests)
 ## 
 ## Response: EC
-##   Effect      df  MSE
-## 1    edu 2, 2448 1.70
-##           F  ges p.value
-## 1 35.04 *** .028   <.001
+##   Effect      df  MSE         F  ges p.value
+## 1    edu 2, 2448 1.70 35.04 *** .028   <.001
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '+' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
 ```
 
 Die Ergebnisse zeigen, dass es signifikante Unterschiede zwischen den verschiedenen Wohnorten gibt. Zusätzlich erhalten wir auch das generalisierte $\eta^2$, also einen Schätzer der Effektstärke, die im Grunde angibt, wie viel systematische Variation in den Daten ist, relativ zur zufälligen Schwankung. Um dies in der Skala der ursprünglichen Variablen zu interpretieren, können wir uns rein deskriptiv die gruppenspezifischen Mittelwerte angucken. Dazu kann mit einer Vielzahl von Funktionen gearbeitet werden. Eine gängige Variante ist der `aggregate()`-Befehl, den wir auch bereits kennengelernt haben.
@@ -190,26 +173,16 @@ aggregate(EC ~ urban + edu, conspiracy, mean)
 ```
 
 ```
-##      urban            edu
-## 1    rural not highschool
-## 2 suburban not highschool
-## 3    urban not highschool
-## 4    rural     highschool
-## 5 suburban     highschool
-## 6    urban     highschool
-## 7    rural        college
-## 8 suburban        college
-## 9    urban        college
-##         EC
-## 1 2.313433
-## 2 2.364943
-## 3 2.577114
-## 4 2.393519
-## 5 2.232493
-## 6 2.509964
-## 7 1.909722
-## 8 1.909672
-## 9 1.962751
+##      urban            edu       EC
+## 1    rural not highschool 2.313433
+## 2 suburban not highschool 2.364943
+## 3    urban not highschool 2.577114
+## 4    rural     highschool 2.393519
+## 5 suburban     highschool 2.232493
+## 6    urban     highschool 2.509964
+## 7    rural        college 1.909722
+## 8 suburban        college 1.909672
+## 9    urban        college 1.962751
 ```
 
 Auf den ersten Blick fällt schon einmal auf, dass Menschen, die als höchsten Bildungsabschluss das College besucht hatten, deutlich niedrigere Mittelwerte hinsichtlich der Verschwörung aufweisen als jene, die keinen High-School oder maximal einen High-School Abschluss haben. Auch wenn die tabellarische Übersicht für manche die präferierte Variante sein wird, ist es auf Postern und in Berichten häufig so, dass stattdessen Grafiken eingesetzt werden. Wir schauen uns hier erstmal an, wie man eine solche Grafik erstellen könnte mit dem `ggplot2` Paket.
@@ -346,18 +319,17 @@ aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy)
 ## Anova Table (Type 3 tests)
 ## 
 ## Response: EC
-##      Effect      df  MSE
-## 1     urban 2, 2442 1.70
-## 2       edu 2, 2442 1.70
-## 3 urban:edu 4, 2442 1.70
-##           F  ges p.value
-## 1    4.08 * .003    .017
-## 2 32.45 *** .026   <.001
-## 3      0.96 .002    .427
+##      Effect      df  MSE         F  ges
+## 1     urban 2, 2442 1.70    4.08 * .003
+## 2       edu 2, 2442 1.70 32.45 *** .026
+## 3 urban:edu 4, 2442 1.70      0.96 .002
+##   p.value
+## 1    .017
+## 2   <.001
+## 3    .427
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '+' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
 ```
 
 Der Output zeigt uns die Ergebnisse der zweifaktoriellen ANOVA. Im Vergleich zur einfaktoriellen ANOVA erhalten wir mehr Zeilen, in denen jeweils die Variablennamen gelistet sind. Die Änderung entspricht also genau der Änderung, wenn wir in eine einfache Regression mehr Prädiktoren aufnehmen. Die erste Zeile gibt den Haupteffekt des Wohnorts (`urban`) an, die zweite den Haupteffekt des Bildungsniveaus (`edu`) und die dritte die Interaktion zwischen Wohnort und Bildungsniveau (`urban:edu`). In der Spalte der p-Werte sehen wir, dass sowohl der Haupteffekt des Wohnorts (`urban`) als auch der Haupteffekt des Bildungsniveaus (`edu`) statistisch bedeutsam sind. Die Interaktion zwischen Wohnort und Bildungsniveau ist jedoch nicht signifikant. Inhaltlich heißt das, dass sowohl die Art des Wohnorts als auch das Bildungsniveau einen Einfluss auf die verschwörungstheoretische Überzeugung haben. Über die jeweiligen Effekte hinaus ist die spezifische Kombination aus Wohnort und Bildungsniveau für diese Überzeugung irrelevant.
@@ -383,18 +355,17 @@ aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy)
 ## Anova Table (Type 3 tests)
 ## 
 ## Response: EC
-##      Effect      df  MSE
-## 1     urban 2, 2442 1.70
-## 2       edu 2, 2442 1.70
-## 3 urban:edu 4, 2442 1.70
-##           F  ges p.value
-## 1    4.08 * .003    .017
-## 2 32.45 *** .026   <.001
-## 3      0.96 .002    .427
+##      Effect      df  MSE         F  ges
+## 1     urban 2, 2442 1.70    4.08 * .003
+## 2       edu 2, 2442 1.70 32.45 *** .026
+## 3 urban:edu 4, 2442 1.70      0.96 .002
+##   p.value
+## 1    .017
+## 2   <.001
+## 3    .427
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '+' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
 ```
 
 Typ II berücksichtigt in der Berechnung der Quadratsummen von Effekten im Gegensatz dazu nur alle anderen Haupteffekte. In der Berechnung der Quadratsummen der Haupteffekte wird damit angenommen, dass alle Interaktionen, an denen dieser Term beteiligt ist, 0 sind. In dem Befehl kann man diese Quadratsummen mit dem Argument `type = "II"` anfordern:
@@ -413,18 +384,17 @@ aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy, type = "II")
 ## Anova Table (Type II tests)
 ## 
 ## Response: EC
-##      Effect      df  MSE
-## 1     urban 2, 2442 1.70
-## 2       edu 2, 2442 1.70
-## 3 urban:edu 4, 2442 1.70
-##           F  ges p.value
-## 1    4.44 * .004    .012
-## 2 36.06 *** .029   <.001
-## 3      0.96 .002    .427
+##      Effect      df  MSE         F  ges
+## 1     urban 2, 2442 1.70    4.44 * .004
+## 2       edu 2, 2442 1.70 36.06 *** .029
+## 3 urban:edu 4, 2442 1.70      0.96 .002
+##   p.value
+## 1    .012
+## 2   <.001
+## 3    .427
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '+' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
 ```
 
 Die Unterscheidung zwischen Typ II und Typ III ist also, dass bei Typ II die Interaktionseffekte nicht berücksichtigt werden, wenn die Quadratsumme der Haupteffekte berechnet wird. Bei Typ III hingegen werden alle anderen Haupteffekte und Interaktionen berücksichtigt. In den Zahlen merken wir das daran, dass die empirischen F-Werte, die ja die Quadratsummen der Effekte im Zähler haben, unterschiedlich sind. Spezifischer kann man sagen, dass sie bei Typ II größer sind, da die Quadratsummen der Haupteffekte nicht auf die Interaktionseffekte kontrolliert wurden. Die Quadratsummen der Interaktionseffekte sind bei Typ II und Typ III identisch, da sie in beiden Fällen die Haupteffekte in die Berechnung mit einbeziehen.
@@ -464,6 +434,21 @@ Doch gerade das Vorhandensein von Interaktionseffekten kann die Interpretation d
 Die Art der Interaktion wird in der Literatur in drei Bereiche aufgeteilt. Dabei wird zwischen *ordinalen*, *disordinalen* und *semidisordinalen* Interaktion unterschieden. Je nach Art ist die Interpretation der Haupteffekte zulässig, schwierig oder nicht zulässig.
 
 Beginnen wir in unserer Betrachtung mit einem **ordinalen** Interaktionseffekt. Dabei vereinfachen wir das Beispiel für die zweifaktorielle ANOVA auf Faktoren mit jeweils nur zwei Faktorstufen - es gibt also Faktor A mit den Stufen A1 und A2 und Faktor B mit den Stufen B1 und B2. Die beiden hier dargestellten Grafiken stellen die Mittelwerte der 4 Kombinationen aus zwei verschiedenen Perspektiven da - einmal mit A auf der x-Achse und einmal mit B auf der x-Achse.
+
+
+```
+## Warning: Paket 'patchwork' wurde unter R
+## Version 4.3.2 erstellt
+```
+
+```
+## Warning: Using `size` aesthetic for lines was
+## deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()`
+## to see where this warning was generated.
+```
 
 ![](/anova-ii_files/unnamed-chunk-14-1.png)<!-- -->
 
@@ -567,80 +552,43 @@ tukey
 ##  rural college - suburban college              
 ##  rural college - urban college                 
 ##  suburban college - urban college              
-##  estimate     SE   df t.ratio
-##  -0.05151 0.1808 2442  -0.285
-##  -0.26368 0.1951 2442  -1.352
-##  -0.08009 0.1823 2442  -0.439
-##   0.08094 0.1701 2442   0.476
-##  -0.19653 0.1732 2442  -1.135
-##   0.40371 0.1850 2442   2.182
-##   0.40376 0.1716 2442   2.353
-##   0.35068 0.1739 2442   2.016
-##  -0.21217 0.1415 2442  -1.500
-##  -0.02858 0.1233 2442  -0.232
-##   0.13245 0.1044 2442   1.269
-##  -0.14502 0.1093 2442  -1.327
-##   0.45522 0.1272 2442   3.578
-##   0.45527 0.1068 2442   4.263
-##   0.40219 0.1105 2442   3.641
-##   0.18360 0.1434 2442   1.280
-##   0.34462 0.1275 2442   2.703
-##   0.06715 0.1316 2442   0.510
-##   0.66739 0.1468 2442   4.547
-##   0.66744 0.1295 2442   5.155
-##   0.61436 0.1325 2442   4.636
-##   0.16103 0.1070 2442   1.505
-##  -0.11645 0.1118 2442  -1.042
-##   0.48380 0.1293 2442   3.741
-##   0.48385 0.1093 2442   4.426
-##   0.43077 0.1129 2442   3.816
-##  -0.27747 0.0905 2442  -3.066
-##   0.32277 0.1115 2442   2.895
-##   0.32282 0.0875 2442   3.691
-##   0.26974 0.0919 2442   2.936
-##   0.60024 0.1161 2442   5.171
-##   0.60029 0.0933 2442   6.437
-##   0.54721 0.0974 2442   5.617
-##   0.00005 0.1137 2442   0.000
-##  -0.05303 0.1172 2442  -0.453
-##  -0.05308 0.0946 2442  -0.561
-##  p.value
-##   1.0000
-##   0.9154
-##   1.0000
-##   0.9999
-##   0.9690
-##   0.4178
-##   0.3110
-##   0.5319
-##   0.8560
-##   1.0000
-##   0.9403
-##   0.9235
-##   0.0106
-##   0.0007
-##   0.0085
-##   0.9371
-##   0.1473
-##   0.9999
-##   0.0002
-##   <.0001
-##   0.0001
-##   0.8534
-##   0.9817
-##   0.0059
-##   0.0003
-##   0.0044
-##   0.0561
-##   0.0902
-##   0.0070
-##   0.0809
-##   <.0001
-##   <.0001
-##   <.0001
-##   1.0000
-##   1.0000
-##   0.9998
+##  estimate     SE   df t.ratio p.value
+##  -0.05151 0.1808 2442  -0.285  1.0000
+##  -0.26368 0.1951 2442  -1.352  0.9154
+##  -0.08009 0.1823 2442  -0.439  1.0000
+##   0.08094 0.1701 2442   0.476  0.9999
+##  -0.19653 0.1732 2442  -1.135  0.9690
+##   0.40371 0.1850 2442   2.182  0.4178
+##   0.40376 0.1716 2442   2.353  0.3110
+##   0.35068 0.1739 2442   2.016  0.5319
+##  -0.21217 0.1415 2442  -1.500  0.8560
+##  -0.02858 0.1233 2442  -0.232  1.0000
+##   0.13245 0.1044 2442   1.269  0.9403
+##  -0.14502 0.1093 2442  -1.327  0.9235
+##   0.45522 0.1272 2442   3.578  0.0106
+##   0.45527 0.1068 2442   4.263  0.0007
+##   0.40219 0.1105 2442   3.641  0.0085
+##   0.18360 0.1434 2442   1.280  0.9371
+##   0.34462 0.1275 2442   2.703  0.1473
+##   0.06715 0.1316 2442   0.510  0.9999
+##   0.66739 0.1468 2442   4.547  0.0002
+##   0.66744 0.1295 2442   5.155  <.0001
+##   0.61436 0.1325 2442   4.636  0.0001
+##   0.16103 0.1070 2442   1.505  0.8534
+##  -0.11645 0.1118 2442  -1.042  0.9817
+##   0.48380 0.1293 2442   3.741  0.0059
+##   0.48385 0.1093 2442   4.426  0.0003
+##   0.43077 0.1129 2442   3.816  0.0044
+##  -0.27747 0.0905 2442  -3.066  0.0561
+##   0.32277 0.1115 2442   2.895  0.0902
+##   0.32282 0.0875 2442   3.691  0.0070
+##   0.26974 0.0919 2442   2.936  0.0809
+##   0.60024 0.1161 2442   5.171  <.0001
+##   0.60029 0.0933 2442   6.437  <.0001
+##   0.54721 0.0974 2442   5.617  <.0001
+##   0.00005 0.1137 2442   0.000  1.0000
+##  -0.05303 0.1172 2442  -0.453  1.0000
+##  -0.05308 0.0946 2442  -0.561  0.9998
 ## 
 ## P value adjustment: tukey method for comparing a family of 9 estimates
 ```
@@ -672,36 +620,26 @@ emm_zweifakt
 ```
 
 ```
-##  urban    edu           
-##  rural    not highschool
-##  suburban not highschool
-##  urban    not highschool
-##  rural    highschool    
-##  suburban highschool    
-##  urban    highschool    
-##  rural    college       
-##  suburban college       
-##  urban    college       
-##  emmean     SE   df lower.CL
-##    2.31 0.1593 2442     2.00
-##    2.36 0.0856 2442     2.20
-##    2.58 0.1126 2442     2.36
-##    2.39 0.0887 2442     2.22
-##    2.23 0.0598 2442     2.12
-##    2.51 0.0680 2442     2.38
-##    1.91 0.0941 2442     1.73
-##    1.91 0.0639 2442     1.78
-##    1.96 0.0698 2442     1.83
-##  upper.CL
-##      2.63
-##      2.53
-##      2.80
-##      2.57
-##      2.35
-##      2.64
-##      2.09
-##      2.03
-##      2.10
+##  urban    edu            emmean     SE   df
+##  rural    not highschool   2.31 0.1593 2442
+##  suburban not highschool   2.36 0.0856 2442
+##  urban    not highschool   2.58 0.1126 2442
+##  rural    highschool       2.39 0.0887 2442
+##  suburban highschool       2.23 0.0598 2442
+##  urban    highschool       2.51 0.0680 2442
+##  rural    college          1.91 0.0941 2442
+##  suburban college          1.91 0.0639 2442
+##  urban    college          1.96 0.0698 2442
+##  lower.CL upper.CL
+##      2.00     2.63
+##      2.20     2.53
+##      2.36     2.80
+##      2.22     2.57
+##      2.12     2.35
+##      2.38     2.64
+##      1.73     2.09
+##      1.78     2.03
+##      1.83     2.10
 ## 
 ## Confidence level used: 0.95
 ```
@@ -732,10 +670,8 @@ contrast(emm_zweifakt, list(cont1))
 ```
 ##  contrast                                      
 ##  c(-0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 1, 1, 1)
-##  estimate    SE   df t.ratio
-##     -1.41 0.182 2442  -7.762
-##  p.value
-##   <.0001
+##  estimate    SE   df t.ratio p.value
+##     -1.41 0.182 2442  -7.762  <.0001
 ```
 
 Der Kontrast zeigt uns hier ein signifikantes Ergebnis, was bedeutet, dass Personen, die auf dem College waren, sich signifikant von Personen unterscheiden, die nicht auf dem College waren.
@@ -770,12 +706,9 @@ contrast(emm_zweifakt, list(cont1, cont2), adjust = 'bonferroni')
 ##  contrast                                      
 ##  c(-0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 1, 1, 1)
 ##  c(0.5, 0, -0.5, 0.5, 0, -0.5, -1, 0, 1)       
-##  estimate    SE   df t.ratio
-##    -1.414 0.182 2442  -7.762
-##    -0.137 0.162 2442  -0.844
-##  p.value
-##   <.0001
-##   0.7976
+##  estimate    SE   df t.ratio p.value
+##    -1.414 0.182 2442  -7.762  <.0001
+##    -0.137 0.162 2442  -0.844  0.7976
 ## 
 ## P value adjustment: bonferroni method for 2 tests
 ```
@@ -822,6 +755,10 @@ library(ez)
 ```
 
 
+```
+## Warning: Paket 'ez' wurde unter R Version
+## 4.3.1 erstellt
+```
 
 In dem Paket wird die Funktion `ezANOVA()` verwendet, um eine ANOVA durchzuführen. Diese Funktion hat ein Argument `type`, welches die Quadratsummen-Typen angibt. Wir können also Typ I anfordern, indem wir `type = 1` setzen. Weitere benötigte Argument sind der Datensatz, die abhängige Variable `dv`, die ID-Variable `wid` und die unabhängigen Variablen `between`. Diese müssen als Vektor angegeben werden, da wir hier eine mehrfaktorielle ANOVA durchführen wollen. 
 
@@ -832,33 +769,26 @@ ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu), type = 1)
 ```
 
 ```
-## Warning: Data is unbalanced
-## (unequal N per group). Make
-## sure you specified a
-## well-considered value for the
-## type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per
+## group). Make sure you specified a
+## well-considered value for the type argument
+## to ezANOVA().
 ```
 
 ```
-## Warning: Using "type==1" is
-## highly questionable when data
-## are unbalanced and there is
-## more than one variable.
-## Hopefully you are doing this
-## for demonstration purposes
+## Warning: Using "type==1" is highly
+## questionable when data are unbalanced and
+## there is more than one variable. Hopefully
+## you are doing this for demonstration purposes
 ## only!
 ```
 
 ```
 ## $ANOVA
-##      Effect DFn  DFd
-## 1     urban   2 2442
-## 2       edu   2 2442
-## 3 urban:edu   4 2442
-##            F            p
-## 1  3.5143726 2.991711e-02
-## 2 36.0626891 3.672878e-16
-## 3  0.9624503 4.269191e-01
+##      Effect DFn  DFd          F            p
+## 1     urban   2 2442  3.5143726 2.991711e-02
+## 2       edu   2 2442 36.0626891 3.672878e-16
+## 3 urban:edu   4 2442  0.9624503 4.269191e-01
 ##   p<.05         ges
 ## 1     * 0.002870013
 ## 2     * 0.028688059
@@ -871,31 +801,24 @@ ezANOVA(conspiracy, dv = EC, wid = id, between = c(edu, urban), type = 1)
 ```
 
 ```
-## Warning: Data is unbalanced
-## (unequal N per group). Make
-## sure you specified a
-## well-considered value for the
-## type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per
+## group). Make sure you specified a
+## well-considered value for the type argument
+## to ezANOVA().
 
-## Warning: Using "type==1" is
-## highly questionable when data
-## are unbalanced and there is
-## more than one variable.
-## Hopefully you are doing this
-## for demonstration purposes
+## Warning: Using "type==1" is highly
+## questionable when data are unbalanced and
+## there is more than one variable. Hopefully
+## you are doing this for demonstration purposes
 ## only!
 ```
 
 ```
 ## $ANOVA
-##      Effect DFn  DFd
-## 1       edu   2 2442
-## 2     urban   2 2442
-## 3 edu:urban   4 2442
-##            F            p
-## 1 35.1355717 9.041526e-16
-## 2  4.4414900 1.187368e-02
-## 3  0.9624503 4.269191e-01
+##      Effect DFn  DFd          F            p
+## 1       edu   2 2442 35.1355717 9.041526e-16
+## 2     urban   2 2442  4.4414900 1.187368e-02
+## 3 edu:urban   4 2442  0.9624503 4.269191e-01
 ##   p<.05         ges
 ## 1     * 0.027971162
 ## 2     * 0.003624400
@@ -915,11 +838,10 @@ ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu))
 ```
 
 ```
-## Warning: Data is unbalanced
-## (unequal N per group). Make
-## sure you specified a
-## well-considered value for the
-## type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per
+## group). Make sure you specified a
+## well-considered value for the type argument
+## to ezANOVA().
 ```
 
 ```
@@ -928,24 +850,20 @@ ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu))
 
 ```
 ## $ANOVA
-##      Effect DFn  DFd
-## 1     urban   2 2442
-## 2       edu   2 2442
-## 3 urban:edu   4 2442
-##            F            p
-## 1  4.4414900 1.187368e-02
-## 2 36.0626891 3.672878e-16
-## 3  0.9624503 4.269191e-01
+##      Effect DFn  DFd          F            p
+## 1     urban   2 2442  4.4414900 1.187368e-02
+## 2       edu   2 2442 36.0626891 3.672878e-16
+## 3 urban:edu   4 2442  0.9624503 4.269191e-01
 ##   p<.05         ges
 ## 1     * 0.003624400
 ## 2     * 0.028688059
 ## 3       0.001574014
 ## 
 ## $`Levene's Test for Homogeneity of Variance`
-##   DFn  DFd      SSn     SSd
-## 1   8 2442 35.35671 1989.07
-##          F            p p<.05
-## 1 5.425973 8.487496e-07     *
+##   DFn  DFd      SSn     SSd        F
+## 1   8 2442 35.35671 1989.07 5.425973
+##              p p<.05
+## 1 8.487496e-07     *
 ```
 
 Typ III lässt sich auch durch eine einfache Einstellung in `ezANOVA()` anfordern. Dabei wird nicht angenommen, dass die Interaktionen 0 sind. Typ III ist z.B. auch in SPSS voreingestellt.
@@ -957,11 +875,10 @@ ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu), type = 3)
 ```
 
 ```
-## Warning: Data is unbalanced
-## (unequal N per group). Make
-## sure you specified a
-## well-considered value for the
-## type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per
+## group). Make sure you specified a
+## well-considered value for the type argument
+## to ezANOVA().
 ```
 
 ```
@@ -970,24 +887,20 @@ ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu), type = 3)
 
 ```
 ## $ANOVA
-##      Effect DFn  DFd
-## 2     urban   2 2442
-## 3       edu   2 2442
-## 4 urban:edu   4 2442
-##            F            p
-## 2  4.0803030 1.701771e-02
-## 3 32.4467993 1.237413e-14
-## 4  0.9624503 4.269191e-01
+##      Effect DFn  DFd          F            p
+## 2     urban   2 2442  4.0803030 1.701771e-02
+## 3       edu   2 2442 32.4467993 1.237413e-14
+## 4 urban:edu   4 2442  0.9624503 4.269191e-01
 ##   p<.05         ges
 ## 2     * 0.003330641
 ## 3     * 0.025886060
 ## 4       0.001574014
 ## 
 ## $`Levene's Test for Homogeneity of Variance`
-##   DFn  DFd      SSn     SSd
-## 1   8 2442 35.35671 1989.07
-##          F            p p<.05
-## 1 5.425973 8.487496e-07     *
+##   DFn  DFd      SSn     SSd        F
+## 1   8 2442 35.35671 1989.07 5.425973
+##              p p<.05
+## 1 8.487496e-07     *
 ```
 
 </details>
@@ -1006,11 +919,10 @@ ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu), detailed = TRUE,
 ```
 
 ```
-## Warning: Data is unbalanced
-## (unequal N per group). Make
-## sure you specified a
-## well-considered value for the
-## type argument to ezANOVA().
+## Warning: Data is unbalanced (unequal N per
+## group). Make sure you specified a
+## well-considered value for the type argument
+## to ezANOVA().
 ```
 
 ```
@@ -1019,24 +931,20 @@ ezANOVA(conspiracy, dv = EC, wid = id, between = c(urban, edu), detailed = TRUE,
 
 ```
 ## $ANOVA
-##      Effect DFn  DFd
-## 1     urban   2 2442
-## 2       edu   2 2442
-## 3 urban:edu   4 2442
-##            F            p
-## 1  3.9382419 1.960630e-02
-## 2 37.0979365 1.344257e-16
-## 3  0.9677347 4.239611e-01
+##      Effect DFn  DFd          F            p
+## 1     urban   2 2442  3.9382419 1.960630e-02
+## 2       edu   2 2442 37.0979365 1.344257e-16
+## 3 urban:edu   4 2442  0.9677347 4.239611e-01
 ##   p<.05
 ## 1     *
 ## 2     *
 ## 3      
 ## 
 ## $`Levene's Test for Homogeneity of Variance`
-##   DFn  DFd      SSn     SSd
-## 1   8 2442 35.35671 1989.07
-##          F            p p<.05
-## 1 5.425973 8.487496e-07     *
+##   DFn  DFd      SSn     SSd        F
+## 1   8 2442 35.35671 1989.07 5.425973
+##              p p<.05
+## 1 8.487496e-07     *
 ```
 </details>
 
