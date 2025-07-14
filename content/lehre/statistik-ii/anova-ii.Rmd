@@ -81,7 +81,8 @@ Der Output zeigt, dass wir Variablen vom Typen `factor` und `numeric` (und `inte
 
 In der letzten Sitzung zeigte sich, dass die Überzeugung, dass die Existenz von Außerirdischen durch eine globale Verschwörung verdeckt wird (`EC`), von der Art des Wohngebiets (`urban`) abhängig ist. Zur Berechnung der einfaktoriellen ANOVA wurde das `afex`-Paket verwendet. Dieses Paket brauchen wir weiterhin:
 
-```{r Einfaktorielle ANOVA, message = F}
+```{r Einfaktorielle ANOVA, message = F, echo=-1}
+#### Einfaktorielle ANOVA ----
 library(afex)
 ```
 
@@ -107,7 +108,8 @@ aggregate(EC ~ edu, conspiracy, mean)
 
 In der mehrfaktoriellen ANOVA steht nicht nur der Vergleich von Gruppen anhand *einer* unabhängigen Variable im Mittelpunkt, sondern der Fokus liegt auf der *Kombination von Gruppierungen* anhand mehrerer unabhängiger Variablen. Deskriptiv können die Mittelwerte aus Gruppenkombinationen ebenfalls mit der `aggregate()`-Funktion bestimmt werden, indem in der klassischen Schreibweise eine weitere Gruppierungsvariable mit einem `+` aufgenommen wird:
 
-```{r Deskriptivdarstellung}
+```{r Deskriptivdarstellung, echo=-1}
+#### Deskriptivdarstellung ----
 # Kombinationsspezifische Mittelwertetabelle
 aggregate(EC ~ urban + edu, conspiracy, mean)
 ```
@@ -223,7 +225,8 @@ Deskriptiv lassen sich Hinweise auf die drei Fragestellungen aus der erstellten 
 
 Die drei Nullhypothesen werden in der **zweifaktoriellen ANOVA** gleichzeitig geprüft. Die Schreibweise in `aov_4()` ist dabei ähnlich wie in der einfaktoriellen ANOVA, nur dass nun zwei unabhängige Variablen angegeben werden müssen. Die Syntax lautet: `aov_4(dv ~ uv1 + uv2 + uv1 : uv 2 + (1|id), data = datensatz)`. Dabei ist `dv` die abhängige Variable, `uv1` und `uv2` die beiden unabhängigen Variablen und `id` die Personen-ID. Die gemeinsame Notation der beiden unabhängigen Variablen (`uv1 : uv2`) gibt an, dass die Interaktion der beiden Variablen ebenfalls berücksichtigt werden soll.
 
-```{r Zweifaktorielle ANOVA}
+```{r Zweifaktorielle ANOVA, echo=-1}
+#### Zweifaktorielle ANOVA ----
 aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy)
 ```
 
@@ -237,7 +240,8 @@ Bei mehrfaktoriellen ANOVAs können die Quadratsummen ($QS_{A}$, $QS_{B}$ und $Q
 
 Wie die Tabellenüberschrift unseres Outputs sagt, ist der default-Typ in `aov_4()` Typ III. Jeder Effekt wird berechnet, nachdem alle anderen Effekte des Modells (Haupteffekte und Interaktionen) berücksichtigt wurden.
 
-```{r Quadratsummen-Typen}
+```{r Quadratsummen-Typen, echo=-1}
+#### Quadratsummen-Typen ----
 aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy)
 ```
 
@@ -403,7 +407,8 @@ Wie auch schon im [letzten Tutorial](/lehre/statistik-ii/anova-i) können bei de
 
 Zunächst müssen wir unsere Analyse in ein Objekt ablegen.
 
-```{r Tukey-Test}
+```{r Tukey-Test, echo=-1}
+#### Tukey-Test ----
 zweifakt <- aov_4(EC ~ urban + edu + urban : edu + (1|id), data = conspiracy)
 ```
 
@@ -439,7 +444,8 @@ Gehen wir einmal davon aus, dass Bildung auf College-Niveau beginnt, eigenständ
 
 Um Kontraste definieren zu können, müssen wir zunächst in Erfahrung bringen, in welcher Reihenfolge die Gruppenkombinationen intern repräsentiert werden. Diese Reihenfolge können wir durch betrachten des Objektes `emm_zweifakt` herausfinden:
 
-```{r Kontraste}
+```{r Kontraste, echo=-1}
+#### Kontraste ----
 emm_zweifakt
 ```
 

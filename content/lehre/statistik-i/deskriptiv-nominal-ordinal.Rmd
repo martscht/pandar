@@ -330,7 +330,8 @@ Auch ohne die grafische Oberfläche von RStudio ist die Erstellung und das Speic
 
 Wir starten die Erstellung einer Grafik mittels Code mit der `jpeg()`-Funktion. Hierin machen wir sozusagen eine grafische Umgebung auf. In dieser legen wir bereits einige Paramter der Bilddatei fest (wie Höhe, Breite und auch Auflösung). Als nächstes kommt der Code für die Grafik. Diesen haben wir bereits gesehen. Der entstehende Plot wird jetzt in die zuvor erzeugte grafische Umgebung "abgelegt". Mit der Funktion `dev.off()` wird die Erstellung beendet. Die grafische Umgebung (und damit die Entwicklung unserer Bild-Datei) wird damit "geschlossen".  
 
-```{r, eval = FALSE}
+```{r Beispielspeicherung, eval = FALSE, echo=-1}
+Kommentare entfernen (##) zum Ausführen!
 jpeg("Mein-Barplot.jpg", width=15, height=10, units="cm", res=150) # Eröffnung Bilderstellung
 barplot(tab,
  col = rainbow(5),

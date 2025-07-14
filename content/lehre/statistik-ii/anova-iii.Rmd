@@ -58,7 +58,8 @@ load("C:/Users/Musterfrau/Desktop/alc.rda")
 
 oder wir laden sie direkt über die Website:
 
-```{r Datensatz laden}
+```{r Datensatz laden, echo=-1}
+#### Datensatz laden ----
 load(url("https://pandar.netlify.app/daten/alc.rda"))
 ```
 
@@ -110,7 +111,8 @@ Weil die Benennung und Handhabung von Argumenten in `reshape()` mitunter etwas u
 
 Den umgewandelten Datensatz wollen wir direkt ablegen. Allerdings wollen wir den Datensatz im breiten Format nicht überschreiben, weshalb wir den Namen `alc_long` verwenden. Im Minimalfall sieht die Umwandlung also so aus:
 
-```{r Datentransformation}
+```{r Datentransformation, echo=-1}
+#### Datentransformation ----
 alc_long <- reshape(data = alc,
   varying = list(c('alcuse.14', 'alcuse.15', 'alcuse.16')),
   direction = 'long')
@@ -178,7 +180,8 @@ Der Vollständigkeit halber können wir auch noch überlegen, wie man diesen Dat
   - `idvar`: der Personen-Identifikator
   - `direction`: das Zielformat des neuen Datensatzes
 
-```{r Rückkehr in breites Format}
+```{r, echo =-1}
+#### Rückkehr in breites Format ----
 alc_wide <- reshape(alc_long, 
             v.names = 'alcuse', 
             timevar = 'age', 
@@ -203,7 +206,8 @@ Die Umsetzung in `R` funktioniert aber ähnlich mit den in den letzten Sitzungen
 
 In diesem Fall ist von Interesse, wie sich der **Alkoholkonsum von Jugendlichen zwischen 14 und 16 verändert**.  Bevor wir in die Berechnung von Statistiken eingehen, sollten wir überprüfen, ob die Variablen im richtigen Format vorliegen. Die Variable `alcuse` sollte numerisch sein, da es sich um eine Skala handelt, die den Alkoholkonsum misst. Die Variable `age` sollte als Faktor vorliegen, da es sich um eine kategoriale Variable handelt, die die Altersgruppe angibt. Eine allgemeine Übersicht bekommen wir, indem wir die Struktur des Datensatzes betrachten:
 
-```{r Deskriptivstatistik}
+```{r Deskriptivstatistik,echo=-1}
+#### Deskriptivstatistik ----
 str(alc_long)
 ```
 
@@ -241,7 +245,8 @@ aggregate(alcuse ~ age, data = alc_long, FUN = mean) |>
 
 Für die Durchführung der ANOVA mit Messwiederholung nutzen wir wieder das `afex` Paket. 
 
-```{r ANOVA mit Messwiederholung}
+```{r ANOVA mit Messwiederholung, echo=-1}
+#### ANOVA mit Messwiederholung ----
 library(afex)
 ```
 
@@ -268,7 +273,8 @@ Außerdem wird in der Tabelle auch wieder eine Effektgröße, das generalisierte
 
 Als Äquivalent zur Homoskedastizitätsannahme in der ANOVA *ohne* Messwiederholung, wird in der ANOVA *mit* Messwiederholung die **Sphärizitätsannahme** getroffen. Unter dieser Annahme sollten die Varianzen der Differenzen zwischen allen Zeitpunkten identisch sein (vgl. [Eid et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 474 f.). Im breiten Datenformat sind diese Differenzen einfach zu erstellen:
 
-```{r Voraussetzungen}
+```{r Voraussetzungen, echo=-1}
+#### Voraussetzungen ----
 alc$diff_1415 <- alc$alcuse.15 - alc$alcuse.14
 alc$diff_1416 <- alc$alcuse.16 - alc$alcuse.14
 alc$diff_1516 <- alc$alcuse.16 - alc$alcuse.15
@@ -305,7 +311,8 @@ ICC | klein | mittel | groß
 
 Die ICC kann generell als $\frac{\sigma^2_{\pi}}{\sigma^2_{\pi} + \sigma^2_{\epsilon}}$ berechnet werden. Dabei ist $\sigma^2_{\pi}$ die Personenvarianz und $\sigma^2_{\epsilon}$ die Residualvarianz. Beide können direkt aus den mittleren Quadratsummen berechnet werden. Alternativ kann die `ICC`-Funktion aus dem `psych`-Paket genutzt werden:
 
-```{r ICC und Effektstärke}
+```{r, echo=-1}
+#### ICC und Effektstärke ----
 psych::ICC(alc[, c('alcuse.14', 'alcuse.15', 'alcuse.16')])
 ```
 
@@ -316,7 +323,8 @@ Der in diesem Fall relevante ICC-Typ (`type`) ist als `ICC1` gelistet. In diesem
 
 Wie für eine [ANOVA ohne Messwiederholung](/lehre/statistik-ii/anova-i), kann auch in diesem Fall mit dem `emmeans`-Paket die Kontrastanalyse durchgeführt werden.
 
-```{r Kontraste}
+```{r Kontraste, echo=-1}
+#### Kontraste ----
 library(emmeans)
 ```
 
@@ -485,7 +493,8 @@ Untersuchungen, in denen *mehrere Gruppen und mehrere Messungen gleichzeitig* be
 
 Wie bei der zweifaktoriellen ANOVA mit nur Zwischensubjekt-Faktoren, können wir die beobachteten Mittelwerte in einem Plot darstellen. Meistens wird die messwiederholte Variable dabei auf der x-Achse abgebildet.
 
-```{r Split-Plot-ANOVA}
+```{r Split-Plot-ANOVA, echo=-1}
+#### Split-Plot ANOVA ----
 aggregate(alcuse ~ age + coa, data = alc_long, FUN = mean) |> 
   ggplot(aes(x = age, y = alcuse, color = coa, group = coa)) +
     geom_point() +

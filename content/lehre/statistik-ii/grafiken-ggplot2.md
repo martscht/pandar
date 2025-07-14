@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr, Daten in R mit Hilfe des Pakets "ggplot2" zu visualisieren. Das Tutorial startet mit den Grundprinzipien des Pakets, wie Daten in Schichten dargestellt werden, die Geometrie und Ästhetik der Grafiken sowie die Verwendung von Themes und Farbpaletten zur Anpassung der Abbildungen. Außerdem werden Methoden zur Beschriftung und Anpassung von Grafiken für eine übersichtlichere Darstellung von Daten erläutert.'
 authors: [schultze]
 weight: 2
-lastmod: '2025-07-03'
+lastmod: '2025-07-10'
 featured: no
 banner:
   image: "/header/colorful_bubbles.jpg"
@@ -91,27 +91,27 @@ head(edu_exp)
 ```
 
 ```
-##   geo     Country     Wealth Region
-## 1 afg Afghanistan low_income   asia
-## 2 afg Afghanistan low_income   asia
-## 3 afg Afghanistan low_income   asia
-## 4 afg Afghanistan low_income   asia
-## 5 afg Afghanistan low_income   asia
-## 6 afg Afghanistan low_income   asia
-##   Year Population Expectancy   Income
-## 1 1997   17788819       50.7       NA
-## 2 1998   18493132       50.0       NA
-## 3 1999   19262847       50.8       NA
-## 4 2000   19542982       51.0       NA
-## 5 2001   19688632       51.1       NA
-## 6 2002   21000256       51.6 344.2242
-##   Primary Secondary Tertiary Index
-## 1      NA        NA       NA  0.18
-## 2      NA        NA       NA  0.19
-## 3      NA        NA       NA  0.20
-## 4      NA        NA       NA  0.20
-## 5      NA        NA       NA  0.21
-## 6      NA        NA       NA  0.22
+##   geo     Country     Wealth Region Year
+## 1 afg Afghanistan low_income   asia 1997
+## 2 afg Afghanistan low_income   asia 1998
+## 3 afg Afghanistan low_income   asia 1999
+## 4 afg Afghanistan low_income   asia 2000
+## 5 afg Afghanistan low_income   asia 2001
+## 6 afg Afghanistan low_income   asia 2002
+##   Population Expectancy   Income Primary
+## 1   17788819       50.7       NA      NA
+## 2   18493132       50.0       NA      NA
+## 3   19262847       50.8       NA      NA
+## 4   19542982       51.0       NA      NA
+## 5   19688632       51.1       NA      NA
+## 6   21000256       51.6 344.2242      NA
+##   Secondary Tertiary Index
+## 1        NA       NA  0.18
+## 2        NA       NA  0.19
+## 3        NA       NA  0.20
+## 4        NA       NA  0.20
+## 5        NA       NA  0.21
+## 6        NA       NA  0.22
 ```
 
 
@@ -124,6 +124,17 @@ Bevor wir loslegen können, muss natürlich `ggplot2` installiert sein und gelad
 
 ```r
 library(ggplot2)
+```
+
+```
+## Warning: Paket 'ggplot2' wurde unter R
+## Version 4.3.2 erstellt
+```
+
+```
+## Want to understand how all the pieces
+## fit together? Read R for Data Science:
+## https://r4ds.had.co.nz/
 ```
 
 Im Kern bestehen Abbildungen in der Grammatik von `ggplot2` immer aus drei Komponenten:
@@ -188,8 +199,8 @@ levels(edu_2014$Wealth)
 ```
 
 ```
-## [1] "Low"       "Lower Mid"
-## [3] "Upper Mid" "High"
+## [1] "Low"       "Lower Mid" "Upper Mid"
+## [4] "High"
 ```
 Ich habe in diesem Fall nur vier der möglichen Ausprägungen als `levels` deklariert - das führt dazu, dass die ausgelassenen Ausprägungen im gerade entstandenen Faktor als fehlende Werte (`NA`) kategorisiert werden. 
 
@@ -344,6 +355,10 @@ library(ggthemes)
 ```
 
 
+```
+## Warning: Paket 'ggthemes' wurde unter R
+## Version 4.3.2 erstellt
+```
 
 Dieses Paket liefert (neben anderen optischen Erweiterungen) über 20 neue Themes, die häufig den Visualisierungen in kommerzieller Software oder in bestimmten Publikationen nachempfunden sind. In Anlehnung an weit verbreitete Grundprinzipien zur Grafikgestaltung nutzen wir als allererstes natürlich das nach Tuftes "maximal Data, minimal Ink"-Prinzip erstellte Theme:
 

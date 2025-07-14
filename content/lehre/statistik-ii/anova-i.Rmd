@@ -295,7 +295,8 @@ library(emmeans)
 
 Nun wandeln wir das Objekt um. Dafür brauchen wir die Funktion `emmeans()` (die wiederum also genauso heißt wie das Paket). Diese benötigt als erstes Argument unser Objekt und als zweites dann nochmal unsere Gruppierungsvariable mit einer Tilde `~` vorweg. Das erscheint etwas redundant, aber wenn man bspw. mehrere Gruppierungsvariablen hätte, könnte man hier reduzieren.
 
-```{r Anwendung emmeans}
+```{r Anwendung emmeans, echo=-1}
+#### Anwendung emmeans ----
 emm_einfakt <- emmeans(einfakt, ~ urban)
 ```
 
@@ -348,7 +349,8 @@ Die Unabhängigkeit der Residuen wäre dann verletzt, wenn abhängige Stichprobe
 
 Die Homoskedastizitätsannahme besagt, dass die Varianzen jeder Gruppe über die Gruppen hinweg gleich sind. Deshalb wird diese Annahme auch häufig "Varianzhomogenitätsannahme" genannt. Zur Überprüfung der Homoskedastizität kann der **Levene-Test** herangezogen werden. Dieser kann mithilfe des `car`-Pakets angefordert werden. Dazu laden wir zunächst das Paket und führen anschließend die Funktion `leveneTest` aus. Installiert haben wir das Paket bereits in vorherigen Tutorials und dort auch bereits angewendet.
 
-```{r Appendix A}
+```{r Appendix A, echo=-1}
+#### Appendix A ----
 library(car)
 leveneTest(conspiracy$EC ~ conspiracy$urban)
 ```

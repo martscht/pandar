@@ -9,7 +9,7 @@ subtitle: '1-fakt. ANOVA'
 summary: ''
 authors: [nehler, scheppa-lahyani, irmer, wallot ]
 weight: 8
-lastmod: '2025-07-01'
+lastmod: '2025-07-10'
 featured: no
 banner:
   image: "/header/earth_and_moon_space.jpg"
@@ -75,27 +75,20 @@ head(conspiracy)
 ```
 
 ```
-##              edu    urban gender age
-## 1 not highschool suburban female  14
-## 2        college suburban female  26
-## 3        college    rural   male  25
-## 4     highschool suburban   male  37
-## 5        college    rural   male  34
-## 6     highschool suburban   male  17
-##         GM       GC       EC       PW
-## 1 4.000000 5.000000 4.666667 3.333333
-## 2 2.000000 4.000000 1.000000 2.000000
-## 3 5.000000 4.333333 1.000000 3.333333
-## 4 5.000000 4.333333 2.333333 3.333333
+##              edu    urban gender age       GM
+## 1 not highschool suburban female  14 4.000000
+## 2        college suburban female  26 2.000000
+## 3        college    rural   male  25 5.000000
+## 4     highschool suburban   male  37 5.000000
+## 5        college    rural   male  34 1.000000
+## 6     highschool suburban   male  17 3.333333
+##         GC       EC       PW       CI
+## 1 5.000000 4.666667 3.333333 4.666667
+## 2 4.000000 1.000000 2.000000 3.333333
+## 3 4.333333 1.000000 3.333333 4.666667
+## 4 4.333333 2.333333 3.333333 4.666667
 ## 5 1.000000 1.000000 1.000000 1.000000
-## 6 3.333333 2.666667 3.000000 2.666667
-##         CI
-## 1 4.666667
-## 2 3.333333
-## 3 4.666667
-## 4 4.666667
-## 5 1.000000
-## 6 3.666667
+## 6 2.666667 3.000000 2.666667 3.666667
 ```
 
 Die **ersten vier Variablen** enthalten Informationen über den demographischen Hintergrund der Personen: höchster Bildungsabschluss (`edu`), Typ des Wohnortes (`urban`), Geschlecht (`gender`) und Alter (`age`). Die **fünf restlichen Variablen** sind Skalenwerte bezüglich verschiedener Subdimensionen verschwörungstheoretischer Überzeugungen: `GM` (goverment malfeasance), `GC` (malevolent global conspiracies), `EC` (extraterrestrial cover-up), `PW` (personal well-being) und `CI` (control of information).
@@ -178,11 +171,10 @@ names(temp)  # Spaltennamen des temporären Datensatzes
 ```
 
 ```
-##  [1] "urban"     "edu"      
-##  [3] "gender"    "age"      
-##  [5] "GM"        "GC"       
-##  [7] "EC"        "PW"       
-##  [9] "CI"        "EC_mean_k"
+##  [1] "urban"     "edu"       "gender"   
+##  [4] "age"       "GM"        "GC"       
+##  [7] "EC"        "PW"        "CI"       
+## [10] "EC_mean_k"
 ```
 
 ```r
@@ -190,27 +182,20 @@ head(temp)   # ersten 6 Zeilen des temporären Datensatzes
 ```
 
 ```
-##   urban            edu gender age GM
-## 1 rural     highschool   male  19  4
-## 2 rural not highschool   male  16  5
-## 3 rural        college female  74  2
-## 4 rural     highschool   male  38  4
-## 5 rural     highschool   male  21  5
-## 6 rural        college   male  61  1
-##         GC       EC       PW       CI
-## 1 2.666667 1.000000 2.666667 3.666667
-## 2 2.666667 1.000000 2.333333 3.333333
-## 3 3.000000 2.333333 2.666667 3.333333
-## 4 1.666667 3.666667 2.000000 3.333333
-## 5 4.333333 4.000000 4.000000 4.333333
-## 6 1.000000 1.000000 1.000000 1.000000
-##   EC_mean_k
-## 1  2.186667
-## 2  2.186667
-## 3  2.186667
-## 4  2.186667
-## 5  2.186667
-## 6  2.186667
+##   urban            edu gender age GM       GC
+## 1 rural     highschool   male  19  4 2.666667
+## 2 rural not highschool   male  16  5 2.666667
+## 3 rural        college female  74  2 3.000000
+## 4 rural     highschool   male  38  4 1.666667
+## 5 rural     highschool   male  21  5 4.333333
+## 6 rural        college   male  61  1 1.000000
+##         EC       PW       CI EC_mean_k
+## 1 1.000000 2.666667 3.666667  2.186667
+## 2 1.000000 2.333333 3.333333  2.186667
+## 3 2.333333 2.666667 3.333333  2.186667
+## 4 3.666667 2.000000 3.333333  2.186667
+## 5 4.000000 4.000000 4.333333  2.186667
+## 6 1.000000 1.000000 1.000000  2.186667
 ```
 
 Anhand der Dimensionen können wir sehen, dass unser neuer Datensatz nun eine Variable mehr hat als `conspiracy`. Anhand der Variablennamen können wir sehen, dass die zusätzliche Spalte genau die ist, die die Mittelwerte pro Gruppe enthält (`EC_mean_k`). Mit der `head()`-Funktion gewinnnen wir weitere Eindrücke, gerne können Sie sich lokal den Datensatz auch mit `View(temp)` anschauen.
@@ -320,6 +305,37 @@ Anschließend kann es geladen werden.
 library(afex)
 ```
 
+```
+## Warning: Paket 'afex' wurde unter R Version
+## 4.3.2 erstellt
+```
+
+```
+## ************
+## Welcome to afex. For support visit: http://afex.singmann.science/
+```
+
+```
+## - Functions for ANOVAs: aov_car(), aov_ez(), and aov_4()
+## - Methods for calculating p-values with mixed(): 'S', 'KR', 'LRT', and 'PB'
+## - 'afex_aov' and 'mixed' objects can be passed to emmeans() for follow-up tests
+## - Get and set global package options with: afex_options()
+## - Set sum-to-zero contrasts globally: set_sum_contrasts()
+## - For example analyses see: browseVignettes("afex")
+## ************
+```
+
+```
+## 
+## Attache Paket: 'afex'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:lme4':
+## 
+##     lmer
+```
+
 Die Funktion, die wir zur Durchführung der ANOVA nutzen wollen, heißt `aov_4()`. Wie bereits angekündigt , ist die Syntax ähnlich der der Regressionsanalyse. Die abhängige Variable wird zunächst genannt, dann folgt die Tilde `~`, dann die unabhängige Variable und schließlich der Datensatz. 
 
 
@@ -353,14 +369,11 @@ aov_4(EC ~ urban + (1|id), data = conspiracy)
 ## Anova Table (Type 3 tests)
 ## 
 ## Response: EC
-##   Effect      df  MSE      F  ges
-## 1  urban 2, 2448 1.75 3.42 * .003
-##   p.value
-## 1    .033
+##   Effect      df  MSE      F  ges p.value
+## 1  urban 2, 2448 1.75 3.42 * .003    .033
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '+' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '+' 0.1 ' ' 1
 ```
 
 Im Output wird zunächst darauf hingewiesen, dass es sich um einen ANOVA Table handelt. Was genau die Klammer - Type 3 tests - bedeutet, besprechen wir in der nächsten Sitzung zur [zweifaktoriellen ANOVA](/lehre/statistik-ii/anova-ii). Auch die entstehende Mitteilung besprechen wir dort.
@@ -431,6 +444,11 @@ Nun können wir das Paket einladen.
 library(emmeans)
 ```
 
+```
+## Warning: Paket 'emmeans' wurde unter R
+## Version 4.3.2 erstellt
+```
+
 Nun wandeln wir das Objekt um. Dafür brauchen wir die Funktion `emmeans()` (die wiederum also genauso heißt wie das Paket). Diese benötigt als erstes Argument unser Objekt und als zweites dann nochmal unsere Gruppierungsvariable mit einer Tilde `~` vorweg. Das erscheint etwas redundant, aber wenn man bspw. mehrere Gruppierungsvariablen hätte, könnte man hier reduzieren.
 
 
@@ -447,14 +465,14 @@ tukey
 ```
 
 ```
-##  contrast         estimate     SE
-##  rural - suburban   0.0465 0.0724
-##  rural - urban     -0.1095 0.0757
-##  suburban - urban  -0.1560 0.0601
-##    df t.ratio p.value
-##  2448   0.643  0.7964
-##  2448  -1.445  0.3179
-##  2448  -2.596  0.0257
+##  contrast         estimate     SE   df
+##  rural - suburban   0.0465 0.0724 2448
+##  rural - urban     -0.1095 0.0757 2448
+##  suburban - urban  -0.1560 0.0601 2448
+##  t.ratio p.value
+##    0.643  0.7964
+##   -1.445  0.3179
+##   -2.596  0.0257
 ## 
 ## P value adjustment: tukey method for comparing a family of 3 estimates
 ```
@@ -469,14 +487,14 @@ confint(tukey)
 ```
 
 ```
-##  contrast         estimate     SE
-##  rural - suburban   0.0465 0.0724
-##  rural - urban     -0.1095 0.0757
-##  suburban - urban  -0.1560 0.0601
-##    df lower.CL upper.CL
-##  2448   -0.123   0.2162
-##  2448   -0.287   0.0682
-##  2448   -0.297  -0.0151
+##  contrast         estimate     SE   df
+##  rural - suburban   0.0465 0.0724 2448
+##  rural - urban     -0.1095 0.0757 2448
+##  suburban - urban  -0.1560 0.0601 2448
+##  lower.CL upper.CL
+##    -0.123   0.2162
+##    -0.287   0.0682
+##    -0.297  -0.0151
 ## 
 ## Confidence level used: 0.95 
 ## Conf-level adjustment: tukey method for comparing a family of 3 estimates
@@ -522,6 +540,30 @@ Die Homoskedastizitätsannahme besagt, dass die Varianzen jeder Gruppe über die
 
 ```r
 library(car)
+```
+
+```
+## Lade nötiges Paket: carData
+```
+
+```
+## 
+## Attache Paket: 'car'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:dplyr':
+## 
+##     recode
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:metafor':
+## 
+##     vif
+```
+
+```r
 leveneTest(conspiracy$EC ~ conspiracy$urban)
 ```
 
@@ -532,8 +574,7 @@ leveneTest(conspiracy$EC ~ conspiracy$urban)
 ##       2448                  
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Die Funktion nimmt die Variable selbst entgegen sowie die Gruppierungsvariable. `EC` aus dem `conspiracy`-Datensatz stellt hierbei die AV dar, die Gruppierungsvariable `urban` ist die UV. Wir erkennen im Output, was genau der Levene-Test eigentlich macht: `Levene's Test for Homogeneity of Variance`, nämlich die Varianzen auf Homogenität prüfen.  Das Ergebnis ist nicht signifikant. In diesem Fall muss die Annahme der Varianzhomogenität über die drei Gruppen hinweg also *nicht verworfen* werden. 

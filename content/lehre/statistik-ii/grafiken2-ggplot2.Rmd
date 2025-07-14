@@ -186,7 +186,8 @@ ggplot(edu_2014, aes(x = Primary, y = Index)) +
 
 Wenn uns die Benennung einer Ästhetik nicht gefällt (per Voreinstellung einfach der Variablenname), können wir in der dazugehörigen Skala (`scale_...`) das `name`-Argument benutzen, um etwas deskriptiveres auszusuchen. In diesem Fall wollen wir hinzufügen, dass die Bevölkerungszahl in Millionen zu verstehen ist. Das `\n` steht für "new line" und fügt einfach einen Zeilenumbruch ein.
 
-```{r Scatterplot_mit_angepasster_Darstellung, fig = TRUE}
+```{r Scatterplot_mit_angepasster_Darstellung, fig = TRUE, echo=-1}
+#### Scatterplot mit angepasster Darstellung ----
 # Anpassung der Benennung einer Ästhetik
 ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population)) +
@@ -199,7 +200,8 @@ In der neuen Abbildung lassen sich einige Datenpunkte schon ziemlich leicht dire
 
 Sehr viele Datenpunkte in der gleichen Abbildung darzustellen, kann mitunter sehr unübersichtlich werden. Z.B. könnten wir neben unserer Abbildung für 2014 auch noch Informationen über andere Jahre darstellen und müssten dafür neben `Primary` (x), `Index` (y), `Region` (Farbe) und `Population` (Größe) für `Year` auch noch eine fünfte Dimension aufnehmen. Probieren wir es erstmal aus, bevor wir uns entscheiden, dass es keine gute Idee war: zunächst erstellen wir einen Datensatz mit Informationen aus 1999, 2004, 2009 und 2014, um die Entwicklung der Ausgaben und Bildungsindizes in 5-Jahres-Abständen betrachten zu können.
 
-```{r Faceting}
+```{r Faceting, echo=-1}
+#### Faceting ----
 # Datensatz mit mehreren Jahren
 edu_sel <- subset(edu_exp,  Year %in% c(1999, 2004, 2009, 2014))
 edu_sel$Year <- as.factor(edu_sel$Year)

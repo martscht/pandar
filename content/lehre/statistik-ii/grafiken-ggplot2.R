@@ -12,7 +12,7 @@ edu_2014 <- subset(edu_exp, Year == 2014)
 # Daten für ggplot angeben, erstmal leere Fläche da aes und geom noch fehlen
 ggplot(edu_2014)
 
-# ---- Leeres-Balkendiagramm ----
+#### Leeres Balkendiagramm ----
 # Erste Ästhetik (x-Achse) festlegen
 ggplot(edu_2014, aes(x = Wealth))
 
@@ -28,20 +28,20 @@ edu_2014$Wealth <- factor(edu_2014$Wealth,
 # Labels ausgeben lassen
 levels(edu_2014$Wealth)
 
-# ---- Erweitertes-Balkendiagramm ----
+#### Erweitertes Balkendiagramm ----
 # Erste Ästhetik (x-Achse) festlegen
 ggplot(edu_2014, aes(x = Wealth))
 
-# ---- Einfacher-Scatterplot ----
+#### Einfacher Scatterplot ----
 # Nun wird der fertige Scatter Plot zwischen Grundschulbildung und Education Index dargestellt
 ggplot(edu_2014, aes(x = Wealth)) +
   geom_bar()
 
-# ---- Basic-Plot ----
+#### Basic Plot ----
 # Speichert eine Grundlagenschicht in ggplot, basierend auf data und aes, diese gilt als Basis für die danach erstellten Grafiken
 basic <- ggplot(edu_2014, aes(x = Wealth))
 
-# ---- Objekt-Kombo ----
+#### Kombination von Objekten ----
 # Grundschema wird zusammen mit der Geometrie "Balken" aufgerufen
 basic + geom_bar()
 
@@ -61,11 +61,11 @@ edu_2014$Region <- factor(edu_2014$Region,
   labels = c("Africa", "Americas", "Asia", "Europe")
 )
 
-# ---- Gestapeltes-Balkendiagramm ----
+#### Gestapeltes Balkendiagramm ----
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = "grey40")
 
-# ---- Gruppiertes-Balkendiagramm ----
+#### Gruppiertes Balkendiagramm ----
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = "grey40", position = "dodge")
 
@@ -73,7 +73,7 @@ ggplot(edu_2014, aes(x = Wealth, group = Region)) +
 bars <- ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = "grey40", position = "dodge")
 
-# ---- Themes ----
+#### Themes ----
 # Minimal theme
 bars + theme_minimal()
 
@@ -93,7 +93,7 @@ theme_set(theme_minimal())
 ## # Hiermit kann man zurück zum ursprünglichen R-Theme da R-Grundeinstellungen ersetzt werden
 ## theme_set(theme_grey())
 
-# ---- Labels ----
+#### Labels ----
 # Einfügen von Beschriftungen für die einzelnen Bestandteile und Achsen
 ggplot(edu_2014, aes(x = Wealth, group = Region)) +
   geom_bar(aes(fill = Region), color = "grey40", position = "dodge") +

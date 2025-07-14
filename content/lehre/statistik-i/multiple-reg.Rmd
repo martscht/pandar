@@ -236,7 +236,7 @@ X <- matrix(c(1, 0,
 a <- coef(mod2) %*% X
 ```
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, purl=FALSE}
 abline(a = a, b = b1, col = "darkgreen")
 ```
 
@@ -330,7 +330,7 @@ R2u - R2e
 
 In diesem Inkrement wird der Teil der Varianz dargestellt, den die anderen vier Big Five Merkmale _zusätzlich_ zur Extraversion aufklären können. Dabei ist es wichtig zu bedenken, dass der Anteil der durch Gemeinsamkeiten zwischen Extraversion und den anderen vier Merkmalen aufgeklärt wird, im ersten Schritt nur der Extraversion zugute geschrieben wurde (das zweite Venn-Diagramm). Dieses Inkrement können wir natürlich aus testen:
 
-```{r, eval = F}
+```{r, eval = F, purl=FALSE}
 # Test des inkrementellen R2
 anova(mod1, mod2)
 ```

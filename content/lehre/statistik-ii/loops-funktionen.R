@@ -1,8 +1,7 @@
-# ---- Datensatz laden---- ----
 load(url("https://pandar.netlify.app/daten/fb24.rda"))
 dim(fb24)
 
-# ---- Aufbau einer Funktion ----
+#### Aufbau einer Funktion ----
 x <- fb24$time_pre # Variable in ein Objekt ablegen
 n <- length(x) # Länge des Objekts bestimmen - Stichprobengröße
 x_quer <- mean(x) # Mittelwert der Variable bestimmen
@@ -11,7 +10,7 @@ var # Ausgabe des Ergebnis
 
 rm(x, n, x_quer, var) # Environment auf fb24 reduzieren
 
-# ---- Eigene Funktionen-- ----
+#### Eigene Funktionen ----
 # Argumente und Operationen der neuen Funktion
 function(x) {
   n <- length(x)
@@ -43,7 +42,7 @@ var_eigen <- function(x, empirical) {
   return(var)
 }
 
-# ---- Logische Abfragen und Bedingungen ----
+#### Logische Abfragen und Bedingungen ----
 var_eigen <- function(x, empirical) {
   n <- length(x)
   x_quer <- mean(x)
@@ -66,7 +65,6 @@ var_eigen <- function(x, empirical) {
 
 ## var_eigen(x = fb24$time_pre)
 
-# ---- Default-Werte------ ----
 var_eigen <- function(x, empirical = TRUE) {
   n <- length(x)
   x_quer <- mean(x)
@@ -123,7 +121,7 @@ var_eigen(x = fb24$time_pre, empirical = TRUE)
 var_eigen(x = fb24$mdbf1, empirical = TRUE)
 var_eigen(x = fb24$mdbf2, empirical = TRUE)
 
-# ---- for-Loops---------- ----
+#### For-Loops ----
 for (i in c("time_pre", "mdbf1", "mdbf2")) {
   var_eigen(x = fb24[, i], empirical = TRUE)
 }

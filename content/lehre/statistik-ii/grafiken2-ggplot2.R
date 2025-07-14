@@ -45,14 +45,14 @@ edu_2014$Population <- edu_2014$Population / 1e6
 ##   geom_point(aes(color = Region, size = Population)) +
 ##   scale_color_pandar()
 
-# ---- Scatterplot_mit_angepasster_Darstellung ----
+#### Scatterplot mit angepasster Darstellung ----
 # Anpassung der Benennung einer Ästhetik
 ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population)) +
   scale_color_pandar() +
   scale_size_continuous(name = "Population\n(in Mio)")
 
-# ---- Faceting------------------- ----
+#### Faceting ----
 # Datensatz mit mehreren Jahren
 edu_sel <- subset(edu_exp, Year %in% c(1999, 2004, 2009, 2014))
 edu_sel$Year <- as.factor(edu_sel$Year)
