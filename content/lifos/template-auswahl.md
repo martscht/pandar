@@ -20,9 +20,9 @@ share: false
 
 links:
   - name: DE
-    url: /lifos/grundlagen/template-auswahl
+    url: /lifos/template-auswahl
   - name: EN
-    url: /lifos/grundlagen/template-auswahl-en
+    url: /lifos/template-auswahl-en
 
 output:
   html_document:
