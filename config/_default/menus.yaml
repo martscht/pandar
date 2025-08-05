@@ -39,20 +39,7 @@ main:
     parent: "Lehre"
     weight: 105
 
-  - name: "LIFOS"
-    pre: "<i class='fas fa-book-open'></i>&ensp;"
-    url: '/lifos/main'
-    weight: 200
-  - name: "LIFOS Grundlagen"
-    pre: "<i class='far fa-folder-open'></i>&ensp;"
-    url: '/lifos/main#lifos-grundlagen'
-    parent: "LIFOS"
-    weight: 201
-  - name: "LIFOS Extras"
-    pre: "<i class='fab fa-gitlab'></i>&ensp;"
-    url: '/lifos/main#lifos-extras'
-    parent: "LIFOS"
-    weight: 202
+
 
   - name: "Projekte"
     pre: "<i class='fas fa-laptop'></i>&ensp;"
@@ -131,10 +118,15 @@ main:
     parent: "Extras"
     weight: 503
 
+  - name: "LIFOS"
+    pre: "<i class='fas fa-book-open'></i>&ensp;"
+    url: 'https://lifos.uni-frankfurt.de/welcome-to-lifos/LIFOS'
+    weight: 600 
+
   - name: "tigeR"
     pre: "<i class='fas fa-paw'></i>&ensp;"
     url: 'https://tiger.uni-frankfurt.de/app/shinytigeR'
-    weight: 600
+    weight: 700
   # - name: "Bayes"
   #   pre: "<i class='fa-solid fa-dice-d20'></i>&ensp;"
   #   url: '/extras/main#bayes'
