@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [kvetnaya, sajjad, irmer] 
 weight: 12
-lastmod: '2025-07-14'
+lastmod: '2025-07-15'
 featured: no
 banner:
   image: "/header/reading_math.jpg" # Name des Header-Bildes, kann übernommen werden ABER Headerbild muss noch aus dem entsprechenden Ordner in das neue Repository übernommen werden!
@@ -144,8 +144,10 @@ apply(Schulleistungen_std, 2, sd) # SD pro Spalte ausgeben
 ```
 
 ```
-##  female      IQ reading    math 
-##       1       1       1       1
+##  female      IQ reading 
+##       1       1       1 
+##    math 
+##       1
 ```
 
 Inhaltlich treffen wir zunächst einmal die Annahme, dass die allgemeine Intelligenz (IQ) die Lesefähigkeit der Schüler/-innen signifikant vorhersagt.
@@ -165,22 +167,28 @@ summary(mod1)
 ## lm(formula = reading ~ IQ, data = Schulleistungen_std)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q 
-## -2.04847 -0.47746  0.03989  0.45887 
-##      Max 
-##  1.78096 
+##      Min       1Q   Median 
+## -2.04847 -0.47746  0.03989 
+##       3Q      Max 
+##  0.45887  1.78096 
 ## 
 ## Coefficients:
-##              Estimate Std. Error
-## (Intercept) 2.594e-16  8.270e-02
-## IQ          5.683e-01  8.312e-02
-##             t value Pr(>|t|)    
-## (Intercept)   0.000        1    
-## IQ            6.837 6.95e-10 ***
+##              Estimate
+## (Intercept) 2.594e-16
+## IQ          5.683e-01
+##             Std. Error
+## (Intercept)  8.270e-02
+## IQ           8.312e-02
+##             t value Pr(>|t|)
+## (Intercept)   0.000        1
+## IQ            6.837 6.95e-10
+##                
+## (Intercept)    
+## IQ          ***
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*'
-##   0.05 '.' 0.1 ' ' 1
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.827 on 98 degrees of freedom
 ## Multiple R-squared:  0.323,	Adjusted R-squared:  0.316 
@@ -207,24 +215,32 @@ summary(mod2)
 ## lm(formula = reading ~ IQ + math, data = Schulleistungen_std)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q 
-## -2.0485 -0.5015  0.0536  0.5054 
-##     Max 
-##  1.7662 
+##     Min      1Q  Median 
+## -2.0485 -0.5015  0.0536 
+##      3Q     Max 
+##  0.5054  1.7662 
 ## 
 ## Coefficients:
-##               Estimate Std. Error
-## (Intercept)  2.627e-16  8.307e-02
-## IQ           5.984e-01  1.165e-01
-## math        -4.309e-02  1.165e-01
-##             t value Pr(>|t|)    
-## (Intercept)   0.000    1.000    
-## IQ            5.135 1.45e-06 ***
-## math         -0.370    0.712    
+##               Estimate
+## (Intercept)  2.627e-16
+## IQ           5.984e-01
+## math        -4.309e-02
+##             Std. Error
+## (Intercept)  8.307e-02
+## IQ           1.165e-01
+## math         1.165e-01
+##             t value Pr(>|t|)
+## (Intercept)   0.000    1.000
+## IQ            5.135 1.45e-06
+## math         -0.370    0.712
+##                
+## (Intercept)    
+## IQ          ***
+## math           
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*'
-##   0.05 '.' 0.1 ' ' 1
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.8307 on 97 degrees of freedom
 ## Multiple R-squared:  0.3239,	Adjusted R-squared:   0.31 
@@ -256,26 +272,36 @@ summary(mod_reg)
 ## lm(formula = reading ~ IQ + math + IQ:math, data = Schulleistungen_std)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q 
-## -1.9727 -0.5044  0.1034  0.4412 
-##     Max 
-##  1.7998 
+##     Min      1Q  Median 
+## -1.9727 -0.5044  0.1034 
+##      3Q     Max 
+##  0.4412  1.7998 
 ## 
 ## Coefficients:
-##             Estimate Std. Error
-## (Intercept) -0.10922    0.09857
-## IQ           0.63477    0.11624
-## math        -0.08142    0.11639
-## IQ:math      0.15815    0.07956
-##             t value Pr(>|t|)    
-## (Intercept)  -1.108   0.2706    
-## IQ            5.461 3.71e-07 ***
-## math         -0.699   0.4859    
-## IQ:math       1.988   0.0497 *  
+##             Estimate
+## (Intercept) -0.10922
+## IQ           0.63477
+## math        -0.08142
+## IQ:math      0.15815
+##             Std. Error
+## (Intercept)    0.09857
+## IQ             0.11624
+## math           0.11639
+## IQ:math        0.07956
+##             t value Pr(>|t|)
+## (Intercept)  -1.108   0.2706
+## IQ            5.461 3.71e-07
+## math         -0.699   0.4859
+## IQ:math       1.988   0.0497
+##                
+## (Intercept)    
+## IQ          ***
+## math           
+## IQ:math     *  
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*'
-##   0.05 '.' 0.1 ' ' 1
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.8183 on 96 degrees of freedom
 ## Multiple R-squared:  0.3506,	Adjusted R-squared:  0.3303 
@@ -320,20 +346,20 @@ simple_slopes(mod_reg)
 ## 4 sstest     -1        0.4766
 ## 5 sstest      0        0.6348
 ## 6 sstest      1        0.7929
-##   Std. Error t value df  Pr(>|t|)
-## 1     0.1515 -1.5816 96 0.1170384
-## 2     0.1164 -0.6995 96 0.4859404
-## 3     0.1297  0.5918 96 0.5553459
-## 4     0.1301  3.6636 96 0.0004073
-## 5     0.1162  5.4609 96 3.713e-07
-## 6     0.1508  5.2564 96 8.871e-07
-##   Sig.
-## 1     
-## 2     
-## 3     
-## 4  ***
-## 5  ***
-## 6  ***
+##   Std. Error t value df
+## 1     0.1515 -1.5816 96
+## 2     0.1164 -0.6995 96
+## 3     0.1297  0.5918 96
+## 4     0.1301  3.6636 96
+## 5     0.1162  5.4609 96
+## 6     0.1508  5.2564 96
+##    Pr(>|t|) Sig.
+## 1 0.1170384     
+## 2 0.4859404     
+## 3 0.5553459     
+## 4 0.0004073  ***
+## 5 3.713e-07  ***
+## 6 8.871e-07  ***
 ```
 
 Natürlich gibt es nicht nur diese drei Linien, sondern der Moderator kann jede beliebige Ausprägung annehmen - deswegen gibt es unendlich viele.
@@ -392,7 +418,9 @@ Wir haben mit der generalisierten ANCOVA und der moderierten Regressionsanalyse 
 
 Um zu zeigen, dass die Ausprägung von Y von einer der beiden Variablen (z.B. $X$) bei Konstanthaltung der anderen UV (z.B. $Z$) abhängt, lässt sich die uns bekannte Formelgleichung auch so umstellen, dass wir unseren Prädiktor $X$ ausklammern:
 
+{{<math>}}
 \begin{align} Y &= \beta_0 + \beta_1X + \beta_2Z + \beta_3X*Z + e,\\[1.5ex] &= \underbrace{\beta_0 + \beta_2Z}_{Intercept(X)} + \underbrace{(\beta_1 + \beta_3Z)}_{Slope(X)}X + e. \end{align}
+{{</math>}}
 
 In dieser Darstellungsform wird besser sichtbar, dass in dieser Gleichung der Form nach ein Interzept und ein Slope enthalten sind, deren Größe jeweils abhängig von der Ausprägung des Moderators $Z$ ist.
 
@@ -400,7 +428,9 @@ Wenn sowohl Prädiktor als auch Moderator zentriert sind, kann die Gleichsetzung
 
 Jedoch ist zu beachten, dass wir genauso gut auch $Z$ stattdessen ausklammern könnten:
 
+{{<math>}}
 \begin{align} Y &= \beta_0 + \beta_1X + \beta_2Z + \beta_3X*Z + e,\\[1.5ex] &= \underbrace{\beta_0 + \beta_1X}_{Intercept(Z)} + \underbrace{(\beta_2 + \beta_3X)}_{Slope(Z)}Z + e. \end{align}
+{{</math>}}
 
 Offensichtlich sind $X$ und $Z$ in dieser Gleichung komplett austauschbar: Es gibt also keine mathematische Begründung dafür, welche der beiden Variablen der Prädiktor und welche der Moderator ist. Manche sagen auch, dass dieses Modell “symmetrisch” in den beiden Variablen ist, man sie also leicht hinsichtlich der inhaltlichen Interpretation austauschen kann. Den theoretischen Annahmen, die durch Forschende bei der Auswahl der Variablen und Moderatoren getroffen werden, kommt hier also eine entscheidende Bedeutung zu.
 

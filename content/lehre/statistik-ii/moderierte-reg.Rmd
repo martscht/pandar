@@ -230,12 +230,18 @@ Wir haben mit der generalisierten ANCOVA und der moderierten Regressionsanalyse 
 
 <details>
 
-<summary>**Formelbasierte Vertiefung zur moderierten Regression**</summary>
+<summary>
+
+**Formelbasierte Vertiefung zur moderierten Regression**
+
+</summary>
 
 
 Um zu zeigen, dass die Ausprägung von Y von einer der beiden Variablen (z.B. $X$) bei Konstanthaltung der anderen UV (z.B. $Z$) abhängt, lässt sich die uns bekannte Formelgleichung auch so umstellen, dass wir unseren Prädiktor $X$ ausklammern:
 
+{{<math>}}
 \begin{align} Y &= \beta_0 + \beta_1X + \beta_2Z + \beta_3X*Z + e,\\[1.5ex] &= \underbrace{\beta_0 + \beta_2Z}_{Intercept(X)} + \underbrace{(\beta_1 + \beta_3Z)}_{Slope(X)}X + e. \end{align}
+{{</math>}}
 
 In dieser Darstellungsform wird besser sichtbar, dass in dieser Gleichung der Form nach ein Interzept und ein Slope enthalten sind, deren Größe jeweils abhängig von der Ausprägung des Moderators $Z$ ist.
 
@@ -243,7 +249,9 @@ Wenn sowohl Prädiktor als auch Moderator zentriert sind, kann die Gleichsetzung
 
 Jedoch ist zu beachten, dass wir genauso gut auch $Z$ stattdessen ausklammern könnten:
 
+{{<math>}}
 \begin{align} Y &= \beta_0 + \beta_1X + \beta_2Z + \beta_3X*Z + e,\\[1.5ex] &= \underbrace{\beta_0 + \beta_1X}_{Intercept(Z)} + \underbrace{(\beta_2 + \beta_3X)}_{Slope(Z)}Z + e. \end{align}
+{{</math>}}
 
 Offensichtlich sind $X$ und $Z$ in dieser Gleichung komplett austauschbar: Es gibt also keine mathematische Begründung dafür, welche der beiden Variablen der Prädiktor und welche der Moderator ist. Manche sagen auch, dass dieses Modell “symmetrisch” in den beiden Variablen ist, man sie also leicht hinsichtlich der inhaltlichen Interpretation austauschen kann. Den theoretischen Annahmen, die durch Forschende bei der Auswahl der Variablen und Moderatoren getroffen werden, kommt hier also eine entscheidende Bedeutung zu.
 
@@ -253,7 +261,11 @@ Offensichtlich sind $X$ und $Z$ in dieser Gleichung komplett austauschbar: Es gi
 
 <details>
 
-<summary>**Code zu 3D-Grafiken**</summary>
+<summary>
+
+**Code zu 3D-Grafiken**
+
+</summary>
 
 ```{r}
 library(plot3D)

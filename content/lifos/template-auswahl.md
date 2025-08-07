@@ -9,7 +9,7 @@ subtitle: 'Hier findet ihr die perfekte Vorlage für euer Projekt'
 summary: 'In diesem kurzen Beitrag könnt ihr für euch per Multiple-Choice Fragen herausfinden, welche LIFOS-Vorlage am ehesten geeignet ist für eure Projekte und Arbeiten.' 
 authors: [beitner,pommeranz] 
 weight: 2
-lastmod: '`r Sys.Date()`'
+lastmod: '2025-02-07'
 featured: no
 banner:
   #image: "/header/road_start.jpg"
@@ -20,9 +20,9 @@ share: false
 
 links:
   - name: DE
-    url: /lifos/grundlagen/template-auswahl
+    url: /lifos/template-auswahl
   - name: EN
-    url: /lifos/grundlagen/template-auswahl-en
+    url: /lifos/template-auswahl-en
 
 output:
   html_document:
