@@ -120,7 +120,7 @@ main:
 
   - name: "LIFOS"
     pre: "<i class='fas fa-book-open'></i>&ensp;"
-    url: 'https://lifos.uni-frankfurt.de/welcome-to-lifos/LIFOS'
+    url: 'https://lifos.uni-frankfurt.de/users/sign_in'
     weight: 600 
 
   - name: "tigeR"
