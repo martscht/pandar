@@ -58,9 +58,10 @@ input[type = reset] {
   <div id="divStart" style="display: block">
   Erhebst du für deine Studie neue Daten oder greifst du auf bisher vorhandene Daten zurück?
   
-  <input type="radio" name="Wahl1" value="value1" onClick="Hide('divOldData', this); Hide('divHoppla',this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Reveal('divNewData', this); Hide('divDeskriptiveStudien', this)" /> Neue Daten  
-  <input type="radio" name="Wahl1" value="value2" onClick="Hide('divNewData', this); Hide('divHoppla',this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Reveal('divOldData', this); Hide('divDeskriptiveStudien', this)" /> Vorhandene Daten    
-  <input type="radio" name="Wahl1" value="value3" onClick="Hide('divNewData', this); Hide('divOldData',this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Reveal('divHoppla', this); Hide('divDeskriptiveStudien', this)" /> Weder noch
+  <input type="radio" name="Wahl1" value="value1" onClick="Hide('divSimulation', this); Hide('divOldData', this); Hide('divHoppla',this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Reveal('divNewData', this); Hide('divDeskriptiveStudien', this)" /> Neue Daten<br>
+  <input type="radio" name="Wahl1" value="value2" onClick="Hide('divSimulation', this); Hide('divNewData', this); Hide('divHoppla',this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Reveal('divOldData', this); Hide('divDeskriptiveStudien', this)" /> Vorhandene Daten<br>
+  <input type="radio" name="Wahl1" value="value3" onClick="Reveal('divSimulation', this); Hide('divNewData', this); Hide('divOldData',this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Hide('divHoppla', this); Hide('divDeskriptiveStudien', this)" /> Selbstsimulierte Daten<br>
+  <input type="radio" name="Wahl1" value="value3_2" onClick="Hide('divSimulation', this); Hide('divNewData', this); Hide('divOldData',this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Reveal('divHoppla', this); Hide('divDeskriptiveStudien', this)" /> Weder noch<br>
   
   <hr>
   </div>
@@ -70,9 +71,9 @@ input[type = reset] {
   <div id="divNewData" style="display: none">
   Ist deine Studie eine Replikationsstudie, das heißt, eine Wiederholung einer bereits existierenden Studie?
   
-  <input type="radio" name="Wahl2a" value="value4" onClick=" Hide('divKeineReplikation', this); Hide('divHoppla', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Reveal('divReplikation', this); Hide('divDeskriptiveStudien', this)" /> Ja<br>
-  <input type="radio" name="Wahl2a" value="value5" onClick=" Hide('divReplikation', this); Hide('divHoppla', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Reveal('divKeineReplikation', this); Hide('divDeskriptiveStudien', this)" /> Nein<br>
-  <input type="radio" name="Wahl2a" value="value6" onClick=" Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Reveal('divHoppla', this); Hide('divDeskriptiveStudien', this)" /> Weder noch<br>
+  <input type="radio" name="Wahl2a" value="value4" onClick="Hide('divSimulation', this); Hide('divKeineReplikation', this); Hide('divHoppla', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Reveal('divReplikation', this); Hide('divDeskriptiveStudien', this)" /> Ja<br>
+  <input type="radio" name="Wahl2a" value="value5" onClick="Hide('divSimulation', this); Hide('divReplikation', this); Hide('divHoppla', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Reveal('divKeineReplikation', this); Hide('divDeskriptiveStudien', this)" /> Nein<br>
+  <input type="radio" name="Wahl2a" value="value6" onClick="Hide('divSimulation', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Reveal('divHoppla', this); Hide('divDeskriptiveStudien', this)" /> Weder noch<br>
   
   <hr>
   </div>
@@ -81,9 +82,9 @@ input[type = reset] {
   <div id="divOldData" style="display: none">
   Planst du, die Ergebnisse mehrerer Studien zusammenzufassen, um eine allgemeine Aussage zu treffen, oder möchtest du auf bestehende Datensets zurückgreifen, um neue Forschungsfragen zu beantworten?
   
-  <input type="radio" name="Wahl2b" value="value7" onClick="Hide('divHoppla', this); Hide('divSekundaeranalyse', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Reveal('divMetaanalyse', this)" /> Mehrere Studien<br>
-  <input type="radio" name="Wahl2b" value="value8" onClick="Hide('divHoppla', this); Hide('divMetaanalyse', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Reveal('divSekundaeranalyse', this)" /> Bestehendes Datenset<br>
-  <input type="radio" name="Wahl2b" value="value9" onClick="Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Reveal('divHoppla', this)" /> Weder noch<br>
+  <input type="radio" name="Wahl2b" value="value7" onClick="Hide('divSimulation', this); Hide('divHoppla', this); Hide('divSekundaeranalyse', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Reveal('divMetaanalyse', this)" /> Mehrere Studien<br>
+  <input type="radio" name="Wahl2b" value="value8" onClick="Hide('divSimulation', this); Hide('divHoppla', this); Hide('divMetaanalyse', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Reveal('divSekundaeranalyse', this)" /> Bestehendes Datenset<br>
+  <input type="radio" name="Wahl2b" value="value9" onClick="Hide('divSimulation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Reveal('divHoppla', this)" /> Weder noch<br>
   
   <hr>
   </div>
@@ -97,16 +98,16 @@ Deine Antworten geben Hinweise darauf, dass deine Studie eine Replikationsstudie
   
 In dem vorgeschlagenen Template findest du die Replication Recipe Preregistration Vorlage von <a href="https://doi.org/10.1016/j.jesp.2013.10.005">Brandt et al. (2013)</a>, die optimal für Replikationen geeignet ist.
   
-Ist ein Fehler unterlaufen?<input type ="reset" value="Hier klicken" onClick="Hide('divOldData', this); Hide('divNewData', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Hide('divHoppla', this)"/>um zum Anfang zurückzusetzen!
+Ist ein Fehler unterlaufen?<input type ="reset" value="Hier klicken" onClick="Hide('divSimulation', this); Hide('divOldData', this); Hide('divNewData', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Hide('divHoppla', this)"/>um zum Anfang zurückzusetzen!
   </div>
   
   <!-- Keine Replikationsstudie -->
   <div id="divKeineReplikation" style="display: none">
 Werden in Deiner Studie gezielt Veränderungen und Manipulationen an einer oder mehreren unabhängigen Variablen vorgenommen, um ihre Auswirkungen auf eine abhängige Variable zu untersuchen oder sollen lediglich Zusammenhänge zwischen Variablen beschrieben werden? 
   
-  <input type="radio" name="Wahl3" value="value10" onClick="Hide('divHoppla', this); Hide('divDeskriptiveStudien', this); Reveal('divExperiment', this)" /> Manipulationen<br>
-  <input type="radio" name="Wahl3" value="value11" onClick="Hide('divHoppla', this); Hide('divExperiment', this); Reveal('divDeskriptiveStudien', this)" /> Zusammenhänge<br>
-  <input type="radio" name="Wahl3" value="value12" onClick="Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Reveal('divHoppla', this)" /> Weder noch<br>
+  <input type="radio" name="Wahl3" value="value10" onClick="Hide('divSimulation', this); Hide('divHoppla', this); Hide('divDeskriptiveStudien', this); Reveal('divExperiment', this)" /> Manipulationen<br>
+  <input type="radio" name="Wahl3" value="value11" onClick="Hide('divSimulation', this); Hide('divHoppla', this); Hide('divExperiment', this); Reveal('divDeskriptiveStudien', this)" /> Zusammenhänge<br>
+  <input type="radio" name="Wahl3" value="value12" onClick="Hide('divSimulation', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Reveal('divHoppla', this)" /> Weder noch<br>
   
   <hr>
   </div>
@@ -120,7 +121,7 @@ Deine Antworten geben Hinweise darauf, dass deine Studie  eine Meta-Analyse oder
   
 Im vorgeschlagenen Template befinden sich das Präregistrierungsformat von <a href="https://www.crd.york.ac.uk/prospero/">PROSPERO</a> sowie die <a href="http://prisma-statement.org">PRISMA-Leitlinien</a>. 
   
-Ist ein Fehler unterlaufen?<input type ="reset" value="Hier klicken" onClick="Hide('divOldData', this); Hide('divNewData', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Hide('divHoppla', this)"/>um zum Anfang zurückzusetzen!
+Ist ein Fehler unterlaufen?<input type ="reset" value="Hier klicken" onClick="Hide('divSimulation', this); Hide('divOldData', this); Hide('divNewData', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Hide('divHoppla', this)"/>um zum Anfang zurückzusetzen!
   </div>
   
   <!-- Sekundäranalyse -->
@@ -131,7 +132,7 @@ Deine Antworten geben Hinweise darauf, dass du in deiner Studie eine Sekundärda
   
 In dem vorgeschlagenen Template findest du eine spezifische Präregistrierungsvorlage mit Fokus auf sekundäre Datenanalysen. Darüber hinaus wird kein Ordner für Daten angelegt und es werden spezifsiche Hinweise im ReadMe gegeben, was bei einer Sekundärdatenanalyse zu beachten ist.
   
-Ist ein Fehler unterlaufen?<input type ="reset" value="Hier klicken" onClick="Hide('divOldData', this); Hide('divNewData', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Hide('divHoppla', this)"/>um zum Anfang zurückzusetzen!
+Ist ein Fehler unterlaufen?<input type ="reset" value="Hier klicken" onClick="Hide('divSimulation', this); Hide('divOldData', this); Hide('divNewData', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Hide('divHoppla', this)"/>um zum Anfang zurückzusetzen!
   </div>
   
   <!-- Vierte Ebene Ebene - Keine Replikation -->
@@ -144,7 +145,7 @@ In deiner Studie erhebst du Daten mit Hilfe eines behavioralen Experimentes. Daf
   
 Beide Templates sind für Verhaltensexperimente optimal geeignet und unterscheiden sich hinsichtlich der bereit gestellen Präreregistrierungsvorlagen. Im BSc Template findet sich nur die AsPredicted Preregistration Vorlage, wohingegen im MSc Template drei Preregistration Vorlagen zu finden sind: AsPredicted, OSF Standard Preregistration Template, und die PRP-QUANT Vorlage – die zwei letzteren sind ausführlicher. Für Studierende, unabhängig ob BSc und MSc, die mit ihren Betreuer*innen besprochen haben, die OSF Preregistration Vorlage zu verwenden, wird das Behavioral Experiments MSc Template empfohlen. 
   
-Ist ein Fehler unterlaufen?<input type ="reset" value="Hier klicken" onClick="Hide('divOldData', this); Hide('divNewData', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Hide('divHoppla', this)"/>um zum Anfang zurückzusetzen!
+Ist ein Fehler unterlaufen?<input type ="reset" value="Hier klicken" onClick="Hide('divSimulation', this); Hide('divOldData', this); Hide('divNewData', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Hide('divHoppla', this)"/>um zum Anfang zurückzusetzen!
   </div>
   
   <!-- Deskriptive Studien -->
@@ -156,13 +157,24 @@ In deiner Studie untersuchst du bestehende Zusammenhänge ohne eine aktive exper
 
 Beide Templates sind für diese Art von Studie optimal geeignet und unterscheiden sich hinsichtlich der bereit gestellen Präreregistrierungsvorlagen. Im BSc Template findet sich nur die AsPredicted Preregistration Vorlage, wohingegen im MSc Template drei Preregistration Vorlagen zu finden sind: AsPredicted, OSF Standard Preregistration Template, und die PRP-QUANT Vorlage – die zwei letzteren sind ausführlicher. Für Studierende, unabhängig ob BSc und MSc, die mit ihren Betreuer*innen besprochen haben, die OSF Preregistration Vorlage zu verwenden, wird das Behavioral Experiments MSc Template empfohlen. 
   
-Ist ein Fehler unterlaufen?<input type ="reset" value="Hier klicken" onClick="Hide('divOldData', this); Hide('divNewData', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Hide('divHoppla', this)"/>um zum Anfang zurückzusetzen!
+Ist ein Fehler unterlaufen?<input type ="reset" value="Hier klicken" onClick="Hide('divSimulation', this); Hide('divOldData', this); Hide('divNewData', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Hide('divHoppla', this)"/>um zum Anfang zurückzusetzen!
+  </div>
+  
+  <!-- Simulationsstudie -->
+  <div id="divSimulation" style="display: none">
+  Deine Antwort gibt Hinweise darauf, dass deine Studie eine Simulationsstudie ist. Dafür steht folgendes Template zur Verfügung: 
+  
+  - Simulation Study
+  
+In dem vorgeschlagenen Template findest du die Präregistrierungsvorlage von <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7616844/">Siepe et al. (2024)</a>, die extra für Simulationsstudien entwickelt wurde.
+
+Ist ein Fehler unterlaufen?<input type ="reset" value="Hier klicken" onClick="Hide('divSimulation', this); Hide('divOldData', this); Hide('divNewData', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Hide('divHoppla', this)"/>um zum Anfang zurückzusetzen! 
   </div>
   
   <!-- Der Joker - Der Hoppla-Text -->
   <div id="divHoppla" style="display: none">
   <b>Hoppla</b>, da ging wohl etwas schief! Im Falle eines Missverständnisses bitten wir dich, die Entscheidungsshilfe nochmal durchzuführen. Aber sollte deine Art von Studie in unserer Entscheidungshilfe und somit auch unseren Templates nicht vorhanden sein, bitten wir um Entschuldigung. Kontaktiere uns doch unter <a href="mailto:lifos@uni-frankfurt.de">LIFOS@uni-frankfurt.de</a> und wir helfen dir persönlich dabei, das passende Template für dich zu finden. Und wer weiß, vielleicht kannst du uns ja dabei helfen, ein neues Template für deine Art von Studie zu erstellen! :) 
   
-  Ist ein Fehler unterlaufen?<input type ="reset" value="Hier klicken" onClick="Hide('divOldData', this); Hide('divNewData', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Hide('divHoppla', this)"/>um zum Anfang zurückzusetzen!
+  Ist ein Fehler unterlaufen?<input type ="reset" value="Hier klicken" onClick="Hide('divSimulation', this); Hide('divOldData', this); Hide('divNewData', this); Hide('divReplikation', this); Hide('divKeineReplikation', this); Hide('divMetaanalyse', this); Hide('divSekundaeranalyse', this); Hide('divExperiment', this); Hide('divDeskriptiveStudien', this); Hide('divHoppla', this)"/>um zum Anfang zurückzusetzen!
   </div>
 </form>
