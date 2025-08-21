@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: []
 weight: 1
-lastmod: '2025-06-18'
+lastmod: '2025-08-21'
 featured: no
 banner:
   image: "/header/prism_colors.jpg"
@@ -57,7 +57,7 @@ Untersuchen Sie den Zusammenhang zwischen **Extraversion** und **Neurotizismus**
 
 ## Aufgabe 2: Semipartialkorrelation
 
-Untersuchen Sie den Zusammenhang zwischen **Offenheit** (`O1`, `O2`, `O3`) und **Verträglichkeit** (`A1`, `A2`, `A3`), wobei der Einfluss von **Neurotizismus** nur aus der Variable Offenheit kontrolliert wird.
+Untersuchen Sie den Zusammenhang zwischen **Offenheit** (`O1`, `O2`, `O3`) und **Verträglichkeit** (`A1`, `A2`, `A3`), wobei der Einfluss von **Neurotizismus** nur aus der Variable **Verträglichkeit** kontrolliert wird.
 
 - Bilden Sie die fehlenden Skalenmittelwerte.
 - Berechnen Sie anschließend die Semipartialkorrelation
@@ -66,3 +66,13 @@ Untersuchen Sie den Zusammenhang zwischen **Offenheit** (`O1`, `O2`, `O3`) und *
 
 - Bitte erstellen Sie einen reduzierten Datensatz, welcher nur die zuvor erstellten Skalenwerte beinhaltet
 - Geben Sie sich auf Basis des reduzierten Datensatzes nun eine Tabelle mit allen Partialkorrelationskoeffizienten aus
+
+## Aufgabe 4: Rolle der Semipartialkorrelation in der Regression
+
+In **Aufgabe 2** wurde die Semipartialkorrelation zwischen *Offenheit* und *Verträglichkeit*, kontrolliert für *Neurotizismus*, berechnet.
+
+Zeigen Sie nun den Zusammenhang zur multiplen Regression:
+
+- Schätzen Sie ein Regressionsmodell mit *Offenheit* als Kriterium und *Neurotizismus* sowie *Verträglichkeit* als Prädiktoren.
+- Erstellen Sie anschließend **zusätzlich** ein reduziertes Modell ohne *Verträglichkeit*, um das Inkrement in R^2 durch *Verträglichkeit* zu bestimmen.
+- Vergleichen Sie die quadrierte Semipartialkorrelation (sr^2) aus Aufgabe 2 mit dem inkrementellen Varianzbeitrag von *Verträglichkeit*.

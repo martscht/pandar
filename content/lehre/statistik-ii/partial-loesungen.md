@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: []
 weight: 1
-lastmod: '2025-06-18'
+lastmod: '2025-08-21'
 featured: no
 banner:
   image: "/header/prism_colors.jpg"
@@ -74,7 +74,7 @@ pcor.test(x = Big5$extraversion,    # Das Outcome
 
 ## Aufgabe 2: Semipartialkorrelation
 
-Untersuchen Sie den Zusammenhang zwischen **Offenheit** (`O1`, `O2`, `O3`) und **Verträglichkeit** (`A1`, `A2`, `A3`), wobei der Einfluss von **Neurotizismus** nur aus der Variable Offenheit kontrolliert wird.
+Untersuchen Sie den Zusammenhang zwischen **Offenheit** (`O1`, `O2`, `O3`) und **Verträglichkeit** (`A1`, `A2`, `A3`), wobei der Einfluss von **Neurotizismus** nur aus der Variable **Verträglichkeit** kontrolliert wird.
 
 - Bilden Sie die fehlenden Skalenmittelwerte.
 - Berechnen Sie anschließend die Semipartialkorrelation
@@ -111,9 +111,54 @@ spcor.test(x = Big5$offenheit,        # Outcome
 Big5_Skalen <- Big5[, c("extraversion", "neurotizismus", "gewissenhaft", "offenheit", "vertraeglichkeit")]
 
 # Tabelle der Partialkorrelationen
-pcor_table <- pcor(dat)
-pcor_table$estimate |> round(3) # Die Funktion gibt auch p-Werte etc. aus Wir extrahieren nur den Teil des Outputs, der die Partialkorrelationen enthält und runden diese Ergebnisse.
+pcor_table <- pcor(Big5_Skalen)
+pcor_table$estimate |> round(3) # Die Funktion gibt auch p-Werte etc. aus. Wir extrahieren mit '$estimate' nur den Teil des Outputs, der die Partialkorrelationen enthält und runden diese Ergebnisse.
 ```
 
 </details>
 
+## Aufgabe 4: Rolle der Semipartialkorrelation in der Regression
+
+In **Aufgabe 2** wurde die Semipartialkorrelation zwischen *Offenheit* und *Verträglichkeit*, kontrolliert für *Neurotizismus*, berechnet.
+
+Zeigen Sie nun den Zusammenhang zur multiplen Regression:
+
+- Schätzen Sie ein Regressionsmodell mit *Offenheit* als Kriterium und *Neurotizismus* sowie *Verträglichkeit* als Prädiktoren.
+- Erstellen Sie anschließend **zusätzlich** ein reduziertes Modell ohne *Verträglichkeit*, um das Inkrement in R^2 durch *Verträglichkeit* zu bestimmen.
+- Vergleichen Sie die quadrierte Semipartialkorrelation (sr^2) aus Aufgabe 2 mit dem inkrementellen Varianzbeitrag von *Verträglichkeit*.
+
+<details>
+<summary>Lösung</summary>
+
+
+``` r
+# Multiples Regressionsmodell mit zwei Prädiktoren
+mod2 <- lm(offenheit ~ neurotizismus + vertraeglichkeit, data = Big5)
+
+# Ausgabe des R^2
+summary(mod2)$r.squared
+R2_full <- summary(mod2)$r.squared
+
+# Wiederholung Semipartialkorrelation aus Aufgabe 2: Offenheit und Verträglichkeit, kontrolliert für Neurotizismus
+sp <- spcor.test(
+  x = Big5$offenheit,
+  y = Big5$vertraeglichkeit,
+  z = Big5$neurotizismus
+)$estimate
+
+# Ausgabe Quadrat der Semipartialkorrelation (sr^2)
+sp^2
+
+# Vergleich mit dem inkrementellen Varianzbeitrag von Verträglichkeit im Modell
+# (Unterschied im R^2 mit und ohne Vertraeglichkeit)
+
+R2_reduced <- summary(lm(offenheit ~ neurotizismus, data = Big5))$r.squared
+
+# Ausgabe des Inkrements
+increment <- R2_full - R2_reduced
+
+# Ausgabe der quadtrierten Semipartialkorrelation und des inkrementellen Varianzbeitrags
+c(sr2 = sp^2, inkrement_R2 = increment)
+```
+
+</details>
