@@ -7,7 +7,7 @@ categories: Statistik II Übungen
 tags: ["Partialkorrelation", "Semipartialkorrelation", "geteilte Varianz", "Zusammenhangsanalyse"] 
 subtitle: ''
 summary: ''
-authors: []
+authors: [vonwissel]
 weight: 1
 lastmod: '`r Sys.Date()`'
 featured: no

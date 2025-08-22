@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [vonwissel]
 weight: 1
-lastmod: '`r Sys.Date()`'
+lastmod: '2025-08-22'
 featured: no
 banner:
   image: "/header/vegan_produce.jpg"
@@ -33,16 +33,13 @@ output:
     keep_md: yes
 ---
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-```
+
 ## Vorbereitung
 
 Laden Sie zunächst die benötigten Pakete und das Datenset **Prestige** aus dem Paket **carData**. Sollten Sie einzelne Pakete noch nicht installiert haben, installieren Sie diese über `install.packages()`.
 
-```{r eval = FALSE}
+
+``` r
 # Pakete laden
 library(car)
 library(carData)
