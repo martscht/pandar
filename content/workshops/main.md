@@ -39,13 +39,13 @@ sections:
   - block: markdown
     id: refresher
     content:
-      title: RefresheR
-      subtitle: Crash-Kurs zum Start in den Master
+      title: refresheR
+      subtitle: R-Kurs zum Start in den Master
       text:
-        Um mit voller Energie und Motivation in die Methodenlehre im Master starten zu können, bieten wir einen Crash-Kurs zur (Wieder-)Belebung der Grundkenntnisse in R an. Das Material dazu ist eine Zusammenfassung dessen, was in den [Bachelor-Kursen](/lehre/main) passiert ist.
+        Um mit voller Energie und Motivation in die Methodenlehre im Master starten zu können, bieten wir einen Crash-Kurs zur wiederBelebung der Grundkenntnisse in R an. Das Material dazu ist eine Zusammenfassung dessen, was in den [Bachelor-Kursen](/lehre/main) passiert ist.
         
         
-        {{< category_list "refresher" 2 >}}
+        {{< category_list "refresher" 3 >}}
 
     design:
       columns: 2
