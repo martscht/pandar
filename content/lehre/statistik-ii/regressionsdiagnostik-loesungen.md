@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [vonwissel]
 weight: 1
-lastmod: '`r Sys.Date()`'
+lastmod: '2025-08-22'
 featured: no
 banner:
   image: "/header/vegan_produce.jpg"
@@ -33,17 +33,14 @@ output:
     keep_md: yes
 ---
 
-```{r setup, cache = FALSE, include = FALSE, purl = FALSE}
-if (exists("figure_path")) {
-  knitr::opts_chunk$set(fig.path = figure_path)
-}
-```
+
 
 ## Vorbereitung
 
 Laden Sie zunächst die benötigten Pakete und das Datenset **Prestige** aus dem Paket **carData**. Sollten Sie einzelne Pakete noch nicht installiert haben, installieren Sie diese über `install.packages()`.
 
-```{r eval = FALSE}
+
+``` r
 # Pakete laden
 library(car)
 library(carData)
@@ -71,7 +68,8 @@ data("Prestige", package = "carData")
 - Die **standardisierten Regressionsgewichte** für die Prädiktoren, geben an, um wie viele Standardabweichungen sich die Vorhersage von y unterscheidet, wenn sich zwei Personen in x um eine Standardabweichung unterscheiden (bei gleicher Ausprägung aller anderen Prädiktoren).
 - Der **Residuals vs Fitted Plot** kann zur Prüfung der Linearität- & Homoskedastizitätsannahme, der **Normal Q-Q Plot** zur Prüfung der Normalverteilung der Residuen, der **Scale-Location Plot** zur Diagnostik der Homoskedastizität und der **Residuals vs Leverage** zur Identifikation von einflussreichen Beobachtungen herangezogen werden. 
 
-```{r eval = FALSE}
+
+``` r
 # Modell schätzen
 mod_base <- lm(prestige ~ education + income + women, data = Prestige)
 
@@ -102,7 +100,8 @@ par(mfrow = c(1,1))
 <details>
 <summary>Lösung</summary>
 
-```{r eval = FALSE}
+
+``` r
 # Scale-Location-Plot
 plot(mod_base, 3)
 
@@ -134,7 +133,8 @@ coeftest(mod_base, vcov = vcovHC(mod_base))
 <details>
 <summary>Lösung</summary>
 
-```{r eval = FALSE}
+
+``` r
 # Residuen des Modells in eigener Variable speichern
 
 resid_base <- residuals(mod_base)
@@ -182,7 +182,8 @@ shapiro.test(resid_bc)
 <details>
 <summary>Lösung</summary>
 
-```{r eval = FALSE}
+
+``` r
 # Korrelationsmatrix
 round(cor(Prestige[, c("education", "income", "women")]), 3)
 
@@ -206,8 +207,8 @@ v
 <details>
 <summary>Lösung</summary>
 
-```{r eval = FALSE}
 
+``` r
 # Erstellen eines Infleunce Plots zur grafischen Identifkation von auffälligen Fällen
 InfPlot <- influencePlot(mod_base)
 InfPlot
