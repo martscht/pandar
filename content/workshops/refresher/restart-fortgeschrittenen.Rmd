@@ -22,11 +22,11 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /workshops/restart/restart-fortgeschrittenen
+    url: /workshops/refresher/restart-fortgeschrittenen
   - icon_pack: fas
     icon: terminal
     name: Code
-    url: /workshops/restart/restart-fortgeschrittenen.R
+    url: /workshops/refresher/restart-fortgeschrittenen.R
 
 output:
   html_document:
