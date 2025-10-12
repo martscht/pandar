@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [schultze, irmer] 
 weight: 3
-lastmod: '2025-02-07'
+lastmod: '2025-06-12'
 featured: no
 banner:
   image: "/header/plane.jpg"
@@ -101,7 +101,7 @@ Zunächst können wir den Datensatz laden und ein bisschen genauer betrachten. W
 
 
 ```r
-load(url("https://pandar.netlify.app/daten/conspiracy_cfa.rda"))
+source("../../daten/Data_Processing_conspiracy_cfa.R")
 ```
 
 Alternativ können Sie den Datensatz natürlich auch für den lokalen Gebrauch [<i class="fas fa-download"></i> hier herunterladen](/daten/conspiracy_cfa.rda).
@@ -134,6 +134,10 @@ str(conspiracy)
 
 ```
 ## 'data.frame':	2495 obs. of  19 variables:
+##  $ edu   : Factor w/ 3 levels "not highschool",..: 3 1 3 3 2 3 2 2 1 3 ...
+##  $ urban : Factor w/ 3 levels "rural","suburban",..: NA 2 2 1 2 1 2 1 3 3 ...
+##  $ gender: Factor w/ 3 levels "male","female",..: 1 2 2 1 1 1 1 1 1 1 ...
+##  $ age   : int  28 14 26 25 37 34 17 23 17 28 ...
 ##  $ Q1    : int  5 5 2 5 5 1 4 5 1 1 ...
 ##  $ Q2    : int  5 5 4 4 4 1 3 4 1 2 ...
 ##  $ Q3    : int  3 5 1 1 1 1 3 3 1 1 ...
@@ -146,13 +150,9 @@ str(conspiracy)
 ##  $ Q10   : int  5 4 4 5 5 1 3 5 1 4 ...
 ##  $ Q11   : int  5 4 2 5 5 1 3 5 1 1 ...
 ##  $ Q12   : int  5 5 4 5 5 1 2 5 1 1 ...
-##  $ Q13   : int  3 4 NA 1 3 1 2 3 1 1 ...
+##  $ Q13   : int  3 4 0 1 3 1 2 3 1 1 ...
 ##  $ Q14   : int  5 4 2 4 5 1 3 4 1 1 ...
 ##  $ Q15   : int  5 5 4 5 5 1 4 5 1 5 ...
-##  $ edu   : Factor w/ 3 levels "not highschool",..: 3 2 3 3 1 3 1 1 2 3 ...
-##  $ urban : Factor w/ 3 levels "rural","suburban",..: NA 2 2 1 2 1 2 1 3 3 ...
-##  $ gender: Factor w/ 3 levels "male","female",..: NA 2 2 1 2 1 2 1 3 3 ...
-##  $ age   : int  28 14 26 25 37 34 17 23 17 28 ...
 ```
 Neben den bereitsch beschriebenen 15 Items enthält der Datensatz noch Informationen zum Bildungsniveau (`edu`), Art des Wohnortes (`urban`), Geschlecht (`gender`) und Alter (`age`) der Befragten. Diese Variablen sind in dieser Sitzung aber zunächst irrelevant.
 
@@ -171,7 +171,7 @@ Es wird also behauptet, dass es eine grundlegende Eigenschaft von Personen gibt,
 
 Als Pfadmodell dargestellt sieht das zunächst so aus:
 
-<img src="cfa1.png" width="65%"/>
+<img src="../cfa1.png" width="65%"/>
 
 Hier stellen wir das Modell zunächst ohne Gewichtungen dar - es werden lediglich die Beziehungen/Zusammensetzungen zwischen den Variablen verdeutlicht: die Messungen Q2, Q7 und Q12 setzen sich alle aus der zugrundeliegenden latenten Variable GC und dem itemspezifischen Messfehler zusammen.
 
@@ -259,14 +259,13 @@ summary(fit1)
 ```
 
 ```
-## lavaan 0.6.16 ended normally after 17 iterations
+## lavaan 0.6.16 ended normally after 15 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
 ##   Number of model parameters                         7
 ## 
-##                                                   Used       Total
-##   Number of observations                          2465        2495
+##   Number of observations                          2495
 ## 
 ## Model Test User Model:
 ##                                                       
@@ -283,16 +282,16 @@ summary(fit1)
 ## Latent Variables:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
 ##   GC =~                                               
-##     Q2                1.116 NA                        
-##     Q7                1.186 NA                        
-##     Q12               1.256 NA                        
+##     Q2                1.112 NA                        
+##     Q7                1.183 NA                        
+##     Q12               1.255 NA                        
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
-##    .Q2                0.752 NA                        
-##    .Q7                0.636 NA                        
-##    .Q12               0.416 NA                        
-##     GC                1.157 NA
+##    .Q2                0.808 NA                        
+##    .Q7                0.665 NA                        
+##    .Q12               0.446 NA                        
+##     GC                1.153 NA
 ```
 
 Die folgende Zeile des Outputs zeigt uns, dass `lavaan` mit seiner Einschätzung vollkommen Recht hatte:
@@ -331,9 +330,9 @@ inspect(fit1, 'sampstat')
 ```
 ## $cov
 ##        Q2    Q7   Q12
-## Q2  2.193            
-## Q7  1.530 2.262      
-## Q12 1.621 1.722 2.240
+## Q2  2.233            
+## Q7  1.517 2.279      
+## Q12 1.609 1.713 2.263
 ```
 
 Hier können wir einfach durchzählen:
@@ -349,7 +348,7 @@ Hier können wir einfach durchzählen:
 
 Die zu schätzenden Parameter ($t$) können wir im Pfaddiagramm abzählen:
 
-<img src="cfa2.png" width="65%"/>
+<img src="../cfa2.png" width="65%"/>
 
 Wenn wir uns nicht unnötig damit belasten möchten die Parameter selbst zu zählen, können wir die Anzahl natürlich auch einfach von `lavaan` bekommen:
   
@@ -496,8 +495,7 @@ summary(fit1)
 ##   Optimization method                           NLMINB
 ##   Number of model parameters                         6
 ## 
-##                                                   Used       Total
-##   Number of observations                          2465        2495
+##   Number of observations                          2495
 ## 
 ## Model Test User Model:
 ##                                                       
@@ -514,15 +512,15 @@ summary(fit1)
 ##                    Estimate  Std.Err  z-value  P(>|z|)
 ##   GC =~                                               
 ##     Q2                1.000                           
-##     Q7                1.062    0.023   46.881    0.000
-##     Q12               1.126    0.023   48.602    0.000
+##     Q7                1.064    0.024   45.233    0.000
+##     Q12               1.129    0.024   46.637    0.000
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
-##    .Q2                0.752    0.028   26.494    0.000
-##    .Q7                0.636    0.028   22.913    0.000
-##    .Q12               0.416    0.026   15.743    0.000
-##     GC                1.440    0.062   23.401    0.000
+##    .Q2                0.808    0.030   26.795    0.000
+##    .Q7                0.665    0.029   22.829    0.000
+##    .Q12               0.446    0.028   15.894    0.000
+##     GC                1.425    0.062   22.939    0.000
 ```
 
 Wir sehen, dass wir jetzt für alle Parameter Standardfehler erhalten und
@@ -545,8 +543,8 @@ Welche inhaltlichen Aussagen erlaubt uns diese Umformulierung jetzt? Gucken wir 
 ##                    Estimate  Std.Err  z-value  P(>|z|)
 ##   GC =~                                               
 ##     Q2                1.000                           
-##     Q7                1.062    0.023   46.881    0.000
-##     Q12               1.126    0.023   48.602    0.000 
+##     Q7                1.064    0.024   45.233    0.000
+##     Q12               1.129    0.024   46.637    0.000 
 ## [...]
 ```
 
@@ -556,9 +554,9 @@ Was bedeuten diese Ladungen aber inhaltlich? Glücklicherweise hält auch für d
   
 ![](/fue-cfa_files/unnamed-chunk-21-1.png)<!-- -->
 
-Die Ausprägung der manifesten Variable wird vorhergesagt durch die Ausprägung der latenten Variable - für $GC = 2$ sagen wir also $Q2 = 2$ vorher, weil die Faktorladung dieses Items auf 1 fixiert ist ($\lambda_{2} = 1$). Für Q7 ist die Ladung allerdings $\lambda_{7} = 1.062$, sodass die gelbe Regressionsgerade in der Abbildung ein bisschen steiler verläuft.
+Die Ausprägung der manifesten Variable wird vorhergesagt durch die Ausprägung der latenten Variable - für $GC = 2$ sagen wir also $Q2 = 2$ vorher, weil die Faktorladung dieses Items auf 1 fixiert ist ($\lambda_{2} = 1$). Für Q7 ist die Ladung allerdings $\lambda_{7} = 1.064$, sodass die gelbe Regressionsgerade in der Abbildung ein bisschen steiler verläuft.
 
-Das heißt, dass zwei Personen, die sich in der latenten Variable um eine Einheit unterscheiden, im *vorhergesagten* Ausmaß der Zustimmung zur Aussage "The power held by heads of state is second to that of small unknown groups who really control world politics" (Q2) ebenfalls um eine Einheit unterscheiden. Bezüglich der Aussage "A small, secret group of people is responsible for making all major world decisions, such as going to war" (Q7) unterscheiden sich die gleichen beiden Personen im vorhergesagten Wert aber um 1.062 Einheiten. Weil der Unterschied auf dem latenten Konstrukt GC sich also stärker in Q7 manifestiert als in Q2 (gleiche Unterschiede in GC führen zu stärkeren Unterschieden in Q7 als in Q2), spricht man davon, dass Q7 stärker auf der latenten Dimension *diskriminiert*. Daher wird die Faktorladung häufig als *Diskriminationsparameter* bezeichnet. Durch die Festlegung von $\lambda_2 = 1$ sind die "Einheiten", von denen hier gesprochen wird, die Einheiten der Skala, die genutzt wurde, um Q2 zu erheben - in unserem Fall also eine 5-Punkt Likert-Skala.
+Das heißt, dass zwei Personen, die sich in der latenten Variable um eine Einheit unterscheiden, im *vorhergesagten* Ausmaß der Zustimmung zur Aussage "The power held by heads of state is second to that of small unknown groups who really control world politics" (Q2) ebenfalls um eine Einheit unterscheiden. Bezüglich der Aussage "A small, secret group of people is responsible for making all major world decisions, such as going to war" (Q7) unterscheiden sich die gleichen beiden Personen im vorhergesagten Wert aber um 1.064 Einheiten. Weil der Unterschied auf dem latenten Konstrukt GC sich also stärker in Q7 manifestiert als in Q2 (gleiche Unterschiede in GC führen zu stärkeren Unterschieden in Q7 als in Q2), spricht man davon, dass Q7 stärker auf der latenten Dimension *diskriminiert*. Daher wird die Faktorladung häufig als *Diskriminationsparameter* bezeichnet. Durch die Festlegung von $\lambda_2 = 1$ sind die "Einheiten", von denen hier gesprochen wird, die Einheiten der Skala, die genutzt wurde, um Q2 zu erheben - in unserem Fall also eine 5-Punkt Likert-Skala.
 
 Wie Sie in der Theorie-Sitzung gesehen haben, sind die einzelnen Messgleichungen:
 
@@ -579,10 +577,10 @@ Das sind letztlich also einfache lineare Gleichungen mit einer unabhängigen Var
 ## [...]
 ##  Variances:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
-##    .Q2                0.752    0.028   26.494    0.000
-##    .Q7                0.636    0.028   22.913    0.000
-##    .Q12               0.416    0.026   15.743    0.000
-##     GC                1.440    0.062   23.401    0.000
+##    .Q2                0.808    0.030   26.795    0.000
+##    .Q7                0.665    0.029   22.829    0.000
+##    .Q12               0.446    0.028   15.894    0.000
+##     GC                1.425    0.062   22.939    0.000
 ```
 
 Wie schon [bei der Regression in Sitzung 1](/lehre/fue-ii/lavaan-intro) wird mit dem `.` vor dem Variablennamen deutlich gemacht, dass diese Variable in irgendeiner Form im Modell eine abhängige Variable ist. Das heißt, dass es sich bei der berichteten Varianz um eine *Residualvarianz* handelt. Für `GC` ist das nicht der Fall, weil - wie gerade besprochen - die latente Variable in der CFA die unabhängige Variable ist.
@@ -606,7 +604,7 @@ inspect(fit1, 'rsquare')
 
 ```
 ##    Q2    Q7   Q12 
-## 0.657 0.719 0.814
+## 0.638 0.708 0.803
 ```
 
 Weil $R^2$ und Reliabilitäten in vielen Fällen von Interesse sind, können wir auch die Modellzusammenfassung um diesen Abschnitt erweitern, indem wir in der `summary`-Funktion das Zusatzargument `rsq` auf `TRUE` setzen. Dann erhalten wir am Ende der Modellzusammenfassung die $R^2$-Schätzungen:
@@ -620,12 +618,12 @@ summary(fit1, rsq = TRUE)
 ## [...]
 ##  R-Square:
 ##                    Estimate
-##     Q2                0.657
-##     Q7                0.719
-##     Q12               0.814
+##     Q2                0.638
+##     Q7                0.708
+##     Q12               0.803
 ```
 
-In diesem Fall ist die Reliabilität von Q7 also 0.719. Das heißt, dass ca. 72% der interindividuellen Unterschiede, die wir bezüglich der Zustimmung zur Aussage von Q7 beobachten können, auf wahre Unterschiede in der latenten Dimension *malevolent global conspiracies* attribuiert werden können. Die verbleibenden 28% gehen auf Messfehler zurück. Was uns die CFA hier über das Ausmaß der klassischen Reliabilitätsbestimmung, wie Sie sie wahrscheinlich im Bachelorstudium gelernt haben, hinaus ermöglicht, ist, dass wir die Reliabilität jedes einzelnen Items eines Fragebogens bestimmen können, also nicht nur die der gesamten Skala.
+In diesem Fall ist die Reliabilität von Q7 also 0.708. Das heißt, dass ca. 71% der interindividuellen Unterschiede, die wir bezüglich der Zustimmung zur Aussage von Q7 beobachten können, auf wahre Unterschiede in der latenten Dimension *malevolent global conspiracies* attribuiert werden können. Die verbleibenden 29% gehen auf Messfehler zurück. Was uns die CFA hier über das Ausmaß der klassischen Reliabilitätsbestimmung, wie Sie sie wahrscheinlich im Bachelorstudium gelernt haben, hinaus ermöglicht, ist, dass wir die Reliabilität jedes einzelnen Items eines Fragebogens bestimmen können, also nicht nur die der gesamten Skala.
 
 ### Mittelwertsstruktur {#Mittelwertsstruktur}
 
@@ -671,9 +669,9 @@ summary(fit2)
 ## [...]
 ##  Intercepts:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
-##    .Q2                2.979    0.030   99.880    0.000
-##    .Q7                2.673    0.030   88.235    0.000
-##    .Q12               2.656    0.030   88.102    0.000
+##    .Q2                2.964    0.030   99.057    0.000
+##    .Q7                2.667    0.030   88.241    0.000
+##    .Q12               2.645    0.030   87.812    0.000
 ##     GC                0.000                            
 ## [...]
 ```
@@ -682,7 +680,7 @@ Wie bei der Regression und bei den Varianzen schon gesehen, markiert der `.` Var
   
 ![](/fue-cfa_files/unnamed-chunk-30-1.png)<!-- -->
 
-Die gestrichelte Linie stellt den Mittelwert der latenten Variable dar. Der Punkt, an dem die jeweilige Regressionsgerade diese Linie schneidet, ist also das Intercept. Erneut ist eine berechtigte Frage: "Aber was soll mir das jetzt bringen?" Die Intercepts werden im Rahmen der klassischen Testtheorie als *Leichtigkeitsparameter* interpretiert. Der Aussage "The power held by heads of state is second to that of small unknown groups who really control world politics" (Q2) weist eine Person mit durchschnittlicher Ausprägung auf der Dimension *malevolent global conspiracies* einen Wahrheitsgehalt von 2.979 zu (auf einer Skala von 1 bis 5). Die gleiche, durchschnittliche Person schätzt den Wahrheitsgehalt der Aussage "A small, secret group of people is responsible for making all major world decisions, such as going to war" (Q7) auf einer Skala von 1 bis 5 mit  2.673 ein. Q2 wird also in größerem Ausmaß zugestimmt - die Aussage ist *leichter* zu bejahen, daher die Bezeichnung als *Leichtigkeitsparameter*. Manchmal wird dieser Parameter auch ins Verhältnis zur Range der Skala gesetzt (also zur Differenz zwischen Maximum und Minimum der Skala) und dann in $\%$ interpretiert. Vielleicht kennen Sie diesen Koeffizienten auch unter dem Namen *Itemschwierigkeit*. Da allerdings zumeist die Leichtigkeit quantifiziert wird, macht das die Sache kompliziert. Auch müssen wir hier kein Verhältnis zur Range der Skala verwenden, da alle Items auf der gleichen gemessen wurden und damit die Werte direkt vergleichbar sind.   
+Die gestrichelte Linie stellt den Mittelwert der latenten Variable dar. Der Punkt, an dem die jeweilige Regressionsgerade diese Linie schneidet, ist also das Intercept. Erneut ist eine berechtigte Frage: "Aber was soll mir das jetzt bringen?" Die Intercepts werden im Rahmen der klassischen Testtheorie als *Leichtigkeitsparameter* interpretiert. Der Aussage "The power held by heads of state is second to that of small unknown groups who really control world politics" (Q2) weist eine Person mit durchschnittlicher Ausprägung auf der Dimension *malevolent global conspiracies* einen Wahrheitsgehalt von 2.964 zu (auf einer Skala von 1 bis 5). Die gleiche, durchschnittliche Person schätzt den Wahrheitsgehalt der Aussage "A small, secret group of people is responsible for making all major world decisions, such as going to war" (Q7) auf einer Skala von 1 bis 5 mit  2.667 ein. Q2 wird also in größerem Ausmaß zugestimmt - die Aussage ist *leichter* zu bejahen, daher die Bezeichnung als *Leichtigkeitsparameter*. Manchmal wird dieser Parameter auch ins Verhältnis zur Range der Skala gesetzt (also zur Differenz zwischen Maximum und Minimum der Skala) und dann in $\%$ interpretiert. Vielleicht kennen Sie diesen Koeffizienten auch unter dem Namen *Itemschwierigkeit*. Da allerdings zumeist die Leichtigkeit quantifiziert wird, macht das die Sache kompliziert. Auch müssen wir hier kein Verhältnis zur Range der Skala verwenden, da alle Items auf der gleichen gemessen wurden und damit die Werte direkt vergleichbar sind.   
 
 ## Zweifaktorielles Modell
 
@@ -771,18 +769,17 @@ summary(fit_two)
 ```
 
 ```
-## lavaan 0.6.16 ended normally after 32 iterations
+## lavaan 0.6.16 ended normally after 31 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
 ##   Number of model parameters                        19
 ## 
-##                                                   Used       Total
-##   Number of observations                          2456        2495
+##   Number of observations                          2495
 ## 
 ## Model Test User Model:
 ##                                                       
-##   Test statistic                                33.243
+##   Test statistic                                33.018
 ##   Degrees of freedom                                 8
 ##   P-value (Chi-square)                           0.000
 ## 
@@ -796,39 +793,39 @@ summary(fit_two)
 ##                    Estimate  Std.Err  z-value  P(>|z|)
 ##   GC =~                                               
 ##     Q2                1.000                           
-##     Q7                1.054    0.022   47.592    0.000
-##     Q12               1.116    0.022   50.392    0.000
+##     Q7                1.055    0.023   46.149    0.000
+##     Q12               1.118    0.023   48.654    0.000
 ##   CI =~                                               
 ##     Q5                1.000                           
-##     Q10               0.842    0.034   25.135    0.000
-##     Q15               0.692    0.027   25.850    0.000
+##     Q10               0.846    0.034   25.151    0.000
+##     Q15               0.695    0.027   25.717    0.000
 ## 
 ## Covariances:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
 ##   GC ~~                                               
-##     CI                0.933    0.043   21.670    0.000
+##     CI                0.930    0.043   21.588    0.000
 ## 
 ## Intercepts:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
-##    .Q2                2.978    0.030   99.764    0.000
-##    .Q7                2.669    0.030   88.037    0.000
-##    .Q12               2.653    0.030   87.826    0.000
-##    .Q5                3.270    0.029  111.062    0.000
-##    .Q10               3.504    0.028  125.013    0.000
-##    .Q15               4.232    0.022  191.248    0.000
+##    .Q2                2.964    0.030   99.057    0.000
+##    .Q7                2.667    0.030   88.241    0.000
+##    .Q12               2.645    0.030   87.812    0.000
+##    .Q5                3.254    0.029  110.456    0.000
+##    .Q10               3.502    0.028  125.994    0.000
+##    .Q15               4.228    0.022  191.223    0.000
 ##     GC                0.000                           
 ##     CI                0.000                           
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
-##    .Q2                0.733    0.027   26.921    0.000
-##    .Q7                0.641    0.026   24.416    0.000
-##    .Q12               0.429    0.024   17.965    0.000
-##    .Q5                1.047    0.044   23.907    0.000
-##    .Q10               1.162    0.041   28.032    0.000
-##    .Q15               0.685    0.025   26.977    0.000
-##     GC                1.456    0.061   23.721    0.000
-##     CI                1.082    0.062   17.499    0.000
+##    .Q2                0.788    0.029   27.315    0.000
+##    .Q7                0.671    0.027   24.494    0.000
+##    .Q12               0.458    0.025   18.257    0.000
+##    .Q5                1.088    0.045   24.418    0.000
+##    .Q10               1.156    0.041   28.061    0.000
+##    .Q15               0.699    0.026   27.188    0.000
+##     GC                1.445    0.062   23.339    0.000
+##     CI                1.077    0.062   17.370    0.000
 ```
 
 ```r
@@ -838,7 +835,7 @@ inspect(fit_two, 'rsquare')
 
 ```
 ##    Q2    Q7   Q12    Q5   Q10   Q15 
-## 0.665 0.716 0.809 0.508 0.398 0.430
+## 0.647 0.706 0.797 0.497 0.400 0.427
 ```
           
 Die `summary` enthält nun den neuen Abschnitt `Covariances`, der, wie Sie vermutlich erraten können, Kovarianzen zwischen den latenten Variablen enthält. `inspect` erlaubt uns eine extrem detaillierte Untersuchung unserer Ergebnisse. Ein Blick in die Hilfe mit `?inspect` verrät, dass wir uns aber auch z.B. mit `what = 'cor.lv'` die "**cor**relations of **l**atent **v**ariables" anzeigen lassen können:
@@ -851,7 +848,7 @@ inspect(fit_two, 'cor.lv')
 ```
 ##       GC    CI
 ## GC 1.000      
-## CI 0.743 1.000
+## CI 0.745 1.000
 ```
 
 ### Parametertabelle & erweiterte Zusammenfassung {#paramaterEstimates}
@@ -866,26 +863,26 @@ parameterEstimates(fit_two)
 ```
 ##    lhs op rhs   est    se       z pvalue ci.lower ci.upper
 ## 1   GC =~  Q2 1.000 0.000      NA     NA    1.000    1.000
-## 2   GC =~  Q7 1.054 0.022  47.592      0    1.010    1.097
-## 3   GC =~ Q12 1.116 0.022  50.392      0    1.072    1.159
+## 2   GC =~  Q7 1.055 0.023  46.149      0    1.010    1.100
+## 3   GC =~ Q12 1.118 0.023  48.654      0    1.073    1.163
 ## 4   CI =~  Q5 1.000 0.000      NA     NA    1.000    1.000
-## 5   CI =~ Q10 0.842 0.034  25.135      0    0.776    0.908
-## 6   CI =~ Q15 0.692 0.027  25.850      0    0.639    0.744
-## 7   Q2 ~~  Q2 0.733 0.027  26.921      0    0.679    0.786
-## 8   Q7 ~~  Q7 0.641 0.026  24.416      0    0.590    0.693
-## 9  Q12 ~~ Q12 0.429 0.024  17.965      0    0.382    0.476
-## 10  Q5 ~~  Q5 1.047 0.044  23.907      0    0.961    1.132
-## 11 Q10 ~~ Q10 1.162 0.041  28.032      0    1.081    1.243
-## 12 Q15 ~~ Q15 0.685 0.025  26.977      0    0.635    0.735
-## 13  GC ~~  GC 1.456 0.061  23.721      0    1.336    1.576
-## 14  CI ~~  CI 1.082 0.062  17.499      0    0.961    1.203
-## 15  GC ~~  CI 0.933 0.043  21.670      0    0.848    1.017
-## 16  Q2 ~1     2.978 0.030  99.764      0    2.920    3.037
-## 17  Q7 ~1     2.669 0.030  88.037      0    2.610    2.729
-## 18 Q12 ~1     2.653 0.030  87.826      0    2.594    2.712
-## 19  Q5 ~1     3.270 0.029 111.062      0    3.212    3.327
-## 20 Q10 ~1     3.504 0.028 125.013      0    3.449    3.559
-## 21 Q15 ~1     4.232 0.022 191.248      0    4.188    4.275
+## 5   CI =~ Q10 0.846 0.034  25.151      0    0.780    0.912
+## 6   CI =~ Q15 0.695 0.027  25.717      0    0.642    0.748
+## 7   Q2 ~~  Q2 0.788 0.029  27.315      0    0.731    0.845
+## 8   Q7 ~~  Q7 0.671 0.027  24.494      0    0.617    0.724
+## 9  Q12 ~~ Q12 0.458 0.025  18.257      0    0.409    0.508
+## 10  Q5 ~~  Q5 1.088 0.045  24.418      0    1.001    1.176
+## 11 Q10 ~~ Q10 1.156 0.041  28.061      0    1.075    1.237
+## 12 Q15 ~~ Q15 0.699 0.026  27.188      0    0.649    0.749
+## 13  GC ~~  GC 1.445 0.062  23.339      0    1.324    1.567
+## 14  CI ~~  CI 1.077 0.062  17.370      0    0.956    1.199
+## 15  GC ~~  CI 0.930 0.043  21.588      0    0.845    1.014
+## 16  Q2 ~1     2.964 0.030  99.057      0    2.905    3.022
+## 17  Q7 ~1     2.667 0.030  88.241      0    2.608    2.726
+## 18 Q12 ~1     2.645 0.030  87.812      0    2.586    2.704
+## 19  Q5 ~1     3.254 0.029 110.456      0    3.196    3.312
+## 20 Q10 ~1     3.502 0.028 125.994      0    3.448    3.557
+## 21 Q15 ~1     4.228 0.022 191.223      0    4.184    4.271
 ## 22  GC ~1     0.000 0.000      NA     NA    0.000    0.000
 ## 23  CI ~1     0.000 0.000      NA     NA    0.000    0.000
 ```
@@ -905,12 +902,12 @@ para[para$op == '~1', ]
 
 ```
 ##    lhs op rhs   est    se       z pvalue ci.lower ci.upper
-## 16  Q2 ~1     2.978 0.030  99.764      0    2.920    3.037
-## 17  Q7 ~1     2.669 0.030  88.037      0    2.610    2.729
-## 18 Q12 ~1     2.653 0.030  87.826      0    2.594    2.712
-## 19  Q5 ~1     3.270 0.029 111.062      0    3.212    3.327
-## 20 Q10 ~1     3.504 0.028 125.013      0    3.449    3.559
-## 21 Q15 ~1     4.232 0.022 191.248      0    4.188    4.275
+## 16  Q2 ~1     2.964 0.030  99.057      0    2.905    3.022
+## 17  Q7 ~1     2.667 0.030  88.241      0    2.608    2.726
+## 18 Q12 ~1     2.645 0.030  87.812      0    2.586    2.704
+## 19  Q5 ~1     3.254 0.029 110.456      0    3.196    3.312
+## 20 Q10 ~1     3.502 0.028 125.994      0    3.448    3.557
+## 21 Q15 ~1     4.228 0.022 191.223      0    4.184    4.271
 ## 22  GC ~1     0.000 0.000      NA     NA    0.000    0.000
 ## 23  CI ~1     0.000 0.000      NA     NA    0.000    0.000
 ```
@@ -934,15 +931,24 @@ summary(fit_two, ci = TRUE)
 ```
 ## [...]
 ##  Latent Variables:
-##                    Estimate  Std.Err  z-value  P(>|z|) ci.lower ci.upper
-##   GC =~                                                                 
-##     Q2                1.000                               1.000    1.000
-##     Q7                1.054    0.022   47.592    0.000    1.010    1.097
-##     Q12               1.116    0.022   50.392    0.000    1.072    1.159
-##   CI =~                                                                 
-##     Q5                1.000                               1.000    1.000
-##     Q10               0.842    0.034   25.135    0.000    0.776    0.908
-##     Q15               0.692    0.027   25.850    0.000    0.639    0.744 
+##                    Estimate  Std.Err  z-value  P(>|z|) ci.lower
+##   GC =~                                                        
+##     Q2                1.000                               1.000
+##     Q7                1.055    0.023   46.149    0.000    1.010
+##     Q12               1.118    0.023   48.654    0.000    1.073
+##   CI =~                                                        
+##     Q5                1.000                               1.000
+##     Q10               0.846    0.034   25.151    0.000    0.780
+##     Q15               0.695    0.027   25.717    0.000    0.642
+##  ci.upper
+##          
+##     1.000
+##     1.100
+##     1.163
+##          
+##     1.000
+##     0.912
+##     0.748 
 ## [...]
 ```
   
@@ -963,12 +969,12 @@ inspect(fit_two, 'sampstat')$cov
 
 ```
 ##        Q2    Q7   Q12    Q5   Q10   Q15
-## Q2  2.188                              
-## Q7  1.526 2.258                        
-## Q12 1.619 1.720 2.241                  
-## Q5  1.006 0.998 1.088 2.128            
-## Q10 0.787 0.812 0.835 0.876 1.929      
-## Q15 0.661 0.644 0.681 0.731 0.686 1.202
+## Q2  2.233                              
+## Q7  1.517 2.279                        
+## Q12 1.609 1.713 2.263                  
+## Q5  1.006 0.991 1.089 2.165            
+## Q10 0.789 0.815 0.844 0.874 1.928      
+## Q15 0.659 0.648 0.681 0.733 0.689 1.220
 ```
 
 ```r
@@ -978,12 +984,12 @@ inspect(fit_two, 'cov.ov')
 
 ```
 ##        Q2    Q7   Q12    Q5   Q10   Q15
-## Q2  2.188                              
-## Q7  1.534 2.258                        
-## Q12 1.624 1.712 2.241                  
-## Q5  0.933 0.983 1.041 2.128            
-## Q10 0.785 0.828 0.876 0.911 1.929      
-## Q15 0.645 0.680 0.720 0.748 0.630 1.202
+## Q2  2.233                              
+## Q7  1.525 2.279                        
+## Q12 1.615 1.704 2.263                  
+## Q5  0.930 0.981 1.039 2.165            
+## Q10 0.787 0.830 0.880 0.912 1.928      
+## Q15 0.646 0.682 0.722 0.749 0.634 1.220
 ```
 
 ### $\chi^2$ Modeltest {#chisquare}
@@ -1006,17 +1012,28 @@ names(modelfit)
 ```
 
 ```
-##  [1] "npar"                  "fmin"                  "chisq"                 "df"                   
-##  [5] "pvalue"                "baseline.chisq"        "baseline.df"           "baseline.pvalue"      
-##  [9] "cfi"                   "tli"                   "nnfi"                  "rfi"                  
-## [13] "nfi"                   "pnfi"                  "ifi"                   "rni"                  
-## [17] "logl"                  "unrestricted.logl"     "aic"                   "bic"                  
-## [21] "ntotal"                "bic2"                  "rmsea"                 "rmsea.ci.lower"       
-## [25] "rmsea.ci.upper"        "rmsea.ci.level"        "rmsea.pvalue"          "rmsea.close.h0"       
-## [29] "rmsea.notclose.pvalue" "rmsea.notclose.h0"     "rmr"                   "rmr_nomean"           
-## [33] "srmr"                  "srmr_bentler"          "srmr_bentler_nomean"   "crmr"                 
-## [37] "crmr_nomean"           "srmr_mplus"            "srmr_mplus_nomean"     "cn_05"                
-## [41] "cn_01"                 "gfi"                   "agfi"                  "pgfi"                 
+##  [1] "npar"                  "fmin"                 
+##  [3] "chisq"                 "df"                   
+##  [5] "pvalue"                "baseline.chisq"       
+##  [7] "baseline.df"           "baseline.pvalue"      
+##  [9] "cfi"                   "tli"                  
+## [11] "nnfi"                  "rfi"                  
+## [13] "nfi"                   "pnfi"                 
+## [15] "ifi"                   "rni"                  
+## [17] "logl"                  "unrestricted.logl"    
+## [19] "aic"                   "bic"                  
+## [21] "ntotal"                "bic2"                 
+## [23] "rmsea"                 "rmsea.ci.lower"       
+## [25] "rmsea.ci.upper"        "rmsea.ci.level"       
+## [27] "rmsea.pvalue"          "rmsea.close.h0"       
+## [29] "rmsea.notclose.pvalue" "rmsea.notclose.h0"    
+## [31] "rmr"                   "rmr_nomean"           
+## [33] "srmr"                  "srmr_bentler"         
+## [35] "srmr_bentler_nomean"   "crmr"                 
+## [37] "crmr_nomean"           "srmr_mplus"           
+## [39] "srmr_mplus_nomean"     "cn_05"                
+## [41] "cn_01"                 "gfi"                  
+## [43] "agfi"                  "pgfi"                 
 ## [45] "mfi"                   "ecvi"
 ```
 
@@ -1026,8 +1043,8 @@ modelfit['logl']
 ```
 
 ```
-##     logl 
-## -22500.6
+##      logl 
+## -23068.19
 ```
 
 Weil diese Zahl als solche relativ schlecht interpretierbar ist, wurden etliche Möglichkeiten entwickelt, um sie in Effektstärken oder in inferenzstatistische Prüfung der Modellpassung zu überführen. In fast allen dieser Maße wird dabei mit einem *unrestringierten* Referenzmodell verglichen. "Unrestringiert" heißt hier einfach, dass wir keine Einschränkungen in das Modell einführen - etwas, dass wir im [Abschnitt zur Modellidentifikation](#Modellidentifikation) schon gesehen haben und als *saturiertes* oder *gerade identifiziertes* Modell bezeichnet hatten. Wie dort besprochen, sind solche Modell nicht prüfbar, weil sie nur eine Umformulierung der Daten darstellen. Wenn wir so etwas aber als Referenz nutzen, um unser Modell damit zu vergleichen, bekommen wir eine Vorstellung davon, wie gut unser Modell ist. Wenn Sie die Namen der Werte in `modelfit` durchgucken, sehen Sie, dass die LogLikelihood des unrestringierten Modells als `unrestricted.logl` bezeichnet wird:
@@ -1040,7 +1057,7 @@ modelfit['unrestricted.logl']
 
 ```
 ## unrestricted.logl 
-##         -22483.98
+##         -23051.68
 ```
 
 Beinahe als sei es dafür gemacht, folgt die doppelte Differenz dieser beiden LogLikelihoods einer uns bekannten Verteilung (der $\chi^2$-Verteilung), was uns erlaubt, Inferenzstatistik zu betreiben, weil wir bei bekannten Verteilungen Ablehnungsbereiche definieren können. Die Form der $\chi^2$-Verteilung hängt, wie z.B. auch die klassische $t$-Verteilung, von Freiheitsgraden ab. Die Freiheitsgrade, die bestimmen, mit welcher Form der $\chi^2$-Verteilung wir die Differenz der LogLikelihoods prüfen können, entspricht - erneut beinahe auf magische Weise - genau der Differenz aus gegebenen Informationen und zu schätzenden Parametern des Modells. In `modelfit` sind diese Freiheitsgrade unter `df` (*degrees of freedom*) zu finden:
@@ -1070,7 +1087,7 @@ emp
 
 ```
 ## unrestricted.logl 
-##          33.24343
+##          33.01761
 ```
 
 ```r
@@ -1080,7 +1097,7 @@ pchisq(q = emp, df = 8, lower.tail = FALSE)
 
 ```
 ## unrestricted.logl 
-##      5.566811e-05
+##      6.113991e-05
 ```
 
 In diesem Fall wird unser Modell also verworfen. Wie Ihnen bestimmt bewusst ist, können wir uns den Prozess der händischen Bestimmung des $p$-Wertes in `lavaan` auch sparen, weil der $\chi^2$-Test sowohl in `modelfit`, als auch in der `summary` direkt mit ausgegeben wird:
@@ -1093,7 +1110,7 @@ modelfit[c('chisq', 'df', 'pvalue')]
 
 ```
 ##        chisq           df       pvalue 
-## 3.324343e+01 8.000000e+00 5.566811e-05
+## 3.301761e+01 8.000000e+00 6.113991e-05
 ```
 
 ```r
@@ -1102,18 +1119,17 @@ fit_two
 ```
 
 ```
-## lavaan 0.6.16 ended normally after 32 iterations
+## lavaan 0.6.16 ended normally after 31 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
 ##   Number of model parameters                        19
 ## 
-##                                                   Used       Total
-##   Number of observations                          2456        2495
+##   Number of observations                          2495
 ## 
 ## Model Test User Model:
 ##                                                       
-##   Test statistic                                33.243
+##   Test statistic                                33.018
 ##   Degrees of freedom                                 8
 ##   P-value (Chi-square)                           0.000
 ```
@@ -1134,7 +1150,7 @@ modelfit[c('rmsea', 'srmr')]
 
 ```
 ##      rmsea       srmr 
-## 0.03584388 0.01364878
+## 0.03540321 0.01356834
 ```
 
 Für beide wird häufig das Kriterium von $< .05$ als Daumenregel für gute Modellpassung angenommen. Deskriptiv scheint unser Modell anhand dieser Regeln also sehr gut zu sein.
@@ -1148,7 +1164,7 @@ modelfit[c('cfi', 'tli', 'gfi')]
 
 ```
 ##       cfi       tli       gfi 
-## 0.9962118 0.9928971 0.9992813
+## 0.9961648 0.9928089 0.9992903
 ```
 
 Nehmen Sie sich einen Moment Zeit, um anhand der gesammelten Informationen zu überlegen, ob Sie dieses Modell beibehalten würden oder nicht.
@@ -1216,10 +1232,10 @@ inspect(fit_two, 'residuals')$cov
 ##         Q2     Q7    Q12     Q5    Q10    Q15
 ## Q2   0.000                                   
 ## Q7  -0.008  0.000                            
-## Q12 -0.005  0.008  0.000                     
-## Q5   0.073  0.014  0.047  0.000              
-## Q10  0.001 -0.016 -0.041 -0.035  0.000       
-## Q15  0.016 -0.036 -0.038 -0.017  0.056  0.000
+## Q12 -0.006  0.009  0.000                     
+## Q5   0.076  0.010  0.050  0.000              
+## Q10  0.002 -0.016 -0.036 -0.038  0.000       
+## Q15  0.013 -0.034 -0.041 -0.016  0.055  0.000
 ```
 
 Leider haben Varianzen und Kovarianzen die ungünstige Eigenschaft, dass Sie keine leicht interpretierbare Skala haben. Wie immer hilft dann die Standardisierung. Diese können wir mit dem `residuals`-Befehl anfordern:
@@ -1232,14 +1248,14 @@ residuals(fit_two, 'standardized')$cov
 ```
 ##         Q2     Q7    Q12     Q5    Q10    Q15
 ## Q2   0.000                                   
-## Q7  -1.356  0.000                            
-## Q12 -1.301  2.764  0.000                     
-## Q5   3.629  0.790  3.148  0.000              
-## Q10  0.058 -0.784 -2.426 -2.791  0.000       
-## Q15  0.951 -2.373 -3.056 -1.898  4.393  0.000
+## Q7  -1.211  0.000                            
+## Q12 -1.372  2.688  0.000                     
+## Q5   3.664  0.554  3.259  0.000              
+## Q10  0.113 -0.780 -2.119 -2.961  0.000       
+## Q15  0.768 -2.193 -3.256 -1.706  4.365  0.000
 ```
 
-Die einzelnen Einträge können wir jetzt quasi als $z$-Werte interpretieren: wenn ein Wert vom Betrag also größer als 1.96 ist, ist der Unterschied zwischen Modellimplikation und Empirie an dieser Stelle auf einem $\alpha$-Fehlerniveau von 5% statistisch bedeutsam. Wir sehen z.B., dass in unserem Modell der Zusammenhang zwischen Q10 und Q15 sehr stark unterschätzt wird (das Residuum ist hier 4.39). Eine detaillierte Untersuchung des lokalen Misfits anhand der Residuen in der Kovarianzmatrix finden Sie im [im Appendix](#Residuals).
+Die einzelnen Einträge können wir jetzt quasi als $z$-Werte interpretieren: wenn ein Wert vom Betrag also größer als 1.96 ist, ist der Unterschied zwischen Modellimplikation und Empirie an dieser Stelle auf einem $\alpha$-Fehlerniveau von 5% statistisch bedeutsam. Wir sehen z.B., dass in unserem Modell der Zusammenhang zwischen Q10 und Q15 sehr stark unterschätzt wird (das Residuum ist hier 4.37). Eine detaillierte Untersuchung des lokalen Misfits anhand der Residuen in der Kovarianzmatrix finden Sie im [im Appendix](#Residuals).
 
 Die standardisierten Residuen der Kovarianzmatrizen erlauben uns, direkt und detailliert die Diskrepanz zwischen unserem Modell und den empirischen Daten zu beleuchten. Ein Problem besteht aber darin, dass wir uns dabei die rohe Information in der Kovarianzmatrix angucken, statt in der Sprache des Modells zu sehen, welche Parameter Probleme verursachen. Diesen Weg können wir gehen, wenn wir mit Modifikationsindizes arbeiten.
 
@@ -1259,23 +1275,23 @@ modindices(fit_two, sort. = TRUE, minimum.value = 5)
 
 ```
 ##    lhs op rhs     mi    epc sepc.lv sepc.all sepc.nox
-## 44 Q10 ~~ Q15 21.450  0.123   0.123    0.138    0.138
-## 24  GC =~  Q5 21.450  0.281   0.339    0.232    0.232
-## 27  CI =~  Q2  8.004  0.120   0.125    0.084    0.084
-## 35  Q7 ~~ Q12  8.004  0.107   0.107    0.203    0.203
-## 26  GC =~ Q15  7.315 -0.112  -0.135   -0.123   -0.123
-## 42  Q5 ~~ Q10  7.315 -0.103  -0.103   -0.093   -0.093
+## 44 Q10 ~~ Q15 21.165  0.124   0.124    0.138    0.138
+## 24  GC =~  Q5 21.165  0.282   0.339    0.231    0.231
+## 26  GC =~ Q15  8.210 -0.121  -0.145   -0.131   -0.131
+## 42  Q5 ~~ Q10  8.210 -0.109  -0.109   -0.097   -0.097
+## 27  CI =~  Q2  7.568  0.122   0.126    0.085    0.085
+## 35  Q7 ~~ Q12  7.568  0.107   0.107    0.193    0.193
 ```
 
 
 
-Die Ergebnistabelle beginnt wieder mit den gleichen drei Spalten, wie die [Tabelle der Parameter, die wir uns mit `paramaterEstimates` haben ausgeben lassen](#paramaterEstimates). Danach kommt mit `mi` die Spalte für die Modifikationsindizes. Dieser Index stellt eine Schätzung über die Veränderung des $\chi^2$-Wertes des Modells dar, wenn wir die Restriktion dieser Zeile lockern würden. Zur Erinnerung: der $\chi^2$-Wert des Modells ist 33.24. Diesen Wert könnten wir um 21.45 "Punkte" verringern, wenn wir unsere Annahmen über die Residualkovarianz zwischen Q10 und Q15 lockern würden. Im Modell wird die Annahme gemacht, dass die Q10 und Q15 deswegen korreliert sind, weil sie (zusammen mit Q5) *einen gemeinsamen* Faktor als Ursache haben. Die restliche Varianz in Q10 und Q15 wird als Messfehler definiert, welche im Verständnis der KTT per Definition unkorreliert sind. Der Modifikationsindex zeigt uns hier, dass die Annahme, dass es sich hier um unkorrelierte, pure Messfehler handelt, in der Empirie eventuell nicht haltbar ist.
+Die Ergebnistabelle beginnt wieder mit den gleichen drei Spalten, wie die [Tabelle der Parameter, die wir uns mit `paramaterEstimates` haben ausgeben lassen](#paramaterEstimates). Danach kommt mit `mi` die Spalte für die Modifikationsindizes. Dieser Index stellt eine Schätzung über die Veränderung des $\chi^2$-Wertes des Modells dar, wenn wir die Restriktion dieser Zeile lockern würden. Zur Erinnerung: der $\chi^2$-Wert des Modells ist 33.02. Diesen Wert könnten wir um 21.16 "Punkte" verringern, wenn wir unsere Annahmen über die Residualkovarianz zwischen Q10 und Q15 lockern würden. Im Modell wird die Annahme gemacht, dass die Q10 und Q15 deswegen korreliert sind, weil sie (zusammen mit Q5) *einen gemeinsamen* Faktor als Ursache haben. Die restliche Varianz in Q10 und Q15 wird als Messfehler definiert, welche im Verständnis der KTT per Definition unkorreliert sind. Der Modifikationsindex zeigt uns hier, dass die Annahme, dass es sich hier um unkorrelierte, pure Messfehler handelt, in der Empirie eventuell nicht haltbar ist.
 
 Die folgenden Spalten beziehen sich allesamt auf den *expected parameter change* (EPC). Die erste Variante ist unstandardisiert (also in der ersten Zeile eine Kovarianz). Der `sepc.lv` ist der Wert, wenn wir statt der 1. Faktorladungen die latenten Varianzen auf 1 fixieren würden (das verändert für Residualvarianzen überhaupt nichts). Der `sepc.all` ist der Wert, wenn alle Variablen im Modell standardisiert sind und entspricht in diesem Fall der Korrelation. Zu guter Letzt ist der `sepc.nox` der Wert, wenn alle Variablen außer die exogenen manifesten Variablen standardisiert werden (in unserem Fall gibt es keine solche Variablen, also ist der Wert mit `sepc.all` identisch).
 
-Zusammengefasst heißt das Ergebnis für die 1. Zeile also: wenn wir die Residualkovarianz zwischen Q10 und Q15 zulassen, erwarten wir eine Verbesserung des $\chi^2$-Wertes um 21.45 Einheiten und die resultierende Residualkorrelation sollte einen Wert von 0.14 annehmen.
+Zusammengefasst heißt das Ergebnis für die 1. Zeile also: wenn wir die Residualkovarianz zwischen Q10 und Q15 zulassen, erwarten wir eine Verbesserung des $\chi^2$-Wertes um 21.16 Einheiten und die resultierende Residualkorrelation sollte einen Wert von 0.14 annehmen.
 
-Alternativ zur Residualkorrelation zwischen Q10 und Q15 können wir auch die Querladung von Q5 zulassen. Beide Modifikationsindizes sind praktisch identisch. Das liegt daran, dass in beiden Fällen das Gleiche erreicht wird. Der Fehlpassung liegt das Problem zugrunde, dass Q10 und Q15 empirisch stärker korreliert sind, als das Modell zulässt, wie auch die 4.39 zeigt, die wir als standardisiertes Residuum dieser Kovarianz gesehen hatten. Wenn wir die Residualkovarianz zwischen Q10 und Q15 zulassen, wird diesem Punkt direkt Rechnung getragen. Wenn wir die Querladung zulassen, erfolgt das Gleiche indirekt: die Querladung bewirkt, dass der GC Faktor aus Q5 auspartialisiert und der Rest vom CI Faktor beeinflusst wird. Dieser Rest ist höher mit Q10 und Q15 korreliert, sodass deren Korrelation untereinander durch die unkorrlierten Anteile in Q5 nicht mehr nach unten gedrückt werden muss, um einen gemeinsamen Faktor zu erzeugen.
+Alternativ zur Residualkorrelation zwischen Q10 und Q15 können wir auch die Querladung von Q5 zulassen. Beide Modifikationsindizes sind praktisch identisch. Das liegt daran, dass in beiden Fällen das Gleiche erreicht wird. Der Fehlpassung liegt das Problem zugrunde, dass Q10 und Q15 empirisch stärker korreliert sind, als das Modell zulässt, wie auch die 4.37 zeigt, die wir als standardisiertes Residuum dieser Kovarianz gesehen hatten. Wenn wir die Residualkovarianz zwischen Q10 und Q15 zulassen, wird diesem Punkt direkt Rechnung getragen. Wenn wir die Querladung zulassen, erfolgt das Gleiche indirekt: die Querladung bewirkt, dass der GC Faktor aus Q5 auspartialisiert und der Rest vom CI Faktor beeinflusst wird. Dieser Rest ist höher mit Q10 und Q15 korreliert, sodass deren Korrelation untereinander durch die unkorrlierten Anteile in Q5 nicht mehr nach unten gedrückt werden muss, um einen gemeinsamen Faktor zu erzeugen.
 
 ### Modellvergleiche
 
@@ -1305,20 +1321,19 @@ summary(fit_three)
 ```
 
 ```
-## lavaan 0.6.16 ended normally after 35 iterations
+## lavaan 0.6.16 ended normally after 37 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
 ##   Number of model parameters                        20
 ## 
-##                                                   Used       Total
-##   Number of observations                          2456        2495
+##   Number of observations                          2495
 ## 
 ## Model Test User Model:
 ##                                                       
-##   Test statistic                                12.435
+##   Test statistic                                12.481
 ##   Degrees of freedom                                 7
-##   P-value (Chi-square)                           0.087
+##   P-value (Chi-square)                           0.086
 ## 
 ## Parameter Estimates:
 ## 
@@ -1330,40 +1345,40 @@ summary(fit_three)
 ##                    Estimate  Std.Err  z-value  P(>|z|)
 ##   GC =~                                               
 ##     Q2                1.000                           
-##     Q7                1.054    0.022   47.572    0.000
-##     Q12               1.116    0.022   50.417    0.000
-##     Q5                0.223    0.042    5.305    0.000
+##     Q7                1.055    0.023   46.130    0.000
+##     Q12               1.118    0.023   48.684    0.000
+##     Q5                0.225    0.043    5.257    0.000
 ##   CI =~                                               
 ##     Q5                1.000                           
-##     Q10               1.168    0.094   12.483    0.000
-##     Q15               0.964    0.078   12.396    0.000
+##     Q10               1.177    0.096   12.318    0.000
+##     Q15               0.970    0.079   12.248    0.000
 ## 
 ## Covariances:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
 ##   GC ~~                                               
-##     CI                0.649    0.059   11.063    0.000
+##     CI                0.646    0.059   10.961    0.000
 ## 
 ## Intercepts:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
-##    .Q2                2.978    0.030   99.764    0.000
-##    .Q7                2.669    0.030   88.037    0.000
-##    .Q12               2.653    0.030   87.826    0.000
-##    .Q5                3.270    0.029  111.062    0.000
-##    .Q10               3.504    0.028  125.013    0.000
-##    .Q15               4.232    0.022  191.248    0.000
+##    .Q2                2.964    0.030   99.057    0.000
+##    .Q7                2.667    0.030   88.241    0.000
+##    .Q12               2.645    0.030   87.812    0.000
+##    .Q5                3.254    0.029  110.456    0.000
+##    .Q10               3.502    0.028  125.994    0.000
+##    .Q15               4.228    0.022  191.223    0.000
 ##     GC                0.000                           
 ##     CI                0.000                           
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(>|z|)
-##    .Q2                0.733    0.027   26.942    0.000
-##    .Q7                0.643    0.026   24.463    0.000
-##    .Q12               0.427    0.024   17.925    0.000
-##    .Q5                1.157    0.045   25.657    0.000
-##    .Q10               1.097    0.044   25.020    0.000
-##    .Q15               0.636    0.028   22.990    0.000
-##     GC                1.455    0.061   23.717    0.000
-##     CI                0.609    0.086    7.085    0.000
+##    .Q2                0.788    0.029   27.334    0.000
+##    .Q7                0.672    0.027   24.550    0.000
+##    .Q12               0.457    0.025   18.212    0.000
+##    .Q5                1.198    0.046   26.130    0.000
+##    .Q10               1.091    0.044   24.997    0.000
+##    .Q15               0.651    0.028   23.340    0.000
+##     GC                1.445    0.062   23.337    0.000
+##     CI                0.604    0.087    6.970    0.000
 ```
 
 Auffällig ist natürlich vor allem, dass die Faktorladungen sich verändert haben - besonders dass `Q5` jetzt auch auf den Faktor `GC` lädt.
@@ -1373,8 +1388,8 @@ Wenn wir uns mit `inspect(fit_three, 'fitmeasures')` oder `fitmeasures(fit_three
 
 |                | LogLikelihood | $\chi^2$ | $df$ |  $p$  | RMSEA | SRMR  |  CFI  |  TLI  |
 |:---------------|:-------------:|:--------:|:----:|:-----:|:-----:|:-----:|:-----:|:-----:|
-|Mit Querladung  |   -22490.2    |  12.435  |  7   | 0.087 | 0.018 | 0.007 | 0.999 | 0.998 |
-|Ohne Querladung |   -22500.6    |  33.243  |  8   | 0.000 | 0.036 | 0.014 | 0.996 | 0.993 |
+|Mit Querladung  |   -23057.9    |  12.481  |  7   | 0.086 | 0.018 | 0.007 | 0.999 | 0.998 |
+|Ohne Querladung |   -23068.2    |  33.018  |  8   | 0.000 | 0.035 | 0.014 | 0.996 | 0.993 |
 
 Wie wir sehen, schneidet das Modell mit Querladung bei jeder Fitstatistik besser ab. Darüber hinaus muss das Modell auch anhand des $\chi^2$-Tests nicht mehr verworfen werden. Aber ist dieser Unterschied im Vergleich zum Modell ohne Querladung statistisch bedeutsam? Oder statistisch korrekt formuliert: müssen wir die Annahme, dass die Querladung exakt 0 ist (es also keine Querladung gibt) verwerfen? Für den direkten Vergleich zweier geschachtelter Modelle haben Sie im Theorieabschnitt schon den *Likelihood-Ratio Test* kennengelernt.
 
@@ -1391,9 +1406,12 @@ lavTestLRT(fit_two, fit_three)
 ## 
 ## Chi-Squared Difference Test
 ## 
-##           Df   AIC   BIC  Chisq Chisq diff    RMSEA Df diff Pr(>Chisq)    
-## fit_three  7 45020 45137 12.435                                           
-## fit_two    8 45039 45150 33.243     20.808 0.089806       1  5.077e-06 ***
+##           Df   AIC   BIC  Chisq Chisq diff    RMSEA Df diff
+## fit_three  7 46156 46272 12.481                            
+## fit_two    8 46174 46285 33.018     20.537 0.088489       1
+##           Pr(>Chisq)    
+## fit_three               
+## fit_two     5.85e-06 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -1423,11 +1441,11 @@ residuals(fit_two, 'standardized')$cov
 ```
 ##         Q2     Q7    Q12     Q5    Q10    Q15
 ## Q2   0.000                                   
-## Q7  -1.356  0.000                            
-## Q12 -1.301  2.764  0.000                     
-## Q5   3.629  0.790  3.148  0.000              
-## Q10  0.058 -0.784 -2.426 -2.791  0.000       
-## Q15  0.951 -2.373 -3.056 -1.898  4.393  0.000
+## Q7  -1.211  0.000                            
+## Q12 -1.372  2.688  0.000                     
+## Q5   3.664  0.554  3.259  0.000              
+## Q10  0.113 -0.780 -2.119 -2.961  0.000       
+## Q15  0.768 -2.193 -3.256 -1.706  4.365  0.000
 ```
 
 Um besser interpretieren zu können, was uns die Abweichungen sagen, hilft es, die Matrix in vier grobe Teile aufzuteilen:
@@ -1449,8 +1467,10 @@ diag(resi)
 ```
 
 ```
-##            Q2            Q7           Q12            Q5           Q10           Q15 
-##  2.523304e-08  4.260729e-08  4.338447e-08  8.158212e-10 -8.168390e-08 -9.348543e-09
+##            Q2            Q7           Q12            Q5 
+## -1.168548e-08 -1.203046e-07 -1.037327e-07 -1.283563e-08 
+##           Q10           Q15 
+##  6.144777e-08  1.097784e-07
 ```
 
 Die Varianzen können durch das Modell also beinahe perfekt repliziert werden. Ein wenig anders sieht es z.B. bei den Kovarianzen zwischen den Items zu *malevolent global conspiracies* aus:
@@ -1462,9 +1482,9 @@ resi[1:3, 1:3]
 
 ```
 ##                Q2            Q7           Q12
-## Q2   2.523304e-08 -1.355963e+00 -1.300967e+00
-## Q7  -1.355963e+00  4.260729e-08  2.763595e+00
-## Q12 -1.300967e+00  2.763595e+00  4.338447e-08
+## Q2  -1.168548e-08 -1.211380e+00 -1.371748e+00
+## Q7  -1.211380e+00 -1.203046e-07  2.688481e+00
+## Q12 -1.371748e+00  2.688481e+00 -1.037327e-07
 ```
 
 Hier ist die empirische Kovarianz deutlich größer als die modellimplizierte. Was bedeutet das? Unser Modell behauptet, dass die Kovarianz zwischen Q7 und Q12 einfach die durch die Faktorladungen gewichtete Varianz der latenten Variable ist: $cov(Q7, Q12) = \lambda_7 \cdot \lambda_{12} \cdot var(GC)$. Das gilt für alle Kovarianzen zwischen den Items Q2, Q7 und Q12. Wenn diese Erwartung nicht der empirischen Beobachtung entspricht, lässt sich das in etwa so interpretieren, dass die Items Q7 und Q12 mehr untereinander gemeinsam haben, als sie mit dem Item Q2 gemeinsam haben. Wenn wir uns die [Formulierungen der Aussagen](#Einfaktor) noch einmal vor Augen führen, können wir versuchen, einen inhaltlichen Grund für dieses Problem zu finden.
@@ -1478,9 +1498,9 @@ resi[4:6, 4:6]
 
 ```
 ##                Q5           Q10           Q15
-## Q5   8.158212e-10 -2.791004e+00 -1.898102e+00
-## Q10 -2.791004e+00 -8.168390e-08  4.392579e+00
-## Q15 -1.898102e+00  4.392579e+00 -9.348543e-09
+## Q5  -1.283563e-08 -2.961201e+00 -1.706323e+00
+## Q10 -2.961201e+00  6.144777e-08  4.365493e+00
+## Q15 -1.706323e+00  4.365493e+00  1.097784e-07
 ```
 
 An welchen Stellen springt Ihnen hier Misfit ins Auge? Wenn Sie die [Itemformulierungen](#TwoFactors) betrachten - woran könnte das inhaltlich liegen?
@@ -1493,10 +1513,10 @@ resi[4:6, 1:3]
 ```
 
 ```
-##             Q2         Q7       Q12
-## Q5  3.62934589  0.7901981  3.147702
-## Q10 0.05757449 -0.7841579 -2.426346
-## Q15 0.95100604 -2.3732611 -3.055803
+##            Q2         Q7       Q12
+## Q5  3.6644113  0.5540613  3.259169
+## Q10 0.1131168 -0.7800295 -2.118839
+## Q15 0.7682879 -2.1926923 -3.255747
 ```
 
 Sowohl mit Q2 als auch mit Q12 scheint es höher zu korrelieren, als durch unser Modell abgebildet werden kann. Ein möglicher Grund könnte hier sein, dass Q5 in seiner Formulierung impliziert, dass die Täuschung im Auftrag der kleinen, geheimen Gruppen durchgeführt wird, welche der zentrale Bestandteil des Faktor *malevolent global conspiracies* sind. Q10 und Q15 hingegen verdeutlichen, dass solche Täuschung aus Selbstinteresse geschieht. Es könnte also sein, dass Q5 nicht eindeutig genug auf *control of information* zurückzuführen ist, sondern auch Elemente der *malevolent global conspiracies* enthält und eigentlich eine Querladung auf diesen Faktor zugelassen werden müsste.
@@ -1828,9 +1848,12 @@ lavTestLRT(fit2, fit4)
 ## 
 ## Chi-Squared Difference Test
 ## 
-##      Df    AIC    BIC  Chisq Chisq diff   RMSEA Df diff Pr(>Chisq)   
-## fit2  2 677.05 696.56  5.383                                         
-## fit4  4 685.45 699.38 17.782     12.399 0.20816       2    0.00203 **
+##      Df    AIC    BIC  Chisq Chisq diff   RMSEA Df diff Pr(>Chisq)
+## fit2  2 677.05 696.56  5.383                                      
+## fit4  4 685.45 699.38 17.782     12.399 0.20816       2    0.00203
+##        
+## fit2   
+## fit4 **
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -1871,11 +1894,16 @@ lavTestLRT(fit1, fit2, fit3, fit5)
 ## 
 ## Chi-Squared Difference Test
 ## 
-##      Df    AIC    BIC  Chisq Chisq diff   RMSEA Df diff Pr(>Chisq)   
-## fit1  0 675.66 700.75  0.000                                         
-## fit2  2 677.05 696.56  5.383     5.3830 0.11872       2   0.067780 . 
-## fit3  4 678.83 692.77 11.166     5.7829 0.12555       2   0.055495 . 
-## fit5  6 685.76 694.12 22.093    10.9271 0.19286       2   0.004238 **
+##      Df    AIC    BIC  Chisq Chisq diff   RMSEA Df diff Pr(>Chisq)
+## fit1  0 675.66 700.75  0.000                                      
+## fit2  2 677.05 696.56  5.383     5.3830 0.11872       2   0.067780
+## fit3  4 678.83 692.77 11.166     5.7829 0.12555       2   0.055495
+## fit5  6 685.76 694.12 22.093    10.9271 0.19286       2   0.004238
+##        
+## fit1   
+## fit2 . 
+## fit3 . 
+## fit5 **
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -1893,11 +1921,16 @@ lavTestLRT(fit1, fit2, fit4, fit5)
 ## 
 ## Chi-Squared Difference Test
 ## 
-##      Df    AIC    BIC  Chisq Chisq diff   RMSEA Df diff Pr(>Chisq)   
-## fit1  0 675.66 700.75  0.000                                         
-## fit2  2 677.05 696.56  5.383     5.3830 0.11872       2    0.06778 . 
-## fit4  4 685.45 699.38 17.782    12.3994 0.20816       2    0.00203 **
-## fit5  6 685.76 694.12 22.093     4.3106 0.09812       2    0.11587   
+##      Df    AIC    BIC  Chisq Chisq diff   RMSEA Df diff Pr(>Chisq)
+## fit1  0 675.66 700.75  0.000                                      
+## fit2  2 677.05 696.56  5.383     5.3830 0.11872       2    0.06778
+## fit4  4 685.45 699.38 17.782    12.3994 0.20816       2    0.00203
+## fit5  6 685.76 694.12 22.093     4.3106 0.09812       2    0.11587
+##        
+## fit1   
+## fit2 . 
+## fit4 **
+## fit5   
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```

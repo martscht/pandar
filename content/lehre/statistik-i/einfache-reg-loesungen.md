@@ -1,41 +1,42 @@
 ---
-title: "Einfache Lineare Regression - Lösungen" 
+title: Einfache Lineare Regression - Lösungen
 type: post
-date: '2021-01-04' 
-slug: einfache-reg-loesungen 
-categories: ["Statistik I Übungen"] 
-tags: [] 
+date: '2021-01-04'
+slug: einfache-reg-loesungen
+categories: Statistik I Übungen
+tags: []
 subtitle: ''
-summary: '' 
-authors: [winkler, neubauer, walter] 
-weight: 
-lastmod: '2025-04-07'
+summary: ''
+authors:
+- winkler
+- neubauer
+- walter
+weight: ~
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/modern_buildings.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/411588)"
+  image: /header/modern_buildings.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/de/photo/411588)'
 projects: []
-expiryDate: 
-publishDate: 
+expiryDate: ~
+publishDate: ~
 _build:
   list: never
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/statistik-i/einfache-reg
-  - icon_pack: fas
-    icon: pen-to-square
-    name: Übungen
-    url: /lehre/statistik-i/einfache-reg-uebungen
-
-
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-i/einfache-reg
+- icon_pack: fas
+  icon: pen-to-square
+  name: Übungen
+  url: /lehre/statistik-i/einfache-reg-uebungen
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -45,7 +46,7 @@ output:
 Laden Sie zunächst den Datensatz `fb24` von der pandar-Website und führen Sie die Ergänzungen vor, die in zurückliegenden Tutorials vorgenommen wurden. 
 
 
-``` r
+```r
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -96,7 +97,7 @@ fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
-``` r
+```r
 dim(fb24)
 ```
 
@@ -104,7 +105,7 @@ dim(fb24)
 ## [1] 192  55
 ```
 
-``` r
+```r
 str(fb24)
 ```
 
@@ -183,7 +184,7 @@ Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglic
 
 **`extra`:**
 
-``` r
+```r
 plot(fb24$extra, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
@@ -191,7 +192,7 @@ plot(fb24$extra, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 
 **`vertr`:**
 
-``` r
+```r
 plot(fb24$vertr, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
@@ -199,7 +200,7 @@ plot(fb24$vertr, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 
 **`gewis`:**
 
-``` r
+```r
 plot(fb24$gewis, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
@@ -207,7 +208,7 @@ plot(fb24$gewis, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 
 **`neuro`:**
 
-``` r
+```r
 plot(fb24$neuro, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
@@ -215,7 +216,7 @@ plot(fb24$neuro, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 
 **`intel`:**
 
-``` r
+```r
 plot(fb24$offen, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
@@ -229,7 +230,7 @@ plot(fb24$offen, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 
 **`extra`:**
 
-``` r
+```r
 fme <- lm(lz ~ extra, fb24)
 summary(fme)
 ```
@@ -258,7 +259,7 @@ summary(fme)
 
 **`vertr`:**
 
-``` r
+```r
 fmv <- lm(lz ~ vertr, fb24)
 summary(fmv)
 ```
@@ -287,7 +288,7 @@ summary(fmv)
 
 **`gewis`:**
 
-``` r
+```r
 fmg <- lm(lz ~ gewis, fb24)
 summary(fmg)
 ```
@@ -316,7 +317,7 @@ summary(fmg)
 
 **`neuro`:**
 
-``` r
+```r
 fmn <- lm(lz ~ neuro, fb24)
 summary(fmn)
 ```
@@ -345,7 +346,7 @@ summary(fmn)
 
 **`intel`:**
 
-``` r
+```r
 fmo <- lm(lz ~ offen, fb24)
 summary(fmo)
 ```
@@ -392,7 +393,7 @@ Dies ist der Fall, weil bei der standardisierten Regression mithilfe der lm()- u
 
 Zu 1:
 
-``` r
+```r
 sfme <- lm(scale(lz) ~ scale(extra), fb24)
 sfme
 ```
@@ -412,7 +413,7 @@ Zu 2:
 
 Für die Lösung der Aufgabe verwenden wir die lm.beta() Funktion. Diese stammt aus dem lm.beta-Paket, welches installiert und dann geladen werden muss.
 
-``` r
+```r
 library(lm.beta)
 
 sfme2 <- lm.beta(fme)
@@ -456,7 +457,7 @@ Betrachten Sie nun den Zusammenhang von Neurotizismus (`neuro`) und Lebenszufrie
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 plot(fb24$neuro, fb24$lz, xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 abline(fmn, col = "red")
 ```
@@ -470,7 +471,7 @@ abline(fmn, col = "red")
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 summary(fmn)
 ```
 
@@ -505,7 +506,7 @@ $\rightarrow$ Das Modell erklärt 17.23% der Varianz in Lebenszufriedenheit durc
 <details><summary>Lösung</summary>
 
 
-``` r
+```r
 new <- data.frame(neuro = c(1.25, 2.75, 3.5, 4.25, 3.75, 2.15))
 predict(fmn, newdata = new)
 ```

@@ -9,7 +9,7 @@ subtitle: ''
 summary: ''
 authors: [cezanne, mueller, nehler]
 weight:
-lastmod: '2025-02-07' 
+lastmod: '2025-05-13' 
 featured: no
 banner:
   image: "/header/mechanical_number_display.png"
@@ -17,6 +17,7 @@ banner:
 projects: []
 reading_time: false
 share: false
+private: true
 
 output:
   html_document:

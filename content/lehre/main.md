@@ -35,6 +35,7 @@ sections:
 
     design:
       columns: 2
+      
   - block: markdown
     id: statistik-ii
     content:
@@ -45,8 +46,6 @@ sections:
         
         
         {{< category_list "statistik-ii" 13 "">}}
-        
-        Die Datensätze, die Sie für die Teilnahme an den Quizzen im Rahmen der Studienleistung des Moduls benötigen, sind unter [diesem Link](/lehre/statistik-ii/quizdaten-bsc7) näher beschrieben. Zugriff auf die Quizze über Moodle haben Sie nur, wenn Sie im Modul eingeschrieben sind. Die hier auf pandaR aufgeführten Übungen sind unabhängig davon und können von allen Interessierten bearbeitet werden.
         
         
     design:
@@ -87,7 +86,6 @@ sections:
     design:
       columns: 2
         
-      
   - block: markdown
     id: add-ons
     content:

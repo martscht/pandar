@@ -6,10 +6,10 @@ slug: lmm-intro
 categories: ["KiJu"]
 tags: ["Regression", "Hierarchische Daten", "Zufallseffekte"]
 subtitle: ''
-summary: ''
+summary: 'Dieser Beitrag bietet eine Einführung in gemischte Modelle mit lme4. Der Beitrag orientiert sich an einem querschnittlichen Datensatz und die Themen umfassen Nullmodelle, zufällige Effekte, ICC, Level-1 und Level-2 Prädiktoren sowie Cross-Level Interaktionen.'
 authors: [schultze]
 weight: 3
-lastmod: '2025-02-07'
+lastmod: '2025-04-30'
 featured: no
 banner:
   image: "/header/grapevines_dark.jpg"
@@ -48,7 +48,7 @@ output:
 - Wohlbefinden in unterschiedlichen Ländern
 
 
-```r
+``` r
 load(url('https://pandar.netlify.app/post/kultur.rda'))
 head(kultur)[, 1:8] # alle Zeilen und Spalten 1-8 für die ersten 6 Personen
 ```
@@ -77,7 +77,7 @@ head(kultur)[, 1:8] # alle Zeilen und Spalten 1-8 für die ersten 6 Personen
 - Schachtelung in Nationen (nation)
 
 
-```r
+``` r
 levels(kultur$nation) # Übersicht über alle vorkommenden Nationen
 ```
 
@@ -95,7 +95,7 @@ levels(kultur$nation) # Übersicht über alle vorkommenden Nationen
 ```
 
 
-```r
+``` r
 dim(kultur) # Anzahl Zeilen und Spalten des ganzen Datensatzes
 ```
 
@@ -107,7 +107,7 @@ dim(kultur) # Anzahl Zeilen und Spalten des ganzen Datensatzes
 ### Regressionsergebnisse im Beispiel
 
 
-```r
+``` r
 mod <- lm(lezu ~ 1 + pa, kultur) # Interzept wird hier explizit angefordert
 summary(mod)
 ```
@@ -130,15 +130,23 @@ summary(mod)
 ## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 1.086 on 7139 degrees of freedom
-##   (53 Beobachtungen als fehlend gelöscht)
+##   (53 observations deleted due to missingness)
 ## Multiple R-squared:  0.2294,	Adjusted R-squared:  0.2293 
 ## F-statistic:  2126 on 1 and 7139 DF,  p-value: < 2.2e-16
 ```
 - Darstellung der Ergebnisse (siehe [ggplotting unter Extras](https://pandar.netlify.app/extras/#ggplotting))
 
 
-```r
+``` r
 library(ggplot2)
+```
+
+```
+## Want to understand how all the pieces fit together?
+## Read R for Data Science: https://r4ds.had.co.nz/
+```
+
+``` r
 ggplot(kultur, aes(x = pa, y = lezu)) + 
   geom_point() +
   geom_abline(intercept = coef(mod)[1], slope = coef(mod)[2], color = 'blue') +
@@ -168,7 +176,7 @@ Befehl | Funktionalität
 ### Pakete
 
 
-```r
+``` r
 # Für Plots der Modelle - dauert einen Moment
 install.packages('sjPlot', dependencies = TRUE)
 
@@ -179,7 +187,7 @@ installpackages('jtools')
 Für alternative Ansätze der Darstellung bzw. Berechnung von Komponenten (nur in vereinzelten Beispielen genutzt)
 
 
-```r
+``` r
 # Für Inferenz der fixed effects
 install.packages('lmerTest')
 
@@ -248,8 +256,15 @@ $$ y_{ij} = \gamma_{00} + u_{0j} + r_{ij} $$
 ### Nullmodell in lme4
 
 
-```r
+``` r
 library(lme4)
+```
+
+```
+## Loading required package: Matrix
+```
+
+``` r
 mod0 <- lmer(lezu ~ 1 + (1 | nation), kultur)
 ```
 
@@ -261,13 +276,12 @@ Generelle Schreibweise:
 
 
 
-```r
+``` r
 summary(mod0)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use
-##   Satterthwaite's method [lmerModLmerTest]
+## Linear mixed model fit by REML ['lmerMod']
 ## Formula: lezu ~ 1 + (1 | nation)
 ##    Data: kultur
 ## 
@@ -284,19 +298,14 @@ summary(mod0)
 ## Number of obs: 7163, groups:  nation, 40
 ## 
 ## Fixed effects:
-##             Estimate Std. Error       df t value Pr(>|t|)
-## (Intercept)  4.39599    0.08581 39.05402   51.23   <2e-16
-##                
-## (Intercept) ***
-## ---
-## Signif. codes:  
-## 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+##             Estimate Std. Error t value
+## (Intercept)  4.39599    0.08581   51.23
 ```
 
 ### Inferenzstatistik in lme4
 
 
-```r
+``` r
 confint(mod0)
 ```
 
@@ -312,8 +321,28 @@ confint(mod0)
 ```
 
 
-```r
+``` r
 library(lmerTest)
+```
+
+```
+## 
+## Attaching package: 'lmerTest'
+```
+
+```
+## The following object is masked from 'package:lme4':
+## 
+##     lmer
+```
+
+```
+## The following object is masked from 'package:stats':
+## 
+##     step
+```
+
+``` r
 mod0 <- lmer(lezu ~ 1 + (1 | nation), kultur)
 summary(mod0)
 ```
@@ -349,7 +378,7 @@ summary(mod0)
 ## Zufällige Effekte
 
 
-```r
+``` r
 summary(mod0)$var
 ```
 
@@ -364,29 +393,29 @@ summary(mod0)$var
 
 
 
-```r
+``` r
 library(sjPlot)
+```
+
+```
+## Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!
+```
+
+``` r
 plot_model(mod0, type = 're', sort.est = '(Intercept)') +  # Plot für Random Effects (re), sortiert nach Schätzung (est) der Interzept ('(Intercept)')
   ggplot2::theme_minimal() # Layout
 ```
 
-```
-## Warning in checkDepPackageVersion(dep_pkg = "TMB"): Package version inconsistency detected.
-## glmmTMB was built with TMB version 1.9.6
-## Current TMB version is 1.9.7
-## Please re-install glmmTMB from source or restore original 'TMB' package (see '?reinstalling' for more information)
-```
-
 ![](/lmm-intro_files/caterpillar-mod0-1.png)<!-- -->
 
-```r
+``` r
 # Breite der Fehlerbalken hängt mit Stichprobengröße zusammen
 ```
 
 - Einzelne Werte abrufen (für weitere Verarbeitung)
 
 
-```r
+``` r
 ranef(mod0)
 ```
 
@@ -446,7 +475,7 @@ $$
 - händisch berechnen:
 
 
-```r
+``` r
 tmp <- VarCorr(mod0) |> as.data.frame()
 tmp$vcov[1] / sum(tmp$vcov)
 ```
@@ -458,39 +487,23 @@ tmp$vcov[1] / sum(tmp$vcov)
 - in `jtools`
 
 
-```r
+``` r
 library(jtools)
 ```
 
 ```
-## Warning: Paket 'jtools' wurde unter R Version 4.3.1
-## erstellt
-```
-
-```
 ## 
-## Attache Paket: 'jtools'
+## Attaching package: 'jtools'
 ```
 
 ```
-## Das folgende Objekt ist maskiert 'package:mvtnorm':
+## The following objects are masked from 'package:interactions':
 ## 
-##     standardize
+##     cat_plot, interact_plot, johnson_neyman,
+##     probe_interaction, sim_slopes
 ```
 
-```
-## Das folgende Objekt ist maskiert 'package:papaja':
-## 
-##     theme_apa
-```
-
-```
-## Die folgenden Objekte sind maskiert von 'package:sjmisc':
-## 
-##     %nin%, center
-```
-
-```r
+``` r
 print(summ(mod0))
 ```
 
@@ -573,7 +586,7 @@ Vergleich der Parameterinterpretation:
 - Modell in `lme4` Aufstellen
 
 
-```r
+``` r
 mod1 <- lmer(lezu ~ 1 + pa + (1 | nation), kultur) # pa als Prädiktor zusätzlich aufnehmen
 print(summ(mod1))
 ```
@@ -616,7 +629,7 @@ print(summ(mod1))
 ```
 
 
-```r
+``` r
 coef(mod1)$nation['Canada',] # spezifische Koeffizienten für Kanada auswählen
 ```
 
@@ -626,17 +639,8 @@ coef(mod1)$nation['Canada',] # spezifische Koeffizienten für Kanada auswählen
 ```
 
 
-```r
+``` r
 mod1b <- lmer(lezu ~ 1 + pa + (1 + pa | nation), kultur) # Random Intercept Random Slope Modell
-```
-
-```
-## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl =
-## control$checkConv, : Model failed to converge with
-## max|grad| = 0.0036817 (tol = 0.002, component 1)
-```
-
-```r
 summ(mod1b)
 ```
 
@@ -691,16 +695,16 @@ summ(mod1b)
    <td style="text-align:left;font-weight: bold;"> (Intercept) </td>
    <td style="text-align:right;"> 2.51 </td>
    <td style="text-align:right;"> 0.09 </td>
-   <td style="text-align:right;"> 27.23 </td>
-   <td style="text-align:right;"> 38.60 </td>
+   <td style="text-align:right;"> 27.24 </td>
+   <td style="text-align:right;"> 38.61 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
   <tr>
    <td style="text-align:left;font-weight: bold;"> pa </td>
    <td style="text-align:right;"> 0.35 </td>
    <td style="text-align:right;"> 0.02 </td>
-   <td style="text-align:right;"> 21.83 </td>
-   <td style="text-align:right;"> 38.57 </td>
+   <td style="text-align:right;"> 21.82 </td>
+   <td style="text-align:right;"> 38.56 </td>
    <td style="text-align:right;"> 0.00 </td>
   </tr>
 </tbody>
@@ -754,7 +758,7 @@ summ(mod1b)
 ### Grafische Darstellung
 
 
-```r
+``` r
 plot_model(mod1, type = 're', sort.est = '(Intercept)')
 ```
 
@@ -766,7 +770,7 @@ plot_model(mod1, type = 're', sort.est = '(Intercept)')
   * Was ist bedeutsam in der Vorhersage der Lebenszufriedenheit?
   
 
-```r
+``` r
 mod2 <- lmer(lezu ~ 1 + pa + na + (1 | nation), kultur)
 print(summ(mod2))
 ```
@@ -813,7 +817,7 @@ print(summ(mod2))
 ### Prüfung via Modellvergleich
 
 
-```r
+``` r
 anova(mod0, mod1, mod2)
 ```
 
@@ -823,7 +827,7 @@ anova(mod0, mod1, mod2)
 - Fehlende Werte auf den UVs verändern Größe des Datensatzes
 
 
-```r
+``` r
 kultur_comp <- mod2@frame
 mod0_u <- update(mod0, data = kultur_comp)
 mod1_u <- update(mod1, data = kultur_comp)
@@ -831,7 +835,7 @@ mod2_u <- update(mod2, data = kultur_comp)
 ```
 
 
-```r
+``` r
 anova(mod0_u, mod1_u, mod2_u)
 ```
 
@@ -872,14 +876,14 @@ $$ \beta_{2j} = \gamma_{20} + u_{2j} $$
 **Gesamtgleichung**
 $$ y_{ij} = \gamma_{00} + \gamma_{10}x_{1ij} + \gamma_{20}x_{2ij} + u_{0j} + u_{1j}x_{1ij} + u_{2j}x_{2ij} + r_{ij} $$
 
-```r
+``` r
 mod3 <- lmer(lezu ~ 1 + pa + na + (1 + pa + na | nation), kultur)
 ```
 
 ```
 ## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl =
 ## control$checkConv, : Model failed to converge with
-## max|grad| = 0.00356468 (tol = 0.002, component 1)
+## max|grad| = 0.00698484 (tol = 0.002, component 1)
 ```
 
 - Fehlende Konvergenz des Modells
@@ -889,14 +893,14 @@ mod3 <- lmer(lezu ~ 1 + pa + na + (1 + pa + na | nation), kultur)
   * in jedem Fall: inhaltliche Diagnostik betreiben!
 
 
-```r
+``` r
 # Optimizer wechseln, langsamer aber Versuch Konvergenz zu erreichen
 opts <- lmerControl(optimizer = 'bobyqa')
 mod3 <- lmer(lezu ~ 1 + pa + na + (1 + pa + na | nation), kultur, control = opts)
 ```
 
 
-```r
+``` r
 print(summ(mod3))
 ```
 
@@ -942,13 +946,13 @@ print(summ(mod3))
 - Gibt leider Korrelationen zwischen REs nicht aus
 
 
-```r
+``` r
 summary(mod3)$varcor
 ```
 
 ```
 ##  Groups   Name        Std.Dev. Corr         
-##  nation   (Intercept) 0.461843              
+##  nation   (Intercept) 0.461841              
 ##           pa          0.068146 -0.201       
 ##           na          0.078971 -0.545 -0.170
 ##  Residual             0.972926
@@ -957,12 +961,12 @@ summary(mod3)$varcor
 ### Tests der Zufallseffekte
 
 
-```r
+``` r
 anova(mod0, mod1) # Fehlermeldung, da Modelle auf den gleichen Datensatz angewandt werden müssen
 ```
 
 
-```r
+``` r
 # Respezifizierung
 mod0b <- update(mod0, data = mod1@frame)
 mod1b <- update(mod1, data = mod1@frame)
@@ -980,7 +984,7 @@ anova(mod0b, mod1b)
 ## mod0b: lezu ~ 1 + (1 | nation)
 ## mod1b: lezu ~ 1 + pa + (1 | nation)
 ##       npar   AIC   BIC logLik deviance  Chisq Df Pr(>Chisq)
-## mod0b    3 21889 21909 -10941    21883                     
+## mod0b    3 21888 21909 -10941    21882                     
 ## mod1b    4 20471 20498 -10231    20463 1419.8  1  < 2.2e-16
 ##          
 ## mod0b    
@@ -992,7 +996,7 @@ anova(mod0b, mod1b)
 
 
 
-```r
+``` r
 anova(mod2, mod3, refit = FALSE)
 ```
 
@@ -1013,7 +1017,7 @@ anova(mod2, mod3, refit = FALSE)
 ```
 
 
-```r
+``` r
 confint(mod3)
 ```
 
@@ -1034,60 +1038,60 @@ confint(mod3)
 ### Cluster-spezifische Effekte 
 
 
-```r
+``` r
 coef(mod3)
 ```
 
 ```
 ## $nation
 ##             (Intercept)        pa          na
-## Turkey         3.079608 0.3240336 -0.15334413
-## Korea          3.035651 0.3134756 -0.18870916
-## Slovenia       4.175208 0.2567304 -0.21844995
-## Nigeria        2.884774 0.2613938 -0.06944023
-## Japan          3.348556 0.3633211 -0.30076712
-## Chile          3.532361 0.3643897 -0.15439388
-## China          2.598439 0.2457451 -0.12783823
-## Thailand       3.244452 0.2347657 -0.15131070
-## Australia      3.786808 0.3451122 -0.25063502
-## Hong Kong      3.088845 0.3728188 -0.18464793
-## Iran           3.025574 0.3631969 -0.20183313
-## Greece         3.643419 0.2642848 -0.10956000
-## Philippines    3.292682 0.3213366 -0.18554128
-## Nepal          2.964934 0.3076757 -0.19683107
-## Cyprus         3.678415 0.3042300 -0.18522187
-## Indonesia      3.194256 0.3054313 -0.14505944
-## Mexico         2.998794 0.3464554 -0.08919076
-## Belgium        3.642759 0.3557331 -0.22231392
-## Portugal       3.719619 0.3758924 -0.28584230
-## Uganda         3.299329 0.2149195 -0.33049575
-## Singapore      3.148669 0.3434949 -0.19295688
-## Netherlands    3.598535 0.3259989 -0.12747586
-## Malaysia       3.580539 0.2726055 -0.12509845
-## Georgia        3.061731 0.2409628 -0.17861740
-## Croatia        3.657428 0.3363807 -0.24157277
-## Ghana          3.676626 0.2090378 -0.19710033
-## Bulgaria       3.329737 0.2706613 -0.16330331
-## Bangladesh     3.190195 0.3365806 -0.10865137
-## Russia         3.444138 0.2978681 -0.14481125
-## Slovakia       3.859749 0.2801991 -0.27383148
-## Zimbabwe       3.340911 0.2964229 -0.18914435
-## Germany        3.826814 0.3333657 -0.21541130
-## Kuwait         3.378347 0.3747502 -0.24066897
-## Columbia       2.904566 0.4045387 -0.12502961
-## Brazil         3.720056 0.3164293 -0.20185956
-## Cameroon       2.786753 0.1910107 -0.08125603
-## Canada         3.953574 0.3682447 -0.22887872
-## India          3.263557 0.2099855 -0.07876222
-## S. Africa      3.590771 0.3093362 -0.18161229
-## Austria        3.685437 0.3694096 -0.23295959
+## Turkey         3.079609 0.3240335 -0.15334430
+## Korea          3.035652 0.3134756 -0.18870927
+## Slovenia       4.175206 0.2567306 -0.21844958
+## Nigeria        2.884775 0.2613936 -0.06944037
+## Japan          3.348555 0.3633213 -0.30076708
+## Chile          3.532361 0.3643897 -0.15439392
+## China          2.598440 0.2457450 -0.12783837
+## Thailand       3.244452 0.2347657 -0.15131066
+## Australia      3.786806 0.3451124 -0.25063483
+## Hong Kong      3.088846 0.3728187 -0.18464812
+## Iran           3.025575 0.3631968 -0.20183329
+## Greece         3.643419 0.2642847 -0.10955991
+## Philippines    3.292682 0.3213366 -0.18554132
+## Nepal          2.964934 0.3076757 -0.19683121
+## Cyprus         3.678413 0.3042301 -0.18522169
+## Indonesia      3.194257 0.3054312 -0.14505951
+## Mexico         2.998797 0.3464551 -0.08919096
+## Belgium        3.642758 0.3557332 -0.22231382
+## Portugal       3.719618 0.3758926 -0.28584215
+## Uganda         3.299325 0.2149200 -0.33049530
+## Singapore      3.148670 0.3434949 -0.19295706
+## Netherlands    3.598536 0.3259988 -0.12747582
+## Malaysia       3.580539 0.2726054 -0.12509839
+## Georgia        3.061731 0.2409629 -0.17861740
+## Croatia        3.657427 0.3363808 -0.24157264
+## Ghana          3.676624 0.2090380 -0.19709996
+## Bulgaria       3.329737 0.2706613 -0.16330327
+## Bangladesh     3.190197 0.3365804 -0.10865159
+## Russia         3.444138 0.2978680 -0.14481123
+## Slovakia       3.859745 0.2801994 -0.27383103
+## Zimbabwe       3.340911 0.2964229 -0.18914432
+## Germany        3.826812 0.3333658 -0.21541109
+## Kuwait         3.378347 0.3747503 -0.24066901
+## Columbia       2.904568 0.4045385 -0.12502986
+## Brazil         3.720055 0.3164294 -0.20185945
+## Cameroon       2.786755 0.1910105 -0.08125616
+## Canada         3.953572 0.3682449 -0.22887844
+## India          3.263558 0.2099854 -0.07876218
+## S. Africa      3.590770 0.3093363 -0.18161212
+## Austria        3.685436 0.3694097 -0.23295950
 ## 
 ## attr(,"class")
 ## [1] "coef.mer"
 ```
 
 
-```r
+``` r
 plot_model(mod3, type = 're', grid = FALSE, sort.est = TRUE)[c(1,3)]
 ```
 
@@ -1124,7 +1128,7 @@ $$ y_{ij} = \gamma_{00} + \gamma_{10}x_{1ij} + \gamma_{20}x_{2ij} + \gamma_{01} 
   * `gdp` Unterschied zwischen Personen mit gleichem positivem und negativen Affekt die aus Ländern mit 1 GDP Unterschied kommen
 
 
-```r
+``` r
 mod4 <- lmer(lezu ~ 1 + pa + na + gdp + (1 | nation), kultur)
 print(summ(mod4))
 ```
@@ -1175,14 +1179,14 @@ print(summ(mod4))
 - Allgemein CWC für die meisten L1 Prädiktoren empfohlen (mehr bei Enders & Tofighi, 2007, und Yaremych et al., 2021)
 
 
-```r
+``` r
 cwc <- with(kultur, aggregate(cbind(pa, na) ~ nation, FUN = mean))
 names(cwc) <- c('nation', 'pa_mean', 'na_mean')
 kultur_cen <- merge(kultur, cwc, by = 'nation', all.x = TRUE)
 ```
 
 
-```r
+``` r
 kultur$pa_cwc <- kultur$pa - kultur$pa_mean
 kultur$na_cwc <- kultur$na - kultur$na_mean
 ```
@@ -1190,7 +1194,7 @@ kultur$na_cwc <- kultur$na - kultur$na_mean
 - Modellterme verändern sich
 
 
-```r
+``` r
 mod5 <- lmer(lezu ~ 1 + pa_mean + pa_cwc + na_mean + na_cwc + (1 | nation), kultur)
 print(summ(mod5))
 ```
@@ -1258,7 +1262,7 @@ $u_{1j}$ | L2-Residuum bzgl. des Slopes  $(\beta_{1j} − \hat\beta_{1j})$
 $r_{ij}$ | L1-Residuum $(y_{ij} − \hat y_{ij})$
 
 
-```r
+``` r
 mod6 <- lmer(lezu ~ pa_cwc*gdp + na_cwc*gdp + pa_mean*gdp + na_mean*gdp + (pa_cwc + na_cwc | nation), kultur)
 print(summ(mod6))
 ```
@@ -1278,15 +1282,15 @@ print(summ(mod6))
 ## --------------------------------------------------------
 ##                      Est.   S.E.   t val.    d.f.      p
 ## ----------------- ------- ------ -------- ------- ------
-## (Intercept)         -7.30   2.85    -2.56   35.31   0.01
+## (Intercept)         -7.30   2.85    -2.56   35.30   0.01
 ## pa_cwc               0.15   0.06     2.50   41.71   0.02
-## gdp                 12.81   3.96     3.24   36.46   0.00
+## gdp                 12.81   3.96     3.24   36.45   0.00
 ## na_cwc              -0.03   0.07    -0.48   34.65   0.63
-## pa_mean              0.90   0.39     2.33   33.18   0.03
+## pa_mean              0.90   0.39     2.33   33.17   0.03
 ## na_mean              1.53   0.43     3.52   37.09   0.00
-## pa_cwc:gdp           0.21   0.08     2.56   42.39   0.01
+## pa_cwc:gdp           0.21   0.08     2.56   42.40   0.01
 ## gdp:na_cwc          -0.21   0.09    -2.21   35.70   0.03
-## gdp:pa_mean         -0.44   0.54    -0.81   34.12   0.42
+## gdp:pa_mean         -0.44   0.54    -0.81   34.11   0.42
 ## gdp:na_mean         -2.39   0.56    -4.27   38.05   0.00
 ## --------------------------------------------------------
 ## 
@@ -1310,7 +1314,7 @@ print(summ(mod6))
 ## --------------------------
 ```
 
-```r
+``` r
 plot_model(mod6, 'pred', 
   terms = c('na_cwc', 'gdp'))
 ```
@@ -1318,7 +1322,7 @@ plot_model(mod6, 'pred',
 ![](/lmm-intro_files/unnamed-chunk-39-1.png)<!-- -->
 
 
-```r
+``` r
 plot_model(mod6, 'est')
 ```
 

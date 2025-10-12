@@ -1,35 +1,39 @@
 ---
-title: "Tests und Konfidenzintervalle - Übungen" 
+title: Tests und Konfidenzintervalle - Übungen
 type: post
-date: '2019-10-18' 
+date: '2019-10-18'
 slug: tests-konfidenzintervalle-uebungen
-categories: ["Statistik I Übungen"] 
-tags: [] 
+categories: Statistik I Übungen
+tags: []
 subtitle: ''
-summary: '' 
-authors: [nehler, vogler, scheppa-lahyani, pommeranz] 
-weight: 
-lastmod: '2025-04-07'
+summary: ''
+authors:
+- nehler
+- vogler
+- scheppa-lahyani
+- pommeranz
+weight: ~
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/angel_of_the_north.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)"
+  image: /header/angel_of_the_north.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/de/photo/1240882)'
 projects: []
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/statistik-i/tests-konfidenzintervalle 
-  - icon_pack: fas
-    icon: star
-    name: Lösungen
-    url: /lehre/statistik-i/tests-konfidenzintervalle-loesungen
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-i/tests-konfidenzintervalle
+- icon_pack: fas
+  icon: star
+  name: Lösungen
+  url: /lehre/statistik-i/tests-konfidenzintervalle-loesungen
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -44,7 +48,7 @@ output:
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
-``` r
+```r
 dim(fb24)
 ```
 
@@ -94,7 +98,7 @@ Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzinterv
 <details><summary>Code</summary>
 
 
-``` r
+```r
 anyNA(fb24$gewis) #NA's vorhanden
 ```
 
@@ -102,7 +106,7 @@ anyNA(fb24$gewis) #NA's vorhanden
 ## [1] TRUE
 ```
 
-``` r
+```r
 set.seed(1234) #erlaubt Reproduzierbarkeit
 fb24_sample <- fb24[sample(nrow(fb24), size = 31), ] #zieht eine Stichprobe mit n = 31
 
@@ -126,7 +130,7 @@ abs(z_gewis2) > z_krit #signifikant
 ## [1] TRUE
 ```
 
-``` r
+```r
 2 * pnorm(z_gewis2) #p < .05, signifikant
 ```
 

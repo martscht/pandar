@@ -97,7 +97,7 @@ RStudio besteht aus vier Panels. Zunächst sind nur drei sichtbar - durch **Strg
 R ist syntaxbasiert - genau genommen ist R eigentlich eine Programmiersprache und kein Auswertungsprogramm - und im neu erschienenen Fenster können Sie diese Syntax schreiben. Das pure schreiben bewirkt zunächst nichts. {{< intext_anchor Ergebnisse >}}
 Damit etwas passiert, muss die Syntax mit **Strg+Return** (OS X: **cmd+Return**) oder mit dem {{< inline_image "/lehre/statistik-i/run.png" >}} Button ausgeführt werden. Wenn Sie z.B. `3 + 4` in die Syntax schreiben und so ausführen, erscheint in der Konsole:
 
-```{r}
+```{r purl=FALSE}
 3 + 4
 ```
 
@@ -165,7 +165,7 @@ Das Nutzen von R als Taschenrechner ist - streng genommen - ein Sonderfall, der 
 
 Für R typischer wäre aber die Umsetzung mit
 
-```{r}
+```{r Erste Funktionen}
 sum(3, 4, 1, 2)
 ```
 
@@ -177,7 +177,7 @@ funktion(argument1, argument2, argument3, ...)
 
 In R werden Funktionen namentlich aufgerufen und alle Argumente, die diese Funktion entgegennehmen kann, folgen in Klammern. Die `sum()`-Funktion ist dabei sogar wieder ein Sonderfall, weil sie unendlich viele Argumente entgegennehmen kann. Eine eher typische Funktion ist z.B. der Logarithmus:
 
-```{r}
+```{r Mögliche Argumentdarstellungen von log()}
 log(100)
 ```
 
@@ -225,7 +225,7 @@ R bietet ein sehr detailliertes und gutes integriertes Hilfesystem. Wie Ihnen be
 
 Auch R-intern gibt es diverse Unterstützungsmöglichkeiten. Wenn man mehr Informationen bezüglich einer spezifischen Funktion benötigt, kann man `help()` auf jede beliebige Funktion anwenden (bzw. `?` vor den Namen einer Funktion schreiben). Sie sollten - besonders zum Einstieg in R - häufig und gezielt diese Hilfe in Anspruch nehmen.
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, purl=FALSE}
 help(log)
 ```
 
@@ -266,7 +266,7 @@ Warnungen beginnen in R mit dem Wort `Warning`. In diesem Fall werden wir darauf
 
 Die letzte Art sind `Error`, die immer damit einhergehen, dass kein Ergebnis produziert wird. Für den Logarithmus erhalten wir einen Fehler wenn
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, purl=FALSE}
 log(argument = 10)
 ```
 ```{r, error = TRUE, purl = FALSE, echo = FALSE}
@@ -572,7 +572,7 @@ Wie bereits geschildert, müssen alle Vektoren, die zu einem `data.frame` zusamm
 ```{r, echo = F}
 three <- c(1, 2, 3)
 ```
-```{r, eval = FALSE}
+```{r, eval = FALSE, purl=FALSE}
 three <- c(1, 2, 3)
 data.frame(color, text, cong, react, three)
 ```
@@ -734,13 +734,13 @@ Alle Objekte, die bisher erstellt wurden liegen im Environment - sobald wir R sc
 
 Um Daten zu laden und zu speichern muss R wissen an welchem Ort nach diesen Daten zu suchen ist. In den meisten Fällen macht es Sinn, für Projekte einen Ordner anzulegen in dem alle relevanten Dateien (z.B. Daten und Syntax) enthalten sind. Dieser Ordner kann R als *Working Directory* mitgeteilt werden. Das aktuelle Working Directory kann man einfach abrufen:
 
-```{r, eval = FALSE}
+```{r Anwendungsordner auslesen, eval = FALSE}
 getwd()
 ```
 
 Als Ergebnis sollte ein Ordnerpfad ausgeben werden. Unter Windows hat dieser wahrscheinlich das Format `C:/Users/Name/Documents`. Um manuell einen anderen Ordner zu nutzen, kann dieser mit `setwd()` festgelegt werden:
 
-```{r, eval = FALSE}
+```{r Anwendungsordner neu setzen, eval = FALSE}
 setwd('Pfad/Zum/Ordner')
 ```
 
@@ -748,7 +748,7 @@ Windows nutzt `\` statt `/` um Ordner zu strukturieren. Wenn Sie also ihren Ziel
 
 Um sich den Inhalt eines Ordners anzeigen zu lassen (z.B. um zu prüfen, welche Dateien bereits in dem Ordner vorhanden sind):
 
-```{r, eval = FALSE}
+```{r Ordnerinhalte lesen, eval = FALSE}
 dir()
 ```
 
@@ -819,7 +819,8 @@ args(read.table)
 
 Das einzige Argument ohne Voreinstellung ist `file`, also der Dateiname. Wenn wir den Datensatz mit Voreinstellungen laden, erhalten wir folgenden Fehler:
 
-```{r, eval = FALSE}
+```{r Beispiel Datensatz laden, eval = FALSE, echo=-1}
+Dafür müssen die Kommentare (##) entfernt werden!
 fb24 <- read.table('fb24.csv')
 ```
 ```{r, echo = FALSE, error = TRUE, purl = FALSE}

@@ -1,35 +1,35 @@
 ---
-title: "Multiple Regression - Übungen" 
+title: Multiple Regression - Übungen
 type: post
-date: '2024-02-06' 
+date: '2024-02-06'
 slug: multiple-reg-uebungen
-categories: ["Statistik I Übungen"] 
-tags: [] 
+categories: Statistik I Übungen
+tags: []
 subtitle: ''
-summary: '' 
-authors: [vogler]
-weight:
-lastmod: '2025-04-07'
+summary: ''
+authors: vogler
+weight: ~
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/stormies.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/89134)"
+  image: /header/stormies.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/89134)'
 projects: []
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/statistik-i/multiple-reg
-  - icon_pack: fas
-    icon: star
-    name: Lösungen
-    url: /lehre/statistik-i/multiple-reg-loesungen
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-i/multiple-reg
+- icon_pack: fas
+  icon: star
+  name: Lösungen
+  url: /lehre/statistik-i/multiple-reg-loesungen
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -43,7 +43,7 @@ output:
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
-``` r
+```r
 dim(fb24)
 ```
 
@@ -65,7 +65,7 @@ Sie vermuten, dass bestimmte Persönlichkeitsmerkmale die Prokrastinationstenden
 Dafür reduzieren Sie zunächst Ihren Datensatz auf die relevanten Variablen und entfernen sämtliche fehlende Werte:
 
 
-``` r
+```r
 fb24_short <- subset(fb24, select = c("extra", "vertr", "gewis", "neuro", "offen", "prok"))
 
 fb24_short <- na.omit(fb24_short)
@@ -80,7 +80,7 @@ Zum anderen ist uns bereits im Kapitel [Multiple Regression](/lehre/statistik-i/
 Da wir im Folgenden erneut mit den Big Five Variablen arbeiten, gehen wir dieser Fehlermeldung bereits im Vorhinein aus dem Weg.
 
 
-``` r
+```r
 #Gibt es mindestens ein fehlenden Wert auf den 6 Variablen?
 anyNA(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ```
@@ -89,23 +89,31 @@ anyNA(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ## [1] TRUE
 ```
 
-``` r
+```r
 #Auf welcher Variable und wie viele NA's gibt es?
 summary(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 ```
 
 ```
-##      extra           vertr           gewis          neuro           offen            prok      
-##  Min.   :1.000   Min.   :1.000   Min.   :1.50   Min.   :1.000   Min.   :1.000   Min.   :2.100  
-##  1st Qu.:2.500   1st Qu.:3.000   1st Qu.:3.00   1st Qu.:3.000   1st Qu.:3.000   1st Qu.:2.500  
-##  Median :3.500   Median :3.500   Median :3.50   Median :3.500   Median :4.000   Median :2.700  
-##  Mean   :3.277   Mean   :3.484   Mean   :3.49   Mean   :3.408   Mean   :3.809   Mean   :2.685  
-##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.00   3rd Qu.:4.000   3rd Qu.:4.500   3rd Qu.:2.900  
-##  Max.   :5.000   Max.   :5.000   Max.   :5.00   Max.   :5.000   Max.   :5.000   Max.   :3.200  
-##  NA's   :1       NA's   :1       NA's   :1      NA's   :1       NA's   :1       NA's   :2
+##      extra           vertr           gewis          neuro           offen      
+##  Min.   :1.000   Min.   :1.000   Min.   :1.50   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:2.500   1st Qu.:3.000   1st Qu.:3.00   1st Qu.:3.000   1st Qu.:3.000  
+##  Median :3.500   Median :3.500   Median :3.50   Median :3.500   Median :4.000  
+##  Mean   :3.277   Mean   :3.484   Mean   :3.49   Mean   :3.408   Mean   :3.809  
+##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.00   3rd Qu.:4.000   3rd Qu.:4.500  
+##  Max.   :5.000   Max.   :5.000   Max.   :5.00   Max.   :5.000   Max.   :5.000  
+##  NA's   :1       NA's   :1       NA's   :1      NA's   :1       NA's   :1      
+##       prok      
+##  Min.   :2.100  
+##  1st Qu.:2.500  
+##  Median :2.700  
+##  Mean   :2.685  
+##  3rd Qu.:2.900  
+##  Max.   :3.200  
+##  NA's   :2
 ```
 
-``` r
+```r
 #ein NA auf vertr
 ```
 
@@ -133,7 +141,7 @@ Falls Sie dort Schwierigkeiten hatten, benutzen Sie das Kontrollergebnis.
 <summary>Kontrollergebnis</summary>
 
 
-``` r
+```r
 mod_final <- lm(prok ~ neuro + gewis + extra, data = fb24_short)
 ```
 

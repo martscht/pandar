@@ -210,7 +210,8 @@ tab
 
 Für beide Einträge aus den USA wird `r round(tab[1, 3], 2)` - also $b_0$ - vorhergesagt. Im Modell haben wir nicht zwischen Bestechungsarten unterschieden, also ist das zunächst relativ naheliegend. Für Fans der bunten Bilder, können wir das auch in einen `ggplot` überführen:
 
-```{r mod1-plot, fig=TRUE, warning=FALSE}
+```{r mod1-Plot, fig=TRUE, warning=FALSE, echo=-1}
+#### mod1 Plot ----
 pred_plot <- ggplot(tab, aes(x = bribe, 
   group = country, color = country)) + 
   geom_point(aes(y = mod1)) + geom_line(aes(y = mod1)) +
@@ -230,7 +231,8 @@ summary(mod2)
 
 Die Regressionsgewichte haben sich analog zu denen einer multiplen Regression mit intervallskalierten Prädiktoren verändert: $b_1 = `r round(coef(mod2)[2], 2)`$ bezieht sich auf den Unterschied zwischen zwei Personen, deren `country` Variable sich um eine Einheit unterscheidet (USA = 0 zu China = 1), die auf der `bribe` Variable aber _die gleiche_ Ausprägung haben. In der Tabelle der Vorhersagen und der Abbildung wird dies noch einmal deutlich:
 
-```{r mod2-plot, fig=TRUE}
+```{r mod2-Plot, fig=TRUE, echo=-1}
+#### mod2 Plot ----
 tab$mod2 <- predict(mod2, tab)
 
 pred_plot <- pred_plot +
@@ -260,7 +262,8 @@ summary(mod3)
 
 Im Gegensatz zu den bisherigen Modellen, sind nun alle Effekte bedeutsam. Das liegt daran, dass die Bedeutung der Regressionsgewichte sich verändert hat. Gucken wir uns erst die Abbildung an, um zu sehen was das Modell insgesamt darstellt:
 
-```{r mod3-plot, fig=TRUE}
+```{r mod3-Plot, fig=TRUE, echo=-1}
+#### mod3 Plot ----
 tab$mod3 <- predict(mod3, tab)
 
 pred_plot <- pred_plot +
@@ -410,7 +413,8 @@ summary(mod6)
 ```
 Das aufgestellte Modell ist eine sogenannte Kovarianzanalyse (oder ANCOVA, für **An**alysis of **Cova**riance). Hier wird - analog zum `mod2` - angenommen, dass der Zusammenhang zwischen `gains` und `severe` über die beiden Bestechungstypen gleich ist:
 
-```{r ancova-plot, fig = TRUE}
+```{r ANCOVA-Plot, fig = TRUE, echo=-1}
+#### ANCOVA Plot ----
 # Scatterplot erstellen
 scatter <- ggplot(usa, aes(x = gains, y = severe, color = bribe)) + 
   geom_point()
@@ -467,7 +471,8 @@ $b_2$ ist also der Unterschied zwischen den Intercepts, also der Unterschied zwi
 
 Für die grafische Darstellung können wir die Regressionsgewichte genauso in `geom_abline` einsetzen, wie wir es gerade in der Gleichung gemacht haben:
 
-```{r gen-ancova-plot, fig = TRUE}
+```{r Generalisierte-ANCOVA-Plot, fig = TRUE, echo=-1}
+#### Plot für generalisierte ANCOVA ----
 scatter + 
   # Kollektive Bestechung
   geom_abline(intercept = coef(mod7)[1], slope = coef(mod7)[2], 
@@ -497,7 +502,8 @@ Erkenntnisse wie diese sind für die Überprüfung von Interventionsmaßnahmen v
 
 Um vollständig untersuchen zu können, wie die Effekte des Landes, der Bestechungsart und des Ausmaß an erwartetem Profit mit einander interagieren, können wir ein Modell aufstellen, welches alle drei Variablen gleichzeitig als Prädiktoren enthält. Das additive Modell ist zunächst relativ simpel:
 
-```{r}
+```{r Appendix-A, echo=-1}
+#### Appendix A ----
 mod8 <- lm(severe ~ country + bribe + gains, punish)
 summary(mod8)
 ```
@@ -529,14 +535,16 @@ tab$slope <- tmp[4]
 
 Intercepts und Slopes ergeben sich nach dem gleichen Prinzip, das wir in den vorherigen Abschnitten für die kleineren Modelle gesehen hatten. 
 
-```{r complex_plot_additive, fig = TRUE}
+```{r Komplexer-Plot(additiv), fig = TRUE, echo=-1}
+#### Komplexer Plot mit additiven Elementen ----
 scatter + 
   geom_abline(data = tab, aes(intercept = intercept, slope = slope,
     color = country:bribe))
 ```
 Wie wir zuvor gesehen hatten, sind die Effekte der Bestechungsart in den beiden Ländern aber genau gegenläufig, sodass wir hier einen Interaktionsterm aufnehmen sollten:
 
-```{r complex_plot_1interact, fig = TRUE}
+```{r Komplexer-Plot-mit-Interaktion, fig = TRUE, echo=-1}
+#### Komplexer Plot mit Interaktionen ----
 # Modell
 mod9 <- lm(severe ~ country + bribe + gains + country:bribe, punish)
 
@@ -574,7 +582,8 @@ aics
 ```
 Wie wir sehen, bevorzugt der AIC das Modell 13 - ein Modell mit beiden paarweisen Interaktionen und der _dreifach Interaktion_. Diese Interaktion gibt in dieser Konstellation an, dass das Regressionsgewicht wieder für jede der vier Gruppen individuell sein darf. Es folgt dem gleichen Prinzip, wie wir es schon für die Interaktionen der nominalskalierten Variablen [in der Vorhersage des Schweregrads](#kombination-mehrerer-dichotomer-pradiktoren) gesehen hatten. Nur dass sich der Effekt diesmal nicht auf Mittelwerte, sondern auf Regressionsgewichte bezieht. In der Abbildung:
 
-```{r complex_plot_fullinteract, fig = TRUE}
+```{r Komplexer-Plot-mit-vollständiger-Interaktion, fig = TRUE, echo=-1}
+#### Komplexer Plot mit vollständigen Interaktionen ----
 # Plot vorbereitung
 tmp <- coef(mod13)
 tab$intercept <- c(tmp[1], sum(tmp[c(1, 3)]), sum(tmp[1:2]), sum(tmp[c(1:3, 5)]))

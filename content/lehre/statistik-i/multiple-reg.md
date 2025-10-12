@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die einfache lineare Regression zur multiplen Regression erweitert, indem mehrere Prädiktoren genuzt werden. Deskriptiv werden die einzelnen Parameter der Regression dargestellt und die gemeinsam erklärte Varianz erläutert. Aus inferenzstatistischer Sicht beschäftigen wir uns mit einem globalen Modelltest und Modellvergleichstests. Auch die Annahmen der multiplen Regression werden besprochen.' 
 authors: [schultze]
 weight: 12
-lastmod: '2025-04-07'
+lastmod: '2025-07-08'
 featured: no
 banner:
   image: "/header/stormies.jpg"
@@ -59,7 +59,7 @@ output:
 Den Datensatz `fb24` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 
-``` r
+```r
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -119,7 +119,7 @@ $$
 Im Datensatz `fb24` haben wir so die Nerdiness (`nerd`) durch die Extraversion (`extra`) vorhergesagt - die Annahme war dabei, dass Personen, die introvertierter sind (also geringere Werte auf der Extraversionsskala aufweisen) sich auch Hobbies gesucht haben, die typischerweise als "nerdig" gelten. In `R` haben wir den `lm`-Befehl genutzt, um diese Hypothese auch einer Prüfung zu unterziehen.
 
 
-``` r
+```r
 # Einfache Regression
 mod1 <- lm(nerd ~ 1 + extra, data = fb24)
 
@@ -133,15 +133,22 @@ summary(mod1)
 ## lm(formula = nerd ~ 1 + extra, data = fb24)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -1.7775 -0.4801  0.0788  0.4787  1.4370 
+##     Min      1Q  Median      3Q 
+## -1.7775 -0.4801  0.0788  0.4787 
+##     Max 
+##  1.4370 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  3.82358    0.16177  23.636  < 2e-16 ***
-## extra       -0.23757    0.04724  -5.029 1.15e-06 ***
+##             Estimate Std. Error
+## (Intercept)  3.82358    0.16177
+## extra       -0.23757    0.04724
+##             t value Pr(>|t|)    
+## (Intercept)  23.636  < 2e-16 ***
+## extra        -5.029 1.15e-06 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6601 on 188 degrees of freedom
 ##   (2 Beobachtungen als fehlend gelöscht)
@@ -154,16 +161,18 @@ summary(mod1)
 Bei dieser Regression haben wir gesehen, dass die Extraversion ein bedeutsamer Prädiktor für die Nerdiness ist. Dabei geht mit einem Unterschied von einer Einheit in der Extraversion ein Unterschied von -0.24 Einheiten in der Nerdiness einher. Der Determinationskoeffizient beträgt 0.12, was bedeutet, dass 11.86% der Varianz in der Nerdiness durch die Extraversion erklärt werden. Wie wir auch schon gesehen hatten, entspricht dies der quadrierten Korrelation zwischen Extraversion und Nerdiness und die Tests beider gegen 0 sind äquivalent:
 
 
-``` r
+```r
 cor.test(fb24$nerd, fb24$extra)
 ```
 
 ```
 ## 
-## 	Pearson's product-moment correlation
+## 	Pearson's product-moment
+## 	correlation
 ## 
 ## data:  fb24$nerd and fb24$extra
-## t = -5.029, df = 188, p-value = 1.146e-06
+## t = -5.029, df = 188, p-value =
+## 1.146e-06
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.4639588 -0.2124070
@@ -183,7 +192,7 @@ $$
 $K$ entspricht dabei der Anzahl der Prädiktoren, die wir in das Modell aufgenommen haben. Neben der Extraversion gehören noch die Veträglichkeit (`vertr`), die Gewissenhaftigkeit (`gewis`), der Neurotizismus (`neuro`) und die Offenheit für neue Erfahrungen (`offen`) zu den Big Five Persönlichkeitsmerkmalen, die wir in der Umfage zu Beginn des Semesters mit dem [BFI-10](https://doi.org/10.6102/zis76) erhoben hatten. Wir können also ein Modell aufstellen, in dem wir die Nerdiness durch all diese Persönlichkeitsmerkmale vorhersagen. 
 
 
-``` r
+```r
 # Multiple Regression
 mod2 <- lm(nerd ~ 1 + extra + vertr + gewis + neuro + offen, 
   data = fb24)
@@ -199,19 +208,30 @@ summary(mod2)
 ##     data = fb24)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.56992 -0.45819  0.01851  0.47469  1.23318 
+##      Min       1Q   Median       3Q 
+## -1.56992 -0.45819  0.01851  0.47469 
+##      Max 
+##  1.23318 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  3.953596   0.421555   9.379  < 2e-16 ***
-## extra       -0.206676   0.047875  -4.317 2.58e-05 ***
-## vertr       -0.143322   0.055843  -2.567   0.0111 *  
-## gewis       -0.132004   0.051456  -2.565   0.0111 *  
-## neuro        0.004483   0.051148   0.088   0.9302    
-## offen        0.187446   0.046289   4.049 7.56e-05 ***
+##              Estimate Std. Error
+## (Intercept)  3.953596   0.421555
+## extra       -0.206676   0.047875
+## vertr       -0.143322   0.055843
+## gewis       -0.132004   0.051456
+## neuro        0.004483   0.051148
+## offen        0.187446   0.046289
+##             t value Pr(>|t|)    
+## (Intercept)   9.379  < 2e-16 ***
+## extra        -4.317 2.58e-05 ***
+## vertr        -2.567   0.0111 *  
+## gewis        -2.565   0.0111 *  
+## neuro         0.088   0.9302    
+## offen         4.049 7.56e-05 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6181 on 184 degrees of freedom
 ##   (2 Beobachtungen als fehlend gelöscht)
@@ -230,7 +250,7 @@ In der multiplen Regression versuchen wir die Variablen aufzunehmen, die relevan
 Im Scatterplot wird dieser Unterschied deutlich:
 
 
-``` r
+```r
 # Gewichte aus der multiple Regression
 b0 <- coef(mod2)[1]
 b1 <- coef(mod2)[2]
@@ -260,7 +280,7 @@ $$
 Wenn wir z.B. sehen wollen, wie sich die Extraversion auf die Nerdiness bei Personen auswirkt, die in ihren sonstigen Eigenschaften eher durchschnittlich sind, können wir einfach statt 0 die entsprechenden Mittelwerte in die Gleichung einsetzen. Mit unseren [Kenntnissen über Matrixalgebra](/lehre/statistik-i/matrixalgebra) können wir das Ganze sogar relativ kurz halten:
 
 
-``` r
+```r
 # Achsenabschnitt bestimmen
 X <- matrix(c(1, 0, 
   mean(fb24$vertr, na.rm = TRUE), 
@@ -272,7 +292,7 @@ a <- coef(mod2) %*% X
 ```
 
 
-``` r
+```r
 abline(a = a, b = b1, col = "darkgreen")
 ```
 
@@ -284,18 +304,25 @@ Der zweite Unterschied zwischen dieser neuen Linie (in Grün) und der Linie aus 
 Die anderen Gewichte können wir analog interpretieren:
 
 
-``` r
+```r
 summary(mod2)$coefficients
 ```
 
 ```
-##                 Estimate Std. Error     t value     Pr(>|t|)
-## (Intercept)  3.953595552 0.42155483  9.37860328 2.502301e-17
-## extra       -0.206676216 0.04787458 -4.31703415 2.580265e-05
-## vertr       -0.143322141 0.05584325 -2.56650808 1.106847e-02
-## gewis       -0.132004434 0.05145583 -2.56539293 1.110285e-02
-## neuro        0.004483418 0.05114761  0.08765645 9.302451e-01
-## offen        0.187445903 0.04628891  4.04947722 7.557322e-05
+##                 Estimate Std. Error
+## (Intercept)  3.953595552 0.42155483
+## extra       -0.206676216 0.04787458
+## vertr       -0.143322141 0.05584325
+## gewis       -0.132004434 0.05145583
+## neuro        0.004483418 0.05114761
+## offen        0.187445903 0.04628891
+##                 t value     Pr(>|t|)
+## (Intercept)  9.37860328 2.502301e-17
+## extra       -4.31703415 2.580265e-05
+## vertr       -2.56650808 1.106847e-02
+## gewis       -2.56539293 1.110285e-02
+## neuro        0.08765645 9.302451e-01
+## offen        4.04947722 7.557322e-05
 ```
 
 Dabei sehen wir, dass die Extraversion, die Verträglichkeit, die Gewissenhaftigkeit und die Offenheit für neue Erfahrungen bedeutsame Prädiktoren für die Nerdiness sind. Das bedeutet, dass diese vier Persönlichkeitsdimensionen einen bedeutsamen _einzigartigen_ Beitrag zur Vorhersage der Nerdiness leisten können. Im Umkehrschluss unterscheiden sich zwei Personen, die sich in Neurotizismus um eine Einheit unterscheiden, aber hinsichtlich der anderen vier Dimensionen gleich sind, fast überhaupt nicht hinsichtlich der vorhergesagten Nerdiness.
@@ -309,7 +336,7 @@ Um das Konzept des "einzigartigen Beitrags" noch einmal genauer zu beleuchten, k
 Hier sind erst einmal drei Variablen (unsere AV `nerd` und die beiden UVs `extra` und`offen`) dargestellt. Die Schnittmenge zwischen `extra` und `nerd` ist dabei z.B. das Ausmaß an Überlappung zwischen den beiden. Konzeptuell stellt diese Schnittmenge die Varianz dar, die zwischen den beiden geteilt wird. Diese Varianz hatten wir in der einfachen linearen Regression schon bestimmt:
 
 
-``` r
+```r
 summary(mod1)$r.squared
 ```
 
@@ -331,7 +358,7 @@ Um das zu umgehen nutzen wir die multiple Regression um einfach die gesamte Flä
 In der `summary` von `mod2` hatten wir gesehen, wie groß dieser Anteil ist:
 
 
-``` r
+```r
 summary(mod2)$r.squared
 ```
 
@@ -364,7 +391,7 @@ Neben den Tests der einzelnen Regressionsgewichte und dem Test des _gesamten_ $R
 In solchen Fällen können wir über den Vergleich von $R^2_e$ und $R^2_u$ untersuchen, welchen Zugewinn in der Vorhersagekraft die zusätzlichen Prädiktoren so mitbringen. Rein numerisch:
 
 
-``` r
+```r
 # R2 durch Extraversion
 R2e <- summary(mod1)$r.squared
 
@@ -378,7 +405,7 @@ R2e
 ## [1] 0.1185758
 ```
 
-``` r
+```r
 R2u
 ```
 
@@ -386,7 +413,7 @@ R2u
 ## [1] 0.2436424
 ```
 
-``` r
+```r
 # Inkrementelles R2 der vier anderen
 R2u - R2e
 ```
@@ -398,7 +425,7 @@ R2u - R2e
 In diesem Inkrement wird der Teil der Varianz dargestellt, den die anderen vier Big Five Merkmale _zusätzlich_ zur Extraversion aufklären können. Dabei ist es wichtig zu bedenken, dass der Anteil der durch Gemeinsamkeiten zwischen Extraversion und den anderen vier Merkmalen aufgeklärt wird, im ersten Schritt nur der Extraversion zugute geschrieben wurde (das zweite Venn-Diagramm). Dieses Inkrement können wir natürlich aus testen:
 
 
-``` r
+```r
 # Test des inkrementellen R2
 anova(mod1, mod2)
 ```
@@ -409,11 +436,16 @@ anova(mod1, mod2)
 ## 
 ## Model 1: nerd ~ 1 + extra
 ## Model 2: nerd ~ 1 + extra + vertr + gewis + neuro + offen
-##   Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
-## 1    188 81.929                                  
-## 2    184 70.304  4    11.625 7.6063 1.081e-05 ***
+##   Res.Df    RSS Df Sum of Sq      F
+## 1    188 81.929                    
+## 2    184 70.304  4    11.625 7.6063
+##      Pr(>F)    
+## 1              
+## 2 1.081e-05 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ```
 In unserem Fall läuft die `anova`-Funktion fehlerfrei durch. Da es hier jedoch häufig zu Fehlermeldungen aufgrund von einem Modellvergleich mit unterschiedlichen zugrundeliegenden Beobachtungen bzw. Daten kommt, wollen wir uns für diese Fall ebenfalls kurz wappnen.
 
@@ -422,14 +454,14 @@ In unserem Fall läuft die `anova`-Funktion fehlerfrei durch. Da es hier jedoch 
 Der von der `anova`-Funktion potentiell ausgegebene Fehler `## Error in anova.lmlist(object, ...): models were not all fitted to the same size of dataset` zeigt, dass wir Modelle nur dann vergleichen können, wenn diese auf den gleichen Daten basieren. Das kann nicht gegeben, wenn es Personen gab, die z.B. zwar für Extraversion und Nerdiness Beobachtungen hatten, für mindestens eine der anderen vier Dimensionen aber nicht. Im Beitrag zu [Zusammenhangsmaßen](/lehre/statistik-i/korrelation/#fehlende-werte) hatten wir den Unterschied zwischen paarweisem und listenweisem Fallausschluss schon detaillierter besprochen. Im Fall mehrerer Regressionsmodelle müssen wir also vorab sicherstellen, dass wir adäquaten listenweisen Fallausschlus betreiben, wenn wir die Modelle direkt vergleichen wollen:
 
 
-``` r
+```r
 mr_dat <- na.omit(fb24[, c("nerd", "extra", "vertr", "gewis", "neuro", "offen")])
 ```
 
 Wenn wir in `R` Modelle aktualisieren wollen, können wir mit `update` arbeiten, statt die gesamte Syntax erneut eingeben zu müssen:
 
 
-``` r
+```r
 # Modell 1, updated
 mod1_new <- update(mod1, data = mr_dat)
 
@@ -442,7 +474,7 @@ mod2_new <- update(mod2, data = mr_dat)
 Mit den Modellen, die auf die neuen Modelle angewendet wurden können wir jetzt den Vergleich erneut probieren:
 
 
-``` r
+```r
 # Test des inkrementellen R2
 anova(mod1_new, mod2_new)
 ```
@@ -452,11 +484,16 @@ anova(mod1_new, mod2_new)
 ## 
 ## Model 1: nerd ~ 1 + extra
 ## Model 2: nerd ~ 1 + extra + vertr + gewis + neuro + offen
-##   Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
-## 1    188 81.929                                  
-## 2    184 70.304  4    11.625 7.6063 1.081e-05 ***
+##   Res.Df    RSS Df Sum of Sq      F
+## 1    188 81.929                    
+## 2    184 70.304  4    11.625 7.6063
+##      Pr(>F)    
+## 1              
+## 2 1.081e-05 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ```
 
 Da in unserem Fall von Beginn an das Problem der unterschiedlichen Daten nicht vorlag, erhalten wir eine identische Ergebnistabelle. Die Ergebnistabelle gibt uns verschiedene Informationen. Zunächst wird uns noch einmal gesagt, welche Modelle wir hier eigentlich vergleichen. Die Ergebnistabelle besteht dann aus folgenden Informationen:
@@ -473,7 +510,7 @@ In diesem Fall ist der Modellvergleich statistisch bedeutsam, was bedeutet, dass
 Wenn wir für spezifische (Gruppen von) Prädiktoren wissen wollen, wie viel einzigartigen Beitrag sie in der Vorhersage unserer AV haben, können wir dieses Vorgehen nutzen, um die Anteile zu isolieren. Zum Beispiel, wenn wir den Anteil identifizieren wollen, den Extraversion aufklärt, der nicht auch durch andere Big Five Persönlichkeitsmerkmale aufgeklärt wird, können wir ein Modell aufstellen, in dem wir alle anderen Prädiktoren als eingeschränkte Version des Modells aufnehmen:
 
 
-``` r
+```r
 # Modell 3
 mod3 <- lm(nerd ~ 1 + vertr + gewis + neuro + offen, data = mr_dat)
 
@@ -486,14 +523,19 @@ anova(mod3, mod2_new)
 ## 
 ## Model 1: nerd ~ 1 + vertr + gewis + neuro + offen
 ## Model 2: nerd ~ 1 + extra + vertr + gewis + neuro + offen
-##   Res.Df    RSS Df Sum of Sq      F   Pr(>F)    
-## 1    185 77.425                                 
-## 2    184 70.304  1    7.1208 18.637 2.58e-05 ***
+##   Res.Df    RSS Df Sum of Sq      F
+## 1    185 77.425                    
+## 2    184 70.304  1    7.1208 18.637
+##     Pr(>F)    
+## 1             
+## 2 2.58e-05 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ```
 
-``` r
+```r
 # Inkrementelles R2
 summary(mod2_new)$r.squared - summary(mod3)$r.squared
 ```
@@ -525,7 +567,7 @@ In diesem Beitrag gucken wir uns im Folgenden noch grob an, wie man diese Voraus
 Die korrekte Spezifikation ist eine sehr vielseitige Voraussetzung, die eher konzeptueller und weniger statischer Natur ist. Generell wird davon ausgegangen, dass in unserem Regressionmodell alle relevanten Prädiktoren aufgenommen wurden und dass die funktionale Form des Zusammenhangs korrekt abgebildet ist. Im Normalfall gehen wir zunächst von Linearität aus (auch wenn wir in [Statistik II](/lehre/main/#statistik-ii) noch andere Formen untersuchen und testen werden). Im Beitrag zur [einfachen linearen Regression](/lehre/statistik-i/einfache-reg) hatten wir schon mit Scatterplots und LOESS-Linien geschaut, inwiefern diese Annahme realistisch ist:
 
 
-``` r
+```r
 plot(mr_dat$nerd ~ mr_dat$extra, 
      xlab = "Extraversion", 
      ylab = "Nerdiness")
@@ -552,7 +594,7 @@ In der Praxis wird eine Einschätzung bezüglich des Ausmaß des Messfehlers dur
 
 Wie auch bei vielen anderen inferenzstatistischen Verfahren, die wir schon besprochen hatten, ist bei der Regression eine Voraussetzung, dass die Beobachtungen voneinander unabhängig sind. Spezifischer gesagt, sollen die Beobachtungen über die Variablen, die wir berücksichtigen hinaus unabhängig voneinander sein (also die Residuen). Wie schon [bei den t-Tests](/lehre/statistik-i/gruppenvergleiche-unabhaengig) gesehen, ist auch das häufig eine Annahme, die sich nicht ausschließlich statistisch prüfen lässt, sondern durch das Studiendesign und die Art der Datenerhebung beeinflusst wird. Generell wird bei der Bestimmung von Standardfehlern davon ausgegangen, dass alle Werte die Ausprägungen von Zufallsvariablen sind. Wenn dieser Zufallsprozess aber systematische Verzerrungen enthält (z.B. dadurch, dass wir die gleichen Personen mehrmals erhoben haben), wird das Ausmaß der Unterschiede zwischen Personen unterschätzt. Die Standardabweichung des Merkmals in der Population war z.B. beim $t$-Test direkt in die Berechnung des Standardfehlers eingegangen, was verdeutlichen sollte, warum eine Verschätzung dieser Unterschiede sich in Verzerrung der Standardfehler und somit auch der $p$-Werte niederschlägt.
 
-Häufig kommt es in der Psychologie zur Verletzung dieser Annahme, wenn wir Gruppen von Personen erheben (z.B. Schüler:innen in Schulklassen, Patient:innen in Kliniken, usw.). Wenn wir die Quelle der Abhängigkeit aufgrund unseres Studiendesigns identifizieren können, können wir sog. Mehrebenenmodelle nutzen. Eine Einführung in die Grundideen und Umsetzungen, finden Sie z.B. in den Beiträgen aus dem [KliPPs](/lehre/klipps/hierarchische-regression-klinisch) und dem [Psychologie Master](/lehre/fue-i/hierarchische-regression-schule).
+Häufig kommt es in der Psychologie zur Verletzung dieser Annahme, wenn wir Gruppen von Personen erheben (z.B. Schüler:innen in Schulklassen, Patient:innen in Kliniken, usw.). Wenn wir die Quelle der Abhängigkeit aufgrund unseres Studiendesigns identifizieren können, können wir sog. Mehrebenenmodelle nutzen. Eine Einführung in die Grundideen und Umsetzungen, finden Sie z.B. in den Beiträgen aus dem [KliPPs](/lehre/klipps/lmm-klinische) und dem [Psychologie Master](/lehre/fue-i/hierarchische-regression-schule).
 
 ### Homoskedastizität der Residuen {#homoskedastizitaet}
 
@@ -561,7 +603,7 @@ Beim $t$-Test hatten wir angenommen, dass die Varianz in allen Gruppen gleich is
 Theoretisch könnten wir das mit einem Streupunktdiagramm der Residuen gegen die vorhergesagten Werte sehen:
 
 
-``` r
+```r
 pred <- predict(mod2_new)
 res <- resid(mod2_new)
 
@@ -575,7 +617,7 @@ plot(pred, res,
 Dabei müssten die Residuen für alle Werte der x-Achse gleichmäßig entlang der y-Achse streuen. Leider ist das etwas schwer einzuschätzen, weil nicht alle Wertekombinationen gleich häufig vorkommen und somit bestimmte Regionen des Plots weniger dicht besiedelt sind, wodurch es so wirken kann, als sei dort die Varianz niedriger. Um uns das Vorgehen etwas zu vereinfachen gibt es zwei Möglichkeiten: die Darstellung der Wurzel der standardisierten Residuen in Abhängigkeit von den vorhergesagten Werten und den _Breusch-Pagan_ Test. Ersteres wird direkt ohne Zusatzpaket in `R` zur Verfügung gestellt:
 
 
-``` r
+```r
 plot(mod2_new, which = 3)
 ```
 
@@ -596,7 +638,7 @@ plot(mod2_new, which = 3)
 Über die visuelle Inspektion hinaus haben wir auch noch die Möglichkeit, die Homoskedastizität der Residuen mit dem _Breusch-Pagan_ Test zu prüfen. Dieser ist im `car`-Paket implementiert:
 
 
-``` r
+```r
 car::ncvTest(mod2_new)
 ```
 
@@ -620,7 +662,7 @@ Wie bei allen Voraussetzungstests, wird hier die Nullhypothese geprüft, dass di
 Die letzte Voraussetzung haben wir bei anderen Tests schon des Öfteren geprüft. Wie auch bei $t$-Tests und der Korrelation können wir für die Prüfung der Normalveteilung der Residuen den QQ-Plot nutzen. Damit wir direkt eine Idee davon haben, wie stark die Abweichung von der Diagonale ausfällt, können wir den `qqPlot` aus dem `car`-Paket nutzen:
 
 
-``` r
+```r
 car::qqPlot(mod2_new)
 ```
 
@@ -634,7 +676,7 @@ car::qqPlot(mod2_new)
 Auch den Shapiro-Wilk-Test haben wir schon in anderen Beiträgen genutzt:
 
 
-``` r
+```r
 shapiro.test(resid(mod2_new))
 ```
 

@@ -1,35 +1,39 @@
 ---
-title: "Korrelation - Übungen" 
+title: Korrelation - Übungen
 type: post
-date: '2019-10-18' 
+date: '2019-10-18'
 slug: korrelation-uebungen
-categories: ["Statistik I Übungen"] 
-tags: [] 
+categories: Statistik I Übungen
+tags: []
 subtitle: ''
-summary: '' 
-authors: [nehler, winkler, vogler, schroeder]
-weight:
-lastmod: '2025-04-07'
+summary: ''
+authors:
+- nehler
+- winkler
+- vogler
+- schroeder
+weight: ~
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/storch_with_baby.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)"
+  image: /header/storch_with_baby.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1217289)'
 projects: []
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/statistik-i/korrelation
-  - icon_pack: fas
-    icon: star
-    name: Lösungen
-    url: /lehre/statistik-i/korrelation-loesungen
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-i/korrelation
+- icon_pack: fas
+  icon: star
+  name: Lösungen
+  url: /lehre/statistik-i/korrelation-loesungen
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -43,7 +47,7 @@ output:
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
-``` r
+```r
 dim(fb24)
 ```
 
@@ -51,19 +55,22 @@ dim(fb24)
 ## [1] 192  55
 ```
 
-``` r
+```r
 names(fb24)
 ```
 
 ```
-##  [1] "mdbf1"       "mdbf2"       "mdbf3"       "mdbf4"       "mdbf5"       "mdbf6"       "mdbf7"      
-##  [8] "mdbf8"       "mdbf9"       "mdbf10"      "mdbf11"      "mdbf12"      "time_pre"    "lz"         
-## [15] "extra"       "vertr"       "gewis"       "neuro"       "offen"       "prok"        "nerd"       
-## [22] "uni1"        "uni2"        "uni3"        "uni4"        "grund"       "fach"        "ziel"       
-## [29] "wissen"      "therap"      "lerntyp"     "hand"        "job"         "ort"         "ort12"      
-## [36] "wohnen"      "attent"      "gs_post"     "wm_post"     "ru_post"     "time_post"   "attent_post"
-## [43] "hand_factor" "fach_klin"   "unipartys"   "mdbf4_r"     "mdbf11_r"    "mdbf3_r"     "mdbf9_r"    
-## [50] "mdbf5_r"     "mdbf7_r"     "wm_pre"      "gs_pre"      "ru_pre"      "ru_pre_zstd"
+##  [1] "mdbf1"       "mdbf2"       "mdbf3"       "mdbf4"       "mdbf5"      
+##  [6] "mdbf6"       "mdbf7"       "mdbf8"       "mdbf9"       "mdbf10"     
+## [11] "mdbf11"      "mdbf12"      "time_pre"    "lz"          "extra"      
+## [16] "vertr"       "gewis"       "neuro"       "offen"       "prok"       
+## [21] "nerd"        "uni1"        "uni2"        "uni3"        "uni4"       
+## [26] "grund"       "fach"        "ziel"        "wissen"      "therap"     
+## [31] "lerntyp"     "hand"        "job"         "ort"         "ort12"      
+## [36] "wohnen"      "attent"      "gs_post"     "wm_post"     "ru_post"    
+## [41] "time_post"   "attent_post" "hand_factor" "fach_klin"   "unipartys"  
+## [46] "mdbf4_r"     "mdbf11_r"    "mdbf3_r"     "mdbf9_r"     "mdbf5_r"    
+## [51] "mdbf7_r"     "wm_pre"      "gs_pre"      "ru_pre"      "ru_pre_zstd"
 ```
 
 Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und 55 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.

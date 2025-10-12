@@ -258,8 +258,11 @@ Es gibt verschiedene Vorgehensweisen bei der explorativen Suche nach einem Model
 
 Wie immer gibt es in `R` viele weitere Wege, zum selben Ziel zu kommen. Das Paket `olsrr` beinhaltet verschiedene Funktionen, die für die Regressionsanalyse nützlich sind, u.a. auch Funktionen, die die schrittweise Auswahl von Prädiktoren auf Basis verschiedener Kriterien und nach verschiedenen Methoden (vorwärts, rückwärts, etc.) ermöglichen. Finden Sie [hier](https://olsrr.rsquaredacademy.com/articles/variable_selection.html#best-subset-regression) mehr Informationen dazu. Bei der ersten Nutzung muss das Paket natürlich installiert werden. 
 
-```{r, eval = F}
-install.packages("olsrr")
+```{r, echo=-1}
+# Package Installation falls nicht bereits vorhanden
+if (!requireNamespace("olsrr", quietly = TRUE)) {
+    install.packages("olsrr")
+  }
 ```
 
 Für die Nutzung ist die Aktivierung mit `library()` notwendig.

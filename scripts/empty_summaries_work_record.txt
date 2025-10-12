@@ -1,69 +1,68 @@
-content/daten/datensaetze.Rmd
+content/daten/datensaetze.Rmd SKIPPED
 
-content/extras/bayes/brms-under-construction.Rmd
-content/extras/bayes/conjugate.Rmd
-content/extras/bayes/sampling-under-construction.Rmd
-content/extras/git/branches.Rmd
-content/extras/git/git-vertiefung.Rmd
-content/extras/git/github.Rmd
-content/extras/git/gitintro.Rmd
-content/extras/git/smartgitintro.Rmd
+content/extras/bayes/brms-under-construction.Rmd SKIPPED
+content/extras/bayes/conjugate.Rmd DONE
+content/extras/bayes/sampling-under-construction.Rmd SKIPPED
+content/extras/git/branches.Rmd DONE
+content/extras/git/git-vertiefung.Rmd DONE
+content/extras/git/github.Rmd DONE
+content/extras/git/gitintro.Rmd DONE
+content/extras/git/smartgitintro.Rmd DONE
 
-content/lehre/diagnostik/diagnostik-efa.Rmd
-content/lehre/diagnostik/diagnostik-itemanalyse.Rmd
+content/lehre/diagnostik/diagnostik-efa.Rmd DONE
+content/lehre/diagnostik/diagnostik-itemanalyse.Rmd DONE
 
-content/lehre/forschungsmodul/selektionseffekte.Rmd
-content/lehre/forschungsmodul/simulationsstudien.Rmd
+content/lehre/forschungsmodul/selektionseffekte.Rmd DONE
+content/lehre/forschungsmodul/simulationsstudien.Rmd DONE
 
-content/lehre/fue-i/diskriminanzanalyse.Rmd
-content/lehre/fue-i/einleitung-fue.Rmd
-content/lehre/fue-i/hierarchische-regression-schule.Rmd
-content/lehre/fue-i/logistische-regression-titanic.Rmd
-content/lehre/fue-i/manova.Rmd
-content/lehre/fue-i/msc1-daten.Rmd
-content/lehre/fue-i/pca.Rmd
-content/lehre/fue-i/regression-ausreisser-fue.Rmd
+content/lehre/fue-i/diskriminanzanalyse.Rmd DONE
+content/lehre/fue-i/einleitung-fue.Rmd DONE
+content/lehre/fue-i/hierarchische-regression-schule.Rmd DONE
+content/lehre/fue-i/logistische-regression-titanic.Rmd DONE
+content/lehre/fue-i/manova.Rmd DONE
+content/lehre/fue-i/msc1-daten.Rmd DONE
+content/lehre/fue-i/pca.Rmd DONE
+content/lehre/fue-i/regression-ausreisser-fue.Rmd DONE
 
-content/lehre/fue-ii/exkurs-invarianzstufen.Rmd
-content/lehre/fue-ii/exkurs-modellfit.Rmd
-content/lehre/fue-ii/fue-cfa.Rmd
-content/lehre/fue-ii/fue-efa.Rmd
-content/lehre/fue-ii/lavaan-intro.Rmd
-content/lehre/fue-ii/msa.Rmd
-content/lehre/fue-ii/sem.Rmd
+content/lehre/fue-ii/exkurs-invarianzstufen.Rmd DONE
+content/lehre/fue-ii/exkurs-modellfit.Rmd DONE
+content/lehre/fue-ii/fue-cfa.Rmd DONE
+content/lehre/fue-ii/fue-efa.Rmd DONE
+content/lehre/fue-ii/lavaan-intro.Rmd DONE
+content/lehre/fue-ii/msa.Rmd DONE
+content/lehre/fue-ii/sem.Rmd DONE
 
-content/lehre/independence/independence-r.Rmd
+content/lehre/statistik-ii/ancova-regression.Rmd DONE
+content/lehre/statistik-ii/anova-i.Rmd DONE
+content/lehre/statistik-ii/anova-ii.Rmd DONE
+content/lehre/statistik-ii/anova-iii.Rmd DONE
+content/lehre/statistik-ii/gewichtete-reg.Rmd DONE
+content/lehre/statistik-ii/moderierte-reg.Rmd DONE
+content/lehre/statistik-ii/multreg-inf-mod.Rmd DONE
+content/lehre/statistik-ii/nichtlineare-reg.Rmd DONE
+content/lehre/statistik-ii/regressionsdiagnostik.Rmd DONE
+
+content/workshops/kiju/kiju-lm.Rmd KAI
+content/workshops/kiju/kiju-r-intro.Rmd KAI
+content/workshops/kiju/lmm-intro.Rmd KAI
+content/workshops/kiju/lmm-long.Rmd KAI
+
+content/workshops/fdz/fdz-packages-descriptive.Rmd KAI
+content/workshops/fdz/fdz-plots-lm.Rmd KAI
+content/workshops/fdz/fdz-r-intro.Rmd KAI
+
+content/lehre/independence/independence-r.Rmd DONE
+
+content/lehre/meta-auo/meta-analyse-auo.Rmd DONE
+
+content/lehre/statistik-i/korrelation.Rmd DONE
+content/lehre/statistik-i/matrixalgebra.Rmd DONE
+content/lehre/statistik-i/simulation-poweranalyse.Rmd DONE
 
 content/lehre/klipps/ancova-klinische.Rmd
 content/lehre/klipps/lmm-klinische.Rmd
 content/lehre/klipps/logistische-regression-klinische.Rmd
 content/lehre/klipps/meta-analyse.Rmd
-
-content/lehre/meta-auo/meta-analyse-auo.Rmd
-
-
-content/lehre/statistik-i/korrelation.Rmd
-content/lehre/statistik-i/matrixalgebra.Rmd
-content/lehre/statistik-i/simulation-poweranalyse.Rmd
-
-content/lehre/statistik-ii/ancova-regression.Rmd
-content/lehre/statistik-ii/anova-i.Rmd
-content/lehre/statistik-ii/anova-ii.Rmd
-content/lehre/statistik-ii/anova-iii.Rmd
-content/lehre/statistik-ii/gewichtete-reg.Rmd
-content/lehre/statistik-ii/moderierte-reg.Rmd
-content/lehre/statistik-ii/multreg-inf-mod.Rmd
-content/lehre/statistik-ii/nichtlineare-reg.Rmd
-content/lehre/statistik-ii/regression-i.Rmd
-content/lehre/statistik-ii/regression-ii.Rmd
-content/lehre/statistik-ii/regression-iii.Rmd
-content/lehre/statistik-ii/regression-iv.Rmd
-content/lehre/statistik-ii/regression-v.Rmd
-content/lehre/statistik-ii/regressionsdiagnostik.Rmd
-
-content/workshops/fdz/fdz-packages-descriptive.Rmd
-content/workshops/fdz/fdz-plots-lm.Rmd
-content/workshops/fdz/fdz-r-intro.Rmd
 
 content/workshops/ggplotting/gganimate.Rmd
 content/workshops/ggplotting/ggplotpourri.Rmd
@@ -73,12 +72,10 @@ content/workshops/ggplotting/ggplotting-intro.Rmd
 content/workshops/ggplotting/ggplotting-themes.Rmd
 content/workshops/ggplotting/plotly.Rmd
 
-content/workshops/kiju/kiju-lm.Rmd
-content/workshops/kiju/kiju-r-intro.Rmd
-content/workshops/kiju/lmm-intro.Rmd
-content/workshops/kiju/lmm-long.Rmd
-
 content/workshops/refresher/refresher-day1.Rmd
 content/workshops/refresher/refresher-day2.Rmd
-content/workshops/refresher/refresher-uebungen-loesungen.Rmd
-content/workshops/refresher/refresher-uebungen.Rmd
+
+content/workshops/refresher/refresher-uebungen-loesungen.Rmd SKIPPED
+content/workshops/refresher/refresher-uebungen.Rmd SKIPPED
+
+

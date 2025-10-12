@@ -48,11 +48,13 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Gender, Drug, and Depression](#gender-drug-and-depression-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/prc92/download) |
 | [Gewissenhaftigkeit und Medikamenteneinnahme](#gewissenhaftigkeit-und-medikamenteneinnahme-data_combined) |  _Teil des Pakets `metafor`_ |
 | [Hauptkomponentenanalyse](#hauptkomponentenanalyse-pca) | [{{< icon name="download" pack="fas" >}} `PCA` ](/daten/PCA.RData) |
-| [HeckData (keine Ahnung, worum es bei diesem Datensatz eigentlich geht)](#heckdata-heckdata) | [{{< icon name="download" pack="fas" >}} `HeckData` ](/daten/HeckData.rda) |
+| [HeckData ](#heckdata-heckdata) | [{{< icon name="download" pack="fas" >}} `HeckData` ](/daten/HeckData.rda) |
 | [Internetintervention für psychische Störungen](#internetintervention-für-psychische-störungen-osf) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/zc8ut/download) |
 | [Interozeptive Aufmerksamkeit und Genauigkeit](#interozeptive-aufmerksamkeit-und-genauigkeit-body) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/j6ef3/download) |
-| [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa` ](/daten/conspiracy_cfa.rda) |
-| [Kooperationsbereitschaft von Geschwistern](#kooperationsbereitschaft-von-geschwistern-datakooperation) | _via Syntax erstellt_ |
+| [Items der Generic Conspiracist Beliefs Scale](#items-der-generic-conspiracist-beliefs-scale-conspiracy_cfa) | [{{< icon name="download" pack="fas" >}} `conspiracy_cfa (Processing-File)` ](/daten/Data_Processing_conspiracy_cfa.R) |
+|[KliPPs - Quiz 1: `trauma` - Generalisiertes lineares Modell](#Klipps1)|[{{< icon name="download" pack="fas" >}} `trauma (Processing-File)` ](/daten/Data_Processing_KliPPsQuiz1.R)|
+|[KliPPs - Quiz 2: `lockdown` - Hierarschische Regression](#Klipps2)|[{{< icon name="download" pack="fas" >}} `lockdown (Processing-File)` ](/daten/Data_Processing_KliPPsQuiz2.R)|
+|[KliPPs - Quiz 4: `fall` - Metaanalyse](#Klipps4)|[{{< icon name="download" pack="fas" >}} `fall (Processing-File)` ](/daten/Data_Processing_fall.R)|
 | [Kulturelle Unterschiede in Korruptionsbestrafung](#kulturelle-unterschiede-in-korruptionsbestrafung-punish) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/4wypx/download)
 | [Lesekompetenz in der PISA-Erhebung](#lesekompetenz-in-der-pisa-erhebung-pisa2009) | [{{< icon name="download" pack="fas" >}} `PISA2009` ](/daten/PISA2009.rda) |
 | [Machiavellismus-Fragebogen](#machiavellismus-fragebogen-mach) | [{{< icon name="download" pack="fas" >}} `mach` ](/daten/mach.rda) |
@@ -65,13 +67,14 @@ Auf der folgenden Seite werden alle Datensätze aufgeführt, mit denen in den ve
 | [Psychisches Wohlbefinden von Individuen während des Lockdowns in Frankreich](#psychisches-wohlbefinden-von-individuen-während-des-lockdowns-in-frankreich-lockdown) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/dc6me/download)
 | [Quasi-Experimentelle Therapiestudie](#quasi-experimentelle-therapiestudie-cbtdata) | [{{< icon name="download" pack="fas" >}} `CBTdata` ](/daten/CBTdata.rda) |
 | [Schulleistungen](#schulleistungen-schulleistungen) | [{{< icon name="download" pack="fas" >}} `Schulleistungen` ](/daten/Schulleistungen.rda) |
-| [Skalenwerte der Generic Conspiracist Beliefs Scale](#skalenwerte-der-generic-conspiracist-beliefs-scale-conspiracy) | [{{< icon name="download" pack="fas" >}} `conspiracy` ](/daten/conspiracy.rda) |
+| [Skalenwerte der Generic Conspiracist Beliefs Scale](#skalenwerte-der-generic-conspiracist-beliefs-scale-conspiracy) | [{{< icon name="download" pack="fas" >}} `conspiracy (Processing-File)` ](/daten/Data_Processing_conspiracy.R)) |
 | [Students in Classes](#students-in-classes-studentsinclasses) | [{{< icon name="download" pack="fas" >}} `StudentsInClasses` ](/daten/StudentsInClasses.rda) |
 | [Therapieerfolg](#therapieerfolg-therapy) | [{{< icon name="download" pack="fas" >}} `Therapy` ](/daten/Therapy.rda) |
 | [Titanic](#titanic-titanic) |  [{{< icon name="download" pack="fas" >}} `Titanic` ](/daten/Titanic.rda) |
 | [Traumatische Erlebnisse und psychische Störungen](#traumatische-erlebnisse-und-psychische-störungen-trauma) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/a9vun/download) |
+| [Trivia](#trivia-trivia) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/7ekb4/)
 | [Vegan](#vegan-vegan) | [{{< icon name="download" pack="fas" >}} OSF ](https://osf.io/download/rctkf/)
-| [Vergleich von Behandlungsformen](#vergleich-von-behandlungsformen-behandlungsform) | [{{< icon name="download" pack="fas" >}} `Behandlungsform` ](daten/Behandlungsform.rda)
+| [Vergleich von Behandlungsformen](#vergleich-von-behandlungsformen-behandlungsform) | [{{< icon name="download" pack="fas" >}} `Behandlungsform` ](/daten/Behandlungsform.rda)
 | [Xmas](#xmas-xmas) | [{{< icon name="download" pack="fas" >}} `Xmas` ](/daten/Xmas.rda) |
 
 ---
@@ -131,6 +134,9 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+Achtsamkeit und Depression wird in [Netzwerkanalyse im Querschnitt](/lehre/klipps-legacy/querschnittliche-netzwerke-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
 ---
 
 ## Alkoholkonsum von Jugendlichen (`alc`)
@@ -164,6 +170,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
+
+### Auftreten
+Alc wird in [Varianzanalyse mit Messwiederholung](/lehre/statistik-ii/anova-iii) [[Statistik II](/category/statistik-ii/)] genutzt.
 
 ### Erweiterung 
 
@@ -221,6 +230,9 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+StressAtWork wird in [Modelle für Gruppenvergleiche](/lehre/fue-ii/msa) [[Fue II](/category/fue-ii/)] und [Pfadanalysen und Strukturgleichungsmodelle](/lehre/fue-ii/sem) [[Fue II](/category/fue-ii/)] genutzt.
+
 ---
 
 ## Bildungsinvestitionen auf der Welt (`edu_exp`)
@@ -268,6 +280,9 @@ Insgesamt liegen im Datensatz 10147 fehlende Werte vor. Folgende Variablen entha
 
 <!-- </details> -->
 
+### Auftreten
+edu_exp wird in [Grafiken mit ggplot2](/lehre/statistik-ii/grafiken-ggplot2) [[Statistik II](/category/statistik-ii/)], [Scatterplots und interaktiven Grafiken mit ggplot2](/lehre/statistik-ii/grafiken2-ggplot2) [[Statistik II](/category/statistik-ii/)], [gganimate](/workshops/ggplotting/gganimate) [[Ggplotting](/category/ggplotting/)], [ggplotpourri](/workshops/ggplotting/ggplotpourri) [[Ggplotting](/category/ggplotting/)], [Datenaufbereitung für ggplotting](/workshops/ggplotting/ggplotting-daten) [[Ggplotting](/category/ggplotting/)], [Explorative Grafiken](/workshops/ggplotting/ggplotting-exploration) [[Ggplotting](/category/ggplotting/)], [ggplot2 Intro](/workshops/ggplotting/ggplotting-intro) [[Ggplotting](/category/ggplotting/)], [Hübschere Grafiken mit ggplot](/workshops/ggplotting/ggplotting-themes) [[Ggplotting](/category/ggplotting/)], [plotly](/workshops/ggplotting/plotly) [[Ggplotting](/category/ggplotting/)], [Tag 01](/workshops/refresher/refresher-day1) [[Refresher](/category/refresher/)], [Tag 02](/workshops/refresher/refresher-day2) [[Refresher](/category/refresher/)] und [Übungen](/workshops/refresher/refresher-uebungen) [[Refresher](/category/refresher/)] genutzt.
+
 ---
 
 ## Bullyingprävention bei Jugendlichen (`fairplayer`)
@@ -311,6 +326,9 @@ In dem Datensatz liegen 830 fehlende Werte vor. Folgende Variablen enthalten kei
 
 <!-- </details> -->
 
+### Auftreten
+fairplayer wird in [Einführung in lavaan](/lehre/fue-ii/lavaan-intro) [[Fue II](/category/fue-ii/)] und [Übungen](/workshops/refresher/refresher-uebungen) [[Refresher](/category/refresher/)] genutzt.
+
 ---
 
 ## Depressivität (`Depression`)
@@ -345,6 +363,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
+
+### Auftreten
+depression wird in [Einleitung und Wiederholung KliPPs](/lehre/klipps-legacy/einleitung-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)], [Multiple Regression und Ausreißerdiagnostik](/lehre/klipps-legacy/regression-ausreisser-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)] und [Partial- & Semipartialkorrelation](/lehre/statistik-ii/partial) [[Statistik II](/category/statistik-ii/)] genutzt.
 
 ---
 
@@ -391,6 +412,9 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+Big5 wird in [Exploratorische Faktorenanalyse](/lehre/fue-ii/fue-efa) [[Fue II](/category/fue-ii/)] und [Partial- & Semipartialkorrelation - Übungen](/lehre/statistik-ii/partial-uebungen) [[Statistik II](/category/statistik-ii/)] genutzt.
+
 ---
 
 ## Distorted News (`OSF`)
@@ -432,7 +456,7 @@ In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und
 | `ideology` | Ideologie des Artikels | 1 = links, 2 = rechts |
 | `leaning` | Politische Tendenz | 1 = extrem links, 5 = moderat, 9 = extrem rechts  |
 | `attitude` | Einstellung zum Politiker | _Skalenwert_ |
-| `attention` | Aufmerksamkeit für Politik | _Skalenwert_ |
+| `views` | Mittelwert allgemeiner politischer Tendenz und sozialpolitischer Tendenz | 1 = ???, 5 = moderat, 9 = ??? |
 | `rwa` | Rechtsextreme Autoritarismus | _Skalenwert_ |
 | `cm` | Verschwörungsmentalität | _Skalenwert_ |
 | `credibility` | Glaubwürdigkeit des Artikels | _Skalenwert_ |
@@ -444,54 +468,21 @@ In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und
 
 Dieser Datensatz wurde zuvor mit einfacher Imputation ergänzt und enthält daher keine fehlenden Werte.
 
+### Auftreten
+OSF distort wird in [Inferenz und Modellauswahl in der multiplen Regression - Übungen](/lehre/statistik-ii/multreg-inf-mod-uebungen) [[Statistik II](/category/statistik-ii/)], [Tag 02](/workshops/refresher/refresher-day2) [[Refresher](/category/refresher/)] und [Übungen](/workshops/refresher/refresher-uebungen) [[Refresher](/category/refresher/)] genutzt.
+
 ---
 
 ## Effektivität der CBT bei Depression (`F2F_CBT`)
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
-Der Datensatz ist `R`-eigenen Paket `metafor` von Viechtbauer (2010) enthalten und stammt von einer Studie von López-López et al. (2019). Die Autor:innen haben die Effektivität der CBT (cognitive behavioural therapy [kognitive Verhaltenstherapie]) bei Depression untersucht und diese mit verschiedenen Kontrollbedingungen und unterschiedlichen Arten der CBT verglichen.
+Der Datensatz ist im `R`-eigenen Paket `metafor` von Viechtbauer (2010) enthalten und stammt von einer Studie von López-López et al. (2019). Die Autor:innen haben die Effektivität der CBT (cognitive behavioural therapy [kognitive Verhaltenstherapie]) bei Depression untersucht und diese mit verschiedenen Kontrollbedingungen und unterschiedlichen Arten der CBT verglichen.
 
 ### Datensatz laden
 
 ```r
 library(metafor)
-```
-
-```
-## Warning: Paket 'metafor' wurde unter R Version 4.3.1 erstellt
-```
-
-```
-## Lade nötiges Paket: Matrix
-```
-
-```
-## Warning: Paket 'Matrix' wurde unter R Version 4.3.2 erstellt
-```
-
-```
-## Lade nötiges Paket: metadat
-```
-
-```
-## Warning: Paket 'metadat' wurde unter R Version 4.3.1 erstellt
-```
-
-```
-## Lade nötiges Paket: numDeriv
-```
-
-```
-## 
-## Loading the 'metafor' package (version 4.2-0). For an
-## introduction to the package please type: help(metafor)
-## 
-## An updated version of the package (version 4.8-0) is available!
-## To update to this version type: install.packages("metafor")
-```
-
-```r
 F2F_CBT <- dat.lopez2019[dat.lopez2019$treatment == "F2F CBT",] # wähle nur Fälle mit F2F CBT
 ```
 
@@ -543,6 +534,9 @@ Im Datensatz liegen 20 fehlende Werte vor. Auf folgenden Variablen liegen keine 
 
 <!-- </details> -->
 
+### Auftreten
+F2F_CBT wird in [Metaanalysen in R](/lehre/klipps-legacy/metaanalysen-mw-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
 ---
 
 ## Einstellungsentscheidungen (`Assessment`)
@@ -572,6 +566,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+### Auftreten
+Assessment wird in [Daten für die Übungen](/lehre/fue-i/msc1-daten) [[Fue I](/category/fue-i/)] genutzt.
+
 ---
 
 ## Entwicklung der Weltbevölkerung (`WorldPopulation`)
@@ -600,6 +597,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+### Auftreten
+WorldPopulation wird in [Regression V: nichtlineare Regression - exponentielles Wachstum](/lehre/statistik-ii/regression-v) [[Statistik II](/category/statistik-ii/)] genutzt.
 
 ---
 
@@ -664,6 +664,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 
 ### Fehlende Werte
 Im Datensatz liegen 2 fehlenden Werte vor. Fehlende Werte sind dabei ausschließlich auf der Variable `gender` zu finden.
+
+### Auftreten
+ecr wird aktuell in keinem Beitrag genutzt.
 
 ---
 
@@ -736,6 +739,9 @@ Insgesamt liegen im Datensatz 102 fehlende Werte vor. Folgende Variablen enthalt
 * `uni3`
 * `uni4`
 <!-- </details> -->
+
+### Auftreten
+fb22 wird in [Freiwillige Übungsaufgaben (alle Abschnitte)](/lehre/statistik-i/zusatz-aufgaben) [[Statistik I](/category/statistik-i/)] und [Gewichtete Regression](/lehre/statistik-ii/gewichtete-reg) [[Statistik II](/category/statistik-ii/)] genutzt.
 
 ---
 
@@ -813,6 +819,9 @@ Insgesamt liegen im Datensatz 222 fehlende Werte vor. Folgende Variablen enthalt
 * `uni4`
 
 <!-- </details> -->
+
+### Auftreten
+fb23 wird in [Tag 02](/workshops/refresher/refresher-day2) [[Refresher](/category/refresher/)] genutzt.
 
 
 ---
@@ -896,6 +905,9 @@ Insgesamt liegen im Datensatz 379 fehlende Werte vor. Folgende Variablen enthalt
 
 <!-- </details> -->
 
+### Auftreten
+fb24 wird in [Deskriptivstatistik für Intervallskalen - Übungen](/lehre/statistik-i/deskriptiv-intervall-uebungen) [[Statistik I](/category/statistik-i/)], [Deskriptivstatistik für Intervallskalen](/lehre/statistik-i/deskriptiv-intervall) [[Statistik I](/category/statistik-i/)], [Deskriptivstatistik für Nominal- und Ordinalskalen - Übungen](/lehre/statistik-i/deskriptiv-nominal-ordinal-uebungen) [[Statistik I](/category/statistik-i/)], [Deskriptivstatistik für Nominal- und Ordinalskalen](/lehre/statistik-i/deskriptiv-nominal-ordinal) [[Statistik I](/category/statistik-i/)], [Einfache Lineare Regression - Übungen](/lehre/statistik-i/einfache-reg-uebungen) [[Statistik I](/category/statistik-i/)], [Einfache Lineare Regression](/lehre/statistik-i/einfache-reg) [[Statistik I](/category/statistik-i/)], [Tests für abhängige Stichproben - Übungen](/lehre/statistik-i/gruppenvergleiche-abhaengig-uebungen) [[Statistik I](/category/statistik-i/)], [Tests für abhängige Stichproben](/lehre/statistik-i/gruppenvergleiche-abhaengig) [[Statistik I](/category/statistik-i/)], [Tests für unabhängige Stichproben - Übungen](/lehre/statistik-i/gruppenvergleiche-unabhaengig-uebungen) [[Statistik I](/category/statistik-i/)], [Tests für unabhängige Stichproben](/lehre/statistik-i/gruppenvergleiche-unabhaengig) [[Statistik I](/category/statistik-i/)], [Korrelation - Übungen](/lehre/statistik-i/korrelation-uebungen) [[Statistik I](/category/statistik-i/)], [Korrelation](/lehre/statistik-i/korrelation) [[Statistik I](/category/statistik-i/)], [Matrixalgebra](/lehre/statistik-i/matrixalgebra) [[Statistik I](/category/statistik-i/)], [Multiple Regression - Übungen](/lehre/statistik-i/multiple-reg-uebungen) [[Statistik I](/category/statistik-i/)], [Multiple Regression](/lehre/statistik-i/multiple-reg) [[Statistik I](/category/statistik-i/)], [Tests und Konfidenzintervalle - Übungen](/lehre/statistik-i/tests-konfidenzintervalle-uebungen) [[Statistik I](/category/statistik-i/)], [Tests und Konfidenzintervalle](/lehre/statistik-i/tests-konfidenzintervalle) [[Statistik I](/category/statistik-i/)], [Funktionen und Loops - Übungen](/lehre/statistik-ii/loops-funktionen-uebungen) [[Statistik II](/category/statistik-ii/)] und [Funktionen und Loops](/lehre/statistik-ii/loops-funktionen) [[Statistik II](/category/statistik-ii/)] genutzt.
+
 
 ---
 
@@ -911,13 +923,6 @@ Der Datensatz liegt auf dem `Open Science Framework` und stammt aus einer Unters
 
 ```r
 library(haven)
-```
-
-```
-## Warning: Paket 'haven' wurde unter R Version 4.3.1 erstellt
-```
-
-```r
 osf <- read_sav(file = url("https://osf.io/prc92/download"))
 ```
 
@@ -939,6 +944,9 @@ In dem Datensatz liegen 184784 fehlende Werte vor. Auf folgenden der für die Un
 * `GENDER_R`
 
 <!-- </details> -->
+
+### Auftreten
+OSF Gender, Drug and Depression wird in [Logistische Regression](/lehre/klipps-legacy/logistische-regression-klinische-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
 
 
 ---
@@ -1014,6 +1022,10 @@ Im Datensatz liegen 4 fehlende Werte vor. Auf folgenden Variablen liegen keine f
 
 <!-- </details> -->
 
+### Auftreten
+data_combined wird in [Daten für die Quiz](/lehre/klipps-legacy/quizdaten-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
+
 ---
 
 ## Hauptkomponentenanalyse (`PCA`)
@@ -1049,13 +1061,18 @@ Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+PCA wird in [Hauptkomponentenanalyse](/lehre/fue-i/pca) [[Fue I](/category/fue-i/)] genutzt.
+
 ---
 
 ## HeckData (`HeckData`)
 
 <!-- <details><summary>Datensatz</summary> -->
 ### Beschreibung
-Keine Ahnung, zu welcher Thematik dieser Beispieldatensatz Daten enthält. Falls irgendwann jemand ambitioniert ist, das herauszufinden, sollte sich diese Person wahrscheinlich an Julian Irmer wenden, der den Datensatz in seinem Tutorial zu Selektionseffekten (/lehre/simulation/selektionseffekte) erwähnt hat. 
+
+<!-- Keine Ahnung, zu welcher Thematik dieser Beispieldatensatz Daten enthält. Falls irgendwann jemand ambitioniert ist, das herauszufinden, sollte sich diese Person wahrscheinlich an Julian Irmer wenden, der den Datensatz in seinem Tutorial zu Selektionseffekten (/lehre/simulation/selektionseffekte) erwähnt hat. -->
+Dieser Datensatz ist ein simulierter Datensatz zur Anwendung auf ein Heckman Modell, um die Methodik für Selektionseffekte zu erläutern. Die genauen Parameter der Simulation sind im entsprechenden Beitrag in Appendix B gegeben.
 
 ### Datensatz laden
 
@@ -1064,21 +1081,27 @@ load(url("https://pandar.netlify.app/daten/HeckData.rda"))
 ```
 
 ### Größe
-Der Datensatz besteht aus ... Beobachtungen auf ... Variablen.
+Der Datensatz besteht aus 10000 Beobachtungen auf 5 Variablen.
 
 ### Variablen
-Die Namen der Variablen...
+Die Namen der Variablen:
 
 | Variable | Kodierung |
 | --- | --- |
-| `Platzhalter` | *Platzhalter* |
+| `s` | Ob die gegebene Outcome-Variable beobachtet wird oder nicht (bool) |
+| `X` | Variable, die für die Selektion zuständig ist (bspw. Therapie-Commitment) |
+| `Y` | Outcome-Variable (bpsw. Symptomstärke nach vollendeter Therapie) |
+| `Y_obs` | Die nach Selektion beobachteten Y-Werte |
+| `Z` | Standardnormalverteilte Variable |
 
 
 ### Fehlende Werte
-Im Datensatz liegen ...
+Im Datensatz liegen 7622 "fehlende Werte" auf der Variable `Y_obs` vor.
 
 <!-- </details> -->
 
+### Auftreten
+HeckData wird in [Selektionseffekte](/lehre/forschungsmodul/selektionseffekte) [[Forschungsmodul](/category/forschungsmodul/)] genutzt.
 
 ---
 
@@ -1119,6 +1142,9 @@ In dem Datensatz liegen 96 fehlende Werte vor. Auf folgenden Variablen liegen ke
 * `stratum`
 
 <!-- </details> -->
+
+### Auftreten
+OSF Internetintervention für psychische Störungen wird in [ANCOVA und moderierte Regression](/lehre/klipps-legacy/ancova-moderierte-regression-legacy) [[Klipps Legacy](/category/klipps-legacy/)], [ANOVA vs. Regression](/lehre/klipps-legacy/anova-regression-legacy) [[Klipps Legacy](/category/klipps-legacy/)] und [Tag 01](/workshops/refresher/refresher-day1) [[Refresher](/category/refresher/)] genutzt.
 
 
 ---
@@ -1186,6 +1212,9 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 
 In dem Datensatz liegen 92 fehlende Werte vor. Diese sind allesamt auf der fehlerhaft kodierten Variablen `UniversityStudent` zu finden.
 
+### Auftreten
+body wird aktuell in keinem Beitrag genutzt.
+
 
 ---
 
@@ -1198,12 +1227,12 @@ Die Daten stammen aus der Erhebung zur Validierung der *Generic Conspiracist Bel
 ### Datensatz laden
 
 ```r
-load(url("https://pandar.netlify.app/daten/conspiracy_cfa.rda"))
+source("https://pandar.netlify.app/daten/Data_Processing_conspiracy_cfa.R")
 ```
 
 
 ### Größe
-Der Datensatz besteht aus ... Beobachtungen auf ... Variablen. 
+Der Datensatz besteht aus 2495 Beobachtungen auf 19 Variablen. 
 
 
 ### Variablen
@@ -1243,46 +1272,19 @@ Im Datensatz liegen 186 fehlende Werte vor. Die folgenden Variablen enthalten ke
 * `Q10`
 
 <!-- </details> -->
+### Auftreten
+conspiracy_cfa wird in [Konfirmatorische Faktorenanalyse](/lehre/fue-ii/fue-cfa) [[Fue II](/category/fue-ii/)] genutzt.
 
 
 
 ---
-
-## Kooperationsbereitschaft von Geschwistern (`dataKooperation`)
-
-<!-- <details><summary>Datensatz</summary> -->
-### Beschreibung
-Der Datensatz stammt aus [Eid, Gollwitzer & Schmitt: "Statistik und Forschungsmethoden" (4. Auflage, S.370)](https://ubffm.hds.hebis.de/Record/HEB366849158). Es wurde die Kooperationsbereitschaft von verschiedenen Geschwisterteilen innerhalb einer Familie erhoben. Die Paare bestehen hierbei aus beiden Geschwisterteilen, von denen jeweils die Kooperationsbereitschaft gemessen wurde.
-
-### Datensatz laden
-
-```r
-dataKooperation <- data.frame(Paar = 1:10, Juenger = c(0.49,0.25,0.51,0.55,0.35,0.54,0.24,0.49,0.38,0.50), Aelter = c(0.4,0.25,0.31,0.44,0.25,0.33,0.26,0.38,0.23,0.35))
-```
-
-### Größe
-Der Datensatz besteht aus 10 Beobachtungen auf 3 Variablen.
-
-### Variablen
-In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
-
-| Variable | Inhalt |
-| --- | ---- |
-| `Paar` | Nummer des Geschwisterpaares  |
-| `Juenger` | Kooperationsbereitschaft des jüngeren Geschwisterteils  |
-| `Aelter` | Kooperationsbereitschaft des älteren Geschwisterteils  |
-
-### Fehlende Werte
-Im Datensatz liegen keine fehlenden Werte vor.
-<!-- </details> -->
-
 
 ---
 
 ## Kulturelle Unterschiede in Korruptionsbestrafung (`punish`)
 
 ### Beschreibung
-Die Daten stammen aus einer [kuturellen Unterschieden in der Einschätzung von verschiedenen Aspekten der Bestechung](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509){target="_blank"}. Die hier genutzten Daten sind ein Auszug aus den im [Artikel von Hong-Zhi et al., 2021](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509) für Studie 1 genutzten Daten.
+Die Daten stammen aus einer [kuturellen Unterschieden in der Einschätzung von verschiedenen Aspekten der Bestechung](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509). Die hier genutzten Daten sind ein Auszug aus den im [Artikel von Hong-Zhi et al., 2021](https://onlinelibrary.wiley.com/doi/10.1111/ajsp.12509) für Studie 1 genutzten Daten.
 
 
 ### Datensatz laden
@@ -1339,6 +1341,182 @@ Bei den Variablen `gains` bis `severe` handelt es sich um individuelle Einschät
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 
+### Auftreten
+punish wird in [Regression mit nominalskalierten Prädiktoren](/lehre/statistik-ii/ancova-regression) [[Statistik II](/category/statistik-ii/)] genutzt.
+
+
+---
+
+## KliPPs - Quiz 1: Generalisiertes lineares Modell (`trauma`) {#Klipps1}
+
+### Beschreibung
+Das Quiz zu diesem Block beruht auf einer echten Untersuchung, deren Datensatz [hier](https://osf.io/a9vun/) im Open Science Framework abgelegt ist. In dem Datensatz wurde bspw. erhoben, was für potenziell traumatischen Erlebnissen eine Person ausgesetzt war und mittels der Live Event Checklist (LEC) zu welchem Grad. Weiterhin wurden die Depressionswerte anhand des Becks-Depression-Inventar (BDI) und die Anxiety-Werte durch die Zung Self-Rating Anxiety Scale (SAS) erhoben. Für unsere Berechnung brauchen wir nur einen Ausschnitt der Vielzahl an Variablen. Diesen extrahieren wir aus dem originalen Datensatz und erstellen damit einen Neuen für unsere Aufgaben. Da das Processing in diesem Fall sehr komplex ist, haben wir das für Sie übernommen.
+
+In diesem ist die Variable Geschlecht (`gender`) in `m` und `w` unterteilt, wobei `m` Männer und `w` Frauen beschreibt. Die Variable mit den Anxiety Werten (`sas`) erfasst die kumulierten Werte aller Fragen aus der SAS, die eine 4-Punkt Likert-Skala benutzt. Die Variable mit den Depressionswerten (`bdi`) erfasst die kumulierten Werte aller Fragen aus dem BDI, das Antwortmöglichkeiten von 0 bis 3 anhand der Schwere der Symptomatik bewertet. Sowohl die Anxiety Werte als auch die Depressionswerte wurden ihrer Intensität nach gruppiert von 1 bis 4, wobei `1` keine auffällige Symptomatik beschreibt, `2` milde bis moderate Symptome, `3` moderate bis schwere Symptome und `4` schwere Symptome. Diese Werte sind in den Variablen `bdi_group` und `sas_group` zu finden. In der Variable `sexual_assault` wurde allen Personen, die sexuelle Gewalt direkt erfahren haben, eine `1` zugeteilt, während allen anderen Fällen eine `0` zugewiesen wurde. Die Variable `trauma_exp_form` beschreibt die Form des Trauma-Erlebnisses, ob dieses direkt erlebt wurde (markiert durch `direct experience`), also der Person selbst passiert ist oder indirekt (`indirect experience`), so dass sie es gesehen / mitbekommen hat. Die Variable `trauma_exp_kind` beschreibt dagegen, welcher Art das Trauma-Erlebnis war. Dabei wurden die verschiedenen LEC Fragen fünf verschiedenen Gruppen zugeteilt. Im Datensatz liegt diese Variable als Faktor mit 6 Abstufungen vor. Mit diesen 6 Abstufungen können die 5 verschiedene Arten von Traumata aus dem LEC und "kein Trauma" kodiert werden: Stufe `1` steht für Personen, die keine Art eines Traumas erlebt haben. Stufe `2` steht für schwere Krankheiten, `3` für sexuelle Gewalt, `4` für schwere Unfälle, `5` für körperliche Gewalt und `6` für Krieg oder Naturkatastrophen. In der Variable `future` wird anhand des Zimbardo Time Perspective Inventory (ZTPI) die Einstellung gegenüber der Zukunft erfasst, also ob es für diese klare Vorstellungen, Pläne und Ziele gibt oder nicht. Die Skala Past Negative des ZTPI wird in der Variable `past_neg` festgehalten und beschreibt wie oft eine Person negativ über die Vergangenheit denkt. Beide Skalen wurden durch 5-Punkt Likert-Skalen bewertet, deren Durchschnitt festgehalten wurde. Zuletzt wurde noch der Gesamtwert der Dissociative Experiences Scale in der Variable `dissociation` festgehalten. Diese Skala erhebt das Dissoziationserleben einer Person mit 28 Items in einer 11 Punkt Likert-Skala.
+
+**Zum Abschluss noch ein Disclaimer zum Processing:** Bei der Erstellung der Variable `trauma_exp_kind` wurde das Erleben mehrerer potentiell traumatischer Live Events ignoriert und die Personen dem jeweils ersten abgefragten traumatischen Erlebnis zugeteilt. Der Effekt mehrerer traumatischer Erlebnisse ist hiermit also nicht mehr erfassbar und kann dadurch die Ergebnisse verzerren. Ebenso wurden die Gruppen nur auf Basis von Item-Ähnlichkeit gebildet und nicht basierend auf empirischen Erkenntnissen. Das ist keine Grundlage für empirisch valide Forschung, sondern gilt einzig der Vereinfachung für die Übungsrechnung.
+
+### Datensatz laden
+Sie benötigen zum Ausführen des Processing folgende Pakete:
+
+```r
+install.packages('dplyr')
+install.packages('haven')
+```
+
+Mit folgendem Befehl laden Sie sich die modifizierte Version des Datensatzes in ihr Working Directory ein.
+
+
+```r
+source(url("https://pandar.netlify.app/daten/Data_Processing_KliPPsQuiz1.R"))
+```
+
+### Größe
+Der Datensatz besteht aus 470 Beobachtungen auf 11 Variablen.
+
+### Variablen
+Der Datensatz enthält folgende Variablen:
+
+| Variable | Bedeutung | Kodierung |
+| --- | ---- | ---- |
+| `gender` | Geschlecht | w = weiblich, m = männlich |
+| `bdi` | Depressions-Werte | kumulierte Werte aus BDI |
+| `bdi_group` | Gruppierung der BDI-Scores | 1 = keine auffällige Symptomatik, 2 = milde bis moderate Symptome, 3 = moderate bis schwere Symptome, 4 = schwere Symptome |
+| `sas` | Anxiety-Werte | kumulierte Werte aus SAS |
+| `sas_group` |  Gruppierung der SAS-Scores | 1 = keine auffällige Symptomatik, 2 = milde bis moderate Symptome, 3 = moderate bis schwere Symptome, 4 = schwere Symptome | 
+| `future` | Einstellung gegenüber der Zukunft | *Skalenwert*: 5-Punkt-Likert-Skala | 
+| `past_neg` | Skala *Past Negative* des ZTPI | *Skalenwert*: 5-Punkt-Likert-Skala | 
+| `dissociation` | Gesamtwert der *Dissociative Experiences Scale* | *Skalenwert*: 11-Punkt-Likert-Skala | 
+| `sexual_assault` | Erfahrungen mit sexueller Gewalt | 0 = vorhanden, 1 = nicht vorhanden |
+| `trauma_exp_kind` | Art des Traumaerlebnisses | 1 = keine Art eines Traumas erlebt, 2 = schwere Krankheiten, 3 = sexuelle Gewalt, 4 = schwere Unfälle, 5 = körperliche Gewalt, 6 = Krieg/Naturkatastrophen |
+| `trauma_exp_form` | Form des Traumaerlebnisses | *direct experience* = als Opfer, *indirect experience* = als Zeug:in | 
+
+### Fehlende Werte
+Fehlende Werte sind nicht vorhanden
+
+### Auftreten
+trauma wird in [Daten für die Quizze](/lehre/klipps/quizdaten-klinische) [[Klipps](/category/klipps/)] genutzt.
+
+
+
+---
+
+## Klipps - Quiz 2: Hierarchische Regression(`lockdown`) {#Klipps2}
+
+### Beschreibung
+Dieser Datensatz nutzt Daten aus der Studie von [Pellerin und Raufaste (2020)](https://doi.org/10.3389/fpsyg.2020.590276), in der die protektive Wirkung verschiedener psychologischer Ressourcen auf die psychische Gesundheit während der COVID-19-Pandemie untersucht wurde. Die Daten sind [hier](https://osf.io/45aq3) verfügbar.
+
+In diesem Datensatz sind Personen (`id`) zu mehreren Messzeitpunkten (`wave`) während des Lockdowns in Frankreich befragt worden. In der Variable `time` wird zusätzlich kodiert, wie lange die Person zu diesem Zeitpunkt schon im Lockdown war. Außerdem wurden vier verschiedene Wohlbefindensvariablen als abhängige Variablen erfasst:
+
+- `EWB`: Emotional Wellbeing
+- `PWB`: Psychological Wellbeing
+- `SWB`: Social Wellbeing
+- `IWB`: Inner Wellbeing
+
+Eine detailliertere Darstellung der Konstrukte, die sich hinter diesen Variablen verbergen finden Sie im Artikel von [Pellerin und Raufaste (2020)](https://doi.org/10.3389/fpsyg.2020.590276). 
+
+Auf Personenebene (Level-2) sind außerdem Variablen als Prädiktoren enthalten, welche zum 1. Zeitpunkt als "Ausgangsniveau" erhoben wurden. Dies sind Personenvariablen wie Alter und Geschlecht, zudem verschiedene psychologischen Ressourcen wie Optimismus (`Optimism`), Selbstwirksamkeit (`Self-efficacy`), Hoffnung (`Hope`), Weisheit (`P.Wisdom` & `ST.Wisdom`), Dankbarkeit gegenüber der eigenen Existenz und der Welt (`Grat.being` & `Grat.world`) und Akzeptanz (`Acceptance`). Als Prädiktoren auf Ebene 1 können Variablen verwendet werden, die mehrfach erfragt wurden und über die Zeit variieren. Dies ist die o.g. im Lockdown verbrachte Zeit (`Time`) sowie die wahrgenommene ökonomische Bedrohung, also Jobgefahr, Geldnot, etc. (`E.threat`) und die wahrgenommene gesundheitliche Bedrohung, also die Wahrscheinlichkeit einer Erkrankung und deren Folgen (`H.threat`).
+
+
+Im Rahmen des Quiz sollen außerdem Fragen zu einer Studie, die das statistische Modell in der klinischen Forschung einsetzt, beantwortet werden. Eine groß angelegte Studie von [Goldberg et al. (2016)](https://doi.org/10.1037/cou0000131) untersuchte, ob Psychotherapeut*innen mit zunehmender Berufserfahrung bessere Therapieergebnisse erzielen. 
+
+### Datensatz laden
+Um die Daten zu laden können Sie wieder das vorbereitete Datenaufbereitungsskript ausführen:
+
+
+```r
+source(url("https://pandar.netlify.app/daten/Data_Processing_KliPPsQuiz2.R"))
+```
+
+### Größe
+Der Datensatz besteht aus 2188 Beobachtungen auf 25 Variablen.
+
+### Variablen
+Der Datensatz enthält folgende Variablen:
+
+| Variable | Inhalt | Kodierung |
+|----------|--------|-----------|
+| `ID` | Probanden-ID | Faktor mit Codierung |
+| `Wave` | Messzeitpunkt | Reihenfolgenordnung der Messzeitpunkte |
+| `Age` | Alter | Alter in Jahren |
+| `Gender` | Geschlecht | 1 = Männlich, 2 = Weiblich |
+| `Income` | Einkommen | (0,2] = <1000, (2,5] = 1000-2000, (5,7] = 2000-3000, (7,10] = >3000 |
+| `EWB` | Emotional well-being | z-standardisiert |
+| `PWB` | Psychological well-being | z-standardisiert |
+| `SWB` | Social well-being | z-standardisiert |
+| `IWB` | Inner well-being | z-standardisiert |
+| `E.threat` | Wahrgenommene ökonomische Bedrohung | z-standardisiert |
+| `H.threat` | Wahrgenommene gesundheitliche Bedrohung | z-standardisiert |
+| `Optimism` | Optimismus | z-standardisiert |
+| `Self.efficacy` | Selbstwirksamkeit | z-standardisiert |
+| `Hope` | Hoffnung | z-standardisiert |
+| `P.Wisdom` | Weisheit | z-standardisiert |
+| `ST.Wisdom` | Weisheit | z-standardisiert |
+| `Grat.being` | Dankbarkeit für eigene Existenz | z-standardisiert |
+| `Grat.world` | Dankbarkeit gegenüber der Welt | z-standardisiert |
+| `PD` | Peaceful Disengagement (Friedliche Einstellung gegenüber der Loslösung des Selbst von der Realität) |  |
+| `Acc` | Akzeptanz gegenüber Geschehnissen |  |
+| `Time` | Im Lockdown verbrachte Zeit |  |
+| `EWB.Baseline` | EWB-Werte von Wave 1 | Mittelwert d. Items |
+| `PWB.Baseline` | PWB-Werte von Wave 1 | Mittelwert d. Items |
+| `SWB.Baseline` | SWB-Werte von Wave 1 | Mittelwert d. Items |
+| `IWB.Baseline` | IWB-Werte von Wave 1| Mittelwert d. Items |
+
+### Fehlende Werte
+Es sind keine fehlenden Werte vorhanden.
+
+### Auftreten
+lockdown wird in [Daten für die Quizze](/lehre/klipps/quizdaten-klinische) [[Klipps](/category/klipps/)] genutzt.
+
+---
+
+## Klipps - Quiz 4: Metaanalyse (`fall`) {#Klipps4}
+
+### Beschreibung
+Für diesen Datensatz nutzen wir die Daten aus der Meta-Analyse von [Kruisbrink et al. (2021)](https://doi.org/10.1080/09638288.2021.1969452), in der verschiedene Interventionsansätze bezüglich der Sturzgefahr von Personen höheren Alters untersucht werden. Spezifisch geht es in dieser Analyse um die psychologischen Outcomes bezüglich der Angst vor Stürzen, nicht um die tatsächliche Häufigkeit oder deren Schweregrad. Die relevanten Zusatzdateien (wie z.B. der Datensatz) sind allesamt im OSF-Projekt [osf.io/sf67d](https://osf.io/sf67d/) verfügbar.
+
+In `author` werden die Studien anhand ihres Erstautors / ihrer Erstautorin geführt, in `id` ist werden die Studien-IDs numerisch vergeben. `quality` gibt an, auf wie vielen der sieben potentiellen Bias-Risiken eine Studie als problematisch eingestuft wurde. Von [Kruisbrink et al. (2021, S. 6250)](https://doi.org/10.1080/09638288.2021.1969452) wird hierzu folgende Aussage getroffen:
+
+> [...] the number of high risk of bias items ranged from two to four out of the total of seven items. Due to the nature of the interventions, blinding was impossible and the two items regarding blinding of participants and personnel and outcome assessors (performance bias and detection bias) were always scored with a high risk of bias.
+
+Die vier folgenden Variablen (`bodyawareness`, `holistic`, `meditation`, `discussion`) kennzeichnen in Dummy-Variablen, ob eine untersuchte Intervention diese Elemente enthält bzw. nach diesen Prinzipien gestaltet ist. Die Variablen `es_post` und `es_follow` enthalten die Effektstärken zur Post bzw. Follow-Messung, die Variablen `se_post` und `se_follow` die zugehörigen Standardfehler.
+
+Im Rahmen des Quiz wird außerdem um die genauere Betrachtung der Studie von [Schwenk et al. (2016)](https://pmc.ncbi.nlm.nih.gov/articles/PMC6644036/#ABS1) gebeten.
+
+### Datensatz laden
+Um eine, für das Quiz aufbereitete und gekürzte Fassung der Daten zu laden, können Sie das folgende Skript ausführen (*Anmerkung: sollten Sie das Paket `haven` noch nicht installiert haben, wird dieses durch das Ausführen dieses Skripts installiert*):
+
+
+```r
+source("https://pandar.netlify.app/daten/Data_Processing_fall.R")
+```
+
+### Größe
+Der Datensatz besteht aus 52 Beobachtungen auf 11 Variablen.
+
+### Variablen
+Der Datensatz enthält folgende Variablen:
+
+| Variable | Inhalt | Kodierung |
+|----------|--------|-----------|
+| `Author` | Erstautoren der jeweiligen Studie | Text der Autorenschaft enthält |
+| `id` | Zuordnung der Studie | Numerischer Wert |
+| `quality` | Gibt an, wie viele problematische Bias-Risiken eine Studie aufweist | Anzahl der riskanten Bias-Items [2-4] |
+| `bodyawareness` | Ob die beschriebene Intervention enthalten ist | 0 = nein, 1 = ja |
+| `holistic` | Ob die beschriebene Intervention enthalten ist | 0 = nein, 1 = ja |
+| `meditation` | Ob die beschriebene Intervention enthalten ist | 0 = nein, 1 = ja |
+| `discussion` | Ob die beschriebene Intervention enthalten ist | 0 = nein, 1 = ja |
+| `es_post` | Effektstärke der Post-Messung |  |
+| `se_post` | Standardfehler der Post-Messung |  |
+| `es_follow` | Effektstärke der Follow-Messung |  |
+| `se_follow` | Standardfehler der Follow-Messung |  |
+
+
+### Fehlende Werte
+Es liegen fehlende Werte in einzelnen Studien vor.
+
+### Auftreten
+fall wird in [Daten für die Quizze](/lehre/klipps/quizdaten-klinische) [[Klipps](/category/klipps/)] genutzt.
 
 ---
 
@@ -1383,6 +1561,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+### Auftreten
+PISA2009 wird in [Regression IV: quadratische und moderierte Regression](/lehre/statistik-ii/regression-iv) [[Statistik II](/category/statistik-ii/)] genutzt.
+
 
 ---
 
@@ -1430,6 +1612,9 @@ Insgesamt liegen im Datensatz 19 fehlende Werte vor. Diese liegen ausschließlic
 
 <!-- </details> -->
 
+### Auftreten
+mach wird in [Wiederholung von Grundlagen in R](/lehre/statistik-ii/einleitung-statistik-ii) [[Statistik II](/category/statistik-ii/)] und [Grafiken mit ggplot2 - Übungen](/lehre/statistik-ii/grafiken-ggplot2-uebungen) [[Statistik II](/category/statistik-ii/)] genutzt.
+
 ---
 
 ## Major Depression (`data`)
@@ -1470,6 +1655,9 @@ In dem Datensatz liegen 35 fehlende Werte vor. Folgende Variablen enthalten kein
 * `time`
 
 <!-- </details> -->
+
+### Auftreten
+Major Depression (data) wird in [Dynamische Netzwerkanalyse](/lehre/klipps-legacy/dynamische-netzwerke-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
 
 ---
 
@@ -1512,6 +1700,9 @@ In der Spalte *Dimension* sehen wir, dass die Items 3 verschiedene Dimensionen a
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+### Auftreten
+mdbf wird in [Funktionen und Loops - Übungen](/lehre/statistik-ii/loops-funktionen-uebungen) [[Statistik II](/category/statistik-ii/)] genutzt.
 
 ---
 
@@ -1569,6 +1760,9 @@ Im Datensatz liegen 42 fehlende Werte vor. Die folgenden Variablen enthalten kei
 
 </details>
 
+### Auftreten
+Mental Health and Social Contact During the COVID-19 Pandemic (data) wird in [Daten für die Quiz](/lehre/klipps-legacy/quizdaten-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
 ---
 
 ## Naturverbundenheit (`nature`)
@@ -1599,6 +1793,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+### Auftreten
+nature wird aktuell in keinem Beitrag genutzt.
+
 
 ---
 
@@ -1668,6 +1866,10 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 
+### Auftreten
+NerdData wird in [Daten für die Übungen](/lehre/fue-i/msc1-daten) [[Fue I](/category/fue-i/)] genutzt.
+
+
 ---
 
 ## Parental Burnout (`burnout`)
@@ -1709,6 +1911,10 @@ Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 
+### Auftreten
+burnout wird in [Daten für die Quiz](/lehre/klipps-legacy/quizdaten-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)], [Inferenz und Modellauswahl in der multiplen Regression](/lehre/statistik-ii/multreg-inf-mod) [[Statistik II](/category/statistik-ii/)] und [Tag 02](/workshops/refresher/refresher-day2) [[Refresher](/category/refresher/)] genutzt.
+
+
 ---
 
 ## Psychisches Wohlbefinden von Individuen während des Lockdowns in Frankreich (`lockdown`)
@@ -1722,40 +1928,9 @@ Es handelt sich um hierarchische Daten mit Messzeitpunkten auf Ebene 1 und Indiv
 
 ```r
 library(dplyr)
-```
-
-```
-## 
-## Attache Paket: 'dplyr'
-```
-
-```
-## Die folgenden Objekte sind maskiert von 'package:stats':
-## 
-##     filter, lag
-```
-
-```
-## Die folgenden Objekte sind maskiert von 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 library(ICC)
-```
-
-```
-## Warning: Paket 'ICC' wurde unter R Version 4.3.1 erstellt
-```
-
-```r
 library(lme4)
 library(interactions)
-```
-
-```
-## Warning: Paket 'interactions' wurde unter R Version 4.3.1 erstellt
 ```
 
 
@@ -1823,6 +1998,10 @@ Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
 
+### Auftreten
+lockdown wird in [Hierarchische Regression](/lehre/klipps-legacy/hierarchische-regression-klinisch-legacy) [[Klipps Legacy](/category/klipps-legacy/)] und [Daten für die Quiz](/lehre/klipps-legacy/quizdaten-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
+
 ---
 
 ## Quasi-Experimentelle Therapiestudie (`CBTdata`)
@@ -1859,6 +2038,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der wichtigsten Variablen und i
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+
+### Auftreten
+CBTdata wird in [Schätzung von Kausaleffekten 1](/lehre/klipps-legacy/kausaleffekte1-legacy) [[Klipps Legacy](/category/klipps-legacy/)] und [Schätzung von Kausaleffekten 2](/lehre/klipps-legacy/kausaleffekte2-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
 ---
 
 ## Schulleistungen (`Schulleistungen`)
@@ -1892,6 +2075,8 @@ In dem Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
 
+### Auftreten
+Schulleistungen wird in [Einleitung und Wiederholung](/lehre/fue-i/einleitung-fue) [[Fue I](/category/fue-i/)], [Daten für die Übungen](/lehre/fue-i/msc1-daten) [[Fue I](/category/fue-i/)], [Regression und Ausreißerdiagnostik](/lehre/fue-i/regression-ausreisser-fue) [[Fue I](/category/fue-i/)], [Moderierte Regression](/lehre/statistik-ii/moderierte-reg) [[Statistik II](/category/statistik-ii/)], [Regressionsanalyse I](/lehre/statistik-ii/regression-i) [[Statistik II](/category/statistik-ii/)], [Regressionsanalyse II](/lehre/statistik-ii/regression-ii) [[Statistik II](/category/statistik-ii/)], [Regressionsanalyse III](/lehre/statistik-ii/regression-iii) [[Statistik II](/category/statistik-ii/)] und [Regression IV: quadratische und moderierte Regression](/lehre/statistik-ii/regression-iv) [[Statistik II](/category/statistik-ii/)] genutzt.
 
 
 ---
@@ -1905,7 +2090,7 @@ Die Daten stammen aus der Erhebung zur Validierung der *Generic Conspiracist Bel
 ### Datensatz laden
 
 ```r
-load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
+source("https://pandar.netlify.app/daten/Data_Processing_conspiracy.R")
 ```
 
 ### Größe
@@ -1929,6 +2114,11 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 Im Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+
+### Auftreten
+conspiracy wird in [Einfaktorielle ANOVA](/lehre/statistik-ii/anova-i) [[Statistik II](/category/statistik-ii/)] und [Zweifaktorielle ANOVA](/lehre/statistik-ii/anova-ii) [[Statistik II](/category/statistik-ii/)] genutzt.
+
 
 ---
 
@@ -1965,6 +2155,10 @@ Ebene 2 (between-level)
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+
+### Auftreten
+StudentsInClasses wird in [Hierarchische Regression](/lehre/fue-i/hierarchische-regression-schule) [[Fue I](/category/fue-i/)] und [Daten für die Übungen](/lehre/fue-i/msc1-daten) [[Fue I](/category/fue-i/)] genutzt.
+
 ---
 
 ## Therapieerfolg (`Therapy`)
@@ -1998,6 +2192,11 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+
+### Auftreten
+Therapy wird in [Diskriminanzanalyse](/lehre/fue-i/diskriminanzanalyse) [[Fue I](/category/fue-i/)] und [Multivariate Varianzanalyse](/lehre/fue-i/manova) [[Fue I](/category/fue-i/)] genutzt.
+
+
 ---
 
 ## Titanic (`Titanic`)
@@ -2029,6 +2228,11 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+
+### Auftreten
+Titanic wird in [Logistische Regression](/lehre/fue-i/logistische-regression-titanic) [[Fue I](/category/fue-i/)] genutzt.
+
+
 ---
 
 ## Traumatische Erlebnisse und psychische Störungen (`trauma`)
@@ -2040,7 +2244,7 @@ Die Daten stammen aus einer echten Untersuchung, deren Datensatz [hier](https://
 ### Datensatz laden
 
 ```r
-source(url("https://pandar.netlify.app/daten/Data_Processing_Quiz1.R"))
+source("https://pandar.netlify.app/daten/Data_Processing_Quiz1.R")
 ```
 
 ### Größe
@@ -2066,6 +2270,59 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
+
+
+### Auftreten
+trauma wird in [Daten für die Quiz](/lehre/klipps-legacy/quizdaten-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
+---
+
+## Trivia (`trivia`)
+
+Die Daten stammen aus einer Erhebung von [Fazio et al. (2022)](https://doi.org/10.1037/xge0001211), in der über Teilnehmende einen zweiwöchigen Zeitraum wiederholt faktische Aussagen im Stil eines Quiz per Push-Benachrichtigung präsentiert wurden. Einige dieser Aussage waren wahr, einige waren falsch. Von den präsentierten Aussagen wurden zehn als Zielitems definiert und Teilnehmende wurden am Ende der zwei Wochen danach gefragt, ob diese Aussage wahr ist. Die Aussagen wurden Teilnehmenden unterschiedlich häufig präsentiert (1, 2, 4, 8 oder 16 mal). Ziel der Untersuchung war es, in einem Feldexperiment die aus Laborstudien bekannte Zusammenhangsform zwischen Wiederholungen und Einschätzung des Wahrheitsgehalts zu untersuchen. Die Daten wurden über das [OSF](https://osf.io/re6dh/) bereitgestellt. Dort finden sich auch weitere Informationen zur Studie.
+
+### Datensatz laden
+
+Der Datensatz wird in einem Skript reduziert und Variablen umbenannt. Dieses Skript kann mit folgendem Befehl ausgeführt werden:
+
+
+```r
+source("https://pandar.netlify.app/daten/Data_Processing_trivia.R")
+```
+
+
+Im Environment erscheint dadurch der Datensatz `trivia`. 
+
+### Größe
+
+Der Datensatz besteht aus 4312 Beobachtungen auf 5 Variablen. Der Datensatz liegt im long-Format vor, mit zehn Beobachtungen (eine pro Aussage) für jede Person.
+
+### Variablen
+
+In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und ihrer Bedeutungen. 
+
+| Variable | Bedeutung | Kodierung |
+| --- | --- | --- |
+| `id` | Personen-Code | |
+| `rating` | Einschätzung des Wahrheitsgehalts | 1 = mit Sicherheit nicht wahr, 6 = mit Sicherheit wahr |
+| `repetition` | Anzahl der Wiederholungen der Präsentation |  |
+| `truth` | Objektive Wahrheit der Aussage | 1 = `true`, 2 = `false` |
+| `headline` | Eingeschätzte Aussage | 1 =  Clarabell is the clown on the "Howdy Doody" television show. |
+| | | 2 = Bach is the composer who wrote the opera "Don Giovanni." |
+| | | 3 = In the story of Pinocchio, the goldfish is named Cleo. |
+| | | 4 = Beasley is Dagwood's boss in the comic strip "Blondie." |
+| | | 5 = Williams is the last name of the playwright who wrote "A Streetcar Named Desire."  |
+| | | 6 = Toronto is the capital of Canada. |
+| | | 7 = Kingston is the capital of Jamaica. |
+| | | 8 = Eloi are the villainous people who lived underground in H.G. Wells' book "The Time Machine." |
+| | | 9 = Bullet was the name of Roy Roger's dog. |
+| | | 10 = Lima is the capital of Chile. |
+
+
+
+### Auftreten
+trivia wird in [Nichtlineare Regression](/lehre/statistik-ii/nichtlineare-reg) [[Statistik II](/category/statistik-ii/)] genutzt.
+
 
 ---
 
@@ -2107,6 +2364,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der ausgewählten Variablen und
 | `disgust` | Ekel vor Fleischkonsum | _Skalenwert_ |
 
 
+### Auftreten
+vegan wird in [Nichtlineare Regression](/lehre/statistik-ii/nichtlineare-reg) [[Statistik II](/category/statistik-ii/)] und [Regressionsdiagnostik](/lehre/statistik-ii/regressionsdiagnostik) [[Statistik II](/category/statistik-ii/)] genutzt.
+
+
 ---
 
 ## Vergleich von Behandlungsformen (`Behandlungsform`)
@@ -2141,6 +2402,10 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 Im Datensatz liegen keine fehlenden Werte vor.
 
 <!-- </details> -->
+
+### Auftreten
+Behandlungsform wird in [Daten für die Quiz](/lehre/klipps-legacy/quizdaten-klipps-legacy) [[Klipps Legacy](/category/klipps-legacy/)] genutzt.
+
 
 ---
 
@@ -2186,3 +2451,5 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 In dem Datensatz liegen keine fehlenden Werte vor.
 <!-- </details> -->
 
+### Auftreten
+Xmas wird in [Daten für die Übungen](/lehre/fue-i/msc1-daten) [[Fue I](/category/fue-i/)] genutzt.

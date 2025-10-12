@@ -1,0 +1,78 @@
+---
+title: "Partial- & Semipartialkorrelation - Übungen" 
+type: post
+date: '2025-06-18'
+slug: partial-uebungen
+categories: Statistik II Übungen
+tags: ["Partialkorrelation", "Semipartialkorrelation", "geteilte Varianz", "Zusammenhangsanalyse"] 
+subtitle: ''
+summary: ''
+authors: []
+weight: 1
+lastmod: '2025-08-21'
+featured: no
+banner:
+  image: "/header/prism_colors.jpg"
+  caption: "[Courtesy of pexels](https://www.pexels.com/photo/optical-glass-triangular-prism-3845162/)"
+projects: []
+reading_time: no
+share: no
+private: 'true'
+
+links:
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-ii/partial
+- icon_pack: fas
+  icon: star
+  name: Lösungen
+  url: /lehre/statistik-ii/partial-loesungen
+output:
+  html_document:
+    keep_md: yes
+---
+
+
+## Vorbereitung
+
+Bitte laden Sie den folgenden Datensatz, um die Übungen zu den (Semi-)Partialkorrelationen mit den Big-Five-Persönlichkeitsdimensionen durchzuführen. **Hinweis**: Um das Ganze etwas übersichtlicher zu gestalten, betrachten wir einen gekürzten Datensatz. Im Datensatz befinden sich 15 Items aus dem Big-5 Persönlichkeitsfragebogen. Es werden von den 10 Items pro Facette jeweils die ersten drei verwendet.
+
+
+``` r
+# Datensatz laden
+load(url("https://pandar.netlify.app/daten/Big5_EFA.rda"))
+
+# Paket für Partial- und Semipartialkorrelationen laden
+install.packages("ppcor")
+library(ppcor)
+```
+
+## Aufgabe 1: Partialkorrelation
+
+Untersuchen Sie den Zusammenhang zwischen **Extraversion** und **Neurotizismus**, wobei der Einfluss von **Gewissenhaftigkeit** herauspartialisiert werden soll.
+
+- Berechnen Sie zunächst die Mittelwerte für die Skalen **Extraversion** (`E1`, `E2`, `E3`), **Neurotizismus** (`N1`, `N2`, `N3`) und **Gewissenhaftigkeit** (`C1`, `C2`, `C3`).
+- Berechnen Sie anschließend die Partialkorrelation.
+
+## Aufgabe 2: Semipartialkorrelation
+
+Untersuchen Sie den Zusammenhang zwischen **Offenheit** (`O1`, `O2`, `O3`) und **Verträglichkeit** (`A1`, `A2`, `A3`), wobei der Einfluss von **Neurotizismus** nur aus der Variable **Verträglichkeit** kontrolliert wird.
+
+- Bilden Sie die fehlenden Skalenmittelwerte.
+- Berechnen Sie anschließend die Semipartialkorrelation
+
+## Aufgabe 3: Tabelle aller Partialkorrelationen
+
+- Bitte erstellen Sie einen reduzierten Datensatz, welcher nur die zuvor erstellten Skalenwerte beinhaltet
+- Geben Sie sich auf Basis des reduzierten Datensatzes nun eine Tabelle mit allen Partialkorrelationskoeffizienten aus
+
+## Aufgabe 4: Rolle der Semipartialkorrelation in der Regression
+
+In **Aufgabe 2** wurde die Semipartialkorrelation zwischen *Offenheit* und *Verträglichkeit*, kontrolliert für *Neurotizismus*, berechnet.
+
+Zeigen Sie nun den Zusammenhang zur multiplen Regression:
+
+- Schätzen Sie ein Regressionsmodell mit *Offenheit* als Kriterium und *Neurotizismus* sowie *Verträglichkeit* als Prädiktoren.
+- Erstellen Sie anschließend **zusätzlich** ein reduziertes Modell ohne *Verträglichkeit*, um das Inkrement in R^2 durch *Verträglichkeit* zu bestimmen.
+- Vergleichen Sie die quadrierte Semipartialkorrelation (sr^2) aus Aufgabe 2 mit dem inkrementellen Varianzbeitrag von *Verträglichkeit*.

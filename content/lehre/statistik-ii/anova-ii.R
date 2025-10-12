@@ -1,118 +1,60 @@
-# load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
-
-load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
+source("https://pandar.netlify.app/daten/Data_Processing_conspiracy.R")
 
 dim(conspiracy)
 
 head(conspiracy)
 
-library(ez)
+str(conspiracy)
+
+#### Einfaktorielle ANOVA ----
+library(afex)
 
 conspiracy$id <- as.factor(1:nrow(conspiracy))
 
-ezANOVA(data = conspiracy, wid = id, dv = ET, between = urban)
+aov_4(EC ~ edu + (1 | id), data = conspiracy)
 
+aggregate(EC ~ edu, conspiracy, mean)
 
-
-tapply(X = conspiracy$ET, INDEX = conspiracy$urban, FUN = mean)
-tapply(X = conspiracy$ET, INDEX = conspiracy$edu, FUN = mean)
-
-# Mithilfe des aggregate-Befehls
-aggregate(ET ~ urban, data = conspiracy, mean)
-aggregate(ET ~ edu, data = conspiracy, mean)
-
-# Mithilfe des aggregate-Befehls mit anderer Schreibweise (wie bei tapply)
-aggregate(conspiracy$ET, list(conspiracy$urban), mean)
-aggregate(conspiracy$ET, list(conspiracy$edu), mean)
-
-# Mithilfe des describeBy-Befehls aus dem psych-Paket
-library(psych)
-describeBy(conspiracy$ET, conspiracy$urban)
-describeBy(conspiracy$ET, conspiracy$edu)
-
-# Gruppierungskombinationen erstellen
-kombi <- conspiracy[, c('urban', 'edu')]
-
+#### Deskriptivdarstellung ----
 # Kombinationsspezifische Mittelwertetabelle
-tapply(X = conspiracy$ET, INDEX = kombi, FUN = mean)
+aggregate(EC ~ urban + edu, conspiracy, mean)
 
-ezStats(conspiracy, dv = ET, wid = id, between = c(urban, edu))
+library(ggplot2)
 
-ezPlot(conspiracy, dv = ET, wid = id, between = c(urban, edu),
-  x = urban, split = edu)
+aggregate(EC ~ urban + edu, conspiracy, mean) |>
+  ggplot(aes(x = urban, y = EC, color = edu, group = edu)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "Urban", y = "Mean EC", color = "Education")
 
-ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), detailed = TRUE)
+#### Zweifaktorielle ANOVA ----
+aov_4(EC ~ urban + edu + urban:edu + (1 | id), data = conspiracy)
 
-ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), detailed = TRUE, white.adjust = TRUE)
-
-TukeyHSD(aov(ET ~ urban*edu, conspiracy))
-
-library(emmeans)
-
-emm <- emmeans(aov(ET ~ urban*edu, conspiracy), ~ urban * edu)
-
-emm
-
-plot(emm)
-
-plot(emm, comparisons = TRUE)
-
-pwpp(emm)
-
-ez1 <- ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), detailed = TRUE, return_aov = T)
-aov1 <- ez1$aov
-emm1 <- emmeans(aov1, ~ urban * edu)
-plot(emm1, comparisons = TRUE) # identisch zu oben
-
-emm
-
-cont1 <- c(1, -1, 0, 0, 0, 0, 0, 0, 0)
-
-contrast(emm, list(cont1))
-
-sum(cont1)
-sum(cont1) == 0
-
-cont2 <- c(0, 0, 1, 0, 0, -.5, 0, 0, -.5)
-
-contrast(emm, list(cont1, cont2), adjust = 'bonferroni')
-
-# QS-Typ 1, Reihenfolge 1
-ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 1)
-
-# QS-Typ 1, Reihenfolge 2
-ezANOVA(conspiracy, dv = ET, wid = id, between = c(edu, urban), type = 1)
-
-# QS-Typ 1, Reihenfolge 1 mit lm
-anova(lm(ET ~ urban*edu, data = conspiracy))
-
-# QS-Typ 1, Reihenfolge 2 mit lm
-anova(lm(ET ~ edu*urban, data = conspiracy))
-
-# QS-Typ 1, Reihenfolge 1 mit aov
-summary(aov(ET ~ urban*edu, data = conspiracy))
-
-# QS-Typ 1, Reihenfolge 2 mit aov
-summary(aov(ET ~ edu*urban, data = conspiracy))
+#### Quadratsummen-Typen ----
+aov_4(EC ~ urban + edu + urban:edu + (1 | id), data = conspiracy)
 
 # QS-Typ 2
-ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 2)
+aov_4(EC ~ urban + edu + urban:edu + (1 | id), data = conspiracy, type = "II")
 
-library(car)
+#### Tukey-Test ----
+zweifakt <- aov_4(EC ~ urban + edu + urban:edu + (1 | id), data = conspiracy)
 
-Anova(lm(ET ~ urban*edu, data = conspiracy), type = "II")
-Anova(aov(ET ~ urban*edu, data = conspiracy), type = "II")
+library(emmeans)
+emm_zweifakt <- emmeans(zweifakt, ~ urban + edu + urban:edu)
 
-# QS-Typ 3
-ezANOVA(conspiracy, dv = ET, wid = id, between = c(urban, edu), type = 3)
+tukey <- pairs(emm_zweifakt, adjust = "tukey")
+tukey
 
-# verstelle die Art, wie Kontraste bestimmt werden --- Achtung! Immer wieder zurückstellen
-options(contrasts=c(unordered="contr.sum", ordered="contr.poly")) 
-Anova(lm(ET ~ urban*edu, data = conspiracy), type = "III")
-Anova(aov(ET ~ urban*edu, data = conspiracy), type = "III")
+plot(tukey)
 
-# Einstellungen zurücksetzen zum Default:
-options(contrasts=c(unordered="contr.treatment", ordered="contr.poly"))
+#### Kontraste ----
+emm_zweifakt
 
-# Der Default kann getestet werden via
-options("contrasts")
+cont1 <- c(-0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 1, 1, 1)
+sum(cont1) == 0 # Check ob die Koeffizienten sich zu 0 addieren
+
+contrast(emm_zweifakt, list(cont1))
+
+cont2 <- c(0.5, 0, -0.5, 0.5, 0, -0.5, -1, 0, 1)
+
+contrast(emm_zweifakt, list(cont1, cont2), adjust = "bonferroni")

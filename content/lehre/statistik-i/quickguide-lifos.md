@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird Ihnen eine kurze Einführung in LIFOS (Lokale Infrastruktur für Open Science) gegeben. Hierbei handelt es sich um eine universitätsinterne Übungsplattform für Psychologie-Studierende der Goethe Universität, die es Ihnen ermöglichen soll, Open Science Praktikem in einem geschützten Raum zu üben. In diesem Quickguide wird Ihnen erklärt, wie Sie sich bei LIFOS anmelden und Ihr Projekt am richtigen Ort anlegen. Außerdem wird erläutert, welche Schritte Sie im Rahmen Ihres Praktikums auf LIFOS durchführen sollen.' 
 authors: [beitner, nehler]
 weight: 12
-lastmod: '2025-02-07'
+lastmod: '2025-08-07'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"
@@ -22,7 +22,7 @@ links:
   - icon_pack: fas
     icon: book
     name: Inhalte
-    url: /lehre/statistik-i/gruppenprojekt
+    url: /lehre/statistik-i/quickguide-lifos
   - icon_pack: fas
     icon: pen-to-square
     name: Gruppenprojekt
@@ -67,17 +67,17 @@ Hierfür benötigen Sie lediglich die Zugangsdaten Ihres HRZ-Kontos.</li>
 <li><p><b>Gruppenübersicht anzeigen</b></p>
 Projekte auf LIFOS müssen in den jeweiligen Abteilungen/Kursen angelegt werden, um auch diesen zugeordnet werden zu können. Das heißt, Sie müssen erst Mitglied Ihrer PsyBSc2 Praktikumsgruppe auf LIFOS werden, um dann in ebenjener Gruppe ein Projekt anzulegen. Um die Gruppe auf LIFOS zu finden, klicken Sie im Steuerungsmenü auf der linken Seite auf <b>Groups</b>, dann im Hauptfenster auf <b>Explore groups</b> (direkt neben <b>New Group</b>). </li>
 
-![](quickguide-lifos01.png)
+![](/quickguide-lifos_files/quickguide-lifos01.png)
 
 <li><p><b> Zur Gruppe navigieren </b></p> 
 Nun können Sie alle öffentlichen Gruppen auf LIFOS sehen. Zunächst müssen Sie auf die Gruppe <b>Psychologische Methoden mit interdisziplinärer Ausrichtung</b>, dann wiederum auf <b>PsyBSc 2 Statistik I (Praktikum)</b>, dann auf <b>WiSe 2024-25</b> klicken. Jetzt sollten Ihnen alle neun Praktikumsgruppen angezeigt werden. </li>
 
-![](quickguide-lifos02.png)
+![](/quickguide-lifos_files/quickguide-lifos02.png)
 
 <li><p><b> Zugang beantragen </b></p>
 Klicken Sie auf Ihre Gruppe. Oben rechts sind nun drei Punkte zu sehen, unter denen nach einem Klick die Option <b>Request access</b> erscheint. Klicken Sie drauf und bestätigen Sie. Gratulation! Sie haben so eben einen wichtigen Schritt gemeistert und Zugriff zu Ihrer Praktikumsgruppe beantragt. Sobald Ihr Dozent/Ihre Dozentin Ihre Anfrage bestätigt hat, können Sie und Ihre Gruppe loslegen.</li></ol>
 
-![](quickguide-lifos-request.png)
+![](/quickguide-lifos_files/quickguide-lifos-request.png)
 
 # Auf LIFOS ein Projekt anlegen {#projektstart}
 
@@ -87,24 +87,24 @@ Dadurch können andere später leichter nachvollziehen, wer an dem Projekt mitge
 - dass bei Project URL Ihre Gruppe steht und
 - dass das Visibility Level auf Internal gesetzt ist.
 
-![](quickguide-lifos03.png)
+![](/quickguide-lifos_files/quickguide-lifos03.png)
 
 Alright, klicken Sie den *Create project* Knopf und schon steht Ihr Projekt!
-Dadurch, dass Sie das Projekt basierend auf dem PsyBSc2 Template initialisiert haben, werden Ihnen bereits wichtige Strukturen vorgegeben (die sich aber auch bei Bedarf ändern und anpassen lassen). Alle weiteren Schritte werden von nun auch im README eures Projekts angezeigt, der Vollständigkeit halber aber auch nochmal hier. Für tiefergehende Informationen über LIFOS können wir euch unsere [generellen Tutorials auf pandaR](/lifos/main/) ans Herz legen.
+Dadurch, dass Sie das Projekt basierend auf dem PsyBSc2 Template initialisiert haben, werden Ihnen bereits wichtige Strukturen vorgegeben (die sich aber auch bei Bedarf ändern und anpassen lassen). Alle weiteren Schritte werden von nun auch im README eures Projekts angezeigt, der Vollständigkeit halber aber auch nochmal hier. Für tiefergehende Informationen über LIFOS können wir euch unser [FAQ auf LIFOS](https://lifos.uni-frankfurt.de/welcome-to-lifos/LIFOS) ans Herz legen.
 
 
 # Bearbeitung von Projekten auf LIFOS {#bearbeitung}
 
 Auf LIFOS kann man Projekte bearbeiten, indem man Dateien und Ordner hinzufügt, umbenennt oder wieder entfernt. Außerdem kann man die README-Datei, auf die hier [gleich](#projektabschluss) noch eingegangen wird, bearbeiten. Um das Projekt zu bearbeiten, ist es am einfachsten, ins Web IDE zu gehen. Hier öffnet sich ein User Interface, in dem man ganz einfach agieren kann. Zum Beispiel lassen sich mehrere Dateien gleichzeitig hochladen, löschen, etc. Wenn Sie mit Ihren Änderungen fertig sind, klicken Sie links unten auf *Create commit*. Das ist ein Git-Befehl, auf den wir hier nicht näher eingehen werden. Jetzt können Sie *commit* erstmal als so etwas wie *Speichern* verstehen. Nach dem Klicken öffnet sich ein kleines Textfeld. Hier können Sie vermerken, welche Änderungen Sie vorgenommen haben. Achten Sie nun **unbedingt** darauf, dass Sie *commit to main branch* auswählen. Wenn Sie das alles befolgen, sind im Anschluss Ihre Änderungen im Projekt sichtbar. Sollten Sie die Änderungen doch nicht speichern wollen, können Sie oben rechts auch auf den rot umrandeten Knopf *Discard changes* klicken. 
 
-![](quickguide-lifos04.png)
+![](/quickguide-lifos_files/quickguide-lifos04.png)
 
 
 # Präregistrierung auf LIFOS {#praeregistrierung}
 
 Eine Präregistrierung ist ein Dokument mit einem Zeitstempel, dass Informationen über die Studie beinhaltet, die bereits vor der Datenerhebung festliegen und so transparent festgehalten werden. Dazu zählen insbesondere Informationen über die Hypothesen und die statistische Auswertung, wie zum Beispiel welche Konstrukte erhoben werden, welche Fragebögen dafür verwendet werden, und welche Methoden man verwendet, um die Hypothese zu testen. Außerdem hilft eine Präregistrierung dabei, das Projekt schon vor Durchführung ausführlich zu durchdenken und so Fehler oder Probleme noch vor dem Auftreten entdecken und beheben zu können. 
 
-In Ihrem Projekt auf LIFOS finden Sie im Ordner *1_Präregistrierung* eine Datei namens *PsyBsc2_preregistration.md*. Die Datei im Markdown-Format geschrieben. Der Vorteil an dem Format ist, dass diese Datei in jedem beliebigen Texteditor geöffnet und bearbeitet werden kann. Neben der lokalen Bearbeiter auf Ihrem Computer nach einem Download kann die Datei auch direkt auf LIFOS im Editor bearbeitet werden. Wie man Markdown verwendet, können Sie [hier](/lifos/grundlagen/eigenesprojekt/), [hier](/lifos/extras/basic-markdown-uebung/) und [hier](https://www.markdownguide.org/basic-syntax/) erfahren.
+In Ihrem Projekt auf LIFOS finden Sie im Ordner *1_Präregistrierung* eine Datei namens *PsyBsc2_preregistration.md*. Die Datei im Markdown-Format geschrieben. Der Vorteil an dem Format ist, dass diese Datei in jedem beliebigen Texteditor geöffnet und bearbeitet werden kann. Neben der lokalen Bearbeiter auf Ihrem Computer nach einem Download kann die Datei auch direkt auf LIFOS im Editor bearbeitet werden. Wie man Markdown verwendet, können Sie beispielsweise [hier](https://www.markdownguide.org/basic-syntax/) erfahren.
 
 Pro Gruppe muss nur eine Präregistrierung erstellt werden. Laden Sie das ausgefüllte Dokument hoch (falls Sie die Bearbeitung nicht direkt auf LIFOS gemacht haben) und sagen Sie Ihrer Praktikumsleitung Bescheid, um Feedback zu erhalten. Nachdem Sie das Feedback eingearbeitet haben und Ihre Präregistrierung abgesegnet wurde, können Sie diese erneut hochladen. Die Zeit, zu der das Dokument hochgeladen wird, wird als Zeitstempel für die Präregistrierung verwendet. 
 
@@ -135,11 +135,11 @@ Zuerst solltet ihr auf euer Projekt gehen und auf der linken Seite das `Merge re
 
 Hier solltet ihr eure Änderungen auf dem anderen Branch als *Merge Request* sehen.
 
-![](../../lifos/grundlagen/Gitlab_Project_Merge_Requests.png)
+![](/quickguide-lifos_files/Gitlab_Project_Merge_Requests.png)
 
 Klickt ihr dabei nun auf *create merge request* öffnet sich ein neues Fenster.
 
-![](../../lifos/grundlagen/Gitlab_Project_New_Merge.png)
+![](/quickguide-lifos_files/Gitlab_Project_New_Merge.png)
 
 Hier könnt ihr nun einen Titel und eine Beschreibung für euren Merge hinzufügen, der den Grund und Inhalt eures ursprünglichen Commits erklärt, und vielleicht auch auf den falschen Commit hinweist.
 
@@ -148,13 +148,13 @@ Wählt danach, sofern ihr den anderen Branch löschen wollt da ihr ihn unabsicht
 
 Ihr solltet nun auf einer neuen Seite landen
 
-![](../../lifos/grundlagen/Gitlab_Project_New_Merge_Confirm.png)
+![](/quickguide-lifos_files/Gitlab_Project_New_Merge_Confirm.png)
 
 Hier müsst ihr euren Merge und das löschen des source branch von welchem aus der Fehler ausging erneut bestätigen und den `Merge`-button betätigen
 
 Nach einem kurzen Moment solltet ihr nun sehen, dass der Merge erfolgreich war!
 
-![](../../lifos/grundlagen/Gitlab_Project_New_Merge_Sucess.png)
+![](/quickguide-lifos_files/Gitlab_Project_New_Merge_Sucess.png)
 
 *Sollte dies nicht der Fall sein, oder solltet ihr irgendwo vorher bereits Probleme haben, könnt ihr auch LIFOS@uni-frankfurt.de kontaktieren.*
 </details>

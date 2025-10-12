@@ -6,7 +6,7 @@ slug: lmm-intro
 categories: ["KiJu"]
 tags: ["Regression", "Hierarchische Daten", "Zufallseffekte"]
 subtitle: ''
-summary: ''
+summary: 'Dieser Beitrag bietet eine Einführung in gemischte Modelle mit lme4. Der Beitrag orientiert sich an einem querschnittlichen Datensatz und die Themen umfassen Nullmodelle, zufällige Effekte, ICC, Level-1 und Level-2 Prädiktoren sowie Cross-Level Interaktionen.'
 authors: [schultze]
 weight: 3
 lastmod: '`r Sys.Date()`'

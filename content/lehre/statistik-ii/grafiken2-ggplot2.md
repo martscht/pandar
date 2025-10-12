@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'Im zweiten Teil der Einführung von ggplot2 betrachten wir neben den klassischen Gestaltungsmöglichkeiten für Scatterplots auch, wie man Grafiken mit plotly interaktiv gestalten kann.'
 authors: [schultze]
 weight: 3
-lastmod: '2025-04-08'
+lastmod: '2025-07-10'
 featured: no
 banner:
   image: "/header/colorful_tiles.jpg"
@@ -41,7 +41,7 @@ output:
 
 
 
-Im [letzten Beitrag](/lehre/statistik-ii/grafiken-ggplot2) haben wir uns mit den Grundeigenschaften von `ggplot2` befasst und uns dabei erstmal auf die Gestaltung von Balkendiagrammen konzentriert. Hier will ich das Ganze auf eine der typischen Abbildungen in den Sozialwissenschaften erweitern: den Scatterplot. Weil Printmedien aussterben gucken wir uns außerdem noch an, wie man Grafiken so erstellen kann, dass Leser:innen damit interagieren können, um mehr Informationen zu erhalten, die sich nicht auf einen Blick verpacken lassen. Mit diesem Beitrags können Sie sich dann auch mit dem ersten [Quiz](/lehre/statistik-ii/quizdaten-bsc7#Quiz1) auseinandersetzen.
+Im [letzten Beitrag](/lehre/statistik-ii/grafiken-ggplot2) haben wir uns mit den Grundeigenschaften von `ggplot2` befasst und uns dabei erstmal auf die Gestaltung von Balkendiagrammen konzentriert. Hier will ich das Ganze auf eine der typischen Abbildungen in den Sozialwissenschaften erweitern: den Scatterplot. Weil Printmedien aussterben gucken wir uns außerdem noch an, wie man Grafiken so erstellen kann, dass Leser:innen damit interagieren können, um mehr Informationen zu erhalten, die sich nicht auf einen Blick verpacken lassen.
 
 <details><summary>Abschnitte in diesem Beitrag</summary>
 
@@ -57,7 +57,7 @@ Im [letzten Beitrag](/lehre/statistik-ii/grafiken-ggplot2) haben wir uns mit den
 Wie immer laden wir erstmal die benötigten Pakete und Daten:
 
 
-``` r
+```r
 # ggplot laden
 library(ggplot2)
 
@@ -101,8 +101,9 @@ Länder, in denen das Bildungssystem eine lange Ausbildungsdauer vorsieht (als R
 Im letzten Beitrag hatten wir als letzten Punkt besprochen, wie wir Plots nach unserem (also eigentlich meinem) Geschmack angepasst hatten - dafür hatten wir vor allem [Themes](/lehre/statistik-ii/grafiken-ggplot2/#themes) und [Farbpaletten](/lehre/statistik-ii/grafiken-ggplot2/#farbpaletten) genutzt. Sie können sich eine Kombination aussuchen, die Ihnen gefällt - aber um diese Website in einem kohärenten Design zu halten und von der Corporate Design Abteilung meines Arbeitgebers keine unnötigen Emails zu erhalten, haben wir für pandaR ein spezifisches Theme und eine Farbpalette erstellt. Wir können diese direkt laden, indem wir das R-Skript ausführen, in dem sie definiert wurden:
 
 
-``` r
-source('https://pandar.netlify.com/lehre/statistik-ii/pandar_theme.R')
+```r
+# Laden des pandaR Themes
+source('https://pandar.netlify.app/lehre/statistik-ii/pandar_theme.R')
 ```
 
 
@@ -110,7 +111,7 @@ source('https://pandar.netlify.com/lehre/statistik-ii/pandar_theme.R')
 In einem etwas [älteren Beitrag](/workshops/ggplotting/ggplotting-themes) ist auch detailliert beschrieben, wie Sie ihr eigenes Theme erstellen können und wie genau dieses zustande gekommen ist. Wenn Sie mit den pandaR Einstellungen arbeiten wollen, können Sie aber jederzeit einfach das Skript ausführen. Ein Theme kann auf jede Abbildung einzeln angewendet werden (in diesem Fall dann durch `+ theme_pandar()`) oder wir können es global setzen:
 
 
-``` r
+```r
 theme_set(theme_pandar())
 ```
 
@@ -128,27 +129,33 @@ Für die Darstellung von mindestens zwei intervallskalierten Variablen ist der S
 Wie schon im letzten Beitrag schränken wir unsere Daten zunächst auf das Jahr 2014 ein:
 
 
-``` r
+```r
 edu_2014 <- subset(edu_exp, Year == 2014)
 ```
 
 Zunächst interessiert uns der Zusammenhang zwischen der Bildungsinvestition in die Primärbildung (also z.B. Grundschulen) und dem tatsächlichen Bildungsindex, wie er vom UNDP genutzt wird. Deksriptivstatistische Informationen zu den Variablen können wir mit der Funktion `describe()` aus dem Paket `psych` erhalten:
 
 
-``` r
+```r
 psych::describe(edu_2014[, c('Primary', 'Index')])
 ```
 
 ```
-##         vars   n  mean   sd median trimmed  mad  min   max range  skew kurtosis   se
-## Primary    1  90 16.37 6.57  15.26   16.03 6.89 3.48 36.54 33.06  0.49    -0.09 0.69
-## Index      2 192  0.65 0.18   0.68    0.66 0.21 0.21  1.05  0.84 -0.28    -0.77 0.01
+##         vars   n  mean   sd median trimmed
+## Primary    1  90 16.37 6.57  15.26   16.03
+## Index      2 192  0.65 0.18   0.68    0.66
+##          mad  min   max range  skew kurtosis
+## Primary 6.89 3.48 36.54 33.06  0.49    -0.09
+## Index   0.21 0.21  1.05  0.84 -0.28    -0.77
+##           se
+## Primary 0.69
+## Index   0.01
 ```
 
 Wie wir sehen, liegen für die Investitionen in die Primärbildung nur Werte aus 90 Ländern vor, was unsere Abbildung positiv ausgedrückt zumindest übersichtlicher macht. Wir können diese Datenpunkte im Datensatz lassen und `ggplot2` würde sie jedes Mal, wenn wir eine Abbildung erstellen, mit einer Warnmeldung automatisch entfernen. Allerdings wirkt sich das z.B. auf die Skalierung unserer Ästhetiken aus - z.B. würde bei der Bevölkerungszahl (die benutzen wir gleich) die Skalierung anhand das Maximums (China) festgelegt. Im Datensatz haben wir aber keine Informationen auf `Primary` von China und Indien, sodass die Skala gar nicht bis in die Milliarden gehen muss, sondern wir mit einer eingeschränkten Skala zufrieden wären. Um die Skalierung an Daten, die gar nicht genutzt werden zu verhindern, können wir - wie im letzten Beitrag betont - die Daten anpassen, bevor wir Abbildungen erstellen:
 
 
-``` r
+```r
 edu_2014 <- subset(edu_2014, !is.na(Primary) & !is.na(Index))
 ```
 
@@ -156,37 +163,31 @@ edu_2014 <- subset(edu_2014, !is.na(Primary) & !is.na(Index))
 Wie im letzten Beitrag detailliert besprochen, bauen wir eine `ggplot2`-Abbildung aus drei Schichten: Daten, Ästhetik und Geometrie. Unsere Daten sind die gerade reduzierten Fälle für das Jahr 2014. Die "Ästhetik" ist die Projektion unserer Variablen auf eine optische Eigenschaft des Plots - in unserem Fall also `Primary` als x- und `Index` als y-Variable. Die Geometrie hat sich gegenüber den letzten Abbildungen auch verändert: statt Balken (`geom_bar`) wollen wir jetzt Punkte (`geom_point`) darstellen:
 
 
-``` r
+```r
 ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point()
 ```
 
-![](/grafiken2-ggplot2_files/simple-scatter-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/unnamed-chunk-9-1.png)<!-- -->
 Wie für die Balkendiagramme, können wir auch hier eine weitere Ästhetik für Farben vergeben, um so eine dritte Variable in die Abbildung zu integrieren. Beispielsweise könnten wir wieder die vier großen Weltregionen aufnehmen:
 
 
-``` r
+```r
 ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region)) +
   scale_color_pandar()
 ```
 
-```
-## Warning: The `scale_name` argument of `discrete_scale()` is deprecated as of ggplot2 3.5.0.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
-```
-
-![](/grafiken2-ggplot2_files/scatterplot-colored-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/unnamed-chunk-10-1.png)<!-- -->
 Gerade für Punkte lassen sich noch einige andere Ästhetiken definieren, um weitere Variablen abbilden zu können. Wir können z.B. die From der Punkte (`pch`) nutzen, um die kategorialer Wohlstandseinschätzung der Länder darzustellen. Was auch sehr beliebt ist, ist die Größe der Punkte zu nutzen, um das "Gewicht" eines Datenpunkts darzustellen. In unserem Fall wäre z.B. die Bevölkerungszahl eines Landes relevant, weil jeder Punkt unterschiedlich viele Personen repräsentiert. Damit die Zahlen nicht exorbitant groß werden, skalieren wir sie noch in Millionen um:
 
 
-``` r
+```r
 edu_2014$Population <- edu_2014$Population / 1e6
 ```
 
 
-``` r
+```r
 # Scatterplot mit nominaler Farbästhetik und intervallskalierter Punktgröße
 ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population)) +
@@ -196,14 +197,14 @@ ggplot(edu_2014, aes(x = Primary, y = Index)) +
 Wenn uns die Benennung einer Ästhetik nicht gefällt (per Voreinstellung einfach der Variablenname), können wir in der dazugehörigen Skala (`scale_...`) das `name`-Argument benutzen, um etwas deskriptiveres auszusuchen. In diesem Fall wollen wir hinzufügen, dass die Bevölkerungszahl in Millionen zu verstehen ist. Das `\n` steht für "new line" und fügt einfach einen Zeilenumbruch ein.
 
 
-``` r
+```r
 # Anpassung der Benennung einer Ästhetik
 ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population)) +
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)')
 ```
 
-![](/grafiken2-ggplot2_files/scatterplot-sized-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/Scatterplot_mit_angepasster_Darstellung-1.png)<!-- -->
 
 In der neuen Abbildung lassen sich einige Datenpunkte schon ziemlich leicht direkt identifizieren: der große (viele Leute) grüne (Amerikas) Punkt mit hohem Bildungsindex ist vermutlich die USA. 
 
@@ -212,7 +213,7 @@ In der neuen Abbildung lassen sich einige Datenpunkte schon ziemlich leicht dire
 Sehr viele Datenpunkte in der gleichen Abbildung darzustellen, kann mitunter sehr unübersichtlich werden. Z.B. könnten wir neben unserer Abbildung für 2014 auch noch Informationen über andere Jahre darstellen und müssten dafür neben `Primary` (x), `Index` (y), `Region` (Farbe) und `Population` (Größe) für `Year` auch noch eine fünfte Dimension aufnehmen. Probieren wir es erstmal aus, bevor wir uns entscheiden, dass es keine gute Idee war: zunächst erstellen wir einen Datensatz mit Informationen aus 1999, 2004, 2009 und 2014, um die Entwicklung der Ausgaben und Bildungsindizes in 5-Jahres-Abständen betrachten zu können.
 
 
-``` r
+```r
 # Datensatz mit mehreren Jahren
 edu_sel <- subset(edu_exp,  Year %in% c(1999, 2004, 2009, 2014))
 edu_sel$Year <- as.factor(edu_sel$Year)
@@ -227,25 +228,25 @@ edu_sel$Population <- edu_sel$Population / 1e6
 Beim Versuch, das alles in einer Abbildung darzustellen, wird es etwas chaotisch. Hier werden die verschiedenen Jahre über die Ästhetik der Punkt-Form (`pch` für Pointcharacter) "kenntlich" gemacht:
 
 
-``` r
+```r
 ggplot(edu_sel, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population, pch = Year)) + 
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)')
 ```
 
-![](/grafiken2-ggplot2_files/chaotic-neutral-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/unnamed-chunk-13-1.png)<!-- -->
 
 Eine Möglichkeit, in diesem Fall Übersichtlichkeit zu bewahren, ist das sogenannte Faceting. Dabei wird eine Abbildung anhand von Ausprägungen auf einer oder mehr Variablen in verschiedene Abbildungen unterteilt. 
 
 
-``` r
+```r
 ggplot(edu_sel, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population)) + 
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)') +
   facet_wrap(~ Year)
 ```
 
-![](/grafiken2-ggplot2_files/faceted-1.png)<!-- -->
+![](/grafiken2-ggplot2_files/unnamed-chunk-14-1.png)<!-- -->
 
 In `facet_wrap` wird wieder mit der `R`-Gleichungsnotation gearbeitet: hier wird der Plot anhand der unabhängigen Variablen hinter der Tilde in Gruppen eingeteilt. Das gibt auch wieder die Möglichkeit mit `+` mehrere Variablen zu definieren, die zum Faceting benutzt werden sollen. Wenn Sie Gruppen anhand von zwei Variablen bilden, bietet es sich außerdem an, `facet_grid` zu benutzen.
 
@@ -257,7 +258,7 @@ Per Voreinstellung wird beim Faceting eine gemeinsame Skalierung der x- und y-Ac
 Die bisherigen Abbildungen haben alle eins gemeinsam: sie sind statisch. Das ist super, wenn wir unsere Ergebnisse irgendwo drucken möchten, aber die meisten modernen Darstellungsformen bieten einen gewissen Mehrwert durch Interaktivität der Inhalte. Nehmen wir als Beispiel nochmal unsere Abbildung für das Jahr 2014:
 
 
-``` r
+```r
 static <- ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population)) +
   scale_color_pandar() + scale_size_continuous(name = 'Population\n(in Mio)')
@@ -266,19 +267,22 @@ static <- ggplot(edu_2014, aes(x = Primary, y = Index)) +
 Wir legen Sie hier zunächst in einem Objekt ab, statt sie einfach direkt ausgeben zu lassen, weil wir dieses Objekt direkt benutzen können, um eine interaktive Grafik daraus zu machen. Dafür brauchen wir aber zuerst noch das Paket `plotly`, dass wir zunächst installieren müssen:
 
 
-``` r
-install.packages('plotly')
+```r
+if (!requireNamespace("plotly", quietly = TRUE)) {
+  install.packages("plotly")
+}
 ```
 
 Anschließend können wir es mit der `library()`-Funktion laden:
 
 
-``` r
+```r
 library(plotly)
 ```
 
 ```
-## Warning: Paket 'plotly' wurde unter R Version 4.4.3 erstellt
+## Warning: Paket 'plotly' wurde unter R Version
+## 4.3.2 erstellt
 ```
 
 ```
@@ -310,7 +314,7 @@ In `plotly` kann man über die Funktion `plot_ly()` interaktive Plots erstellen.
 
 
 
-``` r
+```r
 ggplotly(static)
 ```
 
@@ -343,7 +347,7 @@ In der Abbildung fallen direkt (nach dem kurzen Innehalten über die Wunder mode
 Für Ersteres bleibt uns leider (nach meinem aktuellen Kenntnisstand) nur übrig, die Legende als Ganzes zu entfernen. Später können wir die Populationszahl in der Hoverinfo aber wieder hinzufügen. Weil die Legende im ursprünglichen `ggplot` enthalten war, müssen wir sie dort auch wieder entfernen. Leider müssen wir hierfür auf noch eine Funktion von `ggplot2` zurückgreifen:
 
 
-``` r
+```r
 static <- ggplot(edu_2014, aes(x = Primary, y = Index)) +
   geom_point(aes(color = Region, size = Population)) +
   scale_color_pandar() + guides(size = 'none')
@@ -364,7 +368,7 @@ Die `ggplotly`-Funktion, die wir nutzen, um unseren `ggplot` in eine interaktive
 Dieses Argument erlaubt uns also die angezeigte Hoverinfo auszuwählen, indem wir die Ästhetiken auswählen, die angezeigt werden sollen. Hier ist es wichtig auf die Unterscheidung zwischen Ästhetiken und den zugrundliegenden Variablen zu achten! Wir können der Hilfe zufolge in unserem Fall also z.B.
 
 
-``` r
+```r
 ggplotly(static, 
   tooltip = c('colour', 'size', 'x', 'y'))
 ```
@@ -384,7 +388,7 @@ Die neue Ästhetik `text` kann genau das enthalten, was sie verspricht: Text. Da
 (Die Kategorie von `Wealth` wird durch die Färbung ausgegeben und  `Primary` und `Index` sind bereits in der Position des Punktes kodiert, sodass wir diese aus der Hoverinfo raus lassen können.) `paste()` klebt Textbausteine und Variablenausprägungen in einen `character` Vektor zusammen. Für die oben dargestellte Kombination benötigen wir also:
 
 
-``` r
+```r
 paste(Country, 
   '</br></br>Region:', Region, 
   '</br>Population (in mio):', round(tmp$Population, 2))
@@ -395,7 +399,7 @@ für unsere `text`-Ästhetik. So werden für jede Zeile unseres Datensatzes die 
 Der finale Plot kann also so erstellt werden:
 
 
-``` r
+```r
 static <- ggplot(edu_2014, aes(x = Primary, y = Index,
     text = paste(Country, 
   '</br></br>Region:', Region, 
@@ -407,7 +411,7 @@ static <- ggplot(edu_2014, aes(x = Primary, y = Index,
 So erstellen wir jetzt also den neuen ggplot. In dessen Anzeige hat sich überhaupt nichts geändert, weil `text` keine offizielle Ästhetik von `ggplot` ist. Wie wir es schon im letzten Abschnitt besprochen hatten, können wir mit dem `tooltip`-Argument jetzt noch angeben, welche Ästhetiken `ggplotly` in der Hoverinfo präsentieren soll. Per Voreinstellung würden hier alle (`"all"`) angezeigt werden. Wie schon erwähnt sind x, y und Farbe ja eigentlich in den Achsenbeschriftungen und der Legende schon deutlich dargestellt, sodass wir die Informationen nicht noch einmal zusätzlich brauchen. Deswegen nutzen wir hier nur die Informationen, die wir in der `text`-Ästhetik abgelegt hatten. Als neue Grafik, mit neuer Hoverinfo ergibt sich dann:
 
 
-``` r
+```r
 ggplotly(static,
   tooltip = 'text')
 ```

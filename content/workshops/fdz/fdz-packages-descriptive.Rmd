@@ -4,9 +4,9 @@ type: post
 date: '2025-02-28'
 slug: fdz-packages-descriptive
 categories: ["fdz"]
-tags: ["Grafiken", "Regression"]
+tags: ["Datenaufbereitung"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Tutorial wird die Berechnung von Deskriptivstatistiken in R behandelt. Dabei wird auf die Nutzung von Paketen eingegangen und spezifisch die Datenaufbereitung mit dplyr eingangen.'
 authors: [nehler]
 weight: 2
 lastmod: '`r Sys.Date()`'

@@ -1,35 +1,37 @@
 ---
-title: "Tests für unabhängige Stichproben - Übungen" 
+title: Tests für unabhängige Stichproben - Übungen
 type: post
-date: '2024-11-29' 
+date: '2024-11-29'
 slug: gruppenvergleiche-unabhaengig-uebungen
-categories: ["Statistik I Übungen"] 
-tags: [] 
+categories: Statistik I Übungen
+tags: []
 subtitle: ''
-summary: '' 
-authors: [koehler, buchholz]
+summary: ''
+authors:
+- koehler
+- buchholz
 weight: 1
-lastmod: '2025-04-07'
+lastmod: '2025-05-13'
 featured: no
 banner:
-  image: "/header/writing_math.jpg"
-  caption: "[Courtesy of pxhere](https://pxhere.com/en/photo/662606)"
+  image: /header/writing_math.jpg
+  caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/662606)'
 projects: []
-reading_time: false
-share: false
-
+reading_time: no
+share: no
 links:
-  - icon_pack: fas
-    icon: book
-    name: Inhalte
-    url: /lehre/statistik-i/gruppenvergleiche-unabhaengig
-  - icon_pack: fas
-    icon: star
-    name: Lösungen
-    url: /lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen
+- icon_pack: fas
+  icon: book
+  name: Inhalte
+  url: /lehre/statistik-i/gruppenvergleiche-unabhaengig
+- icon_pack: fas
+  icon: star
+  name: Lösungen
+  url: /lehre/statistik-i/gruppenvergleiche-unabhaengig-loesungen
 output:
   html_document:
-    keep_md: true
+    keep_md: yes
+private: 'true'
 ---
 
 
@@ -43,7 +45,7 @@ output:
 **Datenaufbereitung**
 
 
-``` r
+```r
 #### Was bisher geschah: ----
 
 # Daten laden

@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag zur Partial- und Semipartialkorrelation lernst du den Einfluss von Drittvariablen zu kontrollieren und so Scheinkorrelationen zu entlarven. Das Beispiel mit Schulleistungen zeigt, dass der ursprüngliche Zusammenhang zwischen der Lese- und Mathematikleistung verschwindet, wenn der Einfluss des IQ berücksichtigt wird. Die Semipartialkorrelation spezifisch aufzeigt, wie der IQ die Mathematikleistung beeinflusst. Diese Werkzeuge sind entscheidend, um versteckte Muster in statistischen Daten zu entwirren und Kausalitätsannahmen zu überprüfen.'
 authors: [kvetnaya, schroeder, gruetzmacher, nehler, irmer]
 weight: 5
-lastmod: '2025-04-08'
+lastmod: '2025-07-01'
 featured: no
 banner:
   image: "/header/prism_colors.jpg"
@@ -52,8 +52,6 @@ Um sich Rückschlüssen über die wahren Wirkungsbeziehungen aber zumindest anzu
 
 $^1$ Falls Sie noch mehr solcher Scheinkorrelationen zu Gemüte führen wollen, gibt es einen ganzen Blog, der sich mit solchen [*spurious correlations*](http://tylervigen.com/spurious-correlations) befasst.
 
-*Im Anschluss an diesen Beitrag können Sie sich mit dem [nächsten Quiz](/lehre/statistik-ii/quizdaten-bsc7#Quiz3) auseinandersetzen.*
-
 ## Vorbereitung des Datensatzes
 
 Der Datensatz `Depression`, den wir zur Illustration des heutigen Themas heranziehen werden, enthält fiktive Daten bezüglich Depressivitätswerten und einigen anderen, damit in Beziehung stehenden Variablen. Zusätzlich sind die kategorialen Variablen `Intervention` und `Geschlecht` enthalten, die wir in dieser Sitzung aber nicht weiter betrachten werden.
@@ -68,7 +66,7 @@ Der Datensatz `Depression`, den wir zur Illustration des heutigen Themas heranzi
 Diesen Satz laden wir uns erst einmal herunter und prüfen die Struktur des Datensatzes:
 
 
-``` r
+```r
 load(url("https://pandar.netlify.app/daten/Depression.rda"))
 str(Depression)
 ```
@@ -86,7 +84,7 @@ str(Depression)
 Da wir die Variablen `Intervention` und `Geschlecht` für diese Sitzung nicht brauchen, entfernen wir diese mit dem uns bereits bekannten `subset()`-Befehl:
 
 
-``` r
+```r
 dat <- subset(Depression, select = -c(Intervention, Geschlecht))
 
 rm(Depression) # das nicht benötigte Objekt wird wieder gelöscht
@@ -97,7 +95,7 @@ Hier habe ich bei der Zuweisung in ein neues Objekt `dat` als kürzeren Namen f�
 Vorher müssen wir allerdings noch die Kodierung der Variable `Neurotizismus` invertieren. Im ursprünglichen Datensatz wurde eine hohe Punktzahl als höhere emotionale Stablität (und damit geringerer Neurotizismus) kodiert, diese Kodierung wollen wir umkehren, damit eine höhere Punktzahl auch tatsächlich einen höheren Neurotizismus anzeigt:
 
 
-``` r
+```r
 # Neurotizismus invertieren
 dat$Neurotizismus <- 11 - (dat$Neurotizismus)
 ```
@@ -123,7 +121,7 @@ Der Wert von $r_{xy}$ liegt dabei immer im Wertebereich zwischen +1 und -1. Man 
 Schauen wir uns zwei Variablen aus unserem Datensatz ab, bei denen die Vermutung nahe liegt, dass es einen (umgekehrten) Zusammenhang geben könnte: Lebenszufriedenheit und Depressivität. Sind Personen, die angeben, zufriedener mit ihrem Leben zu sein, weniger depressiv? Diese vermutete Korrelation lässt sich grafisch in einem Streudiagramm darstellen, was Sie mit dem Wissen aus den Lektionen zum `ggplot2`-Paket wie folgt bewältigen können:
 
 
-``` r
+```r
 library(ggplot2) # notwendiges Paket für Grafiken laden
 
 ggplot(dat, aes(x = Lebenszufriedenheit, y = Depressivitaet)) + 
@@ -133,7 +131,8 @@ ggplot(dat, aes(x = Lebenszufriedenheit, y = Depressivitaet)) +
 ```
 
 ```
-## `geom_smooth()` using formula = 'y ~ x'
+## `geom_smooth()` using formula = 'y ~
+## x'
 ```
 
 ![](/partial_files/unnamed-chunk-4-1.png)<!-- -->
@@ -143,16 +142,18 @@ In dieser Abbildung mit einer dazugehörigen Regressionsgerade wird deutlich, da
 Mit `cor.test()` können wir diesen Zusammenhang auch inferenzstatistisch überprüfen:
 
 
-``` r
+```r
 cor.test(dat$Depressivitaet, dat$Lebenszufriedenheit)
 ```
 
 ```
 ## 
-## 	Pearson's product-moment correlation
+## 	Pearson's product-moment
+## 	correlation
 ## 
 ## data:  dat$Depressivitaet and dat$Lebenszufriedenheit
-## t = -5.0256, df = 88, p-value = 2.614e-06
+## t = -5.0256, df = 88, p-value =
+## 2.614e-06
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.6188046 -0.2938777
@@ -182,17 +183,19 @@ In unserem Datensatz wollen wir uns als eine solche Drittvariable `Neurotizismus
 Daher liegt es nahe, dass Neurotizismus im Zusammenhang mit Lebenszufriedenheit und Depressivität stehen könnte. Testen wir den vermuteten Zusammenhang in zwei einzelnen Korrelationstests:
 
 
-``` r
+```r
 # Korrelation der Drittvariablen mit den beiden ursprünglichen Variablen
 cor.test(dat$Neurotizismus, dat$Lebenszufriedenheit)
 ```
 
 ```
 ## 
-## 	Pearson's product-moment correlation
+## 	Pearson's product-moment
+## 	correlation
 ## 
 ## data:  dat$Neurotizismus and dat$Lebenszufriedenheit
-## t = -8.2276, df = 88, p-value = 1.587e-12
+## t = -8.2276, df = 88, p-value =
+## 1.587e-12
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.7623706 -0.5238208
@@ -201,16 +204,18 @@ cor.test(dat$Neurotizismus, dat$Lebenszufriedenheit)
 ## -0.659383
 ```
 
-``` r
+```r
 cor.test(dat$Neurotizismus, dat$Depressivitaet)
 ```
 
 ```
 ## 
-## 	Pearson's product-moment correlation
+## 	Pearson's product-moment
+## 	correlation
 ## 
 ## data:  dat$Neurotizismus and dat$Depressivitaet
-## t = 12.289, df = 88, p-value < 2.2e-16
+## t = 12.289, df = 88, p-value <
+## 2.2e-16
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  0.7035951 0.8603383
@@ -242,7 +247,7 @@ Nun heißt es näher zu betrachten, ob Neurotizismus eine mögliche konfundieren
 Erstmal stellen wir zwei einfache Regressionsmodelle mit `Neurotizismus` als demjenigen Prädiktor auf, dessen Einfluss wir aus `Depressivitaet` und `Lebenszufriedenheit` isolieren möchten.
 
 
-``` r
+```r
 # Regression 
 reg_depr_neuro <- lm(Depressivitaet ~ Neurotizismus, data = dat)
 reg_lz_neuro <- lm(Lebenszufriedenheit ~ Neurotizismus, data = dat)
@@ -251,7 +256,7 @@ reg_lz_neuro <- lm(Lebenszufriedenheit ~ Neurotizismus, data = dat)
 Der Einfachheit halber legen wir die Residuen (also den von `Neurotizismus` unabhängigen Varianzteil) in einem neuen Objekt ab:
 
 
-``` r
+```r
 # Residuen in Objekt ablegen (Anteil von Depr., der nicht durch Neuro. erklärt wird)
 res_depr_neuro <- residuals(reg_depr_neuro)
 
@@ -264,7 +269,7 @@ res_lz_neuro <- residuals(reg_lz_neuro)
 Damit können wir die Partialkorrelation nun bestimmen:
 
 
-``` r
+```r
 cor(res_depr_neuro, res_lz_neuro)
 ```
 
@@ -282,45 +287,22 @@ Beachten Sie, dass wir hier NICHT `cor.test()` verwenden, da die inferenzstatist
 Natürlich müssen wir nicht jedes Mal die Residuen manuell berechnen, sondern können hierfür -- nachdem Ihnen die Logik hinter der Partialkorrelation an diesem Beispiel deutlich werden konnte -- auf eine Funktion zurückgreifen, die uns $r_{xy.z}$ direkt berechnet. Diese ist aber nicht in den Basis-Paketen erhalten, weshalb wir erstmal `ppcor` installieren und das Paket laden müssen.
 
 
-``` r
-# Paket für Partial- und Semipartialkorrelation
-install.packages("ppcor")
+```r
+# Paket für Partial- und Semipartialkorrelation intallieren falls nicht vorhanden
+if (!requireNamespace("ppcor", quietly = TRUE)) {
+    install.packages("ppcor")
+  }
 ```
 
 
-``` r
+```r
 library(ppcor)
-```
-
-```
-## Warning: Paket 'ppcor' wurde unter R Version 4.4.3 erstellt
-```
-
-```
-## Lade nötiges Paket: MASS
-```
-
-```
-## 
-## Attache Paket: 'MASS'
-```
-
-```
-## Das folgende Objekt ist maskiert 'package:olsrr':
-## 
-##     cement
-```
-
-```
-## Das folgende Objekt ist maskiert 'package:plotly':
-## 
-##     select
 ```
 
 Mit der Funktion `pcor.test()` lässt sich die Partialkorrelation direkt ermitteln:
 
 
-``` r
+```r
 # Partialkorrelation mit Funktion
 pcor.test(x = dat$Depressivitaet,      # Das Outcome
           y = dat$Lebenszufriedenheit, # Die Prädiktorvariable
@@ -328,8 +310,10 @@ pcor.test(x = dat$Depressivitaet,      # Das Outcome
 ```
 
 ```
-##    estimate   p.value statistic  n gp  Method
-## 1 0.1137543 0.2884924  1.067961 90  1 pearson
+##    estimate   p.value statistic  n gp
+## 1 0.1137543 0.2884924  1.067961 90  1
+##    Method
+## 1 pearson
 ```
 
 **Vorsicht:** Hier herrscht Verwechslungsgefahr bei der Notation der Argumente! Während wir typischerweise bei der Regression mit $x$ den Prädiktor meinen, dessen Einfluss auf das Kriterium $y$ untersucht werden soll, haben die Argumente-Namen der `pcor.test`-Funktion in diesem Fall nichts damit zu tun. Mit `x` ist hier die primäre Variable gemeint, aus deren gemeinsamer Varianz mit `y` der Varianzanteil von `z` herauspartialisiert werden soll. Das entspricht eher der Notation in den Venn-Diagrammen in dieser Lektion. Bei den Semipartialkorrelationen weiter unten wird diese Reihenfolge noch relevant!
@@ -341,29 +325,43 @@ Unter Kontrolle des Neurotizismus verschwindet der ursprüngliche Zusammenhang z
 Übertragen auf die Regression: Wenn wir in ein einfaches Regressionsmodell mit Prädiktor $x_1$ = `Lebenszufriedenheit` zusätzlich den Prädiktor $x_2$ = `Neurotizismus` aufnehmen, wird das Regressionsgewicht $b_1$ von `Lebenszufriedenheit` nicht signifikant ($p$ = 0.288).
 
 
-``` r
+```r
 # Einfache lineare Regression von Depressivität auf Neurotizismus
 mod1 <- lm(Depressivitaet ~ Lebenszufriedenheit, data = dat)
 summary(mod1)$coefficients |> round(3)
 ```
 
 ```
-##                     Estimate Std. Error t value Pr(>|t|)
-## (Intercept)            9.122      0.709  12.862        0
-## Lebenszufriedenheit   -0.542      0.108  -5.026        0
+##                     Estimate
+## (Intercept)            9.122
+## Lebenszufriedenheit   -0.542
+##                     Std. Error
+## (Intercept)              0.709
+## Lebenszufriedenheit      0.108
+##                     t value Pr(>|t|)
+## (Intercept)          12.862        0
+## Lebenszufriedenheit  -5.026        0
 ```
 
-``` r
+```r
 # Erweiterte Regression, die Episodenanzahl einschließt
 mod2 <- lm(Depressivitaet ~ Lebenszufriedenheit + Neurotizismus, data = dat)
 summary(mod2)$coefficients |> round(3)
 ```
 
 ```
-##                     Estimate Std. Error t value Pr(>|t|)
-## (Intercept)            1.008      0.950   1.061    0.292
-## Lebenszufriedenheit    0.105      0.099   1.068    0.288
-## Neurotizismus          0.881      0.089   9.950    0.000
+##                     Estimate
+## (Intercept)            1.008
+## Lebenszufriedenheit    0.105
+## Neurotizismus          0.881
+##                     Std. Error
+## (Intercept)              0.950
+## Lebenszufriedenheit      0.099
+## Neurotizismus            0.089
+##                     t value Pr(>|t|)
+## (Intercept)           1.061    0.292
+## Lebenszufriedenheit   1.068    0.288
+## Neurotizismus         9.950    0.000
 ```
 
 
@@ -395,7 +393,7 @@ Es ist auch möglich, den Einfluss einer Drittvarible $Z$ nur einer der beiden V
 Wenn wir unser Beispiel wieder aufgreifen, entspricht das konzeptuell der Korrelation zwischen Depressivität (ihrer gesamten Varianz) und dem Residualateil von Lebenszufriedenheit, der von Neurotizismus unabhängig ist:
 
 
-``` r
+```r
 # Semipartialkorrelation als Korrelation zwischen Depressivität (X) und 
 # Lebenszufriedenheit (Y), bereinigt um den Einfluss von Neurotizismus (Z) auf 
 # Lebenszufriedenheit (Y)
@@ -411,7 +409,7 @@ Auch hier verwenden wir absichtlich die Funktion `cor()` statt `cor.test()`, da 
 Mit der Funktion `spcor.test()` aus dem zuvor installierten Paket `ppcor` lässt sich die Semipartialkorrelation direkt ermitteln und die inferenzstatistische Absicherung gelingt.
 
 
-``` r
+```r
 # Semipartialkorrelation mit Funktion
 spcor.test(x = dat$Depressivitaet,        # Outcome
            y = dat$Lebenszufriedenheit,   # Prädiktor
@@ -419,8 +417,10 @@ spcor.test(x = dat$Depressivitaet,        # Outcome
 ```
 
 ```
-##     estimate   p.value statistic  n gp  Method
-## 1 0.06902416 0.5203964 0.6453536 90  1 pearson
+##     estimate   p.value statistic  n
+## 1 0.06902416 0.5203964 0.6453536 90
+##   gp  Method
+## 1  1 pearson
 ```
 
 Der Koeffizient der Semipartialkorrelation $r_{x(y.z)}$ beträgt 0.07 und ist nicht signifikant ($p$ = 0.52). Es zeigt sich also, dass der ursprüngliche Zusammenhang zwischen Depressivität und Lebenszufriedenheit ($r_{xz}$ = -0.47) verschwindet, wenn der Einfluss des Neurotizismus auf die Lebenszufriedenheit kontrolliert wird.
@@ -443,16 +443,10 @@ Relevant wird das Konzept der Semipartialkorrelation im Rahmen der multiplen Reg
 In [Statistik 1](/lehre/statistik-i/einfache-reg) haben wir bereits erfahren, dass in der einfachen linearen Regression der standardisierte $\beta$-Koeffizient der Korrelation $r_{xy}$ zwischen Prädiktor $x$ und Kriterium $y$ entspricht:
 
 
-``` r
+```r
 # Paket für standardisierte Beta-Koeffizienten
 library(lm.beta)
-```
 
-```
-## Warning: Paket 'lm.beta' wurde unter R Version 4.4.2 erstellt
-```
-
-``` r
 # Einfache lineare Regression von Depressivität auf Neurotizismus
 mod1 <- lm(Depressivitaet ~ Neurotizismus, data = dat)
 lm.beta(mod1)$standardized.coefficients
@@ -463,7 +457,7 @@ lm.beta(mod1)$standardized.coefficients
 ##            NA     0.7948675
 ```
 
-``` r
+```r
 # Korrelation entspricht dem Beta-Koeffizienten
 cor(dat$Depressivitaet, dat$Neurotizismus)
 ```
@@ -486,7 +480,7 @@ $R^2 = r^2_{yx1} + r^2_{y(x2.x1)} + r^2_{y(x3.x2x1)}$
 In unserem Fall haben wir lediglich zwei Prädiktoren, wobei wir als $x_2$ diesmal die `Episodenanzahl` wählen. Für diese lassen wir uns direkt die standardisierten $\beta$-Koeffizienten ausgeben:
 
 
-``` r
+```r
 # Ein Modell mit zwei Prädiktoren
 mod2 <- lm(Depressivitaet ~ Neurotizismus + Episodenanzahl, 
           data = dat)
@@ -501,16 +495,28 @@ lm.beta(mod2) |> summary() # fügt std. Betas zum Output hinzu
 ##     data = dat)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -2.02852 -0.51230 -0.08009  0.65804  1.74145 
+##      Min       1Q   Median       3Q 
+## -2.02852 -0.51230 -0.08009  0.65804 
+##      Max 
+##  1.74145 
 ## 
 ## Coefficients:
-##                Estimate Standardized Std. Error t value Pr(>|t|)    
-## (Intercept)    -1.17653           NA    0.46337  -2.539   0.0129 *  
-## Neurotizismus   0.82155      0.79784    0.05088  16.147  < 2e-16 ***
-## Episodenanzahl  0.51622      0.39471    0.06462   7.988 5.23e-12 ***
+##                Estimate Standardized
+## (Intercept)    -1.17653           NA
+## Neurotizismus   0.82155      0.79784
+## Episodenanzahl  0.51622      0.39471
+##                Std. Error t value
+## (Intercept)       0.46337  -2.539
+## Neurotizismus     0.05088  16.147
+## Episodenanzahl    0.06462   7.988
+##                Pr(>|t|)    
+## (Intercept)      0.0129 *  
+## Neurotizismus   < 2e-16 ***
+## Episodenanzahl 5.23e-12 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05
+##   '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.8243 on 87 degrees of freedom
 ## Multiple R-squared:  0.7876,	Adjusted R-squared:  0.7827 
@@ -520,14 +526,14 @@ lm.beta(mod2) |> summary() # fügt std. Betas zum Output hinzu
 Wir legen den Determinationskoeffizienzen in ein Objekt ab:
 
 
-``` r
+```r
 R2_mod2 <- summary(mod2)$r.squared
 ```
 
 ...und berechnen auch die Korrelation zwischen $y$ = Depression und $x_1$, sowie die Semipartialkorrelation zwischen $y$ und $x_2$ = Episodenanzahl, wenn der Einfluss von $x_1$ = Neurotizismus herausgerechnet wird. Zur leichteren Bearbeitung legen wir sie im Objekt `corrs` (Korrelationen) ab.
 
 
-``` r
+```r
 r_yx1      <- cor(dat$Depressivitaet, dat$Neurotizismus)
 r_yx2.x1   <- spcor.test(x = dat$Depressivitaet, # Outcome 
                       y = dat$Episodenanzahl,    # hier rauspartialisieren
@@ -545,7 +551,7 @@ corrs
 Wie in der obigen Formel abstrakt dargestellt, entspricht auch in unserem konkreten Fall $R^2$ der Summe der quadrierten Korrelationen:
 
 
-``` r
+```r
 sum(corrs^2) # Das entspricht dem Determinationskoeffizienten R^2
 ```
 
@@ -553,7 +559,7 @@ sum(corrs^2) # Das entspricht dem Determinationskoeffizienten R^2
 ## [1] 0.7876049
 ```
 
-``` r
+```r
 R2_mod2
 ```
 
@@ -574,32 +580,40 @@ Wir haben in diesem Tutorial die Partial- und Semipartialkorrelation als Erweite
 Das kann man natürlich nicht nur für zwei oder drei, sondern potentiell eine sehr große Anzahl von Variablen machen. Wenn wir in die Funktion `pcor` mehrere Variablen übergeben, wird eine Matrix der Partialkorrelationen zurückgegeben. Hier ein Beispiel mit allen numerischen Variablen unseres Datensatzes. Die Funktion `pcor()` gibt uns nicht nur die Tabelle der Partialkorrelationskoeffizienten aus, sondern auch die zugehörigen $p$-Werte und die $t$-Statistik. An dieser Stelle extrahieren wir nur den Teil des Outputs, der die Partialkorrelationen enthält.
 
 
-``` r
+```r
 # Tabelle der Partialkorrelationen
 pcor_table <- pcor(dat)
 pcor_table$estimate |> round(3)
 ```
 
 ```
-##                     Lebenszufriedenheit Episodenanzahl Depressivitaet Neurotizismus
-## Lebenszufriedenheit               1.000         -0.173          0.199        -0.529
-## Episodenanzahl                   -0.173          1.000          0.662        -0.565
-## Depressivitaet                    0.199          0.662          1.000         0.825
-## Neurotizismus                    -0.529         -0.565          0.825         1.000
+##                     Lebenszufriedenheit
+## Lebenszufriedenheit               1.000
+## Episodenanzahl                   -0.173
+## Depressivitaet                    0.199
+## Neurotizismus                    -0.529
+##                     Episodenanzahl
+## Lebenszufriedenheit         -0.173
+## Episodenanzahl               1.000
+## Depressivitaet               0.662
+## Neurotizismus               -0.565
+##                     Depressivitaet
+## Lebenszufriedenheit          0.199
+## Episodenanzahl               0.662
+## Depressivitaet               1.000
+## Neurotizismus                0.825
+##                     Neurotizismus
+## Lebenszufriedenheit        -0.529
+## Episodenanzahl             -0.565
+## Depressivitaet              0.825
+## Neurotizismus               1.000
 ```
 
 Man kann das ganze auch grafisch darstellen, um sich einen schnellen Überblick über ungerichtete Zusammenhänge zwischen einer größeren Anzahl von Variablen zu verschaffen. Dabei wird der Einfluss je aller anderen Variablen im Datensatz konstant gehalten (herauspartialisiert). Ein populäres Paket zur Visualisierung solcher ungerichteten Zusammenhänge ist das Paket `qgraph`. Für die numerischen Variablen aus unserem Depressionsdatensatz könnte das Ganze so aussehen:
 
 
-``` r
+```r
 library(qgraph)
-```
-
-```
-## Warning: Paket 'qgraph' wurde unter R Version 4.4.3 erstellt
-```
-
-``` r
 # Partialkorrelationsnetzwerk grafisch darstellen:
 Q <- qgraph(input = pcor_table$estimate, 
      layout = "spring",                    # grafische Anordnung der Variablen
@@ -609,7 +623,7 @@ Q <- qgraph(input = pcor_table$estimate,
 
 ![](/partial_files/unnamed-chunk-22-1.png)<!-- -->
 
-``` r
+```r
 # Plot wird automatisch erzeugt, ohne dass wir Q ausführen müssen
 ```
 
@@ -638,7 +652,7 @@ T=\frac{r\sqrt{n-2}}{\sqrt{1-r^2}}\sim t(n-2)
 Liegt $T$ weit entfernt von der 0, so spricht dies gegen die $H_0$-Hypothese. Der zugehörige $t$ und $p$ Wert aus der `cor.test` Funktion werden genau mit dieser Formel, bzw. mit `pt` (für den zugehörigen $p$-Wert zu einem bestimmten $t$-Wert), bestimmt.
 
 
-``` r
+```r
 # Infos aus cor.test
 cortest <- cor.test(dat$Depressivitaet, dat$Lebenszufriedenheit)
 # correlation r
@@ -664,7 +678,7 @@ t_cortest
 ## -5.025552
 ```
 
-``` r
+```r
 t
 ```
 
@@ -672,7 +686,7 @@ t
 ## [1] -5.025552
 ```
 
-``` r
+```r
 # p
 p_cortest
 ```
@@ -681,7 +695,7 @@ p_cortest
 ## [1] 2.614365e-06
 ```
 
-``` r
+```r
 p
 ```
 
@@ -696,7 +710,7 @@ Super, die Formeln stimmen also. Widmen wir uns nun den Regressionsresiduen.
 Wir wollen $Z$ aus $X$ und $Y$ herauspartialisieren. Wenn wir eine Regression rechnen und bspw. $Y$ durch $Z$ "vorhersagen", dann schätzen wir ein Modell: $y=\beta_{y,0}+\beta_{y,1}z+\varepsilon_y$. Die Annahme an das Residuum lautet, dass es einen Mittelwert von 0 hat (auch Erwartungswert: $\mathbb{E}[\varepsilon_y]=0$) und dass es mit dem Prädiktor unkorreliert ist: $\mathbb{C}ov[z,\varepsilon_y]=0$. Wenn die Kovarianz mit $Z$ Null ist, so ist auch die Korrelation mit $Z$ Null. Gleichzeitig ist $\varepsilon_y$ aber hoch mit $Y$ korreliert. Es gilt $\mathbb{C}ov[y,\varepsilon_y]>0$. Damit haben wir quasi eine neue Variable $\varepsilon_y$ gefunden, die sehr viel mit $Y$ gemein hat, aber nichts mehr mit $Z$. Somit ist $\varepsilon_y$ also der Anteil von $Y$ der nichts mehr mit $Z$ zu tun hat. Hängt dieser noch mit dem ebenso bereinigten Anteil von $X$, $\varepsilon_x$ (resultierend aus $x=\beta_{x,0}+\beta_{x,1}z+\varepsilon_x$) zusammen, dann bedeutet dies, dass es Anteile von $X$ und $Y$ gibt, die mit einander linear Zusammenhang. Diese Beziehung ist dann nicht durch $Z$ erklärbar, da dieses unkorreliert zu den Residuen ist. Hier ein empirisches Beispiel:
 
 
-``` r
+```r
 # Regression 
 reg_depr_neuro <- lm(Depressivitaet ~ Neurotizismus, data = dat) # x ~ z
 reg_lz_neuro <- lm(Lebenszufriedenheit ~ Neurotizismus, data = dat) # y ~ z 
@@ -711,7 +725,7 @@ res_lz_neuro <- residuals(reg_lz_neuro) # eps_y
 Prüfen wir doch mal ein paar Eigenschaften des Residuums:
 
 
-``` r
+```r
 # Mittelwert 0
 mean(res_depr_neuro) # mean(eps_x)
 ```
@@ -720,7 +734,7 @@ mean(res_depr_neuro) # mean(eps_x)
 ## [1] -9.714451e-17
 ```
 
-``` r
+```r
 round(mean(res_depr_neuro), 14) # mean(eps_x) gerundet auf 14 Nachkommastellen
 ```
 
@@ -731,7 +745,7 @@ round(mean(res_depr_neuro), 14) # mean(eps_x) gerundet auf 14 Nachkommastellen
 Das Residuum hat wie im Erwartungswert festgehalten den Mittelwert von 0. Weiterhin zeigt es auch keinen Zusammenhang zum Prädiktor in der Regression, in der es aufgetreten ist:
 
 
-``` r
+```r
 # Korrelation/Kovarianze mit dem Prädiktor z
 cov(dat$Neurotizismus, res_depr_neuro) # 0
 ```
@@ -740,7 +754,7 @@ cov(dat$Neurotizismus, res_depr_neuro) # 0
 ## [1] -7.573738e-17
 ```
 
-``` r
+```r
 cor(dat$Neurotizismus, res_depr_neuro) # 0
 ```
 
@@ -748,7 +762,7 @@ cor(dat$Neurotizismus, res_depr_neuro) # 0
 ## [1] -4.109959e-17
 ```
 
-``` r
+```r
 round(cor(dat$Neurotizismus, res_depr_neuro), 16) # 0 gerundet auf 16 Nachkommastellen
 ```
 
@@ -759,7 +773,7 @@ round(cor(dat$Neurotizismus, res_depr_neuro), 16) # 0 gerundet auf 16 Nachkommas
 Nun interessiert uns aber, wie stark dieses Residuum noch mit der abhängigen Variable ($X$ oder $Y$) zusammenhängt:
 
 
-``` r
+```r
 cor(dat$Depressivitaet, res_depr_neuro)
 ```
 
@@ -774,7 +788,7 @@ Die Korrelation fällt relativ hoch aus: $r_{\varepsilon_y,y}=$ 0.607. Das ist d
 Die Partialkorrelation hatten wir in diesem Beitrag über die Residuen einer Regression pro Variable definiert. Im vorherigen Abschnitt hatten wir die Eigenschaften dieser Residuen näher beleuchtet. Die Partialkorrelation war jetzt nichts weiter als die Korrelation der Residuen $\varepsilon_x$ mit $\varepsilon_y$ also dem Anteil von $X$ und $Y$, der nicht mit $Z$ korreliert war. Die Partialkorrelation lautet:
 
 
-``` r
+```r
 # Partialkorrelation
 partial_cor <- cor(res_lz_neuro, res_depr_neuro)
 partial_cor
@@ -791,7 +805,7 @@ $$r_{xy.z}=\frac{r_{xy}-r_{xz}r_{yz}}{\sqrt{1-r_{xz}^2}\sqrt{1-r_{yz}^2}}$$
 Wenn wir die Korrelationen in Objekten abspeichern, so lässt sich diese Formel sehr leicht umsetzen:
 
 
-``` r
+```r
 # Partialkorrelation via Formel
 r_xy <- cor(dat$Lebenszufriedenheit, dat$Depressivitaet)
 r_xz <- cor(dat$Lebenszufriedenheit, dat$Neurotizismus)
@@ -808,7 +822,7 @@ r_xy.z
 Offensichtlich kommen beide Befehle zum gleichen Ergebnis. Interessierten sei gesagt, dass der verwendete Code für die Berechnung `r_xy.z` das Gleiche ist wie:
 
 
-``` r
+```r
 r_xy.z <- (r_xy - r_xz*r_yz)/sqrt(1-r_xz^2)/sqrt(1-r_yz^2)
 ```
 
@@ -817,7 +831,7 @@ Hier besteht allerdings der Vorteil, dass man die Klammer im Nenner nicht verges
 Wir wollen uns nun der Frage widmen, wie diese Formel entsteht. Dazu müssen wir eine kleine Vorbereitung treffen: wir müssen den `Depression` Datensatz standardisieren. Danach ist der Mittelwert und die Varianz jeder Variable 0 (Mittelwert) und 1 (Varianz). Dies geht sehr leicht mit dem `scale` Befehl. Anschließend müssen wir alle Ananlysen nochmals wiederholen, aber keine Sorge, die Partialkorrelation bleibt identisch:
 
 
-``` r
+```r
 # Datensatz standardisieren:
 dat_std <- data.frame(scale(dat))
 # Regression 
@@ -839,7 +853,7 @@ partial_cor
 ## [1] 0.1137543
 ```
 
-``` r
+```r
 # Partialkorrelation via Formel
 r_xy <- cor(dat_std$Lebenszufriedenheit, dat_std$Depressivitaet)
 r_xz <- cor(dat_std$Lebenszufriedenheit, dat_std$Neurotizismus)
@@ -856,7 +870,7 @@ r_xy.z
 Sie sehen, alles bleibt identisch! Der Hauptunterschied ist nur, einige Korrelationen jetzt einfach Kovarianzen sind, da die Varianzen der Variablen = 1 sind:
 
 
-``` r
+```r
 cor(dat_std$Lebenszufriedenheit, dat_std$Depressivitaet)
 ```
 
@@ -864,7 +878,7 @@ cor(dat_std$Lebenszufriedenheit, dat_std$Depressivitaet)
 ## [1] -0.4722292
 ```
 
-``` r
+```r
 cov(dat_std$Lebenszufriedenheit, dat_std$Depressivitaet)
 ```
 
@@ -884,7 +898,7 @@ Wir wissen, dass die Korrelation gerade die Kovarianz geteilt durch das Produkt 
 Die Wurzel aus den letzten beiden Ausdrücken ergibt dann die Standardabweichung (von $\varepsilon_x$ und $\varepsilon_y$). Prüfen wir das doch mal:
 
 
-``` r
+```r
 # Cov[eps_x, eps_y]
 cov(res_lz_neuro, res_depr_neuro)
 ```
@@ -893,7 +907,7 @@ cov(res_lz_neuro, res_depr_neuro)
 ## [1] 0.05189286
 ```
 
-``` r
+```r
 r_xy - r_xz*r_yz
 ```
 
@@ -901,7 +915,7 @@ r_xy - r_xz*r_yz
 ## [1] 0.05189286
 ```
 
-``` r
+```r
 # -> identisch!
 
 # Var[eps_x]
@@ -912,7 +926,7 @@ var(res_lz_neuro)
 ## [1] 0.5652141
 ```
 
-``` r
+```r
 1-r_xz^2
 ```
 
@@ -920,7 +934,7 @@ var(res_lz_neuro)
 ## [1] 0.5652141
 ```
 
-``` r
+```r
 # -> identisch!
 
 # Var[eps_y]
@@ -931,7 +945,7 @@ var(res_depr_neuro)
 ## [1] 0.3681857
 ```
 
-``` r
+```r
 1-r_yz^2
 ```
 
@@ -939,7 +953,7 @@ var(res_depr_neuro)
 ## [1] 0.3681857
 ```
 
-``` r
+```r
 # -> identisch!
 ```
 
@@ -960,7 +974,7 @@ Wir sehen also, dass die `cor.test` Funktion, wenn wir ihr die Residuen übergeb
 Weil es so viel Freude bereitet diese Inhalte tiefer zu verstehen, prüfen wir auch dies noch einmal:
 
 
-``` r
+```r
 # Infos aus pcor.test
 pcortest <- pcor.test(dat$Depressivitaet, dat$Lebenszufriedenheit, 
                       dat$Neurotizismus)
@@ -985,7 +999,7 @@ t_pcortest
 ## [1] 1.067961
 ```
 
-``` r
+```r
 t
 ```
 
@@ -993,7 +1007,7 @@ t
 ## [1] 1.067961
 ```
 
-``` r
+```r
 # p
 p_pcortest
 ```
@@ -1002,7 +1016,7 @@ p_pcortest
 ## [1] 0.2884924
 ```
 
-``` r
+```r
 p
 ```
 

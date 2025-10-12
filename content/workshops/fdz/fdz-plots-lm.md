@@ -6,10 +6,10 @@ slug: fdz-plots-lm
 categories: ["fdz"]
 tags: ["Grafiken", "Regression"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Tutorial wird die Erstellung von Grafiken mit Basis R und die Syntax von linearen Modellen in R behandelt. Die Syntax für einfache und multiple Regressionen wird erläutert, einschließlich der Verwendung von kontinuierlichen und kategorialen Prädiktoren sowie der Moderation.'
 authors: [nehler]
 weight: 3
-lastmod: '2025-03-12'
+lastmod: '2025-04-30'
 featured: no
 banner:
   image: "/header/rice-field.jpg"
@@ -458,62 +458,86 @@ summary(data)   # Zusammenfassung des Datensatzes
 ```
 
 ```
-##            Year          Gender                         Ethnicity   Total_Mindset 
-##  7. Schuljahr:187   weiblich:151   Any other Asian background:  1   Min.   :19.0  
-##  8. Schuljahr:113   männlich:149   Any other white background:  1   1st Qu.:29.0  
-##                                    Chinese                   :  1   Median :32.0  
-##                                    Pakistani                 :  1   Mean   :31.6  
-##                                    White and Asian           :  1   3rd Qu.:35.0  
-##                                    White and Black African   :  2   Max.   :42.0  
-##                                    White British             :293   NA's   :7     
-##  Total_Competence_Maths Total_Competence_English Total_Competence_Science Total_SelfEsteem
-##  Min.   :1.000          Min.   :1.000            Min.   :1.000            Min.   : 6.00   
-##  1st Qu.:3.000          1st Qu.:3.000            1st Qu.:3.000            1st Qu.:17.00   
-##  Median :4.000          Median :4.000            Median :3.500            Median :19.00   
-##  Mean   :3.846          Mean   :3.695            Mean   :3.446            Mean   :18.99   
-##  3rd Qu.:4.000          3rd Qu.:4.000            3rd Qu.:4.000            3rd Qu.:21.00   
-##  Max.   :5.000          Max.   :5.000            Max.   :5.000            Max.   :30.00   
-##  NA's   :1              NA's   :2                NA's   :2                NA's   :17      
-##  Total_SocialSelfEsteem Total_AcademicSelfEfficacy Total_SelfConcept_Maths Total_SelfConcept_English
-##  Min.   :14.00          Min.   : 5.00              Min.   : 5.00           Min.   : 3.00            
-##  1st Qu.:25.00          1st Qu.:11.00              1st Qu.:12.00           1st Qu.: 9.00            
-##  Median :29.00          Median :12.00              Median :14.00           Median :11.00            
-##  Mean   :29.25          Mean   :12.64              Mean   :14.22           Mean   :10.61            
-##  3rd Qu.:33.00          3rd Qu.:15.00              3rd Qu.:16.00           3rd Qu.:12.00            
-##  Max.   :46.00          Max.   :20.00              Max.   :20.00           Max.   :15.00            
-##  NA's   :5              NA's   :8                  NA's   :10              NA's   :3                
-##  Total_SelfConcept_Science SubjectSTEndorsement_Maths SubjectSTEndorsement_English
-##  Min.   : 4.00             Min.   :1.000              Min.   :1.000               
-##  1st Qu.:11.00             1st Qu.:5.000              1st Qu.:4.000               
-##  Median :13.00             Median :5.000              Median :5.000               
-##  Mean   :13.26             Mean   :5.117              Mean   :4.445               
-##  3rd Qu.:16.00             3rd Qu.:5.000              3rd Qu.:5.000               
-##  Max.   :20.00             Max.   :9.000              Max.   :8.000               
-##  NA's   :5                 NA's   :1                  NA's   :1                   
-##  SubjectSTEndorsement_Science SubjectSTEndorsement_ICT CareerSTEndorsement_Maths
-##  Min.   :1.000                Min.   :2.000            Min.   :1.000            
-##  1st Qu.:5.000                1st Qu.:5.000            1st Qu.:5.000            
-##  Median :5.000                Median :5.000            Median :5.000            
-##  Mean   :5.341                Mean   :5.692            Mean   :5.634            
-##  3rd Qu.:6.000                3rd Qu.:6.000            3rd Qu.:6.000            
-##  Max.   :9.000                Max.   :9.000            Max.   :9.000            
-##  NA's   :1                    NA's   :1                NA's   :2                
-##  CareerSTEndorsement_English CareerSTEndorsement_Science CareerSTEndorsement_ICT Eng_AttainmentData
-##  Min.   :1.000               Min.   :1.000               Min.   :1.000           Min.   : 1.000    
-##  1st Qu.:4.000               1st Qu.:5.000               1st Qu.:5.000           1st Qu.: 6.000    
-##  Median :5.000               Median :5.000               Median :6.000           Median : 8.000    
-##  Mean   :4.403               Mean   :5.493               Mean   :5.872           Mean   : 8.137    
-##  3rd Qu.:5.000               3rd Qu.:6.000               3rd Qu.:7.000           3rd Qu.:10.000    
-##  Max.   :9.000               Max.   :9.000               Max.   :9.000           Max.   :14.000    
-##  NA's   :2                   NA's   :2                   NA's   :2                                 
-##  Maths_AttainmentData Science_AttainmentData Computing_AttainmentData Total_Competence
-##  Min.   : 1.0         Min.   : 1.000         Min.   : 1.00            Min.   :1.000   
-##  1st Qu.: 6.0         1st Qu.: 6.000         1st Qu.: 4.00            1st Qu.:3.333   
-##  Median : 7.0         Median : 8.000         Median : 6.00            Median :3.667   
-##  Mean   : 7.3         Mean   : 7.887         Mean   : 6.01            Mean   :3.663   
-##  3rd Qu.: 9.0         3rd Qu.:10.000         3rd Qu.: 8.00            3rd Qu.:4.000   
-##  Max.   :12.0         Max.   :14.000         Max.   :12.00            Max.   :5.000   
-##                                                                       NA's   :2       
+##            Year          Gender                         Ethnicity  
+##  7. Schuljahr:187   weiblich:151   Any other Asian background:  1  
+##  8. Schuljahr:113   männlich:149   Any other white background:  1  
+##                                    Chinese                   :  1  
+##                                    Pakistani                 :  1  
+##                                    White and Asian           :  1  
+##                                    White and Black African   :  2  
+##                                    White British             :293  
+##  Total_Mindset  Total_Competence_Maths Total_Competence_English
+##  Min.   :19.0   Min.   :1.000          Min.   :1.000           
+##  1st Qu.:29.0   1st Qu.:3.000          1st Qu.:3.000           
+##  Median :32.0   Median :4.000          Median :4.000           
+##  Mean   :31.6   Mean   :3.846          Mean   :3.695           
+##  3rd Qu.:35.0   3rd Qu.:4.000          3rd Qu.:4.000           
+##  Max.   :42.0   Max.   :5.000          Max.   :5.000           
+##  NA's   :7      NA's   :1              NA's   :2               
+##  Total_Competence_Science Total_SelfEsteem Total_SocialSelfEsteem
+##  Min.   :1.000            Min.   : 6.00    Min.   :14.00         
+##  1st Qu.:3.000            1st Qu.:17.00    1st Qu.:25.00         
+##  Median :3.500            Median :19.00    Median :29.00         
+##  Mean   :3.446            Mean   :18.99    Mean   :29.25         
+##  3rd Qu.:4.000            3rd Qu.:21.00    3rd Qu.:33.00         
+##  Max.   :5.000            Max.   :30.00    Max.   :46.00         
+##  NA's   :2                NA's   :17       NA's   :5             
+##  Total_AcademicSelfEfficacy Total_SelfConcept_Maths Total_SelfConcept_English
+##  Min.   : 5.00              Min.   : 5.00           Min.   : 3.00            
+##  1st Qu.:11.00              1st Qu.:12.00           1st Qu.: 9.00            
+##  Median :12.00              Median :14.00           Median :11.00            
+##  Mean   :12.64              Mean   :14.22           Mean   :10.61            
+##  3rd Qu.:15.00              3rd Qu.:16.00           3rd Qu.:12.00            
+##  Max.   :20.00              Max.   :20.00           Max.   :15.00            
+##  NA's   :8                  NA's   :10              NA's   :3                
+##  Total_SelfConcept_Science SubjectSTEndorsement_Maths
+##  Min.   : 4.00             Min.   :1.000             
+##  1st Qu.:11.00             1st Qu.:5.000             
+##  Median :13.00             Median :5.000             
+##  Mean   :13.26             Mean   :5.117             
+##  3rd Qu.:16.00             3rd Qu.:5.000             
+##  Max.   :20.00             Max.   :9.000             
+##  NA's   :5                 NA's   :1                 
+##  SubjectSTEndorsement_English SubjectSTEndorsement_Science
+##  Min.   :1.000                Min.   :1.000               
+##  1st Qu.:4.000                1st Qu.:5.000               
+##  Median :5.000                Median :5.000               
+##  Mean   :4.445                Mean   :5.341               
+##  3rd Qu.:5.000                3rd Qu.:6.000               
+##  Max.   :8.000                Max.   :9.000               
+##  NA's   :1                    NA's   :1                   
+##  SubjectSTEndorsement_ICT CareerSTEndorsement_Maths
+##  Min.   :2.000            Min.   :1.000            
+##  1st Qu.:5.000            1st Qu.:5.000            
+##  Median :5.000            Median :5.000            
+##  Mean   :5.692            Mean   :5.634            
+##  3rd Qu.:6.000            3rd Qu.:6.000            
+##  Max.   :9.000            Max.   :9.000            
+##  NA's   :1                NA's   :2                
+##  CareerSTEndorsement_English CareerSTEndorsement_Science
+##  Min.   :1.000               Min.   :1.000              
+##  1st Qu.:4.000               1st Qu.:5.000              
+##  Median :5.000               Median :5.000              
+##  Mean   :4.403               Mean   :5.493              
+##  3rd Qu.:5.000               3rd Qu.:6.000              
+##  Max.   :9.000               Max.   :9.000              
+##  NA's   :2                   NA's   :2                  
+##  CareerSTEndorsement_ICT Eng_AttainmentData Maths_AttainmentData
+##  Min.   :1.000           Min.   : 1.000     Min.   : 1.0        
+##  1st Qu.:5.000           1st Qu.: 6.000     1st Qu.: 6.0        
+##  Median :6.000           Median : 8.000     Median : 7.0        
+##  Mean   :5.872           Mean   : 8.137     Mean   : 7.3        
+##  3rd Qu.:7.000           3rd Qu.:10.000     3rd Qu.: 9.0        
+##  Max.   :9.000           Max.   :14.000     Max.   :12.0        
+##  NA's   :2                                                      
+##  Science_AttainmentData Computing_AttainmentData Total_Competence
+##  Min.   : 1.000         Min.   : 1.00            Min.   :1.000   
+##  1st Qu.: 6.000         1st Qu.: 4.00            1st Qu.:3.333   
+##  Median : 8.000         Median : 6.00            Median :3.667   
+##  Mean   : 7.887         Mean   : 6.01            Mean   :3.663   
+##  3rd Qu.:10.000         3rd Qu.: 8.00            3rd Qu.:4.000   
+##  Max.   :14.000         Max.   :12.00            Max.   :5.000   
+##                                                  NA's   :2       
 ##  Total_SelfConcept   Achiever         Career_Recommendation
 ##  Min.   : 6.00     Length:300         Length:300           
 ##  1st Qu.:11.33     Class :character   Class :character     

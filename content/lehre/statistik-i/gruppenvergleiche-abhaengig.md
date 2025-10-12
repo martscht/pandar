@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [nehler, koehler, buchholz, irmer, liu, sajjad] 
 weight: 7
-lastmod: '2025-04-07'
+lastmod: '2025-07-03'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -58,7 +58,7 @@ output:
 Den Datensatz `fb24` haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
 
 
-``` r
+```r
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -111,22 +111,26 @@ Die Werte dieser Variablen zum zweiten Messzeitpunkt sind insofern voneinander a
 Wie immer beginnen wir mit der deskriptivstatistischen Analyse unserer Daten. Die beiden Variablen können wir bspw. mit dem `summary()`-Befehl näher betrachten.
 
 
-``` r
+```r
 summary(fb24$ru_pre)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##   1.000   2.250   2.750   2.777   3.250   4.000       1
+##    Min. 1st Qu.  Median    Mean 
+##   1.000   2.250   2.750   2.777 
+## 3rd Qu.    Max.    NA's 
+##   3.250   4.000       1
 ```
 
-``` r
+```r
 summary(fb24$ru_post)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##   1.500   2.250   2.500   2.472   2.750   3.500      58
+##    Min. 1st Qu.  Median    Mean 
+##   1.500   2.250   2.500   2.472 
+## 3rd Qu.    Max.    NA's 
+##   2.750   3.500      58
 ```
 
 Zunächst einmal ist offensichtlich, dass sich die Mittelwerte vor und nach der Sitzung unterscheiden. Die Frage bleibt aber bestehen, ob sich dieser Unterschied auf die Population verallgemeinern lässt. Weiterhin sticht hier direkt ins Auge, dass es in der Post-Variable fehlende Werte (58) gibt. Diese Personen können in die abhängige Testung nicht einbezogen werden, was im Folgenden berücksichtigt werden muss.
@@ -135,7 +139,7 @@ Zunächst einmal ist offensichtlich, dass sich die Mittelwerte vor und nach der 
 Mithilfe von Histogrammen stellen wir jeweils die Verteilungen der Werte vor und nach der Sitzung dar, wobei in den Histogrammen eine vertikale Linie eingefügt wird, die den jeweiligen Mittelwert anzeigt.
 
 
-``` r
+```r
 # Je ein Histogramm pro Werte, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
 par(mfrow=c(2,1), mar=c(3,3,2,0))
 hist(fb24$ru_pre, 
@@ -161,9 +165,9 @@ abline(v=mean(fb24$ru_post, na.rm = T),
        col="darksalmon")
 ```
 
-![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-3-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-1-1.png)<!-- -->
 
-``` r
+```r
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters, zuvor hatten wir "dev.off()" kennengelernt
 ```
 
@@ -183,7 +187,7 @@ Um unsere inferenzstistische Entscheidung mittels der $t$-Verteilung abzusichern
 Wir müssen also nur die Voraussetzung der Normalverteilung der Differenzvariable $d$ zusätzlich prüfen. Analog zu den unabhängigen Tests ist es üblich, diese Annahme grafisch basierend auf der Stichprobe zu testen. Da wir hier die Differenzvariable betrachten wollen, müssen wir diese zunächst erstellen. Dies geht zum Glück sehr einfach, indem wir die Werte aller Personen auf `ru_pre` jeweils von ihren `ru_post` Werten abziehen. Personen mit einem fehlenden Wert auf einer der beien Variable erhalten auf `difference` jetzt automatisch ein `NA`. Somit sind alle Werte in den Grafiken diejenigen, die dann auch in unsere inferenzstatistische Prüfung eingehen. Daraufhin schauen wir uns das Histogramm der Differenzvariable und den QQ-Plot an:
 
 
-``` r
+```r
 difference <- fb24$ru_post-fb24$ru_pre
 hist(difference, 
      xlim=c(-3,3), 
@@ -199,14 +203,14 @@ curve(dnorm(x, mean=mean(difference, na.rm = T), sd=sd(difference, na.rm = T)),
       add=T)
 ```
 
-![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-4-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig_files/Vorraussetzungen-1.png)<!-- -->
 
-``` r
+```r
 qqnorm(difference)
 qqline(difference, col="blue")
 ```
 
-![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-4-2.png)<!-- -->
+![](/gruppenvergleiche-abhaengig_files/Vorraussetzungen-2.png)<!-- -->
 
 Auf den Abbildungen sind kleine Abweichungen der Differenzen von der Normalverteilung zu sehen. Allerdings gilt (analog zu den Einstichproben- und unabhängigen Tests) der zentrale Grenzwertsatz. In Fällen, in denen die Stichprobe (also die Anzahl an Messwertpaaren) ausreichend groß ist, folgt die Stichprobenkennwerteverteilung auch unabhängig von der Verteilung der Differenzen in der Population der $t$-Verteilung. “Ausreichend groß” ist natürlich Auslegungssache, aber nochmal zur Erinnerung: Bei Stichproben ab $n \geq 30$ greift der Effekt, wenn das Merkmal zumindest symmetrisch verteilt ist. Andere Empfehlungen gehen besonders bei sehr schiefen Verteilungen in Richtung von 80 Messwertpaaren. Die kleinen Abweichungen von der Normalverteilung und die große Stichproben sprechen also dafür, dass unsere Stichprobenkennwerteverteilung der $t$-Verteilung folgt. Wir können also mit der inferenzstatistischen Überprüfung starten.
 
@@ -230,7 +234,7 @@ Bevor wir jetzt die Rechnungen durchführen, sollten wir noch das Signifikanzniv
 Wir verwenden hier die Funktion `t.test()`. Diesmal müssen wir allerdings die beiden Variablen einzeln der Funktion übergeben. Dies geschieht über die Argumente `x` und `y`. Das Argument `paired = T` führt dazu, dass der *t*-Test für abhängige (gepaarte) Stichproben durchgeführt wird.
 
 
-``` r
+```r
 t.test(x = fb24$ru_post, y = fb24$ru_pre, # die beiden abhaengigen Variablen
       paired = T,                      # Stichproben sind abhaengig
       conf.level = .95)   
@@ -241,7 +245,8 @@ t.test(x = fb24$ru_post, y = fb24$ru_pre, # die beiden abhaengigen Variablen
 ## 	Paired t-test
 ## 
 ## data:  fb24$ru_post and fb24$ru_pre
-## t = -3.5338, df = 133, p-value = 0.000564
+## t = -3.5338, df = 133, p-value =
+## 0.000564
 ## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.4481323 -0.1264946
@@ -267,7 +272,7 @@ wobei
 Wir führen die Berechnung von Cohen's $d$ für abhängige Stichproben zunächst händisch durch. Dafür speichern wir die nötigen Größen ab und wenden dann die präsentierte Formel an:
 
 
-``` r
+```r
 mean_d <- mean(difference, na.rm = T)
 sd.d.est <- sd(difference, na.rm = T)
 d_Wert <- mean_d/sd.d.est
@@ -280,14 +285,15 @@ d_Wert
 
 **Berechnung mit Funktion `cohen.d()`**
 
-``` r
-#alternativ:
-#install.packages("effsize")
+```r
+if (!requireNamespace("effsize", quietly = TRUE)) {
+  install.packages("effsize")
+}
 library("effsize")
 ```
 
 
-``` r
+```r
 d2 <- cohen.d(fb24$ru_post, fb24$ru_pre, 
       paired = TRUE,  #paired steht fuer 'abhaengig'
       within = FALSE, #wir brauchen nicht die Varianz innerhalb
@@ -336,7 +342,7 @@ Auch für die abhängigen Stichproben lernen wir wieder einen Test kennen, bei d
 Schauen wir uns zunächst in der deskriptivstatistischen Betrachtung an, warum wir für die Bearbeitungszeit des MDBF einen Median- und keinen Mittelwertvergleich durchführen wollen. Dafür erstellen wir ein Histogramm für die Bearbeitungszeit vor und nach dem Praktikum.
 
 
-``` r
+```r
 par(mfrow=c(1,2), mar=c(3,3,2,0))
 hist(fb24$time_pre, 
      main="Bearbeitungszeit \nvor dem Praktikum", 
@@ -348,9 +354,9 @@ hist(fb24$time_post,
      breaks = 10)
 ```
 
-![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-10-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig_files/Deskriptivstatistik-Median-1.png)<!-- -->
 
-``` r
+```r
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters
 ```
 
@@ -359,22 +365,26 @@ Die hier gefundenen Bearbeiungszeiten stellen ein typisches Bild für das Verhal
 Den Median und weitere deskriptive Statistiken können wir uns mit dem `summary()`-Befehl anzeigen lassen.
 
 
-``` r
+```r
 summary(fb24$time_pre)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   12.00   34.00   42.00   47.85   58.00  131.00
+##    Min. 1st Qu.  Median    Mean 
+##   12.00   34.00   42.00   47.85 
+## 3rd Qu.    Max. 
+##   58.00  131.00
 ```
 
-``` r
+```r
 summary(fb24$time_post)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##   14.00   27.00   35.50   41.87   52.75  159.00      58
+##    Min. 1st Qu.  Median    Mean 
+##   14.00   27.00   35.50   41.87 
+## 3rd Qu.    Max.    NA's 
+##   52.75  159.00      58
 ```
 
 Es zeigt sich auch hier wieder, dass es nach dem Praktikum einige fehlende Werte gibt. Das heißt, dass unsere deskriptiven Betrachtungen nicht so aussagekräftig sind an dieser Stelle. Diese würde eine Veränderung in der mittleren Ausprägung der Bearbeitungszeit zeigen, da die Mediane sich unterscheiden.
@@ -394,14 +404,14 @@ Die erste Voraussetzung nehmen wir, wie beschrieben, als gegeben an, da die Mess
 Zuletzt bleibt noch die Voraussetzung, dass die Differenzvariable symmetrisch verteilt ist. Wir betrachten die Differenzwerte, indem wir zunächst einen Vektor mit dem Namen `dif_time` definieren, der die Differenzen aller Personen enthält. Anschließend schauen wir uns auch zu diesem Vektor das Histogramm an.
 
 
-``` r
+```r
 dif_time <- fb24$time_post - fb24$time_pre
 hist(dif_time,
      main="Differenzen Bearbeitungszeiten",
      breaks = 10)
 ```
 
-![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-12-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig_files/Voraussetzungen-Median-1.png)<!-- -->
 
 Die Differenzen weisen Abweichungen von der Symmetrie-Annahme vor, die vor allem von Ausreißern bestimmt wird. Jedoch sind dies nur einzelne, wenige Fälle, weshalb wir die inferenzstatistische Testung trotzdem durchführen. Mehr Informationen zu Ausreißern und deren Behandlung erhalten Sie im nächsten Semester [hier](/lehre/statistik-ii/regressionsdiagnostik).
 
@@ -419,7 +429,7 @@ Weiterhin muss das Signifikanzniveau vor der Untersuchung festgelegt werden. Es 
 Die Argumente der Funktion für den Wilcoxon-Vorzeichen-Rangsummentest für abhängige Stichproben sehen dem des $t$-Tests für abhängige Stichproben sehr ähnlich. 
 
 
-``` r
+```r
 wilcox.test(x = fb24$time_pre, 
             y = fb24$time_post,          # die beiden abhängigen Gruppen
             paired = T,                  # Stichproben sind abhängig
@@ -430,7 +440,8 @@ wilcox.test(x = fb24$time_pre,
 
 ```
 ## 
-## 	Wilcoxon signed rank test with continuity correction
+## 	Wilcoxon signed rank test with
+## 	continuity correction
 ## 
 ## data:  fb24$time_pre and fb24$time_post
 ## V = 5608.5, p-value = 0.0008746

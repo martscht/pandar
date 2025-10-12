@@ -117,7 +117,7 @@ Der (klassische) $t$-Test hat folgende Voraussetzungen:
 
 Wir simulieren nun eine Variable $X$ für zwei Gruppen mit jeweils $N=20$. Dabei nehmen wir an, dass in beiden Gruppen die Werte standardnormalverteilt sind (also einer Normalverteilung mit einem Mittelwert von 0 und einer Standardabweichung von 1 folgen). Für die Simulation von normalverteilten Werten haben wir die Funktion `rnorm()` kennengelernt. Wie im [Beitrag zu Verteilungen](/lehre/statistik-i/verteilungen/) besprochen, können wir mit `set.seed()` die Analysen replizierbar machen. Das bedeutet, dass eure Werte mit den hier stehenden Werten übereinstimmen sollten.
 
-```{r}
+```{r Erste-Simulation}
 N <- 20
 set.seed(1234)
 X_1 <- rnorm(N)
@@ -298,7 +298,7 @@ Mit einem einzelnen Power-Wert lässt sich in der Regel nicht so viel anfangen. 
 ### Power-Plots für Mittelwertsunterschiede
 Wir schauen uns die Power-Plots diesmal nur für die Mittelwertsunterschiede an. Zunächst beginnen wir mit der Asymptotik. Wir wiederholen im einfachsten Fall das Experiment von oben für 5 Stichprobengrößen: $N=20, 40, 60, 80, 100$ (wobei wir das Ergebnis für $N=20$ bereits bestimmt haben). Dazu kopieren wir jeweils den Code von oben und ändern die Stichprobengröße ab:
 
-```{r}
+```{r Power-Plots}
 set.seed(12345)
 pt_H1_20 <- pt_H1
 pt_H1_40 <- replicate(n = 10000, expr = {X_1 <- rnorm(40)
@@ -390,7 +390,7 @@ Wir sehen, dass die Power stets mit der Stichprobengröße wächst (es sei denn,
 
 Nun wollen wir die Power von Tests "analytisch" bestimmen, also durch formeln. Dazu nutzen wir das `WebPower`-Paket. Dieses ist eines von vielen Paketen, mit welchen die Power unterschiedlicher statistischer Tests bestimmt werden können. Wir beginnen damit das Paket zu laden (nach dem es installiert wurde mit `install.packages`):
 
-```{r, message=FALSE}
+```{r Power-Analyse, message=FALSE}
 library(WebPower)
 ```
 
@@ -446,7 +446,7 @@ wp.t(d = .5, power = .8, type = "two.sample", alternative = "greater")
 
 Wenn wir aber annehmen, dass der Effekt umgedreht ist, bei $d$ aber den Betrag nutzen passiert Folgendes:
 
-```{r, eval = F}
+```{r, eval = F, purl=FALSE}
 wp.t(d = .5, power = .8, type = "two.sample", alternative = "less")
 ```
 ```{r, error = TRUE, purl = F, echo = F}
@@ -458,7 +458,7 @@ Die Funktion ist nicht in der Lage, das nötige $n$ zu bestimmen, weil die Alter
 
 Dazu hier ein Warnhinweis, bezüglich eines Bugs in WebPower: wenn Sie Sensitivitätsanalyse betreiben, funktioniert das derzeit nur für "größer als" Aussagen. Für die Gegenrichtung erhalten Sie immer eine Fehlermeldung:
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, purl=FALSE}
 wp.t(n1 = 20, n2 = 20, power = .8, type = "two.sample", alternative = "less")
 ```
 ```{r, error = TRUE, purl = F, echo = F}
@@ -484,7 +484,7 @@ Der (klassische) Korrelationstest hat fast die identischen Voraussetzungen wie d
 
 Wie bei den vorherigen Berechnungen des t-Tests simulieren wirs uns wieder Daten. Die beiden Variablen, die wir gleich korrelieren wollen, nennen wir `Y` und `Z`.
 
-```{r}
+```{r Appendix-A}
 set.seed(1234)
 Y <- rnorm(N)
 Z <- rnorm(N)

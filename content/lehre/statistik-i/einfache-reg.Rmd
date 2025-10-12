@@ -123,7 +123,8 @@ Die Modellgleichung für die lineare Regression, wie sie in der Vorlesung bespro
 
 In R gibt es eine interne Schreibweise, die sehr eng an diese Form der Notation angelehnt ist. Mit `?formula` können Sie sich detailliert ansehen, welche Modelle in welcher Weise mit dieser Notation dargestellt werden können. R verwendet diese Notation für (beinahe) alle Modelle, sodass es sich lohnt, sich mit dieser Schreibweise vertraut zu machen. Die Kernelemente sind im Fall der linearen einfachen Regression:
 
-```{r, eval = FALSE}
+```{r, eval = FALSE, echo=-1}
+Einfaches Beispielmodell
 y ~ 1 + x
 ```
 
@@ -147,7 +148,7 @@ Um nun eine einfache Regression an unserem Datensatz durchführen zu können, be
 Für gewöhnlich würden Sie nun zuerst einmal die Voraussetzungen überprüfen. Diese werden wir in der kommenden [Sitzung](/lehre/statistik-i/multiple-reg/) ausführlich besprechen. Jetzt schauen wir uns die Daten erst einmal nur an. Dies tun wir mithilfe eines Scatterplots. Wenn wir darin den beobachteten lokalen Zusammenhang abbilden, können wir auch schon visuell beurteilen, ob der Zusammenhang denn auch linear ist.
 
 
-```{r, fig = TRUE}
+```{r Zusammenhangsvisualisierung, fig = TRUE}
 plot(fb24$extra, fb24$nerd, xlab = "Extraversion", ylab = "Nerdiness", 
      main = "Zusammenhang zwischen Extraversion und Nerdiness", xlim = c(0, 6), ylim = c(1, 5), pch = 19)
 lines(loess.smooth(fb24$extra, fb24$nerd), col = 'blue')    #beobachteter, lokaler Zusammenhang
@@ -162,7 +163,7 @@ lines(loess.smooth(fb24$extra, fb24$nerd), col = 'blue')    #beobachteter, lokal
 
 In unserem Beispiel ist $x$ die Extraversion (`extra`) und $y$ die Nerdiness (`nerd`). Um das Modell zu schätzen, wird dann der `lm()` (für *linear model*) Befehl genutzt:
 
-```{r}
+```{r Modellschätzung}
 lm(formula = nerd ~ 1 + extra, data = fb24)
 ```
 
@@ -217,7 +218,7 @@ $$\hat{y} = `r round(coef(lin_mod)[1],2)` + (`r round(coef(lin_mod)[2],2)`)*x_m$
 
 Mit dem Befehl `lm()` werden auch automatisch immer die Residuen ($e_m$) geschätzt, die mit `residuals()` (oder alternativ: `resid()`) abgefragt werden können. Die Residuen betragen die Differenzen zu den vorhergesagten Werten bzw. zur Regressionsgeraden.
 
-```{r}
+```{r Residuen}
 residuals(lin_mod)
 ```
 
@@ -227,7 +228,7 @@ Die Residuen haben die Bedeutung des "Ausmaßes an Nerdiness, das nicht durch Ex
 
 Die vorhergesagten Werte $\hat{y}$ können mit `predict()` ermittelt werden:
 
-```{r}
+```{r Vorhergesagte-Werte}
 predict(lin_mod)
 ```
 
@@ -300,7 +301,7 @@ Für die Berechnung per Hand werden die einzelnen Varianzen benötigt:
 
 $R^2 = \frac{s^2_{\hat{Y}}}{s^2_{Y}} = \frac{s^2_{\hat{Y}}}{s^2_{\hat{Y}} + s^2_{E}}$
 
-```{r}
+```{r Determinationskoeffizient}
 # Anhand der Varianz von lz
 var(predict(lin_mod)) / var(fb24$nerd, use = "na.or.complete")
 
@@ -347,7 +348,7 @@ Konventionen sind, wie bereits besprochen, heranzuziehen, wenn keine vorherigen 
 Bei einer Regression (besonders wenn mehr als ein Prädiktor in das Modell aufgenommen wird wie in der nächsten [Sitzung](/lehre/statistik-i/multiple-reg/)) kann es sinnvoll sein, die standardisierten Regressionskoeffizienten zu betrachten, um die Erklärungs- oder Prognosebeiträge der einzelnen unabhängigen Variablen (unabhängig von den bei der Messung der Variablen gewählten Einheiten) miteinander vergleichen zu können, z. B. um zu sehen, welche Variable den größten Beitrag zur Prognose der abhängigen Variable leistet. Außerdem ist es hierdurch möglich, die Ergebnisse zwischen verschiedenen Studien zu vergleichen, die `nerd` und `extra` gemessen haben, jedoch in unterschiedlichen Einheiten. Durch die Standardisierung werden die Regressionskoeffizienten vergleichbar.
 Die Variablen werden mit `scale()` standardisiert (z-Transformation; Erwartungswert gleich Null und die Varianz gleich Eins gesetzt). Mit `lm()` wird das Modell berechnet.
 
-```{r}
+```{r Standardisierte-Regressionsgewichte}
 s_lin_mod <- lm(scale(nerd) ~ scale(extra), fb24) # standardisierte Regression
 s_lin_mod
 ```
@@ -358,7 +359,10 @@ Eine andere Variante, bei der die z-Standardisierung automatisch im Hintergrund 
 Nach der (ggf. nötigen) Installation müssen wir das Paket für die Bearbeitung laden.
 
 ```{r}
-# Paket erst installieren (wenn nötig): install.packages("lm.beta")
+# Paket erst installieren (wenn nötig):
+if (!requireNamespace("lm.beta", quietly = TRUE)) {
+  install.packages("lm.beta")
+}
 library(lm.beta)
 ```
 

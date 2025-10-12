@@ -1,71 +1,83 @@
-# load("C:/Users/Musterfrau/Desktop/conspiracy.rda")
-
-load(url("https://pandar.netlify.app/daten/conspiracy.rda"))
+source("https://pandar.netlify.app/daten/Data_Processing_conspiracy.R")
 
 dim(conspiracy)
 
 head(conspiracy)
 
-library(car)
-leveneTest(conspiracy$ET ~ conspiracy$urban)
-
 # Gruppenmittelwerte ermitteln
-mu_k <- aggregate(conspiracy$ET, list(conspiracy$urban), mean)
-mu_k
+y_mean_k <- aggregate(EC ~ urban, conspiracy, mean)
+y_mean_k
 
-names(mu_k) <- c('urban', 'ET_mu_k')
+names(y_mean_k) <- c("urban", "EC_mean_k")
 
-temp <- merge(conspiracy, mu_k, by = 'urban')
-dim(temp)
-names(temp)
+temp <- merge(conspiracy, y_mean_k, by = "urban")
+dim(temp) # Dimensionen des temporären Datensatzes
+names(temp) # Spaltennamen des temporären Datensatzes
+head(temp) # ersten 6 Zeilen des temporären Datensatzes
 
 # Gesamtmittelwert ermitteln
-mu <- mean(conspiracy$ET)
+y_mean_ges <- mean(conspiracy$EC)
+y_mean_ges
 
 # Gruppengrößen ermitteln
 n_k <- table(conspiracy$urban)
+n_k
 
-QS_inn <- sum((temp$ET - temp$ET_mu_k)^2)
+QS_inn <- sum((temp$EC - temp$EC_mean_k)^2)
 
-QS_zw <- sum(n_k * (mu_k[, 2] - mu)^2)
+QS_zw <- sum(n_k * (y_mean_k[, 2] - y_mean_ges)^2)
 
-MQS_inn <- QS_inn / (nrow(conspiracy) - nlevels(conspiracy$urban))
-MQS_zw <- QS_zw / (nlevels(conspiracy$urban)-1)
+N <- nrow(conspiracy) # Stichprobengröße bestimmen
+K <- nlevels(conspiracy$urban) # Gruppenanzahl bestimmen
 
-F_wert <- MQS_zw/MQS_inn
+MQS_inn <- QS_inn / (N - K)
+MQS_zw <- QS_zw / (K - 1)
 
-pf(F_wert, nlevels(conspiracy$urban)-1, nrow(conspiracy) - nlevels(conspiracy$urban), lower.tail = FALSE)
+F_wert <- MQS_zw / MQS_inn
 
+pf(F_wert, nlevels(conspiracy$urban) - 1, nrow(conspiracy) - nlevels(conspiracy$urban), lower.tail = FALSE)
 
+# Paket installieren falls nicht vorhanden
+if (!requireNamespace("afex", quietly = TRUE)) {
+  install.packages("afex")
+}
 
-# # Paket installieren
-# install.packages("ez")
+# Paket laden
+library(afex)
 
-# Paket laden 
-library(ez)
+aov_4(EC ~ urban, data = conspiracy)
 
 conspiracy$id <- 1:nrow(conspiracy)
 
-conspiracy$id <- as.factor(conspiracy$id)
+aov_4(EC ~ urban + (1 | id), data = conspiracy)
 
-ezANOVA(conspiracy, wid = id, dv = ET, between = urban)
+einfakt <- aov_4(EC ~ urban + (1 | id), data = conspiracy)
 
-ezANOVA(conspiracy, wid = id, dv = ET, between = urban, detailed = TRUE)
+pairwise.t.test(conspiracy$EC, conspiracy$urban, p.adjust = "bonferroni")
 
-pairwise.t.test(conspiracy$ET, conspiracy$urban, p.adjust = 'bonferroni')
+# Paket installieren falls nicht vorhanden
+if (!requireNamespace("emmeans", quietly = TRUE)) {
+  install.packages("emmeans")
+}
 
-alternative<- aov(ET ~ urban, data = conspiracy)
+library(emmeans)
 
-summary(alternative)
+#### Anwendung emmeans ----
+emm_einfakt <- emmeans(einfakt, ~urban)
 
-TukeyHSD(alternative, conf.level = 0.95)
+tukey <- pairs(emm_einfakt, adjust = "tukey")
+tukey
 
-tuk <- TukeyHSD(aov(ET ~ urban, data = conspiracy))
-plot(tuk)
+confint(tukey)
 
-aov_t <- ezANOVA(conspiracy, wid = id, dv = ET, between = urban, return_aov = T)
-names(aov_t)
+plot(tukey)
 
-class(aov_t$aov)
+#### Appendix A ----
+library(car)
+leveneTest(conspiracy$EC ~ conspiracy$urban)
 
-TukeyHSD(aov_t$aov, conf.level = 0.95)
+conspiracy$resid <- resid(einfakt)
+
+hist(conspiracy$resid[conspiracy$urban == "rural"])
+hist(conspiracy$resid[conspiracy$urban == "suburban"])
+hist(conspiracy$resid[conspiracy$urban == "urban"])

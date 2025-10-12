@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag lernen wir, wie eigene Funktionen in R geschrieben werden können. Dabei betrachten wir auch, wie sich logische Abfragen einsetzen lassen, um die Ausführung von Code gezielt zu steuern. Zusätzlich machen wir uns mit Schleifen (Loops) vertraut, die es ermöglichen, Code mehrfach auszuführen, ohne ihn wiederholt schreiben zu müssen.'
 authors: [nehler, irmer]
 weight: 3.9
-lastmod: '2025-04-09'
+lastmod: '2025-07-10'
 featured: no
 banner:
   image: "/header/sprinkled_lollipops.jpg"
@@ -31,10 +31,6 @@ links:
     icon: pen-to-square
     name: Übungen
     url: /lehre/statistik-ii/loops-funktionen-uebungen
-  # - icon_pack: fas
-  #   icon: pen-to-square
-  #   name: Quizdaten
-  #   url: /lehre/statistik-ii/quizdaten-bsc7#Quiz6
 output:
   html_document:
     keep_md: true
@@ -48,7 +44,7 @@ In diesem Beitrag lernen wir, wie eigene Funktionen in R geschrieben werden kön
 Die gelernten Fähigkeiten wollen wir nun direkt auf einen Datensatz anwenden. Dafür nutzen wir den selbst erstellten Datensatz aus Statistik I: `fb24` [(zur Variablenübersicht)](/lehre/statistik-i/variablen.pdf).
 
 
-``` r
+```r
 load(url('https://pandar.netlify.app/daten/fb24.rda'))
 dim(fb24)
 ```
@@ -67,14 +63,14 @@ Sie stehen im Mittelpunkt unserer Arbeit mit `R`, doch bisher haben wir sie einf
 Funktionen, die in R angewendet werden, sind im Endeffekt Objekte (wie auch Datensätze, Vektoren, Matrizen...). Das bedeutet, dass wir eigene Funktionen – wie andere Objekte auch – selbst anlegen können. Erinnern wir uns zunächst daran, was wir bisher über Funktionen in der Anwendung gelernt haben: Funktionen haben immer einen Namen, über den wir sie aufrufen können. In den Klammern hinter dem Funktionsnamen können ein oder mehrere Argumente übergeben werden. Auch diese Argumente haben in der Regel einen Namen, können aber alternativ auch über ihre Reihenfolge angesprochen werden. Zudem haben wir gesehen, dass Argumente häufig Voreinstellungen besitzen, die automatisch verwendet werden, wenn kein eigener Wert übergeben wird. Diese Voreinstellungen werden durch ein Gleichheitszeichen in der Funktionsdefinition angegeben.
 
 
-``` r
+```r
 funktionsname(argument1, argument2 = voreinstellung2, ...) 
 ```
 
 Betrachten wir noch einmal eine bereits bekannte Funktion: die Funktion zur Berechnung des Logarithmus trägt den Namen `log`. m uns die Argumente dieser Funktion anzeigen zu lassen, können wir die Funktion `args()` nutzen.
 
 
-``` r
+```r
 args(log)
 ```
 
@@ -107,7 +103,7 @@ n `R` liefert die Funktion `var()` standardmäßig die Schätzung der Population
 Eine neue Funktion kann in `R` mit der `function()`-Funktion erstellt werden.  Zunächst legen wir den Namen der neuen Funktion fest, sorgen dabei über den Zuweisungspfeil (`<-`) dafür, dass diese als Objekt in das Global Environment abgelegt wird. Dann sprechen wir die Funktion `function()` an und geben in den runden Klammern an, welche Argumente der Funktion zur Verfügung stehen sollen. Als Argumente können beliebig viele Eingaben definiert werden, auf die innerhalb der Funktion Bezug genommen wird. In geschweiften Klammern wird schließlich festgelegt, welche Operationen mit den angegebenen Argumenten durchgeführt werden sollen. Die geschweiften Klammern ermöglichen dabei, dass die Operationen über mehrere Zeilen im Skript gehen können. Hier ist nochmal der grundlegende Aufbau einer Funktionserstellung dargestellt:
 
 
-``` r
+```r
 eigene_funktion <- function(argument1, argument2, ...) {
   # Durchgeführte Operationen
 }
@@ -116,7 +112,7 @@ eigene_funktion <- function(argument1, argument2, ...) {
 Überlegen wir uns zunächst den Teil, den wir in die geschweiften Klammern schreiben – also: Welche Operationen müssen durchgeführt werden, um die empirische Varianz zu berechnen? Als Beispiel verwenden wir die Variable `time_pre` aus dem Datensatz `fb24`, die die Bearbeitungszeiten der Personen für den Fragebogen vor dem Praktikum enthält. Die einzelnen Berechnungsschritte sollten aus dem letzten Semester noch bekannt sein und werden daher an dieser Stelle nicht erneut im Detail erläutert.
 
 
-``` r
+```r
 x <- fb24$time_pre                # Variable in ein Objekt ablegen
 n <- length(x)                    # Länge des Objekts bestimmen - Stichprobengröße
 x_quer <- mean(x)                 # Mittelwert der Variable bestimmen
@@ -132,14 +128,14 @@ var                                # Ausgabe des Ergebnis
 Um die Funktionsweise der Funktion zu verdeutlichen, reduzieren wir unser Environment gerade mal wieder auf den Datensatz `fb24`. 
 
 
-``` r
-rm(x, n, x_quer, var)    # Envrionment auf fb24 reduzieren
+```r
+rm(x, n, x_quer, var)    # Environment auf fb24 reduzieren
 ```
 
 Aus der händischen Berechnung können wir ableiten, welche Angaben wir von Nutzer:innen als Argumente benötigen, um die Operationen durchzuführen. Zwar werden in der Berechnung einige Zwischenschritte wie der Mittelwert und die Stichprobengröße erstellt, im Kern benötigen wir jedoch nur den Vektor mit den Werten `x`– also die Variable, für die die empirische Varianz bestimmt werden soll. Für unsere Funktion reicht daher zunächst ein einziges Argument. Um konsistent zu bleiben, geben wir diesem Argument den Namen `x`. 
 
 
-``` r
+```r
 # Argumente und Operationen der neuen Funktion
 function(x){
   n <- length(x)
@@ -161,7 +157,7 @@ function(x){
 Wie wir es aus `R` gewohnt sind, wird beim Ausführen von Code ohne Zuweisungspfeil lediglich etwas in der Konsole angezeigt – in diesem Fall einfach der Code, den wir gerade für die Funktion geschrieben haben. Um die Funktion tatsächlich nutzbar zu machen, müssen wir sie als Objekt speichern. Der Name dieses Objekts ist natürlich frei wählbar – ich nenne sie an dieser Stelle `var_eigen`.
 
 
-``` r
+```r
 var_eigen <- function(x){
   n <- length(x)
   x_quer <- mean(x)
@@ -173,7 +169,7 @@ var_eigen <- function(x){
 Beim Ausführen dieses Codes erscheint im Global Environment ein neuer Abschnitt namens *Functions*, in dem selbst erstellte (also nicht aus Paketen geladene) Funktionen abgelegt werden. Dort ist nun auch unsere Funktion `var_eigen()` zu finden. Weil beim Durchführen von Funktionen als erstes der Workspace nach definierten Funktionen durchsucht wird, sollten Funktionen möglichst einzigartig benannt werden, weil sonst nicht mehr (so leicht) auf die Funktionen aus Paketen zugegriffen werden kann. Versuchen wir als Nächstes, diese Funktion anzuwenden.
 
 
-``` r
+```r
 var_eigen(x = fb24$time_pre) # Durchführung der Funktion
 ```
 
@@ -187,7 +183,7 @@ Wir bekommen hier bereits ein Ergebnis für die empirische Varianz der Variable 
 Obwohl die Funktion nun schon funktioniert, wollen wir eine kleine Änderung am Code vornehmen: Es ist in `R` üblich, am Ende einer Funktion explizit zu kennzeichnen, was sie zurückgibt – und nicht einfach nur das Ergebnis (`var`) *nackt* stehen zu lassen, wie es aktuell der Fall ist. Dafür wird `return()` verwendet. Zwar ist die Verwendung von `return()` nicht zwingend notwendig, aber es ist eine gute Gewohnheit, die Sie sich an dieser Stelle aneignen sollten.
 
 
-``` r
+```r
 var_eigen <- function(x){
   n <- length(x)
   x_quer <- mean(x)
@@ -201,7 +197,7 @@ Nun ist unsere Funktion sauber geschrieben und kann beliebig eingesetzt werden �
 Etwas Ähnliches haben wir bereits bei den Zwei-Stichproben-Tests mit der Funktion `t.test()` gesehen: Dort steuert das Argument `paired`, ob ein abhängiger (`paired = TRUE`) oder ein unabhängiger t-Test (`paired = FALSE`) durchgeführt wird. Das kann uns als Inspiration dienen. Auch wir wollen nun ein zusätzliches Argument einführen – nennen wir es `empirical.` Wenn `empirical = TRUE` gesetzt ist, soll die empirische Varianz berechnet werden, andernfalls (`empirical = FALSE`) die Schätzung der Populationsvarianz. Die Aufnahme eines zweiten Argumentes ist erstmal kein Problem und kann einfach durch ein Komma in der runden Klammer geschehen.
 
 
-``` r
+```r
 var_eigen <- function(x, empirical){
   n <- length(x)
   x_quer <- mean(x)
@@ -220,7 +216,7 @@ Wie in den meisten Programmiersprachen werden Wenn-Dann-Bedingungen in `R` mit d
 
 
 
-``` r
+```r
 var_eigen <- function(x, empirical){
   n <- length(x)
   x_quer <- mean(x)
@@ -234,7 +230,7 @@ var_eigen <- function(x, empirical){
 Das Argument empirical muss also mit `TRUE` befüllt werden, damit die empirische Varianz berechnet wird. Doch was soll passieren, wenn wir `empirical = FALSE` setzen (also der andere mögliche Fall)? In diesem Fall soll stattdessen die Schätzung der Populationsvarianz erfolgen. Das erreichen wir, indem wir eine `else`-Abfrage hinzufügen. Diese wird genau dann ausgeführt, wenn die Bedingung in der `if`-Abfrage nicht erfüllt ist – also `empirical` nicht `TRUE` entspricht. Die Schätzung der Populationsvarianz erfolgt dann nicht durch eine Division durch `n`, sondern durch `n - 1`.
 
 
-``` r
+```r
 var_eigen <- function(x, empirical){
   n <- length(x)
   x_quer <- mean(x)
@@ -258,7 +254,7 @@ Ein guter Ausgangspunkt dafür ist die Bedingung in der runden Klammer der `if`-
 Doch warum ist das überhaupt nötig? Das Objekt `empirical` steht ja bereits selbst für einen logischen Wert – entweder `TRUE` oder `FALSE`. Eine zusätzliche Abfrage ist also überflüssig. Statt `if (empirical == TRUE)` reicht schlicht `if (empirical)`.
 
 
-``` r
+```r
 var_eigen <- function(x, empirical){
   n <- length(x)
   x_quer <- mean(x)
@@ -274,7 +270,7 @@ var_eigen <- function(x, empirical){
 Außerdem fällt auf, dass unter beiden Bedingungen – also im `if`- und im `else`-Zweig – ein Großteil der Berechnung identisch ist. Bereits zu Beginn dieses Tutorials haben wir gelernt, dass sich die empirische Varianz und die Populationsvarianz sehr einfach ineinander überführen lassen. Daher stellt sich die Frage: Brauchen wir überhaupt eine vollständige Aufteilung in `if` und `else`? Eleganter wäre es, zunächst grundsätzlich die empirische Varianz zu berechnen – unabhängig von der Einstellung des Arguments empirical. Nur falls `empirical == FALSE`, wenden wir anschließend die Korrektur für die Populationsvarianz an, indem wir die Berechnung entsprechend anpassen. Das macht den Code nicht nur kürzer, sondern auch deutlich lesbarer.
 
 
-``` r
+```r
 var_eigen <- function(x, empirical){
   n <- length(x)
   x_quer <- mean(x)
@@ -291,7 +287,7 @@ Dabei fällt auf, dass der Code in der `if`-Bedingung nur dann ausgeführt werde
 Im weiteren Verlauf des Tutorials arbeiten wir jedoch wieder mit der ursprünglich erstellten Version der Funktion, die ohne in dieser Vertiefung vorgestellten Optimierungen auskommt. Zur Erinnerung, hier noch einmal der vorherige Stand:
 
 
-``` r
+```r
 var_eigen <- function(x, empirical){
   n <- length(x)
   x_quer <- mean(x)
@@ -311,7 +307,7 @@ var_eigen <- function(x, empirical){
 Wenn bei der Ausführung der Funktion ein Argument fehlt, wird – wie bei vielen anderen R-Funktionen auch – eine Fehlermeldung ausgegeben. Probieren wir das doch einmal aus.
 
 
-``` r
+```r
 var_eigen(x = fb24$time_pre)
 ```
 
@@ -324,7 +320,7 @@ var_eigen(x = fb24$time_pre)
 Konzentrieren wir uns auf den Wortlaut der Fehlermeldung: Sie enthält die Formulierung *with no default*. Das bedeutet, dass das entsprechende Argument für die Ausführung der Funktion erforderlich ist – in unserem Fall also für die `if`-`else`-Abfrage – und dass keine Voreinstellung (*default*) dafür hinterlegt wurde. Ähnlich wie in der Funktion `t.test()`, bei der das Argument `paired` eine Voreinstellung besitzt, möchten wir auch in unserer Funktion eine Standardvorgabe definieren. Dadurch müssen Nutzer:innen das Argument nicht zwingend angeben – es wird dann automatisch der voreingestellte Wert verwendet. Um eine solche Voreinstellung in `R` festzulegen, wird der gewünschte Standardwert direkt in der runden Klammer der Funktionsdefinition mit dem Gleichheitszeichen zugewiesen, hier `empirical = TRUE`.
 
 
-``` r
+```r
 var_eigen <- function(x, empirical = TRUE){
   n <- length(x)
   x_quer <- mean(x)
@@ -338,7 +334,7 @@ var_eigen <- function(x, empirical = TRUE){
 ```
 
 
-``` r
+```r
 var_eigen(x = fb24$time_pre)
 ```
 
@@ -355,7 +351,7 @@ Wird bei der Anwendung der Funktion kein expliziter Wert für `empirical` angege
 Das Vergessen der Eingabe eines Arguments ist nur eine von vielen möglichen Fehlerquellen bei der Verwendung unserer Funktion – und nicht immer werden solche Fehler sofort deutlich. So könnte es beispielsweise passieren, dass Nutzer:innen dem Argument empirical einen Wert zuweisen, den wir gar nicht vorgesehen haben (etwa einen Text oder eine Zahl oder einen Text statt `TRUE` oder `FALSE`). Testen wir das:
 
 
-``` r
+```r
 var_eigen(x = fb24$time_pre, empirical = "ja")
 ```
 
@@ -363,7 +359,7 @@ var_eigen(x = fb24$time_pre, empirical = "ja")
 ## [1] 425.3645
 ```
 
-``` r
+```r
 var_eigen(x = fb24$time_pre, empirical = 200)
 ```
 
@@ -375,7 +371,7 @@ Interessanterweise erhalten wir in solchen Fällen dennoch ein Ergebnis – was 
 Um solche unerwünschten Effekte zu vermeiden, können wir eine eigene Fehlermeldung definieren, die ausgegeben wird, wenn ein Argument nicht den erwarteten Wert hat. Dazu verwenden wir die Funktion `stop()`. Diese wird typischerweise in einer `if`-Abfrage eingesetzt, um beispielsweise zu prüfen, ob ein Argument vom richtigen Typ ist. In unserem Fall können wir testen, ob der Eintrag in `empirical` tatsächlich ein logischer Wert (`logical`) ist.
 
 
-``` r
+```r
 var_eigen <- function(x, empirical = TRUE){
   if(is.logical(empirical) == FALSE){
     stop("Das Argument 'empirical' muss TRUE oder FALSE sein.")
@@ -394,7 +390,7 @@ var_eigen <- function(x, empirical = TRUE){
 Im weiteren Verlauf des Tutorials arbeiten wir jedoch wieder mit der ursprünglich erstellten Version der Funktion, die ohne in dieser Vertiefung vorgestellten Optimierungen auskommt. Zur Erinnerung, hier noch einmal der vorherige Stand:
 
 
-``` r
+```r
 var_eigen <- function(x, empirical = TRUE){
   n <- length(x)
   x_quer <- mean(x)
@@ -414,7 +410,7 @@ var_eigen <- function(x, empirical = TRUE){
 Einen letzten Aspekt schauen wir uns im Rahmen der Funktionen noch an: Was müssen wir tun, wenn unsere Funktion nicht nur ein einzelnes Ergebnis, sondern mehrere Ergebnisse zurückgeben soll? Nehmen wir als Beispiel an, dass wir neben der Varianz auch die Stichprobengröße ausgeben möchten. Man könnte nun auf die Idee kommen, einfach beide innerhalb der Funktion erstellten Objekte in die `return()`-Funktion zu packen.
 
 
-``` r
+```r
 var_eigen <- function(x, empirical = TRUE){
   n <- length(x)
   x_quer <- mean(x)
@@ -430,12 +426,12 @@ var_eigen(x = fb24$time_pre, empirical = TRUE)
 ```
 
 ```
-## Error in return(var, n): multi-argument returns are not permitted
+## Error in return(var, n): mehrargumentige Rückgaben sind nicht erlaubt
 ```
 Bei der Ausführung der Funktion wird deutlich, dass es leider nicht ganz so einfach ist. Wie in der Fehlermeldung angegeben, liegt das daran, dass `return()` nur ein einziges Argument akzeptiert. Wenn jedoch mehrere Ergebnisse ausgegeben werden sollen, müssen diese zuvor innerhalb der Funktion zu einem Objekt zusammengefasst werden – in der Regel in Form einer Liste.
 
 
-``` r
+```r
 var_eigen <- function(x, empirical = TRUE){
   n <- length(x)
   x_quer <- mean(x)
@@ -461,7 +457,7 @@ var_eigen(x = fb24$time_pre, empirical = TRUE)
 Wir sehen, dass die Berechnung nun funktioniert. Andere Personen, die unsere Funktion nutzen, könnten sich jedoch fragen, was genau die ausgegebenen Ergebnisse bedeuten. Eine Möglichkeit, das Ergebnis transparenter zu gestalten, besteht darin, eine benannte Liste zurückzugeben. Dabei werden zunächst die Namen der Listenelemente angegeben, denen anschließend über `=` jeweils ein Wert zugewiesen wird:
 
 
-``` r
+```r
 var_eigen <- function(x, empirical = TRUE){
   n <- length(x)
   x_quer <- mean(x)
@@ -494,7 +490,7 @@ In diesem Block werden wir verschiedene Arten von Loops (Schleifen) kennenlernen
 Wir haben nun gelernt, wie wir durch das Schreiben eigener Funktionen Code effizienter gestalten können – anstatt denselben Rechenweg für jede Variable neu zu notieren, fassen wir ihn in einer Funktion zusammen. Doch was machen wir nun, wenn wir die Funktion auf mehrere Variablen anwenden wollen? Eine wenig elegante Lösung wäre es, die Funktion mehrfach manuell aufzurufen – für jede Variable einzeln. Nehmen wir an, wir möchten nicht nur die Variable `time_pre`, sondern auch `mdbf1` und `mdbf2` aus dem Datensatz fb24 analysieren.
 
 
-``` r
+```r
 var_eigen(x = fb24$time_pre, empirical = TRUE)
 ```
 
@@ -506,7 +502,7 @@ var_eigen(x = fb24$time_pre, empirical = TRUE)
 ## [1] 192
 ```
 
-``` r
+```r
 var_eigen(x = fb24$mdbf1, empirical = TRUE)
 ```
 
@@ -518,7 +514,7 @@ var_eigen(x = fb24$mdbf1, empirical = TRUE)
 ## [1] 192
 ```
 
-``` r
+```r
 var_eigen(x = fb24$mdbf2, empirical = TRUE)
 ```
 
@@ -539,7 +535,7 @@ Wir wir bereits gelernt haben sollen wir uns aber nicht wiederholen. Eine elegan
 In `for`-Loops (Schleifen) wird ein bestimmter Abschnitt des R-Codes für jedes Element eines zuvor definierten Objekts – meist ein Vektor – ausgeführt. Der allgemeine Aufbau lautet `for (i in Vektor) {}`. Dabei ist `i` ein Platzhalter, der nacheinander alle Werte aus dem Vektor annimmt. In unserem Beispiel soll der Code für die Variablen `time_pre`, `mdbf1` und `mdbf2` durchlaufen werden, weshalb die Variablennamen in einem Vektor zusammgengefasst werden.:
 
 
-``` r
+```r
 for (i in c("time_pre", "mdbf1", "mdbf2")) {
   # Hier steht der Code, der für jedes Element ausgeführt wird
 }
@@ -549,7 +545,7 @@ Innerhalb der geschweiften Klammern wird der enthaltene (möglicherweise mehrzei
 Versuchen wir nun einmal die Operation, die wir durchführen wollen, in den Loop einzufügen. Wir möchten die Funktion `var_eigen()` für jede der drei Variablen aufrufen.
 
 
-``` r
+```r
 for (i in c("time_pre", "mdbf1", "mdbf2")) {
   var_eigen(x = fb24[, i], empirical = TRUE)
 }
@@ -560,7 +556,7 @@ Wie wir sehen, erscheint in der Konsole zunächst nichts. Dass unser `for`-Loop 
 Eine einfache Möglichkeit, Berechnungsergebnisse innerhalb eines for-Loops auszugeben, besteht darin, sie mit dem Befehl `print()` auszugeben (Fans der Pipe `|>` können diese anstelle des verschachtelten Ausdrucks verwenden).
 
 
-``` r
+```r
 for (i in c("time_pre", "mdbf1", "mdbf2")) {
   print(var_eigen(x = fb24[, i], empirical = TRUE))
 }
@@ -589,7 +585,7 @@ for (i in c("time_pre", "mdbf1", "mdbf2")) {
 Wenn wir die Berechnung für viele Variablen durchführen, kann es schnell unübersichtlich werden, welcher Varianzwert zu welcher Variable gehört. Eine einfache Möglichkeit, dieses Problem zu lösen, besteht darin, den Namen der jeweiligen Variable vor der Ausgabe anzuzeigen. Das lässt sich zum Beispiel umsetzen, indem wir im `for`-Loop zu Beginn jeder Iteration den aktuellen Inhalt des Objekts `i` mit `print()` ausgeben lassen.
 
 
-``` r
+```r
 for (i in c("time_pre", "mdbf1", "mdbf2")) {
   print(i)
   print(var_eigen(x = fb24[, i], empirical = TRUE))
@@ -624,7 +620,7 @@ for (i in c("time_pre", "mdbf1", "mdbf2")) {
 Im vorherigen Anwendungsbeispiel haben wir gezielt drei Variablen aus dem Datensatz ausgewählt, für die die Funktion `var_eigen()` problemlos funktioniert. Doch was passiert, wenn wir weniger selektiv vorgehen? Nehmen wir an, wir möchten die Funktion auf alle Variablen im Datensatz `fb24` anwenden – probieren wir das einmal aus.
 
 
-``` r
+```r
 for (i in names(fb24)) {
   print(i)
   print(var_eigen(x = fb24[, i], empirical = TRUE))
@@ -811,11 +807,12 @@ for (i in names(fb24)) {
 ```
 
 ```
-## Warning in mean.default(x): argument is not numeric or logical: returning NA
+## Warning in mean.default(x): Argument ist
+## weder numerisch noch boolesch: gebe NA zurück
 ```
 
 ```
-## Error in x - x_quer: non-numeric argument to binary operator
+## Error in h(simpleError(msg, call)): Fehler bei der Auswertung des Argumentes 'x' bei der Methodenauswahl für Funktion 'print': nicht-numerisches Argument für binären Operator
 ```
 
 Im (zugegebenermaßen sehr langen) Output erkennen wir zwei Probleme: Erstens wird für viele Variablen die empirische Varianz als `NA` ausgegeben, da diese fehlende Werte enthalten. Wie wir unsere Funktion anpassen können, um mit fehlenden Werten umzugehen, ist jedoch Bestandteil der Übung. Zweitens tritt ein Fehler bei der Variable grund auf. Diese ist vom Typ `character` und kann daher nicht als Eingabe für die Funktion `var_eigen()` verwendet werden.
@@ -823,7 +820,7 @@ Im (zugegebenermaßen sehr langen) Output erkennen wir zwei Probleme: Erstens wi
 Um solche Unterbrechungen in der Durchführung zu vermeiden – abgesehen von der Möglichkeit, bestimmte Variablen manuell auszuschließen – können wir innerhalb unseres `for`-Loops eine Kombination aus `if` und `else` verwenden. Damit lässt sich beispielsweise festlegen: Wenn eine Variable vom Typ character ist, soll lediglich ausgegeben werden, dass es sich um eine Zeichenvariable handelt – und die Varianzberechnung wird in diesem Fall übersprungen.
 
 
-``` r
+```r
 for (i in names(fb24)) {
   print(i)
   if (is.character(fb24[, i])) {
@@ -1158,7 +1155,7 @@ Im Tutorial haben wir bereits gesehen, dass sich mit `if` und `else` sogenannte 
 Im Tutorial haben wir – abgesehen von den Vertiefungen – `if` und `else` nur als gemeinsame Befehle verwendet. Dabei kann `if` auch eigenständig eingesetzt werden, denn es bedeutet lediglich, dass eine bestimmte Konsequenz nur dann ausgeführt wird, wenn die zugehörige Bedingung erfüllt ist.
 
 
-``` r
+```r
 a <- 3 # Zunächst definieren wir eine Variable
 # Nutzung einer einfachen if-Abfrage
 if (a == 3) {
@@ -1174,7 +1171,7 @@ Für das Verständnis solcher Abfragen ist es hilfreich, die verschiedenen Schri
 Hier wird im ersten Schritt die Bedingung evaluiert: 
 
 
-``` r
+```r
 (a == 3)
 ```
 
@@ -1187,7 +1184,7 @@ In diesem Fall stimmt die logische Abfrage (`a` enthält tatsächlich den Wert 3
 Wenn jedoch `a` einen anderen Wert enthält, trifft die Bedingung nicht zu (`FALSE`) und der folgende Befehl wird deshalb nicht ausgeführt. 
 
 
-``` r
+```r
 a <- 5
 if (a == 3) {
   print("Ja, die Variable a enthält den Wert 3")
@@ -1201,7 +1198,7 @@ Da die Bedingung nicht erfüllt ist, wird die Konsequenz nicht ausgeführt – b
 Oft haben wir aber mehrere Argumente, die untersucht werden können. Bspw. können wir testen, ob ein Wert sich in einer Liste wiederfindet. Wenn wir beispielsweise herausfinden wollen, ob die Person, die in der Variable `person` gespeichert ist, ein Hauptcharakter aus der Serie *Friends* ist, können wir dies mit dem folgenden Befehl tun:
 
 
-``` r
+```r
 person <- "Monica"
 if (person %in%  c("Monica", "Rachel", "Chandler",  "Phoebe", "Ross", "Joey")) {
   print("Yes, this is a character from Friends.")
@@ -1217,7 +1214,7 @@ Hier erhalten wir die Antwort, ja, Monica ist eine Figur aus der Serie. Der Ausd
 Wenn wir die gleiche Abfrage auf eine andere Person anwenden, trifft die Bedingung nicht zu, und der Befehl wird nicht ausgeführt (in der Konsole erscheint also nichts außer der Befehl).  
 
 
-``` r
+```r
 person = c("Marcus")
 if (person %in%  c("Monica", "Rachel", "Chandler",  "Phoebe", "Ross", "Joey")) {
   print("Yes, this is a character from Friends.")
@@ -1227,7 +1224,7 @@ if (person %in%  c("Monica", "Rachel", "Chandler",  "Phoebe", "Ross", "Joey")) {
 Genauso könnten wir aber auch eine Liste von Personen haben und uns entweder fragen, ob mindestens eine Person aus dieser Liste bei "Friends" mitgewirkt hat, oder ob alle Personen dort mitgewirkt haben. Dies geht mit `any` oder `all`:
 
 
-``` r
+```r
 persons <- c("Monica", "Marcus")
 if (any(persons %in%  c("Monica", "Rachel", "Chandler",  "Phoebe", "Ross", "Joey"))) {
   print("Yes, at least one of them is a character from Friends.")
@@ -1238,7 +1235,7 @@ if (any(persons %in%  c("Monica", "Rachel", "Chandler",  "Phoebe", "Ross", "Joey
 ## [1] "Yes, at least one of them is a character from Friends."
 ```
 
-``` r
+```r
 if (all(persons %in%  c("Monica", "Rachel", "Chandler",  "Phoebe", "Ross", "Joey"))) {
   print("Yes, all of them are a character from Friends.")
 }
@@ -1247,7 +1244,7 @@ if (all(persons %in%  c("Monica", "Rachel", "Chandler",  "Phoebe", "Ross", "Joey
 Schauen wir uns nur die logische Abfrage an, um den Unterschied der beiden Befehle deutlich zu machen.
 
 
-``` r
+```r
 any(persons %in%  c("Monica", "Rachel", "Chandler",  "Phoebe", "Ross", "Joey")) 
 ```
 
@@ -1255,7 +1252,7 @@ any(persons %in%  c("Monica", "Rachel", "Chandler",  "Phoebe", "Ross", "Joey"))
 ## [1] TRUE
 ```
 
-``` r
+```r
 # mindestens 1 ist TRUE
 
 all(persons %in%  c("Monica", "Rachel", "Chandler",  "Phoebe", "Ross", "Joey"))
@@ -1265,7 +1262,7 @@ all(persons %in%  c("Monica", "Rachel", "Chandler",  "Phoebe", "Ross", "Joey"))
 ## [1] FALSE
 ```
 
-``` r
+```r
 # alle sind TRUE
 ```
 
@@ -1277,7 +1274,7 @@ Es sind beispielsweise auch logische Abfragen mit Zeitpunkten und Daten möglich
 
 
 
-``` r
+```r
 if (weekdays(Sys.Date()) == "Friday") {
   print("Fast Wochenende!")
 }
@@ -1289,7 +1286,7 @@ if (weekdays(Sys.Date()) == "Friday") {
 Wie im letzten Semester bereits besprochen, können logische Bedingungen mit `&` (logisches "und") und `|` (logisches "oder") verknüpft werden. Wenn die gesamte logische Abfrage als Ergebnis `TRUE` zurückgibt, wird die `R`-Syntax in den geschwungenen Klammern ausgeführt; wenn es `FALSE` ergibt, passiert nichts. Zum Beispiel könnten wir so testen, ob *entweder* Samstag *oder* Sonntag ist und herausfinden, ob wir uns freuen dürfen. 
 
 
-``` r
+```r
 if (weekdays(Sys.Date()) == "Saturday" | weekdays(Sys.Date()) == "Sunday") {
   print("Hoch die Hände, Wochenende!")
 }
@@ -1304,7 +1301,7 @@ Bei der Verknüpfung dieser logischen Abfragen muss auf Klammersetzung geachtet 
 Häufig wollen wir nicht nur konditional einen Befehl ausführen, oder nicht ausführen, sondern möchten einen anderen Befehl angeben, der ausgeführt wird, wenn die Bedingung nicht zutrifft (wie im Tutorial für die Erstellung der Funktion verwendet). Wir ergänzen also das `else`, das zum Tragen kommt, wenn die Bedingung *nicht* zutrifft. Dies lässt sich fast wörtlich lesen "If the condition is true, then do one thing. Otherwise (else), do the other thing."
 
 
-``` r
+```r
 # mehrere Zeilen
 if (weekdays(Sys.Date()) == "Saturday" | weekdays(Sys.Date()) == "Sunday") {
   print("Hoch die Hände, Wochenende!")
@@ -1326,7 +1323,7 @@ Häufig werden mehrere Abfragen ineinander geschachtelt, sodass die Ausdrücke s
 Hier sehen Sie ein Beispiel für eine `if`-`else`-Abfrage, die Sie jeden Morgen nutzen können, um herauszufinden, wie Sie sich heute fühlen sollten. 
 
 
-``` r
+```r
 if (weekdays(Sys.Date()) %in% c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')) {
   if (weekdays(Sys.time()) == 'Monday') {
     print('Zurück ins Bett...')
@@ -1349,14 +1346,14 @@ if (weekdays(Sys.Date()) %in% c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'F
 Wir versuchen nachzuvollziehen, was in dieser verschachtelten `if`-`else`-Abfrage passiert. Zunächst wird geprüft, ob es sich heute um einen Wochentag handelt: 
 
 
-``` r
+```r
 if (weekdays(Sys.Date()) %in% c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')) {
 ```
 
 Wenn dem so ist, wird der nächste Block ausgeführt:
 
 
-``` r
+```r
 if (weekdays(Sys.time()) == 'Monday') {
     print('Zurück ins Bett...')
     } else if (weekdays(Sys.time()) == 'Wednesday') { 
@@ -1373,7 +1370,7 @@ Dieser fragt ab, ob heute Montag ist (`if (weekdays(Sys.time()) == 'Monday') {`)
 Ist heute kein Wochentag, dann wird direkt die `else` Bedingung für die erste `if`-Abfrage ausgedruckt, nämlich 
 
 
-``` r
+```r
   } else {
   print("Hoch die Hände, Wochenende!")
 }
@@ -1390,7 +1387,7 @@ Wenn nur eine Bedingung abgefragt werden soll, und je nach Ergebnis einer von zw
 * `no`: was getan werden soll, wenn die Bedingung nicht zutrifft
   
 
-``` r
+```r
 ifelse(test = weekdays(Sys.Date()) == 'Friday', yes = 'Yeah, das Wochenende steht bevor!', no = 'Es ist irgendein anderer Tag...')
 ```
 
@@ -1412,7 +1409,7 @@ So wird die gleiche `if-else-Abfrage` verkürzt dargestellt. Gerade für komplex
 `for`-Loops können auch ineinander geschachtelt werden. Dabei wird für die zweite Iteration häufig `ii` als Platzhalter verwendet. Im Befehl kann dann auf `i` und `ii` Bezug genommen werden. Hier sehen Sie beispielsweie, wie Sie ineinander geschachtelt durch einen Vektor aus Buchstaben und einen Vektor aus Zahlen iterieren. Was passiert, wenn Sie den ersten `print`-Befehl außerhalb des inneren Loops platzieren? Versuchen Sie, den Unterschied nachzuvollziehen. 
 
 
-``` r
+```r
 Buchstaben <- c("A", "B", "C")
 Zahlen <- c(1,2)
 for (i in Buchstaben) {
@@ -1447,7 +1444,7 @@ Das `i` und `ii` sind hier willkürlich gewählte Platzhalter. Wir könnten auch
 In `while`-Loops wird der Code so lange ausgeführt, bis eine vorab definierte Bedingung erfüllt ist. Ein einfaches Beispiel wäre, so lange einen Münzwurf zu simulieren, bis man 10 mal "Kopf" geworfen hat. Dafür müssen wir zum Einen die Münze als Objekt mit zwei Auswahlmöglichkeiten *Kopf* und *Zahl* anlegen, und ein leeres Objekt, in das wir die Ergebnisse der Münzwürfe speichern können.
 
 
-``` r
+```r
 # Münze erstellen
 coin <- c('Kopf', 'Zahl')
 
@@ -1458,7 +1455,7 @@ toss <- NULL
 Als nächstes schreiben wir den eigentlichen Loop. Dieser enthält eine logische Abfrage, die abfragt, ob die Anzahl der Kopf-Würfe unter 10 ist. Führen Sie nacheinander die Codeabschnitte `toss == 'Kopf'`, `sum(toss == 'Kopf')` und `sum(toss == 'Kopf')<10` aus, um zu verstehen, wie sich die logische Abfrage zusammensetzt. (*Hinweis*: den logischen Werten `TRUE` und `FALSE` sind die Zahlen 1 und 0 zugeordet.) 
 
 
-``` r
+```r
 # Loop
 while (sum(toss == 'Kopf')<10) {
   toss <- c(toss, sample(coin, 1))
@@ -1469,8 +1466,9 @@ toss
 ```
 
 ```
-##  [1] "Zahl" "Zahl" "Kopf" "Zahl" "Zahl" "Zahl" "Kopf" "Kopf" "Zahl" "Kopf" "Zahl" "Zahl" "Kopf" "Zahl"
-## [15] "Zahl" "Kopf" "Kopf" "Zahl" "Kopf" "Kopf" "Kopf"
+##  [1] "Kopf" "Kopf" "Kopf" "Kopf" "Zahl" "Kopf"
+##  [7] "Zahl" "Kopf" "Kopf" "Zahl" "Kopf" "Kopf"
+## [13] "Kopf"
 ```
 
 ### `repeat`-Loops 
@@ -1485,7 +1483,7 @@ für $n>1$ und $a_1=a_0=1$.
 Wir können nun `repeat` nutzen, um die Sequenz abzubrechen, wenn die letzte Zahl z.B. größer als 1000 ist. An dieser Stelle wissen wir nicht, welches Element das sein wird, bzw. nach wie vielen Schritten dies passiert, wodurch es geschickter ist, innerhalb des Loops das Kriterium zu evaluieren. Wir nutzen hier `n-1`, `n`, und `n+1` als Schritte, da es das 0-te Element in Vektoren in `R` nicht gibt.
 
 
-``` r
+```r
 fibo <- c(1, 1)
 
 repeat {
@@ -1498,7 +1496,9 @@ fibo
 ```
 
 ```
-##  [1]    1    1    2    3    5    8   13   21   34   55   89  144  233  377  610  987 1597
+##  [1]    1    1    2    3    5    8   13   21
+##  [9]   34   55   89  144  233  377  610  987
+## [17] 1597
 ```
 
 Loops können mit `break` unterbrochen werden - das gilt nicht nur für `repeat`, sondern auch für die anderen beiden Formen von Loops. Hier wurde eine `if`-Bedingung in den Loop geschachtelt. In jedem einzelnen Durchlauf des Loops wird geprüft, ob die Bedingung erfüllt ist, und die Durchführung wird beendet (`break`), sobald dies der Fall ist. 
@@ -1515,7 +1515,7 @@ Ergänzen Sie `print(fibo)` vor der `if`-Abfrage, und schauen Sie sich das Ergeb
 An den folgenden Laufzeiten sehen wir, dass Loops tatsächlich deutlich langsamer sind, als die vektorwertige Alternative.
 
 
-``` r
+```r
 # simuliere 1000 Beobachtungen und bestimme den Mittelwert 
 X <- rnorm(10^3, mean = 1, sd = 2)
 m <- mean(X)
@@ -1530,17 +1530,17 @@ Sys.time() - t1 # bestimmte die Laufzeit durch aktuelle Zeit minus Startzeit
 ```
 
 ```
-## Time difference of 0.01244545 secs
+## Time difference of 0.01089096 secs
 ```
 
-``` r
+```r
 t2 <- Sys.time() # speichere die Startzeit
 X_c <- X - m
 Sys.time() - t2 # bestimmte die Laufzeit durch aktuelle Zeit minus Startzeit
 ```
 
 ```
-## Time difference of 0.001213074 secs
+## Time difference of 0.001360893 secs
 ```
 
 Loops sind in diesem Beispiel fast um den Faktor 10 langsamer (zumindest, wenn Sie den Code für `10^6` Beobachtungen durchführen, die Maske, die für diese Website genutzt wird, ist deutlich langsamer, weswegen hier auf `10^3` ausgewichen wurde...). Es gibt jedoch viele Anwendungsgebiete, wo Loops das Mittel der Wahl sind!
@@ -1550,7 +1550,7 @@ Loops sind in diesem Beispiel fast um den Faktor 10 langsamer (zumindest, wenn S
 Auch `apply` und seine Varianten können genutzt werden, um bspw. einen `for`-Loop auszudrücken. Diese Funktion verkürzt die Schreibweise und kann manchmal auch die Laufzeit verkürzen, insbesondere wenn bspw. das `pbapply`-Paket verwendet wird, welches einfaches Parallelisieren erlaubt. 
 
 
-``` r
+```r
 A <- data.frame("a" = c(2,3,4), "b" = c(1,1,1))
 apply(A, 2, mean) # Mittelwert über Spalten/Variablen
 ```
@@ -1560,7 +1560,7 @@ apply(A, 2, mean) # Mittelwert über Spalten/Variablen
 ## 3 1
 ```
 
-``` r
+```r
 colMeans(A)
 ```
 
@@ -1569,7 +1569,7 @@ colMeans(A)
 ## 3 1
 ```
 
-``` r
+```r
 apply(A, 1, mean) # Mittelwert über Zeilen/Personen/Beobachtungen
 ```
 
@@ -1577,7 +1577,7 @@ apply(A, 1, mean) # Mittelwert über Zeilen/Personen/Beobachtungen
 ## [1] 1.5 2.0 2.5
 ```
 
-``` r
+```r
 rowMeans(A)
 ```
 
@@ -1585,7 +1585,7 @@ rowMeans(A)
 ## [1] 1.5 2.0 2.5
 ```
 
-``` r
+```r
 apply(A, 2, sd) # Standardabweichung über Spalten/Variable
 ```
 
@@ -1605,7 +1605,7 @@ apply(A, 2, sd) # Standardabweichung über Spalten/Variable
 In der Sitzung zu [Simulationsstudien und Poweranalysen](../../statistik-i/simulation-poweranalyse) aus dem vergangenen Semester hatten wir empirisch die Power und den $\alpha$-Fehler des $t$-Tests sowie des Korrelationstest untersucht. Dabei hatten wir `replicate` verwendet. Bspw. hatten wir mit folgendem Code den $p$-Wert des $t$-Tests unter der $H_0$ Hypothese untersucht:
 
 
-``` r
+```r
 N <- 20
 set.seed(1234)
 replicate(n = 10, expr = {X <- rnorm(N)
@@ -1615,14 +1615,16 @@ replicate(n = 10, expr = {X <- rnorm(N)
 ```
 
 ```
-##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306 0.43862992 0.96766599
+##  [1] 0.26352442 0.03081077 0.21285027
+##  [4] 0.27429670 0.53201656 0.79232864
+##  [7] 0.93976306 0.43862992 0.96766599
 ## [10] 0.68865560
 ```
 
 Wenn wir nun genauer hinschauen, dann sehen wir, dass der Block 
 
 
-``` r
+```r
 {X <- rnorm(N)
  Y <- rnorm(N)
  ttestH0 <- t.test(X, Y, var.equal = TRUE)
@@ -1632,7 +1634,7 @@ Wenn wir nun genauer hinschauen, dann sehen wir, dass der Block
 im Grunde nichts weiter darstellt, als das Innere einer Funktion. `replicate` ist im Grunde nichts anderes als eine bestimmte `for`-Schleife, nämlich eine `for`-Schleife, in welcher das Argument nicht genutzt wird! Wir schreiben das Ganze mal mittels einer Funktion:
 
 
-``` r
+```r
 mySim <- function(N)
 {
   X <- rnorm(N)
@@ -1645,14 +1647,16 @@ replicate(n = 10, expr = mySim(N = 20))
 ```
 
 ```
-##  [1] 0.26352442 0.03081077 0.21285027 0.27429670 0.53201656 0.79232864 0.93976306 0.43862992 0.96766599
+##  [1] 0.26352442 0.03081077 0.21285027
+##  [4] 0.27429670 0.53201656 0.79232864
+##  [7] 0.93976306 0.43862992 0.96766599
 ## [10] 0.68865560
 ```
 
 In der Sitzung zu [Simulationsstudien und Poweranalysen](../../statistik-i/simulation-poweranalyse) hatten wir außerdem den empirischen $t$-Wert untersucht. Diesen können wir nun ganz leicht mit aufnehmen.
 
 
-``` r
+```r
 mySim2 <- function(N)
 {
   X <- rnorm(N)
@@ -1665,18 +1669,21 @@ replicate(n = 10, expr = mySim2(N = 20))
 ```
 
 ```
-##          [,1]        [,2]      [,3]       [,4]      [,5]      [,6]      [,7]       [,8]        [,9]
-## p   0.2635244  0.03081077 0.2128503  0.2742967 0.5320166 0.7923286 0.9397631  0.4386299  0.96766599
-## t.t 1.1349024 -2.24295556 1.2670437 -1.1092419 0.6306927 0.2651479 0.0760693 -0.7827414 -0.04080374
-##         [,10]
-## p   0.6886556
-## t.t 0.4037557
+##          [,1]        [,2]      [,3]
+## p   0.2635244  0.03081077 0.2128503
+## t.t 1.1349024 -2.24295556 1.2670437
+##           [,4]      [,5]      [,6]      [,7]
+## p    0.2742967 0.5320166 0.7923286 0.9397631
+## t.t -1.1092419 0.6306927 0.2651479 0.0760693
+##           [,8]        [,9]     [,10]
+## p    0.4386299  0.96766599 0.6886556
+## t.t -0.7827414 -0.04080374 0.4037557
 ```
 
 Wir sehen, dass die `p`-Werte und die `t`-Werte nun gleichzeitig ausgegeben werden und zwar in zwei Zeilen untereinander, da wir den Output als Vektor gewählt haben! In diesem Semester hatten wir uns bisher mit der Regressionsanalyse beschäftigt. Aus diesem Grund wollen wir an dieser Stelle noch kurz anschneiden, wie eine Simulationsstudie für eine Regression durchgeführt werden könnte. Zunächst brauchen wir dazu Prädiktoren. Mit Hilfe der `rmvnorm` Funktion aus dem `mvtnorm`-Paket lassen sich leicht multivariat-normalverteilte Zufallsvariablen simulieren, deren Mittelwerte und Kovarianz bekannt ist:
 
 
-``` r
+```r
 S <- matrix(c(1, .7, .7, 2), 2, 2) # Populationskovarianzmatrix
 S
 ```
@@ -1687,9 +1694,17 @@ S
 ## [2,]  0.7  2.0
 ```
 
-``` r
+```r
 # install.packages("mvtnorm")
 library(mvtnorm)
+```
+
+```
+## Warning: Paket 'mvtnorm' wurde unter R
+## Version 4.3.3 erstellt
+```
+
+```r
 set.seed(1234)
 X <- rmvnorm(n = 10^3, mean = c(2, 3), sigma = S)
 colMeans(X)
@@ -1699,7 +1714,7 @@ colMeans(X)
 ## [1] 1.997926 2.980730
 ```
 
-``` r
+```r
 cov(X)
 ```
 
@@ -1720,7 +1735,7 @@ $$Y_i = 0.3 + 0.5\cdot X_{1i} + 0.3\cdot X_{2i} + \varepsilon_i$$
 wobei $\varepsilon_i$ eine Residualstandardabweichung von 1.3 haben soll:
 
 
-``` r
+```r
 eps <- rnorm(10^3, sd = 1.3)
 X1 <- X[,1]
 X2 <- X[,2]
@@ -1731,7 +1746,7 @@ df <- data.frame("X1" = X1, "X2" = X2, "Y" = Y)
 Dann können wir nun leicht eine Regressionsanalyse durchführen:
 
 
-``` r
+```r
 reg <- lm(Y ~ 1 + X1 + X2, data = df)
 coef(reg) # Koeffizienten abgreifen
 ```
@@ -1744,7 +1759,7 @@ coef(reg) # Koeffizienten abgreifen
 Wir sehen, dass die Koeffizienten recht nah an den "wahren" Werten liegen. Verpacken wir das Ganze in eine Funktion, so können wir den Bias der Schätzung untersuchen. Der Bias ist die durchschnittliche Abweichung der Schätzung vom wahren Wert. Ein Bias von 0 ist somit erstrebenswert!
 
 
-``` r
+```r
 myRegSim <- function(N)
 {
   S <- matrix(c(1, .7, .7, 2), 2, 2) # Populationskovarianzmatrix
@@ -1763,10 +1778,18 @@ replicate(n = 10, expr = myRegSim(N = 10^3))
 ```
 
 ```
-##                  [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]      [,8]      [,9]
-## (Intercept) 0.4480455 0.4645526 0.0959823 0.4036081 0.3621404 0.4454766 0.2000509 0.2704179 0.2343473
-## X1          0.5145347 0.4229675 0.5794930 0.6167309 0.4935631 0.4068533 0.5341167 0.4260486 0.5119222
-## X2          0.2532168 0.3155510 0.3264700 0.2033327 0.2789048 0.3184694 0.3038769 0.3344544 0.3198885
+##                  [,1]      [,2]      [,3]
+## (Intercept) 0.4480455 0.4645526 0.0959823
+## X1          0.5145347 0.4229675 0.5794930
+## X2          0.2532168 0.3155510 0.3264700
+##                  [,4]      [,5]      [,6]
+## (Intercept) 0.4036081 0.3621404 0.4454766
+## X1          0.6167309 0.4935631 0.4068533
+## X2          0.2033327 0.2789048 0.3184694
+##                  [,7]      [,8]      [,9]
+## (Intercept) 0.2000509 0.2704179 0.2343473
+## X1          0.5341167 0.4260486 0.5119222
+## X2          0.3038769 0.3344544 0.3198885
 ##                 [,10]
 ## (Intercept) 0.4723725
 ## X1          0.4416930
@@ -1776,7 +1799,7 @@ replicate(n = 10, expr = myRegSim(N = 10^3))
 Speichern wir das Ganze ab, transponieren es und bilden `colMeans`, so erhalten wir eine Schätzung für die durchschnittliche Schätzung unseres Experiments (das wir insgesamt 10 Mal unter identischen Voraussetzungen durchführen konnten):
 
 
-``` r
+```r
 set.seed(1234)
 mySimErg <- t(replicate(n = 10, expr = myRegSim(N = 10^3)))
 colMeans(mySimErg)
