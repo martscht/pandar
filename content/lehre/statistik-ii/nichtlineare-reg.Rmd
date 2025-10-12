@@ -6,7 +6,7 @@ slug: nichtlineare-reg
 categories: ["Statistik II"] 
 tags: ["Regression", "Zusammenhangsanalyse", "Interaktion", "Moderation"] 
 subtitle: ''
-summary: ''
+summary: 'In dieser Sitzung stehen nichtlineare Effekte im Fokus. Quadratische Verläufe, Interaktionseffekte und exponentielle Verläufe der Regression werden nacheinander erläutert. Es werden dabei auch Verfahren und Transformationen zur Untersuchung jener Verläufe aufgeführt, wie etwa die moderierte Regression für die Interaktionseffekte.'
 authors: [irmer, hartig, schultze, sajjad]
 weight: 7
 lastmod: '`r Sys.Date()`'

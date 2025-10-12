@@ -6,7 +6,7 @@ slug: moderierte-reg
 categories: ['Statistik II']
 tags: ["Regression", "Zusammenhangsanalyse", "Interaktion", "Moderation"] 
 subtitle: ''
-summary: ''
+summary: 'In dieser Sitzung gibt es einen tieferen Einblick in die moderierte Regression innerhalb einer multiplen Regression mit drei Variablen, wobei die Dritte die Interaktion darstellt. Weiter werden noch moderierte Regression und ANCOVA differenziert.'
 authors: [kvetnaya, sajjad, irmer]
 weight: 12
 lastmod: '`r Sys.Date()`'

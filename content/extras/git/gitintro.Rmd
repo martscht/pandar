@@ -6,7 +6,7 @@ slug: gitintro
 categories: ["Git"]
 tags: []
 subtitle: ''
-summary: ''
+summary: 'Die lokale Erstellung von Git-Projekten zur Datenverwaltung wird hier gelehrt. Git ist ein nützliches Tool für eigene Arbeiten und Projekte, um Veränderungen zu protokollieren und jederzeit umzukehren.'
 authors: [nehler, rouchi]
 weight: 1
 lastmod: '`r Sys.Date()`'

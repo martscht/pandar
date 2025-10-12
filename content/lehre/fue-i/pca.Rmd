@@ -6,7 +6,7 @@ slug: pca
 categories: ["FuE I"] 
 tags: ["Hauptkomponentenanalyse", "Korrelation", "Regression", "Lineare Abhängigkeit"] 
 subtitle: 'Principal Component Analysis: PCA'
-summary: '' 
+summary: 'In dieser Sitzung wird die Hauptkomponentenanalyse betrachtet. Mit ihr kann ein besserer Überblick über die Daten verschafft werden. Aus vielen Variablen lassen sich dabei die namensgebenden Hauptkomponenten identifizieren.' 
 authors: [irmer]
 weight: 5
 lastmod: '`r Sys.Date()`'

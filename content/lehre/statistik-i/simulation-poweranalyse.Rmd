@@ -6,7 +6,7 @@ slug: simulation-poweranalyse
 categories: ["Statistik I"] 
 tags: ["Einführung", "Datenmanagement", "Grundlagen", "Hilfe"] 
 subtitle: ''
-summary: '' 
+summary: 'Nach der inferenzstatistischen Testung wollen wir in diesem Beitrag übergeordnete Aspekte der Verfahren betrachten. Dies tun wir, indem wir Simulationen von Variablen und Modellen erläutern und die empirische Bestimmung von Alpha-Fehlern und der Power betrachten.' 
 authors: [irmer, nehler] 
 weight: 8
 lastmod: '`r Sys.Date()`'

@@ -7,7 +7,7 @@ slug: conjugate
 categories: ["Bayes"]
 tags: ["Verteilungen", "Prior", "Beta-Verteilung", "Hyperparameter", "Bayes", "Posterior"]
 subtitle: 'Wie man Bayes betreibt, wenn man _wirklich_ Ahnung hat'
-summary: ''
+summary: 'Hier wird das warum und wozu der Bayesianischen Schätzung nähergebracht, durch Bayesianischen Analysen auf Basis eines vollerem Verständnis zu Verteilungen. Nur grundlegende Verteilungskenntnisse werden vor diesem Beitrag benötigt!'
 authors: [schultze]
 weight: 2
 featured: no

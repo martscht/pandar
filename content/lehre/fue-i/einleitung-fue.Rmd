@@ -6,7 +6,7 @@ slug: einleitung-fue
 categories: ["FuE I"] 
 tags: ["Grundlagen"] 
 subtitle: ''
-summary: '' 
+summary: 'Die Einleitung in das Seminar Forschungsmethoden und Evaluation I. R-Grundlagen werden aufgefrischt, Deskriptivstatistik, simple Datensimulation und der t-Test werden beispielhaft ausgeführt und erklärt. In den Appendices werden weitere sinnvolle Inhalte aufgegriffen. Eine analoge Simulationsstudie (Appendix A), Poweranalyseformeln (Appendix B) und Matrixalgebra (Appendix C)' 
 authors: [irmer] 
 weight: 1
 lastmod: '`r Sys.Date()`'

@@ -6,7 +6,7 @@ slug: anova-iii
 categories: ["Statistik II"] 
 tags: ["ANOVA", "Messwiederholung", "Post-Hoc", "Kontraste"] 
 subtitle: 'ANOVA mit Messwiederholung'
-summary: ''
+summary: 'Wir betrachten in diesem Beitrag die ANOVA mit Messwiederholung, mit der wir, im Gegensatz zu den vorigen ANOVA-Beiträgen nicht zwischen Personen, sondern innerhalb von Personen differenzieren.'
 authors: [scheppa-lahyani,irmer,nehler,schultze]
 weight: 10
 lastmod: '`r Sys.Date()`'

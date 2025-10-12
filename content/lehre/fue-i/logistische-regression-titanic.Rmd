@@ -6,7 +6,7 @@ slug: logistische-regression-titanic
 categories: ["FuE I"] 
 tags: ["Logistische Regression", "Regression", "Likelihood Ratio Test", "dichotom"] 
 subtitle: ''
-summary: '' 
+summary: 'In dieser Sitzung wird eine dichotome abhängige Variablen mit der logtischen Regression analysiert. Dies wird an einem Datensatz der damaligen Passagiere der Titanik mit 3 gewählten Eigenschaften im Zusammenhang mit der Überlebenswahrscheinlichkeit durchgeführt.' 
 authors: [irmer] 
 weight: 4
 lastmod: '`r Sys.Date()`'

@@ -6,7 +6,7 @@ slug: git-vertiefung
 categories: ["Git"]
 tags: []
 subtitle: ''
-summary: ''
+summary: 'In diesem Beitrag wird das Verständis zu Git um weitere nützliche Befehle erweitert. Einerseits werden zwei Methoden zum Rücknehmen von Commits vorgestellt, als auch Methoden, mit denen man lokale Veränderungen rückgängig macht, zwischenspeichert oder sie allgemein aus Commits ausschließt. Anschließend werden Merge Conflict und deren Lösung mit dem Conflict Solver in SmartGit nähergebracht.'
 authors: [nehler, schloter, rouchi]  
 weight: 4
 lastmod: '`r Sys.Date()`'

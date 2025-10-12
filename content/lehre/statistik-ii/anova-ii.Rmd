@@ -6,7 +6,7 @@ slug: anova-ii
 categories: ["Statistik II"] 
 tags: ["ANOVA","Zweifaktoriell", "Kontraste"] 
 subtitle: '2-fakt. ANOVA'
-summary: ''
+summary: 'Diese Sitzung stellt eine Erweiterung zur einfaktoriellen ANOVA dar. Wir besprechen nun eine ANOVA, bei der zwei Variablen kombiniert auf Gruppenunterschiede untersucht werden können.'
 authors: [irmer,scheppa-lahyani,schultze]
 weight: 9
 lastmod: '`r Sys.Date()`'

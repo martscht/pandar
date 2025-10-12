@@ -6,7 +6,7 @@ slug: regression-ausreisser-fue
 categories: ["FuE I"] 
 tags: ["Regression", "Ausreißer"] 
 subtitle: ''
-summary: '' 
+summary: 'In diesem Beitrag wird das Wissen der Einleitungssitzung erweitert um vemutlich bereits bekannte Kenntnisse. Es wird eine multiple Regression samt Voraussetzungsprüfung und Ausreißerdiagnostik durchgeführt. In den Appendizes werden weitere Details der Regression ausgeführt (Appendix A, B, D) und ggplot2 zur Visualisierung (Appendix C) gezeigt.' 
 authors: [irmer, hartig] 
 weight: 2
 lastmod: '`r Sys.Date()`'

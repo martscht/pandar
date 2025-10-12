@@ -6,7 +6,7 @@ slug: sem
 categories: ["FuE II"] 
 tags: ["lavaan", "SEM", "Pfadanalysen", "Regression"] 
 subtitle: 'Analysen von komplexen gerichteten Beziehungen'
-summary: '' 
+summary: 'Die heutige Sitzung beschäftigt sich mit dem Verfahren der Pfadanalysen und auf ihnen aufbauend die Grundlagen der Strukturgleichungsmodelle. Wie in de Sitzungen davor greifen wir auch hierfür auf das Paket `lavaan` zurück. Eine vorherige Betrachtung des [Beitrags zur konfirmatorischen Analyse](/lehre/fue-ii/fue-cfa) ist empfehlenswert.' 
 authors: [irmer, schultze] 
 weight: 4
 lastmod: '`r Sys.Date()`'

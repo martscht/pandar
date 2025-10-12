@@ -6,7 +6,7 @@ slug: gewichtete-reg
 categories: ["statistik-ii"]
 tags: ["Regression", "Gewichtete Regression", "Weighted Least Squares", "Repräsentativität", "Zusammenhangsanalyse"]
 subtitle: ''
-summary: ''
+summary: 'In dieser Sitzung wird die Gewichtung von Variablen in der Regression besprochen. Verschiedene Anwendungsfälle und allgemeine Motivationen für die Anwendung einer gewichtete Regression werden aufgegriffen mit einem Ausblick auf verschiedene Gewichtungsarten und die Anwendung auf mehrere Variablen.'
 authors: [kvetnaya]
 weight: 13
 lastmod: '`r Sys.Date()`'

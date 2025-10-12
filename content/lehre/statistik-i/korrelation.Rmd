@@ -6,7 +6,7 @@ slug: korrelation
 categories: ["Statistik I"] 
 tags: ["Korrelation", "Grundlagen", "Hilfe"] 
 subtitle: ''
-summary: '' 
+summary: 'Zuerst werden in dieser Sitzung verschiedene Darstelungsmöglichkeiten zusammenhängender Variablen besprochen. Im Anschluss werden Varianz- und Kovarianzberechnung, aufbauend Korrelation, und abschließend Korrelation dichotomer Variablen und Korrelation mit fehlenden Werten in R anhand des FB24 erklärt.' 
 authors: [nehler, winkler, schroeder, neubauer, goldhammer]
 weight: 9
 lastmod: '`r Sys.Date()`'

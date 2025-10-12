@@ -6,7 +6,7 @@ slug: msc1-daten
 categories: [] 
 tags: ["Aufgaben", "Multivariat","Daten"] 
 subtitle: ''
-summary: '' 
+summary: 'Datenverweisseite für die Sitzungen in Forschungsmethoden und Evaluation I.' 
 authors: [irmer] 
 weight: 1
 lastmod: '`r Sys.Date()`'

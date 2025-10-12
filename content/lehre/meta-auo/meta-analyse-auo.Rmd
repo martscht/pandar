@@ -6,7 +6,7 @@ slug: meta-analyse-auo
 categories: ["Meta AuO"] 
 tags: ["Meta-Anaklyse", "Arbeits- und Organisationspsychologie", "Zusammenfassung"] 
 subtitle: 'Die Kunst des Zusammenfassens von Studien und das `metafor`-Paket'
-summary: '' 
+summary: 'In diesem Beitrag wird die Kunst der Metaanalyse nähergebracht, in Anwendung mit dem Paket`metafor` auf einen Paket-internen Datensatz. Fixed und Random-Modelle sowie Modellvergleiche stehen im Fokus.' 
 authors: [irmer]
 weight: 1
 lastmod: '`r Sys.Date()`'

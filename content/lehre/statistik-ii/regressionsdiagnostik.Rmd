@@ -6,7 +6,7 @@ slug: regressionsdiagnostik
 categories: ["Statistik II"]
 tags: ["Regression", "Zusammenhangsanalyse", "Erklärte Varianz", "Voraussetzungsprüfung"]
 subtitle: ''
-summary: ''
+summary: 'Im Fokus dieser Sitzung steht die Überprüfung von Voraussetzungen im Rahmen der Regressionsdiagnostik. Dies umschließt Messfehlerfreiheit, Residuenunabhängigkeit, Linearität, Homoskedazidizität und Normalverteilung der Residuen und erweiternd auch Multikollinearität und Ausreißerdiagnostik.'
 authors: [irmer, hartig, nehler, sajjad]
 weight: 6
 lastmod: '`r Sys.Date()`'

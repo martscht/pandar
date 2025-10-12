@@ -6,7 +6,7 @@ slug: ancova-regression
 categories: ["Statistik II"] 
 tags: ["Regression", "ANCOVA", "Nominal"] 
 subtitle: ''
-summary: ''
+summary: 'In diesem Beitrag wird das bisherige Verständnis der ANOVA um die Einbindung nominalskalierter Prädiktoren erweitert und eine ANCOVA präsentiert. Von besonderem Interesse ist hierbei die ermöglichte Kombination nominalskalierter und intervallskalierter Variablen, da dies in der psychologischen Forschung häufig Anwendung findet.'
 authors: [schultze]
 weight: 11
 lastmod: '`r Sys.Date()`'
@@ -156,7 +156,7 @@ Die Äquivalenz der Ergebnisse erkennen wir bspw. an der Gleichheit der $p$-Wert
 
 ## Effektkodierung
 
-In der Dummy-Kodierung, die in R voreinstellung ist, wird die zweite Gruppe mit der ersten Gruppe verglichen. Das Intercept stellt dabei den Mittelwert der ersten Gruppe dar und das Regressionsgewicht ist die Abweichung der zweiten Gruppe von der ersten Gruppe. In Fällen mit nur zwei Gruppen, ist die logische Frage "na und?", aber für Fälle, in denen wir mehr als nur zwei Gruppen untersuchen, könnte das ein Problem darstellen (auf das wir [später](#mehrere-gruppen) noch eingehen werden).
+In der Dummy-Kodierung, die in R Voreinstellung ist, wird die zweite Gruppe mit der ersten Gruppe verglichen. Das Intercept stellt dabei den Mittelwert der ersten Gruppe dar und das Regressionsgewicht ist die Abweichung der zweiten Gruppe von der ersten Gruppe. In Fällen mit nur zwei Gruppen, ist die logische Frage "na und?", aber für Fälle, in denen wir mehr als nur zwei Gruppen untersuchen, könnte das ein Problem darstellen (auf das wir [später](#mehrere-gruppen) noch eingehen werden).
 
 Obwohl die Dummy-Kodierung auch in der Psychologie die verbreitetste Kodierung darstellt, wird auch die sogenannte Effekt-Kodierung von Zeit zu Zeit verwendet. Dabei ist das Ziel, dass das Intercept nicht mehr an eine Gruppe gebunden ist, sondern die gesamte Stichprobe beschreibt und das Regressionsgewicht die Abweichung einzelnen Gruppen von diesem globalen Wert darstellt. In R können wir die Kodierung eines `factor` mit `contrasts` nicht nur abfragen, sondern auch einstellen:
 

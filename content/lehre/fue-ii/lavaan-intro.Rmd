@@ -6,7 +6,7 @@ slug: lavaan-intro
 categories: ["FuE II"] 
 tags: ["lavaan", "Intro", "Regression"] 
 subtitle: 'Das Instrument für die multivariate Datenanalyse'
-summary: '' 
+summary: 'Zur Erweiterung des Verständnisses multivariater Verfahren wird in diesem Beitrag mit dem package `lavaan` gearbeitet, welches unter anderem auch für konfirmatorische Faktorenanalysen und Strukturgleichungsmodelle genutzt werden kann. Zum Einstieg gibt es zuerst eine Auffrischung der R-Kenntnisse, insbesondere auch zu multiplen Regressionen.' 
 authors: [schultze, irmer] 
 weight: 2
 lastmod: '`r Sys.Date()`'

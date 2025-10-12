@@ -6,7 +6,7 @@ slug: anova-i
 categories: ["Statistik II"] 
 tags: ["ANOVA", "Post-Hoc", "Einfaktoriell"] 
 subtitle: '1-fakt. ANOVA'
-summary: ''
+summary: 'In diesem Beitrag wird die ANOVA eingeführt, mit der Mittelwertsunterschiede über mehrere Gruppen untersucht werden können.'
 authors: [scheppa-lahyani, irmer, wallot, nehler]
 weight: 8
 lastmod: '`r Sys.Date()`'

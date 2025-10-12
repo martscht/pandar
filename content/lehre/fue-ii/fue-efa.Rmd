@@ -6,7 +6,7 @@ slug: fue-efa
 categories: ["FuE II"] 
 tags: ["EFA", "exploratorisch", "latent", "Hauptachsenanalyse"] 
 subtitle: 'EFA'
-summary: '' 
+summary: 'In diesem  Beitrag wird eine exploratorische Faktorenanalyse an Hand des Beispiels von Fragebogendaten zu den Big-5 durchgeführt. Der Unterschied verschiedener Faktorenmodelle mit ein bis drei Faktoren wird exploriert, um sich für ein passend sparasames Modell zu entscheiden.' 
 authors: [irmer, schultze] 
 weight: 1
 lastmod: '`r Sys.Date()`'

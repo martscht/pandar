@@ -6,7 +6,7 @@ slug: hierarchische-regression-schule
 categories: ["FuE I"] 
 tags: ["Hierarchische Regression", "Multi-Level Analyse", "ggplot", "Interaktion"] 
 subtitle: ''
-summary: '' 
+summary: 'In diesem Beitrag werden Multi-Level Daten mit einer hierarchischen Regression analysiert. Die Modellebenen, Modellspezifikation und unter anderem Interpretationen der Effekte und Ergebnisse werden mit aufbauend komplexen Modellen erklärt.' 
 authors: [irmer] 
 weight: 3
 lastmod: '`r Sys.Date()`'

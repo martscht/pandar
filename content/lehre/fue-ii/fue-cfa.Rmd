@@ -6,7 +6,7 @@ slug: fue-cfa
 categories: ["FuE II"] 
 tags: ["CFA", "lavaan", "latent", "SEM"] 
 subtitle: ''
-summary: '' 
+summary: 'In diesem Beitrag wird eine konfirmatorische Faktorenanalyse mit `lavaan` durchgeführt.' 
 authors: [schultze, irmer] 
 weight: 3
 lastmod: '`r Sys.Date()`'
@@ -55,7 +55,7 @@ source('cfa_startup.R')
 
 ## Einleitung
 
-In der [letzten Sitzung](/lehre/fue-ii/fue-efa) wurden faktoranalytische Verfahren für Datenexploration behandelt. Die Ergebnisse der EFA sind datengesteuert: welche Items welchen Faktoren zugeordnet werden, wie viele Faktoren genutzt werden, wie stark der Zusammenhang zwischen Item und Faktor ist, das alles sind Dinge, die aus den Daten heraus entschieden werden. In dieser Sitzung betrachten wir das Vorgehen, wenn in der Faktorenanalyse von einem konkreten, theoretisch fundierten Modell ausgegangen wird und dieses anhand empirischer Daten geprüft werden soll. Ganz im Popper'schen Sinn lässt sich nur durch ein solches Vorgehen wissenschaftliche Erkenntnis gewinnen.
+In der [ersten Sitzung](/lehre/fue-ii/fue-efa) wurden faktoranalytische Verfahren für Datenexploration behandelt. Die Ergebnisse der EFA sind datengesteuert: welche Items welchen Faktoren zugeordnet werden, wie viele Faktoren genutzt werden, wie stark der Zusammenhang zwischen Item und Faktor ist, das alles sind Dinge, die aus den Daten heraus entschieden werden. In dieser Sitzung betrachten wir das Vorgehen, wenn in der Faktorenanalyse von einem konkreten, theoretisch fundierten Modell ausgegangen wird und dieses anhand empirischer Daten geprüft werden soll. Ganz im Popper'schen Sinn lässt sich nur durch ein solches Vorgehen wissenschaftliche Erkenntnis gewinnen.
 
 Für die Umsetzung der CFA nutzen wir erneut `lavaan`. In der [ersten Sitzung dieses Semesters](/lehre/fue-ii/lavaan-intro) hatten wir uns den Umgang mit `lavaan` schon detailliert angesehen. Grob gesagt gehen wir in drei Schritten vor:
 

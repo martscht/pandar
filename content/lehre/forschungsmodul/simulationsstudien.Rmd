@@ -6,7 +6,7 @@ slug: simulationsstudien
 categories: ["Forschungsmodul"]
 tags: ["Simulationen", "Power", "Type I-Error", "Coverage", "Bias", "Signifikanztestung", "Verteilungen", "Monte-Carlo", "MC", "Pi"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Beitrag werden Monte-Carlo-Simulationen in R ausgeführt und Simulationsstudien in ihren Zwecken erklärt. Es wird eine Simulation erstellt, durchgeführt und auch auf Signifikanz getestet um das Vorgehen zu erläutern.'
 authors: [irmer]
 weight: 1
 lastmod: '`r Sys.Date()`'
