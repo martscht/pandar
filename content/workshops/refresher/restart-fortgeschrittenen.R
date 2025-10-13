@@ -15,9 +15,11 @@ mw
 mw <- c(34,47,23,90,23,45,89,98) |> mean()
 mw
 
-ls()
+# ls()
 
-rm(list = ls())
+# rm(list = ls())
+
+rm('mw', 'options_guide')
 
 library(knitr)
 data2 <- data.frame(

@@ -6,7 +6,7 @@ slug: exkurs-modellfit
 categories: ["FuE II"] 
 tags: ["Zusatz", "Modellfit", "Strukturgleichungsmodelle", "SEM"] 
 subtitle: 'Ein Exkurs'
-summary: '' 
+summary: 'In diesem Exkurs wird auf theoretischen Grundlagen und per `lavaan` simulierten Daten auf Aspekte des Modell-Fits eingegangen, etwa wie sich $\chi^2$ mit steigender Stichprobengröße je nach Modellfit und Art der erfüllten Hypothese verhält. Auch Möglickeiten, die Qualität des Fits zu bestimmen (CFI und RMSEA) werden gezeigt.' 
 authors: [irmer, schultze] 
 weight: 6
 lastmod: '`r Sys.Date()`'

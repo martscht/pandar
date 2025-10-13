@@ -6,7 +6,7 @@ slug: diagnostik-efa
 categories: ["Diagnostik"]
 tags: ["Fragebogen", "Seminar"]
 subtitle: ''
-summary: ''
+summary: 'In dieser Weiterführung wird mit dem Datensatz des vorigen Beitrags gearbeitet. Nach der Itemanalyse wird nun eine explorative Faktorenanalyse durchgeführt, um die Faktoren der Items zu identifizieren.'
 authors: [schnatz, farugie]
 weight: 2
 lastmod: '`r Sys.Date()`'

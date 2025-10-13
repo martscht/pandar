@@ -6,7 +6,7 @@ slug: manova
 categories: ["FuE I"] 
 tags: ["MANOVA", "multivariat", "Varianzanalyse", "Messwiederholung"] 
 subtitle: 'MANOVA'
-summary: '' 
+summary: 'In dieser Sitzung wird die MANOVA erläutert, mit welcher man Varianzanalysen mit mehreren Variablen auf Gruppenunterschiede in mehreren Gruppen untersuchen kann. Die beispielhafte Durchführung orientiert sich dabei an einem fiktiven Therapiedatenbeispiel. Weiterhin wird in Appendix B wird das Verfahren erweitert auf Messwiederholungen angewandt.' 
 authors: [irmer] 
 weight: 6
 lastmod: '`r Sys.Date()`'

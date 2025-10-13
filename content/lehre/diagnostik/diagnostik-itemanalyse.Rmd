@@ -6,7 +6,7 @@ slug: diagnostik-itemanalyse
 categories: ["Diagnostik"]
 tags: ["Fragebogen", "Seminar"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Beitrag wird die Itemanalyse an Hand eines Beispieldatensatzes erklärt. Eine Reihe von Packages zum Auswerten und zur Datenmanipulation werden dazu aufgewandt.'
 authors: [schnatz, farugie]
 weight: 1
 lastmod: '`r Sys.Date()`'

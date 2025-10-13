@@ -6,7 +6,7 @@ slug: matrixalgebra
 categories: ["Statistik I"] 
 tags: ["Grundlagen", "Matrix"] 
 subtitle: ''
-summary: '' 
+summary: 'In dieser Sitzung werden die Grundlagen der Matrixalgebra erklärt und ihr Anwendungszweck für die Deskriptivstatistik ausgeführt. Die Grundlagen umfassen dabei Rechenoperationen auf Vektoren und Matrizen, sowie die Bestimmung von Determinanten und Inversen.' 
 authors: [irmer, liu] 
 weight: 10.5
 lastmod: '`r Sys.Date()`'
