@@ -6,7 +6,7 @@ slug: smartgitintro
 categories: ["Git"]
 tags: []
 subtitle: ''
-summary: ''
+summary: 'Da die Nutzung von Git über das Terminal umständlich sein kann, führen wir in diesem Beitrag die Nutzung der Software SmartGit vor, inklusive der häufigsten Funktionen und Einrichtung der Software selbst. SmartGit ist eine grafische Oberfläche für die Arbeit mit Git Repositories.'
 authors: [nehler, schloter, rouchi]
 weight: 3
 lastmod: '`r Sys.Date()`'

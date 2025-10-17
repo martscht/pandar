@@ -6,7 +6,7 @@ slug: exkurs-invarianzstufen
 categories: ["FuE II"] 
 tags: ["Zusatz", "Invarianzstufen", "SEM", "MSA"] 
 subtitle: 'Ein Exkurs'
-summary: '' 
+summary: 'In diesem Exkurs werden die einzelnen Invarianzsstufen der Multiple-Sample-Analysis aufgeführt und erklärt, worin sie sich differenzieren und wie sie getestet werden. Besonders wird auf den mathematisch-strukturellen Aufbau eingegangen, und wie sich dieser mit jeder weiteren Invarianzstufe reduziert.' 
 authors: [irmer, schultze] 
 weight: 7
 lastmod: '`r Sys.Date()`'

@@ -6,7 +6,7 @@ slug: independence-r
 categories: ["Independence"]
 tags: ["Datenmanagement","Bonus"]
 subtitle: ''
-summary: ''
+summary: 'This tutorial was developed for thesis students at `LISCO lab`, though it may also be useful in other contexts. This tutorial provides tips on getting more deeply acquainted with R and using it to independently further ones capabilities in analyses.'
 authors: [nolden]
 weight: 5
 lastmod: '`r Sys.Date()`'

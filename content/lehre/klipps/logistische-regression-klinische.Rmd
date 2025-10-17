@@ -5,7 +5,7 @@ slug: logistische-regression-klinische
 categories: ["KliPPs"]
 tags: ["dichotom", "generalisiertes lineares Modell", "Linkfunktion", "Likelihood"]
 subtitle: 'Vorhersage von Gruppenzugehörigkeiten'
-summary: ''
+summary: 'In diesem Beitrag geht es darum, wie wir die Prinzipien der [Regression](/multiple-regression-klinische) nutzen können, um Vorhersagen auch dann zu ermöglichen, wenn die abhängige Variable nominalskaliert ist. Das Ziel ist die Replikation der Ergebnisse von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148).'
 authors: [schultze]
 weight: 2
 lastmod: '`r Sys.Date()`'
@@ -610,7 +610,7 @@ Erneut gibt die `Accuracy` den relativen Anteil der korrekt klassifzierten Perso
 
 ## Abschluss
 
-Mit den gezeigten Schritten (und einer zusätzlichen Korrelationstablle via `corr.test`) können wir also versuchen alle Ergebnisse aus dem Artikel von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) zu reproduzieren. Wie Sie (als aufmerksame Lerser*innen) bestimmt mitbekommen haben, sind dieser Ergebnisse allerdings nicht identisch. Zwar zweigen die Ergebnisse für das "Model 1" aus dem Artikel die gleichen Muster an bedeutsamen und nicht-bedeutsamen Prädiktoren, die tatsächlichen Zahlen weichen allerdings ab. Ich habe die Autorinnen des Papers kontaktiert, um über die Diskrepranzen zu sprechen. Meine Vermutung ist dabei, dass die Unterschiede auf den Ausschluss von Ausreißern und Extremwerten zurückgehen, welche im Paper (und dem ursprünglichen Skript auf dem OSF) nicht dokumentiert sind. Leider hat diese Kontaktaufnahme dazu geführt, dass der Beitrag im OSF verschwunden ist, bis diese Diskrepanzen geklärt werden können, sodass es mir zum Zeitpunkt, zu dem ich diesen Beitrag schreibe nicht möglich ist, eine definitive Aussage dazu zu treffen, woher diese Unterschiede kommen. Dennoch sind Sie jetzt in der Lage, für die anderen drei berichteten Modelle zu prüfen, ob es auch dort zu solchen Diskrepanzen kommt und ob sich die Interpretation im Artikel dadurch verändern würden.
+Mit den gezeigten Schritten (und einer zusätzlichen Korrelationstablle via `corr.test`) können wir also versuchen alle Ergebnisse aus dem Artikel von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) zu reproduzieren. Wie Sie (als aufmerksame Leser*innen) bestimmt mitbekommen haben, sind dieser Ergebnisse allerdings nicht identisch. Zwar zweigen die Ergebnisse für das "Model 1" aus dem Artikel die gleichen Muster an bedeutsamen und nicht-bedeutsamen Prädiktoren, die tatsächlichen Zahlen weichen allerdings ab. Ich habe die Autorinnen des Papers kontaktiert, um über die Diskrepranzen zu sprechen. Meine Vermutung ist dabei, dass die Unterschiede auf den Ausschluss von Ausreißern und Extremwerten zurückgehen, welche im Paper (und dem ursprünglichen Skript auf dem OSF) nicht dokumentiert sind. Leider hat diese Kontaktaufnahme dazu geführt, dass der Beitrag im OSF verschwunden ist, bis diese Diskrepanzen geklärt werden können, sodass es mir zum Zeitpunkt, zu dem ich diesen Beitrag schreibe nicht möglich ist, eine definitive Aussage dazu zu treffen, woher diese Unterschiede kommen. Dennoch sind Sie jetzt in der Lage, für die anderen drei berichteten Modelle zu prüfen, ob es auch dort zu solchen Diskrepanzen kommt und ob sich die Interpretation im Artikel dadurch verändern würden.
 
 
 ***

@@ -6,7 +6,7 @@ slug: multreg-inf-mod
 categories: ['Statistik II'] 
 tags: ["Regression", "Modelltest", "Modelloptimierung"] 
 subtitle: ''
-summary: ''
+summary: 'In dieser Sitzung geht es einerseits um die Betrachtung eines Regressionsmodell am konkreten Beispiel. Andererseits geht es um hypothesengeleitete und explorative Modelloptimierung, durch die möglichst viel der Varianz der abhängigen Variable erklärt werden soll.'
 authors: [nehler, irmer, schueller, hartig]
 weight: 4
 lastmod: '`r Sys.Date()`'

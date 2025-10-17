@@ -5,7 +5,7 @@ slug: lmm-klinische
 categories: ["KliPPs"]
 tags: ["Mehrebenenmodelle", "Längsschnitt", "Mixed Models"]
 subtitle: 'Gemischte Lineare Modelle für den Längsschnitt'
-summary: ''
+summary: 'In diesem Beitrag wird unter Modellierung von ESM Daten von [Liu et al. (2024)](https://doi.org/10.1037/abn0000877) die Anwendung von gemischten Modellen unter realistischen Bedingungen nahegebracht.'
 authors: [schultze]
 weight: 4
 lastmod: '`r Sys.Date()`'

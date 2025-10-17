@@ -6,7 +6,7 @@ slug: github
 categories: ["Git"]
 tags: []
 subtitle: ''
-summary: ''
+summary: 'In diesem Beitrag wird GitHub vorgestellt, welches eines von vielen möglichen Tools ist um seine Dateien online zu hosten. Die Erstellung eines eigenen Repositories und grundlegende Befehle dienen hierbei als Einführung.'
 authors: [nehler, schloter, rouchi]
 weight: 2
 lastmod: '`r Sys.Date()`'

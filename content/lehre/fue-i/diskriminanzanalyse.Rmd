@@ -6,7 +6,7 @@ slug: diskriminanzanalyse
 categories: ["FuE I"] 
 tags: ["Zusatz", "Diskriminanzanlyse", "MANOVA"] 
 subtitle: 'Deskriptive lineare Diskriminanzanalyse'
-summary: '' 
+summary: 'In dieser Sitzung wird die Diskriminanzanalyse erläutert, die gewissermaßen das Gegenstück zur MANOVA darstellt. Aus den abhängigen Variablen der Lebenszufriedenheit, der Depression, der Arbeitsbeanspruchung und der Arbeitszufriedenheit wird auf Gruppenzugehörigkeit geschlossen. Der Beitrag bedient sich wie der Vorherige dem fiktiven Datenbeispiel `Therapy`.' 
 authors: [irmer] 
 weight: 7
 lastmod: '`r Sys.Date()`'

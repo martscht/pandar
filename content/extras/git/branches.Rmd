@@ -6,7 +6,7 @@ slug: branches
 categories: ["Git"]
 tags: []
 subtitle: ''
-summary: ''
+summary: 'In diesem Beitrag werden Git-Branches erklärt. Die speziellen Branches **master** und **main**, sowie die Erstellung, Auswahl und Löschung beliebiger Branches werden erläutert. Im Anhang wird für Interessierte die Struktur von Git weiter ausgeführt.'
 authors: [schloter, nehler]
 weight: 5
 lastmod: '`r Sys.Date()`'

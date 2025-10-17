@@ -5,7 +5,7 @@ slug: ancova-klinische
 categories: ["KliPPs"]
 tags: ["Regression", "ANCOVA", "Effektschätzer"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Beitrag wird die (generalisierte) ANCOVA an Hand klinischer Datenbeispiele von [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) erläutert, mit Change-Modellen verglichen, der mögliche Umgang mit Dropout beleuchtet und gezeigt, dass sich die ANCOVA um mehrere Kovariate ergänzen lässt.'
 authors: [schultze, nehler, irmer]
 weight: 3
 lastmod: '`r Sys.Date()`'
