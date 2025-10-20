@@ -64,7 +64,9 @@ Vektoren kennen wir bereits aus den ersten Datensätzen, die wir kennengelernt h
 Vektoren werden häufig (aber nicht immer, Ausnahmen bestätigen die Regel) in Kleinbuchstaben dargestellt. 
 Seien `x` und `y` zwei Vektoren, die wir mit dem Zuordnungspfeil `<-` und mit der Vektorfunktion `c()` erstellen:
 
-```{r Vektorrechnungen}
+```{r, echo=-c(1,2)}
+## Vektorrechnung
+
 x <- c(1, 2, 3)
 y <- c(10, 8, 6)
 ```
@@ -205,7 +207,9 @@ Wir bemerken, dass die Indizes der Elemente uns die Position in der Matrix angeb
 
 Die gerade behandelten Vektoren  können wir ganz leicht zu einer Matrix machen, indem wir den Befehl `as.matrix` bspw. auf `x` anwenden. Dieser Befehl erzeugt  eine 3x1 Matrix - also aus mathematischer Sicht eigentlich einen Spaltenvektor.
 
-```{r Matrixrechnungen}
+```{r, echo=-c(1,2)}
+## Matrixrechnung
+
 as.matrix(x)
 ```
 
@@ -359,7 +363,9 @@ Obwohl die Bananen so teuer sind, macht es für Yvonne mehr Sinn in Laden B einz
 #### Spezielle Matrizen
 Eine quadratische Matrix ist eine Matrix mit gleich vielen Zeilen wie Spalten. Eine wichtige quadratische Matrix ist die Einheitsmatrix $I$, welche nur 1en auf der Diagonalen und sonst 0en hat. Diese ist gerade das Element, mit welchem wir getrost multiplizieren können (falls die Dimensionen stimmen), weil dann nichts passiert (wie Multiplikation mit 1 bei Zahlen). Wir erhalten sie mit `diag`, was eigentlich eine (quadratische) Diagonalmatrix erzeugt mit beliebigen Elementen auf der Diagonalen:
 
-```{r Besondere-Matrizen}
+```{r, echo=-c(1,2)}
+## Spezielle Matrizen
+
 diag(3) # Einheitsmatrix 3x3
 diag(1:3) # Diagonalmatrix mit Elementen 1,2,3 auf der Diagonalen
 ```
@@ -392,7 +398,9 @@ cat("Error in solve.default(C) :
 
 Die Matrix `C` lässt sich nicht invertieren, da sie singulär ist und damit nicht invertierbar. Dies bedeutet, dass es lineare Abhängigkeiten der Zeilen bzw. Spalten gibt. Wir können dies explizit prüfen, indem wir die Determinante bestimmen mit `det`:
 
-```{r Determinantenrechnung}
+```{r, echo=-c(1,2)}
+## Determinanten
+
 det(C)
 round(det(C), 14)
 ```
@@ -451,7 +459,9 @@ solve(M) # Inverse von M
 
 Wozu können wir die Matrixinvertierung benutzen? Sei $P$ wieder eine Preismatrix. Wir vertauschen diesmal Zeilen und Spalten
 
-```{r Invertierung}
+```{r, echo=-c(1,2)}
+## Matrixinvertierung
+
 P <- matrix(c(.5, .1, 2,
               .3, .05, 2.5,
               .2, 1, 3), nrow = 3, ncol = 3,
@@ -500,7 +510,9 @@ Nun aber genug von Obst, wir sind hier um Statistik zu betreiben. Im letzten Abs
 
 ##### Statistiken mit Matrixoperationen bestimmen {#Deskriptiv}
 
-```{r Matrix-Statistikanwendung}
+```{r, echo=-c(1,2)}
+#### Statistiken mit Matrixoperationen bestimmen ----
+
 # Daten laden
 load(url('https://pandar.netlify.app/daten/fb24.rda'))
 

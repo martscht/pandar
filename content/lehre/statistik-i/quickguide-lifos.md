@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird Ihnen eine kurze Einführung in LIFOS (Lokale Infrastruktur für Open Science) gegeben. Hierbei handelt es sich um eine universitätsinterne Übungsplattform für Psychologie-Studierende der Goethe Universität, die es Ihnen ermöglichen soll, Open Science Praktikem in einem geschützten Raum zu üben. In diesem Quickguide wird Ihnen erklärt, wie Sie sich bei LIFOS anmelden und Ihr Projekt am richtigen Ort anlegen. Außerdem wird erläutert, welche Schritte Sie im Rahmen Ihres Praktikums auf LIFOS durchführen sollen.' 
 authors: [beitner, nehler]
 weight: 12
-lastmod: '2025-10-13'
+lastmod: '2025-10-20'
 featured: no
 banner:
   image: "/header/frog_collective.jpg"
@@ -75,13 +75,16 @@ Nun können Sie alle öffentlichen Gruppen auf LIFOS sehen. Zunächst müssen Si
 ![](/quickguide-lifos_files/quickguide-lifos02.png)
 
 <li><p><b> Zugang beantragen </b></p>
-Klicken Sie auf Ihre Gruppe. Oben rechts sind nun drei Punkte zu sehen, unter denen nach einem Klick die Option <b>Request access</b> erscheint. Klicken Sie drauf und bestätigen Sie. Nun sollte Ihnen oben eine Nachricht angezeigt werden, dass Ihre Anfrage einging.
+Klicken Sie auf Ihre Gruppe. Oben rechts sind nun drei Punkte zu sehen, unter denen nach einem Klick die Option <b>Request access</b> erscheint. Klicken Sie drauf und bestätigen Sie. 
+
+![](/quickguide-lifos_files/quickguide-lifos-request.png)
+
+Nun sollte Ihnen oben eine Nachricht angezeigt werden, dass Ihre Anfrage einging.
 
 ![](/quickguide-lifos_files/request_access.png)
 
 Hat dies funktioniert? Dann Gratulation! Sie haben so eben einen wichtigen Schritt gemeistert und Zugriff zu Ihrer Praktikumsgruppe beantragt. Sobald Ihr Dozent/Ihre Dozentin Ihre Anfrage bestätigt hat, können Sie und Ihre Gruppe loslegen.</li></ol>
 
-![](/quickguide-lifos_files/quickguide-lifos-request.png)
 
 # Auf LIFOS ein Projekt anlegen {#projektstart}
 

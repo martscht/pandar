@@ -74,7 +74,9 @@ Schauen wir uns an, wie diese Hypothesen geprüft werden können.
 
 Die Daten wurden von den Autorinnen der Studie über das [OSF zur Verfügung](https://osf.io/y7dse/) gestellt. Sie stellen außerdem auch eine .Rmd-Datei zur Verfügung, in der die Datenaufbereitung für den Artikel dargestellt wird. Ich habe dieses Skript ein wenig gekürzt und damit wir schnell zu den interessanten Punkten kommen können, können wir dieses Skript einfach direkt ausführen, um die Daten in R zu laden:
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, echo=-c(1,2)}
+## Daten laden
+
 source('https://pandar.netlify.app/daten/Data_Processing_grit.R')
 ```
 
@@ -108,7 +110,9 @@ Variable | Beschreibung | Ausprägungen
 
 Die Deskriptivstatistiken der Variablen, die für uns relevant sind, werden in Tabelle 1 des Aritkels von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) dargestellt. Wir können relativ einfach prüfen, ob wir diese reproduzieren können. Weil die Tabelle die Ergebnisse nach den drei Gruppen `None`, `Ideator` und `Attempter` aufteilt, können wir den `describeBy`-Befehl aus dem `psych`-Paket nutzen, um diese Unterteilung direkt mitzumachen. Weil die ausgegebenen Statistiken für nominalskalierte Variablen nicht sinnvoll sind, schließen wir diese aus dem Datensatz aus, bevor wir ihn mit der Pipe `|>` an die Funktion weitergeben.
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Deskriptivstatistik ----
+
 library(psych)
 subset(grit, select = c(ARS, RSS, ELOC, ILOC, Grit, Age)) |>
   describeBy(grit$Suicide)
@@ -163,6 +167,7 @@ summary(mod0)
 Das Ergebnis zeigt uns zunächst an, dass Personen mit mehr Grit weniger Suizidgedanken haben. Betrachten wir das Ganze mal als Abbildung:
 
 ```{r Abbildung-Lineare-Regression, fig = TRUE, echo = FALSE, warning=FALSE, message=FALSE}
+## Zusätzlicher Code der grafischen Darstellung
 ggplot(idea, aes(x = Grit, y = as.numeric(Suicide))) + 
   geom_point(alpha = .25) + 
   geom_smooth(method = 'lm', se = FALSE, color = pandar_colors[1]) +
@@ -254,6 +259,7 @@ new_data$Probability <- predict(mod1, newdata = new_data, type = 'response')
 Die Ergebnisse können wir natürlich auch bildlich veranschaulichen (den entsprechenden R-Code dazu finden Sie im oben verlinkten R-Skript für diesen Beitrag):
 
 ```{r Abbildung-Logistische-Regression, fig = TRUE, echo = FALSE, warning=FALSE, message=FALSE, height=4, width=4}
+## Zusatzcode der Verbildlichung
 # Daten und Vorhersagen erstellen
 plottable <- data.frame(Grit = seq(0, 4, .01))
 plottable$Probability <- predict(mod1, newdata = plottable, type = 'response')
@@ -370,7 +376,9 @@ Trotz diverser Vorschläge hat sich bislang kein generelles Effektstärkemaß im
 
 Für die Beurteilung der Klassifikationsgüte müssen wir zunächst die konkreten Vorhersagen aus dem Modell ableiten. Das hatten wir schon für die Darstellung der Wahrscheinlichkeiten gemacht, nur dass wir jetzt definitive Aussagen haben wollen. Dafür müssen wir festhalten, welche Wahrscheinlichkeit als welche Vorhersage klassifiziert wird. Im Normalfall können wir dabei so vorgehen, dass alle Vorhersagen $> .5$ als $\widehat{Y} = 1$ klassifiziert werden (und natürlich andersrum). Diese Vorhersagen stellen wir dann einfach den tatsächlich beobachteten Kategorien gegenüber:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Klassifikationsgüte ----
+
 # Vorhersagen
 idea$Prediction <- predict(block2, type = 'response') > .5
 idea$Prediction <- factor(idea$Prediction, labels = c('None', 'Ideator'))
@@ -414,7 +422,9 @@ Um diese Hypothese untersuchen zu können, benötigen wir also eine Methode, mit
 
 Um die drei Gruppen unterscheiden zu können, müssen wir unsere Prädiktoren aus im gesamten Datensatz zentrieren und für die sexuelle Orientierung eine dichotomisierte Variable erstellen:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Vorbereitung ----
+
 # Zentrierung
 grit$ARS_c <- scale(grit$ARS, scale = FALSE)
 grit$ILOC_c <- scale(grit$ILOC, scale = FALSE)
@@ -451,7 +461,9 @@ library(nnet)
 
 Wie schon im Abschnitt zur [einfachen logistischen Regression](#einfache-logistische-regression) getan, konzentrieren wir uns zunächst auf die explizite Hypothese, dass Grit die Wahrscheinlich von Suizidgedanken verringern, die von Suizidversuchen aber erhöhen sollte. Die `multinom`-Funktion kann man im Wesentlichen genauso benutzen wie die `lm`- oder `glm`-Funktionen:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Modell ----
+
 # Multinomiale logistische Regression
 mod2 <- multinom(Suicide ~ 1 + Grit_c, grit)
 ```
@@ -480,7 +492,9 @@ Im ersten Intercept wird hier also festgehalten, wie viel wahrscheinlicher es is
 
 Wie schon bei der logistischen Regression, kann es immens hilfreiche sein, sich konkrete Vorhersagen anzusehen und eventuell eine Abbildung zu erstellen. Erneut können wir mit `predict` direkt Wahrscheinlichkeiten erzeugen lassen:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Vorhersagen und Abbildungen ----
+
 # Mittlerer Grit +/- 1 und 2 SD
 new_data <- data.frame(Grit_c = c(-2*sd(grit$Grit), -sd(grit$Grit), 0, sd(grit$Grit), 2*sd(grit$Grit)))
 
@@ -494,6 +508,7 @@ new_data
 Wir sehen hier also, dass jetzt die Wahrscheinlichkeit für alle drei Kategorien bestimmt wird. Etwas bildlicher (der Code für die Abbildung ist wieder in der begleitenden R-Datei enthalten):
 
 ```{r Abbildung-Multinomiale-Logistische-Regression, fig = TRUE, echo = FALSE, warning=FALSE, message=FALSE, height=4, width=4}
+## Zusatzcode der Visualisierung der Wahrscheinlichkeiten
 # Daten und Vorhersagen erstellen
 plottable <- data.frame(Grit_c = seq(min(grit$Grit_c), max(grit$Grit_c), .01))
 plottable <- cbind(plottable, predict(mod2, newdata = plottable, type = 'probs'))
@@ -517,7 +532,9 @@ Wie man sieht steigt mit mehr Grit die Wahrscheinlichkeit, als `None` klassifizi
 
 Die Ergebnisse des `multinom`-Befehls liefern Parameterschätzer und Standardfehler. Die Konfidenzintervall der Parameter können wir allerdings - wie bei allen anderen Regressionen - mit dem `confint`-Befehl bestimmen:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Inferenzstatistik ----
+
 confint(mod2)
 ```
 
@@ -549,7 +566,9 @@ p <- 2 * pnorm(abs(z), lower.tail = FALSE)
 
 Um die, im Artikel von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) gezeigten Ergebnisse zu reproduzieren, müssen wir wieder die vier separaten Blöcke aufstellen und vergleichen. Im Artikel werden dann die Odds und deren Konfidenzintervalle aus dem vollen Modell berichtet.
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Volle Modelle ----
+
 # Blöcke aufstellen
 block1 <- multinom(Suicide ~ 1 + Orientation_bin, 
   grit)

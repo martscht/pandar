@@ -60,7 +60,9 @@ if (exists("figure_path")) {
 
 Den Datensatz `fb24` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
-```{r}
+```{r, echo=-c(1,2)}
+## Vorbereitung
+
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -148,7 +150,9 @@ Um nun eine einfache Regression an unserem Datensatz durchführen zu können, be
 Für gewöhnlich würden Sie nun zuerst einmal die Voraussetzungen überprüfen. Diese werden wir in der kommenden [Sitzung](/lehre/statistik-i/multiple-reg/) ausführlich besprechen. Jetzt schauen wir uns die Daten erst einmal nur an. Dies tun wir mithilfe eines Scatterplots. Wenn wir darin den beobachteten lokalen Zusammenhang abbilden, können wir auch schon visuell beurteilen, ob der Zusammenhang denn auch linear ist.
 
 
-```{r Zusammenhangsvisualisierung, fig = TRUE}
+```{r fig = TRUE, echo=-c(1,2)}
+## Zusammenhangsvisualisierung
+
 plot(fb24$extra, fb24$nerd, xlab = "Extraversion", ylab = "Nerdiness", 
      main = "Zusammenhang zwischen Extraversion und Nerdiness", xlim = c(0, 6), ylim = c(1, 5), pch = 19)
 lines(loess.smooth(fb24$extra, fb24$nerd), col = 'blue')    #beobachteter, lokaler Zusammenhang
@@ -163,7 +167,9 @@ lines(loess.smooth(fb24$extra, fb24$nerd), col = 'blue')    #beobachteter, lokal
 
 In unserem Beispiel ist $x$ die Extraversion (`extra`) und $y$ die Nerdiness (`nerd`). Um das Modell zu schätzen, wird dann der `lm()` (für *linear model*) Befehl genutzt:
 
-```{r Modellschätzung}
+```{r, echo=-c(1,2)}
+## Modellschätzung
+
 lm(formula = nerd ~ 1 + extra, data = fb24)
 ```
 
@@ -218,7 +224,8 @@ $$\hat{y} = `r round(coef(lin_mod)[1],2)` + (`r round(coef(lin_mod)[2],2)`)*x_m$
 
 Mit dem Befehl `lm()` werden auch automatisch immer die Residuen ($e_m$) geschätzt, die mit `residuals()` (oder alternativ: `resid()`) abgefragt werden können. Die Residuen betragen die Differenzen zu den vorhergesagten Werten bzw. zur Regressionsgeraden.
 
-```{r Residuen}
+```{r, echo=-1}
+## Residuen
 residuals(lin_mod)
 ```
 
@@ -228,7 +235,8 @@ Die Residuen haben die Bedeutung des "Ausmaßes an Nerdiness, das nicht durch Ex
 
 Die vorhergesagten Werte $\hat{y}$ können mit `predict()` ermittelt werden:
 
-```{r Vorhergesagte-Werte}
+```{r, echo=-1}
+## vorhergesate Werte
 predict(lin_mod)
 ```
 
@@ -301,7 +309,9 @@ Für die Berechnung per Hand werden die einzelnen Varianzen benötigt:
 
 $R^2 = \frac{s^2_{\hat{Y}}}{s^2_{Y}} = \frac{s^2_{\hat{Y}}}{s^2_{\hat{Y}} + s^2_{E}}$
 
-```{r Determinationskoeffizient}
+```{r, echo=-c(1,2)}
+## Determinationskoeffizient R^2
+
 # Anhand der Varianz von lz
 var(predict(lin_mod)) / var(fb24$nerd, use = "na.or.complete")
 
@@ -348,7 +358,9 @@ Konventionen sind, wie bereits besprochen, heranzuziehen, wenn keine vorherigen 
 Bei einer Regression (besonders wenn mehr als ein Prädiktor in das Modell aufgenommen wird wie in der nächsten [Sitzung](/lehre/statistik-i/multiple-reg/)) kann es sinnvoll sein, die standardisierten Regressionskoeffizienten zu betrachten, um die Erklärungs- oder Prognosebeiträge der einzelnen unabhängigen Variablen (unabhängig von den bei der Messung der Variablen gewählten Einheiten) miteinander vergleichen zu können, z. B. um zu sehen, welche Variable den größten Beitrag zur Prognose der abhängigen Variable leistet. Außerdem ist es hierdurch möglich, die Ergebnisse zwischen verschiedenen Studien zu vergleichen, die `nerd` und `extra` gemessen haben, jedoch in unterschiedlichen Einheiten. Durch die Standardisierung werden die Regressionskoeffizienten vergleichbar.
 Die Variablen werden mit `scale()` standardisiert (z-Transformation; Erwartungswert gleich Null und die Varianz gleich Eins gesetzt). Mit `lm()` wird das Modell berechnet.
 
-```{r Standardisierte-Regressionsgewichte}
+```{r, echo=-c(1,2)}
+## Standardisierte Regressionsgewichte
+
 s_lin_mod <- lm(scale(nerd) ~ scale(extra), fb24) # standardisierte Regression
 s_lin_mod
 ```

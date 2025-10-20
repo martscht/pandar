@@ -52,7 +52,9 @@ In dieser Sitzung wollen wir dichotome abhängige Variablen mit der logistischen
 ### Daten laden
 Wir laden zunächst die Daten: entweder lokal von Ihrem Rechner:
 
-```{r, eval = F}
+```{r, eval = F, echo=c(-1,-2)}
+Daten laden
+Beispiel Daten lokal zu laden
 load("C:/Users/Musterfrau/Desktop/Titanic.rda")
 ```
 
@@ -125,7 +127,9 @@ Für die erste Hypothese müssen wir den Einfluss des Alters auf die Überlebens
 
 #### Lineares Modell: Einfache Regressionsanalyse
 Wir nennen unser Modell zur Modellierung des Überlebens `reg_model`.
-```{r}
+```{r, echo=-c(1,2)}
+#### Analyse mit dem Beispieldatensatz ----
+
 library(lm.beta) # std. Koeffizienten
 reg_model <- lm(survived ~ 1 + age, data = Titanic)
 summary(lm.beta(reg_model))
@@ -216,7 +220,9 @@ plot(x = AltersWerte, y = p, type = "l", col = "blue", lwd = 3)
 ### Hypothese 2
 Nun wollen wir das Geschlecht mit in unser Modell aufnehmen und somit Hypothese 2 untersuchen. Da das Geschlecht hier auch nur 2 Ausprägungen hat, kann dieser Effekt als Vergleich zwischen Gruppen verstanden werden. Intern wird dann mit "Dummy"-Variablen gerechnet. Wir können sicher gehen, dass mit "Dummy"-Variablen gerechnet wird (dies ist analog dazu, dass wir das Geschlecht mit 0 und 1 kodieren, anstatt 1 und 2 - so wie wir dies in den anderen Sitzungen getan hatten!), indem wir `R` sagen, dass es sich bei der Variable Geschlecht um einen "Faktor" handelt, der Gruppenzugehörigkeit symbolisiert. Wir können prüfen, ob diese Variable ein Faktor ist, indem wir `is.factor` auf die Variable `sex` anwenden.
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Hypothese 2 ----
+
 is.factor(Titanic$sex)
 ```
 Es scheint sich also um einen Faktor zu handeln. Falls dies nicht der Fall gewesen wäre, so hätten wir `as.factor` auf die Variable anwenden können. Wäre das Geschlecht über Strings kodiert (bspw. "m" und "w"), so würde `R` dies automatisch in einen Faktor umwandeln, sobald es in einem Modell als Variable verwendet wird. Mit der Funktion `table` erhalten wir einen Überblick über die Kombination an Überlebenden und dem Geschlecht.
@@ -312,7 +318,9 @@ Einen drastischen Alterseffekt können wir in keiner der Grafiken erkennen. Dass
 
 ### Hypothese 3
 Nun wollen wir die Reiseklasse mit in unser Modell aufnehmen und somit Hypothese 3 untersuchen. Die Klasse ist auch ein Faktor, der 3 Ausprägungen hat. Wir schauen uns die Level an:
-```{r}
+```{r, echo=-c(1,2)}
+#### Hypothese 3 ----
+
 levels(Titanic$pclass)
 ```
 Die drei Klassen sind mit 1, 2 und 3 kodiert, wobei die 3. Klasse die Referenz ist (da sie an erster Stelle steht). Dies müssen wir bei der Interpretation berücksichtigen. Schauen wir uns die Ergebnisse an:
@@ -396,7 +404,9 @@ Final können wir festhalten, dass wahrscheinlich alle drei Hypothesen erfüllt 
 <details><summary><b>Parametereinflüsse</b></summary>
 
 Die folgende Funktion stellt vier Grafiken dar: den Logit, die Odds, die Wahrscheinlichkeit und die Wahrscheinlichkeit vs. eine Zufallserhebung. Sie können $\beta_0$ und $\beta_1$ dieses Modells so einstellen, wie Sie wünschen und können sich den Effekt auf die verschiedenen Darstellungsformen der logistischen Regression ansehen. In hellblau wird jeweils die Funktion mit $\beta_0 = 0$ und $\beta_1 = 1$ als Referenz dargestellt. Die gestrichelten Linien stellen jeweils die x- und die y-Achse dar. In roten Punkten werden Realisierungen von $Y=0,1$ dargestellt, die mit der angezeigten Wahrscheinlichkeit gezogen wurden. Um die Ergebnisse vergleichbar zu machen, wird `set.seed(1234)` verwendet (vgl. [Einführungssitzung](/lehre/fue-i/einleitung-fue)).
-```{r}
+```{r, echo=-c(1,2)}
+#### Appendix A ----
+
 Logistic_functions <- function(beta0 = 0, beta1 = 1)
 {
         par(mfrow=c(2,2)) # 4 Grafiken in einer

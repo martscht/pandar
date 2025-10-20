@@ -112,7 +112,9 @@ Variable | Beschreibung | Ausprägungen
 
 Wie schon in den anderen Beiträgen, können wir zunächst checken, ob unsere Daten mit denen aus dem Artikel übereinstimmen, indem wir die deskriptivstatistischen Tabellen nachvollziehen. Tabelle 1 (S. 260) gibt dabei eine sehr detaillierte Übersicht über die die Verteilung der demografischen Variablen Ethnizität, Geschlecht und sexueller Orientierung. Diese Ergebnisse sind mit dem bereitgestellten Datensatz soweit reproduzierbar - allerdings aufgrund der fehlenden Exklusivität der Kategorien nicht so einfach zu erstellen, wie in den vergangenen beiden Beiträgen:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Deskriptivstatistik ----
+
 # Ethnizität
 ethnicity <- aggregate(cope[, grep('race_', names(cope))], by = list(cope$condition), FUN = sum)
 names(ethnicity) <- c('condition', 'Native', 'Asian', 'Hispanic', 'Pacific Islander', 'White', 'Black', 'Other', 'Prefer not to say')
@@ -160,7 +162,9 @@ Was hier beschrieben wird, ist der Umgang mit einem zentralen Problem in jeder F
 
 Der erste logische Schritt mit diesem Problem umzugehen ist es, festzustellen in welchem Ausmaß der Dropout über die Gruppen hinweg unterschiedlich ist. Im Artikel von [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) wird auf S. 259 genau das getan. Um Häufigkeitsverteilung zwischen mehreren Gruppen zu vergleichen, wird üblicherweise der $\chi^2$ herangezogen:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Dropout ----
+
 dropouts <- table(cope$condition, cope$dropout1)
 dropouts
 prop.table(dropouts, margin = 1)
@@ -223,7 +227,9 @@ Dass sich Abbrecher*innen hinsichtlich ihrer Baselineeigenschaften kaum von Pers
 
 Hier werden wir uns erst einmal auf die klassischen Methoden beschränken und CCA und LOCF nutzen, um eine grobe Vorstellung von den Interventionseffekten zu bekommen. Die Umsetzung mit Amelia, die im Artikel von [Schleider et al. (2022)](https://doi.org/10.1038/s41562-021-01235-0) durchgeführt wurde ist aber im entsprechenden [Skript im OSF-Repo](https://osf.io/uhzdx) zu finden. Um LOCF auch umsetzen zu können, müssen wir einen Datensatz erstellen, in dem alle fehlenden Werte durch den vorangegangenen Wert ersetzt sind:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Umgang mit Dropouts ----
+
 locf <- cope
 
 # LOCF, post-intervention
@@ -249,7 +255,9 @@ Wir können uns hier zunächst auf das Primäroutcome konzentrieren und werden d
 
 Im Artikel wird die ANCOVA genutzt, um sicherzustellen, dass die Unterschiede zwischen den Gruppen _bedingt auf_ die Werte zum ersten Zeitpunkt interpretiert werden können. Gucken wir uns am besten genauer an, was ich damit meine:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### ANCOVA ----
+
 # ANOVA model
 mod1 <- lm(CDI3 ~ condition, cope)
 
@@ -325,7 +333,9 @@ Eine naheliegende Alternative zu den ANCOVA Modellen ist es, statt des zweiten Z
 
 Im ursprünglichen Kommentar von [Lord (1967)](https://psycnet.apa.org/doi/10.1037/h0025105) wird eine Situation beschrieben, in der eine Universität ihr Mensa-Essen evaluieren möchte. Dazu wird das Gewicht von Männern und Frauen zu Beginn des Wintersemesters und zum Ende des folgenden Sommersemesters erhoben. Nehmen wir als extremes Beispiel, dass beide Gruppen im Mittel 5kg zugelegt hätten:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Change-Modelle ----
+
 # Seed festlegen
 set.seed(123)
 
@@ -386,7 +396,9 @@ Die oben vorgestellte ANCOVA lässt sich nach Belieben um mehr Kovariaten erweit
 
 Im vorherigen Abschnitt zur ANCOVA hatten wir angenommen, dass Kovariaten den Effekt eventuell verzerren könnten und sie daher aufgenommen, um einen "bereinigten" Effektschätzer der Intervention zu erhalten. Dabei wird allerdings (wie an den parallelen Linien zu sehen war) davon ausgegangen, dass der Interventionseffekt bei allen Ausprägungen der Kovariate der Gleiche ist. Diese Annahme lässt sich prüfen, indem wir einen Interaktionseffekt in die ANCOVA aufnehmen. Dafür gilt, wie schon im [Beitrag zur moderierten Regression](/lehre/klipps/moderierte-regression-klinische), dass wir kontinuierliche Variablen unbedingt zentrieren sollten. Das hilft zum Einen bei der Interpretaion, aber kann auch Multikollinearität verringern.
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Generalisierte ANCOVA ----
+
 # Zenrierung der Kovariate
 cope$CDI1_c <- scale(cope$CDI1, scale = FALSE)
 

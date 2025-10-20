@@ -1,28 +1,26 @@
 #### R als Taschenrechner ----
 
-3 + 4 # Addition
-3 - 4 # Subtraktion
-3 * 4 # Multiplikation
-3 / 4 # Division
-3^4 # Potenz
+3 + 4   # Addition
+3 - 4   # Subtraktion
+3 * 4   # Multiplikation
+3 / 4   # Division
+3 ^ 4   # Potenz
 
 #### Logische Abfragen ----
 
-3 == 4 # Ist gleich?
-3 != 4 # Ist ungleich?
-3 > 4 # Ist größer?
-3 < 4 # Ist kleiner?
-3 >= 4 # Ist größer/gleich?
-3 <= 4 # Ist kleiner/gleich?
+3 == 4   # Ist gleich?
+3 != 4   # Ist ungleich?
+3 > 4    # Ist größer?
+3 < 4    # Ist kleiner?
+3 >= 4   # Ist größer/gleich?
+3 <= 4   # Ist kleiner/gleich?
 
 !(3 == 4)
 
 3 + 4 + 1 + 2
 
-# ---- Erste Funktionen----------- ----
 sum(3, 4, 1, 2)
 
-# ---- Mögliche Argumentdarstellungen von log() ----
 log(100)
 
 log(100, 10)
@@ -35,7 +33,12 @@ args(log)
 
 exp(1)
 
+
+
 log(-1)
+
+
+
 
 my_num <- sum(3, 4, 1, 2)
 
@@ -47,28 +50,24 @@ sqrt(sum(3, 4, 1, 2))
 
 sum(3, 4, 1, 2) |> sqrt()
 
-sum(3, 4, 1, 2) |>
-  sqrt() |>
-  log()
+sum(3, 4, 1, 2) |> sqrt() |> log()
 
-sum(3, 4, 1, 2) |>
-  sqrt() |>
-  log(x = _)
+sum(3, 4, 1, 2) |> sqrt() |> log(x = _)
 
 my_root <- sqrt(my_num)
 
+
+
 ls()
 
-ls(pattern = "num")
+ls(pattern = 'num')
 
 rm(my_num)
 ls()
 
 rm(list = ls())
 
-my_num <- sum(3, 4, 1, 2) |>
-  sqrt() |>
-  log()
+my_num <- sum(3, 4, 1, 2) |> sqrt() |> log()
 my_num
 
 react <- c(510, 897, 647, 891, 925, 805, 443, 778)
@@ -77,14 +76,14 @@ class(react)
 
 str(react)
 
-color <- c("gruen", "gelb", "blau", "gruen", "gelb", "blau", "rot", "rot")
+color <- c('gruen', 'gelb', 'blau', 'gruen', 'gelb', 'blau', 'rot', 'rot')
 
 is.character(color)
 
 as.character(react)
 as.numeric(color)
 
-text <- c("gruen", "blau", "blau", "rot", "gelb", "gruen", "rot", "gelb")
+text <- c('gruen', 'blau', 'blau', 'rot', 'gelb', 'gruen', 'rot', 'gelb')
 
 cong <- color == text
 cong
@@ -96,7 +95,7 @@ str(color_fac)
 
 levels(color_fac)
 
-relevel(color_fac, "gruen")
+relevel(color_fac, 'gruen')
 
 as.numeric(color_fac)
 as.character(color_fac)
@@ -125,6 +124,8 @@ str(dat)
 
 three <- c(1, 2, 3)
 
+
+
 four <- c(three, 4)
 data.frame(color, text, cong, react, four)
 
@@ -147,76 +148,78 @@ dat
 
 dat[5, 4]
 
-dat[1, ] # 1. Zeile, alle Spalten
-dat[, 1] # Alle Zeilen, 1. Spalte
+dat[1, ]   # 1. Zeile, alle Spalten
+dat[, 1]   # Alle Zeilen, 1. Spalte
 
-dat[c(2, 3), 3] # 2. und 3. Zeile, 3. Spalte
-dat[cong, ] # Alle kongruenten Zeilen, alle Spalten
+dat[c(2, 3), 3]   # 2. und 3. Zeile, 3. Spalte
+dat[cong, ]       # Alle kongruenten Zeilen, alle Spalten
 
-nrow(dat) # Anzahl der Zeilen
-ncol(dat) # Anzahl der Spalten
-dim(dat) # Alle Dimensionen
+nrow(dat)    # Anzahl der Zeilen
+ncol(dat)    # Anzahl der Spalten
+dim(dat)     # Alle Dimensionen
 
 names(dat)
 
-dat[, "react"] # Einzelne Variable auswählen
-dat[, c("react", "cong")] # Mehrere Variable auswählen
+dat[, 'react']                # Einzelne Variable auswählen
+dat[, c('react', 'cong')]     # Mehrere Variable auswählen
 
 dat$react
 
-dat[5, "react"] # Aktuellen Inhalt abfragen
-dat[5, "react"] <- 725 # Aktuellen Inhalt überschreiben
-dat[, "react"] # Alle Reaktionszeiten abfragen
+dat[5, 'react']           # Aktuellen Inhalt abfragen
+dat[5, 'react'] <- 725    # Aktuellen Inhalt überschreiben
+dat[, 'react']            # Alle Reaktionszeiten abfragen
 
 dat$incong <- !dat$cong
 dat
 
-dat[9, ] <- c("gelb", "gruen", FALSE, 824, TRUE)
+dat[9, ] <- c('gelb', 'gruen', FALSE, 824, TRUE)
 dat
 
-dat <- dat[-9, ] # Datensatz ohne die 9. Zeile
+dat <- dat[-9, ]    # Datensatz ohne die 9. Zeile
 dat
 
-# ---- Anwendungsordner auslesen ----
-## getwd()
+# getwd()
 
-# ---- Anwendungsordner neu setzen ----
-## setwd('Pfad/Zum/Ordner')
+# setwd('Pfad/Zum/Ordner')
 
-# ---- Ordnerinhalte lesen ----
-## dir()
+# dir()
 
-save(dat, file = "dat.rda")
+save(dat, file = 'dat.rda')
 
 rm(list = ls())
 ls()
 
-load("dat.rda")
+load('dat.rda')
 ls()
 
-saveRDS(dat, "dat.rds")
+saveRDS(dat, 'dat.rds')
 rm(list = ls())
 ls()
 
-stroop <- readRDS("dat.rds")
+stroop <- readRDS('dat.rds')
 stroop
+
+
 
 args(read.table)
 
-# ---- Beispiel Datensatz laden ----
-## Dafür müssen die Kommentare (##) entfernt werden!
-## fb24 <- read.table('fb24.csv')
+# Dafür müssen die Kommentare (##) entfernt werden!
+# fb25 <- read.table('fb25.csv')
 
-## fb24 <- read.table('fb24.csv', header = TRUE)
 
-## fb24 <- read.table('fb24.csv', header = TRUE, sep = ",")
+# fb25 <- read.table('fb25.csv', header = TRUE)
 
-## fb24 <- read.table('https://pandar.netlify.app/daten/fb24.csv', header = TRUE, sep = ",")
 
-head(fb24) # Kopfzeilen
-str(fb24) # Struktur des Datensatzes
+# fb25 <- read.table('fb25.csv', header = TRUE, sep = ",")
 
-write.table(
-  fb24, # zu speichernder Datensatz
-  "fb24.txt" # Dateiname
-)
+
+# fb25 <- read.table('https://pandar.netlify.app/daten/fb25.csv', header = TRUE, sep = ",")
+
+head(fb25)    # Kopfzeilen
+str(fb25)     # Struktur des Datensatzes
+
+
+
+write.table(fb25,     # zu speichernder Datensatz
+  'fb25.txt'          # Dateiname
+  )

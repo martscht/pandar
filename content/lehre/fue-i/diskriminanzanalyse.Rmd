@@ -52,7 +52,9 @@ Die (deskriptive) Diskriminanzanalyse geht der entgegengesetzten Fragestellung d
 ### Daten laden
 Wir laden zunächst die Daten: entweder lokal von Ihrem Rechner:
 
-```{r, eval = F}
+```{r, eval = F, echo=c(-1,-2)}
+Daten laden
+Beispiel Daten lokal zu laden
 load("C:/Users/Musterfrau/Desktop/Therapy.rda")
 ```
 
@@ -67,7 +69,9 @@ Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik "Data" unse
 ### Übersicht über die Daten
 Wir wollen uns einen Überblick über die Daten verschaffen:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Datenübersicht ----
+
 head(Therapy)
 levels(Therapy$Intervention)
 levels(Therapy$Geschlecht)
@@ -86,7 +90,8 @@ So - schon viel übersichtlicher!
 
 ### Pakete laden
 Nachdem wir neue Pakete installiert haben (`install.packages`), laden wir diese:
-```{r, message=F}
+```{r, message=F, echo=-1}
+# Pakete laden
 library(MASS) # für lineare Diskrimianzanalys (lda)
 library(ggplot2) # Grafiken
 ```
@@ -102,7 +107,9 @@ Die LDA hat im Grunde die gleichen Annahmen wie die [MANOVA](/lehre/fue-i/manova
 Der Befehl in `R` heißt `lda` für **l**ineare **D**iskriminanz**a**nalyse. Ihr übergeben wir wieder eine Gleichung, ähnlich der MANOVA-Gleichung der vergangenen Sitzung. Allerdings ist diesmal die `Intervention` die AV und die AVs der MANOVA (`LZ`, `Dep`, `AB` und `AZ`) sind die UVs, die zur Prädiktion herangezogen werden. Mit Hilfe von `$scaling` können wir die Gewichtungskoeffizienten der Variablen auf den Diskriminanzachsen einsehen. Insgesamt sind bei einer linearen Diskriminanzanalyse immer maximal $\min(p, k-1)$ Diskriminanzfunktionen/achsen möglich, wobei $p$ die Anzahl an UVs ist und $k$ die Anzahl an Gruppen beschreibt. Hier sind es $p=4$ UVs und $k=3$ Gruppen. Folglich können maximal $2$ Diskriminanzfunktionen bestimmt werden:
 
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Analysen ----
+
 model_DA <- lda(Intervention ~ LZ + Dep + AB + AZ, Therapy)
 model_DA
 model_DA$scaling # Koeffizienten
@@ -217,7 +224,9 @@ mean(Therapy$predict_class == Therapy$Intervention)*100
 ## Trennlinien im ursprünglichen Variablenkoordinatensystem
 Nun wollen wir die Trennlinien auch einmal in das ursprüngliche Koordinatensystem einzeichnen. Dazu führen wir eine Diskriminanzanalyse nur mit den beiden Zufriedenheitsmaßen durch. 
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Trennlinien im ursprünglichen Variablenkoordinatensystem ----
+
 model_DA2 <- lda(Intervention ~ LZ + AZ, data = Therapy)
 model_DA2
 model_DA2$scaling # Koeffizienten

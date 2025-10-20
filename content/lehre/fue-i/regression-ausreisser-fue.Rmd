@@ -68,13 +68,16 @@ Der Datensatz ist der selbe, wie in der [Einführungssitzung](/lehre/fue-i/einle
 
 Nun müssen wir mit `load` die Daten laden. Liegt der Datensatz bspw. auf dem Desktop, so müssen wir den Dateipfad dorthin legen und können dann den Datensatz laden (wir gehen hier davon aus, dass Ihr PC "Musterfrau" heißt) _Tipp: Verwenden Sie unbedingt die automatische Vervollständigung von `R`-Studio, wie in der letzten Sitzung beschrieben_.
 
-```{r, eval = F}
+```{r, eval = F, echo=c(-1,-2)}
+Daten laden
+Beispiel Daten lokal zu laden
 load("C:/Users/Musterfrau/Desktop/Schulleistungen.rda")
 ```
 
 Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hierzu brauchen Sie nur die URL und müssen `R` sagen, dass es sich bei dieser um eine URL handelt, indem Sie die Funktion `url` auf den Link anwenden. Der funktionierende Befehl sieht so aus (wobei die URL in Anführungszeichen geschrieben werden muss):
 
-```{r}
+```{r, echo=-1}
+# Daten laden
 load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
 ```
 
@@ -85,7 +88,9 @@ Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik "Data" unse
 ### Ein Überblick über die Daten
 Wir können uns die ersten (6) Zeilen des Datensatzes mit der Funktion `head` ansehen. Dazu müssen wir diese Funktion auf den Datensatz (das Objekt) `Schulleistungen` anwenden:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Ein Überblick über die Daten ----
+
 head(Schulleistungen)
 ```
 
@@ -124,7 +129,9 @@ Wie dies genau gemacht wird und wie weitere Kennwerte in der Regression (bspw. $
 ### Unser Modell und das Lesen von `R`-Outputs
 Wir wollen  mit Hilfe eines Regressionsmodells die Leseleistung durch das Geschlecht und durch die Intelligenz vorhersagen. Dies funktioniert in `R` ganz leicht mit der `lm` ("**l**inear **m**odeling) Funktion. Dieser müssen wir zwei Argumente übergeben: 1) unsere angenommene Beziehung zwischen den Variablen; 2) den Datensatz, in welchem die Variablen zu finden sind:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Unser Modell ----
+
 lm(reading ~ 1 + female + IQ, data = Schulleistungen)
 ```
 
@@ -253,7 +260,9 @@ Vertiefende Literatur zum folgenden Stoff finden wir bspw. in [Eid, et al. (2017
 
 Eine grafische Prüfung der partiellen Linearität zwischen den einzelnen Prädiktorvariablen und dem Kriterium kann durch *partielle Regressionsplots* (engl. *Partialplots*) erfolgen. Dafür sagen wir in einem Zwischenschritt einen einzelnen Prädiktor durch alle übrigen Prädiktoren im Modell vorher und speichern die Residuen, die sich aus dieser Regression ergeben. Diese kennzeichnen den eigenständigen Anteil, den ein Prädiktor nicht mit den übrigen Prädiktoren gemein hat (er wird also von den übrigen Prädiktoren bereinigt). Dann werden die Residuen aus dieser Vorhersage gegen die Residuen des Kriteriums bei Vorhersage durch den jeweiligen Prädiktor dargestellt. Diese Grafiken können Hinweise auf systematische nicht-lineare Zusammenhänge geben, die in der Modellspezifikation nicht berücksichtigt wurden. Die zugehörige `R`-Funktion des `car` Pakets heißt `avPlots` und braucht als Argument lediglich das spezifizierte Regressionsmodell `our_model`. 
 
-```{r, fig.width=10}
+```{r, fig.width=10, echo=-c(1,2)}
+#### Prüfen der Voraussetzungen ----
+
 avPlots(model = our_model, pch = 16, lwd = 4) 
 ```
 
@@ -270,7 +279,8 @@ Regressionsresiduen sollten homoskedastisch und normalverteilt sein.
 Die Varianz der Residuen sollte unabhängig von den Ausprägungen der Prädiktoren sein. Dies wird i.d.R. grafisch geprüft, indem die Residuen $e_i$ gegen die vorhergesagten Werte $\hat{y}_i$ geplottet werden: der sogenannte *Residuenplot* (engl.: *residual plot*). In diesem Streudiagramm sollten die Residuen gleichmäßig über $\hat{y}_i$ streuen und keine systematischen Trends (linear, quadratisch, auffächernd, o.ä.) erkennbar sein. **Prüfung nicht-linearer Zusammenhänge:** Die Funktion `residualPlots` des Pakets `car` erzeugt separate Streudiagramme für die Residuen in Abhängigkeit von jedem einzelnen Prädiktor $x_j$ und von den vorhergesagten Werten $\hat{y}_i$ (*"Fitted Values"*); als Input braucht die Funktion das Modell `our_model`. Zusätzlich wird für jeden Plot ein quadratischer Trend eingezeichnet und auf Signifikanz getestet, wodurch eine zusätzliche Prüfung auf nicht-lineare Effekte erfolgt. Sind diese Tests nicht signifikant, ist davon auszugehen, dass diese Effekte nicht vorliegen und die Voraussetzung der Homoskedastizität damit nicht verletzt ist.  
 
 ```{r, fig.width=10, fig.height = 10}
-
+#### Verteilung der Residuen ----
+## Homoskesdastizität
 residualPlots(our_model, pch = 16)
 ```
 
@@ -287,7 +297,8 @@ oder
 
 
 
-```{r}
+```{r, echo = -1}
+## Normalverteilung
 res <- studres(our_model) # Studentisierte Residuen als Objekt speichern
 hist(res, freq = F)
 xWerte <- seq(from = min(res), to = max(res), by = 0.01)
@@ -308,7 +319,8 @@ Durch die Angabe von `distribution = "norm"` als Argument für die Funktion `qqP
 Nun wollen wir die Voraussetzung zusätzlich mittels des Kolmogorov Smirnov Tests überprüfen (siehe bspw. [Eid, et al., 2017, Kapitel 10.16.1](https://ubffm.hds.hebis.de/Record/HEB366849158)). Dieser testet, wenn wir gegen die Normalverteilung prüfen, im Grunde genommen die Null-Hypothese: $H_0:$ *"Normalverteilung liegt vor"*. (Wir wissen allerdings, dass wir Hypothesen nur verwerfen können und nicht wirklich annehmen, weshalb diese Tests immer nur unter Vorbehalt interpretiert werden sollten - Aussagen wie etwa: *"$H_0$ nicht verworfen; daraus folgt, dass in der Population Normalverteilung herrscht"*, sind nicht zulässig. Wird die $H_0$ nicht verworfen, nehmen wir nur weiterhin an, dass eine Normalverteilung vorliegt, ein Beweis ist dies jedoch nicht). Die Funktion `ks.test` benötigt als Argument die Variable, die auf Normalverteilung geprüft werden soll (hier also `x = res`); und als weiteres Argument die Vergleichsverteilung - entweder ebenfalls als Vektor (Vergleich von empirischen Verteilungen) oder die theoretisch angenommene Verteilungsfunktion in Anführungszeichen (es sind alle in `R` implementierten Verteilungen möglich); hier `y = "pnorm"`. In diesem spezifischen Beispiel brauchen wir nun keine weiteren Einstellungen, da die Residuen studentisiert wurden. Normalerweise müssten wir noch die verteilungsspezifischen Parameter vorgeben: hier der Mittelwert und die Standardabweichung. Der vollständige Befehl für alle Normalverteilungen mit dem beobachten Mittelwert und beobachteter Standardabweichung erhalten wir so: `ks.test(x = res, y = "pnorm", mean(res), sd(res))`, wir könnten dort auch Zahlen vorgeben. Hier geht es aber noch einfacher:
 
 
-```{r}
+```{r, echo=-1}
+# Überprüfung der Voraussetzungen mit Kolmogorov Smirnov
 ks.test(x = res, y = "pnorm")
 ```
 Der $p$-Wert von `r round(ks.test(x = res, y = "pnorm")$p.value, 4)` zeigt an, dass keine signifikante Diskrepanz zwischen der Normalverteilung und unseren Residuen vorliegt. Für unser Modell zeigen somit alle Ergebnisse übereinstimmend, dass die Residuen normalverteilt sind (bzw. lehnen diese Hypothese nicht ab: *Kolmogorov Smirnov Test*). Auch die Mahalanobisdistanz kann verwendet werden, um Daten auf (multivariate) Normalverteilung zu prüfen. Dafür muss die Mahalanobisdistanz $\chi^2$-verteilt sein, mit der Anzahl an Variablen als $df$. Dies könnte dann wieder via *Q-Q-Plot* oder *Histogramm* erfolgen, bzw. via dem Kolmogorov-Smirnov-Test gegen die $\chi^2(df)$-Verteilung. Die Mahalanobisdistanz wird später noch im Zusammenhang mit Ausreißern vorgestellt (dort wird dann auch nochmals die multivariate Normalverteilung aufgegriffen).
@@ -320,7 +332,8 @@ Schiefe Verteilungen, welche sich im Histogramm oder im Q-Q-Plot widerspiegeln, 
 ### Teaser: Moderierte Regression
 Bspw. könnten quadratische und Interaktionseffekte in das Modell aufgenommen werden. Dies geht bspw. so:
 
-```{r}
+```{r, echo=-1}
+# Moderierte Regression
 quad_int_model <- lm(reading ~ 1 + female*IQ   + I(IQ^2), data = Schulleistungen)
 summary(quad_int_model)
 ```
@@ -342,7 +355,9 @@ Multikollinearität kann durch Inspektion der *bivariaten Zusammenhänge* (Korre
 
 Offensichtlich genügt eine der beiden Statistiken, da sie vollständig ineinander überführbar und damit redundant sind. Empfehlungen als Grenzwert für Kollinearitätsprobleme sind z. B. $VIF_j>10$ ($T_j<0.1$; siehe [Eid, et al., 2017, S. 712 und folgend](https://ubffm.hds.hebis.de/Record/HEB366849158)). Die Varianzinflationsfaktoren der Prädiktoren im Modell können mit der Funktion `vif` des `car`-Paktes bestimmt werden, der Toleranzwert als Kehrwert des VIFs.
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Multikollinearität ----
+
 # Korrelation der Prädiktoren
 cor(Schulleistungen$female, Schulleistungen$IQ)
 ```
@@ -370,7 +385,9 @@ Die Plausibilität unserer Daten ist enorm wichtig. Aus diesem Grund sollten Aus
 *Hebelwerte* $h_j$ (engl.: leverage values) erlauben die Identifikation von Ausreißern aus der gemeinsamen Verteilung der unabhängigen Variablen, d.h. sie geben an, wie weit ein Wert vom Mittelwert einer Prädiktorvariable entfernt ist. Je höher der Hebelwert, desto weiter liegt der einzelne Fall vom Mittelwert der gemeinsamen Verteilung der unabhängigen Variablen entfernt und desto stärker kann somit der Einfluss auf die Regressionsgewichte sein. Diese werden mit der Funktion `hatvalues` ermittelt. In `R` werden die Hebelwerte nicht zentriert ausgegeben. Kriterien zur Beurteilung der nicht zentrierten Hebelwerte variieren, so werden von [Eid et al. (2017, S. 707)](https://ubffm.hds.hebis.de/Record/HEB366849158) in Kombination mit [Pituch et al. (2016, S. 108).](https://ubffm.hds.hebis.de/Record/HEB365291900) Grenzen von $2\cdot (k+1) / n$ für große und $3\cdot (k+1) / n$ für kleine Stichproben vorgeschlagen (mit $k$ als Anzahl der Variablen). Alternativ zu einem festen Cut-Off-Kriterium kann die Verteilung der Hebelwerte inspiziert werden, wobei diejenigen Werte als kritisch bewertet werden, die aus der Verteilung ausreißen. Dies wird empfohlen, da die Grenzen sehr sensibel sind und viele verdächtige Werte anzeigen. Die Funktion `hatvalues` erzeugt die Hebelwerte aus einem Regression-Objekt. Wir wollen diese als Histogramm darstellen.
 
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Identifikation von Ausreißern ----
+# Hebelwerte
 n <- length(residuals(our_model))   # Anzahl an Personen bestimmen
 h <- hatvalues(our_model)           # Hebelwerte
 hist(h, breaks  = 20)               
@@ -555,7 +572,9 @@ Der Zentroid ist hier in Hellgrün dargestellt. Außerdem sind zwei Punkte (in s
 Beschäftigen wir uns zunächst mit der Testung auf multivariate Normalverteilung. Wenn diese gegeben ist, sind die Daten der Mahalanobisdistanz $\chi^2(df=p)$ verteilt ist, wobei $p$ die Anzahl an Variablen ist. Der Vorteil hiervon ist, dass wir eine eindimensionale Verteilung untersuchen können, um ein Gefühl für multivariate Daten zu erhalten. Bspw. kann dann ein Histogramm oder ein Q-Q-Plot verwendet werden, um die Daten auf Normalverteilung zu untersuchen, bzw. es kann bspw. der Kolmogorov-Smirnov Test durchgeführt werden, um zu prüfen, ob die Mahalanobisdistanz $\chi^2(df=p)$ verteilt ist. 
 
 Der Befehl in `R` für die Mahalanobisdistanz ist `mahalanobis`. Wir nehmen einfach die Leseleistung und die Mathematikleistung via `Schulleistungen$...` als unsere zwei Variablen auf und fassen diese zusammen zu einer Datenmatrix `X` mit `cbind` (column-bind), welches die übergebenen Variablen als Spaltenvektoren zusammenfasst (siehe dazu auch [Appendix B in der Einführungssitzung](../einleitung-fue/#AppendixB)).  `mahalanobis` braucht 3 Argumente: `x = X` die Daten, den gemeinsamen Mittelwert der Daten, den wir hier mit `colMeans` bestimmen (es wird jeweils der Mittelwert für die Spalten gebildet) sowie die Kovarianzmatrix der Daten mit `cov(X)` (`cor` gibt die Korrelationsmatrix aus; hier wird allerdings die Kovarianzmatrix gebraucht- anhand der Korrelationsmatrix lässt sich jedoch die Beziehung der Variablen besser einordnen), an welcher die Struktur relativiert werden soll:
-```{r}
+```{r, echo=-c(1,2)}
+#### Mahalanobisdistanz ----
+
 X <- cbind(Schulleistungen$reading, Schulleistungen$math) # Datenmatrix mit Leseleistung in Spalte 1 und Matheleistung in Spalte 2
 colMeans(X)  # Spaltenmittelwerte (1. Zahl = Mittelwert der Leseleistung, 2. Zahl = Mittelwert der Matheleistung)
 cov(X) # Kovarianzmatrix von Leseleistung und Matheleistung
@@ -620,7 +639,9 @@ $$\begin{align}
 
 Mit `lm` kommen wir zu folgendem Ergebnis; das Modell nennen wir phantasievoll `our_next_model`:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Appendix A ----
+
 our_next_model <- lm(math ~ reading + IQ, data = Schulleistungen)
 our_next_model
 ```
@@ -802,7 +823,9 @@ $p=`r sprintf(format(1-pf(F_omn, m, n-m-1), digits = 3, trim = TRUE, scientific 
 
 Folgende Befehle führen zum gleichen Ergebnis wie:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Appendix B ----
+
 lm(reading ~ 1 + female + IQ, data = Schulleistungen)
 ```
 
@@ -857,7 +880,9 @@ Selbstverständlich gibt es auch noch weitere Befehle, die zum selben Ergebnis k
 
 Im folgenden Block sehen wir den Code für ein Histogramm in `ggplot2`-Notation (das Paket muss natürlich installiert sein: `install.packages(ggplot2)`). Hier sind einige Zusatzeinstellungen gewählt, die das Histogramm optisch aufbereiten. 
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Appendix C ----
+
 library(ggplot2)
 df_res <- data.frame(res) # als Data.Frame für ggplot
 ggplot(data = df_res, aes(x = res)) + 
@@ -954,7 +979,9 @@ Hierbei ist zu beachten, dass $X$ die Systemmatrix ist, welche auch die $1$ des 
 {{</ math >}}
 
 Im *Fall 1* sind die zwei Variablen unkorreliert. Die Inverse ist leicht zu bilden.
-```{r}
+```{r, echo=-c(1,2)}
+#### Apppendix D ----
+
 XX_1 <- matrix(c(100,0,0,
                0,100,0,
                0,0,100),3,3)
