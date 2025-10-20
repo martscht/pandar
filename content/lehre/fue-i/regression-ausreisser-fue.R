@@ -6,11 +6,18 @@ library(lm.beta)  # Standardisierte beta-Koeffizienten für die Regression
 library(car)      # Zusätzliche Funktion für Diagnostik von Datensätzen
 library(MASS)     # Zusätzliche Funktion für Diagnostik von Datensätzen 
 
+## Daten laden
+## Beispiel Daten lokal zu laden
 ## load("C:/Users/Musterfrau/Desktop/Schulleistungen.rda")
 
+# Daten laden
 load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
 
+#### Ein Überblick über die Daten ----
+
 head(Schulleistungen)
+
+#### Unser Modell ----
 
 lm(reading ~ 1 + female + IQ, data = Schulleistungen)
 
@@ -37,11 +44,15 @@ summary_our_model$coefficients # Koeffiziententabelle
 names(summary_our_model)      # weitere mögliche Argumente, die wir erhalten können
 summary_our_model$r.squared  # R^2
 
+#### Prüfen der Voraussetzungen ----
+
 avPlots(model = our_model, pch = 16, lwd = 4) 
 
-
+#### Verteilung der Residuen ----
+## Homoskesdastizität
 residualPlots(our_model, pch = 16)
 
+## Normalverteilung
 res <- studres(our_model) # Studentisierte Residuen als Objekt speichern
 hist(res, freq = F)
 xWerte <- seq(from = min(res), to = max(res), by = 0.01)
@@ -49,10 +60,14 @@ lines(x = xWerte, y = dnorm(x = xWerte, mean = mean(res), sd = sd(res)), lwd = 3
 
 qqPlot(our_model, pch = 16, distribution = "norm")
 
+# Überprüfung der Voraussetzungen mit Kolmogorov Smirnov
 ks.test(x = res, y = "pnorm")
 
+# Moderierte Regression
 quad_int_model <- lm(reading ~ 1 + female*IQ   + I(IQ^2), data = Schulleistungen)
 summary(quad_int_model)
+
+#### Multikollinearität ----
 
 # Korrelation der Prädiktoren
 cor(Schulleistungen$female, Schulleistungen$IQ)
@@ -63,6 +78,8 @@ vif(our_model)        # VIF
 1/(1-cor(Schulleistungen$female, Schulleistungen$IQ)^2) # 1/(1-R^2) = VIF
 1-cor(Schulleistungen$female, Schulleistungen$IQ)^2 # 1-R^2 = Toleranz
 
+#### Identifikation von Ausreißern ----
+# Hebelwerte
 n <- length(residuals(our_model))   # Anzahl an Personen bestimmen
 h <- hatvalues(our_model)           # Hebelwerte
 hist(h, breaks  = 20)               
@@ -95,6 +112,8 @@ round(scale(Schulleistungen)[IDs,],2)
 
 
 
+#### Mahalanobisdistanz ----
+
 X <- cbind(Schulleistungen$reading, Schulleistungen$math) # Datenmatrix mit Leseleistung in Spalte 1 und Matheleistung in Spalte 2
 colMeans(X)  # Spaltenmittelwerte (1. Zahl = Mittelwert der Leseleistung, 2. Zahl = Mittelwert der Matheleistung)
 cov(X) # Kovarianzmatrix von Leseleistung und Matheleistung
@@ -113,6 +132,8 @@ MD
 
 MD[MD > qchisq(p = .01, lower.tail = F, df = 2)]      # Mahalanobiswerte > krit. Wert
 which(MD > qchisq(p = .01, lower.tail = F, df = 2))   # Pbn-Nr.
+
+#### Appendix A ----
 
 our_next_model <- lm(math ~ reading + IQ, data = Schulleistungen)
 our_next_model
@@ -163,6 +184,8 @@ F_omn <- (R2/m) / ((1-R2)/(n-m-1))   # F-Wert
 F_krit <- qf(.95, df1=m, df2=n-m-1)  # kritischer F-Wert (alpha=5%)
 p <- 1-pf(F_omn, m, n-m-1)           # p-Wert
 
+#### Appendix B ----
+
 lm(reading ~ 1 + female + IQ, data = Schulleistungen)
 
 lm(reading ~ 0 + female + IQ, data = Schulleistungen)
@@ -182,6 +205,8 @@ UV1 <- Schulleistungen$female
 UV2 <- Schulleistungen$IQ
 
 lm(AV ~ 1 + UV1 + UV2)
+
+#### Appendix C ----
 
 library(ggplot2)
 df_res <- data.frame(res) # als Data.Frame für ggplot
@@ -211,6 +236,8 @@ df_CD <- data.frame(CD) # als Data.Frame für ggplot
 ggplot(data = df_CD, aes(x = CD)) + 
      geom_histogram(aes(y =..density..),  bins = 15)+
   geom_vline(xintercept = 1, col = "red") # Cut-Off bei 1
+
+#### Apppendix D ----
 
 XX_1 <- matrix(c(100,0,0,
                0,100,0,

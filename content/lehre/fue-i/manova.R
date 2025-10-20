@@ -1,6 +1,10 @@
+## Daten laden
+## Beispiel Daten lokal zu laden
 ## load("C:/Users/Musterfrau/Desktop/Therapy.rda")
 
 load(url("https://pandar.netlify.app/daten/Therapy.rda"))
+
+#### Datenübersicht ----
 
 head(Therapy)
 levels(Therapy$Intervention)
@@ -12,6 +16,8 @@ head(Therapy)
 
 library(heplots) # für Box-M Test für Kovarianzhomogenität
 library(car)
+
+#### Hypothese 1 ----
 
 boxM(cbind(LZ, AB, Dep, AZ) ~ Intervention, data = Therapy)
 
@@ -37,6 +43,8 @@ det(W)/(det(B + W)) # Wilks Lambda
 aggregate(cbind(LZ, AB, Dep, AZ) ~ Intervention, 
           data = Therapy, 
           FUN = mean)
+
+#### Hypothese 2 ----
 
 summary.aov(manova1) # post hoc anovas
 
@@ -90,6 +98,8 @@ summary(M3b)
 
 summary.aov(manova3)
 
+#### Appendix A ----
+
 library(ggplot2)
 Therapy_long <- reshape(data = Therapy, varying = names(Therapy)[1:4],idvar = names(Therapy)[5:6],
          direction = "long", v.names = "AVs", timevar = "Variable", new.row.names = 1:360)
@@ -103,6 +113,8 @@ Therapy_long$Variable[Therapy_long$Variable == 4] <- "Arbeitszufriedenheit"
 ggplot(Therapy_long, aes(x = Intervention, y = AVs,  group = Variable, col = Variable))+ stat_summary(fun.data = mean_se)+stat_summary(fun.data = mean_se, geom = c("line"))
 
 
+
+#### Appendix B ----
 
 Therapy_repeated_wide <- reshape(data = Therapy_repeated, direction = "wide", 
                                 v.names = c("LZ", "AB", "Dep", "AZ"), 

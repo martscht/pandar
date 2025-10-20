@@ -6,10 +6,10 @@ slug: manova
 categories: ["FuE I"] 
 tags: ["MANOVA", "multivariat", "Varianzanalyse", "Messwiederholung"] 
 subtitle: 'MANOVA'
-summary: '' 
+summary: 'In dieser Sitzung wird die MANOVA erläutert, mit welcher man Varianzanalysen mit mehreren Variablen auf Gruppenunterschiede in mehreren Gruppen untersuchen kann. Die beispielhafte Durchführung orientiert sich dabei an einem fiktiven Therapiedatenbeispiel. Weiterhin wird in Appendix B wird das Verfahren erweitert auf Messwiederholungen angewandt.' 
 authors: [irmer] 
 weight: 6
-lastmod: '2025-02-07'
+lastmod: '2025-10-20'
 featured: no
 banner:
   image: "/header/beach.jpg"
@@ -68,20 +68,13 @@ head(Therapy)
 ```
 
 ```
-##   Lebenszufriedenheit Arbeitsbeanspruchung Depressivitaet Arbeitszufriedenheit   Intervention
-## 1                   7                    4              7                    5 Kontrollgruppe
-## 2                   5                    5              8                    3 Kontrollgruppe
-## 3                   8                    7              6                    6 Kontrollgruppe
-## 4                   6                    4              5                    5 Kontrollgruppe
-## 5                   6                    9              8                    5 Kontrollgruppe
-## 6                   8                    7              8                    6 Kontrollgruppe
-##   Geschlecht
-## 1          0
-## 2          1
-## 3          0
-## 4          1
-## 5          1
-## 6          1
+##   Lebenszufriedenheit Arbeitsbeanspruchung Depressivitaet Arbeitszufriedenheit   Intervention Geschlecht
+## 1                   7                    4              7                    5 Kontrollgruppe          0
+## 2                   5                    5              8                    3 Kontrollgruppe          1
+## 3                   8                    7              6                    6 Kontrollgruppe          0
+## 4                   6                    4              5                    5 Kontrollgruppe          1
+## 5                   6                    9              8                    5 Kontrollgruppe          1
+## 6                   8                    7              8                    6 Kontrollgruppe          1
 ```
 
 ```r
@@ -793,6 +786,7 @@ Die nächste Sitzung zeigt eine [Diskriminanzanalyse](/lehre/fue-i/diskriminanza
 
 
 ```r
+#### Appendix A ----
 library(ggplot2)
 Therapy_long <- reshape(data = Therapy, varying = names(Therapy)[1:4],idvar = names(Therapy)[5:6],
          direction = "long", v.names = "AVs", timevar = "Variable", new.row.names = 1:360)

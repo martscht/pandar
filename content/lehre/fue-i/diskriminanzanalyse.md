@@ -6,10 +6,10 @@ slug: diskriminanzanalyse
 categories: ["FuE I"] 
 tags: ["Zusatz", "Diskriminanzanlyse", "MANOVA"] 
 subtitle: 'Deskriptive lineare Diskriminanzanalyse'
-summary: '' 
+summary: 'In dieser Sitzung wird die Diskriminanzanalyse erläutert, die gewissermaßen das Gegenstück zur MANOVA darstellt. Aus den abhängigen Variablen der Lebenszufriedenheit, der Depression, der Arbeitsbeanspruchung und der Arbeitszufriedenheit wird auf Gruppenzugehörigkeit geschlossen. Der Beitrag bedient sich wie der Vorherige dem fiktiven Datenbeispiel `Therapy`.' 
 authors: [irmer] 
 weight: 7
-lastmod: '2025-02-07'
+lastmod: '2025-10-20'
 featured: no
 banner:
   image: "/header/three_boats.jpg"
@@ -67,20 +67,13 @@ head(Therapy)
 ```
 
 ```
-##   Lebenszufriedenheit Arbeitsbeanspruchung Depressivitaet Arbeitszufriedenheit   Intervention
-## 1                   7                    4              7                    5 Kontrollgruppe
-## 2                   5                    5              8                    3 Kontrollgruppe
-## 3                   8                    7              6                    6 Kontrollgruppe
-## 4                   6                    4              5                    5 Kontrollgruppe
-## 5                   6                    9              8                    5 Kontrollgruppe
-## 6                   8                    7              8                    6 Kontrollgruppe
-##   Geschlecht
-## 1          0
-## 2          1
-## 3          0
-## 4          1
-## 5          1
-## 6          1
+##   Lebenszufriedenheit Arbeitsbeanspruchung Depressivitaet Arbeitszufriedenheit   Intervention Geschlecht
+## 1                   7                    4              7                    5 Kontrollgruppe          0
+## 2                   5                    5              8                    3 Kontrollgruppe          1
+## 3                   8                    7              6                    6 Kontrollgruppe          0
+## 4                   6                    4              5                    5 Kontrollgruppe          1
+## 5                   6                    9              8                    5 Kontrollgruppe          1
+## 6                   8                    7              8                    6 Kontrollgruppe          1
 ```
 
 ```r

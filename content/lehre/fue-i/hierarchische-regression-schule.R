@@ -1,19 +1,26 @@
+## Daten laden
+## Beispiel Daten lokal zu laden
 ## load("C:/Users/Musterfrau/Desktop/StudentsInClasses.rda")
 
 load(url("https://pandar.netlify.app/daten/StudentsInClasses.rda"))
 
 
 
+#### Datenübersicht ----
+
 head(StudentsInClasses)
 
 colMeans(StudentsInClasses)
 
+# Pakete laden
 library(lme4)       # für das Durchführen von Multi-Level Regressionen
 library(lmerTest) # lmerTest markiert in der Ausgabe signifikante Koeffizienten und korrigiert Modellvergleiche für Varianzen
 library(robumeta)   # Datensatzmanipulation
 library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
 library(dplyr)   # für Datensatzmanipulationen
 
+#### Modellspezifikation ----
+## Nullmodell
 m0 <- lmer(MatheL ~ 1 +  (1 | schulklasse), data = StudentsInClasses)
 summary(m0)
 
@@ -23,6 +30,7 @@ summary(m0)
 
 
 
+## Intraklassenkorrelation
 # Per Hand
 23.87 / (23.87 + 123.12)
 # Mit Zugriff auf das Nullmodell-Objekt
@@ -39,12 +47,15 @@ names(summary(m0)) # alle Informationen, die wir der Summary entlocken können
 
 
 
+#### Hypothese 1 ----
+
 StudentsInClasses$Motivation_c <- StudentsInClasses$Motivation - mean(StudentsInClasses$Motivation)
 round(colMeans(StudentsInClasses), 10) # Spaltenmittelwerte gerundet auf 10 Nachkommastellen
 
 m1 <- lmer(MatheL ~ 1 + Motivation_c + (1 | schulklasse), data = StudentsInClasses)
 summary(m1)
 
+# Pseudo-R^2
 VarE0 <- summary(m0)$sigma^2 # Varianz des Residuums im Nullmodell
 VarE1 <- summary(m1)$sigma^2 # Varianz des Residuums im Modell mit Motivation als Prädiktor
 
@@ -53,6 +64,7 @@ VarE1 <- summary(m1)$sigma^2 # Varianz des Residuums im Modell mit Motivation al
 # oder kurz:
 1 - summary(m1)$sigma^2/summary(m0)$sigma^2
 
+# Pseudo-R^2: between
 VarU0 <- VarCorr(m0)$schulklasse[1]  # Varianz des Interzepts im Nullmodell
 VarU1 <- VarCorr(m1)$schulklasse[1]  # Varianz des Interzepts im Modell mit Motivation als Prädiktor
 
@@ -61,6 +73,7 @@ VarU1 <- VarCorr(m1)$schulklasse[1]  # Varianz des Interzepts im Modell mit Moti
 # oder kurz:
 1 - VarCorr(m1)$schulklasse[1]/VarCorr(m0)$schulklasse[1]
 
+# Pseudo-R^2: between-within
 VarE0 <- summary(m0)$sigma^2 # Varianz des Residuums im Nullmodell
 VarE1 <- summary(m1)$sigma^2 # Varianz des Residuums im Modell mit Motivation als Prädiktor
 
@@ -71,6 +84,8 @@ VarU1 <- VarCorr(m1)$schulklasse[1]  # Varianz des Interzepts im Modell mit Moti
 
 # oder kurz:
 1 - (VarCorr(m1)$schulklasse[1] + summary(m1)$sigma^2)/(VarCorr(m0)$schulklasse[1] + summary(m0)$sigma^2)
+
+#### Hypothese 2 ----
 
 m2 <- lmer(MatheL ~ 1 + Motivation_c + (1 + Motivation_c | schulklasse), data = StudentsInClasses)
 summary(m2)
@@ -87,6 +102,8 @@ anova(m1, m2, test = "LRT", refit = F)
 
 anova(m0, m1) # KEIN refit
 
+#### Hypothese 3 ----
+
 m3 <- lmer(MatheL ~ 1 + KlassenG + Motivation_c  + (1 | schulklasse), data=StudentsInClasses)
 summary(m3)
 
@@ -96,6 +113,8 @@ StudentsInClasses$KlassenG_c <- StudentsInClasses$KlassenG - mean(StudentsInClas
 
 m3b <- lmer(MatheL ~ 1 + KlassenG_c + Motivation_c + (1 | schulklasse), data=StudentsInClasses)
 summary(m3b)
+
+#### Hypothese 4 ----
 
 m4 <- lmer(MatheL ~ 1 + KlassenG_c + Motivation_c  + KlassenG_c:Motivation_c + (1 | schulklasse), 
            data=StudentsInClasses)
@@ -113,6 +132,8 @@ summary(m4c)
 
 anova(m4, m4c, test = "LRT", refit = F)
 
+#### Datenzentrierung ----
+
 # group-mean-centering:
 StudentsInClasses$Motivation_groupc <- group.center(var = StudentsInClasses$Motivation, 
                                                     grp = StudentsInClasses$schulklasse)
@@ -129,6 +150,8 @@ head(StudentsInClasses)
 
 # (Spalten-)Mittelwerte (gerundet auf 10 Nachkommastellen)
 round(colMeans(StudentsInClasses), 10)
+
+#### Appendix A ----
 
 # Histogramm der Klassenspezifischen Koeffizienten
 model <- m2
@@ -170,6 +193,8 @@ StudentsInClasses %>%             # Datensatz wird manipuliert
   geom_point(aes(y = MatheL), alpha = 0.1, color="grey")+ # beobachtete Werte als Punkte
   geom_line(size=0.5)  # Vorhergesagte Werte als Linien
 
+
+#### Appendix C ----
 
 plot_within_between_effects <- function(nb = 50, nw = 50, between_effect = 1, within_effect = 1)
 {

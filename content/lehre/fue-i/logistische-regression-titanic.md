@@ -6,10 +6,10 @@ slug: logistische-regression-titanic
 categories: ["FuE I"] 
 tags: ["Logistische Regression", "Regression", "Likelihood Ratio Test", "dichotom"] 
 subtitle: ''
-summary: '' 
+summary: 'In dieser Sitzung wird eine dichotome abhängige Variablen mit der logtischen Regression analysiert. Dies wird an einem Datensatz der damaligen Passagiere der Titanik mit 3 gewählten Eigenschaften im Zusammenhang mit der Überlebenswahrscheinlichkeit durchgeführt.' 
 authors: [irmer] 
 weight: 4
-lastmod: '2025-02-07'
+lastmod: '2025-10-20'
 featured: no
 banner:
   image: "/header/titanic.jpg"
@@ -145,13 +145,6 @@ Wir nennen unser Modell zur Modellierung des Überlebens `reg_model`.
 
 ```r
 library(lm.beta) # std. Koeffizienten
-```
-
-```
-## Warning: Paket 'lm.beta' wurde unter R Version 4.3.1 erstellt
-```
-
-```r
 reg_model <- lm(survived ~ 1 + age, data = Titanic)
 summary(lm.beta(reg_model))
 ```
@@ -162,15 +155,31 @@ summary(lm.beta(reg_model))
 ## lm(formula = survived ~ 1 + age, data = Titanic)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -0.4811 -0.4158 -0.3662  0.5789  0.7252 
+##     Min      1Q  Median 
+## -0.4811 -0.4158 -0.3662 
+##      3Q     Max 
+##  0.5789  0.7252 
 ## 
 ## Coefficients:
-##              Estimate Standardized Std. Error t value Pr(>|t|)    
-## (Intercept)  0.483753           NA   0.041788  11.576   <2e-16 ***
-## age         -0.002613    -0.077221   0.001264  -2.067   0.0391 *  
+##              Estimate
+## (Intercept)  0.483753
+## age         -0.002613
+##             Standardized
+## (Intercept)           NA
+## age            -0.077221
+##             Std. Error
+## (Intercept)   0.041788
+## age           0.001264
+##             t value Pr(>|t|)
+## (Intercept)  11.576   <2e-16
+## age          -2.067   0.0391
+##                
+## (Intercept) ***
+## age         *  
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.4903 on 712 degrees of freedom
 ## Multiple R-squared:  0.005963,	Adjusted R-squared:  0.004567 
@@ -198,9 +207,12 @@ residualPlots(model = reg_model, pch = 16)
 ![](/logistische-regression-titanic_files/unnamed-chunk-7-2.png)<!-- -->
 
 ```
-##            Test stat Pr(>|Test stat|)
-## age           1.5925           0.1117
-## Tukey test    1.5925           0.1113
+##            Test stat
+## age           1.5925
+## Tukey test    1.5925
+##            Pr(>|Test stat|)
+## age                  0.1117
+## Tukey test           0.1113
 ```
 
 ```r
@@ -230,11 +242,22 @@ summary(m1)
 ## glm(formula = survived ~ 1 + age, family = "binomial", data = Titanic)
 ## 
 ## Coefficients:
-##             Estimate Std. Error z value Pr(>|z|)  
-## (Intercept) -0.05672    0.17358  -0.327   0.7438  
-## age         -0.01096    0.00533  -2.057   0.0397 *
+##             Estimate
+## (Intercept) -0.05672
+## age         -0.01096
+##             Std. Error
+## (Intercept)    0.17358
+## age            0.00533
+##             z value Pr(>|z|)
+## (Intercept)  -0.327   0.7438
+## age          -2.057   0.0397
+##              
+## (Intercept)  
+## age         *
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
@@ -354,12 +377,26 @@ summary(m2)
 ##     data = Titanic)
 ## 
 ## Coefficients:
-##              Estimate Std. Error z value Pr(>|z|)    
-## (Intercept) -1.188647   0.222432  -5.344  9.1e-08 ***
-## age         -0.005426   0.006310  -0.860     0.39    
-## sex1         2.465920   0.185384  13.302  < 2e-16 ***
+##              Estimate
+## (Intercept) -1.188647
+## age         -0.005426
+## sex1         2.465920
+##             Std. Error
+## (Intercept)   0.222432
+## age           0.006310
+## sex1          0.185384
+##             z value Pr(>|z|)
+## (Intercept)  -5.344  9.1e-08
+## age          -0.860     0.39
+## sex1         13.302  < 2e-16
+##                
+## (Intercept) ***
+## age            
+## sex1        ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
@@ -389,21 +426,66 @@ Titanic$sex
 ```
 
 ```
-##   [1] 2 2 1 1 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 2 1 2 2 2 2 2 1 1 2 1 1 1 2 2 2 1 1 1 1 1 1 2 2 1
-##  [49] 2 2 2 1 1 1 2 1 1 1 1 2 1 2 2 1 1 2 2 2 2 1 2 1 1 1 1 2 1 2 2 1 2 1 2 2 2 2 2 2 2 1 1 2 1 1 1 2
-##  [97] 1 2 2 1 2 2 2 1 1 2 2 2 2 1 2 2 2 2 1 1 1 2 2 2 1 2 2 2 2 2 2 2 1 2 2 2 2 1 2 2 2 2 1 1 2 2 2 2
-## [145] 2 2 2 1 2 1 1 2 1 1 1 1 2 1 1 1 1 2 2 1 2 2 2 2 1 2 2 1 1 2 1 1 1 2 2 2 2 2 2 1 2 1 1 2 1 1 1 2
-## [193] 2 2 2 1 2 1 2 2 1 1 1 1 2 2 1 2 1 1 2 2 1 2 2 2 2 1 2 2 2 1 2 2 2 2 2 2 2 1 1 1 2 2 2 2 1 2 2 2
-## [241] 2 1 2 2 2 2 2 1 1 2 1 2 1 1 2 1 1 2 2 2 1 1 2 2 2 1 1 2 1 1 1 1 1 2 1 2 2 2 1 2 2 2 2 2 1 2 2 2
-## [289] 1 2 2 2 2 2 1 1 1 1 1 2 1 2 2 1 1 2 1 2 1 2 1 1 2 2 2 2 1 1 1 2 2 2 2 1 2 2 2 2 2 1 2 1 1 1 1 2
-## [337] 2 2 1 2 1 2 2 2 2 2 1 2 2 1 2 1 1 2 2 2 1 1 2 2 1 2 2 2 2 2 1 2 1 1 2 1 1 2 2 2 1 2 2 1 1 1 2 1
-## [385] 2 2 1 2 1 2 2 2 2 2 1 2 2 1 2 1 1 2 1 2 1 2 2 2 1 2 1 1 2 1 1 2 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2
-## [433] 2 1 2 2 2 2 2 2 2 2 2 1 1 2 1 2 2 2 2 1 2 2 1 2 2 1 1 2 2 2 2 2 2 1 2 1 2 1 2 1 2 2 2 2 2 1 2 2
-## [481] 2 2 2 1 2 1 1 2 1 2 2 2 2 2 2 1 2 1 1 2 1 1 2 2 1 1 2 2 2 2 1 1 2 2 2 2 1 2 2 2 2 1 1 2 2 2 2 1
-## [529] 2 2 2 2 1 1 2 2 2 2 2 2 2 2 2 1 1 2 2 1 2 2 2 1 1 1 2 1 1 2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 1 1 2 1
-## [577] 2 2 2 1 1 1 1 2 1 1 1 2 2 2 2 2 2 1 2 2 2 1 2 1 2 1 1 2 2 2 2 2 2 2 2 2 1 2 2 2 2 1 2 2 2 1 2 2
-## [625] 1 2 2 1 1 2 2 2 2 2 1 1 2 1 2 2 1 2 1 1 2 2 1 2 2 2 2 2 1 1 1 2 1 2 1 1 1 2 1 2 2 2 1 1 2 2 1 2
-## [673] 2 1 2 1 2 2 1 1 2 2 1 2 2 2 2 2 2 2 1 2 1 2 1 2 2 2 2 2 2 2 2 2 2 2 2 1 2 2 2 1 2 2
+##   [1] 2 2 1 1 2 2 1 2 2 2 2 2
+##  [13] 2 2 2 2 2 2 2 1 1 1 1 2
+##  [25] 1 2 2 2 2 2 1 1 2 1 1 1
+##  [37] 2 2 2 1 1 1 1 1 1 2 2 1
+##  [49] 2 2 2 1 1 1 2 1 1 1 1 2
+##  [61] 1 2 2 1 1 2 2 2 2 1 2 1
+##  [73] 1 1 1 2 1 2 2 1 2 1 2 2
+##  [85] 2 2 2 2 2 1 1 2 1 1 1 2
+##  [97] 1 2 2 1 2 2 2 1 1 2 2 2
+## [109] 2 1 2 2 2 2 1 1 1 2 2 2
+## [121] 1 2 2 2 2 2 2 2 1 2 2 2
+## [133] 2 1 2 2 2 2 1 1 2 2 2 2
+## [145] 2 2 2 1 2 1 1 2 1 1 1 1
+## [157] 2 1 1 1 1 2 2 1 2 2 2 2
+## [169] 1 2 2 1 1 2 1 1 1 2 2 2
+## [181] 2 2 2 1 2 1 1 2 1 1 1 2
+## [193] 2 2 2 1 2 1 2 2 1 1 1 1
+## [205] 2 2 1 2 1 1 2 2 1 2 2 2
+## [217] 2 1 2 2 2 1 2 2 2 2 2 2
+## [229] 2 1 1 1 2 2 2 2 1 2 2 2
+## [241] 2 1 2 2 2 2 2 1 1 2 1 2
+## [253] 1 1 2 1 1 2 2 2 1 1 2 2
+## [265] 2 1 1 2 1 1 1 1 1 2 1 2
+## [277] 2 2 1 2 2 2 2 2 1 2 2 2
+## [289] 1 2 2 2 2 2 1 1 1 1 1 2
+## [301] 1 2 2 1 1 2 1 2 1 2 1 1
+## [313] 2 2 2 2 1 1 1 2 2 2 2 1
+## [325] 2 2 2 2 2 1 2 1 1 1 1 2
+## [337] 2 2 1 2 1 2 2 2 2 2 1 2
+## [349] 2 1 2 1 1 2 2 2 1 1 2 2
+## [361] 1 2 2 2 2 2 1 2 1 1 2 1
+## [373] 1 2 2 2 1 2 2 1 1 1 2 1
+## [385] 2 2 1 2 1 2 2 2 2 2 1 2
+## [397] 2 1 2 1 1 2 1 2 1 2 2 2
+## [409] 1 2 1 1 2 1 1 2 2 2 1 2
+## [421] 2 2 2 2 2 2 2 2 2 2 2 2
+## [433] 2 1 2 2 2 2 2 2 2 2 2 1
+## [445] 1 2 1 2 2 2 2 1 2 2 1 2
+## [457] 2 1 1 2 2 2 2 2 2 1 2 1
+## [469] 2 1 2 1 2 2 2 2 2 1 2 2
+## [481] 2 2 2 1 2 1 1 2 1 2 2 2
+## [493] 2 2 2 1 2 1 1 2 1 1 2 2
+## [505] 1 1 2 2 2 2 1 1 2 2 2 2
+## [517] 1 2 2 2 2 1 1 2 2 2 2 1
+## [529] 2 2 2 2 1 1 2 2 2 2 2 2
+## [541] 2 2 2 1 1 2 2 1 2 2 2 1
+## [553] 1 1 2 1 1 2 2 2 2 2 2 2
+## [565] 2 2 2 1 2 2 2 2 1 1 2 1
+## [577] 2 2 2 1 1 1 1 2 1 1 1 2
+## [589] 2 2 2 2 2 1 2 2 2 1 2 1
+## [601] 2 1 1 2 2 2 2 2 2 2 2 2
+## [613] 1 2 2 2 2 1 2 2 2 1 2 2
+## [625] 1 2 2 1 1 2 2 2 2 2 1 1
+## [637] 2 1 2 2 1 2 1 1 2 2 1 2
+## [649] 2 2 2 2 1 1 1 2 1 2 1 1
+## [661] 1 2 1 2 2 2 1 1 2 2 1 2
+## [673] 2 1 2 1 2 2 1 1 2 2 1 2
+## [685] 2 2 2 2 2 2 1 2 1 2 1 2
+## [697] 2 2 2 2 2 2 2 2 2 2 2 1
+## [709] 2 2 2 1 2 2
 ## Levels: 2 1
 ```
 
@@ -426,8 +508,10 @@ exp(m2$coefficients) # Odds-Ratios
 ```
 
 ```
-## (Intercept)         age        sex1 
-##   0.3046332   0.9945888  11.7743113
+## (Intercept)         age 
+##   0.3046332   0.9945888 
+##        sex1 
+##  11.7743113
 ```
 
 Nun können wir die Ergebnisse (einigermaßen) sinnvoll interpretieren. Das Interzept wird an der Stelle interpretiert, wo alle Prädiktoren den Wert 0 annehmen. Das Alter am Wert 0 ist wenig sinnvoll, wir könnten uns allerdings einen Säugling vorstellen, der ein Alter von 0 Jahren hat. Außerdem ist noch die Variable `sex1` im Modell. Dies ist eine Dummy-Variable, die den Wert 1 annimmt, wenn das Geschlecht den Wert 1 (im Vergleich zu 2; der Referenzkategorie) annimmt; also wenn wir eine Frau im Vergleich zu einem Mann betrachten. Folglich hat diese Dummy-Variable gerade den Wert 0, wenn ein Mann betrachtet wird. Wir interpretieren das Interzept bzgl. der Odds wie folgt: Ein männlicher Säugling hat Überlebens-Odds von 0.305. Dies bedeutet, dass es für ihn 0.305-mal so wahrscheinlich ist zu überleben wie nicht zu überleben. Leider spricht dieses Ergebnis für recht schlechte Aussichten. Der Effekt des Alters lässt sich wie folgt interpretieren: Steigt das Alter um 1 Jahr (unter Konstanthaltung aller weiteren Prädiktoren im Modell), so verändern sich die Odds zu überleben um den Faktor (multiplikativ) 0.995. Insgesamt sinken die Odds zu überleben und damit die Überlebenswahrscheinlichkeit mit dem Alter, denn das Odds-Ratio ist genau dann kleiner 1, wenn der $\beta$-Koeffizient des Logit kleiner 0 ist und es sich somit um eine negative/abfallende Beziehung handelt! Dieser Effekt ist allerdings nicht statistisch signifikant und wird somit nur für die Stichprobe, nicht aber für die Population interpretiert. Wird nun eine Frau im Vergleich zu einem Mann betrachtet, so steigen die Odds zu überleben um den Faktor 11.774. Somit haben (unter Konstanthaltung aller weiteren Prädiktoren im Modell) Frauen eine 11.774 mal so hohe Überlebenswahrscheinlichkeit wie die Männer. Hier ist extrem wichtig, zu beachten, dass die Odds sich multiplikativ ändern und nicht additiv, wie wir es von der linearen Regression (und im Übrigen auch vom Logit) gewohnt sind.
@@ -524,14 +608,34 @@ summary(m3)
 ##     data = Titanic)
 ## 
 ## Coefficients:
-##              Estimate Std. Error z value Pr(>|z|)    
-## (Intercept) -1.326394   0.247892  -5.351 8.76e-08 ***
-## age         -0.036985   0.007656  -4.831 1.36e-06 ***
-## sex1         2.522781   0.207391  12.164  < 2e-16 ***
-## pclass1      2.580625   0.281442   9.169  < 2e-16 ***
-## pclass2      1.270826   0.244048   5.207 1.92e-07 ***
+##              Estimate
+## (Intercept) -1.326394
+## age         -0.036985
+## sex1         2.522781
+## pclass1      2.580625
+## pclass2      1.270826
+##             Std. Error
+## (Intercept)   0.247892
+## age           0.007656
+## sex1          0.207391
+## pclass1       0.281442
+## pclass2       0.244048
+##             z value Pr(>|z|)
+## (Intercept)  -5.351 8.76e-08
+## age          -4.831 1.36e-06
+## sex1         12.164  < 2e-16
+## pclass1       9.169  < 2e-16
+## pclass2       5.207 1.92e-07
+##                
+## (Intercept) ***
+## age         ***
+## sex1        ***
+## pclass1     ***
+## pclass2     ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
@@ -558,11 +662,16 @@ anova(m2, m3, test = "LRT")
 ## 
 ## Model 1: survived ~ 1 + age + sex
 ## Model 2: survived ~ 1 + age + sex + pclass
-##   Resid. Df Resid. Dev Df Deviance  Pr(>Chi)    
-## 1       711     749.96                          
-## 2       709     647.28  2   102.67 < 2.2e-16 ***
+##   Resid. Df Resid. Dev Df
+## 1       711     749.96   
+## 2       709     647.28  2
+##   Deviance  Pr(>Chi)    
+## 1                       
+## 2   102.67 < 2.2e-16 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Der Test liefert eine signifikante Likelihood-Differenz, $\chi^2(df=2)=$ 102.674, $p<.001$. Der Test hat hier 2 Freiheitsgrade, da auch zwei Dummy-Variablen mit in das Modell aufgenommen wurden! _Hätten wir eine Gruppierungsvariable mit 5 Ausprägungen gehabt, so wären es 4 Freiheitsgrade gewesen._ Folglich verbessert die Klassenzugehörigkeit die Prädiktion der Überlebenswahrscheinlichkeit des Titanicunglücks.
@@ -576,8 +685,12 @@ exp(m3$coefficients) # Odds-Ratio
 ```
 
 ```
-## (Intercept)         age        sex1     pclass1     pclass2 
-##   0.2654328   0.9636903  12.4632077  13.2053931   3.5637952
+## (Intercept)         age 
+##   0.2654328   0.9636903 
+##        sex1     pclass1 
+##  12.4632077  13.2053931 
+##     pclass2 
+##   3.5637952
 ```
 
 Das Interzept wird an der Stelle interpretiert, an dem alle Prädiktoren den Wert 0 annehmen. Dies ist der Fall, wenn das Alter sowie alle Dummy-Variablen den Wert 0 annehmen, wir uns also für alle kategorialen Prädiktoren in der Referenzkategorie befinden. Somit hat ein männlicher Säugling aus der 3. Klasse eine um den Faktor 0.265 kleinere Wahrscheinlichkeit zu überleben im Vergleich zu zu sterben. Unter Konstanthaltung aller weiteren Prädiktoren im Modell sinken die Odds zu Überleben um den Faktor 0.964, wenn das Alter um ein Jahr steigt. Unter Konstanthaltung aller weiteren Prädiktoren im Modell steigen die Odds zu Überleben um den Faktor 12.463, wenn Frauen im Vergleich zu Männern betrachtet werden. Unter Konstanthaltung aller weiteren Prädiktoren im Modell steigen die Odds zu überleben um den Faktor 13.205, wenn eine Person aus der 1. Klasse im Vergleich zu einer Person aus der 3. Klasse betrachtet wird. Unter Konstanthaltung aller weiteren Prädiktoren im Modell steigen die Odds zu überleben um den Faktor 3.564, wenn eine Person aus der 2. Klasse im Vergleich zu einer Person aus der 3. Klasse betrachtet wird. Es scheint also so, dass je höher das Alter ist, desto geringer ist die Überlebenswahrscheinlichkeit, während je besser die Reiseklasse war, die Überlebenswahrscheinlichkeit höher ausfiel.

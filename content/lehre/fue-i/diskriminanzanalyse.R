@@ -1,6 +1,10 @@
+## Daten laden
+## Beispiel Daten lokal zu laden
 ## load("C:/Users/Musterfrau/Desktop/Therapy.rda")
 
 load(url("https://pandar.netlify.app/daten/Therapy.rda"))
+
+#### Datenübersicht ----
 
 head(Therapy)
 levels(Therapy$Intervention)
@@ -10,8 +14,11 @@ colnames(Therapy) # Spaltennamen ansehen
 colnames(Therapy) <- c("LZ", "AB", "Dep", "AZ", "Intervention", "Geschlecht") # Spaltennamen neu zuordnen
 head(Therapy)
 
+# Pakete laden
 library(MASS) # für lineare Diskrimianzanalys (lda)
 library(ggplot2) # Grafiken
+
+#### Analysen ----
 
 model_DA <- lda(Intervention ~ LZ + Dep + AB + AZ, Therapy)
 model_DA
@@ -70,6 +77,8 @@ table(Therapy$predict_class, Therapy$Intervention)/30
 
 
 mean(Therapy$predict_class == Therapy$Intervention)*100
+
+#### Trennlinien im ursprünglichen Variablenkoordinatensystem ----
 
 model_DA2 <- lda(Intervention ~ LZ + AZ, data = Therapy)
 model_DA2
