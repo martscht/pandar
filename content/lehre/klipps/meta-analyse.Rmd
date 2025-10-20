@@ -71,7 +71,7 @@ Wie in allen Beiträgen aus diesem Kurs handelt es sich auch bei dieser Studie u
 ```{r, eval = FALSE}
 source('https://pandar.netlify.app/daten/Data_Processing_game.R')
 ```
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl = FALSE}
 source('../../daten/Data_Processing_game.R')
 ```
 
@@ -103,7 +103,9 @@ Die Suche und Identifikation von Studien, die in einer Meta-Analyse eingeschloss
 Insgesamt wurden nach dem Vorgehen, das im Artikel in Abbildung 1 (S. 5) dargestellt ist, 39 Studien in die Meta-Analyse aufgenommen (von ursprünglich 2861 gesichteten Einträgen). Das deckt sich soweit mit den Inhalten des Datensatzes:
 
 
-```{r}
+```{r, echo=-c(1,2)}
+####  Extraktion der Effekte ----
+
 # Anzahl der Studien im Datensatz
 unique(game$cite) |> length()
 ```
@@ -188,7 +190,9 @@ Das für die Studie von [Wölfling et al. (2019)](https://doi.org/10.1001/jamaps
 
 Ersteres stellt uns vor ein Problem, da wir zunächst verhindern wollen, dass die wiederholte Untersuchung desselben Effekts mehrfach in unsere Meta-Analyse eingeht. Betrachten wir also zunächst nur die Effekte, die sich auf die Messungen mit dem geringsten Abstand zur Intervention beziehen:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Foxed Effects Model ----
+
 # Minimaler Abstand zur Intervention pro Studie
 post <- aggregate(game$follow, list(game$cite), \(x) min(abs(x)))
 names(post) <- c('cite', 'follow')
@@ -265,7 +269,9 @@ Die Kernfunktion des Pakets ist `rma` (wahrscheinlich für `R` und Meta-Analyse?
 Für den Fixed-Effects-Ansatz setzen wir `method = 'FE'` und können dann die Effekte schätzen lassen:
 
 
-```{r}
+```{r, echo=-c(1,2)}
+#### metafor-FEM ----
+
 # Fixed Effects Model (Post Erhebungen)
 modFE <- rma(yi = es, vi = v, data = post, method = 'FE')
 
@@ -340,7 +346,9 @@ Da wir bereits wissen, dass wir die mittleren Effekte nicht händisch bestimmen 
 
 Wie vorhin nutzen wir für die Analyse erneut die `rma`-Funktion. Der einzige Unterschied besteht darin, dass wir jetzt nicht mehr mit `method = 'FE'` das Fixed-Effects-Model annehmen, sondern die voreingestellte Schätzung des Random-Effects-Models verwenden:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Random Effects Model ----
+
 # Random Effects Model (Post Erhebungen)
 modRE <- rma(yi = es, vi = v, data = post)
 
@@ -357,7 +365,9 @@ Bei einer Studie entsteht der berichtete Effekt $\hat\theta$, theoretisch betrac
 
 Wenn wir eine andere Studie mit einem anderen $n_k$ durchführen, ziehen wir aus einer Verteilung mit einer anderen Streuung, aber dem gleichen Mittelwert, weil der Effekt der Intervention für alle Studien gleich sein sollte.
 
-```{r fe-distributions, echo=FALSE, fig=TRUE}
+```{r fe-distributions, echo=FALSE, fig=TRUE, echo=-c(1,2)}
+#### Nachfolgend Code für Grafiken des Beitrags ----
+
 fe_exp <- data.frame(study = as.factor(1:3), n = c(30, 70, 120), theta_hat = c(.6, .36, .175))
 ggplot(fe_exp, aes(x = theta_hat)) +
   geom_function(fun = dnorm, args = list(mean = .3, sd = sqrt(1/30)), color = pandar_colors[1], xlim=c(-.05, .75)) +
@@ -435,7 +445,9 @@ Wie bei allen statistischen Verfahren (insbesondere den regressionsbasierten) is
 
 Die dort verwendeten Befehle `cooks.distance` und `hatvalues` können auch für Ergebnisse aus dem `metafor`-Paket verwendet werden. Allerdings liefert die `influence`-Funktion direkt eine Zusammenfassung verschiedener Diagnosemaße:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Modelldiagnostik ----
+
 # Diagnosemaße
 diagnostics <- influence(modRE)
 ```
@@ -486,7 +498,9 @@ Die meisten Voreinstellungen entsprechen bereits unserer Vorstellung davon, wie 
 
 Außerdem wurde z. B. bei [Danielsen et al. (2024)](https://doi.org/10.1016/j.addbeh.2023.107887) die Darstellung nach der Größe des Effekts sortiert (`order = post$es`). Um die Ergebnisse etwas übersichtlicher zu machen, nutzen wir hier außerdem `shade = TRUE`, um jede zweite Zeile etwas einzufärben:
 
-```{r forest1, fig.height = 8}
+```{r forest1, fig.height = 8, echo=-c(1,2)}
+#### Abbildung der  Effekte ----
+
 # Forest Plot
 forest(modRE, slab = post$cite, order = post$es,
   shade = TRUE)
@@ -532,7 +546,9 @@ In `rma` können wir mit dem Argument `mods` diese _Moderatorvariablen_ aufnehme
 Im `mods`-Argument kann mit der üblichen Formelnotation von R gearbeitet werden. Da die abhängige Variable durch das `yi`-Argument schon festgelegt ist, bleibt die linke Seite der Formel leer, sodass hier immer `~ UV1 + UV2 + UV3...` stehen kann.
 
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Meta-Regression ----
+
 # Meta-Regression
 modMR1 <- rma(yi = es, vi = v, data = post, mods = ~ tr_type)
 
@@ -607,7 +623,9 @@ Wie wir in der `summary` sehen können, sind beide Modelle hinsichtlich der Pass
 
 Im Artikel von [Danielsen et al. (2024)](https://doi.org/10.1016/j.addbeh.2023.107887) wird unter anderem erwähnt, dass die Effekte auf den relativen Anteil der männlichen Studienteilnehmer kontrolliert werden sollen, um potenzielle Verzerrungen (z. B. zu Ungunsten von Breitband-Präventionen) zu vermeiden. Wie bereits erwähnt, können wir Kovariaten einfach in der Formelnotation im `mods`-Argument aufnehmen. Damit die Effekte der Interventionen als Effekte bei Geschlechtergleichverteilung interpretiert werden können, wurde (laut [Analyseskript auf OSF](https://osf.io/edyp5)) vom Anteil der Wert 50 abgezogen. (Bitte beachten Sie, dass diese Variable entgegen der Aussage auf S. 10 im Artikel _nicht_ zentriert wurde.)
 
-```{r}
+```{r, echo=-c(1,2)}
+##### Kovariate ----
+
 # Umrechnen der Geschlechtervariable
 post$genbal <- post$male - 50
 
@@ -638,7 +656,9 @@ Damit wir alle Effekte berücksichtigen können, arbeiten wir jetzt nicht mehr m
 
 Zunächst schließen wir die Studie von [Kochuchakkalackal Kuriala und Reyes (2020)](https://doi.org/10.1007/s41347-020-00132-z) wieder aus – die gleiche Diagnostik, die wir oben durchgeführt haben, signalisiert auch in diesem Fall Bedenken hinsichtlich der Effektschätzung aus dieser Studie.
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Multilevel- Metaanalysen ----
+
 # Ausreißer entfernen
 game <- game[game$study != 15, ]
 ```
@@ -715,7 +735,9 @@ In `metafor` können wir den Omnibus-Test $Q_m$ dahingehend anpassen, dass er nu
 
 Damit wir nicht das gesamte Modell erneut spezifizieren müssen, nutzen wir mal wieder `update`:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Tests für mehrere Kovariaten und Moderatoren ----
+
 # Omnibus-Test der Interventionsarten
 modML2b <- update(modML2, btt = 1:4)
 ```
@@ -764,7 +786,9 @@ In der linken Grafik haben wir das erwartete Bild: Die Punkte streuen um einen g
 
 Leider ist das Ganze nicht immer so eindeutig wie in diesem Beispiel, weswegen der "contour-enhanced" Funnel Plot empfohlen wird. Abbildung 6 von [Danielsen et al. (2024)](https://doi.org/10.1016/j.addbeh.2023.107887) zeigt einen solchen Plot, den wir auch mit der `metafor`-Funktion `funnel` erstellen können:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Publication Bias ----
+
 # Funnel Plot
 funnel(modML,                           # Modell mit unbedingten Effekten
   refline = 0,                          # Ort der Referenzlinie

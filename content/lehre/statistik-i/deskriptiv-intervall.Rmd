@@ -131,7 +131,9 @@ Für das Tutorial benutzen wir einen Skalenwert aus dem ausgefüllten Fragebogen
 
 Wir haben den Skalenwert bereits in der Vorbereitung des Datesnatzes für Sie erstellt. Dabei haben wir den Mittelwert aus Ihren Antworten auf die 5 Items berechnet. Wir werden uns später noch anschauen wie die Erstellung eines Skalenwertes abläuft. Für Lebeszufriedenheit ist der Skalenwert für jede einzelne Person nun in der Spalte `lz` in unserem Datensatz zu finden. Indem wir die Variable ansprechen, können wir uns die Ausprägungen anzeigen lassen.
 
-```{r}
+```{r, echo=-c(1,2)}
+## Deskriptivstatistik
+
 fb24$lz
 ```
 

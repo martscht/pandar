@@ -112,7 +112,9 @@ fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
 Die Erstellung von *Häufigkeitstabellen* zur Darstellung univariater Häufigkeiten haben Sie schon kennengelernt. Dies funktioniert mit einfachen Befehlen für die Häufigkeiten und die zugehörigen relativen Prozentzahlen.
 
 
-```{r Häufigkeitstabellen}
+```{r, echo=-c(1,2)}
+## Häufigkeitstabellen
+
 tab <- table(fb24$fach)               #Absolut
 tab
 
@@ -175,7 +177,9 @@ prop.table(tab) |> addmargins()  # als Pipe
 
 Grafisch kann eine solche Kreuztabelle durch gruppierte Balkendiagramme dargestellt werden. Das Argument `beside` sorgt für die Anordnung der Balken (bei `TRUE` nebeneinander, bei `FALSE` übereinander). Das Argument `legend` nimmt einen Vektor für die Beschriftung entgegen. Die Zeilen des Datensatzes bilden dabei stets eigene Balken, während die Spalten die Gruppierungsvariable bilden. Deshalb müssen als Legende die Namen der Reihen `rownames()` unserer Tabelle `tab` ausgewählt werden.
 
-```{r, Balkendiagramm}
+```{r, echo=-c(1,2)}
+## Balkendiagramm
+
 barplot (tab,
          beside = TRUE,
          col = c('mintcream','olivedrab','peachpuff','steelblue','maroon'),
@@ -210,7 +214,9 @@ und Kovarianz.
 Die Funktionen für die Varianz ist dabei `var()`. Im Folgenden wird diese für die Variablen `neuro` (Neurotizismus) und `gewis` (Gewissenhaftigkeit) aus dem Datensatz bestimmt. Als Argumente müssen jeweils die Variablennamen verwendet werden.
 Wie bereits in vergangenen Sitzungen gesehen, führen fehlende Werte zu der Ausgabe `NA`. Um dies vorzubeugen, wird im univariaten Fall `na.rm = TRUE` zum Ausschluss verwendet. 
 
-```{r Korrelationsfunktionen}
+```{r, echo=-c(1,2)}
+## Korrelationsfunktionen
+
 var(fb24$neuro, na.rm = TRUE)            #Varianz Neurotizismus
 
 var(fb24$gewis, na.rm = TRUE)            #Varianz Gewissenhaftigkeit
@@ -285,7 +291,9 @@ Das liegt daran, dass `complete` Personen mit fehlenden Werten aus der komplette
 
 Der Zusammenhang zwischen zwei Variablen kann in einem *Scatterplot* bzw. *Streupunktdiagramm* dargestellt werden. Dafür kann man die `plot()` Funktion nutzen. Als Argumente können dabei `x` für die Variable auf der x-Achse, `y` für die Variable auf der y-Achse, `xlim`, `ylim` für eventuelle Begrenzungen der Achsen und `pch` für die Punktart angegeben werden.
 
-```{r Grafisch}
+```{r, echo=-c(1,2)}
+## Grafische Darstellung
+
 plot(x = fb24$neuro, y = fb24$gewis, xlim = c(1,5) , ylim = c(1,5))
 ```
 
@@ -295,7 +303,9 @@ plot(x = fb24$neuro, y = fb24$gewis, xlim = c(1,5) , ylim = c(1,5))
 
 Wie in der Vorlesung besprochen, sind für verschiedene Skalenniveaus verschiedene Zusammenhangsmaße verfügbar, die im Gegensatz zur Kovarianz auch eine Vergleichbarkeit zwischen zwei Zusammenhangswerten sicherstellen. Für zwei metrisch skalierte Variablen gibt es dabei die *Produkt-Moment-Korrelation*. In der Funktion `cor()` werden dabei die Argumente `x` und `y` für die beiden betrachteten Variablen benötigt. `use` beschreibt weiterhin den Umgang mit fehlenden Werten.
 
-```{r PMKorrelation}
+```{r, echo=-c(1,2)}
+## Produkt-Moment-Korrelation
+
 cor(x = fb24$neuro, y = fb24$gewis, use = 'pairwise')
 ```
 
@@ -328,7 +338,9 @@ Achtung! Die inferenzstatistische Testung der Pearson-Korrelation hat gewisse Vo
 
 $\rightarrow$ QQ-Plot, Histogramm & Shapiro-Wilk-Test
 
-```{r NV-Voraussetzung}
+```{r, echo=-c(1,2)}
+## Normalverteilungsvoraussetzungen
+
 # car-Paket laden
 library(car)
 
@@ -354,7 +366,9 @@ $p < \alpha$ $\rightarrow$ $H_1$: Normalverteilung kann nicht angenommen werden.
 
 #### Rangkorrelation in R
 
-```{r Rangkorrelation}
+```{r, echo=-c(1,2)}
+## Rangkorrelation
+
 r1 <- cor(fb24$neuro,fb24$gewis,
           method = "spearman",     #Pearson ist default
           use = "complete") 
@@ -378,7 +392,9 @@ Es handelt sich um eine schwache negative Korrelation von _r_ = `r round(r1, dig
 
 Als weitere Variante der Rangkorrelation gibt es noch Kendalls $\tau$. Diese kann man mit `method = "kendall"` angesprochen werden.
 
-```{r Kendall-tau}
+```{r, echo=-c(1,2)}
+## Kendall-Tau
+
 cor(fb24$neuro, fb24$gewis, use = 'complete', method = 'kendall')
 ```
 Die Interpretation erfolgt wie bei Spearman's Rangkorrelation. 
@@ -389,7 +405,9 @@ Nachdem der Korrelationskoeffizient berechnet wurde, kann dieser noch auf Signif
 * $H_0$: $\rho = 0$ $\rightarrow$ es gibt keinen Zusammenhang zwischen Neurotizismus und Gewissenhaftigkeit
 * $H_1$: $\rho \neq 0$ $\rightarrow$  es gibt einen Zusammenhang zwischen Neurotizismus und Gewissenhaftigkeit
 
-```{r Signifikanztestung}
+```{r, echo=-c(1,2)}
+## Signifikanztestung
+
 cor <- cor.test(fb24$neuro, fb24$gewis, 
          alternative = "two.sided", 
          method = "spearman",      #Da Voraussetzungen für Pearson verletzt
@@ -419,7 +437,9 @@ Abschließend lernen wir Zusammenhangsmaße für dichotome nominalskalierte Vari
 
 Wir analysieren aus unserem Datensatz die beiden dichotomen Variablen `job` (ja [`ja`] vs. nein [`nein`]) und `ort` (Frankfurt [`FFM`] vs. außerhalb [`andere`]). Die Variablen `ort` und `job` liegen nach den vorbereitenden Schritten bereits als Faktor-Variablen mit entsprechende Labels vor. Dies wird durch die folgende Prüfung bestätigt:
 
-```{r Zusammenhang-dichotom}
+```{r, echo=-c(1,2)}
+## Dichotome Zusammenhangsmaße 
+
 is.factor(fb24$ort)
 is.factor(fb24$job)
 ```
@@ -550,7 +570,9 @@ Ordinalskalierte Daten können aufgrund der Verletzung der Äquidistanz zwischen
 
 Zur Berechnung dieses Koeffizienten müssen wir das Paket `rococo` installieren, welches verschiedene Konkordanz-basierte Zusammenhangsmaße enthält. Die Installation muss dem Laden des Paketes logischerweise vorausgestellt sein. Wenn R einmal geschlossen wird, müssen alle Zusatzpakete neu geladen, jedoch nicht neu installiert werden.
 
-```{r Bestimmung-Ordinale-Zusammenhänge}
+```{r, echo=-c(1,2)}
+## Ordinalskalierte Zusammenhänge
+
 if (!requireNamespace("rococo", quietly = TRUE)) {
   install.packages("rococo")
 }

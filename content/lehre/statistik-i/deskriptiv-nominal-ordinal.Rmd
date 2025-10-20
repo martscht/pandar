@@ -101,7 +101,9 @@ Jeder numerischen Faktorstufe (level) kann ein Label zugewiesen werden. Faktorst
 
 **Beispiel 1: Die (numerische) Variable `hand` als Faktor aufbereiten**
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Nominalskalierte Variablen ----
+
 str(fb24$hand)
 fb24$hand
 ```
@@ -244,7 +246,8 @@ Die Grafik erscheint in der RStudio-Standardansicht "unten rechts" im Reiter "Pl
 
 ![](plots_window.PNG)
 
-```{r, basic-barplot, echo = FALSE, fig=TRUE, fig.align='center'}
+```{r, echo = FALSE, fig=TRUE, fig.align='center'}
+# Säulen- oder Balkendiagramm
 barplot(tab)
 ```
 
@@ -252,7 +255,8 @@ barplot(tab)
 
 Die Erstellug eines Tortendiagramms ist ebenfalls leicht zu erreichen. Die Funktion heißt `pie()` und braucht denselben Input wie `barplot`. 
 
-```{r, basic-pie, out.width="60%", fig.align="center"}
+```{r, out.width="60%", fig.align="center"}
+# Tortendiagramm
 pie(tab)
 ```
 
@@ -292,7 +296,8 @@ Die Farben werden hier nicht direkt mit ihrem Namen, sondern mit dem Hex-Code au
 
 **Beispiel für angepasste Abbildung**
 
-```{r, colored-barplot}
+```{r, echo=-1}
+# Farbiger Barplot
 barplot(tab,
         col = rainbow(5),                        # Farbe
         ylab = 'Anzahl Studierende',             # y-Achse Bezeichnung
@@ -330,7 +335,8 @@ Auch ohne die grafische Oberfläche von RStudio ist die Erstellung und das Speic
 
 Wir starten die Erstellung einer Grafik mittels Code mit der `jpeg()`-Funktion. Hierin machen wir sozusagen eine grafische Umgebung auf. In dieser legen wir bereits einige Paramter der Bilddatei fest (wie Höhe, Breite und auch Auflösung). Als nächstes kommt der Code für die Grafik. Diesen haben wir bereits gesehen. Der entstehende Plot wird jetzt in die zuvor erzeugte grafische Umgebung "abgelegt". Mit der Funktion `dev.off()` wird die Erstellung beendet. Die grafische Umgebung (und damit die Entwicklung unserer Bild-Datei) wird damit "geschlossen".  
 
-```{r Beispielspeicherung, eval = FALSE, echo=-1}
+```{r, eval = FALSE, echo=-c(1,2)}
+Speichern per jpeg()
 Kommentare entfernen (##) zum Ausführen!
 jpeg("Mein-Barplot.jpg", width=15, height=10, units="cm", res=150) # Eröffnung Bilderstellung
 barplot(tab,
@@ -353,7 +359,9 @@ Auch hier gilt: Wenn kein Pfad spezifiziert wurde, liegt die Datei in Ihrem Arbe
 
 Der Modus (*Mo*) ist ein Maß der zentralen Tendenz, das die häufigste Ausprägung einer Variable anzeigt. Die Häufigkeiten sind ja schon in der Häufigkeitstabelle enthalten. Man könnte den Modus also einfach ablesen. Das gleiche lässt sich allerdings auch anhand von Funktionen tun:  
 
-```{r}
+```{r, echo=-c(1,2)}
+## Deskriptivstatistische Kennwerte 
+
 tab            # Tabelle ausgeben
 max(tab)       # Größte Häufigkeit
 which.max(tab) # Modus
@@ -370,7 +378,9 @@ $$H = -\frac{1}{\ln(k)} \sum_{j=1}^k{h_j * \ln h_j} $$
 
 Wir benötigen also $h_j$, was die relativen Häufigkeiten der einzelnen Kategorien bezeichnet. Hier haben wir schon gelernt, dass wir diese durch anwenden der Funktion `prop.table` auf unser Objekt `tab` erhalten können. Anschließend muss noch mit der Funktion `log` gearbeitet werden, die den natürlichen Logarithmus als Standardeinstellung berechnet. $k$ ist in diesem Fall die maximale Nummer einer unserer Kategorien - also die Kategorienanzahl `r dim(tab)`. Falls wir diese nicht selbst zählen möchten, kann `dim` uns die Anzahl an Spalten in `tab` verraten. Der Rest ist dann nur einfache Multiplikation, Addition und Division.
 
-```{r}
+```{r, echo=-c(1,2)}
+## Relativer Informationsgehalt
+
 hj <- prop.table(tab)       # hj erstellen
 ln_hj <- log(hj)            # Logarithmus bestimmen
 ln_hj                       # Ergebnisse für jede Kategorie
@@ -391,7 +401,8 @@ relinf
 
 Eine alternative Schreibweise, die ohne Zwischenschritte auskommt, dafür aber in Form von vielen Klammern stark verschachtelt ist, lautet:
 
-```{r}
+```{r, echo=-1}
+# Verschachtelte Version
 - 1/log(dim(table(fb24$fach))) * sum(prop.table(table(fb24$fach)) * log(prop.table(table(fb24$fach))))
 ```
 
@@ -515,7 +526,9 @@ Die Box liegt zwischen dem ersten (`r quantile(variable, .25)`) und dritten Quar
 
 In der Praxis wird diese Idealform aber nicht immer erreicht. Wir wollen für unsere Variable `wissen` diesen Plot erstellen. Er kann über die Funktion `boxplot()` angefordert werden:
 
-```{r, basic-boxplot-one}
+```{r, echo=-c(1,2)}
+## Basic Boxplot
+
 boxplot(fb24$wissen)
 ```
 
@@ -525,7 +538,9 @@ In diesem Beispiel betragen Median und Q3 jeweils 4, sodass sich die entsprechen
 
 Auch ein Boxplot kann grafisch angepasst werden. Nachfolgend sehen Sie ein Beispiel, in dem möglichst viel verändert wurde, um die verschiedenen Möglichkeiten aufzuzeigen. Nicht alle Veränderungen sind unbedingt sinnvoll in diesem Fall.
 
-```{r, colored-boxplot}
+```{r, colored-boxplot, echo=-c(1,2)}
+## Farbiger Boxplot
+
 boxplot(fb24$wissen,
         horizontal = TRUE,                # Ausrichtung des Boxplots
         main = "WS 2024/2025: Interesse an der Wissenschaft",  # Überschrift der Grafik

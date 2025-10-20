@@ -159,13 +159,16 @@ Wie in der Mathematik üblich, wird der Inhalt von Klammern als erstes evaluiert
 
 Das Nutzen von R als Taschenrechner ist - streng genommen - ein Sonderfall, der vom "üblichen Weg" abweicht, mit dem Dinge in R umgesetzt werden. Mithilfe der einfachen Addition können wir eine Summe bilden:
 
-```{r}
+```{r, echo=c(-1,-2)}
+#### Funktionen und Argumente ----
+
 3 + 4 + 1 + 2
 ```
 
 Für R typischer wäre aber die Umsetzung mit
 
-```{r Erste Funktionen}
+```{r, echo=-1}
+## Erste Funktionen
 sum(3, 4, 1, 2)
 ```
 
@@ -177,7 +180,8 @@ funktion(argument1, argument2, argument3, ...)
 
 In R werden Funktionen namentlich aufgerufen und alle Argumente, die diese Funktion entgegennehmen kann, folgen in Klammern. Die `sum()`-Funktion ist dabei sogar wieder ein Sonderfall, weil sie unendlich viele Argumente entgegennehmen kann. Eine eher typische Funktion ist z.B. der Logarithmus:
 
-```{r Mögliche Argumentdarstellungen von log()}
+```{r, echo=-1}
+## Mögliche Argumentdarstellungen von log()
 log(100)
 ```
 
@@ -258,7 +262,8 @@ Eine `Message` liefert Informationen und dient ausschließlich der Kommunikation
 
 Eine `Warning` deutet darauf hin, dass höchstwahrscheinlich etwas nicht so gelaufen ist, wie geplant, aber dennoch ein Ergebnis produziert wurde. Für den Logarithmus erscheint beispielsweise eine Warnung:
 
-```{r}
+```{r, echo=-1}
+## Wirft ein Warning aus:
 log(-1)
 ```
 
@@ -281,7 +286,9 @@ In diesem Fall werden wir darauf hingewiesen, dass wir keine Einstellung für da
 
 Einer der großen Vorteile von R gegenüber anderen Ansätzen zur statistischen Datenanalyse ist die Möglichkeit Ergebnisse in Objekten abzulegen und diese als Argumente in anderen Funktionen weiter zu verwenden. Dadurch ergibt sich in R die Möglichkeit sehr große Teile von Auswertungen und Ergebnisdarstellung mit generell gehaltenen Skripten zu automatisieren. Die Zuweisung eines Ergebnisses zu einem Objekt erfolgt über den sog. Zuweisungspfeil `<-`.
 
-```{r}
+```{r, echo=c(-1,-2)}
+#### Objekte und das Environment ----
+
 my_num <- sum(3, 4, 1, 2)
 ```
 
@@ -404,7 +411,8 @@ Der Stroop-Effekt ist der Unterschied zwischen der durchschnittlichen Zeit, die 
 {{< intext_anchor Vektoren >}}
 Nehmen wir an, Sie hätten für dieses einfache Beispiel die acht Reaktionszeiten gemessen und diese wären (in Millisekunden): 510, 897, 647, 891, 925, 805, 443 und 778. Um diese Daten in R aufzunehmen können Sie folgendes machen:
 
-```{r}
+```{r, echo=c(-1,-2)}
+#### Daten ----
 react <- c(510, 897, 647, 891, 925, 805, 443, 778)
 ```
 
@@ -598,7 +606,9 @@ Bisher haben wir uns mit dem Zusammenführen von Daten befasst, wie es bei der D
 
 Der einfachste Fall in R ist die Extraktion eines Elements aus einem Vektor. Dazu können wir noch einmal die Struktur eines Vektors inspizieren:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Datenextraktion ----
+
 str(react)
 ```
 
@@ -699,7 +709,9 @@ dat$react
 
 Der Zuweisungspfeil funktioniert auch für Elemente größerer Objekte. Nehmen wir an, wir hätten uns bei der Eingabe der 5. Reaktionszeit vertippt und diese sei eigentlich 725 ms gewesen. Um die vorhandenen Daten zu überschreiben, können wir neue Werte direkt zuweisen. Auch hier sollte beachtet werden, dass es dabei keinerlei Warnung und Absicherung gibt. Sobald die Zuweisung ausgeführt ist, sind die Daten überschrieben und die vorherigen Daten verloren.
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Daten verändern und hinzufügen ----
+
 dat[5, 'react']           # Aktuellen Inhalt abfragen
 dat[5, 'react'] <- 725    # Aktuellen Inhalt überschreiben
 dat[, 'react']            # Alle Reaktionszeiten abfragen
@@ -734,13 +746,17 @@ Alle Objekte, die bisher erstellt wurden liegen im Environment - sobald wir R sc
 
 Um Daten zu laden und zu speichern muss R wissen an welchem Ort nach diesen Daten zu suchen ist. In den meisten Fällen macht es Sinn, für Projekte einen Ordner anzulegen in dem alle relevanten Dateien (z.B. Daten und Syntax) enthalten sind. Dieser Ordner kann R als *Working Directory* mitgeteilt werden. Das aktuelle Working Directory kann man einfach abrufen:
 
-```{r Anwendungsordner auslesen, eval = FALSE}
+```{r, eval = FALSE, echo=-c(1:3)}
+#### Daten Import/Export
+
+## Anwendungsordner finden
 getwd()
 ```
 
 Als Ergebnis sollte ein Ordnerpfad ausgeben werden. Unter Windows hat dieser wahrscheinlich das Format `C:/Users/Name/Documents`. Um manuell einen anderen Ordner zu nutzen, kann dieser mit `setwd()` festgelegt werden:
 
-```{r Anwendungsordner neu setzen, eval = FALSE}
+```{r,  eval = FALSE, echo=-1}
+## Anwendungsordner ändern
 setwd('Pfad/Zum/Ordner')
 ```
 
@@ -748,7 +764,8 @@ Windows nutzt `\` statt `/` um Ordner zu strukturieren. Wenn Sie also ihren Ziel
 
 Um sich den Inhalt eines Ordners anzeigen zu lassen (z.B. um zu prüfen, welche Dateien bereits in dem Ordner vorhanden sind):
 
-```{r Ordnerinhalte lesen, eval = FALSE}
+```{r, eval = FALSE, echo=-1}
+## Ordnerinhalte lesen
 dir()
 ```
 
@@ -766,7 +783,8 @@ Generell ist RDS dann zu präferieren, wenn einzelne Objekte (z.B. Datensätze) 
 
 Dieses Verhalten können wir uns im Folgenden anschauen. Zunächst speichern wir den Stroop Datensatz:
 
-```{r}
+```{r, echo=-1}
+## Datenspeichern & -laden
 save(dat, file = 'dat.rda')
 ```
 
@@ -813,13 +831,15 @@ cat(paste(readLines('../../daten/fb25.csv')[1:5], collapse = '\n'))
 
 Die Art in der dieser Datensatz aufbereitet ist, muss R mitgeteilt werden, damit wir ihn ordentlich einlesen können. Es empfiehlt sich dafür mit `help(read.table)` die Hilfe zu öffnen. Was diese Hilfe verrät sind unter Anderem die Argumente, die die Funktion entgegennimmt:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Daten aus dem Fragebogen ----
+
 args(read.table)
 ```
 
 Das einzige Argument ohne Voreinstellung ist `file`, also der Dateiname. Wenn wir den Datensatz mit Voreinstellungen laden, erhalten wir folgenden Fehler:
 
-```{r Beispiel Datensatz laden, eval = FALSE, echo=-1}
+```{r, eval = FALSE, echo=-1}
 Dafür müssen die Kommentare (##) entfernt werden!
 fb25 <- read.table('fb25.csv')
 ```

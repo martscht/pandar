@@ -49,7 +49,9 @@ In dieser Sitzung wollen wir hierarchische Daten mit der Multi-Level-Regression 
 ### Daten laden
 Dazu laden wir mit `load` die Daten (bspw. auf dem Desktop von Frau "Musterfrau") _Tipp: Verwenden Sie unbedingt die automatische Vervollständigung von `R`-Studio, wie in den letzten Sitzungen beschrieben_.
 
-```{r, eval = F}
+```{r, eval = F, echo=c(-1,-2)}
+Daten laden
+Beispiel Daten lokal zu laden
 load("C:/Users/Musterfrau/Desktop/StudentsInClasses.rda")
 ```
 
@@ -68,7 +70,9 @@ Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik "Data" unse
 ### Übersicht über die Daten
 In Multilevel-Daten gibt es, wie der Name schon andeutet, mehrere Level. In unserem Datensatz gibt es zwei: Level 1 enthält die Individualdaten (within) und Level 2 enthält die clusterspezifischen Daten (between). Wir verwenden wieder `head`, um zu schauen, welche Variablen wohl auf welchem Level liegen:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Datenübersicht ----
+
 head(StudentsInClasses)
 ```
 
@@ -105,7 +109,8 @@ Wir wollen folgende Hypothesen untersuchen:
 ### Pakete laden
 Wir werden im Folgenden wieder neue `R`-Pakete benötigen. Diese müssen zunächst installiert werden (`install.packages`) und anschließend geladen werden: Das wichtigste Paket ist `lme4` (**l**inear **m**ixed **e**ffects 4, wobei wir annehmen können, dass die 4 hier für _four_ steht, was sich wie "_for **r**_" spricht), welches für die Multi-Level Analysen von Nöten ist.  `lmerTest` verwenden wir, um Modellvergleiche sinnvoll auch für Varianzen durchführen zu können. `lme4` und `lmerTest` sollten immer gemeinsam geladen werden (auch wenn in den meisten Fällen `lmerTest` erzwingt, dass `lme4` auch geladen wird), denn `lmerTest` erweitert lediglich das Paket `lme4` um einige wichtige Funktionen. `robutmeta` verwenden wir, um Daten gruppenspezifisch zu zentrieren.
 
-```{r, message=F}
+```{r, message=F, echo=-1}
+# Pakete laden
 library(lme4)       # für das Durchführen von Multi-Level Regressionen
 library(lmerTest) # lmerTest markiert in der Ausgabe signifikante Koeffizienten und korrigiert Modellvergleiche für Varianzen
 library(robumeta)   # Datensatzmanipulation
@@ -179,7 +184,9 @@ Bevor wir mit den Analysen beginnen, müssen wir prüfen, ob eine Multi-Level-An
 
 Wir nennen das Nullmodell-Objekt einfach mal `m0` (für Modell 0).
 
-```{r Nullmodell}
+```{r Nullmodell, echo=-c(1,2)}
+#### Modellspezifikation ----
+## Nullmodell
 m0 <- lmer(MatheL ~ 1 +  (1 | schulklasse), data = StudentsInClasses)
 summary(m0)
 ```
@@ -223,7 +230,8 @@ Wir wollen uns noch schnell den ICC ansehen. Entweder machen wir dies per Hand u
 
 $$ICC := \frac{\mathbb{V}ar[u_0]}{\mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon]}.$$
 
-```{r ICC}
+```{r ICC, echo=-1}
+## Intraklassenkorrelation
 # Per Hand
 23.87 / (23.87 + 123.12)
 # Mit Zugriff auf das Nullmodell-Objekt
@@ -268,7 +276,9 @@ Nun wollen wir prüfen, ob sich die Matheleistung durch die Motivation zu Lernen
 
 Bevor wir den Effekt der Motivation auf die Matheleistung untersuchen, zentrieren wir die Lernmotivation am Stichprobenmittelwert und nennen die Variable `$Motivation_c` (durch das Dollarzeichen wird sie dem Datensatz angehängt):
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Hypothese 1 ----
+
 StudentsInClasses$Motivation_c <- StudentsInClasses$Motivation - mean(StudentsInClasses$Motivation)
 round(colMeans(StudentsInClasses), 10) # Spaltenmittelwerte gerundet auf 10 Nachkommastellen
 ```
@@ -304,7 +314,8 @@ R^2_\text{pseudo:within}=\frac{\mathbb{V}ar[\varepsilon]-\mathbb{V}ar[\varepsilo
 In der Realität ist es so, dass Prädiktoren je nach Zentrierung auch within und between Variation von $Y$ erklären, da der Mittelwert eines Clusters between-Information enthält und die Abweichungen von diesem Mittelwert within-Informationen. Somit ist es so, dass ein nicht-zentrierter Prädiktor sowohl within als auch between Variation am Kriterium erklärt. Hinzu kommt dann noch die Schätzungenauigkeit.
 
 Um Pseudo-$R^2$ in `R` umzusetzen, müssen wir lediglich die Residualvarianzen der beiden Modelle abgreifen und verrechnen:
-```{r}
+```{r, echo=-1}
+# Pseudo-R^2
 VarE0 <- summary(m0)$sigma^2 # Varianz des Residuums im Nullmodell
 VarE1 <- summary(m1)$sigma^2 # Varianz des Residuums im Modell mit Motivation als Prädiktor
 
@@ -339,7 +350,8 @@ R^2_\text{pseudo:between}=\frac{\mathbb{V}ar[u_0]-\mathbb{V}ar[u_0^*]}{\mathbb{V
 </div>
 
 Wie wir die Interzeptvarianz erhalten, hatten wir uns schon angesehen, als es um den ICC ging. Folglich berechnen wir $R^2_\text{pseudo:between}$ so:
-```{r}
+```{r, echo =-1}
+# Pseudo-R^2: between
 VarU0 <- VarCorr(m0)$schulklasse[1]  # Varianz des Interzepts im Nullmodell
 VarU1 <- VarCorr(m1)$schulklasse[1]  # Varianz des Interzepts im Modell mit Motivation als Prädiktor
 
@@ -371,7 +383,8 @@ R^2_\text{pseudo:bw}&=\frac{(\mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon])-(\math
 </div>
 
 Folglich berechnen wir $R^2_\text{pseudo:bw}$ so:
-```{r}
+```{r, echo=-1}
+# Pseudo-R^2: between-within
 VarE0 <- summary(m0)$sigma^2 # Varianz des Residuums im Nullmodell
 VarE1 <- summary(m1)$sigma^2 # Varianz des Residuums im Modell mit Motivation als Prädiktor
 
@@ -390,7 +403,9 @@ Insgesamt lassen sich also `r round((1 - (VarCorr(m1)$schulklasse[1] + summary(m
 
 Um Unterschiede in der Beziehung zwischen Matheleistung und Motivation über die Klassen hinweg zu untersuchen, erweitern wir unser Modell um eine Random Slope. So lassen wir zu, dass die Beziehung zwischen der Motivation und der Matheleistung über die Klassen hinweg variiert ($\beta_{1j}=\gamma_{10} + u_{1j}$).
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Hypothese 2 ----
+
 m2 <- lmer(MatheL ~ 1 + Motivation_c + (1 + Motivation_c | schulklasse), data = StudentsInClasses)
 summary(m2)
 ```
@@ -488,7 +503,9 @@ Nun nehmen wir die Klassengröße mit in das Modell auf. *Um das Modell nicht zu
 
 Bspw. könnte angenommen werden, dass in größeren Klassen die Lehrkraft weniger Zeit pro Schüler/in aufwenden kann und somit es systematische Unterschiede zwischen Klassen mit großer und kleiner Klassengröße gibt (Hypothese 3), bzw. es mehr auf die jeweilige Motivation des Individuums ankommt (Hypothese 4). Die Klassengröße wird als fester Effekt (für eine Ebene-2-Variable ist ein Zufallseffekt auch gar nicht möglich) zusätzlich im Modell aufgenommen - mit einer L2 Variable erhofft man sich Unterschiede zwischen Clustereinheiten (hier Klassen) zu erklären (also die Interzeptvariation zu reduzieren):
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Hypothese 3 ----
+
 m3 <- lmer(MatheL ~ 1 + KlassenG + Motivation_c  + (1 | schulklasse), data=StudentsInClasses)
 summary(m3)
 ```
@@ -522,7 +539,9 @@ Wir erkennen auch, dass die Zentrierung der Klassengröße sich positiv auf die 
 
 Eine Wechselwirkung (also eigentlich ein Produkt von Prädiktoren) zwischen zwei Prädiktoren kann mit der Syntax `X1:X2` in das Modell aufgenommen werden: `Y ~ X1 + X2 + X1:X2`. Eine Kurzschreibweise hier für ist `Y ~ X1*X2`. Insbesondere für dieses Modell empfiehlt es sich, die Klassengröße zu zentrieren, da eine Klassengröße von Null wenig sinnvoll ist und Wechselwirkungen von den Mittelwerten der Variablen abhängen (das haben wir im Abschnitt zuvor schon erledigt!). Wir ergänzen das Modell `m3b`  um die Wechselwirkung zwischen (zentrierter) Klassengröße und (zentrierter) Motivation:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Hypothese 4 ----
+
 m4 <- lmer(MatheL ~ 1 + KlassenG_c + Motivation_c  + KlassenG_c:Motivation_c + (1 | schulklasse), 
            data=StudentsInClasses)
 summary(m4)
@@ -611,7 +630,9 @@ Somit entspricht ein Wert von 0 auf dieser Variable gerade einer Erhebung, die d
 ### Umsetzung in `R`: Group-Mean-Centering
 In `R` sieht das Ganze so aus:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Datenzentrierung ----
+
 # group-mean-centering:
 StudentsInClasses$Motivation_groupc <- group.center(var = StudentsInClasses$Motivation, 
                                                     grp = StudentsInClasses$schulklasse)
@@ -655,7 +676,9 @@ In [Appendix C](#AppendixC) wird eine Funktion präsentiert, mit welcher wir uns
 
 In den folgenden 2 Grafiken müssen Sie für die eigenen Analysen lediglich `m2` durch Ihr Modell austauschen und anschließend die Gruppierungsvariable (hier `schulklasse`) durch Ihre Clusterungsvariable ersetzen. Zudem sollten Sie anschließend die Grafikgrenzen bearbeiten.
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Appendix A ----
+
 # Histogramm der Klassenspezifischen Koeffizienten
 model <- m2
 beta <- coef(model)$schulklasse   # Übergeben der Koeffizienten pro Klasse (Interzept und Steigungskoeffizent)
@@ -768,7 +791,9 @@ Außerdem siehe [Eid, et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849
 
 Die angegebene Funktion kann einfache Multi-Level-Modelle plotten, in welcher es eine Variable gibt, die einen within und einen between Effekt aufweist. Somit können wir dies so interpretieren, wie eine Group-Mean-gecenterte Variable (`ggplot2` muss dafür installiert sein):
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Appendix C ----
+
 plot_within_between_effects <- function(nb = 50, nw = 50, between_effect = 1, within_effect = 1)
 {
        # Wiederholungsfunktion

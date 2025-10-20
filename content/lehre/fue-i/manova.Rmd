@@ -52,7 +52,9 @@ In dieser Sitzung wollen wir mehrere Variablen gleichzeitig hinsichtlich Gruppen
 ### Daten laden
 Wir laden zunächst die Daten: entweder lokal von Ihrem Rechner:
 
-```{r, eval = F}
+```{r, eval = F, echo=c(-1,-2)}
+Daten laden
+Beispiel Daten lokal zu laden
 load("C:/Users/Musterfrau/Desktop/Therapy.rda")
 ```
 
@@ -68,7 +70,9 @@ Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik "Data" unse
 ### Übersicht über die Daten
 Wir wollen uns einen Überblick über die Daten verschaffen:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Datenübersicht ----
+
 head(Therapy)
 levels(Therapy$Intervention)
 levels(Therapy$Geschlecht)
@@ -111,7 +115,9 @@ Wir beginnen mit dem Prüfen der Hypothesen.
 ### Hypothese 1
 Bevor wir mit der Analyse der ersten Hypothese anfangen, prüfen wir noch schnell die Annahme der Kovarianzhomogenität der Residuen. Dies geschieht mit *Box M*-Test. Dazu verwenden wir die Funktion `boxM` aus dem `heplots`-Paket. Wir müssen der `boxM` Funktion eine `formula` ähnlich der der `lm`-Funktion für die Regression übergeben. Diese hat dieses mal allerdings eine Matrix mit den AVs als Spalten, welche wir mit `cbind` erstellen. Anschließend müssen wir sagen, durch welche Gruppierung die AVs vorhergesagt werden sollen, damit intern die Residuen bestimmt werden können, bzw. sodass die Gruppierung der Kovarianzmatrix vorgenommen werden kann. Dies machen wir ganz einfach wie in anderen (generalisierten) linearen Modellen mit der `~`, die die AVs von den UVs (hier Gruppenzugehörigkeit) trennen. Als letztes Argument übergeben wir `data` noch den Datensatz.
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Hypothese 1 ----
+
 boxM(cbind(LZ, AB, Dep, AZ) ~ Intervention, data = Therapy)
 ```
 
@@ -196,7 +202,9 @@ Es scheint, dass es nicht auf allen Variablen Unterschiede zwischen allen Gruppe
 Ist der Omnibustest signifikant, so können wir weitere Post-Hoc-Analysen durchführen, mit welchen wir herausfinden können, wo die Unterschiede zwischen den Gruppen liegen und auf welchen Variablen. Wäre die MANOVA nicht signifikant, sollten auch keine weiteren Analysen durchgeführt werden!
 
 Post-Hoc ANOVA lassen sich super leicht durchführen. Dazu müssen wir lediglich die Funktion `summary.aov` auf das MANOVA-Objekt `manova1` anwenden (Das auf `M1` anzuwenden, funktioniert leider nicht...). Uns werden dann vier verschiedene Outputs von ANOVAs ausgegeben - nämlich jeweils eine für jede AV:
-```{r}
+```{r, echo=-c(1,2)}
+#### Hypothese 2 ----
+
 summary.aov(manova1) # post hoc anovas
 ```
 
@@ -349,7 +357,9 @@ Die nächste Sitzung zeigt eine [Diskriminanzanalyse](/lehre/fue-i/diskriminanza
 
 <details><summary><b>R-Code zu den Grafiken</b></summary>
 
-```{r, echo = T}
+```{r, echo = -2}
+#### Appendix A ----
+
 library(ggplot2)
 Therapy_long <- reshape(data = Therapy, varying = names(Therapy)[1:4],idvar = names(Therapy)[5:6],
          direction = "long", v.names = "AVs", timevar = "Variable", new.row.names = 1:360)
@@ -410,7 +420,9 @@ Es müssten zunächst weitere Annahmen an die Daten gestellt werden, die wir hie
 
 Um eine repeated-measures MANOVA durchzuführen, müssen wir die Daten zunächst in das richtige Format bringen. Die Daten liegen gerade im Longformat vor. Wir brauchen sie allerdings im Wideformat. Die Transformation nimmt uns reshape ab:
 
-```{r, results = "hide"}
+```{r, results = "hide", echo=-c(1,2)}
+#### Appendix B ----
+
 Therapy_repeated_wide <- reshape(data = Therapy_repeated, direction = "wide", 
                                 v.names = c("LZ", "AB", "Dep", "AZ"), 
                                 timevar = "day", 
