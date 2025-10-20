@@ -50,7 +50,9 @@ In dieser Sitzung wollen wir uns die Hauptkomponentenanalyse  (im Folgenden PCA,
 ### Daten und Pakete laden
 Diesmal liegen die Daten nicht als `.rda` File, sondern als `.RData` File vor. Dieses Datenformat ist identisch zu .rda, denn .rda ist einfach eine Kurzschreibweise für .RData (es ist nur wichtig zu wissen, dass es sein kann, dass Ihnen auch dieses Datenformat unterkommt!). Wir laden es deshalb ganz einfach mit `load` ein (falls die Daten auf dem Desktop von Frau Musterfrau liegen).
 
-```{r, eval = F}
+```{r, eval = F, echo=c(-1,-2)}
+Daten laden
+Beispiel Daten lokal zu laden
 load("C:/Users/Musterfrau/Desktop/PCA.RData")
 ```
 
@@ -71,7 +73,8 @@ library(corrplot)  # Korrelationsmatrixgrafiken
 ### Überblick über die Daten und einfache Deskriptivstatistiken
 
 Wir verschaffen uns einen Überblick, indem wir `head` auf die Datensätze `data` und `dataUV` anwenden.
-```{r}
+```{r, echo=-1}
+# Überblick über die Daten und Deskriptivstatistik
 head(data)
 head(dataUV)
 ```
@@ -95,7 +98,9 @@ Wir erkennen, dass alle Mittelwerte der Variablen bei 0 liegen und die Standarda
 ## Berechnen der Korrelationsmatrix
 
 Wir wollen uns die Korrelationsmatrix der UVs genauer ansehen. Dazu können wir einfach die Funktion `cor` auf `dataUV` anwenden. Da die Daten standardisiert sind, vergleichen wir das Ergebnis direkt mit dem der Kovarianzmatrix.
-```{r}
+```{r, echo=-c(1,2)}
+#### Berechnen der Korrelationsmatrix ----
+
 cor(dataUV) # Korrelationsmatrix
 cov(dataUV) # Kovarianzmatrix
 ```
@@ -204,7 +209,9 @@ Für eine PCA kann sowohl die Korrelation zwischen den Variablen (also die Korre
 
 Eine PCA durchzuführen, geht sehr einfach. Wir schauen uns dies im Abschnitt **PCA zu Fuß** in [Appendix B](#AppendixB) auch noch einmal mit den Basisfunktionen in `R` an. Jetzt verwenden wir aber die Funktion `pca` aus den `psych` Paket. Ihr müssen wir die Korrelationsmatrix als erstes Argument übergeben `r`, danach spezifizieren wir, wie viele Komponenten extrahiert werden sollen: `nfactors`. Da wir uns noch nicht entschieden haben, wie viele Komponenten wir extrahieren wollen, geben wir die gesamte Anzahl an Variablen an. Zuletzt spezifizieren wir, dass wir keine Rotation durchführen möchten: `rotate = "none"`. Um das Objekt ggf. später weiter zu verwenden, ordnen wir es `PCA1` zu, für die erste PCA, die wir in dieser Sitzung durchführen.
 
-```{r}
+```{r, echo=-c(1,2)}
+## PCA ----
+
 PCA1 <- pca(r = R_UV, nfactors = 6, rotate = "none")
 PCA1
 ```
@@ -322,7 +329,9 @@ Die alles entscheidende Frage ist nun: _Wie viele Komponenten extrahieren wir, u
 
 Wir können alle drei/vier Methoden in einer Funktion untersuchen, welche `fa.parallel` heißt. Diese führt eigentlich eine Parallelanalyse für Faktorenanalysen (FA) durch und plotten dann die Eigenwertverläufe in einer Grafik. Wenn wir allerdings das Zusatzargument `fa = "pc"` wählen, so wird das ganze für eine PCA gemacht. Wir müssen der Funktion lediglich die Daten übergeben (damit geresampled werden kann!). Zum Schluss malen wir noch eine horizontale Linie bei der Eigenwertsgröße von 1 hinzu, um das Eigenwerte-größer-1 Kriterium leichter prüfen zu können (`abline(h = 1) `).
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Bestimmung der Komponentenzahl ----
+
 fa.parallel(dataUV, fa = "pc", error.bars = T)
 # Eigenwerte größer 1?
 abline(h = 1)
@@ -344,7 +353,9 @@ Ein Knick im Eigenwerteverlauf ist nicht gut zu erkennen. Man könnte sich einen
 
 Um nur zwei Hauptkomponenten zu extrahieren, müssen wir lediglich in der Funktion `pca` das Argument `nfactors` ändern.
 
-```{r}
+```{r, echo=-c(1,2)}
+#### PCA mit 2 Hauptkomponenten ----
+
 PCA2 <- pca(r = R_UV, nfactors = 2, rotate = "none")
 PCA2
 ```
@@ -372,7 +383,9 @@ Auf der x-Achse werden die Ladungen auf der 1. Hauptkomponente abgetragen, währ
 ## PCA mit zwei 2 Hauptkomponenten mit Varimax-Rotation ##
 Eine Varimax (**Var**ianz **max**imierende) Rotation (für mehr Informationen zur Rotation siehe siehe bspw. [Siehe Eid et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) Kapitel 25.3.3 oder [Brandt, 2020](https://ubffm.hds.hebis.de/Record/HEB468515836), Kapitel 23.5) führen wir durch, indem wir `rotate = "varimax"` spezifizieren (weitere Möglichkeiten wären bspw. "quartimax" oder "bifactor" als orthogonale Roationen und "promax", "oblimin" oder "simplimax" als Beispiele für oblique Rotationen, über welche Sie sich mit der Hilfe näher vertraut machen können).
 
-```{r}
+```{r, echo=-c(1,2)}
+#### PCA mit 2 Hauptkomponenten mit Varimax-Rotation ----
+
 PCA3 <- pca(r = R_UV, nfactors = 2, rotate = "varimax")
 PCA3
 ```
@@ -419,7 +432,9 @@ Dieser Grafik ist zu entnehmen, dass de facto alle Punkte um ca 50° (so genau m
 ## Bilden der Hauptkomponenten als neue Variablen
 Dazu bilden wir die individuellen Werte der Hauptkomponenten (über ein Matrixprodukt) als gewichtete Linearkombinationen von `x1-x6`. Zuvor hatten wir geschrieben, dass $\mathbf{H}=\Gamma \mathbf{Z}$ gilt. Da die Daten jeweils in transponierter Form vorliegen, berechnen wir die Hauptkomponenten wie folgt:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Bilden der Hauptkomponenten als neue Variablen ----
+
 PCs <- as.matrix(dataUV) %*% PCA3$weights
 ```
 
@@ -493,7 +508,9 @@ In [Appendix C](#AppendixC) sehen Sie eine bildliche Veranschaulichung der PCA, 
 
 <details><summary> <b> Grafische Veranschaulichung </b> </summary>
 
-```{r echo=T, message=FALSE, warning=FALSE}
+```{r echo=-c(1,2), message=FALSE, warning=FALSE}
+#### Appendix A ----
+
 corrplot(R_UV, method = "color",tl.col = "black", addCoef.col = "black",
          col=colorRampPalette(c("red","white","blue"))(100))
 ```
@@ -537,7 +554,9 @@ $$A\boldsymbol{x}=\theta\boldsymbol{x}$$
 
 $\theta$ ist ein Eigenwert von $A$ und $\boldsymbol{x}$ ist der zugehörige Eigenvektor von $A$ (wobei in Eid, et al. $\boldsymbol{\delta}$ anstelle von $\theta$ verwendet wird). Es existieren jeweils genau p Eigenwerte (die nicht alle verschieden sein müssen) und p Eigenvektoren. Das Verfahren, welches angewandt wird, um Eigenvektoren und -werte zu finden, heißt Lösen des Eigenwerteproblems oder Eigenwertedekomposition. Die Funktion `eigen` führt diese leicht für uns durch. Wir müssen sie lediglich auf eine Korrelationsmatrix (oder Kovarianzmatrix) anwenden:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Appendix B ----
+
 eigen(cor(dataUV))
 ```
 
@@ -567,7 +586,9 @@ Wir sehen, dass bis auf das Vorzeichen die Ladungsmatrizen komplett identisch si
 
 Wir berechnen für eine neue Variable `X` als Mittelwert von `x1` bis `x6`  und bestimmen die 7x7-Korrelationsmatrix für `x1-x6` und `X`. Es gibt in dieser Matrix keine perfekten Korrelationen, trotzdem lässt sich `X` vollständig aus den anderen Spalten vorhersagen.
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Exkurs ----
+
 dataUV$X <- rowMeans(dataUV)
 R2 <- cor(dataUV)
 round(R2,2)
@@ -591,7 +612,9 @@ Dies bedeutet, dass sehr kleine Eigenwerte auch für komplette lineare Abhängig
 <details><summary> <b> PCArt </b> </summary>
 
 [Prof. Dr. Martin Schultze](/authors/schultze) hat ein kleines `R` Paket geschrieben, welches die PCA verbildlicht: Von bekannten Gemälden wird die Information, welche in jedem Pixel steckt, durch eine Hauptkomponentenanalyse zerlegt und das Gemälde anschließend nur durch eine Auswahl an Komponenten dargestellt. Sie können dieses Paket installieren, indem Sie zunächst `devtools` installieren und dann direkt vom <i class="fa-brands fa-github"></i> Github Repository installieren:
-```{r, eval = F}
+```{r, eval = F, echo=-c(1,2)}
+#### Appendix C ----
+
 install.packages("devtools")
 devtools::install_github("https://github.com/martscht/PCArt")
 ```

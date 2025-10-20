@@ -125,7 +125,9 @@ Wie oben bereits vorgestellt, geht es uns in diesem Abschnitt darum, dass wir un
 
 Die Gruppierungsvariable in unserer Fragestellung muss für die Nutzung der Funktionen in `R` als Faktor vorliegen. Bei uns soll es um das Interesse am Fach klinischer Psychologie gehen (ja vs. nein). Die entsprechende (nominalskalierte) Variable liegt noch nicht im Datensatz vor, kann aber einfach erstellt werden, indem die nichtklinischen Interessen in eine Kategorie zusammengefasst werden. Dies erfolgt per logischer Abfrage (`fb24$fach == "Klinische"`) und anschließender Transformation des Ergebnisses in eine Faktorvariable:
 
-```{r Vorbereitung}
+```{r, echo=-c(1,2)}
+## Vorbereitung 
+
 fb24$fach_klin <- factor(as.numeric(fb24$fach == "Klinische"),
                          levels = 0:1,
                          labels = c("nicht klinisch", "klinisch"))
@@ -151,7 +153,9 @@ Der Faktor hat also `r nlevels(fb24$fach_klin)` Stufen.
 
 Im ersten Schritt wollen wir uns die Daten deskriptiv anschauen. Dazu können wir die Daten entweder visuell oder durch statistische Kennwerte aufbereiten. Wir werfen zunächst vorbereitend einen tabellarischen Blick auf die Variable klinisches Interesse:
 
-```{r Deskriptivstatistik}
+```{r, echo=-c(1,2)}
+## Deskriptivstatistik
+
 table(fb24$fach_klin)
 ```
 Mithilfe eines Boxplots, bzw. mithilfe von Histogrammen, lassen sich Unterschiede zwischen Gruppen gut untersuchen. Wir verwenden hier einige Zusatzeinstellungen, um die Grafiken übersichtlicher und auch ein wenig ansprechender zu gestalten.
@@ -221,7 +225,9 @@ Um die Verteilung optisch zu prüfen, haben wir zwei Möglichkeiten:
 
 Für den QQ-Plot gibt es in der Basis-Funktionalität von `R` zwar einen integrierten Befehl (`qqnorm()`), aber die Funktion `qqPlot()` aus dem Paket `car` liefert uns noch einige bequeme Zusatzinformationen. Wie immer muss das Paket vorher installiert werden (`install.packages("car")`).
 
-```{r Voraussetzungsprüfung, fig.height=4, fig.align="center"}
+```{r, fig.height=4, fig.align="center", echo=-c(1,2)}
+## Voraussetzungsprüfung
+
 library(car)
 
 # Gruppe 1 (nichtKlinisch) 
@@ -312,7 +318,9 @@ Wie so häufig gehen wir von einem $\alpha$-Fehlerniveau von 5% aus.
 
 Wir hatten im Rahmen des Einstichproben-*t*-Tests bereits die Funktion `t.test()` kennengelernt. Diese nutzen wir wieder. Wir übergeben dieser wieder die Formel, die wir bereits im Boxplot und im Levene-Test verwendet haben. Außerdem wählen wir einige Zusatzargumente, die dann zum Zweistichproben-*t*-Test für unabhängige Stichproben führen:
 
-```{r t-Test}
+```{r, echo=-c(1,2)}
+## t-Test
+
 t.test(fb24$lz ~ fb24$fach_klin,     # abhängige Variable ~ unabhängige Variable
       #paired = FALSE,                  # Stichproben sind unabhängig (Default) 
       alternative = "two.sided",        # zweiseitige Testung (Default)
@@ -359,7 +367,9 @@ Cohen (1988) hat folgende Konventionen zur Beurteilung der Effektstärke $d$ vor
 
 Wir führen die Berechnung von Cohen's $d$ zunächst von Hand durch. Dafür speichern wir uns die nötigen Größen ab und wenden dann die präsentierte Formel an:
 
-```{r Effektstärke}
+```{r, echo=-c(1,2)}
+## Effektstärke
+
 lz_nichtKlinisch <- fb24[(fb24$fach_klin=="nicht klinisch"), "lz"]
 mw_nichtKlinisch <- mean(lz_nichtKlinisch, na.rm=T)
 n_nichtKlinisch <- sum(!is.na(lz_nichtKlinisch))
@@ -408,7 +418,9 @@ Wir widmen uns nun der 2. Fragestellung. Dazu prüfen wir, ob klinisch interessi
 
 Wir beginnen damit uns, wie oben, erst einmal grafisch anzusehen, wie die Lebenszufriedenheit `lz` in beiden Gruppen aussieht. Dafür beginnen wir dieses mal mit einem Boxplot:
 
-```{r Deskriptivstatistik-Median}
+```{r, echo=-c(1,2)}
+## Deskriptivstatistik über Median
+
 # Gruppierter Boxplot:
 boxplot(fb24$gs_pre ~ fb24$fach_klin, 
         xlab="Interesse", ylab="Gute Stimmung", 
@@ -437,7 +449,9 @@ Stetige Variablen haben theoretisch unendlich viele mögliche Ausprägungen. Dab
 
 Um die Verteilung in beiden Gruppen zu untersuchen, gucken wir uns wieder die Histogramme und die QQ-Plots an:
 
-```{r Voraussetzungsprüfung-Median, fig.height=4, fig.align="center"}
+```{r fig.height=4, fig.align="center", echo=-c(1,2)}
+## Voraussetzungsprüfung Median
+
 # Gruppe 1 (nicht klinisch) 
 par(mfrow=c(1,2))
 gs_nichtKlinisch <- fb24[(fb24$fach_klin=="nicht klinisch"), "gs_pre"]
@@ -488,7 +502,9 @@ Wie so häufig, nehmen wir auch hier ein $\alpha$-Fehlerniveau von 5% an.
 
 Die Funktion `wilcox.test()` nimmt im Grunde die gleichen Argumente entgegen wie die Funktion `t.test()`. Damit wir die gerichtete Hypothese in die richtige Richtung aufstellen können, müssen wir wissen, welches das erste Level des Faktors ist:
 
-```{r Wilcoxon}
+```{r, echo=-c(1,2)}
+# Wilcoxon
+
 levels(fb24$fach_klin) # wichtig zu wissen: die erste der beiden Faktorstufen ist "nicht klinisch" 
 ```
 
@@ -536,7 +552,9 @@ Zusätzlich zur Gruppenvariable ist in diesem Beispiel auch die abhängige Varia
 
 Zunächst müssen wir den `ort` und den `job` als Faktor abspeichern und entsprechende Labels vergeben. Damit wir hier keine Probleme bekommen, müssen wir zunächst prüfen, ob die Variablen ein `factor` sind:
 
-```{r Appendix}
+```{r, echo=-c(1,2)}
+## Appendix
+
 is.factor(fb24$ort)
 is.factor(fb24$job)
 ```
@@ -588,7 +606,9 @@ $$e_{ij} = \frac{n_{i\bullet} \cdot n_{\bullet j}}{n}$$
 
 $n_{i\bullet}$ und $n_{\bullet j}$ lassen sich über die Randsummen bestimmen (sie symbolisieren eigentlich: $n_{i\bullet}=n\hat{\pi}_{i\bullet}$, mit $n$ als Stichprobengröße). Diese hängen wir unseren Daten an. Anschließend erstellen wir einen neuen Datensatz und fügen alle erwarteten Häufigkeiten dort ein.
 
-```{r Chi-Quadrat}
+```{r, echo=-c(1,2)}
+## Chi-Quadrat
+
 tab_mar <- addmargins(tab) # Randsummen zu Tabelle hinzufügen
 tab_mar
 

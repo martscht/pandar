@@ -60,7 +60,9 @@ Eine solche Praxis finden wir im Artikel von [Thatcher, Wallace & Fido (2023)](h
 
 Die Autor*innen der Studie haben sowohl die Rohdaten, als auch einige SPSS-Outputs und die genutzten Fragebögen in einem Repository im [OSF zur Verfügung](https://osf.io/xkcah/) gestellt. Darüber hinaus: falls Sie keinen Zugriff auf den veröffentlichten Artikel haben sollten, finden Sie auf [PsyArXiv den Preprint der Studie](https://psyarxiv.com/a83pg/). Weil der Originaldatensatz nur SPSS-Format vorliegt und insgesamt 212 Variablen umfasst, habe ich die Datenaufbereitung schon einmal erledigt und Sie können die reduzierte Fassung in R einlesen, indem Sie folgendes Skript ausführen:
 
-```{r}
+```{r, echo=-c(1,2)}
+## Daten laden
+
 source('https://pandar.netlify.app/daten/Data_Processing_coercion.R')
 ```
 
@@ -90,7 +92,9 @@ Variable | Beschreibung | Ausprägungen
 
 Bevor wir uns mit der moderierten Regression befassen, sollten wir zunächst sicherstellen, dass die Daten, die uns vorliegen, die gleichen sind, die auch tatsächlich im Artikel von [Thatcher et al. (2023)](https://doi.org/10.1177/10790632231205799) genutzt wurden. Zum Glück, werden im Artikel auf S. 10, Tabelle 1, einige Deskriptivstatistiken berichtet, die wir mit unseren Daten vergleichen können. Auch wenn uns in diesem Fall eigentlich nur Mittelwerte und Standardabweichungen interessieren, empfehle ich eine etwas vollständigere Deskriptivstatistik aus dem `psych`-Paket anzufordern. Zunächst können wir die Daten aber auf die relevanten Variablen einschränken, damit der Abgleich etwas leichter fällt:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Deskriptivstatistik ----
+
 # Paket für Deskriptivstatistik laden
 library(psych)
 
@@ -145,7 +149,9 @@ $$y_i = b_0 +b_{1}x_{i1} + ... +b_{m}x_{im} + e_i$$
 
 Gucken wir uns das Ganze mal an den Daten aus der Studie an. Dort werden als erstes die Ergebnisse des Modells berichtet, in dem sexueller Antrieb (`drive`) und Faktor 1 der Psychopathie (`f1`) - welcher vor allem Defizite in der Empathie und manipulatives Verhalten abbildet - als Prädiktoren für die Neigung zur sexuellen Nötigung betrachtet werden. In der R können wir diese multiple Regression mit der Funktion `lm()` durchführen:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Umsetzung und Interpretation ----
+
 # Multiple Regression
 mod0m <- lm(coerce ~ drive + f1, data = males)
 mod0f <- lm(coerce ~ drive + f1, data = females)
@@ -231,7 +237,9 @@ Einige Absätze weiter oben habe ich noch gesagt, dass es in der Regression nebe
 
 Gucken wir uns mal mithilfe des Varianzinflationsfaktors ($VIF$) die Multikollinearität in der Regression von vorhin an:
 
-```{r}
+```{r, , echo=-c(1,2)}
+#### Zentrierung ----
+
 # Paket laden
 library(car)
 
@@ -280,7 +288,9 @@ Was ich Ihnen damit zeigen wollte: _zentrieren Sie immer die Prädiktoren in mod
 
 Kommen wir endlich zur Untersuchung der Hypothesen. Im Artikel von [Thatcher et al. (2023)](https://doi.org/10.1177/10790632231205799) sind in Tabelle 3 die Ergebnisse bezüglich der Moderation von F1 Psychopathie auf den Einfluss des sexuellen Antriebs dargestellt. Unser letztes Modell sollte diesen Ergebnissen eigentlich entsprechen:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Ergebnisse der moderierten Regression ----
+
 # Ergebnisse für Probanden
 summary(mod1m_c)
 ```
@@ -334,7 +344,9 @@ Wie Ihnen hoffentlich nicht entgangen ist, sind die Ergebnisse, die wir gerade p
 
 Wie ich vorhin beschrieben hatte, beziehen sich die Voraussetzungen der Normalverteiung und der Homoskedastizität auf die Residuen. Beides können wir mit Hilfe des `car` Pakets etwas genauer untersuchen. Fangen wir mit der Normalverteilung an:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Umgang mit Voraussetzungsverletzungen
+
 # car-Paket laden
 library(car)
 
@@ -360,7 +372,8 @@ Hier, wie immer bei Voraussetzungstests, gilt: wenn das Ergebnis statistisch bed
 
 Für den Umgang mit heteroskedastischen Fehlern gibt es im Wesentlichen zwei verbreitete Ansätze. Wie schon bei der Normalverteilungsvoraussetzung gilt auch bei Heteroskedastizität, dass die Regressionsgewichte korrekt geschätzt werden (daher haben wir auch die gleichen Gewichte erhalten wie [Thatcher et al. (2023)](https://doi.org/10.1177/10790632231205799)) und lediglich die Standardfehler verzerrt sind. Korrekte Standardfehler lassen sich entweder (1) via Bootstrap oder (2) mit robusten Schätzern erzeugen. Robuste Schätzer für solche Zwecke werden _sandwich_-Schätzer genannt. Unter der beinahe unendlichen Menge möglicher robuster Schätzer, hat sich für Fälle der heteroskedastischen Residuen in der Regression der HC3 Schätzer durchgesetzt. Diesen können wir mit den beiden Paketen `sandwich` und `lmtest` umsetzen:
 
-```{r}
+```{r, echo=-1}
+## Umgang mit heteroskedastischen Fehlern
 # Paket laden
 library(sandwich)
 library(lmtest)

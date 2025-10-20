@@ -142,7 +142,9 @@ Außerdem sollten wir eine Irrtumswahrscheinlichkeit $\alpha$ festlegen, die wir
   
 Nach diesen Festlegungen wird bei inferenzstatistischen Testungen häufig eine deskriptive Betrachtung im Rahmen der Hypothesen vollzogen. Für den vorliegenden Test würde es hier Sinn machen, dass der Mittelwert unserer Stichprobe auf der Variable Nerdiness `nerd` bestimmt wird. Den Code dafür haben wir bereits kennengelernt. Um vor der Durchführung zu testen, ob es auf der Variable fehlende Werte gibt, die die Berechnung beeinflussen würden, können wir die Funktion `anyNA()` verwenden.
 
-```{r Deskriptive Betrachtung}
+```{r, echo=-c(1,2)}
+## Deskriptive Begutachtung
+
 anyNA(fb24$nerd)
 ```
 
@@ -204,7 +206,9 @@ $$\sigma_{\bar{x}} = {\frac{{\sigma}}{\sqrt{n}}}$$
   
 Wie bereits besprochen wird der Standardfehler des Mittelwerts (also die Streuung der SKV) kleiner, wenn wir mehr Personen untersuchen und größer, wenn die Varianz in der Population größer ist. Zunächst legen wir alle für den z-Wert relevanten Informationen in unser Environment ab, die wir entweder per Hand eingeben müssen (Populationsinformationen) oder mit einer einfachen Funktion bestimmen können.
 
-```{r z-Test}
+```{r, echo=-c(1,2)}
+## z-Test
+
 pop_mean_nerd <- 2.5                 # Mittelwert Grundgesamtheit
 pop_sd_nerd <- 3.1                   # SD der Grundgesamtheit
 sample_mean_nerd <- 
@@ -347,7 +351,9 @@ Um eine weitere Modifikation unseres Vorgehens im Vergleich zum letzten Test zu 
 
 Bevor wir in die inferenzstatistische Analyse einsteigen, ist es immer gut, sich einen Überblick über die deskriptiven Werte zu verschaffen. Wir können nun natürlich einfach die bereits gelernten Funktionen zu Mittelwert, Varianz, Minimum, etc. nutzen. Doch gibt es einen schnelleren Weg? Die Basisinstallation von `R` bietet uns keine Alternative. Jedoch gibt es zusätzliche *Pakete*, die den Pool an möglichen Funktionen erweitern. Diese Pakete müssen zusätzlich installiert und für die Verwendung mit dem Befehl `library()` aufgerufen werden, diese Logik wird in [der Ergänzung unten](#Pakete) genauer erläutert. Wir verwenden für eine Übersicht über deskriptive Maße der Variable `neuro` die Funktion `describe()` aus dem Paket `psych` (Revelle, 2024). Hierfür muss einmal die Installation durchgeführt werden.
 
-```{r t-Test}
+```{r, echo=-c(1,2)}
+## t-Test
+
 if (!requireNamespace("psych", quietly = TRUE)) {
   install.packages("psych")
 }
@@ -507,7 +513,9 @@ Betrachten wir zunächst die Formel für die Berechnung beim Einstichproben-z-Te
 $$d = |\frac{\bar{x} - {\mu}}{\sigma}|$$
 Die Umsetzung in R ist aufgrund der einfachen Formel auch recht schnell. In unserem Einstichproben-z-Test haben wir die Nerdiness Werte aus unserer Stichprobe analysiert. Die funktion `abs()` bestimmt den Betrag einer Zahl und wird daher hier verwendet.
 
-```{r Effektgröße}
+```{r, echo=-c(1,2)}
+## Effektgröße
+
 dz <- abs((sample_mean_nerd - pop_mean_nerd)/ pop_sd_nerd) 
 dz
 ```

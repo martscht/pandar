@@ -139,7 +139,9 @@ results_10
 
 Zur Veranschaulichung der Ergebnisse können Sie das bereits besprochene Histogramm nutzen, das Häufigkeiten abbildet. Mit `xlim` legen wir in diesem Fall die Grenzen der möglichen Ereignisse fest, auch wenn diese noch nicht aufgetreten sind. `breaks` sind die Übergänge zwischen den Balken. Um die Balken jeweils über der ganzen Zahl (also den möglichen Ereignissen von 2 bis 12) zu haben, setzen wir die Punkte auf 1.5, 2.5, 3.5 und so weiter bis 12.5. Dies wird durch den Doppelpunkt erreicht, der so oft auf den Wert der unteren Grenze eins addiert, bis er bei der oberen angekommen ist. 
 
-```{r Häufigkeitsverteilung}
+```{r, echo=-c(1,2)}
+## Häufigkeitsverteilung
+
 hist(results_10,xlim = c(1.5,12.5), breaks = c(1.5:12.5))
 ```
 
@@ -182,7 +184,9 @@ Kommen wir nun von der Abbildung empirischer Häufigkeiten zu einer Wahrscheinli
   
 Für den Binomialkoeffizienten hat R einen eigenen Eingabebefehl `choose()` mit den Argumenten `n` und `k`. Wenn wir nun also berechnen wollen wie wahrscheinlich es ist, dass bei 100-maligem Drehen 20 mal grün erscheint, kann man dies folgendermaßen machen.  
 
-```{r Binomialverteilung}
+```{r, echo=-c(1,2)}
+## Binomialverteilung
+
 choose(n = 100, k = 20) * 0.2^20 * 0.8^80
 ```
 
@@ -319,7 +323,9 @@ curve(expr = dnorm(x, mean = 100, sd = 15),
 
 Für die IQ-Verteilung der Population wird angenommen, dass diese den Mittelwert von 100 hat und eine Standardabweichung von 15. Die bewährten Tests werden dahingehend genormt. Wenn wir nun den Wert auf der x-Achse aus der Dichtefunktion eines Probanden erfahren wollen (IQ = 114.3), können wir diesen mit der `dnorm()` Funktion berechnen. Benötigt werden neben dem x-Wert (in diesem Fall der IQ-Wert) noch der Mittelwert `mean` und die Standardabweichung `sd` der zugrundeliegenden Verteilung.
 
-```{r Stetige Zufallsvariablen}
+```{r, echo=-c(1,2)}
+## Stetige Zufallsvariablen
+
 dnorm(x = 114.3, mean = 100, sd = 15) 
 ```
 

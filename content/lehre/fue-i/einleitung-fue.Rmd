@@ -65,7 +65,8 @@ Bei Dateipfaden ist darauf zu achten, dass bei  Linux {{< icon name="linux" pack
 
 Genauso sind Sie in der Lage, den Datensatz direkt aus dem Internet zu laden. Hierzu brauchen Sie nur die URL und müssen `R` sagen, dass es sich bei dieser um eine URL handelt, indem Sie die Funktion `url` auf den Link anwenden. Der funktionierende Befehl sieht so aus (wobei die URL in Anführungszeichen geschrieben werden muss):
 
-```{r}
+```{r, echo=-1}
+## Daten laden
 load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
 ```
 
@@ -74,7 +75,9 @@ An diesem Link erkennen wir, dass Websiten im Grunde auch nur schön dargestellt
 ### Ein Überblick über die Daten
 Wir können uns die ersten (6) Zeilen des Datensatzes mit der Funktion `head` ansehen. Dazu müssen wir diese Funktion auf den Datensatz (das Objekt) `Schulleistungen` anwenden:
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Datenüberblick ----
+
 head(Schulleistungen)
 ```
 
@@ -107,7 +110,9 @@ _**Tipp:** In `R`-Studio können Sie sich Ihren Umgang mit der Software in viele
 ### Einfache Deskriptivstatistiken
 Bevor wir jetzt direkt zu komplexeren Analysen springen, wollen wir uns noch schnell mit dem Bestimmen einfacher deskriptivstatistischer Größen vertraut machen. Mit der Funktion `sum` können wir die Summe und mit `mean` können wir den Mittelwert einer Variable bestimmen. Eine Schätzung für die Populationsvarianz erhalten wir mit `var`. Die zugehörige Populationsschätzung für die Standardabweichung, Sie vermuten es vielleicht, erhalten wir mit `sd`. _Es handelt sich hierbei um Populations- und nicht um Stichprobenschätzungen, da in diesen Funktionen der Vorfaktor $\frac{1}{n-1}$ genutzt wird, um einen unverzerrten Schätzer für eben die Variation in der Population zu erhalten (für mehr Informationen siehe bspw. [Eid, Gollwitzer und Schmitt, 2017](https://ubffm.hds.hebis.de/Record/HEB366849158), S. 162-163 in Kapitel 6.4.4 und S. 246-247 in Kapitel 8.5.1 oder [Agresti, & Finlay, 2013](https://ubffm.hds.hebis.de/Record/HEB369761391), Kapitel 3.2 und folgend)._
 
-```{r}
+```{r, echo=-c(1,2)}
+#### Deskriptivstatistik ----
+
 # Summe
 sum(Schulleistungen$IQ)
 
@@ -153,7 +158,9 @@ Diese Hypothese gilt nicht, wenn $\mu_1\neq\mu_2$. In diesem Fall gilt irgendein
 ### Simulieren von Daten
 Wir können in `R` auch Daten simulieren. Bspw. erzeugt der Befehl `rnorm` normalverteilte Zufallsvariablen. Für weitere Informationen siehe bspw. [{{< icon name="graduation-cap" pack="fas" >}} `R`-Verteilungen auf Wiki](https://en.wikibooks.org/wiki/R_Programming/Probability_Distributions). Wir müssen  diesem Befehl lediglich übergeben wie viele Replikationen wir wünschen und welchen Mittelwert und Standardabweichung die Zufallsvariablen haben sollen. Wir simulieren die Standardnormalverteilung $\mathcal{N}(0,1)$ und legen die generierte (realisierte) Zufallsvariable in einem Objekt mit dem Namen `X` ab, um später gezeigte Informationen wie den Mittelwert oder die Standardabweichung abrufen zu können - dies machen wir mit dem "Zuordnungspfeil" `<-` (zur Erinnerung: links davon steht der Name, den wir uns ausdenken; hier: `X`; rechts steht das zugeordnete Objekt). Um zufällige Prozesse über verschiedene Zeitpunkte hinweg konstant zu halten (damit es replizierbar ist und Sie dasselbe Ergebnis bekommen), wird zunächst ein Startpunkt für den Zufallsprozess mittels `set.seed` gesetzt. `set.seed` nimmt irgendeine ganzzahlige, positive Zahl entgegen.
 
-```{r}
+```{r, echo=-c(1,2)}
+#### t-Test ----
+## Datensimulation
 set.seed(1234567) # für Replizierbarkeit (bei gleicher R Version, kommen Sie mit diesem Seed zum selben Ergebnis!)
 X <- rnorm(n = 1000, mean = 0, sd = 1) # Standardnormalverteilung mit n = 1000
 hist(X, breaks = 50) # breaks gibt die Anzahl der Balken vor
@@ -181,6 +188,7 @@ ttest
 Der Output enthält folgende Informationen:
 
 ```{r, echo = F}
+# Output
 cat('
 Two Sample t-test
 ')
@@ -205,7 +213,8 @@ zeigt uns die Alternativhypothese ($H_1:d\neq0$), das Konfidenzintervall der Mit
 
 Wir können den Test auch als `R` Objekt abspeichern und ähnlich wie den Datensätzen anschließend diese Informationen entlocken. Dazu müssen wir das ausgegebene Objekt `t.test` lediglich einem Namen zuordnen und anschließend mit `$` ansprechen. Wieso nennen wir das Objekt nicht einfach `ttest`. Wenn wir `names` darauf anwenden, sehen wir alle Namen, die wir hinter `$` schreiben können:
 
-```{r}
+```{r, echo=-1}
+# Abspeichern des Tests als R-Objekt
 ttest <- t.test(X, Y, var.equal = T)
 names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken können
 ttest$statistic # (empirischer) t-Wert
@@ -218,6 +227,7 @@ Da die Null-Hypothese nicht verworfen wird, bedeutet dies, dass wir weiterhin an
 Wenn wir dieses Experiment nun ganz häufig wiederholen, dann sollte die Teststatistik $T=\frac{\bar{X}-\bar{Y}}{\sigma_p}$ (wobei $\bar{X}$ und $\bar{Y}$ die Mittelwerte von $X$ und $Y$ sind und $\sigma_p$ die gepoolte Standardabweichung beschreibt) der $t$-Verteilung folgen, welcher wir dann den $p$-Wert ablesen können. Das ist nämlich genau die Idee hinter dem inferenzstatistischen Testen. Hierbei entspricht die Teststatistik dem empirischen $t$-Wert. Die Bezeichnung kann also austauschbar verwendet werden! Wenn Sie sich für den dahinterliegenden Code interessieren, so können Sie diesen im [Appendix A](#AppendixA) nachlesen.
 
 ```{r, echo = F}
+# Code der Histogramme der Verteilungen unter H0
 ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
 for(i in 1:10000)
 {
@@ -244,6 +254,7 @@ Die beiden Histogramme zeigen die empirische Verteilung der $t$- und $p$-Werte u
 Angenommen die $H_0$-Hypothese gilt nicht und es liegt tatsächlich eine Mittelwertsdifferenz von bspw. $d=0.1$ ($H_1: \mu_1 - \mu_2 = 0.1$) vor, dann hat dies folgende Auswirkungen auf die Verteilung der Teststatistik und die zugehörigen $p$-Werte:
 
 ```{r, echo = F}
+# Code der Histogramme der Verteilungen unter H1
 ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
 for(i in 1:10000)
 {
@@ -265,6 +276,7 @@ abline(a = 1, b = 0, lwd = 3)
 Wir sehen sehr deutlich, dass die Teststatistik $T$ deutlich nach rechts verschoben ist und nicht mehr zur theoretischen Verteilung unter der $H_0$-Hypothese passt. Auch die $p$-Werte sind alles andere als gleichverteilt. Folglich sprechen extreme $t$-Werte gegen die Null-Hypothese, weswegen wir diese verwerfen, wenn wir einen extremen Wert beobachten. Hier liegen `r round(mean(ps < 0.05)*100,2)`% der $p$-Werte unterhalb von $0.05$. Dies wird auch als **Power** (siehe im Kapitel 8 in [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158) Wiederholungen der Begriffe Power und $\alpha$-Fehler) bezeichnet. Somit hat der $t$-Test für eine Mittelwertsdifferenz von $d$=.1 und eine Stichprobengröße von insgesamt n = 2000 eine Power von rund `r round(mean(ps < 0.05)*100,2)`%. Dies bedeutet, dass in diesem Fall die $H_0$ in `r round(mean(ps < 0.05)*100,2)`% der Fälle richtigerweise verworfen wird. Schauen wir uns die Power der $t$-Tests einmal für verschiedene Stichprobengröße ($n$) und Mittelwertsdifferenzen ($d$) an:
 
 ```{r, echo = F, fig.align="center", fig.height=10, fig.width=10}
+# Code der Power-Darstellung
 ps_null <- ps
 load(url("https://github.com/jpirmer/MSc1_FEI/blob/master/data/Erg.RData?raw=true"))
 library(papaja)
@@ -285,6 +297,7 @@ Wir sehen sehr deutlich, dass für alle Stichprobengrößen (farblich kodiert) v
 Was wir auch erkennen ist, dass für sehr große Stichproben die Power dieses Tests schon für sehr kleine Mittelwertsdifferenzen groß ist (idealerweise sprechen Methodiker von einem Test mit hinreichender Power, wenn diese größer als 80% ist). Dieses Beispiel zeigt sehr schön auf, dass damit die Power (also die Wahrscheinlichkeit einen Effekt zu finden, wenn dieser da ist) hoch ist, es einen Effekt geben muss (was sehr trivial klingt und es eigentlich auch ist) und zudem die Stichprobengröße hinreichend groß sein muss. Mit hinreichend groß hält sich der/die Statistiker/in die Hintertür offen zu sagen, dass: a) im Falle eines kleinen Effekts die Stichprobengröße eben sehr groß sein muss, um diesen zu erkennen und b) bei Vorliegen eines sehr großen Effekts schon eine kleine Stichprobengröße ausreicht, um den Effekt mit hinreichender Wahrscheinlichkeit auch als solchen zu identifizieren. Das ist auch der Grund, warum es *Poweranalysen* gibt, mit welchen bestimmt werden kann, wie groß die Stichprobengröße sein muss, um bei einem vorgegebenem erwarteten Effekt hinreichende Power zu haben, diese auch zu entdecken. Für sehr einfache Tests gibt es auch geschlossene Formeln, um bspw. Stichprobengröße zu finden, mit welcher vorgegebene Effekte mit hinreichend großer Wahrscheinlichkeit aufgedeckt werden können. Eines dieser Pakete ist das `pwr` Paket. Mit diesem können wir die oben dargestellte Grafik auch ohne Simulation (nur mit Formeln) erstellen (um das Ganze übersichtlicher zu gestalten, sind hier mehr Stichprobengrößen abgetragen, allerdings werden nur Stichproben von 2 bis 500 im Plot integriert):
 
 ```{r, echo = F,fig.align="center", fig.height=10, fig.width=10}
+# Darstellung rein durch die Formel
 library(pwr)
 Erg <- c()
 for(n in c(2, seq(5, 500, 5)))
@@ -315,6 +328,8 @@ Für Interessierte ist in [Appendix B](#AppendixB) ein kleiner Exkurs in `pwr` d
 Liegen andere Verstöße gegen die Modellannahmen vor, dann kann es fälschlicherweise zu signifikanten Ergebnissen kommen, obwohl es in der Population gar keinen Effekt gibt. Dies ist oft bei kleinen Stichproben ein Problem. Nehmen wir beispielsweise an, dass die beiden Gruppen sehr gegenläufig schief verteilt sind.
 
 ```{r, echo = F}
+#### Verstöße gegen die Modellannahmen ----
+
 set.seed(1)
 par(mfrow = c(1,2))
 
@@ -368,7 +383,9 @@ Eine schöne Einleitung in Plots in `R`, wie man diese erstellt, bearbeitet und 
 Hier ist der Code für einige Grafiken und Simulationen dargestellt. Dies geht natürlich über den Stoff des Seminars hinaus und ist nur für Interessierte bestimmt.
 
 #### Verteilung unter $H_0$
-```{r}
+```{r, echo=-c(1,2)}
+#### Appendix A
+
 ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
 for(i in 1:10000)
 {
@@ -498,7 +515,9 @@ $$d:=\frac{|\mu_1-\mu_2|}{\sigma},$$
 wobei $\mu_1$ und $\mu_2$ die beiden Mittelwerte in den Gruppen sind und $\sigma$
  ist die wahre Standardabweichung über die beiden Gruppen hinweg. Dadurch, dass bei uns die Varianz jeweils 1 in den Gruppen war, hatten wir durch Zufall auch oben die Effektstärke nach Cohen gewählt! Die Grafiken sind also durchaus vergleichbar. Wir schauen uns die Power von einer Effektstärke von 0.1 bei einer Stichprobengröße von 1000 an:
  
-```{r}
+```{r, echo=-c(1,2)}
+#### Appendix B ----
+
  library(pwr)
  pwr.t.test(n = 1000, d = 0.1)
 ```
@@ -516,7 +535,9 @@ Matrixalgebra wird bspw. auch in Eid, et al. (2017) im _Anhang B: Matrixalgebra_
 
 ##### Vektoren
 Dazu seien `X` und `Y` zwei Vektoren, die wir mit dem Zuordnungspfeil `<-` erstellen und mit der Vektorfunktion `c()` erstellen:
-```{r}
+```{r, echo=-c(1,2)}
+#### Appendix C ----
+
 X <- c(1, 2, 3)
 Y <- c(10, 8, 6)
 ```
