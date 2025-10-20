@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die einfache lineare Regression zur multiplen Regression erweitert, indem mehrere Prädiktoren genuzt werden. Deskriptiv werden die einzelnen Parameter der Regression dargestellt und die gemeinsam erklärte Varianz erläutert. Aus inferenzstatistischer Sicht beschäftigen wir uns mit einem globalen Modelltest und Modellvergleichstests. Auch die Annahmen der multiplen Regression werden besprochen.' 
 authors: [schultze]
 weight: 12
-lastmod: '2025-07-08'
+lastmod: '2025-10-20'
 featured: no
 banner:
   image: "/header/stormies.jpg"
@@ -133,22 +133,28 @@ summary(mod1)
 ## lm(formula = nerd ~ 1 + extra, data = fb24)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q 
-## -1.7775 -0.4801  0.0788  0.4787 
-##     Max 
-##  1.4370 
+##     Min      1Q  Median 
+## -1.7775 -0.4801  0.0788 
+##      3Q     Max 
+##  0.4787  1.4370 
 ## 
 ## Coefficients:
-##             Estimate Std. Error
-## (Intercept)  3.82358    0.16177
-## extra       -0.23757    0.04724
-##             t value Pr(>|t|)    
-## (Intercept)  23.636  < 2e-16 ***
-## extra        -5.029 1.15e-06 ***
+##             Estimate
+## (Intercept)  3.82358
+## extra       -0.23757
+##             Std. Error
+## (Intercept)    0.16177
+## extra          0.04724
+##             t value Pr(>|t|)
+## (Intercept)  23.636  < 2e-16
+## extra        -5.029 1.15e-06
+##                
+## (Intercept) ***
+## extra       ***
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6601 on 188 degrees of freedom
 ##   (2 Beobachtungen als fehlend gelöscht)
@@ -171,8 +177,8 @@ cor.test(fb24$nerd, fb24$extra)
 ## 	correlation
 ## 
 ## data:  fb24$nerd and fb24$extra
-## t = -5.029, df = 188, p-value =
-## 1.146e-06
+## t = -5.029, df = 188,
+## p-value = 1.146e-06
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.4639588 -0.2124070
@@ -208,30 +214,44 @@ summary(mod2)
 ##     data = fb24)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q 
-## -1.56992 -0.45819  0.01851  0.47469 
-##      Max 
-##  1.23318 
+##      Min       1Q   Median 
+## -1.56992 -0.45819  0.01851 
+##       3Q      Max 
+##  0.47469  1.23318 
 ## 
 ## Coefficients:
-##              Estimate Std. Error
-## (Intercept)  3.953596   0.421555
-## extra       -0.206676   0.047875
-## vertr       -0.143322   0.055843
-## gewis       -0.132004   0.051456
-## neuro        0.004483   0.051148
-## offen        0.187446   0.046289
-##             t value Pr(>|t|)    
-## (Intercept)   9.379  < 2e-16 ***
-## extra        -4.317 2.58e-05 ***
-## vertr        -2.567   0.0111 *  
-## gewis        -2.565   0.0111 *  
-## neuro         0.088   0.9302    
-## offen         4.049 7.56e-05 ***
+##              Estimate
+## (Intercept)  3.953596
+## extra       -0.206676
+## vertr       -0.143322
+## gewis       -0.132004
+## neuro        0.004483
+## offen        0.187446
+##             Std. Error
+## (Intercept)   0.421555
+## extra         0.047875
+## vertr         0.055843
+## gewis         0.051456
+## neuro         0.051148
+## offen         0.046289
+##             t value Pr(>|t|)
+## (Intercept)   9.379  < 2e-16
+## extra        -4.317 2.58e-05
+## vertr        -2.567   0.0111
+## gewis        -2.565   0.0111
+## neuro         0.088   0.9302
+## offen         4.049 7.56e-05
+##                
+## (Intercept) ***
+## extra       ***
+## vertr       *  
+## gewis       *  
+## neuro          
+## offen       ***
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Residual standard error: 0.6181 on 184 degrees of freedom
 ##   (2 Beobachtungen als fehlend gelöscht)
@@ -309,20 +329,34 @@ summary(mod2)$coefficients
 ```
 
 ```
-##                 Estimate Std. Error
-## (Intercept)  3.953595552 0.42155483
-## extra       -0.206676216 0.04787458
-## vertr       -0.143322141 0.05584325
-## gewis       -0.132004434 0.05145583
-## neuro        0.004483418 0.05114761
-## offen        0.187445903 0.04628891
-##                 t value     Pr(>|t|)
-## (Intercept)  9.37860328 2.502301e-17
-## extra       -4.31703415 2.580265e-05
-## vertr       -2.56650808 1.106847e-02
-## gewis       -2.56539293 1.110285e-02
-## neuro        0.08765645 9.302451e-01
-## offen        4.04947722 7.557322e-05
+##                 Estimate
+## (Intercept)  3.953595552
+## extra       -0.206676216
+## vertr       -0.143322141
+## gewis       -0.132004434
+## neuro        0.004483418
+## offen        0.187445903
+##             Std. Error
+## (Intercept) 0.42155483
+## extra       0.04787458
+## vertr       0.05584325
+## gewis       0.05145583
+## neuro       0.05114761
+## offen       0.04628891
+##                 t value
+## (Intercept)  9.37860328
+## extra       -4.31703415
+## vertr       -2.56650808
+## gewis       -2.56539293
+## neuro        0.08765645
+## offen        4.04947722
+##                 Pr(>|t|)
+## (Intercept) 2.502301e-17
+## extra       2.580265e-05
+## vertr       1.106847e-02
+## gewis       1.110285e-02
+## neuro       9.302451e-01
+## offen       7.557322e-05
 ```
 
 Dabei sehen wir, dass die Extraversion, die Verträglichkeit, die Gewissenhaftigkeit und die Offenheit für neue Erfahrungen bedeutsame Prädiktoren für die Nerdiness sind. Das bedeutet, dass diese vier Persönlichkeitsdimensionen einen bedeutsamen _einzigartigen_ Beitrag zur Vorhersage der Nerdiness leisten können. Im Umkehrschluss unterscheiden sich zwei Personen, die sich in Neurotizismus um eine Einheit unterscheiden, aber hinsichtlich der anderen vier Dimensionen gleich sind, fast überhaupt nicht hinsichtlich der vorhergesagten Nerdiness.
@@ -436,16 +470,16 @@ anova(mod1, mod2)
 ## 
 ## Model 1: nerd ~ 1 + extra
 ## Model 2: nerd ~ 1 + extra + vertr + gewis + neuro + offen
-##   Res.Df    RSS Df Sum of Sq      F
-## 1    188 81.929                    
-## 2    184 70.304  4    11.625 7.6063
-##      Pr(>F)    
-## 1              
-## 2 1.081e-05 ***
+##   Res.Df    RSS Df Sum of Sq
+## 1    188 81.929             
+## 2    184 70.304  4    11.625
+##        F    Pr(>F)    
+## 1                     
+## 2 7.6063 1.081e-05 ***
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ```
 In unserem Fall läuft die `anova`-Funktion fehlerfrei durch. Da es hier jedoch häufig zu Fehlermeldungen aufgrund von einem Modellvergleich mit unterschiedlichen zugrundeliegenden Beobachtungen bzw. Daten kommt, wollen wir uns für diese Fall ebenfalls kurz wappnen.
 
@@ -484,16 +518,16 @@ anova(mod1_new, mod2_new)
 ## 
 ## Model 1: nerd ~ 1 + extra
 ## Model 2: nerd ~ 1 + extra + vertr + gewis + neuro + offen
-##   Res.Df    RSS Df Sum of Sq      F
-## 1    188 81.929                    
-## 2    184 70.304  4    11.625 7.6063
-##      Pr(>F)    
-## 1              
-## 2 1.081e-05 ***
+##   Res.Df    RSS Df Sum of Sq
+## 1    188 81.929             
+## 2    184 70.304  4    11.625
+##        F    Pr(>F)    
+## 1                     
+## 2 7.6063 1.081e-05 ***
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Da in unserem Fall von Beginn an das Problem der unterschiedlichen Daten nicht vorlag, erhalten wir eine identische Ergebnistabelle. Die Ergebnistabelle gibt uns verschiedene Informationen. Zunächst wird uns noch einmal gesagt, welche Modelle wir hier eigentlich vergleichen. Die Ergebnistabelle besteht dann aus folgenden Informationen:
@@ -523,16 +557,16 @@ anova(mod3, mod2_new)
 ## 
 ## Model 1: nerd ~ 1 + vertr + gewis + neuro + offen
 ## Model 2: nerd ~ 1 + extra + vertr + gewis + neuro + offen
-##   Res.Df    RSS Df Sum of Sq      F
-## 1    185 77.425                    
-## 2    184 70.304  1    7.1208 18.637
-##     Pr(>F)    
-## 1             
-## 2 2.58e-05 ***
+##   Res.Df    RSS Df Sum of Sq
+## 1    185 77.425             
+## 2    184 70.304  1    7.1208
+##        F   Pr(>F)    
+## 1                    
+## 2 18.637 2.58e-05 ***
 ## ---
 ## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01 '*' 0.05
-##   '.' 0.1 ' ' 1
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 ```r
@@ -682,10 +716,12 @@ shapiro.test(resid(mod2_new))
 
 ```
 ## 
-## 	Shapiro-Wilk normality test
+## 	Shapiro-Wilk normality
+## 	test
 ## 
 ## data:  resid(mod2_new)
-## W = 0.98437, p-value = 0.0328
+## W = 0.98437, p-value =
+## 0.0328
 ```
 Während der QQ-Plot leichte Verletzungen der Normalverteilungsannahme anzeigt, deutet das signifikante Ergebnis des Shapiro-Wilk-Tests auf eine relevante Verletzung der Annahme hin. 
 

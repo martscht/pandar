@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag geht es um die Hypothesenbildung, Berechnung und Interpretation im Rahmen des z-Tests und des t-Tests. Außerdem werden Konfidenzintervalle eingeführt. Zum Abschluss wird das Effektstärkemaß Cohens d vorgestellt.' 
 authors: [nehler, scheppa-lahyani, hartig] 
 weight: 5
-lastmod: '2025-07-03'
+lastmod: '2025-10-20'
 featured: no
 banner:
   image: "/header/angel_of_the_north.jpg"
@@ -157,14 +157,14 @@ Der Einstichproben-z-Test setzt voraus, dass das Merkmal in der Population, auf 
 
 Der Einstichproben-z-Test prüft anhand des arithmetischen Mittels einer Stichprobe, ob der Erwartungswert der zugehörigen Grundgesamtheit (also hier der Psychologiestudierenden des ersten Semesters) ungleich (bzw. kleiner oder größer) als ein vorgegebener Wert ist. Wir müssen also bestimmen, wie wahrscheinlich der empirisch gefundene Mittelwert unter der in der $H_0$ angenommen Voraussetzung ist, dass er aus der Population (der deutschen Wohnbevölkerung) mit ihrem Mittelwert und dessen Standardabweichung stammt. Zu Beginn haben wir bereits beschrieben, dass es sich um SKV des Mittelwertes handelt - doch wovon hängt diese ab? Der erste Einfluss ist die Stichprobengröße. Gehen wir davon aus, dass wir nur 2 Personen untersuchen, dann ist das Auffinden eines Wertes, vom eigentlichen Mittelwert der Population entfernt ist, nicht unwahrscheinlich. Im Gegensatz dazu sollte sich bei 1000 Personen in einer Stichprobe auch der Mittelwert der Population wiederfinden und Abweichungen seltener sein, wenn die $H_0$ zutrifft. Die Gegenüberstellung ist in den nächsten 2 Plots nochmal dargestellt. Bei beiden wurde unendlich oft aus unserer Population der Nerdiness eine Stichprobe gezogen. Jeweils wird ein Mittelwert berechnet, in der Grafik abgetragen und dadurch eine Übersicht über die Häufigkeit erstellt. Bei der ersten Grafik werden pro Wiederholung jeweils nur 2 Personen, während es bei der zweiten 1000 sind. Diese Verteilungen ist nun SKV des Mittelwerts. Unsere Annahmen zeigen sich bestätigt - die Mittelwerte streuen stärker mit weniger Personen. 
 
-![](/tests-konfidenzintervalle_files/unnamed-chunk-4-1.png)<!-- -->
-
-
 ![](/tests-konfidenzintervalle_files/unnamed-chunk-5-1.png)<!-- -->
+
+
+![](/tests-konfidenzintervalle_files/unnamed-chunk-6-1.png)<!-- -->
 
 In unserer Stichproben haben wir nicht so einen extremen Fall - die Stichprobengröße beträgt unter berücksichtigung fehlender Werte $n = $190. Der rote Strich symbolisiert weiterhin den von uns gefundenen Mittelwert in der Stichprobe. Wie wahrscheinlich ist dieser nun, wenn wir davon ausgehen, dass er aus der beschriebenen Population der Nerdiness stammt? Dafür müssen wir die Verteilung wieder als Fläche betrachten und die exakte Wahrscheinlichkeit bestimmen. Doch schon hier in der Abbildung deutlich, dass der gefundene Wert sehr viel Fläche nach links abschneidet -- also ein sehr unwahrscheinlicher Fall vorliegt.
 
-![](/tests-konfidenzintervalle_files/unnamed-chunk-6-1.png)<!-- -->
+![](/tests-konfidenzintervalle_files/unnamed-chunk-7-1.png)<!-- -->
 
 Der zweite Einflussfaktor auf die Streuung der SKV des Mittelwerts, ist die Populationsvarianz. Umso höher diese ist, umso größer streuen natürlich auch unsere gezogenen Mittelwerte. Gehen wir nun zu dem praktischen Teil über.
 
@@ -212,7 +212,7 @@ z_emp
 Der beobachtete Stichprobenmittelwert weicht demnach um $z_{emp}$ = 2.43 *SE* (nach oben) vom Mittelwert der deutschen Wohnbevölkerung ab.  
 Um entscheiden zu können, ob es sich um eine signifikante Abweichung handelt, muss nun bestimmt werden wie wahrscheinlich ein solcher oder noch extremerer Unterschied ist. Dafür können wir den *p*-Wert bestimmen. Dieser ist im Endeffekt eine Aussage über die Fläche der Verteilung, die außerhalb unseres gefunden Werts liegt.
 
-![](/tests-konfidenzintervalle_files/unnamed-chunk-9-1.png)<!-- -->
+![](/tests-konfidenzintervalle_files/unnamed-chunk-11-1.png)<!-- -->
 
 In Rot ist die Fläche für kleinere Werte als unseren eingzeichnet. Es wird bereits deutlich, dass die Fläche in unserem Fall sehr groß sein sollte. Umgekehrt muss der Anteil der Fläche, der für größere Werte als unseren in der Verteilung vorliegt (also der weiße Anteil), sehr gering sein. Mit `pnorm()` und `lower.tail = FALSE` können wir direkt bestimmen, wie viel Prozent der Fläche der Verteilung noch für Werte größer als den unseren übrig ist. 
 
@@ -374,16 +374,25 @@ Danach funktioniert folgender Code:
 
 ```r
 library(psych)
+```
+
+```
+## Warning: Paket 'psych' wurde
+## unter R Version 4.3.2
+## erstellt
+```
+
+```r
 describe(fb24$neuro)
 ```
 
 ```
-##    vars   n mean   sd median trimmed
-## X1    1 191 3.41 0.95    3.5    3.43
-##     mad min max range  skew kurtosis
-## X1 0.74   1   5     4 -0.25    -0.53
-##      se
-## X1 0.07
+##    vars   n mean   sd median
+## X1    1 191 3.41 0.95    3.5
+##    trimmed  mad min max range
+## X1    3.43 0.74   1   5     4
+##     skew kurtosis   se
+## X1 -0.25    -0.53 0.07
 ```
 
 Wir bekommen auf einen Schlag sehr viele relevante Informationen über unsere Variable. Der Mittelwert unserer Stichprobe liegt beispielsweise bei NA. Beachten Sie, dass auch bei `describe()` unter `sd` die geschätzte Populationsstandardabweichung angegeben wird (wie bei der Basis-Funktion `sd()`). Man müsste sie also umrechnen, um eine Angabe über die Stichprobe machen zu können. 
@@ -563,8 +572,8 @@ t.test(x = fb24$neuro, mu = 3.1, alternative = "greater", conf.level=0.99) #geri
 ## 	One Sample t-test
 ## 
 ## data:  fb24$neuro
-## t = 4.5036, df = 190, p-value =
-## 5.82e-06
+## t = 4.5036, df = 190,
+## p-value = 5.82e-06
 ## alternative hypothesis: true mean is greater than 3.1
 ## 99 percent confidence interval:
 ##  3.247731      Inf
@@ -690,7 +699,7 @@ hist(fb24$neuro, xlim=c(0,6), main = "Histogramm",
      xlab = "Score", ylab= "Dichte", freq = FALSE)
 ```
 
-![](/tests-konfidenzintervalle_files/unnamed-chunk-33-1.png)<!-- -->
+![](/tests-konfidenzintervalle_files/unnamed-chunk-37-1.png)<!-- -->
 
 Wir sehen bereits, dass unsere Verteilung verglichen mit einer Normalverteilung etwas schief aussieht, die Verteilung ist auf der linken seite flacher und auf der rechten Seite steiler. Für eine bessere Einordnung wäre es hilfreich, die theoretisch angenommene Normalverteilung noch zusätzlich zu unseren empirischen Werten einzuzeichnen. Hiefür nutzen wir die `curve()` Funktion. Da wir bereits einen Plot (das Histogramm) gezeichnet haben, können wir mit dem Argument `add` dafür sorgen, dass die Kurve in das bestehende Bild integriert wird. Daher müssen wir keine Angaben für `from`, `to` und Ähnliches machen. Lediglich die Form der Verteilung als Dichtefunktion der theoretischen Normalverteilung `dnorm()` und die dazu gehörigen beschreibenden Maße Mittelwert und Standardabweichung (hervorgehend aus unserer Nerdiness Variable) werden benötigt. Genau genommen sollte man hier die empirische Standardabweichung nutzen, weil im Histogramm ja auch die Werte aus der Stichprobe dargestellt werden. Da bei einer steigenden Stichprobengröße aber die empirische Varianz und das Ergebnis von `sd()` sehr ähnlich sind und wir hier nur eine optische Einordnung vornehmen, nutzen wir einfach die Funktion, damit der Code nicht zu unübersichtlich wird.
 
@@ -699,7 +708,7 @@ Wir sehen bereits, dass unsere Verteilung verglichen mit einer Normalverteilung 
 curve(dnorm(x, mean = mean(fb24$neuro, na.rm = TRUE), sd = sd(fb24$neuro, na.rm = TRUE)), add = T)
 ```
 
-![](/tests-konfidenzintervalle_files/unnamed-chunk-35-1.png)<!-- -->
+![](/tests-konfidenzintervalle_files/unnamed-chunk-39-1.png)<!-- -->
 
 Im Plot sieht man recht gut, dass es kleine Abweichungen der wirklichen empirischen Verteilung von der theoretische, perfekten Form der Normalverteilung gibt. Links liegen mehr Werte, als bei einer Normalverteilung zu erwarten wären, rechts weniger. Kleinere Abweichungen sind jedoch zu erwarten und sollten nicht zu hoch eingestuft werden. Leider wird es bei der optischen Prüfung keine perfekt objektive Lösung geben, doch je mehr Plots man im Laufe der Forschungskarriere betrachtet, umso besser kann man auch diese Verläufe einordnen. 
 
@@ -712,7 +721,7 @@ qqnorm(fb24$neuro_std)
 qqline(fb24$neuro_std)
 ```
 
-![](/tests-konfidenzintervalle_files/unnamed-chunk-36-1.png)<!-- -->
+![](/tests-konfidenzintervalle_files/unnamed-chunk-40-1.png)<!-- -->
 
 Entspricht nun unsere empirische Datenmenge der angenommenen Normalverteilung perfekt, würden alle Punkte auf der Geraden in der Mitte liegen. Auch hier gilt natürlich, dass die Bewertung letztlich eine gewisse Subjektivität hat. Die Punkte sollten nicht zu weit von der Geraden entfernt liegen. 
 

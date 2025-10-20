@@ -17,10 +17,14 @@
 
 !(3 == 4)
 
+#### Funktionen und Argumente ----
+
 3 + 4 + 1 + 2
 
+## Erste Funktionen
 sum(3, 4, 1, 2)
 
+## Mögliche Argumentdarstellungen von log()
 log(100)
 
 log(100, 10)
@@ -35,10 +39,13 @@ exp(1)
 
 
 
+## Wirft ein Warning aus:
 log(-1)
 
 
 
+
+#### Objekte und das Environment ----
 
 my_num <- sum(3, 4, 1, 2)
 
@@ -70,6 +77,7 @@ rm(list = ls())
 my_num <- sum(3, 4, 1, 2) |> sqrt() |> log()
 my_num
 
+#### Daten ----
 react <- c(510, 897, 647, 891, 925, 805, 443, 778)
 
 class(react)
@@ -129,6 +137,8 @@ three <- c(1, 2, 3)
 four <- c(three, 4)
 data.frame(color, text, cong, react, four)
 
+#### Datenextraktion ----
+
 str(react)
 
 react[5]
@@ -165,6 +175,8 @@ dat[, c('react', 'cong')]     # Mehrere Variable auswählen
 
 dat$react
 
+#### Daten verändern und hinzufügen ----
+
 dat[5, 'react']           # Aktuellen Inhalt abfragen
 dat[5, 'react'] <- 725    # Aktuellen Inhalt überschreiben
 dat[, 'react']            # Alle Reaktionszeiten abfragen
@@ -178,12 +190,18 @@ dat
 dat <- dat[-9, ]    # Datensatz ohne die 9. Zeile
 dat
 
-# getwd()
+## #### Daten Import/Export
+## 
+## ## Anwendungsordner finden
+## getwd()
 
-# setwd('Pfad/Zum/Ordner')
+## ## Anwendungsordner ändern
+## setwd('Pfad/Zum/Ordner')
 
-# dir()
+## ## Ordnerinhalte lesen
+## dir()
 
+## Datenspeichern & -laden
 save(dat, file = 'dat.rda')
 
 rm(list = ls())
@@ -201,19 +219,21 @@ stroop
 
 
 
+#### Daten aus dem Fragebogen ----
+
 args(read.table)
 
-# Dafür müssen die Kommentare (##) entfernt werden!
-# fb25 <- read.table('fb25.csv')
+## Dafür müssen die Kommentare (##) entfernt werden!
+## fb25 <- read.table('fb25.csv')
 
 
-# fb25 <- read.table('fb25.csv', header = TRUE)
+## fb25 <- read.table('fb25.csv', header = TRUE)
 
 
-# fb25 <- read.table('fb25.csv', header = TRUE, sep = ",")
+## fb25 <- read.table('fb25.csv', header = TRUE, sep = ",")
 
 
-# fb25 <- read.table('https://pandar.netlify.app/daten/fb25.csv', header = TRUE, sep = ",")
+## fb25 <- read.table('https://pandar.netlify.app/daten/fb25.csv', header = TRUE, sep = ",")
 
 head(fb25)    # Kopfzeilen
 str(fb25)     # Struktur des Datensatzes

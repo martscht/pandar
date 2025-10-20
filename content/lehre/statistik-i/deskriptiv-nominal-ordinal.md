@@ -9,7 +9,7 @@ subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
 authors: [nehler, buchholz]
 weight: 2
-lastmod: '2025-07-03'
+lastmod: '2025-10-20'
 featured: no
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
@@ -81,27 +81,48 @@ names(fb24)        # Namen der Variablen
 ```
 
 ```
-##  [1] "mdbf1"       "mdbf2"      
-##  [3] "mdbf3"       "mdbf4"      
-##  [5] "mdbf5"       "mdbf6"      
-##  [7] "mdbf7"       "mdbf8"      
-##  [9] "mdbf9"       "mdbf10"     
-## [11] "mdbf11"      "mdbf12"     
-## [13] "time_pre"    "lz"         
-## [15] "extra"       "vertr"      
-## [17] "gewis"       "neuro"      
-## [19] "offen"       "prok"       
-## [21] "nerd"        "uni1"       
-## [23] "uni2"        "uni3"       
-## [25] "uni4"        "grund"      
-## [27] "fach"        "ziel"       
-## [29] "wissen"      "therap"     
-## [31] "lerntyp"     "hand"       
-## [33] "job"         "ort"        
-## [35] "ort12"       "wohnen"     
-## [37] "attent"      "gs_post"    
-## [39] "wm_post"     "ru_post"    
-## [41] "time_post"   "attent_post"
+##  [1] "mdbf1"      
+##  [2] "mdbf2"      
+##  [3] "mdbf3"      
+##  [4] "mdbf4"      
+##  [5] "mdbf5"      
+##  [6] "mdbf6"      
+##  [7] "mdbf7"      
+##  [8] "mdbf8"      
+##  [9] "mdbf9"      
+## [10] "mdbf10"     
+## [11] "mdbf11"     
+## [12] "mdbf12"     
+## [13] "time_pre"   
+## [14] "lz"         
+## [15] "extra"      
+## [16] "vertr"      
+## [17] "gewis"      
+## [18] "neuro"      
+## [19] "offen"      
+## [20] "prok"       
+## [21] "nerd"       
+## [22] "uni1"       
+## [23] "uni2"       
+## [24] "uni3"       
+## [25] "uni4"       
+## [26] "grund"      
+## [27] "fach"       
+## [28] "ziel"       
+## [29] "wissen"     
+## [30] "therap"     
+## [31] "lerntyp"    
+## [32] "hand"       
+## [33] "job"        
+## [34] "ort"        
+## [35] "ort12"      
+## [36] "wohnen"     
+## [37] "attent"     
+## [38] "gs_post"    
+## [39] "wm_post"    
+## [40] "ru_post"    
+## [41] "time_post"  
+## [42] "attent_post"
 ```
 
 ```r
@@ -142,24 +163,30 @@ fb24$hand
 ```
 
 ```
-##   [1]  1  2  2  2  2  2  2  2  1  2  2
-##  [12]  2  2  2  2  2  2  2  2  2  1  2
-##  [23]  2  2  1  1  2  2  1  1  2  2  2
-##  [34] NA  2  2  1  2  2  2  2  2  2  2
-##  [45]  2  2  2  2  2  2  1  1  2  2  2
-##  [56]  2 NA  2  2  2  2  2  2  1  2  2
-##  [67]  2  1  2  2  2  2  2  2  2  2  2
-##  [78]  2  2  2  2  2  2  1 NA  1  2  2
-##  [89]  2  2  2  1  2  2  2  2  2  2  2
-## [100]  2  2  2  2  2  2  2  2  1  2  2
-## [111]  2  2 NA  1  2  2  2  2  2  2  2
-## [122]  2  2  2  2  2  2  2  2  2  2  2
-## [133]  2  2  2  2  2  1  2  2  2  2  2
-## [144]  2  2  2  1  2  2  2  2  2  2  2
-## [155]  2  2  2  2  2  1  2  2  2  1  2
-## [166]  2  2  2  2  2  2  2  2  2  2  2
-## [177]  2  2  2  2  2  2  2  2  2  2  2
-## [188]  1  2  2  2  1
+##   [1]  1  2  2  2  2  2  2  2
+##   [9]  1  2  2  2  2  2  2  2
+##  [17]  2  2  2  2  1  2  2  2
+##  [25]  1  1  2  2  1  1  2  2
+##  [33]  2 NA  2  2  1  2  2  2
+##  [41]  2  2  2  2  2  2  2  2
+##  [49]  2  2  1  1  2  2  2  2
+##  [57] NA  2  2  2  2  2  2  1
+##  [65]  2  2  2  1  2  2  2  2
+##  [73]  2  2  2  2  2  2  2  2
+##  [81]  2  2  2  1 NA  1  2  2
+##  [89]  2  2  2  1  2  2  2  2
+##  [97]  2  2  2  2  2  2  2  2
+## [105]  2  2  2  1  2  2  2  2
+## [113] NA  1  2  2  2  2  2  2
+## [121]  2  2  2  2  2  2  2  2
+## [129]  2  2  2  2  2  2  2  2
+## [137]  2  1  2  2  2  2  2  2
+## [145]  2  2  1  2  2  2  2  2
+## [153]  2  2  2  2  2  2  2  1
+## [161]  2  2  2  1  2  2  2  2
+## [169]  2  2  2  2  2  2  2  2
+## [177]  2  2  2  2  2  2  2  2
+## [185]  2  2  2  1  2  2  2  1
 ```
 
 Die Variable `hand` liegt numerisch vor, es treten die Werte 1 und 2 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/lehre/statistik-i/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "links". Diese *Label* werden nun im Faktor hinterlegt.
@@ -188,8 +215,8 @@ head(fb24$hand_factor)
 ```
 
 ```
-## [1] links  rechts rechts rechts rechts
-## [6] rechts
+## [1] links  rechts rechts
+## [4] rechts rechts rechts
 ## Levels: links rechts
 ```
 
@@ -207,24 +234,30 @@ fb24$fach
 ```
 
 ```
-##   [1]  1  3  1  4  4  3  1  3  1  4  4
-##  [12]  3  2  4  1  3  3  4  4  4  3  4
-##  [23]  4  4  4  4  3  4  3  3 NA  3  4
-##  [34] NA  3  4  4  3  4  4  2  1  4  4
-##  [45]  3  4  3  1  4  4  1  2  3  4  4
-##  [56]  3 NA  1  2  1  2  4  3  4  1  4
-##  [67] NA  4  1  4  3  1  3  4  4  1  3
-##  [78]  1  3  1  2  2  4  3 NA  5  4  4
-##  [89]  2  4  3  3  1  4  1  4  3  3  4
-## [100]  4  4  2  1  2  4  1  4  3  4  2
-## [111]  4  4  4  4  1  4  5  1  2  4  4
-## [122]  4  3  4  1  1  4  1  4  4  1  3
-## [133]  4  4  3  1  4  4  4  4  4  5  4
-## [144]  3  4  1  4  4  1  4  1  4  4  1
-## [155]  4  2  3  2  1  4  1  4  3  4  3
-## [166]  4  3  4  4  1  1  4  4  4  4  3
-## [177]  4  1  1  4  1  3  3  4  2  4  4
-## [188]  3  4  1  1  1
+##   [1]  1  3  1  4  4  3  1  3
+##   [9]  1  4  4  3  2  4  1  3
+##  [17]  3  4  4  4  3  4  4  4
+##  [25]  4  4  3  4  3  3 NA  3
+##  [33]  4 NA  3  4  4  3  4  4
+##  [41]  2  1  4  4  3  4  3  1
+##  [49]  4  4  1  2  3  4  4  3
+##  [57] NA  1  2  1  2  4  3  4
+##  [65]  1  4 NA  4  1  4  3  1
+##  [73]  3  4  4  1  3  1  3  1
+##  [81]  2  2  4  3 NA  5  4  4
+##  [89]  2  4  3  3  1  4  1  4
+##  [97]  3  3  4  4  4  2  1  2
+## [105]  4  1  4  3  4  2  4  4
+## [113]  4  4  1  4  5  1  2  4
+## [121]  4  4  3  4  1  1  4  1
+## [129]  4  4  1  3  4  4  3  1
+## [137]  4  4  4  4  4  5  4  3
+## [145]  4  1  4  4  1  4  1  4
+## [153]  4  1  4  2  3  2  1  4
+## [161]  1  4  3  4  3  4  3  4
+## [169]  4  1  1  4  4  4  4  3
+## [177]  4  1  1  4  1  3  3  4
+## [185]  2  4  4  3  4  1  1  1
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
@@ -288,8 +321,10 @@ levels(fb24$fach)         # Abruf
 ```
 
 ```
-## [1] "Allgemeine"  "Biologische"
-## [3] "Entwicklung" "Klinische"  
+## [1] "Allgemeine" 
+## [2] "Biologische"
+## [3] "Entwicklung"
+## [4] "Klinische"  
 ## [5] "Diag./Meth."
 ```
 
@@ -315,10 +350,12 @@ table(fb24$fach)
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische 
-##           3          41          15 
-## Entwicklung   Klinische 
-##          40          88
+## Diag./Meth.  Allgemeine 
+##           3          41 
+## Biologische Entwicklung 
+##          15          40 
+##   Klinische 
+##          88
 ```
 
 Häufig sind relative Häufigkeiten informativer. Nachfolgend werden zwei Möglichkeiten zur Erstellung von relativen Häufigkeitstabellen in `R` gezeigt.
@@ -346,10 +383,12 @@ tab / sum(tab)          # Relative Haeufigkeiten
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische 
-##  0.01604278  0.21925134  0.08021390 
-## Entwicklung   Klinische 
-##  0.21390374  0.47058824
+## Diag./Meth.  Allgemeine 
+##  0.01604278  0.21925134 
+## Biologische Entwicklung 
+##  0.08021390  0.21390374 
+##   Klinische 
+##  0.47058824
 ```
 
 **Relative Häufigkeiten (per Funktion)**
@@ -364,10 +403,12 @@ prop.table(tab)         # Relative
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische 
-##  0.01604278  0.21925134  0.08021390 
-## Entwicklung   Klinische 
-##  0.21390374  0.47058824
+## Diag./Meth.  Allgemeine 
+##  0.01604278  0.21925134 
+## Biologische Entwicklung 
+##  0.08021390  0.21390374 
+##   Klinische 
+##  0.47058824
 ```
 
 Ungefähr 1.6% Ihres Jahrgangs geben als Lieblingsfach "Diagnostik/Methoden" an! Vielleicht können wir ja noch mehr von Ihnen mit dem nächsten Thema begeistern. :-)
@@ -394,7 +435,7 @@ Die Grafik erscheint in der RStudio-Standardansicht "unten rechts" im Reiter "Pl
 
 ![](plots_window.PNG)
 
-<img src="/deskriptiv-nominal-ordinal_files/basic-barplot-1.png" style="display: block; margin: auto;" />
+<img src="/deskriptiv-nominal-ordinal_files/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 
 **Tortendiagramm**
 
@@ -402,10 +443,11 @@ Die Erstellug eines Tortendiagramms ist ebenfalls leicht zu erreichen. Die Funkt
 
 
 ```r
+# Tortendiagramm
 pie(tab)
 ```
 
-<img src="/deskriptiv-nominal-ordinal_files/basic-pie-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="/deskriptiv-nominal-ordinal_files/unnamed-chunk-13-1.png" width="60%" style="display: block; margin: auto;" />
 
 In der Vorlesung haben Sie bereits gelernt, dass diese Form der Darstellung aber nicht für detaillierte Analysen zu empfehlen ist, weil Erkenntnisse daraus viel schwerer zu ziehen sind. Bei den Zusatzargumenten werden wir uns also nur mit der Funktion `barplot()` beschäftigen.
 
@@ -433,16 +475,26 @@ colors()[1:20]
 ```
 
 ```
-##  [1] "white"         "aliceblue"    
-##  [3] "antiquewhite"  "antiquewhite1"
-##  [5] "antiquewhite2" "antiquewhite3"
-##  [7] "antiquewhite4" "aquamarine"   
-##  [9] "aquamarine1"   "aquamarine2"  
-## [11] "aquamarine3"   "aquamarine4"  
-## [13] "azure"         "azure1"       
-## [15] "azure2"        "azure3"       
-## [17] "azure4"        "beige"        
-## [19] "bisque"        "bisque1"
+##  [1] "white"        
+##  [2] "aliceblue"    
+##  [3] "antiquewhite" 
+##  [4] "antiquewhite1"
+##  [5] "antiquewhite2"
+##  [6] "antiquewhite3"
+##  [7] "antiquewhite4"
+##  [8] "aquamarine"   
+##  [9] "aquamarine1"  
+## [10] "aquamarine2"  
+## [11] "aquamarine3"  
+## [12] "aquamarine4"  
+## [13] "azure"        
+## [14] "azure1"       
+## [15] "azure2"       
+## [16] "azure3"       
+## [17] "azure4"       
+## [18] "beige"        
+## [19] "bisque"       
+## [20] "bisque1"
 ```
 
 Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [https://r-charts.com/colors/]( https://r-charts.com/colors/). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
@@ -455,8 +507,9 @@ rainbow(5)
 ```
 
 ```
-## [1] "#FF0000" "#CCFF00" "#00FF66"
-## [4] "#0066FF" "#CC00FF"
+## [1] "#FF0000" "#CCFF00"
+## [3] "#00FF66" "#0066FF"
+## [5] "#CC00FF"
 ```
 
 Die Farben werden hier nicht direkt mit ihrem Namen, sondern mit dem Hex-Code ausgegeben. `#FF0000` steht dabei beispielsweise für ein rot.
@@ -473,7 +526,7 @@ barplot(tab,
         cex.names = 0.8)                         # Schriftgröße der Labels
 ```
 
-![](/deskriptiv-nominal-ordinal_files/colored-barplot-1.png)<!-- -->
+![](/deskriptiv-nominal-ordinal_files/unnamed-chunk-16-1.png)<!-- -->
 
 Alle verwendeten Argumente (bis auf eines) sind bereits in der Tabelle oben beschrieben. Wir fügen einen Titel zur y-Achse mittels `ylab` hinzu. `main` ist verantwortlich für den Titel der Grafik, während `las` die Beschriftung der Säulen dreht. Das bisher nicht genannte Argument `cex.names` verändert die Schriftgröße für die Beschriftung der Balken. Wenn wir diese nicht anpassen würden, würde die Schrift den Rahmen der Standardeinstellungen für Grafen in `R` sprengen und damit teilweise außerhalb des Bildes stehen. 
 
@@ -534,10 +587,12 @@ tab            # Tabelle ausgeben
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische 
-##           3          41          15 
-## Entwicklung   Klinische 
-##          40          88
+## Diag./Meth.  Allgemeine 
+##           3          41 
+## Biologische Entwicklung 
+##          15          40 
+##   Klinische 
+##          88
 ```
 
 ```r
@@ -577,10 +632,12 @@ ln_hj                       # Ergebnisse für jede Kategorie
 
 ```
 ## 
-## Diag./Meth.  Allgemeine Biologische 
-##  -4.1324963  -1.5175366  -2.5230584 
-## Entwicklung   Klinische 
-##  -1.5422292  -0.7537718
+## Diag./Meth.  Allgemeine 
+##  -4.1324963  -1.5175366 
+## Biologische Entwicklung 
+##  -2.5230584  -1.5422292 
+##   Klinische 
+##  -0.7537718
 ```
 
 ```r
@@ -644,24 +701,30 @@ fb24$wissen
 ```
 
 ```
-##   [1]  4  3  5  5  4  3  3  4  5  3  4
-##  [12]  4  2  4  5  3  3  5  5  4  4  4
-##  [23]  5  3  5  1  5  3  3  2  4  5  4
-##  [34] NA  5  4  3  5  4  5  4  4  4  3
-##  [45]  4  5  3  4  4  4  5  5  2  5  5
-##  [56]  3 NA  4  5  3  4  5  4  3  4  4
-##  [67]  5  5  3  2  3  4  3  3  5  4  3
-##  [78]  3  4  4  3  5  3  2 NA  4  4  3
-##  [89]  5  2  2  4  3  4  4  4  4  4  3
-## [100]  3  3  5  4  5  4  5  5  4 NA  5
-## [111]  4  5  2  4  2  4  4  4  4  4  4
-## [122]  4  2  4  4  4  2  4  2  3  5  3
-## [133]  2  4  3  3  3  5  4  3  4  5  3
-## [144]  4  4  4  3  2  3  5  5  4  3  3
-## [155]  3  3  5  5  4  1  5  3  3  2  4
-## [166]  2  3  3  5  4  3  5  3  3  3  4
-## [177]  4  2  4  3  2  4  3  3  3  5  5
-## [188]  4  4  5  5  4
+##   [1]  4  3  5  5  4  3  3  4
+##   [9]  5  3  4  4  2  4  5  3
+##  [17]  3  5  5  4  4  4  5  3
+##  [25]  5  1  5  3  3  2  4  5
+##  [33]  4 NA  5  4  3  5  4  5
+##  [41]  4  4  4  3  4  5  3  4
+##  [49]  4  4  5  5  2  5  5  3
+##  [57] NA  4  5  3  4  5  4  3
+##  [65]  4  4  5  5  3  2  3  4
+##  [73]  3  3  5  4  3  3  4  4
+##  [81]  3  5  3  2 NA  4  4  3
+##  [89]  5  2  2  4  3  4  4  4
+##  [97]  4  4  3  3  3  5  4  5
+## [105]  4  5  5  4 NA  5  4  5
+## [113]  2  4  2  4  4  4  4  4
+## [121]  4  4  2  4  4  4  2  4
+## [129]  2  3  5  3  2  4  3  3
+## [137]  3  5  4  3  4  5  3  4
+## [145]  4  4  3  2  3  5  5  4
+## [153]  3  3  3  3  5  5  4  1
+## [161]  5  3  3  2  4  2  3  3
+## [169]  5  4  3  5  3  3  3  4
+## [177]  4  2  4  3  2  4  3  3
+## [185]  3  5  5  4  4  5  5  4
 ```
 
 Wiederholung:
@@ -683,10 +746,12 @@ prop.table(table(fb24$wissen))   # Relative Haeufigkeiten
 
 ```
 ## 
-##          1          2          3 
-## 0.01063830 0.09574468 0.28191489 
-##          4          5 
-## 0.37234043 0.23936170
+##          1          2 
+## 0.01063830 0.09574468 
+##          3          4 
+## 0.28191489 0.37234043 
+##          5 
+## 0.23936170
 ```
 
 ```r
@@ -818,7 +883,7 @@ In der Praxis wird diese Idealform aber nicht immer erreicht. Wir wollen für un
 boxplot(fb24$wissen)
 ```
 
-![](/deskriptiv-nominal-ordinal_files/basic-boxplot-one-1.png)<!-- -->
+![](/deskriptiv-nominal-ordinal_files/unnamed-chunk-28-1.png)<!-- -->
 
 
 

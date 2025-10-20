@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte Variablen vorgestellt. Dabei wird zunächst die Berechnung des Mittelwerts, der Varianz sowie Standardabweichung behandelt. Dann wird gezeigt, wie Variablen zentriert bzw. standardisiert werden können. Abschließend geht es außerdem um das Rekodieren von Items und das Bilden von Skalenwerten.' 
 authors: [nehler, beitner, buchholz] 
 weight: 3
-lastmod: '2025-07-03'
+lastmod: '2025-10-20'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -137,30 +137,38 @@ fb24$lz
 ```
 
 ```
-##   [1] 6.6 4.0 5.2 4.0 5.0 4.4 6.4 4.0
-##   [9] 4.6 6.0 3.8 3.4 6.6 6.4 5.8 4.6
-##  [17] 4.6 2.0 4.6 5.2 4.0 6.4 4.8 5.0
-##  [25] 6.8 2.6 4.6 4.4 5.6 5.6 3.0 4.8
-##  [33] 3.8 5.5 5.4 5.8 5.8 4.6 4.6 4.2
-##  [41] 4.8 4.2 5.0 4.8 6.0 3.2 6.0 6.0
-##  [49] 5.6 5.2 2.8 5.4 5.0 5.6 3.8 4.8
-##  [57] 4.2 4.0 3.0 4.6 5.8 5.8 5.0 5.8
-##  [65] 5.2 5.4 5.8 4.0 2.6 6.0 5.8 6.6
-##  [73] 4.4 4.4 7.0 6.0 4.4 5.4 5.8 5.2
-##  [81] 4.8 4.4 2.6 4.4  NA 6.6 5.0 5.2
-##  [89] 7.0 4.6 4.0 3.8 6.6 3.8 6.4 4.4
-##  [97] 5.6 5.6 6.8 3.2 3.2 5.4 5.0 6.0
-## [105] 5.8 2.8 3.6 5.4 6.6 3.6 3.8 6.4
-## [113] 5.0 2.4 5.4 4.8 4.4 3.6 5.2 4.4
-## [121] 4.8 4.8 5.8 5.4 5.6 3.6 5.0 3.2
-## [129] 6.0 4.8 4.4 5.4 4.4 3.8 6.2 2.2
-## [137] 5.8 6.2 4.0 5.6 5.4 6.2 2.4 6.4
-## [145] 3.0 6.2 5.4 6.4 5.2 4.8 6.8 5.6
-## [153] 4.0 4.8 3.4 5.8 5.2 4.2 4.6 6.0
-## [161] 6.2 3.8 6.8 3.6 3.4 4.2 6.2 4.8
-## [169] 5.0 4.6 6.2 5.6 3.6 4.4 3.8 4.8
-## [177] 5.8 7.0 6.4 2.4 2.0 2.4 5.8 4.4
-## [185] 6.0 5.4 6.0 5.0 5.0 6.2 6.0 5.6
+##   [1] 6.6 4.0 5.2 4.0 5.0 4.4
+##   [7] 6.4 4.0 4.6 6.0 3.8 3.4
+##  [13] 6.6 6.4 5.8 4.6 4.6 2.0
+##  [19] 4.6 5.2 4.0 6.4 4.8 5.0
+##  [25] 6.8 2.6 4.6 4.4 5.6 5.6
+##  [31] 3.0 4.8 3.8 5.5 5.4 5.8
+##  [37] 5.8 4.6 4.6 4.2 4.8 4.2
+##  [43] 5.0 4.8 6.0 3.2 6.0 6.0
+##  [49] 5.6 5.2 2.8 5.4 5.0 5.6
+##  [55] 3.8 4.8 4.2 4.0 3.0 4.6
+##  [61] 5.8 5.8 5.0 5.8 5.2 5.4
+##  [67] 5.8 4.0 2.6 6.0 5.8 6.6
+##  [73] 4.4 4.4 7.0 6.0 4.4 5.4
+##  [79] 5.8 5.2 4.8 4.4 2.6 4.4
+##  [85]  NA 6.6 5.0 5.2 7.0 4.6
+##  [91] 4.0 3.8 6.6 3.8 6.4 4.4
+##  [97] 5.6 5.6 6.8 3.2 3.2 5.4
+## [103] 5.0 6.0 5.8 2.8 3.6 5.4
+## [109] 6.6 3.6 3.8 6.4 5.0 2.4
+## [115] 5.4 4.8 4.4 3.6 5.2 4.4
+## [121] 4.8 4.8 5.8 5.4 5.6 3.6
+## [127] 5.0 3.2 6.0 4.8 4.4 5.4
+## [133] 4.4 3.8 6.2 2.2 5.8 6.2
+## [139] 4.0 5.6 5.4 6.2 2.4 6.4
+## [145] 3.0 6.2 5.4 6.4 5.2 4.8
+## [151] 6.8 5.6 4.0 4.8 3.4 5.8
+## [157] 5.2 4.2 4.6 6.0 6.2 3.8
+## [163] 6.8 3.6 3.4 4.2 6.2 4.8
+## [169] 5.0 4.6 6.2 5.6 3.6 4.4
+## [175] 3.8 4.8 5.8 7.0 6.4 2.4
+## [181] 2.0 2.4 5.8 4.4 6.0 5.4
+## [187] 6.0 5.0 5.0 6.2 6.0 5.6
 ```
 
 Auf den ersten Blick ist es schwer, aus so einer großen Menge an unterschiedlichen Werten ein Fazit zu ziehen. Um eine Stichprobe zusammenzufassen, lernen wir heute deskriptive Maße kennen. Zunächst lässt sich aber feststellen, dass wir es auch auf dem Skalenwert mit fehlenden Werten (`NA`) zu tun haben. 
@@ -550,9 +558,10 @@ head(fb24$mdbf11 == 1, 15) #Zeige die ersten 15 Antworten
 ```
 
 ```
-##  [1]  TRUE  TRUE  TRUE FALSE FALSE
-##  [6] FALSE FALSE  TRUE FALSE  TRUE
-## [11] FALSE  TRUE  TRUE  TRUE  TRUE
+##  [1]  TRUE  TRUE  TRUE FALSE
+##  [5] FALSE FALSE FALSE  TRUE
+##  [9] FALSE  TRUE FALSE  TRUE
+## [13]  TRUE  TRUE  TRUE
 ```
 
 Wir erhalten einen booleschen Vektor, der uns sagt, wo der Wert 1 auftaucht (`TRUE`) und wo nicht (`FALSE`).
@@ -601,7 +610,8 @@ head(fb24$gs_pre)
 ```
 
 ```
-## [1] 4.00 3.75 3.50 3.00 3.00 2.25
+## [1] 4.00 3.75 3.50 3.00 3.00
+## [6] 2.25
 ```
 
 Natürlich kann die Erstellung auch in einem Befehl passieren - beispielsweise durch Verwendung der Pipe. Es gibt aber auch noch viele andere Optionen zur Skalenbildung - es wird (wie eigentlich fast immer) nur ein Ausschnitt der Möglichkeiten gezeigt.
@@ -615,7 +625,8 @@ head(fb24$gs_pre )
 ```
 
 ```
-## [1] 4.00 3.75 3.50 3.00 3.00 2.25
+## [1] 4.00 3.75 3.50 3.00 3.00
+## [6] 2.25
 ```
 
 <details><summary><b>Quizfrage</b>: Was bedeutet <code>NA</code> in <code>fb24$gs_pre</code>?</summary>

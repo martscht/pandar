@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr Unterschiede zwischen zwei Gruppen zu veranschaulichen. Ihr erfahrt außerdem, wie ihr verschiedene Tests für unabhängige Stichproben in R durchführt und ihre Voraussetzungen prüft.' 
 authors: [koehler, buchholz, irmer, nehler, goldhammer, schultze] 
 weight: 6
-lastmod: '2025-07-03'
+lastmod: '2025-10-20'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -147,7 +147,8 @@ levels(fb24$fach_klin)
 ```
 
 ```
-## [1] "nicht klinisch" "klinisch"
+## [1] "nicht klinisch"
+## [2] "klinisch"
 ```
 
 Der Faktor hat also 2 Stufen.
@@ -177,7 +178,7 @@ boxplot(fb24$lz ~ fb24$fach_klin,
         main="Lebenszufriedenheit je nach Interesse")
 ```
 
-![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-4-1.png)<!-- -->
+![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-6-1.png)<!-- -->
 
 ```r
 # Je ein Histogramm pro Gruppe, untereinander dargestellt, vertikale Linie für den jeweiligen Mittelwert
@@ -190,7 +191,7 @@ hist(fb24[(fb24$fach_klin=="klinisch"), "lz"], main="(klinisch)",
 abline(v=mean(fb24[(fb24$fach_klin=="klinisch"), "lz"], na.rm=T), col="darksalmon", lwd=3)
 ```
 
-![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-4-2.png)<!-- -->
+![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-6-2.png)<!-- -->
 
 `fb24$lz ~ fb24$fach_klin` ist die Formelnotation in `R`, welche Sie im Rahmen der Regression noch genauer kennenlernen werden. Links von der `~` (Tilde) steht die abhängige Variable (hier der Wert in der Lebenszufriedenheit), deren Mittelwertsunterschiede durch die unabhängige Variable (hier Interesse) rechts der `~` "erklärt" werden soll. Der Befehl `par(mfrow=c(2,1), mar=c(3,2,2,0))` bewirkt, dass 2 Grafiken untereinander dargestellt werden - und zwar im selben Plot. Das Argument `mfrow` definiert ein Plot-Array mit der angegebenen Anzahl von Zeilen und Spalten (wobei  mit `mfrow` die Plots zeilenweise verteilt werden; alternativ mit `mfcol`). Mit dem Argument `mar` werden für unten, links, oben und rechts die Randabstände spezifiziert.  Spielen Sie doch einmal selbst an den Einstellungen herum und schauen nach, was die Argumente jeweils bewirken!
 
@@ -202,8 +203,8 @@ dev.off()
 ```
 
 ```
-## RStudioGD 
-##         2
+## null device 
+##           1
 ```
 
 Wir können uns auch Deskriptivstatistiken ansehen. Bspw. könnten wir uns die Mittelwerte oder die SDs etc. ausgeben lassen. Dazu nehmen wir entweder die `summary()` und wählen die entsprechenden Fälle aus oder wir machen uns das `psych`-Paket zunutze. Wir hatten im [letzen Beitrag](/lehre/statistik-i/tests-konfidenzintervalle/#Pakete) detaillierter besprochen, was Pakete sind und wie sie funktionieren. Um `psych` nutzen zu können, muss es installiert sein (`install.packages()`). Falls dem so ist, kann das Paket mit `library()` eingeladen werden.  Die Funktion, die uns interessiert, heißt `describeBy()`, welche die Gruppenaufteilung bereits für uns übernimmt.
@@ -218,20 +219,20 @@ describeBy(x = fb24$lz, group = fb24$fach_klin)        # beide Gruppen im Vergle
 ## 
 ##  Descriptive statistics by group 
 ## group: nicht klinisch
-##    vars  n mean   sd median trimmed
-## X1    1 99 5.07 1.15    5.2    5.15
-##     mad min max range  skew kurtosis
-## X1 1.19   2   7     5 -0.57    -0.22
-##      se
-## X1 0.12
-## ---------------------------- 
+##    vars  n mean   sd median
+## X1    1 99 5.07 1.15    5.2
+##    trimmed  mad min max range
+## X1    5.15 1.19   2   7     5
+##     skew kurtosis   se
+## X1 -0.57    -0.22 0.12
+## ---------------------- 
 ## group: klinisch
-##    vars  n mean   sd median trimmed
-## X1    1 88 4.76 1.14    4.8     4.8
-##     mad min max range skew kurtosis
-## X1 1.19   2   7     5 -0.3    -0.51
-##      se
-## X1 0.12
+##    vars  n mean   sd median
+## X1    1 88 4.76 1.14    4.8
+##    trimmed  mad min max range
+## X1     4.8 1.19   2   7     5
+##    skew kurtosis   se
+## X1 -0.3    -0.51 0.12
 ```
 
 Achtung, bei den hier berichteten `sd` handelt es sich nicht um die Stichprobenkennwerte $s$, sondern um die Populationsschätzer $\hat{\sigma}$. Daher berechnen wir die Standardabweichung auch nochmals per Hand:
@@ -281,7 +282,24 @@ Für den QQ-Plot gibt es in der Basis-Funktionalität von `R` zwar einen integri
 
 ```r
 library(car)
+```
 
+```
+## Lade nötiges Paket: carData
+```
+
+```
+## 
+## Attache Paket: 'car'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:psych':
+## 
+##     logit
+```
+
+```r
 # Gruppe 1 (nichtKlinisch) 
 par(mfrow=c(1,2))
 
@@ -300,7 +318,7 @@ curve(dnorm(x,
 qqPlot(lz_nichtKlinisch)
 ```
 
-<img src="/gruppenvergleiche-unabhaengig_files/Voraussetzungsprüfung-1.png" style="display: block; margin: auto;" />
+<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
 ```
 ## [1] 97 77
@@ -311,8 +329,8 @@ dev.off()
 ```
 
 ```
-## RStudioGD 
-##         2
+## null device 
+##           1
 ```
 
 Mithilfe von `curve()` kann eine Linie in eine Grafik eingezeichnet werden. Hierbei bezeichnet `x` die x-Koordinate. `dnorm()` hatten wir bereits kennen gelernt. Diese Funktion beschreibt die Dichte der Normalverteilung. Die Normalverteilung ist eindeutig durch ihren Mittelwert und durch ihre Standardabweichung definiert. Wir müssen `dnorm()` also jeweils den empirischen Mittelwert sowie die empirische Standardabweichung übergeben. Wenn man es sehr genau nehmen will, müsste man hier also eine Verrechnung der von R erzeugten Standardabweichung vornehmen. Wie im letzten Tutorial beschrieben nutzen wir aber einfach das Ergebnis von `sd()`. Dies wird auch in allen weiteren Tutorials ohne zusätzlichen Hinweis gemacht. Das Argument `add = T` ist nötig, da sonst ein neuer Plot für die Kurve erstellt wird. Durch `add = T` wird sie dem Histogramm hinzugefügt. Damit die Dichte sichtbar ist, muss im Histogramm zuvor das Argument `probability = T` gewählt werden. Ansonsten würden absolute Häufigkeiten anstatt der relativen Häufigkeiten abgetragen werden. Der `qqPlot()`-Befehl erzeugt uns den QQ-Plot samt Konfidenzband, um so eine leichtere Einschätzung hinsichtlich des Ausmaß der Abweichung von der Normalverteilung zu ermöglichen.
@@ -341,7 +359,7 @@ curve(dnorm(x,
 qqPlot(lz_klinisch)
 ```
 
-<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 ```
 ## [1]  6 54
@@ -352,8 +370,8 @@ dev.off()
 ```
 
 ```
-## RStudioGD 
-##         2
+## null device 
+##           1
 ```
 
 In dieser Gruppe sehen wir, dass die Verteilung etwas in die Mitte gerückt ist (ein erster Hinweise bezüglich unserer ursprünglichen Hypothese), aber auch hier spricht wenig gegen die Normalverteilungsannahme.
@@ -415,8 +433,8 @@ t.test(fb24$lz ~ fb24$fach_klin,     # abhängige Variable ~ unabhängige Variab
 ## 	Two Sample t-test
 ## 
 ## data:  fb24$lz by fb24$fach_klin
-## t = 1.8347, df = 185, p-value =
-## 0.06815
+## t = 1.8347, df = 185,
+## p-value = 0.06815
 ## alternative hypothesis: true difference in means between group nicht klinisch and group klinisch is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.02312308  0.63726450
@@ -496,6 +514,23 @@ if (!requireNamespace("effsize", quietly = TRUE)) {
 library("effsize")
 ```
 
+```
+## Warning: Paket 'effsize'
+## wurde unter R Version 4.3.3
+## erstellt
+```
+
+```
+## 
+## Attache Paket: 'effsize'
+```
+
+```
+## Das folgende Objekt ist maskiert 'package:psych':
+## 
+##     cohen.d
+```
+
 
 ```r
 d2 <- cohen.d(fb24$lz, fb24$fach_klin, na.rm=T)
@@ -539,7 +574,7 @@ boxplot(fb24$gs_pre ~ fb24$fach_klin,
         main="Gute Stimmung nach Interesse")
 ```
 
-![](/gruppenvergleiche-unabhaengig_files/Deskriptivstatistik-Median-1.png)<!-- -->
+![](/gruppenvergleiche-unabhaengig_files/unnamed-chunk-19-1.png)<!-- -->
 
 Hier können wir direkt (als dicke Linie eingezeichnet) die beiden Gruppenmediane sehen. Erst einmal sieht es so aus, als seien die beiden Mediane unterschiedlich. Für etwas mehr Details, nutzen wir die Deskriptivstatistik aus der `describeBy` Funktion:
 
@@ -552,20 +587,20 @@ describeBy(fb24$gs_pre, fb24$fach_klin) # beide Gruppen im Vergleich
 ## 
 ##  Descriptive statistics by group 
 ## group: nicht klinisch
-##    vars  n mean   sd median trimmed
-## X1    1 99 3.34 0.59    3.5    3.42
-##     mad min max range skew kurtosis
-## X1 0.74   1   4     3 -1.2     1.54
-##      se
-## X1 0.06
-## ---------------------------- 
+##    vars  n mean   sd median
+## X1    1 99 3.34 0.59    3.5
+##    trimmed  mad min max range
+## X1    3.42 0.74   1   4     3
+##    skew kurtosis   se
+## X1 -1.2     1.54 0.06
+## ---------------------- 
 ## group: klinisch
-##    vars  n mean   sd median trimmed
-## X1    1 88 3.14 0.65   3.25    3.19
-##     mad min max range  skew kurtosis
-## X1 0.74   1   4     3 -0.71    -0.06
-##      se
-## X1 0.07
+##    vars  n mean   sd median
+## X1    1 88 3.14 0.65   3.25
+##    trimmed  mad min max range
+## X1    3.19 0.74   1   4     3
+##     skew kurtosis   se
+## X1 -0.71    -0.06 0.07
 ```
 
 Auch hier sehen wir wieder, dass die Gruppe der nicht klinisch interessierten Studierenden einen etwas gößeren Median aufweist als die Gruppe der klinisch interessierten Studierenden. 
@@ -593,7 +628,7 @@ curve(dnorm(x, mean=mean(gs_nichtKlinisch, na.rm=T), sd=sd(gs_nichtKlinisch, na.
 qqPlot(gs_nichtKlinisch)
 ```
 
-<img src="/gruppenvergleiche-unabhaengig_files/Voraussetzungsprüfung-Median-1.png" style="display: block; margin: auto;" />
+<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
 ```
 ## [1] 29  4
@@ -608,7 +643,7 @@ curve(dnorm(x, mean=mean(gs_klinisch, na.rm=T), sd=sd(gs_klinisch, na.rm=T)), co
 qqPlot(gs_klinisch)
 ```
 
-<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="/gruppenvergleiche-unabhaengig_files/unnamed-chunk-22-1.png" style="display: block; margin: auto;" />
 
 ```
 ## [1] 80 11
@@ -658,7 +693,8 @@ levels(fb24$fach_klin) # wichtig zu wissen: die erste der beiden Faktorstufen is
 ```
 
 ```
-## [1] "nicht klinisch" "klinisch"
+## [1] "nicht klinisch"
+## [2] "klinisch"
 ```
 
 Da die erste Faktorstufe "nicht klinisch" ist, wissen wir, dass die gerichtete Hypothese "\>" lauten muss. In R wird mit dem Argument `alternative` immer Bezug genommen auf die Formulierung der *Alternativhypothese*. In unseren Fall ist diese, dass die erste Gruppe (`nicht klinisch`) einen höheren Median hat, als die zweite Gruppe (`klinisch`), also müssen wir `alternative = 'greater'` angeben:
@@ -673,11 +709,12 @@ wilcox.test(fb24$gs_pre ~ fb24$fach_klin,     # abhängige Variable ~ unabhängi
 
 ```
 ## 
-## 	Wilcoxon rank sum test with
-## 	continuity correction
+## 	Wilcoxon rank sum test
+## 	with continuity correction
 ## 
 ## data:  fb24$gs_pre by fb24$fach_klin
-## W = 5175, p-value = 0.01232
+## W = 5175, p-value =
+## 0.01232
 ## alternative hypothesis: true location shift is greater than 0
 ```
 
@@ -876,8 +913,8 @@ chisq.test(tab,        # Kreuztabelle
 ## 	Pearson's Chi-squared test
 ## 
 ## data:  tab
-## X-squared = 1.1358, df = 1,
-## p-value = 0.2865
+## X-squared = 1.1358, df =
+## 1, p-value = 0.2865
 ```
 
 Das Ergebnis unterscheidet sich natürlich nicht zu unserer händischen Berechnung. Die Wohnnähe zur Uni hängt nicht damit zusammen, ob ein Nebenjob ausgeübt wird.
