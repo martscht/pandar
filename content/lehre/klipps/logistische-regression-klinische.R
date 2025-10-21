@@ -1,16 +1,20 @@
-## source('https://pandar.netlify.app/daten/Data_Processing_grit.R')
+# ## Daten laden
+# 
+# source('https://pandar.netlify.app/daten/Data_Processing_grit.R')
 
 
+
+#### Deskriptivstatistik ----
 
 library(psych)
 subset(grit, select = c(ARS, RSS, ELOC, ILOC, Grit, Age)) |>
   describeBy(grit$Suicide)
 
-## table(grit$Suicide, grit$Sex) |> addmargins()
-## table(grit$Suicide, grit$Employment) |> addmargins()
-## table(grit$Suicide, grit$Marital) |> addmargins()
-## table(grit$Suicide, grit$SES) |> addmargins()
-## table(grit$Suicide, grit$Orientation) |> addmargins()
+# table(grit$Suicide, grit$Sex) |> addmargins()
+# table(grit$Suicide, grit$Employment) |> addmargins()
+# table(grit$Suicide, grit$Marital) |> addmargins()
+# table(grit$Suicide, grit$SES) |> addmargins()
+# table(grit$Suicide, grit$Orientation) |> addmargins()
 
 idea <- subset(grit, grit$Suicide %in% c('None', 'Ideator'))
 idea$Suicide <- droplevels(idea$Suicide)
@@ -24,6 +28,7 @@ mod0 <- lm(as.numeric(Suicide) ~ 1 + Grit, idea)
 # Ergebnisübersicht
 summary(mod0)
 
+## Zusätzlicher Code der grafischen Darstellung
 ggplot(idea, aes(x = Grit, y = as.numeric(Suicide))) + 
   geom_point(alpha = .25) + 
   geom_smooth(method = 'lm', se = FALSE, color = pandar_colors[1]) +
@@ -52,8 +57,9 @@ new_data$Probability <- exp(new_data$Logits) / (1 + exp(new_data$Logits))
 # Ausgabe
 new_data
 
-## new_data$Probability <- predict(mod1, newdata = new_data, type = 'response')
+# new_data$Probability <- predict(mod1, newdata = new_data, type = 'response')
 
+## Zusatzcode der Verbildlichung
 # Daten und Vorhersagen erstellen
 plottable <- data.frame(Grit = seq(0, 4, .01))
 plottable$Probability <- predict(mod1, newdata = plottable, type = 'response')
@@ -114,6 +120,8 @@ results <- data.frame(Odds = exp(coef(block2)),
 # Ausgabe
 results
 
+#### Klassifikationsgüte ----
+
 # Vorhersagen
 idea$Prediction <- predict(block2, type = 'response') > .5
 idea$Prediction <- factor(idea$Prediction, labels = c('None', 'Ideator'))
@@ -125,6 +133,8 @@ library(caret)
 confusionMatrix(idea$Prediction, idea$Suicide)
 
 confuse <- table(idea$Prediction, idea$Suicide)
+
+#### Vorbereitung ----
 
 # Zentrierung
 grit$ARS_c <- scale(grit$ARS, scale = FALSE)
@@ -140,11 +150,13 @@ grit$ARS_c <- as.numeric(grit$ARS_c)
 grit$ILOC_c <- as.numeric(grit$ILOC_c)
 grit$Grit_c <- as.numeric(grit$Grit_c)
 
-## # Paket installieren
-## install.packages('nnet')
+# # Paket installieren
+# install.packages('nnet')
 
 # Paket laden
 library(nnet)
+
+#### Modell ----
 
 # Multinomiale logistische Regression
 mod2 <- multinom(Suicide ~ 1 + Grit_c, grit)
@@ -157,6 +169,8 @@ odds <- exp(coef(mod2))
 
 odds
 
+#### Vorhersagen und Abbildungen ----
+
 # Mittlerer Grit +/- 1 und 2 SD
 new_data <- data.frame(Grit_c = c(-2*sd(grit$Grit), -sd(grit$Grit), 0, sd(grit$Grit), 2*sd(grit$Grit)))
 
@@ -166,6 +180,7 @@ new_data$Probability <- predict(mod2, newdata = new_data, type = 'probs')
 # Ausgabe
 new_data
 
+## Zusatzcode der Visualisierung der Wahrscheinlichkeiten
 # Daten und Vorhersagen erstellen
 plottable <- data.frame(Grit_c = seq(min(grit$Grit_c), max(grit$Grit_c), .01))
 plottable <- cbind(plottable, predict(mod2, newdata = plottable, type = 'probs'))
@@ -183,6 +198,8 @@ ggplot(plottable, aes(x = Grit_c, y = Probability, color = Category)) +
   scale_color_pandar() +
   ylim(0, 1)
 
+#### Inferenzstatistik ----
+
 confint(mod2)
 
 # Parameter
@@ -197,6 +214,8 @@ z <- beta/se
 
 # p-Werte (zweiseitig)
 p <- 2 * pnorm(abs(z), lower.tail = FALSE)
+
+#### Volle Modelle ----
 
 # Blöcke aufstellen
 block1 <- multinom(Suicide ~ 1 + Orientation_bin, 

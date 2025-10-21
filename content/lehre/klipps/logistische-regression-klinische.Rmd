@@ -232,7 +232,7 @@ Das Problem bei dieser Interpretation ist nur, dass der Logit nicht wirklich int
 exp(coef(mod1))
 ```
 
-Bei einem `Grit`-Wert von 0 ist es also knapp `r round(exp(coef(mod1))[1], 2)`-mal so wahrscheinlich in der Vergangenheit Suizidgedanken gehabt zu haben, wie es ist, sie nicht gehabt zu haben. Wenn sich zwei Personen auf der `Grit`-Skala um eine Einheit unterscheiden, ist die Wahrscheinlichkeit der Suizidgedanken der Person mit dem höheren Wert nur ungefähr das `r round(exp(coef(mod1))[2], 2)`-fache der Person mit dem niedrigeren Wert.
+Bei einem `Grit`-Wert von 0 ist es also knapp `r round(exp(coef(mod1))[1], 2)`-mal so wahrscheinlich in der Vergangenheit Suizidgedanken gehabt zu haben, wie es ist, sie nicht gehabt zu haben. Wenn sich zwei Personen auf der `Grit`-Skala um eine Einheit unterscheiden, sind die Odds der Suizidgedanken der Person mit dem höheren Wert nur ungefähr das `r round(exp(coef(mod1))[2], 2)`-fache der Person mit dem niedrigeren Wert.
 
 Für jeden einzelnen Wert können wir außerdem die Wahrscheinlichkeit berechnen, dass Person Suizidgedanken hatten. Dafür können wir zunächst, wie bei der normalen Regression, die vorhergesagten Logits bestimmen und diese dann in Wahrscheinlichkeiten umrechnen:
 
@@ -300,7 +300,7 @@ Die Erweiterung der logistischen Regression auf mehrere Prädiktoren funktionier
   - **Block 3**: Zusätzlich die paarweisen Interaktionen zwischen `ARS`, `ILOC` und `Grit`
   - **Block 4**: Zusätzlich die dreifach-Interaktion zwischen `ARS`, `ILOC` und `Grit`
 
-Die Grundideen, die wir in den letzten beiden Beiträgen hinsichtlich der [moderierten Regression](/lehre/klipps/multiple-regression-klinische) und der [generalisierten ANCOVA](/lehre/klipps/ancova-klinische) besprochen hatten halten auch hier (wir haben ja nur ausgetauscht, wie wir unsere abhängige Variable behandeln). Deswegen müssen wir auch hier die Variablen zentrieren, um nicht-essentielle Multikollinearität zu vermeiden:
+Die Grundideen aus der [moderierten Regression](/lehre/klipps/multiple-regression-klinische) und der [generalisierten ANCOVA](/lehre/klipps/ancova-klinische) halten auch hier (wir haben ja nur ausgetauscht, wie wir unsere abhängige Variable behandeln). Deswegen müssen wir auch hier die Variablen zentrieren, um nicht-essentielle Multikollinearität zu vermeiden:
 
 ```{r}
 # Zentrierung
@@ -486,7 +486,7 @@ odds <- exp(coef(mod2))
 odds
 ```
 
-Im ersten Intercept wird hier also festgehalten, wie viel wahrscheinlicher es ist, dass eine Person ein `Ideator` ist, als dass sie bislang weder Suizidgedanken noch -versuche hatte (`none` ist unsere Referenzkategorie), wenn sie durchschnittlichen Grit vorweisen kann (wir haben `Grit` zentriert). Im zweiten Intercept steht das Gleiche, aber für die Wahrscheinlichkeit, dass eine Person ein `Attempter` ist. Bezüglich des Grit können wir sagen, dass für jede zusätzliche Einheit in Grit, eine um das `r round(odds[1, 2],2)`-fache geringere Wahrscheinlichkeit erwartet wird, dass eine Person schon einmal Suizidgedanken hatte.
+Im ersten Intercept wird hier also festgehalten, wie viel wahrscheinlicher es ist, dass eine Person ein `Ideator` ist, als dass sie bislang weder Suizidgedanken noch -versuche hatte (`none` ist unsere Referenzkategorie), wenn sie durchschnittlichen Grit vorweisen kann (wir haben `Grit` zentriert). Im zweiten Intercept steht das Gleiche, aber für die Wahrscheinlichkeit, dass eine Person ein `Attempter` ist. Bezüglich des Grit können wir sagen, dass für jede zusätzliche Einheit in Grit, ein um das `r round(odds[1, 2],2)`-fache geringerer Odds erwartet wird, dass eine Person schon einmal Suizidgedanken hatte.
 
 ### Vorhesagen und Abbildungen
 
