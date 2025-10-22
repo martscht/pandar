@@ -7,9 +7,9 @@ categories: ["Statistik I"]
 tags: ["Deskriptivstatistik", "Grafiken", "Median", "Quantile"]
 subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
-authors: [nehler, buchholz]
+authors: [nehler, buchholz, kvetnaya]
 weight: 2
-lastmod: '2025-10-20'
+lastmod: '2025-10-22'
 featured: no
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
@@ -70,70 +70,33 @@ Absolut | absoluter Wert | Identität | ... | ... |
 
 ## Vorbereitende Schritte
 
-Nachdem wir in der letzten Sitzung die Arbeit mit dem CSV Format kennen gelernt haben, nutzen wir jetzt die Datei im RDA Format für das Einlesen des Datensatzes. Den Datensatz `fb24` können Sie im RDA Format [hier <i class="fas fa-download"></i> herunterladen](/daten/fb24.rda). Außerdem ist es prinzipiell ratsam, zu Beginn wieder das Arbeitsverzeichnis mit Hilfe von `setwd()` zu bestimmen. Dies stellt sicher, dass wenn Sie später Daten speichern (z.B. Datensätze oder Grafiken), diese auch am gewünschten Ort auf Ihrem Computer abgelegt werden. 
+Nachdem wir in der letzten Sitzung die Arbeit mit dem CSV Format kennen gelernt haben, nutzen wir jetzt die Datei im RDA Format für das Einlesen des Datensatzes. Den Datensatz `fb25` können Sie im RDA Format [hier <i class="fas fa-download"></i> herunterladen](/daten/fb25.rda). Außerdem ist es prinzipiell ratsam, zu Beginn wieder das Arbeitsverzeichnis mit Hilfe von `setwd()` zu bestimmen. Dies stellt sicher, dass wenn Sie später Daten speichern (z.B. Datensätze oder Grafiken), diese auch am gewünschten Ort auf Ihrem Computer abgelegt werden. 
 
 Eine alternative Variante ist, den Datensatz direkt mit dem folgenden Befehl aus dem Internet einzuladen. Dies ist immer dann möglich, wenn der Datensatz auch über eine URL aufrufbar ist. 
 
 
-```r
-load(url('https://pandar.netlify.app/daten/fb24.rda'))   # Daten laden
-names(fb24)        # Namen der Variablen
+``` r
+load(url('https://pandar.netlify.app/daten/fb25.rda'))   # Daten laden
+names(fb25)        # Namen der Variablen
 ```
 
 ```
-##  [1] "mdbf1"      
-##  [2] "mdbf2"      
-##  [3] "mdbf3"      
-##  [4] "mdbf4"      
-##  [5] "mdbf5"      
-##  [6] "mdbf6"      
-##  [7] "mdbf7"      
-##  [8] "mdbf8"      
-##  [9] "mdbf9"      
-## [10] "mdbf10"     
-## [11] "mdbf11"     
-## [12] "mdbf12"     
-## [13] "time_pre"   
-## [14] "lz"         
-## [15] "extra"      
-## [16] "vertr"      
-## [17] "gewis"      
-## [18] "neuro"      
-## [19] "offen"      
-## [20] "prok"       
-## [21] "nerd"       
-## [22] "uni1"       
-## [23] "uni2"       
-## [24] "uni3"       
-## [25] "uni4"       
-## [26] "grund"      
-## [27] "fach"       
-## [28] "ziel"       
-## [29] "wissen"     
-## [30] "therap"     
-## [31] "lerntyp"    
-## [32] "hand"       
-## [33] "job"        
-## [34] "ort"        
-## [35] "ort12"      
-## [36] "wohnen"     
-## [37] "attent"     
-## [38] "gs_post"    
-## [39] "wm_post"    
-## [40] "ru_post"    
-## [41] "time_post"  
-## [42] "attent_post"
+##  [1] "mdbf1"       "mdbf2"       "mdbf3"       "mdbf4"       "mdbf5"       "mdbf6"       "mdbf7"       "mdbf8"       "mdbf9"      
+## [10] "mdbf10"      "mdbf11"      "mdbf12"      "time_pre"    "lz"          "extra"       "vertr"       "gewis"       "neuro"      
+## [19] "offen"       "prok"        "trust"       "uni1"        "uni2"        "uni3"        "uni4"        "sicher"      "angst"      
+## [28] "fach"        "ziel"        "wissen"      "therap"      "lerntyp"     "hand"        "job"         "ort"         "ort12"      
+## [37] "wohnen"      "attent_pre"  "gs_post"     "wm_post"     "ru_post"     "time_post"   "attent_post"
 ```
 
-```r
-dim(fb24)          # Anzahl Zeile und Spalten
+``` r
+dim(fb25)          # Anzahl Zeile und Spalten
 ```
 
 ```
-## [1] 192  42
+## [1] 211  43
 ```
 
-In der letzten Sitzung haben wir schon einige Befehle für das Screening eines Datensatzes kennen gelernt. Dabei zeigt `names()` alle Variablennamen an, während `dim()` uns Zeilen und Spalten ausgibt. Der Datensatz hat also 192 Beobachtungen auf 42 Variablen.
+In der letzten Sitzung haben wir schon einige Befehle für das Screening eines Datensatzes kennen gelernt. Dabei zeigt `names()` alle Variablennamen an, während `dim()` uns Zeilen und Spalten ausgibt. Der Datensatz hat also 211 Beobachtungen auf 43 Variablen.
 
 
 ***
@@ -150,46 +113,30 @@ Jeder numerischen Faktorstufe (level) kann ein Label zugewiesen werden. Faktorst
 **Beispiel 1: Die (numerische) Variable `hand` als Faktor aufbereiten**
 
 
-```r
-str(fb24$hand)
+``` r
+str(fb25$hand)
 ```
 
 ```
-##  num [1:192] 1 2 2 2 2 2 2 2 1 2 ...
+##  int [1:211] 2 2 2 2 2 2 2 2 1 2 ...
 ```
 
-```r
-fb24$hand
+``` r
+fb25$hand
 ```
 
 ```
-##   [1]  1  2  2  2  2  2  2  2
-##   [9]  1  2  2  2  2  2  2  2
-##  [17]  2  2  2  2  1  2  2  2
-##  [25]  1  1  2  2  1  1  2  2
-##  [33]  2 NA  2  2  1  2  2  2
-##  [41]  2  2  2  2  2  2  2  2
-##  [49]  2  2  1  1  2  2  2  2
-##  [57] NA  2  2  2  2  2  2  1
-##  [65]  2  2  2  1  2  2  2  2
-##  [73]  2  2  2  2  2  2  2  2
-##  [81]  2  2  2  1 NA  1  2  2
-##  [89]  2  2  2  1  2  2  2  2
-##  [97]  2  2  2  2  2  2  2  2
-## [105]  2  2  2  1  2  2  2  2
-## [113] NA  1  2  2  2  2  2  2
-## [121]  2  2  2  2  2  2  2  2
-## [129]  2  2  2  2  2  2  2  2
-## [137]  2  1  2  2  2  2  2  2
-## [145]  2  2  1  2  2  2  2  2
-## [153]  2  2  2  2  2  2  2  1
-## [161]  2  2  2  1  2  2  2  2
-## [169]  2  2  2  2  2  2  2  2
-## [177]  2  2  2  2  2  2  2  2
-## [185]  2  2  2  1  2  2  2  1
+##   [1]  2  2  2  2  2  2  2  2  1  2  2  2  2  2  1  2  2  1  2  2  2  2  2 NA  1  2  2  2  2  2  2 NA  2  2  2  2  2  2  2  2  2  2
+##  [43]  1  2  2  1  2  1  2  2  1  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  2 NA  2  2  2  2  2 NA  2  2  2  2  2  1  2  2  2
+##  [85]  2  2  2  2  2  2  2  2 NA  2  2  2  2  2  1  2  2  2  2  2  2  2  2  2 NA  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2 NA  2
+## [127]  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  2  2  2  2  1  2  2  2  1  2  2  2  2  1  2  2  2  2  2  2  2  2  2
+## [169]  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  2  1  2  2  2  2  2  1  2  2  2  2  2  2  2  1  2  2
+## [211]  2
 ```
 
-Die Variable `hand` liegt numerisch vor, es treten die Werte 1 und 2 empirisch auf. Die Bedeutung von `NA` wird [später](#Fehlend) betrachtet. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/lehre/statistik-i/variablen.pdf)) kann den Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "links". Diese *Label* werden nun im Faktor hinterlegt.
+Die Variable `hand` liegt numerisch vor, es treten die Werte 1 und 2 empirisch auf. Anhand des Kodierschemas ([<i class="fas fa-download"></i> Variablenübersicht](/lehre/statistik-i/variablen.pdf)) kann den vorkommenden Zahlen eine inhaltliche Bedeutung zugewiesen werden. Beispielsweise bedeutet der Wert 1 "links". Diese *Label* werden nun im Faktor hinterlegt.
+
+Außerdem ist erkennbar, dass manche Einträge als `NA` ausgegeben werden.`NA` ist kurz für *"not available"* und kennzeichnet, dass der Wert an dieser Stelle fehlt (z.B., weil jemand dieses Item im Fragebogen nicht beantwortet hat). Wie genau damit umgehen soll, wird [später](#Fehlend) erläutert.  
 
 Vorgehensweise:   
 
@@ -199,24 +146,23 @@ Vorgehensweise:
 * Spezifikation des Arguments `labels`, also die Label für die in `levels` hinterlegten numerischen Stufen (hier: "links", "rechts"; unbedingt auf gleiche Reihenfolge achten!)
 
 
-```r
-fb24$hand_factor <- factor(fb24$hand,                                   # Ausgangsvariable
-                             levels = 1:2,                                  # Faktorstufen
-                             labels = c("links", "rechts")) # Label für Faktorstufen
-str(fb24$hand_factor)
+``` r
+fb25$hand_factor <- factor(fb25$hand,                       # Ausgangsvariable
+                           levels = 1:2,                  # Faktorstufen
+                           labels = c("links", "rechts")) # Label für Faktorstufen
+str(fb25$hand_factor)
 ```
 
 ```
-##  Factor w/ 2 levels "links","rechts": 1 2 2 2 2 2 2 2 1 2 ...
+##  Factor w/ 2 levels "links","rechts": 2 2 2 2 2 2 2 2 1 2 ...
 ```
 
-```r
-head(fb24$hand_factor)
+``` r
+head(fb25$hand_factor)
 ```
 
 ```
-## [1] links  rechts rechts
-## [4] rechts rechts rechts
+## [1] rechts rechts rechts rechts rechts rechts
 ## Levels: links rechts
 ```
 
@@ -229,82 +175,39 @@ Analog dazu wird nachfolgend die ebenfalls numerische Variable `fach` in einen F
 
 
 
-```r
-fb24$fach
+``` r
+fb25$fach
 ```
 
 ```
-##   [1]  1  3  1  4  4  3  1  3
-##   [9]  1  4  4  3  2  4  1  3
-##  [17]  3  4  4  4  3  4  4  4
-##  [25]  4  4  3  4  3  3 NA  3
-##  [33]  4 NA  3  4  4  3  4  4
-##  [41]  2  1  4  4  3  4  3  1
-##  [49]  4  4  1  2  3  4  4  3
-##  [57] NA  1  2  1  2  4  3  4
-##  [65]  1  4 NA  4  1  4  3  1
-##  [73]  3  4  4  1  3  1  3  1
-##  [81]  2  2  4  3 NA  5  4  4
-##  [89]  2  4  3  3  1  4  1  4
-##  [97]  3  3  4  4  4  2  1  2
-## [105]  4  1  4  3  4  2  4  4
-## [113]  4  4  1  4  5  1  2  4
-## [121]  4  4  3  4  1  1  4  1
-## [129]  4  4  1  3  4  4  3  1
-## [137]  4  4  4  4  4  5  4  3
-## [145]  4  1  4  4  1  4  1  4
-## [153]  4  1  4  2  3  2  1  4
-## [161]  1  4  3  4  3  4  3  4
-## [169]  4  1  1  4  4  4  4  3
-## [177]  4  1  1  4  1  3  3  4
-## [185]  2  4  4  3  4  1  1  1
+##   [1]  4  4  4  4  4  4  4  2  2  2  5  4  3  2  3  4  3  4  5  5  4  3  4  4  4  5  4  3  3  4  2 NA  4  4  4  1  4  2  3  4  4  2
+##  [43]  2  1  3  2  4  3  3  5  3  4  4  4  2  4  2  4  4  1  1  2  5  1  4  3  4  4 NA  3  1  1  4  1  4  5  3  3  4  3  4  4 NA  4
+##  [85]  1  4  4  4  4  3  1  4 NA  1  4  3  3  3  4  4  3  1  4  4  3  4  4  3 NA  1  4  3  4  3  1  3  3  4  1  1  1  4  1  4  4  4
+## [127]  4  3  4  4  4  1  4  1  4  2  2  3  4  2  4  5  4  1  1  4  2  1  1  1  5  2  4  4  4  4  2  4  4  3  5  5  3  4  2  1  4  1
+## [169]  4  4  4  2  4  1  2  4  1  5  4  3  2  4  2  2  4  2  4  4  3  4  3  5  3  4  3  4  1  4  3  2  4  1  1  4  4  5  5  3  3  5
+## [211]  4
 ```
 
 Es treten die Ausprägungen 1 bis 5 empirisch auf. Auch hier werden die Label aus dem Kodierschema zugewiesen.
 
 
-```r
-fb24$fach <- factor(fb24$fach,
+``` r
+fb25$fach <- factor(fb25$fach,
                     levels = 1:5,
-                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-str(fb24$fach)
+                    labels = c('Allgemeine', 'Biologische', 'Entwicklung', 
+                               'Klinische', 'Diag./Meth.'))
+str(fb25$fach)
 ```
 
 ```
-##  Factor w/ 5 levels "Allgemeine","Biologische",..: 1 3 1 4 4 3 1 3 1 4 ...
+##  Factor w/ 5 levels "Allgemeine","Biologische",..: 4 4 4 4 4 4 4 2 2 2 ...
 ```
 
-Hinweis: In Beispiel 2 wurde die Ursprungsvariable mit dem Faktor überschrieben. Sie ist nun verschwunden, der Datensatz enthält nur noch den Faktor, nicht mehr die numerische Variable.
+Ein wichtiger Hinweis: In Beispiel 2 wurde die Ursprungsvariable mit dem Faktor **überschrieben**. D.h., die alte numerische Version dieser Variablen ist nun verschwunden, der Datensatz enthält nur noch den Faktor. Wenn Sie sich für diese Variante entscheiden, einen Faktor zu erstellen, ist es sehr wichtig, dass Sie den Befehl nur **einmal** ausführen und nicht versehentlich ein zweites Mal. Sonst kann es zu unerwünschtem Verhalten kommen (z.B., dass plötzlich alle Werte auf dieser Variablen als `NA` erscheinen). 
 
+Wir haben nun also gelernt, dass Faktoren auf verschiedene Weisen erstellt werden können. Wir benutzen nun die Funktion `factor()`, wenn unsere Variable zunächst nur `numerisch` vorlag (Beispiele 1 und 2) und wir eine Bedeutung zuordnen wollen. 
 
-**Beispiel 3: Einen character-Vektor als Faktor aufbereiten**
-
-Um einen character-Vektor in einen Faktor umzukodieren, kann die Funktion `as.factor()` verwendet werden (siehe Skript zur Lehreinheit 1). Die Ausprägungen werden dann automatisch als Labels übernommen. Die numerischen Stufen (`levels`) werden anhand der alphabetischen Reihenfolge der `labels` vergeben. 
-
-Nachfolgend wird zur Illustration die offene Freitextantwort zum Grund für das Psychologiestudium (Variable `grund`) in einen Faktor umgewandelt. 
-
-
-```r
-str(fb24$grund)                            # Ursprungsvariable: Character
-```
-
-```
-##  chr [1:192] "Interesse an Menschen, Verhalten und Sozialdynamiken" ...
-```
-
-```r
-fb24$grund_faktor <- as.factor(fb24$grund) # Umwandlung in Faktor
-str(fb24$grund_faktor)                     # neue Variable: Faktor
-```
-
-```
-##  Factor w/ 159 levels " - die Arbeit mit Menschen, - Interesse am Inhalt des Fachs ",..: 73 45 NA 142 74 119 89 NA 139 134 ...
-```
-
-
-Die neue Variable ist nun ein Faktor mit 159 Stufen. Das Vorgehen ist nur zur Anschauung gedacht und in diesem speziellen Fall nicht sinnvoll, da jede einzelne Freitextantwort vermutlich nur genau einmal vorkommt und später sowieso nicht (ohne zusätzliche Kodierung) in statistischen Analysen weiterverwendet werden kann.
-
-Wir haben nun also gelernt, dass Faktoren auf verschiedene Weisen erstellt werden können. Wir benutzen nun die Funktion `factor()`, wenn unsere Variable zunächst nur `numerisch` vorlag (Beispiele 1 und 2) und wir eine Bedeutung zuordnen wollen. Wenn die Variable als `character` (Beispiel 3 und Intro-Sitzung), nutzen wir die Funktion `as.factor()`.
+In der Intro-Sitzung haben Sie bereits gesehen, dass Sie `character`-Variablen, deren Ausprägungen im Originaldatensatz im Textformat (statt wie in unserem Beispielen 1 und 2 als Zahlen) vorliegen, auch mit dem Befehl `as.factor()` in einen Faktor umwandeln konnten. Bei `as.factor()` handelt es sich um eine für solche Fälle geschaffene, etwas einfachere und schnellere Version des `factor()`-Befehls (das nennt man bei R eine "Wrapper"-Funktion), die keine zusätzlichen Argumente benötigt. `factor()` ist aber für eine größere Bandbreite von Fällen anwendbar, weshalb wir uns an ihn gewöhnen werden.
 
 **Hinweise zu den Levels und Labels**
 
@@ -316,21 +219,17 @@ Die Reihenfolge von Levels und Labels ergibt sich während der Faktorerstellung:
 Die Labels eines Faktors können mit der Funktion `levels()` abgerufen werden. Die Reihenfolge kann mithilfe der `relevel()`-Funktion geändert werden. Dafür muss dasjenige Label angesprochen werden, das die erste Position einnehmen soll (hier: 'Diag./Meth.').
 
 
-```r
-levels(fb24$fach)         # Abruf
+``` r
+levels(fb25$fach)         # Abruf
 ```
 
 ```
-## [1] "Allgemeine" 
-## [2] "Biologische"
-## [3] "Entwicklung"
-## [4] "Klinische"  
-## [5] "Diag./Meth."
+## [1] "Allgemeine"  "Biologische" "Entwicklung" "Klinische"   "Diag./Meth."
 ```
 
-```r
-fb24$fach <- relevel(
-  fb24$fach,              # Bezugskategorie wechseln
+``` r
+fb25$fach <- relevel(
+  fb25$fach,              # Bezugskategorie wechseln
   'Diag./Meth.')          # Neue Bezugskategorie
 ```
 
@@ -344,18 +243,36 @@ Eine deskriptivstatistische Möglichkeit zur Darstellung diskreter (zählbarer) 
 **Absolute Häufigkeiten**
 
 
-```r
-table(fb24$fach)
+``` r
+table(fb25$fach)
 ```
 
 ```
 ## 
-## Diag./Meth.  Allgemeine 
-##           3          41 
-## Biologische Entwicklung 
-##          15          40 
-##   Klinische 
-##          88
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
+##          16          32          26          39          93
+```
+Bei näherer Betrachtung fällt auf, dass an dieser Tabelle etwas nicht stimmt. Summiert man alle darin vorkommenden Werte auf...
+
+
+``` r
+table(fb25$fach) |> sum()
+```
+
+```
+## [1] 206
+```
+... sieht man, dass nur 206 von allen 211 Beobachtungen darin Eingang gefunden haben. Das liegt daran, dass der `table`-Befehl ohne zusätzliche Argumente alle `NA`s einfach ignoriert. Um zu sehen, wieviele fehlende Werte wir insgesamt auf dieser Variable haben, müssen wir das Argument `useNA` spezifizieren. `"ifany"`` bedeutet, dass fehlende Werte nur mitgezählt werden, falls es welche gibt.
+
+
+``` r
+table(fb25$fach, useNA = "ifany")
+```
+
+```
+## 
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische        <NA> 
+##          16          32          26          39          93           5
 ```
 
 Häufig sind relative Häufigkeiten informativer. Nachfolgend werden zwei Möglichkeiten zur Erstellung von relativen Häufigkeitstabellen in `R` gezeigt.
@@ -368,50 +285,42 @@ Relative Häufigkeiten können aus absoluten Häufigkeiten abgeleitet werden: $h
 Diese einfache Rechenvorschrift (Kategorienhäufigkeit geteilt durch Gesamthäufigkeit) kann auf das gesamte Tabellenobjekt angewendet werden. So wird jede einzelne absolute Kategorienhäufigkeit am Gesamtwert relativiert, es resultiert eine Tabelle der relativen Häufigkeiten.
 
 
-```r
-tab <- table(fb24$fach) # Absolute Haeufigkeiten
-sum(tab)                # Gesamtzahl
+``` r
+tab <- table(fb25$fach, useNA = "ifany") # Absolute Haeufigkeiten
+sum(tab)         # Gesamtzahl
 ```
 
 ```
-## [1] 187
+## [1] 211
 ```
 
-```r
-tab / sum(tab)          # Relative Haeufigkeiten
+``` r
+tab / sum(tab)   # Relative Haeufigkeiten
 ```
 
 ```
 ## 
-## Diag./Meth.  Allgemeine 
-##  0.01604278  0.21925134 
-## Biologische Entwicklung 
-##  0.08021390  0.21390374 
-##   Klinische 
-##  0.47058824
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische        <NA> 
+##  0.07582938  0.15165877  0.12322275  0.18483412  0.44075829  0.02369668
 ```
 
 **Relative Häufigkeiten (per Funktion)**
 
-Alternativ kann die Funktion `prop.table()` auf das Tabellenobjekt mit den absoluten Häufigkeiten angewendet werden.
+Alternativ kann die Funktion `prop.table()` (steht für *proportions*) auf das Tabellenobjekt mit den absoluten Häufigkeiten angewendet werden.
 
 
-```r
-tab <- table(fb24$fach) # Absolute
-prop.table(tab)         # Relative
+``` r
+tab <- table(fb25$fach, useNA = "ifany")  # Absolute
+prop.table(tab)                           # Relative
 ```
 
 ```
 ## 
-## Diag./Meth.  Allgemeine 
-##  0.01604278  0.21925134 
-## Biologische Entwicklung 
-##  0.08021390  0.21390374 
-##   Klinische 
-##  0.47058824
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische        <NA> 
+##  0.07582938  0.15165877  0.12322275  0.18483412  0.44075829  0.02369668
 ```
 
-Ungefähr 1.6% Ihres Jahrgangs geben als Lieblingsfach "Diagnostik/Methoden" an! Vielleicht können wir ja noch mehr von Ihnen mit dem nächsten Thema begeistern. :-)
+Ungefähr 7.58% Ihres Jahrgangs geben als Lieblingsfach "Diagnostik/Methoden" an! Vielleicht können wir ja noch mehr von Ihnen mit dem nächsten Thema begeistern. :-)
 
 ***
 
@@ -419,35 +328,39 @@ Ungefähr 1.6% Ihres Jahrgangs geben als Lieblingsfach "Diagnostik/Methoden" an!
 
 <img src="/deskriptiv-nominal-ordinal_files/comic-barplot-1.png" style="display: block; margin: auto;" />
 
-Die Darstellung als Tabelle wirkt häufig langweilig. Zu viele Tabellen in einem Bericht / einer Arbeit schrecken Leser:innen meist ab. Nachfolgend werden mögliche grafische Darstellungsformen für diskrete nominalskalierte Variablen gezeigt. Hierfür haben Sie in der Vorlesung die Optionen eines Balken- bzw. Säulendiagramms und eines Tortendiagramms kennengelernt.
+Die Darstellung als Tabelle wirkt häufig langweilig, und zu viele Tabellen in einem Bericht / einer Arbeit schecken Leser\*innen meist ab. Im Folgenden zeigen wir Ihnen mehrere mögliche grafische Darstellungsformen für diskrete nominalskalierte Variablen. Hierfür haben Sie in der Vorlesung die Optionen eines Balken- bzw. Säulendiagramms und eines Tortendiagramms kennengelernt.
 
 
 **Säulen- oder Balkendiagramm**
 
-Die Erstellung ist mit der Funktion `barplot()` möglich. Diese braucht zunächst nur ein Tabellenobjekt als Input, dass die absoluten Häufigkeiten für die verschiedenen Kategorien einer Variable enthält.
+Die Erstellung ist mit der Funktion `barplot()` möglich. Diese braucht zunächst nur ein Tabellenobjekt als Input, dass die absoluten Häufigkeiten für die verschiedenen Kategorien einer Variable enthält. 
+Um uns das Leben etwas einfacher zu machen, ziehen wir für diese Abbildung nur eine Tabelle ohne fehlende Werte (ohne `NA`s) heran.
 
 
-```r
+``` r
+tab <- table(fb25$fach)
 barplot(tab)
 ```
+
+![](/deskriptiv-nominal-ordinal_files/unnamed-chunk-12-1.png)<!-- -->
 
 Die Grafik erscheint in der RStudio-Standardansicht "unten rechts" im Reiter "Plots":
 
 ![](plots_window.PNG)
 
-<img src="/deskriptiv-nominal-ordinal_files/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
+<img src="/deskriptiv-nominal-ordinal_files/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 **Tortendiagramm**
 
 Die Erstellug eines Tortendiagramms ist ebenfalls leicht zu erreichen. Die Funktion heißt `pie()` und braucht denselben Input wie `barplot`. 
 
 
-```r
+``` r
 # Tortendiagramm
 pie(tab)
 ```
 
-<img src="/deskriptiv-nominal-ordinal_files/unnamed-chunk-13-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="/deskriptiv-nominal-ordinal_files/unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;" />
 
 In der Vorlesung haben Sie bereits gelernt, dass diese Form der Darstellung aber nicht für detaillierte Analysen zu empfehlen ist, weil Erkenntnisse daraus viel schwerer zu ziehen sind. Bei den Zusatzargumenten werden wir uns also nur mit der Funktion `barplot()` beschäftigen.
 
@@ -470,46 +383,27 @@ xlab, ylab | Beschriftung der Achsen
 `R` kennt eine ganze Reihe vordefinierter Farben ($N = $ 657) mit teilweise sehr poetischen Namen. Diese können mit der Funktion `colors()` (ohne Argument) abgerufen werden. Hier sind die ersten 20 Treffer:
 
 
-```r
+``` r
 colors()[1:20]
 ```
 
 ```
-##  [1] "white"        
-##  [2] "aliceblue"    
-##  [3] "antiquewhite" 
-##  [4] "antiquewhite1"
-##  [5] "antiquewhite2"
-##  [6] "antiquewhite3"
-##  [7] "antiquewhite4"
-##  [8] "aquamarine"   
-##  [9] "aquamarine1"  
-## [10] "aquamarine2"  
-## [11] "aquamarine3"  
-## [12] "aquamarine4"  
-## [13] "azure"        
-## [14] "azure1"       
-## [15] "azure2"       
-## [16] "azure3"       
-## [17] "azure4"       
-## [18] "beige"        
-## [19] "bisque"       
-## [20] "bisque1"
+##  [1] "white"         "aliceblue"     "antiquewhite"  "antiquewhite1" "antiquewhite2" "antiquewhite3" "antiquewhite4" "aquamarine"   
+##  [9] "aquamarine1"   "aquamarine2"   "aquamarine3"   "aquamarine4"   "azure"         "azure1"        "azure2"        "azure3"       
+## [17] "azure4"        "beige"         "bisque"        "bisque1"
 ```
 
-Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [https://r-charts.com/colors/]( https://r-charts.com/colors/). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
+Die Farben aus der Liste können als Zahl (Index) oder per Name angesprochen werden. Eine vollständige Liste der Farben findet sich zum Beispiel unter [https://r-charts.com/colors]( https://r-charts.com/colors/). Farben können aber auch per RGB-Vektor (Funktion `rgb()`) oder HEX-Wert angesprochen werden.
 
 Zusätzlich können Farbpaletten verwendet werden. Sie bestehen aus einem Farbverlauf, aus dem einzelne Farben "herausgezogen" werden, wodurch ein zusammengehöriges Farbthema in einer Abbildung entsteht. `R` liefert einige dieser Paletten: `rainbow(...)`, `heat.colors(...)`, `topo.colors(...)`, ... Die Farbpalette wird ebenfalls per `col`-Argugment spezifiziert. Technisch handelt es sich um eine Funktion, für die als Argument die Anzahl der Farben spezifiziert werden muss, die aus der Palette "gezogen" werden sollen. Es wäre also so, als würden wir diese 5 Farben per Hand eingeben, nur dass wir die Person entscheiden lassen, die eine Palette programmiert hat Beispielsweise werden mit `col = rainbow(5)` fünf Farben aus der rainbow-Palette gezogen. Der Output würde so aussehen.
 
 
-```r
+``` r
 rainbow(5)
 ```
 
 ```
-## [1] "#FF0000" "#CCFF00"
-## [3] "#00FF66" "#0066FF"
-## [5] "#CC00FF"
+## [1] "#FF0000" "#CCFF00" "#00FF66" "#0066FF" "#CC00FF"
 ```
 
 Die Farben werden hier nicht direkt mit ihrem Namen, sondern mit dem Hex-Code ausgegeben. `#FF0000` steht dabei beispielsweise für ein rot.
@@ -517,7 +411,7 @@ Die Farben werden hier nicht direkt mit ihrem Namen, sondern mit dem Hex-Code au
 **Beispiel für angepasste Abbildung**
 
 
-```r
+``` r
 barplot(tab,
         col = rainbow(5),                        # Farbe
         ylab = 'Anzahl Studierende',             # y-Achse Bezeichnung
@@ -526,9 +420,9 @@ barplot(tab,
         cex.names = 0.8)                         # Schriftgröße der Labels
 ```
 
-![](/deskriptiv-nominal-ordinal_files/unnamed-chunk-16-1.png)<!-- -->
+![](/deskriptiv-nominal-ordinal_files/unnamed-chunk-17-1.png)<!-- -->
 
-Alle verwendeten Argumente (bis auf eines) sind bereits in der Tabelle oben beschrieben. Wir fügen einen Titel zur y-Achse mittels `ylab` hinzu. `main` ist verantwortlich für den Titel der Grafik, während `las` die Beschriftung der Säulen dreht. Das bisher nicht genannte Argument `cex.names` verändert die Schriftgröße für die Beschriftung der Balken. Wenn wir diese nicht anpassen würden, würde die Schrift den Rahmen der Standardeinstellungen für Grafen in `R` sprengen und damit teilweise außerhalb des Bildes stehen. 
+Alle verwendeten Argumente (bis auf eines) sind bereits in der Tabelle oben beschrieben. Wir fügen einen Titel zur y-Achse mittels `ylab` hinzu. `main` ist verantwortlich für den Titel der Grafik, während `las` (kurz für *"label axis style"*) die Beschriftung der Säulen dreht. Das bisher nicht genannte Argument `cex.names` (kurz für *"character expansion"*) verändert die Schriftgröße für die Beschriftung der Balken. Wenn wir diese nicht anpassen würden, würde die Schrift den Rahmen der Standardeinstellungen für Grafen in `R` sprengen und damit teilweise außerhalb des Bildes stehen. 
 
 Hinweis: Es gibt natürlich noch viele weitere Argumente, mit denen Sie Bestandteile des Diagramms anpassen können. Falls Sie sich beispielsweise fragen, wie sie aus dem Säulendiagramm ein Balkendiagramm machen können, könnten Sie das mit dem Argument `horiz` erreichen. Wenn Sie also die horizontale Ausrichtung der Grafik auf `TRUE` setzen, erhalten Sie horizontale Balken anstatt vertikale Säulen.
 
@@ -540,15 +434,15 @@ Es gibt zwei Möglichkeiten, um in `R` erzeugte Grafiken als Bilddatei zu speich
 
 Klicken Sie auf die Schaltfläche "Export" und dann auf "Save as Image"...
 
-![](Screenshot-Export.PNG)
+{{<inline_image"/lehre/statistik-i/Screenshot-Export.PNG">}}
 
 ...und spezifizieren Sie dann Dateiname (ggf. Pfad) und Größe/Größenverhältnis.
 
-![](plot_export_2.PNG)
+{{<inline_image"/lehre/statistik-i/plot_export_2.PNG">}}
 
 Wenn kein Pfad spezifiziert wird, erscheint die Datei in Ihrem aktuellen Arbeitsverzeichnis.
 
-![](Screenshot-jpeg.PNG)
+{{<inline_image"/lehre/statistik-i/Screenshot-jpeg.PNG">}}
 
 
 *Möglichkeit 2: Speichern mit der Funktion `jpeg("Dateiname.jpg")`*
@@ -558,7 +452,7 @@ Auch ohne die grafische Oberfläche von RStudio ist die Erstellung und das Speic
 Wir starten die Erstellung einer Grafik mittels Code mit der `jpeg()`-Funktion. Hierin machen wir sozusagen eine grafische Umgebung auf. In dieser legen wir bereits einige Paramter der Bilddatei fest (wie Höhe, Breite und auch Auflösung). Als nächstes kommt der Code für die Grafik. Diesen haben wir bereits gesehen. Der entstehende Plot wird jetzt in die zuvor erzeugte grafische Umgebung "abgelegt". Mit der Funktion `dev.off()` wird die Erstellung beendet. Die grafische Umgebung (und damit die Entwicklung unserer Bild-Datei) wird damit "geschlossen".  
 
 
-```r
+``` r
 jpeg("Mein-Barplot.jpg", width=15, height=10, units="cm", res=150) # Eröffnung Bilderstellung
 barplot(tab,
  col = rainbow(5),
@@ -568,6 +462,7 @@ barplot(tab,
  cex.names = 0.8)
 dev.off()                                                         # Abschluss Bilderstellung
 ```
+
 
 Auch hier gilt: Wenn kein Pfad spezifiziert wurde, liegt die Datei in Ihrem Arbeitsverzeichnis. In der Funktion `jpeg()` kann mit den Argumenten `units` angegeben werden, in welcher Einheit die anderen Argumente zu verstehen sind.
 
@@ -581,29 +476,25 @@ Auch hier gilt: Wenn kein Pfad spezifiziert wurde, liegt die Datei in Ihrem Arbe
 Der Modus (*Mo*) ist ein Maß der zentralen Tendenz, das die häufigste Ausprägung einer Variable anzeigt. Die Häufigkeiten sind ja schon in der Häufigkeitstabelle enthalten. Man könnte den Modus also einfach ablesen. Das gleiche lässt sich allerdings auch anhand von Funktionen tun:  
 
 
-```r
+``` r
 tab            # Tabelle ausgeben
 ```
 
 ```
 ## 
-## Diag./Meth.  Allgemeine 
-##           3          41 
-## Biologische Entwicklung 
-##          15          40 
-##   Klinische 
-##          88
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
+##          16          32          26          39          93
 ```
 
-```r
+``` r
 max(tab)       # Größte Häufigkeit
 ```
 
 ```
-## [1] 88
+## [1] 93
 ```
 
-```r
+``` r
 which.max(tab) # Modus
 ```
 
@@ -612,7 +503,7 @@ which.max(tab) # Modus
 ##         5
 ```
 
-Der Modus der Variable `fach` lautet also Klinische, die Ausprägung trat 88 mal auf.
+Der Modus der Variable `fach` lautet also Klinische, die Ausprägung trat 93 mal auf.
 
 
 **Relativer Informationsgehalt** {{< intext_anchor RelativerInformationsgehalt >}}
@@ -624,7 +515,7 @@ $$H = -\frac{1}{\ln(k)} \sum_{j=1}^k{h_j * \ln h_j} $$
 Wir benötigen also $h_j$, was die relativen Häufigkeiten der einzelnen Kategorien bezeichnet. Hier haben wir schon gelernt, dass wir diese durch anwenden der Funktion `prop.table` auf unser Objekt `tab` erhalten können. Anschließend muss noch mit der Funktion `log` gearbeitet werden, die den natürlichen Logarithmus als Standardeinstellung berechnet. $k$ ist in diesem Fall die maximale Nummer einer unserer Kategorien - also die Kategorienanzahl 5. Falls wir diese nicht selbst zählen möchten, kann `dim` uns die Anzahl an Spalten in `tab` verraten. Der Rest ist dann nur einfache Multiplikation, Addition und Division.
 
 
-```r
+``` r
 hj <- prop.table(tab)       # hj erstellen
 ln_hj <- log(hj)            # Logarithmus bestimmen
 ln_hj                       # Ergebnisse für jede Kategorie
@@ -632,15 +523,11 @@ ln_hj                       # Ergebnisse für jede Kategorie
 
 ```
 ## 
-## Diag./Meth.  Allgemeine 
-##  -4.1324963  -1.5175366 
-## Biologische Entwicklung 
-##  -2.5230584  -1.5422292 
-##   Klinische 
-##  -0.7537718
+## Diag./Meth.  Allgemeine Biologische Entwicklung   Klinische 
+##  -2.5552874  -1.8621403  -2.0697796  -1.6643145  -0.7952767
 ```
 
-```r
+``` r
 summand <- ln_hj * hj       # Berechnung für jede Kategorie
 summe <- sum(summand)       # Gesamtsumme
 k <- dim(tab)               # Anzahl Kategorien
@@ -649,36 +536,36 @@ relinf
 ```
 
 ```
-## [1] 0.7990415
+## [1] 0.884215
 ```
 
 Eine kleine Abkürzung durch Einsparen der Schritte am Ende könnte hier folgendermaßen mittels Pipe erreicht werden:
 
 
-```r
+``` r
 relinf <- (ln_hj * hj) |> sum() * (-1/log(k))  # Relativer Informationsgehalt
 relinf
 ```
 
 ```
-## [1] 0.7990415
+## [1] 0.884215
 ```
 
 
 Eine alternative Schreibweise, die ohne Zwischenschritte auskommt, dafür aber in Form von vielen Klammern stark verschachtelt ist, lautet:
 
 
-```r
-- 1/log(dim(table(fb24$fach))) * sum(prop.table(table(fb24$fach)) * log(prop.table(table(fb24$fach))))
+``` r
+- 1/log(dim(table(fb25$fach))) * sum(prop.table(table(fb25$fach)) * log(prop.table(table(fb25$fach))))
 ```
 
 ```
-## [1] 0.7990415
+## [1] 0.884215
 ```
 
 Wie man hier sieht, stößt die Schachtelung ohne das Speichern von Zwischenergebnissen oder das nutzen der Pipe schnell an die Grenzen der Übersichtlichkeit. 
 
-In allen drei Varianten kommen wir aber zum gleichen Schluss: der relative Informationsgehalt der Variable `fach` beträgt 0.799. Da der mögliche Wertebereich zwischen 0 (für alle Personen selbe Kategorie) und 1 (für alle Kategorien gleich viele Personen) variiert, kann hier von einer starken Verteilung der Personen ausgegangen werden.
+In allen drei Varianten kommen wir aber zum gleichen Schluss: der relative Informationsgehalt der Variable `fach` beträgt 0.884. Da der mögliche Wertebereich zwischen 0 (für alle Personen selbe Kategorie) und 1 (für alle Kategorien gleich viele Personen) variiert, kann hier von einer starken Verteilung der Personen ausgegangen werden.
 
 
 ***
@@ -689,73 +576,51 @@ In diesem Abschnitt lernen Sie deskriptivstatistische Kennwerte für ordinalskal
 
 Zunächst aber eine Wiederholung: Wie Sie aus der Vorlesung wissen, können die in der Tabelle am Anfang dieses Dokuments aufgeführten statistischen Kennwerte (Zentrale Lage, Dispersion) auch für Skalenniveaus genutzt werden, die "weiter unten" in der Tabelle stehen. Für ordinalskalierte Variablen (Rangklassen) kann also auch der Modus berechnet werden.
 
-Nachfolgend soll mit dem Item zum interesse an wissenschaftlichen Grundlagen gearbeitet werden. Auf dem Screenshot ist das Item (obere) nochmal abgebildet.
+Nachfolgend soll mit dem Item zur Sicherheit in der Studienwahl gearbeitet werden. Auf dem Screenshot ist das Item (obere) nochmal abgebildet.
 
-![](interests.png)
+![](/sicher.png)
 
-Es treten die Werte 1 bis  5 empirisch auf, außerdem gibt es  4 fehlende Werte (dargestellt als `NA`):
+Es treten die Werte 1 bis  4 empirisch auf, außerdem gibt es  5 fehlende Werte (dargestellt als `NA`):
 
 
-```r
-fb24$wissen
+``` r
+fb25$sicher
 ```
 
 ```
-##   [1]  4  3  5  5  4  3  3  4
-##   [9]  5  3  4  4  2  4  5  3
-##  [17]  3  5  5  4  4  4  5  3
-##  [25]  5  1  5  3  3  2  4  5
-##  [33]  4 NA  5  4  3  5  4  5
-##  [41]  4  4  4  3  4  5  3  4
-##  [49]  4  4  5  5  2  5  5  3
-##  [57] NA  4  5  3  4  5  4  3
-##  [65]  4  4  5  5  3  2  3  4
-##  [73]  3  3  5  4  3  3  4  4
-##  [81]  3  5  3  2 NA  4  4  3
-##  [89]  5  2  2  4  3  4  4  4
-##  [97]  4  4  3  3  3  5  4  5
-## [105]  4  5  5  4 NA  5  4  5
-## [113]  2  4  2  4  4  4  4  4
-## [121]  4  4  2  4  4  4  2  4
-## [129]  2  3  5  3  2  4  3  3
-## [137]  3  5  4  3  4  5  3  4
-## [145]  4  4  3  2  3  5  5  4
-## [153]  3  3  3  3  5  5  4  1
-## [161]  5  3  3  2  4  2  3  3
-## [169]  5  4  3  5  3  3  3  4
-## [177]  4  2  4  3  2  4  3  3
-## [185]  3  5  5  4  4  5  5  4
+##   [1]  3  4  4  4  4  3 NA  3  4  3  4  4  4  4  3  3  4  4  4  4  3  4  4  4  4  4  3  4  3  3  3 NA  3  3  4  4  4  4  4  3  4  4
+##  [43]  2  3  3  3  3  4  4  3  4  3  3  4  4  3  4  3  3  3  4  4  4  4  4  4  3  4 NA  3  4  3  1  3  4  1  4  4  4  4  4  2  3  4
+##  [85]  4  3  3  3  4  4  3  4 NA  4  3  3  4  4  4  4  3  4  3  3  4  4  4  4 NA  4  3  3  4  4  3  2  4  3  3  4  4  3  4  4  4  3
+## [127]  3  3  3  4  4  4  2  3  4  3  4  3  3  3  4  3  4  3  3  4  2  3  3  4  4  4  3  4  4  4  3  3  3  3  3  4  4  4  3  3  3  4
+## [169]  4  4  4  3  3  3  4  4  3  3  3  4  3  4  3  3  4  3  3  3  4  3  3  4  3  3  3  4  2  3  3  4  2  4  3  3  4  4  3  4  4  4
+## [211]  4
 ```
 
 Wiederholung:
 
 
-```r
-table(fb24$wissen)               # Absolute Haeufigkeiten
+``` r
+table(fb25$sicher, useNA = "ifany")              # Absolute Haeufigkeiten (ohne NA)
 ```
 
 ```
 ## 
-##  1  2  3  4  5 
-##  2 18 53 70 45
+##    1    2    3    4 <NA> 
+##    2    7   90  107    5
 ```
 
-```r
-prop.table(table(fb24$wissen))   # Relative Haeufigkeiten
+``` r
+prop.table(table(fb25$sicher, useNA = "ifany"))  # Relative Haeufigkeiten
 ```
 
 ```
 ## 
-##          1          2 
-## 0.01063830 0.09574468 
-##          3          4 
-## 0.28191489 0.37234043 
-##          5 
-## 0.23936170
+##           1           2           3           4        <NA> 
+## 0.009478673 0.033175355 0.426540284 0.507109005 0.023696682
 ```
 
-```r
-which.max(table(fb24$wissen))    # Modus
+``` r
+which.max(table(fb25$sicher))                    # Modus
 ```
 
 ```
@@ -776,10 +641,7 @@ Fehlende Werte (dargestellt als `NA`) in empirischen Untersuchungen können aus 
 
 Für statistische Analysen sind fehlende Werte ein Problem, weil sie außerhalb der zulässigen Antworten liegen.  
 
-
-**Fehlende Werte in `R`**
-
-Fehlende Werte werden im Datensatz als `NA` dargestellt. In `R` kann man solche Fälle auf zwei unterschiedlichen Ebenen berücksichtigen:
+Wir haben bereits gesehen, dass wir in der `table`-Funktion mit Argumenten festlegen können, ob `NA`s in der Zusammenfassung angezeigt werden oder nicht. Aber wie geht man bei statistischen Berechnungen damit um? In `R` kann man solche Fälle auf zwei unterschiedlichen Ebenen berücksichtigen:
 
 * Global: `na.omit(datensatz)`  
     * Entfernt *alle* Beobachtungen, die auf *irgendeiner* Variable einen fehlenden Wert haben  
@@ -800,23 +662,23 @@ Fehlende Werte sind ein ganz eigenes Forschungsgebiet der Methodik und man könn
 Wir können uns den Einfluss fehlender Werte auf die Arbeit mit `R` mit der Betrachtung der Funktion für den Median, die praktischerweise `median()` heißt, veranschaulichen, indem wir einmal ein extra Argument benennen.
 
 
-```r
-median(fb24$wissen)                 # Ohne Argument für NA: funktioniert nicht
+``` r
+median(fb25$sicher)                 # Ohne Argument für NA: funktioniert nicht
 ```
 
 ```
 ## [1] NA
 ```
 
-```r
-median(fb24$wissen, na.rm = TRUE)   # Expliziter Ausschluss: funktioniert
+``` r
+median(fb25$sicher, na.rm = TRUE)   # Expliziter Ausschluss: funktioniert
 ```
 
 ```
 ## [1] 4
 ```
 
-Ohne Argument für die Behandlung der fehlenden Werte wird `NA` auch als Ergebnis ausgegeben. Mit passendem Argument erhalten wir ein numerisches Ergebnis: Der Median für die Variable `wissen` beträgt also 4.
+Ohne Argument für die Behandlung der fehlenden Werte wird `NA` auch als Ergebnis ausgegeben. Mit passendem Argument erhalten wir ein numerisches Ergebnis: Der Median für die Variable `sicher` beträgt also 4.
 
 **Quantile, IQB und IQA**
 
@@ -825,8 +687,8 @@ Für eine Beschreibung der Dispersion wird häufig der Interquartilsbereich (IQB
 Um die Quartile oder jedes beliebige andere Quantil einer Verteilung zu erhalten, kann die Funktion `quantile()` verwendet werden. Beispielsweise können wir die Grenzen des IQB und den Median mit folgender Eingabe gleichzeitig abfragen.
 
 
-```r
-quantile(fb24$wissen,
+``` r
+quantile(fb25$sicher,
          c(.25, .5, .75),                   # Quartile anfordern
          na.rm = TRUE)
 ```
@@ -845,8 +707,8 @@ $$IQA = Q_3 - Q_1$$
 Mit `quantile()` ist die Umsetzung in `R` etwas umständlich, da wir die Funktion zwei Mal aufrufen und die Differenz daraus bilden müssen.
 
 
-```r
-quantile(fb24$wissen, .75, na.rm=TRUE) - quantile(fb24$wissen, .25, na.rm=TRUE)
+``` r
+quantile(fb25$sicher, .75, na.rm=TRUE) - quantile(fb25$sicher, .25, na.rm=TRUE)
 ```
 
 ```
@@ -854,11 +716,11 @@ quantile(fb24$wissen, .75, na.rm=TRUE) - quantile(fb24$wissen, .25, na.rm=TRUE)
 ##   1
 ```
 
-Dabei ist in der Ausgabe besonders die Überschrift verwirrend (75%), die hier nichts mit der Bedeutung des Wertes zu tun hat. Der IQA der Variable `wissen` beträgt 1. Für die Berechnung des IQA gibt es auch die direkte Funktion `IQR()`, die uns das ganze einfacher macht.
+Dabei ist in der Ausgabe besonders die Überschrift verwirrend (75%), die hier nichts mit der Bedeutung des Wertes zu tun hat. Der IQA der Variable `sicher` beträgt 1. Für die Berechnung des IQA gibt es auch die direkte Funktion `IQR()`, die uns das ganze einfacher macht.
 
 
-```r
-IQR(fb24$wissen, na.rm = TRUE)
+``` r
+IQR(fb25$sicher, na.rm = TRUE)
 ```
 
 ```
@@ -876,30 +738,30 @@ Eine geeignete grafische Darstellungsform für (mindestens) ordinalskalierte Dat
 Die Box liegt zwischen dem ersten (5) und dritten Quartil (7). Der dicke schwarze Balken stellt den Median (6) dar.  Die Whisker entsprechen dem jeweils extremstem empirischem Wert im Bereich `Q3 + 1.5*IQA` für das Maximum bzw. `Q1 - 1.5*IQA` für das Minimum. Der IQA beträgt in unserem Beispiel 2. Das bedeutet, dass die maximalen Whisker-Grenzen 2 und 10 sind. Wir sehen in der Abbildung, dass der obere Whisker seine maximale Grenze von 10 erreicht, während der untere nur bis zum Wert 3 geht. Das zeigt uns, dass es empirisch keine Werte gab, die kleiner als 3 aber größer gleich 2 waren. 3 ist also der kleinste empirische Wert innerhalb der Grenzen für den Whisker. Noch extremere Werte werden als Punkte dargestellt wie wir auf der Grafik sehen können.   
 
 
-In der Praxis wird diese Idealform aber nicht immer erreicht. Wir wollen für unsere Variable `wissen` diesen Plot erstellen. Er kann über die Funktion `boxplot()` angefordert werden:
+In der Praxis wird diese Idealform aber nicht immer erreicht. Wir wollen für unsere Variable `sicher` diesen Plot erstellen. Er kann über die Funktion `boxplot()` angefordert werden:
 
 
-```r
-boxplot(fb24$wissen)
+``` r
+boxplot(fb25$sicher)
 ```
 
-![](/deskriptiv-nominal-ordinal_files/unnamed-chunk-28-1.png)<!-- -->
+![](/deskriptiv-nominal-ordinal_files/unnamed-chunk-29-1.png)<!-- -->
 
-
-
-In diesem Beispiel betragen Median und Q3 jeweils 4, sodass sich die entsprechenden Linien überlagern. 
+In diesem Beispiel betragen Median, Q3 sowie der obere Whisker jeweils 4, sodass sich die entsprechenden Linien überlagern. 
 
 Auch ein Boxplot kann grafisch angepasst werden. Nachfolgend sehen Sie ein Beispiel, in dem möglichst viel verändert wurde, um die verschiedenen Möglichkeiten aufzuzeigen. Nicht alle Veränderungen sind unbedingt sinnvoll in diesem Fall.
 
 
-```r
-boxplot(fb24$wissen,
+``` r
+boxplot(fb25$sicher,
         horizontal = TRUE,                # Ausrichtung des Boxplots
-        main = "WS 2024/2025: Interesse an der Wissenschaft",  # Überschrift der Grafik
+        main = "WS 2025/26: Sicherheit in der Studienwahl",  # Überschrift der Grafik
         xlab = "Ausprägung",              # x-Achse Bezeichnung 
         las = 1,                          # Ausrichtung der Labels
         border = "red",                   # Farbe der Linien im Boxplot
-        col = "pink1")                    # Farbe der Fläche innerhalb der Box
+        col = "pink1",                    # Farbe der Fläche innerhalb der Box
+        xaxt = "n")                       # x-Achsenbeschriftung unterdrücken
+axis(1, at = 1:4)                         # Bessere x-Achsenbeschriftung
 ```
 
 ![](/deskriptiv-nominal-ordinal_files/colored-boxplot-1.png)<!-- -->

@@ -190,16 +190,16 @@ dat
 dat <- dat[-9, ]    # Datensatz ohne die 9. Zeile
 dat
 
-## #### Daten Import/Export
-## 
-## ## Anwendungsordner finden
-## getwd()
+# #### Daten Import/Export
+# 
+# ## Anwendungsordner finden
+# getwd()
 
-## ## Anwendungsordner ändern
-## setwd('Pfad/Zum/Ordner')
+# ## Anwendungsordner ändern
+# setwd('Pfad/Zum/Ordner')
 
-## ## Ordnerinhalte lesen
-## dir()
+# ## Ordnerinhalte lesen
+# dir()
 
 ## Datenspeichern & -laden
 save(dat, file = 'dat.rda')
@@ -223,17 +223,17 @@ stroop
 
 args(read.table)
 
-## Dafür müssen die Kommentare (##) entfernt werden!
-## fb25 <- read.table('fb25.csv')
+# Dafür müssen die Kommentare (##) entfernt werden!
+# fb25 <- read.table('fb25.csv')
 
 
-## fb25 <- read.table('fb25.csv', header = TRUE)
+# fb25 <- read.table('fb25.csv', header = TRUE)
 
 
-## fb25 <- read.table('fb25.csv', header = TRUE, sep = ",")
+# fb25 <- read.table('fb25.csv', header = TRUE, sep = ",")
 
 
-## fb25 <- read.table('https://pandar.netlify.app/daten/fb25.csv', header = TRUE, sep = ",")
+# fb25 <- read.table('https://pandar.netlify.app/daten/fb25.csv', header = TRUE, sep = ",")
 
 head(fb25)    # Kopfzeilen
 str(fb25)     # Struktur des Datensatzes
