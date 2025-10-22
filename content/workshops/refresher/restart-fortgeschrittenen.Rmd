@@ -191,16 +191,16 @@ Ihr erreicht sie durch:
 4. F1 Drücken während der Cursor sich über der Funktion befindet
 
 
-<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#tabelle">Bestandteile der Help Funktion</button>
-<div id="tabelle" class="collapse">
+<details><summary>Bestandteile der Help Funktion</summary>
 ```{r Help page, echo=FALSE}
 library(knitr)
 data2 <- data.frame(
   Abschnitt = c("Description", "Usage", "Arguments", "Details", "Values","See also", "Examples"),
-  Inhalt = c("Beschreibung der Funktion","Zeigt die Arguente an, die die Funktion entgegennimmt. Argumente auf die ein = folgt haben Standardeinstellungen und müssen nicht jedes mal aufs Neue definiert werden, Argumente ohne = jedoch schon.", "Liste der Argumente mit Beschreibung", "Zusatzinformationen zur Funktion","Übersicht über die möglichen Ergebnisinhalte der Funktion", "Ähnliche Funktionen", "Praxisbeispiel, Funktion wird angewendet")
+  Inhalt = c("Beschreibung der Funktion","Zeigt die Argumente an, die die Funktion entgegennimmt. Argumente auf die ein = folgt haben Standardeinstellungen und müssen nicht jedes mal aufs Neue definiert werden, Argumente ohne = jedoch schon.", "Liste der Argumente mit Beschreibung", "Zusatzinformationen zur Funktion","Übersicht über die möglichen Ergebnisinhalte der Funktion", "Ähnliche Funktionen", "Praxisbeispiel, Funktion wird angewendet")
 )
 kable(data2)
 ```
+</details>
 
 ***
 

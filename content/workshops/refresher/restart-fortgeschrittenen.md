@@ -9,7 +9,7 @@ subtitle: ''
 summary: '' 
 authors: [schnatz, vogler] 
 weight: 3
-lastmod: '2025-10-09'
+lastmod: '2025-10-22'
 featured: no
 banner:
   image: "/header/syntax.jpg"
@@ -106,7 +106,7 @@ Funktionen ermöglichen es uns bestimmte Code Abläufe effizient über verschied
 Natürlich könnte man den Mittelwert einer Datenmenge manuell berechnen, mit der darauf ausgerichteten Funktion geht es jedoch schneller.
 
 
-``` r
+```r
 (34+47+23+90+23+45+89+98)/8
 ```
 
@@ -114,7 +114,7 @@ Natürlich könnte man den Mittelwert einer Datenmenge manuell berechnen, mit de
 ## [1] 56.125
 ```
 
-``` r
+```r
 mean(c(34,47,23,90,23,45,89,98))
 ```
 
@@ -129,7 +129,7 @@ Dabei verwenden wir anfangs meist vordefinierte Funktionen die in R bereits enth
 Während es uns Funktionen erlauben Code Abläufe in verschiedenen Skripten wiederzuverwenden, erlauben uns Objekte Zwischenergebnisse in einem Skript abzuspeichern und wenn benötigt aufzurufen. Der Zuweisungspfeil (Alt+- (Mac OS: Opt+-)) weist dem von uns frei bennenbaren Objekt ein Ergebnis zu.
 
 
-``` r
+```r
 mw <- mean(c(34,47,23,90,23,45,89,98))
 mw
 ```
@@ -143,7 +143,7 @@ mw
 Das R wie ein Taschenrechner benutzt werden kann sollte bekannt sein. An dieser Stelle wollen wir einen besonderen Operator vorstellen und zwar die Pipe `|>` (Shift+Strg+M (Mac OS: Shift+Cmd+M)).
 
 
-``` r
+```r
 mw <- c(34,47,23,90,23,45,89,98) |> mean()
 mw
 ```
@@ -159,7 +159,7 @@ Diese erlaubt es uns komplexe Verschachtlungen von Funktionen zu umgehen und mac
 Im Environment finden wir unsere erstellten Objekte wieder. Gleichzeitig werden hier, je nach Objekttyp ein paar Informationen aufgelistet. Das komplette Environment können wir uns mit `ls()` ausgeben lassen.
 
 
-``` r
+```r
 ls()
 ```
 
@@ -173,7 +173,7 @@ Derzeit sollte sich dort nur unser abgespeicherter Mittelwert (`mw` = 56.125) be
 Richtig praktisch wird `ls()` erst in Kombination mit einer weiteren Funktion. Mit
 
 
-``` r
+```r
 rm(list = ls())
 ```
 
@@ -206,18 +206,18 @@ Ihr erreicht sie durch:
 4. F1 Drücken während der Cursor sich über der Funktion befindet
 
 
-<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#tabelle">Bestandteile der Help Funktion</button>
-<div id="tabelle" class="collapse">
+<details><summary>Bestandteile der Help Funktion</summary>
 
-|Abschnitt   |Inhalt                                                                                                                                                                                                 |
-|:-----------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|Description |Beschreibung der Funktion                                                                                                                                                                              |
-|Usage       |Zeigt die Arguente an, die die Funktion entgegennimmt. Argumente auf die ein = folgt haben Standardeinstellungen und müssen nicht jedes mal aufs Neue definiert werden, Argumente ohne = jedoch schon. |
-|Arguments   |Liste der Argumente mit Beschreibung                                                                                                                                                                   |
-|Details     |Zusatzinformationen zur Funktion                                                                                                                                                                       |
-|Values      |Übersicht über die möglichen Ergebnisinhalte der Funktion                                                                                                                                              |
-|See also    |Ähnliche Funktionen                                                                                                                                                                                    |
-|Examples    |Praxisbeispiel, Funktion wird angewendet                                                                                                                                                               |
+|Abschnitt   |Inhalt                                                                                                                                                                                                  |
+|:-----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Description |Beschreibung der Funktion                                                                                                                                                                               |
+|Usage       |Zeigt die Argumente an, die die Funktion entgegennimmt. Argumente auf die ein = folgt haben Standardeinstellungen und müssen nicht jedes mal aufs Neue definiert werden, Argumente ohne = jedoch schon. |
+|Arguments   |Liste der Argumente mit Beschreibung                                                                                                                                                                    |
+|Details     |Zusatzinformationen zur Funktion                                                                                                                                                                        |
+|Values      |Übersicht über die möglichen Ergebnisinhalte der Funktion                                                                                                                                               |
+|See also    |Ähnliche Funktionen                                                                                                                                                                                     |
+|Examples    |Praxisbeispiel, Funktion wird angewendet                                                                                                                                                                |
+</details>
 
 ***
 
@@ -230,7 +230,7 @@ Für den Workshop nutzen wir Daten aus einer Bachelorarbeit in der Sozialpsychol
 Wie ihr euch vielleicht erinnert, arbeitet R mit einem Arbeitsverzeichnis (Working Directory). Das ist der Ordner, in dem R standardmäßig Dateien speichert oder lädt. Mit folgendem Befehl könnt ihr euer aktuelles Working Directory einsehen:
 
 
-``` r
+```r
 getwd()
 ```
 
@@ -242,14 +242,14 @@ In meinem Fall liegt das Standard-Verzeichnis auf dem Desktop. Als nächstes leg
 
 
 
-``` r
+```r
 setwd("/Users/luca/Desktop/rworkshop2025")
 ```
 
 Bei mir befindet sich dieser Ordner `rworkshop2025` auf dem Desktop. Wenn ihr mit Windows Betriebssystem arbeitet, müsst ihr den Pfad etwas anders angeben, z.B.:
 
 
-``` r
+```r
 setwd("C:/Users/luca/workshop2025")
 ```
 
@@ -263,7 +263,7 @@ Nachdem ihr euch einen Überblick verschafft habt, könnt ihr die Daten mit der 
 
 
 
-``` r
+```r
 data_raw <- read.csv(
   file = "data_raw.csv", # Filename
   na.strings = c("", "NA", "-9"), # -9 als fehlender Wert kodieren
@@ -282,7 +282,7 @@ Mit dem Argument `na.strings` können wir festlegen, welche Werte in den Daten a
 Um einen ersten Eindruck von unseren Daten zu bekommen, können wir verschiedene Basisfunktionen nutzen, die uns auch im weiteren Verlauf der Analyse begleiten werden:
 
 
-``` r
+```r
 class(data_raw) # Klasse des Objekts
 ```
 
@@ -290,7 +290,7 @@ class(data_raw) # Klasse des Objekts
 ## [1] "data.frame"
 ```
 
-``` r
+```r
 dim(data_raw) # Dimensionen des Datensatzes (Zeilen + Spalten)
 ```
 
@@ -298,17 +298,23 @@ dim(data_raw) # Dimensionen des Datensatzes (Zeilen + Spalten)
 ## [1] 233  67
 ```
 
-``` r
+```r
 head(data_raw, n = 1) # ersten Zeilen ausgeben
 ```
 
 ```
-##                             CASE                                                SERIAL
-## 1 Interview-Nummer (fortlaufend) Personenkennung oder Teilnahmecode (sofern verwendet)
-##                                   REF                                     QUESTNNR
-## 1 Referenz (sofern im Link angegeben) Fragebogen, der im Interview verwendet wurde
-##              MODE                                                     STARTED
-## 1 Interview-Modus Zeitpunkt zu dem das Interview begonnen hat (Europe/Berlin)
+##                             CASE
+## 1 Interview-Nummer (fortlaufend)
+##                                                  SERIAL
+## 1 Personenkennung oder Teilnahmecode (sofern verwendet)
+##                                   REF
+## 1 Referenz (sofern im Link angegeben)
+##                                       QUESTNNR
+## 1 Fragebogen, der im Interview verwendet wurde
+##              MODE
+## 1 Interview-Modus
+##                                                       STARTED
+## 1 Zeitpunkt zu dem das Interview begonnen hat (Europe/Berlin)
 ##                                                         DDM_AV_1
 ## 1 DDM-AV-AP: Ich versuche, riskante Entscheidungen zu vermeiden.
 ##                                                             DDM_AV_2
@@ -329,8 +335,10 @@ head(data_raw, n = 1) # ersten Zeilen ausgeben
 ## 1 DDM-AV-AP: Um innovative Ideen zu verwirklichen, ist es wichtig, Entscheidungen zu treffen, auch wenn sie mit einem gewissen Risiko verbunden sind.
 ##                                                                                                                      DDM_AP_5
 ## 1 DDM-AV-AP: Ich habe den Mut, Entscheidungen zu treffen, auch wenn sie f\xfcr mich mit einem gewissen Risiko verbunden sind.
-##         DDM_SI                                           EL_01
-## 1 DDM-SI: [01] EL: ... \xfcbertr\xe4gt mir viel Verantwortung.
+##         DDM_SI
+## 1 DDM-SI: [01]
+##                                             EL_01
+## 1 EL: ... \xfcbertr\xe4gt mir viel Verantwortung.
 ##                                                            EL_02
 ## 1 EL: ... macht mich f\xfcr mein eigenes Handeln verantwortlich.
 ##                                                              EL_03
@@ -351,8 +359,10 @@ head(data_raw, n = 1) # ersten Zeilen ausgeben
 ## 1 EL: ... ermutigt mich, die Ursachen und L\xf6sungen meiner Probleme selbst zu finden.
 ##                                                                      EL_11
 ## 1 EL: ... fordert mich dazu auf, hohe Erwartungen an mich selbst zu haben.
-##                                                     EL_12                 EL_13
-## 1 EL: ... ermutigt mich, H\xf6chstleistungen anzustreben. EL: ... vertraut mir.
+##                                                     EL_12
+## 1 EL: ... ermutigt mich, H\xf6chstleistungen anzustreben.
+##                   EL_13
+## 1 EL: ... vertraut mir.
 ##                                                 EL_14
 ## 1 EL: ... ist \xfcberzeugt von meinen F\xe4higkeiten.
 ##                                                 PE_ME1
@@ -379,52 +389,82 @@ head(data_raw, n = 1) # ersten Zeilen ausgeben
 ## 1 PE: Mein Einfluss darauf, was in meiner Abteilung passiert, ist gro\xdf.
 ##                                                                       PE_IM2
 ## 1 PE: Ich habe viel Kontrolle dar\xfcber, was in meiner Abteilung geschieht.
-##                                                                        PE_IM3              ET
-## 1 PE: Ich habe bedeutenden Einfluss darauf, was in meiner Abteilung passiert. Erwerbst\xe4tig
-##                                   AZ                    FK             EN
-## 1 Dauer w\xf6chentliche Arbeit: [01] Direkter Vorgesetzter Entscheidungen
-##                             ALT        WMD              TIME001              TIME002
-## 1 Alter: Ich bin ... Jahre alt. Geschlecht Verweildauer Seite 1 Verweildauer Seite 2
-##                TIME003              TIME004              TIME005              TIME006
-## 1 Verweildauer Seite 3 Verweildauer Seite 4 Verweildauer Seite 5 Verweildauer Seite 6
+##                                                                        PE_IM3
+## 1 PE: Ich habe bedeutenden Einfluss darauf, was in meiner Abteilung passiert.
+##                ET
+## 1 Erwerbst\xe4tig
+##                                   AZ
+## 1 Dauer w\xf6chentliche Arbeit: [01]
+##                      FK             EN
+## 1 Direkter Vorgesetzter Entscheidungen
+##                             ALT        WMD
+## 1 Alter: Ich bin ... Jahre alt. Geschlecht
+##                TIME001              TIME002
+## 1 Verweildauer Seite 1 Verweildauer Seite 2
+##                TIME003              TIME004
+## 1 Verweildauer Seite 3 Verweildauer Seite 4
+##                TIME005              TIME006
+## 1 Verweildauer Seite 5 Verweildauer Seite 6
 ##                                  TIME_SUM
 ## 1 Verweildauer gesamt (ohne Ausrei\xdfer)
 ##                                                                    MAILSENT
 ## 1 Versandzeitpunkt der Einladungsmail (nur f\xfcr nicht-anonyme Adressaten)
 ##                                                       LASTDATA
 ## 1 Zeitpunkt als der Datensatz das letzte mal ge\xe4ndert wurde
-##                               STATUS                                                   FINISHED
-## 1 Status des Interviews (Markierung) Wurde die Befragung abgeschlossen (letzte Seite erreicht)?
+##                               STATUS
+## 1 Status des Interviews (Markierung)
+##                                                     FINISHED
+## 1 Wurde die Befragung abgeschlossen (letzte Seite erreicht)?
 ##                                                                                  Q_VIEWER
 ## 1 Hat der Teilnehmer den Fragebogen nur angesehen, ohne die Pflichtfragen zu beantworten?
 ##                                           LASTPAGE
 ## 1 Seite, die der Teilnehmer zuletzt bearbeitet hat
-##                                            MAXPAGE                               MISSING
-## 1 Letzte Seite, die im Fragebogen bearbeitet wurde Anteil fehlender Antworten in Prozent
-##                                                MISSREL                             TIME_RSI
-## 1 Anteil fehlender Antworten (gewichtet nach Relevanz) Ausf\xfcll-Geschwindigkeit (relativ)
+##                                            MAXPAGE
+## 1 Letzte Seite, die im Fragebogen bearbeitet wurde
+##                                 MISSING
+## 1 Anteil fehlender Antworten in Prozent
+##                                                MISSREL
+## 1 Anteil fehlender Antworten (gewichtet nach Relevanz)
+##                               TIME_RSI
+## 1 Ausf\xfcll-Geschwindigkeit (relativ)
 ```
 
-``` r
+```r
 tail(data_raw, n = 1) # letzten Zeilen ausgeben
 ```
 
 ```
-##     CASE SERIAL  REF QUESTNNR      MODE             STARTED DDM_AV_1 DDM_AV_2 DDM_AV_3 DDM_AV_4
-## 233 1575   <NA> <NA>     base interview 2025-06-05 09:44:33        6        4        6        5
-##     DDM_AV_5 DDM_AP_1 DDM_AP_2 DDM_AP_3 DDM_AP_4 DDM_AP_5 DDM_SI EL_01 EL_02 EL_03 EL_04 EL_05
-## 233        6        5        3        4        4        3      4     6     4     3     2     3
-##     EL_06 EL_07 EL_08 EL_09 EL_10 EL_11 EL_12 EL_13 EL_14 PE_ME1 PE_ME2 PE_ME3 PE_CO1 PE_CO2
-## 233     4     6     6     6     6     4     4     5     5      4      5      4      6      5
-##     PE_CO3 PE_SD1 PE_SD2 PE_SD3 K PE_IM1 PE_IM2 PE_IM3 ET AZ FK EN ALT WMD TIME001 TIME002
-## 233      7      7      7      7 1      2      4      3  1 16  1  1  22   1       5      52
-##     TIME003 TIME004 TIME005 TIME006 TIME_SUM MAILSENT            LASTDATA STATUS FINISHED
-## 233      21      52      74      35      239     <NA> 2025-06-05 09:48:32   <NA>        1
-##     Q_VIEWER LASTPAGE MAXPAGE MISSING MISSREL TIME_RSI
-## 233        0        6       6       0       0     1,74
+##     CASE SERIAL  REF QUESTNNR      MODE
+## 233 1575   <NA> <NA>     base interview
+##                 STARTED DDM_AV_1 DDM_AV_2
+## 233 2025-06-05 09:44:33        6        4
+##     DDM_AV_3 DDM_AV_4 DDM_AV_5 DDM_AP_1
+## 233        6        5        6        5
+##     DDM_AP_2 DDM_AP_3 DDM_AP_4 DDM_AP_5
+## 233        3        4        4        3
+##     DDM_SI EL_01 EL_02 EL_03 EL_04 EL_05
+## 233      4     6     4     3     2     3
+##     EL_06 EL_07 EL_08 EL_09 EL_10 EL_11
+## 233     4     6     6     6     6     4
+##     EL_12 EL_13 EL_14 PE_ME1 PE_ME2 PE_ME3
+## 233     4     5     5      4      5      4
+##     PE_CO1 PE_CO2 PE_CO3 PE_SD1 PE_SD2
+## 233      6      5      7      7      7
+##     PE_SD3 K PE_IM1 PE_IM2 PE_IM3 ET AZ FK
+## 233      7 1      2      4      3  1 16  1
+##     EN ALT WMD TIME001 TIME002 TIME003
+## 233  1  22   1       5      52      21
+##     TIME004 TIME005 TIME006 TIME_SUM
+## 233      52      74      35      239
+##     MAILSENT            LASTDATA STATUS
+## 233     <NA> 2025-06-05 09:48:32   <NA>
+##     FINISHED Q_VIEWER LASTPAGE MAXPAGE
+## 233        1        0        6       6
+##     MISSING MISSREL TIME_RSI
+## 233       0       0     1,74
 ```
 
-``` r
+```r
 str(data_raw, vec.len = 2) # Struktur des Datensatzes
 ```
 
@@ -502,7 +542,7 @@ str(data_raw, vec.len = 2) # Struktur des Datensatzes
 Mit dem `glimpse()` Befehl aus dem *dplyr*-Paket erhalten wir eine noch etwas übersichtlichere Darstellung der Datenstruktur als mit dem `str()` Befehl. Wenn ihr das Paket noch nicht installiert haben solltet, könnt ihr es mit `install.packages("dplyr")` herunterladen.
 
 
-``` r
+```r
 # install.packages("dplyr") # Nur einmalig nötig
 library(dplyr)
 glimpse(data_raw)
@@ -511,73 +551,73 @@ glimpse(data_raw)
 ```
 ## Rows: 233
 ## Columns: 67
-## $ CASE     <chr> "Interview-Nummer (fortlaufend)", "72", "77", "84", "86", "87", "90", "94", "…
-## $ SERIAL   <chr> "Personenkennung oder Teilnahmecode (sofern verwendet)", NA, NA, NA, NA, NA, …
-## $ REF      <chr> "Referenz (sofern im Link angegeben)", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-## $ QUESTNNR <chr> "Fragebogen, der im Interview verwendet wurde", "base", "base", "base", "base…
-## $ MODE     <chr> "Interview-Modus", "interview", "interview", "interview", "interview", "inter…
-## $ STARTED  <chr> "Zeitpunkt zu dem das Interview begonnen hat (Europe/Berlin)", "2025-05-07 15…
-## $ DDM_AV_1 <chr> "DDM-AV-AP: Ich versuche, riskante Entscheidungen zu vermeiden.", "5", "2", "…
-## $ DDM_AV_2 <chr> "DDM-AV-AP: Ich \xfcberlasse riskante Entscheidungen gerne anderen.", "5", "1…
-## $ DDM_AV_3 <chr> "DDM-AV-AP: Es ist mir unangenehm, Entscheidungen zu treffen, deren Folgen ic…
-## $ DDM_AV_4 <chr> "DDM-AV-AP: Die Unternehmensleitung sollte alle risikoreichen Entscheidungen …
-## $ DDM_AV_5 <chr> "DDM-AV-AP: Ich stimme Entscheidungen grunds\xe4tzlich mit meiner F\xfchrungs…
-## $ DDM_AP_1 <chr> "DDM-AV-AP: Ich treffe riskante Entscheidungen, wenn ich das Gef\xfchl habe, …
-## $ DDM_AP_2 <chr> "DDM-AV-AP: Ich treffe Entscheidungen, auch wenn ich nicht alle Folgen vorher…
-## $ DDM_AP_3 <chr> "DDM-AV-AP: F\xfcr eine erfolgreiche Karriere muss man gelegentlich riskante …
-## $ DDM_AP_4 <chr> "DDM-AV-AP: Um innovative Ideen zu verwirklichen, ist es wichtig, Entscheidun…
-## $ DDM_AP_5 <chr> "DDM-AV-AP: Ich habe den Mut, Entscheidungen zu treffen, auch wenn sie f\xfcr…
-## $ DDM_SI   <chr> "DDM-SI: [01]", "4", "0", NA, "10", "9", "5", "1", "5", NA, "2", "2", "5", NA…
-## $ EL_01    <chr> "EL: ... \xfcbertr\xe4gt mir viel Verantwortung.", "7", "7", NA, "6", "5", "7…
-## $ EL_02    <chr> "EL: ... macht mich f\xfcr mein eigenes Handeln verantwortlich.", "5", "5", N…
-## $ EL_03    <chr> "EL: ... fragt mich um Rat, wenn Entscheidungen getroffen werden.", "6", "6",…
-## $ EL_04    <chr> "EL: ... bezieht meine Vorschl\xe4ge und Ideen bei Entscheidungen mit ein.", …
-## $ EL_05    <chr> "EL: ... kontrolliert viele meiner Aktivit\xe4ten.", "2", "1", NA, "4", "3", …
-## $ EL_06    <chr> "EL: ... ermutigt mich, die Kontrolle \xfcber meine Arbeit zu \xfcbernehmen."…
-## $ EL_07    <chr> "EL: ... erlaubt mir, meine eigenen Ziele zu setzen.", "7", "6", NA, "6", "4"…
-## $ EL_08    <chr> "EL: ... ermutigt mich, eigene Ziele zu entwickeln.", "7", "6", NA, "6", "4",…
-## $ EL_09    <chr> "EL: ... greift nicht ein, wenn ich Schwierigkeiten bei der Erbringung von Le…
-## $ EL_10    <chr> "EL: ... ermutigt mich, die Ursachen und L\xf6sungen meiner Probleme selbst z…
-## $ EL_11    <chr> "EL: ... fordert mich dazu auf, hohe Erwartungen an mich selbst zu haben.", "…
-## $ EL_12    <chr> "EL: ... ermutigt mich, H\xf6chstleistungen anzustreben.", "6", "6", NA, "4",…
-## $ EL_13    <chr> "EL: ... vertraut mir.", "7", "7", NA, "6", "5", "6", "7", "7", NA, "7", "6",…
-## $ EL_14    <chr> "EL: ... ist \xfcberzeugt von meinen F\xe4higkeiten.", "7", "7", NA, "6", "5"…
-## $ PE_ME1   <chr> "PE: Die Arbeit, die ich mache, ist mir sehr wichtig.", "7", "7", NA, "7", "4…
-## $ PE_ME2   <chr> "PE: Meine beruflichen T\xe4tigkeiten sind f\xfcr mich pers\xf6nlich bedeutsa…
-## $ PE_ME3   <chr> "PE: Die Arbeit, die ich mache, bedeutet mir viel.", "7", "7", NA, "7", "3", …
-## $ PE_CO1   <chr> "PE: Ich vertraue in meine F\xe4higkeit, meine Arbeit gutzumachen.", "7", "6"…
-## $ PE_CO2   <chr> "PE: Ich f\xfchle mich selbstbewusst, wenn es darum geht, meine Arbeit zu erl…
-## $ PE_CO3   <chr> "PE: Ich beherrsche die f\xfcr meine Arbeit erforderlichen F\xe4higkeiten.", …
-## $ PE_SD1   <chr> "PE: Ich kann in hohem Ma\xdfe selbst bestimmen, wie ich meine Arbeit erledig…
-## $ PE_SD2   <chr> "PE: Ich kann selbst entscheiden, wie ich meine Aufgaben angehe.", "7", "7", …
-## $ PE_SD3   <chr> "PE: Ich verf\xfcge \xfcber ein hohes Ma\xdf an Selbstst\xe4ndigkeit und Frei…
-## $ K        <chr> "PE: Bitte w\xe4hlen Sie die Antwortoption \"stimme \xfcberhaupt nicht zu\" a…
-## $ PE_IM1   <chr> "PE: Mein Einfluss darauf, was in meiner Abteilung passiert, ist gro\xdf.", "…
-## $ PE_IM2   <chr> "PE: Ich habe viel Kontrolle dar\xfcber, was in meiner Abteilung geschieht.",…
-## $ PE_IM3   <chr> "PE: Ich habe bedeutenden Einfluss darauf, was in meiner Abteilung passiert."…
-## $ ET       <chr> "Erwerbst\xe4tig", "1", "1", NA, "1", NA, "1", "1", "1", NA, "1", "2", "1", N…
-## $ AZ       <chr> "Dauer w\xf6chentliche Arbeit: [01]", "20", "25", NA, "30", NA, "20", "45", "…
-## $ FK       <chr> "Direkter Vorgesetzter", "1", "1", NA, "2", NA, "2", "1", "1", NA, "1", "2", …
-## $ EN       <chr> "Entscheidungen", "1", "1", NA, "2", NA, "1", "1", "1", NA, "1", "2", "1", NA…
-## $ ALT      <chr> "Alter: Ich bin ... Jahre alt.", "47", "59", NA, "47", NA, "48", "19", "21", …
-## $ WMD      <chr> "Geschlecht", "1", "1", NA, "1", NA, "1", "2", "1", NA, "2", "1", "2", NA, "1…
-## $ TIME001  <chr> "Verweildauer Seite 1", "57", "39", "16", "25", "9", "5", "6", "5", "8", "9",…
-## $ TIME002  <chr> "Verweildauer Seite 2", "147", "87", "186", "71", "236", "78", "70", "138", "…
-## $ TIME003  <chr> "Verweildauer Seite 3", "47", "36", "43", "81", "80", "19", "23", "18", "1390…
-## $ TIME004  <chr> "Verweildauer Seite 4", "87", "200", NA, "136", "122", "116", "95", "146", NA…
-## $ TIME005  <chr> "Verweildauer Seite 5", "69", "72", NA, "105", "79", "58", "54", "74", NA, "1…
-## $ TIME006  <chr> "Verweildauer Seite 6", "73", "49", NA, "72", NA, "33", "40", "82", NA, "38",…
-## $ TIME_SUM <chr> "Verweildauer gesamt (ohne Ausrei\xdfer)", "480", "483", "245", "490", "526",…
-## $ MAILSENT <chr> "Versandzeitpunkt der Einladungsmail (nur f\xfcr nicht-anonyme Adressaten)", …
-## $ LASTDATA <chr> "Zeitpunkt als der Datensatz das letzte mal ge\xe4ndert wurde", "2025-05-07 1…
-## $ STATUS   <chr> "Status des Interviews (Markierung)", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-## $ FINISHED <chr> "Wurde die Befragung abgeschlossen (letzte Seite erreicht)?", "1", "1", "0", …
-## $ Q_VIEWER <chr> "Hat der Teilnehmer den Fragebogen nur angesehen, ohne die Pflichtfragen zu b…
-## $ LASTPAGE <chr> "Seite, die der Teilnehmer zuletzt bearbeitet hat", "6", "6", "3", "6", "5", …
-## $ MAXPAGE  <chr> "Letzte Seite, die im Fragebogen bearbeitet wurde", "6", "6", "3", "6", "5", …
-## $ MISSING  <chr> "Anteil fehlender Antworten in Prozent", "0", "2", "9", "0", "0", "0", "0", "…
-## $ MISSREL  <chr> "Anteil fehlender Antworten (gewichtet nach Relevanz)", "0", "2", "7", "0", "…
-## $ TIME_RSI <chr> "Ausf\xfcll-Geschwindigkeit (relativ)", "0,76", "0,83", "0,72", "0,74", "0,82…
+## $ CASE     <chr> "Interview-Nummer (fortlau…
+## $ SERIAL   <chr> "Personenkennung oder Teil…
+## $ REF      <chr> "Referenz (sofern im Link …
+## $ QUESTNNR <chr> "Fragebogen, der im Interv…
+## $ MODE     <chr> "Interview-Modus", "interv…
+## $ STARTED  <chr> "Zeitpunkt zu dem das Inte…
+## $ DDM_AV_1 <chr> "DDM-AV-AP: Ich versuche, …
+## $ DDM_AV_2 <chr> "DDM-AV-AP: Ich \xfcberlas…
+## $ DDM_AV_3 <chr> "DDM-AV-AP: Es ist mir una…
+## $ DDM_AV_4 <chr> "DDM-AV-AP: Die Unternehme…
+## $ DDM_AV_5 <chr> "DDM-AV-AP: Ich stimme Ent…
+## $ DDM_AP_1 <chr> "DDM-AV-AP: Ich treffe ris…
+## $ DDM_AP_2 <chr> "DDM-AV-AP: Ich treffe Ent…
+## $ DDM_AP_3 <chr> "DDM-AV-AP: F\xfcr eine er…
+## $ DDM_AP_4 <chr> "DDM-AV-AP: Um innovative …
+## $ DDM_AP_5 <chr> "DDM-AV-AP: Ich habe den M…
+## $ DDM_SI   <chr> "DDM-SI: [01]", "4", "0", …
+## $ EL_01    <chr> "EL: ... \xfcbertr\xe4gt m…
+## $ EL_02    <chr> "EL: ... macht mich f\xfcr…
+## $ EL_03    <chr> "EL: ... fragt mich um Rat…
+## $ EL_04    <chr> "EL: ... bezieht meine Vor…
+## $ EL_05    <chr> "EL: ... kontrolliert viel…
+## $ EL_06    <chr> "EL: ... ermutigt mich, di…
+## $ EL_07    <chr> "EL: ... erlaubt mir, mein…
+## $ EL_08    <chr> "EL: ... ermutigt mich, ei…
+## $ EL_09    <chr> "EL: ... greift nicht ein,…
+## $ EL_10    <chr> "EL: ... ermutigt mich, di…
+## $ EL_11    <chr> "EL: ... fordert mich dazu…
+## $ EL_12    <chr> "EL: ... ermutigt mich, H\…
+## $ EL_13    <chr> "EL: ... vertraut mir.", "…
+## $ EL_14    <chr> "EL: ... ist \xfcberzeugt …
+## $ PE_ME1   <chr> "PE: Die Arbeit, die ich m…
+## $ PE_ME2   <chr> "PE: Meine beruflichen T\x…
+## $ PE_ME3   <chr> "PE: Die Arbeit, die ich m…
+## $ PE_CO1   <chr> "PE: Ich vertraue in meine…
+## $ PE_CO2   <chr> "PE: Ich f\xfchle mich sel…
+## $ PE_CO3   <chr> "PE: Ich beherrsche die f\…
+## $ PE_SD1   <chr> "PE: Ich kann in hohem Ma\…
+## $ PE_SD2   <chr> "PE: Ich kann selbst entsc…
+## $ PE_SD3   <chr> "PE: Ich verf\xfcge \xfcbe…
+## $ K        <chr> "PE: Bitte w\xe4hlen Sie d…
+## $ PE_IM1   <chr> "PE: Mein Einfluss darauf,…
+## $ PE_IM2   <chr> "PE: Ich habe viel Kontrol…
+## $ PE_IM3   <chr> "PE: Ich habe bedeutenden …
+## $ ET       <chr> "Erwerbst\xe4tig", "1", "1…
+## $ AZ       <chr> "Dauer w\xf6chentliche Arb…
+## $ FK       <chr> "Direkter Vorgesetzter", "…
+## $ EN       <chr> "Entscheidungen", "1", "1"…
+## $ ALT      <chr> "Alter: Ich bin ... Jahre …
+## $ WMD      <chr> "Geschlecht", "1", "1", NA…
+## $ TIME001  <chr> "Verweildauer Seite 1", "5…
+## $ TIME002  <chr> "Verweildauer Seite 2", "1…
+## $ TIME003  <chr> "Verweildauer Seite 3", "4…
+## $ TIME004  <chr> "Verweildauer Seite 4", "8…
+## $ TIME005  <chr> "Verweildauer Seite 5", "6…
+## $ TIME006  <chr> "Verweildauer Seite 6", "7…
+## $ TIME_SUM <chr> "Verweildauer gesamt (ohne…
+## $ MAILSENT <chr> "Versandzeitpunkt der Einl…
+## $ LASTDATA <chr> "Zeitpunkt als der Datensa…
+## $ STATUS   <chr> "Status des Interviews (Ma…
+## $ FINISHED <chr> "Wurde die Befragung abges…
+## $ Q_VIEWER <chr> "Hat der Teilnehmer den Fr…
+## $ LASTPAGE <chr> "Seite, die der Teilnehmer…
+## $ MAXPAGE  <chr> "Letzte Seite, die im Frag…
+## $ MISSING  <chr> "Anteil fehlender Antworte…
+## $ MISSREL  <chr> "Anteil fehlender Antworte…
+## $ TIME_RSI <chr> "Ausf\xfcll-Geschwindigkei…
 ```
 
 An dieser Stelle sollte erwähnt werden, dass das *dplyr*-Paket nicht nur für eine übersichtliche Datenstruktur praktisch ist, sondern das es eines der zentralen Werkzeuge für Datenmanipulation in R ist. Es bietet eine sehr intuitive Syntax für das Filtern, Selektieren, Gruppieren oder Zusammenfassen von Daten und wird daher in der Praxis häufig verwendet. In dem Workshop konzentrieren wir uns jedoch bewusst auf Datenmanipulation mit Base R, also ohne zusätzliche Pakete. Das stärkt das Verständnis für grundlegende R-Funktionalitäten, auf denen auch `dplyr` und andere Pakete aufbauen. Wer sich näher mit dem Paket beschäftigen möchte, findet eine hervorragende Einführung im Buch [R for Data Science](https://r4ds.hadley.nz/data-transform.html) von Hadley Wickham.
@@ -586,26 +626,40 @@ An dieser Stelle sollte erwähnt werden, dass das *dplyr*-Paket nicht nur für e
 Mit dem `colnames()` Befehl können wir uns die Spaltennamen anzeigen lassen:
 
 
-``` r
+```r
 colnames(data_raw) # Spaltennamen des Datensatzes
 ```
 
 ```
-##  [1] "CASE"     "SERIAL"   "REF"      "QUESTNNR" "MODE"     "STARTED"  "DDM_AV_1" "DDM_AV_2"
-##  [9] "DDM_AV_3" "DDM_AV_4" "DDM_AV_5" "DDM_AP_1" "DDM_AP_2" "DDM_AP_3" "DDM_AP_4" "DDM_AP_5"
-## [17] "DDM_SI"   "EL_01"    "EL_02"    "EL_03"    "EL_04"    "EL_05"    "EL_06"    "EL_07"   
-## [25] "EL_08"    "EL_09"    "EL_10"    "EL_11"    "EL_12"    "EL_13"    "EL_14"    "PE_ME1"  
-## [33] "PE_ME2"   "PE_ME3"   "PE_CO1"   "PE_CO2"   "PE_CO3"   "PE_SD1"   "PE_SD2"   "PE_SD3"  
-## [41] "K"        "PE_IM1"   "PE_IM2"   "PE_IM3"   "ET"       "AZ"       "FK"       "EN"      
-## [49] "ALT"      "WMD"      "TIME001"  "TIME002"  "TIME003"  "TIME004"  "TIME005"  "TIME006" 
-## [57] "TIME_SUM" "MAILSENT" "LASTDATA" "STATUS"   "FINISHED" "Q_VIEWER" "LASTPAGE" "MAXPAGE" 
-## [65] "MISSING"  "MISSREL"  "TIME_RSI"
+##  [1] "CASE"     "SERIAL"   "REF"     
+##  [4] "QUESTNNR" "MODE"     "STARTED" 
+##  [7] "DDM_AV_1" "DDM_AV_2" "DDM_AV_3"
+## [10] "DDM_AV_4" "DDM_AV_5" "DDM_AP_1"
+## [13] "DDM_AP_2" "DDM_AP_3" "DDM_AP_4"
+## [16] "DDM_AP_5" "DDM_SI"   "EL_01"   
+## [19] "EL_02"    "EL_03"    "EL_04"   
+## [22] "EL_05"    "EL_06"    "EL_07"   
+## [25] "EL_08"    "EL_09"    "EL_10"   
+## [28] "EL_11"    "EL_12"    "EL_13"   
+## [31] "EL_14"    "PE_ME1"   "PE_ME2"  
+## [34] "PE_ME3"   "PE_CO1"   "PE_CO2"  
+## [37] "PE_CO3"   "PE_SD1"   "PE_SD2"  
+## [40] "PE_SD3"   "K"        "PE_IM1"  
+## [43] "PE_IM2"   "PE_IM3"   "ET"      
+## [46] "AZ"       "FK"       "EN"      
+## [49] "ALT"      "WMD"      "TIME001" 
+## [52] "TIME002"  "TIME003"  "TIME004" 
+## [55] "TIME005"  "TIME006"  "TIME_SUM"
+## [58] "MAILSENT" "LASTDATA" "STATUS"  
+## [61] "FINISHED" "Q_VIEWER" "LASTPAGE"
+## [64] "MAXPAGE"  "MISSING"  "MISSREL" 
+## [67] "TIME_RSI"
 ```
 
 Zusätzlich ist es sinnvoll, die Daten in einem neuen Fenster zu betrachten. Das geht mit dem `View()` Befehl:
 
 
-``` r
+```r
 View(data_raw) # Datensatz in einem neuen Fenster anzeigen
 ```
 
@@ -622,17 +676,23 @@ Mit der eckigen Klammernotation `[ , ]` lässt sich präzise steuern, welche Zei
 
 
 
-``` r
+```r
 head(data_raw[1, ])                      # erste Zeile, alle Spalten  
 ```
 
 ```
-##                             CASE                                                SERIAL
-## 1 Interview-Nummer (fortlaufend) Personenkennung oder Teilnahmecode (sofern verwendet)
-##                                   REF                                     QUESTNNR
-## 1 Referenz (sofern im Link angegeben) Fragebogen, der im Interview verwendet wurde
-##              MODE                                                     STARTED
-## 1 Interview-Modus Zeitpunkt zu dem das Interview begonnen hat (Europe/Berlin)
+##                             CASE
+## 1 Interview-Nummer (fortlaufend)
+##                                                  SERIAL
+## 1 Personenkennung oder Teilnahmecode (sofern verwendet)
+##                                   REF
+## 1 Referenz (sofern im Link angegeben)
+##                                       QUESTNNR
+## 1 Fragebogen, der im Interview verwendet wurde
+##              MODE
+## 1 Interview-Modus
+##                                                       STARTED
+## 1 Zeitpunkt zu dem das Interview begonnen hat (Europe/Berlin)
 ##                                                         DDM_AV_1
 ## 1 DDM-AV-AP: Ich versuche, riskante Entscheidungen zu vermeiden.
 ##                                                             DDM_AV_2
@@ -653,8 +713,10 @@ head(data_raw[1, ])                      # erste Zeile, alle Spalten
 ## 1 DDM-AV-AP: Um innovative Ideen zu verwirklichen, ist es wichtig, Entscheidungen zu treffen, auch wenn sie mit einem gewissen Risiko verbunden sind.
 ##                                                                                                                      DDM_AP_5
 ## 1 DDM-AV-AP: Ich habe den Mut, Entscheidungen zu treffen, auch wenn sie f\xfcr mich mit einem gewissen Risiko verbunden sind.
-##         DDM_SI                                           EL_01
-## 1 DDM-SI: [01] EL: ... \xfcbertr\xe4gt mir viel Verantwortung.
+##         DDM_SI
+## 1 DDM-SI: [01]
+##                                             EL_01
+## 1 EL: ... \xfcbertr\xe4gt mir viel Verantwortung.
 ##                                                            EL_02
 ## 1 EL: ... macht mich f\xfcr mein eigenes Handeln verantwortlich.
 ##                                                              EL_03
@@ -675,8 +737,10 @@ head(data_raw[1, ])                      # erste Zeile, alle Spalten
 ## 1 EL: ... ermutigt mich, die Ursachen und L\xf6sungen meiner Probleme selbst zu finden.
 ##                                                                      EL_11
 ## 1 EL: ... fordert mich dazu auf, hohe Erwartungen an mich selbst zu haben.
-##                                                     EL_12                 EL_13
-## 1 EL: ... ermutigt mich, H\xf6chstleistungen anzustreben. EL: ... vertraut mir.
+##                                                     EL_12
+## 1 EL: ... ermutigt mich, H\xf6chstleistungen anzustreben.
+##                   EL_13
+## 1 EL: ... vertraut mir.
 ##                                                 EL_14
 ## 1 EL: ... ist \xfcberzeugt von meinen F\xe4higkeiten.
 ##                                                 PE_ME1
@@ -703,43 +767,60 @@ head(data_raw[1, ])                      # erste Zeile, alle Spalten
 ## 1 PE: Mein Einfluss darauf, was in meiner Abteilung passiert, ist gro\xdf.
 ##                                                                       PE_IM2
 ## 1 PE: Ich habe viel Kontrolle dar\xfcber, was in meiner Abteilung geschieht.
-##                                                                        PE_IM3              ET
-## 1 PE: Ich habe bedeutenden Einfluss darauf, was in meiner Abteilung passiert. Erwerbst\xe4tig
-##                                   AZ                    FK             EN
-## 1 Dauer w\xf6chentliche Arbeit: [01] Direkter Vorgesetzter Entscheidungen
-##                             ALT        WMD              TIME001              TIME002
-## 1 Alter: Ich bin ... Jahre alt. Geschlecht Verweildauer Seite 1 Verweildauer Seite 2
-##                TIME003              TIME004              TIME005              TIME006
-## 1 Verweildauer Seite 3 Verweildauer Seite 4 Verweildauer Seite 5 Verweildauer Seite 6
+##                                                                        PE_IM3
+## 1 PE: Ich habe bedeutenden Einfluss darauf, was in meiner Abteilung passiert.
+##                ET
+## 1 Erwerbst\xe4tig
+##                                   AZ
+## 1 Dauer w\xf6chentliche Arbeit: [01]
+##                      FK             EN
+## 1 Direkter Vorgesetzter Entscheidungen
+##                             ALT        WMD
+## 1 Alter: Ich bin ... Jahre alt. Geschlecht
+##                TIME001              TIME002
+## 1 Verweildauer Seite 1 Verweildauer Seite 2
+##                TIME003              TIME004
+## 1 Verweildauer Seite 3 Verweildauer Seite 4
+##                TIME005              TIME006
+## 1 Verweildauer Seite 5 Verweildauer Seite 6
 ##                                  TIME_SUM
 ## 1 Verweildauer gesamt (ohne Ausrei\xdfer)
 ##                                                                    MAILSENT
 ## 1 Versandzeitpunkt der Einladungsmail (nur f\xfcr nicht-anonyme Adressaten)
 ##                                                       LASTDATA
 ## 1 Zeitpunkt als der Datensatz das letzte mal ge\xe4ndert wurde
-##                               STATUS                                                   FINISHED
-## 1 Status des Interviews (Markierung) Wurde die Befragung abgeschlossen (letzte Seite erreicht)?
+##                               STATUS
+## 1 Status des Interviews (Markierung)
+##                                                     FINISHED
+## 1 Wurde die Befragung abgeschlossen (letzte Seite erreicht)?
 ##                                                                                  Q_VIEWER
 ## 1 Hat der Teilnehmer den Fragebogen nur angesehen, ohne die Pflichtfragen zu beantworten?
 ##                                           LASTPAGE
 ## 1 Seite, die der Teilnehmer zuletzt bearbeitet hat
-##                                            MAXPAGE                               MISSING
-## 1 Letzte Seite, die im Fragebogen bearbeitet wurde Anteil fehlender Antworten in Prozent
-##                                                MISSREL                             TIME_RSI
-## 1 Anteil fehlender Antworten (gewichtet nach Relevanz) Ausf\xfcll-Geschwindigkeit (relativ)
+##                                            MAXPAGE
+## 1 Letzte Seite, die im Fragebogen bearbeitet wurde
+##                                 MISSING
+## 1 Anteil fehlender Antworten in Prozent
+##                                                MISSREL
+## 1 Anteil fehlender Antworten (gewichtet nach Relevanz)
+##                               TIME_RSI
+## 1 Ausf\xfcll-Geschwindigkeit (relativ)
 ```
 
-``` r
+```r
 head(data_raw[, 1])                     # alle Zeilen, erste Spalte (als Vektor)  
 ```
 
 ```
-## [1] "Interview-Nummer (fortlaufend)" "72"                            
-## [3] "77"                             "84"                            
-## [5] "86"                             "87"
+## [1] "Interview-Nummer (fortlaufend)"
+## [2] "72"                            
+## [3] "77"                            
+## [4] "84"                            
+## [5] "86"                            
+## [6] "87"
 ```
 
-``` r
+```r
 head(data_raw[, 1, drop = FALSE])        # alle Zeilen, erste Spalte (als data.frame)  
 ```
 
@@ -753,7 +834,7 @@ head(data_raw[, 1, drop = FALSE])        # alle Zeilen, erste Spalte (als data.f
 ## 6                             87
 ```
 
-``` r
+```r
 head(data_raw[, "CASE", drop = FALSE])   # alle Zeilen, Spalte mit Namen "CASE" (als data.frame)  
 ```
 
@@ -767,7 +848,7 @@ head(data_raw[, "CASE", drop = FALSE])   # alle Zeilen, Spalte mit Namen "CASE" 
 ## 6                             87
 ```
 
-``` r
+```r
 data_raw[1, 1]                     # erste Zeile, erste Spalte  
 ```
 
@@ -775,17 +856,23 @@ data_raw[1, 1]                     # erste Zeile, erste Spalte
 ## [1] "Interview-Nummer (fortlaufend)"
 ```
 
-``` r
+```r
 data_raw[1:5, 1:3]                 # erste 5 Zeilen, erste 3 Spalten
 ```
 
 ```
-##                             CASE                                                SERIAL
-## 1 Interview-Nummer (fortlaufend) Personenkennung oder Teilnahmecode (sofern verwendet)
-## 2                             72                                                  <NA>
-## 3                             77                                                  <NA>
-## 4                             84                                                  <NA>
-## 5                             86                                                  <NA>
+##                             CASE
+## 1 Interview-Nummer (fortlaufend)
+## 2                             72
+## 3                             77
+## 4                             84
+## 5                             86
+##                                                  SERIAL
+## 1 Personenkennung oder Teilnahmecode (sofern verwendet)
+## 2                                                  <NA>
+## 3                                                  <NA>
+## 4                                                  <NA>
+## 5                                                  <NA>
 ##                                   REF
 ## 1 Referenz (sofern im Link angegeben)
 ## 2                                <NA>
@@ -797,93 +884,158 @@ data_raw[1:5, 1:3]                 # erste 5 Zeilen, erste 3 Spalten
 Zusätzlich gibt es Möglichkeiten, um auf Spalten per Name zuzugreifen:
 
 
-``` r
+```r
 head(data_raw$CASE)       # Zugriff über den $-Operator (direkt als Vektor)  
 ```
 
 ```
-## [1] "Interview-Nummer (fortlaufend)" "72"                            
-## [3] "77"                             "84"                            
-## [5] "86"                             "87"
+## [1] "Interview-Nummer (fortlaufend)"
+## [2] "72"                            
+## [3] "77"                            
+## [4] "84"                            
+## [5] "86"                            
+## [6] "87"
 ```
 
-``` r
+```r
 head(data_raw[["CASE"]])  # Zugriff als Vektor, dynamisch über Spaltennamen  
 ```
 
 ```
-## [1] "Interview-Nummer (fortlaufend)" "72"                            
-## [3] "77"                             "84"                            
-## [5] "86"                             "87"
+## [1] "Interview-Nummer (fortlaufend)"
+## [2] "72"                            
+## [3] "77"                            
+## [4] "84"                            
+## [5] "86"                            
+## [6] "87"
 ```
 
-``` r
+```r
 head(data_raw[,"CASE"])    # Zugriff als Data Frame
 ```
 
 ```
-## [1] "Interview-Nummer (fortlaufend)" "72"                            
-## [3] "77"                             "84"                            
-## [5] "86"                             "87"
+## [1] "Interview-Nummer (fortlaufend)"
+## [2] "72"                            
+## [3] "77"                            
+## [4] "84"                            
+## [5] "86"                            
+## [6] "87"
 ```
 
 Um die erste Zeile aus unserem Datensatz zu entfernen können wir die negative Indizierung verwenden:
 
 
-``` r
+```r
 data_raw <- data_raw[-1, ] # erste Zeile entfernen
 head(data_raw)
 ```
 
 ```
-##   CASE SERIAL  REF QUESTNNR      MODE             STARTED DDM_AV_1 DDM_AV_2 DDM_AV_3 DDM_AV_4
-## 2   72   <NA> <NA>     base interview 2025-05-07 15:03:31        5        5        5        4
-## 3   77   <NA> <NA>     base interview 2025-05-07 15:25:18        2        1        3        3
-## 4   84   <NA> <NA>     base interview 2025-05-07 15:59:25        6        1        6        7
-## 5   86   <NA> <NA>     base interview 2025-05-07 16:05:03        6        1        7        6
-## 6   87   <NA> <NA>     base interview 2025-05-07 16:11:59        5        4        5        4
-## 7   90   <NA> <NA>     base interview 2025-05-07 16:27:34        2        2        4        3
-##   DDM_AV_5 DDM_AP_1 DDM_AP_2 DDM_AP_3 DDM_AP_4 DDM_AP_5 DDM_SI EL_01 EL_02 EL_03 EL_04 EL_05
-## 2        5        6        6        6        6        6      4     7     5     6     7     2
-## 3        5        2        5        6        6        6      0     7     5     6     6     1
-## 4        7        7        7        6        7        7   <NA>  <NA>  <NA>  <NA>  <NA>  <NA>
-## 5        6        7        7        7        7        7     10     6     4     6     6     4
-## 6        5        6        6        5        6        5      9     5     5     2     3     3
-## 7        4        6        7        4        6        6      5     7     6     4     6     1
-##   EL_06 EL_07 EL_08 EL_09 EL_10 EL_11 EL_12 EL_13 EL_14 PE_ME1 PE_ME2 PE_ME3 PE_CO1 PE_CO2
-## 2     7     7     7     6     6     6     6     7     7      7      6      7      7      7
-## 3     6     6     6     5     6     5     6     7     7      7      7      7      6      7
-## 4  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>   <NA>   <NA>   <NA>   <NA>   <NA>
-## 5     6     6     6     2     6     4     4     6     6      7      7      7      6      7
-## 6     4     4     4     5     4     4     4     5     5      4      5      3      6      6
-## 7     4     6     6     4     6     4     4     6     6      7      7      7      7      7
-##   PE_CO3 PE_SD1 PE_SD2 PE_SD3    K PE_IM1 PE_IM2 PE_IM3   ET   AZ   FK   EN  ALT  WMD TIME001
-## 2      7      6      7      7    1      5      7      6    1   20    1    1   47    1      57
-## 3      7      7      7      7 <NA>      7      7      7    1   25    1    1   59    1      39
-## 4   <NA>   <NA>   <NA>   <NA> <NA>   <NA>   <NA>   <NA> <NA> <NA> <NA> <NA> <NA> <NA>      16
-## 5      7      6      6      6    6      6      6      6    1   30    2    2   47    1      25
-## 6      6      5      5      5    1      4      4      4 <NA> <NA> <NA> <NA> <NA> <NA>       9
-## 7      7      7      7      7    1      1      1      1    1   20    2    1   48    1       5
-##   TIME002 TIME003 TIME004 TIME005 TIME006 TIME_SUM MAILSENT            LASTDATA STATUS FINISHED
-## 2     147      47      87      69      73      480     <NA> 2025-05-07 15:11:31   <NA>        1
-## 3      87      36     200      72      49      483     <NA> 2025-05-07 15:33:21   <NA>        1
-## 4     186      43    <NA>    <NA>    <NA>      245     <NA> 2025-05-07 16:03:30   <NA>        0
-## 5      71      81     136     105      72      490     <NA> 2025-05-07 16:13:13   <NA>        1
-## 6     236      80     122      79    <NA>      526     <NA> 2025-05-07 16:20:45   <NA>        0
-## 7      78      19     116      58      33      309     <NA> 2025-05-07 16:32:43   <NA>        1
-##   Q_VIEWER LASTPAGE MAXPAGE MISSING MISSREL TIME_RSI
-## 2        0        6       6       0       0     0,76
-## 3        0        6       6       2       2     0,83
-## 4        0        3       3       9       7     0,72
-## 5        0        6       6       0       0     0,74
-## 6        0        5       5       0       0     0,82
-## 7        0        6       6       0       0     1,55
+##   CASE SERIAL  REF QUESTNNR      MODE
+## 2   72   <NA> <NA>     base interview
+## 3   77   <NA> <NA>     base interview
+## 4   84   <NA> <NA>     base interview
+## 5   86   <NA> <NA>     base interview
+## 6   87   <NA> <NA>     base interview
+## 7   90   <NA> <NA>     base interview
+##               STARTED DDM_AV_1 DDM_AV_2
+## 2 2025-05-07 15:03:31        5        5
+## 3 2025-05-07 15:25:18        2        1
+## 4 2025-05-07 15:59:25        6        1
+## 5 2025-05-07 16:05:03        6        1
+## 6 2025-05-07 16:11:59        5        4
+## 7 2025-05-07 16:27:34        2        2
+##   DDM_AV_3 DDM_AV_4 DDM_AV_5 DDM_AP_1
+## 2        5        4        5        6
+## 3        3        3        5        2
+## 4        6        7        7        7
+## 5        7        6        6        7
+## 6        5        4        5        6
+## 7        4        3        4        6
+##   DDM_AP_2 DDM_AP_3 DDM_AP_4 DDM_AP_5 DDM_SI
+## 2        6        6        6        6      4
+## 3        5        6        6        6      0
+## 4        7        6        7        7   <NA>
+## 5        7        7        7        7     10
+## 6        6        5        6        5      9
+## 7        7        4        6        6      5
+##   EL_01 EL_02 EL_03 EL_04 EL_05 EL_06 EL_07
+## 2     7     5     6     7     2     7     7
+## 3     7     5     6     6     1     6     6
+## 4  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>
+## 5     6     4     6     6     4     6     6
+## 6     5     5     2     3     3     4     4
+## 7     7     6     4     6     1     4     6
+##   EL_08 EL_09 EL_10 EL_11 EL_12 EL_13 EL_14
+## 2     7     6     6     6     6     7     7
+## 3     6     5     6     5     6     7     7
+## 4  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>  <NA>
+## 5     6     2     6     4     4     6     6
+## 6     4     5     4     4     4     5     5
+## 7     6     4     6     4     4     6     6
+##   PE_ME1 PE_ME2 PE_ME3 PE_CO1 PE_CO2 PE_CO3
+## 2      7      6      7      7      7      7
+## 3      7      7      7      6      7      7
+## 4   <NA>   <NA>   <NA>   <NA>   <NA>   <NA>
+## 5      7      7      7      6      7      7
+## 6      4      5      3      6      6      6
+## 7      7      7      7      7      7      7
+##   PE_SD1 PE_SD2 PE_SD3    K PE_IM1 PE_IM2
+## 2      6      7      7    1      5      7
+## 3      7      7      7 <NA>      7      7
+## 4   <NA>   <NA>   <NA> <NA>   <NA>   <NA>
+## 5      6      6      6    6      6      6
+## 6      5      5      5    1      4      4
+## 7      7      7      7    1      1      1
+##   PE_IM3   ET   AZ   FK   EN  ALT  WMD
+## 2      6    1   20    1    1   47    1
+## 3      7    1   25    1    1   59    1
+## 4   <NA> <NA> <NA> <NA> <NA> <NA> <NA>
+## 5      6    1   30    2    2   47    1
+## 6      4 <NA> <NA> <NA> <NA> <NA> <NA>
+## 7      1    1   20    2    1   48    1
+##   TIME001 TIME002 TIME003 TIME004 TIME005
+## 2      57     147      47      87      69
+## 3      39      87      36     200      72
+## 4      16     186      43    <NA>    <NA>
+## 5      25      71      81     136     105
+## 6       9     236      80     122      79
+## 7       5      78      19     116      58
+##   TIME006 TIME_SUM MAILSENT
+## 2      73      480     <NA>
+## 3      49      483     <NA>
+## 4    <NA>      245     <NA>
+## 5      72      490     <NA>
+## 6    <NA>      526     <NA>
+## 7      33      309     <NA>
+##              LASTDATA STATUS FINISHED
+## 2 2025-05-07 15:11:31   <NA>        1
+## 3 2025-05-07 15:33:21   <NA>        1
+## 4 2025-05-07 16:03:30   <NA>        0
+## 5 2025-05-07 16:13:13   <NA>        1
+## 6 2025-05-07 16:20:45   <NA>        0
+## 7 2025-05-07 16:32:43   <NA>        1
+##   Q_VIEWER LASTPAGE MAXPAGE MISSING MISSREL
+## 2        0        6       6       0       0
+## 3        0        6       6       2       2
+## 4        0        3       3       9       7
+## 5        0        6       6       0       0
+## 6        0        5       5       0       0
+## 7        0        6       6       0       0
+##   TIME_RSI
+## 2     0,76
+## 3     0,83
+## 4     0,72
+## 5     0,74
+## 6     0,82
+## 7     1,55
 ```
 
 Diese Methode funktioniert auch für mehrere Zeilen.
 
 
-``` r
+```r
 nrow(data_raw)
 ```
 
@@ -891,7 +1043,7 @@ nrow(data_raw)
 ## [1] 232
 ```
 
-``` r
+```r
 nrow(data_raw[-c(1:133), ]) # Zeilen 1 bis 113 entfernen
 ```
 
@@ -907,7 +1059,7 @@ Wir prüfen das z.B. an der Variable `TIME_SUM`, die die Zeit (in sek.) erfasst,
 
 
 
-``` r
+```r
 class(data_raw$TIME_SUM) # Klasse der Spalte TIME_SUM
 ```
 
@@ -915,12 +1067,14 @@ class(data_raw$TIME_SUM) # Klasse der Spalte TIME_SUM
 ## [1] "character"
 ```
 
-``` r
+```r
 mean(data_raw$TIME_SUM)
 ```
 
 ```
-## Warning in mean.default(data_raw$TIME_SUM): argument is not numeric or logical: returning NA
+## Warning in mean.default(data_raw$TIME_SUM):
+## Argument ist weder numerisch noch boolesch:
+## gebe NA zurück
 ```
 
 ```
@@ -930,7 +1084,7 @@ mean(data_raw$TIME_SUM)
 Wir erhalten eine Warnung, dass wir mit einem Character-Objekt nicht rechnen können. Um das zu beheben, müssen wir die Spalte in einen numerischen Vektor umwandeln. Das geht mit der Funktion `as.numeric()`.
 
 
-``` r
+```r
 data_raw$TIME_SUM <- as.numeric(data_raw$TIME_SUM) 
 ```
 
@@ -942,23 +1096,37 @@ Für wiederholte Operationen in Data Frames über Spalten ist die `lapply()` Fun
 
 
 
-``` r
+```r
 colnames(data_raw)
 ```
 
 ```
-##  [1] "CASE"     "SERIAL"   "REF"      "QUESTNNR" "MODE"     "STARTED"  "DDM_AV_1" "DDM_AV_2"
-##  [9] "DDM_AV_3" "DDM_AV_4" "DDM_AV_5" "DDM_AP_1" "DDM_AP_2" "DDM_AP_3" "DDM_AP_4" "DDM_AP_5"
-## [17] "DDM_SI"   "EL_01"    "EL_02"    "EL_03"    "EL_04"    "EL_05"    "EL_06"    "EL_07"   
-## [25] "EL_08"    "EL_09"    "EL_10"    "EL_11"    "EL_12"    "EL_13"    "EL_14"    "PE_ME1"  
-## [33] "PE_ME2"   "PE_ME3"   "PE_CO1"   "PE_CO2"   "PE_CO3"   "PE_SD1"   "PE_SD2"   "PE_SD3"  
-## [41] "K"        "PE_IM1"   "PE_IM2"   "PE_IM3"   "ET"       "AZ"       "FK"       "EN"      
-## [49] "ALT"      "WMD"      "TIME001"  "TIME002"  "TIME003"  "TIME004"  "TIME005"  "TIME006" 
-## [57] "TIME_SUM" "MAILSENT" "LASTDATA" "STATUS"   "FINISHED" "Q_VIEWER" "LASTPAGE" "MAXPAGE" 
-## [65] "MISSING"  "MISSREL"  "TIME_RSI"
+##  [1] "CASE"     "SERIAL"   "REF"     
+##  [4] "QUESTNNR" "MODE"     "STARTED" 
+##  [7] "DDM_AV_1" "DDM_AV_2" "DDM_AV_3"
+## [10] "DDM_AV_4" "DDM_AV_5" "DDM_AP_1"
+## [13] "DDM_AP_2" "DDM_AP_3" "DDM_AP_4"
+## [16] "DDM_AP_5" "DDM_SI"   "EL_01"   
+## [19] "EL_02"    "EL_03"    "EL_04"   
+## [22] "EL_05"    "EL_06"    "EL_07"   
+## [25] "EL_08"    "EL_09"    "EL_10"   
+## [28] "EL_11"    "EL_12"    "EL_13"   
+## [31] "EL_14"    "PE_ME1"   "PE_ME2"  
+## [34] "PE_ME3"   "PE_CO1"   "PE_CO2"  
+## [37] "PE_CO3"   "PE_SD1"   "PE_SD2"  
+## [40] "PE_SD3"   "K"        "PE_IM1"  
+## [43] "PE_IM2"   "PE_IM3"   "ET"      
+## [46] "AZ"       "FK"       "EN"      
+## [49] "ALT"      "WMD"      "TIME001" 
+## [52] "TIME002"  "TIME003"  "TIME004" 
+## [55] "TIME005"  "TIME006"  "TIME_SUM"
+## [58] "MAILSENT" "LASTDATA" "STATUS"  
+## [61] "FINISHED" "Q_VIEWER" "LASTPAGE"
+## [64] "MAXPAGE"  "MISSING"  "MISSREL" 
+## [67] "TIME_RSI"
 ```
 
-``` r
+```r
 vec_chr <- c("QUESTNNR", "MODE", "STARTED", "LASTDATA")
 
 data_raw[, -match(vec_chr, colnames(data_raw))] <- lapply(
@@ -968,8 +1136,9 @@ data_raw[, -match(vec_chr, colnames(data_raw))] <- lapply(
 ```
 
 ```
-## Warning in lapply(X = data_raw[, -match(vec_chr, colnames(data_raw))], FUN = as.numeric): NAs
-## introduced by coercion
+## Warning in lapply(X = data_raw[,
+## -match(vec_chr, colnames(data_raw))], FUN =
+## as.numeric): NAs durch Umwandlung erzeugt
 ```
 
 Der `match()`-Befehl sucht dabei  die Position(en) eines Wertes oder mehrerer Werte in einem Vektor. Hier wird also die Position der Spaltennamen, die in `vec_chr` enthalten sind, im Vektor der Spaltennamen von `data_raw` gesucht. Das Ergebnis wird dann negiert (`-`), um alle Spalten auszuwählen, die **nicht** in `vec_chr` enthalten sind. So werden nur die Spalten in numerische Werte umgewandelt, die tatsächlich numerische Daten enthalten sollten.
@@ -977,16 +1146,20 @@ Der `match()`-Befehl sucht dabei  die Position(en) eines Wertes oder mehrerer We
 Für Zeitvariablen wie `STARTED` und `LASTDATA` können wir die Datums- und Zeitinformation anschließend in ein passendes Format (POSIXct) umwandeln:
 
 
-``` r
+```r
 head(data_raw$STARTED)
 ```
 
 ```
-## [1] "2025-05-07 15:03:31" "2025-05-07 15:25:18" "2025-05-07 15:59:25" "2025-05-07 16:05:03"
-## [5] "2025-05-07 16:11:59" "2025-05-07 16:27:34"
+## [1] "2025-05-07 15:03:31"
+## [2] "2025-05-07 15:25:18"
+## [3] "2025-05-07 15:59:25"
+## [4] "2025-05-07 16:05:03"
+## [5] "2025-05-07 16:11:59"
+## [6] "2025-05-07 16:27:34"
 ```
 
-``` r
+```r
 data_raw[, c("STARTED", "LASTDATA")] <- lapply(
   X = data_raw[, c("STARTED", "LASTDATA")],
   FUN = as.POSIXct
@@ -999,13 +1172,17 @@ class(data_raw$STARTED)
 ## [1] "POSIXct" "POSIXt"
 ```
 
-``` r
+```r
 head(data_raw$STARTED)
 ```
 
 ```
-## [1] "2025-05-07 15:03:31 CEST" "2025-05-07 15:25:18 CEST" "2025-05-07 15:59:25 CEST"
-## [4] "2025-05-07 16:05:03 CEST" "2025-05-07 16:11:59 CEST" "2025-05-07 16:27:34 CEST"
+## [1] "2025-05-07 15:03:31 CEST"
+## [2] "2025-05-07 15:25:18 CEST"
+## [3] "2025-05-07 15:59:25 CEST"
+## [4] "2025-05-07 16:05:03 CEST"
+## [5] "2025-05-07 16:11:59 CEST"
+## [6] "2025-05-07 16:27:34 CEST"
 ```
 
 #### Umwandlung von Variablen in Faktoren
@@ -1013,7 +1190,7 @@ head(data_raw$STARTED)
 Kategoriale Variablen wie Geschlecht, Entscheidungsverhalten oder Zustimmung sollten in Faktoren umgewandelt werden, damit R sie korrekt als kategorial interpretiert und in Analysen entsprechend behandelt. Dafür können wir die `factor()` Funktion nutzen.
 
 
-``` r
+```r
 # Geschlecht (Männlich = 1, Weiblich = 2, Divers = 3)
 head(data_raw$WMD, n = 10)
 ```
@@ -1022,7 +1199,7 @@ head(data_raw$WMD, n = 10)
 ##  [1]  1  1 NA  1 NA  1  2  1 NA  2
 ```
 
-``` r
+```r
 data_raw$WMD <- factor(
   x = data_raw$WMD, 
   levels = c(1, 2, 3),
@@ -1033,7 +1210,7 @@ data_raw$WMD <- factor(
 Das gleiche machen wir für die Variablen `ET` und `FK`:
 
 
-``` r
+```r
 # ET: Entscheidung (1 = ja, 2 = nein)
 # FK: Direkter Vorgesetzter (1 = ja, 2 = nein)
 
@@ -1055,7 +1232,7 @@ data_raw$FK <- factor(
 Um die Analyse übersichtlicher zu gestalten, können wir einen Subdatensatz erstellen, der nur die für unsere Analyse relevanten Variablen enthält. Mit der eckigen Klammernotation `[ , ]` lassen sich die gewünschten Spalten auswählen:
 
 
-``` r
+```r
 vec_nms <- c(
   "CASE", "STARTED", 
   paste0("DDM_AV_", 1:5), paste0("DDM_AP_", 1:5), "DDM_SI", 
@@ -1073,7 +1250,7 @@ Die `paste0()` Funktion fügt dabei Zeichenketten zusammen, ohne ein Trennzeiche
 Alternativ kann auch der `subset()` Befehl genutzt werden, der das Argument `select = c(...)` für die Spaltenauswahl verwendet (s.h. `?subset` für mehr Informationen):
 
 
-``` r
+```r
 data_sub <- subset(data_raw, select = vec_nms)
 
 dim(data_raw)
@@ -1083,7 +1260,7 @@ dim(data_raw)
 ## [1] 232  67
 ```
 
-``` r
+```r
 dim(data_sub)
 ```
 
@@ -1098,7 +1275,7 @@ Um die Interpretation zu erleichtern, ist es sinnvoll, Variablen aussagekräftig
 Zusätzlich ist es sinnvoll, die Variablennamen in ein einheitliches Format zu bringen. In unserem Rohdatensatz sind alle Variablen in Großbuchstaben benannt, was in R typischerweise Konstanten kennzeichnet. Deswegen wollen wir alle Variablen in Kleinschreibung umwandeln, was wir mit dem `tolower()` Befehl für alle Variablen gleichzeitig machen umsetzen können.
 
 
-``` r
+```r
 colnames(data_sub) <- tolower(colnames(data_sub))
 colnames(data_sub)[c(37, 41:46)]
 ```
@@ -1107,20 +1284,36 @@ colnames(data_sub)[c(37, 41:46)]
 ## [1] "k"   "et"  "az"  "en"  "fk"  "alt" "wmd"
 ```
 
-``` r
+```r
 names(data_sub)[c(37, 41:46)] <- c("kontroll", "erwerb", "arbeit_std", "vorgesetzt", "entscheidung", "alter", "geschlecht")
 colnames(data_sub)
 ```
 
 ```
-##  [1] "case"         "started"      "ddm_av_1"     "ddm_av_2"     "ddm_av_3"     "ddm_av_4"    
-##  [7] "ddm_av_5"     "ddm_ap_1"     "ddm_ap_2"     "ddm_ap_3"     "ddm_ap_4"     "ddm_ap_5"    
-## [13] "ddm_si"       "el_01"        "el_02"        "el_03"        "el_04"        "el_05"       
-## [19] "el_06"        "el_07"        "el_08"        "el_09"        "el_10"        "el_11"       
-## [25] "el_12"        "el_13"        "el_14"        "pe_me1"       "pe_me2"       "pe_me3"      
-## [31] "pe_co1"       "pe_co2"       "pe_co3"       "pe_sd1"       "pe_sd2"       "pe_sd3"      
-## [37] "kontroll"     "pe_im1"       "pe_im2"       "pe_im3"       "erwerb"       "arbeit_std"  
-## [43] "vorgesetzt"   "entscheidung" "alter"        "geschlecht"   "lastdata"     "time_sum"
+##  [1] "case"         "started"     
+##  [3] "ddm_av_1"     "ddm_av_2"    
+##  [5] "ddm_av_3"     "ddm_av_4"    
+##  [7] "ddm_av_5"     "ddm_ap_1"    
+##  [9] "ddm_ap_2"     "ddm_ap_3"    
+## [11] "ddm_ap_4"     "ddm_ap_5"    
+## [13] "ddm_si"       "el_01"       
+## [15] "el_02"        "el_03"       
+## [17] "el_04"        "el_05"       
+## [19] "el_06"        "el_07"       
+## [21] "el_08"        "el_09"       
+## [23] "el_10"        "el_11"       
+## [25] "el_12"        "el_13"       
+## [27] "el_14"        "pe_me1"      
+## [29] "pe_me2"       "pe_me3"      
+## [31] "pe_co1"       "pe_co2"      
+## [33] "pe_co3"       "pe_sd1"      
+## [35] "pe_sd2"       "pe_sd3"      
+## [37] "kontroll"     "pe_im1"      
+## [39] "pe_im2"       "pe_im3"      
+## [41] "erwerb"       "arbeit_std"  
+## [43] "vorgesetzt"   "entscheidung"
+## [45] "alter"        "geschlecht"  
+## [47] "lastdata"     "time_sum"
 ```
 
 So entsteht ein übersichtlicher Subdatensatz mit einheitlicher, gut interpretierbarer Namenskonvention.
@@ -1160,7 +1353,7 @@ Table: Übersicht der logischen Operatoren in R
 Für die Umsetzung des ersten Kriteriums nutzen wir die Variable `time_sum`. Mit der `table()` Funktion erhalten wir eine Übersicht, wie viele Teilnehmende  eine Bearbeitungszeit von 60 Sekunden oder weniger (als logischer Operator `time_sum <= 60`) hatten:
 
 
-``` r
+```r
 with(data_sub, table(time_sum < 60))
 ```
 
@@ -1173,14 +1366,14 @@ with(data_sub, table(time_sum < 60))
 Drei Personen müssen demnach ausgeschlossen werden. Dafür können wir erneut die `subset()` Funktion nutzen und dieses mal das Argument `subset = ...` verwenden.
 
 
-``` r
+```r
 data_sub1 <- subset(data_sub, subset = time_sum >= 60) 
 ```
 
 Das `subset` Argument lässt dabei alle Zeilen in dem Datensatz, die dier Kondition `time_sum => 60` erfüllen (`TRUE`). Mit `nrow()` können wir die Anzahl der Zeilen im neuen Datensatz überprüfen und vergleichen:
 
 
-``` r
+```r
 nrow(data_sub)
 ```
 
@@ -1188,7 +1381,7 @@ nrow(data_sub)
 ## [1] 232
 ```
 
-``` r
+```r
 nrow(data_sub1)
 ```
 
@@ -1201,7 +1394,7 @@ nrow(data_sub1)
 Mit dem zweiten Kriterium wollen wir alle Teilnehmenden ausschließen, die die Kontrollfrage falsch beantwortet haben. Die Variable `kontroll` kodiert die Antwort auf die Kontrollfrage, welche mit *"Stimme überhaupt nicht zu"* (kodiert als 1) beantwortet werden sollte. Wir können uns erneut mit `table()` anzeigen lassen, wie viele Teilnehmende welche Antwort gegeben haben:
 
 
-``` r
+```r
 table(data_sub1$kontroll, useNA = "always")
 ```
 
@@ -1214,7 +1407,7 @@ table(data_sub1$kontroll, useNA = "always")
 Das Argument `useNA = "always"` sorgt dafür, dass auch fehlende Werte in der Tabelle angezeigt werden. Alle Werte außer 1 müssen ausgeschlossen werden.
 
 
-``` r
+```r
 sum(data_sub1$kontroll != 1, na.rm = TRUE) # 21 Personen müssen ausgeschlossen werden
 ```
 
@@ -1225,7 +1418,7 @@ sum(data_sub1$kontroll != 1, na.rm = TRUE) # 21 Personen müssen ausgeschlossen 
 Dafür nutzen wir wieder die `subset()` Funktion mit dem logischen Operator `kontroll != 1`:
 
 
-``` r
+```r
 data_sub2 <- subset(data_sub1, subset = (kontroll == 1))
 nrow(data_sub1)
 ```
@@ -1234,7 +1427,7 @@ nrow(data_sub1)
 ## [1] 229
 ```
 
-``` r
+```r
 nrow(data_sub2)
 ```
 
@@ -1263,7 +1456,7 @@ Als drittes Kriterium wollen wir alle Teilnehmenden ausschließen, die aktuell n
 Ihr erstellt zunächst den Faktor wie folgt:
 
 
-``` r
+```r
 labels_erwerb <- c("ja", "nein_teilzeit", "nein")
 data_sub2$erwerb <- factor(data_sub2$erwerb, levels = c(1, 2, 3), labels = labels_erwerb)
 ```
@@ -1271,20 +1464,22 @@ data_sub2$erwerb <- factor(data_sub2$erwerb, levels = c(1, 2, 3), labels = label
 Anschließend könnt ihr mit `table()` überprüfen, wie viele Teilnehmende welche Antwort gegeben haben:
 
 
-``` r
+```r
 table(data_sub2$erwerb, useNA = "always")
 ```
 
 ```
 ## 
-##            ja nein_teilzeit          nein          <NA> 
-##           148            12             1             5
+##            ja nein_teilzeit          nein 
+##           148            12             1 
+##          <NA> 
+##             5
 ```
 
 Um alle Teilnehmenden auszuschließen, die nicht erwerbstätig sind, könnt ihr wieder die `subset()` Funktion nutzen:
 
 
-``` r
+```r
 data_sub3 <- subset(data_sub2, subset = erwerb == "ja")
 ```
 
@@ -1297,7 +1492,7 @@ data_sub3 <- subset(data_sub2, subset = erwerb == "ja")
 Als letztes Kriterium wollen wir alle Teilnehmenden ausschließen, die nicht volljährig sind. Die Variable `alter` gibt das Alter der Teilnehmenden in Jahren an. Dafür können wir mit der `min()` Funktion die jüngste Person in unserem Datensatz bestimmen
 
 
-``` r
+```r
 min(data_sub3$alter, na.rm = TRUE) 
 ```
 
@@ -1305,7 +1500,7 @@ min(data_sub3$alter, na.rm = TRUE)
 ## [1] 18
 ```
 
-``` r
+```r
 any(data_sub3$alter < 18) # Alternative
 ```
 
@@ -1320,7 +1515,7 @@ Da keine Person jünger als 18 Jahre ist, müssen wir hier niemanden ausschließ
 Als letztes Kriterium wollen wir alle Teilnehmenden ausschließen, die keine direkte Führungskraft als vorgesetzte Person haben. Die Variable `vorgesetzt` kodiert dies mit 1 = ja und 2 = nein. 
 
 
-``` r
+```r
 table(data_sub3$vorgesetzt, useNA = "always")
 ```
 
@@ -1330,7 +1525,7 @@ table(data_sub3$vorgesetzt, useNA = "always")
 ##  136   12    0
 ```
 
-``` r
+```r
 data_sub4 <- subset(data_sub3, subset = vorgesetzt == "ja")
 
 nrow(data_raw)
@@ -1340,7 +1535,7 @@ nrow(data_raw)
 ## [1] 232
 ```
 
-``` r
+```r
 nrow(data_sub4)
 ```
 
@@ -1357,7 +1552,7 @@ In unserem Datensatz gibt es mehrere Skalen, die aus mehreren Items bestehen. Um
 Zunächst müssen jedoch einige Items rekodiert werden, da sie invertiert kodiert sind. Wir ziehen die Ausprägungen auf der Likert-Skala von dem maximalen Ausprägungswert ab. Neue Variablen können wir einfach mit dem `$` Operator erstellen.
 
 
-``` r
+```r
 max_value <- 7
 data_sub4$el_05i <- (max_value + 1) - data_sub4$el_05
 ```
@@ -1365,7 +1560,7 @@ data_sub4$el_05i <- (max_value + 1) - data_sub4$el_05
 Zusätzlich müssen wir eine gesamte Subskala des Konstrukts *Defensive Decision Making (DDM)* rekodieren. Dies machen wir, weil die beiden Subskalen der Konstrukts invers zueinander formuliert sind, wir jedoch einen gemeinsamen Summenscores für DDM erstellen wollen.
 
 
-``` r
+```r
 data_sub4$ddm_ap_1i <- (max_value + 1) - data_sub4$ddm_ap_1
 data_sub4$ddm_ap_2i <- (max_value + 1) - data_sub4$ddm_ap_2
 data_sub4$ddm_ap_3i <- (max_value + 1) - data_sub4$ddm_ap_3
@@ -1376,7 +1571,7 @@ data_sub4$ddm_ap_5i <- (max_value + 1) - data_sub4$ddm_ap_5
 Wenn wir uns wieder Zeit sparen wollen und effektiver in R arbeiten wollen, können wir auch hier wieder die `lapply()` Funktion nutzen, um alle Items gleichzeitig zu rekodieren:
 
 
-``` r
+```r
 inv_item <- c("el_05", "ddm_ap_1", "ddm_ap_2", "ddm_ap_3", "ddm_ap_4", "ddm_ap_5")
 
 paste0(inv_item, "i")
@@ -1393,64 +1588,71 @@ Nun können wir die Skalenwerte berechnen, indem wir den Mittelwert der entsprec
 Wir machen uns dafür wieder die `sprintf()` Funktion zu nutzen, um effizienter zu arbeiten. 
 
 
-``` r
+```r
 # Empowering Leadership (el)
 
 c(sprintf("el_%02d", 1:4), "el_05i", sprintf("el_%02d", 6:14))
 ```
 
 ```
-##  [1] "el_01"  "el_02"  "el_03"  "el_04"  "el_05i" "el_06"  "el_07"  "el_08"  "el_09"  "el_10" 
-## [11] "el_11"  "el_12"  "el_13"  "el_14"
+##  [1] "el_01"  "el_02"  "el_03"  "el_04" 
+##  [5] "el_05i" "el_06"  "el_07"  "el_08" 
+##  [9] "el_09"  "el_10"  "el_11"  "el_12" 
+## [13] "el_13"  "el_14"
 ```
 
-``` r
+```r
 data_sub4$el <- rowMeans(data_sub4[, c(sprintf("el_%02d", 1:4), "el_05i", sprintf("el_%02d", 6:14))])
 
 head(data_sub4$el)
 ```
 
 ```
-## [1] 6.428571 5.428571 5.285714 6.714286 6.642857 6.214286
+## [1] 6.428571 5.428571 5.285714 6.714286
+## [5] 6.642857 6.214286
 ```
 
 
 Für die Berechnung des Skalenwerts des Konstrukts **Psychological Empowerment (pe)** könnten wir genau wie vorher mit dem `sprintf()` Befehl arbeiten um, Variablennamen zu generieren. Da wir aber die Vielfalt von R kennenlernen wollen, nutzen wir diesmal die `grep()` Funktion, um alle Variablen zu finden, die mit "pe" beginnen.  Die Funktion `grep()` sucht in Character Vektoren (Argument `x`) nach einem Muster (Argument `pattern`). Das Argument `value = TRUE` sorgt dafür, dass die tatsächlichen Spaltennamen zurückgegeben werden, anstatt ihrer Indizes. Der Operator `^` spezifiziert dabei den Anfang des Vektors. Demnach muss der Vektor mit "pe" anfangen. Die Muster nach denen man im Argument `pattern` sucht, nennt man auch [Regular Expressions](https://r4ds.hadley.nz/regexps.html) (auch kurz Regex).
 
 
-``` r
+```r
 grep(pattern = "^pe", x = names(data_sub4), value = TRUE)
 ```
 
 ```
-##  [1] "pe_me1" "pe_me2" "pe_me3" "pe_co1" "pe_co2" "pe_co3" "pe_sd1" "pe_sd2" "pe_sd3" "pe_im1"
-## [11] "pe_im2" "pe_im3"
+##  [1] "pe_me1" "pe_me2" "pe_me3" "pe_co1"
+##  [5] "pe_co2" "pe_co3" "pe_sd1" "pe_sd2"
+##  [9] "pe_sd3" "pe_im1" "pe_im2" "pe_im3"
 ```
 
-``` r
+```r
 data_sub4$pe <- rowMeans(data_sub4[, grep("^pe", names(data_sub4), value = TRUE)])
 head(data_sub4$pe)
 ```
 
 ```
-## [1] 6.583333 5.500000 5.666667 6.000000 6.833333 5.833333
+## [1] 6.583333 5.500000 5.666667 6.000000
+## [5] 6.833333 5.833333
 ```
 
 
 Für die Berechnung des Skalenwerts des Konstrukts **Defensive Decision Making (ddm)** verwenden wir alle Variablen, die mit `ddm_av` beginnen oder mit `ddm_ap` beginnen und auf ein „i“ enden (also die rekodierten invertierten Items). Dafür können wir wieder die `paste0()`-Funktion verwenden:
 
 
-``` r
+```r
 c(paste0("ddm_av_", 1:5), paste0("ddm_ap_", 1:5, "i")) 
 ```
 
 ```
-##  [1] "ddm_av_1"  "ddm_av_2"  "ddm_av_3"  "ddm_av_4"  "ddm_av_5"  "ddm_ap_1i" "ddm_ap_2i"
-##  [8] "ddm_ap_3i" "ddm_ap_4i" "ddm_ap_5i"
+##  [1] "ddm_av_1"  "ddm_av_2"  "ddm_av_3" 
+##  [4] "ddm_av_4"  "ddm_av_5"  "ddm_ap_1i"
+##  [7] "ddm_ap_2i" "ddm_ap_3i" "ddm_ap_4i"
+## [10] "ddm_ap_5i"
 ```
 
 
-``` r
+```r
 data_sub4$ddm <- rowMeans(data_sub4[, c(paste0("ddm_av_", 1:5), paste0("ddm_ap_", 1:5, "i"))])
 head(data_sub4$ddm)
 ```
@@ -1462,7 +1664,7 @@ head(data_sub4$ddm)
 So sind alle Skalenwerte berechnet und können direkt in Analysen verwendet werden. Als letztes überschreiben wir noch das Objekt `data_sub4` in `data_analysis`, damit deutlich wird, dass wir mit der Aufbereitung der Daten abgeschlossen haben.
 
 
-``` r
+```r
 data_analysis <- data_sub4
 
 row.names(data_analysis) <- NULL #Zeilennummern zurücksetzen da diese nicht durchgängig sind nachdem wir welche entfernt haben
@@ -1477,35 +1679,41 @@ Wir wollen nun einen ersten Überblick über unsere Daten gewinnen, indem wir de
 Wir können uns beispielsweise wichtige Kennwerte des Alters der Teilnehmenden anschauen. Hierfür verwenden wir wieder den `describe()` Befehl aus dem *psych*-Paket. Dieser ist sehr praktisch, da er uns Kennwerte wie Mittelwert, Standardabweichung, Median, Min, Max und weitere Statistiken auf einen Blick liefert. 
 
 
-``` r
+```r
 # install.packages("psych") 
 library(psych)
 psych::describe(data_analysis["alter"]) 
 ```
 
 ```
-##       vars   n  mean    sd median trimmed   mad min max range skew kurtosis   se
-## alter    1 136 36.73 12.69     36   36.12 17.05  18  64    46 0.25    -1.14 1.09
+##       vars   n  mean    sd median trimmed
+## alter    1 136 36.73 12.69     36   36.12
+##         mad min max range skew kurtosis   se
+## alter 17.05  18  64    46 0.25    -1.14 1.09
 ```
 
 Wenn wir mehrere numerische Variablen deskriptiv statistisch analysieren wollen, können wir der Funktion auch einen Data Frame als Input geben. Hier wollen wir uns die Kennwerte für die Skalenwerte für Empowering Leadership (el), Psychological Empowerment (pe) und Defensive Decision Making (ddm) anschauen:
 
 
-``` r
+```r
 psych::describe(data_analysis[c("el", "pe", "ddm")]) 
 ```
 
 ```
-##     vars   n mean   sd median trimmed  mad  min  max range  skew kurtosis   se
-## el     1 136 5.21 0.89   5.29    5.25 0.85 2.86 6.79  3.93 -0.42    -0.38 0.08
-## pe     2 136 5.69 0.93   5.92    5.79 0.86 2.42 7.00  4.58 -1.02     0.70 0.08
-## ddm    3 136 3.50 0.94   3.50    3.49 0.89 1.40 5.80  4.40  0.09    -0.23 0.08
+##     vars   n mean   sd median trimmed  mad
+## el     1 136 5.21 0.89   5.29    5.25 0.85
+## pe     2 136 5.69 0.93   5.92    5.79 0.86
+## ddm    3 136 3.50 0.94   3.50    3.49 0.89
+##      min  max range  skew kurtosis   se
+## el  2.86 6.79  3.93 -0.42    -0.38 0.08
+## pe  2.42 7.00  4.58 -1.02     0.70 0.08
+## ddm 1.40 5.80  4.40  0.09    -0.23 0.08
 ```
 
 Wenn wir nach einer kategoriellen Variable gruppiert numerische Variablen deskriptivstatistisch analysieren wollen, können wir die `describeBy()` Funktion aus dem *psych*-Paket verwenden. Wir können beispielsweise unsere drei Skalenwerte zu den Konstrukten Empowering Leadership (el), Psychological Empowerment (pe) und Defensive Decision Making (ddm) getrennt nach Geschlecht anschauen:
 
 
-``` r
+```r
 scales_by_gender <- psych::describeBy(data_analysis[c("el", "pe", "ddm")], group = data_analysis$geschlecht)
 
 print(scales_by_gender, digits = 2)
@@ -1515,17 +1723,25 @@ print(scales_by_gender, digits = 2)
 ## 
 ##  Descriptive statistics by group 
 ## group: w
-##     vars  n mean   sd median trimmed  mad  min  max range  skew kurtosis  se
-## el     1 82 5.26 0.91   5.43    5.33 0.74 2.86 6.79  3.93 -0.70     0.03 0.1
-## pe     2 82 5.65 0.91   5.83    5.73 0.86 3.08 7.00  3.92 -0.78     0.05 0.1
-## ddm    3 82 3.72 0.90   3.70    3.71 0.89 1.70 5.80  4.10  0.10    -0.46 0.1
-## ------------------------------------------------------------------------ 
+##     vars  n mean   sd median trimmed  mad
+## el     1 82 5.26 0.91   5.43    5.33 0.74
+## pe     2 82 5.65 0.91   5.83    5.73 0.86
+## ddm    3 82 3.72 0.90   3.70    3.71 0.89
+##      min  max range  skew kurtosis  se
+## el  2.86 6.79  3.93 -0.70     0.03 0.1
+## pe  3.08 7.00  3.92 -0.78     0.05 0.1
+## ddm 1.70 5.80  4.10  0.10    -0.46 0.1
+## --------------------------------- 
 ## group: m
-##     vars  n mean   sd median trimmed  mad  min  max range  skew kurtosis   se
-## el     1 54 5.12 0.86   5.11    5.12 0.90 3.57 6.71  3.14  0.04    -0.97 0.12
-## pe     2 54 5.75 0.96   6.08    5.87 0.74 2.42 7.00  4.58 -1.32     1.48 0.13
-## ddm    3 54 3.17 0.91   3.30    3.16 0.89 1.40 5.70  4.30  0.15     0.01 0.12
-## ------------------------------------------------------------------------ 
+##     vars  n mean   sd median trimmed  mad
+## el     1 54 5.12 0.86   5.11    5.12 0.90
+## pe     2 54 5.75 0.96   6.08    5.87 0.74
+## ddm    3 54 3.17 0.91   3.30    3.16 0.89
+##      min  max range  skew kurtosis   se
+## el  3.57 6.71  3.14  0.04    -0.97 0.12
+## pe  2.42 7.00  4.58 -1.32     1.48 0.13
+## ddm 1.40 5.70  4.30  0.15     0.01 0.12
+## --------------------------------- 
 ## group: d
 ## NULL
 ```
@@ -1533,14 +1749,14 @@ print(scales_by_gender, digits = 2)
 Alternativ können wir auch eine Formelschreibweise nutzen, wie ihr möglicherweise noch aus der Regression kennt.
 
 
-``` r
+```r
 describeBy(alter ~ geschlecht, data = data_analysis) 
 ```
 
 Mit dem `cor()` Befehl können wir die Korrelationsmatrix für numerische Variablen berechnen. Hierfür können wir wieder den Data Frame mit den drei Skalenwerten als Input verwenden:
 
 
-``` r
+```r
 round(cor(data_analysis[c("el", "pe", "ddm")]), 3)
 ```
 
@@ -1554,7 +1770,7 @@ round(cor(data_analysis[c("el", "pe", "ddm")]), 3)
 Mit dem `method` Argument können wir die Art der Korrelation festlegen. Standardmäßig wird die Pearson-Korrelation berechnet. Alternativ können wir auch die Spearman- oder Kendall-Korrelation berechnen lassen:
 
 
-``` r
+```r
 round(cor(data_analysis[c("el", "pe", "ddm")], method = "spearman"), 3)
 ```
 
@@ -1571,7 +1787,7 @@ round(cor(data_analysis[c("el", "pe", "ddm")], method = "spearman"), 3)
 Um kategoriale Variablen zu analysieren, können wir die `table()` Funktion verwenden, um Häufigkeitstabellen zu erstellen. Wir können uns beispielsweise die Verteilung des Geschlechts in unserem Datensatz anschauen:
 
 
-``` r
+```r
 table(data_analysis$geschlecht)
 ```
 
@@ -1584,7 +1800,7 @@ table(data_analysis$geschlecht)
 Mit der Funktion `prop.table()` können wir die relativen Häufigkeiten berechnen:
 
 
-``` r
+```r
 prop.table(table(data_analysis$geschlecht))
 ```
 
@@ -1597,7 +1813,7 @@ prop.table(table(data_analysis$geschlecht))
 Die Table Funktion kann auch für Kreuztabellen verwendet werden, um die Verteilung zweier kategorialer Variablen zu analysieren. Wir können uns beispielsweise die Verteilung des Geschlechts im Zusammenhang, ob bei der Arbeit Entscheidungen getroffen werden anschauen.
 
 
-``` r
+```r
 with(data_analysis, table(geschlecht, entscheidung))
 ```
 
@@ -1625,7 +1841,7 @@ Ein guter Workflow beim Schreiben eigener Funktionen in R ist es, zunächst den 
 Schauen wir uns dies zum Beispiel die Variable Defensive Decision Making (`ddm`) an. Zunächst könnten wir einfach den Variationskoeffizienten direkt berechnen, indem wir Mittelwert und Standardabweichung berechnen und dann beide dividieren.
 
 
-``` r
+```r
 x <- data_analysis$ddm
 std <- sd(x)
 m <- mean(x)
@@ -1635,14 +1851,14 @@ cv <- std / m
 Damit haben wir die wesentlichen Berechnungsschritte definiert. Allerdings wollen wir unsere Funktion flexibler gestalten, sodass sie auch mit fehlenden Werten umgehen kann. Dafür können wir ein Argument `na.rm` ergänzen, das standardmäßig auf `FALSE` gesetzt sein soll, aber bei Bedarf auf `TRUE` gestellt werden kann.
 
 
-``` r
+```r
 na.rm <- FALSE
 ```
 
 Nun können wir alle Bestandteile zu einer eigenen Funktion zusammenfügen:
 
 
-``` r
+```r
 calc_cv <- function(x, na.rm = FALSE) {
   std <- sd(x, na.rm = na.rm)
   m <- mean(x, na.rm = na.rm)
@@ -1687,7 +1903,7 @@ und die Funktion qt() für den kritischen *t*-Wert.
 <details><summary><b>Lösung</b></summary>
 
 
-``` r
+```r
 mean_ci <- function(x, conf = 0.95, na.rm = FALSE, digits = 2) {
   if (na.rm) x <- x[!is.na(x)]
   n <- length(x)
@@ -1731,7 +1947,7 @@ Wie eingangs erwähnt, stammt der Datensatz aus einer Bachelorarbeit, die ihr [h
 Widmen wir uns der ersten Hypothese und erstellen das lineare Regressionsmodell, welches die Hypothese abbildet. Dafür nutzen wir zunächst die `lm()`-Funktion zur Erstellung des Modells und erhalten mit der `summary()`-Funktion eine ausführliche Darstellung der Ergebnisse.
 
 
-``` r
+```r
 # Hypothese 1 - Pfad C
 modC <- lm(ddm ~ el, data_analysis)
 
@@ -1748,11 +1964,15 @@ summary(modC)
 ## -2.14413 -0.66742 -0.01469  0.49325  2.31265 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  4.60510    0.47327   9.730   <2e-16 ***
-## el          -0.21147    0.08958  -2.361   0.0197 *  
+##             Estimate Std. Error t value
+## (Intercept)  4.60510    0.47327   9.730
+## el          -0.21147    0.08958  -2.361
+##             Pr(>|t|)    
+## (Intercept)   <2e-16 ***
+## el            0.0197 *  
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1  ' ' 1
 ## 
 ## Residual standard error: 0.9246 on 134 degrees of freedom
 ## Multiple R-squared:  0.03993,	Adjusted R-squared:  0.03276 
@@ -1787,7 +2007,7 @@ Diese prüfen wir meist visuell anhand eines Residuenplots. Ergänzend kann ein 
 Den Residuenplot können wir in R ganz leicht abrufen indem wir die `plot()`-Funktion auf unser bereits erstelltes Regressionsmodell anwenden. Dabei erstellt die `lm()`-Funktion direkt vier Plots von denen wir zunächst mal mit `which = 1` den ersten betrachten wollen.
 
 
-``` r
+```r
 plot(modC, which = 1)
 ```
 
@@ -1797,7 +2017,7 @@ Auf der x-Achse sind die vorhergesagten Werte abgebildet und auf der y-Achse die
 Da Residualplots manchmal etwas unübersichtlich sein können gibt uns R als dritten Plot auch den dazugehörigen Scale-Location-Plot aus.
 
 
-``` r
+```r
 plot(modC, which = 3)
 ```
 
@@ -1808,7 +2028,7 @@ Hier wurden die Residuen transformiert und auch hier erkennen wir wie bereits im
 Der bereits erwähnte Breusch-Pagan-Test ist im `car`-Paket als `ncvTest()`-Funktion implementiert.
 
 
-``` r
+```r
 # install.packages("car")
 library(car)
 car::ncvTest(modC)
@@ -1828,7 +2048,7 @@ Hinweis: Der Breusch-Pagan-Test testet nur einen linearen Verlauf der Residuen! 
 Die Annahme das Daten normalverteilt sind finden wir immer wieder in der Statistik. Bei der Regression bezieht sich diese Annahme auf die Verteilung der Residuen. Wie sie vielleicht noch aus dem Bachelor wissen, können wir uns Verteilungen in Form von Histogrammen anschauen. Glücklicherweise können wir die Residuen direkt unserem Modell entnehmen und an die `hist()`-Funktion übergeben.
 
 
-``` r
+```r
 resid(modC) |> hist()
 ```
 
@@ -1837,7 +2057,7 @@ resid(modC) |> hist()
 Beliebter zur visuellen Überprüfung ist ein qq-Plot diesen können wir uns mit der gleichnamigen Funktion aus dem `car`-Paket ausgeben lassen.
 
 
-``` r
+```r
 car::qqPlot(modC)
 ```
 
@@ -1851,7 +2071,7 @@ Auch hier können wir keine besonderen Auffälligkeiten erkennen.
 Hinweis: Zusätzlich könnte man auch hier einen inferenzstatistischen Test durchführen z.B den Shapiro-Wilk-Test, die visuelle Überprüfung ist jedoch zu bevorzugen.
 
 
-``` r
+```r
 resid(modC) |> shapiro.test() # nicht signifikant
 ```
 
@@ -1869,7 +2089,7 @@ Die korrekte Spezifikation ist eine sehr vielseitige Voraussetzung, die eher kon
 Ob ein linearer Zusammenhang zwischen unserem Prädiktor (`el`) und Outcome (`ddm`) besteht können wir uns z.B in einem Scatterplot anschauen.
 
 
-``` r
+```r
 car::scatterplot(ddm ~ el, data_analysis)
 ```
 
@@ -1878,7 +2098,7 @@ car::scatterplot(ddm ~ el, data_analysis)
 Des weiteren können wir auch hier die Residuenplots betrachten. Dafür bietet sich die `residualPlots()`-Funktion aus dem `car`-Paket an, da diese bereits einen möglichen quadratischen Trend einzeichnet.
 
 
-``` r
+```r
 car::residualPlots(modC)
 ```
 
@@ -1906,13 +2126,13 @@ Die `influencePlot()`-Funktion des `car`-Pakets berechnet uns beide für unser M
 Fälle, die nach einem der Kriterien als Ausreißer identifiziert werden, werden im Streudiagramm durch ihre Zeilennummer gekennzeichnet. Diese Zeilennummern können verwendet werden, um sich die Daten der auffälligen Fälle anzeigen zu lassen. Diese sind im Objekt hinterlegt und wir können uns mit `as.numeric(row.names(InfPlotC))` darauf zugreifen.
 
 
-``` r
+```r
 InfPlotC <- influencePlot(modC)
 ```
 
 ![](/restart-fortgeschrittenen_files/unnamed-chunk-68-1.png)<!-- -->
 
-``` r
+```r
 # Die Zeilennummer der auffälligen Personen abspeichern
 IDsC <- as.numeric(row.names(InfPlotC))
 ```
@@ -1920,26 +2140,46 @@ IDsC <- as.numeric(row.names(InfPlotC))
 Schauen wir uns die möglichen Ausreißer mal an.
 
 
-``` r
+```r
 data_analysis[IDsC, c(sprintf("el_%02d", 1:4), "el_05i", sprintf("el_%02d", 6:14), paste0("ddm_av_", 1:5), paste0("ddm_ap_", 1:5, "i"), "erwerb", "arbeit_std", "vorgesetzt", "entscheidung", "alter", "geschlecht", "time_sum")]
 ```
 
 ```
-##    el_01 el_02 el_03 el_04 el_05i el_06 el_07 el_08 el_09 el_10 el_11 el_12 el_13 el_14
-## 9      7     7     7     7      5     7     6     7     7     6     5     7     7     7
-## 69     6     7     1     1      1     1     1     1     4     3     6     6     1     1
-## 74     2     6     1     1      2     3     5     1     3     2     4     2     5     5
-## 78     7     7     1     7      7     7     7     7     1     1     1     7     7     7
-##    ddm_av_1 ddm_av_2 ddm_av_3 ddm_av_4 ddm_av_5 ddm_ap_1i ddm_ap_2i ddm_ap_3i ddm_ap_4i
-## 9         7        7        7        6        7         3         6         5         2
-## 69        7        7        7        7        7         3         5         5         2
-## 74        6        7        7        7        6         3         3         4         4
-## 78        7        7        7        7        7         7         7         1         1
-##    ddm_ap_5i erwerb arbeit_std vorgesetzt entscheidung alter geschlecht time_sum
-## 9          5     ja         20         ja           ja    59          w      421
-## 69         5     ja         40         ja           ja    36          w      418
-## 74         5     ja         20         ja           ja    19          w      302
-## 78         7     ja         30         ja           ja    54          w      323
+##    el_01 el_02 el_03 el_04 el_05i el_06
+## 9      7     7     7     7      5     7
+## 69     6     7     1     1      1     1
+## 74     2     6     1     1      2     3
+## 78     7     7     1     7      7     7
+##    el_07 el_08 el_09 el_10 el_11 el_12 el_13
+## 9      6     7     7     6     5     7     7
+## 69     1     1     4     3     6     6     1
+## 74     5     1     3     2     4     2     5
+## 78     7     7     1     1     1     7     7
+##    el_14 ddm_av_1 ddm_av_2 ddm_av_3 ddm_av_4
+## 9      7        7        7        7        6
+## 69     1        7        7        7        7
+## 74     5        6        7        7        7
+## 78     7        7        7        7        7
+##    ddm_av_5 ddm_ap_1i ddm_ap_2i ddm_ap_3i
+## 9         7         3         6         5
+## 69        7         3         5         5
+## 74        6         3         3         4
+## 78        7         7         7         1
+##    ddm_ap_4i ddm_ap_5i erwerb arbeit_std
+## 9          2         5     ja         20
+## 69         2         5     ja         40
+## 74         4         5     ja         20
+## 78         1         7     ja         30
+##    vorgesetzt entscheidung alter geschlecht
+## 9          ja           ja    59          w
+## 69         ja           ja    36          w
+## 74         ja           ja    19          w
+## 78         ja           ja    54          w
+##    time_sum
+## 9       421
+## 69      418
+## 74      302
+## 78      323
 ```
 
 * Fall 9 hat häufig mit dem maximalen Wert geantwortet jedoch vereinzelt auch recht niedrig. Dementsprechend weißt die Person zwar ein interessantes Antwortverhalten auf jedoch sehen wir keine Anzeichen das dies nicht der Realität entsprechen könnte.
@@ -1969,7 +2209,7 @@ Nun seid ihr dran!
 <details><summary><b>Lösung</b></summary>
 
 
-``` r
+```r
 modA <- lm(pe ~ el, data_analysis)
 ```
 
@@ -1978,7 +2218,7 @@ modA <- lm(pe ~ el, data_analysis)
 ***
 
 
-``` r
+```r
 summary(modA)
 ```
 
@@ -1992,11 +2232,15 @@ summary(modA)
 ## -2.28955 -0.39370  0.03077  0.40577  1.72868 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  2.08383    0.35630   5.849  3.6e-08 ***
-## el           0.69270    0.06744  10.271  < 2e-16 ***
+##             Estimate Std. Error t value
+## (Intercept)  2.08383    0.35630   5.849
+## el           0.69270    0.06744  10.271
+##             Pr(>|t|)    
+## (Intercept)  3.6e-08 ***
+## el           < 2e-16 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1  ' ' 1
 ## 
 ## Residual standard error: 0.696 on 134 degrees of freedom
 ## Multiple R-squared:  0.4405,	Adjusted R-squared:  0.4363 
@@ -2008,7 +2252,7 @@ Auch hier wollen wir die Voraussetzungen testen. Dabei können wir uns an dem Co
 **Homoskedastizität**
 
 
-``` r
+```r
 plot(modA, which = 1)
 ```
 
@@ -2017,7 +2261,7 @@ plot(modA, which = 1)
 Die rote Linie ist sichtlich nicht horizontal. Betrachten wir dies nochmal im Scale-Location-Plot.
 
 
-``` r
+```r
 plot(modA, which = 3)
 ```
 
@@ -2026,7 +2270,7 @@ plot(modA, which = 3)
 Hier erkennen wir eine deutliche Verletzung der Varianzgleichheit, die uns auch der inferenzstatistische Test bestätigt.
 
 
-``` r
+```r
 car::ncvTest(modA)
 ```
 
@@ -2058,7 +2302,7 @@ Heteroskedastizität führt vor allem zu einer Verzerrung der Standardfehler und
 Etabliert hat sich der sogennante HC3 (heteroskedasticitiy consistent) Ansatz den wir mit Hilfe des `sandwich`-Pakets nutzen können um die korrigierten Standardfehler zu berechnen.
 
 
-``` r
+```r
 # install.packages("sandwich")
 library(sandwich)
 
@@ -2068,7 +2312,7 @@ se_corrected <- sandwich::vcovHC(modA)
 Um diese nun bei der Berechnung unseres Regressionsmodells zu berücksichtigen brauchen wir leider ein weiteres Paket.
 
 
-``` r
+```r
 # install.packages("lmtest")
 library(lmtest)
 
@@ -2079,11 +2323,15 @@ lmtest::coeftest(modA, vcov. = se_corrected)
 ## 
 ## t test of coefficients:
 ## 
-##             Estimate Std. Error t value  Pr(>|t|)    
-## (Intercept)  2.08383    0.41167  5.0618 1.343e-06 ***
-## el           0.69271    0.07275  9.5217 < 2.2e-16 ***
+##             Estimate Std. Error t value
+## (Intercept)  2.08383    0.41167  5.0618
+## el           0.69271    0.07275  9.5217
+##              Pr(>|t|)    
+## (Intercept) 1.343e-06 ***
+## el          < 2.2e-16 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1  ' ' 1
 ```
 
 Wie zu erwarten, die Regressionsgewichte haben sich nicht verändert jedoch die Standardfehler. Inhaltlich ändert sich in diesem Fall nichts.
@@ -2091,13 +2339,13 @@ Wie zu erwarten, die Regressionsgewichte haben sich nicht verändert jedoch die 
 **Normalverteilung**
 
 
-``` r
+```r
 resid(modA) |> hist()
 ```
 
 ![](/restart-fortgeschrittenen_files/unnamed-chunk-77-1.png)<!-- -->
 
-``` r
+```r
 car::qqPlot(modA)
 ```
 
@@ -2112,13 +2360,13 @@ Beide Plots lassen eine Normalverteilung erkennen.
 **Linearität**
 
 
-``` r
+```r
 scatterplot(pe ~ el, data_analysis)
 ```
 
 ![](/restart-fortgeschrittenen_files/unnamed-chunk-78-1.png)<!-- -->
 
-``` r
+```r
 residualPlots(modA)
 ```
 
@@ -2129,7 +2377,8 @@ residualPlots(modA)
 ## el           -1.8059          0.07319 .
 ## Tukey test   -1.8059          0.07093 .
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1  ' ' 1
 ```
 
 Auch die Annahme der Linearität ist gegeben.
@@ -2155,7 +2404,7 @@ Nun widmen wir uns dem b-Pfad. Traditionell wird dieser in einem Modell mit Prä
 <details><summary><b>Lösung</b></summary>
 
 
-``` r
+```r
 # Modell aufstellen
 mod_pe_ddm <- lm(ddm ~ pe, data_analysis)
 summary(mod_pe_ddm)
@@ -2171,31 +2420,35 @@ summary(mod_pe_ddm)
 ## -1.7099 -0.6245 -0.0261  0.4673  2.7476 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  5.46725    0.47498  11.510  < 2e-16 ***
-## pe          -0.34498    0.08237  -4.188 5.07e-05 ***
+##             Estimate Std. Error t value
+## (Intercept)  5.46725    0.47498  11.510
+## pe          -0.34498    0.08237  -4.188
+##             Pr(>|t|)    
+## (Intercept)  < 2e-16 ***
+## pe          5.07e-05 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1  ' ' 1
 ## 
 ## Residual standard error: 0.8873 on 134 degrees of freedom
 ## Multiple R-squared:  0.1157,	Adjusted R-squared:  0.1091 
 ## F-statistic: 17.54 on 1 and 134 DF,  p-value: 5.067e-05
 ```
 
-``` r
+```r
 # Homoskedastizität
 plot(mod_pe_ddm, which = 1) # lässt eine Verletzung vermuten
 ```
 
 ![](/restart-fortgeschrittenen_files/unnamed-chunk-79-1.png)<!-- -->
 
-``` r
+```r
 plot(mod_pe_ddm, which = 3) # rote Linie nicht wirklich horizontal
 ```
 
 ![](/restart-fortgeschrittenen_files/unnamed-chunk-79-2.png)<!-- -->
 
-``` r
+```r
 car::ncvTest(mod_pe_ddm) # bestätigt die Vermutung das eine Verletzung vorliegt
 ```
 
@@ -2205,14 +2458,14 @@ car::ncvTest(mod_pe_ddm) # bestätigt die Vermutung das eine Verletzung vorliegt
 ## Chisquare = 3.381059, Df = 1, p = 0.06595
 ```
 
-``` r
+```r
 # Normalverteilung
 resid(mod_pe_ddm) |> hist()
 ```
 
 ![](/restart-fortgeschrittenen_files/unnamed-chunk-79-3.png)<!-- -->
 
-``` r
+```r
 car::qqPlot(mod_pe_ddm) # sieht ok aus
 ```
 
@@ -2222,7 +2475,7 @@ car::qqPlot(mod_pe_ddm) # sieht ok aus
 ## [1]  9 78
 ```
 
-``` r
+```r
 # Bonus: Modell mit robusten Standardfehlern (HC3) rechnen
 lmtest::coeftest(mod_pe_ddm, vcov. = sandwich::vcovHC(mod_pe_ddm))
 ```
@@ -2231,11 +2484,15 @@ lmtest::coeftest(mod_pe_ddm, vcov. = sandwich::vcovHC(mod_pe_ddm))
 ## 
 ## t test of coefficients:
 ## 
-##              Estimate Std. Error t value  Pr(>|t|)    
-## (Intercept)  5.467251   0.538470 10.1533 < 2.2e-16 ***
-## pe          -0.344984   0.095968 -3.5948 0.0004551 ***
+##              Estimate Std. Error t value
+## (Intercept)  5.467251   0.538470 10.1533
+## pe          -0.344984   0.095968 -3.5948
+##              Pr(>|t|)    
+## (Intercept) < 2.2e-16 ***
+## pe          0.0004551 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1  ' ' 1
 ```
 
 </details>
@@ -2258,7 +2515,7 @@ Nun zur Implementation des Ganzen. Für unseren Fall, die Regression die den uni
 6. Mit Hilfe des Standardfehlers das Konfidenzintervall bestimmen und die Signifikanzentscheidung treffen
 
 
-``` r
+```r
 # Schritt 1
 boot_data <- data_analysis[sample(1:nrow(data_analysis), nrow(data_analysis), replace = TRUE), ]
 
@@ -2271,13 +2528,13 @@ coef(boot_mod)["pe"]
 
 ```
 ##         pe 
-## -0.2796737
+## -0.3472811
 ```
 
 Um diese drei Schritte zu wiederholen bietet sich die `replicate()`-Funktion an. Diese nimmt als Input eine Funktion entgegen die sie dann so häufig wiederholt wie wir es möchten. Wie sie bereits gelernt haben ist eine Funktion auch nur Code der mehrere Zeilen Code zusammenfasst.
 
 
-``` r
+```r
 booting <- function(data){
   
   # Schritt 1
@@ -2297,7 +2554,7 @@ booting <- function(data){
 Wie ihr seht mussten wir dafür nicht viel Code verändern. Unsere Funktion `booting()` nimmt einen Datensatz entgegen (Argument `data`) und gibt uns das Regressionsgewicht unseres Prädiktors mit `return()` aus.
 
 
-``` r
+```r
 # Schritt 4
 set.seed(12345) # damit wir alle das gleiche Ergebnis produzieren
 boot_beta_pe <- replicate(n = 1000, booting(data_analysis))
@@ -2314,7 +2571,7 @@ Um nun den Standardfehler zu ermitteln, erinnern wir uns daran, dass dieser die 
 Dementsprechend entspricht der Standardfehler hier der Standardabweichung unserer Verteilung der Regressionsgewichte.
 
 
-``` r
+```r
 # Schritt 6
 sd(boot_beta_pe)
 ```
@@ -2328,7 +2585,7 @@ Auch hier müssen wir nicht auf die klassische Formel zurückgreifen, die wir ge
 Das Konfidenzintervall ergibt sich daher ganz einfach als Bereich zwischen dem 2,5%- und dem 97,5%-Quantil der Bootstrap-Verteilung:
 
 
-``` r
+```r
 quantile(boot_beta_pe, c(0.025, 0.975))
 ```
 
@@ -2353,7 +2610,7 @@ Kommen wir nun zurück zur eigentlichen Fragestellung der Mediation. Wie bereits
 <details><summary><b>Lösung</b></summary>
 
 
-``` r
+```r
 modBC <- lm(ddm ~ pe + el, data_analysis)
 ```
 
@@ -2362,7 +2619,7 @@ modBC <- lm(ddm ~ pe + el, data_analysis)
 ***
 
 
-``` r
+```r
 summary(modBC)
 ```
 
@@ -2376,12 +2633,17 @@ summary(modBC)
 ## -1.72362 -0.60717 -0.02596  0.48115  2.78474 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  5.38914    0.51044  10.558  < 2e-16 ***
-## pe          -0.37625    0.11046  -3.406 0.000872 ***
-## el           0.04916    0.11529   0.426 0.670498    
+##             Estimate Std. Error t value
+## (Intercept)  5.38914    0.51044  10.558
+## pe          -0.37625    0.11046  -3.406
+## el           0.04916    0.11529   0.426
+##             Pr(>|t|)    
+## (Intercept)  < 2e-16 ***
+## pe          0.000872 ***
+## el          0.670498    
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1  ' ' 1
 ## 
 ## Residual standard error: 0.89 on 133 degrees of freedom
 ## Multiple R-squared:  0.117,	Adjusted R-squared:  0.1037 
@@ -2393,14 +2655,14 @@ Das Regressionsgewicht der unabhängigen Variable ist nun nicht mehr signifikant
 Auch hier sollten wir natürlich die Voraussetzungen überprüfen. Machen wir dies kurz mal im Schnelldurchgang.
 
 
-``` r
+```r
 # Homoskedastizität
 plot(modBC, which = 3) # starke Abweichungen zu erkennen
 ```
 
 ![](/restart-fortgeschrittenen_files/unnamed-chunk-87-1.png)<!-- -->
 
-``` r
+```r
 car::ncvTest(modBC) # signifikant --> Voraussetzung verletzt
 ```
 
@@ -2410,14 +2672,14 @@ car::ncvTest(modBC) # signifikant --> Voraussetzung verletzt
 ## Chisquare = 3.154361, Df = 1, p = 0.075724
 ```
 
-``` r
+```r
 # Normalverteilung
 resid(modBC) |> hist()
 ```
 
 ![](/restart-fortgeschrittenen_files/unnamed-chunk-87-2.png)<!-- -->
 
-``` r
+```r
 car::qqPlot(modBC) # unproblematisch
 ```
 
@@ -2427,7 +2689,7 @@ car::qqPlot(modBC) # unproblematisch
 ## [1]  9 78
 ```
 
-``` r
+```r
 # Linearität
 car::residualPlots(modBC) # pe geht in Richtung eines quadratischen Effekts jedoch nicht signifikant
 ```
@@ -2440,14 +2702,15 @@ car::residualPlots(modBC) # pe geht in Richtung eines quadratischen Effekts jedo
 ## el           -0.5469          0.58535  
 ## Tukey test   -2.3452          0.01902 *
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1  ' ' 1
 ```
 
 Und wie nach unserer vorherigen univariaten Betrachtung kaum überraschend, ist die Homoskedastizität auch im multiplen Modell verletzt. Wir entscheiden uns auch hier zu bootstrappen und bestimmen im gleichen Atemzug den indirekten Effekt (ab).
 Dafür nutzen wir die Funktion `mediate()` aus dem `psych`-Paket. In dieser Funktion stellen wir zunächst unser Modell auf, die Syntax erinnert dabei stark an die der `lm()`-Funktion, nur das wir einen der Prädiktoren durch die Klammern als Mediator kennzeichnen. Per default wird ein bootstrap mitberechnet.
 
 
-``` r
+```r
 set.seed(12345)
 psych::mediate(ddm ~ el + (pe), data = data_analysis) |> summary()
 ```
@@ -2481,7 +2744,7 @@ psych::mediate(ddm ~ el + (pe), data = data_analysis) |> summary()
 ## 
 ##  'ab'  effect estimates (through all  mediators)
 ##      ddm  boot   sd lower upper
-## el -0.26 -0.26 0.09 -0.45 -0.09
+## el -0.26 -0.26 0.09 -0.44 -0.08
 ```
 
 Die Funktion gibt uns außerdem eine Abbildung aus, in der die Regressionsgewichte direkt an den entsprechenden Pfaden dargestellt sind. Voilà – wir haben unsere Mediation berechnet!
