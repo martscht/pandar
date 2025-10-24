@@ -9,7 +9,7 @@ subtitle: ''
 summary: "In diesem Post geht es darum, wie Variablen mit Nominal- und Ordinalskalenniveau zusammengefasst und dargestellt werden können. Neben der Einführung von statistischen Größen geht es dabei auch um die grafische Darstellung mit Basis-Funktionen."
 authors: [nehler, buchholz, kvetnaya]
 weight: 2
-lastmod: '2025-10-22'
+lastmod: '2025-10-24'
 featured: no
 banner:
   caption: '[Courtesy of pxhere](https://pxhere.com/en/photo/1227907)'
@@ -262,7 +262,7 @@ table(fb25$fach) |> sum()
 ```
 ## [1] 206
 ```
-... sieht man, dass nur 206 von allen 211 Beobachtungen darin Eingang gefunden haben. Das liegt daran, dass der `table`-Befehl ohne zusätzliche Argumente alle `NA`s einfach ignoriert. Um zu sehen, wieviele fehlende Werte wir insgesamt auf dieser Variable haben, müssen wir das Argument `useNA` spezifizieren. `"ifany"`` bedeutet, dass fehlende Werte nur mitgezählt werden, falls es welche gibt.
+... sieht man, dass nur 206 von allen 211 Beobachtungen darin Eingang gefunden haben. Das liegt daran, dass der `table`-Befehl ohne zusätzliche Argumente alle `NA`s einfach ignoriert. Um zu sehen, wieviele fehlende Werte wir insgesamt auf dieser Variable haben, müssen wir das Argument `useNA` spezifizieren. `"ifany"` bedeutet, dass fehlende Werte nur mitgezählt werden, falls es welche gibt.
 
 
 ``` r
@@ -346,7 +346,7 @@ barplot(tab)
 
 Die Grafik erscheint in der RStudio-Standardansicht "unten rechts" im Reiter "Plots":
 
-![](plots_window.PNG)
+![](/plots_window.PNG)
 
 <img src="/deskriptiv-nominal-ordinal_files/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 

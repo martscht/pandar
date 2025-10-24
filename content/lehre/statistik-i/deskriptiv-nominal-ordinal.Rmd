@@ -189,7 +189,7 @@ Bei näherer Betrachtung fällt auf, dass an dieser Tabelle etwas nicht stimmt. 
 ```{r}
 table(fb25$fach) |> sum()
 ```
-... sieht man, dass nur `r table(fb25$fach) |> sum()` von allen `r nrow(fb25)` Beobachtungen darin Eingang gefunden haben. Das liegt daran, dass der `table`-Befehl ohne zusätzliche Argumente alle `NA`s einfach ignoriert. Um zu sehen, wieviele fehlende Werte wir insgesamt auf dieser Variable haben, müssen wir das Argument `useNA` spezifizieren. `"ifany"`` bedeutet, dass fehlende Werte nur mitgezählt werden, falls es welche gibt.
+... sieht man, dass nur `r table(fb25$fach) |> sum()` von allen `r nrow(fb25)` Beobachtungen darin Eingang gefunden haben. Das liegt daran, dass der `table`-Befehl ohne zusätzliche Argumente alle `NA`s einfach ignoriert. Um zu sehen, wieviele fehlende Werte wir insgesamt auf dieser Variable haben, müssen wir das Argument `useNA` spezifizieren. `"ifany"` bedeutet, dass fehlende Werte nur mitgezählt werden, falls es welche gibt.
 
 ```{r}
 table(fb25$fach, useNA = "ifany")
@@ -245,7 +245,7 @@ barplot(tab)
 
 Die Grafik erscheint in der RStudio-Standardansicht "unten rechts" im Reiter "Plots":
 
-![](plots_window.PNG)
+![](/plots_window.PNG)
 
 ```{r, echo = FALSE, fig=TRUE, fig.align='center'}
 # Säulen- oder Balkendiagramm
