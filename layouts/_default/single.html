@@ -11,7 +11,9 @@
     </div>
 
 
-    {{ partial "nextprev.html" (dict "page" .) }}
+
+    {{ partial "nextprev.html" (dict "page" . "variant" "footer") }}
+
     {{ partial "page_footer" . }}
     
 

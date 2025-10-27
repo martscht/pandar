@@ -136,8 +136,6 @@
 {{ end }}
 
 {{/* ==================== Other Custom buttons ==================== */}}
-
-{{/* <!-- Das ganz unten ist was für unsere Buttons verwendet wird, ich könnte die Funktion also ab hier entwenden und anpassen für max. 2 Blöcke?-->*/}}
 {{ range $page.Params.links }}
   {{ $pack := or .icon_pack "fas" }}
   {{ $pack_prefix := $pack }}
@@ -164,4 +162,7 @@
 {{ end }}
 
 {{/* ==================== Next / Previous buttons ==================== */}}
-{{ partial "nextprev.html" . }}
+{{/* In Aufzählungen wie bspw. der compact view werden diese Buttons wegen dem if nicht gerendert! */}}
+{{ if not .is_list }}
+  {{ partial "nextprev.html" . }}
+{{ end }}

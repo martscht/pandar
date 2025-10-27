@@ -1,5 +1,6 @@
 {{ $is_list := .is_list }}
 {{ $page := .page }}
+{{ $variant := .variant}}
 
 
 {{ with $page.Params.categories }}
@@ -26,17 +27,44 @@
       {{ $prev := cond (gt $idx 0) (index $pages (sub $idx 1)) nil }}
       {{ $next := cond (lt (add $idx 1) (len $pages)) (index $pages (add $idx 1)) nil }}
 
-      {{ with $prev }}
-        <a class="btn btn-primary btn-page-header{{ if $is_list }} btn-sm{{ end }}" href="{{ .RelPermalink }}">
-          Vorheriger Beitrag
-        </a>
+
+      {{ if eq $variant "footer" }}
+        <!-- FOOTER version -->
+        <div class="d-flex justify-content-between mt-2">
+          {{ with $prev }}
+            <a class="btn btn-primary btn-page-header{{ if $is_list }} btn-sm{{ end }}" href="{{ .RelPermalink }}">
+              Vorheriger Beitrag
+            </a>
+          {{ else }}
+            <span></span>
+          {{ end }}
+
+          {{ with $next }}
+            <a class="btn btn-primary btn-page-header{{ if $is_list }} btn-sm{{ end }}" href="{{ .RelPermalink }}">
+              Nächster Beitrag
+            </a>
+          {{ else }}
+            <span></span>
+          {{ end }}
+        </div>
+
+      {{ else }}
+        <!-- INLINE (default) version -->
+        <div>
+          {{ with $prev }}
+            <a class="btn btn-primary btn-page-header{{ if $is_list }} btn-sm{{ end }}" href="{{ .RelPermalink }}">
+              Vorheriger Beitrag
+            </a>
+          {{ end }}
+          {{ with $next }}
+            <a class="btn btn-primary btn-page-header{{ if $is_list }} btn-sm{{ end }}" href="{{ .RelPermalink }}">
+              Nächster Beitrag
+            </a>
+          {{ end }}
+        </div>
       {{ end }}
 
-      {{ with $next }}
-        <a class="btn btn-primary btn-page-header{{ if $is_list }} btn-sm{{ end }}" href="{{ .RelPermalink }}">
-          Nächster Beitrag
-        </a>
-      {{ end }}
+      
     {{ end }}
   {{ end }}
 {{ end }}
