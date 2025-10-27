@@ -1,0 +1,42 @@
+{{ $is_list := .is_list }}
+{{ $page := .page }}
+
+
+{{ with $page.Params.categories }}
+  {{ $cat := index . 0 }}
+
+  {{/* List of allowed categories for next / previous button */}}
+  {{ $allowedCats := slice "Statistik I" "Statistik II" "FuE I" "FuE II" "KliPPs" }}
+
+  {{ if in $allowedCats $cat }}
+
+    {{/* Collect all pages in same section with same first category */}}
+    {{ $pages := where site.RegularPages "Params.categories" "intersect" (slice $cat) }}
+    {{ $pages = sort $pages "Params.Weight" "asc" "Title" "asc" }}
+
+    {{/* Find index of current page */}}
+    {{ $idx := -1 }}
+    {{ range $i, $p := $pages }}
+      {{ if eq $p.RelPermalink $page.RelPermalink }}
+        {{ $idx = $i }}
+      {{ end }}
+    {{ end }}
+
+    {{ if ge $idx 0 }}
+      {{ $prev := cond (gt $idx 0) (index $pages (sub $idx 1)) nil }}
+      {{ $next := cond (lt (add $idx 1) (len $pages)) (index $pages (add $idx 1)) nil }}
+
+      {{ with $prev }}
+        <a class="btn btn-primary btn-page-header{{ if $is_list }} btn-sm{{ end }}" href="{{ .RelPermalink }}">
+          Vorheriger Beitrag
+        </a>
+      {{ end }}
+
+      {{ with $next }}
+        <a class="btn btn-primary btn-page-header{{ if $is_list }} btn-sm{{ end }}" href="{{ .RelPermalink }}">
+          Nächster Beitrag
+        </a>
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
