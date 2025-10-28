@@ -1,3 +1,5 @@
+## Daten laden
+## Beispiel Daten lokal zu laden
 ## load("C:/Users/Musterfrau/Desktop/Titanic.rda")
 
 load(url("https://pandar.netlify.app/daten/Titanic.rda")) 
@@ -7,6 +9,8 @@ dim(Titanic) # Dimensionen des Datensatzes
 
 Münze <- c(0, 1, 0, 0)
 mean(Münze)
+
+#### Analyse mit dem Beispieldatensatz ----
 
 library(lm.beta) # std. Koeffizienten
 reg_model <- lm(survived ~ 1 + age, data = Titanic)
@@ -41,6 +45,8 @@ plot(x = AltersWerte, y = odds, type = "l", col = "blue", lwd = 3)
 
 p <- odds/(1 + odds)
 plot(x = AltersWerte, y = p, type = "l", col = "blue", lwd = 3)
+
+#### Hypothese 2 ----
 
 is.factor(Titanic$sex)
 
@@ -83,6 +89,8 @@ ggplot(data = Titanic, mapping = aes(x = age, y = p_m2, col = sex)) +
         geom_line(lwd = 2) +
         ggtitle("P vs Age and Sex")
 
+#### Hypothese 3 ----
+
 levels(Titanic$pclass)
 
 m3 <-  glm(survived ~ 1 + age + sex + pclass, family = "binomial", data = Titanic)
@@ -116,6 +124,8 @@ ggplot(data = Titanic, mapping = aes(x = age, y = odds_m3, col = pclass, lty = s
 ggplot(data = Titanic, mapping = aes(x = age, y = p_m3, col = pclass, lty = sex)) +
      geom_line(lwd = 1) +
      ggtitle("P vs Age, Sex and Class")
+
+#### Appendix A ----
 
 Logistic_functions <- function(beta0 = 0, beta1 = 1)
 {

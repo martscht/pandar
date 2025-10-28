@@ -1,0 +1,8 @@
+{{ if .Params.tags }}
+<div class="article-tags">
+  <div class="font-weight-bold mb-1">Stichwörter:</div>
+  {{ range $index, $value := (.GetTerms "tags") }}
+  <a class="badge badge-light" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+  {{ end }}
+</div>
+{{ end }}

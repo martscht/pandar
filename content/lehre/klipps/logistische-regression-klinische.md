@@ -5,10 +5,10 @@ slug: logistische-regression-klinische
 categories: ["KliPPs"]
 tags: ["dichotom", "generalisiertes lineares Modell", "Linkfunktion", "Likelihood"]
 subtitle: 'Vorhersage von Gruppenzugehörigkeiten'
-summary: ''
+summary: 'In diesem Beitrag geht es darum, wie wir die Prinzipien der [Regression](/multiple-regression-klinische) nutzen können, um Vorhersagen auch dann zu ermöglichen, wenn die abhängige Variable nominalskaliert ist. Das Ziel ist die Replikation der Ergebnisse von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148).'
 authors: [schultze]
 weight: 2
-lastmod: '2025-02-27'
+lastmod: '2025-10-21'
 featured: no
 banner:
   image: "/header/talking_beach.jpg"
@@ -103,20 +103,6 @@ Die Deskriptivstatistiken der Variablen, die für uns relevant sind, werden in T
 
 ``` r
 library(psych)
-```
-
-```
-## 
-## Attaching package: 'psych'
-```
-
-```
-## The following objects are masked from 'package:ggplot2':
-## 
-##     %+%, alpha
-```
-
-``` r
 subset(grit, select = c(ARS, RSS, ELOC, ILOC, Grit, Age)) |>
   describeBy(grit$Suicide)
 ```
@@ -132,7 +118,7 @@ subset(grit, select = c(ARS, RSS, ELOC, ILOC, Grit, Age)) |>
 ## ILOC    4 145 35.90  7.48  38.00   36.62  5.93  9.00  48 39.00 -0.99     0.65 0.62
 ## Grit    5 145  2.76  0.67   2.83    2.79  0.74  0.92   4  3.08 -0.34    -0.55 0.06
 ## Age     6 145 37.34 11.15  35.00   36.57 11.86 20.00  66 46.00  0.57    -0.53 0.93
-## --------------------------------------------------------------------------- 
+## ------------------------------------------------------------------ 
 ## group: Ideator
 ##      vars  n  mean    sd median trimmed   mad   min   max range  skew kurtosis   se
 ## ARS     1 83 42.57 15.32   44.0   41.99 19.27 19.00 76.00 57.00  0.16    -1.12 1.68
@@ -141,7 +127,7 @@ subset(grit, select = c(ARS, RSS, ELOC, ILOC, Grit, Age)) |>
 ## ILOC    4 83 31.34  9.68   32.0   32.24  8.90  7.00 48.00 41.00 -0.78    -0.11 1.06
 ## Grit    5 83  2.42  0.66    2.5    2.45  0.74  0.92  3.83  2.92 -0.32    -0.74 0.07
 ## Age     6 83 35.78 10.86   33.0   34.49 10.38 21.00 68.00 47.00  1.03     0.69 1.19
-## --------------------------------------------------------------------------- 
+## ------------------------------------------------------------------ 
 ## group: Attempter
 ##      vars  n  mean    sd median trimmed   mad   min   max range  skew kurtosis   se
 ## ARS     1 94 42.80 13.85  44.50   42.80 17.05 19.00 70.00 51.00 -0.08    -1.18 1.43
@@ -193,8 +179,8 @@ mod0 <- lm(Suicide ~ 1 + Grit, idea)
 ```
 
 ```
-## Warning in model.response(mf, "numeric"): using type = "numeric" with a factor response will be
-## ignored
+## Warning in model.response(mf, "numeric"): using type = "numeric" with a factor response
+## will be ignored
 ```
 
 ```
@@ -326,7 +312,7 @@ exp(coef(mod1))
 ##   3.9557456   0.4749213
 ```
 
-Bei einem `Grit`-Wert von 0 ist es also knapp 3.96-mal so wahrscheinlich in der Vergangenheit Suizidgedanken gehabt zu haben, wie es ist, sie nicht gehabt zu haben. Wenn sich zwei Personen auf der `Grit`-Skala um eine Einheit unterscheiden, ist die Wahrscheinlichkeit der Suizidgedanken der Person mit dem höheren Wert nur ungefähr das 0.47-fache der Person mit dem niedrigeren Wert.
+Bei einem `Grit`-Wert von 0 ist es also knapp 3.96-mal so wahrscheinlich in der Vergangenheit Suizidgedanken gehabt zu haben, wie es ist, sie nicht gehabt zu haben. Wenn sich zwei Personen auf der `Grit`-Skala um eine Einheit unterscheiden, sind die Odds der Suizidgedanken der Person mit dem höheren Wert nur ungefähr das 0.47-fache der Person mit dem niedrigeren Wert.
 
 Für jeden einzelnen Wert können wir außerdem die Wahrscheinlichkeit berechnen, dass Person Suizidgedanken hatten. Dafür können wir zunächst, wie bei der normalen Regression, die vorhergesagten Logits bestimmen und diese dann in Wahrscheinlichkeiten umrechnen:
 
@@ -407,7 +393,7 @@ Die Erweiterung der logistischen Regression auf mehrere Prädiktoren funktionier
   - **Block 3**: Zusätzlich die paarweisen Interaktionen zwischen `ARS`, `ILOC` und `Grit`
   - **Block 4**: Zusätzlich die dreifach-Interaktion zwischen `ARS`, `ILOC` und `Grit`
 
-Die Grundideen, die wir in den letzten beiden Beiträgen hinsichtlich der [moderierten Regression](/lehre/klipps/multiple-regression-klinische) und der [generalisierten ANCOVA](/lehre/klipps/ancova-klinische) besprochen hatten halten auch hier (wir haben ja nur ausgetauscht, wie wir unsere abhängige Variable behandeln). Deswegen müssen wir auch hier die Variablen zentrieren, um nicht-essentielle Multikollinearität zu vermeiden:
+Die Grundideen aus der [moderierten Regression](/lehre/klipps/multiple-regression-klinische) und der [generalisierten ANCOVA](/lehre/klipps/ancova-klinische) halten auch hier (wir haben ja nur ausgetauscht, wie wir unsere abhängige Variable behandeln). Deswegen müssen wir auch hier die Variablen zentrieren, um nicht-essentielle Multikollinearität zu vermeiden:
 
 
 ``` r
@@ -569,13 +555,6 @@ Auf den ersten Blick scheint das nicht sonderlich zufriedenstellend. Das `caret`
 
 ``` r
 library(caret)
-```
-
-```
-## Loading required package: lattice
-```
-
-``` r
 confusionMatrix(idea$Prediction, idea$Suicide)
 ```
 
@@ -737,7 +716,7 @@ odds
 ## Attempter   0.6575870 0.4439914
 ```
 
-Im ersten Intercept wird hier also festgehalten, wie viel wahrscheinlicher es ist, dass eine Person ein `Ideator` ist, als dass sie bislang weder Suizidgedanken noch -versuche hatte (`none` ist unsere Referenzkategorie), wenn sie durchschnittlichen Grit vorweisen kann (wir haben `Grit` zentriert). Im zweiten Intercept steht das Gleiche, aber für die Wahrscheinlichkeit, dass eine Person ein `Attempter` ist. Bezüglich des Grit können wir sagen, dass für jede zusätzliche Einheit in Grit, eine um das 0.45-fache geringere Wahrscheinlichkeit erwartet wird, dass eine Person schon einmal Suizidgedanken hatte.
+Im ersten Intercept wird hier also festgehalten, wie viel wahrscheinlicher es ist, dass eine Person ein `Ideator` ist, als dass sie bislang weder Suizidgedanken noch -versuche hatte (`none` ist unsere Referenzkategorie), wenn sie durchschnittlichen Grit vorweisen kann (wir haben `Grit` zentriert). Im zweiten Intercept steht das Gleiche, aber für die Wahrscheinlichkeit, dass eine Person ein `Attempter` ist. Bezüglich des Grit können wir sagen, dass für jede zusätzliche Einheit in Grit, ein um das 0.45-fache geringerer Odds erwartet wird, dass eine Person schon einmal Suizidgedanken hatte.
 
 ### Vorhesagen und Abbildungen
 
@@ -906,13 +885,7 @@ Wie in den letzten beiden Sitzungen gesehen, bietet das Paket sjPlot eine breite
 
 ``` r
 library(sjPlot)
-```
 
-```
-## Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!
-```
-
-``` r
 tab_model(block4, show.r2 = FALSE, show.aic = TRUE)
 ```
 
@@ -1095,7 +1068,7 @@ tab_model(block4b, show.r2 = FALSE, show.aic = TRUE)
 <table style="border-collapse:collapse; border:none;">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
-<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Suicide r</th>
+<th colspan="4" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Suicide_r</th>
 </tr>
 <tr>
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
@@ -1292,7 +1265,7 @@ Erneut gibt die `Accuracy` den relativen Anteil der korrekt klassifzierten Perso
 
 ## Abschluss
 
-Mit den gezeigten Schritten (und einer zusätzlichen Korrelationstablle via `corr.test`) können wir also versuchen alle Ergebnisse aus dem Artikel von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) zu reproduzieren. Wie Sie (als aufmerksame Lerser*innen) bestimmt mitbekommen haben, sind dieser Ergebnisse allerdings nicht identisch. Zwar zweigen die Ergebnisse für das "Model 1" aus dem Artikel die gleichen Muster an bedeutsamen und nicht-bedeutsamen Prädiktoren, die tatsächlichen Zahlen weichen allerdings ab. Ich habe die Autorinnen des Papers kontaktiert, um über die Diskrepranzen zu sprechen. Meine Vermutung ist dabei, dass die Unterschiede auf den Ausschluss von Ausreißern und Extremwerten zurückgehen, welche im Paper (und dem ursprünglichen Skript auf dem OSF) nicht dokumentiert sind. Leider hat diese Kontaktaufnahme dazu geführt, dass der Beitrag im OSF verschwunden ist, bis diese Diskrepanzen geklärt werden können, sodass es mir zum Zeitpunkt, zu dem ich diesen Beitrag schreibe nicht möglich ist, eine definitive Aussage dazu zu treffen, woher diese Unterschiede kommen. Dennoch sind Sie jetzt in der Lage, für die anderen drei berichteten Modelle zu prüfen, ob es auch dort zu solchen Diskrepanzen kommt und ob sich die Interpretation im Artikel dadurch verändern würden.
+Mit den gezeigten Schritten (und einer zusätzlichen Korrelationstablle via `corr.test`) können wir also versuchen alle Ergebnisse aus dem Artikel von [Lin et al. (2023)](https://doi.org/10.1016/j.jad.2023.02.148) zu reproduzieren. Wie Sie (als aufmerksame Leser*innen) bestimmt mitbekommen haben, sind dieser Ergebnisse allerdings nicht identisch. Zwar zweigen die Ergebnisse für das "Model 1" aus dem Artikel die gleichen Muster an bedeutsamen und nicht-bedeutsamen Prädiktoren, die tatsächlichen Zahlen weichen allerdings ab. Ich habe die Autorinnen des Papers kontaktiert, um über die Diskrepranzen zu sprechen. Meine Vermutung ist dabei, dass die Unterschiede auf den Ausschluss von Ausreißern und Extremwerten zurückgehen, welche im Paper (und dem ursprünglichen Skript auf dem OSF) nicht dokumentiert sind. Leider hat diese Kontaktaufnahme dazu geführt, dass der Beitrag im OSF verschwunden ist, bis diese Diskrepanzen geklärt werden können, sodass es mir zum Zeitpunkt, zu dem ich diesen Beitrag schreibe nicht möglich ist, eine definitive Aussage dazu zu treffen, woher diese Unterschiede kommen. Dennoch sind Sie jetzt in der Lage, für die anderen drei berichteten Modelle zu prüfen, ob es auch dort zu solchen Diskrepanzen kommt und ob sich die Interpretation im Artikel dadurch verändern würden.
 
 
 ***

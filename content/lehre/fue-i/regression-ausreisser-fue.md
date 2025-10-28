@@ -6,10 +6,10 @@ slug: regression-ausreisser-fue
 categories: ["FuE I"] 
 tags: ["Regression", "Ausreißer"] 
 subtitle: ''
-summary: '' 
+summary: 'In diesem Beitrag wird das Wissen der Einleitungssitzung erweitert um vemutlich bereits bekannte Kenntnisse. Es wird eine multiple Regression samt Voraussetzungsprüfung und Ausreißerdiagnostik durchgeführt. In den Appendizes werden weitere Details der Regression ausgeführt (Appendix A, B, D) und ggplot2 zur Visualisierung (Appendix C) gezeigt.' 
 authors: [irmer, hartig] 
 weight: 2
-lastmod: '2025-02-07'
+lastmod: '2025-10-20'
 featured: no
 banner:
   image: "/header/frog_overencumbered.jpg"
@@ -125,7 +125,7 @@ $$y_i = b_0 +b_{1}x_{i1} + ... +b_{m}x_{im} + e_i$$
 In Matrixschreibweise sieht die Gleichung folgendermaßen aus
 $$Y = X\mathbf{b} + \mathbf{e},$$
 was wiederum eine Kurzschreibweise für 
-{{< math >}}$$\underbrace{\begin{pmatrix}y_1 \\ \vdots \\ y_n \end{pmatrix}}_Y = \underbrace{\begin{pmatrix}1 & x_{i1} & \dots & x_{m1}\\ \vdots & \vdots & \ddots & \vdots \\ 1 &  x_{n1} & \dots & x_{nm} \end{pmatrix}}_X\underbrace{\begin{pmatrix}b_1\\ \vdots\\ b_m\end{pmatrix}}_\mathbf{b} + \underbrace{\begin{pmatrix}e_1 \\ \vdots \\ e_n \end{pmatrix}}_\mathbf{e}$${{</ math >}}
+{{< math >}}$$\underbrace{\begin{pmatrix}y_1 \\ \vdots \\ y_n \end{pmatrix}}_Y = \underbrace{\begin{pmatrix}1 & x_{i1} & \dots & x_{m1}\\ \vdots & \vdots & \ddots & \vdots \\ 1 &  x_{n1} & \dots & x_{nm} \end{pmatrix}}_X\underbrace{\begin{pmatrix}b_0\\ b_1 \\ \vdots \\ b_m\end{pmatrix}}_\mathbf{b} + \underbrace{\begin{pmatrix}e_1 \\ \vdots \\ e_n \end{pmatrix}}_\mathbf{e}$${{</ math >}}
 ist. Hier steht $n$ für die Stichprobengröße und $m$ für die Anzahl an Prädiktoren. Wenn Sie also Ihre Daten in folgender Form vorliegen haben, so können Sie `R` nutzen und mit Hilfe von Matrixoperationen die Regressionskoeffizienten mit Hilfe des Kleinste-Quadrate-Schätzer berechnen:
 {{< math >}}$$\hat{\mathbf{b}}=(X'X)^{-1}X'Y$${{</ math >}}
 Wie dies genau gemacht wird und wie weitere Kennwerte in der Regression (bspw. $R^2$) "zu Fuß" bestimmt werden, können Sie im [Appendix A](#AppendixA) nachlesen - _hierbei ist zu beachten, dass Appendix A als "weiterführende Literatur" anzusehen und somit nicht verpflichtend ist. Oft hilft es aber beim Verständnis, sich solche Rechenoperationen anzusehen_. Außerdem kann es etwas die Komplexität aus der Sache nehmen, wenn erkannt wird, dass wir bspw. die Regressionskoeffizienten durch einfache Matrixprodukte schätzen können.
@@ -402,6 +402,8 @@ Die Varianz der Residuen sollte unabhängig von den Ausprägungen der Prädiktor
 
 
 ```r
+#### Verteilung der Residuen ----
+## Homoskesdastizität
 residualPlots(our_model, pch = 16)
 ```
 
@@ -710,11 +712,6 @@ Wir erkennen, dass wir hier den Personenwert relativ zur Streuung in den Daten b
 $$MD_i=(\mathbf{X}_i-\bar{\mathbf{X}})'\Sigma^{-1}(\mathbf{X}_i-\bar{\mathbf{X}}).$$
 Der Vektor der Mittelwertsdifferenzen $\mathbf{X}_i-\bar{\mathbf{X}}$ wird durch die Kovarianzmatrix  der Daten $\Sigma$ gewichtet. Sind zwei Variablen $X_1$ und $X_2$ positiv korreliert, so treten große Werte (und auch kleine Werte) auf beiden Variablen gemeinsam häufig auf, allerdings sind große $X_1$ und kleine $X_2$-Werte (gleichzeitig und auch umgekehrt) unwahrscheinlich. Dies lässt sich anhand der Mahalanobisdistanz untersuchen. *Wann ist nun ein Mahalanobisdistanzwert extrem?* Dies können wir uns an einem zweidimensionalen Beispiel klarer machen. Dazu tragen wir in ein Diagramm die Ellipsen (Kurven) gleicher Mahalanobisdistanz ein, also jene Linien, welche laut Mahalanobisdistanz gleich weit vom Zentroiden entfernt liegen. Je dunkler die Kurven, desto weiter entfernt liegen diese Punkte vom Zentroiden (hier $(0,0)$) und desto unwahrscheinlicher sind diese Punkte in den Daten zu beobachten. In diesem Beispiel nehmen wir an, dass die Variablen positiv korreliert sind:
 
-
-
-```
-## Warning: Paket 'ellipse' wurde unter R Version 4.3.1 erstellt
-```
 
 ![](/regression-ausreisser-fue_files/unnamed-chunk-31-1.png)<!-- -->
 Hier ist 
@@ -1299,13 +1296,6 @@ ggplot(data = df_res, aes(x = res)) +
                     fill = "skyblue") +           # Wie sollen die Balken gefüllt sein?
      stat_function(fun = dnorm, args = list(mean = mean(res), sd = sd(res)), col = "darkblue") + # Füge die Normalverteilungsdiche "dnorm" hinzu und nutze den empirischen Mittelwert und die empirische Standardabweichung "args = list(mean = mean(res), sd = sd(res))", wähle dunkelblau als Linienfarbe
      labs(title = "Histogramm der Residuen mit Normalverteilungsdichte", x = "Residuen") # Füge eigenen Titel und Achsenbeschriftung hinzu
-```
-
-```
-## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2 3.4.0.
-## ℹ Please use `after_stat(density)` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
 ```
 
 ![](/regression-ausreisser-fue_files/unnamed-chunk-53-1.png)<!-- -->

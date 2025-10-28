@@ -1,6 +1,9 @@
 ## load("C:/Users/Musterfrau/Desktop/Schulleistungen.rda")
 
+## Daten laden
 load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
+
+#### Datenüberblick ----
 
 head(Schulleistungen)
 
@@ -20,6 +23,8 @@ str(Schulleistungen)
 
 Schulleistungen$IQ
 
+#### Deskriptivstatistik ----
+
 # Summe
 sum(Schulleistungen$IQ)
 
@@ -38,6 +43,8 @@ summary(Schulleistungen$IQ)
 
 colMeans(Schulleistungen)
 
+#### t-Test ----
+## Datensimulation
 set.seed(1234567) # für Replizierbarkeit (bei gleicher R Version, kommen Sie mit diesem Seed zum selben Ergebnis!)
 X <- rnorm(n = 1000, mean = 0, sd = 1) # Standardnormalverteilung mit n = 1000
 hist(X, breaks = 50) # breaks gibt die Anzahl der Balken vor
@@ -53,6 +60,7 @@ Y <- rnorm(n = 1000, mean = 0, sd = 1)
 ttest <- t.test(X, Y, var.equal = T)
 ttest
 
+# Output
 cat('
 Two Sample t-test
 ')
@@ -67,11 +75,13 @@ cat(' alternative hypothesis: true difference in means is not equal to 0
     mean of x    mean of y 
  -0.002997332  0.061998736')
 
+# Abspeichern des Tests als R-Objekt
 ttest <- t.test(X, Y, var.equal = T)
 names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken können
 ttest$statistic # (empirischer) t-Wert
 ttest$p.value   # zugehöriger p-Wert
 
+# Code der Histogramme der Verteilungen unter H0
 ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
 for(i in 1:10000)
 {
@@ -90,6 +100,7 @@ hist(ps, main = "p-Werte nach 10000 Replikationen unter H0",
      xlab = "p", freq = F, breaks = 50)
 abline(a = 1, b = 0, lwd = 3)
 
+# Code der Histogramme der Verteilungen unter H1
 ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
 for(i in 1:10000)
 {
@@ -107,6 +118,7 @@ hist(ps, main = "p-Werte nach 10000 Replikationen unter H1",
      xlab = "p", freq = F, breaks = 50)
 abline(a = 1, b = 0, lwd = 3)
 
+# Code der Power-Darstellung
 ps_null <- ps
 load(url("https://github.com/jpirmer/MSc1_FEI/blob/master/data/Erg.RData?raw=true"))
 library(papaja)
@@ -118,6 +130,7 @@ ggplot(data = Erg, aes(x = d, y = Power, col = n, group = n))+
   scale_colour_gradientn(colours=rainbow(4))+
   ggtitle("Power vs. d and n")+ theme_apa(base_size = 20)
 
+# Darstellung rein durch die Formel
 library(pwr)
 Erg <- c()
 for(n in c(2, seq(5, 500, 5)))
@@ -138,6 +151,8 @@ ggplot(data = Erg, aes(x = d, y = Power, col = n, group = n))+
      geom_abline(slope = 0,intercept = .8, lty = 2) + 
      scale_colour_gradientn(colours=rainbow(4))+
      ggtitle("Power vs. d and n", subtitle = " Using formulas instead of simulation")+ theme_apa(base_size = 20)
+
+#### Verstöße gegen die Modellannahmen ----
 
 set.seed(1)
 par(mfrow = c(1,2))
@@ -168,6 +183,8 @@ lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter),
 hist(ps, main = "p-Werte nach 10000 Replikationen unter Modellverstößen\n für kleine Stichproben", 
      xlab = "p", freq = F, breaks = 50)
 abline(a = 1, b = 0, lwd = 3)
+
+#### Appendix A
 
 ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
 for(i in 1:10000)
@@ -268,8 +285,12 @@ hist(ps, main = "p-Werte (des Welch t-Tests) nach 10000 Replikationen\n unter Mo
      xlab = "p", freq = F, breaks = 50)
 abline(a = 1, b = 0, lwd = 3)
 
+#### Appendix B ----
+
  library(pwr)
  pwr.t.test(n = 1000, d = 0.1)
+
+#### Appendix C ----
 
 X <- c(1, 2, 3)
 Y <- c(10, 8, 6)

@@ -90,7 +90,7 @@ Ein paar nützliche Links für R sind die [R Main Page](https://www.r-project.or
 
 Weil die traditionelle R Nutzeroberfläche extrem spartanisch ist, werden wir auf dieser Seite mit RStudio arbeiten. RStudio ist eine zusätzliche Nutzeroberfläche, die den Umgang mit R durch diverse convenience features ein wenig erleichtert. Es muss separat installiert werden, ist aber, genau wie R selbst, gratis erhältlich. Um RStudio herunterzuladen besuchen Sie am einfachsten [https://posit.co/](https://posit.co/), wo Sie oben rechts direkt von einem großen "Download RStudio"-Button begrüßt werden sollten.
 
-![](rstudio.png)
+![](/rstudio.png)
 {{< intext_anchor Konsole_Syntax >}}
 
 RStudio besteht aus vier Panels. Zunächst sind nur drei sichtbar - durch **Strg+Shift+n** (OS X: **Cmd+Shift+n**) oder über den {{< inline_image "/lehre/statistik-i/new_script.png" >}} Button öffnen Sie eine neue Skriptdatei und das vierte Panel erscheint. {{< intext_anchor Eingabe>}}
@@ -225,7 +225,7 @@ Das Ergebnis dieser Funktion wird bestimmt und als Argument an die Funktion `log
 
 R bietet ein sehr detailliertes und gutes integriertes Hilfesystem. Wie Ihnen bestimmt schon aufgefallen ist, versucht RStudio sie mit Auto-Ergänzungen und Pop-Ups über die Argumente einer Funktion zu unterstützen. Für `log()` sieht das z.B. so aus:
 
-![](Screenshot-AutoHelp.png)
+![](/Screenshot-AutoHelp.png)
 
 Auch R-intern gibt es diverse Unterstützungsmöglichkeiten. Wenn man mehr Informationen bezüglich einer spezifischen Funktion benötigt, kann man `help()` auf jede beliebige Funktion anwenden (bzw. `?` vor den Namen einer Funktion schreiben). Sie sollten - besonders zum Einstieg in R - häufig und gezielt diese Hilfe in Anspruch nehmen.
 
@@ -247,7 +247,7 @@ Wie Sie hier sehen, ist die Information, die Ihnen RStudio im Pop-Up anbietet de
 
 Wenn man den genauen Namen einer Funktion nicht kennt, ist `help()` meistens nur wenig hilfreich. RStudio bietet an der oberen rechte Ecke des Hilfe-Fensters noch ein zusätzliches Suchfeld für die Hilfe, welches nicht nur die Funktionsnamen, sondern auch deren Beschreibungen durchsucht: 
 
-![](search.png)
+![](/search.png)
 
 Dadurch öffnet sich im Hilfefenster eine Auflistung aller Befehle, die diesen Suchbegriff enthalten. Die Notation ist dabei immer `paket::funktion()` - also das Bündel von Funktionen, in dem wir diese spezifische Funktion gefunden haben und dann deren Name. Was genau Pakete sind, werden wir uns [später](../tests-konfidenzintervalle#pakete) noch einmal vertieft angucken. Sie können einfach links auf den Namen klicken um zur Hilfe der Funktion zu gelangen.
 
@@ -404,7 +404,7 @@ Gerade 1. kann Ihnen dabei Helfen Fehler zu umgehen, die nur auftreten, weil Sie
 
 Um zu verstehen, wie Daten in R funktionieren, nutzen wir als Beispiel ein klassisches Experiment aus der Psychologie: den Stroop Test. Die Grundidee lässt sich am leichtesten in einem Bild darstellen:
 
-![](stroop.png)
+![](/stroop.png)
 
 Der Stroop-Effekt ist der Unterschied zwischen der durchschnittlichen Zeit, die man benötigt um die Farbe zu nennen, in der ein Wort abgebildet ist - je nachdem ob die Farbe und das Wort gleich sind oder nicht. Wenn Sie über den Stroop Test mehr erfahren möchten, oder ihn selbst mal ausprobieren wollen, finden Sie bei [Psytoolkit](https://www.psytoolkit.org/lessons/stroop.html) Informationen und eine Online-Variante des Tests.
 

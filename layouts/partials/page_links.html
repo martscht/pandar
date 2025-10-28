@@ -3,6 +3,8 @@
 {{ $link := "" }}
 
 {{/* ***** TODO: Deprecate `url_preprint` in favour of `url_pdf` given there's now a dedicated "Preprint" pub. type. ***** */}}
+
+{{/* ================= Existing resource buttons ================= */}}
 {{ with $page.Params.url_preprint }}
   {{ $resource := $page.Resources.GetMatch . }}
   {{ if $resource }}
@@ -132,7 +134,8 @@
   DOI
 </a>
 {{ end }}
-{{/* <!-- Das ganz unten ist was für unsere Buttons verwendet wird, ich könnte die Funktion also ab hier entwenden und anpassen für max. 2 Blöcke?-->*/}}
+
+{{/* ==================== Other Custom buttons ==================== */}}
 {{ range $page.Params.links }}
   {{ $pack := or .icon_pack "fas" }}
   {{ $pack_prefix := $pack }}
@@ -156,4 +159,10 @@
     {{ if .icon }}<i class="{{ $pack }} {{ $pack_prefix }}-{{ .icon }} {{if .name}}mr-1{{end}}"></i>{{end}}
     {{- with .name }}{{ . | safeHTML }}{{ end -}}
   </a>
+{{ end }}
+
+{{/* ==================== Next / Previous buttons ==================== */}}
+{{/* In Aufzählungen wie bspw. der compact view werden diese Buttons wegen dem if nicht gerendert! */}}
+{{ if not .is_list }}
+  {{ partial "nextprev.html" . }}
 {{ end }}

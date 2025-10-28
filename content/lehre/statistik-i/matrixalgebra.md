@@ -6,10 +6,10 @@ slug: matrixalgebra
 categories: ["Statistik I"] 
 tags: ["Grundlagen", "Matrix"] 
 subtitle: ''
-summary: '' 
+summary: 'In dieser Sitzung werden die Grundlagen der Matrixalgebra erklärt und ihr Anwendungszweck für die Deskriptivstatistik ausgeführt. Die Grundlagen umfassen dabei Rechenoperationen auf Vektoren und Matrizen, sowie die Bestimmung von Determinanten und Inversen.' 
 authors: [irmer, liu] 
 weight: 10.5
-lastmod: '2025-07-03'
+lastmod: '2025-10-20'
 featured: no
 banner:
   image: "/header/windmills_but_fancy.jpg"
@@ -667,10 +667,14 @@ C^-1
 ```
 
 ```
-##           [,1]  [,2]      [,3]
-## [1,] 1.0000000 0.500 0.3333333
-## [2,] 0.2500000 0.200 0.1666667
-## [3,] 0.1428571 0.125 0.1111111
+##           [,1]  [,2]
+## [1,] 1.0000000 0.500
+## [2,] 0.2500000 0.200
+## [3,] 0.1428571 0.125
+##           [,3]
+## [1,] 0.3333333
+## [2,] 0.1666667
+## [3,] 0.1111111
 ```
 
 ```r
@@ -678,10 +682,14 @@ C^-1 %*% C # ist nicht die Einheitsmatrix
 ```
 
 ```
-##          [,1]     [,2]     [,3]
-## [1,] 5.333333 7.166667 9.000000
-## [2,] 2.216667 2.833333 3.450000
-## [3,] 1.420635 1.799603 2.178571
+##          [,1]     [,2]
+## [1,] 5.333333 7.166667
+## [2,] 2.216667 2.833333
+## [3,] 1.420635 1.799603
+##          [,3]
+## [1,] 9.000000
+## [2,] 3.450000
+## [3,] 2.178571
 ```
 
 ```r

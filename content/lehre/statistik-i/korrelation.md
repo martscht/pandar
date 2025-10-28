@@ -6,10 +6,10 @@ slug: korrelation
 categories: ["Statistik I"] 
 tags: ["Korrelation", "Grundlagen", "Hilfe"] 
 subtitle: ''
-summary: '' 
+summary: 'Zuerst werden in dieser Sitzung verschiedene Darstelungsmöglichkeiten zusammenhängender Variablen besprochen. Im Anschluss werden Varianz- und Kovarianzberechnung, aufbauend Korrelation, und abschließend Korrelation dichotomer Variablen und Korrelation mit fehlenden Werten in R anhand des FB24 erklärt.' 
 authors: [nehler, winkler, schroeder, neubauer, goldhammer]
 weight: 9
-lastmod: '2025-07-03'
+lastmod: '2025-10-20'
 featured: no
 banner:
   image: "/header/storch_with_baby.jpg"
@@ -113,10 +113,12 @@ tab
 
 ```
 ## 
-##  Allgemeine Biologische Entwicklung 
-##          41          15          40 
-##   Klinische Diag./Meth. 
-##          88           3
+##  Allgemeine Biologische 
+##          41          15 
+## Entwicklung   Klinische 
+##          40          88 
+## Diag./Meth. 
+##           3
 ```
 
 ```r
@@ -125,10 +127,12 @@ prop.table(tab)                       #Relativ
 
 ```
 ## 
-##  Allgemeine Biologische Entwicklung 
-##  0.21925134  0.08021390  0.21390374 
-##   Klinische Diag./Meth. 
-##  0.47058824  0.01604278
+##  Allgemeine Biologische 
+##  0.21925134  0.08021390 
+## Entwicklung   Klinische 
+##  0.21390374  0.47058824 
+## Diag./Meth. 
+##  0.01604278
 ```
 
 {{<intext_anchor Kreuztabellen>}}
@@ -143,19 +147,33 @@ tab
 
 ```
 ##              
-##               Wirtschaft Therapie
-##   Allgemeine          13       11
-##   Biologische          2        6
-##   Entwicklung          8       16
-##   Klinische            1       74
-##   Diag./Meth.          0        1
+##               Wirtschaft
+##   Allgemeine          13
+##   Biologische          2
+##   Entwicklung          8
+##   Klinische            1
+##   Diag./Meth.          0
 ##              
-##               Forschung Andere
-##   Allgemeine          8      9
-##   Biologische         6      1
-##   Entwicklung         5     10
-##   Klinische           4      9
-##   Diag./Meth.         2      0
+##               Therapie
+##   Allgemeine        11
+##   Biologische        6
+##   Entwicklung       16
+##   Klinische         74
+##   Diag./Meth.        1
+##              
+##               Forschung
+##   Allgemeine          8
+##   Biologische         6
+##   Entwicklung         5
+##   Klinische           4
+##   Diag./Meth.         2
+##              
+##               Andere
+##   Allgemeine       9
+##   Biologische      1
+##   Entwicklung     10
+##   Klinische        9
+##   Diag./Meth.      0
 ```
 
 In eine Kreuztabelle können Randsummen mit dem `addmargins()` Befehl hinzugefügt werden. Randsummen erzeugen in der letzten Spalte bzw. Zeile die univariaten Häufigkeitstabellen der Variablen.
@@ -167,21 +185,37 @@ addmargins(tab)                       #Randsummen hinzufügen
 
 ```
 ##              
-##               Wirtschaft Therapie
-##   Allgemeine          13       11
-##   Biologische          2        6
-##   Entwicklung          8       16
-##   Klinische            1       74
-##   Diag./Meth.          0        1
-##   Sum                 24      108
+##               Wirtschaft
+##   Allgemeine          13
+##   Biologische          2
+##   Entwicklung          8
+##   Klinische            1
+##   Diag./Meth.          0
+##   Sum                 24
 ##              
-##               Forschung Andere Sum
-##   Allgemeine          8      9  41
-##   Biologische         6      1  15
-##   Entwicklung         5     10  39
-##   Klinische           4      9  88
-##   Diag./Meth.         2      0   3
-##   Sum                25     29 186
+##               Therapie
+##   Allgemeine        11
+##   Biologische        6
+##   Entwicklung       16
+##   Klinische         74
+##   Diag./Meth.        1
+##   Sum              108
+##              
+##               Forschung
+##   Allgemeine          8
+##   Biologische         6
+##   Entwicklung         5
+##   Klinische           4
+##   Diag./Meth.         2
+##   Sum                25
+##              
+##               Andere Sum
+##   Allgemeine       9  41
+##   Biologische      1  15
+##   Entwicklung     10  39
+##   Klinische        9  88
+##   Diag./Meth.      0   3
+##   Sum             29 186
 ```
 
 {{<intext_anchor Relativtabelle>}}
@@ -195,19 +229,33 @@ prop.table(tab)                       #Relative Häufigkeiten
 
 ```
 ##              
-##                Wirtschaft    Therapie
-##   Allgemeine  0.069892473 0.059139785
-##   Biologische 0.010752688 0.032258065
-##   Entwicklung 0.043010753 0.086021505
-##   Klinische   0.005376344 0.397849462
-##   Diag./Meth. 0.000000000 0.005376344
+##                Wirtschaft
+##   Allgemeine  0.069892473
+##   Biologische 0.010752688
+##   Entwicklung 0.043010753
+##   Klinische   0.005376344
+##   Diag./Meth. 0.000000000
 ##              
-##                 Forschung      Andere
-##   Allgemeine  0.043010753 0.048387097
-##   Biologische 0.032258065 0.005376344
-##   Entwicklung 0.026881720 0.053763441
-##   Klinische   0.021505376 0.048387097
-##   Diag./Meth. 0.010752688 0.000000000
+##                  Therapie
+##   Allgemeine  0.059139785
+##   Biologische 0.032258065
+##   Entwicklung 0.086021505
+##   Klinische   0.397849462
+##   Diag./Meth. 0.005376344
+##              
+##                 Forschung
+##   Allgemeine  0.043010753
+##   Biologische 0.032258065
+##   Entwicklung 0.026881720
+##   Klinische   0.021505376
+##   Diag./Meth. 0.010752688
+##              
+##                    Andere
+##   Allgemeine  0.048387097
+##   Biologische 0.005376344
+##   Entwicklung 0.053763441
+##   Klinische   0.048387097
+##   Diag./Meth. 0.000000000
 ```
 
 74 von insgesamt 186 (39.78%)  wollen therapeutisch arbeiten *und* interessieren sich bisher am meisten für die klinische Psychologie.
@@ -222,19 +270,33 @@ prop.table(tab, margin = 1)           #relativiert an Zeilen
 
 ```
 ##              
-##               Wirtschaft   Therapie
-##   Allgemeine  0.31707317 0.26829268
-##   Biologische 0.13333333 0.40000000
-##   Entwicklung 0.20512821 0.41025641
-##   Klinische   0.01136364 0.84090909
-##   Diag./Meth. 0.00000000 0.33333333
+##               Wirtschaft
+##   Allgemeine  0.31707317
+##   Biologische 0.13333333
+##   Entwicklung 0.20512821
+##   Klinische   0.01136364
+##   Diag./Meth. 0.00000000
 ##              
-##                Forschung     Andere
-##   Allgemeine  0.19512195 0.21951220
-##   Biologische 0.40000000 0.06666667
-##   Entwicklung 0.12820513 0.25641026
-##   Klinische   0.04545455 0.10227273
-##   Diag./Meth. 0.66666667 0.00000000
+##                 Therapie
+##   Allgemeine  0.26829268
+##   Biologische 0.40000000
+##   Entwicklung 0.41025641
+##   Klinische   0.84090909
+##   Diag./Meth. 0.33333333
+##              
+##                Forschung
+##   Allgemeine  0.19512195
+##   Biologische 0.40000000
+##   Entwicklung 0.12820513
+##   Klinische   0.04545455
+##   Diag./Meth. 0.66666667
+##              
+##                   Andere
+##   Allgemeine  0.21951220
+##   Biologische 0.06666667
+##   Entwicklung 0.25641026
+##   Klinische   0.10227273
+##   Diag./Meth. 0.00000000
 ```
 
 Von 88 Personen, die sich am meisten für klinische Psychologie interessieren, wollen 84.09% (nämlich 74 Personen) später therapeutisch arbeiten.
@@ -246,19 +308,33 @@ prop.table(tab, margin = 2)           #relativiert an Spalten
 
 ```
 ##              
-##                Wirtschaft    Therapie
-##   Allgemeine  0.541666667 0.101851852
-##   Biologische 0.083333333 0.055555556
-##   Entwicklung 0.333333333 0.148148148
-##   Klinische   0.041666667 0.685185185
-##   Diag./Meth. 0.000000000 0.009259259
+##                Wirtschaft
+##   Allgemeine  0.541666667
+##   Biologische 0.083333333
+##   Entwicklung 0.333333333
+##   Klinische   0.041666667
+##   Diag./Meth. 0.000000000
 ##              
-##                 Forschung      Andere
-##   Allgemeine  0.320000000 0.310344828
-##   Biologische 0.240000000 0.034482759
-##   Entwicklung 0.200000000 0.344827586
-##   Klinische   0.160000000 0.310344828
-##   Diag./Meth. 0.080000000 0.000000000
+##                  Therapie
+##   Allgemeine  0.101851852
+##   Biologische 0.055555556
+##   Entwicklung 0.148148148
+##   Klinische   0.685185185
+##   Diag./Meth. 0.009259259
+##              
+##                 Forschung
+##   Allgemeine  0.320000000
+##   Biologische 0.240000000
+##   Entwicklung 0.200000000
+##   Klinische   0.160000000
+##   Diag./Meth. 0.080000000
+##              
+##                    Andere
+##   Allgemeine  0.310344828
+##   Biologische 0.034482759
+##   Entwicklung 0.344827586
+##   Klinische   0.310344828
+##   Diag./Meth. 0.000000000
 ```
 
 Von 108 Personen, die später therapeutisch arbeiten wollen, interessieren sich 68.52% (nämlich 74 Personen) für die klinische Psychologie.
@@ -275,21 +351,37 @@ addmargins(prop.table(tab))      # als geschachtelte Funktion
 
 ```
 ##              
-##                Wirtschaft    Therapie
-##   Allgemeine  0.069892473 0.059139785
-##   Biologische 0.010752688 0.032258065
-##   Entwicklung 0.043010753 0.086021505
-##   Klinische   0.005376344 0.397849462
-##   Diag./Meth. 0.000000000 0.005376344
-##   Sum         0.129032258 0.580645161
+##                Wirtschaft
+##   Allgemeine  0.069892473
+##   Biologische 0.010752688
+##   Entwicklung 0.043010753
+##   Klinische   0.005376344
+##   Diag./Meth. 0.000000000
+##   Sum         0.129032258
 ##              
-##                 Forschung      Andere
-##   Allgemeine  0.043010753 0.048387097
-##   Biologische 0.032258065 0.005376344
-##   Entwicklung 0.026881720 0.053763441
-##   Klinische   0.021505376 0.048387097
-##   Diag./Meth. 0.010752688 0.000000000
-##   Sum         0.134408602 0.155913978
+##                  Therapie
+##   Allgemeine  0.059139785
+##   Biologische 0.032258065
+##   Entwicklung 0.086021505
+##   Klinische   0.397849462
+##   Diag./Meth. 0.005376344
+##   Sum         0.580645161
+##              
+##                 Forschung
+##   Allgemeine  0.043010753
+##   Biologische 0.032258065
+##   Entwicklung 0.026881720
+##   Klinische   0.021505376
+##   Diag./Meth. 0.010752688
+##   Sum         0.134408602
+##              
+##                    Andere
+##   Allgemeine  0.048387097
+##   Biologische 0.005376344
+##   Entwicklung 0.053763441
+##   Klinische   0.048387097
+##   Diag./Meth. 0.000000000
+##   Sum         0.155913978
 ##              
 ##                       Sum
 ##   Allgemeine  0.220430108
@@ -306,21 +398,37 @@ prop.table(tab) |> addmargins()  # als Pipe
 
 ```
 ##              
-##                Wirtschaft    Therapie
-##   Allgemeine  0.069892473 0.059139785
-##   Biologische 0.010752688 0.032258065
-##   Entwicklung 0.043010753 0.086021505
-##   Klinische   0.005376344 0.397849462
-##   Diag./Meth. 0.000000000 0.005376344
-##   Sum         0.129032258 0.580645161
+##                Wirtschaft
+##   Allgemeine  0.069892473
+##   Biologische 0.010752688
+##   Entwicklung 0.043010753
+##   Klinische   0.005376344
+##   Diag./Meth. 0.000000000
+##   Sum         0.129032258
 ##              
-##                 Forschung      Andere
-##   Allgemeine  0.043010753 0.048387097
-##   Biologische 0.032258065 0.005376344
-##   Entwicklung 0.026881720 0.053763441
-##   Klinische   0.021505376 0.048387097
-##   Diag./Meth. 0.010752688 0.000000000
-##   Sum         0.134408602 0.155913978
+##                  Therapie
+##   Allgemeine  0.059139785
+##   Biologische 0.032258065
+##   Entwicklung 0.086021505
+##   Klinische   0.397849462
+##   Diag./Meth. 0.005376344
+##   Sum         0.580645161
+##              
+##                 Forschung
+##   Allgemeine  0.043010753
+##   Biologische 0.032258065
+##   Entwicklung 0.026881720
+##   Klinische   0.021505376
+##   Diag./Meth. 0.010752688
+##   Sum         0.134408602
+##              
+##                    Andere
+##   Allgemeine  0.048387097
+##   Biologische 0.005376344
+##   Entwicklung 0.053763441
+##   Klinische   0.048387097
+##   Diag./Meth. 0.000000000
+##   Sum         0.155913978
 ##              
 ##                       Sum
 ##   Allgemeine  0.220430108
@@ -345,7 +453,7 @@ barplot (tab,
          legend = rownames(tab))
 ```
 
-![](/korrelation_files/Balkendiagramm-1.png)<!-- -->
+![](/korrelation_files/unnamed-chunk-9-1.png)<!-- -->
 
 ****
 
@@ -421,12 +529,18 @@ cov(big5)                                       #Kovarianzmatrix
 ```
 
 ```
-##       extra vertr gewis neuro offen
-## extra    NA    NA    NA    NA    NA
-## vertr    NA    NA    NA    NA    NA
-## gewis    NA    NA    NA    NA    NA
-## neuro    NA    NA    NA    NA    NA
-## offen    NA    NA    NA    NA    NA
+##       extra vertr gewis neuro
+## extra    NA    NA    NA    NA
+## vertr    NA    NA    NA    NA
+## gewis    NA    NA    NA    NA
+## neuro    NA    NA    NA    NA
+## offen    NA    NA    NA    NA
+##       offen
+## extra    NA
+## vertr    NA
+## gewis    NA
+## neuro    NA
+## offen    NA
 ```
 
 Auch hier bekommen wir zunächst die wenig zufriedenstellende Aussage, dass keine der Kovarianzen bestimmt werden kann, weil fehlende Werte vorliegen. Anhand der `summary` können wir auch schnell ermitteln, wie viele fehlende Werte das pro Variable sind:
@@ -437,22 +551,38 @@ summary(big5)
 ```
 
 ```
-##      extra           vertr      
-##  Min.   :1.000   Min.   :1.000  
-##  1st Qu.:2.500   1st Qu.:3.000  
-##  Median :3.500   Median :3.500  
-##  Mean   :3.277   Mean   :3.484  
-##  3rd Qu.:4.000   3rd Qu.:4.000  
-##  Max.   :5.000   Max.   :5.000  
-##  NA's   :1       NA's   :1      
-##      gewis          neuro      
-##  Min.   :1.50   Min.   :1.000  
-##  1st Qu.:3.00   1st Qu.:3.000  
-##  Median :3.50   Median :3.500  
-##  Mean   :3.49   Mean   :3.408  
-##  3rd Qu.:4.00   3rd Qu.:4.000  
-##  Max.   :5.00   Max.   :5.000  
-##  NA's   :1      NA's   :1      
+##      extra      
+##  Min.   :1.000  
+##  1st Qu.:2.500  
+##  Median :3.500  
+##  Mean   :3.277  
+##  3rd Qu.:4.000  
+##  Max.   :5.000  
+##  NA's   :1      
+##      vertr      
+##  Min.   :1.000  
+##  1st Qu.:3.000  
+##  Median :3.500  
+##  Mean   :3.484  
+##  3rd Qu.:4.000  
+##  Max.   :5.000  
+##  NA's   :1      
+##      gewis     
+##  Min.   :1.50  
+##  1st Qu.:3.00  
+##  Median :3.50  
+##  Mean   :3.49  
+##  3rd Qu.:4.00  
+##  Max.   :5.00  
+##  NA's   :1     
+##      neuro      
+##  Min.   :1.000  
+##  1st Qu.:3.000  
+##  Median :3.500  
+##  Mean   :3.408  
+##  3rd Qu.:4.000  
+##  Max.   :5.000  
+##  NA's   :1      
 ##      offen      
 ##  Min.   :1.000  
 ##  1st Qu.:3.000  
@@ -472,12 +602,18 @@ cov(big5, use = "everything")         # Kovarianzmatrix mit Argument
 ```
 
 ```
-##       extra vertr gewis neuro offen
-## extra    NA    NA    NA    NA    NA
-## vertr    NA    NA    NA    NA    NA
-## gewis    NA    NA    NA    NA    NA
-## neuro    NA    NA    NA    NA    NA
-## offen    NA    NA    NA    NA    NA
+##       extra vertr gewis neuro
+## extra    NA    NA    NA    NA
+## vertr    NA    NA    NA    NA
+## gewis    NA    NA    NA    NA
+## neuro    NA    NA    NA    NA
+## offen    NA    NA    NA    NA
+##       offen
+## extra    NA
+## vertr    NA
+## gewis    NA
+## neuro    NA
+## offen    NA
 ```
 
 Die Ergebnisse sind exakt gleich mit den vorherigen - `"everything"` ist also der Default für diese Funktion. Nach dieser ersten Erkenntnis können wir die verschiedenen Argumente für die Behandlung von `NA` in der `cov()` Funktion ausprobieren. 
@@ -490,24 +626,30 @@ cov(big5, use = 'pairwise')             #Paarweiser Fallausschluss
 ```
 
 ```
-##             extra        vertr
-## extra  1.03575365  0.143855056
-## vertr  0.14385506  0.673436208
-## gewis  0.03713144 -0.008060072
-## neuro -0.34812621 -0.076446680
-## offen -0.02300909  0.056193166
-##              gewis       neuro
-## extra  0.037131441 -0.34812621
-## vertr -0.008060072 -0.07644668
-## gewis  0.797258198 -0.08254340
-## neuro -0.082543400  0.89550840
-## offen -0.080958942  0.02187242
-##             offen
-## extra -0.02300909
-## vertr  0.05619317
-## gewis -0.08095894
-## neuro  0.02187242
-## offen  0.95407826
+##             extra
+## extra  1.03575365
+## vertr  0.14385506
+## gewis  0.03713144
+## neuro -0.34812621
+## offen -0.02300909
+##              vertr
+## extra  0.143855056
+## vertr  0.673436208
+## gewis -0.008060072
+## neuro -0.076446680
+## offen  0.056193166
+##              gewis
+## extra  0.037131441
+## vertr -0.008060072
+## gewis  0.797258198
+## neuro -0.082543400
+## offen -0.080958942
+##             neuro       offen
+## extra -0.34812621 -0.02300909
+## vertr -0.07644668  0.05619317
+## gewis -0.08254340 -0.08095894
+## neuro  0.89550840  0.02187242
+## offen  0.02187242  0.95407826
 ```
 
 Wie wir sehen, werden nun die Personen mit fehlenden Werten auf einer Variable ignoriert, wenn für die Variable mit fehlendem Wert ein Zusammenhangsmaß berechnet wird. Ansonsten werden Personen aber nicht aus der Berechnung ausgeschlossen, was man vor allem daran sieht, dass sich die Kovarianzen (und Varianzen) von Variablen ohne fehlende Werte (`gewis` und `neuro`) nicht verändert haben. 
@@ -519,24 +661,30 @@ cov(big5, use = 'complete')             #Listenweiser Fallausschluss
 ```
 
 ```
-##             extra        vertr
-## extra  1.03575365  0.143855056
-## vertr  0.14385506  0.673436208
-## gewis  0.03713144 -0.008060072
-## neuro -0.34812621 -0.076446680
-## offen -0.02300909  0.056193166
-##              gewis       neuro
-## extra  0.037131441 -0.34812621
-## vertr -0.008060072 -0.07644668
-## gewis  0.797258198 -0.08254340
-## neuro -0.082543400  0.89550840
-## offen -0.080958942  0.02187242
-##             offen
-## extra -0.02300909
-## vertr  0.05619317
-## gewis -0.08095894
-## neuro  0.02187242
-## offen  0.95407826
+##             extra
+## extra  1.03575365
+## vertr  0.14385506
+## gewis  0.03713144
+## neuro -0.34812621
+## offen -0.02300909
+##              vertr
+## extra  0.143855056
+## vertr  0.673436208
+## gewis -0.008060072
+## neuro -0.076446680
+## offen  0.056193166
+##              gewis
+## extra  0.037131441
+## vertr -0.008060072
+## gewis  0.797258198
+## neuro -0.082543400
+## offen -0.080958942
+##             neuro       offen
+## extra -0.34812621 -0.02300909
+## vertr -0.07644668  0.05619317
+## gewis -0.08254340 -0.08095894
+## neuro  0.89550840  0.02187242
+## offen  0.02187242  0.95407826
 ```
 
 Wie wir sehen, sind die Werte in diesem Fall gleich. Das liegt allerdings nur daran, dass es anscheinend _die selbe_ Person war, die auf allen fünf Variablen fehlende Werte hatte. Wenn wir händisch einen fehlenden Wert hinzufügen:
@@ -554,24 +702,30 @@ cov(big5, use = 'complete')             #Listenweiser Fallausschluss
 ```
 
 ```
-##             extra        vertr
-## extra  1.02545252  0.139891395
-## vertr  0.13989140  0.675584795
-## gewis  0.03265107 -0.009502924
-## neuro -0.33248399 -0.071616541
-## offen -0.02488165  0.055966305
-##              gewis       neuro
-## extra  0.032651072 -0.33248399
-## vertr -0.009502924 -0.07161654
-## gewis  0.800090504 -0.07779866
-## neuro -0.077798663  0.88087580
-## offen -0.081906154  0.02392788
-##             offen
-## extra -0.02488165
-## vertr  0.05596630
-## gewis -0.08190615
-## neuro  0.02392788
-## offen  0.95893205
+##             extra
+## extra  1.02545252
+## vertr  0.13989140
+## gewis  0.03265107
+## neuro -0.33248399
+## offen -0.02488165
+##              vertr
+## extra  0.139891395
+## vertr  0.675584795
+## gewis -0.009502924
+## neuro -0.071616541
+## offen  0.055966305
+##              gewis
+## extra  0.032651072
+## vertr -0.009502924
+## gewis  0.800090504
+## neuro -0.077798663
+## offen -0.081906154
+##             neuro       offen
+## extra -0.33248399 -0.02488165
+## vertr -0.07161654  0.05596630
+## gewis -0.07779866 -0.08190615
+## neuro  0.88087580  0.02392788
+## offen  0.02392788  0.95893205
 ```
 
 ```r
@@ -579,24 +733,30 @@ cov(big5, use = 'pairwise')             #Paarweiser Fallausschluss
 ```
 
 ```
-##             extra        vertr
-## extra  1.02545252  0.139891395
-## vertr  0.13989140  0.673436208
-## gewis  0.03265107 -0.008060072
-## neuro -0.33248399 -0.076446680
-## offen -0.02488165  0.056193166
-##              gewis       neuro
-## extra  0.032651072 -0.33248399
-## vertr -0.008060072 -0.07644668
-## gewis  0.797258198 -0.08254340
-## neuro -0.082543400  0.89550840
-## offen -0.080958942  0.02187242
-##             offen
-## extra -0.02488165
-## vertr  0.05619317
-## gewis -0.08095894
-## neuro  0.02187242
-## offen  0.95407826
+##             extra
+## extra  1.02545252
+## vertr  0.13989140
+## gewis  0.03265107
+## neuro -0.33248399
+## offen -0.02488165
+##              vertr
+## extra  0.139891395
+## vertr  0.673436208
+## gewis -0.008060072
+## neuro -0.076446680
+## offen  0.056193166
+##              gewis
+## extra  0.032651072
+## vertr -0.008060072
+## gewis  0.797258198
+## neuro -0.082543400
+## offen -0.080958942
+##             neuro       offen
+## extra -0.33248399 -0.02488165
+## vertr -0.07644668  0.05619317
+## gewis -0.08254340 -0.08095894
+## neuro  0.89550840  0.02187242
+## offen  0.02187242  0.95407826
 ```
 
 Das liegt daran, dass `complete` Personen mit fehlenden Werten aus der kompletten Berechnung ausgeschlossen werden. Selbst wenn sie nur auf der Extraversion (`extra`) einen fehlenden Wert haben, gehen sie nicht in die Berechnung des Zusammenhangs zwischen bspw. Verträglichkeit und Neurotizismus (`vertr` und `neuro`) ein. 
@@ -610,7 +770,7 @@ Der Zusammenhang zwischen zwei Variablen kann in einem *Scatterplot* bzw. *Streu
 plot(x = fb24$neuro, y = fb24$gewis, xlim = c(1,5) , ylim = c(1,5))
 ```
 
-![](/korrelation_files/Grafisch-1.png)<!-- -->
+![](/korrelation_files/unnamed-chunk-19-1.png)<!-- -->
 
 ### Produkt-Moment-Korrelation (Pearson Korrelation)
 
@@ -692,7 +852,7 @@ library(car)
 qqPlot(fb24$neuro)
 ```
 
-![](/korrelation_files/NV-Voraussetzung-1.png)<!-- -->
+![](/korrelation_files/unnamed-chunk-23-1.png)<!-- -->
 
 ```
 ## [1]  13 146
@@ -702,7 +862,7 @@ qqPlot(fb24$neuro)
 qqPlot(fb24$gewis)
 ```
 
-![](/korrelation_files/NV-Voraussetzung-2.png)<!-- -->
+![](/korrelation_files/unnamed-chunk-23-2.png)<!-- -->
 
 ```
 ## [1] 34 44
@@ -715,14 +875,14 @@ hist(fb24$neuro, prob = T, ylim = c(0, 1))
 curve(dnorm(x, mean = mean(fb24$neuro, na.rm = T), sd = sd(fb24$neuro, na.rm = T)), col = "blue", add = T)  
 ```
 
-![](/korrelation_files/NV-Voraussetzung-3.png)<!-- -->
+![](/korrelation_files/unnamed-chunk-23-3.png)<!-- -->
 
 ```r
 hist(fb24$gewis, prob = T, ylim = c(0,1))
 curve(dnorm(x, mean = mean(fb24$gewis, na.rm = T), sd = sd(fb24$gewis, na.rm = T)), col = "blue", add = T)
 ```
 
-![](/korrelation_files/NV-Voraussetzung-4.png)<!-- -->
+![](/korrelation_files/unnamed-chunk-23-4.png)<!-- -->
 
 ```r
 #Shapiro
@@ -731,10 +891,12 @@ shapiro.test(fb24$neuro)
 
 ```
 ## 
-## 	Shapiro-Wilk normality test
+## 	Shapiro-Wilk normality
+## 	test
 ## 
 ## data:  fb24$neuro
-## W = 0.95921, p-value = 2.523e-05
+## W = 0.95921, p-value =
+## 2.523e-05
 ```
 
 ```r
@@ -743,10 +905,12 @@ shapiro.test(fb24$gewis)
 
 ```
 ## 
-## 	Shapiro-Wilk normality test
+## 	Shapiro-Wilk normality
+## 	test
 ## 
 ## data:  fb24$gewis
-## W = 0.95223, p-value = 5.029e-06
+## W = 0.95223, p-value =
+## 5.029e-06
 ```
 
 $p < \alpha$ $\rightarrow$ $H_1$: Normalverteilung kann nicht angenommen werden. Somit ist diese Voraussetzung verletzt. Eine Möglichkeit damit umzugehen, ist die Rangkorrelation nach Spearman. Diese ist nicht an die Voraussetzung der Normalverteilung gebunden. Das Verfahren kann über `method = "spearman"` angewendet werden.
@@ -811,8 +975,9 @@ cor <- cor.test(fb24$neuro, fb24$gewis,
 ## Warning in
 ## cor.test.default(fb24$neuro,
 ## fb24$gewis, alternative =
-## "two.sided", : Kann exakten p-Wert
-## bei Bindungen nicht berechnen
+## "two.sided", : Kann exakten
+## p-Wert bei Bindungen nicht
+## berechnen
 ```
 
 ```r
@@ -845,8 +1010,8 @@ cor.test(fb24$neuro, fb24$gewis,
 ## 	correlation
 ## 
 ## data:  fb24$neuro and fb24$gewis
-## t = -1.3495, df = 189, p-value =
-## 0.1788
+## t = -1.3495, df = 189,
+## p-value = 0.1788
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.23639017  0.04491275
@@ -938,8 +1103,8 @@ cor.test(ort_num, job_num)
 ## 	correlation
 ## 
 ## data:  ort_num and job_num
-## t = -1.0633, df = 186, p-value =
-## 0.289
+## t = -1.0633, df = 186,
+## p-value = 0.289
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.21840699  0.06611953
@@ -1089,6 +1254,12 @@ if (!requireNamespace("rococo", quietly = TRUE)) {
 
 ```r
 library(rococo)                     #laden
+```
+
+```
+## Warning: Paket 'rococo' wurde
+## unter R Version 4.3.3
+## erstellt
 ```
 
 Übersichten über Pakete kann man mit `??` erhalten.

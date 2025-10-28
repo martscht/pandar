@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag starten wir mit den Grundlagen der Nutzung von R. Wir zeigen dir, wie man die nötige Software installiert, wo man Hilfe bekommt und wie R grundlegend funktioniert. Außerdem betreiben wir auch schon direkt ein bisschen Datenmanagement und beschäftigen uns mit dem Laden und Speichern von Datensätzen.'
 authors: [schultze]
 weight: 1
-lastmod: '2025-10-17'
+lastmod: '2025-10-22'
 featured: no
 banner:
   image: "/header/toy_car_crash.jpg"
@@ -71,7 +71,7 @@ Zuerst aber ein bisschen ausholen: R haben wir für die Lehre aus einer Reihe vo
   + "Free (as in speech)": durch die Öffentlichkeit, nicht durch einzelne Instanz reguliert
 * Extrem weit verbreitet
 * Laut Google Scholar knapp 250 000 mal zitiert
-* Allein in den letzten 30 Tagen 907504 mal heruntergeladen
+* Allein in den letzten 30 Tagen 877521 mal heruntergeladen
 * Für Hausarbeiten, Projekte, Abschlussarbeiten gut geeignet
 * Auswertung und Fließtext in einer Datei (wie dieser) vereinbar
 * Wiederherstellbarer Arbeitsablauf
@@ -85,7 +85,7 @@ Ein paar nützliche Links für R sind die [R Main Page](https://www.r-project.or
 
 Weil die traditionelle R Nutzeroberfläche extrem spartanisch ist, werden wir auf dieser Seite mit RStudio arbeiten. RStudio ist eine zusätzliche Nutzeroberfläche, die den Umgang mit R durch diverse convenience features ein wenig erleichtert. Es muss separat installiert werden, ist aber, genau wie R selbst, gratis erhältlich. Um RStudio herunterzuladen besuchen Sie am einfachsten [https://posit.co/](https://posit.co/), wo Sie oben rechts direkt von einem großen "Download RStudio"-Button begrüßt werden sollten.
 
-![](rstudio.png)
+![](/rstudio.png)
 {{< intext_anchor Konsole_Syntax >}}
 
 RStudio besteht aus vier Panels. Zunächst sind nur drei sichtbar - durch **Strg+Shift+n** (OS X: **Cmd+Shift+n**) oder über den {{< inline_image "/lehre/statistik-i/new_script.png" >}} Button öffnen Sie eine neue Skriptdatei und das vierte Panel erscheint. {{< intext_anchor Eingabe>}}
@@ -340,7 +340,7 @@ Das Ergebnis dieser Funktion wird bestimmt und als Argument an die Funktion `log
 
 R bietet ein sehr detailliertes und gutes integriertes Hilfesystem. Wie Ihnen bestimmt schon aufgefallen ist, versucht RStudio sie mit Auto-Ergänzungen und Pop-Ups über die Argumente einer Funktion zu unterstützen. Für `log()` sieht das z.B. so aus:
 
-![](Screenshot-AutoHelp.png)
+![](/Screenshot-AutoHelp.png)
 
 Auch R-intern gibt es diverse Unterstützungsmöglichkeiten. Wenn man mehr Informationen bezüglich einer spezifischen Funktion benötigt, kann man `help()` auf jede beliebige Funktion anwenden (bzw. `?` vor den Namen einer Funktion schreiben). Sie sollten - besonders zum Einstieg in R - häufig und gezielt diese Hilfe in Anspruch nehmen.
 
@@ -363,7 +363,7 @@ Wie Sie hier sehen, ist die Information, die Ihnen RStudio im Pop-Up anbietet de
 
 Wenn man den genauen Namen einer Funktion nicht kennt, ist `help()` meistens nur wenig hilfreich. RStudio bietet an der oberen rechte Ecke des Hilfe-Fensters noch ein zusätzliches Suchfeld für die Hilfe, welches nicht nur die Funktionsnamen, sondern auch deren Beschreibungen durchsucht: 
 
-![](search.png)
+![](/search.png)
 
 Dadurch öffnet sich im Hilfefenster eine Auflistung aller Befehle, die diesen Suchbegriff enthalten. Die Notation ist dabei immer `paket::funktion()` - also das Bündel von Funktionen, in dem wir diese spezifische Funktion gefunden haben und dann deren Name. Was genau Pakete sind, werden wir uns [später](../tests-konfidenzintervalle#pakete) noch einmal vertieft angucken. Sie können einfach links auf den Namen klicken um zur Hilfe der Funktion zu gelangen.
 
@@ -401,7 +401,7 @@ log(argument = 10)
 ```
 
 ```
-## Error in log(argument = 10): argument "x" is missing, with no default
+## Error: argument "x" is missing, with no default
 ```
 
 In diesem Fall werden wir darauf hingewiesen, dass wir keine Einstellung für das Argument `x` vorgenommen haben, obwohl dieses keine Voreinstellung hat. Daher ist die Funktion unfähig ein Ergebnis zu produzieren. Bei Fehlern sollten Sie bedenken, dass diese das Ausführen mehrerer Zeilen nicht unterbrechen. Wenn Sie also eine komplette Syntax auf einmal ausführen, können aus Fehlern Folgefehler entstehen, weil ein Ergebnis nicht entstanden ist, mit dem Sie anschließend weiter rechnen wollten.
@@ -579,7 +579,7 @@ Gerade 1. kann Ihnen dabei Helfen Fehler zu umgehen, die nur auftreten, weil Sie
 
 Um zu verstehen, wie Daten in R funktionieren, nutzen wir als Beispiel ein klassisches Experiment aus der Psychologie: den Stroop Test. Die Grundidee lässt sich am leichtesten in einem Bild darstellen:
 
-![](stroop.png)
+![](/stroop.png)
 
 Der Stroop-Effekt ist der Unterschied zwischen der durchschnittlichen Zeit, die man benötigt um die Farbe zu nennen, in der ein Wort abgebildet ist - je nachdem ob die Farbe und das Wort gleich sind oder nicht. Wenn Sie über den Stroop Test mehr erfahren möchten, oder ihn selbst mal ausprobieren wollen, finden Sie bei [Psytoolkit](https://www.psytoolkit.org/lessons/stroop.html) Informationen und eine Online-Variante des Tests.
 
@@ -587,9 +587,6 @@ Der Stroop-Effekt ist der Unterschied zwischen der durchschnittlichen Zeit, die 
 Nehmen wir an, Sie hätten für dieses einfache Beispiel die acht Reaktionszeiten gemessen und diese wären (in Millisekunden): 510, 897, 647, 891, 925, 805, 443 und 778. Um diese Daten in R aufzunehmen können Sie folgendes machen:
 
 
-``` r
-react <- c(510, 897, 647, 891, 925, 805, 443, 778)
-```
 
 `c()` ist eine Funktion mit der alle Argumente (in diesem Fall acht Reaktionszeiten) in ein gemeinsames Objekt zusammengeführt werden. Dieses Objekt ist ein Vektor - eine eindimensionale Datenreihe. Daten können unterschiedliche Formate haben - welches Format vorliegt erfahren wir mit
 
@@ -929,7 +926,7 @@ data.frame(color, text, cong, react, three)
 ```
 
 ```
-## Error in data.frame(color, text, cong, react, three): arguments imply differing number of rows: 8, 3
+## Error in data.frame(color, text, cong, react, three): Argumente implizieren unterschiedliche Anzahl Zeilen: 8, 3
 ```
 
 Dazu gibt es jedoch eine, sehr spezifische, Ausnahme. Es ist möglich, dass Vektoren unterschiedliche Längen haben, wenn die längere Länge ein Vielfaches der kürzeren Länge ist. Wenn wir also einen Vektor mit 4 Elementen erstellen:
@@ -1389,10 +1386,10 @@ Die Daten aus der Befragung, die Sie letzte Woche ausgefüllt haben finden Sie [
 
 ```
 ## "mdbf1","mdbf2","mdbf3","mdbf4","mdbf5","mdbf6","mdbf7","mdbf8","mdbf9","mdbf10","mdbf11","mdbf12","time_pre","lz","extra","vertr","gewis","neuro","offen","prok","trust","uni1","uni2","uni3","uni4","sicher","angst","fach","ziel","wissen","therap","lerntyp","hand","job","ort","ort12","wohnen","attent_pre","gs_post","wm_post","ru_post","time_post","attent_post"
-## 3,3,1,1,1,3,1,3,1,3,1,3,43,5,3.5,4,2.5,2,2.5,2.6,3,0,1,1,0,3,2,4,2,NA,NA,3,2,2,1,2,3,4,3,3.25,2.25,18,5
-## 3,2,2,2,2,2,3,3,3,3,2,2,55,3,4,3,4.5,2,4.5,2.5,2.5,0,1,0,0,4,2,4,2,3,5,3,2,1,2,3,2,5,NA,NA,NA,NA,NA
-## 3,3,2,2,2,3,2,3,2,2,2,2,79,5,2.5,4,3.5,3,4.5,2.8,2.83333333333333,1,1,0,0,4,3,4,2,5,5,3,2,2,2,1,3,4,2.75,2.75,2.25,71,5
-## 4,1,3,1,2,1,3,4,2,1,1,3,53,6,4,3,4.5,4,5,3,2.33333333333333,0,1,1,0,4,4,4,2,NA,NA,3,2,2,1,3,1,5,3.25,3.25,2.75,17,5
+## 3,3,1,1,1,3,1,3,1,3,1,3,43,5,3.5,4,2.5,2,2.5,2.6,3.33333333333333,0,1,1,0,3,2,4,2,NA,NA,3,2,2,1,2,3,4,3,3.25,2.25,18,5
+## 3,2,2,2,2,2,3,3,3,3,2,2,55,3,4,3,4.5,2,4.5,2.5,3.83333333333333,0,1,0,0,4,2,4,2,3,5,3,2,1,2,3,2,5,NA,NA,NA,NA,NA
+## 3,3,2,2,2,3,2,3,2,2,2,2,79,5,2.5,4,3.5,3,4.5,2.8,3.83333333333333,1,1,0,0,4,3,4,2,5,5,3,2,2,2,1,3,4,2.75,2.75,2.25,71,5
+## 4,1,3,1,2,1,3,4,2,1,1,3,53,6,4,3,4.5,4,5,3,3.66666666666667,0,1,1,0,4,4,4,2,NA,NA,3,2,2,1,3,1,5,3.25,3.25,2.75,17,5
 ```
 
 Die Art in der dieser Datensatz aufbereitet ist, muss R mitgeteilt werden, damit wir ihn ordentlich einlesen können. Es empfiehlt sich dafür mit `help(read.table)` die Hilfe zu öffnen. Was diese Hilfe verrät sind unter Anderem die Argumente, die die Funktion entgegennimmt:
@@ -1455,34 +1452,27 @@ head(fb25)    # Kopfzeilen
 ```
 
 ```
-##   mdbf1 mdbf2 mdbf3 mdbf4 mdbf5 mdbf6 mdbf7 mdbf8 mdbf9 mdbf10 mdbf11 mdbf12
-## 1     3     3     1     1     1     3     1     3     1      3      1      3
-## 2     3     2     2     2     2     2     3     3     3      3      2      2
-## 3     3     3     2     2     2     3     2     3     2      2      2      2
-## 4     4     1     3     1     2     1     3     4     2      1      1      3
-## 5     4     3     1     1     1     3     2     4     1      3      1      3
-## 6     3     3     1     1     1     2     2     3     4      3      1      2
-##   time_pre  lz extra vertr gewis neuro offen prok    trust uni1 uni2 uni3 uni4
-## 1       43 5.0   3.5   4.0   2.5     2   2.5  2.6 3.000000    0    1    1    0
-## 2       55 3.0   4.0   3.0   4.5     2   4.5  2.5 2.500000    0    1    0    0
-## 3       79 5.0   2.5   4.0   3.5     3   4.5  2.8 2.833333    1    1    0    0
-## 4       53 6.0   4.0   3.0   4.5     4   5.0  3.0 2.333333    0    1    1    0
-## 5       28 5.8   4.5   2.0   3.0     4   4.5  2.5 2.666667    0    1    0    0
-## 6       35 5.2   3.0   4.5   3.5     5   4.5  2.9 2.166667    0    1    1    0
-##   sicher angst fach ziel wissen therap lerntyp hand job ort ort12 wohnen attent_pre
-## 1      3     2    4    2     NA     NA       3    2   2   1     2      3          4
-## 2      4     2    4    2      3      5       3    2   1   2     3      2          5
-## 3      4     3    4    2      5      5       3    2   2   2     1      3          4
-## 4      4     4    4    2     NA     NA       3    2   2   1     3      1          5
-## 5      4     3    4    2     NA     NA       1    2   1   2     2      4          5
-## 6      3     3    4    2     NA     NA       3    2   1   1     2      3          5
-##   gs_post wm_post ru_post time_post attent_post
-## 1    3.00    3.25    2.25        18           5
-## 2      NA      NA      NA        NA          NA
-## 3    2.75    2.75    2.25        71           5
-## 4    3.25    3.25    2.75        17           5
-## 5    3.00    2.75    2.25        21           5
-## 6    3.25    3.25    2.50        51           5
+##   mdbf1 mdbf2 mdbf3 mdbf4 mdbf5 mdbf6 mdbf7 mdbf8 mdbf9 mdbf10 mdbf11 mdbf12 time_pre  lz extra vertr gewis neuro offen prok
+## 1     3     3     1     1     1     3     1     3     1      3      1      3       43 5.0   3.5   4.0   2.5     2   2.5  2.6
+## 2     3     2     2     2     2     2     3     3     3      3      2      2       55 3.0   4.0   3.0   4.5     2   4.5  2.5
+## 3     3     3     2     2     2     3     2     3     2      2      2      2       79 5.0   2.5   4.0   3.5     3   4.5  2.8
+## 4     4     1     3     1     2     1     3     4     2      1      1      3       53 6.0   4.0   3.0   4.5     4   5.0  3.0
+## 5     4     3     1     1     1     3     2     4     1      3      1      3       28 5.8   4.5   2.0   3.0     4   4.5  2.5
+## 6     3     3     1     1     1     2     2     3     4      3      1      2       35 5.2   3.0   4.5   3.5     5   4.5  2.9
+##      trust uni1 uni2 uni3 uni4 sicher angst fach ziel wissen therap lerntyp hand job ort ort12 wohnen attent_pre gs_post wm_post
+## 1 3.333333    0    1    1    0      3     2    4    2     NA     NA       3    2   2   1     2      3          4    3.00    3.25
+## 2 3.833333    0    1    0    0      4     2    4    2      3      5       3    2   1   2     3      2          5      NA      NA
+## 3 3.833333    1    1    0    0      4     3    4    2      5      5       3    2   2   2     1      3          4    2.75    2.75
+## 4 3.666667    0    1    1    0      4     4    4    2     NA     NA       3    2   2   1     3      1          5    3.25    3.25
+## 5 3.666667    0    1    0    0      4     3    4    2     NA     NA       1    2   1   2     2      4          5    3.00    2.75
+## 6 4.166667    0    1    1    0      3     3    4    2     NA     NA       3    2   1   1     2      3          5    3.25    3.25
+##   ru_post time_post attent_post
+## 1    2.25        18           5
+## 2      NA        NA          NA
+## 3    2.25        71           5
+## 4    2.75        17           5
+## 5    2.25        21           5
+## 6    2.50        51           5
 ```
 
 ``` r
@@ -1511,7 +1501,7 @@ str(fb25)     # Struktur des Datensatzes
 ##  $ neuro      : num  2 2 3 4 4 5 4.5 1 4.5 5 ...
 ##  $ offen      : num  2.5 4.5 4.5 5 4.5 4.5 3.5 4 5 4.5 ...
 ##  $ prok       : num  2.6 2.5 2.8 3 2.5 2.9 3 3.4 3.2 2.7 ...
-##  $ trust      : num  3 2.5 2.83 2.33 2.67 ...
+##  $ trust      : num  3.33 3.83 3.83 3.67 3.67 ...
 ##  $ uni1       : int  0 0 1 0 0 0 0 0 0 1 ...
 ##  $ uni2       : int  1 1 1 1 1 1 1 1 1 1 ...
 ##  $ uni3       : int  1 0 0 1 0 1 0 0 0 0 ...
@@ -1559,10 +1549,10 @@ Diese Datei entspricht den Voreinstellungen von `write.table()`. Daher sehen die
 
 ```
 ## "mdbf1" "mdbf2" "mdbf3" "mdbf4" "mdbf5" "mdbf6" "mdbf7" "mdbf8" "mdbf9" "mdbf10" "mdbf11" "mdbf12" "time_pre" "lz" "extra" "vertr" "gewis" "neuro" "offen" "prok" "trust" "uni1" "uni2" "uni3" "uni4" "sicher" "angst" "fach" "ziel" "wissen" "therap" "lerntyp" "hand" "job" "ort" "ort12" "wohnen" "attent_pre" "gs_post" "wm_post" "ru_post" "time_post" "attent_post"
-## "1" 3 3 1 1 1 3 1 3 1 3 1 3 43 5 3.5 4 2.5 2 2.5 2.6 3 0 1 1 0 3 2 4 2 NA NA 3 2 2 1 2 3 4 3 3.25 2.25 18 5
-## "2" 3 2 2 2 2 2 3 3 3 3 2 2 55 3 4 3 4.5 2 4.5 2.5 2.5 0 1 0 0 4 2 4 2 3 5 3 2 1 2 3 2 5 NA NA NA NA NA
-## "3" 3 3 2 2 2 3 2 3 2 2 2 2 79 5 2.5 4 3.5 3 4.5 2.8 2.83333333333333 1 1 0 0 4 3 4 2 5 5 3 2 2 2 1 3 4 2.75 2.75 2.25 71 5
-## "4" 4 1 3 1 2 1 3 4 2 1 1 3 53 6 4 3 4.5 4 5 3 2.33333333333333 0 1 1 0 4 4 4 2 NA NA 3 2 2 1 3 1 5 3.25 3.25 2.75 17 5
+## "1" 3 3 1 1 1 3 1 3 1 3 1 3 43 5 3.5 4 2.5 2 2.5 2.6 3.33333333333333 0 1 1 0 3 2 4 2 NA NA 3 2 2 1 2 3 4 3 3.25 2.25 18 5
+## "2" 3 2 2 2 2 2 3 3 3 3 2 2 55 3 4 3 4.5 2 4.5 2.5 3.83333333333333 0 1 0 0 4 2 4 2 3 5 3 2 1 2 3 2 5 NA NA NA NA NA
+## "3" 3 3 2 2 2 3 2 3 2 2 2 2 79 5 2.5 4 3.5 3 4.5 2.8 3.83333333333333 1 1 0 0 4 3 4 2 5 5 3 2 2 2 1 3 4 2.75 2.75 2.25 71 5
+## "4" 4 1 3 1 2 1 3 4 2 1 1 3 53 6 4 3 4.5 4 5 3 3.66666666666667 0 1 1 0 4 4 4 2 NA NA 3 2 2 1 3 1 5 3.25 3.25 2.75 17 5
 ```
 
 

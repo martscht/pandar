@@ -15,34 +15,34 @@ mw
 mw <- c(34,47,23,90,23,45,89,98) |> mean()
 mw
 
-# ls()
+## ls()
 
-# rm(list = ls())
+## rm(list = ls())
 
 rm('mw', 'options_guide')
 
 library(knitr)
 data2 <- data.frame(
   Abschnitt = c("Description", "Usage", "Arguments", "Details", "Values","See also", "Examples"),
-  Inhalt = c("Beschreibung der Funktion","Zeigt die Arguente an, die die Funktion entgegennimmt. Argumente auf die ein = folgt haben Standardeinstellungen und müssen nicht jedes mal aufs Neue definiert werden, Argumente ohne = jedoch schon.", "Liste der Argumente mit Beschreibung", "Zusatzinformationen zur Funktion","Übersicht über die möglichen Ergebnisinhalte der Funktion", "Ähnliche Funktionen", "Praxisbeispiel, Funktion wird angewendet")
+  Inhalt = c("Beschreibung der Funktion","Zeigt die Argumente an, die die Funktion entgegennimmt. Argumente auf die ein = folgt haben Standardeinstellungen und müssen nicht jedes mal aufs Neue definiert werden, Argumente ohne = jedoch schon.", "Liste der Argumente mit Beschreibung", "Zusatzinformationen zur Funktion","Übersicht über die möglichen Ergebnisinhalte der Funktion", "Ähnliche Funktionen", "Praxisbeispiel, Funktion wird angewendet")
 )
 kable(data2)
 
-# 
-# getwd()
+## 
+## getwd()
 
-# 
-# setwd("/Users/luca/Desktop/rworkshop2025")
-# 
+## 
+## setwd("/Users/luca/Desktop/rworkshop2025")
+## 
 
-# setwd("C:/Users/luca/workshop2025")
+## setwd("C:/Users/luca/workshop2025")
 
-# data_raw <- read.csv(
-#   file = "data_raw.csv", # Filename
-#   na.strings = c("", "NA", "-9"), # -9 als fehlender Wert kodieren
-#   header = TRUE, # Header für Spaltennamen
-#   sep = ";" # Semikolon als Separator
-#   )
+## data_raw <- read.csv(
+##   file = "data_raw.csv", # Filename
+##   na.strings = c("", "NA", "-9"), # -9 als fehlender Wert kodieren
+##   header = TRUE, # Header für Spaltennamen
+##   sep = ";" # Semikolon als Separator
+##   )
 
 data_raw <- read.csv(
   file = "data_raw.csv", # Filename
@@ -65,7 +65,7 @@ glimpse(data_raw)
 
 colnames(data_raw) # Spaltennamen des Datensatzes
 
-# View(data_raw) # Datensatz in einem neuen Fenster anzeigen
+## View(data_raw) # Datensatz in einem neuen Fenster anzeigen
 
 head(data_raw[1, ])                      # erste Zeile, alle Spalten  
 head(data_raw[, 1])                     # alle Zeilen, erste Spalte (als Vektor)  
@@ -260,13 +260,13 @@ data_sub4$ddm_ap_4i <- (max_value + 1) - data_sub4$ddm_ap_4
 data_sub4$ddm_ap_5i <- (max_value + 1) - data_sub4$ddm_ap_5
 
 
-# 
-# inv_item <- c("el_05", "ddm_ap_1", "ddm_ap_2", "ddm_ap_3", "ddm_ap_4", "ddm_ap_5")
-# 
-# paste0(inv_item, "i")
-# 
-# data_sub4[paste0(inv_item, "i")] <- lapply(X = data_sub4[inv_item], FUN = function(x) max_value - x)
-# 
+## 
+## inv_item <- c("el_05", "ddm_ap_1", "ddm_ap_2", "ddm_ap_3", "ddm_ap_4", "ddm_ap_5")
+## 
+## paste0(inv_item, "i")
+## 
+## data_sub4[paste0(inv_item, "i")] <- lapply(X = data_sub4[inv_item], FUN = function(x) max_value - x)
+## 
 
 # Empowering Leadership (el)
 
@@ -302,7 +302,7 @@ scales_by_gender <- psych::describeBy(data_analysis[c("el", "pe", "ddm")], group
 print(scales_by_gender, digits = 2)
 
 
-# describeBy(alter ~ geschlecht, data = data_analysis)
+## describeBy(alter ~ geschlecht, data = data_analysis)
 
 round(cor(data_analysis[c("el", "pe", "ddm")]), 3)
 

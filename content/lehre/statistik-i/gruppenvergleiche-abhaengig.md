@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden abhängige Stichproben beleuchtet. Dabei geht es vor allem um die Durchführung des abhängigen t-Tests und des abhängigen Wilcoxon-Tests.' 
 authors: [nehler, koehler, buchholz, irmer, liu, sajjad] 
 weight: 7
-lastmod: '2025-07-03'
+lastmod: '2025-10-20'
 featured: no
 banner:
   image: "/header/consent_checkbox.jpg"
@@ -116,10 +116,12 @@ summary(fb24$ru_pre)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 
-##   1.000   2.250   2.750   2.777 
-## 3rd Qu.    Max.    NA's 
-##   3.250   4.000       1
+##    Min. 1st Qu.  Median 
+##   1.000   2.250   2.750 
+##    Mean 3rd Qu.    Max. 
+##   2.777   3.250   4.000 
+##    NA's 
+##       1
 ```
 
 ```r
@@ -127,10 +129,12 @@ summary(fb24$ru_post)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 
-##   1.500   2.250   2.500   2.472 
-## 3rd Qu.    Max.    NA's 
-##   2.750   3.500      58
+##    Min. 1st Qu.  Median 
+##   1.500   2.250   2.500 
+##    Mean 3rd Qu.    Max. 
+##   2.472   2.750   3.500 
+##    NA's 
+##      58
 ```
 
 Zunächst einmal ist offensichtlich, dass sich die Mittelwerte vor und nach der Sitzung unterscheiden. Die Frage bleibt aber bestehen, ob sich dieser Unterschied auf die Population verallgemeinern lässt. Weiterhin sticht hier direkt ins Auge, dass es in der Post-Variable fehlende Werte (58) gibt. Diese Personen können in die abhängige Testung nicht einbezogen werden, was im Folgenden berücksichtigt werden muss.
@@ -165,7 +169,7 @@ abline(v=mean(fb24$ru_post, na.rm = T),
        col="darksalmon")
 ```
 
-![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-1-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-3-1.png)<!-- -->
 
 ```r
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters, zuvor hatten wir "dev.off()" kennengelernt
@@ -203,14 +207,14 @@ curve(dnorm(x, mean=mean(difference, na.rm = T), sd=sd(difference, na.rm = T)),
       add=T)
 ```
 
-![](/gruppenvergleiche-abhaengig_files/Vorraussetzungen-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-4-1.png)<!-- -->
 
 ```r
 qqnorm(difference)
 qqline(difference, col="blue")
 ```
 
-![](/gruppenvergleiche-abhaengig_files/Vorraussetzungen-2.png)<!-- -->
+![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-4-2.png)<!-- -->
 
 Auf den Abbildungen sind kleine Abweichungen der Differenzen von der Normalverteilung zu sehen. Allerdings gilt (analog zu den Einstichproben- und unabhängigen Tests) der zentrale Grenzwertsatz. In Fällen, in denen die Stichprobe (also die Anzahl an Messwertpaaren) ausreichend groß ist, folgt die Stichprobenkennwerteverteilung auch unabhängig von der Verteilung der Differenzen in der Population der $t$-Verteilung. “Ausreichend groß” ist natürlich Auslegungssache, aber nochmal zur Erinnerung: Bei Stichproben ab $n \geq 30$ greift der Effekt, wenn das Merkmal zumindest symmetrisch verteilt ist. Andere Empfehlungen gehen besonders bei sehr schiefen Verteilungen in Richtung von 80 Messwertpaaren. Die kleinen Abweichungen von der Normalverteilung und die große Stichproben sprechen also dafür, dass unsere Stichprobenkennwerteverteilung der $t$-Verteilung folgt. Wir können also mit der inferenzstatistischen Überprüfung starten.
 
@@ -245,8 +249,8 @@ t.test(x = fb24$ru_post, y = fb24$ru_pre, # die beiden abhaengigen Variablen
 ## 	Paired t-test
 ## 
 ## data:  fb24$ru_post and fb24$ru_pre
-## t = -3.5338, df = 133, p-value =
-## 0.000564
+## t = -3.5338, df = 133,
+## p-value = 0.000564
 ## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.4481323 -0.1264946
@@ -354,7 +358,7 @@ hist(fb24$time_post,
      breaks = 10)
 ```
 
-![](/gruppenvergleiche-abhaengig_files/Deskriptivstatistik-Median-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-10-1.png)<!-- -->
 
 ```r
 par(mfrow=c(1,1)) #Zurücksetzen des Plotfensters
@@ -370,10 +374,10 @@ summary(fb24$time_pre)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 
-##   12.00   34.00   42.00   47.85 
-## 3rd Qu.    Max. 
-##   58.00  131.00
+##    Min. 1st Qu.  Median 
+##   12.00   34.00   42.00 
+##    Mean 3rd Qu.    Max. 
+##   47.85   58.00  131.00
 ```
 
 ```r
@@ -381,10 +385,12 @@ summary(fb24$time_post)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 
-##   14.00   27.00   35.50   41.87 
-## 3rd Qu.    Max.    NA's 
-##   52.75  159.00      58
+##    Min. 1st Qu.  Median 
+##   14.00   27.00   35.50 
+##    Mean 3rd Qu.    Max. 
+##   41.87   52.75  159.00 
+##    NA's 
+##      58
 ```
 
 Es zeigt sich auch hier wieder, dass es nach dem Praktikum einige fehlende Werte gibt. Das heißt, dass unsere deskriptiven Betrachtungen nicht so aussagekräftig sind an dieser Stelle. Diese würde eine Veränderung in der mittleren Ausprägung der Bearbeitungszeit zeigen, da die Mediane sich unterscheiden.
@@ -411,7 +417,7 @@ hist(dif_time,
      breaks = 10)
 ```
 
-![](/gruppenvergleiche-abhaengig_files/Voraussetzungen-Median-1.png)<!-- -->
+![](/gruppenvergleiche-abhaengig_files/unnamed-chunk-12-1.png)<!-- -->
 
 Die Differenzen weisen Abweichungen von der Symmetrie-Annahme vor, die vor allem von Ausreißern bestimmt wird. Jedoch sind dies nur einzelne, wenige Fälle, weshalb wir die inferenzstatistische Testung trotzdem durchführen. Mehr Informationen zu Ausreißern und deren Behandlung erhalten Sie im nächsten Semester [hier](/lehre/statistik-ii/regressionsdiagnostik).
 
@@ -440,11 +446,12 @@ wilcox.test(x = fb24$time_pre,
 
 ```
 ## 
-## 	Wilcoxon signed rank test with
-## 	continuity correction
+## 	Wilcoxon signed rank test
+## 	with continuity correction
 ## 
 ## data:  fb24$time_pre and fb24$time_post
-## V = 5608.5, p-value = 0.0008746
+## V = 5608.5, p-value =
+## 0.0008746
 ## alternative hypothesis: true location shift is not equal to 0
 ```
 

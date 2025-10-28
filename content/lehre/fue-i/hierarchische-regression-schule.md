@@ -6,10 +6,10 @@ slug: hierarchische-regression-schule
 categories: ["FuE I"] 
 tags: ["Hierarchische Regression", "Multi-Level Analyse", "ggplot", "Interaktion"] 
 subtitle: ''
-summary: '' 
+summary: 'In diesem Beitrag werden Multi-Level Daten mit einer hierarchischen Regression analysiert. Die Modellebenen, Modellspezifikation und unter anderem Interpretationen der Effekte und Ergebnisse werden mit aufbauend komplexen Modellen erklärt.' 
 authors: [irmer] 
 weight: 3
-lastmod: '2025-02-07'
+lastmod: '2025-10-20'
 featured: no
 banner:
   image: "/header/books.jpg"
@@ -69,13 +69,20 @@ head(StudentsInClasses)
 ```
 
 ```
-##   MatheL Motivation KFT KlassenG schulklasse
-## 1  48.76          4  98       26           1
-## 2  46.01          3  96       26           1
-## 3  65.96          5 112       26           1
-## 4  42.08          4  94       26           1
-## 5   0.00          2  78       26           1
-## 6  56.52          5 104       26           1
+##   MatheL Motivation KFT
+## 1  48.76          4  98
+## 2  46.01          3  96
+## 3  65.96          5 112
+## 4  42.08          4  94
+## 5   0.00          2  78
+## 6  56.52          5 104
+##   KlassenG schulklasse
+## 1       26           1
+## 2       26           1
+## 3       26           1
+## 4       26           1
+## 5       26           1
+## 6       26           1
 ```
 
 Aus dieser Übersicht ergibt sich folgende Aufteilung:
@@ -99,8 +106,12 @@ colMeans(StudentsInClasses)
 ```
 
 ```
-##      MatheL  Motivation         KFT    KlassenG schulklasse 
-##   53.616047    4.285882  100.001176   27.090588   20.280000
+##      MatheL  Motivation 
+##   53.616047    4.285882 
+##         KFT    KlassenG 
+##  100.001176   27.090588 
+## schulklasse 
+##   20.280000
 ```
 Bei Multi-Level-Analysen ist darauf zu achten, dass für bessere Interpretierbarkeit unabhängige Variablen zentriert werden sollten. Wir können zwischen _Grand-Mean-Centering_ und _Group-Mean-Centering_ unterscheiden. Beim _Grand-Mean-Centering_ wird am Stichprobenmittelwert der jeweiligen Variable zentriert. Somit spricht ein Wert von Null auf der zentrierten Variable für den Mittelwert über alle Erhebungen (hier: Schulkinder). Beim Group-Mean-Centering wird am Mittelwert des jeweiligen Clusters zentriert. Somit entspricht ein Mittelwert von 0 auf der zentrierten Variable für einen durchschnittlichen Wert innerhalb dieses Clusters (hier: für einen durchschnittlichen Wert innerhalb dieser Schulklasse). Beim Group-Mean-Centering können die Ergebnisse gut in Hinsicht auf die Schulklasse interpretiert werden, allerdings geht die Unterschiedlichkeit zwischen Klassen verloren, weswegen häufig zusätzlich zur zentrierten Variable auch der Mittelwert pro Cluster als L2 Variable mit in das Modell aufgenommen wird. Wir schauen uns dies später im Abschnitt [Datenzentrierung](#Datenzentrierung) genauer an.
 
@@ -124,7 +135,9 @@ library(lmerTest) # lmerTest markiert in der Ausgabe signifikante Koeffizienten 
 ```
 
 ```
-## Warning: Paket 'lmerTest' wurde unter R Version 4.3.2 erstellt
+## Warning: Paket 'lmerTest'
+## wurde unter R Version 4.3.2
+## erstellt
 ```
 
 ```r
@@ -132,7 +145,9 @@ library(robumeta)   # Datensatzmanipulation
 ```
 
 ```
-## Warning: Paket 'robumeta' wurde unter R Version 4.3.2 erstellt
+## Warning: Paket 'robumeta'
+## wurde unter R Version 4.3.2
+## erstellt
 ```
 
 ```r
@@ -213,27 +228,46 @@ summary(m0)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + (1 | schulklasse)
+## Linear mixed model fit by
+##   REML. t-tests use
+##   Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: 
+## MatheL ~ 1 + (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
-## REML criterion at convergence: 6565.3
+## REML criterion at convergence: 
+## 6565.3
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -4.5448 -0.5642 -0.0015  0.5695  3.5476 
+##     Min      1Q  Median 
+## -4.5448 -0.5642 -0.0015 
+##      3Q     Max 
+##  0.5695  3.5476 
 ## 
 ## Random effects:
-##  Groups      Name        Variance Std.Dev.
-##  schulklasse (Intercept)  23.87    4.885  
-##  Residual                123.12   11.096  
-## Number of obs: 850, groups:  schulklasse, 40
+##  Groups      Name       
+##  schulklasse (Intercept)
+##  Residual               
+##  Variance Std.Dev.
+##   23.87    4.885  
+##  123.12   11.096  
+## Number of obs: 850, groups:  
+## schulklasse, 40
 ## 
 ## Fixed effects:
-##             Estimate Std. Error      df t value Pr(>|t|)    
-## (Intercept)  54.0235     0.8658 37.0961    62.4   <2e-16 ***
+##             Estimate
+## (Intercept)  54.0235
+##             Std. Error
+## (Intercept)     0.8658
+##                  df t value
+## (Intercept) 37.0961    62.4
+##             Pr(>|t|)    
+## (Intercept)   <2e-16 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Die Summary sieht der der normalen linearen Regression sehr ähnlich. Wir schauen uns diese im Detail an.
@@ -303,9 +337,12 @@ VarCorr(m0) # nur die Standardabweichungen (also Wurzel aus den Varianzen) werde
 ```
 
 ```
-##  Groups      Name        Std.Dev.
-##  schulklasse (Intercept)  4.8855 
-##  Residual                11.0958
+##  Groups      Name       
+##  schulklasse (Intercept)
+##  Residual               
+##  Std.Dev.
+##   4.8855 
+##  11.0958
 ```
 
 ```r
@@ -355,9 +392,24 @@ names(summary(m0)) # alle Informationen, die wir der Summary entlocken können
 ```
 
 ```
-##  [1] "methTitle"    "objClass"     "devcomp"      "isLmer"       "useScale"     "logLik"      
-##  [7] "family"       "link"         "ngrps"        "coefficients" "sigma"        "vcov"        
-## [13] "varcor"       "AICtab"       "call"         "residuals"    "fitMsgs"      "optinfo"
+##  [1] "methTitle"   
+##  [2] "objClass"    
+##  [3] "devcomp"     
+##  [4] "isLmer"      
+##  [5] "useScale"    
+##  [6] "logLik"      
+##  [7] "family"      
+##  [8] "link"        
+##  [9] "ngrps"       
+## [10] "coefficients"
+## [11] "sigma"       
+## [12] "vcov"        
+## [13] "varcor"      
+## [14] "AICtab"      
+## [15] "call"        
+## [16] "residuals"   
+## [17] "fitMsgs"     
+## [18] "optinfo"
 ```
 
 **Inhaltliche Interpretation**: 16.2% der Varianz in der Mathematikleistung können durch die Klassenzugehörigkeit erklärt werden. Die Multi-Level-Struktur in den Daten muss somit unbedingt berücksichtigt werden.
@@ -388,8 +440,12 @@ round(colMeans(StudentsInClasses), 10) # Spaltenmittelwerte gerundet auf 10 Nach
 ```
 
 ```
-##       MatheL   Motivation          KFT     KlassenG  schulklasse Motivation_c 
-##    53.616047     4.285882   100.001176    27.090588    20.280000     0.000000
+##       MatheL   Motivation 
+##    53.616047     4.285882 
+##          KFT     KlassenG 
+##   100.001176    27.090588 
+##  schulklasse Motivation_c 
+##    20.280000     0.000000
 ```
 Den Spaltenmittelwerten entnehmen wir, dass `Motivation_c` nun einen Mittelwert von 0 hat (gerundet mit `round` auf 10 Nachkommastellen). Nun nehmen wir diese Variable in das Multi-Level-Modell mit auf. Das Modell nennen wir entsprechend der 1. Hypothese `m1`.
 
@@ -401,28 +457,50 @@ summary(m1)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + Motivation_c + (1 | schulklasse)
+## Linear mixed model fit by
+##   REML. t-tests use
+##   Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: 
+## MatheL ~ 1 + Motivation_c + (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
-## REML criterion at convergence: 6231.1
+## REML criterion at convergence: 
+## 6231.1
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -3.9343 -0.5597  0.0146  0.6001  4.7018 
+##     Min      1Q  Median 
+## -3.9343 -0.5597  0.0146 
+##      3Q     Max 
+##  0.6001  4.7018 
 ## 
 ## Random effects:
-##  Groups      Name        Variance Std.Dev.
-##  schulklasse (Intercept) 26.57    5.154   
-##  Residual                81.46    9.026   
-## Number of obs: 850, groups:  schulklasse, 40
+##  Groups      Name       
+##  schulklasse (Intercept)
+##  Residual               
+##  Variance Std.Dev.
+##  26.57    5.154   
+##  81.46    9.026   
+## Number of obs: 850, groups:  
+## schulklasse, 40
 ## 
 ## Fixed effects:
-##              Estimate Std. Error       df t value Pr(>|t|)    
-## (Intercept)   54.0708     0.8751  37.7353   61.79   <2e-16 ***
-## Motivation_c   6.0879     0.2991 808.6683   20.35   <2e-16 ***
+##              Estimate
+## (Intercept)   54.0708
+## Motivation_c   6.0879
+##              Std. Error
+## (Intercept)      0.8751
+## Motivation_c     0.2991
+##                    df t value
+## (Intercept)   37.7353   61.79
+## Motivation_c 808.6683   20.35
+##              Pr(>|t|)    
+## (Intercept)    <2e-16 ***
+## Motivation_c   <2e-16 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr)
@@ -579,29 +657,52 @@ summary(m2)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + Motivation_c + (1 + Motivation_c | schulklasse)
+## Linear mixed model fit by
+##   REML. t-tests use
+##   Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: 
+## MatheL ~ 1 + Motivation_c + (1 + Motivation_c | schulklasse)
 ##    Data: StudentsInClasses
 ## 
-## REML criterion at convergence: 5769.6
+## REML criterion at convergence: 
+## 5769.6
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -3.2170 -0.6311  0.0160  0.6304  2.8758 
+##     Min      1Q  Median 
+## -3.2170 -0.6311  0.0160 
+##      3Q     Max 
+##  0.6304  2.8758 
 ## 
 ## Random effects:
-##  Groups      Name         Variance Std.Dev. Corr
-##  schulklasse (Intercept)  29.38    5.420        
-##              Motivation_c 37.73    6.143    0.31
-##  Residual                 39.85    6.313        
-## Number of obs: 850, groups:  schulklasse, 40
+##  Groups      Name        
+##  schulklasse (Intercept) 
+##              Motivation_c
+##  Residual                
+##  Variance Std.Dev. Corr
+##  29.38    5.420        
+##  37.73    6.143    0.31
+##  39.85    6.313        
+## Number of obs: 850, groups:  
+## schulklasse, 40
 ## 
 ## Fixed effects:
-##              Estimate Std. Error      df t value Pr(>|t|)    
-## (Intercept)   54.0572     0.8858 38.3681  61.025  < 2e-16 ***
-## Motivation_c   5.8938     0.9960 39.0897   5.918 6.69e-07 ***
+##              Estimate
+## (Intercept)   54.0572
+## Motivation_c   5.8938
+##              Std. Error
+## (Intercept)      0.8858
+## Motivation_c     0.9960
+##                   df t value
+## (Intercept)  38.3681  61.025
+## Motivation_c 39.0897   5.918
+##              Pr(>|t|)    
+## (Intercept)   < 2e-16 ***
+## Motivation_c 6.69e-07 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr)
@@ -628,11 +729,19 @@ anova(m1, m2, test = "LRT", refit = F)
 ## Models:
 ## m1: MatheL ~ 1 + Motivation_c + (1 | schulklasse)
 ## m2: MatheL ~ 1 + Motivation_c + (1 + Motivation_c | schulklasse)
-##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)    
-## m1    4 6239.1 6258.1 -3115.6   6231.1                         
-## m2    6 5781.6 5810.1 -2884.8   5769.6 461.51  2  < 2.2e-16 ***
+##    npar    AIC    BIC  logLik
+## m1    4 6239.1 6258.1 -3115.6
+## m2    6 5781.6 5810.1 -2884.8
+##    deviance  Chisq Df
+## m1   6231.1          
+## m2   5769.6 461.51  2
+##    Pr(>Chisq)    
+## m1               
+## m2  < 2.2e-16 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Die LRT-Teststatistik (empirischer $\chi^2$-Wert) liegt bei $\chi^2(df=2)=461.51$. Der Modellvergleichsoutput enthält folgende Informationen (dieser ist annähernd identisch aufgebaut und enthält jeweils unterschiedliche Teststatistiken, je nach dem welchen Test wir anfordern - bspw. bei der Regression würde Omnibustest/F-Test verwendet werden, entsprechend stünde dort die $F$-Statistik).
@@ -690,11 +799,19 @@ anova(m0, m1) # KEIN refit
 ## Models:
 ## m0: MatheL ~ 1 + (1 | schulklasse)
 ## m1: MatheL ~ 1 + Motivation_c + (1 | schulklasse)
-##    npar    AIC    BIC  logLik deviance Chisq Df Pr(>Chisq)    
-## m0    3 6572.8 6587.1 -3283.4   6566.8                        
-## m1    4 6240.1 6259.1 -3116.1   6232.1 334.7  1  < 2.2e-16 ***
+##    npar    AIC    BIC  logLik
+## m0    3 6572.8 6587.1 -3283.4
+## m1    4 6240.1 6259.1 -3116.1
+##    deviance Chisq Df
+## m0   6566.8         
+## m1   6232.1 334.7  1
+##    Pr(>Chisq)    
+## m0               
+## m1  < 2.2e-16 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Hier sehen wir nun, dass das Modell "gerefitted" wurde. Wir haben also die ML-Schätzung verwendet, um die Likelihooddifferenz zu bestimmen. Das Ergebnis ist signifikant. Dies ist wenig überraschend. Wir hatten zuvor schon bemerkt, dass die Motivation sich auf die Matheleistung auswirkt (mit einer Irrtumswahrscheinlichkeit von $5\%$).
@@ -712,29 +829,54 @@ summary(m3)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + KlassenG + Motivation_c + (1 | schulklasse)
+## Linear mixed model fit by
+##   REML. t-tests use
+##   Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: 
+## MatheL ~ 1 + KlassenG + Motivation_c + (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
-## REML criterion at convergence: 6230.7
+## REML criterion at convergence: 
+## 6230.7
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -3.9364 -0.5567  0.0190  0.6018  4.6944 
+##     Min      1Q  Median 
+## -3.9364 -0.5567  0.0190 
+##      3Q     Max 
+##  0.6018  4.6944 
 ## 
 ## Random effects:
-##  Groups      Name        Variance Std.Dev.
-##  schulklasse (Intercept) 25.38    5.038   
-##  Residual                81.45    9.025   
-## Number of obs: 850, groups:  schulklasse, 40
+##  Groups      Name       
+##  schulklasse (Intercept)
+##  Residual               
+##  Variance Std.Dev.
+##  25.38    5.038   
+##  81.45    9.025   
+## Number of obs: 850, groups:  
+## schulklasse, 40
 ## 
 ## Fixed effects:
-##              Estimate Std. Error       df t value Pr(>|t|)    
-## (Intercept)   59.7531     3.5953  38.6351  16.620   <2e-16 ***
-## KlassenG      -0.2198     0.1350  37.5172  -1.628    0.112    
-## Motivation_c   6.0893     0.2991 808.8593  20.358   <2e-16 ***
+##              Estimate
+## (Intercept)   59.7531
+## KlassenG      -0.2198
+## Motivation_c   6.0893
+##              Std. Error
+## (Intercept)      3.5953
+## KlassenG         0.1350
+## Motivation_c     0.2991
+##                    df t value
+## (Intercept)   38.6351  16.620
+## KlassenG      37.5172  -1.628
+## Motivation_c 808.8593  20.358
+##              Pr(>|t|)    
+## (Intercept)    <2e-16 ***
+## KlassenG        0.112    
+## Motivation_c   <2e-16 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr) KlssnG
@@ -766,29 +908,54 @@ summary(m3b)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + (1 | schulklasse)
+## Linear mixed model fit by
+##   REML. t-tests use
+##   Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: 
+## MatheL ~ 1 + KlassenG_c + Motivation_c + (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
-## REML criterion at convergence: 6230.7
+## REML criterion at convergence: 
+## 6230.7
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -3.9364 -0.5567  0.0190  0.6018  4.6944 
+##     Min      1Q  Median 
+## -3.9364 -0.5567  0.0190 
+##      3Q     Max 
+##  0.6018  4.6944 
 ## 
 ## Random effects:
-##  Groups      Name        Variance Std.Dev.
-##  schulklasse (Intercept) 25.38    5.038   
-##  Residual                81.45    9.025   
-## Number of obs: 850, groups:  schulklasse, 40
+##  Groups      Name       
+##  schulklasse (Intercept)
+##  Residual               
+##  Variance Std.Dev.
+##  25.38    5.038   
+##  81.45    9.025   
+## Number of obs: 850, groups:  
+## schulklasse, 40
 ## 
 ## Fixed effects:
-##              Estimate Std. Error       df t value Pr(>|t|)    
-## (Intercept)   53.7974     0.8739  36.0551  61.562   <2e-16 ***
-## KlassenG_c    -0.2198     0.1350  37.5172  -1.628    0.112    
-## Motivation_c   6.0893     0.2991 808.8593  20.358   <2e-16 ***
+##              Estimate
+## (Intercept)   53.7974
+## KlassenG_c    -0.2198
+## Motivation_c   6.0893
+##              Std. Error
+## (Intercept)      0.8739
+## KlassenG_c       0.1350
+## Motivation_c     0.2991
+##                    df t value
+## (Intercept)   36.0551  61.562
+## KlassenG_c    37.5172  -1.628
+## Motivation_c 808.8593  20.358
+##              Pr(>|t|)    
+## (Intercept)    <2e-16 ***
+## KlassenG_c      0.112    
+## Motivation_c   <2e-16 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr) KlssG_
@@ -812,36 +979,79 @@ summary(m4)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +      (1 | schulklasse)
+## Linear mixed model fit by
+##   REML. t-tests use
+##   Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: 
+## MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
+##     (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
-## REML criterion at convergence: 6200.9
+## REML criterion at convergence: 
+## 6200.9
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -4.0830 -0.5785  0.0163  0.6004  4.5850 
+##     Min      1Q  Median 
+## -4.0830 -0.5785  0.0163 
+##      3Q     Max 
+##  0.6004  4.5850 
 ## 
 ## Random effects:
-##  Groups      Name        Variance Std.Dev.
-##  schulklasse (Intercept) 25.5     5.050   
-##  Residual                78.2     8.843   
-## Number of obs: 850, groups:  schulklasse, 40
+##  Groups      Name       
+##  schulklasse (Intercept)
+##  Residual               
+##  Variance Std.Dev.
+##  25.5     5.050   
+##  78.2     8.843   
+## Number of obs: 850, groups:  
+## schulklasse, 40
 ## 
 ## Fixed effects:
-##                          Estimate Std. Error        df t value Pr(>|t|)    
-## (Intercept)              53.79131    0.87354  36.11427  61.579  < 2e-16 ***
-## KlassenG_c               -0.21300    0.13491  37.53996  -1.579    0.123    
-## Motivation_c              6.13299    0.29316 807.83209  20.920  < 2e-16 ***
-## KlassenG_c:Motivation_c   0.27575    0.04679 808.15014   5.893 5.56e-09 ***
+##                          Estimate
+## (Intercept)              53.79131
+## KlassenG_c               -0.21300
+## Motivation_c              6.13299
+## KlassenG_c:Motivation_c   0.27575
+##                         Std. Error
+## (Intercept)                0.87354
+## KlassenG_c                 0.13491
+## Motivation_c               0.29316
+## KlassenG_c:Motivation_c    0.04679
+##                                df
+## (Intercept)              36.11427
+## KlassenG_c               37.53996
+## Motivation_c            807.83209
+## KlassenG_c:Motivation_c 808.15014
+##                         t value
+## (Intercept)              61.579
+## KlassenG_c               -1.579
+## Motivation_c             20.920
+## KlassenG_c:Motivation_c   5.893
+##                         Pr(>|t|)
+## (Intercept)              < 2e-16
+## KlassenG_c                 0.123
+## Motivation_c             < 2e-16
+## KlassenG_c:Motivation_c 5.56e-09
+##                            
+## (Intercept)             ***
+## KlassenG_c                 
+## Motivation_c            ***
+## KlassenG_c:Motivation_c ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
-##             (Intr) KlssG_ Mtvtn_
-## KlassenG_c   0.191              
-## Motivatin_c  0.000 -0.003       
-## KlssnG_c:M_ -0.001  0.009  0.025
+##             (Intr) KlssG_
+## KlassenG_c   0.191       
+## Motivatin_c  0.000 -0.003
+## KlssnG_c:M_ -0.001  0.009
+##             Mtvtn_
+## KlassenG_c        
+## Motivatin_c       
+## KlssnG_c:M_  0.025
 ```
 
 Dieses Modell kommt zum selben Ergebnis wie:
@@ -858,6 +1068,21 @@ summary(m4b)
 #### Grafische Veranschaulichung
 Die Wechselwirkung kann veranschaulicht werden, indem die Regressionsgeraden nach Klassengröße unterschieden werden (hier: über die Farbe). Die in der folgenden Grafik goldene/gelbe Geraden repräsentieren (überdurchschnittlich) große Klassen, die blauen kleine (unterdurchschnittlich große/ überdurchschnittlich kleine) Klassen. Die goldenen/gelben Linien sind steiler als die blauen Linien.
 
+
+```
+## Warning: Using `size` aesthetic for
+## lines was deprecated in
+## ggplot2 3.4.0.
+## ℹ Please use `linewidth`
+##   instead.
+## This warning is displayed
+## once every 8 hours.
+## Call
+## `lifecycle::last_lifecycle_warnings()`
+## to see where this warning was
+## generated.
+```
+
 ![](/hierarchische-regression-schule_files/unnamed-chunk-30-1.png)<!-- -->
 
 Der Grafik ist dieser Effekt deutlich zu entnehmen. Final können wir sagen, dass die individuelle Matheleistung in Schulklassen mit mehr Schülerinnen und Schülern stärker von der Lernmotivation der/des Einzelnen abhängt als in kleinen Schulklassen.
@@ -873,38 +1098,81 @@ summary(m4c)
 ```
 
 ```
-## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
-## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
+## Linear mixed model fit by
+##   REML. t-tests use
+##   Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: 
+## MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
 ##     (1 + Motivation_c | schulklasse)
 ##    Data: StudentsInClasses
 ## 
-## REML criterion at convergence: 5767.3
+## REML criterion at convergence: 
+## 5767.3
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -3.2062 -0.6242  0.0259  0.6379  2.8811 
+##     Min      1Q  Median 
+## -3.2062 -0.6242  0.0259 
+##      3Q     Max 
+##  0.6379  2.8811 
 ## 
 ## Random effects:
-##  Groups      Name         Variance Std.Dev. Corr
-##  schulklasse (Intercept)  28.26    5.316        
-##              Motivation_c 36.74    6.062    0.39
-##  Residual                 39.85    6.313        
-## Number of obs: 850, groups:  schulklasse, 40
+##  Groups      Name        
+##  schulklasse (Intercept) 
+##              Motivation_c
+##  Residual                
+##  Variance Std.Dev. Corr
+##  28.26    5.316        
+##  36.74    6.062    0.39
+##  39.85    6.313        
+## Number of obs: 850, groups:  
+## schulklasse, 40
 ## 
 ## Fixed effects:
-##                         Estimate Std. Error      df t value Pr(>|t|)    
-## (Intercept)              53.7744     0.8889 36.9895  60.495  < 2e-16 ***
-## KlassenG_c               -0.2158     0.1366 37.8116  -1.580    0.122    
-## Motivation_c              6.1883     1.0062 37.6948   6.150 3.65e-07 ***
-## KlassenG_c:Motivation_c   0.2148     0.1542 38.1319   1.394    0.171    
+##                         Estimate
+## (Intercept)              53.7744
+## KlassenG_c               -0.2158
+## Motivation_c              6.1883
+## KlassenG_c:Motivation_c   0.2148
+##                         Std. Error
+## (Intercept)                 0.8889
+## KlassenG_c                  0.1366
+## Motivation_c                1.0062
+## KlassenG_c:Motivation_c     0.1542
+##                              df
+## (Intercept)             36.9895
+## KlassenG_c              37.8116
+## Motivation_c            37.6948
+## KlassenG_c:Motivation_c 38.1319
+##                         t value
+## (Intercept)              60.495
+## KlassenG_c               -1.580
+## Motivation_c              6.150
+## KlassenG_c:Motivation_c   1.394
+##                         Pr(>|t|)
+## (Intercept)              < 2e-16
+## KlassenG_c                 0.122
+## Motivation_c            3.65e-07
+## KlassenG_c:Motivation_c    0.171
+##                            
+## (Intercept)             ***
+## KlassenG_c                 
+## Motivation_c            ***
+## KlassenG_c:Motivation_c    
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
-##             (Intr) KlssG_ Mtvtn_
-## KlassenG_c  0.206               
-## Motivatin_c 0.367  0.080        
-## KlssnG_c:M_ 0.080  0.365  0.211
+##             (Intr) KlssG_
+## KlassenG_c  0.206        
+## Motivatin_c 0.367  0.080 
+## KlssnG_c:M_ 0.080  0.365 
+##             Mtvtn_
+## KlassenG_c        
+## Motivatin_c       
+## KlssnG_c:M_ 0.211
 ```
 
 ```r
@@ -916,11 +1184,19 @@ anova(m4, m4c, test = "LRT", refit = F)
 ## Models:
 ## m4: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c + (1 | schulklasse)
 ## m4c: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c + (1 + Motivation_c | schulklasse)
-##     npar    AIC    BIC  logLik deviance  Chisq Df Pr(>Chisq)    
-## m4     6 6212.9 6241.4 -3100.5   6200.9                         
-## m4c    8 5783.3 5821.2 -2883.6   5767.3 433.66  2  < 2.2e-16 ***
+##     npar    AIC    BIC
+## m4     6 6212.9 6241.4
+## m4c    8 5783.3 5821.2
+##      logLik deviance  Chisq
+## m4  -3100.5   6200.9       
+## m4c -2883.6   5767.3 433.66
+##     Df Pr(>Chisq)    
+## m4                   
+## m4c  2  < 2.2e-16 ***
 ## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  
+##   0 '***' 0.001 '**' 0.01
+##   '*' 0.05 '.' 0.1 ' ' 1
 ```
 Der Modellvergleich zeigt, dass ein Modell nur mit Klassengröße, Motivation und Interaktion zwischen Klassengröße und Motivation signifikant schlechter zu den Daten passt als ein Modell mit zusätzlicher Random Slope. Final würden wir uns also für ein Modell mit Random Intercept und Random Slope entscheiden, allerdings die Klassengröße als Prädiktor (und Cross-Level Interaktion) herauslassen.
 
@@ -987,13 +1263,41 @@ head(StudentsInClasses)
 ```
 
 ```
-##   MatheL Motivation KFT KlassenG schulklasse Motivation_c KlassenG_c Motivation_groupc Mot_groupmeans
-## 1  48.76          4  98       26           1   -0.2858824  -1.090588             -0.36           4.36
-## 2  46.01          3  96       26           1   -1.2858824  -1.090588             -1.36           4.36
-## 3  65.96          5 112       26           1    0.7141176  -1.090588              0.64           4.36
-## 4  42.08          4  94       26           1   -0.2858824  -1.090588             -0.36           4.36
-## 5   0.00          2  78       26           1   -2.2858824  -1.090588             -2.36           4.36
-## 6  56.52          5 104       26           1    0.7141176  -1.090588              0.64           4.36
+##   MatheL Motivation KFT
+## 1  48.76          4  98
+## 2  46.01          3  96
+## 3  65.96          5 112
+## 4  42.08          4  94
+## 5   0.00          2  78
+## 6  56.52          5 104
+##   KlassenG schulklasse
+## 1       26           1
+## 2       26           1
+## 3       26           1
+## 4       26           1
+## 5       26           1
+## 6       26           1
+##   Motivation_c KlassenG_c
+## 1   -0.2858824  -1.090588
+## 2   -1.2858824  -1.090588
+## 3    0.7141176  -1.090588
+## 4   -0.2858824  -1.090588
+## 5   -2.2858824  -1.090588
+## 6    0.7141176  -1.090588
+##   Motivation_groupc
+## 1             -0.36
+## 2             -1.36
+## 3              0.64
+## 4             -0.36
+## 5             -2.36
+## 6              0.64
+##   Mot_groupmeans
+## 1           4.36
+## 2           4.36
+## 3           4.36
+## 4           4.36
+## 5           4.36
+## 6           4.36
 ##   Mot_groupmeans_c
 ## 1       0.07411765
 ## 2       0.07411765
@@ -1009,10 +1313,26 @@ round(colMeans(StudentsInClasses), 10)
 ```
 
 ```
-##            MatheL        Motivation               KFT          KlassenG       schulklasse 
-##         53.616047          4.285882        100.001176         27.090588         20.280000 
-##      Motivation_c        KlassenG_c Motivation_groupc    Mot_groupmeans  Mot_groupmeans_c 
-##          0.000000          0.000000          0.000000          4.285882          0.000000
+##            MatheL 
+##         53.616047 
+##        Motivation 
+##          4.285882 
+##               KFT 
+##        100.001176 
+##          KlassenG 
+##         27.090588 
+##       schulklasse 
+##         20.280000 
+##      Motivation_c 
+##          0.000000 
+##        KlassenG_c 
+##          0.000000 
+## Motivation_groupc 
+##          0.000000 
+##    Mot_groupmeans 
+##          4.285882 
+##  Mot_groupmeans_c 
+##          0.000000
 ```
 
 Die Funktion `group.center` aus dem `robumeta`-Paket nimmt uns die Arbeit ab, die Daten händisch an den Gruppenmittelwerten zu zentrieren ($X_{ij}^{**}$). Sie nimmt 2 Argumente entgegen: `var` die Variable, die zentriert werden soll (hier die Motivation), und `grp` die Gruppierungsvariable (hier die Schulklasse). Die Funktion `group.mean` funktioniert analog zu `group.center` und gibt uns gruppenspezifische Mittelwerte aus. Zum Schluss wird noch die Gruppierungsvariable zentriert am Gesamtmittelwert: 

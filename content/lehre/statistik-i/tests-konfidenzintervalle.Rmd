@@ -61,7 +61,9 @@ if (exists("figure_path")) {
 
 Den Datensatz `fb24` haben wir bereits unter diesem [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
-```{r}
+```{r, echo=-c(1,2)}
+## Vorbereitung
+
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -207,7 +209,7 @@ $$\sigma_{\bar{x}} = {\frac{{\sigma}}{\sqrt{n}}}$$
 Wie bereits besprochen wird der Standardfehler des Mittelwerts (also die Streuung der SKV) kleiner, wenn wir mehr Personen untersuchen und größer, wenn die Varianz in der Population größer ist. Zunächst legen wir alle für den z-Wert relevanten Informationen in unser Environment ab, die wir entweder per Hand eingeben müssen (Populationsinformationen) oder mit einer einfachen Funktion bestimmen können.
 
 ```{r, echo=-c(1,2)}
-## z-Test
+#### z-Test ----
 
 pop_mean_nerd <- 2.5                 # Mittelwert Grundgesamtheit
 pop_sd_nerd <- 3.1                   # SD der Grundgesamtheit
@@ -295,7 +297,9 @@ Die Gleichung enthält den Standardfehler ($\sigma_\bar{x}$) des Mittelwerts, de
 
 Wir haben bereits gesehen, dass man Quantile aus der Normalverteilung mit der Funktion `qnorm()` erhalten kann. Die Standardnormalverteilung mit Mittelwert von 0 und Standardabweichung von 1 ist dabei der Default, aber wir geben die Argumente zur Übung trotzdem selbst an.
   
-```{r}
+```{r, echo=-c(1,2)}
+#### Konfidenzintervalle ----
+
 z_quantil_zweiseitig <- qnorm(p = 1-(.05/2), mean = 0, sd = 1)
 z_quantil_zweiseitig
 ```
@@ -352,7 +356,7 @@ Um eine weitere Modifikation unseres Vorgehens im Vergleich zum letzten Test zu 
 Bevor wir in die inferenzstatistische Analyse einsteigen, ist es immer gut, sich einen Überblick über die deskriptiven Werte zu verschaffen. Wir können nun natürlich einfach die bereits gelernten Funktionen zu Mittelwert, Varianz, Minimum, etc. nutzen. Doch gibt es einen schnelleren Weg? Die Basisinstallation von `R` bietet uns keine Alternative. Jedoch gibt es zusätzliche *Pakete*, die den Pool an möglichen Funktionen erweitern. Diese Pakete müssen zusätzlich installiert und für die Verwendung mit dem Befehl `library()` aufgerufen werden, diese Logik wird in [der Ergänzung unten](#Pakete) genauer erläutert. Wir verwenden für eine Übersicht über deskriptive Maße der Variable `neuro` die Funktion `describe()` aus dem Paket `psych` (Revelle, 2024). Hierfür muss einmal die Installation durchgeführt werden.
 
 ```{r, echo=-c(1,2)}
-## t-Test
+#### t-Test ----
 
 if (!requireNamespace("psych", quietly = TRUE)) {
   install.packages("psych")

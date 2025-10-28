@@ -1,3 +1,5 @@
+## Daten laden
+## Beispiel Daten lokal zu laden
 ## load("C:/Users/Musterfrau/Desktop/PCA.RData")
 
 load(url("https://pandar.netlify.app/daten/PCA.RData"))
@@ -5,6 +7,7 @@ load(url("https://pandar.netlify.app/daten/PCA.RData"))
 library(psych)     # Datenaufbereitung und -diagnostik
 library(corrplot)  # Korrelationsmatrixgrafiken
 
+# Überblick über die Daten und Deskriptivstatistik
 head(data)
 head(dataUV)
 
@@ -13,6 +16,8 @@ round(head(data),2) # noch ein Überblick: diesmal auf 2 Nachkommastellen gerund
 round(apply(X = data, MARGIN = 2, FUN = mean), 10) # identisch zu "colMeans(data)", wenn auch gerundet wird: round(colMeans(data), 10)
 # SD der Daten
 round(apply(X = data, MARGIN = 2, FUN = sd), 10)
+
+#### Berechnen der Korrelationsmatrix ----
 
 cor(dataUV) # Korrelationsmatrix
 cov(dataUV) # Kovarianzmatrix
@@ -24,6 +29,8 @@ corrplot(R_UV)
 
 
 
+
+## PCA ----
 
 PCA1 <- pca(r = R_UV, nfactors = 6, rotate = "none")
 PCA1
@@ -56,11 +63,15 @@ round(t(PCA1$weights) %*% PCA1$weights, 3)
 
 round(t(PCA1$weights) %*% PCA1$weights %*% diag(PCA1$values), 10)
 
+#### Bestimmung der Komponentenzahl ----
+
 fa.parallel(dataUV, fa = "pc", error.bars = T)
 # Eigenwerte größer 1?
 abline(h = 1)
 
 
+
+#### PCA mit 2 Hauptkomponenten ----
 
 PCA2 <- pca(r = R_UV, nfactors = 2, rotate = "none")
 PCA2
@@ -68,6 +79,8 @@ PCA2
 
 
 plot(PCA2, pch = 1)
+
+#### PCA mit 2 Hauptkomponenten mit Varimax-Rotation ----
 
 PCA3 <- pca(r = R_UV, nfactors = 2, rotate = "varimax")
 PCA3
@@ -79,6 +92,8 @@ plot(PCA3, cex = 2)
 fa.diagram(PCA3)
 
 
+
+#### Bilden der Hauptkomponenten als neue Variablen ----
 
 PCs <- as.matrix(dataUV) %*% PCA3$weights
 
@@ -103,6 +118,8 @@ summary(mx)
 mpca <- lm(data$y ~ 1 + PCs[,1] + PCs[,2])
 summary(mpca)
 
+#### Appendix A ----
+
 corrplot(R_UV, method = "color",tl.col = "black", addCoef.col = "black",
          col=colorRampPalette(c("red","white","blue"))(100))
 
@@ -122,6 +139,8 @@ plot(PCA3, xlim = c(-1,1),ylim = c(-1,1), cex  = 2)
 par(new=TRUE) # neuen Plot erzeugen, welcher über den bereits erzeugten geplottet wird
 plot(PCA2, xaxt = "n", yaxt = "n", ylab = "", xlab = "", xlim = c(-1,1),ylim = c(-1,1), pch = 1)
 
+#### Appendix B ----
+
 eigen(cor(dataUV))
 
 Gamma <- eigen(R_UV)$vectors
@@ -134,6 +153,8 @@ Lambda <- Gamma %*% diag(sqrt(theta)) # sqrt zieht die Wurzel!
 Lambda
 PCA1$loadings[,] # Vergleich mit den Ladungen aus der pca-Funktion
 
+#### Exkurs ----
+
 dataUV$X <- rowMeans(dataUV)
 R2 <- cor(dataUV)
 round(R2,2)
@@ -143,6 +164,8 @@ plot(eigen(R2)$values, type="l", ylab = "Eigenwert", xlab = "Hauptkomponente")
 abline(h=0, col="red")
 solve(R2)
 
+## #### Appendix C ----
+## 
 ## install.packages("devtools")
 ## devtools::install_github("https://github.com/martscht/PCArt")
 
