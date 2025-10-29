@@ -1,15 +1,29 @@
 wuerfel <- c(1:6)
 expand.grid(wuerfel,wuerfel)
 
-pos <- expand.grid(wuerfel,wuerfel)
-pos$sum <- pos$Var1+pos$Var2
-sum(pos$sum) / nrow(pos)
+pos <- expand.grid(wuerfel,wuerfel) # Abspeichern der möglichen Würfelkombinationen
+pos$rowsum <- rowSums(pos) # Augensumme der beiden Würfelspalten
+pos$rowsum
+
+hist(rowSums(expand.grid(wuerfel,wuerfel)),
+        main = "Augensumme beim zweifachen Münzwurf",
+        xlab = "Augensumme",
+        ylab = "Häufigkeit",
+     breaks = c(1.5:12.5))
+axis(1, at = seq(floor(min(rowSums(expand.grid(wuerfel,wuerfel)))), ceiling(max(rowSums(expand.grid(wuerfel,wuerfel)))), by = 1))
+
+x_i <- unique(pos$rowsum) # Alle Ausprägungen der Zufallsvariable
+pi_i <- prop.table(table(pos$rowsum)) # Wahrscheinlichkeit der Ausprägung xi (über die relative Häufigkeit)
+e_x <- sum(x_i * pi_i) # Berechnung des Erwartungswerts
+e_x
+
+
 
 sample(x = wuerfel, size = 1)
 
 sample(x = wuerfel, size = 2, replace = TRUE)
 
-sample(x = wuerfel, size = 2, replace = TRUE) |> sum()
+sum(sample(x = wuerfel, size = 2, replace = TRUE)) 
 
 replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 
@@ -47,7 +61,11 @@ dbinom(x = 20, size = 100, prob = 0.2)
 
 x <- c(0:100)   # alle möglichen Werte für x in unserem Beispiel
 probs <- dbinom(x, size = 100, prob = 0.2) #Wahrscheinlichkeiten für alle möglichen Werte
-plot(x = x, y = probs, type = "h", xlab = "Häufigkeiten des Ereignis Grün", ylab = "Wahrscheinlichkeit bei 100 Drehungen")
+plot(x = x, 
+     y = probs, 
+     type = "h", 
+     xlab = "Häufigkeiten des Ereignis Grün", 
+     ylab = "Wahrscheinlichkeit bei 100 Drehungen")
 
 
 
@@ -67,9 +85,11 @@ plot(x = x, y = probs, type = "h",
 
 
 
-qbinom(p = 0.1, size = 100, prob = 0.2, lower.tail = TRUE)
+qbinom(p = 0.3, size = 100, prob = 0.2, lower.tail = TRUE)
 
-rbinom(n = 1, size = 100, prob = 0.2)
+
+
+rbinom(n = 2, size = 100, prob = 0.2) # 100-fache Drehung mit einer Trefferwahrscheinlichkeit 0.2 wird 2-Mal durchgeführt
 
 
 
@@ -108,4 +128,4 @@ qnorm(p = 0.5, mean = 100, sd = 15, lower.tail = TRUE)
 
 
 set.seed(500)                   #zur Konstanthaltung der zufälligen Ergebnisse
-rnorm(10,mean = 100,sd = 15)
+rnorm(n = 10, mean = 100, sd = 15)
