@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag wird die Deskriptivstatistik für intervallskalierte Variablen vorgestellt. Dabei wird zunächst die Berechnung des Mittelwerts, der Varianz sowie Standardabweichung behandelt. Dann wird gezeigt, wie Variablen zentriert bzw. standardisiert werden können. Abschließend geht es außerdem um das Rekodieren von Items und das Bilden von Skalenwerten.' 
 authors: [nehler, beitner, buchholz] 
 weight: 3
-lastmod: '2025-10-20'
+lastmod: '2025-10-29'
 featured: no
 banner:
   image: "/header/frogs_on_phones.jpg"
@@ -68,26 +68,26 @@ Absolut | absoluter Wert | Identität | ... | ... |
 
 ## Vorbereitende Schritte {#prep}
 
-Den Datensatz `fb24` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
+Den Datensatz `fb25` haben wir bereits über diesen [{{< icon name="download" pack="fas" >}} Link heruntergeladen](/daten/fb25.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. Im letzten Tutorial und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben: 
 
 
-```r
+``` r
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb24.rda'))
+load(url('https://pandar.netlify.app/daten/fb25.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb24$hand_factor <- factor(fb24$hand,
+fb25$hand_factor <- factor(fb25$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb24$fach <- factor(fb24$fach,
+fb25$fach <- factor(fb25$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb24$ziel <- factor(fb24$ziel,
+fb25$ziel <- factor(fb25$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb24$wohnen <- factor(fb24$wohnen, 
+fb25$wohnen <- factor(fb25$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 ```
@@ -95,15 +95,15 @@ fb24$wohnen <- factor(fb24$wohnen,
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
-```r
-dim(fb24)
+``` r
+dim(fb25)
 ```
 
 ```
-## [1] 192  43
+## [1] 211  44
 ```
 
-Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und 43 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus 211 Zeilen (Beobachtungen) und 44 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ***
@@ -132,43 +132,20 @@ Für das Tutorial benutzen wir einen Skalenwert aus dem ausgefüllten Fragebogen
 Wir haben den Skalenwert bereits in der Vorbereitung des Datesnatzes für Sie erstellt. Dabei haben wir den Mittelwert aus Ihren Antworten auf die 5 Items berechnet. Wir werden uns später noch anschauen wie die Erstellung eines Skalenwertes abläuft. Für Lebeszufriedenheit ist der Skalenwert für jede einzelne Person nun in der Spalte `lz` in unserem Datensatz zu finden. Indem wir die Variable ansprechen, können wir uns die Ausprägungen anzeigen lassen.
 
 
-```r
-fb24$lz
+``` r
+fb25$lz
 ```
 
 ```
-##   [1] 6.6 4.0 5.2 4.0 5.0 4.4
-##   [7] 6.4 4.0 4.6 6.0 3.8 3.4
-##  [13] 6.6 6.4 5.8 4.6 4.6 2.0
-##  [19] 4.6 5.2 4.0 6.4 4.8 5.0
-##  [25] 6.8 2.6 4.6 4.4 5.6 5.6
-##  [31] 3.0 4.8 3.8 5.5 5.4 5.8
-##  [37] 5.8 4.6 4.6 4.2 4.8 4.2
-##  [43] 5.0 4.8 6.0 3.2 6.0 6.0
-##  [49] 5.6 5.2 2.8 5.4 5.0 5.6
-##  [55] 3.8 4.8 4.2 4.0 3.0 4.6
-##  [61] 5.8 5.8 5.0 5.8 5.2 5.4
-##  [67] 5.8 4.0 2.6 6.0 5.8 6.6
-##  [73] 4.4 4.4 7.0 6.0 4.4 5.4
-##  [79] 5.8 5.2 4.8 4.4 2.6 4.4
-##  [85]  NA 6.6 5.0 5.2 7.0 4.6
-##  [91] 4.0 3.8 6.6 3.8 6.4 4.4
-##  [97] 5.6 5.6 6.8 3.2 3.2 5.4
-## [103] 5.0 6.0 5.8 2.8 3.6 5.4
-## [109] 6.6 3.6 3.8 6.4 5.0 2.4
-## [115] 5.4 4.8 4.4 3.6 5.2 4.4
-## [121] 4.8 4.8 5.8 5.4 5.6 3.6
-## [127] 5.0 3.2 6.0 4.8 4.4 5.4
-## [133] 4.4 3.8 6.2 2.2 5.8 6.2
-## [139] 4.0 5.6 5.4 6.2 2.4 6.4
-## [145] 3.0 6.2 5.4 6.4 5.2 4.8
-## [151] 6.8 5.6 4.0 4.8 3.4 5.8
-## [157] 5.2 4.2 4.6 6.0 6.2 3.8
-## [163] 6.8 3.6 3.4 4.2 6.2 4.8
-## [169] 5.0 4.6 6.2 5.6 3.6 4.4
-## [175] 3.8 4.8 5.8 7.0 6.4 2.4
-## [181] 2.0 2.4 5.8 4.4 6.0 5.4
-## [187] 6.0 5.0 5.0 6.2 6.0 5.6
+##   [1] 5.0 3.0 5.0 6.0 5.8 5.2 4.6 4.8 6.8 2.6 5.4 5.8 5.4 4.6 6.6 5.0 6.8 5.2 6.8 6.8 5.8 5.0 6.2 5.6 6.0
+##  [26] 5.0 5.2 5.2 3.2 6.0 5.2  NA 1.4 5.0 3.2 6.4 5.0 5.6 6.8 1.8 4.2 2.4 4.6 4.2 5.6 4.6 6.2 3.2 3.6 6.0
+##  [51] 3.2 2.4 5.4 5.4 3.8 6.4 6.2 3.4 1.4 5.0 5.0 4.8 6.2 5.8 2.0 6.8 6.2 4.0 3.8 6.2 5.6 6.0 5.4 4.4 6.0
+##  [76] 5.6 5.4 4.2 5.4 5.8 5.8 2.2 5.2 6.0 2.4 4.6 2.8 4.0 4.4 5.8 2.4 2.2 5.0 7.0 3.2 5.8 6.0 5.0 4.8 7.0
+## [101] 6.0 4.8 2.8 5.4 6.8 5.2 5.2 1.0 1.2 5.6 4.6 4.4 4.8 6.0 6.2 3.0 6.0 5.6 5.0 4.6 6.0 3.2 6.4 4.4 3.4
+## [126] 5.8 5.6 5.8 6.0 4.8 2.8 6.0 4.0 4.6 6.0 6.4 6.0 6.4 3.8 3.0 6.2 4.0 6.4 4.8 5.6 1.0 2.6 6.0 6.2 4.0
+## [151] 5.0 4.0 6.2 5.4 6.0 5.6 5.4 5.0 3.8 5.6 4.8 6.2 6.0 6.0 2.6 4.2 4.0 3.2 3.2 7.0 5.8 6.6 6.2 5.4 5.0
+## [176] 4.2 3.2 4.8 4.4 4.0 5.6 6.2 4.8 4.8 4.6 5.6 4.4 6.0 5.0 4.4 5.0 5.4 3.8 3.6 4.4 4.0 4.8 4.6 6.8 4.2
+## [201] 4.8 2.6 3.4 5.0 3.8 5.8 4.4 6.8 6.2 6.0 5.8
 ```
 
 Auf den ersten Blick ist es schwer, aus so einer großen Menge an unterschiedlichen Werten ein Fazit zu ziehen. Um eine Stichprobe zusammenzufassen, lernen wir heute deskriptive Maße kennen. Zunächst lässt sich aber feststellen, dass wir es auch auf dem Skalenwert mit fehlenden Werten (`NA`) zu tun haben. 
@@ -179,28 +156,28 @@ Bevor wir uns mit neuen Kennwerten beschäftigen, werfen wir nochmal einen Blick
 Statistische Verfahren sind "rückwärtskompatibel", d.h. alle Berechnungen, die auf nominalskalierte und ordinalskalierte Variablen anwendbar sind, lassen sich auch auf mindestens intervallskalierte Variablen anwenden. Das bedeutet, dass bspw. Range, Quantile und Median weiterhin valide bestimmt werden können.
 
 
-```r
+``` r
 # Minimum & Maximum
-range(fb24$lz, na.rm=T)
+range(fb25$lz, na.rm=T)
 ```
 
 ```
-## [1] 2 7
+## [1] 1 7
 ```
 
-```r
+``` r
 # Quartile & Median
-quantile(fb24$lz, c(.25, .5, .75), na.rm=T)
+quantile(fb25$lz, c(.25, .5, .75), na.rm=T)
 ```
 
 ```
 ## 25% 50% 75% 
-## 4.2 5.0 5.8
+## 4.2 5.0 6.0
 ```
 
-```r
+``` r
 #Box-Whisker Plot
-boxplot(fb24$lz)
+boxplot(fb25$lz)
 ```
 
 ![](/deskriptiv-intervall_files/unnamed-chunk-4-1.png)<!-- -->
@@ -209,37 +186,37 @@ Die Betrachtung zeigt uns, dass die meisten Werte Ihrer selbstberichteten Lebens
 
 ## Histogramme
 
-Um die Verteilung der Werte für eine mindestens intervallskalierte noch besser betrachten zu können, wird sehr häufig das Histogramm als grafische Darstellungsform genutzt. Dieses fasst die kontinuierlichen Werte in Klassen (Kategorien, Intervalle) zusammen. Anschließend wird eine Häufigkeitsverteilung (ähnlich dem Barplot) für die kategorisierten Daten (sekundäre Häufigkeitsverteilung) erstellt. Grundlegend kann solch eine Grafik über den Befehl `hist()` angefordert werden.
+Um die Verteilung der Werte für eine mindestens intervallskalierte Variable noch besser betrachten zu können, wird sehr häufig das Histogramm als grafische Darstellungsform genutzt. Dieses fasst die kontinuierlichen Werte in Klassen (Kategorien, Intervalle) zusammen. Anschließend wird eine Häufigkeitsverteilung (ähnlich dem Barplot) für die kategorisierten Daten (sekundäre Häufigkeitsverteilung) erstellt. Grundlegend kann solch eine Grafik über den Befehl `hist()` angefordert werden.
 
 
-```r
+``` r
 # Histogramm
-hist(fb24$lz)
+hist(fb25$lz)
 ```
 
 ![](/deskriptiv-intervall_files/unnamed-chunk-5-1.png)<!-- -->
 
-Natürlich kann man auch hier zusätzliche Argumente nutzen, die die Optik des Histogramms verändern. Dabei können beispielsweise Farbe, Achsenbeschriftungen oder auch der Titel verändert werden. Damit haben wir uns aber bereits auseinandergesetzt und wiederholen es deswegen an dieser Stelle nicht nochmal. Eine neue Bearbeitungsoption für den Plot ist aber das Argument `breaks`. Hierin wird beschrieben, an welchem Ort eine Kategorie anfängt und wieder aufhört. bspw. startet die erste Kategorie bei 1 und geht bis 3, die zweite dann bei 3 bis 5 und die vierte von 5 bis 7. Die Anzahl der Breakpoints wäre in diesem Beispiel 4 (`c(1, 3, 5, 7)`). Ohne eigenen Input bestimmt `R` dieses komplett selbst. Wir können aber auch einen Wert zuordnen - bspw. eine ganze Zahl. 
+Natürlich kann man auch hier zusätzliche Argumente nutzen, die die Optik des Histogramms verändern. Dabei können beispielsweise Farbe, Achsenbeschriftungen oder auch der Titel verändert werden. Damit haben wir uns aber bereits auseinandergesetzt und wiederholen es deswegen an dieser Stelle nicht nochmal. Eine neue Bearbeitungsoption für den Plot ist aber das Argument `breaks`. Hierin wird beschrieben, an welchem Ort eine Kategorie anfängt und wieder aufhört. Bspw. startet die erste Kategorie bei 1 und geht bis 3, die zweite dann bei 3 bis 5 und die vierte von 5 bis 7. Die Anzahl der Breakpoints wäre in diesem Beispiel 4 (`c(1, 3, 5, 7)`). Ohne eigenen Input bestimmt `R` dieses komplett selbst. Wir können aber auch einen Wert zuordnen - bspw. eine ganze Zahl. 
 
 
-```r
+``` r
 # Histogramm (20 Breakpoints anfordern)
-hist(fb24$lz,
+hist(fb25$lz,
      breaks = 20)
 ```
 
 ![](/deskriptiv-intervall_files/unnamed-chunk-6-1.png)<!-- -->
 
-Das Argument ist eine weiche Einstellung. `R` weiß jetzt, dass wir 20 Kategorien bevorzugen. Im Hintergrund laufen aber Funktionen ab, die einen optisch ansprechenden Code produzieren. Deshalb erhalten wir mehr als 20 Breakpoints. Eine weiche Einstellung bedeutet also, dass `R` das Argument nicht als Pflicht übernimmt. Dieses Phänomen werden wir relativ selten im Verlauf des Semesters sehen. Es wird aber in der Hilfe `?hist` im Unterpunkt `breaks` beschrieben. 
+Das Argument ist eine weiche Einstellung. `R` weiß jetzt, dass wir 20 Kategorien bevorzugen. Im Hintergrund laufen aber Funktionen ab, die einen optisch ansprechenden Code produzieren. Deshalb erhalten wir weniger als 20 Breakpoints. Eine weiche Einstellung bedeutet also, dass `R` das Argument nicht als Pflicht übernimmt. Dieses Phänomen werden wir relativ selten im Verlauf des Semesters sehen. Es wird aber in der Hilfe `?hist` im Unterpunkt `breaks` beschrieben. 
 
 Werte, die genau auf einem Break liegen, werden standardmäßig der Kategorie zugeordnet, von der sie den Abschluss bilden. Wenn die Breaks `c(1, 1.5, 2)` sind, wird ein Wert von 1.5 der ersten Kategorie zugeordnet. Dies gilt mit Ausnahme der untersten Kategorie - hier würde ein Wert von 1 natürlich auch der ersten Kategorie und nicht der nullten Kategorie, die es nicht gibt, zugeordnet werden. 
 
 Achtung! Die Anzahl der Kategorien kann den Eindruck der Daten beeinflussen. Hier erstellen wir ein Beispiel dafür, wie wir jeden Breakpoint selbst bestimmen können und auch den Eindruck der Daten manipulieren.
 
 
-```r
+``` r
 # Histogramm (ungleiche Kategorien)
-hist(fb24$lz,
+hist(fb25$lz,
      breaks = c(1, 3, 3.3, 3.6, 3.9, 4.5, 5, 7))
 ```
 
@@ -251,18 +228,18 @@ Für die eigene Bestimmung der Grenzen muss also anstatt einer ganzen Zahl dem B
 
 Betrachten wir nun, wie in `R` das Maß der zentralen Tendenz für mindestens intervallskalierte Daten per Funktion bestimmt werden kann. In der Vorlesung haben Sie die Formel zur Bestimmung kennen gelernt.
 
-**Formel:** ${x} = \frac{\sum_{m = 1}^n x_m}{n} = \frac{1}{n} \sum_{m = 1}^n x_m$
+**Formel:** $\bar{x} = \frac{\sum_{m = 1}^n x_m}{n} = \frac{1}{n} \sum_{m = 1}^n x_m$
 
 In `R` ist die Funktion zum Glück sehr intuitiv benannt. Dabei muss auch hier beachtet werden, dass fehlende Werte über `na.rm = T` ausgeschlossen werden, damit nicht auch als Ergebnis `NA` angezeigt.
 
 
-```r
+``` r
 # Arithmetisches Mittel
-mean(fb24$lz, na.rm = TRUE)
+mean(fb25$lz, na.rm = TRUE)
 ```
 
 ```
-## [1] 4.919895
+## [1] 4.890476
 ```
 
 ## Varianz
@@ -274,27 +251,27 @@ Für die Varianz haben Sie in der Vorlesung folgende Formel kennen gelernt:
 Wollen wir diese nun per Hand bestimmen, könnte folgender Code das für uns erledigen:
 
 
-```r
+``` r
 # Händische Varianzberechnung
-sum((fb24$lz - mean(fb24$lz, na.rm = TRUE))^2, na.rm = TRUE) / (nrow(fb24)-2)
+sum((fb25$lz - mean(fb25$lz, na.rm = TRUE))^2, na.rm = TRUE) / (nrow(fb25)-1)
 ```
 
 ```
-## [1] 1.321813
+## [1] 1.735243
 ```
 
-Achtung! Wir benötigen für die Varianzberechnung `n` (s. Formel)! Wir nutzen hier `nrow(fb24)`-1, weil `nrow(fb24)` nicht das richtige n anzeigt (1 Personen haben einen fehlenden Wert, daher die Anzahl an Zeilen minus der 1 fehlenden Werte = n).
+Achtung! Wir benötigen für die Varianzberechnung `n` (s. Formel)! Wir nutzen hier `nrow(fb25)`-1, weil `nrow(fb25)` nicht das richtige n anzeigt (1 Personen haben einen fehlenden Wert, daher die Anzahl an Zeilen minus der 1 fehlenden Werte = n).
 
 
-**Kleiner Diskurs zu fehlenden Werten:**
+**Kleiner Exkurs zu fehlenden Werten:**
 
 <img src="/deskriptiv-intervall_files/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
 
 Um zu prüfen, ob und wie viele fehlende Werte eine Variable hat, lässt sich z. B. folgende Syntax verwenden:
 
 
-```r
-is.na(fb24$lz) |> sum()
+``` r
+is.na(fb25$lz) |> sum()
 ```
 
 ```
@@ -304,46 +281,46 @@ is.na(fb24$lz) |> sum()
 Um die Länge einer Variablen ohne fehlende Werte (also die Anzahl an Beobachtungen auf einer Variablen) zu bestimmen, lässt sich z. B. folgende Syntax verwenden:
 
 
-```r
-na.omit(fb24$lz) |> length() # mit Pipe
+``` r
+na.omit(fb25$lz) |> length() # mit Pipe
 ```
 
 ```
-## [1] 191
+## [1] 210
 ```
 
-```r
-length(na.omit(fb24$lz))     # ohne Pipe
+``` r
+length(na.omit(fb25$lz))     # ohne Pipe
 ```
 
 ```
-## [1] 191
+## [1] 210
 ```
 
 Zur händischen Varianzberechnung können wir daher auch folgende Syntax verwenden:
 
 
-```r
+``` r
 # Händische Varianzberechnung
-sum((fb24$lz - mean(fb24$lz, na.rm = TRUE))^2, na.rm = TRUE) / (length(na.omit(fb24$lz)))
+sum((fb25$lz - mean(fb25$lz, na.rm = TRUE))^2, na.rm = TRUE) / (length(na.omit(fb25$lz)))
 ```
 
 ```
-## [1] 1.314892
+## [1] 1.735243
 ```
 
 
-## Verschiedene Varianzschätzer
+## Verschiedene Varianzschätzer {#Varianz}
 
 Sie haben sich eventuell schon gewundert, warum wir eine so bekannten Wert wie die Varianz per Hand bestimmen müssen. Mit der ersten Intuition findet man bereits eine Funktion für die Berechnung, `var()`. Folgendes Ergebnis liefert R, wenn wir die R-Funktion `var()` zur Berechnung der Varianz verwenden:
 
-```r
+``` r
 # R-interne Varianzberechnung
-var(fb24$lz, na.rm = TRUE)
+var(fb25$lz, na.rm = TRUE)
 ```
 
 ```
-## [1] 1.321813
+## [1] 1.743545
 ```
 
 Warum erhalten wir hier einen abweichenden Wert im Vergleich zu unserer händischen Varianzberechnung?
@@ -364,36 +341,36 @@ Ein enger Zusammenhang zwischen Populationsvarianz und empirischer Varianz ist b
 Um in R die empirische Varianz mithilfe der `var()`-Funktion zu berechnen, kann man die Populationsvarianz nutzen. Multipliziert man sie mit $\frac{n - 1}{n}$, erhält man die empirische Varianz.
 
 
-```r
+``` r
 # Umrechnung der Varianzen
-var(fb24$lz, na.rm = TRUE) * (nrow(fb24) - 1) / nrow(fb24)
+var(fb25$lz, na.rm = TRUE) * (nrow(fb25) - 1) / nrow(fb25)
 ```
 
 ```
-## [1] 1.314928
+## [1] 1.735282
 ```
 
-Achtung! Dies funktioniert in unserem Fall wieder nicht, da die Verwendung von `nrow(fb24)` - wie oben bereits angemerkt - nicht sinnvoll ist: `nrow(fb24)` ist nicht gleich n (es kommt `NA` 1 Mal vor), daher besser:
+Achtung! Dies funktioniert in unserem Fall wieder nicht, da die Verwendung von `nrow(fb25)` - wie oben bereits angemerkt - nicht sinnvoll ist: `nrow(fb25)` ist nicht gleich n (es kommt `NA` 1 Mal vor), daher besser:
 
 
-```r
+``` r
 # Umrechnung der Varianzen
-var(fb24$lz, na.rm = TRUE) * (length(na.omit(fb24$lz)) - 1) / (length(na.omit(fb24$lz)))
+var(fb25$lz, na.rm = TRUE) * (length(na.omit(fb25$lz)) - 1) / (length(na.omit(fb25$lz)))
 ```
 
 ```
-## [1] 1.314892
+## [1] 1.735243
 ```
 
 Alternativ, wenn man die fehlenden Werte händisch abzieht:
 
-```r
+``` r
 # Umrechnung der Varianzen
-var(fb24$lz, na.rm = TRUE) * (191 - 1) / 191
+var(fb25$lz, na.rm = TRUE) * (210 - 1) / 210
 ```
 
 ```
-## [1] 1.314892
+## [1] 1.735243
 ```
 
 
@@ -410,13 +387,13 @@ Auch bei der Standardabweichung bestimmt R den Populationsschätzer $\hat{\sigma
 
 
 
-```r
+``` r
 # Standardabweichung in R
-sd(fb24$lz, na.rm = TRUE) # Populationsschaetzer
+sd(fb25$lz, na.rm = TRUE) # Populationsschaetzer
 ```
 
 ```
-## [1] 1.149701
+## [1] 1.320434
 ```
 
 
@@ -427,26 +404,26 @@ $s_{X} = \sqrt{s^2_{X}} = \sqrt{\frac{\sum_{m=1}^n (x_m - \bar{x})^2}{n}}$
 Wir müssten das Ergebnis also wieder mit einem Faktor ($\sqrt{\frac{n - 1}{n}}$) multiplizieren, um die emprische Standardabweichung zu erhalten. 
 
 
-```r
+``` r
 # Umrechnung der Standardabweichung
-sd(fb24$lz, na.rm = TRUE) * sqrt((191 - 1) / 191)
+sd(fb25$lz, na.rm = TRUE) * sqrt((210 - 1) / 210)
 ```
 
 ```
-## [1] 1.146687
+## [1] 1.317286
 ```
 
 Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafür können wir einfach den bereits geschriebenen Code für die empirische Varianz nehmen und aus dem Ergebnis die Wurzel ziehen.
 
 
-```r
+``` r
 # Händische Berechnung der empirischen Standardabweichung
-(sum((fb24$lz - mean(fb24$lz, na.rm = TRUE))^2,
-    na.rm = TRUE) / (length(na.omit(fb24$lz)))) |> sqrt()
+(sum((fb25$lz - mean(fb25$lz, na.rm = TRUE))^2,
+    na.rm = TRUE) / (length(na.omit(fb25$lz)))) |> sqrt()
 ```
 
 ```
-## [1] 1.146687
+## [1] 1.317286
 ```
 
 ***
@@ -456,47 +433,43 @@ Alternativ kann diese natürlich auch komplett händisch berechnet werden. Dafü
 In der Vorlesung haben Sie gelernt, dass eine Variable zentriert oder standardisiert werden kann. Die Zentrierung sorgt für einen Mittelwert von 0, während die z-Standardisierung zusätzlich die Varianz auf 1 setzt. Die Variablenzentrierung und -standardisierung lässt sich in R per Hand berechnen.
 
 
-```r
+``` r
 # Zentrierung
-lz_c <- fb24$lz - mean(fb24$lz, na.rm = TRUE)
+lz_c <- fb25$lz - mean(fb25$lz, na.rm = TRUE)
 head(lz_c)    # erste 6 zentrierte Werte
 ```
 
 ```
-## [1]  1.68010471 -0.91989529
-## [3]  0.28010471 -0.91989529
-## [5]  0.08010471 -0.51989529
+## [1]  0.1095238 -1.8904762  0.1095238  1.1095238  0.9095238  0.3095238
 ```
 
-```r
+``` r
 # z-Standardisierung
-lz_z <- lz_c / sd(fb24$lz, na.rm = TRUE)
+lz_z <- lz_c / sd(fb25$lz, na.rm = TRUE)
 head(lz_z)    # erste 6 z-standardisierte Werte
 ```
 
 ```
-## [1]  1.46134044 -0.80011691
-## [3]  0.24363264 -0.80011691
-## [5]  0.06967438 -0.45220039
+## [1]  0.08294533 -1.43170850  0.08294533  0.84027224  0.68880686  0.23441071
 ```
 
 ...oder mit Hilfe bereits existierender Funktionen:
 
 
-```r
+``` r
 ## Befehl zum z-Standardisieren
-lz_z <- scale(fb24$lz, center = TRUE, scale = TRUE) # Mittelwert auf 0 und Varianz auf 1
+lz_z <- scale(fb25$lz, center = TRUE, scale = TRUE) # Mittelwert auf 0 und Varianz auf 1
 ## Befehl zum Zentrieren (ohne Varianzrelativierung)
-lz_c <- scale(fb24$lz, center = TRUE, scale = FALSE) # setzt Varianz nicht auf 1
+lz_c <- scale(fb25$lz, center = TRUE, scale = FALSE) # setzt Varianz nicht auf 1
 ```
 
-Beachten Sie, dass wir hier die z-standardisierten und zentrierten Werte jeweils in einem eigenen Objekt (`lz_z` und `lz_c`) und nicht als neue Variable im Datensatz (`fb24`) abgelegt haben. 
+Beachten Sie, dass wir hier die z-standardisierten und zentrierten Werte jeweils in einem eigenen Objekt (`lz_z` und `lz_c`) und nicht als neue Variable im Datensatz (`fb25`) abgelegt haben. 
 ***
 
 
 ## Skalenwerte
 
-Wie bereits besprochen, werden Fragebogendaten (also einzelne Items, die Versuchsteilnehmenden vorgelegt werden) meist ordinalskaliert erhoben. Um Intervallskalenniveau zu erreichen werden Items zu Skalenwerten verrechnet. Beispielsweise kann die Summe oder auch der Mittelwert verwendet werden. Darüber können viele mögliche Ausprägungen erzeugt werden und der Skalenwert wird als intervallskaliert behandelt. Doch nicht immer steigt man direkt in die Aggregation der Items ein. viele Fragebögen bestehen nämlich aus positiven und negativen Items, was eine Rekodierung nötig macht.
+Wie bereits besprochen, werden Fragebogendaten (also einzelne Items, die Versuchsteilnehmenden vorgelegt werden) meist ordinalskaliert erhoben. Um Intervallskalenniveau zu erreichen werden Items zu Skalenwerten verrechnet. Beispielsweise kann die Summe oder auch der Mittelwert verwendet werden. Darüber können Viele mögliche Ausprägungen erzeugt werden und der Skalenwert wird als intervallskaliert behandelt. Doch nicht immer steigt man direkt in die Aggregation der Items ein. viele Fragebögen bestehen nämlich aus positiv und negativ formulierten Items, was eine Rekodierung nötig macht.
 
 ### Items Rekodieren {#Rekodieren}
 
@@ -519,74 +492,63 @@ Auf der Abbildung konnten wir sehen, dass die möglichen Werte für die Beantwor
 
 **Variante 1: Lineare Transformation**
 
-```r
-fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 5)
-head(fb24$mdbf4)     # erste 6 Werte ohne Transformation
+``` r
+fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 5)
+head(fb25$mdbf4)     # erste 6 Werte ohne Transformation
 ```
 
 ```
-## [1] 1 1 1 2 1 3
+## [1] 1 2 2 1 1 1
 ```
 
-```r
-head(fb24$mdbf4_r)   # erste 6 Werte mit Transformation
+``` r
+head(fb25$mdbf4_r)   # erste 6 Werte mit Transformation
 ```
 
 ```
-## [1] 4 4 4 3 4 2
+## [1] 4 3 3 4 4 4
 ```
 
 * Allgemeine Form: $-1 \cdot (x_m - x_{\max} - 1)$   
 * Vorteil: schnell und einfach umsetzbar   
 * Nachteil: nur für Invertierung sinnvoll, nicht allgemeiner anwendbar   
 
-<details><summary><b>Quizfrage</b>: Ist dies eine zulässige Transformation für ordinalskalierte Variablen (wie Items)</summary>
-
-***Antwort***: Ja, denn die Ordnungsrelation bleibt hierbei erhalten! 
-
-</details>
-
-
-
 **Variante 2: Logische Filter**
 
 Mit Hilfe von logischen Filtern, die wir auch schon im [R-Intro](/lehre/statistik-i/crash-kurs/) kennen gelernt haben, können wir uns auch alle Antworten einer Ausprägung (z.B. 1) anzeigen lassen und diesen dann den transformierten Wert zuweisen. Durch die Invertierung wissen wir, dass dem Wert 1 der Wert 4 zugeordnet werden muss. Also können wir eine Abfrage nach allen Teilnehmenden machen, die die Antwort 1 gegeben haben.
 
 
-```r
-head(fb24$mdbf11 == 1, 15) #Zeige die ersten 15 Antworten
+``` r
+head(fb25$mdbf11 == 1, 15) #Zeige die ersten 15 Antworten
 ```
 
 ```
-##  [1]  TRUE  TRUE  TRUE FALSE
-##  [5] FALSE FALSE FALSE  TRUE
-##  [9] FALSE  TRUE FALSE  TRUE
-## [13]  TRUE  TRUE  TRUE
+##  [1]  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE
 ```
 
 Wir erhalten einen booleschen Vektor, der uns sagt, wo der Wert 1 auftaucht (`TRUE`) und wo nicht (`FALSE`).
 Mit Hilfe dieses booleschen Vektors können wir die Stellen ansteuern bzw. indizieren, in denen im transformierten Vektor dann eine 4 statt einer 1 stehen soll. Dies passiert für all die Stellen, an denen `TRUE` steht.
 
 
-```r
-fb24$mdbf11_r[fb24$mdbf11 == 1] <- 4
-fb24$mdbf11_r[fb24$mdbf11 == 2] <- 3
-fb24$mdbf11_r[fb24$mdbf11 == 3] <- 2
-fb24$mdbf11_r[fb24$mdbf11 == 4] <- 1
+``` r
+fb25$mdbf11_r[fb25$mdbf11 == 1] <- 4
+fb25$mdbf11_r[fb25$mdbf11 == 2] <- 3
+fb25$mdbf11_r[fb25$mdbf11 == 3] <- 2
+fb25$mdbf11_r[fb25$mdbf11 == 4] <- 1
 
-head(fb24$mdbf11)
-```
-
-```
-## [1] 1 1 1 2 3 2
-```
-
-```r
-head(fb24$mdbf11_r)
+head(fb25$mdbf11)
 ```
 
 ```
-## [1] 4 4 4 3 2 3
+## [1] 1 2 2 1 1 1
+```
+
+``` r
+head(fb25$mdbf11_r)
+```
+
+```
+## [1] 4 3 3 4 4 4
 ```
 
 * Durch logische Filter Personen auswählen, die auf Originalvariable den relevanten Wert haben  
@@ -600,40 +562,32 @@ head(fb24$mdbf11_r)
 Skalenwerte werden zumeist als Summen oder Mittelwerte der Items erstellt. Dafür kann man sich beispielsweise alle Daten, die der Skala zugrunde liegen, in einem eigenen kleinen Datensatz ablegen. Dieser Datensatz kann genutzt werden, um den Skalenwert wieder im Original abzulegen. Jede Person repräsentiert eine Zeile - `rowMeans()` berechnet den Mittelwert der Zeilen. Somit erhält jede Person einen eigenen Mittelwert über die Einträge. Führen wir das ganze beispielsweise für den Skalenwert zur gut/schlecht durch, die mit den 4 Items erhoben wurde. Wichtig ist hier auch, dass wir die rekodierten Items nehmen, da diese ja die "korrekte Richtung" aufweisen.
 
 
-```r
+``` r
 # neuen Datensatz der relevanten Variablen erstellen 
-gs_pre_data <- fb24[, c('mdbf1', 'mdbf4_r', 
+gs_pre_data <- fb25[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')]
 # Skalenwert in Originaldatensatz erstellen
-fb24$gs_pre <- rowMeans(gs_pre_data)
-head(fb24$gs_pre)
+fb25$gs_pre <- rowMeans(gs_pre_data)
+head(fb25$gs_pre)
 ```
 
 ```
-## [1] 4.00 3.75 3.50 3.00 3.00
-## [6] 2.25
+## [1] 3.5 3.0 3.0 4.0 4.0 3.5
 ```
 
 Natürlich kann die Erstellung auch in einem Befehl passieren - beispielsweise durch Verwendung der Pipe. Es gibt aber auch noch viele andere Optionen zur Skalenbildung - es wird (wie eigentlich fast immer) nur ein Ausschnitt der Möglichkeiten gezeigt.
 
 
-```r
+``` r
 # Direkter Befehle
-fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-head(fb24$gs_pre )
+head(fb25$gs_pre )
 ```
 
 ```
-## [1] 4.00 3.75 3.50 3.00 3.00
-## [6] 2.25
+## [1] 3.5 3.0 3.0 4.0 4.0 3.5
 ```
-
-<details><summary><b>Quizfrage</b>: Was bedeutet <code>NA</code> in <code>fb24$gs_pre</code>?</summary>
-
-***Antwort***: `NA` bedeutet in diesem Fall, dass eine teilnehmende Person mindestens ein Item nicht beantwortet hat. Da `rowMeans()` im Hintergrund auch nur `mean()` auf jeder Zeile aufruft, gibt es bei fehlenden Werten die Ausgabe `NA`. Wenn man das vermeiden möchte, kann man wieder das Argument `na.rm = TRUE` hinzufügen. Dabei muss man sich aber im Klaren sein, dass der Mittelwert dann auch für Personen berechnet wird, die nicht alle Items ausgefüllt haben. Im schlimmsten Fall sogar nur ein einziges von 10. Daher sollte solche Entscheidungen immer mit Bedacht getroffen werden.
-
-</details>
 
 
 ### Ergänzungen
