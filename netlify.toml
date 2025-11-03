@@ -1,8 +1,9 @@
 [build]
-  command = "hugo --gc --minify -b $URL"
+  command = "lsb_release -a && hugo version && hugo --gc --minify -b $URL"
   publish = "public"
 
 [build.environment]
+  IMAGE_VERSION = "ubuntu-24.04"
   HUGO_VERSION = "0.142.0"
   HUGO_ENABLEGITINFO = "false"
 
