@@ -67,7 +67,7 @@ pkg_df <- do.call(rbind, lapply(names(results), function(name) {
 cran_pkgs <- available.packages()
 pkg_df$in_version <- pkg_df$package %in% rownames(cran_pkgs)
 
-colnames(pkg_df) <- c("Package","Kategorie", version_name)
+colnames(pkg_df) <- c("Kategorie","Package", version_name)
 
 #### Output ----
 if (is.null(pkg_df) || nrow(pkg_df) == 0) {
