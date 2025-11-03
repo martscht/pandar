@@ -1,5 +1,5 @@
 [build]
-  command = "lsb_release -a && hugo version && hugo --gc --minify -b $URL"
+  command = "hugo --gc --minify -b $URL"
   publish = "public"
 
 [build.environment]
