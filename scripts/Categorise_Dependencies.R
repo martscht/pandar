@@ -1,6 +1,6 @@
 #### Parameter ----
 root <- "content"
-output_file <- "dependencies_categorised.csv"
+output_file <- "scripts/dependencies_categorised.csv"
 
 #### Hilfsfunktionen ----
 
@@ -62,6 +62,10 @@ pkg_df <- do.call(rbind, lapply(names(results), function(name) {
 }))
 
 
+# Hier wird geguckt ob die Packages in der gegebenen Version existieren - am Besten Version mit angeben in Column
+cran_pkgs <- available.packages()
+pkg_df$in_version_4_5_2 <- pkg_df$package %in% rownames(cran_pkgs)
+
 
 #### Output ----
 if (is.null(pkg_df) || nrow(pkg_df) == 0) {
@@ -78,4 +82,4 @@ if (is.null(pkg_df) || nrow(pkg_df) == 0) {
   }
 }
 
-file.path(getwd(), output)
+file.path(getwd(), output_file)
