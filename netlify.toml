@@ -3,8 +3,7 @@
   publish = "public"
 
 [build.environment]
-  IMAGE_VERSION = "ubuntu-24.04"
-  HUGO_VERSION = "0.142.0"
+  HUGO_VERSION = "0.142.0_extended"
   HUGO_ENABLEGITINFO = "false"
 
 [context.production.environment]
