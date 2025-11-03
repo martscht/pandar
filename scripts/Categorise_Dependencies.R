@@ -46,8 +46,6 @@ get_subfolder_packages <- function(folder) {
   unique(unlist(lapply(rmd_files, package_extract)))
 }
 
-
-
 #### Main ----
 
 subfolders <- get_subfolders(root)

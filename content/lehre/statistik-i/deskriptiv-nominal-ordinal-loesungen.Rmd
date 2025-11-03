@@ -49,25 +49,25 @@ Die Lösungen sind exemplarische Möglichkeiten. In `R` gibt es immer viele Wege
 
 ### Vorbereitung
 
-> Laden Sie die Daten aus [<i class="fas fa-download"></i> `fb24.rda`](/daten/fb24.rda) oder direkt von der Website über die gelernten Befehle. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie die Daten aus [<i class="fas fa-download"></i> `fb25.rda`](/daten/fb25.rda) oder direkt von der Website über die gelernten Befehle. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 <details><summary>Lösung</summary>
 
 Daten laden:
 
 ```{r}
-load(url('https://pandar.netlify.app/daten/fb24.rda'))  
+load(url('https://pandar.netlify.app/daten/fb25.rda'))  
 ```
 
 
 Überblick über den Datensatz verschaffen:
 
 ```{r}
-dim(fb24)
-str(fb24)
+dim(fb25)
+str(fb25)
 ```
 
-Der Datensatz besteht aus `r nrow(fb24)` Zeilen (Beobachtungen) und `r ncol(fb24)` Spalten (Variablen).
+Der Datensatz besteht aus `r nrow(fb25)` Zeilen (Beobachtungen) und `r ncol(fb25)` Spalten (Variablen).
 
 </details>
 
@@ -87,29 +87,29 @@ Untersuchen Sie, welche Arbeitsbranche Sie und Ihre Kommiliton:innen nach dem St
 **Faktor erstellen**
 
 ```{r}
-fb24$ziel <- factor(fb24$ziel,
+fb25$ziel <- factor(fb25$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-levels(fb24$ziel)
+levels(fb25$ziel)
 ```
 
 **Absolute und relative Häufigkeiten anfordern**  
 
 ```{r}
-table(fb24$ziel)              # absolut
-prop.table(table(fb24$ziel))  # relativ
+table(fb25$ziel)              # absolut
+prop.table(table(fb25$ziel))  # relativ
 ```
 
 **Zentrale Tendenz und Dispersion für nominalskalierte Variablen: Modus, relativer Informationsgehalt**
 
 ```{r}
 # Modus
-which.max(table(fb24$ziel))
+which.max(table(fb25$ziel))
 ```
 
 ```{r}
 #relativer Informationsgehalt
-hj <- prop.table(table(fb24$ziel))  # hj erstellen
+hj <- prop.table(table(fb25$ziel))  # hj erstellen
 ln_hj <- log(hj)                    # Logarithmus bestimmen
 summand <- ln_hj * hj               # Berechnung fuer jede Kategorie
 summe <- sum(summand)               # Gesamtsumme
@@ -118,7 +118,7 @@ relInf <- -1/log(k) * summe         # Relativer Informationsgehalt
 relInf
 ```
 
-Der Modus der Variable lautet `r names(which.max(table(fb24$ziel)))` - die meisten Ihres Jahrgangs (*n* = `r max(table(fb24$ziel))` bzw. `r round(max(prop.table(table(fb24$ziel)))*100,2)`%) streben einen Job in diesem Bereich an. Der relative Informationsgehalt der Variable beträgt `r round(relInf, 2)`. Sie sehen hier, dass wir im Code einen kleinen Unterschied zum Tutorial eingebaut haben. Die Anzahl der Kategorien wird nicht mehr durch `dim(tab)` sondern durch `length(hj)` bestimmt. Das Resultat ist nicht verschieden - die Anzahl der Kategorien wird gezählt. Wir wollen somit aber nochmal deutlich machen, dass es in `R` immer sehr viele Wege zu einem Ziel geben kann.
+Der Modus der Variable lautet `r names(which.max(table(fb25$ziel)))` - die meisten Ihres Jahrgangs (*n* = `r max(table(fb25$ziel))` bzw. `r round(max(prop.table(table(fb25$ziel)))*100,2)`%) streben einen Job in diesem Bereich an. Der relative Informationsgehalt der Variable beträgt `r round(relInf, 2)`. Sie sehen hier, dass wir im Code einen kleinen Unterschied zum Tutorial eingebaut haben. Die Anzahl der Kategorien wird nicht mehr durch `dim(tab)` sondern durch `length(hj)` bestimmt. Das Resultat ist nicht verschieden - die Anzahl der Kategorien wird gezählt. Wir wollen somit aber nochmal deutlich machen, dass es in `R` immer sehr viele Wege zu einem Ziel geben kann.
 
 </details>
 
@@ -137,31 +137,31 @@ Die Variable `therap` enthält die Angaben über das Ausmaß, in dem sich Sie un
 **Modus**
 
 ```{r}
-which.max(table(fb24$therap))
+which.max(table(fb25$therap))
 ```
 
 **Häufigkeiten**
 
 ```{r}
-table(fb24$therap)
-prop.table(table(fb24$therap))
+table(fb25$therap)
+prop.table(table(fb25$therap))
 ```
 
-Der Modus der Variable `therap` beträgt `r names(which.max(table(fb24$therap)))`, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = `r max(table(fb24$therap))` bzw. `r round(max(prop.table(table(fb24$therap)))*100,2)`%).
+Der Modus der Variable `therap` beträgt `r names(which.max(table(fb25$therap)))`, d.h. diese Antwortkategorie wurde am häufigsten genannt (*n* = `r max(table(fb25$therap))` bzw. `r round(max(prop.table(table(fb25$therap)))*100,2)`%).
 
 **Boxplot**
 
 ```{r}
-boxplot(fb24$therap)
+boxplot(fb25$therap)
 ```
 
 **Quartile**
 
 ```{r}
-quantile(fb24$therap, c(.25,.5,.75), na.rm=T)
+quantile(fb25$therap, c(.25,.5,.75), na.rm=T)
 ```
 
-Der Median beträgt `r quantile(fb24$therap, .5, na.rm=T)`. Das 1. und 3. Quartil betragen `r quantile(fb24$therap, .25, na.rm=T)` bzw. `r quantile(fb24$therap, .75, na.rm=T)`. Folglich sind die Grenzen des Interquartilsbereich (IQB) `r quantile(fb24$therap, .25, na.rm=T)` und `r  quantile(fb24$therap, .75, na.rm=T)`. Der Interquartilsabstand (IQA) beträgt `r  quantile(fb24$therap, .75, na.rm=T)-quantile(fb24$therap, .25, na.rm=T)`.
+Der Median beträgt `r quantile(fb25$therap, .5, na.rm=T)`. Das 1. und 3. Quartil betragen `r quantile(fb25$therap, .25, na.rm=T)` bzw. `r quantile(fb25$therap, .75, na.rm=T)`. Folglich sind die Grenzen des Interquartilsbereich (IQB) `r quantile(fb25$therap, .25, na.rm=T)` und `r  quantile(fb25$therap, .75, na.rm=T)`. Der Interquartilsabstand (IQA) beträgt `r  quantile(fb25$therap, .75, na.rm=T)-quantile(fb25$therap, .25, na.rm=T)`.
 
 </details>
 
@@ -172,14 +172,14 @@ Erstellen Sie für die Variable `wohnen` eine geeignete Abbildung.
 
 * Stellen Sie sicher, dass die einzelnen Ausprägungen der Variable in der Darstellung interpretierbar benannt sind!  
 * Dekorieren Sie diese Abbildung nach eigenen Wünschen (z.B. mit einer Farbpalette und Achsenbeschriftungen).
-* Speichern Sie die Grafik per Syntax als .jpg-Datei mit dem Namen "Befragung-fb24.jpg" ab.
+* Speichern Sie die Grafik per Syntax als .jpg-Datei mit dem Namen "Befragung-fb25.jpg" ab.
 
 <details><summary>Lösung</summary>
 
 **Faktor erstellen**
 
 ```{r}
-fb24$wohnen <- factor(fb24$wohnen, 
+fb25$wohnen <- factor(fb25$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
 ```
@@ -192,9 +192,9 @@ Um eine ansprechende Grafik zu erhalten, können wir einige Argumente anpassen. 
 # Ansprechende Darstellung
 barplot(
   # wichtig: Funktion auf Häufigkeitstabelle, nicht die Variable selbst anwenden:
-  table(fb24$wohnen),                               
+  table(fb25$wohnen),                               
   # aussagekräftiger Titel, inkl. Zeilenumbruch ("\n") 
-  main = "Befragung Erstis im WS 24/25:\nAktuelle Wohnsituation", 
+  main = "Befragung Erstis im WS 25/26:\nAktuelle Wohnsituation", 
   # y-Achsen-Beschriftung:
   ylab = "Häufigkeit",
   # Farben aus einer Farbpalette:
@@ -210,16 +210,16 @@ barplot(
   # Schriftausrichtung der Achsen horizontal:
   las=2,
   #y-Achse erweitern, sodass mehr Platz zum Titel bleibt:
-  ylim = c(0,60))
+  ylim = c(0,70))
 ```
 
 **Speichern (per Syntax)**
 
 ```{r, results = "hide"}
-jpeg("Befragung-fb24.jpg", width=20, height=10, units="cm", res=200)
+jpeg("Befragung-fb25.jpg", width=20, height=10, units="cm", res=200)
 barplot(
-  table(fb24$wohnen),                               
-  main = "Befragung Erstis im WS 24/25:\nAktuelle Wohnsituation", 
+  table(fb25$wohnen),                               
+  main = "Befragung Erstis im WS 25/26:\nAktuelle Wohnsituation", 
   ylab = "Häufigkeit",
   col = rainbow(10),
   space = 0.1,
@@ -227,7 +227,7 @@ barplot(
   density = c(50,75,25,50),
   angle = c(-45,0,45,90),
   las=2,
-  ylim = c(0,60))
+  ylim = c(0,70))
 dev.off()
 ```
 
