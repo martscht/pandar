@@ -1,6 +1,7 @@
 #### Parameter ----
 root <- "content"
 output_file <- "scripts/dependencies_categorised.csv"
+version_name <- paste("Verfügbar in:", substr(version$version.string, 11, 15), sep = " ")
 
 #### Hilfsfunktionen ----
 
@@ -64,8 +65,9 @@ pkg_df <- do.call(rbind, lapply(names(results), function(name) {
 
 # Hier wird geguckt ob die Packages in der gegebenen Version existieren - am Besten Version mit angeben in Column
 cran_pkgs <- available.packages()
-pkg_df$in_version_4_5_2 <- pkg_df$package %in% rownames(cran_pkgs)
+pkg_df$in_version <- pkg_df$package %in% rownames(cran_pkgs)
 
+colnames(pkg_df) <- c("Package","Kategorie", version_name)
 
 #### Output ----
 if (is.null(pkg_df) || nrow(pkg_df) == 0) {
