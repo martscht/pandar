@@ -13,7 +13,7 @@ authors:
 - vogler
 - schroeder
 weight: ~
-lastmod: '2025-05-13'
+lastmod: '2025-11-13'
 featured: no
 banner:
   image: /header/storch_with_baby.jpg
@@ -42,38 +42,37 @@ private: 'true'
 
 
 
-> Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/korrelation/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb25` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb25.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/korrelation/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
-```r
-dim(fb24)
+``` r
+dim(fb25)
 ```
 
 ```
-## [1] 192  55
+## [1] 211  56
 ```
 
-```r
-names(fb24)
+``` r
+names(fb25)
 ```
 
 ```
-##  [1] "mdbf1"       "mdbf2"       "mdbf3"       "mdbf4"       "mdbf5"      
-##  [6] "mdbf6"       "mdbf7"       "mdbf8"       "mdbf9"       "mdbf10"     
-## [11] "mdbf11"      "mdbf12"      "time_pre"    "lz"          "extra"      
-## [16] "vertr"       "gewis"       "neuro"       "offen"       "prok"       
-## [21] "nerd"        "uni1"        "uni2"        "uni3"        "uni4"       
-## [26] "grund"       "fach"        "ziel"        "wissen"      "therap"     
-## [31] "lerntyp"     "hand"        "job"         "ort"         "ort12"      
-## [36] "wohnen"      "attent"      "gs_post"     "wm_post"     "ru_post"    
-## [41] "time_post"   "attent_post" "hand_factor" "fach_klin"   "unipartys"  
-## [46] "mdbf4_r"     "mdbf11_r"    "mdbf3_r"     "mdbf9_r"     "mdbf5_r"    
-## [51] "mdbf7_r"     "wm_pre"      "gs_pre"      "ru_pre"      "ru_pre_zstd"
+##  [1] "mdbf1"       "mdbf2"       "mdbf3"       "mdbf4"       "mdbf5"       "mdbf6"      
+##  [7] "mdbf7"       "mdbf8"       "mdbf9"       "mdbf10"      "mdbf11"      "mdbf12"     
+## [13] "time_pre"    "lz"          "extra"       "vertr"       "gewis"       "neuro"      
+## [19] "offen"       "prok"        "trust"       "uni1"        "uni2"        "uni3"       
+## [25] "uni4"        "sicher"      "angst"       "fach"        "ziel"        "wissen"     
+## [31] "therap"      "lerntyp"     "hand"        "job"         "ort"         "ort12"      
+## [37] "wohnen"      "attent_pre"  "gs_post"     "wm_post"     "ru_post"     "time_post"  
+## [43] "attent_post" "hand_factor" "fach_klin"   "unipartys"   "mdbf4_r"     "mdbf11_r"   
+## [49] "mdbf3_r"     "mdbf9_r"     "mdbf5_r"     "mdbf7_r"     "wm_pre"      "gs_pre"     
+## [55] "ru_pre"      "ru_pre_zstd"
 ```
 
-Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und 55 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus 211 Zeilen (Beobachtungen) und 56 Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ***
@@ -106,17 +105,17 @@ Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglic
   * Überprüfen Sie die Voraussetzungen für die Pearson-Korrelation.
   * Erstellen Sie für diese Frage eine Korrelationsmatrix, die alle Korrelationen enthält. Verwenden Sie die Funktion `round()` (unter Betrachtung der Hilfe), um die Werte auf zwei Nachkommastellen zu runden und die Tabelle dadurch übersichtlicher darzustellen.
   * Wie würden Sie das Ausmaß der betragsmäßig größten Korrelation mit der Lebenszufriedenheit nach den Richtlinien von Cohen (1988) einschätzen?
-  * Ist der Korrelationskoeffizient von Neurotizismus und Lebenszufriedenheit statistisch bedeutsam?
+  * Ist der Korrelationskoeffizient von Extraversion und Lebenszufriedenheit statistisch bedeutsam?
 
 ## Aufgabe 4
 
-Untersuchen Sie die Korrelation zwischen Nerdiness (`nerd`) und Prokrastinationstendenz (`prok`). Berechnen Sie dafür ein geeignetes Korrelationsmaß und testen Sie dieses auf Signifikanz.
+Untersuchen Sie die Korrelation zwischen Gewissenhaftigkeit (`gewis`) und Prokrastinationstendenz (`prok`). Berechnen Sie dafür ein geeignetes Korrelationsmaß und testen Sie dieses auf Signifikanz.
 
 
 ## Aufgabe 5 Bonus
 
 Im vorherigen Kapitel haben wir die Poweranalyse behandelt. Solche Analysen kann man auch für Korrelationen verwirklichen. Frischen Sie gerne Ihren Wissensstand [hier](/lehre/statistik-i/simulation-poweranalyse/) noch einmal auf.
-Daher, führen sie mit Hilfe des Pakets `WebPower` eine Sensitivitätsanalyse für den Datensatz `fb24` unter folgenden Parametern durch:
+Daher, führen sie mit Hilfe des Pakets `WebPower` eine Sensitivitätsanalyse für den Datensatz `fb25` unter folgenden Parametern durch:
 
   * Fehler 1. Art ($\alpha = 5\%$)
   * Fehler 2. Art ($\beta = 20\%$)

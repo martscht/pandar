@@ -49,63 +49,62 @@ if (exists("figure_path")) {
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb24.rda'))
+load(url('https://pandar.netlify.app/daten/fb25.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb24$hand_factor <- factor(fb24$hand,
+fb25$hand_factor <- factor(fb25$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb24$fach <- factor(fb24$fach,
+fb25$fach <- factor(fb25$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb24$ziel <- factor(fb24$ziel,
+fb25$ziel <- factor(fb25$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb24$wohnen <- factor(fb24$wohnen, 
+fb25$wohnen <- factor(fb25$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-fb24$fach_klin <- factor(as.numeric(fb24$fach == "Klinische"),
+fb25$fach_klin <- factor(as.numeric(fb25$fach == "Klinische"),
                          levels = 0:1,
                          labels = c("nicht klinisch", "klinisch"))
-fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-fb24$job <- factor(fb24$job, levels=c(1,2), labels=c("nein", "ja"))
-fb24$unipartys <- factor(fb24$uni3,
+fb25$ort <- factor(fb25$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb25$job <- factor(fb25$job, levels=c(1,2), labels=c("nein", "ja"))
+fb25$unipartys <- factor(fb25$uni3,
                              levels = 0:1,
                              labels = c("nein", "ja"))
 
 # Rekodierung invertierter Items
-fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 4 - 1)
-fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 4 - 1)
-fb24$mdbf3_r <-  -1 * (fb24$mdbf3 - 4 - 1)
-fb24$mdbf9_r <-  -1 * (fb24$mdbf9 - 4 - 1)
-fb24$mdbf5_r <- -1 * (fb24$mdbf5 - 4 - 1)
-fb24$mdbf7_r <- -1 * (fb24$mdbf7 - 4 - 1)
+fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 4 - 1)
+fb25$mdbf11_r <- -1 * (fb25$mdbf11 - 4 - 1)
+fb25$mdbf3_r <-  -1 * (fb25$mdbf3 - 4 - 1)
+fb25$mdbf9_r <-  -1 * (fb25$mdbf9 - 4 - 1)
+fb25$mdbf5_r <- -1 * (fb25$mdbf5 - 4 - 1)
+fb25$mdbf7_r <- -1 * (fb25$mdbf7 - 4 - 1)
 
 # Berechnung von Skalenwerten
-fb24$wm_pre  <- fb24[, c('mdbf1', 'mdbf5_r', 
+fb25$wm_pre  <- fb25[, c('mdbf1', 'mdbf5_r', 
                         'mdbf7_r', 'mdbf10')] |> rowMeans()
-fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6", 
                          "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
+fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
 
 # Weitere Standardisierungen
-fb24$nerd_std <- scale(fb24$nerd)
-fb24$neuro_std <- scale(fb24$neuro)
+fb25$neuro_std <- scale(fb25$neuro)
 ```
 
-> Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/multiple-reg/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb25` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb25.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/multiple-reg/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 ```{r}
-dim(fb24)
+dim(fb25)
 ```
 
-Der Datensatz besteht aus `r nrow(fb24)` Zeilen (Beobachtungen) und `r ncol(fb24)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus `r nrow(fb25)` Zeilen (Beobachtungen) und `r ncol(fb25)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ***
@@ -119,9 +118,9 @@ Sie vermuten, dass bestimmte Persönlichkeitsmerkmale die Prokrastinationstenden
 Dafür reduzieren Sie zunächst Ihren Datensatz auf die relevanten Variablen und entfernen sämtliche fehlende Werte:
 
 ```{r}
-fb24_short <- subset(fb24, select = c("extra", "vertr", "gewis", "neuro", "offen", "prok"))
+fb25_short <- subset(fb25, select = c("extra", "vertr", "gewis", "neuro", "offen", "prok"))
 
-fb24_short <- na.omit(fb24_short)
+fb25_short <- na.omit(fb25_short)
 ```
 
 <details>
@@ -134,10 +133,10 @@ Da wir im Folgenden erneut mit den Big Five Variablen arbeiten, gehen wir dieser
 
 ```{r}
 #Gibt es mindestens ein fehlenden Wert auf den 6 Variablen?
-anyNA(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
+anyNA(fb25[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 
 #Auf welcher Variable und wie viele NA's gibt es?
-summary(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
+summary(fb25[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 #ein NA auf vertr
 ```
 
@@ -151,7 +150,7 @@ summary(fb24[, c("extra", "vertr", "gewis", "neuro", "offen", "prok")])
 <summary>Lösung</summary>
 
 ```{r}
-mod_base <- lm(prok ~ neuro + gewis, data = fb24_short)
+mod_base <- lm(prok ~ neuro + gewis, data = fb25_short)
 ```
 
 </details>
@@ -180,28 +179,28 @@ mod_base <- lm(prok ~ neuro + gewis, data = fb24_short)
 # Korrekte Spezifikation des Modells --> Linearität
 
 #Einfache Regressionsmodelle aufstellen
-mod_neuro <- lm(prok ~ neuro, data = fb24_short)
+mod_neuro <- lm(prok ~ neuro, data = fb25_short)
 
-mod_gewis <- lm(prok ~ gewis, data = fb24_short)
+mod_gewis <- lm(prok ~ gewis, data = fb25_short)
 
 #Überprüfung der Linearität
 par(mfrow = c(1, 2))
 
-plot(fb24_short$prok ~ fb24_short$neuro, 
+plot(fb25_short$prok ~ fb25_short$neuro, 
      xlab = "Neurotizismus", 
      ylab = "Prokrastinationstendenz")
-lines(lowess(fb24_short$neuro, fb24_short$prok), col = "red")
+lines(lowess(fb25_short$neuro, fb25_short$prok), col = "red")
 abline(mod_neuro, col = "blue")
 
 
-plot(fb24_short$prok ~ fb24_short$gewis, 
+plot(fb25_short$prok ~ fb25_short$gewis, 
      xlab = "Gewissenhaftigkeit",
      ylab = "Prokrastinationstendenz")
-lines(lowess(fb24_short$gewis, fb24_short$prok), col = "red")
+lines(lowess(fb25_short$gewis, fb25_short$prok), col = "red")
 abline(mod_gewis, col = "blue")
 ```
 
-Für beide Variablen sind klare lineare Verläufe erkennbar.
+Für beide Variablen sind lineare Verläufe erkennbar.
 
 ```{r}
 #1x2 Ansicht der Plots beenden
@@ -241,17 +240,17 @@ Dies ist selbst dann zu empfehlen wenn man die Pakete bereits geladen hat da so 
 
 ```{r}
 #Extraversion
-mod_base_extra <- lm(prok ~ neuro + gewis + extra, data = fb24_short)
+mod_base_extra <- lm(prok ~ neuro + gewis + extra, data = fb25_short)
 
 anova(mod_base, mod_base_extra) #nicht signifikant
 
 #Verträglichkeit
-mod_base_vertr <- lm(prok ~ neuro + gewis + vertr, data = fb24_short)
+mod_base_vertr <- lm(prok ~ neuro + gewis + vertr, data = fb25_short)
 
 anova(mod_base, mod_base_vertr) #nicht signifikant
 
 #Offenheit für neue Erfahrungen
-mod_base_offen <- lm(prok ~ neuro + gewis + offen, data = fb24_short)
+mod_base_offen <- lm(prok ~ neuro + gewis + offen, data = fb25_short)
 
 anova(mod_base, mod_base_offen) #nicht signifikant
 ```
@@ -272,7 +271,7 @@ Keine weitere Dimension der Big Five  kommt als weiterer signifikanter Prädikto
 Somit lautet unser finales Modell weiterhin wie folgt:
 
 ```{r}
-mod_final <- lm(prok ~ neuro + gewis, data = fb24_short)
+mod_final <- lm(prok ~ neuro + gewis, data = fb25_short)
 
 summary(mod_final)
 ```
@@ -324,7 +323,7 @@ Falls Sie dort Schwierigkeiten hatten, benutzen Sie das Kontrollergebnis.
 <summary>Kontrollergebnis</summary>
 
 ```{r eval=FALSE}
-mod_final <- lm(prok ~ neuro + gewis, data = fb24_short)
+mod_final <- lm(prok ~ neuro + gewis, data = fb25_short)
 ```
 
 </details>
@@ -361,7 +360,7 @@ Somit lässt sich die Aussage treffen, das Neurotizismus im Vergleich zu Gewisse
 </details>
 
 
--   Welche Prokrastinationstendenz (`prok`) sagt das finale Modell für eine Person hervor, die auf allen inkludierten Prädiktoren genau in der Mitte der Stichprobe (`fb24`) liegt (Mittelwerte)?
+-   Welche Prokrastinationstendenz (`prok`) sagt das finale Modell für eine Person hervor, die auf allen inkludierten Prädiktoren genau in der Mitte der Stichprobe (`fb25`) liegt (Mittelwerte)?
 
 <details>
 
@@ -371,8 +370,8 @@ Im Folgenden werden drei Lösungsansätze gezeigt, die sich in ihrer Komplexitä
 
 ```{r}
 #1. Ansatz
-means <- data.frame(neuro = mean(fb24_short$neuro),
-                    gewis = mean(fb24_short$gewis))
+means <- data.frame(neuro = mean(fb25_short$neuro),
+                    gewis = mean(fb25_short$gewis))
 
 predict(mod_final, newdata = means)
 ```
@@ -383,7 +382,7 @@ Hierbei handelt es sich um den standard Ansatz wenn es darum geht für eine neue
 
 ```{r}
 #2. Ansatz
-mod_final_sc <- lm(prok ~ scale(neuro) + scale(gewis), data = fb24_short)
+mod_final_sc <- lm(prok ~ scale(neuro) + scale(gewis), data = fb25_short)
 
 mod_final_sc$coefficients[1]
 ```
@@ -423,7 +422,7 @@ $\rightarrow$ Für eine Person, die auf allen standardisierten Prädiktoren gena
 
 ```{r}
 #3. Ansatz
-mean(fb24_short$prok)
+mean(fb25_short$prok)
 ```
 
 **Erklärung:**

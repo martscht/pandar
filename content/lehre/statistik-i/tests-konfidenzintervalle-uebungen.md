@@ -13,7 +13,7 @@ authors:
 - scheppa-lahyani
 - pommeranz
 weight: ~
-lastmod: '2025-05-13'
+lastmod: '2025-11-13'
 featured: no
 banner:
   image: /header/angel_of_the_north.jpg
@@ -43,20 +43,20 @@ private: 'true'
 
 
 
-> Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/tests-konfidenzintervalle/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb25` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb25.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/tests-konfidenzintervalle/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 
-```r
-dim(fb24)
+``` r
+dim(fb25)
 ```
 
 ```
-## [1] 192  50
+## [1] 211  51
 ```
 
-Der Datensatz besteht aus 192 Zeilen (Beobachtungen) und mindestens (unter Einbeziehung der Ergänzungen) 50 Spalten (Variablen). Falls Sie bereits weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus 211 Zeilen (Beobachtungen) und mindestens (unter Einbeziehung der Ergänzungen) 51 Spalten (Variablen). Falls Sie bereits weitere eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ## Aufgabe 1
@@ -88,7 +88,7 @@ Die mittlere Lebenszufriedenheit (`lz`) in Deutschland liegt bei $\mu$ = 4.4.
 ## Aufgabe 4
 
 Folgende Aufgaben haben ein erhöhtes Schwierigkeitsniveau.
-Nehmen Sie für die weiteren Aufgaben den Datensatz `fb24` als Grundgesamtheit (Population) an.
+Nehmen Sie für die weiteren Aufgaben den Datensatz `fb25` als Grundgesamtheit (Population) an.
 
 **4.1** Sie haben eine Stichprobe mit $n$ = 42 aus dem Datensatz gezogen. Der mittlere Gewissenhaftigkeits-Wert dieser Stichprobe beträgt $\bar{x}$ = 3.6. Unterscheiden sich die Psychologie-Studierenden (1. Semester) der Stichprobe in ihrem Wert (`gewis`) von der Grundgesamtheit?
 Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzintervall.
@@ -98,26 +98,26 @@ Berechnen Sie den angemessenen Test und bestimmen Sie das 95%ige Konfidenzinterv
 <details><summary>Code</summary>
 
 
-```r
-anyNA(fb24$gewis) #NA's vorhanden
+``` r
+anyNA(fb25$gewis) #keine NAs
 ```
 
 ```
-## [1] TRUE
+## [1] FALSE
 ```
 
-```r
+``` r
 set.seed(1234) #erlaubt Reproduzierbarkeit
-fb24_sample <- fb24[sample(nrow(fb24), size = 31), ] #zieht eine Stichprobe mit n = 31
+fb25_sample <- fb25[sample(nrow(fb25), size = 31), ] #zieht eine Stichprobe mit n = 31
 
 
-mean_gewis_pop <- mean(fb24$gewis, na.rm = TRUE) #Mittelwert der Population
+mean_gewis_pop <- mean(fb25$gewis, na.rm = TRUE) #Mittelwert der Population
 
-sd_gewis_pop <- sd(fb24$gewis, na.rm = TRUE) * sqrt((length(na.omit(fb24$gewis)) - 1) / length(na.omit(fb24$gewis))) #empirische Standardabweichung der Population
+sd_gewis_pop <- sd(fb25$gewis, na.rm = TRUE) * sqrt((length(na.omit(fb25$gewis)) - 1) / length(na.omit(fb25$gewis))) #empirische Standardabweichung der Population
 
-se_gewis <- sd_gewis_pop / sqrt(length(na.omit(fb24$gewis))) #Standardfehler
+se_gewis <- sd_gewis_pop / sqrt(length(na.omit(fb25$gewis))) #Standardfehler
 
-mean_gewis_smpl2 <- mean(fb24_sample$gewis, na.rm = TRUE) #Mittelwert der Stichprobe
+mean_gewis_smpl2 <- mean(fb25_sample$gewis, na.rm = TRUE) #Mittelwert der Stichprobe
 
 z_gewis2 <- (mean_gewis_smpl2 - mean_gewis_pop) / se_gewis #empirischer z-Wert
 
@@ -127,15 +127,15 @@ abs(z_gewis2) > z_krit #signifikant
 ```
 
 ```
-## [1] TRUE
+## [1] FALSE
 ```
 
-```r
+``` r
 2 * pnorm(z_gewis2) #p < .05, signifikant
 ```
 
 ```
-## [1] 0.03659774
+## [1] 1.572165
 ```
 
 </details>
