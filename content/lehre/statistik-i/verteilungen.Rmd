@@ -93,7 +93,7 @@ Hieraus resultieren die theoretisch möglichen Ergebnisse des Zufallsvorgangs, w
 
 ```{r, echo = FALSE}
 hist(rowSums(expand.grid(wuerfel,wuerfel)),
-        main = "Augensumme beim zweifachen Münzwurf",
+        main = "Augensumme beim zweifachen Würfelwurf",
         xlab = "Augensumme",
         ylab = "Häufigkeit",
      breaks = c(1.5:12.5))
@@ -107,11 +107,11 @@ E(X) = \sum\limits_{j=1} \limits^k x_i \cdot P(X = x_i) = \sum\limits_{j=1} \lim
 \end{equation*}
 
 
-  1. $x_i$ Ausprägung der Zufallsvariable (hier: Augensumme des doppelten Münzwurfs)
+  1. $x_i$ Ausprägung der Zufallsvariable (hier: Augensumme des doppelten Würfelwurfs)
   2. $k$ Anzahl der möglichen Ausprägungen
   3. $\pi_i$ Wahrscheinlichkeit der Ausprägung $x_i$
 
-Der *Erwartungswert* der Augensumme beim Wurf mit zwei Würfeln kann demnach bestimmt werden, indem wir alle möglichen Ausprägungen mit ihrer korrespondierenden Auftrittwahrscheinlichkeit multiplizieren und aufsummieren. Um alle möglichen einzigartigen Ausprägungen des doppelten Münzwurfs zu erhalten, kann `unique()` verwendet werden:
+Der *Erwartungswert* der Augensumme beim Wurf mit zwei Würfeln kann demnach bestimmt werden, indem wir alle möglichen Ausprägungen mit ihrer korrespondierenden Auftrittwahrscheinlichkeit multiplizieren und aufsummieren. Um alle möglichen einzigartigen Ausprägungen des doppelten Würfelwurfs zu erhalten, kann `unique()` verwendet werden:
 
 ```{r}
 x_i <- unique(pos$rowsum) # Alle Ausprägungen der Zufallsvariable
@@ -152,7 +152,7 @@ Beachten Sie jedoch, dass Sie bei zweimaliger Durchführung desselben Befehls ni
 replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ```
 
-Zur Konstanthaltung der Ergebnisse eines Zufallsvorgangs kann `set.seed()` genutzt werden, durch das der `R` interne Zufallsgenerator stets an der selben Stelle gestartet wird. Dies ermöglicht die Reproduzierbarkeit des Ergebnisses (Anmerkung: bei verschiedenen Versionen von `R` könnte der Befehl auch andere Resultate produzieren). Hierfür muss für`set.seed()` lediglich eine beliebige ganze Zahl als Argument abgegeben werden.
+Zur Konstanthaltung der Ergebnisse eines Zufallsvorgangs kann `set.seed()` genutzt werden, durch das der `R` interne Zufallsgenerator stets an der selben Stelle gestartet wird. Dies ermöglicht die Reproduzierbarkeit des Ergebnisses (Anmerkung: bei verschiedenen Versionen von `R` könnte der Befehl auch andere Resultate produzieren). Hierfür muss für `set.seed()` lediglich eine beliebige ganze Zahl als Argument abgegeben werden.
 
 ```{r}
 set.seed(500)
