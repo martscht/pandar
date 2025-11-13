@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'Zuerst werden in dieser Sitzung verschiedene Darstelungsmöglichkeiten zusammenhängender Variablen besprochen. Im Anschluss werden Varianz- und Kovarianzberechnung, aufbauend Korrelation, und abschließend Korrelation dichotomer Variablen und Korrelation mit fehlenden Werten in R anhand des FB24 erklärt.' 
 authors: [nehler, winkler, schroeder, neubauer, goldhammer]
 weight: 9
-lastmod: '2025-10-20'
+lastmod: '2025-11-13'
 featured: no
 banner:
   image: "/header/storch_with_baby.jpg"
@@ -59,7 +59,7 @@ output:
 Den Datensatz `fb24` haben wir bereits über diesen [<i class="fas fa-download"></i> Link heruntergeladen](/daten/fb24.rda) und können ihn über den lokalen Speicherort einladen oder Sie können Ihn direkt mittels des folgenden Befehls aus dem Internet in das Environment bekommen. In den vorherigen Tutorials und den dazugehörigen Aufgaben haben wir bereits Änderungen am Datensatz durchgeführt, die hier nochmal aufgeführt sind, um den Datensatz auf dem aktuellen Stand zu haben:
 
 
-```r
+``` r
 #### Was bisher geschah: ----
 
 # Daten laden
@@ -106,33 +106,25 @@ Die Erstellung von *Häufigkeitstabellen* zur Darstellung univariater Häufigkei
 
 
 
-```r
+``` r
 tab <- table(fb24$fach)               #Absolut
 tab
 ```
 
 ```
 ## 
-##  Allgemeine Biologische 
-##          41          15 
-## Entwicklung   Klinische 
-##          40          88 
-## Diag./Meth. 
-##           3
+##  Allgemeine Biologische Entwicklung   Klinische Diag./Meth. 
+##          41          15          40          88           3
 ```
 
-```r
+``` r
 prop.table(tab)                       #Relativ
 ```
 
 ```
 ## 
-##  Allgemeine Biologische 
-##  0.21925134  0.08021390 
-## Entwicklung   Klinische 
-##  0.21390374  0.47058824 
-## Diag./Meth. 
-##  0.01604278
+##  Allgemeine Biologische Entwicklung   Klinische Diag./Meth. 
+##  0.21925134  0.08021390  0.21390374  0.47058824  0.01604278
 ```
 
 {{<intext_anchor Kreuztabellen>}}
@@ -140,82 +132,37 @@ prop.table(tab)                       #Relativ
 Die Erweiterung für den bivariaten Fall ist dabei nicht schwierig und wird als *Kreuztabelle* bezeichnet. Sie liefert die Häufigkeit von Kombinationen von Ausprägungen in mehreren Variablen. In den Zeilen wird die erste Variable abgetragen und in den Spalten die zweite. Im Unterschied zum univariaten Fall muss im `table()`-Befehl nur die zweite interessierende Variable zusätzlich genannt werden. Tabellen können beliebig viele Dimensionen haben, werden dann aber sehr unübersichtlich.
 
 
-```r
+``` r
 tab<-table(fb24$fach,fb24$ziel)       #Kreuztabelle
 tab
 ```
 
 ```
 ##              
-##               Wirtschaft
-##   Allgemeine          13
-##   Biologische          2
-##   Entwicklung          8
-##   Klinische            1
-##   Diag./Meth.          0
-##              
-##               Therapie
-##   Allgemeine        11
-##   Biologische        6
-##   Entwicklung       16
-##   Klinische         74
-##   Diag./Meth.        1
-##              
-##               Forschung
-##   Allgemeine          8
-##   Biologische         6
-##   Entwicklung         5
-##   Klinische           4
-##   Diag./Meth.         2
-##              
-##               Andere
-##   Allgemeine       9
-##   Biologische      1
-##   Entwicklung     10
-##   Klinische        9
-##   Diag./Meth.      0
+##               Wirtschaft Therapie Forschung Andere
+##   Allgemeine          13       11         8      9
+##   Biologische          2        6         6      1
+##   Entwicklung          8       16         5     10
+##   Klinische            1       74         4      9
+##   Diag./Meth.          0        1         2      0
 ```
 
 In eine Kreuztabelle können Randsummen mit dem `addmargins()` Befehl hinzugefügt werden. Randsummen erzeugen in der letzten Spalte bzw. Zeile die univariaten Häufigkeitstabellen der Variablen.
 
 
-```r
+``` r
 addmargins(tab)                       #Randsummen hinzufügen
 ```
 
 ```
 ##              
-##               Wirtschaft
-##   Allgemeine          13
-##   Biologische          2
-##   Entwicklung          8
-##   Klinische            1
-##   Diag./Meth.          0
-##   Sum                 24
-##              
-##               Therapie
-##   Allgemeine        11
-##   Biologische        6
-##   Entwicklung       16
-##   Klinische         74
-##   Diag./Meth.        1
-##   Sum              108
-##              
-##               Forschung
-##   Allgemeine          8
-##   Biologische         6
-##   Entwicklung         5
-##   Klinische           4
-##   Diag./Meth.         2
-##   Sum                25
-##              
-##               Andere Sum
-##   Allgemeine       9  41
-##   Biologische      1  15
-##   Entwicklung     10  39
-##   Klinische        9  88
-##   Diag./Meth.      0   3
-##   Sum             29 186
+##               Wirtschaft Therapie Forschung Andere Sum
+##   Allgemeine          13       11         8      9  41
+##   Biologische          2        6         6      1  15
+##   Entwicklung          8       16         5     10  39
+##   Klinische            1       74         4      9  88
+##   Diag./Meth.          0        1         2      0   3
+##   Sum                 24      108        25     29 186
 ```
 
 {{<intext_anchor Relativtabelle>}}
@@ -223,39 +170,18 @@ addmargins(tab)                       #Randsummen hinzufügen
 Auch für die Kreuztabelle ist die Möglichkeit der Darstellung der Häufigkeiten in Relation zur Gesamtzahl der Beobachtungen gegeben. 
 
 
-```r
+``` r
 prop.table(tab)                       #Relative Häufigkeiten
 ```
 
 ```
 ##              
-##                Wirtschaft
-##   Allgemeine  0.069892473
-##   Biologische 0.010752688
-##   Entwicklung 0.043010753
-##   Klinische   0.005376344
-##   Diag./Meth. 0.000000000
-##              
-##                  Therapie
-##   Allgemeine  0.059139785
-##   Biologische 0.032258065
-##   Entwicklung 0.086021505
-##   Klinische   0.397849462
-##   Diag./Meth. 0.005376344
-##              
-##                 Forschung
-##   Allgemeine  0.043010753
-##   Biologische 0.032258065
-##   Entwicklung 0.026881720
-##   Klinische   0.021505376
-##   Diag./Meth. 0.010752688
-##              
-##                    Andere
-##   Allgemeine  0.048387097
-##   Biologische 0.005376344
-##   Entwicklung 0.053763441
-##   Klinische   0.048387097
-##   Diag./Meth. 0.000000000
+##                Wirtschaft    Therapie   Forschung      Andere
+##   Allgemeine  0.069892473 0.059139785 0.043010753 0.048387097
+##   Biologische 0.010752688 0.032258065 0.032258065 0.005376344
+##   Entwicklung 0.043010753 0.086021505 0.026881720 0.053763441
+##   Klinische   0.005376344 0.397849462 0.021505376 0.048387097
+##   Diag./Meth. 0.000000000 0.005376344 0.010752688 0.000000000
 ```
 
 74 von insgesamt 186 (39.78%)  wollen therapeutisch arbeiten *und* interessieren sich bisher am meisten für die klinische Psychologie.
@@ -264,77 +190,35 @@ prop.table(tab)                       #Relative Häufigkeiten
 `prob.table()` kann allerdings nicht nur an der Gesamtzahl relativiert werden, sondern auch an der jeweiligen Zeilen- oder Spaltensumme. Dafür gibt man im Argument `margin` für Zeilen `1` oder für Spalten `2` an.
 
 
-```r
+``` r
 prop.table(tab, margin = 1)           #relativiert an Zeilen
 ```
 
 ```
 ##              
-##               Wirtschaft
-##   Allgemeine  0.31707317
-##   Biologische 0.13333333
-##   Entwicklung 0.20512821
-##   Klinische   0.01136364
-##   Diag./Meth. 0.00000000
-##              
-##                 Therapie
-##   Allgemeine  0.26829268
-##   Biologische 0.40000000
-##   Entwicklung 0.41025641
-##   Klinische   0.84090909
-##   Diag./Meth. 0.33333333
-##              
-##                Forschung
-##   Allgemeine  0.19512195
-##   Biologische 0.40000000
-##   Entwicklung 0.12820513
-##   Klinische   0.04545455
-##   Diag./Meth. 0.66666667
-##              
-##                   Andere
-##   Allgemeine  0.21951220
-##   Biologische 0.06666667
-##   Entwicklung 0.25641026
-##   Klinische   0.10227273
-##   Diag./Meth. 0.00000000
+##               Wirtschaft   Therapie  Forschung     Andere
+##   Allgemeine  0.31707317 0.26829268 0.19512195 0.21951220
+##   Biologische 0.13333333 0.40000000 0.40000000 0.06666667
+##   Entwicklung 0.20512821 0.41025641 0.12820513 0.25641026
+##   Klinische   0.01136364 0.84090909 0.04545455 0.10227273
+##   Diag./Meth. 0.00000000 0.33333333 0.66666667 0.00000000
 ```
 
 Von 88 Personen, die sich am meisten für klinische Psychologie interessieren, wollen 84.09% (nämlich 74 Personen) später therapeutisch arbeiten.
 
 
-```r
+``` r
 prop.table(tab, margin = 2)           #relativiert an Spalten
 ```
 
 ```
 ##              
-##                Wirtschaft
-##   Allgemeine  0.541666667
-##   Biologische 0.083333333
-##   Entwicklung 0.333333333
-##   Klinische   0.041666667
-##   Diag./Meth. 0.000000000
-##              
-##                  Therapie
-##   Allgemeine  0.101851852
-##   Biologische 0.055555556
-##   Entwicklung 0.148148148
-##   Klinische   0.685185185
-##   Diag./Meth. 0.009259259
-##              
-##                 Forschung
-##   Allgemeine  0.320000000
-##   Biologische 0.240000000
-##   Entwicklung 0.200000000
-##   Klinische   0.160000000
-##   Diag./Meth. 0.080000000
-##              
-##                    Andere
-##   Allgemeine  0.310344828
-##   Biologische 0.034482759
-##   Entwicklung 0.344827586
-##   Klinische   0.310344828
-##   Diag./Meth. 0.000000000
+##                Wirtschaft    Therapie   Forschung      Andere
+##   Allgemeine  0.541666667 0.101851852 0.320000000 0.310344828
+##   Biologische 0.083333333 0.055555556 0.240000000 0.034482759
+##   Entwicklung 0.333333333 0.148148148 0.200000000 0.344827586
+##   Klinische   0.041666667 0.685185185 0.160000000 0.310344828
+##   Diag./Meth. 0.000000000 0.009259259 0.080000000 0.000000000
 ```
 
 Von 108 Personen, die später therapeutisch arbeiten wollen, interessieren sich 68.52% (nämlich 74 Personen) für die klinische Psychologie.
@@ -345,98 +229,34 @@ Von 108 Personen, die später therapeutisch arbeiten wollen, interessieren sich 
 `addmargins(prop.table(tab))` liefert die Randsummen der relativen Häufigkeiten.
 
 
-```r
+``` r
 addmargins(prop.table(tab))      # als geschachtelte Funktion
 ```
 
 ```
 ##              
-##                Wirtschaft
-##   Allgemeine  0.069892473
-##   Biologische 0.010752688
-##   Entwicklung 0.043010753
-##   Klinische   0.005376344
-##   Diag./Meth. 0.000000000
-##   Sum         0.129032258
-##              
-##                  Therapie
-##   Allgemeine  0.059139785
-##   Biologische 0.032258065
-##   Entwicklung 0.086021505
-##   Klinische   0.397849462
-##   Diag./Meth. 0.005376344
-##   Sum         0.580645161
-##              
-##                 Forschung
-##   Allgemeine  0.043010753
-##   Biologische 0.032258065
-##   Entwicklung 0.026881720
-##   Klinische   0.021505376
-##   Diag./Meth. 0.010752688
-##   Sum         0.134408602
-##              
-##                    Andere
-##   Allgemeine  0.048387097
-##   Biologische 0.005376344
-##   Entwicklung 0.053763441
-##   Klinische   0.048387097
-##   Diag./Meth. 0.000000000
-##   Sum         0.155913978
-##              
-##                       Sum
-##   Allgemeine  0.220430108
-##   Biologische 0.080645161
-##   Entwicklung 0.209677419
-##   Klinische   0.473118280
-##   Diag./Meth. 0.016129032
-##   Sum         1.000000000
+##                Wirtschaft    Therapie   Forschung      Andere         Sum
+##   Allgemeine  0.069892473 0.059139785 0.043010753 0.048387097 0.220430108
+##   Biologische 0.010752688 0.032258065 0.032258065 0.005376344 0.080645161
+##   Entwicklung 0.043010753 0.086021505 0.026881720 0.053763441 0.209677419
+##   Klinische   0.005376344 0.397849462 0.021505376 0.048387097 0.473118280
+##   Diag./Meth. 0.000000000 0.005376344 0.010752688 0.000000000 0.016129032
+##   Sum         0.129032258 0.580645161 0.134408602 0.155913978 1.000000000
 ```
 
-```r
+``` r
 prop.table(tab) |> addmargins()  # als Pipe
 ```
 
 ```
 ##              
-##                Wirtschaft
-##   Allgemeine  0.069892473
-##   Biologische 0.010752688
-##   Entwicklung 0.043010753
-##   Klinische   0.005376344
-##   Diag./Meth. 0.000000000
-##   Sum         0.129032258
-##              
-##                  Therapie
-##   Allgemeine  0.059139785
-##   Biologische 0.032258065
-##   Entwicklung 0.086021505
-##   Klinische   0.397849462
-##   Diag./Meth. 0.005376344
-##   Sum         0.580645161
-##              
-##                 Forschung
-##   Allgemeine  0.043010753
-##   Biologische 0.032258065
-##   Entwicklung 0.026881720
-##   Klinische   0.021505376
-##   Diag./Meth. 0.010752688
-##   Sum         0.134408602
-##              
-##                    Andere
-##   Allgemeine  0.048387097
-##   Biologische 0.005376344
-##   Entwicklung 0.053763441
-##   Klinische   0.048387097
-##   Diag./Meth. 0.000000000
-##   Sum         0.155913978
-##              
-##                       Sum
-##   Allgemeine  0.220430108
-##   Biologische 0.080645161
-##   Entwicklung 0.209677419
-##   Klinische   0.473118280
-##   Diag./Meth. 0.016129032
-##   Sum         1.000000000
+##                Wirtschaft    Therapie   Forschung      Andere         Sum
+##   Allgemeine  0.069892473 0.059139785 0.043010753 0.048387097 0.220430108
+##   Biologische 0.010752688 0.032258065 0.032258065 0.005376344 0.080645161
+##   Entwicklung 0.043010753 0.086021505 0.026881720 0.053763441 0.209677419
+##   Klinische   0.005376344 0.397849462 0.021505376 0.048387097 0.473118280
+##   Diag./Meth. 0.000000000 0.005376344 0.010752688 0.000000000 0.016129032
+##   Sum         0.129032258 0.580645161 0.134408602 0.155913978 1.000000000
 ```
 
 ****
@@ -446,7 +266,7 @@ prop.table(tab) |> addmargins()  # als Pipe
 Grafisch kann eine solche Kreuztabelle durch gruppierte Balkendiagramme dargestellt werden. Das Argument `beside` sorgt für die Anordnung der Balken (bei `TRUE` nebeneinander, bei `FALSE` übereinander). Das Argument `legend` nimmt einen Vektor für die Beschriftung entgegen. Die Zeilen des Datensatzes bilden dabei stets eigene Balken, während die Spalten die Gruppierungsvariable bilden. Deshalb müssen als Legende die Namen der Reihen `rownames()` unserer Tabelle `tab` ausgewählt werden.
 
 
-```r
+``` r
 barplot (tab,
          beside = TRUE,
          col = c('mintcream','olivedrab','peachpuff','steelblue','maroon'),
@@ -484,7 +304,7 @@ Die Funktionen für die Varianz ist dabei `var()`. Im Folgenden wird diese für 
 Wie bereits in vergangenen Sitzungen gesehen, führen fehlende Werte zu der Ausgabe `NA`. Um dies vorzubeugen, wird im univariaten Fall `na.rm = TRUE` zum Ausschluss verwendet. 
 
 
-```r
+``` r
 var(fb24$neuro, na.rm = TRUE)            #Varianz Neurotizismus
 ```
 
@@ -492,7 +312,7 @@ var(fb24$neuro, na.rm = TRUE)            #Varianz Neurotizismus
 ## [1] 0.8955084
 ```
 
-```r
+``` r
 var(fb24$gewis, na.rm = TRUE)            #Varianz Gewissenhaftigkeit
 ```
 
@@ -506,7 +326,7 @@ Die Funktion `cov()` wird für die Kovarianz verwendet und benötigt als Argumen
 {{<intext_anchor NA>}}
 
 
-```r
+``` r
 cov(fb24$neuro, fb24$gewis)              #Kovarianz Neurotizismus und Gewissenhaftigkeit
 ```
 
@@ -523,97 +343,53 @@ Natürlich können auch bei der Kovarianzberechnung fehlende Werte zu einem Prob
 Am besten lässt sich der Unterschied in einer *Kovarianzmatrix* veranschaulichen. Hier werden alle Varianzen und Kovarianzen von einer Menge an Variablen berechnet und in einer Tabelle darstellt. Dafür kann ein Datensatz erstellt werden, der nur die interessierenden Variablen enthält. Wir nehmen alle vier Variablen aus unseren Beispielen zur Kovarianzen auf. Außerdem müssen wir zu Veranschaulichungszwecken noch das Vorkommen fehlender Werte (willkürlich) anpassen.
 
 
-```r
+``` r
 big5 <- fb24[,c('extra', 'vertr', 'gewis', 'neuro', 'offen')] #Datensatzreduktion
 cov(big5)                                       #Kovarianzmatrix   
 ```
 
 ```
-##       extra vertr gewis neuro
-## extra    NA    NA    NA    NA
-## vertr    NA    NA    NA    NA
-## gewis    NA    NA    NA    NA
-## neuro    NA    NA    NA    NA
-## offen    NA    NA    NA    NA
-##       offen
-## extra    NA
-## vertr    NA
-## gewis    NA
-## neuro    NA
-## offen    NA
+##       extra vertr gewis neuro offen
+## extra    NA    NA    NA    NA    NA
+## vertr    NA    NA    NA    NA    NA
+## gewis    NA    NA    NA    NA    NA
+## neuro    NA    NA    NA    NA    NA
+## offen    NA    NA    NA    NA    NA
 ```
 
 Auch hier bekommen wir zunächst die wenig zufriedenstellende Aussage, dass keine der Kovarianzen bestimmt werden kann, weil fehlende Werte vorliegen. Anhand der `summary` können wir auch schnell ermitteln, wie viele fehlende Werte das pro Variable sind:
 
 
-```r
+``` r
 summary(big5)
 ```
 
 ```
-##      extra      
-##  Min.   :1.000  
-##  1st Qu.:2.500  
-##  Median :3.500  
-##  Mean   :3.277  
-##  3rd Qu.:4.000  
-##  Max.   :5.000  
-##  NA's   :1      
-##      vertr      
-##  Min.   :1.000  
-##  1st Qu.:3.000  
-##  Median :3.500  
-##  Mean   :3.484  
-##  3rd Qu.:4.000  
-##  Max.   :5.000  
-##  NA's   :1      
-##      gewis     
-##  Min.   :1.50  
-##  1st Qu.:3.00  
-##  Median :3.50  
-##  Mean   :3.49  
-##  3rd Qu.:4.00  
-##  Max.   :5.00  
-##  NA's   :1     
-##      neuro      
-##  Min.   :1.000  
-##  1st Qu.:3.000  
-##  Median :3.500  
-##  Mean   :3.408  
-##  3rd Qu.:4.000  
-##  Max.   :5.000  
-##  NA's   :1      
-##      offen      
-##  Min.   :1.000  
-##  1st Qu.:3.000  
-##  Median :4.000  
-##  Mean   :3.809  
-##  3rd Qu.:4.500  
-##  Max.   :5.000  
-##  NA's   :1
+##      extra           vertr           gewis          neuro           offen      
+##  Min.   :1.000   Min.   :1.000   Min.   :1.50   Min.   :1.000   Min.   :1.000  
+##  1st Qu.:2.500   1st Qu.:3.000   1st Qu.:3.00   1st Qu.:3.000   1st Qu.:3.000  
+##  Median :3.500   Median :3.500   Median :3.50   Median :3.500   Median :4.000  
+##  Mean   :3.277   Mean   :3.484   Mean   :3.49   Mean   :3.408   Mean   :3.809  
+##  3rd Qu.:4.000   3rd Qu.:4.000   3rd Qu.:4.00   3rd Qu.:4.000   3rd Qu.:4.500  
+##  Max.   :5.000   Max.   :5.000   Max.   :5.00   Max.   :5.000   Max.   :5.000  
+##  NA's   :1       NA's   :1       NA's   :1      NA's   :1       NA's   :1
 ```
 
 
 Um trotz dieser fehlenden Werte Kovarianzen berechnen zu können, können wir mit dem Argument `use` arbeiten. Per Voreinstellung wird die erste der drei Optionen genutzt, welche ausgeschrieben `"everything"` heißt. Da dabei alle Zeilen einfach in die Berechnung eingehen, werden `NA`-Werte nicht ausgeschlossen und für die Zusammenhänge daher keine Kennwerte erzeugt. Wir können diese Schlussfolgerug auch nochmal überprüfen.
 
 
-```r
+``` r
 cov(big5, use = "everything")         # Kovarianzmatrix mit Argument   
 ```
 
 ```
-##       extra vertr gewis neuro
-## extra    NA    NA    NA    NA
-## vertr    NA    NA    NA    NA
-## gewis    NA    NA    NA    NA
-## neuro    NA    NA    NA    NA
-## offen    NA    NA    NA    NA
-##       offen
-## extra    NA
-## vertr    NA
-## gewis    NA
-## neuro    NA
-## offen    NA
+##       extra vertr gewis neuro offen
+## extra    NA    NA    NA    NA    NA
+## vertr    NA    NA    NA    NA    NA
+## gewis    NA    NA    NA    NA    NA
+## neuro    NA    NA    NA    NA    NA
+## offen    NA    NA    NA    NA    NA
 ```
 
 Die Ergebnisse sind exakt gleich mit den vorherigen - `"everything"` ist also der Default für diese Funktion. Nach dieser ersten Erkenntnis können wir die verschiedenen Argumente für die Behandlung von `NA` in der `cov()` Funktion ausprobieren. 
@@ -621,142 +397,70 @@ Die Ergebnisse sind exakt gleich mit den vorherigen - `"everything"` ist also de
 Beginnen wir mit dem *paarweisem Fallausschluss*, der mit `"pairwise"` angesprochen werden kann. 
 
 
-```r
+``` r
 cov(big5, use = 'pairwise')             #Paarweiser Fallausschluss
 ```
 
 ```
-##             extra
-## extra  1.03575365
-## vertr  0.14385506
-## gewis  0.03713144
-## neuro -0.34812621
-## offen -0.02300909
-##              vertr
-## extra  0.143855056
-## vertr  0.673436208
-## gewis -0.008060072
-## neuro -0.076446680
-## offen  0.056193166
-##              gewis
-## extra  0.037131441
-## vertr -0.008060072
-## gewis  0.797258198
-## neuro -0.082543400
-## offen -0.080958942
-##             neuro       offen
-## extra -0.34812621 -0.02300909
-## vertr -0.07644668  0.05619317
-## gewis -0.08254340 -0.08095894
-## neuro  0.89550840  0.02187242
-## offen  0.02187242  0.95407826
+##             extra        vertr        gewis       neuro       offen
+## extra  1.03575365  0.143855056  0.037131441 -0.34812621 -0.02300909
+## vertr  0.14385506  0.673436208 -0.008060072 -0.07644668  0.05619317
+## gewis  0.03713144 -0.008060072  0.797258198 -0.08254340 -0.08095894
+## neuro -0.34812621 -0.076446680 -0.082543400  0.89550840  0.02187242
+## offen -0.02300909  0.056193166 -0.080958942  0.02187242  0.95407826
 ```
 
 Wie wir sehen, werden nun die Personen mit fehlenden Werten auf einer Variable ignoriert, wenn für die Variable mit fehlendem Wert ein Zusammenhangsmaß berechnet wird. Ansonsten werden Personen aber nicht aus der Berechnung ausgeschlossen, was man vor allem daran sieht, dass sich die Kovarianzen (und Varianzen) von Variablen ohne fehlende Werte (`gewis` und `neuro`) nicht verändert haben. 
 
 Vergleichen wir nun dieses Ergebnis noch mit dem Ergebnis des *listenweisem Fallausschluss*.
 
-```r
+``` r
 cov(big5, use = 'complete')             #Listenweiser Fallausschluss
 ```
 
 ```
-##             extra
-## extra  1.03575365
-## vertr  0.14385506
-## gewis  0.03713144
-## neuro -0.34812621
-## offen -0.02300909
-##              vertr
-## extra  0.143855056
-## vertr  0.673436208
-## gewis -0.008060072
-## neuro -0.076446680
-## offen  0.056193166
-##              gewis
-## extra  0.037131441
-## vertr -0.008060072
-## gewis  0.797258198
-## neuro -0.082543400
-## offen -0.080958942
-##             neuro       offen
-## extra -0.34812621 -0.02300909
-## vertr -0.07644668  0.05619317
-## gewis -0.08254340 -0.08095894
-## neuro  0.89550840  0.02187242
-## offen  0.02187242  0.95407826
+##             extra        vertr        gewis       neuro       offen
+## extra  1.03575365  0.143855056  0.037131441 -0.34812621 -0.02300909
+## vertr  0.14385506  0.673436208 -0.008060072 -0.07644668  0.05619317
+## gewis  0.03713144 -0.008060072  0.797258198 -0.08254340 -0.08095894
+## neuro -0.34812621 -0.076446680 -0.082543400  0.89550840  0.02187242
+## offen -0.02300909  0.056193166 -0.080958942  0.02187242  0.95407826
 ```
 
 Wie wir sehen, sind die Werte in diesem Fall gleich. Das liegt allerdings nur daran, dass es anscheinend _die selbe_ Person war, die auf allen fünf Variablen fehlende Werte hatte. Wenn wir händisch einen fehlenden Wert hinzufügen:
 
 
-```r
+``` r
 big5[1, 1] <- NA
 ```
 
 unterscheiden sich die Werte zwischen `pairwise` und `complete` für die Kovarianzen aller Kombinationen außer der mit der ersten Variable:
 
 
-```r
+``` r
 cov(big5, use = 'complete')             #Listenweiser Fallausschluss
 ```
 
 ```
-##             extra
-## extra  1.02545252
-## vertr  0.13989140
-## gewis  0.03265107
-## neuro -0.33248399
-## offen -0.02488165
-##              vertr
-## extra  0.139891395
-## vertr  0.675584795
-## gewis -0.009502924
-## neuro -0.071616541
-## offen  0.055966305
-##              gewis
-## extra  0.032651072
-## vertr -0.009502924
-## gewis  0.800090504
-## neuro -0.077798663
-## offen -0.081906154
-##             neuro       offen
-## extra -0.33248399 -0.02488165
-## vertr -0.07161654  0.05596630
-## gewis -0.07779866 -0.08190615
-## neuro  0.88087580  0.02392788
-## offen  0.02392788  0.95893205
+##             extra        vertr        gewis       neuro       offen
+## extra  1.02545252  0.139891395  0.032651072 -0.33248399 -0.02488165
+## vertr  0.13989140  0.675584795 -0.009502924 -0.07161654  0.05596630
+## gewis  0.03265107 -0.009502924  0.800090504 -0.07779866 -0.08190615
+## neuro -0.33248399 -0.071616541 -0.077798663  0.88087580  0.02392788
+## offen -0.02488165  0.055966305 -0.081906154  0.02392788  0.95893205
 ```
 
-```r
+``` r
 cov(big5, use = 'pairwise')             #Paarweiser Fallausschluss
 ```
 
 ```
-##             extra
-## extra  1.02545252
-## vertr  0.13989140
-## gewis  0.03265107
-## neuro -0.33248399
-## offen -0.02488165
-##              vertr
-## extra  0.139891395
-## vertr  0.673436208
-## gewis -0.008060072
-## neuro -0.076446680
-## offen  0.056193166
-##              gewis
-## extra  0.032651072
-## vertr -0.008060072
-## gewis  0.797258198
-## neuro -0.082543400
-## offen -0.080958942
-##             neuro       offen
-## extra -0.33248399 -0.02488165
-## vertr -0.07644668  0.05619317
-## gewis -0.08254340 -0.08095894
-## neuro  0.89550840  0.02187242
-## offen  0.02187242  0.95407826
+##             extra        vertr        gewis       neuro       offen
+## extra  1.02545252  0.139891395  0.032651072 -0.33248399 -0.02488165
+## vertr  0.13989140  0.673436208 -0.008060072 -0.07644668  0.05619317
+## gewis  0.03265107 -0.008060072  0.797258198 -0.08254340 -0.08095894
+## neuro -0.33248399 -0.076446680 -0.082543400  0.89550840  0.02187242
+## offen -0.02488165  0.056193166 -0.080958942  0.02187242  0.95407826
 ```
 
 Das liegt daran, dass `complete` Personen mit fehlenden Werten aus der kompletten Berechnung ausgeschlossen werden. Selbst wenn sie nur auf der Extraversion (`extra`) einen fehlenden Wert haben, gehen sie nicht in die Berechnung des Zusammenhangs zwischen bspw. Verträglichkeit und Neurotizismus (`vertr` und `neuro`) ein. 
@@ -766,7 +470,7 @@ Das liegt daran, dass `complete` Personen mit fehlenden Werten aus der komplette
 Der Zusammenhang zwischen zwei Variablen kann in einem *Scatterplot* bzw. *Streupunktdiagramm* dargestellt werden. Dafür kann man die `plot()` Funktion nutzen. Als Argumente können dabei `x` für die Variable auf der x-Achse, `y` für die Variable auf der y-Achse, `xlim`, `ylim` für eventuelle Begrenzungen der Achsen und `pch` für die Punktart angegeben werden.
 
 
-```r
+``` r
 plot(x = fb24$neuro, y = fb24$gewis, xlim = c(1,5) , ylim = c(1,5))
 ```
 
@@ -779,7 +483,7 @@ plot(x = fb24$neuro, y = fb24$gewis, xlim = c(1,5) , ylim = c(1,5))
 Wie in der Vorlesung besprochen, sind für verschiedene Skalenniveaus verschiedene Zusammenhangsmaße verfügbar, die im Gegensatz zur Kovarianz auch eine Vergleichbarkeit zwischen zwei Zusammenhangswerten sicherstellen. Für zwei metrisch skalierte Variablen gibt es dabei die *Produkt-Moment-Korrelation*. In der Funktion `cor()` werden dabei die Argumente `x` und `y` für die beiden betrachteten Variablen benötigt. `use` beschreibt weiterhin den Umgang mit fehlenden Werten.
 
 
-```r
+``` r
 cor(x = fb24$neuro, y = fb24$gewis, use = 'pairwise')
 ```
 
@@ -792,29 +496,17 @@ Bei einer positiven Korrelation gilt „je mehr Variable x... desto mehr Variabl
 In R können wir uns auch eine *Korrelationsmatrix* ausgeben lassen. Dies geschieht äquivalent zu der Kovarianzmatrix mit dem Datensatz als Argument in der `cor()` Funktion. In der Diagonale stehen die Korrelationen der Variable mit sich selbst - also 1 - und in den restlichen Feldern die Korrelationen der Variablen untereinander.
 
 
-```r
+``` r
 cor(big5, use = 'pairwise')
 ```
 
 ```
-##             extra       vertr
-## extra  1.00000000  0.16807120
-## vertr  0.16807120  1.00000000
-## gewis  0.03604708 -0.01099996
-## neuro -0.34982885 -0.09844090
-## offen -0.02509155  0.07010408
-##             gewis       neuro
-## extra  0.03604708 -0.34982885
-## vertr -0.01099996 -0.09844090
-## gewis  1.00000000 -0.09768953
-## neuro -0.09768953  1.00000000
-## offen -0.09282679  0.02366301
-##             offen
-## extra -0.02509155
-## vertr  0.07010408
-## gewis -0.09282679
-## neuro  0.02366301
-## offen  1.00000000
+##             extra       vertr       gewis       neuro       offen
+## extra  1.00000000  0.16807120  0.03604708 -0.34982885 -0.02509155
+## vertr  0.16807120  1.00000000 -0.01099996 -0.09844090  0.07010408
+## gewis  0.03604708 -0.01099996  1.00000000 -0.09768953 -0.09282679
+## neuro -0.34982885 -0.09844090 -0.09768953  1.00000000  0.02366301
+## offen -0.02509155  0.07010408 -0.09282679  0.02366301  1.00000000
 ```
 
 
@@ -822,7 +514,7 @@ Die Stärke des korrelativen Zusammenhangs wird mit dem Korrelationskoeffiziente
 Die default-Einstellung bei `cor()`ist die *Produkt-Moment-Korrelation*, also die Pearson-Korrelation.
 
 
-```r
+``` r
 cor(fb24$neuro, fb24$gewis, use = "pairwise", method = "pearson")
 ```
 
@@ -844,7 +536,7 @@ Achtung! Die inferenzstatistische Testung der Pearson-Korrelation hat gewisse Vo
 $\rightarrow$ QQ-Plot, Histogramm & Shapiro-Wilk-Test
 
 
-```r
+``` r
 # car-Paket laden
 library(car)
 
@@ -858,7 +550,7 @@ qqPlot(fb24$neuro)
 ## [1]  13 146
 ```
 
-```r
+``` r
 qqPlot(fb24$gewis)
 ```
 
@@ -868,7 +560,7 @@ qqPlot(fb24$gewis)
 ## [1] 34 44
 ```
 
-```r
+``` r
 #Histogramm
 
 hist(fb24$neuro, prob = T, ylim = c(0, 1))
@@ -877,40 +569,36 @@ curve(dnorm(x, mean = mean(fb24$neuro, na.rm = T), sd = sd(fb24$neuro, na.rm = T
 
 ![](/korrelation_files/unnamed-chunk-23-3.png)<!-- -->
 
-```r
+``` r
 hist(fb24$gewis, prob = T, ylim = c(0,1))
 curve(dnorm(x, mean = mean(fb24$gewis, na.rm = T), sd = sd(fb24$gewis, na.rm = T)), col = "blue", add = T)
 ```
 
 ![](/korrelation_files/unnamed-chunk-23-4.png)<!-- -->
 
-```r
+``` r
 #Shapiro
 shapiro.test(fb24$neuro)
 ```
 
 ```
 ## 
-## 	Shapiro-Wilk normality
-## 	test
+## 	Shapiro-Wilk normality test
 ## 
 ## data:  fb24$neuro
-## W = 0.95921, p-value =
-## 2.523e-05
+## W = 0.95921, p-value = 2.523e-05
 ```
 
-```r
+``` r
 shapiro.test(fb24$gewis)
 ```
 
 ```
 ## 
-## 	Shapiro-Wilk normality
-## 	test
+## 	Shapiro-Wilk normality test
 ## 
 ## data:  fb24$gewis
-## W = 0.95223, p-value =
-## 5.029e-06
+## W = 0.95223, p-value = 5.029e-06
 ```
 
 $p < \alpha$ $\rightarrow$ $H_1$: Normalverteilung kann nicht angenommen werden. Somit ist diese Voraussetzung verletzt. Eine Möglichkeit damit umzugehen, ist die Rangkorrelation nach Spearman. Diese ist nicht an die Voraussetzung der Normalverteilung gebunden. Das Verfahren kann über `method = "spearman"` angewendet werden.
@@ -920,7 +608,7 @@ $p < \alpha$ $\rightarrow$ $H_1$: Normalverteilung kann nicht angenommen werden.
 #### Rangkorrelation in R
 
 
-```r
+``` r
 r1 <- cor(fb24$neuro,fb24$gewis,
           method = "spearman",     #Pearson ist default
           use = "complete") 
@@ -948,7 +636,7 @@ Es handelt sich um eine schwache negative Korrelation von _r_ = -0.11. Der Effek
 Als weitere Variante der Rangkorrelation gibt es noch Kendalls $\tau$. Diese kann man mit `method = "kendall"` angesprochen werden.
 
 
-```r
+``` r
 cor(fb24$neuro, fb24$gewis, use = 'complete', method = 'kendall')
 ```
 
@@ -964,7 +652,7 @@ Nachdem der Korrelationskoeffizient berechnet wurde, kann dieser noch auf Signif
 * $H_1$: $\rho \neq 0$ $\rightarrow$  es gibt einen Zusammenhang zwischen Neurotizismus und Gewissenhaftigkeit
 
 
-```r
+``` r
 cor <- cor.test(fb24$neuro, fb24$gewis, 
          alternative = "two.sided", 
          method = "spearman",      #Da Voraussetzungen für Pearson verletzt
@@ -972,15 +660,11 @@ cor <- cor.test(fb24$neuro, fb24$gewis,
 ```
 
 ```
-## Warning in
-## cor.test.default(fb24$neuro,
-## fb24$gewis, alternative =
-## "two.sided", : Kann exakten
-## p-Wert bei Bindungen nicht
-## berechnen
+## Warning in cor.test.default(fb24$neuro, fb24$gewis, alternative = "two.sided", : Kann
+## exakten p-Wert bei Bindungen nicht berechnen
 ```
 
-```r
+``` r
 cor$p.value      #Gibt den p-Wert aus
 ```
 
@@ -997,7 +681,7 @@ Es wurde untersucht, ob Neurotizismus und Gewissenhaftigkeit miteinander zusamme
 Wir haben in der Funktion `cor.test()` als Argument `method = "spearman"` eingegeben, da die Voraussetzungen für die Pearson-Korrelation nicht erfüllt waren. Wenn dies der Fall gewesen wäre, müsste man stattdessen `method = "pearson"` angeben:
 
 
-```r
+``` r
 cor.test(fb24$neuro, fb24$gewis, 
          alternative = "two.sided", 
          method = "pearson",       
@@ -1006,12 +690,10 @@ cor.test(fb24$neuro, fb24$gewis,
 
 ```
 ## 
-## 	Pearson's product-moment
-## 	correlation
+## 	Pearson's product-moment correlation
 ## 
 ## data:  fb24$neuro and fb24$gewis
-## t = -1.3495, df = 189,
-## p-value = 0.1788
+## t = -1.3495, df = 189, p-value = 0.1788
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.23639017  0.04491275
@@ -1027,7 +709,7 @@ Abschließend lernen wir Zusammenhangsmaße für dichotome nominalskalierte Vari
 Wir analysieren aus unserem Datensatz die beiden dichotomen Variablen `job` (ja [`ja`] vs. nein [`nein`]) und `ort` (Frankfurt [`FFM`] vs. außerhalb [`andere`]). Die Variablen `ort` und `job` liegen nach den vorbereitenden Schritten bereits als Faktor-Variablen mit entsprechende Labels vor. Dies wird durch die folgende Prüfung bestätigt:
 
 
-```r
+``` r
 is.factor(fb24$ort)
 ```
 
@@ -1035,7 +717,7 @@ is.factor(fb24$ort)
 ## [1] TRUE
 ```
 
-```r
+``` r
 is.factor(fb24$job)
 ```
 
@@ -1044,7 +726,7 @@ is.factor(fb24$job)
 ```
 Erstellen der Kreuztabelle als Datenbasis:
 
-```r
+``` r
 tab <- table(fb24$ort, fb24$job)
 tab
 ```
@@ -1066,7 +748,7 @@ $$\phi = \frac{n_{11}n_{22}-n_{12}n_{21}}{\sqrt{(n_{11}+n_{12})(n_{11}+n_{21})(n
 In `R` sieht das so aus:
 
 
-```r
+``` r
 korr_phi <- (tab[1,1]*tab[2,2]-tab[1,2]*tab[2,1])/
   sqrt((tab[1,1]+tab[1,2])*(tab[1,1]+tab[2,1])*(tab[1,2]+tab[2,2])*(tab[2,1]+tab[2,2]))
 korr_phi
@@ -1079,7 +761,7 @@ korr_phi
 Durch ein mathematisches Wunder (dass Sie gerne anhand der Formeln für Kovarianz und Korrelation nachvollziehen können) entspricht diese Korrelation exakt dem Wert, den wir auch anhand der Pearson-Korrelation zwischen den beiden Variablen bestimmen würden:
 
 
-```r
+``` r
 # Numerische Variablen erstellen
 ort_num <- as.numeric(fb24$ort)
 job_num <- as.numeric(fb24$job)
@@ -1093,18 +775,16 @@ cor(ort_num, job_num, use = 'pairwise')
 Das hat gegenüber der händischen Bestimmung natürlich den Vorteil, dass wir direkt $p$-Wert und Konfidenzintervall bestimmen können:
 
 
-```r
+``` r
 cor.test(ort_num, job_num)
 ```
 
 ```
 ## 
-## 	Pearson's product-moment
-## 	correlation
+## 	Pearson's product-moment correlation
 ## 
 ## data:  ort_num and job_num
-## t = -1.0633, df = 186,
-## p-value = 0.289
+## t = -1.0633, df = 186, p-value = 0.289
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.21840699  0.06611953
@@ -1136,7 +816,7 @@ welches einen Wertebereich von [-1,1] aufweist und analog zur Korrelation interp
 In `R` sieht das so aus:
 
 
-```r
+``` r
 YulesQ <- (tab[1,1]*tab[2,2]-tab[1,2]*tab[2,1])/
                  (tab[1,1]*tab[2,2]+tab[1,2]*tab[2,1])
 YulesQ
@@ -1150,7 +830,7 @@ YulesQ
 Das Ganze lässt sich auch mit dem `psych` Paket und der darin enthaltenen Funktionen `phi()` und `Yule()` umsetzen:
 
 
-```r
+``` r
 # alternativ mit psych Paket
 library(psych)
 phi(tab, digits = 8)
@@ -1160,7 +840,7 @@ phi(tab, digits = 8)
 ## [1] -0.07772618
 ```
 
-```r
+``` r
 Yule(tab)
 ```
 
@@ -1168,14 +848,14 @@ Yule(tab)
 ## [1] -0.1654308
 ```
 
-**Odds (Wettquotient) und Odds-Ratio** {#odds-wettquotient-und-odds-ratio .anchorheader}
+### Odds (Wettquotient) und Odds-Ratio {#odds-wettquotient-und-odds-ratio .anchorheader}
 
 Der Odds (Wettquotient, Chance) gibt das Verhältnis der Wahrscheinlichkeiten an, dass ein Ereignis eintritt bzw. dass es nicht eintritt. 
 Das Wettquotienten-Verhältnis (Odds-Ratio) zeigt an, um wieviel sich dieses Verhältnis zwischen Ausprägungen einer zweiten dichotomen Variablen unterscheidet (Maß für den Zusammenhang).
 
 Zur Erinnerung die Kreuztabelle:
 
-```r
+``` r
 tab
 ```
 
@@ -1188,7 +868,7 @@ tab
 
 Berechnung des Odds für `FFM`:
 
-```r
+``` r
 Odds_FFM = tab[1,1]/tab[1,2]
 Odds_FFM
 ```
@@ -1200,7 +880,7 @@ Für in Frankfurt Wohnende ist die Chance keinen Job zu haben demnach 1.58-mal s
 
 Berechnung des Odds für `anderer`:
 
-```r
+``` r
 Odds_anderer = tab[2,1]/tab[2,2]
 Odds_anderer
 ```
@@ -1213,7 +893,7 @@ Für nicht in Frankfurt Wohnende ist die Chance keinen Job zu haben 2.21-mal so 
 
 Berechnung des Odds-Ratio:
 
-```r
+``` r
 OR = Odds_anderer/Odds_FFM
 OR
 ```
@@ -1245,41 +925,35 @@ Ordinalskalierte Daten können aufgrund der Verletzung der Äquidistanz zwischen
 Zur Berechnung dieses Koeffizienten müssen wir das Paket `rococo` installieren, welches verschiedene Konkordanz-basierte Zusammenhangsmaße enthält. Die Installation muss dem Laden des Paketes logischerweise vorausgestellt sein. Wenn R einmal geschlossen wird, müssen alle Zusatzpakete neu geladen, jedoch nicht neu installiert werden.
 
 
-```r
+``` r
 if (!requireNamespace("rococo", quietly = TRUE)) {
   install.packages("rococo")
 }
 ```
 
 
-```r
+``` r
 library(rococo)                     #laden
-```
-
-```
-## Warning: Paket 'rococo' wurde
-## unter R Version 4.3.3
-## erstellt
 ```
 
 Übersichten über Pakete kann man mit `??` erhalten.
 
 
-```r
+``` r
 ??rococo
 ```
 
 Die Funktion heißt hier zufälligerweise genau gleich wie das Paket. Wenn man nur Informationen über die Funktion statt dem Paket sucht, geht das anhand von `?`.
 
 
-```r
+``` r
 ?rococo
 ```
 
 Dank des neuen Pakets können wir nun den Koeffizienten $\hat{\gamma}$ berechnen und damit den Zusammenhang zwischen Items betrachten. Schauen wir uns nun mal den Zusammenhang der beiden Prokrastinationsitems `fb24$mdbf2` und `fb24$mdbf3` an, um zu überprüfen, ob die beiden Items auch (wie beabsichtigt) etwas Ähnliches messen (nähmlich die aktuelle Stimmung). Die beiden Variablen wurden ursprünglich auf einer Skala von 1 (*stimmt gar nicht*) bis 4 (*stimmt vollkommen*) (also auf Ordinalskalenniveau) erfasst. 
 
 
-```r
+``` r
 rococo(fb24$mdbf2, fb24$mdbf3)
 ```
 
@@ -1290,7 +964,7 @@ rococo(fb24$mdbf2, fb24$mdbf3)
 Um zu überprüfen, ob zwei ordinalskalierte Variablen signifikant miteinander zusammenhängen, können wir die `rococo.test()`-Funktion anwenden.
 
 
-```r
+``` r
 rococo.test(fb24$mdbf2, fb24$mdbf3)
 ```
 

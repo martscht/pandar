@@ -517,7 +517,7 @@ phi(tab, digits = 8)
 Yule(tab)
 ```
 
-**Odds (Wettquotient) und Odds-Ratio** {#odds-wettquotient-und-odds-ratio .anchorheader}
+### Odds (Wettquotient) und Odds-Ratio {#odds-wettquotient-und-odds-ratio .anchorheader}
 
 Der Odds (Wettquotient, Chance) gibt das Verhältnis der Wahrscheinlichkeiten an, dass ein Ereignis eintritt bzw. dass es nicht eintritt. 
 Das Wettquotienten-Verhältnis (Odds-Ratio) zeigt an, um wieviel sich dieses Verhältnis zwischen Ausprägungen einer zweiten dichotomen Variablen unterscheidet (Maß für den Zusammenhang).
