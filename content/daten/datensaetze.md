@@ -483,6 +483,27 @@ Der Datensatz ist im `R`-eigenen Paket `metafor` von Viechtbauer (2010) enthalte
 
 ``` r
 library(metafor)
+```
+
+```
+## Lade nötiges Paket: Matrix
+```
+
+```
+## Lade nötiges Paket: metadat
+```
+
+```
+## Lade nötiges Paket: numDeriv
+```
+
+```
+## 
+## Loading the 'metafor' package (version 4.8-0). For an
+## introduction to the package please type: help(metafor)
+```
+
+``` r
 F2F_CBT <- dat.lopez2019[dat.lopez2019$treatment == "F2F CBT",] # wähle nur Fälle mit F2F CBT
 ```
 
@@ -881,27 +902,13 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 Insgesamt liegen im Datensatz 379 fehlende Werte vor. Folgende Variablen enthalten keine fehlenden Werte:
 
+* `mdbf1`
 * `mdbf2`
 * `mdbf3`
 * `mdbf4`
 * `mdbf5`
 * `mdbf6`
-* `mdbf7`
-* `mdbf8`
-* `mdbf9`
-* `mdbf10`
-* `mdbf11`
-* `mdbf12`
-* `extra`
-* `gewis`
-* `neuro`
-* `offen`
-* `prok`
-* `nerd`
-* `uni1`
-* `uni2`
-* `uni3`
-* `uni4`
+* `time_pre`
 
 <!-- </details> -->
 
@@ -943,8 +950,8 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 | `neuro` | Neurotizismus | *Skalenwert* |
 | `offen` | Offenheit für neue Erfahrungen | *Skalenwert* |
 | `prok` | Prokrastinationstendenz | *Skalenwert* |
-| `trust` | Trust | *Skalenwert* |
-| `sicher` | Sicher | *Skalenwert* |
+| `trust` | Vertrauen in die Wissenschaft | *Skalenwert* |
+| `sicher` | Sicherheit in Studiengangswahl | *Skalenwert* |
 | `angst` | Angst | *Skalenwert* |
 | `fach` | Interessenfach | 1 = Allgemeine, 2 = Biologische, 3 = Entwicklung, 4 = Klinische, 5 = Diag./Meth. |
 | `ziel` | Arbeitsbranche nach Abschluss | 1 = Wirtschaft, 2 = Therapie, 3 = Forschung, 4 = Andere |
@@ -1450,6 +1457,23 @@ Mit folgendem Befehl laden Sie sich die modifizierte Version des Datensatzes in 
 
 ``` r
 source(url("https://pandar.netlify.app/daten/Data_Processing_KliPPsQuiz1.R"))
+```
+
+```
+## 
+## Attache Paket: 'dplyr'
+```
+
+```
+## Die folgenden Objekte sind maskiert von 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## Die folgenden Objekte sind maskiert von 'package:base':
+## 
+##     intersect, setdiff, setequal, union
 ```
 
 ### Größe
