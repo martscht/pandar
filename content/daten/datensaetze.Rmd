@@ -940,7 +940,7 @@ load('./fb24.rda')
 
 
 ### Größe
-Der Datensatz besteht aus `r dim(fb23)[1]` Beobachtungen auf `r dim(fb23)[2]` Variablen.
+Der Datensatz besteht aus `r dim(fb24)[1]` Beobachtungen auf `r dim(fb24)[2]` Variablen.
 
 ### Variablen
 In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
@@ -979,6 +979,80 @@ In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihr
 ### Fehlende Werte
 Insgesamt liegen im Datensatz `r sum(is.na(fb24))` fehlende Werte vor. Folgende Variablen enthalten keine fehlenden Werte:
 
+* `mdbf1`
+* `mdbf2`
+* `mdbf3`
+* `mdbf4`
+* `mdbf5`
+* `mdbf6`
+* `time_pre`
+
+<!-- </details> -->
+
+### Auftreten
+`r search_rmd_dataset("fb24.rda", name ="fb24")`
+
+
+---
+
+## Fragebogendaten aus dem ersten Semester (`fb25`)
+
+<!-- <details><summary>Datensatz</summary> -->
+
+### Beschreibung
+Der Datensatz `fb25` besteht aus Daten, die von den Studierenden selbst in den ersten Wochen der Veranstaltung PsyBSc2 erhoben wurden. Hierbei wurden eine Reihe von Variablen via eines Fragebogens auf SoSciSurvey erfragt und anschließend zu einem Datensatz zusammengefügt. Die Daten basieren somit auf wahren - anonymisierten - Werten der Studierenden. Der Fragebogen erfasst Daten zur aktuellen Stimmung, Persönlichkeit (gemessen an den Big5), dem Studium sowie demografische Daten.
+
+### Datensatz laden
+```{r, eval=FALSE}
+load(url('https://pandar.netlify.app/daten/fb25.rda'))
+```
+```{r, echo=FALSE}
+load('./fb25.rda')
+```
+
+
+### Größe
+Der Datensatz besteht aus `r dim(fb25)[1]` Beobachtungen auf `r dim(fb25)[2]` Variablen.
+
+### Variablen
+In der folgenden Tabelle erfolgt eine Übersicht der erhobenen Variablen und ihre Bedeutungen.
+
+| Variable | Inhalt | Kodierung |
+| ---- | ---- | ---- |
+| `mdbf1` - `mdbf12` | Items zur aktuellen Stimmung | 1 = stimmt nicht, 4 = stimmt genau |
+| `time_pre` | Bearbeitungszeit des MDBF | *Zeit in Sekunden* |
+| `lz` | Lebenszufriedenheit | *Skalenwert* |
+| `extra` | Extraversion | *Skalenwert* |
+| `vertr` | Verträglichkeit | *Skalenwert* |
+| `gewis` | Gewissenhaftigkeit | *Skalenwert* |
+| `neuro` | Neurotizismus | *Skalenwert* |
+| `offen` | Offenheit für neue Erfahrungen | *Skalenwert* |
+| `prok` | Prokrastinationstendenz | *Skalenwert* |
+| `trust` | Vertrauen in die Wissenschaft | *Skalenwert* |
+| `sicher` | Sicherheit in Studiengangswahl | *Skalenwert* |
+| `angst` | Angst | *Skalenwert* |
+| `fach` | Interessenfach | 1 = Allgemeine, 2 = Biologische, 3 = Entwicklung, 4 = Klinische, 5 = Diag./Meth. |
+| `ziel` | Arbeitsbranche nach Abschluss | 1 = Wirtschaft, 2 = Therapie, 3 = Forschung, 4 = Andere |
+| `wissen` | Interesse an wissenschaftlichen Grundlagen | 1 = überhaupt nicht, 5 = sehr |
+| `therap` | Interesse an anwendungsbezogenen Aspekten | 1 = überhaupt nicht, 5 = sehr |
+| `lerntyp` | Lerntyp | 1 = alleine, 2 = Gruppe, 3 = Mischtyp |
+| `hand` | Schreibhand | 1 = links, 2 = rechts |
+| `job` | Nebentätigkeit | 1 = nein, 2 = ja |
+| `ort` | Derzeitiger Wohnort | 1 = Frankfurt, 2 = anderer |
+| `ort12` | Wohnort vor 12 Monaten | 1 = Hessen, 2 = Deutschland, 3 = Ausland |
+| `wohnen` | Aktuelle Wohnsituation | 1 = WG, 2 = bei Eltern, 3 = alleine, 4 = sonstiges |
+| `uni1` - `uni4` | In Anspruch genommene Uni-Angebote (*Studienberatung, Orientierungswoche, Uniparties, Unisport*) | 0 = nein, 1 = ja |
+| `attent_pre` | Gewissenhafte Beantwortung (1. Befragung) | 1 = überhaupt nicht, 6 = voll und ganz |
+| `gs_post` | Gute vs. Schlechte Stimmung (2. Befragung) | *Skalenwert* |
+| `wm_post` | Wach vs. Müde (2. Befragung) | *Skalenwert* |
+| `ru_post` | Ruhig vs. Unruhig (2. Befragung) | *Skalenwert* |
+| `time_post` | Bearbeitungszeit des MDBF | *Zeit in Sekunden* |
+| `attent_post` | Gewissenhafte Beantwortung (2. Befragung) | 1 = überhaupt nicht, 6 = voll und ganz |
+
+### Fehlende Werte
+Insgesamt liegen im Datensatz `r sum(is.na(fb25))` fehlende Werte vor. Folgende Variablen enthalten keine fehlenden Werte:
+
+* `mdbf1`
 * `mdbf2`
 * `mdbf3`
 * `mdbf4`
@@ -990,16 +1064,11 @@ Insgesamt liegen im Datensatz `r sum(is.na(fb24))` fehlende Werte vor. Folgende 
 * `mdbf10`
 * `mdbf11`
 * `mdbf12`
-* `extra`
+* `time_pre`
+* `vertr`
 * `gewis`
 * `neuro`
 * `offen`
-* `prok`
-* `nerd`
-* `uni1`
-* `uni2`
-* `uni3`
-* `uni4`
 
 <!-- </details> -->
 
@@ -1008,7 +1077,6 @@ Insgesamt liegen im Datensatz `r sum(is.na(fb24))` fehlende Werte vor. Folgende 
 
 
 ---
-
 
 ## Gender, Drug, and Depression (`osf`)
 

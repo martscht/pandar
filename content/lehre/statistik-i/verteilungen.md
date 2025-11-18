@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr, Zufallsexperimente und Bernoulli-Experimente zu simulieren, eine Binomialverteilung darzustellen sowie Wahrscheinlichkeitverteilungen und Verteilungsfunktionen zu erstellen. Außerdem erfahrt ihr, wie man Dichte- und Verteilungsfunktionen erstellt und wie man eine empirisch erhobene Variable gegen die Normalverteilung abtragen kann.' 
 authors: [nehler, liu] 
 weight: 4
-lastmod: '2025-10-29'
+lastmod: '2025-11-13'
 featured: no
 banner:
   image: "/header/six_sided_dice.png"
@@ -125,8 +125,8 @@ pos$rowsum
 ```
 
 ```
-##  [1]  2  3  4  5  6  7  3  4  5  6  7  8  4  5  6  7  8  9  5  6  7  8  9 10  6  7  8  9 10 11  7  8  9 10
-## [35] 11 12
+##  [1]  2  3  4  5  6  7  3  4  5  6  7  8  4  5  6  7  8  9  5  6  7  8  9 10  6  7  8  9
+## [29] 10 11  7  8  9 10 11 12
 ```
 Hieraus resultieren die theoretisch möglichen Ergebnisse des Zufallsvorgangs, welche grafisch dargestellt werden können über ein Histogramm.
 
@@ -139,11 +139,11 @@ E(X) = \sum\limits_{j=1} \limits^k x_i \cdot P(X = x_i) = \sum\limits_{j=1} \lim
 \end{equation*}
 
 
-  1. $x_i$ Ausprägung der Zufallsvariable (hier: Augensumme des doppelten Münzwurfs)
+  1. $x_i$ Ausprägung der Zufallsvariable (hier: Augensumme des doppelten Würfelwurfs)
   2. $k$ Anzahl der möglichen Ausprägungen
   3. $\pi_i$ Wahrscheinlichkeit der Ausprägung $x_i$
 
-Der *Erwartungswert* der Augensumme beim Wurf mit zwei Würfeln kann demnach bestimmt werden, indem wir alle möglichen Ausprägungen mit ihrer korrespondierenden Auftrittwahrscheinlichkeit multiplizieren und aufsummieren. Um alle möglichen einzigartigen Ausprägungen des doppelten Münzwurfs zu erhalten, kann `unique()` verwendet werden:
+Der *Erwartungswert* der Augensumme beim Wurf mit zwei Würfeln kann demnach bestimmt werden, indem wir alle möglichen Ausprägungen mit ihrer korrespondierenden Auftrittwahrscheinlichkeit multiplizieren und aufsummieren. Um alle möglichen einzigartigen Ausprägungen des doppelten Würfelwurfs zu erhalten, kann `unique()` verwendet werden:
 
 
 ``` r
@@ -165,7 +165,7 @@ sample(x = wuerfel, size = 1)
 ```
 
 ```
-## [1] 1
+## [1] 2
 ```
 
 Unter dem Argument `x` kann definiert werden, aus welcher Menge an Objekten zufällig gezogen wird - in diesem Fall die Ziffern zwischen 1 und 6, die im Objekt `wuerfel` hinterlegt sind. `size` definiert die Anzahl an Wiederholungen. Wenn wir nun also zwei Würfel werfen wollen, können wir die `size` einfach erhöhen. Dabei ist es außerdem wichtig, ob das Experiment mit oder ohne Zurücklegen durchgeführt wird. Dafür ist das Argument `replace` verantwortlich, das standardmäßig auf `FALSE` steht. Da die Würfel jedoch auch die selbe Zahl anzeigen können, agieren wir mit Zurücklegen und müssen das Argument auf `TRUE` setzen.
@@ -176,7 +176,7 @@ sample(x = wuerfel, size = 2, replace = TRUE)
 ```
 
 ```
-## [1] 3 3
+## [1] 6 6
 ```
 
 Für die Verteilung der Ergebnisse ist es vor allem wichtig, wie die Summe aus den beiden Ziffern aussieht. Die Funktionen kann man in einer Zeile kombinieren.
@@ -187,7 +187,7 @@ sum(sample(x = wuerfel, size = 2, replace = TRUE))
 ```
 
 ```
-## [1] 5
+## [1] 10
 ```
 
 Des Weiteren soll der Wurf nicht nur einmal mit den beiden Würfeln durchgeführt werden, sondern häufiger wiederholt werden. Hier hilft Ihnen  `replicate()`, wobei die Anzahl an wiederholten Durchführungen einer Funktion im Argument `n` festgelegt werden kann. Weiterhin muss im Argument `expr` die Funktion genannt werden, die wiederholt werden soll.
@@ -198,7 +198,7 @@ replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ```
 
 ```
-##  [1]  7  4  5  2 12  8 11  4  6  3
+##  [1]  7  7  7  8  3  9  7  6 11  6
 ```
 
 Beachten Sie jedoch, dass Sie bei zweimaliger Durchführung desselben Befehls nicht zwei Mal dasselbe Ergebnis bekommen werden, da `R` den Zufall jeweils neu simuliert. 
@@ -209,10 +209,10 @@ replicate(n = 10, expr = sum(sample(x = wuerfel, size = 2, replace = TRUE)))
 ```
 
 ```
-##  [1] 11  8  7 10 10 10  7 10  6  5
+##  [1]  6  8  7 11  7  9 10  5  5  5
 ```
 
-Zur Konstanthaltung der Ergebnisse eines Zufallsvorgangs kann `set.seed()` genutzt werden, durch das der `R` interne Zufallsgenerator stets an der selben Stelle gestartet wird. Dies ermöglicht die Reproduzierbarkeit des Ergebnisses (Anmerkung: bei verschiedenen Versionen von `R` könnte der Befehl auch andere Resultate produzieren). Hierfür muss für`set.seed()` lediglich eine beliebige ganze Zahl als Argument abgegeben werden.
+Zur Konstanthaltung der Ergebnisse eines Zufallsvorgangs kann `set.seed()` genutzt werden, durch das der `R` interne Zufallsgenerator stets an der selben Stelle gestartet wird. Dies ermöglicht die Reproduzierbarkeit des Ergebnisses (Anmerkung: bei verschiedenen Versionen von `R` könnte der Befehl auch andere Resultate produzieren). Hierfür muss für `set.seed()` lediglich eine beliebige ganze Zahl als Argument abgegeben werden.
 
 
 ``` r
@@ -612,7 +612,8 @@ rnorm(n = 10, mean = 100, sd = 15)
 ```
 
 ```
-##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336  91.34905 110.82285 109.28648 100.31509 104.12275
+##  [1] 114.52734 129.48052 113.29484 100.45810 114.24336  91.34905 110.82285 109.28648
+##  [9] 100.31509 104.12275
 ```
 
 ***

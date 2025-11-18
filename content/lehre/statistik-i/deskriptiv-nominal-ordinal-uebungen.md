@@ -12,7 +12,7 @@ authors:
 - nehler
 - sinn
 weight: ~
-lastmod: '2025-05-13'
+lastmod: '2025-11-03'
 featured: no
 banner:
   image: /header/frogs_on_phones.jpg
@@ -42,7 +42,7 @@ private: 'true'
 
 ### Vorbereitung
 
-> Laden Sie die Daten aus [<i class="fas fa-download"></i> `fb24.rda`](/daten/fb24.rda) oder direkt von der Website über die gelernten Befehle. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie die Daten aus [<i class="fas fa-download"></i> `fb25.rda`](/daten/fb25.rda) oder direkt von der Website über die gelernten Befehle. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 
 ## Aufgabe 1
@@ -69,5 +69,5 @@ Erstellen Sie für die Variable `wohnen` eine geeignete Abbildung.
 
 * Stellen Sie sicher, dass die einzelnen Ausprägungen der Variable in der Darstellung interpretierbar benannt sind!  
 * Dekorieren Sie diese Abbildung nach eigenen Wünschen (z.B. mit einer Farbpalette und Achsenbeschriftungen).
-* Speichern Sie die Grafik per Syntax als .jpg-Datei mit dem Namen "Befragung-fb24.jpg" ab.
+* Speichern Sie die Grafik per Syntax als .jpg-Datei mit dem Namen "Befragung-fb25.jpg" ab.
 

@@ -54,61 +54,61 @@ library(knitr)
 #### Was bisher geschah: ----
 
 # Daten laden
-load(url('https://pandar.netlify.app/daten/fb24.rda'))
+load(url('https://pandar.netlify.app/daten/fb25.rda'))
 
 # Nominalskalierte Variablen in Faktoren verwandeln
-fb24$hand_factor <- factor(fb24$hand,
+fb25$hand_factor <- factor(fb25$hand,
                              levels = 1:2,
                              labels = c("links", "rechts"))
-fb24$fach <- factor(fb24$fach,
+fb25$fach <- factor(fb25$fach,
                     levels = 1:5,
                     labels = c('Allgemeine', 'Biologische', 'Entwicklung', 'Klinische', 'Diag./Meth.'))
-fb24$ziel <- factor(fb24$ziel,
+fb25$ziel <- factor(fb25$ziel,
                         levels = 1:4,
                         labels = c("Wirtschaft", "Therapie", "Forschung", "Andere"))
-fb24$wohnen <- factor(fb24$wohnen, 
+fb25$wohnen <- factor(fb25$wohnen, 
                       levels = 1:4, 
                       labels = c("WG", "bei Eltern", "alleine", "sonstiges"))
-fb24$fach_klin <- factor(as.numeric(fb24$fach == "Klinische"),
+fb25$fach_klin <- factor(as.numeric(fb25$fach == "Klinische"),
                          levels = 0:1,
                          labels = c("nicht klinisch", "klinisch"))
-fb24$ort <- factor(fb24$ort, levels=c(1,2), labels=c("FFM", "anderer"))
-fb24$job <- factor(fb24$job, levels=c(1,2), labels=c("nein", "ja"))
-fb24$unipartys <- factor(fb24$uni3,
+fb25$ort <- factor(fb25$ort, levels=c(1,2), labels=c("FFM", "anderer"))
+fb25$job <- factor(fb25$job, levels=c(1,2), labels=c("nein", "ja"))
+fb25$unipartys <- factor(fb25$uni3,
                              levels = 0:1,
                              labels = c("nein", "ja"))
 
 # Rekodierung invertierter Items
-fb24$mdbf4_r <- -1 * (fb24$mdbf4 - 4 - 1)
-fb24$mdbf11_r <- -1 * (fb24$mdbf11 - 4 - 1)
-fb24$mdbf3_r <-  -1 * (fb24$mdbf3 - 4 - 1)
-fb24$mdbf9_r <-  -1 * (fb24$mdbf9 - 4 - 1)
-fb24$mdbf5_r <- -1 * (fb24$mdbf5 - 4 - 1)
-fb24$mdbf7_r <- -1 * (fb24$mdbf7 - 4 - 1)
+fb25$mdbf4_r <- -1 * (fb25$mdbf4 - 4 - 1)
+fb25$mdbf11_r <- -1 * (fb25$mdbf11 - 4 - 1)
+fb25$mdbf3_r <-  -1 * (fb25$mdbf3 - 4 - 1)
+fb25$mdbf9_r <-  -1 * (fb25$mdbf9 - 4 - 1)
+fb25$mdbf5_r <- -1 * (fb25$mdbf5 - 4 - 1)
+fb25$mdbf7_r <- -1 * (fb25$mdbf7 - 4 - 1)
 
 # Berechnung von Skalenwerten
-fb24$wm_pre  <- fb24[, c('mdbf1', 'mdbf5_r', 
+fb25$wm_pre  <- fb25[, c('mdbf1', 'mdbf5_r', 
                         'mdbf7_r', 'mdbf10')] |> rowMeans()
-fb24$gs_pre  <- fb24[, c('mdbf1', 'mdbf4_r', 
+fb25$gs_pre  <- fb25[, c('mdbf1', 'mdbf4_r', 
                         'mdbf8', 'mdbf11_r')] |> rowMeans()
-fb24$ru_pre <-  fb24[, c("mdbf3_r", "mdbf6", 
+fb25$ru_pre <-  fb25[, c("mdbf3_r", "mdbf6", 
                          "mdbf9_r", "mdbf12")] |> rowMeans()
 
 # z-Standardisierung
-fb24$ru_pre_zstd <- scale(fb24$ru_pre, center = TRUE, scale = TRUE)
+fb25$ru_pre_zstd <- scale(fb25$ru_pre, center = TRUE, scale = TRUE)
 
 ```
 
-> Laden Sie zunächst den Datensatz `fb24` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb24.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/korrelation/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
+> Laden Sie zunächst den Datensatz `fb25` von der pandar-Website. Alternativ können Sie die fertige R-Daten-Datei [<i class="fas fa-download"></i> hier herunterladen](/daten/fb25.rda). Beachten Sie in jedem Fall, dass die [Ergänzungen im Datensatz](/lehre/statistik-i/korrelation/#prep) vorausgesetzt werden. Die Bedeutung der einzelnen Variablen und ihre Antwortkategorien können Sie dem Dokument [Variablenübersicht](/lehre/statistik-i/variablen.pdf) entnehmen.
 
 Prüfen Sie zur Sicherheit, ob alles funktioniert hat: 
 
 ```{r}
-dim(fb24)
-names(fb24)
+dim(fb25)
+names(fb25)
 ```
 
-Der Datensatz besteht aus `r nrow(fb24)` Zeilen (Beobachtungen) und `r ncol(fb24)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
+Der Datensatz besteht aus `r nrow(fb25)` Zeilen (Beobachtungen) und `r ncol(fb25)` Spalten (Variablen). Falls Sie bereits eigene Variablen erstellt haben, kann die Spaltenzahl natürlich abweichen.
 
 
 ***
@@ -143,7 +143,7 @@ library(psych)
 <summary>Lösung</summary>
 
 ```{r}
-describe(fb24$lz)
+describe(fb25$lz)
 ```
 
 </details>
@@ -155,7 +155,7 @@ describe(fb24$lz)
 <summary>Lösung</summary>
 
 ```{r}
-describeBy(fb24$lz, group = fb24$wohnen)
+describeBy(fb25$lz, group = fb25$wohnen)
 ```
 
 </details>
@@ -167,7 +167,7 @@ describeBy(fb24$lz, group = fb24$wohnen)
 <summary>Lösung</summary>
 
 ```{r}
-describe(fb24[,c("extra","vertr","gewis","neuro","offen")])
+describe(fb25[,c("extra","vertr","gewis","neuro","offen")])
 ```
 
 </details>
@@ -188,15 +188,15 @@ Zunächst können wir überprüfen, ob die Variablen als Faktor vorliegen.
 
 ```{r}
 #Labels
-is.factor(fb24$job)
-is.factor(fb24$hand)
+is.factor(fb25$job)
+is.factor(fb25$hand)
 ```
 
 Wenn Sie die Datensatzvorbereitung aus dem Skript kopiert haben, sollte die Variable `job` bereits ein Faktor sein.
 Die Variable `hand` jedoch nicht. Dies müssen wir ändern.
 
 ```{r}
-fb24$hand <- factor(fb24$hand,
+fb25$hand <- factor(fb25$hand,
                     levels = c(1, 2),
                     labels = c("links", "rechts"))
 ```
@@ -204,16 +204,16 @@ fb24$hand <- factor(fb24$hand,
 Für den Fall, dass die Variable `job` noch nicht als Faktor im Datensatz vorliegt, kann folgender Code durchgeführt werden. Achten Sie aber drauf, dass dieser Befehl auf eine Variable nicht angewendet werden sollte, wenn diese bereits ein Faktor ist. Ansonsten kommt es zu dem Fehler, dass die Variable keine Informationen mehr enthält.
 
 ```{r, eval = F}
-fb24$job <- factor(fb24$job, levels = c(1, 2),
+fb25$job <- factor(fb25$job, levels = c(1, 2),
   labels = c('nein', 'ja'))
 ```
 
 Die Variablen sehen dann folgendermaßen aus.
 
 ```{r}
-str(fb24$job)
+str(fb25$job)
 
-str(fb24$hand)
+str(fb25$hand)
 ```
 
 </details>
@@ -226,7 +226,7 @@ str(fb24$hand)
 
 ```{r}
 # Kreuztabelle absolut
-tab <- table(fb24$hand, fb24$job)
+tab <- table(fb25$hand, fb25$job)
 addmargins(tab)
 ```
 
@@ -261,7 +261,7 @@ phi(tab, digits = 3)
 Yule(tab) |> round(digits = 3) #da die Yule()-Funktion nicht direkt runden kann geben wir das Ergebnis an die round()-Funktion weiter
 ```
 
-Beide Koeffizienten sprechen für eine wenn überhaupt schwache Korrelation.
+Beide Koeffizienten sprechen für eine mittelstarke Korrelation. Das $\phi$ geringer ausfällt kann an der Empfindlichkeit gegenüber ungleichen Randverteilungen liegen.
 
 </details>
 
@@ -284,19 +284,19 @@ Welche der fünf Persönlichkeitsdimensionen Extraversion (`extra`), Verträglic
 
 ```{r}
 # Scatterplot
-plot(fb24$extra, fb24$lz, 
+plot(fb25$extra, fb25$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 
-plot(fb24$vertr, fb24$lz, 
+plot(fb25$vertr, fb25$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 
-plot(fb24$gewis, fb24$lz, 
+plot(fb25$gewis, fb25$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 
-plot(fb24$neuro, fb24$lz, 
+plot(fb25$neuro, fb25$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 
-plot(fb24$offen, fb24$lz, 
+plot(fb25$offen, fb25$lz, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
@@ -306,50 +306,50 @@ Die fünf Scatterplots lassen allesamt auf einen linearen Zusammenhang zwischen 
 
 ```{r}
 #QQ
-qqnorm(fb24$extra)
-qqline(fb24$extra)
+qqnorm(fb25$extra)
+qqline(fb25$extra)
 
-qqnorm(fb24$vertr)
-qqline(fb24$vertr)
+qqnorm(fb25$vertr)
+qqline(fb25$vertr)
 
-qqnorm(fb24$gewis)
-qqline(fb24$gewis)
+qqnorm(fb25$gewis)
+qqline(fb25$gewis)
 
-qqnorm(fb24$neuro)
-qqline(fb24$neuro)
+qqnorm(fb25$neuro)
+qqline(fb25$neuro)
 
-qqnorm(fb24$offen)
-qqline(fb24$offen)
+qqnorm(fb25$offen)
+qqline(fb25$offen)
 
-qqnorm(fb24$lz)
-qqline(fb24$lz)
+qqnorm(fb25$lz)
+qqline(fb25$lz)
 
 #Histogramm
-hist(fb24$extra, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb24$extra, na.rm = TRUE), sd = sd(fb24$extra, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+hist(fb25$extra, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb25$extra, na.rm = TRUE), sd = sd(fb25$extra, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 
-hist(fb24$vertr, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb24$vertr, na.rm = TRUE), sd = sd(fb24$vertr, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+hist(fb25$vertr, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb25$vertr, na.rm = TRUE), sd = sd(fb25$vertr, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 
-hist(fb24$gewis, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb24$gewis, na.rm = TRUE), sd = sd(fb24$gewis, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+hist(fb25$gewis, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb25$gewis, na.rm = TRUE), sd = sd(fb25$gewis, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 
-hist(fb24$neuro, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb24$neuro, na.rm = TRUE), sd = sd(fb24$neuro, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+hist(fb25$neuro, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb25$neuro, na.rm = TRUE), sd = sd(fb25$neuro, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 
-hist(fb24$offen, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb24$offen, na.rm = TRUE), sd = sd(fb24$offen, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+hist(fb25$offen, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb25$offen, na.rm = TRUE), sd = sd(fb25$offen, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 
-hist(fb24$lz, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb24$lz, na.rm = TRUE), sd = sd(fb24$lz, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+hist(fb25$lz, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb25$lz, na.rm = TRUE), sd = sd(fb25$lz, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 
 #Shapiro
-shapiro.test(fb24$extra)
-shapiro.test(fb24$vertr)
-shapiro.test(fb24$gewis)
-shapiro.test(fb24$neuro)
-shapiro.test(fb24$offen)
-shapiro.test(fb24$lz)
+shapiro.test(fb25$extra)
+shapiro.test(fb25$vertr)
+shapiro.test(fb25$gewis)
+shapiro.test(fb25$neuro)
+shapiro.test(fb25$offen)
+shapiro.test(fb25$lz)
 
 
 ```
@@ -365,7 +365,7 @@ $p < \alpha$ $\rightarrow$ H1: Normalverteilung kann für alle Variablen nicht a
 
 ```{r}
 # Korrelationstabelle erstellen und runden
-cor_mat <- round(cor(fb24[,c('lz', 'extra', 'vertr', 'gewis', 'neuro', 'offen')],
+cor_mat <- round(cor(fb25[,c('lz', 'extra', 'vertr', 'gewis', 'neuro', 'offen')],
                      use = 'pairwise',
                      method = 'spearman'),3)
 cor_mat
@@ -380,18 +380,18 @@ cor_mat
 
 <summary>Lösung</summary>
 
-Die betragsmäßig größte Korrelation mit der Lebenszufriedenheit hat der Neurotizismus. Nach den Richtlinien ist dieser mit `r cor_mat[4]` einem negativen mittleren Effekt, der ungefähr 0.3 beträgt, zuzuordnen.
+Die betragsmäßig größte Korrelation mit der Lebenszufriedenheit hat die Extraversion. Nach den Richtlinien ist dieser mit `r cor_mat[2]` einem mittleren Effekt, der ungefähr 0.3 beträgt, zuzuordnen.
 
 </details>
 
--   Ist der Korrelationskoeffizient von Lebenszufriedenheit und Neurotizismus statistisch signifikant?
+-   Ist der Korrelationskoeffizient von Lebenszufriedenheit und Extraversion statistisch signifikant?
 
 <details>
 
 <summary>Lösung</summary>
 
 ```{r}
-cor.test(fb24$lz, fb24$neuro, 
+cor.test(fb25$lz, fb25$extra, 
          alternative = "two.sided", 
          method = "spearman",       
          use = "pairwise") 
@@ -403,7 +403,7 @@ $p < \alpha$ $\rightarrow$ H1. Die Korrelation ist mit einer Irrtumswahrscheinli
 
 ## Aufgabe 4
 
-Untersuchen Sie die Korrelation zwischen Nerdiness (`nerd`) und Prokrastinationstendenz (`prok`). Berechnen Sie dafür ein geeignetes Korrelationsmaß und testen Sie dieses auf Signifikanz.
+Untersuchen Sie die Korrelation zwischen Gewissenhaftigkeit (`gewis`) und Prokrastinationstendenz (`prok`). Berechnen Sie dafür ein geeignetes Korrelationsmaß und testen Sie dieses auf Signifikanz.
 
 <details>
 
@@ -416,12 +416,11 @@ Um das geeignete Korrelationsmaß zu bestimmen überprüfen wir zunächst die Vo
 
 ```{r}
 # Scatterplot
-plot(fb24$nerd, fb24$prok, 
+plot(fb25$gewis, fb25$prok, 
   xlim = c(0, 6), ylim = c(0, 7), pch = 19)
 ```
 
-Es ist kein klarer linearer Zusammenhang zwischen `nerd` und `prok` zu erkennen.
-Gleichzeitig ist keine andere Art des Zusammenhangs (polynomial, exponentiell etc.) offensichtlich. Daher gehen wir für diese Aufgabe, um im Rahmen des Erstsemester Statistik Praktikums zu bleiben, davon aus dass die Vorraussetzung der Linearität erfüllt ist.  
+Es ist ein linearer Zusammenhang zwischen `gewis` und `prok` zu erkennen.
 
 3.  Normalverteilung $\rightarrow$ QQ-Plot, Histogramm oder Shapiro-Wilk Test
 
@@ -433,21 +432,21 @@ library(car)
 ```{r}
 
 #QQ-Plot
-qqPlot(fb24$nerd)
-qqPlot(fb24$prok)
+qqPlot(fb25$gewis)
+qqPlot(fb25$prok)
 
 
 #Histogramm
-hist(fb24$nerd, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb24$nerd, na.rm = TRUE), sd = sd(fb24$nerd, na.rm = TRUE)), col = "#00618F", add = TRUE)  
+hist(fb25$gewis, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb25$gewis, na.rm = TRUE), sd = sd(fb25$gewis, na.rm = TRUE)), col = "#00618F", add = TRUE)  
 
-hist(fb24$prok, prob = TRUE, ylim = c(0, 1))
-curve(dnorm(x, mean = mean(fb24$prok, na.rm = TRUE), sd = sd(fb24$prok, na.rm = TRUE)), col = "#00618F", add = TRUE)
+hist(fb25$prok, prob = TRUE, ylim = c(0, 1))
+curve(dnorm(x, mean = mean(fb25$prok, na.rm = TRUE), sd = sd(fb25$prok, na.rm = TRUE)), col = "#00618F", add = TRUE)
 
 
 #Shapiro-Wilk Test
-shapiro.test(fb24$nerd) #signifikant
-shapiro.test(fb24$prok) #signifikant
+shapiro.test(fb25$gewis) #signifikant
+shapiro.test(fb25$prok) #signifikant
 
 ```
 
@@ -457,19 +456,19 @@ Somit kommen wir zum Schluss das die Spearman-Rangkorrelation hier das richtige 
 
 
 ```{r}
-cor.test(fb24$nerd, fb24$prok,
+cor.test(fb25$gewis, fb25$prok,
                         alternative = "two.sided",
                         method = "spearman",
                         use = "pairwise")
 ```
 
 ```{r echo=FALSE}
-cor_pearson <- cor.test(fb24$nerd, fb24$prok,
+cor_pearson <- cor.test(fb25$gewis, fb25$prok,
                         alternative = "two.sided",
                         method = "pearson",
                         use = "pairwise")
 
-cor_spearman <- cor.test(fb24$nerd, fb24$prok,
+cor_spearman <- cor.test(fb25$gewis, fb25$prok,
                         alternative = "two.sided",
                         method = "spearman",
                         use = "pairwise")
@@ -483,7 +482,7 @@ Die Spearman-Rangkorrelation (p = `r cor_spearman$p.value`) ist nicht signifikan
 ## Aufgabe 5 Bonus
 
 Im vorherigen Kapitel haben wir die Poweranalyse behandelt. Solche Analysen kann man auch für Korrelationen vornehmen. Frischen Sie gerne Ihren Wissensstand [hier](/lehre/statistik-i/simulation-poweranalyse/) noch einmal auf.
-Daher, führen sie mit Hilfe des Pakets `WebPower` eine Sensitivitätsanalyse für den Datensatz `fb24` unter folgenden Parametern durch:
+Daher, führen sie mit Hilfe des Pakets `WebPower` eine Sensitivitätsanalyse für den Datensatz `fb25` unter folgenden Parametern durch:
 
   * Fehler 1. Art ($\alpha = 5\%$)
   * Fehler 2. Art ($\beta = 20\%$)
@@ -503,20 +502,20 @@ library(WebPower)
 
 ```{r}
 
-wp.correlation(n = nrow(fb24),            
+wp.correlation(n = nrow(fb25),            
                r = NULL,                  #gesucht
                power = 0.8,               #Power = 1 - Beta
                alternative = "two.sided") #leitet sich aus der H1 ab
 ```
 
 ```{r echo=FALSE}
-pa <- wp.correlation(n = nrow(fb24),            
+pa <- wp.correlation(n = nrow(fb25),            
                      r = NULL,                  
                      power = 0.8,               
                      alternative = "two.sided")
 ```
 
-Gegeben es gibt eine von null verschiedene (signifikante) Pearson-Korrelation muss diese mindestens `r round(pa$r, 3)` groß sein, damit wir diese mit einer Power von 80%, auf einem $\alpha$-Fehlerniveau von 5% in unserem Datensatz, mit n = `r nrow(fb24)` finden könnten.
+Gegeben es gibt eine von null verschiedene (signifikante) Pearson-Korrelation muss diese mindestens `r round(pa$r, 3)` groß sein, damit wir diese mit einer Power von 80%, auf einem $\alpha$-Fehlerniveau von 5% in unserem Datensatz, mit n = `r nrow(fb25)` finden könnten.
 
 </details>
 
