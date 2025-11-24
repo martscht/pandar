@@ -280,14 +280,14 @@ Außerdem variiert ein Schätzer und hat somit eine Varianz $\mathbb{V}ar\left[\
 
 Sei dazu $\hat{\theta}_j$ die Schätzung (hier der Mittelwert) der $j$-ten Studie ($j=1,\dots,k$, $k$ ist die Anzahl an Replikationen, in unserem Beispiel ist $k=10$) für den wahren Wert $\theta$ und $SE(\hat{\theta}_j)$ der zugehörige Standardfehler. Dann können wir (absoluten) Bias, relativen Bias, MCSD und MCSE wie folgt definieren:
 
-<div class = "big-maths">
+{{< math >}}
 \begin{align}
 \text{Bias}&=\bar{\hat{\theta}}-\theta\\
 \text{Rel-Bias}&=\frac{\bar{\hat{\theta}}-\theta}{\theta}\\
 \text{MCSD}&=SD(\hat{\theta_j})\\
 \text{MCSE}&=\overline{SE(\hat{\theta}_j)},
 \end{align}
-</div>
+{{< /math >}}
 
 wobei der Strich über den Variablen jeweils den Mittelwert symbolisiert. Der Hut \^ symbolisiert, dass hier etwas geschätzt wird. 
 
@@ -308,12 +308,12 @@ Unter Konstanthaltung alles weiterem in der Simulationsstudie, sollte der Bias u
 
 Führen wir einen Signifikanztest durch, so können wir die Power oder den Type I-Error eines Tests bestimmen (siehe auch [Einführungssitzung zu PsyMSc1](/fue-i/einleitung-fue), wo diese Begriffe bereits behandelt werden). Der Type I-Error ist der Fehler erster Art oder $\alpha$-Fehler. Wir messen ihn in Wahrscheinlichkeiten. Wir begehen einen $\alpha$-Fehler, wenn wir die $H_0$ verwerfen, obwohl diese gilt. Diese Wahrscheinlichkeit des $\alpha$-Fehlers sollte beim vorgegebenen $\alpha$-Niveau (i.d.R. $\alpha =$ {{<math>}}$5\%${{</math>}}) liegen. Gilt die $H_0$ nicht, so möchten wir, dass ein Test dies uns mit möglichst großer Wahrscheinlichkeit anzeigt. Die Wahrscheinlichkeit richtigerweise die $H_0$ zu verwerfen wird als *Power* bezeichnet. Hier können wir bspw. die Wahrscheinlichkeit bestimmen, dass das Konfidenzintervall nicht die 0 einschließt (somit der Effekt signifikant von 0 verschieden ist) - gleiches erreichen wir, indem wir einfach den Effekt durch seinen $SE$ teilen ($\left|\frac{Est}{SE}\right|$ und vergleiche bspw. mit 1.96). Untersuchen wir einen "richtigen" Test (z.B. ANOVA), so schauen wir uns die relative Häufigkeit eines signifikanten Ergebnisses an (also die relative Häufigkeit von $p<0.05$).  Die Power sollte möglichst groß sein (z.B. hätten Methodiker gerne, dass Power {{<math>}}$\ge 80\%${{</math>}} gilt). Liegt kein Effekt vor (was wir durch Vorgaben im Modell so entscheiden), so beschreibt die Power (so wie eben beschrieben) gerade den Type I-Error, also den Fehler erster Art. Dieser sollte gerade mit Wahrscheinlichkeit des $\alpha$-Niveaus auftreten. Somit sollte der Type I-Error möglichst nah an der {{<math>}}$5\%${{</math>}}-Marke liegen:
 
-<div class = "big-maths">
+{{< math >}}
 \begin{align}
 \text{Type I-Error}&=\mathbb{P}\left(H_0 \text{ verwerfen } | H_0 \text{ gilt}\right)\\
 \text{Power}&=\mathbb{P}\left(H_0 \text{ verwerfen } | H_1 \text{ gilt}\right).
 \end{align}
-</div>
+{{< /math >}}
 
 Außerdem können wir mit Hilfe der SEs von Effektparametern ein Konfidenzintervall bestimmen und dann untersuchen, wie wahrscheinlich es ist, den wahren Wert in diesem Konfidenzintervall einzuschließen. Es ergibt sich das symmetrische Konfidenzintervall (unter asymptotischer Normalverteilungsannahme des Schätzers) zu einem $\alpha$-Niveau von {{<math>}}$5\%${{</math>}} (dieses kennen Sie vielleicht noch aus dem ersten Semester):
 $$\Big[\hat{\theta}_j - 1.96SE(\theta_j);\ \ \hat{\theta}_j + 1.96SE(\theta_j)\Big]$$
@@ -482,13 +482,13 @@ $$\frac{|\hat{\theta}_j-\theta|}{SE(\hat{\theta_j})}\le1.96$$
 
 Damit ist ersichtlich, dass Bias, MCSE, MCSD und Coverage nicht unabhängig sind, denn ist der Bias groß und die Streuung klein, so sollte die Coverage ebenfalls klein sein. Bei erwartungstreuen Schätzern (jenen Schätzern, die [für große Stichproben] im Mittel beim wahren Wert rauskommen), sollte der Bias gerade nur in {{<math>}}$5\%${{</math>}} der Fälle zufällig von 0 signifikant sein, ist das Verfahren jedoch verzerrt, so ist diese Wahrscheinlichkeit deutlich größer und die Coverage entsprechend klein. Genauso können Verzerrungen der Streuung Einflüsse auf die Coverage nehmen. Ist bspw. der SE zu klein, so ist die Coverage ebenfalls kleiner als {{<math>}}$95\%${{</math>}} (in beiden Fällen ist jeweils angenommen, dass $\alpha =$ {{<math>}}$5\%${{</math>}} gewählt wurde). Es sollte folglich im Idealfall gelten:
 
-<div class = "big-maths">
+{{< math >}}
 \begin{align}
 \text{Coverage}&=\mathbb{P}\left(\theta \in \left[\hat{\theta}_j - 1.96SE(\hat{\theta_j});\ \ \hat{\theta}_j + 1.96SE(\hat{\theta_j})\right]\right)\\
 &=\mathbb{P}\left(\frac{|\hat{\theta}_j-\theta|}{SE(\hat{\theta_j})}\le1.96\right)\\
 &=0.95.
 \end{align}
-</div>
+{{< /math >}}
 
 
 
