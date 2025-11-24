@@ -178,7 +178,7 @@ Y <- rnorm(n = 1000, mean = 0, sd = 1)
 t.test(X, Y, var.equal = T)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=F}
 set.seed(2)
 Y <- rnorm(n = 1000, mean = 0, sd = 1)
 ttest <- t.test(X, Y, var.equal = T)
@@ -187,7 +187,7 @@ ttest
 
 Der Output enthält folgende Informationen:
 
-```{r, echo = F}
+```{r, echo = F, purl=F}
 # Output
 cat('
 Two Sample t-test
@@ -195,13 +195,13 @@ Two Sample t-test
 ```
 zeigt an, dass es sich um einen Zwei-Stichproben $t$-Test handelt.
 
-```{r, echo = F}
+```{r, echo = F, purl=F}
 cat(' data:  X and Y
  t = -1.4456, df = 1998, p-value = 0.1484')
 ```
 zeigt uns die Datengrundlage (`X` und `Y`), den $t$-Wert, die $df$ und den $p$-Wert. Wir erkennen, dass die Mittelwertsdifferenz bei $d$= `r round(mean(X)-mean(Y), 4)` liegt, mit zugehörigen $t$-Wert t(`r ttest$parameter`)=`r round(ttest$statistic, 4)` und $p$-Wert p=`r round(ttest$p.value, 4)`, somit ist dieser Mittelwertsvergleich auf dem 5% Niveau nicht signifikant ($p$>.05). 
 
-```{r, echo = F}
+```{r, echo = F, purl=F}
 cat(' alternative hypothesis: true difference in means is not equal to 0
  95 percent confidence interval:
   -0.15317201  0.02317988
@@ -226,7 +226,7 @@ Da die Null-Hypothese nicht verworfen wird, bedeutet dies, dass wir weiterhin an
 ### Verteilung unter $H_0$
 Wenn wir dieses Experiment nun ganz häufig wiederholen, dann sollte die Teststatistik $T=\frac{\bar{X}-\bar{Y}}{\sigma_p}$ (wobei $\bar{X}$ und $\bar{Y}$ die Mittelwerte von $X$ und $Y$ sind und $\sigma_p$ die gepoolte Standardabweichung beschreibt) der $t$-Verteilung folgen, welcher wir dann den $p$-Wert ablesen können. Das ist nämlich genau die Idee hinter dem inferenzstatistischen Testen. Hierbei entspricht die Teststatistik dem empirischen $t$-Wert. Die Bezeichnung kann also austauschbar verwendet werden! Wenn Sie sich für den dahinterliegenden Code interessieren, so können Sie diesen im [Appendix A](#AppendixA) nachlesen.
 
-```{r, echo = F}
+```{r, echo = F, purl=F}
 # Code der Histogramme der Verteilungen unter H0
 ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
 for(i in 1:10000)
@@ -253,7 +253,7 @@ Die beiden Histogramme zeigen die empirische Verteilung der $t$- und $p$-Werte u
 ### Verteilung unter $H_1$
 Angenommen die $H_0$-Hypothese gilt nicht und es liegt tatsächlich eine Mittelwertsdifferenz von bspw. $d=0.1$ ($H_1: \mu_1 - \mu_2 = 0.1$) vor, dann hat dies folgende Auswirkungen auf die Verteilung der Teststatistik und die zugehörigen $p$-Werte:
 
-```{r, echo = F}
+```{r, echo = F, purl=F}
 # Code der Histogramme der Verteilungen unter H1
 ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
 for(i in 1:10000)
@@ -275,7 +275,7 @@ abline(a = 1, b = 0, lwd = 3)
 
 Wir sehen sehr deutlich, dass die Teststatistik $T$ deutlich nach rechts verschoben ist und nicht mehr zur theoretischen Verteilung unter der $H_0$-Hypothese passt. Auch die $p$-Werte sind alles andere als gleichverteilt. Folglich sprechen extreme $t$-Werte gegen die Null-Hypothese, weswegen wir diese verwerfen, wenn wir einen extremen Wert beobachten. Hier liegen `r round(mean(ps < 0.05)*100,2)`% der $p$-Werte unterhalb von $0.05$. Dies wird auch als **Power** (siehe im Kapitel 8 in [Eid, et al., 2017](https://ubffm.hds.hebis.de/Record/HEB366849158) Wiederholungen der Begriffe Power und $\alpha$-Fehler) bezeichnet. Somit hat der $t$-Test für eine Mittelwertsdifferenz von $d$=.1 und eine Stichprobengröße von insgesamt n = 2000 eine Power von rund `r round(mean(ps < 0.05)*100,2)`%. Dies bedeutet, dass in diesem Fall die $H_0$ in `r round(mean(ps < 0.05)*100,2)`% der Fälle richtigerweise verworfen wird. Schauen wir uns die Power der $t$-Tests einmal für verschiedene Stichprobengröße ($n$) und Mittelwertsdifferenzen ($d$) an:
 
-```{r, echo = F, fig.align="center", fig.height=10, fig.width=10}
+```{r, echo = F, fig.align="center", fig.height=10, fig.width=10, purl=F}
 # Code der Power-Darstellung
 ps_null <- ps
 load(url("https://github.com/jpirmer/MSc1_FEI/blob/master/data/Erg.RData?raw=true"))
@@ -296,7 +296,7 @@ Wir sehen sehr deutlich, dass für alle Stichprobengrößen (farblich kodiert) v
 
 Was wir auch erkennen ist, dass für sehr große Stichproben die Power dieses Tests schon für sehr kleine Mittelwertsdifferenzen groß ist (idealerweise sprechen Methodiker von einem Test mit hinreichender Power, wenn diese größer als 80% ist). Dieses Beispiel zeigt sehr schön auf, dass damit die Power (also die Wahrscheinlichkeit einen Effekt zu finden, wenn dieser da ist) hoch ist, es einen Effekt geben muss (was sehr trivial klingt und es eigentlich auch ist) und zudem die Stichprobengröße hinreichend groß sein muss. Mit hinreichend groß hält sich der/die Statistiker/in die Hintertür offen zu sagen, dass: a) im Falle eines kleinen Effekts die Stichprobengröße eben sehr groß sein muss, um diesen zu erkennen und b) bei Vorliegen eines sehr großen Effekts schon eine kleine Stichprobengröße ausreicht, um den Effekt mit hinreichender Wahrscheinlichkeit auch als solchen zu identifizieren. Das ist auch der Grund, warum es *Poweranalysen* gibt, mit welchen bestimmt werden kann, wie groß die Stichprobengröße sein muss, um bei einem vorgegebenem erwarteten Effekt hinreichende Power zu haben, diese auch zu entdecken. Für sehr einfache Tests gibt es auch geschlossene Formeln, um bspw. Stichprobengröße zu finden, mit welcher vorgegebene Effekte mit hinreichend großer Wahrscheinlichkeit aufgedeckt werden können. Eines dieser Pakete ist das `pwr` Paket. Mit diesem können wir die oben dargestellte Grafik auch ohne Simulation (nur mit Formeln) erstellen (um das Ganze übersichtlicher zu gestalten, sind hier mehr Stichprobengrößen abgetragen, allerdings werden nur Stichproben von 2 bis 500 im Plot integriert):
 
-```{r, echo = F,fig.align="center", fig.height=10, fig.width=10}
+```{r, echo = F,fig.align="center", fig.height=10, fig.width=10, purl=F}
 # Darstellung rein durch die Formel
 library(pwr)
 Erg <- c()
@@ -327,7 +327,7 @@ Für Interessierte ist in [Appendix B](#AppendixB) ein kleiner Exkurs in `pwr` d
 ### Verstöße gegen die Modellannahmen
 Liegen andere Verstöße gegen die Modellannahmen vor, dann kann es fälschlicherweise zu signifikanten Ergebnissen kommen, obwohl es in der Population gar keinen Effekt gibt. Dies ist oft bei kleinen Stichproben ein Problem. Nehmen wir beispielsweise an, dass die beiden Gruppen sehr gegenläufig schief verteilt sind.
 
-```{r, echo = F}
+```{r, echo = F, purl=F}
 #### Verstöße gegen die Modellannahmen ----
 
 set.seed(1)
@@ -342,7 +342,7 @@ hist(X, breaks = 50); hist(Y, breaks = 50)
 
 Hier gilt zwar die Null-Hypothese, da beide Verteilungen einen theoretischen Mittelwert von 0 haben, aber die Varianzen unterscheiden sich (was im Histogramm  durch die extremeren Werte entlang der x-Achse zu erkennen ist) und die Variablen sind offensichtlich nicht normalverteilt. Schauen wir uns nun die Power des $t$-Tests für eine sehr kleine Stichprobe von 5 pro Gruppe an:
 
-```{r, echo = F}
+```{r, echo = F, purl=F}
 set.seed(1)
 ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
 for(i in 1:10000)
@@ -662,7 +662,7 @@ Die Inverse, also jenes Element, mit welchem wir (matrix-)multiplizieren müssen
 solve(C)
 ```
 
-```{r, echo = F}
+```{r, echo = F, purl=F}
 cat("Error in solve.default(C) : 
   system is computationally singular: reciprocal condition number = 2.59052e-18")
 ```
