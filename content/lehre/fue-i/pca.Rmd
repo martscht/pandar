@@ -182,23 +182,23 @@ gerade eine Diagonalmatrix mit den Eigenwerten auf der Diagonalen ist (man achte
 #### Datenreduktion
 Bis hierhin wurden die Daten noch nicht reduziert. Es wurde nur ein Weg präsentiert, wie die Korrelationsmatrix auch dargestellt werden kann mit Hilfe von orthogonalen (unkorrelierten) Hauptkomponenten. Wenn wir nun nur ein paar der Hauptkomponenten behalten (bspw. $k$ der $m$ Komponenten), dann geht Variation im Datensatz verloren. Hierbei ist es sinnig, dies anhand der Eigenwerte, also der Varianzen festzumachen, welche der Größe nach sortiert sind. Die Variation wird also durch die Reduktion der Hauptkomponenten verringert. Dies geschieht, indem wir aus der Matrix $\Lambda$ ein paar Spalten herausnehmen. Diese nennen wir dann $\Lambda^\*$. Entsprechend verändert sich auch die resultierende Korrelationsmatrix $R^*$, welche auch häufig implizierte (durch das reduzierte "Modell"; dazu im nächsten Semester mehr) Korrelationsmatrix ($\Sigma_\mathbf{Z}$) genannt wird. Diese lässt sich immer so bestimmen:
 
-<div class=“big maths“>
+{{< math >}}
 \begin{equation} 
 R^*:= \Lambda^* \Lambda^{*'}\quad (=\Sigma_\mathbf{Z})
 \end{equation}
-</div>
+{{< /math >}}
 
 
 wobei
 
-<div class=“big maths“>
+{{< math >}}
 \begin{equation} 
 \Lambda^{*'} \Lambda^* =  \begin{pmatrix} \theta_1 & 0 & 0\\
 0 & \ddots  & 0\\
 0 & 0 & \theta_k
 \end{pmatrix}
 \end{equation}
-</div>
+{{< /math >}}
 
 Haben wir also nur ein paar der Hauptkomponenten gewählt, ist das resultierende $R^\*$ nicht mehr gleich der Korrelationsmatrix, sondern repräsentiert die Korrelationsmatrix des reduzierten Datensatzes, wobei auf der Diagonalen keine 1en sondern die Kommunalitäten der Variablen stehen. Die ursprünglichen Variablen wurden in ihrer Variation eingeschränkt. Hier ist allerdings zu vermerken, dass wir diese reduzierte Korrelationsmatrix **NICHT** als Kovarianzmatrix interpretieren sollten, welche erst noch in einen Korrelationsmatrix zu überführen gilt! Sie können $R^\*$ (oder $\Sigma_Z$) als Korrelationsmatrix interpretieren und sollten sich die 1en auf der Diagnale einfach denken! *Jetzt aber Mal mit der dahinterliegenden Mathematik bei Seite*: Wie wir dies in `R` umsetzen und wo wir die jeweiligen Matrizen ablesen, schauen wir uns im Folgenden an.
 </details>
