@@ -40,9 +40,7 @@
     line-height: 1.2;
 }
 
-
-
-/* MATHEMAGIE */
+/* Usable for equations that are cutoff when only using math-shortcode, makes them scrollable */
 .big-maths {
     max-width: 720px;
     overflow-x: auto;
