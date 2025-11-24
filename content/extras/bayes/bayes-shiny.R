@@ -54,9 +54,10 @@ server <- function(input, output, session) {
       return("Implizierte mittlere Erfolgsrate (Posterior): (Analyse durchführen)")
     }
     params <- posterior_params()
+
+    # TRUE posterior mean:
     m <- params$alpha / (params$alpha + params$beta)
-    sprintf(
-      "Implizierte mittlere Erfolgsrate (Posterior) (nach %d Beobachtungen): %.3f",
+    sprintf("Implizierte mittlere Erfolgsrate (Posterior) (nach %d Beobachtungen): %.3f",
       params$n, params$k, m
     )
   })
