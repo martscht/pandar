@@ -308,7 +308,7 @@ lines(x = xWerte, y = dnorm(x = xWerte, mean = mean(res), sd = sd(res)), lwd = 3
 Das Histogramm zeigt keine großen Verstöße gegen die Normalverteilungsannahme.
 
 Ähnliche Informationen sind aus dem *Q-Q-Plot* zu entnehmen. Dafür kann der Befehl `qqPlot` aus dem `car` Paket genutzt werden. Hier kann die Verteilung, gegen die geprüft werden soll, direkt mit `distribution` festgelegt werden.
-<!-- NEEDS REVIEW, NOT WORKING -->
+
 ```{r}
 qqPlot(our_model, pch = 16, distribution = "norm")
 ```

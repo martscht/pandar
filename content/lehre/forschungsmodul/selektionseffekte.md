@@ -6,10 +6,10 @@ slug: selektionseffekte
 categories: ["Forschungsmodul"]
 tags: ["Selektion", "Heckman", "Bias", "lineares Modell", "Normalverteilung"]
 subtitle: ''
-summary: ''
+summary: 'In diesem Beitrag werden die Verzerrungen durch Selektionseffekte beispielhaft beleuchtet und gezeigt, wie diese durch Package-Funktionen möglichst bereinigt werden können.'
 authors: [irmer]
 weight: 2
-lastmod: '2025-02-07'
+lastmod: '2025-11-24'
 featured: no
 banner:
   image: "/header/apples.jpg"
@@ -63,7 +63,7 @@ In schwarz sehen wir den Bereich, in welchem $Z_i$ kleiner als -1 ausfällt und 
 Für den Code der Grafiken, siehe in [Appendix A](#AppendixA) nach. Die schwarze Fläche ist genau die Wahrscheinlichkeit, dass die Standardnormalverteilung einen Wert kleiner der oberen Grenze annimmt: also $\mathbb{P}(Z_i\le\beta_0+\beta_1X_i)=\Phi(\beta_0+\beta_1X_i)$. Diese fällt für einen Wert von 2 deutlich größer aus als für einen Wert von -1! In `R` lässt sich diese Wahrscheinlichkeit sehr leicht bestimmen:
 
 
-```r
+``` r
 set.seed(123456)                 # Vergleichbarkeit
 Z <- rnorm(10000)                # 10^4 std. normalverteilte Zufallsvariablen simulieren
 pnorm(q = -1, mean = 0, sd = 1)  # Theoretische Wahrscheinlichkeit, dass Z <= -1
@@ -73,7 +73,7 @@ pnorm(q = -1, mean = 0, sd = 1)  # Theoretische Wahrscheinlichkeit, dass Z <= -1
 ## [1] 0.1586553
 ```
 
-```r
+``` r
 mean(Z <= -1)                    # Empirische (beoabachtete) Wahrscheinlichkeit, dass Z <= -1
 ```
 
@@ -81,7 +81,7 @@ mean(Z <= -1)                    # Empirische (beoabachtete) Wahrscheinlichkeit,
 ## [1] 0.1544
 ```
 
-```r
+``` r
 pnorm(q = 2, mean = 0, sd = 1)   # Theoretische Wahrscheinlichkeit, dass Z <= 2
 ```
 
@@ -89,7 +89,7 @@ pnorm(q = 2, mean = 0, sd = 1)   # Theoretische Wahrscheinlichkeit, dass Z <= 2
 ## [1] 0.9772499
 ```
 
-```r
+``` r
 mean(Z <= 2)                     # Empirische (beoabachtete) Wahrscheinlichkeit, dass Z <= 2
 ```
 
@@ -100,7 +100,7 @@ Die beobachtete Wahrscheinlichkeit, dass die generierte Variable `Z` kleiner ode
 
 <a id="glmProbit"></a>
 
-```r
+``` r
 set.seed(1234567)
 n <- 1000
 Z <- rnorm(n = n, mean = 0, sd = 1)
@@ -149,7 +149,7 @@ wobei $\phi$ die Dichte- (in `R`: `dnorm(x = ?, mean = 0, sd = 1)`) und $\Phi$ d
 Um den Einfluss auf die Regression genauer zu erkennen, schauen wir uns ein simuliertes Beispiel in `R` an: Wir beginnen damit die Daten für die Populationsregression zu simulieren: `b0` und `b1` sind die Regressionskoeffizienten $b_0 = 0.5$ und $b_1 = 1.2$, `X` und `Z` sind $X$ und $Z$, `r` ist $r = 2$ in der Populationsgleichung und `sigma` ist die Standardabweichung (= 2) des unabhängigen Teils des Residuums $\varepsilon$.
 
 
-```r
+``` r
 set.seed(1234567)
 n <- 1000
 X <- rnorm(n = n, mean = 2, sd = 2)
@@ -177,7 +177,7 @@ Y_obs[s == 1] <- Y[ s== 1]     # beobachtbares Y
 Nachdem wir $Y$ simuliert haben (als gäbe es keinen Selektionseffekt), fügen wir die Selektion nachträglich hinzu. Dafür erstellen wir zunächst einen leeren Vektor `Y_obs` mit dem `reps` Befehl, den wir aus der letzten [Sitzung zu Simulationsstudien in `R`](/lehre/forschungsmodul/simulationsstudien) kennen. Anschließend füllen wir alle Stellen des Vektors an denen $s$ gleich 1 ist, also an dem selegiert wurde (in `R`: `s == 1`), mit den entsprechenden Werten aus $Y$ auf. Wenn wir nun eine Regression rechnen und nur die beobachteten Werte verwenden (`R` führt per Default listwise deletion: listenweisen Fallausschluss) durch, so erkennen wir, dass die Regressionsparameter deutlich verschätzt sind. Das Modell dazu nennen wir `reg_obs` für Regressionsobjekt observed. Führen wir hingegen eine Regression auf Populationsebene durch, indem wir `Y` anstatt `Y_obs` verwenden, so liegen die Regressionsschätzer hier sehr nah an den wahren Werten. Hierbei müssen wir unbedingt beachten, dass `Z` in beiden Gleichungen nicht auftaucht (die wahren Werte sind: $b_0 = 0.5$ und $b_1 = 1.2$):
 
 
-```r
+``` r
 reg_obs <- lm(Y_obs ~ X)
 reg_obs
 ```
@@ -192,7 +192,7 @@ reg_obs
 ##      5.4403       0.3922
 ```
 
-```r
+``` r
 reg_pop <- lm(Y ~ X)
 reg_pop
 ```
@@ -210,7 +210,7 @@ reg_pop
 Die Unterschiede liegen daran, dass $X$ und $Z$ korreliert sind in der selegierten Stichprobe:
 
 
-```r
+``` r
 cor(X[s==1], Z[s==1])
 ```
 
@@ -218,10 +218,10 @@ cor(X[s==1], Z[s==1])
 ## [1] -0.6101458
 ```
 
-Während sie es nicht sind in der repräsentativen Gesamtstichprobe: 
+Während sie es in der repräsentativen Gesamtstichprobe nicht sind : 
 
 
-```r
+``` r
 cor(X, Z)
 ```
 
@@ -232,7 +232,7 @@ cor(X, Z)
 Wir können das Ganze auch mit einen Signifikanztest untermauern:
 
 
-```r
+``` r
 cor.test(X[s==1], Z[s==1])
 ```
 
@@ -250,7 +250,7 @@ cor.test(X[s==1], Z[s==1])
 ## -0.6101458
 ```
 
-```r
+``` r
 cor.test(X, Z)
 ```
 
@@ -276,7 +276,7 @@ Diese Phänomen lässt sich auch sehr gut in einer Grafik veranschaulichen:
 
 Hier repräsentieren die hellblauen Punkte die repräsentative Stichprobe. Die schwarzen Punkte hingegen stellen die selegierte/verzerrte Stichprobe (biased sample) dar. Genauso zeigt die blaue Linie die korrekte Regressionsgerade, während die goldene Linie die verzerrte darstellt (für den Code der Grafik, siehe [Appendix A](#AppendixA)). Wir erkennen deutlich die Verzerrung der Ergebnisse. Sie können sich die Verzerrung wie folgt erklären: Die Regression wird unter der Annahme der Unabhängigkeit der Residuuen von den Prädiktoren in der Regressionsgleichung geschätzt. Da aber $e_i=rZ_i+\varepsilon_i$ gilt und wir weiter oben gesehen haben, dass $X$ und $Z$ in der Selektionsgruppe korreliert sind, bedeutet dies, dass das Residuum nicht länger unabhängig vom Prädiktor ist. Da dies aber eine Annahme ist und das Verfahren nur so geschätzt werden kann, werden die Parameter so verzerrt, damit die Residuen möglichst unsystematisch sind. Insbesondere der Mittelwert der Residuen muss 0 sein für jede Ausprägung von X. Es muss also gelten $\mathbb{E}[e_i|X_i]=0$. Allerdings ist dies nicht der Fall in der Selektionsgruppe: 
 
-<div class = "big-maths">
+<div class="big-maths">
 \begin{align}
 \mathbb{E}[e_i|X_i, s_i = 1]&=\mathbb{E}[rZ+\varepsilon_i|X_i]&& \\
 &= r\mathbb{E}[Z|X_i, s_i = 1] &&| \text{da }\varepsilon_i\text{ den unsystematischen Anteil enthält}\\
@@ -291,23 +291,8 @@ Die Umformung und Herleitung gehen über den Stoff dieses Kurses hinaus und dien
 Nun wollen wir allerdings noch die Methode von Heckman verwenden, um doch noch zu den richtigen Regressionsparameter zu kommen. Die Idee ist hierbei, dass wir zunächst die Probit-Regression verwenden, um den Selektionseffekt zu schätzen, damit dann das Inverse von Mills-Ratio bestimmen und dieses dann in die Regression von den tatsächlich beobachteten $Y$-Werten mit aufnehmen und somit den Effekt von $Z$ herausrechnen können. Glücklicherweise müssen wir dies nicht selbst programmieren, sondern können einfach auf  die Funktion `heckit` (abgeleitet vom Namensgeber Heckman) des `sampleSelection` Pakets von Toomet und Henningsen (2008) zurückgreifen (dieses muss zuvor installiert werden: `install.packages("sampleSelection")`). Der Funktion `heckit` müssen wir zwei Argumente übergeben: die Selektionsgleichung (`selection = s ~ 1 + X`) sowie die Regressionsgleichung (`outcome = Y_obs ~ 1 + X`). Wir speichern das Ganze als Objekt `heckman` ab und schauen uns die Summary an:
 
 
-```r
+``` r
 library(sampleSelection) # Paket laden
-```
-
-```
-## Warning: Paket 'sampleSelection' wurde unter R Version 4.3.2 erstellt
-```
-
-```
-## Warning: Paket 'maxLik' wurde unter R Version 4.3.2 erstellt
-```
-
-```
-## Warning: Paket 'miscTools' wurde unter R Version 4.3.2 erstellt
-```
-
-```r
 heckman <- heckit(selection = s ~ 1 + X, outcome = Y_obs ~ 1 + X)
 summary(heckman)
 ```
@@ -381,7 +366,7 @@ zeigt das Regressionsergebnis. Hier ist deutlich zu sehen, dass die Standardfehl
 Wir können, wie bei fast allen geschätzten Modellen, die Parameterschätzungen auch mit dem `coef` Befehl erhalten. Wenden wir diesen auf die Summary an, erhalten wir hier auch die Standardfehler:
 
 
-```r
+``` r
 coef(summary(heckman))
 ```
 
@@ -405,7 +390,7 @@ Wiederholen Sie doch einmal gleiches Modell für eine Stichprobengröße von $n=
 Wenn Sie die ML-Variante verwenden wollen, in der alle Parameter simultan geschätzt werden, dann müssen Sie die `selection` Funktion aus dem gleichen Paket verwenden. Das interessante hier ist nun, dass auch `rho` und `sigma` eine Signifikanzentscheidung erhalten. Ansonsten sind die beiden Varianten sehr ähnlich. Die ML-Variante ist numerisch aufwendiger (der PC hat mehr zu tun). Allerdings, wenn alle Annahmen erfüllt sind, hat die ML-Variante kleiner Standardfehler. Sind die Annahmen nicht erfüllt, dann ist die zweistufige Variante etwas robuster, da nicht so viele Parameter gleichzeitig geschätzt werden müssen:
 
 
-```r
+``` r
 heckman_ML <- selection(selection = s ~ 1 + X, outcome = Y_obs ~ 1 + X)
 summary(heckman_ML)
 ```
@@ -439,7 +424,7 @@ summary(heckman_ML)
 Ganz oben in der Summary steht nun, dass es sich um die ML-Methode handelt. `sigma` und `rho` haben nun auch eine Signifikanzentscheidung. Die Ergebnisse sind allerdings so gut wie identisch zum zweistufigen Verfahren. 
 
 
-```r
+``` r
 coef(summary(heckman_ML))
 ```
 
@@ -455,7 +440,7 @@ coef(summary(heckman_ML))
 
 Wenn Sie erstmal einen vorgefertigten Datensatz untersuchen wollen, so laden Sie sich doch diesen herunter: {{<icon name = "download" pack = "fas">}}[Datensatz `HeckData.rda`](/daten/HeckData.rda). Sie können `HeckData.rda` auch analog herunterladen und direkt einladen:
 
-```r
+``` r
 load(url("https://pandar.netlify.app/post/HeckData.rda"))
 ```
 In diesem Datensatz sind neben in dieser Sitzung präsentierten Parametern ($\beta_0=-2,\beta_1=0.5, b_0 = 0.5, b_1=1.2, r= 2,\sigma=2$) die Variablen $X,Y_{obs}$ und $s$ enthalten, sowie zu Demonstrationszwecken $Z$ und $Y$.
@@ -470,7 +455,7 @@ In diesem Datensatz sind neben in dieser Sitzung präsentierten Parametern ($\be
 <details><summary><b>Code zu R Grafiken</b></summary>
 
 
-```r
+``` r
 set.seed(123456) # Vergleichbarkeit
 Z <- rnorm(10000) # 10^4 std. normalverteilte Zufallsvariablen simulieren
 h <- hist(Z, breaks=50, plot=FALSE)
@@ -483,7 +468,7 @@ abline(v = -1, lwd = 3, lty = 3, col = "gold3")
 ![](/selektionseffekte_files/unnamed-chunk-20-1.png)<!-- -->
 
 
-```r
+``` r
 h <- hist(Z, breaks=50, plot=FALSE)
 cuts <- cut(h$breaks, c(-4,2,4)) # Grenzen festlegen für Färbung
 plot(h, col=cuts,  freq = F)
@@ -495,7 +480,7 @@ abline(v = 2, lwd = 3, lty = 3, col = "gold3")
 
 
 
-```r
+``` r
 plot(X, Y, pch = 16, col = "skyblue", cex = 1.5)
 points(X, Y_obs, pch = 16, col = "black")
 abline(reg_pop, col = "blue", lwd = 5)
@@ -514,7 +499,7 @@ legend(x = "bottomright", legend = c("all", "observed", "regression: all", "regr
 Wenn Sie die folgende Funktion von `simulate_heckman <- function(` bis `}` markieren und ausführen, dann sollte die Funktion oben rechts in Ihrem `R`-Studiofenser unter der Rubrik **Functions** zu finden sein. Wenn Sie die Funktion anschließend mit folgenden Argumenten ausführen `n = 10^5`,`beta0 = -2`, `beta1 = 0.5`, `b0 = 0.5`, `b1 = 1.2`, ` r = 2` und `sigma = 2` wählen, das entstehende Objekt als `data_heckman` abspeichern und die `head` Funktion darauf anwenden, so können sie 100000 Replikationen unter dem Heckman Modell mit den zuvor gewählten Parametern simulieren und sich davon die ersten 6 Zeile (Werte) ausgeben lassen. Anschließen schätzen Sie das Modell wie folgt: 
 
 
-```r
+``` r
 simulate_heckman <- function(n, 
                              beta0, beta1,
                              b0, b1, r,
@@ -557,7 +542,7 @@ head(data_heckman) # Daten ansehen
 ```
 
 
-```r
+``` r
 # Heckman Modell schätzen für große n
 heckman_model  <- heckit(selection = s ~ 1 + X, outcome = Y_obs ~ 1 + X, data = data_heckman)
 summary(heckman_model)

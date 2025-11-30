@@ -162,7 +162,7 @@ Die Unterschiede liegen daran, dass $X$ und $Z$ korreliert sind in der selegiert
 cor(X[s==1], Z[s==1])
 ```
 
-Während sie es nicht sind in der repräsentativen Gesamtstichprobe: 
+Während sie es in der repräsentativen Gesamtstichprobe nicht sind : 
 
 ```{r}
 cor(X, Z)
@@ -189,7 +189,7 @@ legend(x = "bottomright", legend = c("all", "observed", "regression: all", "regr
 
 Hier repräsentieren die hellblauen Punkte die repräsentative Stichprobe. Die schwarzen Punkte hingegen stellen die selegierte/verzerrte Stichprobe (biased sample) dar. Genauso zeigt die blaue Linie die korrekte Regressionsgerade, während die goldene Linie die verzerrte darstellt (für den Code der Grafik, siehe [Appendix A](#AppendixA)). Wir erkennen deutlich die Verzerrung der Ergebnisse. Sie können sich die Verzerrung wie folgt erklären: Die Regression wird unter der Annahme der Unabhängigkeit der Residuuen von den Prädiktoren in der Regressionsgleichung geschätzt. Da aber $e_i=rZ_i+\varepsilon_i$ gilt und wir weiter oben gesehen haben, dass $X$ und $Z$ in der Selektionsgruppe korreliert sind, bedeutet dies, dass das Residuum nicht länger unabhängig vom Prädiktor ist. Da dies aber eine Annahme ist und das Verfahren nur so geschätzt werden kann, werden die Parameter so verzerrt, damit die Residuen möglichst unsystematisch sind. Insbesondere der Mittelwert der Residuen muss 0 sein für jede Ausprägung von X. Es muss also gelten $\mathbb{E}[e_i|X_i]=0$. Allerdings ist dies nicht der Fall in der Selektionsgruppe: 
 
-<div class = "big-maths">
+<div class="big-maths">
 \begin{align}
 \mathbb{E}[e_i|X_i, s_i = 1]&=\mathbb{E}[rZ+\varepsilon_i|X_i]&& \\
 &= r\mathbb{E}[Z|X_i, s_i = 1] &&| \text{da }\varepsilon_i\text{ den unsystematischen Anteil enthält}\\
