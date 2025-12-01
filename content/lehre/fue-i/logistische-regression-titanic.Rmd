@@ -106,13 +106,13 @@ Diese 25% sind selbstverständlich nur eine Schätzung für die wahre Wahrschein
 
 Im Grunde wird bei der logistischen Regression die Wahrscheinlichkeit des Erfolgs (was auch immer das ist: Kopf bei einem Münzwurf, Überleben eines Unglücks ja/nein, befördert ja/nein, _oder besonders im psychologischen oder medizinischen Kontext relevant:_ erkrankt ja/nein, genesen ja/nein etc.) modelliert, welche eigentlich einfach wieder dem Mittelwert entspricht (bzw. der bedingten Erwartung). Die Funktion in `R` hierzu heißt `glm`, was für **G**eneralized **L**inear **M**odel steht. Um den Wertebereich der AV einzuhalten, wird die Erfolgswahrscheinlichkeit so transformiert, dass sie linear durch die UVs vorhergesagt werden kann, aber die Wahrscheinlichkeit trotzdem zwischen 0 und 1 liegt. Gehen wir bspw. von zwei Prädiktoren $X_1$ und $X_2$ aus:
 
-<div class = "big-maths">
+{{< math >}}
 \begin{align*}
 p &= \mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2) = \frac{e^{\beta_0 + \beta_1x_1 + \beta_2x_2}}{1 + e^{\beta_0 + \beta_1x_1 + \beta_2x_2}}\\[2ex]
 odds(p) & = \frac{\mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)}{1-\mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)} = e^{\beta_0 + \beta_1x_1 + \beta_2x_2}\\[2ex]
 logit(p) &  = \ln\left(\frac{\mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)}{1-\mathbb{P}(Y = 1 | X_1 = x_1, X_2 = x_2)}\right) = \beta_0 + \beta_1x_1 + \beta_2x_2
 \end{align*}
-</div>
+{{< /math >}}
 
 Hier ist $\ln$ der natürlich Logarithmus zur Basis $e$ ($e$ ist die Eulersche Zahl $\approx 2.718282$). Der $logit$ stellt hierbei die Link-Funktion dar, die den Erwartungswert den wir Untersuchen wollen, linear durch die Prädiktoren darstellen lässt. Die $odds$ und $p$ sind dann nur Retransformationen, die aus der Link-Funktion resultieren. Einige Wiederholungen zu Exponenten- oder Logarithmusregeln können Sie am Anfang der [Sitzung zu exponentiellem Wachstum aus dem Bachelor](/lehre/statistik-ii/regression-v) nachlesen.
 

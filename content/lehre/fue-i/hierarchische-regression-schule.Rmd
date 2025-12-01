@@ -167,12 +167,12 @@ Hierbei ist zu beachten, dass natürlich auch _nur_ eine L2 Variable in das Mode
 
 Außerdem können wir den Gleichungen die Unabhängigkeitsverletzung einer einfachen Regression entnehmen. Dies erkennen wir bereits am Nullmodell, dass in eingesetzter Form wie folgt aussieht:
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{equation} 
 \small 
 Y_{ij} = \gamma_{00} + \underbrace{u_{0j} + \varepsilon_{ij}}_{e_i}
 \end{equation}
-</div>
+{{< /math >}}
 
 In einer einfachen Regression würde $e_i:=u_{0j}+\varepsilon_{ij}$ als Residuum angesehen werden. Damit haben alle Erhebungen aus der gleichen Clustereinheit $j$ etwas gemeinsam (nämlich $u_{0j}$) und sind somit korreliert. Dies widerspricht der $i.i.d.$-Annahme in der Regression (vgl. [Regressionssitzung](/lehre/fue-i/regression-und-ausreisserdiagnostik)).
 
@@ -303,12 +303,12 @@ $$\mathbb{V}ar[Y] = \mathbb{V}ar[u_0]+\underbrace{\gamma_{10}^2\mathbb{V}ar[X_1]
 
 Für mehr Informationen zu Varianzrechenregeln schauen Sie im [Appendix B](#AppendixB) nach. Wir schreiben hier $\varepsilon^\*$, da es sich um ein anderes Residuum handelt, als im leeren Modell ($X_1$ ist ja mit von der Partie). Dieser ideellen Gleichung ist zu entnehmen, dass die Varianz von $\varepsilon^\*$ kleiner ausfällt, also die von $\varepsilon$, wenn $\gamma_{10}\neq 0$ und $X_1$ nicht konstant ist, also wenn $X_1$ zur Vorhersage vom Kriterium beiträgt (also folgt $\mathbb{V}ar[\varepsilon^*]<\mathbb{V}ar[\varepsilon]$). Wir machen uns diese Gegebenheit zu nutze und quantifizieren die relative Veränderung in der Varianz des Residuums und nennen diese Pseudo-$R^2$:
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{equation} 
 \small
 R^2_\text{pseudo:within}=\frac{\mathbb{V}ar[\varepsilon]-\mathbb{V}ar[\varepsilon^*]}{\mathbb{V}ar[\varepsilon]}=1-\frac{\mathbb{V}ar[\varepsilon^*]}{\mathbb{V}ar[\varepsilon]}.
 \end{equation}
-</div>
+{{< /math >}}
 
 
 In der Realität ist es so, dass Prädiktoren je nach Zentrierung auch within und between Variation von $Y$ erklären, da der Mittelwert eines Clusters between-Information enthält und die Abweichungen von diesem Mittelwert within-Informationen. Somit ist es so, dass ein nicht-zentrierter Prädiktor sowohl within als auch between Variation am Kriterium erklärt. Hinzu kommt dann noch die Schätzungenauigkeit.
@@ -332,22 +332,22 @@ Insgesamt können also `r round((1 - summary(m1)$sigma^2/summary(m0)$sigma^2)*10
 Genauso wie wir soeben die relative Veränderung der (within) Residualvarianz quantifiziert haben, können wir auch die relative Veränderung der Interzeptvariation (between Variation, Variation, die auf Unterschiede des Clusters/zwischen Klassen zurückzuführen sind) bestimmen. Da wir die Motivation am Gesamtmittelwert zentriert haben, sind einige Unterschiede zwischen den Klassen immer noch in der Variable `Motivation_c` enthalten (dazu später mehr im Abschnitt zur [Datenzentrierung](#Datenzentrierung)). Diesen Varianzanteil wollen wir nun quantifizieren und vergleichen dazu die beiden Modelle `m0` und `m1`:
 
 
-<div class=“big maths“> 
+{{< math >}} 
 \begin{align}
 \texttt{m0}:&\quad \mathbb{V}ar[Y] = \mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon]\\
 \texttt{m1}:&\quad \mathbb{V}ar[Y] = \mathbb{V}ar[u_0^*]+\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*]
 \end{align}
-</div>
+{{< /math >}}
 
 
 Falls der Prädiktor der Motivation (Grand-Mean zentriert) auch noch Unterschiede zwischen den Klassen enthält, dann sollten gelten: $\mathbb{V}ar[u_0^*]<\mathbb{V}ar[u_0]$; also sollte die Interzeptvariation von `m0` zu `m1` kleiner werden. Analog zum Pseudo-$R^2$ zuvor wird Pseudo-$R^2$ für die between Ebene (L2) definiert:
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{equation} 
 \small
 R^2_\text{pseudo:between}=\frac{\mathbb{V}ar[u_0]-\mathbb{V}ar[u_0^*]}{\mathbb{V}ar[u_0]}=1-\frac{\mathbb{V}ar[u_0^*]}{\mathbb{V}ar[u_0]}.
 \end{equation}
-</div>
+{{< /math >}}
 
 Wie wir die Interzeptvarianz erhalten, hatten wir uns schon angesehen, als es um den ICC ging. Folglich berechnen wir $R^2_\text{pseudo:between}$ so:
 ```{r, echo =-1}
@@ -366,21 +366,21 @@ Am Ergebnis erkennen wir auch, wieso es sich hierbei nur um ein Pseudo-$R^2$ han
 ### Pseudo $R^2$: between and within
 Zum Schluss bestimmen wir nun noch den Anteil der Variation des Kriteriums der insgesamt (between und within) durch den Prädiktor erklärt werden kann. Dazu schauen wir uns die gemeinsame Veränderung der Varianzen auf Level 1 (within) und Level 2 (between) an. Erklärt der Prädiktor substantielle Anteile, so sollte gelten:
 
-<div class=“big maths“> 
+{{< math >}} 
 \begin{equation} 
 \small
 \mathbb{V}ar[u_0^*]+\mathbb{V}ar[\varepsilon^*]<\mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon];
-\end{equation}
-</div>
+\end{equation} 
+{{< /math >}} 
 
 also sollte die gesamte nicht erklärte Varianz vom Kriterium von `m0` zu `m1` kleiner werden! Die relative Veränderung quantifizieren wir mit Hilfe von Pseudo-$R^2$ für between und within:
 
-<div class = "big-maths">
+{{< math >}} 
 \begin{align*}
 R^2_\text{pseudo:bw}&=\frac{(\mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon])-(\mathbb{V}ar[u_0^*]+\mathbb{V}ar[\varepsilon^*])}{\mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon]}\\
 &=1-\frac{\mathbb{V}ar[u_0^*]+\mathbb{V}ar[\varepsilon^*]}{\mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon]}.
-\end{align*}
-</div>
+\end{align*} 
+{{< /math >}}
 
 Folglich berechnen wir $R^2_\text{pseudo:bw}$ so:
 ```{r, echo=-1}
@@ -593,12 +593,12 @@ Wir wollen uns noch kurz ansehen, wie denn anders zentriert werden hätte könne
 ### Grand-Mean-Centering
 Beim Grand-Mean-Centering, also der Zentrierung am Stichprobenmittelwert, ziehen wir einfach den globalen Mittelwert der Variable über alle Erhebungen und Cluster ab (das haben wir oben ja schon gemacht!):
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{equation} 
 \small 
 X^*_{ij}=X_{ij}-\bar{X}_{\cdot\cdot}
 \end{equation}
-</div>
+{{< /math >}}
 
 Ein Wert von 0 auf $X_{ij}^\*$ bedeutet, dass diese Messung gerade genau dem Mittelwert der gesamten Stichprobe (über alle Personen $i$ und alle Clustereinheiten $j$) entspricht.
 
@@ -606,24 +606,24 @@ Ein Wert von 0 auf $X_{ij}^\*$ bedeutet, dass diese Messung gerade genau dem Mit
 Bei der gruppenspezifischen (auch clusterspezifischen) Zentrierung (Group-Mean-Centering), ziehen wir von jeder Messung $X_{ij}$ den Mittelwert des $j$ Clusters auf dieser Variable ab (also bspw. den Mittelwert der Matheleistung einer Klasse ziehen wir von den individuellen Matheleistungen aller Schüler dieser Klasse ab):
 
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{equation} 
 \small 
 X_{ij}^{**}=X_{ij}-\bar{X}_{\cdot j}
 \end{equation}
-</div>
+{{< /math >}}
 
 Ein Wert von 0 auf $X_{ij}^{\**}$ entspricht nun dem Durchschnitt in Cluster/Gruppe $j$. 
 Die Variable $X_{ij}^{**}$ sollte somit within Variation erklären (im Beispiel also die Variation innerhalb einer Klasse), was dafür spricht, dass es sinnvoll ist, diese Varianzaufklärung mit $R^2_\text{pseudo:within}$ zu quantifizieren. Außerdem ist es sinnvoll anschließend die Variable $\bar{X}\_{\cdot j}$ mit in die Analysen aufzunehmen, da sie between-Variation enthält (also Variation, die Unterschiede zwischen Clustern darstellt). Die Varianzaufklärung von $\bar{X}\_{\cdot j}$ kann somit mit  $R^2\_\text{pseudo:between}$ quantifiziert werden. Die gemeinsame Varianzaufklärung (quasi den Gesamtanteil between und within) können wir mit  $R^2\_\text{pseudo:bw}$ quantifizieren.
 
 Um diese Variablen anschließend auch noch sinnvoll hinsichtlich (z.B. Cross-Level-) Interaktionen interpretieren zu können, sollte die Gruppenmittelwertsvariable idealerweise auch noch am zentralen Mittelwert zentriert sein (der zentrale Mittelwert ist gerade auch der Mittelwert dieser Gruppenmittelwertsvariable):
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{equation} 
 \small 
 \bar{X}_{\cdot j}^*=\bar{X}_{\cdot j} - \bar{X}_{\cdot \cdot}
 \end{equation}
-</div>
+{{< /math >}}
 
 Somit entspricht ein Wert von 0 auf dieser Variable gerade einer Erhebung, die dem durchschnittlichen Mittelwert über alle Cluster entspricht. Demnach können wir auch sinnvoll beide zentrierten Variablen auf einmal interpretieren. Wenn eine Person auf der Variable $X_{ij}^{**}$ und auf der Variable $\bar{X}_{\cdot j}^*$ einen Wert von Null aufweist, so bedeutet dies, dass die Ausprägung auf dieser Variable durchschnittlich im Bezug auf das Cluster ist und auch auf die Gesamtstichprobe (wir landen also wieder beim gesamten Durchschnitt über die Stichprobe, können aber Effekte nun im Bezug auf Unterschiede zwischen den einzelnen Gruppe und innerhalb der Gruppen auseinanderdröseln). Folgende Aussagen sind möglich: (Kinder aus) Schulklassen mit durchschnittlich höherer Motivation zeigen insgesamt im Durchschnitt eine höhere Matheleistung (*quasi:* wenn der Durchschnitt der Motivation höher liegt in einer Klasse, so liegt auch der Mittelwert der Matheleistung in dieser Klasse im Mittel höher) und Kinder, die im Vergleich zu ihrer Schulklasse motivierter sind, zeigen ebenfalls eine im Schnitt eine höhere Matheleistung als andere Kinder ihrer Schulklasse. Auch Interaktionen können weitere Einblicke in die Daten bringen. Natürlich könnten diese Effekte auch gegenläufig sein.
 
@@ -653,12 +653,12 @@ round(colMeans(StudentsInClasses), 10)
 
 Die Funktion `group.center` aus dem `robumeta`-Paket nimmt uns die Arbeit ab, die Daten händisch an den Gruppenmittelwerten zu zentrieren ($X_{ij}^{**}$). Sie nimmt 2 Argumente entgegen: `var` die Variable, die zentriert werden soll (hier die Motivation), und `grp` die Gruppierungsvariable (hier die Schulklasse). Die Funktion `group.mean` funktioniert analog zu `group.center` und gibt uns gruppenspezifische Mittelwerte aus. Zum Schluss wird noch die Gruppierungsvariable zentriert am Gesamtmittelwert: 
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{equation} 
 \small 
 \bar{X}_{\cdot j}^*=\bar{X}_{\cdot j} - \bar{X}_{\cdot \cdot}
 \end{equation}
-</div>
+{{< /math >}}
 
 Den Spaltenmittelwerten entnehmen wir, dass die gruppenzentrierte Variable einen Mittelwert von 0 hat und die zentrierte Gruppenmittelwertsvariable ebenfalls. Außerdem sehen wir hier nochmals, dass der Mittelwert der Motivation gleich dem Mittelwert der Gruppenmittelwertsmotivation ist (`Motivation` vs. `Mot_groupmeans`).
 
@@ -744,7 +744,7 @@ $$\hat{\mathbb{V}ar}[Y] = \frac{1}{n}\sum_{i=1}^n(Y_i-\bar{Y})^2,$$
 
 wobei $\bar{Y}$ der Mittelwert von $Y$ ist. Wenn wir nun alle Einträge von $Y$ mit einer Konstanten multiplizieren, also für jede Person $i$ das Produkt $aY_i$ berechnen (z.B. $a=10$ oder $a=\gamma_{10}$) und die Varianz bestimmen (der Mittelwert von $aY$ ist einfach $a\bar{Y}$), dann ergibt sich:
 
-<div class = "big-maths">
+{{< math >}}
 \begin{align*}
 \hat{\mathbb{V}ar}[aY] &= \frac{1}{n}\sum_{i=1}^n(aY_i-a\bar{Y})^2\\
 &=\frac{1}{n}\sum_{i=1}^n\big(a(Y_i-\bar{Y})\big)^2\\
@@ -752,11 +752,11 @@ wobei $\bar{Y}$ der Mittelwert von $Y$ ist. Wenn wir nun alle Einträge von $Y$ 
 &=a^2\frac{1}{n}\sum_{i=1}^n(Y_i-\bar{Y})^2\\
 &=a^2\hat{\mathbb{V}ar}[Y],
 \end{align*}
-</div>
+{{< /math >}}
 
 Da $a$ in der Klammer steht, die quadriert wird, muss natürlich $a$ quadriert werden. Da auch $a^2$ eine Konstante ist, kann sie vor die Summe gezogen werden. Daraus wird dann ersichtlich, dass die Varianz des Produktes einer Variablen mit einer Konstanten gleich der Konstanten zum Quadrat multipliziert mit der Varianz der Variablen ist. Das Ganze kann auch als Beweis durchgeführt werden - wir müssten lediglich mit Integralen und Dichten (Wahrscheinlichkeitsverteilungen) rechnen. Weitere wichtige Rechenvorschriften sind (für $A$ und $B$ Zufallsvariablen und $\alpha$ und $\beta$ Konstanten):
 
-<div class = "big-maths">
+{{< math >}}
 \begin{align}
 \mathbb{V}ar[\alpha] &= 0\\
 \mathbb{V}ar[A]&=\mathbb{C}ov[A,A] \\
@@ -765,14 +765,14 @@ Da $a$ in der Klammer steht, die quadriert wird, muss natürlich $a$ quadriert w
 \mathbb{V}ar[A+B]&= \mathbb{V}ar[A] + 2\mathbb{C}ov[A,B] + \mathbb{V}ar[B]\\
 \mathbb{V}ar[\alpha A+\beta B]&= \alpha^2\mathbb{V}ar[A] + 2\alpha \beta \mathbb{C}ov[A,B] + \beta^2\mathbb{V}ar[B]
 \end{align}
-</div>
+{{< /math >}}
 
 Außerdem ist es so, dass wenn $A$ und $B$ unabhängig sind so folgt, dass $\mathbb{C}ov[A,B]=0$ (aber nicht umgekehrt!). Eine Konstante ist unabhängig von allen Variablen und hat eine Varianz von 0. Somit können wir die Variation von $Y$ im Modell mit Motivation $X_1$ als Prädiktor wie folgt berechnen:
 
 {{< math >}}
 \begin{align}
 \mathbb{V}ar[Y_{ij}] = &\mathbb{V}ar[\gamma_{00} + u_{0j} + \gamma_{10}X_{1,ij} + \varepsilon_{ij}^*] \\
-= &\mathbb{V}ar[u_{0j}] + 2\gamma_{10}\mathbb{C}ov[u_{0j},X_{1,ij}] +\mathbb{C}ov[u_{0j},\varepsilon_{ij}^{*} + \\ &2\gamma_{10}\mathbb{C}ov[X_{1,ij},\varepsilon_{ij}^*] + \gamma_{10}^2\mathbb{V}ar[X_{1,ij}] + \mathbb{V}ar[\varepsilon_{ij}^*]  \\
+= &\mathbb{V}ar[u_{0j}] + 2\gamma_{10}\mathbb{C}ov[u_{0j},X_{1,ij}] +\mathbb{C}ov[u_{0j},\varepsilon_{ij}^{*}] + \\ &2\gamma_{10}\mathbb{C}ov[X_{1,ij},\varepsilon_{ij}^*] + \gamma_{10}^2\mathbb{V}ar[X_{1,ij}] + \mathbb{V}ar[\varepsilon_{ij}^*]  \\
 = &\mathbb{V}ar[u_0]+\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*],
 \end{align}
 {{< /math >}}

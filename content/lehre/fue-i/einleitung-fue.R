@@ -1,4 +1,4 @@
-## load("C:/Users/Musterfrau/Desktop/Schulleistungen.rda")
+# load("C:/Users/Musterfrau/Desktop/Schulleistungen.rda")
 
 ## Daten laden
 load(url("https://pandar.netlify.app/daten/Schulleistungen.rda"))
@@ -55,25 +55,13 @@ set.seed(2)
 Y <- rnorm(n = 1000, mean = 0, sd = 1)
 t.test(X, Y, var.equal = T)
 
-set.seed(2)
-Y <- rnorm(n = 1000, mean = 0, sd = 1)
-ttest <- t.test(X, Y, var.equal = T)
-ttest
 
-# Output
-cat('
-Two Sample t-test
-')
 
-cat(' data:  X and Y
- t = -1.4456, df = 1998, p-value = 0.1484')
 
-cat(' alternative hypothesis: true difference in means is not equal to 0
- 95 percent confidence interval:
-  -0.15317201  0.02317988
- sample estimates:
-    mean of x    mean of y 
- -0.002997332  0.061998736')
+
+
+
+
 
 # Abspeichern des Tests als R-Objekt
 ttest <- t.test(X, Y, var.equal = T)
@@ -81,108 +69,17 @@ names(ttest)    # alle möglichen Argumente, die wir diesem Objekt entlocken kö
 ttest$statistic # (empirischer) t-Wert
 ttest$p.value   # zugehöriger p-Wert
 
-# Code der Histogramme der Verteilungen unter H0
-ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
-for(i in 1:10000)
-{
-    X <- rnorm(n = 1000, mean = 0, sd = 1)
-    Y <- rnorm(n = 1000, mean = 0, sd = 1)
-    ttest <- t.test(X, Y, var.equal = T)
-    ts <- c(ts, ttest$statistic) # nehme den Vektor ts und verlängere ihn um den neuen t-Wert
-    ps <- c(ps, ttest$p.value)   # nehme den Vektor ps und verlängere ihn um den neuen p-Wert
-}
 
-hist(ts, main = "(empirische) t-Werte nach 10000 Replikationen unter H0", 
-     xlab = "T", freq = F, breaks = 50)
-lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), 
-      lwd = 3)
-hist(ps, main = "p-Werte nach 10000 Replikationen unter H0", 
-     xlab = "p", freq = F, breaks = 50)
-abline(a = 1, b = 0, lwd = 3)
 
-# Code der Histogramme der Verteilungen unter H1
-ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
-for(i in 1:10000)
-{
-    X <- rnorm(n = 1000, mean = 0, sd = 1)
-    Y <- -0.1 + rnorm(n = 1000, mean = 0, sd = 1) # Mittelwertsdifferenz ist 0.1
-    ttest <- t.test(X, Y, var.equal = T)
-    ts <- c(ts, ttest$statistic) # nehme den Vektor ts und verlängere ihn um den neuen t-Wert
-    ps <- c(ps, ttest$p.value)   # nehme den Vektor ps und verlängere ihn um den neuen p-Wert
-}
 
-hist(ts, main = "(empirische) t-Werte nach 10000 Replikationen unter H1", 
-     xlab = "T", freq = F, breaks = 50)
-lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter), lwd = 3)
-hist(ps, main = "p-Werte nach 10000 Replikationen unter H1", 
-     xlab = "p", freq = F, breaks = 50)
-abline(a = 1, b = 0, lwd = 3)
 
-# Code der Power-Darstellung
-ps_null <- ps
-load(url("https://github.com/jpirmer/MSc1_FEI/blob/master/data/Erg.RData?raw=true"))
-library(papaja)
-library(ggplot2)
-ggplot(data = Erg, aes(x = d, y = Power, col = n, group = n))+
-  geom_line(lwd=1)+
-  geom_abline(slope = 0,intercept = .05, lty = 3)+
-  geom_abline(slope = 0,intercept = .8, lty = 2) + 
-  scale_colour_gradientn(colours=rainbow(4))+
-  ggtitle("Power vs. d and n")+ theme_apa(base_size = 20)
 
-# Darstellung rein durch die Formel
-library(pwr)
-Erg <- c()
-for(n in c(2, seq(5, 500, 5)))
-{
-     d = seq(-1,1,0.02)   
-     temp <- pwr.t.test(n = n, d = d)
-     Erg <- rbind(Erg, cbind(temp$power, d, n))
-     
-}
-Erg <- data.frame(Erg)
-names(Erg) <- c("Power", "d", "n")
 
-library(papaja)
-library(ggplot2)
-ggplot(data = Erg, aes(x = d, y = Power, col = n, group = n))+
-     geom_line(lwd=1)+
-     geom_abline(slope = 0,intercept = .05, lty = 3)+
-     geom_abline(slope = 0,intercept = .8, lty = 2) + 
-     scale_colour_gradientn(colours=rainbow(4))+
-     ggtitle("Power vs. d and n", subtitle = " Using formulas instead of simulation")+ theme_apa(base_size = 20)
 
-#### Verstöße gegen die Modellannahmen ----
 
-set.seed(1)
-par(mfrow = c(1,2))
 
-X <- -rexp(1000, 1)
-X <- X + 1
-Y <- rexp(1000, 2)
-Y <- Y - 1/2
-hist(X, breaks = 50); hist(Y, breaks = 50)
 
-set.seed(1)
-ts <- c(); ps <- c() # wir brauchen zunächst Vektoren, in die wir die t-Werte und die p-Werte hineinschreiben können
-for(i in 1:10000)
-{
-        X <- -rexp(5, 1)
-        X <- X + 1
-        Y <- rexp(5, 2)#rnorm(n = 1000, mean = 0, sd = 1000)
-        Y <- Y - 1/2
-        ttest <- t.test(X, Y, var.equal = T)
-        ts <- c(ts, ttest$statistic) # nehme den Vektor ts und verlängere ihn um den neuen t-Wert
-        ps <- c(ps, ttest$p.value)   # nehme den Vektor ps und verlängere ihn um den neuen p-Wert
-}
 
-hist(ts, main = "t-Werte nach 10000 Replikationen unter Modellverstöße\n für kleine Stichproben", 
-     xlab = "t", freq = F, breaks = 50)
-lines(x = seq(-4,4,0.01), dt(x = seq(-4,4,0.01), df = ttest$parameter),
-      lwd = 3)
-hist(ps, main = "p-Werte nach 10000 Replikationen unter Modellverstößen\n für kleine Stichproben", 
-     xlab = "p", freq = F, breaks = 50)
-abline(a = 1, b = 0, lwd = 3)
 
 #### Appendix A
 
@@ -323,7 +220,7 @@ A
 t(A)
 B
 
-## A + B
+# A + B
 
 cat("Error in A + B : non-conformable arrays")
 
@@ -340,10 +237,9 @@ C
 
 diag(C)
 
-## solve(C)
+# solve(C)
 
-cat("Error in solve.default(C) : 
-  system is computationally singular: reciprocal condition number = 2.59052e-18")
+
 
 det(C)
 round(det(C), 14)

@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Beitrag werden Multi-Level Daten mit einer hierarchischen Regression analysiert. Die Modellebenen, Modellspezifikation und unter anderem Interpretationen der Effekte und Ergebnisse werden mit aufbauend komplexen Modellen erklärt.' 
 authors: [irmer] 
 weight: 3
-lastmod: '2025-10-20'
+lastmod: '2025-11-24'
 featured: no
 banner:
   image: "/header/books.jpg"
@@ -45,14 +45,14 @@ In dieser Sitzung wollen wir hierarchische Daten mit der Multi-Level-Regression 
 Dazu laden wir mit `load` die Daten (bspw. auf dem Desktop von Frau "Musterfrau") _Tipp: Verwenden Sie unbedingt die automatische Vervollständigung von `R`-Studio, wie in den letzten Sitzungen beschrieben_.
 
 
-```r
+``` r
 load("C:/Users/Musterfrau/Desktop/StudentsInClasses.rda")
 ```
 
 Genauso können Sie die Daten direkt von der Website laden:
 
 
-```r
+``` r
 load(url("https://pandar.netlify.app/daten/StudentsInClasses.rda"))
 ```
 
@@ -64,25 +64,18 @@ Nun sollte in `R`-Studio oben rechts in dem Fenster unter der Rubrik "Data" unse
 In Multilevel-Daten gibt es, wie der Name schon andeutet, mehrere Level. In unserem Datensatz gibt es zwei: Level 1 enthält die Individualdaten (within) und Level 2 enthält die clusterspezifischen Daten (between). Wir verwenden wieder `head`, um zu schauen, welche Variablen wohl auf welchem Level liegen:
 
 
-```r
+``` r
 head(StudentsInClasses)
 ```
 
 ```
-##   MatheL Motivation KFT
-## 1  48.76          4  98
-## 2  46.01          3  96
-## 3  65.96          5 112
-## 4  42.08          4  94
-## 5   0.00          2  78
-## 6  56.52          5 104
-##   KlassenG schulklasse
-## 1       26           1
-## 2       26           1
-## 3       26           1
-## 4       26           1
-## 5       26           1
-## 6       26           1
+##   MatheL Motivation KFT KlassenG schulklasse
+## 1  48.76          4  98       26           1
+## 2  46.01          3  96       26           1
+## 3  65.96          5 112       26           1
+## 4  42.08          4  94       26           1
+## 5   0.00          2  78       26           1
+## 6  56.52          5 104       26           1
 ```
 
 Aus dieser Übersicht ergibt sich folgende Aufteilung:
@@ -101,17 +94,13 @@ Aus dieser Übersicht ergibt sich folgende Aufteilung:
 Die Daten liegen hier im "Long"-Format vor, was bedeutet, dass Schüler aus einer Klasse untereinander stehen und es eine Clustervariable gibt, die die Schüler jeweils einer Klasse zuordnet. In diesem Fall ist dies die Level 2 Variable `schulklasse` (hierbei ist es wichtig, dass jedes Schulkind nur einer Schulklasse zugeordnet werden kann und dass unterschiedliche Schulklassen auch unterschiedliche Bezeichnungen haben müssen - die Level 2 Variable `KlassenG` kann für unterschiedliche Schulklassen die selbe Ausprägung aufweisen, sie ist nämlich nur eine Variable, die das Cluster näher beschreibt). Wir schauen uns noch schnell die Mittelwerte der Variablen an:
 
 
-```r
+``` r
 colMeans(StudentsInClasses)
 ```
 
 ```
-##      MatheL  Motivation 
-##   53.616047    4.285882 
-##         KFT    KlassenG 
-##  100.001176   27.090588 
-## schulklasse 
-##   20.280000
+##      MatheL  Motivation         KFT    KlassenG schulklasse 
+##   53.616047    4.285882  100.001176   27.090588   20.280000
 ```
 Bei Multi-Level-Analysen ist darauf zu achten, dass für bessere Interpretierbarkeit unabhängige Variablen zentriert werden sollten. Wir können zwischen _Grand-Mean-Centering_ und _Group-Mean-Centering_ unterscheiden. Beim _Grand-Mean-Centering_ wird am Stichprobenmittelwert der jeweiligen Variable zentriert. Somit spricht ein Wert von Null auf der zentrierten Variable für den Mittelwert über alle Erhebungen (hier: Schulkinder). Beim Group-Mean-Centering wird am Mittelwert des jeweiligen Clusters zentriert. Somit entspricht ein Mittelwert von 0 auf der zentrierten Variable für einen durchschnittlichen Wert innerhalb dieses Clusters (hier: für einen durchschnittlichen Wert innerhalb dieser Schulklasse). Beim Group-Mean-Centering können die Ergebnisse gut in Hinsicht auf die Schulklasse interpretiert werden, allerdings geht die Unterschiedlichkeit zwischen Klassen verloren, weswegen häufig zusätzlich zur zentrierten Variable auch der Mittelwert pro Cluster als L2 Variable mit in das Modell aufgenommen wird. Wir schauen uns dies später im Abschnitt [Datenzentrierung](#Datenzentrierung) genauer an.
 
@@ -129,28 +118,10 @@ Wir wollen folgende Hypothesen untersuchen:
 Wir werden im Folgenden wieder neue `R`-Pakete benötigen. Diese müssen zunächst installiert werden (`install.packages`) und anschließend geladen werden: Das wichtigste Paket ist `lme4` (**l**inear **m**ixed **e**ffects 4, wobei wir annehmen können, dass die 4 hier für _four_ steht, was sich wie "_for **r**_" spricht), welches für die Multi-Level Analysen von Nöten ist.  `lmerTest` verwenden wir, um Modellvergleiche sinnvoll auch für Varianzen durchführen zu können. `lme4` und `lmerTest` sollten immer gemeinsam geladen werden (auch wenn in den meisten Fällen `lmerTest` erzwingt, dass `lme4` auch geladen wird), denn `lmerTest` erweitert lediglich das Paket `lme4` um einige wichtige Funktionen. `robutmeta` verwenden wir, um Daten gruppenspezifisch zu zentrieren.
 
 
-```r
+``` r
 library(lme4)       # für das Durchführen von Multi-Level Regressionen
 library(lmerTest) # lmerTest markiert in der Ausgabe signifikante Koeffizienten und korrigiert Modellvergleiche für Varianzen
-```
-
-```
-## Warning: Paket 'lmerTest'
-## wurde unter R Version 4.3.2
-## erstellt
-```
-
-```r
 library(robumeta)   # Datensatzmanipulation
-```
-
-```
-## Warning: Paket 'robumeta'
-## wurde unter R Version 4.3.2
-## erstellt
-```
-
-```r
 library(ggplot2) # ggplot2 und dplyr werden nur für Grafiken benötigt
 library(dplyr)   # für Datensatzmanipulationen
 ```
@@ -204,12 +175,12 @@ Hierbei ist zu beachten, dass natürlich auch _nur_ eine L2 Variable in das Mode
 
 Außerdem können wir den Gleichungen die Unabhängigkeitsverletzung einer einfachen Regression entnehmen. Dies erkennen wir bereits am Nullmodell, dass in eingesetzter Form wie folgt aussieht:
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{equation} 
 \small 
 Y_{ij} = \gamma_{00} + \underbrace{u_{0j} + \varepsilon_{ij}}_{e_i}
 \end{equation}
-</div>
+{{< /math >}}
 
 In einer einfachen Regression würde $e_i:=u_{0j}+\varepsilon_{ij}$ als Residuum angesehen werden. Damit haben alle Erhebungen aus der gleichen Clustereinheit $j$ etwas gemeinsam (nämlich $u_{0j}$) und sind somit korreliert. Dies widerspricht der $i.i.d.$-Annahme in der Regression (vgl. [Regressionssitzung](/lehre/fue-i/regression-und-ausreisserdiagnostik)).
 
@@ -222,52 +193,33 @@ Bevor wir mit den Analysen beginnen, müssen wir prüfen, ob eine Multi-Level-An
 Wir nennen das Nullmodell-Objekt einfach mal `m0` (für Modell 0).
 
 
-```r
+``` r
 m0 <- lmer(MatheL ~ 1 +  (1 | schulklasse), data = StudentsInClasses)
 summary(m0)
 ```
 
 ```
-## Linear mixed model fit by
-##   REML. t-tests use
-##   Satterthwaite's method [
-## lmerModLmerTest]
-## Formula: 
-## MatheL ~ 1 + (1 | schulklasse)
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Formula: MatheL ~ 1 + (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
-## REML criterion at convergence: 
-## 6565.3
+## REML criterion at convergence: 6565.3
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median 
-## -4.5448 -0.5642 -0.0015 
-##      3Q     Max 
-##  0.5695  3.5476 
+##     Min      1Q  Median      3Q     Max 
+## -4.5448 -0.5642 -0.0015  0.5695  3.5476 
 ## 
 ## Random effects:
-##  Groups      Name       
-##  schulklasse (Intercept)
-##  Residual               
-##  Variance Std.Dev.
-##   23.87    4.885  
-##  123.12   11.096  
-## Number of obs: 850, groups:  
-## schulklasse, 40
+##  Groups      Name        Variance Std.Dev.
+##  schulklasse (Intercept)  23.87    4.885  
+##  Residual                123.12   11.096  
+## Number of obs: 850, groups:  schulklasse, 40
 ## 
 ## Fixed effects:
-##             Estimate
-## (Intercept)  54.0235
-##             Std. Error
-## (Intercept)     0.8658
-##                  df t value
-## (Intercept) 37.0961    62.4
-##             Pr(>|t|)    
-## (Intercept)   <2e-16 ***
+##             Estimate Std. Error      df t value Pr(>|t|)    
+## (Intercept)  54.0235     0.8658 37.0961    62.4   <2e-16 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Die Summary sieht der der normalen linearen Regression sehr ähnlich. Wir schauen uns diese im Detail an.
@@ -310,7 +262,7 @@ Wir wollen uns noch schnell den ICC ansehen. Entweder machen wir dies per Hand u
 $$ICC := \frac{\mathbb{V}ar[u_0]}{\mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon]}.$$
 
 
-```r
+``` r
 # Per Hand
 23.87 / (23.87 + 123.12)
 ```
@@ -319,7 +271,7 @@ $$ICC := \frac{\mathbb{V}ar[u_0]}{\mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon]}.$
 ## [1] 0.162392
 ```
 
-```r
+``` r
 # Mit Zugriff auf das Nullmodell-Objekt
 VarCorr(m0)$schulklasse[1] / (VarCorr(m0)$schulklasse[1] + summary(m0)$sigma^2)
 ```
@@ -332,20 +284,17 @@ _**Achtung:** Unterschiede kommen durch Runden zustande - die Ergebnisse abgeles
 
 Die Funktion `VarCorr` gibt die Varianz, die Standardabweichung, sowie die Korrelationen zwischen mehreren Random Effekten (z.B. die Korrelation zwischen Interzept und Slope) aus. Wir müssen dann das Interzept via `$schulklasse[1]` auswählen, weil es der erste zufällige Effekt ist, der  auf das Cluster zurückgeführt werden kann.
 
-```r
+``` r
 VarCorr(m0) # nur die Standardabweichungen (also Wurzel aus den Varianzen) werden angezeigt
 ```
 
 ```
-##  Groups      Name       
-##  schulklasse (Intercept)
-##  Residual               
-##  Std.Dev.
-##   4.8855 
-##  11.0958
+##  Groups      Name        Std.Dev.
+##  schulklasse (Intercept)  4.8855 
+##  Residual                11.0958
 ```
 
-```r
+``` r
 VarCorr(m0)$schulklasse # auch Varianzen werden angezeigt
 ```
 
@@ -360,7 +309,7 @@ VarCorr(m0)$schulklasse # auch Varianzen werden angezeigt
 ## (Intercept)           1
 ```
 
-```r
+``` r
 VarCorr(m0)$schulklasse[1] # das erste Element ist die Varianz des Interzepts
 ```
 
@@ -371,7 +320,7 @@ VarCorr(m0)$schulklasse[1] # das erste Element ist die Varianz des Interzepts
 Dem Summary Objekt (also `summary(m0)`) können wir via `$sigma` die Standardabweichung der Residuen entlocken, welche quadriert die Varianz von $\varepsilon$ ist.
 
 
-```r
+``` r
 summary(m0)$sigma # Residualstandardabweichung
 ```
 
@@ -379,7 +328,7 @@ summary(m0)$sigma # Residualstandardabweichung
 ## [1] 11.09581
 ```
 
-```r
+``` r
 summary(m0)$sigma^2 # Residualvarianz
 ```
 
@@ -387,29 +336,15 @@ summary(m0)$sigma^2 # Residualvarianz
 ## [1] 123.1171
 ```
 
-```r
+``` r
 names(summary(m0)) # alle Informationen, die wir der Summary entlocken können
 ```
 
 ```
-##  [1] "methTitle"   
-##  [2] "objClass"    
-##  [3] "devcomp"     
-##  [4] "isLmer"      
-##  [5] "useScale"    
-##  [6] "logLik"      
-##  [7] "family"      
-##  [8] "link"        
-##  [9] "ngrps"       
-## [10] "coefficients"
-## [11] "sigma"       
-## [12] "vcov"        
-## [13] "varcor"      
-## [14] "AICtab"      
-## [15] "call"        
-## [16] "residuals"   
-## [17] "fitMsgs"     
-## [18] "optinfo"
+##  [1] "methTitle"    "objClass"     "devcomp"      "isLmer"       "useScale"    
+##  [6] "logLik"       "family"       "link"         "ngrps"        "coefficients"
+## [11] "sigma"        "vcov"         "varcor"       "AICtab"       "call"        
+## [16] "residuals"    "fitMsgs"      "optinfo"      "corrSet"
 ```
 
 **Inhaltliche Interpretation**: 16.2% der Varianz in der Mathematikleistung können durch die Klassenzugehörigkeit erklärt werden. Die Multi-Level-Struktur in den Daten muss somit unbedingt berücksichtigt werden.
@@ -434,73 +369,47 @@ Nun wollen wir prüfen, ob sich die Matheleistung durch die Motivation zu Lernen
 Bevor wir den Effekt der Motivation auf die Matheleistung untersuchen, zentrieren wir die Lernmotivation am Stichprobenmittelwert und nennen die Variable `$Motivation_c` (durch das Dollarzeichen wird sie dem Datensatz angehängt):
 
 
-```r
+``` r
 StudentsInClasses$Motivation_c <- StudentsInClasses$Motivation - mean(StudentsInClasses$Motivation)
 round(colMeans(StudentsInClasses), 10) # Spaltenmittelwerte gerundet auf 10 Nachkommastellen
 ```
 
 ```
-##       MatheL   Motivation 
-##    53.616047     4.285882 
-##          KFT     KlassenG 
-##   100.001176    27.090588 
-##  schulklasse Motivation_c 
-##    20.280000     0.000000
+##       MatheL   Motivation          KFT     KlassenG  schulklasse Motivation_c 
+##    53.616047     4.285882   100.001176    27.090588    20.280000     0.000000
 ```
 Den Spaltenmittelwerten entnehmen wir, dass `Motivation_c` nun einen Mittelwert von 0 hat (gerundet mit `round` auf 10 Nachkommastellen). Nun nehmen wir diese Variable in das Multi-Level-Modell mit auf. Das Modell nennen wir entsprechend der 1. Hypothese `m1`.
 
 
 
-```r
+``` r
 m1 <- lmer(MatheL ~ 1 + Motivation_c + (1 | schulklasse), data = StudentsInClasses)
 summary(m1)
 ```
 
 ```
-## Linear mixed model fit by
-##   REML. t-tests use
-##   Satterthwaite's method [
-## lmerModLmerTest]
-## Formula: 
-## MatheL ~ 1 + Motivation_c + (1 | schulklasse)
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Formula: MatheL ~ 1 + Motivation_c + (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
-## REML criterion at convergence: 
-## 6231.1
+## REML criterion at convergence: 6231.1
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median 
-## -3.9343 -0.5597  0.0146 
-##      3Q     Max 
-##  0.6001  4.7018 
+##     Min      1Q  Median      3Q     Max 
+## -3.9343 -0.5597  0.0146  0.6001  4.7018 
 ## 
 ## Random effects:
-##  Groups      Name       
-##  schulklasse (Intercept)
-##  Residual               
-##  Variance Std.Dev.
-##  26.57    5.154   
-##  81.46    9.026   
-## Number of obs: 850, groups:  
-## schulklasse, 40
+##  Groups      Name        Variance Std.Dev.
+##  schulklasse (Intercept) 26.57    5.154   
+##  Residual                81.46    9.026   
+## Number of obs: 850, groups:  schulklasse, 40
 ## 
 ## Fixed effects:
-##              Estimate
-## (Intercept)   54.0708
-## Motivation_c   6.0879
-##              Std. Error
-## (Intercept)      0.8751
-## Motivation_c     0.2991
-##                    df t value
-## (Intercept)   37.7353   61.79
-## Motivation_c 808.6683   20.35
-##              Pr(>|t|)    
-## (Intercept)    <2e-16 ***
-## Motivation_c   <2e-16 ***
+##              Estimate Std. Error       df t value Pr(>|t|)    
+## (Intercept)   54.0708     0.8751  37.7353   61.79   <2e-16 ***
+## Motivation_c   6.0879     0.2991 808.6683   20.35   <2e-16 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr)
@@ -520,19 +429,19 @@ $$\mathbb{V}ar[Y] = \mathbb{V}ar[u_0]+\underbrace{\gamma_{10}^2\mathbb{V}ar[X_1]
 
 Für mehr Informationen zu Varianzrechenregeln schauen Sie im [Appendix B](#AppendixB) nach. Wir schreiben hier $\varepsilon^\*$, da es sich um ein anderes Residuum handelt, als im leeren Modell ($X_1$ ist ja mit von der Partie). Dieser ideellen Gleichung ist zu entnehmen, dass die Varianz von $\varepsilon^\*$ kleiner ausfällt, also die von $\varepsilon$, wenn $\gamma_{10}\neq 0$ und $X_1$ nicht konstant ist, also wenn $X_1$ zur Vorhersage vom Kriterium beiträgt (also folgt $\mathbb{V}ar[\varepsilon^*]<\mathbb{V}ar[\varepsilon]$). Wir machen uns diese Gegebenheit zu nutze und quantifizieren die relative Veränderung in der Varianz des Residuums und nennen diese Pseudo-$R^2$:
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{equation} 
 \small
 R^2_\text{pseudo:within}=\frac{\mathbb{V}ar[\varepsilon]-\mathbb{V}ar[\varepsilon^*]}{\mathbb{V}ar[\varepsilon]}=1-\frac{\mathbb{V}ar[\varepsilon^*]}{\mathbb{V}ar[\varepsilon]}.
 \end{equation}
-</div>
+{{< /math >}}
 
 
 In der Realität ist es so, dass Prädiktoren je nach Zentrierung auch within und between Variation von $Y$ erklären, da der Mittelwert eines Clusters between-Information enthält und die Abweichungen von diesem Mittelwert within-Informationen. Somit ist es so, dass ein nicht-zentrierter Prädiktor sowohl within als auch between Variation am Kriterium erklärt. Hinzu kommt dann noch die Schätzungenauigkeit.
 
 Um Pseudo-$R^2$ in `R` umzusetzen, müssen wir lediglich die Residualvarianzen der beiden Modelle abgreifen und verrechnen:
 
-```r
+``` r
 VarE0 <- summary(m0)$sigma^2 # Varianz des Residuums im Nullmodell
 VarE1 <- summary(m1)$sigma^2 # Varianz des Residuums im Modell mit Motivation als Prädiktor
 
@@ -543,7 +452,7 @@ VarE1 <- summary(m1)$sigma^2 # Varianz des Residuums im Modell mit Motivation al
 ## [1] 0.3383368
 ```
 
-```r
+``` r
 # oder kurz:
 1 - summary(m1)$sigma^2/summary(m0)$sigma^2
 ```
@@ -559,26 +468,26 @@ Insgesamt können also 33.83% der Variation der Matheleistung innerhalb einer Kl
 Genauso wie wir soeben die relative Veränderung der (within) Residualvarianz quantifiziert haben, können wir auch die relative Veränderung der Interzeptvariation (between Variation, Variation, die auf Unterschiede des Clusters/zwischen Klassen zurückzuführen sind) bestimmen. Da wir die Motivation am Gesamtmittelwert zentriert haben, sind einige Unterschiede zwischen den Klassen immer noch in der Variable `Motivation_c` enthalten (dazu später mehr im Abschnitt zur [Datenzentrierung](#Datenzentrierung)). Diesen Varianzanteil wollen wir nun quantifizieren und vergleichen dazu die beiden Modelle `m0` und `m1`:
 
 
-<div class=“big maths“> 
+{{< math >}} 
 \begin{align}
 \texttt{m0}:&\quad \mathbb{V}ar[Y] = \mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon]\\
 \texttt{m1}:&\quad \mathbb{V}ar[Y] = \mathbb{V}ar[u_0^*]+\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*]
 \end{align}
-</div>
+{{< /math >}}
 
 
 Falls der Prädiktor der Motivation (Grand-Mean zentriert) auch noch Unterschiede zwischen den Klassen enthält, dann sollten gelten: $\mathbb{V}ar[u_0^*]<\mathbb{V}ar[u_0]$; also sollte die Interzeptvariation von `m0` zu `m1` kleiner werden. Analog zum Pseudo-$R^2$ zuvor wird Pseudo-$R^2$ für die between Ebene (L2) definiert:
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{equation} 
 \small
 R^2_\text{pseudo:between}=\frac{\mathbb{V}ar[u_0]-\mathbb{V}ar[u_0^*]}{\mathbb{V}ar[u_0]}=1-\frac{\mathbb{V}ar[u_0^*]}{\mathbb{V}ar[u_0]}.
 \end{equation}
-</div>
+{{< /math >}}
 
 Wie wir die Interzeptvarianz erhalten, hatten wir uns schon angesehen, als es um den ICC ging. Folglich berechnen wir $R^2_\text{pseudo:between}$ so:
 
-```r
+``` r
 VarU0 <- VarCorr(m0)$schulklasse[1]  # Varianz des Interzepts im Nullmodell
 VarU1 <- VarCorr(m1)$schulklasse[1]  # Varianz des Interzepts im Modell mit Motivation als Prädiktor
 
@@ -589,7 +498,7 @@ VarU1 <- VarCorr(m1)$schulklasse[1]  # Varianz des Interzepts im Modell mit Moti
 ## [1] -0.1130776
 ```
 
-```r
+``` r
 # oder kurz:
 1 - VarCorr(m1)$schulklasse[1]/VarCorr(m0)$schulklasse[1]
 ```
@@ -603,25 +512,25 @@ Am Ergebnis erkennen wir auch, wieso es sich hierbei nur um ein Pseudo-$R^2$ han
 ### Pseudo $R^2$: between and within
 Zum Schluss bestimmen wir nun noch den Anteil der Variation des Kriteriums der insgesamt (between und within) durch den Prädiktor erklärt werden kann. Dazu schauen wir uns die gemeinsame Veränderung der Varianzen auf Level 1 (within) und Level 2 (between) an. Erklärt der Prädiktor substantielle Anteile, so sollte gelten:
 
-<div class=“big maths“> 
+{{< math >}} 
 \begin{equation} 
 \small
 \mathbb{V}ar[u_0^*]+\mathbb{V}ar[\varepsilon^*]<\mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon];
-\end{equation}
-</div>
+\end{equation} 
+{{< /math >}} 
 
 also sollte die gesamte nicht erklärte Varianz vom Kriterium von `m0` zu `m1` kleiner werden! Die relative Veränderung quantifizieren wir mit Hilfe von Pseudo-$R^2$ für between und within:
 
-<div class = "big-maths">
+{{< math >}} 
 \begin{align*}
 R^2_\text{pseudo:bw}&=\frac{(\mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon])-(\mathbb{V}ar[u_0^*]+\mathbb{V}ar[\varepsilon^*])}{\mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon]}\\
 &=1-\frac{\mathbb{V}ar[u_0^*]+\mathbb{V}ar[\varepsilon^*]}{\mathbb{V}ar[u_0]+\mathbb{V}ar[\varepsilon]}.
-\end{align*}
-</div>
+\end{align*} 
+{{< /math >}}
 
 Folglich berechnen wir $R^2_\text{pseudo:bw}$ so:
 
-```r
+``` r
 VarE0 <- summary(m0)$sigma^2 # Varianz des Residuums im Nullmodell
 VarE1 <- summary(m1)$sigma^2 # Varianz des Residuums im Modell mit Motivation als Prädiktor
 
@@ -635,7 +544,7 @@ VarU1 <- VarCorr(m1)$schulklasse[1]  # Varianz des Interzepts im Modell mit Moti
 ## [1] 0.2650343
 ```
 
-```r
+``` r
 # oder kurz:
 1 - (VarCorr(m1)$schulklasse[1] + summary(m1)$sigma^2)/(VarCorr(m0)$schulklasse[1] + summary(m0)$sigma^2)
 ```
@@ -651,58 +560,35 @@ Insgesamt lassen sich also 26.5% der Variation der Matheleistung durch die Motiv
 Um Unterschiede in der Beziehung zwischen Matheleistung und Motivation über die Klassen hinweg zu untersuchen, erweitern wir unser Modell um eine Random Slope. So lassen wir zu, dass die Beziehung zwischen der Motivation und der Matheleistung über die Klassen hinweg variiert ($\beta_{1j}=\gamma_{10} + u_{1j}$).
 
 
-```r
+``` r
 m2 <- lmer(MatheL ~ 1 + Motivation_c + (1 + Motivation_c | schulklasse), data = StudentsInClasses)
 summary(m2)
 ```
 
 ```
-## Linear mixed model fit by
-##   REML. t-tests use
-##   Satterthwaite's method [
-## lmerModLmerTest]
-## Formula: 
-## MatheL ~ 1 + Motivation_c + (1 + Motivation_c | schulklasse)
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Formula: MatheL ~ 1 + Motivation_c + (1 + Motivation_c | schulklasse)
 ##    Data: StudentsInClasses
 ## 
-## REML criterion at convergence: 
-## 5769.6
+## REML criterion at convergence: 5769.6
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median 
-## -3.2170 -0.6311  0.0160 
-##      3Q     Max 
-##  0.6304  2.8758 
+##     Min      1Q  Median      3Q     Max 
+## -3.2170 -0.6311  0.0160  0.6304  2.8758 
 ## 
 ## Random effects:
-##  Groups      Name        
-##  schulklasse (Intercept) 
-##              Motivation_c
-##  Residual                
-##  Variance Std.Dev. Corr
-##  29.38    5.420        
-##  37.73    6.143    0.31
-##  39.85    6.313        
-## Number of obs: 850, groups:  
-## schulklasse, 40
+##  Groups      Name         Variance Std.Dev. Corr
+##  schulklasse (Intercept)  29.38    5.420        
+##              Motivation_c 37.73    6.143    0.31
+##  Residual                 39.85    6.313        
+## Number of obs: 850, groups:  schulklasse, 40
 ## 
 ## Fixed effects:
-##              Estimate
-## (Intercept)   54.0572
-## Motivation_c   5.8938
-##              Std. Error
-## (Intercept)      0.8858
-## Motivation_c     0.9960
-##                   df t value
-## (Intercept)  38.3681  61.025
-## Motivation_c 39.0897   5.918
-##              Pr(>|t|)    
-## (Intercept)   < 2e-16 ***
-## Motivation_c 6.69e-07 ***
+##              Estimate Std. Error      df t value Pr(>|t|)    
+## (Intercept)   54.0572     0.8858 38.3681  61.025  < 2e-16 ***
+## Motivation_c   5.8938     0.9960 39.0897   5.918 6.69e-07 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr)
@@ -720,7 +606,7 @@ Um zu testen, ob die Varianz des Motivationseffekts signifikant wird, wird das M
 Da wir hier zunächst nur Random Effects auf Signifikanz prüfen wollen, sollten wir mit REML Schätzungen rechnen. Dazu müssen wir `refit = F` wählen und so der `anova`-Funktion zu sagen, dass REML-Schätzungen verwendet werden sollen. Würden wir fixed Effects auf Signifikanz via LRTs prüfen wollen, so müssten wir das Modell "refitten" -- und zwar mit der vollen Likelihood. Wir würden dann ML verwenden. 
 
 
-```r
+``` r
 anova(m1, m2, test = "LRT", refit = F) 
 ```
 
@@ -729,19 +615,11 @@ anova(m1, m2, test = "LRT", refit = F)
 ## Models:
 ## m1: MatheL ~ 1 + Motivation_c + (1 | schulklasse)
 ## m2: MatheL ~ 1 + Motivation_c + (1 + Motivation_c | schulklasse)
-##    npar    AIC    BIC  logLik
-## m1    4 6239.1 6258.1 -3115.6
-## m2    6 5781.6 5810.1 -2884.8
-##    deviance  Chisq Df
-## m1   6231.1          
-## m2   5769.6 461.51  2
-##    Pr(>Chisq)    
-## m1               
-## m2  < 2.2e-16 ***
+##    npar    AIC    BIC  logLik -2*log(L)  Chisq Df Pr(>Chisq)    
+## m1    4 6239.1 6258.1 -3115.6    6231.1                         
+## m2    6 5781.6 5810.1 -2884.8    5769.6 461.51  2  < 2.2e-16 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Die LRT-Teststatistik (empirischer $\chi^2$-Wert) liegt bei $\chi^2(df=2)=461.51$. Der Modellvergleichsoutput enthält folgende Informationen (dieser ist annähernd identisch aufgebaut und enthält jeweils unterschiedliche Teststatistiken, je nach dem welchen Test wir anfordern - bspw. bei der Regression würde Omnibustest/F-Test verwendet werden, entsprechend stünde dort die $F$-Statistik).
@@ -786,7 +664,7 @@ Außerdem können wir diesem Plot die Korrelation des Interzepts und der Steigun
 Einen reinen ML-LRT können wir beispielsweise benutzen, um den fixed Effect der Motivation auf Signifikanz zu prüfen. Dies können wir zwar auch mit dem ausgegebenen t-Wert machen. Wir wollen es uns dennoch der Vollständigkeit halber ansehen. _Zur Erinnerung: Werden nur Random Effects untersucht, dann sollte REML verwendet werden, wird allerdings mindestens ein fixed Effect untersucht, so muss ML verwendet werden._ 
 
 
-```r
+``` r
 anova(m0, m1) # KEIN refit
 ```
 
@@ -799,19 +677,11 @@ anova(m0, m1) # KEIN refit
 ## Models:
 ## m0: MatheL ~ 1 + (1 | schulklasse)
 ## m1: MatheL ~ 1 + Motivation_c + (1 | schulklasse)
-##    npar    AIC    BIC  logLik
-## m0    3 6572.8 6587.1 -3283.4
-## m1    4 6240.1 6259.1 -3116.1
-##    deviance Chisq Df
-## m0   6566.8         
-## m1   6232.1 334.7  1
-##    Pr(>Chisq)    
-## m0               
-## m1  < 2.2e-16 ***
+##    npar    AIC    BIC  logLik -2*log(L) Chisq Df Pr(>Chisq)    
+## m0    3 6572.8 6587.1 -3283.4    6566.8                        
+## m1    4 6240.1 6259.1 -3116.1    6232.1 334.7  1  < 2.2e-16 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Hier sehen wir nun, dass das Modell "gerefitted" wurde. Wir haben also die ML-Schätzung verwendet, um die Likelihooddifferenz zu bestimmen. Das Ergebnis ist signifikant. Dies ist wenig überraschend. Wir hatten zuvor schon bemerkt, dass die Motivation sich auf die Matheleistung auswirkt (mit einer Irrtumswahrscheinlichkeit von $5\%$).
@@ -823,60 +693,35 @@ Nun nehmen wir die Klassengröße mit in das Modell auf. *Um das Modell nicht zu
 Bspw. könnte angenommen werden, dass in größeren Klassen die Lehrkraft weniger Zeit pro Schüler/in aufwenden kann und somit es systematische Unterschiede zwischen Klassen mit großer und kleiner Klassengröße gibt (Hypothese 3), bzw. es mehr auf die jeweilige Motivation des Individuums ankommt (Hypothese 4). Die Klassengröße wird als fester Effekt (für eine Ebene-2-Variable ist ein Zufallseffekt auch gar nicht möglich) zusätzlich im Modell aufgenommen - mit einer L2 Variable erhofft man sich Unterschiede zwischen Clustereinheiten (hier Klassen) zu erklären (also die Interzeptvariation zu reduzieren):
 
 
-```r
+``` r
 m3 <- lmer(MatheL ~ 1 + KlassenG + Motivation_c  + (1 | schulklasse), data=StudentsInClasses)
 summary(m3)
 ```
 
 ```
-## Linear mixed model fit by
-##   REML. t-tests use
-##   Satterthwaite's method [
-## lmerModLmerTest]
-## Formula: 
-## MatheL ~ 1 + KlassenG + Motivation_c + (1 | schulklasse)
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Formula: MatheL ~ 1 + KlassenG + Motivation_c + (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
-## REML criterion at convergence: 
-## 6230.7
+## REML criterion at convergence: 6230.7
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median 
-## -3.9364 -0.5567  0.0190 
-##      3Q     Max 
-##  0.6018  4.6944 
+##     Min      1Q  Median      3Q     Max 
+## -3.9364 -0.5567  0.0190  0.6018  4.6944 
 ## 
 ## Random effects:
-##  Groups      Name       
-##  schulklasse (Intercept)
-##  Residual               
-##  Variance Std.Dev.
-##  25.38    5.038   
-##  81.45    9.025   
-## Number of obs: 850, groups:  
-## schulklasse, 40
+##  Groups      Name        Variance Std.Dev.
+##  schulklasse (Intercept) 25.38    5.038   
+##  Residual                81.45    9.025   
+## Number of obs: 850, groups:  schulklasse, 40
 ## 
 ## Fixed effects:
-##              Estimate
-## (Intercept)   59.7531
-## KlassenG      -0.2198
-## Motivation_c   6.0893
-##              Std. Error
-## (Intercept)      3.5953
-## KlassenG         0.1350
-## Motivation_c     0.2991
-##                    df t value
-## (Intercept)   38.6351  16.620
-## KlassenG      37.5172  -1.628
-## Motivation_c 808.8593  20.358
-##              Pr(>|t|)    
-## (Intercept)    <2e-16 ***
-## KlassenG        0.112    
-## Motivation_c   <2e-16 ***
+##              Estimate Std. Error       df t value Pr(>|t|)    
+## (Intercept)   59.7531     3.5953  38.6351  16.620   <2e-16 ***
+## KlassenG      -0.2198     0.1350  37.5172  -1.628    0.112    
+## Motivation_c   6.0893     0.2991 808.8593  20.358   <2e-16 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr) KlssnG
@@ -900,7 +745,7 @@ Diese Informationen sollten nicht inhaltlich interpretiert werden, sondern geben
 
 Nun wollen wir die Klassengröße noch als zentrierte Variable in das Modell aufnehmen. Wir definieren die am Stichprobenmittelwert zentrierte Klassengröße und fügen sie dem Datensatz folgendermaßen hinzu:
 
-```r
+``` r
 StudentsInClasses$KlassenG_c <- StudentsInClasses$KlassenG - mean(StudentsInClasses$KlassenG)
 
 m3b <- lmer(MatheL ~ 1 + KlassenG_c + Motivation_c + (1 | schulklasse), data=StudentsInClasses)
@@ -908,54 +753,29 @@ summary(m3b)
 ```
 
 ```
-## Linear mixed model fit by
-##   REML. t-tests use
-##   Satterthwaite's method [
-## lmerModLmerTest]
-## Formula: 
-## MatheL ~ 1 + KlassenG_c + Motivation_c + (1 | schulklasse)
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
-## REML criterion at convergence: 
-## 6230.7
+## REML criterion at convergence: 6230.7
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median 
-## -3.9364 -0.5567  0.0190 
-##      3Q     Max 
-##  0.6018  4.6944 
+##     Min      1Q  Median      3Q     Max 
+## -3.9364 -0.5567  0.0190  0.6018  4.6944 
 ## 
 ## Random effects:
-##  Groups      Name       
-##  schulklasse (Intercept)
-##  Residual               
-##  Variance Std.Dev.
-##  25.38    5.038   
-##  81.45    9.025   
-## Number of obs: 850, groups:  
-## schulklasse, 40
+##  Groups      Name        Variance Std.Dev.
+##  schulklasse (Intercept) 25.38    5.038   
+##  Residual                81.45    9.025   
+## Number of obs: 850, groups:  schulklasse, 40
 ## 
 ## Fixed effects:
-##              Estimate
-## (Intercept)   53.7974
-## KlassenG_c    -0.2198
-## Motivation_c   6.0893
-##              Std. Error
-## (Intercept)      0.8739
-## KlassenG_c       0.1350
-## Motivation_c     0.2991
-##                    df t value
-## (Intercept)   36.0551  61.562
-## KlassenG_c    37.5172  -1.628
-## Motivation_c 808.8593  20.358
-##              Pr(>|t|)    
-## (Intercept)    <2e-16 ***
-## KlassenG_c      0.112    
-## Motivation_c   <2e-16 ***
+##              Estimate Std. Error       df t value Pr(>|t|)    
+## (Intercept)   53.7974     0.8739  36.0551  61.562   <2e-16 ***
+## KlassenG_c    -0.2198     0.1350  37.5172  -1.628    0.112    
+## Motivation_c   6.0893     0.2991 808.8593  20.358   <2e-16 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr) KlssG_
@@ -972,92 +792,50 @@ Wir erkennen auch, dass die Zentrierung der Klassengröße sich positiv auf die 
 Eine Wechselwirkung (also eigentlich ein Produkt von Prädiktoren) zwischen zwei Prädiktoren kann mit der Syntax `X1:X2` in das Modell aufgenommen werden: `Y ~ X1 + X2 + X1:X2`. Eine Kurzschreibweise hier für ist `Y ~ X1*X2`. Insbesondere für dieses Modell empfiehlt es sich, die Klassengröße zu zentrieren, da eine Klassengröße von Null wenig sinnvoll ist und Wechselwirkungen von den Mittelwerten der Variablen abhängen (das haben wir im Abschnitt zuvor schon erledigt!). Wir ergänzen das Modell `m3b`  um die Wechselwirkung zwischen (zentrierter) Klassengröße und (zentrierter) Motivation:
 
 
-```r
+``` r
 m4 <- lmer(MatheL ~ 1 + KlassenG_c + Motivation_c  + KlassenG_c:Motivation_c + (1 | schulklasse), 
            data=StudentsInClasses)
 summary(m4)
 ```
 
 ```
-## Linear mixed model fit by
-##   REML. t-tests use
-##   Satterthwaite's method [
-## lmerModLmerTest]
-## Formula: 
-## MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
 ##     (1 | schulklasse)
 ##    Data: StudentsInClasses
 ## 
-## REML criterion at convergence: 
-## 6200.9
+## REML criterion at convergence: 6200.9
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median 
-## -4.0830 -0.5785  0.0163 
-##      3Q     Max 
-##  0.6004  4.5850 
+##     Min      1Q  Median      3Q     Max 
+## -4.0830 -0.5785  0.0163  0.6004  4.5850 
 ## 
 ## Random effects:
-##  Groups      Name       
-##  schulklasse (Intercept)
-##  Residual               
-##  Variance Std.Dev.
-##  25.5     5.050   
-##  78.2     8.843   
-## Number of obs: 850, groups:  
-## schulklasse, 40
+##  Groups      Name        Variance Std.Dev.
+##  schulklasse (Intercept) 25.5     5.050   
+##  Residual                78.2     8.843   
+## Number of obs: 850, groups:  schulklasse, 40
 ## 
 ## Fixed effects:
-##                          Estimate
-## (Intercept)              53.79131
-## KlassenG_c               -0.21300
-## Motivation_c              6.13299
-## KlassenG_c:Motivation_c   0.27575
-##                         Std. Error
-## (Intercept)                0.87354
-## KlassenG_c                 0.13491
-## Motivation_c               0.29316
-## KlassenG_c:Motivation_c    0.04679
-##                                df
-## (Intercept)              36.11427
-## KlassenG_c               37.53996
-## Motivation_c            807.83209
-## KlassenG_c:Motivation_c 808.15014
-##                         t value
-## (Intercept)              61.579
-## KlassenG_c               -1.579
-## Motivation_c             20.920
-## KlassenG_c:Motivation_c   5.893
-##                         Pr(>|t|)
-## (Intercept)              < 2e-16
-## KlassenG_c                 0.123
-## Motivation_c             < 2e-16
-## KlassenG_c:Motivation_c 5.56e-09
-##                            
-## (Intercept)             ***
-## KlassenG_c                 
-## Motivation_c            ***
-## KlassenG_c:Motivation_c ***
+##                          Estimate Std. Error        df t value Pr(>|t|)    
+## (Intercept)              53.79131    0.87354  36.11428  61.579  < 2e-16 ***
+## KlassenG_c               -0.21300    0.13491  37.53997  -1.579    0.123    
+## Motivation_c              6.13299    0.29316 807.83209  20.920  < 2e-16 ***
+## KlassenG_c:Motivation_c   0.27575    0.04679 808.15014   5.893 5.56e-09 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
-##             (Intr) KlssG_
-## KlassenG_c   0.191       
-## Motivatin_c  0.000 -0.003
-## KlssnG_c:M_ -0.001  0.009
-##             Mtvtn_
-## KlassenG_c        
-## Motivatin_c       
-## KlssnG_c:M_  0.025
+##             (Intr) KlssG_ Mtvtn_
+## KlassenG_c   0.191              
+## Motivatin_c  0.000 -0.003       
+## KlssnG_c:M_ -0.001  0.009  0.025
 ```
 
 Dieses Modell kommt zum selben Ergebnis wie:
 
 
-```r
+``` r
 m4b <- lmer(MatheL ~ 1 + KlassenG_c*Motivation_c + (1 | schulklasse), data=StudentsInClasses)
 summary(m4b)
 ```
@@ -1068,21 +846,6 @@ summary(m4b)
 #### Grafische Veranschaulichung
 Die Wechselwirkung kann veranschaulicht werden, indem die Regressionsgeraden nach Klassengröße unterschieden werden (hier: über die Farbe). Die in der folgenden Grafik goldene/gelbe Geraden repräsentieren (überdurchschnittlich) große Klassen, die blauen kleine (unterdurchschnittlich große/ überdurchschnittlich kleine) Klassen. Die goldenen/gelben Linien sind steiler als die blauen Linien.
 
-
-```
-## Warning: Using `size` aesthetic for
-## lines was deprecated in
-## ggplot2 3.4.0.
-## ℹ Please use `linewidth`
-##   instead.
-## This warning is displayed
-## once every 8 hours.
-## Call
-## `lifecycle::last_lifecycle_warnings()`
-## to see where this warning was
-## generated.
-```
-
 ![](/hierarchische-regression-schule_files/unnamed-chunk-30-1.png)<!-- -->
 
 Der Grafik ist dieser Effekt deutlich zu entnehmen. Final können wir sagen, dass die individuelle Matheleistung in Schulklassen mit mehr Schülerinnen und Schülern stärker von der Lernmotivation der/des Einzelnen abhängt als in kleinen Schulklassen.
@@ -1090,7 +853,7 @@ Der Grafik ist dieser Effekt deutlich zu entnehmen. Final können wir sagen, das
 Eigentlich würde eine Cross-Level-Interaktion vor allem dann in ein Modell aufgenommen werden, wenn wir die Random Slope Variation durch eine L2 Variable erklären wollen. Wenn wir ein Modell mit ebenfalls Random Intercept Random Slope untersuchen, erkennen wir allerdings, dass die Wechselwirkung und der Haupteffekt der Klassengröße nun keinen Effekt mehr haben:
 
 
-```r
+``` r
 m4c <- lmer(MatheL ~ 1 + KlassenG_c + Motivation_c  + KlassenG_c:Motivation_c + 
               (1 + Motivation_c | schulklasse), 
             data=StudentsInClasses)
@@ -1098,84 +861,41 @@ summary(m4c)
 ```
 
 ```
-## Linear mixed model fit by
-##   REML. t-tests use
-##   Satterthwaite's method [
-## lmerModLmerTest]
-## Formula: 
-## MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+## Formula: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c +  
 ##     (1 + Motivation_c | schulklasse)
 ##    Data: StudentsInClasses
 ## 
-## REML criterion at convergence: 
-## 5767.3
+## REML criterion at convergence: 5767.3
 ## 
 ## Scaled residuals: 
-##     Min      1Q  Median 
-## -3.2062 -0.6242  0.0259 
-##      3Q     Max 
-##  0.6379  2.8811 
+##     Min      1Q  Median      3Q     Max 
+## -3.2062 -0.6242  0.0259  0.6379  2.8811 
 ## 
 ## Random effects:
-##  Groups      Name        
-##  schulklasse (Intercept) 
-##              Motivation_c
-##  Residual                
-##  Variance Std.Dev. Corr
-##  28.26    5.316        
-##  36.74    6.062    0.39
-##  39.85    6.313        
-## Number of obs: 850, groups:  
-## schulklasse, 40
+##  Groups      Name         Variance Std.Dev. Corr
+##  schulklasse (Intercept)  28.26    5.316        
+##              Motivation_c 36.74    6.062    0.39
+##  Residual                 39.85    6.313        
+## Number of obs: 850, groups:  schulklasse, 40
 ## 
 ## Fixed effects:
-##                         Estimate
-## (Intercept)              53.7744
-## KlassenG_c               -0.2158
-## Motivation_c              6.1883
-## KlassenG_c:Motivation_c   0.2148
-##                         Std. Error
-## (Intercept)                 0.8889
-## KlassenG_c                  0.1366
-## Motivation_c                1.0062
-## KlassenG_c:Motivation_c     0.1542
-##                              df
-## (Intercept)             36.9895
-## KlassenG_c              37.8116
-## Motivation_c            37.6948
-## KlassenG_c:Motivation_c 38.1319
-##                         t value
-## (Intercept)              60.495
-## KlassenG_c               -1.580
-## Motivation_c              6.150
-## KlassenG_c:Motivation_c   1.394
-##                         Pr(>|t|)
-## (Intercept)              < 2e-16
-## KlassenG_c                 0.122
-## Motivation_c            3.65e-07
-## KlassenG_c:Motivation_c    0.171
-##                            
-## (Intercept)             ***
-## KlassenG_c                 
-## Motivation_c            ***
-## KlassenG_c:Motivation_c    
+##                         Estimate Std. Error      df t value Pr(>|t|)    
+## (Intercept)              53.7744     0.8889 36.9895  60.495  < 2e-16 ***
+## KlassenG_c               -0.2158     0.1366 37.8116  -1.580    0.122    
+## Motivation_c              6.1883     1.0062 37.6948   6.150 3.65e-07 ***
+## KlassenG_c:Motivation_c   0.2148     0.1542 38.1319   1.394    0.171    
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Correlation of Fixed Effects:
-##             (Intr) KlssG_
-## KlassenG_c  0.206        
-## Motivatin_c 0.367  0.080 
-## KlssnG_c:M_ 0.080  0.365 
-##             Mtvtn_
-## KlassenG_c        
-## Motivatin_c       
-## KlssnG_c:M_ 0.211
+##             (Intr) KlssG_ Mtvtn_
+## KlassenG_c  0.206               
+## Motivatin_c 0.367  0.080        
+## KlssnG_c:M_ 0.080  0.365  0.211
 ```
 
-```r
+``` r
 anova(m4, m4c, test = "LRT", refit = F)
 ```
 
@@ -1184,19 +904,11 @@ anova(m4, m4c, test = "LRT", refit = F)
 ## Models:
 ## m4: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c + (1 | schulklasse)
 ## m4c: MatheL ~ 1 + KlassenG_c + Motivation_c + KlassenG_c:Motivation_c + (1 + Motivation_c | schulklasse)
-##     npar    AIC    BIC
-## m4     6 6212.9 6241.4
-## m4c    8 5783.3 5821.2
-##      logLik deviance  Chisq
-## m4  -3100.5   6200.9       
-## m4c -2883.6   5767.3 433.66
-##     Df Pr(>Chisq)    
-## m4                   
-## m4c  2  < 2.2e-16 ***
+##     npar    AIC    BIC  logLik -2*log(L)  Chisq Df Pr(>Chisq)    
+## m4     6 6212.9 6241.4 -3100.5    6200.9                         
+## m4c    8 5783.3 5821.2 -2883.6    5767.3 433.66  2  < 2.2e-16 ***
 ## ---
-## Signif. codes:  
-##   0 '***' 0.001 '**' 0.01
-##   '*' 0.05 '.' 0.1 ' ' 1
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 Der Modellvergleich zeigt, dass ein Modell nur mit Klassengröße, Motivation und Interaktion zwischen Klassengröße und Motivation signifikant schlechter zu den Daten passt als ein Modell mit zusätzlicher Random Slope. Final würden wir uns also für ein Modell mit Random Intercept und Random Slope entscheiden, allerdings die Klassengröße als Prädiktor (und Cross-Level Interaktion) herauslassen.
 
@@ -1208,12 +920,12 @@ Wir wollen uns noch kurz ansehen, wie denn anders zentriert werden hätte könne
 ### Grand-Mean-Centering
 Beim Grand-Mean-Centering, also der Zentrierung am Stichprobenmittelwert, ziehen wir einfach den globalen Mittelwert der Variable über alle Erhebungen und Cluster ab (das haben wir oben ja schon gemacht!):
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{equation} 
 \small 
 X^*_{ij}=X_{ij}-\bar{X}_{\cdot\cdot}
 \end{equation}
-</div>
+{{< /math >}}
 
 Ein Wert von 0 auf $X_{ij}^\*$ bedeutet, dass diese Messung gerade genau dem Mittelwert der gesamten Stichprobe (über alle Personen $i$ und alle Clustereinheiten $j$) entspricht.
 
@@ -1221,24 +933,24 @@ Ein Wert von 0 auf $X_{ij}^\*$ bedeutet, dass diese Messung gerade genau dem Mit
 Bei der gruppenspezifischen (auch clusterspezifischen) Zentrierung (Group-Mean-Centering), ziehen wir von jeder Messung $X_{ij}$ den Mittelwert des $j$ Clusters auf dieser Variable ab (also bspw. den Mittelwert der Matheleistung einer Klasse ziehen wir von den individuellen Matheleistungen aller Schüler dieser Klasse ab):
 
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{equation} 
 \small 
 X_{ij}^{**}=X_{ij}-\bar{X}_{\cdot j}
 \end{equation}
-</div>
+{{< /math >}}
 
 Ein Wert von 0 auf $X_{ij}^{\**}$ entspricht nun dem Durchschnitt in Cluster/Gruppe $j$. 
 Die Variable $X_{ij}^{**}$ sollte somit within Variation erklären (im Beispiel also die Variation innerhalb einer Klasse), was dafür spricht, dass es sinnvoll ist, diese Varianzaufklärung mit $R^2_\text{pseudo:within}$ zu quantifizieren. Außerdem ist es sinnvoll anschließend die Variable $\bar{X}\_{\cdot j}$ mit in die Analysen aufzunehmen, da sie between-Variation enthält (also Variation, die Unterschiede zwischen Clustern darstellt). Die Varianzaufklärung von $\bar{X}\_{\cdot j}$ kann somit mit  $R^2\_\text{pseudo:between}$ quantifiziert werden. Die gemeinsame Varianzaufklärung (quasi den Gesamtanteil between und within) können wir mit  $R^2\_\text{pseudo:bw}$ quantifizieren.
 
 Um diese Variablen anschließend auch noch sinnvoll hinsichtlich (z.B. Cross-Level-) Interaktionen interpretieren zu können, sollte die Gruppenmittelwertsvariable idealerweise auch noch am zentralen Mittelwert zentriert sein (der zentrale Mittelwert ist gerade auch der Mittelwert dieser Gruppenmittelwertsvariable):
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{equation} 
 \small 
 \bar{X}_{\cdot j}^*=\bar{X}_{\cdot j} - \bar{X}_{\cdot \cdot}
 \end{equation}
-</div>
+{{< /math >}}
 
 Somit entspricht ein Wert von 0 auf dieser Variable gerade einer Erhebung, die dem durchschnittlichen Mittelwert über alle Cluster entspricht. Demnach können wir auch sinnvoll beide zentrierten Variablen auf einmal interpretieren. Wenn eine Person auf der Variable $X_{ij}^{**}$ und auf der Variable $\bar{X}_{\cdot j}^*$ einen Wert von Null aufweist, so bedeutet dies, dass die Ausprägung auf dieser Variable durchschnittlich im Bezug auf das Cluster ist und auch auf die Gesamtstichprobe (wir landen also wieder beim gesamten Durchschnitt über die Stichprobe, können aber Effekte nun im Bezug auf Unterschiede zwischen den einzelnen Gruppe und innerhalb der Gruppen auseinanderdröseln). Folgende Aussagen sind möglich: (Kinder aus) Schulklassen mit durchschnittlich höherer Motivation zeigen insgesamt im Durchschnitt eine höhere Matheleistung (*quasi:* wenn der Durchschnitt der Motivation höher liegt in einer Klasse, so liegt auch der Mittelwert der Matheleistung in dieser Klasse im Mittel höher) und Kinder, die im Vergleich zu ihrer Schulklasse motivierter sind, zeigen ebenfalls eine im Schnitt eine höhere Matheleistung als andere Kinder ihrer Schulklasse. Auch Interaktionen können weitere Einblicke in die Daten bringen. Natürlich könnten diese Effekte auch gegenläufig sein.
 
@@ -1246,7 +958,7 @@ Somit entspricht ein Wert von 0 auf dieser Variable gerade einer Erhebung, die d
 In `R` sieht das Ganze so aus:
 
 
-```r
+``` r
 # group-mean-centering:
 StudentsInClasses$Motivation_groupc <- group.center(var = StudentsInClasses$Motivation, 
                                                     grp = StudentsInClasses$schulklasse)
@@ -1263,86 +975,42 @@ head(StudentsInClasses)
 ```
 
 ```
-##   MatheL Motivation KFT
-## 1  48.76          4  98
-## 2  46.01          3  96
-## 3  65.96          5 112
-## 4  42.08          4  94
-## 5   0.00          2  78
-## 6  56.52          5 104
-##   KlassenG schulklasse
-## 1       26           1
-## 2       26           1
-## 3       26           1
-## 4       26           1
-## 5       26           1
-## 6       26           1
-##   Motivation_c KlassenG_c
-## 1   -0.2858824  -1.090588
-## 2   -1.2858824  -1.090588
-## 3    0.7141176  -1.090588
-## 4   -0.2858824  -1.090588
-## 5   -2.2858824  -1.090588
-## 6    0.7141176  -1.090588
-##   Motivation_groupc
-## 1             -0.36
-## 2             -1.36
-## 3              0.64
-## 4             -0.36
-## 5             -2.36
-## 6              0.64
-##   Mot_groupmeans
-## 1           4.36
-## 2           4.36
-## 3           4.36
-## 4           4.36
-## 5           4.36
-## 6           4.36
-##   Mot_groupmeans_c
-## 1       0.07411765
-## 2       0.07411765
-## 3       0.07411765
-## 4       0.07411765
-## 5       0.07411765
-## 6       0.07411765
+##   MatheL Motivation KFT KlassenG schulklasse Motivation_c KlassenG_c Motivation_groupc
+## 1  48.76          4  98       26           1   -0.2858824  -1.090588             -0.36
+## 2  46.01          3  96       26           1   -1.2858824  -1.090588             -1.36
+## 3  65.96          5 112       26           1    0.7141176  -1.090588              0.64
+## 4  42.08          4  94       26           1   -0.2858824  -1.090588             -0.36
+## 5   0.00          2  78       26           1   -2.2858824  -1.090588             -2.36
+## 6  56.52          5 104       26           1    0.7141176  -1.090588              0.64
+##   Mot_groupmeans Mot_groupmeans_c
+## 1           4.36       0.07411765
+## 2           4.36       0.07411765
+## 3           4.36       0.07411765
+## 4           4.36       0.07411765
+## 5           4.36       0.07411765
+## 6           4.36       0.07411765
 ```
 
-```r
+``` r
 # (Spalten-)Mittelwerte (gerundet auf 10 Nachkommastellen)
 round(colMeans(StudentsInClasses), 10)
 ```
 
 ```
-##            MatheL 
-##         53.616047 
-##        Motivation 
-##          4.285882 
-##               KFT 
-##        100.001176 
-##          KlassenG 
-##         27.090588 
-##       schulklasse 
-##         20.280000 
-##      Motivation_c 
-##          0.000000 
-##        KlassenG_c 
-##          0.000000 
-## Motivation_groupc 
-##          0.000000 
-##    Mot_groupmeans 
-##          4.285882 
-##  Mot_groupmeans_c 
-##          0.000000
+##            MatheL        Motivation               KFT          KlassenG       schulklasse 
+##         53.616047          4.285882        100.001176         27.090588         20.280000 
+##      Motivation_c        KlassenG_c Motivation_groupc    Mot_groupmeans  Mot_groupmeans_c 
+##          0.000000          0.000000          0.000000          4.285882          0.000000
 ```
 
 Die Funktion `group.center` aus dem `robumeta`-Paket nimmt uns die Arbeit ab, die Daten händisch an den Gruppenmittelwerten zu zentrieren ($X_{ij}^{**}$). Sie nimmt 2 Argumente entgegen: `var` die Variable, die zentriert werden soll (hier die Motivation), und `grp` die Gruppierungsvariable (hier die Schulklasse). Die Funktion `group.mean` funktioniert analog zu `group.center` und gibt uns gruppenspezifische Mittelwerte aus. Zum Schluss wird noch die Gruppierungsvariable zentriert am Gesamtmittelwert: 
 
-<div class=“big maths“> 
+{{< math >}}
 \begin{equation} 
 \small 
 \bar{X}_{\cdot j}^*=\bar{X}_{\cdot j} - \bar{X}_{\cdot \cdot}
 \end{equation}
-</div>
+{{< /math >}}
 
 Den Spaltenmittelwerten entnehmen wir, dass die gruppenzentrierte Variable einen Mittelwert von 0 hat und die zentrierte Gruppenmittelwertsvariable ebenfalls. Außerdem sehen wir hier nochmals, dass der Mittelwert der Motivation gleich dem Mittelwert der Gruppenmittelwertsmotivation ist (`Motivation` vs. `Mot_groupmeans`).
 
@@ -1361,7 +1029,7 @@ In [Appendix C](#AppendixC) wird eine Funktion präsentiert, mit welcher wir uns
 In den folgenden 2 Grafiken müssen Sie für die eigenen Analysen lediglich `m2` durch Ihr Modell austauschen und anschließend die Gruppierungsvariable (hier `schulklasse`) durch Ihre Clusterungsvariable ersetzen. Zudem sollten Sie anschließend die Grafikgrenzen bearbeiten.
 
 
-```r
+``` r
 # Histogramm der Klassenspezifischen Koeffizienten
 model <- m2
 beta <- coef(model)$schulklasse   # Übergeben der Koeffizienten pro Klasse (Interzept und Steigungskoeffizent)
@@ -1384,7 +1052,7 @@ text(x = 17, y= 0.04, labels = "+/- 1SD", col = "blue", cex = 2) # Text in Grafi
 ![](/hierarchische-regression-schule_files/unnamed-chunk-33-1.png)<!-- -->
 
 
-```r
+``` r
  #### Das Modell zeichnen!
 model <- m2
 beta <- coef(model)$schulklasse   # Übergeben der Koeffizienten pro Klasse (Interzept und Steigungskoeffizent)
@@ -1402,7 +1070,7 @@ ggplot(data = StudentsInClasses, aes(x=Motivation_c, y = MatheL))+geom_point(col
 Die folgende Grafik können Sie für Ihr Modell replizieren, indem Sie `m4` durch Ihr Modell ersetzen und anschließend die Clustervariable durch Ihre ersetzen (in `group = schulklasse`) und die L2 Variable ebenfalls durch Ihre L2 Variable ersetzen (in `color = KlassenG_c`). In `y = MatheL` muss Ihre AV rein und `x = Motivation_c` ist die (zentrierte) UV.
 
 
-```r
+``` r
 library(ggplot2) # Lade ggplot2
 library(dplyr) # Lade dplyr, um Datensätze zu manipulieren (via "mutate" und "%>%")
 
@@ -1434,7 +1102,7 @@ $$\hat{\mathbb{V}ar}[Y] = \frac{1}{n}\sum_{i=1}^n(Y_i-\bar{Y})^2,$$
 
 wobei $\bar{Y}$ der Mittelwert von $Y$ ist. Wenn wir nun alle Einträge von $Y$ mit einer Konstanten multiplizieren, also für jede Person $i$ das Produkt $aY_i$ berechnen (z.B. $a=10$ oder $a=\gamma_{10}$) und die Varianz bestimmen (der Mittelwert von $aY$ ist einfach $a\bar{Y}$), dann ergibt sich:
 
-<div class = "big-maths">
+{{< math >}}
 \begin{align*}
 \hat{\mathbb{V}ar}[aY] &= \frac{1}{n}\sum_{i=1}^n(aY_i-a\bar{Y})^2\\
 &=\frac{1}{n}\sum_{i=1}^n\big(a(Y_i-\bar{Y})\big)^2\\
@@ -1442,11 +1110,11 @@ wobei $\bar{Y}$ der Mittelwert von $Y$ ist. Wenn wir nun alle Einträge von $Y$ 
 &=a^2\frac{1}{n}\sum_{i=1}^n(Y_i-\bar{Y})^2\\
 &=a^2\hat{\mathbb{V}ar}[Y],
 \end{align*}
-</div>
+{{< /math >}}
 
 Da $a$ in der Klammer steht, die quadriert wird, muss natürlich $a$ quadriert werden. Da auch $a^2$ eine Konstante ist, kann sie vor die Summe gezogen werden. Daraus wird dann ersichtlich, dass die Varianz des Produktes einer Variablen mit einer Konstanten gleich der Konstanten zum Quadrat multipliziert mit der Varianz der Variablen ist. Das Ganze kann auch als Beweis durchgeführt werden - wir müssten lediglich mit Integralen und Dichten (Wahrscheinlichkeitsverteilungen) rechnen. Weitere wichtige Rechenvorschriften sind (für $A$ und $B$ Zufallsvariablen und $\alpha$ und $\beta$ Konstanten):
 
-<div class = "big-maths">
+{{< math >}}
 \begin{align}
 \mathbb{V}ar[\alpha] &= 0\\
 \mathbb{V}ar[A]&=\mathbb{C}ov[A,A] \\
@@ -1455,14 +1123,14 @@ Da $a$ in der Klammer steht, die quadriert wird, muss natürlich $a$ quadriert w
 \mathbb{V}ar[A+B]&= \mathbb{V}ar[A] + 2\mathbb{C}ov[A,B] + \mathbb{V}ar[B]\\
 \mathbb{V}ar[\alpha A+\beta B]&= \alpha^2\mathbb{V}ar[A] + 2\alpha \beta \mathbb{C}ov[A,B] + \beta^2\mathbb{V}ar[B]
 \end{align}
-</div>
+{{< /math >}}
 
 Außerdem ist es so, dass wenn $A$ und $B$ unabhängig sind so folgt, dass $\mathbb{C}ov[A,B]=0$ (aber nicht umgekehrt!). Eine Konstante ist unabhängig von allen Variablen und hat eine Varianz von 0. Somit können wir die Variation von $Y$ im Modell mit Motivation $X_1$ als Prädiktor wie folgt berechnen:
 
 {{< math >}}
 \begin{align}
 \mathbb{V}ar[Y_{ij}] = &\mathbb{V}ar[\gamma_{00} + u_{0j} + \gamma_{10}X_{1,ij} + \varepsilon_{ij}^*] \\
-= &\mathbb{V}ar[u_{0j}] + 2\gamma_{10}\mathbb{C}ov[u_{0j},X_{1,ij}] +\mathbb{C}ov[u_{0j},\varepsilon_{ij}^{*} + \\ &2\gamma_{10}\mathbb{C}ov[X_{1,ij},\varepsilon_{ij}^*] + \gamma_{10}^2\mathbb{V}ar[X_{1,ij}] + \mathbb{V}ar[\varepsilon_{ij}^*]  \\
+= &\mathbb{V}ar[u_{0j}] + 2\gamma_{10}\mathbb{C}ov[u_{0j},X_{1,ij}] +\mathbb{C}ov[u_{0j},\varepsilon_{ij}^{*}] + \\ &2\gamma_{10}\mathbb{C}ov[X_{1,ij},\varepsilon_{ij}^*] + \gamma_{10}^2\mathbb{V}ar[X_{1,ij}] + \mathbb{V}ar[\varepsilon_{ij}^*]  \\
 = &\mathbb{V}ar[u_0]+\gamma_{10}^2\mathbb{V}ar[X_1]+\mathbb{V}ar[\varepsilon^*],
 \end{align}
 {{< /math >}}
@@ -1482,7 +1150,7 @@ Außerdem siehe [Eid, et al. (2017)](https://ubffm.hds.hebis.de/Record/HEB366849
 Die angegebene Funktion kann einfache Multi-Level-Modelle plotten, in welcher es eine Variable gibt, die einen within und einen between Effekt aufweist. Somit können wir dies so interpretieren, wie eine Group-Mean-gecenterte Variable (`ggplot2` muss dafür installiert sein):
 
 
-```r
+``` r
 plot_within_between_effects <- function(nb = 50, nw = 50, between_effect = 1, within_effect = 1)
 {
        # Wiederholungsfunktion
@@ -1529,7 +1197,7 @@ plot_within_between_effects <- function(nb = 50, nw = 50, between_effect = 1, wi
 Die Funktion nimmt 4 Argumente entgegen. `nb` die Anzahl an Clustern (Default ist 50), `nw` Anzahl an Erhebungen innerhalb eines Clusters (Default ist 50), `between_effect` Effekt zwischen den Clustern (Default ist 1, hier ist es sinnvoll nur Werte zwischen -1 und 1 zu nehmen) und  `within_effect` ist der within Gruppeneffekt (Default ist 1, hier ist es sinnvoll nur Werte zwischen -1 und 1 zu nehmen). Bspw. können wir nun ganz einfach eine Grafik für das Simpson Paradoxon (oder auch den Ökologischen Fehlschluss) erstellen (siehe auch [Eid, et al., 2017,](https://ubffm.hds.hebis.de/Record/HEB366849158) S. 729-730). Hier wird global betrachtet ein anderer Effekt gefunden, wie innerhalb der Gruppen. Wir können dies verstehen, indem wir den Between-Effekt bspw. auf `-1` setzen und den Within-Effekt auf `1`:
 
 
-```r
+``` r
 plot_within_between_effects(nb = 50, nw = 50, between_effect = -1, within_effect = 1)
 ```
 
