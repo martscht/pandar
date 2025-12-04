@@ -9,7 +9,7 @@ subtitle: ''
 summary: 'In diesem Post lernt ihr Unterschiede zwischen zwei Gruppen zu veranschaulichen. Ihr erfahrt außerdem, wie ihr verschiedene Tests für unabhängige Stichproben in R durchführt und ihre Voraussetzungen prüft.' 
 authors: [koehler, buchholz, irmer, nehler, goldhammer, schultze] 
 weight: 6
-lastmod: '2025-12-01'
+lastmod: '2025-12-03'
 featured: no
 banner:
   image: "/header/writing_math.jpg"
@@ -168,7 +168,7 @@ describeBy(x = fb25$lz, group = fb25$fach_klin)        # beide Gruppen im Vergle
 ## group: nicht klinisch
 ##    vars   n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 113 5.06 1.25    5.2    5.16 1.19   1   7     6 -0.72        0 0.12
-## --------------------------------------------------------------------- 
+## -------------------------------------------------------------------------------- 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 93 4.73 1.35      5    4.86 1.48   1   7     6 -0.78    -0.08 0.14
@@ -365,15 +365,18 @@ t.test(fb25$lz ~ fb25$fach_klin,     # abhängige Variable ~ unabhängige Variab
 
 
 
-Anhand der Ergebnisse können wir folgende Aussage treffen: Studierende, die sich für klinische Inhalte interessieren unterscheiden sich in ihrer Lebenszufriedenheit nicht bedeutsam von Studierenden, die sich primär für andere Inhalte interessieren ($t = 204, df = 1.854$, $p = 0.065$). In Fällen wie diesem ist es wichtig, sich nicht von dem kleinen $p$-Wert dazu verleiten zu lassen, Dinge wie "knapp" oder "marginal" in seine Interpretation aufzunehmen. Das NHST, welches wir hier betreiben, gibt eine klare Entscheidungsgrenze vor, welche wir _vorab_ definiert haben. Wenn wir uns entscheiden, ein Alpha-Fehlerniveau von 5% festzulegen, müssen wir uns strikt daran halten.
+Anhand der Ergebnisse können wir folgende Aussage treffen: Studierende, die sich für klinische Inhalte interessieren unterscheiden sich in ihrer Lebenszufriedenheit nicht bedeutsam von Studierenden, die sich primär für andere Inhalte interessieren ($t = 1.854, df = 204$, $p = 0.065$). In Fällen wie diesem ist es wichtig, sich nicht von dem kleinen $p$-Wert dazu verleiten zu lassen, Dinge wie "knapp" oder "marginal" in seine Interpretation aufzunehmen. Das NHST, welches wir hier betreiben, gibt eine klare Entscheidungsgrenze vor, welche wir _vorab_ definiert haben. Wenn wir uns entscheiden, ein Alpha-Fehlerniveau von 5% festzulegen, müssen wir uns strikt daran halten.
 
 ### Berechnung der Effektstärke Cohen's $d$ {#Effektstärke}
 
 Obwohl wir hier zunächst keinen statistisch bedeutsamen Unterschied entdeckt haben, wollen wir zur Eindordnung des Ergebnisses die Effektstärke ermitteln: Cohen's $d$ gibt den standardisierten Mittelwertsunterschied zwischen zwei Gruppen an. "Standardisiert" bedeutet, dass wir uns nicht mehr auf der Originalmetrik befinden (hier auf der Skala von 1 bis 7), sondern mit Standardabweichungen arbeiten. Ein Wert von 1 zeigt also an, dass sich die Gruppenmittelwerte um eine Standardabweichung voneinander unterscheiden. Die Effektstärke berechnet sich wie folgt: 
 
+<math>
 $$
 d = \frac{\bar{x}_1-\bar{x}_2}{\hat{\sigma}_{inn}}
 $$
+</math>
+
 wobei 
 
 $$
@@ -392,20 +395,6 @@ Wir bestimmen Cohen's $d$ mit der Funktion `cohen.d()` aus dem Paket `effsize` (
 
 ``` r
 library("effsize")
-```
-
-```
-## 
-## Attaching package: 'effsize'
-```
-
-```
-## The following object is masked from 'package:psych':
-## 
-##     cohen.d
-```
-
-``` r
 d <- cohen.d(fb25$lz, fb25$fach_klin, na.rm=T)
 d
 ```
@@ -455,7 +444,7 @@ describeBy(fb25$gs_pre, fb25$fach_klin) # beide Gruppen im Vergleich
 ## group: nicht klinisch
 ##    vars   n mean   sd median trimmed  mad  min max range skew kurtosis   se
 ## X1    1 113 3.46 0.56    3.5    3.55 0.37 1.25   4  2.75 -1.7     3.17 0.05
-## --------------------------------------------------------------------- 
+## -------------------------------------------------------------------------------- 
 ## group: klinisch
 ##    vars  n mean   sd median trimmed  mad min max range  skew kurtosis   se
 ## X1    1 93 3.25 0.69    3.5    3.33 0.74   1   4     3 -1.09     0.58 0.07

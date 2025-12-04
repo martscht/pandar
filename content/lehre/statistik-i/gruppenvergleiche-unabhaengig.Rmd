@@ -300,15 +300,18 @@ t.test(fb25$lz ~ fb25$fach_klin,     # abhängige Variable ~ unabhängige Variab
 ttest <- t.test(fb25$lz ~ fb25$fach_klin, alternative = "two.sided", var.equal = TRUE, conf.level = .95)
 ```
 
-Anhand der Ergebnisse können wir folgende Aussage treffen: Studierende, die sich für klinische Inhalte interessieren unterscheiden sich in ihrer Lebenszufriedenheit nicht bedeutsam von Studierenden, die sich primär für andere Inhalte interessieren ($t = `r ttest$parameter`, df = `r round(ttest$statistic, 3)`$, $p = `r round(ttest$p.value,3)`$). In Fällen wie diesem ist es wichtig, sich nicht von dem kleinen $p$-Wert dazu verleiten zu lassen, Dinge wie "knapp" oder "marginal" in seine Interpretation aufzunehmen. Das NHST, welches wir hier betreiben, gibt eine klare Entscheidungsgrenze vor, welche wir _vorab_ definiert haben. Wenn wir uns entscheiden, ein Alpha-Fehlerniveau von 5% festzulegen, müssen wir uns strikt daran halten.
+Anhand der Ergebnisse können wir folgende Aussage treffen: Studierende, die sich für klinische Inhalte interessieren unterscheiden sich in ihrer Lebenszufriedenheit nicht bedeutsam von Studierenden, die sich primär für andere Inhalte interessieren ($t = `r round(ttest$statistic, 3)`, df = `r ttest$parameter`$, $p = `r round(ttest$p.value,3)`$). In Fällen wie diesem ist es wichtig, sich nicht von dem kleinen $p$-Wert dazu verleiten zu lassen, Dinge wie "knapp" oder "marginal" in seine Interpretation aufzunehmen. Das NHST, welches wir hier betreiben, gibt eine klare Entscheidungsgrenze vor, welche wir _vorab_ definiert haben. Wenn wir uns entscheiden, ein Alpha-Fehlerniveau von 5% festzulegen, müssen wir uns strikt daran halten.
 
 ### Berechnung der Effektstärke Cohen's $d$ {#Effektstärke}
 
 Obwohl wir hier zunächst keinen statistisch bedeutsamen Unterschied entdeckt haben, wollen wir zur Eindordnung des Ergebnisses die Effektstärke ermitteln: Cohen's $d$ gibt den standardisierten Mittelwertsunterschied zwischen zwei Gruppen an. "Standardisiert" bedeutet, dass wir uns nicht mehr auf der Originalmetrik befinden (hier auf der Skala von 1 bis 7), sondern mit Standardabweichungen arbeiten. Ein Wert von 1 zeigt also an, dass sich die Gruppenmittelwerte um eine Standardabweichung voneinander unterscheiden. Die Effektstärke berechnet sich wie folgt: 
 
+<math>
 $$
 d = \frac{\bar{x}_1-\bar{x}_2}{\hat{\sigma}_{inn}}
 $$
+</math>
+
 wobei 
 
 $$
