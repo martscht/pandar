@@ -343,9 +343,9 @@ mw_Klin <- mean(lz_Klin, na.rm=T)
 
 ```
 
-Wir haben untersucht, ob sich klinisch und nicht klinisch interessierte Studierende im Wert Ihrer Verträglichkeit unterscheiden. Tatsächlich findet sich deskriptiv ein nur geringer Unterschied: Nicht klinisch interessierte Studierende weisen einen durchschnittlichen Wert von `r round(mw_nichtKlin,3)` (*SD* = `r round(sd_nichtKlin,3)`) auf, während klinisch interessierte Studierende einen Wert von `r round(mw_Klin,3)` (*SD* = `r round(sd_Klin,3)`) aufweisen. Dies entspricht nach Cohens Konvention (1988) einem sehr kleinen Effekt ($d$= `r round(d$estimate,3)`).
+Wir haben untersucht, ob sich klinisch und nicht klinisch interessierte Studierende im Wert Ihrer Lebeszufriedenheit unterscheiden. Tatsächlich findet sich deskriptiv ein nur geringer Unterschied: Nicht klinisch interessierte Studierende weisen einen durchschnittlichen Wert von `r round(mw_nichtKlin,3)` (*SD* = `r round(sd_nichtKlin,3)`) auf, während klinisch interessierte Studierende einen Wert von `r round(mw_Klin,3)` (*SD* = `r round(sd_Klin,3)`) aufweisen. Dies entspricht nach Cohens Konvention (1988) einem sehr kleinen Effekt ($d$= `r round(d$estimate,3)`).
 
-Zur Beantwortung der Fragestellung haben wir - nachdem wir sowohl die Normalverteilungsannahme als auch die Homoskedastizitätsannahme gepüft haben - einen $t$-Test durchgeführt. Der Gruppenunterschied ist nicht bedeutsam ($t_{df = `r ttest$parameter`} = `r round(ttest$statistic, 3)`$, $p = `r round(ttest$p.value,3)`$) - wir behalten die Nullhypothese also bei. Klinisch und nicht klinisch interessierte Studierende unterscheiden sich im Testwert für Verträglichkeit nicht bedeutsam.
+Zur Beantwortung der Fragestellung haben wir - nachdem wir sowohl die Normalverteilungsannahme als auch die Homoskedastizitätsannahme gepüft haben - einen $t$-Test durchgeführt. Der Gruppenunterschied ist nicht bedeutsam ($t_{df = `r ttest$parameter`} = `r round(ttest$statistic, 3)`$, $p = `r round(ttest$p.value,3)`$) - wir behalten die Nullhypothese also bei. Klinisch und nicht klinisch interessierte Studierende unterscheiden sich im Testwert für Lebenszufriedenheit nicht bedeutsam.
 
 ***
 
@@ -382,7 +382,7 @@ Wie schon der $t$-Test, hat auch der Wilcoxon-Test vier Voraussetzungen. Die ers
 3.  das untersuchte Merkmal ist stetig (mindestens singulär-ordinal skaliert) 
 4.  das Merkmal folgt in beiden Gruppen der gleichen Verteilung
 
-Stetige Variablen haben theoretisch unendlich viele mögliche Ausprägungen. Dabei sind die Konsequenzen dieser Annahme jedoch nicht binär. Je mehr Ausprägungen eine Variable hat, desto besser funktioniert der Test. In unserem Fall ist die Variable `lz` ein Skalenwert, der sich als der Mittelwert von fünf Items mit jeweils sieben Antwortkategorien ergibt. Insgesamt sind das also 29 mögliche Abstufungen. Wir beschließen an dieser Stelle, dass 29 nah genug an unendlich dran ist, um von einer stetigen Variable zu sprechen.
+Stetige Variablen haben theoretisch unendlich viele mögliche Ausprägungen. Dabei sind die Konsequenzen dieser Annahme jedoch nicht binär. Je mehr Ausprägungen eine Variable hat, desto besser funktioniert der Test. In unserem Fall ist die Variable `gs_pre` ein Skalenwert, der sich als der Mittelwert von vier Items mit jeweils vier Antwortkategorien ergibt. Insgesamt sind das also 13 mögliche Abstufungen. Wir beschließen an dieser Stelle, dass 13 nah genug an unendlich dran ist, um von einer stetigen Variable zu sprechen.
 
 Für den Vergleich der Verteilungen in beiden Gruppen, schauen wir uns die Histogramme für die beiden Gruppen an:
 
